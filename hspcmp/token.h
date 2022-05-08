@@ -332,6 +332,7 @@ private:
 	char *GetLineCG( void );
 	char *PickStringCG( char *str, int sep );
 	char *PickStringCG2( char *str, char **strsrc );
+	char *PickStringCG_VSL(char *str, int sep);		// Verbatim String Literals
 	char *PickLongStringCG( char *str );
 	int PickNextCodeCG( void );
 	void CheckInternalListenerCMD(int opt);
