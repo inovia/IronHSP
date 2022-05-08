@@ -1,0 +1,43 @@
+#include "hspinet.as"
+
+	;
+	;	ファイルの取得(メモリ上に取得)
+	;	HSP3掲示板(HSPTV!)の検索CGIを直接実行し、結果を取得します
+	;
+
+	netinit
+	if stat : dialog "ネット接続できません。" : end
+
+	;	URLを指定
+	neturl "http://hsp.tv/play/"
+
+	;	POST形式でCGIにパラメーターを渡す
+	prm = "list[0]=1&list[1]=1&list[2]&search_select=1&search_place=0&search=HSP3Dish"
+	netrequest_post "pforum.php",prm
+
+	mes "DOWNLOAD 開始"
+
+*main
+	;	結果待ちのためのループ
+	netexec res
+	if res > 0 : goto *comp
+	if res < 0 : goto *bad
+	await 50
+	goto *main
+
+*bad
+	;	エラー
+	neterror estr
+	mes "ERROR "+estr
+	stop
+
+*comp
+	;	完了
+	mes "DOWNLOAD 完了"
+
+	netgetv buf
+	nkfcnv res,buf		; HSPの形式に変換
+	mesbox res,640,400,1
+
+	stop
+
