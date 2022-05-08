@@ -452,6 +452,64 @@ char *CToken::PickStringCG2( char *str, char **strsrc )
 	return (char *)pp;
 }
 
+char *CToken::PickStringCG_VSL(char *str, int sep)
+{
+	//		Verbatim String Literals(逐語的リテラル)
+	//			@"～"
+	//		指定文字列をスキップして終端コードを付加する
+	//			sep = 区切り文字
+	//
+	unsigned char *vs;
+	unsigned char *pp;
+	unsigned char a1, a2;
+	int skip, i;
+	vs = (unsigned char *)str;
+	pp = vs;
+
+	while (1) {
+		a1 = *vs;
+		if (a1 == 0) break;
+		if (a1 == 0x22) {	// "" チェック(2連続でダブルクォート)
+			a2 = *(vs + 1);
+			if (a2 == 0x22) {
+				vs += 2;
+				*pp++ = a1;
+				continue;
+			}
+		}
+		if (a1 == sep) { vs++; break; }
+		//if (a1 == 0x5c) {					// '\'チェック
+		//	vs++;
+		//	a1 = tolower(*vs);
+		//	if (a1 < 32) continue;
+		//	switch (a1) {
+		//	case 'n':
+		//		*pp++ = 13;
+		//		a1 = 10;
+		//		break;
+		//	case 't':
+		//		a1 = 9;
+		//		break;
+		//	case 'r':
+		//		a1 = 13;
+		//		break;
+		//	}
+		//}
+		skip = SkipMultiByte(a1);		// 全角文字チェック
+		if (skip) {
+			for (i = 0; i < skip; i++) {
+				*pp++ = a1;
+				vs++;
+				a1 = *vs;
+			}
+		}
+		vs++;
+		*pp++ = a1;
+	}
+	*pp = 0;
+	return (char *)vs;
+}
+
 
 char *CToken::GetTokenCG( int option )
 {
@@ -519,6 +577,14 @@ char *CToken::GetTokenCG( char *str, int option )
 		vs++;
 		ttype = TK_STRING; cg_str = (char *)vs;
 		return PickStringCG( (char *)vs, 0x22 );
+	}
+
+	if (a1 == '@') {							// @"～"
+		if (vs[1] == 0x22) {
+			vs+=2;
+			ttype = TK_STRING; cg_str = (char *)vs;
+			return PickStringCG_VSL((char *)vs, 0x22);
+		}
 	}
 
 	if (a1=='{') {							// {"～"}
