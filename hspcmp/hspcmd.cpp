@@ -230,11 +230,20 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	//"$00b 17 variantref",
 	"$00c 17 cnvstoa",				// (ver3.5)
 
+	"$00d 17 loadnet",				// (ver3.7)
+	"$00e 17 newnet",				// (ver3.7)
+	"$00f 17 delnet",				// (ver3.7)
+	"$010 17 netres",				// (ver3.7)
+	"$011 17 tonet",				// (ver3.7)
+	"$012 17 enumnet",				// (ver3.7)
+
 	"$100 17 callfunc",
 	"$101 17 cnvwtos",
 	"$102 17 comevdisp",
 	"$103 17 libptr",
 	"$104 17 cnvatos",				// (ver3.5)
+
+	"$105 17 nettostr",				// (ver3.7)
 
 	//	3.0 system vals
 
