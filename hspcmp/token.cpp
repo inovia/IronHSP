@@ -249,7 +249,7 @@ int CToken::GetLookResultInt( void )
 }
 
 
-void CToken::Pickstr( void )
+void CToken::Pickstr( bool isVSL )
 {
 	//		Strings pick sub
 	//
@@ -275,7 +275,7 @@ pickag:
 		}
 #endif
 
-		if (a1==0x5c) {					// '\' extra control
+		if (!isVSL && a1==0x5c) {					// '\' extra control
 			wp++;a1=tolower(*wp);
 			switch(a1) {
 				case 'n':
@@ -584,6 +584,14 @@ int CToken::GetToken( void )
 		return TK_NUM;
 	}
 
+	if (a1 == '@') {							// @"～"
+		a2 = wp[1];
+		if (a2 == 0x22) {						// "
+			wp += 2; Pickstr(true);
+			return TK_STRING;
+		}
+	}
+
 	if (a1==0x22) {							// when "string"
 		wp++;Pickstr();
 		return TK_STRING;
@@ -885,28 +893,41 @@ int CToken::Calc( CALCVAR &val )
 char *CToken::ExpandStr( char *str, int opt )
 {
 	//		指定文字列をmembufへ展開する
-	//			opt:0=行末までスキップ/1="まで/2='まで
+	//			opt:0=行末までスキップ/1="まで/2='まで/3="まで逐語的リテラル処理あり
 	//
 	int a;
 	unsigned char *vs;
-	unsigned char a1;
+	unsigned char a1,a2;
 	unsigned char sep;
 	int skip,i;
 	vs = (unsigned char *)str;
 	a = 0;
 	sep = 0;
-	if (opt==1) sep=0x22;
+	if ((opt==1)||(opt==3)) sep=0x22;
 	if (opt==2) sep=0x27;
 	s3[a++]=sep;
 
 	while(1) {
 		a1=*vs;
 		if (a1==0) break;
+		if ((opt == 3) && (a1 == 0x22)) {	// "" チェック(2連続でダブルクォート)
+			a2 = *(vs + 1);
+			if (a2 == 0x22) {
+				vs += 2;
+				s3[a++] = 0x5c;
+				s3[a++] = 0x22;
+				continue;
+			}
+		}
 		if (a1==sep) { vs++;break; }
 		if ((a1<32)&&(a1!=9)) break;
 		s3[a++]=a1;vs++;
-		if (a1==0x5c) {					// '\'チェック
-			s3[a++] = *vs++;
+
+		if (a1 == 0x5c) {					// '\'チェック
+			if (opt == 3)
+				s3[a++] = 0x5c;
+			else
+				s3[a++] = *vs++;
 		}
 
 		skip = SkipMultiByte( a1 );	// 全角文字チェック
@@ -1002,6 +1023,69 @@ char *CToken::ExpandStrEx( char *str )
 	//s3[a++]=0x22;
 	s3[a]=0;
 	if (wrtbuf!=NULL) { wrtbuf->PutData( s3, a ); }
+	return (char *)vs;
+}
+
+char *CToken::ExpandStrEx_VSL(char *str)
+{
+	//		指定文字列をmembufへ展開する
+	//		( 複数行対応 {{{"～"}}} )
+	//
+	int a;
+	unsigned char *vs;
+	unsigned char a1;
+	int skip, i;
+	vs = (unsigned char *)str;
+	a = 0;
+	//s3[a++]=0x22;
+
+	while (1) {
+		a1 = *vs;
+		if (a1 == 0) {
+			//s3[a++]=13; s3[a++]=10;
+			break;
+		}
+		if (a1 == 13) {
+			s3[a++] = 0x5c; s3[a++] = 'n';
+			vs++;
+			if (*vs == 10) { vs++; }
+			continue;
+		}
+#ifdef HSPLINUX
+		if (a1 == 10) {
+			s3[a++] = 0x5c; s3[a++] = 'n';
+			vs++;
+			continue;
+		}
+#endif
+		//		if ((a1<32)&&(a1!=9)) break;
+
+		// 判定は "}}} だが、従来互換で "} として出力
+		if (a1 == 0x22) {						// " 
+			if ((vs[1] == '}') && (vs[2] == '}') && (vs[3] == '}')) {
+				s3[a++] = 0x22; s3[a++] = '}';	// "}
+				mulstr = LMODE_ON; vs += 4; break;
+			}
+			s3[a++] = 0x5c; s3[a++] = 0x22;		// \"
+			vs++;
+			continue;
+		}
+		s3[a++] = a1; vs++;
+		if (a1 == 0x5c) {					// '\'チェック
+			if (*vs >= 32) { s3[a++] = *vs; vs++; }
+		}
+
+		skip = SkipMultiByte(a1);	// 全角文字チェック
+		if (skip) {
+			for (i = 0; i < skip; i++) {
+				s3[a++] = *vs++;
+			}
+		}
+
+	}
+	//s3[a++]=0x22;
+	s3[a] = 0;
+	if (wrtbuf != NULL) { wrtbuf->PutData(s3, a); }
 	return (char *)vs;
 }
 
@@ -1159,12 +1243,24 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 		*type = TK_STRING;
 		return ExpandStr( (char *)vs+1, 2 );
 	}
-	if (a1=='{') {							// {"～"}
+	if (a1 == '@') {						// @"～"
+		if (vs[1] == 0x22) {
+			*type = TK_STRING;
+			return ExpandStr((char *)vs + 2, 3);
+		}
+	}
+	if (a1=='{') {														// {"～"}
 		if (vs[1]==0x22) {
-			if (wrtbuf!=NULL) wrtbuf->PutStr( "{\"" );
+			if (wrtbuf != NULL) wrtbuf->PutStr("{\"");
 			mulstr = LMODE_STR;
 			*type = TK_STRING;
-			return ExpandStrEx( (char *)vs+2 );
+			return ExpandStrEx((char *)vs + 2);
+		}
+		else if ((vs[1] == '{') && (vs[2] == '{') && vs[3] == 0x22) {	// {{{"～"}}}
+			if (wrtbuf != NULL) wrtbuf->PutStr("{\"");
+			mulstr = LMODE_STR_VSL;
+			*type = TK_STRING;
+			return ExpandStrEx_VSL((char *)vs + 4);
 		}
 	}
 
@@ -3332,6 +3428,14 @@ int CToken::ExpandTokens( char *vp, CMemBuf *buf, int *lineext, int is_preproces
 			wrtbuf = buf;
 			vp = ExpandStrEx( vp );
 			if ( *vp!=0 ) continue;
+		}
+
+		// {{{"～"}}}の処理
+//
+		if (mulstr == LMODE_STR_VSL) {
+			wrtbuf = buf;
+			vp = ExpandStrEx_VSL(vp);
+			if (*vp != 0) continue;
 		}
 
 		// /*～*/の処理

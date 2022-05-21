@@ -80,6 +80,7 @@
 #define LMODE_STR 1
 #define LMODE_COMMENT 2
 #define LMODE_OFF 3
+#define LMODE_STR_VSL 4
 
 // macro default data storage
 typedef struct MACDEF {
@@ -230,7 +231,7 @@ public:
 private:
 	//		For preprocess
 	//
-	void Pickstr( void );
+	void Pickstr( bool isVSL = false );
 	char *Pickstr2( char *str );
 	void Calc_token( void );
 	void Calc_factor( CALCVAR &v );
@@ -276,6 +277,7 @@ private:
 	char *SkipLine( char *str, int *pline );
 	char *ExpandStr( char *str, int opt );
 	char *ExpandStrEx( char *str );
+	char *ExpandStrEx_VSL(char *str);
 	char *ExpandStrComment( char *str, int opt );
 	char *ExpandStrComment2( char *str );
 	char *ExpandAhtStr( char *str );

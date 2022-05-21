@@ -1,0 +1,9 @@
+﻿################################################################################
+# この .gitignore ファイルは Microsoft(R) Visual Studio によって自動的に作成されました。
+################################################################################
+
+/hspcmp/win32/.vs/hspcmp/v15
+/hspcmp/win32dll/.vs/hspcmp
+/hspcmp/win32dll/Debug
+/hspcmp/win32dll/Release
+/hspcmp/win32/Debug
