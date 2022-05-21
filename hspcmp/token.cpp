@@ -1072,7 +1072,7 @@ char *CToken::ExpandStrEx_VSL(char *str)
 		}
 		s3[a++] = a1; vs++;
 		if (a1 == 0x5c) {					// '\'チェック
-			if (*vs >= 32) { s3[a++] = *vs; vs++; }
+			s3[a++] = 0x5c;					// \ -> \\ 
 		}
 
 		skip = SkipMultiByte(a1);	// 全角文字チェック
