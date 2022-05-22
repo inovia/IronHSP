@@ -907,7 +907,7 @@ namespace tv::hsp::net
 		return nullptr;
 	}
 
-	Assembly ^Hsp3Net::LoadAssemblyBySource(String ^CSharpSource, String ^outputName, ... array<String^> ^prms)
+	Assembly ^Hsp3Net::LoadAssemblyByCsSource(String ^CSharpSource, String ^outputName, ... array<String^> ^prms)
 	{
 		try
 		{
@@ -957,6 +957,58 @@ namespace tv::hsp::net
 		}
 		return nullptr;
 	}
+
+	Assembly ^Hsp3Net::LoadAssemblyByVbSource(String ^VBSource, String ^outputName, ... array<String^> ^prms)
+	{
+		try
+		{
+			//コンパイル準備
+			CodeDomProvider ^cp = gcnew Microsoft::VisualBasic::VBCodeProvider();
+			CompilerParameters ^cps = gcnew CompilerParameters();
+			CompilerResults ^cres;
+
+			//メモリ内で出力を生成
+			cps->GenerateInMemory = true;
+			for each (auto asy in prms)
+			{
+				cps->ReferencedAssemblies->Add(asy); // System.Windows.Forms.dll など参照したいアセンブリ
+			}
+
+			// 出力名（付けないと適当な名前になるだけ）
+			if (outputName != nullptr)
+			{
+				cps->OutputAssembly = outputName;
+			}
+
+			//コンパイル
+			cres = cp->CompileAssemblyFromSource(cps, VBSource);
+
+			if (cres->Errors->Count > 0)
+			{
+				StringBuilder ^sbError = gcnew StringBuilder();
+				for each (CompilerError ^err in cres->Errors)
+				{
+					sbError->AppendLine(err->ToString());
+				}
+				_LastCompileError = sbError->ToString();
+				return nullptr;
+			}
+
+			// コンパイルしたアセンブリを取得
+			Assembly ^assy = cres->CompiledAssembly;
+			_AssemblySet->Add(assy);
+
+			auto assyName = assy->GetName()->Name;
+			_AssemblyDic[assyName] = assy;
+			return assy;
+		}
+		catch (Exception ^ex)
+		{
+			_ExceptionStack->Push(ex);
+		}
+		return nullptr;
+	}
+
 
 	NetClass ^Hsp3Net::InvokeMethod(NetClass ^nc, String ^methodName, array<NetClass^> ^genericList, ... array<NetClass^> ^prms)
 	{

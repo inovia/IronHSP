@@ -1207,7 +1207,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 		else if ( opt == 2) {	// ファイル名からアセンブリを読み込む
 			ret = GlobalAccess::g_Hsp3Net->LoadAssemblyByFile(p1);
 		}
-		else if ( opt == 3) {	// C# ソースコードをコンパイルしてアセンブリを読み込む
+		else if ( opt == 3 || opt == 4) {	// C#/VB ソースコードをコンパイルしてアセンブリを読み込む
 			// 引数:3（命名するアセンブリ名）
 			ps = code_gets();
 			auto p3 = marshal_as<System::String^>(ps);
@@ -1235,7 +1235,12 @@ static int cmdfunc_ctrlcmd( int cmd )
 			}
 			while (PARAM_END < prm);
 
-			ret = GlobalAccess::g_Hsp3Net->LoadAssemblyBySource(p1, p3, listParams->ToArray());
+			if (opt == 3) {
+				ret = GlobalAccess::g_Hsp3Net->LoadAssemblyByCsSource(p1, p3, listParams->ToArray());
+			}
+			else {
+				ret = GlobalAccess::g_Hsp3Net->LoadAssemblyByVbSource(p1, p3, listParams->ToArray());
+			}
 		}
 		else {
 			throw HSPERR_INVALID_PARAMETER;
