@@ -74,8 +74,8 @@ namespace tv::hsp::net
 	public:
 		NetClass ^ConvertCast(NetClass ^before, NetClass ^afterType);
 
-	private:
-		NetClass ^CreateInternal(Object ^obj);
+	public:
+		NetClass ^CreateObject(Object ^obj);
 
 	public:
 		NetClass ^CreateString(String ^value);

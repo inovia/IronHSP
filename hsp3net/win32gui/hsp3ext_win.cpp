@@ -1444,6 +1444,49 @@ static int cmdfunc_ctrlcmd( int cmd )
 
 		break;
 	}
+	case 0x13:									// getforms
+	{
+		PVal *pval;
+		APTR aptr;
+		int wid;
+		int prm;
+		void *iptr = nullptr;
+		NativePointer* pNativePtrOut;
+		NetClass^ ret;
+
+		// 引数:1（戻り値）
+		aptr = code_getva(&pval);
+		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
+		pNativePtrOut = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
+
+		// 引数:2（ウィンドウID）
+		wid = code_getdi(0);
+
+		// ウィンドウID -> BMSCR
+		auto pBmscr = (BMSCR *)hspctx->exinfo2->HspFunc_getbmscr(wid);
+		if ( pBmscr == nullptr)
+		{
+			throw HSPERR_INVALID_PARAMETER;
+		}
+
+		auto managed_ptr = 
+			System::Windows::Forms::Form::FromHandle((IntPtr)pBmscr->hwnd);
+		if ( managed_ptr == nullptr)
+		{
+			throw HSPERR_INVALID_PARAMETER;
+		}
+
+		ret = GlobalAccess::g_Hsp3Net->CreateObject(managed_ptr);
+
+		if (ret != nullptr)
+		{
+			*pNativePtrOut = GlobalAccess::CreateNativePtr(ret);
+		}
+
+		// 戻り値
+		hspctx->stat = (ret != nullptr) ? 0 : -1;
+		break;
+	}
 	default:
 		throw ( HSPERR_SYNTAX );
 	}
