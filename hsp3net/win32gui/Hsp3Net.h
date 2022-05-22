@@ -334,7 +334,9 @@ namespace tv::hsp::net
 		Assembly ^LoadAssemblyByFile(String ^path);
 
 	public:
-		Assembly ^LoadAssemblyBySource(String ^CSharpSource, String ^outputName, ... array<String^> ^prms);
+		Assembly ^LoadAssemblyByCsSource(String ^CSharpSource, String ^outputName, ... array<String^> ^prms);
+	public:
+		Assembly ^LoadAssemblyByVbSource(String ^VBSource, String ^outputName, ... array<String^> ^prms);
 
 	public:
 		NetClass ^InvokeMethod(NetClass ^nc, String ^methodName, array<NetClass^> ^genericList, ... array<NetClass^> ^prms);

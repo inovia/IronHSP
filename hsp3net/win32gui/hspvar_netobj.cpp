@@ -241,43 +241,19 @@ static void HspVarNetobj_ArrayObject(PVal *pval)
 	//		配列要素の指定 (連想配列用)
 	int chk;
 	NativePointer pThisObj;
-	pThisObj = *((NativePointer*)pval->pt);
-	if (!GlobalAccess::IsActiveNativePtr(pThisObj)) throw HSPERR_COMDLL_ERROR;
 
 	// 配列要素の取得
 	chk = code_get_element(pval);
 	if (chk == PARAM_ENDSPLIT) return;	// 配列要素が指定された場合はそのまま
 
 	// プロパティ設定時
+	pThisObj = *((NativePointer*)pval->pt);
+	if (!GlobalAccess::IsActiveNativePtr(pThisObj)) throw HSPERR_COMDLL_ERROR;
+
 	if (mpval->flag != HSPVAR_FLAG_STR) throw HSPERR_TYPE_MISMATCH;
 	CStringA* pPropName = new CStringA((char *)(mpval->pt));
 	if (pval->master != nullptr) delete pval->master;
 	pval->master = pPropName;
-
-//	//		配列要素の指定 (連想配列用)
-//	//
-//	IUnknown** ppunk;
-//	int chk;
-//	DISPID dispid;
-//	ComDispParams *paramdata;
-//
-//	// 配列要素の取得
-//	chk = code_get_element(pval);
-//	if (chk == PARAM_ENDSPLIT) return;	// 配列要素が指定された場合はそのまま
-//
-//	// プロパティ設定時
-//	ppunk = (IUnknown **)HspVarNetobj_GetPtr(pval);
-//	if (!IsVaridComPtr(ppunk)) throw HSPERR_COMDLL_ERROR;
-//	// プロパティ名から DISPID を取得
-//	if (mpval->flag != HSPVAR_FLAG_STR) throw HSPERR_TYPE_MISMATCH;
-//	dispid = get_dispid(*ppunk, (char *)(mpval->pt), NULL);
-//#ifdef HSP_COMOBJ_DEBUG
-//	COM_DBG_MSG("ArrayObject() : pObj=0x%p : PropName=\"%s\" (DISPID=%d)\n", *ppunk, mpval->pt, dispid);
-//#endif
-//	// パラメータ取得し保持しておく
-//	paramdata = PrepForPutDispProp(*ppunk, dispid);
-//	if (pval->master) FreeDispParams((ComDispParams *)pval->master);
-//	pval->master = paramdata;
 }
 
 static void HspVarNetobj_ObjectWrite(PVal *pval, void *data, int vtype)
@@ -289,13 +265,25 @@ static void HspVarNetobj_ObjectWrite(PVal *pval, void *data, int vtype)
 	NativePointer pObj;
 	pObj = *((NativePointer*)pval->pt);
 	NetClass^ pValue;
+	System::String^ PropName;
+	bool isField;
+	bool bRet;
 
 	if (!GlobalAccess::IsActiveNativePtr(pObj)) throw HSPERR_COMDLL_ERROR;
 
-	// masterにあるプロパティ名取得
+	// masterにあるプロパティ名/フィールド名([$]をつける)を取得
 	const auto pPropName = ((CStringA*)(pval->master));
 	propname = pPropName->GetBuffer();
-	auto p1 = marshal_as<System::String^>(propname);
+
+	// フィールド変数
+	if ( propname[0] == '$') {
+		PropName = marshal_as<System::String^>(propname + 1);
+		isField = true;
+	}
+	else {
+		PropName = marshal_as<System::String^>(propname);
+		isField = false;
+	}
 	pPropName->ReleaseBuffer();
 
 	switch (vtype)
@@ -331,122 +319,79 @@ static void HspVarNetobj_ObjectWrite(PVal *pval, void *data, int vtype)
 			throw HSPERR_INVALID_TYPE;
 	}
 
-	bool bRet = GlobalAccess::g_Hsp3Net->SetPropertyValue(
-		GlobalAccess::GetNativePtrToNetClass(pObj), p1, pValue, nullptr);
+	if (isField)
+	{
+		bRet = GlobalAccess::g_Hsp3Net->SetFieldValue(
+			GlobalAccess::GetNativePtrToNetClass(pObj), PropName, pValue);
+	}
+	else {
+		bRet = GlobalAccess::g_Hsp3Net->SetPropertyValue(
+			GlobalAccess::GetNativePtrToNetClass(pObj), PropName, pValue, nullptr);
+	}
 
 	// 戻り値
 	const auto ctx = code_getctx();
 	ctx->stat = (bRet) ? 0 : -1;
 
-//	ComDispParams *paramdata;
-//	HRESULT hr;
-//#ifdef HSP_COMOBJ_DEBUG
-//	COM_DBG_MSG("ObjectWrite()\n");
-//#endif
-//	// プロパティ設定時
-//	paramdata = (ComDispParams *)pval->master;
-//	if (paramdata == NULL) throw (HSPERR_COMDLL_ERROR);
-//	hr = PutDispProp(paramdata, data, vtype);
-//	FreeDispParams(paramdata);
-//	pval->master = NULL;
-//
-//	if (FAILED(hr)) throw (HSPERR_COMDLL_ERROR);
 }
 
-
-static void get_coclassname(IUnknown *punk, VARIANT *vres)
-{
-	HRESULT hr;
-	IProvideClassInfo *pPCI;
-	ITypeInfo *pTI;
-	BSTR bstr = NULL;
-	hr = punk->QueryInterface(IID_IProvideClassInfo, (void **)&pPCI);
-	if (SUCCEEDED(hr) && pPCI != NULL) {
-		hr = pPCI->GetClassInfo(&pTI);
-		if (SUCCEEDED(hr) && pTI != NULL) {
-			hr = pTI->GetDocumentation(MEMBERID_NIL, &bstr, NULL, NULL, NULL);
-			pTI->Release();
-		}
-		pPCI->Release();
-	}
-	if (bstr == NULL) {
-		bstr = SysAllocString(L"");
-	}
-	vres->bstrVal = bstr;
-	vres->vt = VT_BSTR;
-}
-static void get_interfacename(IUnknown *punk, VARIANT *vres)
-{
-	HRESULT hr;
-	IDispatch *pDisp;
-	ITypeInfo *pTI;
-	BSTR bstr = NULL;
-	hr = punk->QueryInterface(IID_IDispatch, (void **)&pDisp);
-	if (SUCCEEDED(hr) && pDisp != NULL) {
-		hr = pDisp->GetTypeInfo(0, LOCALE_USER_DEFAULT, &pTI);
-		if (SUCCEEDED(hr) && pTI != NULL) {
-			hr = pTI->GetDocumentation(MEMBERID_NIL, &bstr, NULL, NULL, NULL);
-			pTI->Release();
-		}
-		pDisp->Release();
-	}
-	if (bstr == NULL) {
-		bstr = SysAllocString(L"");
-	}
-	vres->bstrVal = bstr;
-	vres->vt = VT_BSTR;
-}
 
 static void *HspVarNetobj_ArrayObjectRead(PVal *pval, int *mptype)
 {
-//	//		配列要素の指定 (連想配列/読み出し)
-//	//
-//	void *ptr;
-//	IUnknown **ppunk;
-//	int chk;
-//	DISPID dispid;
-//	VARIANT vres;
-//	BOOL noconvret;
-//	char *propname;
-//	HRESULT hr = S_OK;
-//
-//	// 配列要素の取得
-//	chk = code_get_element(pval);
-//	ppunk = (IUnknown **)HspVarNetobj_GetPtr(pval);
-//	if (chk == PARAM_ENDSPLIT) return ppunk;		// 配列要素が指定された場合はそのまま
-//
-//	// プロパティ取得時
-//	// プロパティ名から DISPID を取得
-//	if (!IsVaridComPtr(ppunk)) throw (HSPERR_COMDLL_ERROR);
-//	if (mpval->flag != HSPVAR_FLAG_STR) throw (HSPERR_TYPE_MISMATCH);
-//	propname = (char *)(mpval->pt);
-//	VariantInit(&vres);
-//	if (propname[0] == '$') {
-//		noconvret = FALSE;
-//		if (stricmp(propname, "$coclass") == 0) {
-//			get_coclassname(*ppunk, &vres);
-//		}
-//		else if (stricmp(propname, "$interface") == 0) {
-//			get_interfacename(*ppunk, &vres);
-//		}
-//		else {
-//			throw HSPERR_INVALID_PARAMETER;
-//		}
-//	}
-//	else {
-//		dispid = get_dispid(*ppunk, propname, &noconvret);
-//#ifdef HSP_COMOBJ_DEBUG
-//		COM_DBG_MSG("ArrayObjectRead() : pObj=0x%p : PropName=\"%s\" (DISPID=%d)\n", *ppunk, mpval->pt, dispid);
-//#endif
-//		// パラメータを取得・プロパティ取得
-//		hr = GetDispProp(*ppunk, dispid, &vres);
-//	}
-//	ptr = comget_variant(&vres, mptype, noconvret);
-//	VariantClear(&vres);
-//	if (FAILED(hr)) throw (HSPERR_COMDLL_ERROR);
-//	return ptr;
+	//		配列要素の指定 (連想配列/読み出し)
+	//
+	void *ptr;
+	int chk;
+	char *propname;
+	NativePointer pNP;
+	NativePointer pThisObj;
+	System::String^ PropName;
+	bool isField;
+	NetClass^ Ret;
 
-	return nullptr;
+	// 配列要素の取得
+	chk = code_get_element(pval);
+	pNP = *(NativePointer*)HspVarNetobj_GetPtr(pval);
+	if (chk == PARAM_ENDSPLIT) return pNP;	// 配列要素が指定された場合はそのまま
+
+	// プロパティ取得時
+	pThisObj = *((NativePointer*)pval->pt);
+	if (!GlobalAccess::IsActiveNativePtr(pThisObj)) throw HSPERR_COMDLL_ERROR;
+	if (mpval->flag != HSPVAR_FLAG_STR) throw (HSPERR_TYPE_MISMATCH);
+	propname = (char *)(mpval->pt);
+
+	// フィールド変数
+	if ( propname[0] == '$') {
+		PropName = marshal_as<System::String^>(propname + 1);
+		isField = true;
+	}
+	else {
+		PropName = marshal_as<System::String^>(propname);
+		isField = false;
+	}
+
+	if ( isField)
+	{
+		Ret = GlobalAccess::g_Hsp3Net->GetFieldValue(
+			GlobalAccess::GetNativePtrToNetClass(pThisObj), PropName);
+	}
+	else {
+		Ret = GlobalAccess::g_Hsp3Net->GetPropertyValue(
+			GlobalAccess::GetNativePtrToNetClass(pThisObj), PropName, nullptr);
+	}
+
+	if ( Ret == nullptr)
+	{
+		throw (HSPERR_COMDLL_ERROR);
+	}
+
+	// 戻り値
+	const auto ctx = code_getctx();
+	ctx->stat = (Ret != nullptr) ? 0 : -1;
+
+	// TODO: 変換せずに返す？良い？
+	*mptype = TYPE_NETOBJ;
+	return  GlobalAccess::CreateNativePtr(Ret);
 }
 
 
