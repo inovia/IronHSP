@@ -38,6 +38,9 @@
     <ClCompile Include="hspvar_netobj.cpp">
       <Filter>DotNet</Filter>
     </ClCompile>
+    <ClCompile Include="HspForms.cpp">
+      <Filter>DotNet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dpmread.h" />
@@ -73,6 +76,9 @@
       <Filter>DotNet</Filter>
     </ClInclude>
     <ClInclude Include="hspvar_netobj.h">
+      <Filter>DotNet</Filter>
+    </ClInclude>
+    <ClInclude Include="HspForms.h">
       <Filter>DotNet</Filter>
     </ClInclude>
   </ItemGroup>

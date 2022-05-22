@@ -60,6 +60,13 @@ static MM_NOTIFY_FUNC notifyfunc;
 extern int resY0, resY1;				// "fcpoly.h"のパラメーター
 #endif
 
+#include "HspForms.h"
+
+using namespace System;
+using namespace System::Collections;
+using namespace System::Collections::Generic;
+using namespace System::Reflection;
+using namespace tv::hsp::net;
 /*------------------------------------------------------------*/
 /*
 		constructor
@@ -115,6 +122,7 @@ void WM_Paint( HWND hwnd, Bmscr *bm )
 	EndPaint ( hwnd, &ps );
 }
 
+static std::vector<WNDPROC> g_vecWndProc;
 
 LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam )
 {
@@ -297,9 +305,21 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 
 	}
 
-	return DefWindowProc (hwnd, uMessage, wParam, lParam) ;
+
+	// return 12345;
+	// return DefWindowProc (hwnd, uMessage, wParam, lParam) ;
+	auto wndId = ::GetWindowLongPtr(hwnd, GWL_ID);
+	return (::CallWindowProc( g_vecWndProc[wndId], hwnd, uMessage, wParam, lParam));
 }
 
+static void ProxyWndProc(Message %m) {
+	m.Result = (IntPtr)WndProc(
+		reinterpret_cast<HWND>(m.HWnd.ToPointer()),
+		m.Msg,
+		reinterpret_cast<WPARAM>(m.WParam.ToPointer()),
+		reinterpret_cast<LPARAM>(m.LParam.ToPointer())
+		);
+}
 
 /*------------------------------------------------------------*/
 /*
@@ -520,20 +540,56 @@ void HspWnd::MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy, int
 		char const * const pc = NULL;
 #endif
 
-		hwnd = CreateWindowEx( exstyle,				// extra window style
-		                       defcls,				// window class name
-		                       chartoapichar(pc,&hactmp1),	// window caption
-		                       style,				// window style
-		                       ( xx != -1 ? xx : CW_USEDEFAULT ),
-		                       		// initial x position
-		                       ( yy != -1 ? yy : CW_USEDEFAULT ),
-		                       		// initial y position
-		                       wx,					// initial x size
-		                       wy,					// initial y size
-		                       par_hwnd,			// parent window handle
-		                       NULL,				// window menu handle
-		                       hInst,				// program instance handle
-		                       NULL );				// creation parameters
+		//hwnd = CreateWindowEx( exstyle,				// extra window style
+		//                       defcls,				// window class name
+		//                       chartoapichar(pc,&hactmp1),	// window caption
+		//                       style,				// window style
+		//                       ( xx != -1 ? xx : CW_USEDEFAULT ),
+		//                       		// initial x position
+		//                       ( yy != -1 ? yy : CW_USEDEFAULT ),
+		//                       		// initial y position
+		//                       wx,					// initial x size
+		//                       wy,					// initial y size
+		//                       par_hwnd,			// parent window handle
+		//                       NULL,				// window menu handle
+		//                       hInst,				// program instance handle
+		//                       NULL );				// creation parameters
+
+		CreateParams^ cp = gcnew CreateParams();
+		cp->ExStyle = exstyle;
+		//cp->ClassName = marshal_as<System::String^>(defcls);
+		//cp->Caption = marshal_as<System::String^>(chartoapichar(pc, &hactmp1));
+		cp->Style = style;
+		//cp->X = (xx != -1 ? xx : CW_USEDEFAULT);
+		//cp->Y = (yy != -1 ? yy : CW_USEDEFAULT);
+		//cp->Width = wx;
+		//cp->Height = wy;
+		//cp->Parent = (IntPtr)par_hwnd;
+
+
+		// TODO: 適当にここに挿入
+		//Form^ testWindow = gcnew Form();
+		//	HspForms^ hspWindow = gcnew HspForms((System::IntPtr)(hwnd));
+		//	hspWindow->Dock = DockStyle::Fill;
+		//testWindow->Controls->Add(hspWindow);
+		//testWindow->Show();
+
+		HspForms2::CP = cp;
+		HspForms2^ hspWindow = gcnew HspForms2();
+		// hspWindow->ex = gcnew HspForms2::_WndProcEx(&ProxyWndProc);
+		hspWindow->Width = wx;
+		hspWindow->Height = wy;
+		hspWindow->Icon = System::Drawing::Icon::FromHandle(
+			(IntPtr)LoadIcon(hInst, MAKEINTRESOURCE(128)));			// HSPのアイコン(IDR_MAIN)
+		hspWindow->Text = marshal_as<System::String^>(chartoapichar(pc, &hactmp1));
+
+		hwnd = reinterpret_cast<HWND>(hspWindow->Handle.ToPointer());
+
+		// 要素数=IDとする
+		::SetWindowLongPtr(hwnd, GWL_ID, (LONG_PTR)g_vecWndProc.size());
+		auto wndProc = (WNDPROC)::SetWindowLongPtr(hwnd, GWL_WNDPROC, (LONG_PTR)WndProc);
+		g_vecWndProc.push_back(wndProc);
+
 		freehac(&hactmp1);
 
 	} else {

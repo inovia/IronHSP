@@ -311,6 +311,7 @@
     <ClCompile Include="hsp3gr_wingui.cpp" />
     <ClCompile Include="Hsp3Net.cpp" />
     <ClCompile Include="hsp3win.cpp" />
+    <ClCompile Include="HspForms.cpp" />
     <ClCompile Include="hspvar_comobj.cpp" />
     <ClCompile Include="hspvar_variant.cpp" />
     <ClCompile Include="hspvar_netobj.cpp" />
@@ -356,6 +357,7 @@
     <ClInclude Include="hsp3gr_wingui.h" />
     <ClInclude Include="Hsp3Net.h" />
     <ClInclude Include="hsp3win.h" />
+    <ClInclude Include="HspForms.h" />
     <ClInclude Include="hspvar_comobj.h" />
     <ClInclude Include="hspvar_netobj.h" />
     <ClInclude Include="hspvar_variant.h" />
@@ -377,7 +379,10 @@
     <ResourceCompile Include="hsp3.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
