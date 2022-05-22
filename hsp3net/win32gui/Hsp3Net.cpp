@@ -108,7 +108,7 @@ namespace tv::hsp::net
 		return nullptr;
 	}
 
-	NetClass ^Hsp3Net::CreateInternal(Object ^obj)
+	NetClass ^Hsp3Net::CreateObject(Object ^obj)
 	{
 		try
 		{
@@ -129,12 +129,12 @@ namespace tv::hsp::net
 
 	NetClass ^Hsp3Net::CreateString(String ^value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateBool(bool value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateBoolByString(String ^value)
@@ -142,7 +142,7 @@ namespace tv::hsp::net
 		bool val;
 		if (bool::TryParse(value, val))
 		{
-			return CreateInternal(val);
+			return CreateObject(val);
 		}
 		return nullptr;
 	}
@@ -154,7 +154,7 @@ namespace tv::hsp::net
 
 	NetClass ^Hsp3Net::CreateChar(Char value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateCharByString(String ^value)
@@ -162,7 +162,7 @@ namespace tv::hsp::net
 		Char val;
 		if (Char::TryParse(value, val))
 		{
-			return CreateInternal(val);
+			return CreateObject(val);
 		}
 		return nullptr;
 	}
@@ -182,7 +182,7 @@ namespace tv::hsp::net
 
 	NetClass ^Hsp3Net::CreateFloat(float value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateFloatByString(String ^value)
@@ -190,14 +190,14 @@ namespace tv::hsp::net
 		float val;
 		if (float::TryParse(value, val))
 		{
-			return CreateInternal(val);
+			return CreateObject(val);
 		}
 		return nullptr;
 	}
 
 	NetClass ^Hsp3Net::CreateDouble(double value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateDoubleByString(String ^value)
@@ -205,14 +205,14 @@ namespace tv::hsp::net
 		double val;
 		if (double::TryParse(value, val))
 		{
-			return CreateInternal(val);
+			return CreateObject(val);
 		}
 		return nullptr;
 	}
 
 	NetClass ^Hsp3Net::CreateDecimal(Decimal value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateDecimalByString(String ^value)
@@ -220,14 +220,14 @@ namespace tv::hsp::net
 		Decimal val;
 		if (Decimal::TryParse(value, val))
 		{
-			return CreateInternal(val);
+			return CreateObject(val);
 		}
 		return nullptr;
 	}
 
 	NetClass ^Hsp3Net::CreateUInt8(Byte value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateUInt8ByString(String ^value)
@@ -235,14 +235,14 @@ namespace tv::hsp::net
 		Byte val;
 		if (Byte::TryParse(value, val))
 		{
-			return CreateInternal(val);
+			return CreateObject(val);
 		}
 		return nullptr;
 	}
 
 	NetClass ^Hsp3Net::CreateInt8(SByte value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateInt8ByString(String ^value)
@@ -250,14 +250,14 @@ namespace tv::hsp::net
 		SByte val;
 		if (SByte::TryParse(value, val))
 		{
-			return CreateInternal(val);
+			return CreateObject(val);
 		}
 		return nullptr;
 	}
 
 	NetClass ^Hsp3Net::CreateUInt16(UInt16 value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateUInt16ByString(String ^value)
@@ -265,14 +265,14 @@ namespace tv::hsp::net
 		UInt16 val;
 		if (UInt16::TryParse(value, val))
 		{
-			return CreateInternal(val);
+			return CreateObject(val);
 		}
 		return nullptr;
 	}
 
 	NetClass ^Hsp3Net::CreateInt16(short value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateInt16ByString(String ^value)
@@ -280,14 +280,14 @@ namespace tv::hsp::net
 		short val;
 		if (short::TryParse(value, val))
 		{
-			return CreateInternal(val);
+			return CreateObject(val);
 		}
 		return nullptr;
 	}
 
 	NetClass ^Hsp3Net::CreateUInt32(UInt32 value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateUInt32ByString(String ^value)
@@ -295,14 +295,14 @@ namespace tv::hsp::net
 		UInt32 val;
 		if (UInt32::TryParse(value, val))
 		{
-			return CreateInternal(val);
+			return CreateObject(val);
 		}
 		return nullptr;
 	}
 
 	NetClass ^Hsp3Net::CreateInt32(int value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateInt32ByString(String ^value)
@@ -310,14 +310,14 @@ namespace tv::hsp::net
 		int val;
 		if (int::TryParse(value, val))
 		{
-			return CreateInternal(val);
+			return CreateObject(val);
 		}
 		return nullptr;
 	}
 
 	NetClass ^Hsp3Net::CreateUInt64(UInt64 value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateUInt64ByString(String ^value)
@@ -325,14 +325,14 @@ namespace tv::hsp::net
 		UInt64 val;
 		if (UInt64::TryParse(value, val))
 		{
-			return CreateInternal(val);
+			return CreateObject(val);
 		}
 		return nullptr;
 	}
 
 	NetClass ^Hsp3Net::CreateInt64(Int64 value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateInt64ByString(String ^value)
@@ -340,14 +340,14 @@ namespace tv::hsp::net
 		Int64 val;
 		if (Int64::TryParse(value, val))
 		{
-			return CreateInternal(val);
+			return CreateObject(val);
 		}
 		return nullptr;
 	}
 
 	NetClass ^Hsp3Net::CreateIntPtr(IntPtr value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateIntPtrByString(String ^value)
@@ -406,7 +406,7 @@ namespace tv::hsp::net
 
 	NetClass ^Hsp3Net::CreateUIntPtr(UIntPtr value)
 	{
-		return CreateInternal(value);
+		return CreateObject(value);
 	}
 
 	NetClass ^Hsp3Net::CreateUIntPtrByString(String ^value)

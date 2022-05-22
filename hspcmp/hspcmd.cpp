@@ -236,6 +236,7 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$010 17 netres",				// (ver3.7)
 	"$011 17 tonet",				// (ver3.7)
 	"$012 17 enumnet",				// (ver3.7)
+	"$013 17 getforms",				// (ver3.7)
 
 	"$100 17 callfunc",
 	"$101 17 cnvwtos",
