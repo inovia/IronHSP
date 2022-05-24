@@ -237,6 +237,7 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$011 17 tonet",				// (ver3.7)
 	"$012 17 enumnet",				// (ver3.7)
 	"$013 17 getforms",				// (ver3.7)
+	"$014 17 formsaddctrl",			// (ver3.7)
 
 	"$100 17 callfunc",
 	"$101 17 cnvwtos",
@@ -244,7 +245,7 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$103 17 libptr",
 	"$104 17 cnvatos",				// (ver3.5)
 
-	"$105 17 nettostr",				// (ver3.7)
+	"$105 17 nettoval",				// (ver3.7)
 
 	//	3.0 system vals
 

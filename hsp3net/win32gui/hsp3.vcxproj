@@ -164,6 +164,7 @@
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
       <AssemblyDebug>true</AssemblyDebug>
+      <AdditionalOptions>/CLRTHREADATTRIBUTE:STA %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -186,6 +187,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalOptions>/CLRTHREADATTRIBUTE:STA %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
       <Command />
@@ -210,6 +212,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalOptions>/CLRTHREADATTRIBUTE:STA %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
       <Command />

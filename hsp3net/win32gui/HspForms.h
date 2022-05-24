@@ -43,6 +43,9 @@ namespace tv::hsp::net
 
 		static System::Windows::Forms::CreateParams ^CP;
 
+	public:
+		void AddControl(Control ^ctrl);
+
 	protected:
 		property System::Windows::Forms::CreateParams ^CreateParams
 		{

@@ -558,6 +558,16 @@ namespace tv::hsp::net
 		try
 		{
 			auto fInfo = nc->Class->GetField(name);
+
+			// フィールドがbool型の場合はintでも受けられるように
+			if ((fInfo->FieldType->Equals(System::Boolean::typeid) )
+				&& setValue->Class->Equals(System::Int32::typeid) )
+			{
+				setValue->Instance = (System::Boolean)(((System::Int32)setValue->Instance) != 0);
+				setValue->Class = setValue->Instance->GetType();
+				setValue->Assembly = setValue->Class->Assembly;
+			}
+
 			fInfo->SetValue(nc->Instance, setValue->Instance);
 			return true;
 		}
@@ -574,6 +584,15 @@ namespace tv::hsp::net
 		try
 		{
 			auto pInfo = nc->Class->GetProperty(name);
+
+			// プロパティがbool型の場合はintでも受けられるように
+			if ( (pInfo->PropertyType->Equals(System::Boolean::typeid) )
+				&& setValue->Class->Equals(System::Int32::typeid) )
+			{
+				setValue->Instance = (System::Boolean)(((System::Int32)setValue->Instance) != 0);
+				setValue->Class = setValue->Instance->GetType();
+				setValue->Assembly = setValue->Class->Assembly;
+			}
 
 			if (index != nullptr)
 			{

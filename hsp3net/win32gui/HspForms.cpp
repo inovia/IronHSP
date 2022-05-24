@@ -56,4 +56,9 @@ namespace tv::hsp::net
 		//}
 	}
 
+	void HspForms2::AddControl(Control ^ctrl)
+	{
+		this->Controls->Add(ctrl);
+	}
+
 }
