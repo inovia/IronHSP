@@ -50,6 +50,7 @@ static int *type;
 static int *val;
 static int *exflg;
 static int reffunc_intfunc_ivalue;
+static void* reffunc_ptrfunc_ptrvalue[2];
 //static PVal **pmpval;
 
 
@@ -1493,6 +1494,32 @@ static int cmdfunc_ctrlcmd( int cmd )
 	return RUNMODE_RUN;
 }
 
+// 一時変数のバッファのポインタを返します
+static void* StringToHspStrA(String^ str)
+{
+	const char* outBuffer;
+	{
+		marshal_context ctx;	// スコープ内のみ有効
+		outBuffer = ctx.marshal_as<const char*>(str);
+		auto size_bytes = strlen(outBuffer) + 1;
+		hspctx->stmp = sbExpand(hspctx->stmp, size_bytes);
+		::strcpy_s( hspctx->stmp, size_bytes, outBuffer);
+	}
+	return hspctx->stmp;
+}
+
+static void* StringToHspStrW(String^ str)
+{
+	const wchar_t* outBuffer;
+	{
+		marshal_context ctx;	// スコープ内のみ有効
+		outBuffer = ctx.marshal_as<const wchar_t*>(str);
+		auto size_counts = ::wcslen(outBuffer) + 1;
+		hspctx->stmp = sbExpand( hspctx->stmp, size_counts * sizeof(wchar_t));
+		::wcscpy_s((wchar_t*)hspctx->stmp, size_counts, outBuffer);
+	}
+	return hspctx->stmp;
+}
 
 static void *reffunc_ctrlfunc( int *type_res, int arg )
 {
@@ -1616,6 +1643,173 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 			break;
 		}
 #endif
+
+	case 0x105:								// nettoval
+	{
+		PVal *pval;
+		APTR aptr;
+		void *ptr_in;
+		NativePointer native_ptr;
+		bool ret;
+
+		// 引数:1（変換元変数）
+		aptr = code_getva(&pval);
+		ptr_in = HspVarCorePtrAPTR(pval, aptr);
+		switch (pval->flag)
+		{
+			case TYPE_NETOBJ:
+			{
+				native_ptr = *((NativePointer*)ptr_in);
+				break;
+			}
+		default:
+			throw HSPERR_TYPE_MISMATCH;
+		}
+
+		// マネージド型に変換
+		auto managed_ptr = 
+			GlobalAccess::GetNativePtrToNetClass(native_ptr);
+		
+		if ( managed_ptr == nullptr)
+			throw HSPERR_TYPE_MISMATCH;
+
+		if ( managed_ptr->Instance == nullptr)
+			throw HSPERR_TYPE_MISMATCH;
+
+		// 引数:2（変換後のHSP型typeid）
+		p2 = code_getdi(HSPVAR_FLAG_INT);
+		switch (p2)
+		{
+			case HSPVAR_FLAG_INT:
+			case HSPVAR_FLAG_DOUBLE:
+			case HSPVAR_FLAG_STR:
+				break;
+			default:
+				throw HSPERR_TYPE_MISMATCH;
+		}
+
+		// 戻り値
+		ptr = &reffunc_ptrfunc_ptrvalue[0];
+		*type_res = p2;
+
+		// ------------------------------
+		//  .NET   -> HSP
+		// ------------------------------
+		// String  -> str
+		// Boolean -> str, int
+		// Char    -> str, int
+		// Decimal -> double, int, str
+		// double  -> double, int, str
+		// float   -> double, int, sti
+		// Int32   -> double, int, str
+		// UInt32  -> double, int, str
+		// Int8    -> double, int, str
+		// UInt8   -> double, int, str
+		// Int16   -> double, int, str
+		// UInt16  -> double, int, str
+		// Int64   -> double, int, str
+		// UInt64  -> double, int, str
+		// IntPtr  -> double, int, str
+		// UIntPtr -> double, int, str
+		// ------------------------------
+
+		auto before_type = managed_ptr->Class;
+		if ( before_type->Equals(String::typeid))
+		{
+			switch (p2)
+			{
+				case HSPVAR_FLAG_STR:
+				{
+					reffunc_ptrfunc_ptrvalue[0] = 
+						StringToHspStrA( (String^)managed_ptr->Instance);
+					break;
+				}
+				default:
+					throw HSPERR_TYPE_MISMATCH;
+			}
+		}
+		else if ( before_type->Equals(Boolean::typeid))
+		{
+			switch (p2)
+			{
+			case HSPVAR_FLAG_INT:
+			{
+				auto val = ((bool)managed_ptr->Instance) ? 0 : 1;
+				*(int*)&reffunc_ptrfunc_ptrvalue = val;
+				break;
+			}
+			case HSPVAR_FLAG_STR:
+			{
+				reffunc_ptrfunc_ptrvalue[0] =
+					StringToHspStrA(managed_ptr->Instance->ToString());
+				break;
+			}
+			default:
+				throw HSPERR_TYPE_MISMATCH;
+			}
+		}
+		else if ( before_type->Equals(Char::typeid))
+		{
+			switch (p2)
+			{
+				case HSPVAR_FLAG_INT:
+				{
+					auto val = ((int)managed_ptr->Instance);
+					*(int*)&reffunc_ptrfunc_ptrvalue = val;
+					break;
+				}
+				case HSPVAR_FLAG_STR:
+				{
+					reffunc_ptrfunc_ptrvalue[0] =
+						StringToHspStrA( managed_ptr->Instance->ToString());
+					break;
+				}
+				default:
+					throw HSPERR_TYPE_MISMATCH;
+			}
+		}
+		else if ( before_type->Equals(Decimal::typeid)
+			|| before_type->Equals(Double::typeid)
+			|| before_type->Equals(Single::typeid)
+			|| before_type->Equals(Int32::typeid)
+			|| before_type->Equals(UInt32::typeid)
+			|| before_type->Equals(Byte::typeid)
+			|| before_type->Equals(SByte::typeid)
+			|| before_type->Equals(Int16::typeid)
+			|| before_type->Equals(UInt16::typeid)
+			|| before_type->Equals(Int64::typeid)
+			|| before_type->Equals(UInt64::typeid)
+			|| before_type->Equals(IntPtr::typeid)
+			|| before_type->Equals(UIntPtr::typeid)
+			)
+		{
+			switch (p2)
+			{
+				case HSPVAR_FLAG_INT:
+				{
+					auto val = ((int)managed_ptr->Instance);
+					*(int*)&reffunc_ptrfunc_ptrvalue = val;
+					break;
+				}
+				case HSPVAR_FLAG_DOUBLE:
+				{
+					auto val = ((double)managed_ptr->Instance);
+					*(double*)&reffunc_ptrfunc_ptrvalue = val;
+					break;
+				}
+				case HSPVAR_FLAG_STR:
+				{
+					reffunc_ptrfunc_ptrvalue[0] =
+						StringToHspStrA(managed_ptr->Instance->ToString());
+					break;
+				}
+				default:
+					throw HSPERR_TYPE_MISMATCH;
+			}
+		}
+
+		break;
+	}
 
 	default:
 		throw ( HSPERR_SYNTAX );

@@ -126,6 +126,8 @@ static std::vector<WNDPROC> g_vecWndProc;
 
 LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam )
 {
+	auto wndId = ::GetWindowLongPtrW(hwnd, GWL_ID);
+	
 	int id;
 	int retval;
 	Bmscr *bm;
@@ -135,7 +137,10 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 		try {
 #endif
 		if ( code_checkirq( (int)GetWindowLongPtr( hwnd, GWLP_USERDATA ), (int)uMessage, (int)wParam, (int)lParam ) ) {
-			if ( code_irqresult( &retval ) ) return retval;
+			if (code_irqresult(&retval)) {
+				::CallWindowProc(g_vecWndProc[wndId], hwnd, uMessage, wParam, lParam);
+				return retval;
+			}
 		}
 #ifdef HSPERR_HANDLE
 		}
@@ -149,6 +154,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 	{
 	case WM_CREATE:
 		SetWindowLongPtr( hwnd, GWLP_USERDATA, -1 );
+		::CallWindowProc(g_vecWndProc[wndId], hwnd, uMessage, wParam, lParam);
 		return 0;
 
 	case WM_PALETTECHANGED:
@@ -166,6 +172,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 			SelectPalette( hdc, opal, 0 );
 			ReleaseDC( hwnd, hdc );
 			if ( a > 0) InvalidateRect( hwnd, NULL, TRUE );
+			::CallWindowProc(g_vecWndProc[wndId], hwnd, uMessage, wParam, lParam);
 			return a;
 		}
 		break;
@@ -175,6 +182,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 		//
 		bm = TrackBmscr( hwnd );
 		if ( bm != NULL ) WM_Paint( hwnd, bm );
+		::CallWindowProc(g_vecWndProc[wndId], hwnd, uMessage, wParam, lParam);
 		return 0 ;
 
 	case WM_GETMINMAXINFO:
@@ -204,6 +212,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 			bm->savepos[BMSCR_SAVEPOS_MOSUEZ] = LOWORD(wParam);
 			bm->savepos[BMSCR_SAVEPOS_MOSUEW] = HIWORD(wParam);
 		}
+		::CallWindowProc(g_vecWndProc[wndId], hwnd, uMessage, wParam, lParam);
 		return 0;
 
 	case WM_MOUSEMOVE:
@@ -212,6 +221,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 			bm->savepos[BMSCR_SAVEPOS_MOSUEX] = LOWORD(lParam);
 			bm->savepos[BMSCR_SAVEPOS_MOSUEY] = HIWORD(lParam);
 		}
+		::CallWindowProc(g_vecWndProc[wndId], hwnd, uMessage, wParam, lParam);
 		return 0;
 
 	case WM_LBUTTONDOWN:
@@ -237,12 +247,14 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 			//Alertf( "%d,%x,%x (%d)",id,wParam,lParam , ( wParam & (MESSAGE_HSPOBJ-1)) );
 			bm->SendHSPObjectNotice( (int)wParam );
 		}
+		::CallWindowProc(g_vecWndProc[wndId], hwnd, uMessage, wParam, lParam);
 		return 0;
 
 	case MM_MCINOTIFY:
 		if ( wParam == MCI_NOTIFY_SUCCESSFUL ) {
 			if ( notifyfunc != NULL ) notifyfunc( hwnd );
 		}
+		::CallWindowProc(g_vecWndProc[wndId], hwnd, uMessage, wParam, lParam);
 		return 0;
 
 #ifdef HSPWINGUIDLL
@@ -268,10 +280,14 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 				code_catcherror(code);
 			}
 #endif
-			if ( retval != RUNMODE_END ) return 0;
+			if (retval != RUNMODE_END) {
+				::CallWindowProc(g_vecWndProc[wndId], hwnd, uMessage, wParam, lParam);
+				return 0;
+			}
 		}
 		code_puterror( HSPERR_NONE );
 		PostQuitMessage(0);
+		::CallWindowProc(g_vecWndProc[wndId], hwnd, uMessage, wParam, lParam);
 		return (uMessage == WM_QUERYENDSESSION) ? true : false;
 #endif
 
@@ -308,7 +324,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 
 	// return 12345;
 	// return DefWindowProc (hwnd, uMessage, wParam, lParam) ;
-	auto wndId = ::GetWindowLongPtr(hwnd, GWL_ID);
+	// auto wndId = ::GetWindowLongPtr(hwnd, GWL_ID);
 	return (::CallWindowProc( g_vecWndProc[wndId], hwnd, uMessage, wParam, lParam));
 }
 
@@ -574,6 +590,19 @@ void HspWnd::MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy, int
 		//testWindow->Controls->Add(hspWindow);
 		//testWindow->Show();
 
+		//Form^ testWindow = gcnew Form();
+		//testWindow->Width = wx;
+		//testWindow->Height = wy;
+		//testWindow->Show();
+
+		//Button^ btn = gcnew Button();
+		//btn->Text = "abc!";
+		//btn->Dock = DockStyle::Fill;
+		//testWindow->Controls->Add(btn);
+
+		//hwnd = reinterpret_cast<HWND>(testWindow->Handle.ToPointer());
+
+		
 		HspForms2::CP = cp;
 		HspForms2^ hspWindow = gcnew HspForms2();
 		// hspWindow->ex = gcnew HspForms2::_WndProcEx(&ProxyWndProc);
@@ -583,12 +612,20 @@ void HspWnd::MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy, int
 			(IntPtr)LoadIcon(hInst, MAKEINTRESOURCE(128)));			// HSPのアイコン(IDR_MAIN)
 		hspWindow->Text = marshal_as<System::String^>(chartoapichar(pc, &hactmp1));
 
+		//auto btn = gcnew Button();
+		//btn->Text = "Code!!";
+		//btn->Dock = DockStyle::Fill;
+		//hspWindow->Controls->Add(btn);
+		hspWindow->Show();
+
 		hwnd = reinterpret_cast<HWND>(hspWindow->Handle.ToPointer());
 
-		// 要素数=IDとする
-		::SetWindowLongPtr(hwnd, GWL_ID, (LONG_PTR)g_vecWndProc.size());
-		auto wndProc = (WNDPROC)::SetWindowLongPtr(hwnd, GWL_WNDPROC, (LONG_PTR)WndProc);
-		g_vecWndProc.push_back(wndProc);
+		// auto current_id = ::GetWindowLongPtr(hwnd, GWL_ID);
+
+		//// 要素数=IDとする
+		//::SetWindowLongPtrW(hwnd, GWL_ID, (LONG_PTR)g_vecWndProc.size());
+		//auto wndProc = (WNDPROC)::SetWindowLongPtrW(hwnd, GWL_WNDPROC, (LONG_PTR)WndProc);
+		//g_vecWndProc.push_back(wndProc);
 
 		freehac(&hactmp1);
 
@@ -878,7 +915,7 @@ void Bmscr::Init( HANDLE instance, HWND p_hwnd, int p_sx, int p_sy, int palsw )
 
 	hwnd = p_hwnd;
 	hInst= (HINSTANCE)instance;
-
+	
 	flag = BMSCR_FLAG_INUSE;
 	objmax = 0;
 	mem_obj = NULL;

@@ -23,6 +23,7 @@ using namespace System::Collections::Generic;
 using namespace System::Reflection;
 using namespace tv::hsp::net;
 
+// 一時領域として使用する
 static NativePointer conv;
 
 /*------------------------------------------------------------*/
@@ -391,7 +392,8 @@ static void *HspVarNetobj_ArrayObjectRead(PVal *pval, int *mptype)
 
 	// TODO: 変換せずに返す？良い？
 	*mptype = TYPE_NETOBJ;
-	return  GlobalAccess::CreateNativePtr(Ret);
+	conv = GlobalAccess::CreateNativePtr(Ret);
+	return &conv;
 }
 
 
