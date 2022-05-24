@@ -1318,6 +1318,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 						if ( managed_ptr == nullptr)
 							throw HSPERR_TYPE_MISMATCH;
 						listParams->Add(managed_ptr);
+						break;
 					}
 					default:
 						throw HSPERR_INVALID_TYPE;
@@ -1488,6 +1489,44 @@ static int cmdfunc_ctrlcmd( int cmd )
 		hspctx->stat = (ret != nullptr) ? 0 : -1;
 		break;
 	}
+	case 0x15:									// pushnet
+	{
+		GlobalAccess::PushNativePtrCurrentStack();
+		break;
+	}
+	case 0x16:									// popnet
+	{
+		int prm;
+		bool bRet;
+		List<IntPtr>^ listParams = gcnew List<IntPtr>();
+
+		do
+		{
+			prm = code_get();
+
+			if ( prm == PARAM_OK || prm == PARAM_SPLIT)
+			{
+				switch ( mpval->flag)
+				{
+					case TYPE_NETOBJ:
+					{
+						NativePointer native_ptr = *((NativePointer*)mpval->pt);
+						listParams->Add( IntPtr(native_ptr));
+						break;
+					}
+					default:
+						break;	// ‚·‚Á”ò‚Î‚·‚¾‚¯‚Å‚æ‚¢
+				}
+			}
+		} while (PARAM_END < prm);
+
+		bRet = GlobalAccess::PopNativePtrCurrentStack( listParams->ToArray());
+
+		// –ß‚è’l
+		hspctx->stat = (bRet) ? 0 : -1;
+		break;
+	}
+
 	default:
 		throw ( HSPERR_SYNTAX );
 	}

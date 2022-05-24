@@ -374,8 +374,15 @@ public:
 	static tv::hsp::net::Hsp3Net^ g_Hsp3Net;
 
 private:
-	// 管理中のネイティブポインタのSet
-	static HashSet<IntPtr>^ _NativePtrSet;
+	
+	// 管理中のネイティブポインタのSet(全体)
+	static HashSet<IntPtr>^ _NativePtrAllSet;
+
+	// 管理中のネイティブポインタのSet(カレントスコープのみ)
+	static HashSet<IntPtr>^ _NativePtrCurrentScopeSet;
+
+	// スコープ単位のネイティブポインタのスタック
+	static System::Collections::Generic::Stack<HashSet<IntPtr>^>^ _NativePtrCurrentScopeStack;
 
 public:
 
@@ -386,8 +393,10 @@ public:
 	// 　　この場合、終了時以外解放する手立てがなくなりますので、リークします。
 	static void* CreateNativePtr(tv::hsp::net::NetClass^ nc)
 	{
+		// 全体とカレントスコープに追加
 		IntPtr ptr = (IntPtr)GCHandle::Alloc(nc);
-		_NativePtrSet->Add(ptr);
+		_NativePtrAllSet->Add(ptr);
+		_NativePtrCurrentScopeSet->Add(ptr);
 		return (void*)ptr;
 	}
 
@@ -399,7 +408,7 @@ public:
 			IntPtr intPtr = IntPtr(ptr);
 
 			// 管理外のポインタを渡すと.NET側が死ぬのでチェック
-			if (!_NativePtrSet->Contains(intPtr))
+			if (!_NativePtrAllSet->Contains(intPtr))
 				return nullptr;
 
 			auto gch = GCHandle::FromIntPtr(intPtr);
@@ -419,7 +428,7 @@ public:
 			IntPtr intPtr = IntPtr(ptr);
 
 			// 管理外のポインタを渡すと.NET側が死ぬのでチェック
-			if (!_NativePtrSet->Contains(intPtr))
+			if (!_NativePtrAllSet->Contains(intPtr))
 				return false;
 
 			auto gch = GCHandle::FromIntPtr(intPtr);
@@ -440,7 +449,7 @@ public:
 			IntPtr intPtr = IntPtr(ptr);
 
 			// 管理外のポインタを渡すと.NET側が死ぬのでチェック
-			if (!_NativePtrSet->Contains(intPtr))
+			if (!_NativePtrAllSet->Contains(intPtr))
 				return false;
 
 			auto gch = GCHandle::FromIntPtr(intPtr);
@@ -450,7 +459,8 @@ public:
 
 			gch.Free();
 
-			_NativePtrSet->Remove(intPtr);
+			_NativePtrAllSet->Remove(intPtr);
+			_NativePtrCurrentScopeSet->Remove(intPtr);
 			return true;
 		}
 		catch (Exception^ex1)
@@ -464,13 +474,14 @@ public:
 	{
 		try
 		{
-			for each (auto intPtr in _NativePtrSet)
+			for each (auto intPtr in _NativePtrAllSet)
 			{
 				auto gch = GCHandle::FromIntPtr(intPtr);
 				gch.Free();
 			}
 
-			_NativePtrSet->Clear();
+			_NativePtrAllSet->Clear();
+			_NativePtrCurrentScopeSet->Clear();
 			return true;
 		}
 		catch (Exception^ex1)
@@ -479,10 +490,67 @@ public:
 		}
 	}
 
+	static bool PushNativePtrCurrentStack()
+	{
+		// 現在の状態をスタックに積んで、現在のカレントをクリア
+		_NativePtrCurrentScopeStack->Push(
+			gcnew HashSet<IntPtr>( _NativePtrCurrentScopeSet));
+		_NativePtrCurrentScopeSet->Clear();
+		return true;
+	}
+
+	static bool PopNativePtrCurrentStack(... array<IntPtr> ^prms)
+	{
+		// 現在のカレントの参照を削除し、スタックからカレントを復元する
+		// 削除する際は、引数で指定されたものは除外する
+		try
+		{
+			// 削除対象外は引数で指定されているので、予め抜いておく
+			for each (auto intPtr in prms)
+			{
+				_NativePtrCurrentScopeSet->Remove(intPtr);
+			}
+
+			// 現在のスコープにある参照を解放
+			for each (auto intPtr in _NativePtrCurrentScopeSet)
+			{
+				try
+				{
+					// 管理外のポインタを渡すと.NET側が死ぬのでチェック
+					if (!_NativePtrAllSet->Contains(intPtr))
+						continue;
+
+					// 解放
+					auto gch = GCHandle::FromIntPtr(intPtr);
+					gch.Free();
+
+					// 全体から抜いておく
+					_NativePtrAllSet->Remove(intPtr);
+				}
+				catch (Exception^ ex2)
+				{
+					// 
+				}
+			}
+
+			// スタックの巻き戻し
+			_NativePtrCurrentScopeSet->Clear();
+			_NativePtrCurrentScopeSet = _NativePtrCurrentScopeStack->Pop();
+			return true;
+		}
+		catch (Exception^ex1)
+		{
+			return false;
+		}
+	}
+
+
 private:
 	static GlobalAccess() 
 	{
 		g_Hsp3Net = gcnew tv::hsp::net::Hsp3Net();
-		_NativePtrSet = gcnew HashSet<IntPtr>();
+		_NativePtrAllSet = gcnew HashSet<IntPtr>();
+		_NativePtrCurrentScopeSet = gcnew HashSet<IntPtr>();
+		_NativePtrCurrentScopeStack = gcnew System::Collections::Generic::Stack<HashSet<IntPtr>^>();
 	}
 };

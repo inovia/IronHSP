@@ -238,6 +238,8 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$012 17 enumnet",				// (ver3.7)
 	"$013 17 getforms",				// (ver3.7)
 	"$014 17 formsaddctrl",			// (ver3.7)
+	"$015 17 pushnet",				// (ver3.7)
+	"$016 17 popnet",				// (ver3.7)
 
 	"$100 17 callfunc",
 	"$101 17 cnvwtos",
