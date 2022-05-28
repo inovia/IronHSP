@@ -345,6 +345,7 @@ int hsp3win_init( HINSTANCE hInstance, char *startfile )
 	GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("System");
 	GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("System.Core");
 	GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("System.Drawing");
+	GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("System.Runtime");
 	GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("System.Windows.Forms");
 
 	//		実行ファイルかデバッグ中かを調べる

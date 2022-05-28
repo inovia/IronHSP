@@ -296,6 +296,8 @@ public:
 	int		vp_flag;					// Viewport enable flag (0=none)
 	float	vp_matrix[16];				// Viewport matrix
 
+	WNDPROC wfWndProc;					// WinForms WndProc
+
 private:
 	void Blt( int mode, Bmscr *src, int xx, int yy, int asx, int asy );
 	void CnvRGB16( PTRIVERTEX target, DWORD src );
@@ -346,6 +348,7 @@ private:
 	//
 	HINSTANCE hInst;
 	Bmscr **mem_bm;
+	WNDPROC* wfWndProc;
 	int bmscr_max;
 	int bmscr_res;
 	int wfx,wfy,wbx,wby;

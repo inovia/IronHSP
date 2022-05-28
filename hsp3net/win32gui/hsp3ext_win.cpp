@@ -1526,6 +1526,14 @@ static int cmdfunc_ctrlcmd( int cmd )
 		hspctx->stat = (bRet) ? 0 : -1;
 		break;
 	}
+	case 0x17:									// enablewpf
+	{
+		GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("PresentationCore");
+		GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("PresentationFramework");
+		GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("WindowsBase");
+		GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("WindowsFormsIntegration");
+		break;
+	}
 
 	default:
 		throw ( HSPERR_SYNTAX );
@@ -1759,7 +1767,7 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 			{
 				case HSPVAR_FLAG_STR:
 				{
-					reffunc_ptrfunc_ptrvalue[0] = 
+					ptr =
 						StringToHspStrA( (String^)managed_ptr->Instance);
 					break;
 				}
@@ -1779,7 +1787,7 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 			}
 			case HSPVAR_FLAG_STR:
 			{
-				reffunc_ptrfunc_ptrvalue[0] =
+				ptr =
 					StringToHspStrA(managed_ptr->Instance->ToString());
 				break;
 			}
@@ -1799,7 +1807,7 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 				}
 				case HSPVAR_FLAG_STR:
 				{
-					reffunc_ptrfunc_ptrvalue[0] =
+					ptr =
 						StringToHspStrA( managed_ptr->Instance->ToString());
 					break;
 				}
@@ -1838,8 +1846,25 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 				}
 				case HSPVAR_FLAG_STR:
 				{
-					reffunc_ptrfunc_ptrvalue[0] =
+					ptr =
 						StringToHspStrA(managed_ptr->Instance->ToString());
+					break;
+				}
+				default:
+					throw HSPERR_TYPE_MISMATCH;
+			}
+		}
+		else {
+			// ToStringŽÀs
+			switch (p2)
+			{
+				case HSPVAR_FLAG_STR:
+				{
+					/*
+					*(char*)&reffunc_ptrfunc_ptrvalue =
+						*(char*)StringToHspStrA( managed_ptr->Instance->ToString());
+					*/
+					ptr = StringToHspStrA(managed_ptr->Instance->ToString());
 					break;
 				}
 				default:

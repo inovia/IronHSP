@@ -240,6 +240,7 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$014 17 formsaddctrl",			// (ver3.7)
 	"$015 17 pushnet",				// (ver3.7)
 	"$016 17 popnet",				// (ver3.7)
+	"$017 17 enablewpf",			// (ver3.7)
 
 	"$100 17 callfunc",
 	"$101 17 cnvwtos",
