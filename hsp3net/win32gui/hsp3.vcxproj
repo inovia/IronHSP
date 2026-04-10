@@ -325,6 +325,7 @@
     <ClCompile Include="Hsp3Net.cpp" />
     <ClCompile Include="hsp3win.cpp" />
     <ClCompile Include="HspForms.cpp" />
+    <ClCompile Include="HspFormsInterop.cpp" />
     <ClCompile Include="hspvar_comobj.cpp" />
     <ClCompile Include="hspvar_variant.cpp" />
     <ClCompile Include="hspvar_netobj.cpp" />

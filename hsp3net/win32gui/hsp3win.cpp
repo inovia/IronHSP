@@ -427,6 +427,10 @@ int hsp3win_init( HINSTANCE hInstance, char *startfile )
 
 	HspVarCoreRegisterType( TYPE_NETOBJ, HspVarNetobj_Init);
 
+	// .NET 例外ハンドリング（終了時のListBox破棄時エラー等を抑制）
+	System::Windows::Forms::Application::SetUnhandledExceptionMode(
+		System::Windows::Forms::UnhandledExceptionMode::CatchException);
+
 	// timerGetTime関数による精度アップ(μ秒単位)
 	timer_period = -1;
 	if (( ctx->hsphed->bootoption & HSPHED_BOOTOPT_NOMMTIMER ) == 0 ) {

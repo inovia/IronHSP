@@ -17,6 +17,7 @@
 #include "../supio.h"
 
 #include <Commctrl.h>
+#include "HspFormsInterop.h"
 
 
 #ifndef _tstof
@@ -151,7 +152,13 @@ void SetObjectEventNoticePtr( int64_t *ptr )
 
 static void Object_WindowDelete( HSPOBJINFO *info )
 {
-	DestroyWindow( info->hCld );
+	if ( HspInterop_IsManagedControl( (void*)info->hCld ) ) {
+		// .NET コントロール: Controls.Remove + Dispose で安全に破棄
+		HspInterop_DestroyControl( (void*)info->hCld );
+	} else {
+		// Win32 コントロール: 従来の方法
+		DestroyWindow( info->hCld );
+	}
 	info->hCld = NULL;
 }
 
@@ -178,8 +185,19 @@ static void Object_CheckBox( HSPOBJINFO *info, int wparam )
 
 	bm = (BMSCR *)info->bm;
 	hwnd = bm->hwnd;
-	cid = GetDlgCtrlID( info->hCld );
-	val = IsDlgButtonChecked( hwnd, cid );
+
+	// .NET CheckBox の場合
+	int netval = HspInterop_GetCheckBoxState( (void*)info->hCld );
+	if ( netval >= 0 ) {
+		// .NET CheckBox: クリック時にトグルして状態を読む
+		HspInterop_ToggleCheckBox( (void*)info->hCld );
+		val = HspInterop_GetCheckBoxState( (void*)info->hCld );
+	} else {
+		// Win32 CheckBox: 従来の方法
+		cid = GetDlgCtrlID( info->hCld );
+		val = IsDlgButtonChecked( hwnd, cid );
+	}
+
 	bmscr_obj_ival = val;
 	Object_SendSetVar( info );
 }
@@ -846,14 +864,21 @@ int Bmscr::AddHSPObjectButton( char *name, int flag, void *callptr )
 	HSPAPICHAR *hactmp1 = 0;
 
 	id = NewHSPObject();
-	ws = objstyle | BS_PUSHBUTTON;
-	hw = CreateWindow( TEXT("button"), chartoapichar(name,&hactmp1), ws,
-				cx, cy, ox, oy, hwnd,
-				reinterpret_cast< HMENU >( static_cast< WORD >( MESSAGE_HSPOBJ + id ) ), hInst, NULL );
-	freehac(&hactmp1);
+	int controlId = MESSAGE_HSPOBJ + id;
 
-	// ダブルクリックの受付を抑制 
-	SetClassLong( hw, GCL_STYLE, GetClassLong(hw, GCL_STYLE) & ~CS_DBLCLKS );
+	// .NET Form が有効なら .NET Button を生成
+	if ( HspInterop_IsFormAvailable((void*)hwnd) ) {
+		hw = (HWND)HspInterop_CreateButton(
+			(void*)hwnd, name,
+			cx, cy, ox, oy, 0, controlId);
+	} else {
+		ws = objstyle | BS_PUSHBUTTON;
+		hw = CreateWindow( TEXT("button"), chartoapichar(name,&hactmp1), ws,
+					cx, cy, ox, oy, hwnd,
+					reinterpret_cast< HMENU >( static_cast< WORD >( controlId ) ), hInst, NULL );
+		freehac(&hactmp1);
+		SetClassLong( hw, GCL_STYLE, GetClassLong(hw, GCL_STYLE) & ~CS_DBLCLKS );
+	}
 
 	obj = AddHSPJumpEventObject( id, hw, HSPOBJ_TAB_ENABLE|HSPOBJ_OPTION_SETFONT, flag, callptr );
 	obj->func_delete = Object_WindowDelete;
@@ -865,7 +890,7 @@ int Bmscr::AddHSPObjectButton( char *name, int flag, void *callptr )
 
 int Bmscr::AddHSPObjectCheckBox( char *name, PVal *pval, APTR aptr )
 {
-	//		create push button
+	//		create check box
 	//
 	HWND hw;
 	int id,ws;
@@ -874,11 +899,18 @@ int Bmscr::AddHSPObjectCheckBox( char *name, PVal *pval, APTR aptr )
 	HSPAPICHAR *hactmp1 = 0;
 
 	id = NewHSPObject();
-	ws = objstyle | BS_AUTOCHECKBOX;
-	hw = CreateWindow( TEXT("button"), chartoapichar(name,&hactmp1), ws,
-				cx, cy, ox, oy, hwnd,
-				reinterpret_cast< HMENU >( static_cast< WORD >( MESSAGE_HSPOBJ + id ) ), hInst, NULL );
-	freehac(&hactmp1);
+	int controlId = MESSAGE_HSPOBJ + id;
+
+	if ( HspInterop_IsFormAvailable((void*)hwnd) ) {
+		hw = (HWND)HspInterop_CreateCheckBox(
+			(void*)hwnd, name, cx, cy, ox, oy, 0, controlId);
+	} else {
+		ws = objstyle | BS_AUTOCHECKBOX;
+		hw = CreateWindow( TEXT("button"), chartoapichar(name,&hactmp1), ws,
+					cx, cy, ox, oy, hwnd,
+					reinterpret_cast< HMENU >( static_cast< WORD >( controlId ) ), hInst, NULL );
+		freehac(&hactmp1);
+	}
 
 	obj = AddHSPVarEventObject( id, hw, HSPOBJ_TAB_ENABLE|HSPOBJ_OPTION_SETFONT, pval, aptr, TYPE_INUM, (void *)&bmscr_obj_ival );
 	obj->func_notice = Object_CheckBox;
@@ -933,17 +965,27 @@ int Bmscr::AddHSPObjectInput( PVal *pval, APTR aptr, int sizex, int sizey, char 
 		ws|=WS_TABSTOP;
 	}
 
-	hwedit = CreateWindowEx( ws2, TEXT("edit"), NULL, ws,
-					cx, cy, sizex, sizey,
-					hwnd, reinterpret_cast< HMENU >( static_cast< WORD >( MESSAGE_HSPOBJ + id ) ), hInst, NULL );
+	int controlId = MESSAGE_HSPOBJ + id;
+	int is_multiline = (mode & HSPOBJ_INPUT_MULTILINE) ? 1 : 0;
+	int is_readonly = (mode & HSPOBJ_INPUT_READONLY) ? 1 : 0;
 
-	if ( subcl ) {
-		DefEditProc = (WNDPROC)GetWindowLongPtr( hwedit , GWLP_WNDPROC );
-		SetWindowLongPtr(hwedit, GWLP_WNDPROC, (LONG_PTR)MyEditProc);
+	if ( HspInterop_IsFormAvailable((void*)hwnd) ) {
+		hwedit = (HWND)HspInterop_CreateTextBox(
+			(void*)hwnd, defval, cx, cy, sizex, sizey,
+			is_multiline, is_readonly, controlId);
 	} else {
-		DefEditProc = (WNDPROC)GetWindowLongPtr( hwedit , GWLP_WNDPROC );
-		SetWindowLongPtr(hwedit, GWLP_WNDPROC, (LONG_PTR)MyEditProc2);
-		if ( mode & HSPOBJ_INPUT_NOWRAP ) SendMessage(hwedit, EM_SETWORDBREAKPROC, 0, (LPARAM)EditWordBreakProc);
+		hwedit = CreateWindowEx( ws2, TEXT("edit"), NULL, ws,
+						cx, cy, sizex, sizey,
+						hwnd, reinterpret_cast< HMENU >( static_cast< WORD >( controlId ) ), hInst, NULL );
+
+		if ( subcl ) {
+			DefEditProc = (WNDPROC)GetWindowLongPtr( hwedit , GWLP_WNDPROC );
+			SetWindowLongPtr(hwedit, GWLP_WNDPROC, (LONG_PTR)MyEditProc);
+		} else {
+			DefEditProc = (WNDPROC)GetWindowLongPtr( hwedit , GWLP_WNDPROC );
+			SetWindowLongPtr(hwedit, GWLP_WNDPROC, (LONG_PTR)MyEditProc2);
+			if ( mode & HSPOBJ_INPUT_NOWRAP ) SendMessage(hwedit, EM_SETWORDBREAKPROC, 0, (LPARAM)EditWordBreakProc);
+		}
 	}
 
 	obj = AddHSPVarEventObject( id, hwedit, tabstop|HSPOBJ_OPTION_SETFONT, pval, aptr, type, (void *)&bmscr_obj_ival );
@@ -1001,19 +1043,31 @@ int Bmscr::AddHSPObjectMultiBox( PVal *pval, APTR aptr, int psize, char *defval,
 	id = NewHSPObject();
 	sizex = ox; sizey = oy;
 	iptr = (int *)HspVarCorePtrAPTR( pval, aptr );
+	int controlId = MESSAGE_HSPOBJ + id;
 
-	if ( mode&1 ) {
-		hw = CreateWindowEx( WS_EX_CLIENTEDGE, TEXT("combobox"), TEXT(""),
-			objstyle|WS_VSCROLL|CBS_DROPDOWNLIST,
-			cx, cy, sizex, sizey + psize, hwnd,
-			reinterpret_cast< HMENU >( static_cast< WORD >( MESSAGE_HSPOBJ + id ) ), hInst, NULL );
+	if ( HspInterop_IsFormAvailable((void*)hwnd) ) {
+		if ( mode&1 ) {
+			hw = (HWND)HspInterop_CreateComboBox(
+				(void*)hwnd, cx, cy, sizex, sizey + psize, controlId);
+		} else {
+			sizey += psize;
+			hw = (HWND)HspInterop_CreateListBox(
+				(void*)hwnd, cx, cy, sizex, sizey, controlId);
+		}
 	} else {
-		int style = objstyle | WS_VSCROLL | LBS_NOTIFY;
-		sizey += psize;
-		hw = CreateWindowEx( WS_EX_CLIENTEDGE, TEXT("listbox"), TEXT(""),
-			style,
-			cx, cy, sizex, sizey, hwnd,
-			reinterpret_cast< HMENU >( static_cast< WORD >( MESSAGE_HSPOBJ + id ) ), hInst, NULL );
+		if ( mode&1 ) {
+			hw = CreateWindowEx( WS_EX_CLIENTEDGE, TEXT("combobox"), TEXT(""),
+				objstyle|WS_VSCROLL|CBS_DROPDOWNLIST,
+				cx, cy, sizex, sizey + psize, hwnd,
+				reinterpret_cast< HMENU >( static_cast< WORD >( controlId ) ), hInst, NULL );
+		} else {
+			int style = objstyle | WS_VSCROLL | LBS_NOTIFY;
+			sizey += psize;
+			hw = CreateWindowEx( WS_EX_CLIENTEDGE, TEXT("listbox"), TEXT(""),
+				style,
+				cx, cy, sizex, sizey, hwnd,
+				reinterpret_cast< HMENU >( static_cast< WORD >( controlId ) ), hInst, NULL );
+		}
 	}
 
 	obj = AddHSPVarEventObject( id, hw, HSPOBJ_TAB_ENABLE|HSPOBJ_OPTION_SETFONT, pval, aptr, TYPE_INUM, (void *)&bmscr_obj_ival );
