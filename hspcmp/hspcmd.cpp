@@ -55,6 +55,7 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 //	"$01e 15 resume",				// (ver3.2)(cancelled)
 //	"$01f 15 yield",				// (ver3.2)(cancelled)
 	"$020 15 strexchange",			// (ver3.6)
+	"$021 15 dim64",				// (IronHSP)
 
 //	"$015 15 logmode",				// (ver2.55)
 //	"$016 15 logmes",				// (ver2.55)
@@ -109,6 +110,7 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$02e 8 sortstr",				// (3.5)
 	"$02f 8 sortnote",				// (3.5)
 	"$030 8 sortget",				// (3.5)
+	"$031 8 qpoke",					// (IronHSP)
 
 	//	enhanced command (ver2.2)
 
@@ -290,6 +292,8 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$012 13 getease",					// (3.4)
 	"$013 13 notefind",					// (3.5)
 	"$014 13 varsize",					// (3.5)
+	"$015 13 int64",					// (IronHSP)
+	"$016 13 qpeek",					// (IronHSP)
 
 	//	3.0 string function
 	"$100 13 str",

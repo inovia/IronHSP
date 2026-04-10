@@ -1000,6 +1000,7 @@ int code_getdi( const int defval )
 int64_t code_geti64( void )
 {
 	//		数値パラメーターをint64で取得
+	//		(文字列の場合は10進/16進として解釈)
 	//
 	int chk;
 	chk = code_get();
@@ -1012,6 +1013,15 @@ int64_t code_geti64( void )
 	}
 	if ( mpval->flag == HSPVAR_FLAG_DOUBLE ) {
 		return (int64_t)(*(double *)(mpval->pt));
+	}
+	if ( mpval->flag == HSPVAR_FLAG_STR ) {
+		char *s = (char *)(mpval->pt);
+		if ( s[0] == '$' ) {
+			return (int64_t)strtoull( s + 1, NULL, 16 );
+		} else if ( s[0] == '0' && (s[1] == 'x' || s[1] == 'X') ) {
+			return (int64_t)strtoull( s + 2, NULL, 16 );
+		}
+		return (int64_t)strtoll( s, NULL, 10 );
 	}
 	throw HSPERR_TYPE_MISMATCH;
 }
@@ -2271,14 +2281,15 @@ static int cmdfunc_prog( int cmd )
 	case 0x0f:								// dupptr
 		{
 		PVal *pval_m;
+		int64_t dp_ptr;
 		pval_m = code_getpval();
-		p1 = code_geti();
+		dp_ptr = code_geti64();				// ポインタは64bit対応
 		p2 = code_geti();
 		p3 = code_getdi( HSPVAR_FLAG_INT );
 		if ( p2<=0 ) throw HSPERR_ILLEGAL_FUNCTION;
 		if ( HspVarCoreGetProc(p3)->flag == 0 ) throw HSPERR_ILLEGAL_FUNCTION;
 		if (pval_m->support & HSPVAR_SUPPORT_FIXEDVALUE) throw HSPERR_FIXED_VARVALUE;
-		HspVarCoreDupPtr( pval_m, p3, (void *)p1, p2 );
+		HspVarCoreDupPtr( pval_m, p3, (void *)(intptr_t)dp_ptr, p2 );
 		break;
 		}
 
@@ -2473,6 +2484,18 @@ static int cmdfunc_prog( int cmd )
 		strncpy(pathname, code_gets(), HSP_MAX_PATH - 1);
 		ep1 = code_getdi(0);
 		hspctx->stat = code_strexchange(pathname, ep1);
+		break;
+		}
+
+	case 0x21:								// dim64
+		{
+		PVal *pval;
+		pval = code_getpval();
+		p1 = code_getdi( 0 );
+		p2 = code_getdi( 0 );
+		p3 = code_getdi( 0 );
+		p4 = code_getdi( 0 );
+		HspVarCoreDimWC( pval, HSPVAR_FLAG_INT64, p1, p2, p3, p4 );
 		break;
 		}
 

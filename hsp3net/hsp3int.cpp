@@ -1339,6 +1339,22 @@ static int cmdfunc_intcmd( int cmd )
 		break;
 		}
 
+	case 0x031:								// qpoke
+		{
+		PVal *pval;
+		char *ptr;
+		int size;
+		int64_t qval;
+		ptr = code_getvptr( &pval, &size );
+		p1 = code_getdi( 0 );
+		if ( p1<0 ) throw HSPERR_BUFFER_OVERFLOW;
+		if ( (p1+8)>size ) throw HSPERR_BUFFER_OVERFLOW;
+		ptr += p1;
+		qval = code_geti64();
+		*(int64_t *)ptr = qval;
+		break;
+		}
+
 	case 0x030:								// sortget
 		{
 		PVal *pv;
@@ -1366,6 +1382,7 @@ static int cmdfunc_intcmd( int cmd )
 }
 
 static int reffunc_intfunc_ivalue;
+static int64_t reffunc_intfunc_i64value;
 static HSPREAL reffunc_intfunc_value;
 
 static void *reffunc_intfunc( int *type_res, int arg )
@@ -1513,13 +1530,25 @@ static void *reffunc_intfunc( int *type_res, int arg )
 		STRUCTDAT *st;
 		if ( *type == TYPE_DLLFUNC ) {
 			st = &(ctx->mem_finfo[ *val ]);
+#ifdef PTR64BIT
+			*type_res = HSPVAR_FLAG_INT64;
+			reffunc_intfunc_i64value = (int64_t)(size_t)(st->proc);
+			ptr = &reffunc_intfunc_i64value;
+#else
 			reffunc_intfunc_ivalue = (int)(size_t)(st->proc);
+#endif
 			code_next();
 			break;
 		}
 		aptr = code_getva( &pval );
 		pdat = HspVarCorePtrAPTR( pval, aptr );
+#ifdef PTR64BIT
+		*type_res = HSPVAR_FLAG_INT64;
+		reffunc_intfunc_i64value = (int64_t)(size_t)(pdat);
+		ptr = &reffunc_intfunc_i64value;
+#else
 		reffunc_intfunc_ivalue = (int)(size_t)(pdat);
+#endif
 		HspVarCoreGetBlockSize(pval, pdat, &ctx->strsize);
 		break;
 		}
@@ -1625,6 +1654,52 @@ static void *reffunc_intfunc( int *type_res, int arg )
 		aptr = code_getva( &pval );
 		pdat = HspVarCorePtrAPTR( pval, aptr );
 		HspVarCoreGetBlockSize(pval, pdat, &reffunc_intfunc_ivalue);
+		break;
+		}
+
+	case 0x015:								// int64
+		{
+		//		int64(p1) : 文字列/数値をint64に変換
+		//
+		*type_res = HSPVAR_FLAG_INT64;
+		chk = code_get();
+		if ( chk <= PARAM_END ) { throw HSPERR_INVALID_FUNCPARAM; }
+		if ( mpval->flag == HSPVAR_FLAG_INT64 ) {
+			reffunc_intfunc_i64value = *(int64_t *)(mpval->pt);
+		} else if ( mpval->flag == HSPVAR_FLAG_INT ) {
+			reffunc_intfunc_i64value = (int64_t)(*(int *)(mpval->pt));
+		} else if ( mpval->flag == HSPVAR_FLAG_DOUBLE ) {
+			reffunc_intfunc_i64value = (int64_t)(*(double *)(mpval->pt));
+		} else if ( mpval->flag == HSPVAR_FLAG_STR ) {
+			char *s = (char *)(mpval->pt);
+			if ( s[0] == '$' ) {
+				reffunc_intfunc_i64value = (int64_t)strtoull( s + 1, NULL, 16 );
+			} else if ( s[0] == '0' && (s[1] == 'x' || s[1] == 'X') ) {
+				reffunc_intfunc_i64value = (int64_t)strtoull( s + 2, NULL, 16 );
+			} else {
+				reffunc_intfunc_i64value = (int64_t)strtoll( s, NULL, 10 );
+			}
+		} else {
+			throw HSPERR_TYPE_MISMATCH;
+		}
+		ptr = &reffunc_intfunc_i64value;
+		break;
+		}
+
+	case 0x016:								// qpeek
+		{
+		//		qpeek(p1,p2) : バッファからint64値を読み取る
+		//
+		PVal *pval;
+		APTR aptr;
+		PDAT *pdat;
+		int p2;
+		*type_res = HSPVAR_FLAG_INT64;
+		aptr = code_getva( &pval );
+		pdat = HspVarCorePtrAPTR( pval, aptr );
+		p2 = code_geti();
+		reffunc_intfunc_i64value = *(int64_t *)((char *)pdat + p2);
+		ptr = &reffunc_intfunc_i64value;
 		break;
 		}
 
