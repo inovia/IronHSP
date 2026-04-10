@@ -5,8 +5,12 @@
 #ifndef __supio_h
 #define __supio_h
 
+#ifdef HSPWIN
 #ifdef HSPUTF8
 #define STRLEN utf8strlen
+#else
+#define STRLEN strlen
+#endif
 #else
 #define STRLEN strlen
 #endif
@@ -33,6 +37,10 @@
 
 #ifdef HSPEMSCRIPTEN
 #include "emscripten/supio_emscripten.h"
+#endif
+
+#ifdef HSPMAC
+#include "linux/supio_linux.h"
 #endif
 
 

@@ -34,12 +34,12 @@
 
 /*
 	rev 43
-	mingw : warning : WM_MOUSEWHEEL‚ÌÄ’è‹`
-	‚É‘Îˆ
+	mingw : warning : WM_MOUSEWHEELã®å†å®šç¾©
+	ã«å¯¾å‡¦
 */
 
 /*
-* WM_MOUSEWHEEL‚ÍWindows NT 4.0ˆÈ~‚Å—LŒø‚ÅAWindows 95‚Å—LŒø‚Å‚È‚¢B
+* WM_MOUSEWHEELã¯Windows NT 4.0ä»¥é™ã§æœ‰åŠ¹ã§ã€Windows 95ã§æœ‰åŠ¹ã§ãªã„ã€‚
 */
 
 #if !defined( WM_MOUSEWHEEL )
@@ -57,7 +57,7 @@ HspWnd *curwnd;
 static MM_NOTIFY_FUNC notifyfunc;
 
 #if !defined(HSP_COMPACT)
-extern int resY0, resY1;				// "fcpoly.h"‚Ìƒpƒ‰ƒ[ƒ^[
+extern int resY0, resY1;				// "fcpoly.h"ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼
 #endif
 
 #include "HspForms.h"
@@ -75,21 +75,22 @@ using namespace tv::hsp::net;
 
 HspWnd::HspWnd()
 {
-	//		‰Šú‰»
+	//		åˆæœŸåŒ–
 	//
 	Reset( NULL, "hspwnd0" );
 }
 
 HspWnd::HspWnd( HANDLE instance, char *wndcls )
 {
-	//		‰Šú‰»
+	//		åˆæœŸåŒ–
 	//
 	Reset( instance, wndcls );
 }
 
 HspWnd::~HspWnd()
+HspWnd::â€¾HspWnd()
 {
-	//		‚·‚×‚Ä”jŠü
+	//		ã™ã¹ã¦ç ´æ£„
 	//
 	Dispose();
 }
@@ -146,6 +147,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 		try {
 #endif
 		if ( code_checkirq( (int)GetWindowLongPtr( hwnd, GWLP_USERDATA ), (int)uMessage, (int)wParam, (int)lParam ) ) {
+			if ( code_irqresult( &retval ) ) return retval;
 			if (code_irqresult(&retval)) {
 				TransMes_WinForms(hwnd, uMessage, wParam, lParam);
 				return retval;
@@ -153,7 +155,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 		}
 #ifdef HSPERR_HANDLE
 		}
-		catch (HSPERROR code) {						// HSPƒGƒ‰[—áŠOˆ—
+		catch (HSPERROR code) {						// HSPã‚¨ãƒ©ãƒ¼ä¾‹å¤–å‡¦ç†
 			code_catcherror(code);
 		}
 #endif
@@ -171,7 +173,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 	case WM_QUERYNEWPALETTE:
 		bm = TrackBmscr( hwnd );
 		if ( bm == NULL ) break;
-		if (bm->hpal != NULL) {				// ƒpƒŒƒbƒg•ÏX‚É‚àƒ}ƒbƒ`ƒ“ƒO‚³‚¹‚é
+		if (bm->hpal != NULL) {				// ãƒ‘ãƒ¬ãƒƒãƒˆå¤‰æ›´æ™‚ã«ã‚‚ãƒãƒƒãƒãƒ³ã‚°ã•ã›ã‚‹
 			int a;
 			HDC hdc;
 			HPALETTE opal;
@@ -187,9 +189,11 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 		break;
 
 	case WM_PAINT:
-		//		Display ‘S•`‰æ
+		//		Display å…¨æç”»
 		//
 		bm = TrackBmscr( hwnd );
+		if ( bm != NULL ) WM_Paint( hwnd, bm );
+		return 0 ;
 		if (bm != NULL) {
 			WM_Paint(hwnd, bm);
 		}
@@ -211,8 +215,8 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 	case WM_SIZE:
 		bm = TrackBmscr( hwnd );
 		if ( bm != NULL ) {
-			bm->wx = lParam & 0xFFFF;				// xƒTƒCƒY
-			bm->wy = (lParam >> 16) & 0xFFFF;		// yƒTƒCƒY
+			bm->wx = lParam & 0xFFFF;				// xã‚µã‚¤ã‚º
+			bm->wy = (lParam >> 16) & 0xFFFF;		// yã‚µã‚¤ã‚º
 			bm->SetScroll( bm->viewx, bm->viewy );
 		}
 		break;
@@ -221,10 +225,10 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 		bm = TrackBmscr( hwnd );
 		if ( bm != NULL ) {
 			bm->savepos[BMSCR_SAVEPOS_MOSUEZ] = LOWORD(wParam);
-			bm->savepos[BMSCR_SAVEPOS_MOSUEW] = HIWORD(wParam); 
-			//TransMes_WinForms( hwnd, uMessage, wParam, lParam);
-			return 0;
+			bm->savepos[BMSCR_SAVEPOS_MOSUEW] = HIWORD(wParam);
 		}
+		return 0;
+			//TransMes_WinForms( hwnd, uMessage, wParam, lParam);
 		break;
 
 	case WM_MOUSEMOVE:
@@ -232,11 +236,10 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 		if ( bm != NULL ) {
 			bm->savepos[BMSCR_SAVEPOS_MOSUEX] = LOWORD(lParam);
 			bm->savepos[BMSCR_SAVEPOS_MOSUEY] = HIWORD(lParam);
-			//TransMes_WinForms( hwnd, uMessage, wParam, lParam);
-			return 0;
 		}
+		return 0;
+			//TransMes_WinForms( hwnd, uMessage, wParam, lParam);
 		break;
-		
 	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 	case WM_MBUTTONDOWN:
@@ -247,7 +250,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 				code_sendirq( HSPIRQ_ONCLICK, (int)uMessage - (int)WM_LBUTTONDOWN, (int)wParam, (int)lParam );
 #ifdef HSPERR_HANDLE
 			}
-			catch (HSPERROR code) {						// HSPƒGƒ‰[—áŠOˆ—
+			catch (HSPERROR code) {						// HSPã‚¨ãƒ©ãƒ¼ä¾‹å¤–å‡¦ç†
 				code_catcherror(code);
 			}
 #endif
@@ -258,10 +261,19 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 			id = (int)GetWindowLongPtr( hwnd, GWLP_USERDATA );
 			bm =curwnd->GetBmscr( id );
 			//Alertf( "%d,%x,%x (%d)",id,wParam,lParam , ( wParam & (MESSAGE_HSPOBJ-1)) );
-			bm->SendHSPObjectNotice( (int)wParam );
-			TransMes_WinForms(hwnd, uMessage, wParam, lParam);
-			return 0;
+#ifdef HSPERR_HANDLE
+			try {
+#endif
+				bm->SendHSPObjectNotice( (int)wParam );
+#ifdef HSPERR_HANDLE
+			}
+			catch (HSPERROR code) {						// HSPã‚¨ãƒ©ãƒ¼ä¾‹å¤–å‡¦ç†
+				code_catcherror(code);
+			}
+#endif
 		}
+		return 0;
+			TransMes_WinForms(hwnd, uMessage, wParam, lParam);
 	case MM_MCINOTIFY:
 		if ( wParam == MCI_NOTIFY_SUCCESSFUL ) {
 			if ( notifyfunc != NULL ) notifyfunc( hwnd );
@@ -285,20 +297,20 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 				int iparam = 0;
 				if ( uMessage == WM_QUERYENDSESSION ) iparam++;
 				retval = code_sendirq( HSPIRQ_ONEXIT, iparam, id, 0 );
-				if ( retval == RUNMODE_INTJUMP ) retval = code_execcmd2();	// onexit goto‚ÍÀs‚µ‚Ä‚İ‚é
+				if ( retval == RUNMODE_INTJUMP ) retval = code_execcmd2();	// onexit gotoæ™‚ã¯å®Ÿè¡Œã—ã¦ã¿ã‚‹
 #ifdef HSPERR_HANDLE
 			}
-			catch (HSPERROR code) {						// HSPƒGƒ‰[—áŠOˆ—
+			catch (HSPERROR code) {						// HSPã‚¨ãƒ©ãƒ¼ä¾‹å¤–å‡¦ç†
 				code_catcherror(code);
 			}
 #endif
-			if (retval != RUNMODE_END) {
-				//TransMes_WinForms(hwnd, uMessage, wParam, lParam);
-				return 0;
-			}
+			if ( retval != RUNMODE_END ) return 0;
 		}
 		code_puterror( HSPERR_NONE );
 		PostQuitMessage(0);
+			if (retval != RUNMODE_END) {
+				//TransMes_WinForms(hwnd, uMessage, wParam, lParam);
+				return 0;
 		//TransMes_WinForms(hwnd, uMessage, wParam, lParam);
 		return (uMessage == WM_QUERYENDSESSION) ? true : false;
 #endif
@@ -333,9 +345,9 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 
 	}
 
-	return TransMes_WinForms(hwnd, uMessage, wParam, lParam);
+	return DefWindowProc (hwnd, uMessage, wParam, lParam) ;
 }
-
+	return TransMes_WinForms(hwnd, uMessage, wParam, lParam);
 static void ProxyWndProc(Message %m) {
 	m.Result = (IntPtr)WndProc(
 		reinterpret_cast<HWND>(m.HWnd.ToPointer()),
@@ -343,7 +355,6 @@ static void ProxyWndProc(Message %m) {
 		reinterpret_cast<WPARAM>(m.WParam.ToPointer()),
 		reinterpret_cast<LPARAM>(m.LParam.ToPointer())
 		);
-}
 
 /*------------------------------------------------------------*/
 /*
@@ -351,21 +362,57 @@ static void ProxyWndProc(Message %m) {
 */
 /*------------------------------------------------------------*/
 
+void HspWnd::Dispose(void)
 void HspWnd::Dispose( void )
 {
-	//		”jŠü
+	//		ç ´æ£„
 	//
 	int i;
 	HWND hwnd;
-	Bmscr *bm;
-	for(i=0;i<bmscr_max;i++) {
+	Bmscr* bm;
+
+	if (mem_bm == NULL) return;
+
+	for (i = 0; i < bmscr_max; i++) {
 		bm = mem_bm[i];
-		if ( bm != NULL ) {
+		if (bm != NULL) {
 			hwnd = bm->hwnd;
-			if ( hwnd != NULL ) DestroyWindow( hwnd );
+			if (hwnd != NULL) DestroyWindow(hwnd);
 			delete bm;
 		}
 	}
+	free(mem_bm);
+	UnregisterClass(defcls, hInst);
+	bmscr_max = 0;
+	mem_bm = NULL;
+}
+
+
+void HspWnd::ClearAllObjects(void)
+{
+	//		ç ´æ£„
+	//
+	int i;
+	HWND hwnd;
+	Bmscr* bm;
+	for (i = 0; i < bmscr_max; i++) {
+		bm = mem_bm[i];
+		if (bm != NULL) {
+			hwnd = bm->hwnd;
+			if (hwnd != NULL) {
+				int p4 = bm->objmax - 1;
+				if (p4 >= 0) {
+					for (int i = 0; i <= p4; i++) {
+						bm->DeleteHSPObject(i);
+					}
+				}
+			}
+		}
+	}
+	Bmscr *bm;
+	for(i=0;i<bmscr_max;i++) {
+		if ( bm != NULL ) {
+			if ( hwnd != NULL ) DestroyWindow( hwnd );
 	free( mem_bm );
 	UnregisterClass( defcls, hInst );
 }
@@ -434,7 +481,7 @@ void HspWnd::Reset( HANDLE instance, char *wndcls )
 	//
 	bmscr_max = 0;
 	mem_bm = NULL;
-	ExpandScreen( 31 );									// ‚Æ‚è‚ ‚¦‚¸
+	ExpandScreen( 31 );									// ã¨ã‚Šã‚ãˆãš
 
 	//		global vals
 	//
@@ -462,7 +509,7 @@ void HspWnd::Reset( HANDLE instance, char *wndcls )
 	//		Reset palette
 	//
 	for(i=0;i<256*3;i++) {
-		pstpt[i] = i/3;						// ƒOƒŒ[ƒXƒP[ƒ‹ƒpƒŒƒbƒg‚ğì¬
+		pstpt[i] = i/3;						// ã‚°ãƒ¬ãƒ¼ã‚¹ã‚±ãƒ¼ãƒ«ãƒ‘ãƒ¬ãƒƒãƒˆã‚’ä½œæˆ
 	}
 
 	//		save pointer for C
@@ -489,7 +536,7 @@ void HspWnd::SetNotifyFunc( void *func )
 
 void HspWnd::MakeBmscrOff( int id, int sx, int sy, int mode )
 {
-	//		Bmscr(ƒIƒtƒXƒNƒŠ[ƒ“)¶¬
+	//		Bmscr(ã‚ªãƒ•ã‚¹ã‚¯ãƒªãƒ¼ãƒ³)ç”Ÿæˆ
 	//
 	ExpandScreen( id );
 
@@ -521,14 +568,14 @@ void HspWnd::MakeBmscrOff( int id, int sx, int sy, int mode )
 void HspWnd::MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy, int sx, int sy, int mode )
 {
 	HSPAPICHAR *hactmp1 = 0;
-	//		Bmscr(ƒEƒBƒ“ƒhƒE)¶¬
+	//		Bmscr(ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦)ç”Ÿæˆ
 	//
 	ExpandScreen( id );
 
 	int wndtype = type, style = 0, exstyle = 0;
 	HWND par_hwnd = NULL;
 
-	// ƒXƒNƒŠ[ƒ“ƒ^ƒCƒv‚²‚Æ‚ÌƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹‚Ìİ’èB
+	// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚¿ã‚¤ãƒ—ã”ã¨ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¹ã‚¿ã‚¤ãƒ«ã®è¨­å®šã€‚
 	if ( wndtype == HSPWND_TYPE_BGSCR ) {
 		style = WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
 
@@ -541,13 +588,13 @@ void HspWnd::MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy, int
 		} else {
 			style = WS_CAPTION | WS_OVERLAPPED | WS_SYSMENU | WS_MINIMIZEBOX
 			 | WS_BORDER | WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
-			if ( id > 0 && !( mode & 0x04 ) ) {	// ƒTƒCƒY‰Â•ÏB
+			if ( id > 0 && !( mode & 0x04 ) ) {	// ã‚µã‚¤ã‚ºå¯å¤‰ã€‚
 				style |= WS_THICKFRAME;
 			}
-			if ( mode & 0x08 ) {	// ƒc[ƒ‹ƒEƒBƒ“ƒhƒEB
+			if ( mode & 0x08 ) {	// ãƒ„ãƒ¼ãƒ«ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã€‚
 				exstyle |= WS_EX_TOOLWINDOW;
 			}
-			if ( mode & 0x10 ) {	// ‰‚ª[‚¢B
+			if ( mode & 0x10 ) {	// ç¸ãŒæ·±ã„ã€‚
 				exstyle |= WS_EX_OVERLAPPEDWINDOW;
 			}
 		}
@@ -556,7 +603,7 @@ void HspWnd::MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy, int
 	HWND hwnd = NULL;
 	WNDPROC winProc = nullptr;
 
-	// ƒEƒBƒ“ƒhƒE‚Ì¶¬EÄİ’èB
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ç”Ÿæˆãƒ»å†è¨­å®šã€‚
 	if ( mem_bm[ id ] == NULL ) {
 
 #ifdef HSPDEBUG
@@ -565,6 +612,20 @@ void HspWnd::MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy, int
 		char const * const pc = NULL;
 #endif
 
+		hwnd = CreateWindowEx( exstyle,				// extra window style
+		                       defcls,				// window class name
+		                       chartoapichar(pc,&hactmp1),	// window caption
+		                       style,				// window style
+		                       ( xx != -1 ? xx : CW_USEDEFAULT ),
+		                       		// initial x position
+		                       ( yy != -1 ? yy : CW_USEDEFAULT ),
+		                       		// initial y position
+		                       wx,					// initial x size
+		                       wy,					// initial y size
+		                       par_hwnd,			// parent window handle
+		                       NULL,				// window menu handle
+		                       hInst,				// program instance handle
+		                       NULL );				// creation parameters
 		//hwnd = CreateWindowEx( exstyle,				// extra window style
 		//                       defcls,				// window class name
 		//                       chartoapichar(pc,&hactmp1),	// window caption
@@ -579,7 +640,6 @@ void HspWnd::MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy, int
 		//                       NULL,				// window menu handle
 		//                       hInst,				// program instance handle
 		//                       NULL );				// creation parameters
-
 		CreateParams^ cp = gcnew CreateParams();
 		cp->ExStyle = exstyle;
 		//cp->ClassName = marshal_as<System::String^>(defcls);
@@ -590,53 +650,40 @@ void HspWnd::MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy, int
 		//cp->Width = wx;
 		//cp->Height = wy;
 		//cp->Parent = (IntPtr)par_hwnd;
-
-
-		// TODO: “K“–‚É‚±‚±‚É‘}“ü
+		// TODO: é©å½“ã«ã“ã“ã«æŒ¿å…¥
 		//Form^ testWindow = gcnew Form();
 		//	HspForms^ hspWindow = gcnew HspForms((System::IntPtr)(hwnd));
 		//	hspWindow->Dock = DockStyle::Fill;
 		//testWindow->Controls->Add(hspWindow);
 		//testWindow->Show();
-
 		//Form^ testWindow = gcnew Form();
 		//testWindow->Width = wx;
 		//testWindow->Height = wy;
 		//testWindow->Show();
-
 		//Button^ btn = gcnew Button();
 		//btn->Text = "abc!";
 		//btn->Dock = DockStyle::Fill;
 		//testWindow->Controls->Add(btn);
-
 		//hwnd = reinterpret_cast<HWND>(testWindow->Handle.ToPointer());
-
-		
 		HspForms2::CP = cp;
 		HspForms2^ hspWindow = gcnew HspForms2();
 		// hspWindow->ex = gcnew HspForms2::_WndProcEx(&ProxyWndProc);
 		hspWindow->Width = wx;
 		hspWindow->Height = wy;
 		hspWindow->Icon = System::Drawing::Icon::FromHandle(
-			(IntPtr)LoadIcon(hInst, MAKEINTRESOURCE(128)));			// HSP‚ÌƒAƒCƒRƒ“(IDR_MAIN)
+			(IntPtr)LoadIcon(hInst, MAKEINTRESOURCE(128)));			// HSPã®ã‚¢ã‚¤ã‚³ãƒ³(IDR_MAIN)
 		hspWindow->Text = marshal_as<System::String^>(chartoapichar(pc, &hactmp1));
-
 		//auto btn = gcnew Button();
 		//btn->Text = "Code!!";
 		//btn->Dock = DockStyle::Fill;
 		//hspWindow->Controls->Add(btn);
 		hspWindow->Show();
-
 		hwnd = reinterpret_cast<HWND>(hspWindow->Handle.ToPointer());
-
 		// auto current_id = ::GetWindowLongPtr(hwnd, GWL_ID);
-
-		//// —v‘f”=ID‚Æ‚·‚é
+		//// è¦ç´ æ•°=IDã¨ã™ã‚‹
 		//::SetWindowLongPtr(hwnd, GWL_ID, (LONG_PTR)g_vecWndProc.size());
 		winProc = (WNDPROC)::SetWindowLongPtr(hwnd, GWL_WNDPROC, (LONG_PTR)WndProc);
-
 		//g_vecWndProc.push_back(wndProc);
-
 		freehac(&hactmp1);
 
 	} else {
@@ -682,6 +729,7 @@ void HspWnd::MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy, int
 
 	bm->wx = wx;
 	bm->wy = wy;
+	bm->Width( wx, wy, -1, -1, 0 );
 	bm->Width( wx, wy, -1, -1, 1 );
 
 	SetWindowPos( hwnd, HWND_TOP, 0, 0, 0, 0,
@@ -694,7 +742,7 @@ void HspWnd::MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy, int
 
 void HspWnd::MakeBmscr( int id, int type, int xx, int yy, int wx, int wy, int sx, int sy, int mode )
 {
-	//		Bmscr¶¬
+	//		Bmscrç”Ÿæˆ
 	//
 	if ( id < 0 ) throw HSPERR_ILLEGAL_FUNCTION;
 
@@ -726,7 +774,7 @@ int HspWnd::Picload( int id, char *fname, int mode )
     HRESULT hr;
 	long hmWidth, hmHeight;
 	LPPICTURE gpPicture;							// IPicture
-    LPSTREAM pstm = NULL;							// IStream‚ğæ“¾‚·‚é
+    LPSTREAM pstm = NULL;							// IStreamã‚’å–å¾—ã™ã‚‹
 	//char fext[8];
 	int stbmode;
 	HSPAPICHAR *hactmp1 = 0;
@@ -736,11 +784,11 @@ int HspWnd::Picload( int id, char *fname, int mode )
 	if ( bm == NULL ) return 1;
 	if ( bm->flag == BMSCR_FLAG_NOUSE ) return 1;
 
-	//@ƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğæ“¾
+	//ã€€ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã‚’å–å¾—
 	size = dpm_exist( fname );
 	if ( size <= 0 ) return 1;
 
-	// ƒOƒ[ƒoƒ‹—Ìˆæ‚ğŠm•Û
+	// ã‚°ãƒ­ãƒ¼ãƒãƒ«é ˜åŸŸã‚’ç¢ºä¿
 	h = GlobalAlloc( GMEM_MOVEABLE, size );
     if( h == NULL) return 2;
 	pBuf = GlobalLock( h );
@@ -750,14 +798,14 @@ int HspWnd::Picload( int id, char *fname, int mode )
 
 #ifdef USE_STBIMAGE
 	stbmode = 0;
-	getpathW(chartoapichar(fname,&hactmp1),wfext,16+2);				// Šg’£q‚ğ¬•¶š‚Åæ‚èo‚·
+	getpathW(chartoapichar(fname,&hactmp1),wfext,16+2);				// æ‹¡å¼µå­ã‚’å°æ–‡å­—ã§å–ã‚Šå‡ºã™
 
-	if (!_tcscmp(wfext,TEXT(".png"))) stbmode++;	// ".png"‚Ì
-	if (!_tcscmp(wfext,TEXT(".psd"))) stbmode++;	// ".psd"‚Ì
-	if (!_tcscmp(wfext,TEXT(".tga"))) stbmode++;	// ".tga"‚Ì
+	if (!_tcscmp(wfext,TEXT(".png"))) stbmode++;	// ".png"ã®æ™‚
+	if (!_tcscmp(wfext,TEXT(".psd"))) stbmode++;	// ".psd"ã®æ™‚
+	if (!_tcscmp(wfext,TEXT(".tga"))) stbmode++;	// ".tga"ã®æ™‚
 	freehac(&hactmp1);
 
-	if ( stbmode ) {						// stb_image‚ğg—p‚µ‚Ä“Ç‚İ‚Ş
+	if ( stbmode ) {						// stb_imageã‚’ä½¿ç”¨ã—ã¦èª­ã¿è¾¼ã‚€
 		int components;
 		unsigned char *sp_image;
 		sp_image = stbi_load_from_memory( (unsigned char *)pBuf, size, &psx, &psy, &components, 4 );
@@ -770,12 +818,13 @@ int HspWnd::Picload( int id, char *fname, int mode )
 			type = bm->type; palsw = bm->palmode;
 			MakeBmscr( id, type, -1, -1, psx, psy, psx, psy, palsw );
 			bm = GetBmscr( id );
-			if ( mode == 2 ) bm->Cls( 4 );	// •F‚ÅƒNƒŠƒA‚µ‚Ä‚¨‚­
+			if ( mode == 2 ) bm->Cls( 4 );	// é»’è‰²ã§ã‚¯ãƒªã‚¢ã—ã¦ãŠã
 		}
 
 		x = bm->cx; y = bm->cy;
 		if (bm->RenderAlphaBitmap(psx, psy, components, sp_image)) return 4;
 		bm->Send( x, y, psx, psy );
+		bm->resname = fname;
 
 		stbi_image_free(sp_image);
 		GlobalUnlock( h );
@@ -786,10 +835,10 @@ int HspWnd::Picload( int id, char *fname, int mode )
 
 	GlobalUnlock( h );
 
-	hr = CreateStreamOnHGlobal( h, TRUE, &pstm );	// ƒOƒ[ƒoƒ‹—Ìˆæ‚©‚çIStream‚ğì¬
+	hr = CreateStreamOnHGlobal( h, TRUE, &pstm );	// ã‚°ãƒ­ãƒ¼ãƒãƒ«é ˜åŸŸã‹ã‚‰IStreamã‚’ä½œæˆ
     if( !SUCCEEDED(hr) ) return 3;
-    hr = OleLoadPicture( pstm, size, FALSE, IID_IPicture, (LPVOID *)&gpPicture );    // IPicture‚ÌƒIƒuƒWƒFƒNƒg‚ÌƒAƒhƒŒƒX‚ğæ“¾
-    pstm->Release();							    // IStreamƒIƒuƒWƒFƒNƒg‚ğŠJ•ú
+    hr = OleLoadPicture( pstm, size, FALSE, IID_IPicture, (LPVOID *)&gpPicture );    // IPictureã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—
+    pstm->Release();							    // IStreamã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’é–‹æ”¾
 	if( SUCCEEDED( hr ) == FALSE || gpPicture == NULL ) {
 		return 3;
     }
@@ -806,7 +855,7 @@ int HspWnd::Picload( int id, char *fname, int mode )
 		type = bm->type; palsw = bm->palmode;
 		MakeBmscr( id, type, -1, -1, psx, psy, psx, psy, palsw );
 		bm = GetBmscr( id );
-		if ( mode == 2 ) bm->Cls( 4 );	// •F‚ÅƒNƒŠƒA‚µ‚Ä‚¨‚­
+		if ( mode == 2 ) bm->Cls( 4 );	// é»’è‰²ã§ã‚¯ãƒªã‚¢ã—ã¦ãŠã
 	}
 
 	// setup initial position
@@ -815,6 +864,7 @@ int HspWnd::Picload( int id, char *fname, int mode )
 	// display picture using IPicture::Render
 	gpPicture->Render( bm->hdc, x, y, psx, psy, 0, hmHeight, hmWidth, -hmHeight, &rc );
 	bm->Send( x, y, psx, psy );
+	bm->resname = fname;
 
 	gpPicture->Release();
 	GlobalFree(h);
@@ -824,7 +874,7 @@ int HspWnd::Picload( int id, char *fname, int mode )
 
 Bmscr *HspWnd::GetBmscrSafe( int id )
 {
-	//		ˆÀ‘S‚Èbmscræ“¾
+	//		å®‰å…¨ãªbmscrå–å¾—
 	//
 	Bmscr *bm;
 	if (( id < 0 )||( id >= bmscr_max )) throw HSPERR_ILLEGAL_FUNCTION;
@@ -837,7 +887,7 @@ Bmscr *HspWnd::GetBmscrSafe( int id )
 
 int HspWnd::GetEmptyBufferId( void )
 {
-	//		‹ó‚«ID‚ğæ“¾
+	//		ç©ºãIDã‚’å–å¾—
 	//
 	int i;
 	Bmscr *bm;
@@ -850,6 +900,52 @@ int HspWnd::GetEmptyBufferId( void )
 }
 
 
+int HspWnd::GetPreloadBufferId(char* fname)
+{
+	//		æ—¢å­˜ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã IDã‚’å–å¾—
+	//
+	int i;
+	Bmscr* bm;
+	char basename[HSP_MAX_PATH];
+
+	HSPAPICHAR* hactmp1 = 0;
+	HSPAPICHAR basenameW[HSP_MAX_PATH];
+	HSPCHAR* hctmp1 = 0;
+	getpathW(chartoapichar(fname, &hactmp1), basenameW, 8+16);
+	freehac(&hactmp1);
+
+	apichartohspchar(basenameW, &hctmp1);
+	strncpy(basename, hctmp1, HSP_MAX_PATH - 1);
+	freehc(&hctmp1);
+
+	for (i = 1; i < bmscr_max; i++) {
+		bm = GetBmscr(i);
+		if (bm != NULL) {
+			if (bm->flag == BMSCR_FLAG_INUSE) {
+				char bname[_MAX_PATH];
+				char* p = (char *)bm->resname.c_str();
+				if (*p != 0) {
+					HSPAPICHAR* hactmp2 = 0;
+					HSPAPICHAR bnameW[HSP_MAX_PATH];
+					HSPCHAR* hctmp2 = 0;
+					getpathW(chartoapichar(p, &hactmp2), bnameW, 8 + 16);
+					freehac(&hactmp2);
+
+					apichartohspchar(bnameW, &hctmp2);
+					strncpy(bname, hctmp2, HSP_MAX_PATH - 1);
+					freehc(&hctmp2);
+
+					if (strcmp(bname, basename) == 0) {
+						return bm->wid;
+					}
+				}
+			}
+		}
+	}
+	return -1;
+}
+
+
 /*------------------------------------------------------------*/
 /*
 		Bmscr interface
@@ -858,15 +954,16 @@ int HspWnd::GetEmptyBufferId( void )
 
 Bmscr::Bmscr()
 {
-	//		bmscr‰Šú‰»
+	//		bmscråˆæœŸåŒ–
 	//
 	flag = BMSCR_FLAG_NOUSE;
 	logfont = NULL;
 }
 
 Bmscr::~Bmscr()
+Bmscr::â€¾Bmscr()
 {
-	//		Bmscr”jŠü
+	//		Bmscrç ´æ£„
 	//
 	if ( flag == BMSCR_FLAG_INUSE ) {
 
@@ -927,7 +1024,7 @@ void Bmscr::Init( HANDLE instance, HWND p_hwnd, int p_sx, int p_sy, int palsw )
 
 	hwnd = p_hwnd;
 	hInst= (HINSTANCE)instance;
-	
+
 	flag = BMSCR_FLAG_INUSE;
 	objmax = 0;
 	mem_obj = NULL;
@@ -947,6 +1044,7 @@ void Bmscr::Init( HANDLE instance, HWND p_hwnd, int p_sx, int p_sy, int palsw )
 		pbi->biBitCount = 8;
 	}
 	bsize = ( bsize + 3 )&~3;
+	bsize = ( bsize + 3 )&â€¾3;
 	sx2 = bsize;
 	bsize *= sy;
 
@@ -1039,6 +1137,7 @@ void Bmscr::Cls( int mode )
 	//		CEL initalize
 	//
 	SetCelDivideSize( 0, 0, 0, 0 );
+	resname.clear();
 
 	//		all update
 	//
@@ -1100,6 +1199,15 @@ void Bmscr::Width( int x, int y, int wposx, int wposy, int mode )
 	sizex = wx + framesx;
 	sizey = wy + framesy;
 	GetWindowRect( hwnd,&rw );
+	if (mode == 0) {
+		if (wposx >= 0) rw.left = wposx;
+		if (wposy >= 0) rw.top = wposy;
+	}
+	else {
+		rw.left = wposx;
+		rw.top = wposy;
+	}
+	MoveWindow( hwnd, rw.left, rw.top, sizex, sizey, true );
 	if ( wposx >= 0 ) rw.left = wposx;
 	if ( wposy >= 0 ) rw.top = wposy;
 	MoveWindow( hwnd, rw.left, rw.top, sizex, sizey, (mode>0) );
@@ -1403,7 +1511,7 @@ void Bmscr::Print(char *mes, int option)
 	COLORREF mycolor = color;
 	x = cx; y = cy;
 
-	if (option & HSPMES_SHADOW) {		// ‰e•¶š
+	if (option & HSPMES_SHADOW) {		// å½±æ–‡å­—
 		i = fonteff_size;
 		if (i > 0) {
 			Setcolor(objcolor);
@@ -1419,7 +1527,7 @@ void Bmscr::Print(char *mes, int option)
 		Setcolor(mycolor);
 		cx = x; cy = y;
 	}
-	if (option & HSPMES_OUTLINE) {		// ƒAƒEƒgƒ‰ƒCƒ“
+	if (option & HSPMES_OUTLINE) {		// ã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³
 		i = fonteff_size;
 		if (i > 0) {
 			Setcolor(objcolor);
@@ -1446,7 +1554,7 @@ void Bmscr::Print(char *mes, int option)
 
 	px = PrintSub(mes);
 
-	if (option & HSPMES_NOCR) {		// ‰üs‚µ‚È‚¢
+	if (option & HSPMES_NOCR) {		// æ”¹è¡Œã—ãªã„
 		cx = x + px;
 		cy = y;
 	}
@@ -1470,11 +1578,13 @@ int Bmscr::PrintSub(char *mes)
 {
 	int chk;
 	int px;
+	char stmp[4096];
 	char stmp[1024];
 	px = 0;
 
 	strsp_ini();
 	while (1) {
+		chk = strsp_get(mes, stmp, 0, 4095);
 		chk = strsp_get(mes, stmp, 0, 1022);
 		PrintLine(stmp);
 		if (px < printsize.cx) px = printsize.cx;
@@ -1688,7 +1798,7 @@ blt24:
 		return;
 	case 3:
 		{
-		// ”¼“§–¾ƒRƒs[(•W€)
+		// åŠé€æ˜ã‚³ãƒ”ãƒ¼(æ¨™æº–)
 		short srcht,dstht,ha;
 		srcht = this->gfrate;
 		if ( srcht>256 ) srcht=256;
@@ -1708,7 +1818,7 @@ blt24:
 		return;
 	case 4:
 		{
-		// ”¼“§–¾ƒRƒs[(ƒJƒ‰[œŠO)
+		// åŠé€æ˜ã‚³ãƒ”ãƒ¼(ã‚«ãƒ©ãƒ¼é™¤å¤–)
 		short ha,ha1,ha2,ha3,cl1,cl2,cl3;
 		short srcht,dstht;
 		srcht = this->gfrate;
@@ -1744,7 +1854,7 @@ blt24:
 		return;
 	case 5:
 		{
-		// F‰ÁZƒRƒs[
+		// è‰²åŠ ç®—ã‚³ãƒ”ãƒ¼
 		short srcht,ha;
 		srcht = this->gfrate;
 		if ( srcht>256 ) srcht=256;
@@ -1762,7 +1872,7 @@ blt24:
 		return;
 	case 6:
 		{
-		// FŒ¸ZƒRƒs[
+		// è‰²æ¸›ç®—ã‚³ãƒ”ãƒ¼
 		short srcht,ha;
 		srcht = this->gfrate;
 		if ( srcht>256 ) srcht=256;
@@ -1780,7 +1890,7 @@ blt24:
 		return;
 	case 7:
 		{
-		// ƒsƒNƒZƒ‹ƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒhƒRƒs[
+		// ãƒ”ã‚¯ã‚»ãƒ«ã‚¢ãƒ«ãƒ•ã‚¡ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚³ãƒ”ãƒ¼
 		int sx2;
 		short srcht,ha;
 		  sx *= 3;
@@ -1885,7 +1995,7 @@ int Bmscr::BmpSave( char *fname )
 
 void Bmscr::SetHSVColor( int hval, int sval, int vval )
 {
-	//		hsv‚É‚æ‚éFw’è
+	//		hsvã«ã‚ˆã‚‹è‰²æŒ‡å®š
 	//			h(0-191)/s(0-255)/v(0-255)
 	//
 	int h,s,v;
@@ -1897,7 +2007,7 @@ void Bmscr::SetHSVColor( int hval, int sval, int vval )
 	//
 	v = vval & 255;
 	s = sval & 255;		// /8
-	//		hsv -> rgb •ÏŠ·
+	//		hsv -> rgb å¤‰æ›
 	//
 	h = hval % 192;
 	i = h/32;
@@ -1926,7 +2036,7 @@ void Bmscr::SetHSVColor( int hval, int sval, int vval )
 
 void Bmscr::GetClientSize( int *xsize, int *ysize )
 {
-	//		ƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ÌƒTƒCƒY‚ğ‹‚ß‚é
+	//		ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆé ˜åŸŸã®ã‚µã‚¤ã‚ºã‚’æ±‚ã‚ã‚‹
 	//
 	RECT rw;
 	GetClientRect( hwnd, &rw );
@@ -1937,7 +2047,7 @@ void Bmscr::GetClientSize( int *xsize, int *ysize )
 
 void Bmscr::SetScroll( int xbase, int ybase )
 {
-	//		ƒXƒNƒ[ƒ‹Šî“_‚ğİ’è
+	//		ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«åŸºç‚¹ã‚’è¨­å®š
 	//
 	int ax, ay, _vx, _vy;
 	_vx = viewx;
@@ -1957,7 +2067,7 @@ void Bmscr::SetScroll( int xbase, int ybase )
 
 void Bmscr::CnvRGB16( PTRIVERTEX target, DWORD src )
 {
-	//		RGBAƒR[ƒh‚ğTRIVERTEX‚ÌRGB16ƒR[ƒh‚É•ÏŠ·‚µ‚Äİ’è‚·‚é
+	//		RGBAã‚³ãƒ¼ãƒ‰ã‚’TRIVERTEXã®RGB16ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã—ã¦è¨­å®šã™ã‚‹
 	//
 	target->Alpha = (COLOR16)((src>>16) & 0xff00);
 	target->Red   = (COLOR16)((src>>8) & 0xff00);
@@ -1970,7 +2080,7 @@ void Bmscr::GradFill( int x, int y, int sx, int sy, int mode, DWORD col1, DWORD 
 {
 
 #ifndef HSP_COMPACT
-	//		ƒOƒ‰ƒf[ƒVƒ‡ƒ““h‚è‚Â‚Ô‚µ
+	//		ã‚°ãƒ©ãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³å¡—ã‚Šã¤ã¶ã—
 	//
 	TRIVERTEX axis[2];
 	PTRIVERTEX vtx;
@@ -1998,7 +2108,7 @@ void Bmscr::GradFill( int x, int y, int sx, int sy, int mode, DWORD col1, DWORD 
 
 int Bmscr::GetAlphaOperation( void )
 {
-	//		gmode‚Ìƒ‚[ƒh‚ğHGIMGŒİŠ·‚ÌAlphaOperation‚É•ÏŠ·‚·‚é
+	//		gmodeã®ãƒ¢ãƒ¼ãƒ‰ã‚’HGIMGäº’æ›ã®AlphaOperationã«å¤‰æ›ã™ã‚‹
 	//
 	int alpha;
 	alpha = gfrate;
@@ -2008,18 +2118,18 @@ int Bmscr::GetAlphaOperation( void )
 		if ( gmode >= 4 ) alpha = 255;
 	}
 	switch( gmode ) {
-	case 3:					// ”¼“§–¾blend
+	case 3:					// åŠé€æ˜blend
 		break;
-	case 4:					// ”¼“§–¾blend+“§–¾F
+	case 4:					// åŠé€æ˜blend+é€æ˜è‰²
 		break;
-	case 5:					// F‰ÁZ
+	case 5:					// è‰²åŠ ç®—
 		alpha |= 0x200;
 		break;
-	case 6:					// FŒ¸Z
+	case 6:					// è‰²æ¸›ç®—
 		alpha |= 0x300;
 		break;
 	default:
-		alpha = 0x100;		// •W€
+		alpha = 0x100;		// æ¨™æº–
 		break;
 	}
 	return alpha;
@@ -2030,11 +2140,11 @@ void Bmscr::GradFillEx( int *vx, int *vy, int *vcol )
 {
 
 #ifndef HSP_COMPACT
-	//		ƒOƒ‰ƒf[ƒVƒ‡ƒ““h‚è‚Â‚Ô‚µ(gsquare—p)
-	//		Windows 2000ˆÈ~
+	//		ã‚°ãƒ©ãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³å¡—ã‚Šã¤ã¶ã—(gsquareç”¨)
+	//		Windows 2000ä»¥é™
 	TRIVERTEX axis[4];
 	PTRIVERTEX vtx;
-	static GRADIENT_TRIANGLE grad_square[2] = { {0, 1, 2}, {0, 2, 3} };		// ‰EãA¶‰º (³‚Ì’l‚Ìê‡)
+	static GRADIENT_TRIANGLE grad_square[2] = { {0, 1, 2}, {0, 2, 3} };		// å³ä¸Šã€å·¦ä¸‹ (æ­£ã®å€¤ã®å ´åˆ)
 	int i;
 	int minx,miny,maxx,maxy, ax,ay;
 	minx = sx;
@@ -2065,7 +2175,7 @@ void Bmscr::GradFillEx( int *vx, int *vy, int *vcol )
 
 void Bmscr::SetCelDivideSize( int new_divsx, int new_divsy, int new_ofsx, int new_ofsy )
 {
-	//		ƒZƒ‹•ªŠ„ƒTƒCƒY‚ğİ’è
+	//		ã‚»ãƒ«åˆ†å‰²ã‚µã‚¤ã‚ºã‚’è¨­å®š
 	//
 	if ( new_divsx > 0 ) divsx = new_divsx; else divsx = sx;
 	if ( new_divsy > 0 ) divsy = new_divsy; else divsy = sy;
@@ -2078,7 +2188,7 @@ void Bmscr::SetCelDivideSize( int new_divsx, int new_divsy, int new_ofsx, int ne
 
 int Bmscr::CelPut( Bmscr *src, int id )
 {
-	//		ƒZƒ‹‚ğƒRƒs[
+	//		ã‚»ãƒ«ã‚’ã‚³ãƒ”ãƒ¼
 	//
 	int x,y,srcsx,srcsy;
 	int bak_cx, bak_cy, res;
@@ -2099,12 +2209,14 @@ int Bmscr::CelPut( Bmscr *src, int id )
 
 int Bmscr::RenderAlphaBitmap( int t_psx, int t_psy, int components, unsigned char *src )
 {
-	//		Alpha•t‚«bitmapƒf[ƒ^‚ğ•`‰æ‚·‚é(stb_image—p)
+	//		Alphaä»˜ãbitmapãƒ‡ãƒ¼ã‚¿ã‚’æç”»ã™ã‚‹(stb_imageç”¨)
 	//
 	int a,b,x,y,x2,y2;
 	int psx,psy;
 	BYTE *p;
 	BYTE *p2;
+	BYTE a1, a2, a3;
+	WORD a4, a4r;
 	BYTE a1,a2,a3,a4,a4r;
 	int p_ofs, p2_ofs;
 
@@ -2153,6 +2265,7 @@ int Bmscr::RenderAlphaBitmap( int t_psx, int t_psy, int components, unsigned cha
 	short ha;
 	for(b=0;b<psy;b++) {
 		for(a=0;a<psx;a++) {
+			a1 = *p2++; a2 = *p2++; a3 = *p2++; a4 = *p2++; a4 += a4 >> 7; a4r = 256 - a4;
 			a1=*p2++;a2=*p2++;a3=*p2++;a4=*p2++;a4r=255-a4;
 			if ( a4r == 0 ) {
 				*p++=a3;

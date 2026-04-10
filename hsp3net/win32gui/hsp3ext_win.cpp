@@ -18,12 +18,12 @@
 #include <ocidl.h>
 #include <locale.h>
 
-//	Atl‚Ìƒwƒbƒ_
+//	Atlã®ãƒ˜ãƒƒãƒ€
 //#include <atlbase.h>
 //#include <atlwin.h>
 //#include <atlhost.h>
 
-//	Atl‚ğDLL‚©‚çƒŠƒ“ƒN‚·‚éê‡
+//	Atlã‚’DLLã‹ã‚‰ãƒªãƒ³ã‚¯ã™ã‚‹å ´åˆ
 #if 0
 #pragma comment(lib, "atl.lib")
 #include <atldef.h>
@@ -58,19 +58,16 @@ static void* reffunc_ptrfunc_ptrvalue[2];
 
 #include "hspvar_comobj.h"
 #include "hspvar_variant.h"
-#include "hspvar_netobj.h"
 #include "comobj_event.h"
-
-#include "Hsp3Net.h"
-using namespace tv::hsp::net;
 
 static PVal *comres_pval;
 static APTR comres_aptr;
-
+#include "hspvar_netobj.h"
+#include "Hsp3Net.h"
+using namespace tv::hsp::net;
 // .NET
 static PVal *netres_pval;
 static APTR netres_aptr;
-
 typedef void (CALLBACK *_ATXDLL_INIT)(void);
 typedef HRESULT (CALLBACK *_ATXDLL_GETCTRL)( HWND, void **res );
 static _ATXDLL_INIT fn_atxinit = NULL;
@@ -92,7 +89,7 @@ static LPTSTR atxwndclass = NULL;
 
 static void InitSystemInformation(void)
 {
-	//		ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ & ƒVƒXƒeƒ€ƒtƒHƒ‹ƒ_ŠÖ˜A
+	//		ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ & ã‚·ã‚¹ãƒ†ãƒ ãƒ•ã‚©ãƒ«ãƒ€é–¢é€£
 	char *resp8;
 	LPTSTR cl;
 	HSPCTX* ctx = code_getctx();
@@ -114,6 +111,8 @@ static void InitSystemInformation(void)
 	CutLastChr(ctx->stmp, '\\');
 	sbStrCopy(&(ctx->modfilename), ctx->stmp);
 	strcat(ctx->stmp, "\\hsptv\\");
+	CutLastChr(ctx->stmp, 'Â¥Â¥');
+	strcat(ctx->stmp, "Â¥Â¥hsptvÂ¥Â¥");
 	freehc(&resp8);
 	sbStrCopy(&(ctx->tvfoldername), ctx->stmp);
 }
@@ -200,8 +199,8 @@ static void InitAtxDll( void )
 	if ( hinst_atxdll != NULL ) return;
 
 	struct {
-		TCHAR *pszDllName;			// DLL‚Ì–¼‘O
-		TCHAR *pszWindowClassName;	// ƒEƒCƒ“ƒhƒEƒNƒ‰ƒX‚Ì–¼‘O
+		TCHAR *pszDllName;			// DLLã®åå‰
+		TCHAR *pszWindowClassName;	// ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã®åå‰
 
 	} dllInfo[] = {
 	  { TEXT("atl110.dll"), TEXT("AtlAxWin110") }
@@ -229,10 +228,10 @@ static void InitAtxDll( void )
 
 static void TermAtxDll( void )
 {
-	// Atl.dll ‚Ì‰ğ•ú
+	// Atl.dll ã®è§£æ”¾
 	//
-	// ‚±‚±‚Å‰ğ•ú‚·‚é‚Æ‹­§I—¹‚·‚éê‡‚ª‚ ‚é‚©‚à
-	// (•Ï”‚ÌƒNƒŠ[ƒ“ƒAƒbƒv‚æ‚èæ‚ÉÀs‚³‚ê‚é‚Ì‚ªŒ´ˆöH)
+	// ã“ã“ã§è§£æ”¾ã™ã‚‹ã¨å¼·åˆ¶çµ‚äº†ã™ã‚‹å ´åˆãŒã‚ã‚‹ã‹ã‚‚
+	// (å¤‰æ•°ã®ã‚¯ãƒªãƒ¼ãƒ³ã‚¢ãƒƒãƒ—ã‚ˆã‚Šå…ˆã«å®Ÿè¡Œã•ã‚Œã‚‹ã®ãŒåŸå› ï¼Ÿ)
 	//
 	if ( hinst_atxdll == NULL ) return;
 	FreeLibrary( hinst_atxdll );
@@ -268,7 +267,7 @@ static void Object_WindowDelete( HSPOBJINFO *info )
 // static int AddHSPObject( HWND handle, int mode, int addy, PVal *pv, APTR aptr )
 static int AddHSPObject( HWND handle, int mode, int addy )
 {
-	//		ƒEƒCƒ“ƒhƒDƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚·‚é
+	//		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¥ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹
 	//
 	HSPEXINFO *exinfo;
 	HSPOBJINFO obj;
@@ -280,8 +279,8 @@ static int AddHSPObject( HWND handle, int mode, int addy )
 	if ( handle != NULL ) {
 
 		exinfo = hspctx->exinfo2;
-		wid = *(exinfo->actscr);				// ƒAƒNƒeƒBƒu‚ÈƒEƒCƒ“ƒhƒDID
-		entry = exinfo->HspFunc_addobj( wid );	// ƒGƒ“ƒgƒŠ[ID‚ğ“¾‚é
+		wid = *(exinfo->actscr);				// ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¥ID
+		entry = exinfo->HspFunc_addobj( wid );	// ã‚¨ãƒ³ãƒˆãƒªãƒ¼IDã‚’å¾—ã‚‹
 		bm = GetBMSCR();
 
 		obj.hCld = handle;
@@ -299,7 +298,7 @@ static int AddHSPObject( HWND handle, int mode, int addy )
 		bm->cy += ppy;
 	}
 
-	hspctx->stat = entry;					// ƒVƒXƒeƒ€•Ï”stat‚ÉID‚ğ“ü‚ê‚é
+	hspctx->stat = entry;					// ã‚·ã‚¹ãƒ†ãƒ å¤‰æ•°statã«IDã‚’å…¥ã‚Œã‚‹
 	return entry;
 }
 
@@ -313,19 +312,19 @@ static int AddHSPObject( HWND handle, int mode, int addy )
 
 #ifndef HSP_COM_UNSUPPORTED
 
-// ˆê—Ìˆæ‚Æ‚µ‚Äg—p‚·‚é VARIANT
+// ä¸€æ™‚é ˜åŸŸã¨ã—ã¦ä½¿ç”¨ã™ã‚‹ VARIANT
 static VARIANT comconv_var;
 
 void *comget_variant( VARIANT *var, int *restype, BOOL fvariantret /* = FALSE*/ )
 {
-	//	VARIANTŒ^¨HSP‚ÌŒ^‚É•ÏŠ·‚·‚é
+	//	VARIANTå‹â†’HSPã®å‹ã«å¤‰æ›ã™ã‚‹
 	//
 	int size;
 	BSTR bstr;
 /*
 	rev 43
-	mingw : warning : ’è”‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ”ñ’è”‚Ö‚Ìƒ|ƒCƒ“ƒ^‚É‘ã“ü
-	‚É‘Îˆ
+	mingw : warning : å®šæ•°ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’éå®šæ•°ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã«ä»£å…¥
+	ã«å¯¾å‡¦
 */
 	void const *ptr;
 	if ( fvariantret ) {
@@ -344,7 +343,7 @@ void *comget_variant( VARIANT *var, int *restype, BOOL fvariantret /* = FALSE*/ 
 		return &comconv_var.dblVal;
 
 	case VT_BSTR:
-		// •¶š—ñ‘S‘Ì‚ğ•Ô‚·‚½‚ßAANSI•¶š—ñ‚ğƒoƒCƒiƒŠƒf[ƒ^BSTR‚Æ‚µ‚ÄŠi”[
+		// æ–‡å­—åˆ—å…¨ä½“ã‚’è¿”ã™ãŸã‚ã€ANSIæ–‡å­—åˆ—ã‚’ãƒã‚¤ãƒŠãƒªãƒ‡ãƒ¼ã‚¿BSTRã¨ã—ã¦æ ¼ç´
 		ptr = comconv_var.bstrVal;
 		if ( ptr == NULL ) ptr = L"";
 #ifndef HSPUTF8
@@ -387,7 +386,7 @@ void *comget_variant( VARIANT *var, int *restype, BOOL fvariantret /* = FALSE*/ 
 
 	default:
 		if ( comconv_var.vt & VT_ARRAY ) {
-			*restype = HSPVAR_FLAG_VARIANT;		// SafeArray ‚Í Variant Œ^•Ï”‚Åˆµ‚¤
+			*restype = HSPVAR_FLAG_VARIANT;		// SafeArray ã¯ Variant å‹å¤‰æ•°ã§æ‰±ã†
 			return &comconv_var;
 		}
 		throw HSPERR_INVALID_TYPE;
@@ -396,7 +395,7 @@ void *comget_variant( VARIANT *var, int *restype, BOOL fvariantret /* = FALSE*/ 
 
 void comset_variant( VARIANT *var, void *data, int vtype )
 {
-	//		HSP‚ÌŒ^¨VARIANT Œ^‚É•ÏŠ·‚·‚é
+	//		HSPã®å‹â†’VARIANT å‹ã«å¤‰æ›ã™ã‚‹
 	//
 	IUnknown *punk;
 
@@ -437,17 +436,17 @@ void comset_variant( VARIANT *var, void *data, int vtype )
 
 void comget_variantres( VARIANT *var, HRESULT hr, BOOL noconv )
 {
-	//		•Ô’l‚ÌVARIANT‚ğ•Ï”‚É”½‰f‚³‚¹‚é
+	//		è¿”å€¤ã®VARIANTã‚’å¤‰æ•°ã«åæ˜ ã•ã›ã‚‹
 	//
 	void *ptr;
 	int restype;
 	hspctx->stat = (int)hr;
 	if ( comres_pval == NULL ) return;
 	if ( noconv ) {
-		// Variant ‚Ì‚Ü‚Ü•Ô‚·
+		// Variant ã®ã¾ã¾è¿”ã™
 		code_setva( comres_pval, comres_aptr, HSPVAR_FLAG_VARIANT, var );
 	} else {
-		// •Ï”‚ğ‘Î‰‚·‚éŒ^‚É•ÏŠ·
+		// å¤‰æ•°ã‚’å¯¾å¿œã™ã‚‹å‹ã«å¤‰æ›
 		if ( var->vt != VT_EMPTY ) {
 			ptr = comget_variant( var, &restype );
 			code_setva( comres_pval, comres_aptr, restype, ptr );
@@ -463,7 +462,7 @@ void netget_variantres(NativePointer* ptr)
 
 DISPID get_dispid( IUnknown* punk, char *propname, BOOL *bVariant )
 {
-	//		IDispatch ‚Ì DISPID ‚ğæ“¾‚·‚é
+	//		IDispatch ã® DISPID ã‚’å–å¾—ã™ã‚‹
 	//
 	HRESULT hr;
 	IDispatch *disp;
@@ -472,6 +471,7 @@ DISPID get_dispid( IUnknown* punk, char *propname, BOOL *bVariant )
 	LPOLESTR list[]={ (LPOLESTR)(hspctx->stmp) };
 
 	if ( name[0] == '\0' ) return DISPID_VALUE;
+	if ( name[0] == 'Â¥0' ) return DISPID_VALUE;
 
 	if ( bVariant != NULL ) *bVariant = ( name[0] == '.' );
 	if ( name[0] == '.' ) name++;
@@ -514,15 +514,15 @@ int call_method( void *iptr, int index, int *prm, int count )
 
 int call_method2( char *prmbuf, const STRUCTDAT *st )
 {
-	// w’è IID ‚ğæ“¾‚µ‚Äƒƒ\ƒbƒhŒÄ‚Ño‚µ
-	// (code_expand_next() ‚©‚çŒÄ‚Î‚ê‚é)
+	// æŒ‡å®š IID ã‚’å–å¾—ã—ã¦ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—
+	// (code_expand_next() ã‹ã‚‰å‘¼ã°ã‚Œã‚‹)
 	//
 	const LIBDAT *lib;
 	const IID *piid;
 	IUnknown *punk, *punk2;
 	int result;
 	HRESULT hr;
-	// IID î•ñ‚ğæ‚Á‚Ä‚­‚é
+	// IID æƒ…å ±ã‚’å–ã£ã¦ãã‚‹
 	lib = &hspctx->mem_linfo[ st->index ];
 	piid = (IID *)strp( lib->nameidx );
 	punk = *(IUnknown **)prmbuf;
@@ -537,21 +537,21 @@ int call_method2( char *prmbuf, const STRUCTDAT *st )
 
 static BOOL GetIIDFromString( IID *iid, char *ps, bool fClsid = false )
 {
-	//		SJIS•¶š—ñ IID ‚©‚ç IID \‘¢‘Ì‚ğ“¾‚é
+	//		SJISæ–‡å­—åˆ— IID ã‹ã‚‰ IID æ§‹é€ ä½“ã‚’å¾—ã‚‹
 	//
-	//		fClsid ‚ª^‚Ì‚Æ‚«AProgID ‚©‚ç‚Ì CLSID æ“¾‚ğ‚İ‚é
-	//		ProgID ‚Ì•ÏŠ·‚É¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·
-	//		(‚»‚êˆÈŠO‚ÌƒGƒ‰[‚ÍƒGƒ‰[‚ğ throw)
+	//		fClsid ãŒçœŸã®ã¨ãã€ProgID ã‹ã‚‰ã® CLSID å–å¾—ã‚’è©¦ã¿ã‚‹
+	//		ProgID ã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆã¯ FALSE ã‚’è¿”ã™
+	//		(ãã‚Œä»¥å¤–ã®ã‚¨ãƒ©ãƒ¼ã¯ã‚¨ãƒ©ãƒ¼ã‚’ throw)
 	//
 	HRESULT hr;
 	cnvwstr( hspctx->stmp, ps, HSPCTX_REFSTR_MAX/sizeof(WCHAR)-1 );
 	if ( *ps == '{' ) {
-		// GUID •¶š—ñ ¨ GUID \‘¢‘Ì
+		// GUID æ–‡å­—åˆ— â†’ GUID æ§‹é€ ä½“
 		hr = IIDFromString( (LPOLESTR)hspctx->stmp, iid );
 		if ( SUCCEEDED(hr) ) return TRUE;
 	}
 	if ( fClsid ) {
-		// ProgID •¶š—ñ ¨ GUID \‘¢‘Ì
+		// ProgID æ–‡å­—åˆ— â†’ GUID æ§‹é€ ä½“
 		hr = CLSIDFromProgID( (LPOLESTR)hspctx->stmp, iid );
 		if ( SUCCEEDED(hr) ) return TRUE;
 		return FALSE;
@@ -572,15 +572,15 @@ static BOOL GetIIDFromString( IID *iid, char *ps, bool fClsid = false )
 static int cmdfunc_ctrlcmd( int cmd )
 {
 	//		cmdfunc : TYPE_DLLCTRL
-	//		(Šg’£DLLƒRƒ“ƒgƒ[ƒ‹ƒRƒ}ƒ“ƒh)
+	//		(æ‹¡å¼µDLLã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã‚³ãƒãƒ³ãƒ‰)
 	//
-	code_next();							// Ÿ‚ÌƒR[ƒh‚ğæ“¾(Å‰‚É•K‚¸•K—v‚Å‚·)
+	code_next();							// æ¬¡ã®ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—(æœ€åˆã«å¿…ãšå¿…è¦ã§ã™)
 
 	if ( cmd >= TYPE_OFFSET_COMOBJ ) {
 #ifdef HSP_COM_UNSUPPORTED
 		throw ( HSPERR_UNSUPPORTED_FUNCTION );
 #else
-		// COM ƒCƒ“ƒ^[ƒtƒF[ƒXƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ
+		// COM ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰ã®å‘¼ã³å‡ºã—
 		STRUCTDAT *st;
 		st = GetPRM( cmd - TYPE_OFFSET_COMOBJ );
 		hspctx->stat = code_expand_and_call( st );
@@ -588,7 +588,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 #endif
 	}
 
-	switch( cmd ) {							// ƒTƒuƒRƒ}ƒ“ƒh‚²‚Æ‚Ì•ªŠò
+	switch( cmd ) {							// ã‚µãƒ–ã‚³ãƒãƒ³ãƒ‰ã”ã¨ã®åˆ†å²
 
 
 	case 0x00:								// newcom
@@ -607,16 +607,16 @@ static int cmdfunc_ctrlcmd( int cmd )
 		STRUCTDAT *st;
 		int inimode;
 
-		// ‘æ‚Pƒpƒ‰ƒ[ƒ^FV‚µ‚¢ƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚é•Ï”
-		// (•Ï”‚ÉNULLƒ|ƒCƒ“ƒ^‚ğŠi”[)
+		// ç¬¬ï¼‘ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šæ–°ã—ã„ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ãƒã‚¤ãƒ³ã‚¿ã‚’æ ¼ç´ã™ã‚‹å¤‰æ•°
+		// (å¤‰æ•°ã«NULLãƒã‚¤ãƒ³ã‚¿ã‚’æ ¼ç´)
 		aptr = code_getva( &pval );
 		iptr = NULL;
 		code_setva( pval, aptr, TYPE_COMOBJ, &iptr );
 		ppunkNew = (IUnknown **)HspVarCorePtrAPTR( pval, aptr );
 
-		// CLSID / IID î•ñ‚ğæ“¾
+		// CLSID / IID æƒ…å ±ã‚’å–å¾—
 		if ( !code_getexflg() && *type == TYPE_DLLCTRL ) {
-			// ‘æ‚Qƒpƒ‰ƒ[ƒ^F#usecom “o˜^î•ñ
+			// ç¬¬ï¼’ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼š#usecom ç™»éŒ²æƒ…å ±
 			st = code_getcomst();
 			if ( st->otindex != -1 ) throw HSPERR_TYPE_MISMATCH;
 			lib = &hspctx->mem_linfo[ st->index ];
@@ -625,21 +625,22 @@ static int cmdfunc_ctrlcmd( int cmd )
 			piid  = (IID *)strp( lib->nameidx );
 			piid2 = NULL;
 		} else {
-			// ‘æ‚Qƒpƒ‰ƒ[ƒ^F•¶š—ñ CLSID
-			// (IID ‚ÍƒfƒtƒHƒ‹ƒg‚Å IID_IDispatch, ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î IID_IUnknown )
+			// ç¬¬ï¼’ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šæ–‡å­—åˆ— CLSID
+			// (IID ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ IID_IDispatch, ã‚µãƒãƒ¼ãƒˆã•ã‚Œã¦ã„ãªã‘ã‚Œã° IID_IUnknown )
 			clsid_name = code_getds("");
 			piid  = &IID_IDispatch;
 			piid2 = &IID_IUnknown;
 		}
-		inimode = code_getdi(0);				// ‰Šú‰»ƒ‚[ƒh
-		punkDef = (IUnknown *)code_getdi(0);	// ƒfƒtƒHƒ‹ƒgƒIƒuƒWƒFƒNƒg
+		inimode = code_getdi(0);				// åˆæœŸåŒ–ãƒ¢ãƒ¼ãƒ‰
+		punkDef = (IUnknown *)code_getdi(0);	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 
-		// V‹KCLSID‚©‚çƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬
+		// æ–°è¦CLSIDã‹ã‚‰ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œæˆ
 		hspctx->stat = 0;
 		switch ( inimode ) {
 		 case 0:
-			// V‹K‚Éƒ[ƒh
+			// æ–°è¦ã«ãƒ­ãƒ¼ãƒ‰
 			if ( clsid_name[0]!='\0' ) {
+			if ( clsid_name[0]!='Â¥0' ) {
 				if ( GetIIDFromString(&clsid,clsid_name,true) != FALSE &&
 					 SUCCEEDED( CoCreateInstance( clsid, NULL, CLSCTX_SERVER, *piid, (void**)ppunkNew )) &&
 					 *ppunkNew != NULL )
@@ -656,10 +657,10 @@ static int cmdfunc_ctrlcmd( int cmd )
 			}
 			break;
 		 case -2:
-			// ƒIƒuƒWƒFƒNƒg‚ğ–¾¦“I‚Éw’è‚·‚éê‡ ( AddRef() ‚ ‚è)
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ˜ç¤ºçš„ã«æŒ‡å®šã™ã‚‹å ´åˆ ( AddRef() ã‚ã‚Š)
 			if ( punkDef != NULL ) punkDef->AddRef();
 		 case -1:
-			// ƒIƒuƒWƒFƒNƒg‚ğ–¾¦“I‚Éw’è‚·‚éê‡ ( AddRef() ‚È‚µ)
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ˜ç¤ºçš„ã«æŒ‡å®šã™ã‚‹å ´åˆ ( AddRef() ãªã—)
 			*ppunkNew = punkDef;
 			break;
 		 default:
@@ -667,6 +668,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 		}
 	#ifdef HSP_COMOBJ_DEBUG
 		COM_DBG_MSG( "newcom : pObj=%p : &pObj=%p\n", *ppunkNew, ppunkNew);
+		COM_DBG_MSG( "newcom : pObj=%p : &pObj=%pÂ¥n", *ppunkNew, ppunkNew);
 	#endif
 		break;
 		}
@@ -686,36 +688,36 @@ static int cmdfunc_ctrlcmd( int cmd )
 		STRUCTDAT *st;
 		LIBDAT *lib;
 
-		// ‘æ‚Pƒpƒ‰ƒ[ƒ^FV‚µ‚¢ƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚é•Ï”
+		// ç¬¬ï¼‘ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šæ–°ã—ã„ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ãƒã‚¤ãƒ³ã‚¿ã‚’æ ¼ç´ã™ã‚‹å¤‰æ•°
 		aptrNew = code_getva( &pvalNew );
 
-		// ‘æ‚Qƒpƒ‰ƒ[ƒ^FŠù‘¶‚ÌCOMƒIƒuƒWƒFƒNƒg
+		// ç¬¬ï¼’ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šæ—¢å­˜ã®COMã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 		aptr = code_getva( &pval );
 		if ( pval->flag != TYPE_COMOBJ ) throw ( HSPERR_TYPE_MISMATCH );
 		ppunkSrc = (IUnknown **)HspVarCorePtrAPTR( pval, aptr );
 		if ( ! IsVaridComPtr(ppunkSrc) ) throw ( HSPERR_COMDLL_ERROR );
 
-		// IID î•ñ‚ğæ“¾
+		// IID æƒ…å ±ã‚’å–å¾—
 		if ( *type == TYPE_DLLCTRL ) {
-			// ‘æ‚Rƒpƒ‰ƒ[ƒ^F#usecom “o˜^î•ñ
+			// ç¬¬ï¼“ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼š#usecom ç™»éŒ²æƒ…å ±
 			st = code_getcomst();
 			if ( st->otindex != -1 ) throw ( HSPERR_TYPE_MISMATCH );
 			lib = &hspctx->mem_linfo[ st->index ];
 			piid = (IID *)strp( lib->nameidx );
 		} else {
-			// ‘æ‚Rƒpƒ‰ƒ[ƒ^F•¶š—ñ IID
+			// ç¬¬ï¼“ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šæ–‡å­—åˆ— IID
 			GetIIDFromString( &iid, code_gets() );
 			piid = &iid;
 		}
 
 		if ( pvalNew->flag != TYPE_COMOBJ ) {
-			// ‘ã“ü‚É‚æ‚èŒ^•ÏŠ·
+			// ä»£å…¥ã«ã‚ˆã‚Šå‹å¤‰æ›
 			iptr = NULL;
 			code_setva( pvalNew, aptrNew, TYPE_COMOBJ, &iptr );
 		}
 		ppunkDst = (IUnknown **)HspVarCorePtrAPTR( pvalNew, aptrNew );
 
-		// query ‚É‚æ‚èƒCƒ“ƒXƒ^ƒ“ƒX‚ğ“¾‚é
+		// query ã«ã‚ˆã‚Šã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å¾—ã‚‹
 		QueryComPtr( ppunkDst, *ppunkSrc, piid );
 		if ( IsVaridComPtr(ppunkSrc) )
 			hspctx->stat = 0;
@@ -736,7 +738,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 		VARIANT *var;
 		void *ptr;
 
-		// ‘æ‚Pƒpƒ‰ƒ[ƒ^F‰ğ•ú‚·‚éCOMƒIƒuƒWƒFƒNƒg•Ï”
+		// ç¬¬ï¼‘ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šè§£æ”¾ã™ã‚‹COMã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå¤‰æ•°
 		aptr = code_getva( &pval );
 		ptr = HspVarCorePtrAPTR( pval, aptr );
 		switch ( pval->flag ) {
@@ -752,7 +754,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 			throw HSPERR_TYPE_MISMATCH;
 		}
 
-		// ‚±‚Ìƒ^ƒCƒ~ƒ“ƒO‚ÅˆêƒIƒuƒWƒFƒNƒg‚àíœ‚µ‚¿‚á‚¤
+		// ã“ã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ä¸€æ™‚ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚‚å‰Šé™¤ã—ã¡ã‚ƒã†
 		if ( comconv_var.vt != VT_EMPTY ) VariantClear( &comconv_var );
 		break;
 		}
@@ -783,11 +785,13 @@ static int cmdfunc_ctrlcmd( int cmd )
         if (size < sizew*(int)sizeof(HSPAPICHAR)){
             memcpy(ptr, hactmp1, size);
 			*(HSPAPICHAR*)(ptr + (size - 1) / sizeof(HSPAPICHAR)) = TEXT('\0');
+			*(HSPAPICHAR*)(ptr + (size - 1) / sizeof(HSPAPICHAR)) = TEXT('Â¥0');
             hspctx->stat = -sizew*sizeof(HSPAPICHAR);
 		}
         else{
             memcpy(ptr, hactmp1, (sizew - 1)*sizeof(HSPAPICHAR));
 			((HSPAPICHAR*)ptr)[sizew - 1] = TEXT('\0');
+			((HSPAPICHAR*)ptr)[sizew - 1] = TEXT('Â¥0');
             hspctx->stat = sizew*sizeof(HSPAPICHAR);
 		}
         freehac(&hactmp1);
@@ -809,6 +813,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 #endif	// HSP_COM_UNSUPPORTED
 
 	case 0x05:								// 	axobj
+#if defined( HSP_COM_UNSUPPORTED )||defined( HSPDISH )
 #ifdef HSP_COM_UNSUPPORTED
 		throw ( HSPERR_UNSUPPORTED_FUNCTION );
 #else
@@ -829,16 +834,16 @@ static int cmdfunc_ctrlcmd( int cmd )
 
 		bm = GetBMSCR();
 
-		// ‘æ‚Pƒpƒ‰ƒ[ƒ^FV‚µ‚¢ƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚é•Ï”
-		// (‚ ‚ç‚©‚¶‚ß•Ï”‚ÉNULL‚ğŠi”[)
+		// ç¬¬ï¼‘ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šæ–°ã—ã„ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ãƒã‚¤ãƒ³ã‚¿ã‚’æ ¼ç´ã™ã‚‹å¤‰æ•°
+		// (ã‚ã‚‰ã‹ã˜ã‚å¤‰æ•°ã«NULLã‚’æ ¼ç´)
 		aptr = code_getva( &pval );
 		iptr = NULL;
 		code_setva( pval, aptr, TYPE_COMOBJ, &iptr );
 		ppunk = (IUnknown **)HspVarCorePtrAPTR( pval, aptr );
 
-		// ƒIƒuƒWƒFƒNƒg‚Ì CLSID, ProgID, etc.
+		// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã® CLSID, ProgID, etc.
 		if ( *type == TYPE_DLLCTRL ) {
-			// ‘æ‚Qƒpƒ‰ƒ[ƒ^F#usecom “o˜^î•ñ‚©‚çæ“¾
+			// ç¬¬ï¼’ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼š#usecom ç™»éŒ²æƒ…å ±ã‹ã‚‰å–å¾—
 			st = code_getcomst();
 			if ( st->otindex != -1 ) throw ( HSPERR_TYPE_MISMATCH );
 			lib = &hspctx->mem_linfo[ st->index ];
@@ -846,20 +851,20 @@ static int cmdfunc_ctrlcmd( int cmd )
 			if ( lib->clsid == -1 ) throw ( HSPERR_INVALID_PARAMETER );
 			strncpy( clsid_name8, strp(lib->clsid), sizeof(clsid_name8)-1 );
 		} else {
-			// ‘æ‚Qƒpƒ‰ƒ[ƒ^F•¶š—ñ CLSID or ProgID ‚ğæ“¾ (IID ‚Í IDispatch)
+			// ç¬¬ï¼’ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šæ–‡å­—åˆ— CLSID or ProgID ã‚’å–å¾— (IID ã¯ IDispatch)
 			piid = &IID_IDispatch;
 			strncpy( clsid_name8, code_gets(), sizeof(clsid_name8)-1 );
 		}
 
-		// ƒRƒ“ƒgƒ[ƒ‹‚ÌƒTƒCƒY
+		// ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®ã‚µã‚¤ã‚º
 		sx = code_getdi( bm->sx );
 		sy = code_getdi( bm->sy );
 
-		//		ActiveX‚Æ‚µ‚Äƒ[ƒh
+		//		ActiveXã¨ã—ã¦ãƒ­ãƒ¼ãƒ‰
 		//
 		if ( fn_atxinit == NULL ) throw ( HSPERR_UNSUPPORTED_FUNCTION );
 		hwnd = CreateWindow( atxwndclass, chartoapichar(clsid_name8,&clsid_name),
-				WS_CHILD, 			// Å‰‚Í WS_VISIBLE ‚È‚µ (Œã‚Å ShowWindow() )
+				WS_CHILD, 			// æœ€åˆã¯ WS_VISIBLE ãªã— (å¾Œã§ ShowWindow() )
 				bm->cx, bm->cy, sx, sy,
 				bm->hwnd, (HMENU)0, (HINSTANCE)hspctx->instance, NULL );
 		freehac(&clsid_name);
@@ -869,25 +874,26 @@ static int cmdfunc_ctrlcmd( int cmd )
 			punkObj = NULL;
 			fn_atxgetctrl( hwnd, (void**)&punkObj );
 			if ( punkObj ) {
-				// w’è IID ‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©
+				// æŒ‡å®š IID ãŒå­˜åœ¨ã™ã‚‹ã‹ã©ã†ã‹
 				hr = punkObj->QueryInterface( *piid, (void**)&punkObj2 );
 				punkObj->Release();
 			}
 		}
 		if ( punkObj2 == NULL ) {
-			// –Ú“IƒIƒuƒWƒFƒNƒg‚Å‚Í‚È‚¢‚Æ‚«ƒRƒ“ƒgƒ[ƒ‹‚ğíœ
+			// ç›®çš„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã¯ãªã„ã¨ãã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã‚’å‰Šé™¤
 			if (hwnd) { DestroyWindow( hwnd ); }
 			hspctx->stat = -1;
 			break;
 		}
-		// COM Œ^•Ï”‚ÉŠi”[
+		// COM å‹å¤‰æ•°ã«æ ¼ç´
 		*ppunk = punkObj2;
 
-		// HSP‚ÌƒEƒCƒ“ƒhƒDƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Ä“o˜^‚·‚é
+		// HSPã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¥ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã—ã¦ç™»éŒ²ã™ã‚‹
 		ShowWindow( hwnd, SW_SHOW );
 		id = AddHSPObject( hwnd, HSPOBJ_TAB_SKIP, sy );
 #ifdef HSP_COMOBJ_DEBUG
 		Alertf( "axobj : pObj=%p : &pObj=%p\n", *ppunk, ppunk);
+		Alertf( "axobj : pObj=%p : &pObj=%pÂ¥n", *ppunk, ppunk);
 	#endif
 		break;
 		}
@@ -919,20 +925,20 @@ static int cmdfunc_ctrlcmd( int cmd )
 		if ( prm[3] <= 0 ) prm[3] = bm->oy;
 
 		hwnd = CreateWindowEx(
-		    (DWORD) prm[0],			// Šg’£ƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹
-		    chartoapichar(clsname8,&clsname),	// ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX–¼
-		    chartoapichar(winname8,&winname),	// ƒEƒBƒ“ƒhƒE–¼
-		    (DWORD) prm[1],			// ƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹
+		    (DWORD) prm[0],			// æ‹¡å¼µã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¹ã‚¿ã‚¤ãƒ«
+		    chartoapichar(clsname8,&clsname),	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹å
+		    chartoapichar(winname8,&winname),	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å
+		    (DWORD) prm[1],			// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¹ã‚¿ã‚¤ãƒ«
 			bm->cx, bm->cy, prm[2], prm[3],		// X,Y,SIZEX,SIZEY
-			bm->hwnd,				// eƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-		    (HMENU) prm[4],			// ƒƒjƒ…[ƒnƒ“ƒhƒ‹‚Ü‚½‚ÍqƒEƒBƒ“ƒhƒEID
-			bm->hInst,				// ƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹
-		    (PVOID) prm[5]			// ƒEƒBƒ“ƒhƒEì¬ƒf[ƒ^
+			bm->hwnd,				// è¦ªã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+		    (HMENU) prm[4],			// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ³ãƒ‰ãƒ«ã¾ãŸã¯å­ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ID
+			bm->hInst,				// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒãƒ³ãƒ‰ãƒ«
+		    (PVOID) prm[5]			// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆãƒ‡ãƒ¼ã‚¿
 			);
 			freehac(&clsname);
 			freehac(&winname);
 
-		// AddHSPObject( hwnd, HSPOBJ_TAB_SKIP, prm[3], NULL, 0 );			// HSP‚ÌƒEƒCƒ“ƒhƒDƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Ä“o˜^‚·‚é
+		// AddHSPObject( hwnd, HSPOBJ_TAB_SKIP, prm[3], NULL, 0 );			// HSPã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¥ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã—ã¦ç™»éŒ²ã™ã‚‹
 		AddHSPObject( hwnd, HSPOBJ_TAB_SKIP, prm[3] );
 		break;
 #endif	// HSPDISH
@@ -985,35 +991,37 @@ static int cmdfunc_ctrlcmd( int cmd )
 		unsigned short *subr;
 		IUnknown **ppunk, **ppunkEvent;
 
-		// ‘æ‚Pƒpƒ‰ƒ[ƒ^FƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰ƒIƒuƒWƒFƒNƒg (IEventHandler) ‚ğŠi”[‚·‚é•Ï”
-		// (‚ ‚ç‚©‚¶‚ß NULL ‚Å‰Šú‰»)
+		// ç¬¬ï¼‘ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ (IEventHandler) ã‚’æ ¼ç´ã™ã‚‹å¤‰æ•°
+		// (ã‚ã‚‰ã‹ã˜ã‚ NULL ã§åˆæœŸåŒ–)
 		aptr = code_getva( &pval );
 		iptr = NULL;
 		code_setva( pval, aptr, TYPE_COMOBJ, &iptr );
 		ppunkEvent = (IUnknown **)HspVarCorePtrAPTR( pval, aptr );
 
-		// ‘æ‚Qƒpƒ‰ƒ[ƒ^FCOMƒIƒuƒWƒFƒNƒg‚ğŠi”[‚µ‚½•Ï”
+		// ç¬¬ï¼’ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šCOMã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ ¼ç´ã—ãŸå¤‰æ•°
 		aptr = code_getva( &pval );
 		if ( pval->flag != TYPE_COMOBJ ) throw ( HSPERR_TYPE_MISMATCH );
 		ppunk = (IUnknown **)HspVarCorePtrAPTR( pval, aptr );
 		if ( ! IsVaridComPtr(ppunk) ) throw ( HSPERR_COMDLL_ERROR );
 
-		// ‘æ‚Rƒpƒ‰ƒ[ƒ^FƒRƒlƒNƒVƒ‡ƒ“ƒ|ƒCƒ“ƒgIID (•¶š—ñŒ`®)
+		// ç¬¬ï¼“ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ãƒã‚¤ãƒ³ãƒˆIID (æ–‡å­—åˆ—å½¢å¼)
 		ps = code_getds("");
 		if ( ps[0] != '\0' ) {
+		if ( ps[0] != 'Â¥0' ) {
 			piid = &iid;
 			GetIIDFromString( piid, ps );
 		} else {
-			piid = NULL;	// NULL ‚Ì‚Æ‚«ƒfƒtƒHƒ‹ƒgIID ‚ª©“®“I‚Éæ“¾‚³‚ê‚é
+			piid = NULL;	// NULL ã®ã¨ããƒ‡ãƒ•ã‚©ãƒ«ãƒˆIID ãŒè‡ªå‹•çš„ã«å–å¾—ã•ã‚Œã‚‹
 		}
 
-		// ‘æ‚Sƒpƒ‰ƒ[ƒ^FƒR[ƒ‹ƒoƒbƒN—p‚ÌƒTƒuƒ‹[ƒ`ƒ“ƒ‰ƒxƒ‹
+		// ç¬¬ï¼”ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ç”¨ã®ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³ãƒ©ãƒ™ãƒ«
 		subr = code_getlb2();
 
-		// ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰ì¬EÚ‘±
+		// ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©ä½œæˆãƒ»æ¥ç¶š
 		SetComEvent( ppunkEvent, ppunk, piid, subr );
 	#ifdef HSP_COMOBJ_DEBUG
 		COM_DBG_MSG( "comevent : pEvent=%p : pObj=%p\n", *ppunkEvent, *ppunk);
+		COM_DBG_MSG( "comevent : pEvent=%p : pObj=%pÂ¥n", *ppunkEvent, *ppunk);
 	#endif
 		break;
 		}
@@ -1033,22 +1041,22 @@ static int cmdfunc_ctrlcmd( int cmd )
 		IUnknown **ppunk;
 		VARIANT varTemp;
 
-		// ‘æ‚Pƒpƒ‰ƒ[ƒ^FƒCƒxƒ“ƒg‚Ìƒpƒ‰ƒ[ƒ^‚ğŠi”[‚·‚é•Ï”
+		// ç¬¬ï¼‘ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šã‚¤ãƒ™ãƒ³ãƒˆã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹å¤‰æ•°
 		aptr = code_getva( &pval );
 
-		// ‘æ‚Qƒpƒ‰ƒ[ƒ^FƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰ƒIƒuƒWƒFƒNƒg•Ï”
+		// ç¬¬ï¼’ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå¤‰æ•°
 		aptr2 = code_getva( &pval2 );
 		if ( pval2->flag != TYPE_COMOBJ ) throw ( HSPERR_TYPE_MISMATCH );
 		ppunk = (IUnknown **)HspVarCorePtrAPTR( pval2, aptr2 );
 		if ( ! IsVaridComPtr(ppunk) ) throw ( HSPERR_COMDLL_ERROR );
 
-		// ‘æ‚Rƒpƒ‰ƒ[ƒ^Fƒpƒ‰ƒ[ƒ^ƒCƒ“ƒfƒbƒNƒX
+		// ç¬¬ï¼“ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 		p1 = code_getdi(0);
 
-		// ‘æ‚Sƒpƒ‰ƒ[ƒ^F•¶š—ñ•ÏŠ·ƒtƒ‰ƒO
+		// ç¬¬ï¼”ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šæ–‡å­—åˆ—å¤‰æ›ãƒ•ãƒ©ã‚°
 		p2 = code_getdi(0);
 
-		// ƒCƒxƒ“ƒg‚Ìƒpƒ‰ƒ[ƒ^æ“¾
+		// ã‚¤ãƒ™ãƒ³ãƒˆã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å–å¾—
 		v = GetEventArg( *ppunk, p1 );
 		if ( v == NULL ) throw ( HSPERR_ILLEGAL_FUNCTION );
 		switch ( p2 ) {
@@ -1101,13 +1109,13 @@ static int cmdfunc_ctrlcmd( int cmd )
 		case 0:
 		case 2:
 		case 4:
-			// ”z—ñ•Ï”‚©‚ç SafeArray ‚É•ÏŠ·
+			// é…åˆ—å¤‰æ•°ã‹ã‚‰ SafeArray ã«å¤‰æ›
 			VariantInit( &varTemp );
 			code_setva( pval1, aptr1, HSPVAR_FLAG_VARIANT, &varTemp );
 			variant = (VARIANT *)HspVarCorePtrAPTR( pval1, aptr1 );
-			VariantClear( variant );		// ˆê‰
+			VariantClear( variant );		// ä¸€å¿œ
 			if ( convdir == 2 ) {
-				// ƒoƒCƒiƒŠƒf[ƒ^iˆêŸŒ³‚Ì‚İj
+				// ãƒã‚¤ãƒŠãƒªãƒ‡ãƒ¼ã‚¿ï¼ˆä¸€æ¬¡å…ƒã®ã¿ï¼‰
 				void *ptr = HspVarCorePtrAPTR( pval2, aptr2 );
 				psa = CreateBinarySafeArray( ptr, size, &vt );
 			} else {
@@ -1119,7 +1127,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 			break;
 		case 1:
 		case 3:
-			// SafeArray ‚©‚ç”z—ñ•Ï”‚É•ÏŠ·
+			// SafeArray ã‹ã‚‰é…åˆ—å¤‰æ•°ã«å¤‰æ›
 			if ( pval2->flag != HSPVAR_FLAG_VARIANT ) throw HSPERR_INVALID_TYPE;
 			variant = (VARIANT *)HspVarCorePtrAPTR( pval2, aptr2 );
 			if ( (variant->vt & VT_ARRAY) == 0 ) throw HSPERR_INVALID_TYPE;
@@ -1133,7 +1141,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 			if ( convdir == 1 ) {
 				ConvSafeArray2Var( pval1, psa, vt );
 			} else {
-				// ƒoƒCƒiƒŠƒf[ƒ^iˆêŸŒ³‚Ì‚İj
+				// ãƒã‚¤ãƒŠãƒªãƒ‡ãƒ¼ã‚¿ï¼ˆä¸€æ¬¡å…ƒã®ã¿ï¼‰
 				int varsize;
 				void *ptr = HspVarCorePtrAPTR( pval1, aptr1 );				if ( vt != VT_UI1 && vt != VT_I1 ) throw HSPERR_INVALID_TYPE;
 				SafeArrayGetLBound( psa, 1, &lbound );
@@ -1171,11 +1179,13 @@ static int cmdfunc_ctrlcmd( int cmd )
 		if (size <= sizea){
 			memcpy(ptr, actmp1, size - 1);
 			((char*)ptr)[size - 1] = '\0';
+			((char*)ptr)[size - 1] = 'Â¥0';
 			hspctx->stat = -sizea;
 		}
 		else{
 			memcpy(ptr, actmp1, sizea - 1);
 			((char*)ptr)[sizea - 1] = '\0';
+			((char*)ptr)[sizea - 1] = 'Â¥0';
 			hspctx->stat = sizea;
 		}
 		freeac(&actmp1);
@@ -1192,28 +1202,28 @@ static int cmdfunc_ctrlcmd( int cmd )
 		int prm;
 		Assembly^ ret;
 
-		// ˆø”:1iƒAƒZƒ“ƒuƒŠ–¼/ƒtƒ@ƒCƒ‹–¼/C#ƒ\[ƒXƒR[ƒhj
+		// å¼•æ•°:1ï¼ˆã‚¢ã‚»ãƒ³ãƒ–ãƒªå/ãƒ•ã‚¡ã‚¤ãƒ«å/C#ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ï¼‰
 		ps = code_gets();
 		auto p1 = marshal_as<System::String^>(ps);
 
-		// ˆø”:2i“®ìƒtƒ‰ƒOj
+		// å¼•æ•°:2ï¼ˆå‹•ä½œãƒ•ãƒ©ã‚°ï¼‰
 		opt = code_getdi(0);
 
-		if ( opt == 0) {		// GACã‚Ì’Z‚¢Œ`®‚ÌƒAƒZƒ“ƒuƒŠ–¼‚ÌƒAƒZƒ“ƒuƒŠ‚ğ“Ç‚İ‚Ş
+		if ( opt == 0) {		// GACä¸Šã®çŸ­ã„å½¢å¼ã®ã‚¢ã‚»ãƒ³ãƒ–ãƒªåã®ã‚¢ã‚»ãƒ³ãƒ–ãƒªã‚’èª­ã¿è¾¼ã‚€
 			ret = GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName(p1);
 		}
-		else if ( opt == 1) {	// GACã‚Ì’·‚¢Œ`®‚ÌƒAƒZƒ“ƒuƒŠ–¼‚ÌƒAƒZƒ“ƒuƒŠ‚ğ“Ç‚İ‚Ş
+		else if ( opt == 1) {	// GACä¸Šã®é•·ã„å½¢å¼ã®ã‚¢ã‚»ãƒ³ãƒ–ãƒªåã®ã‚¢ã‚»ãƒ³ãƒ–ãƒªã‚’èª­ã¿è¾¼ã‚€
 			ret = GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_FullName(p1);
 		}
-		else if ( opt == 2) {	// ƒtƒ@ƒCƒ‹–¼‚©‚çƒAƒZƒ“ƒuƒŠ‚ğ“Ç‚İ‚Ş
+		else if ( opt == 2) {	// ãƒ•ã‚¡ã‚¤ãƒ«åã‹ã‚‰ã‚¢ã‚»ãƒ³ãƒ–ãƒªã‚’èª­ã¿è¾¼ã‚€
 			ret = GlobalAccess::g_Hsp3Net->LoadAssemblyByFile(p1);
 		}
-		else if ( opt == 3 || opt == 4) {	// C#/VB ƒ\[ƒXƒR[ƒh‚ğƒRƒ“ƒpƒCƒ‹‚µ‚ÄƒAƒZƒ“ƒuƒŠ‚ğ“Ç‚İ‚Ş
-			// ˆø”:3i–½–¼‚·‚éƒAƒZƒ“ƒuƒŠ–¼j
+		else if ( opt == 3 || opt == 4) {	// C#/VB ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã—ã¦ã‚¢ã‚»ãƒ³ãƒ–ãƒªã‚’èª­ã¿è¾¼ã‚€
+			// å¼•æ•°:3ï¼ˆå‘½åã™ã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒªåï¼‰
 			ps = code_gets();
 			auto p3 = marshal_as<System::String^>(ps);
 
-			// ˆø”:4 ˆÈ~‚Í‰Â•Ï’·iQÆ‚·‚éƒAƒZƒ“ƒuƒŠ‚ª‚ ‚éDLLƒtƒ@ƒCƒ‹–¼/ƒpƒXj
+			// å¼•æ•°:4 ä»¥é™ã¯å¯å¤‰é•·ï¼ˆå‚ç…§ã™ã‚‹ã‚¢ã‚»ãƒ³ãƒ–ãƒªãŒã‚ã‚‹DLLãƒ•ã‚¡ã‚¤ãƒ«å/ãƒ‘ã‚¹ï¼‰
 			List<String^>^ listParams = gcnew List<String^>();
 
 			do
@@ -1247,7 +1257,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 			throw HSPERR_INVALID_PARAMETER;
 		}
 
-		// –ß‚è’l
+		// æˆ»ã‚Šå€¤
 		hspctx->stat = (ret != nullptr) ? 0 : -1;
 
 		break;
@@ -1264,24 +1274,24 @@ static int cmdfunc_ctrlcmd( int cmd )
 		NativePointer* pNativePtr;
 		NetClass^ ret;
 
-		// ˆø”:1i–ß‚è’lj
+		// å¼•æ•°:1ï¼ˆæˆ»ã‚Šå€¤ï¼‰
 		aptr = code_getva(&pval);
 		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
 		pNativePtr = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
 
-		// ˆø”:2iƒAƒZƒ“ƒuƒŠ–¼j
+		// å¼•æ•°:2ï¼ˆã‚¢ã‚»ãƒ³ãƒ–ãƒªåï¼‰
 		ps = code_gets();
 		auto p2 = marshal_as<System::String^>(ps);
 
-		// ˆø”:3iƒNƒ‰ƒX–¼j
+		// å¼•æ•°:3ï¼ˆã‚¯ãƒ©ã‚¹åï¼‰
 		ps = code_gets();
 		auto p3 = marshal_as<System::String^>(ps);
 
-		// ˆø”:4i0 = ’ÊíƒNƒ‰ƒX, 1 = Ã“IƒNƒ‰ƒXj
+		// å¼•æ•°:4ï¼ˆ0 = é€šå¸¸ã‚¯ãƒ©ã‚¹, 1 = é™çš„ã‚¯ãƒ©ã‚¹ï¼‰
 		opt = code_getdi(0);
 		auto p4 = (opt == 0) ? false : true;
 
-		// ˆø”:5 ˆÈ~‚Í‰Â•Ï’·iƒRƒ“ƒXƒgƒ‰ƒNƒ^ˆø”j
+		// å¼•æ•°:5 ä»¥é™ã¯å¯å¤‰é•·ï¼ˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å¼•æ•°ï¼‰
 		List<NetClass^>^ listParams = gcnew List<NetClass^>();
 
 		do
@@ -1326,7 +1336,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 			}
 		} while (PARAM_END < prm);
 
-		// Às
+		// å®Ÿè¡Œ
 		ret = GlobalAccess::g_Hsp3Net->CreateInstance(
 			p2, p3, nullptr, p4, listParams->ToArray());
 
@@ -1335,7 +1345,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 			*pNativePtr = GlobalAccess::CreateNativePtr(ret);
 		}
 		
-		// –ß‚è’l
+		// æˆ»ã‚Šå€¤
 		hspctx->stat = (ret != nullptr) ? 0 : -1;
 
 		break;
@@ -1348,7 +1358,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 		NativePointer native_ptr;
 		bool ret;
 
-		// ˆø”:1i‰ğ•ú‚·‚é•Ï”j
+		// å¼•æ•°:1ï¼ˆè§£æ”¾ã™ã‚‹å¤‰æ•°ï¼‰
 		aptr = code_getva(&pval);
 		ptr = HspVarCorePtrAPTR(pval, aptr);
 		switch (pval->flag) 
@@ -1363,14 +1373,14 @@ static int cmdfunc_ctrlcmd( int cmd )
 				throw HSPERR_TYPE_MISMATCH;
 		}
 
-		// –ß‚è’l
+		// æˆ»ã‚Šå€¤
 		hspctx->stat = (ret) ? 0 : -1;
 
 		break;
 	}
 	case 0x10:								// netres
 	{
-		// ˆø”:1i•Ô‚è’l‚ğŠi”[‚·‚é•Ï”j
+		// å¼•æ•°:1ï¼ˆè¿”ã‚Šå€¤ã‚’æ ¼ç´ã™ã‚‹å¤‰æ•°ï¼‰
 		if (code_getexflg()) {
 			netres_pval = nullptr;
 			netres_aptr = 0;
@@ -1379,7 +1389,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 			netres_aptr = code_getva(&netres_pval);
 		}
 
-		// –ß‚è’l
+		// æˆ»ã‚Šå€¤
 		hspctx->stat = 0;
 
 		break;
@@ -1390,7 +1400,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 	}
 	case 0x12:								// enumnet
 	{
-		// enumnet outvar, innet, "MessageBoxButtons", "OK"	// •¡”’l‚Ìê‡‚ÍƒJƒ“ƒ}‹æØ‚è
+		// enumnet outvar, innet, "MessageBoxButtons", "OK"	// è¤‡æ•°å€¤ã®å ´åˆã¯ã‚«ãƒ³ãƒåŒºåˆ‡ã‚Š
 		PVal *pval;
 		APTR aptr;
 		char *ps;
@@ -1403,12 +1413,12 @@ static int cmdfunc_ctrlcmd( int cmd )
 		NetClass^ Input;
 		NetClass^ ret;
 
-		// ˆø”:1i–ß‚è’lj
+		// å¼•æ•°:1ï¼ˆæˆ»ã‚Šå€¤ï¼‰
 		aptr = code_getva(&pval);
 		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
 		pNativePtrOut = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
 
-		// ˆø”:2iƒCƒ“ƒXƒ^ƒ“ƒXj
+		// å¼•æ•°:2ï¼ˆã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ï¼‰
 		aptr = code_getva(&pval);
 		ptr = HspVarCorePtrAPTR(pval, aptr);
 		switch (pval->flag)
@@ -1425,15 +1435,15 @@ static int cmdfunc_ctrlcmd( int cmd )
 				throw HSPERR_TYPE_MISMATCH;
 		}
 
-		// ˆø”:3i—ñ‹“Œ^–¼j
+		// å¼•æ•°:3ï¼ˆåˆ—æŒ™å‹åï¼‰
 		ps = code_gets();
 		auto p3 = marshal_as<System::String^>(ps);
 
-		// ˆø”:4iƒƒ“ƒo–¼j
+		// å¼•æ•°:4ï¼ˆãƒ¡ãƒ³ãƒåï¼‰
 		ps = code_gets();
 		auto p4 = marshal_as<System::String^>(ps);
 
-		// Às
+		// å®Ÿè¡Œ
 		ret = GlobalAccess::g_Hsp3Net->GetEnumMember(Input, p3, p4);
 
 		if (ret != nullptr)
@@ -1441,7 +1451,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 			*pNativePtrOut = GlobalAccess::CreateNativePtr(ret);
 		}
 
-		// –ß‚è’l
+		// æˆ»ã‚Šå€¤
 		hspctx->stat = (ret != nullptr) ? 0 : -1;
 
 		break;
@@ -1456,15 +1466,15 @@ static int cmdfunc_ctrlcmd( int cmd )
 		NativePointer* pNativePtrOut;
 		NetClass^ ret;
 
-		// ˆø”:1i–ß‚è’lj
+		// å¼•æ•°:1ï¼ˆæˆ»ã‚Šå€¤ï¼‰
 		aptr = code_getva(&pval);
 		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
 		pNativePtrOut = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
 
-		// ˆø”:2iƒEƒBƒ“ƒhƒEIDj
+		// å¼•æ•°:2ï¼ˆã‚¦ã‚£ãƒ³ãƒ‰ã‚¦IDï¼‰
 		wid = code_getdi(0);
 
-		// ƒEƒBƒ“ƒhƒEID -> BMSCR
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ID -> BMSCR
 		auto pBmscr = (BMSCR *)hspctx->exinfo2->HspFunc_getbmscr(wid);
 		if ( pBmscr == nullptr)
 		{
@@ -1485,7 +1495,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 			*pNativePtrOut = GlobalAccess::CreateNativePtr(ret);
 		}
 
-		// –ß‚è’l
+		// æˆ»ã‚Šå€¤
 		hspctx->stat = (ret != nullptr) ? 0 : -1;
 		break;
 	}
@@ -1515,14 +1525,14 @@ static int cmdfunc_ctrlcmd( int cmd )
 						break;
 					}
 					default:
-						break;	// ‚·‚Á”ò‚Î‚·‚¾‚¯‚Å‚æ‚¢
+						break;	// ã™ã£é£›ã°ã™ã ã‘ã§ã‚ˆã„
 				}
 			}
 		} while (PARAM_END < prm);
 
 		bRet = GlobalAccess::PopNativePtrCurrentStack( listParams->ToArray());
 
-		// –ß‚è’l
+		// æˆ»ã‚Šå€¤
 		hspctx->stat = (bRet) ? 0 : -1;
 		break;
 	}
@@ -1541,12 +1551,12 @@ static int cmdfunc_ctrlcmd( int cmd )
 	return RUNMODE_RUN;
 }
 
-// ˆê•Ï”‚Ìƒoƒbƒtƒ@‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚µ‚Ü‚·
+// ä¸€æ™‚å¤‰æ•°ã®ãƒãƒƒãƒ•ã‚¡ã®ãƒã‚¤ãƒ³ã‚¿ã‚’è¿”ã—ã¾ã™
 static void* StringToHspStrA(String^ str)
 {
 	const char* outBuffer;
 	{
-		marshal_context ctx;	// ƒXƒR[ƒv“à‚Ì‚İ—LŒø
+		marshal_context ctx;	// ã‚¹ã‚³ãƒ¼ãƒ—å†…ã®ã¿æœ‰åŠ¹
 		outBuffer = ctx.marshal_as<const char*>(str);
 		auto size_bytes = strlen(outBuffer) + 1;
 		hspctx->stmp = sbExpand(hspctx->stmp, size_bytes);
@@ -1559,7 +1569,7 @@ static void* StringToHspStrW(String^ str)
 {
 	const wchar_t* outBuffer;
 	{
-		marshal_context ctx;	// ƒXƒR[ƒv“à‚Ì‚İ—LŒø
+		marshal_context ctx;	// ã‚¹ã‚³ãƒ¼ãƒ—å†…ã®ã¿æœ‰åŠ¹
 		outBuffer = ctx.marshal_as<const wchar_t*>(str);
 		auto size_counts = ::wcslen(outBuffer) + 1;
 		hspctx->stmp = sbExpand( hspctx->stmp, size_counts * sizeof(wchar_t));
@@ -1571,12 +1581,12 @@ static void* StringToHspStrW(String^ str)
 static void *reffunc_ctrlfunc( int *type_res, int arg )
 {
 	//		reffunc : TYPE_DLLCTRL
-	//		(Šg’£DLLƒRƒ“ƒgƒ[ƒ‹ŠÖ”)
+	//		(æ‹¡å¼µDLLã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«é–¢æ•°)
 	//
 	void *ptr;
 	int p1,p2;
 
-	//			'('‚Ån‚Ü‚é‚©‚ğ’²‚×‚é
+	//			'('ã§å§‹ã¾ã‚‹ã‹ã‚’èª¿ã¹ã‚‹
 	//
 	if ( *type != TYPE_MARK ) throw ( HSPERR_INVALID_FUNCPARAM );
 	if ( *val != '(' ) throw ( HSPERR_INVALID_FUNCPARAM );
@@ -1585,7 +1595,7 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 	ptr = &reffunc_intfunc_ivalue;
 	*type_res = HSPVAR_FLAG_INT;
 
-	switch( arg ) {							// ƒTƒuƒRƒ}ƒ“ƒh‚²‚Æ‚Ì•ªŠò
+	switch( arg ) {							// ã‚µãƒ–ã‚³ãƒãƒ³ãƒ‰ã”ã¨ã®åˆ†å²
 	case 0x100:								// callfunc
 		{
 		PVal *pval;
@@ -1632,13 +1642,13 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 		PVal *pval;
 		APTR aptr;
 		IUnknown **ppunk;
-		// ‘æ‚Pƒpƒ‰ƒ[ƒ^FCOMƒIƒuƒWƒFƒNƒg•Ï”
+		// ç¬¬ï¼‘ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šCOMã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå¤‰æ•°
 		aptr = code_getva( &pval );
 		if ( pval->flag != TYPE_COMOBJ ) throw ( HSPERR_TYPE_MISMATCH );
 		ppunk = (IUnknown **)HspVarCorePtrAPTR( pval, aptr );
 		if ( !IsVaridComPtr(ppunk) ) throw ( HSPERR_COMDLL_ERROR );
 
-		// ƒCƒxƒ“ƒg‚Ì DISPID æ“¾
+		// ã‚¤ãƒ™ãƒ³ãƒˆã® DISPID å–å¾—
 		reffunc_intfunc_ivalue = GetEventDispID( *ppunk );
 		break;
 		}
@@ -1699,7 +1709,7 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 		NativePointer native_ptr;
 		bool ret;
 
-		// ˆø”:1i•ÏŠ·Œ³•Ï”j
+		// å¼•æ•°:1ï¼ˆå¤‰æ›å…ƒå¤‰æ•°ï¼‰
 		aptr = code_getva(&pval);
 		ptr_in = HspVarCorePtrAPTR(pval, aptr);
 		switch (pval->flag)
@@ -1713,7 +1723,7 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 			throw HSPERR_TYPE_MISMATCH;
 		}
 
-		// ƒ}ƒl[ƒWƒhŒ^‚É•ÏŠ·
+		// ãƒãƒãƒ¼ã‚¸ãƒ‰å‹ã«å¤‰æ›
 		auto managed_ptr = 
 			GlobalAccess::GetNativePtrToNetClass(native_ptr);
 		
@@ -1723,7 +1733,7 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 		if ( managed_ptr->Instance == nullptr)
 			throw HSPERR_TYPE_MISMATCH;
 
-		// ˆø”:2i•ÏŠ·Œã‚ÌHSPŒ^typeidj
+		// å¼•æ•°:2ï¼ˆå¤‰æ›å¾Œã®HSPå‹typeidï¼‰
 		p2 = code_getdi(HSPVAR_FLAG_INT);
 		switch (p2)
 		{
@@ -1735,7 +1745,7 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 				throw HSPERR_TYPE_MISMATCH;
 		}
 
-		// –ß‚è’l
+		// æˆ»ã‚Šå€¤
 		ptr = &reffunc_ptrfunc_ptrvalue[0];
 		*type_res = p2;
 
@@ -1855,7 +1865,7 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 			}
 		}
 		else {
-			// ToStringÀs
+			// ToStringå®Ÿè¡Œ
 			switch (p2)
 			{
 				case HSPVAR_FLAG_STR:
@@ -1879,7 +1889,7 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 		throw ( HSPERR_SYNTAX );
 	}
 
-	//			')'‚ÅI‚í‚é‚©‚ğ’²‚×‚é
+	//			')'ã§çµ‚ã‚ã‚‹ã‹ã‚’èª¿ã¹ã‚‹
 	//
 	if ( *type != TYPE_MARK ) throw ( HSPERR_INVALID_FUNCPARAM );
 	if ( *val != ')' ) throw ( HSPERR_INVALID_FUNCPARAM );
@@ -1892,10 +1902,10 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 static void *reffunc_dllcmd( int *type_res, int arg )
 {
 	//		reffunc : TYPE_DLLFUNC
-	//		(Šg’£DLLŠÖ”)
+	//		(æ‹¡å¼µDLLé–¢æ•°)
 	//
 
-	//			'('‚Ån‚Ü‚é‚©‚ğ’²‚×‚é
+	//			'('ã§å§‹ã¾ã‚‹ã‹ã‚’èª¿ã¹ã‚‹
 	//
 	if ( *type != TYPE_MARK ) throw ( HSPERR_INVALID_FUNCPARAM );
 	if ( *val != '(' ) throw ( HSPERR_INVALID_FUNCPARAM );
@@ -1904,7 +1914,7 @@ static void *reffunc_dllcmd( int *type_res, int arg )
 	exec_dllcmd( arg, STRUCTDAT_OT_FUNCTION );
 	reffunc_intfunc_ivalue = hspctx->stat;
 
-	//			')'‚ÅI‚í‚é‚©‚ğ’²‚×‚é
+	//			')'ã§çµ‚ã‚ã‚‹ã‹ã‚’èª¿ã¹ã‚‹
 	//
 	if ( *type != TYPE_MARK ) throw ( HSPERR_INVALID_FUNCPARAM );
 	if ( *val != ')' ) throw ( HSPERR_INVALID_FUNCPARAM );
@@ -2007,8 +2017,8 @@ char *hsp3ext_sysinfo(int p2, int* res, char* outbuf)
 		else _tcscat((TCHAR*)p1, TEXT("9X"));
 		/*
 			rev 43
-			mingw : warning : ‰¼ˆø”int Àˆø”long unsigned
-			‚É‘Îˆ
+			mingw : warning : ä»®å¼•æ•°int å®Ÿå¼•æ•°long unsigned
+			ã«å¯¾å‡¦
 		*/
 		_stprintf(pp, TEXT(" ver%d.%d"), static_cast<int>(version & 0xff), static_cast<int>((version & 0xff00) >> 8));
 		_tcscat((TCHAR*)p1, pp);
@@ -2017,6 +2027,7 @@ char *hsp3ext_sysinfo(int p2, int* res, char* outbuf)
 		if (p1 != p) {
 			memcpy(p1, p, plen);
 			p1[plen] = '\0';
+			p1[plen] = 'Â¥0';
 		}
 		freehc(&p);
 		fl = HSPVAR_FLAG_STR;
@@ -2028,6 +2039,7 @@ char *hsp3ext_sysinfo(int p2, int* res, char* outbuf)
 		if (p1 != p) {
 			memcpy(p1, p, plen);
 			p1[plen] = '\0';
+			p1[plen] = 'Â¥0';
 		}
 		freehc(&p);
 		fl = HSPVAR_FLAG_STR;
@@ -2039,6 +2051,7 @@ char *hsp3ext_sysinfo(int p2, int* res, char* outbuf)
 		if (p1 != p) {
 			memcpy(p1, p, plen);
 			p1[plen] = '\0';
+			p1[plen] = 'Â¥0';
 		}
 		freehc(&p);
 		fl = HSPVAR_FLAG_STR;
@@ -2094,7 +2107,7 @@ char *hsp3ext_sysinfo(int p2, int* res, char* outbuf)
 */
 char* hsp3ext_getdir(int id)
 {
-	//		dirinfo–½—ß‚Ì“à—e‚ğstmp‚Éİ’è‚·‚é
+	//		dirinfoå‘½ä»¤ã®å†…å®¹ã‚’stmpã«è¨­å®šã™ã‚‹
 	//
 	char *p;
 	TCHAR pw[HSPCTX_REFSTR_MAX];
@@ -2106,24 +2119,24 @@ char* hsp3ext_getdir(int id)
 
 	*pw = 0;
 	switch (id) {
-	case 0:				//    ƒJƒŒƒ“ƒg(Œ»İ‚Ì)ƒfƒBƒŒƒNƒgƒŠ
+	case 0:				//    ã‚«ãƒ¬ãƒ³ãƒˆ(ç¾åœ¨ã®)ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 		_tgetcwd(pw, HSPCTX_REFSTR_MAX);
 		break;
-	case 1:				//    HSP‚ÌÀsƒtƒ@ƒCƒ‹‚ª‚ ‚éƒfƒBƒŒƒNƒgƒŠ
+	case 1:				//    HSPã®å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 		p = hspctx->modfilename;
 		cutlast = 0; apiconv = 0;
 		break;
-	case 2:				//    WindowsƒfƒBƒŒƒNƒgƒŠ
+	case 2:				//    Windowsãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 		GetWindowsDirectory(pw, HSPCTX_REFSTR_MAX);
 		break;
-	case 3:				//    Windows‚ÌƒVƒXƒeƒ€ƒfƒBƒŒƒNƒgƒŠ
+	case 3:				//    Windowsã®ã‚·ã‚¹ãƒ†ãƒ ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 		GetSystemDirectory(pw, HSPCTX_REFSTR_MAX);
 		break;
-	case 4:				//    ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“•¶š—ñ
+	case 4:				//    ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³æ–‡å­—åˆ—
 		p = hspctx->cmdline;
 		cutlast = 0; apiconv = 0;
 		break;
-	case 5:				//    HSPTV‘fŞ‚ª‚ ‚éƒfƒBƒŒƒNƒgƒŠ
+	case 5:				//    HSPTVç´ æãŒã‚ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 #if defined(HSPDEBUG)||defined(HSP3IMP)
 		p = hspctx->tvfoldername;
 #else
@@ -2131,7 +2144,7 @@ char* hsp3ext_getdir(int id)
 #endif
 		cutlast = 0; apiconv = 0;
 		break;
-	case 6:				//    ƒ‰ƒ“ƒQ[ƒWƒR[ƒh
+	case 6:				//    ãƒ©ãƒ³ã‚²ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰
 		p = hspctx->langcode;
 		cutlast = 0; apiconv = 0;
 		break;
@@ -2149,10 +2162,12 @@ char* hsp3ext_getdir(int id)
 		freehc(&resp8);
 		p = hspctx->stmp;
 	}
-	//		ÅŒã‚Ì'\\'‚ğæ‚èœ‚­
+	//		æœ€å¾Œã®'\\'ã‚’å–ã‚Šé™¤ã
 	//
 	if (cutlast) {
 		CutLastChr(p, '\\');
+	//		æœ€å¾Œã®'Â¥Â¥'ã‚’å–ã‚Šé™¤ã
+		CutLastChr(p, 'Â¥Â¥');
 	}
 	return p;
 }

@@ -20,54 +20,11 @@
 #include "supio_win.h"
 #include "../dpmread.h"
 #include "../strbuf.h"
-
-HSPAPICHAR *chartoapichar( const char *orig,HSPAPICHAR **pphac)
-{
-	*pphac = (HSPAPICHAR*)orig;
-	return (HSPAPICHAR*)orig;
-}
-
-void freehac(HSPAPICHAR **pphac)
-{
-	*pphac = 0;
-	return;
-}
-
-HSPCHAR *apichartohspchar( const HSPAPICHAR *orig,HSPCHAR **pphc)
-{
-	*pphc = (HSPAPICHAR*)orig;
-	return (HSPCHAR*)orig;
-}
-
-void freehc(HSPCHAR **pphc)
-{
-	*pphc = 0;
-	return;
-}
-
-HSPAPICHAR *ansichartoapichar(const char *orig, HSPAPICHAR **pphac)
-{
-	*pphac = (HSPAPICHAR*)orig;
-	return (HSPAPICHAR*)orig;
-}
-
-char *apichartoansichar(const HSPAPICHAR *orig, char **ppc)
-{
-	*ppc = (char*)orig;
-	return (char*)orig;
-}
-
-void freeac(char **ppc)
-{
-	*ppc = 0;
-	return;
-}
+#include "../hsp3utfcnv.h"
 
 //
 //		basic C I/O support
 //
-static FILE *fp;
-
 char *mem_ini( int size ) {
 	return (char *)calloc(size,1);
 }
@@ -76,29 +33,24 @@ void mem_bye( void *ptr ) {
 	free(ptr);
 }
 
-
-int mem_save( char *fname, void *mem, int msize, int seekofs )
+char *mem_alloc( void *base, int newsize, int oldsize )
 {
-	FILE *fp;
-	int flen;
-
-	if (seekofs<0) {
-		fp=fopen(fname,"wb");
+	char *p;
+	if ( base == NULL ) {
+		p = (char *)calloc( newsize, 1 );
+		return p;
 	}
-	else {
-		fp=fopen(fname,"r+b");
-	}
-	if (fp==NULL) return -1;
-	if ( seekofs>=0 ) fseek( fp, seekofs, SEEK_SET );
-	flen = (int)fwrite( mem, 1, msize, fp );
-	fclose(fp);
-	return flen;
+	if ( newsize <= oldsize ) return (char *)base;
+	p = (char *)calloc( newsize, 1 );
+	memcpy( p, base, oldsize );
+	free( base );
+	return p;
 }
 
 
 void strcase( char *target )
 {
-	//		str‚ğ‚·‚×‚Ä¬•¶š‚É(‘SŠp‘Î‰”Å)
+	//		strã‚’ã™ã¹ã¦å°æ–‡å­—ã«(å…¨è§’å¯¾å¿œç‰ˆ)
 	//
 	unsigned char *p;
 	unsigned char a1;
@@ -106,8 +58,8 @@ void strcase( char *target )
 	while(1) {
 		a1=*p;if ( a1==0 ) break;
 		*p=tolower(a1);
-		p++;							// ŒŸõˆÊ’u‚ğˆÚ“®
-		if (a1>=129) {					// ‘SŠp•¶šƒ`ƒFƒbƒN
+		p++;							// æ¤œç´¢ä½ç½®ã‚’ç§»å‹•
+		if (a1>=129) {					// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 			if ((a1<=159)||(a1>=224)) p++;
 		}
 	}
@@ -151,7 +103,7 @@ int strcat2( char *str1, char *str2 )
 
 char *strstr2( char *target, char *src )
 {
-	//		strstrŠÖ”‚Ì‘SŠp‘Î‰”Å
+	//		strstré–¢æ•°ã®å…¨è§’å¯¾å¿œç‰ˆ
 	//
 	unsigned char *p;
 	unsigned char *s;
@@ -170,8 +122,8 @@ char *strstr2( char *target, char *src )
 			a3=*p2++;if (a3==0) break;
 			if (a2!=a3) break;
 		}
-		p++;							// ŒŸõˆÊ’u‚ğˆÚ“®
-		if (a1>=129) {					// ‘SŠp•¶šƒ`ƒFƒbƒN
+		p++;							// æ¤œç´¢ä½ç½®ã‚’ç§»å‹•
+		if (a1>=129) {					// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 			if ((a1<=159)||(a1>=224)) p++;
 		}
 	}
@@ -181,7 +133,7 @@ char *strstr2( char *target, char *src )
 
 char *strchr2( char *target, char code )
 {
-	//		str’†ÅŒã‚ÌcodeˆÊ’u‚ğ’T‚·(‘SŠp‘Î‰”Å)
+	//		strä¸­æœ€å¾Œã®codeä½ç½®ã‚’æ¢ã™(å…¨è§’å¯¾å¿œç‰ˆ)
 	//
 	unsigned char *p;
 	unsigned char a1;
@@ -191,8 +143,8 @@ char *strchr2( char *target, char code )
 	while(1) {
 		a1=*p;if ( a1==0 ) break;
 		if ( a1==code ) res=(char *)p;
-		p++;							// ŒŸõˆÊ’u‚ğˆÚ“®
-		if (a1>=129) {					// ‘SŠp•¶šƒ`ƒFƒbƒN
+		p++;							// æ¤œç´¢ä½ç½®ã‚’ç§»å‹•
+		if (a1>=129) {					// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 			if ((a1<=159)||(a1>=224)) p++;
 		}
 	}
@@ -202,20 +154,31 @@ char *strchr2( char *target, char code )
 
 void getpath( char *stmp, char *outbuf, int p2 )
 {
+	//	getpath
+	// 
+	//	0 : æ–‡å­—åˆ—ã®ã‚³ãƒ”ãƒ¼(æ“ä½œãªã—)
+	//	1 : æ‹¡å¼µå­ã‚’é™¤ããƒ•ã‚¡ã‚¤ãƒ«å
+	//	2 : æ‹¡å¼µå­ã®ã¿(. ? ? ? )
+	//	8 : ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªæƒ…å ±ã‚’å–ã‚Šé™¤ã
+	//	16 : æ–‡å­—åˆ—ã‚’å°æ–‡å­—ã«å¤‰æ›ã™ã‚‹
+	//	32 : ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªæƒ…å ±ã®ã¿
 	char *p;
+	char workbuf[_MAX_PATH];
+
 	char p_drive[_MAX_PATH];
 	char p_dir[_MAX_DIR];
 	char p_fname[_MAX_FNAME];
 	char p_ext[_MAX_EXT];
 
 	p = outbuf;
-	if (p2&16) strcase( stmp );
+	strcpy(workbuf,stmp);
+	if (p2&16) strcase(workbuf);
 
-	//V‚µ‚¢VC++‚Å0x5cƒR[ƒh‚ª³‚µ‚­ˆ—‚³‚ê‚È‚¢‚½‚ßSJIS”Å‚Ì_splitpath‚Íg—p‚¹‚¸
+	//æ–°ã—ã„VC++ã§0x5cã‚³ãƒ¼ãƒ‰ãŒæ­£ã—ãå‡¦ç†ã•ã‚Œãªã„ãŸã‚SJISç‰ˆã®_splitpathã¯ä½¿ç”¨ã›ãš
 	//_splitpath( stmp, p_drive, p_dir, p_fname, p_ext );
 	wchar_t wszBufPath[_MAX_PATH], wdrive[_MAX_DRIVE], wdir[_MAX_DIR], wfname[_MAX_FNAME], wext[_MAX_EXT];
 
-	mbstowcs(wszBufPath, stmp, strlen(stmp) + 1);
+	mbstowcs(wszBufPath, workbuf, strlen(workbuf) + 1);
 	_wsplitpath(wszBufPath, wdrive, wdir, wfname, wext);
 
 	wcstombs(p_drive, wdrive, _MAX_DRIVE);
@@ -225,20 +188,21 @@ void getpath( char *stmp, char *outbuf, int p2 )
 
 	strcat( p_drive, p_dir );
 	if ( p2&8 ) {
-		strcpy( stmp, p_fname ); strcat( stmp, p_ext );
+		strcpy(workbuf, p_fname );
+		strcat(workbuf, p_ext );
 	} else if ( p2&32 ) {
-		strcpy( stmp, p_drive );
+		strcpy(workbuf, p_drive );
 	}
 	switch( p2&7 ) {
 	case 1:			// Name only ( without ext )
-		stmp[ strlen(stmp)-strlen(p_ext) ] = 0;
-		strcpy( p, stmp );
+		workbuf[ strlen(workbuf)-strlen(p_ext) ] = 0;
+		strcpy( p, workbuf);
 		break;
 	case 2:			// Ext only
 		strcpy( p, p_ext );
 		break;
 	default:		// Direct Copy
-		strcpy( p, stmp );
+		strcpy( p, workbuf);
 		break;
 	}
 }
@@ -307,8 +271,8 @@ int dirlist( char *fname, char **target, int p3 )
 		if ((p3&4)==0) ff=!ff;
 		if (ff) {
 			p = fd.cFileName; fl = 1;
-			if ( *p==0 ) fl=0;			// ‹ós‚ğœŠO
-			if ( *p=='.') {				// '.','..'‚ğœŠO
+			if ( *p==0 ) fl=0;			// ç©ºè¡Œã‚’é™¤å¤–
+			if ( *p=='.') {				// '.','..'ã‚’é™¤å¤–
 				if ( p[1]==0 ) fl=0;
 				if ((p[1]=='.')&&(p[2]==0)) fl=0;
 			}
@@ -376,8 +340,8 @@ int strsp_get( char *srcstr, char *dststr, char splitchr, int len )
 
 /*
 	rev 44
-	mingw : warning : ”äŠr‚Íí‚É‹U
-	‚É‘Îˆ
+	mingw : warning : æ¯”è¼ƒã¯å¸¸ã«å½
+	ã«å¯¾å‡¦
 */
 	unsigned char a1;
 	unsigned char a2;
@@ -453,7 +417,7 @@ int GetLimit( int num, int min, int max )
 
 void CutLastChr( char *p, char code )
 {
-	//		ÅŒã‚Ì'\\'‚ğæ‚èœ‚­
+	//		æœ€å¾Œã®'\\'ã‚’å–ã‚Šé™¤ã
 	//
 	char *ss;
 	char *ss2;
@@ -499,11 +463,11 @@ int htoi( char *str )
 
 char *strchr3( char *target, int code, int sw, char **findptr )
 {
-	//		•¶š—ñ’†‚ÌcodeˆÊ’u‚ğ’T‚·(2ƒoƒCƒgƒR[ƒhA‘SŠp‘Î‰”Å)
-	//		sw = 0 : findptr = ÅŒã‚ÉŒ©‚Â‚©‚Á‚½codeˆÊ’u
-	//		sw = 1 : findptr = Å‰‚ÉŒ©‚Â‚©‚Á‚½codeˆÊ’u
-	//		sw = 2 : findptr = Å‰‚ÉŒ©‚Â‚©‚Á‚½codeˆÊ’u(Å‰‚Ì•¶š‚Ì‚İŒŸõ)
-	//		–ß‚è’l : Ÿ‚Ì•¶š‚É‚ ‚½‚éˆÊ’u
+	//		æ–‡å­—åˆ—ä¸­ã®codeä½ç½®ã‚’æ¢ã™(2ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã€å…¨è§’å¯¾å¿œç‰ˆ)
+	//		sw = 0 : findptr = æœ€å¾Œã«è¦‹ã¤ã‹ã£ãŸcodeä½ç½®
+	//		sw = 1 : findptr = æœ€åˆã«è¦‹ã¤ã‹ã£ãŸcodeä½ç½®
+	//		sw = 2 : findptr = æœ€åˆã«è¦‹ã¤ã‹ã£ãŸcodeä½ç½®(æœ€åˆã®æ–‡å­—ã®ã¿æ¤œç´¢)
+	//		æˆ»ã‚Šå€¤ : æ¬¡ã®æ–‡å­—ã«ã‚ãŸã‚‹ä½ç½®
 	//
 	unsigned char *p;
 	unsigned char a1;
@@ -535,8 +499,8 @@ char *strchr3( char *target, int code, int sw, char **findptr )
 				}
 			}
 		}
-		p++;							// ŒŸõˆÊ’u‚ğˆÚ“®
-		if (a1>=129) {					// ‘SŠp•¶šƒ`ƒFƒbƒN
+		p++;							// æ¤œç´¢ä½ç½®ã‚’ç§»å‹•
+		if (a1>=129) {					// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 			if ((a1<=159)||(a1>=224)) p++;
 		}
 		if ( res != NULL ) { *findptr = res; pres = (char *)p; res = NULL; }
@@ -555,7 +519,7 @@ char *strchr3( char *target, int code, int sw, char **findptr )
 
 void TrimCodeR( char *p, int code )
 {
-	//		ÅŒã‚Ìcode‚ğæ‚èœ‚­
+	//		æœ€å¾Œã®codeã‚’å–ã‚Šé™¤ã
 	//
 	char *ss;
 	char *ss2;
@@ -574,7 +538,7 @@ void TrimCodeR( char *p, int code )
 
 void TrimCode( char *p, int code )
 {
-	//		‚·‚×‚Ä‚Ìcode‚ğæ‚èœ‚­
+	//		ã™ã¹ã¦ã®codeã‚’å–ã‚Šé™¤ã
 	//
 	char *ss;
 	char *ss2;
@@ -588,7 +552,7 @@ void TrimCode( char *p, int code )
 
 void TrimCodeL( char *p, int code )
 {
-	//		Å‰‚Ìcode‚ğæ‚èœ‚­
+	//		æœ€åˆã®codeã‚’å–ã‚Šé™¤ã
 	//
 	char *ss;
 	char *ss2;
@@ -600,8 +564,8 @@ void TrimCodeL( char *p, int code )
 }
 
 //
-//		•¶š—ñ’u‚«Š·‚¦
-//		(“ü‚êq‚É‚È‚é‚±‚Æ‚ª‚ ‚é‚Ì‚ÅAƒoƒbƒtƒ@‚ÌŠm•Û‚ğhsp3int‘¤‚Ås‚È‚¤‚æ‚¤‚ÉC³)
+//		æ–‡å­—åˆ—ç½®ãæ›ãˆ
+//		(å…¥ã‚Œå­ã«ãªã‚‹ã“ã¨ãŒã‚ã‚‹ã®ã§ã€ãƒãƒƒãƒ•ã‚¡ã®ç¢ºä¿ã‚’hsp3intå´ã§è¡Œãªã†ã‚ˆã†ã«ä¿®æ­£)
 //
 static	char *s_match;
 static	int len_match;
@@ -616,8 +580,8 @@ static	int reptime;
 
 void ReplaceSetMatch( char *src, char *match, char *result, int in_src, int in_match, int in_result )
 {
-	//		’u‚«Š·‚¦Œ³A’u‚«Š·‚¦‘ÎÛ‚ÌƒZƒbƒg
-	//		(‚ ‚ç‚©‚¶‚ßƒƒ‚ƒŠƒoƒbƒtƒ@‚ÌŠm•Û‚ª•K—v)
+	//		ç½®ãæ›ãˆå…ƒã€ç½®ãæ›ãˆå¯¾è±¡ã®ã‚»ãƒƒãƒˆ
+	//		(ã‚ã‚‰ã‹ã˜ã‚ãƒ¡ãƒ¢ãƒªãƒãƒƒãƒ•ã‚¡ã®ç¢ºä¿ãŒå¿…è¦)
 	//
 	s_buffer = src;
 	s_match = match;
@@ -630,7 +594,7 @@ void ReplaceSetMatch( char *src, char *match, char *result, int in_src, int in_m
 
 char *ReplaceStr( char *repstr )
 {
-	//		’u‚«Š·‚¦Às
+	//		ç½®ãæ›ãˆå®Ÿè¡Œ
 	//
 	char *p;
 	unsigned char a1;
@@ -652,14 +616,14 @@ char *ReplaceStr( char *repstr )
 		if ( a1 == 0 ) break;
 
 #ifndef HSPUTF8
-		//	sjisƒ`ƒFƒbƒN
+		//	sjisãƒã‚§ãƒƒã‚¯
 		sjis_flag = 0;
 		if ( a1 >= 129 ) {
 			if ((a1<=159)||(a1>=224)) sjis_flag++;
 		}
 #endif
 
-		//	”äŠr‚·‚é
+		//	æ¯”è¼ƒã™ã‚‹
 		psize = 0; csize = 1;
 		if ( a1 == a2 ) {
 			if ( memcmp( p, s_match, len_match ) == 0 ) {
@@ -668,8 +632,8 @@ char *ReplaceStr( char *repstr )
 			}
 		}
 
-		//	ƒoƒbƒtƒ@ƒ`ƒFƒbƒN
-		i = cursize + csize + len_buffer + 1;	// ’u‚«Š·‚¦Œã‚É\•ª‚ÈƒTƒCƒY‚ğŠm•Û‚·‚é
+		//	ãƒãƒƒãƒ•ã‚¡ãƒã‚§ãƒƒã‚¯
+		i = cursize + csize + len_buffer + 1;	// ç½®ãæ›ãˆå¾Œã«ååˆ†ãªã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã™ã‚‹
 		if ( i >= len_result ) {
 			while (1) {
 				len_result += 0x8000;
@@ -678,14 +642,14 @@ char *ReplaceStr( char *repstr )
 			s_result = sbExpand( s_result, len_result );
 		}
 
-		if ( psize ) {				// ’u‚«Š·‚¦
+		if ( psize ) {				// ç½®ãæ›ãˆ
 
 			memcpy( s_result+cursize, s_rep, csize );
 			p += psize;
 			cursize += csize;
 			reptime++;
 
-		} else {					// ’u‚«Š·‚¦‚È‚µ
+		} else {					// ç½®ãæ›ãˆãªã—
 			s_result[cursize++] = a1;
 			p++;
 #ifndef HSPUTF8
@@ -702,8 +666,8 @@ char *ReplaceStr( char *repstr )
 
 int ReplaceDone( void )
 {
-	//		’u‚«Š·‚¦‚ÌŒãˆ—
-	//		(ŒÄ‚Ño‚µ‘O‚ÉŠm•Û‚µ‚½ƒƒ‚ƒŠƒoƒbƒtƒ@‚Í‰ğ•ú‚·‚é‚±‚Æ)
+	//		ç½®ãæ›ãˆã®å¾Œå‡¦ç†
+	//		(å‘¼ã³å‡ºã—å‰ã«ç¢ºä¿ã—ãŸãƒ¡ãƒ¢ãƒªãƒãƒƒãƒ•ã‚¡ã¯è§£æ”¾ã™ã‚‹ã“ã¨)
 	//
 	return reptime;
 }
@@ -715,7 +679,7 @@ int ReplaceDone( void )
 
 #ifdef HSP3IMP
 //
-//	HSP3IMP—pƒZƒLƒ…ƒŠƒeƒB‘Î‰
+//	HSP3IMPç”¨ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£å¯¾å¿œ
 //
 int SecurityCheck( char *name )
 {
