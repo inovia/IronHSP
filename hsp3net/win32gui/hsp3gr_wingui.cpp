@@ -1571,8 +1571,9 @@ void ex_mref( PVal *pval, int prm )
 	} else {
 		switch( prm ) {
 		case 0x40:
-			size = sizeof(int);
+			size = sizeof(int64_t);
 			ptr = &ctx->stat;
+			t = HSPVAR_FLAG_INT64;
 			break;
 		case 0x41:
 			ptr = ctx->refstr;

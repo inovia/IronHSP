@@ -50,6 +50,7 @@ static int *type;
 static int *val;
 static int *exflg;
 static int reffunc_intfunc_ivalue;
+static int64_t reffunc_intfunc_i64value;
 static void* reffunc_ptrfunc_ptrvalue[2];
 //static PVal **pmpval;
 
@@ -1897,9 +1898,7 @@ static void *reffunc_dllcmd( int *type_res, int arg )
 	if ( *type != TYPE_MARK ) throw ( HSPERR_INVALID_FUNCPARAM );
 	if ( *val != '(' ) throw ( HSPERR_INVALID_FUNCPARAM );
 
-	*type_res = HSPVAR_FLAG_INT;
 	exec_dllcmd( arg, STRUCTDAT_OT_FUNCTION );
-	reffunc_intfunc_ivalue = hspctx->stat;
 
 	//			')'で終わるかを調べる
 	//
@@ -1907,6 +1906,14 @@ static void *reffunc_dllcmd( int *type_res, int arg )
 	if ( *val != ')' ) throw ( HSPERR_INVALID_FUNCPARAM );
 	code_next();
 
+	// stat の値に応じて int または int64 で返す
+	if ( hspctx->stat > 0x7FFFFFFFLL || hspctx->stat < -0x80000000LL ) {
+		*type_res = HSPVAR_FLAG_INT64;
+		reffunc_intfunc_i64value = hspctx->stat;
+		return &reffunc_intfunc_i64value;
+	}
+	*type_res = HSPVAR_FLAG_INT;
+	reffunc_intfunc_ivalue = (int)hspctx->stat;
 	return &reffunc_intfunc_ivalue;
 }
 
