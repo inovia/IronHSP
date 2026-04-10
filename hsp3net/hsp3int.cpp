@@ -1383,6 +1383,7 @@ static int cmdfunc_intcmd( int cmd )
 
 static int reffunc_intfunc_ivalue;
 static int64_t reffunc_intfunc_i64value;
+static double reffunc_intfunc_dvalue;
 static HSPREAL reffunc_intfunc_value;
 
 static void *reffunc_intfunc( int *type_res, int arg )
@@ -1703,6 +1704,75 @@ static void *reffunc_intfunc( int *type_res, int arg )
 		break;
 		}
 
+
+	case 0x017:								// _struct_peek / structsize
+		{
+		// _struct_peek(var, member_offset, member_type, struct_size)
+		// 構造体メンバの読み取り
+		PVal *pval;
+		APTR aptr;
+		aptr = code_getva(&pval);
+		int member_offset = code_geti();
+		int member_type = code_geti();
+		int struct_size = code_geti();
+
+		// aptr = 構造体配列インデックス
+		char *base = (char*)pval->pt + (aptr * struct_size) + member_offset;
+
+		switch (member_type) {
+		case 0:  // SMT_BYTE
+		case 8:  // SMT_BOOL1
+			reffunc_intfunc_ivalue = (int)(*(unsigned char*)base);
+			*type_res = HSPVAR_FLAG_INT;
+			ptr = &reffunc_intfunc_ivalue;
+			break;
+		case 1:  // SMT_SHORT
+		case 9:  // SMT_BOOL2
+			reffunc_intfunc_ivalue = (int)(*(short*)base);
+			*type_res = HSPVAR_FLAG_INT;
+			ptr = &reffunc_intfunc_ivalue;
+			break;
+		case 2:  // SMT_INT
+		case 7:  // SMT_BOOL
+			reffunc_intfunc_ivalue = *(int*)base;
+			*type_res = HSPVAR_FLAG_INT;
+			ptr = &reffunc_intfunc_ivalue;
+			break;
+		case 3:  // SMT_INT64
+			reffunc_intfunc_i64value = *(int64_t*)base;
+			*type_res = HSPVAR_FLAG_INT64;
+			ptr = &reffunc_intfunc_i64value;
+			break;
+		case 4:  // SMT_FLOAT
+			reffunc_intfunc_dvalue = (double)(*(float*)base);
+			*type_res = HSPVAR_FLAG_DOUBLE;
+			ptr = &reffunc_intfunc_dvalue;
+			break;
+		case 5:  // SMT_DOUBLE
+			reffunc_intfunc_dvalue = *(double*)base;
+			*type_res = HSPVAR_FLAG_DOUBLE;
+			ptr = &reffunc_intfunc_dvalue;
+			break;
+		case 6:  // SMT_PTR
+#ifdef PTR64BIT
+			reffunc_intfunc_i64value = (int64_t)(*(intptr_t*)base);
+			*type_res = HSPVAR_FLAG_INT64;
+			ptr = &reffunc_intfunc_i64value;
+#else
+			reffunc_intfunc_ivalue = (int)(*(intptr_t*)base);
+			*type_res = HSPVAR_FLAG_INT;
+			ptr = &reffunc_intfunc_ivalue;
+#endif
+			break;
+		case 10: // SMT_CHAR_ARRAY
+			ptr = base;
+			*type_res = HSPVAR_FLAG_STR;
+			break;
+		default:
+			throw HSPERR_UNSUPPORTED_FUNCTION;
+		}
+		break;
+		}
 
 	// str function
 	case 0x100:								// str

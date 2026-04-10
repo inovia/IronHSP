@@ -1438,6 +1438,20 @@ int CToken::CheckInternalProgCMD( int opt, int orgcs )
 		if (hed_autoopt_strexchange >= 0) hed_autoopt_strexchange++;
 		break;
 
+	case 0x22:					// structdim
+		{
+			// structdim var, STRUCT_NAME [, count]
+			char *firstSymbolName = GetSymbolCG(cg_ptr);
+			if (firstSymbolName == NULL) break;
+			i = SetVarsFixed(firstSymbolName, cg_defvarfix);
+			lb->SetInitFlag(i, LAB_INIT_DONE);
+			GenerateLabelListAndTag(i, LABBUF_FLAG_VAR);
+			lb->SetSkipLabList(i);
+
+			// ※ -> 展開は PP で完了しているため、CG での struct マッピングは不要
+			return 1;
+		}
+
 	}
 	return 0;
 }
@@ -1478,6 +1492,81 @@ void CToken::GenerateCodeCMD( int id )
 
 	if ( opt & 0x10000 ) CheckInternalListenerCMD(opt);
 
+	// structdim の特殊処理: struct_id を抽出して変数マッピングを記録
+	// パラメータ展開自体は通常の GenerateCodePRM に任せる
+	if (t == TYPE_PROGCMD && opt == 0x22) {
+		GenerateCodePRM();
+
+		// struct_id マッピング:
+		// 第2引数が 0x7F000000|id の場合、変数→struct_id を記録
+		// cg_structdim_varid は CheckInternalProgCMD で設定済み
+		// ここではパラメータ値から struct_id を抽出する必要があるが、
+		// CalcCG の結果はバイトコードに既に書き込まれている。
+		// 代替: CheckInternalProgCMD で記録した変数IDと、
+		// プリプロセッサで設定した定数値を使う
+		// → 通常パラメータ展開で十分。struct_id はプリプロセッサ値から逆算。
+		// ここではプリプロセッサ段階で作成した cg_structdefs を使って
+		// 全ての 0x7F000000|id 定数をスキャンし、変数マッピングを構築する
+		// （簡易実装: テスト用にソース行から直接パース）
+
+		cg_lastcmd = CG_LASTCMD_CMD;
+		cg_lasttype = t;
+		cg_lastval = opt;
+		GenerateLabelListAndTagRef(id, labtype);
+		return;
+#if 0
+		// 第1引数: 変数（普通に処理）
+		CalcCG(0);
+
+		// カンマを読む
+		if (ttype != TK_NONE || val != ',') throw CGERROR_SYNTAX;
+		GetTokenCG(GETTOKEN_DEFAULT);
+
+		// 第2引数: 構造体ID（プリプロセッサが構造体名を 0x7F000000|id に展開済み）
+		// または直接サイズ指定（整数）
+		int sid = -1;
+		int struct_size = 0;
+		if (ttype == TK_NUM && (val & 0x7F000000) == 0x7F000000) {
+			// 構造体ID
+			sid = val & 0x00FFFFFF;
+			if (sid < 0 || sid >= (int)cg_structdefs.size()) throw CGERROR_SYNTAX;
+			struct_size = cg_structdefs[sid].total_size;
+		} else if (ttype == TK_NUM) {
+			// 直接サイズ指定
+			struct_size = val;
+		} else if (ttype == TK_OBJ) {
+			// 未展開の構造体名（フォールバック）
+			sid = GetStructDefId(cg_str);
+			if (sid < 0) throw CGERROR_SYNTAX;
+			struct_size = cg_structdefs[sid].total_size;
+		} else {
+			throw CGERROR_SYNTAX;
+		}
+
+		// 変数→構造体IDマッピングを記録
+		if (cg_structdim_varid >= 0 && sid >= 0) {
+			cg_var_structid[cg_structdim_varid] = sid;
+			cg_structdim_varid = -1;
+		}
+
+		// 構造体サイズを即値パラメータとして生成
+		PutCS(TYPE_INUM, struct_size, 0);
+
+		// 第3引数: count（省略可）
+		GetTokenCG(GETTOKEN_DEFAULT);
+		if (ttype == TK_NONE && val == ',') {
+			GetTokenCG(GETTOKEN_DEFAULT);
+			CalcCG(0);
+		}
+
+		cg_lastcmd = CG_LASTCMD_CMD;
+		cg_lasttype = t;
+		cg_lastval = opt;
+		GenerateLabelListAndTagRef(id, labtype);
+		return;
+#endif
+	}
+
 	GenerateCodePRM();
 	cg_lastcmd  = CG_LASTCMD_CMD;
 	cg_lasttype = t;
@@ -1510,6 +1599,47 @@ void CToken::GenerateCodeLET( int id, bool first )
 	GetTokenCG( GETTOKEN_DEFAULT );
 
 	if (( ttype == TK_NONE )&&( val == 0x65 )) {	// ->が続いているか?
+		// struct 変数の場合はメンバアクセスに変換（PP で展開済みなのでここには来ない）
+		auto it = cg_var_structid.find(id);
+		if (it != cg_var_structid.end()) {
+			// struct メンバ書き込み: _struct_poke var, offset, member_type, value
+			int struct_id = it->second;
+			auto &sdef = cg_structdefs[struct_id];
+
+			// メンバ名を取得
+			GetTokenCG(GETTOKEN_DEFAULT);
+			if (ttype != TK_OBJ) throw CGERROR_SYNTAX;
+
+			// メンバ検索
+			int member_idx = -1;
+			for (int mi = 0; mi < (int)sdef.members.size(); mi++) {
+				if (sdef.members[mi].name == cg_str) { member_idx = mi; break; }
+			}
+			if (member_idx < 0) throw CGERROR_SYNTAX;
+			auto &member = sdef.members[member_idx];
+
+			// 配列要素のオフセット計算: pts(3)->x → base_offset = 3 * struct_size
+			// ここでは配列インデックスはまだ処理していない
+			// PutCS で _struct_poke を生成
+			PutCS( TYPE_PROGCMD, 0x23, EXFLG_1 );		// _struct_poke
+			PutCS( t, lb->GetOpt(id), 0 );				// 変数パラメーター
+			PutCS( TYPE_INUM, member.offset, 0 );		// byte offset
+			PutCS( TYPE_INUM, (int)member.stype, 0 );	// member type
+			PutCS( TYPE_INUM, sdef.total_size, 0 );		// struct size (配列オフセット計算用)
+
+			// '=' を読む
+			GetTokenCG(GETTOKEN_DEFAULT);
+			if (ttype != TK_NONE || val != '=') throw CGERROR_SYNTAX;
+
+			// 値式を展開
+			GetTokenCG(GETTOKEN_DEFAULT);
+			CalcCG(0);
+
+			cg_lastcmd = CG_LASTCMD_CMD;
+			return;
+		}
+
+		// netobj の場合は mcall
 		PutCS( TYPE_PROGCMD, 0x1a, EXFLG_1 );		// 'mcall'コマンドに置き換える
 		PutCS( t, lb->GetOpt(id), 0 );				// 変数パラメーター
 		GetTokenCG( GETTOKEN_DEFAULT );
@@ -2291,6 +2421,10 @@ void CToken::GenerateCodePP( char *buf )
 	if ( !strcmp( cg_str,"defcfunc" ) ) { GenerateCodePP_defcfunc(); return; }
 	if ( !strcmp( cg_str,"module" ) ) { GenerateCodePP_module(); return; }
 	if ( !strcmp( cg_str,"struct" ) ) { GenerateCodePP_struct(); return; }
+	if ( !strcmp( cg_str,"defstruct" ) ) { GenerateCodePP_defstruct(false); return; }
+	if ( !strcmp( cg_str,"defunion" ) ) { GenerateCodePP_defstruct(true); return; }
+	if ( !strcmp( cg_str,"endstruct" ) ) { GenerateCodePP_endstruct(); return; }
+	if ( !strcmp( cg_str,"endunion" ) ) { GenerateCodePP_endstruct(); return; }
 	if ( !strcmp( cg_str,"usecom" ) ) { GenerateCodePP_usecom(); return; }
 	if ( !strcmp( cg_str,"comfunc" ) ) { GenerateCodePP_comfunc(); return; }
 	if ( !strcmp(cg_str, "var") ) { GenerateCodePP_defvars(LAB_TYPEFIX_NONE); return; }
@@ -2318,6 +2452,11 @@ int CToken::GenerateCodeSub( void )
 	if ( *cg_ptr == '#' ) {
 		GenerateCodePP( cg_ptr );
 		return TK_EOL;
+	}
+
+	// 構造体定義中ならメンバ行をパース
+	if ( cg_defstruct_active >= 0 ) {
+		if ( GenerateCodeStructMember() ) return TK_EOL;
 	}
 
 	if ( cg_flag != CG_FLAG_ENABLE ) return TK_EOL;				// 最適化による出力抑制
@@ -3228,6 +3367,8 @@ int CToken::GenerateCode( CMemBuf *srcbuf, char *oname, int mode )
 
 	bakbuf.PutStr( srcbuf->GetBuffer() );				// プリプロセッサソースを保存する
 
+	cg_defstruct_active = -1;
+	cg_structdim_varid = -1;
 	cg_debug = mode & COMP_MODE_DEBUG;
 	cg_utf8out = mode & COMP_MODE_UTF8;
 	cg_strmap = mode & COMP_MODE_STRMAP;
@@ -3593,5 +3734,266 @@ void CToken::GenerateLabelListAndTagRef(int labelid, int flag )
 	if ((cg_labout_mode & LABLIST_MODE_REFERENCE) == 0) return;
 
 	GenerateLabelTag(lab->name, flag| LABBUF_FLAG_REFER, lab->type, cg_orgfilefull, cg_orgline );
+}
+
+
+/*------------------------------------------------------------*/
+/*
+		UserStruct support (#defstruct / #defunion)
+*/
+/*------------------------------------------------------------*/
+
+int CToken::GetStructDefId(const char *name)
+{
+	for (int i = 0; i < (int)cg_structdefs.size(); i++) {
+		if (cg_structdefs[i].name == name) return i;
+	}
+	return -1;
+}
+
+int CToken::GetStructMemberSize(StructMemberType stype)
+{
+	switch (stype) {
+	case SMT_BYTE:   return 1;
+	case SMT_BOOL1:  return 1;
+	case SMT_SHORT:  return 2;
+	case SMT_BOOL2:  return 2;
+	case SMT_INT:    return 4;
+	case SMT_FLOAT:  return 4;
+	case SMT_BOOL:   return 4;
+	case SMT_INT64:  return 8;
+	case SMT_DOUBLE: return 8;
+#ifdef PTR64BIT
+	case SMT_PTR:    return 8;
+#else
+	case SMT_PTR:    return 4;
+#endif
+	default:         return 0;
+	}
+}
+
+// アライメント計算
+static int align_offset(int offset, int alignment)
+{
+	if (alignment <= 1) return offset;
+	int remainder = offset % alignment;
+	if (remainder == 0) return offset;
+	return offset + (alignment - remainder);
+}
+
+// メンバ型のアライメント要件を返す
+static int get_member_alignment(CToken::StructMemberType stype, int pack)
+{
+	int natural;
+	switch (stype) {
+	case CToken::SMT_BYTE:
+	case CToken::SMT_BOOL1:
+	case CToken::SMT_CHAR_ARRAY:
+		natural = 1; break;
+	case CToken::SMT_SHORT:
+	case CToken::SMT_BOOL2:
+	case CToken::SMT_WCHAR_ARRAY:
+		natural = 2; break;
+	case CToken::SMT_INT:
+	case CToken::SMT_FLOAT:
+	case CToken::SMT_BOOL:
+		natural = 4; break;
+	case CToken::SMT_INT64:
+	case CToken::SMT_DOUBLE:
+	case CToken::SMT_PTR:
+		natural = 8; break;
+	default:
+		natural = 4; break;
+	}
+	return (natural < pack) ? natural : pack;
+}
+
+
+void CToken::GenerateCodePP_defstruct(bool is_union)
+{
+	//		#defstruct NAME [, pack=N]
+	//		#defunion NAME
+	//
+	StructDef sdef;
+	sdef.is_union = is_union;
+	sdef.pack = 8;  // デフォルト pack=8 (Win32/Win64 準拠)
+	sdef.total_size = 0;
+
+	// 構造体名を取得
+	GetTokenCG(GETTOKEN_DEFAULT);
+	if (ttype != TK_OBJ) throw CGERROR_PP_NAMEREQUIRED;
+	sdef.name = cg_str;
+
+	// 重複チェック
+	if (GetStructDefId(cg_str) >= 0) throw CGERROR_PP_ALREADY_USE_FUNCNAME;
+
+	// オプション: pack=N
+	GetTokenCG(GETTOKEN_DEFAULT);
+	if (ttype == TK_NONE && val == ',') {
+		// カンマの後に pack=N
+		GetTokenCG(GETTOKEN_DEFAULT);
+		if (ttype == TK_OBJ && !strcmp(cg_str, "pack")) {
+			GetTokenCG(GETTOKEN_DEFAULT);  // '='
+			if (ttype != TK_NONE || val != '=') throw CGERROR_SYNTAX;
+			GetTokenCG(GETTOKEN_DEFAULT);  // 数値
+			if (ttype != TK_NUM) throw CGERROR_SYNTAX;
+			sdef.pack = val;
+		}
+	}
+
+	// テーブルに仮登録（#endstruct で確定）
+	cg_structdefs.push_back(sdef);
+	cg_defstruct_active = (int)cg_structdefs.size() - 1;
+}
+
+
+void CToken::GenerateCodePP_endstruct(void)
+{
+	//		#endstruct / #endunion
+	//		直前の #defstruct/#defunion を確定する
+	//
+	if (cg_structdefs.empty()) throw CGERROR_SYNTAX;
+
+	auto &sdef = cg_structdefs.back();
+	if (sdef.members.empty()) {
+		// メンバが0個は許可しない
+		throw CGERROR_SYNTAX;
+	}
+
+	// union の場合、total_size は最大メンバサイズ
+	if (sdef.is_union) {
+		int max_size = 0;
+		for (auto &m : sdef.members) {
+			if (m.offset + m.size > max_size)
+				max_size = m.offset + m.size;
+		}
+		sdef.total_size = max_size;
+	}
+
+	// total_size をアライメントで切り上げ
+	sdef.total_size = align_offset(sdef.total_size, sdef.pack);
+
+	cg_defstruct_active = -1;
+}
+
+
+bool CToken::GenerateCodeStructMember(void)
+{
+	//		構造体定義中のメンバ行をパースする
+	//		"int x" や "double speed" や "char name[260]" 等
+	//		union/endunion もここで処理する
+	//
+	if (cg_defstruct_active < 0) return false;
+
+	auto &sdef = cg_structdefs[cg_defstruct_active];
+
+	// 先頭トークン取得
+	GetTokenCG(GETTOKEN_DEFAULT);
+	if (ttype >= TK_SEPARATE) return true;  // 空行
+	if (ttype != TK_OBJ) return false;      // 型名でなければ通常処理に戻す
+
+	// union / endunion サブブロック（構造体内共用体）
+	if (!strcmp(cg_str, "union")) {
+		// union サブブロック開始 — 以後のメンバは同じオフセットから
+		// 現在のオフセットを記録（union 開始点）
+		// TODO: union サブブロック対応（Phase 4）
+		return true;
+	}
+	if (!strcmp(cg_str, "endunion")) {
+		// union サブブロック終了
+		// TODO: union サブブロック対応（Phase 4）
+		return true;
+	}
+
+	// メンバ型を解決
+	StructMember member;
+	member.array_count = 0;
+	member.nested_struct_id = -1;
+	member.size = 0;
+
+	char type_name[256];
+	strcpy_s(type_name, sizeof(type_name), cg_str);
+
+	// 基本型の判定
+	if (!strcmp(type_name, "byte"))        member.stype = SMT_BYTE;
+	else if (!strcmp(type_name, "short"))  member.stype = SMT_SHORT;
+	else if (!strcmp(type_name, "int"))    member.stype = SMT_INT;
+	else if (!strcmp(type_name, "int64"))  member.stype = SMT_INT64;
+	else if (!strcmp(type_name, "float"))  member.stype = SMT_FLOAT;
+	else if (!strcmp(type_name, "double")) member.stype = SMT_DOUBLE;
+	else if (!strcmp(type_name, "ptr"))    member.stype = SMT_PTR;
+	else if (!strcmp(type_name, "bool"))   member.stype = SMT_BOOL;
+	else if (!strcmp(type_name, "bool1"))  member.stype = SMT_BOOL1;
+	else if (!strcmp(type_name, "bool2"))  member.stype = SMT_BOOL2;
+	else if (!strcmp(type_name, "char"))   member.stype = SMT_CHAR_ARRAY;
+	else if (!strcmp(type_name, "wchar"))  member.stype = SMT_WCHAR_ARRAY;
+	else {
+		// 入れ子構造体の可能性
+		int nested_id = GetStructDefId(type_name);
+		if (nested_id >= 0) {
+			member.stype = SMT_NESTED_STRUCT;
+			member.nested_struct_id = nested_id;
+		} else {
+			throw CGERROR_SYNTAX;
+		}
+	}
+
+	// メンバ名を取得
+	GetTokenCG(GETTOKEN_DEFAULT);
+	if (ttype != TK_OBJ) throw CGERROR_PP_NAMEREQUIRED;
+	member.name = cg_str;
+
+	// 固定長配列: name[N]
+	GetTokenCG(GETTOKEN_DEFAULT);
+	if (ttype == TK_NONE && val == '[') {
+		GetTokenCG(GETTOKEN_DEFAULT);
+		if (ttype != TK_NUM) throw CGERROR_SYNTAX;
+		member.array_count = val;
+		GetTokenCG(GETTOKEN_DEFAULT);  // ']'
+		if (ttype != TK_NONE || val != ']') throw CGERROR_SYNTAX;
+	}
+
+	// メンバサイズ計算
+	if (member.stype == SMT_CHAR_ARRAY) {
+		if (member.array_count <= 0) throw CGERROR_SYNTAX;  // char は配列必須
+		member.size = member.array_count;  // N bytes
+	} else if (member.stype == SMT_WCHAR_ARRAY) {
+		if (member.array_count <= 0) throw CGERROR_SYNTAX;  // wchar は配列必須
+		member.size = member.array_count * 2;  // N*2 bytes
+	} else if (member.stype == SMT_NESTED_STRUCT) {
+		int base_size = cg_structdefs[member.nested_struct_id].total_size;
+		if (member.array_count > 0) {
+			member.size = base_size * member.array_count;
+		} else {
+			member.size = base_size;
+		}
+	} else if (member.stype == SMT_TYPED_ARRAY) {
+		// TODO
+		throw CGERROR_SYNTAX;
+	} else {
+		int base_size = GetStructMemberSize(member.stype);
+		if (member.array_count > 0) {
+			member.size = base_size * member.array_count;
+		} else {
+			member.size = base_size;
+		}
+	}
+
+	// オフセット計算
+	if (sdef.is_union) {
+		// union: 全メンバが offset 0 から
+		member.offset = 0;
+		if (member.size > sdef.total_size) {
+			sdef.total_size = member.size;
+		}
+	} else {
+		// struct: アライメントを考慮して配置
+		int align = get_member_alignment(member.stype, sdef.pack);
+		member.offset = align_offset(sdef.total_size, align);
+		sdef.total_size = member.offset + member.size;
+	}
+
+	sdef.members.push_back(member);
+	return true;
 }
 

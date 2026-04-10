@@ -301,6 +301,9 @@ private:
 	ppresult_t PP_Ahtmes( void );
 	ppresult_t PP_BootOpt(void);
 	ppresult_t PP_VarFix( char *word );
+	void PP_StructMember( char *line );		// #defstruct 内のメンバ行パース
+	bool PP_ExpandStructAccess( char *line, char *out, int outsize );	// -> をテキスト展開
+	void PP_DetectStructDim( char *line );	// structdim 行から変数マッピング検出
 
 	void SetModuleName( char *name );
 	char *GetModuleName( void );
@@ -447,6 +450,8 @@ private:
 	char mestmp[128];				// meseage temp
 	int incinf;						// include level
 	int mulstr;						// multiline string flag
+	int pp_defstruct_level;			// #defstruct ネストレベル (>0 = メンバ行スキップ中)
+	std::map<std::string, int> pp_var_structid;	// PP用: 変数名→struct_id マッピング
 	short swstack[SWSTACK_MAX];		// generator sw stack (flag)
 	short swstack2[SWSTACK_MAX];	// generator sw stack (mode)
 	short swstack3[SWSTACK_MAX];	// generator sw stack (sw)
@@ -540,6 +545,60 @@ private:
 	int cg_localstruct[CG_LOCALSTRUCT_MAX];
 	int cg_localcur;
 
+	//		for UserStruct (構造体定義テーブル)
+	//
+public:
+	// メンバの型
+	enum StructMemberType {
+		SMT_BYTE = 0,		// 1 byte
+		SMT_SHORT,			// 2 bytes
+		SMT_INT,			// 4 bytes
+		SMT_INT64,			// 8 bytes
+		SMT_FLOAT,			// 4 bytes
+		SMT_DOUBLE,			// 8 bytes
+		SMT_PTR,			// 4 or 8 bytes (pointer size)
+		SMT_BOOL,			// 4 bytes (Win32 BOOL)
+		SMT_BOOL1,			// 1 byte (C bool)
+		SMT_BOOL2,			// 2 bytes (VARIANT_BOOL)
+		SMT_CHAR_ARRAY,		// N bytes (fixed ANSI string)
+		SMT_WCHAR_ARRAY,	// N*2 bytes (fixed Unicode string)
+		SMT_NESTED_STRUCT,	// nested struct
+		SMT_TYPED_ARRAY,	// TYPE[N] fixed-size typed array
+	};
+
+	struct StructMember {
+		std::string name;			// メンバ名
+		StructMemberType stype;		// メンバ型
+		int offset;					// バイトオフセット
+		int size;					// メンバサイズ(bytes)
+		int array_count;			// 配列要素数 (0=非配列)
+		int nested_struct_id;		// SMT_NESTED_STRUCT 時の struct ID
+	};
+
+	struct StructDef {
+		std::string name;			// 構造体名
+		int total_size;				// 総サイズ(bytes)
+		int pack;					// アライメント (デフォルト 8)
+		bool is_union;				// union フラグ
+		std::vector<StructMember> members;
+	};
+
+	std::vector<StructDef> cg_structdefs;	// 構造体定義テーブル
+	int cg_defstruct_active;				// 構造体定義中フラグ (-1=非定義中, else=struct index)
+	int cg_structdim_varid;					// structdim で処理中の変数 label_id
+
+	// 変数→構造体ID マッピング (structdim で登録)
+	std::map<int, int> cg_var_structid;		// label_id → struct_id
+
+	int GetStructDefId(const char *name);	// 名前から構造体定義IDを取得
+	int GetStructMemberSize(StructMemberType stype);
+
+	// Struct パーサー
+	void GenerateCodePP_defstruct(bool is_union);
+	void GenerateCodePP_endstruct(void);
+	bool GenerateCodeStructMember(void);		// メンバ行をパース (true=処理した)
+
+private:
 	//		for Error
 	//
 	int pp_orgline;

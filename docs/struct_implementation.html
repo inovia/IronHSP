@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IronHSP 構造体サポート - 実装設計書</title>
+<style>
+  :root { --accent: #2563eb; --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --text: #1e293b; --muted: #64748b; --green: #16a34a; --orange: #ea580c; --red: #dc2626; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Meiryo', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
+  h1 { font-size: 2rem; border-bottom: 3px solid var(--accent); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+  h2 { font-size: 1.5rem; color: var(--accent); margin: 2.5rem 0 1rem; border-left: 4px solid var(--accent); padding-left: 0.75rem; }
+  h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
+  h4 { font-size: 1rem; margin: 1rem 0 0.3rem; color: var(--muted); }
+  p, li { margin-bottom: 0.4rem; }
+  ul, ol { padding-left: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; }
+  th, td { border: 1px solid var(--border); padding: 0.5rem 0.75rem; text-align: left; }
+  th { background: #eef2ff; font-weight: 600; }
+  tr:nth-child(even) { background: #f8fafc; }
+  code { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 3px; font-family: 'Consolas', 'Source Code Pro', monospace; font-size: 0.9em; }
+  pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; font-size: 0.88rem; line-height: 1.5; }
+  pre code { background: none; padding: 0; color: inherit; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin: 1rem 0; }
+  .note { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 0.75rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .note-blue { background: #eff6ff; border-left: 4px solid var(--accent); padding: 0.75rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .note-red { background: #fef2f2; border-left: 4px solid var(--red); padding: 0.75rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .note-green { background: #f0fdf4; border-left: 4px solid var(--green); padding: 0.75rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .badge { display: inline-block; background: var(--accent); color: #fff; padding: 0.15rem 0.6rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+  .badge-green { background: var(--green); }
+  .badge-orange { background: var(--orange); }
+  .badge-red { background: var(--red); }
+  .flow-diagram { background: #fff; border: 2px solid var(--border); border-radius: 8px; padding: 1.5rem; margin: 1rem 0; font-family: 'Consolas', monospace; font-size: 0.85rem; white-space: pre; overflow-x: auto; }
+  .muted { color: var(--muted); font-size: 0.9rem; }
+  .toc { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+  .toc ul { list-style: none; padding-left: 0; }
+  .toc li { padding: 0.2rem 0; }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>IronHSP 構造体サポート - 実装設計書</h1>
+<p class="muted">最終更新: 2026-04-11</p>
+
+<div class="toc">
+<strong>目次</strong>
+<ul>
+  <li><a href="#overview">1. 概要と目標</a></li>
+  <li><a href="#syntax">2. ユーザー構文</a></li>
+  <li><a href="#compiler-arch">3. HSP コンパイラのアーキテクチャ</a></li>
+  <li><a href="#impl-strategy">4. 実装戦略</a></li>
+  <li><a href="#pp-phase">5. プリプロセッサフェーズの処理</a></li>
+  <li><a href="#cg-phase">6. コード生成フェーズの処理</a></li>
+  <li><a href="#runtime">7. ランタイムの処理</a></li>
+  <li><a href="#func-param">8. #func / #cfunc での構造体パラメータ</a></li>
+  <li><a href="#issues">9. 判明した課題と解決策</a></li>
+  <li><a href="#files">10. 変更対象ファイル一覧</a></li>
+</ul>
+</div>
+
+<!-- ======================================== -->
+<h2 id="overview">1. 概要と目標</h2>
+
+<p>HSP スクリプトからC言語のような構造体を定義し、メンバ名でアクセスできるようにする。
+Win32 API の構造体（POINT, RECT, WIN32_FIND_DATA 等）をそのまま定義してDLLに渡せることを目標とする。</p>
+
+<div class="card">
+<h3>目標とする使用例</h3>
+<pre><code>; 構造体定義
+#defstruct POINT
+    int x
+    int y
+#endstruct
+
+; 構造体変数の確保
+structdim p, POINT
+
+; メンバアクセス（-> 演算子）
+p->x = 100
+p->y = 200
+mes "x=" + p->x + " y=" + p->y
+
+; Win32 API に渡す
+#uselib "user32.dll"
+#func GetCursorPos "GetCursorPos" var
+GetCursorPos p
+mes "cursor: " + p->x + ", " + p->y</code></pre>
+</div>
+
+<!-- ======================================== -->
+<h2 id="syntax">2. ユーザー構文</h2>
+
+<h3>2.1 構造体定義</h3>
+<pre><code>; 基本
+#defstruct POINT
+    int x
+    int y
+#endstruct
+
+; 豊富な型
+#defstruct PLAYER
+    byte  id
+    short flags
+    int   score
+    int64 unique_id
+    float speed
+    double position
+    ptr   handle
+    bool  visible        ; Win32 BOOL (4bytes)
+#endstruct
+
+; 固定長配列・固定長文字列
+#defstruct FIND_DATA
+    int   dwFileAttributes
+    wchar cFileName[260]
+    char  cShortName[14]
+#endstruct
+
+; 入れ子構造体
+#defstruct RECT
+    POINT topLeft
+    POINT bottomRight
+#endstruct
+
+; 共用体
+#defunion LARGE_INTEGER
+    int   LowPart
+    int   HighPart
+    int64 QuadPart
+#endunion
+
+; パック指定
+#defstruct PACKED, pack=1
+    byte a
+    int  b          ; offset=1（pack=1 なので詰める）
+#endstruct</code></pre>
+
+<h3>2.2 構造体変数の操作</h3>
+<pre><code>; 確保
+structdim p, POINT           ; 1個
+structdim pts, POINT, 100    ; 配列 100個
+
+; 書き込み
+p->x = 100
+p->y = 200
+
+; 読み取り
+a = p->x
+mes p->y
+
+; 配列アクセス
+pts(3)->x = 50
+
+; API に渡す（int 配列のバッファとして varptr で渡せる）
+GetCursorPos p</code></pre>
+
+<h3>2.3 型一覧</h3>
+<table>
+<tr><th>型名</th><th>サイズ</th><th>C言語対応</th></tr>
+<tr><td><code>byte</code></td><td>1</td><td>unsigned char, BYTE</td></tr>
+<tr><td><code>short</code></td><td>2</td><td>short, WORD</td></tr>
+<tr><td><code>int</code></td><td>4</td><td>int, LONG, DWORD</td></tr>
+<tr><td><code>int64</code></td><td>8</td><td>long long, LONGLONG</td></tr>
+<tr><td><code>float</code></td><td>4</td><td>float</td></tr>
+<tr><td><code>double</code></td><td>8</td><td>double</td></tr>
+<tr><td><code>ptr</code></td><td>4/8</td><td>void*, HANDLE, HWND</td></tr>
+<tr><td><code>bool</code></td><td>4</td><td>BOOL (Win32)</td></tr>
+<tr><td><code>bool1</code></td><td>1</td><td>_Bool, C# bool</td></tr>
+<tr><td><code>bool2</code></td><td>2</td><td>VARIANT_BOOL</td></tr>
+<tr><td><code>char[N]</code></td><td>N</td><td>char[N] (ANSI)</td></tr>
+<tr><td><code>wchar[N]</code></td><td>N*2</td><td>wchar_t[N] (Unicode)</td></tr>
+<tr><td><code>STRUCT</code></td><td>sizeof</td><td>入れ子構造体</td></tr>
+</table>
+
+<!-- ======================================== -->
+<h2 id="compiler-arch">3. HSP コンパイラのアーキテクチャ</h2>
+
+<div class="note-red">
+<strong>重要な制約:</strong> プリプロセッサとコード生成は<strong>別の CToken インスタンス</strong>で実行される。
+データの受け渡しは<strong>出力バッファ（テキスト）</strong>と<strong>ラベルバッファ</strong>経由のみ。
+</div>
+
+<h3>3.1 コンパイルの流れ</h3>
+<div class="flow-diagram">
+  ソースファイル (.hsp)
+        |
+        v
+  +------------------+     CToken tk1 (インスタンス1)
+  | PreProcess()     |     - ExpandLine() でマクロ展開
+  | (token.cpp)      |     - #const, #define, #module 等を処理
+  +------------------+     - lb (ラベルバッファ) にシンボル登録
+        |
+        v
+  出力バッファ (outbuf) ← プリプロセッサ展開済みテキスト
+        |                   ※ lb_info として保存可能
+        v
+  +------------------+     CToken tk2 (インスタンス2)
+  | Compile()        |     - lb_info からラベル情報を復元
+  | GenerateCode()   |     - outbuf のテキストを行単位でパース
+  | (codegen.cpp)    |     - バイトコード (.ax) を生成
+  +------------------+
+        |
+        v
+  バイトコード (.ax ファイル)
+        |
+        v
+  +------------------+
+  | hsp3.exe         |     ランタイム
+  | (hsp3code.cpp)   |     - バイトコードを逐次実行
+  +------------------+
+</div>
+
+<h3>3.2 データ受け渡しチャネル</h3>
+<table>
+<tr><th>チャネル</th><th>方向</th><th>内容</th><th>既存の使用例</th></tr>
+<tr><td>出力バッファ (wrtbuf)</td><td>PP → CG</td><td>変換済みテキスト行</td><td><code>#struct</code>, <code>#deffunc</code></td></tr>
+<tr><td>ラベルバッファ (lb / lb_info)</td><td>PP → CG</td><td>シンボル名 → 型/値</td><td><code>#const</code>, <code>#define</code></td></tr>
+<tr><td>バイトコード (.ax)</td><td>CG → RT</td><td>命令 + パラメータ</td><td>全コマンド/関数</td></tr>
+</table>
+
+<h3>3.3 既存の #struct の処理パターン</h3>
+<p><code>#struct</code>（関数パラメータ用）は以下の方式で PP → CG 間を橋渡ししている:</p>
+<ol>
+  <li><strong>PP_Struct()</strong> (token.cpp): 構造体名+メンバをラベル登録 + <strong>変換済み行を wrtbuf に書き出す</strong></li>
+  <li><strong>GenerateCodePP_struct()</strong> (codegen.cpp): wrtbuf から<strong>再パース</strong>して STRUCTDAT/STRUCTPRM を構築</li>
+</ol>
+<p>この「PP が変換済みテキストを書き出し、CG が再パースする」パターンが HSP コンパイラの標準的な方法。</p>
+
+<!-- ======================================== -->
+<h2 id="impl-strategy">4. 実装戦略</h2>
+
+<div class="note-blue">
+<strong>方針:</strong> 既存の <code>#struct</code> パターンに倣い、プリプロセッサが構造体定義を解析して
+メンバ情報を<strong>テキスト形式で出力バッファに書き出す</strong>。コード生成フェーズが再パースして使う。
+</div>
+
+<h3>4.1 全体フロー</h3>
+
+<div class="flow-diagram">
+[HSP ソースコード]
+
+  #defstruct POINT
+      int x
+      int y
+  #endstruct
+  structdim p, POINT
+  p->x = 100
+  mes p->x
+
+        |
+        v  プリプロセッサ (token.cpp)
+
+[出力バッファに書き出される内容]
+
+  #defstruct point 8 8 2            ← 名前, total_size, pack, member_count
+  #_smember 0 2 4 0 x               ← offset, stype, size, array_count, name
+  #_smember 4 2 4 0 y               ← offset, stype, size, array_count, name
+  #endstruct
+  structdim p, 8                     ← POINT → サイズ 8 に展開
+  _struct_poke p, 0, 2, 8, 100      ← p->x = 100 を展開
+  mes _struct_peek(p, 0, 2, 8)      ← p->x を展開
+
+        |
+        v  コード生成 (codegen.cpp)
+
+  #defstruct → cg_structdefs テーブル構築
+  structdim  → dim p, 2 (8bytes/4 = 2 int)
+  _struct_poke → バイトコード生成
+  _struct_peek → バイトコード生成
+
+        |
+        v  ランタイム (hsp3code.cpp)
+
+  structdim  → int配列確保 + ゼロクリア
+  _struct_poke → メンバ型に応じたバイト書き込み
+  _struct_peek → メンバ型に応じたバイト読み取り → 型付き値を返す
+</div>
+
+<h3>4.2 代替案: -> をプリプロセッサで完全展開</h3>
+
+<div class="two-col">
+<div class="card">
+<h4>案A: プリプロセッサで展開 <span class="badge-green badge">採用</span></h4>
+<pre><code>; ソース
+p->x = 100
+mes p->x
+
+; PP 展開後
+_struct_poke p, 0, 2, 8, 100
+mes _struct_peek(p, 0, 2, 8)</code></pre>
+<ul>
+  <li>PP が構造体情報を持つので解決可能</li>
+  <li>CG は通常のコマンド/関数として処理</li>
+  <li>CG に構造体知識が不要</li>
+</ul>
+</div>
+<div class="card">
+<h4>案B: コード生成で解決 <span class="badge-red badge">課題あり</span></h4>
+<pre><code>; ソース（そのまま CG に渡る）
+p->x = 100
+mes p->x
+
+; CG が -> を解決
+; → cg_structdefs が必要
+; → PP と CG が別インスタンスで共有不可</code></pre>
+<ul>
+  <li>PP と CG 間でデータ共有が困難</li>
+  <li>式中の -> 読み取りが複雑</li>
+  <li>既存パターンに合わない</li>
+</ul>
+</div>
+</div>
+
+<div class="note-green">
+<strong>案A を採用。</strong><code>-></code> 演算子の解決をプリプロセッサフェーズで行い、
+<code>_struct_poke</code> / <code>_struct_peek()</code> コマンド/関数に展開する。
+コード生成フェーズは展開済みのコマンドを通常通り処理するだけ。
+</div>
+
+<!-- ======================================== -->
+<h2 id="pp-phase">5. プリプロセッサフェーズの処理</h2>
+
+<h3>5.1 #defstruct の処理 (Preprocess 内)</h3>
+<pre><code>// token.cpp - Preprocess() 内
+
+if (tstrcmp(word, "defstruct") || tstrcmp(word, "defunion")) {
+    // 1. 構造体名を取得
+    // 2. pp_defstruct_level++ でメンバ行スキップモード開始
+    // 3. StructDef を作成して pp_structdefs に push
+    // 4. wrtbuf に "#defstruct name size pack member_count" を書き出す（CG 用）
+    return PPRESULT_WROTE_LINE;
+}</code></pre>
+
+<h3>5.2 メンバ行の処理 (ExpandLine 内)</h3>
+<pre><code>// token.cpp - ExpandLine() 内
+
+if (pp_defstruct_level > 0 && !is_preprocess_line) {
+    // 1. メンバ行をパース: "int x" → type=SMT_INT, name="x", offset=0, size=4
+    // 2. StructDef.members に追加
+    // 3. wrtbuf に "#_smember offset type size array_count name" を書き出す
+    buf->PutStr(formatted_member_line);
+    buf->PutCR();
+    pline++;
+    continue;
+}</code></pre>
+
+<h3>5.3 #endstruct の処理</h3>
+<pre><code>// token.cpp - Preprocess() 内
+
+if (tstrcmp(word, "endstruct") || tstrcmp(word, "endunion")) {
+    // 1. total_size を確定（アライメント切り上げ）
+    // 2. 構造体名を LAB_TYPE_PPVAL 定数として登録（値 = 0x7F000000 | struct_id）
+    //    → structdim p, POINT の POINT がこの値に展開される
+    // 3. wrtbuf に "#endstruct" を書き出す
+    return PPRESULT_WROTE_LINE;
+}</code></pre>
+
+<h3>5.4 -> 演算子の展開 (ExpandTokens 内)</h3>
+
+<div class="note">
+<strong>ここが最も重要な部分。</strong>プリプロセッサのトークン展開時に <code>var->member</code> パターンを検出し、
+<code>_struct_poke</code> / <code>_struct_peek()</code> に変換する。
+</div>
+
+<h4>書き込みパターン: <code>p->x = 100</code></h4>
+<pre><code>// token.cpp - ExpandTokens() 内でトークンストリームを走査
+
+// 入力トークン列: [p] [->] [x] [=] [100]
+//
+// 検出条件:
+//   1. 変数トークン (var) の後に -> が続く
+//   2. var が structdim で登録された構造体変数
+//
+// 変換:
+//   → _struct_poke p, 0, 2, 8, 100
+//     引数: var, member_offset, member_type, struct_size, value_expression
+//
+// 配列の場合: pts(3)->x = 100
+//   → _struct_poke pts(3), 0, 2, 8, 100
+//     ※ ランタイムが pts(3) の配列オフセットを考慮する</code></pre>
+
+<h4>読み取りパターン: <code>mes p->x</code></h4>
+<pre><code>// 入力トークン列: [mes] [p] [->] [x]
+//
+// 変換:
+//   → mes _struct_peek(p, 0, 2, 8)
+//     引数: var, member_offset, member_type, struct_size
+//     戻り値: member_type に応じた型付き値 (int/int64/double/str)</code></pre>
+
+<h4>判定に必要な情報</h4>
+<table>
+<tr><th>情報</th><th>格納場所</th><th>取得方法</th></tr>
+<tr><td>変数が構造体か</td><td>pp_var_structid マップ</td><td>structdim 行の処理時に登録</td></tr>
+<tr><td>構造体の定義</td><td>pp_structdefs ベクタ</td><td>#defstruct 処理時に構築</td></tr>
+<tr><td>メンバのオフセット/型</td><td>StructDef.members</td><td>メンバ名で検索</td></tr>
+</table>
+
+<h3>5.5 structdim の展開</h3>
+<pre><code>// 入力: structdim p, POINT
+//
+// PP 処理:
+//   1. POINT は LAB_TYPE_PPVAL 定数として展開済み → 0x7F000000 | struct_id
+//   2. しかし _struct_poke 展開のため、変数→構造体マッピングも必要
+//   3. ExpandTokens で "structdim" の後の変数名と構造体名を検出
+//   4. pp_var_structid[変数名] = struct_id を記録
+//
+// 出力: structdim p, 8
+//   ※ 0x7F000000|id ではなく、直接サイズに展開する方がシンプル</code></pre>
+
+<!-- ======================================== -->
+<h2 id="cg-phase">6. コード生成フェーズの処理</h2>
+
+<h3>6.1 #defstruct の再パース (GenerateCodePP 内)</h3>
+<pre><code>// codegen.cpp - GenerateCodePP() 内
+
+if (!strcmp(cg_str, "defstruct")) {
+    // wrtbuf から書き出された行を再パース:
+    //   "#defstruct point 8 8 2"
+    //   "#_smember 0 2 4 0 x"
+    //   "#_smember 4 2 4 0 y"
+    //   "#endstruct"
+    // → cg_structdefs テーブルを構築
+    // ※ -> 展開は PP で完了しているので、CG では定義のみ保持
+    GenerateCodePP_defstruct(false);
+    return;
+}</code></pre>
+
+<h3>6.2 structdim のコード生成</h3>
+<pre><code>// PP で展開済み: structdim p, 8
+// → 通常の PROGCMD (0x22) としてパラメータ処理
+// → ランタイムに structdim(var, size) として渡される
+//
+// CheckInternalProgCMD で変数初期化フラグを設定するのみ
+// ※ 構造体マッピングは CG では不要（-> は PP で展開済み）</code></pre>
+
+<h3>6.3 _struct_poke / _struct_peek のコード生成</h3>
+<pre><code>// PP で展開済み:
+//   _struct_poke p, 0, 2, 8, 100
+//   _struct_peek(p, 0, 2, 8)
+//
+// → 通常のコマンド/関数としてパラメータをバイトコード化
+// → CG は構造体について何も知る必要がない
+// → 全てのメンバ情報はオフセット/型の即値として埋め込み済み</code></pre>
+
+<!-- ======================================== -->
+<h2 id="runtime">7. ランタイムの処理</h2>
+
+<h3>7.1 structdim (PROGCMD 0x22)</h3>
+<pre><code>// hsp3code.cpp
+
+case 0x22:  // structdim var, total_size [, count]
+{
+    PVal *pval = code_getpval();
+    int struct_size = code_getdi(0);
+    int count = code_getdi(1);
+    int total_bytes = struct_size * count;
+    int dim_count = (total_bytes + 3) / 4;
+
+    // int 配列として確保
+    HspVarCoreDimWC(pval, HSPVAR_FLAG_INT, dim_count, 0, 0, 0);
+    // ゼロクリア
+    memset(pval->pt, 0, dim_count * sizeof(int));
+    break;
+}</code></pre>
+
+<h3>7.2 _struct_poke (PROGCMD 0x23)</h3>
+<pre><code>// hsp3code.cpp
+
+case 0x23:  // _struct_poke var, member_offset, member_type, struct_size, value
+{
+    PVal *pval;
+    APTR aptr = code_getva(&pval);  // 配列インデックスも考慮
+    int member_offset = code_geti();
+    int member_type = code_geti();
+    int struct_size = code_geti();
+
+    // 配列要素のベースオフセット計算
+    // aptr は int 配列のインデックスなので byte_offset = aptr * 4
+    // ※ structdim pts, POINT, 100 の場合:
+    //   pts(3)->x → aptr=3, struct_size=8
+    //   base = pval->pt + (aptr * struct_size) + member_offset
+    char *base = (char*)pval->pt + (aptr * struct_size) + member_offset;
+
+    // 型に応じた書き込み
+    switch (member_type) {
+    case SMT_BYTE:   *base = (char)code_geti(); break;
+    case SMT_SHORT:  *(short*)base = (short)code_geti(); break;
+    case SMT_INT:    *(int*)base = code_geti(); break;
+    case SMT_INT64:  *(int64_t*)base = code_geti64(); break;
+    case SMT_FLOAT:  *(float*)base = (float)code_getdd(0.0); break;
+    case SMT_DOUBLE: *(double*)base = code_getdd(0.0); break;
+    case SMT_PTR:    *(void**)base = (void*)(intptr_t)code_geti64(); break;
+    case SMT_BOOL:   *(int*)base = code_geti(); break;
+    case SMT_CHAR_ARRAY: {
+        char *src = code_gets();
+        strncpy(base, src, /* member_size */);
+        break;
+    }
+    // ...
+    }
+    break;
+}</code></pre>
+
+<h3>7.3 _struct_peek (INTFUNC 0x17)</h3>
+<pre><code>// hsp3int.cpp
+
+case 0x17:  // _struct_peek(var, member_offset, member_type, struct_size)
+{
+    PVal *pval;
+    int size;
+    char *sptr = code_getvptr(&pval, &size);
+    int member_offset = code_geti();
+    int member_type = code_geti();
+    int struct_size = code_geti();
+
+    char *base = sptr + member_offset;
+
+    switch (member_type) {
+    case SMT_INT:
+        reffunc_intfunc_ivalue = *(int*)base;
+        *type_res = HSPVAR_FLAG_INT;
+        ptr = &reffunc_intfunc_ivalue;
+        break;
+    case SMT_DOUBLE:
+        reffunc_intfunc_dvalue = *(double*)base;
+        *type_res = HSPVAR_FLAG_DOUBLE;
+        ptr = &reffunc_intfunc_dvalue;
+        break;
+    case SMT_CHAR_ARRAY:
+        *type_res = HSPVAR_FLAG_STR;
+        ptr = base;
+        break;
+    // ...
+    }
+    break;
+}</code></pre>
+
+<h3>7.4 メモリレイアウト例</h3>
+<pre><code>#defstruct PLAYER
+    byte  id           ; offset 0, size 1
+    byte  _pad1        ; (自動パディング)
+    short flags        ; offset 2, size 2
+    int   score        ; offset 4, size 4
+    double position    ; offset 8, size 8
+#endstruct
+; total_size = 16 (pack=8)
+
+structdim pl, PLAYER
+; → dim pl, 4  (16 bytes = 4 ints)
+
+; メモリレイアウト:
+; offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+;         [id][--][flags][score   ][position                ]
+;         byte pad short  int      double
+
+pl->id = 42         ; → _struct_poke pl, 0, SMT_BYTE, 16, 42
+pl->score = 1000    ; → _struct_poke pl, 4, SMT_INT, 16, 1000
+pl->position = 3.14 ; → _struct_poke pl, 8, SMT_DOUBLE, 16, 3.14
+mes pl->score        ; → mes _struct_peek(pl, 4, SMT_INT, 16)</code></pre>
+
+<!-- ======================================== -->
+<h2 id="func-param">8. #func / #cfunc での構造体パラメータ</h2>
+
+<h3>8.1 ポインタ渡し（最もシンプル）</h3>
+<pre><code>; 構造体のバッファポインタを渡す
+#uselib "user32.dll"
+#func GetCursorPos "GetCursorPos" var
+
+structdim pt, POINT
+GetCursorPos pt              ; var パラメータ → varptr(pt) が渡される
+mes pt->x + ", " + pt->y</code></pre>
+<p>構造体変数は int 配列なので、既存の <code>var</code> パラメータタイプで参照渡しが可能。
+DLL 側には配列のポインタ（= 構造体のバイトバッファポインタ）が渡される。</p>
+
+<h3>8.2 将来: 型付きパラメータ</h3>
+<pre><code>; 将来的な拡張案
+#func GetKey "GetKey" sptr     ; 構造体ポインタ渡し（var と同等）
+
+; または新しい型指定
+#func GetKey "GetKey" struct POINT  ; 構造体の値渡し（サイズ分のスタック確保）</code></pre>
+<p>現時点では <code>var</code> で十分。構造体の値渡しが必要な場合は将来拡張。</p>
+
+<!-- ======================================== -->
+<h2 id="issues">9. 判明した課題と解決策</h2>
+
+<div class="card">
+<h3>課題1: PP と CG が別インスタンス <span class="badge-green badge">解決済み</span></h3>
+<p><strong>問題:</strong> <code>cg_structdefs</code> がプリプロセッサとコード生成で共有されない。</p>
+<p><strong>解決:</strong> PP が <code>-></code> を完全展開して <code>_struct_poke</code> / <code>_struct_peek()</code> に変換。
+CG は構造体情報を知る必要がない。</p>
+</div>
+
+<div class="card">
+<h3>課題2: -> の展開タイミング</h3>
+<p><strong>問題:</strong> <code>-></code> 演算子はプリプロセッサの <code>ExpandTokens</code> で展開する必要がある。
+しかし <code>ExpandTokens</code> はトークン単位の置換で、文脈依存の変換は難しい。</p>
+<p><strong>解決案A:</strong> <code>ExpandTokens</code> の後、行単位で <code>-></code> パターンを検出して変換する後処理を追加。</p>
+<p><strong>解決案B:</strong> <code>SendLineBuf</code> の段階で行テキストを直接書き換える。</p>
+<p><strong>解決案C:</strong> <code>ExpandTokens</code> 内でトークン <code>0x65</code> (->)を検出して変換。</p>
+</div>
+
+<div class="card">
+<h3>課題3: 配列構造体のオフセット計算</h3>
+<p><strong>問題:</strong> <code>pts(3)->x</code> の場合、ランタイムで <code>aptr * struct_size + member_offset</code> を計算する必要がある。
+しかし <code>code_getva</code> は int 配列のインデックスを返すので、構造体サイズ分のスケーリングが必要。</p>
+<p><strong>解決:</strong> PP 展開時に <code>_struct_poke pts(3), 0, 2, 8, 100</code> とし、
+ランタイムの <code>_struct_poke</code> が <code>aptr * struct_size + member_offset</code> で計算。
+ただし <code>code_getva</code> が返す aptr は int 配列インデックス（= 要素番号）なので、
+<code>structdim pts, POINT, 100</code> で <code>dim pts, 200</code> (= 100 * 8 / 4) になった場合、
+<code>pts(3)</code> の aptr=3 は int 配列の 3 番目（= 12 バイト目）を指す。
+これは POINT 構造体の 1.5 個目に相当し、正しくない。</p>
+<p><strong>修正案:</strong> 構造体配列は PP が <code>pts(3)</code> を <code>pts(3 * struct_size / 4)</code> に展開するか、
+ランタイムで struct_size を使って aptr をスケーリングする。</p>
+</div>
+
+<div class="card">
+<h3>課題4: 式中での -> 読み取り</h3>
+<p><strong>問題:</strong> <code>a = p->x + p->y</code> のように式の途中で <code>-></code> が出てくる場合の処理。</p>
+<p><strong>解決:</strong> PP が <code>_struct_peek(p, 0, 2, 8) + _struct_peek(p, 4, 2, 8)</code> に展開するので問題なし。
+PP での展開が正しく行われれば、CG は通常の式として処理できる。</p>
+</div>
+
+<!-- ======================================== -->
+<h2 id="files">10. 変更対象ファイル一覧</h2>
+
+<table>
+<tr><th>ファイル</th><th>変更内容</th><th>フェーズ</th></tr>
+<tr><td><code>hspcmp/token.h</code></td><td>StructDef/StructMember 定義、PP フラグ追加</td><td>PP</td></tr>
+<tr><td><code>hspcmp/token.cpp</code></td><td>#defstruct パーサー、メンバ解析、-> 展開</td><td>PP</td></tr>
+<tr><td><code>hspcmp/codegen.cpp</code></td><td>#defstruct 再パース（オプション）、structdim 処理</td><td>CG</td></tr>
+<tr><td><code>hspcmp/hspcmd.cpp</code></td><td>structdim, _struct_poke, _struct_peek 登録</td><td>CG</td></tr>
+<tr><td><code>hsp3/hsp3code.cpp</code></td><td>structdim (0x22), _struct_poke (0x23) 実装</td><td>RT</td></tr>
+<tr><td><code>hsp3/hsp3int.cpp</code></td><td>_struct_peek (0x17) 実装</td><td>RT</td></tr>
+<tr><td><code>hsp3/hsp3struct.h</code></td><td>SMT_* 型定数定義（PP/CG/RT 共通）</td><td>共通</td></tr>
+<tr><td><code>hsp3net/</code> 各ファイル</td><td>hsp3/ の変更を反映（コピー）</td><td>RT</td></tr>
+</table>
+
+<footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 0.85rem;">
+  <p>IronHSP 構造体サポート - 実装設計書</p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -2526,6 +2526,82 @@ static int cmdfunc_prog( int cmd )
 		break;
 		}
 
+	case 0x22:								// structdim
+		{
+		// structdim var, struct_size [, count]
+		// 内部的に dim var, ceil(struct_size * count / 4) を実行
+		PVal *pval;
+		pval = code_getpval();
+		int struct_size = code_getdi(0);
+		int count = code_getdi(1);
+		int total_bytes = struct_size * count;
+		int dim_count = (total_bytes + 3) / 4;  // ceil(total_bytes / 4)
+		HspVarCoreDimWC( pval, HSPVAR_FLAG_INT, dim_count, 0, 0, 0 );
+		// ゼロクリア
+		memset( pval->pt, 0, dim_count * sizeof(int) );
+		break;
+		}
+
+	case 0x23:								// _struct_poke
+		{
+		// _struct_poke var, member_offset, member_type, struct_size, value
+		// 構造体メンバへの書き込み
+		PVal *pval;
+		APTR aptr;
+		aptr = code_getva(&pval);
+		int member_offset = code_geti();
+		int member_type = code_geti();
+		int struct_size = code_geti();
+
+		// 配列インデックスからベースオフセット計算
+		// aptr = 構造体配列のインデックス（0, 1, 2, ...）
+		// struct_size = 1構造体のバイトサイズ
+		char *base = (char*)pval->pt + (aptr * struct_size) + member_offset;
+
+		// 型に応じた書き込み
+		switch (member_type) {
+		case 0:  // SMT_BYTE
+		case 8:  // SMT_BOOL1
+			*base = (char)code_geti();
+			break;
+		case 1:  // SMT_SHORT
+		case 9:  // SMT_BOOL2
+			*(short*)base = (short)code_geti();
+			break;
+		case 2:  // SMT_INT
+		case 7:  // SMT_BOOL
+			*(int*)base = code_geti();
+			break;
+		case 3:  // SMT_INT64
+			*(int64_t*)base = code_geti64();
+			break;
+		case 4:  // SMT_FLOAT
+			*(float*)base = (float)code_getdd(0.0);
+			break;
+		case 5:  // SMT_DOUBLE
+			*(double*)base = code_getdd(0.0);
+			break;
+		case 6:  // SMT_PTR
+			*(void**)base = (void*)(intptr_t)code_geti64();
+			break;
+		case 10: // SMT_CHAR_ARRAY
+			{
+			char *src = code_gets();
+			strncpy(base, src, member_offset);  // TODO: サイズはメンバサイズを使うべき
+			break;
+			}
+		case 11: // SMT_WCHAR_ARRAY
+			{
+			char *src = code_gets();
+			MultiByteToWideChar(CP_ACP, 0, src, -1, (wchar_t*)base, member_offset / 2);
+			break;
+			}
+		default:
+			throw HSPERR_UNSUPPORTED_FUNCTION;
+		}
+		break;
+		}
+
 	default:
 		throw HSPERR_UNSUPPORTED_FUNCTION;
 	}

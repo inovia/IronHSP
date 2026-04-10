@@ -56,6 +56,8 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 //	"$01f 15 yield",				// (ver3.2)(cancelled)
 	"$020 15 strexchange",			// (ver3.6)
 	"$021 15 dim64",				// (IronHSP)
+	"$022 15 structdim",			// (IronHSP) 構造体変数確保
+	"$023 15 _struct_poke",			// (IronHSP) 内部: 構造体メンバ書き込み
 
 //	"$015 15 logmode",				// (ver2.55)
 //	"$016 15 logmes",				// (ver2.55)
@@ -298,6 +300,7 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$014 13 varsize",					// (3.5)
 	"$015 13 int64",					// (IronHSP)
 	"$016 13 qpeek",					// (IronHSP)
+	"$017 13 _struct_peek",				// (IronHSP) 内部: 構造体メンバ読み取り
 
 	//	3.0 string function
 	"$100 13 str",
