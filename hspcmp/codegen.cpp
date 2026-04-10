@@ -1881,6 +1881,8 @@ int CToken::GetParameterTypeCG( char *name )
 	//		パラメーター名を認識する(deffunc)
 	//
 	if ( !strcmp( cg_str,"int" ) ) return MPTYPE_INUM;
+	if ( !strcmp( cg_str,"int64" ) ) return MPTYPE_INUM64;
+	if ( !strcmp( cg_str,"float" ) ) return MPTYPE_FLOAT;
 	if ( !strcmp( cg_str,"var" ) ) return MPTYPE_SINGLEVAR;
 	if ( !strcmp( cg_str,"val" ) ) { 
 #ifdef JPNMSG
@@ -1908,6 +1910,7 @@ int CToken::GetParameterStructTypeCG( char *name )
 	//		パラメーター名を認識する(struct)
 	//
 	if ( !strcmp( cg_str,"int" ) ) return MPTYPE_INUM;
+	if ( !strcmp( cg_str,"int64" ) ) return MPTYPE_INUM64;
 	if ( !strcmp( cg_str,"var" ) ) return MPTYPE_LOCALVAR;
 	if ( !strcmp( cg_str,"str" ) ) return MPTYPE_LOCALSTRING;
 	if ( !strcmp( cg_str,"double" ) ) return MPTYPE_DNUM;
@@ -1922,6 +1925,7 @@ int CToken::GetParameterFuncTypeCG( char *name )
 	//		パラメーター名を認識する(func)
 	//
 	if ( !strcmp( cg_str,"int" ) ) return MPTYPE_INUM;
+	if ( !strcmp( cg_str,"int64" ) ) return MPTYPE_INUM64;
 	if ( !strcmp( cg_str,"var" ) ) return MPTYPE_PVARPTR;
 	if ( !strcmp( cg_str,"str" ) ) return MPTYPE_LOCALSTRING;
 	if ( !strcmp( cg_str,"double" ) ) return MPTYPE_DNUM;
@@ -3039,6 +3043,9 @@ int CToken::PutStructParam( short mptype, int extype )
 	case MPTYPE_INUM:
 	case MPTYPE_STRUCT:
 		size = sizeof(int);
+		break;
+	case MPTYPE_INUM64:
+		size = sizeof(int64_t);
 		break;
 	case MPTYPE_LOCALVAR:
 		size = sizeof(PVal);

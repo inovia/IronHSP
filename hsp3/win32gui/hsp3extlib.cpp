@@ -617,6 +617,9 @@ static int code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 	case MPTYPE_INUM:
 		*(UINT_PTR *)out = (UINT_PTR)code_getdi(0);
 		break;
+	case MPTYPE_INUM64:
+		*(int64_t *)out = code_geti64();
+		break;
 	case MPTYPE_PVARPTR:
 		aptr = code_getva( &pval );
 		*(void **)out = HspVarCorePtrAPTR( pval, aptr );
@@ -656,6 +659,9 @@ static int code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 		switch( mpval->flag ) {
 		case HSPVAR_FLAG_INT:
 			*(UINT_PTR *)out = (UINT_PTR)(*(int *)(mpval->pt));
+			break;
+		case HSPVAR_FLAG_INT64:
+			*(UINT_PTR *)out = (UINT_PTR)(*(int64_t *)(mpval->pt));
 			break;
 		case HSPVAR_FLAG_STR:
 			*(void ** )out = localbuf = prepare_localstr( mpval->pt, prm->mptype == MPTYPE_FLEXWPTR );

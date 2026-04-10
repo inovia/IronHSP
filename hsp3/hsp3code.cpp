@@ -1554,6 +1554,12 @@ void code_expandstruct( char *p, STRUCTDAT *st, int option )
 		case MPTYPE_INUM:
 			*(int *)out = code_getdi(0);
 			break;
+		case MPTYPE_INUM64:
+			{
+			int64_t i64val = code_geti64();
+			memcpy(out, &i64val, sizeof(int64_t));
+			break;
+			}
 		case MPTYPE_MODULEVAR:
 			{
 			MPModVarData *var;
