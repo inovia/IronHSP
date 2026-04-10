@@ -6,6 +6,7 @@
 #define __hspwnd_dish_h
 
 #include <string>
+#include <vector>
 #include "../hsp3/hsp3config.h"
 #include "../hsp3/hsp3code.h"
 
@@ -52,6 +53,7 @@
 #define HSPOBJ_LAYER_CMD_DRAW (6)
 #define HSPOBJ_LAYER_CMD_TIME (7)
 
+#define HSPOBJ_NOTICE_KEY_EXTKEY (0x1000000)
 #define HSPOBJ_NOTICE_KEY_CTRLADD (0x2000)
 #define HSPOBJ_NOTICE_KEY_SHIFTADD (0x1000)
 
@@ -61,16 +63,16 @@
 #define HSPOBJ_NOTICE_CLICK_END 0x10001
 #define HSPOBJ_NOTICE_CLICK_MOVE 0x10002
 #define HSPOBJ_NOTICE_KEY_BS (8)
-#define HSPOBJ_NOTICE_KEY_DEL (46)
-#define HSPOBJ_NOTICE_KEY_LEFT (37)
-#define HSPOBJ_NOTICE_KEY_UP (38)
-#define HSPOBJ_NOTICE_KEY_RIGHT (39)
-#define HSPOBJ_NOTICE_KEY_DOWN (40)
-#define HSPOBJ_NOTICE_KEY_HOME (36)
-#define HSPOBJ_NOTICE_KEY_END (35)
-#define HSPOBJ_NOTICE_KEY_INS (45)
-#define HSPOBJ_NOTICE_KEY_SCROLL_UP (33)
-#define HSPOBJ_NOTICE_KEY_SCROLL_DOWN (34)
+#define HSPOBJ_NOTICE_KEY_DEL (46)				// æ‹¡å¼µã‚­ãƒ¼
+#define HSPOBJ_NOTICE_KEY_LEFT (37)				// æ‹¡å¼µã‚­ãƒ¼
+#define HSPOBJ_NOTICE_KEY_UP (38)				// æ‹¡å¼µã‚­ãƒ¼
+#define HSPOBJ_NOTICE_KEY_RIGHT (39)			// æ‹¡å¼µã‚­ãƒ¼
+#define HSPOBJ_NOTICE_KEY_DOWN (40)				// æ‹¡å¼µã‚­ãƒ¼
+#define HSPOBJ_NOTICE_KEY_HOME (36)				// æ‹¡å¼µã‚­ãƒ¼
+#define HSPOBJ_NOTICE_KEY_END (35)				// æ‹¡å¼µã‚­ãƒ¼
+#define HSPOBJ_NOTICE_KEY_INS (45)				// æ‹¡å¼µã‚­ãƒ¼
+#define HSPOBJ_NOTICE_KEY_SCROLL_UP (33)		// æ‹¡å¼µã‚­ãƒ¼
+#define HSPOBJ_NOTICE_KEY_SCROLL_DOWN (34)		// æ‹¡å¼µã‚­ãƒ¼
 #define HSPOBJ_NOTICE_KEY_TAB (9)
 #define HSPOBJ_NOTICE_KEY_CR (13)
 
@@ -96,7 +98,7 @@
 #define HSPOBJ_NOTICE_KEY_SSCROLL_UP (33+HSPOBJ_NOTICE_KEY_SHIFTADD)
 #define HSPOBJ_NOTICE_KEY_SSCROLL_DOWN (34+HSPOBJ_NOTICE_KEY_SHIFTADD)
 
-#define TEXMESPOS_MAX 256			// ƒ|ƒWƒVƒ‡ƒ“î•ñ‚ÌÅ‘å”
+#define TEXMESPOS_MAX 256			// ãƒã‚¸ã‚·ãƒ§ãƒ³æƒ…å ±ã®æœ€å¤§æ•°
 #define TEXMES_MODE_NONE (0)
 #define TEXMES_MODE_CENTERX (1)
 #define TEXMES_MODE_CENTERY (2)
@@ -113,7 +115,7 @@ class texmesPos
 {
 public:
 	//	TEXMESPOS class
-	//	’Pˆês‚Ì•¶š—ñ‚Æ•¶šˆÊ’u‚ğŠÇ—‚µ‚Ü‚·
+	//	å˜ä¸€è¡Œã®æ–‡å­—åˆ—ã¨æ–‡å­—ä½ç½®ã‚’ç®¡ç†ã—ã¾ã™
 	//
 	texmesPos(void);
 	~texmesPos(void);
@@ -196,14 +198,14 @@ public:
 	//	Hsp3Object for button
 	//
 
-	//	imageQÆŒ³
-	short normal_x, normal_y;	// ’Êí
-	short push_x, push_y;		// ‰Ÿ‰º
-	short focus_x, focus_y;		// ƒtƒH[ƒJƒX
+	//	imageå‚ç…§å…ƒ
+	short normal_x, normal_y;	// é€šå¸¸æ™‚
+	short push_x, push_y;		// æŠ¼ä¸‹æ™‚
+	short focus_x, focus_y;		// ãƒ•ã‚©ãƒ¼ã‚«ã‚¹æ™‚
 
 	short jumpmode;				// jump mode
 	short ext;					// dummy
-	void *ptr;					// jump ŒÄ‚Ño‚µæ
+	void *ptr;					// jump å‘¼ã³å‡ºã—å…ˆ
 };
 
 class Hsp3ObjChkbox : public Hsp3ObjBase {
@@ -226,37 +228,44 @@ typedef struct HSPOBJINFO
 {
 	//		Object Info (3.0)
 	//
-	short	owmode;		// object‚Ìmode
-	short	enableflag;	// object‚Ì—LŒøƒtƒ‰ƒO
+	short	owmode;		// objectã®mode
+	short	enableflag;	// objectã®æœ‰åŠ¹ãƒ•ãƒ©ã‚°
 
-	void	*bm;		// object‚ª”z’u‚³‚ê‚Ä‚¢‚éBMSCR\‘¢‘Ì‚Ìƒ|ƒCƒ“ƒ^
-	void	*hCld;		// object‚Ìhandle
-	int		owid;		// object‚ÌValue(”Ä—p)
-	int		owsize;		// object‚Ìg—pƒTƒCƒY(”Ä—p)
+	void	*bm;		// objectãŒé…ç½®ã•ã‚Œã¦ã„ã‚‹BMSCRæ§‹é€ ä½“ã®ãƒã‚¤ãƒ³ã‚¿
+	void	*hCld;		// objectã®handle
+	int		owid;		// objectã®Value(æ±ç”¨)
+	int		owsize;		// objectã®ä½¿ç”¨ã‚µã‚¤ã‚º(æ±ç”¨)
 
-	short x,y;			// ¶ãÀ•W
-	short sx,sy;		// ƒTƒCƒY
-	short tapflag;		// ƒ^ƒbƒvƒtƒ‰ƒO
-	short srcid;		// QÆBufferID
-
-	short fontmode;		// ƒtƒHƒ“ƒgİ’èƒ‚[ƒh(HSPOBJ_FONTMODE_*)
-	short fontedit;		// ƒtƒHƒ“ƒgƒGƒfƒBƒbƒg(0=none/1=edit/2=multiline)
-	short fontsize;		// ƒtƒHƒ“ƒgƒTƒCƒY
-	short fontstyle;	// ƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹
-	int fontcolor;		// ƒeƒLƒXƒgF
-	int backcolor;		// ”wŒiF
-	std::string *fontname;	// font name
-	int exinfo1, exinfo2;	// extra info
-
-	Hsp3ObjBase *btnset;	// object‚©‚çİ’è‚³‚ê‚éî•ñ
-	HSP3VARSET *varset;	// object‚©‚çİ’è‚³‚ê‚éî•ñ
-	HSPCTX *hspctx;
+	HSP3VARSET varset;	// objectã‹ã‚‰è¨­å®šã•ã‚Œã‚‹æƒ…å ±
 
 	//		callback function
-	void	(*func_draw)( struct HSPOBJINFO * );
 	void	(*func_notice)( struct HSPOBJINFO *, int );
 	void	(*func_objprm)( struct HSPOBJINFO *, int, void * );
 	void	(*func_delete)( struct HSPOBJINFO * );
+
+	//		Extra Object Info (3.6)
+	//
+	Hsp3ObjBase *btnset;	// objectã‹ã‚‰è¨­å®šã•ã‚Œã‚‹æƒ…å ±
+	int backcolor;		// èƒŒæ™¯è‰²
+	int fontcolor;		// ãƒ†ã‚­ã‚¹ãƒˆè‰²
+	int exinfo1, exinfo2;	// extra info
+	HSPCTX *hspctx;
+
+	//		callback function (HSP3Dish)
+	void	(*func_draw)( struct HSPOBJINFO * );
+
+	//		Extra Object Info (HSP3Dish)
+	//
+	short x,y;			// å·¦ä¸Šåº§æ¨™
+	short sx,sy;		// ã‚µã‚¤ã‚º
+	short tapflag;		// ã‚¿ãƒƒãƒ—ãƒ•ãƒ©ã‚°
+	short srcid;		// å‚ç…§BufferID
+
+	short fontmode;		// ãƒ•ã‚©ãƒ³ãƒˆè¨­å®šãƒ¢ãƒ¼ãƒ‰(HSPOBJ_FONTMODE_*)
+	short fontedit;		// ãƒ•ã‚©ãƒ³ãƒˆã‚¨ãƒ‡ã‚£ãƒƒãƒˆ(0=none/1=edit/2=multiline)
+	short fontsize;		// ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚º
+	short fontstyle;	// ãƒ•ã‚©ãƒ³ãƒˆã‚¹ã‚¿ã‚¤ãƒ«
+	std::string *fontname;	// font name
 
 } HSPOBJINFO;
 
@@ -309,18 +318,18 @@ BMSCR_SAVEPOS_MAX,
 };
 
 typedef struct {
-	//	ƒfƒoƒCƒX‚²‚Æ‚Ìî•ñ
-	//	(*‚Ì€–Ú‚ÍAeƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åİ’è‚³‚ê‚Ü‚·)
+	//	ãƒ‡ãƒã‚¤ã‚¹ã”ã¨ã®æƒ…å ±
+	//	(*ã®é …ç›®ã¯ã€è¦ªã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§è¨­å®šã•ã‚Œã¾ã™)
 	//
-	char *devname;				// *ƒfƒoƒCƒXƒ‰ƒ“ƒ^ƒCƒ€–¼
-	char *error;				// *ƒGƒ‰[ƒƒbƒZ[ƒW
+	char *devname;				// *ãƒ‡ãƒã‚¤ã‚¹ãƒ©ãƒ³ã‚¿ã‚¤ãƒ å
+	char *error;				// *ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 
-	//	ƒtƒ@ƒ“ƒNƒVƒ‡ƒ“î•ñ
+	//	ãƒ•ã‚¡ãƒ³ã‚¯ã‚·ãƒ§ãƒ³æƒ…å ±
 	//
-	int (*devprm)( char *name, char *value );	// ƒpƒ‰ƒ[ƒ^[İ’èƒtƒ@ƒ“ƒNƒVƒ‡ƒ“
-	int (*devcontrol)( char *cmd, int p1, int p2, int p3 );	// ƒRƒ}ƒ“ƒhó‚¯æ‚èƒtƒ@ƒ“ƒNƒVƒ‡ƒ“
-	int *(*devinfoi)( char *name, int *size );	// intî•ñó‚¯æ‚èƒtƒ@ƒ“ƒNƒVƒ‡ƒ“
-	char *(*devinfo)( char *name );				// strî•ñó‚¯æ‚èƒtƒ@ƒ“ƒNƒVƒ‡ƒ“
+	int (*devprm)( char *name, char *value );	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼è¨­å®šãƒ•ã‚¡ãƒ³ã‚¯ã‚·ãƒ§ãƒ³
+	int (*devcontrol)( char *cmd, int p1, int p2, int p3 );	// ã‚³ãƒãƒ³ãƒ‰å—ã‘å–ã‚Šãƒ•ã‚¡ãƒ³ã‚¯ã‚·ãƒ§ãƒ³
+	int *(*devinfoi)( char *name, int *size );	// intæƒ…å ±å—ã‘å–ã‚Šãƒ•ã‚¡ãƒ³ã‚¯ã‚·ãƒ§ãƒ³
+	char *(*devinfo)( char *name );				// stræƒ…å ±å—ã‘å–ã‚Šãƒ•ã‚¡ãƒ³ã‚¯ã‚·ãƒ§ãƒ³
 
 } HSP3DEVINFO;
 
@@ -340,6 +349,11 @@ public:
 	void Init( int p_sx, int p_sy );
 	void Init( char *fname );
 	void Cls( int mode );
+	void Select(int mode=0);
+	void SetMousePosition(int x, int y);
+	void SetMouseWheel(int z, int w);
+	void SetMouseRelease(void);
+	void SetMousePress(int sw);
 
 	void Posinc( int pp );
 	void Width( int x, int y, int wposx, int wposy, int mode );
@@ -421,6 +435,7 @@ public:
 
 	void Viewcalc_reset(void);
 	int Viewcalc_set(int type, HSPREAL x, HSPREAL y, HSPREAL p_sx, HSPREAL p_sy );
+	char* getPixelMaskBuffer(void);
 
 	//
 	//		Window data structure
@@ -505,14 +520,14 @@ public:
 	int		mtouch_num;					// Active Multi-Touch points
 	HSP3MTOUCH mtouch[BMSCR_MAX_MTOUCH];	// Multi-Touch Info
 
-	float	colorvalue[4];				// ColorRGB value each 0.0`1.0
+	float	colorvalue[4];				// ColorRGB value each 0.0ï½1.0
 
 	char	font_curname[RESNAME_MAX];	// Current Font Name
 	int		font_cursize;				// Current Font Size
 	int		font_curstyle;				// Current Font Style
 
 	int		mulcolor;					// Multiplyer Color (RGB)
-	float	mulcolorvalue[4];			// Multiplyer Color value each 0.0`1.0
+	float	mulcolorvalue[4];			// Multiplyer Color value each 0.0ï½1.0
 
 	int		buffer_option;				// buffer options for off-screen
 	void	*master_buffer;				// buffer pointer to off-screen
@@ -557,6 +572,8 @@ public:
 	//
 	HspWnd( void );
 	~HspWnd( void );
+	void Dispose(void);
+	void ClearAllObjects(void);
 	void Resume( void );
 	void resetBuffers( void );
 	void SetHSPCTX(HSPCTX *ctx) { hspctx = ctx; };
@@ -573,6 +590,7 @@ public:
 	int GetActive( void );
 	int GetBmscrMax( void ) { return bmscr_max; };
 	int GetEmptyBufferId( void );
+	int GetPreloadBufferId(char* fname);
 	HSP3DEVINFO *getDevInfo( void ) { return &devinfo; }
 
 	//	Data
@@ -582,7 +600,6 @@ public:
 
 private:
 	void Reset( void );
-	void Dispose( void );
 	void ExpandScreen( int id );
 
 	//	Data
@@ -688,14 +705,14 @@ typedef struct BMSCR
 	int		mtouch_num;					// Active Multi-Touch points
 	HSP3MTOUCH mtouch[BMSCR_MAX_MTOUCH];	// Multi-Touch Info
 
-	float	colorvalue[4];				// ColorRGB value each 0.0`1.0
+	float	colorvalue[4];				// ColorRGB value each 0.0ï½1.0
 
 	char	font_curname[RESNAME_MAX];	// Current Font Name
 	int		font_cursize;				// Current Font Size
 	int		font_curstyle;				// Current Font Style
 
 	int		mulcolor;					// Multiplyer Color (RGB)
-	float	mulcolorvalue[4];			// Multiplyer Color value each 0.0`1.0
+	float	mulcolorvalue[4];			// Multiplyer Color value each 0.0ï½1.0
 
 	int		buffer_option;				// buffer options for off-screen
 	void* master_buffer;				// buffer pointer to off-screen

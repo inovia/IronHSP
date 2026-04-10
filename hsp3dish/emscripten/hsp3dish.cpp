@@ -30,11 +30,12 @@
 #include <GL/gl.h>
 //#include <GL/glut.h>
 
-#include "SDL/SDL.h"
-#include "SDL/SDL_image.h"
-#include "SDL/SDL_opengl.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_image.h"
+#include "SDL2/SDL_opengl.h"
 
 #include <emscripten.h>
+#include <emscripten/html5.h>
 
 //#define USE_OBAQ
 
@@ -42,6 +43,7 @@
 #include "../obaq/hsp3dw.h"
 #endif
 
+#define USE_WEBSENSOR
 
 /*----------------------------------------------------------*/
 
@@ -53,7 +55,7 @@ static char fpas[]={ 'H'-48,'S'-48,'P'-48,'H'-48,
 					 'E'-48,'D'-48,'~'-48,'~'-48 };
 static char optmes[] = "HSPHED~~\0_1_________2_________3______";
 
-static int hsp_wx, hsp_wy, hsp_wd, hsp_ss;
+static int hsp_sx, hsp_sy, hsp_wx, hsp_wy, hsp_wd, hsp_ss, hsp_sensor;
 static int drawflag;
 static int hsp_fps;
 static int hsp_limit_step_per_frame;
@@ -77,6 +79,10 @@ static SDL_Renderer *renderer;
 static SDL_GLContext context;
 
 #ifdef HSPDISHGP
+float hgio_getWidthRate( void );
+float hgio_getHeightRate( void );
+int hgio_getWidthOffset( void );
+int hgio_getHeightOffset( void );
 gamehsp *game;
 gameplay::Platform *platform;
 
@@ -112,8 +118,8 @@ static int handleEvent( void ) {
 				float x,y;
 				Bmscr *bm;
 				bm = (Bmscr *)exinfo->HspFunc_getbmscr(0);
-				x = event.tfinger.x * bm->sx;
-				y = event.tfinger.y * bm->sy;
+				x = event.tfinger.x * hsp_sx;
+				y = event.tfinger.y * hsp_sy;
 				int id = event.tfinger.fingerId;
 				xx = (int)x; yy = (int)y;
 				hgio_cnvview((BMSCR *)bm,&xx,&yy);
@@ -127,8 +133,8 @@ static int handleEvent( void ) {
 				float x,y;
 				Bmscr *bm;
 				bm = (Bmscr *)exinfo->HspFunc_getbmscr(0);
-				x = event.tfinger.x * bm->sx;
-				y = event.tfinger.y * bm->sy;
+				x = event.tfinger.x * hsp_sx;
+				y = event.tfinger.y * hsp_sy;
 				int id = event.tfinger.fingerId;
 				xx = (int)x; yy = (int)y;
 				hgio_cnvview((BMSCR *)bm,&xx,&yy);
@@ -145,13 +151,8 @@ static int handleEvent( void ) {
 					SDL_MouseMotionEvent *m = (SDL_MouseMotionEvent*)&event;
 					int x, y;
 					bm = (Bmscr *)exinfo->HspFunc_getbmscr(0);
-#ifdef HSPDISHGP
-					x = m->x;
-					y = m->y;
-#else
 					hgio_scale_point( m->x, m->y, x, y );
 					hgio_cnvview((BMSCR *)bm,&x,&y);
-#endif
 
 					bm->savepos[BMSCR_SAVEPOS_MOSUEX] = x;
 					bm->savepos[BMSCR_SAVEPOS_MOSUEY] = y;
@@ -184,7 +185,10 @@ static int handleEvent( void ) {
 		case SDL_KEYDOWN:
 			{
 			int wparam = 0;
-			int code = (int)event.key.keysym.sym;
+			int code = (int)event.key.keysym.scancode;
+			if ( code == SDL_SCANCODE_KP_ENTER ) {
+				code = SDL_SCANCODE_RETURN;
+			}
 			if (code < SDLK_SCANCODE_MAX) {
 				keys[code] = true;
 			}
@@ -199,10 +203,10 @@ static int handleEvent( void ) {
 				wparam = HSPOBJ_NOTICE_KEY_CR;
 				break;
 			case SDL_SCANCODE_DELETE:
-				wparam = HSPOBJ_NOTICE_KEY_DEL;
+				wparam = HSPOBJ_NOTICE_KEY_DEL + HSPOBJ_NOTICE_KEY_EXTKEY;
 				break;
 			case SDL_SCANCODE_INSERT:
-				wparam = HSPOBJ_NOTICE_KEY_INS;
+				wparam = HSPOBJ_NOTICE_KEY_INS + HSPOBJ_NOTICE_KEY_EXTKEY;
 				break;
 			case SDL_SCANCODE_F1:
 				wparam = HSPOBJ_NOTICE_KEY_F1 + HSPOBJ_NOTICE_KEY_CTRLADD;
@@ -241,28 +245,28 @@ static int handleEvent( void ) {
 				wparam = HSPOBJ_NOTICE_KEY_F12 + HSPOBJ_NOTICE_KEY_CTRLADD;
 				break;
 			case SDL_SCANCODE_LEFT:
-				wparam = HSPOBJ_NOTICE_KEY_LEFT;
+				wparam = HSPOBJ_NOTICE_KEY_LEFT + HSPOBJ_NOTICE_KEY_EXTKEY;
 				break;
 			case SDL_SCANCODE_UP:
-				wparam = HSPOBJ_NOTICE_KEY_UP;
+				wparam = HSPOBJ_NOTICE_KEY_UP + HSPOBJ_NOTICE_KEY_EXTKEY;
 				break;
 			case SDL_SCANCODE_RIGHT:
-				wparam = HSPOBJ_NOTICE_KEY_RIGHT;
+				wparam = HSPOBJ_NOTICE_KEY_RIGHT + HSPOBJ_NOTICE_KEY_EXTKEY;
 				break;
 			case SDL_SCANCODE_DOWN:
-				wparam = HSPOBJ_NOTICE_KEY_DOWN;
+				wparam = HSPOBJ_NOTICE_KEY_DOWN + HSPOBJ_NOTICE_KEY_EXTKEY;
 				break;
 			case SDL_SCANCODE_HOME:
-				wparam = HSPOBJ_NOTICE_KEY_HOME;
+				wparam = HSPOBJ_NOTICE_KEY_HOME + HSPOBJ_NOTICE_KEY_EXTKEY;
 				break;
 			case SDL_SCANCODE_END:
-				wparam = HSPOBJ_NOTICE_KEY_END;
+				wparam = HSPOBJ_NOTICE_KEY_END + HSPOBJ_NOTICE_KEY_EXTKEY;
 				break;
 			case SDL_SCANCODE_PAGEUP:
-				wparam = HSPOBJ_NOTICE_KEY_SCROLL_UP;
+				wparam = HSPOBJ_NOTICE_KEY_SCROLL_UP + HSPOBJ_NOTICE_KEY_EXTKEY;
 				break;
 			case SDL_SCANCODE_PAGEDOWN:
-				wparam = HSPOBJ_NOTICE_KEY_SCROLL_DOWN;
+				wparam = HSPOBJ_NOTICE_KEY_SCROLL_DOWN + HSPOBJ_NOTICE_KEY_EXTKEY;
 				break;
 			}
 			if ((code >= SDL_SCANCODE_A)&&(code <= SDL_SCANCODE_Z)) {
@@ -284,11 +288,17 @@ static int handleEvent( void ) {
 			break;
 			}
 		case SDL_KEYUP:
-			if (event.key.keysym.sym < SDLK_SCANCODE_MAX) {
-				keys[event.key.keysym.sym] = false;
+			{
+			int code = (int)event.key.keysym.scancode;
+			if ( code == SDL_SCANCODE_KP_ENTER ) {
+				code = SDL_SCANCODE_RETURN;
+			}
+			if (code < SDLK_SCANCODE_MAX) {
+				keys[code] = false;
 			}
 			//printf("key up: sym %d scancode %d\n", event.key.keysym.sym, event.key.keysym.scancode);
 			break;
+			}
 
 		case SDL_TEXTINPUT:
 			{
@@ -316,14 +326,33 @@ bool get_key_state(int sym)
 	}
 }
 
+EM_BOOL devicemotion_callback(int eventType, const EmscriptenDeviceMotionEvent *e, void *userData) {
+	hgio_setinfo( GINFO_EXINFO_ACCEL_X, e->accelerationIncludingGravityX );
+	hgio_setinfo( GINFO_EXINFO_ACCEL_Y, e->accelerationIncludingGravityY );
+	hgio_setinfo( GINFO_EXINFO_ACCEL_Z, e->accelerationIncludingGravityZ );
+	return 0;
+}
+
+EM_BOOL deviceorientation_callback(int eventType, const EmscriptenDeviceOrientationEvent *e, void *userData) {
+	hgio_setinfo( GINFO_EXINFO_GYRO_X, e->beta ); // [-180, 180)
+	hgio_setinfo( GINFO_EXINFO_GYRO_Y, e->gamma ); // [-90, 90)
+	hgio_setinfo( GINFO_EXINFO_GYRO_Z, e->alpha ); // [0, 360)
+
+	return 0;
+}
+
 static void hsp3dish_initwindow( engine* p_engine, int sx, int sy, char *windowtitle )
 {
 	printf("INIT %dx%d %s\n", sx,sy,windowtitle);
-
 	// Slightly different SDL initialization
 	if ( SDL_Init(SDL_INIT_VIDEO) != 0 ) {
 		printf("Unable to initialize SDL: %s\n", SDL_GetError());
 		return;
+	}
+
+	char *env_keyboard_element = getenv( "HSP_KEYBOARD_ELEMENT" );
+	if (env_keyboard_element) {
+		SDL_SetHint(SDL_HINT_EMSCRIPTEN_KEYBOARD_ELEMENT, env_keyboard_element);
 	}
 
 	window = SDL_CreateWindow( "HSPDish ver" hspver, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, sx, sy, SDL_WINDOW_OPENGL );
@@ -430,7 +459,7 @@ int hsp3dish_await( int tick )
 		if ( ctx->lasttick == 0 ) ctx->lasttick = tick;
 		ctx->waittick = ctx->lasttick + ctx->waitcount;
 	}
-	if ( tick >= ctx->waittick ) {
+	if ((tick - ctx->waittick) >= 0) {
 		ctx->lasttick = tick;
 		ctx->runmode = RUNMODE_RUN;
 		return RUNMODE_RUN;
@@ -528,8 +557,8 @@ static int hsp3dish_devcontrol( char *cmd, int p1, int p2, int p3 )
 					console.log("syncfs", err);
 					});
 				}, syncdir.c_str());
-			return 0;
 		}
+			return 0;
 	}
 	return -1;
 }
@@ -563,6 +592,15 @@ static void hsp3dish_setdevinfo( HSP3DEVINFO *devinfo )
 	devinfo->devcontrol = hsp3dish_devcontrol;
 	devinfo->devinfo = hsp3dish_devinfo;
 	devinfo->devinfoi = hsp3dish_devinfoi;
+}
+
+static EM_BOOL hsp3dish_em_mouse_callback(int eventType, const EmscriptenMouseEvent *mouseEvent, void *userData)
+{
+	// デフォルト動作ではpreventDefault()されてフォーカスがあたらないので手動でフォーカスを要求する
+	EM_ASM_({
+		Module.canvas.focus();
+	});
+	return false;
 }
 
 /*----------------------------------------------------------*/
@@ -606,10 +644,9 @@ int hsp3dish_init( char *startfile )
 	hsp_wx = 320;
 	hsp_wy = 480;
 #endif
-//	hsp_wx = 640;
-//	hsp_wy = 480;
 	hsp_wd = 0;
 	hsp_ss = 0;
+	hsp_sensor = 0;
 
 	for( a=0 ; a<8; a++) {
 		a1=optmes[a]-48;if (a1==fpas[a]) orgexe++;
@@ -660,6 +697,8 @@ int hsp3dish_init( char *startfile )
 		sx = hsp_wx;
 		sy = hsp_wy;
 	}
+	hsp_sx = sx;
+	hsp_sy = sy;
 
 	char *env_autoscale = getenv( "HSP_AUTOSCALE" );
 	int autoscale = 0;
@@ -685,6 +724,12 @@ int hsp3dish_init( char *startfile )
 	if ( env_syncdir ) {
 		syncdir = env_syncdir;
 	}
+
+	char *env_sensor = getenv( "HSP_SENSOR" );
+	if ( env_sensor ) {
+		hsp_sensor = atoi( env_sensor );
+	}
+
 
 	if ( hsp->Reset( mode ) ) {
 		hsp3dish_dialog( "Startup failed." );
@@ -713,11 +758,9 @@ int hsp3dish_init( char *startfile )
 	hsp3dish_initwindow( NULL, sx, sy, "HSPDish ver" hspver);
 
 	if ( sx != hsp_wx || sy != hsp_wy ) {
-#ifndef HSPDISHGP
-		hgio_view( hsp_wx, hsp_wy );
 		hgio_size( sx, sy );
+		hgio_view( hsp_wx, hsp_wy );
 		hgio_autoscale( autoscale );
-#endif
 	}
 
 #ifdef HSPDISHGP
@@ -729,7 +772,6 @@ int hsp3dish_init( char *startfile )
 	gameplay::Logger::set(gameplay::Logger::LEVEL_WARN, logfunc);
 	gameplay::Logger::set(gameplay::Logger::LEVEL_ERROR, logfunc);
 
-	//	platform = gameplay::Platform::create( game, NULL, hsp_wx, hsp_wy, false );
 	platform = gameplay::Platform::create( game, NULL, hsp_wx, hsp_wy, false );
 	if ( platform == NULL ) {
 		hsp3dish_dialog( (char *)gplog.c_str() );
@@ -737,6 +779,7 @@ int hsp3dish_init( char *startfile )
 		return 1;
 	}
 	platform->enterMessagePump();
+	game->setViewInfo( hgio_getWidthOffset(), hgio_getHeightOffset(), hgio_getWidthRate(), hgio_getHeightRate() );
 	game->frame();
 #endif
 
@@ -760,6 +803,18 @@ int hsp3dish_init( char *startfile )
 	HSP3DEVINFO *devinfo;
 	devinfo = hsp3extcmd_getdevinfo();
 	hsp3dish_setdevinfo( devinfo );
+
+    // イベントハンドラ追加
+    emscripten_set_mousedown_callback("#canvas", nullptr, true, hsp3dish_em_mouse_callback);
+
+#ifdef USE_WEBSENSOR
+	if (hsp_sensor) {
+		// 各種センサー対応
+		emscripten_set_deviceorientation_callback(nullptr, true, deviceorientation_callback);
+		emscripten_set_devicemotion_callback(nullptr, true, devicemotion_callback);
+		printf("Use sensor.\n");
+	}
+#endif
 
 	return 0;
 }

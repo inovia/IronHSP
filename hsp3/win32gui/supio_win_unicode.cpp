@@ -5,6 +5,7 @@
 #ifdef HSPUTF8
 
 #include "../hsp3config.h"
+#define _CRT_NON_CONFORMING_SWPRINTFS
 
 #ifdef HSPWIN
 #include <windows.h>
@@ -22,93 +23,6 @@
 #include "../dpmread.h"
 #include "../strbuf.h"
 
-#ifdef HSPUTF8
-#pragma execution_character_set("utf-8")
-#endif
-
-//
-//		APIópÇÃï∂éöÉGÉìÉRÅ[ÉhÇ÷ïœä∑
-//
-HSPAPICHAR *chartoapichar( const char *orig,HSPAPICHAR **pphac)
-{
-	
-	int reslen;
-	wchar_t *resw;
-	if (orig == 0) {
-		*pphac = 0;
-		return 0;
-	}
-	reslen = MultiByteToWideChar(CP_UTF8,0,orig,-1,(LPWSTR)NULL,0);
-	resw = (wchar_t*)calloc(reslen+1,sizeof(wchar_t));
-	MultiByteToWideChar(CP_UTF8,0,orig,-1,resw,reslen);
-	*pphac = resw;
-	return resw;
-}
-
-void freehac(HSPAPICHAR **pphac)
-{
-	free(*pphac);
-	*pphac = 0;
-}
-
-HSPCHAR *apichartohspchar( const HSPAPICHAR *orig,HSPCHAR **pphc)
-{
-	int plen;
-	HSPCHAR *p = 0;
-	if (orig == 0) {
-		*pphc = 0;
-		return 0;
-	}
-	plen=WideCharToMultiByte(CP_UTF8,NULL,orig,-1,NULL,0,NULL,NULL);
-	p = (HSPCHAR *)calloc(plen+1,sizeof(HSPCHAR*));
-	WideCharToMultiByte(CP_UTF8,NULL,orig,-1,p,plen,NULL,NULL);
-	*pphc = p;
-	return p;
-}
-
-void freehc(HSPCHAR **pphc)
-{
-	free(*pphc);
-	*pphc = 0;
-}
-
-HSPAPICHAR *ansichartoapichar(const char *orig, HSPAPICHAR **pphac)
-{
-
-	int reslen;
-	wchar_t *resw;
-	if (orig == 0) {
-		*pphac = 0;
-		return 0;
-	}
-	reslen = MultiByteToWideChar(CP_ACP, 0, orig, -1, (LPWSTR)NULL, 0);
-	resw = (wchar_t*)calloc(reslen + 1, sizeof(wchar_t));
-	MultiByteToWideChar(CP_ACP, 0, orig, -1, resw, reslen);
-	*pphac = resw;
-	return resw;
-}
-
-char *apichartoansichar(const HSPAPICHAR *orig, char **ppac)
-{
-	int plen;
-	HSPCHAR *p = 0;
-	if (orig == 0) {
-		*ppac = 0;
-		return 0;
-	}
-	plen = WideCharToMultiByte(CP_ACP, NULL, orig, -1, NULL, 0, NULL, NULL);
-	p = (char *)calloc(plen + 1, sizeof(char*));
-	WideCharToMultiByte(CP_ACP,NULL, orig, -1, p, plen, NULL, NULL);
-	*ppac = p;
-	return p;
-}
-
-void freeac(char **ppac)
-{
-	free(*ppac);
-	*ppac = 0;
-}
-
 //
 //		basic C I/O support
 //
@@ -122,32 +36,24 @@ void mem_bye( void *ptr ) {
 	free(ptr);
 }
 
-
-int mem_save( char *fname8, void *mem, int msize, int seekofs )
+char *mem_alloc( void *base, int newsize, int oldsize )
 {
-	FILE *fp;
-	int flen;
-	HSPAPICHAR *fnamew = 0;
-
-	if (seekofs<0) {
-		fp=_tfopen(chartoapichar(fname8,&fnamew),TEXT("wb"));
+	char *p;
+	if ( base == NULL ) {
+		p = (char *)calloc( newsize, 1 );
+		return p;
 	}
-	else {
-		fp=_tfopen(chartoapichar(fname8,&fnamew),TEXT("r+b"));
-	}
-	freehac(&fnamew);
-	if (fp==NULL) return -1;
-	if ( seekofs>=0 ) fseek( fp, seekofs, SEEK_SET );
-	flen = (int)fwrite( mem, 1, msize, fp );
-	fclose(fp);
-	free(fnamew);
-	return flen;
+	if ( newsize <= oldsize ) return (char *)base;
+	p = (char *)calloc( newsize, 1 );
+	memcpy( p, base, oldsize );
+	free( base );
+	return p;
 }
 
 
 size_t utf8strlen( const char *target )
 {
-	//		UTF8ï∂éöóÒÇÃí∑Ç≥ÇìæÇÈ
+	//		UTF8ÊñáÂ≠óÂàó„ÅÆÈï∑„Åï„ÇíÂæó„Çã
 	//
 	unsigned char *p;
 	unsigned char *base;
@@ -156,8 +62,8 @@ size_t utf8strlen( const char *target )
 	base = p;
 	while(1) {
 		a1=*p;if ( a1==0 ) break;
-		p++;							// åüçıà íuÇà⁄ìÆ
-		if (a1>=128) {					// ëΩÉoÉCÉgï∂éöÉ`ÉFÉbÉN
+		p++;							// Ê§úÁ¥¢‰ΩçÁΩÆ„ÇíÁßªÂãï
+		if (a1>=128) {					// Â§ö„Éê„Ç§„ÉàÊñáÂ≠ó„ÉÅ„Çß„ÉÉ„ÇØ
 			if (a1>=192) p++;
 			if (a1>=224) p++;
 			if (a1>=240) p++;
@@ -171,7 +77,7 @@ size_t utf8strlen( const char *target )
 
 void strcase( char *target )
 {
-	//		strÇÇ∑Ç◊Çƒè¨ï∂éöÇ…(utf8ëŒâûî≈)
+	//		str„Çí„Åô„Åπ„Å¶Â∞èÊñáÂ≠ó„Å´(utf8ÂØæÂøúÁâà)
 	//
 	unsigned char *p;
 	unsigned char a1;
@@ -179,8 +85,8 @@ void strcase( char *target )
 	while(1) {
 		a1=*p;if ( a1==0 ) break;
 		*p=tolower(a1);
-		p++;							// åüçıà íuÇà⁄ìÆ
-		if (a1>=128) {					// ëΩÉoÉCÉgï∂éöÉ`ÉFÉbÉN
+		p++;							// Ê§úÁ¥¢‰ΩçÁΩÆ„ÇíÁßªÂãï
+		if (a1>=128) {					// Â§ö„Éê„Ç§„ÉàÊñáÂ≠ó„ÉÅ„Çß„ÉÉ„ÇØ
 			if (a1>=192) p++;
 			if (a1>=224) p++;
 			if (a1>=240) p++;
@@ -192,7 +98,7 @@ void strcase( char *target )
 
 void strcaseW( HSPAPICHAR *target )
 {
-	//		strÇÇ∑Ç◊Çƒè¨ï∂éöÇ…(APIóp)
+	//		str„Çí„Åô„Åπ„Å¶Â∞èÊñáÂ≠ó„Å´(APIÁî®)
 	//
 	HSPAPICHAR *p = 0;
 	HSPAPICHAR a1;
@@ -200,7 +106,7 @@ void strcaseW( HSPAPICHAR *target )
 	while(1) {
 		a1=*p;if ( a1==0 ) break;
 		*p=tolower(a1);
-		p++;							// åüçıà íuÇà⁄ìÆ
+		p++;							// Ê§úÁ¥¢‰ΩçÁΩÆ„ÇíÁßªÂãï
 	}
 }
 
@@ -242,7 +148,7 @@ int strcat2( char *str1, char *str2 )
 
 char *strstr2( char *target, char *src )
 {
-	//		strsträ÷êîÇÃutf8ëŒâûî≈
+	//		strstrÈñ¢Êï∞„ÅÆutf8ÂØæÂøúÁâà
 	//
 	unsigned char *p;
 	unsigned char *s;
@@ -261,8 +167,8 @@ char *strstr2( char *target, char *src )
 			a3=*p2++;if (a3==0) break;
 			if (a2!=a3) break;
 		}
-		p++;							// åüçıà íuÇà⁄ìÆ
-		if (a1>=128) {					// ëΩÉoÉCÉgï∂éöÉ`ÉFÉbÉN
+		p++;							// Ê§úÁ¥¢‰ΩçÁΩÆ„ÇíÁßªÂãï
+		if (a1>=128) {					// Â§ö„Éê„Ç§„ÉàÊñáÂ≠ó„ÉÅ„Çß„ÉÉ„ÇØ
 			if (a1>=192) p++;
 			if (a1>=224) p++;
 			if (a1>=240) p++;
@@ -276,7 +182,7 @@ char *strstr2( char *target, char *src )
 
 char *strchr2( char *target, char code )
 {
-	//		stríÜç≈å„ÇÃcodeà íuÇíTÇ∑(utf8ëŒâûî≈)
+	//		str‰∏≠ÊúÄÂæå„ÅÆcode‰ΩçÁΩÆ„ÇíÊé¢„Åô(utf8ÂØæÂøúÁâà)
 	//
 	unsigned char *p;
 	unsigned char a1;
@@ -286,8 +192,8 @@ char *strchr2( char *target, char code )
 	while(1) {
 		a1=*p;if ( a1==0 ) break;
 		if ( a1==code ) res=(char *)p;
-		p++;							// åüçıà íuÇà⁄ìÆ
-		if (a1>=128) {					// ëΩÉoÉCÉgï∂éöÉ`ÉFÉbÉN
+		p++;							// Ê§úÁ¥¢‰ΩçÁΩÆ„ÇíÁßªÂãï
+		if (a1>=128) {					// Â§ö„Éê„Ç§„ÉàÊñáÂ≠ó„ÉÅ„Çß„ÉÉ„ÇØ
 			if (a1>=192) p++;
 			if (a1>=224) p++;
 			if (a1>=240) p++;
@@ -420,8 +326,8 @@ int dirlist( char *fname8, char **target, int p3 )
 		if (ff) {
 			pw = fd.cFileName; fl = 1;
 			apichartohspchar(pw,&p);
-			if ( *p==0 ) fl=0;			// ãÛçsÇèúäO
-			if ( *p=='.') {				// '.','..'ÇèúäO
+			if ( *p==0 ) fl=0;			// Á©∫Ë°å„ÇíÈô§Â§ñ
+			if ( *p=='.') {				// '.','..'„ÇíÈô§Â§ñ
 				if ( p[1]==0 ) fl=0;
 				if ((p[1]=='.')&&(p[2]==0)) fl=0;
 			}
@@ -490,8 +396,8 @@ int strsp_get( char *srcstr, char *dststr, char splitchr, int len )
 
 /*
 	rev 44
-	mingw : warning : î‰ärÇÕèÌÇ…ãU
-	Ç…ëŒèà
+	mingw : warning : ÊØîËºÉ„ÅØÂ∏∏„Å´ÂÅΩ
+	„Å´ÂØæÂá¶
 */
 	unsigned char a1;
 	unsigned char a2;
@@ -503,7 +409,7 @@ int strsp_get( char *srcstr, char *dststr, char splitchr, int len )
 		a1=srcstr[splc];
 		if (a1==0) break;
 		splc++;
-		if (a1>=128) {					// ëΩÉoÉCÉgï∂éöÉ`ÉFÉbÉN
+		if (a1>=128) {					// Â§ö„Éê„Ç§„ÉàÊñáÂ≠ó„ÉÅ„Çß„ÉÉ„ÇØ
 			if ((a1 >= 192) && (srcstr[splc + utf8cnt] != 0)) utf8cnt++;
 			if ((a1 >= 224) && (srcstr[splc + utf8cnt] != 0)) utf8cnt++;
 			if ((a1 >= 240) && (srcstr[splc + utf8cnt] != 0)) utf8cnt++;
@@ -545,8 +451,8 @@ int strsp_getW( HSPAPICHAR *srcstr, HSPAPICHAR *dststr, HSPAPICHAR splitchr, int
 
 /*
 	rev 44
-	mingw : warning : î‰ärÇÕèÌÇ…ãU
-	Ç…ëŒèà
+	mingw : warning : ÊØîËºÉ„ÅØÂ∏∏„Å´ÂÅΩ
+	„Å´ÂØæÂá¶
 */
 	HSPAPICHAR a1;
 	HSPAPICHAR a2;
@@ -641,7 +547,7 @@ int GetLimit( int num, int min, int max )
 
 void CutLastChr( char *p, char code )
 {
-	//		ç≈å„ÇÃ'\\'ÇéÊÇËèúÇ≠
+	//		ÊúÄÂæå„ÅÆ'\\'„ÇíÂèñ„ÇäÈô§„Åè
 	//
 	char *ss;
 	char *ss2;
@@ -687,11 +593,11 @@ int htoi( char *str )
 
 char *strchr3( char *target, int code, int sw, char **findptr )
 {
-	//		ï∂éöóÒíÜÇÃcodeà íuÇíTÇ∑(2ÉoÉCÉgÉRÅ[ÉhÅAutf8-4ÉoÉCÉgï™ëŒâûî≈)
-	//		sw = 0 : findptr = ç≈å„Ç…å©Ç¬Ç©Ç¡ÇΩcodeà íu
-	//		sw = 1 : findptr = ç≈èâÇ…å©Ç¬Ç©Ç¡ÇΩcodeà íu
-	//		sw = 2 : findptr = ç≈èâÇ…å©Ç¬Ç©Ç¡ÇΩcodeà íu(ç≈èâÇÃï∂éöÇÃÇ›åüçı)
-	//		ñﬂÇËíl : éüÇÃï∂éöÇ…Ç†ÇΩÇÈà íu
+	//		ÊñáÂ≠óÂàó‰∏≠„ÅÆcode‰ΩçÁΩÆ„ÇíÊé¢„Åô(2„Éê„Ç§„Éà„Ç≥„Éº„Éâ„ÄÅutf8-4„Éê„Ç§„ÉàÂàÜÂØæÂøúÁâà)
+	//		sw = 0 : findptr = ÊúÄÂæå„Å´Ë¶ã„Å§„Åã„Å£„Åücode‰ΩçÁΩÆ
+	//		sw = 1 : findptr = ÊúÄÂàù„Å´Ë¶ã„Å§„Åã„Å£„Åücode‰ΩçÁΩÆ
+	//		sw = 2 : findptr = ÊúÄÂàù„Å´Ë¶ã„Å§„Åã„Å£„Åücode‰ΩçÁΩÆ(ÊúÄÂàù„ÅÆÊñáÂ≠ó„ÅÆ„ÅøÊ§úÁ¥¢)
+	//		Êàª„ÇäÂÄ§ : Ê¨°„ÅÆÊñáÂ≠ó„Å´„ÅÇ„Åü„Çã‰ΩçÁΩÆ
 	//
 	unsigned char *p;
 	unsigned char a1;
@@ -743,8 +649,8 @@ char *strchr3( char *target, int code, int sw, char **findptr )
 				}
 			}
 		}
-		p++;							// åüçıà íuÇà⁄ìÆ
-		if (a1>=128) {					// ëΩÉoÉCÉgï∂éöÉ`ÉFÉbÉN
+		p++;							// Ê§úÁ¥¢‰ΩçÁΩÆ„ÇíÁßªÂãï
+		if (a1>=128) {					// Â§ö„Éê„Ç§„ÉàÊñáÂ≠ó„ÉÅ„Çß„ÉÉ„ÇØ
 			if (a1>=192) p++;
 			if (a1>=224) p++;
 			if (a1>=240) p++;
@@ -767,7 +673,7 @@ char *strchr3( char *target, int code, int sw, char **findptr )
 
 void TrimCodeR( char *p, int code )
 {
-	//		ç≈å„ÇÃcodeÇéÊÇËèúÇ≠
+	//		ÊúÄÂæå„ÅÆcode„ÇíÂèñ„ÇäÈô§„Åè
 	//
 	char *ss;
 	char *ss2;
@@ -786,7 +692,7 @@ void TrimCodeR( char *p, int code )
 
 void TrimCode( char *p, int code )
 {
-	//		Ç∑Ç◊ÇƒÇÃcodeÇéÊÇËèúÇ≠
+	//		„Åô„Åπ„Å¶„ÅÆcode„ÇíÂèñ„ÇäÈô§„Åè
 	//
 	char *ss;
 	char *ss2;
@@ -800,7 +706,7 @@ void TrimCode( char *p, int code )
 
 void TrimCodeL( char *p, int code )
 {
-	//		ç≈èâÇÃcodeÇéÊÇËèúÇ≠
+	//		ÊúÄÂàù„ÅÆcode„ÇíÂèñ„ÇäÈô§„Åè
 	//
 	char *ss;
 	char *ss2;
@@ -812,7 +718,7 @@ void TrimCodeL( char *p, int code )
 }
 
 //
-//		ï∂éöóÒíuÇ´ä∑Ç¶
+//		ÊñáÂ≠óÂàóÁΩÆ„ÅçÊèõ„Åà
 //
 static	char *s_match;
 static	int len_match;
@@ -826,8 +732,8 @@ static	int reptime;
 
 void ReplaceSetMatch(char *src, char *match, char *result, int in_src, int in_match, int in_result)
 {
-	//		íuÇ´ä∑Ç¶å≥ÅAíuÇ´ä∑Ç¶ëŒè€ÇÃÉZÉbÉg
-	//		(Ç†ÇÁÇ©Ç∂ÇﬂÉÅÉÇÉäÉoÉbÉtÉ@ÇÃämï€Ç™ïKóv)
+	//		ÁΩÆ„ÅçÊèõ„ÅàÂÖÉ„ÄÅÁΩÆ„ÅçÊèõ„ÅàÂØæË±°„ÅÆ„Çª„ÉÉ„Éà
+	//		(„ÅÇ„Çâ„Åã„Åò„ÇÅ„É°„É¢„É™„Éê„ÉÉ„Éï„Ç°„ÅÆÁ¢∫‰øù„ÅåÂøÖË¶Å)
 	//
 	s_buffer = src;
 	s_match = match;
@@ -839,7 +745,7 @@ void ReplaceSetMatch(char *src, char *match, char *result, int in_src, int in_ma
 
 char *ReplaceStr( char *repstr )
 {
-	//		íuÇ´ä∑Ç¶é¿çs
+	//		ÁΩÆ„ÅçÊèõ„ÅàÂÆüË°å
 	//
 	char *p;
 	unsigned char a1;
@@ -861,7 +767,7 @@ char *ReplaceStr( char *repstr )
 		if ( a1 == 0 ) break;
 
 		utf8cnt=0;
-		if (a1>=128) {					// ëΩÉoÉCÉgï∂éöÉ`ÉFÉbÉN
+		if (a1>=128) {					// Â§ö„Éê„Ç§„ÉàÊñáÂ≠ó„ÉÅ„Çß„ÉÉ„ÇØ
 			if (a1>=192) utf8cnt++;
 			if (a1>=224) utf8cnt++;
 			if (a1>=240) utf8cnt++;
@@ -869,7 +775,7 @@ char *ReplaceStr( char *repstr )
 			if (a1>=252) utf8cnt++;
 		}
 
-		//	î‰ärÇ∑ÇÈ
+		//	ÊØîËºÉ„Åô„Çã
 		psize = 0; csize = 1;
 		if ( a1 == a2 ) {
 			if ( memcmp( p, s_match, len_match ) == 0 ) {
@@ -878,8 +784,8 @@ char *ReplaceStr( char *repstr )
 			}
 		}
 
-		//	ÉoÉbÉtÉ@É`ÉFÉbÉN
-		i = cursize + csize + len_buffer + 1;	// íuÇ´ä∑Ç¶å„Ç…è\ï™Ç»ÉTÉCÉYÇämï€Ç∑ÇÈ
+		//	„Éê„ÉÉ„Éï„Ç°„ÉÅ„Çß„ÉÉ„ÇØ
+		i = cursize + csize + len_buffer + 1;	// ÁΩÆ„ÅçÊèõ„ÅàÂæå„Å´ÂçÅÂàÜ„Å™„Çµ„Ç§„Ç∫„ÇíÁ¢∫‰øù„Åô„Çã
 		if (i >= len_result) {
 			while (1) {
 				len_result += 0x8000;
@@ -888,14 +794,14 @@ char *ReplaceStr( char *repstr )
 			s_result = sbExpand(s_result, len_result);
 		}
 
-		if ( psize ) {				// íuÇ´ä∑Ç¶
+		if ( psize ) {				// ÁΩÆ„ÅçÊèõ„Åà
 
 			memcpy( s_result+cursize, s_rep, csize );
 			p += psize;
 			cursize += csize;
 			reptime++;
 
-		} else {					// íuÇ´ä∑Ç¶Ç»Çµ
+		} else {					// ÁΩÆ„ÅçÊèõ„Åà„Å™„Åó
 			s_result[cursize++] = a1;
 			p++;
 			if ( utf8cnt>0 ) {
@@ -913,7 +819,7 @@ char *ReplaceStr( char *repstr )
 
 int ReplaceDone( void )
 {
-	//		íuÇ´ä∑Ç¶ÇÃå„èàóù
+	//		ÁΩÆ„ÅçÊèõ„Åà„ÅÆÂæåÂá¶ÁêÜ
 	//
 	return reptime;
 }
@@ -925,7 +831,7 @@ int ReplaceDone( void )
 
 #ifdef HSP3IMP
 //
-//	HSP3IMPópÉZÉLÉÖÉäÉeÉBëŒâû
+//	HSP3IMPÁî®„Çª„Ç≠„É•„É™„ÉÜ„Ç£ÂØæÂøú
 //
 int SecurityCheck( char *name )
 {

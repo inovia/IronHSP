@@ -25,29 +25,34 @@ public:
 	gpmat();
 	~gpmat();
 	void reset(gamehsp *owner, int id);
+	void revoke(void);
 	int setParameter( char *name, float value );
-	int setParameter( char *name, Vector3 *value );
+	int setParameter(char* name, float value, float value2);
+	int setParameter(char* name, Vector3* value);
 	int setParameter( char *name, Vector4 *value );
-	int setParameter(char *name, const Matrix *value, int count);
-	int setParameter(char *name, char *fname, int matopt);
+	int setParameter(char *name, double* value, int count);
+	int setParameter(char* name, char* fname, int matopt);
+	int setParameter(char* name, Texture::Sampler* samp);
 	int setState(char *name, char *value);
 	int updateTex32(char* ptr, int mode);
 	void applyFilterMode(int mode);
+	Texture::Sampler* getSampler(char *name="");
 
-	short _flag;						// ‘¶İƒtƒ‰ƒO
-	short _mark;						// ƒ}[ƒNˆ——p
-	int _mode;							// ƒ‚[ƒh(GPMAT_MODE_*)
-	int _id;							// ƒ}ƒeƒŠƒAƒ‹ƒIƒuƒWƒFƒNƒgID
-	Matrix _projectionMatrix2D;			// 2D—pƒvƒƒWƒFƒNƒVƒ‡ƒ“ƒ}ƒgƒŠƒNƒX
-	Material *_material;				// ¶¬‚³‚ê‚½Material
-	MeshBatch *_mesh;					// MeshBatch(2D—p)
-	int _sx,_sy;						// Texture X,Y Size(2D—p)
+	short _flag;						// å­˜åœ¨ãƒ•ãƒ©ã‚°
+	short _mark;						// ãƒãƒ¼ã‚¯å‡¦ç†ç”¨
+	int _mode;							// ãƒ¢ãƒ¼ãƒ‰(GPMAT_MODE_*)
+	int _id;							// ãƒãƒ†ãƒªã‚¢ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆID
+	Matrix _projectionMatrix2D;			// 2Dç”¨ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³ãƒãƒˆãƒªã‚¯ã‚¹
+	Material *_material;				// ç”Ÿæˆã•ã‚ŒãŸMaterial
+	MeshBatch *_mesh;					// MeshBatch(2Dç”¨)
+	int _sx,_sy;						// Texture X,Y Size(2Dç”¨)
 	float _texratex;					// Texture UV rate (1.0/xsize)
 	float _texratey;					// Texture UV rate (1.0/ysize)
-	int _target_material_id;			// ƒŒƒ“ƒ_ƒŠƒ“ƒO‘ÎÛ‚Ìƒ}ƒeƒŠƒAƒ‹ID•Û‘¶—p
-	int _matopt;						// ƒ}ƒeƒŠƒAƒ‹ƒIƒvƒVƒ‡ƒ“•Û‘¶—p
-	int _matcolor;						// ƒ}ƒeƒŠƒAƒ‹ƒJƒ‰[•Û‘¶—p
-	int _filtermode;					// ƒtƒBƒ‹ƒ^[ƒ‚[ƒh
+	int _target_material_id;			// ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°å¯¾è±¡ã®ãƒãƒ†ãƒªã‚¢ãƒ«IDä¿å­˜ç”¨
+	int _matopt;						// ãƒãƒ†ãƒªã‚¢ãƒ«ã‚ªãƒ—ã‚·ãƒ§ãƒ³ä¿å­˜ç”¨
+	int _matcolor;						// ãƒãƒ†ãƒªã‚¢ãƒ«ã‚«ãƒ©ãƒ¼ä¿å­˜ç”¨
+	int _filtermode;					// ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãƒ¢ãƒ¼ãƒ‰
+	gameplay::Matrix* _matbuffer;		// ãƒãƒˆãƒªã‚¯ã‚¹ä¿æŒç”¨ãƒãƒƒãƒ•ã‚¡
 
 protected:
 	/**
@@ -55,7 +60,7 @@ protected:
 	*/
 	void setFilter(Texture::Filter value);
 
-	gamehsp *_owner;					// ¶¬Œ³‚Ìgamehsp
+	gamehsp *_owner;					// ç”Ÿæˆå…ƒã®gamehsp
 
 };
 

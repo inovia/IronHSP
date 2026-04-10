@@ -24,6 +24,7 @@
 #include "../../hsp3dish/hspwnd.h"
 #include "../../hsp3/dpmread.h"
 #include "../../hsp3/strbuf.h"
+#include "../../hsp3dish/win32/bmscr_exc.h"
 #else
 #include "../hspwnd.h"
 //#include "hspvar_comobj.h"
@@ -148,8 +149,8 @@ hsp3::CDllManager & DllManager()
 
 static void BindLIB( LIBDAT *lib, char *name )
 {
-	//		���C�u�����̃o�C���h���s�Ȃ�
-	//		(name:�ォ��^���鎞�̃��C�u������)
+	//		ライブラリのバインドを行なう
+	//		(name:後から与える時のライブラリ名)
 	//
 	int i;
 	char *n;
@@ -171,8 +172,8 @@ static void BindLIB( LIBDAT *lib, char *name )
 
 static int BindFUNC( STRUCTDAT *st, char *name )
 {
-	//		�t�@���N�V�����̃o�C���h���s�Ȃ�
-	//		(name:�ォ��^���鎞�̃t�@���N�V������)
+	//		ファンクションのバインドを行なう
+	//		(name:後から与える時のファンクション名)
 	//
 	int i;
 	char *n;
@@ -202,7 +203,7 @@ static int BindFUNC( STRUCTDAT *st, char *name )
 
 static void ExitFunc( STRUCTDAT *st )
 {
-	//		�I�����֐��̌Ăяo��
+	//		終了時関数の呼び出し
 	//
 	int p[16];
 	FARPROC pFn;
@@ -219,7 +220,7 @@ static void ExitFunc( STRUCTDAT *st )
 
 static int Hsp3ExtAddPlugin( void )
 {
-	//		�v���O�C���̓o�^
+	//		プラグインの登録
 	//
 	int i;
 	HSPHED *hed;
@@ -312,9 +313,14 @@ static int Hsp3ExtAddPlugin( void )
 
 static BMSCR *GetBMSCR( void )
 {
+
+#ifdef HSPDISH
+	return (BMSCR *)get_bmscr3();
+#else
 	HSPEXINFO *exinfo;
 	exinfo = hspctx->exinfo2;
 	return (BMSCR *)exinfo->HspFunc_getbmscr( *(exinfo->actscr) );
+#endif
 }
 
 
@@ -353,17 +359,17 @@ void Hsp3ExtLibTerm( void )
 	int i;
 	STRUCTDAT *st;
 
-	// �N���[���A�b�v�o�^����Ă��郆�[�U�[��`�֐��E���ߌĂяo��
+	// クリーンアップ登録されているユーザー定義関数・命令呼び出し
 	for(i=0;i<prmmax;i++) {
 		st = GetPRM(i);
 		if ( st->index >= 0 ) {
 			if ( st->otindex & STRUCTDAT_OT_CLEANUP ) {
-				ExitFunc( st );			// �N���[���A�b�v�֐����Ăяo��
+				ExitFunc( st );			// クリーンアップ関数を呼び出す
 			}
 		}
 	}
 
-	//	HPIDAT�̉��
+	//	HPIDATの解放
 	if (hpidat != NULL) { free( hpidat); hpidat = NULL; }
 
 }
@@ -377,7 +383,7 @@ void Hsp3ExtLibTerm( void )
 
 /*
 	rev 43
-	mingw(gcc) �p�̃R�[�h�ǉ�
+	mingw(gcc) 用のコード追加
 */
 
 #ifndef HSP64
@@ -386,17 +392,17 @@ void Hsp3ExtLibTerm( void )
 
 __declspec( naked ) int __cdecl call_extfunc( void *proc, int *prm, int prms )
 {
-	// �O���֐��Ăяo���iVC++ �̃C�����C���A�Z���u�����g�p�j
+	// 外部関数呼び出し（VC++ のインラインアセンブラを使用）
 	//
 	__asm {
 		push	ebp
 		mov		ebp,esp
 
-		;# ebp+8	: �֐��̃|�C���^
-		;# ebp+12	: ������������INT�̔z��
-		;# ebp+16	: �����̐��ipush����񐔁j
+		;# ebp+8	: 関数のポインタ
+		;# ebp+12	: 引数が入ったINTの配列
+		;# ebp+16	: 引数の数（pushする回数）
 
-		;# �p�����[�^��np��push����
+		;# パラメータをnp個pushする
 		mov		eax, dword ptr [ebp+12]
 		mov		ecx, dword ptr [ebp+16]
 		jmp		_$push_chk
@@ -408,10 +414,10 @@ __declspec( naked ) int __cdecl call_extfunc( void *proc, int *prm, int prms )
 		dec		ecx
 		jge		_$push
 
-		;# �֐��Ăяo��
+		;# 関数呼び出し
 		call	dword ptr [ebp+8]
 
-		;# �߂�l�� eax �ɓ���̂ł��̂܂܃��^�[��
+		;# 戻り値は eax に入るのでそのままリターン
 		leave
 		ret
 	}
@@ -421,14 +427,14 @@ __declspec( naked ) int __cdecl call_extfunc( void *proc, int *prm, int prms )
 
 int __cdecl call_extfunc( void * proc, int * prm, int prms )
 {
-	// �O���֐��Ăяo���iGCC �̊g���C�����C���A�Z���u�����g�p�j
+	// 外部関数呼び出し（GCC の拡張インラインアセンブラを使用）
     int ret = 0;
     __asm__ volatile (
 		"pushl  %%ebp;"
 		"movl   %%esp, %%ebp;"
 		"jmp    _push_chk;"
 
-		// �p�����[�^��prms��push����
+		// パラメータをprms個pushする
 	"_push:"
 		"pushl  ( %2, %3, 4 );"
 
@@ -459,7 +465,7 @@ int __cdecl call_extfunc( void * proc, int * prm, int prms )
 
 int cnvwstr( void *out, char *in, int bufsize )
 {
-	//	hspchar->unicode �ɕϊ�
+	//	hspchar->unicode に変換
 	//
 #ifndef HSPUTF8 
 	return MultiByteToWideChar( CP_ACP, 0, in, -1, (LPWSTR)out, bufsize );
@@ -471,14 +477,14 @@ int cnvwstr( void *out, char *in, int bufsize )
 
 int cnvsjis( void *out, char *in, int bufsize )
 {
-	//	unicode->sjis �ɕϊ�
+	//	unicode->sjis に変換
 	//
 	return WideCharToMultiByte( CP_ACP, 0, (LPCWSTR)in, -1, (LPSTR)out, bufsize, NULL, NULL);
 }
 
 int cnvu8(void *out, wchar_t *in, int bufsize)
 {
-	//  unicode->utf8�ɕϊ�
+	//  unicode->utf8に変換
 	//
 	return WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)in, -1, (LPSTR)out, bufsize, NULL, NULL);
 }
@@ -486,10 +492,10 @@ int cnvu8(void *out, wchar_t *in, int bufsize)
 
 static char *prepare_localstr( char *src, int mode )
 {
-	//	DLL �n���̂��߂̕��������������
+	//	DLL 渡しのための文字列を準備する
 	//		mode:0=ansi/1=unicode
 	//
-	//	�g�p��� sbFree() �ŉ�����邱��
+	//	使用後は sbFree() で解放すること
 	//
 	int srcsize;
 	char *dst;
@@ -529,13 +535,13 @@ static int code_expand_next( char *, const STRUCTDAT *, int );
 
 int code_expand_and_call( const STRUCTDAT *st )
 {
-	//	�p�����[�^�̎擾����ъ֐��Ăяo���i�ċA�����ɂ��j
+	//	パラメータの取得および関数呼び出し（再帰処理による）
 	//
-	//	�ʏ�� DLL �֐��Ăяo���� COM ���\�b�h�Ăяo�����ǂ�����
-	//	STRUCTDAT �̓��e���画�f���܂��B
+	//	通常の DLL 関数呼び出しか COM メソッド呼び出しかどうかは
+	//	STRUCTDAT の内容から判断します。
 	//
-	//	DLL �֐��Ăяo������ st->proc �Ɋ֐��A�h���X���Z�b�g����
-	//	�����Ȃ���΂Ȃ�܂���i BindFUNC() �ɂ��j�B
+	//	DLL 関数呼び出し時は st->proc に関数アドレスをセットして
+	//	おかなければなりません（ BindFUNC() により）。
 	//
 	int result;
 
@@ -558,19 +564,19 @@ int code_expand_and_call( const STRUCTDAT *st )
 
 static int code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 {
-	//	���̃p�����[�^���擾�i����ъ֐��Ăяo���j�i�ċA�����j
+	//	次のパラメータを取得（および関数呼び出し）（再帰処理）
 	//
 	int result;
 	HSPAPICHAR *hactmp1 = 0;
 	if ( index == st->prmmax ) {
-		// �֐��i�܂��̓��\�b�h�j�̌Ăяo��
+		// 関数（またはメソッド）の呼び出し
 		//if ( !code_getexflg() ) throw HSPERR_TOO_MANY_PARAMETERS;
 		switch ( st->subid ) {
 		case STRUCTPRM_SUBID_DLL:
 		case STRUCTPRM_SUBID_DLLINIT:
 		case STRUCTPRM_SUBID_OLDDLL:
 		case STRUCTPRM_SUBID_OLDDLLINIT:
-			// �O�� DLL �֐��̌Ăяo��
+			// 外部 DLL 関数の呼び出し
 #ifdef HSP64
 			result = call_extfunc(st->proc, (INT_PTR *)prmbuf, st->prmmax);
 #else
@@ -579,7 +585,7 @@ static int code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 			break;
 #ifndef HSP_COM_UNSUPPORTED
 		case STRUCTPRM_SUBID_COMOBJ:
-			// COM ���\�b�h�̌Ăяo��
+			// COM メソッドの呼び出し
 			result = call_method2( prmbuf, st );
 			break;
 #endif
@@ -602,7 +608,7 @@ static int code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 	APTR aptr;
 	PVal *pval;
 	int chk;
-	// �ȉ��̃|�C���^�i�܂��̓I�u�W�F�N�g�j�͌ďo����ɉ��
+	// 以下のポインタ（またはオブジェクト）は呼出し後に解放
 	void *localbuf = NULL;
 	IUnknown *punklocal = NULL;
 
@@ -630,7 +636,7 @@ static int code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 		localbuf = sbAlloc( sizeof(PVal) );
 		pval_dst = (PVal *)localbuf;
 		*pval_dst = *pval;
-		if ( pval->flag & HSPVAR_SUPPORT_FLEXSTORAGE ) {	// ver2.5�݊��̂��߂̕ϊ�
+		if ( pval->flag & HSPVAR_SUPPORT_FLEXSTORAGE ) {	// ver2.5互換のための変換
 			HspVarCoreGetBlockSize( pval, HspVarCorePtrAPTR( pval, aptr ), &srcsize );
 			pval_dst->len[1] = (srcsize+3)/4;
 			pval_dst->len[2] = 1;
@@ -676,7 +682,7 @@ static int code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 		aptr = code_getva( &pval );
 		if ( pval->flag != TYPE_COMOBJ ) throw ( HSPERR_TYPE_MISMATCH );
 		punklocal = *(IUnknown **)HspVarCorePtrAPTR( pval, aptr );
-		if ( punklocal ) punklocal->AddRef();	// �ďo����ɉ������
+		if ( punklocal ) punklocal->AddRef();	// 呼出し後に解放する
 		*(void **)out = (void *)punklocal;
 		break;
 #endif
@@ -684,8 +690,8 @@ static int code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 		throw ( HSPERR_UNSUPPORTED_FUNCTION );
 	}
 
-	// ���̃p�����[�^�̎��o���i�ċA�I�ɏ����j
-	// (��O�����ɂ�蓮�I�m�ۂ����I�u�W�F�N�g���m���ɉ������)
+	// 次のパラメータの取り出し（再帰的に処理）
+	// (例外処理により動的確保したオブジェクトを確実に解放する)
 	try {
 		result = code_expand_next( prmbuf, st, index + 1 );
 	}
@@ -705,7 +711,7 @@ int exec_dllcmd( int cmd, int mask )
 	FARPROC pFn;
 	int result;
 
-	code_next();							// ���̃R�[�h���擾(�ŏ��ɕK���K�v�ł�)
+	code_next();							// 次のコードを取得(最初に必ず必要です)
 
 	if ( cmd >= prmmax ) {
 		throw ( HSPERR_UNSUPPORTED_FUNCTION );
@@ -746,7 +752,7 @@ int exec_dllcmd( int cmd, int mask )
 int cmdfunc_dllcmd( int cmd )
 {
 	//		cmdfunc : TYPE_DLLCMD
-	//		(�g��DLL�R�}���h)
+	//		(拡張DLLコマンド)
 	//
 	return exec_dllcmd( cmd, STRUCTDAT_OT_STATEMENT );
 }

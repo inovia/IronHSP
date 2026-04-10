@@ -10,15 +10,10 @@
 #include <math.h>
 #include <string.h>
 
+#include "../../hsp3/hsp3config.h"
+
 #if defined(HSPLINUX) || defined(HSPEMSCRIPTEN)
 #include <unistd.h>
-#include "../../hsp3/hsp3config.h"
-#else
-#if defined(HSPNDK) || defined(HSPIOS)
-#include "../hsp3config.h"
-#else
-#include "../../hsp3/hsp3config.h"
-#endif
 #endif
 
 #ifdef HSPWIN
@@ -41,7 +36,7 @@
 #include <OpenGLES/ES1/glext.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include "iOSBridge.h"
-#include "appengine.h"
+#include "hsp3dish/ios/appengine.h"
 #endif
 
 
@@ -56,14 +51,13 @@
 
 #if defined(HSPEMSCRIPTEN)
 #include <emscripten.h>
-#ifdef HSPDISHGP
-#include <SDL/SDL_ttf.h>
-#define USE_TTFFONT
-#endif
+//#ifdef HSPDISHGP
+//#include <SDL2/SDL_ttf.h>
+//#define USE_TTFFONT
+//#endif
 #define USE_JAVA_FONT
 #define FONT_TEX_SX 512
 #define FONT_TEX_SY 128
-int hgio_fontsystem_get_texid(void);
 #endif
 
 #if defined(HSPLINUX) || defined(HSPEMSCRIPTEN)
@@ -88,9 +82,9 @@ int hgio_fontsystem_get_texid(void);
 //#include <GL/glut.h>
 
 #ifdef HSPEMSCRIPTEN
-#include "SDL/SDL.h"
-#include "SDL/SDL_image.h"
-#include "SDL/SDL_opengl.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_image.h"
+#include "SDL2/SDL_opengl.h"
 #else
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
@@ -245,11 +239,6 @@ static void gluPerspective(double fovy, double aspect, double zNear, double zFar
 
 void hgio_init( int mode, int sx, int sy, void *hwnd )
 {
-#ifdef HSPIOS
-	gb_init();	//		IOS グラフィック初期化
-    gb_reset( sx, sy );
-#endif
-    
 	//テクスチャ初期化
 	TexInit();
 
@@ -493,9 +482,11 @@ void hgio_reset( void )
     //ポイントの設定
     glEnable(GL_POINT_SMOOTH);
 
+#if !defined(HSPEMSCRIPTEN)
     //前処理
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+#endif
 
 	//テクスチャ設定リセット
 	TexReset();
@@ -1129,7 +1120,7 @@ void hgio_circleFill( float x, float y, float rx, float ry )
 		*flp++ =  x+cos(angle)*rx;
 		*flp++ = -y+sin(angle)*ry;
 	}
-
+    
 	glDisable(GL_BLEND);
     //glBindTexture(GL_TEXTURE_2D,0);
     glVertexPointer(2,GL_FLOAT,0,vert);
@@ -2014,7 +2005,9 @@ int hgio_mes(BMSCR* bm, char* msg)
 	if (drawflag == 0) hgio_render_start();
 
 	// print per line
-	if (bm->cy >= bm->sy) return -1;
+	if (bm->vp_flag == BMSCR_VPFLAG_NOUSE) {
+		if (bm->cy >= bm->sy) return -1;
+	}
 
 	if (*msg == 0) {
 		ysize = tmes._fontsize;
@@ -2163,9 +2156,6 @@ void hgio_fontsystem_delete(int id)
 
 int hgio_fontsystem_setup(int sx, int sy, void *buffer)
 {
-#if defined(HSPEMSCRIPTEN)
-	return hgio_fontsystem_get_texid();
-#else
 	GLuint id;
 	glGenTextures( 1, &id );
 	glBindTexture( GL_TEXTURE_2D, id );
@@ -2175,7 +2165,6 @@ int hgio_fontsystem_setup(int sx, int sy, void *buffer)
 	ChangeTex( tid );
 	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, sx,sy, GL_RGBA, GL_UNSIGNED_BYTE, (char *)buffer);
 	return tid;
-#endif
 }
 
 
@@ -2240,9 +2229,8 @@ int hgio_render_start( void )
 #ifdef HSPIOS
     gb_render_start();
 #endif
-    
 
-	hgio_reset();
+    hgio_reset();
 
 	drawflag = 1;
 	return 0;
@@ -2379,6 +2367,41 @@ int hgio_file_read( char *fname, void *ptr, int size, int offset )
 }
 
 
+#ifdef HSPNDK
+FILE *hgio_android_fopen( char *fname, int offset )
+{
+	AAssetManager* mgr = appengine->app->activity->assetManager;
+	if (mgr == NULL) return NULL;
+	AAsset* asset = AAssetManager_open(mgr, (const char *)fname, AASSET_MODE_UNKNOWN);
+	if (asset == NULL) return NULL;
+	if ( offset>0 ) AAsset_seek( asset, offset, SEEK_SET );
+	return (FILE *)asset;
+}
+
+void hgio_android_fclose(FILE* ptr)
+{
+	AAsset* asset = (AAsset*)ptr;
+	if (asset == NULL) return;
+    AAsset_close(asset);
+}
+
+int hgio_android_fread( FILE* ptr, void *mem, int size )
+{
+	AAsset* asset = (AAsset*)ptr;
+	if (asset == NULL) -1;
+	return AAsset_read( asset, mem, size );
+}
+
+int hgio_android_seek( FILE* ptr, int offset, int whence )
+{
+	AAsset* asset = (AAsset*)ptr;
+	if (asset == NULL) -1;
+	return AAsset_seek( asset, offset, whence );
+}
+
+#endif
+
+
 void hgio_setstorage( char *path )
 {
 	int i;
@@ -2425,7 +2448,7 @@ void hgio_setview(BMSCR* bm)
 		UnitMatrix();
 		RotZ(bm->vp_viewrotate[2]);
 		GetCurrentMatrix(&tmpmat);
-		OrthoMatrix(-bm->vp_viewtrans[0], -bm->vp_viewtrans[1], (float)_bgsx / bm->vp_viewscale[0], (float)-_bgsy / bm->vp_viewscale[1], 0.0f, 1.0f);
+		OrthoMatrix(-bm->vp_viewtrans[0], bm->vp_viewtrans[1], (float)_bgsx / bm->vp_viewscale[0], (float)-_bgsy / bm->vp_viewscale[1], 0.0f, 1.0f);
 		MulMatrix(&tmpmat);
 		break;
 	case BMSCR_VPFLAG_3D:

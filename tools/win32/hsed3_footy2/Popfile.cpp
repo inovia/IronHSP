@@ -119,7 +119,7 @@ BOOL PopFileOpenDlg (HWND hwnd, PSTR pstrFileName, PSTR pstrTitleName)
 	 ofn.hwndOwner         = hwnd ;
      ofn.lpstrFile         = pstrFileName ;
      ofn.lpstrFileTitle    = pstrTitleName ;
-     ofn.Flags             = OFN_HIDEREADONLY | OFN_CREATEPROMPT ;
+     ofn.Flags             = OFN_HIDEREADONLY | OFN_FILEMUSTEXIST/* | OFN_CREATEPROMPT*/;
 
 	 if ( startflag == STARTDIR_NONE ) {
 		 ofn.lpstrInitialDir   = NULL;
@@ -137,7 +137,7 @@ BOOL PopFileOpenDlg2 (HWND hwnd, PSTR pstrFileName, PSTR pstrTitleName)
 	 ofn2.hwndOwner         = hwnd ;
      ofn2.lpstrFile         = pstrFileName ;
      ofn2.lpstrFileTitle    = pstrTitleName ;
-     ofn2.Flags             = OFN_HIDEREADONLY | OFN_CREATEPROMPT ;
+     ofn2.Flags             = OFN_HIDEREADONLY | OFN_FILEMUSTEXIST/* | OFN_CREATEPROMPT*/ ;
 
 	 if ( startflag == STARTDIR_NONE ) {
 		 ofn2.lpstrInitialDir   = NULL;

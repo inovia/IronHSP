@@ -56,7 +56,7 @@ void WebTask::Reset( void )
 	}
 	if ( hSession == NULL ) {
 		mode = CZHTTP_MODE_NONE;
-		SetError( "‰Šú‰»‚É¸”s‚µ‚Ü‚µ‚½" ); return;
+		SetError( "åˆæœŸåŒ–ã«å¤±æ•—ã—ã¾ã—ãŸ" ); return;
 	}
 
 	// Reset Value
@@ -66,7 +66,7 @@ void WebTask::Reset( void )
 
 WebTask::WebTask( void )
 {
-	//	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	//
 	str_agent = NULL;
 	mode = CZHTTP_MODE_NONE;
@@ -77,19 +77,19 @@ WebTask::WebTask( void )
 	vardata = NULL;
 	postdata = NULL;
 
-	//	Ú‘±‰Â”\‚©?
+	//	æ¥ç¶šå¯èƒ½ã‹?
 	if( InternetAttemptConnect(0) ){
-		SetError( "ƒlƒbƒgÚ‘±‚ªŠm”F‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½" ); return;
+		SetError( "ãƒãƒƒãƒˆæ¥ç¶šãŒç¢ºèªã§ãã¾ã›ã‚“ã§ã—ãŸ" ); return;
 	}
 
-	//	‰Šú‰»‚ğs‚¤
+	//	åˆæœŸåŒ–ã‚’è¡Œã†
 	Reset();
 }
 
 
 WebTask::~WebTask( void )
 {
-	//	ƒfƒXƒgƒ‰ƒNƒ^
+	//	ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	//
 	Terminate();
 	if ( str_agent != NULL ) { free( str_agent ); str_agent = NULL; }
@@ -98,10 +98,17 @@ WebTask::~WebTask( void )
 
 int	WebTask::Request( char *url, char *post )
 {
-	//	HTTPƒŠƒNƒGƒXƒg”­s
-	//	( url:ƒŠƒNƒGƒXƒg‚·‚éURL )
-	//	( post:NULL‚Ìê‡‚ÍGETA•¶š—ñ‚Ìê‡‚ÍPOST‚Å“n‚· )
+	//	HTTPãƒªã‚¯ã‚¨ã‚¹ãƒˆç™ºè¡Œ
+	//	( url:ãƒªã‚¯ã‚¨ã‚¹ãƒˆã™ã‚‹URL )
+	//	( post:NULLã®å ´åˆã¯GETã€æ–‡å­—åˆ—ã®å ´åˆã¯POSTã§æ¸¡ã™ )
 	//
+	if ( mode == CZHTTP_MODE_ERROR ) {
+ 		if (hSession == NULL) {
+ 			Reset();
+ 		} else {
+ 			mode = CZHTTP_MODE_READY;
+ 		}
+ 	}
 	if ( mode != CZHTTP_MODE_READY ) {
 		return -1;
 	}
@@ -117,7 +124,7 @@ int	WebTask::Request( char *url, char *post )
 
 int	WebTask::getStatus( int id )
 {
-	// ƒXƒe[ƒ^ƒX’l‚Ìæ“¾
+	// ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹å€¤ã®å–å¾—
 	//
 	switch( id ) {
 	case HTTPINFO_MODE:
@@ -134,16 +141,16 @@ int	WebTask::getStatus( int id )
 
 char *WebTask::getData( int id )
 {
-	// ƒf[ƒ^•¶š—ñ‚Ìæ“¾
+	// ãƒ‡ãƒ¼ã‚¿æ–‡å­—åˆ—ã®å–å¾—
 	//
 	switch( id ) {
-	case HTTPINFO_DATA:				// Œ‹‰Êƒf[ƒ^
+	case HTTPINFO_DATA:				// çµæœãƒ‡ãƒ¼ã‚¿
 		{
 		char *p = getVarData();
 		if ( p != NULL ) return p;
 		break;
 		}
-	case HTTPINFO_ERROR:			// ƒGƒ‰[•¶š—ñ
+	case HTTPINFO_ERROR:			// ã‚¨ãƒ©ãƒ¼æ–‡å­—åˆ—
 		return getError();
 	default:
 		break;
@@ -154,14 +161,14 @@ char *WebTask::getData( int id )
 
 void WebTask::setData( int id, char *str )
 {
-	// ƒf[ƒ^•¶š—ñ‚Ìæ“¾
+	// ãƒ‡ãƒ¼ã‚¿æ–‡å­—åˆ—ã®å–å¾—
 	//
 	switch( id ) {
 	case HTTPINFO_DATA:
-		ClearVarData();				// Œ‹‰Êƒf[ƒ^‚ğƒNƒŠƒA‚·‚é
+		ClearVarData();				// çµæœãƒ‡ãƒ¼ã‚¿ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 		break;
 	case HTTPINFO_ERROR:
-		SetError( str );			// ƒGƒ‰[•¶š—ñ
+		SetError( str );			// ã‚¨ãƒ©ãƒ¼æ–‡å­—åˆ—
 		break;
 	default:
 		break;
@@ -176,7 +183,7 @@ void WebTask::setData( int id, char *str )
 
 int WebTask::Exec( void )
 {
-	//	–ˆƒtƒŒ[ƒ€Às
+	//	æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å®Ÿè¡Œ
 	//
 	static char hdr[] = "Content-Type: application/x-www-form-urlencoded\r\n";
 	BOOL res;
@@ -184,24 +191,24 @@ int WebTask::Exec( void )
 	switch( mode ) {
 	case CZHTTP_MODE_VARREQUEST:
 
-		// HTTP‚ÉÚ‘±
+		// HTTPã«æ¥ç¶š
 		hHttpSession = ::InternetConnectA( hSession, varserver, varport, NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0 );
 		if ( hHttpSession == NULL ) {
-			SetError( "–³Œø‚ÈƒT[ƒo[‚ªw’è‚³‚ê‚Ü‚µ‚½" );
+			SetError( "ç„¡åŠ¹ãªã‚µãƒ¼ãƒãƒ¼ãŒæŒ‡å®šã•ã‚Œã¾ã—ãŸ" );
 			break;
 		}
 
-		// HTTP—v‹‚Ìì¬
+		// HTTPè¦æ±‚ã®ä½œæˆ
 		hHttpRequest = ::HttpOpenRequestA( hHttpSession, varstr, req_url, HTTP_VERSION, NULL, NULL, INTERNET_FLAG_RELOAD|INTERNET_FLAG_NO_UI, 0 );
 		if ( hHttpSession == NULL ) {
-			SetError( "–³Œø‚ÈURL‚ªw’è‚³‚ê‚Ü‚µ‚½" );
+			SetError( "ç„¡åŠ¹ãªURLãŒæŒ‡å®šã•ã‚Œã¾ã—ãŸ" );
 			break;
 		}
 		mode = CZHTTP_MODE_VARREQSEND;
 		// FALL THROUGH
 	case CZHTTP_MODE_VARREQSEND:
 
-		// ì¬‚µ‚½HTTP—v‹‚Ì”­s
+		// ä½œæˆã—ãŸHTTPè¦æ±‚ã®ç™ºè¡Œ
 		if ( postdata != NULL ) {
 			char *additional_header = req_header != NULL ? req_header : "";
 			char *header = (char *)malloc( strlen(hdr) + strlen(additional_header) + 1 );
@@ -214,7 +221,7 @@ int WebTask::Exec( void )
 		}
 		if ( res == false ) {
 			InternetCloseHandle( hHttpSession );
-			SetError( "ƒŠƒNƒGƒXƒg‚ª‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½" );
+			SetError( "ãƒªã‚¯ã‚¨ã‚¹ãƒˆãŒã§ãã¾ã›ã‚“ã§ã—ãŸ" );
 			break;
 		}
 		varsize = INETBUF_MAX;
@@ -236,7 +243,7 @@ int WebTask::Exec( void )
 		if ( InternetReadFile( hHttpRequest, vardata+size, INETBUF_MAX, &dwBytesRead ) == 0 ) {
 			InternetCloseHandle( hHttpRequest );
 			InternetCloseHandle( hHttpSession );
-			SetError( "ƒ_ƒEƒ“ƒ[ƒh’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½" );
+			SetError( "ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸ" );
 			break;
 		}
 		size += dwBytesRead;
@@ -284,7 +291,7 @@ void WebTask::ClearPostData( void )
 
 void WebTask::SetURL( char *url )
 {
-	// ƒT[ƒo[‚ÌURL‚ğİ’è
+	// ã‚µãƒ¼ãƒãƒ¼ã®URLã‚’è¨­å®š
 	//
 	strncpy( req_url, url, 1024 );
 }
@@ -292,8 +299,8 @@ void WebTask::SetURL( char *url )
 
 void WebTask::SetProxy( char *url, int port, int local )
 {
-	// PROXYƒT[ƒo[‚Ìİ’è
-	//	(URL‚ÉNULL‚ğw’è‚·‚é‚ÆPROXY–³Œø‚Æ‚È‚é)
+	// PROXYã‚µãƒ¼ãƒãƒ¼ã®è¨­å®š
+	//	(URLã«NULLã‚’æŒ‡å®šã™ã‚‹ã¨PROXYç„¡åŠ¹ã¨ãªã‚‹)
 	//
 	if ( url == NULL ) {
 		proxy_url[0] = 0;
@@ -307,8 +314,8 @@ void WebTask::SetProxy( char *url, int port, int local )
 
 void WebTask::SetAgent( char *agent )
 {
-	// ƒG[ƒWƒFƒ“ƒg‚Ìİ’è
-	//	(URL‚ÉNULL‚ğw’è‚·‚é‚ÆƒfƒtƒHƒ‹ƒg‚É‚È‚é)
+	// ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã®è¨­å®š
+	//	(URLã«NULLã‚’æŒ‡å®šã™ã‚‹ã¨ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã«ãªã‚‹)
 	//
 	if ( str_agent != NULL ) { free( str_agent ); str_agent = NULL; }
 	if ( agent == NULL ) str_agent = agent; else {
@@ -321,7 +328,7 @@ void WebTask::SetAgent( char *agent )
 
 void WebTask::SetHeader( char *header )
 {
-	// ƒwƒbƒ_•¶š—ñ‚Ìİ’è
+	// ãƒ˜ãƒƒãƒ€æ–‡å­—åˆ—ã®è¨­å®š
 	//
 	if ( req_header != NULL ) { free( req_header ); req_header = NULL; }
 	if ( header == NULL ) return;
@@ -333,7 +340,7 @@ void WebTask::SetHeader( char *header )
 
 void WebTask::SetPostData( char *post )
 {
-	// ƒ|ƒXƒg•¶š—ñ‚Ìİ’è
+	// ãƒã‚¹ãƒˆæ–‡å­—åˆ—ã®è¨­å®š
 	//
 	ClearPostData();
 	if ( post == NULL ) return;
@@ -354,7 +361,7 @@ void WebTask::SetVarServerFromURL( char *url )
 	*wr = 0;
 	varport = INTERNET_DEFAULT_HTTP_PORT;
 
-	while(1)				// '//'‚ğ’T‚·
+	while(1)				// '//'ã‚’æ¢ã™
 	{
 		a1 = *p++;
 		if ( a1 == 0 ) return;
@@ -362,13 +369,13 @@ void WebTask::SetVarServerFromURL( char *url )
 			if ( *p == '/' ) { p++; break; }
 		}
 	}
-	while(1) {				// '/'‚Ü‚Å‚ğæ‚èo‚·
+	while(1) {				// '/'ã¾ã§ã‚’å–ã‚Šå‡ºã™
 		a1 = *p;
 		if ( a1 == 0 ) break;
 		p++;
 		if ( a1 == '/' ) break;
 		if ( a1 == ':' ) {
-			//	ƒ|[ƒg”Ô†‚ğæ‚èo‚·
+			//	ãƒãƒ¼ãƒˆç•ªå·ã‚’å–ã‚Šå‡ºã™
 			int i = 0;
 			while(isdigit(p[i])) {
 				i ++;
@@ -388,7 +395,7 @@ void WebTask::SetVarServerFromURL( char *url )
 	*wr++ = '/';
 	urllen = 1;
 
-	while(1) {				// ÅŒã‚Ü‚Åæ‚èo‚·
+	while(1) {				// æœ€å¾Œã¾ã§å–ã‚Šå‡ºã™
 		if ( urllen >= INETURL_MAX ) break;
 		a1 = *p++;
 		if ( a1 == 0 ) break;
@@ -402,7 +409,7 @@ void WebTask::SetVarServerFromURL( char *url )
 
 void WebTask::SetVarRequestGet( char *path )
 {
-	// ƒT[ƒo[‚Éƒtƒ@ƒCƒ‹‚ğ—v‹(GET)
+	// ã‚µãƒ¼ãƒãƒ¼ã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¦æ±‚(GET)
 	//
 	SetVarServerFromURL( path );
 	strcpy( varstr, "GET" );
@@ -413,7 +420,7 @@ void WebTask::SetVarRequestGet( char *path )
 
 void WebTask::SetVarRequestPost( char *path, char *post )
 {
-	// ƒT[ƒo[‚Éƒtƒ@ƒCƒ‹‚ğ—v‹(POST)
+	// ã‚µãƒ¼ãƒãƒ¼ã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¦æ±‚(POST)
 	//
 	SetVarServerFromURL( path );
 	strcpy( varstr, "POST" );
@@ -423,7 +430,7 @@ void WebTask::SetVarRequestPost( char *path, char *post )
 
 void WebTask::SetError( char *mes )
 {
-	//	ƒGƒ‰[•¶š—ñ‚ğİ’è
+	//	ã‚¨ãƒ©ãƒ¼æ–‡å­—åˆ—ã‚’è¨­å®š
 	//
 	mode = CZHTTP_MODE_ERROR;
 	strcpy( errstr,mes );

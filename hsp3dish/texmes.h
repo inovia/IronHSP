@@ -15,12 +15,14 @@ using namespace gameplay;
  * Texture cache class.
  */
 
-#define TEXMESINF_MAX 256			// ƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…‚ÌÅ‘å”
-#define TEXMES_CACHE_DEFAULT 8		// ƒLƒƒƒbƒVƒ…‚ÌƒfƒtƒHƒ‹ƒg¶‘¶ƒtƒŒ[ƒ€
-#define TEXMES_NAME_BUFFER 64		// ƒeƒLƒXƒgƒnƒbƒVƒ…ƒl[ƒ€—pƒoƒbƒtƒ@ƒTƒCƒY
-#define TEXMES_BUFFER_MAX 0x40000	// ‰ŠúƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@ƒoƒbƒtƒ@ƒTƒCƒY
+#define TEXMESINF_MAX 256			// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã®æœ€å¤§æ•°
+#define TEXMES_CACHE_DEFAULT 8		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆç”Ÿå­˜ãƒ•ãƒ¬ãƒ¼ãƒ 
+#define TEXMES_NAME_BUFFER 64		// ãƒ†ã‚­ã‚¹ãƒˆãƒãƒƒã‚·ãƒ¥ãƒãƒ¼ãƒ ç”¨ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+#define TEXMES_BUFFER_MAX 0x40000	// åˆæœŸãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
 
-// ƒeƒNƒXƒ`ƒƒƒLƒƒƒbƒVƒ…î•ñ
+class texmesPos;
+
+// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚­ãƒ£ãƒƒã‚·ãƒ¥æƒ…å ±
 class texmes {
 public:
 	texmes();
@@ -45,6 +47,7 @@ public:
 	int textsize;		// Long Text Message size
 	int font_size;		// Text font size
 	int font_style;		// Text font style
+	texmesPos* texmespos;	// texmesPos ptr (for cache)
 	char buf[TEXMES_NAME_BUFFER];		// Text Data Buffer
 
 #ifdef HSPDISHGP
@@ -54,9 +57,7 @@ public:
 #endif
 };
 
-class texmesPos;
-
-// ƒƒbƒZ[ƒWƒ}ƒl[ƒWƒƒ[
+// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒžãƒãƒ¼ã‚¸ãƒ£ãƒ¼
 class texmesManager {
 public:
 	texmesManager();
@@ -79,7 +80,7 @@ protected:
 	int Get2N(int val);
 	texmes* addTexmes(void);
 	int str2hash(char* msg, int* out_len);
-	int texmesGetCache(char* msg, short mycache);
+	int texmesGetCache(char* msg, short mycache, texmesPos* info = NULL);
 	unsigned char* texmesGetFont(char* msg, int* out_sx, int *out_sy, int* out_tsx, int* out_tsy, texmesPos *info);
 	unsigned char *texmesBuffer(int size);
 

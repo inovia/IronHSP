@@ -17,10 +17,119 @@
 #include "label.h"
 #include "tagstack.h"
 #include "membuf.h"
-#include "strnote.h"
+#include "../hsp3/strnote.h"
 #include "ahtobj.h"
 
 #define s3size 0x8000
+
+#ifdef HSPWIN
+#include <windows.h>
+#include <shlobj.h>
+#endif
+
+static inline int issjisleadbyte(unsigned char c)
+{
+	return (c >= 0x81 && c <= 0x9F) || (c >= 0xE0 && c <= 0xFC);
+}
+
+static inline int tstrcmp(const char* str1, const char* str2)
+{
+	if (strcmp(str1, str2) == 0) return -1;
+	return 0;
+}
+
+//-------------------------------------------------------------
+//		String Service
+//-------------------------------------------------------------
+
+void strcase2(char* str, char* str2)
+{
+	//	string case to lower and copy
+	//
+	unsigned char a1;
+	unsigned char* ss;
+	unsigned char* ss2;
+	ss = (unsigned char*)str;
+	ss2 = (unsigned char*)str2;
+	while (1) {
+		a1 = *ss;
+		if (a1 == 0) break;
+		if (a1 >= 0x80) {
+			*ss++;
+			*ss2++ = a1;
+			a1 = *ss++;
+			if (a1 == 0) break;
+			*ss2++ = a1;
+		}
+		else {
+			a1 = tolower(a1);
+			*ss++ = a1;
+			*ss2++ = a1;
+		}
+	}
+	*ss2 = 0;
+}
+
+void strcpy2(char* dest, const char* src, size_t size)
+{
+	if (size == 0) {
+		return;
+	}
+	char* d = dest;
+	const char* s = src;
+	size_t n = size;
+	while (--n) {
+		if ((*d++ = *s++) == '\0') {
+			return;
+		}
+	}
+	*d = '\0';
+	return;
+}
+
+
+static int findext(char const* st)
+{
+	//	æ‹¡å¼µå­ã‚’ã•ãŒã™ã€‚
+	//
+	int r = -1, f = 0;
+	for (int i = 0; st[i] != '\0'; ++i) {
+		if (f) {
+			f = 0;
+		}
+		else {
+			if (st[i] == '.') {
+				r = i;
+			}
+			else if (st[i] == '\\') {
+				r = -1;
+			}
+			f = issjisleadbyte(st[i]);
+		}
+	}
+	return r;
+}
+
+
+void addext(char* st, const char* exstr)
+{
+	//	add extension of filename
+	int i = findext(st);
+	if (i == -1) {
+		strcat(st, ".");
+		strcat(st, exstr);
+	}
+}
+
+
+void cutext(char* st)
+{
+	//		æ‹¡å¼µå­ã‚’å–ã‚Šé™¤ã
+	//
+	int i = findext(st);
+	if (i >= 0) st[i] = '\0';
+}
+
 
 //-------------------------------------------------------------
 //		Routines
@@ -28,7 +137,7 @@
 
 void CToken::Mes( char *mes )
 {
-	//		ƒƒbƒZ[ƒW“o˜^
+	//		ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ç™»éŒ²
 	//
 	errbuf->PutStr( mes );
 	errbuf->PutStr( "\r\n" );
@@ -37,8 +146,8 @@ void CToken::Mes( char *mes )
 
 void CToken::Mesf( char *format, ...)
 {
-	//		ƒƒbƒZ[ƒW“o˜^
-	//		(ƒtƒH[ƒ}ƒbƒg•t‚«)
+	//		ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ç™»éŒ²
+	//		(ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆä»˜ã)
 	//
 	char textbf[1024];
 	va_list args;
@@ -52,7 +161,7 @@ void CToken::Mesf( char *format, ...)
 
 void CToken::Error( char *mes )
 {
-	//		ƒGƒ‰[ƒƒbƒZ[ƒW“o˜^
+	//		ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ç™»éŒ²
 	//
 	char tmp[256];
 	sprintf( tmp, "#Error:%s\r\n", mes );
@@ -62,7 +171,7 @@ void CToken::Error( char *mes )
 
 void CToken::LineError( char *mes, int line, char *fname )
 {
-	//		ƒGƒ‰[ƒƒbƒZ[ƒW“o˜^(line/filename)
+	//		ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ç™»éŒ²(line/filename)
 	//
 	char tmp[256];
 	sprintf( tmp, "#Error:%s in line %d [%s]\r\n", mes, line, fname );
@@ -72,7 +181,7 @@ void CToken::LineError( char *mes, int line, char *fname )
 
 void CToken::SetErrorBuf( CMemBuf *buf )
 {
-	//		ƒGƒ‰[ƒƒbƒZ[ƒWƒoƒbƒtƒ@“o˜^
+	//		ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒãƒƒãƒ•ã‚¡ç™»éŒ²
 	//
 	errbuf = buf;
 }
@@ -80,7 +189,7 @@ void CToken::SetErrorBuf( CMemBuf *buf )
 
 void CToken::SetPackfileOut( CMemBuf *pack )
 {
-	//		packfileo—Íƒoƒbƒtƒ@“o˜^
+	//		packfileå‡ºåŠ›ãƒãƒƒãƒ•ã‚¡ç™»éŒ²
 	//
 	packbuf = pack;
 	packbuf->PutStr( ";\r\n;\tsource generated packfile\r\n;\r\n" );
@@ -89,7 +198,7 @@ void CToken::SetPackfileOut( CMemBuf *pack )
 
 void CToken::SetError( char *mes )
 {
-	//		ƒGƒ‰[ƒƒbƒZ[ƒW‰¼“o˜^
+	//		ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ä»®ç™»éŒ²
 	//
 	strcpy( errtmp, mes );
 }
@@ -97,29 +206,126 @@ void CToken::SetError( char *mes )
 
 int CToken::AddPackfile( char *name, int mode )
 {
-	//		packfileo—Í
+	//		packfileå‡ºåŠ›
 	//			0=name/1=+name/2=other
 	//
 	CStrNote note;
 	int i,max;
+	char fname[HSP_MAX_PATH];
+	char p_fdir[HSP_MAX_PATH];
+	char p_fname[HSP_MAX_PATH];
 	char packadd[1024];
 	char tmp[1024];
 	char *s;
+	char* findptr;
+	bool absolutePath = false;					// çµ¶å¯¾ãƒ‘ã‚¹ã‹?
 
-	strcpy( packadd, name );
-	strcase( packadd );
+	getpath(name, p_fdir, 32);
+	getpath(name, p_fname, 8);
+
+#ifdef HSPWIN
+	strchr3(p_fdir, ':', 0, &findptr);			// ãƒ‰ãƒ©ã‚¤ãƒ–æ–‡å­—ãŒã‚ã£ãŸ
+	if (findptr != NULL) {
+		absolutePath = true;
+	}
+	if (*p_fdir == '\\') {
+		absolutePath = true;
+	}
+#endif
+	if (*p_fdir == '/') {
+		absolutePath = true;
+	}
+
+	if (absolutePath==false) {
+		strcpy(fname, search_path);
+		strcat(fname, p_fdir);
+		strcpy(p_fdir, fname);
+		strcat(fname, p_fname);
+	}
+	else {
+		strcpy(fname, name);
+	}
+
+	strcpy( packadd, fname);
+
 	if ( mode<2 ) {
+#ifdef HSPWIN
+		strcase(packadd);
+#endif
 		note.Select( packbuf->GetBuffer() );
 		max = note.GetMaxLine();
 		for( i=0;i<max;i++ ) {
 			note.GetLine( tmp, i );
 			s = tmp;if ( *s=='+' ) s++;
-			if ( tstrcmp( s, packadd )) return -1;
+			if ( strcmp( s, packadd ) == 0 ) return -1;
 		}
 		if ( mode==1 ) packbuf->PutStr( "+" );
+		packbuf->PutStr(">");
 	}
 	packbuf->PutStr( packadd );
 	packbuf->PutStr( "\r\n" );
+	return 0;
+}
+
+
+int CToken::AddPackfileOrig(char* name, int mode)
+{
+	//		packfileå‡ºåŠ›
+	//			0=name/1=+name/2=other
+	//
+	CStrNote note;
+	int i, max;
+	char fname[HSP_MAX_PATH];
+	char p_fdir[HSP_MAX_PATH];
+	char p_fname[HSP_MAX_PATH];
+	char packadd[1024];
+	char tmp[1024];
+	char* s;
+	char* findptr;
+	bool absolutePath = false;					// çµ¶å¯¾ãƒ‘ã‚¹ã‹?
+
+	getpath(name, p_fdir, 32);
+	getpath(name, p_fname, 8);
+
+#ifdef HSPWIN
+	strchr3(p_fdir, ':', 0, &findptr);			// ãƒ‰ãƒ©ã‚¤ãƒ–æ–‡å­—ãŒã‚ã£ãŸ
+	if (findptr != NULL) {
+		absolutePath = true;
+	}
+	if (*p_fdir == '\\') {
+		absolutePath = true;
+	}
+#endif
+	if (*p_fdir == '/') {
+		absolutePath = true;
+	}
+
+	if (absolutePath == false) {
+		strcpy(fname, search_path);
+		strcat(fname, p_fdir);
+		strcpy(p_fdir, fname);
+		strcat(fname, p_fname);
+	}
+	else {
+		strcpy(fname, name);
+	}
+
+	strcpy(packadd, fname);
+	if (mode < 2) {
+#ifdef HSPWIN
+		strcase(packadd);
+#endif
+		note.Select(packbuf->GetBuffer());
+		max = note.GetMaxLine();
+		for (i = 0; i < max; i++) {
+			note.GetLine(tmp, i);
+			s = tmp; if (*s == '+') s++;
+			if (strcmp(s, packadd) == 0) return -1;
+		}
+		if (mode == 1) packbuf->PutStr("+");
+	}
+	packbuf->PutStr(packadd);
+	packbuf->PutStr("\r\n");
 	return 0;
 }
 
@@ -140,6 +346,7 @@ CToken::CToken( void )
 	ahtmodel = NULL;
 	ahtbuf = NULL;
 	scnvbuf = NULL;
+	labbuf = NULL;
 	ResetCompiler();
 }
 
@@ -156,6 +363,7 @@ CToken::CToken( char *buf )
 	ahtmodel = NULL;
 	ahtbuf = NULL;
 	scnvbuf = NULL;
+	labbuf = NULL;
 	ResetCompiler();
 }
 
@@ -167,14 +375,26 @@ CToken::~CToken( void )
 	if ( tstack!=NULL ) { delete tstack; tstack = NULL; }
 	if ( lb!=NULL ) { delete lb; lb = NULL; }
 	if ( s3 != NULL ) { free( s3 );s3 = NULL; }
-//	buffer = NULL;
+	//	buffer = NULL;
+}
+
+
+void CToken::addCmpMode(int mode)
+{
+	hed_cmpmode |= mode;
+}
+
+
+void CToken::delCmpMode(int mode)
+{
+	hed_cmpmode &= ~mode;
 }
 
 
 CLabel *CToken::GetLabelInfo( void )
 {
-	//		ƒ‰ƒxƒ‹î•ñæ‚èo‚µ
-	//		(CLabel *‚ğæ“¾‚µ‚½‚ç‚»‚¿‚ç‚ÅAdelete‚·‚é‚±‚Æ)
+	//		ãƒ©ãƒ™ãƒ«æƒ…å ±å–ã‚Šå‡ºã—
+	//		(CLabel *ã‚’å–å¾—ã—ãŸã‚‰ãã¡ã‚‰ã§ã€deleteã™ã‚‹ã“ã¨)
 	//
 	CLabel *res;
 	res = lb;
@@ -185,16 +405,49 @@ CLabel *CToken::GetLabelInfo( void )
 
 void CToken::SetLabelInfo( CLabel *lbinfo )
 {
-	//		ƒ‰ƒxƒ‹î•ñİ’è
+	//		ãƒ©ãƒ™ãƒ«æƒ…å ±è¨­å®š
 	//
 	tmp_lb = lbinfo;
 }
 
 
+void CToken::SetLabelListBuffer(CMemBuf *buf, int mode, char* match, int line, char *filename)
+{
+	labbuf = buf;
+	cg_labout_mode = mode;
+	cg_labout_match = match;
+	cg_labout_line = line;
+	if (filename == NULL) {
+		*cg_labout_orgfile = 0;
+	}
+	else {
+		strcpy(cg_labout_orgfile, filename);
+	}
+
+	static char* p[] = {
+		"---",
+		"fnc",
+		"mac",
+		"lab",
+		"var",
+		"exv",
+		"cmd",
+		"exc",
+		NULL };
+	cg_labout_header = p;
+}
+
+
+char* CToken::GetLabelListHeader(int flag)
+{
+	int i = flag & (LABBUF_FLAG_REFER-1);
+	if ((i < 0) || (i > LABBUF_FLAG_EXCMD)) i = 0;
+	return cg_labout_header[i];
+}
+
+
 void CToken::ResetCompiler( void )
 {
-//	buffer = buf;
-//	wp = (unsigned char *)buf;
 	line = 1;
 	fpbit = 256.0;
 	incinf = 0;
@@ -203,6 +456,9 @@ void CToken::ResetCompiler( void )
 	search_path[0] = 0;
 	lb->Reset();
 	fileadd = 0;
+	pp_orgline = 0;
+	pp_orgfile[0] = 0;
+	pp_orgfilefull[0] = 0;
 
 	//		reset header info
 	hed_option = 0;
@@ -210,6 +466,13 @@ void CToken::ResetCompiler( void )
 	hed_autoopt_timer = 0;
 	hed_autoopt_strexchange = 0;
 	pp_utf8 = 0;
+
+	//		reset labout
+	cg_labout_mode = 0;
+	cg_labout_line = 0;
+	cg_labout_caseflag = 0;
+	cg_labout_match = NULL;
+	*cg_labout_modname = 0;
 }
 
 
@@ -314,7 +577,7 @@ pickag:
 #if 0
 		s3[a++] = a1; wp++;
 #else
-		skip = SkipMultiByte(a1);	// ‘SŠp•¶šƒ`ƒFƒbƒN
+		skip = SkipMultiByte(a1);	// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 		for (i = 0; i <= skip; i++) {
 			s3[a++] = a1; wp++;
 			a1 = *wp;
@@ -328,7 +591,7 @@ pickag:
 
 char *CToken::Pickstr2( char *str )
 {
-	//		Strings pick sub '`'
+	//		Strings pick sub 'ï½'
 	//
 	unsigned char *vs;
 	unsigned char *pp;
@@ -341,7 +604,7 @@ char *CToken::Pickstr2( char *str )
 		a1=*vs;
 		if (a1==0) break;
 		if (a1==0x27) { vs++; break; }
-		if (a1==0x5c) {					// '\'ƒ`ƒFƒbƒN
+		if (a1==0x5c) {					// '\'ãƒã‚§ãƒƒã‚¯
 			vs++;
 			a1 = tolower( *vs );
 			if ( a1 < 32 ) continue;
@@ -360,7 +623,7 @@ char *CToken::Pickstr2( char *str )
 		}
 
 		skip = SkipMultiByte( a1 );
-		if ( skip ) {					// ‘SŠp•¶šƒ`ƒFƒbƒN
+		if ( skip ) {					// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 			for(i=0;i<skip;i++) {
 				*pp++ = a1;
 				vs++;
@@ -392,7 +655,7 @@ int CToken::CheckModuleName( char *name )
 		if ((a1>=0x7b)&&(a1<=0x7f)) break;
 
 		p++;
-		p += SkipMultiByte( a1 );		// ‘SŠp•¶šƒ`ƒFƒbƒN
+		p += SkipMultiByte( a1 );		// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 	}
 	return -1;
 }
@@ -424,7 +687,7 @@ int CToken::GetToken( void )
 
 #ifdef HSPWIN
 		if ( a1 == 0x81 ) {
-			if ( wp[1] == 0x40 ) {	// ‘SŠpƒXƒy[ƒX‚Í–³‹
+			if ( wp[1] == 0x40 ) {	// å…¨è§’ã‚¹ãƒšãƒ¼ã‚¹ã¯ç„¡è¦–
 				if ( hed_cmpmode & CMPMODE_SKIPJPSPC ) {
 					wp+=2; continue;
 				}
@@ -502,7 +765,7 @@ int CToken::GetToken( void )
 			return a1;
 		}
 		minmode++;
-		a1=an;						// Ÿ‚ª”’l‚È‚ç‚Î‚»‚Ì‚Ü‚ÜŒp‘±
+		a1=an;						// æ¬¡ãŒæ•°å€¤ãªã‚‰ã°ãã®ã¾ã¾ç¶™ç¶š
 	}
 */		
 	if ((a1>=0x30)&&(a1<=0x39)) {			// when 0-9 numerical
@@ -536,23 +799,23 @@ int CToken::GetToken( void )
 			if ( *wp=='e' ) { fpflag=4;wp++; }
 		}
 
-		if ( fpflag<0 ) {				// ¬”’l‚Å‚È‚¢‚Íu.v‚Ü‚Å‚ÅI‚í‚è
+		if ( fpflag<0 ) {				// å°æ•°å€¤ã§ãªã„æ™‚ã¯ã€Œ.ã€ã¾ã§ã§çµ‚ã‚ã‚Š
 			s3[ft_bak] = 0;
 			wp = wp_bak;
 			fpflag = 0;
 		}
 
 		switch( fpflag ) {
-		case 0:					// ’Êí‚Ì®”
+		case 0:					// é€šå¸¸ã®æ•´æ•°
 			val=atoi_allow_overflow((char *)s3);
 			if ( minmode ) val=-val;
 			break;
-		case 1:					// intŒÅ’è¬”
+		case 1:					// intå›ºå®šå°æ•°
 			val_d = atof( (char *)s3 );
 			val = (int)( val_d * fpbit );
 			if ( minmode ) val=-val;
 			break;
-		case 2:					// intŒ`®‚Ìfloat’l‚ğ•Ô‚·
+		case 2:					// intå½¢å¼ã®floatå€¤ã‚’è¿”ã™
 #if 0
 			val_f = (float)atof( (char *)s3 );
 			if ( minmode ) val_f=-val_f;
@@ -563,7 +826,7 @@ int CToken::GetToken( void )
 			val_d = atof((char*)s3);
 			if (minmode) val_d = -val_d;
 			return TK_DNUM;
-		case 4:					// double’l(w”•\‹L)
+		case 4:					// doubleå€¤(æŒ‡æ•°è¡¨è¨˜)
 			s3[a++]='e';
 			a1 = *wp;
 			if (( a1=='-' )||( a1=='+' )) {
@@ -576,7 +839,7 @@ int CToken::GetToken( void )
 				s3[a++]=a1;wp++;
 			}
 			s3[a]=0;
-		case 3:					// double’l
+		case 3:					// doubleå€¤
 			val_d = atof( (char *)s3 );
 			if ( minmode ) val_d=-val_d;
 			return TK_DNUM;
@@ -584,7 +847,7 @@ int CToken::GetToken( void )
 		return TK_NUM;
 	}
 
-	if (a1 == '@') {							// @"`"
+	if (a1 == '@') {							// @"ï¿½`"
 		a2 = wp[1];
 		if (a2 == 0x22) {						// "
 			wp += 2; Pickstr(true);
@@ -643,12 +906,12 @@ int CToken::GetToken( void )
 
 		if ( a>=OBJNAME_MAX ) break;
 
-		skip = SkipMultiByte( a1 );	// ‘SŠp•¶šƒ`ƒFƒbƒN
+		skip = SkipMultiByte( a1 );	// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 		if ( skip ) {
 #ifdef HSPWIN
 			if ( hed_cmpmode & CMPMODE_SKIPJPSPC ) {
 				if ( a1 == 0x81 ) {
-					if ( wp[1] == 0x40 ) {	// ‘SŠpƒXƒy[ƒX‚ÍI’[‚Æ‚µ‚Äˆ—
+					if ( wp[1] == 0x40 ) {	// å…¨è§’ã‚¹ãƒšãƒ¼ã‚¹ã¯çµ‚ç«¯ã¨ã—ã¦å‡¦ç†
 						break;
 					}
 				}
@@ -667,8 +930,8 @@ int CToken::GetToken( void )
 
 int CToken::PeekToken( void )
 {
-	// –ß‚·‚Ì‚Í wp ‚Ì‚İB
-	// s3, val, val_f, val_d ‚È‚Ç‚Í–ß‚³‚ê‚È‚¢
+	// æˆ»ã™ã®ã¯ wp ã®ã¿ã€‚
+	// s3, val, val_f, val_d ãªã©ã¯æˆ»ã•ã‚Œãªã„
 	unsigned char *wp_bak = wp;
 	int result = GetToken();
 	wp = wp_bak;
@@ -892,8 +1155,8 @@ int CToken::Calc( CALCVAR &val )
 
 char *CToken::ExpandStr( char *str, int opt )
 {
-	//		w’è•¶š—ñ‚ğmembuf‚Ö“WŠJ‚·‚é
-	//			opt:0=s––‚Ü‚ÅƒXƒLƒbƒv/1="‚Ü‚Å/2='‚Ü‚Å/3="‚Ü‚Å’€Œê“IƒŠƒeƒ‰ƒ‹ˆ—‚ ‚è
+	//		æŒ‡å®šæ–‡å­—åˆ—ã‚’membufã¸å±•é–‹ã™ã‚‹
+	//			opt:0=è¡Œæœ«ã¾ã§ã‚¹ã‚­ãƒƒãƒ—/1="ã¾ã§/2='ã¾ã§/3="ã¾ã§é€èªçš„ãƒªãƒ†ãƒ©ãƒ«æ–‡å­—åˆ—ã‚’å±•é–‹ã™ã‚‹
 	//
 	int a;
 	unsigned char *vs;
@@ -910,7 +1173,7 @@ char *CToken::ExpandStr( char *str, int opt )
 	while(1) {
 		a1=*vs;
 		if (a1==0) break;
-		if ((opt == 3) && (a1 == 0x22)) {	// "" ƒ`ƒFƒbƒN(2˜A‘±‚Åƒ_ƒuƒ‹ƒNƒH[ƒg)
+		if ((opt == 3) && (a1 == 0x22)) {	// "" ï¿½`ï¿½Fï¿½bï¿½N(2ï¿½Aï¿½ï¿½ï¿½Åƒ_ï¿½uï¿½ï¿½ï¿½Nï¿½Hï¿½[ï¿½g)
 			a2 = *(vs + 1);
 			if (a2 == 0x22) {
 				vs += 2;
@@ -923,14 +1186,14 @@ char *CToken::ExpandStr( char *str, int opt )
 		if ((a1<32)&&(a1!=9)) break;
 		s3[a++]=a1;vs++;
 
-		if (a1 == 0x5c) {					// '\'ƒ`ƒFƒbƒN
+		if (a1 == 0x5c) {					// '\'ãƒã‚§ãƒƒã‚¯
 			if (opt == 3)
 				s3[a++] = 0x5c;
 			else
 				s3[a++] = *vs++;
 		}
 
-		skip = SkipMultiByte( a1 );	// ‘SŠp•¶šƒ`ƒFƒbƒN
+		skip = SkipMultiByte( a1 );	// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 		if ( skip ) {
 			for( i=0;i<skip;i++ ) {
 				s3[a++] = *vs++;
@@ -948,8 +1211,8 @@ char *CToken::ExpandStr( char *str, int opt )
 
 char *CToken::ExpandAhtStr( char *str )
 {
-	//		ƒRƒƒ“ƒg‚ğ“WŠJ‚·‚é
-	//		( ;;‚É‘±‚­AHTw’è•¶š—ñ—p )
+	//		ã‚³ãƒ¡ãƒ³ãƒˆã‚’å±•é–‹ã™ã‚‹
+	//		( ;;ã«ç¶šãAHTæŒ‡å®šæ–‡å­—åˆ—ç”¨ )
 	//
 	unsigned char *vs;
 	unsigned char a1;
@@ -967,8 +1230,8 @@ char *CToken::ExpandAhtStr( char *str )
 
 char *CToken::ExpandStrEx( char *str )
 {
-	//		w’è•¶š—ñ‚ğmembuf‚Ö“WŠJ‚·‚é
-	//		( •¡”s‘Î‰ {"`"} )
+	//		æŒ‡å®šæ–‡å­—åˆ—ã‚’membufã¸å±•é–‹ã™ã‚‹
+	//		( è¤‡æ•°è¡Œå¯¾å¿œ {"ï½"} )
 	//
 	int a;
 	unsigned char *vs;
@@ -1008,11 +1271,11 @@ char *CToken::ExpandStrEx( char *str )
 			continue;
 		}
 		s3[a++]=a1;vs++;
-		if (a1==0x5c) {					// '\'ƒ`ƒFƒbƒN
+		if (a1==0x5c) {					// '\'ãƒã‚§ãƒƒã‚¯
 			if (*vs>=32) { s3[a++] = *vs; vs++; }
 		}
 
-		skip = SkipMultiByte( a1 );	// ‘SŠp•¶šƒ`ƒFƒbƒN
+		skip = SkipMultiByte( a1 );	// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 		if ( skip ) {
 			for(i=0;i<skip;i++) {
 				s3[a++] = *vs++;
@@ -1028,8 +1291,8 @@ char *CToken::ExpandStrEx( char *str )
 
 char *CToken::ExpandStrEx_VSL(char *str)
 {
-	//		w’è•¶š—ñ‚ğmembuf‚Ö“WŠJ‚·‚é
-	//		( •¡”s‘Î‰ {{{"`"}}} )
+	//		ï¿½wï¿½è•¶ï¿½ï¿½ï¿½ï¿½ï¿½membufï¿½Ö“Wï¿½Jï¿½ï¿½ï¿½ï¿½
+	//		( ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Î‰ï¿½ {{{"ï¿½`"}}} )
 	//
 	int a;
 	unsigned char *vs;
@@ -1060,7 +1323,7 @@ char *CToken::ExpandStrEx_VSL(char *str)
 #endif
 		//		if ((a1<32)&&(a1!=9)) break;
 
-		// ”»’è‚Í "}}} ‚¾‚ªA]—ˆŒİŠ·‚Å "} ‚Æ‚µ‚Äo—Í
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ "}}} ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½]ï¿½ï¿½ï¿½İŠï¿½ï¿½ï¿½ "} ï¿½Æ‚ï¿½ï¿½Äoï¿½ï¿½
 		if (a1 == 0x22) {						// " 
 			if ((vs[1] == '}') && (vs[2] == '}') && (vs[3] == '}')) {
 				s3[a++] = 0x22; s3[a++] = '}';	// "}
@@ -1071,11 +1334,11 @@ char *CToken::ExpandStrEx_VSL(char *str)
 			continue;
 		}
 		s3[a++] = a1; vs++;
-		if (a1 == 0x5c) {					// '\'ƒ`ƒFƒbƒN
+		if (a1 == 0x5c) {					// '\'ï¿½`ï¿½Fï¿½bï¿½N
 			s3[a++] = 0x5c;					// \ -> \\ 
 		}
 
-		skip = SkipMultiByte(a1);	// ‘SŠp•¶šƒ`ƒFƒbƒN
+		skip = SkipMultiByte(a1);	// ï¿½Sï¿½pï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
 		if (skip) {
 			for (i = 0; i < skip; i++) {
 				s3[a++] = *vs++;
@@ -1092,7 +1355,7 @@ char *CToken::ExpandStrEx_VSL(char *str)
 
 char *CToken::ExpandStrComment( char *str, int opt )
 {
-	//		/*`*/ ƒRƒƒ“ƒg‚ğ“WŠJ‚·‚é
+	//		/*ï½*/ ã‚³ãƒ¡ãƒ³ãƒˆã‚’å±•é–‹ã™ã‚‹
 	//
 	int a;
 	unsigned char *vs;
@@ -1114,7 +1377,7 @@ char *CToken::ExpandStrComment( char *str, int opt )
 			continue;
 		}
 		vs++;
-		vs+=SkipMultiByte( a1 );	// ‘SŠp•¶šƒ`ƒFƒbƒN
+		vs+=SkipMultiByte( a1 );	// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 	}
 	s3[a]=0;
 	if ( opt==0 ) if (wrtbuf!=NULL) wrtbuf->PutData( s3, a );
@@ -1124,7 +1387,7 @@ char *CToken::ExpandStrComment( char *str, int opt )
 
 char *CToken::ExpandHex( char *str, int *val )
 {
-	//		16i”•¶š—ñ‚ğmembuf‚Ö“WŠJ‚·‚é
+	//		16é€²æ•°æ–‡å­—åˆ—ã‚’membufã¸å±•é–‹ã™ã‚‹
 	//
 	int a,b,num;
 	unsigned char *vs;
@@ -1150,7 +1413,7 @@ char *CToken::ExpandHex( char *str, int *val )
 
 char *CToken::ExpandBin( char *str, int *val )
 {
-	//		2i”•¶š—ñ‚ğmembuf‚Ö“WŠJ‚·‚é
+	//		2é€²æ•°æ–‡å­—åˆ—ã‚’membufã¸å±•é–‹ã™ã‚‹
 	//
 	int a,b,num;
 	unsigned char *vs;
@@ -1174,8 +1437,8 @@ char *CToken::ExpandBin( char *str, int *val )
 
 char *CToken::ExpandToken( char *str, int *type, int ppmode )
 {
-	//		stringƒf[ƒ^‚ğmembuf‚Ö“WŠJ‚·‚é
-	//			ppmode : 0=’ÊíA1=ƒvƒŠƒvƒƒZƒbƒT
+	//		stringãƒ‡ãƒ¼ã‚¿ã‚’membufã¸å±•é–‹ã™ã‚‹
+	//			ppmode : 0=é€šå¸¸ã€1=ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µæ™‚
 	//
 	int a,chk,id,ltype,opt;
 	int flcnt;
@@ -1198,19 +1461,19 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 		*type = TK_EOF;
 		return NULL;
 	}
-	if (a1==10) {							// Unix‰üs
+	if (a1==10) {							// Unixæ”¹è¡Œ
 		vs++;
 		if (wrtbuf!=NULL) wrtbuf->PutStr( "\r\n" );
 		*type = TK_EOL;
 		return (char *)vs;
 	}
-	if (a1==13) {							// ‰üs
+	if (a1==13) {							// æ”¹è¡Œ
 		vs++;if ( *vs==10 ) vs++;
 		if (wrtbuf!=NULL) wrtbuf->PutStr( "\r\n" );
 		*type = TK_EOL;
 		return (char *)vs;
 	}
-	if (a1==';') {							// ƒRƒƒ“ƒg
+	if (a1==';') {							// ã‚³ãƒ¡ãƒ³ãƒˆ
 		*type = TK_VOID;
 		*vs=0;
 		vs++;
@@ -1222,7 +1485,7 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 		}
 		return ExpandStr( (char *)vs, 0 );
 	}
-	if (a1=='/') {							// CƒRƒƒ“ƒg
+	if (a1=='/') {							// Cã‚³ãƒ¡ãƒ³ãƒˆ
 		if (vs[1]=='/') {
 			*type = TK_VOID;
 			*vs=0;
@@ -1235,28 +1498,28 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 			return ExpandStrComment( (char *)vs+2, 0 );
 		}
 	}
-	if (a1==0x22) {							// "`"
+	if (a1==0x22) {							// "ï½"
 		*type = TK_STRING;
 		return ExpandStr( (char *)vs+1, 1 );
 	}
-	if (a1==0x27) {							// '`'
+	if (a1==0x27) {							// 'ï½'
 		*type = TK_STRING;
 		return ExpandStr( (char *)vs+1, 2 );
 	}
-	if (a1 == '@') {						// @"`"
+	if (a1 == '@') {						// @"ï½"
 		if (vs[1] == 0x22) {
 			*type = TK_STRING;
 			return ExpandStr((char *)vs + 2, 3);
 		}
 	}
-	if (a1=='{') {														// {"`"}
+	if (a1=='{') {							// {"ï½"}
 		if (vs[1]==0x22) {
 			if (wrtbuf != NULL) wrtbuf->PutStr("{\"");
 			mulstr = LMODE_STR;
 			*type = TK_STRING;
 			return ExpandStrEx((char *)vs + 2);
 		}
-		else if ((vs[1] == '{') && (vs[2] == '{') && vs[3] == 0x22) {	// {{{"`"}}}
+		else if ((vs[1] == '{') && (vs[2] == '{') && vs[3] == 0x22) {	// {{{" ï½ "}}}
 			if (wrtbuf != NULL) wrtbuf->PutStr("{\"");
 			mulstr = LMODE_STR_VSL;
 			*type = TK_STRING;
@@ -1288,13 +1551,25 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 
 #ifdef HSPWIN
 	if ( hed_cmpmode & CMPMODE_SKIPJPSPC ) {
-		if ( a1 == 0x81 && vs[1] == 0x40 ) {	// ‘SŠpƒXƒy[ƒX‚ğ”¼ŠpƒXƒy[ƒX‚É•ÏŠ·‚·‚é
-			*type = TK_CODE;
-			vs+=2;
-			if (wrtbuf!=NULL) {
-				wrtbuf->Put( (char)0x20 );
+		if (pp_utf8) {
+			if (a1 == 0xe3 && vs[1] == 0x80 && vs[2] == 0x80) {	// å…¨è§’ã‚¹ãƒšãƒ¼ã‚¹ã‚’åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ã«å¤‰æ›ã™ã‚‹(UTF8)
+				*type = TK_CODE;
+				vs += 3;
+				if (wrtbuf != NULL) {
+					wrtbuf->Put((char)0x20);
+				}
+				return (char*)vs;
 			}
-			return (char *)vs;
+		}
+		else {
+			if (a1 == 0x81 && vs[1] == 0x40) {	// å…¨è§’ã‚¹ãƒšãƒ¼ã‚¹ã‚’åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ã«å¤‰æ›ã™ã‚‹(SJIS)
+				*type = TK_CODE;
+				vs += 2;
+				if (wrtbuf != NULL) {
+					wrtbuf->Put((char)0x20);
+				}
+				return (char*)vs;
+			}
 		}
 	}
 #endif
@@ -1306,7 +1581,7 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 
 	if (chk) {
 		vs++;
-		if (wrtbuf!=NULL) wrtbuf->Put( (char)a1 );		// ‹L†
+		if (wrtbuf!=NULL) wrtbuf->Put( (char)a1 );		// è¨˜å·
 		*type = a1;
 		return (char *)vs;
 	}
@@ -1347,16 +1622,16 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 	vs_modbrk = NULL;
 
 /*
-	if ( ppmode ) {					// ƒvƒŠƒvƒƒZƒbƒT‚Í#‚ğŠÜ‚ß‚ÄƒL[ƒ[ƒh‚Æ‚·‚é
+	if ( ppmode ) {					// ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µæ™‚ã¯#ã‚’å«ã‚ã¦ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã¨ã™ã‚‹
 		s2[a++]='#';
 	}
 */
 
-	//		”¼ŠpƒXƒy[ƒX‚ÌŒŸo
+	//		åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ã®æ¤œå‡º
 	//
 #ifdef HSPWIN
 	if (( hed_cmpmode & CMPMODE_SKIPJPSPC ) == 0 ) {
-		if ( strncmp( (char *)s2,"@",2 )==0 ) {
+		if ( strncmp( (char *)s2,"ã€€",2 )==0 ) {
 			SetError("SJIS space code error");
 			*type = TK_ERROR; return (char *)vs;
 		}
@@ -1364,19 +1639,19 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 #endif
 
 
-	//	 ƒVƒ“ƒ{ƒ‹æ‚èo‚µ
+	//	 ã‚·ãƒ³ãƒœãƒ«å–ã‚Šå‡ºã—
 	//
 	while(1) {
 		int skip,i;
 		a1=*vs;
 		//if ((a1>='A')&&(a1<='Z')) a1+=0x20;		// to lower case
 
-		skip = SkipMultiByte( a1 );					// ‘SŠp•¶šƒ`ƒFƒbƒN
+		skip = SkipMultiByte( a1 );					// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 		if ( skip ) {
 
 #ifdef HSPWIN
 			if ( hed_cmpmode & CMPMODE_SKIPJPSPC ) {
-				if ( a1 == 0x81 && vs[1] == 0x40 ) {	// ‘SŠpƒXƒy[ƒX‚ÍI’[‚Æ”»’f
+				if ( a1 == 0x81 && vs[1] == 0x40 ) {	// å…¨è§’ã‚¹ãƒšãƒ¼ã‚¹ã¯çµ‚ç«¯ã¨åˆ¤æ–­
 					break;
 				}
 			}
@@ -1417,7 +1692,7 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 	}
 
 
-	//		ƒVƒ“ƒ{ƒ‹ŒŸõ
+	//		ã‚·ãƒ³ãƒœãƒ«æ¤œç´¢
 	//
 	strcase2( (char *)s2, fixname );
 
@@ -1432,22 +1707,24 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 		switch( ltype ) {
 		case LAB_TYPE_PPVAL:
 			{
-			//		constƒ}ƒNƒ“WŠJ
+			//		constãƒã‚¯ãƒ­å±•é–‹
+			GenerateLabelListAndTagRefPP(fixname, LABBUF_FLAG_MACRO);
 			char *ptr_dval;
 			ptr_dval = lb->GetData2( id );
 			if ( ptr_dval == NULL ) {
-				sprintf( cnvstr, "%d", lb->GetOpt(id) );
+				sprintf(cnvstr, "%d", lb->GetOpt(id));
 			} else {
-				sprintf( cnvstr, "%f", *(CALCVAR *)ptr_dval );
+				sprintf(cnvstr, "%.16f", *(CALCVAR*)ptr_dval);
 			}
 			chk = ReplaceLineBuf( str, (char *)vs, cnvstr, 0, NULL );
 			break;
 			}
+
 		case LAB_TYPE_PPINTMAC:
-			//		“à•”ƒ}ƒNƒ
+			//		å†…éƒ¨ãƒã‚¯ãƒ­
 			//
 
-			if ( ppmode ) {			//	ƒvƒŠƒvƒƒZƒbƒT‚Í‚»‚Ì‚Ü‚Ü“WŠJ
+			if ( ppmode ) {			//	ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µæ™‚ã¯ãã®ã¾ã¾å±•é–‹
 				if (wrtbuf!=NULL) {
 					FixModuleName( (char *)s2 );
 					wrtbuf->PutStr( (char *)s2 );
@@ -1457,25 +1734,28 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 			}
 
 		case LAB_TYPE_PPMAC:
-			//		ƒ}ƒNƒ“WŠJ
+			//		ãƒã‚¯ãƒ­å±•é–‹
 			//
 			vs_bak = vs;
-			while(1) {		// ’¼Œã‚Ìspace/tab‚ğœ‹
+			while(1) {		// ç›´å¾Œã®space/tabã‚’é™¤å»
 				a1=*vs_bak;if ((a1!=32)&&(a1!=9)) break;
 				vs_bak++;
 			}
 			opt = lb->GetOpt(id);
-			if (( a1 == '=' )&&( opt & PRM_MASK ) ) {	// ƒ}ƒNƒ‚É‘ã“ü‚µ‚æ‚¤‚Æ‚µ‚½ê‡‚ÌƒGƒ‰[
+			if (( a1 == '=' )&&( opt & PRM_MASK ) ) {	// ãƒã‚¯ãƒ­ã«ä»£å…¥ã—ã‚ˆã†ã¨ã—ãŸå ´åˆã®ã‚¨ãƒ©ãƒ¼
 				SetError("Reserved word syntax error");
 				*type = TK_ERROR; return (char *)vs;
 			}
 			//	
 			macptr = lb->GetData(id);
 			if ( macptr == NULL ) { *cnvstr=0; macptr=cnvstr; }
+			if (ltype == LAB_TYPE_PPMAC) {
+				GenerateLabelListAndTagRefPP(fixname, LABBUF_FLAG_MACRO);
+			}
 			chk = ReplaceLineBuf( str, (char *)vs, macptr, opt, (MACDEF *)lb->GetData2(id) );
 			break;
 		case LAB_TYPE_PPDLLFUNC:
-			//		ƒ‚ƒWƒ…[ƒ‹–¼•t‚«“WŠJƒL[ƒ[ƒh
+			//		ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åä»˜ãå±•é–‹ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰
 			if (wrtbuf!=NULL) {
 //				AddModuleName( (char *)s2 );
 				if ( lb->GetEternal(id) ) {
@@ -1498,7 +1778,7 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 			return (char *)vs;
 			break;
 		case LAB_TYPE_COMVAR:
-			//		COMƒL[ƒ[ƒh‚ğ“WŠJ
+			//		COMã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’å±•é–‹
 			if (wrtbuf!=NULL) {
 				if ( lb->GetEternal(id) ) {
 					FixModuleName( (char *)s2 );
@@ -1513,7 +1793,7 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 
 		case LAB_TYPE_PPMODFUNC:
 		default:
-			//		’ÊíƒL[ƒ[ƒh‚Í‚»‚Ì‚Ü‚Ü“WŠJ
+			//		é€šå¸¸ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã¯ãã®ã¾ã¾å±•é–‹
 			if (wrtbuf!=NULL) {
 				if ( !lb->GetEternal(id) ) { // local func
 					strcpy((char*)s2, lb->GetName(id));
@@ -1530,13 +1810,13 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 		return str;
 	}
 
-	//		“o˜^‚³‚ê‚Ä‚¢‚È‚¢ƒL[ƒ[ƒh‚ğ“WŠJ
+	//		ç™»éŒ²ã•ã‚Œã¦ã„ãªã„ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’å±•é–‹
 	//
 	if (wrtbuf!=NULL) {
 //		AddModuleName( (char *)s2 );
 		if ( strcmp( (char *)s2, fixname ) ) {
-			//	Œã‚ë‚Å’è‹`‚³‚ê‚Ä‚¢‚éŠÖ”‚ÌŒÄ‚Ño‚µ‚Ì‚½‚ß‚É
-			//	ƒ‚ƒWƒ…[ƒ‹“à‚Å@‚ğ‚Â‚¯‚Ä‚¢‚È‚¢¯•Êq‚ÌˆÊ’u‚ğ‹L˜^‚·‚é
+			//	å¾Œã‚ã§å®šç¾©ã•ã‚Œã¦ã„ã‚‹é–¢æ•°ã®å‘¼ã³å‡ºã—ã®ãŸã‚ã«
+			//	ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«å†…ã§@ã‚’ã¤ã‘ã¦ã„ãªã„è­˜åˆ¥å­ã®ä½ç½®ã‚’è¨˜éŒ²ã™ã‚‹
 			undefined_symbol_t sym;
 			sym.pos = wrtbuf->GetSize();
 			sym.len_include_modname = (int)strlen( fixname );
@@ -1553,8 +1833,8 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 
 char *CToken::SkipLine( char *str, int *pline )
 {
-	//		str‚©‚ç‰üs‚Ü‚Å‚ğƒXƒLƒbƒv‚·‚é
-	//		( s––‚Éu\v‚ÅŸs‚ğÚ‘± )
+	//		strã‹ã‚‰æ”¹è¡Œã¾ã§ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
+	//		( è¡Œæœ«ã«ã€Œ\ã€ã§æ¬¡è¡Œã‚’æ¥ç¶š )
 	//
 	unsigned char *vs;
 	unsigned char a1;
@@ -1585,7 +1865,7 @@ char *CToken::SkipLine( char *str, int *pline )
 
 char *CToken::SendLineBuf( char *str )
 {
-	//		‚Ps•ª‚Ìƒf[ƒ^‚ğlinebuf‚É“]‘—
+	//		ï¼‘è¡Œåˆ†ã®ãƒ‡ãƒ¼ã‚¿ã‚’linebufã«è»¢é€
 	//
 	char *p;
 	char *w;
@@ -1607,18 +1887,16 @@ char *CToken::SendLineBuf( char *str )
 }
 
 
-#define IS_CHAR_HEAD(str, pos) \
-	is_sjis_char_head((unsigned char *)(str), (int)((pos) - (unsigned char *)(str)))
-
 char *CToken::SendLineBufPP( char *str, int *lines )
 {
-	//		‚Ps•ª‚Ìƒf[ƒ^‚ğlinebuf‚É“]‘—
-	//			(s––‚Ì'\'‚ÍŒp‘± lines‚És”‚ğ•Ô‚·)
+	//		ï¼‘è¡Œåˆ†ã®ãƒ‡ãƒ¼ã‚¿ã‚’linebufã«è»¢é€
+	//			(è¡Œæœ«ã®'\'ã¯ç¶™ç¶š linesã«è¡Œæ•°ã‚’è¿”ã™)
 	//
 	unsigned char *p;
 	unsigned char *w;
 	unsigned char a1,a2;
 	int ln;
+	int i,skip;
 	p = (unsigned char *)str;
 	w = (unsigned char *)linebuf;
 	a2 = 0; ln =0;
@@ -1626,13 +1904,13 @@ char *CToken::SendLineBufPP( char *str, int *lines )
 		a1 = *p;if ( a1==0 ) break;
 		p++;
 		if ( a1 == 10 ) {
-			if ( a2==0x5c && IS_CHAR_HEAD(str, p - 2) ) {
+			if ( a2==0x5c ) {
 				ln++; w--; a2=0; continue;
 			}
 			break;
 		}
 		if ( a1 == 13 ) {
-			if ( a2==0x5c && IS_CHAR_HEAD(str, p - 2) ) {
+			if ( a2==0x5c ) {
 				if ( *p==10 ) p++;
 				ln++; w--; a2=0; continue;
 			}
@@ -1640,18 +1918,26 @@ char *CToken::SendLineBufPP( char *str, int *lines )
 			break;
 		}
 		*w++=a1; a2=a1;
+		//	skip multibyte
+		skip = SkipMultiByte(a1);
+		if (skip > 0) {
+			for (i = 0; i < skip; i++) {
+				a1 = *p; if (a1 == 0) break;
+				p++;
+				*w++ = a1;
+			}
+			a2 = 0;
+		}
 	}
 	*w=0;
 	*lines = ln;
 	return (char *)p;
 }
 
-#undef IS_CHAR_HEAD
-
 
 char *CToken::ExpandStrComment2( char *str )
 {
-	//		"*/" ‚ÅI’[‚µ‚Ä‚¢‚È‚¢ê‡‚Í NULL ‚ğ•Ô‚·
+	//		"*/" ã§çµ‚ç«¯ã—ã¦ã„ãªã„å ´åˆã¯ NULL ã‚’è¿”ã™
 	//
 	int mulstr_bak = mulstr;
 	mulstr = LMODE_COMMENT;
@@ -1666,12 +1952,12 @@ char *CToken::ExpandStrComment2( char *str )
 
 int CToken::ReplaceLineBuf( char *str1, char *str2, char *repl, int opt, MACDEF *macdef )
 {
-	//		linebuf‚ÌƒL[ƒ[ƒh‚ğ’u‚«Š·‚¦
-	//		(linetmp‚ğ”j‰ó‚µ‚Ü‚·)
-	//			str1 : ’u‚«Š·‚¦Œ³ƒL[ƒ[ƒhæ“ª(linebuf“à)
-	//			str2 : ’u‚«Š·‚¦Œ³ƒL[ƒ[ƒhŸptr(linebuf“à)
-	//			repl : ’u‚«Š·‚¦ƒL[ƒ[ƒh
-	//			macopt : ƒ}ƒNƒ“Yš‚Ì”
+	//		linebufã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’ç½®ãæ›ãˆ
+	//		(linetmpã‚’ç ´å£Šã—ã¾ã™)
+	//			str1 : ç½®ãæ›ãˆå…ƒã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰å…ˆé ­(linebufå†…)
+	//			str2 : ç½®ãæ›ãˆå…ƒã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰æ¬¡ptr(linebufå†…)
+	//			repl : ç½®ãæ›ãˆã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰
+	//			macopt : ãƒã‚¯ãƒ­æ·»å­—ã®æ•°
 	//
 	//		return : 0=ok/1=error
 	//
@@ -1701,7 +1987,7 @@ int CToken::ReplaceLineBuf( char *str1, char *str2, char *repl, int opt, MACDEF 
 		if ( ctype ) {
 			if ( type!='(' ) {
 #ifdef JPNMSG
-				SetError("ctypeƒ}ƒNƒ‚Ì’¼Œã‚É‚ÍAŠÛŠ‡ŒÊ‚Å‚­‚­‚ç‚ê‚½ˆø”ƒŠƒXƒg‚ª•K—v‚Å‚·");
+				SetError("ctypeãƒã‚¯ãƒ­ã®ç›´å¾Œã«ã¯ã€ä¸¸æ‹¬å¼§ã§ããã‚‰ã‚ŒãŸå¼•æ•°ãƒªã‚¹ãƒˆãŒå¿…è¦ã§ã™");
 #else
 				SetError("C-Type macro syntax error");
 #endif
@@ -1712,16 +1998,16 @@ int CToken::ReplaceLineBuf( char *str1, char *str2, char *repl, int opt, MACDEF 
 		if ( type != TK_NONE ) {
 			wp = (unsigned char *)p;
 			prm[i]=p;
-			while(1) {					// ƒ}ƒNƒƒpƒ‰ƒ[ƒ^‚ğæ‚èo‚·
+			while(1) {					// ãƒã‚¯ãƒ­ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å–ã‚Šå‡ºã™
 				p = (char *)wp; type = GetToken();
 				if ( type==';' ) type = TK_SEPARATE;
 				if ( type=='}' ) type = TK_SEPARATE;
-				if ( type=='/' ) {		// CƒRƒƒ“ƒg??
+				if ( type=='/' ) {		// Cã‚³ãƒ¡ãƒ³ãƒˆ??
 					if (*wp=='/') { type = TK_SEPARATE; }
 					if (*wp=='*') {
 						char *start = (char *)wp-1;
 						char *end = ExpandStrComment2( start+2 );
-						if ( end == NULL ) {	// ”ÍˆÍƒRƒƒ“ƒg‚ªŸ‚Ìs‚Ü‚Å‘±‚¢‚Ä‚¢‚é
+						if ( end == NULL ) {	// ç¯„å›²ã‚³ãƒ¡ãƒ³ãƒˆãŒæ¬¡ã®è¡Œã¾ã§ç¶šã„ã¦ã„ã‚‹
 							type = TK_SEPARATE;
 						} else {
 							wp = (unsigned char *)end;
@@ -1745,15 +2031,15 @@ int CToken::ReplaceLineBuf( char *str1, char *str2, char *repl, int opt, MACDEF 
 					prme[i++]=NULL; break;
 				}
 				if ( type==',' ) {
-					if ( kakko == 0 ) {	// ƒJƒbƒR‚ÉˆÍ‚Ü‚ê‚Ä‚¢‚éê‡‚Í–³‹‚·‚é
+					if ( kakko == 0 ) {	// ã‚«ãƒƒã‚³ã«å›²ã¾ã‚Œã¦ã„ã‚‹å ´åˆã¯ç„¡è¦–ã™ã‚‹
 						prme[i]=p;
 						flg=1;i++;
 					}
 				}
-				if ( ctype == 0 ) {		// ’Êí‚ÌƒJƒbƒRˆ—
+				if ( ctype == 0 ) {		// é€šå¸¸æ™‚ã®ã‚«ãƒƒã‚³å‡¦ç†
 					if ( type=='(' ) kakko++;
 					if ( type==')' ) kakko--;
-				} else {				// Cƒ^ƒCƒv‚ÌƒJƒbƒRˆ—
+				} else {				// Cã‚¿ã‚¤ãƒ—æ™‚ã®ã‚«ãƒƒã‚³å‡¦ç†
 					if ( type=='(' ) { kakko++; ctype++; }
 					if ( type==')' ) {
 						kakko--;
@@ -1764,7 +2050,7 @@ int CToken::ReplaceLineBuf( char *str1, char *str2, char *repl, int opt, MACDEF 
 								if ((*wp!=32)&&(*wp!=9)) break;
 								wp++;
 							}
-							*wp = 32;		// ')'‚ğspace‚É
+							*wp = 32;		// ')'ã‚’spaceã«
 							break;
 						}
 						ctype--;
@@ -1778,14 +2064,14 @@ int CToken::ReplaceLineBuf( char *str1, char *str2, char *repl, int opt, MACDEF 
 			if (( ctype )&&( i==1 )&&( macopt==0 )&&( prm[0] == prme[0] )) noprm=0;
 			if ( noprm ) {
 #ifdef JPNMSG
-				SetError("ƒ}ƒNƒ‚Ìˆø”‚ª‘½‚·‚¬‚Ü‚·");
+				SetError("ãƒã‚¯ãƒ­ã®å¼•æ•°ãŒå¤šã™ãã¾ã™");
 #else
 				SetError("too many macro parameters");
 #endif
 				return 3;
 			}
 		}
-		while(1) {					// È—ªƒpƒ‰ƒ[ƒ^‚ğ•âŠ®
+		while(1) {					// çœç•¥ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è£œå®Œ
 			if ( i>=macopt ) break;
 			prm[i]=dummy; prme[i]=dummy;
 			i++;
@@ -1799,18 +2085,18 @@ int CToken::ReplaceLineBuf( char *str1, char *str2, char *repl, int opt, MACDEF 
 	tagid = 0x10000;
 	w = str1;
 	wp = (unsigned char *)repl;
-	while(1) {					// ƒ}ƒNƒ’u‚«Š·‚¦
+	while(1) {					// ãƒã‚¯ãƒ­ç½®ãæ›ãˆ
 		if ( wp==NULL ) break;
 		if ( w>=linetmp ) { SetError("macro buffer overflow"); return 4; }
 		a1=*wp++;if (a1==0) break;
 		if (a1=='%') {
 			if (*wp=='%') { *w++=a1;wp++;continue; }
 			type = GetToken();
-			if ( type==TK_OBJ ) {			// “ÁêƒRƒ}ƒ“ƒhƒ‰ƒxƒ‹ˆ—
+			if ( type==TK_OBJ ) {			// ç‰¹æ®Šã‚³ãƒãƒ³ãƒ‰ãƒ©ãƒ™ãƒ«å‡¦ç†
 				macbuf = mactmp;
 				*mactmp=0; a1 = tolower( (int)*s3 );
 				switch( a1 ) {
-				case 't':					// %tƒ^ƒO–¼
+				case 't':					// %tã‚¿ã‚°å
 					tagid = tstack->GetTagID( (char *)(s3+1) );
 					break;
 				case 'i':
@@ -1825,14 +2111,14 @@ int CToken::ReplaceLineBuf( char *str1, char *str2, char *repl, int opt, MACDEF 
 					}
 					w2 = mactmp;
 					p = prm[val]; endp = prme[val];
-					if ( p==endp ) {				// ’lÈ—ª
+					if ( p==endp ) {				// å€¤çœç•¥æ™‚
 						macbuf2 = macdef->data + macdef->index[val];
 						while(1) {
 							a1=*macbuf2++;if (a1==0) break;
 							*w2++ = a1;
 						}
 					} else {
-						while(1) {						// %numƒ}ƒNƒ“WŠJ
+						while(1) {						// %numãƒã‚¯ãƒ­å±•é–‹
 							if ( p==endp ) break;
 							a1 = *p++;if ( a1==0 ) break;
 							*w2++ = a1;
@@ -1868,12 +2154,12 @@ int CToken::ReplaceLineBuf( char *str1, char *str2, char *repl, int opt, MACDEF 
 					sprintf( mactmp, "macro syntax error [%s]",tstack->GetTagName( tagid ) );
 					SetError( mactmp ); return 2;
 				}
-				while(1) {					//mactmp“WŠJ
+				while(1) {					//mactmpå±•é–‹
 					a1 = *macbuf++;if ( a1==0 ) break;
 					*w++ = a1;
 				}
 				if ( wp!=NULL ) {
-					a1=*wp;if (a1==' ') wp++;	// ƒ}ƒNƒŒã‚Ìspaceœ‹
+					a1=*wp;if (a1==' ') wp++;	// ãƒã‚¯ãƒ­å¾Œã®spaceé™¤å»
 				}
 				continue;
 			}
@@ -1883,11 +2169,11 @@ int CToken::ReplaceLineBuf( char *str1, char *str2, char *repl, int opt, MACDEF 
 				SetError("illegal macro parameter"); return 2;
 			}
 			p = prm[val]; endp = prme[val];
-			if ( p==endp ) {				// ’lÈ—ª
+			if ( p==endp ) {				// å€¤çœç•¥æ™‚
 				macbuf = macdef->data + macdef->index[val];
 				if ( *macbuf == 0 ) {
 #ifdef JPNMSG
-					SetError("ƒfƒtƒHƒ‹ƒgƒpƒ‰ƒ[ƒ^‚Ì‚È‚¢ƒ}ƒNƒ‚Ìˆø”‚ÍÈ—ª‚Å‚«‚Ü‚¹‚ñ");
+					SetError("ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ãªã„ãƒã‚¯ãƒ­ã®å¼•æ•°ã¯çœç•¥ã§ãã¾ã›ã‚“");
 #else
 					SetError("no default parameter");
 #endif
@@ -1899,7 +2185,7 @@ int CToken::ReplaceLineBuf( char *str1, char *str2, char *repl, int opt, MACDEF 
 				}
 				continue;
 			}
-			while(1) {						// %numƒ}ƒNƒ“WŠJ
+			while(1) {						// %numãƒã‚¯ãƒ­å±•é–‹
 				if ( p==endp ) break;
 				a1 = *p++;if ( a1==0 ) break;
 				*w++ = a1;
@@ -1924,8 +2210,8 @@ ppresult_t CToken::PP_SwitchStart( int sw )
 		SetError("#if nested too deeply");
 		return PPRESULT_ERROR;
 	}
-	swstack[swsp] = swflag;				// —LŒøƒtƒ‰ƒO
-	swstack2[swsp] = swmode;			// elseƒ‚[ƒh
+	swstack[swsp] = swflag;				// æœ‰åŠ¹ãƒ•ãƒ©ã‚°
+	swstack2[swsp] = swmode;			// elseãƒ¢ãƒ¼ãƒ‰
 	swstack3[swsp] = swlevel;			// ON/OFF
 	swsp++;
 	swmode = 0;
@@ -1963,7 +2249,7 @@ ppresult_t CToken::PP_SwitchReverse( void )
 		SetError("#else after #else");
 		return PPRESULT_ERROR;
 	}
-	if ( swstack[swsp-1] == 0 ) return PPRESULT_SUCCESS;	// ã‚ÌƒXƒ^ƒbƒN‚ª–³Œø‚È‚ç–³‹
+	if ( swstack[swsp-1] == 0 ) return PPRESULT_SUCCESS;	// ä¸Šã®ã‚¹ã‚¿ãƒƒã‚¯ãŒç„¡åŠ¹ãªã‚‰ç„¡è¦–
 	swmode = 1;
 	if ( swlevel == LMODE_ON ) { swlevel = LMODE_OFF; } else { swlevel = LMODE_ON; }
 	mulstr = swlevel;
@@ -1972,41 +2258,113 @@ ppresult_t CToken::PP_SwitchReverse( void )
 }
 
 
-ppresult_t CToken::PP_Include( int is_addition )
+
+ppresult_t CToken::PP_IncludeSub(char* word, int is_addition)
 {
-	char *word = (char *)s3;
 	char tmp_spath[HSP_MAX_PATH];
 	int add_bak;
-	if ( GetToken() != TK_STRING ) {
-		if ( is_addition ) {
-			SetError("invalid addition suffix");
-		} else {
-			SetError("invalid include suffix");
-		}
-		return PPRESULT_ERROR;
-	}
+
 	incinf++;
-	if ( incinf > 32 ) {
+	if (incinf > 32) {
 		SetError("too many include level");
 		return PPRESULT_ERROR;
 	}
-	strcpy( tmp_spath, search_path );
-	if ( is_addition ) add_bak = SetAdditionMode( 1 );
-	int res = ExpandFile( wrtbuf, word, word );
-	if ( is_addition ) SetAdditionMode( add_bak );
-	strcpy( search_path, tmp_spath );
+	strcpy(tmp_spath, search_path);
+	if (is_addition) add_bak = SetAdditionMode(1);
+	int res = ExpandFile(wrtbuf, word, word);
+	if (is_addition) SetAdditionMode(add_bak);
+	strcpy(search_path, tmp_spath);
 	incinf--;
 	if (res) {
-		if ( is_addition && res == -1 ) return PPRESULT_SUCCESS;
+		if (is_addition && res == -1) return PPRESULT_SUCCESS;
 		return PPRESULT_ERROR;
 	}
 	return PPRESULT_INCLUDED;
 }
 
 
+ppresult_t CToken::PP_Include( int is_addition )
+{
+	char* word = (char*)s3;
+	int type = GetToken();
+	switch (type) {
+	case TK_STRING:
+		return PP_IncludeSub(word, is_addition);
+	case TK_OBJ:
+		strcat(word,".as");
+		return PP_IncludeSub(word, is_addition);
+	default:
+		break;
+	}
+
+	if (is_addition) {
+		SetError("invalid addition suffix");
+	}
+	else {
+		SetError("invalid include suffix");
+	}
+	return PPRESULT_ERROR;
+}
+
+
+ppresult_t CToken::PP_use(void)
+{
+	char strtmp[1024];
+	char* word = (char*)s3;
+	int i;
+	ppresult_t myres = PPRESULT_SUCCESS;
+	CMemBuf inclist;
+	CMemBuf *bak_wrtbuf;
+	CStrNote note;
+
+	while (1) {
+		i = GetToken();
+		switch (i) {
+		case TK_OBJ:
+			inclist.PutStr(word);
+			inclist.PutCR();
+			break;
+		default:
+			sprintf(strtmp, "invalid use suffix [%s]", word);
+			SetError(strtmp);
+			return PPRESULT_ERROR;
+		}
+		if (wp == NULL) break;
+
+		i = GetToken();
+		if (i == TK_NONE) break;
+		if (i != ',') {
+			SetError("invalid use syntax");
+			return PPRESULT_ERROR;
+		}
+	}
+	inclist.Put(0);
+
+	bak_wrtbuf = wrtbuf;
+
+	note.Select( inclist.GetBuffer() );
+	int max = note.GetMaxLine();
+	for (i = 0; i < max; i++) {
+		note.GetLine(strtmp, i);
+		strcat(strtmp, ".as");
+		ppresult_t res = PP_IncludeSub(strtmp, 1);
+		if (res == PPRESULT_SUCCESS) {
+			note.GetLine(strtmp, i);
+			strcat(strtmp, ".hsp");
+			res = PP_IncludeSub(strtmp, 1);
+		}
+		wrtbuf = bak_wrtbuf;
+		if ((res == PPRESULT_ERROR)||(res == PPRESULT_SUCCESS)) {
+			return PPRESULT_ERROR;
+		}
+		myres = PPRESULT_INCLUDED;
+	}
+	return myres;
+}
+
 ppresult_t CToken::PP_Const( void )
 {
-	//		#const‰ğÍ
+	//		#constè§£æ
 	//
 	enum ConstType { Indeterminate, Double, Int };
 	ConstType valuetype = ConstType::Indeterminate;
@@ -2032,7 +2390,7 @@ ppresult_t CToken::PP_Const( void )
 		strcase( word );
 	}
 
-	// Œ^w’èƒL[ƒ[ƒh
+	// å‹æŒ‡å®šã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰
 	if ( tstrcmp(word, "double") ) {
 		valuetype = ConstType::Double;
 	} else if ( tstrcmp(word, "int") ) {
@@ -2051,13 +2409,14 @@ ppresult_t CToken::PP_Const( void )
 		SetErrorSymbolOverdefined(keyword, res);
 		return PPRESULT_ERROR;
 	}
+	GenerateLabelListAndTagPP(keyword, LABBUF_FLAG_MACRO);
 
 	if ( Calc(cres) ) return PPRESULT_ERROR;
 
 	//		AHT keyword check
 	if ( ahtkeyword != NULL ) {
 
-		if ( ahtbuf != NULL ) {						// AHTo—Í
+		if ( ahtbuf != NULL ) {						// AHTå‡ºåŠ›æ™‚
 			AHTPROP *prop;
 			CALCVAR dbval;
 			prop = ahtmodel->GetProperty( keyword );
@@ -2070,7 +2429,7 @@ ppresult_t CToken::PP_Const( void )
 				if ( glmode ) lb->SetEternal( id );
 				return PPRESULT_SUCCESS;
 			}
-		} else {									// AHT“Ç‚İo‚µ
+		} else {									// AHTèª­ã¿å‡ºã—æ™‚
 			if ( cres != floor( cres ) ) {
 				ahtmodel->SetPropertyDefaultDouble( keyword, (double)cres );
 			} else {
@@ -2096,7 +2455,7 @@ ppresult_t CToken::PP_Const( void )
 
 ppresult_t CToken::PP_Enum( void )
 {
-	//		#enum‰ğÍ
+	//		#enumè§£æ
 	//
 	char *word;
 	int id,res,glmode;
@@ -2125,6 +2484,7 @@ ppresult_t CToken::PP_Enum( void )
 		SetErrorSymbolOverdefined(keyword, res);
 		return PPRESULT_ERROR;
 	}
+	GenerateLabelListAndTagPP(keyword, LABBUF_FLAG_MACRO);
 
 	if ( GetToken() == '=' ) {
 		if ( Calc( cres ) ) return PPRESULT_ERROR;
@@ -2137,16 +2497,63 @@ ppresult_t CToken::PP_Enum( void )
 }
 
 
+ppresult_t CToken::PP_VarFix(char* rootword)
+{
+	//		#varè§£æ
+	//
+	int i,prm;
+	int glmode;
+	char* word;
+	word = (char*)s3;
+
+	wrtbuf->PutStrf("#%s ", rootword);
+	prm = 0;
+	glmode = 0;
+
+	while (1) {
+		i = GetToken();
+		if (i != TK_OBJ) { SetError("invalid variable name"); return PPRESULT_ERROR; }
+		strcase(word);
+		if (prm == 0) {
+			if (tstrcmp(word, "global")) {		// global macro
+				glmode = 1;
+				i = GetToken();
+				if (wp == NULL) break;
+				if (i != TK_OBJ) { SetError("invalid variable name"); return PPRESULT_ERROR; }
+				strcase(word);
+			}
+		}
+		if (glmode) FixModuleName(word); else AddModuleName(word);
+		if (prm>0) wrtbuf->PutStrf(",");
+		wrtbuf->PutStrf(word);
+
+		if (wp == NULL) break;
+
+		i = GetToken();
+		if (i == TK_NONE) break;
+		if (i != ',') {
+			SetError("invalid variable syntax");
+			return PPRESULT_ERROR;
+		}
+		prm++;
+	}
+
+	wrtbuf->PutCR();
+	return PPRESULT_WROTE_LINE;
+}
+
+
+
 /*
 	rev 54
-	mingw : warning : ”äŠr‚Íí‚Éc
-	‚É‘ÎˆB
+	mingw : warning : æ¯”è¼ƒã¯å¸¸ã«â€¦
+	ã«å¯¾å‡¦ã€‚
 */
 
 char *CToken::CheckValidWord( void )
 {
-	//		s––‚Ü‚Å‚ÉƒRƒƒ“ƒg‚ª‚ ‚é‚©’²‚×‚é
-	//			( return : —LŒø•¶š—ñ‚Ìæ“ªƒ|ƒCƒ“ƒ^ )
+	//		è¡Œæœ«ã¾ã§ã«ã‚³ãƒ¡ãƒ³ãƒˆãŒã‚ã‚‹ã‹èª¿ã¹ã‚‹
+	//			( return : æœ‰åŠ¹æ–‡å­—åˆ—ã®å…ˆé ­ãƒã‚¤ãƒ³ã‚¿ )
 	//
 	char *res;
 	char *p;
@@ -2162,14 +2569,14 @@ char *CToken::CheckValidWord( void )
 		if ( a1==0 ) break;
 
 
-		if ( qqflg==0 ) {						// ƒRƒƒ“ƒgŒŸõƒtƒ‰ƒO
+		if ( qqflg==0 ) {						// ã‚³ãƒ¡ãƒ³ãƒˆæ¤œç´¢ãƒ•ãƒ©ã‚°
 		
 			if ( a1==0x22 ) { qqflg=1; qqchr=a1; }
 			if ( a1==0x27 ) { qqflg=1; qqchr=a1; }
-			if ( a1==';' ) {						// ƒRƒƒ“ƒg
+			if ( a1==';' ) {						// ã‚³ãƒ¡ãƒ³ãƒˆ
 				*p = 0; break;
 			}
-			if ( a1=='/' ) {						// CƒRƒƒ“ƒg
+			if ( a1=='/' ) {						// Cã‚³ãƒ¡ãƒ³ãƒˆ
 				if (p[1]=='/') {
 					*p = 0; break;
 				}
@@ -2178,13 +2585,13 @@ char *CToken::CheckValidWord( void )
 					p2 = ExpandStrComment( (char *)p+2, 1 );
 					while(1) {
 						if ( p>=p2 ) break;
-						*p++=32;			// ƒRƒƒ“ƒg•”•ª‚ğspace‚É
+						*p++=32;			// ã‚³ãƒ¡ãƒ³ãƒˆéƒ¨åˆ†ã‚’spaceã«
 					}
 					continue;
 				}
 			}
-		} else {								// •¶š—ñ’†‚ÍƒRƒƒ“ƒgŒŸõ‚¹‚¸
-			if (a1==0x5c) {							// '\'ƒ`ƒFƒbƒN
+		} else {								// æ–‡å­—åˆ—ä¸­ã¯ã‚³ãƒ¡ãƒ³ãƒˆæ¤œç´¢ã›ãš
+			if (a1==0x5c) {							// '\'ãƒã‚§ãƒƒã‚¯
 				p++; a1 = *p;
 				if ( a1>=32 ) p++;
 				continue;
@@ -2192,7 +2599,7 @@ char *CToken::CheckValidWord( void )
 			if ( a1==qqchr ) qqflg=0;
 		}
 		
-		p += SkipMultiByte( a1 );			// ‘SŠp•¶šƒ`ƒFƒbƒN
+		p += SkipMultiByte( a1 );			// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 		p++;
 	}
 	return res;
@@ -2201,7 +2608,7 @@ char *CToken::CheckValidWord( void )
 
 ppresult_t CToken::PP_Define( void )
 {
-	//		#define‰ğÍ
+	//		#defineè§£æ
 	//
 	char *word;
 	char *wdata;
@@ -2248,7 +2655,8 @@ ppresult_t CToken::PP_Define( void )
 		SetErrorSymbolOverdefined(keyword, res);
 		return PPRESULT_ERROR;
 	}
-	
+	GenerateLabelListAndTagPP(keyword, LABBUF_FLAG_MACRO);
+
 	//		skip space,tab code
 	if ( wp==NULL ) a1=0;
 	else {
@@ -2263,11 +2671,11 @@ ppresult_t CToken::PP_Define( void )
 
 		//		AHT keyword check
 		if ( ahtkeyword != NULL ) {
-			if ( ahtbuf != NULL ) {						// AHTo—Í
+			if ( ahtbuf != NULL ) {						// AHTå‡ºåŠ›æ™‚
 				AHTPROP *prop;
 				prop = ahtmodel->GetProperty( keyword );
 				if ( prop != NULL ) wdata = prop->GetOutValue();
-			} else {									// AHT“Ç‚İ‚İ
+			} else {									// AHTèª­ã¿è¾¼ã¿æ™‚
 				AHTPROP *prop;
 				prop = ahtmodel->SetPropertyDefault( keyword, wdata );
 				if ( ahtmodel->SetAHTPropertyString( keyword, ahtkeyword ) ) {
@@ -2286,11 +2694,11 @@ ppresult_t CToken::PP_Define( void )
 		return PPRESULT_SUCCESS;
 	}
 
-	//		ƒpƒ‰ƒ[ƒ^’è‹`æ“¾
+	//		ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å®šç¾©å–å¾—
 	//
 	macdef = (MACDEF *)linetmp;
 	macdef->data[0] = 0;
-	macptr = 1;				// ƒfƒtƒHƒ‹ƒgƒ}ƒNƒƒf[ƒ^QÆƒIƒtƒZƒbƒg
+	macptr = 1;				// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒã‚¯ãƒ­ãƒ‡ãƒ¼ã‚¿å‚ç…§ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 	wp++;
 	prms=0; flg=0;
 	while(1) {
@@ -2315,12 +2723,12 @@ ppresult_t CToken::PP_Define( void )
 			if ( type != TK_NUM ) goto bad_macro_param_expr;
 			if ( val != (prms+1) ) goto bad_macro_param_expr;
 			flg = 1;
-			macdef->index[prms] = 0;			// ƒfƒtƒHƒ‹ƒg(‰Šú’l‚È‚µ)
+			macdef->index[prms] = 0;			// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ(åˆæœŸå€¤ãªã—)
 			break;
 		case '=':
 			if ( flg!=1 ) goto bad_macro_param_expr;
 			flg = 2;
-			macdef->index[prms] = macptr;		// ‰Šú’lƒ|ƒCƒ“ƒ^‚Ìİ’è
+			macdef->index[prms] = macptr;		// åˆæœŸå€¤ãƒã‚¤ãƒ³ã‚¿ã®è¨­å®š
 			type = GetToken();
 			switch(type) {
 			case TK_NUM:
@@ -2378,7 +2786,7 @@ ppresult_t CToken::PP_Define( void )
 	if ( a1 == 0 ) { SetError("macro contains no data"); return PPRESULT_ERROR; }
 	if ( ctype ) prms|=PRM_FLAG_CTYPE;
 
-	//		ƒf[ƒ^’è‹`
+	//		ãƒ‡ãƒ¼ã‚¿å®šç¾©
 	id = lb->Regist( keyword, LAB_TYPE_PPMAC, prms );
 	wdata = CheckValidWord();
 	lb->SetData( id, wdata );
@@ -2396,8 +2804,8 @@ bad_macro_param_expr:
 
 ppresult_t CToken::PP_Defcfunc( int mode )
 {
-	//		#defcfunc‰ğÍ
-	//			mode : 0 = ’Êícfunc
+	//		#defcfuncè§£æ
+	//			mode : 0 = é€šå¸¸cfunc
 	//			       1 = modcfunc
 	//
 	int i,id;
@@ -2442,9 +2850,9 @@ ppresult_t CToken::PP_Defcfunc( int mode )
 	}
 
 	if ( id == -1 ) {
-		id = lb->Regist( fixname, premode, 0 );
+		id = lb->Regist( fixname, premode, 0, pp_orgfilefull, pp_orgline);
 		if ( glmode == 0 ) lb->SetEternal( id );
-		if ( *mod != 0 ) { lb->AddRelation( mod, id ); }		// ƒ‚ƒWƒ…[ƒ‹ƒ‰ƒxƒ‹‚ÉˆË‘¶‚ğ’Ç‰Á
+		if ( *mod != 0 ) { lb->AddRelation( mod, id ); }		// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ãƒ©ãƒ™ãƒ«ã«ä¾å­˜ã‚’è¿½åŠ 
 	} else {
 		lb->SetFlag( id, premode );
 	}
@@ -2503,8 +2911,8 @@ ppresult_t CToken::PP_Defcfunc( int mode )
 
 ppresult_t CToken::PP_Deffunc( int mode )
 {
-	//		#deffunc‰ğÍ
-	//			mode : 0 = ’Êífunc
+	//		#deffuncè§£æ
+	//			mode : 0 = é€šå¸¸func
 	//			       1 = modfunc
 	//			       2 = modinit
 	//			       3 = modterm
@@ -2551,9 +2959,9 @@ ppresult_t CToken::PP_Deffunc( int mode )
 		}
 
 		if ( id == -1 ) {
-			id = lb->Regist( fixname, premode, 0 );
+			id = lb->Regist( fixname, premode, 0, pp_orgfilefull, pp_orgline);
 			if ( glmode == 0 ) lb->SetEternal( id );
-			if ( *mod != 0 ) { lb->AddRelation( mod, id ); }		// ƒ‚ƒWƒ…[ƒ‹ƒ‰ƒxƒ‹‚ÉˆË‘¶‚ğ’Ç‰Á
+			if ( *mod != 0 ) { lb->AddRelation( mod, id ); }		// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ãƒ©ãƒ™ãƒ«ã«ä¾å­˜ã‚’è¿½åŠ 
 		} else {
 			lb->SetFlag( id, premode );
 		}
@@ -2582,7 +2990,7 @@ ppresult_t CToken::PP_Deffunc( int mode )
 		if ( i == TK_OBJ ) {
 			wrtbuf->PutStr( word );
 			strcase( word );
-			if (tstrcmp(word,"onexit")) {							// onexit‚ÍQÆÏ‚İ‚É‚·‚é
+			if (tstrcmp(word,"onexit")) {							// onexitã¯å‚ç…§æ¸ˆã¿ã«ã™ã‚‹
 				lb->AddReference( id );
 			}
 		}
@@ -2617,7 +3025,7 @@ ppresult_t CToken::PP_Deffunc( int mode )
 
 ppresult_t CToken::PP_Struct( void )
 {
-	//		#struct‰ğÍ
+	//		#structè§£æ
 	//
 	char *word;
 	int i;
@@ -2685,7 +3093,7 @@ ppresult_t CToken::PP_Struct( void )
 
 ppresult_t CToken::PP_Func( char *name )
 {
-	//		#func‰ğÍ
+	//		#funcè§£æ
 	//
 	int i, id;
 	int glmode;
@@ -2719,7 +3127,7 @@ ppresult_t CToken::PP_Func( char *name )
 
 ppresult_t CToken::PP_Cmd( char *name )
 {
-	//		#cmd‰ğÍ
+	//		#cmdè§£æ
 	//
 	int i, id;
 	char *word;
@@ -2729,7 +3137,7 @@ ppresult_t CToken::PP_Cmd( char *name )
 	i = lb->Search( word );
 	if ( i != -1 ) { SetErrorSymbolOverdefined(word, i); return PPRESULT_ERROR; }
 
-	id = lb->Regist( word, LAB_TYPE_PPINTMAC, 0 );		// “à•”ƒ}ƒNƒ‚Æ‚µ‚Ä’è‹`
+	id = lb->Regist( word, LAB_TYPE_PPINTMAC, 0 );		// å†…éƒ¨ãƒã‚¯ãƒ­ã¨ã—ã¦å®šç¾©
 	strcat( word, "@hsp" );
 	lb->SetData( id, word );
 	lb->SetEternal( id );
@@ -2747,7 +3155,7 @@ ppresult_t CToken::PP_Cmd( char *name )
 
 ppresult_t CToken::PP_Usecom( void )
 {
-	//		#usecom‰ğÍ
+	//		#usecomè§£æ
 	//
 	int i, id;
 	int glmode;
@@ -2780,7 +3188,7 @@ ppresult_t CToken::PP_Usecom( void )
 
 ppresult_t CToken::PP_Module( void )
 {
-	//		#module‰ğÍ
+	//		#moduleè§£æ
 	//
 	int res,i,id,fl;
 	char *word;
@@ -2837,11 +3245,11 @@ ppresult_t CToken::PP_Module( void )
 
 ppresult_t CToken::PP_Global( void )
 {
-	//		#global‰ğÍ
+	//		#globalè§£æ
 	//
 	if ( IsGlobalMode() ) {
 #ifdef JPNMSG
-		SetError("#module ‚Æ‘Î‰‚µ‚Ä‚¢‚È‚¢ #global ‚ª‚ ‚è‚Ü‚·");
+		SetError("#module ã¨å¯¾å¿œã—ã¦ã„ãªã„ #global ãŒã‚ã‚Šã¾ã™");
 #else
 		SetError("already in global mode");
 #endif
@@ -2859,12 +3267,12 @@ ppresult_t CToken::PP_Global( void )
 
 ppresult_t CToken::PP_Aht( void )
 {
-	//		#aht‰ğÍ
+	//		#ahtè§£æ
 	//
 	int i;
 	char tmp[512];
 	if ( ahtmodel == NULL ) return PPRESULT_SUCCESS;
-	if ( ahtbuf != NULL ) return PPRESULT_SUCCESS;					// AHTo—Í‚Í–³‹‚·‚é
+	if ( ahtbuf != NULL ) return PPRESULT_SUCCESS;					// AHTå‡ºåŠ›æ™‚ã¯ç„¡è¦–ã™ã‚‹
 
 	i = GetToken();
 	if ( i != TK_OBJ ) {
@@ -2883,7 +3291,7 @@ ppresult_t CToken::PP_Aht( void )
 
 ppresult_t CToken::PP_Ahtout( void )
 {
-	//		#ahtout‰ğÍ
+	//		#ahtoutè§£æ
 	//
 	if ( ahtmodel == NULL ) return PPRESULT_SUCCESS;
 	if ( ahtbuf == NULL ) return PPRESULT_SUCCESS;
@@ -2897,7 +3305,7 @@ ppresult_t CToken::PP_Ahtout( void )
 
 ppresult_t CToken::PP_Ahtmes( void )
 {
-	//		#ahtmes‰ğÍ
+	//		#ahtmesè§£æ
 	//
 	int i;
 	int addprm;
@@ -2932,7 +3340,7 @@ ppresult_t CToken::PP_Ahtmes( void )
 
 ppresult_t CToken::PP_Pack( int mode )
 {
-	//		#pack,#epack‰ğÍ
+	//		#pack,#epackè§£æ
 	//			(mode:0=normal/1=encrypt)
 	int i;
 	if ( packbuf!=NULL ) {
@@ -2940,7 +3348,12 @@ ppresult_t CToken::PP_Pack( int mode )
 		if ( i != TK_STRING ) {
 			SetError("invalid pack name"); return PPRESULT_ERROR;
 		}
-		AddPackfile( (char *)s3, mode );
+		if (mode & 2) {
+			AddPackfile((char*)s3, mode&1);
+		}
+		else {
+			AddPackfileOrig((char*)s3, mode);
+		}
 	}
 	return PPRESULT_SUCCESS;
 }
@@ -2948,7 +3361,7 @@ ppresult_t CToken::PP_Pack( int mode )
 
 ppresult_t CToken::PP_PackOpt( void )
 {
-	//		#packopt‰ğÍ
+	//		#packoptè§£æ
 	//
 	int i;
 	char tmp[1024];
@@ -2972,7 +3385,7 @@ ppresult_t CToken::PP_PackOpt( void )
 
 ppresult_t CToken::PP_CmpOpt( void )
 {
-	//		#cmpopt‰ğÍ
+	//		#cmpoptè§£æ
 	//
 	int i;
 	char optname[1024];
@@ -3034,7 +3447,7 @@ ppresult_t CToken::PP_CmpOpt( void )
 
 ppresult_t CToken::PP_RuntimeOpt( void )
 {
-	//		#runtime‰ğÍ
+	//		#runtimeè§£æ
 	//
 	int i;
 	char tmp[1024];
@@ -3054,7 +3467,7 @@ ppresult_t CToken::PP_RuntimeOpt( void )
 	hed_option |= HEDINFO_RUNTIME;
 
 	sprintf(tmp, "\"%s\"", hed_runtime);
-	RegistExtMacro("__runtime__", tmp);			// ƒ‰ƒ“ƒ^ƒCƒ€–¼ƒ}ƒNƒ‚ğXV
+	RegistExtMacro("__runtime__", tmp);			// ãƒ©ãƒ³ã‚¿ã‚¤ãƒ åãƒã‚¯ãƒ­ã‚’æ›´æ–°
 
 	return PPRESULT_SUCCESS;
 }
@@ -3063,7 +3476,7 @@ ppresult_t CToken::PP_RuntimeOpt( void )
 
 ppresult_t CToken::PP_BootOpt(void)
 {
-	//		#bootopt‰ğÍ
+	//		#bootoptè§£æ
 	//
 	int i;
 	char optname[1024];
@@ -3137,14 +3550,14 @@ void CToken::PreprocessCommentCheck( char *str )
 			}
 		}
 		if (a1==0x22) qmode^=1;
-		vs += SkipMultiByte( a1 );			// ‘SŠp•¶šƒ`ƒFƒbƒN
+		vs += SkipMultiByte( a1 );			// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 	}
 }
 
 
 ppresult_t CToken::PreprocessNM( char *str )
 {
-	//		ƒvƒŠƒvƒƒZƒX‚ÌÀs(ƒ}ƒNƒ“WŠJ‚È‚µ)
+	//		ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹ã®å®Ÿè¡Œ(ãƒã‚¯ãƒ­å±•é–‹ãªã—)
 	//
 	char *word;
 	int id,type;
@@ -3164,7 +3577,7 @@ ppresult_t CToken::PreprocessNM( char *str )
 	if ( topUChar != *s3 ) return PPRESULT_UNKNOWN_DIRECTIVE;
 	if ( type != TK_OBJ ) return PPRESULT_UNKNOWN_DIRECTIVE;
 
-	//		ƒ\[ƒX¶¬ƒRƒ“ƒgƒ[ƒ‹
+	//		ã‚½ãƒ¼ã‚¹ç”Ÿæˆã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«
 	//
 	if (tstrcmp(word,"ifdef")) {		// generate control
 		if ( mulstr == LMODE_OFF ) {
@@ -3205,7 +3618,7 @@ ppresult_t CToken::PreprocessNM( char *str )
 		return PP_SwitchEnd();
 	}
 
-	//		‚±‚êˆÈ~‚Í#off‚ÉÀs‚µ‚Ü‚¹‚ñ
+	//		ã“ã‚Œä»¥é™ã¯#offæ™‚ã«å®Ÿè¡Œã—ã¾ã›ã‚“
 	//
 	if ( mulstr == LMODE_OFF ) { return PPRESULT_UNKNOWN_DIRECTIVE; }
 
@@ -3236,7 +3649,7 @@ ppresult_t CToken::PreprocessNM( char *str )
 
 ppresult_t CToken::Preprocess( char *str )
 {
-	//		ƒvƒŠƒvƒƒZƒX‚ÌÀs
+	//		ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹ã®å®Ÿè¡Œ
 	//
 	char *word;
 	int type,a;
@@ -3252,7 +3665,7 @@ ppresult_t CToken::Preprocess( char *str )
 	if (topUChar != *s3) {
 		type = TK_NONE;
 	}
-	//		ƒ\[ƒX¶¬ƒRƒ“ƒgƒ[ƒ‹
+	//		ã‚½ãƒ¼ã‚¹ç”Ÿæˆã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«
 	//
 	if (type == TK_OBJ) {
 		if (tstrcmp(word, "if")) {			// generate control
@@ -3271,11 +3684,11 @@ ppresult_t CToken::Preprocess( char *str )
 		}
 
 	}
-	//		‚±‚êˆÈ~‚Í#off‚ÉÀs‚µ‚Ü‚¹‚ñ
+	//		ã“ã‚Œä»¥é™ã¯#offæ™‚ã«å®Ÿè¡Œã—ã¾ã›ã‚“
 	//
 	if (mulstr == LMODE_OFF) { return PPRESULT_SUCCESS; }
 
-	//		ƒR[ƒh¶¬ƒRƒ“ƒgƒ[ƒ‹
+	//		ã‚³ãƒ¼ãƒ‰ç”Ÿæˆã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«
 	//
 	if (type == TK_OBJ) {
 		if (tstrcmp(word, "include")) {		// text include
@@ -3294,13 +3707,10 @@ ppresult_t CToken::Preprocess( char *str )
 			res = PP_Enum();
 			return res;
 		}
-		/*
-			if (tstrcmp(word,"define")) {		// keyword define
-				res = PP_Define();
-				if ( res==6 ) SetError("bad macro parameter expression");
-				return res;
-			}
-		*/
+		if (tstrcmp(word, "use")) {			// multiple include
+			res = PP_use();
+			return res;
+		}
 		if (tstrcmp(word, "module")) {		// module define
 			res = PP_Module();
 			return res;
@@ -3349,12 +3759,6 @@ ppresult_t CToken::Preprocess( char *str )
 			res = PP_Cmd("cmd");
 			return res;
 		}
-		/*
-			if (tstrcmp(word,"func2")) {		// DLL function (2)
-				res = PP_Func( "func2" );
-				return res;
-			}
-		*/
 		if (tstrcmp(word, "comfunc")) {		// COM Object function
 			res = PP_Func("comfunc");
 			return res;
@@ -3375,8 +3779,16 @@ ppresult_t CToken::Preprocess( char *str )
 			res = PP_Pack(0);
 			return res;
 		}
-		if (tstrcmp(word, "epack")) {		// packfile process
+		if (tstrcmp(word, "epack")) {			// packfile process
 			res = PP_Pack(1);
+			return res;
+		}
+		if (tstrcmp(word, "packdir")) {			// packfile process
+			res = PP_Pack(2);
+			return res;
+		}
+		if (tstrcmp(word, "epackdir")) {		// packfile process
+			res = PP_Pack(3);
 			return res;
 		}
 		if (tstrcmp(word, "packopt")) {		// packfile process
@@ -3399,8 +3811,32 @@ ppresult_t CToken::Preprocess( char *str )
 			res = PP_Usecom();
 			return res;
 		}
+		if (tstrcmp(word, "var")) {			// VAR definition
+			res = PP_VarFix(word);
+			return res;
+		}
+		if (tstrcmp(word, "varint")) {		// VAR definition
+			res = PP_VarFix(word);
+			return res;
+		}
+		if (tstrcmp(word, "varlabel")) {	// VAR definition
+			res = PP_VarFix(word);
+			return res;
+		}
+		if (tstrcmp(word, "varstr")) {		// VAR definition
+			res = PP_VarFix(word);
+			return res;
+		}
+		if (tstrcmp(word, "vardouble")) {	// VAR definition
+			res = PP_VarFix(word);
+			return res;
+		}
+		if (tstrcmp(word, "varmod")) {		// VAR definition
+			res = PP_VarFix(word);
+			return res;
+		}
 	}
-	//		“o˜^ƒL[ƒ[ƒhˆÈŠO‚ÍƒRƒ“ƒpƒCƒ‰‚É“n‚·
+	//		ç™»éŒ²ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ä»¥å¤–ã¯ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã«æ¸¡ã™
 	//
 	wrtbuf->Put( (char)'#' );
 	wrtbuf->PutStr( linebuf );
@@ -3412,17 +3848,17 @@ ppresult_t CToken::Preprocess( char *str )
 
 int CToken::ExpandTokens( char *vp, CMemBuf *buf, int *lineext, int is_preprocess_line )
 {
-	//		ƒ}ƒNƒ‚ğ“WŠJ
+	//		ãƒã‚¯ãƒ­ã‚’å±•é–‹
 	//
-	*lineext = 0;				// 1s->•¡”s‚Éƒ}ƒNƒ“WŠJ‚³‚ê‚½‚©?
-	int macloop = 0;			// ƒ}ƒNƒ“WŠJ–³ŒÀƒ‹[ƒvƒ`ƒFƒbƒN—pƒJƒEƒ“ƒ^
+	*lineext = 0;				// 1è¡Œ->è¤‡æ•°è¡Œã«ãƒã‚¯ãƒ­å±•é–‹ã•ã‚ŒãŸã‹?
+	int macloop = 0;			// ãƒã‚¯ãƒ­å±•é–‹ç„¡é™ãƒ«ãƒ¼ãƒ—ãƒã‚§ãƒƒã‚¯ç”¨ã‚«ã‚¦ãƒ³ã‚¿
 	while(1) {
-		if ( mulstr == LMODE_OFF ) {				// ‚Ps–³‹
-			if ( wrtbuf!=NULL ) wrtbuf->PutCR();	// s––CR/LF‚ğ’Ç‰Á
+		if ( mulstr == LMODE_OFF ) {				// ï¼‘è¡Œç„¡è¦–
+			if ( wrtbuf!=NULL ) wrtbuf->PutCR();	// è¡Œæœ«CR/LFã‚’è¿½åŠ 
 			break;
 		}
 
-		// {"`"}‚Ìˆ—
+		// {"ï½"}ã®å‡¦ç†
 		//
 		if ( mulstr == LMODE_STR ) {
 			wrtbuf = buf;
@@ -3430,15 +3866,15 @@ int CToken::ExpandTokens( char *vp, CMemBuf *buf, int *lineext, int is_preproces
 			if ( *vp!=0 ) continue;
 		}
 
-		// {{{"`"}}}‚Ìˆ—
-//
+		// {{{"ï½"}}}ã®å‡¦ç†
+		//
 		if (mulstr == LMODE_STR_VSL) {
 			wrtbuf = buf;
 			vp = ExpandStrEx_VSL(vp);
 			if (*vp != 0) continue;
 		}
 
-		// /*`*/‚Ìˆ—
+		// /*ï½*/ã®å‡¦ç†
 		//
 		if ( mulstr == LMODE_COMMENT ) {
 			vp = ExpandStrComment( vp, 0 );
@@ -3453,7 +3889,7 @@ int CToken::ExpandTokens( char *vp, CMemBuf *buf, int *lineext, int is_preproces
 		}
 		if ( type == TK_EOL ) { (*lineext)++; }
 		if ( type == TK_EOF ) {
-			if ( wrtbuf!=NULL ) wrtbuf->PutCR();	// s––CR/LF‚ğ’Ç‰Á
+			if ( wrtbuf!=NULL ) wrtbuf->PutCR();	// è¡Œæœ«CR/LFã‚’è¿½åŠ 
 			break;
 		}
 		if ( vp_bak == vp ) {
@@ -3470,7 +3906,7 @@ int CToken::ExpandTokens( char *vp, CMemBuf *buf, int *lineext, int is_preproces
 
 int CToken::ExpandLine( CMemBuf *buf, CMemBuf *src, char *refname )
 {
-	//		stringƒf[ƒ^‚ğmembuf‚Ö“WŠJ‚·‚é
+	//		stringãƒ‡ãƒ¼ã‚¿ã‚’membufã¸å±•é–‹ã™ã‚‹
 	//
 	char *p = src->GetBuffer();
 	int pline = 1;
@@ -3479,8 +3915,38 @@ int CToken::ExpandLine( CMemBuf *buf, CMemBuf *src, char *refname )
 	*errtmp = 0;
 	unsigned char a1;
 
+	a1 = *(unsigned char*)p;
+	if (a1 == 0xef) {		// BOMã‚’ãƒã‚§ãƒƒã‚¯
+		a1 = (unsigned char)p[1];
+		if (a1 == 0xbb) {
+			a1 = (unsigned char)p[2];
+			if (a1 == 0xbf) {
+				if (pp_utf8 == 0) {
+#ifdef JPNMSG
+					Mesf("#ãƒ•ã‚¡ã‚¤ãƒ«ã«äºˆæœŸã—ãªã„ BOM ãŒã‚ã‚Šã¾ã™ [%s]", refname);
+#else
+					Mesf("#Unexpected BOM in file.[%s]", refname);
+#endif
+				}
+				p += 3;
+			}
+		}
+	}
+
 	while(1) {
-		RegistExtMacro( "__line__", pline );			// s”Ô†ƒ}ƒNƒ‚ğXV
+		RegistExtMacro( "__line__", pline );			// è¡Œç•ªå·ãƒã‚¯ãƒ­ã‚’æ›´æ–°
+		pp_orgline = pline;
+
+		if (cg_labout_line == pline) {					// è§£æç”¨ã®ãƒ©ã‚¤ãƒ³ã‹?
+			if (strcmp(cg_labout_orgfile, refname) == 0) {
+				//	è§£æãƒ©ã‚¤ãƒ³ã®çŠ¶æ…‹ã‚’ä¿å­˜ã™ã‚‹
+				//Alertf( "#Module %s in file[%s] line %d.", modname, refname, pline );
+				strcpy(cg_labout_modname, modname);
+				if (hed_cmpmode & CMPMODE_CASE) {			// å°†æ¥ã®ãŸã‚
+					cg_labout_caseflag = 1;
+				}
+			}
+		}
 
 		while(1) {
 			a1 = *(unsigned char *)p;
@@ -3489,7 +3955,7 @@ int CToken::ExpandLine( CMemBuf *buf, CMemBuf *src, char *refname )
 			}
 #ifdef HSPWIN
 			if ( hed_cmpmode & CMPMODE_SKIPJPSPC ) {
-				if ( a1 == 0x81 && p[1] == 0x40 ) {		// ‘SŠpƒXƒy[ƒXƒ`ƒFƒbƒN
+				if ( a1 == 0x81 && p[1] == 0x40 ) {		// å…¨è§’ã‚¹ãƒšãƒ¼ã‚¹ãƒã‚§ãƒƒã‚¯
 					p+=2; continue;
 				}
 			}
@@ -3497,20 +3963,20 @@ int CToken::ExpandLine( CMemBuf *buf, CMemBuf *src, char *refname )
 			break;
 		}
 
-		if ( *p==0 ) break;					// I—¹(EOF)
-		ahtkeyword = NULL;					// AHTƒL[ƒ[ƒh‚ğƒŠƒZƒbƒg‚·‚é
+		if ( *p==0 ) break;					// çµ‚äº†(EOF)
+		ahtkeyword = NULL;					// AHTã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 
 		int is_preprocess_line = *p == '#' &&
 		                         mulstr != LMODE_STR &&
 		                         mulstr != LMODE_COMMENT;
 
-		//		sƒf[ƒ^‚ğlinebuf‚É“WŠJ
+		//		è¡Œãƒ‡ãƒ¼ã‚¿ã‚’linebufã«å±•é–‹
 		int mline;
 		if ( is_preprocess_line ) {
-			p = SendLineBufPP( p + 1, &mline );// s––‚Ü‚Å‚ğæ‚èo‚·('\'Œp‘±)
+			p = SendLineBufPP( p + 1, &mline );// è¡Œæœ«ã¾ã§ã‚’å–ã‚Šå‡ºã™('\'ç¶™ç¶š)
 			wrtbuf = NULL;
 		} else {
-			p = SendLineBuf( p );			// s––‚Ü‚Å‚ğæ‚èo‚·
+			p = SendLineBuf( p );			// è¡Œæœ«ã¾ã§ã‚’å–ã‚Šå‡ºã™
 			mline = 0;
 			wrtbuf = buf;
 		}
@@ -3520,14 +3986,14 @@ int CToken::ExpandLine( CMemBuf *buf, CMemBuf *src, char *refname )
 //		Alert( mestmp );
 //		buf->PutStr( mestmp );
 
-		//		ƒ}ƒNƒ“WŠJ‘O‚Éˆ—‚³‚ê‚éƒvƒŠƒvƒƒZƒbƒT
+		//		ãƒã‚¯ãƒ­å±•é–‹å‰ã«å‡¦ç†ã•ã‚Œã‚‹ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µ
 		if ( is_preprocess_line ) {
 			ppresult_t res = PreprocessNM( linebuf );
 			if ( res == PPRESULT_ERROR ) {
 				LineError( errtmp, pline, refname );
 				return 1;
 			}
-			if ( res == PPRESULT_SUCCESS ) {			// ƒvƒŠƒvƒƒZƒbƒT‚Åˆ—‚³‚ê‚½
+			if ( res == PPRESULT_SUCCESS ) {			// ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã§å‡¦ç†ã•ã‚ŒãŸæ™‚
 				mline++;
 				pline += mline;
 				for (int i = 0; i < mline; i++) {
@@ -3544,30 +4010,31 @@ int CToken::ExpandLine( CMemBuf *buf, CMemBuf *src, char *refname )
 //			wrtbuf->PutStr( ss );
 //		}
 
-		//		ƒ}ƒNƒ‚ğ“WŠJ
-		int lineext;			// 1s->•¡”s‚Éƒ}ƒNƒ“WŠJ‚³‚ê‚½‚©?
+		//		ãƒã‚¯ãƒ­ã‚’å±•é–‹
+		int lineext;			// 1è¡Œ->è¤‡æ•°è¡Œã«ãƒã‚¯ãƒ­å±•é–‹ã•ã‚ŒãŸã‹?
 		int res = ExpandTokens( linebuf, buf, &lineext, is_preprocess_line );
 		if ( res ) {
 			LineError( errtmp, pline, refname );
 			return res;
 		}
 
-		//		ƒvƒŠƒvƒƒZƒbƒTˆ—
+		//		ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µå‡¦ç†
 		if ( is_preprocess_line ) {
 			wrtbuf = buf;
 			ppresult_t res = Preprocess( linebuf );
-			if ( res == PPRESULT_INCLUDED ) {			// includeŒã‚Ìˆ—
+			if ( res == PPRESULT_INCLUDED ) {			// includeå¾Œã®å‡¦ç†
 				pline += 1+mline;
 
-				char *fname_literal = to_hsp_string_literal( refname );
-				RegistExtMacro( "__file__", fname_literal );			// ƒtƒ@ƒCƒ‹–¼ƒ}ƒNƒ‚ğXV
+				char *fname_literal = to_hsp_string_literal( refname, true );
+				RegistExtMacro( "__file__", fname_literal );			// ãƒ•ã‚¡ã‚¤ãƒ«åãƒã‚¯ãƒ­ã‚’æ›´æ–°
+				strcpy(pp_orgfile, refname);
 
 				wrtbuf = buf;
 				wrtbuf->PutStrf( "##%d %s\r\n", pline-1, fname_literal );
 				free( fname_literal );
 				continue;
 			}
-			if ( res == PPRESULT_WROTE_LINES ) {			// ƒvƒŠƒvƒƒZƒX‚Ås‚ª‘‚¦‚½Œã‚Ìˆ—
+			if ( res == PPRESULT_WROTE_LINES ) {			// ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹ã§è¡ŒãŒå¢—ãˆãŸå¾Œã®å‡¦ç†
 				pline += mline;
 				wrtbuf->PutStrf( "##%d\r\n", pline );
 				pline++;
@@ -3586,7 +4053,7 @@ int CToken::ExpandLine( CMemBuf *buf, CMemBuf *src, char *refname )
 			continue;
 		}
 
-		//		ƒ}ƒNƒ“WŠJŒã‚És”‚ª•Ï‚í‚Á‚½ê‡‚Ìˆ—
+		//		ãƒã‚¯ãƒ­å±•é–‹å¾Œã«è¡Œæ•°ãŒå¤‰ã‚ã£ãŸå ´åˆã®å‡¦ç†
 		pline += 1+mline;
 		if ( lineext != mline ) {
 			wrtbuf->PutStrf( "##%d\r\n", pline );
@@ -3598,29 +4065,44 @@ int CToken::ExpandLine( CMemBuf *buf, CMemBuf *src, char *refname )
 
 int CToken::ExpandFile( CMemBuf *buf, char *fname, char *refname )
 {
-	//		ƒ\[ƒXƒtƒ@ƒCƒ‹‚ğmembuf‚Ö“WŠJ‚·‚é
+	//		ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’membufã¸å±•é–‹ã™ã‚‹
 	//
 	int res;
 	char cname[HSP_MAX_PATH];
 	char purename[HSP_MAX_PATH];
 	char foldername[HSP_MAX_PATH];
 	char refname_copy[HSP_MAX_PATH];
+	char vaild_file[HSP_MAX_PATH];
+
+	char org_filename[HSP_MAX_PATH];
+	char org_filenamefull[HSP_MAX_PATH];
+	char org_fileline;
+
 	CMemBuf fbuf;
+
+	//	å…ƒã®æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹
+	strcpy(org_filename, pp_orgfile);
+	strcpy(org_filenamefull, pp_orgfilefull);
+	org_fileline = pp_orgline;
 
 	getpath( fname, purename, 8 );
 	getpath( fname, foldername, 32 );
 	if ( *foldername != 0 ) strcpy( search_path, foldername );
 
+	strcpy(vaild_file, refname);
 	if ( fbuf.PutFile( fname ) < 0 ) {
 		strcpy( cname, common_path );strcat( cname, purename );
+		strcpy(vaild_file, common_path); strcat(vaild_file, refname);
 		if ( fbuf.PutFile( cname ) < 0 ) {
 			strcpy( cname, search_path );strcat( cname, purename );
+			strcpy(vaild_file, search_path); strcat(vaild_file, refname);
 			if ( fbuf.PutFile( cname ) < 0 ) {
-				strcpy( cname, common_path );strcat( cname, search_path );strcat( cname, purename );
+				strcpy(cname, common_path); strcat(cname, search_path); strcat(cname, purename);
+				strcpy(vaild_file, common_path); strcat(vaild_file, search_path); strcat(vaild_file, refname);
 				if ( fbuf.PutFile( cname ) < 0 ) {
 					if ( fileadd == 0 ) {
 #ifdef JPNMSG
-						Mesf( "#ƒXƒNƒŠƒvƒgƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ [%s]", purename );
+						Mesf( "#ã‚¹ã‚¯ãƒªãƒ—ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ [%s]", purename );
 #else
 						Mesf( "#Source file not found.[%s]", purename );
 #endif
@@ -3631,27 +4113,35 @@ int CToken::ExpandFile( CMemBuf *buf, char *fname, char *refname )
 		}
 	}
 	fbuf.Put( (char)0 );
+	strcpy(pp_orgfilefull, vaild_file);
 
 	if ( fileadd ) {
 		Mesf( "#Use file [%s]",purename );
 	}
 
-	char *fname_literal = to_hsp_string_literal( refname );
-	RegistExtMacro( "__file__", fname_literal );			// ƒtƒ@ƒCƒ‹–¼ƒ}ƒNƒ‚ğXV
+	char *fname_literal = to_hsp_string_literal( refname, true );
+	RegistExtMacro( "__file__", fname_literal );			// ãƒ•ã‚¡ã‚¤ãƒ«åãƒã‚¯ãƒ­ã‚’æ›´æ–°
+	strcpy(pp_orgfile, refname);
 
+	fname_literal = to_hsp_string_literal( pp_orgfilefull, true );
 	buf->PutStrf( "##0 %s\r\n", fname_literal );
 	free( fname_literal );
 
 	strcpy2( refname_copy, refname, sizeof refname_copy );
 	res = ExpandLine( buf, &fbuf, refname_copy );
 
+	//	å…ƒã®æƒ…å ±ã«å¾©å¸°ã•ã›ã‚‹
+	strcpy(pp_orgfile, org_filename );
+	strcpy(pp_orgfilefull, org_filenamefull );
+	pp_orgline = org_fileline;
+
 	if ( res == 0 ) {
-		//		ƒvƒŠƒvƒƒZƒXŒãƒ`ƒFƒbƒN
+		//		ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹å¾Œãƒã‚§ãƒƒã‚¯
 		//
 		res = tstack->StackCheck( linebuf );
 		if ( res ) {
 #ifdef JPNMSG
-			Mesf( "#ƒXƒ^ƒbƒN‚ª‹ó‚É‚È‚Á‚Ä‚¢‚È‚¢ƒ}ƒNƒƒ^ƒO‚ª%dŒÂ‚ ‚è‚Ü‚· [%s]", res, refname_copy );
+			Mesf( "#ã‚¹ã‚¿ãƒƒã‚¯ãŒç©ºã«ãªã£ã¦ã„ãªã„ãƒã‚¯ãƒ­ã‚¿ã‚°ãŒ%då€‹ã‚ã‚Šã¾ã™ [%s]", res, refname_copy );
 #else
 			Mesf( "#%d unresolved macro(s).[%s]", res, refname_copy );
 #endif
@@ -3662,7 +4152,7 @@ int CToken::ExpandFile( CMemBuf *buf, char *fname, char *refname )
 	if ( res ) {
 
 #ifdef JPNMSG
-		Mes("#d‘å‚ÈƒGƒ‰[‚ªŒŸo‚³‚ê‚Ä‚¢‚Ü‚·");
+		Mes("#é‡å¤§ãªã‚¨ãƒ©ãƒ¼ãŒæ¤œå‡ºã•ã‚Œã¦ã„ã¾ã™");
 #else
 		Mes( "#Fatal error reported." );
 #endif
@@ -3674,7 +4164,7 @@ int CToken::ExpandFile( CMemBuf *buf, char *fname, char *refname )
 
 int CToken::SetAdditionMode( int mode )
 {
-	//		Addition‚É‚æ‚éƒtƒ@ƒCƒ‹’Ç‰Áƒ‚[ƒhİ’è(1=on/0=off)
+	//		Additionã«ã‚ˆã‚‹ãƒ•ã‚¡ã‚¤ãƒ«è¿½åŠ ãƒ¢ãƒ¼ãƒ‰è¨­å®š(1=on/0=off)
 	//
 	int i;
 	i = fileadd;
@@ -3692,9 +4182,9 @@ void CToken::SetCommonPath( char *path )
 
 void CToken::FinishPreprocess( CMemBuf *buf )
 {
-	//	Œã‚ë‚Å’è‹`‚³‚ê‚½ŠÖ”‚ª‚ ‚éê‡A‚»‚ê‚É‘‚«Š·‚¦‚é
+	//	å¾Œã‚ã§å®šç¾©ã•ã‚ŒãŸé–¢æ•°ãŒã‚ã‚‹å ´åˆã€ãã‚Œã«æ›¸ãæ›ãˆã‚‹
 	//
-	//	‚±‚ÌŠÖ”‚Å‚Í foo@modname ‚ğ foo ‚É‘‚«Š·‚¦‚é‚È‚Çƒoƒbƒtƒ@ƒTƒCƒY‚ª¬‚³‚­‚È‚é•ÏX‚µ‚©s‚í‚È‚¢
+	//	ã“ã®é–¢æ•°ã§ã¯ foo@modname ã‚’ foo ã«æ›¸ãæ›ãˆã‚‹ãªã©ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºãŒå°ã•ããªã‚‹å¤‰æ›´ã—ã‹è¡Œã‚ãªã„
 	//
 	int read_pos = 0;
 	int write_pos = 0;
@@ -3709,7 +4199,7 @@ void CToken::FinishPreprocess( CMemBuf *buf )
 		memmove( p + write_pos, p + read_pos, pos - read_pos );
 		write_pos += pos - read_pos;
 		read_pos = pos;
-		// @modname ‚ğÁ‚µ‚½–¼‘O‚ÌŠÖ”‚ª‘¶İ‚µ‚½‚ç‚»‚ê‚É‘‚«Š·‚¦
+		// @modname ã‚’æ¶ˆã—ãŸåå‰ã®é–¢æ•°ãŒå­˜åœ¨ã—ãŸã‚‰ãã‚Œã«æ›¸ãæ›ãˆ
 		p[pos+len] = '\0';
 		id = lb->Search( p + pos );
 		if ( id >= 0 && lb->GetType(id) == LAB_TYPE_PPMODFUNC ) {
@@ -3726,7 +4216,7 @@ void CToken::FinishPreprocess( CMemBuf *buf )
 
 int CToken::LabelRegist( char **list, int mode )
 {
-	//		ƒ‰ƒxƒ‹î•ñ‚ğ“o˜^
+	//		ãƒ©ãƒ™ãƒ«æƒ…å ±ã‚’ç™»éŒ²
 	//
 	if ( mode ) {
 		return lb->RegistList( list, "@hsp" );
@@ -3737,7 +4227,7 @@ int CToken::LabelRegist( char **list, int mode )
 
 int CToken::LabelRegist2( char **list )
 {
-	//		ƒ‰ƒxƒ‹î•ñ‚ğ“o˜^(ƒ}ƒNƒ)
+	//		ãƒ©ãƒ™ãƒ«æƒ…å ±ã‚’ç™»éŒ²(ãƒã‚¯ãƒ­)
 	//
 	return lb->RegistList2( list, "@hsp" );
 }
@@ -3745,7 +4235,7 @@ int CToken::LabelRegist2( char **list )
 
 int CToken::LabelRegist3( char **list )
 {
-	//		ƒ‰ƒxƒ‹î•ñ‚ğ“o˜^(F•ª‚¯—p)
+	//		ãƒ©ãƒ™ãƒ«æƒ…å ±ã‚’ç™»éŒ²(è‰²åˆ†ã‘ç”¨)
 	//
 	return lb->RegistList3( list );
 }
@@ -3753,7 +4243,7 @@ int CToken::LabelRegist3( char **list )
 
 int CToken::RegistExtMacroPath( char *keyword, char *str )
 {
-	//		ƒ}ƒNƒ‚ğŠO•”‚©‚ç“o˜^(path—p)
+	//		ãƒã‚¯ãƒ­ã‚’å¤–éƒ¨ã‹ã‚‰ç™»éŒ²(pathç”¨)
 	//
 	int id, res;
 	char path[1024];
@@ -3767,8 +4257,8 @@ int CToken::RegistExtMacroPath( char *keyword, char *str )
 	while(1) {
 		a1 = *src++;
 		if ( a1 == 0 ) break;
-		if ( a1 == 0x5c ) {	*p++=a1; }		// '\'ƒ`ƒFƒbƒN
-		if ( a1>=129 ) {					// ‘SŠp•¶šƒ`ƒFƒbƒN
+		if ( a1 == 0x5c ) {	*p++=a1; }		// '\'ãƒã‚§ãƒƒã‚¯
+		if ( a1>=129 ) {					// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 			if (a1<=159) { *p++=a1;a1=*src++; }
 			else if (a1>=224) { *p++=a1;a1=*src++; }
 		}
@@ -3778,11 +4268,11 @@ int CToken::RegistExtMacroPath( char *keyword, char *str )
 
 	strcpy( mm, keyword );
 	FixModuleName( mm );
-	res = lb->Search( mm );if ( res != -1 ) {	// ‚·‚Å‚É‚ ‚éê‡‚Íã‘‚«
+	res = lb->Search( mm );if ( res != -1 ) {	// ã™ã§ã«ã‚ã‚‹å ´åˆã¯ä¸Šæ›¸ã
 		lb->SetData( res, path );
 		return -1;
 	}
-	//		ƒf[ƒ^’è‹`
+	//		ãƒ‡ãƒ¼ã‚¿å®šç¾©
 	id = lb->Regist( mm, LAB_TYPE_PPMAC, 0 );
 	lb->SetData( id, path );
 	lb->SetEternal( id );
@@ -3792,17 +4282,17 @@ int CToken::RegistExtMacroPath( char *keyword, char *str )
 
 int CToken::RegistExtMacro( char *keyword, char *str )
 {
-	//		ƒ}ƒNƒ‚ğŠO•”‚©‚ç“o˜^
+	//		ãƒã‚¯ãƒ­ã‚’å¤–éƒ¨ã‹ã‚‰ç™»éŒ²
 	//
 	int id, res;
 	char mm[512];
 	strcpy( mm, keyword );
 	FixModuleName( mm );
-	res = lb->Search( mm );if ( res != -1 ) {	// ‚·‚Å‚É‚ ‚éê‡‚Íã‘‚«
+	res = lb->Search( mm );if ( res != -1 ) {	// ã™ã§ã«ã‚ã‚‹å ´åˆã¯ä¸Šæ›¸ã
 		lb->SetData( res, str );
 		return -1;
 	}
-	//		ƒf[ƒ^’è‹`
+	//		ãƒ‡ãƒ¼ã‚¿å®šç¾©
 	id = lb->Regist( mm, LAB_TYPE_PPMAC, 0 );
 	lb->SetData( id, str );
 	lb->SetEternal( id );
@@ -3812,36 +4302,44 @@ int CToken::RegistExtMacro( char *keyword, char *str )
 
 int CToken::RegistExtMacro( char *keyword, int val )
 {
-	//		ƒ}ƒNƒ‚ğŠO•”‚©‚ç“o˜^(”’l)
+	//		ãƒã‚¯ãƒ­ã‚’å¤–éƒ¨ã‹ã‚‰ç™»éŒ²(æ•°å€¤)
 	//
 	int id, res;
 	char mm[512];
 	strcpy( mm, keyword );
 	FixModuleName( mm );
-	res = lb->Search( mm );if ( res != -1 ) {	// ‚·‚Å‚É‚ ‚éê‡‚Íã‘‚«
+	res = lb->Search( mm );if ( res != -1 ) {	// ã™ã§ã«ã‚ã‚‹å ´åˆã¯ä¸Šæ›¸ã
 		lb->SetOpt( res, val );
 		return -1;
 	}
-	//		ƒf[ƒ^’è‹`
+	//		ãƒ‡ãƒ¼ã‚¿å®šç¾©
 	id = lb->Regist( mm, LAB_TYPE_PPVAL, val );
 	lb->SetEternal( id );
 	return 0;
 }
 
 
-int CToken::LabelDump( CMemBuf *out, int option )
+int CToken::LabelDump(CMemBuf* out, int option, char *match)
 {
-	//		“o˜^‚³‚ê‚Ä‚¢‚éƒ‰ƒxƒ‹î•ñ‚ğerrbuf‚É“WŠJ
+	//		ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ©ãƒ™ãƒ«æƒ…å ±ã‚’errbufã«å±•é–‹
 	//
-	lb->DumpHSPLabel( linebuf, option, LINEBUF_MAX - 256 );
-	out->PutStr( linebuf );
+	int a,max;
+	max = lb->GetCount();
+	for (a = 0; a < max; a++) {
+		lb->DumpHSPLabelById(a, linebuf, option);
+		if (match) {
+			//	matchãŒå«ã¾ã‚Œã¦ã„ãªã„å ´åˆã¯ç„¡è¦–ã™ã‚‹
+			if (strstr2(linebuf, match) == NULL) *linebuf = 0;
+		}
+		if (*linebuf!=0) out->PutStr(linebuf);
+	}
 	return 0;
 }
 
 
 void CToken::SetModuleName( char *name )
 {
-	//		ƒ‚ƒWƒ…[ƒ‹–¼‚ğİ’è
+	//		ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åã‚’è¨­å®š
 	//
 	if ( *name==0 ) {
 		modname[0] = 0; return;
@@ -3853,7 +4351,7 @@ void CToken::SetModuleName( char *name )
 
 char *CToken::GetModuleName( void )
 {
-	//		ƒ‚ƒWƒ…[ƒ‹–¼‚ğæ“¾
+	//		ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åã‚’å–å¾—
 	//
 	if ( *modname == 0 ) return modname;
 	return modname+1;
@@ -3862,7 +4360,7 @@ char *CToken::GetModuleName( void )
 
 void CToken::AddModuleName( char *str )
 {
-	//		ƒL[ƒ[ƒh‚Éƒ‚ƒWƒ…[ƒ‹–¼‚ğ•t‰Á(ƒ‚ƒWƒ…[ƒ‹ˆË‘¶ƒ‰ƒxƒ‹—p)
+	//		ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã«ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åã‚’ä»˜åŠ (ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ä¾å­˜ãƒ©ãƒ™ãƒ«ç”¨)
 	//
 	unsigned char a1;
 	unsigned char *wp;
@@ -3885,7 +4383,7 @@ void CToken::AddModuleName( char *str )
 
 void CToken::FixModuleName( char *str )
 {
-	//		ƒL[ƒ[ƒh‚Ìƒ‚ƒWƒ…[ƒ‹–¼‚ğ³‹K‰»(ƒ‚ƒWƒ…[ƒ‹”ñˆË‘¶ƒ‰ƒxƒ‹—p)
+	//		ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åã‚’æ­£è¦åŒ–(ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«éä¾å­˜ãƒ©ãƒ™ãƒ«ç”¨)
 	//
 //	char *wp;
 //	wp = str + ( strlen(str)-1 );
@@ -3911,7 +4409,7 @@ void CToken::FixModuleName( char *str )
 
 int CToken::IsGlobalMode( void )
 {
-	//		ƒ‚ƒWƒ…[ƒ‹“à(0)‚©AƒOƒ[ƒoƒ‹(1)‚©‚ğ•Ô‚·
+	//		ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«å†…(0)ã‹ã€ã‚°ãƒ­ãƒ¼ãƒãƒ«(1)ã‹ã‚’è¿”ã™
 	//
 	if ( *modname==0 ) return 1;
 	return 0;
@@ -3920,7 +4418,7 @@ int CToken::IsGlobalMode( void )
 
 int CToken::GetLabelBufferSize( void )
 {
-	//		ƒ‰ƒxƒ‹ƒoƒbƒtƒ@ƒTƒCƒY‚ğ“¾‚é
+	//		ãƒ©ãƒ™ãƒ«ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã‚’å¾—ã‚‹
 	//
 	return lb->GetSymbolSize();
 }
@@ -3928,8 +4426,8 @@ int CToken::GetLabelBufferSize( void )
 
 void CToken::InitSCNV( int size )
 {
-	//		•¶šƒR[ƒh•ÏŠ·‚Ì‰Šú‰»
-	//		(size<0‚Ìê‡‚Íƒƒ‚ƒŠ‚ğ”jŠü)
+	//		æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›ã®åˆæœŸåŒ–
+	//		(size<0ã®å ´åˆã¯ãƒ¡ãƒ¢ãƒªã‚’ç ´æ£„)
 	//
 	if ( scnvbuf != NULL ) {
 		free( scnvbuf );
@@ -3943,7 +4441,7 @@ void CToken::InitSCNV( int size )
 
 char *CToken::ExecSCNV( char *srcbuf, int opt )
 {
-	//		•¶šƒR[ƒh•ÏŠ·
+	//		æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›
 	//
 	//int ressize;
 	int size;
@@ -3962,6 +4460,13 @@ char *CToken::ExecSCNV( char *srcbuf, int opt )
 		strcpy( scnvbuf, srcbuf );
 #endif
 		break;
+	case SCNV_OPT_UTF8SJIS:
+#ifdef HSPWIN
+		ConvUtf82SJis(srcbuf, scnvbuf, scnvsize);
+#else
+		strcpy(scnvbuf, srcbuf);
+#endif
+		break;
 	default:
 		*scnvbuf = 0;
 		break;
@@ -3972,11 +4477,11 @@ char *CToken::ExecSCNV( char *srcbuf, int opt )
 
 void CToken::SetErrorSymbolOverdefined(char* keyword, int label_id)
 {
-	// ¯•Êq‚Ì‘½d’è‹`ƒGƒ‰[
+	// è­˜åˆ¥å­ã®å¤šé‡å®šç¾©ã‚¨ãƒ©ãƒ¼
 
 	char strtmp[0x100];
 #ifdef JPNMSG
-	sprintf( strtmp,"’è‹`Ï‚İ‚Ì¯•Êq‚Íg—p‚Å‚«‚Ü‚¹‚ñ [%s]", keyword );
+	sprintf( strtmp,"å®šç¾©æ¸ˆã¿ã®è­˜åˆ¥å­ã¯ä½¿ç”¨ã§ãã¾ã›ã‚“ [%s]", keyword );
 #else
 	sprintf( strtmp,"symbol in use [%s]", keyword );
 #endif
@@ -3986,8 +4491,8 @@ void CToken::SetErrorSymbolOverdefined(char* keyword, int label_id)
 
 int CToken::CheckByteSJIS( unsigned char c )
 {
-	//	SJIS‚Ì‘SŠp1ƒoƒCƒg–Ú‚ğ”»’è‚·‚é
-	//  (–ß‚è’l‚ÍˆÈ~‚É‘±‚­byte”)
+	//	SJISã®å…¨è§’1ãƒã‚¤ãƒˆç›®ã‚’åˆ¤å®šã™ã‚‹
+	//  (æˆ»ã‚Šå€¤ã¯ä»¥é™ã«ç¶šãbyteæ•°)
 	if (((c>=0x81)&&(c<=0x9f))||((c>=0xe0)&&(c<=0xfc))) return 1;
 	return 0;
 }
@@ -3995,8 +4500,8 @@ int CToken::CheckByteSJIS( unsigned char c )
 
 int CToken::CheckByteUTF8( unsigned char c )
 {
-	//	UTF8‚Ì‘SŠp1ƒoƒCƒg–Ú‚ğ”»’è‚·‚é
-	//  (–ß‚è’l‚ÍˆÈ~‚É‘±‚­byte”)
+	//	UTF8ã®å…¨è§’1ãƒã‚¤ãƒˆç›®ã‚’åˆ¤å®šã™ã‚‹
+	//  (æˆ»ã‚Šå€¤ã¯ä»¥é™ã«ç¶šãbyteæ•°)
 
 	if ( c <= 0x7f ) return 0;
 
@@ -4011,13 +4516,208 @@ int CToken::CheckByteUTF8( unsigned char c )
 
 int CToken::SkipMultiByte( unsigned char byte )
 {
-	//	ƒ}ƒ‹ƒ`ƒoƒCƒgƒR[ƒh‚Ì2byte–ÚˆÈ~‚ğƒXƒLƒbƒv‚·‚é
-	//  ( 1ƒoƒCƒg–Ú‚Ìchar‚ğ“n‚·‚ÆA2byte–ÚˆÈ~ƒXƒLƒbƒv‚·‚ébyte”‚ğ•Ô‚· )
-	//	( pp_utf8‚Ìƒtƒ‰ƒO‚É‚æ‚Á‚ÄUTF-8‚ÆSJIS‚ğ”»’f‚·‚é )
+	//	ãƒãƒ«ãƒãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã®2byteç›®ä»¥é™ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
+	//  ( 1ãƒã‚¤ãƒˆç›®ã®charã‚’æ¸¡ã™ã¨ã€2byteç›®ä»¥é™ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹byteæ•°ã‚’è¿”ã™ )
+	//	( pp_utf8ã®ãƒ•ãƒ©ã‚°ã«ã‚ˆã£ã¦UTF-8ã¨SJISã‚’åˆ¤æ–­ã™ã‚‹ )
 	//
 	if ( pp_utf8 ) {
 		return CheckByteUTF8( byte );
 	}
 	return CheckByteSJIS( byte );
+}
+
+
+int CToken::ConvSJis2Utf8(char* pSource, char* pDist, int buffersize)
+{
+	int size = 0;
+	if (pDist == NULL) return -1;
+
+#ifdef HSPWIN
+	//ShiftJISã‹ã‚‰UTF-16ã¸å¤‰æ›
+	const int nSize = ::MultiByteToWideChar(CP_ACP, 0, (LPCSTR)pSource, -1, NULL, 0);
+
+	BYTE* buffUtf16 = new BYTE[nSize * 2 + 2];
+	::MultiByteToWideChar(CP_ACP, 0, (LPCSTR)pSource, -1, (LPWSTR)buffUtf16, nSize);
+
+	//UTF-16ã‹ã‚‰UTF-8ã¸å¤‰æ›
+	size = ::WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)buffUtf16, -1, NULL, 0, NULL, NULL);
+	size *= 2;
+	if (size > buffersize) size = buffersize;
+	ZeroMemory(pDist, size);
+	::WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)buffUtf16, -1, (LPSTR)pDist, size, NULL, NULL);
+
+	size = lstrlen((char*)pDist) + 1;
+
+	delete [] buffUtf16;
+#endif
+	return size;
+}
+
+
+int CToken::ConvUtf82SJis(char* pSource, char* pDist, int buffersize)
+{
+	int size = 0;
+
+#ifdef HSPWIN
+
+	// ã‚µã‚¤ã‚ºã‚’è¨ˆç®—ã™ã‚‹
+	int iLenUnicode = ::MultiByteToWideChar(CP_UTF8, 0, pSource, strlen(pSource) + 1, NULL, 0);
+	BYTE* buffUtf16 = new BYTE[iLenUnicode * 2 + 2];
+
+	::MultiByteToWideChar(CP_UTF8, 0, pSource, strlen(pSource) + 1, (LPWSTR)buffUtf16, iLenUnicode);
+
+	size = ::WideCharToMultiByte(CP_ACP, 0, (LPCWSTR)buffUtf16, iLenUnicode, NULL, 0, NULL, NULL);
+	if (size > buffersize) size = buffersize;
+	::WideCharToMultiByte(CP_ACP, 0,
+				(LPCWSTR)buffUtf16, iLenUnicode,
+				pDist, size,
+				NULL, NULL);
+
+	delete [] buffUtf16;
+	pDist[size] = 0;
+#endif
+	return size;
+}
+
+
+char* CToken::to_hsp_string_literal(const char* src, bool filename) {
+	//		æ–‡å­—åˆ—ã‚’HSPã®æ–‡å­—åˆ—ãƒªãƒ†ãƒ©ãƒ«å½¢å¼ã«
+	//		æˆ»ã‚Šå€¤ã®ãƒ¡ãƒ¢ãƒªã¯å‘¼ã³å‡ºã—å´ãŒfreeã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã€‚
+	//		HSPã®æ–‡å­—åˆ—ãƒªãƒ†ãƒ©ãƒ«ã§è¡¨ã›ãªã„æ–‡å­—ã¯
+	//		ãã®ã¾ã¾å‡ºåŠ›ã•ã‚Œã‚‹ã®ã§æ³¨æ„ã€‚ï¼ˆ'\n'ãªã©ï¼‰
+	//		ãƒ•ã‚¡ã‚¤ãƒ«åã®å ´åˆã¯SJISã¨ä»®å®šã—ã¦å‡¦ç†ã™ã‚‹(Winã®ã¿)
+	//
+	int skip;
+	char* utftmp;
+	size_t length = 2;
+
+	utftmp = (char *)src;
+#ifdef HSPWIN
+	if (filename) {
+		if (pp_utf8) {			// å…¥åŠ›ãŒUTF8ã§ãƒ•ã‚¡ã‚¤ãƒ«åã®å ´åˆã¯å¤‰æ›ã™ã‚‹
+			int len = strlen(src) * 4 + 1;
+			utftmp = (char*)malloc(len);
+			ConvSJis2Utf8((char*)src, utftmp, len);
+		}
+	}
+#endif
+	const unsigned char* s = (unsigned char*)utftmp;
+	while (1) {
+		unsigned char c = *s;
+		if (c == '\0') break;
+		switch (c) {
+		case '\r':
+			if (*(s + 1) == '\n') {
+				s++;
+			}
+			// FALL THROUGH
+		case '\t':
+		case '"':
+		case '\\':
+			length += 2;
+			break;
+		default:
+			length++;
+			skip = SkipMultiByte(c);
+			s += skip;
+			length+=skip;
+			break;
+		}
+		s++;
+	}
+	char* dest = (char*)malloc(length + 1);
+	if (dest == NULL) return dest;
+
+	s = (unsigned char*)utftmp;
+	unsigned char* d = (unsigned char*)dest;
+	*d++ = '"';
+	while (1) {
+		unsigned char c = *s;
+		if (c == '\0') break;
+		switch (c) {
+		case '\t':
+			*d++ = '\\';
+			*d++ = 't';
+			break;
+		case '\r':
+			*d++ = '\\';
+			if (*(s + 1) == '\n') {
+				*d++ = 'n';
+				s++;
+			}
+			else {
+				*d++ = 'r';
+			}
+			break;
+		case '"':
+			*d++ = '\\';
+			*d++ = '"';
+			break;
+		case '\\':
+			*d++ = '\\';
+			*d++ = '\\';
+			break;
+		default:
+			skip = SkipMultiByte(c);
+			*d++ = c;
+			while (skip>0) {
+				s++;
+				*d++ = *s;
+				skip--;
+			}
+		}
+		s++;
+	}
+	*d++ = '"';
+	*d = '\0';
+#ifdef HSPWIN
+	if (filename) {
+		if (pp_utf8) {
+			free(utftmp);
+		}
+	}
+#endif
+	return dest;
+}
+
+int CToken::atoi_allow_overflow(const char* s)
+{
+	//		ã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼ãƒã‚§ãƒƒã‚¯ã‚’ã—ãªã„atoi
+	//
+	int result = 0;
+	while (isdigit(*s)) {
+		result = result * 10 + (*s - '0');
+		s++;
+	}
+	return result;
+}
+
+
+void CToken::GenerateLabelListAndTagPP(char *name, int flag)
+{
+	if (labbuf == NULL) return;
+	GenerateLabelTag(name, flag, 0, pp_orgfilefull, pp_orgline);
+}
+
+
+void CToken::GenerateLabelListAndTagRefPP(char* name, int flag)
+{
+	if (labbuf == NULL) return;
+	if ((cg_labout_mode & LABLIST_MODE_REFERENCE) == 0) return;
+	GenerateLabelTag(name, flag| LABBUF_FLAG_REFER, 0, pp_orgfilefull, pp_orgline);
+}
+
+
+char* CToken::GetLabelListLineModule(void)
+{
+	if (labbuf == NULL) return "";
+	return cg_labout_modname;
+}
+
+
+int CToken::GetLabelListLineCaseFlag(void)
+{
+	if (labbuf == NULL) return 0;
+	return cg_labout_caseflag;
 }
 

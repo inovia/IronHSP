@@ -24,7 +24,7 @@ int CLabel::StrCase( char *str )
 	unsigned char *ss;
 	hash = 0;
 
-	if ( casemode ) {			// ‘å•¶Žš¬•¶Žš‚ð‹æ•Ê‚·‚é
+	if ( casemode ) {			// å¤§æ–‡å­—å°æ–‡å­—ã‚’åŒºåˆ¥ã™ã‚‹
 		return GetHash( str );
 	}
 
@@ -50,7 +50,7 @@ int CLabel::StrCase( char *str )
 
 int CLabel::GetHash( char *str )
 {
-	//		HUSH’l‚ð“¾‚é
+	//		HUSHå€¤ã‚’å¾—ã‚‹
 	//
 	int hash;
 	unsigned char a1;
@@ -101,7 +101,7 @@ int CLabel::Regist( char *name, int type, int opt )
 int CLabel::Regist( char *name, int type, int opt, char const *filename, int line )
 {
 	if ( name[0]==0 ) return -1;
-	if ( cur>=maxlab ) {				// ƒ‰ƒxƒ‹ƒoƒbƒtƒ@Šg’£
+	if ( cur>=maxlab ) {				// ãƒ©ãƒ™ãƒ«ãƒãƒƒãƒ•ã‚¡æ‹¡å¼µ
 		LABOBJ *tmp;
 		int i,oldsize;
 		oldsize = sizeof(LABOBJ)*maxlab;
@@ -129,6 +129,7 @@ int CLabel::Regist( char *name, int type, int opt, char const *filename, int lin
 	lab->typefix = LAB_TYPEFIX_NONE;
 	lab->def_file = NULL;
 	lab->def_line = -1;
+	lab->skiplablist = false;
 	SetDefinition(label_id, filename, line);
 
 	labels.insert(std::make_pair(lab->name, label_id));
@@ -387,15 +388,21 @@ LABOBJ *CLabel::GetLabel( int id )
 }
 
 
-int CLabel::GetInitFlag( int id )
+int CLabel::GetInitFlag(int id)
 {
 	return (int)mem_lab[id].init;
 }
 
 
+int CLabel::GetForceType(int id)
+{
+	return (int)mem_lab[id].typefix;
+}
+
+
 char *CLabel::RegistSymbol( char *str )
 {
-	//		ƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚É•¶Žš—ñ‚ð“o˜^
+	//		ã‚·ãƒ³ãƒœãƒ«ãƒ†ãƒ¼ãƒ–ãƒ«ã«æ–‡å­—åˆ—ã‚’ç™»éŒ²
 	//
 	char *p;
 	char *pmaster;
@@ -425,7 +432,7 @@ char *CLabel::RegistSymbol( char *str )
 
 char *CLabel::RegistTable( char *str, int size )
 {
-	//		ƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚Éƒe[ƒuƒ‹ƒf[ƒ^‚ð“o˜^
+	//		ã‚·ãƒ³ãƒœãƒ«ãƒ†ãƒ¼ãƒ–ãƒ«ã«ãƒ†ãƒ¼ãƒ–ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’ç™»éŒ²
 	//
 	char *p;
 	char *src;
@@ -459,7 +466,7 @@ char *CLabel::GetListToken( char *str )
 
 int CLabel::RegistList( char **list, char *modname )
 {
-	//		ƒL[ƒ[ƒhƒŠƒXƒg‚ð“o˜^‚·‚é
+	//		ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ãƒªã‚¹ãƒˆã‚’ç™»éŒ²ã™ã‚‹
 	//
 	char *p;
 	char **plist;
@@ -487,7 +494,7 @@ int CLabel::RegistList( char **list, char *modname )
 
 int CLabel::RegistList2( char **list, char *modname )
 {
-	//		ƒL[ƒ[ƒhƒŠƒXƒg‚ðword@modname‚Ì‘ã‘Öƒ}ƒNƒ‚Æ‚µ‚Ä“o˜^‚·‚é
+	//		ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ãƒªã‚¹ãƒˆã‚’word@modnameã®ä»£æ›¿ãƒžã‚¯ãƒ­ã¨ã—ã¦ç™»éŒ²ã™ã‚‹
 	//
 	char *p;
 	char **plist;
@@ -507,7 +514,7 @@ int CLabel::RegistList2( char **list, char *modname )
 		p = GetListToken( p );
 		//id = Regist( token, type, opt );
 
-		id = Regist( token, LAB_TYPE_PPINTMAC, 0 );		// “à•”ƒ}ƒNƒ‚Æ‚µ‚Ä’è‹`
+		id = Regist( token, LAB_TYPE_PPINTMAC, 0 );		// å†…éƒ¨ãƒžã‚¯ãƒ­ã¨ã—ã¦å®šç¾©
 		strcat( token, modname );
 		SetData( id, token );
 		SetEternal( id );
@@ -518,7 +525,7 @@ int CLabel::RegistList2( char **list, char *modname )
 
 int CLabel::RegistList3( char **list )
 {
-	//		ƒL[ƒ[ƒhƒŠƒXƒg‚ðF•ª‚¯ƒe[ƒuƒ‹—p‚É“o˜^‚·‚é
+	//		ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ãƒªã‚¹ãƒˆã‚’è‰²åˆ†ã‘ãƒ†ãƒ¼ãƒ–ãƒ«ç”¨ã«ç™»éŒ²ã™ã‚‹
 	//
 	char *p;
 	char **plist;
@@ -626,55 +633,58 @@ void CLabel::DumpLabel( char *str )
 }
 
 
-void CLabel::DumpHSPLabel( char *str, int option, int maxsize )
+int CLabel::DumpHSPLabelById(int id, char* str, int option)
 {
 	char tmp[256];
-	char *typem;
-//	char optm[256];
+	char* typem;
+	char* p;
+	p = str;
+
+	LABOBJ* lab = &mem_lab[id]; typem = NULL;
+	switch (lab->type) {
+	case LAB_TYPE_PPEX_PRECMD:
+		if (option & LAB_DUMPMODE_RESCMD) typem = "pre|func";
+		break;
+	case LAB_TYPE_PPEX_EXTCMD:
+		if (option & LAB_DUMPMODE_RESCMD) typem = "sys|func|1";
+		break;
+	case LAB_TYPE_PPDLLFUNC:
+		if (option & LAB_DUMPMODE_DLLCMD) typem = "sys|func|2";
+		break;
+	case LAB_TYPE_PPMODFUNC:
+		if (option & LAB_DUMPMODE_DLLCMD) typem = "sys|func|3";
+		break;
+	case LAB_TYPE_PPMAC:
+	case LAB_TYPE_PPVAL:
+		if (option & LAB_DUMPMODE_RESCMD) typem = "sys|macro";
+		break;
+	default:
+		if (option & LAB_DUMPMODE_RESCMD) typem = "sys|func";
+		break;
+	}
+	if (typem != NULL) {
+		sprintf(tmp, "%s\t,%s", lab->name, typem);
+		p = Prt(p, tmp);
+	}
+
+	*p = 0;
+	return (p-str);
+}
+
+
+void CLabel::DumpHSPLabel( char *str, int option, int maxsize )
+{
 	char *p;
 	char *p_limit;
 	int a;
+	int len;
 	p = str;
 	p_limit = p + maxsize;
 
 	for(a=0;a<cur;a++) {
 		if ( p >= p_limit ) break;
-
-		LABOBJ *lab=&mem_lab[a]; typem = NULL;
-		switch( lab->type ) {
-		case LAB_TYPE_PPEX_PRECMD:
-			if ( option & LAB_DUMPMODE_RESCMD ) typem = "pre|func";
-			break;
-		case LAB_TYPE_PPEX_EXTCMD:
-			if ( option & LAB_DUMPMODE_RESCMD ) typem = "sys|func|1";
-			break;
-		case LAB_TYPE_PPDLLFUNC:
-			if ( option & LAB_DUMPMODE_DLLCMD ) typem = "sys|func|2";
-			break;
-		case LAB_TYPE_PPMODFUNC:
-			if ( option & LAB_DUMPMODE_DLLCMD ) typem = "sys|func|3";
-			break;
-		case LAB_TYPE_PPMAC:
-		case LAB_TYPE_PPVAL:
-			if ( option & LAB_DUMPMODE_RESCMD ) typem = "sys|macro";
-			break;
-		default:
-			if ( option & LAB_DUMPMODE_RESCMD ) typem = "sys|func";
-			break;
-		}
-/*
-		if ( lab->opt >= 0x100 ) {
-			if (( lab->opt & 0xff )<0x10 ) {
-				optm[0]='|';
-				optm[1]=48+(lab->opt>>8); optm[2]=0;
-				strcat( typem,optm );
-			}
-		}
-*/
-		if ( typem != NULL ) {
-			sprintf( tmp,"%s\t,%s",lab->name,typem );
-			p=Prt( p,tmp );
-		}
+		len = DumpHSPLabelById(a,p,option);
+		p += len;
 	}
 	*p=0;
 }
@@ -682,7 +692,7 @@ void CLabel::DumpHSPLabel( char *str, int option, int maxsize )
 
 void CLabel::AddReference( int id )
 {
-	//		ŽQÆ‰ñ”‚ð+1‚·‚é
+	//		å‚ç…§å›žæ•°ã‚’+1ã™ã‚‹
 	//
 	LABOBJ *lab=&mem_lab[id];
 	lab->ref++;
@@ -691,7 +701,7 @@ void CLabel::AddReference( int id )
 
 int CLabel::GetReference( int id )
 {
-	//		ŽQÆ‰ñ”‚ðŽæ“¾‚·‚é(ˆË‘¶ŠÖŒW‚àŠÜ‚ß‚é)
+	//		å‚ç…§å›žæ•°ã‚’å–å¾—ã™ã‚‹(ä¾å­˜é–¢ä¿‚ã‚‚å«ã‚ã‚‹)
 	//
 	int total;
 	LABREL *rel;
@@ -711,8 +721,8 @@ int CLabel::GetReference( int id )
 
 int CLabel::SearchRelation( int id, int rel_id )
 {
-	//		ƒ‰ƒxƒ‹ˆË‘¶‚Ì“Á’èIDƒf[ƒ^‚ª‚ ‚é‚©‚ðŒŸõ
-	//		(0=‚È‚µ/1=‚ ‚è)
+	//		ãƒ©ãƒ™ãƒ«ä¾å­˜ã®ç‰¹å®šIDãƒ‡ãƒ¼ã‚¿ãŒã‚ã‚‹ã‹ã‚’æ¤œç´¢
+	//		(0=ãªã—/1=ã‚ã‚Š)
 	//
 	LABREL *tmp;
 	LABOBJ *lab=&mem_lab[id];
@@ -729,12 +739,12 @@ int CLabel::SearchRelation( int id, int rel_id )
 
 void CLabel::AddRelation( int id, int rel_id )
 {
-	//		ƒ‰ƒxƒ‹ˆË‘¶‚ÌIDƒf[ƒ^‚ð’Ç‰Á‚·‚é
+	//		ãƒ©ãƒ™ãƒ«ä¾å­˜ã®IDãƒ‡ãƒ¼ã‚¿ã‚’è¿½åŠ ã™ã‚‹
 	//
 	LABREL *rel;
 	LABREL *tmp;
 
-	if ( id == rel_id ) return;				// zŠÂ‚·‚é‚æ‚¤‚Èƒf[ƒ^‚Í“o˜^‚µ‚È‚¢
+	if ( id == rel_id ) return;				// å¾ªç’°ã™ã‚‹ã‚ˆã†ãªãƒ‡ãƒ¼ã‚¿ã¯ç™»éŒ²ã—ãªã„
 
 	rel = (LABREL *)ExpandSymbolBuffer( sizeof(LABREL) );
 	rel->link = NULL;
@@ -775,4 +785,10 @@ void CLabel::SetDefinition(int id, char const* filename, int line)
 	LABOBJ* const it = GetLabel(id);
 	it->def_file = filenames.insert(filename).first->c_str();
 	it->def_line = line;
+}
+
+void CLabel::SetSkipLabList(int id)
+{
+	LABOBJ* const it = GetLabel(id);
+	it->skiplablist = true;
 }

@@ -43,7 +43,16 @@ static 	char *p[] = {
 	"       -e?   execute/view .ax runtime",
 	"       -r    execute runtime with result",
 	"       -s    output string map",
-	"       -h??? output command help",
+	"       -m    compile for Emscripten",
+	"       ---------------------------------",
+	"       -h??? print command help",
+	"       -lk???  print HSP3 keyword list",
+	"       -ll???  print source label list",
+	"       -lv???  print source variable list",
+	"       -ls???  print source keyword list",
+	"       -lr     include reference list",
+	"       -lp     allow partial matches.",
+	"       ---------------------------------",
 	"       --syspath=??? set system folder for execute",
 	"       --compath=??? set common path to ???",
 	NULL };
@@ -59,6 +68,9 @@ int main( int argc, char *argv[] )
 	char a1,a2,a3;
 	int b,st;
 	int cmpopt,ppopt,utfopt,pponly,execobj,strmap,hsphelp;
+	char *opt_lk = NULL;
+	char *opt_ls = NULL;
+	int opt_lsref, opt_lsmode;
 	char fname[HSP_MAX_PATH];
 	char fname2[HSP_MAX_PATH];
 	char oname[HSP_MAX_PATH];
@@ -71,7 +83,7 @@ int main( int argc, char *argv[] )
 
 	if (argc<2) { usage1();return -1; }
 
-	st = 0; ppopt = 0; cmpopt = 0; utfopt = 0; pponly = 0; strmap = 0; hsphelp = 0;
+	st = 0; ppopt = 0; cmpopt = 0; utfopt = 0; pponly = 0; strmap = 0; hsphelp = 0; opt_lsref = 0; opt_lsmode = 0;
 	execobj = 0;
 	fname[0]=0;
 	fname2[0]=0;
@@ -113,11 +125,15 @@ int main( int argc, char *argv[] )
 			case 'i':
 				ppopt |= HSC3_OPT_UTF8IN; utfopt=1; cmpopt|=HSC3_MODE_UTF8; break;
 			case 'u':
-				utfopt=1; cmpopt|=HSC3_MODE_UTF8; break;
+				utfopt = 1; cmpopt |= HSC3_MODE_UTF8; break;
+			case 'j':
+				ppopt |= HSC3_OPT_UTF8IN; utfopt = 1; break;
 			case 'w':
 				cmpopt|=HSC3_MODE_DEBUGWIN; break;
 			case 's':
 				strmap = 1; cmpopt |= HSC3_MODE_STRMAP; break;
+			case 'm':
+				ppopt |= HSC3_OPT_EMSCRIPTEN; break;
 			case 'o':
 				strcpy(oname, argv[b] + 2);
 				break;
@@ -133,8 +149,32 @@ int main( int argc, char *argv[] )
 				hsphelp = 1;
 				strcpy(helpkey, argv[b] + 2);
 				break;
+			case 'l':
+				if (a3 == 'k') {
+					opt_lk = argv[b] + 3; break;
+				}
+				if (a3 == 'l') {
+					opt_lsmode = 0;
+					opt_ls = argv[b] + 3; break;
+				}
+				if (a3 == 'v') {
+					opt_lsmode = 1;
+					opt_ls = argv[b] + 3; break;
+				}
+				if (a3 == 's') {
+					opt_lsmode = 2;
+					opt_ls = argv[b] + 3; break;
+				}
+				if (a3 == 'r') {
+					opt_lsref = 16; break;
+				}
+				if (a3 == 'p') {
+					opt_lsref = 32; break;
+				}
+				st = 1;
+				break;
 			default:
-				st=1;break;
+				st = 1;break;
 			}
 		}
 	}
@@ -154,6 +194,18 @@ int main( int argc, char *argv[] )
 		return res;
 	}
 
+	hsc3 = new CHsc3;
+	hsc3->SetCommonPath(compath);
+
+	//		keyword main
+	if (opt_lk) {
+		if (*opt_lk == 0) opt_lk = NULL;
+		st = hsc3->GetCmdList(2, opt_lk);
+		puts(hsc3->GetError());
+		delete hsc3;
+		return st;
+	}
+
 	if (fname[0]==0) { printf("No file name selected.\n");return 1; }
 
 	if (oname[0]==0) {
@@ -166,23 +218,41 @@ int main( int argc, char *argv[] )
 		}
 	}
 	strcpy( fname2, fname ); cutext( fname2 ); addext( fname2,"i" );
-	addext( fname,"hsp" );			// Šg’£Žq‚ª‚È‚¯‚ê‚Î’Ç‰Á‚·‚é
+	addext( fname,"hsp" );			// æ‹¡å¼µå­ãŒãªã‘ã‚Œã°è¿½åŠ ã™ã‚‹
+
+	//		label pick
+	if (opt_ls) {
+		if (*opt_ls == 0) opt_ls = NULL;
+
+		//		é€šå¸¸ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
+		hsc3->InitAnalysisInfo(opt_lsmode | opt_lsref, opt_ls);
+		st = hsc3->PreProcess(fname, fname2, ppopt, fname);
+		if ((pponly == 0) && (st == 0)) {
+			st = hsc3->CompileLabelOut(fname2, cmpopt);
+		}
+		if (st >= 0) {
+			puts(hsc3->GetAnalysisInfo());
+		}
+		else {
+			printf("No match.\n");
+		}
+		hsc3->DeleteAnalysisInfo();
+		hsc3->PreProcessEnd();
+		delete hsc3;
+		return st;
+	}
 
 	//		call main
 
-	hsc3 = new CHsc3;
-
-	hsc3->SetCommonPath( compath );
-
 	if ( execobj ) {
-		//		ƒ‰ƒ“ƒ^ƒCƒ€‚ð‹N“®
+		//		ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã‚’èµ·å‹•
 		char execmd[4096];
 		st = hsc3->GetRuntimeFromHeader( fname, oname );
 		if ( st != 1 ) {
-			strcpy( oname, "hsp3.exe" );			// ƒfƒtƒHƒ‹ƒgƒ‰ƒ“ƒ^ƒCƒ€
+			strcpy( oname, "hsp3.exe" );			// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ©ãƒ³ã‚¿ã‚¤ãƒ 
 		}
 
-#ifdef HSPLINUX
+#if defined(HSPLINUX)||defined(HSPMAC)
 		cutext( oname );
 		if ( execobj & 8 ) {
 			printf("Runtime[%s].\n",oname);
@@ -197,7 +267,7 @@ int main( int argc, char *argv[] )
 				result = WEXITSTATUS(result);
 				printf("hsed: Process end %d.\n",result);
 				if ( execobj==2 ) {
-					if ( result != 0 ) {			// ƒGƒ‰[‚ª‚ ‚Á‚½Žž
+					if ( result != 0 ) {			// ã‚¨ãƒ©ãƒ¼ãŒã‚ã£ãŸæ™‚
 						while(1) {
 							result = getchar();
 							if (( result == 13 )||( result == 10 )) break;
@@ -221,7 +291,7 @@ int main( int argc, char *argv[] )
 #endif
 
 	} else {
-		//		’Êí‚ÌƒRƒ“ƒpƒCƒ‹
+		//		é€šå¸¸ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 		st = hsc3->PreProcess( fname, fname2, ppopt, fname );
 		if (( pponly == 0 )&&( st == 0 )) {
 			st = hsc3->Compile( fname2, oname, cmpopt );

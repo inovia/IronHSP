@@ -89,11 +89,18 @@ char *strfind( char *srcstr, char *findstr )
 
 // 検索と置換ダイアログのフック プロシージャ
 // Hook procedure for find and replace dialog
-int CALLBACK FRHookProc(HWND hDlg, UINT uiMsg, WPARAM wParam, LPARAM /*lParam*/)
+int CALLBACK FRHookProc(HWND hDlg, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch(uiMsg){
 		case WM_INITDIALOG:
 		{
+			// 検索ダイアログのウィンドウハンドルをオーナーへ通知
+			const auto iMsgNotifyFindReplaceWindowHandle = 
+				::RegisterWindowMessage("NotifyFindReplaceWindowHandle");
+			const auto& findReplace = (LPFINDREPLACE)lParam;
+			::SendMessage(
+				findReplace->hwndOwner, iMsgNotifyFindReplaceWindowHandle, (WPARAM)hDlg, 0);
+
 #ifdef JPNMSG
 			SendDlgItemMessage(hDlg, IDC_FINDMODE, CB_INSERTSTRING, 0, (LPARAM)"標準");
 			SendDlgItemMessage(hDlg, IDC_FINDMODE, CB_INSERTSTRING, 1, (LPARAM)"正規表現");

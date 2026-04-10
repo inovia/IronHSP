@@ -69,13 +69,16 @@ void code_setvs( PVal *pval, APTR aptr, int type, void *ptr, int size, int subid
 char *code_stmpstr( char *src );
 char *code_stmp( int size );
 char *code_getsptr( int *type );
+char* code_estmppush( char* ptr );
+char* code_estmppop( void );
 
 int code_debug_init( void );
 int code_getdebug_line( void );
 int code_getdebug_line( unsigned short *pt );
 char *code_getdebug_name( void );
 int code_getdebug_seekvar( const char *name );
-char *code_getdebug_varname( int val_id );
+char* code_getdebug_varname(int val_id);
+int code_getdebug_varid(PVal *pv);
 
 int code_event( int event, int prm1, int prm2, void *prm3 );
 void code_bload( char *fname, int ofs, int size, void *ptr );
@@ -119,5 +122,8 @@ void code_delstruct_all( PVal *pval );
 
 char* code_strp(int dsptr);
 int code_strexchange(char *fname, int option);
+void code_logmes(char *msg);
+void code_logmesv(PVal* pval, APTR aptr);
+
 
 #endif

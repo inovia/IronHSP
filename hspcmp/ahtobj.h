@@ -80,7 +80,7 @@ typedef struct AHTPARTS
 
 
 
-// AHTÉÅÉCÉì
+// AHT„É°„Ç§„É≥
 class CAht {
 public:
 	CAht();
@@ -143,6 +143,7 @@ private:
 	int BuildPartsSub( int id, char *fname );
 	void PickLineBuffer( char *out );
 	int BuildGlobalIDSub( char *fname, char *pname, int i );
+	int tstrcmp(const char* str1, const char* str2);
 
 
 	//		Private Data

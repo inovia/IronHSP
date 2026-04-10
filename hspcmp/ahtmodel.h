@@ -16,27 +16,27 @@
 #define AHTMODEL_FNMAX (260)
 
 enum {
-AHTTYPE_EDIT_INT = 0,		// “ü—Í˜g(Œ‹‰Ê=int,sub=Å¬,sub2=Å‘å)
-AHTTYPE_EDIT_DOUBLE,		// “ü—Í˜g(Œ‹‰Ê=double,sub=Å¬,sub2=Å‘å)
-AHTTYPE_EDIT_STRING,		// “ü—Í˜g(Œ‹‰Ê=str,sub=•¶Žš”,sub2=option 'w' or 'm')
-AHTTYPE_CBOX_STRING,		// ƒRƒ“ƒ{ƒ{ƒbƒNƒX(Œ‹‰Ê=str,sub=‘I‘ðŽˆ,sub2=‘I‘ðŽˆƒeƒLƒXƒg)
-AHTTYPE_CHKB_INT,			// ƒ`ƒFƒbƒNƒ{ƒbƒNƒX(0or1Asub=ƒeƒLƒXƒg)
-AHTTYPE_COLS_INT,			// F‘I‘ð(Œ‹‰Ê=int)
-AHTTYPE_FONT_STRING,		// ƒtƒHƒ“ƒg‘I‘ð(Œ‹‰Ê=str)
-AHTTYPE_FILE_STRING,		// ƒtƒ@ƒCƒ‹‘I‘ð(sub=Šg’£Žq,sub2=‘I‘ð–¼)
-AHTTYPE_EXTF_STRING,		// ŠO•”ƒc[ƒ‹‹N“®(sub=Šg’£Žq,sub2=ƒc[ƒ‹–¼)
-AHTTYPE_PARTS_INT,			// ƒp[ƒcID(sub=ƒNƒ‰ƒX–¼,sub2=ŽQÆ–¼)
-AHTTYPE_PARTS_PROP_STRING,	// ƒp[ƒcID‚ÌƒvƒƒpƒeƒB(sub=ƒvƒƒpƒeƒB–¼,sub2=option 'm')
-AHTTYPE_PARTS_OPT_STRING,	// ƒp[ƒcID‚ÌƒIƒvƒVƒ‡ƒ“(sub=ƒIƒvƒVƒ‡ƒ“–¼,sub2=option 'm')
-AHTTYPE_EDIT_STRING2,		// “ü—Í˜g(Œ‹‰Ê=str,sub=•¶Žš”,sub2=option 'w' or 'm')
+AHTTYPE_EDIT_INT = 0,		// å…¥åŠ›æž (çµæžœ=int,sub=æœ€å°,sub2=æœ€å¤§)
+AHTTYPE_EDIT_DOUBLE,		// å…¥åŠ›æž (çµæžœ=double,sub=æœ€å°,sub2=æœ€å¤§)
+AHTTYPE_EDIT_STRING,		// å…¥åŠ›æž (çµæžœ=str,sub=æ–‡å­—æ•°,sub2=option 'w' or 'm')
+AHTTYPE_CBOX_STRING,		// ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹(çµæžœ=str,sub=é¸æŠžè‚¢,sub2=é¸æŠžè‚¢ãƒ†ã‚­ã‚¹ãƒˆ)
+AHTTYPE_CHKB_INT,			// ãƒã‚§ãƒƒã‚¯ãƒœãƒƒã‚¯ã‚¹(0or1ã€sub=ãƒ†ã‚­ã‚¹ãƒˆ)
+AHTTYPE_COLS_INT,			// è‰²é¸æŠž(çµæžœ=int)
+AHTTYPE_FONT_STRING,		// ãƒ•ã‚©ãƒ³ãƒˆé¸æŠž(çµæžœ=str)
+AHTTYPE_FILE_STRING,		// ãƒ•ã‚¡ã‚¤ãƒ«é¸æŠž(sub=æ‹¡å¼µå­,sub2=é¸æŠžå)
+AHTTYPE_EXTF_STRING,		// å¤–éƒ¨ãƒ„ãƒ¼ãƒ«èµ·å‹•(sub=æ‹¡å¼µå­,sub2=ãƒ„ãƒ¼ãƒ«å)
+AHTTYPE_PARTS_INT,			// ãƒ‘ãƒ¼ãƒ„ID(sub=ã‚¯ãƒ©ã‚¹å,sub2=å‚ç…§å)
+AHTTYPE_PARTS_PROP_STRING,	// ãƒ‘ãƒ¼ãƒ„IDã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£(sub=ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å,sub2=option 'm')
+AHTTYPE_PARTS_OPT_STRING,	// ãƒ‘ãƒ¼ãƒ„IDã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³(sub=ã‚ªãƒ—ã‚·ãƒ§ãƒ³å,sub2=option 'm')
+AHTTYPE_EDIT_STRING2,		// å…¥åŠ›æž (çµæžœ=str,sub=æ–‡å­—æ•°,sub2=option 'w' or 'm')
 AHTTYPE_MAX
 };
 
-#define AHTMODE_QUOTATION	1	// ƒ_ƒuƒ‹ƒNƒH[ƒg‚ÅˆÍ‚Þ
-#define AHTMODE_OUTPUT_PURE 2	// ahtouto—Í—pƒNƒH[ƒgˆ—
-#define AHTMODE_READ_ONLY 4		// C³•s‰Â
-#define AHTMODE_WITH_ID 8		// ƒfƒtƒHƒ‹ƒg‚ÅID‚ð•t‰Á‚·‚é
-#define AHTMODE_OUTPUT_RAW 16	// o—Í—pƒf[ƒ^‚ðˆ—‚µ‚È‚¢
+#define AHTMODE_QUOTATION	1	// ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆã§å›²ã‚€
+#define AHTMODE_OUTPUT_PURE 2	// ahtoutå‡ºåŠ›ç”¨ã‚¯ã‚©ãƒ¼ãƒˆå‡¦ç†
+#define AHTMODE_READ_ONLY 4		// ä¿®æ­£ä¸å¯
+#define AHTMODE_WITH_ID 8		// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§IDã‚’ä»˜åŠ ã™ã‚‹
+#define AHTMODE_OUTPUT_RAW 16	// å‡ºåŠ›ç”¨ãƒ‡ãƒ¼ã‚¿ã‚’å‡¦ç†ã—ãªã„
 
 // AHT Object Data
 typedef struct AHTOBJ
@@ -53,7 +53,7 @@ typedef struct AHTOBJ
 	int		option4;		// Reserved
 } AHTOBJ;
 
-// AHTƒvƒƒpƒeƒBî•ñ
+// AHTãƒ—ãƒ­ãƒ‘ãƒ†ã‚£æƒ…å ±
 class AHTPROP {
 public:
 	AHTPROP();
@@ -84,7 +84,7 @@ public:
 };
 
 
-// AHTƒ‚ƒfƒ‹î•ñ
+// AHTãƒ¢ãƒ‡ãƒ«æƒ…å ±
 class AHTMODEL {
 public:
 	AHTMODEL();
@@ -172,6 +172,9 @@ public:
 
 private:
 	//		Routines
+	int tstrcmp(const char* str1, const char* str2);
+	void strcpy2(char* dest, const char* src, size_t size);
+
 
 	//		Data
 	int id;					// ID
