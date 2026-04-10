@@ -1770,6 +1770,7 @@ char *code_getsptr( int *type )
 /*------------------------------------------------------------*/
 
 static int reffunc_intfunc_ivalue;
+static int64_t reffunc_intfunc_i64value;
 
 /*
 	rev 43
@@ -2507,7 +2508,9 @@ static void *reffunc_sysvar( int *type_res, int arg )
 		reffunc_intfunc_ivalue = vercode | mvscode;
 		break;
 	case 0x003:								// stat
-		reffunc_intfunc_ivalue = hspctx->stat;
+		*type_res = HSPVAR_FLAG_INT64;
+		reffunc_intfunc_i64value = hspctx->stat;
+		ptr = &reffunc_intfunc_i64value;
 		break;
 	case 0x004:								// cnt
 		reffunc_intfunc_ivalue = hspctx->mem_loop[hspctx->looplev].cnt;
@@ -2526,13 +2529,19 @@ static void *reffunc_sysvar( int *type_res, int arg )
 		break;
 
 	case 0x009:								// iparam
-		reffunc_intfunc_ivalue = hspctx->iparam;
+		*type_res = HSPVAR_FLAG_INT64;
+		reffunc_intfunc_i64value = hspctx->iparam;
+		ptr = &reffunc_intfunc_i64value;
 		break;
 	case 0x00a:								// wparam
-		reffunc_intfunc_ivalue = hspctx->wparam;
+		*type_res = HSPVAR_FLAG_INT64;
+		reffunc_intfunc_i64value = hspctx->wparam;
+		ptr = &reffunc_intfunc_i64value;
 		break;
 	case 0x00b:								// lparam
-		reffunc_intfunc_ivalue = hspctx->lparam;
+		*type_res = HSPVAR_FLAG_INT64;
+		reffunc_intfunc_i64value = hspctx->lparam;
+		ptr = &reffunc_intfunc_i64value;
 		break;
 	case 0x00c:								// refstr
 		*type_res = HSPVAR_FLAG_STR;
@@ -3827,6 +3836,13 @@ void code_adddbg( char *name, int val )
 #else
 	sprintf( tmp, "%d", val);
 #endif
+	code_adddbg( name, tmp );
+}
+
+void code_adddbg( char *name, int64_t val )
+{
+	char tmp[32];
+	sprintf( tmp, "%lld", val);
 	code_adddbg( name, tmp );
 }
 

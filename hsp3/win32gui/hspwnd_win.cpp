@@ -468,7 +468,7 @@ void HspWnd::Reset( HANDLE instance, char *wndcls )
 }
 
 
-void HspWnd::SetEventNoticePtr( int *ptr )
+void HspWnd::SetEventNoticePtr( int64_t *ptr )
 {
 	resptr = ptr;
 	SetObjectEventNoticePtr( resptr );

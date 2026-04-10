@@ -543,9 +543,9 @@ struct HSPCTX
 
 	IRQDAT *mem_irq;					// IRQ data ptr
 	int irqmax;							// IRQ data count
-	int iparam;							// IRQ Info data1
-	int wparam;							// IRQ Info data2
-	int lparam;							// IRQ Info data3
+	int64_t iparam;						// IRQ Info data1
+	int64_t wparam;						// IRQ Info data2
+	int64_t lparam;						// IRQ Info data3
 
 	PVal *mem_var;						// var storage index
 	HSPEXINFO30 exinfo;					// HSP function data(3.0)
@@ -559,7 +559,7 @@ struct HSPCTX
 	int looplev;						// repeat loop level
 	HSPERROR err;						// error code
 	int hspstat;						// HSP status
-	int stat;							// sysvar 'stat'
+	int64_t stat;						// sysvar 'stat'
 	int strsize;						// sysvar 'strsize'
 	char *refstr;						// RefStr Buffer
 	char *fnbuffer;						// buffer for FILENAME

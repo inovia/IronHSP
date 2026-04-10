@@ -34,7 +34,7 @@
 */
 /*------------------------------------------------------------*/
 
-static int *notice_ptr;
+static int64_t *notice_ptr;
 static int bmscr_obj_ival;
 static double bmscr_obj_dval;
 static WNDPROC DefEditProc;
@@ -142,7 +142,7 @@ LRESULT CALLBACK MyButtonProc( HWND hwnd , UINT msg , WPARAM wp , LPARAM lp ) {
 	return CallWindowProc( DefButtonProc , hwnd , msg , wp , lp);
 }
 
-void SetObjectEventNoticePtr( int *ptr )
+void SetObjectEventNoticePtr( int64_t *ptr )
 {
 	//		イベント時の値ポインタを設定
 	//
