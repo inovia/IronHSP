@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IronHSP 仕様書</title>
+<style>
+  :root { --accent: #2563eb; --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --text: #1e293b; --muted: #64748b; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Meiryo', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+  h1 { font-size: 2rem; border-bottom: 3px solid var(--accent); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+  h2 { font-size: 1.5rem; color: var(--accent); margin: 2.5rem 0 1rem; border-left: 4px solid var(--accent); padding-left: 0.75rem; }
+  h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
+  p, li { margin-bottom: 0.4rem; }
+  ul, ol { padding-left: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; }
+  th, td { border: 1px solid var(--border); padding: 0.5rem 0.75rem; text-align: left; }
+  th { background: #eef2ff; font-weight: 600; }
+  tr:nth-child(even) { background: #f8fafc; }
+  code { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 3px; font-family: 'Consolas', 'Source Code Pro', monospace; font-size: 0.9em; }
+  pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; font-size: 0.88rem; line-height: 1.5; }
+  pre code { background: none; padding: 0; color: inherit; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin: 1rem 0; }
+  .badge { display: inline-block; background: var(--accent); color: #fff; padding: 0.15rem 0.6rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+  .badge-green { background: #16a34a; }
+  .badge-orange { background: #ea580c; }
+  .note { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 0.75rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .toc { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+  .toc ul { list-style: none; padding-left: 0; }
+  .toc li { padding: 0.2rem 0; }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .muted { color: var(--muted); font-size: 0.9rem; }
+  footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>IronHSP 仕様書</h1>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-11</p>
+<p class="muted">ベース: OpenHSP 3.7 (SVN r1616) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
+
+<div class="toc">
+<strong>目次</strong>
+<ul>
+  <li><a href="#overview">1. 概要</a></li>
+  <li><a href="#build">2. ビルド構成</a></li>
+  <li><a href="#int64">3. int64 型サポート</a></li>
+  <li><a href="#dotnet">4. .NET 連携機能</a></li>
+  <li><a href="#winforms">5. WinForms 統合</a></li>
+  <li><a href="#vartypes">6. 変数型一覧</a></li>
+  <li><a href="#changelog">7. 変更履歴</a></li>
+  <li><a href="#notes">8. 注意事項・既知の制限</a></li>
+</ul>
+</div>
+
+<!-- ======================================== -->
+<h2 id="overview">1. 概要</h2>
+
+<p>IronHSP は、HSP3 (Hot Soup Processor 3) に .NET Framework 連携機能と 64bit 整数型を追加した拡張版です。</p>
+
+<div class="card">
+<h3>主な特徴</h3>
+<ul>
+  <li><strong>.NET Framework 連携</strong> &mdash; C++/CLI を使い、HSP スクリプトから .NET のクラス・メソッド・プロパティに直接アクセス</li>
+  <li><strong>int64 型</strong> &mdash; 64bit 整数変数型を追加。ポインタやハンドルの保持、大きな整数演算が可能</li>
+  <li><strong>WPF サポート</strong> &mdash; <code>enablewpf</code> 命令で WPF アセンブリを動的ロード</li>
+  <li><strong>動的コンパイル</strong> &mdash; C# / VB.NET のソースコードを実行時にコンパイルして使用可能</li>
+  <li><strong>WinForms 統合</strong> &mdash; HSP の screen/button/input 等が WinForms コントロールとして生成。Form.Controls コレクションに登録される</li>
+  <li><strong>64bit ビルド対応</strong> &mdash; x86 / x64 の両方で動作</li>
+</ul>
+</div>
+
+<!-- ======================================== -->
+<h2 id="build">2. ビルド構成</h2>
+
+<table>
+<tr><th>ソリューション</th><th>説明</th><th>CLR</th><th>プラットフォーム</th></tr>
+<tr><td><code>hsp3net\win32gui\hsp3.sln</code></td><td>GUI版 (32bit)</td><td>あり</td><td>x86</td></tr>
+<tr><td><code>hsp3net\hsp3_64.sln</code></td><td>GUI版 (64bit)</td><td>あり</td><td>x64</td></tr>
+<tr><td><code>hsp3net\win32\hsp3cl.sln</code></td><td>コンソール版 (32bit)</td><td>あり</td><td>x86</td></tr>
+<tr><td><code>hsp3\win32gui\hsp3.sln</code></td><td>標準GUI版 (.NETなし)</td><td>なし</td><td>x86</td></tr>
+<tr><td><code>hsp3\hsp3_64.sln</code></td><td>標準64bit版 (.NETなし)</td><td>なし</td><td>x64</td></tr>
+<tr><td><code>hsp3\win32\hsp3cl.sln</code></td><td>標準コンソール版 (.NETなし)</td><td>なし</td><td>x86</td></tr>
+<tr><td><code>hspcmp\win32\hspcmp.sln</code></td><td>コンパイラ (EXE)</td><td>なし</td><td>x86</td></tr>
+<tr><td><code>hspcmp\win32dll\hspcmp.sln</code></td><td>コンパイラ (DLL)</td><td>なし</td><td>x86</td></tr>
+</table>
+
+<div class="note">
+全プロジェクトは Visual Studio 2022 (v143)、Windows SDK 10.0、.NET Framework 4.8 をターゲットとしています。
+ソースファイルは UTF-8 エンコーディングで、<code>/source-charset:utf-8</code> オプションを使用します。
+</div>
+
+<!-- ======================================== -->
+<h2 id="int64">3. int64 型サポート</h2>
+
+<h3>3.1 新しい変数型</h3>
+<p><code>HSPVAR_FLAG_INT64 = 8</code> として組み込み型に追加されています。HSP スクリプトでは代入によって自動的に型が決まります。</p>
+
+<pre><code>; 通常のintリテラル（32bit）
+a = 100
+
+; int64 リテラル（Lサフィックス）
+b = 100L
+
+; 32bit範囲を超える値は自動的にint64
+c = 3000000000
+
+; 16進数もint64になる（8桁超）
+d = $100000000
+
+; int64() 関数で明示的に変換
+e = int64("9223372036854775807")
+e = int64("0xFFFFFFFFFFFFFFFF")
+e = int64("$FEDCBA0987654321")</code></pre>
+
+<h3>3.2 新しい命令・関数</h3>
+<table>
+<tr><th>名前</th><th>種別</th><th>書式</th><th>説明</th></tr>
+<tr><td><code>dim64</code></td><td>命令</td><td><code>dim64 var, n1 [,n2,n3,n4]</code></td><td>int64 型の配列を宣言する</td></tr>
+<tr><td><code>int64()</code></td><td>関数</td><td><code>int64(p1)</code></td><td>値を int64 に変換する。文字列の場合は10進・16進（0x/$）を自動判別</td></tr>
+<tr><td><code>qpeek()</code></td><td>関数</td><td><code>qpeek(var, offset)</code></td><td>バッファから int64 値（8byte）を読み取る</td></tr>
+<tr><td><code>qpoke</code></td><td>命令</td><td><code>qpoke var, offset, value</code></td><td>バッファに int64 値（8byte）を書き込む。文字列を渡すと自動変換</td></tr>
+</table>
+
+<h3>3.3 int64 対応済みの既存機能</h3>
+<table>
+<tr><th>機能</th><th>対応内容</th></tr>
+<tr><td><code>stat</code></td><td>int64 型で返す。<code>_s = stat</code> で _s は自動的に int64 型になる</td></tr>
+<tr><td><code>wparam</code> / <code>lparam</code> / <code>iparam</code></td><td>int64 型で返す</td></tr>
+<tr><td><code>varptr()</code></td><td>64bit環境ではポインタを int64 で返す</td></tr>
+<tr><td><code>dupptr</code></td><td>第2引数（ポインタアドレス）を int64 で受け取る（64bitポインタ対応）。第4引数の型指定で <code>vartype("int64")</code> も使用可能</td></tr>
+<tr><td><code>#deffunc</code> / <code>#defcfunc</code></td><td>パラメータ型に <code>int64</code> を指定可能。戻り値も int64 対応</td></tr>
+<tr><td><code>#func</code> / <code>#cfunc</code></td><td>パラメータ型に <code>int64</code> を指定可能</td></tr>
+<tr><td><code>dimtype</code></td><td><code>dimtype var, vartype("int64"), n</code> で int64 配列を宣言可能</td></tr>
+<tr><td>DLL 戻り値</td><td><code>#cfunc</code> の戻り値が32bit範囲を超える場合、自動的に int64 で返す</td></tr>
+<tr><td><code>mref val, 0x40</code></td><td>stat を int64 型として参照する</td></tr>
+</table>
+
+<h3>3.4 型変換</h3>
+<table>
+<tr><th>変換元</th><th>変換先</th><th>動作</th></tr>
+<tr><td>int</td><td>int64</td><td>符号拡張</td></tr>
+<tr><td>int64</td><td>int</td><td>下位32bitに切り捨て</td></tr>
+<tr><td>int64</td><td>double</td><td>浮動小数点に変換（精度2<sup>53</sup>まで）</td></tr>
+<tr><td>double</td><td>int64</td><td>整数部を取得</td></tr>
+<tr><td>int64</td><td>str</td><td>10進文字列に変換</td></tr>
+<tr><td>str</td><td>int64</td><td>10進 / 16進（$, 0x）文字列をパース</td></tr>
+</table>
+
+<h3>3.5 使用例</h3>
+<pre><code>; dim64 で配列宣言
+dim64 i64, 16
+repeat length(i64)
+    i64(cnt) = int64("2147483647") + cnt
+loop
+
+; dimtype でも同じことが可能
+dimtype i64_2, vartype("int64"), 4
+
+; qpeek / qpoke
+sdim buf, 64
+qpoke buf, 0, int64("9223372036854775807")
+mes "qpeek: " + qpeek(buf, 0)
+
+; 文字列を渡すと自動変換
+qpoke buf, 0, "0xFFFFFFFFFFFFFFFF"
+
+; #deffunc / #defcfunc
+#module
+#defcfunc myadd64 int64 p1, int64 p2
+    return p1 + p2
+#global
+r = myadd64(int64("1000000000000"), int64("2000000000000"))
+mes r  ; => 3000000000000</code></pre>
+
+<!-- ======================================== -->
+<h2 id="dotnet">4. .NET 連携機能</h2>
+
+<h3>4.1 .NET 命令一覧</h3>
+<table>
+<tr><th>命令</th><th>説明</th></tr>
+<tr><td><code>loadnet</code></td><td>アセンブリをロードする。mode: 0=GAC短縮名, 1=GAC完全名, 2=ファイルパス, 3=C#ソース, 4=VBソース</td></tr>
+<tr><td><code>newnet</code></td><td>.NET クラスのインスタンスを生成する。static メソッド呼び出し用のモードあり</td></tr>
+<tr><td><code>delnet</code></td><td>.NET オブジェクトを解放する</td></tr>
+<tr><td><code>netres</code></td><td>メソッド戻り値の格納先変数を設定する</td></tr>
+<tr><td><code>enumnet</code></td><td>enum メンバーの値を取得する</td></tr>
+<tr><td><code>getforms</code></td><td>HSP ウィンドウ ID から WinForms の Form インスタンスを取得する</td></tr>
+<tr><td><code>pushnet</code></td><td>ネイティブポインタのスコープをプッシュする（メモリ管理用）</td></tr>
+<tr><td><code>popnet</code></td><td>スコープをポップし、自動的にポインタを解放する。引数で保持するポインタを指定可能</td></tr>
+<tr><td><code>enablewpf</code></td><td>WPF 関連アセンブリ（PresentationCore等）をロードする</td></tr>
+<tr><td><code>nettoval</code></td><td>.NET オブジェクトを HSP の値型に変換する</td></tr>
+</table>
+
+<h3>4.2 変数型 TYPE_NETOBJ</h3>
+<p><code>TYPE_NETOBJ = 9</code> として登録されるユーザー定義型です。.NET オブジェクトへの参照を HSP 変数として保持します。</p>
+<p>内部的には <code>GCHandle</code> によってネイティブポインタとして保持し、GC による回収を防ぎます。<code>delnet</code> または <code>popnet</code> のスコープ管理によって解放されます。</p>
+
+<h3>4.3 Hsp3Net クラス（内部 API）</h3>
+<p>C++/CLI の管理クラス <code>tv::hsp::net::Hsp3Net</code> が .NET 連携の中核です。主要な機能:</p>
+<ul>
+  <li><strong>型生成</strong>: プリミティブ型（Int8～Int64, Float, Double, String 等）のラッパー生成</li>
+  <li><strong>配列操作</strong>: 多次元配列の生成・値の読み書き・長さ取得</li>
+  <li><strong>メンバーアクセス</strong>: フィールド・プロパティの読み書き、メソッド呼び出し</li>
+  <li><strong>型変換</strong>: キャスト、ジェネリック型パラメータ、ref/out/配列パラメータ修飾</li>
+  <li><strong>アセンブリ管理</strong>: GAC / ファイル / ソースコードからの動的ロード</li>
+  <li><strong>例外管理</strong>: 例外スタックの保持と文字列化</li>
+</ul>
+
+<h3>4.4 アセンブリの自動解決</h3>
+<p><code>newnet</code> でアセンブリ名を指定する際、以下の順序で自動解決されます:</p>
+<ol>
+  <li>登録済み辞書（<code>loadnet</code> で明示ロードしたもの）</li>
+  <li><code>AppDomain.CurrentDomain.GetAssemblies()</code> からアセンブリ名で検索</li>
+  <li><code>Assembly.LoadWithPartialName</code> で動的ロード</li>
+  <li>全ロード済みアセンブリからクラス名（フルネーム）で検索</li>
+</ol>
+<p>アセンブリ名に空文字列 <code>""</code> を指定すると、ステップ4のクラス名検索が使われます。基本的な型（System.Object 等）は <code>loadnet</code> なしで使用可能です。</p>
+
+<pre><code>; loadnet 不要 — アセンブリ名に "" を指定
+newnet pObj, "", "System.Text.StringBuilder", 0, "Hello"
+
+; mcall でメソッド呼び出し
+netres net_ret
+mcall pObj, "ToString"
+
+; nettoval で HSP の値に変換（関数形式）
+; 第2引数: 2=str, 4=int, 3=double
+s = nettoval(net_ret, 2)
+mes s  ; => "Hello"</code></pre>
+
+<h3>4.5 GlobalAccess クラス（メモリ管理）</h3>
+<p>.NET オブジェクトのネイティブポインタを管理する静的クラスです。</p>
+<ul>
+  <li><code>CreateNativePtr()</code> &mdash; GCHandle を確保してネイティブポインタを返す</li>
+  <li><code>GetNativePtrToNetClass()</code> &mdash; ポインタから NetClass を復元する</li>
+  <li><code>Free()</code> &mdash; GCHandle を解放する</li>
+  <li><code>PushNativePtrCurrentStack()</code> / <code>PopNativePtrCurrentStack()</code> &mdash; スコープベースの自動解放</li>
+</ul>
+
+<!-- ======================================== -->
+<h2 id="winforms">5. WinForms 統合</h2>
+
+<h3>5.1 screen 命令と Form</h3>
+<p>IronHSP では <code>screen</code> 命令で生成されるウィンドウは <code>System.Windows.Forms.Form</code>（<code>HspForms2</code> クラス）です。
+HSP の描画命令（<code>mes</code>, <code>boxf</code>, <code>color</code> 等）は HWND 経由の GDI 描画として Form 上にそのまま表示されます。</p>
+
+<table>
+<tr><th>HSP 命令</th><th>実際の動作</th></tr>
+<tr><td><code>screen id, w, h</code></td><td><code>HspForms2</code> (Form) を生成。HWND = <code>Form.Handle</code></td></tr>
+<tr><td><code>title "text"</code></td><td><code>Form.Text</code> を設定</td></tr>
+<tr><td><code>width w, h</code></td><td><code>MoveWindow</code> → Form サイズ変更</td></tr>
+<tr><td><code>hwnd</code></td><td><code>Form.Handle</code> (IntPtr) を返す</td></tr>
+<tr><td><code>mes</code> / <code>boxf</code> 等</td><td>HWND 経由の GDI 描画 → Form クライアント領域に表示</td></tr>
+</table>
+
+<h3>5.2 GUI オブジェクトの .NET コントロール化</h3>
+<p>HSP の GUI オブジェクト命令は、.NET の WinForms コントロールとして生成され、<code>Form.Controls</code> コレクションに自動的に登録されます。</p>
+
+<table>
+<tr><th>HSP 命令</th><th>.NET コントロール</th><th>イベント</th></tr>
+<tr><td><code>button</code></td><td><code>System.Windows.Forms.Button</code></td><td>Click → WM_COMMAND (BN_CLICKED)</td></tr>
+<tr><td><code>chkbox</code></td><td><code>System.Windows.Forms.CheckBox</code></td><td>CheckedChanged → WM_COMMAND</td></tr>
+<tr><td><code>input</code></td><td><code>System.Windows.Forms.TextBox</code></td><td>TextChanged → WM_COMMAND (EN_UPDATE)</td></tr>
+<tr><td><code>mesbox</code></td><td><code>System.Windows.Forms.TextBox</code> (Multiline)</td><td>TextChanged → WM_COMMAND (EN_UPDATE)</td></tr>
+<tr><td><code>combox</code></td><td><code>System.Windows.Forms.ComboBox</code></td><td>SelectedIndexChanged</td></tr>
+<tr><td><code>listbox</code></td><td><code>System.Windows.Forms.ListBox</code></td><td>SelectedIndexChanged</td></tr>
+</table>
+
+<p>.NET コントロールの Win32 コントロール ID は <code>SetWindowLongPtr(GWLP_ID)</code> で設定され、
+HSP の既存の WM_COMMAND ベースのイベントルーティングがそのまま動作します。</p>
+
+<h3>5.3 getforms による Form アクセス</h3>
+<p><code>getforms</code> 命令で HSP ウィンドウ ID から Form インスタンスを .NET オブジェクトとして取得できます。
+取得した Form に対して <code>mcall</code> でプロパティの読み書きやメソッド呼び出しが可能です。</p>
+
+<pre><code>; Form を取得
+getforms pForm, 0
+
+; Form.Text を読み取り
+netres net_ret
+mcall pForm, "get_Text"
+s = nettoval(net_ret, 2)
+mes "Title: " + s
+
+; Form.Text を変更
+mcall pForm, "set_Text", "New Title"
+
+; Controls.Count を取得
+netres net_controls
+mcall pForm, "get_Controls"
+netres net_count
+mcall net_controls, "get_Count"
+cnt = nettoval(net_count, 4)
+mes "Controls: " + cnt
+
+; .NET Button を追加
+newnet pButton, "", "System.Windows.Forms.Button", 0
+mcall pButton, "set_Text", ".NET Button"
+mcall pButton, "set_Left", 300
+mcall pButton, "set_Top", 10
+mcall pButton, "set_Width", 150
+mcall pButton, "set_Height", 35
+mcall net_controls, "Add", pButton</code></pre>
+
+<h3>5.4 HSP と .NET コントロールの共存</h3>
+<p>HSP の <code>button</code> 等で作成したコントロールと、<code>newnet</code> + <code>mcall</code> で作成した .NET コントロールは
+同一の Form 上で共存します。両方とも <code>Form.Controls</code> に登録されます。</p>
+
+<div class="note">
+<strong>winobj 命令</strong>: 任意の Win32 クラス名でコントロールを生成する <code>winobj</code> 命令は、従来通り <code>CreateWindowEx</code> を直接呼びます。
+生成されたコントロールは Form の子ウィンドウとして動作しますが、<code>Form.Controls</code> には登録されません。<br>
+<strong>objprm 命令</strong>: <code>SetWindowText</code> 等の Win32 API 経由で動作するため、.NET コントロールでもそのまま使用可能です。
+</div>
+
+<!-- ======================================== -->
+<h2 id="vartypes">6. 変数型一覧</h2>
+
+<table>
+<tr><th>Flag</th><th>値</th><th>型名</th><th>サイズ</th><th>説明</th></tr>
+<tr><td><code>HSPVAR_FLAG_NONE</code></td><td>0</td><td>-</td><td>-</td><td>未定義</td></tr>
+<tr><td><code>HSPVAR_FLAG_LABEL</code></td><td>1</td><td>label</td><td>ポインタ</td><td>ラベル（ジャンプ先）</td></tr>
+<tr><td><code>HSPVAR_FLAG_STR</code></td><td>2</td><td>str</td><td>可変長</td><td>文字列</td></tr>
+<tr><td><code>HSPVAR_FLAG_DOUBLE</code></td><td>3</td><td>double</td><td>8 byte</td><td>倍精度浮動小数点</td></tr>
+<tr><td><code>HSPVAR_FLAG_INT</code></td><td>4</td><td>int</td><td>4 byte</td><td>32bit 符号付き整数</td></tr>
+<tr><td><code>HSPVAR_FLAG_STRUCT</code></td><td>5</td><td>struct</td><td>可変</td><td>モジュール変数構造体</td></tr>
+<tr><td><code>HSPVAR_FLAG_COMSTRUCT</code></td><td>6</td><td>comobj</td><td>ポインタ</td><td>COM オブジェクト</td></tr>
+<tr><td>（予約）</td><td>7</td><td>-</td><td>-</td><td>VARIANT 用に予約</td></tr>
+<tr><td><code>HSPVAR_FLAG_INT64</code></td><td>8</td><td>int64</td><td>8 byte</td><td><span class="badge">新規</span> 64bit 符号付き整数</td></tr>
+<tr><td><code>TYPE_NETOBJ</code></td><td>9</td><td>netobj</td><td>ポインタ</td><td><span class="badge-green badge">.NET</span> .NET オブジェクト参照</td></tr>
+</table>
+
+<!-- ======================================== -->
+<h2 id="changelog">7. 変更履歴</h2>
+
+<table>
+<tr><th>日時</th><th>コミット</th><th>内容</th></tr>
+<tr><td>4/10 18:00</td><td><code>a61b1f32</code></td><td>OpenHSP 3.7 (SVN r1616) をインポート</td></tr>
+<tr><td>4/10 18:30</td><td><code>ca517453</code></td><td>3.7 を master にマージ（3-way merge）</td></tr>
+<tr><td>4/10 19:00</td><td><code>51f7a621</code></td><td>hsp3net を 3.7 ベースに更新（87ファイル置換 + 6ファイル 3-way merge）</td></tr>
+<tr><td>4/10 19:30</td><td><code>7576902e</code></td><td>ビルド修正: v143化、CLR対応、charset設定、マージミス修正</td></tr>
+<tr><td>4/10 20:00</td><td><code>e284b003</code></td><td><span class="badge">Phase 1</span> int64 変数型の基盤追加</td></tr>
+<tr><td>4/10 20:30</td><td><code>baa389e5</code></td><td><span class="badge">Phase 2</span> システム変数 stat/wparam/lparam/iparam の int64 化</td></tr>
+<tr><td>4/10 21:00</td><td><code>dbc1c3ee</code></td><td><span class="badge">Phase 3</span> int64()/dim64/qpeek/qpoke + varptr/dupptr 64bit対応</td></tr>
+<tr><td>4/10 21:30</td><td><code>452d10ee</code></td><td><span class="badge">Phase 4</span> hspcmp: int64 リテラル（Lサフィックス、自動昇格）</td></tr>
+<tr><td>4/10 22:00</td><td><code>3ee4970b</code></td><td><span class="badge">Phase 5</span> #deffunc/#func の int64 パラメータ対応</td></tr>
+<tr><td>4/10 22:30</td><td><code>edb1dfda</code></td><td><span class="badge">Phase 6</span> #defcfunc 戻り値 + DLL 戻り値 int64 + hsp3cl 対応</td></tr>
+<tr><td>4/10 23:00</td><td><code>c3a136ae</code></td><td><span class="badge">Phase 7</span> hsp3cl .NET対応、DLL戻り値自動int64、mref修正、v4.8</td></tr>
+<tr><td>4/10 23:30</td><td><code>b03f3c0a</code></td><td><span class="badge">Phase 8</span> アセンブリ自動解決、hsp3cl NETOBJ登録</td></tr>
+<tr><td>4/11 00:00</td><td><code>46f627ec</code></td><td><span class="badge-orange badge">Phase 9</span> GUI オブジェクトを .NET コントロールに置換、Form.Controls 統合</td></tr>
+</table>
+
+<!-- ======================================== -->
+<h2 id="notes">8. 注意事項・既知の制限</h2>
+
+<div class="card">
+<h3>HSPCTX 構造体レイアウトの変更</h3>
+<p><code>stat</code>, <code>iparam</code>, <code>wparam</code>, <code>lparam</code> が <code>int</code> (4byte) から <code>int64_t</code> (8byte) に変更されたため、HSPCTX 構造体のメンバーオフセットが変わっています。</p>
+<ul>
+  <li><code>mref val, 0x44</code> で HSPCTX を直接参照しているプラグインやスクリプトは、オフセットの再計算が必要</li>
+  <li><code>mref val, 0x40</code> (stat) は int64 型として正しく参照されるよう修正済み</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>int の演算と int64 の演算</h3>
+<ul>
+  <li><code>2147483647 + 1</code> は <strong>int 同士の演算</strong>なのでオーバーフローして <code>-2147483648</code> になる</li>
+  <li><code>2147483647L + 1</code> は <strong>int64 と int の演算</strong>なので正しく <code>2147483648</code> になる</li>
+  <li>片方が int64 であれば、もう片方も int64 に昇格して演算される</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>バイトコードの互換性</h3>
+<ul>
+  <li>int64 リテラルはデータセグメント (DS) に格納され、<code>TYPE_INUM64 = 19</code> として参照される</li>
+  <li>従来の int リテラルとの互換性は保たれている（既存の .ax ファイルはそのまま動作する）</li>
+  <li>int64 リテラルを含む .ax は従来のランタイムでは実行できない</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>#deffunc / #defcfunc の使用</h3>
+<ul>
+  <li><code>#deffunc</code> / <code>#defcfunc</code> は <code>#module</code> ～ <code>#global</code> で囲む必要がある</li>
+  <li>モジュール内からグローバル変数にアクセスするには <code>変数名@</code> の記法を使用する</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>nettoval の使い方</h3>
+<ul>
+  <li><code>nettoval</code> は<strong>関数</strong>形式で使用する: <code>s = nettoval(net_var, type)</code></li>
+  <li>第2引数の型指定: <code>2</code> = str, <code>4</code> = int, <code>3</code> = double</li>
+  <li>命令形式 (<code>nettoval s, net_var</code>) では使用できない</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>newnet のアセンブリ名</h3>
+<ul>
+  <li><code>System.Object</code> は <code>mscorlib</code> アセンブリに属するため、<code>newnet p, "System", "System.Object", 0</code> では見つからない場合がある</li>
+  <li>アセンブリ名に空文字列 <code>""</code> を指定するとクラス名で自動検索される（推奨）</li>
+  <li><code>loadnet</code> で明示的にアセンブリをロードすれば、そのアセンブリ名で検索可能</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>.NET コントロールと netobj の型変換</h3>
+<ul>
+  <li>netobj 型の変数を <code>mes</code> で直接表示することはできない（<code>CnvCustom</code> 未実装）</li>
+  <li><code>mcall</code> で <code>ToString</code> を呼び、<code>nettoval</code> で文字列に変換する必要がある</li>
+</ul>
+</div>
+
+<footer>
+  <p>IronHSP &mdash; HSP3 .NET Framework Integration</p>
+  <p>Based on OpenHSP 3.7 (SVN r1616) &copy; onion software/onitama</p>
+</footer>
+
+</div>
+</body>
+</html>
