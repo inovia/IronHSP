@@ -531,9 +531,9 @@ static char *prepare_localstr( char *src, int mode )
 	return dst;
 }
 
-static int code_expand_next( char *, const STRUCTDAT *, int );
+static int64_t code_expand_next( char *, const STRUCTDAT *, int );
 
-int code_expand_and_call( const STRUCTDAT *st )
+int64_t code_expand_and_call( const STRUCTDAT *st )
 {
 	//	パラメータの取得および関数呼び出し（再帰処理による）
 	//
@@ -543,7 +543,7 @@ int code_expand_and_call( const STRUCTDAT *st )
 	//	DLL 関数呼び出し時は st->proc に関数アドレスをセットして
 	//	おかなければなりません（ BindFUNC() により）。
 	//
-	int result;
+	int64_t result;
 
 #ifdef HSP64
 	char *prmbuf = sbAlloc(st->prmmax * sizeof(INT_PTR));
@@ -562,11 +562,11 @@ int code_expand_and_call( const STRUCTDAT *st )
 	return result;
 }
 
-static int code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
+static int64_t code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 {
 	//	次のパラメータを取得（および関数呼び出し）（再帰処理）
 	//
-	int result;
+	int64_t result;
 	HSPAPICHAR *hactmp1 = 0;
 	if ( index == st->prmmax ) {
 		// 関数（またはメソッド）の呼び出し
@@ -715,7 +715,7 @@ int exec_dllcmd( int cmd, int mask )
 {
 	STRUCTDAT *st;
 	FARPROC pFn;
-	int result;
+	int64_t result;
 
 	code_next();							// 次のコードを取得(最初に必ず必要です)
 

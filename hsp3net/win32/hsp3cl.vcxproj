@@ -23,19 +23,19 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='hsp3cl_hrt|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v141_xp</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v141_xp</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -79,6 +79,7 @@
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalOptions>/source-charset:utf-8 /execution-charset:shift_jis %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -93,6 +94,7 @@
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalOptions>/source-charset:utf-8 /execution-charset:shift_jis %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -109,6 +111,7 @@
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalOptions>/source-charset:utf-8 /execution-charset:shift_jis %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(ProjectName).hrt</OutputFile>
@@ -128,12 +131,16 @@
     <ClCompile Include="..\hspvar_core.cpp" />
     <ClCompile Include="..\hspvar_double.cpp" />
     <ClCompile Include="..\hspvar_int.cpp" />
+    <ClCompile Include="..\hspvar_int64.cpp" />
     <ClCompile Include="..\hspvar_label.cpp" />
     <ClCompile Include="..\hspvar_str.cpp" />
     <ClCompile Include="..\hspvar_struct.cpp" />
     <ClCompile Include="..\stack.cpp" />
     <ClCompile Include="..\strbuf.cpp" />
     <ClCompile Include="..\strnote.cpp" />
+    <ClCompile Include="..\hsp3utfcnv.cpp" />
+    <ClCompile Include="..\filepack.cpp" />
+    <ClCompile Include="..\hsp3crypt.cpp" />
     <ClCompile Include="..\win32gui\comobj.cpp" />
     <ClCompile Include="..\win32gui\comobj_event.cpp" />
     <ClCompile Include="..\win32gui\filedlg.cpp" />
@@ -161,6 +168,9 @@
     <ClInclude Include="..\stack.h" />
     <ClInclude Include="..\strbuf.h" />
     <ClInclude Include="..\strnote.h" />
+    <ClInclude Include="..\hsp3utfcnv.h" />
+    <ClInclude Include="..\filepack.h" />
+    <ClInclude Include="..\hsp3crypt.h" />
     <ClInclude Include="..\Supio.h" />
     <ClInclude Include="..\win32gui\comobj.h" />
     <ClInclude Include="..\win32gui\comobj_event.h" />

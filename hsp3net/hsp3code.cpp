@@ -1876,7 +1876,7 @@ static void *reffunc_custom( int *type_res, int arg )
 		ptr = &hspctx->refdval;
 		break;
 	case TYPE_INUM:
-	case TYPE_INUM64:
+	case HSPVAR_FLAG_INT64:
 		ptr = &hspctx->stat;
 		break;
 	default:
@@ -2045,6 +2045,9 @@ static void cmdfunc_return_setval( void )
 	switch( funcres ) {
 	case HSPVAR_FLAG_INT:
 		hspctx->stat = *(int *)mpval->pt;
+		break;
+	case HSPVAR_FLAG_INT64:
+		hspctx->stat = *(int64_t *)mpval->pt;
 		break;
 	case HSPVAR_FLAG_STR:
 		sbStrCopy( &hspctx->refstr, mpval->pt );

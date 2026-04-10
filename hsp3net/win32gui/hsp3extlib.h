@@ -60,7 +60,7 @@ void Hsp3ExtLibTerm( void );
 
 int cmdfunc_dllcmd( int cmd );
 int exec_dllcmd( int cmd, int mask );
-int code_expand_and_call( const STRUCTDAT *st );
+int64_t code_expand_and_call( const STRUCTDAT *st );
 
 #ifdef HSP64
 
