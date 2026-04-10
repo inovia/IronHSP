@@ -4995,11 +4995,13 @@ bool CToken::PP_ExpandStructAccess( char *line, char *out, int outsize )
 		for (char *scan = line; *scan; scan++) {
 			if (*scan == '"') { in_string = !in_string; continue; }
 			if (!in_string && *scan == ';') break;  // コメント以降は無視
-			// Shift-JIS 2バイト文字のスキップ
-			if (!in_string && ((unsigned char)*scan >= 0x81 && (unsigned char)*scan <= 0x9F) ||
-				((unsigned char)*scan >= 0xE0 && (unsigned char)*scan <= 0xFC)) {
-				if (*(scan+1)) scan++;  // 2バイト目をスキップ
-				continue;
+			// マルチバイト文字のスキップ（SJIS/UTF-8 両対応）
+			if (!in_string) {
+				int skip = SkipMultiByte((unsigned char)*scan);
+				if (skip > 0) {
+					scan += skip;
+					continue;
+				}
 			}
 			if (!in_string && *scan == '-' && *(scan+1) == '>') {
 				arrow = scan;
