@@ -737,6 +737,19 @@ int code_get( void )
 			mpval = mpval_int;
 			*(int *)mpval->pt =val;
 			break;
+		case TYPE_INUM64:
+			{
+			static PVal *mpval_i64 = NULL;
+			if ( mpval_i64 == NULL ) {
+				mpval_i64 = HspVarCoreGetPVal( HSPVAR_FLAG_INT64 );
+				if ( mpval_i64->mode == HSPVAR_MODE_NONE ) {
+					HspVarCoreClearTemp( mpval_i64, HSPVAR_FLAG_INT64 );
+				}
+			}
+			mpval = mpval_i64;
+			*(int64_t *)mpval->pt = *(int64_t *)code_strp(val);
+			break;
+			}
 		case TYPE_DNUM:
 		case TYPE_STRING:
 			varproc = HspVarCoreGetProc( type );
@@ -792,6 +805,10 @@ int code_get( void )
 			break;
 		case TYPE_INUM:
 			StackPushi( val );
+			code_next();
+			break;
+		case TYPE_INUM64:
+			StackPushi64( *(int64_t *)code_strp(val) );
 			code_next();
 			break;
 		case TYPE_STRING:
@@ -1853,6 +1870,7 @@ static void *reffunc_custom( int *type_res, int arg )
 		ptr = &hspctx->refdval;
 		break;
 	case TYPE_INUM:
+	case TYPE_INUM64:
 		ptr = &hspctx->stat;
 		break;
 	default:

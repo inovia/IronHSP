@@ -56,6 +56,7 @@
 #define TYPE_DLLFUNC 16
 #define TYPE_DLLCTRL 17
 #define TYPE_USERDEF 18
+#define TYPE_INUM64 19
 
 #define TYPE_PLUGIN 100
 

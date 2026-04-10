@@ -16,6 +16,7 @@
 #define TK_STRING 2
 #define TK_DNUM 3
 #define TK_NUM 4
+#define TK_NUM64 5
 #define TK_CODE 6
 #define TK_LABEL 7
 #define TK_VOID 0x1000
@@ -217,11 +218,13 @@ public:
 	int GenerateCode( CMemBuf *srcbuf, char *oname, int mode );
 
 	void PutCS( int type, int value, int exflg );
+	void PutCS( int type, int64_t value, int exflg );
 	void PutCSSymbol( int label_id, int exflag );
 	int GetCS( void );
 	void PutCS( int type, double value, int exflg );
 	int PutOT( int value );
 	int PutDS( double value );
+	int PutDS( int64_t value );
 	int PutDS( char *str );
 	int PutDSStr( char *str, bool converts_to_utf8 );
 	int PutDSBuf( char *str );
@@ -433,6 +436,7 @@ private:
 	char *lasttoken;				// last token point
 	float val_f;
 	double val_d;
+	int64_t val_i64;
 	double fpbit;
 	unsigned char *wp;
 	unsigned char s2[4096];

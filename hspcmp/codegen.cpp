@@ -135,6 +135,12 @@ void CToken::CalcCG_factor( void )
 		CalcCG_token();
 		calccount++;
 		return;
+	case TK_NUM64:
+		PutCS( TYPE_INUM64, val_i64, texflag );
+		texflag = 0;
+		CalcCG_token();
+		calccount++;
+		return;
 	case TK_DNUM:
 		PutCS( TYPE_DNUM, val_d, texflag );
 		texflag = 0;
@@ -624,19 +630,27 @@ char *CToken::GetTokenCG( char *str, int option )
 	}
 
 	if (a1=='$') {							// when hex code ($)
-		vs++;val=0;cg_str=(char *)s2;a=0;
+		vs++;cg_str=(char *)s2;a=0;
+		int64_t hexval = 0;
 		while(1) {
 			a1=toupper(*vs);b=-1;
 			if (a1==0) break;
 			if ((a1>=0x30)&&(a1<=0x39)) b=a1-0x30;
 			if ((a1>=0x41)&&(a1<=0x46)) b=a1-55;
 			if (a1=='_') b=-2;
+			if (a1=='L' || a1=='l') { vs++; break; }	// Lサフィックス
 			if (b==-1) break;
-			if (b>=0) { cg_str[a++]=(char)a1;val=(val<<4)+b; }
+			if (b>=0) { cg_str[a++]=(char)a1; hexval=(hexval<<4)+b; }
 			vs++;
 		}
 		cg_str[a]=0;
-		ttype = TK_NUM;
+		if ( hexval > 0x7FFFFFFFLL || hexval < -0x80000000LL || a > 8 ) {
+			val_i64 = hexval;
+			ttype = TK_NUM64;
+		} else {
+			val = (int)hexval;
+			ttype = TK_NUM;
+		}
 		return (char *)vs;
 	}
 
@@ -706,6 +720,7 @@ char *CToken::GetTokenCG( char *str, int option )
 			s2[a++]=a1;vs++;
 		}
 		if (( a1=='f' )||( a1=='d' )) { chk = 1; vs++; }
+		if (( a1=='L' )||( a1=='l' )) { s2[a++]='L'; vs++; }	// int64サフィックス
 		if ( a1=='e' ) {						// 指数部を取り込む
 			chk = 1;
 			s2[a++] = 'e';
@@ -731,10 +746,33 @@ char *CToken::GetTokenCG( char *str, int option )
 			ttype = TK_DNUM;
 			break;
 		default:
-			val=atoi_allow_overflow( (char *)s2 );
-			if ( is_negative_number ) { val = - val; }
-			ttype = TK_NUM;
+			{
+			// Lサフィックスの検出
+			int slen = a;
+			bool force_i64 = false;
+			if ( slen > 0 && (s2[slen-1]=='L' || s2[slen-1]=='l') ) {
+				s2[slen-1] = 0;
+				force_i64 = true;
+			}
+			if ( force_i64 ) {
+				val_i64 = strtoll( (char *)s2, NULL, 0 );
+				if ( is_negative_number ) { val_i64 = - val_i64; }
+				ttype = TK_NUM64;
+			} else {
+				// 32bit範囲チェック
+				long long llval = strtoll( (char *)s2, NULL, 0 );
+				if ( is_negative_number ) { llval = - llval; }
+				if ( llval > 2147483647LL || llval < -2147483648LL ) {
+					// 32bitオーバーフロー → 自動的にint64
+					val_i64 = (int64_t)llval;
+					ttype = TK_NUM64;
+				} else {
+					val = (int)llval;
+					ttype = TK_NUM;
+				}
+			}
 			break;
+			}
 		}
 		return (char *)vs;
 	}
@@ -905,6 +943,7 @@ void CToken::GenerateCodePRM( void )
 			if ( calccount == 1 ) {						// パラメーターが単一項目の時
 				switch( cs_lasttype ) {
 				case TK_NUM:
+				case TK_NUM64:
 				case TK_DNUM:
 				case TK_STRING:
 					{
@@ -996,6 +1035,10 @@ void CToken::GenerateCodePRMF2( void )
 			break;
 		case TK_NUM:
 			PutCS( TYPE_INUM, val, ex );
+			GetTokenCG( GETTOKEN_NOFLOAT );
+			break;
+		case TK_NUM64:
+			PutCS( TYPE_INUM64, val_i64, ex );
 			GetTokenCG( GETTOKEN_NOFLOAT );
 			break;
 		case TK_OBJ:
@@ -1111,6 +1154,10 @@ void CToken::GenerateCodeMethod( void )
 	switch( ttype ) {
 	case TK_NUM:
 		PutCS( TYPE_INUM, val, ex );
+		GetTokenCG( GETTOKEN_DEFAULT );
+		break;
+	case TK_NUM64:
+		PutCS( TYPE_INUM64, val_i64, ex );
 		GetTokenCG( GETTOKEN_DEFAULT );
 		break;
 	case TK_STRING:
@@ -2657,6 +2704,23 @@ int CToken::PutDS(double value)
 
 	ds_buf->Put(value);
 	return i;
+}
+
+int CToken::PutDS(int64_t value)
+{
+	//		Register int64 to data segment
+	//
+	int i = ds_buf->GetSize();
+	ds_buf->PutData( (char *)&value, sizeof(int64_t) );
+	return i;
+}
+
+void CToken::PutCS( int type, int64_t value, int exflg )
+{
+	//		Register int64 command code
+	//		(DSに格納してオフセットで参照)
+	//
+	PutCS( type, PutDS(value), exflg );
 }
 
 
