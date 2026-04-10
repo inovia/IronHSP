@@ -1,9 +1,47 @@
-﻿################################################################################
-# この .gitignore ファイルは Microsoft(R) Visual Studio によって自動的に作成されました。
+################################################################################
+# ビルド成果物
 ################################################################################
 
-/hspcmp/win32/.vs/hspcmp/v15
-/hspcmp/win32dll/.vs/hspcmp
-/hspcmp/win32dll/Debug
-/hspcmp/win32dll/Release
-/hspcmp/win32/Debug
+# Visual Studio ビルド出力ディレクトリ
+Debug/
+Release/
+x64/
+hsprt/
+hsprt-unicode/
+Debug-unicode/
+Release-unicode/
+
+# Visual Studio 隠しフォルダ
+.vs/
+
+# コンパイル中間ファイル
+*.obj
+*.pch
+*.ipch
+*.iobj
+*.ipdb
+*.tlog
+*.lastbuildstate
+
+# リンカ出力（lib/以下のサードパーティは除く）
+*.ilk
+*.idb
+*.pdb
+*.exp
+
+# プリコンパイル済みヘッダ
+*.gch
+
+# IntelliSense / ブラウズDB
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.db-shm
+*.VC.db-wal
+*.VC.opendb
+*.ncb
+*.aps
+*.suo
+
+# ユーザー固有の設定
+*.vcxproj.user

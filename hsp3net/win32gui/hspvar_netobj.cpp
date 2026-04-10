@@ -23,7 +23,7 @@ using namespace System::Collections::Generic;
 using namespace System::Reflection;
 using namespace tv::hsp::net;
 
-// ˆê—Ìˆæ‚Æ‚µ‚Äg—p‚·‚é
+// ä¸€æ™‚é ˜åŸŸã¨ã—ã¦ä½¿ç”¨ã™ã‚‹
 static NativePointer conv;
 
 /*------------------------------------------------------------*/
@@ -42,12 +42,12 @@ static PDAT *HspVarNetobj_GetPtr(PVal *pval)
 
 static void *HspVarNetobj_Cnv(const void *buffer, int flag)
 {
-	//		ƒŠƒNƒGƒXƒg‚³‚ê‚½Œ^ -> ©•ª‚ÌŒ^‚Ö‚Ì•ÏŠ·‚ğs‚È‚¤
-	//		(‘g‚İ‚İŒ^‚É‚Ì‚İ‘Î‰‚ÅOK)
-	//		(QÆŒ³‚Ìƒf[ƒ^‚ğ”j‰ó‚µ‚È‚¢‚±‚Æ)
+	//		ãƒªã‚¯ã‚¨ã‚¹ãƒˆã•ã‚ŒãŸå‹ -> è‡ªåˆ†ã®å‹ã¸ã®å¤‰æ›ã‚’è¡Œãªã†
+	//		(çµ„ã¿è¾¼ã¿å‹ã«ã®ã¿å¯¾å¿œã§OK)
+	//		(å‚ç…§å…ƒã®ãƒ‡ãƒ¼ã‚¿ã‚’ç ´å£Šã—ãªã„ã“ã¨)
 	//
 
-	// ©M‚ÌŒ^‚Ìê‡
+	// è‡ªä¿¡ã®å‹ã®å ´åˆ
 	if ( flag == TYPE_NETOBJ)
 	{
 		return (void *)buffer;
@@ -84,10 +84,10 @@ static void *HspVarNetobj_Cnv(const void *buffer, int flag)
 
 static void *HspVarNetobj_CnvCustom(const void *buffer, int flag)
 {
-	//		(ƒJƒXƒ^ƒ€ƒ^ƒCƒv‚Ì‚İ)
-	//		©•ª‚ÌŒ^ -> ƒŠƒNƒGƒXƒg‚³‚ê‚½Œ^ ‚Ö‚Ì•ÏŠ·‚ğs‚È‚¤
-	//		(‘g‚İ‚İŒ^‚É‘Î‰‚³‚¹‚é)
-	//		(QÆŒ³‚Ìƒf[ƒ^‚ğ”j‰ó‚µ‚È‚¢‚±‚Æ)
+	//		(ã‚«ã‚¹ã‚¿ãƒ ã‚¿ã‚¤ãƒ—ã®ã¿)
+	//		è‡ªåˆ†ã®å‹ -> ãƒªã‚¯ã‚¨ã‚¹ãƒˆã•ã‚ŒãŸå‹ ã¸ã®å¤‰æ›ã‚’è¡Œãªã†
+	//		(çµ„ã¿è¾¼ã¿å‹ã«å¯¾å¿œã•ã›ã‚‹)
+	//		(å‚ç…§å…ƒã®ãƒ‡ãƒ¼ã‚¿ã‚’ç ´å£Šã—ãªã„ã“ã¨)
 	//
 	throw HSPERR_INVALID_TYPE;
 	return (void *)buffer;
@@ -95,7 +95,7 @@ static void *HspVarNetobj_CnvCustom(const void *buffer, int flag)
 
 static void HspVarNetobj_Free(PVal *pval)
 {
-	//		PVALƒ|ƒCƒ“ƒ^‚Ì•Ï”ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚é
+	//		PVALãƒã‚¤ãƒ³ã‚¿ã®å¤‰æ•°ãƒ¡ãƒ¢ãƒªã‚’è§£æ”¾ã™ã‚‹
 	//
 
 	if (pval->master) {
@@ -114,15 +114,15 @@ static void HspVarNetobj_Free(PVal *pval)
 
 static void HspVarNetobj_Alloc(PVal *pval, const PVal *pval2)
 {
-	//		pval•Ï”‚ª•K—v‚Æ‚·‚éƒTƒCƒY‚ğŠm•Û‚·‚éB
-	//		(pval‚ª‚·‚Å‚ÉŠm•Û‚³‚ê‚Ä‚¢‚éƒƒ‚ƒŠ‰ğ•ú‚ÍŒÄ‚Ño‚µ‘¤‚ªs‚È‚¤)
-	//		(pval2‚ªNULL‚Ìê‡‚ÍAV‹Kƒf[ƒ^)
-	//		(pval2‚ªw’è‚³‚ê‚Ä‚¢‚éê‡‚ÍApval2‚Ì“à—e‚ğŒp³‚µ‚ÄÄŠm•Û)
+	//		pvalå¤‰æ•°ãŒå¿…è¦ã¨ã™ã‚‹ã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã™ã‚‹ã€‚
+	//		(pvalãŒã™ã§ã«ç¢ºä¿ã•ã‚Œã¦ã„ã‚‹ãƒ¡ãƒ¢ãƒªè§£æ”¾ã¯å‘¼ã³å‡ºã—å´ãŒè¡Œãªã†)
+	//		(pval2ãŒNULLã®å ´åˆã¯ã€æ–°è¦ãƒ‡ãƒ¼ã‚¿)
+	//		(pval2ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€pval2ã®å†…å®¹ã‚’ç¶™æ‰¿ã—ã¦å†ç¢ºä¿)
 	//
 	int count, size;
 	NativePointer* ppunk;
 
-	if (pval->len[1] < 1) pval->len[1] = 1;		// ”z—ñ‚ğÅ’á 1 ‚ÍŠm•Û‚·‚é
+	if (pval->len[1] < 1) pval->len[1] = 1;		// é…åˆ—ã‚’æœ€ä½ 1 ã¯ç¢ºä¿ã™ã‚‹
 	count = HspVarCoreCountElems(pval);
 	size = count * sizeof(NativePointer);
 	ppunk = (NativePointer*)sbAlloc(size);
@@ -149,11 +149,11 @@ static void HspVarNetobj_ObjectMethod(PVal *pval)
 
 	if (!GlobalAccess::IsActiveNativePtr(pObj)) throw HSPERR_COMDLL_ERROR;
 
-	// ˆø”:1 iƒƒ\ƒbƒh–¼j
+	// å¼•æ•°:1 ï¼ˆãƒ¡ã‚½ãƒƒãƒ‰åï¼‰
 	ps = code_gets();
 	auto p1 = marshal_as<System::String^>(ps);
 
-	// ˆø”:2 ˆÈ~‚Í‰Â•Ï’·iƒRƒ“ƒXƒgƒ‰ƒNƒ^ˆø”j
+	// å¼•æ•°:2 ä»¥é™ã¯å¯å¤‰é•·ï¼ˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å¼•æ•°ï¼‰
 	List<NetClass^>^ listParams = gcnew List<NetClass^>();
 
 	do
@@ -201,11 +201,11 @@ static void HspVarNetobj_ObjectMethod(PVal *pval)
 	ret = GlobalAccess::g_Hsp3Net->InvokeMethod(
 		GlobalAccess::GetNativePtrToNetClass(pObj), p1, nullptr, listParams->ToArray());
 
-	// –ß‚è’l
+	// æˆ»ã‚Šå€¤
 	const auto ctx = code_getctx();
 	ctx->stat = (ret != nullptr) ? 0 : -1;
 
-	// netres ‚É“n‚·
+	// netres ã«æ¸¡ã™
 	if (ret != nullptr)
 	{
 		auto native_ptr = GlobalAccess::CreateNativePtr(ret);
@@ -216,17 +216,17 @@ static void HspVarNetobj_ObjectMethod(PVal *pval)
 
 static int code_get_element(PVal *pval)
 {
-	// •Ï”‚Ì”z—ñ—v‘f‚Ìæ“¾
+	// å¤‰æ•°ã®é…åˆ—è¦ç´ ã®å–å¾—
 	//
 	PVal pvalTemp;
 	int chk, idx;
 	HspVarCoreReset(pval);
 	while (1) {
-		HspVarCoreCopyArrayInfo(&pvalTemp, pval);			// ó‘Ô‚ğ•Û‘¶
+		HspVarCoreCopyArrayInfo(&pvalTemp, pval);			// çŠ¶æ…‹ã‚’ä¿å­˜
 		chk = code_get();
-		HspVarCoreCopyArrayInfo(pval, &pvalTemp);			// ó‘Ô‚ğ•œ‹A
+		HspVarCoreCopyArrayInfo(pval, &pvalTemp);			// çŠ¶æ…‹ã‚’å¾©å¸°
 		if (chk == PARAM_ENDSPLIT) {
-			if (pval->arraycnt == 0) throw HSPERR_BAD_ARRAY_EXPRESSION;	// a() •\‹L‚ÍƒGƒ‰[
+			if (pval->arraycnt == 0) throw HSPERR_BAD_ARRAY_EXPRESSION;	// a() è¡¨è¨˜ã¯ã‚¨ãƒ©ãƒ¼
 			break;
 		}
 		if (chk != PARAM_OK && chk != PARAM_SPLIT) throw HSPERR_ARRAY_OVERFLOW;
@@ -239,15 +239,15 @@ static int code_get_element(PVal *pval)
 
 static void HspVarNetobj_ArrayObject(PVal *pval)
 {
-	//		”z—ñ—v‘f‚Ìw’è (˜A‘z”z—ñ—p)
+	//		é…åˆ—è¦ç´ ã®æŒ‡å®š (é€£æƒ³é…åˆ—ç”¨)
 	int chk;
 	NativePointer pThisObj;
 
-	// ”z—ñ—v‘f‚Ìæ“¾
+	// é…åˆ—è¦ç´ ã®å–å¾—
 	chk = code_get_element(pval);
-	if (chk == PARAM_ENDSPLIT) return;	// ”z—ñ—v‘f‚ªw’è‚³‚ê‚½ê‡‚Í‚»‚Ì‚Ü‚Ü
+	if (chk == PARAM_ENDSPLIT) return;	// é…åˆ—è¦ç´ ãŒæŒ‡å®šã•ã‚ŒãŸå ´åˆã¯ãã®ã¾ã¾
 
-	// ƒvƒƒpƒeƒBİ’è
+	// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨­å®šæ™‚
 	pThisObj = *((NativePointer*)pval->pt);
 	if (!GlobalAccess::IsActiveNativePtr(pThisObj)) throw HSPERR_COMDLL_ERROR;
 
@@ -259,7 +259,7 @@ static void HspVarNetobj_ArrayObject(PVal *pval)
 
 static void HspVarNetobj_ObjectWrite(PVal *pval, void *data, int vtype)
 {
-	//		‰Â•ÏŒ^‚Ì‘ã“ü
+	//		å¯å¤‰å‹ã®ä»£å…¥
 	//
 
 	char* propname;
@@ -272,11 +272,11 @@ static void HspVarNetobj_ObjectWrite(PVal *pval, void *data, int vtype)
 
 	if (!GlobalAccess::IsActiveNativePtr(pObj)) throw HSPERR_COMDLL_ERROR;
 
-	// master‚É‚ ‚éƒvƒƒpƒeƒB–¼/ƒtƒB[ƒ‹ƒh–¼([$]‚ğ‚Â‚¯‚é)‚ğæ“¾
+	// masterã«ã‚ã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å/ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å([$]ã‚’ã¤ã‘ã‚‹)ã‚’å–å¾—
 	const auto pPropName = ((CStringA*)(pval->master));
 	propname = pPropName->GetBuffer();
 
-	// ƒtƒB[ƒ‹ƒh•Ï”
+	// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å¤‰æ•°
 	if ( propname[0] == '$') {
 		PropName = marshal_as<System::String^>(propname + 1);
 		isField = true;
@@ -330,7 +330,7 @@ static void HspVarNetobj_ObjectWrite(PVal *pval, void *data, int vtype)
 			GlobalAccess::GetNativePtrToNetClass(pObj), PropName, pValue, nullptr);
 	}
 
-	// –ß‚è’l
+	// æˆ»ã‚Šå€¤
 	const auto ctx = code_getctx();
 	ctx->stat = (bRet) ? 0 : -1;
 
@@ -339,7 +339,7 @@ static void HspVarNetobj_ObjectWrite(PVal *pval, void *data, int vtype)
 
 static void *HspVarNetobj_ArrayObjectRead(PVal *pval, int *mptype)
 {
-	//		”z—ñ—v‘f‚Ìw’è (˜A‘z”z—ñ/“Ç‚İo‚µ)
+	//		é…åˆ—è¦ç´ ã®æŒ‡å®š (é€£æƒ³é…åˆ—/èª­ã¿å‡ºã—)
 	//
 	void *ptr;
 	int chk;
@@ -350,18 +350,18 @@ static void *HspVarNetobj_ArrayObjectRead(PVal *pval, int *mptype)
 	bool isField;
 	NetClass^ Ret;
 
-	// ”z—ñ—v‘f‚Ìæ“¾
+	// é…åˆ—è¦ç´ ã®å–å¾—
 	chk = code_get_element(pval);
 	pNP = *(NativePointer*)HspVarNetobj_GetPtr(pval);
-	if (chk == PARAM_ENDSPLIT) return pNP;	// ”z—ñ—v‘f‚ªw’è‚³‚ê‚½ê‡‚Í‚»‚Ì‚Ü‚Ü
+	if (chk == PARAM_ENDSPLIT) return pNP;	// é…åˆ—è¦ç´ ãŒæŒ‡å®šã•ã‚ŒãŸå ´åˆã¯ãã®ã¾ã¾
 
-	// ƒvƒƒpƒeƒBæ“¾
+	// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å–å¾—æ™‚
 	pThisObj = *((NativePointer*)pval->pt);
 	if (!GlobalAccess::IsActiveNativePtr(pThisObj)) throw HSPERR_COMDLL_ERROR;
 	if (mpval->flag != HSPVAR_FLAG_STR) throw (HSPERR_TYPE_MISMATCH);
 	propname = (char *)(mpval->pt);
 
-	// ƒtƒB[ƒ‹ƒh•Ï”
+	// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å¤‰æ•°
 	if ( propname[0] == '$') {
 		PropName = marshal_as<System::String^>(propname + 1);
 		isField = true;
@@ -386,11 +386,11 @@ static void *HspVarNetobj_ArrayObjectRead(PVal *pval, int *mptype)
 		throw (HSPERR_COMDLL_ERROR);
 	}
 
-	// –ß‚è’l
+	// æˆ»ã‚Šå€¤
 	const auto ctx = code_getctx();
 	ctx->stat = (Ret != nullptr) ? 0 : -1;
 
-	// TODO: •ÏŠ·‚¹‚¸‚É•Ô‚·H—Ç‚¢H
+	// TODO: å¤‰æ›ã›ãšã«è¿”ã™ï¼Ÿè‰¯ã„ï¼Ÿ
 	*mptype = TYPE_NETOBJ;
 	conv = GlobalAccess::CreateNativePtr(Ret);
 	return &conv;
@@ -400,14 +400,14 @@ static void *HspVarNetobj_ArrayObjectRead(PVal *pval, int *mptype)
 // Size
 static int HspVarNetobj_GetSize(const PDAT *pdatl)
 {
-	//		(À‘Ô‚Ìƒ|ƒCƒ“ƒ^‚ª“n‚³‚ê‚Ü‚·)
+	//		(å®Ÿæ…‹ã®ãƒã‚¤ãƒ³ã‚¿ãŒæ¸¡ã•ã‚Œã¾ã™)
 	return sizeof(NativePointer*);
 }
 
 // Using
 static int HspVarNetobj_GetUsing(const PDAT *pdat)
 {
-	//		(À‘Ô‚Ìƒ|ƒCƒ“ƒ^‚ª“n‚³‚ê‚Ü‚·)
+	//		(å®Ÿæ…‹ã®ãƒã‚¤ãƒ³ã‚¿ãŒæ¸¡ã•ã‚Œã¾ã™)
 	return !GlobalAccess::IsActiveNativePtr((NativePointer**)pdat);
 }
 
@@ -505,9 +505,9 @@ void HspVarNetobj_Init(HspVarProc *p)
 		p->RrI = HspVarNetobj_Invalid;
 		p->LrI = HspVarNetobj_Invalid;
 	*/
-	p->vartype_name = "netobj";			// ƒ^ƒCƒv–¼
-	p->version = 0x001;					// Œ^ƒ^ƒCƒvƒ‰ƒ“ƒ^ƒCƒ€ƒo[ƒWƒ‡ƒ“(0x100 = 1.0)
+	p->vartype_name = "netobj";			// ã‚¿ã‚¤ãƒ—å
+	p->version = 0x001;					// å‹ã‚¿ã‚¤ãƒ—ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ãƒãƒ¼ã‚¸ãƒ§ãƒ³(0x100 = 1.0)
 	p->support = HSPVAR_SUPPORT_STORAGE | HSPVAR_SUPPORT_ARRAYOBJ | HSPVAR_SUPPORT_NOCONVERT | HSPVAR_SUPPORT_VARUSE;
-	// ƒTƒ|[ƒgó‹µƒtƒ‰ƒO(HSPVAR_SUPPORT_*)
-	p->basesize = sizeof(NativePointer);	// ‚P‚Â‚Ìƒf[ƒ^‚ªg—p‚·‚éƒTƒCƒY(byte) / ‰Â•Ï’·‚Ì‚Í-1
+	// ã‚µãƒãƒ¼ãƒˆçŠ¶æ³ãƒ•ãƒ©ã‚°(HSPVAR_SUPPORT_*)
+	p->basesize = sizeof(NativePointer);	// ï¼‘ã¤ã®ãƒ‡ãƒ¼ã‚¿ãŒä½¿ç”¨ã™ã‚‹ã‚µã‚¤ã‚º(byte) / å¯å¤‰é•·ã®æ™‚ã¯-1
 }

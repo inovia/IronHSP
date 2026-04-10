@@ -111,8 +111,6 @@ static void InitSystemInformation(void)
 	CutLastChr(ctx->stmp, '\\');
 	sbStrCopy(&(ctx->modfilename), ctx->stmp);
 	strcat(ctx->stmp, "\\hsptv\\");
-	CutLastChr(ctx->stmp, '¥¥');
-	strcat(ctx->stmp, "¥¥hsptv¥¥");
 	freehc(&resp8);
 	sbStrCopy(&(ctx->tvfoldername), ctx->stmp);
 }
@@ -471,7 +469,6 @@ DISPID get_dispid( IUnknown* punk, char *propname, BOOL *bVariant )
 	LPOLESTR list[]={ (LPOLESTR)(hspctx->stmp) };
 
 	if ( name[0] == '\0' ) return DISPID_VALUE;
-	if ( name[0] == '¥0' ) return DISPID_VALUE;
 
 	if ( bVariant != NULL ) *bVariant = ( name[0] == '.' );
 	if ( name[0] == '.' ) name++;
@@ -640,7 +637,6 @@ static int cmdfunc_ctrlcmd( int cmd )
 		 case 0:
 			// 新規にロード
 			if ( clsid_name[0]!='\0' ) {
-			if ( clsid_name[0]!='¥0' ) {
 				if ( GetIIDFromString(&clsid,clsid_name,true) != FALSE &&
 					 SUCCEEDED( CoCreateInstance( clsid, NULL, CLSCTX_SERVER, *piid, (void**)ppunkNew )) &&
 					 *ppunkNew != NULL )
@@ -668,7 +664,6 @@ static int cmdfunc_ctrlcmd( int cmd )
 		}
 	#ifdef HSP_COMOBJ_DEBUG
 		COM_DBG_MSG( "newcom : pObj=%p : &pObj=%p\n", *ppunkNew, ppunkNew);
-		COM_DBG_MSG( "newcom : pObj=%p : &pObj=%p¥n", *ppunkNew, ppunkNew);
 	#endif
 		break;
 		}
@@ -785,13 +780,11 @@ static int cmdfunc_ctrlcmd( int cmd )
         if (size < sizew*(int)sizeof(HSPAPICHAR)){
             memcpy(ptr, hactmp1, size);
 			*(HSPAPICHAR*)(ptr + (size - 1) / sizeof(HSPAPICHAR)) = TEXT('\0');
-			*(HSPAPICHAR*)(ptr + (size - 1) / sizeof(HSPAPICHAR)) = TEXT('¥0');
             hspctx->stat = -sizew*sizeof(HSPAPICHAR);
 		}
         else{
             memcpy(ptr, hactmp1, (sizew - 1)*sizeof(HSPAPICHAR));
 			((HSPAPICHAR*)ptr)[sizew - 1] = TEXT('\0');
-			((HSPAPICHAR*)ptr)[sizew - 1] = TEXT('¥0');
             hspctx->stat = sizew*sizeof(HSPAPICHAR);
 		}
         freehac(&hactmp1);
@@ -814,7 +807,6 @@ static int cmdfunc_ctrlcmd( int cmd )
 
 	case 0x05:								// 	axobj
 #if defined( HSP_COM_UNSUPPORTED )||defined( HSPDISH )
-#ifdef HSP_COM_UNSUPPORTED
 		throw ( HSPERR_UNSUPPORTED_FUNCTION );
 #else
 		{
@@ -893,7 +885,6 @@ static int cmdfunc_ctrlcmd( int cmd )
 		id = AddHSPObject( hwnd, HSPOBJ_TAB_SKIP, sy );
 #ifdef HSP_COMOBJ_DEBUG
 		Alertf( "axobj : pObj=%p : &pObj=%p\n", *ppunk, ppunk);
-		Alertf( "axobj : pObj=%p : &pObj=%p¥n", *ppunk, ppunk);
 	#endif
 		break;
 		}
@@ -1007,7 +998,6 @@ static int cmdfunc_ctrlcmd( int cmd )
 		// 第３パラメータ：コネクションポイントIID (文字列形式)
 		ps = code_getds("");
 		if ( ps[0] != '\0' ) {
-		if ( ps[0] != '¥0' ) {
 			piid = &iid;
 			GetIIDFromString( piid, ps );
 		} else {
@@ -1021,7 +1011,6 @@ static int cmdfunc_ctrlcmd( int cmd )
 		SetComEvent( ppunkEvent, ppunk, piid, subr );
 	#ifdef HSP_COMOBJ_DEBUG
 		COM_DBG_MSG( "comevent : pEvent=%p : pObj=%p\n", *ppunkEvent, *ppunk);
-		COM_DBG_MSG( "comevent : pEvent=%p : pObj=%p¥n", *ppunkEvent, *ppunk);
 	#endif
 		break;
 		}
@@ -1179,13 +1168,11 @@ static int cmdfunc_ctrlcmd( int cmd )
 		if (size <= sizea){
 			memcpy(ptr, actmp1, size - 1);
 			((char*)ptr)[size - 1] = '\0';
-			((char*)ptr)[size - 1] = '¥0';
 			hspctx->stat = -sizea;
 		}
 		else{
 			memcpy(ptr, actmp1, sizea - 1);
 			((char*)ptr)[sizea - 1] = '\0';
-			((char*)ptr)[sizea - 1] = '¥0';
 			hspctx->stat = sizea;
 		}
 		freeac(&actmp1);
@@ -2027,7 +2014,6 @@ char *hsp3ext_sysinfo(int p2, int* res, char* outbuf)
 		if (p1 != p) {
 			memcpy(p1, p, plen);
 			p1[plen] = '\0';
-			p1[plen] = '¥0';
 		}
 		freehc(&p);
 		fl = HSPVAR_FLAG_STR;
@@ -2039,7 +2025,6 @@ char *hsp3ext_sysinfo(int p2, int* res, char* outbuf)
 		if (p1 != p) {
 			memcpy(p1, p, plen);
 			p1[plen] = '\0';
-			p1[plen] = '¥0';
 		}
 		freehc(&p);
 		fl = HSPVAR_FLAG_STR;
@@ -2051,7 +2036,6 @@ char *hsp3ext_sysinfo(int p2, int* res, char* outbuf)
 		if (p1 != p) {
 			memcpy(p1, p, plen);
 			p1[plen] = '\0';
-			p1[plen] = '¥0';
 		}
 		freehc(&p);
 		fl = HSPVAR_FLAG_STR;
@@ -2166,8 +2150,6 @@ char* hsp3ext_getdir(int id)
 	//
 	if (cutlast) {
 		CutLastChr(p, '\\');
-	//		最後の'¥¥'を取り除く
-		CutLastChr(p, '¥¥');
 	}
 	return p;
 }

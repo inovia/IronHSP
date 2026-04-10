@@ -9,7 +9,6 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include <string>
-#include <mmsystem.h>	// WIN32_LEAN_AND_MEAN
 #include "../hsp3code.h"
 
 //	Window Object Info
@@ -136,7 +135,6 @@ public:
 	//
 	Bmscr( void );
 	~Bmscr( void );
-	‾Bmscr( void );
 	void *GetBMSCR( void ) { return (void *)(&this->flag); };
 	void Init( HANDLE instance, HWND p_hwnd, int p_sx, int p_sy, int palsw );
 	void Cls( int mode );
@@ -321,7 +319,7 @@ public:
 	~HspWnd( void );
 	void Dispose(void);
 	void ClearAllObjects(void);
-	‾HspWnd( void );
+
 	void MakeBmscr( int id, int type, int xx, int yy, int wx, int wy,
 	 int sx, int sy, int mode );
 	void MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy,
@@ -337,7 +335,6 @@ public:
 	void SetParentWindow( void *hwnd ) { wnd_parent = hwnd; };
 	int GetEmptyBufferId(void);
 	int GetPreloadBufferId(char *fname);
-	int GetEmptyBufferId( void );
 
 	//	Data
 	//
@@ -349,7 +346,6 @@ public:
 
 private:
 	void Reset( HANDLE instance, char *wndcls );
-	void Dispose( void );
 	void ExpandScreen( int idmax );
 
 	//	Data

@@ -88,7 +88,6 @@ HspWnd::HspWnd( HANDLE instance, char *wndcls )
 }
 
 HspWnd::~HspWnd()
-HspWnd::‾HspWnd()
 {
 	//		すべて破棄
 	//
@@ -147,7 +146,6 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 		try {
 #endif
 		if ( code_checkirq( (int)GetWindowLongPtr( hwnd, GWLP_USERDATA ), (int)uMessage, (int)wParam, (int)lParam ) ) {
-			if ( code_irqresult( &retval ) ) return retval;
 			if (code_irqresult(&retval)) {
 				TransMes_WinForms(hwnd, uMessage, wParam, lParam);
 				return retval;
@@ -194,11 +192,6 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 		bm = TrackBmscr( hwnd );
 		if ( bm != NULL ) WM_Paint( hwnd, bm );
 		return 0 ;
-		if (bm != NULL) {
-			WM_Paint(hwnd, bm);
-		}
-		//TransMes_WinForms(hwnd, uMessage, wParam, lParam);
-		return 0;
 
 	case WM_GETMINMAXINFO:
 		{
@@ -228,8 +221,6 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 			bm->savepos[BMSCR_SAVEPOS_MOSUEW] = HIWORD(wParam);
 		}
 		return 0;
-			//TransMes_WinForms( hwnd, uMessage, wParam, lParam);
-		break;
 
 	case WM_MOUSEMOVE:
 		bm = TrackBmscr( hwnd );
@@ -238,8 +229,6 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 			bm->savepos[BMSCR_SAVEPOS_MOSUEY] = HIWORD(lParam);
 		}
 		return 0;
-			//TransMes_WinForms( hwnd, uMessage, wParam, lParam);
-		break;
 	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 	case WM_MBUTTONDOWN:
@@ -273,7 +262,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 #endif
 		}
 		return 0;
-			TransMes_WinForms(hwnd, uMessage, wParam, lParam);
+
 	case MM_MCINOTIFY:
 		if ( wParam == MCI_NOTIFY_SUCCESSFUL ) {
 			if ( notifyfunc != NULL ) notifyfunc( hwnd );
@@ -308,10 +297,6 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 		}
 		code_puterror( HSPERR_NONE );
 		PostQuitMessage(0);
-			if (retval != RUNMODE_END) {
-				//TransMes_WinForms(hwnd, uMessage, wParam, lParam);
-				return 0;
-		//TransMes_WinForms(hwnd, uMessage, wParam, lParam);
 		return (uMessage == WM_QUERYENDSESSION) ? true : false;
 #endif
 
@@ -345,9 +330,9 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam
 
 	}
 
-	return DefWindowProc (hwnd, uMessage, wParam, lParam) ;
-}
 	return TransMes_WinForms(hwnd, uMessage, wParam, lParam);
+}
+
 static void ProxyWndProc(Message %m) {
 	m.Result = (IntPtr)WndProc(
 		reinterpret_cast<HWND>(m.HWnd.ToPointer()),
@@ -355,6 +340,7 @@ static void ProxyWndProc(Message %m) {
 		reinterpret_cast<WPARAM>(m.WParam.ToPointer()),
 		reinterpret_cast<LPARAM>(m.LParam.ToPointer())
 		);
+}
 
 /*------------------------------------------------------------*/
 /*
@@ -362,7 +348,6 @@ static void ProxyWndProc(Message %m) {
 */
 /*------------------------------------------------------------*/
 
-void HspWnd::Dispose(void)
 void HspWnd::Dispose( void )
 {
 	//		破棄
@@ -409,12 +394,6 @@ void HspWnd::ClearAllObjects(void)
 			}
 		}
 	}
-	Bmscr *bm;
-	for(i=0;i<bmscr_max;i++) {
-		if ( bm != NULL ) {
-			if ( hwnd != NULL ) DestroyWindow( hwnd );
-	free( mem_bm );
-	UnregisterClass( defcls, hInst );
 }
 
 
@@ -682,7 +661,7 @@ void HspWnd::MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy, int
 		// auto current_id = ::GetWindowLongPtr(hwnd, GWL_ID);
 		//// 要素数=IDとする
 		//::SetWindowLongPtr(hwnd, GWL_ID, (LONG_PTR)g_vecWndProc.size());
-		winProc = (WNDPROC)::SetWindowLongPtr(hwnd, GWL_WNDPROC, (LONG_PTR)WndProc);
+		winProc = (WNDPROC)::SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
 		//g_vecWndProc.push_back(wndProc);
 		freehac(&hactmp1);
 
@@ -730,7 +709,6 @@ void HspWnd::MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy, int
 	bm->wx = wx;
 	bm->wy = wy;
 	bm->Width( wx, wy, -1, -1, 0 );
-	bm->Width( wx, wy, -1, -1, 1 );
 
 	SetWindowPos( hwnd, HWND_TOP, 0, 0, 0, 0,
 	 ( mode & 2 ? SWP_NOACTIVATE | SWP_NOZORDER : SWP_SHOWWINDOW ) |
@@ -961,7 +939,6 @@ Bmscr::Bmscr()
 }
 
 Bmscr::~Bmscr()
-Bmscr::‾Bmscr()
 {
 	//		Bmscr破棄
 	//
@@ -1044,7 +1021,6 @@ void Bmscr::Init( HANDLE instance, HWND p_hwnd, int p_sx, int p_sy, int palsw )
 		pbi->biBitCount = 8;
 	}
 	bsize = ( bsize + 3 )&~3;
-	bsize = ( bsize + 3 )&‾3;
 	sx2 = bsize;
 	bsize *= sy;
 
@@ -1208,9 +1184,6 @@ void Bmscr::Width( int x, int y, int wposx, int wposy, int mode )
 		rw.top = wposy;
 	}
 	MoveWindow( hwnd, rw.left, rw.top, sizex, sizey, true );
-	if ( wposx >= 0 ) rw.left = wposx;
-	if ( wposy >= 0 ) rw.top = wposy;
-	MoveWindow( hwnd, rw.left, rw.top, sizex, sizey, (mode>0) );
 }
 
 
@@ -1579,13 +1552,11 @@ int Bmscr::PrintSub(char *mes)
 	int chk;
 	int px;
 	char stmp[4096];
-	char stmp[1024];
 	px = 0;
 
 	strsp_ini();
 	while (1) {
 		chk = strsp_get(mes, stmp, 0, 4095);
-		chk = strsp_get(mes, stmp, 0, 1022);
 		PrintLine(stmp);
 		if (px < printsize.cx) px = printsize.cx;
 		if (chk == 0) break;
@@ -2217,7 +2188,6 @@ int Bmscr::RenderAlphaBitmap( int t_psx, int t_psy, int components, unsigned cha
 	BYTE *p2;
 	BYTE a1, a2, a3;
 	WORD a4, a4r;
-	BYTE a1,a2,a3,a4,a4r;
 	int p_ofs, p2_ofs;
 
 	x = this->cx;
@@ -2266,7 +2236,6 @@ int Bmscr::RenderAlphaBitmap( int t_psx, int t_psy, int components, unsigned cha
 	for(b=0;b<psy;b++) {
 		for(a=0;a<psx;a++) {
 			a1 = *p2++; a2 = *p2++; a3 = *p2++; a4 = *p2++; a4 += a4 >> 7; a4r = 256 - a4;
-			a1=*p2++;a2=*p2++;a3=*p2++;a4=*p2++;a4r=255-a4;
 			if ( a4r == 0 ) {
 				*p++=a3;
 				*p++=a2;

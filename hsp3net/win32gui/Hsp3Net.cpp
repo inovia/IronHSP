@@ -465,15 +465,15 @@ namespace tv::hsp::net
 
 	NetClass ^Hsp3Net::GetEnumMember(NetClass ^nc, String ^enumName, String ^memberName)
 	{
-		// ƒrƒbƒgƒtƒ‰ƒO‚Ì‚æ‚¤‚È
-		// •¡”‚Ìenum‚Ìƒƒ“ƒo–¼‚ğw’è‚·‚é‚Æ‚«‚ÍA A,B  ‚İ‚½‚­ƒJƒ“ƒ}‹æØ‚è‚É‚·‚é
+		// ãƒ“ãƒƒãƒˆãƒ•ãƒ©ã‚°ã®ã‚ˆã†ãª
+		// è¤‡æ•°ã®enumã®ãƒ¡ãƒ³ãƒåã‚’æŒ‡å®šã™ã‚‹ã¨ãã¯ã€ A,B  ã¿ãŸãã‚«ãƒ³ãƒåŒºåˆ‡ã‚Šã«ã™ã‚‹
 
 		try
 		{
 			auto type = nc->Assembly->GetType(enumName);
 			if (type == nullptr)
 			{
-				// ’Z‚¢–¼‘O‚Å‚àŒŸõiüŒ`’Tõ‚È‚Ì‚ÅA‚¿‚å‚¢–³‘ÊŠ´‚ª‚ ‚é‚ªj
+				// çŸ­ã„åå‰ã§ã‚‚æ¤œç´¢ï¼ˆç·šå½¢æ¢ç´¢ãªã®ã§ã€ã¡ã‚‡ã„ç„¡é§„æ„ŸãŒã‚ã‚‹ãŒï¼‰
 				for each (auto t in nc->Assembly->GetTypes())
 				{
 					if (enumName->Equals(t->Name))
@@ -486,7 +486,7 @@ namespace tv::hsp::net
 
 			auto item = Enum::Parse(type, memberName);
 
-			// –ß‚è’l
+			// æˆ»ã‚Šå€¤
 			NetClass ^ncRet = gcnew NetClass();
 			ncRet->Assembly = nc->Assembly;
 			ncRet->Class = type;
@@ -519,7 +519,7 @@ namespace tv::hsp::net
 		return nullptr;
 	}
 
-	// ƒCƒ“ƒfƒNƒT‚Í nullptr w’è‰Â”\
+	// ã‚¤ãƒ³ãƒ‡ã‚¯ã‚µã¯ nullptr æŒ‡å®šå¯èƒ½
 	NetClass ^Hsp3Net::GetPropertyValue(NetClass ^nc, String ^name, array<NetClass^> ^index)
 	{
 		try
@@ -529,7 +529,7 @@ namespace tv::hsp::net
 			NetClass ^ncRet = gcnew NetClass();
 			if (index != nullptr)
 			{
-				// ƒCƒ“ƒfƒNƒT‚Í”š‚Å‚È‚­‚Ä‚à‚æ‚¢‚Ì‚ÅAobject‚Åó‚¯‚é
+				// ã‚¤ãƒ³ãƒ‡ã‚¯ã‚µã¯æ•°å­—ã§ãªãã¦ã‚‚ã‚ˆã„ã®ã§ã€objectã§å—ã‘ã‚‹
 				auto objIndex = gcnew array<Object^>(index->Length);
 				for (int i = 0; i < index->Length; i++)
 				{
@@ -559,7 +559,7 @@ namespace tv::hsp::net
 		{
 			auto fInfo = nc->Class->GetField(name);
 
-			// ƒtƒB[ƒ‹ƒh‚ªboolŒ^‚Ìê‡‚Íint‚Å‚àó‚¯‚ç‚ê‚é‚æ‚¤‚É
+			// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãŒboolå‹ã®å ´åˆã¯intã§ã‚‚å—ã‘ã‚‰ã‚Œã‚‹ã‚ˆã†ã«
 			if ((fInfo->FieldType->Equals(System::Boolean::typeid) )
 				&& setValue->Class->Equals(System::Int32::typeid) )
 			{
@@ -578,14 +578,14 @@ namespace tv::hsp::net
 		return false;
 	}
 
-	// ƒCƒ“ƒfƒNƒT‚Í nullptr w’è‰Â”\
+	// ã‚¤ãƒ³ãƒ‡ã‚¯ã‚µã¯ nullptr æŒ‡å®šå¯èƒ½
 	bool Hsp3Net::SetPropertyValue(NetClass ^nc, String ^name, NetClass ^setValue, array<NetClass^> ^index)
 	{
 		try
 		{
 			auto pInfo = nc->Class->GetProperty(name);
 
-			// ƒvƒƒpƒeƒB‚ªboolŒ^‚Ìê‡‚Íint‚Å‚àó‚¯‚ç‚ê‚é‚æ‚¤‚É
+			// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãŒboolå‹ã®å ´åˆã¯intã§ã‚‚å—ã‘ã‚‰ã‚Œã‚‹ã‚ˆã†ã«
 			if ( (pInfo->PropertyType->Equals(System::Boolean::typeid) )
 				&& setValue->Class->Equals(System::Int32::typeid) )
 			{
@@ -596,7 +596,7 @@ namespace tv::hsp::net
 
 			if (index != nullptr)
 			{
-				// ƒCƒ“ƒfƒNƒT‚Í”š‚Å‚È‚­‚Ä‚à‚æ‚¢‚Ì‚ÅAobject‚Åó‚¯‚é
+				// ã‚¤ãƒ³ãƒ‡ã‚¯ã‚µã¯æ•°å­—ã§ãªãã¦ã‚‚ã‚ˆã„ã®ã§ã€objectã§å—ã‘ã‚‹
 				auto objIndex = gcnew array<Object^>(index->Length);
 				for (int i = 0; i < index->Length; i++)
 				{
@@ -710,11 +710,11 @@ namespace tv::hsp::net
 
 		NetClass ^Hsp3Net::GetTypeByString(Assembly ^assy, String ^className)
 		{
-			// ƒtƒ‹ƒl[ƒ€‚µ‚©ó‚¯•t‚¯‚È‚¢
+			// ãƒ•ãƒ«ãƒãƒ¼ãƒ ã—ã‹å—ã‘ä»˜ã‘ãªã„
 			auto type = assy->GetType(className);
 			if (type == nullptr)
 			{
-				// ’Z‚¢–¼‘O‚Å‚àŒŸõiüŒ`’Tõ‚È‚Ì‚ÅA‚¿‚å‚¢–³‘ÊŠ´‚ª‚ ‚é‚ªj
+				// çŸ­ã„åå‰ã§ã‚‚æ¤œç´¢ï¼ˆç·šå½¢æ¢ç´¢ãªã®ã§ã€ã¡ã‚‡ã„ç„¡é§„æ„ŸãŒã‚ã‚‹ãŒï¼‰
 				for each (auto t in assy->GetTypes())
 				{
 					if (className->Equals(t->Name))
@@ -757,7 +757,7 @@ namespace tv::hsp::net
 		return nullptr;
 	}
 
-	// rank = ”z—ñ‚ÌŸŒ³ (ƒfƒtƒHƒ‹ƒg = 1)
+	// rank = é…åˆ—ã®æ¬¡å…ƒ (ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ = 1)
 	NetClass ^Hsp3Net::AssignParamsArray(NetClass ^nc, int rank/* = 1*/)
 	{
 		try
@@ -818,20 +818,20 @@ namespace tv::hsp::net
 	{
 		try
 		{
-			// Typeî•ñ‚ğæ“¾
+			// Typeæƒ…å ±ã‚’å–å¾—
 			NetClass ^nc = GetTypeByString(assy, className);
 			if (nc == nullptr)
 			{
 				return nullptr;
 			}
 
-			// ƒWƒFƒlƒŠƒbƒNƒNƒ‰ƒX‚Ìê‡‚ÍAType‚ğ·‚µ‘Ö‚¦
+			// ã‚¸ã‚§ãƒãƒªãƒƒã‚¯ã‚¯ãƒ©ã‚¹ã®å ´åˆã¯ã€Typeã‚’å·®ã—æ›¿ãˆ
 			if (genericList != nullptr)
 			{
 				nc = AssignParamsGeneric(nc, genericList);
 			}
 
-			// Ã“IƒNƒ‰ƒX‚Å‚È‚¢‚È‚çƒCƒ“ƒXƒ^ƒ“ƒX‰»
+			// é™çš„ã‚¯ãƒ©ã‚¹ã§ãªã„ãªã‚‰ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–
 			if (!bStaticMethod)
 			{
 				List<Object^> ^listParams = gcnew List<Object^>();
@@ -930,25 +930,25 @@ namespace tv::hsp::net
 	{
 		try
 		{
-			//ƒRƒ“ƒpƒCƒ‹€”õ
+			//ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æº–å‚™
 			CodeDomProvider ^cp = gcnew Microsoft::CSharp::CSharpCodeProvider();
 			CompilerParameters ^cps = gcnew CompilerParameters();
 			CompilerResults ^cres;
 
-			//ƒƒ‚ƒŠ“à‚Åo—Í‚ğ¶¬
+			//ãƒ¡ãƒ¢ãƒªå†…ã§å‡ºåŠ›ã‚’ç”Ÿæˆ
 			cps->GenerateInMemory = true;
 			for each (auto asy in prms)
 			{
-				cps->ReferencedAssemblies->Add(asy); // System.Windows.Forms.dll ‚È‚ÇQÆ‚µ‚½‚¢ƒAƒZƒ“ƒuƒŠ
+				cps->ReferencedAssemblies->Add(asy); // System.Windows.Forms.dll ãªã©å‚ç…§ã—ãŸã„ã‚¢ã‚»ãƒ³ãƒ–ãƒª
 			}
 
-			// o—Í–¼i•t‚¯‚È‚¢‚Æ“K“–‚È–¼‘O‚É‚È‚é‚¾‚¯j
+			// å‡ºåŠ›åï¼ˆä»˜ã‘ãªã„ã¨é©å½“ãªåå‰ã«ãªã‚‹ã ã‘ï¼‰
 			if (outputName != nullptr)
 			{
 				cps->OutputAssembly = outputName;
 			}
 
-			//ƒRƒ“ƒpƒCƒ‹
+			//ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 			cres = cp->CompileAssemblyFromSource(cps, CSharpSource);
 
 			if (cres->Errors->Count > 0)
@@ -962,7 +962,7 @@ namespace tv::hsp::net
 				return nullptr;
 			}
 
-			// ƒRƒ“ƒpƒCƒ‹‚µ‚½ƒAƒZƒ“ƒuƒŠ‚ğæ“¾
+			// ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã—ãŸã‚¢ã‚»ãƒ³ãƒ–ãƒªã‚’å–å¾—
 			Assembly ^assy = cres->CompiledAssembly;
 			_AssemblySet->Add(assy);
 
@@ -981,25 +981,25 @@ namespace tv::hsp::net
 	{
 		try
 		{
-			//ƒRƒ“ƒpƒCƒ‹€”õ
+			//ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æº–å‚™
 			CodeDomProvider ^cp = gcnew Microsoft::VisualBasic::VBCodeProvider();
 			CompilerParameters ^cps = gcnew CompilerParameters();
 			CompilerResults ^cres;
 
-			//ƒƒ‚ƒŠ“à‚Åo—Í‚ğ¶¬
+			//ãƒ¡ãƒ¢ãƒªå†…ã§å‡ºåŠ›ã‚’ç”Ÿæˆ
 			cps->GenerateInMemory = true;
 			for each (auto asy in prms)
 			{
-				cps->ReferencedAssemblies->Add(asy); // System.Windows.Forms.dll ‚È‚ÇQÆ‚µ‚½‚¢ƒAƒZƒ“ƒuƒŠ
+				cps->ReferencedAssemblies->Add(asy); // System.Windows.Forms.dll ãªã©å‚ç…§ã—ãŸã„ã‚¢ã‚»ãƒ³ãƒ–ãƒª
 			}
 
-			// o—Í–¼i•t‚¯‚È‚¢‚Æ“K“–‚È–¼‘O‚É‚È‚é‚¾‚¯j
+			// å‡ºåŠ›åï¼ˆä»˜ã‘ãªã„ã¨é©å½“ãªåå‰ã«ãªã‚‹ã ã‘ï¼‰
 			if (outputName != nullptr)
 			{
 				cps->OutputAssembly = outputName;
 			}
 
-			//ƒRƒ“ƒpƒCƒ‹
+			//ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 			cres = cp->CompileAssemblyFromSource(cps, VBSource);
 
 			if (cres->Errors->Count > 0)
@@ -1013,7 +1013,7 @@ namespace tv::hsp::net
 				return nullptr;
 			}
 
-			// ƒRƒ“ƒpƒCƒ‹‚µ‚½ƒAƒZƒ“ƒuƒŠ‚ğæ“¾
+			// ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã—ãŸã‚¢ã‚»ãƒ³ãƒ–ãƒªã‚’å–å¾—
 			Assembly ^assy = cres->CompiledAssembly;
 			_AssemblySet->Add(assy);
 
@@ -1033,14 +1033,14 @@ namespace tv::hsp::net
 	{
 		try
 		{
-			// “¯–¼‚Ìƒƒ\ƒbƒh‚ğ‹æ•Ê‚·‚é‚½‚ß‚ÉAˆø”‚ÌType‚ğ“n‚·
+			// åŒåã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’åŒºåˆ¥ã™ã‚‹ãŸã‚ã«ã€å¼•æ•°ã®Typeã‚’æ¸¡ã™
 			List<Type^> ^listTypes = gcnew List<Type^>();
 			for each (auto p in prms)
 			{
 				listTypes->Add(p->Class);
 			}
 
-			// ƒWƒFƒlƒŠƒbƒNƒƒ\ƒbƒh‚Ìê‡‚ÍA‚»‚Ì‚Ü‚Üæ‚ê‚È‚¢‚Á‚Û‚¢
+			// ã‚¸ã‚§ãƒãƒªãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰ã®å ´åˆã¯ã€ãã®ã¾ã¾å–ã‚Œãªã„ã£ã½ã„
 			MethodInfo ^method = nullptr;
 			if (genericList != nullptr)
 			{
@@ -1048,21 +1048,21 @@ namespace tv::hsp::net
 			}
 			else
 			{
-				// ƒWƒFƒlƒŠƒbƒN‚Å‚È‚¢‚È‚ç‚±‚Á‚¿‚Å‚æ‚µ
+				// ã‚¸ã‚§ãƒãƒªãƒƒã‚¯ã§ãªã„ãªã‚‰ã“ã£ã¡ã§ã‚ˆã—
 				method = nc->Class->GetMethod(methodName, listTypes->ToArray());
 			}
 
-			// ˆø”
+			// å¼•æ•°
 			array<Object^> ^arrayParams = gcnew array<Object^>(prms->Length);
 			for (int i = 0; i < arrayParams->Length; i++)
 			{
 				arrayParams[i] = prms[i]->Instance;
 			}
 
-			// Às
+			// å®Ÿè¡Œ
 			auto ret = method->Invoke(nc->Instance, arrayParams);
 
-			// ref, out ˆ—
+			// ref, out å‡¦ç†
 			for (int i = 0; i < prms->Length; i++)
 			{
 				if (prms[i] != nullptr && prms[i]->Class != nullptr && prms[i]->Class->IsByRef)
@@ -1071,9 +1071,9 @@ namespace tv::hsp::net
 				}
 			}
 
-			// –ß‚è’l
+			// æˆ»ã‚Šå€¤
 			NetClass ^ncRet = gcnew NetClass();
-			if (ret != nullptr) // –ß‚è’l‚ªvoid‚¾‚Ænull‚ª•Ô‚éB—áŠO‚Æ‹æ•Ê‚µ‚½‚¢‚Ì‚ÅAreturn null ‚Æ‚Í‚µ‚È‚¢B
+			if (ret != nullptr) // æˆ»ã‚Šå€¤ãŒvoidã ã¨nullãŒè¿”ã‚‹ã€‚ä¾‹å¤–æ™‚ã¨åŒºåˆ¥ã—ãŸã„ã®ã§ã€return null ã¨ã¯ã—ãªã„ã€‚
 			{
 				ncRet->Class = ret->GetType();
 				ncRet->Assembly = ncRet->Class->Assembly;
@@ -1092,31 +1092,31 @@ namespace tv::hsp::net
 	{
 		try
 		{
-			// ƒpƒ‰ƒ[ƒ^‚Ì”
+			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®æ•°
 			int paramNum = prms->Length;
 
-			// ƒWƒFƒlƒŠƒbƒN‚Ì”
+			// ã‚¸ã‚§ãƒãƒªãƒƒã‚¯ã®æ•°
 			int genericNum = genericList->Length;
 
-			// ƒWƒFƒlƒŠƒbƒN‚ÌƒI[ƒo[ƒ[ƒhƒ`ƒFƒbƒN—pi—Dæ‡ˆÊ‚Ì‰ğŒˆj
+			// ã‚¸ã‚§ãƒãƒªãƒƒã‚¯ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰ãƒã‚§ãƒƒã‚¯ç”¨ï¼ˆå„ªå…ˆé †ä½ã®è§£æ±ºï¼‰
 
-			// Å‚ƒ|ƒCƒ“ƒg
+			// æœ€é«˜ãƒã‚¤ãƒ³ãƒˆ
 			int topPoints = 0;
 
-			// Å‚ƒ|ƒCƒ“ƒg‚ğŠl“¾‚µ‚½Û‚Ìƒƒ\ƒbƒh
+			// æœ€é«˜ãƒã‚¤ãƒ³ãƒˆã‚’ç²å¾—ã—ãŸéš›ã®ãƒ¡ã‚½ãƒƒãƒ‰
 			MethodInfo ^topMethod = nullptr;
 
-			// ƒNƒ‰ƒX‚ª‚Âƒƒ\ƒbƒhˆê——‚ğ’Tõ
+			// ã‚¯ãƒ©ã‚¹ãŒæŒã¤ãƒ¡ã‚½ãƒƒãƒ‰ä¸€è¦§ã‚’æ¢ç´¢
 			for each (auto m in nc->Class->GetMethods())
 			{
-				// ƒƒ\ƒbƒh‚Ìƒpƒ‰ƒ[ƒ^
+				// ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 				auto methodParams = m->GetParameters();
 
-				// ƒƒ\ƒbƒh–¼AƒWƒFƒlƒŠƒbƒNƒƒ\ƒbƒh‚©A
-				// ƒpƒ‰ƒ[ƒ^‚Ì”AƒWƒFƒlƒŠƒbƒN‚Ì”‚ªˆê’v
+				// ãƒ¡ã‚½ãƒƒãƒ‰åã€ã‚¸ã‚§ãƒãƒªãƒƒã‚¯ãƒ¡ã‚½ãƒƒãƒ‰ã‹ã€
+				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®æ•°ã€ã‚¸ã‚§ãƒãƒªãƒƒã‚¯ã®æ•°ãŒä¸€è‡´
 				if (methodName->Equals(m->Name) && m->IsGenericMethod && paramNum == methodParams->Length && genericNum == m->GetGenericArguments()->Length)
 				{
-					// ˆø”‚ÌŒ^‚Ìˆê’v‚ğƒ`ƒFƒbƒN‚·‚éi‚±‚±A‚â‚â‚±‚µ‚¢šj
+					// å¼•æ•°ã®å‹ã®ä¸€è‡´ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ï¼ˆã“ã“ã€ã‚„ã‚„ã“ã—ã„â˜…ï¼‰
 
 					//public void Message<T>(T a, string b)
 					//{
@@ -1128,12 +1128,12 @@ namespace tv::hsp::net
 					//    MessageBox.Show("B");
 					//}
 
-					// ‚Æ‚¢‚¤’è‹`‚ª‚ ‚Á‚½ê‡AMessage<string>("1", "2");
-					// ‚ğŒÄ‚Ô‚ÆA"A" ‚Ì•û‚ª—Dæ‚³‚ê‚éB
-					// ‚Æ‚¢‚¤‚í‚¯‚ÅAƒWƒFƒlƒŠƒbƒN‚Ì•û‚ª—Dæ“x‚ª’á‚¢‚Ì‚Å
-					// ‚»‚ê‚ğl—¶‚·‚éB‚Æ‚è‚Üƒ|ƒCƒ“ƒg§‚Æ‚·‚éB
+					// ã¨ã„ã†å®šç¾©ãŒã‚ã£ãŸå ´åˆã€Message<string>("1", "2");
+					// ã‚’å‘¼ã¶ã¨ã€"A" ã®æ–¹ãŒå„ªå…ˆã•ã‚Œã‚‹ã€‚
+					// ã¨ã„ã†ã‚ã‘ã§ã€ã‚¸ã‚§ãƒãƒªãƒƒã‚¯ã®æ–¹ãŒå„ªå…ˆåº¦ãŒä½ã„ã®ã§
+					// ãã‚Œã‚’è€ƒæ…®ã™ã‚‹ã€‚ã¨ã‚Šã¾ãƒã‚¤ãƒ³ãƒˆåˆ¶ã¨ã™ã‚‹ã€‚
 
-					// ƒWƒFƒlƒŠƒbƒN«‘‚ÉÏ‚ñ‚Å‚¨‚­
+					// ã‚¸ã‚§ãƒãƒªãƒƒã‚¯è¾æ›¸ã«ç©ã‚“ã§ãŠã
 					Dictionary<String^, Type^> ^dicGenericStr2RealType = gcnew Dictionary<String^, Type^>();
 					auto gas = m->GetGenericArguments();
 					for (int i = 0; i < gas->Length; i++)
@@ -1141,58 +1141,58 @@ namespace tv::hsp::net
 						dicGenericStr2RealType[gas[i]->Name] = genericList[i]->Class;
 					}
 
-					// ˆø”‚ÌŒ^‚ğƒWƒFƒlƒŠƒbƒNˆø”‚©‚ç‰ğŒˆ‚·‚é(Œ^‚ÌŠm’èj
+					// å¼•æ•°ã®å‹ã‚’ã‚¸ã‚§ãƒãƒªãƒƒã‚¯å¼•æ•°ã‹ã‚‰è§£æ±ºã™ã‚‹(å‹ã®ç¢ºå®šï¼‰
 					int nPoints = 0;
 					for (int i = 0; i < methodParams->Length; i++)
 					{
-						// Š®‘Sˆê’v
+						// å®Œå…¨ä¸€è‡´
 						if (methodParams->GetType()->Equals(prms[i]->Class))
 						{
-							// “¯ˆêƒNƒ‰ƒX
+							// åŒä¸€ã‚¯ãƒ©ã‚¹
 							nPoints++;
 							continue;
 						}
 						else if (methodParams->GetType()->IsSubclassOf(prms[i]->Class))
 						{
-							// ”h¶ƒNƒ‰ƒXH
+							// æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ï¼Ÿ
 							nPoints++;
 							continue;
 						}
 
-						// ƒWƒFƒlƒŠƒbƒN«‘‚©‚ç–{“–‚ÌŒ^‚ğ‰ğŒˆ‚·‚é
+						// ã‚¸ã‚§ãƒãƒªãƒƒã‚¯è¾æ›¸ã‹ã‚‰æœ¬å½“ã®å‹ã‚’è§£æ±ºã™ã‚‹
 						Type ^newType;
 						if (!dicGenericStr2RealType->TryGetValue(methodParams[i]->ParameterType->Name, newType))
 						{
-							// ƒWƒFƒlƒŠƒbƒN‚Ìˆø”‚¶‚á‚È‚¢
-							// Š®‘Sˆê’v‚à‚µ‚È‚©‚Á‚½‚Ì‚ÅAˆ—I—¹
+							// ã‚¸ã‚§ãƒãƒªãƒƒã‚¯ã®å¼•æ•°ã˜ã‚ƒãªã„
+							// å®Œå…¨ä¸€è‡´ã‚‚ã—ãªã‹ã£ãŸã®ã§ã€å‡¦ç†çµ‚äº†
 							nPoints = -1;
 							break;
 						}
 
-						// ƒWƒFƒlƒŠƒbƒN‚ÌŒ^‰ğŒˆ‚µ‚½‚¯‚ÇAŒ^‚ªˆá‚Á‚½
+						// ã‚¸ã‚§ãƒãƒªãƒƒã‚¯ã®å‹è§£æ±ºã—ãŸã‘ã©ã€å‹ãŒé•ã£ãŸ
 						if (newType->Equals(prms[i]->Class))
 						{
-							// –{“–‚ÌŒ^‚Æ‚Íˆê’v‚µ‚½i‚¯‚ÇAƒ|ƒCƒ“ƒg‚Í‰ÁZ‚µ‚È‚¢j
+							// æœ¬å½“ã®å‹ã¨ã¯ä¸€è‡´ã—ãŸï¼ˆã‘ã©ã€ãƒã‚¤ãƒ³ãƒˆã¯åŠ ç®—ã—ãªã„ï¼‰
 							continue;
 						}
 						else if (newType->IsSubclassOf(prms[i]->Class))
 						{
-							// ”h¶ƒNƒ‰ƒXi‚¯‚ÇAƒ|ƒCƒ“ƒg‚Í‰ÁZ‚µ‚È‚¢j
+							// æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ï¼ˆã‘ã©ã€ãƒã‚¤ãƒ³ãƒˆã¯åŠ ç®—ã—ãªã„ï¼‰
 							continue;
 						}
 
-						// ˆê’v‚µ‚È‚©‚Á‚½‚Ì‚ÅAˆ—I—¹
+						// ä¸€è‡´ã—ãªã‹ã£ãŸã®ã§ã€å‡¦ç†çµ‚äº†
 						nPoints = -1;
 						break;
 					}
 
-					// ˆê’v‚µ‚È‚©‚Á‚½‚Ì‚ÅŸ
+					// ä¸€è‡´ã—ãªã‹ã£ãŸã®ã§æ¬¡
 					if (nPoints == -1)
 					{
 						continue;
 					}
 
-					// “¾“_XVH
+					// å¾—ç‚¹æ›´æ–°ï¼Ÿ
 					if (topPoints <= nPoints)
 					{
 						topPoints = nPoints;
@@ -1201,7 +1201,7 @@ namespace tv::hsp::net
 				}
 			}
 
-			// Š®‘S‰ğŒˆ‚µ‚È‚¢‚ÆŒÄ‚×‚È‚¢
+			// å®Œå…¨è§£æ±ºã—ãªã„ã¨å‘¼ã¹ãªã„
 			array<Type^> ^arrayTypes = gcnew array<Type^>(genericList->Length);
 			for (int i = 0; i < arrayTypes->Length; i++)
 			{
@@ -1251,7 +1251,7 @@ namespace tv::hsp::net
 		}
 		catch (Exception ^e1)
 		{
-			// —¬Î‚ÉÏ‚Ü‚ñ‚Å—Ç‚¢
+			// æµçŸ³ã«ç©ã¾ã‚“ã§è‰¯ã„
 			return nullptr;
 		}
 	}

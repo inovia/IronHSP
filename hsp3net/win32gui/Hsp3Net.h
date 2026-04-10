@@ -37,16 +37,16 @@ namespace tv::hsp::net
 
 	public:
 		/// <summary>
-		/// ”z—ñ‚ğì¬‚µ‚Ü‚·
+		/// é…åˆ—ã‚’ä½œæˆã—ã¾ã™
 		/// </summary>
-		/// <param name="classType">ì¬‚·‚éŒ^</param>
-		/// <param name="rank_length">ŸŒ³”A—v‘f”</param>
+		/// <param name="classType">ä½œæˆã™ã‚‹å‹</param>
+		/// <param name="rank_length">æ¬¡å…ƒæ•°ã€è¦ç´ æ•°</param>
 		/// <returns></returns>
 	
 		NetClass ^CreateArray(NetClass ^classType, ... array<int> ^rank_length);
 
 		/// <summary>
-		/// ”z—ñ‚É’l‚ğƒZƒbƒg‚µ‚Ü‚·
+		/// é…åˆ—ã«å€¤ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™
 		/// </summary>
 		/// <param name="nc"></param>
 		/// <param name="setValue"></param>
@@ -55,7 +55,7 @@ namespace tv::hsp::net
 		bool SetArrayValue(NetClass ^nc, NetClass ^setValue, ... array<int> ^index);
 
 		/// <summary>
-		/// ”z—ñ‚É’l‚ğæ“¾‚µ‚Ü‚·
+		/// é…åˆ—ã«å€¤ã‚’å–å¾—ã—ã¾ã™
 		/// </summary>
 		/// <param name="nc"></param>
 		/// <param name="setValue"></param>
@@ -64,7 +64,7 @@ namespace tv::hsp::net
 		NetClass ^GetArrayValue(NetClass ^nc, ... array<int> ^index);
 
 		/// <summary>
-		/// —v‘f”‚ğæ“¾
+		/// è¦ç´ æ•°ã‚’å–å¾—
 		/// </summary>
 		/// <param name="nc"></param>
 		/// <param name="rank"></param>
@@ -168,7 +168,7 @@ namespace tv::hsp::net
 	public:
 
 		/// <summary>
-		/// ƒtƒB[ƒ‹ƒh•Ï”‚Ì’l‚ğæ“¾‚µ‚Ü‚·
+		/// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å¤‰æ•°ã®å€¤ã‚’å–å¾—ã—ã¾ã™
 		/// </summary>
 		/// <param name="nc"></param>
 		/// <param name="name"></param>
@@ -177,16 +177,16 @@ namespace tv::hsp::net
 		NetClass ^GetFieldValue(NetClass ^nc, String ^name);
 
 		/// <summary>
-		/// ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚µ‚Ü‚·
+		/// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®å€¤ã‚’å–å¾—ã—ã¾ã™
 		/// </summary>
 		/// <param name="nc"></param>
 		/// <param name="name"></param>
-		/// <param name="index">ƒCƒ“ƒfƒNƒT‚ğg‚¤ê‡‚Ì‚İw’è</param>
+		/// <param name="index">ã‚¤ãƒ³ãƒ‡ã‚¯ã‚µã‚’ä½¿ã†å ´åˆã®ã¿æŒ‡å®š</param>
 		/// <returns></returns>
 		NetClass ^GetPropertyValue(NetClass ^nc, String ^name, array<NetClass^> ^index);
 
 		/// <summary>
-		/// ƒtƒB[ƒ‹ƒh•Ï”‚É’l‚ğİ’è‚µ‚Ü‚·
+		/// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å¤‰æ•°ã«å€¤ã‚’è¨­å®šã—ã¾ã™
 		/// </summary>
 		/// <param name="nc"></param>
 		/// <param name="name"></param>
@@ -194,11 +194,11 @@ namespace tv::hsp::net
 		bool SetFieldValue(NetClass ^nc, String ^name, NetClass ^setValue);
 
 		/// <summary>
-		/// ƒvƒƒpƒeƒB‚É’l‚ğİ’è‚µ‚Ü‚·
+		/// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã«å€¤ã‚’è¨­å®šã—ã¾ã™
 		/// </summary>
 		/// <param name="nc"></param>
 		/// <param name="name"></param>
-		/// <param name="index">ƒCƒ“ƒfƒNƒT‚ğg‚¤ê‡‚Ì‚İw’è</param>
+		/// <param name="index">ã‚¤ãƒ³ãƒ‡ã‚¯ã‚µã‚’ä½¿ã†å ´åˆã®ã¿æŒ‡å®š</param>
 		/// <returns></returns>
 		bool SetPropertyValue(NetClass ^nc, String ^name, NetClass ^setValue, array<NetClass^> ^index);
 
@@ -294,28 +294,28 @@ namespace tv::hsp::net
 	public:
 
 		/// <summary>
-		/// ref, out ƒpƒ‰ƒ[ƒ^‚ğ•t—^‚µ‚Ü‚·
+		/// ref, out ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ä»˜ä¸ã—ã¾ã™
 		/// </summary>
 		/// <param name="nc"></param>
 		/// <returns></returns>
 		NetClass ^AssignParamsRefOut(NetClass ^nc);
 
 		/// <summary>
-		/// ”z—ñ [] ƒpƒ‰ƒ[ƒ^‚ğ•t—^‚µ‚Ü‚·
+		/// é…åˆ— [] ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ä»˜ä¸ã—ã¾ã™
 		/// </summary>
 		/// <param name="nc"></param>
 		/// <returns></returns>
 		NetClass ^AssignParamsArray(NetClass ^nc, int rank);
 
 		/// <summary>
-		/// unsafe ƒ|ƒCƒ“ƒ^ * ƒpƒ‰ƒ[ƒ^‚ğ•t—^‚µ‚Ü‚·
+		/// unsafe ãƒã‚¤ãƒ³ã‚¿ * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ä»˜ä¸ã—ã¾ã™
 		/// </summary>
 		/// <param name="nc"></param>
 		/// <returns></returns>
 		NetClass ^AssignParamsUnsafePointer(NetClass ^nc);
 
 		/// <summary>
-		/// Generic ƒpƒ‰ƒ[ƒ^‚ğ•t—^‚µ‚Ü‚·
+		/// Generic ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ä»˜ä¸ã—ã¾ã™
 		/// </summary>
 		/// <param name="nc"></param>
 		/// <returns></returns>
@@ -354,13 +354,13 @@ namespace tv::hsp::net
 	public:
 
 		/// <summary>
-		/// ÅV‚Ì”­¶‚µ‚½—áŠOƒXƒ^ƒbƒN‚ğæ“¾‚µA•¶š—ñ‰»‚µ‚½‚à‚Ì‚ğ•Ô‚µ‚Ü‚·
+		/// æœ€æ–°ã®ç™ºç”Ÿã—ãŸä¾‹å¤–ã‚¹ã‚¿ãƒƒã‚¯ã‚’å–å¾—ã—ã€æ–‡å­—åˆ—åŒ–ã—ãŸã‚‚ã®ã‚’è¿”ã—ã¾ã™
 		/// </summary>
-		/// <returns>—áŠOƒXƒ^ƒbƒN‚ª‹ó‚Ìê‡‚Ínull‚ğ•Ô‚µ‚Ü‚·</returns>
+		/// <returns>ä¾‹å¤–ã‚¹ã‚¿ãƒƒã‚¯ãŒç©ºã®å ´åˆã¯nullã‚’è¿”ã—ã¾ã™</returns>
 		String ^PopLastExceptionToString();
 
 		/// <summary>
-		/// ÅŒã‚ÉÀs‚µ‚½ƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚ğæ“¾‚µ‚Ü‚·
+		/// æœ€å¾Œã«å®Ÿè¡Œã—ãŸã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ã‚’å–å¾—ã—ã¾ã™
 		/// </summary>
 		/// <returns></returns>
 		String ^GetLastCompileErrorToString();
@@ -370,44 +370,44 @@ namespace tv::hsp::net
 public ref class GlobalAccess
 {
 public:
-	// HSP‚©‚ç.NET‚ğ‘€ì‚·‚éƒNƒ‰ƒX
+	// HSPã‹ã‚‰.NETã‚’æ“ä½œã™ã‚‹ã‚¯ãƒ©ã‚¹
 	static tv::hsp::net::Hsp3Net^ g_Hsp3Net;
 
 private:
 	
-	// ŠÇ—’†‚ÌƒlƒCƒeƒBƒuƒ|ƒCƒ“ƒ^‚ÌSet(‘S‘Ì)
+	// ç®¡ç†ä¸­ã®ãƒã‚¤ãƒ†ã‚£ãƒ–ãƒã‚¤ãƒ³ã‚¿ã®Set(å…¨ä½“)
 	static HashSet<IntPtr>^ _NativePtrAllSet;
 
-	// ŠÇ—’†‚ÌƒlƒCƒeƒBƒuƒ|ƒCƒ“ƒ^‚ÌSet(ƒJƒŒƒ“ƒgƒXƒR[ƒv‚Ì‚İ)
+	// ç®¡ç†ä¸­ã®ãƒã‚¤ãƒ†ã‚£ãƒ–ãƒã‚¤ãƒ³ã‚¿ã®Set(ã‚«ãƒ¬ãƒ³ãƒˆã‚¹ã‚³ãƒ¼ãƒ—ã®ã¿)
 	static HashSet<IntPtr>^ _NativePtrCurrentScopeSet;
 
-	// ƒXƒR[ƒv’PˆÊ‚ÌƒlƒCƒeƒBƒuƒ|ƒCƒ“ƒ^‚ÌƒXƒ^ƒbƒN
+	// ã‚¹ã‚³ãƒ¼ãƒ—å˜ä½ã®ãƒã‚¤ãƒ†ã‚£ãƒ–ãƒã‚¤ãƒ³ã‚¿ã®ã‚¹ã‚¿ãƒƒã‚¯
 	static System::Collections::Generic::Stack<HashSet<IntPtr>^>^ _NativePtrCurrentScopeStack;
 
 public:
 
-	// ƒlƒCƒeƒBƒuƒ|ƒCƒ“ƒ^‚ğæ“¾‚µ‚Ü‚·
-	// @Free()‚·‚é‚Ü‚ÅAGC‚ª“­‚©‚È‚­‚È‚è‚Ü‚·
-	// @“KØ‚ÉŠJ•ú‚µ‚È‚¯‚ê‚ÎAƒƒ‚ƒŠƒŠ[ƒN‚ÌŒ´ˆö‚ğì‚è‚Ü‚·
-	// @@“¯‚¶ƒCƒ“ƒXƒ^ƒ“ƒX‚Å–{ŠÖ”‚ğ2“xÀs‚µ‚½ê‡AƒAƒhƒŒƒX‚Í•Ê‚É¶¬‚³‚ê‚Ü‚·
-	// @@‚±‚Ìê‡AI—¹ˆÈŠO‰ğ•ú‚·‚éè—§‚Ä‚ª‚È‚­‚È‚è‚Ü‚·‚Ì‚ÅAƒŠ[ƒN‚µ‚Ü‚·B
+	// ãƒã‚¤ãƒ†ã‚£ãƒ–ãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—ã—ã¾ã™
+	// ã€€Free()ã™ã‚‹ã¾ã§ã€GCãŒåƒã‹ãªããªã‚Šã¾ã™
+	// ã€€é©åˆ‡ã«é–‹æ”¾ã—ãªã‘ã‚Œã°ã€ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯ã®åŸå› ã‚’ä½œã‚Šã¾ã™
+	// ã€€ã€€åŒã˜ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã§æœ¬é–¢æ•°ã‚’2åº¦å®Ÿè¡Œã—ãŸå ´åˆã€ã‚¢ãƒ‰ãƒ¬ã‚¹ã¯åˆ¥ã«ç”Ÿæˆã•ã‚Œã¾ã™
+	// ã€€ã€€ã“ã®å ´åˆã€çµ‚äº†æ™‚ä»¥å¤–è§£æ”¾ã™ã‚‹æ‰‹ç«‹ã¦ãŒãªããªã‚Šã¾ã™ã®ã§ã€ãƒªãƒ¼ã‚¯ã—ã¾ã™ã€‚
 	static void* CreateNativePtr(tv::hsp::net::NetClass^ nc)
 	{
-		// ‘S‘Ì‚ÆƒJƒŒƒ“ƒgƒXƒR[ƒv‚É’Ç‰Á
+		// å…¨ä½“ã¨ã‚«ãƒ¬ãƒ³ãƒˆã‚¹ã‚³ãƒ¼ãƒ—ã«è¿½åŠ 
 		IntPtr ptr = (IntPtr)GCHandle::Alloc(nc);
 		_NativePtrAllSet->Add(ptr);
 		_NativePtrCurrentScopeSet->Add(ptr);
 		return (void*)ptr;
 	}
 
-	// ƒlƒCƒeƒBƒuƒ|ƒCƒ“ƒ^‚©‚çNetClass‚ğ‰ğŒˆ‚µ‚Ü‚·
+	// ãƒã‚¤ãƒ†ã‚£ãƒ–ãƒã‚¤ãƒ³ã‚¿ã‹ã‚‰NetClassã‚’è§£æ±ºã—ã¾ã™
 	static tv::hsp::net::NetClass^ GetNativePtrToNetClass(void* ptr)
 	{
 		try
 		{
 			IntPtr intPtr = IntPtr(ptr);
 
-			// ŠÇ—ŠO‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·‚Æ.NET‘¤‚ª€‚Ê‚Ì‚Åƒ`ƒFƒbƒN
+			// ç®¡ç†å¤–ã®ãƒã‚¤ãƒ³ã‚¿ã‚’æ¸¡ã™ã¨.NETå´ãŒæ­»ã¬ã®ã§ãƒã‚§ãƒƒã‚¯
 			if (!_NativePtrAllSet->Contains(intPtr))
 				return nullptr;
 
@@ -420,14 +420,14 @@ public:
 		}
 	}
 
-	// ¶‚«‚Ä‚¢‚éƒ|ƒCƒ“ƒ^H
+	// ç”Ÿãã¦ã„ã‚‹ãƒã‚¤ãƒ³ã‚¿ï¼Ÿ
 	static bool IsActiveNativePtr(void* ptr)
 	{
 		try
 		{
 			IntPtr intPtr = IntPtr(ptr);
 
-			// ŠÇ—ŠO‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·‚Æ.NET‘¤‚ª€‚Ê‚Ì‚Åƒ`ƒFƒbƒN
+			// ç®¡ç†å¤–ã®ãƒã‚¤ãƒ³ã‚¿ã‚’æ¸¡ã™ã¨.NETå´ãŒæ­»ã¬ã®ã§ãƒã‚§ãƒƒã‚¯
 			if (!_NativePtrAllSet->Contains(intPtr))
 				return false;
 
@@ -440,15 +440,15 @@ public:
 		}
 	}
 
-	// CreateNativePtr()‚µ‚½Û‚Ìƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚µ‚Ü‚·
-	//@@GC‚Ì‘ÎÛ‚É–ß‚è‚Ü‚·
+	// CreateNativePtr()ã—ãŸéš›ã®ãƒã‚¤ãƒ³ã‚¿ã‚’è§£æ”¾ã—ã¾ã™
+	//ã€€ã€€GCã®å¯¾è±¡ã«æˆ»ã‚Šã¾ã™
 	static bool Free(void* ptr)
 	{
 		try
 		{
 			IntPtr intPtr = IntPtr(ptr);
 
-			// ŠÇ—ŠO‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·‚Æ.NET‘¤‚ª€‚Ê‚Ì‚Åƒ`ƒFƒbƒN
+			// ç®¡ç†å¤–ã®ãƒã‚¤ãƒ³ã‚¿ã‚’æ¸¡ã™ã¨.NETå´ãŒæ­»ã¬ã®ã§ãƒã‚§ãƒƒã‚¯
 			if (!_NativePtrAllSet->Contains(intPtr))
 				return false;
 
@@ -469,7 +469,7 @@ public:
 		}
 	}
 
-	// ‘SíœiI—¹j
+	// å…¨å‰Šé™¤ï¼ˆçµ‚äº†æ™‚ï¼‰
 	static bool DestroyAll()
 	{
 		try
@@ -492,7 +492,7 @@ public:
 
 	static bool PushNativePtrCurrentStack()
 	{
-		// Œ»İ‚Ìó‘Ô‚ğƒXƒ^ƒbƒN‚ÉÏ‚ñ‚ÅAŒ»İ‚ÌƒJƒŒƒ“ƒg‚ğƒNƒŠƒA
+		// ç¾åœ¨ã®çŠ¶æ…‹ã‚’ã‚¹ã‚¿ãƒƒã‚¯ã«ç©ã‚“ã§ã€ç¾åœ¨ã®ã‚«ãƒ¬ãƒ³ãƒˆã‚’ã‚¯ãƒªã‚¢
 		_NativePtrCurrentScopeStack->Push(
 			gcnew HashSet<IntPtr>( _NativePtrCurrentScopeSet));
 		_NativePtrCurrentScopeSet->Clear();
@@ -501,30 +501,30 @@ public:
 
 	static bool PopNativePtrCurrentStack(... array<IntPtr> ^prms)
 	{
-		// Œ»İ‚ÌƒJƒŒƒ“ƒg‚ÌQÆ‚ğíœ‚µAƒXƒ^ƒbƒN‚©‚çƒJƒŒƒ“ƒg‚ğ•œŒ³‚·‚é
-		// íœ‚·‚éÛ‚ÍAˆø”‚Åw’è‚³‚ê‚½‚à‚Ì‚ÍœŠO‚·‚é
+		// ç¾åœ¨ã®ã‚«ãƒ¬ãƒ³ãƒˆã®å‚ç…§ã‚’å‰Šé™¤ã—ã€ã‚¹ã‚¿ãƒƒã‚¯ã‹ã‚‰ã‚«ãƒ¬ãƒ³ãƒˆã‚’å¾©å…ƒã™ã‚‹
+		// å‰Šé™¤ã™ã‚‹éš›ã¯ã€å¼•æ•°ã§æŒ‡å®šã•ã‚ŒãŸã‚‚ã®ã¯é™¤å¤–ã™ã‚‹
 		try
 		{
-			// íœ‘ÎÛŠO‚Íˆø”‚Åw’è‚³‚ê‚Ä‚¢‚é‚Ì‚ÅA—\‚ß”²‚¢‚Ä‚¨‚­
+			// å‰Šé™¤å¯¾è±¡å¤–ã¯å¼•æ•°ã§æŒ‡å®šã•ã‚Œã¦ã„ã‚‹ã®ã§ã€äºˆã‚æŠœã„ã¦ãŠã
 			for each (auto intPtr in prms)
 			{
 				_NativePtrCurrentScopeSet->Remove(intPtr);
 			}
 
-			// Œ»İ‚ÌƒXƒR[ƒv‚É‚ ‚éQÆ‚ğ‰ğ•ú
+			// ç¾åœ¨ã®ã‚¹ã‚³ãƒ¼ãƒ—ã«ã‚ã‚‹å‚ç…§ã‚’è§£æ”¾
 			for each (auto intPtr in _NativePtrCurrentScopeSet)
 			{
 				try
 				{
-					// ŠÇ—ŠO‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·‚Æ.NET‘¤‚ª€‚Ê‚Ì‚Åƒ`ƒFƒbƒN
+					// ç®¡ç†å¤–ã®ãƒã‚¤ãƒ³ã‚¿ã‚’æ¸¡ã™ã¨.NETå´ãŒæ­»ã¬ã®ã§ãƒã‚§ãƒƒã‚¯
 					if (!_NativePtrAllSet->Contains(intPtr))
 						continue;
 
-					// ‰ğ•ú
+					// è§£æ”¾
 					auto gch = GCHandle::FromIntPtr(intPtr);
 					gch.Free();
 
-					// ‘S‘Ì‚©‚ç”²‚¢‚Ä‚¨‚­
+					// å…¨ä½“ã‹ã‚‰æŠœã„ã¦ãŠã
 					_NativePtrAllSet->Remove(intPtr);
 				}
 				catch (Exception^ ex2)
@@ -533,7 +533,7 @@ public:
 				}
 			}
 
-			// ƒXƒ^ƒbƒN‚ÌŠª‚«–ß‚µ
+			// ã‚¹ã‚¿ãƒƒã‚¯ã®å·»ãæˆ»ã—
 			_NativePtrCurrentScopeSet->Clear();
 			_NativePtrCurrentScopeSet = _NativePtrCurrentScopeStack->Pop();
 			return true;

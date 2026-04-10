@@ -38,8 +38,6 @@ static HSPCTX *ctx;
 static char fpas[]={ 'H'-48,'S'-48,'P'-48,'H'-48,
 					 'E'-48,'D'-48,'~'-48,'~'-48 };
 static char optmes[] = "HSPHED~~\0_1_________2_________3______";
-					 'E'-48,'D'-48,'‾'-48,'‾'-48 };
-static char optmes[] = "HSPHED‾‾¥0_1_________2_________3______";
 
 static int hsp_wx, hsp_wy, hsp_wd, hsp_ss;
 
@@ -250,8 +248,6 @@ void hsp3win_msgfunc( HSPCTX *hspctx )
 						tick = timeGetTime();
 						if (code_exec_await(tick) == RUNMODE_RUN) break;
 						Sleep(1);
-				tick = timeGetTime()+5;				// すこし早めに抜けるようにする
-					while( tick < hspctx->waittick ) {	// 細かいwaitを取る
 					}
 					hspctx->lasttick = tick;
 					hspctx->runmode = RUNMODE_RUN;
@@ -305,9 +301,6 @@ int hsp3win_init( HINSTANCE hInstance, char *startfile )
 #endif
 
 #ifndef HSP_COM_UNSUPPORTED
-	if ( FAILED( CoInitializeEx( NULL, COINIT_APARTMENTTHREADED) ) ) {
-		return 1;
-	}
 	// .NET版はすでに初期化されているため、必ず失敗する。無視してよい。
 	CoInitializeEx( NULL, COINIT_APARTMENTTHREADED);
 	//if ( FAILED( CoInitializeEx( NULL, COINIT_APARTMENTTHREADED) ) ) {
@@ -476,8 +469,6 @@ void hsp3win_error(void)
 	}
 	else {
 		sprintf(errmsg, "#Error %d in line %d (%s)\n-->%s\n", (int)err, ln, fname, msg);
-		sprintf(errmsg, "#Error %d¥n-->%s¥n", (int)err, msg);
-		sprintf(errmsg, "#Error %d in line %d (%s)¥n-->%s¥n", (int)err, ln, fname, msg);
 	}
 	hsp3win_debugopen();
 	hsp3win_dialog(errmsg);
