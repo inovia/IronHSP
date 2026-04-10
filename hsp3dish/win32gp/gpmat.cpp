@@ -24,16 +24,32 @@ bool hasParameter( Material* material, const char* name );
 
 gpmat::gpmat()
 {
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	_flag = GPMAT_FLAG_NONE;
+	_matbuffer = NULL;
 }
 
 gpmat::~gpmat()
 {
+	revoke();
 }
+
+void gpmat::revoke(void)
+{
+	if (_flag == GPMAT_FLAG_NONE) return;
+
+	if (_matbuffer) {
+		delete[] _matbuffer;
+	}
+	_flag = GPMAT_FLAG_NONE;
+	_matbuffer = NULL;
+}
+
 
 void gpmat::reset( gamehsp *owner, int id )
 {
+	revoke();
+
 	_owner = owner;
 	_mode = 0;
 	_mark = 0;
@@ -61,10 +77,22 @@ int gpmat::setParameter( char *name, Vector4 *value )
 }
 
 
-int gpmat::setParameter( char *name, Vector3 *value )
+int gpmat::setParameter(char* name, float value, float value2)
 {
-	if ( _material == NULL ) return -1;
-    _material->getParameter( name )->setValue( *value );
+	if (_material == NULL) return -1;
+
+	gameplay::Vector2 vec2;
+	vec2.set(value, value2);
+	_material->getParameter(name)->setValue(vec2);
+
+	return 0;
+}
+
+
+int gpmat::setParameter(char* name, Vector3* value)
+{
+	if (_material == NULL) return -1;
+	_material->getParameter(name)->setValue(*value);
 
 	return 0;
 }
@@ -79,10 +107,31 @@ int gpmat::setParameter( char *name, float value )
 }
 
 
-int gpmat::setParameter(char *name, const Matrix *value, int count)
+int gpmat::setParameter(char *name, double* p_mat, int count)
 {
 	if (_material == NULL) return -1;
-	_material->getParameter(name)->setValue(value,count);
+	if (count < 1) return -2;
+
+	if (_matbuffer) {
+		delete [] _matbuffer;
+	}
+	_matbuffer = new gameplay::Matrix[count];
+	gameplay::Matrix *matdat = _matbuffer;
+
+	for (int i = 0; i < count; i++) {
+		matdat[i] = {
+			(float)p_mat[0], (float)p_mat[1], (float)p_mat[2], (float)p_mat[3],
+			(float)p_mat[4], (float)p_mat[5], (float)p_mat[6], (float)p_mat[7],
+			(float)p_mat[8], (float)p_mat[9], (float)p_mat[10], (float)p_mat[11],
+			(float)p_mat[12], (float)p_mat[13], (float)p_mat[14], (float)p_mat[15]
+		};
+	}
+	if (count == 1) {
+		_material->getParameter(name)->setValue(_matbuffer[0]);
+	}
+	else {
+		_material->getParameter(name)->setValue((const gameplay::Matrix*)_matbuffer, count);
+	}
 
 	return 0;
 }
@@ -99,6 +148,29 @@ int gpmat::setParameter(char *name, char *fname, int matopt)
 	return 0;
 }
 
+
+int gpmat::setParameter(char* name, Texture::Sampler* samp)
+{
+	if (_material == NULL) return -1;
+	_material->getParameter(name)->setValue(samp);
+	return 0;
+}
+
+
+Texture::Sampler* gpmat::getSampler(char *name)
+{
+	MaterialParameter* mprm;
+	if (*name == 0) {
+		mprm = _material->getParameter("u_diffuseTexture");
+	}
+	else {
+		mprm = _material->getParameter(name);
+	}
+	if (mprm == NULL) return NULL;
+	return mprm->getSampler();
+}
+
+
 int gpmat::setState(char *name, char *value)
 {
 	RenderState::StateBlock *state;
@@ -113,11 +185,8 @@ int gpmat::setState(char *name, char *value)
 
 void gpmat::setFilter(Texture::Filter value)
 {
-	MaterialParameter *mprm = _material->getParameter("u_texture");
-    if (mprm == NULL) {
-        mprm = _material->getParameter("u_diffuseTexture");
-        if (mprm == NULL) return;
-    }
+	MaterialParameter *mprm = _material->getParameter("u_diffuseTexture");
+	if (mprm == NULL) return;
 	Texture::Sampler *sampler = mprm->getSampler();
 	if (sampler == NULL) return;
 	sampler->setFilterMode(value, value);
@@ -138,11 +207,8 @@ void gpmat::applyFilterMode(int mode)
 
 int gpmat::updateTex32(char* ptr, int mode)
 {
-	MaterialParameter* mprm = _material->getParameter("u_texture");
-    if (mprm == NULL) {
-        mprm = _material->getParameter("u_diffuseTexture");
-        if (mprm == NULL) return -1;
-    }
+	MaterialParameter* mprm = _material->getParameter("u_diffuseTexture");
+    if (mprm == NULL) return -1;
 	Texture::Sampler* sampler = mprm->getSampler();
 	if (sampler == NULL) return -2;
 	Texture* tex = sampler->getTexture();
@@ -183,10 +249,10 @@ int gpobj::setParameter(char *name, Vector3 *value, int part)
 }
 
 
-int gpobj::setParameter(char *name, float value, int part)
+int gpobj::setParameter(char* name, float value, int part)
 {
 	if (_model == NULL) return -1;
-	Material *material = _model->getMaterial(part);
+	Material* material = _model->getMaterial(part);
 	if (material == NULL) return -1;
 	material->getParameter(name)->setValue(value);
 
@@ -194,13 +260,41 @@ int gpobj::setParameter(char *name, float value, int part)
 }
 
 
-int gpobj::setParameter(char *name, const Matrix *value, int count, int part)
+int gpobj::setParameter(char* name, float value, float value2, int part)
+{
+	if (_model == NULL) return -1;
+	Material* material = _model->getMaterial(part);
+	if (material == NULL) return -1;
+	gameplay::Vector2 vec2;
+	vec2.set(value, value2);
+	material->getParameter(name)->setValue(vec2);
+
+	return 0;
+}
+
+
+int gpobj::setParameter(char *name, double * p_mat, int count, int part)
 {
 	if (_model == NULL) return -1;
 	Material *material = _model->getMaterial(part);
 	if (material == NULL) return -1;
-	material->getParameter(name)->setValue(value, count);
+	if (count > 1) return -2;
 
+	gameplay::Matrix matdat	((float)p_mat[0], (float)p_mat[1], (float)p_mat[2], (float)p_mat[3],
+			(float)p_mat[4], (float)p_mat[5], (float)p_mat[6], (float)p_mat[7],
+			(float)p_mat[8], (float)p_mat[9], (float)p_mat[10], (float)p_mat[11],
+			(float)p_mat[12], (float)p_mat[13], (float)p_mat[14], (float)p_mat[15]);
+	material->getParameter(name)->setValue(matdat);
+	return 0;
+}
+
+
+int gpobj::setParameter(char *name, Texture::Sampler *sampler, int part)
+{
+	if (_model == NULL) return -1;
+	Material* material = _model->getMaterial(part);
+	if (material == NULL) return -1;
+	material->getParameter(name)->setValue(sampler);
 	return 0;
 }
 
@@ -236,15 +330,31 @@ void gpobj::setFilter(Texture::Filter value, int part)
 	if (_model == NULL) return;
 	Material *material = _model->getMaterial(part);
 
-	MaterialParameter *mprm = material->getParameter("u_texture");
-    if (mprm == NULL) {
-        mprm = material->getParameter("u_diffuseTexture");
-        if (mprm == NULL) return;
-    }
+	MaterialParameter *mprm = material->getParameter("u_diffuseTexture");
+    if (mprm == NULL) return;
 	Texture::Sampler *sampler = mprm->getSampler();
 	if (sampler == NULL) return;
 	sampler->setFilterMode(value, value);
 }
+
+Texture::Sampler *gpobj::getSamplerByName(char *name, int part)
+{
+	if (_model == NULL) return NULL;
+	Material* material = _model->getMaterial(part);
+
+	MaterialParameter* mprm;
+	if (*name == 0) {
+		mprm = material->getParameter("u_diffuseTexture");
+	}
+	else {
+		mprm = material->getParameter(name);
+	}
+	if (mprm == NULL) return NULL;
+	Texture::Sampler* sampler = mprm->getSampler();
+	if (sampler == NULL) return NULL;
+	return sampler;
+}
+
 
 /*------------------------------------------------------------*/
 /*
@@ -277,7 +387,7 @@ int gamehsp::deleteMat( int id )
 
 	Material* material = mat->_material;
 	if (material) {
-		material->removeParameter("u_texture");
+		//material->removeParameter("u_texture");
 		material->removeParameter("u_diffuseTexture");
 
 		SAFE_RELEASE(material);
@@ -314,17 +424,17 @@ void gamehsp::setLightMaterialParameter(Material* material)
 	gpobj *lgt;
 	Node *light_node;
 
-	//	ƒfƒBƒŒƒNƒVƒ‡ƒiƒ‹ƒ‰ƒCƒg
+	//	ãƒ‡ã‚£ãƒ¬ã‚¯ã‚·ãƒ§ãƒŠãƒ«ãƒ©ã‚¤ãƒˆ
 	for (int i = 0; i < _max_dlight; i++) {
 		lgt = getObj(_dir_light[i]);
 		light_node = lgt->_node;
 		if (light_node) {
-			// ƒ‰ƒCƒg‚Ì•ûŒüİ’è
+			// ãƒ©ã‚¤ãƒˆã®æ–¹å‘è¨­å®š
 			lightname_direction[28] = '0' + i;	// "u_directionalLightDirection[0]"
 			if (hasParameter(material, lightname_direction)) {
 				material->getParameter(lightname_direction)->bindValue(light_node, &Node::getForwardVectorView);
 			}
-			// ƒ‰ƒCƒg‚ÌFİ’è
+			// ãƒ©ã‚¤ãƒˆã®è‰²è¨­å®š
 			lightname_color[24] = '0' + i;	// "u_directionalLightColor[0]"
 			if (hasParameter(material, lightname_color)) {
 				material->getParameter(lightname_color)->bindValue(light_node, &Node::getLightColor);
@@ -332,25 +442,25 @@ void gamehsp::setLightMaterialParameter(Material* material)
 			}
 		}
 	}
-	//	ƒ|ƒCƒ“ƒgƒ‰ƒCƒg
+	//	ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆ
 	for (int i = 0; i < _max_plight; i++) {
 		lgt = getObj(_point_light[i]);
 		light_node = lgt->_node;
 		if (light_node) {
 			Light *lg = light_node->getLight();
 			if (lg->getLightType() == gameplay::Light::POINT) {
-				// ƒ‰ƒCƒg‚Ì•ûŒüİ’è
+				// ãƒ©ã‚¤ãƒˆã®æ–¹å‘è¨­å®š
 				lightname_pointposition[21] = '0' + i;	// "u_pointLightPosition[0]"
 				if (hasParameter(material, lightname_pointposition)) {
 					material->getParameter(lightname_pointposition)->bindValue(light_node, &Node::getTranslationView);
 				}
-				// ƒ‰ƒCƒg‚ÌFİ’è
+				// ãƒ©ã‚¤ãƒˆã®è‰²è¨­å®š
 				lightname_pointcolor[18] = '0' + i;	// "u_pointLightColor[0]"
 				if (hasParameter(material, lightname_pointcolor)) {
 					material->getParameter(lightname_pointcolor)->bindValue(light_node, &Node::getLightColor);
 					//material->getParameter(lightname_pointcolor)->setValue(lg->getColor());
 				}
-				// ƒ‰ƒCƒg‚Ì”ÍˆÍ
+				// ãƒ©ã‚¤ãƒˆã®ç¯„å›²
 				lightname_pointrange[25] = '0' + i;	// "u_pointLightRangeInverse[0]"
 				if (hasParameter(material, lightname_pointrange)) {
 					material->getParameter(lightname_pointrange)->setValue(lg->getRangeInverse());
@@ -358,14 +468,14 @@ void gamehsp::setLightMaterialParameter(Material* material)
 			}
 		}
 	}
-	//	ƒXƒ|ƒbƒgƒ‰ƒCƒg
+	//	ã‚¹ãƒãƒƒãƒˆãƒ©ã‚¤ãƒˆ
 	for (int i = 0; i < _max_slight; i++) {
 		lgt = getObj(_spot_light[i]);
 		light_node = lgt->_node;
 		if (light_node) {
 			Light *lg = light_node->getLight();
 			if (lg->getLightType() == gameplay::Light::SPOT) {
-				// ƒ‰ƒCƒg‚Ì•ûŒüİ’è
+				// ãƒ©ã‚¤ãƒˆã®æ–¹å‘è¨­å®š
 				lightname_spotposition[20] = '0' + i;	// "u_spotLightPosition[0]"
 				if (hasParameter(material, lightname_spotposition)) {
 					material->getParameter(lightname_spotposition)->bindValue(light_node, &Node::getTranslationView);
@@ -374,13 +484,13 @@ void gamehsp::setLightMaterialParameter(Material* material)
 				if (hasParameter(material, lightname_spotdirection)) {
 					material->getParameter(lightname_spotdirection)->bindValue(light_node, &Node::getForwardVectorView);
 				}
-				// ƒ‰ƒCƒg‚ÌFİ’è
+				// ãƒ©ã‚¤ãƒˆã®è‰²è¨­å®š
 				lightname_spotcolor[17] = '0' + i;	// "u_spotLightColor[0]"
 				if (hasParameter(material, lightname_spotcolor)) {
 					material->getParameter(lightname_spotcolor)->bindValue(light_node, &Node::getLightColor);
 					//material->getParameter(lightname_spotcolor)->setValue(lg->getColor());
 				}
-				// ƒ‰ƒCƒg‚Ì”ÍˆÍ
+				// ãƒ©ã‚¤ãƒˆã®ç¯„å›²
 				lightname_spotrange[24] = '0' + i;	// "u_spotLightRangeInverse[0]"
 				if (hasParameter(material, lightname_spotrange)) {
 					material->getParameter(lightname_spotrange)->setValue(lg->getRangeInverse());
@@ -400,8 +510,7 @@ void gamehsp::setLightMaterialParameter(Material* material)
 	Vector3 *vambient;
 	lgt = getObj(_dir_light[0]);
 	vambient = (Vector3 *)&lgt->_vec[GPOBJ_USERVEC_DIR];
-	if (hasParameter(material, lightname_ambient))
-		material->getParameter(lightname_ambient)->setValue(vambient);
+	material->getParameter(lightname_ambient)->setValue(vambient);
 }
 
 
@@ -426,6 +535,35 @@ void gamehsp::setMaterialDefaultBinding(Material* material)
 		material->setParameterAutoBinding("u_viewMatrix", "VIEW_MATRIX");
 	if (hasParameter(material, "u_worldMatrix"))
 		material->setParameterAutoBinding("u_worldMatrix", "WORLD_MATRIX");
+
+	gameplay::MaterialParameter* prm_modalpha = material->getParameter("u_modulateAlpha");
+	if (prm_modalpha) {
+		prm_modalpha->setValue(1.0f);
+	}
+}
+
+
+void gamehsp::setMaterialDefaultBinding(Material* material, int matopt)
+{
+	//	Render state set
+	//
+	RenderState::StateBlock* state;
+	state = material->getStateBlock();
+	if (state) {
+		state->setCullFace(((matopt & GPOBJ_MATOPT_NOCULL) == 0));
+		state->setDepthTest(((matopt & GPOBJ_MATOPT_NOZTEST) == 0));
+		state->setDepthWrite(((matopt & GPOBJ_MATOPT_NOZWRITE) == 0));
+
+		state->setBlend(true);
+		if (matopt & GPOBJ_MATOPT_BLENDADD) {
+			state->setBlendSrc(RenderState::BLEND_SRC_ALPHA);
+			state->setBlendDst(RenderState::BLEND_ONE);
+		}
+		else {
+			state->setBlendSrc(RenderState::BLEND_SRC_ALPHA);
+			state->setBlendDst(RenderState::BLEND_ONE_MINUS_SRC_ALPHA);
+		}
+	}
 }
 
 
@@ -433,55 +571,33 @@ void gamehsp::setMaterialDefaultBinding( Material* material, int icolor, int mat
 {
 	Vector4 color;
 
-	//	ƒVƒF[ƒ_[‚É•K—v‚Èƒpƒ‰ƒ[ƒ^[‚ğ”½‰f‚³‚¹‚é
+	//	ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã«å¿…è¦ãªãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼ã‚’åæ˜ ã•ã›ã‚‹
 	setMaterialDefaultBinding(material);
 
-	//	ƒJƒŒƒ“ƒgƒ‰ƒCƒg‚ğ”½‰f‚³‚¹‚é
+	//	ã‚«ãƒ¬ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã‚’åæ˜ ã•ã›ã‚‹
 	setLightMaterialParameter(material);
 
 	colorVector3( icolor, color );
 	if ( hasParameter( material, "u_diffuseColor" ) )
 		material->getParameter("u_diffuseColor")->setValue(color);
 
-	gameplay::MaterialParameter *prm_modalpha;
-	if (hasParameter(material, "u_modulateAlpha")) {
-		prm_modalpha = material->getParameter("u_modulateAlpha");
-		if (prm_modalpha) { prm_modalpha->setValue(1.0f); }
-	}
-
-	RenderState::StateBlock *state;
-	state = material->getStateBlock();
-	if (state) {
-		state->setCullFace( (( matopt & GPOBJ_MATOPT_NOCULL )==0) );
-		state->setDepthTest( (( matopt & GPOBJ_MATOPT_NOZTEST )==0) );
-		state->setDepthWrite( (( matopt & GPOBJ_MATOPT_NOZWRITE )==0) );
-
-		state->setBlend(true);
-		if (matopt & GPOBJ_MATOPT_BLENDADD) {
-			state->setBlendSrc(RenderState::BLEND_SRC_ALPHA);
-			state->setBlendDst(RenderState::BLEND_ONE);
-		} else {
-			state->setBlendSrc(RenderState::BLEND_SRC_ALPHA);
-			state->setBlendDst(RenderState::BLEND_ONE_MINUS_SRC_ALPHA);
-		}
-	}
-
+	setMaterialDefaultBinding(material, matopt);
 }
 
 
 float gamehsp::setMaterialBlend( Material* material, int gmode, int gfrate )
 {
-	//	ƒvƒŒƒ“ƒh•`‰æİ’è
-	//	gmdoe : HSP‚Ìgmode’l
-	//	gfrate : HSP‚Ìgfrate’l
-	//	(–ß‚è’l=alpha’l(0.0`1.0))
+	//	ãƒ—ãƒ¬ãƒ³ãƒ‰æç”»è¨­å®š
+	//	gmdoe : HSPã®gmodeå€¤
+	//	gfrate : HSPã®gfrateå€¤
+	//	(æˆ»ã‚Šå€¤=alphaå€¤(0.0ï½1.0))
 	//
 	RenderState::StateBlock *state;
 	float alpha;
 
 	state = material->getStateBlock();
 
-    //ƒuƒŒƒ“ƒhƒ‚[ƒhİ’è
+    //ãƒ–ãƒ¬ãƒ³ãƒ‰ãƒ¢ãƒ¼ãƒ‰è¨­å®š
     switch( gmode ) {
         case 0:                     //no blend
 			state->setBlendSrc(RenderState::BLEND_ONE);
@@ -516,7 +632,7 @@ float gamehsp::setMaterialBlend( Material* material, int gmode, int gfrate )
 
 int gamehsp::makeNewMat( Material* material, int mode, int color, int matopt )
 {
-	//	ƒ}ƒeƒŠƒAƒ‹‚ğ¶¬‚·‚é
+	//	ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
 	gpmat *mat = addMat();
 	if ( mat == NULL ) return -1;
 	mat->_material = material;
@@ -528,17 +644,44 @@ int gamehsp::makeNewMat( Material* material, int mode, int color, int matopt )
 }
 
 
-int gamehsp::makeNewMatFromObj(int objid, int part)
+int gamehsp::makeNewMatFromObj(int objid, int part, char *nodename)
 {
-	//	ƒIƒuƒWƒFƒNƒgŒÅ—L‚Ìƒ}ƒeƒŠƒAƒ‹‚ğQÆ‚·‚é
+	//	ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå›ºæœ‰ã®ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’å‚ç…§ã™ã‚‹
 	gpobj *obj = getObj(objid);
 	if (obj == NULL) return -1;
-	if (obj->_model == NULL) return -1;
+
+	Model* model;
+	Material* material;
+
+	if (*nodename == 0) {
+		if (obj->_model == NULL) return -1;
+		model = obj->_model;
+		if (model == NULL) return -1;
+		if (model->getMeshPartCount() == 0) {
+			material = model->getMaterial();
+		}
+		else {
+			material = model->getMaterial(part);
+		}
+	}
+	else {
+		Node* node = getNodeFromName(objid, nodename);
+		Drawable* drawable = node->getDrawable();
+		if (drawable == NULL) return -1;
+		Model* model = dynamic_cast<Model*>(drawable);
+		if (model->getMeshPartCount() == 0) {
+			material = model->getMaterial();
+		}
+		else {
+			material = model->getMaterial(part);
+		}
+	}
+	if (material == NULL) return -1;
 
 	gpmat *mat = addMat();
 	if (mat == NULL) return -1;
 
-	mat->_material = obj->_model->getMaterial(part);
+	mat->_material = material;
 	mat->_mode = GPMAT_MODE_PROXY;
 	return mat->_id;
 }
@@ -546,7 +689,7 @@ int gamehsp::makeNewMatFromObj(int objid, int part)
 
 int gamehsp::makeNewMat2D( char *fname, int matopt )
 {
-	//	ƒ}ƒeƒŠƒAƒ‹‚ğ¶¬‚·‚é(2D)
+	//	ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’ç”Ÿæˆã™ã‚‹(2D)
 	gpmat *mat = addMat();
 	if ( mat == NULL ) return -1;
 
@@ -578,7 +721,7 @@ int gamehsp::makeNewMat2D( char *fname, int matopt )
 	mat->_texratex = 1.0f / (float)_tex_width;
 	mat->_texratey = 1.0f / (float)_tex_height;
 
-	// 2D—p‚ÌƒvƒƒWƒFƒNƒVƒ‡ƒ“
+	// 2Dç”¨ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³
 	make2DRenderProjection(&mat->_projectionMatrix2D, _tex_width, _tex_height);
 	mat->_target_material_id = -1;
 	mat->_matcolor = -1;
@@ -586,6 +729,36 @@ int gamehsp::makeNewMat2D( char *fname, int matopt )
 	mat->applyFilterMode(0);
 
 	return mat->_id;
+}
+
+
+char* gamehsp::getPixelMaskBuffer(char* fname, int* xsize, int* ysize)
+{
+	//		ç”»åƒã®ãƒ”ã‚¯ã‚»ãƒ«ãƒãƒƒãƒ•ã‚¡ã‚’å–å¾—ã™ã‚‹
+	//		(ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒã‚¤ãƒ³ã‚¿ã‚’æ¸¡ã™ã¨ã€Î±ãƒãƒ£ãƒ³ãƒ«ã‚’2å€¤åŒ–ã—ãŸãƒãƒƒãƒ•ã‚¡ã‚’è¿”ã™)
+	//
+	Image* image = Image::create(fname);
+	if (image == NULL) {
+		Alertf("Texture not found.(%s)", fname);
+		return NULL;
+	}
+	int sx = (int)image->getWidth();
+	int sy = (int)image->getHeight();
+	int bwsize = sx * sy;
+	char* mem = (char*)malloc(bwsize);
+
+	char* p = (char *)image->getData();		// è»¢é€å…ˆã®ã‚µãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®å§‹ç‚¹(32bit)
+	int i;
+	char* src = mem;
+	for (i = 0; i < bwsize; i++) {
+		*src++ = p[3];
+		p += 4;
+	}
+	*xsize = sx;
+	*ysize = sy;
+
+	SAFE_RELEASE(image);
+	return NULL;
 }
 
 
@@ -627,7 +800,7 @@ int gamehsp::makeNewMatFromFB(gameplay::FrameBuffer *fb, int matopt)
 	mat->_texratex = 1.0f / (float)tex_width;
 	mat->_texratey = 1.0f / (float)tex_height;
 
-	// 2D—p‚ÌƒvƒƒWƒFƒNƒVƒ‡ƒ“
+	// 2Dç”¨ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³
 	make2DRenderProjection(&mat->_projectionMatrix2D, tex_width, tex_height);
 	mat->_target_material_id = -1;
 	mat->_matcolor = -1;
@@ -651,12 +824,12 @@ Material *gamehsp::makeMaterialFromShader(char *vshd, char *fshd, char *defs)
 
 void gamehsp::setupDefines(void)
 {
-	// ƒJƒXƒ^ƒ€ƒVƒF[ƒ_[‚Ì‰Šú‰»
+	// ã‚«ã‚¹ã‚¿ãƒ ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®åˆæœŸåŒ–
 	user_vsh = SPRITE_VSH;
 	user_fsh = SPRITE_FSH;
 	user_defines = "";
 
-	// ƒ‰ƒCƒg‚ÌƒVƒF[ƒ_[ƒpƒ‰ƒ[ƒ^[
+	// ãƒ©ã‚¤ãƒˆã®ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼
 	strcpy(lightname_ambient, PARAMNAME_LIGHT_AMBIENT);
 	strcpy(lightname_color, PARAMNAME_LIGHT_COLOR);
 	strcpy(lightname_direction, PARAMNAME_LIGHT_DIRECTION);
@@ -677,7 +850,7 @@ void gamehsp::setupDefines(void)
 
 void gamehsp::setUserShader2D(char *vsh, char *fsh, char *defines)
 {
-	// ƒJƒXƒ^ƒ€ƒVƒF[ƒ_[‚Ìİ’è
+	// ã‚«ã‚¹ã‚¿ãƒ ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®è¨­å®š
 	user_vsh = vsh;
 	user_fsh = fsh;
 	user_defines = defines;
@@ -712,7 +885,7 @@ Material *gamehsp::makeMaterialTexture( char *fname, int matopt, Texture *opttex
 	Material *material;
 	bool mipmap, cubemap;
 	char *defs;
-	char extradefs[256];
+	char extradefs[4096];
 	mipmap = (matopt & GPOBJ_MATOPT_NOMIPMAP) == 0;
 	cubemap = (matopt & GPOBJ_MATOPT_CUBEMAP) != 0;
 
@@ -737,8 +910,17 @@ Material *gamehsp::makeMaterialTexture( char *fname, int matopt, Texture *opttex
 		strcat(extradefs, ";TEXTURE_NODISCARD_ALPHA");
 		defs = extradefs;
 	}
+	if (matopt & GPOBJ_MATOPT_UVOFFSET) {
+		strcpy(extradefs, defs);
+		strcat(extradefs, ";TEXTURE_OFFSET");
+		defs = extradefs;
+	}
+	if (matopt & GPOBJ_MATOPT_UVREPEAT) {
+		strcpy(extradefs, defs);
+		strcat(extradefs, ";TEXTURE_REPEAT");
+		defs = extradefs;
+	}
 
-	//material = makeMaterialFromShader("res/shaders/simpletex.vert", "res/shaders/simpletex.frag", defs);
 	material = makeMaterialFromShader("res/shaders/textured.vert", "res/shaders/textured.frag", defs);
 	if ( material == NULL ) return NULL;
 
@@ -746,9 +928,6 @@ Material *gamehsp::makeMaterialTexture( char *fname, int matopt, Texture *opttex
 
 	if (matopt & GPOBJ_MATOPT_USERBUFFER) {
 		MaterialParameter *mp = material->getParameter("u_diffuseTexture");
-        if (mp == NULL) {
-            mp = material->getParameter("u_texture");
-        }
         if (mp) {
             if (opttex) {
                 Texture::Sampler* sampler = Texture::Sampler::create(opttex);
@@ -763,9 +942,6 @@ Material *gamehsp::makeMaterialTexture( char *fname, int matopt, Texture *opttex
 	}
 
     MaterialParameter *mp2 = material->getParameter("u_diffuseTexture");
-    if (mp2 == NULL) {
-        mp2 = material->getParameter("u_texture");
-    }
     if (mp2) {
         mp2->setValue( fname, mipmap, cubemap );
     }
@@ -819,7 +995,7 @@ Material *gamehsp::makeMaterialTex2D(Texture *texture, int matopt)
     // Bind the texture to the material as a sampler
     Texture::Sampler* sampler = Texture::Sampler::create(texture); // +ref texture
 
-	sampler->setFilterMode(Texture::Filter::NEAREST, Texture::Filter::NEAREST);		// 2D‚ÍƒfƒtƒHƒ‹ƒg‚ÅƒtƒBƒ‹ƒ^‚È‚µ
+	sampler->setFilterMode(Texture::Filter::NEAREST, Texture::Filter::NEAREST);		// 2Dã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ãƒ•ã‚£ãƒ«ã‚¿ãªã—
 	mesh_material->getParameter(samplerUniform->getName())->setValue(sampler);
 	SAFE_RELEASE(sampler);
 
@@ -866,4 +1042,35 @@ bool hasParameter( Material* material, const char* name )
 	}
 	return false;
 }
+
+
+int gamehsp::applySamplerModeByString(Texture::Sampler* sampler, char* name, char* value)
+{
+	if (sampler == NULL) return -1;
+	strcase(name); strcase(value);
+	if (strcmp(name, "filter") == 0) {
+		if (strcmp(value, "nearest") == 0) {
+			sampler->setFilterMode(Texture::Filter::NEAREST, Texture::Filter::NEAREST);
+			return 0;
+		}
+		if (strcmp(value, "linear") == 0) {
+			sampler->setFilterMode(Texture::Filter::LINEAR, Texture::Filter::LINEAR);
+			return 0;
+		}
+		return -2;
+	}
+	if (strcmp(name, "wrap") == 0) {
+		if (strcmp(value, "repeat") == 0) {
+			sampler->setWrapMode(Texture::Wrap::REPEAT, Texture::Wrap::REPEAT);
+			return 0;
+		}
+		if (strcmp(value, "clamp") == 0) {
+			sampler->setWrapMode(Texture::Wrap::CLAMP, Texture::Wrap::CLAMP);
+			return 0;
+		}
+		return -2;
+	}
+	return -1;
+}
+
 

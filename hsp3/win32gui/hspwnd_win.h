@@ -7,7 +7,8 @@
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 #include <windows.h>
-#include <mmsystem.h>	// WIN32_LEAN_AND_MEAN
+#include <mmsystem.h>
+#include <string>
 #include "../hsp3code.h"
 
 //	Window Object Info
@@ -69,26 +70,26 @@ typedef struct HSP3VARSET
 typedef struct HSP3BTNSET
 {
 	//	HSP3BTNSET structure
-	//	(HSP3VARSET‚Æ“¯ƒTƒCƒY‚É‚·‚é‚±‚Æ)
+	//	(HSP3VARSETã¨åŒã‚µã‚¤ã‚ºã«ã™ã‚‹ã“ã¨)
 	//
-	short normal_x, normal_y;	// ’Êí
-	short push_x, push_y;		// ‰Ÿ‰º
-	short focus_x, focus_y;		// ƒtƒH[ƒJƒX
-	void *ptr;	// ŒÄ‚Ño‚µæ
+	short normal_x, normal_y;	// é€šå¸¸æ™‚
+	short push_x, push_y;		// æŠ¼ä¸‹æ™‚
+	short focus_x, focus_y;		// ãƒ•ã‚©ãƒ¼ã‚«ã‚¹æ™‚
+	void *ptr;	// å‘¼ã³å‡ºã—å…ˆ
 } HSP3BTNSET;
 
 typedef struct HSPOBJINFO
 {
 	//		Object Info (3.0)
 	//
-	short	owmode;		// object‚Ìmode
-	short	option;		// object‚Ìoption(–¢g—pE“à•”ƒIƒuƒWƒFƒNƒg‚Í0)
-	void	*bm;		// object‚ª”z’u‚³‚ê‚Ä‚¢‚éBMSCR\‘¢‘Ì‚Ìƒ|ƒCƒ“ƒ^
-	HWND	hCld;		// object‚Ìhandle
-	int		owid;		// object‚ÌValue(”Ä—p)
-	int		owsize;		// object‚Ìg—pƒTƒCƒY(”Ä—p)
+	short	owmode;		// objectã®mode
+	short	option;		// objectã®option(æœªä½¿ç”¨ãƒ»å†…éƒ¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯0)
+	void	*bm;		// objectãŒé…ç½®ã•ã‚Œã¦ã„ã‚‹BMSCRæ§‹é€ ä½“ã®ãƒã‚¤ãƒ³ã‚¿
+	HWND	hCld;		// objectã®handle
+	int		owid;		// objectã®Value(æ±ç”¨)
+	int		owsize;		// objectã®ä½¿ç”¨ã‚µã‚¤ã‚º(æ±ç”¨)
 
-	HSP3VARSET varset;	// object‚©‚çİ’è‚³‚ê‚é•Ï”‚Ìî•ñ
+	HSP3VARSET varset;	// objectã‹ã‚‰è¨­å®šã•ã‚Œã‚‹å¤‰æ•°ã®æƒ…å ±
 
 	//		callback function
 	void	(*func_notice)( struct HSPOBJINFO *, int );
@@ -296,6 +297,7 @@ public:
 	int		vp_flag;					// Viewport enable flag (0=none)
 	float	vp_matrix[16];				// Viewport matrix
 
+	std::string resname;				// Resource Name
 private:
 	void Blt( int mode, Bmscr *src, int xx, int yy, int asx, int asy );
 	void CnvRGB16( PTRIVERTEX target, DWORD src );
@@ -314,6 +316,8 @@ public:
 	HspWnd( void );
 	HspWnd( HANDLE instance, char *wndcls );
 	~HspWnd( void );
+	void Dispose(void);
+	void ClearAllObjects(void);
 	void MakeBmscr( int id, int type, int xx, int yy, int wx, int wy,
 	 int sx, int sy, int mode );
 	void MakeBmscrWnd( int id, int type, int xx, int yy, int wx, int wy,
@@ -327,7 +331,8 @@ public:
 	int GetBmscrMax( void ) { return bmscr_max; };
 	void SetEventNoticePtr( int *ptr );
 	void SetParentWindow( void *hwnd ) { wnd_parent = hwnd; };
-	int GetEmptyBufferId( void );
+	int GetEmptyBufferId(void);
+	int GetPreloadBufferId(char *fname);
 
 	//	Data
 	//
@@ -339,7 +344,6 @@ public:
 
 private:
 	void Reset( HANDLE instance, char *wndcls );
-	void Dispose( void );
 	void ExpandScreen( int idmax );
 
 	//	Data
@@ -442,6 +446,7 @@ typedef struct BMSCR
 	int		vp_flag;					// Viewport enable flag (0=none)
 	float	vp_matrix[16];				// Viewport matrix
 
+	std::string resname;				// Resource Name
 } BMSCR;
 
 void SetObjectEventNoticePtr( int *ptr );

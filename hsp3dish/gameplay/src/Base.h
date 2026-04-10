@@ -297,10 +297,11 @@ using std::va_list;
     #else
         #error "Unsupported Apple Device"
     #endif
-#elif EMSCRIPTEN
+#elif __EMSCRIPTEN__
     #define GLEW_STATIC
     #include <GL/glew.h>
-//    #define USE_VAO //for IE11
+    #define OPENGL_ES
+    #define GP_USE_VAO
 #endif
 
 // Graphics (GLSL)

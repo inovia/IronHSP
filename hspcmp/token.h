@@ -56,9 +56,9 @@
 
 // option for 'GetTokenCG'
 #define GETTOKEN_DEFAULT 0
-#define GETTOKEN_NOFLOAT 1		// '.'‚ğ¬”“_‚ÆŒ©‚È‚³‚È‚¢(®”‚Ì‚İæ“¾)
-#define GETTOKEN_LABEL 2		// '*'‚É‘±‚­–¼‘O‚ğƒ‰ƒxƒ‹‚Æ‚µ‚Äæ“¾
-#define GETTOKEN_EXPRBEG 4		// ®‚Ìæ“ª
+#define GETTOKEN_NOFLOAT 1		// '.'ã‚’å°æ•°ç‚¹ã¨è¦‹ãªã•ãªã„(æ•´æ•°ã®ã¿å–å¾—)
+#define GETTOKEN_LABEL 2		// '*'ã«ç¶šãåå‰ã‚’ãƒ©ãƒ™ãƒ«ã¨ã—ã¦å–å¾—
+#define GETTOKEN_EXPRBEG 4		// å¼ã®å…ˆé ­
 
 #define CG_LOCALSTRUCT_MAX 256
 
@@ -95,26 +95,28 @@ typedef struct MACDEF {
 #define COMP_MODE_DEBUGWIN 2
 #define COMP_MODE_UTF8 4
 #define COMP_MODE_STRMAP 8
+#define COMP_MODE_LABOUT 16
+#define COMP_MODE_SKIPERROR 64
 
 #define SWSTACK_MAX 32
 
-#define HEDINFO_RUNTIME 0x1000		// “®“Iƒ‰ƒ“ƒ^ƒCƒ€‚ğ—LŒø‚É‚·‚é
-#define HEDINFO_NOMMTIMER 0x2000	// ƒ}ƒ‹ƒ`ƒƒfƒBƒAƒ^ƒCƒ}[‚ğ–³Œø‚É‚·‚é
-#define HEDINFO_NOGDIP 0x4000		// GDI+‚É‚æ‚é•`‰æ‚ğ–³Œø‚É‚·‚é
-#define HEDINFO_FLOAT32 0x8000		// À”‚ğ32bit float‚Æ‚µ‚Äˆ—‚·‚é
-#define HEDINFO_ORGRND 0x10000		// •W€‚Ì—””­¶‚ğg—p‚·‚é
-#define HEDINFO_UTF8 0x20000		// UTF8ƒ‰ƒ“ƒ^ƒCƒ€‚ğg—p‚·‚é(ƒR[ƒh¯•Ê—p)
-#define HEDINFO_HSP64 0x40000		// 64bitƒ‰ƒ“ƒ^ƒCƒ€‚ğg—p‚·‚é(ƒR[ƒh¯•Ê—p)
-#define HEDINFO_IORESUME 0x80000	// ƒtƒ@ƒCƒ‹I/OƒGƒ‰[‚ğ–³‹‚µ‚Äˆ—‚ğ‘±s‚·‚é
-#define HEDINFO_AUTOTIMER 0x100000	// ƒ}ƒ‹ƒ`ƒƒfƒBƒAƒ^ƒCƒ}[‚ğ‹­§“I‚Éİ’è‚É‚·‚é
+#define HEDINFO_RUNTIME 0x1000		// å‹•çš„ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã‚’æœ‰åŠ¹ã«ã™ã‚‹
+#define HEDINFO_NOMMTIMER 0x2000	// ãƒãƒ«ãƒãƒ¡ãƒ‡ã‚£ã‚¢ã‚¿ã‚¤ãƒãƒ¼ã‚’ç„¡åŠ¹ã«ã™ã‚‹
+#define HEDINFO_NOGDIP 0x4000		// GDI+ã«ã‚ˆã‚‹æç”»ã‚’ç„¡åŠ¹ã«ã™ã‚‹
+#define HEDINFO_FLOAT32 0x8000		// å®Ÿæ•°ã‚’32bit floatã¨ã—ã¦å‡¦ç†ã™ã‚‹
+#define HEDINFO_ORGRND 0x10000		// æ¨™æº–ã®ä¹±æ•°ç™ºç”Ÿã‚’ä½¿ç”¨ã™ã‚‹
+#define HEDINFO_UTF8 0x20000		// UTF8ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã‚’ä½¿ç”¨ã™ã‚‹(ã‚³ãƒ¼ãƒ‰è­˜åˆ¥ç”¨)
+#define HEDINFO_HSP64 0x40000		// 64bitãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã‚’ä½¿ç”¨ã™ã‚‹(ã‚³ãƒ¼ãƒ‰è­˜åˆ¥ç”¨)
+#define HEDINFO_IORESUME 0x80000	// ãƒ•ã‚¡ã‚¤ãƒ«I/Oã‚¨ãƒ©ãƒ¼ã‚’ç„¡è¦–ã—ã¦å‡¦ç†ã‚’ç¶šè¡Œã™ã‚‹
+#define HEDINFO_AUTOTIMER 0x100000	// ãƒãƒ«ãƒãƒ¡ãƒ‡ã‚£ã‚¢ã‚¿ã‚¤ãƒãƒ¼ã‚’å¼·åˆ¶çš„ã«è¨­å®šã«ã™ã‚‹
 
 enum ppresult_t {
-	PPRESULT_SUCCESS,				// ¬Œ÷
-	PPRESULT_ERROR,					// ƒGƒ‰[
-	PPRESULT_UNKNOWN_DIRECTIVE,		// •s–¾‚ÈƒvƒŠƒvƒƒZƒbƒT–½—ßiPreprocessNMj
-	PPRESULT_INCLUDED,				// #include ‚³‚ê‚½
-	PPRESULT_WROTE_LINE,			// 1s‘‚«‚Ü‚ê‚½
-	PPRESULT_WROTE_LINES,			// 2sˆÈã‘‚«‚Ü‚ê‚½
+	PPRESULT_SUCCESS,				// æˆåŠŸ
+	PPRESULT_ERROR,					// ã‚¨ãƒ©ãƒ¼
+	PPRESULT_UNKNOWN_DIRECTIVE,		// ä¸æ˜ãªãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µå‘½ä»¤ï¼ˆPreprocessNMï¼‰
+	PPRESULT_INCLUDED,				// #include ã•ã‚ŒãŸ
+	PPRESULT_WROTE_LINE,			// 1è¡Œæ›¸ãè¾¼ã¾ã‚ŒãŸ
+	PPRESULT_WROTE_LINES,			// 2è¡Œä»¥ä¸Šæ›¸ãè¾¼ã¾ã‚ŒãŸ
 };
 
 class CLabel;
@@ -126,6 +128,23 @@ class AHTMODEL;
 #define SCNVBUF_DEFAULTSIZE 0x8000
 #define SCNV_OPT_NONE 0
 #define SCNV_OPT_SJISUTF8 1
+#define SCNV_OPT_UTF8SJIS 2
+
+#define LABBUF_FLAG_NONE (0)
+#define LABBUF_FLAG_FUNC (1)
+#define LABBUF_FLAG_MACRO (2)
+#define LABBUF_FLAG_LABEL (3)
+#define LABBUF_FLAG_VAR (4)
+#define LABBUF_FLAG_EXVAR (5)
+#define LABBUF_FLAG_CMD (6)
+#define LABBUF_FLAG_EXCMD (7)
+#define LABBUF_FLAG_REFER (0x100)
+
+#define LABLIST_MODE_LABEL (0)
+#define LABLIST_MODE_VAR (1)
+#define LABLIST_MODE_ALL (2)
+#define LABLIST_MODE_REFERENCE (16)
+#define LABLIST_MODE_PARTMATCH (32)
 
 //  token analysis class
 class CToken {
@@ -133,6 +152,8 @@ public:
 	CToken();
 	CToken( char *buf );
 	~CToken();
+	void addCmpMode(int mode);
+	void delCmpMode(int mode);
 	CLabel *GetLabelInfo( void );
 	void SetLabelInfo( CLabel *lbinfo );
 
@@ -143,7 +164,9 @@ public:
 	void Mesf( char *format, ...);
 	void SetErrorBuf( CMemBuf *buf );
 	void SetAHT( AHTMODEL *aht );
-	void SetAHTBuffer( CMemBuf *aht );
+	void SetAHTBuffer(CMemBuf* aht);
+	void SetLabelListBuffer(CMemBuf* buf, int mode, char* match, int line=0, char *filename=NULL);
+	char* GetLabelListHeader(int flag);
 
 	void ResetCompiler( void );
 	int GetToken( void );
@@ -171,13 +194,14 @@ public:
 	int LabelRegist( char **list, int mode );
 	int LabelRegist2( char **list );
 	int LabelRegist3( char **list );
-	int LabelDump( CMemBuf *out, int option );
+	int LabelDump( CMemBuf *out, int option, char *match=NULL );
 	int GetLabelBufferSize( void );
 	int RegistExtMacroPath( char *name, char *str );
 	int RegistExtMacro( char *name, char *str );
 	int RegistExtMacro( char *keyword, int val );
 	void SetPackfileOut( CMemBuf *pack );
-	int AddPackfile( char *name, int mode );
+	int AddPackfile(char* name, int mode);
+	int AddPackfileOrig(char* name, int mode);
 
 	void InitSCNV( int size );
 	char *ExecSCNV( char *srcbuf, int opt );
@@ -227,6 +251,10 @@ public:
 	void SetCmpOption( int cmpmode ) { hed_cmpmode = cmpmode; }
 	void SetUTF8Input( int utf8mode ) { pp_utf8 = utf8mode; }
 
+	void GenerateLabelList(int mode, char* match);
+	char* GetLabelListLineModule(void);
+	int GetLabelListLineCaseFlag(void);
+
 private:
 	//		For preprocess
 	//
@@ -242,12 +270,15 @@ private:
 	void Calc_compare( CALCVAR &v );
 	void Calc_start( CALCVAR &v );
 
+	ppresult_t PP_IncludeSub(char *name, int is_addition);
+
 	ppresult_t PP_Define( void );
 	ppresult_t PP_Const( void );
 	ppresult_t PP_Enum( void );
 	ppresult_t PP_SwitchStart( int sw );
 	ppresult_t PP_SwitchEnd( void );
 	ppresult_t PP_SwitchReverse( void );
+	ppresult_t PP_use( void );
 	ppresult_t PP_Include( int is_addition );
 	ppresult_t PP_Module( void );
 	ppresult_t PP_Global( void );
@@ -264,7 +295,8 @@ private:
 	ppresult_t PP_Aht( void );
 	ppresult_t PP_Ahtout( void );
 	ppresult_t PP_Ahtmes( void );
-	ppresult_t PP_BootOpt( void );
+	ppresult_t PP_BootOpt(void);
+	ppresult_t PP_VarFix( char *word );
 
 	void SetModuleName( char *name );
 	char *GetModuleName( void );
@@ -291,13 +323,15 @@ private:
 
 	//		For Code Generate
 	//
-	int GenerateCodeMain( CMemBuf *src );
+	void ResetGenerator(unsigned char* ptr);
+	int GenerateCodeMain(CMemBuf* src);
+	int GenerateCodeMainSkipError(CMemBuf* src);
 	void RegisterFuncLabels( void );
 	int GenerateCodeBlock( void );
 	int GenerateCodeSub( void );
 	void GenerateCodePP( char *buf );
 	void GenerateCodeCMD( int id );
-	void GenerateCodeLET( int id );
+	void GenerateCodeLET( int id, bool first=false );
 	void GenerateCodeVAR( int id, int ex );
 	void GenerateCodePRM( void );
 	void GenerateCodePRMN( void );
@@ -321,6 +355,13 @@ private:
 	void GenerateCodePP_comfunc( void );
 	void GenerateCodePP_defvars( int fixedvalue );
 
+	void GenerateLabelTag(char* name, int flag, int type, char* fname, int line);
+	void GenerateLabelListAndTag(int labelid, int flag = 0);
+	void GenerateLabelListAndTag(char* name, int flag = 0);
+	void GenerateLabelListAndTagRef(int labelid, int flag = 0);
+	void GenerateLabelListAndTagPP(char* name, int flag = 0);
+	void GenerateLabelListAndTagRefPP(char* name, int flag = 0);
+
 	int GetParameterTypeCG( char *name );
 	int GetParameterStructTypeCG( char *name );
 	int GetParameterFuncTypeCG( char *name );
@@ -335,7 +376,7 @@ private:
 	char *PickLongStringCG( char *str );
 	int PickNextCodeCG( void );
 	void CheckInternalListenerCMD(int opt);
-	void CheckInternalProgCMD( int opt, int orgcs );
+	int CheckInternalProgCMD( int opt, int orgcs );
 	void CheckInternalIF( int opt );
 	void CheckCMDIF_Set( int mode );
 	void CheckCMDIF_Fin( int mode );
@@ -361,6 +402,12 @@ private:
 
 	int	SaveStringMap(char* fname);
 
+	//	UTF-8 service
+	char* to_hsp_string_literal(const char* src, bool filename=false);
+	int atoi_allow_overflow(const char* s);
+	int ConvSJis2Utf8(char* pSource, char* pDist, int buffersize);
+	int ConvUtf82SJis(char* pSource, char* pDist, int buffersize);
+
 	//		Data
 	//
 	CLabel *lb;						// label object
@@ -370,6 +417,7 @@ private:
 	CMemBuf *wrtbuf;
 	CMemBuf *packbuf;
 	CMemBuf *ahtbuf;
+	CMemBuf *labbuf;
 	CStrNote *note;
 	AHTMODEL *ahtmodel;				// AHT process data
 	char common_path[HSP_MAX_PATH];	// common path
@@ -384,7 +432,7 @@ private:
 	double val_d;
 	double fpbit;
 	unsigned char *wp;
-	unsigned char s2[1024];
+	unsigned char s2[4096];
 	unsigned char *s3;
 	char linebuf[LINEBUF_MAX];		// Line expand buffer
 	char linetmp[LINEBUF_MAX];		// Line expand temp
@@ -411,10 +459,10 @@ private:
 		int len;
 	} undefined_symbol_t;
 	std::vector<undefined_symbol_t> undefined_symbols;
-	int cs_lastptr;					// ƒpƒ‰ƒ[ƒ^[‚Ì‰ŠúCSˆÊ’u
-	int cs_lasttype;				// ƒpƒ‰ƒ[ƒ^[‚Ìƒ^ƒCƒv(’Pˆê)
-	int calccount;					// ƒpƒ‰ƒ[ƒ^[ŒÂ”
-	int pp_utf8;					// ƒ\[ƒXƒR[ƒh‚ğUTF-8‚Æ‚µ‚Äˆ—‚·‚é(0=–³Œø)
+	int cs_lastptr;					// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼ã®åˆæœŸCSä½ç½®
+	int cs_lasttype;				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼ã®ã‚¿ã‚¤ãƒ—(å˜ä¸€æ™‚)
+	int calccount;					// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼å€‹æ•°
+	int pp_utf8;					// ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’UTF-8ã¨ã—ã¦å‡¦ç†ã™ã‚‹(0=ç„¡åŠ¹)
 
 	//		for CodeGenerator
 	//
@@ -430,11 +478,19 @@ private:
 	int cg_defvarfix;
 	int cg_utf8out;
 	int cg_strmap;
+	int cg_skiperror;
 	char *cg_ptr;
 	char *cg_ptr_bak;
 	char *cg_str;
 	unsigned char *cg_wp;
 	char cg_libname[1024];
+	int cg_labout_mode;
+	int cg_labout_line;
+	char *cg_labout_match;
+	char **cg_labout_header;
+	char cg_labout_modname[MODNAME_MAX + 2];	// Module Name Prefix
+	int cg_labout_caseflag;
+	char cg_labout_orgfile[HSP_MAX_PATH];
 
 	int	replev;
 	int repend[CG_REPLEV_MAX];
@@ -479,16 +535,25 @@ private:
 
 	//		for Error
 	//
+	int pp_orgline;
+	char pp_orgfile[HSP_MAX_PATH];
+	char pp_orgfilefull[HSP_MAX_PATH];
 	int cg_errline;
 	int cg_orgline;
 	char cg_orgfile[HSP_MAX_PATH];
+	char cg_orgfilefull[HSP_MAX_PATH];
 
 	//		for SCNV
 	//
-	char *scnvbuf;			// SCNV•ÏŠ·ƒoƒbƒtƒ@
-	int	scnvsize;			// SCNV•ÏŠ·ƒoƒbƒtƒ@ƒTƒCƒY
+	char *scnvbuf;			// SCNVå¤‰æ›ãƒãƒƒãƒ•ã‚¡
+	int	scnvsize;			// SCNVå¤‰æ›ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
 
 };
 
+//	String Service
+void strcase2(char* str, char* str2);
+void strcpy2(char* dest, const char* src, size_t size);
+void addext(char* st, const char* exstr);
+void cutext(char* st);
 
 #endif

@@ -6,6 +6,7 @@
 
 #include <wininet.h>
 #define INETBUF_MAX 4096000
+#define HEADBUF_DEFAULT 0x8000
 #include <string>
 
 enum {
@@ -37,23 +38,24 @@ public:
 	~CzHttp();
 	void Terminate( void );
 	void Reset( void );
-	int Exec( void );									// –ˆƒtƒŒ[ƒ€‚²‚Æ‚ÉŒÄ‚Î‚ê‚é
-	int GetMode( void ) { return mode; };				// Œ»İ‚Ìƒ‚[ƒh‚ğ•Ô‚·
-	char *GetError( void );								// ƒGƒ‰[•¶š—ñ‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾
-	int RequestFile( char *path );						// ƒT[ƒo[‚Éƒtƒ@ƒCƒ‹‚ğ—v‹
-	char *RequestFileInfo( char *path );				// ƒT[ƒo[‚Éƒtƒ@ƒCƒ‹î•ñ‚ğ—v‹
-	void SetURL( char *url );							// ƒT[ƒo[‚ÌURL‚ğİ’è
-	void SetLocalName( char *name );					// ƒ_ƒEƒ“ƒ[ƒh–¼‚ğİ’è
-	int GetSize( void );								// æ“¾ƒtƒ@ƒCƒ‹‚ÌƒTƒCƒY‚ğ•Ô‚·
-	char *GetData( void );								// æ“¾ƒtƒ@ƒCƒ‹ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
-	void SetAgent( char *agent );						// ƒG[ƒWƒFƒ“ƒg‚Ìİ’è
-	void SetProxy( char *url, int port, int local );	// ƒvƒƒLƒV‚Ìİ’è
-	void SetHeader( char *header );						// ƒwƒbƒ_•¶š—ñ‚Ìİ’è
-	void SetUserName( char *name );						// ƒ†[ƒU[–¼‚Ìİ’è
-	void SetUserPassword( char *pass );					// ƒpƒXƒ[ƒh‚Ìİ’è
-	void SetFtpPort( int port );						// ƒ|[ƒg‚Ìİ’è
-	void SetFtpFlag( int flag );						// ƒpƒbƒVƒuƒ‚[ƒh‚Ìİ’è
-	int GetRespHead( char *buf, LPDWORD size );			// ƒŒƒXƒ|ƒ“ƒXƒwƒbƒ_‚Ìæ“¾
+	int Exec( void );									// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã”ã¨ã«å‘¼ã°ã‚Œã‚‹
+	int GetMode( void ) { return mode; };				// ç¾åœ¨ã®ãƒ¢ãƒ¼ãƒ‰ã‚’è¿”ã™
+	char *GetError( void );								// ã‚¨ãƒ©ãƒ¼æ–‡å­—åˆ—ã®ãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—
+	int RequestFile( char *path );						// ã‚µãƒ¼ãƒãƒ¼ã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¦æ±‚
+	char *RequestFileInfo( char *path );				// ã‚µãƒ¼ãƒãƒ¼ã«ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±ã‚’è¦æ±‚
+	void SetURL( char *url );							// ã‚µãƒ¼ãƒãƒ¼ã®URLã‚’è¨­å®š
+	void SetLocalName( char *name );					// ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰åã‚’è¨­å®š
+	int GetSize( void );								// å–å¾—ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚µã‚¤ã‚ºã‚’è¿”ã™
+	char *GetData( void );								// å–å¾—ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‡ãƒ¼ã‚¿ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’è¿”ã™
+	void SetAgent( char *agent );						// ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã®è¨­å®š
+	void SetProxy( char *url, int port, int local );	// ãƒ—ãƒ­ã‚­ã‚·ã®è¨­å®š
+	void SetHeader( char *header );						// ãƒ˜ãƒƒãƒ€æ–‡å­—åˆ—ã®è¨­å®š
+	void SetUserName( char *name );						// ãƒ¦ãƒ¼ã‚¶ãƒ¼åã®è¨­å®š
+	void SetUserPassword( char *pass );					// ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®è¨­å®š
+	void SetFtpPort( int port );						// ãƒãƒ¼ãƒˆã®è¨­å®š
+	void SetFtpFlag( int flag );						// ãƒ‘ãƒƒã‚·ãƒ–ãƒ¢ãƒ¼ãƒ‰ã®è¨­å®š
+	int GetRespHead( char *buf, LPDWORD size );			// ãƒ¬ã‚¹ãƒãƒ³ã‚¹ãƒ˜ãƒƒãƒ€ã®å–å¾—
+	void Resume(void);									// ã‚¨ãƒ©ãƒ¼ã‹ã‚‰å¾©å¸°ã™ã‚‹
 
 	void SetVarRequestGet( char *path );
 	void SetVarRequestPost( char *path, char *post );
@@ -66,24 +68,24 @@ public:
 	char *getVarData( void ) { return vardata; };
 	int	getVarSize( void ) { return varsize; };
 
-	int FtpConnect( void );								// FTPÚ‘±
-	void FtpDisconnect( void );							// FTPØ’f
-	char *GetFtpResponse( void );						// FTPƒŒƒXƒ|ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
-	char *GetFtpCurrentDir( void );						// FTPƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ–¼‚ğæ“¾
-	void SetFtpDir( char *name );						// FTPƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğ•ÏX
-	void GetFtpDirList( void );							// FTPƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ“à—e‚ğæ“¾
-	int KillFtpDir( char *name );						// FTPƒfƒBƒŠƒNƒgƒŠíœ
-	int MakeFtpDir( char *name );						// FTPƒfƒBƒŒƒNƒgƒŠì¬
-	int GetFtpFile( char *name, char *downname, int tmode );	// FTPƒtƒ@ƒCƒ‹æ“¾
-	int PutFtpFile( char *name, char *downname, int tmode );	// FTPƒtƒ@ƒCƒ‹‘—M
-	int RenameFtpFile( char *name, char *newname );		// FTPƒtƒ@ƒCƒ‹ƒŠƒl[ƒ€
-	int FtpSendCommand( char *cmd );					// FTPƒRƒ}ƒ“ƒh‘—M
+	int FtpConnect( void );								// FTPæ¥ç¶š
+	void FtpDisconnect( void );							// FTPåˆ‡æ–­
+	char *GetFtpResponse( void );						// FTPãƒ¬ã‚¹ãƒãƒ³ã‚¹ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’è¿”ã™
+	char *GetFtpCurrentDir( void );						// FTPã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåã‚’å–å¾—
+	void SetFtpDir( char *name );						// FTPã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å¤‰æ›´
+	void GetFtpDirList( void );							// FTPã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå†…å®¹ã‚’å–å¾—
+	int KillFtpDir( char *name );						// FTPãƒ‡ã‚£ãƒªã‚¯ãƒˆãƒªå‰Šé™¤
+	int MakeFtpDir( char *name );						// FTPãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªä½œæˆ
+	int GetFtpFile( char *name, char *downname, int tmode );	// FTPãƒ•ã‚¡ã‚¤ãƒ«å–å¾—
+	int PutFtpFile( char *name, char *downname, int tmode );	// FTPãƒ•ã‚¡ã‚¤ãƒ«é€ä¿¡
+	int RenameFtpFile( char *name, char *newname );		// FTPãƒ•ã‚¡ã‚¤ãƒ«ãƒªãƒãƒ¼ãƒ 
+	int FtpSendCommand( char *cmd );					// FTPã‚³ãƒãƒ³ãƒ‰é€ä¿¡
 
-	char *GetTempBuffer( void );						// “à•”ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
-	char *GetFlexBuffer( void ) { return pt; };			// ‰Â•Ïƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
+	char *GetTempBuffer( void );						// å†…éƒ¨ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’è¿”ã™
+	char *GetFlexBuffer( void ) { return pt; };			// å¯å¤‰ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’è¿”ã™
 
-	int UrlEncode( char *dst, int dstsize, char *src );	// URLƒGƒ“ƒR[ƒh
-	int UrlDecode( char *dst, int dstsize, char *src );	// URLƒfƒR[ƒh
+	int UrlEncode( char *dst, int dstsize, char *src );	// URLã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰
+	int UrlDecode( char *dst, int dstsize, char *src );	// URLãƒ‡ã‚³ãƒ¼ãƒ‰
 
 
 private:
@@ -136,8 +138,12 @@ private:
 	int postsize;			// Post size
 	char *vardata;			// Transfer destination
 	int varsize;			// Transfer max size
-	char *resphead;			
-	LPDWORD resphead_size;
+
+	char *resphead;
+	char resphead_buf[HEADBUF_DEFAULT];
+	DWORD resphead_index;
+	DWORD resphead_size;
+	DWORD *resphead_size_ptr;
 };
 
 

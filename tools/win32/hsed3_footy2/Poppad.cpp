@@ -34,8 +34,14 @@
 #include "config.h"
 #include "classify.h"
 #include "exttool.h"
+#include "supio.h"
 
 #include "PackIconResource.h"
+
+#define SUPPORT_DIR "SUPPORT\\"
+
+#define HSPTMP "hsptmp"
+#define HSPOBJ "obj"
 
 // PathIsDirectoryで使用
 #include "shlwapi.h"
@@ -71,10 +77,18 @@ DLLFUNC hsc3_make;
 DLLFUNC hsc3_messize;
 DLLFUNC hsc3_getruntime;  // 3.0用の追加
 DLLFUNC hsc3_run;		  // 3.0用の追加
+DLLFUNC hsc3_analysis;	  // 3.7用の追加
+DLLFUNC hsc3_kwlbuf;	  // 3.7用の追加
+DLLFUNC hsc3_kwlsize;	  // 3.7用の追加
+DLLFUNC hsc3_kwlclose;	  // 3.7用の追加
+DLLFUNC hsc3_kwlineinfo;  // 3.7用の追加
+
 
 static	int dllflg=0;			// DLL uses flag
 static	HINSTANCE hDLL;			// Handle to DLL
 
+#define PIC_LINEBUFFER_MAX (0x1000)
+static	char pick_linebuffer[PIC_LINEBUFFER_MAX];
 
 static char *SetDllFunc( char *name )
 {
@@ -86,7 +100,9 @@ static char *SetDllFunc( char *name )
 	strcpy( fncname+1,name );
 	strcat( fncname,"@16" );
 	ent = (char *)GetProcAddress( hDLL, fncname );
-	if (ent==NULL) dllflg=-1;				// error flag
+	if (ent == NULL) {
+		dllflg = -1;				// error flag
+	}
 	return ent;
 }
 
@@ -115,6 +131,11 @@ int dll_ini( char *libname )
 	hsc3_getsym = (DLLFUNC)SetDllFunc("hsc3_getsym");
 	hsc3_make = (DLLFUNC)SetDllFunc("hsc3_make");
 	hsc3_messize = (DLLFUNC)SetDllFunc("hsc3_messize");
+	hsc3_analysis = (DLLFUNC)SetDllFunc("hsc3_analysis");
+	hsc3_kwlbuf = (DLLFUNC)SetDllFunc("hsc3_kwlbuf");
+	hsc3_kwlsize = (DLLFUNC)SetDllFunc("hsc3_kwlsize");
+	hsc3_kwlclose = (DLLFUNC)SetDllFunc("hsc3_kwlclose");
+	hsc3_kwlineinfo = (DLLFUNC)SetDllFunc("hsc3_kwlineinfo");
 
 	if ( dllflg > 0 ) {
 		hsc3_getruntime = (DLLFUNC)SetDllFunc("hsc3_getruntime");  // 3.0用の追加
@@ -188,6 +209,10 @@ static UINT      iMsgFindReplace ;
 static UINT      iMsgHelp ;
 static char		 kwstr[512];
 char		 hdir[_MAX_PATH];
+static int		 kwstr_line;
+
+extern HWND      hwndFindReplace;
+extern UINT      iMsgNotifyFindReplaceWindowHandle;	// ウィンドウハンドル通知
 
 extern char szExeDir[_MAX_PATH];
 extern char szStartDir[_MAX_PATH];
@@ -294,6 +319,7 @@ void Statusbar_mes( char *mes );
 int ExecEzInputMenu( int id );
 void UpdateViewOption( int toolbar_flag, int stbar_flag );
 HWND main_aplsel( char *p1 );
+int ExectMenuTool(int id);
 
           // Global variables
 
@@ -303,6 +329,8 @@ HWND hDlgModeless ;
 static int cln;
 HWND hwbak ;
 extern HMENU hSubMenu ;
+extern HMENU hMenu_context;
+
 
 WNDPROC	Org_EditProc;		// サブクラス化の初期値
 WNDPROC	Org_TabProc;		// サブクラス化の初期値
@@ -401,7 +429,6 @@ static void err_bye( void )
 {
 	//	error message print
 	//
-	//MessageBox (hwnd, errbuf, "HSP error message", MB_OK | MB_ICONEXCLAMATION) ;
 	DialogBox (hInst, "ErrBox", hwnd, (DLGPROC)ErrDlgProc);
 }
 
@@ -411,9 +438,9 @@ static void OkMessage ( char *szMessage, char *szTitleName)
 		szTitleName[0] ? szTitleName : UNTITLED);
 }
 
-static void OkMessage2 ( char *szMessage, char *szTitleName)
+static void OkMessage2(char* szMessage, char* szTitleName, HWND hwnd)
 {
-	msgboxf(NULL, szMessage, "script editor message", MB_OK | MB_ICONEXCLAMATION,
+	msgboxf(hwnd, szMessage, "script editor message", MB_OK | MB_ICONEXCLAMATION,
 		szTitleName[0] ? szTitleName : UNTITLED);
 }
 
@@ -467,19 +494,6 @@ static char *myfile( void )
 }
 
 
-//static int fileexe( char *appname, char *fname )
-//{
-//	//		Execute application
-//	//
-//	if ( filechk(fname) ) return 1;
-//	strcpy( execmd,appname );
-//	strcat( execmd," " );
-//	strcat( execmd,fname );
-//	WinExec( execmd,SW_SHOW );
-//	return 0;
-//}
-
-
 static int GetFileTitle2( char *bname, char *tname )
 {
 	//		GetFileTitleの替わり
@@ -501,28 +515,136 @@ static int GetFileTitle2( char *bname, char *tname )
 }
 
 
-static void packgo( void )
+static void SetFileName(char* titleName, char* fileName, char* dirName) {
+	if (titleName != NULL) lstrcpy(szTitleName, titleName);
+	if (fileName != NULL) lstrcpy(szFileName, fileName);
+	if (dirName != NULL) lstrcpy(szDirName, fileName);
+	SetTabInfo(activeID, titleName, fileName, dirName, -1);
+}
+
+
+void DoCaption(char* szTitleName, int TabID)
 {
-	int a;
-	if (filechk("packfile")) {
+	char szCaption[_MAX_PATH + 128];
+
+	if (GetTabInfo(0) == NULL) {
 #ifdef JPNMSG
-		TMes( "DPMファイルを作るためにはパックするファイル名一覧(PACKFILE)を\n作成しておく必要があります。" );
+		lstrcpy(szCaption, "ＨＳＰスクリプトエディタ");
 #else
-		TMes( "[PACKFILE] needed." );
+		lstrcpy(szCaption, "HSP Script Editor");
 #endif
-		return;
+	}
+	else {
+#ifdef JPNMSG
+		sprintf(szCaption, "ＨＳＰスクリプトエディタ - %s%s",
+			szTitleName[0] ? szTitleName : UNTITLED, bNeedSave ? " *" : "");
+#else
+		sprintf(szCaption, "HSP Script Editor - %s%s",
+			szTitleName[0] ? szTitleName : UNTITLED, bNeedSave ? " *" : "");
+#endif
+	}
+	SetWindowText(hwbak, szCaption);
+
+	if (TabID >= 0) {
+		char szTabCaption[_MAX_PATH * 5 + 128];	// 下の置き換え処理を実行した場合最悪で、５倍必要な為
+		TCITEM tc_item;
+		TABINFO* lpTabInfo;
+
+		lpTabInfo = GetTabInfo(TabID);
+		sprintf(szTabCaption, "%s%s",
+			lpTabInfo->TitleName[0] ? lpTabInfo->TitleName : TABUNTITLED, lpTabInfo->NeedSave ? " *" : "");
+
+		// &を&&に置き換える処理(これしないと&が含まれているとき、タブの文字列がアンダーバーが付く)
+		StrReplaceALL(szTabCaption, "&", ":amp:");
+		StrReplaceALL(szTabCaption, ":amp:", "&&");
+
+		tc_item.mask = TCIF_TEXT;
+		tc_item.pszText = szTabCaption;
+
+		TabCtrl_SetItem(hwndTab, TabID, &tc_item);
+	}
+}
+
+
+static void GoToLine(int id, int jumpline)
+{
+	int i = jumpline;
+	if (jumpline > 0) {
+		int maxline = Footy2GetLines(id) - 1;
+		if (i > maxline) i = maxline;
+		Footy2SetCaretPosition(id, i-1, 0);
+		PutLineNumber();
+	}
+}
+
+
+static int OpenHSPFile( char *fname, int jumpline )
+{
+	int nTabNumber, nFootyID;
+	TABINFO* lpTabInfo;
+	bool bCreated;
+	ULONGLONG ullFileIndex;
+
+	if (*fname == '?') {
+		GoToLine(activeFootyID, jumpline);
+		return 0;
 	}
 
-	pack_ini( 0,(int)"data",0,0 );	
-	a=pack_make( 1,0,0,0 );
-	//dpmc_ini(errbuf,"data");
-	//a=dpmc_pack();
-	if (a) { err_prt(hwbak);return; }
+	strcpy(szFileName, fname);
+	getpath(fname, szTitleName, 8);
+	GetDirName(szDirName, szFileName);
+	if (*szDirName == 0) {
+		GetCurrentDirectory(_MAX_PATH, szDirName);
+	}
+	SetCurrentDirectory(szDirName);
+	ullFileIndex = GetFileIndex(szFileName);
+	if ((nTabNumber = SearchTab(NULL, NULL, NULL, ullFileIndex)) >= 0) {
+		ActivateTab(activeID, nTabNumber);
+		GoToLine(activeFootyID, jumpline);
+		return 0;
+	}
+
+	lpTabInfo = GetTabInfo(activeID);
+
+	nFootyID = activeFootyID;
+	bCreated = false;
+
+	if (lpTabInfo != NULL) {
+		if (lpTabInfo->NeedSave) { bCreated = true; }
+	}
+	if (lpTabInfo == NULL
+		|| lpTabInfo->FileName[0] != '\0'
+		|| Footy2IsEdited(activeFootyID)) {
+		bCreated = true;
+	}
+	if (bCreated) {
+		CreateTab(activeID, szTitleName, szFileName, szDirName);
+	}
+	else {
+		SetTabInfo(activeID, szTitleName, szFileName, szDirName, FALSE);
+	}
+	if (!PopFileRead(activeFootyID, szFileName)) {
 #ifdef JPNMSG
-	TMes("[DATA.DPM]ファイルを作成しました。");
+		OkMessage("%s をロードできませんでした。", szTitleName);
 #else
-	TMes("Create [DATA.DPM] Successfully.");
+		OkMessage("Loading %s fault.", szTitleName);
 #endif
+		if (bCreated) {
+			DeleteTab(activeID);
+		}
+		else {
+			SetFileName("", "", "");
+		}
+		return -1;
+	}
+
+	GetTabInfo(activeID)->FileIndex = ullFileIndex;
+
+	bNeedSave = FALSE;
+	DoCaption(szTitleName, activeID);
+	GoToLine(activeFootyID, jumpline);
+
+	return 0;
 }
 
 
@@ -542,9 +664,9 @@ static void expack( int mode, char *exname, char *finmes )
 	if (a) { err_prt(hwbak);return; }
 
 	if ( hsp_clmode==0 ) {
-		wsprintf(hh,"%s\\hsprt",szExeDir);
+		sprintf(hh,"%s\\hsprt",szExeDir);
 	} else {
-		wsprintf(hh,"%s\\runtime\\hspcl.hrt",szExeDir);
+		sprintf(hh,"%s\\runtime\\hspcl.hrt",szExeDir);
 	}
 
 	pack_rt( 0,(int)hh,0,0 );
@@ -557,50 +679,6 @@ static void expack( int mode, char *exname, char *finmes )
 }
 	
 	
-static void mkexe( char *exname )
-{
-	if (filechk("packfile")) {
-#ifdef JPNMSG
-		TMes( "EXEファイルを作るためにはパックするファイル名一覧(PACKFILE)を\n作成しておく必要があります。" );
-#else
-		TMes( "[PACKFILE] needed." );
-#endif
-		return;
-	}
-#ifdef JPNMSG
-	expack( hsp_fullscr, exname, "EXEファイルを作成しました。" );
-#else
-	expack( hsp_fullscr, exname, "Create EXE file successfully." );
-#endif
-}
-
-
-static void mkscr( char *exname )
-{
-	if (hsp_clmode) {
-#ifdef JPNMSG
-		TMes( "コンソールモードでスクリーンセーバーの作成はできません。" );
-#else
-		TMes( "No operation for console mode." );
-#endif
-		return;
-	}
-	if (filechk("packfile")) {
-#ifdef JPNMSG
-		TMes( "スクリーンセーバーを作るためにはパックするファイル名一覧(PACKFILE)を\n作成しておく必要があります。" );
-#else
-		TMes( "[PACKFILE] needed." );
-#endif
-		return;
-	}
-#ifdef JPNMSG
-	expack( 2, exname, "SCRファイルを作成しました。" );
-#else
-	expack( 2, exname, "Create SCR file successfully." );
-#endif
-}
-
-
 static void chklstr( char *laststr )
 {
 	//		hsp_laststr modify
@@ -628,9 +706,9 @@ static void hsprun( char *objname )
 		hsc3_getruntime( (int)cfname, (int)objname, 0, 0 );
 	}
 	if ( *cfname == 0 ) {
-		wsprintf( execmd,"\"%s\\%s\" ",szExeDir, DEFAULT_RUNTIME );
+		sprintf( execmd,"\"%s\\%s\" ",szExeDir, DEFAULT_RUNTIME );
 	} else {
-		wsprintf( execmd,"\"%s\\%s\" ",szExeDir, cfname );
+		sprintf( execmd,"\"%s\\%s\" ",szExeDir, cfname );
 	}
 
 	strcat( execmd,objname );
@@ -646,10 +724,6 @@ static void hsprun( char *objname )
 #else
 		TMes("Runtime executable file missing.");
 #endif
-/*
-	MessageBox(0, execmd, 0, 0);
-	ShellExecute(NULL, "open", execmd, hsp_cmdopt, 
-	*/
 	}
 }
 
@@ -658,8 +732,8 @@ static void hsprun_log( char *objname )
 	//		execute HSP2 process (with LOG)
 	//
 	char dbopt[64];
-	wsprintf( execmd,"\"%s\\%s\" ",szExeDir,DEFAULT_RUNTIME );
-	wsprintf( dbopt, "%03d",hsp_logmode );
+	sprintf( execmd,"\"%s\\%s\" ",szExeDir,DEFAULT_RUNTIME );
+	sprintf( dbopt, "%03d",hsp_logmode );
 	strcat( execmd, "%" );
 	strcat( execmd, dbopt );
 	if (hsp_logadd==0) DeleteFile( "hsplog.txt" );
@@ -682,11 +756,8 @@ static void hsprun_cl( char *objname )
 	char ftmp[_MAX_PATH];
 	GetShortPathName( szExeDir, ftmp, MAX_PATH );
 
-	wsprintf( execmd,"%s\\hspcli.bat ",ftmp );
-	//if (hsp_fullscr) strcat( execmd,"*" );
-	//if (hsp_debug) strcat( execmd,"@" );
+	sprintf( execmd,"%s\\hspcli.bat ",ftmp );
 
-	//strcat( execmd,szDirName );
 	strcat( execmd,objname );
 	strcat( execmd," " );
 	strcat( execmd,"\\" );
@@ -707,15 +778,12 @@ static void hsprun_log_cl( char *objname )
 	char ftmp[_MAX_PATH];
 	GetShortPathName( szExeDir, ftmp, MAX_PATH );
 
-	wsprintf( execmd,"%s\\hspcli.bat ",ftmp );
-	wsprintf( dbopt, "%03d",hsp_logmode );
+	sprintf( execmd,"%s\\hspcli.bat ",ftmp );
+	sprintf( dbopt, "%03d",hsp_logmode );
 	strcat( execmd, "%" );
 	strcat( execmd, dbopt );
 	if (hsp_logadd==0) DeleteFile( "hsplog.txt" );
 
-	//if (hsp_fullscr) strcat( execmd,"*" );
-	//if (hsp_debug) strcat( execmd,"@" );
-	//strcat( execmd,szDirName );
 	strcat( execmd,objname );
 	strcat( execmd," " );
 	strcat( execmd,ftmp );
@@ -756,7 +824,6 @@ static int mkobjfile( char *fname )
 	hsc_refname( 0,(int)myfile(), 0,0 );
 	hsc_objname( 0,(int)tmpst, 0,0 );
 	a=hsc_comp( 0,0,0,0 );
-	//a=tcomp_main( myfile(), srcfn, tmpst, errbuf, 0 );
 	return a;
 }
 
@@ -775,12 +842,11 @@ static int mkobjfile2( char *fname )
 	hsc_refname( 0,(int)myfile(), 0,0 );
 	hsc_objname( 0,(int)tmpst, 0,0 );
 	a=hsc_comp( 0,0,0,0 );
-	//a=tcomp_main( myfile(), srcfn, tmpst, errbuf, 0 );
 	return a;
 }
 
 
-static int mkexefile2( char *fname )
+static int mkexefile2(char* fname)
 {
 	//	auto make exe file (ver2.6)
 	//
@@ -788,23 +854,170 @@ static int mkexefile2( char *fname )
 	char tmpst[_MAX_PATH];
 	char srcfn[_MAX_PATH];
 	char ftmp[_MAX_PATH];
+	strcpy(srcfn, fname);
+	strcpy(tmpst, "start.ax");
 
-	strcpy(srcfn,fname);
-	strcpy(tmpst,"start.ax");
+	hsc_ini(0, (int)srcfn, 0, 0);
+	hsc_refname(0, (int)myfile(), 0, 0);
+	hsc_objname(0, (int)tmpst, 0, 0);
+	a = hsc_comp(0, 4, 0, 0);
+	if (a) return a;
 
-	hsc_ini( 0,(int)srcfn, 0,0 );
-	hsc_refname( 0,(int)myfile(), 0,0 );
-	hsc_objname( 0,(int)tmpst, 0,0 );
-	a=hsc_comp( 0,4,0,0 );
-	if ( a ) return a;
-
-	sprintf( ftmp, "%s\\%s.dpm", szExeDir, srcfn );
-	a=hsc3_make( 0,(int)ftmp,0,0 );
-
-	if ( a ) return a;
+	sprintf(ftmp, "%s\\%s.dpm", szExeDir, srcfn);
+	a = hsc3_make(0, (int)ftmp, 1, 0);
+	if (a) return a;
 	return 0;
 }
 
+static char analysis_header[16];
+static char analysis_keyword[64];
+static char analysis_filename[512];
+static int analysis_line;
+static int analysis_baseline;
+static char *analysis_base;
+static char analysis_linemodule[256];
+static BYTE* buffResult = NULL;
+
+static void closeHSPAnalysis(void)
+{
+	hsc3_kwlclose(0, 0, 0, 0);
+	if (buffResult != NULL) {
+		delete[] buffResult;
+		buffResult = NULL;
+	}
+}
+
+static char* getHSPAnalysis(int mode, char *key, int line)
+{
+	int a, size;
+	char tmpfn[2048];
+	*analysis_linemodule = 0;
+	PopFileWrite(activeFootyID, HSPTMP);
+	strcpy(tmpfn, HSPTMP);
+	hsc_ini(0, (int)tmpfn, 0, 0);
+	myfile();
+	//MessageBox(NULL, compfile, szTitleName, 0);
+	hsc_refname(0, (int)compfile, 0, 0);
+	strcpy(objname, HSPOBJ);
+	hsc_objname(0, (int)objname, 0, 0);
+	hsc3_analysis(0, (int)key, mode, line);
+	a = hsc_comp(1 + 16, 0, 0, 0);
+	if (a) {
+#ifdef JPNMSG
+		sprintf(tmpfn, "ソースの解析中にエラーが発生しました[%s]", compfile);
+#else
+		sprintf(tmpfn, "Error during source analysis[%s]", compfile);
+#endif
+		MessageBox(NULL, tmpfn, "", 0);
+		analysis_base = "";
+		analysis_baseline = 0;
+		return analysis_base;
+	}
+
+	bool modcheck = false;
+	if (*key != 0) modcheck = true;
+
+	if ((line > 0)&&(modcheck)) {
+		hsc3_kwlineinfo((int)analysis_linemodule, 0, 0, 0);
+
+		if (*analysis_linemodule != 0) {		// カーソル位置がモジュール内にあるか調べる
+
+			char* chkmod = strstr2(key, "@");
+			if (chkmod == NULL) {
+				//	現在の検索結果を保存しておく
+				BYTE* prevResult = NULL;
+				int prevSize;
+				hsc3_kwlsize((int)&prevSize, 0, 0, 0);
+				prevResult = new BYTE[prevSize + 1];
+				hsc3_kwlbuf((int)prevResult, 0, 0, 0);
+
+				//	モジュール指定をしていない場合はモジュール名を付加して再度検索する
+				char tmpkey[512];
+				strcpy(tmpkey, key);
+				strcat(tmpkey, analysis_linemodule);
+				chkmod = strstr2(tmpkey, "@");	// 念のため'@'が含まれるか調べる
+				if (chkmod != NULL) {
+					closeHSPAnalysis();
+					analysis_base = getHSPAnalysis(mode, tmpkey, line);
+					if (strlen(analysis_base)>1) {		// モジュール付加の結果がある場合はそちらを返す
+						delete[] prevResult;
+						analysis_baseline = 0;
+						return analysis_base;
+					}
+				}
+				//	以前の結果を返す
+				buffResult = prevResult;
+				analysis_base = (char*)buffResult;
+				analysis_baseline = 0;
+				return analysis_base;
+			}
+		}
+		//sprintf(tmpfn, "[%s]%d", analysis_linemodule, line);
+		//MessageBox(NULL, tmpfn, "", 0);
+	}
+	hsc3_kwlsize((int)&size, 0, 0, 0);
+	buffResult = new BYTE[size + 1];
+	hsc3_kwlbuf((int)buffResult, 0, 0, 0);
+	analysis_base = (char*)buffResult;
+	analysis_baseline = 0;
+	return analysis_base;
+}
+
+static char *getKeywordLine(char *buf)
+{
+	char line[64];
+	char* p = buf;
+	char* akw = analysis_keyword;
+
+	analysis_line = 0;
+	*analysis_header = 0;
+	*analysis_keyword = 0;
+	*analysis_filename = 0;
+
+	strsp_ini();
+	if (*p == 0) return NULL;
+	strsp_get( p, analysis_header, 32, 15 );
+	strsp_get( p, line, 32, 63 );
+	*akw = 0;
+	if (analysis_header[0] == 'r') {
+		*akw = '-'; akw++;
+		*akw = '>'; akw++;
+	}
+	if (analysis_header[1] == 'l') {
+		*akw = '*'; akw++;
+	}
+	strcpy(akw,line);
+	strsp_get( p, line, ':', 63 );
+	analysis_line = atoi(line);
+	strsp_get( p, analysis_filename, 0, 511 );
+	//sprintf(pick_linebuffer,"%s %s %d:%s", analysis_header, analysis_keyword, analysis_line, analysis_filename);
+	return p;
+}
+
+static char* getAnalysisLine(void)
+{
+	//	結果バッファから1行を取り出す
+	if (analysis_base == NULL) return NULL;
+	if (*analysis_base == 0) return NULL;
+
+	strsp_ini();
+	strsp_get(analysis_base, pick_linebuffer, 0, PIC_LINEBUFFER_MAX);
+	analysis_base += strsp_getptr();
+	return pick_linebuffer;
+}
+
+static int execGoToDefinition(void)
+{
+	if (*kwstr==0) return -2;
+	char *result = getHSPAnalysis(2,kwstr,kwstr_line);
+	char* buf = getKeywordLine(result);
+	if (buf == NULL) return -1;
+	closeHSPAnalysis();
+	if (analysis_line > 0) {
+		OpenHSPFile(analysis_filename, analysis_line);
+	}
+	return 0;
+}
 
 /*
 		Editor related routines
@@ -821,7 +1034,7 @@ void gethdir( void )
 
 	ss=hsp_helpdir;
 	if (*ss==0) {
-		wsprintf( hdir,"%s\\hsphelp\\",szExeDir );
+		sprintf( hdir,"%s\\hsphelp\\",szExeDir );
 		return;
 	}
 	b=0;ls=ss;
@@ -854,6 +1067,7 @@ static void getkw( void )
 	//  hsp_helpmode が 非0の場合は、プリプロセッサの'#'もキーワードに含める
 
 	Footy2GetCaretPosition(activeFootyID, (size_t*)&line, (size_t*)&pos);
+	kwstr_line = line+1;
 	linesize = Footy2GetLineLengthW(activeFootyID, line);
 	linebuff = (wchar_t *)Footy2GetLineW(activeFootyID, line); // Footy2内の行バッファを取得
 	if( !linebuff ) {
@@ -901,9 +1115,9 @@ static void callhelp( void )
 		// 最初の6文字キー検索を廃止
 		//if (a>6) kwstr[6]=0;							// 始めの6文字
 
-		wsprintf( helpopt,"%ss_%s.htm",hdir,kwstr );
+		sprintf( helpopt,"%ss_%s.htm",hdir,kwstr );
 		if (fileok(helpopt)) {
-			wsprintf(helpopt,"%shsppidx.htm",hdir);
+			sprintf(helpopt,"%shsppidx.htm",hdir);
 		}
 		if (fileok(helpopt)) {
 #ifdef JPNMSG
@@ -918,7 +1132,7 @@ static void callhelp( void )
 	}
 
 	if (hsp_helpmode==1) {
-		wsprintf(helpopt,"%shsp.hlp",hdir);
+		sprintf(helpopt,"%shsp.hlp",hdir);
 		if (fileok(helpopt)) {
 #ifdef JPNMSG
 			TMes("HSP.HLPファイルが見つかりません。\nWinHelp形式のファイルを確認してください。");
@@ -934,7 +1148,7 @@ static void callhelp( void )
 	if (hsp_helpmode==3) {
 
 		//		"S_" + keyword先頭６文字 +".htm" のファイルを開く。
-		wsprintf( helpopt,"%shsp.chm",hdir );
+		sprintf( helpopt,"%shsp.chm",hdir );
 		if (fileok(helpopt)) {
 #ifdef JPNMSG
 			TMes("ヘルプのためのchmファイルが見つかりません。\nディレクトリ設定を確認してください。");
@@ -967,34 +1181,58 @@ static void callhelp( void )
 		return;
 	}
 
-	wsprintf( helpopt,"%shelpman.exe",hdir );
+	sprintf( helpopt,"%shelpman.exe",hdir );
 	if (fileok(helpopt)) {
 #ifdef JPNMSG
-		wsprintf( mesb, "HSPヘルプマネージャが見つかりません。\n%sを確認してください。",helpopt );
+		sprintf( mesb, "HSPヘルプマネージャが見つかりません。\n%sを確認してください。",helpopt );
 #else
-		wsprintf( mesb, "HSP help manager not found.\nCheck %s.",helpopt );
+		sprintf( mesb, "HSP help manager not found.\nCheck %s.",helpopt );
 #endif
 		TMes( mesb );
 		return;
 	}
-	wsprintf( helpopt,"\"%shelpman.exe\" %s",hdir,kwstr );
+	sprintf( helpopt,"\"%shelpman.exe\" %s",hdir,kwstr );
 	WinExec( helpopt, SW_SHOW );
 	return;
 }
 
 
-static void ExecMkDPM( void )
+static void ExecMkDPM(void)
 {
 	char tmpfn[2048];
-	wsprintf( tmpfn, "\"%s\\hsp3.exe\" \"%s\\mkpack.ax\"", szExeDir, szExeDir );
-	WinExec( tmpfn, SW_SHOW );
+	sprintf(tmpfn, "\"%s\\hsp3.exe\" \"%s\\%spackdir_make_list.ax\"", szExeDir, szExeDir, SUPPORT_DIR);
+	WinExec(tmpfn, SW_SHOW);
+}
+
+
+static void ExecMkPackOpt(void)
+{
+	char tmpfn[2048];
+	sprintf(tmpfn, "\"%s\\hsp3.exe\" \"%s\\%spackopt_make_list.ax\"", szExeDir, szExeDir, SUPPORT_DIR);
+	WinExec(tmpfn, SW_SHOW);
 }
 
 
 static void ExecPaint(void)
 {
 	char tmpfn[2048];
-	wsprintf(tmpfn, "mspaint");
+	sprintf(tmpfn, "mspaint");
+	WinExec(tmpfn, SW_SHOW);
+}
+
+
+static void ExecHSP3Update(void)
+{
+	char tmpfn[_MAX_PATH];
+	sprintf(tmpfn, "\"%s\\hsp3upd.exe\"", szExeDir);
+	WinExec(tmpfn, SW_SHOW);
+}
+
+
+static void ExecMapTool(void)
+{
+	char tmpfn[2048];
+	sprintf(tmpfn, "\"%s\\hsp3dish.exe\" \"%s\\%stamamap.ax\"", szExeDir, szExeDir, SUPPORT_DIR);
 	WinExec(tmpfn, SW_SHOW);
 }
 
@@ -1002,7 +1240,7 @@ static void ExecPaint(void)
 static void ExecHSPAssistant( void )
 {
 	char tmpfn[_MAX_PATH];
-	wsprintf( tmpfn, "\"%s\\hspat.exe\"", szExeDir );
+	sprintf( tmpfn, "\"%s\\hspat.exe\"", szExeDir );
 	WinExec( tmpfn, SW_SHOW );
 }
 
@@ -1027,57 +1265,16 @@ void pophwnd( HWND hwnd )
 	hwbak=hwnd;
 }
 
-void DoCaption ( char *szTitleName, int TabID )
-     {
-     char szCaption[_MAX_PATH+128] ;
-
-	 if(GetTabInfo(0) == NULL){
-#ifdef JPNMSG
-	     lstrcpy (szCaption, "ＨＳＰスクリプトエディタ") ;
-#else
-	     lstrcpy (szCaption, "HSP Script Editor") ;
-#endif
-	 } else {
-#ifdef JPNMSG
-	     wsprintf (szCaption, "ＨＳＰスクリプトエディタ - %s%s",
-			 szTitleName[0] ? szTitleName : UNTITLED, bNeedSave ? " *": "") ;
-#else
-	     wsprintf (szCaption, "HSP Script Editor - %s%s",
-			 szTitleName[0] ? szTitleName : UNTITLED, bNeedSave ? " *": "") ;
-#endif
-	 }
-	 SetWindowText (hwbak, szCaption) ;
-
-	 if(TabID >= 0){
-		 char szTabCaption[_MAX_PATH*5+128] ;	// 下の置き換え処理を実行した場合最悪で、５倍必要な為
-		 TCITEM tc_item;
-		 TABINFO *lpTabInfo;
-
-		 lpTabInfo = GetTabInfo(TabID);
-	     wsprintf (szTabCaption, "%s%s",
-			 lpTabInfo->TitleName[0] ? lpTabInfo->TitleName : TABUNTITLED, lpTabInfo->NeedSave ? " *" : "") ;
-
-		 // &を&&に置き換える処理(これしないと&が含まれているとき、タブの文字列がアンダーバーが付く)
-		 StrReplaceALL(szTabCaption, "&", ":amp:");
-		 StrReplaceALL(szTabCaption, ":amp:", "&&");
-
-		 tc_item.mask = TCIF_TEXT;
-		 tc_item.pszText = szTabCaption;
-
-		 TabCtrl_SetItem(hwndTab, TabID, &tc_item);
-     }
-	 }
-
 short AskAboutSave (HWND hwnd, char *szTitleName)
      {
      char szBuffer[64 + _MAX_FNAME + _MAX_EXT] ;
      int  iReturn ;
 
 #ifdef JPNMSG
-     wsprintf (szBuffer, "%sは変更されています。セーブしますか？",
+     sprintf (szBuffer, "%sは変更されています。セーブしますか？",
                szTitleName[0] ? szTitleName : UNTITLED) ;
 #else
-     wsprintf (szBuffer, "%s has been modified. Save?",
+     sprintf (szBuffer, "%s has been modified. Save?",
                szTitleName[0] ? szTitleName : UNTITLED) ;
 #endif
 
@@ -1251,15 +1448,57 @@ BOOL CALLBACK ErrDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM /*lPara
      return FALSE ;
      }
 
-/*
-	Fixed
-	
-	2006/09/06 コメントが存在するときとEOF付近のときのラベルが無視される不具合を修正(LonelyWolf)
-*/
 
+static void set_labellist2(HWND hList, int mode, char *search, bool extsw, int line)
+{
+	//		ラベル一覧を検索(hspcmpを使用)
+	//
+	ListView_DeleteAllItems(hList);
+	getHSPAnalysis(mode, search,line);
+	int tag = 0;
+	char st[128];
+
+	while (1) {
+		char* buf = getAnalysisLine();
+		if (buf == NULL) break;
+		getKeywordLine(buf);
+
+		if (strcmp(analysis_filename, szTitleName) != 0) {
+			if ( extsw == false ) analysis_line = 0;
+		}
+		if (analysis_line > 0) {
+			LV_ITEM lvi = { LVIF_TEXT | LVIF_PARAM, tag, 0, 0, 0, st, };
+			lvi.lParam = tag;
+			sprintf(st, "%d", analysis_line);
+			ListView_InsertItem(hList, &lvi);
+			lvi.mask = LVIF_TEXT;
+			lvi.iSubItem++;
+			sprintf(st, "%s", analysis_header);
+			ListView_SetItem(hList, &lvi);
+			lvi.iSubItem++;
+			sprintf(st, "%s", analysis_keyword);
+			ListView_SetItem(hList, &lvi);
+			lvi.iSubItem++;
+			sprintf(st, "%s", analysis_filename);
+			ListView_SetItem(hList, &lvi);
+			tag++;
+		}
+	}
+	//analysis_line = 0;
+	//*analysis_header = 0;
+	//*analysis_keyword = 0;
+	//*analysis_filename = 0;
+	ListView_SetColumnWidth(hList, 0, LVSCW_AUTOSIZE_USEHEADER);
+	ListView_SetColumnWidth(hList, 1, LVSCW_AUTOSIZE_USEHEADER);
+	ListView_SetColumnWidth(hList, 2, LVSCW_AUTOSIZE_USEHEADER);
+	ListView_SetColumnWidth(hList, 3, LVSCW_AUTOSIZE_USEHEADER);
+	closeHSPAnalysis();
+}
 
 static void set_labellist( HWND hList, HWND /*hwndEdit*/ )
 {
+	//		ラベル一覧を検索(従来の方法)
+	//
 	char st[128];
 	char lname[256];
 	char *buffer;
@@ -1336,15 +1575,15 @@ static void set_labellist( HWND hList, HWND /*hwndEdit*/ )
 							if( *lname ) {
 								tag++;
 								LV_ITEM lvi = { LVIF_TEXT, tag, 0, 0, 0, st, };
-								wsprintf(st, "%d",line);
+								sprintf(st, "%d",line);
 								ListView_InsertItem(hList, &lvi);
 								lvi.iSubItem++;
-								wsprintf(st, "#%s", func_define_pp[i]);
-							//	wsprintf(st, "%s", func_define_pp_type[i]);
+								sprintf(st, "#%s", func_define_pp[i]);
+							//	sprintf(st, "%s", func_define_pp_type[i]);
 								ListView_SetItem(hList, &lvi);
 								lvi.iSubItem++;
-								wsprintf(st, "%s", lname);
-							//	wsprintf(st, "#%s %s", func_define_pp[i], lname);
+								sprintf(st, "%s", lname);
+							//	sprintf(st, "#%s %s", func_define_pp[i], lname);
 								ListView_SetItem(hList, &lvi);
 							}
 							break;
@@ -1367,13 +1606,13 @@ static void set_labellist( HWND hList, HWND /*hwndEdit*/ )
 						lname[namelen] = '\0';
 						tag++;
 						LV_ITEM lvi = { LVIF_TEXT, tag, 0, 0, 0, st, };
-						wsprintf(st, "%d",line);
+						sprintf(st, "%d",line);
 						ListView_InsertItem(hList, &lvi);
 						lvi.iSubItem++;
-						wsprintf(st, "ラベル");
+						sprintf(st, "ラベル");
 						ListView_SetItem(hList, &lvi);
 						lvi.iSubItem++;
-						wsprintf(st, "%s", lname);
+						sprintf(st, "%s", lname);
 						ListView_SetItem(hList, &lvi);
 					}
 					wp = pa;
@@ -1452,15 +1691,39 @@ static void set_labellist( HWND hList, HWND /*hwndEdit*/ )
 		ListView_SetColumnWidth(hList, 0, LVSCW_AUTOSIZE_USEHEADER);
 		ListView_SetColumnWidth(hList, 1, LVSCW_AUTOSIZE_USEHEADER);
 		ListView_SetColumnWidth(hList, 2, LVSCW_AUTOSIZE_USEHEADER);
-        free (buffer) ;
+		ListView_SetColumnWidth(hList, 3, LVSCW_AUTOSIZE_USEHEADER);
+		free (buffer) ;
 	}
 }
 
+
+static HWND mycomp_hList;
+
+// アプリケーション定義比較関数
+int CALLBACK MyCompProc(LPARAM lp1, LPARAM lp2, LPARAM lp3)
+{
+	static LV_FINDINFO lvf;
+	static char buf1[30], buf2[30];
+
+	ListView_GetItemText(mycomp_hList, (int)lp1, 3, buf1, sizeof(buf1));
+	ListView_GetItemText(mycomp_hList, (int)lp2, 3, buf2, sizeof(buf2));
+	int cmp = strcmp(buf1, buf2);
+	if (cmp == 0) {
+		ListView_GetItemText(mycomp_hList, (int)lp1, (int)lp3, buf1, sizeof(buf1));
+		ListView_GetItemText(mycomp_hList, (int)lp2, (int)lp3, buf2, sizeof(buf2));
+
+		int a1 = atoi(buf1);
+		int a2 = atoi(buf2);
+		return(a1 - a2);
+	}
+	return cmp;
+}
 
 BOOL CALLBACK LabelDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	 int i;
 	 char s1[128];
+	 static bool extlbchk = false;
      switch (message)
           {
           case WM_INITDIALOG: {
@@ -1476,9 +1739,14 @@ BOOL CALLBACK LabelDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 			   ListView_InsertColumn(hList, 1, &lvc);
 			   lvc.fmt = LVCFMT_LEFT;
 			   ListView_InsertColumn(hList, 2, &lvc);
+			   lvc.fmt = LVCFMT_LEFT;
+			   ListView_InsertColumn(hList, 3, &lvc);
 			   // ラベル列挙
-               set_labellist( hList, hwndEdit );
-               SetFocus( GetDlgItem( hDlg,IDC_LIST2 ) );
+			   //set_labellist(hList, hwndEdit);
+			   set_labellist2(hList, 0, "", false, 0);
+			   mycomp_hList = hList;
+			   ListView_SortItems(hList, MyCompProc, 0);
+			   SetFocus(hList);
                return TRUE; }
 
 		  case WM_COMMAND: {
@@ -1488,9 +1756,10 @@ BOOL CALLBACK LabelDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
                     case IDOK:
 						i = ListView_GetNextItem(hList, -1, LVNI_SELECTED);
 						if ( i != LB_ERR ) {
-							LV_ITEM lvi = { LVIF_TEXT, i, 0, 0, 0, s1, sizeof(s1)/sizeof(s1[0])-1 };
-							ListView_GetItem(hList, &lvi);
-							cln=atoi(s1)-1;
+							ListView_GetItemText(mycomp_hList, i, 0, s1, sizeof(s1));
+							ListView_GetItemText(mycomp_hList, i, 3, analysis_filename, 512);
+							analysis_line =atoi(s1);
+							cln = 0;
 						}
 						else {
 							cln=-1;
@@ -1509,9 +1778,96 @@ BOOL CALLBACK LabelDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 			   if( NM_DBLCLK == pnmh->code ) {
 					FORWARD_WM_COMMAND(hDlg, IDOK, NULL, BN_CLICKED, PostMessage);
 			   }
+			   bool nowcheck = ( IsDlgButtonChecked(hDlg, IDC_CHECK1) == BST_CHECKED );
+			   if (nowcheck != extlbchk) {
+				   extlbchk = nowcheck;
+				   HWND hList = GetDlgItem(hDlg, IDC_LIST1);
+				   set_labellist2(hList, 0, "", extlbchk, 0);
+				   mycomp_hList = hList;
+				   ListView_SortItems(hList, MyCompProc, 0);
+			   }
 			   break ; }
           }
      return FALSE ;
+}
+
+BOOL CALLBACK KeywordRefDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	int i;
+	char s1[128];
+	static bool extlbchk = false;
+	switch (message)
+	{
+	case WM_INITDIALOG: {
+		char tmsg[256];
+#ifdef JPNMSG
+		sprintf( tmsg, "%sの参照を検索",kwstr );
+#else
+		sprintf( tmsg, "Find all references of [%s].", kwstr );
+#endif
+		SetWindowText(hDlg,tmsg);
+		HWND hList = GetDlgItem(hDlg, IDC_LIST1);
+		LV_COLUMN lvc = { LVCF_FMT, LVCFMT_LEFT, };
+		// 一行全てを反転表示するスタイルに変更
+		ListView_SetExtendedListViewStyle(hList, ListView_GetExtendedListViewStyle(hList) | LVS_EX_FULLROWSELECT);
+		// カラム追加
+		lvc.fmt = LVCFMT_RIGHT;
+		ListView_InsertColumn(hList, 0, &lvc);
+		ListView_SetColumn(hList, 0, &lvc); // LVCFMT_RIGHTを反映させるため
+		lvc.fmt = LVCFMT_LEFT;
+		ListView_InsertColumn(hList, 1, &lvc);
+		lvc.fmt = LVCFMT_LEFT;
+		ListView_InsertColumn(hList, 2, &lvc);
+		lvc.fmt = LVCFMT_LEFT;
+		ListView_InsertColumn(hList, 3, &lvc);
+		// ラベル列挙
+		//set_labellist(hList, hwndEdit);
+		set_labellist2(hList, 2+16, kwstr, false, kwstr_line);
+		mycomp_hList = hList;
+		ListView_SortItems(hList, MyCompProc, 0);
+		SetFocus(hList);
+		return TRUE; }
+
+	case WM_COMMAND: {
+		HWND hList = GetDlgItem(hDlg, IDC_LIST1);
+		switch (LOWORD(wParam))
+		{
+		case IDOK:
+			i = ListView_GetNextItem(hList, -1, LVNI_SELECTED);
+			if (i != LB_ERR) {
+				ListView_GetItemText(mycomp_hList, i, 0, s1, sizeof(s1));
+				ListView_GetItemText(mycomp_hList, i, 3, analysis_filename, 512);
+				analysis_line = atoi(s1);
+				cln = 0;
+			}
+			else {
+				cln = -1;
+			}
+			EndDialog(hDlg, 0);
+			return TRUE;
+		case IDCANCEL:
+			EndDialog(hDlg, 0);
+			cln = -1;
+			return TRUE;
+		}
+		break; }
+	case WM_NOTIFY: {
+		// ダブルクリックでOKを送りジャンプ
+		LPNMHDR pnmh = (LPNMHDR)lParam;
+		if (NM_DBLCLK == pnmh->code) {
+			FORWARD_WM_COMMAND(hDlg, IDOK, NULL, BN_CLICKED, PostMessage);
+		}
+		bool nowcheck = (IsDlgButtonChecked(hDlg, IDC_CHECK1) == BST_CHECKED);
+		if (nowcheck != extlbchk) {
+			extlbchk = nowcheck;
+			HWND hList = GetDlgItem(hDlg, IDC_LIST1);
+			set_labellist2(hList, 2+16, kwstr, extlbchk, kwstr_line);
+			mycomp_hList = hList;
+			ListView_SortItems(hList, MyCompProc, 0);
+		}
+		break; }
+	}
+	return FALSE;
 }
 
 void poppad_setedit(int FootyID)
@@ -1594,14 +1950,6 @@ int poppad_ini( HWND hwnd, LPARAM lParam )
 
    			   if ( flg_hspat ) ExecHSPAssistant();		// HSPアシスタントを自動起動
 
-               // Create the edit control child window
-
-               //hwndEdit = CreateWindowEx ( WS_EX_ACCEPTFILES, "EDIT", NULL,
-               //          WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL |
-               //               ES_LEFT | ES_MULTILINE |
-               //               ES_NOHIDESEL | ES_AUTOHSCROLL | ES_AUTOVSCROLL,
-               //          0, 0, 0, 0,
-               //          hwnd, (HMENU) EDITID, hInst, NULL) ;
                hwndTab = CreateWindowEx(0, WC_TABCONTROL, NULL, WS_CHILD | WS_CLIPSIBLINGS | WS_VISIBLE | WS_CLIPCHILDREN,
                    0, 0, 10, 10, hwnd, (HMENU)0x10, hInst, NULL);
 			   PopFontApplyTabFont();
@@ -1609,28 +1957,8 @@ int poppad_ini( HWND hwnd, LPARAM lParam )
 			   SetWindowLong(hwndTab, GWL_WNDPROC, (LONG)MyTabProc);
 			   DragAcceptFiles(hwndTab, TRUE);
 
-//  Moved to CreateTab function in tabmanager.cpp
-//			   Org_EditProc = (WNDPROC)GetWindowLong( hwndEdit, GWL_WNDPROC );
-//			   SetWindowLong( hwndEdit, GWL_WNDPROC, (LONG)MyEditProc );
-//			   DragAcceptFiles( hwndEdit, TRUE );
-
-               // Initialize common dialog box stuff
-
                iMsgFindReplace = RegisterWindowMessage (FINDMSGSTRING) ;
 			   iMsgHelp        = RegisterWindowMessage (HELPMSGSTRING) ;
-
-               // Process command line
-
-               //lstrcpy (szFileName, (PSTR) (((LPCREATESTRUCT) lParam)->lpCreateParams)) ;
-
-/*
-				if ( szCmdline[0]==0x22 ) {
-					strcpy( szFileName, szCmdline+1 );
-			   }
-			   else {
-				   strcpy( szFileName, szCmdline );
-			   }
-*/
 
 			   PopFontSetELG( chg_font );
 			   PopFontSetEditFont();
@@ -1702,14 +2030,6 @@ int poppad_reload( int nTabID )
     }
 	DoCaption (lpTabInfo->TitleName, nTabID) ;
 	return 0;
-}
-
-
-static void SetFileName(char *titleName, char *fileName, char *dirName) {
-	if ( titleName != NULL ) lstrcpy(szTitleName, titleName);
-	if ( fileName != NULL ) lstrcpy(szFileName, fileName);
-	if ( dirName != NULL ) lstrcpy(szDirName, fileName);
-	SetTabInfo(activeID, titleName, fileName, dirName, -1);
 }
 
 
@@ -1812,7 +2132,7 @@ LRESULT CALLBACK MyEditProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		{
 			POINT pt;
 			GetCursorPos(&pt);
-			TrackPopupMenu(hSubMenu, TPM_LEFTALIGN | TPM_TOPALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwndClient, NULL);
+			TrackPopupMenu(GetSubMenu(hMenu_context, 0), TPM_LEFTALIGN | TPM_TOPALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwndClient, NULL);
 			break;
 		}
 	}
@@ -1872,11 +2192,6 @@ int poppad_menupop( WPARAM wParam, LPARAM lParam )
 
 			// Enable Redo if edit control can do it
 
-//			EnableMenuItem ((HMENU) wParam, IDM_REDO, nUndoNum > 0 ?
-//				MF_ENABLED : MF_GRAYED) ;
-//			EnableMenuItem ((HMENU) wParam, IDM_REDO,
-//			SendMessage (hwndEdit, WM_USER + 85/*(EM_CANREDO)*/, 0, 0L) ?
-//				MF_ENABLED : MF_GRAYED) ;
 			iNum = 0;
 			Footy2GetMetrics(activeFootyID, SM_REDOREM, &iNum);
 			EnableMenuItem ((HMENU) wParam, IDM_REDO,
@@ -1983,7 +2298,7 @@ void PutLineNumber( void )
 	char szBuffer[256] ;
 	int ln = 0;
 	Footy2GetCaretPosition(activeFootyID, (size_t*)&ln, NULL);
-	wsprintf (szBuffer, "line : %d", ln + 1) ;
+	sprintf (szBuffer, "line : %d", ln + 1) ;
 	Statusbar_mes( szBuffer );
 }
 
@@ -2010,9 +2325,9 @@ LRESULT CALLBACK EditDefProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		if (pfr->Flags & FR_FINDNEXT)
 			if (!PopFindFindText (hwndEdit, iOffset, pfr, true)){
 #ifdef JPNMSG
-                OkMessage2 ( "終わりまで検索しました", "") ;
+                OkMessage2 ( "終わりまで検索しました", "", hwndFindReplace) ;
 #else
-                OkMessage2 ( "Not found.", "") ;
+                OkMessage2 ( "Not found.", "", hwndFindReplace) ;
 #endif
 			}
 
@@ -2023,9 +2338,9 @@ LRESULT CALLBACK EditDefProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			if (pfr->Flags & FR_REPLACE || !UseNewReplace ) {
 				if (!PopFindReplaceText (hwndEdit, iOffset, pfr)) {
 #ifdef JPNMSG
-					OkMessage2 ( "終わりまで置換しました", "") ;
+					OkMessage2 ( "終わりまで置換しました", "", hwndFindReplace) ;
 #else
-					OkMessage2 ( "Replace finished.", "") ;
+					OkMessage2 ( "Replace finished.", "", hwndFindReplace) ;
 #endif
 				}
 			}
@@ -2037,9 +2352,9 @@ LRESULT CALLBACK EditDefProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				if ( UseNewReplace ) {// 設定により処理を振り分ける
 					if (!PopFindFindText (hwndEdit, iOffset, pfr, false)) {
 #ifdef JPNMSG
-						OkMessage2 ( "終わりまで置換しました", "") ;
+						OkMessage2 ( "終わりまで置換しました", "", hwndFindReplace) ;
 #else
-						OkMessage2 ( "Replace finished.", "") ;
+						OkMessage2 ( "Replace finished.", "", hwndFindReplace) ;
 #endif
 					}
 
@@ -2084,19 +2399,15 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	 int low;
 	 char tmpfn[_MAX_PATH];
 
-/*
-     if (iMsg == WM_KEYDOWN )
-			 {
-				 PutLineNumber();
-                 //OkMessage ( "Huh??", "") ;
-			 }
-*/
-
 	 switch(iMsg) {
 		case WM_COMMAND :
 			low = LOWORD (wParam);
 			if ( low >= IDM_AHTEZINPUT ) {
 				ExecEzInputMenu( low );
+				return 0;
+			}
+			if ((low >= IDM_EXTHSPTOOL)&&(low < (IDM_EXTHSPTOOL+1000))) {
+				ExectMenuTool(low);
 				return 0;
 			}
 			 switch (low){
@@ -2114,58 +2425,9 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 				case IDM_OPEN :
 				{
-					int nTabNumber, nFootyID;
-					TABINFO *lpTabInfo;
-					bool bCreated;
-					ULONGLONG ullFileIndex;
-
 					if (PopFileOpenDlg (hwnd, szFileName, szTitleName)){
-						GetDirName(szDirName, szFileName);
-						SetCurrentDirectory(szDirName);
-						ullFileIndex = GetFileIndex(szFileName);
-						if((nTabNumber = SearchTab(NULL, NULL, NULL, ullFileIndex)) >= 0){
-							ActivateTab(activeID, nTabNumber);
-							return 0;
-						}
-
-                        lpTabInfo = GetTabInfo(activeID);
-
-						nFootyID = activeFootyID;
-						bCreated = false;
-
-						if(lpTabInfo != NULL ) {
-							if(lpTabInfo->NeedSave){ bCreated = true; }
-						}
-						if( lpTabInfo == NULL
-							|| lpTabInfo->FileName[0] != '\0'
-							|| Footy2IsEdited(activeFootyID) ){
-								bCreated = true;
-						}
-						if ( bCreated ) {
-								CreateTab(activeID, szTitleName, szFileName, szDirName);
-							} else {
-								SetTabInfo(activeID, szTitleName, szFileName, szDirName, FALSE);
-							}
-						if (!PopFileRead (activeFootyID, szFileName)){
-#ifdef JPNMSG
-                            OkMessage ( "%s をロードできませんでした。", szTitleName) ;
-#else
-                            OkMessage ( "Loading %s fault.", szTitleName) ;
-#endif
-							if(bCreated) {
-								DeleteTab(activeID);
-							} else {
-								SetFileName( "", "", "" );
-							}
-							break;
-						}
-
-						GetTabInfo(activeID)->FileIndex = ullFileIndex;
-
-						bNeedSave = FALSE ;
-						DoCaption (szTitleName, activeID) ;
+						OpenHSPFile(szFileName,0);
 					}
-
 					return 0 ;
 				}
 
@@ -2371,11 +2633,7 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				{
 					DialogBox(hInst, "JumpBox", hwnd, (DLGPROC)JumpDlgProc);
 					if (cln == -1) return 0;
-					int maxline = Footy2GetLines(activeFootyID) - 1;
-					if (cln < 0) cln = 0;
-					if (cln > maxline) cln = maxline;
-					Footy2SetCaretPosition(activeFootyID, cln, 0);
-					PutLineNumber();
+					GoToLine(activeFootyID,cln+1);
 					return 0;
 				}
 				case IDM_LBTM:
@@ -2390,9 +2648,8 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 				case IDM_LABEL:
 					DialogBox (hInst, "LabelBox", hwnd, (DLGPROC)LabelDlgProc);
-					if (cln == -1) return 0;
-					Footy2SetCaretPosition(activeFootyID, cln, 0);
-					PutLineNumber();
+					if (cln < 0) return 0;
+					OpenHSPFile(analysis_filename, analysis_line);
 					return 0;
 
 					// Messages for HSP
@@ -2420,8 +2677,8 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					return 0;
 
 				case IDM_MKOBJ2:
-					PopFileWrite ( activeFootyID, "hsptmp" );
-					if ( mkobjfile2( "hsptmp" ) ){
+					PopFileWrite ( activeFootyID, HSPTMP);
+					if ( mkobjfile2(HSPTMP) ){
 						err_prt(hwnd);
 						return 0;
 					}
@@ -2433,12 +2690,11 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					return 0;
 
 				case IDM_AUTOMAKE:
-					PopFileWrite ( activeFootyID, "hsptmp" );
-					if ( mkexefile2( "hsptmp" ) ){
+					PopFileWrite ( activeFootyID, HSPTMP);
+					if ( mkexefile2(HSPTMP) ){
 						err_prt(hwnd);
 						return 0;
 					}
-					RunIconChange(activeFootyID);
 #ifdef JPNMSG
 					TMes("実行ファイルを作成しました");
 #else
@@ -2449,12 +2705,12 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				case IDM_COMP:
 				case IDM_COMP2:
 				case IDM_LOGCOMP:
-					PopFileWrite ( activeFootyID, "hsptmp" );
-					strcpy(tmpfn,"hsptmp");
+					PopFileWrite ( activeFootyID, HSPTMP);
+					strcpy(tmpfn, HSPTMP);
 					hsc_ini( 0,(int)tmpfn, 0,0 );
 					myfile();
 					hsc_refname( 0,(int)compfile, 0,0 );
-					strcpy( objname,"obj" );
+					strcpy( objname, HSPOBJ);
 					hsc_objname( 0,(int)objname, 0,0 );
 					a=hsc_comp( 1, 0, hsp_debug, 0 );
 					if (a) {
@@ -2468,12 +2724,12 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					if (LOWORD (wParam)==IDM_LOGCOMP) {
 						DialogBox (hInst, "Logcomp", hwnd, (DLGPROC)LogcompDlgProc );
 						if (hsp_logflag==0) return 0;
-						if (hsp_clmode==0) { hsprun_log("obj"); } else { hsprun_log_cl("obj"); }
+						if (hsp_clmode==0) { hsprun_log(HSPOBJ); } else { hsprun_log_cl(HSPOBJ); }
 						return 0;
 					}
 
 				case IDM_RUN:
-					if (hsp_clmode==0) { hsprun("obj"); } else { hsprun_cl("obj"); }
+					if (hsp_clmode==0) { hsprun(HSPOBJ); } else { hsprun_cl(HSPOBJ); }
 					return 0;
 
 				case IDM_COMP3:
@@ -2497,7 +2753,7 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 #endif
 						return 0;
 					}
-					strcpy( objname,"obj" );
+					strcpy( objname, HSPOBJ);
 					strcat( hsp_extstr,".hsp" );
 					hsc_ini( 0,(int)hsp_extstr, 0,0 );
 					hsc_objname( 0,(int)objname, 0,0 );
@@ -2512,11 +2768,11 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					return 0;
 
 				case IDM_HSPSYM:
-					strcpy(tmpfn,"hsptmp");
+					strcpy(tmpfn, HSPTMP);
 					hsc_ini( 0,(int)tmpfn, 0,0 );
 					myfile();
 					hsc_refname( 0,(int)compfile, 0,0 );
-					strcpy( objname,"obj" );
+					strcpy( objname, HSPOBJ);
 					hsc_objname( 0,(int)objname, 0,0 );
 					a=hsc3_getsym( 0,0,0,0 );
 					if (a) {
@@ -2533,11 +2789,6 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				case IDM_FULLSCR:
 					hsp_fullscr^=1;
 					return 0;
-/*
-				case IDM_HSPEXTMACRO:
-					hsp_extmacro^=1;
-					return 0;
-*/
 				case IDM_HSPCLMODE:
 					hsp_clmode^=1;
 					return 0;
@@ -2550,28 +2801,6 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					DialogBox (hInst, "CmdBox", hwnd, (DLGPROC)OptDlgProc);
 					return 0;
 
-				case IDM_PACKED:
-					DialogBox (hInst, "FileBox", hwnd, (DLGPROC)PlistDlgProc);
-					return 0;
-
-				case IDM_PACKGO:
-					packgo();
-					return 0;
-
-				case IDM_MKEXE1:
-					exemode=1;
-					DialogBox (hInst, "MkExe", hwnd, (DLGPROC)FnameDlgProc);
-					chklstr(hsp_laststr);
-					if (hsp_fnstr) mkexe(hsp_laststr);
-					return 0;
-
-				case IDM_MKEXE2:
-					exemode=1;
-					DialogBox (hInst, "MkExe", hwnd, (DLGPROC)FnameDlgProc);
-					chklstr(hsp_laststr);
-					if (hsp_fnstr) mkscr(hsp_laststr);
-					return 0;
-
 				case IDM_START_RUNTIMEMAN:
 					ExecHSPAssistant();
 					return 0;
@@ -2581,22 +2810,21 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					ShellExecute( NULL, "explore", tmpfn, NULL, NULL, SW_SHOWNORMAL );
 					return 0;
 
-				case IDM_AHTTOOL:
-					wsprintf( tmpfn, "\"%s\\ahtman.exe\"", szExeDir );
-					WinExec( tmpfn, SW_SHOW );
-					return 0;
-
                 case IDM_HSPTV:
-					wsprintf( tmpfn, "\"%s\\hsptv.exe\"", szExeDir );
+					sprintf( tmpfn, "\"%s\\hsptv.exe\"", szExeDir );
 					WinExec( tmpfn, SW_SHOW );
 					return 0;
 
-                case IDM_DIRDPM:
+				case IDM_DIRDPM:
 					ExecMkDPM();
 					return 0;
 
+				case IDM_PACKOPT:
+					ExecMkPackOpt();
+					return 0;
+
 				case IDM_SRCCNV:
-					wsprintf(tmpfn, "\"%s\\hsp3dh.exe\"", szExeDir);
+					sprintf(tmpfn, "\"%s\\hsp3dh.exe\"", szExeDir);
 					WinExec(tmpfn, SW_SHOW);
 					return 0;
 
@@ -2604,9 +2832,17 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					ExecPaint();
 					return 0;
 
+				case IDM_HSP3UPDATE:
+					ExecHSP3Update();
+					return 0;
+
 				case IDM_HGIMG4TOOL:
-					wsprintf(tmpfn, "\"%s\\gpbconv.exe\"", szExeDir);
+					sprintf(tmpfn, "\"%s\\gpbconv.exe\"", szExeDir);
 					WinExec(tmpfn, SW_SHOW);
+					return 0;
+
+				case IDM_MAPTOOL:
+					ExecMapTool();
 					return 0;
 
 				// Messages from Help menu
@@ -2617,17 +2853,17 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					return 0;
 
                 case IDM_HSPMAN1 :
-					wsprintf( helpopt,"%s\\doclib\\hspprog.htm", szExeDir );
+					sprintf( helpopt,"%s\\doclib\\hspprog.htm", szExeDir );
 					ShellExecute( NULL, NULL, helpopt, NULL, NULL, SW_SHOW );
 					return 0 ;
 
                 case IDM_HSPMAN2 :
-					wsprintf( tmpfn, "\"%s\\hdl.exe\"", szExeDir );
+					sprintf( tmpfn, "\"%s\\hdl.exe\"", szExeDir );
 					WinExec( tmpfn, SW_SHOW );
 					return 0 ;
 
                 case IDM_HSPMAN3 :
-					wsprintf( helpopt,"%s\\index.htm", szExeDir );
+					sprintf( helpopt,"%s\\index.htm", szExeDir );
 					ShellExecute( NULL, NULL, helpopt, NULL, NULL, SW_SHOW );
 					return 0 ;
 
@@ -2836,8 +3072,28 @@ LRESULT CALLBACK EditProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				{
 					// Google検索
 					getkw();
-					wsprintf(helpopt,"http://www.google.co.jp/search?q=%s&ie=Shift_JIS",kwstr);
-					ShellExecute( NULL,NULL,helpopt,"","",SW_SHOW );
+					sprintf(helpopt, "http://www.google.co.jp/search?q=%s&ie=Shift_JIS", kwstr);
+					ShellExecute(NULL, NULL, helpopt, "", "", SW_SHOW);
+					return 0;
+				}
+
+				case IDM_GODEFINE:
+				{
+					// 定義へ移動
+					getkw();
+					execGoToDefinition();
+					return 0;
+				}
+
+				case IDM_ALLREF:
+				{
+					// すべての参照を検索
+					getkw();
+					if (*kwstr != 0) {
+						DialogBox(hInst, "LabelBox", hwnd, (DLGPROC)KeywordRefDlgProc);
+						if (cln < 0) return 0;
+						OpenHSPFile(analysis_filename, analysis_line);
+					}
 					return 0;
 				}
 
@@ -3256,13 +3512,6 @@ BOOL CALLBACK ConfigDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 				hOldPage = hConfigPage;
 				return TRUE;
 			}
-			/*else if(pnmtv->hdr.code == TVN_SELCHANGED){
-				hTree = GetDlgItem(hDlg, IDC_TREE1);
-				hti = TreeView_GetChild(hTree, pnmtv->itemNew.hItem);
-				if(hti != NULL)
-					TreeView_SelectItem(hTree, hti);
-				return TRUE;
-			}*/
 			break;
 		}
 	}
@@ -3468,7 +3717,7 @@ BOOL CALLBACK ConfigColorPageProc (HWND hDlg, UINT message, WPARAM wParam, LPARA
 			CopyMemory(crColor, &color, sizeof(crColor));
 			PostMessage(hDlg, WM_COMMAND, MAKELONG(IDC_COMBO1, CBN_SELCHANGE), (LPARAM)GetDlgItem(hDlg, IDC_COMBO1));
 
-			if (bCustomColor == true){
+			if (bCustomColor == TRUE){
 				CheckDlgButton(hDlg, IDC_CHECK1, BST_CHECKED);
 			}else{
 				CheckDlgButton(hDlg, IDC_CHECK1, BST_UNCHECKED);
@@ -4582,13 +4831,6 @@ void __stdcall OnFooty2TextModified(int id, void * /*pParam*/, int /*nCause*/)
 	if(lpTabInfo == NULL)
 		return;
 
-//	if(FootyGetMetrics(id, F_GM_UNDOREM) == lpTabInfo->LatestUndoNum && lpTabInfo->NeedSave == TRUE){
-//		SetTabInfo(nTabID, NULL, NULL, NULL, (bNeedSave = FALSE));
-//		DoCaption(szTitleName, nTabID);
-//	} else if(lpTabInfo->NeedSave == FALSE && nCause != FECH_SETTEXT){
-//		SetTabInfo(nTabID, NULL, NULL, NULL, (bNeedSave = TRUE));
-//		DoCaption(szTitleName, nTabID);
-//	}
 	// 2008-02-17 Shark++ 要動作確認
 	bNeedSave = (BOOL)Footy2IsEdited(id);
 	if( lpTabInfo->NeedSave != bNeedSave ) {
@@ -4600,14 +4842,6 @@ void __stdcall OnFooty2TextModified(int id, void * /*pParam*/, int /*nCause*/)
 	return;
 }
 
-//void __stdcall OnFootyContextMenu(void *pParam, int id)
-//{
-//	POINT pt;
-//
-//	GetCursorPos(&pt);
-//	TrackPopupMenu(hSubMenu, TPM_LEFTALIGN | TPM_TOPALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwndClient, NULL);
-//	return;
-//}
 void GetBackupPath(char *backuppath, int size){
 	// EXEのあるディレクトリ
 	char exepath[MAX_PATH+1];
@@ -4651,14 +4885,7 @@ void HSPBackupSave(const char *backuppath, const char *path, int nFootyID){
 	int size = Footy2GetTextLengthA(nFootyID, LM_CRLF);
 	char *bufhsp = (char *)calloc(size + 2,sizeof(char));
 	Footy2GetTextA(nFootyID, bufhsp, LM_CRLF, size + 1);
-	/*
-	FILE *fphsp;
-	fphsp = fopen(path, "wb");
-	if (fphsp == NULL)
-		return;
-	fputs(bufhsp, fphsp);
-	fclose(fphsp);
-	*/
+
 	HANDLE fp;
 	fp = CreateFileA(path, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_FLAG_WRITE_THROUGH, NULL);
 	if (fp == NULL)
@@ -4677,14 +4904,6 @@ void TXTBackupSave(const char *backuppath, const char *path, char *data){
 		if (!PathIsDirectoryA(backuppath))
 			return;
 	}
-	/*
-	FILE *fptxt;
-	fptxt = fopen(path, "wb");
-	if (fptxt == NULL)
-		return;
-	fputs(data, fptxt);
-	fclose(fptxt);
-	*/
 	HANDLE fp;
 	fp = CreateFileA(path, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_FLAG_WRITE_THROUGH, NULL);
 	if (fp == NULL)
@@ -4906,30 +5125,7 @@ void BackupCopy(void){
 }
 
 int ReadFileBuffer(const char *filepath, char **buf){
-	/*
-	FILE *fp;
-	fpos_t fsize;
-	// オープン
-	fp = fopen(filepath, "rb");
-	if (fp == NULL)
-		return -1;
-	// ファイルサイズ
-	fseek(fp, 0, SEEK_END); 
-	fgetpos(fp, &fsize);
-	fseek(fp, 0, SEEK_SET);
-	*buf = (char *)calloc(fsize*2+2, sizeof(char));
-	char *tmp = (char *)calloc(fsize*2+2, sizeof(char));
-	if (fsize > 0){
-		while (fgets(tmp, fsize*2+1, fp) != NULL){
-			strcat(*buf, tmp);
-		}
-	}
 
-	//fgets(*buf, fsize*2+1, fp);
-	free(tmp);
-	fclose(fp);
-	return (int)fsize;
-	*/
 	HANDLE fp;
 	int fsize;
 	fp = CreateFileA(filepath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);

@@ -8,9 +8,54 @@
 #include <string.h>
 #include <stdarg.h>
 
+#include "../hsp3/hsp3config.h"
+#include "../hsp3/strnote.h"
 #include "supio.h"
-#include "strnote.h"
 #include "ahtobj.h"
+
+#ifdef HSPWIN
+#include <windows.h>
+#include <shlobj.h>
+#include <direct.h>
+#endif
+
+void dirinfo(char* p, int id)
+{
+	//		dirinfoå‘½ä»¤ã®å†…å®¹ã‚’stmpã«è¨­å®šã™ã‚‹
+	//
+#ifdef HSPWIN
+	char fname[_MAX_PATH + 1];
+
+	switch (id) {
+	case 0:				//    ã‚«ãƒ¬ãƒ³ãƒˆ(ç¾åœ¨ã®)ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+		_getcwd(p, _MAX_PATH);
+		break;
+	case 1:				//    å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+		GetModuleFileName(NULL, fname, _MAX_PATH);
+		getpath(fname, p, 32);
+		break;
+	case 2:				//    Windowsãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+		GetWindowsDirectory(p, _MAX_PATH);
+		break;
+	case 3:				//    Windowsã®ã‚·ã‚¹ãƒ†ãƒ ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+		GetSystemDirectory(p, _MAX_PATH);
+		break;
+	default:
+		if (id & 0x10000) {
+			SHGetSpecialFolderPath(NULL, p, id & 0xffff, FALSE);
+			break;
+		}
+		*p = 0;
+		return;
+	}
+
+	//		æœ€å¾Œã®'\\'ã‚’å–ã‚Šé™¤ã
+	//
+	CutLastChr(p, '\\');
+#else
+	* p = 0;
+#endif
+}
 
 //-------------------------------------------------------------
 //		Routines
@@ -37,9 +82,9 @@ void CAht::Reset( void )
 	DisposeModel();
 
 	dirinfo( p, 0x10005 );
-	SetPrjDir( p );						// ƒ}ƒCƒhƒLƒ…ƒƒ“ƒg‚ğİ’è
+	SetPrjDir( p );						// ãƒã‚¤ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’è¨­å®š
 	dirinfo( p, 1 );
-	SetToolDir( p );					// ©•ª‚ÌƒfƒBƒŒƒNƒgƒŠ
+	SetToolDir( p );					// è‡ªåˆ†ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 	SetPrjFile( "ahttmp" );
 	SetPage( 0, 0 );
 }
@@ -63,7 +108,7 @@ void CAht::DisposeModel( void )
 
 AHTMODEL *CAht::AddModel( void )
 {
-	//			ƒ‚ƒfƒ‹‚ğV‹KID‚É’Ç‰Á
+	//			ãƒ¢ãƒ‡ãƒ«ã‚’æ–°è¦IDã«è¿½åŠ 
 	int i;
 	for(i=0;i<model_cnt;i++) {
 		if ( mem_ahtmodel[i] == NULL ) {
@@ -75,7 +120,7 @@ AHTMODEL *CAht::AddModel( void )
 
 void CAht::DeleteModel( int id )
 {
-	//			ƒ‚ƒfƒ‹‚ğíœ
+	//			ãƒ¢ãƒ‡ãƒ«ã‚’å‰Šé™¤
 	int i;
 	int myid;
 	AHTMODEL *model;
@@ -83,7 +128,7 @@ void CAht::DeleteModel( int id )
 	model = GetModel( id );
 	if ( model == NULL ) return;
 
-	//			©•ª‚ÉƒŠƒ“ƒN‚µ‚Ä‚¢‚éID‚ğ’T‚·
+	//			è‡ªåˆ†ã«ãƒªãƒ³ã‚¯ã—ã¦ã„ã‚‹IDã‚’æ¢ã™
 	myid = model->GetId();
 	for(i=0;i<model_cnt;i++) {
 		m = GetModel( i );
@@ -93,18 +138,18 @@ void CAht::DeleteModel( int id )
 		}
 	}
 
-	//			Š®‘S‚Éíœ
+	//			å®Œå…¨ã«å‰Šé™¤
 	delete model;
 	mem_ahtmodel[id] = NULL;
 
-	//			‘S‘Ì‚Ìî•ñ‚ğXV
+	//			å…¨ä½“ã®æƒ…å ±ã‚’æ›´æ–°
 	BuildGlobalID();
 }
 
 AHTMODEL *CAht::EntryModel( int id )
 {
-	//			w’èID‚Éƒ‚ƒfƒ‹‚ğ’Ç‰Á
-	//			(ƒoƒbƒtƒ@‚Í©“®Šm•Û‚³‚ê‚é)
+	//			æŒ‡å®šIDã«ãƒ¢ãƒ‡ãƒ«ã‚’è¿½åŠ 
+	//			(ãƒãƒƒãƒ•ã‚¡ã¯è‡ªå‹•ç¢ºä¿ã•ã‚Œã‚‹)
 	int i,sz;
 	AHTMODEL *model;
 
@@ -126,7 +171,7 @@ AHTMODEL *CAht::EntryModel( int id )
 
 AHTMODEL *CAht::GetModel( int id )
 {
-	//		ƒ‚ƒfƒ‹ƒIƒuƒWƒFƒN‚ğæ“¾
+	//		ãƒ¢ãƒ‡ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ã‚’å–å¾—
 	AHTMODEL *model;
 	if (( id < 0 )||( id >= model_cnt )) return NULL;
 	model = mem_ahtmodel[ id ];
@@ -135,7 +180,7 @@ AHTMODEL *CAht::GetModel( int id )
 
 void CAht::LinkModel( int id, int next_id )
 {
-	//		ƒ‚ƒfƒ‹‚ğƒŠƒ“ƒN
+	//		ãƒ¢ãƒ‡ãƒ«ã‚’ãƒªãƒ³ã‚¯
 	AHTMODEL *model;
 	AHTMODEL *model2;
 	model = GetModel( id );
@@ -155,7 +200,7 @@ void CAht::LinkModel( int id, int next_id )
 
 void CAht::UnlinkModel( int id )
 {
-	//		ƒ‚ƒfƒ‹‚ÌƒŠƒ“ƒN‚ğ‰ğœ
+	//		ãƒ¢ãƒ‡ãƒ«ã®ãƒªãƒ³ã‚¯ã‚’è§£é™¤
 	int next_id;
 	AHTMODEL *model;
 	AHTMODEL *model2;
@@ -176,7 +221,7 @@ int CAht::BuildGlobalIDSub( char *fname, char *pname, int i )
 	int j,myid;
 	AHTMODEL *m;
 	j = i + 1; myid = 0;
-	while(1) {								// “¯‚¶ƒtƒ@ƒCƒ‹AƒpƒX‚ğ’T‚·
+	while(1) {								// åŒã˜ãƒ•ã‚¡ã‚¤ãƒ«ã€ãƒ‘ã‚¹ã‚’æ¢ã™
 		if ( j >= model_cnt ) break;
 		m = GetModel( j );
 		if ( m != NULL ) {
@@ -196,7 +241,7 @@ int CAht::BuildGlobalIDSub( char *fname, char *pname, int i )
 
 void CAht::BuildGlobalID( void )
 {
-	//		ƒ‚ƒfƒ‹‚ÌƒOƒ[ƒoƒ‹ID‚ÌXV
+	//		ãƒ¢ãƒ‡ãƒ«ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«IDã®æ›´æ–°
 	//
 	int i,myid;
 	AHTMODEL *model;
@@ -218,7 +263,7 @@ void CAht::BuildGlobalID( void )
 
 char *CAht::SearchModelByClassName( char *clsname )
 {
-	//		ƒNƒ‰ƒX–¼(‘O•ûˆê’v)‚©‚çƒ‚ƒfƒ‹‚ğƒŠƒXƒgƒAƒbƒv
+	//		ã‚¯ãƒ©ã‚¹å(å‰æ–¹ä¸€è‡´)ã‹ã‚‰ãƒ¢ãƒ‡ãƒ«ã‚’ãƒªã‚¹ãƒˆã‚¢ãƒƒãƒ—
 	//
 	int i;
 	char tmp[64];
@@ -245,7 +290,7 @@ char *CAht::SearchModelByClassName( char *clsname )
 
 void CAht::FindModelStart( void )
 {
-	//		ƒ‚ƒfƒ‹ŒŸõŠJn(ƒXƒNƒŠƒvƒg¶¬—p)
+	//		ãƒ¢ãƒ‡ãƒ«æ¤œç´¢é–‹å§‹(ã‚¹ã‚¯ãƒªãƒ—ãƒˆç”Ÿæˆç”¨)
 	//
 	findmode = AHTMODELFIND_MODE_START;
 	parentid = -1;
@@ -254,22 +299,22 @@ void CAht::FindModelStart( void )
 
 int CAht::FindModel( void )
 {
-	//		ƒ‚ƒfƒ‹ŒŸõÀs(ƒXƒNƒŠƒvƒg¶¬—p)
-	//		(—LŒø‚Èƒ‚ƒfƒ‹ID‚ğ•Ô‚·A-1‚È‚ç‚ÎI—¹)
+	//		ãƒ¢ãƒ‡ãƒ«æ¤œç´¢å®Ÿè¡Œ(ã‚¹ã‚¯ãƒªãƒ—ãƒˆç”Ÿæˆç”¨)
+	//		(æœ‰åŠ¹ãªãƒ¢ãƒ‡ãƒ«IDã‚’è¿”ã™ã€-1ãªã‚‰ã°çµ‚äº†)
 	//
 	int i;
 	AHTMODEL *model;
 refind:
 	switch( findmode ) {
-	case AHTMODELFIND_MODE_START:			// ŒŸõ‚Ì‰Šú‰»
+	case AHTMODELFIND_MODE_START:			// æ¤œç´¢ã®åˆæœŸåŒ–
 		for(i=0;i<model_cnt;i++) {
 			model = GetModel( i );if ( model != NULL ) {
 				model->ClearFindCheck();
 			}
 		}
-		//		‚»‚Ì‚Ü‚ÜŸ‚É
+		//		ãã®ã¾ã¾æ¬¡ã«
 
-	case AHTMODELFIND_MODE_ARRAYSEEK:		// ƒŠƒ“ƒN‚Ìæ“ª‚ğ’²‚×‚é
+	case AHTMODELFIND_MODE_ARRAYSEEK:		// ãƒªãƒ³ã‚¯ã®å…ˆé ­ã‚’èª¿ã¹ã‚‹
 		for(i=0;i<model_cnt;i++) {
 			model = GetModel( i );if ( model != NULL ) {
 				if (( model->GetNextID() != -1 )&&( model->GetPrevID() == -1 )) {
@@ -286,11 +331,11 @@ refind:
 		findmode = AHTMODELFIND_MODE_LEFTPICK;
 		goto refind;
 
-	case AHTMODELFIND_MODE_ARRAYPICK:		// ƒŠƒ“ƒN‚ğ’H‚é
+	case AHTMODELFIND_MODE_ARRAYPICK:		// ãƒªãƒ³ã‚¯ã‚’è¾¿ã‚‹
 
 		model = GetModel( findid );
 		if ( model == NULL ) {
-			findmode = AHTMODELFIND_MODE_ARRAYSEEK; goto refind;	// ‚ ‚è‚¦‚È‚¢‚Í‚¸
+			findmode = AHTMODELFIND_MODE_ARRAYSEEK; goto refind;	// ã‚ã‚Šãˆãªã„ã¯ãš
 		}
 		findid = model->GetNextID();
 		if ( findid == -1 ) {
@@ -300,7 +345,7 @@ refind:
 		model->SetFindCheck();
 		return findid;
 
-	case AHTMODELFIND_MODE_LEFTPICK:		// ‚»‚Ì‘¼ƒ‚ƒfƒ‹ŒŸõ
+	case AHTMODELFIND_MODE_LEFTPICK:		// ãã®ä»–ãƒ¢ãƒ‡ãƒ«æ¤œç´¢
 		for(i=0;i<model_cnt;i++) {
 			model = GetModel( i );if ( model != NULL ) {
 				if ( model->GetFindCheck() == false ) {
@@ -321,7 +366,7 @@ refind:
 
 void CAht::UpdateModelProperty( int id )
 {
-	//		ƒvƒƒpƒeƒB‚ÌQÆƒf[ƒ^‚ğXV‚·‚é
+	//		ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®å‚ç…§ãƒ‡ãƒ¼ã‚¿ã‚’æ›´æ–°ã™ã‚‹
 	//
 	int i;
 	int target;
@@ -353,7 +398,7 @@ void CAht::UpdateModelProperty( int id )
 			target = p->GetValueInt();
 			break;
 		case AHTTYPE_PARTS_PROP_STRING:
-			a = target;if ( *p->defval3 == 'm' ) a = id;				// ©•ª‚ğQÆ‚·‚éƒIƒvƒVƒ‡ƒ“
+			a = target;if ( *p->defval3 == 'm' ) a = id;				// è‡ªåˆ†ã‚’å‚ç…§ã™ã‚‹ã‚ªãƒ—ã‚·ãƒ§ãƒ³
 			m = GetModel( a );
 			if ( m != NULL ) {
 				p2 = m->GetProperty( p->defval2 );
@@ -365,7 +410,7 @@ void CAht::UpdateModelProperty( int id )
 			}
 			break;
 		case AHTTYPE_PARTS_OPT_STRING:
-			a = target;if ( *p->defval3 == 'm' ) a = id;				// ©•ª‚ğQÆ‚·‚éƒIƒvƒVƒ‡ƒ“
+			a = target;if ( *p->defval3 == 'm' ) a = id;				// è‡ªåˆ†ã‚’å‚ç…§ã™ã‚‹ã‚ªãƒ—ã‚·ãƒ§ãƒ³
 			m = GetModel( a );
 			if ( m != NULL ) {
 				res = m->GetAHTOption( p->defval2 );
@@ -477,7 +522,7 @@ int CAht::LoadProjectApply( int modelid, int fileid )
 	model->SetObj( (AHTOBJ *)GetProjectFileString( obj->ahtobj ) );
 	obj++;
 
-	//			ƒvƒƒpƒeƒB‘Sİ’è
+	//			ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£å…¨è¨­å®š
 	while(1) {
 		if ( obj->ahtsource != -1 ) break;
 		//Alertf( "%s=%s", GetProjectFileString( obj->propname), GetProjectFileString( obj->defvalue )  );
@@ -579,21 +624,21 @@ void CAht::SaveProjectSub( AHTMODEL *model )
 
 	//Alertf( "[%s][%s]",model->GetSourcePath(),model->GetSource() );
 
-	//		ƒ}ƒXƒ^[HTPOBJ‚ğ‘‚«‚Ş
+	//		ãƒã‚¹ã‚¿ãƒ¼HTPOBJã‚’æ›¸ãè¾¼ã‚€
 	//
 	obj.ahtobj = strbuf->GetSize();
 	strbuf->PutData( model->GetObj(), sizeof(AHTOBJ) );
 	obj.ahtsource = strbuf->GetSize();
 	strbuf->PutStrBlock( model->GetSource() );
-	obj.propname = strbuf->GetSize();			// ƒ}ƒXƒ^[HTPOBJ‚Ì‚İpropname‚Épath‚ğ“ü‚ê‚é
+	obj.propname = strbuf->GetSize();			// ãƒã‚¹ã‚¿ãƒ¼HTPOBJã®ã¿propnameã«pathã‚’å…¥ã‚Œã‚‹
 	strbuf->PutStrBlock( model->GetSourcePath() );
-	obj.defvalue = model->GetId();				// ƒ}ƒXƒ^[HTPOBJ‚Ì‚İdefvalue‚ÉObjectID‚ğ“ü‚ê‚é
+	obj.defvalue = model->GetId();				// ãƒã‚¹ã‚¿ãƒ¼HTPOBJã®ã¿defvalueã«ObjectIDã‚’å…¥ã‚Œã‚‹
 
 	objbuf->PutData( &obj, sizeof(HTPOBJ) );
 	hed.max_mod++;
 
-	//		ƒTƒuHTPOBJ‚ğ‘‚«‚Ş
-	//		(ƒTƒuHTPOBJ‚ÍAahtsource‚ª-1‚Å”»’f‚·‚é)
+	//		ã‚µãƒ–HTPOBJã‚’æ›¸ãè¾¼ã‚€
+	//		(ã‚µãƒ–HTPOBJã¯ã€ahtsourceãŒ-1ã§åˆ¤æ–­ã™ã‚‹)
 	//
 	for(i=0;i<model->GetPropCount();i++) {
 
@@ -645,7 +690,7 @@ int CAht::SaveProject( char *fname )
 	if (fp != NULL) {
 
 		strsize = strbuf->GetSize() & 15;
-		if ( strsize > 0 ) {				// strbuf‚ğØ‚è‚Ì‚¢‚¢ƒTƒCƒY‚É‚·‚é
+		if ( strsize > 0 ) {				// strbufã‚’åˆ‡ã‚Šã®ã„ã„ã‚µã‚¤ã‚ºã«ã™ã‚‹
 			for(i=0;i<(16-strsize);i++) { strbuf->Put( (char)0 ); }
 		}
 
@@ -744,7 +789,7 @@ void CAht::PickLineBuffer( char *out )
 
 int CAht::BuildPartsSub( int id, char *fname )
 {
-	//		ŠÈˆÕahtƒp[ƒX
+	//		ç°¡æ˜“ahtãƒ‘ãƒ¼ã‚¹
 	//
 	int i,res,maxline;
 	CStrNote note;
@@ -765,7 +810,7 @@ int CAht::BuildPartsSub( int id, char *fname )
 	}
 	note.Select( tmp.GetBuffer() );
 	maxline = note.GetMaxLine();
-	getpath( fname, p->name, 1+8+16 );			// ‰¼‚Éƒtƒ@ƒCƒ‹–¼‚ğ“ü‚ê‚Ä‚¨‚­
+	getpath( fname, p->name, 1+8+16 );			// ä»®ã«ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å…¥ã‚Œã¦ãŠã
 
 	for(i=0;i<maxline;i++) {
 		pickptr = 0;
@@ -860,10 +905,10 @@ void CAht::DisposeMakeBuffer( void )
 
 int CAht::SaveMakeBuffer( char *fname )
 {
-	//		‰Šú‰»ƒXƒNƒŠƒvƒgƒoƒbƒtƒ@+ƒXƒNƒŠƒvƒgƒoƒbƒtƒ@‚ğ•Û‘¶
+	//		åˆæœŸåŒ–ã‚¹ã‚¯ãƒªãƒ—ãƒˆãƒãƒƒãƒ•ã‚¡+ã‚¹ã‚¯ãƒªãƒ—ãƒˆãƒãƒƒãƒ•ã‚¡ã‚’ä¿å­˜
 	//
 	int res;
-	ahtwrt_buf->Put( 0 );							// I’[‚ğ“o˜^
+	ahtwrt_buf->Put( 0 );							// çµ‚ç«¯ã‚’ç™»éŒ²
 	ahtini_buf->PutStr( ahtwrt_buf->GetBuffer() );
 	res = ahtini_buf->SaveFile( fname );
 	if ( res < 0 ) return -1;
@@ -873,7 +918,7 @@ int CAht::SaveMakeBuffer( char *fname )
 
 void CAht::AddMakeBufferInit( char *str, int size )
 {
-	//		‰Šú‰»ƒXƒNƒŠƒvƒgƒoƒbƒtƒ@‚É’Ç‰Á(d•¡‚Í–³‹‚³‚ê‚é)
+	//		åˆæœŸåŒ–ã‚¹ã‚¯ãƒªãƒ—ãƒˆãƒãƒƒãƒ•ã‚¡ã«è¿½åŠ (é‡è¤‡ã¯ç„¡è¦–ã•ã‚Œã‚‹)
 	//
 	int i,sz,len;
 	char *p;
@@ -900,7 +945,7 @@ void CAht::AddMakeBufferInit( char *str, int size )
 
 void CAht::AddMakeBufferMain( char *str, int size )
 {
-	//		ƒXƒNƒŠƒvƒgƒoƒbƒtƒ@‚É’Ç‰Á
+	//		ã‚¹ã‚¯ãƒªãƒ—ãƒˆãƒãƒƒãƒ•ã‚¡ã«è¿½åŠ 
 	//
 	if ( size <= 0 ) {
 		ahtwrt_buf->PutStr( str );
@@ -908,5 +953,22 @@ void CAht::AddMakeBufferMain( char *str, int size )
 		ahtwrt_buf->PutData( str, size );
 	}
 	ahtwrt_buf->PutCR();
+}
+
+
+int CAht::tstrcmp(const char* str1, const char* str2)
+{
+	//	string compare (0=not same/-1=same)
+	//
+	int ap;
+	char as;
+	ap = 0;
+	while (1) {
+		as = str1[ap];
+		if (as != str2[ap]) return 0;
+		if (as == 0) break;
+		ap++;
+	}
+	return -1;
 }
 

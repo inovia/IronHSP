@@ -25,10 +25,10 @@ static CzHttp *http;
 #define NKFBUF_DEFAULTSIZE 0x8000
 #define URLENCODE_BUFFERSIZE 0x40000
 
-static	char *nkfbuf = NULL;	// nkf•ÏŠ·ƒoƒbƒtƒ@
-static	int	nkfsize;			// nkf•ÏŠ·ƒoƒbƒtƒ@ƒTƒCƒY
-static	char json_nkfopt[128];	// æ“¾‚Ìnkf•ÏŠ·
-static	char json_nkfopt2[128];	// İ’è‚Ìnkf•ÏŠ·
+static	char *nkfbuf = NULL;	// nkfå¤‰æ›ãƒãƒƒãƒ•ã‚¡
+static	int	nkfsize;			// nkfå¤‰æ›ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+static	char json_nkfopt[128];	// å–å¾—æ™‚ã®nkfå¤‰æ›
+static	char json_nkfopt2[128];	// è¨­å®šæ™‚ã®nkfå¤‰æ›
 
 /*------------------------------------------------------------*/
 /*
@@ -132,13 +132,13 @@ EXPORT BOOL WINAPI netexec( HSPEXINFO *hei, int p1, int p2, int p3 )
 	int res;
 
 	res = -1;
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
 
 	if ( http != NULL ) {
 		res = http->Exec();
 	}
 
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_INT, &res );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_INT, &res );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	return 0;
 }
 #endif
@@ -221,22 +221,22 @@ EXPORT BOOL WINAPI netrequest( BMSCR *p1, char *p2, int p3, int p4 )
 EXPORT BOOL WINAPI netfileinfo( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	ƒGƒ‰[•¶š—ñ‚ğ“¾‚é
-	//	(•Ï”‚ÉƒGƒ‰[•¶š—ñ‚ğ‘ã“ü)
-	//		neterror •Ï”
+	//	ã‚¨ãƒ©ãƒ¼æ–‡å­—åˆ—ã‚’å¾—ã‚‹
+	//	(å¤‰æ•°ã«ã‚¨ãƒ©ãƒ¼æ–‡å­—åˆ—ã‚’ä»£å…¥)
+	//		neterror å¤‰æ•°
 	//
 	PVal *pv;
 	APTR ap;
 	char *ss;
 	char *res;
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
 
 	if ( http == NULL ) return -1;
 	res = http->RequestFileInfo( ss );
 	if ( res == NULL ) return -1;
 
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, res );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, res );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	return 0;
 }
 
@@ -244,17 +244,17 @@ EXPORT BOOL WINAPI netfileinfo( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI neterror( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	ƒGƒ‰[•¶š—ñ‚ğ“¾‚é
-	//	(•Ï”‚ÉƒGƒ‰[•¶š—ñ‚ğ‘ã“ü)
-	//		neterror •Ï”
+	//	ã‚¨ãƒ©ãƒ¼æ–‡å­—åˆ—ã‚’å¾—ã‚‹
+	//	(å¤‰æ•°ã«ã‚¨ãƒ©ãƒ¼æ–‡å­—åˆ—ã‚’ä»£å…¥)
+	//		neterror å¤‰æ•°
 	//
 	PVal *pv;
 	APTR ap;
 	char *ss;
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
 	if ( http == NULL ) return -1;
 	ss = http->GetError();
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, ss );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, ss );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	return 0;
 }
 
@@ -262,9 +262,9 @@ EXPORT BOOL WINAPI neterror( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI filecrc( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	ƒtƒ@ƒCƒ‹‚ÌCRC‚ğ‹‚ß‚é
-	//	(•Ï”‚ÉCRC32Astrsize‚Éƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğ‘ã“ü)
-	//		filecrc •Ï”, ƒtƒ@ƒCƒ‹–¼
+	//	ãƒ•ã‚¡ã‚¤ãƒ«ã®CRCã‚’æ±‚ã‚ã‚‹
+	//	(å¤‰æ•°ã«CRC32ã€strsizeã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã‚’ä»£å…¥)
+	//		filecrc å¤‰æ•°, ãƒ•ã‚¡ã‚¤ãƒ«å
 	//
 	PVal *pv;
 	APTR ap;
@@ -275,8 +275,8 @@ EXPORT BOOL WINAPI filecrc( HSPEXINFO *hei, int p1, int p2, int p3 )
 	CzCrypt crypt;
 	HSPCTX *ctx;
 
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
 	strncpy( fname, ss, _MAX_PATH );
 	i = crypt.DataLoad( fname );
 	if ( i ) return -1;
@@ -284,7 +284,7 @@ EXPORT BOOL WINAPI filecrc( HSPEXINFO *hei, int p1, int p2, int p3 )
 	ctx = hei->hspctx;
 
 	num = crypt.GetCRC32();
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_INT, &num );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_INT, &num );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	ctx->strsize = crypt.GetSize();
 
 	return 0;
@@ -294,9 +294,9 @@ EXPORT BOOL WINAPI filecrc( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI filemd5( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	ƒtƒ@ƒCƒ‹‚ÌMD5‚ğ‹‚ß‚é
-	//	(•Ï”‚ÉMD5•¶š—ñAstrsize‚Éƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğ‘ã“ü)
-	//		filemd5 •Ï”, ƒtƒ@ƒCƒ‹–¼
+	//	ãƒ•ã‚¡ã‚¤ãƒ«ã®MD5ã‚’æ±‚ã‚ã‚‹
+	//	(å¤‰æ•°ã«MD5æ–‡å­—åˆ—ã€strsizeã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã‚’ä»£å…¥)
+	//		filemd5 å¤‰æ•°, ãƒ•ã‚¡ã‚¤ãƒ«å
 	//
 	PVal *pv;
 	APTR ap;
@@ -307,8 +307,8 @@ EXPORT BOOL WINAPI filemd5( HSPEXINFO *hei, int p1, int p2, int p3 )
 	CzCrypt crypt;
 	HSPCTX *ctx;
 
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
 	strncpy( fname, ss, _MAX_PATH );
 	i = crypt.DataLoad( fname );
 	if ( i ) return -1;
@@ -316,7 +316,39 @@ EXPORT BOOL WINAPI filemd5( HSPEXINFO *hei, int p1, int p2, int p3 )
 	ctx = hei->hspctx;
 
 	crypt.GetMD5( md5str );
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, md5str );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, md5str );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
+	ctx->strsize = crypt.GetSize();
+
+	return 0;
+}
+
+
+EXPORT BOOL WINAPI filesha256(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+	//	(type$202)
+	//	ãƒ•ã‚¡ã‚¤ãƒ«ã®SHA256ã‚’æ±‚ã‚ã‚‹
+	//	(å¤‰æ•°ã«SHA256æ–‡å­—åˆ—ã€strsizeã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã‚’ä»£å…¥)
+	//		filesha256 å¤‰æ•°, ãƒ•ã‚¡ã‚¤ãƒ«å
+	//
+	PVal* pv;
+	APTR ap;
+	char fname[_MAX_PATH];
+	char* ss;
+	int i;
+	char sha256str[128];
+	CzCrypt crypt;
+	HSPCTX* ctx;
+
+	ap = hei->HspFunc_prm_getva(&pv);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
+	strncpy(fname, ss, _MAX_PATH);
+	i = crypt.DataLoad(fname);
+	if (i) return -1;
+
+	ctx = hei->hspctx;
+
+	crypt.GetSHA256(sha256str);
+	hei->HspFunc_prm_setva(pv, ap, HSPVAR_FLAG_STR, sha256str);	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	ctx->strsize = crypt.GetSize();
 
 	return 0;
@@ -328,17 +360,17 @@ EXPORT BOOL WINAPI filemd5( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI ftpresult( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	FTPƒT[ƒo[•ÔM•¶š—ñ‚ğ“¾‚é
-	//	(•Ï”‚É•¶š—ñ‚ğ‘ã“ü)
-	//		ftpresult •Ï”
+	//	FTPã‚µãƒ¼ãƒãƒ¼è¿”ä¿¡æ–‡å­—åˆ—ã‚’å¾—ã‚‹
+	//	(å¤‰æ•°ã«æ–‡å­—åˆ—ã‚’ä»£å…¥)
+	//		ftpresult å¤‰æ•°
 	//
 	PVal *pv;
 	APTR ap;
 	char *ss;
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
 	if ( http == NULL ) return -1;
 	ss = http->GetTempBuffer();
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, ss );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, ss );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	return 0;
 }
 
@@ -346,20 +378,20 @@ EXPORT BOOL WINAPI ftpresult( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI ftpopen( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		FTPÚ‘±
-	//		ftpopen "ƒAƒhƒŒƒX","ƒ†[ƒU[","ƒpƒXƒ[ƒh",port,passive
+	//		FTPæ¥ç¶š
+	//		ftpopen "ã‚¢ãƒ‰ãƒ¬ã‚¹","ãƒ¦ãƒ¼ã‚¶ãƒ¼","ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰",port,passive
 	//
 	int i;
 	char *ss;
 	int _p1,_p2;
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
 	http->SetURL( ss );
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
 	http->SetUserName( ss );
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^3:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ–‡å­—åˆ—
 	http->SetUserPassword( ss );
-	_p1 = hei->HspFunc_prm_getdi(INTERNET_DEFAULT_FTP_PORT);		// ƒpƒ‰ƒ[ƒ^4:®”’l
-	_p2 = hei->HspFunc_prm_getdi(0);		// ƒpƒ‰ƒ[ƒ^5:®”’l
+	_p1 = hei->HspFunc_prm_getdi(INTERNET_DEFAULT_FTP_PORT);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿4:æ•´æ•°å€¤
+	_p2 = hei->HspFunc_prm_getdi(0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿5:æ•´æ•°å€¤
 
 	http->SetFtpPort( _p1 );
 	http->SetFtpFlag( _p2 );
@@ -371,7 +403,7 @@ EXPORT BOOL WINAPI ftpopen( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI ftpclose( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		FTPØ’f
+	//		FTPåˆ‡æ–­
 	//		ftpclose
 	//
 	http->FtpDisconnect();
@@ -382,23 +414,23 @@ EXPORT BOOL WINAPI ftpclose( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI ftpdir( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	FTPƒT[ƒo[ƒfƒBƒŒƒNƒgƒŠ‚ğ“¾‚é
-	//	(•Ï”‚É•¶š—ñ‚ğ‘ã“ü)
-	//		ftpdir •Ï”,•ÏXdir
+	//	FTPã‚µãƒ¼ãƒãƒ¼ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å¾—ã‚‹
+	//	(å¤‰æ•°ã«æ–‡å­—åˆ—ã‚’ä»£å…¥)
+	//		ftpdir å¤‰æ•°,å¤‰æ›´dir
 	//
 	PVal *pv;
 	APTR ap;
 	char *ss;
 	char *n;
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	n = hei->HspFunc_prm_getds("");		// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	n = hei->HspFunc_prm_getds("");		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
 	if ( http == NULL ) return -1;
 
 	if ( *n != 0 ) {
 		http->SetFtpDir( n );
 	}
 	ss = http->GetFtpCurrentDir();
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, ss );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, ss );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	return 0;
 }
 
@@ -406,7 +438,7 @@ EXPORT BOOL WINAPI ftpdir( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI ftpdirlist( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		FTPƒtƒ@ƒCƒ‹ƒŠƒXƒg
+	//		FTPãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆ
 	//		ftpdirlist
 	//
 	http->GetFtpDirList();
@@ -417,14 +449,14 @@ EXPORT BOOL WINAPI ftpdirlist( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI ftpdirlist2( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		FTPƒtƒ@ƒCƒ‹ƒŠƒXƒgæ“¾
-	//		ftpdirlist2 •Ï”
+	//		FTPãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆå–å¾—
+	//		ftpdirlist2 å¤‰æ•°
 	//
 	PVal *pv;
 	APTR ap;
 	char *ss;
 	int i;
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
 	if ( http == NULL ) return -1;
 
 	i = http->GetMode();
@@ -432,7 +464,7 @@ EXPORT BOOL WINAPI ftpdirlist2( HSPEXINFO *hei, int p1, int p2, int p3 )
 	if ( i != CZHTTP_MODE_FTPREADY ) return -2;
 
 	ss = http->GetFlexBuffer();
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, ss );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, ss );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	return 0;
 }
 
@@ -440,11 +472,11 @@ EXPORT BOOL WINAPI ftpdirlist2( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI ftpcmd( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		FTPƒRƒ}ƒ“ƒh(Œ‹‰Ê‚Íftpdirlist2‚Åæ“¾‚·‚é)
+	//		FTPã‚³ãƒãƒ³ãƒ‰(çµæœã¯ftpdirlist2ã§å–å¾—ã™ã‚‹)
 	//		ftpcmd "command"
 	//
 	char *ss;
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
 	return http->FtpSendCommand( ss );
 }
 
@@ -452,11 +484,11 @@ EXPORT BOOL WINAPI ftpcmd( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI ftprmdir( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		FTPƒfƒBƒŠƒNƒgƒŠíœ
+	//		FTPãƒ‡ã‚£ãƒªã‚¯ãƒˆãƒªå‰Šé™¤
 	//		ftprmdir "name"
 	//
 	char *ss;
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
 	return http->KillFtpDir( ss );
 }
 
@@ -464,11 +496,11 @@ EXPORT BOOL WINAPI ftprmdir( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI ftpmkdir( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		FTPƒfƒBƒŒƒNƒgƒŠì¬
+	//		FTPãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªä½œæˆ
 	//		ftpmkdir "name"
 	//
 	char *ss;
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
 	return http->MakeFtpDir( ss );
 }
 
@@ -476,16 +508,16 @@ EXPORT BOOL WINAPI ftpmkdir( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI ftpget( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		FTPƒtƒ@ƒCƒ‹æ“¾
+	//		FTPãƒ•ã‚¡ã‚¤ãƒ«å–å¾—
 	//		ftpget "name","localname",mode
 	//
 	char name[256];
 	char *ss;
 	int _p1;
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
 	strncpy( name, ss, 255 );
-	ss = hei->HspFunc_prm_getds(name);		// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
-	_p1 = hei->HspFunc_prm_getdi(0);		// ƒpƒ‰ƒ[ƒ^3:®”’l
+	ss = hei->HspFunc_prm_getds(name);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
+	_p1 = hei->HspFunc_prm_getdi(0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
 	return http->GetFtpFile( name, ss, _p1 );
 }
 
@@ -493,16 +525,16 @@ EXPORT BOOL WINAPI ftpget( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI ftpput( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		FTPƒtƒ@ƒCƒ‹‘—M
+	//		FTPãƒ•ã‚¡ã‚¤ãƒ«é€ä¿¡
 	//		ftpput "name","localname",mode
 	//
 	char name[256];
 	char *ss;
 	int _p1;
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
 	strncpy( name, ss, 255 );
-	ss = hei->HspFunc_prm_getds(name);		// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
-	_p1 = hei->HspFunc_prm_getdi(0);		// ƒpƒ‰ƒ[ƒ^3:®”’l
+	ss = hei->HspFunc_prm_getds(name);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
+	_p1 = hei->HspFunc_prm_getdi(0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
 	return http->PutFtpFile( name, ss, _p1 );
 }
 
@@ -510,14 +542,14 @@ EXPORT BOOL WINAPI ftpput( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI ftprename( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		FTPƒtƒ@ƒCƒ‹ƒŠƒl[ƒ€
+	//		FTPãƒ•ã‚¡ã‚¤ãƒ«ãƒªãƒãƒ¼ãƒ 
 	//		ftpput "name","newname"
 	//
 	char name[256];
 	char *ss;
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
 	strncpy( name, ss, 255 );
-	ss = hei->HspFunc_prm_getds(name);		// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
+	ss = hei->HspFunc_prm_getds(name);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
 	return http->RenameFtpFile( name, ss );
 }
 
@@ -525,11 +557,11 @@ EXPORT BOOL WINAPI ftprename( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI ftpdelete( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		FTPƒtƒ@ƒCƒ‹íœ
+	//		FTPãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤
 	//		ftpdelete "name"
 	//
 	char *ss;
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
 	return http->RenameFtpFile( ss, NULL );
 }
 
@@ -537,7 +569,7 @@ EXPORT BOOL WINAPI ftpdelete( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI fencode( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		ƒtƒ@ƒCƒ‹ˆÃ†‰»
+	//		ãƒ•ã‚¡ã‚¤ãƒ«æš—å·åŒ–
 	//		fencode "srcfile","newfile",seed1,seed2
 	//
 	int i;
@@ -548,12 +580,12 @@ EXPORT BOOL WINAPI fencode( HSPEXINFO *hei, int p1, int p2, int p3 )
 	char fname2[_MAX_PATH];
 	int seed1,seed2;
 
-	ss = hei->HspFunc_prm_gets();				// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
 	strncpy( fname1, ss, _MAX_PATH -1 );
-	ss = hei->HspFunc_prm_gets();				// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
 	strncpy( fname2, ss, _MAX_PATH -1 );
-	seed1 = hei->HspFunc_prm_getdi(0);			// ƒpƒ‰ƒ[ƒ^3:®”’l
-	seed2 = hei->HspFunc_prm_getdi(0);			// ƒpƒ‰ƒ[ƒ^4:®”’l
+	seed1 = hei->HspFunc_prm_getdi(0);			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
+	seed2 = hei->HspFunc_prm_getdi(0);			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿4:æ•´æ•°å€¤
 
 	ctx = hei->hspctx;
 	i = crypt.DataLoad( fname1 );
@@ -572,7 +604,7 @@ EXPORT BOOL WINAPI fencode( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI fdecode( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		ƒtƒ@ƒCƒ‹•œ†‰»
+	//		ãƒ•ã‚¡ã‚¤ãƒ«å¾©å·åŒ–
 	//		fdecode "srcfile","newfile",seed1,seed2
 	//
 	int i;
@@ -583,12 +615,12 @@ EXPORT BOOL WINAPI fdecode( HSPEXINFO *hei, int p1, int p2, int p3 )
 	char fname2[_MAX_PATH];
 	int seed1,seed2;
 
-	ss = hei->HspFunc_prm_gets();				// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
 	strncpy( fname1, ss, _MAX_PATH -1 );
-	ss = hei->HspFunc_prm_gets();				// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
 	strncpy( fname2, ss, _MAX_PATH -1 );
-	seed1 = hei->HspFunc_prm_getdi(0);			// ƒpƒ‰ƒ[ƒ^3:®”’l
-	seed2 = hei->HspFunc_prm_getdi(0);			// ƒpƒ‰ƒ[ƒ^4:®”’l
+	seed1 = hei->HspFunc_prm_getdi(0);			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
+	seed2 = hei->HspFunc_prm_getdi(0);			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿4:æ•´æ•°å€¤
 
 	ctx = hei->hspctx;
 	i = crypt.DataLoad( fname1 );
@@ -610,15 +642,15 @@ EXPORT BOOL WINAPI fdecode( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI netgetv( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		æ“¾ƒf[ƒ^‚ğ•¶š—ñ‚Æ‚µ‚Ä•Ï”‚É‘ã“ü‚·‚é
-	//		netgetv •Ï”
+	//		å–å¾—ãƒ‡ãƒ¼ã‚¿ã‚’æ–‡å­—åˆ—ã¨ã—ã¦å¤‰æ•°ã«ä»£å…¥ã™ã‚‹
+	//		netgetv å¤‰æ•°
 	//
 	PVal *pv;
 	APTR ap;
 	char *ss;
 	int size;
 	char *varbase;
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
 
 	if ( http == NULL ) return -1;
 
@@ -628,21 +660,21 @@ EXPORT BOOL WINAPI netgetv( HSPEXINFO *hei, int p1, int p2, int p3 )
 	if ( size < 63 ) size = 63;
 	hei->HspFunc_dim( pv, TYPE_STRING, size+1, 0, 0, 0, 0 );
 	varbase = (char *)pv->pt;
-	memcpy( varbase, ss, size );								// •Ï”‚É’l‚ğ‘ã“ü
-	//hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, ss );	// •Ï”‚É’l‚ğ‘ã“ü
+	memcpy( varbase, ss, size );								// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
+	//hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, ss );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	return -size;
 }
 
 EXPORT BOOL WINAPI netgetv4( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		æ“¾ƒf[ƒ^‚ğ•¶š—ñ‚Æ‚µ‚Ä•Ï”‚É‘ã“ü‚·‚é
-	//		netgetv •Ï”
+	//		å–å¾—ãƒ‡ãƒ¼ã‚¿ã‚’æ–‡å­—åˆ—ã¨ã—ã¦å¤‰æ•°ã«ä»£å…¥ã™ã‚‹
+	//		netgetv å¤‰æ•°
 	//
 	PVal *pv;
 	APTR ap;
 	char *ss;
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
 	//char *ep1;
 	//ep1 = (char *)hei->HspFunc_prm_getv();
 
@@ -652,7 +684,7 @@ EXPORT BOOL WINAPI netgetv4( HSPEXINFO *hei, int p1, int p2, int p3 )
 	ss = http->getVarData();
 	hei->HspFunc_val_realloc( pv, http->getVarSize()+1, 0 );
 	ap = (APTR)ss;
-	//hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, ss );	// •Ï”‚É’l‚ğ‘ã“ü
+	//hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, ss );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	return -http->getVarSize();
 }
 
@@ -683,7 +715,7 @@ EXPORT int WINAPI netgetv_requestsize()
 	return http->GetSize();
 }
 
-// ƒŒƒXƒ|ƒ“ƒXƒwƒbƒ_‚ğæ“¾
+// ãƒ¬ã‚¹ãƒãƒ³ã‚¹ãƒ˜ãƒƒãƒ€ã‚’å–å¾—
 EXPORT int WINAPI netget_resphead(char *buff, LPDWORD size)
 {
 	if (http == NULL) return -1;
@@ -694,12 +726,12 @@ EXPORT int WINAPI netget_resphead(char *buff, LPDWORD size)
 EXPORT BOOL WINAPI netrequest_get( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		ƒtƒ@ƒCƒ‹ƒf[ƒ^‚ğƒƒ‚ƒŠ‚Éæ“¾‚·‚é(netgetv‚Åæ“¾)
+	//		ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ¡ãƒ¢ãƒªã«å–å¾—ã™ã‚‹(netgetvã§å–å¾—)
 	//		netrequest_get "path"
 	//
 	char *ss;
 
-	ss = hei->HspFunc_prm_gets();				// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
 
 	if ( http == NULL ) return -1;
 
@@ -711,13 +743,13 @@ EXPORT BOOL WINAPI netrequest_get( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI netrequest_post( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		ƒtƒ@ƒCƒ‹ƒf[ƒ^‚ğƒƒ‚ƒŠ‚Éæ“¾‚·‚é(netgetv‚Åæ“¾)
+	//		ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ¡ãƒ¢ãƒªã«å–å¾—ã™ã‚‹(netgetvã§å–å¾—)
 	//		netrequest_post "path",var
 	//
 	char *ss;
 	char *ap;
-	ss = hei->HspFunc_prm_gets();					// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
-	ap = (char *)hei->HspFunc_prm_getv();			// ƒpƒ‰ƒ[ƒ^2:•Ï”
+	ss = hei->HspFunc_prm_gets();					// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
+	ap = (char *)hei->HspFunc_prm_getv();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:å¤‰æ•°
 
 	if ( http == NULL ) return -1;
 
@@ -728,7 +760,7 @@ EXPORT BOOL WINAPI netrequest_post( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI netrequest_post2( char *path, char *data, int size )
 {
 	//	(type$202)
-	//		ƒtƒ@ƒCƒ‹ƒf[ƒ^‚ğƒƒ‚ƒŠ‚Éæ“¾‚·‚é(netgetv‚Åæ“¾)
+	//		ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ¡ãƒ¢ãƒªã«å–å¾—ã™ã‚‹(netgetvã§å–å¾—)
 	//		netrequest_post2 "path", var, varsize
 	//
 
@@ -741,13 +773,13 @@ EXPORT BOOL WINAPI netrequest_post2( char *path, char *data, int size )
 EXPORT BOOL WINAPI netrequest_put(HSPEXINFO *hei, int p1, int p2, int p3)
 {
 	//	(type$202)
-	//		ƒtƒ@ƒCƒ‹ƒf[ƒ^‚ğƒƒ‚ƒŠ‚Éæ“¾‚·‚é(netgetv‚Åæ“¾)
+	//		ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ¡ãƒ¢ãƒªã«å–å¾—ã™ã‚‹(netgetvã§å–å¾—)
 	//		netrequest_put "path",var
 	//
 	char *ss;
 	char *ap;
-	ss = hei->HspFunc_prm_gets();					// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
-	ap = (char *)hei->HspFunc_prm_getv();			// ƒpƒ‰ƒ[ƒ^2:•Ï”
+	ss = hei->HspFunc_prm_gets();					// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
+	ap = (char *)hei->HspFunc_prm_getv();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:å¤‰æ•°
 
 	if (http == NULL) return -1;
 
@@ -758,7 +790,7 @@ EXPORT BOOL WINAPI netrequest_put(HSPEXINFO *hei, int p1, int p2, int p3)
 EXPORT BOOL WINAPI netrequest_put2(char *path, char *data, int size)
 {
 	//	(type$202)
-	//		ƒtƒ@ƒCƒ‹ƒf[ƒ^‚ğƒƒ‚ƒŠ‚Éæ“¾‚·‚é(netgetv‚Åæ“¾)
+	//		ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ¡ãƒ¢ãƒªã«å–å¾—ã™ã‚‹(netgetvã§å–å¾—)
 	//		netrequest_put2 "path", var, varsize
 	//
 	
@@ -771,12 +803,12 @@ EXPORT BOOL WINAPI netrequest_put2(char *path, char *data, int size)
 EXPORT BOOL WINAPI netrequest_delete(HSPEXINFO *hei, int p1, int p2, int p3)
 {
 	//	(type$202)
-	//		ƒtƒ@ƒCƒ‹ƒf[ƒ^‚ğƒƒ‚ƒŠ‚Éæ“¾‚·‚é(netgetv‚Åæ“¾)
+	//		ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ¡ãƒ¢ãƒªã«å–å¾—ã™ã‚‹(netgetvã§å–å¾—)
 	//		netrequest_delete "path"
 	//
 	char *ss;
 
-	ss = hei->HspFunc_prm_gets();				// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
 
 	if (http == NULL) return -1;
 
@@ -790,9 +822,9 @@ EXPORT BOOL WINAPI netrequest_delete(HSPEXINFO *hei, int p1, int p2, int p3)
 EXPORT BOOL WINAPI varmd5( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	•Ï”ƒoƒbƒtƒ@‚Ì“à—e‚©‚çMD5‚ğ‹‚ß‚é
-	//	(•Ï”‚ÉMD5•¶š—ñ‚ğ‘ã“ü)
-	//		varmd5 •Ï”, ƒoƒbƒtƒ@•Ï”, ƒTƒCƒY
+	//	å¤‰æ•°ãƒãƒƒãƒ•ã‚¡ã®å†…å®¹ã‹ã‚‰MD5ã‚’æ±‚ã‚ã‚‹
+	//	(å¤‰æ•°ã«MD5æ–‡å­—åˆ—ã‚’ä»£å…¥)
+	//		varmd5 å¤‰æ•°, ãƒãƒƒãƒ•ã‚¡å¤‰æ•°, ã‚µã‚¤ã‚º
 	//
 	PVal *pv;
 	APTR ap;
@@ -801,12 +833,37 @@ EXPORT BOOL WINAPI varmd5( HSPEXINFO *hei, int p1, int p2, int p3 )
 	CzCrypt crypt;
 	char *vptr;
 
-	ap = hei->HspFunc_prm_getva( &pv );			// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	vptr = (char *)hei->HspFunc_prm_getv();		// ƒpƒ‰ƒ[ƒ^2:•Ï”
-	size = hei->HspFunc_prm_getdi(0);			// ƒpƒ‰ƒ[ƒ^3:®”’l
+	ap = hei->HspFunc_prm_getva( &pv );			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	vptr = (char *)hei->HspFunc_prm_getv();		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:å¤‰æ•°
+	size = hei->HspFunc_prm_getdi(0);			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
 
 	crypt.GetMD5ext( md5str, vptr, size );
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, md5str );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, md5str );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
+
+	return 0;
+}
+
+
+EXPORT BOOL WINAPI varsha256(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+	//	(type$202)
+	//	å¤‰æ•°ãƒãƒƒãƒ•ã‚¡ã®å†…å®¹ã‹ã‚‰SHA256ã‚’æ±‚ã‚ã‚‹
+	//	(å¤‰æ•°ã«SHA256æ–‡å­—åˆ—ã‚’ä»£å…¥)
+	//		varmd5 å¤‰æ•°, ãƒãƒƒãƒ•ã‚¡å¤‰æ•°, ã‚µã‚¤ã‚º
+	//
+	PVal* pv;
+	APTR ap;
+	int size;
+	char sha256str[128];
+	CzCrypt crypt;
+	char* vptr;
+
+	ap = hei->HspFunc_prm_getva(&pv);			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	vptr = (char*)hei->HspFunc_prm_getv();		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:å¤‰æ•°
+	size = hei->HspFunc_prm_getdi(0);			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
+
+	crypt.GetSHA256ext(sha256str, vptr, size);
+	hei->HspFunc_prm_setva(pv, ap, HSPVAR_FLAG_STR, sha256str);	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 
 	return 0;
 }
@@ -815,9 +872,9 @@ EXPORT BOOL WINAPI varmd5( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI b64encode( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	•Ï”ƒoƒbƒtƒ@‚Ì“à—e‚ğBASE64‚ÉƒGƒ“ƒR[ƒh‚·‚é
-	//	(•Ï”‚ÉBASE64•¶š—ñ‚ğ‘ã“ü)
-	//		b64encode •Ï”, ƒoƒbƒtƒ@•Ï”, ƒTƒCƒY
+	//	å¤‰æ•°ãƒãƒƒãƒ•ã‚¡ã®å†…å®¹ã‚’BASE64ã«ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã™ã‚‹
+	//	(å¤‰æ•°ã«BASE64æ–‡å­—åˆ—ã‚’ä»£å…¥)
+	//		b64encode å¤‰æ•°, ãƒãƒƒãƒ•ã‚¡å¤‰æ•°, ã‚µã‚¤ã‚º
 	//
 	PVal *pv;
 	APTR ap;
@@ -826,15 +883,15 @@ EXPORT BOOL WINAPI b64encode( HSPEXINFO *hei, int p1, int p2, int p3 )
 	char *dst;
 	char *vptr;
 
-	ap = hei->HspFunc_prm_getva( &pv );			// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	vptr = (char *)hei->HspFunc_prm_getv();		// ƒpƒ‰ƒ[ƒ^2:•Ï”
-	size = hei->HspFunc_prm_getdi(-1);			// ƒpƒ‰ƒ[ƒ^3:®”’l
+	ap = hei->HspFunc_prm_getva( &pv );			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	vptr = (char *)hei->HspFunc_prm_getv();		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:å¤‰æ•°
+	size = hei->HspFunc_prm_getdi(-1);			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
 
 	if ( size < 0 ) size = (int)strlen(vptr);
 	dst = (char*)malloc( crypt.GetBASE64Size( size ) + 1 );
 	crypt.EncodeBASE64( dst, vptr, size );
 
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, dst );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, dst );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	free( dst );
 
 	return 0;
@@ -844,18 +901,18 @@ EXPORT BOOL WINAPI b64encode( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI b64decode( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	•Ï”ƒoƒbƒtƒ@‚ÌBASE64•¶š—ñ‚ğƒfƒR[ƒh‚·‚é
-	//	(•Ï”‚É•ÏŠ·Œã•¶š—ñ‚ğ‘ã“ü)
-	//		b64decode •Ï”, ƒoƒbƒtƒ@•Ï”, ƒTƒCƒY
+	//	å¤‰æ•°ãƒãƒƒãƒ•ã‚¡ã®BASE64æ–‡å­—åˆ—ã‚’ãƒ‡ã‚³ãƒ¼ãƒ‰ã™ã‚‹
+	//	(å¤‰æ•°ã«å¤‰æ›å¾Œæ–‡å­—åˆ—ã‚’ä»£å…¥)
+	//		b64decode å¤‰æ•°, ãƒãƒƒãƒ•ã‚¡å¤‰æ•°, ã‚µã‚¤ã‚º
 	//
 	int size;
 	CzCrypt crypt;
 	char *vptr;
 	char *dstptr;
 
-	dstptr = (char *)hei->HspFunc_prm_getv();	// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	vptr = (char *)hei->HspFunc_prm_getv();		// ƒpƒ‰ƒ[ƒ^2:•Ï”
-	size = hei->HspFunc_prm_getdi(-1);			// ƒpƒ‰ƒ[ƒ^3:®”’l
+	dstptr = (char *)hei->HspFunc_prm_getv();	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	vptr = (char *)hei->HspFunc_prm_getv();		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:å¤‰æ•°
+	size = hei->HspFunc_prm_getdi(-1);			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
 
 	if ( size < 0 ) size = (int)strlen(vptr);
 	crypt.DecodeBASE64( dstptr, vptr, size );
@@ -866,18 +923,18 @@ EXPORT BOOL WINAPI b64decode( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI rc4encode( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	•Ï”ƒoƒbƒtƒ@‚ÌBASE64•¶š—ñ‚ğƒfƒR[ƒh‚·‚é
-	//	(•Ï”‚É•ÏŠ·Œã•¶š—ñ‚ğ‘ã“ü)
-	//		rc4encode ƒoƒbƒtƒ@•Ï”, ƒL[
+	//	å¤‰æ•°ãƒãƒƒãƒ•ã‚¡ã®BASE64æ–‡å­—åˆ—ã‚’ãƒ‡ã‚³ãƒ¼ãƒ‰ã™ã‚‹
+	//	(å¤‰æ•°ã«å¤‰æ›å¾Œæ–‡å­—åˆ—ã‚’ä»£å…¥)
+	//		rc4encode ãƒãƒƒãƒ•ã‚¡å¤‰æ•°, ã‚­ãƒ¼
 	//
 	CzCrypt crypt;
 	char *dstptr;
 	char *ss;
 	int size;
 
-	dstptr = (char *)hei->HspFunc_prm_getv();	// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	ss = hei->HspFunc_prm_gets();				// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
-	size = hei->HspFunc_prm_getdi(-1);			// ƒpƒ‰ƒ[ƒ^3:®”’l
+	dstptr = (char *)hei->HspFunc_prm_getv();	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	ss = hei->HspFunc_prm_gets();				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
+	size = hei->HspFunc_prm_getdi(-1);			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
 	crypt.EncodeRC4( dstptr, ss, size );
 	return 0;
 }
@@ -886,19 +943,19 @@ EXPORT BOOL WINAPI rc4encode( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI urlencode( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	•¶š—ñ‚ğURLƒGƒ“ƒR[ƒh‚·‚é
-	//	(•Ï”‚É•ÏŠ·Œã•¶š—ñ‚ğ‘ã“ü)
-	//		urlencode •Ï”, "•¶š—ñ"
+	//	æ–‡å­—åˆ—ã‚’URLã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã™ã‚‹
+	//	(å¤‰æ•°ã«å¤‰æ›å¾Œæ–‡å­—åˆ—ã‚’ä»£å…¥)
+	//		urlencode å¤‰æ•°, "æ–‡å­—åˆ—"
 	//
 	char *ss;
 	PVal *pv;
 	APTR ap;
 	char urltmp[URLENCODE_BUFFERSIZE];
 
-	ap = hei->HspFunc_prm_getva( &pv );			// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	ss = hei->HspFunc_prm_gets();				// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
+	ap = hei->HspFunc_prm_getva( &pv );			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	ss = hei->HspFunc_prm_gets();				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
 	http->UrlEncode( urltmp, URLENCODE_BUFFERSIZE, ss );
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, urltmp );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, urltmp );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	return 0;
 }
 
@@ -906,19 +963,19 @@ EXPORT BOOL WINAPI urlencode( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI urldecode( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	•¶š—ñ‚ğURLƒfƒR[ƒh‚·‚é
-	//	(•Ï”‚É•ÏŠ·Œã•¶š—ñ‚ğ‘ã“ü)
-	//		urldecode •Ï”, "•¶š—ñ"
+	//	æ–‡å­—åˆ—ã‚’URLãƒ‡ã‚³ãƒ¼ãƒ‰ã™ã‚‹
+	//	(å¤‰æ•°ã«å¤‰æ›å¾Œæ–‡å­—åˆ—ã‚’ä»£å…¥)
+	//		urldecode å¤‰æ•°, "æ–‡å­—åˆ—"
 	//
 	char *ss;
 	PVal *pv;
 	APTR ap;
 	char urltmp[4096];
 
-	ap = hei->HspFunc_prm_getva( &pv );			// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	ss = hei->HspFunc_prm_gets();				// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
+	ap = hei->HspFunc_prm_getva( &pv );			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	ss = hei->HspFunc_prm_gets();				// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
 	http->UrlDecode( urltmp, 4096, ss );
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, urltmp );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, urltmp );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	return 0;
 }
 
@@ -930,21 +987,21 @@ static	cJSON *json = NULL;
 EXPORT BOOL WINAPI jsonopen( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		JSONŒ`®‚ğŠJ‚­
-	//		jsonopen •Ï”,ƒoƒbƒtƒ@•Ï”
+	//		JSONå½¢å¼ã‚’é–‹ã
+	//		jsonopen å¤‰æ•°,ãƒãƒƒãƒ•ã‚¡å¤‰æ•°
 	//
 	char *ptr;
 	PVal *pv;
 	APTR ap;
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	ptr = (char *)hei->HspFunc_prm_getv();	// ƒpƒ‰ƒ[ƒ^2:•Ï”
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	ptr = (char *)hei->HspFunc_prm_getv();	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:å¤‰æ•°
 
 	if ( json != NULL ) {
 		cJSON_Delete( json );
 	}
 
 	json = cJSON_Parse(ptr);
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_INT, &json );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_INT, &json );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	return 0;
 }
 
@@ -952,7 +1009,7 @@ EXPORT BOOL WINAPI jsonopen( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI jsonclose( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		JSONŒ`®‚ğ•Â‚¶‚é
+	//		JSONå½¢å¼ã‚’é–‰ã˜ã‚‹
 	//		jsonclose
 	//
 	cJSON_Delete( json );
@@ -964,8 +1021,8 @@ EXPORT BOOL WINAPI jsonclose( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI jsonout( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//		JSONŒ`®ƒf[ƒ^‚ğ•Ï”‚Éo—Í‚·‚é
-	//		jsonout •Ï”, JSONƒ|ƒCƒ“ƒ^
+	//		JSONå½¢å¼ãƒ‡ãƒ¼ã‚¿ã‚’å¤‰æ•°ã«å‡ºåŠ›ã™ã‚‹
+	//		jsonout å¤‰æ•°, JSONãƒã‚¤ãƒ³ã‚¿
 	//
 	PVal *pv;
 	APTR ap;
@@ -973,8 +1030,8 @@ EXPORT BOOL WINAPI jsonout( HSPEXINFO *hei, int p1, int p2, int p3 )
 	int _p3;
 	cJSON *root;
 
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	_p3 = hei->HspFunc_prm_getdi(-1);		// ƒpƒ‰ƒ[ƒ^2:®”’l
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	_p3 = hei->HspFunc_prm_getdi(-1);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ•´æ•°å€¤
 
 	if ( _p3 == 0 ) return -1;
 	if ( _p3 < 0 ) {
@@ -983,48 +1040,130 @@ EXPORT BOOL WINAPI jsonout( HSPEXINFO *hei, int p1, int p2, int p3 )
 		root = (cJSON *)_p3;
 	}
 	out = cJSON_Print(root);
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, out );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, out );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	free(out);	
 	return 0;
 }
 
 
-EXPORT BOOL WINAPI jsongetobj( HSPEXINFO *hei, int p1, int p2, int p3 )
+EXPORT BOOL WINAPI jsongetobj(HSPEXINFO* hei, int p1, int p2, int p3)
 {
 	//	(type$202)
-	//	JSONƒIƒuƒWƒFƒNƒg‚ğ“¾‚é
-	//		jsongetobj •Ï”, "–¼Ì", JSONƒ|ƒCƒ“ƒ^
+	//	JSONã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å¾—ã‚‹
+	//		jsongetobj å¤‰æ•°, "åç§°", JSONãƒã‚¤ãƒ³ã‚¿
 	//
-	PVal *pv;
+	PVal* pv;
 	APTR ap;
-	char *ss;
+	char* ss;
 	int _p3;
 	char name[1024];
-	cJSON *root;
+	cJSON* root;
 
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
-	strncpy( name, ss, 1024 );
-	_p3 = hei->HspFunc_prm_getdi(-1);		// ƒpƒ‰ƒ[ƒ^3:®”’l
+	ap = hei->HspFunc_prm_getva(&pv);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
+	strncpy(name, ss, 1024);
+	_p3 = hei->HspFunc_prm_getdi(-1);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
 
-	if ( _p3 == 0 ) return -1;
-	if ( _p3 < 0 ) {
+	if (_p3 == 0) return -1;
+	if (_p3 < 0) {
 		root = json;
-	} else {
-		root = (cJSON *)_p3;
 	}
-	cJSON *cjobj = cJSON_GetObjectItem( root, name );
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_INT, &cjobj );	// •Ï”‚É’l‚ğ‘ã“ü
+	else {
+		root = (cJSON*)_p3;
+	}
+	cJSON* cjobj = cJSON_GetObjectItem(root, name);
+	hei->HspFunc_prm_setva(pv, ap, HSPVAR_FLAG_INT, &cjobj);	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 
 	return 0;
+}
+
+
+EXPORT BOOL WINAPI jsongetarrayobj(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+	//	(type$202)
+	//	JSONé…åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå†…ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å¾—ã‚‹
+	//		jsongetarray å¤‰æ•°, JSONãƒã‚¤ãƒ³ã‚¿, è¦ç´ 
+	//
+	PVal* pv;
+	APTR ap;
+	int _p3;
+	int _p4;
+	int size;
+	cJSON* root;
+
+	ap = hei->HspFunc_prm_getva(&pv);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	_p3 = hei->HspFunc_prm_getdi(-1);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ•´æ•°å€¤
+	_p4 = hei->HspFunc_prm_getdi(-1);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
+
+	if (_p3 == 0) return -1;
+	if (_p3 < 0) {
+		root = json;
+	}
+	else {
+		root = (cJSON*)_p3;
+	}
+	if (_p4 < 0) {
+		size = cJSON_GetArraySize(root);
+		hei->HspFunc_prm_setva(pv, ap, HSPVAR_FLAG_INT, &size);	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
+	}
+	else {
+		cJSON* cjobj = cJSON_GetArrayItem(root, _p4);
+		hei->HspFunc_prm_setva(pv, ap, HSPVAR_FLAG_INT, &cjobj);	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
+	}
+	return 0;
+}
+
+
+EXPORT BOOL WINAPI jsongetarrayobjbyname(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+	//	(type$202)
+	//	JSONé…åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå†…ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å¾—ã‚‹
+	//		jsongetarrayname å¤‰æ•°, "åç§°", JSONãƒã‚¤ãƒ³ã‚¿
+	//
+	PVal* pv;
+	APTR ap;
+	char* ss;
+	int _p3;
+	char name[1024];
+	int size,i;
+	cJSON* root;
+	cJSON* arrayroot;
+	cJSON* cjobj;
+
+	ap = hei->HspFunc_prm_getva(&pv);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	ss = hei->HspFunc_prm_getds("");		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
+	strncpy(name, ss, 1024);
+	_p3 = hei->HspFunc_prm_getdi(-1);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
+
+	if (_p3 == 0) return -1;
+	if (_p3 < 0) {
+		root = json;
+	}
+	else {
+		root = (cJSON*)_p3;
+	}
+	size = cJSON_GetArraySize(root);
+	if (size <= 0) return -2;
+
+	for (i = 0; i < size; i++) {
+		arrayroot = cJSON_GetArrayItem(root, i);
+		if (arrayroot) {
+			cjobj = cJSON_GetObjectItem(arrayroot, name);
+			if (cjobj) {
+				hei->HspFunc_prm_setva(pv, ap, HSPVAR_FLAG_INT, &cjobj);	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
+				return 0;
+			}
+		}
+	}
+	return -3;
 }
 
 
 EXPORT BOOL WINAPI jsonnext( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	JSONƒIƒuƒWƒFƒNƒg‚ğ“¾‚é
-	//		jsonnext •Ï”, JSONƒ|ƒCƒ“ƒ^, option
+	//	JSONã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å¾—ã‚‹
+	//		jsonnext å¤‰æ•°, JSONãƒã‚¤ãƒ³ã‚¿, option
 	//
 	PVal *pv;
 	APTR ap;
@@ -1033,9 +1172,9 @@ EXPORT BOOL WINAPI jsonnext( HSPEXINFO *hei, int p1, int p2, int p3 )
 	cJSON *root;
 	cJSON *cjobj;
 
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	_p3 = hei->HspFunc_prm_getdi(-1);		// ƒpƒ‰ƒ[ƒ^2:®”’l
-	_p4 = hei->HspFunc_prm_getdi(0);		// ƒpƒ‰ƒ[ƒ^3:®”’l
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	_p3 = hei->HspFunc_prm_getdi(-1);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ•´æ•°å€¤
+	_p4 = hei->HspFunc_prm_getdi(0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
 
 	if ( _p3 == 0 ) return -1;
 	if ( _p3 < 0 ) {
@@ -1052,13 +1191,13 @@ EXPORT BOOL WINAPI jsonnext( HSPEXINFO *hei, int p1, int p2, int p3 )
 		cjobj = root->child;
 		break;
 	case 3:
-		hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_INT, &root->type );	// •Ï”‚É’l‚ğ‘ã“ü
+		hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_INT, &root->type );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 		return 0;
 	default:
 		cjobj = root->next;
 		break;
 	}
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_INT, &cjobj );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_INT, &cjobj );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	return 0;
 }
 
@@ -1066,8 +1205,8 @@ EXPORT BOOL WINAPI jsonnext( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI jsongets( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	JSONƒIƒuƒWƒFƒNƒg‚©‚ç•¶š—ñ‚ğ“¾‚é
-	//		jsongets •Ï”, "–¼Ì", JSONƒ|ƒCƒ“ƒ^
+	//	JSONã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰æ–‡å­—åˆ—ã‚’å¾—ã‚‹
+	//		jsongets å¤‰æ•°, "åç§°", JSONãƒã‚¤ãƒ³ã‚¿
 	//
 	PVal *pv;
 	APTR ap;
@@ -1075,12 +1214,11 @@ EXPORT BOOL WINAPI jsongets( HSPEXINFO *hei, int p1, int p2, int p3 )
 	int _p3;
 	char name[1024];
 	cJSON *root;
-	char *resbuf;
 
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	ss = hei->HspFunc_prm_getds( "" );		// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	ss = hei->HspFunc_prm_getds( "" );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
 	strncpy( name, ss, 1024 );
-	_p3 = hei->HspFunc_prm_getdi(-1);		// ƒpƒ‰ƒ[ƒ^3:®”’l
+	_p3 = hei->HspFunc_prm_getdi(-1);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
 
 	if ( _p3 == 0 ) return -1;
 	if ( _p3 < 0 ) {
@@ -1093,46 +1231,108 @@ EXPORT BOOL WINAPI jsongets( HSPEXINFO *hei, int p1, int p2, int p3 )
 		if ( root == NULL ) return -1;
 	}
 
-	resbuf = root->valuestring;
-	if ( *json_nkfopt != 0 ) {
-		cnvNkf( resbuf, -1, -1, json_nkfopt );
-		resbuf = nkfbuf;
+	char* mystr = NULL;
+	switch (root->type)
+	{
+	case cJSON_String:
+		mystr = root->valuestring;
+		if (*json_nkfopt != 0) {
+			cnvNkf(mystr, -1, -1, json_nkfopt);
+			mystr = nkfbuf;
+		}
+		break;
+	case cJSON_True:
+		mystr = "True";
+		break;
+	case cJSON_False:
+		mystr = "False";
+		break;
+	case cJSON_Number:
+		mystr = "Number";
+		break;
+	case cJSON_Array:
+		mystr = "Array";
+		break;
+	default:
+		break;
 	}
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, resbuf );	// •Ï”‚É’l‚ğ‘ã“ü
+	if (mystr == NULL) return -1;
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, mystr);	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 
 	return 0;
 }
 
 
-EXPORT BOOL WINAPI jsongeti( HSPEXINFO *hei, int p1, int p2, int p3 )
+EXPORT BOOL WINAPI jsongeti(HSPEXINFO* hei, int p1, int p2, int p3)
 {
 	//	(type$202)
-	//	JSONƒIƒuƒWƒFƒNƒg‚©‚ç®”’l‚ğ“¾‚é
-	//		jsongeti •Ï”, "–¼Ì", JSONƒ|ƒCƒ“ƒ^
+	//	JSONã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰æ•´æ•°å€¤ã‚’å¾—ã‚‹
+	//		jsongeti å¤‰æ•°, "åç§°", JSONãƒã‚¤ãƒ³ã‚¿
 	//
-	PVal *pv;
+	PVal* pv;
 	APTR ap;
-	char *ss;
+	char* ss;
 	int _p3;
 	char name[1024];
-	cJSON *root;
+	cJSON* root;
 
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	ss = hei->HspFunc_prm_getds( "" );		// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
-	strncpy( name, ss, 1024 );
-	_p3 = hei->HspFunc_prm_getdi(-1);		// ƒpƒ‰ƒ[ƒ^3:®”’l
+	ap = hei->HspFunc_prm_getva(&pv);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	ss = hei->HspFunc_prm_getds("");		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
+	strncpy(name, ss, 1024);
+	_p3 = hei->HspFunc_prm_getdi(-1);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
 
-	if ( _p3 == 0 ) return -1;
-	if ( _p3 < 0 ) {
+	if (_p3 == 0) return -1;
+	if (_p3 < 0) {
 		root = json;
-	} else {
-		root = (cJSON *)_p3;
 	}
-	if ( *ss != 0 ) {
-		root = cJSON_GetObjectItem( root, name );
-		if ( root == NULL ) return -1;
+	else {
+		root = (cJSON*)_p3;
 	}
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_INT, &root->valueint );	// •Ï”‚É’l‚ğ‘ã“ü
+	if (*ss != 0) {
+		root = cJSON_GetObjectItem(root, name);
+	}
+	if (root == NULL) return -1;
+	if (root->type != cJSON_Number) {
+		return -1;
+	}
+	hei->HspFunc_prm_setva(pv, ap, HSPVAR_FLAG_INT, &root->valueint);	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
+	return 0;
+}
+
+
+EXPORT BOOL WINAPI jsongetd(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+	//	(type$202)
+	//	JSONã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰å®Ÿæ•°å€¤ã‚’å¾—ã‚‹
+	//		jsongetd å¤‰æ•°, "åç§°", JSONãƒã‚¤ãƒ³ã‚¿
+	//
+	PVal* pv;
+	APTR ap;
+	char* ss;
+	int _p3;
+	char name[1024];
+	cJSON* root;
+
+	ap = hei->HspFunc_prm_getva(&pv);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	ss = hei->HspFunc_prm_getds("");		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
+	strncpy(name, ss, 1024);
+	_p3 = hei->HspFunc_prm_getdi(-1);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
+
+	if (_p3 == 0) return -1;
+	if (_p3 < 0) {
+		root = json;
+	}
+	else {
+		root = (cJSON*)_p3;
+	}
+	if (*ss != 0) {
+		root = cJSON_GetObjectItem(root, name);
+	}
+	if (root == NULL) return -1;
+	if (root->type != cJSON_Number) {
+		return -1;
+	}
+	hei->HspFunc_prm_setva(pv, ap, HSPVAR_FLAG_DOUBLE, &root->valuedouble);	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 
 	return 0;
 }
@@ -1141,8 +1341,8 @@ EXPORT BOOL WINAPI jsongeti( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI jsonnewobj( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	JSONƒIƒuƒWƒFƒNƒg‚ğV‹Kì¬
-	//		jsonnewobj •Ï”, JSONƒ|ƒCƒ“ƒ^, "–¼Ì"
+	//	JSONã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ–°è¦ä½œæˆ
+	//		jsonnewobj å¤‰æ•°, JSONãƒã‚¤ãƒ³ã‚¿, "åç§°"
 	//
 	PVal *pv;
 	APTR ap;
@@ -1152,9 +1352,9 @@ EXPORT BOOL WINAPI jsonnewobj( HSPEXINFO *hei, int p1, int p2, int p3 )
 	cJSON *root;
 	cJSON *cjobj;
 
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	_p3 = hei->HspFunc_prm_getdi(-1);		// ƒpƒ‰ƒ[ƒ^2:®”’l
-	ss = hei->HspFunc_prm_getds( "" );		// ƒpƒ‰ƒ[ƒ^3:•¶š—ñ
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	_p3 = hei->HspFunc_prm_getdi(-1);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ•´æ•°å€¤
+	ss = hei->HspFunc_prm_getds( "" );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ–‡å­—åˆ—
 	strncpy( name, ss, 1024 );
 
 	root = cJSON_CreateObject();
@@ -1166,7 +1366,7 @@ EXPORT BOOL WINAPI jsonnewobj( HSPEXINFO *hei, int p1, int p2, int p3 )
 		cJSON_AddItemToObject( cjobj, name, root );
 	}
 
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_INT, &cjobj );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_INT, &cjobj );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 	return 0;
 }
 
@@ -1174,18 +1374,18 @@ EXPORT BOOL WINAPI jsonnewobj( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI jsonputs( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	JSONƒIƒuƒWƒFƒNƒg‚Ì•¶š—ñƒGƒ“ƒgƒŠXV
-	//		jsonputs JSONƒ|ƒCƒ“ƒ^, "–¼Ì", "•¶š—ñ"
+	//	JSONã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ–‡å­—åˆ—ã‚¨ãƒ³ãƒˆãƒªæ›´æ–°
+	//		jsonputs JSONãƒã‚¤ãƒ³ã‚¿, "åç§°", "æ–‡å­—åˆ—"
 	//
 	char *ss;
 	int _p3;
 	char name[1024];
 	cJSON *cjobj;
 
-	_p3 = hei->HspFunc_prm_getdi(0);		// ƒpƒ‰ƒ[ƒ^1:®”’l
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
+	_p3 = hei->HspFunc_prm_getdi(0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ•´æ•°å€¤
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
 	strncpy( name, ss, 1024 );
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^3:•¶š—ñ
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ–‡å­—åˆ—
 
 	if ( _p3 <= 0 ) return -1;
 
@@ -1202,79 +1402,130 @@ EXPORT BOOL WINAPI jsonputs( HSPEXINFO *hei, int p1, int p2, int p3 )
 }
 
 
-EXPORT BOOL WINAPI jsonputi( HSPEXINFO *hei, int p1, int p2, int p3 )
+EXPORT BOOL WINAPI jsonputi(HSPEXINFO* hei, int p1, int p2, int p3)
 {
 	//	(type$202)
-	//	JSONƒIƒuƒWƒFƒNƒg‚Ì”’lƒGƒ“ƒgƒŠXV
-	//		jsonputi JSONƒ|ƒCƒ“ƒ^, "–¼Ì", ®”’l, ƒ‚[ƒh
+	//	JSONã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°å€¤ã‚¨ãƒ³ãƒˆãƒªæ›´æ–°
+	//		jsonputi JSONãƒã‚¤ãƒ³ã‚¿, "åç§°", æ•´æ•°å€¤, ãƒ¢ãƒ¼ãƒ‰
 	//
-	char *ss;
+	char* ss;
 	int _p3;
 	int _p4;
 	int _p5;
 	char name[1024];
-	cJSON *cjobj;
+	cJSON* cjobj;
 
-	_p3 = hei->HspFunc_prm_getdi(0);		// ƒpƒ‰ƒ[ƒ^1:®”’l
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
-	strncpy( name, ss, 1024 );
-	_p4 = hei->HspFunc_prm_getdi(0);		// ƒpƒ‰ƒ[ƒ^3:®”’l
-	_p5 = hei->HspFunc_prm_getdi(0);		// ƒpƒ‰ƒ[ƒ^4:®”’l
+	_p3 = hei->HspFunc_prm_getdi(0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ•´æ•°å€¤
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
+	strncpy(name, ss, 1024);
+	_p4 = hei->HspFunc_prm_getdi(0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
+	_p5 = hei->HspFunc_prm_getdi(0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿4:æ•´æ•°å€¤
 
-	if ( _p3 <= 0 ) return -1;
+	if (_p3 <= 0) return -1;
 
-	cjobj = (cJSON *)_p3;
-	switch( _p5 ) {
+	cjobj = (cJSON*)_p3;
+	switch (_p5) {
 	case 1:
-		if ( _p4 ) {
-			cJSON_AddTrueToObject (cjobj, name );
-		} else {
-			cJSON_AddFalseToObject (cjobj, name );
+		if (_p4) {
+			cJSON_AddTrueToObject(cjobj, name);
+		}
+		else {
+			cJSON_AddFalseToObject(cjobj, name);
 		}
 		break;
 	default:
-		cJSON_AddNumberToObject( cjobj, name, _p4 );
+		cJSON_AddNumberToObject(cjobj, name, _p4);
 		break;
 	}
 	return 0;
 }
 
 
-EXPORT BOOL WINAPI jsonsetprm( HSPEXINFO *hei, int p1, int p2, int p3 )
+EXPORT BOOL WINAPI jsonputd(HSPEXINFO* hei, int p1, int p2, int p3)
 {
 	//	(type$202)
-	//	JSONƒIƒuƒWƒFƒNƒg‚Ìƒpƒ‰ƒ[ƒ^[İ’è
-	//		jsonsetprm JSONƒ|ƒCƒ“ƒ^, İ’è’l, ƒ‚[ƒh
+	//	JSONã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°å€¤ã‚¨ãƒ³ãƒˆãƒªæ›´æ–°
+	//		jsonputd JSONãƒã‚¤ãƒ³ã‚¿, "åç§°", å®Ÿæ•°å€¤
+	//
+	char* ss;
+	int _p3;
+	double _p4;
+	char name[1024];
+	cJSON* cjobj;
+
+	_p3 = hei->HspFunc_prm_getdi(0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ•´æ•°å€¤
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
+	strncpy(name, ss, 1024);
+	_p4 = hei->HspFunc_prm_getdd(0.0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:å®Ÿæ•°å€¤
+
+	if (_p3 <= 0) return -1;
+
+	cjobj = (cJSON*)_p3;
+	cJSON_AddNumberToObject(cjobj, name, _p4);
+	return 0;
+}
+
+
+EXPORT BOOL WINAPI jsonsetprm(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+	//	(type$202)
+	//	JSONã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼è¨­å®š
+	//		jsonsetprm JSONãƒã‚¤ãƒ³ã‚¿, è¨­å®šå€¤, ãƒ¢ãƒ¼ãƒ‰
 	//
 	int _p3;
 	int _p4;
 	int _p5;
-	cJSON *cjobj;
+	cJSON* cjobj;
 
-	_p3 = hei->HspFunc_prm_getdi(0);		// ƒpƒ‰ƒ[ƒ^1:®”’l
-	_p4 = hei->HspFunc_prm_getdi(0);		// ƒpƒ‰ƒ[ƒ^2:®”’l
-	_p5 = hei->HspFunc_prm_getdi(0);		// ƒpƒ‰ƒ[ƒ^3:®”’l
+	_p3 = hei->HspFunc_prm_getdi(0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ•´æ•°å€¤
+	_p4 = hei->HspFunc_prm_getdi(0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ•´æ•°å€¤
+	_p5 = hei->HspFunc_prm_getdi(0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
 
-	if ( _p3 <= 0 ) return -1;
+	if (_p3 <= 0) return -1;
 
-	cjobj = (cJSON *)_p3;
-	switch( _p5 ) {
+	cjobj = (cJSON*)_p3;
+	switch (_p5) {
 	case 1:
-		cjobj->prev = (cJSON *)_p4;
+		cjobj->prev = (cJSON*)_p4;
 		break;
 	case 2:
-		cjobj->child = (cJSON *)_p4;
+		cjobj->child = (cJSON*)_p4;
 		break;
 	case 3:
 		cjobj->type = _p4;
 		break;
 	case 4:
 		cjobj->valueint = _p4;
+		cjobj->valuedouble = (double)_p4;
+		cjobj->type = cJSON_Number;
 		break;
 	default:
-		cjobj->next = (cJSON *)_p4;
+		cjobj->next = (cJSON*)_p4;
 		break;
 	}
+	return 0;
+}
+
+
+EXPORT BOOL WINAPI jsonsetprmd(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+	//	(type$202)
+	//	JSONã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼è¨­å®š
+	//		jsonsetprmd JSONãƒã‚¤ãƒ³ã‚¿, è¨­å®šå€¤(å®Ÿæ•°)
+	//
+	int _p3;
+	double _p4;
+	cJSON* cjobj;
+
+	_p3 = hei->HspFunc_prm_getdi(0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ•´æ•°å€¤
+	_p4 = hei->HspFunc_prm_getdd(0.0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:å®Ÿæ•°å€¤
+
+	if (_p3 <= 0) return -1;
+
+	cjobj = (cJSON*)_p3;
+	cjobj->valuedouble = _p4;
+	cjobj->valueint = (int)_p4;
+	cjobj->type = cJSON_Number;
 	return 0;
 }
 
@@ -1282,13 +1533,13 @@ EXPORT BOOL WINAPI jsonsetprm( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI jsondelobj( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	JSONƒIƒuƒWƒFƒNƒg‚ğíœ
-	//		jsondelobj JSONƒ|ƒCƒ“ƒ^
+	//	JSONã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤
+	//		jsondelobj JSONãƒã‚¤ãƒ³ã‚¿
 	//
 	int _p3;
 	cJSON *cjobj;
 
-	_p3 = hei->HspFunc_prm_getdi(0);		// ƒpƒ‰ƒ[ƒ^1:®”’l
+	_p3 = hei->HspFunc_prm_getdi(0);		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ•´æ•°å€¤
 
 	if ( _p3 <= 0 ) return -1;
 	cjobj = (cJSON *)_p3;
@@ -1300,14 +1551,14 @@ EXPORT BOOL WINAPI jsondelobj( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI jsonnkf( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	JSONƒf[ƒ^•ÏŠ·ƒIƒvƒVƒ‡ƒ“w’è
-	//		jsonnkf "æ“¾•ÏŠ·ƒIƒvƒVƒ‡ƒ“", "İ’è•ÏŠ·ƒIƒvƒVƒ‡ƒ“"
+	//	JSONãƒ‡ãƒ¼ã‚¿å¤‰æ›ã‚ªãƒ—ã‚·ãƒ§ãƒ³æŒ‡å®š
+	//		jsonnkf "å–å¾—æ™‚å¤‰æ›ã‚ªãƒ—ã‚·ãƒ§ãƒ³", "è¨­å®šæ™‚å¤‰æ›ã‚ªãƒ—ã‚·ãƒ§ãƒ³"
 	//
 	char *ss;
 
-	ss = hei->HspFunc_prm_getds( "" );		// ƒpƒ‰ƒ[ƒ^1:•¶š—ñ
+	ss = hei->HspFunc_prm_getds( "" );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:æ–‡å­—åˆ—
 	strncpy( json_nkfopt, ss, 127 );
-	ss = hei->HspFunc_prm_getds( "" );		// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
+	ss = hei->HspFunc_prm_getds( "" );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
 	strncpy( json_nkfopt2, ss, 127 );
 
 	return 0;
@@ -1319,8 +1570,8 @@ EXPORT BOOL WINAPI jsonnkf( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI nkfcnv( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	NKF‚É‚æ‚é•¶šƒR[ƒh•ÏŠ·‚ğs‚È‚¤
-	//		nkfcnv •Ï”, •Ï”, "ƒIƒvƒVƒ‡ƒ“", insize, outsize
+	//	NKFã«ã‚ˆã‚‹æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›ã‚’è¡Œãªã†
+	//		nkfcnv å¤‰æ•°, å¤‰æ•°, "ã‚ªãƒ—ã‚·ãƒ§ãƒ³", insize, outsize
 	//
 	PVal *pv;
 	APTR ap;
@@ -1330,15 +1581,15 @@ EXPORT BOOL WINAPI nkfcnv( HSPEXINFO *hei, int p1, int p2, int p3 )
 	char opt[1024];
 //	cJSON *root;
 
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	vptr = (char *)hei->HspFunc_prm_getv();	// ƒpƒ‰ƒ[ƒ^2:•Ï”
-	ss = hei->HspFunc_prm_getds( "s" );		// ƒpƒ‰ƒ[ƒ^3:•¶š—ñ
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	vptr = (char *)hei->HspFunc_prm_getv();	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:å¤‰æ•°
+	ss = hei->HspFunc_prm_getds( "s" );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ–‡å­—åˆ—
 	strncpy( opt, ss, 1024 );
-	insize = hei->HspFunc_prm_getdi(-1);	// ƒpƒ‰ƒ[ƒ^3:®”’l
-	outsize = hei->HspFunc_prm_getdi(-1);	// ƒpƒ‰ƒ[ƒ^3:®”’l
+	insize = hei->HspFunc_prm_getdi(-1);	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
+	outsize = hei->HspFunc_prm_getdi(-1);	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ•´æ•°å€¤
 
 	cnvNkf( vptr, insize, outsize, opt );
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, nkfbuf );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, nkfbuf );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 
 	return 0;
 }
@@ -1347,16 +1598,16 @@ EXPORT BOOL WINAPI nkfcnv( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI nkfguess( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	NKF‚É‚æ‚é•¶šƒR[ƒh”F¯Œ‹‰Ê‚ğæ“¾‚·‚é
-	//		nkfguess •Ï”
+	//	NKFã«ã‚ˆã‚‹æ–‡å­—ã‚³ãƒ¼ãƒ‰èªè­˜çµæœã‚’å–å¾—ã™ã‚‹
+	//		nkfguess å¤‰æ•°
 	//
 	PVal *pv;
 	APTR ap;
 	int ressize;
 
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
 	GetNkfGuessA( nkfbuf, nkfsize, (LPDWORD)&ressize );
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, nkfbuf );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, nkfbuf );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 
 	return 0;
 }
@@ -1368,7 +1619,7 @@ EXPORT BOOL WINAPI nkfguess( HSPEXINFO *hei, int p1, int p2, int p3 )
 
 static char *strstr2( char *target, char *src )
 {
-	//		strstrŠÖ”‚Ì‘SŠp‘Î‰”Å
+	//		strstré–¢æ•°ã®å…¨è§’å¯¾å¿œç‰ˆ
 	//
 	unsigned char *p;
 	unsigned char *s;
@@ -1387,8 +1638,8 @@ static char *strstr2( char *target, char *src )
 			a3=*p2++;if (a3==0) break;
 			if (a2!=a3) break;
 		}
-		p++;							// ŒŸõˆÊ’u‚ğˆÚ“®
-		if (a1>=129) {					// ‘SŠp•¶šƒ`ƒFƒbƒN
+		p++;							// æ¤œç´¢ä½ç½®ã‚’ç§»å‹•
+		if (a1>=129) {					// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 			if ((a1<=159)||(a1>=224)) p++;
 		}
 	}
@@ -1397,7 +1648,7 @@ static char *strstr2( char *target, char *src )
 
 static char *strchr2( char *target, char code )
 {
-	//		str’†ÅŒã‚ÌcodeˆÊ’u‚ğ’T‚·(‘SŠp‘Î‰”Å)
+	//		strä¸­æœ€å¾Œã®codeä½ç½®ã‚’æ¢ã™(å…¨è§’å¯¾å¿œç‰ˆ)
 	//
 	unsigned char *p;
 	unsigned char a1;
@@ -1407,8 +1658,8 @@ static char *strchr2( char *target, char code )
 	while(1) {
 		a1=*p;if ( a1==0 ) break;
 		if ( a1==code ) res=(char *)p;
-		p++;							// ŒŸõˆÊ’u‚ğˆÚ“®
-		if (a1>=129) {					// ‘SŠp•¶šƒ`ƒFƒbƒN
+		p++;							// æ¤œç´¢ä½ç½®ã‚’ç§»å‹•
+		if (a1>=129) {					// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 			if ((a1<=159)||(a1>=224)) p++;
 		}
 	}
@@ -1417,7 +1668,7 @@ static char *strchr2( char *target, char code )
 
 static void CutLastChr( char *p, char code )
 {
-	//		ÅŒã‚Ìcode‚ğæ‚èœ‚­
+	//		æœ€å¾Œã®codeã‚’å–ã‚Šé™¤ã
 	//
 	char *ss;
 	char *ss2;
@@ -1494,20 +1745,20 @@ static int strsp_get( char *srcstr, char *dststr, char splitchr, int len )
 EXPORT BOOL WINAPI getenv2( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	ƒVƒXƒeƒ€ŠÂ‹«•Ï”‚ğæ“¾‚µ‚Ü‚·
-	//		getenv2 •Ï”, "ŠÂ‹«•Ï”–¼"
+	//	ã‚·ã‚¹ãƒ†ãƒ ç’°å¢ƒå¤‰æ•°ã‚’å–å¾—ã—ã¾ã™
+	//		getenv2 å¤‰æ•°, "ç’°å¢ƒå¤‰æ•°å"
 	//
 	PVal *pv;
 	APTR ap;
 	char *ss;
 	char buf[0x8000];
 
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	ss = hei->HspFunc_prm_gets();		// ƒpƒ‰ƒ[ƒ^2:•¶š—ñ
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	ss = hei->HspFunc_prm_gets();		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ–‡å­—åˆ—
 
 	*buf = 0;
 	GetEnvironmentVariable( ss, buf, 0x7fff );
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, buf );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, buf );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 
 	return 0;
 }
@@ -1516,8 +1767,8 @@ EXPORT BOOL WINAPI getenv2( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI getctime( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	ƒVƒXƒeƒ€ŠÂ‹«•Ï”‚ğæ“¾‚µ‚Ü‚·
-	//		getctime •Ï”, mode
+	//	ã‚·ã‚¹ãƒ†ãƒ ç’°å¢ƒå¤‰æ•°ã‚’å–å¾—ã—ã¾ã™
+	//		getctime å¤‰æ•°, mode
 	//
 	PVal *pv;
 	APTR ap;
@@ -1525,8 +1776,8 @@ EXPORT BOOL WINAPI getctime( HSPEXINFO *hei, int p1, int p2, int p3 )
 	char buf[128];
 	time_t timer;
 
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	p1 = hei->HspFunc_prm_getdi(0);			// ƒpƒ‰ƒ[ƒ^2:”’l
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	p1 = hei->HspFunc_prm_getdi(0);			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:æ•°å€¤
 
 	switch( p1 ) {
 	case 0:
@@ -1568,7 +1819,7 @@ EXPORT BOOL WINAPI getctime( HSPEXINFO *hei, int p1, int p2, int p3 )
 		break;
 	}
 	//asctime
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, ss );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, ss );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 
 	return 0;
 }
@@ -1577,8 +1828,8 @@ EXPORT BOOL WINAPI getctime( HSPEXINFO *hei, int p1, int p2, int p3 )
 EXPORT BOOL WINAPI getenvprm( HSPEXINFO *hei, int p1, int p2, int p3 )
 {
 	//	(type$202)
-	//	ƒpƒ‰ƒ[ƒ^[‚ğæ“¾‚µ‚Ü‚·
-	//		getenvprm •Ï”, ƒf[ƒ^•Ï”, "—v‘f–¼", ‹æØ‚è‹L†
+	//	ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼ã‚’å–å¾—ã—ã¾ã™
+	//		getenvprm å¤‰æ•°, ãƒ‡ãƒ¼ã‚¿å¤‰æ•°, "è¦ç´ å", åŒºåˆ‡ã‚Šè¨˜å·
 	//
 	PVal *pv;
 	APTR ap;
@@ -1589,12 +1840,12 @@ EXPORT BOOL WINAPI getenvprm( HSPEXINFO *hei, int p1, int p2, int p3 )
 	char buf[0x8000];
 	int slen;
 
-	ap = hei->HspFunc_prm_getva( &pv );		// ƒpƒ‰ƒ[ƒ^1:•Ï”
-	vptr = (char *)hei->HspFunc_prm_getv();	// ƒpƒ‰ƒ[ƒ^2:•Ï”
-	ss = hei->HspFunc_prm_gets();			// ƒpƒ‰ƒ[ƒ^3:•¶š—ñ
+	ap = hei->HspFunc_prm_getva( &pv );		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿1:å¤‰æ•°
+	vptr = (char *)hei->HspFunc_prm_getv();	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿2:å¤‰æ•°
+	ss = hei->HspFunc_prm_gets();			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿3:æ–‡å­—åˆ—
 	strncpy( src, ss, 255 ); 
 	slen = (int)strlen( src );
-	p1 = hei->HspFunc_prm_getdi('&');			// ƒpƒ‰ƒ[ƒ^4:”’l
+	p1 = hei->HspFunc_prm_getdi('&');			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿4:æ•°å€¤
 
 	*buf = 0;
 	res = strstr2( vptr, src );
@@ -1603,7 +1854,7 @@ EXPORT BOOL WINAPI getenvprm( HSPEXINFO *hei, int p1, int p2, int p3 )
 		strsp_get( res+slen, buf, p1, 0x7fff );
 	}
 
-	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, buf );	// •Ï”‚É’l‚ğ‘ã“ü
+	hei->HspFunc_prm_setva( pv, ap, HSPVAR_FLAG_STR, buf );	// å¤‰æ•°ã«å€¤ã‚’ä»£å…¥
 
 	return 0;
 }

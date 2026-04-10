@@ -10,6 +10,10 @@
 #include <ctype.h>
 #include <locale.h>
 
+#ifndef HSPMAC
+#define USE_FFILIB
+#endif
+
 #include "../hsp3config.h"
 #include "../hsp3code.h"
 #include "../hsp3debug.h"
@@ -17,9 +21,12 @@
 #include "../strbuf.h"
 
 #include "hsp3ext_linux.h"
+#ifdef USE_FFILIB
+#include "hsp3extlib_ffi.h"
+#endif
 
-static HSPCTX *hspctx;		// Current Context
-static HSPEXINFO *exinfo;	// Info for Plugins
+static HSPCTX *hspctx = NULL;		// Current Context
+static HSPEXINFO *exinfo = NULL;	// Info for Plugins
 static int *type;
 static int *val;
 static int *exflg;
@@ -34,7 +41,7 @@ static int reset_flag = 0;
 
 static void InitSystemInformation(void)
 {
-	//		ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ & ƒVƒXƒeƒ€ƒtƒHƒ‹ƒ_ŠÖ˜A
+	//		ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ & ã‚·ã‚¹ãƒ†ãƒ ãƒ•ã‚©ãƒ«ãƒ€é–¢é€£
 	char *cl;
 	char dir_hsp[HSP_MAX_PATH+1];
 	int p,i;
@@ -77,49 +84,31 @@ static void InitSystemInformation(void)
 */
 /*------------------------------------------------------------*/
 
-static int cmdfunc_dllcmd( int cmd )
-{
-	//		cmdfunc : TYPE_DLLCTRL
-	//		(Šg’£DLLƒRƒ“ƒgƒ[ƒ‹ƒRƒ}ƒ“ƒh)
-	//
-	code_next();							// Ÿ‚ÌƒR[ƒh‚ğæ“¾(Å‰‚É•K‚¸•K—v‚Å‚·)
-
-	switch( cmd ) {							// ƒTƒuƒRƒ}ƒ“ƒh‚²‚Æ‚Ì•ªŠò
-	case 0x00:								// newcom
-		throw (HSPERR_UNSUPPORTED_FUNCTION);
-
-	default:
-		throw ( HSPERR_SYNTAX );
-	}
-
-	return RUNMODE_RUN;
-}
-
-
+#ifdef USE_FFILIB
 static void *reffunc_dllcmd( int *type_res, int arg )
 {
-	//		reffunc : TYPE_DLLFUNC
-	//		(Šg’£DLLŠÖ”)
-	//
-
-	//			'('‚Ån‚Ü‚é‚©‚ğ’²‚×‚é
-	//
-	if ( *type != TYPE_MARK ) throw ( HSPERR_INVALID_FUNCPARAM );
-	if ( *val != '(' ) throw ( HSPERR_INVALID_FUNCPARAM );
-
-	*type_res = HSPVAR_FLAG_INT;
-	//exec_dllcmd( arg, STRUCTDAT_OT_FUNCTION );
-	reffunc_intfunc_ivalue = hspctx->stat;
-
-	//			')'‚ÅI‚í‚é‚©‚ğ’²‚×‚é
-	//
-	if ( *type != TYPE_MARK ) throw ( HSPERR_INVALID_FUNCPARAM );
-	if ( *val != ')' ) throw ( HSPERR_INVALID_FUNCPARAM );
-	code_next();
-
-	return &reffunc_intfunc_ivalue;
+    //		reffunc : TYPE_DLLFUNC
+    //		(æ‹¡å¼µDLLé–¢æ•°)
+    //
+    
+    //			'('ã§å§‹ã¾ã‚‹ã‹ã‚’èª¿ã¹ã‚‹
+    //
+    if ( *type != TYPE_MARK ) throw ( HSPERR_INVALID_FUNCPARAM );
+    if ( *val != '(' ) throw ( HSPERR_INVALID_FUNCPARAM );
+    
+    *type_res = HSPVAR_FLAG_INT;
+    exec_dllcmd( arg, STRUCTDAT_OT_FUNCTION );
+    reffunc_intfunc_ivalue = hspctx->stat;
+    
+    //			')'ã§çµ‚ã‚ã‚‹ã‹ã‚’èª¿ã¹ã‚‹
+    //
+    if ( *type != TYPE_MARK ) throw ( HSPERR_INVALID_FUNCPARAM );
+    if ( *val != ')' ) throw ( HSPERR_INVALID_FUNCPARAM );
+    code_next();
+    
+    return &reffunc_intfunc_ivalue;
 }
-
+#endif
 
 static int termfunc_dllcmd( int option )
 {
@@ -136,11 +125,16 @@ void hsp3typeinit_dllcmd( HSP3TYPEINFO *info )
 	val = exinfo->npval;
 	exflg = exinfo->npexflg;
 
+#ifdef USE_FFILIB
 	info->cmdfunc = cmdfunc_dllcmd;
 	info->reffunc = reffunc_dllcmd;
-	info->termfunc = termfunc_dllcmd;
+#endif
+    info->termfunc = termfunc_dllcmd;
 
 	InitSystemInformation();
+#ifdef USE_FFILIB
+	Hsp3ExtLibInit( info );
+#endif
 }
 
 void hsp3typeinit_dllctrl( HSP3TYPEINFO *info )
@@ -166,7 +160,12 @@ char *hsp3ext_sysinfo(int p2, int* res, char* outbuf)
 
 	switch(p2) {
 	case 0:
-		strcpy( p1, "Linux" );
+#ifdef HSPLINUX
+        strcpy( p1, "Linux" );
+#endif
+#ifdef HSPMAC
+        strcpy( p1, "MacOS" );
+#endif
 		fl=HSPVAR_FLAG_STR;
 		break;
 	case 1:
@@ -186,43 +185,48 @@ char *hsp3ext_sysinfo(int p2, int* res, char* outbuf)
 
 char* hsp3ext_getdir(int id)
 {
-	//		dirinfo–½—ß‚Ì“à—e‚ğİ’è‚·‚é
+	//		dirinfoå‘½ä»¤ã®å†…å®¹ã‚’è¨­å®šã™ã‚‹
 	//
+	if ( hspctx==NULL ) return "";
 	char *p = hspctx->stmp;
 	*p = 0;
 	int cutlast = 0;
 
 	switch( id ) {
-	case 0:				//    ƒJƒŒƒ“ƒg(Œ»İ‚Ì)ƒfƒBƒŒƒNƒgƒŠ
-#if defined(HSPLINUX)||defined(HSPEMSCRIPTEN)
+	case 0:				//    ã‚«ãƒ¬ãƒ³ãƒˆ(ç¾åœ¨ã®)ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+#if defined(HSPLINUX)||defined(HSPEMSCRIPTEN)||defined(HSPMAC)
 		getcwd( p, HSP_MAX_PATH );
 		cutlast = 1;
 #endif
 		break;
-	case 1:				//    HSP‚ÌÀsƒtƒ@ƒCƒ‹‚ª‚ ‚éƒfƒBƒŒƒNƒgƒŠ
+	case 1:				//    HSPã®å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 		p = hspctx->modfilename;
 		break;
-	case 2:				//    WindowsƒfƒBƒŒƒNƒgƒŠ
+	case 2:				//    Windowsãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 		break;
-	case 3:				//    Windows‚ÌƒVƒXƒeƒ€ƒfƒBƒŒƒNƒgƒŠ
+	case 3:				//    Windowsã®ã‚·ã‚¹ãƒ†ãƒ ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 		break;
-	case 4:				//    ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“•¶š—ñ
+	case 4:				//    ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³æ–‡å­—åˆ—
 		p = hspctx->cmdline;
 		break;
-	case 5:				//    HSPTV‘fŞ‚ª‚ ‚éƒfƒBƒŒƒNƒgƒŠ
+	case 5:				//    HSPTVç´ æãŒã‚ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+#if defined(HSPDEBUG)||defined(HSP3IMP)
 		p = hspctx->tvfoldername;
+#else
+		p = "";
+#endif
 		break;
-	case 6:				//    ƒ‰ƒ“ƒQ[ƒWƒR[ƒh
+	case 6:				//    ãƒ©ãƒ³ã‚²ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰
 		p = hspctx->langcode;
 		break;
-	case 0x10005:			//    ƒ}ƒCƒhƒLƒ…ƒƒ“ƒg
+	case 0x10005:			//    ãƒã‚¤ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ
 		p = hspctx->homefoldername;
 		break;
 	default:
 		throw HSPERR_ILLEGAL_FUNCTION;
 	}
 
-	//		ÅŒã‚Ì'/'‚ğæ‚èœ‚­
+	//		æœ€å¾Œã®'/'ã‚’å–ã‚Šé™¤ã
 	//
 	if (cutlast) {
 		CutLastChr(p, '/');
@@ -233,7 +237,7 @@ char* hsp3ext_getdir(int id)
 
 void hsp3ext_execfile(char* msg, char* option, int mode)
 {
-#ifdef HSPLINUX
+#if defined(HSPLINUX)||defined(HSPMAC)
 	system(msg);
 #endif
 }

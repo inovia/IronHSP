@@ -7,7 +7,7 @@
 #include "../hsp3/hsp3config.h"
 
 #ifdef HSPWIN
-#define USE_WINDOWS_COM		// WindowsCOM API‚ðŽg—p‚·‚é
+#define USE_WINDOWS_COM		// WindowsCOM APIã‚’ä½¿ç”¨ã™ã‚‹
 #endif
 
 #ifdef USE_WINDOWS_COM
@@ -25,35 +25,35 @@
 #ifdef USE_WINDOWS_COM
 /*------------------------------------------------------------*/
 /*
-		Windows‚Ìê‡‚ÍˆÈ‰º‚ðŽg—p‚µ‚Ä‚­‚¾‚³‚¢B
+		Windowsã®å ´åˆã¯ä»¥ä¸‹ã‚’ä½¿ç”¨ã—ã¦ãã ã•ã„ã€‚
 */
 /*------------------------------------------------------------*/
 
 static void cnvwstr( void *out, char *in, int bufsize )
 {
-	//	sjis->unicode ‚É•ÏŠ·
+	//	sjis->unicode ã«å¤‰æ›
 	//
 	MultiByteToWideChar( CP_ACP, 0, in, -1, (LPWSTR)out, bufsize );
 }
 
 static int GetIIDFromString( IID *iid, char *ps, bool fClsid = false )
 {
-	//		SJIS•¶Žš—ñ IID ‚©‚ç IID \‘¢‘Ì‚ð“¾‚é
+	//		SJISæ–‡å­—åˆ— IID ã‹ã‚‰ IID æ§‹é€ ä½“ã‚’å¾—ã‚‹
 	//
-	//		fClsid ‚ª^‚Ì‚Æ‚«AProgID ‚©‚ç‚Ì CLSID Žæ“¾‚ðŽŽ‚Ý‚é
-	//		ProgID ‚Ì•ÏŠ·‚ÉŽ¸”s‚µ‚½ê‡‚Í 1 ‚ð•Ô‚·
-	//		(‚»‚êˆÈŠO‚ÌƒGƒ‰[‚Í—áŠO‚ð throw)
+	//		fClsid ãŒçœŸã®ã¨ãã€ProgID ã‹ã‚‰ã® CLSID å–å¾—ã‚’è©¦ã¿ã‚‹
+	//		ProgID ã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆã¯ 1 ã‚’è¿”ã™
+	//		(ãã‚Œä»¥å¤–ã®ã‚¨ãƒ©ãƒ¼ã¯ä¾‹å¤–ã‚’ throw)
 	//
 	char stmp[1024];
 	HRESULT hr;
 	cnvwstr( stmp, ps, 1024 );
 	if ( *ps == '{' ) {
-		// GUID •¶Žš—ñ ¨ GUID \‘¢‘Ì
+		// GUID æ–‡å­—åˆ— â†’ GUID æ§‹é€ ä½“
 		hr = IIDFromString( (LPOLESTR)stmp, iid );
 		if ( SUCCEEDED(hr) ) return 0;
 	}
 	if ( fClsid ) {
-		// ProgID •¶Žš—ñ ¨ GUID \‘¢‘Ì
+		// ProgID æ–‡å­—åˆ— â†’ GUID æ§‹é€ ä½“
 		hr = CLSIDFromProgID( (LPOLESTR)stmp, iid );
 		if ( SUCCEEDED(hr) ) return 0;
 		return 1;
@@ -76,8 +76,9 @@ int ConvertIID( COM_GUID *guid, char *name )
 
 int ConvertIID( COM_GUID *guid, char *name )
 {
-	//		SJIS•¶Žš—ñ IID ‚©‚ç IID \‘¢‘Ì‚ð“¾‚é
-	//		(COMƒTƒ|[ƒgê‡‚Í•ÏŠ·‚ª•K—v)
+	//		SJISæ–‡å­—åˆ— IID ã‹ã‚‰ IID æ§‹é€ ä½“ã‚’å¾—ã‚‹
+	//		(COMã‚µãƒãƒ¼ãƒˆå ´åˆã¯å¤‰æ›ãŒå¿…è¦)
+	memset(guid, 0, sizeof(COM_GUID));
 	return 0;
 }
 

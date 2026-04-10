@@ -2,6 +2,7 @@
    STATBAR.C -- Status bar helper functions.
                 (c) Paul Yao, 1996
   -------------------------------------------*/
+#include <stdio.h>
 #include <windows.h>
 #include <commctrl.h>
 #include "comcthlp.h"
@@ -90,7 +91,7 @@ void StatusBarMessage (HWND hwndSB, WORD wMsg)
                int aiBorders[3] ;
 
                Status_GetBorders (hwndSB, &aiBorders) ;
-               wsprintf (ach, "Horiz Width = %d\n"
+               sprintf (ach, "Horiz Width = %d\n"
                          "Vert Width = %d\n"
                          "Separator Width = %d",
                          aiBorders[0], aiBorders[1],
@@ -104,7 +105,7 @@ void StatusBarMessage (HWND hwndSB, WORD wMsg)
                {
                char ach[80] ;
                int nParts = Status_GetParts (hwndSB, 0, 0) ;
-               wsprintf (ach, "Part Count = %d", nParts) ;
+               sprintf (ach, "Part Count = %d", nParts) ;
                MessageBox (GetParent (hwndSB), ach, 
                            "SB_GETPARTS", MB_OK) ;
                break ;
