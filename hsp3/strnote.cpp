@@ -1,21 +1,88 @@
 
 /*----------------------------------------------------------------*/
 //		notepad object related routines
-//		(CR/LF‚¾‚¯‚Å‚È‚­LF‚É‚à‘Î‰‚µ‚½”Å)
+//		(CR/LFã ã‘ã§ãªãLFã«ã‚‚å¯¾å¿œã—ãŸç‰ˆ)
 /*----------------------------------------------------------------*/
 
 #include <string.h>
 #include "hsp3config.h"
 #include "strnote.h"
-#include "supio.h"
 
 #if defined(HSPLINUX) || defined(HSPMAC) || defined(HSPIOS) || defined(HSPNDK) || defined(HSPEMSCRIPTEN)
-// LF‚ğ‰üs‚Æ‚µ‚Äˆµ‚¤
+// LFã‚’æ”¹è¡Œã¨ã—ã¦æ‰±ã†
 #define MATCH_LF
 #define CRSTR "\n"
 #else
-// CR/LF‚ğ‰üs‚Æ‚µ‚Äˆµ‚¤
+// CR/LFã‚’æ”¹è¡Œã¨ã—ã¦æ‰±ã†
 #define CRSTR "\r\n"
+#endif
+
+//-------------------------------------------------------------
+//		Utility
+//-------------------------------------------------------------
+
+#ifdef HSPUTF8
+static char* strstr2(char* target, char* src)
+{
+	//		strstré–¢æ•°ã®utf8å¯¾å¿œç‰ˆ
+	//
+	unsigned char* p;
+	unsigned char* s;
+	unsigned char* p2;
+	unsigned char a1;
+	unsigned char a2;
+	unsigned char a3;
+	p = (unsigned char*)target;
+	if ((*src == 0) || (*target == 0)) return NULL;
+	while (1) {
+		a1 = *p; if (a1 == 0) break;
+		p2 = p;
+		s = (unsigned char*)src;
+		while (1) {
+			a2 = *s++; if (a2 == 0) return (char*)p;
+			a3 = *p2++; if (a3 == 0) break;
+			if (a2 != a3) break;
+		}
+		p++;							// æ¤œç´¢ä½ç½®ã‚’ç§»å‹•
+		if (a1 >= 128) {					// å¤šãƒã‚¤ãƒˆæ–‡å­—ãƒã‚§ãƒƒã‚¯
+			if (a1 >= 192) p++;
+			if (a1 >= 224) p++;
+			if (a1 >= 240) p++;
+			if (a1 >= 248) p++;
+			if (a1 >= 252) p++;
+		}
+	}
+	return NULL;
+}
+#else
+static char* strstr2(char* target, char* src)
+{
+	//		strstré–¢æ•°ã®å…¨è§’å¯¾å¿œç‰ˆ
+	//
+	unsigned char* p;
+	unsigned char* s;
+	unsigned char* p2;
+	unsigned char a1;
+	unsigned char a2;
+	unsigned char a3;
+	p = (unsigned char*)target;
+	if ((*src == 0) || (*target == 0)) return NULL;
+	while (1) {
+		a1 = *p; if (a1 == 0) break;
+		p2 = p;
+		s = (unsigned char*)src;
+		while (1) {
+			a2 = *s++; if (a2 == 0) return (char*)p;
+			a3 = *p2++; if (a3 == 0) break;
+			if (a2 != a3) break;
+		}
+		p++;							// æ¤œç´¢ä½ç½®ã‚’ç§»å‹•
+		if (a1 >= 129) {					// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
+			if ((a1 <= 159) || (a1 >= 224)) p++;
+		}
+	}
+	return NULL;
+}
 #endif
 
 //-------------------------------------------------------------
@@ -52,10 +119,10 @@ int CStrNote::GetSize( void )
 
 int CStrNote::nnget( char *nbase, int line )
 {
-	//	w’è‚µ‚½s‚Ìæ“ªƒ|ƒCƒ“ƒ^‚ğ‹‚ß‚é
-	//		nn = æ“ªƒ|ƒCƒ“ƒ^
-	//		lastcr : CR/LF‚ÅI—¹‚µ‚Ä‚¢‚é
-	//		line   : line number(-1=ÅIs)
+	//	æŒ‡å®šã—ãŸè¡Œã®å…ˆé ­ãƒã‚¤ãƒ³ã‚¿ã‚’æ±‚ã‚ã‚‹
+	//		nn = å…ˆé ­ãƒã‚¤ãƒ³ã‚¿
+	//		lastcr : CR/LFã§çµ‚äº†ã—ã¦ã„ã‚‹
+	//		line   : line number(-1=æœ€çµ‚è¡Œ)
 	//		result:0=ok/1=no line
 	//
 	int a,i;
@@ -269,7 +336,7 @@ int CStrNote::FindLine( char *nstr, int mode )
 	nn=base;
 	curline = 0; len = 0;
 
-	baseline = nn;			// s‚Ìæ“ªƒ|ƒCƒ“ƒ^
+	baseline = nn;			// è¡Œã®å…ˆé ­ãƒã‚¤ãƒ³ã‚¿
 
 	while(1) {
 		a1=*nn;if (a1==0) break;
@@ -296,7 +363,7 @@ int CStrNote::FindLine( char *nstr, int mode )
 			}
 			nn++;
 			curline++;len=0;
-			if (*nn==10) nn++;		// LF‚ğƒXƒLƒbƒv
+			if (*nn==10) nn++;		// LFã‚’ã‚¹ã‚­ãƒƒãƒ—
 			baseline = nn;
 			continue;
 		}
@@ -304,7 +371,7 @@ int CStrNote::FindLine( char *nstr, int mode )
 		len++;
 	}
 
-	//	ÅIs‚É•¶š—ñ‚ª‚ ‚ê‚ÎƒT[ƒ`
+	//	æœ€çµ‚è¡Œã«æ–‡å­—åˆ—ãŒã‚ã‚Œã°ã‚µãƒ¼ãƒ
 	if ( len ) {
 		if ( FindLineSub( nstr, mode ) ) return curline;
 	}
@@ -315,16 +382,16 @@ int CStrNote::FindLine( char *nstr, int mode )
 
 int CStrNote::FindLineSub( char *nstr, int mode )
 {
-	//		‘S‘ÌƒT[ƒ`—p•¶š—ñ”äŠr
-	//		mode : STRNOTE_FIND_MATCH = Š®‘Sˆê’v
-	//		       STRNOTE_FIND_FIRST = ‘O•ûˆê’v
-	//		       STRNOTE_FIND_INSTR = •”•ªˆê’v
+	//		å…¨ä½“ã‚µãƒ¼ãƒç”¨æ–‡å­—åˆ—æ¯”è¼ƒ
+	//		mode : STRNOTE_FIND_MATCH = å®Œå…¨ä¸€è‡´
+	//		       STRNOTE_FIND_FIRST = å‰æ–¹ä¸€è‡´
+	//		       STRNOTE_FIND_INSTR = éƒ¨åˆ†ä¸€è‡´
 	//
 	switch( mode ) {
-	case STRNOTE_FIND_MATCH:	// Š®‘Sˆê’v
+	case STRNOTE_FIND_MATCH:	// å®Œå…¨ä¸€è‡´
 		if ( strcmp( baseline, nstr ) == 0 ) return 1;
 		break;
-	case STRNOTE_FIND_FIRST:	// ‘O•ûˆê’v
+	case STRNOTE_FIND_FIRST:	// å‰æ–¹ä¸€è‡´
 		{
 		char *p = strstr2( baseline, nstr );
 		if ( p != NULL ) {
@@ -332,7 +399,7 @@ int CStrNote::FindLineSub( char *nstr, int mode )
 		}
 		break;
 		}
-	case STRNOTE_FIND_INSTR:	// •”•ªˆê’v
+	case STRNOTE_FIND_INSTR:	// éƒ¨åˆ†ä¸€è‡´
 		if ( strstr2( baseline, nstr ) != NULL ) return 1;
 		break;
 	default:

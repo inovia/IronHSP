@@ -7,7 +7,7 @@ extern "C" {
 
 /*---------------------------------------------------------------------------*/
 
-// ƒVƒXƒeƒ€‰Šú‰»ƒR[ƒh
+// ã‚·ã‚¹ãƒ†ãƒ åˆæœŸåŒ–ã‚³ãƒ¼ãƒ‰
 enum {
 SYSREQ_NONE = 0,
 SYSREQ_MAXMODEL,
@@ -68,6 +68,7 @@ SYSREQ_DRAWNUMOBJ,
 SYSREQ_DRAWNUMPOLY,
 SYSREQ_USEGPBFONT,
 SYSREQ_FIXMESALPHA,
+SYSREQ_OLDBOXF,
 
 SYSREQ_MAX
 };

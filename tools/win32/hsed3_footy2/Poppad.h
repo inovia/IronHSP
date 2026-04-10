@@ -61,12 +61,12 @@
 #define PM_SETDEFAULT   WM_APP + 2
 
 #define POS_EXTTOOL                     5
-// #define POS_TABBASE                     6
 #define POS_TABBASE                     8// by Tetr@pod
 #define POS_WINDOW                      6
-#define POS_TOOLPOPUPSEP                16
+#define POS_TOOLPOPUPSEP                18
 #define POS_TOOLPOPUPBASE               (POS_TOOLPOPUPSEP + 1)
 #define POS_TOOLMAINBASE                0
+#define POS_HSPTOOLMAINBASE             9
 
 #define STARTDIR_MYDOC 0
 #define STARTDIR_USER 1

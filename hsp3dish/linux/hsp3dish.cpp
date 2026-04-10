@@ -22,6 +22,9 @@
 #include "../hsp3ext.h"
 #include "../../hsp3/strnote.h"
 #include "../../hsp3/linux/hsp3ext_sock.h"
+#include "../../hsp3/linux/hsp3extlib_ffi.h"
+
+#define MAXWAITDELAY (16)
 
 struct engine;
 
@@ -351,16 +354,23 @@ static int handleEvent( void ) {
 				break;
 			}
 
+		case SDL_WINDOWEVENT:
+			if (event.window.event==SDL_WINDOWEVENT_CLOSE) {
+				int id,retval;
+				id = 0;
+				if (code_isirq(HSPIRQ_ONEXIT)) {
+					int iparam = 0;
+					retval = code_sendirq(HSPIRQ_ONEXIT, iparam, id, 0);
+					if (retval == RUNMODE_INTJUMP) retval = code_execcmd2();	// onexit goto時は実行してみる
+					if (retval != RUNMODE_END) break;
+				}
+				code_puterror(HSPERR_NONE);
+				res = -1;
+			}
+			break;
+
 		case SDL_QUIT: /** ウィンドウのxボタンやctrl-Cを押した場合 */
 			{
-			int id,retval;
-			id = 0;
-			if (code_isirq(HSPIRQ_ONEXIT)) {
-				int iparam = 0;
-				retval = code_sendirq(HSPIRQ_ONEXIT, iparam, id, 0);
-				if (retval == RUNMODE_INTJUMP) retval = code_execcmd2();	// onexit goto時は実行してみる
-				if (retval != RUNMODE_END) return 0;
-			}
 			code_puterror(HSPERR_NONE);
 			res = -1;
 			break;
@@ -375,10 +385,39 @@ bool get_key_state(int sym)
 	return keys[sym];
 }
 
+
+static char *_dlg_command=NULL;
+
+static char * getDialogCommand() {
+  if (::system(NULL)) {
+    if (::system("which zenity > /dev/null") == 0)
+      return "zenity --error --no-wrap --text=\"%s\"";
+    else if (::system("which kdialog > /dev/null") == 0)
+      return "kdialog --error \"%s\"";
+  }
+  return NULL;
+}
+
 void hsp3dish_dialog( char *mes )
 {
-	//SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", mes, window);
+#ifndef HSPRASPBIAN
+	if (_dlg_command == NULL) {
+		int res=SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", mes, window);
+		if (res>=0) {
+			return;
+		}
+		_dlg_command = getDialogCommand();
+	}
+	if (_dlg_command) {
+		char stmp[4096];
+		sprintf(stmp,_dlg_command,mes);
+		::system(stmp);
+	} else {
+		printf( "%s\n", mes );
+	}
+#else
 	printf( "%s\n", mes );
+#endif
 }
 
 static int hsp3dish_initwindow( engine* p_engine, int sx, int sy, int autoscale, char *windowtitle )
@@ -407,6 +446,7 @@ static int hsp3dish_initwindow( engine* p_engine, int sx, int sy, int autoscale,
 		printf("Unable to set GLContext: %s\n", SDL_GetError());
 		return -1;
 	}
+	
 
 	// 描画APIに渡す
 	hgio_init( 0, sx, sy, p_engine );
@@ -738,7 +778,7 @@ int hsp3dish_init( char *startfile )
 #endif
 
 	{
-	HSP3TYPEINFO *tinfo = code_gettypeinfo( -1 ); //TYPE_USERDEF
+	HSP3TYPEINFO *tinfo = code_gettypeinfo( TYPE_USERDEF+1 );
 	tinfo->hspctx = ctx;
 	tinfo->hspexinfo = exinfo;
 	hsp3typeinit_sock_extcmd( tinfo );
@@ -764,7 +804,7 @@ int hsp3dish_init( char *startfile )
 
 void hsp3dish_error( void )
 {
-	char errmsg[1024];
+	char errmsg[4096];
 	char *msg;
 	char *fname;
 	HSPERROR err;
@@ -781,7 +821,8 @@ void hsp3dish_error( void )
 		sprintf( errmsg, "#Error %d in line %d (%s)\n-->%s\n",(int)err, ln, fname, msg );
 	}
 	hsp3dish_debugopen();
-	hsp3dish_dialog( errmsg );
+	printf( "%s\n", errmsg );
+	//hsp3dish_dialog( errmsg );
 }
 
 
@@ -842,6 +883,7 @@ static void hsp3dish_bye( void )
 	//		HSP関連の解放
 	//
 	if ( hsp != NULL ) { delete hsp; hsp = NULL; }
+	DllManager().free_all_library();
 }
 
 
@@ -887,16 +929,16 @@ void hsp3dish_msgfunc( HSPCTX *hspctx )
 {
 	int tick;
 
-	if ( handleEvent() ) {
-		hspctx->runmode = RUNMODE_END;
-	}
-
 	while(1) {
 		// logmes なら先に処理する
 		if ( hspctx->runmode == RUNMODE_LOGMES ) {
 			printf( "%s\r\n",ctx->stmp );
 			hspctx->runmode = RUNMODE_RUN;
 			return;
+		}
+
+		if ( handleEvent() ) {
+			hspctx->runmode = RUNMODE_END;
 		}
 
 		switch( hspctx->runmode ) {
@@ -909,15 +951,19 @@ void hsp3dish_msgfunc( HSPCTX *hspctx )
 			//	高精度タイマー
 			tick = hgio_gettick();					// すこし早めに抜けるようにする
 			if ( code_exec_await( tick ) != RUNMODE_RUN ) {
-					SDL_Delay( ( hspctx->waittick - tick) / 2 );
-			} else {
-				tick = hgio_gettick();
-				while( tick < hspctx->waittick ) {	// 細かいwaitを取る
-					SDL_Delay(1);
-					tick = hgio_gettick();
+				int maxtick = hspctx->waittick - tick;
+				if ( maxtick >= MAXWAITDELAY ) {
+					if ( maxtick > MAXWAITDELAY ) maxtick = MAXWAITDELAY;
+					SDL_Delay( maxtick );
+				} else {
+					while( tick < hspctx->waittick ) {	// 細かいwaitを取る
+						SDL_Delay(1);
+						tick = hgio_gettick();
+					}
+					hspctx->lasttick = tick;
+					hspctx->runmode = RUNMODE_RUN;
 				}
-				hspctx->lasttick = tick;
-				hspctx->runmode = RUNMODE_RUN;
+			} else {
 #ifndef HSPDEBUG
 				if ( ctx->hspstat & HSPSTAT_SSAVER ) {
 					if ( hsp_sscnt ) hsp_sscnt--;

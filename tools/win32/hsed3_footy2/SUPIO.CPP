@@ -157,3 +157,79 @@ void getpath( char *stmp, char *outbuf, int p2 )
 }
 
 
+static	int splc;	// split pointer
+
+void strsp_ini(void)
+{
+	splc = 0;
+}
+
+int strsp_getptr(void)
+{
+	return splc;
+}
+
+int strsp_get(char* srcstr, char* dststr, char splitchr, int len)
+{
+	//		split string with parameters
+	//
+	unsigned char a1;
+	unsigned char a2;
+	int a;
+	int sjflg;
+	a = 0; sjflg = 0;
+	while (1) {
+		sjflg = 0;
+		a1 = srcstr[splc];
+		if (a1 == 0) break;
+		splc++;
+		if (a1 >= 0x81) if (a1 < 0xa0) sjflg++;
+		if (a1 >= 0xe0) sjflg++;
+
+		if (a1 == splitchr) break;
+		if (a1 == 13) {
+			a2 = srcstr[splc];
+			if (a2 == 10) splc++;
+			break;
+		}
+		dststr[a++] = a1;
+		if (sjflg) {
+			dststr[a++] = srcstr[splc++];
+		}
+		if (a >= len) break;
+	}
+	dststr[a] = 0;
+	return (int)a1;
+}
+
+
+char* strstr2(char* target, char* src)
+{
+	//		strstr関数の全角対応版
+	//
+	unsigned char* p;
+	unsigned char* s;
+	unsigned char* p2;
+	unsigned char a1;
+	unsigned char a2;
+	unsigned char a3;
+	p = (unsigned char*)target;
+	if ((*src == 0) || (*target == 0)) return NULL;
+	while (1) {
+		a1 = *p; if (a1 == 0) break;
+		p2 = p;
+		s = (unsigned char*)src;
+		while (1) {
+			a2 = *s++; if (a2 == 0) return (char*)p;
+			a3 = *p2++; if (a3 == 0) break;
+			if (a2 != a3) break;
+		}
+		p++;							// 検索位置を移動
+		if (a1 >= 129) {					// 全角文字チェック
+			if ((a1 <= 159) || (a1 >= 224)) p++;
+		}
+	}
+	return NULL;
+}
+
+

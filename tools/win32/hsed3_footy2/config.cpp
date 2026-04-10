@@ -1,6 +1,7 @@
 /*------------------------------------------------------------------------------
 	Editor configration routines for HSP Script Editor
 ------------------------------------------------------------------------------*/
+#include <stdio.h>
 #include <windows.h>
 #include <string.h>
 
@@ -126,7 +127,7 @@ void LoadConfig()
 	int nTemp = 0;
 
 	char szFileName[_MAX_PATH + 1];
-	wsprintf(szFileName, "%s\\%s", szExeDir, INI_FILE);
+	sprintf(szFileName, "%s\\%s", szExeDir, INI_FILE);
 
 	bUseIni = false;
 
@@ -559,36 +560,36 @@ static void reg_save( void )
 	for(i = 1; i <= nSize; i++){
 		lpExtToolInfo = GetExtTool(i - 1);
 		if(lpExtToolInfo->Used){
-			wsprintf(szKeyName, "toolname%d", i);
+			sprintf(szKeyName, "toolname%d", i);
 			reg_ssetkey( hKey, szKeyName, lpExtToolInfo->ToolName);
-			wsprintf(szKeyName, "filename%d", i);
+			sprintf(szKeyName, "filename%d", i);
 			reg_ssetkey( hKey, szKeyName, lpExtToolInfo->FileName);
-			wsprintf(szKeyName, "cmdline%d", i);
+			sprintf(szKeyName, "cmdline%d", i);
 			reg_ssetkey( hKey, szKeyName, lpExtToolInfo->CmdLine);
-			wsprintf(szKeyName, "workdir%d", i);
+			sprintf(szKeyName, "workdir%d", i);
 			reg_ssetkey( hKey, szKeyName, lpExtToolInfo->WorkDir);
-			wsprintf(szKeyName, "mainmenu%d", i);
+			sprintf(szKeyName, "mainmenu%d", i);
 			reg_setkey( hKey, szKeyName, lpExtToolInfo->ShowOnMainMenu);
-			wsprintf(szKeyName, "popupmenu%d", i);
+			sprintf(szKeyName, "popupmenu%d", i);
 			reg_setkey( hKey, szKeyName, lpExtToolInfo->ShowOnPopupMenu);
-			wsprintf(szKeyName, "startup%d", i);
+			sprintf(szKeyName, "startup%d", i);
 			reg_setkey( hKey, szKeyName, lpExtToolInfo->ExecOnStartup);
-			wsprintf(szKeyName, "overwrite%d", i);
+			sprintf(szKeyName, "overwrite%d", i);
 			reg_setkey( hKey, szKeyName, lpExtToolInfo->ExecWithOverwrite);
 		} else {
-			wsprintf(szKeyName, "toolname%d", i);
+			sprintf(szKeyName, "toolname%d", i);
 			RegDeleteValue( hKey, szKeyName );
-			wsprintf(szKeyName, "filename%d", i);
+			sprintf(szKeyName, "filename%d", i);
 			RegDeleteValue( hKey, szKeyName );
-			wsprintf(szKeyName, "workdir%d", i);
+			sprintf(szKeyName, "workdir%d", i);
 			RegDeleteValue( hKey, szKeyName );
-			wsprintf(szKeyName, "mainmenu%d", i);
+			sprintf(szKeyName, "mainmenu%d", i);
 			RegDeleteValue( hKey, szKeyName );
-			wsprintf(szKeyName, "popupmenu%d", i);
+			sprintf(szKeyName, "popupmenu%d", i);
 			RegDeleteValue( hKey, szKeyName );
-			wsprintf(szKeyName, "startup%d", i);
+			sprintf(szKeyName, "startup%d", i);
 			RegDeleteValue( hKey, szKeyName );
-			wsprintf(szKeyName, "overwrite%d", i);
+			sprintf(szKeyName, "overwrite%d", i);
 			RegDeleteValue( hKey, szKeyName );
 		}
 	}
@@ -767,31 +768,31 @@ static void reg_load( void )
 			for(i = 1; i <= nSize; i++){
 				DefaultExtToolInfo(&ExtToolInfo);
 
-				wsprintf(szKeyName, "filename%d", i);
+				sprintf(szKeyName, "filename%d", i);
 				if(reg_sgetkey( hKey, szKeyName, ExtToolInfo.FileName, sizeof(ExtToolInfo.FileName) ) == -1) continue;
 
-				wsprintf(szKeyName, "toolname%d", i);
+				sprintf(szKeyName, "toolname%d", i);
 				reg_sgetkey( hKey, szKeyName, ExtToolInfo.ToolName, sizeof(ExtToolInfo.ToolName) );
 
-				wsprintf(szKeyName, "cmdline%d", i);
+				sprintf(szKeyName, "cmdline%d", i);
 				reg_sgetkey( hKey, szKeyName, ExtToolInfo.CmdLine, sizeof(ExtToolInfo.CmdLine) );
 
-				wsprintf(szKeyName, "workdir%d", i);
+				sprintf(szKeyName, "workdir%d", i);
 				reg_sgetkey( hKey, szKeyName, ExtToolInfo.WorkDir, sizeof(ExtToolInfo.WorkDir) );
 
-				wsprintf(szKeyName, "mainmenu%d", i);
+				sprintf(szKeyName, "mainmenu%d", i);
 				reg_getkey( hKey, szKeyName,  &nTemp);
 				ExtToolInfo.ShowOnMainMenu = (0 != nTemp);
 
-				wsprintf(szKeyName, "popupmenu%d", i);
+				sprintf(szKeyName, "popupmenu%d", i);
 				reg_getkey( hKey, szKeyName, &nTemp );
 				ExtToolInfo.ShowOnPopupMenu = (0 != nTemp);
 
-				wsprintf(szKeyName, "startup%d", i);
+				sprintf(szKeyName, "startup%d", i);
 				reg_getkey( hKey, szKeyName, &nTemp );
 				ExtToolInfo.ExecOnStartup = (0 != nTemp);
 
-				wsprintf(szKeyName, "overwrite%d", i);
+				sprintf(szKeyName, "overwrite%d", i);
 				reg_getkey( hKey, szKeyName, &nTemp);
 				ExtToolInfo.ExecWithOverwrite = (0 != nTemp);
 
@@ -809,7 +810,7 @@ static void reg_load( void )
 
 	if (hsp_helpmode==0) {
 		gethdir();
-		wsprintf(helpopt,"%shsppidx.htm",hdir);
+		sprintf(helpopt,"%shsppidx.htm",hdir);
 		if (fileok(helpopt)) {
 			hsp_helpdir[0]=0;
 		}
@@ -878,7 +879,7 @@ static int ini_bgetkey( const char *filename, const char *secname, char *readkey
 static void ini_setkey( const char *filename, const char *secname, char *writekey, int value )
 {
 	char buf[32];
-	wsprintf(buf, "%d", value);
+	sprintf(buf, "%d", value);
 	ini_ssetkey(filename, secname, writekey, buf);
 }
 
@@ -924,7 +925,7 @@ static void ini_save( void )
 
 	// Žb’è(a temporary step)
 	char filename[_MAX_PATH + 1];
-	wsprintf(filename, "%s\\%s", szExeDir, INI_FILE);
+	sprintf(filename, "%s\\%s", szExeDir, INI_FILE);
 
 	int i;
 	int nSize/*, nTemp*/;
@@ -1069,24 +1070,24 @@ static void ini_save( void )
 	for(i = 1; i <= nSize; i++){
 		lpExtToolInfo = GetExtTool(i - 1);
 		if(lpExtToolInfo->Used){
-			wsprintf(szKeyName, "toolname%d", i);
+			sprintf(szKeyName, "toolname%d", i);
 			ini_ssetkey( filename, "ExtTools", szKeyName, lpExtToolInfo->ToolName);
-			wsprintf(szKeyName, "filename%d", i);
+			sprintf(szKeyName, "filename%d", i);
 			ini_ssetkey( filename, "ExtTools", szKeyName, lpExtToolInfo->FileName);
-			wsprintf(szKeyName, "cmdline%d", i);
+			sprintf(szKeyName, "cmdline%d", i);
 			ini_ssetkey( filename, "ExtTools", szKeyName, lpExtToolInfo->CmdLine);
-			wsprintf(szKeyName, "workdir%d", i);
+			sprintf(szKeyName, "workdir%d", i);
 			ini_ssetkey( filename, "ExtTools", szKeyName, lpExtToolInfo->WorkDir);
-			wsprintf(szKeyName, "mainmenu%d", i);
+			sprintf(szKeyName, "mainmenu%d", i);
 			ini_setkey( filename, "ExtTools", szKeyName, lpExtToolInfo->ShowOnMainMenu);
-			wsprintf(szKeyName, "popupmenu%d", i);
+			sprintf(szKeyName, "popupmenu%d", i);
 			ini_setkey( filename, "ExtTools", szKeyName, lpExtToolInfo->ShowOnPopupMenu);
-			wsprintf(szKeyName, "startup%d", i);
+			sprintf(szKeyName, "startup%d", i);
 			ini_setkey( filename, "ExtTools", szKeyName, lpExtToolInfo->ExecOnStartup);
-			wsprintf(szKeyName, "overwrite%d", i);
+			sprintf(szKeyName, "overwrite%d", i);
 			ini_setkey( filename, "ExtTools", szKeyName, lpExtToolInfo->ExecWithOverwrite);
 		} else {
-			wsprintf(szKeyName, "filename%d", i);
+			sprintf(szKeyName, "filename%d", i);
 			ini_ssetkey( filename, "ExtTools", szKeyName, "");
 		}
 	}
@@ -1101,7 +1102,7 @@ static void ini_load()
 	//
 
 	char filename[_MAX_PATH + 1];
-	wsprintf(filename, "%s\\%s", szExeDir, INI_FILE);
+	sprintf(filename, "%s\\%s", szExeDir, INI_FILE);
 
 	char szKeyFile[32000];
 
@@ -1248,31 +1249,31 @@ static void ini_load()
 		for(i = 1; i <= nSize; i++){
 			DefaultExtToolInfo(&ExtToolInfo);
 
-			wsprintf(szKeyName, "filename%d", i);
+			sprintf(szKeyName, "filename%d", i);
 			if(ini_sgetkey( filename, "ExtTools", szKeyName, ExtToolInfo.FileName, sizeof(ExtToolInfo.FileName) ) == 0) continue;
 
-			wsprintf(szKeyName, "toolname%d", i);
+			sprintf(szKeyName, "toolname%d", i);
 			ini_sgetkey( filename, "ExtTools", szKeyName, ExtToolInfo.ToolName, sizeof(ExtToolInfo.ToolName) );
 
-			wsprintf(szKeyName, "cmdline%d", i);
+			sprintf(szKeyName, "cmdline%d", i);
 			ini_sgetkey( filename, "ExtTools", szKeyName, ExtToolInfo.CmdLine, sizeof(ExtToolInfo.CmdLine) );
 
-			wsprintf(szKeyName, "workdir%d", i);
+			sprintf(szKeyName, "workdir%d", i);
 			ini_sgetkey( filename, "ExtTools", szKeyName, ExtToolInfo.WorkDir, sizeof(ExtToolInfo.WorkDir) );
 
-			wsprintf(szKeyName, "mainmenu%d", i);
+			sprintf(szKeyName, "mainmenu%d", i);
 			ini_getkey( filename, "ExtTools", szKeyName,  &nTemp);
 			ExtToolInfo.ShowOnMainMenu = (0 != nTemp);
 
-			wsprintf(szKeyName, "popupmenu%d", i);
+			sprintf(szKeyName, "popupmenu%d", i);
 			ini_getkey( filename, "ExtTools", szKeyName, &nTemp );
 			ExtToolInfo.ShowOnPopupMenu = (0 != nTemp);
 
-			wsprintf(szKeyName, "startup%d", i);
+			sprintf(szKeyName, "startup%d", i);
 			ini_getkey( filename, "ExtTools", szKeyName, &nTemp );
 			ExtToolInfo.ExecOnStartup = (0 != nTemp);
 
-			wsprintf(szKeyName, "overwrite%d", i);
+			sprintf(szKeyName, "overwrite%d", i);
 			ini_getkey( filename, "ExtTools", szKeyName, &nTemp);
 			ExtToolInfo.ExecWithOverwrite = (0 != nTemp);
 
@@ -1289,7 +1290,7 @@ static void ini_load()
 
 	if (hsp_helpmode==0) {
 		gethdir();
-		wsprintf(helpopt,"%shsppidx.htm",hdir);
+		sprintf(helpopt,"%shsppidx.htm",hdir);
 		if (fileok(helpopt)) {
 			hsp_helpdir[0]=0;
 		}

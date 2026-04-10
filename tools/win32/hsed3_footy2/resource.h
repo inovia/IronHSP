@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ で生成されたインクルード ファイル。
-// poppad_en.rc で使用
+// poppad.rc で使用
 //
 #define IDOK2                           3
 #define IDM_BUTTON1                     3
@@ -103,7 +103,13 @@
 #define ID_SRCCNV                       2932
 #define IDM_SRCCNV                      2932
 #define ID_TOOL_LEGACYTOOL              2933
+#define ID_PACKOPT                      2934
+#define IDM_PACKOPT                     2934
+#define ID_HSP3UPDATE                   2935
+#define IDM_HSP3UPDATE                  2935
 #define IDM_GOOGLE                      2950
+#define IDM_GODEFINE                    2951
+#define IDM_ALLREF                      2952
 #define IDCM_ADD                        3000
 #define IDCM_ALLSEL                     3001
 #define IDCM_BYE                        3002
@@ -188,6 +194,7 @@
 #define ID__5009                        5009
 #define IDM_RELOAD                      6001
 #define IDM_RELOADTAB                   6002
+#define IDM_EXTHSPTOOL                  8000
 #define IDM_ACTIVATETAB                 10000
 #define IDM_EXTTOOL                     20000
 #define IDM_AHTEZINPUT                  30000

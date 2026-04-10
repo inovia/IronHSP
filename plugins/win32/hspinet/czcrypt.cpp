@@ -5,10 +5,11 @@
 #include "czcrypt.h"
 #include "md5.h"
 #include "czbase64.h"
+#include "sha256.h"
 
 
 static const unsigned long crc_table[256] =
-{ // ‚b‚q‚bŒvŽZ—pƒe[ƒuƒ‹
+{ // ï¼£ï¼²ï¼£è¨ˆç®—ç”¨ãƒ†ãƒ¼ãƒ–ãƒ«
   0x00000000, 0x77073096, 0xEE0E612C, 0x990951BA,  0x076DC419, 0x706AF48F, 0xE963A535, 0x9E6495A3,
   0x0EDB8832, 0x79DCB8A4, 0xE0D5E91E, 0x97D2D988,  0x09B64C2B, 0x7EB17CBD, 0xE7B82D07, 0x90BF1D91,
   0x1DB71064, 0x6AB020F2, 0xF3B97148, 0x84BE41DE,  0x1ADAD47D, 0x6DDDE4EB, 0xF4D4B551, 0x83D385C7,
@@ -48,7 +49,7 @@ static const unsigned long crc_table[256] =
 
 CzCrypt::CzCrypt( void )
 {
-	//	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	//
 	this->buffer	= NULL;
 	this->size		= 0;
@@ -57,7 +58,7 @@ CzCrypt::CzCrypt( void )
 
 CzCrypt::~CzCrypt( void )
 {
-	//	ƒfƒXƒgƒ‰ƒNƒ^
+	//	ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	//
 	if (this->buffer != NULL) free(this->buffer);
 }
@@ -117,7 +118,7 @@ int CzCrypt::DataSave( char *file )
 int CzCrypt::Encrypt( void )
 {
 	//
-	// ƒf[ƒ^‚ðˆÃ†‰»
+	// ãƒ‡ãƒ¼ã‚¿ã‚’æš—å·åŒ–
 	//
 	return 0;
 }
@@ -125,7 +126,7 @@ int CzCrypt::Encrypt( void )
 int CzCrypt::Decrypt( void )
 {
 	//
-	// ƒf[ƒ^‚ð•œŒ³
+	// ãƒ‡ãƒ¼ã‚¿ã‚’å¾©å…ƒ
 	//
 	return 0;
 }
@@ -144,8 +145,8 @@ char* CzCrypt::GetData( void )
 void CzCrypt::SetGUID( OURGUID *guid )
 {
 	//
-	// OURGUID‚ðŽg—p‚µ‚Ä
-	// ˆÃ†/•œŒ³—p‚Ì—”ƒe[ƒuƒ‹‚ðì¬
+	// OURGUIDã‚’ä½¿ç”¨ã—ã¦
+	// æš—å·/å¾©å…ƒç”¨ã®ä¹±æ•°ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆ
 	//
 	int seed1 = (guid->min * guid->month * guid->day) ^ ((guid->rnd[0]<<8) | guid->rnd[2]);
 	int seed2 = (guid->hour * guid->sec * guid->msec) ^ ((guid->rnd[6]<<8) | guid->rnd[7]);
@@ -159,8 +160,8 @@ void CzCrypt::SetGUID( OURGUID *guid )
 void CzCrypt::SetSeed( int seed1, int seed2 )
 {
 	//
-	// OURGUID‚ðŽg—p‚µ‚Ä
-	// ˆÃ†/•œŒ³—p‚Ì—”ƒe[ƒuƒ‹‚ðì¬
+	// OURGUIDã‚’ä½¿ç”¨ã—ã¦
+	// æš—å·/å¾©å…ƒç”¨ã®ä¹±æ•°ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆ
 	//
 	this->initrnd(seed1);
 	for (int i = 0; i < 64; i++) this->randtable[i] = this->makerndi()&0xff;
@@ -171,8 +172,8 @@ void CzCrypt::SetSeed( int seed1, int seed2 )
 void CzCrypt::MakeGUID( OURGUID *guid )
 {
 	//
-	// OURGUID‚Ìì¬
-	// Œ»Ý‚ÌŽžŠÔ‚Æ—”‚©‚ç¶¬‚·‚é
+	// OURGUIDã®ä½œæˆ
+	// ç¾åœ¨ã®æ™‚é–“ã¨ä¹±æ•°ã‹ã‚‰ç”Ÿæˆã™ã‚‹
 	//
 	SYSTEMTIME st;
 
@@ -200,7 +201,7 @@ void CzCrypt::initrnd( int seed )
 
 double CzCrypt::makernd( void )
 {
-	//		—”‚ð”­¶(double’l)
+	//		ä¹±æ•°ã‚’ç™ºç”Ÿ(doubleå€¤)
 	//
 	double r;
 
@@ -213,7 +214,7 @@ double CzCrypt::makernd( void )
 
 int CzCrypt::makerndi( void )
 {
-	//		15bit‚Ì—”‚ð”­¶(0-32767)
+	//		15bitã®ä¹±æ•°ã‚’ç™ºç”Ÿ(0-32767)
 	//
 	double r;
 	r = makernd();
@@ -268,6 +269,35 @@ void CzCrypt::GetMD5ext( char *res, char *buf, int sz )
 	strcpy( res, hex_output );
 }
 
+
+#endif
+
+
+#ifndef CZCRYPT_NOSHA256
+
+void CzCrypt::GetSHA256(char* res)
+{
+	char hex_output[SHA256_SIZE_BYTES * 2 + 1];
+	GetSHA256ext(hex_output, this->buffer, this->size);
+	strcpy(res, hex_output);
+}
+
+
+void CzCrypt::GetSHA256ext(char* res, char* buf, int size)
+{
+	uint8_t hash[SHA256_SIZE_BYTES];
+	char hex_output[SHA256_SIZE_BYTES * 2 + 1];
+	char* p = hex_output;
+
+	sha256(buf, size, hash);
+
+	for (size_t j = 0; j < SHA256_SIZE_BYTES; j++) {
+		sprintf(p, "%02x", hash[j]);
+		p += 2;
+	}
+	*p = 0;
+	strcpy(res, hex_output);
+}
 
 #endif
 

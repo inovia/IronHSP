@@ -11,7 +11,7 @@
 
 /*
 	rev 43
-	‚½‚Ô‚ñƒVƒXƒeƒ€ƒwƒbƒ_B‚»‚ê‚Æ‚àƒJƒXƒ^ƒ€ƒwƒbƒ_‚ğg‚¤‚Ì‚©H (naznyark)
+	ãŸã¶ã‚“ã‚·ã‚¹ãƒ†ãƒ ãƒ˜ãƒƒãƒ€ã€‚ãã‚Œã¨ã‚‚ã‚«ã‚¹ã‚¿ãƒ ãƒ˜ãƒƒãƒ€ã‚’ä½¿ã†ã®ã‹ï¼Ÿ (naznyark)
 */
 #include "string.h"
 #include "strbuf.h"
@@ -43,14 +43,14 @@ void HspVarCoreInit( void )
 		hspvarproc[i].flag = 0;
 	}
 
-	//		mpval(ƒeƒ“ƒ|ƒ‰ƒŠ•Ï”)‚ğ‰Šú‰»‚µ‚Ü‚·
-	//		(À‘Ô‚Ì‰Šú‰»‚ÍA•Ï”g—p‚És‚È‚í‚ê‚Ü‚·)
+	//		mpval(ãƒ†ãƒ³ãƒãƒ©ãƒªå¤‰æ•°)ã‚’åˆæœŸåŒ–ã—ã¾ã™
+	//		(å®Ÿæ…‹ã®åˆæœŸåŒ–ã¯ã€å¤‰æ•°ä½¿ç”¨æ™‚ã«è¡Œãªã‚ã‚Œã¾ã™)
 	PVal *pval;
 	mem_pval = (PVal *)sbAlloc( sizeof(PVal) * HSPVAR_FLAG_MAX );
 	for(i=0;i<HSPVAR_FLAG_MAX;i++) {
 		pval = &mem_pval[i];
 		pval->mode = HSPVAR_MODE_NONE;
-		pval->flag = HSPVAR_FLAG_INT;				// ‰¼‚ÌŒ^
+		pval->flag = HSPVAR_FLAG_INT;				// ä»®ã®å‹
 	}
 }
 
@@ -69,8 +69,8 @@ void HspVarCoreBye( void )
 
 void HspVarCoreResetVartype( int expand )
 {
-	//		VARTYPE‚ğ‰Šú‰»‚·‚é(HspVarCoreInit‚ÌŒã‚ÅŒÄ‚Ô)
-	//		(expand‚ÉŠg’£‚·‚éVARTYPE‚Ì”‚ğw’è‚·‚é)
+	//		VARTYPEã‚’åˆæœŸåŒ–ã™ã‚‹(HspVarCoreInitã®å¾Œã§å‘¼ã¶)
+	//		(expandã«æ‹¡å¼µã™ã‚‹VARTYPEã®æ•°ã‚’æŒ‡å®šã™ã‚‹)
 	//
 	hspvartype_limit = hspvartype_max + expand;
 	if ( expand >= 0 ) {
@@ -78,13 +78,13 @@ void HspVarCoreResetVartype( int expand )
 		mem_pval = (PVal *)sbExpand( (char *)mem_pval, sizeof(PVal) * hspvartype_limit );
 	}
 
-	//		•W€‚ÌŒ^‚ğ“o˜^‚·‚é
+	//		æ¨™æº–ã®å‹ã‚’ç™»éŒ²ã™ã‚‹
 	//
 	HspVarCoreRegisterType( HSPVAR_FLAG_INT, (HSPVAR_COREFUNC)HspVarInt_Init );
 	HspVarCoreRegisterType( HSPVAR_FLAG_STR, (HSPVAR_COREFUNC)HspVarStr_Init );
 	HspVarCoreRegisterType( HSPVAR_FLAG_DOUBLE, (HSPVAR_COREFUNC)HspVarDouble_Init );
 	HspVarCoreRegisterType( HSPVAR_FLAG_STRUCT, (HSPVAR_COREFUNC)HspVarStruct_Init );
-	HspVarCoreRegisterType( HSPVAR_FLAG_LABEL, (HSPVAR_COREFUNC)HspVarLabel_Init );		// ƒ‰ƒxƒ‹Œ^(3.1)
+	HspVarCoreRegisterType( HSPVAR_FLAG_LABEL, (HSPVAR_COREFUNC)HspVarLabel_Init );		// ãƒ©ãƒ™ãƒ«å‹(3.1)
 }
 
 
@@ -99,7 +99,7 @@ int HspVarCoreAddType()
 	//mem_pval = (PVal *)sbExpand( (char *)mem_pval, sizeof(PVal) * hspvartype_max );
 	pval = &mem_pval[id];
 	pval->mode = HSPVAR_MODE_NONE;
-	pval->flag = HSPVAR_FLAG_INT;					// ‰¼‚ÌŒ^
+	pval->flag = HSPVAR_FLAG_INT;					// ä»®ã®å‹
 	return id;
 }
 
@@ -131,7 +131,7 @@ void HspVarCoreRegisterType( int flag, HSPVAR_COREFUNC func )
 		procs++;
 	}
 
-	//	‰Šú‰»ŠÖ”‚ÌŒÄ‚Ño‚µ
+	//	åˆæœŸåŒ–é–¢æ•°ã®å‘¼ã³å‡ºã—
 
 	func( p );
 }
@@ -141,7 +141,7 @@ void HspVarCoreRegisterType( int flag, HSPVAR_COREFUNC func )
 
 void HspVarCoreDupPtr( PVal *pval, int flag, void *ptr, int size )
 {
-	//		w’è‚³‚ê‚½ƒ|ƒCƒ“ƒ^‚©‚ç‚ÌƒNƒ[ƒ“‚É‚È‚é
+	//		æŒ‡å®šã•ã‚ŒãŸãƒã‚¤ãƒ³ã‚¿ã‹ã‚‰ã®ã‚¯ãƒ­ãƒ¼ãƒ³ã«ãªã‚‹
 	//
 	PDAT *buf;
 	HspVarProc *p;
@@ -171,7 +171,7 @@ void HspVarCoreDupPtr( PVal *pval, int flag, void *ptr, int size )
 
 void HspVarCoreDup( PVal *pval, PVal *arg, APTR aptr )
 {
-	//		w’è‚³‚ê‚½•Ï”‚ÌƒNƒ[ƒ“‚É‚È‚é
+	//		æŒ‡å®šã•ã‚ŒãŸå¤‰æ•°ã®ã‚¯ãƒ­ãƒ¼ãƒ³ã«ãªã‚‹
 	//
 	int size;
 	PDAT *buf;
@@ -185,8 +185,8 @@ void HspVarCoreDup( PVal *pval, PVal *arg, APTR aptr )
 
 void HspVarCoreDim( PVal *pval, int flag, int len1, int len2, int len3, int len4 )
 {
-	//		”z—ñ‚ğŠm•Û‚·‚é
-	//		(len1`len4‚ÍA4byte’PˆÊ‚È‚Ì‚Å’ˆÓ)
+	//		é…åˆ—ã‚’ç¢ºä¿ã™ã‚‹
+	//		(len1ï½len4ã¯ã€4byteå˜ä½ãªã®ã§æ³¨æ„)
 	//
 	HspVarProc *p;
 	p = &hspvarproc[ flag ];
@@ -209,8 +209,8 @@ void HspVarCoreDim( PVal *pval, int flag, int len1, int len2, int len3, int len4
 
 void HspVarCoreDimFlex( PVal *pval, int flag, int len0, int len1, int len2, int len3, int len4 )
 {
-	//		”z—ñ‚ğŠm•Û‚·‚é(‰Â•Ï’·”z—ñ—p)
-	//		(len1`len4‚ÍA4byte’PˆÊ‚È‚Ì‚Å’ˆÓ)
+	//		é…åˆ—ã‚’ç¢ºä¿ã™ã‚‹(å¯å¤‰é•·é…åˆ—ç”¨)
+	//		(len1ï½len4ã¯ã€4byteå˜ä½ãªã®ã§æ³¨æ„)
 	//
 	HspVarProc *p;
 	p = &hspvarproc[ flag ];
@@ -230,9 +230,80 @@ void HspVarCoreDimFlex( PVal *pval, int flag, int len0, int len1, int len2, int 
 }
 
 
+void HspVarCoreDimWC(PVal* pval, int flag, int len1, int len2, int len3, int len4)
+{
+	//		é…åˆ—ã‚’ç¢ºä¿ã™ã‚‹
+	//		(len1ï½len4ã¯ã€4byteå˜ä½ãªã®ã§æ³¨æ„)
+	//
+#ifdef HSPDEBUG
+	if (pval->support & HSPVAR_SUPPORT_FIXEDVALUE) throw HSPERR_FIXED_VARVALUE;
+	if (pval->flag != flag) {
+		if (pval->support & HSPVAR_SUPPORT_FIXEDTYPE) {
+			throw HSPERR_FIXED_VARTYPE;
+		}
+	}
+	int logvar = pval->support & HSPVAR_SUPPORT_DEBUGVAR;
+#endif
+	HspVarProc* p;
+	p = &hspvarproc[flag];
+	if ((len1 < 0) || (len2 < 0) || (len3 < 0) || (len4 < 0)) throw HSPVAR_ERROR_ILLEGALPRM;
+
+	HspVarCoreDispose(pval);
+
+	pval->flag = flag;
+	pval->len[0] = 1;
+	pval->offset = 0;
+	pval->arraycnt = 0;
+	pval->support = p->support;
+#ifdef HSPDEBUG
+	pval->support |= logvar;
+#endif
+	pval->len[1] = len1;
+	pval->len[2] = len2;
+	pval->len[3] = len3;
+	pval->len[4] = len4;
+	p->Alloc(pval, NULL);
+}
+
+
+void HspVarCoreDimFlexWC(PVal* pval, int flag, int len0, int len1, int len2, int len3, int len4)
+{
+	//		é…åˆ—ã‚’ç¢ºä¿ã™ã‚‹(å¯å¤‰é•·é…åˆ—ç”¨)
+	//		(len1ï½len4ã¯ã€4byteå˜ä½ãªã®ã§æ³¨æ„)
+	//
+#ifdef HSPDEBUG
+	if (pval->support & HSPVAR_SUPPORT_FIXEDVALUE) throw HSPERR_FIXED_VARVALUE;
+	if (pval->flag != flag) {
+		if (pval->support & HSPVAR_SUPPORT_FIXEDTYPE) {
+			throw HSPERR_FIXED_VARTYPE;
+		}
+	}
+	int logvar = pval->support & HSPVAR_SUPPORT_DEBUGVAR;
+#endif
+	HspVarProc* p;
+	p = &hspvarproc[flag];
+	if ((len1 < 0) || (len2 < 0) || (len3 < 0) || (len4 < 0)) throw HSPVAR_ERROR_ILLEGALPRM;
+	HspVarCoreDispose(pval);
+	pval->flag = flag;
+	pval->len[0] = len0;
+	pval->offset = 0;
+	pval->arraycnt = 0;
+	pval->support = p->support;
+#ifdef HSPDEBUG
+	pval->support |= logvar;
+#endif
+	pval->len[1] = len1;
+	pval->len[2] = len2;
+	pval->len[3] = len3;
+	pval->len[4] = len4;
+	p->Alloc(pval, NULL);
+	pval->len[0] = 1;
+}
+
+
 void HspVarCoreReDim( PVal *pval, int lenid, int len )
 {
-	//		”z—ñ‚ğŠg’£‚·‚é
+	//		é…åˆ—ã‚’æ‹¡å¼µã™ã‚‹
 	//
 	HspVarProc *p;
 	p = &hspvarproc[ pval->flag ];
@@ -243,29 +314,44 @@ void HspVarCoreReDim( PVal *pval, int lenid, int len )
 
 void HspVarCoreClear( PVal *pval, int flag )
 {
-	//		w’èƒ^ƒCƒv‚Ì•Ï”‚ğÅ¬ƒƒ‚ƒŠ‚Å‰Šú‰»‚·‚é
+	//		æŒ‡å®šã‚¿ã‚¤ãƒ—ã®å¤‰æ•°ã‚’æœ€å°ãƒ¡ãƒ¢ãƒªã§åˆæœŸåŒ–ã™ã‚‹
 	//
-	HspVarCoreDim( pval, flag, 1, 0, 0, 0 );	// Å¬ƒTƒCƒY‚Ìƒƒ‚ƒŠ‚ğŠm•Û
+	HspVarCoreDim( pval, flag, 1, 0, 0, 0 );	// æœ€å°ã‚µã‚¤ã‚ºã®ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿
+}
+
+
+void HspVarCoreClearWC(PVal* pval, int flag)
+{
+	//		æŒ‡å®šã‚¿ã‚¤ãƒ—ã®å¤‰æ•°ã‚’æœ€å°ãƒ¡ãƒ¢ãƒªã§åˆæœŸåŒ–ã™ã‚‹(å‹å›ºå®šãƒã‚§ãƒƒã‚¯ä»˜ã)
+	//
+#ifdef HSPDEBUG
+	if (pval->flag != flag) {
+		if (pval->support & HSPVAR_SUPPORT_FIXEDTYPE) {
+			throw HSPERR_FIXED_VARTYPE;
+		}
+	}
+#endif
+	HspVarCoreDim(pval, flag, 1, 0, 0, 0);	// æœ€å°ã‚µã‚¤ã‚ºã®ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿
 }
 
 
 void HspVarCoreClearTemp( PVal *pval, int flag )
 {
-	//		w’èƒ^ƒCƒv‚Ì•Ï”‚ğÅ¬ƒƒ‚ƒŠ‚Å‰Šú‰»‚·‚é(ƒeƒ“ƒ|ƒ‰ƒŠ—p)
+	//		æŒ‡å®šã‚¿ã‚¤ãƒ—ã®å¤‰æ•°ã‚’æœ€å°ãƒ¡ãƒ¢ãƒªã§åˆæœŸåŒ–ã™ã‚‹(ãƒ†ãƒ³ãƒãƒ©ãƒªç”¨)
 	//
-	HspVarCoreDim( pval, flag, 1, 0, 0, 0 );	// Å¬ƒTƒCƒY‚Ìƒƒ‚ƒŠ‚ğŠm•Û
+	HspVarCoreDim( pval, flag, 1, 0, 0, 0 );	// æœ€å°ã‚µã‚¤ã‚ºã®ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿
 	pval->support |= HSPVAR_SUPPORT_TEMPVAR;
 }
 
 
 void *HspVarCoreCnvPtr( PVal *pval, int flag )
 {
-	//		w’è‚³‚ê‚½typeƒtƒ‰ƒO‚É•ÏŠ·‚³‚ê‚½’l‚Ìƒ|ƒCƒ“ƒ^‚ğ“¾‚é
+	//		æŒ‡å®šã•ã‚ŒãŸtypeãƒ•ãƒ©ã‚°ã«å¤‰æ›ã•ã‚ŒãŸå€¤ã®ãƒã‚¤ãƒ³ã‚¿ã‚’å¾—ã‚‹
 	//
 	if ( pval->flag == flag ) {
 		return hspvarproc[ flag ].GetPtr( pval );
 	}
-	//		Œ^•ÏŠ·‚ğ‚·‚é
+	//		å‹å¤‰æ›ã‚’ã™ã‚‹
 	void *buf;
 	buf = hspvarproc[ pval->flag ].GetPtr( pval );
 	if ( pval->flag >= HSPVAR_FLAG_USERDEF ) {
@@ -278,8 +364,8 @@ void *HspVarCoreCnvPtr( PVal *pval, int flag )
 #if 0
 PDAT *HspVarCorePtrAPTR( PVal *pv, APTR ofs )
 {
-	//		•Ï”ƒf[ƒ^‚ÌÀ‘Ôƒ|ƒCƒ“ƒ^‚ğ“¾‚é
-	//		(APTR‚Æpval‚©‚çÀ‘Ô‚ğ‹‚ß‚é)
+	//		å¤‰æ•°ãƒ‡ãƒ¼ã‚¿ã®å®Ÿæ…‹ãƒã‚¤ãƒ³ã‚¿ã‚’å¾—ã‚‹
+	//		(APTRã¨pvalã‹ã‚‰å®Ÿæ…‹ã‚’æ±‚ã‚ã‚‹)
 	//
 	pv->offset=ofs;
 	return hspvarproc[(pv)->flag].GetPtr(pv);
@@ -305,12 +391,12 @@ HspVarProc *HspVarCoreSeekProc( const char *name )
 
 void HspVarCoreArray( PVal *pval, int offset )
 {
-	//		”z—ñ—v‘f‚Ìw’è (index)
-	//		( ResetŒã‚ÉŸŒ³”‚¾‚¯˜A‘±‚ÅŒÄ‚Î‚ê‚Ü‚· )
+	//		é…åˆ—è¦ç´ ã®æŒ‡å®š (index)
+	//		( Resetå¾Œã«æ¬¡å…ƒæ•°ã ã‘é€£ç¶šã§å‘¼ã°ã‚Œã¾ã™ )
 	//
 	if ( pval->arraycnt >= 5 ) throw HSPVAR_ERROR_ARRAYOVER;
 	if ( pval->arraycnt == 0 ) {
-		pval->arraymul = 1;			// Å‰‚Ì’l
+		pval->arraymul = 1;			// æœ€åˆã®å€¤
 	} else {
 		pval->arraymul *= pval->len[ pval->arraycnt ];
 	}
@@ -335,14 +421,14 @@ int HspVarCoreCountElems( PVal *pval )
 
 void HspVarCoreAllocPODArray( PVal *pval, const PVal *pval2, int basesize )
 {
-	//		pval•Ï”‚ª•K—v‚Æ‚·‚éƒTƒCƒY‚ğŠm•Û‚·‚éB
-	//		(pval‚ª‚·‚Å‚ÉŠm•Û‚³‚ê‚Ä‚¢‚éƒƒ‚ƒŠ‰ğ•ú‚ÍŒÄ‚Ño‚µ‘¤‚ªs‚È‚¤)
-	//		(flag‚Ìİ’è‚ÍŒÄ‚Ño‚µ‘¤‚ªs‚È‚¤)
-	//		(pval2‚ªNULL‚Ìê‡‚ÍAV‹Kƒf[ƒ^)
-	//		(pval2‚ªw’è‚³‚ê‚Ä‚¢‚éê‡‚ÍApval2‚Ì“à—e‚ğŒp³‚µ‚ÄÄŠm•Û)
+	//		pvalå¤‰æ•°ãŒå¿…è¦ã¨ã™ã‚‹ã‚µã‚¤ã‚ºã‚’ç¢ºä¿ã™ã‚‹ã€‚
+	//		(pvalãŒã™ã§ã«ç¢ºä¿ã•ã‚Œã¦ã„ã‚‹ãƒ¡ãƒ¢ãƒªè§£æ”¾ã¯å‘¼ã³å‡ºã—å´ãŒè¡Œãªã†)
+	//		(flagã®è¨­å®šã¯å‘¼ã³å‡ºã—å´ãŒè¡Œãªã†)
+	//		(pval2ãŒNULLã®å ´åˆã¯ã€æ–°è¦ãƒ‡ãƒ¼ã‚¿)
+	//		(pval2ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€pval2ã®å†…å®¹ã‚’ç¶™æ‰¿ã—ã¦å†ç¢ºä¿)
 	//
 
-	// ”z—ñ‚ğÅ’á1‚ÍŠm•Û‚·‚é
+	// é…åˆ—ã‚’æœ€ä½1ã¯ç¢ºä¿ã™ã‚‹
 	if ( pval->len[1] < 1 ) pval->len[1] = 1;
 
 	int size = HspVarCoreCountElems(pval) * basesize;
@@ -363,7 +449,7 @@ void HspVarCoreAllocPODArray( PVal *pval, const PVal *pval2, int basesize )
 		}
 	}
 
-	// V‹K—v‘f‚ğ0–„‚ß
+	// æ–°è¦è¦ç´ ã‚’0åŸ‹ã‚
 	if ( size > old_size ) {
 		memset(pt + old_size, 0, (size - old_size));
 	}

@@ -63,6 +63,7 @@ BOOL bIgnoreSize = FALSE ;
 HINSTANCE hInst ;
 HMENU hMenu ;
 HMENU hMenu2 ;
+HMENU hMenu_context;
 HWND hwndOwner = NULL ;
 HWND hwndClient = NULL ;
 HWND hwndToolBar = NULL ;
@@ -80,12 +81,16 @@ extern HWND hConfigDlg ;
 extern HWND hConfigPage ;
 extern HWND hDlgModeless ;
 
+HWND hwndFindReplace;
+UINT iMsgNotifyFindReplaceWindowHandle;	// ウィンドウハンドル通知
+
 HMENU hSubMenu ;
 static HMENU hSubMenu2 ;
 static int EzMenuId;
 CMemBuf *AhtMenuBuf;
 extern int ClickID;
 static int cyToolBar ;
+CMemBuf* ToolMenuBuf;
 
 extern int autobackup;
 int AutoBackupTimer;
@@ -254,7 +259,7 @@ int BuildEzInputMenu( HMENU menu, char *fname, char *dirname )
 	//if (p3&2) fmask|=FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_SYSTEM;
 
 	stat_main=0;
-	wsprintf( wname, "%s\\*.*", fname );
+	sprintf( wname, "%s\\*.*", fname );
 
 	sh=FindFirstFile( wname, &fd );
 	if (sh==INVALID_HANDLE_VALUE) {
@@ -266,14 +271,13 @@ int BuildEzInputMenu( HMENU menu, char *fname, char *dirname )
 #else
 		strcat_s(tmp, size, " is invalid.");
 #endif
-		AppendMenu( menu, MF_GRAYED | MF_DISABLED, 0xFFFF, tmp );
+		int res = AppendMenu( menu, MF_GRAYED | MF_DISABLED, 0xFFFF, tmp );
 		free(tmp);
         FindClose( sh );
 		return 0;
 	}
 
 	popmenu = CreatePopupMenu();
-	AppendMenu( menu, MF_POPUP, (UINT_PTR)popmenu, dirname );
 
 	for(;;) {
 		ff = fd.dwFileAttributes;
@@ -285,16 +289,16 @@ int BuildEzInputMenu( HMENU menu, char *fname, char *dirname )
 		}
 		if (fl) {
 			if ( ff & FILE_ATTRIBUTE_DIRECTORY ) {
-				wsprintf( tmp, "%s\\%s", fname, p );
+				sprintf( tmp, "%s\\%s", fname, p );
 				BuildEzInputMenu( popmenu, tmp, p );		// 再帰で検索
 			} else {
-				wsprintf( tmp, "%s\\%s", fname, p );
+				sprintf( tmp, "%s\\%s", fname, p );
 				AhtMenuBuf->Index();
 				AhtMenuBuf->PutStrBlock( tmp );
 
 				//msgboxf(NULL, "%s"	, "ADD", MB_OK | MB_ICONEXCLAMATION, p);
 				getpath( p, tmp, 1 );
-				AppendMenu( popmenu, 0, EzMenuId, tmp );
+				AppendMenu( popmenu, MF_STRING | MF_ENABLED, EzMenuId, tmp );
 				stat_main++;
 				EzMenuId++;
 			}
@@ -303,6 +307,7 @@ int BuildEzInputMenu( HMENU menu, char *fname, char *dirname )
 	}
 	FindClose(sh);
 
+	AppendMenu(menu, MF_POPUP, (UINT_PTR)popmenu, dirname);
 	return stat_main;
 }
 
@@ -319,8 +324,80 @@ int ExecEzInputMenu( int id )
 	p = AhtMenuBuf->GetBuffer() + i;
 	//msgboxf(NULL, "%s"	, "EXEC", MB_OK | MB_ICONEXCLAMATION, p);
 
-	wsprintf( tmpfn, "\"%s\\ahtman.exe\" %s", szExeDir,p );
+	sprintf( tmpfn, "\"%s\\ahtman.exe\" %s", szExeDir,p );
 	WinExec( tmpfn, SW_SHOW );
+
+	return 0;
+}
+
+static char	szMenuToolName[_MAX_PATH];
+static char	szMenuToolExec[_MAX_PATH];
+static char	szMenuToolPath[_MAX_PATH];
+static int iMenuToolMax;
+
+static int GetMenuTool(int mode)
+{
+	if (mode < 0) {
+		strsp_ini();
+		return 0;
+	}
+	char* p = ToolMenuBuf->GetBuffer();
+	int pt = strsp_getptr();
+	if (p[pt] == 0) return -1;
+	strsp_get(p, szMenuToolName, ',', _MAX_PATH);
+	strsp_get(p, szMenuToolExec, ',', _MAX_PATH);
+	strsp_get(p, szMenuToolPath, 0, _MAX_PATH);
+	return 0;
+}
+
+static void SetMenuTool(HWND hwnd)
+{
+	char		 tmp[_MAX_PATH];
+	ToolMenuBuf = new CMemBuf;
+#ifdef JPNMSG
+	char* menufile = "menu.txt";
+#else
+	char* menufile = "menu_en.txt";
+#endif
+	sprintf(tmp, "%s\\support\\%s", szExeDir, menufile);
+	ToolMenuBuf->PutFile(tmp);
+	ToolMenuBuf->Put((int)0);
+
+	MENUITEMINFO mii;
+
+	HMENU hMainMenu = GetSubMenu(GetMenu(hwnd), POS_EXTTOOL-1);
+
+	mii.cbSize = sizeof(MENUITEMINFO);
+	mii.fMask = MIIM_ID | MIIM_TYPE;
+
+	iMenuToolMax = 0;
+	GetMenuTool(-1);
+	while (1) {
+		if (GetMenuTool(0)) break;
+		mii.fType = MFT_STRING;
+		mii.wID = IDM_EXTHSPTOOL+ iMenuToolMax;
+		mii.dwTypeData = szMenuToolName;
+		InsertMenuItem(hMainMenu, POS_HSPTOOLMAINBASE+ iMenuToolMax, TRUE, &mii);
+		iMenuToolMax++;
+	}
+}
+
+
+int ExectMenuTool(int id)
+{
+	char tmpfn[1024];
+	int num, i;
+	num = id - IDM_EXTHSPTOOL;
+	if (num < 0) return -1;
+	if (num >= iMenuToolMax) return -1;
+
+	GetMenuTool(-1);
+	for (i = 0; i <= num; i++) {
+		GetMenuTool(0);
+	}
+
+	sprintf(tmpfn, "\"%s\\%s.exe\" \"%s\\support\\%s\"", szExeDir, szMenuToolExec, szExeDir, szMenuToolPath);
+	WinExec(tmpfn, SW_SHOW);
 
 	return 0;
 }
@@ -350,7 +427,11 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/,
 	 }
 #endif
 
-     InitCommonControls () ;
+	 // 検索ダイアログ用メッセージ登録
+	 iMsgNotifyFindReplaceWindowHandle =
+		 ::RegisterWindowMessage("NotifyFindReplaceWindowHandle");
+
+	 InitCommonControls () ;
 	 OleInitialize(NULL);
 #ifdef FOOTYSTATIC
 	 Footy2Start(hInstance);
@@ -465,10 +546,9 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/,
 	AhtMenuBuf = new CMemBuf;
 	AhtMenuBuf->AddIndexBuffer();
 	EzMenuId = IDM_AHTEZINPUT;
-	hMenu = LoadMenu(hInstance, "CONTEXTMENU");
-	hSubMenu = GetSubMenu(hMenu, 0);
-
-	wsprintf( tmp, "%s\\ezinput", szExeDir );
+	hMenu_context = LoadMenu(hInstance, "CONTEXTMENU");
+	hSubMenu = GetSubMenu( hMenu_context, 0 );
+	sprintf( tmp, "%s\\ezinput", szExeDir );
 #ifdef JPNMSG
 	BuildEzInputMenu( hSubMenu, tmp, "かんたん入力" );
 #else
@@ -496,6 +576,8 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/,
 	} else {
 		_chdir( szStartDir );
 	}
+
+	SetMenuTool(hWndMain);
 
 	SetMenuExtTool();
 	ExecStartupTools(hwnd);
@@ -583,6 +665,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/,
 	
 	
 
+	delete ToolMenuBuf;
 	delete AhtMenuBuf;
 	return (int)msg.wParam ;
 }
@@ -879,7 +962,11 @@ WndProc (HWND hwnd, UINT mMsg, WPARAM wParam, LPARAM lParam)
 			  }
 
           default:
-               return (EditDefProc (hwnd, mMsg, wParam, lParam)) ;
+			  if (mMsg == iMsgNotifyFindReplaceWindowHandle) {
+				  hwndFindReplace = (HWND)wParam;
+			  } else {
+				  return (EditDefProc(hwnd, mMsg, wParam, lParam));
+			  }
           }
      return DefWindowProc (hwnd, mMsg, wParam, lParam) ;
      }

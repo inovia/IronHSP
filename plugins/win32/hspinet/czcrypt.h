@@ -5,16 +5,16 @@
 #define __czcrypt_h
 
 typedef struct {
-	short	year;		// ”N
-	char	month;		// Œ
-	char	day;		// “ú
+	short	year;		// å¹´
+	char	month;		// æœˆ
+	char	day;		// æ—¥
 
-	char	hour;		// 
-	char	min;		// •ª
-	char	sec;		// •b
-	char	msec;		// ƒ~ƒŠ•b
+	char	hour;		// æ™‚
+	char	min;		// åˆ†
+	char	sec;		// ç§’
+	char	msec;		// ãƒŸãƒªç§’
 
-	char	rnd[8];		// —”’l
+	char	rnd[8];		// ä¹±æ•°å€¤
 } OURGUID;
 
 
@@ -23,20 +23,22 @@ public:
 	CzCrypt();
 	~CzCrypt();
 
-	int				DataSet( char *ptr, int size );			// ì‹Æƒoƒbƒtƒ@‚ğİ’è‚·‚é
-	int				DataLoad( char *file );					// ƒtƒ@ƒCƒ‹‚Ì“à—e‚ğƒ[ƒh‚µ‚Äƒoƒbƒtƒ@‚Æ‚·‚é
-	int				DataSave( char *file );					// ƒoƒbƒtƒ@‚Ì“à—e‚ğƒtƒ@ƒCƒ‹‚É‘‚«o‚·
-	int				Encrypt( void );						// ƒoƒbƒtƒ@‚ğˆÃ†‰»
-	int				Decrypt( void );						// ƒoƒbƒtƒ@‚ğ•œ†‰»
-	int				GetSize( void );						// ƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾
-	char*			GetData( void );						// ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾
-	void			SetGUID( OURGUID *guid );				// ˆÃ†/•œ†‚Ì‚½‚ß‚ÌƒR[ƒh‚ğGUID‚©‚çİ’è‚·‚é
-	void			SetSeed( int seed1, int seed2 );		// ˆÃ†/•œ†‚Ì‚½‚ß‚ÌƒR[ƒh‚ğSEED‚©‚çİ’è‚·‚é
-	void			MakeGUID( OURGUID *guid );				// GUID‚ğV‹K‚Éì¬‚·‚é
+	int				DataSet( char *ptr, int size );			// ä½œæ¥­ãƒãƒƒãƒ•ã‚¡ã‚’è¨­å®šã™ã‚‹
+	int				DataLoad( char *file );					// ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¦ãƒãƒƒãƒ•ã‚¡ã¨ã™ã‚‹
+	int				DataSave( char *file );					// ãƒãƒƒãƒ•ã‚¡ã®å†…å®¹ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãå‡ºã™
+	int				Encrypt( void );						// ãƒãƒƒãƒ•ã‚¡ã‚’æš—å·åŒ–
+	int				Decrypt( void );						// ãƒãƒƒãƒ•ã‚¡ã‚’å¾©å·åŒ–
+	int				GetSize( void );						// ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã‚’å–å¾—
+	char*			GetData( void );						// ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—
+	void			SetGUID( OURGUID *guid );				// æš—å·/å¾©å·ã®ãŸã‚ã®ã‚³ãƒ¼ãƒ‰ã‚’GUIDã‹ã‚‰è¨­å®šã™ã‚‹
+	void			SetSeed( int seed1, int seed2 );		// æš—å·/å¾©å·ã®ãŸã‚ã®ã‚³ãƒ¼ãƒ‰ã‚’SEEDã‹ã‚‰è¨­å®šã™ã‚‹
+	void			MakeGUID( OURGUID *guid );				// GUIDã‚’æ–°è¦ã«ä½œæˆã™ã‚‹
 
-	int				GetCRC32( void );						// CRC32’l‚ğæ“¾
-	void			GetMD5( char *res );					// MD5’l‚ğæ“¾
-	void			GetMD5ext( char *res, char *buf, int size );	// MD5’l‚ğæ“¾
+	int				GetCRC32( void );						// CRC32å€¤ã‚’å–å¾—
+	void			GetMD5( char *res );					// MD5å€¤ã‚’å–å¾—
+	void			GetMD5ext( char *res, char *buf, int size );	// MD5å€¤ã‚’å–å¾—
+	void			GetSHA256(char* res);						// SHA256å€¤ã‚’å–å¾—
+	void			GetSHA256ext(char* res, char* buf, int size);	// SHA256å€¤ã‚’å–å¾—
 
 	int				EncodeBASE64( char *dstptr, char *srcptr, int size );
 	int				DecodeBASE64( char *dstptr, char *srcptr, int size );
@@ -48,10 +50,10 @@ public:
 private:
 	//		private data
 	//
-	char*			buffer;									// ‘€ì‘ÎÛƒf[ƒ^
-	int				size;									// ‘€ì‘ÎÛƒf[ƒ^ƒTƒCƒY
+	char*			buffer;									// æ“ä½œå¯¾è±¡ãƒ‡ãƒ¼ã‚¿
+	int				size;									// æ“ä½œå¯¾è±¡ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚º
 
-	char			randtable[128];							// ˆÃ†/•œŒ³—p—”ƒe[ƒuƒ‹
+	char			randtable[128];							// æš—å·/å¾©å…ƒç”¨ä¹±æ•°ãƒ†ãƒ¼ãƒ–ãƒ«
 
 
 	unsigned int	r_s1,r_s2,r_s3;

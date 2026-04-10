@@ -12,16 +12,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-
-#ifdef HSPLINUX
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 //#include "SDL2/SDL_opengl.h"
-#else
-#include "SDL/SDL.h"
-#include "SDL/SDL_image.h"
-//#include "SDL2/SDL_opengl.h"
-#endif
 
 extern SDL_Window *window;
 
@@ -94,7 +87,7 @@ namespace gameplay
         int versionGL[2] = {-1, -1};
         glGetIntegerv(GL_MAJOR_VERSION, versionGL);
         glGetIntegerv(GL_MINOR_VERSION, versionGL + 1);
-        printf("GL version: %d.%d\n", versionGL[0], versionGL[1]);
+        //printf("GL version: %d.%d\n", versionGL[0], versionGL[1]);
 
         return platform;
     }
@@ -187,11 +180,7 @@ namespace gameplay
 
     void Platform::swapBuffers()
     {
-#ifdef HSPLINUX
 	  SDL_GL_SwapWindow(window);
-#else
-      SDL_GL_SwapBuffers();
-#endif
     }
 
     void Platform::sleep(long ms)

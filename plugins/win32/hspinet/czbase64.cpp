@@ -35,21 +35,21 @@ static unsigned char base64_offset[256] =
 
 CzBase64::CzBase64( void )
 {
-	//	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	//
 }
 
 
 CzBase64::~CzBase64( void )
 {
-	//	ƒfƒXƒgƒ‰ƒNƒ^
+	//	ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	//
 }
 
 
 int CzBase64::Encode( char *dstptr, char *srcptr, int basesize )
 {
-	//	ƒGƒ“ƒR[ƒh
+	//	ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰
 	//
 	int i,size;
 	char a1,a2,a3;
@@ -92,7 +92,7 @@ int CzBase64::Encode( char *dstptr, char *srcptr, int basesize )
 
 int CzBase64::Decode( char *dstptr, char *srcptr, int size )
 {
-	//	ƒfƒR[ƒh
+	//	ãƒ‡ã‚³ãƒ¼ãƒ‰
 	//
 	int i;
 	char a1,a2,a3,a4;
@@ -123,7 +123,7 @@ int CzBase64::Decode( char *dstptr, char *srcptr, int size )
 
 int CzBase64::GetSize( int len )
 {
-	//		ƒGƒ“ƒR[ƒh‚É•K—v‚ÈƒTƒCƒY‚ğ“¾‚é
+	//		ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã«å¿…è¦ãªã‚µã‚¤ã‚ºã‚’å¾—ã‚‹
 	//
 	int npad = len%3;
 	int size = (npad > 0)? (len +3-npad ) : len;
@@ -137,14 +137,14 @@ int CzBase64::GetSize( int len )
 
 CzRC4::CzRC4( void )
 {
-	//	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	//
 }
 
 
 CzRC4::~CzRC4( void )
 {
-	//	ƒfƒXƒgƒ‰ƒNƒ^
+	//	ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	//
 }
 
@@ -158,7 +158,7 @@ void CzRC4::Swap(unsigned char *a, unsigned char *b)
 
 void CzRC4::SetKey( char *szkey )
 {
-	//	ƒL[ƒ[ƒh‚ğƒZƒbƒg
+	//	ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’ã‚»ãƒƒãƒˆ
 	//
 	unsigned char index1;
 	unsigned char index2;

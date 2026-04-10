@@ -50,7 +50,7 @@ void CzHttp::Reset( void )
 	}
 	if ( hSession == NULL ) {
 		mode = CZHTTP_MODE_NONE;
-		SetError( "‰Šú‰»‚É¸”s‚µ‚Ü‚µ‚½" ); return;
+		SetError( "åˆæœŸåŒ–ã«å¤±æ•—ã—ã¾ã—ãŸ" ); return;
 	}
 
 	username = "anonymous";
@@ -65,7 +65,7 @@ void CzHttp::Reset( void )
 
 CzHttp::CzHttp( void )
 {
-	//	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	//
 	str_agent = NULL;
 	pt = NULL;
@@ -76,19 +76,19 @@ CzHttp::CzHttp( void )
 	req_header.clear();
 	vardata = NULL;
 
-	//	Ú‘±‰Â”\‚©?
+	//	æ¥ç¶šå¯èƒ½ã‹?
 	if( InternetAttemptConnect(0) ){
-		SetError( "ƒlƒbƒgÚ‘±‚ªŠm”F‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½" ); return;
+		SetError( "ãƒãƒƒãƒˆæ¥ç¶šãŒç¢ºèªã§ãã¾ã›ã‚“ã§ã—ãŸ" ); return;
 	}
 
-	//	‰Šú‰»‚ğs‚¤
+	//	åˆæœŸåŒ–ã‚’è¡Œã†
 	Reset();
 }
 
 
 CzHttp::~CzHttp( void )
 {
-	//	ƒfƒXƒgƒ‰ƒNƒ^
+	//	ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	//
 	Terminate();
 	if ( str_agent != NULL ) { free( str_agent ); str_agent = NULL; }
@@ -101,7 +101,7 @@ CzHttp::~CzHttp( void )
 
 int CzHttp::Exec( void )
 {
-	//	–ˆƒtƒŒ[ƒ€Às
+	//	æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å®Ÿè¡Œ
 	//
 	static char hdr[] = "Content-Type: application/x-www-form-urlencoded\r\n";
 	std::string req_name;
@@ -110,12 +110,12 @@ int CzHttp::Exec( void )
 	int flagmode = 0;
 
 	switch( mode ) {
-	case CZHTTP_MODE_REQUEST:			// http‚ÉÚ‘±
+	case CZHTTP_MODE_REQUEST:			// httpã«æ¥ç¶š
 		req_name = req_url;
 		req_name += req_path;
 		hService = InternetOpenUrl( hSession, req_name.c_str(), req_header.c_str(), -1L, 0, INTERNET_FLAG_RELOAD );
 		if ( hService == NULL ) {
-			SetError( "–³Œø‚ÈURL‚ªw’è‚³‚ê‚Ü‚µ‚½" );
+			SetError( "ç„¡åŠ¹ãªURLãŒæŒ‡å®šã•ã‚Œã¾ã—ãŸ" );
 			break;
 		}
 		mode = CZHTTP_MODE_REQSEND;
@@ -124,7 +124,7 @@ int CzHttp::Exec( void )
 		if ( name[0] == 0 ) name = (char *)req_path.c_str();
 		fp = fopen( name, "wb");
 		if ( fp == NULL ) {
-			SetError( "ƒ_ƒEƒ“ƒ[ƒhƒtƒ@ƒCƒ‹‚ªì¬‚Å‚«‚Ü‚¹‚ñ" );
+			SetError( "ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ãŒä½œæˆã§ãã¾ã›ã‚“" );
 			break;
 		}
 		size = 0;
@@ -135,7 +135,7 @@ int CzHttp::Exec( void )
 		if ( InternetReadFile( hService, buf, INETBUF_MAX, &dwBytesRead ) == 0 ) {
 			fclose( fp );
 			InternetCloseHandle( hService );
-			SetError( "ƒ_ƒEƒ“ƒ[ƒh’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½" );
+			SetError( "ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸ" );
 			break;
 		}
 		if( dwBytesRead == 0 ) {
@@ -166,24 +166,24 @@ int CzHttp::Exec( void )
 		req_name = req_url2;
 		req_name += req_path;
 
-		// HTTP‚ÉÚ‘±
+		// HTTPã«æ¥ç¶š
 		hHttpSession = ::InternetConnectA( hSession, varserver.c_str(), varport, NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0 );
 		if ( hHttpSession == NULL ) {
-			SetError( "–³Œø‚ÈƒT[ƒo[‚ªw’è‚³‚ê‚Ü‚µ‚½" );
+			SetError( "ç„¡åŠ¹ãªã‚µãƒ¼ãƒãƒ¼ãŒæŒ‡å®šã•ã‚Œã¾ã—ãŸ" );
 			break;
 		}
 
-		// HTTP—v‹‚Ìì¬
+		// HTTPè¦æ±‚ã®ä½œæˆ
 		hHttpRequest = ::HttpOpenRequestA( hHttpSession, varstr.c_str(), req_name.c_str(), HTTP_VERSION, NULL, NULL, flagmode, 0 );
 		if ( hHttpSession == NULL ) {
-			SetError( "–³Œø‚ÈURL‚ªw’è‚³‚ê‚Ü‚µ‚½" );
+			SetError( "ç„¡åŠ¹ãªURLãŒæŒ‡å®šã•ã‚Œã¾ã—ãŸ" );
 			break;
 		}
 		mode = CZHTTP_MODE_VARREQSEND;
 		// FALL THROUGH
 	case CZHTTP_MODE_VARREQSEND:
 
-		// ì¬‚µ‚½HTTP—v‹‚Ì”­s
+		// ä½œæˆã—ãŸHTTPè¦æ±‚ã®ç™ºè¡Œ
 		if ( postdata != NULL ) {
 			std::string header;
 			header = hdr;
@@ -194,11 +194,15 @@ int CzHttp::Exec( void )
 		}
 		if ( res == false ) {
 			InternetCloseHandle( hHttpSession );
-			SetError( "ƒŠƒNƒGƒXƒg‚ª‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½" );
+			SetError( "ãƒªã‚¯ã‚¨ã‚¹ãƒˆãŒã§ãã¾ã›ã‚“ã§ã—ãŸ" );
 			break;
 		}
-		// HTTPƒwƒbƒ_
-		HttpQueryInfo( hHttpRequest, HTTP_QUERY_RAW_HEADERS_CRLF, resphead, resphead_size, 0 );
+		// HTTPãƒ˜ãƒƒãƒ€
+		resphead = resphead_buf;
+		resphead_size = HEADBUF_DEFAULT;
+		resphead_index = 0;
+		resphead_size_ptr = &resphead_size;
+		HttpQueryInfo( hHttpRequest, HTTP_QUERY_RAW_HEADERS_CRLF, resphead, resphead_size_ptr, &resphead_index );
 		varsize = 0x40000;
 		ClearVarData();
 		vardata = (char *)malloc( varsize );
@@ -218,7 +222,7 @@ int CzHttp::Exec( void )
 		if ( InternetReadFile( hHttpRequest, vardata+size, INETBUF_MAX, &dwBytesRead ) == 0 ) {
 			InternetCloseHandle( hHttpRequest );
 			InternetCloseHandle( hHttpSession );
-			SetError( "ƒ_ƒEƒ“ƒ[ƒh’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½" );
+			SetError( "ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸ" );
 			break;
 		}
 		size += dwBytesRead;
@@ -242,7 +246,7 @@ int CzHttp::Exec( void )
 		req_name += req_path;
 		hService = InternetOpenUrl( hSession, req_name.c_str(), req_header.c_str(), -1L, 0, 0 );
 		if ( hService == NULL ) {
-			SetError( "–³Œø‚ÈURL‚ªw’è‚³‚ê‚Ü‚µ‚½" );
+			SetError( "ç„¡åŠ¹ãªURLãŒæŒ‡å®šã•ã‚Œã¾ã—ãŸ" );
 			break;
 		}
 		mode = CZHTTP_MODE_INFORECV;
@@ -323,16 +327,32 @@ void CzHttp::ClearVarData( void )
 
 char *CzHttp::GetError( void )
 {
-	// ƒGƒ‰[•¶š—ñ‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾
+	// ã‚¨ãƒ©ãƒ¼æ–‡å­—åˆ—ã®ãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—
 	//
 	return (char *)errstr.c_str();
 }
 
 
+void CzHttp::Resume(void)
+{
+	// ã‚¨ãƒ©ãƒ¼ã‹ã‚‰å¾©å¸°ã™ã‚‹
+	//
+	if (mode == CZHTTP_MODE_ERROR) {
+		if (hSession == NULL) {
+			Reset();
+		}
+		else {
+			mode = CZHTTP_MODE_READY;
+		}
+	}
+}
+
+
 int CzHttp::RequestFile( char *path )
 {
-	// ƒT[ƒo[‚Éƒtƒ@ƒCƒ‹‚ğ—v‹
+	// ã‚µãƒ¼ãƒãƒ¼ã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¦æ±‚
 	//
+	Resume();
 	if ( mode != CZHTTP_MODE_READY ) {
 		return -1;
 	}
@@ -343,17 +363,18 @@ int CzHttp::RequestFile( char *path )
 
 int CzHttp::GetRespHead( char *buff, LPDWORD size ){
 	resphead = buff;
-	resphead_size = size;
+	resphead_size_ptr = size;
 	return 0;
 }
 
 char *CzHttp::RequestFileInfo( char *path )
 {
-	// ƒT[ƒo[‚Éƒtƒ@ƒCƒ‹î•ñ‚ğ—v‹
+	// ã‚µãƒ¼ãƒãƒ¼ã«ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±ã‚’è¦æ±‚
 	//
 	std::string req_name;
 	DWORD dwSize = INETBUF_MAX;
 
+	Resume();
 	if ( mode != CZHTTP_MODE_READY ) {
 		return NULL;
 	}
@@ -364,7 +385,8 @@ char *CzHttp::RequestFileInfo( char *path )
 	if ( hService == NULL ) return NULL;
 
 	buf[0] = 0;
-	HttpQueryInfo( hService, HTTP_QUERY_RAW_HEADERS_CRLF, buf, &dwSize, 0 );
+	resphead_index = 0;
+	HttpQueryInfo( hService, HTTP_QUERY_RAW_HEADERS_CRLF, buf, &dwSize, &resphead_index);
 	InternetCloseHandle( hService );
 	return buf;
 }
@@ -372,7 +394,7 @@ char *CzHttp::RequestFileInfo( char *path )
 
 void CzHttp::SetURL( char *url )
 {
-	// ƒT[ƒo[‚ÌURL‚ğİ’è
+	// ã‚µãƒ¼ãƒãƒ¼ã®URLã‚’è¨­å®š
 	//
 	req_url = url;
 }
@@ -380,7 +402,7 @@ void CzHttp::SetURL( char *url )
 
 void CzHttp::SetLocalName( char *name )
 {
-	// ƒT[ƒo[‚ÌURL‚ğİ’è
+	// ã‚µãƒ¼ãƒãƒ¼ã®URLã‚’è¨­å®š
 	//
 	down_path = name;
 }
@@ -388,7 +410,7 @@ void CzHttp::SetLocalName( char *name )
 
 int CzHttp::GetSize( void )
 {
-	// æ“¾ƒtƒ@ƒCƒ‹‚ÌƒTƒCƒY‚ğ•Ô‚·
+	// å–å¾—ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚µã‚¤ã‚ºã‚’è¿”ã™
 	//
 	if ( mode != CZHTTP_MODE_READY ) return 0;
 	return size;
@@ -397,7 +419,7 @@ int CzHttp::GetSize( void )
 
 char *CzHttp::GetData( void )
 {
-	// æ“¾ƒtƒ@ƒCƒ‹ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
+	// å–å¾—ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‡ãƒ¼ã‚¿ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’è¿”ã™
 	//
 	if ( mode != CZHTTP_MODE_READY ) return NULL;
 	return pt;
@@ -406,8 +428,8 @@ char *CzHttp::GetData( void )
 
 void CzHttp::SetProxy( char *url, int port, int local )
 {
-	// PROXYƒT[ƒo[‚Ìİ’è
-	//	(URL‚ÉNULL‚ğw’è‚·‚é‚ÆPROXY–³Œø‚Æ‚È‚é)
+	// PROXYã‚µãƒ¼ãƒãƒ¼ã®è¨­å®š
+	//	(URLã«NULLã‚’æŒ‡å®šã™ã‚‹ã¨PROXYç„¡åŠ¹ã¨ãªã‚‹)
 	//
 	if ( url == NULL ) {
 		proxy_url.clear();
@@ -423,8 +445,8 @@ void CzHttp::SetProxy( char *url, int port, int local )
 
 void CzHttp::SetAgent( char *agent )
 {
-	// ƒG[ƒWƒFƒ“ƒg‚Ìİ’è
-	//	(URL‚ÉNULL‚ğw’è‚·‚é‚ÆƒfƒtƒHƒ‹ƒg‚É‚È‚é)
+	// ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã®è¨­å®š
+	//	(URLã«NULLã‚’æŒ‡å®šã™ã‚‹ã¨ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã«ãªã‚‹)
 	//
 	if ( str_agent != NULL ) { free( str_agent ); str_agent = NULL; }
 	if ( agent == NULL ) str_agent = agent; else {
@@ -437,7 +459,7 @@ void CzHttp::SetAgent( char *agent )
 
 void CzHttp::SetHeader( char *header )
 {
-	// ƒwƒbƒ_•¶š—ñ‚Ìİ’è
+	// ãƒ˜ãƒƒãƒ€æ–‡å­—åˆ—ã®è¨­å®š
 	//
 	req_header = header;
 }
@@ -445,7 +467,7 @@ void CzHttp::SetHeader( char *header )
 
 void CzHttp::SetUserName( char *name )
 {
-	// ƒ†[ƒU[–¼‚Ìİ’è
+	// ãƒ¦ãƒ¼ã‚¶ãƒ¼åã®è¨­å®š
 	//
 	username = name;
 }
@@ -453,7 +475,7 @@ void CzHttp::SetUserName( char *name )
 
 void CzHttp::SetUserPassword( char *pass )
 {
-	// ƒpƒXƒ[ƒh‚Ìİ’è
+	// ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®è¨­å®š
 	//
 	userpass = pass;
 }
@@ -461,7 +483,7 @@ void CzHttp::SetUserPassword( char *pass )
 
 void CzHttp::SetFtpPort( int port )
 {
-	// ƒ|[ƒg‚Ìİ’è
+	// ãƒãƒ¼ãƒˆã®è¨­å®š
 	//
 	ftp_port = port;
 }
@@ -469,7 +491,7 @@ void CzHttp::SetFtpPort( int port )
 
 void CzHttp::SetFtpFlag( int flag )
 {
-	// ƒpƒbƒVƒuƒ‚[ƒh‚Ìİ’è
+	// ãƒ‘ãƒƒã‚·ãƒ–ãƒ¢ãƒ¼ãƒ‰ã®è¨­å®š
 	//
 	if ( flag ) {
 		ftp_flag = INTERNET_FLAG_PASSIVE;
@@ -526,7 +548,7 @@ void CzHttp::SetVarServerFromURL( void )
 	tmp[1] = 0;
 	varport = INTERNET_DEFAULT_HTTP_PORT;
 
-	while(1)				// '//'‚ğ’T‚·
+	while(1)				// '//'ã‚’æ¢ã™
 	{
 		a1 = *p++;
 		if ( a1 == 0 ) return;
@@ -534,13 +556,13 @@ void CzHttp::SetVarServerFromURL( void )
 			if ( *p == '/' ) { p++; break; }
 		}
 	}
-	while(1) {				// '/'‚Ü‚Å‚ğæ‚èo‚·
+	while(1) {				// '/'ã¾ã§ã‚’å–ã‚Šå‡ºã™
 		a1 = *p;
 		if ( a1 == 0 ) break;
 		p++;
 		if ( a1 == '/' ) break;
 		if ( a1 == ':' ) {
-			//	ƒ|[ƒg”Ô†‚ğæ‚èo‚·
+			//	ãƒãƒ¼ãƒˆç•ªå·ã‚’å–ã‚Šå‡ºã™
 			int i = 0;
 			while(isdigit(p[i])) {
 				i ++;
@@ -558,7 +580,7 @@ void CzHttp::SetVarServerFromURL( void )
 
 	req_url2 = "/";
 
-	while(1) {				// ÅŒã‚Ü‚Åæ‚èo‚·
+	while(1) {				// æœ€å¾Œã¾ã§å–ã‚Šå‡ºã™
 		a1 = *p++;
 		if ( a1 == 0 ) break;
 		tmp[0] = a1;
@@ -570,8 +592,9 @@ void CzHttp::SetVarServerFromURL( void )
 
 void CzHttp::SetVarRequestGet( char *path )
 {
-	// ƒT[ƒo[‚Éƒtƒ@ƒCƒ‹‚ğ—v‹(GET)
+	// ã‚µãƒ¼ãƒãƒ¼ã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¦æ±‚(GET)
 	//
+	Resume();
 	if ( mode != CZHTTP_MODE_READY ) {
 		return;
 	}
@@ -585,8 +608,9 @@ void CzHttp::SetVarRequestGet( char *path )
 
 void CzHttp::SetVarRequestPost( char *path, char *post )
 {
-	// ƒT[ƒo[‚Éƒtƒ@ƒCƒ‹‚ğ—v‹(POST)
+	// ã‚µãƒ¼ãƒãƒ¼ã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¦æ±‚(POST)
 	//
+	Resume();
 	if ( mode != CZHTTP_MODE_READY ) {
 		return;
 	}
@@ -600,8 +624,9 @@ void CzHttp::SetVarRequestPost( char *path, char *post )
 
 void CzHttp::SetVarRequestPost2( char *path, char *post, int size )
 {
-	// ƒT[ƒo[‚Éƒtƒ@ƒCƒ‹‚ğ—v‹(POST)
+	// ã‚µãƒ¼ãƒãƒ¼ã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¦æ±‚(POST)
 	//
+	Resume();
 	if ( mode != CZHTTP_MODE_READY ) {
 		return;
 	}
@@ -615,8 +640,9 @@ void CzHttp::SetVarRequestPost2( char *path, char *post, int size )
 
 void CzHttp::SetVarRequestPut(char *path, char *post)
 {
-	// ƒT[ƒo[‚Éƒtƒ@ƒCƒ‹‚ğ—v‹(PUT)
+	// ã‚µãƒ¼ãƒãƒ¼ã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¦æ±‚(PUT)
 	//
+	Resume();
 	if (mode != CZHTTP_MODE_READY) {
 		return;
 	}
@@ -630,8 +656,9 @@ void CzHttp::SetVarRequestPut(char *path, char *post)
 
 void CzHttp::SetVarRequestPut2(char *path, char *post, int size)
 {
-	// ƒT[ƒo[‚Éƒtƒ@ƒCƒ‹‚ğ—v‹(PUT)
+	// ã‚µãƒ¼ãƒãƒ¼ã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¦æ±‚(PUT)
 	//
+	Resume();
 	if (mode != CZHTTP_MODE_READY) {
 		return;
 	}
@@ -645,8 +672,9 @@ void CzHttp::SetVarRequestPut2(char *path, char *post, int size)
 
 void CzHttp::SetVarRequestDelete(char *path)
 {
-	// ƒT[ƒo[‚Éƒtƒ@ƒCƒ‹‚ğ—v‹(DELETE)
+	// ã‚µãƒ¼ãƒãƒ¼ã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¦æ±‚(DELETE)
 	//
+	Resume();
 	if (mode != CZHTTP_MODE_READY) {
 		return;
 	}
@@ -663,7 +691,7 @@ void CzHttp::SetVarRequestDelete(char *path)
 
 int CzHttp::FtpConnect( void )
 {
-	// FTPÚ‘±
+	// FTPæ¥ç¶š
 	//
 	*buf = 0;
 	if ( mode != CZHTTP_MODE_READY ) {
@@ -688,7 +716,7 @@ int CzHttp::FtpConnect( void )
 
 void CzHttp::FtpDisconnect( void )
 {
-	// FTPØ’f
+	// FTPåˆ‡æ–­
 	//
 	if ( mode != CZHTTP_MODE_FTPREADY ) {
 		return;
@@ -700,7 +728,7 @@ void CzHttp::FtpDisconnect( void )
 
 char *CzHttp::GetFtpResponse( void )
 {
-	// FTPƒŒƒXƒ|ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
+	// FTPãƒ¬ã‚¹ãƒãƒ³ã‚¹ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’è¿”ã™
 	//
 	DWORD dwSize = INETBUF_MAX;
 	DWORD dwError;
@@ -716,7 +744,7 @@ char *CzHttp::GetFtpResponse( void )
 
 char *CzHttp::GetFtpCurrentDir( void )
 {
-	// FTPƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾
+	// FTPã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å–å¾—
 	//
 	DWORD dwSize = INETBUF_MAX;
 
@@ -725,14 +753,14 @@ char *CzHttp::GetFtpCurrentDir( void )
 		return buf;
 	}
 	FtpGetCurrentDirectory( hService, buf, &dwSize );
-	GetFtpResponse();	// ‡”Ô“ü‚ê‘Ö‚¦
+	GetFtpResponse();	// é †ç•ªå…¥ã‚Œæ›¿ãˆ
 	return buf;
 }
 
 
 void CzHttp::SetFtpDir( char *name )
 {
-	// FTPƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğ•ÏX
+	// FTPã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å¤‰æ›´
 	//
 	if ( mode != CZHTTP_MODE_FTPREADY ) {
 		return;
@@ -744,7 +772,7 @@ void CzHttp::SetFtpDir( char *name )
 
 void CzHttp::GetFtpDirList( void )
 {
-	// FTPƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ“à—e‚ğæ“¾
+	// FTPã‚«ãƒ¬ãƒ³ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå†…å®¹ã‚’å–å¾—
 	//
 	if ( mode != CZHTTP_MODE_FTPREADY ) {
 		return;
@@ -757,7 +785,7 @@ void CzHttp::GetFtpDirList( void )
 
 char *CzHttp::GetTempBuffer( void )
 {
-	// “à•”ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
+	// å†…éƒ¨ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’è¿”ã™
 	//
 	return buf;
 }
@@ -765,7 +793,7 @@ char *CzHttp::GetTempBuffer( void )
 
 int CzHttp::GetFtpFile( char *name, char *downname, int tmode )
 {
-	// FTPƒtƒ@ƒCƒ‹‚ğæ“¾
+	// FTPãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—
 	//
 	int i;
 	DWORD type;
@@ -775,7 +803,7 @@ int CzHttp::GetFtpFile( char *name, char *downname, int tmode )
 	type = FTP_TRANSFER_TYPE_BINARY;
 	if ( tmode ) type = FTP_TRANSFER_TYPE_ASCII;
 	i = FtpGetFile( hService, name, downname, FALSE, FILE_ATTRIBUTE_ARCHIVE, type, 0 );
-	GetFtpResponse();	// ‡”Ô“ü‚ê‘Ö‚¦
+	GetFtpResponse();	// é †ç•ªå…¥ã‚Œæ›¿ãˆ
 	if ( i == 0 ) return -1;
 	return 0;
 }
@@ -783,7 +811,7 @@ int CzHttp::GetFtpFile( char *name, char *downname, int tmode )
 
 int CzHttp::PutFtpFile( char *name, char *downname, int tmode )
 {
-	// FTPƒtƒ@ƒCƒ‹‚ğ‘—M
+	// FTPãƒ•ã‚¡ã‚¤ãƒ«ã‚’é€ä¿¡
 	//
 	int i;
 	DWORD type;
@@ -793,7 +821,7 @@ int CzHttp::PutFtpFile( char *name, char *downname, int tmode )
 	type = FTP_TRANSFER_TYPE_BINARY;
 	if ( tmode ) type = FTP_TRANSFER_TYPE_ASCII;
 	i = FtpPutFile( hService, downname, name, type, 0 );
-	GetFtpResponse();	// ‡”Ô“ü‚ê‘Ö‚¦
+	GetFtpResponse();	// é †ç•ªå…¥ã‚Œæ›¿ãˆ
 	if ( i == 0 ) return -1;
 	return 0;
 }
@@ -801,7 +829,7 @@ int CzHttp::PutFtpFile( char *name, char *downname, int tmode )
 
 int CzHttp::RenameFtpFile( char *name, char *newname )
 {
-	// FTPƒtƒ@ƒCƒ‹‚ğƒŠƒl[ƒ€
+	// FTPãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒªãƒãƒ¼ãƒ 
 	//
 	int i;
 	if ( mode != CZHTTP_MODE_FTPREADY ) {
@@ -812,7 +840,7 @@ int CzHttp::RenameFtpFile( char *name, char *newname )
 	} else {
 		i = FtpRenameFile( hService, name, newname );
 	}
-	GetFtpResponse();	// ‡”Ô“ü‚ê‘Ö‚¦
+	GetFtpResponse();	// é †ç•ªå…¥ã‚Œæ›¿ãˆ
 	if ( i == 0 ) return -1;
 	return 0;
 }
@@ -820,14 +848,14 @@ int CzHttp::RenameFtpFile( char *name, char *newname )
 
 int CzHttp::MakeFtpDir( char *name )
 {
-	// FTPƒfƒBƒŒƒNƒgƒŠì¬
+	// FTPãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªä½œæˆ
 	//
 	int i;
 	if ( mode != CZHTTP_MODE_FTPREADY ) {
 		return -1;
 	}
 	i = FtpCreateDirectory( hService, name );
-	GetFtpResponse();	// ‡”Ô“ü‚ê‘Ö‚¦
+	GetFtpResponse();	// é †ç•ªå…¥ã‚Œæ›¿ãˆ
 	if ( i == 0 ) return -1;
 	return 0;
 }
@@ -835,14 +863,14 @@ int CzHttp::MakeFtpDir( char *name )
 
 int CzHttp::KillFtpDir( char *name )
 {
-	// FTPƒfƒBƒŒƒNƒgƒŠíœ
+	// FTPãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå‰Šé™¤
 	//
 	int i;
 	if ( mode != CZHTTP_MODE_FTPREADY ) {
 		return -1;
 	}
 	i = FtpRemoveDirectory( hService, name );
-	GetFtpResponse();	// ‡”Ô“ü‚ê‘Ö‚¦
+	GetFtpResponse();	// é †ç•ªå…¥ã‚Œæ›¿ãˆ
 	if ( i == 0 ) return -1;
 	return 0;
 }
@@ -850,7 +878,7 @@ int CzHttp::KillFtpDir( char *name )
 
 int CzHttp::FtpSendCommand( char *cmd )
 {
-	// FTPƒRƒ}ƒ“ƒh‘—M
+	// FTPã‚³ãƒãƒ³ãƒ‰é€ä¿¡
 	//
 	int i;
 	if ( mode != CZHTTP_MODE_FTPREADY ) {
@@ -872,7 +900,7 @@ int CzHttp::FtpSendCommand( char *cmd )
 
 int CzHttp::UrlEncode( char *dst, int dstsize, char *src )
 {
-	//	URLƒGƒ“ƒR[ƒh
+	//	URLã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰
 	//
 	int len;
 	unsigned char *p;
@@ -902,7 +930,7 @@ int CzHttp::UrlEncode( char *dst, int dstsize, char *src )
 
 int CzHttp::UrlDecode( char *dst, int dstsize, char *src )
 {
-	//	URLƒfƒR[ƒh
+	//	URLãƒ‡ã‚³ãƒ¼ãƒ‰
 	//
 	int len,val1,val2;
 	unsigned char *p;
@@ -959,7 +987,7 @@ int CzHttp::CheckHexCode( int code )
 
 void CzHttp::SetError( char *mes )
 {
-	//	ƒGƒ‰[•¶š—ñ‚ğİ’è
+	//	ã‚¨ãƒ©ãƒ¼æ–‡å­—åˆ—ã‚’è¨­å®š
 	//
 	mode = CZHTTP_MODE_ERROR;
 	errstr = mes;

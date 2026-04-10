@@ -11,13 +11,13 @@
 #include "../hsp3/hsp3config.h"
 #include "../hsp3/hsp3debug.h"
 #include "../hsp3/hsp3struct.h"
+#include "../hsp3/strnote.h"
 
 #include "supio.h"
 #include "token.h"
 #include "label.h"
 #include "tagstack.h"
 #include "membuf.h"
-#include "strnote.h"
 #include "comutil.h"
 
 #include "errormsg.h"
@@ -40,10 +40,10 @@ void CToken::CalcCG_token_exprbeg( void )
 
 void CToken::CalcCG_token_exprbeg_redo( void )
 {
-	//		GETTOKEN_EXPRBEG ‚Åƒg[ƒNƒ“‚ğæ“¾‚µ’¼‚·
+	//		GETTOKEN_EXPRBEG ã§ãƒˆãƒ¼ã‚¯ãƒ³ã‚’å–å¾—ã—ç›´ã™
 	//
-	//		GetTokenCG ‚Í •¶š—ñƒŠƒeƒ‰ƒ‹‚â•¶šƒR[ƒhƒŠƒeƒ‰ƒ‹‚Ìê‡A
-	//		cg_ptr ‚Ìƒoƒbƒtƒ@‚ğ”j‰ó‚·‚é‚Ì‚Åí‚Éæ“¾‚µ’¼‚·‚í‚¯‚É‚Í‚¢‚©‚È‚¢
+	//		GetTokenCG ã¯ æ–‡å­—åˆ—ãƒªãƒ†ãƒ©ãƒ«ã‚„æ–‡å­—ã‚³ãƒ¼ãƒ‰ãƒªãƒ†ãƒ©ãƒ«ã®å ´åˆã€
+	//		cg_ptr ã®ãƒãƒƒãƒ•ã‚¡ã‚’ç ´å£Šã™ã‚‹ã®ã§å¸¸ã«å–å¾—ã—ç›´ã™ã‚ã‘ã«ã¯ã„ã‹ãªã„
 	//
 	if ( ttype == TK_NONE ) ttype = val;
 	if ( ttype == '-' || ttype == '*' ) {
@@ -60,7 +60,7 @@ static int is_statement_end( int type )
 
 void CToken::CalcCG_regmark( int mark )
 {
-	//		‰‰Zq‚ğ“o˜^‚·‚é
+	//		æ¼”ç®—å­ã‚’ç™»éŒ²ã™ã‚‹
 	//
 	int op;
 	op = 0;
@@ -158,7 +158,7 @@ void CToken::CalcCG_factor( void )
 		if ( lb->GetType(id) == TYPE_VAR ) {
 			if ( lb->GetInitFlag(id) == LAB_INIT_NO ) {
 #ifdef JPNMSG
-				Mesf( "#–¢‰Šú‰»‚Ì•Ï”‚ª‚ ‚è‚Ü‚·(%s)", cg_str );
+				Mesf( "#æœªåˆæœŸåŒ–ã®å¤‰æ•°ãŒã‚ã‚Šã¾ã™(%s)", cg_str );
 #else
 				Mesf( "#Uninitalized variable (%s).", cg_str );
 #endif
@@ -170,7 +170,7 @@ void CToken::CalcCG_factor( void )
 		}
 		GenerateCodeVAR( id, texflag );
 		texflag = 0;
-		if ( ttype == TK_NONE ) ttype = val;		// CalcCG_token()‚É‡‚í‚¹‚é‚½‚ß
+		if ( ttype == TK_NONE ) ttype = val;		// CalcCG_token()ã«åˆã‚ã›ã‚‹ãŸã‚
 		calccount++;
 		return;
 	case TK_SEPARATE:
@@ -187,7 +187,7 @@ void CToken::CalcCG_factor( void )
 		return;
 	}
 
-	//		ƒJƒbƒR‚Ìˆ—
+	//		ã‚«ãƒƒã‚³ã®å‡¦ç†
 	//
 	CalcCG_token_exprbeg();
 	CalcCG_start();
@@ -198,7 +198,7 @@ void CToken::CalcCG_factor( void )
 
 void CToken::CalcCG_unary( void )
 {
-	//		’P€‰‰Zq
+	//		å˜é …æ¼”ç®—å­
 	//
 	int op;
 	if ( ttype=='-' ) {
@@ -292,8 +292,8 @@ void CToken::CalcCG_start( void )
 
 void CToken::CalcCG( int ex )
 {
-	//		ƒpƒ‰ƒ[ƒ^[‚Ì®‚ğ•]‰¿‚·‚é
-	//		(Œ‹‰Ê‚Í‹tƒ|[ƒ‰ƒ“ƒh‚ÅƒR[ƒh‚ğo—Í‚·‚é)
+	//		ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼ã®å¼ã‚’è©•ä¾¡ã™ã‚‹
+	//		(çµæœã¯é€†ãƒãƒ¼ãƒ©ãƒ³ãƒ‰ã§ã‚³ãƒ¼ãƒ‰ã‚’å‡ºåŠ›ã™ã‚‹)
 	//
 	texflag = ex;
 	cs_lastptr = cs_buf->GetSize();
@@ -313,8 +313,8 @@ void CToken::CalcCG( int ex )
 
 char *CToken::PickLongStringCG( char *str )
 {
-	//		w’è•¶š—ñ‚ğmembuf‚Ö“WŠJ‚·‚é
-	//		( •¡”s‘Î‰ {"`"} )
+	//		æŒ‡å®šæ–‡å­—åˆ—ã‚’membufã¸å±•é–‹ã™ã‚‹
+	//		( è¤‡æ•°è¡Œå¯¾å¿œ {"ï½"} )
 	//
 	char *p;
 	char *psrc;
@@ -329,7 +329,7 @@ char *CToken::PickLongStringCG( char *str )
 		psrc = ps;
 		cg_orgline++;
 
-		//		s‚ÌI’[‚É‚ ‚é0‚ğ‰üs‚É’u‚«Š·‚¦‚é
+		//		è¡Œã®çµ‚ç«¯ã«ã‚ã‚‹0ã‚’æ”¹è¡Œã«ç½®ãæ›ãˆã‚‹
 		p[0] = 13;
 		p[1] = 10;
 		p+=2;
@@ -337,7 +337,7 @@ char *CToken::PickLongStringCG( char *str )
 	if ( *psrc != '}' ) throw CGERROR_MULTILINE_STR;
 
 	if ( cg_debug ) {
-		PutDI( 254, 0, cg_orgline );                // ƒ‰ƒCƒ“‚¾‚¯‚ğƒfƒoƒbƒOî•ñ‚Æ‚µ‚Ä“o˜^
+		PutDI( 254, 0, cg_orgline );                // ãƒ©ã‚¤ãƒ³ã ã‘ã‚’ãƒ‡ãƒãƒƒã‚°æƒ…å ±ã¨ã—ã¦ç™»éŒ²
 	}
 
 	psrc++;
@@ -347,8 +347,8 @@ char *CToken::PickLongStringCG( char *str )
 
 char *CToken::PickStringCG( char *str, int sep )
 {
-	//		w’è•¶š—ñ‚ğƒXƒLƒbƒv‚µ‚ÄI’[ƒR[ƒh‚ğ•t‰Á‚·‚é
-	//			sep = ‹æØ‚è•¶š
+	//		æŒ‡å®šæ–‡å­—åˆ—ã‚’ã‚¹ã‚­ãƒƒãƒ—ã—ã¦çµ‚ç«¯ã‚³ãƒ¼ãƒ‰ã‚’ä»˜åŠ ã™ã‚‹
+	//			sep = åŒºåˆ‡ã‚Šæ–‡å­—
 	//
 	unsigned char *vs;
 	unsigned char *pp;
@@ -361,7 +361,7 @@ char *CToken::PickStringCG( char *str, int sep )
 		a1=*vs;
 		if (a1==0) break;
 		if (a1==sep) { vs++; break; }
-		if (a1==0x5c) {					// '\'ƒ`ƒFƒbƒN
+		if (a1==0x5c) {					// '\'ãƒã‚§ãƒƒã‚¯
 			vs++;
 			a1 = tolower( *vs );
 			if ( a1 < 32 ) continue;
@@ -378,7 +378,7 @@ char *CToken::PickStringCG( char *str, int sep )
 				break;
 			}
 		}
-		skip = SkipMultiByte( a1 );		// ‘SŠp•¶šƒ`ƒFƒbƒN
+		skip = SkipMultiByte( a1 );		// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 		if ( skip ) {
 			for(i=0;i<skip;i++) {
 				*pp++ = a1;
@@ -396,8 +396,8 @@ char *CToken::PickStringCG( char *str, int sep )
 
 char *CToken::PickStringCG2( char *str, char **strsrc )
 {
-	//		w’è•¶š—ñ‚ğƒXƒLƒbƒv‚µ‚ÄI’[ƒR[ƒh‚ğ•t‰Á‚·‚é
-	//			sep = ‹æØ‚è•¶š
+	//		æŒ‡å®šæ–‡å­—åˆ—ã‚’ã‚¹ã‚­ãƒƒãƒ—ã—ã¦çµ‚ç«¯ã‚³ãƒ¼ãƒ‰ã‚’ä»˜åŠ ã™ã‚‹
+	//			sep = åŒºåˆ‡ã‚Šæ–‡å­—
 	//
 	unsigned char *vs;
 	unsigned char *pp;
@@ -416,7 +416,7 @@ char *CToken::PickStringCG2( char *str, char **strsrc )
 			*pp++ = a1;
 			continue;
 		}
-		if (a1==0x5c) {					// '\'ƒ`ƒFƒbƒN
+		if (a1==0x5c) {					// '\'ãƒã‚§ãƒƒã‚¯
 			vs++;
 			a1 = tolower( *vs );
 			if ( a1 < 32 ) continue;
@@ -436,7 +436,7 @@ char *CToken::PickStringCG2( char *str, char **strsrc )
 				break;
 			}
 		}
-		skip = SkipMultiByte( a1 );		// ‘SŠp•¶šƒ`ƒFƒbƒN
+		skip = SkipMultiByte( a1 );		// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 		if ( skip ) {
 			for(i=0;i<skip;i++) {
 				*pp++ = a1;
@@ -462,8 +462,8 @@ char *CToken::GetTokenCG( int option )
 
 int CToken::PickNextCodeCG( void )
 {
-	//		Ÿ‚ÌƒR[ƒh(‚P•¶š‚ğ•Ô‚·)
-	//		(I’[‚Ìê‡‚Í0‚ğ•Ô‚·)
+	//		æ¬¡ã®ã‚³ãƒ¼ãƒ‰(ï¼‘æ–‡å­—ã‚’è¿”ã™)
+	//		(çµ‚ç«¯ã®å ´åˆã¯0ã‚’è¿”ã™)
 	//
 	unsigned char *vs;
 	unsigned char a1;
@@ -471,7 +471,7 @@ int CToken::PickNextCodeCG( void )
 	if ( vs == NULL ) return 0;
 	while(1) {
 		a1=*vs;
-		if (( a1 != 32 )&&( a1 != '\t' )) {		// space,tabˆÈŠO‚©?
+		if (( a1 != 32 )&&( a1 != '\t' )) {		// space,tabä»¥å¤–ã‹?
 			break;
 		}
 		vs++;
@@ -481,9 +481,9 @@ int CToken::PickNextCodeCG( void )
 
 char *CToken::GetTokenCG( char *str, int option )
 {
-	//		stringƒf[ƒ^‚Ìƒ^ƒCƒv‚Æ“à—e‚ğ•Ô‚·
-	//		(Ÿ‚Ìptr‚ğ•Ô‚·)
-	//		(ttype‚Éƒ^ƒCƒv‚ğAval,val_d,cg_str‚É“à—e‚ğ‘‚«‚İ‚Ü‚·)
+	//		stringãƒ‡ãƒ¼ã‚¿ã®ã‚¿ã‚¤ãƒ—ã¨å†…å®¹ã‚’è¿”ã™
+	//		(æ¬¡ã®ptrã‚’è¿”ã™)
+	//		(ttypeã«ã‚¿ã‚¤ãƒ—ã‚’ã€val,val_d,cg_strã«å†…å®¹ã‚’æ›¸ãè¾¼ã¿ã¾ã™)
 	//
 	unsigned char *vs;
 	unsigned char a1;
@@ -498,7 +498,7 @@ char *CToken::GetTokenCG( char *str, int option )
 
 	while(1) {
 		a1=*vs;
-		if (( a1 != 32 )&&( a1 != '\t' )) {		// space,tabˆÈŠO‚©?
+		if (( a1 != 32 )&&( a1 != '\t' )) {		// space,tabä»¥å¤–ã‹?
 			break;
 		}
 		vs++;
@@ -510,30 +510,31 @@ char *CToken::GetTokenCG( char *str, int option )
 		//return GetLineCG();
 	}
 
-	if ( a1<0x20 ) {							// –³Œø‚ÈƒR[ƒh
+	if ( a1<0x20 ) {							// ç„¡åŠ¹ãªã‚³ãƒ¼ãƒ‰
 		ttype = TK_ERROR;
 		throw CGERROR_UNKNOWN;
 	}
 
-	if (a1==0x22) {								// "`"
+	if (a1==0x22) {								// "ï½"
 		vs++;
 		ttype = TK_STRING; cg_str = (char *)vs;
 		return PickStringCG( (char *)vs, 0x22 );
 	}
 
-	if (a1=='{') {							// {"`"}
+	if (a1=='{') {							// {"ï½"}
 		if (vs[1]==0x22) {
 			vs+=2;
 			if ( *vs == 0 ) {
 				vs = (unsigned char *)GetLineCG();
 				cg_orgline++;
+				if (vs == NULL) return NULL;
 			}
 			ttype = TK_STRING; cg_str = (char *)vs;
 			return PickLongStringCG( (char *)vs );
 		}
 	}
 
-	if (a1==0x27) {								// '`'
+	if (a1==0x27) {								// 'ï½'
 		char *p;
 		vs++; cg_str = (char *)vs;
 		p = PickStringCG( (char *)vs, 0x27 );
@@ -597,7 +598,7 @@ char *CToken::GetTokenCG( char *str, int option )
 	if ((a1>=0x7b)&&(a1<=0x7f)) chk++;
 
 	if ( option & (GETTOKEN_EXPRBEG|GETTOKEN_LABEL) ) {
-		if ( a1 == '*' ) {					// ƒ‰ƒxƒ‹
+		if ( a1 == '*' ) {					// ãƒ©ãƒ™ãƒ«
 			a2 = vs[1]; b = 0;
 			if (a2<0x30) b++;
 			if ((a2>=0x30)&&(a2<=0x3f)) b++;
@@ -639,7 +640,7 @@ char *CToken::GetTokenCG( char *str, int option )
 			s2[a++]=a1;vs++;
 		}
 		if (( a1=='f' )||( a1=='d' )) { chk = 1; vs++; }
-		if ( a1=='e' ) {						// w”•”‚ğæ‚è‚Ş
+		if ( a1=='e' ) {						// æŒ‡æ•°éƒ¨ã‚’å–ã‚Šè¾¼ã‚€
 			chk = 1;
 			s2[a++] = 'e';
 			vs++;
@@ -672,7 +673,7 @@ char *CToken::GetTokenCG( char *str, int option )
 		return (char *)vs;
 	}
 
-	if (chk) {								// ‹L†
+	if (chk) {								// è¨˜å·
 		vs++;a2=*vs;
 		switch( a1 ) {
 		case '-':
@@ -705,10 +706,10 @@ char *CToken::GetTokenCG( char *str, int option )
 	}
 
 	a=0;
-	while(1) {								// ƒVƒ“ƒ{ƒ‹æ‚èo‚µ
+	while(1) {								// ã‚·ãƒ³ãƒœãƒ«å–ã‚Šå‡ºã—
 		a1=*vs;
 
-		skip = SkipMultiByte( a1 );			// ‘SŠp•¶šƒ`ƒFƒbƒN
+		skip = SkipMultiByte( a1 );			// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 		if ( skip ) {
 			for(i=0;i<(skip+1);i++) {
 				if ( a<OBJNAME_MAX ) {
@@ -733,7 +734,7 @@ char *CToken::GetTokenCG( char *str, int option )
 	}
 	s2[a]=0;
 
-	//		ƒVƒ“ƒ{ƒ‹
+	//		ã‚·ãƒ³ãƒœãƒ«
 	//
 	if ( labmode ) {
 		ttype = TK_LABEL;
@@ -747,7 +748,7 @@ char *CToken::GetTokenCG( char *str, int option )
 
 char *CToken::GetSymbolCG( char *str )
 {
-	//		stringƒf[ƒ^‚ÌƒVƒ“ƒ{ƒ‹“à—e‚ğ•Ô‚·
+	//		stringãƒ‡ãƒ¼ã‚¿ã®ã‚·ãƒ³ãƒœãƒ«å†…å®¹ã‚’è¿”ã™
 	//
 	unsigned char *vs;
 	unsigned char a1;
@@ -759,13 +760,13 @@ char *CToken::GetSymbolCG( char *str )
 
 	while(1) {
 		a1=*vs;
-		if (( a1 != 32 )&&( a1 != '\t' )) {		// space,tabˆÈŠO‚©?
+		if (( a1 != 32 )&&( a1 != '\t' )) {		// space,tabä»¥å¤–ã‹?
 			break;
 		}
 		vs++;
 	}
 
-	if ( a1<0x20 ) {							// –³Œø‚ÈƒR[ƒh
+	if ( a1<0x20 ) {							// ç„¡åŠ¹ãªã‚³ãƒ¼ãƒ‰
 		return NULL;
 	}
 
@@ -776,15 +777,15 @@ char *CToken::GetSymbolCG( char *str )
 	if ((a1>=0x5b)&&(a1<=0x5e)) chk++;
 	if ((a1>=0x7b)&&(a1<=0x7f)) chk++;
 
-	if (chk) {								// ‹L†
+	if (chk) {								// è¨˜å·
 		return NULL;
 	}
 
 	a=0;
-	while(1) {								// ƒVƒ“ƒ{ƒ‹æ‚èo‚µ
+	while(1) {								// ã‚·ãƒ³ãƒœãƒ«å–ã‚Šå‡ºã—
 		a1=*vs;
 
-		skip = SkipMultiByte( a1 );			// ‘SŠp•¶šƒ`ƒFƒbƒN
+		skip = SkipMultiByte( a1 );			// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 		if ( skip ) {
 			for(i=0;i<(skip+1);i++) {
 				if ( a<OBJNAME_MAX ) {
@@ -816,14 +817,14 @@ char *CToken::GetSymbolCG( char *str )
 
 void CToken::GenerateCodePRM( void )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(ƒpƒ‰ƒ[ƒ^[)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼)
 	//
 	int ex;
 	ex = 0;
 	while(1) {
 
 		if ( ttype == TK_NONE ) {
-			if ( val == ',' ) {						// æ“ª‚ª','‚Ìê‡‚ÍÈ—ª
+			if ( val == ',' ) {						// å…ˆé ­ãŒ','ã®å ´åˆã¯çœç•¥
 				if ( ex & EXFLG_2 ) PutCS( TYPE_MARK, '?', EXFLG_2 );
 				GetTokenCG( GETTOKEN_DEFAULT );
 				ex |= EXFLG_2;
@@ -831,11 +832,11 @@ void CToken::GenerateCodePRM( void )
 			}
 		}
 
-		CalcCG( ex );								// ®‚Ì•]‰¿
+		CalcCG( ex );								// å¼ã®è©•ä¾¡
 		//Mesf( "#count %d", calccount );
 
 		if ( hed_cmpmode & CMPMODE_OPTPRM ) {
-			if ( calccount == 1 ) {						// ƒpƒ‰ƒ[ƒ^[‚ª’Pˆê€–Ú‚Ì
+			if ( calccount == 1 ) {						// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼ãŒå˜ä¸€é …ç›®ã®æ™‚
 				switch( cs_lasttype ) {
 				case TK_NUM:
 				case TK_DNUM:
@@ -843,7 +844,7 @@ void CToken::GenerateCodePRM( void )
 					{
 					unsigned short *cstmp;
 					cstmp = (unsigned short *)( cs_buf->GetBuffer() + cs_lastptr );
-					*cstmp |= EXFLG_0;					// ’Pˆê€–Úƒtƒ‰ƒO‚ğ—§‚Ä‚é
+					*cstmp |= EXFLG_0;					// å˜ä¸€é …ç›®ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 					break;
 					}
 				default:
@@ -869,18 +870,18 @@ void CToken::GenerateCodePRM( void )
 
 int CToken::GenerateCodePRMF( void )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(ƒJƒbƒR“à‚Ìƒpƒ‰ƒ[ƒ^[)
-	//		(–ß‚è’l : exflg)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(ã‚«ãƒƒã‚³å†…ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼)
+	//		(æˆ»ã‚Šå€¤ : exflg)
 	//
 	int ex;
 	ex = 0;
 	while(1) {
 
 		if ( ttype == TK_NONE ) {
-			if ( val == ')' ) {						// ')'‚Ìê‡‚ÍI—¹
+			if ( val == ')' ) {						// ')'ã®å ´åˆã¯çµ‚äº†
 				return ex;
 			}
-			if ( val == ',' ) {						// æ“ª‚ª','‚Ìê‡‚ÍÈ—ª
+			if ( val == ',' ) {						// å…ˆé ­ãŒ','ã®å ´åˆã¯çœç•¥
 				if ( ex & EXFLG_2 ) PutCS( TYPE_MARK, '?', EXFLG_2 );
 				GetTokenCG( GETTOKEN_DEFAULT );
 				ex |= EXFLG_2;
@@ -905,7 +906,7 @@ int CToken::GenerateCodePRMF( void )
 
 void CToken::GenerateCodePRMF2( void )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é('.'‚©‚çn‚Ü‚é”z—ñ“à‚Ìƒpƒ‰ƒ[ƒ^[)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹('.'ã‹ã‚‰å§‹ã¾ã‚‹é…åˆ—å†…ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼)
 	//
 	int t;
 	int id,ex;
@@ -939,7 +940,7 @@ void CToken::GenerateCodePRMF2( void )
 			GetTokenCG( GETTOKEN_DEFAULT );
 
 			if ( ttype == TK_NONE ) {
-				if ( val == '(' ) {						// '(' ”z—ñw’è
+				if ( val == '(' ) {						// '(' é…åˆ—æŒ‡å®š
 					GetTokenCG( GETTOKEN_DEFAULT );
 					PutCS( TYPE_MARK, '(', 0 );
 					tmp = GenerateCodePRMF();
@@ -967,7 +968,7 @@ void CToken::GenerateCodePRMF2( void )
 
 void CToken::GenerateCodePRMF3( void )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é('<'‚©‚çn‚Ü‚é\‘¢‘ÌQÆŒ³‚Ìƒpƒ‰ƒ[ƒ^[)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹('<'ã‹ã‚‰å§‹ã¾ã‚‹æ§‹é€ ä½“å‚ç…§å…ƒã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼)
 	//
 	int id,ex;
 	ex = 0;
@@ -985,7 +986,7 @@ void CToken::GenerateCodePRMF3( void )
 
 int CToken::GenerateCodePRMF4( int t )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(\‘¢‘Ì/”z—ñw’èƒpƒ‰ƒ[ƒ^[)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(æ§‹é€ ä½“/é…åˆ—æŒ‡å®šãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼)
 	//
 //	int t,id;
 	int ex;
@@ -1007,12 +1008,12 @@ int CToken::GenerateCodePRMF4( int t )
 				}
 			}
 */
-			PutCS( TYPE_MARK, '(', 0 );			// '.' ”z—ñw’è
+			PutCS( TYPE_MARK, '(', 0 );			// '.' é…åˆ—æŒ‡å®š
 			GenerateCodePRMF2();
 			PutCS( TYPE_MARK, ')', 0 );
 			return 1;
 		}
-		if ( val == '(' ) {						// '(' ”z—ñw’è
+		if ( val == '(' ) {						// '(' é…åˆ—æŒ‡å®š
 			GetTokenCG( GETTOKEN_DEFAULT );
 			PutCS( TYPE_MARK, '(', 0 );
 			tmp = GenerateCodePRMF();
@@ -1022,7 +1023,7 @@ int CToken::GenerateCodePRMF4( int t )
 			return 1;
 		}
 		if ( t == TYPE_STRUCT ) {
-			if ( val == '[' ) {						// '[' ƒ\[ƒXw’è
+			if ( val == '[' ) {						// '[' ã‚½ãƒ¼ã‚¹æŒ‡å®š
 				PutCS( TYPE_MARK, '[', 0 );
 				GenerateCodePRMF3();
 				return 0;
@@ -1035,7 +1036,7 @@ int CToken::GenerateCodePRMF4( int t )
 
 void CToken::GenerateCodeMethod( void )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(->‚É‘±‚­ƒƒ\ƒbƒh–¼)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(->ã«ç¶šããƒ¡ã‚½ãƒƒãƒ‰å)
 	//
 	int id,ex;
 	ex = 0;
@@ -1062,7 +1063,7 @@ void CToken::GenerateCodeMethod( void )
 	while(1) {
 
 		if ( ttype == TK_NONE ) {
-			if ( val == ',' ) {						// æ“ª‚ª','‚Ìê‡‚ÍÈ—ª
+			if ( val == ',' ) {						// å…ˆé ­ãŒ','ã®å ´åˆã¯çœç•¥
 				if ( ex & EXFLG_2 ) PutCS( TYPE_MARK, '?', EXFLG_2 );
 				GetTokenCG( GETTOKEN_DEFAULT );
 				ex |= EXFLG_2;
@@ -1070,7 +1071,7 @@ void CToken::GenerateCodeMethod( void )
 			}
 		}
 
-		CalcCG( ex );								// ®‚Ì•]‰¿
+		CalcCG( ex );								// å¼ã®è©•ä¾¡
 
 		if ( ttype >= TK_SEPARATE ) break;
 		if ( ttype != ',' ) {
@@ -1082,68 +1083,9 @@ void CToken::GenerateCodeMethod( void )
 
 }
 
-#if 0
-void CToken::GenerateCodePRMN( void )
-{
-	//		HSP3Code‚ğ“WŠJ‚·‚é(ƒpƒ‰ƒ[ƒ^[)
-	//		(ƒ\[ƒX‚Ì‡”Ô’Ê‚è‚É“WŠJ‚·‚é/ÀŒ±—p)
-	//
-	int i,t,ex;
-	ex = 0;
-	while(1) {
-		if ( ttype >= TK_SEPARATE ) break;
-
-		switch( ttype ) {
-		case TK_NONE:
-			if ( val == ',' ) {
-				if ( ex & EXFLG_2 ) PutCS( TYPE_MARK, '?', ex );
-				ex |= EXFLG_2;
-			} else {
-				PutCS( TYPE_MARK, val, ex );
-				ex = 0;
-			}
-			break;
-		case TK_NUM:
-			PutCS( TYPE_INUM, val, ex );
-			ex = 0;
-			break;
-		case TK_STRING:
-			PutCS( TYPE_STRING, PutDS( cg_str ), ex );
-			ex = 0;
-			break;
-		case TK_DNUM:
-			PutCS( TYPE_DNUM, val_d, ex );
-			ex = 0;
-			break;
-		case TK_OBJ:
-			i = lb->Search( cg_str );
-			if ( i < 0 ) {
-				lb->Regist( cg_str, TYPE_VAR, cg_valcnt );
-				PutCS( TYPE_VAR, cg_valcnt, ex );
-				cg_valcnt++;
-			} else {
-				t = lb->GetType( i );
-				if ( t == TYPE_XLABEL ) t = TYPE_LABEL;
-				PutCS( t, lb->GetOpt(i), ex );
-			}
-			ex = 0;
-			break;
-		case TK_LABEL:
-			GenerateCodeLabel( cg_str, ex );
-			ex = 0;
-			break;
-		default:
-			throw CGERROR_SYNTAX;
-		}
-
-		GetTokenCG( GETTOKEN_DEFAULT );
-	}
-}
-#endif
-
 void CToken::GenerateCodeLabel( char *keyname, int ex )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(ƒ‰ƒxƒ‹)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(ãƒ©ãƒ™ãƒ«)
 	//
 	int id,t,i;
 	char lname[128];
@@ -1166,12 +1108,14 @@ void CToken::GenerateCodeLabel( char *keyname, int ex )
 	}
 
 	id = lb->Search( name );
-	if ( id < 0 ) {									// ‰¼‚Ìƒ‰ƒxƒ‹
+	if ( id < 0 ) {									// ä»®ã®ãƒ©ãƒ™ãƒ«
 		i = PutOT( -1 );
 		id = lb->Regist( name, TYPE_XLABEL, i );
+		GenerateLabelListAndTagRef(id, LABBUF_FLAG_LABEL);
 	} else {
 		t = lb->GetType(id);
 		if (( t != TYPE_XLABEL )&&( t != TYPE_LABEL )) throw CGERROR_LABELEXIST;
+		GenerateLabelListAndTagRef(id, LABBUF_FLAG_LABEL);
 	}
 	PutCS( TYPE_LABEL, lb->GetOpt(id), ex );
 }
@@ -1179,18 +1123,21 @@ void CToken::GenerateCodeLabel( char *keyname, int ex )
 
 void CToken::GenerateCodeVAR( int id, int ex )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(•Ï”‚Ù‚©)
-	//		(id‚Ílabel ID)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(å¤‰æ•°ã»ã‹)
+	//		(idã¯label ID)
 	//
 	int t;
 	t = lb->GetType(id);
 	if (( t == TYPE_XLABEL )||( t == TYPE_LABEL )) throw CGERROR_LABELNAME;
+
+	GenerateLabelListAndTagRef(id, LABBUF_FLAG_VAR);
+
 	//
 	PutCSSymbol( id, ex );
 	GetTokenCG( GETTOKEN_DEFAULT );
 
 	if ( t == TYPE_SYSVAR ) return;
-	GenerateCodePRMF4( t );						// \‘¢‘Ì/”z—ñ‚Ìƒ`ƒFƒbƒN
+	GenerateCodePRMF4( t );						// æ§‹é€ ä½“/é…åˆ—ã®ãƒã‚§ãƒƒã‚¯
 }
 
 
@@ -1252,7 +1199,7 @@ finag:
 
 void CToken::CheckInternalIF( int opt )
 {
-	//		“à‘ –½—ß¶¬ƒ`ƒFƒbƒN
+	//		å†…è”µå‘½ä»¤ç”Ÿæˆæ™‚ãƒã‚§ãƒƒã‚¯
 	//
 	if (opt) {					// 'else'+offset
 		if ( iflev == 0 ) throw CGERROR_ELSE_WO_IF;
@@ -1266,7 +1213,7 @@ void CToken::CheckInternalIF( int opt )
 
 void CToken::CheckInternalListenerCMD( int opt )
 {
-	//		–½—ß¶¬ƒ`ƒFƒbƒN(–½—ß+–½—ßƒZƒbƒg)
+	//		å‘½ä»¤ç”Ÿæˆæ™‚ãƒã‚§ãƒƒã‚¯(å‘½ä»¤+å‘½ä»¤ã‚»ãƒƒãƒˆ)
 	//
 	int i,t,o;
 	if ( ttype != TK_OBJ ) return;
@@ -1283,9 +1230,9 @@ void CToken::CheckInternalListenerCMD( int opt )
 }
 
 
-void CToken::CheckInternalProgCMD( int opt, int orgcs )
+int CToken::CheckInternalProgCMD( int opt, int orgcs )
 {
-	//		“à‘ ƒvƒƒOƒ‰ƒ€–½—ß¶¬ƒ`ƒFƒbƒN
+	//		å†…è”µãƒ—ãƒ­ã‚°ãƒ©ãƒ å‘½ä»¤ç”Ÿæˆæ™‚ãƒã‚§ãƒƒã‚¯
 	//
 	int i;
 	switch(opt) {
@@ -1334,7 +1281,7 @@ void CToken::CheckInternalProgCMD( int opt, int orgcs )
 		break;
 	case 0x19:					// on
 		GetTokenCG( GETTOKEN_DEFAULT );
-		CalcCG( 0 );								// ®‚Ì•]‰¿
+		CalcCG( 0 );								// å¼ã®è©•ä¾¡
 		if ( ttype != TK_OBJ ) throw CGERROR_SYNTAX;
 		i = lb->Search( cg_str );
 		if ( i < 0 ) throw CGERROR_SYNTAX;
@@ -1352,7 +1299,7 @@ void CToken::CheckInternalProgCMD( int opt, int orgcs )
 		break;
 
 	case 0x08:					// await
-		//	await–½—ß‚ÌoŒ»‚ğƒJƒEƒ“ƒg‚·‚é(HEDINFO_NOMMTIMER©“®İ’è‚Ì‚½‚ß)
+		//	awaitå‘½ä»¤ã®å‡ºç¾ã‚’ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹(HEDINFO_NOMMTIMERè‡ªå‹•è¨­å®šã®ãŸã‚)
 		if ( hed_autoopt_timer >= 0 ) hed_autoopt_timer++;
 		break;
 
@@ -1365,25 +1312,28 @@ void CToken::CheckInternalProgCMD( int opt, int orgcs )
 			char *firstSymbolName = GetSymbolCG(cg_ptr);
 			if (firstSymbolName == NULL || isdigit(*reinterpret_cast<unsigned char *>(firstSymbolName)) ) break;
 			i = SetVarsFixed(firstSymbolName, cg_defvarfix );
-			//	•Ï”‚Ì‰Šú‰»ƒtƒ‰ƒO‚ğƒZƒbƒg‚·‚é
+			//	å¤‰æ•°ã®åˆæœŸåŒ–ãƒ•ãƒ©ã‚°ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 			lb->SetInitFlag( i, LAB_INIT_DONE );
+			GenerateLabelListAndTag(i, LABBUF_FLAG_VAR);
+			lb->SetSkipLabList(i);						// æ¬¡å›ã®ãƒ©ãƒ™ãƒ«å‚ç…§ãƒªã‚¹ãƒˆç”Ÿæˆã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
 			//Mesf( "#initflag set [%s]", cg_str );
+			return 1;
 		}
-		break;
 
 	case 0x20:					// strexchange
-		//	strexchange–½—ß‚ÌoŒ»‚ğƒJƒEƒ“ƒg‚·‚é(ƒwƒbƒ_©“®İ’è‚Ì‚½‚ß)
+		//	strexchangeå‘½ä»¤ã®å‡ºç¾ã‚’ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹(ãƒ˜ãƒƒãƒ€è‡ªå‹•è¨­å®šã®ãŸã‚)
 		if (hed_autoopt_strexchange >= 0) hed_autoopt_strexchange++;
 		break;
 
 	}
+	return 0;
 }
 
 
 void CToken::GenerateCodeCMD( int id )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(ƒRƒ}ƒ“ƒh)
-	//		(id‚Ílabel ID)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(ã‚³ãƒãƒ³ãƒ‰)
+	//		(idã¯label ID)
 	//
 	int t,opt;
 	int orgcs;
@@ -1391,8 +1341,26 @@ void CToken::GenerateCodeCMD( int id )
 	opt = lb->GetOpt(id);
 	orgcs = GetCS();
 	PutCSSymbol( id, EXFLG_1 );
-	if ( t == TYPE_PROGCMD ) CheckInternalProgCMD( opt, orgcs );
-	if ( t == TYPE_CMPCMD ) CheckInternalIF( opt );
+
+	int labtype = LABBUF_FLAG_CMD;
+	switch (t) {
+	case TYPE_PROGCMD:
+		CheckInternalProgCMD(opt, orgcs);
+		break;
+	case TYPE_CMPCMD:
+		CheckInternalIF(opt);
+		break;
+	case TYPE_INTCMD:
+	case TYPE_EXTCMD:
+		break;
+	case TYPE_MODCMD:
+		labtype = LABBUF_FLAG_FUNC;
+		break;
+	default:
+		labtype = LABBUF_FLAG_EXCMD;
+		break;
+	}
+
 	GetTokenCG( GETTOKEN_DEFAULT );
 
 	if ( opt & 0x10000 ) CheckInternalListenerCMD(opt);
@@ -1401,13 +1369,15 @@ void CToken::GenerateCodeCMD( int id )
 	cg_lastcmd  = CG_LASTCMD_CMD;
 	cg_lasttype = t;
 	cg_lastval  = opt;
+
+	GenerateLabelListAndTagRef(id, labtype);
 }
 
 
-void CToken::GenerateCodeLET( int id )
+void CToken::GenerateCodeLET( int id, bool first )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(‘ã“ü)
-	//		(id‚Ílabel ID)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(ä»£å…¥)
+	//		(idã¯label ID)
 	//
 	int op;
 	int t;
@@ -1415,20 +1385,27 @@ void CToken::GenerateCodeLET( int id )
 
 	t = lb->GetType(id);
 	if (( t == TYPE_XLABEL )||( t == TYPE_LABEL )) throw CGERROR_LABELNAME;
+
+	if (first) {
+		GenerateLabelListAndTag(id, LABBUF_FLAG_VAR);
+	} else {
+		GenerateLabelListAndTagRef(id, LABBUF_FLAG_VAR);
+	}
+
 	//
 	mcall = 0;
 	GetTokenCG( GETTOKEN_DEFAULT );
 
-	if (( ttype == TK_NONE )&&( val == 0x65 )) {	// ->‚ª‘±‚¢‚Ä‚¢‚é‚©?
-		PutCS( TYPE_PROGCMD, 0x1a, EXFLG_1 );		// 'mcall'ƒRƒ}ƒ“ƒh‚É’u‚«Š·‚¦‚é
-		PutCS( t, lb->GetOpt(id), 0 );				// •Ï”ƒpƒ‰ƒ[ƒ^[
+	if (( ttype == TK_NONE )&&( val == 0x65 )) {	// ->ãŒç¶šã„ã¦ã„ã‚‹ã‹?
+		PutCS( TYPE_PROGCMD, 0x1a, EXFLG_1 );		// 'mcall'ã‚³ãƒãƒ³ãƒ‰ã«ç½®ãæ›ãˆã‚‹
+		PutCS( t, lb->GetOpt(id), 0 );				// å¤‰æ•°ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼
 		GetTokenCG( GETTOKEN_DEFAULT );
-		GenerateCodeMethod();						// ƒpƒ‰ƒ[ƒ^[“WŠJ
+		GenerateCodeMethod();						// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼å±•é–‹
 		return;
 	}
 
-	PutCS( t, lb->GetOpt(id), EXFLG_1 );			// ’Êí‚Ì•Ï”‘ã“ü
-	GenerateCodePRMF4( t );							// \‘¢‘Ì/”z—ñ‚Ìƒ`ƒFƒbƒN
+	PutCS( t, lb->GetOpt(id), EXFLG_1 );			// é€šå¸¸ã®å¤‰æ•°ä»£å…¥
+	GenerateCodePRMF4( t );							// æ§‹é€ ä½“/é…åˆ—ã®ãƒã‚§ãƒƒã‚¯
 
 	if ( ttype != TK_NONE ) { throw CGERROR_SYNTAX; }
 
@@ -1454,7 +1431,7 @@ void CToken::GenerateCodeLET( int id )
 			}
 		}
 		break;
-	case '=':								// •Ï”=prm
+	case '=':								// å¤‰æ•°=prm
 		GenerateCodePRM();
 		return;
 	default:
@@ -1470,11 +1447,10 @@ void CToken::GenerateCodeLET( int id )
 
 void CToken::GenerateCodePP_regcmd( void )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(regcmd)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(regcmd)
 	//
 	char cmd[1024];
 	char cmd2[1024];
-	cg_pptype = cg_typecnt;
 	cmd[0] = 0;
 
 	GetTokenCG( GETTOKEN_DEFAULT );
@@ -1497,10 +1473,11 @@ void CToken::GenerateCodePP_regcmd( void )
 		}
 
 		PutHPI( HPIDAT_FLAG_TYPEFUNC, 0, cmd2, cmd );
+		cg_pptype = cg_typecnt;
 		cg_typecnt++;
 		break;
 	case TK_NUM:
-		PutHPI( HPIDAT_FLAG_SELFFUNC, 0, "", "" );
+		//PutHPI( HPIDAT_FLAG_SELFFUNC, 0, "", "" );
 		cg_pptype = val;
 		break;
 	case TK_NONE:
@@ -1517,7 +1494,7 @@ void CToken::GenerateCodePP_regcmd( void )
 
 void CToken::GenerateCodePP_cmd( void )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(cmd)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(cmd)
 	//
 	int id;
 	char cmd[1024];
@@ -1534,14 +1511,15 @@ void CToken::GenerateCodePP_cmd( void )
 	if ( ttype != TK_NUM ) throw CGERROR_PP_NO_REGCMD;
 	id = val;
 
-	lb->Regist( cmd, cg_pptype, id , cg_orgfile, cg_orgline );
+	id = lb->Regist( cmd, cg_pptype, id , cg_orgfilefull, cg_orgline );
+	GenerateLabelListAndTag(id, LABBUF_FLAG_EXCMD);
 	//Mesf( "#%x:%d [%s]",cg_pptype, id, cmd );
 }
 
 
 void CToken::GenerateCodePP_uselib( void )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(uselib)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(uselib)
 	//
 	GetTokenCG( GETTOKEN_DEFAULT );
 	cg_libname[0] = 0;
@@ -1556,7 +1534,7 @@ void CToken::GenerateCodePP_uselib( void )
 
 void CToken::GenerateCodePP_usecom( void )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(usecom)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(usecom)
 	//
 	int i,prmid;
 	char libname[1024];
@@ -1594,7 +1572,8 @@ void CToken::GenerateCodePP_usecom( void )
 
 	PutStructStart();
 	prmid = PutStructEndDll( "*", cg_libindex, STRUCTPRM_SUBID_COMOBJ, -1 );
-	lb->Regist( libname, TYPE_DLLCTRL, prmid | TYPE_OFFSET_COMOBJ, cg_orgfile, cg_orgline );
+	int id = lb->Regist( libname, TYPE_DLLCTRL, prmid | TYPE_OFFSET_COMOBJ, cg_orgfilefull, cg_orgline );
+	GenerateLabelListAndTag(id, LABBUF_FLAG_EXCMD);
 
 	//Mesf( "#usecom %s [%s][%s]",libname,clsname,iidname );
 }
@@ -1602,7 +1581,7 @@ void CToken::GenerateCodePP_usecom( void )
 
 void CToken::GenerateCodePP_func( int deftype )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(func)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(func)
 	//
 	int warn,i,t,subid,otflag;
 	int ref;
@@ -1614,7 +1593,7 @@ void CToken::GenerateCodePP_func( int deftype )
 	strncpy( fbase, cg_str, 1023 );
 
 	ref = -1;
-	if (( hed_cmpmode & CMPMODE_OPTCODE )&&( tmp_lb != NULL )) {		// ƒvƒŠƒvƒƒZƒXî•ñ‚©‚çÅ“K‰»‚ğs‚È‚¤
+	if (( hed_cmpmode & CMPMODE_OPTCODE )&&( tmp_lb != NULL )) {		// ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹æƒ…å ±ã‹ã‚‰æœ€é©åŒ–ã‚’è¡Œãªã†
 		i = tmp_lb->Search( fbase );
 		if ( i >= 0 ) {
 			ref = tmp_lb->GetReference( i );
@@ -1636,15 +1615,16 @@ void CToken::GenerateCodePP_func( int deftype )
 	if ( ref == 0 && (otflag & STRUCTDAT_OT_CLEANUP) == 0 ) {
 		if ( hed_cmpmode & CMPMODE_OPTINFO ) {
 #ifdef JPNMSG
-			Mesf( "#–¢g—p‚ÌŠO•”DLLŠÖ”‚Ì“o˜^‚ğíœ‚µ‚Ü‚µ‚½ %s", fbase );
+			Mesf( "#æœªä½¿ç”¨ã®å¤–éƒ¨DLLé–¢æ•°ã®ç™»éŒ²ã‚’å‰Šé™¤ã—ã¾ã—ãŸ %s", fbase );
 #else
 			Mesf( "#Delete func %s", fbase );
 #endif
 		}
+		GenerateLabelListAndTag(fbase, LABBUF_FLAG_EXCMD);
 		return;
 	}
 
-	if ( cg_libmode == CG_LIBMODE_DLLNEW ) {							// ‰‰ñ‚ÍDLL–¼‚ğ“o˜^‚·‚é
+	if ( cg_libmode == CG_LIBMODE_DLLNEW ) {							// åˆå›ã¯DLLåã‚’ç™»éŒ²ã™ã‚‹
 		cg_libindex = PutLIB( LIBDAT_FLAG_DLL, cg_libname );
 		cg_libmode = CG_LIBMODE_DLL;
 	}
@@ -1724,14 +1704,15 @@ void CToken::GenerateCodePP_func( int deftype )
 		//Mesf( "Warning:Old func expression [%s]", fbase );
 	}
 	i = PutStructEndDll( fname, cg_libindex, subid, otflag );
-	lb->Regist( fbase, TYPE_DLLFUNC, i, cg_orgfile, cg_orgline );
+	int id = lb->Regist( fbase, TYPE_DLLFUNC, i, cg_orgfilefull, cg_orgline );
+	GenerateLabelListAndTag(id, LABBUF_FLAG_EXCMD);
 
 	//Mesf( "#func [%s][%s][%d]",fbase, fname, i );
 }
 
 void CToken::GenerateCodePP_comfunc( void )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(comfunc)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(comfunc)
 	//
 	int i,t,subid,imp_index;
 	char fbase[1024];
@@ -1775,7 +1756,8 @@ void CToken::GenerateCodePP_comfunc( void )
 	}
 	subid = STRUCTPRM_SUBID_COMOBJ;
 	i = PutStructEndDll( "*", cg_libindex, subid, imp_index );
-	lb->Regist(fbase, TYPE_DLLCTRL, i | TYPE_OFFSET_COMOBJ, cg_orgfile, cg_orgline);
+	int id = lb->Regist(fbase, TYPE_DLLCTRL, i | TYPE_OFFSET_COMOBJ, cg_orgfilefull, cg_orgline);
+	GenerateLabelListAndTag(id, LABBUF_FLAG_EXCMD);
 
 	//Mesf( "#comfunc [%s][%d][%d]",fbase, imp_index, i );
 }
@@ -1783,13 +1765,13 @@ void CToken::GenerateCodePP_comfunc( void )
 
 int CToken::GetParameterTypeCG( char *name )
 {
-	//		ƒpƒ‰ƒ[ƒ^[–¼‚ğ”F¯‚·‚é(deffunc)
+	//		ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼åã‚’èªè­˜ã™ã‚‹(deffunc)
 	//
 	if ( !strcmp( cg_str,"int" ) ) return MPTYPE_INUM;
 	if ( !strcmp( cg_str,"var" ) ) return MPTYPE_SINGLEVAR;
 	if ( !strcmp( cg_str,"val" ) ) { 
 #ifdef JPNMSG
-		Mesf( "Œx:ŒÃ‚¢deffunc•\‹L‚ª‚ ‚è‚Ü‚· s%d.[%s]", cg_orgline, name );
+		Mesf( "è­¦å‘Š:å¤ã„deffuncè¡¨è¨˜ãŒã‚ã‚Šã¾ã™ è¡Œ%d.[%s]", cg_orgline, name );
 #else
 		Mesf( "Warning:Old deffunc expression at %d.[%s]", cg_orgline, name );
 #endif
@@ -1810,7 +1792,7 @@ int CToken::GetParameterTypeCG( char *name )
 
 int CToken::GetParameterStructTypeCG( char *name )
 {
-	//		ƒpƒ‰ƒ[ƒ^[–¼‚ğ”F¯‚·‚é(struct)
+	//		ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼åã‚’èªè­˜ã™ã‚‹(struct)
 	//
 	if ( !strcmp( cg_str,"int" ) ) return MPTYPE_INUM;
 	if ( !strcmp( cg_str,"var" ) ) return MPTYPE_LOCALVAR;
@@ -1824,7 +1806,7 @@ int CToken::GetParameterStructTypeCG( char *name )
 
 int CToken::GetParameterFuncTypeCG( char *name )
 {
-	//		ƒpƒ‰ƒ[ƒ^[–¼‚ğ”F¯‚·‚é(func)
+	//		ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼åã‚’èªè­˜ã™ã‚‹(func)
 	//
 	if ( !strcmp( cg_str,"int" ) ) return MPTYPE_INUM;
 	if ( !strcmp( cg_str,"var" ) ) return MPTYPE_PVARPTR;
@@ -1855,7 +1837,7 @@ int CToken::GetParameterFuncTypeCG( char *name )
 
 int CToken::GetParameterResTypeCG( char *name )
 {
-	//		–ß‚è’l‚Ìƒpƒ‰ƒ[ƒ^[–¼‚ğ”F¯‚·‚é(defcfunc)
+	//		æˆ»ã‚Šå€¤ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼åã‚’èªè­˜ã™ã‚‹(defcfunc)
 	//
 	if ( !strcmp( cg_str,"int" ) ) return MPTYPE_INUM;
 	if ( !strcmp( cg_str,"str" ) ) return MPTYPE_STRING;
@@ -1865,15 +1847,14 @@ int CToken::GetParameterResTypeCG( char *name )
 	return MPTYPE_NONE;
 }
 
-
-#define GET_FI_SIZE() ((int)(fi_buf->GetSize() / sizeof(STRUCTDAT)))
-#define GET_FI(n) (((STRUCTDAT *)fi_buf->GetBuffer()) + (n))
+#define GET_FI_SIZE() ((int)(fi_buf->GetSize() / sizeof(HED_STRUCTDAT)))
+#define GET_FI(n) (((HED_STRUCTDAT *)fi_buf->GetBuffer()) + (n))
 #define STRUCTDAT_INDEX_DUMMY ((short)0x8000)
 
 
 void CToken::GenerateCodePP_deffunc0( int is_command )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(deffunc / defcfunc)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(deffunc / defcfunc)
 	//
 	int i,t,ot,prmid,subid;
 	int index;
@@ -1882,13 +1863,13 @@ void CToken::GenerateCodePP_deffunc0( int is_command )
 	int prep;
 	char funcname[1024];
 	STRUCTPRM *prm;
-	STRUCTDAT *st;
+	HED_STRUCTDAT *st;
 
 	prep = 0;
 	GetTokenCG( GETTOKEN_DEFAULT );
 	if ( ttype != TK_OBJ ) throw CGERROR_PP_NAMEREQUIRED;
 
-	if ( is_command && !strcmp( cg_str,"prep" ) ) {				// ƒvƒƒgƒ^ƒCƒvéŒ¾
+	if ( is_command && !strcmp( cg_str,"prep" ) ) {				// ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 		prep = 1;
 		GetTokenCG( GETTOKEN_DEFAULT );
 		if ( ttype != TK_OBJ ) throw CGERROR_PP_NAMEREQUIRED;
@@ -1897,7 +1878,7 @@ void CToken::GenerateCodePP_deffunc0( int is_command )
 	strncpy( funcname, cg_str, 1023 );
 
 	for(i=0;i<cg_localcur;i++) {
-		lb->SetFlag( cg_localstruct[i], -1 );		// ˆÈ‘O‚Éw’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^[–¼‚ğíœ‚·‚é
+		lb->SetFlag( cg_localstruct[i], -1 );		// ä»¥å‰ã«æŒ‡å®šã•ã‚ŒãŸãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼åã‚’å‰Šé™¤ã™ã‚‹
 	}
 	cg_localcur = 0;
 	funcflag = 0;
@@ -1930,7 +1911,7 @@ void CToken::GenerateCodePP_deffunc0( int is_command )
 		t = GetParameterTypeCG( cg_str );
 		if ( t == MPTYPE_NONE ) throw CGERROR_PP_WRONG_PARAM_NAME;
 		if (( t == MPTYPE_MODULEVAR )||( t == MPTYPE_IMODULEVAR )||( t == MPTYPE_TMODULEVAR )) {
-			//	ƒ‚ƒWƒ…[ƒ‹–¼w’è
+			//	ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«åæŒ‡å®š
 			GetTokenCG( GETTOKEN_DEFAULT );
 			if ( ttype != TK_OBJ ) throw CGERROR_PP_WRONG_PARAM_NAME;
 			i = lb->Search( cg_str );
@@ -1945,7 +1926,7 @@ void CToken::GenerateCodePP_deffunc0( int is_command )
 				regflag = 0;
 			}
 			if ( t == MPTYPE_TMODULEVAR ) {
-				st = (STRUCTDAT *)fi_buf->GetBuffer();
+				st = (HED_STRUCTDAT *)fi_buf->GetBuffer();
 				if ( st[ subid ].otindex != 0 ) throw CGERROR_PP_MODTERM_USED;
 				st[ subid ].otindex = GET_FI_SIZE();
 				regflag = 0;
@@ -1959,13 +1940,13 @@ void CToken::GenerateCodePP_deffunc0( int is_command )
 
 			GetTokenCG( GETTOKEN_DEFAULT );
 			if ( ttype == TK_OBJ ) {
-				//	ˆø”‚ÌƒGƒCƒŠƒAƒX
+				//	å¼•æ•°ã®ã‚¨ã‚¤ãƒªã‚¢ã‚¹
 				i = lb->Search( cg_str );
 				if ( i >= 0 ) {
 					CG_MesLabelDefinition(i);
 					throw CGERROR_PP_ALREADY_USE_PARAM;
 				}
-				i = lb->Regist( cg_str, TYPE_STRUCT, prmid, cg_orgfile, cg_orgline );
+				i = lb->Regist( cg_str, TYPE_STRUCT, prmid, cg_orgfilefull, cg_orgline );
 				cg_localstruct[ cg_localcur++ ] = i;
 				GetTokenCG( GETTOKEN_DEFAULT );
 			}
@@ -1979,9 +1960,9 @@ void CToken::GenerateCodePP_deffunc0( int is_command )
 	ot = PutOT( GetCS() );
 	if ( index == -1 ) {
 		index = GET_FI_SIZE();
-		fi_buf->PreparePtr( sizeof(STRUCTDAT) );
+		fi_buf->PreparePtr( sizeof(HED_STRUCTDAT) );
 		if ( regflag ) {
-			lb->Regist( funcname, TYPE_MODCMD, index, cg_orgfile, cg_orgline);
+			lb->Regist( funcname, TYPE_MODCMD, index, cg_orgfilefull, cg_orgline);
 		}
 	}
 	if ( label_id >= 0 ) {
@@ -2006,7 +1987,7 @@ void CToken::GenerateCodePP_defcfunc( void )
 
 void CToken::GenerateCodePP_module( void )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(module)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(module)
 	//
 	int i,ref;
 	char *modname;
@@ -2014,7 +1995,7 @@ void CToken::GenerateCodePP_module( void )
 	if ( ttype != TK_OBJ ) throw CGERROR_PP_NAMEREQUIRED;
 	modname = cg_str;
 
-	if (( hed_cmpmode & CMPMODE_OPTCODE )&&( tmp_lb != NULL )) {		// ƒvƒŠƒvƒƒZƒXî•ñ‚©‚çÅ“K‰»‚ğs‚È‚¤
+	if (( hed_cmpmode & CMPMODE_OPTCODE )&&( tmp_lb != NULL )) {		// ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹æƒ…å ±ã‹ã‚‰æœ€é©åŒ–ã‚’è¡Œãªã†
 		i = tmp_lb->Search( modname );
 		if ( i >= 0 ) {
 			ref = tmp_lb->GetReference( i );
@@ -2022,7 +2003,7 @@ void CToken::GenerateCodePP_module( void )
 				cg_flag = CG_FLAG_DISABLE;
 				if ( hed_cmpmode & CMPMODE_OPTINFO ) {
 #ifdef JPNMSG
-					Mesf( "#–¢g—p‚Ìƒ‚ƒWƒ…[ƒ‹‚ğíœ‚µ‚Ü‚µ‚½ %s", modname );
+					Mesf( "#æœªä½¿ç”¨ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’å‰Šé™¤ã—ã¾ã—ãŸ %s", modname );
 #else
 					Mesf( "#Delete module %s", modname );
 #endif
@@ -2037,7 +2018,7 @@ void CToken::GenerateCodePP_module( void )
 
 void CToken::GenerateCodePP_struct( void )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(struct)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(struct)
 	//
 	int i,t,prmid;
 	char funcname[1024];
@@ -2050,8 +2031,8 @@ void CToken::GenerateCodePP_struct( void )
 	}
 
 	PutStructStart();
-	prmid = PutStructParamTag();					// modinit—p‚ÌTAG
-	lb->Regist( funcname, TYPE_STRUCT, prmid, cg_orgfile, cg_orgline);
+	prmid = PutStructParamTag();					// modinitç”¨ã®TAG
+	lb->Regist( funcname, TYPE_STRUCT, prmid, cg_orgfilefull, cg_orgline);
 	//Mesf( "%d:%s",prmid, funcname );
 
 	while(1) {
@@ -2070,7 +2051,7 @@ void CToken::GenerateCodePP_struct( void )
 		if ( i >= 0 ) {
 			CG_MesLabelDefinition(i); throw CGERROR_PP_ALREADY_USE_PARAM;
 		}
-		lb->Regist( cg_str, TYPE_STRUCT, prmid, cg_orgfile, cg_orgline);
+		lb->Regist( cg_str, TYPE_STRUCT, prmid, cg_orgfilefull, cg_orgline);
 
 		GetTokenCG( GETTOKEN_DEFAULT );
 		if ( ttype >= TK_EOL ) break;
@@ -2083,7 +2064,7 @@ void CToken::GenerateCodePP_struct( void )
 
 void CToken::GenerateCodePP_defvars( int fixedvalue )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(defint,defdouble,defnone)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(var,varint,vardouble,varstr)
 	//
 	int id;
 	int prms;
@@ -2092,10 +2073,17 @@ void CToken::GenerateCodePP_defvars( int fixedvalue )
 		GetTokenCG( GETTOKEN_DEFAULT );
 		if ( ttype >= TK_EOL ) break;
 		if ( ttype != TK_OBJ ) throw CGERROR_WRONG_VARIABLE;
+
+		id = lb->Search(cg_str);
+		if (id >= 0) {
+			throw CGERROR_ALREADY_DEFINED_VARS;
+		}
 		id = SetVarsFixed( cg_str, fixedvalue );
 		if ( lb->GetType(id) != TYPE_VAR ) {
 			throw CGERROR_WRONG_VARIABLE;
 		}
+		lb->SetInitFlag(id, LAB_INIT_DONE);
+		GenerateLabelListAndTag(id, LABBUF_FLAG_VAR);
 		prms++;
 		//Mesf( "name:%s(%d) fixed:%d", cg_str, id, fixedvalue );
 
@@ -2113,59 +2101,65 @@ void CToken::GenerateCodePP_defvars( int fixedvalue )
 
 int CToken::SetVarsFixed( char *varname, int fixedvalue )
 {
-	//		•Ï”‚ÌŒÅ’èŒ^‚ğİ’è‚·‚é
+	//		å¤‰æ•°ã®å›ºå®šå‹ã‚’è¨­å®šã™ã‚‹
 	//
 	int id;
 	id = lb->Search( varname );
 	if ( id < 0 ) {
-		id = lb->Regist( varname, TYPE_VAR, cg_valcnt, cg_orgfile, cg_orgline);
+		id = lb->Regist( varname, TYPE_VAR, cg_valcnt, cg_orgfilefull, cg_orgline);
 		cg_valcnt++;
 	}
-	lb->SetForceType( id, fixedvalue );
+	if (fixedvalue != LAB_TYPEFIX_NONE) {
+		if (lb->GetForceType(id) != LAB_TYPEFIX_NONE) {
+			throw CGERROR_FORCED_VARIABLE;
+		}
+		lb->SetForceType(id, fixedvalue);
+	}
 	return id;
 }
 
 
 void CToken::GenerateCodePP( char *buf )
 {
-	//		HSP3Code‚ğ“WŠJ‚·‚é(ƒvƒŠƒvƒƒZƒXƒRƒ}ƒ“ƒh)
+	//		HSP3Codeã‚’å±•é–‹ã™ã‚‹(ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹ã‚³ãƒãƒ³ãƒ‰)
 	//
 	int i;
-	GetTokenCG( GETTOKEN_DEFAULT );					// Å‰‚Ì'#'‚ğ“Ç‚İ”ò‚Î‚µ
+	GetTokenCG( GETTOKEN_DEFAULT );					// æœ€åˆã®'#'ã‚’èª­ã¿é£›ã°ã—
 	if (*cg_ptr != PickNextCodeCG()) {
 		// preprocesser command "#" 
 		throw CGERROR_UNKNOWN;
 	}
 	GetTokenCG( GETTOKEN_DEFAULT );
 
-	if ( ttype == TK_NONE ) {						// ƒvƒŠƒvƒƒZƒbƒT‚©‚ç“n‚³‚ê‚ésî•ñ
+	if ( ttype == TK_NONE ) {						// ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã‹ã‚‰æ¸¡ã•ã‚Œã‚‹è¡Œæƒ…å ±
 		if ( val != '#' ) throw CGERROR_UNKNOWN;
 		GetTokenCG( GETTOKEN_DEFAULT );
 		if ( ttype != TK_NUM ) throw CGERROR_UNKNOWN;
 		cg_orgline = val;
 		GetTokenCG( GETTOKEN_DEFAULT );
 		if ( ttype == TK_STRING ) {
-			strcpy( cg_orgfile, cg_str );
+			strcpy(cg_orgfilefull, cg_str);
+			getpath(cg_orgfilefull,cg_orgfile,8);
 			if ( cg_debug ) {
 				i = PutDSBuf( cg_str );
-				PutDI( 254, i, cg_orgline );				// ƒtƒ@ƒCƒ‹–¼‚ğƒfƒoƒbƒOî•ñ‚Æ‚µ‚Ä“o˜^
+				PutDI( 254, i, cg_orgline );				// ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ãƒ‡ãƒãƒƒã‚°æƒ…å ±ã¨ã—ã¦ç™»éŒ²
 			}
 		} else {
 			if ( cg_debug ) {
-				PutDI( 254, 0, cg_orgline );				// ƒ‰ƒCƒ“‚¾‚¯‚ğƒfƒoƒbƒOî•ñ‚Æ‚µ‚Ä“o˜^
+				PutDI( 254, 0, cg_orgline );				// ãƒ©ã‚¤ãƒ³ã ã‘ã‚’ãƒ‡ãƒãƒƒã‚°æƒ…å ±ã¨ã—ã¦ç™»éŒ²
 			}
 		}
 		//Mesf( "#%d [%s]",cg_orgline, cg_str );
 		return;
 	}
 
-	if ( ttype != TK_OBJ ) {								// ‚»‚Ì‘¼‚ÍƒGƒ‰[
+	if ( ttype != TK_OBJ ) {								// ãã®ä»–ã¯ã‚¨ãƒ©ãƒ¼
 		throw CGERROR_PP_SYNTAX;
 	}
 
 	if ( !strcmp( cg_str,"global" ) ) { cg_flag = CG_FLAG_ENABLE; return; }
 
-	if ( cg_flag != CG_FLAG_ENABLE ) {						// Å“K‰»‚É‚æ‚éo—Í—}§
+	if ( cg_flag != CG_FLAG_ENABLE ) {						// æœ€é©åŒ–ã«ã‚ˆã‚‹å‡ºåŠ›æŠ‘åˆ¶
 		return;
 	}
 
@@ -2180,16 +2174,19 @@ void CToken::GenerateCodePP( char *buf )
 	if ( !strcmp( cg_str,"struct" ) ) { GenerateCodePP_struct(); return; }
 	if ( !strcmp( cg_str,"usecom" ) ) { GenerateCodePP_usecom(); return; }
 	if ( !strcmp( cg_str,"comfunc" ) ) { GenerateCodePP_comfunc(); return; }
-	if ( !strcmp( cg_str,"defint" ) ) { GenerateCodePP_defvars( LAB_TYPEFIX_INT ); return; }
-	if ( !strcmp( cg_str,"defdouble" ) ) { GenerateCodePP_defvars( LAB_TYPEFIX_DOUBLE ); return; }
-	if ( !strcmp( cg_str,"defnone" ) ) { GenerateCodePP_defvars( LAB_TYPEFIX_NONE ); return; }
+	if ( !strcmp(cg_str, "var") ) { GenerateCodePP_defvars(LAB_TYPEFIX_NONE); return; }
+	if ( !strcmp(cg_str, "varint") ) { GenerateCodePP_defvars(LAB_TYPEFIX_INT); return; }
+	if ( !strcmp(cg_str, "varlabel") ) { GenerateCodePP_defvars(LAB_TYPEFIX_LABEL); return; }
+	if ( !strcmp( cg_str, "varstr") ) { GenerateCodePP_defvars(LAB_TYPEFIX_STR); return; }
+	if ( !strcmp( cg_str,"vardouble" ) ) { GenerateCodePP_defvars( LAB_TYPEFIX_DOUBLE ); return; }
+	if ( !strcmp( cg_str, "varmod") ) { GenerateCodePP_defvars(LAB_TYPEFIX_STRUCT); return; }
 }
 
 
 int CToken::GenerateCodeSub( void )
 {
-	//		•¶š—ñ(‚Ps’PˆÊ)‚©‚çHSP3Code‚ğ“WŠJ‚·‚é
-	//		(ƒGƒ‰[”­¶‚Í—áŠO‚ª”­¶‚µ‚Ü‚·)
+	//		æ–‡å­—åˆ—(ï¼‘è¡Œå˜ä½)ã‹ã‚‰HSP3Codeã‚’å±•é–‹ã™ã‚‹
+	//		(ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚ã¯ä¾‹å¤–ãŒç™ºç”Ÿã—ã¾ã™)
 	//
 	int i,t;
 //	char tmp[512];
@@ -2204,7 +2201,7 @@ int CToken::GenerateCodeSub( void )
 		return TK_EOL;
 	}
 
-	if ( cg_flag != CG_FLAG_ENABLE ) return TK_EOL;				// Å“K‰»‚É‚æ‚éo—Í—}§
+	if ( cg_flag != CG_FLAG_ENABLE ) return TK_EOL;				// æœ€é©åŒ–ã«ã‚ˆã‚‹å‡ºåŠ›æŠ‘åˆ¶
 
 //	while(1) {
 //		if ( cg_ptr!=NULL ) Mes( cg_ptr );
@@ -2234,8 +2231,8 @@ int CToken::GenerateCodeSub( void )
 			if ( i < 0 ) {
 				//Mesf( "[%s][%d]",cg_str, cg_valcnt );
 				i = SetVarsFixed( cg_str, cg_defvarfix );
-				lb->SetInitFlag( i, LAB_INIT_DONE );		//	•Ï”‚Ì‰Šú‰»ƒtƒ‰ƒO‚ğƒZƒbƒg‚·‚é
-				GenerateCodeLET( i );
+				lb->SetInitFlag( i, LAB_INIT_DONE );		//	å¤‰æ•°ã®åˆæœŸåŒ–ãƒ•ãƒ©ã‚°ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+				GenerateCodeLET( i, true );
 			} else {
 				t = lb->GetType( i );
 				switch( t ) {
@@ -2267,10 +2264,13 @@ int CToken::GenerateCodeSub( void )
 				LABOBJ *lab;
 				lab = lb->GetLabel( i );
 				if ( lab->type != TYPE_XLABEL ) throw CGERROR_LABELEXIST;
+				lb->SetDefinition(i, cg_orgfilefull, cg_orgline);
+				GenerateLabelListAndTag(i, LABBUF_FLAG_LABEL);
 				SetOT( lb->GetOpt(i), GetCS() );
 				lab->type = TYPE_LABEL; 
 			} else {
-				i = lb->Regist( cg_str, TYPE_LABEL, ot_buf->GetSize() / sizeof(int) );
+				i = lb->Regist( cg_str, TYPE_LABEL, ot_buf->GetSize() / sizeof(int), cg_orgfilefull, cg_orgline );
+				GenerateLabelListAndTag(i, LABBUF_FLAG_LABEL);
 				PutOT( GetCS() );
 			}
 			GetTokenCG( GETTOKEN_DEFAULT );
@@ -2287,7 +2287,7 @@ int CToken::GenerateCodeSub( void )
 
 char *CToken::GetLineCG( void )
 {
-	//		vs_wp‚©‚ç‚Ps‚ğæ“¾‚·‚é
+	//		vs_wpã‹ã‚‰ï¼‘è¡Œã‚’å–å¾—ã™ã‚‹
 	//
 	char *pp;
 	unsigned char *p;
@@ -2302,7 +2302,7 @@ char *CToken::GetLineCG( void )
 	while(1) {
 		a1=*p;
 
-		skip = SkipMultiByte( a1 );			// ‘SŠp•¶šƒ`ƒFƒbƒN
+		skip = SkipMultiByte( a1 );			// å…¨è§’æ–‡å­—ãƒã‚§ãƒƒã‚¯
 		if ( skip ) {
 			p += skip+1;
 			continue;
@@ -2324,8 +2324,8 @@ char *CToken::GetLineCG( void )
 
 int CToken::GenerateCodeBlock( void )
 {
-	//		ƒvƒƒbƒN’PˆÊ‚ÅHSP3Code‚ğ“WŠJ‚·‚é
-	//		(ƒGƒ‰[”­¶‚Í—áŠO‚ª”­¶‚µ‚Ü‚·)
+	//		ãƒ—ãƒ­ãƒƒã‚¯å˜ä½ã§HSP3Codeã‚’å±•é–‹ã™ã‚‹
+	//		(ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚ã¯ä¾‹å¤–ãŒç™ºç”Ÿã—ã¾ã™)
 	//
 	int res,id,ff;
 	char a1;
@@ -2353,7 +2353,7 @@ int CToken::GenerateCodeBlock( void )
 			ff = 0;
 			p = GetTokenCG( cg_ptr, GETTOKEN_DEFAULT );
 
-			if ( ttype == TK_EOL ) {										// Ÿs‚ÌƒRƒ}ƒ“ƒh‚ªelse‚©‚Ç‚¤‚©’²‚×‚é
+			if ( ttype == TK_EOL ) {										// æ¬¡è¡Œã®ã‚³ãƒãƒ³ãƒ‰ãŒelseã‹ã©ã†ã‹èª¿ã¹ã‚‹
 				if ( cg_wp != NULL ) {
 					p = GetSymbolCG( (char *)cg_wp );
 					if ( p != NULL ) {
@@ -2365,7 +2365,7 @@ int CToken::GenerateCodeBlock( void )
 						}
 					}
 				}
-			} else if ( ttype == TK_OBJ ) {									// Ÿ‚ÌƒRƒ}ƒ“ƒh‚ªelse‚©‚Ç‚¤‚©’²‚×‚é
+			} else if ( ttype == TK_OBJ ) {									// æ¬¡ã®ã‚³ãƒãƒ³ãƒ‰ãŒelseã‹ã©ã†ã‹èª¿ã¹ã‚‹
 				id = lb->Search( cg_str );
 				if ( id >= 0 ) {
 					if (( lb->GetType(id)==TYPE_CMPCMD )&&( lb->GetOpt(id)==1 )) {
@@ -2383,7 +2383,7 @@ int CToken::GenerateCodeBlock( void )
 
 void CToken::RegisterFuncLabels( void )
 {
-	//		ƒvƒŠƒvƒƒZƒX‚Ìƒ‰ƒxƒ‹î•ñ‚©‚çŠÖ”‚ğ’è‹`
+	//		ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹æ™‚ã®ãƒ©ãƒ™ãƒ«æƒ…å ±ã‹ã‚‰é–¢æ•°ã‚’å®šç¾©
 	//
 	if ( tmp_lb == NULL ) return;
 	int len = tmp_lb->GetCount();
@@ -2395,27 +2395,25 @@ void CToken::RegisterFuncLabels( void )
 			}
 			LABOBJ* lab = tmp_lb->GetLabel(i);
 			int id = lb->Regist( name, TYPE_MODCMD, -1, lab->def_file, lab->def_line );
+			GenerateLabelListAndTag(id, LABBUF_FLAG_FUNC);
 			lb->SetData2( id, (char *)&i, sizeof i );
 		}
 	}
 }
 
 
-int CToken::GenerateCodeMain( CMemBuf *buf )
+void CToken::ResetGenerator(unsigned char *ptr)
 {
-	//		ƒ\[ƒX‚ğHSP3Code‚É“WŠJ‚·‚é
-	//		(ƒ\[ƒX‚Ìƒoƒbƒtƒ@‚ğ‘‚«Š·‚¦‚é‚Ì‚Å’ˆÓ)
-	//
-	int a;
 	line = 0;
 	cg_flag = CG_FLAG_ENABLE;
 	cg_valcnt = 0;
-	cg_typecnt = HSP3_TYPE_USER;
+	cg_typecnt = HSP3_TYPE_PLUGIN;
 	cg_pptype = -1;
 	cg_iflev = 0;
-	cg_wp = (unsigned char *)buf->GetBuffer();
+	cg_wp = ptr;
 	cg_ptr = GetLineCG();
 	cg_orgfile[0] = 0;
+	cg_orgfilefull[0] = 0;
 	cg_libindex = -1;
 	cg_libmode = CG_LIBMODE_NONE;
 	cg_lastcs = 0;
@@ -2424,10 +2422,19 @@ int CToken::GenerateCodeMain( CMemBuf *buf )
 	cg_varhpi = 0;
 	cg_defvarfix = LAB_TYPEFIX_NONE;
 
-	iflev=0;
-	replev=0;
+	iflev = 0;
+	replev = 0;
+	for (int a = 0; a < CG_REPLEV_MAX; a++) { repend[a] = -1; }
+}
 
-	for( a=0; a<CG_REPLEV_MAX; a++) { repend[a] = -1; }
+
+int CToken::GenerateCodeMain( CMemBuf *buf )
+{
+	//		ã‚½ãƒ¼ã‚¹ã‚’HSP3Codeã«å±•é–‹ã™ã‚‹
+	//		(ã‚½ãƒ¼ã‚¹ã®ãƒãƒƒãƒ•ã‚¡ã‚’æ›¸ãæ›ãˆã‚‹ã®ã§æ³¨æ„)
+	//
+	ResetGenerator((unsigned char*)buf->GetBuffer());
+	int a;
 
 	try {
 		RegisterFuncLabels();
@@ -2436,18 +2443,18 @@ int CToken::GenerateCodeMain( CMemBuf *buf )
 			if ( GenerateCodeBlock() == TK_EOF ) break;
 		}
 
-		cg_errline = -1;				// ƒGƒ‰[‚Ìs”Ô†‚ÍŠY“–‚È‚µ
+		cg_errline = -1;				// ã‚¨ãƒ©ãƒ¼ã®è¡Œç•ªå·ã¯è©²å½“ãªã—
 
-		//		ƒRƒ“ƒpƒCƒ‹Œã‚ÌŒãn––ƒ`ƒFƒbƒN
+		//		ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å¾Œã®å¾Œå§‹æœ«ãƒã‚§ãƒƒã‚¯
 		if ( replev != 0 ) throw CGERROR_LOOP_NOTFOUND;
 
-		//		ƒ‰ƒxƒ‹–¢ˆ—ƒ`ƒFƒbƒN
+		//		ãƒ©ãƒ™ãƒ«æœªå‡¦ç†ãƒã‚§ãƒƒã‚¯
 		int errend;
 		errend = 0;
 		for( a=0; a<lb->GetCount(); a++ ) {
 			if ( lb->GetType(a) == TYPE_XLABEL ) {
 #ifdef JPNMSG
-				Mesf( "#ƒ‰ƒxƒ‹‚Ì’è‹`‚ª‘¶İ‚µ‚Ü‚¹‚ñ [%s]", lb->GetName(a) );
+				Mesf( "#ãƒ©ãƒ™ãƒ«ã®å®šç¾©ãŒå­˜åœ¨ã—ã¾ã›ã‚“ [%s]", lb->GetName(a) );
 #else
 				Mesf( "#Label definition not found [%s]", lb->GetName(a) );
 #endif
@@ -2455,11 +2462,11 @@ int CToken::GenerateCodeMain( CMemBuf *buf )
 			}
 		}
 		
-		//		ŠÖ”–¢ˆ—ƒ`ƒFƒbƒN
+		//		é–¢æ•°æœªå‡¦ç†ãƒã‚§ãƒƒã‚¯
 		for( a=0; a<GET_FI_SIZE(); a++ ) {
 			if ( GET_FI(a)->index == STRUCTDAT_INDEX_DUMMY ) {
 #ifdef JPNMSG
-				Mesf( "#ŠÖ”‚ª’è‹`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ [%s]", lb->GetName(GET_FI(a)->otindex) );
+				Mesf( "#é–¢æ•°ãŒå®šç¾©ã•ã‚Œã¦ã„ã¾ã›ã‚“ [%s]", lb->GetName(GET_FI(a)->otindex) );
 #else
 				Mesf( "#Function not found [%s]", lb->GetName(GET_FI(a)->otindex) );
 #endif
@@ -2467,10 +2474,10 @@ int CToken::GenerateCodeMain( CMemBuf *buf )
 			}
 		}
 		
-		//      ƒuƒŒ[ƒX‘Î‰ƒ`ƒFƒbƒN 
+		//      ãƒ–ãƒ¬ãƒ¼ã‚¹å¯¾å¿œãƒã‚§ãƒƒã‚¯ 
 		if ( iflev > 0 ) {
 #ifdef JPNMSG
-				Mesf( "#”gŠ‡ŒÊ‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚Ü‚¹‚ñ" );
+				Mesf( "#æ³¢æ‹¬å¼§ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ã¾ã›ã‚“" );
 #else
 				Mesf( "#Missing closing braces" );
 #endif
@@ -2487,10 +2494,37 @@ int CToken::GenerateCodeMain( CMemBuf *buf )
 }
 
 
+int CToken::GenerateCodeMainSkipError(CMemBuf* buf)
+{
+	//		ã‚½ãƒ¼ã‚¹ã‚’HSP3Codeã«å±•é–‹ã™ã‚‹(ã‚¨ãƒ©ãƒ¼ã‚¹ã‚­ãƒƒãƒ—)
+	//
+	ResetGenerator((unsigned char*)buf->GetBuffer());
+
+	try {
+		RegisterFuncLabels();
+	}
+	catch (CGERROR code) {
+		Mesf("#Skip error (%d).\r\n", (int)code);
+	}
+
+	while (1) {
+		try {
+			if (GenerateCodeBlock() == TK_EOF) break;
+		}
+		catch (CGERROR code) {
+			Mesf("#Skip error (%d).\r\n",(int)code);
+			cg_ptr = GetLineCG();
+			cg_orgline++;
+		}
+	}
+	return 0;
+}
+
+
 void CToken::PutCS( int type, int value, int exflg )
 {
 	//		Register command code
-	//		(HSP ver3.3ˆÈ~—p)
+	//		(HSP ver3.3ä»¥é™ç”¨)
 	//			type=0-0xfff ( -1 to debug line info )
 	//			val=16,32bit length supported
 	//
@@ -2520,7 +2554,7 @@ void CToken::PutCS( int type, double value, int exflg )
 
 void CToken::PutCSSymbol( int label_id, int exflag )
 {
-	//		‚Ü‚¾’è‹`‚³‚ê‚Ä‚¢‚È‚¢ŠÖ”‚ÌŒÄ‚Ño‚µ‚ª‚ ‚Á‚½‚ç‰¼“o˜^‚·‚é
+	//		ã¾ã å®šç¾©ã•ã‚Œã¦ã„ãªã„é–¢æ•°ã®å‘¼ã³å‡ºã—ãŒã‚ã£ãŸã‚‰ä»®ç™»éŒ²ã™ã‚‹
 	//
 	int type = lb->GetType(label_id);
 	int value = lb->GetOpt(label_id);
@@ -2528,10 +2562,10 @@ void CToken::PutCSSymbol( int label_id, int exflag )
 		int id = *(int *)lb->GetData2(label_id);
 		tmp_lb->AddReference( id );
 		
-		STRUCTDAT st = { STRUCTDAT_INDEX_DUMMY };
+		HED_STRUCTDAT st = { STRUCTDAT_INDEX_DUMMY };
 		st.otindex = label_id;
 		value = GET_FI_SIZE();
-		fi_buf->PutData( &st, sizeof(STRUCTDAT) );
+		fi_buf->PutData( &st, sizeof(HED_STRUCTDAT) );
 		lb->SetOpt( label_id, value );
 	}
 	if ( exflag & EXFLG_1 && type != TYPE_VAR && type != TYPE_STRUCT ) {
@@ -2587,6 +2621,11 @@ int CToken::PutDSStr(char *str, bool converts_to_utf8)
 		p = ExecSCNV(str, SCNV_OPT_SJISUTF8);
 	} else {
 		p = str;
+		if (pp_utf8) {
+			if ((hed_cmpmode & CMPMODE_UTF8OUT)==0) {
+				p = ExecSCNV(str, SCNV_OPT_UTF8SJIS);
+			}
+		}
 	}
 
 	int i = ds_buf->GetSize();
@@ -2603,7 +2642,7 @@ int CToken::PutDSStr(char *str, bool converts_to_utf8)
 		}
 	}
 
-	ds_buf->IndexExclusive();				// •¶š—ñ‚Íindex‚ğ“o˜^‚·‚é
+	ds_buf->IndexExclusive();				// æ–‡å­—åˆ—ã¯indexã‚’ç™»éŒ²ã™ã‚‹
 
 	if ( converts_to_utf8 ) {
 		ds_buf->PutData(p, (int)(strlen(p) + 1));
@@ -2722,14 +2761,14 @@ void CToken::PutDIVars( void )
 				p = lab->name;
 				break;
 			}
-			i = PutDSBuf( p );
+			i = PutDS( p );
 			PutDI( 253, i, lab->opt );
 		}
 	}
 }
 
 
-// ƒ‰ƒxƒ‹–¼‚Ìî•ñ‚ğo—Í‚·‚é
+// ãƒ©ãƒ™ãƒ«åã®æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹
 void CToken::PutDILabels( void )
 {
 	int num = ot_buf->GetSize() / sizeof(int);
@@ -2752,7 +2791,7 @@ void CToken::PutDILabels( void )
 }
 
 
-// ˆø”–¼‚Ìî•ñ‚ğo—Í‚·‚é
+// å¼•æ•°åã®æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹
 void CToken::PutDIParams( void )
 {
 	di_buf->Put((unsigned char)255);
@@ -2765,6 +2804,12 @@ void CToken::PutDIParams( void )
 			PutDI(251, dsPos, id);
 		}
 	}
+}
+
+
+//ã€€ç™»éŒ²ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹
+void CToken::GenerateLabelList(int mode, char* match)
+{
 }
 
 
@@ -2782,17 +2827,17 @@ char *CToken::GetDS( int ptr )
 
 /*
 	rev 54
-	mingw : warning : i ‚Í–¢‰Šú‰»‚Åg—p‚³‚ê‚¤‚é
-	‚É‘ÎˆB
+	mingw : warning : i ã¯æœªåˆæœŸåŒ–ã§ä½¿ç”¨ã•ã‚Œã†ã‚‹
+	ã«å¯¾å‡¦ã€‚
 */
 
 int CToken::PutLIB( int flag, char *name )
 {
 	int a,i = -1,p;
-	LIBDAT lib;
-	LIBDAT *l;
-	p = li_buf->GetSize() / sizeof(LIBDAT);
-	l = (LIBDAT *)li_buf->GetBuffer();
+	HED_LIBDAT lib;
+	HED_LIBDAT *l;
+	p = li_buf->GetSize() / sizeof(HED_LIBDAT);
+	l = (HED_LIBDAT *)li_buf->GetBuffer();
 
 	if ( flag == LIBDAT_FLAG_DLL ) {
 		if ( *name != 0 ) {
@@ -2817,9 +2862,13 @@ int CToken::PutLIB( int flag, char *name )
 
 	lib.flag = flag;
 	lib.nameidx = i;
+#ifdef PTR64BIT
+	lib.p_hlib = 0;
+#else
 	lib.hlib = NULL;
+#endif
 	lib.clsid = -1;
-	li_buf->PutData( &lib, sizeof(LIBDAT) );
+	li_buf->PutData( &lib, sizeof(HED_LIBDAT) );
 	//Mesf( "LIB#%d:%s",flag,name );
 
 	return p;
@@ -2828,8 +2877,8 @@ int CToken::PutLIB( int flag, char *name )
 
 void CToken::SetLIBIID( int id, char *clsid )
 {
-	LIBDAT *l;
-	l = (LIBDAT *)li_buf->GetBuffer();
+	HED_LIBDAT *l;
+	l = (HED_LIBDAT *)li_buf->GetBuffer();
 	l += id;
 	if ( *clsid == 0 ) {
 		l->clsid = -1;
@@ -2884,7 +2933,9 @@ int CToken::PutStructParam( short mptype, int extype )
 	case MPTYPE_PTR_EXINFO:
 	case MPTYPE_PTR_DPMINFO:
 	case MPTYPE_NULLPTR:
-		size = sizeof(char *);
+		// XXX 32bitç‰ˆæ›ç®—ã§axå‡ºåŠ›ã™ã‚‹
+		//size = sizeof(char *);
+		size = 4;
 		break;
 	case MPTYPE_SINGLEVAR:
 	case MPTYPE_ARRAYVAR:
@@ -2932,9 +2983,9 @@ void CToken::PutStructStart( void )
 
 int CToken::PutStructEnd( int i, char *name, int libindex, int otindex, int funcflag )
 {
-	//		STRUCTDAT‚ğ“o˜^‚·‚é(ƒ‚ƒWƒ…[ƒ‹—p)
+	//		STRUCTDATã‚’ç™»éŒ²ã™ã‚‹(ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ç”¨)
 	//
-	STRUCTDAT st;
+	HED_STRUCTDAT st;
 	st.index = libindex;
 	st.nameidx = PutDSBuf( name );
 	st.subid = i;
@@ -2957,16 +3008,16 @@ int CToken::PutStructEnd( int i, char *name, int libindex, int otindex, int func
 int CToken::PutStructEnd( char *name, int libindex, int otindex, int funcflag )
 {
 	int i = GET_FI_SIZE();
-	fi_buf->PreparePtr( sizeof(STRUCTDAT) );
+	fi_buf->PreparePtr( sizeof(HED_STRUCTDAT) );
 	return PutStructEnd( i, name, libindex, otindex, funcflag );
 }
 
 int CToken::PutStructEndDll( char *name, int libindex, int subid, int otindex )
 {
-	//		STRUCTDAT‚ğ“o˜^‚·‚é(DLL—p)
+	//		STRUCTDATã‚’ç™»éŒ²ã™ã‚‹(DLLç”¨)
 	//
 	int i;
-	STRUCTDAT st;
+	HED_STRUCTDAT st;
 	i = GET_FI_SIZE();
 	st.index = libindex;
 	if ( name[0] == '*' ) {
@@ -2977,10 +3028,11 @@ int CToken::PutStructEndDll( char *name, int libindex, int subid, int otindex )
 	st.subid = subid;
 	st.prmindex = cg_stptr;
 	st.prmmax = cg_stnum;
-	st.proc = NULL;
+	//st.proc = NULL;
+	st.funcflag = 0;
 	st.size = cg_stsize;
 	st.otindex = otindex;
-	fi_buf->PutData( &st, sizeof(STRUCTDAT) );
+	fi_buf->PutData( &st, sizeof(HED_STRUCTDAT) );
 	//Mesf( "#%d : %s(LIB%d) prm%d size%d ot%d", i, name, libindex, cg_stnum, cg_stsize, otindex );
 	return i;
 }
@@ -2993,7 +3045,7 @@ void CToken::PutHPI( short flag, short option, char *libname, char *funcname )
 	hpi.option = option;
 	hpi.libname = PutDSBuf( libname );
 	hpi.funcname = PutDSBuf( funcname );
-#ifndef HSP64
+#ifndef PTR64BIT
 	hpi.libptr = NULL;
 #else
 	hpi.p_libptr = 0;
@@ -3015,15 +3067,15 @@ int CToken::GenerateCode( char *fname, char *oname, int mode )
 
 int CToken::GenerateCode( CMemBuf *srcbuf, char *oname, int mode )
 {
-	//		ƒtƒ@ƒCƒ‹‚ğHSP3Code‚É“WŠJ‚·‚é
+	//		ãƒ•ã‚¡ã‚¤ãƒ«ã‚’HSP3Codeã«å±•é–‹ã™ã‚‹
 	//		mode			COMP_MODE_DEBUG Debug code (0=off 1=on)
 	//						COMP_MODE_UTF8  utf-8 out (0=off 1=on)
 	//
 	int i,orgcs,res;
 	int adjsize;
-	CMemBuf optbuf;				// ƒIƒvƒVƒ‡ƒ“•¶š—ñ—pƒoƒbƒtƒ@
-	CMemBuf exoptbuf;			// Šg’£ƒIƒvƒVƒ‡ƒ“—pƒoƒbƒtƒ@
-	CMemBuf bakbuf;				// ƒvƒŠƒvƒƒZƒbƒTƒ\[ƒX•Û‘¶—pƒoƒbƒtƒ@
+	CMemBuf optbuf;				// ã‚ªãƒ—ã‚·ãƒ§ãƒ³æ–‡å­—åˆ—ç”¨ãƒãƒƒãƒ•ã‚¡
+	CMemBuf exoptbuf;			// æ‹¡å¼µã‚ªãƒ—ã‚·ãƒ§ãƒ³ç”¨ãƒãƒƒãƒ•ã‚¡
+	CMemBuf bakbuf;				// ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã‚½ãƒ¼ã‚¹ä¿å­˜ç”¨ãƒãƒƒãƒ•ã‚¡
 
 	cs_buf = new CMemBuf;
 	ds_buf = new CMemBuf;
@@ -3035,30 +3087,49 @@ int CToken::GenerateCode( CMemBuf *srcbuf, char *oname, int mode )
 	fi2_buf = new CMemBuf;
 	hpi_buf = new CMemBuf;
 
-	bakbuf.PutStr( srcbuf->GetBuffer() );				// ƒvƒŠƒvƒƒZƒbƒTƒ\[ƒX‚ğ•Û‘¶‚·‚é
+	bakbuf.PutStr( srcbuf->GetBuffer() );				// ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã‚½ãƒ¼ã‚¹ã‚’ä¿å­˜ã™ã‚‹
 
 	cg_debug = mode & COMP_MODE_DEBUG;
 	cg_utf8out = mode & COMP_MODE_UTF8;
 	cg_strmap = mode & COMP_MODE_STRMAP;
-	if ( pp_utf8 ) cg_utf8out = 0;						// ƒ\[ƒXƒR[ƒh‚ªUTF-8‚Ìê‡‚Í•ÏŠ·‚Í•K—v‚È‚¢
+	cg_skiperror = mode & COMP_MODE_SKIPERROR;
+	if ( pp_utf8 ) cg_utf8out = 0;						// ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ãŒUTF-8ã®å ´åˆã¯å¤‰æ›ã¯å¿…è¦ãªã„
+
+	if (cg_utf8out) {
+		Mes("#use UTF-8 strings.");
+	}
+	if (cg_strmap) {
+		Mes("#output string map.");
+	}
 
 	ds_buf->AddIndexBuffer();
 
 	cg_putvars = hed_cmpmode & CMPMODE_PUTVARS;
-	res = GenerateCodeMain( srcbuf );
+
+	if (cg_skiperror) {
+		res = GenerateCodeMainSkipError(srcbuf);
+	}
+	else {
+		res = GenerateCodeMain(srcbuf);
+	}
+
 	if ( res ) {
-		//		ƒGƒ‰[I—¹
+		//		ã‚¨ãƒ©ãƒ¼çµ‚äº†
 		char tmp[512];
 		CStrNote note;
 		CMemBuf srctmp;
-		Mesf( "%s(%d) : error %d : %s (%ds–Ú)", cg_orgfile, cg_orgline, res, cg_geterror((CGERROR)res), cg_orgline );
+#ifdef JPNMSG
+		Mesf( "%s(%d) : error %d : %s (%dè¡Œç›®)", cg_orgfile, cg_orgline, res, cg_geterror((CGERROR)res), cg_orgline );
+#else
+		Mesf("%s(%d) : error %d : %s (line %d)", cg_orgfile, cg_orgline, res, cg_geterror((CGERROR)res), cg_orgline);
+#endif
 		if ( cg_errline > 0 ) {
 			note.Select( bakbuf.GetBuffer() );
 			note.GetLine( tmp, cg_errline-1, 510 );
 			Mesf( "--> %s",tmp );
 		}
 	} else {
-		//		³íI—¹
+		//		æ­£å¸¸çµ‚äº†
 		CMemBuf axbuf;
 		HSPHED hsphed;
 		int sz_hed, sz_opt, cs_size, ds_size, ot_size, di_size;
@@ -3066,7 +3137,7 @@ int CToken::GenerateCode( CMemBuf *srcbuf, char *oname, int mode )
 		int sz_exopt;
 
 		orgcs = GetCS();
-		PutCS( TYPE_PROGCMD, 0x11, EXFLG_1 );			// I—¹ƒR[ƒh‚ğÅŒã‚É“ü‚ê‚é
+		PutCS( TYPE_PROGCMD, 0x11, EXFLG_1 );			// çµ‚äº†ã‚³ãƒ¼ãƒ‰ã‚’æœ€å¾Œã«å…¥ã‚Œã‚‹
 		i=PutOT( orgcs );
 		PutCS( TYPE_PROGCMD, 0, EXFLG_1 );
 		PutCS( TYPE_LABEL, i, 0 );
@@ -3081,7 +3152,7 @@ int CToken::GenerateCode( CMemBuf *srcbuf, char *oname, int mode )
 			PutDILabels();
 			PutDIParams();
 		}
-		PutDI( -1, 0, 0 );								// ƒfƒoƒbƒOî•ñI’[
+		PutDI( -1, 0, 0 );								// ãƒ‡ãƒãƒƒã‚°æƒ…å ±çµ‚ç«¯
 
 		sz_hed = sizeof(HSPHED);
 		memset( &hsphed, 0, sz_hed );
@@ -3102,27 +3173,27 @@ int CToken::GenerateCode( CMemBuf *srcbuf, char *oname, int mode )
 			hsphed.bootoption |= HSPHED_BOOTOPT_RUNTIME;
 			hsphed.runtime = sz_hed;
 			sz_hed += sz_opt;
-			if (hed_option & HEDINFO_UTF8) hsphed.bootoption |= HSPHED_BOOTOPT_UTF8;		// ƒ‰ƒ“ƒ^ƒCƒ€‚ÍUTF8‚ğg—p‚·‚é
-			if (hed_option & HEDINFO_HSP64) hsphed.bootoption |= HSPHED_BOOTOPT_HSP64;		// ƒ‰ƒ“ƒ^ƒCƒ€‚Í64bit‚Å“®ì‚·‚é
+			if (hed_option & HEDINFO_UTF8) hsphed.bootoption |= HSPHED_BOOTOPT_UTF8;		// ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã¯UTF8ã‚’ä½¿ç”¨ã™ã‚‹
+			if (hed_option & HEDINFO_HSP64) hsphed.bootoption |= HSPHED_BOOTOPT_HSP64;		// ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã¯64bitã§å‹•ä½œã™ã‚‹
 		}
 
-		//		ƒfƒoƒbƒOƒEƒCƒ“ƒhƒD•\¦
+		//		ãƒ‡ãƒãƒƒã‚°ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¥è¡¨ç¤º
 		if ( mode & COMP_MODE_DEBUGWIN ) hsphed.bootoption |= HSPHED_BOOTOPT_DEBUGWIN;
-		//		‹N“®ƒIƒvƒVƒ‡ƒ“‚Ìİ’è
+		//		èµ·å‹•ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®è¨­å®š
 		if (hed_autoopt_timer >= 0) {
-			// await‚ªg—p‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Íƒ}ƒ‹ƒ`ƒƒfƒBƒAƒ^ƒCƒ}[‚ğ–³Œø‚É‚·‚é(©“®İ’è)
+			// awaitãŒä½¿ç”¨ã•ã‚Œã¦ã„ãªã„å ´åˆã¯ãƒãƒ«ãƒãƒ¡ãƒ‡ã‚£ã‚¢ã‚¿ã‚¤ãƒãƒ¼ã‚’ç„¡åŠ¹ã«ã™ã‚‹(è‡ªå‹•è¨­å®š)
 			if (hed_autoopt_timer == 0) hsphed.bootoption |= HSPHED_BOOTOPT_NOMMTIMER;
 		} else {
-			// İ’è‚³‚ê‚½ƒIƒvƒVƒ‡ƒ“‚É]‚Á‚Äƒ}ƒ‹ƒ`ƒƒfƒBƒAƒ^ƒCƒ}[‚ğ–³Œø‚É‚·‚é
+			// è¨­å®šã•ã‚ŒãŸã‚ªãƒ—ã‚·ãƒ§ãƒ³ã«å¾“ã£ã¦ãƒãƒ«ãƒãƒ¡ãƒ‡ã‚£ã‚¢ã‚¿ã‚¤ãƒãƒ¼ã‚’ç„¡åŠ¹ã«ã™ã‚‹
 			if (hed_option & HEDINFO_NOMMTIMER) hsphed.bootoption |= HSPHED_BOOTOPT_NOMMTIMER;
 		}
 
-		if (hed_option & HEDINFO_NOGDIP) hsphed.bootoption |= HSPHED_BOOTOPT_NOGDIP;		// GDI+‚É‚æ‚é•`‰æ‚ğ–³Œø‚É‚·‚é
-		if (hed_option & HEDINFO_FLOAT32) hsphed.bootoption |= HSPHED_BOOTOPT_FLOAT32;		// À”‚ğ32bit float‚Æ‚µ‚Äˆ—‚·‚é
-		if (hed_option & HEDINFO_ORGRND) hsphed.bootoption |= HSPHED_BOOTOPT_ORGRND;		// •W€‚Ì—””­¶‚ğg—p‚·‚é
-		if (hed_option & HEDINFO_IORESUME) hsphed.bootoption |= HSPHED_BOOTOPT_IORESUME;	// ƒtƒ@ƒCƒ‹I/OƒGƒ‰[‚ğ–³‹‚µ‚Äˆ—‚ğ‘±s‚·‚é
+		if (hed_option & HEDINFO_NOGDIP) hsphed.bootoption |= HSPHED_BOOTOPT_NOGDIP;		// GDI+ã«ã‚ˆã‚‹æç”»ã‚’ç„¡åŠ¹ã«ã™ã‚‹
+		if (hed_option & HEDINFO_FLOAT32) hsphed.bootoption |= HSPHED_BOOTOPT_FLOAT32;		// å®Ÿæ•°ã‚’32bit floatã¨ã—ã¦å‡¦ç†ã™ã‚‹
+		if (hed_option & HEDINFO_ORGRND) hsphed.bootoption |= HSPHED_BOOTOPT_ORGRND;		// æ¨™æº–ã®ä¹±æ•°ç™ºç”Ÿã‚’ä½¿ç”¨ã™ã‚‹
+		if (hed_option & HEDINFO_IORESUME) hsphed.bootoption |= HSPHED_BOOTOPT_IORESUME;	// ãƒ•ã‚¡ã‚¤ãƒ«I/Oã‚¨ãƒ©ãƒ¼ã‚’ç„¡è¦–ã—ã¦å‡¦ç†ã‚’ç¶šè¡Œã™ã‚‹
 
-		//		•¶š—ñƒe[ƒuƒ‹‚Ìì¬
+		//		æ–‡å­—åˆ—ãƒ†ãƒ¼ãƒ–ãƒ«ã®ä½œæˆ
 		if (hed_autoopt_strexchange > 0) {
 			int dspool_size = ds_buf->GetIndexBufferSize();
 			if (dspool_size) {
@@ -3130,8 +3201,24 @@ int CToken::GenerateCode( CMemBuf *srcbuf, char *oname, int mode )
 				exoptbuf.PutData(ds_buf->GetIndexBuffer(), dspool_size * sizeof(int));
 			}
 		}
+		//		å‹å›ºå®šæƒ…å ±ã®ä½œæˆ
+		if (cg_debug) {
+			for (i = 0; i < lb->GetCount(); i++) {
+				if (lb->GetType(i) == TYPE_VAR) {
+					int fixedvalue = lb->GetForceType(i);
+					if (fixedvalue != LAB_TYPEFIX_NONE) {
+						int bodysize = sizeof(int) * 2;
+						//Mes(lb->GetName(i));
+						exoptbuf.Put((int)(HSPHED_EXOPTION_TAG_VARFIX)+(bodysize << 16));
+						exoptbuf.Put(lb->GetOpt(i));
+						exoptbuf.Put(fixedvalue);
+					}
+				}
+			}
+		}
+
 		if (exoptbuf.GetSize()) {
-			//	exopt‚ÌI’[
+			//	exoptã®çµ‚ç«¯
 			exoptbuf.Put((int)HSPHED_EXOPTION_TAG_NONE);
 		}
 
@@ -3204,21 +3291,21 @@ int CToken::GenerateCode( CMemBuf *srcbuf, char *oname, int mode )
 		if (sz_exopt) axbuf.PutData( exoptbuf.GetBuffer(), sz_exopt );
 
 		if (cg_strmap) {
-			res = SaveStringMap(oname);
+			if (*oname != 0) res = SaveStringMap(oname);
 		}
 		else {
-			res = axbuf.SaveFile(oname);
+			if (*oname != 0) res = axbuf.SaveFile(oname);
 		}
 		if ( res<0 ) {
 #ifdef JPNMSG
-			Mes( "#o—Íƒtƒ@ƒCƒ‹‚ğ‘‚«‚ß‚Ü‚¹‚ñ" );
+			Mes( "#å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›¸ãè¾¼ã‚ã¾ã›ã‚“" );
 #else
 			Mes( "#Can't write output file." );
 #endif
 		} else {
 			int n_mod, n_hpi;
 			n_hpi = hpi_buf->GetSize() / sizeof(HPIDAT);
-			n_mod = fi_buf->GetSize() / sizeof(STRUCTDAT);
+			n_mod = fi_buf->GetSize() / sizeof(HED_STRUCTDAT);
 			Mesf( "#Code size (%d) String data size (%d) param size (%d)",cs_size,ds_size,mi_buf->GetSize() );
 			Mesf( "#Vars (%d) Labels (%d) Modules (%d) Libs (%d) Plugins (%d)",cg_valcnt,ot_size>>2,n_mod,li_size,n_hpi );
 			if (sz_exopt) {
@@ -3226,6 +3313,11 @@ int CToken::GenerateCode( CMemBuf *srcbuf, char *oname, int mode )
 			}
 			Mesf( "#No error detected. (total %d bytes)",hsphed.allsize );
 			res = 0;
+
+			if (labbuf!=NULL) {
+				GenerateLabelList(cg_labout_mode, cg_labout_match);
+			}
+
 		}
 	}
 
@@ -3251,7 +3343,7 @@ void CToken::CG_MesLabelDefinition(int label_id)
 	LABOBJ* const labobj = lb->GetLabel(label_id);
 	if ( labobj->def_file ) {
 #ifdef JPNMSG
-		Mesf("#¯•Êqu%sv‚Ì’è‹`ˆÊ’u: line %d in [%s]", lb->GetName(label_id), labobj->def_line, labobj->def_file);
+		Mesf("#è­˜åˆ¥å­ã€Œ%sã€ã®å®šç¾©ä½ç½®: line %d in [%s]", lb->GetName(label_id), labobj->def_line, labobj->def_file);
 #else
 		Mesf("#Identifier '%s' has already defined in line %d in [%s]", lb->GetName(label_id), labobj->def_line, labobj->def_file);
 #endif
@@ -3292,4 +3384,75 @@ int	CToken::SaveStringMap(char* fname)
 	return outbuf.SaveFile(fname);
 }
 
+
+void CToken::GenerateLabelTag(char* name, int flag, int type, char* fname, int line)
+{
+	//	ã‚¯ãƒ­ã‚¹ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ç”¨ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡ºåŠ›ã™ã‚‹
+	if (labbuf == NULL) return;
+
+	char textbf[4096];
+	if (cg_labout_match != NULL) {
+		if (cg_labout_mode & LABLIST_MODE_PARTMATCH) {
+			if (strstr2(name, cg_labout_match) == NULL) return;
+		}
+		else {
+			if (strcmp(name, cg_labout_match) != 0) return;
+		}
+	}
+	int pflag = flag & (LABBUF_FLAG_REFER-1);
+
+	switch (cg_labout_mode & (LABLIST_MODE_REFERENCE-1)) {
+	case LABLIST_MODE_LABEL:
+		if ((pflag != LABBUF_FLAG_LABEL) && (pflag != LABBUF_FLAG_FUNC)) return;
+		break;
+	case LABLIST_MODE_VAR:
+		if ((pflag != LABBUF_FLAG_VAR) && (pflag != LABBUF_FLAG_EXVAR)) return;
+		break;
+	case LABLIST_MODE_ALL:
+	default:
+		break;
+	}
+
+	sprintf(textbf, "d%s %s %d:%s\r\n", GetLabelListHeader(flag), name, line, fname);
+	if (flag & LABBUF_FLAG_REFER) textbf[0] = 'r';
+
+	labbuf->PutStr(textbf);
+}
+
+
+void CToken::GenerateLabelListAndTag(int labelid, int flag)
+{
+	if (labbuf == NULL) return;
+
+	LABOBJ* lab;
+	lab = lb->GetLabel(labelid);
+	if (lab == NULL) return;
+
+	GenerateLabelTag(lab->name, flag, lab->type, (char*)lab->def_file, lab->def_line);
+}
+
+
+void CToken::GenerateLabelListAndTag(char *name, int flag)
+{
+	if (labbuf == NULL) return;
+	GenerateLabelTag(name, flag , 0, cg_orgfilefull, cg_orgline);
+}
+
+
+void CToken::GenerateLabelListAndTagRef(int labelid, int flag )
+{
+	if (labbuf == NULL) return;
+
+	LABOBJ* lab;
+	lab = lb->GetLabel(labelid);
+	if (lab == NULL) return;
+
+	if (lab->skiplablist) {
+		lab->skiplablist = false;
+		return;
+	}
+	if ((cg_labout_mode & LABLIST_MODE_REFERENCE) == 0) return;
+
+	GenerateLabelTag(lab->name, flag| LABBUF_FLAG_REFER, lab->type, cg_orgfilefull, cg_orgline );
+}
 

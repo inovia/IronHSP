@@ -39,6 +39,9 @@
     <ClCompile Include="nkf\utf8tbl.c">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="sha256.c">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="czbase64.h">
@@ -59,5 +62,13 @@
     <ClInclude Include="nkf\nkf32.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="sha256.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nkf\dll.def">
+      <Filter>ソース ファイル</Filter>
+    </None>
   </ItemGroup>
 </Project>
