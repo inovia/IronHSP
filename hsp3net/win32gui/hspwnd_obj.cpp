@@ -332,6 +332,25 @@ static void Object_SetMultiBox( HSPOBJINFO *info, int type, void *ptr )
 
 	hw = info->hCld;
 
+	// .NET コントロールの場合は Items API を使用
+	if ( HspInterop_IsManagedControl( (void*)hw ) ) {
+		int isComboBox = (info->owid & 1) ? 1 : 0;
+		switch ( type ) {
+		case TYPE_STRING:
+			HspInterop_SetMultiBoxItems( (void*)hw, (const char*)ptr, isComboBox );
+			break;
+		case TYPE_INUM:
+			bmscr_obj_ival = *(int *)ptr;
+			HspInterop_SetMultiBoxIndex( (void*)hw, bmscr_obj_ival, isComboBox );
+			Object_SendSetVar( info );
+			break;
+		default:
+			throw HSPERR_TYPE_MISMATCH;
+		}
+		return;
+	}
+
+	// Win32 コントロール
 	switch( type ) {
 	case TYPE_STRING:
 		if ( info->owid & 1 ) {
@@ -371,6 +390,25 @@ static void Object_SetInputBox( HSPOBJINFO *info, int type, void *ptr )
 	HWND hw;
 	HSPAPICHAR *hactmp1 = 0;
 	hw = info->hCld;
+
+	// .NET TextBox の場合は Control.Text を使用
+	if ( HspInterop_IsManagedControl( (void*)hw ) ) {
+		switch ( type ) {
+		case TYPE_STRING:
+			HspInterop_SetControlText( (void*)hw, (const char*)ptr );
+			break;
+		case TYPE_INUM:
+		case TYPE_DNUM:
+			HspInterop_SetControlText( (void*)hw,
+				(const char*)HspVarCoreCnv( type, TYPE_STRING, ptr ) );
+			break;
+		default:
+			throw HSPERR_TYPE_MISMATCH;
+		}
+		return;
+	}
+
+	// Win32 コントロール
 	switch( type ) {
 	case TYPE_STRING:
 		SetWindowText( hw, chartoapichar((char*)ptr,&hactmp1) );
@@ -400,9 +438,33 @@ static void Object_SetCheckBox( HSPOBJINFO *info, int type, void *ptr )
 {
 	HWND const hw = info->hCld;
 	HSPAPICHAR *hactmp1 = 0;
+
+	// .NET CheckBox の場合
+	if ( HspInterop_IsManagedControl( (void*)hw ) ) {
+		switch ( type ) {
+		case HSPVAR_FLAG_STR:
+			HspInterop_SetControlText( (void*)hw, static_cast<const char*>(ptr) );
+			break;
+		case HSPVAR_FLAG_INT:
+		{
+			int checked = *static_cast<int*>(ptr) ? 1 : 0;
+			int current = HspInterop_GetCheckBoxState( (void*)hw );
+			if (current != checked) {
+				HspInterop_ToggleCheckBox( (void*)hw );
+			}
+			Object_CheckBox( info, 0 );
+			break;
+		}
+		default:
+			throw HSPERR_TYPE_MISMATCH;
+		}
+		return;
+	}
+
+	// Win32 コントロール
 	switch ( type ) {
 	case HSPVAR_FLAG_STR:
-		SetWindowText( hw, 
+		SetWindowText( hw,
 			chartoapichar(static_cast< char * >( ptr ),&hactmp1) );
 		break;
 	case HSPVAR_FLAG_INT:

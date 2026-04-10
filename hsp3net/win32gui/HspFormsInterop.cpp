@@ -143,4 +143,64 @@ void HspInterop_ToggleCheckBox(void* controlHwnd)
 	catch (...) {}
 }
 
+void HspInterop_SetMultiBoxItems(void* controlHwnd, const char* items, int isComboBox)
+{
+	try
+	{
+		auto ctrl = System::Windows::Forms::Control::FromHandle(System::IntPtr(controlHwnd));
+		if (ctrl == nullptr) return;
+
+		auto managedItems = CharToManagedString(items);
+		auto lines = managedItems->Split(gcnew array<wchar_t>{'\n', '\r'},
+			System::StringSplitOptions::RemoveEmptyEntries);
+
+		if (isComboBox) {
+			auto cb = dynamic_cast<System::Windows::Forms::ComboBox^>(ctrl);
+			if (cb == nullptr) return;
+			cb->Items->Clear();
+			for each (auto line in lines) {
+				cb->Items->Add(line);
+			}
+		} else {
+			auto lb = dynamic_cast<System::Windows::Forms::ListBox^>(ctrl);
+			if (lb == nullptr) return;
+			lb->Items->Clear();
+			for each (auto line in lines) {
+				lb->Items->Add(line);
+			}
+		}
+	}
+	catch (...) {}
+}
+
+void HspInterop_SetMultiBoxIndex(void* controlHwnd, int index, int isComboBox)
+{
+	try
+	{
+		auto ctrl = System::Windows::Forms::Control::FromHandle(System::IntPtr(controlHwnd));
+		if (ctrl == nullptr) return;
+
+		if (isComboBox) {
+			auto cb = dynamic_cast<System::Windows::Forms::ComboBox^>(ctrl);
+			if (cb != nullptr) cb->SelectedIndex = index;
+		} else {
+			auto lb = dynamic_cast<System::Windows::Forms::ListBox^>(ctrl);
+			if (lb != nullptr) lb->SelectedIndex = index;
+		}
+	}
+	catch (...) {}
+}
+
+void HspInterop_SetControlText(void* controlHwnd, const char* text)
+{
+	try
+	{
+		auto ctrl = System::Windows::Forms::Control::FromHandle(System::IntPtr(controlHwnd));
+		if (ctrl != nullptr) {
+			ctrl->Text = CharToManagedString(text);
+		}
+	}
+	catch (...) {}
+}
+
 } // extern "C"

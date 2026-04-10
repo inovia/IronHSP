@@ -244,6 +244,7 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$015 17 pushnet",				// (ver3.7)
 	"$016 17 popnet",				// (ver3.7)
 	"$017 17 enablewpf",			// (ver3.7)
+	"$018 17 neterror",				// (ver3.7)
 
 	"$100 17 callfunc",
 	"$101 17 cnvwtos",
@@ -252,6 +253,9 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$104 17 cnvatos",				// (ver3.5)
 
 	"$105 17 nettoval",				// (ver3.7)
+	"$106 17 netexerr",				// (ver3.7)
+	"$107 17 callfuncd",			// (ver3.7)
+	"$108 17 callfuncf",			// (ver3.7)
 
 	//	3.0 system vals
 

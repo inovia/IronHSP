@@ -5,6 +5,8 @@
 OPTION CASEMAP: NONE
 
 PUBLIC CallFunc64
+PUBLIC CallFunc64_Double
+PUBLIC CallFunc64_Float
 
 .CODE
 
@@ -111,5 +113,120 @@ CallFunc64 PROC FRAME
     ret
 
 CallFunc64 ENDP
+
+
+; CallFunc64_Double: double 戻り値の DLL 関数を呼び出す
+; XMM0 の double ビットパターンを RAX に転送して返す
+CallFunc64_Double PROC FRAME
+
+    mov rax, rdx
+    mov edx, r8d
+    test edx, edx
+    jg short @d_has_args
+
+        jmp rax
+
+    @d_has_args:
+
+    push rbp
+    .PUSHREG rbp
+    mov rbp, rsp
+    .SETFRAME rbp, 0
+    .ENDPROLOG
+
+    sal edx, 3
+    sub edx, 8 * 4
+    @d_if00:
+    jge short @d_else00
+        neg edx
+        jmp short @d_end_if00
+    @d_else00:
+        and edx, 8
+    @d_end_if00:
+    sub rsp, rdx
+
+    @d_do00:
+       dec r8d
+       push qword ptr [rcx + r8 * 8]
+       jg @d_do00
+    @d_until00:
+
+    pop rcx
+    pop rdx
+    pop r8
+    pop r9
+    movd xmm0, rcx
+    movd xmm1, rdx
+    movd xmm2, r8
+    movd xmm3, r9
+
+    sub rsp, 8 * 4
+    call rax
+
+    ; double 戻り値: XMM0 → RAX
+    movq rax, xmm0
+
+    leave
+    ret
+
+CallFunc64_Double ENDP
+
+
+; CallFunc64_Float: float 戻り値の DLL 関数を呼び出す
+; XMM0 の float ビットパターンを EAX に転送して返す
+CallFunc64_Float PROC FRAME
+
+    mov rax, rdx
+    mov edx, r8d
+    test edx, edx
+    jg short @f_has_args
+
+        jmp rax
+
+    @f_has_args:
+
+    push rbp
+    .PUSHREG rbp
+    mov rbp, rsp
+    .SETFRAME rbp, 0
+    .ENDPROLOG
+
+    sal edx, 3
+    sub edx, 8 * 4
+    @f_if00:
+    jge short @f_else00
+        neg edx
+        jmp short @f_end_if00
+    @f_else00:
+        and edx, 8
+    @f_end_if00:
+    sub rsp, rdx
+
+    @f_do00:
+       dec r8d
+       push qword ptr [rcx + r8 * 8]
+       jg @f_do00
+    @f_until00:
+
+    pop rcx
+    pop rdx
+    pop r8
+    pop r9
+    movd xmm0, rcx
+    movd xmm1, rdx
+    movd xmm2, r8
+    movd xmm3, r9
+
+    sub rsp, 8 * 4
+    call rax
+
+    ; float 戻り値: XMM0 → EAX (下位32bit)
+    movd eax, xmm0
+
+    leave
+    ret
+
+CallFunc64_Float ENDP
+
 
 END

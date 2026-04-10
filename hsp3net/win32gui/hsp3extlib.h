@@ -65,7 +65,11 @@ int64_t code_expand_and_call( const STRUCTDAT *st );
 #ifdef HSP64
 
 extern "C" INT_PTR CallFunc64(INT_PTR *, FARPROC, int);
+extern "C" INT_PTR CallFunc64_Double(INT_PTR *, FARPROC, int);
+extern "C" INT_PTR CallFunc64_Float(INT_PTR *, FARPROC, int);
 #define call_extfunc(externalFunction, arguments, numberOfArguments)	CallFunc64((INT_PTR *)arguments, (FARPROC)externalFunction, numberOfArguments)
+#define call_extfunc_double(externalFunction, arguments, numberOfArguments) CallFunc64_Double((INT_PTR *)arguments, (FARPROC)externalFunction, numberOfArguments)
+#define call_extfunc_float(externalFunction, arguments, numberOfArguments) CallFunc64_Float((INT_PTR *)arguments, (FARPROC)externalFunction, numberOfArguments)
 
 #else
 
@@ -74,6 +78,8 @@ int __cdecl call_extfunc( void *proc, int *prm, int prms ) __attribute__(( noinl
 #else
 int __cdecl call_extfunc( void *proc, int *prm, int prms );
 #endif
+double __cdecl call_extfunc_double_x86( void *proc, int *prm, int prms );
+float  __cdecl call_extfunc_float_x86( void *proc, int *prm, int prms );
 
 #endif
 

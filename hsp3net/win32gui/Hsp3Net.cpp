@@ -568,6 +568,15 @@ namespace tv::hsp::net
 				setValue->Assembly = setValue->Class->Assembly;
 			}
 
+			// フィールドがEnum型の場合はintから自動変換
+			if ( fInfo->FieldType->IsEnum
+				&& setValue->Class->Equals(System::Int32::typeid) )
+			{
+				setValue->Instance = System::Enum::ToObject(fInfo->FieldType, setValue->Instance);
+				setValue->Class = setValue->Instance->GetType();
+				setValue->Assembly = setValue->Class->Assembly;
+			}
+
 			fInfo->SetValue(nc->Instance, setValue->Instance);
 			return true;
 		}
@@ -590,6 +599,15 @@ namespace tv::hsp::net
 				&& setValue->Class->Equals(System::Int32::typeid) )
 			{
 				setValue->Instance = (System::Boolean)(((System::Int32)setValue->Instance) != 0);
+				setValue->Class = setValue->Instance->GetType();
+				setValue->Assembly = setValue->Class->Assembly;
+			}
+
+			// プロパティがEnum型の場合はintから自動変換
+			if ( pInfo->PropertyType->IsEnum
+				&& setValue->Class->Equals(System::Int32::typeid) )
+			{
+				setValue->Instance = System::Enum::ToObject(pInfo->PropertyType, setValue->Instance);
 				setValue->Class = setValue->Instance->GetType();
 				setValue->Assembly = setValue->Class->Assembly;
 			}
@@ -722,16 +740,21 @@ namespace tv::hsp::net
 			// 3. 動的ロード
 			try
 			{
-				assy = Assembly::LoadWithPartialName(assyName);
-				if (assy != nullptr)
-				{
-					_AssemblyDic[assy->GetName()->Name] = assy;
-					_AssemblyDic[assyName] = assy;
-					_AssemblySet->Add(assy);
-					return GetTypeByString(assy, className);
-				}
+				assy = Assembly::Load(gcnew System::Reflection::AssemblyName(assyName));
 			}
-			catch (Exception ^) {}
+			catch (...) {
+				try {
+					#pragma warning(suppress: 4996)
+					assy = Assembly::LoadWithPartialName(assyName);
+				} catch (...) {}
+			}
+			if (assy != nullptr)
+			{
+				_AssemblyDic[assy->GetName()->Name] = assy;
+				_AssemblyDic[assyName] = assy;
+				_AssemblySet->Add(assy);
+				return GetTypeByString(assy, className);
+			}
 
 			// 4. 全ロード済みアセンブリからクラス名で検索（フォールバック）
 			for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
@@ -923,17 +946,22 @@ namespace tv::hsp::net
 		// 3. 動的ロードを試みる
 		try
 		{
-			assy = Assembly::LoadWithPartialName(assyName);
-			if (assy != nullptr)
-			{
-				auto loadedName = assy->GetName()->Name;
-				_AssemblyDic[loadedName] = assy;
-				_AssemblyDic[assyName] = assy;
-				_AssemblySet->Add(assy);
-				return CreateInstance(assy, className, genericList, bStaticMethod, prms);
-			}
+			assy = Assembly::Load(gcnew System::Reflection::AssemblyName(assyName));
 		}
-		catch (Exception ^) {}
+		catch (...) {
+			try {
+				#pragma warning(suppress: 4996)
+				assy = Assembly::LoadWithPartialName(assyName);
+			} catch (...) {}
+		}
+		if (assy != nullptr)
+		{
+			auto loadedName = assy->GetName()->Name;
+			_AssemblyDic[loadedName] = assy;
+			_AssemblyDic[assyName] = assy;
+			_AssemblySet->Add(assy);
+			return CreateInstance(assy, className, genericList, bStaticMethod, prms);
+		}
 
 		// 4. 全ロード済みアセンブリからクラス名で検索（フォールバック）
 		for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
@@ -960,7 +988,18 @@ namespace tv::hsp::net
 	{
 		try
 		{
-			Assembly ^assy = Assembly::LoadWithPartialName(name);
+			// Assembly.Load(AssemblyName) で読み込みを試みる（推奨API）
+			Assembly ^assy = nullptr;
+			try
+			{
+				assy = Assembly::Load(gcnew System::Reflection::AssemblyName(name));
+			}
+			catch (...)
+			{
+				// フォールバック: LoadWithPartialName（非推奨だがGAC短縮名に対応）
+				#pragma warning(suppress: 4996)
+				assy = Assembly::LoadWithPartialName(name);
+			}
 			if (assy != nullptr)
 			{
 				_AssemblySet->Add(assy);
@@ -1143,13 +1182,44 @@ namespace tv::hsp::net
 			{
 				// ジェネリックでないならこっちでよし
 				method = nc->Class->GetMethod(methodName, listTypes->ToArray());
+
+				// 見つからない場合、Enum/bool パラメータの型不一致の可能性がある
+				// メソッド名とパラメータ数でフォールバック検索する
+				if (method == nullptr)
+				{
+					for each (auto m in nc->Class->GetMethods())
+					{
+						if (m->Name->Equals(methodName) && m->GetParameters()->Length == prms->Length)
+						{
+							method = m;
+							break;
+						}
+					}
+				}
 			}
 
-			// 引数
+			// 引数: メソッドのパラメータ型に合わせて自動変換
+			auto methodParams = method->GetParameters();
 			array<Object^> ^arrayParams = gcnew array<Object^>(prms->Length);
 			for (int i = 0; i < arrayParams->Length; i++)
 			{
-				arrayParams[i] = prms[i]->Instance;
+				auto paramType = methodParams[i]->ParameterType;
+				auto value = prms[i]->Instance;
+
+				// int → Enum 自動変換
+				if (paramType->IsEnum && prms[i]->Class->Equals(System::Int32::typeid))
+				{
+					arrayParams[i] = System::Enum::ToObject(paramType, value);
+				}
+				// int → bool 自動変換
+				else if (paramType->Equals(System::Boolean::typeid) && prms[i]->Class->Equals(System::Int32::typeid))
+				{
+					arrayParams[i] = (System::Boolean)(((System::Int32)value) != 0);
+				}
+				else
+				{
+					arrayParams[i] = value;
+				}
 			}
 
 			// 実行
@@ -1347,6 +1417,35 @@ namespace tv::hsp::net
 			// 流石に積まんで良い
 			return nullptr;
 		}
+	}
+
+	String ^Hsp3Net::PopLastExceptionInfo(int mode)
+	{
+		try
+		{
+			if (_ExceptionStack->Count == 0) return nullptr;
+			auto exp = _ExceptionStack->Pop();
+			if (exp == nullptr) return "";
+			switch (mode)
+			{
+			case 0:		// Message のみ
+				return exp->Message;
+			case 1:		// 例外の型名
+				return exp->GetType()->FullName;
+			case 2:		// ToString() (メッセージ+スタックトレース)
+			default:
+				return exp->ToString();
+			}
+		}
+		catch (Exception^)
+		{
+			return nullptr;
+		}
+	}
+
+	bool Hsp3Net::HasException()
+	{
+		return _ExceptionStack->Count > 0;
 	}
 
 	String ^Hsp3Net::GetLastCompileErrorToString()

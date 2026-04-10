@@ -72,6 +72,7 @@ static char *err_jp[]={
 	"コールバック内で使用できない命令です",			// 42
 	"固定された変数型を変更しようとしました",		// 43
 	"固定された変数値を変更しようとしました",		// 44
+	".NET例外が発生しました",						// 45
 	"*"
 };
 
@@ -121,6 +122,7 @@ static char *err[]={
 	"function not allowed in callback",	// 42
 	"Invalid change of variable type",	// 43
 	"Invalid change of variable value",	// 44
+	".NET exception occurred",			// 45
 	"*"
 };
 

@@ -44,6 +44,16 @@ int HspInterop_GetCheckBoxState(void* controlHwnd);
 // controlHwnd が .NET CheckBox なら Checked 状態をトグル
 void HspInterop_ToggleCheckBox(void* controlHwnd);
 
+// .NET ComboBox/ListBox の Items をリセットして文字列リストを設定
+// items は改行区切りの文字列 (Shift-JIS)
+void HspInterop_SetMultiBoxItems(void* controlHwnd, const char* items, int isComboBox);
+
+// .NET ComboBox/ListBox の選択インデックスを設定
+void HspInterop_SetMultiBoxIndex(void* controlHwnd, int index, int isComboBox);
+
+// .NET TextBox/ComboBox/ListBox の Text プロパティを設定
+void HspInterop_SetControlText(void* controlHwnd, const char* text);
+
 #ifdef __cplusplus
 }
 #endif

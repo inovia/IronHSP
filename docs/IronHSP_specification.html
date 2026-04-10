@@ -39,7 +39,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-11</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-10</p>
 <p class="muted">ベース: OpenHSP 3.7 (SVN r1616) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="toc">
@@ -186,12 +186,15 @@ mes r  ; => 3000000000000</code></pre>
 <tr><td><code>newnet</code></td><td>.NET クラスのインスタンスを生成する。static メソッド呼び出し用のモードあり</td></tr>
 <tr><td><code>delnet</code></td><td>.NET オブジェクトを解放する</td></tr>
 <tr><td><code>netres</code></td><td>メソッド戻り値の格納先変数を設定する</td></tr>
+<tr><td><code>tonet</code></td><td>HSP の値（int/double/str/int64）を .NET オブジェクト (netobj) に変換する</td></tr>
 <tr><td><code>enumnet</code></td><td>enum メンバーの値を取得する</td></tr>
 <tr><td><code>getforms</code></td><td>HSP ウィンドウ ID から WinForms の Form インスタンスを取得する</td></tr>
 <tr><td><code>pushnet</code></td><td>ネイティブポインタのスコープをプッシュする（メモリ管理用）</td></tr>
 <tr><td><code>popnet</code></td><td>スコープをポップし、自動的にポインタを解放する。引数で保持するポインタを指定可能</td></tr>
 <tr><td><code>enablewpf</code></td><td>WPF 関連アセンブリ（PresentationCore等）をロードする</td></tr>
-<tr><td><code>nettoval</code></td><td>.NET オブジェクトを HSP の値型に変換する</td></tr>
+<tr><td><code>neterror</code></td><td>.NET 例外のエラーモードを設定する。0=stat のみ（デフォルト）, 1=HSP エラーとして throw</td></tr>
+<tr><td><code>nettoval</code></td><td>.NET オブジェクトを HSP の値型に変換する（関数形式）</td></tr>
+<tr><td><code>netexerr</code></td><td>最後に発生した .NET 例外の情報を文字列で返す（関数形式）</td></tr>
 </table>
 
 <h3>4.2 変数型 TYPE_NETOBJ</h3>
@@ -239,6 +242,58 @@ mes s  ; => "Hello"</code></pre>
   <li><code>Free()</code> &mdash; GCHandle を解放する</li>
   <li><code>PushNativePtrCurrentStack()</code> / <code>PopNativePtrCurrentStack()</code> &mdash; スコープベースの自動解放</li>
 </ul>
+
+<h3>4.6 例外処理とエラー報告</h3>
+
+<p>.NET の例外が発生した場合のエラー報告には2つのモードがあります。<code>neterror</code> 命令で切り替えます。</p>
+
+<table>
+<tr><th>モード</th><th>動作</th><th>用途</th></tr>
+<tr><td><code>neterror 0</code>（デフォルト）</td><td><code>stat</code> に -1 を設定するのみ。スクリプト実行は継続される</td><td>個別にエラーを確認して処理する場合</td></tr>
+<tr><td><code>neterror 1</code></td><td>HSP エラー <code>HSPERR_DOTNET_EXCEPTION</code> (#45) を throw する。<code>onerror</code> で捕捉可能</td><td>例外を一括でハンドリングする場合</td></tr>
+</table>
+
+<h4>netexerr() 関数</h4>
+<p>最後に発生した .NET 例外の情報を文字列で返す関数です。引数でモードを指定できます:</p>
+<table>
+<tr><th>引数</th><th>返す内容</th><th>例</th></tr>
+<tr><td><code>netexerr()</code> または <code>netexerr(0)</code></td><td>例外メッセージ（Message プロパティ）</td><td><code>"型 'System.Foo' が見つかりません"</code></td></tr>
+<tr><td><code>netexerr(1)</code></td><td>例外の型名（FullName）</td><td><code>"System.TypeLoadException"</code></td></tr>
+<tr><td><code>netexerr(2)</code></td><td>詳細情報（ToString = メッセージ＋スタックトレース）</td><td>デバッグ用の完全な情報</td></tr>
+</table>
+
+<h4>使用例 1: stat チェック + netexerr</h4>
+<pre><code>newnet pObj, "System", "System.NoSuchClass", 0
+if stat = -1 {
+    mes "エラー: " + netexerr()
+    mes "例外型: " + netexerr(1)
+}</code></pre>
+
+<h4>使用例 2: onerror で一括捕捉</h4>
+<pre><code>neterror 1
+onerror goto *err_handler
+newnet pObj, "System", "System.NoSuchClass", 0
+stop
+
+*err_handler
+    dialog "例外: " + netexerr()
+    end</code></pre>
+
+<div class="note">
+<strong>注意:</strong> <code>netexerr()</code> は例外スタックからポップするため、呼び出すたびに次の例外が取得されます。
+同じ例外の複数の情報（メッセージと型名など）が必要な場合は、変数に保存してから使用してください。
+</div>
+
+<h4>プロパティ代入時の自動型変換</h4>
+<p>.NET プロパティ/フィールドへの代入時、以下の自動型変換が行われます:</p>
+<ul>
+  <li><strong>bool 変換</strong>: int 値を代入すると、0 = false / 非0 = true に変換</li>
+  <li><strong>Enum 変換</strong>: int 値を Enum 型プロパティに代入すると、<code>Enum.ToObject()</code> で自動変換</li>
+</ul>
+<pre><code>; int → Enum の自動変換例
+pEH("Dock") = 5         ; DockStyle.Fill (int → DockStyle 列挙型)
+pBtn("FlatStyle") = 0   ; FlatStyle.Flat (int → FlatStyle 列挙型)
+pChk("CheckState") = 1  ; CheckState.Checked</code></pre>
 
 <!-- ======================================== -->
 <h2 id="winforms">5. WinForms 統合</h2>
@@ -350,6 +405,9 @@ mcall net_controls, "Add", pButton</code></pre>
 <tr><td>4/10 23:00</td><td><code>c3a136ae</code></td><td><span class="badge">Phase 7</span> hsp3cl .NET対応、DLL戻り値自動int64、mref修正、v4.8</td></tr>
 <tr><td>4/10 23:30</td><td><code>b03f3c0a</code></td><td><span class="badge">Phase 8</span> アセンブリ自動解決、hsp3cl NETOBJ登録</td></tr>
 <tr><td>4/11 00:00</td><td><code>46f627ec</code></td><td><span class="badge-orange badge">Phase 9</span> GUI オブジェクトを .NET コントロールに置換、Form.Controls 統合</td></tr>
+<tr><td>4/10</td><td></td><td><span class="badge">Phase 10</span> .NET 例外処理: neterror/netexerr 追加、Enum 自動変換</td></tr>
+<tr><td>4/10</td><td></td><td><span class="badge">Phase 11</span> CnvCustom実装、tonet実装、objprm .NET対応、InvokeMethod Enum変換、enablewpfエラーチェック</td></tr>
+<tr><td>4/10</td><td></td><td><span class="badge">Phase 12</span> #cfuncd/#cfuncf (double/float戻り値DLL)、callfuncd/callfuncf追加</td></tr>
 </table>
 
 <!-- ======================================== -->
@@ -409,11 +467,50 @@ mcall net_controls, "Add", pButton</code></pre>
 </div>
 
 <div class="card">
-<h3>.NET コントロールと netobj の型変換</h3>
+<h3>netobj の型変換</h3>
 <ul>
-  <li>netobj 型の変数を <code>mes</code> で直接表示することはできない（<code>CnvCustom</code> 未実装）</li>
-  <li><code>mcall</code> で <code>ToString</code> を呼び、<code>nettoval</code> で文字列に変換する必要がある</li>
+  <li>netobj 型の変数は <code>mes pObj</code> で直接表示可能（内部で <code>ToString()</code> が呼ばれる）</li>
+  <li>文字列への変換: <code>s = "" + pObj</code> — <code>ToString()</code> の結果が使われる</li>
+  <li>整数への変換: <code>Convert.ToInt32()</code> で変換可能な場合のみ（それ以外は 0）</li>
+  <li>実数への変換: <code>Convert.ToDouble()</code> で変換可能な場合のみ（それ以外は 0.0）</li>
+  <li><code>tonet</code> 命令で HSP の値（int/double/str/int64）を netobj にラップ可能</li>
 </ul>
+</div>
+
+<div class="card">
+<h3>DLL 関数の double/float 戻り値</h3>
+<p>従来の <code>#cfunc</code> では DLL 関数の戻り値を整数としてのみ扱えましたが、
+<code>#cfuncd</code>（double）/ <code>#cfuncf</code>（float）を使うことで浮動小数点の戻り値を正しく取得できます。</p>
+
+<table>
+<tr><th>プリプロセッサ命令</th><th>戻り値の型</th><th>用途</th></tr>
+<tr><td><code>#cfunc</code></td><td>int / int64</td><td>整数を返す DLL 関数（従来互換）</td></tr>
+<tr><td><code>#cfuncd</code></td><td>double</td><td>double を返す DLL 関数</td></tr>
+<tr><td><code>#cfuncf</code></td><td>float → double</td><td>float を返す DLL 関数（HSP 上は double として受け取る）</td></tr>
+</table>
+
+<pre><code>; double を返す DLL 関数の呼び出し例
+#uselib "msvcrt.dll"
+#cfuncd _sin "sin" double
+#cfuncd _cos "cos" double
+#cfuncd _sqrt "sqrt" double
+
+mes _sin(3.14159265)    ; => 0.000000 (≈sin(π))
+mes _cos(0.0)           ; => 1.000000
+mes _sqrt(2.0)          ; => 1.414214</code></pre>
+
+<p>ポインタ直接呼び出し用の関数も追加されています:</p>
+<table>
+<tr><th>関数</th><th>戻り値の型</th></tr>
+<tr><td><code>callfunc(prmbuf, addr, nargs)</code></td><td>int</td></tr>
+<tr><td><code>callfuncd(prmbuf, addr, nargs)</code></td><td>double</td></tr>
+<tr><td><code>callfuncf(prmbuf, addr, nargs)</code></td><td>float → double</td></tr>
+</table>
+
+<div class="note">
+<strong>注意:</strong> 従来の <code>#cfunc</code> で double/float を返す DLL 関数を呼び出すと、
+戻り値は整数レジスタ（RAX/EAX）の値となり正しくありません。必ず <code>#cfuncd</code> / <code>#cfuncf</code> を使用してください。
+</div>
 </div>
 
 <footer>

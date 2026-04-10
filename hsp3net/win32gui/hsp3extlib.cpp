@@ -460,6 +460,32 @@ int __cdecl call_extfunc( void * proc, int * prm, int prms )
 
 #endif
 
+#ifndef HSP64
+// x86: double 戻り値の DLL 関数呼び出し
+// FPU ST(0) の値を double で返す
+double __cdecl call_extfunc_double_x86( void *proc, int *prm, int prms )
+{
+	double ret_val;
+	// call_extfunc と同じ方法で呼び出し、ST(0) から結果を取得
+	call_extfunc(proc, prm, prms);
+	__asm {
+		fstp qword ptr [ret_val]
+	}
+	return ret_val;
+}
+
+// x86: float 戻り値の DLL 関数呼び出し
+float __cdecl call_extfunc_float_x86( void *proc, int *prm, int prms )
+{
+	float ret_val;
+	call_extfunc(proc, prm, prms);
+	__asm {
+		fstp dword ptr [ret_val]
+	}
+	return ret_val;
+}
+#endif
+
 #endif
 
 
@@ -577,11 +603,36 @@ static int64_t code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 		case STRUCTPRM_SUBID_OLDDLL:
 		case STRUCTPRM_SUBID_OLDDLLINIT:
 			// 外部 DLL 関数の呼び出し
+		{
+			int rettype = st->otindex & STRUCTDAT_OT_RETMASK;
 #ifdef HSP64
-			result = call_extfunc(st->proc, (INT_PTR *)prmbuf, st->prmmax);
+			if (rettype == STRUCTDAT_OT_RETDOUBLE) {
+				int64_t bits = call_extfunc_double(st->proc, (INT_PTR *)prmbuf, st->prmmax);
+				// double のビットパターンを int64_t として返す
+				result = bits;
+			} else if (rettype == STRUCTDAT_OT_RETFLOAT) {
+				int64_t bits = call_extfunc_float(st->proc, (INT_PTR *)prmbuf, st->prmmax);
+				// float→double に変換してビットパターンを返す
+				float f;
+				memcpy(&f, &bits, sizeof(float));
+				double d = (double)f;
+				memcpy(&result, &d, sizeof(double));
+			} else {
+				result = call_extfunc(st->proc, (INT_PTR *)prmbuf, st->prmmax);
+			}
 #else
-			result = call_extfunc(st->proc, (INT_PTR *)prmbuf, st->size / sizeof(INT_PTR));
+			if (rettype == STRUCTDAT_OT_RETDOUBLE) {
+				double d = call_extfunc_double_x86(st->proc, (INT_PTR *)prmbuf, st->size / sizeof(INT_PTR));
+				memcpy(&result, &d, sizeof(double));
+			} else if (rettype == STRUCTDAT_OT_RETFLOAT) {
+				float f = call_extfunc_float_x86(st->proc, (INT_PTR *)prmbuf, st->size / sizeof(INT_PTR));
+				double d = (double)f;
+				memcpy(&result, &d, sizeof(double));
+			} else {
+				result = call_extfunc(st->proc, (INT_PTR *)prmbuf, st->size / sizeof(INT_PTR));
+			}
 #endif
+		}
 			break;
 #ifndef HSP_COM_UNSUPPORTED
 		case STRUCTPRM_SUBID_COMOBJ:

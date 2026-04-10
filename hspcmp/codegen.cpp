@@ -2285,6 +2285,8 @@ void CToken::GenerateCodePP( char *buf )
 	if ( !strcmp( cg_str,"uselib" ) ) { GenerateCodePP_uselib(); return; }
 	if ( !strcmp( cg_str,"func" ) ) { GenerateCodePP_func( STRUCTDAT_OT_STATEMENT | STRUCTDAT_OT_FUNCTION ); return; }
 	if ( !strcmp( cg_str,"cfunc" ) ) { GenerateCodePP_func( STRUCTDAT_OT_FUNCTION ); return; }
+	if ( !strcmp( cg_str,"cfuncd" ) ) { GenerateCodePP_func( STRUCTDAT_OT_FUNCTION | STRUCTDAT_OT_RETDOUBLE ); return; }
+	if ( !strcmp( cg_str,"cfuncf" ) ) { GenerateCodePP_func( STRUCTDAT_OT_FUNCTION | STRUCTDAT_OT_RETFLOAT ); return; }
 	if ( !strcmp( cg_str,"deffunc" ) ) { GenerateCodePP_deffunc(); return; }
 	if ( !strcmp( cg_str,"defcfunc" ) ) { GenerateCodePP_defcfunc(); return; }
 	if ( !strcmp( cg_str,"module" ) ) { GenerateCodePP_module(); return; }

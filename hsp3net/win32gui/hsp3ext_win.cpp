@@ -51,6 +51,7 @@ static int *val;
 static int *exflg;
 static int reffunc_intfunc_ivalue;
 static int64_t reffunc_intfunc_i64value;
+static double reffunc_intfunc_dvalue;
 static void* reffunc_ptrfunc_ptrvalue[2];
 //static PVal **pmpval;
 
@@ -69,6 +70,21 @@ using namespace tv::hsp::net;
 // .NET
 static PVal *netres_pval;
 static APTR netres_aptr;
+int neterror_mode = 0;				// 0=stat only, 1=throw HSPERR_DOTNET_EXCEPTION
+
+// .NET操作の結果をstatに設定し、失敗時はneterror_modeに応じてthrowする
+static void net_setstat(bool success)
+{
+	auto ctx = code_getctx();
+	if (success) {
+		ctx->stat = 0;
+	} else {
+		ctx->stat = -1;
+		if (neterror_mode >= 1) {
+			throw HSPERR_DOTNET_EXCEPTION;
+		}
+	}
+}
 typedef void (CALLBACK *_ATXDLL_INIT)(void);
 typedef HRESULT (CALLBACK *_ATXDLL_GETCTRL)( HWND, void **res );
 static _ATXDLL_INIT fn_atxinit = NULL;
@@ -1246,7 +1262,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 		}
 
 		// 戻り値
-		hspctx->stat = (ret != nullptr) ? 0 : -1;
+		net_setstat(ret != nullptr);
 
 		break;
 	}
@@ -1334,7 +1350,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 		}
 		
 		// 戻り値
-		hspctx->stat = (ret != nullptr) ? 0 : -1;
+		net_setstat(ret != nullptr);
 
 		break;
 	}
@@ -1362,7 +1378,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 		}
 
 		// 戻り値
-		hspctx->stat = (ret) ? 0 : -1;
+		net_setstat(ret);
 
 		break;
 	}
@@ -1384,6 +1400,56 @@ static int cmdfunc_ctrlcmd( int cmd )
 	}
 	case 0x11:								// tonet
 	{
+		// tonet outvar, value
+		// HSP の値を .NET オブジェクト (netobj) に変換する
+		PVal *pval;
+		APTR aptr;
+		void *iptr = nullptr;
+		NativePointer* pNativePtrOut;
+		NetClass^ ret = nullptr;
+
+		// 引数:1（出力先 netobj 変数）
+		aptr = code_getva(&pval);
+		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
+		pNativePtrOut = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
+
+		// 引数:2（変換元の値）
+		int prm = code_get();
+		if (prm <= PARAM_END) throw HSPERR_NO_DEFAULT;
+
+		switch (mpval->flag)
+		{
+		case HSPVAR_FLAG_STR:
+			ret = GlobalAccess::g_Hsp3Net->CreateString(
+				marshal_as<System::String^>((char*)mpval->pt));
+			break;
+		case HSPVAR_FLAG_INT:
+			ret = GlobalAccess::g_Hsp3Net->CreateInt32(*(int*)mpval->pt);
+			break;
+		case HSPVAR_FLAG_DOUBLE:
+			ret = GlobalAccess::g_Hsp3Net->CreateDouble(*(double*)mpval->pt);
+			break;
+		case HSPVAR_FLAG_INT64:
+			ret = GlobalAccess::g_Hsp3Net->CreateInt64(*(int64_t*)mpval->pt);
+			break;
+		case TYPE_NETOBJ:
+		{
+			// netobj → netobj はそのままコピー
+			NativePointer native_ptr = *((NativePointer*)mpval->pt);
+			auto nc = GlobalAccess::GetNativePtrToNetClass(native_ptr);
+			if (nc != nullptr) ret = nc;
+			break;
+		}
+		default:
+			throw HSPERR_TYPE_MISMATCH;
+		}
+
+		if (ret != nullptr)
+		{
+			*pNativePtrOut = GlobalAccess::CreateNativePtr(ret);
+		}
+
+		net_setstat(ret != nullptr);
 		break;
 	}
 	case 0x12:								// enumnet
@@ -1440,7 +1506,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 		}
 
 		// 戻り値
-		hspctx->stat = (ret != nullptr) ? 0 : -1;
+		net_setstat(ret != nullptr);
 
 		break;
 	}
@@ -1484,7 +1550,7 @@ static int cmdfunc_ctrlcmd( int cmd )
 		}
 
 		// 戻り値
-		hspctx->stat = (ret != nullptr) ? 0 : -1;
+		net_setstat(ret != nullptr);
 		break;
 	}
 	case 0x15:									// pushnet
@@ -1521,15 +1587,26 @@ static int cmdfunc_ctrlcmd( int cmd )
 		bRet = GlobalAccess::PopNativePtrCurrentStack( listParams->ToArray());
 
 		// 戻り値
-		hspctx->stat = (bRet) ? 0 : -1;
+		net_setstat(bRet);
 		break;
 	}
 	case 0x17:									// enablewpf
 	{
-		GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("PresentationCore");
-		GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("PresentationFramework");
-		GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("WindowsBase");
-		GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("WindowsFormsIntegration");
+		bool ok = true;
+		if (GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("PresentationCore") == nullptr) ok = false;
+		if (GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("PresentationFramework") == nullptr) ok = false;
+		if (GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("WindowsBase") == nullptr) ok = false;
+		if (GlobalAccess::g_Hsp3Net->LoadAssemblyByGAC_ShortName("WindowsFormsIntegration") == nullptr) ok = false;
+		net_setstat(ok);
+		break;
+	}
+
+	case 0x18:									// neterror
+	{
+		// neterror mode
+		// mode=0: .NET例外はstat=-1のみ（デフォルト）
+		// mode=1: .NET例外発生時にHSPエラー(HSPERR_DOTNET_EXCEPTION)をthrow
+		neterror_mode = code_getdi(0);
 		break;
 	}
 
@@ -1873,6 +1950,68 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 		break;
 	}
 
+	case 0x107:								// callfuncd
+	{
+		// callfuncd(prmbuf, proc, nargs) - double戻り値のDLL関数呼び出し
+		PVal *pval;
+		PDAT *p;
+		pval = code_getpval();
+		p = HspVarCorePtrAPTR( pval, 0 );
+		p1 = code_geti();
+		p2 = code_geti();
+#ifdef HSP64
+		int64_t bits = call_extfunc_double( (void *)p1, (INT_PTR *)p, p2 );
+#else
+		double d = call_extfunc_double_x86( (void *)p1, (int *)p, p2 );
+		int64_t bits;
+		memcpy(&bits, &d, sizeof(double));
+#endif
+		*type_res = HSPVAR_FLAG_DOUBLE;
+		memcpy(&reffunc_intfunc_dvalue, &bits, sizeof(double));
+		ptr = &reffunc_intfunc_dvalue;
+		break;
+	}
+
+	case 0x108:								// callfuncf
+	{
+		// callfuncf(prmbuf, proc, nargs) - float戻り値のDLL関数呼び出し
+		PVal *pval;
+		PDAT *p;
+		pval = code_getpval();
+		p = HspVarCorePtrAPTR( pval, 0 );
+		p1 = code_geti();
+		p2 = code_geti();
+#ifdef HSP64
+		int64_t bits = call_extfunc_float( (void *)p1, (INT_PTR *)p, p2 );
+		float f;
+		memcpy(&f, &bits, sizeof(float));
+#else
+		float f = call_extfunc_float_x86( (void *)p1, (int *)p, p2 );
+#endif
+		*type_res = HSPVAR_FLAG_DOUBLE;
+		reffunc_intfunc_dvalue = (double)f;
+		ptr = &reffunc_intfunc_dvalue;
+		break;
+	}
+
+	case 0x106:								// netexerr
+	{
+		// netexerr() : 最後の.NET例外メッセージを文字列で返す
+		// netexerr(0) : 例外メッセージ (Message)
+		// netexerr(1) : 例外の型名 (GetType().FullName)
+		// netexerr(2) : 詳細情報 (ToString() = メッセージ+スタックトレース)
+		int mode = code_getdi(0);
+
+		*type_res = HSPVAR_FLAG_STR;
+		auto expStr = GlobalAccess::g_Hsp3Net->PopLastExceptionInfo(mode);
+		if (expStr == nullptr || expStr->Length == 0) {
+			ptr = StringToHspStrA(gcnew System::String(""));
+		} else {
+			ptr = StringToHspStrA(expStr);
+		}
+		break;
+	}
+
 	default:
 		throw ( HSPERR_SYNTAX );
 	}
@@ -1905,6 +2044,17 @@ static void *reffunc_dllcmd( int *type_res, int arg )
 	if ( *type != TYPE_MARK ) throw ( HSPERR_INVALID_FUNCPARAM );
 	if ( *val != ')' ) throw ( HSPERR_INVALID_FUNCPARAM );
 	code_next();
+
+	// STRUCTDAT のリターン型フラグを確認
+	const STRUCTDAT *st = GetPRM(arg);
+	int rettype = st->otindex & STRUCTDAT_OT_RETMASK;
+
+	if (rettype == STRUCTDAT_OT_RETDOUBLE || rettype == STRUCTDAT_OT_RETFLOAT) {
+		// double/float 戻り値: stat に格納されたビットパターンを double として返す
+		*type_res = HSPVAR_FLAG_DOUBLE;
+		memcpy(&reffunc_intfunc_dvalue, &hspctx->stat, sizeof(double));
+		return &reffunc_intfunc_dvalue;
+	}
 
 	// stat の値に応じて int または int64 で返す
 	if ( hspctx->stat > 0x7FFFFFFFLL || hspctx->stat < -0x80000000LL ) {

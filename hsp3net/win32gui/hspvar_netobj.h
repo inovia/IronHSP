@@ -23,6 +23,9 @@ extern "C" {
 
 	void HspVarNetobj_Init(HspVarProc *p);
 
+	// .NET例外エラーモード (0=stat only, 1=throw HSPERR_DOTNET_EXCEPTION)
+	extern int neterror_mode;
+
 #ifdef __cplusplus
 }
 #endif

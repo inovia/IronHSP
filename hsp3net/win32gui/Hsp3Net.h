@@ -360,6 +360,17 @@ namespace tv::hsp::net
 		String ^PopLastExceptionToString();
 
 		/// <summary>
+		/// 最新の例外の情報をモード指定で取得します
+		/// mode=0: Message, mode=1: 型名, mode=2: ToString()
+		/// </summary>
+		String ^PopLastExceptionInfo(int mode);
+
+		/// <summary>
+		/// 例外スタックが空でないかを返します
+		/// </summary>
+		bool HasException();
+
+		/// <summary>
 		/// 最後に実行したコンパイルエラーを取得します
 		/// </summary>
 		/// <returns></returns>

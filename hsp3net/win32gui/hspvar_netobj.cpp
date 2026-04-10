@@ -82,6 +82,11 @@ static void *HspVarNetobj_Cnv(const void *buffer, int flag)
 }
 
 
+// CnvCustom 用の一時バッファ
+static char cnvcustom_strbuf[4096];
+static int cnvcustom_intbuf;
+static double cnvcustom_dblbuf;
+
 static void *HspVarNetobj_CnvCustom(const void *buffer, int flag)
 {
 	//		(カスタムタイプのみ)
@@ -89,7 +94,73 @@ static void *HspVarNetobj_CnvCustom(const void *buffer, int flag)
 	//		(組み込み型に対応させる)
 	//		(参照元のデータを破壊しないこと)
 	//
-	throw HSPERR_INVALID_TYPE;
+	NativePointer pObj = *((NativePointer*)buffer);
+	if (!GlobalAccess::IsActiveNativePtr(pObj)) {
+		// 無効なポインタの場合はデフォルト値を返す
+		switch (flag) {
+		case HSPVAR_FLAG_STR:
+			cnvcustom_strbuf[0] = '\0';
+			return cnvcustom_strbuf;
+		case HSPVAR_FLAG_INT:
+			cnvcustom_intbuf = 0;
+			return &cnvcustom_intbuf;
+		case HSPVAR_FLAG_DOUBLE:
+			cnvcustom_dblbuf = 0.0;
+			return &cnvcustom_dblbuf;
+		default:
+			throw HSPERR_INVALID_TYPE;
+		}
+	}
+
+	auto nc = GlobalAccess::GetNativePtrToNetClass(pObj);
+	if (nc == nullptr || nc->Instance == nullptr) {
+		switch (flag) {
+		case HSPVAR_FLAG_STR:
+			strcpy_s(cnvcustom_strbuf, "(null)");
+			return cnvcustom_strbuf;
+		case HSPVAR_FLAG_INT:
+			cnvcustom_intbuf = 0;
+			return &cnvcustom_intbuf;
+		case HSPVAR_FLAG_DOUBLE:
+			cnvcustom_dblbuf = 0.0;
+			return &cnvcustom_dblbuf;
+		default:
+			throw HSPERR_INVALID_TYPE;
+		}
+	}
+
+	switch (flag) {
+	case HSPVAR_FLAG_STR:
+	{
+		// ToString() を呼び出して文字列化
+		auto str = nc->Instance->ToString();
+		marshal_context mctx;
+		const char* p = mctx.marshal_as<const char*>(str);
+		strncpy_s(cnvcustom_strbuf, sizeof(cnvcustom_strbuf), p, _TRUNCATE);
+		return cnvcustom_strbuf;
+	}
+	case HSPVAR_FLAG_INT:
+	{
+		// 数値型なら変換を試みる
+		try {
+			cnvcustom_intbuf = System::Convert::ToInt32(nc->Instance);
+		} catch (...) {
+			cnvcustom_intbuf = 0;
+		}
+		return &cnvcustom_intbuf;
+	}
+	case HSPVAR_FLAG_DOUBLE:
+	{
+		try {
+			cnvcustom_dblbuf = System::Convert::ToDouble(nc->Instance);
+		} catch (...) {
+			cnvcustom_dblbuf = 0.0;
+		}
+		return &cnvcustom_dblbuf;
+	}
+	default:
+		throw HSPERR_INVALID_TYPE;
+	}
 	return (void *)buffer;
 }
 
@@ -204,6 +275,7 @@ static void HspVarNetobj_ObjectMethod(PVal *pval)
 	// 戻り値
 	const auto ctx = code_getctx();
 	ctx->stat = (ret != nullptr) ? 0 : -1;
+	if (ctx->stat == -1 && neterror_mode >= 1) throw HSPERR_DOTNET_EXCEPTION;
 
 	// netres に渡す
 	if (ret != nullptr)
@@ -333,6 +405,7 @@ static void HspVarNetobj_ObjectWrite(PVal *pval, void *data, int vtype)
 	// 戻り値
 	const auto ctx = code_getctx();
 	ctx->stat = (bRet) ? 0 : -1;
+	if (ctx->stat == -1 && neterror_mode >= 1) throw HSPERR_DOTNET_EXCEPTION;
 
 }
 

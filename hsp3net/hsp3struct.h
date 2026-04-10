@@ -278,6 +278,12 @@ typedef struct STRUCTPRM {
 #define STRUCTDAT_INDEX_STRUCT -3
 #define STRUCTDAT_FUNCFLAG_CLEANUP 0x10000
 
+//	DLL return type flags (stored in otindex upper bits)
+#define STRUCTDAT_OT_RETMASK  0xF0		// リターン型マスク
+#define STRUCTDAT_OT_RETINT   0x00		// int/int64 戻り値（デフォルト）
+#define STRUCTDAT_OT_RETDOUBLE 0x10		// double 戻り値
+#define STRUCTDAT_OT_RETFLOAT  0x20		// float 戻り値
+
 // function,module specific data
 
 #ifdef PTR64BIT
