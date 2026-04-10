@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 #include "hspvar_core.h"
 #include "hsp3debug.h"
 
@@ -59,6 +60,9 @@ static void *HspVarStr_Cnv( const void *buffer, int flag )
 		return conv;
 	case HSPVAR_FLAG_STR:
 		break;
+	case HSPVAR_FLAG_INT64:
+		sprintf( conv, "%lld", *(int64_t *)buffer );
+		return conv;
 	case HSPVAR_FLAG_DOUBLE:
 		//_gcvt( *(double *)buffer, 32, conv );
 		sprintf( conv,"%f", *(double *)buffer );

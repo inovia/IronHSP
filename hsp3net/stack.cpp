@@ -81,7 +81,11 @@ void StackPush( int type, char *data, int size )
 	stm->type = type;
 	switch( type ) {
 	case HSPVAR_FLAG_INT:
-		stm->ival = *(int *)data;
+		stm->ival = (int64_t)(*(int *)data);
+		stm_cur++;
+		return;
+	case HSPVAR_FLAG_INT64:
+		stm->ival = *(int64_t *)data;
 		stm_cur++;
 		return;
 	case HSPVAR_FLAG_LABEL:

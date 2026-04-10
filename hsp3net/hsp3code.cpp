@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <stdint.h>
 #include <map>
 using namespace std;
 
@@ -465,7 +466,10 @@ static void inline code_calcop( int op )
 
 	if ( tflag == HSPVAR_FLAG_INT ) {
 		if ( stm2->type == HSPVAR_FLAG_INT ) {					// HSPVAR_FLAG_INT のみ高速化
-			calcprmf( stm1->ival, op, stm2->ival );				// 高速化された演算(intのみ)
+			int iv1 = (int)stm1->ival;
+			int iv2 = (int)stm2->ival;
+			calcprmf( iv1, op, iv2 );							// 高速化された演算(intのみ)
+			stm1->ival = (int64_t)iv1;							// 演算結果をstm1に戻す
 			StackDecLevel;										// stack->Pop() の代わり(高速に)
 			stm2->ival = stm1->ival;							// １段目スタックの値を入れ替える
 			return;
@@ -960,11 +964,16 @@ int code_geti( void )
 	int chk;
 	chk = code_get();
 	if ( chk<=PARAM_END ) { throw HSPERR_NO_DEFAULT; }
-	if ( mpval->flag != HSPVAR_FLAG_INT ) {
-		if ( mpval->flag != HSPVAR_FLAG_DOUBLE ) throw HSPERR_TYPE_MISMATCH;
-		return (int)(*(double *)(mpval->pt));		// doubleの時はintに変換
+	if ( mpval->flag == HSPVAR_FLAG_INT ) {
+		return *(int *)(mpval->pt);
 	}
-	return *(int *)(mpval->pt);
+	if ( mpval->flag == HSPVAR_FLAG_INT64 ) {
+		return (int)(*(int64_t *)(mpval->pt));	// int64の時はintに変換
+	}
+	if ( mpval->flag == HSPVAR_FLAG_DOUBLE ) {
+		return (int)(*(double *)(mpval->pt));	// doubleの時はintに変換
+	}
+	throw HSPERR_TYPE_MISMATCH;
 }
 
 
@@ -975,11 +984,36 @@ int code_getdi( const int defval )
 	int chk;
 	chk = code_get();
 	if ( chk<=PARAM_END ) { return defval; }
-	if ( mpval->flag != HSPVAR_FLAG_INT ) {
-		if ( mpval->flag != HSPVAR_FLAG_DOUBLE ) throw HSPERR_TYPE_MISMATCH;
-		return (int)(*(double *)(mpval->pt));		// doubleの時はintに変換
+	if ( mpval->flag == HSPVAR_FLAG_INT ) {
+		return *(int *)(mpval->pt);
 	}
-	return *(int *)(mpval->pt);
+	if ( mpval->flag == HSPVAR_FLAG_INT64 ) {
+		return (int)(*(int64_t *)(mpval->pt));	// int64の時はintに変換
+	}
+	if ( mpval->flag == HSPVAR_FLAG_DOUBLE ) {
+		return (int)(*(double *)(mpval->pt));	// doubleの時はintに変換
+	}
+	throw HSPERR_TYPE_MISMATCH;
+}
+
+
+int64_t code_geti64( void )
+{
+	//		数値パラメーターをint64で取得
+	//
+	int chk;
+	chk = code_get();
+	if ( chk<=PARAM_END ) { throw HSPERR_NO_DEFAULT; }
+	if ( mpval->flag == HSPVAR_FLAG_INT64 ) {
+		return *(int64_t *)(mpval->pt);
+	}
+	if ( mpval->flag == HSPVAR_FLAG_INT ) {
+		return (int64_t)(*(int *)(mpval->pt));
+	}
+	if ( mpval->flag == HSPVAR_FLAG_DOUBLE ) {
+		return (int64_t)(*(double *)(mpval->pt));
+	}
+	throw HSPERR_TYPE_MISMATCH;
 }
 
 

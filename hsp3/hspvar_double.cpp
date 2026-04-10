@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <stdint.h>
 #include "hspvar_core.h"
 #include "hsp3debug.h"
 #include "strbuf.h"
@@ -40,6 +41,9 @@ static void *HspVarDouble_Cnv( const void *buffer, int flag )
 		return &conv;
 	case HSPVAR_FLAG_INT:
 		conv = (double)( *(int *)buffer );
+		return &conv;
+	case HSPVAR_FLAG_INT64:
+		conv = (double)( *(int64_t *)buffer );
 		return &conv;
 	case HSPVAR_FLAG_DOUBLE:
 		break;

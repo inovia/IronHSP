@@ -6,6 +6,7 @@
 #define __stack_h
 
 #include "hsp3config.h"
+#include <stdint.h>
 
 #define STM_MAX_DEFAULT 512
 #define STM_STRSIZE_DEFAULT 64
@@ -26,8 +27,8 @@ typedef struct
 	short mode;
 	char *ptr;
 	void *pval;
-	int ival HSP_ALIGN_DOUBLE;
-	char itemp[STM_STRSIZE_DEFAULT-4];		// data area padding
+	int64_t ival;
+	char itemp[STM_STRSIZE_DEFAULT-8];		// data area padding
 } STMDATA;
 
 void StackInit( void );
@@ -62,6 +63,14 @@ inline void StackPushi( int val )
 {
 //	if ( stm_cur >= stm_maxptr ) throw HSPERR_STACK_OVERFLOW;
 	stm_cur->type = HSPVAR_FLAG_INT;
+	stm_cur->ival = (int64_t)val;
+	stm_cur++;
+}
+
+inline void StackPushi64( int64_t val )
+{
+//	if ( stm_cur >= stm_maxptr ) throw HSPERR_STACK_OVERFLOW;
+	stm_cur->type = HSPVAR_FLAG_INT64;
 	stm_cur->ival = val;
 	stm_cur++;
 }
@@ -70,7 +79,7 @@ inline void StackPushl( int val )
 {
 //	if ( stm_cur >= stm_maxptr ) throw HSPERR_STACK_OVERFLOW;
 	stm_cur->type = HSPVAR_FLAG_LABEL;
-	stm_cur->ival = val;
+	stm_cur->ival = (int64_t)val;
 	stm_cur++;
 }
 
