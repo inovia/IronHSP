@@ -701,10 +701,56 @@ namespace tv::hsp::net
 		NetClass ^Hsp3Net::GetTypeByString(String ^assyName, String ^className)
 		{
 			Assembly ^assy;
+
+			// 1. 登録済み辞書から検索
 			if (_AssemblyDic->TryGetValue(assyName, assy))
 			{
 				return GetTypeByString(assy, className);
 			}
+
+			// 2. ロード済みアセンブリから検索
+			for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
+			{
+				if (a->GetName()->Name == assyName)
+				{
+					_AssemblyDic[assyName] = a;
+					_AssemblySet->Add(a);
+					return GetTypeByString(a, className);
+				}
+			}
+
+			// 3. 動的ロード
+			try
+			{
+				assy = Assembly::LoadWithPartialName(assyName);
+				if (assy != nullptr)
+				{
+					_AssemblyDic[assy->GetName()->Name] = assy;
+					_AssemblyDic[assyName] = assy;
+					_AssemblySet->Add(assy);
+					return GetTypeByString(assy, className);
+				}
+			}
+			catch (Exception ^) {}
+
+			// 4. 全ロード済みアセンブリからクラス名で検索（フォールバック）
+			for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
+			{
+				try
+				{
+					Type ^t = a->GetType(className, false);
+					if (t != nullptr)
+					{
+						_AssemblyDic[a->GetName()->Name] = a;
+						if (!String::IsNullOrEmpty(assyName))
+							_AssemblyDic[assyName] = a;
+						_AssemblySet->Add(a);
+						return GetTypeByString(a, className);
+					}
+				}
+				catch (Exception ^) {}
+			}
+
 			return nullptr;
 		}
 
@@ -856,10 +902,57 @@ namespace tv::hsp::net
 	NetClass ^Hsp3Net::CreateInstance(String ^assyName, String ^className, array<NetClass^> ^genericList, bool bStaticMethod, ... array<NetClass^> ^prms)
 	{
 		Assembly ^assy;
+
+		// 1. 登録済みの辞書から検索
 		if (_AssemblyDic->TryGetValue(assyName, assy))
 		{
 			return CreateInstance(assy, className, genericList, bStaticMethod, prms);
 		}
+
+		// 2. 既にロード済みのアセンブリから検索
+		for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
+		{
+			if (a->GetName()->Name == assyName)
+			{
+				_AssemblyDic[assyName] = a;
+				_AssemblySet->Add(a);
+				return CreateInstance(a, className, genericList, bStaticMethod, prms);
+			}
+		}
+
+		// 3. 動的ロードを試みる
+		try
+		{
+			assy = Assembly::LoadWithPartialName(assyName);
+			if (assy != nullptr)
+			{
+				auto loadedName = assy->GetName()->Name;
+				_AssemblyDic[loadedName] = assy;
+				_AssemblyDic[assyName] = assy;
+				_AssemblySet->Add(assy);
+				return CreateInstance(assy, className, genericList, bStaticMethod, prms);
+			}
+		}
+		catch (Exception ^) {}
+
+		// 4. 全ロード済みアセンブリからクラス名で検索（フォールバック）
+		for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
+		{
+			try
+			{
+				Type ^t = a->GetType(className, false);
+				if (t != nullptr)
+				{
+					_AssemblyDic[a->GetName()->Name] = a;
+					if (!String::IsNullOrEmpty(assyName))
+						_AssemblyDic[assyName] = a;
+					_AssemblySet->Add(a);
+					return CreateInstance(a, className, genericList, bStaticMethod, prms);
+				}
+			}
+			catch (Exception ^) {}
+		}
+
 		return nullptr;
 	}
 

@@ -34,6 +34,7 @@
 #include "../win32gui/hsp3extlib.h"
 #include "../win32gui/hspvar_comobj.h"
 #include "../win32gui/hspvar_variant.h"
+#include "../win32gui/hspvar_netobj.h"
 
 typedef BOOL (CALLBACK *HSP3DBGFUNC)(HSP3DEBUG *,int,int,int);
 
@@ -335,6 +336,8 @@ int hsp3cl_init( char *startfile )
 	HspVarCoreRegisterType( TYPE_COMOBJ, HspVarComobj_Init );
 	HspVarCoreRegisterType( TYPE_VARIANT, HspVarVariant_Init );
 #endif
+	HspVarCoreRegisterType( TYPE_NETOBJ, HspVarNetobj_Init );
+
 	hsp3typeinit_dllcmd( code_gettypeinfo( TYPE_DLLFUNC ) );
 	hsp3typeinit_dllctrl( code_gettypeinfo( TYPE_DLLCTRL ) );
 #endif
