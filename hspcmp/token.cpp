@@ -3764,8 +3764,21 @@ ppresult_t CToken::Preprocess( char *str )
 			strcase((char*)s3);
 			sdef.name = (char*)s3;
 
-			// pack=N オプション
-			// TODO: parse pack option
+			// pack=N オプション: #defstruct NAME, pack=N
+			{
+				int tk = GetToken();
+				if (tk == TK_NONE && val == ',') {
+					// カンマの後に pack=N
+					if (GetToken() == TK_OBJ && tstrcmp((char*)s3, "pack")) {
+						if (GetToken() == TK_NONE && val == '=') {
+							CALCVAR cres;
+							if (!Calc(cres)) {
+								sdef.pack = (int)cres;
+							}
+						}
+					}
+				}
+			}
 
 			cg_structdefs.push_back(sdef);
 			pp_defstruct_level++;
@@ -3964,6 +3977,8 @@ int CToken::ExpandLine( CMemBuf *buf, CMemBuf *src, char *refname )
 	enumgc = 0;
 	mulstr = LMODE_ON;
 	pp_defstruct_level = 0;
+	pp_union_base_offset = -1;
+	pp_union_max_size = 0;
 	*errtmp = 0;
 	unsigned char a1;
 
@@ -4853,6 +4868,22 @@ void CToken::PP_StructMember( char *line )
 	while (*p == ' ' || *p == '\t') p++;
 	if (*p == 0 || *p == ';' || *p == '\r' || *p == '\n') return;  // 空行・コメント
 
+	// union/endunion サブブロック
+	if (strncmp(p, "union", 5) == 0 && (p[5] == 0 || p[5] == ' ' || p[5] == '\t' || p[5] == '\r' || p[5] == '\n' || p[5] == ';')) {
+		pp_union_base_offset = sdef.total_size;
+		pp_union_max_size = 0;
+		return;
+	}
+	if (strncmp(p, "endunion", 8) == 0 && (p[8] == 0 || p[8] == ' ' || p[8] == '\t' || p[8] == '\r' || p[8] == '\n' || p[8] == ';')) {
+		// union ブロック終了: total_size = base + max_member_size
+		if (pp_union_base_offset >= 0) {
+			sdef.total_size = pp_union_base_offset + pp_union_max_size;
+			pp_union_base_offset = -1;
+			pp_union_max_size = 0;
+		}
+		return;
+	}
+
 	// 型名を読む
 	char type_name[256] = {};
 	int ti = 0;
@@ -4864,11 +4895,11 @@ void CToken::PP_StructMember( char *line )
 	// 空白スキップ
 	while (*p == ' ' || *p == '\t') p++;
 
-	// メンバ名を読む
+	// メンバ名を読む（小文字化）
 	char member_name[256] = {};
 	int mi = 0;
 	while (*p && *p != ' ' && *p != '\t' && *p != '[' && *p != ';' && *p != '\r' && *p != '\n' && mi < 255) {
-		member_name[mi++] = *p++;
+		member_name[mi++] = tolower(*p++);
 	}
 	member_name[mi] = 0;
 	if (mi == 0) return;  // メンバ名なし
@@ -4927,9 +4958,15 @@ void CToken::PP_StructMember( char *line )
 
 	// オフセット計算
 	if (sdef.is_union) {
+		// #defunion: 全メンバ offset 0
 		member.offset = 0;
 		if (member.size > sdef.total_size) sdef.total_size = member.size;
+	} else if (pp_union_base_offset >= 0) {
+		// 構造体内 union サブブロック: 全メンバ同じ base offset
+		member.offset = pp_union_base_offset;
+		if (member.size > pp_union_max_size) pp_union_max_size = member.size;
 	} else {
+		// 通常の struct メンバ
 		int align = pp_get_member_alignment(member.stype, sdef.pack);
 		member.offset = pp_align_offset(sdef.total_size, align);
 		sdef.total_size = member.offset + member.size;
@@ -4977,6 +5014,7 @@ void CToken::PP_DetectStructDim( char *line )
 
 	// 構造体名から ID を検索
 	int sid = GetStructDefId(structname);
+	//Mesf("#DetectStructDim: var='%s' struct='%s' sid=%d", varname, structname, sid);
 	if (sid >= 0) {
 		pp_var_structid[varname] = sid;
 	}
@@ -4986,7 +5024,7 @@ void CToken::PP_DetectStructDim( char *line )
 bool CToken::PP_ExpandStructAccess( char *line, char *out, int outsize )
 {
 	if (line == NULL || out == NULL || outsize <= 0) return false;
-	if (pp_var_structid.empty()) return false;  // struct変数がなければ処理不要
+	if (pp_var_structid.empty()) return false;
 
 	// -> を検索（文字列リテラル・コメント内はスキップ）
 	char *arrow = NULL;
@@ -5051,7 +5089,10 @@ bool CToken::PP_ExpandStructAccess( char *line, char *out, int outsize )
 
 	// 変数が構造体か確認
 	auto it = pp_var_structid.find(varname);
-	if (it == pp_var_structid.end()) return false;
+	if (it == pp_var_structid.end()) {
+		//Mesf("#struct_access: var '%s' not found in map (size=%d)", varname, (int)pp_var_structid.size());
+		return false;
+	}
 
 	int sid = it->second;
 	auto &sdef = cg_structdefs[sid];
@@ -5066,14 +5107,42 @@ bool CToken::PP_ExpandStructAccess( char *line, char *out, int outsize )
 	membername[mni] = 0;
 	if (mni == 0) return false;
 
-	// メンバ検索
-	int member_idx = -1;
-	for (int i = 0; i < (int)sdef.members.size(); i++) {
-		if (sdef.members[i].name == membername) { member_idx = i; break; }
-	}
-	if (member_idx < 0) return false;
+	// メンバ検索 + 入れ子チェーン解決
+	// r->topLeft->x の場合: topLeft(offset=0, nested) → x(offset=0, int) → 合計offset=0
+	int total_offset = 0;
+	StructMemberType final_type = SMT_INT;
+	int final_size = 4;
+	StructDef *cur_sdef = &sdef;
 
-	auto &member = sdef.members[member_idx];
+	while (true) {
+		int member_idx = -1;
+		for (int i = 0; i < (int)cur_sdef->members.size(); i++) {
+			if (cur_sdef->members[i].name == membername) { member_idx = i; break; }
+		}
+		if (member_idx < 0) return false;
+
+		auto &member = cur_sdef->members[member_idx];
+		total_offset += member.offset;
+
+		if (member.stype == SMT_NESTED_STRUCT && *member_start == '-' && *(member_start+1) == '>') {
+			// 入れ子構造体で次の -> が続く → チェーン解決
+			cur_sdef = &cg_structdefs[member.nested_struct_id];
+			member_start += 2;  // -> をスキップ
+			// 次のメンバ名を読む
+			mni = 0;
+			while (*member_start && (isalnum((unsigned char)*member_start) || *member_start == '_') && mni < 255) {
+				membername[mni++] = tolower(*member_start++);
+			}
+			membername[mni] = 0;
+			if (mni == 0) return false;
+			continue;
+		}
+
+		// 最終メンバに到達
+		final_type = member.stype;
+		final_size = member.size;
+		break;
+	}
 
 	// 変数参照部分（括弧含む）を取得
 	char varref[512];
@@ -5081,7 +5150,7 @@ bool CToken::PP_ExpandStructAccess( char *line, char *out, int outsize )
 	strncpy(varref, var_start, vrlen);
 	varref[vrlen] = 0;
 
-	// -> の後の残りテキスト
+	// -> チェーン後の残りテキスト
 	char *rest = member_start;
 
 	// 代入かどうかを判定（残りテキストに = があるか）
@@ -5101,14 +5170,14 @@ bool CToken::PP_ExpandStructAccess( char *line, char *out, int outsize )
 	}
 
 	if (is_assignment) {
-		// "p->x = 100" → "_struct_poke p, offset, type, struct_size, 100"
+		// "p->x = 100" → "_struct_poke p, offset, type, struct_size, member_size, value"
 		eq++;  // '=' の次
-		pos += sprintf(out + pos, "_struct_poke %s, %d, %d, %d, %s",
-			varref, member.offset, (int)member.stype, sdef.total_size, eq);
+		pos += sprintf(out + pos, "_struct_poke %s, %d, %d, %d, %d, %s",
+			varref, total_offset, (int)final_type, sdef.total_size, final_size, eq);
 	} else {
 		// "p->x" → "_struct_peek(p, offset, type, struct_size)"
 		pos += sprintf(out + pos, "_struct_peek(%s, %d, %d, %d)",
-			varref, member.offset, (int)member.stype, sdef.total_size);
+			varref, total_offset, (int)final_type, sdef.total_size);
 		// 残りのテキストを追加
 		if (*rest) {
 			pos += sprintf(out + pos, "%s", rest);

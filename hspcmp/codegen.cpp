@@ -3745,8 +3745,9 @@ void CToken::GenerateLabelListAndTagRef(int labelid, int flag )
 
 int CToken::GetStructDefId(const char *name)
 {
+	// 大文字小文字を区別しない検索
 	for (int i = 0; i < (int)cg_structdefs.size(); i++) {
-		if (cg_structdefs[i].name == name) return i;
+		if (_stricmp(cg_structdefs[i].name.c_str(), name) == 0) return i;
 	}
 	return -1;
 }

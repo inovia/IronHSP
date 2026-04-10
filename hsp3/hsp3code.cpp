@@ -2544,7 +2544,7 @@ static int cmdfunc_prog( int cmd )
 
 	case 0x23:								// _struct_poke
 		{
-		// _struct_poke var, member_offset, member_type, struct_size, value
+		// _struct_poke var, member_offset, member_type, struct_size, member_size, value
 		// 構造体メンバへの書き込み
 		PVal *pval;
 		APTR aptr;
@@ -2552,6 +2552,7 @@ static int cmdfunc_prog( int cmd )
 		int member_offset = code_geti();
 		int member_type = code_geti();
 		int struct_size = code_geti();
+		int member_size = code_geti();
 
 		// 配列インデックスからベースオフセット計算
 		// aptr = 構造体配列のインデックス（0, 1, 2, ...）
@@ -2587,13 +2588,13 @@ static int cmdfunc_prog( int cmd )
 		case 10: // SMT_CHAR_ARRAY
 			{
 			char *src = code_gets();
-			strncpy(base, src, member_offset);  // TODO: サイズはメンバサイズを使うべき
+			strncpy(base, src, member_size);
 			break;
 			}
 		case 11: // SMT_WCHAR_ARRAY
 			{
 			char *src = code_gets();
-			MultiByteToWideChar(CP_ACP, 0, src, -1, (wchar_t*)base, member_offset / 2);
+			MultiByteToWideChar(CP_ACP, 0, src, -1, (wchar_t*)base, member_size / 2);
 			break;
 			}
 		default:

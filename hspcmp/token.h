@@ -451,6 +451,8 @@ private:
 	int incinf;						// include level
 	int mulstr;						// multiline string flag
 	int pp_defstruct_level;			// #defstruct ネストレベル (>0 = メンバ行スキップ中)
+	int pp_union_base_offset;		// union サブブロックの開始オフセット (-1=非union中)
+	int pp_union_max_size;			// union サブブロック内の最大メンバサイズ
 	std::map<std::string, int> pp_var_structid;	// PP用: 変数名→struct_id マッピング
 	short swstack[SWSTACK_MAX];		// generator sw stack (flag)
 	short swstack2[SWSTACK_MAX];	// generator sw stack (mode)
