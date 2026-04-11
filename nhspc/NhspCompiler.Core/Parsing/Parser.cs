@@ -1155,6 +1155,12 @@ namespace NhspCompiler.Core.Parsing
             else if (Current.Kind == TokenKind.Identifier)
             { m.Name = Advance().Text; }
 
+            // Optional EntryPoint: "EntryPointName" or "#123" (ordinal)
+            if (Match(TokenKind.StringLiteral))
+            {
+                m.DllImportEntryPoint = Advance().Text;
+            }
+
             // Parameters: , [attrs] [ref|out] type name ...
             ParseParameterList(m.Parameters);
             if (m.Access == null) m.Access = defAccess;

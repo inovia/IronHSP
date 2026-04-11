@@ -190,5 +190,37 @@ namespace NhspCompiler.Tests
             Assert.IsNotNull(f, "Data field");
             Assert.AreEqual(typeof(int[][]), f.FieldType, "int[][]");
         }
+        // ===== DllImport EntryPoint =====
+
+        [Test]
+        public void DllImportEntryPoint()
+        {
+            var asm = Compile(@"
+#assembly ""T""
+#class public NativeApi
+  #dllimport ""user32.dll"", CharSet = Unicode
+  #dllfunc public static int MsgBox ""MessageBoxW"", IntPtr hWnd, string text, string caption, int type
+#endclass");
+            var t = asm.GetType("NativeApi");
+            var m = t.GetMethod("MsgBox");
+            Assert.IsNotNull(m, "MsgBox method");
+            Assert.IsTrue(m.IsStatic, "Static");
+            // The method is named MsgBox but calls MessageBoxW internally
+        }
+
+        [Test]
+        public void DllImportOrdinal()
+        {
+            var asm = Compile(@"
+#assembly ""T""
+#class public NativeApi
+  #dllimport ""kernel32.dll""
+  #dllfunc public static int MyFunc ""#123""
+#endclass");
+            var t = asm.GetType("NativeApi");
+            var m = t.GetMethod("MyFunc");
+            Assert.IsNotNull(m, "MyFunc method (ordinal #123)");
+        }
     }
 }
+

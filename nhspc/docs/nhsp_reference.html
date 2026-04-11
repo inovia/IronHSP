@@ -690,6 +690,41 @@ public static extern void GetSystemTime(
 </div>
 </div>
 
+<h3>EntryPoint 指定 (関数名の別名・序数)</h3>
+
+<p>メソッド名の後に文字列リテラルを書くと、DLL 内の実際のエクスポート名を指定できます。</p>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>; 関数名の別名指定
+#dllimport "user32.dll", CharSet = Unicode
+#dllfunc public static int MsgBox "MessageBoxW", IntPtr hWnd, string text, string caption, int type
+
+; 序数指定 (#123 形式)
+#dllimport "mydll.dll"
+#dllfunc public static int MyFunc "#123"</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>[DllImport("user32.dll",
+    CharSet = CharSet.Unicode,
+    EntryPoint = "MessageBoxW")]
+public static extern int MsgBox(
+    IntPtr hWnd, string text,
+    string caption, int type);
+
+[DllImport("mydll.dll",
+    EntryPoint = "#123")]
+public static extern int MyFunc();</code></pre>
+</div>
+</div>
+
+<div class="note">
+EntryPoint を省略するとメソッド名がそのまま使われます。序数指定 (<code>"#123"</code>) は DLL のエクスポート番号で呼び出すレガシー機能です。<br>
+HSP の <code>#func MessageBoxA "MessageBoxA" int, sptr, sptr, int</code> と同じ考え方です。
+</div>
+
 <!-- ========================================== -->
 <h2 id="is-as">is / as 演算子</h2>
 
