@@ -91,16 +91,21 @@ Node.js は拡張を <code>.vsix</code> パッケージ化する場合のみ必�
 <!-- ============================== -->
 <h2 id="install-ext">2. 拡張のインストール</h2>
 
-<p>3つの方法があります。簡単な順に説明します。</p>
+<p>4つの方法があります。簡単な順に説明します。</p>
 
-<h3>方法 A: フォルダコピー（最も簡単）</h3>
+<h3>方法 A: install.bat を実行（最も簡単・推奨）</h3>
 
 <div class="step">
-<strong>拡張フォルダを VS Code の拡張ディレクトリにコピー</strong>
-<pre><code>:: Windows の場合
-xcopy /E /I "nhspc\vscode-nhsp" "%USERPROFILE%\.vscode\extensions\nhsp-language-0.1.0"</code></pre>
-<p>または手動で <code>vscode-nhsp</code> フォルダを以下にコピー:</p>
-<pre><code>%USERPROFILE%\.vscode\extensions\nhsp-language-0.1.0\</code></pre>
+<strong><code>install.bat</code> をダブルクリック</strong>
+<p><code>vscode-nhsp</code> フォルダ内の <code>install.bat</code> をダブルクリックするだけです。</p>
+<pre><code>nhspc\vscode-nhsp\install.bat</code></pre>
+<p>バッチファイルが自動で以下を行います:</p>
+<ul>
+  <li>VS Code の存在確認</li>
+  <li>既存インストールの削除 (更新時)</li>
+  <li>拡張ファイルを正しいディレクトリにコピー</li>
+  <li><code>nhspc.exe</code> の自動検出</li>
+</ul>
 </div>
 
 <div class="step">
@@ -114,15 +119,31 @@ xcopy /E /I "nhspc\vscode-nhsp" "%USERPROFILE%\.vscode\extensions\nhsp-language-
 右下のステータスバーに「NHSP」と表示されれば成功です。</p>
 </div>
 
-<h3>方法 B: コマンドラインでインストール</h3>
-
-<div class="step">
-<strong>VS Code の <code>code</code> コマンドでインストール</strong>
-<pre><code>:: vscode-nhsp フォルダのパスを指定
-code --install-extension "nhspc\vscode-nhsp"</code></pre>
+<div class="tip">
+アンインストールする場合は <code>uninstall.bat</code> をダブルクリックしてください。
 </div>
 
-<h3>方法 C: .vsix パッケージを作成してインストール</h3>
+<h3>方法 B: 手動でフォルダコピー</h3>
+
+<div class="step">
+<strong>拡張フォルダを VS Code の拡張ディレクトリにコピー</strong>
+<p><code>vscode-nhsp</code> フォルダの中身を以下にコピーします:</p>
+<pre><code>%USERPROFILE%\.vscode\extensions\nhsp-language-0.1.0\</code></pre>
+<p>コマンドプロンプトの場合:</p>
+<pre><code>xcopy /E /I "nhspc\vscode-nhsp" "%USERPROFILE%\.vscode\extensions\nhsp-language-0.1.0"</code></pre>
+<p>コピー後、VS Code を再起動してください。</p>
+</div>
+
+<h3>方法 C: code コマンドでインストール</h3>
+
+<div class="step">
+<strong>VS Code の <code>code</code> コマンドを使用</strong>
+<pre><code>code --install-extension "nhspc\vscode-nhsp"</code></pre>
+</div>
+
+<h3>方法 D: .vsix パッケージを作成してインストール</h3>
+
+<p>配布用にパッケージ化する場合はこちら。Node.js が必要です。</p>
 
 <div class="step">
 <strong>vsce (VS Code Extension Manager) をインストール</strong>
@@ -139,7 +160,11 @@ vsce package</code></pre>
 <div class="step">
 <strong>vsix をインストール</strong>
 <pre><code>code --install-extension nhsp-language-0.1.0.vsix</code></pre>
-<p>または VS Code の拡張パネルで「...」→「VSIX からインストール」を選択。</p>
+<p>または VS Code の拡張パネルで「...」メニュー →「VSIX からインストール」を選択してファイルを指定。</p>
+</div>
+
+<div class="tip">
+<code>.vsix</code> ファイルは他の PC に配布できます。受け取った側は上の <code>code --install-extension</code> コマンドか、VS Code の拡張パネルからインストールできます。
 </div>
 
 <!-- ============================== -->
