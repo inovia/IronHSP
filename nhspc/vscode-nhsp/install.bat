@@ -12,8 +12,6 @@ set "SCRIPT_DIR=%~dp0"
 
 if not exist "%VSCODE_EXT%" (
     echo [ERROR] .vscode\extensions not found.
-    echo         Please install VS Code first.
-    echo.
     pause
     exit /b 1
 )
@@ -24,8 +22,7 @@ if exist "%TARGET%" (
 )
 
 echo [*] Copying extension files...
-echo     To: %TARGET%
-xcopy /E /I /Q "%SCRIPT_DIR%*" "%TARGET%\" >nul 2>&1
+xcopy /E /I /Q "%SCRIPT_DIR%." "%TARGET%\" >nul 2>&1
 
 if not exist "%TARGET%\package.json" (
     echo [ERROR] Copy failed.
@@ -34,30 +31,26 @@ if not exist "%TARGET%\package.json" (
 )
 echo     Extension: OK
 
+:: Find and copy compiler
 set "COMPILER_DIR=%TARGET%\compiler"
-mkdir "%COMPILER_DIR%" >nul 2>&1
+mkdir "%COMPILER_DIR%" 2>nul
 set "NHSPC_FOUND=0"
 
-if exist "%SCRIPT_DIR%..\nhspc\bin\Debug\nhspc.exe" (
-    echo [*] Copying compiler (Debug build)...
-    copy /Y "%SCRIPT_DIR%..\nhspc\bin\Debug\nhspc.exe" "%COMPILER_DIR%\" >nul 2>&1
-    copy /Y "%SCRIPT_DIR%..\nhspc\bin\Debug\NhspCompiler.Core.dll" "%COMPILER_DIR%\" >nul 2>&1
+:: Go up one level from vscode-nhsp to nhspc, then into nhspc/bin
+for %%I in ("%SCRIPT_DIR%\..") do set "NHSPC_ROOT=%%~fI"
+
+if exist "%NHSPC_ROOT%\nhspc\bin\Debug\nhspc.exe" (
+    echo [*] Copying compiler [Debug]...
+    copy /Y "%NHSPC_ROOT%\nhspc\bin\Debug\nhspc.exe" "%COMPILER_DIR%\" >nul
+    copy /Y "%NHSPC_ROOT%\nhspc\bin\Debug\NhspCompiler.Core.dll" "%COMPILER_DIR%\" >nul
     set "NHSPC_FOUND=1"
 )
 
-if exist "%SCRIPT_DIR%..\nhspc\bin\Release\nhspc.exe" (
-    echo [*] Copying compiler (Release build)...
-    copy /Y "%SCRIPT_DIR%..\nhspc\bin\Release\nhspc.exe" "%COMPILER_DIR%\" >nul 2>&1
-    copy /Y "%SCRIPT_DIR%..\nhspc\bin\Release\NhspCompiler.Core.dll" "%COMPILER_DIR%\" >nul 2>&1
+if exist "%NHSPC_ROOT%\nhspc\bin\Release\nhspc.exe" (
+    echo [*] Copying compiler [Release]...
+    copy /Y "%NHSPC_ROOT%\nhspc\bin\Release\nhspc.exe" "%COMPILER_DIR%\" >nul
+    copy /Y "%NHSPC_ROOT%\nhspc\bin\Release\NhspCompiler.Core.dll" "%COMPILER_DIR%\" >nul
     set "NHSPC_FOUND=1"
-)
-
-if "!NHSPC_FOUND!"=="1" (
-    echo     Compiler: %COMPILER_DIR%\nhspc.exe
-) else (
-    echo [WARN] nhspc.exe not found. Build it first:
-    echo        cd nhspc
-    echo        dotnet build nhspc\nhspc.csproj
 )
 
 echo.
@@ -69,14 +62,12 @@ echo   Extension: %TARGET%
 if "!NHSPC_FOUND!"=="1" (
     echo   Compiler:  %COMPILER_DIR%\nhspc.exe
     echo.
-    echo   Open a .nhsp file in VS Code and press F5 to compile.
-    echo   No path configuration needed.
+    echo   Open .nhsp in VS Code, press F5 to compile.
 ) else (
     echo   Compiler:  NOT FOUND
-    echo.
     echo   Set nhsp.compilerPath in VS Code settings.
 )
 echo.
-echo   Please restart VS Code.
+echo   Restart VS Code to activate.
 echo.
 pause
