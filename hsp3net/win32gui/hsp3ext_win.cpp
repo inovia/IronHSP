@@ -1394,6 +1394,24 @@ static int cmdfunc_ctrlcmd( int cmd )
 			ret = GlobalAccess::g_Hsp3Net->LoadAssemblyByFile(p1);
 		}
 		else if ( opt == 3 || opt == 4) {	// C#/VB ソースコードをコンパイルしてアセンブリを読み込む
+			// p1 が .cs/.vb ファイルの場合はファイルから読み込む
+			String ^sourceCode = p1;
+			if (p1->EndsWith(".cs", StringComparison::OrdinalIgnoreCase) ||
+				p1->EndsWith(".vb", StringComparison::OrdinalIgnoreCase))
+			{
+				if (System::IO::File::Exists(p1)) {
+					sourceCode = System::IO::File::ReadAllText(p1);
+				} else {
+					// カレントディレクトリからも検索
+					auto curDir = System::IO::Directory::GetCurrentDirectory();
+					auto fullPath = System::IO::Path::Combine(curDir, p1);
+					if (System::IO::File::Exists(fullPath)) {
+						sourceCode = System::IO::File::ReadAllText(fullPath);
+					}
+					// 見つからない場合はそのまま文字列として扱う
+				}
+			}
+
 			// 引数:3（命名するアセンブリ名）
 			ps = code_gets();
 			auto p3 = marshal_as<System::String^>(ps);
@@ -1422,10 +1440,10 @@ static int cmdfunc_ctrlcmd( int cmd )
 			while (PARAM_END < prm);
 
 			if (opt == 3) {
-				ret = GlobalAccess::g_Hsp3Net->LoadAssemblyByCsSource(p1, p3, listParams->ToArray());
+				ret = GlobalAccess::g_Hsp3Net->LoadAssemblyByCsSource(sourceCode, p3, listParams->ToArray());
 			}
 			else {
-				ret = GlobalAccess::g_Hsp3Net->LoadAssemblyByVbSource(p1, p3, listParams->ToArray());
+				ret = GlobalAccess::g_Hsp3Net->LoadAssemblyByVbSource(sourceCode, p3, listParams->ToArray());
 			}
 		}
 		else {
