@@ -1,83 +1,81 @@
 @echo off
-chcp 65001 >nul 2>&1
+chcp 932 >nul 2>&1
 setlocal
 
 echo ========================================
-echo   NHSP VS Code æ‹¡å¼µ ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ©ãƒ¼
+echo   NHSP VS Code Šg’£ ƒCƒ“ƒXƒg[ƒ‰[
 echo ========================================
 echo.
 
-:: VS Code ã®æ‹¡å¼µãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’æ±ºå®š
+:: VS Code ‚ÌŠg’£ƒfƒBƒŒƒNƒgƒŠ‚ğŒˆ’è
 set "VSCODE_EXT=%USERPROFILE%\.vscode\extensions"
 set "TARGET=%VSCODE_EXT%\nhsp-language-0.1.0"
 set "SCRIPT_DIR=%~dp0"
 
-:: VS Code ãŒã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã•ã‚Œã¦ã„ã‚‹ã‹ç¢ºèª
+:: VS Code ‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é‚©Šm”F
 where code >nul 2>&1
 if %ERRORLEVEL% neq 0 (
-    echo [!] VS Code (code ã‚³ãƒãƒ³ãƒ‰) ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚
-    echo     VS Code ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¦ã‹ã‚‰å†å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚
+    echo [!] VS Code (code ƒRƒ}ƒ“ƒh) ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
+    echo     VS Code ‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ä‚©‚çÄÀs‚µ‚Ä‚­‚¾‚³‚¢B
     echo     https://code.visualstudio.com/
     echo.
     pause
     exit /b 1
 )
 
-:: æ‹¡å¼µãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå­˜åœ¨ã™ã‚‹ã‹ç¢ºèª
+:: Šg’£ƒfƒBƒŒƒNƒgƒŠ‚ª‘¶İ‚·‚é‚©Šm”F
 if not exist "%VSCODE_EXT%" (
-    echo [!] VS Code æ‹¡å¼µãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“:
+    echo [!] VS Code Šg’£ƒfƒBƒŒƒNƒgƒŠ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ:
     echo     %VSCODE_EXT%
     echo.
     pause
     exit /b 1
 )
 
-:: æ—¢å­˜ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ãŒã‚ã‚Œã°å‰Šé™¤
+:: Šù‘¶‚ÌƒCƒ“ƒXƒg[ƒ‹‚ª‚ ‚ê‚Îíœ
 if exist "%TARGET%" (
-    echo [*] æ—¢å­˜ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã‚’å‰Šé™¤ã—ã¦ã„ã¾ã™...
+    echo [*] Šù‘¶‚ÌƒCƒ“ƒXƒg[ƒ‹‚ğíœ‚µ‚Ä‚¢‚Ü‚·...
     rmdir /S /Q "%TARGET%"
 )
 
-:: ã‚³ãƒ”ãƒ¼
-echo [*] æ‹¡å¼µã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¦ã„ã¾ã™...
-echo     %SCRIPT_DIR% â†’ %TARGET%
+:: ƒRƒs[
+echo [*] Šg’£‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ä‚¢‚Ü‚·...
+echo     %SCRIPT_DIR% => %TARGET%
 xcopy /E /I /Q "%SCRIPT_DIR%*" "%TARGET%\" >nul 2>&1
 
 if %ERRORLEVEL% neq 0 (
-    echo [!] ã‚³ãƒ”ãƒ¼ã«å¤±æ•—ã—ã¾ã—ãŸã€‚
+    echo [!] ƒRƒs[‚É¸”s‚µ‚Ü‚µ‚½B
     pause
     exit /b 1
 )
 
-:: nhspc.exe ã®è‡ªå‹•æ¤œå‡º
+:: nhspc.exe ‚Ì©“®ŒŸo
 set "NHSPC_PATH="
-:: åŒéšå±¤ã® nhspc/bin/Debug
 if exist "%SCRIPT_DIR%..\nhspc\bin\Debug\nhspc.exe" (
     set "NHSPC_PATH=%SCRIPT_DIR%..\nhspc\bin\Debug\nhspc.exe"
 )
-:: åŒéšå±¤ã® nhspc/bin/Release
 if exist "%SCRIPT_DIR%..\nhspc\bin\Release\nhspc.exe" (
     set "NHSPC_PATH=%SCRIPT_DIR%..\nhspc\bin\Release\nhspc.exe"
 )
 
 echo.
 echo ========================================
-echo   ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«å®Œäº†!
+echo   ƒCƒ“ƒXƒg[ƒ‹Š®—¹!
 echo ========================================
 echo.
-echo   æ‹¡å¼µ: %TARGET%
+echo   Šg’£: %TARGET%
 if defined NHSPC_PATH (
     echo   nhspc.exe: %NHSPC_PATH%
     echo.
-    echo   nhspc.exe ã‚’è‡ªå‹•æ¤œå‡ºã—ã¾ã—ãŸã€‚
-    echo   VS Code ã§ .nhsp ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã„ã¦ F5 ã§ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ãã¾ã™ã€‚
+    echo   nhspc.exe ‚ğ©“®ŒŸo‚µ‚Ü‚µ‚½B
+    echo   VS Code ‚Å .nhsp ƒtƒ@ƒCƒ‹‚ğŠJ‚¢‚Ä F5 ‚ÅƒRƒ“ƒpƒCƒ‹‚Å‚«‚Ü‚·B
 ) else (
-    echo   nhspc.exe: è¦‹ã¤ã‹ã‚Šã¾ã›ã‚“
+    echo   nhspc.exe: Œ©‚Â‚©‚è‚Ü‚¹‚ñ
     echo.
-    echo   VS Code ã®è¨­å®šã§ nhspc.exe ã®ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ã¦ãã ã•ã„:
-    echo     è¨­å®š â†’ nhsp.compilerPath
+    echo   VS Code ‚Ìİ’è‚Å nhspc.exe ‚ÌƒpƒX‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢:
+    echo     İ’è => nhsp.compilerPath
 )
 echo.
-echo   VS Code ã‚’å†èµ·å‹•ã—ã¦ãã ã•ã„ã€‚
+echo   VS Code ‚ğÄ‹N“®‚µ‚Ä‚­‚¾‚³‚¢B
 echo.
 pause

@@ -1,22 +1,22 @@
 @echo off
-chcp 65001 >nul 2>&1
+chcp 932 >nul 2>&1
 setlocal
 
 echo ========================================
-echo   NHSP VS Code æ‹¡å¼µ ã‚¢ãƒ³ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ©ãƒ¼
+echo   NHSP VS Code Šg’£ ƒAƒ“ƒCƒ“ƒXƒg[ƒ‰[
 echo ========================================
 echo.
 
 set "TARGET=%USERPROFILE%\.vscode\extensions\nhsp-language-0.1.0"
 
 if exist "%TARGET%" (
-    echo [*] æ‹¡å¼µã‚’å‰Šé™¤ã—ã¦ã„ã¾ã™...
+    echo [*] Šg’£‚ðíœ‚µ‚Ä‚¢‚Ü‚·...
     echo     %TARGET%
     rmdir /S /Q "%TARGET%"
     echo.
-    echo   ã‚¢ãƒ³ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«å®Œäº†ã€‚VS Code ã‚’å†èµ·å‹•ã—ã¦ãã ã•ã„ã€‚
+    echo   ƒAƒ“ƒCƒ“ƒXƒg[ƒ‹Š®—¹BVS Code ‚ðÄ‹N“®‚µ‚Ä‚­‚¾‚³‚¢B
 ) else (
-    echo [*] æ‹¡å¼µã¯ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚
+    echo [*] Šg’£‚ÍƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 )
 
 echo.
