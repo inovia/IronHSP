@@ -1,0 +1,21 @@
+; 04: ビット演算 — AND, OR, XOR, NOT, シフト
+#assembly "Bitwise", exe
+
+#main
+  int a = $FF
+  int b = $0F
+
+  print $"a & b  = {str(a & b)}"
+  print $"a | b  = {str(a | b)}"
+  print $"a ^ b  = {str(a ^ b)}"
+  print $"~b     = {str(~b)}"
+  print $"1 << 4 = {str(1 << 4)}"
+  print $"256>>3 = {str(256 >> 3)}"
+
+  ; 複合ビット代入
+  int flags = $FF
+  flags &= $0F
+  print $"flags &= $0F => {str(flags)}"
+  flags |= $F0
+  print $"flags |= $F0 => {str(flags)}"
+#endmain

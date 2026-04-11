@@ -1,0 +1,20 @@
+; 25: params (可変長引数) / デフォルト引数
+#assembly "ParamsDefault"
+
+#class public Formatter
+  ; デフォルト引数
+  #func public static string Greet, string name = "World", string prefix = "Hello"
+    return $"{prefix}, {name}!"
+  #endfunc
+
+  ; params 可変長引数
+  #func public static int Sum, params int[] numbers
+    int total = 0
+    int i = 0
+    while i < numbers.Length
+      total += numbers(i)
+      i++
+    wend
+    return total
+  #endfunc
+#endclass

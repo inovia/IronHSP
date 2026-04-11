@@ -1,0 +1,26 @@
+; 20: イベント — 宣言と定義
+#assembly "Event"
+
+#class public Button
+  #event public EventHandler Click
+  #field public string Text
+
+  #init string text
+    Text = text
+  #endinit
+
+  #func public void OnClick
+    ; イベント発火
+    print $"Button '{Text}' clicked!"
+  #endfunc
+#endclass
+
+#class public Form
+  #field public Button OkButton
+  #field public Button CancelButton
+
+  #init
+    OkButton = new Button("OK")
+    CancelButton = new Button("Cancel")
+  #endinit
+#endclass

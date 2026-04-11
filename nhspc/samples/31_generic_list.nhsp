@@ -1,0 +1,24 @@
+; 31: .NET クラスの利用
+#assembly "DotNetClasses"
+
+#class public TextHelper
+  ; 文字列の連結
+  #func public static string Join, string sep, string a, string b
+    return a + sep + b
+  #endfunc
+
+  ; 文字列の逆順
+  #func public static string Rev, string s
+    string result = ""
+    int len = s.Length
+    for i = 0 to len - 1
+      result = s.Substring(i, 1) + result
+    next
+    return result
+  #endfunc
+
+  ; 大文字小文字変換
+  #func public static string ToggleCase, string s
+    return s.ToUpper() + " / " + s.ToLower()
+  #endfunc
+#endclass

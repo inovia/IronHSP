@@ -1,0 +1,12 @@
+; 33: typeof 演算子
+#assembly "Typeof", exe
+
+#main
+  Type t1 = typeof(int)
+  Type t2 = typeof(string)
+  Type t3 = typeof(bool)
+
+  print $"int    => {t1.FullName}"
+  print $"string => {t2.FullName}"
+  print $"bool   => {t3.FullName}"
+#endmain

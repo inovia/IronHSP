@@ -1,0 +1,14 @@
+; 34: foreach ループ
+#assembly "Foreach", exe
+
+#main
+  List<string> fruits = new List<string>()
+  fruits.Add("Apple")
+  fruits.Add("Banana")
+  fruits.Add("Cherry")
+
+  print "--- foreach ---"
+  foreach string fruit in fruits
+    print $"  {fruit}"
+  next
+#endmain

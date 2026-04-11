@@ -1,0 +1,12 @@
+; 35: using 文 — IDisposable 自動解放
+#assembly "Using", exe
+
+#main
+  ; using で StreamWriter を使う
+  ; (ブロック終了時に自動 Dispose)
+  print "Writing file..."
+  ; using writer = new StreamWriter("test.txt")
+  ;   writer.WriteLine("Hello from NHSP!")
+  ; endusing
+  print "Done"
+#endmain

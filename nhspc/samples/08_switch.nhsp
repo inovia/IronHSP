@@ -1,0 +1,24 @@
+; 08: switch / case
+#assembly "Switch", exe
+
+#class public Checker
+  #func public static string Check, int x
+    switch x
+      case 1
+        return "one"
+      case 2
+        return "two"
+      case 3
+        return "three"
+      default
+        return "other"
+    endswitch
+    return ""
+  #endfunc
+#endclass
+
+#main
+  for i = 0 to 5
+    print $"{str(i)} => {Checker.Check(i)}"
+  next
+#endmain

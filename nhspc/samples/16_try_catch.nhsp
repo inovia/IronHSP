@@ -1,0 +1,40 @@
+; 16: 例外処理 — try/catch/finally, 複数catch, throw new
+#assembly "TryCatch", exe
+
+#class public SafeCalc
+  #func public static int Divide, int a, int b
+    try
+      return a / b
+    catch Exception e
+      return -1
+    #endtry
+    return 0
+  #endfunc
+
+  #func public static string Process, int mode
+    try
+      if mode = 1
+        throw new ArgumentException("bad arg")
+      endif
+      if mode = 2
+        throw new InvalidOperationException("bad op")
+      endif
+      return "ok"
+    catch ArgumentException e
+      return "ArgError: " + e.Message
+    catch InvalidOperationException e2
+      return "OpError: " + e2.Message
+    catch Exception e3
+      return "Error: " + e3.Message
+    #endtry
+    return "end"
+  #endfunc
+#endclass
+
+#main
+  print "10/2 = " + str(SafeCalc.Divide(10, 2))
+  print "10/0 = " + str(SafeCalc.Divide(10, 0))
+  print "mode 0: " + SafeCalc.Process(0)
+  print "mode 1: " + SafeCalc.Process(1)
+  print "mode 2: " + SafeCalc.Process(2)
+#endmain

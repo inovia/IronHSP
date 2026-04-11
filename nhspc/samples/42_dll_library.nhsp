@@ -1,0 +1,24 @@
+; 42: DLL ライブラリ — 他の .NET 言語から呼べる DLL
+#assembly "MyLibrary"
+
+#class public StringHelper
+  #func public static string Reverse, string s
+    int len = s.Length
+    string result = ""
+    for i = 0 to len - 1
+      result = s.Substring(i, 1) + result
+    next
+    return result
+  #endfunc
+
+  #func public static bool IsPalindrome, string s
+    string lower = s.ToLower()
+    string rev = Reverse(lower)
+    return lower == rev
+  #endfunc
+
+  #func public static int WordCount, string s
+    string[] words = s.Split(" ")
+    return words.Length
+  #endfunc
+#endclass

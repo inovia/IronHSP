@@ -1,0 +1,27 @@
+; 14: プロパティ — getter/setter
+#assembly "Property"
+
+#class public Temperature
+  #field private double _celsius
+
+  #init double c
+    _celsius = c
+  #endinit
+
+  #property Celsius as double
+    #get
+      return _celsius
+    #endget
+    #set
+      _celsius = value
+    #endset
+  #endproperty
+
+  #func public double ToFahrenheit
+    return _celsius * 9.0 / 5.0 + 32.0
+  #endfunc
+
+  #func public string ToString
+    return $"{str(_celsius)}C / {str(ToFahrenheit())}F"
+  #endfunc
+#endclass

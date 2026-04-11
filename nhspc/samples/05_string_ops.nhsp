@@ -1,0 +1,29 @@
+; 05: 文字列操作 — 連結、補間、.NETメソッド
+#assembly "StringOps", exe
+
+#main
+  string hello = "Hello"
+  string world = "World"
+
+  ; 連結
+  string combined = hello + " " + world
+  print combined
+
+  ; 文字列補間
+  string name = "NHSP"
+  int ver = 18
+  print $"Welcome to {name} version {str(ver)}!"
+
+  ; .NET String メソッド
+  print $"Length: {str(hello.Length)}"
+  print $"Upper: {hello.ToUpper()}"
+  print $"Contains: {str(hello.Contains("ell"))}"
+  print $"Substring: {hello.Substring(1, 3)}"
+  print $"Replace: {combined.Replace("World", "NHSP")}"
+
+  ; 型変換
+  string numStr = str(42)
+  int parsed = int("123")
+  double dbl = double("3.14")
+  print $"str={numStr}, int={str(parsed)}, double={str(dbl)}"
+#endmain

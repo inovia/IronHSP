@@ -1,0 +1,23 @@
+; 03: 算術演算 — 四則演算、剰余、インクリメント
+#assembly "Arithmetic", exe
+
+#main
+  int a = 10 : int b = 3
+
+  print $"a + b = {str(a + b)}"
+  print $"a - b = {str(a - b)}"
+  print $"a * b = {str(a * b)}"
+  print $"a / b = {str(a / b)}"
+  print $"a % b = {str(a % b)}"
+
+  ; インクリメント / デクリメント
+  a++
+  print $"a++ = {str(a)}"
+  b--
+  print $"b-- = {str(b)}"
+
+  ; 複合代入
+  int c = 100
+  c += 10 : c -= 5 : c *= 2
+  print $"c = {str(c)}"
+#endmain

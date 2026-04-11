@@ -1,0 +1,21 @@
+; 24: const / readonly / static フィールド
+#assembly "ConstReadonly"
+
+#class public Config
+  ; コンパイル時定数
+  #field public const int MAX_PATH = 260
+  #field public const string VERSION = "1.0.0"
+  #field public const double PI = 3.14159
+
+  ; readonly (コンストラクタで1回だけ設定可能)
+  #field public readonly int MaxRetry
+  #field public readonly string AppName
+
+  ; static
+  #field public static int InstanceCount
+
+  #init int maxRetry, string appName
+    MaxRetry = maxRetry
+    AppName = appName
+  #endinit
+#endclass

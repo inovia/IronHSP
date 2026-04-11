@@ -1,0 +1,11 @@
+; 38: Nullable 型 — int?, double?
+#assembly "Nullable"
+
+#class public NullableTest
+  #func public static string Describe, int? value
+    if value.HasValue
+      return "Value: " + str(value.Value)
+    endif
+    return "No value (null)"
+  #endfunc
+#endclass

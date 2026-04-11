@@ -1,0 +1,28 @@
+; 10: 静的メンバー — static フィールド、static メソッド、static コンストラクタ
+#assembly "ClassStatic"
+
+#class public MathHelper
+  #field public static double PI
+
+  #init static
+    PI = 3.14159265358979
+  #endinit
+
+  #func public static double CircleArea, double radius
+    return PI * radius * radius
+  #endfunc
+
+  #func public static int Max, int a, int b
+    return a > b ? a : b
+  #endfunc
+
+  #func public static int Clamp, int value, int min, int max
+    if value < min
+      return min
+    endif
+    if value > max
+      return max
+    endif
+    return value
+  #endfunc
+#endclass

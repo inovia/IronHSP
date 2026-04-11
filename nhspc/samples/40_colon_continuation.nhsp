@@ -1,0 +1,17 @@
+; 40: コロン区切りと行継続
+#assembly "ColonCont", exe
+
+#main
+  ; コロンで1行に複数文 (HSP 互換)
+  int a = 1 : int b = 2 : int c = 3
+  print $"a={str(a)}, b={str(b)}, c={str(c)}"
+
+  ; 行継続 (HSP 互換)
+  int result = a + b + \
+    c + 10
+  print $"result = {str(result)}"
+
+  ; 複合
+  int x = 0 : x += 10 : x += 20 : x += 30
+  print $"x = {str(x)}"
+#endmain

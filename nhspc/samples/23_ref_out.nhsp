@@ -1,0 +1,22 @@
+; 23: ref / out パラメータ
+#assembly "RefOut"
+
+#class public MathUtil
+  ; ref: 呼び出し元の変数を直接変更
+  #func public static void AddTen, ref int value
+    value = value + 10
+  #endfunc
+
+  ; out: 結果を引数経由で返す
+  #func public static bool TryParse, string s, out int result
+    result = 42
+    return true
+  #endfunc
+
+  ; 複数の ref
+  #func public static void Swap, ref int a, ref int b
+    int temp = a
+    a = b
+    b = temp
+  #endfunc
+#endclass

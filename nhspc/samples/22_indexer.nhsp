@@ -1,0 +1,25 @@
+; 22: インデクサ
+#assembly "Indexer"
+
+#class public IntList
+  #field private int[] _items
+  #field private int _count
+
+  #init int capacity
+    _items = new int[](capacity)
+    _count = 0
+  #endinit
+
+  #indexer public int, int index
+    #get
+      return _items(index)
+    #endget
+    #set
+      _items(index) = value
+    #endset
+  #endindexer
+
+  #func public int Count
+    return _count
+  #endfunc
+#endclass

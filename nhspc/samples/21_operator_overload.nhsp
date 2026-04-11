@@ -1,0 +1,24 @@
+; 21: 演算子オーバーロード
+#assembly "OpOverload"
+
+#class public Vector2
+  #field public int X
+  #field public int Y
+
+  #init int x, int y
+    X = x
+    Y = y
+  #endinit
+
+  #operator int +, Vector2 a, Vector2 b
+    return a.X + b.X + a.Y + b.Y
+  #endoperator
+
+  #operator bool ==, Vector2 a, Vector2 b
+    return a.X == b.X && a.Y == b.Y
+  #endoperator
+
+  #func public string ToString
+    return "(" + str(X) + ", " + str(Y) + ")"
+  #endfunc
+#endclass

@@ -1,0 +1,11 @@
+; 43: DateTime — 日付・時刻操作
+#assembly "DateTimeDemo", exe
+
+#main
+  DateTime now = DateTime.Now
+  print $"Now: {now.ToString("yyyy-MM-dd HH:mm:ss")}"
+  print $"Year:  {str(now.Year)}"
+  print $"Month: {str(now.Month)}"
+  print $"Day:   {str(now.Day)}"
+  print $"Hour:  {str(now.Hour)}"
+#endmain

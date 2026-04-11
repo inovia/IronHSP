@@ -1,0 +1,14 @@
+; 44: Math クラス — 数学関数
+#assembly "MathDemo", exe
+
+#main
+  print $"Max(10,20) = {str(Math.Max(10, 20))}"
+  print $"Min(10,20) = {str(Math.Min(10, 20))}"
+  print $"Abs(-42)   = {str(Math.Abs(-42))}"
+  print $"PI = {str(Math.PI)}"
+
+  ; 型変換
+  double d = 3.7
+  int rounded = int(str(d))
+  print $"int(3.7) = {str(rounded)}"
+#endmain

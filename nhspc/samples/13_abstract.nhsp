@@ -1,0 +1,30 @@
+; 13: 抽象クラス — abstract/sealed
+#assembly "Abstract"
+
+#class public abstract Shape
+  #field public string Color
+
+  #func public abstract int Area
+  #func public abstract string Name
+
+  #func public string Info
+    return Name() + " (" + Color + "): area=" + str(Area())
+  #endfunc
+#endclass
+
+#class public sealed Square : Shape
+  #field public int Side
+
+  #init int side, string color
+    Side = side
+    Color = color
+  #endinit
+
+  #func public override int Area
+    return Side * Side
+  #endfunc
+
+  #func public override string Name
+    return "Square"
+  #endfunc
+#endclass

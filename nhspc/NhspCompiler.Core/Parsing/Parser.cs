@@ -760,10 +760,18 @@ namespace NhspCompiler.Core.Parsing
             }
             else
             {
-                // Single-line if: if cond : stmt  (or multi-line with endif)
+                // Multi-line if with endif
                 SkipEOL();
                 ifStmt.ThenBody = ParseBlock("endif");
-                // Check for else
+                // Check for elseif / else
+                while (MatchKW("elseif"))
+                {
+                    Advance();
+                    var clause = new ElseIfClause { Condition = ParseExpression() };
+                    SkipEOL();
+                    clause.Body = ParseBlock("endif");
+                    ifStmt.ElseIfs.Add(clause);
+                }
                 if (MatchKW("else")) { Advance(); SkipEOL(); ifStmt.ElseBody = ParseBlock("endif"); }
                 if (MatchKW("endif")) Advance();
             }

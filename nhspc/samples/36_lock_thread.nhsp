@@ -1,0 +1,22 @@
+; 36: lock と Thread — 排他制御
+#assembly "LockThread"
+
+#class public SafeCounter
+  #field private int _count
+  #field private object _lock
+
+  #init
+    _count = 0
+    _lock = new object()
+  #endinit
+
+  #func public void Increment
+    lock _lock
+      _count += 1
+    endlock
+  #endfunc
+
+  #func public int GetCount
+    return _count
+  #endfunc
+#endclass

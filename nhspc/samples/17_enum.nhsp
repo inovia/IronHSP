@@ -1,0 +1,31 @@
+; 17: 列挙型 — 自動値、明示値
+#assembly "Enum"
+
+#enum Color
+  Red
+  Green
+  Blue
+#endenum
+
+#enum Priority
+  Low = 1
+  Medium = 5
+  High
+  Critical = 100
+#endenum
+
+#class public EnumHelper
+  #func public static string ColorName, int c
+    switch c
+      case 0
+        return "Red"
+      case 1
+        return "Green"
+      case 2
+        return "Blue"
+      default
+        return "Unknown"
+    endswitch
+    return ""
+  #endfunc
+#endclass

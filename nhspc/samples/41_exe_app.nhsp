@@ -1,0 +1,24 @@
+; 41: EXE アプリケーション — #main + クラス
+#assembly "ExeApp", exe
+
+#class public Calculator
+  #func public static int Add, int a, int b
+    return a + b
+  #endfunc
+
+  #func public static int Subtract, int a, int b
+    return a - b
+  #endfunc
+
+  #func public static int Multiply, int a, int b
+    return a * b
+  #endfunc
+#endclass
+
+#main
+  print "=== NHSP Calculator ==="
+  int a = 10 : int b = 3
+  print $"{str(a)} + {str(b)} = {str(Calculator.Add(a, b))}"
+  print $"{str(a)} - {str(b)} = {str(Calculator.Subtract(a, b))}"
+  print $"{str(a)} * {str(b)} = {str(Calculator.Multiply(a, b))}"
+#endmain

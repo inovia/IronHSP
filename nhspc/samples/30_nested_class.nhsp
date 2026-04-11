@@ -1,0 +1,27 @@
+; 30: ネストクラス
+#assembly "NestedClass"
+
+#class public Container
+  ; ネストクラスの定義
+  #class public Config
+    #field public static int DefaultSize
+
+    #init static
+      DefaultSize = 100
+    #endinit
+
+    #func public static int GetDefault
+      return DefaultSize
+    #endfunc
+  #endclass
+
+  #field public string Name
+
+  #init string name
+    Name = name
+  #endinit
+
+  #func public string Describe
+    return "Container: " + Name
+  #endfunc
+#endclass

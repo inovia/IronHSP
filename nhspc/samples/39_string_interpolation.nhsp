@@ -1,0 +1,19 @@
+; 39: 文字列補間 — $"..." 構文
+#assembly "Interpolation", exe
+
+#main
+  string name = "World"
+  int x = 42
+  double pi = 3.14
+
+  ; 基本
+  print $"Hello {name}!"
+  print $"The answer is {str(x)}"
+  print $"Pi = {str(pi)}"
+
+  ; 複数変数
+  string first = "John"
+  string last = "Doe"
+  int age = 30
+  print $"{first} {last}, age {str(age)}"
+#endmain

@@ -1,0 +1,41 @@
+; 12: インターフェース
+#assembly "Interface"
+
+#interface IShape
+  #func int Area
+  #func string Describe
+#endinterface
+
+#class public Rectangle : IShape
+  #field public int Width
+  #field public int Height
+
+  #init int w, int h
+    Width = w
+    Height = h
+  #endinit
+
+  #func public int Area
+    return Width * Height
+  #endfunc
+
+  #func public string Describe
+    return "Rectangle " + str(Width) + "x" + str(Height) + " area=" + str(Area())
+  #endfunc
+#endclass
+
+#class public Circle : IShape
+  #field public int Radius
+
+  #init int r
+    Radius = r
+  #endinit
+
+  #func public int Area
+    return Radius * Radius * 3
+  #endfunc
+
+  #func public string Describe
+    return "Circle r=" + str(Radius) + " area=" + str(Area())
+  #endfunc
+#endclass

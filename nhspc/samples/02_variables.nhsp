@@ -1,0 +1,29 @@
+; 02: 変数宣言 — dim 付きと省略形
+#assembly "Variables", exe
+
+#main
+  ; dim を使った宣言
+  dim int x = 42
+  dim string name = "NHSP"
+  dim double pi = 3.14
+  dim bool flag = true
+
+  ; dim 省略形 (C# 風)
+  int y = 100
+  string msg = "Hello"
+
+  ; 型推論
+  dim count = 999
+
+  ; null リテラル
+  string s1 = null
+  string s2 = nullptr
+
+  ; 16進数リテラル
+  int hex1 = 0xFF
+  int hex2 = $FF
+
+  print $"x={x}, y={y}, name={name}"
+  print $"hex1={hex1}, hex2={hex2}"
+  print $"pi={pi}, flag={flag}"
+#endmain

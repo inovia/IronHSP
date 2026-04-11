@@ -1,0 +1,22 @@
+; 28: COM 属性 — Guid, ComVisible, ClassInterface
+#assembly "ComAttribute"
+
+#attribute Guid, "EAA4976A-45C3-4BC5-BC0B-E474F4C3C83F"
+#attribute InterfaceType, "InterfaceIsIUnknown"
+#interface IMyComponent
+  #func string GetMessage
+  #func int Calculate, int a, int b
+#endinterface
+
+#attribute Guid, "0D53A3E8-E51A-49C7-944E-E72A2064F938"
+#attribute ClassInterface, "None"
+#attribute ComVisible, "true"
+#class public MyComponent : IMyComponent
+  #func public string GetMessage
+    return "Hello from NHSP COM!"
+  #endfunc
+
+  #func public int Calculate, int a, int b
+    return a + b
+  #endfunc
+#endclass

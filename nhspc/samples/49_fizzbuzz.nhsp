@@ -1,0 +1,16 @@
+; 49: FizzBuzz — 定番プログラム
+#assembly "FizzBuzz", exe
+
+#main
+  for i = 1 to 30
+    if i % 15 == 0
+      print "FizzBuzz"
+    elseif i % 3 == 0
+      print "Fizz"
+    elseif i % 5 == 0
+      print "Buzz"
+    else
+      print str(i)
+    endif
+  next
+#endmain

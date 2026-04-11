@@ -1,0 +1,38 @@
+; 11: 継承 — virtual/override
+#assembly "Inheritance"
+
+#class public Animal
+  #field public string Name
+
+  #init string name
+    Name = name
+  #endinit
+
+  #func public virtual string Speak
+    return "..."
+  #endfunc
+
+  #func public string Describe
+    return Name + " says: " + Speak()
+  #endfunc
+#endclass
+
+#class public Dog : Animal
+  #init string name
+    Name = name
+  #endinit
+
+  #func public override string Speak
+    return "Woof!"
+  #endfunc
+#endclass
+
+#class public Cat : Animal
+  #init string name
+    Name = name
+  #endinit
+
+  #func public override string Speak
+    return "Meow!"
+  #endfunc
+#endclass

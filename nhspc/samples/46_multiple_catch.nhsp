@@ -1,0 +1,28 @@
+; 46: 複数 catch — 型別の例外処理
+#assembly "MultiCatch", exe
+
+#class public ErrorDemo
+  #func public static void TestError, int code
+    try
+      if code = 1
+        throw new ArgumentException("bad argument")
+      endif
+      if code = 2
+        throw new InvalidOperationException("bad operation")
+      endif
+      print "No error"
+    catch ArgumentException e
+      print "ArgumentException: " + e.Message
+    catch InvalidOperationException e2
+      print "InvalidOp: " + e2.Message
+    catch Exception e3
+      print "General: " + e3.Message
+    #endtry
+  #endfunc
+#endclass
+
+#main
+  ErrorDemo.TestError(0)
+  ErrorDemo.TestError(1)
+  ErrorDemo.TestError(2)
+#endmain

@@ -1,0 +1,6 @@
+; 01: Hello World — 最も基本的なプログラム
+#assembly "HelloWorld", exe
+
+#main
+  print "Hello, NHSP!"
+#endmain

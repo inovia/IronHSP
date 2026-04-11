@@ -1,0 +1,21 @@
+; 26: P/Invoke — Win32 API 呼び出し
+#assembly "PInvoke"
+
+#class public NativeApi
+  ; user32.dll
+  #dllimport "user32.dll", CharSet = Unicode
+  #dllfunc public static int MessageBoxW, IntPtr hWnd, string text, string caption, int type
+
+  ; kernel32.dll
+  #dllimport "kernel32.dll"
+  #dllfunc public static int GetTickCount
+  #dllfunc public static int GetCurrentProcessId
+
+  ; EntryPoint 指定
+  #dllimport "kernel32.dll"
+  #dllfunc public static int GetModName "GetModuleFileNameA", IntPtr hModule, [LPStr] string buf, int size
+
+  ; Cdecl 呼び出し規約
+  #dllimport "msvcrt.dll", CallingConvention = Cdecl
+  #dllfunc public static int puts, string str
+#endclass

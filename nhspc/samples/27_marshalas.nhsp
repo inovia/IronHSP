@@ -1,0 +1,23 @@
+; 27: MarshalAs 属性
+#assembly "MarshalAs"
+
+#struct public RECT, Sequential
+  #field public int Left
+  #field public int Top
+  #field public int Right
+  #field public int Bottom
+#endstruct
+
+#struct public WinStruct, Sequential, CharSet = Unicode
+  #field public int Id
+  [MarshalAs ByValTStr, 256] #field public string Name
+#endstruct
+
+#class public WinApi
+  #dllimport "user32.dll"
+  #dllfunc public static int GetWindowRect, IntPtr hWnd, ref RECT rect
+
+  #dllimport "kernel32.dll"
+  #dllfunc public static int GetModuleFileName, IntPtr hModule, \
+    [LPStr] string buffer, int size
+#endclass

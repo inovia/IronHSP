@@ -1,0 +1,29 @@
+; 06: 条件分岐 — if/elseif/else
+#assembly "IfElse", exe
+
+#main
+  int x = 15
+
+  ; endif 形式
+  if x > 20
+    print "big"
+  elseif x > 10
+    print "medium"
+  else
+    print "small"
+  endif
+
+  ; HSP互換: = は == と同等
+  if x = 15
+    print "x equals 15 (HSP style)"
+  endif
+
+  ; 三項演算子
+  string result = x > 10 ? "big" : "small"
+  print "Ternary: " + result
+
+  ; null 合体演算子
+  string s = null
+  string safe = s ?? "default"
+  print "Null coalesce: " + safe
+#endmain

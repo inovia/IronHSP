@@ -1,0 +1,25 @@
+; 37: デストラクタ — Finalize
+#assembly "Destructor"
+
+#class public Resource
+  #field public string Name
+  #field private bool _disposed
+
+  #init string name
+    Name = name
+    _disposed = false
+    print $"Resource '{Name}' created"
+  #endinit
+
+  #destructor
+    if _disposed = false
+      _disposed = true
+      ; リソース解放処理
+    endif
+  #enddestructor
+
+  #func public void Close
+    _disposed = true
+    print $"Resource '{Name}' closed"
+  #endfunc
+#endclass

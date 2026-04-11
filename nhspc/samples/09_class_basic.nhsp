@@ -1,0 +1,20 @@
+; 09: 基本クラス — フィールド、コンストラクタ、メソッド
+#assembly "ClassBasic"
+
+#class public Person
+  #field public string Name
+  #field private int _age
+
+  #init string name, int age
+    Name = name
+    _age = age
+  #endinit
+
+  #func public string Greet
+    return "Hello, I'm " + Name + " (" + str(_age) + ")"
+  #endfunc
+
+  #func public int GetAge
+    return _age
+  #endfunc
+#endclass

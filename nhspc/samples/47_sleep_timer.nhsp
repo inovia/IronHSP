@@ -1,0 +1,11 @@
+; 47: sleep — タイマー的な使い方
+#assembly "SleepDemo", exe
+
+#main
+  print "Countdown:"
+  for i = 5 to 1 step -1
+    print $"  {str(i)}..."
+    sleep 500
+  next
+  print "Go!"
+#endmain

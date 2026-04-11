@@ -1,0 +1,32 @@
+; 18: 構造体 — StructLayout, Pack, FieldOffset
+#assembly "Struct"
+
+; 基本の構造体
+#struct public Point2D, Sequential
+  #field public int X
+  #field public int Y
+#endstruct
+
+; Pack 指定
+#struct public SYSTEMTIME, Sequential, Pack = 2
+  #field public ushort wYear
+  #field public ushort wMonth
+  #field public ushort wDayOfWeek
+  #field public ushort wDay
+  #field public ushort wHour
+  #field public ushort wMinute
+  #field public ushort wSecond
+  #field public ushort wMilliseconds
+#endstruct
+
+; 共用体 (Explicit layout)
+#struct public NumberUnion, Explicit
+  [FieldOffset 0] #field public int IntValue
+  [FieldOffset 0] #field public float FloatValue
+#endstruct
+
+; CharSet + MarshalAs
+#struct public FileInfo, Sequential, CharSet = Unicode
+  #field public int Id
+  [MarshalAs ByValTStr, 260] #field public string Path
+#endstruct

@@ -1,0 +1,25 @@
+; 48: フィボナッチ — 再帰とループ
+#assembly "Fibonacci", exe
+
+#class public Fib
+  ; ループ版
+  #func public static int Calc, int n
+    if n <= 1
+      return n
+    endif
+    int a = 0 : int b = 1
+    for i = 2 to n
+      int temp = a + b
+      a = b
+      b = temp
+    next
+    return b
+  #endfunc
+#endclass
+
+#main
+  print "Fibonacci:"
+  for i = 0 to 15
+    print $"  F({str(i)}) = {str(Fib.Calc(i))}"
+  next
+#endmain

@@ -1,0 +1,30 @@
+; 29: 名前空間
+#assembly "Namespace"
+
+#namespace "MyApp.Models"
+
+#class public User
+  #field public string Name
+  #field public int Age
+
+  #init string name, int age
+    Name = name
+    Age = age
+  #endinit
+
+  #func public string ToString
+    return Name + " (age " + str(Age) + ")"
+  #endfunc
+#endclass
+
+#endnamespace
+
+#namespace "MyApp.Services"
+
+#class public UserService
+  #func public static string GetInfo
+    return "UserService v1.0"
+  #endfunc
+#endclass
+
+#endnamespace
