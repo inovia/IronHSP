@@ -197,7 +197,13 @@ mes r  ; => 3000000000000</code></pre>
 <tr><td><code>neterror</code></td><td>.NET 例外のエラーモードを設定する。0=stat のみ（デフォルト）, 1=HSP エラーとして throw</td></tr>
 <tr><td><code>nettoval</code></td><td>.NET オブジェクトを HSP の値型に変換する（関数形式）</td></tr>
 <tr><td><code>netexerr</code></td><td>最後に発生した .NET 例外の情報を文字列で返す（関数形式）</td></tr>
+<tr><td><code>formsaddctrl</code></td><td>Form に .NET コントロールを追加する</td></tr>
 </table>
+
+<div class="note">
+<strong>注意:</strong> COM 操作命令（<code>newcom</code>, <code>querycom</code>, <code>delcom</code>, <code>comres</code>, <code>comevent</code>, <code>comevarg</code>, <code>comevdisp</code>, <code>sarrayconv</code> 等）と
+文字コード変換命令（<code>cnvstow</code>, <code>cnvwtos</code>, <code>cnvstoa</code>, <code>cnvatos</code>）は HSP3 標準機能として引き続き利用可能です。
+</div>
 
 <h3>4.2 変数型 TYPE_NETOBJ</h3>
 <p><code>TYPE_NETOBJ = 9</code> として登録されるユーザー定義型です。.NET オブジェクトへの参照を HSP 変数として保持します。</p>
@@ -387,6 +393,7 @@ mcall net_controls, "Add", pButton</code></pre>
 <tr><td>（予約）</td><td>7</td><td>-</td><td>-</td><td>VARIANT 用に予約</td></tr>
 <tr><td><code>HSPVAR_FLAG_INT64</code></td><td>8</td><td>int64</td><td>8 byte</td><td><span class="badge">新規</span> 64bit 符号付き整数</td></tr>
 <tr><td><code>TYPE_NETOBJ</code></td><td>9</td><td>netobj</td><td>ポインタ</td><td><span class="badge-green badge">.NET</span> .NET オブジェクト参照</td></tr>
+<tr><td><code>HSPVAR_FLAG_WSTR</code></td><td>10</td><td>wstr</td><td>可変長</td><td><span class="badge">新規</span> UTF-16 LE ワイド文字列</td></tr>
 </table>
 
 <!-- ======================================== -->
@@ -577,30 +584,110 @@ mes "x=" + pt->x + " y=" + pt->y</code></pre>
 </div>
 
 <h3>サポートするメンバ型</h3>
+
+<h4>整数型</h4>
 <table>
 <tr><th>型名</th><th>サイズ</th><th>備考</th></tr>
-<tr><td><code>int</code></td><td>4 bytes</td><td>32bit 整数</td></tr>
-<tr><td><code>short</code></td><td>2 bytes</td><td>16bit 整数</td></tr>
-<tr><td><code>char</code></td><td>1 byte</td><td>8bit 整数</td></tr>
-<tr><td><code>char[N]</code></td><td>N bytes</td><td>固定長バイト配列 (strncpy で代入)</td></tr>
-<tr><td><code>float</code></td><td>4 bytes</td><td>単精度浮動小数点</td></tr>
-<tr><td><code>double</code></td><td>8 bytes</td><td>倍精度浮動小数点</td></tr>
-<tr><td><code>STRUCT_NAME</code></td><td>可変</td><td>入れ子構造体</td></tr>
+<tr><td><code>byte</code></td><td>1 byte</td><td>8bit 符号なし整数 (BYTE)</td></tr>
+<tr><td><code>short</code></td><td>2 bytes</td><td>16bit 整数 (SHORT / WORD)</td></tr>
+<tr><td><code>int</code></td><td>4 bytes</td><td>32bit 整数 (INT / DWORD / LONG)</td></tr>
+<tr><td><code>int64</code></td><td>8 bytes</td><td>64bit 整数 (LONGLONG)</td></tr>
+<tr><td><code>ptr</code></td><td>4/8 bytes</td><td>ポインタサイズ (32bit=4, 64bit=8。HANDLE, HWND 等に使用)</td></tr>
+</table>
+
+<h4>浮動小数点型</h4>
+<table>
+<tr><th>型名</th><th>サイズ</th><th>備考</th></tr>
+<tr><td><code>float</code></td><td>4 bytes</td><td>単精度浮動小数点 (FLOAT)</td></tr>
+<tr><td><code>double</code></td><td>8 bytes</td><td>倍精度浮動小数点 (DOUBLE)</td></tr>
+</table>
+
+<h4>論理型</h4>
+<table>
+<tr><th>型名</th><th>サイズ</th><th>備考</th></tr>
+<tr><td><code>bool</code></td><td>4 bytes</td><td>Win32 BOOL (TRUE=1, FALSE=0)</td></tr>
+<tr><td><code>bool1</code></td><td>1 byte</td><td>C/C++ bool</td></tr>
+<tr><td><code>bool2</code></td><td>2 bytes</td><td>VARIANT_BOOL (COM用。TRUE=-1, FALSE=0)</td></tr>
+</table>
+
+<h4>配列・文字列型</h4>
+<table>
+<tr><th>型名</th><th>サイズ</th><th>備考</th></tr>
+<tr><td><code>char[N]</code></td><td>N bytes</td><td>固定長 ANSI 文字列バッファ (strncpy で代入)</td></tr>
+<tr><td><code>wchar[N]</code></td><td>N*2 bytes</td><td>固定長 Unicode 文字列バッファ (wcsncpy で代入)</td></tr>
+<tr><td><code>型名[N]</code></td><td>型サイズ*N</td><td>固定長型付き配列 (例: <code>int[10]</code> = 40 bytes)</td></tr>
+</table>
+
+<h4>複合型</h4>
+<table>
+<tr><th>型名</th><th>サイズ</th><th>備考</th></tr>
+<tr><td><code>STRUCT_NAME</code></td><td>可変</td><td>入れ子構造体 (定義済みの構造体名を指定)</td></tr>
 </table>
 
 <h3>共用体</h3>
+<p>共用体は全メンバが同一メモリ領域を共有します。最大メンバのサイズが全体サイズになります。</p>
 <pre><code>#defunion VARIANT_DATA
   int iVal
   float fVal
   double dVal
-#endunion</code></pre>
+#endunion
+; size = 8 (double の 8 bytes が最大)</code></pre>
+
+<p>構造体内にインラインの共用体サブブロックを定義できます:</p>
+<pre><code>#defstruct MY_VARIANT
+  short vt
+  union
+    int intVal
+    float fltVal
+    double dblVal
+  endunion
+#endstruct</code></pre>
+
+<h3>配列</h3>
+<pre><code>#defstruct MATRIX
+  float m[16]
+#endstruct
+
+structdim mat, MATRIX
+mat->m(0) = 1.0
+mat->m(5) = 1.0</code></pre>
 
 <h3>パックアライメント</h3>
 <pre><code>#defstruct PACKED_STRUCT, pack=1
-  char flag
+  byte flag
   int value
 #endstruct
-; size = 5 (パディングなし)</code></pre>
+; size = 5 (パディングなし。pack=1 で詰め詰め配置)
+
+#defstruct DEFAULT_STRUCT
+  byte flag
+  int value
+#endstruct
+; size = 8 (デフォルト pack=8。flag の後に 3 bytes パディング)</code></pre>
+
+<h3>入れ子構造体</h3>
+<pre><code>#defstruct POINT
+  int x
+  int y
+#endstruct
+
+#defstruct RECT
+  POINT topLeft
+  POINT bottomRight
+#endstruct
+
+structdim rc, RECT
+rc->topLeft->x = 10
+rc->topLeft->y = 20
+rc->bottomRight->x = 100
+rc->bottomRight->y = 200</code></pre>
+
+<h3>構造体配列</h3>
+<pre><code>structdim points, POINT, 10   ; POINT 構造体 10 個分の配列
+points(0)->x = 100
+points(0)->y = 200
+points(1)->x = 300
+points(1)->y = 400</code></pre>
 
 <p>詳細は <a href="struct_implementation.html">構造体実装設計書</a> を参照してください。</p>
 
