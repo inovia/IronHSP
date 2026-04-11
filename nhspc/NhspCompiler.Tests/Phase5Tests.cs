@@ -36,7 +36,7 @@ namespace NhspCompiler.Tests
       total += i
     next
     return total
-  endfunc
+  #endfunc
 #endclass");
             // 0+1+2+3+4+5 = 15
             Assert.AreEqual(15, Call(asm, "C", "Sum", 5));
@@ -54,7 +54,7 @@ namespace NhspCompiler.Tests
       c += 1
     next
     return c
-  endfunc
+  #endfunc
 #endclass");
             // i=0,2,4,6,8,10 → 6 iterations
             Assert.AreEqual(6, Call(asm, "C", "Count", 10));
@@ -76,7 +76,7 @@ namespace NhspCompiler.Tests
       sum += arr(i)
     next
     return sum
-  endfunc
+  #endfunc
 #endclass");
             Assert.AreEqual(60, Call(asm, "C", "M"));
         }
@@ -96,7 +96,7 @@ namespace NhspCompiler.Tests
       last = i
     next
     return last
-  endfunc
+  #endfunc
 #endclass");
             Assert.AreEqual(4, Call(asm, "C", "M"));
         }
@@ -111,17 +111,17 @@ namespace NhspCompiler.Tests
   #init int x, int y
     X = x
     Y = y
-  endinit
+  #endinit
   #func public int Sum
     return X + Y
-  endfunc
+  #endfunc
 #endclass
 
 #class public Factory
   #func public int Test
     new p, Pt(10, 20)
     return p.Sum()
-  endfunc
+  #endfunc
 #endclass");
             Assert.AreEqual(30, Call(asm, "Factory", "Test"));
         }
@@ -134,7 +134,7 @@ namespace NhspCompiler.Tests
 #class public C
   #func public int Len, string s
     return s.Length
-  endfunc
+  #endfunc
 #endclass");
             // s.Length is a property → get_Length() method... need property access
             // For now test with a simpler approach

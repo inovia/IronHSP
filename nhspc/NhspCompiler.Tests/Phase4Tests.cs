@@ -25,18 +25,18 @@ namespace NhspCompiler.Tests
   #field public string Name
   #init string name
     Name = name
-  endinit
+  #endinit
   #func public virtual string Speak
     return Name + "" says ...""
-  endfunc
+  #endfunc
 #endclass
 #class public Dog : Animal
   #init string name
     Name = name
-  endinit
+  #endinit
   #func public override string Speak
     return Name + "" says Woof!""
-  endfunc
+  #endfunc
 #endclass");
             var dog = Activator.CreateInstance(asm.GetType("Dog"), "Rex");
             Assert.AreEqual("Rex says Woof!", dog.GetType().GetMethod("Speak").Invoke(dog, null));
@@ -50,15 +50,15 @@ namespace NhspCompiler.Tests
   #field public int Value
   #func public int GetValue
     return Value
-  endfunc
+  #endfunc
 #endclass
 #class public Derived : Base
   #init int v
     Value = v
-  endinit
+  #endinit
   #func public int GetDouble
     return Value * 2
-  endfunc
+  #endfunc
 #endclass");
             var o = Activator.CreateInstance(asm.GetType("Derived"), 21);
             Assert.AreEqual(42, o.GetType().GetMethod("GetDouble").Invoke(o, null));
@@ -75,7 +75,7 @@ namespace NhspCompiler.Tests
 #class public HelloGreeter : IGreeter
   #func public string Greet, string name
     return ""Hello, "" + name + ""!""
-  endfunc
+  #endfunc
 #endclass");
             var t = asm.GetType("HelloGreeter");
             var iface = asm.GetType("IGreeter");
@@ -91,16 +91,16 @@ namespace NhspCompiler.Tests
 #class public Shape
   #func public virtual int Area
     return 0
-  endfunc
+  #endfunc
 #endclass
 #class public Square : Shape
   #field public int Side
   #init int side
     Side = side
-  endinit
+  #endinit
   #func public override int Area
     return Side * Side
-  endfunc
+  #endfunc
 #endclass");
             var sq = Activator.CreateInstance(asm.GetType("Square"), 5);
             Assert.AreEqual(25, asm.GetType("Shape").GetMethod("Area").Invoke(sq, null));
@@ -122,13 +122,13 @@ namespace NhspCompiler.Tests
   #init string name, int count
     Name = name
     Count = count
-  endinit
+  #endinit
   #func public string GetName
     return Name
-  endfunc
+  #endfunc
   #func public int GetCount
     return Count
-  endfunc
+  #endfunc
 #endclass");
             var t = asm.GetType("NC");
             Assert.IsTrue(asm.GetType("INameable").IsAssignableFrom(t));

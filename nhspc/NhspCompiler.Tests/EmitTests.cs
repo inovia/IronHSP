@@ -22,15 +22,15 @@ namespace NhspCompiler.Tests
         }
 
         [Test] public void ReturnString() => Assert.AreEqual("hello", Call(
-            "#assembly \"T\"\n#class public C\n  #func public string M\n    return \"hello\"\n  endfunc\n#endclass", "C", "M"));
+            "#assembly \"T\"\n#class public C\n  #func public string M\n    return \"hello\"\n  #endfunc\n#endclass", "C", "M"));
 
         [Test] public void ReturnInt() => Assert.AreEqual(42, Call(
-            "#assembly \"T\"\n#class public C\n  #func public int M\n    return 42\n  endfunc\n#endclass", "C", "M"));
+            "#assembly \"T\"\n#class public C\n  #func public int M\n    return 42\n  #endfunc\n#endclass", "C", "M"));
 
         [Test] public void IntAdd() => Assert.AreEqual(30, Call(
-            "#assembly \"T\"\n#class public C\n  #func public int Add, int a, int b\n    return a + b\n  endfunc\n#endclass", "C", "Add", 10, 20));
+            "#assembly \"T\"\n#class public C\n  #func public int Add, int a, int b\n    return a + b\n  #endfunc\n#endclass", "C", "Add", 10, 20));
 
         [Test] public void StringConcat() => Assert.AreEqual("Hi, World!", Call(
-            "#assembly \"T\"\n#class public C\n  #func public string Greet, string name\n    return \"Hi, \" + name + \"!\"\n  endfunc\n#endclass", "C", "Greet", "World"));
+            "#assembly \"T\"\n#class public C\n  #func public string Greet, string name\n    return \"Hi, \" + name + \"!\"\n  #endfunc\n#endclass", "C", "Greet", "World"));
     }
 }

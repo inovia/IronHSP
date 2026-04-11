@@ -5,18 +5,18 @@
   #field Name as string
   #init string name
     Name = name
-  endinit
+  #endinit
   #func Speak as string, public, virtual
     return Name + " says ..."
-  endfunc
+  #endfunc
 #endclass
 
 #class Dog : Animal
   #access public
   #init string name
     Name = name
-  endinit
+  #endinit
   #func Speak as string, public, override
     return Name + " says Woof!"
-  endfunc
+  #endfunc
 #endclass

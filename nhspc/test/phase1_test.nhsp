@@ -4,14 +4,14 @@
 
   #func public string SayHello
     return "Hello from nhsp!"
-  endfunc
+  #endfunc
 
   #func public int Add, int a, int b
     return a + b
-  endfunc
+  #endfunc
 
   #func public string Greet, string name
     return "Hi, " + name + "!"
-  endfunc
+  #endfunc
 
 #endclass

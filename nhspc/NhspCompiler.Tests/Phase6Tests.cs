@@ -35,7 +35,7 @@ namespace NhspCompiler.Tests
 #class public MathUtil
   #func public static int Square, int x
     return x * x
-  endfunc
+  #endfunc
 #endclass");
             var t = asm.GetType("MathUtil");
             var m = t.GetMethod("Square");
@@ -51,10 +51,10 @@ namespace NhspCompiler.Tests
 #class public Util
   #func public static int Dbl, int x
     return x * 2
-  endfunc
+  #endfunc
   #func public static int Quad, int x
     return Dbl(Dbl(x))
-  endfunc
+  #endfunc
 #endclass");
             Assert.AreEqual(20, asm.GetType("Util").GetMethod("Quad").Invoke(null, new object[] { 5 }));
         }
@@ -66,12 +66,12 @@ namespace NhspCompiler.Tests
 #class public Greeter
   #func public string Hello
     return ""Hi""
-  endfunc
+  #endfunc
 #endclass
 
 #main
   new g, Greeter()
-endmain");
+#endmain");
             Assert.IsTrue(File.Exists(path), "EXE exists");
             // Verify it has an entry point
             var asm = Assembly.LoadFrom(path);
@@ -87,7 +87,7 @@ endmain");
 #class public C
   #func public static int Test
     return 42
-  endfunc
+  #endfunc
 #endclass");
             Assert.AreEqual(42, asm.GetType("C").GetMethod("Test").Invoke(null, null));
         }
@@ -100,16 +100,16 @@ endmain");
   #field public int Value
   #init int v
     Value = v
-  endinit
+  #endinit
   #func public int Get
     return Value
-  endfunc
+  #endfunc
 #endclass
 
 #main
   new c, Counter(42)
   x = c.Get()
-endmain");
+#endmain");
             Assert.IsTrue(File.Exists(path));
             var asm = Assembly.LoadFrom(path);
             Assert.IsNotNull(asm.EntryPoint);

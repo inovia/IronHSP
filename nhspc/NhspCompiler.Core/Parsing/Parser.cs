@@ -58,7 +58,6 @@ namespace NhspCompiler.Core.Parsing
                     {
                         Advance(); SkipEOL();
                         unit.MainBody = ParseBlock("endmain");
-                        if (MatchKW("endmain")) Advance();
                         if (unit.OutputType == "dll") unit.OutputType = "exe";
                     }
                     else { _diag.Error(Current.Line, Current.Column, $"Unknown directive: {Current.Text}"); Advance(); }
@@ -233,14 +232,28 @@ namespace NhspCompiler.Core.Parsing
 
         // ======== Statements ========
 
+        // Check for #keyword pattern (Hash + Keyword)
+        private bool MatchHashKW(string kw)
+        {
+            return Match(TokenKind.Hash) && Peek().Kind == TokenKind.Keyword && Peek().Text == kw;
+        }
+
+        private void AdvanceHashKW()
+        {
+            Advance(); // skip #
+            Advance(); // skip keyword
+        }
+
         private List<Statement> ParseBlock(string endKeyword)
         {
             var stmts = new List<Statement>();
             while (!Match(TokenKind.EOF))
             {
                 SkipEOL();
+                if (MatchHashKW(endKeyword)) { AdvanceHashKW(); break; }
+                // Also accept without # for backward compat during transition
                 if (MatchKW(endKeyword)) { Advance(); break; }
-                if (MatchKW("else") || MatchKW("elseif") || MatchKW("endif")) break; // caller handles
+                if (MatchKW("else") || MatchKW("elseif") || MatchKW("endif")) break;
                 if (MatchKW("loop") || MatchKW("wend") || MatchKW("next")) break;
                 var stmt = ParseStatement();
                 if (stmt != null) stmts.Add(stmt);
@@ -730,7 +743,6 @@ namespace NhspCompiler.Core.Parsing
             }
             SkipEOL();
             ctor.Body = ParseBlock("endinit");
-            if (MatchKW("endinit")) Advance();
             return ctor;
         }
 

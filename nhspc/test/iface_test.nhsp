@@ -8,5 +8,5 @@
   #access public
   #func Greet string name as string, public
     return "Hello, " + name + "!"
-  endfunc
+  #endfunc
 #endclass
