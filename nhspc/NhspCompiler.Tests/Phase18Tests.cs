@@ -221,6 +221,41 @@ namespace NhspCompiler.Tests
             var m = t.GetMethod("MyFunc");
             Assert.IsNotNull(m, "MyFunc method (ordinal #123)");
         }
+        // ===== dim省略形 (C#風変数宣言) =====
+
+        [Test]
+        public void ImplicitDim()
+        {
+            var asm = Compile(@"
+#assembly ""T""
+#class public ImplicitTest
+  #func public static string Run
+    string s = str(42)
+    int n = int(""123"")
+    double d = 3.14
+    return s + "" "" + str(n) + "" "" + str(d)
+  #endfunc
+#endclass");
+            var result = Call(asm, "ImplicitTest", "Run");
+            Assert.AreEqual("42 123 3.14", result, "implicit dim");
+        }
+
+        [Test]
+        public void ImplicitDimWithNew()
+        {
+            var asm = Compile(@"
+#assembly ""T""
+#class public ImplicitNew
+  #func public static int Run
+    List<int> nums = new List<int>()
+    nums.Add(10)
+    nums.Add(20)
+    return nums.Count
+  #endfunc
+#endclass");
+            Assert.AreEqual(2, Call(asm, "ImplicitNew", "Run"));
+        }
     }
 }
+
 

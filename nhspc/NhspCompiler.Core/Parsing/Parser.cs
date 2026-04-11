@@ -492,6 +492,11 @@ namespace NhspCompiler.Core.Parsing
             // dim x as int [= expr]
             if (MatchKW("dim")) return ParseDim();
 
+            // dim省略形: TypeName varName = expr (C#風)
+            // 例: string s = "hello", int n = 42, List<int> nums = new List<int>()
+            if (IsTypeFollowedByIdentifier() && !IsMethodCallPattern())
+                return ParseDimImplicit();
+
             // return [expr]
             if (MatchKW("return"))
             {
@@ -628,6 +633,34 @@ namespace NhspCompiler.Core.Parsing
                    t.Kind == TokenKind.MinusEqual || t.Kind == TokenKind.StarEqual ||
                    t.Kind == TokenKind.SlashEqual || t.Kind == TokenKind.AmpEqual ||
                    t.Kind == TokenKind.PipeEqual || t.Kind == TokenKind.CaretEqual;
+        }
+
+        // Distinguish "int x = 1" (decl) from "Console.Write(x)" (expr)
+        // Returns true if this looks like a method call / member access rather than a declaration
+        private bool IsMethodCallPattern()
+        {
+            // If current is an identifier followed by "." it's a member access (Console.Write etc), not a decl
+            if (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Dot) return true;
+            return false;
+        }
+
+        // dim省略形: TypeName varName [= expr]
+        private Statement ParseDimImplicit()
+        {
+            var decl = new LocalVarDeclaration { Line = Current.Line };
+            decl.TypeName = ReadTypeName();
+            decl.Name = Expect(TokenKind.Identifier, "Expected variable name").Text;
+
+            // Array size: int arr, 10
+            if (Match(TokenKind.Comma))
+            {
+                Advance();
+                if (Match(TokenKind.IntLiteral))
+                    decl.ArraySize = int.Parse(Advance().Text);
+            }
+            // Initializer: int x = expr
+            if (Match(TokenKind.Equals)) { Advance(); decl.Initializer = ParseExpression(); }
+            return decl;
         }
 
         private Statement ParseDim()

@@ -160,45 +160,65 @@
 <div class="cmp">
 <div>
 <h4>NHSP</h4>
-<pre><code>; 型を明示して宣言
+<pre><code>; dim を使った宣言 (NHSP 従来形式)
 dim int x = 42
 dim string name = "Hello"
 dim double pi = 3.14
-dim bool flag = true
+
+; dim 省略形 (C# 風 — 型名から始める)
+int x2 = 100
+string msg = "World"
+double rate = 0.5
+bool flag = true
 
 ; 型推論 (代入値から自動判定)
 dim count = 100        ; int
-dim msg = "World"      ; string
+dim text = "abc"       ; string
 
 ; 配列
 dim int[] arr, 10      ; int 配列 (要素数 10)
-dim string[] names, 5  ; string 配列
+string[] names, 5      ; dim 省略も OK
+
+; ジェネリクス型
+List&lt;int&gt; nums = new List&lt;int&gt;()
 
 ; Nullable
-dim int? maybe = 42    ; null も入れられる
+int? maybe = 42        ; null も入れられる
 
 ; 16進数リテラル
-dim int hex1 = 0xFF    ; C 形式
-dim int hex2 = $FF     ; HSP 形式 (同じ値)</code></pre>
+int hex1 = 0xFF        ; C 形式
+int hex2 = $FF         ; HSP 形式 (同じ値)</code></pre>
 </div>
 <div>
 <h4>C#</h4>
-<pre><code>int x = 42;
+<pre><code>// C# の変数宣言
+int x = 42;
 string name = "Hello";
 double pi = 3.14;
+
+int x2 = 100;
+string msg = "World";
+double rate = 0.5;
 bool flag = true;
 
 var count = 100;
-var msg = "World";
+var text = "abc";
 
 int[] arr = new int[10];
 string[] names = new string[5];
+
+List&lt;int&gt; nums = new List&lt;int&gt;();
 
 int? maybe = 42;
 
 int hex1 = 0xFF;
 // HSP形式の $FF は C# にはない</code></pre>
 </div>
+</div>
+
+<div class="note">
+<code>dim</code> は省略可能。<code>int x = 42</code> と <code>dim int x = 42</code> は同じ意味です。<br>
+C# 経験者は <code>dim</code> なしの方が自然に書けます。HSP ユーザーは <code>dim</code> 付きが馴染みやすいかもしれません。
 </div>
 
 <div class="note">
