@@ -146,6 +146,40 @@ namespace NhspCompiler.Core.Emit
 
         private void EmitInterfaceMembers()
         {
+            // Apply interface-level attributes
+            if (_iface != null)
+            {
+                foreach (var attr in _iface.Attributes)
+                {
+                    switch (attr.Name.ToLowerInvariant())
+                    {
+                        case "guid":
+                            if (attr.Arguments.Count > 0)
+                            {
+                                var ctor = typeof(System.Runtime.InteropServices.GuidAttribute).GetConstructor(new[] { typeof(string) });
+                                TypeBuilder.SetCustomAttribute(new CustomAttributeBuilder(ctor, new object[] { attr.Arguments[0] }));
+                            }
+                            break;
+                        case "interfacetype":
+                            if (attr.Arguments.Count > 0)
+                            {
+                                var enumVal = System.Runtime.InteropServices.ComInterfaceType.InterfaceIsIUnknown;
+                                if (attr.Arguments[0] == "InterfaceIsIDispatch") enumVal = System.Runtime.InteropServices.ComInterfaceType.InterfaceIsIDispatch;
+                                else if (attr.Arguments[0] == "InterfaceIsDual") enumVal = System.Runtime.InteropServices.ComInterfaceType.InterfaceIsDual;
+                                var c = typeof(System.Runtime.InteropServices.InterfaceTypeAttribute).GetConstructor(new[] { typeof(System.Runtime.InteropServices.ComInterfaceType) });
+                                TypeBuilder.SetCustomAttribute(new CustomAttributeBuilder(c, new object[] { enumVal }));
+                            }
+                            break;
+                        case "comvisible":
+                            {
+                                bool val = attr.Arguments.Count > 0 && attr.Arguments[0].ToLowerInvariant() == "true";
+                                var c = typeof(System.Runtime.InteropServices.ComVisibleAttribute).GetConstructor(new[] { typeof(bool) });
+                                TypeBuilder.SetCustomAttribute(new CustomAttributeBuilder(c, new object[] { val }));
+                            }
+                            break;
+                    }
+                }
+            }
             foreach (var sig in _iface.Methods)
             {
                 var retType = _asmEmitter.ResolveType(sig.ReturnType) ?? typeof(void);
@@ -177,10 +211,19 @@ namespace NhspCompiler.Core.Emit
                 Fields[field.Name] = TypeBuilder.DefineField(field.Name, ft, fa);
             }
 
+            // Apply class-level attributes (COM, etc.)
+            EmitClassAttributes();
+
             // Pre-define methods
             var methodEmitters = new List<MethodEmitter>();
             foreach (var method in _cls.Methods)
             {
+                // P/Invoke method
+                if (method.DllImportName != null)
+                {
+                    EmitPInvokeMethod(method);
+                    continue;
+                }
                 var me = new MethodEmitter(method, TypeBuilder, _diag, this);
                 me.DefineMethod(_asmEmitter);
                 if (me.Builder != null) Methods[method.Name] = me.Builder;
@@ -225,6 +268,83 @@ namespace NhspCompiler.Core.Emit
             // Properties
             foreach (var prop in _cls.Properties)
                 EmitProperty(prop);
+        }
+
+        private void EmitPInvokeMethod(MethodDeclaration method)
+        {
+            var retType = _asmEmitter.ResolveType(method.ReturnType) ?? typeof(void);
+            var paramTypes = new List<Type>();
+            foreach (var p in method.Parameters)
+                paramTypes.Add(_asmEmitter.ResolveType(p.TypeName) ?? typeof(object));
+
+            string entryPoint = method.DllImportEntryPoint ?? method.Name;
+            var mb = TypeBuilder.DefinePInvokeMethod(
+                method.Name,
+                method.DllImportName,
+                entryPoint,
+                MethodAttributes.Public | MethodAttributes.Static | MethodAttributes.PinvokeImpl | MethodAttributes.HideBySig,
+                CallingConventions.Standard,
+                retType,
+                paramTypes.ToArray(),
+                System.Runtime.InteropServices.CallingConvention.StdCall,
+                System.Runtime.InteropServices.CharSet.Auto);
+
+            mb.SetImplementationFlags(MethodImplAttributes.PreserveSig);
+
+            for (int i = 0; i < method.Parameters.Count; i++)
+                mb.DefineParameter(i + 1, ParameterAttributes.None, method.Parameters[i].Name);
+        }
+
+        private void EmitClassAttributes()
+        {
+            if (_cls == null) return;
+            foreach (var attr in _cls.Attributes)
+            {
+                switch (attr.Name.ToLowerInvariant())
+                {
+                    case "guid":
+                        if (attr.Arguments.Count > 0)
+                        {
+                            var ctor = typeof(System.Runtime.InteropServices.GuidAttribute).GetConstructor(new[] { typeof(string) });
+                            TypeBuilder.SetCustomAttribute(new CustomAttributeBuilder(ctor, new object[] { attr.Arguments[0] }));
+                        }
+                        break;
+                    case "comvisible":
+                        {
+                            bool val = attr.Arguments.Count > 0 && attr.Arguments[0].ToLowerInvariant() == "true";
+                            var ctor = typeof(System.Runtime.InteropServices.ComVisibleAttribute).GetConstructor(new[] { typeof(bool) });
+                            TypeBuilder.SetCustomAttribute(new CustomAttributeBuilder(ctor, new object[] { val }));
+                        }
+                        break;
+                    case "classinterface":
+                        if (attr.Arguments.Count > 0)
+                        {
+                            var enumVal = System.Runtime.InteropServices.ClassInterfaceType.None;
+                            if (attr.Arguments[0] == "AutoDispatch") enumVal = System.Runtime.InteropServices.ClassInterfaceType.AutoDispatch;
+                            else if (attr.Arguments[0] == "AutoDual") enumVal = System.Runtime.InteropServices.ClassInterfaceType.AutoDual;
+                            var ctor = typeof(System.Runtime.InteropServices.ClassInterfaceAttribute).GetConstructor(new[] { typeof(System.Runtime.InteropServices.ClassInterfaceType) });
+                            TypeBuilder.SetCustomAttribute(new CustomAttributeBuilder(ctor, new object[] { enumVal }));
+                        }
+                        break;
+                    case "interfacetype":
+                        if (attr.Arguments.Count > 0)
+                        {
+                            var enumVal = System.Runtime.InteropServices.ComInterfaceType.InterfaceIsIUnknown;
+                            if (attr.Arguments[0] == "InterfaceIsIDispatch") enumVal = System.Runtime.InteropServices.ComInterfaceType.InterfaceIsIDispatch;
+                            else if (attr.Arguments[0] == "InterfaceIsDual") enumVal = System.Runtime.InteropServices.ComInterfaceType.InterfaceIsDual;
+                            var ctor = typeof(System.Runtime.InteropServices.InterfaceTypeAttribute).GetConstructor(new[] { typeof(System.Runtime.InteropServices.ComInterfaceType) });
+                            TypeBuilder.SetCustomAttribute(new CustomAttributeBuilder(ctor, new object[] { enumVal }));
+                        }
+                        break;
+                    case "comsourceinterfaces":
+                        if (attr.Arguments.Count > 0)
+                        {
+                            var ctor = typeof(System.Runtime.InteropServices.ComSourceInterfacesAttribute).GetConstructor(new[] { typeof(string) });
+                            TypeBuilder.SetCustomAttribute(new CustomAttributeBuilder(ctor, new object[] { attr.Arguments[0] }));
+                        }
+                        break;
+                }
+            }
         }
 
         private ConstructorInfo _baseDefaultCtor;

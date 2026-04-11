@@ -1,0 +1,13 @@
+#assembly "TryTest"
+#class public C
+  #func public static string SafeDiv, int a, int b
+    try
+      dim int r
+      r = a / b
+      return str(r)
+    catch ex
+      return "error"
+    endtry
+    return "unreachable"
+  #endfunc
+#endclass

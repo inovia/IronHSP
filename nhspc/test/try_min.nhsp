@@ -1,0 +1,11 @@
+#assembly "TryMin"
+#class public C
+  #func public static int Test
+    try
+      return 1
+    #catch ex
+      return 2
+    #endtry
+    return 0
+  #endfunc
+#endclass

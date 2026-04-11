@@ -11,6 +11,8 @@ namespace NhspCompiler.Core.Parsing
         private readonly DiagnosticBag _diag;
         private int _pos;
         private string _currentNamespace;
+        private string _pendingDllImport; // DLL name for next #func
+        private List<AttributeDeclaration> _pendingAttributes = new List<AttributeDeclaration>();
 
         public Parser(List<Token> tokens, DiagnosticBag diag)
         {
@@ -63,9 +65,15 @@ namespace NhspCompiler.Core.Parsing
                         Advance();
                         _currentNamespace = null;
                     }
+                    else if (MatchKW("attribute"))
+                    {
+                        _pendingAttributes.Add(ParseAttribute());
+                    }
                     else if (MatchKW("interface"))
                     {
                         var iface = ParseInterface();
+                        iface.Attributes.AddRange(_pendingAttributes);
+                        _pendingAttributes.Clear();
                         if (_currentNamespace != null) iface.Name = _currentNamespace + "." + iface.Name;
                         unit.Interfaces.Add(iface);
                     }
@@ -73,6 +81,8 @@ namespace NhspCompiler.Core.Parsing
                     {
                         var cls = ParseClass();
                         if (_currentNamespace != null) cls.Name = _currentNamespace + "." + cls.Name;
+                        cls.Attributes.AddRange(_pendingAttributes);
+                        _pendingAttributes.Clear();
                         unit.Classes.Add(cls);
                     }
                     else if (MatchKW("main"))
@@ -132,8 +142,29 @@ namespace NhspCompiler.Core.Parsing
                     Advance();
                     if (MatchKW("endclass")) { Advance(); break; }
                     if (MatchKW("access")) { Advance(); cls.DefaultAccess = Advance().Text; }
+                    else if (MatchKW("dllimport"))
+                    {
+                        Advance();
+                        _pendingDllImport = Expect(TokenKind.StringLiteral, "Expected DLL name").Text;
+                    }
+                    else if (MatchKW("attribute"))
+                    {
+                        // Attribute before next class member (future: per-method attrs)
+                        _pendingAttributes.Add(ParseAttribute());
+                    }
                     else if (MatchKW("field")) { cls.Fields.Add(ParseField(cls.DefaultAccess)); }
-                    else if (MatchKW("func")) { cls.Methods.Add(ParseMethod(cls.DefaultAccess)); }
+                    else if (MatchKW("func"))
+                    {
+                        var m = ParseMethod(cls.DefaultAccess);
+                        if (_pendingDllImport != null)
+                        {
+                            m.DllImportName = _pendingDllImport;
+                            m.IsStatic = true; // P/Invoke is always static
+                            m.Body.Clear(); // P/Invoke has no body
+                            _pendingDllImport = null;
+                        }
+                        cls.Methods.Add(m);
+                    }
                     else if (MatchKW("init")) { cls.Constructors.Add(ParseConstructor(cls.DefaultAccess)); }
                     else if (MatchKW("property")) { cls.Properties.Add(ParseProperty(cls.DefaultAccess)); }
                     else { _diag.Error(Current.Line, Current.Column, $"Unexpected: #{Current.Text}"); Advance(); }
@@ -785,6 +816,26 @@ namespace NhspCompiler.Core.Parsing
             if (Match(TokenKind.LParen))
             { Advance(); var e = ParseExpression(); Expect(TokenKind.RParen, "Expected ')'"); return e; }
             return null;
+        }
+
+        private AttributeDeclaration ParseAttribute()
+        {
+            Advance(); // "attribute"
+            var attr = new AttributeDeclaration { Line = Current.Line };
+            attr.Name = Expect(TokenKind.Identifier, "Expected attribute name").Text;
+            // Arguments: , "value" [, "value2"]
+            while (Match(TokenKind.Comma))
+            {
+                Advance();
+                if (Match(TokenKind.StringLiteral))
+                    attr.Arguments.Add(Advance().Text);
+                else if (Match(TokenKind.Identifier))
+                    attr.Arguments.Add(Advance().Text);
+                else if (Match(TokenKind.IntLiteral))
+                    attr.Arguments.Add(Advance().Text);
+                else break;
+            }
+            return attr;
         }
 
         private InterfaceDeclaration ParseInterface()
