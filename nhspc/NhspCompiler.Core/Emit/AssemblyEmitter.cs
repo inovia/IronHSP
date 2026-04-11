@@ -703,6 +703,25 @@ namespace NhspCompiler.Core.Emit
                 t = asm.GetType(typeName, false);
                 if (t != null) return t;
             }
+
+            // Try common namespace prefixes
+            string[] prefixes = { "System.", "System.Text.", "System.IO.", "System.Collections.Generic.",
+                                  "System.Threading.", "System.Threading.Tasks.", "System.Diagnostics.",
+                                  "System.Net.", "System.Linq." };
+            foreach (var prefix in prefixes)
+            {
+                t = Type.GetType(prefix + typeName);
+                if (t != null) return t;
+            }
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach (var prefix in prefixes)
+                {
+                    t = asm.GetType(prefix + typeName, false);
+                    if (t != null) return t;
+                }
+            }
+
             return null;
         }
     }

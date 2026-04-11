@@ -871,6 +871,7 @@ namespace NhspCompiler.Core.Emit
             {
                 EmitExpression(mem.Target);
                 var targetType = InferType(mem.Target);
+
                 if (targetType != null)
                 {
                     // TypeBuilder: use EmitterRegistry for field access
@@ -889,7 +890,7 @@ namespace NhspCompiler.Core.Emit
                         if (prop != null)
                         {
                             var getter = prop.GetGetMethod();
-                            _il.Emit(targetType.IsValueType ? OpCodes.Call : OpCodes.Callvirt, getter);
+                            _il.Emit((getter.IsStatic || targetType.IsValueType) ? OpCodes.Call : OpCodes.Callvirt, getter);
                             return;
                         }
                         // Field
@@ -1495,6 +1496,29 @@ namespace NhspCompiler.Core.Emit
                             catch { }
                         }
                         if (mi != null) return mi.ReturnType;
+                    }
+                }
+            }
+            if (expr is MemberAccessExpr memAccess)
+            {
+                var tt = InferType(memAccess.Target);
+                if (tt != null)
+                {
+                    // TypeBuilder: check EmitterRegistry
+                    if (tt is System.Reflection.Emit.TypeBuilder && _typeEmitter?._asmEmitter != null)
+                    {
+                        if (_typeEmitter._asmEmitter.EmitterRegistry.TryGetValue(tt.Name, out var te3))
+                        {
+                            if (te3.Fields.TryGetValue(memAccess.MemberName, out var fb3))
+                                return fb3.FieldType;
+                        }
+                    }
+                    else
+                    {
+                        var pi = tt.GetProperty(memAccess.MemberName);
+                        if (pi != null) return pi.PropertyType;
+                        var fi = tt.GetField(memAccess.MemberName);
+                        if (fi != null) return fi.FieldType;
                     }
                 }
             }
