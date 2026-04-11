@@ -127,12 +127,27 @@
       {
         "command": "nhsp.compile",
         "key": "f5",
-        "when": "editorLangId == nhsp"
+        "when": "resourceLangId == nhsp && !inDebugMode"
+      },
+      {
+        "command": "-workbench.action.debug.start",
+        "key": "f5",
+        "when": "resourceLangId == nhsp"
       },
       {
         "command": "nhsp.compileDebug",
         "key": "ctrl+f5",
-        "when": "editorLangId == nhsp"
+        "when": "resourceLangId == nhsp && !inDebugMode"
+      },
+      {
+        "command": "-workbench.action.debug.run",
+        "key": "ctrl+f5",
+        "when": "resourceLangId == nhsp"
+      },
+      {
+        "command": "nhsp.run",
+        "key": "f6",
+        "when": "resourceLangId == nhsp"
       }
     ],
     "configuration": {
