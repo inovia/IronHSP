@@ -60,6 +60,8 @@
   <li><a href="#dotnet">.NET API を呼び出す</a></li>
   <li><a href="#error">エラー処理</a></li>
   <li><a href="#exe">EXE を作る</a></li>
+  <li><a href="#pinvoke">Win32 API を呼び出す (P/Invoke)</a></li>
+  <li><a href="#com">COM コンポーネント</a></li>
   <li><a href="#hsp3">HSP3 から使う</a></li>
 </ol>
 </nav>
@@ -408,7 +410,68 @@ print str(result)    ; => -1</code></pre>
 <pre><code>nhspc.exe app.nhsp -o MyApp.exe</code></pre>
 
 <!-- ========================================== -->
-<h2 id="hsp3">11. HSP3 (IronHSP) から使う</h2>
+<!-- ========================================== -->
+<h2 id="pinvoke">11. Win32 API を呼び出す (P/Invoke)</h2>
+
+<p>Windows の DLL にある関数を直接呼び出すことができます。HSP の <code>#uselib</code> / <code>#func</code> に相当します。</p>
+
+<pre><code>#class public WinApi
+  ; user32.dll の MessageBoxA を呼ぶ
+  #dllimport "user32.dll"
+  #func public static int MessageBoxA, int hWnd, string text, string caption, int type
+
+  ; kernel32.dll の GetTickCount を呼ぶ
+  #dllimport "kernel32.dll"
+  #func public static int GetTickCount
+#endclass</code></pre>
+
+<div class="compare">
+<div>
+<h4>NHSP</h4>
+<pre><code>; DLL の関数を宣言
+#dllimport "user32.dll"
+#func public static int MessageBoxA, int hWnd, string text, string caption, int type</code></pre>
+</div>
+<div>
+<h4>HSP3 で同じこと</h4>
+<pre><code>; DLL の関数を宣言
+#uselib "user32.dll"
+#func MessageBoxA "MessageBoxA" int, sptr, sptr, int</code></pre>
+</div>
+</div>
+
+<div class="tip">
+<code>#dllimport</code> の直後に書いた <code>#func</code> は本体が不要です（<code>#endfunc</code> を書かなくて OK）。
+DLL 内の関数を宣言するだけで、実装はネイティブ DLL 側にあります。
+</div>
+
+<!-- ========================================== -->
+<h2 id="com">12. COM コンポーネント</h2>
+
+<p>COM 相互運用コンポーネントも作れます。<code>#attribute</code> で GUID やインターフェースの種類を指定しま���。</p>
+
+<pre><code>; COM インターフェース
+#attribute Guid, "EAA4976A-45C3-4BC5-BC0B-E474F4C3C83F"
+#interface IMyComponent
+  #func string GetMessage
+#endinterface
+
+; COM クラス
+#attribute Guid, "0D53A3E8-E51A-49C7-944E-E72A2064F938"
+#attribute ClassInterface, "None"
+#attribute ComVisible, "true"
+#class public MyComponent : IMyComponent
+  #func public string GetMessage
+    return "Hello from NHSP COM!"
+  #endfunc
+#endclass</code></pre>
+
+<div class="tip">
+作成した DLL は <code>regasm.exe</code> で COM 登録すれば、VBScript や VBA など COM 対応言語から利用できます。
+</div>
+
+<!-- ========================================== -->
+<h2 id="hsp3">13. HSP3 (IronHSP) から使う</h2>
 
 <p>NHSP でコンパイルした DLL は、IronHSP の <code>loadnet</code> で読み込めます。</p>
 

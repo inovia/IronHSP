@@ -55,6 +55,8 @@
   <a href="#threading">スレッド・同期</a>
   <a href="#operators">演算子一覧</a>
   <a href="#builtins">ビルトイン関数</a>
+  <a href="#pinvoke">P/Invoke (DllImport)</a>
+  <a href="#com">COM 属性</a>
   <a href="#dotnet">.NET API アクセス</a>
   <a href="#cli">CLI オプション</a>
   <a href="#limits">既知の制限</a>
@@ -97,6 +99,8 @@
 <tr><td><code>#field [修飾子] Type Name</code></td><td>フィールド</td><td><code>public Type Name;</code></td></tr>
 <tr><td><code>#property Name as Type</code></td><td>プロパティ</td><td><code>public Type Name { get; }</code></td></tr>
 <tr><td><code>#main / #endmain</code></td><td>エントリポイント</td><td><code>static void Main() {</code></td></tr>
+<tr><td><code>#dllimport "dll名"</code></td><td>次の #func を P/Invoke に</td><td><code>[DllImport("dll名")]</code></td></tr>
+<tr><td><code>#attribute Name, "value"</code></td><td>カスタム属性付与</td><td><code>[Name("value")]</code></td></tr>
 </table>
 
 <!-- ========================================== -->
@@ -361,6 +365,120 @@ sleep 100</code></pre>
 }
 
 Thread.Sleep(100);</code></pre>
+</div>
+</div>
+
+<!-- ========================================== -->
+<h2 id="pinvoke">P/Invoke (ネイティブ DLL 呼び出し)</h2>
+
+<p><code>#dllimport</code> ディレクティブで Win32 API やネイティブ DLL の関数を直接呼び出せます。<code>DefinePInvokeMethod</code> で IL レベルの P/Invoke を生成。</p>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#class public NativeApi
+  #dllimport "user32.dll"
+  #func public static int MessageBoxA, int hWnd, string text, string caption, int type
+
+  #dllimport "kernel32.dll"
+  #func public static int GetTickCount
+
+  #dllimport "kernel32.dll"
+  #func public static int GetCurrentProcessId
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public class NativeApi
+{
+    [DllImport("user32.dll")]
+    public static extern int MessageBoxA(
+        int hWnd, string text,
+        string caption, int type);
+
+    [DllImport("kernel32.dll")]
+    public static extern int GetTickCount();
+
+    [DllImport("kernel32.dll")]
+    public static extern int GetCurrentProcessId();
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+<code>#dllimport</code> の直後の <code>#func</code> が P/Invoke メソッドになります。本体 (<code>#endfunc</code>) は不要です。<br>
+呼び出し規約: <code>StdCall</code>、文字セット: <code>CharSet.Auto</code>、<code>PreserveSig</code> が既定。
+</div>
+
+<!-- ========================================== -->
+<h2 id="com">COM 属性</h2>
+
+<p><code>#attribute</code> ディレクティブで .NET の COM 関連カスタム属性を付与できます。COM 相互運用コンポーネントを NHSP で作成可能。</p>
+
+<table>
+<tr><th>NHSP</th><th>C# 相当</th><th>説明</th></tr>
+<tr><td><code>#attribute Guid, "..."</code></td><td><code>[Guid("...")]</code></td><td>COM GUID の設定</td></tr>
+<tr><td><code>#attribute ComVisible, "true"</code></td><td><code>[ComVisible(true)]</code></td><td>COM から可視にする</td></tr>
+<tr><td><code>#attribute ClassInterface, "None"</code></td><td><code>[ClassInterface(ClassInterfaceType.None)]</code></td><td>クラスインターフェースの種別</td></tr>
+<tr><td><code>#attribute InterfaceType, "InterfaceIsIDispatch"</code></td><td><code>[InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]</code></td><td>インターフェースの COM 種別</td></tr>
+<tr><td><code>#attribute ComSourceInterfaces, "型名"</code></td><td><code>[ComSourceInterfaces(typeof(型))]</code></td><td>イベントソースインターフェース</td></tr>
+</table>
+
+<h3>COM コンポーネントの完全な例</h3>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#assembly "MyComLib"
+
+; COM インターフェース
+#attribute Guid, "EAA4976A-45C3-4BC5-BC0B-E474F4C3C83F"
+#interface ComClass1Interface
+  #func string Hello
+#endinterface
+
+; イベントインターフェース
+#attribute Guid, "7BD20046-DF8C-44A6-8F6B-687FAA26FA71"
+#attribute InterfaceType, "InterfaceIsIDispatch"
+#interface ComClass1Events
+#endinterface
+
+; COM クラス本体
+#attribute Guid, "0D53A3E8-E51A-49C7-944E-E72A2064F938"
+#attribute ClassInterface, "None"
+#attribute ComVisible, "true"
+#class public ComClass1 : ComClass1Interface
+  #func public string Hello
+    return "Hello COM!"
+  #endfunc
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>using System.Runtime.InteropServices;
+
+[Guid("EAA4976A-45C3-4BC5-BC0B-E474F4C3C83F")]
+public interface ComClass1Interface
+{
+    string Hello();
+}
+
+[Guid("7BD20046-DF8C-44A6-8F6B-687FAA26FA71"),
+ InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
+public interface ComClass1Events
+{
+}
+
+[Guid("0D53A3E8-E51A-49C7-944E-E72A2064F938"),
+ ClassInterface(ClassInterfaceType.None),
+ ComVisible(true)]
+public class ComClass1 : ComClass1Interface
+{
+    public string Hello()
+    {
+        return "Hello COM!";
+    }
+}</code></pre>
 </div>
 </div>
 
