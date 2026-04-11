@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IronHSP UTF-16 ワイド文字列型 (wstr) - 設計書</title>
+<style>
+  :root { --accent: #2563eb; --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --text: #1e293b; --muted: #64748b; --green: #16a34a; --orange: #ea580c; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Meiryo', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
+  h1 { font-size: 2rem; border-bottom: 3px solid var(--accent); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+  h2 { font-size: 1.5rem; color: var(--accent); margin: 2.5rem 0 1rem; border-left: 4px solid var(--accent); padding-left: 0.75rem; }
+  h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; }
+  p, li { margin-bottom: 0.4rem; }
+  ul, ol { padding-left: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; }
+  th, td { border: 1px solid var(--border); padding: 0.5rem 0.75rem; text-align: left; }
+  th { background: #eef2ff; font-weight: 600; }
+  tr:nth-child(even) { background: #f8fafc; }
+  code { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 0.9em; }
+  pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; font-size: 0.88rem; line-height: 1.5; }
+  pre code { background: none; padding: 0; color: inherit; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin: 1rem 0; }
+  .note { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 0.75rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; color: #fff; }
+  .badge-auto { background: var(--green); }
+  .badge-new { background: var(--accent); }
+  .badge-mod { background: var(--orange); }
+  .badge-na { background: #94a3b8; }
+  .muted { color: var(--muted); font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>IronHSP UTF-16 ワイド文字列型 (wstr) - 設計書</h1>
+<p class="muted">最終更新: 2026-04-11</p>
+
+<!-- ======================================== -->
+<h2>1. 概要</h2>
+
+<p>HSP の変数型に UTF-16 LE ワイド文字列型 <code>wstr</code> (HSPVAR_FLAG_WSTR = 10) を追加する。
+既存の文字列関数は第1引数の変数型を見て str/wstr を自動判定し、戻り値も同じ型で返す。</p>
+
+<div class="card">
+<h3>使用例</h3>
+<pre><code>wsdim ws, 256
+ws = L"Unicode文字列"        ; L"..." リテラルで UTF-16 直接代入
+ws = "Shift-JIS文字列"       ; str → wstr 自動変換
+
+n = strlen(ws)               ; wstr なので wcslen 動作 → 文字数
+s = strmid(ws, 0, 4)         ; wstr → wstr 部分文字列
+mes ws                        ; wstr → str 自動変換して表示
+
+#func MessageBoxW "MessageBoxW" int, wstr, wstr, int
+MessageBoxW 0, L"本文", L"題名", 0</code></pre>
+</div>
+
+<!-- ======================================== -->
+<h2>2. 変数型の定義</h2>
+
+<table>
+<tr><th>ID</th><th>定数名</th><th>内部格納</th><th>basesize</th></tr>
+<tr><td>2</td><td>HSPVAR_FLAG_STR</td><td>char* (SJIS or UTF-8)</td><td>sizeof(char*)</td></tr>
+<tr><td><strong>10</strong></td><td><strong>HSPVAR_FLAG_WSTR</strong></td><td><strong>wchar_t* (UTF-16 LE)</strong></td><td><strong>sizeof(wchar_t*)</strong></td></tr>
+</table>
+
+<h3>自動変換ルール</h3>
+<table>
+<tr><th>変換</th><th>方法</th></tr>
+<tr><td>str → wstr</td><td><code>MultiByteToWideChar(CP_ACP or CP_UTF8)</code></td></tr>
+<tr><td>wstr → str</td><td><code>WideCharToMultiByte(CP_ACP or CP_UTF8)</code></td></tr>
+<tr><td>wstr → int</td><td><code>wcstol()</code></td></tr>
+<tr><td>wstr → double</td><td><code>wcstod()</code></td></tr>
+<tr><td>int → wstr</td><td><code>swprintf(L"%d")</code></td></tr>
+<tr><td>double → wstr</td><td><code>swprintf(L"%f")</code></td></tr>
+</table>
+
+<h3>L"..." リテラル</h3>
+<p>コンパイラのトークナイザで <code>L"</code> を検出し、ソース文字列を UTF-16 に変換してデータセグメント (DS) に格納。
+バイトコードでは新しい即値型 <code>TYPE_WSTR</code> として扱う。</p>
+<pre><code>ws = L"Hello"     ; DS に 48 00 65 00 6C 00 6C 00 6F 00 00 00 (UTF-16 LE) を格納
+ws = "Hello"      ; DS に "Hello\0" (SJIS/UTF-8) を格納 → ランタイムで wstr に自動変換</code></pre>
+
+<!-- ======================================== -->
+<h2>3. 命令・関数の対応一覧</h2>
+
+<p>以下の全ての命令・関数を wstr 対応にする。第1引数（対象文字列変数）の型が wstr の場合、内部的に wchar_t ベースの処理に切り替える。</p>
+
+<h3>3.1 文字列関数 (戻り値あり)</h3>
+
+<table>
+<tr><th>関数</th><th>対応</th><th>str 時の動作</th><th>wstr 時の動作</th><th>戻り値の型</th></tr>
+<tr>
+  <td><code>strlen(s)</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td><code>strlen()</code> バイト数</td>
+  <td><code>wcslen()</code> 文字数</td>
+  <td>int</td>
+</tr>
+<tr>
+  <td><code>strmid(s, p, n)</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td>char ベース部分文字列</td>
+  <td>wchar_t ベース部分文字列</td>
+  <td>str / wstr (入力と同じ)</td>
+</tr>
+<tr>
+  <td><code>instr(s, p, target)</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td><code>strstr()</code></td>
+  <td><code>wcsstr()</code></td>
+  <td>int</td>
+</tr>
+<tr>
+  <td><code>strtrim(s, n, target)</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td>char ベーストリミング</td>
+  <td>wchar_t ベーストリミング</td>
+  <td>str / wstr (入力と同じ)</td>
+</tr>
+<tr>
+  <td><code>strf(format, ...)</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td><code>sprintf()</code></td>
+  <td><code>swprintf()</code></td>
+  <td>str / wstr (format引数と同じ)</td>
+</tr>
+<tr>
+  <td><code>getpath(s, type)</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td>char ベースパス処理</td>
+  <td>wchar_t ベースパス処理</td>
+  <td>str / wstr (入力と同じ)</td>
+</tr>
+<tr>
+  <td><code>notefind(target, mode)</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td>char ベース行検索</td>
+  <td>wchar_t ベース行検索</td>
+  <td>int</td>
+</tr>
+<tr>
+  <td><code>noteinfo(type)</code></td>
+  <td><span class="badge badge-auto">自動</span></td>
+  <td colspan="2">notesel で選択中のバッファ型に応じて自動切替</td>
+  <td>int / str / wstr</td>
+</tr>
+</table>
+
+<h3>3.2 文字列命令 (戻り値なし)</h3>
+
+<table>
+<tr><th>命令</th><th>対応</th><th>str 時の動作</th><th>wstr 時の動作</th></tr>
+<tr>
+  <td><code>strrep s, old, new</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td>char ベース置換</td>
+  <td>wchar_t ベース置換</td>
+</tr>
+<tr>
+  <td><code>split s, delim, v1, v2...</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td>char ベース分割</td>
+  <td>wchar_t ベース分割 → 各変数も wstr</td>
+</tr>
+<tr>
+  <td><code>getstr buf, src, offset, delim</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td>char バッファ読み出し</td>
+  <td>wchar_t バッファ読み出し</td>
+</tr>
+<tr>
+  <td><code>strexchange file, mode</code></td>
+  <td><span class="badge badge-na">対象外</span></td>
+  <td colspan="2">スクリプト置換（ランタイム時は不要）</td>
+</tr>
+</table>
+
+<h3>3.3 ノートパッド命令</h3>
+
+<p><code>notesel</code> で選択した変数が wstr の場合、以降の note 系命令は全て wchar_t ベースで動作する。
+改行コードは <code>L"\r\n"</code> (0x000D 0x000A) を使用。</p>
+
+<table>
+<tr><th>命令</th><th>対応</th><th>備考</th></tr>
+<tr>
+  <td><code>notesel s</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td>s が wstr なら以降 wchar モード。内部フラグで記録</td>
+</tr>
+<tr>
+  <td><code>noteunsel</code></td>
+  <td><span class="badge badge-auto">自動</span></td>
+  <td>フラグをリセット</td>
+</tr>
+<tr>
+  <td><code>noteget s, n</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td>notesel のバッファ型に応じて動作。出力先が str なら自動変換</td>
+</tr>
+<tr>
+  <td><code>noteadd s, n, mode</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td>wstr バッファに wchar_t 行を追加/置換</td>
+</tr>
+<tr>
+  <td><code>notedel n</code></td>
+  <td><span class="badge badge-auto">自動</span></td>
+  <td>改行文字 (0x000A) で行を判定</td>
+</tr>
+<tr>
+  <td><code>noteload file</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td>wstr バッファの場合: UTF-16 LE ファイルとして読み込み (BOM 自動判定)</td>
+</tr>
+<tr>
+  <td><code>notesave file</code></td>
+  <td><span class="badge badge-mod">型判定</span></td>
+  <td>wstr バッファの場合: UTF-16 LE + BOM で保存</td>
+</tr>
+</table>
+
+<h3>3.4 変換命令</h3>
+
+<table>
+<tr><th>命令/関数</th><th>対応</th><th>備考</th></tr>
+<tr>
+  <td><code>cnvstow</code></td>
+  <td><span class="badge badge-mod">拡張</span></td>
+  <td>出力先が wstr 変数なら直接代入。従来の byte バッファ方式も互換維持</td>
+</tr>
+<tr>
+  <td><code>cnvwtos</code></td>
+  <td><span class="badge badge-mod">拡張</span></td>
+  <td>入力が wstr 変数なら直接読み取り。従来の byte バッファ方式も互換維持</td>
+</tr>
+<tr>
+  <td><code>cnvstoa</code></td>
+  <td><span class="badge badge-auto">自動</span></td>
+  <td>wstr 入力時: UTF-16 → ANSI 変換</td>
+</tr>
+<tr>
+  <td><code>cnvatos</code></td>
+  <td><span class="badge badge-auto">自動</span></td>
+  <td>wstr 出力時: ANSI → UTF-16 変換</td>
+</tr>
+</table>
+
+<h3>3.5 新規命令・関数</h3>
+
+<table>
+<tr><th>命令/関数</th><th>説明</th></tr>
+<tr>
+  <td><code>wsdim var, len</code></td>
+  <td>wstr 変数を宣言。len は文字数（バイト数ではない）。内部的に len * 2 + 2 バイト確保</td>
+</tr>
+<tr>
+  <td><code>L"..."</code></td>
+  <td>UTF-16 文字列リテラル。コンパイル時に UTF-16 LE に変換して DS に格納</td>
+</tr>
+</table>
+
+<!-- ======================================== -->
+<h2>4. 内部実装</h2>
+
+<h3>4.1 hspvar_wstr.cpp</h3>
+<p>既存の <code>hspvar_str.cpp</code> と同様の FlexBuffer 方式。ただし char の代わりに wchar_t を使用。</p>
+
+<pre><code>// 主要関数
+HspVarWstr_Cnv()       // str/int/double → wstr 変換
+HspVarWstr_CnvCustom() // wstr → str/int/double 変換
+HspVarWstr_Set()       // wchar_t* のコピー
+HspVarWstr_AddI()      // 文字列結合 (wcscat)
+HspVarWstr_GetSize()   // wcslen() * sizeof(wchar_t)
+
+// FlexBuffer: wchar_t* の配列
+// pval->pt → wchar_t* (offset 0)
+// pval->master → wchar_t*[] (配列要素)</code></pre>
+
+<h3>4.2 型判定パターン（既存関数の拡張）</h3>
+<pre><code>// hsp3int.cpp - strlen の例
+
+case 0x002:  // strlen
+{
+    int chk = code_get();
+    if (chk <= PARAM_END) throw HSPERR_INVALID_FUNCPARAM;
+
+    if (mpval->flag == HSPVAR_FLAG_WSTR) {
+        // wstr: 文字数を返す
+        wchar_t *ws = (wchar_t *)HspVarCoreCnvPtr(mpval, HSPVAR_FLAG_WSTR);
+        reffunc_intfunc_ivalue = (int)wcslen(ws);
+    } else {
+        // str: バイト数を返す（従来通り）
+        char *ss = (char *)HspVarCoreCnvPtr(mpval, HSPVAR_FLAG_STR);
+        reffunc_intfunc_ivalue = (int)strlen(ss);
+    }
+    ptr = &reffunc_intfunc_ivalue;
+    break;
+}</code></pre>
+
+<h3>4.3 L"..." リテラルのコンパイル</h3>
+<pre><code>// codegen.cpp - トークナイザ
+
+if ((a1 == 'L' || a1 == 'l') && wp[1] == 0x22) {  // L"
+    wp += 2;
+    Pickstr();  // s3 に SJIS/UTF-8 文字列を取得
+
+    // UTF-16 に変換
+    int wlen = MultiByteToWideChar(codepage, 0, (char*)s3, -1, NULL, 0);
+    wchar_t *wbuf = new wchar_t[wlen];
+    MultiByteToWideChar(codepage, 0, (char*)s3, -1, wbuf, wlen);
+
+    // DS に UTF-16 バイト列を格納
+    int dsofs = PutDSBufW(wbuf, wlen * sizeof(wchar_t));
+    delete[] wbuf;
+
+    val = dsofs;
+    return TK_WSTRING;  // 新トークン型
+}
+
+// PutCS で TYPE_WSTR として出力
+// ランタイムが DS からワイド文字列ポインタを取得</code></pre>
+
+<!-- ======================================== -->
+<h2>5. 実装フェーズ</h2>
+
+<table>
+<tr><th>Phase</th><th>内容</th><th>対象ファイル</th></tr>
+<tr>
+  <td>1</td>
+  <td>wstr 変数型 + wsdim + CnvCustom (自動変換)</td>
+  <td>hspvar_wstr.cpp (新規), hspvar_core.h, hsp3code.cpp</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>L"..." リテラル</td>
+  <td>codegen.cpp, token.h, hsp3code.cpp</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td>文字列関数の型判定分岐 (strlen/strmid/instr/strtrim/strf/getpath)</td>
+  <td>hsp3int.cpp</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td>文字列命令の型判定分岐 (strrep/split/getstr)</td>
+  <td>hsp3int.cpp, hsp3code.cpp</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td>note 系命令の wstr 対応</td>
+  <td>hsp3int.cpp (notesel/noteget/noteadd/notedel/noteload/notesave)</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td>変換命令の拡張 (cnvstow/cnvwtos/cnvstoa/cnvatos)</td>
+  <td>hsp3ext_win.cpp</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td>notefind/noteinfo 対応 + テスト + 仕様書</td>
+  <td>各種</td>
+</tr>
+</table>
+
+<!-- ======================================== -->
+<h2>6. 互換性</h2>
+
+<div class="card">
+<ul>
+  <li>既存の str コードは一切変更なしで動作する</li>
+  <li><code>mes ws</code> や <code>s = "" + ws</code> では CnvCustom で wstr → str に自動変換される</li>
+  <li>DLL の <code>wstr</code> パラメータ型は既存の <code>MPTYPE_LOCALWSTR</code> を活用</li>
+  <li><code>cnvstow</code> / <code>cnvwtos</code> は従来の byte バッファ方式も引き続き動作する</li>
+  <li><code>L"..."</code> リテラルを含む .ax は従来のランタイムでは実行できない</li>
+</ul>
+</div>
+
+</div>
+</body>
+</html>

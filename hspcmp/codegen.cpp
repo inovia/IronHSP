@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#ifdef HSPWIN
+#include <windows.h>
+#endif
 
 #include "../hsp3/hsp3config.h"
 #include "../hsp3/hsp3debug.h"
@@ -153,6 +156,23 @@ void CToken::CalcCG_factor( void )
 		CalcCG_token();
 		calccount++;
 		return;
+	case TK_WSTRING:
+		{
+		// L"..." → UTF-16 に変換して DS に [size(int)][wchar_t data] として格納
+		int wlen = MultiByteToWideChar(CP_ACP, 0, cg_str, -1, NULL, 0);
+		wchar_t *wbuf = (wchar_t *)malloc(wlen * sizeof(wchar_t));
+		MultiByteToWideChar(CP_ACP, 0, cg_str, -1, wbuf, wlen);
+		int byte_size = wlen * sizeof(wchar_t);
+		int dsofs = ds_buf->GetSize();
+		ds_buf->PutData(&byte_size, sizeof(int));		// サイズヘッダ
+		ds_buf->PutData(wbuf, byte_size);				// UTF-16 データ
+		free(wbuf);
+		PutCS( TYPE_WSTR, dsofs, texflag );
+		texflag = 0;
+		CalcCG_token();
+		calccount++;
+		return;
+		}
 	case TK_LABEL:
 		GenerateCodeLabel( cg_str, texflag );
 		texflag = 0;
@@ -583,6 +603,16 @@ char *CToken::GetTokenCG( char *str, int option )
 		vs++;
 		ttype = TK_STRING; cg_str = (char *)vs;
 		return PickStringCG( (char *)vs, 0x22 );
+	}
+
+	if (a1 == 'L' || a1 == 'l') {				// L"～" UTF-16 リテラル
+		if (vs[1] == 0x22) {
+			vs+=2;
+			cg_str = (char *)vs;
+			char *next = PickStringCG( (char *)vs, 0x22 );
+			ttype = TK_WSTRING;
+			return next;
+		}
 	}
 
 	if (a1 == '@') {							// @"～"

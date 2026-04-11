@@ -18,6 +18,7 @@
 #define TK_NUM 4
 #define TK_NUM64 5
 #define TK_CODE 6
+#define TK_WSTRING 8
 #define TK_LABEL 7
 #define TK_VOID 0x1000
 #define TK_SEPARATE 0x1001

@@ -57,6 +57,7 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$020 15 strexchange",			// (ver3.6)
 	"$021 15 dim64",				// (IronHSP)
 	"$022 15 structdim",			// (IronHSP) 構造体変数確保
+	"$024 15 wsdim",				// (IronHSP) UTF-16ワイド文字列変数確保
 	"$023 15 _struct_poke",			// (IronHSP) 内部: 構造体メンバ書き込み
 
 //	"$015 15 logmode",				// (ver2.55)

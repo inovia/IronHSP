@@ -1516,6 +1516,7 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 			return ExpandStr((char *)vs + 2, 3);
 		}
 	}
+	// L"..." は先に処理済み（シンボルスキャン前で判定）
 	if (a1=='{') {							// {"～"}
 		if (vs[1]==0x22) {
 			if (wrtbuf != NULL) wrtbuf->PutStr("{\"");
@@ -1620,6 +1621,14 @@ char *CToken::ExpandToken( char *str, int *type, int ppmode )
 		if (wrtbuf!=NULL) wrtbuf->PutData( s2, a );
 		*type = TK_OBJ;
 		return (char *)vs;
+	}
+
+	// L"..." チェック（シンボルスキャン前に判定）
+	if ((a1 == 'L' || a1 == 'l') && vs[1] == 0x22) {
+		// L を出力、ExpandStr が開き " + 内容 + 閉じ " を出力
+		if (wrtbuf != NULL) { wrtbuf->Put('L'); }
+		*type = TK_STRING;
+		return ExpandStr((char *)vs + 2, 1);
 	}
 
 	a=0;

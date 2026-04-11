@@ -754,14 +754,32 @@ int code_get( void )
 		case TYPE_STRING:
 			varproc = HspVarCoreGetProc( type );
 			mpval = HspVarCoreGetPVal( type );
-			if ( mpval->mode == HSPVAR_MODE_NONE ) {					// 型に合わせたテンポラリ変数を初期化
+			if ( mpval->mode == HSPVAR_MODE_NONE ) {
 				if ( varproc->flag == 0 ) {
 					throw HSPERR_TYPE_INITALIZATION_FAILED;
 				}
-				HspVarCoreClearTemp( mpval, type );						// 最小サイズのメモリを確保
+				HspVarCoreClearTemp( mpval, type );
 			}
-			varproc->Set( mpval, (PDAT *)(mpval->pt), code_strp(val) );		// テンポラリ変数に初期値を設定
+			varproc->Set( mpval, (PDAT *)(mpval->pt), code_strp(val) );
 			break;
+		case TYPE_WSTR:
+			{
+			// L"..." リテラル → DS に [size(int)][wchar_t data] 形式で格納済み
+			varproc = HspVarCoreGetProc( HSPVAR_FLAG_WSTR );
+			mpval = HspVarCoreGetPVal( HSPVAR_FLAG_WSTR );
+			if ( mpval->mode == HSPVAR_MODE_NONE ) {
+				if ( varproc->flag == 0 ) {
+					throw HSPERR_TYPE_INITALIZATION_FAILED;
+				}
+				HspVarCoreClearTemp( mpval, HSPVAR_FLAG_WSTR );
+			}
+			// DS からサイズヘッダをスキップして wchar_t* を取得
+			char *dsptr = code_strp(val);
+			wchar_t *wdata = (wchar_t *)(dsptr + sizeof(int));
+			varproc->Set( mpval, (PDAT *)(mpval->pt), wdata );
+			code_next();
+			break;
+			}
 		default:
 			throw HSPERR_UNKNOWN_CODE;
 		}
@@ -815,6 +833,16 @@ int code_get( void )
 			StackPush( type, code_strp(val) );
 			code_next();
 			break;
+		case TYPE_WSTR:
+			{
+			// DS から [size(int)][wchar_t data] を取得してスタックに積む
+			char *dsptr = code_strp(val);
+			int wsize = *(int *)dsptr;
+			wchar_t *wsp = (wchar_t *)(dsptr + sizeof(int));
+			StackPush( HSPVAR_FLAG_WSTR, (char *)wsp, wsize );
+			code_next();
+			break;
+			}
 		case TYPE_DNUM:
 			StackPush( type, strp(val), sizeof(double) );
 			code_next();
@@ -2523,6 +2551,22 @@ static int cmdfunc_prog( int cmd )
 		p3 = code_getdi( 0 );
 		p4 = code_getdi( 0 );
 		HspVarCoreDimWC( pval, HSPVAR_FLAG_INT64, p1, p2, p3, p4 );
+		break;
+		}
+
+	case 0x24:								// wsdim
+		{
+		// wsdim var, len [, dim2, dim3, dim4]
+		// UTF-16 ワイド文字列変数の確保（len は文字数）
+		PVal *pval;
+		pval = code_getpval();
+		p1 = code_getdi( 0 );		// 文字数
+		p2 = code_getdi( 0 );
+		p3 = code_getdi( 0 );
+		p4 = code_getdi( 0 );
+		// len[0] に文字数を保存（Alloc で使用）
+		pval->len[0] = p1;
+		HspVarCoreDimWC( pval, HSPVAR_FLAG_WSTR, p1, p2, p3, p4 );
 		break;
 		}
 

@@ -24,6 +24,7 @@ extern void HspVarStr_Init( HspVarProc *p );
 extern void HspVarDouble_Init( HspVarProc *p );
 extern void HspVarStruct_Init( HspVarProc *p );
 extern void HspVarInt64_Init( HspVarProc *p );
+extern void HspVarWstr_Init( HspVarProc *p );
 
 /*------------------------------------------------------------*/
 /*
@@ -87,6 +88,7 @@ void HspVarCoreResetVartype( int expand )
 	HspVarCoreRegisterType( HSPVAR_FLAG_STRUCT, (HSPVAR_COREFUNC)HspVarStruct_Init );
 	HspVarCoreRegisterType( HSPVAR_FLAG_LABEL, (HSPVAR_COREFUNC)HspVarLabel_Init );		// ラベル型(3.1)
 	HspVarCoreRegisterType( HSPVAR_FLAG_INT64, (HSPVAR_COREFUNC)HspVarInt64_Init );		// int64型
+	HspVarCoreRegisterType( HSPVAR_FLAG_WSTR, (HSPVAR_COREFUNC)HspVarWstr_Init );		// wstr型(UTF-16)
 }
 
 
