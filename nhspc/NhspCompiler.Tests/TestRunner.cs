@@ -51,6 +51,7 @@ namespace NhspCompiler.Tests
                 typeof(Phase8Tests),
                 typeof(Phase9Tests),
                 typeof(Phase12Tests),
+                typeof(Phase13Tests),
             };
 
             foreach (var cls in testClasses)

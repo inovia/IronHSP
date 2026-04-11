@@ -148,6 +148,7 @@ namespace NhspCompiler.Core.Emit
             else if (stmt is IfStatement ifStmt) EmitIf(ifStmt);
             else if (stmt is RepeatStatement rep) EmitRepeat(rep);
             else if (stmt is WhileStatement wh) EmitWhile(wh);
+            else if (stmt is LockStatement lockStmt) EmitLock(lockStmt);
             else if (stmt is TryCatchStatement tryStmt) EmitTryCatch(tryStmt);
             else if (stmt is ThrowStatement throwStmt) EmitThrow(throwStmt);
             else if (stmt is PrintStatement printStmt) EmitPrint(printStmt);
@@ -378,6 +379,27 @@ namespace NhspCompiler.Core.Emit
         {
             if (_loopStack.Count > 0)
                 _il.Emit(OpCodes.Br, _loopStack.Peek().continueLabel);
+        }
+
+        private void EmitLock(LockStatement stmt)
+        {
+            // lock (obj) { ... }  →  Monitor.Enter(obj); try { ... } finally { Monitor.Exit(obj); }
+            var lockObj = _il.DeclareLocal(typeof(object));
+            EmitExpression(stmt.Target);
+            _il.Emit(OpCodes.Stloc, lockObj);
+
+            // Monitor.Enter(obj)
+            _il.Emit(OpCodes.Ldloc, lockObj);
+            _il.Emit(OpCodes.Call, typeof(System.Threading.Monitor).GetMethod("Enter", new[] { typeof(object) }));
+
+            _il.BeginExceptionBlock();
+
+            foreach (var s in stmt.Body) EmitStatement(s);
+
+            _il.BeginFinallyBlock();
+            _il.Emit(OpCodes.Ldloc, lockObj);
+            _il.Emit(OpCodes.Call, typeof(System.Threading.Monitor).GetMethod("Exit", new[] { typeof(object) }));
+            _il.EndExceptionBlock();
         }
 
         private void EmitTryCatch(TryCatchStatement stmt)
@@ -749,6 +771,12 @@ namespace NhspCompiler.Core.Emit
                     }
                     return;
                 }
+                if (call.MethodName == "__sleep" && call.Arguments.Count > 0)
+                {
+                    EmitExpression(call.Arguments[0]);
+                    _il.Emit(OpCodes.Call, typeof(System.Threading.Thread).GetMethod("Sleep", new[] { typeof(int) }));
+                    return;
+                }
                 if ((call.MethodName == "double" || call.MethodName == "float") && call.Arguments.Count > 0)
                 {
                     EmitExpression(call.Arguments[0]);
@@ -1014,6 +1042,7 @@ namespace NhspCompiler.Core.Emit
                     if (callExpr.MethodName == "str") return typeof(string);
                     if (callExpr.MethodName == "int") return typeof(int);
                     if (callExpr.MethodName == "double") return typeof(double);
+                    if (callExpr.MethodName == "__sleep") return typeof(void);
                     if (_typeEmitter != null && _typeEmitter.Methods.TryGetValue(callExpr.MethodName, out var cmb))
                         return cmb.ReturnType;
                 }

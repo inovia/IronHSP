@@ -312,7 +312,17 @@ namespace NhspCompiler.Core.Parsing
             // new var, TypeName [, args...]  or  dim var = new TypeName(args)
             if (MatchKW("new")) return ParseNew();
 
-            // try ... catch ... endtry (also via #try from Hash context)
+            // lock expr ... endlock
+            if (MatchKW("lock"))
+            {
+                Advance();
+                var lockStmt = new LockStatement { Line = Current.Line, Target = ParseExpression() };
+                SkipEOL();
+                lockStmt.Body = ParseBlock("endlock");
+                return lockStmt;
+            }
+
+            // try ... catch ... endtry
             if (MatchKW("try")) return ParseTryCatch();
             if (Match(TokenKind.Hash) && Peek().Text == "try") { Advance(); return ParseTryCatch(); }
 
@@ -324,6 +334,17 @@ namespace NhspCompiler.Core.Parsing
                 if (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
                     val = ParseExpression();
                 return new ThrowStatement { Value = val, Line = Current.Line };
+            }
+
+            // sleep ms
+            if (MatchKW("sleep"))
+            {
+                Advance();
+                return new ExpressionStatement
+                {
+                    Expr = new CallExpr { MethodName = "__sleep", Arguments = { ParseExpression() }, Line = Current.Line },
+                    Line = Current.Line
+                };
             }
 
             // print expr

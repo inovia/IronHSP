@@ -83,6 +83,12 @@ namespace NhspCompiler.Core.Parsing.Ast
         public List<Statement> FinallyBody { get; set; }
     }
 
+    public class LockStatement : Statement
+    {
+        public Expression Target { get; set; }
+        public List<Statement> Body { get; set; } = new List<Statement>();
+    }
+
     public class ThrowStatement : Statement
     {
         public Expression Value { get; set; } // null = rethrow

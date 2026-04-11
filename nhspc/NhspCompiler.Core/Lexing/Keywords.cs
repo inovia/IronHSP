@@ -14,6 +14,7 @@ namespace NhspCompiler.Core.Lexing
             "repeat", "loop", "while", "wend", "for", "to", "step", "next",
             "break", "continue", "print",
             "try", "catch", "finally", "endtry", "throw",
+            "lock", "endlock", "sleep",
             "public", "private", "protected", "static", "virtual", "override", "abstract",
             "new",
             "namespace", "endnamespace", "using", "reference",
