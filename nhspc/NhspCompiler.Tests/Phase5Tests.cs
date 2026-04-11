@@ -30,7 +30,7 @@ namespace NhspCompiler.Tests
 @"#assembly ""T""
 #class public C
   #func public int Sum, int n
-    dim total as int
+    dim int total
     total = 0
     for i = 0 to n
       total += i
@@ -48,7 +48,7 @@ namespace NhspCompiler.Tests
 @"#assembly ""T""
 #class public C
   #func public int Count, int n
-    dim c as int
+    dim int c
     c = 0
     for i = 0 to n step 2
       c += 1
@@ -66,11 +66,11 @@ namespace NhspCompiler.Tests
 @"#assembly ""T""
 #class public C
   #func public int M
-    dim arr as int, 5
+    dim int arr, 5
     arr(0) = 10
     arr(1) = 20
     arr(2) = 30
-    dim sum as int
+    dim int sum
     sum = 0
     for i = 0 to 2
       sum += arr(i)
@@ -87,7 +87,7 @@ namespace NhspCompiler.Tests
 @"#assembly ""T""
 #class public C
   #func public int M
-    dim last as int
+    dim int last
     last = 0
     for i = 0 to 99
       if i = 5 {

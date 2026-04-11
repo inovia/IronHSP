@@ -324,15 +324,27 @@ namespace NhspCompiler.Core.Parsing
         {
             Advance(); // "dim"
             var decl = new LocalVarDeclaration { Line = Current.Line };
-            decl.Name = Expect(TokenKind.Identifier, "Expected variable name").Text;
-            if (MatchKW("as")) { Advance(); decl.TypeName = ReadTypeName(); }
-            // Array dimension: dim arr as int, 10
+
+            // New syntax: dim type name [, size]
+            // Also: dim name = expr (type inferred)
+            if ((MatchType() || IsKnownType()) && Peek().Kind == TokenKind.Identifier)
+            {
+                decl.TypeName = ReadTypeName();
+                decl.Name = Expect(TokenKind.Identifier, "Expected variable name").Text;
+            }
+            else
+            {
+                decl.Name = Expect(TokenKind.Identifier, "Expected variable name").Text;
+            }
+
+            // Array size: dim int arr, 10
             if (Match(TokenKind.Comma))
             {
                 Advance();
                 if (Match(TokenKind.IntLiteral))
                     decl.ArraySize = int.Parse(Advance().Text);
             }
+            // Initializer: dim x = expr
             if (Match(TokenKind.Equals)) { Advance(); decl.Initializer = ParseExpression(); }
             return decl;
         }

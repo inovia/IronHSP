@@ -7,12 +7,11 @@ namespace NhspCompiler.Tests
         [Test]
         public void TokenizeSimple()
         {
-            var lexer = new Lexer("dim x as int");
+            var lexer = new Lexer("dim int x");
             var tokens = lexer.Tokenize();
             Assert.AreEqual(TokenKind.Keyword, tokens[0].Kind, "dim");
-            Assert.AreEqual(TokenKind.Identifier, tokens[1].Kind, "x");
-            Assert.AreEqual(TokenKind.Keyword, tokens[2].Kind, "as");
-            Assert.AreEqual(TokenKind.TypeName, tokens[3].Kind, "int");
+            Assert.AreEqual(TokenKind.TypeName, tokens[1].Kind, "int");
+            Assert.AreEqual(TokenKind.Identifier, tokens[2].Kind, "x");
         }
 
         [Test]

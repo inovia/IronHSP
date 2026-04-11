@@ -29,7 +29,7 @@ namespace NhspCompiler.Tests
 
         [Test] public void LocalVar()
         {
-            var u = Parse("#assembly \"T\"\n#class public C\n  #func public int M\n    dim x as int\n    x = 10\n    return x\n  endfunc\n#endclass");
+            var u = Parse("#assembly \"T\"\n#class public C\n  #func public int M\n    dim int x\n    x = 10\n    return x\n  endfunc\n#endclass");
             Assert.IsTrue(u.Classes[0].Methods[0].Body[0] is LocalVarDeclaration);
             Assert.IsTrue(u.Classes[0].Methods[0].Body[1] is AssignmentStatement);
         }
@@ -42,13 +42,13 @@ namespace NhspCompiler.Tests
 
         [Test] public void RepeatLoop()
         {
-            var u = Parse("#assembly \"T\"\n#class public C\n  #func public int M\n    dim s as int\n    s = 0\n    repeat 10\n      s += cnt\n    loop\n    return s\n  endfunc\n#endclass");
+            var u = Parse("#assembly \"T\"\n#class public C\n  #func public int M\n    dim int s\n    s = 0\n    repeat 10\n      s += cnt\n    loop\n    return s\n  endfunc\n#endclass");
             Assert.IsTrue(u.Classes[0].Methods[0].Body[2] is RepeatStatement);
         }
 
         [Test] public void WhileLoop()
         {
-            var u = Parse("#assembly \"T\"\n#class public C\n  #func public int M, int n\n    dim i as int\n    i = 0\n    while i < n\n      i += 1\n    wend\n    return i\n  endfunc\n#endclass");
+            var u = Parse("#assembly \"T\"\n#class public C\n  #func public int M, int n\n    dim int i\n    i = 0\n    while i < n\n      i += 1\n    wend\n    return i\n  endfunc\n#endclass");
             Assert.IsTrue(u.Classes[0].Methods[0].Body[2] is WhileStatement);
         }
 
