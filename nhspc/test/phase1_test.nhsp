@@ -1,0 +1,17 @@
+#assembly "Phase1Test"
+
+#class HelloWorld
+  #access public
+
+  #func SayHello as string, public
+    return "Hello from nhsp!"
+  endfunc
+
+  #func Add int a, int b as int, public
+    return a + b
+  endfunc
+
+  #func Greet string name as string, public
+    return "Hi, " + name + "!"
+  endfunc
+#endclass
