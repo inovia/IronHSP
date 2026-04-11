@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 echo ========================================
-echo   NHSP VS Code Extension Installer
+echo   NHSP VS Code 拡張 インストーラー
 echo ========================================
 echo.
 
@@ -11,25 +11,25 @@ set "TARGET=%VSCODE_EXT%\nhsp-language-0.1.0"
 set "SCRIPT_DIR=%~dp0"
 
 if not exist "%VSCODE_EXT%" (
-    echo [ERROR] VS Code extensions directory not found.
+    echo [!] VS Code 拡張ディレクトリが見つかりません。
     pause
     exit /b 1
 )
 
 if exist "%TARGET%" (
-    echo [*] Removing old installation...
+    echo [*] 既存のインストールを削除しています。
     rmdir /S /Q "%TARGET%"
 )
 
-echo [*] Installing extension files...
+echo [*] 拡張ファイルをコピーしています。
 xcopy /E /I /Q "%SCRIPT_DIR%." "%TARGET%\" >nul 2>&1
 
 if not exist "%TARGET%\package.json" (
-    echo [ERROR] Failed to copy files.
+    echo [!] コピーに失敗しました。
     pause
     exit /b 1
 )
-echo     Extension files: OK
+echo     拡張ファイル: OK
 
 set "COMPILER_DIR=%TARGET%\compiler"
 mkdir "%COMPILER_DIR%" 2>nul
@@ -38,14 +38,14 @@ set "NHSPC_FOUND=0"
 for %%I in ("%SCRIPT_DIR%\..") do set "NHSPC_ROOT=%%~fI"
 
 if exist "%NHSPC_ROOT%\nhspc\bin\Debug\nhspc.exe" (
-    echo [*] Copying compiler [Debug]...
+    echo [*] コンパイラをコピーしています [Debug]
     copy /Y "%NHSPC_ROOT%\nhspc\bin\Debug\nhspc.exe" "%COMPILER_DIR%\" >nul
     copy /Y "%NHSPC_ROOT%\nhspc\bin\Debug\NhspCompiler.Core.dll" "%COMPILER_DIR%\" >nul
     set "NHSPC_FOUND=1"
 )
 
 if exist "%NHSPC_ROOT%\nhspc\bin\Release\nhspc.exe" (
-    echo [*] Copying compiler [Release]...
+    echo [*] コンパイラをコピーしています [Release]
     copy /Y "%NHSPC_ROOT%\nhspc\bin\Release\nhspc.exe" "%COMPILER_DIR%\" >nul
     copy /Y "%NHSPC_ROOT%\nhspc\bin\Release\NhspCompiler.Core.dll" "%COMPILER_DIR%\" >nul
     set "NHSPC_FOUND=1"
@@ -53,20 +53,20 @@ if exist "%NHSPC_ROOT%\nhspc\bin\Release\nhspc.exe" (
 
 echo.
 echo ========================================
-echo   Install complete!
+echo   インストール完了
 echo ========================================
 echo.
-echo   Extension: %TARGET%
+echo   拡張:      %TARGET%
 if "!NHSPC_FOUND!"=="1" (
-    echo   Compiler:  %COMPILER_DIR%\nhspc.exe
+    echo   コンパイラ: %COMPILER_DIR%\nhspc.exe
     echo.
-    echo   Open .nhsp in VS Code and press F5 to compile.
-    echo   No path configuration needed.
+    echo   VS Code で .nhsp を開いて F5 でコンパイルできます。
+    echo   パス設定は不要です。
 ) else (
-    echo   Compiler:  NOT FOUND
-    echo   Set nhsp.compilerPath in VS Code settings.
+    echo   コンパイラ: 見つかりません
+    echo   VS Code の設定で nhsp.compilerPath を指定してください。
 )
 echo.
-echo   Please restart VS Code.
+echo   VS Code を再起動してください。
 echo.
 pause
