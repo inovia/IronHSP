@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NHSP 入門ガイド - HSP風 .NET 言語</title>
+<style>
+  :root { --accent: #2563eb; --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --text: #1e293b; --muted: #64748b; --green: #16a34a; --orange: #ea580c; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Meiryo', sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
+  .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+  header { background: linear-gradient(135deg, #1e40af, #3b82f6); color: #fff; padding: 3rem 0; text-align: center; }
+  header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  header p { font-size: 1.1rem; opacity: 0.9; }
+  nav.toc { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem 2rem; margin: 2rem 0; }
+  nav.toc h2 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--accent); }
+  nav.toc ol { padding-left: 1.5rem; }
+  nav.toc li { padding: 0.3rem 0; }
+  nav.toc a { color: var(--accent); text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  h2 { font-size: 1.6rem; color: var(--accent); margin: 3rem 0 1rem; border-left: 5px solid var(--accent); padding-left: 0.75rem; }
+  h3 { font-size: 1.2rem; margin: 2rem 0 0.7rem; }
+  p, li { margin-bottom: 0.5rem; }
+  ul, ol { padding-left: 1.5rem; }
+  pre { background: #1e293b; color: #e2e8f0; padding: 1.2rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; font-size: 0.9rem; line-height: 1.6; }
+  pre code { background: none; color: inherit; }
+  code { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; font-family: 'Consolas', 'Source Code Pro', monospace; font-size: 0.9em; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; }
+  .tip { background: #f0fdf4; border-left: 4px solid var(--green); padding: 1rem 1.2rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
+  .tip::before { content: "💡 "; font-weight: bold; }
+  .warn { background: #fffbeb; border-left: 4px solid var(--orange); padding: 1rem 1.2rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
+  .warn::before { content: "⚠ "; font-weight: bold; }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .compare > div { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
+  .compare h4 { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.5rem; }
+  .badge { display: inline-block; background: var(--accent); color: #fff; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; vertical-align: middle; }
+  footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 0.85rem; }
+  @media (max-width: 700px) { .compare { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>NHSP 入門ガイド</h1>
+  <p>HSP風の書きやすさで .NET アセンブリを作ろう</p>
+</header>
+
+<div class="container">
+
+<nav class="toc">
+<h2>目次</h2>
+<ol>
+  <li><a href="#what">NHSP とは？</a></li>
+  <li><a href="#install">インストールと最初のプログラム</a></li>
+  <li><a href="#basics">基本の文法</a></li>
+  <li><a href="#class">クラスを作ろう</a></li>
+  <li><a href="#control">制御構文</a></li>
+  <li><a href="#array">配列を使う</a></li>
+  <li><a href="#inherit">継承とインターフェース</a></li>
+  <li><a href="#dotnet">.NET API を呼び出す</a></li>
+  <li><a href="#error">エラー処理</a></li>
+  <li><a href="#exe">EXE を作る</a></li>
+  <li><a href="#hsp3">HSP3 から使う</a></li>
+</ol>
+</nav>
+
+<!-- ========================================== -->
+<h2 id="what">1. NHSP とは？</h2>
+
+<p>NHSP (Net HSP) は、HSP に似た文法で <strong>.NET のクラスライブラリ (DLL) や実行ファイル (EXE)</strong> を作れるプログラミング言語です。</p>
+
+<div class="card">
+<h3>特徴</h3>
+<ul>
+  <li><strong>HSP風の文法</strong> &mdash; セミコロン不要、1行1文、<code>#func</code> / <code>#class</code> のディレクティブ形式</li>
+  <li><strong>.NET Framework 4.8</strong> &mdash; String, Math, List&lt;T&gt; など全ての .NET API が使える</li>
+  <li><strong>DLL / EXE 出力</strong> &mdash; 他の .NET 言語 (C#, VB.NET) や IronHSP から利用可能</li>
+  <li><strong>デバッグ対応</strong> &mdash; <code>-debug</code> オプションで PDB を生成、Visual Studio や dnSpy でブレークポイント設定可能</li>
+</ul>
+</div>
+
+<div class="compare">
+<div>
+<h4>NHSP (.nhsp)</h4>
+<pre><code>#assembly "HelloLib"
+#class public Greeter
+  #func public string Hello, string name
+    return "Hello, " + name + "!"
+  #endfunc
+#endclass</code></pre>
+</div>
+<div>
+<h4>C# (.cs) で同じこと</h4>
+<pre><code>public class Greeter
+{
+    public string Hello(string name)
+    {
+        return "Hello, " + name + "!";
+    }
+}</code></pre>
+</div>
+</div>
+
+<!-- ========================================== -->
+<h2 id="install">2. インストールと最初のプログラム</h2>
+
+<h3>2.1 コンパイラの準備</h3>
+<p><code>nhspc.exe</code> と <code>NhspCompiler.Core.dll</code> を同じフォルダに置くだけです。インストール不要。</p>
+
+<h3>2.2 最初のプログラム</h3>
+<p>テキストエディタで <code>hello.nhsp</code> を作成:</p>
+
+<pre><code>; hello.nhsp - 最初のプログラム
+#assembly "HelloLib"
+
+#class public Hello
+  #func public static string SayHello
+    return "Hello from NHSP!"
+  #endfunc
+#endclass</code></pre>
+
+<h3>2.3 コンパイル</h3>
+<pre><code>nhspc.exe hello.nhsp -o HelloLib.dll</code></pre>
+
+<div class="tip">
+<code>-debug</code> オプションを付けると、デバッグ用の PDB ファイルも生成されます:<br>
+<code>nhspc.exe hello.nhsp -o HelloLib.dll -debug</code>
+</div>
+
+<h3>2.4 HSP3 から使う</h3>
+<pre><code>; HSP3 スクリプト
+loadnet "HelloLib.dll", 2
+newnet p, "HelloLib", "Hello", 1
+netres r
+mcall p, "SayHello"
+mes nettoval(r, 2)   ; => "Hello from NHSP!"</code></pre>
+
+<!-- ========================================== -->
+<h2 id="basics">3. 基本の文法</h2>
+
+<h3>3.1 コメント</h3>
+<pre><code>; これはコメント（HSP スタイル）
+// これもコメント（C スタイル）</code></pre>
+
+<h3>3.2 変数</h3>
+<pre><code>; 型指定して宣言
+dim int x
+x = 42
+
+; 型推論（最初の代入で型が決まる）
+y = 100        ; int 型
+name = "Taro"  ; string 型
+
+; 配列
+dim int arr, 10
+arr(0) = 100
+arr(1) = 200</code></pre>
+
+<h3>3.3 型の一覧</h3>
+<table style="width:100%; border-collapse:collapse; margin:1rem 0;">
+<tr style="background:#eef2ff;"><th style="border:1px solid #e2e8f0; padding:0.5rem;">NHSP</th><th style="border:1px solid #e2e8f0; padding:0.5rem;">説明</th><th style="border:1px solid #e2e8f0; padding:0.5rem;">例</th></tr>
+<tr><td style="border:1px solid #e2e8f0; padding:0.4rem;"><code>int</code></td><td style="border:1px solid #e2e8f0; padding:0.4rem;">32bit 整数</td><td style="border:1px solid #e2e8f0; padding:0.4rem;"><code>42</code></td></tr>
+<tr><td style="border:1px solid #e2e8f0; padding:0.4rem;"><code>double</code></td><td style="border:1px solid #e2e8f0; padding:0.4rem;">倍精度小数</td><td style="border:1px solid #e2e8f0; padding:0.4rem;"><code>3.14</code></td></tr>
+<tr><td style="border:1px solid #e2e8f0; padding:0.4rem;"><code>string</code></td><td style="border:1px solid #e2e8f0; padding:0.4rem;">文字列</td><td style="border:1px solid #e2e8f0; padding:0.4rem;"><code>"Hello"</code></td></tr>
+<tr><td style="border:1px solid #e2e8f0; padding:0.4rem;"><code>bool</code></td><td style="border:1px solid #e2e8f0; padding:0.4rem;">真偽値</td><td style="border:1px solid #e2e8f0; padding:0.4rem;"><code>true</code> / <code>false</code></td></tr>
+<tr><td style="border:1px solid #e2e8f0; padding:0.4rem;"><code>int64</code></td><td style="border:1px solid #e2e8f0; padding:0.4rem;">64bit 整数</td><td style="border:1px solid #e2e8f0; padding:0.4rem;"><code>9999999999</code></td></tr>
+</table>
+
+<h3>3.4 演算子</h3>
+<pre><code>; 算術: + - * / %
+result = 10 + 3 * 2    ; => 16 (掛け算が先)
+
+; 比較: == != < > <= >=
+; HSP互換: = も == と同じ
+if x = 5 { ... }       ; x == 5 と同じ
+
+; 論理: && || !
+if x > 0 && x < 10 { ... }
+
+; 複合代入: += -= *= /=
+x += 5</code></pre>
+
+<h3>3.5 型変換</h3>
+<pre><code>; 数値 → 文字列
+s = str(42)            ; => "42"
+
+; 文字列 → 数値
+n = int("123")         ; => 123
+
+; 文字列連結 (+ で自動変換)
+msg = "値は" + str(x)</code></pre>
+
+<!-- ========================================== -->
+<h2 id="class">4. クラスを作ろう</h2>
+
+<h3>4.1 シンプルなクラス</h3>
+<pre><code>#class public Calculator
+
+  #func public int Add, int a, int b
+    return a + b
+  #endfunc
+
+  #func public int Multiply, int a, int b
+    return a * b
+  #endfunc
+
+#endclass</code></pre>
+
+<h3>4.2 フィールド（データの保持）</h3>
+<pre><code>#class public Counter
+  #field public int Count
+
+  #func public Increment
+    Count += 1
+  #endfunc
+
+  #func public int GetCount
+    return Count
+  #endfunc
+#endclass</code></pre>
+
+<h3>4.3 コンストラクタ（初期化）</h3>
+<pre><code>#class public Person
+  #field public string Name
+  #field public int Age
+
+  ; コンストラクタ: オブジェクト作成時に呼ばれる
+  #init string name, int age
+    Name = name
+    Age = age
+  #endinit
+
+  #func public string Greet
+    return "I'm " + Name + ", age " + str(Age)
+  #endfunc
+#endclass</code></pre>
+
+<h3>4.4 プロパティ</h3>
+<pre><code>#class public Rectangle
+  #field public int Width
+  #field public int Height
+
+  #init int w, int h
+    Width = w
+    Height = h
+  #endinit
+
+  #property Area as int, public
+    #get
+      return Width * Height
+    #endget
+  #endproperty
+#endclass</code></pre>
+
+<h3>4.5 static メソッド</h3>
+<p>インスタンスを作らなくても呼べるメソッドです。</p>
+<pre><code>#class public MathUtil
+  #func public static int Max, int a, int b
+    if a > b {
+      return a
+    }
+    return b
+  #endfunc
+#endclass</code></pre>
+
+<!-- ========================================== -->
+<h2 id="control">5. 制御構文</h2>
+
+<h3>5.1 if / else</h3>
+<pre><code>if score >= 80 {
+  print "優"
+} elseif score >= 60 {
+  print "良"
+} else {
+  print "不可"
+}</code></pre>
+
+<h3>5.2 repeat / loop（HSP スタイル）</h3>
+<pre><code>; cnt がカウンター（0 から開始）
+repeat 5
+  print str(cnt)   ; 0, 1, 2, 3, 4
+loop</code></pre>
+
+<h3>5.3 for / next</h3>
+<pre><code>for i = 1 to 10
+  print str(i)     ; 1, 2, ..., 10
+next
+
+; step 指定
+for i = 0 to 100 step 10
+  print str(i)     ; 0, 10, 20, ..., 100
+next</code></pre>
+
+<h3>5.4 while / wend</h3>
+<pre><code>dim int i
+i = 10
+while i > 0
+  print str(i)
+  i -= 1
+wend</code></pre>
+
+<h3>5.5 break / continue</h3>
+<pre><code>repeat 100
+  if cnt = 50 { break }      ; ループを抜ける
+  if cnt % 2 = 0 { continue }  ; 偶数はスキップ
+  print str(cnt)
+loop</code></pre>
+
+<!-- ========================================== -->
+<h2 id="array">6. 配列を使う</h2>
+
+<pre><code>; 配列の宣言（10個分）
+dim int scores, 10
+
+; 値の代入
+scores(0) = 85
+scores(1) = 92
+scores(2) = 78
+
+; ループで合計
+dim int total
+total = 0
+for i = 0 to 2
+  total += scores(i)
+next
+print "合計: " + str(total)</code></pre>
+
+<!-- ========================================== -->
+<h2 id="inherit">7. 継承とインターフェース</h2>
+
+<h3>7.1 継承</h3>
+<pre><code>#class public Animal
+  #field public string Name
+  #init string name
+    Name = name
+  #endinit
+  #func public virtual string Speak
+    return Name + " says ..."
+  #endfunc
+#endclass
+
+; Dog は Animal を継承
+#class public Dog : Animal
+  #init string name
+    Name = name
+  #endinit
+  #func public override string Speak
+    return Name + " says Woof!"
+  #endfunc
+#endclass</code></pre>
+
+<h3>7.2 インターフェース</h3>
+<pre><code>; 「何ができるか」を定義
+#interface IDrawable
+  #func Draw
+#endinterface
+
+; インターフェースを実装
+#class public Circle : IDrawable
+  #func public Draw
+    print "Drawing a circle"
+  #endfunc
+#endclass</code></pre>
+
+<!-- ========================================== -->
+<h2 id="dotnet">8. .NET API を呼び出す</h2>
+
+<pre><code>; String のメソッド
+dim string s
+s = "Hello World"
+print str(s.Length)       ; => 11
+print s.ToUpper()         ; => "HELLO WORLD"
+print s.Contains("World") ; => True
+
+; Math クラス
+dim int max
+max = Math.Max(10, 20)    ; => 20
+print str(Math.Abs(-42))  ; => 42</code></pre>
+
+<!-- ========================================== -->
+<h2 id="error">9. エラー処理</h2>
+
+<pre><code>dim int result
+result = 0
+try
+  result = 10 / 0    ; ゼロ除算！
+catch ex
+  result = -1        ; エラー時の処理
+endtry
+print str(result)    ; => -1</code></pre>
+
+<!-- ========================================== -->
+<h2 id="exe">10. EXE を作る</h2>
+
+<pre><code>; app.nhsp
+#assembly "MyApp"
+
+#class public Greeter
+  #func public static string Hello, string name
+    return "Hello, " + name + "!"
+  #endfunc
+#endclass
+
+#main
+  print Greeter.Hello("World")
+#endmain</code></pre>
+
+<pre><code>nhspc.exe app.nhsp -o MyApp.exe</code></pre>
+
+<!-- ========================================== -->
+<h2 id="hsp3">11. HSP3 (IronHSP) から使う</h2>
+
+<p>NHSP でコンパイルした DLL は、IronHSP の <code>loadnet</code> で読み込めます。</p>
+
+<pre><code>; HSP3 スクリプト
+loadnet "MyLib.dll", 2
+newnet p, "MyLib", "Calculator", 0
+netres r
+mcall p, "Add", 10, 20
+mes "結果: " + nettoval(r, 4)   ; => 結果: 30</code></pre>
+
+<div class="tip">
+NHSP の出力は標準的な .NET アセンブリなので、C# や VB.NET からも参照できます。
+</div>
+
+<footer>
+  <p>NHSP (Net HSP) &mdash; HSP風 .NET アセンブリコンパイラ</p>
+  <p>nhspc コンパイラ / NhspCompiler.Core ライブラリ</p>
+</footer>
+
+</div>
+</body>
+</html>

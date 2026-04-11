@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NHSP リファレンス - 言語仕様・C# 比較</title>
+<style>
+  :root { --accent: #7c3aed; --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --text: #1e293b; --muted: #64748b; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Meiryo', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
+  header { background: linear-gradient(135deg, #4c1d95, #7c3aed); color: #fff; padding: 2.5rem 0; text-align: center; }
+  header h1 { font-size: 2.2rem; }
+  header p { opacity: 0.9; }
+  nav.toc { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1.5rem 0; columns: 2; }
+  nav.toc a { color: var(--accent); text-decoration: none; display: block; padding: 0.15rem 0; font-size: 0.92rem; }
+  nav.toc a:hover { text-decoration: underline; }
+  h2 { font-size: 1.4rem; color: var(--accent); margin: 2.5rem 0 0.8rem; border-bottom: 2px solid var(--accent); padding-bottom: 0.3rem; }
+  h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+  pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 0.8rem 0; font-size: 0.85rem; line-height: 1.5; }
+  code { background: #f1f5f9; padding: 0.1rem 0.35rem; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 0.88em; }
+  pre code { background: none; color: inherit; }
+  table { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.88rem; }
+  th, td { border: 1px solid var(--border); padding: 0.4rem 0.6rem; text-align: left; }
+  th { background: #f5f3ff; font-weight: 600; }
+  .cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin: 0.8rem 0; }
+  .cmp > div { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .cmp h4 { background: #f5f3ff; padding: 0.3rem 0.7rem; font-size: 0.8rem; color: var(--accent); margin: 0; border-bottom: 1px solid var(--border); }
+  .cmp pre { margin: 0; border-radius: 0; }
+  .note { background: #faf5ff; border-left: 3px solid var(--accent); padding: 0.7rem 1rem; margin: 0.8rem 0; font-size: 0.9rem; }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 0.8rem; }
+  @media (max-width: 700px) { .cmp { grid-template-columns: 1fr; } nav.toc { columns: 1; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>NHSP 言語リファレンス</h1>
+  <p>コンパイラ仕様 / 文法定義 / C# 対応表</p>
+</header>
+
+<div class="container">
+
+<nav class="toc">
+  <a href="#compiler">コンパイラ仕様</a>
+  <a href="#directives">ディレクティブ一覧</a>
+  <a href="#types">型システム</a>
+  <a href="#class-def">クラス定義</a>
+  <a href="#methods">メソッド定義</a>
+  <a href="#fields">フィールド・プロパティ</a>
+  <a href="#constructors">コンストラクタ</a>
+  <a href="#inheritance">継承・インターフェース</a>
+  <a href="#control">制御構文</a>
+  <a href="#exceptions">例外処理</a>
+  <a href="#threading">スレッド・同期</a>
+  <a href="#operators">演算子一覧</a>
+  <a href="#builtins">ビルトイン関数</a>
+  <a href="#dotnet">.NET API アクセス</a>
+  <a href="#cli">CLI オプション</a>
+  <a href="#limits">既知の制限</a>
+</nav>
+
+<!-- ========================================== -->
+<h2 id="compiler">コンパイラ仕様</h2>
+
+<table>
+<tr><th>項目</th><th>値</th></tr>
+<tr><td>コンパイラ</td><td><code>nhspc.exe</code> (コンソール) / <code>NhspCompiler.Core.dll</code> (ライブラリ)</td></tr>
+<tr><td>実装言語</td><td>C# (.NET Framework 4.8)</td></tr>
+<tr><td>ターゲット</td><td>.NET Framework 4.8 アセンブリ (IL)</td></tr>
+<tr><td>出力形式</td><td>DLL (クラスライブラリ) / EXE (コンソールアプリ)</td></tr>
+<tr><td>IL 生成</td><td><code>System.Reflection.Emit</code> (AssemblyBuilder / TypeBuilder / ILGenerator)</td></tr>
+<tr><td>デバッグ情報</td><td>PDB (SequencePoint / DebuggableAttribute) &mdash; <code>-debug</code> オプション</td></tr>
+<tr><td>ソース拡張子</td><td><code>.nhsp</code></td></tr>
+</table>
+
+<h3>コンパイルパイプライン</h3>
+<pre><code>Source (.nhsp) → Lexer → Parser → AST → Semantic → IL Emit → Assembly (.dll/.exe)</code></pre>
+
+<!-- ========================================== -->
+<h2 id="directives">ディレクティブ一覧</h2>
+
+<table>
+<tr><th>ディレクティブ</th><th>説明</th><th>C# 相当</th></tr>
+<tr><td><code>#assembly "Name" [, exe]</code></td><td>出力アセンブリ名・種別</td><td><code>[assembly: AssemblyTitle("Name")]</code></td></tr>
+<tr><td><code>#reference "Lib.dll"</code></td><td>参照アセンブリ追加</td><td><code>csc /r:Lib.dll</code></td></tr>
+<tr><td><code>#namespace "NS"</code></td><td>名前空間開始</td><td><code>namespace NS {</code></td></tr>
+<tr><td><code>#endnamespace</code></td><td>名前空間終了</td><td><code>}</code></td></tr>
+<tr><td><code>#class [修飾子] Name [: Base, IFace]</code></td><td>クラス定義開始</td><td><code>public class Name : Base, IFace {</code></td></tr>
+<tr><td><code>#endclass</code></td><td>クラス定義終了</td><td><code>}</code></td></tr>
+<tr><td><code>#interface Name</code></td><td>インターフェース定義</td><td><code>public interface Name {</code></td></tr>
+<tr><td><code>#endinterface</code></td><td>インターフェース終了</td><td><code>}</code></td></tr>
+<tr><td><code>#func [修飾子] [戻型] Name [, params]</code></td><td>メソッド定義</td><td><code>public RetType Name(params) {</code></td></tr>
+<tr><td><code>#endfunc</code></td><td>メソッド終了</td><td><code>}</code></td></tr>
+<tr><td><code>#init [params]</code></td><td>コンストラクタ</td><td><code>public Name(params) {</code></td></tr>
+<tr><td><code>#endinit</code></td><td>コンストラクタ終了</td><td><code>}</code></td></tr>
+<tr><td><code>#field [修飾子] Type Name</code></td><td>フィールド</td><td><code>public Type Name;</code></td></tr>
+<tr><td><code>#property Name as Type</code></td><td>プロパティ</td><td><code>public Type Name { get; }</code></td></tr>
+<tr><td><code>#main / #endmain</code></td><td>エントリポイント</td><td><code>static void Main() {</code></td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="types">型システム</h2>
+
+<table>
+<tr><th>NHSP</th><th>.NET (CLR)</th><th>サイズ</th><th>リテラル例</th></tr>
+<tr><td><code>int</code></td><td><code>System.Int32</code></td><td>4 byte</td><td><code>42</code>, <code>-1</code></td></tr>
+<tr><td><code>int64</code> / <code>long</code></td><td><code>System.Int64</code></td><td>8 byte</td><td></td></tr>
+<tr><td><code>double</code></td><td><code>System.Double</code></td><td>8 byte</td><td><code>3.14</code></td></tr>
+<tr><td><code>float</code></td><td><code>System.Single</code></td><td>4 byte</td><td></td></tr>
+<tr><td><code>string</code></td><td><code>System.String</code></td><td>参照</td><td><code>"Hello"</code></td></tr>
+<tr><td><code>bool</code></td><td><code>System.Boolean</code></td><td>1 byte</td><td><code>true</code>, <code>false</code></td></tr>
+<tr><td><code>byte</code></td><td><code>System.Byte</code></td><td>1 byte</td><td></td></tr>
+<tr><td><code>short</code></td><td><code>System.Int16</code></td><td>2 byte</td><td></td></tr>
+<tr><td><code>object</code> / <code>var</code></td><td><code>System.Object</code></td><td>参照</td><td></td></tr>
+</table>
+
+<div class="note">
+型推論: <code>x = 42</code> は <code>int</code>、<code>s = "text"</code> は <code>string</code> と推論。<code>dim</code> で明示指定も可能。
+</div>
+
+<!-- ========================================== -->
+<h2 id="class-def">クラス定義</h2>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#class public Person
+  #field public string Name
+  #field private int _age
+
+  #init string name, int age
+    Name = name
+    _age = age
+  #endinit
+
+  #func public string GetInfo
+    return Name + " (" + str(_age) + ")"
+  #endfunc
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public class Person
+{
+    public string Name;
+    private int _age;
+
+    public Person(string name, int age)
+    {
+        Name = name;
+        _age = age;
+    }
+
+    public string GetInfo()
+    {
+        return Name + " (" + _age + ")";
+    }
+}</code></pre>
+</div>
+</div>
+
+<!-- ========================================== -->
+<h2 id="methods">メソッド定義</h2>
+
+<h3>構文</h3>
+<pre><code>#func [修飾子...] [戻り値型] メソッド名 [, 型 引数名, 型 引数名 ...]
+  ; 本体
+#endfunc</code></pre>
+
+<h3>修飾子</h3>
+<table>
+<tr><th>修飾子</th><th>説明</th></tr>
+<tr><td><code>public</code></td><td>外部から呼び出し可能</td></tr>
+<tr><td><code>private</code></td><td>クラス内部のみ</td></tr>
+<tr><td><code>static</code></td><td>インスタンス不要</td></tr>
+<tr><td><code>virtual</code></td><td>派生クラスでオーバーライド可能</td></tr>
+<tr><td><code>override</code></td><td>基底クラスのメソッドをオーバーライド</td></tr>
+</table>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#func public static int Max, int a, int b
+  if a > b { return a }
+  return b
+#endfunc</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public static int Max(int a, int b)
+{
+    if (a > b) return a;
+    return b;
+}</code></pre>
+</div>
+</div>
+
+<!-- ========================================== -->
+<h2 id="fields">フィールド・プロパティ</h2>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#field public int Width
+#field public int Height
+
+#property Area as int, public
+  #get
+    return Width * Height
+  #endget
+#endproperty</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public int Width;
+public int Height;
+
+public int Area
+{
+    get { return Width * Height; }
+}</code></pre>
+</div>
+</div>
+
+<!-- ========================================== -->
+<h2 id="constructors">コンストラクタ</h2>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>; デフォルト (省略可)
+#init
+  X = 0
+#endinit
+
+; 引数付き
+#init int x, int y
+  X = x
+  Y = y
+#endinit</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public Point()
+{
+    X = 0;
+}
+
+public Point(int x, int y)
+{
+    X = x;
+    Y = y;
+}</code></pre>
+</div>
+</div>
+
+<!-- ========================================== -->
+<h2 id="inheritance">継承・インターフェース</h2>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#interface IShape
+  #func int Area
+#endinterface
+
+#class public Circle : IShape
+  #field public int Radius
+  #init int r
+    Radius = r
+  #endinit
+  #func public int Area
+    return Radius * Radius * 3
+  #endfunc
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public interface IShape
+{
+    int Area();
+}
+
+public class Circle : IShape
+{
+    public int Radius;
+    public Circle(int r) { Radius = r; }
+    public int Area()
+    {
+        return Radius * Radius * 3;
+    }
+}</code></pre>
+</div>
+</div>
+
+<!-- ========================================== -->
+<h2 id="control">制御構文</h2>
+
+<table>
+<tr><th>NHSP</th><th>C#</th><th>備考</th></tr>
+<tr><td><code>if cond { } else { }</code></td><td><code>if (cond) { } else { }</code></td><td>条件の括弧不要。<code>=</code> は <code>==</code></td></tr>
+<tr><td><code>repeat N ... loop</code></td><td><code>for(int cnt=0;cnt&lt;N;cnt++){}</code></td><td><code>cnt</code> が自動カウンタ</td></tr>
+<tr><td><code>for i = S to E [step N] ... next</code></td><td><code>for(int i=S;i&lt;=E;i+=N){}</code></td><td></td></tr>
+<tr><td><code>while cond ... wend</code></td><td><code>while(cond){}</code></td><td></td></tr>
+<tr><td><code>break</code></td><td><code>break;</code></td><td></td></tr>
+<tr><td><code>continue</code></td><td><code>continue;</code></td><td></td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="exceptions">例外処理</h2>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>dim int result
+result = 0
+try
+  result = a / b
+catch ex
+  result = -1
+endtry
+return result</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>int result = 0;
+try
+{
+    result = a / b;
+}
+catch (Exception ex)
+{
+    result = -1;
+}
+return result;</code></pre>
+</div>
+</div>
+
+<div class="note">
+<strong>制限:</strong> try/catch ブロック内の <code>return</code> は現在非対応。結果は外部の変数に格納してから try 外で return してください。
+</div>
+
+<!-- ========================================== -->
+<h2 id="threading">スレッド・同期</h2>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>lock this
+  Count += 1
+endlock
+
+sleep 100</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>lock (this)
+{
+    Count += 1;
+}
+
+Thread.Sleep(100);</code></pre>
+</div>
+</div>
+
+<!-- ========================================== -->
+<h2 id="operators">演算子一覧</h2>
+
+<table>
+<tr><th>種別</th><th>演算子</th><th>備考</th></tr>
+<tr><td>算術</td><td><code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>%</code></td><td>優先順位: * / % &gt; + -</td></tr>
+<tr><td>比較</td><td><code>==</code> <code>!=</code> <code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code></td><td><code>=</code> も <code>==</code> と同じ (HSP互換)</td></tr>
+<tr><td>論理</td><td><code>&&</code> <code>||</code> <code>!</code></td><td>短絡評価</td></tr>
+<tr><td>代入</td><td><code>=</code> <code>+=</code> <code>-=</code> <code>*=</code> <code>/=</code></td><td></td></tr>
+<tr><td>単項</td><td><code>-</code> (符号反転) <code>!</code> (否定)</td><td></td></tr>
+<tr><td>文字列連結</td><td><code>+</code></td><td>片方が string なら自動 String.Concat</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="builtins">ビルトイン関数・文</h2>
+
+<table>
+<tr><th>名前</th><th>説明</th><th>C# 相当</th></tr>
+<tr><td><code>print expr</code></td><td>コンソール出力</td><td><code>Console.WriteLine(expr)</code></td></tr>
+<tr><td><code>str(x)</code></td><td>文字列変換</td><td><code>x.ToString()</code></td></tr>
+<tr><td><code>int(s)</code></td><td>整数パース</td><td><code>int.Parse(s)</code></td></tr>
+<tr><td><code>double(s)</code></td><td>実数パース</td><td><code>double.Parse(s)</code></td></tr>
+<tr><td><code>sleep ms</code></td><td>スレッド停止</td><td><code>Thread.Sleep(ms)</code></td></tr>
+<tr><td><code>new var, Type(args)</code></td><td>オブジェクト生成</td><td><code>var = new Type(args)</code></td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="dotnet">.NET API アクセス</h2>
+
+<p>全ての .NET Framework 4.8 API にアクセス可能。静的メソッドは <code>ClassName.Method()</code> で呼び出し。</p>
+
+<pre><code>; String メソッド
+s.Length            ; プロパティ
+s.ToUpper()         ; インスタンスメソッド
+s.Contains("text")  ; 引数付き
+s.Substring(2, 3)   ; オーバーロード解決
+
+; Math クラス (static)
+Math.Max(a, b)
+Math.Abs(x)
+Math.Min(a, b)</code></pre>
+
+<!-- ========================================== -->
+<h2 id="cli">CLI オプション</h2>
+
+<pre><code>nhspc.exe &lt;input.nhsp&gt; [-o &lt;output&gt;] [-debug]
+
+  &lt;input.nhsp&gt;  : ソースファイル
+  -o &lt;file&gt;     : 出力ファイルパス (省略時: アセンブリ名.dll)
+  -debug        : PDB デバッグ情報を生成</code></pre>
+
+<!-- ========================================== -->
+<h2 id="limits">既知の制限</h2>
+
+<table>
+<tr><th>制限</th><th>回避策</th></tr>
+<tr><td>try/catch 内の return</td><td>結果を外部変数に格納してから try 外で return</td></tr>
+<tr><td>メソッド名に HSP 予約語 (repeat 等) は使えない</td><td>別の名前を使用</td></tr>
+<tr><td>ジェネリクス (List&lt;T&gt; 等) 未対応</td><td>.NET API を直接呼び出し、または C# ヘルパーを使用</td></tr>
+<tr><td>ラムダ式・デリゲート未対応</td><td>メソッド参照で代替</td></tr>
+<tr><td>async/await 未対応</td><td>Thread / Task.Run で代替</td></tr>
+<tr><td>複数クラスの new で一部 AccessViolation</td><td>同一クラス内または1対1のクロス参照のみ</td></tr>
+</table>
+
+<footer>
+  <p>NHSP (Net HSP) 言語リファレンス &mdash; nhspc コンパイラ Phase 1-13</p>
+</footer>
+
+</div>
+</body>
+</html>
