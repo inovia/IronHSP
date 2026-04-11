@@ -128,6 +128,9 @@
         "icon": "$(debug-alt)"
       }
     ],
+    "breakpoints": [
+      { "language": "nhsp" }
+    ],
     "debuggers": [
       {
         "type": "nhsp",
