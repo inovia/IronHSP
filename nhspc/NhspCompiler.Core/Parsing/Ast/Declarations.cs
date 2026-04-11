@@ -65,6 +65,7 @@ namespace NhspCompiler.Core.Parsing.Ast
         public bool IsAbstract { get; set; }
         public bool HasStaticConstructor { get; set; }
         public List<Statement> StaticConstructorBody { get; set; }
+        public List<Statement> DestructorBody { get; set; } // null = no destructor
 
         // Struct support
         public bool IsStruct { get; set; }

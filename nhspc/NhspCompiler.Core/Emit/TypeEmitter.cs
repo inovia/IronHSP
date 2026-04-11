@@ -380,6 +380,53 @@ namespace NhspCompiler.Core.Emit
             foreach (var prop in _cls.Properties)
                 EmitProperty(prop);
 
+            // Static constructor (.cctor)
+            if (_cls.HasStaticConstructor && _cls.StaticConstructorBody != null)
+            {
+                var cctor = TypeBuilder.DefineConstructor(
+                    MethodAttributes.Static | MethodAttributes.Private | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName,
+                    CallingConventions.Standard, Type.EmptyTypes);
+                var il = cctor.GetILGenerator();
+                // Static init: emit simple statements (assignment to static fields)
+                var locals = new Dictionary<string, System.Reflection.Emit.LocalBuilder>();
+                foreach (var stmt in _cls.StaticConstructorBody)
+                {
+                    if (stmt is AssignmentStatement assign)
+                    {
+                        if (Fields.TryGetValue(assign.VariableName, out var fb))
+                        {
+                            // Static field assignment
+                            var cbEmitter = new ConstructorBodyEmitter(il, new Dictionary<string, int>(), _diag, this, new List<ParameterDeclaration>());
+                            cbEmitter.EmitExpr(assign.Value);
+                            il.Emit(OpCodes.Stsfld, fb);
+                        }
+                    }
+                    else
+                    {
+                        var cbEmitter = new ConstructorBodyEmitter(il, new Dictionary<string, int>(), _diag, this, new List<ParameterDeclaration>());
+                        cbEmitter.EmitStatement(stmt);
+                    }
+                }
+                il.Emit(OpCodes.Ret);
+            }
+
+            // Destructor (Finalize)
+            if (_cls.DestructorBody != null)
+            {
+                var finalize = TypeBuilder.DefineMethod("Finalize",
+                    MethodAttributes.Family | MethodAttributes.Virtual | MethodAttributes.HideBySig,
+                    typeof(void), Type.EmptyTypes);
+                var il = finalize.GetILGenerator();
+                il.BeginExceptionBlock();
+                var emitter = new ConstructorBodyEmitter(il, new Dictionary<string, int>(), _diag, this, new List<ParameterDeclaration>());
+                foreach (var stmt in _cls.DestructorBody) emitter.EmitStatement(stmt);
+                il.BeginFinallyBlock();
+                il.Emit(OpCodes.Ldarg_0);
+                il.Emit(OpCodes.Call, typeof(object).GetMethod("Finalize", BindingFlags.NonPublic | BindingFlags.Instance));
+                il.EndExceptionBlock();
+                il.Emit(OpCodes.Ret);
+            }
+
             // Events
             foreach (var ev in _cls.Events)
                 EmitEvent(ev);

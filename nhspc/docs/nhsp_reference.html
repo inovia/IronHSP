@@ -70,6 +70,9 @@
   <a href="#op-overload">演算子オーバーロード</a>
   <a href="#nested">ネストクラス</a>
   <a href="#generics">ジェネリクス</a>
+  <a href="#static-ctor">static コンストラクタ</a>
+  <a href="#destructor">デストラクタ</a>
+  <a href="#nullable">Nullable 型</a>
   <a href="#marshalas">MarshalAs 属性</a>
   <a href="#com">COM 属性</a>
   <a href="#dotnet">.NET API アクセス</a>
@@ -124,6 +127,8 @@
 <tr><td><code>#event [修飾子] DelegateType Name</code></td><td>イベント定義</td><td><code>public event EventHandler Name;</code></td></tr>
 <tr><td><code>#indexer [修飾子] Type [, params]</code></td><td>インデクサ定義</td><td><code>public Type this[params] { }</code></td></tr>
 <tr><td><code>#operator RetType Op, params</code></td><td>演算子オーバーロード</td><td><code>public static RetType operator Op(params)</code></td></tr>
+<tr><td><code>#init static ... #endinit</code></td><td>静的コンストラクタ</td><td><code>static ClassName() { }</code></td></tr>
+<tr><td><code>#destructor ... #enddestructor</code></td><td>デストラクタ (ファイナライザ)</td><td><code>~ClassName() { }</code></td></tr>
 <tr><td><code>#attribute Name, "value"</code></td><td>カスタム属性付与</td><td><code>[Name("value")]</code></td></tr>
 </table>
 
@@ -901,6 +906,105 @@ dim HashSet&lt;int&gt; set = new HashSet&lt;int&gt;()</code></pre>
 </div>
 
 <!-- ========================================== -->
+<h2 id="static-ctor">static コンストラクタ</h2>
+
+<p>クラスが最初に使われるときに1回だけ実行される初期化コード。static フィールドの初期値設定に使います。</p>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#class public Config
+  #field public static int DefaultValue
+
+  #init static
+    DefaultValue = 42
+  #endinit
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public class Config
+{
+    public static int DefaultValue;
+
+    static Config()
+    {
+        DefaultValue = 42;
+    }
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+IL レベルでは <code>.cctor</code> (TypeInitializer) として生成。<code>MethodAttributes.Static | RTSpecialName | SpecialName</code>。<br>
+CLR がクラスへの最初のアクセス時に自動呼び出し。明示的に呼ぶことはできない。
+</div>
+
+<!-- ========================================== -->
+<h2 id="destructor">デストラクタ</h2>
+
+<p>オブジェクトが GC に回収される前に実行されるクリーンアップコード。</p>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#class public Resource
+  #destructor
+    ; リソース解放処理
+  #enddestructor
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public class Resource
+{
+    ~Resource()
+    {
+        // リソース解放処理
+    }
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+IL レベルでは <code>Finalize()</code> メソッドの override として生成。<code>try { 本体 } finally { base.Finalize(); }</code> パターン。<br>
+GC のタイミングに依存するため、確定的な解放には <code>using</code> 文 + <code>IDisposable</code> を推奨。
+</div>
+
+<!-- ========================================== -->
+<h2 id="nullable">Nullable 型</h2>
+
+<p>値型に <code>?</code> を付けて null を許容する型にできます。</p>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>; int? は Nullable&lt;int&gt; と同等
+#func public static bool HasValue, int? val
+  return val.HasValue
+#endfunc
+
+; double? も使える
+dim double? price = 19.99</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public static bool HasValue(int? val)
+{
+    return val.HasValue;
+}
+
+double? price = 19.99;</code></pre>
+</div>
+</div>
+
+<div class="note">
+<code>int?</code> は内部的に <code>Nullable&lt;int&gt;</code>（<code>System.Nullable`1[System.Int32]</code>）に変換。<br>
+<code>.HasValue</code> / <code>.Value</code> プロパティ、<code>??</code> 演算子と組み合わせて使用可能。<br>
+ジャグ配列 <code>int[][]</code> (配列の配列) もサポート。
+</div>
+
+<!-- ========================================== -->
 <h2 id="marshalas">MarshalAs 属性</h2>
 
 <p>P/Invoke のパラメータや構造体のフィールドに <code>[MarshalAs]</code> 属性を付けて、マネージド型とアンマネージド型の変換方式を指定できます。</p>
@@ -1299,7 +1403,7 @@ Math.Min(a, b)</code></pre>
 
 <table>
 <tr><th>制限</th><th>回避策</th></tr>
-<tr><td>try/catch 内の return</td><td>結果を外部変数に格納してから try 外で return</td></tr>
+<tr><td>try/catch 内の return</td><td>Leave 命令で自動対応済み (Phase 17 で修正)</td></tr>
 <tr><td>メソッド名に HSP 予約語 (repeat 等) は使えない</td><td>別の名前を使用</td></tr>
 <tr><td>ジェネリクス (List&lt;T&gt; 等) 未対応</td><td>.NET API を直接呼び出し、または C# ヘルパーを使用</td></tr>
 <tr><td>ラムダ式 / クロージャ未対応</td><td><code>#delegate</code> でデリゲート型は定義可能、ラムダ式 (匿名関数) は未対応</td></tr>
@@ -1313,7 +1417,7 @@ Math.Min(a, b)</code></pre>
 </table>
 
 <footer>
-  <p>NHSP (Net HSP) 言語リファレンス &mdash; nhspc コンパイラ Phase 1-17</p>
+  <p>NHSP (Net HSP) 言語リファレンス &mdash; nhspc コンパイラ Phase 1-18</p>
 </footer>
 
 </div>

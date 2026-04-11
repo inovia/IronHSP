@@ -245,7 +245,24 @@ namespace NhspCompiler.Core.Parsing
                     {
                         cls.Methods.Add(ParseMethod(cls.DefaultAccess));
                     }
-                    else if (MatchKW("init")) { cls.Constructors.Add(ParseConstructor(cls.DefaultAccess)); }
+                    else if (MatchKW("destructor"))
+                    {
+                        Advance(); SkipEOL();
+                        cls.DestructorBody = ParseBlock("enddestructor");
+                    }
+                    else if (MatchKW("init"))
+                    {
+                        // Peek ahead for "static" (don't advance "init" yet - ParseConstructor does it)
+                        if (Peek().Kind == TokenKind.Keyword && Peek().Text == "static")
+                        {
+                            Advance(); // skip "init"
+                            Advance(); // skip "static"
+                            SkipEOL();
+                            cls.HasStaticConstructor = true;
+                            cls.StaticConstructorBody = ParseBlock("endinit");
+                        }
+                        else { cls.Constructors.Add(ParseConstructor(cls.DefaultAccess)); }
+                    }
                     else if (MatchKW("property")) { cls.Properties.Add(ParseProperty(cls.DefaultAccess)); }
                     else if (MatchKW("event")) { cls.Events.Add(ParseEvent(cls.DefaultAccess)); }
                     else if (MatchKW("indexer")) { cls.Indexers.Add(ParseIndexer(cls.DefaultAccess)); }
@@ -284,7 +301,7 @@ namespace NhspCompiler.Core.Parsing
             }
 
             // type + name, or just name
-            if ((MatchType() || IsKnownType()) && Peek().Kind == TokenKind.Identifier)
+            if (IsTypeFollowedByIdentifier())
             {
                 f.TypeName = ReadTypeName();
                 f.Name = Expect(TokenKind.Identifier, "Expected field name").Text;
@@ -392,30 +409,41 @@ namespace NhspCompiler.Core.Parsing
         // Check if current position starts with a type name followed by an identifier (for dim, field, etc.)
         private bool IsTypeFollowedByIdentifier()
         {
-            if (MatchType() && Peek().Kind == TokenKind.Identifier) return true;
-            // For TypeAliases followed by identifier
-            if (Current.Kind == TokenKind.Identifier &&
-                Lexing.Keywords.TypeAliases.ContainsKey(Current.Text.ToLowerInvariant()) &&
-                Peek().Kind == TokenKind.Identifier) return true;
-            // For generic types: Identifier<...> followed by identifier
-            // Scan ahead to find the matching > then check next token
-            if (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Less)
+            int save = _pos;
+            bool result = false;
+
+            // Try to scan past the type name, then check if next is Identifier
+            if (MatchType() || (Current.Kind == TokenKind.Identifier &&
+                (Lexing.Keywords.TypeAliases.ContainsKey(Current.Text.ToLowerInvariant()) ||
+                 Peek().Kind == TokenKind.Less)))
             {
-                int save = _pos;
-                _pos++; // skip name
-                _pos++; // skip <
-                int depth = 1;
-                while (_pos < _tokens.Count && depth > 0)
+                _pos++; // skip type name
+
+                // Skip generic args: <...>
+                if (_pos < _tokens.Count && _tokens[_pos].Kind == TokenKind.Less)
                 {
-                    if (_tokens[_pos].Kind == TokenKind.Less) depth++;
-                    else if (_tokens[_pos].Kind == TokenKind.Greater) depth--;
-                    _pos++;
+                    _pos++; int depth = 1;
+                    while (_pos < _tokens.Count && depth > 0)
+                    {
+                        if (_tokens[_pos].Kind == TokenKind.Less) depth++;
+                        else if (_tokens[_pos].Kind == TokenKind.Greater) depth--;
+                        _pos++;
+                    }
                 }
-                bool result = _pos < _tokens.Count && _tokens[_pos].Kind == TokenKind.Identifier;
-                _pos = save;
-                return result;
+
+                // Skip ? (Nullable)
+                if (_pos < _tokens.Count && _tokens[_pos].Kind == TokenKind.Question)
+                    _pos++;
+
+                // Skip [] (array, possibly multiple)
+                while (_pos + 1 < _tokens.Count && _tokens[_pos].Kind == TokenKind.LBracket && _tokens[_pos + 1].Kind == TokenKind.RBracket)
+                    _pos += 2;
+
+                result = _pos < _tokens.Count && _tokens[_pos].Kind == TokenKind.Identifier;
             }
-            return false;
+
+            _pos = save;
+            return result;
         }
 
         private void ApplyModifier(MethodDeclaration m, string mod)
@@ -739,7 +767,7 @@ namespace NhspCompiler.Core.Parsing
             // Parse try body until catch/finally/endtry
             stmt.TryBody = ParseTryBlock();
 
-            // First catch [Type varName]
+            // First catch [Type varName] [when (cond)]
             if (IsTryKW("catch"))
             {
                 ConsumeTryKW();
@@ -750,6 +778,7 @@ namespace NhspCompiler.Core.Parsing
                     else if (Current.Kind == TokenKind.Identifier)
                     { stmt.CatchVarName = Advance().Text; }
                 }
+                if (MatchKW("when")) { Advance(); stmt.CatchWhen = ParseExpression(); }
                 SkipEOL();
                 stmt.CatchBody = ParseTryBlock();
             }
@@ -766,6 +795,7 @@ namespace NhspCompiler.Core.Parsing
                     else if (Current.Kind == TokenKind.Identifier)
                     { clause.CatchVarName = Advance().Text; }
                 }
+                if (MatchKW("when")) { Advance(); clause.WhenFilter = ParseExpression(); }
                 SkipEOL();
                 clause.Body = ParseTryBlock();
                 stmt.AdditionalCatches.Add(clause);
@@ -1672,8 +1702,15 @@ namespace NhspCompiler.Core.Parsing
                 name += ">";
             }
 
-            // Array type: int[], string[]
-            if (Match(TokenKind.LBracket) && Peek().Kind == TokenKind.RBracket)
+            // Nullable: int? → Nullable<int>
+            if (Match(TokenKind.Question))
+            {
+                Advance();
+                name = "Nullable<" + name + ">";
+            }
+
+            // Array type: int[], string[], int[][] (jagged)
+            while (Match(TokenKind.LBracket) && Peek().Kind == TokenKind.RBracket)
             {
                 Advance(); Advance(); // skip []
                 name += "[]";

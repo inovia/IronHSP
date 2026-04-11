@@ -79,6 +79,7 @@ namespace NhspCompiler.Core.Parsing.Ast
         public List<Statement> TryBody { get; set; } = new List<Statement>();
         public string CatchVarName { get; set; } // null = no variable
         public string CatchTypeName { get; set; } = "Exception";
+        public Expression CatchWhen { get; set; } // null = no filter
         public List<Statement> CatchBody { get; set; } = new List<Statement>();
         public List<CatchClause> AdditionalCatches { get; set; } = new List<CatchClause>();
         public List<Statement> FinallyBody { get; set; }
@@ -88,6 +89,7 @@ namespace NhspCompiler.Core.Parsing.Ast
     {
         public string CatchTypeName { get; set; } = "Exception";
         public string CatchVarName { get; set; }
+        public Expression WhenFilter { get; set; } // null = no filter
         public List<Statement> Body { get; set; } = new List<Statement>();
     }
 

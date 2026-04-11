@@ -70,6 +70,7 @@
   <li><a href="#switch">switch と三項演算子</a></li>
   <li><a href="#bitwise">ビット演算と文字列補間</a></li>
   <li><a href="#advanced">型チェックとイベント</a></li>
+  <li><a href="#lifecycle">オブジェクトの生成と破棄</a></li>
 </ol>
 </nav>
 
@@ -818,6 +819,44 @@ dim string result = s ?? "文字列ではない"</code></pre>
 <pre><code>#func public static string Greet, string name = "World", int count = 1
   return name
 #endfunc</code></pre>
+
+<!-- ========================================== -->
+<h2 id="lifecycle">21. オブジェクトの生成と破棄</h2>
+
+<h3>static コンストラクタ</h3>
+<p>クラスが初めて使われるときに1回だけ実行されます。static フィールドの初期値設定に便利です。</p>
+
+<pre><code>#class public Config
+  #field public static int MaxRetry
+
+  ; クラスが初めて使われるときに実行
+  #init static
+    MaxRetry = 3
+  #endinit
+#endclass</code></pre>
+
+<h3>デストラクタ</h3>
+<p>オブジェクトがメモリから解放されるときに実行されます。ファイルハンドルなどの後片付けに使います。</p>
+
+<pre><code>#class public FileHandler
+  #destructor
+    ; ファイルを閉じるなどの後処理
+  #enddestructor
+#endclass</code></pre>
+
+<div class="tip">
+デストラクタは GC のタイミングで呼ばれるので、確実に解放したい場合は <code>using</code> 文を使いましょう。
+</div>
+
+<h3>Nullable 型 (int?)</h3>
+<p>値型に <code>?</code> をつけると null を入れられる型になります。</p>
+
+<pre><code>; int? は「整数か null」を表す型
+dim int? value
+value = 42
+if value.HasValue
+  print value.Value
+endif</code></pre>
 
 <footer>
   <p>NHSP (Net HSP) &mdash; HSP風 .NET アセンブリコンパイラ</p>
