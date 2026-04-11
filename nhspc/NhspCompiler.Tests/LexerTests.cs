@@ -58,6 +58,24 @@ namespace NhspCompiler.Tests
         }
 
         [Test]
+        public void TokenizeHex0x()
+        {
+            var lexer = new Lexer("x = 0xFF");
+            var tokens = lexer.Tokenize();
+            Assert.AreEqual(TokenKind.IntLiteral, tokens[2].Kind);
+            Assert.AreEqual("255", tokens[2].Text);
+        }
+
+        [Test]
+        public void TokenizeHexDollar()
+        {
+            var lexer = new Lexer("x = $1A");
+            var tokens = lexer.Tokenize();
+            Assert.AreEqual(TokenKind.IntLiteral, tokens[2].Kind);
+            Assert.AreEqual("26", tokens[2].Text);
+        }
+
+        [Test]
         public void TokenizeComment()
         {
             var lexer = new Lexer("x = 1 ; comment\ny = 2 // another");

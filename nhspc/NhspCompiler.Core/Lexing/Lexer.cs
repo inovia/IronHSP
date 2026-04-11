@@ -54,6 +54,10 @@ namespace NhspCompiler.Core.Lexing
                 // String literal
                 if (Cur == '"') { tokens.Add(ReadString()); continue; }
 
+                // Hex: $FF or 0xFF
+                if (Cur == '$' && IsHexDigit(Next)) { tokens.Add(ReadHex('$')); continue; }
+                if (Cur == '0' && (Next == 'x' || Next == 'X')) { tokens.Add(ReadHex('0')); continue; }
+
                 // Number
                 if (char.IsDigit(Cur)) { tokens.Add(ReadNumber()); continue; }
 
@@ -160,6 +164,25 @@ namespace NhspCompiler.Core.Lexing
                 sb.Append(Cur); _pos++; _col++;
             }
             return new Token(hasDot ? TokenKind.DoubleLiteral : TokenKind.IntLiteral, sb.ToString(), _line, startCol);
+        }
+
+        private static bool IsHexDigit(char c)
+        {
+            return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
+        }
+
+        private Token ReadHex(char prefix)
+        {
+            int startCol = _col;
+            if (prefix == '$') { _pos++; _col++; } // skip $
+            else { _pos += 2; _col += 2; } // skip 0x
+
+            var sb = new StringBuilder();
+            while (_pos < _source.Length && IsHexDigit(Cur))
+            { sb.Append(Cur); _pos++; _col++; }
+
+            int val = int.Parse(sb.ToString(), System.Globalization.NumberStyles.HexNumber);
+            return new Token(TokenKind.IntLiteral, val.ToString(), _line, startCol);
         }
 
         private Token ReadIdentifier()
