@@ -700,14 +700,14 @@ namespace NhspCompiler.Core.Parsing
             var ctor = new ConstructorDeclaration { Line = Current.Line, Access = defAccess };
             Advance(); // "init"
 
-            // #init [access], params...
+            // #init [access] [type name [, type name] ...]
             while (IsModifierKeyword())
             {
                 string mod = Advance().Text;
                 if (mod == "public" || mod == "private") ctor.Access = mod;
             }
 
-            // Parameters: , type name [, type name] ...
+            // Parameters: type name [, type name] ...
             while (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
             {
                 if (Match(TokenKind.Comma)) { Advance(); continue; }

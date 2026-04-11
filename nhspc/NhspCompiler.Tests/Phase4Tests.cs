@@ -23,7 +23,7 @@ namespace NhspCompiler.Tests
 @"#assembly ""T""
 #class public Animal
   #field public string Name
-  #init, string name
+  #init string name
     Name = name
   endinit
   #func public virtual string Speak
@@ -31,7 +31,7 @@ namespace NhspCompiler.Tests
   endfunc
 #endclass
 #class public Dog : Animal
-  #init, string name
+  #init string name
     Name = name
   endinit
   #func public override string Speak
@@ -53,7 +53,7 @@ namespace NhspCompiler.Tests
   endfunc
 #endclass
 #class public Derived : Base
-  #init, int v
+  #init int v
     Value = v
   endinit
   #func public int GetDouble
@@ -95,7 +95,7 @@ namespace NhspCompiler.Tests
 #endclass
 #class public Square : Shape
   #field public int Side
-  #init, int side
+  #init int side
     Side = side
   endinit
   #func public override int Area
@@ -119,7 +119,7 @@ namespace NhspCompiler.Tests
 #class public NC : INameable, ICountable
   #field public string Name
   #field public int Count
-  #init, string name, int count
+  #init string name, int count
     Name = name
     Count = count
   endinit

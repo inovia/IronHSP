@@ -108,7 +108,7 @@ namespace NhspCompiler.Tests
 #class public Pt
   #field public int X
   #field public int Y
-  #init, int x, int y
+  #init int x, int y
     X = x
     Y = y
   endinit
