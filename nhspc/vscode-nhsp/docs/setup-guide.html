@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NHSP VS Code 拡張 — セットアップガイド</title>
+<style>
+  :root { --accent: #007acc; --bg: #1e1e1e; --card: #252526; --border: #3c3c3c; --text: #d4d4d4; --muted: #808080; --green: #4ec9b0; --orange: #ce9178; --blue: #569cd6; --yellow: #dcdcaa; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Meiryo', sans-serif; background: #f5f5f5; color: #333; line-height: 1.8; }
+  .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+  header { background: linear-gradient(135deg, #005a9e, #007acc); color: #fff; padding: 2.5rem 0; text-align: center; }
+  header h1 { font-size: 2rem; margin-bottom: 0.3rem; }
+  header p { opacity: 0.9; }
+  h2 { font-size: 1.4rem; color: #005a9e; margin: 2.5rem 0 0.8rem; border-left: 5px solid #007acc; padding-left: 0.75rem; }
+  h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; color: #333; }
+  p, li { margin-bottom: 0.5rem; }
+  ul, ol { padding-left: 1.5rem; }
+  pre { background: var(--bg); color: var(--text); padding: 1rem 1.2rem; border-radius: 6px; overflow-x: auto; margin: 0.8rem 0; font-size: 0.9rem; line-height: 1.6; }
+  code { background: #e8e8e8; padding: 0.1rem 0.4rem; border-radius: 3px; font-family: 'Consolas', 'Source Code Pro', monospace; font-size: 0.9em; }
+  pre code { background: none; }
+  .card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1rem 0; }
+  .step { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1rem 0; counter-increment: step-counter; position: relative; padding-left: 4rem; }
+  .step::before { content: counter(step-counter); position: absolute; left: 1rem; top: 1rem; background: #007acc; color: #fff; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; }
+  .tip { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 0.8rem 1rem; margin: 0.8rem 0; border-radius: 0 6px 6px 0; }
+  .tip::before { content: "TIPS: "; font-weight: bold; color: #2e7d32; }
+  .warn { background: #fff8e1; border-left: 4px solid #ffc107; padding: 0.8rem 1rem; margin: 0.8rem 0; border-radius: 0 6px 6px 0; }
+  .warn::before { content: "NOTE: "; font-weight: bold; color: #f57f17; }
+  .error { background: #fce4ec; border-left: 4px solid #e53935; padding: 0.8rem 1rem; margin: 0.8rem 0; border-radius: 0 6px 6px 0; }
+  .error::before { content: "ERROR: "; font-weight: bold; color: #c62828; }
+  table { width: 100%; border-collapse: collapse; margin: 0.8rem 0; }
+  th, td { border: 1px solid #ddd; padding: 0.5rem 0.8rem; text-align: left; }
+  th { background: #f0f0f0; font-weight: 600; }
+  .kbd { display: inline-block; background: #eee; border: 1px solid #ccc; border-radius: 3px; padding: 0.1rem 0.5rem; font-family: 'Consolas', monospace; font-size: 0.85em; box-shadow: 0 1px 0 #999; }
+  .screenshot { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; margin: 1rem 0; color: var(--text); font-family: 'Consolas', monospace; font-size: 0.85rem; line-height: 1.5; }
+  .hl-dir { color: #569cd6; }
+  .hl-kw { color: #c586c0; }
+  .hl-type { color: #4ec9b0; }
+  .hl-str { color: #ce9178; }
+  .hl-cmt { color: #6a9955; }
+  .hl-num { color: #b5cea8; }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; text-align: center; color: #999; font-size: 0.85rem; }
+  nav.toc { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1.5rem 0; }
+  nav.toc h2 { margin: 0 0 0.8rem; font-size: 1.1rem; border: none; padding: 0; }
+  nav.toc ol { padding-left: 1.5rem; }
+  nav.toc li { padding: 0.2rem 0; }
+  nav.toc a { color: #007acc; text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>NHSP VS Code 拡張 セットアップガイド</h1>
+  <p>インストールから使い方まで</p>
+</header>
+
+<div class="container">
+
+<nav class="toc">
+<h2>目次</h2>
+<ol>
+  <li><a href="#prereq">必要なもの</a></li>
+  <li><a href="#install-ext">拡張のインストール</a></li>
+  <li><a href="#config">設定</a></li>
+  <li><a href="#usage">基本的な使い方</a></li>
+  <li><a href="#features">機能一覧</a></li>
+  <li><a href="#shortcuts">ショートカットキー</a></li>
+  <li><a href="#completion">入力補完の使い方</a></li>
+  <li><a href="#trouble">トラブルシューティング</a></li>
+  <li><a href="#editor">スタンドアロンエディタ</a></li>
+</ol>
+</nav>
+
+<!-- ============================== -->
+<h2 id="prereq">1. 必要なもの</h2>
+
+<table>
+<tr><th>ソフトウェア</th><th>バージョン</th><th>入手先</th></tr>
+<tr><td>Visual Studio Code</td><td>1.75 以上</td><td><a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></td></tr>
+<tr><td>Node.js</td><td>16 以上 (vsix パッケージ作成時のみ)</td><td><a href="https://nodejs.org/">https://nodejs.org/</a></td></tr>
+<tr><td>.NET Framework 4.8</td><td>ランタイム</td><td>Windows 10 には標準搭載</td></tr>
+<tr><td>nhspc.exe</td><td>最新版</td><td>ビルド済み、またはソースからビルド</td></tr>
+</table>
+
+<div class="tip">
+Node.js は拡張を <code>.vsix</code> パッケージ化する場合のみ必要です。
+フォルダコピーでインストールする場合は不要です。
+</div>
+
+<!-- ============================== -->
+<h2 id="install-ext">2. 拡張のインストール</h2>
+
+<p>3つの方法があります。簡単な順に説明します。</p>
+
+<h3>方法 A: フォルダコピー（最も簡単）</h3>
+
+<div class="step">
+<strong>拡張フォルダを VS Code の拡張ディレクトリにコピー</strong>
+<pre><code>:: Windows の場合
+xcopy /E /I "nhspc\vscode-nhsp" "%USERPROFILE%\.vscode\extensions\nhsp-language-0.1.0"</code></pre>
+<p>または手動で <code>vscode-nhsp</code> フォルダを以下にコピー:</p>
+<pre><code>%USERPROFILE%\.vscode\extensions\nhsp-language-0.1.0\</code></pre>
+</div>
+
+<div class="step">
+<strong>VS Code を再起動</strong>
+<p>VS Code を完全に閉じて再度開くと、拡張が読み込まれます。</p>
+</div>
+
+<div class="step">
+<strong>確認: <code>.nhsp</code> ファイルを開く</strong>
+<p>任意の <code>.nhsp</code> ファイルを開いて、シンタックスハイライトが適用されることを確認します。
+右下のステータスバーに「NHSP」と表示されれば成功です。</p>
+</div>
+
+<h3>方法 B: コマンドラインでインストール</h3>
+
+<div class="step">
+<strong>VS Code の <code>code</code> コマンドでインストール</strong>
+<pre><code>:: vscode-nhsp フォルダのパスを指定
+code --install-extension "nhspc\vscode-nhsp"</code></pre>
+</div>
+
+<h3>方法 C: .vsix パッケージを作成してインストール</h3>
+
+<div class="step">
+<strong>vsce (VS Code Extension Manager) をインストール</strong>
+<pre><code>npm install -g @vscode/vsce</code></pre>
+</div>
+
+<div class="step">
+<strong>パッケージ作成</strong>
+<pre><code>cd nhspc\vscode-nhsp
+vsce package</code></pre>
+<p><code>nhsp-language-0.1.0.vsix</code> が生成されます。</p>
+</div>
+
+<div class="step">
+<strong>vsix をインストール</strong>
+<pre><code>code --install-extension nhsp-language-0.1.0.vsix</code></pre>
+<p>または VS Code の拡張パネルで「...」→「VSIX からインストール」を選択。</p>
+</div>
+
+<!-- ============================== -->
+<h2 id="config">3. 設定</h2>
+
+<h3>nhspc.exe のパス設定</h3>
+
+<p>拡張はコンパイル時に <code>nhspc.exe</code> を使います。以下の順序で自動検出します:</p>
+<ol>
+  <li>設定 <code>nhsp.compilerPath</code> で指定されたパス</li>
+  <li>ワークスペースフォルダ直下の <code>nhspc.exe</code></li>
+  <li><code>nhspc/nhspc/bin/Debug/nhspc.exe</code> (ソースからビルドした場合)</li>
+</ol>
+
+<p>自動検出できない場合は、VS Code の設定で明示的に指定してください:</p>
+
+<pre><code>// settings.json
+{
+  "nhsp.compilerPath": "C:\\path\\to\\nhspc\\nhspc\\bin\\Debug\\nhspc.exe"
+}</code></pre>
+
+<p>設定の開き方: <span class="kbd">Ctrl</span>+<span class="kbd">,</span> → 検索欄に「nhsp」と入力</p>
+
+<h3>出力ディレクトリ設定（任意）</h3>
+
+<pre><code>{
+  "nhsp.outputDirectory": "C:\\output\\path"
+}</code></pre>
+
+<p>省略するとソースファイルと同じディレクトリに出力されます。</p>
+
+<!-- ============================== -->
+<h2 id="usage">4. 基本的な使い方</h2>
+
+<h3>新しいファイルを作る</h3>
+
+<div class="step">
+<strong><code>.nhsp</code> ファイルを作成</strong>
+<p><span class="kbd">Ctrl</span>+<span class="kbd">N</span> で新規ファイル → <span class="kbd">Ctrl</span>+<span class="kbd">S</span> で <code>hello.nhsp</code> として保存</p>
+</div>
+
+<div class="step">
+<strong>コードを書く</strong>
+<div class="screenshot">
+<span class="hl-dir">#assembly</span> <span class="hl-str">"Hello"</span>, exe<br><br>
+<span class="hl-dir">#class</span> <span class="hl-kw">public</span> <span class="hl-type">Program</span><br>
+&nbsp;&nbsp;<span class="hl-dir">#func</span> <span class="hl-kw">public static</span> <span class="hl-type">void</span> Main<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl-kw">print</span> <span class="hl-str">"Hello NHSP!"</span><br>
+&nbsp;&nbsp;<span class="hl-dir">#endfunc</span><br>
+<span class="hl-dir">#endclass</span><br><br>
+<span class="hl-dir">#main</span><br>
+&nbsp;&nbsp;Program.Main()<br>
+<span class="hl-dir">#endmain</span>
+</div>
+</div>
+
+<div class="step">
+<strong>コンパイル</strong>
+<p><span class="kbd">F5</span> を押すとコンパイルされます。</p>
+<ul>
+  <li><code>#main</code> があれば EXE が生成されます</li>
+  <li><code>#main</code> がなければ DLL が生成されます</li>
+</ul>
+</div>
+
+<div class="step">
+<strong>実行（EXE の場合）</strong>
+<p><span class="kbd">F6</span> でコンパイル＆実行。ターミナルに結果が表示されます。</p>
+</div>
+
+<h3>DLL を作る場合</h3>
+
+<div class="screenshot">
+<span class="hl-dir">#assembly</span> <span class="hl-str">"MyLibrary"</span><br><br>
+<span class="hl-dir">#class</span> <span class="hl-kw">public</span> Calculator<br>
+&nbsp;&nbsp;<span class="hl-dir">#func</span> <span class="hl-kw">public static</span> <span class="hl-type">int</span> Add, <span class="hl-type">int</span> a, <span class="hl-type">int</span> b<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl-kw">return</span> a + b<br>
+&nbsp;&nbsp;<span class="hl-dir">#endfunc</span><br>
+<span class="hl-dir">#endclass</span>
+</div>
+
+<p><span class="kbd">F5</span> で <code>MyLibrary.dll</code> が生成されます。<code>#main</code> がないので自動的に DLL になります。</p>
+<p>強制的に DLL にしたい場合は、コマンドパレット (<span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">P</span>) → 「NHSP: Compile as DLL」を選択。</p>
+
+<!-- ============================== -->
+<h2 id="features">5. 機能一覧</h2>
+
+<table>
+<tr><th>機能</th><th>説明</th></tr>
+<tr><td>シンタックスハイライト</td><td>ディレクティブ (青)、キーワード (紫)、型名 (緑)、文字列 (オレンジ)、コメント (緑)、数値 (薄緑)</td></tr>
+<tr><td>入力補完</td><td>型名、キーワード、.NET クラス名、ローカル変数、メソッド名を候補表示</td></tr>
+<tr><td>メンバー補完</td><td><code>.</code> を入力すると string/List/Math 等のメンバー候補を表示</td></tr>
+<tr><td>ブロック自動閉じ</td><td><code>#func</code> + Enter → <code>#endfunc</code> を自動挿入</td></tr>
+<tr><td>スニペット</td><td><code>#class</code>、<code>#func</code>、<code>if</code>、<code>for</code>、<code>try</code> 等のテンプレート</td></tr>
+<tr><td>ホバー情報</td><td>型名やメンバーにマウスオーバーで説明を表示</td></tr>
+<tr><td>定義ジャンプ</td><td><span class="kbd">F12</span> でクラス/メソッド/フィールドの定義箇所にジャンプ</td></tr>
+<tr><td>コンパイル</td><td><span class="kbd">F5</span> でビルド (EXE/DLL 自動判定)</td></tr>
+<tr><td>DLL ビルド</td><td>コマンドパレットで「NHSP: Compile as DLL」</td></tr>
+<tr><td>デバッグビルド</td><td><span class="kbd">Ctrl</span>+<span class="kbd">F5</span> で PDB 付きビルド</td></tr>
+<tr><td>コンパイル＆実行</td><td><span class="kbd">F6</span> でビルド → 実行</td></tr>
+<tr><td>エラー表示</td><td>「問題」パネルにエラー/警告を表示、エディタ上に波線</td></tr>
+<tr><td>保存時自動コンパイル</td><td>保存するたびにバックグラウンドでエラーチェック</td></tr>
+<tr><td>折りたたみ</td><td><code>#class</code>...<code>#endclass</code> 等のブロックを折りたたみ</td></tr>
+<tr><td>自動インデント</td><td>ブロック開始で自動インデント、終了で自動アンインデント</td></tr>
+</table>
+
+<!-- ============================== -->
+<h2 id="shortcuts">6. ショートカットキー</h2>
+
+<table>
+<tr><th>キー</th><th>機能</th></tr>
+<tr><td><span class="kbd">F5</span></td><td>コンパイル (EXE/DLL 自動判定)</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">F5</span></td><td>デバッグ情報付きコンパイル</td></tr>
+<tr><td><span class="kbd">F6</span></td><td>コンパイル＆実行 (EXE のみ)</td></tr>
+<tr><td><span class="kbd">F12</span></td><td>定義にジャンプ</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">Space</span></td><td>入力補完を表示</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">P</span></td><td>コマンドパレット (「NHSP:」で検索)</td></tr>
+<tr><td><span class="kbd">Tab</span></td><td>スニペット展開</td></tr>
+</table>
+
+<!-- ============================== -->
+<h2 id="completion">7. 入力補完の使い方</h2>
+
+<h3># ディレクティブ補完</h3>
+<p><code>#</code> を入力すると全ディレクティブの候補が表示されます。</p>
+<div class="screenshot">
+# と入力 → 候補:<br>
+&nbsp;&nbsp;<span class="hl-dir">#assembly</span><br>
+&nbsp;&nbsp;<span class="hl-dir">#class</span><br>
+&nbsp;&nbsp;<span class="hl-dir">#func</span><br>
+&nbsp;&nbsp;<span class="hl-dir">#field</span><br>
+&nbsp;&nbsp;<span class="hl-dir">#struct</span><br>
+&nbsp;&nbsp;...
+</div>
+
+<h3>メンバー補完</h3>
+<p>変数名の後に <code>.</code> を入力すると、型に応じたメンバー候補が表示されます。</p>
+<div class="screenshot">
+<span class="hl-type">string</span> s = <span class="hl-str">"hello"</span><br>
+s. と入力 → 候補:<br>
+&nbsp;&nbsp;Length &nbsp;&nbsp;&nbsp;<span class="hl-cmt">// int (文字列の長さ)</span><br>
+&nbsp;&nbsp;ToUpper() <span class="hl-cmt">// string (大文字に変換)</span><br>
+&nbsp;&nbsp;Contains() <span class="hl-cmt">// bool (文字列を含むか)</span><br>
+&nbsp;&nbsp;Substring() <span class="hl-cmt">// string (部分文字列)</span><br>
+&nbsp;&nbsp;Replace() &nbsp;<span class="hl-cmt">// string (文字列置換)</span><br>
+&nbsp;&nbsp;...
+</div>
+
+<h3>ブロック自動閉じ</h3>
+<p><code>#func</code> 等のブロック開始ディレクティブを書いて Enter を押すと、終了ディレクティブが自動挿入されます。</p>
+<div class="screenshot">
+<span class="hl-dir">#func</span> <span class="hl-kw">public</span> <span class="hl-type">int</span> Add, <span class="hl-type">int</span> a, <span class="hl-type">int</span> b と書いて Enter →<br><br>
+<span class="hl-dir">#func</span> <span class="hl-kw">public</span> <span class="hl-type">int</span> Add, <span class="hl-type">int</span> a, <span class="hl-type">int</span> b<br>
+&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl-cmt">← カーソルはここ</span><br>
+<span class="hl-dir">#endfunc</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl-cmt">← 自動挿入</span>
+</div>
+
+<h3>スニペット</h3>
+<p>キーワードを入力して <span class="kbd">Tab</span> を押すとテンプレートが展開されます。</p>
+<div class="screenshot">
+<code>for</code> + Tab →<br><br>
+<span class="hl-kw">for</span> <span style="background:#264f78;color:#fff">i</span> = <span style="background:#264f78;color:#fff">0</span> <span class="hl-kw">to</span> <span style="background:#264f78;color:#fff">10</span><br>
+&nbsp;&nbsp;<span style="background:#264f78;color:#fff">|</span><br>
+<span class="hl-kw">next</span><br>
+<br>
+<span class="hl-cmt">; ハイライト部分は Tab で次のプレースホルダに移動</span>
+</div>
+
+<!-- ============================== -->
+<h2 id="trouble">8. トラブルシューティング</h2>
+
+<div class="error">
+<strong>「nhspc.exe not found」と表示される</strong><br>
+→ 設定で <code>nhsp.compilerPath</code> に nhspc.exe のフルパスを指定してください。<br>
+<pre><code>"nhsp.compilerPath": "C:\\IronHSP\\nhspc\\nhspc\\bin\\Debug\\nhspc.exe"</code></pre>
+</div>
+
+<div class="error">
+<strong>シンタックスハイライトが効かない</strong><br>
+→ ファイルの拡張子が <code>.nhsp</code> であることを確認。<br>
+→ VS Code 右下のステータスバーに「NHSP」と表示されているか確認。<br>
+→ 表示されていなければ、クリックして「NHSP」を選択。
+</div>
+
+<div class="error">
+<strong>コンパイルエラーが波線で表示されない</strong><br>
+→ ファイルを保存 (<span class="kbd">Ctrl</span>+<span class="kbd">S</span>) すると自動コンパイルが走り、エラーが表示されます。<br>
+→ 「問題」パネル (<span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">M</span>) でエラー一覧を確認。
+</div>
+
+<div class="error">
+<strong>拡張が読み込まれない</strong><br>
+→ <span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">P</span> →「Developer: Reload Window」で再読み込み。<br>
+→ 拡張フォルダが正しい場所にコピーされているか確認:
+<pre><code>%USERPROFILE%\.vscode\extensions\nhsp-language-0.1.0\
+  ├── package.json
+  ├── language-configuration.json
+  ├── syntaxes\nhsp.tmLanguage.json
+  ├── snippets\nhsp.json
+  └── src\extension.js</code></pre>
+</div>
+
+<!-- ============================== -->
+<h2 id="editor">9. スタンドアロンエディタ</h2>
+
+<p>VS Code を使わない場合は、付属のスタンドアロンエディタ <code>NhspEditor.exe</code> も利用できます。</p>
+
+<h3>ビルド方法</h3>
+<pre><code>cd nhspc
+dotnet build NhspEditor\NhspEditor.csproj -c Release</code></pre>
+<p><code>NhspEditor\bin\Release\NhspEditor.exe</code> が生成されます。</p>
+
+<h3>ショートカット</h3>
+<table>
+<tr><th>キー</th><th>機能</th></tr>
+<tr><td><span class="kbd">F5</span></td><td>コンパイル (EXE/DLL 自動判定)</td></tr>
+<tr><td><span class="kbd">F7</span></td><td>DLL としてビルド</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">F5</span></td><td>デバッグ情報付きコンパイル</td></tr>
+<tr><td><span class="kbd">F6</span></td><td>コンパイル＆実行</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">N</span></td><td>新規ファイル</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">O</span></td><td>ファイルを開く</td></tr>
+<tr><td><span class="kbd">Ctrl</span>+<span class="kbd">S</span></td><td>上書き保存</td></tr>
+</table>
+
+<div class="tip">
+<code>NhspEditor.exe</code> は <code>NhspCompiler.Core.dll</code> を直接参照するため、nhspc.exe のパス設定は不要です。
+エラー一覧のダブルクリックでエラー箇所にジャンプできます。
+</div>
+
+<footer>
+  <p>NHSP (Net HSP) VS Code 拡張 セットアップガイド</p>
+</footer>
+
+</div>
+</body>
+</html>
