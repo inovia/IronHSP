@@ -35,6 +35,17 @@ namespace NhspCompiler.Core.Lexing
                 if (Cur == ';') { SkipToEndOfLine(); continue; }
                 if (Cur == '/' && Next == '/') { SkipToEndOfLine(); continue; }
 
+                // Line continuation: \ + newline → skip (HSP compatible)
+                if (Cur == '\\' && (_pos + 1 < _source.Length) &&
+                    (Next == '\n' || Next == '\r'))
+                {
+                    _pos++; _col++; // skip backslash
+                    if (Cur == '\r') _pos++;
+                    if (Cur == '\n') _pos++;
+                    _line++; _col = 1;
+                    continue;
+                }
+
                 // Newline
                 if (Cur == '\n')
                 {

@@ -321,8 +321,40 @@ namespace NhspCompiler.Tests
 #endclass");
             Assert.AreEqual(60, Call(asm, "ColonTest2", "Run"));
         }
+        // ===== 行継続 (\) =====
+
+        [Test]
+        public void LineContinuation()
+        {
+            var asm = Compile(
+"#assembly \"T\"\n" +
+"#class public ContTest\n" +
+"  #func public static int Add, \\\n" +
+"    int a, \\\n" +
+"    int b\n" +
+"    return a + b\n" +
+"  #endfunc\n" +
+"#endclass\n");
+            Assert.AreEqual(30, Call(asm, "ContTest", "Add", 10, 20));
+        }
+
+        [Test]
+        public void LineContinuationInExpression()
+        {
+            var asm = Compile(
+"#assembly \"T\"\n" +
+"#class public ExprTest\n" +
+"  #func public static int Calc\n" +
+"    int result = 1 + 2 + \\\n" +
+"      3 + 4\n" +
+"    return result\n" +
+"  #endfunc\n" +
+"#endclass\n");
+            Assert.AreEqual(10, Call(asm, "ExprTest", "Calc"));
+        }
     }
 }
+
 
 
 
