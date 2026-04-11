@@ -6,6 +6,7 @@ namespace NhspCompiler.Core.Lexing
         IntLiteral,
         DoubleLiteral,
         StringLiteral,
+        BoolLiteral,
 
         // Identifiers & Keywords
         Identifier,
@@ -17,12 +18,35 @@ namespace NhspCompiler.Core.Lexing
         Comma,          // ,
         LParen,         // (
         RParen,         // )
+        LBrace,         // {
+        RBrace,         // }
         Plus,           // +
         Minus,          // -
         Star,           // *
         Slash,          // /
+        Percent,        // %
         Equals,         // =
         Dot,            // .
+        Bang,           // !
+        Colon,          // :
+
+        // Comparison
+        EqualEqual,     // ==
+        BangEqual,      // !=
+        Less,           // <
+        Greater,        // >
+        LessEqual,      // <=
+        GreaterEqual,   // >=
+
+        // Logical
+        AmpAmp,         // &&
+        PipePipe,       // ||
+
+        // Compound assignment
+        PlusEqual,      // +=
+        MinusEqual,     // -=
+        StarEqual,      // *=
+        SlashEqual,     // /=
 
         // Special
         EOL,

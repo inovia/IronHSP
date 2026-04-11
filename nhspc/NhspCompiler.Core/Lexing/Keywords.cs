@@ -9,12 +9,14 @@ namespace NhspCompiler.Core.Lexing
             "assembly", "class", "endclass", "interface", "endinterface",
             "access", "field", "func", "endfunc", "init", "endinit",
             "property", "endproperty", "get", "endget", "set", "endset",
-            "return", "if", "else", "repeat", "loop", "break", "continue",
+            "return", "as", "dim", "newobj", "mcall",
+            "if", "else", "elseif", "endif",
+            "repeat", "loop", "while", "wend", "for", "next",
+            "break", "continue",
             "public", "private", "protected", "static", "virtual", "override", "abstract",
-            "as", "dim", "newobj", "mcall",
-            "namespace", "endnamespace",
-            "using", "reference",
+            "namespace", "endnamespace", "using", "reference",
             "main", "endmain",
+            "and", "or", "not",  // alternative logical operators
         };
 
         public static readonly Dictionary<string, string> TypeAliases = new Dictionary<string, string>

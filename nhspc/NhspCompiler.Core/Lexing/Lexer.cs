@@ -20,6 +20,9 @@ namespace NhspCompiler.Core.Lexing
             _col = 1;
         }
 
+        private char Cur => _pos < _source.Length ? _source[_pos] : '\0';
+        private char Next => _pos + 1 < _source.Length ? _source[_pos + 1] : '\0';
+
         public List<Token> Tokenize()
         {
             var tokens = new List<Token>();
@@ -28,130 +31,121 @@ namespace NhspCompiler.Core.Lexing
                 SkipWhitespace();
                 if (_pos >= _source.Length) break;
 
-                char c = _source[_pos];
-
-                // Comment: ; to end of line
-                if (c == ';')
-                {
-                    SkipToEndOfLine();
-                    continue;
-                }
+                // Comment
+                if (Cur == ';') { SkipToEndOfLine(); continue; }
+                if (Cur == '/' && Next == '/') { SkipToEndOfLine(); continue; }
 
                 // Newline
-                if (c == '\n')
+                if (Cur == '\n')
                 {
                     tokens.Add(new Token(TokenKind.EOL, "\\n", _line, _col));
-                    _pos++;
-                    _line++;
-                    _col = 1;
+                    _pos++; _line++; _col = 1;
                     continue;
                 }
-                if (c == '\r')
+                if (Cur == '\r')
                 {
                     _pos++;
-                    if (_pos < _source.Length && _source[_pos] == '\n') _pos++;
+                    if (Cur == '\n') _pos++;
                     tokens.Add(new Token(TokenKind.EOL, "\\n", _line, _col));
-                    _line++;
-                    _col = 1;
+                    _line++; _col = 1;
                     continue;
                 }
 
                 // String literal
-                if (c == '"')
-                {
-                    tokens.Add(ReadString());
-                    continue;
-                }
+                if (Cur == '"') { tokens.Add(ReadString()); continue; }
 
                 // Number
-                if (char.IsDigit(c))
-                {
-                    tokens.Add(ReadNumber());
-                    continue;
-                }
+                if (char.IsDigit(Cur)) { tokens.Add(ReadNumber()); continue; }
 
-                // Identifier / Keyword / TypeName
-                if (char.IsLetter(c) || c == '_')
-                {
-                    tokens.Add(ReadIdentifier());
-                    continue;
-                }
+                // Identifier / Keyword / TypeName / Bool
+                if (char.IsLetter(Cur) || Cur == '_') { tokens.Add(ReadIdentifier()); continue; }
 
-                // Symbols
-                int startCol = _col;
-                switch (c)
+                // Multi-char operators
+                int sc = _col;
+                if (Cur == '=' && Next == '=') { tokens.Add(Sym2(TokenKind.EqualEqual, "==")); continue; }
+                if (Cur == '!' && Next == '=') { tokens.Add(Sym2(TokenKind.BangEqual, "!=")); continue; }
+                if (Cur == '<' && Next == '=') { tokens.Add(Sym2(TokenKind.LessEqual, "<=")); continue; }
+                if (Cur == '>' && Next == '=') { tokens.Add(Sym2(TokenKind.GreaterEqual, ">=")); continue; }
+                if (Cur == '&' && Next == '&') { tokens.Add(Sym2(TokenKind.AmpAmp, "&&")); continue; }
+                if (Cur == '|' && Next == '|') { tokens.Add(Sym2(TokenKind.PipePipe, "||")); continue; }
+                if (Cur == '+' && Next == '=') { tokens.Add(Sym2(TokenKind.PlusEqual, "+=")); continue; }
+                if (Cur == '-' && Next == '=') { tokens.Add(Sym2(TokenKind.MinusEqual, "-=")); continue; }
+                if (Cur == '*' && Next == '=') { tokens.Add(Sym2(TokenKind.StarEqual, "*=")); continue; }
+                if (Cur == '/' && Next == '=') { tokens.Add(Sym2(TokenKind.SlashEqual, "/=")); continue; }
+
+                // Single-char symbols
+                switch (Cur)
                 {
-                    case '#': tokens.Add(Sym(TokenKind.Hash, "#")); break;
-                    case ',': tokens.Add(Sym(TokenKind.Comma, ",")); break;
-                    case '(': tokens.Add(Sym(TokenKind.LParen, "(")); break;
-                    case ')': tokens.Add(Sym(TokenKind.RParen, ")")); break;
-                    case '+': tokens.Add(Sym(TokenKind.Plus, "+")); break;
-                    case '-': tokens.Add(Sym(TokenKind.Minus, "-")); break;
-                    case '*': tokens.Add(Sym(TokenKind.Star, "*")); break;
-                    case '/': tokens.Add(Sym(TokenKind.Slash, "/")); break;
-                    case '=': tokens.Add(Sym(TokenKind.Equals, "=")); break;
-                    case '.': tokens.Add(Sym(TokenKind.Dot, ".")); break;
-                    default:
-                        _pos++; _col++;
-                        break;
+                    case '#': tokens.Add(Sym1(TokenKind.Hash)); break;
+                    case ',': tokens.Add(Sym1(TokenKind.Comma)); break;
+                    case '(': tokens.Add(Sym1(TokenKind.LParen)); break;
+                    case ')': tokens.Add(Sym1(TokenKind.RParen)); break;
+                    case '{': tokens.Add(Sym1(TokenKind.LBrace)); break;
+                    case '}': tokens.Add(Sym1(TokenKind.RBrace)); break;
+                    case '+': tokens.Add(Sym1(TokenKind.Plus)); break;
+                    case '-': tokens.Add(Sym1(TokenKind.Minus)); break;
+                    case '*': tokens.Add(Sym1(TokenKind.Star)); break;
+                    case '/': tokens.Add(Sym1(TokenKind.Slash)); break;
+                    case '%': tokens.Add(Sym1(TokenKind.Percent)); break;
+                    case '=': tokens.Add(Sym1(TokenKind.Equals)); break;
+                    case '.': tokens.Add(Sym1(TokenKind.Dot)); break;
+                    case '!': tokens.Add(Sym1(TokenKind.Bang)); break;
+                    case '<': tokens.Add(Sym1(TokenKind.Less)); break;
+                    case '>': tokens.Add(Sym1(TokenKind.Greater)); break;
+                    case ':': tokens.Add(Sym1(TokenKind.Colon)); break;
+                    default: _pos++; _col++; break;
                 }
             }
             tokens.Add(new Token(TokenKind.EOF, "", _line, _col));
             return tokens;
         }
 
-        private Token Sym(TokenKind kind, string text)
+        private Token Sym1(TokenKind kind)
         {
-            var tok = new Token(kind, text, _line, _col);
-            _pos++;
-            _col++;
-            return tok;
+            var t = new Token(kind, Cur.ToString(), _line, _col);
+            _pos++; _col++;
+            return t;
+        }
+
+        private Token Sym2(TokenKind kind, string text)
+        {
+            var t = new Token(kind, text, _line, _col);
+            _pos += 2; _col += 2;
+            return t;
         }
 
         private void SkipWhitespace()
         {
-            while (_pos < _source.Length)
-            {
-                char c = _source[_pos];
-                if (c == ' ' || c == '\t') { _pos++; _col++; }
-                else break;
-            }
+            while (_pos < _source.Length && (Cur == ' ' || Cur == '\t')) { _pos++; _col++; }
         }
 
         private void SkipToEndOfLine()
         {
-            while (_pos < _source.Length && _source[_pos] != '\n' && _source[_pos] != '\r')
-            {
-                _pos++; _col++;
-            }
+            while (_pos < _source.Length && Cur != '\n' && Cur != '\r') { _pos++; _col++; }
         }
 
         private Token ReadString()
         {
             int startCol = _col;
-            _pos++; _col++; // skip opening "
+            _pos++; _col++;
             var sb = new StringBuilder();
-            while (_pos < _source.Length && _source[_pos] != '"' && _source[_pos] != '\n')
+            while (_pos < _source.Length && Cur != '"' && Cur != '\n')
             {
-                if (_source[_pos] == '\\' && _pos + 1 < _source.Length)
+                if (Cur == '\\' && _pos + 1 < _source.Length)
                 {
                     _pos++; _col++;
-                    switch (_source[_pos])
-                    {
+                    switch (Cur) {
                         case 'n': sb.Append('\n'); break;
                         case 't': sb.Append('\t'); break;
                         case '\\': sb.Append('\\'); break;
                         case '"': sb.Append('"'); break;
-                        default: sb.Append('\\'); sb.Append(_source[_pos]); break;
+                        default: sb.Append('\\'); sb.Append(Cur); break;
                     }
                 }
-                else
-                {
-                    sb.Append(_source[_pos]);
-                }
+                else { sb.Append(Cur); }
                 _pos++; _col++;
             }
-            if (_pos < _source.Length && _source[_pos] == '"') { _pos++; _col++; }
+            if (_pos < _source.Length && Cur == '"') { _pos++; _col++; }
             return new Token(TokenKind.StringLiteral, sb.ToString(), _line, startCol);
         }
 
@@ -160,32 +154,26 @@ namespace NhspCompiler.Core.Lexing
             int startCol = _col;
             var sb = new StringBuilder();
             bool hasDot = false;
-            while (_pos < _source.Length && (char.IsDigit(_source[_pos]) || _source[_pos] == '.'))
+            while (_pos < _source.Length && (char.IsDigit(Cur) || Cur == '.'))
             {
-                if (_source[_pos] == '.')
-                {
-                    if (hasDot) break;
-                    hasDot = true;
-                }
-                sb.Append(_source[_pos]);
-                _pos++; _col++;
+                if (Cur == '.') { if (hasDot) break; hasDot = true; }
+                sb.Append(Cur); _pos++; _col++;
             }
-            var kind = hasDot ? TokenKind.DoubleLiteral : TokenKind.IntLiteral;
-            return new Token(kind, sb.ToString(), _line, startCol);
+            return new Token(hasDot ? TokenKind.DoubleLiteral : TokenKind.IntLiteral, sb.ToString(), _line, startCol);
         }
 
         private Token ReadIdentifier()
         {
             int startCol = _col;
             var sb = new StringBuilder();
-            while (_pos < _source.Length && (char.IsLetterOrDigit(_source[_pos]) || _source[_pos] == '_'))
-            {
-                sb.Append(_source[_pos]);
-                _pos++; _col++;
-            }
+            while (_pos < _source.Length && (char.IsLetterOrDigit(Cur) || Cur == '_'))
+            { sb.Append(Cur); _pos++; _col++; }
+
             string word = sb.ToString();
             string lower = word.ToLowerInvariant();
 
+            if (lower == "true" || lower == "false")
+                return new Token(TokenKind.BoolLiteral, lower, _line, startCol);
             if (Keywords.IsTypeName(lower))
                 return new Token(TokenKind.TypeName, lower, _line, startCol);
             if (Keywords.IsKeyword(lower))
