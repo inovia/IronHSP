@@ -13,15 +13,22 @@ namespace NhspCompiler.Core.Emit
         private readonly CompilationUnit _unit;
         private readonly DiagnosticBag _diag;
         private readonly string _outputPath;
+        private readonly string _sourceFile;
+
+        public System.Diagnostics.SymbolStore.ISymbolDocumentWriter DebugDocument { get; private set; }
 
         public Dictionary<string, TypeBuilder> TypeRegistry { get; } = new Dictionary<string, TypeBuilder>();
         public Dictionary<string, TypeEmitter> EmitterRegistry { get; } = new Dictionary<string, TypeEmitter>();
 
-        public AssemblyEmitter(CompilationUnit unit, DiagnosticBag diag, string outputPath)
+        private readonly bool _emitDebug;
+
+        public AssemblyEmitter(CompilationUnit unit, DiagnosticBag diag, string outputPath, string sourceFile = null, bool emitDebug = false)
         {
             _unit = unit;
             _diag = diag;
             _outputPath = outputPath;
+            _sourceFile = sourceFile;
+            _emitDebug = emitDebug;
         }
 
         public bool Emit()
@@ -36,7 +43,29 @@ namespace NhspCompiler.Core.Emit
                     AssemblyBuilderAccess.RunAndSave,
                     System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(_outputPath)));
 
-                var modBuilder = asmBuilder.DefineDynamicModule(asmName, fileName);
+                var modBuilder = asmBuilder.DefineDynamicModule(asmName, fileName, _emitDebug);
+
+                // Debug info (PDB)
+                if (_emitDebug)
+                {
+                    System.Diagnostics.SymbolStore.ISymbolDocumentWriter debugDoc = null;
+                    if (!string.IsNullOrEmpty(_sourceFile) && _sourceFile != "<string>")
+                    {
+                        string fullSourcePath = System.IO.Path.GetFullPath(_sourceFile);
+                        debugDoc = modBuilder.DefineDocument(
+                            fullSourcePath,
+                            System.Diagnostics.SymbolStore.SymDocumentType.Text,
+                            Guid.Empty, Guid.Empty);
+                    }
+                    DebugDocument = debugDoc;
+
+                    var debugAttrCtor = typeof(System.Diagnostics.DebuggableAttribute).GetConstructor(
+                        new[] { typeof(System.Diagnostics.DebuggableAttribute.DebuggingModes) });
+                    asmBuilder.SetCustomAttribute(new CustomAttributeBuilder(debugAttrCtor,
+                        new object[] {
+                            System.Diagnostics.DebuggableAttribute.DebuggingModes.Default |
+                            System.Diagnostics.DebuggableAttribute.DebuggingModes.DisableOptimizations }));
+                }
 
                 // Pass 1: Define all types (interfaces first, then classes)
                 var interfaceEmitters = new List<TypeEmitter>();

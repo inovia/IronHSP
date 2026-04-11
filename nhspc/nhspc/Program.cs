@@ -9,24 +9,26 @@ namespace nhspc
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("nhspc - Net HSP Compiler (Phase 1)");
-                Console.WriteLine("Usage: nhspc <input.nhsp> [-o <output>]");
+                Console.WriteLine("nhspc - Net HSP Compiler");
+                Console.WriteLine("Usage: nhspc <input.nhsp> [-o <output>] [-debug]");
+                Console.WriteLine("Options:");
+                Console.WriteLine("  -o <file>   Output file path");
+                Console.WriteLine("  -debug      Emit debug info (PDB)");
                 return 1;
             }
 
             string inputPath = null;
             string outputPath = null;
+            bool debug = false;
 
             for (int i = 0; i < args.Length; i++)
             {
                 if (args[i] == "-o" && i + 1 < args.Length)
-                {
                     outputPath = args[++i];
-                }
+                else if (args[i] == "-debug")
+                    debug = true;
                 else if (!args[i].StartsWith("-"))
-                {
                     inputPath = args[i];
-                }
             }
 
             if (inputPath == null)
@@ -36,6 +38,7 @@ namespace nhspc
             }
 
             var driver = new CompilerDriver();
+            driver.Options.EmitDebugInfo = debug;
             var result = driver.Compile(inputPath, outputPath);
 
             foreach (var d in result.Diagnostics.Items)
@@ -48,6 +51,7 @@ namespace nhspc
             if (result.Success)
             {
                 Console.WriteLine($"Compiled successfully: {result.OutputPath}");
+                if (debug) Console.WriteLine("Debug info: enabled (PDB generated)");
                 return 0;
             }
             else

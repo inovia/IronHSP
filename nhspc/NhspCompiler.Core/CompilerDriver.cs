@@ -15,8 +15,15 @@ namespace NhspCompiler.Core
         public string OutputPath { get; set; }
     }
 
+    public class CompilerOptions
+    {
+        public bool EmitDebugInfo { get; set; } = false;
+    }
+
     public class CompilerDriver
     {
+        public CompilerOptions Options { get; set; } = new CompilerOptions();
+
         public CompilationResult Compile(string sourcePath, string outputPath = null)
         {
             var diag = new DiagnosticBag();
@@ -73,7 +80,7 @@ namespace NhspCompiler.Core
                     unit.AssemblyName + ext);
             }
 
-            var emitter = new AssemblyEmitter(unit, diag, outputPath);
+            var emitter = new AssemblyEmitter(unit, diag, outputPath, fileName, Options.EmitDebugInfo);
             bool ok = emitter.Emit();
 
             return new CompilationResult

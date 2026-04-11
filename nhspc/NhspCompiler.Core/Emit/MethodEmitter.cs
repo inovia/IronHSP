@@ -129,8 +129,19 @@ namespace NhspCompiler.Core.Emit
 
         // ======== Statements ========
 
+        private void MarkDebugPoint(AstNode node)
+        {
+            if (_typeEmitter?._asmEmitter?.DebugDocument != null && node.Line > 0)
+            {
+                _il.MarkSequencePoint(_typeEmitter._asmEmitter.DebugDocument,
+                    node.Line, node.Column > 0 ? node.Column : 1,
+                    node.Line, node.Column > 0 ? node.Column + 1 : 100);
+            }
+        }
+
         private void EmitStatement(Statement stmt)
         {
+            MarkDebugPoint(stmt);
             if (stmt is ReturnStatement ret) EmitReturn(ret);
             else if (stmt is LocalVarDeclaration decl) EmitLocalDecl(decl);
             else if (stmt is AssignmentStatement assign) EmitAssignment(assign);
