@@ -615,6 +615,12 @@ function findCompiler() {
     const configPath = config.get('compilerPath');
     if (configPath && fs.existsSync(configPath)) return configPath;
 
+    // Check extension's bundled compiler first
+    const extDir = path.join(__dirname, '..');
+    const bundled = path.join(extDir, 'compiler', 'nhspc.exe');
+    if (fs.existsSync(bundled)) return bundled;
+
+    // Search workspace
     const workspaceFolders = vscode.workspace.workspaceFolders;
     if (workspaceFolders) {
         for (const folder of workspaceFolders) {
@@ -630,7 +636,7 @@ function findCompiler() {
         }
     }
 
-    vscode.window.showErrorMessage('nhspc.exe not found. Set nhsp.compilerPath in settings.');
+    vscode.window.showErrorMessage('nhspc.exe not found. Set nhsp.compilerPath in settings, or re-run install.bat.');
     return null;
 }
 

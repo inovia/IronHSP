@@ -26,35 +26,62 @@ if exist "%TARGET%" (
     rmdir /S /Q "%TARGET%"
 )
 
-:: コピー
+:: 拡張ファイルをコピー
 echo [*] 拡張をインストールしています...
 echo     コピー先: %TARGET%
 xcopy /E /I /Q "%SCRIPT_DIR%*" "%TARGET%\" >nul 2>&1
 
 if not exist "%TARGET%\package.json" (
-    echo [!] コピーに失敗しました。
+    echo [!] 拡張のコピーに失敗しました。
     pause
     exit /b 1
 )
+echo     拡張ファイル: OK
 
-:: nhspc.exe の自動検出
-set "NHSPC_PATH="
-if exist "%SCRIPT_DIR%..\nhspc\bin\Debug\nhspc.exe" set "NHSPC_PATH=%SCRIPT_DIR%..\nhspc\bin\Debug\nhspc.exe"
-if exist "%SCRIPT_DIR%..\nhspc\bin\Release\nhspc.exe" set "NHSPC_PATH=%SCRIPT_DIR%..\nhspc\bin\Release\nhspc.exe"
+:: nhspc.exe と NhspCompiler.Core.dll をコピー
+set "COMPILER_DIR=%TARGET%\compiler"
+mkdir "%COMPILER_DIR%" >nul 2>&1
+
+set "NHSPC_FOUND=0"
+
+:: Debug ビルドを探す
+if exist "%SCRIPT_DIR%..\nhspc\bin\Debug\nhspc.exe" (
+    echo [*] コンパイラをコピーしています (Debug)...
+    copy /Y "%SCRIPT_DIR%..\nhspc\bin\Debug\nhspc.exe" "%COMPILER_DIR%\" >nul 2>&1
+    copy /Y "%SCRIPT_DIR%..\nhspc\bin\Debug\NhspCompiler.Core.dll" "%COMPILER_DIR%\" >nul 2>&1
+    set "NHSPC_FOUND=1"
+)
+
+:: Release ビルドがあればそちらを優先
+if exist "%SCRIPT_DIR%..\nhspc\bin\Release\nhspc.exe" (
+    echo [*] コンパイラをコピーしています (Release)...
+    copy /Y "%SCRIPT_DIR%..\nhspc\bin\Release\nhspc.exe" "%COMPILER_DIR%\" >nul 2>&1
+    copy /Y "%SCRIPT_DIR%..\nhspc\bin\Release\NhspCompiler.Core.dll" "%COMPILER_DIR%\" >nul 2>&1
+    set "NHSPC_FOUND=1"
+)
+
+if "!NHSPC_FOUND!"=="1" (
+    echo     コンパイラ: %COMPILER_DIR%\nhspc.exe
+) else (
+    echo [!] nhspc.exe が見つかりません。
+    echo     先に nhspc をビルドしてから再実行してください:
+    echo       cd nhspc
+    echo       dotnet build nhspc\nhspc.csproj
+)
 
 echo.
 echo ========================================
 echo   インストール完了!
 echo ========================================
 echo.
-echo   拡張: %TARGET%
-if defined NHSPC_PATH (
-    echo   nhspc.exe: !NHSPC_PATH!
+echo   拡張:      %TARGET%
+if "!NHSPC_FOUND!"=="1" (
+    echo   コンパイラ: %COMPILER_DIR%\nhspc.exe
     echo.
-    echo   nhspc.exe を自動検出しました。
     echo   VS Code で .nhsp ファイルを開いて F5 でコンパイルできます。
+    echo   nhspc.exe は拡張に同梱されているのでパス設定は不要です。
 ) else (
-    echo   nhspc.exe: 見つかりません
+    echo   コンパイラ: 見つかりません
     echo.
     echo   VS Code の設定で nhspc.exe のパスを指定してください:
     echo     nhsp.compilerPath
