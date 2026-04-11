@@ -121,6 +121,46 @@
       {
         "command": "nhsp.run",
         "title": "NHSP: Compile & Run"
+      },
+      {
+        "command": "nhsp.debug",
+        "title": "NHSP: Debug (Compile & Launch Debugger)",
+        "icon": "$(debug-alt)"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "nhsp",
+        "label": "NHSP Debug",
+        "languages": ["nhsp"],
+        "configurationAttributes": {
+          "launch": {
+            "required": ["program"],
+            "properties": {
+              "program": {
+                "type": "string",
+                "description": "Path to the compiled EXE"
+              },
+              "sourceFile": {
+                "type": "string",
+                "description": "Path to the .nhsp source file"
+              }
+            }
+          }
+        },
+        "configurationSnippets": [
+          {
+            "label": "NHSP: Launch",
+            "description": "Compile and debug NHSP program",
+            "body": {
+              "type": "clr",
+              "request": "launch",
+              "name": "NHSP Debug",
+              "program": "^\"\\${workspaceFolder}/${1:program}.exe\"",
+              "cwd": "^\"\\${workspaceFolder}\""
+            }
+          }
+        ]
       }
     ],
     "menus": {
@@ -136,7 +176,7 @@
           "when": "resourceLangId == nhsp"
         },
         {
-          "command": "nhsp.compileDebug",
+          "command": "nhsp.debug",
           "group": "1_nhsp@3",
           "when": "resourceLangId == nhsp"
         }

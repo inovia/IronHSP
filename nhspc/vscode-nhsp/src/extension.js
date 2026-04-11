@@ -39,6 +39,19 @@ function activate(context) {
         })
     );
 
+    // Debug configuration provider
+    context.subscriptions.push(
+        vscode.debug.registerDebugConfigurationProvider('nhsp', new NhspDebugConfigProvider())
+    );
+    context.subscriptions.push(
+        vscode.debug.registerDebugConfigurationProvider('clr', new NhspDebugConfigProvider())
+    );
+
+    // Debug command: compile with debug info then launch
+    context.subscriptions.push(
+        vscode.commands.registerCommand('nhsp.debug', () => compileAndDebug())
+    );
+
     // Block auto-close: #func → Enter → auto-insert #endfunc
     context.subscriptions.push(
         vscode.workspace.onDidChangeTextDocument((e) => {
@@ -468,6 +481,101 @@ class NhspDefinitionProvider {
             return null;
         });
     }
+}
+
+// ========== Debug ==========
+
+class NhspDebugConfigProvider {
+    resolveDebugConfiguration(folder, config, token) {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor || editor.document.languageId !== 'nhsp') return config;
+
+        const sourceFile = editor.document.uri.fsPath;
+        const sourceDir = path.dirname(sourceFile);
+        const baseName = path.basename(sourceFile, '.nhsp');
+        const exePath = path.join(sourceDir, baseName + '.exe');
+
+        // If no config or empty config, provide default
+        if (!config.type && !config.request) {
+            config.type = 'clr';
+            config.request = 'launch';
+            config.name = 'NHSP Debug';
+            config.program = exePath;
+            config.cwd = sourceDir;
+            config.preLaunchTask = undefined;
+        }
+
+        return config;
+    }
+
+    provideDebugConfigurations(folder, token) {
+        return [
+            {
+                type: 'clr',
+                request: 'launch',
+                name: 'NHSP Debug',
+                program: '${workspaceFolder}/${fileBasenameNoExtension}.exe',
+                cwd: '${workspaceFolder}'
+            }
+        ];
+    }
+}
+
+async function compileAndDebug() {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor || editor.document.languageId !== 'nhsp') return;
+
+    const sourceText = editor.document.getText();
+    if (!sourceText.includes('#main') && !sourceText.match(/#assembly\s+"[^"]+"\s*,\s*exe/)) {
+        vscode.window.showWarningMessage('NHSP: デバッグには #main ブロック (EXE) が必要です。');
+        return;
+    }
+
+    await editor.document.save();
+
+    const compilerPath = findCompiler();
+    if (!compilerPath) return;
+
+    const sourceFile = editor.document.uri.fsPath;
+    const sourceDir = path.dirname(sourceFile);
+    const baseName = path.basename(sourceFile, '.nhsp');
+    const exePath = path.join(sourceDir, baseName + '.exe');
+
+    // Compile with debug info
+    const args = [sourceFile, '-o', exePath, '-debug'];
+    outputChannel.clear();
+    outputChannel.appendLine(`> nhspc ${args.join(' ')}`);
+    outputChannel.show(true);
+
+    return new Promise((resolve) => {
+        execFile(compilerPath, args, { cwd: sourceDir, timeout: 30000 }, (error, stdout, stderr) => {
+            const output = (stdout || '') + (stderr || '');
+            outputChannel.appendLine(output);
+
+            diagnosticCollection.clear();
+            const diagnostics = parseDiagnostics(output, sourceFile);
+            if (diagnostics.length > 0) diagnosticCollection.set(vscode.Uri.file(sourceFile), diagnostics);
+
+            const errorCount = diagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error).length;
+
+            if (!error && errorCount === 0) {
+                outputChannel.appendLine(`\nCompile OK (Debug): ${exePath}\nStarting debugger...`);
+
+                // Launch the debugger
+                vscode.debug.startDebugging(undefined, {
+                    type: 'clr',
+                    request: 'launch',
+                    name: 'NHSP Debug',
+                    program: exePath,
+                    cwd: sourceDir
+                });
+            } else {
+                vscode.window.showErrorMessage('NHSP: Compile failed, cannot debug.');
+                outputChannel.appendLine('\nCompile FAILED');
+            }
+            resolve();
+        });
+    });
 }
 
 // ========== Compiler ==========
