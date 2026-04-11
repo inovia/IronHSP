@@ -6,6 +6,7 @@
 #include "../hsp3utfcnv.h"
 
 char *mem_ini( int size );
+char *mem_alloc( void *base, int newsize, int oldsize );
 void mem_bye( void *ptr );
 
 //void prtini( char *mes );

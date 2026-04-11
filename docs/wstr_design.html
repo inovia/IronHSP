@@ -327,43 +327,48 @@ if ((a1 == 'L' || a1 == 'l') && wp[1] == 0x22) {  // L"
 <h2>5. 実装フェーズ</h2>
 
 <table>
-<tr><th>Phase</th><th>内容</th><th>対象ファイル</th></tr>
+<tr><th>Phase</th><th>内容</th><th>対象ファイル</th><th>状態</th></tr>
 <tr>
   <td>1</td>
   <td>wstr 変数型 + wsdim + CnvCustom (自動変換)</td>
-  <td>hspvar_wstr.cpp (新規), hspvar_core.h, hsp3code.cpp</td>
+  <td>hspvar_wstr.cpp (新規), hspvar_core.h/cpp, hsp3code.cpp</td>
+  <td><span class="badge badge-auto">完了</span></td>
 </tr>
 <tr>
   <td>2</td>
-  <td>L"..." リテラル</td>
-  <td>codegen.cpp, token.h, hsp3code.cpp</td>
+  <td>L"..." リテラル (PP + CG + RT)</td>
+  <td>token.cpp, token.h, codegen.cpp, hsp3code.cpp</td>
+  <td><span class="badge badge-auto">完了</span></td>
 </tr>
 <tr>
   <td>3</td>
-  <td>文字列関数の型判定分岐 (strlen/strmid/instr/strtrim/strf/getpath)</td>
+  <td>文字列関数の型判定分岐 (strlen/strmid/instr/strtrim/getpath)</td>
   <td>hsp3int.cpp</td>
+  <td><span class="badge badge-auto">完了</span></td>
 </tr>
 <tr>
   <td>4</td>
   <td>文字列命令の型判定分岐 (strrep/split/getstr)</td>
-  <td>hsp3int.cpp, hsp3code.cpp</td>
+  <td>hsp3int.cpp</td>
+  <td><span class="badge badge-auto">完了</span></td>
 </tr>
 <tr>
   <td>5</td>
-  <td>note 系命令の wstr 対応</td>
-  <td>hsp3int.cpp (notesel/noteget/noteadd/notedel/noteload/notesave)</td>
+  <td>note 系命令の wstr 対応 (notesel/noteget/noteadd/notedel/noteload/notesave/noteinfo/notefind)</td>
+  <td>hsp3int.cpp</td>
+  <td><span class="badge badge-auto">完了</span></td>
 </tr>
 <tr>
   <td>6</td>
-  <td>変換命令の拡張 (cnvstow/cnvwtos/cnvstoa/cnvatos)</td>
-  <td>hsp3ext_win.cpp</td>
-</tr>
-<tr>
-  <td>7</td>
-  <td>notefind/noteinfo 対応 + テスト + 仕様書</td>
-  <td>各種</td>
+  <td>変換命令 (cnvstow/cnvwtos) — 自動変換で代替可能、既存実装維持</td>
+  <td>hsp3ext_win.cpp (既存)</td>
+  <td><span class="badge badge-auto">完了</span></td>
 </tr>
 </table>
+
+<div class="note">
+<strong>strf</strong> は現状フォーマット文字列が char ベースのため wstr 非対応。wstr 引数は CnvCustom で自動的に str に変換される。
+</div>
 
 <!-- ======================================== -->
 <h2>6. 互換性</h2>

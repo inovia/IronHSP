@@ -1,7 +1,11 @@
 
 ;	hspext.dll header
 
+#ifdef __hsp64__
+#uselib "hspext64.dll"
+#else
 #uselib "hspext.dll"
+#endif
 #func regkey regkey 4
 #func regkill regkill 4
 #func getreg getreg 5

@@ -4,7 +4,11 @@
 #ifndef __hspinet__
 #define __hspinet__
 
+#ifdef __hsp64__
+#uselib "hspinet64.dll"
+#else
 #uselib "hspinet.dll"
+#endif
 #func netinit netinit 0
 #func netterm netterm $100
 #func netexec netexec 1
@@ -92,10 +96,10 @@
 #func getenvprm getenvprm $202
 #func getctime getctime $202
 
-#func netgetv_data "_netgetv_data@4" var			// ƒf[ƒ^‚ğó‚¯æ‚é
-#cfunc netgetv_size "_netgetv_size@0"				// •K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY
-#cfunc netgetv_requestsize "_netgetv_requestsize@0"	// óMƒTƒCƒY
-#cfunc netgetv_ptr "_netgetv_ptr@0"					// ƒ|ƒCƒ“ƒ^æ“¾ig‚í‚È‚¢j
+#func netgetv_data "_netgetv_data@4" var			// ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ó‚¯ï¿½ï¿½
+#cfunc netgetv_size "_netgetv_size@0"				// ï¿½Kï¿½vï¿½Èƒoï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Y
+#cfunc netgetv_requestsize "_netgetv_requestsize@0"	// ï¿½ï¿½Mï¿½Tï¿½Cï¿½Y
+#cfunc netgetv_ptr "_netgetv_ptr@0"					// ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½æ“¾ï¿½iï¿½gï¿½ï¿½È‚ï¿½ï¿½j
 
 #func netrequest_post2 "_netrequest_post2@12" str,var,int
 #func netrequest_put2 "_netrequest_put2@12" str,var,int
@@ -117,7 +121,7 @@
 
 	estr=0
 	neterror@ estr
-	dialog "ƒGƒ‰[:"+estr
+	dialog "ï¿½Gï¿½ï¿½ï¿½[:"+estr
 	return
 
 #global

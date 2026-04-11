@@ -1,12 +1,16 @@
 
 ;	hspcmp.dll header
 
-#define AHTMODE_QUOTATION	1	// ƒ_ƒuƒ‹ƒNƒH[ƒg‚ÅˆÍ‚Ş
-#define AHTMODE_OUTPUT_PURE 2		// o—Í‚ÍƒNƒH[ƒg‚È‚µ
-#define AHTMODE_READ_ONLY 4		// C³•s‰Â
-#define AHTMODE_WITH_ID 8		// ƒfƒtƒHƒ‹ƒg‚ÅID‚ğ•t‰Á‚·‚é
+#define AHTMODE_QUOTATION	1	// ï¿½_ï¿½uï¿½ï¿½ï¿½Nï¿½Hï¿½[ï¿½gï¿½ÅˆÍ‚ï¿½
+#define AHTMODE_OUTPUT_PURE 2		// ï¿½oï¿½Íï¿½ï¿½ÍƒNï¿½Hï¿½[ï¿½gï¿½È‚ï¿½
+#define AHTMODE_READ_ONLY 4		// ï¿½Cï¿½ï¿½ï¿½sï¿½ï¿½
+#define AHTMODE_WITH_ID 8		// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½IDï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
+#ifdef __hsp64__
+#uselib "hspcmp64.dll"
+#else
 #uselib "hspcmp.dll"
+#endif
 #func hsc_ini hsc_ini 6
 #func hsc_refname hsc_refname 6
 #func hsc_objname hsc_objname 6

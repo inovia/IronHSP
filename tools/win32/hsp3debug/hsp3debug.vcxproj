@@ -204,11 +204,11 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <OutputFile>$(OutDir)hsp3debug.dll</OutputFile>
+      <OutputFile>$(OutDir)hsp3debug_64.dll</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(OutDir)hsp3debug.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>$(OutDir)hsp3debug_64.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(OutDir)hsp3debug.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)hsp3debug_64.lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-unicode|x64'">
@@ -285,12 +285,12 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <OutputFile>$(OutDir)hsp3debug.dll</OutputFile>
+      <OutputFile>$(OutDir)hsp3debug_64.dll</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(OutDir)hsp3debug.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)hsp3debug_64.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
       <Command>

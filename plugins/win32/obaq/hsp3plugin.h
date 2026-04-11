@@ -5,16 +5,16 @@
 #ifndef __hsp3plugin_h
 #define __hsp3plugin_h
 
-//	VC++�̏ꍇ
+//	VC++�̏ꍇ
 #ifdef __cplusplus
 #define EXPORT extern "C" __declspec (dllexport)
 #else
 #define EXPORT __declspec (dllexport)
 #endif
 
-#include "../hsp3/hsp3debug.h"				// hsp3 error code
-#include "../hsp3/hsp3struct.h"				// hsp3 core define
-#include "../hsp3/win32gui/hspwnd_win.h"	// hsp3 windows define
+#include "hsp3debug.h"				// hsp3 error code
+#include "hsp3struct.h"				// hsp3 core define
+#include "hspwnd_win.h"			// hsp3 windows define
 
 extern int p1,p2,p3,p4,p5,p6;
 extern int *type;

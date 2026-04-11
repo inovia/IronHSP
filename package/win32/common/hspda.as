@@ -3,7 +3,11 @@
 ;
 #cmpopt varname 1
 
+#ifdef __hsp64__
+#uselib "hspda64.dll"
+#else
 #uselib "hspda.dll"
+#endif
 
 #func csvstr csvstr $202
 #func csvnote csvnote $87

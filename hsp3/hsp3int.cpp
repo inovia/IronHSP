@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wchar.h>
 #include <math.h>
 #include <time.h>
 #include <algorithm>
@@ -526,6 +527,48 @@ static char *note_update( void )
 	return p;
 }
 
+// wstr note ヘルパー
+static int note_is_wstr( void )
+{
+	if ( ctx->note_pval == NULL ) return 0;
+	return ( ctx->note_pval->flag == HSPVAR_FLAG_WSTR );
+}
+
+static wchar_t *wnote_update( void )
+{
+	if ( ctx->note_pval == NULL ) throw HSPERR_ILLEGAL_FUNCTION;
+	return (wchar_t *)HspVarCorePtrAPTR( ctx->note_pval, ctx->note_aptr );
+}
+
+static int wnote_getmaxline( wchar_t *base )
+{
+	int lines = 0;
+	wchar_t *p = base;
+	if ( *p == 0 ) return 0;
+	while ( *p ) {
+		if ( *p == L'\r' ) { p++; if ( *p == L'\n' ) p++; lines++; }
+		else if ( *p == L'\n' ) { p++; lines++; }
+		else { p++; }
+	}
+	return lines + 1;
+}
+
+static wchar_t *wnote_getline( wchar_t *base, int line, int *out_len )
+{
+	wchar_t *p = base;
+	int cur = 0;
+	while ( cur < line && *p ) {
+		if ( *p == L'\r' ) { p++; if ( *p == L'\n' ) p++; cur++; }
+		else if ( *p == L'\n' ) { p++; cur++; }
+		else { p++; }
+	}
+	if ( cur < line ) { *out_len = 0; return p; }
+	wchar_t *start = p;
+	while ( *p && *p != L'\r' && *p != L'\n' ) p++;
+	*out_len = (int)(p - start);
+	return start;
+}
+
 // デストラクタで自動的に sbFree を呼ぶ
 class CAutoSbFree {
 public:
@@ -698,6 +741,23 @@ static void var_set_str_len( PVal *pval, APTR aptr, char *str, int len )
 	char *ptr = (char *)proc->GetPtr( pval );
 	memcpy( ptr, str, len );
 	ptr[len] = '\0';
+}
+
+static void var_set_wstr_len( PVal *pval, APTR aptr, wchar_t *wstr, int wchar_count )
+{
+	//		変数にwstrからwchar_count文字のwstr文字列を代入する
+	//
+	HspVarProc *proc = HspVarCoreGetProc( HSPVAR_FLAG_WSTR );
+	if ( pval->flag != HSPVAR_FLAG_WSTR ) {
+		if ( aptr != 0 ) throw HSPERR_INVALID_ARRAYSTORE;
+		HspVarCoreClear( pval, HSPVAR_FLAG_WSTR );
+	}
+	pval->offset = aptr;
+	int bytes = (wchar_count + 1) * sizeof(wchar_t);
+	HspVarCoreAllocBlock( pval, proc->GetPtr( pval ), bytes );
+	wchar_t *ptr = (wchar_t *)proc->GetPtr( pval );
+	memcpy( ptr, wstr, wchar_count * sizeof(wchar_t) );
+	ptr[wchar_count] = L'\0';
 }
 
 
@@ -913,20 +973,48 @@ static int cmdfunc_intcmd( int cmd )
 		PVal *pval;
 		APTR aptr;
 		char *ptr;
-		char *p;
 		int size;
 		aptr = code_getva( &pval );
 		ptr = code_getvptr( &pval2, &size );
 		p1 = code_getdi( 0 );
 		p2 = code_getdi( 0 );
 		p3 = code_getdi( 1024 );
-		if ( p1 >= size ) throw HSPERR_BUFFER_OVERFLOW;
-		ptr += p1;
-		p = code_stmp( p3 + 1 );
-		strsp_ini();
-		ctx->stat = strsp_get( ptr, p, p2, p3 );
-		ctx->strsize = strsp_getptr();
-		code_setva( pval, aptr, HSPVAR_FLAG_STR, p );
+		if ( pval->flag == HSPVAR_FLAG_WSTR ) {
+			// wstr版 getstr: バッファからwchar_t区切りで読み取る
+			if ( p1 >= size ) throw HSPERR_BUFFER_OVERFLOW;
+			wchar_t *wptr = (wchar_t *)(ptr + p1);
+			wchar_t wdelim = (wchar_t)p2;
+			int max_wchars = p3 / (int)sizeof(wchar_t);
+			static wchar_t wgetstr_buf[4096];
+			int i = 0;
+			int bytes_read = 0;
+			while ( i < max_wchars && i < 4095 ) {
+				wchar_t wc = wptr[i];
+				bytes_read += sizeof(wchar_t);
+				if ( wc == 0 ) break;
+				if ( wdelim != 0 && wc == wdelim ) break;
+				if ( wc == L'\r' ) {
+					if ( wptr[i+1] == L'\n' ) { bytes_read += sizeof(wchar_t); }
+					break;
+				}
+				if ( wc == L'\n' ) break;
+				wgetstr_buf[i] = wc;
+				i++;
+			}
+			wgetstr_buf[i] = 0;
+			ctx->stat = i * sizeof(wchar_t);
+			ctx->strsize = bytes_read;
+			code_setva( pval, aptr, HSPVAR_FLAG_WSTR, wgetstr_buf );
+		} else {
+			char *p;
+			if ( p1 >= size ) throw HSPERR_BUFFER_OVERFLOW;
+			ptr += p1;
+			p = code_stmp( p3 + 1 );
+			strsp_ini();
+			ctx->stat = strsp_get( ptr, p, p2, p3 );
+			ctx->strsize = strsp_getptr();
+			code_setva( pval, aptr, HSPVAR_FLAG_STR, p );
+		}
 		break;
 		}
 	case 0x1e:								// chdpm
@@ -1001,34 +1089,104 @@ static int cmdfunc_intcmd( int cmd )
 		ctx->notep_aptr = ctx->note_aptr;
 		ctx->notep_pval = ctx->note_pval;
 		ctx->note_aptr = code_getva( &ctx->note_pval );
-		if ( ctx->note_pval->flag != HSPVAR_FLAG_STR ) {
+		if ( ctx->note_pval->flag != HSPVAR_FLAG_STR && ctx->note_pval->flag != HSPVAR_FLAG_WSTR ) {
 			code_setva( ctx->note_pval, ctx->note_aptr, TYPE_STRING, "" );
 		}
 		break;
 	case 0x23:								// noteadd
 		{
-		char *np;
-		char *ps;
-		char *tmp;
-		int size;
-		np = note_update();
-		ps = code_gets();
-		size = (int)strlen( ps ) + 8;
-		HspVarCoreAllocBlock( ctx->note_pval, (PDAT *)np, (int)strlen(np) + size );
+		if ( note_is_wstr() ) {
+			// wstr版 noteadd
+			wchar_t *wbase = wnote_update();
+			// 追加文字列を取得
+			int chk = code_get();
+			if ( chk <= PARAM_END ) throw HSPERR_NO_DEFAULT;
+			wchar_t *wadd_src;
+			wchar_t wconv_noteadd[4096];
+			if ( mpval->flag == HSPVAR_FLAG_WSTR ) {
+				wadd_src = (wchar_t *)mpval->pt;
+			} else if ( mpval->flag == HSPVAR_FLAG_STR ) {
+				MultiByteToWideChar(CP_ACP, 0, (char *)mpval->pt, -1, wconv_noteadd, 4096);
+				wadd_src = wconv_noteadd;
+			} else {
+				throw HSPERR_TYPE_MISMATCH;
+			}
+			int wadd_len = (int)wcslen( wadd_src );
+			p1 = code_getdi( -1 );  // 行番号 (-1=末尾追加)
+			p2 = code_getdi( 0 );   // 上書きモード
 
-		tmp = code_stmp( size );
-		strcpy( tmp, ps );
+			wbase = wnote_update();
+			int wbase_len = (int)wcslen( wbase );
 
-		p1 = code_getdi( -1 );
-		p2 = code_getdi( 0 );
-		np = note_update();
-		note.PutLine( tmp, p1, p2 );
+			if ( p1 < 0 ) {
+				// 末尾に追加
+				int new_len = wbase_len + wadd_len + 2;
+				HspVarCoreAllocBlock( ctx->note_pval, (PDAT *)wbase, (new_len + 1) * sizeof(wchar_t) );
+				wbase = wnote_update();
+				if ( wbase_len > 0 && wbase[wbase_len-1] != L'\n' ) {
+					wbase[wbase_len] = L'\n';
+					wbase_len++;
+				}
+				memcpy( wbase + wbase_len, wadd_src, wadd_len * sizeof(wchar_t) );
+				wbase[wbase_len + wadd_len] = 0;
+			} else {
+				// 指定行に挿入/上書き
+				int line_len;
+				wchar_t *line_start = wnote_getline( wbase, p1, &line_len );
+				int line_offset = (int)(line_start - wbase);
+				// 行末の改行を含める
+				wchar_t *line_end = line_start + line_len;
+				int skip = line_len;
+				if ( p2 ) {
+					// 上書き: 既存行を削除して新しい行を挿入
+					if ( *line_end == L'\r' ) { skip++; line_end++; }
+					if ( *line_end == L'\n' ) { skip++; line_end++; }
+				}
+				int tail_len = (int)wcslen( line_end );
+				int new_total = line_offset + wadd_len + 1 + tail_len + 1;
+				HspVarCoreAllocBlock( ctx->note_pval, (PDAT *)wbase, (new_total + 1) * sizeof(wchar_t) );
+				wbase = wnote_update();
+				line_start = wbase + line_offset;
+				line_end = line_start + (p2 ? skip : 0);
+				// シフトして挿入
+				wmemmove( line_start + wadd_len + 1, line_end, wcslen(line_end) + 1 );
+				memcpy( line_start, wadd_src, wadd_len * sizeof(wchar_t) );
+				line_start[wadd_len] = L'\n';
+			}
+		} else {
+			char *np;
+			char *ps;
+			char *tmp;
+			int size;
+			np = note_update();
+			ps = code_gets();
+			size = (int)strlen( ps ) + 8;
+			HspVarCoreAllocBlock( ctx->note_pval, (PDAT *)np, (int)strlen(np) + size );
+
+			tmp = code_stmp( size );
+			strcpy( tmp, ps );
+
+			p1 = code_getdi( -1 );
+			p2 = code_getdi( 0 );
+			np = note_update();
+			note.PutLine( tmp, p1, p2 );
+		}
 		break;
 		}
 	case 0x24:								// notedel
 		p1 = code_getdi( 0 );
-		note_update();
-		note.PutLine( NULL, p1, 1 );
+		if ( note_is_wstr() ) {
+			wchar_t *wbase = wnote_update();
+			int line_len;
+			wchar_t *line_start = wnote_getline( wbase, p1, &line_len );
+			wchar_t *line_end = line_start + line_len;
+			if ( *line_end == L'\r' ) line_end++;
+			if ( *line_end == L'\n' ) line_end++;
+			wmemmove( line_start, line_end, wcslen(line_end) + 1 );
+		} else {
+			note_update();
+			note.PutLine( NULL, p1, 1 );
+		}
 		break;
 	case 0x25:								// noteload
 		{
@@ -1043,21 +1201,39 @@ static int cmdfunc_intcmd( int cmd )
 		if ( size < 0 ) throw HSPERR_FILE_IO;
 		if ( p1>=0 ) if ( size >= p1 ) { ctx->strsize = size = p1; }
 
-		pdat = note_update();
-		HspVarCoreAllocBlock( ctx->note_pval, (PDAT *)pdat, size+1 );
-		ptr = (char *)note_update();
-		code_event( HSPEVENT_FREAD, 0, size, ptr );
-		ptr[size] = 0;
+		if ( note_is_wstr() ) {
+			// wstr版: バイナリで読み込み wchar_t として扱う
+			wchar_t *wdat = wnote_update();
+			int alloc_size = size + sizeof(wchar_t);
+			HspVarCoreAllocBlock( ctx->note_pval, (PDAT *)wdat, alloc_size );
+			ptr = (char *)wnote_update();
+			code_event( HSPEVENT_FREAD, 0, size, ptr );
+			// NULL終端 (wchar_t単位)
+			int wterm = size / sizeof(wchar_t);
+			((wchar_t *)ptr)[wterm] = 0;
+		} else {
+			pdat = note_update();
+			HspVarCoreAllocBlock( ctx->note_pval, (PDAT *)pdat, size+1 );
+			ptr = (char *)note_update();
+			code_event( HSPEVENT_FREAD, 0, size, ptr );
+			ptr[size] = 0;
+		}
 		break;
 		}
 	case 0x26:								// notesave
 		{
-		char *pdat;
-		int size;
 		code_event( HSPEVENT_FNAME, 0, 0, code_gets() );
-		pdat = note_update();
-		size = (int)strlen( pdat );
-		code_event( HSPEVENT_FWRITE, -1, size, pdat );
+		if ( note_is_wstr() ) {
+			wchar_t *wdat = wnote_update();
+			int size = (int)wcslen( wdat ) * sizeof(wchar_t);
+			code_event( HSPEVENT_FWRITE, -1, size, (char *)wdat );
+		} else {
+			char *pdat;
+			int size;
+			pdat = note_update();
+			size = (int)strlen( pdat );
+			code_event( HSPEVENT_FWRITE, -1, size, pdat );
+		}
 		break;
 		}
 	case 0x27:								// randomize
@@ -1081,13 +1257,26 @@ static int cmdfunc_intcmd( int cmd )
 		{
 		PVal *pval;
 		APTR aptr;
-		char *p;
-		note_update();
-		aptr = code_getva( &pval );
-		p1 = code_getdi( 0 );
-		p = note.GetLineDirect( p1 );
-		code_setva( pval, aptr, TYPE_STRING, p );
-		note.ResumeLineDirect();
+		if ( note_is_wstr() ) {
+			wchar_t *wbase = wnote_update();
+			aptr = code_getva( &pval );
+			p1 = code_getdi( 0 );
+			int wlen;
+			wchar_t *wline = wnote_getline( wbase, p1, &wlen );
+			static wchar_t wnoteget_buf[4096];
+			if ( wlen > 4095 ) wlen = 4095;
+			memcpy( wnoteget_buf, wline, wlen * sizeof(wchar_t) );
+			wnoteget_buf[wlen] = 0;
+			code_setva( pval, aptr, HSPVAR_FLAG_WSTR, wnoteget_buf );
+		} else {
+			char *p;
+			note_update();
+			aptr = code_getva( &pval );
+			p1 = code_getdi( 0 );
+			p = note.GetLineDirect( p1 );
+			code_setva( pval, aptr, TYPE_STRING, p );
+			note.ResumeLineDirect();
+		}
 		break;
 		}
 	case 0x2a:								// split
@@ -1095,54 +1284,107 @@ static int cmdfunc_intcmd( int cmd )
 		//	指定した文字列で分割された要素を代入する(fujidig)
 		PVal *pval = NULL;
 		int aptr = 0;
-		char *sptr;
-		char *sep;
-		char *newsptr;
 		int size;
-		int sep_len;
 		int n = 0;
 		int is_last = 0;
-		
-		sptr = code_getvptr( &pval, &size );
-		if ( pval->flag != HSPVAR_FLAG_STR ) throw HSPERR_TYPE_MISMATCH;
-		sep = code_gets();
-		sep_len = (int)strlen( sep );
-		
-		while (1) {
-			newsptr = strstr2( sptr, sep );
-			if ( !is_last && *exinfo->npexflg & EXFLG_1 ) {
-				// 分割結果の数が格納する変数より多ければ最後の変数に配列で格納していく
-				// ただし最後の要素が a.2 のように要素指定があればそれ以降は全く格納しない
-				if ( aptr != 0 ) pval = NULL;
-				is_last = 1;
-				aptr = 0;
-			}
-			if ( is_last ) {
-				aptr ++;
-				if ( pval != NULL && aptr >= pval->len[1] ) {
-					if ( pval->len[2] != 0 ) throw HSPVAR_ERROR_ARRAYOVER;
-					HspVarCoreReDim( pval, 1, aptr+1 );
-				}
+		char *sptr_raw = code_getvptr( &pval, &size );
+		int src_flag = pval->flag;
+
+		if ( src_flag == HSPVAR_FLAG_WSTR ) {
+			// wstr版 split
+			wchar_t *wsptr = (wchar_t *)sptr_raw;
+			// セパレータを取得
+			int chk = code_get();
+			if ( chk <= PARAM_END ) throw HSPERR_NO_DEFAULT;
+			wchar_t *wsep;
+			wchar_t wconv_split[1024];
+			if ( mpval->flag == HSPVAR_FLAG_WSTR ) {
+				wsep = (wchar_t *)mpval->pt;
+			} else if ( mpval->flag == HSPVAR_FLAG_STR ) {
+				MultiByteToWideChar(CP_ACP, 0, (char *)mpval->pt, -1, wconv_split, 1024);
+				wsep = wconv_split;
 			} else {
-				aptr = code_getva( &pval );
+				throw HSPERR_TYPE_MISMATCH;
 			}
-			if ( pval != NULL ) {
-				if ( newsptr == NULL ) {
-					code_setva( pval, aptr, HSPVAR_FLAG_STR, sptr );
+			int wsep_len = (int)wcslen( wsep );
+
+			while (1) {
+				wchar_t *wnewsptr = wcsstr( wsptr, wsep );
+				if ( !is_last && *exinfo->npexflg & EXFLG_1 ) {
+					if ( aptr != 0 ) pval = NULL;
+					is_last = 1;
+					aptr = 0;
+				}
+				if ( is_last ) {
+					aptr ++;
+					if ( pval != NULL && aptr >= pval->len[1] ) {
+						if ( pval->len[2] != 0 ) throw HSPVAR_ERROR_ARRAYOVER;
+						HspVarCoreReDim( pval, 1, aptr+1 );
+					}
 				} else {
-					var_set_str_len( pval, aptr, sptr, (int)(newsptr - sptr) );
-				}
-			}
-			n ++;
-			if ( newsptr == NULL ) {
-				// 格納する変数の数が分割できた数より多ければ残った変数それぞれに空文字列を格納する
-				while( ( *exinfo->npexflg & EXFLG_1 ) == 0 ) {
 					aptr = code_getva( &pval );
-					code_setva( pval, aptr, HSPVAR_FLAG_STR, "" );
 				}
-				break;
+				if ( pval != NULL ) {
+					if ( wnewsptr == NULL ) {
+						code_setva( pval, aptr, HSPVAR_FLAG_WSTR, wsptr );
+					} else {
+						var_set_wstr_len( pval, aptr, wsptr, (int)(wnewsptr - wsptr) );
+					}
+				}
+				n ++;
+				if ( wnewsptr == NULL ) {
+					static wchar_t wempty[] = L"";
+					while( ( *exinfo->npexflg & EXFLG_1 ) == 0 ) {
+						aptr = code_getva( &pval );
+						code_setva( pval, aptr, HSPVAR_FLAG_WSTR, wempty );
+					}
+					break;
+				}
+				wsptr = wnewsptr + wsep_len;
 			}
-			sptr = newsptr + sep_len;
+		} else if ( src_flag == HSPVAR_FLAG_STR ) {
+			char *sptr = sptr_raw;
+			char *sep;
+			char *newsptr;
+			int sep_len;
+			sep = code_gets();
+			sep_len = (int)strlen( sep );
+
+			while (1) {
+				newsptr = strstr2( sptr, sep );
+				if ( !is_last && *exinfo->npexflg & EXFLG_1 ) {
+					if ( aptr != 0 ) pval = NULL;
+					is_last = 1;
+					aptr = 0;
+				}
+				if ( is_last ) {
+					aptr ++;
+					if ( pval != NULL && aptr >= pval->len[1] ) {
+						if ( pval->len[2] != 0 ) throw HSPVAR_ERROR_ARRAYOVER;
+						HspVarCoreReDim( pval, 1, aptr+1 );
+					}
+				} else {
+					aptr = code_getva( &pval );
+				}
+				if ( pval != NULL ) {
+					if ( newsptr == NULL ) {
+						code_setva( pval, aptr, HSPVAR_FLAG_STR, sptr );
+					} else {
+						var_set_str_len( pval, aptr, sptr, (int)(newsptr - sptr) );
+					}
+				}
+				n ++;
+				if ( newsptr == NULL ) {
+					while( ( *exinfo->npexflg & EXFLG_1 ) == 0 ) {
+						aptr = code_getva( &pval );
+						code_setva( pval, aptr, HSPVAR_FLAG_STR, "" );
+					}
+					break;
+				}
+				sptr = newsptr + sep_len;
+			}
+		} else {
+			throw HSPERR_TYPE_MISMATCH;
 		}
 		ctx->stat = n;
 		break;
@@ -1152,40 +1394,117 @@ static int cmdfunc_intcmd( int cmd )
 		{
 		PVal *pval;
 		APTR aptr;
-		char *ss;
-		char *s_rep;
-		char *s_buffer;
-		char *s_match;
-		char *s_result;
-		int len_match;
-		int len_result;
-		int len_buffer;
 
 		aptr = code_getva( &pval );
-		if ( pval->flag != HSPVAR_FLAG_STR ) throw HSPERR_TYPE_MISMATCH;
-		s_buffer = (char *)HspVarCorePtrAPTR( pval, aptr );
+		if ( pval->flag == HSPVAR_FLAG_WSTR ) {
+			// wstr版 strrep
+			wchar_t *ws_buffer = (wchar_t *)HspVarCorePtrAPTR( pval, aptr );
+			// 検索文字列を取得
+			int chk = code_get();
+			if ( chk <= PARAM_END ) throw HSPERR_NO_DEFAULT;
+			wchar_t *ws_match_src;
+			wchar_t wconv_rep1[1024];
+			if ( mpval->flag == HSPVAR_FLAG_WSTR ) {
+				ws_match_src = (wchar_t *)mpval->pt;
+			} else if ( mpval->flag == HSPVAR_FLAG_STR ) {
+				MultiByteToWideChar(CP_ACP, 0, (char *)mpval->pt, -1, wconv_rep1, 1024);
+				ws_match_src = wconv_rep1;
+			} else {
+				throw HSPERR_TYPE_MISMATCH;
+			}
+			if ( *ws_match_src == 0 ) throw HSPERR_ILLEGAL_FUNCTION;
+			int wlen_match = (int)wcslen( ws_match_src );
+			wchar_t *ws_match = (wchar_t *)sbAlloc( (wlen_match + 1) * sizeof(wchar_t) );
+			memcpy( ws_match, ws_match_src, (wlen_match + 1) * sizeof(wchar_t) );
 
-		ss = code_gets();
-		if ( *ss == 0 ) throw HSPERR_ILLEGAL_FUNCTION;
-		len_match = (int)strlen( ss );
-		s_match = sbAlloc( len_match + 1 );
-		memcpy( s_match, ss, len_match + 1 );
+			// 置換文字列を取得
+			chk = code_get();
+			if ( chk <= PARAM_END ) throw HSPERR_NO_DEFAULT;
+			wchar_t *ws_rep;
+			wchar_t wconv_rep2[1024];
+			if ( mpval->flag == HSPVAR_FLAG_WSTR ) {
+				ws_rep = (wchar_t *)mpval->pt;
+			} else if ( mpval->flag == HSPVAR_FLAG_STR ) {
+				MultiByteToWideChar(CP_ACP, 0, (char *)mpval->pt, -1, wconv_rep2, 1024);
+				ws_rep = wconv_rep2;
+			} else {
+				throw HSPERR_TYPE_MISMATCH;
+			}
+			int wlen_rep = (int)wcslen( ws_rep );
 
-		len_buffer = (int)strlen( s_buffer );
-		len_result = len_buffer + 0x4000;
-		if ( len_result < 0x8000 ) len_result = 0x8000;
-		s_result = sbAlloc( len_result );
-		*s_result = 0;
+			// 置換実行
+			int wlen_buf = (int)wcslen( ws_buffer );
+			int wlen_result = wlen_buf + 0x2000;
+			if ( wlen_result < 0x4000 ) wlen_result = 0x4000;
+			wchar_t *ws_result = (wchar_t *)sbAlloc( wlen_result * sizeof(wchar_t) );
+			int curpos = 0;
+			int reptime = 0;
+			wchar_t *p = ws_buffer;
+			while ( *p ) {
+				wchar_t *found = wcsstr( p, ws_match );
+				if ( found == NULL ) {
+					int remain = (int)wcslen( p );
+					if ( curpos + remain >= wlen_result ) {
+						wlen_result = curpos + remain + 0x2000;
+						ws_result = (wchar_t *)sbExpand( (char *)ws_result, wlen_result * sizeof(wchar_t) );
+					}
+					memcpy( ws_result + curpos, p, remain * sizeof(wchar_t) );
+					curpos += remain;
+					break;
+				}
+				int prefix = (int)(found - p);
+				if ( curpos + prefix + wlen_rep >= wlen_result ) {
+					wlen_result = curpos + prefix + wlen_rep + 0x2000;
+					ws_result = (wchar_t *)sbExpand( (char *)ws_result, wlen_result * sizeof(wchar_t) );
+				}
+				memcpy( ws_result + curpos, p, prefix * sizeof(wchar_t) );
+				curpos += prefix;
+				memcpy( ws_result + curpos, ws_rep, wlen_rep * sizeof(wchar_t) );
+				curpos += wlen_rep;
+				p = found + wlen_match;
+				reptime++;
+			}
+			ws_result[curpos] = 0;
+			code_setva( pval, aptr, HSPVAR_FLAG_WSTR, ws_result );
+			ctx->stat = reptime;
+			sbFree( (char *)ws_match );
+			sbFree( (char *)ws_result );
+		} else if ( pval->flag == HSPVAR_FLAG_STR ) {
+			char *ss;
+			char *s_rep;
+			char *s_buffer;
+			char *s_match;
+			char *s_result;
+			int len_match;
+			int len_result;
+			int len_buffer;
 
-		s_rep = code_gets();
+			s_buffer = (char *)HspVarCorePtrAPTR( pval, aptr );
 
-		ReplaceSetMatch( s_buffer, s_match, s_result, len_buffer, len_match, len_result );
-		s_result = ReplaceStr( s_rep );
+			ss = code_gets();
+			if ( *ss == 0 ) throw HSPERR_ILLEGAL_FUNCTION;
+			len_match = (int)strlen( ss );
+			s_match = sbAlloc( len_match + 1 );
+			memcpy( s_match, ss, len_match + 1 );
 
-		code_setva( pval, aptr, TYPE_STRING, s_result );
-		ctx->stat = ReplaceDone();
-		sbFree( s_match );
-		sbFree( s_result );
+			len_buffer = (int)strlen( s_buffer );
+			len_result = len_buffer + 0x4000;
+			if ( len_result < 0x8000 ) len_result = 0x8000;
+			s_result = sbAlloc( len_result );
+			*s_result = 0;
+
+			s_rep = code_gets();
+
+			ReplaceSetMatch( s_buffer, s_match, s_result, len_buffer, len_match, len_result );
+			s_result = ReplaceStr( s_rep );
+
+			code_setva( pval, aptr, TYPE_STRING, s_result );
+			ctx->stat = ReplaceDone();
+			sbFree( s_match );
+			sbFree( s_result );
+		} else {
+			throw HSPERR_TYPE_MISMATCH;
+		}
 		break;
 		}
 
@@ -1450,9 +1769,19 @@ static void *reffunc_intfunc( int *type_res, int arg )
 #endif
 		break;
 	case 0x002:								// strlen
-		sval = code_gets();
-		reffunc_intfunc_ivalue = (int) STRLEN( sval );
+		{
+		int chk;
+		chk = code_get();
+		if ( chk <= PARAM_END ) throw HSPERR_NO_DEFAULT;
+		if ( mpval->flag == HSPVAR_FLAG_WSTR ) {
+			reffunc_intfunc_ivalue = (int)wcslen( (const wchar_t *)mpval->pt );
+		} else if ( mpval->flag == HSPVAR_FLAG_STR ) {
+			reffunc_intfunc_ivalue = (int)STRLEN( (char *)mpval->pt );
+		} else {
+			throw HSPERR_TYPE_MISMATCH;
+		}
 		break;
+		}
 
 	case 0x003:								// length(3.0)
 	case 0x004:								// length2(3.0)
@@ -1567,16 +1896,30 @@ static void *reffunc_intfunc( int *type_res, int arg )
 		}
 	case 0x00e:								// noteinfo
 		ival = code_getdi(0);
-		note_update();
-		switch( ival ) {
-		case 0:
-			reffunc_intfunc_ivalue = note.GetMaxLine();
-			break;
-		case 1:
-			reffunc_intfunc_ivalue = note.GetSize();
-			break;
-		default:
-			throw HSPERR_ILLEGAL_FUNCTION;
+		if ( note_is_wstr() ) {
+			wchar_t *wbase = wnote_update();
+			switch( ival ) {
+			case 0:
+				reffunc_intfunc_ivalue = wnote_getmaxline( wbase );
+				break;
+			case 1:
+				reffunc_intfunc_ivalue = (int)wcslen( wbase ) * sizeof(wchar_t);
+				break;
+			default:
+				throw HSPERR_ILLEGAL_FUNCTION;
+			}
+		} else {
+			note_update();
+			switch( ival ) {
+			case 0:
+				reffunc_intfunc_ivalue = note.GetMaxLine();
+				break;
+			case 1:
+				reffunc_intfunc_ivalue = note.GetSize();
+				break;
+			default:
+				throw HSPERR_ILLEGAL_FUNCTION;
+			}
 		}
 		break;
 
@@ -1584,25 +1927,53 @@ static void *reffunc_intfunc( int *type_res, int arg )
 		{
 		PVal *pval;
 		char *ptr;
-		char *ps;
-		char *ps2;
 		int size;
 		int p1;
 		ptr = code_getvptr( &pval, &size );
-		if ( pval->flag != HSPVAR_FLAG_STR ) throw HSPERR_TYPE_MISMATCH;
-		p1 = code_getdi(0);
-		if ( p1 >= size ) throw HSPERR_BUFFER_OVERFLOW;
-		ps = code_gets();
-		if ( p1 >= 0 ) {
-			ptr += p1;
-			ps2 = strstr2( ptr, ps );
+		if ( pval->flag == HSPVAR_FLAG_WSTR ) {
+			// wstr版 instr
+			wchar_t *wptr = (wchar_t *)ptr;
+			int wlen = (int)wcslen( wptr );
+			p1 = code_getdi(0);
+			if ( p1 >= wlen ) throw HSPERR_BUFFER_OVERFLOW;
+			// 検索文字列を取得 (str/wstr どちらも受け付ける)
+			int chk = code_get();
+			if ( chk <= PARAM_END ) throw HSPERR_NO_DEFAULT;
+			wchar_t *wps;
+			wchar_t wconv_instr[1024];
+			if ( mpval->flag == HSPVAR_FLAG_WSTR ) {
+				wps = (wchar_t *)mpval->pt;
+			} else if ( mpval->flag == HSPVAR_FLAG_STR ) {
+				MultiByteToWideChar(CP_ACP, 0, (char *)mpval->pt, -1, wconv_instr, 1024);
+				wps = wconv_instr;
+			} else {
+				throw HSPERR_TYPE_MISMATCH;
+			}
+			if ( p1 >= 0 ) {
+				wchar_t *found = wcsstr( wptr + p1, wps );
+				reffunc_intfunc_ivalue = found ? (int)(found - (wptr + p1)) : -1;
+			} else {
+				reffunc_intfunc_ivalue = -1;
+			}
+		} else if ( pval->flag == HSPVAR_FLAG_STR ) {
+			char *ps;
+			char *ps2;
+			p1 = code_getdi(0);
+			if ( p1 >= size ) throw HSPERR_BUFFER_OVERFLOW;
+			ps = code_gets();
+			if ( p1 >= 0 ) {
+				ptr += p1;
+				ps2 = strstr2( ptr, ps );
+			} else {
+				ps2 = NULL;
+			}
+			if ( ps2 == NULL ) {
+				reffunc_intfunc_ivalue = -1;
+			} else {
+				reffunc_intfunc_ivalue = (int)(ps2 - ptr);
+			}
 		} else {
-			ps2 = NULL;
-		}
-		if ( ps2 == NULL ) {
-			reffunc_intfunc_ivalue = -1;
-		} else {
-			reffunc_intfunc_ivalue = (int)(ps2 - ptr);
+			throw HSPERR_TYPE_MISMATCH;
 		}
 		break;
 		}
@@ -1627,16 +1998,57 @@ static void *reffunc_intfunc( int *type_res, int arg )
 
 	case 0x013:								// notefind
 		{
-		char *ps;
-		char *p;
-		int findopt;
-		ps = code_gets();
-		p = mem_ini( strlen(ps)+1 );
-		strcpy(p,ps);
-		findopt = code_getdi(0);
-		note_update();
-		reffunc_intfunc_ivalue = note.FindLine( p, findopt );
-		mem_bye(p);
+		if ( note_is_wstr() ) {
+			// wstr版 notefind
+			int chk = code_get();
+			if ( chk <= PARAM_END ) throw HSPERR_NO_DEFAULT;
+			wchar_t *wsearch;
+			wchar_t wconv_find[1024];
+			if ( mpval->flag == HSPVAR_FLAG_WSTR ) {
+				wsearch = (wchar_t *)mpval->pt;
+			} else if ( mpval->flag == HSPVAR_FLAG_STR ) {
+				MultiByteToWideChar(CP_ACP, 0, (char *)mpval->pt, -1, wconv_find, 1024);
+				wsearch = wconv_find;
+			} else {
+				throw HSPERR_TYPE_MISMATCH;
+			}
+			int findopt = code_getdi(0);
+			wchar_t *wbase = wnote_update();
+			int wsearch_len = (int)wcslen( wsearch );
+			int maxline = wnote_getmaxline( wbase );
+			reffunc_intfunc_ivalue = -1;
+			for (int i = 0; i < maxline; i++) {
+				int wlen;
+				wchar_t *wline = wnote_getline( wbase, i, &wlen );
+				if ( findopt == 0 ) {
+					// 完全一致
+					if ( wlen == wsearch_len && wcsncmp(wline, wsearch, wlen) == 0 )
+						{ reffunc_intfunc_ivalue = i; break; }
+				} else if ( findopt == 1 ) {
+					// 前方一致
+					if ( wlen >= wsearch_len && wcsncmp(wline, wsearch, wsearch_len) == 0 )
+						{ reffunc_intfunc_ivalue = i; break; }
+				} else {
+					// 部分一致
+					wchar_t tmp = wline[wlen]; // save
+					((wchar_t*)wline)[wlen] = 0; // temp null-terminate
+					if ( wcsstr(wline, wsearch) != NULL )
+						{ ((wchar_t*)wline)[wlen] = tmp; reffunc_intfunc_ivalue = i; break; }
+					((wchar_t*)wline)[wlen] = tmp; // restore
+				}
+			}
+		} else {
+			char *ps;
+			char *p;
+			int findopt;
+			ps = code_gets();
+			p = mem_ini( strlen(ps)+1 );
+			strcpy(p,ps);
+			findopt = code_getdi(0);
+			note_update();
+			reffunc_intfunc_ivalue = note.FindLine( p, findopt );
+			mem_bye(p);
+		}
 		break;
 		}
 
@@ -1788,32 +2200,53 @@ static void *reffunc_intfunc( int *type_res, int arg )
 		{
 		PVal *pval;
 		char *sptr;
-		char *p;
-		char chrtmp;
 		int size;
 		int i;
 		int slen;
 		sptr = code_getvptr( &pval, &size );
-		if ( pval->flag != HSPVAR_FLAG_STR ) throw HSPERR_TYPE_MISMATCH;
-		p1 = code_geti();
-		p2 = code_geti();
-
-		slen=(int)strlen( sptr );
-		if ( p1 < 0 ) {
-			p1=slen - p2;
-			if ( p1 < 0 ) p1 = 0;
+		if ( pval->flag == HSPVAR_FLAG_WSTR ) {
+			// wstr版 strmid
+			static wchar_t wstrmid_buf[4096];
+			wchar_t *wsptr = (wchar_t *)sptr;
+			p1 = code_geti();
+			p2 = code_geti();
+			slen = (int)wcslen( wsptr );
+			if ( p1 < 0 ) { p1 = slen - p2; if ( p1 < 0 ) p1 = 0; }
+			if ( p1 >= slen ) p2 = 0;
+			if ( p2 > slen ) p2 = slen;
+			if ( p2 > 4095 ) p2 = 4095;
+			wsptr += p1;
+			for(i=0;i<p2;i++) {
+				wstrmid_buf[i] = wsptr[i];
+				if (wsptr[i]==0) break;
+			}
+			wstrmid_buf[i] = 0;
+			ptr = (char *)wstrmid_buf;
+			*type_res = HSPVAR_FLAG_WSTR;
+		} else if ( pval->flag == HSPVAR_FLAG_STR ) {
+			char *p;
+			char chrtmp;
+			p1 = code_geti();
+			p2 = code_geti();
+			slen=(int)strlen( sptr );
+			if ( p1 < 0 ) {
+				p1=slen - p2;
+				if ( p1 < 0 ) p1 = 0;
+			}
+			if ( p1 >= slen )
+				p2 = 0;
+			if ( p2 > slen ) p2 = slen;
+			sptr += p1;
+			ptr = p = code_stmp( p2 + 1 );
+			for(i=0;i<p2;i++) {
+				chrtmp = *sptr++;
+				*p++ = chrtmp;
+				if (chrtmp==0) break;
+			}
+			*p = 0;
+		} else {
+			throw HSPERR_TYPE_MISMATCH;
 		}
-		if ( p1 >= slen )
-			p2 = 0;
-		if ( p2 > slen ) p2 = slen;
-		sptr += p1;
-		ptr = p = code_stmp( p2 + 1 );
-		for(i=0;i<p2;i++) {
-			chrtmp = *sptr++;
-			*p++ = chrtmp;
-			if (chrtmp==0) break;
-		}
-		*p = 0;
 		break;
 		}
 
@@ -1824,53 +2257,130 @@ static void *reffunc_intfunc( int *type_res, int arg )
 		{
 		char *p;
 		char pathname[HSP_MAX_PATH];
+		int chk;
+		chk = code_get();
+		if ( chk <= PARAM_END ) throw HSPERR_NO_DEFAULT;
+		if ( mpval->flag == HSPVAR_FLAG_WSTR ) {
+			// wstr → str変換→getpath処理→wstr戻し
+			static wchar_t wgetpath_buf[HSP_MAX_PATH];
+			char narrow_path[HSP_MAX_PATH];
+			char narrow_result[HSP_MAX_PATH];
+			WideCharToMultiByte(CP_ACP, 0, (const wchar_t *)mpval->pt, -1,
+				narrow_path, HSP_MAX_PATH, NULL, NULL);
+			p1 = code_geti();
 #if defined(HSPWIN)&&defined(HSPUTF8)
-		HSPAPICHAR *hactmp1 = 0;
-		HSPAPICHAR pw[HSP_MAX_PATH];
-		HSPCHAR *hctmp1 = 0;
-		p = ctx->stmp;
-		strncpy( pathname, code_gets(), HSP_MAX_PATH-1 );
-		p1=code_geti();
-		getpathW( chartoapichar(pathname,&hactmp1), pw, p1 );
-		freehac(&hactmp1);
-		apichartohspchar(pw, &hctmp1);
-		strncpy(p, hctmp1, HSP_MAX_PATH - 1);
-		freehc(&hctmp1);
+			{
+			HSPAPICHAR *hactmp1 = 0;
+			HSPAPICHAR pw[HSP_MAX_PATH];
+			HSPCHAR *hctmp1 = 0;
+			getpathW( chartoapichar(narrow_path,&hactmp1), pw, p1 );
+			freehac(&hactmp1);
+			apichartohspchar(pw, &hctmp1);
+			strncpy(narrow_result, hctmp1, HSP_MAX_PATH - 1);
+			freehc(&hctmp1);
+			}
 #else
-		p = ctx->stmp;
-		strncpy( pathname, code_gets(), HSP_MAX_PATH-1 );
-		p1=code_geti();
-		getpath( pathname, p, p1 );
+			getpath( narrow_path, narrow_result, p1 );
 #endif
-		ptr = p;
+			MultiByteToWideChar(CP_ACP, 0, narrow_result, -1, wgetpath_buf, HSP_MAX_PATH);
+			ptr = (char *)wgetpath_buf;
+			*type_res = HSPVAR_FLAG_WSTR;
+		} else if ( mpval->flag == HSPVAR_FLAG_STR ) {
+#if defined(HSPWIN)&&defined(HSPUTF8)
+			HSPAPICHAR *hactmp1 = 0;
+			HSPAPICHAR pw[HSP_MAX_PATH];
+			HSPCHAR *hctmp1 = 0;
+			p = ctx->stmp;
+			strncpy( pathname, (char *)mpval->pt, HSP_MAX_PATH-1 );
+			p1=code_geti();
+			getpathW( chartoapichar(pathname,&hactmp1), pw, p1 );
+			freehac(&hactmp1);
+			apichartohspchar(pw, &hctmp1);
+			strncpy(p, hctmp1, HSP_MAX_PATH - 1);
+			freehc(&hctmp1);
+#else
+			p = ctx->stmp;
+			strncpy( pathname, (char *)mpval->pt, HSP_MAX_PATH-1 );
+			p1=code_geti();
+			getpath( pathname, p, p1 );
+#endif
+			ptr = p;
+		} else {
+			throw HSPERR_TYPE_MISMATCH;
+		}
 		break;
 		}
 	case 0x105:								// strtrim
 		{
 		PVal *pval;
 		char *sptr;
-		char *p;
 		int size;
 		sptr = code_getvptr( &pval, &size );
-		if ( pval->flag != HSPVAR_FLAG_STR ) throw HSPERR_TYPE_MISMATCH;
-		p1 = code_getdi(0);
-		p2 = code_getdi(32);
-		ptr = p = code_stmp( size + 1 );
-		strcpy( p, sptr );
-		switch( p1 ) {
-		case 0:
-			TrimCodeL( p, p2 );
-			TrimCodeR( p, p2 );
-			break;
-		case 1:
-			TrimCodeL( p, p2 );
-			break;
-		case 2:
-			TrimCodeR( p, p2 );
-			break;
-		case 3:
-			TrimCode( p, p2 );
-			break;
+		if ( pval->flag == HSPVAR_FLAG_WSTR ) {
+			// wstr版 strtrim
+			static wchar_t wstrtrim_buf[4096];
+			wchar_t *wsptr = (wchar_t *)sptr;
+			p1 = code_getdi(0);
+			p2 = code_getdi(32);
+			wcsncpy( wstrtrim_buf, wsptr, 4095 );
+			wstrtrim_buf[4095] = 0;
+			wchar_t wc = (wchar_t)p2;
+			wchar_t *wp = wstrtrim_buf;
+			int wlen;
+			switch( p1 ) {
+			case 0: // both
+				while ( *wp == wc ) wp++;
+				if ( wp != wstrtrim_buf ) wmemmove( wstrtrim_buf, wp, wcslen(wp) + 1 );
+				wlen = (int)wcslen( wstrtrim_buf );
+				while ( wlen > 0 && wstrtrim_buf[wlen-1] == wc ) wlen--;
+				wstrtrim_buf[wlen] = 0;
+				break;
+			case 1: // left
+				while ( *wp == wc ) wp++;
+				if ( wp != wstrtrim_buf ) wmemmove( wstrtrim_buf, wp, wcslen(wp) + 1 );
+				break;
+			case 2: // right
+				wlen = (int)wcslen( wstrtrim_buf );
+				while ( wlen > 0 && wstrtrim_buf[wlen-1] == wc ) wlen--;
+				wstrtrim_buf[wlen] = 0;
+				break;
+			case 3: // all
+				{
+				wchar_t *dst = wstrtrim_buf;
+				wchar_t *src = wstrtrim_buf;
+				while ( *src ) {
+					if ( *src != wc ) *dst++ = *src;
+					src++;
+				}
+				*dst = 0;
+				break;
+				}
+			}
+			ptr = (char *)wstrtrim_buf;
+			*type_res = HSPVAR_FLAG_WSTR;
+		} else if ( pval->flag == HSPVAR_FLAG_STR ) {
+			char *p;
+			p1 = code_getdi(0);
+			p2 = code_getdi(32);
+			ptr = p = code_stmp( size + 1 );
+			strcpy( p, sptr );
+			switch( p1 ) {
+			case 0:
+				TrimCodeL( p, p2 );
+				TrimCodeR( p, p2 );
+				break;
+			case 1:
+				TrimCodeL( p, p2 );
+				break;
+			case 2:
+				TrimCodeR( p, p2 );
+				break;
+			case 3:
+				TrimCode( p, p2 );
+				break;
+			}
+		} else {
+			throw HSPERR_TYPE_MISMATCH;
 		}
 		break;
 		}

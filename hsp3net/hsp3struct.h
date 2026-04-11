@@ -12,7 +12,7 @@
 #if UINTPTR_MAX == 0xffffffffffffffffu
 #define PTR64BIT        //  ポインタは64bit
 #ifndef HSP64
-#warning HSP64 is not defined, but pointer is 64bit
+#pragma message("WARNING: HSP64 is not defined, but pointer is 64bit")
 #endif
 #elif UINTPTR_MAX == 0xffffffff
 #define PTR32BIT        //  ポインタは32bit

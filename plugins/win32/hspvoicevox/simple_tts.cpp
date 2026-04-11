@@ -16,14 +16,18 @@
 
 #include "voicevox_core.h"
 
+#ifdef _M_X64
+#pragma comment(lib, "x64_lib/voicevox_core.lib")
+#else
 #pragma comment(lib, "voicevox_core.lib")
+#endif
 
 #define OPENJTALK_DICT_NAME "open_jtalk_dic_utf_8-1.11"
 
 static bool voicevox_ready = false;
 static VoicevoxInitializeOptions options;
 static VoicevoxResultCode result;
-static unsigned int output_binary_size = 0;
+static uintptr_t output_binary_size = 0;
 static uint8_t* output_wav = NULL;
 static const char* errorStr = NULL;
 
@@ -145,7 +149,7 @@ int main() {
   }
 
   std::wcout << L"音声生成中" << std::endl;
-  unsigned int output_binary_size = 0;
+  uintptr_t output_binary_size = 0;
   uint8_t* output_wav = nullptr;
   VoicevoxTtsOptions voptions = voicevox_make_default_tts_options();
   result = voicevox_tts(wide_to_utf8_cppapi(speak_words).c_str(), speaker_id, voptions, &output_binary_size, &output_wav);

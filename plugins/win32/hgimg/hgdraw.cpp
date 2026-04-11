@@ -24,10 +24,10 @@
 #include "moc.h"
 #include "sysreq.h"
 
-// ƒvƒŠƒ~ƒeƒBƒu‚Ì\‘¢‘ÌƒTƒCƒYƒŠƒXƒg
+// ï¿½vï¿½ï¿½ï¿½~ï¿½eï¿½Bï¿½uï¿½Ì\ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½Xï¿½g
 /*
 #ifdef HGIMG_DIRECTX
-static primsize[] = {
+static int primsize[] = {
 0,					//	PRIM_NONE
 sizeof(P_FILL),		//	PRIM_PFILL
 sizeof(P_POINT),	//	PRIM_PPOINT
@@ -57,7 +57,7 @@ sizeof(P_PRM),		//	PRIM_ATTRSET
 };
 #else
 */
-static primsize[] = {
+static int primsize[] = {
 0,					//	PRIM_NONE
 sizeof(P_FILL),		//	PRIM_PFILL
 sizeof(P_POINT),	//	PRIM_PPOINT
@@ -116,15 +116,15 @@ static int	timeres;
 static int	timerid;
 
 //
-// TimerFunc --- ƒ^ƒCƒ}[ƒR[ƒ‹ƒoƒbƒNŠÖ”
+// TimerFunc --- ï¿½^ï¿½Cï¿½}ï¿½[ï¿½Rï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½Öï¿½
 //
-static void CALLBACK TimerFunc( UINT wID, UINT wUser, DWORD dwUser, DWORD dw1, DWORD dw2 )
+static void CALLBACK TimerFunc( UINT wID, UINT wUser, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2 )
 {
 	timecnt++;
 }
 
 //
-// ‚¸“xƒ^ƒCƒ}[‚ðŠJŽn‚µ‚Ü‚·
+// ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½^ï¿½Cï¿½}ï¿½[ï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½Ü‚ï¿½
 //
 static void StartTimer( int val )
 {
@@ -145,7 +145,7 @@ static void StartTimer( int val )
 }
 
 //
-// ‚¸“xƒ^ƒCƒ}[‚ð’âŽ~‚µ‚Ü‚·
+// ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½^ï¿½Cï¿½}ï¿½[ï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½Ü‚ï¿½
 //
 static void StopTimer( void )
 {
@@ -177,7 +177,7 @@ int hgdraw::GetTimerCount( void )
 
 int hgdraw::Startup( int mode )
 {
-	//		Graphics I/O‰Šú‰»
+	//		Graphics I/Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//
 	dest_flag = 0;
 	hgmode = mode;
@@ -196,7 +196,7 @@ int hgdraw::Startup( int mode )
 	}
 #endif
 
-	//		timer‚Ì‰Šú‰»
+	//		timerï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	//
 	StartTimer( 1 );
 
@@ -214,27 +214,27 @@ void hgdraw::Startup2( void )
 	//
 	syncwait = -1;
 
-	//		ƒ‰ƒCƒuƒ‰ƒŠ‰Šú‰»
+	//		ï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//
 	pkInit( GetSysReq(SYSREQ_PKTSIZE), OT_ALL );
 	GeometryInit();
 	pkcurrent = NULL;
 
-	//		MOC‰Šú‰»
+	//		MOCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//
 	MocSetMax( ( GetSysReq(SYSREQ_MAXOBJ) + 4 ) * SCN_MOC_MAX );
 	MocInit();
 
-	//		ƒeƒNƒXƒ`ƒƒî•ñ‰Šú‰»
+	//		ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ñ‰Šï¿½ï¿½ï¿½
 	//
 	io.TexInit();
 
-	//		ƒJƒƒ‰‰Šú‰»
+	//		ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//
 	cammocnum = 0;
 	RegistCam();
 
-	//		ƒ‰ƒCƒg‰Šú‰»
+	//		ï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//
 	InitLight();
 /*	
@@ -357,7 +357,7 @@ void hgdraw::Reset( void )
 		mem_obj[i].flag = 0;
 	}
 
-	//		ƒrƒ…[‚Ì‰Šú‰»
+	//		ï¿½rï¿½ï¿½ï¿½[ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	//
 	center.x = (float)nDestWidth * 0.5f;
 	center.y = (float)nDestHeight * 0.5f;
@@ -366,7 +366,7 @@ void hgdraw::Reset( void )
 	rt = center.x / 160.0f;
 	otrt = OT_RANGE / 512.0f;
 
-	//		3D‚Ì‰Šú‰»
+	//		3Dï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	//
 	bgclr = 1;
 	bgcolor = 0;
@@ -381,7 +381,7 @@ void hgdraw::Reset( void )
 	SetVector( &border1, -50.0f, 0.0f, -50.0f, 0.0f );
 	SetVector( &border2,  50.0f, -100.0f,  50.0f, 0.0f );
 
-	//		Ý’è‚Ì‰Šú‰»
+	//		ï¿½Ý’ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
 	//
 	SetSysReq( SYSREQ_COLORKEY, 0);
 	ResetLight();
@@ -476,7 +476,7 @@ void hgdraw::GetBorder( VECTOR *v1, VECTOR *v2 )
 
 PNODE *hgdraw::MakeNode( int code, int vnum, int uvs )
 {
-	//		ƒm[ƒhî•ñ‚ðV‹Kì¬
+	//		ï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½Vï¿½Kï¿½ì¬
 	//
 	PNODE *n;
 	VECTOR *v;
@@ -503,7 +503,7 @@ PNODE *hgdraw::MakeNode( int code, int vnum, int uvs )
 
 void *hgdraw::SetNodeExData( PNODE *n, int size )
 {
-	//		ƒm[ƒhî•ñ‚ÉExtra Data‚ð’Ç‰Á
+	//		ï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½Extra Dataï¿½ï¿½Ç‰ï¿½
 	//
 	if ( n->exdata != NULL ) free( n->exdata );
 	n->exdata = (void *)malloc( size );
@@ -514,7 +514,7 @@ void *hgdraw::SetNodeExData( PNODE *n, int size )
 	
 void hgdraw::DeleteNode( PNODE *n )
 {
-	//		ƒm[ƒhî•ñ‚ð”jŠü
+	//		ï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½jï¿½ï¿½
 	//
 	if ( n->exdata != NULL ) free( n->exdata );
 	if ( n->fv != NULL ) free( n->fv );
@@ -540,7 +540,7 @@ void hgdraw::NodeToPrim( PNODE *n )
 		if (( ang2d.x != 1.0f )||( ang2d.y != 1.0f )||( ang2d.z != 0.0f )) a++;
 		if ( a==0 )
 		{
-			//		“™”{ƒXƒvƒ‰ƒCƒg
+			//		ï¿½ï¿½ï¿½{ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½g
 			P_SPRITE *spr = (P_SPRITE *)MakePrim( PRIM_PSPRITE );
 			short tx0,ty0,tx1,ty1;
 			int ofsx,ofsy;
@@ -570,7 +570,7 @@ void hgdraw::NodeToPrim( PNODE *n )
 		}
 		else
 		{
-			//		Šg‘å‰ñ“]ƒXƒvƒ‰ƒCƒg
+			//		ï¿½gï¿½ï¿½ï¿½]ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½g
 			POLY4 *poly;
 			IAXIS2 *iv;
 			float ang,x0,y0,x1,y1,ofsx,ofsy;
@@ -677,11 +677,11 @@ void hgdraw::NodeToPrim( PNODE *n )
 			poly->v[a].x = (short)x;
 			poly->v[a].y = (short)pos.y;
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 			poly->color = *(int *)&n->color;
 			poly->alpha = drawmat_alpha;
 			AddPrim( poly, OT_ALL-a );
@@ -707,12 +707,12 @@ void hgdraw::NodeToPrim( PNODE *n )
 			poly->v[a].tx = n->uv[a].x;
 			poly->v[a].ty = n->uv[a].y + uoffset;
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->tex = (short)n->tex;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 			poly->color = 0xffffff;
 			poly->alpha = drawmat_alpha;
 			AddPrim( poly, OT_ALL-a );
@@ -736,11 +736,11 @@ void hgdraw::NodeToPrim( PNODE *n )
 			poly->v[a].x = (short)x;
 			poly->v[a].y = (short)pos.y;
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 
 			//	simple shade calc
 			poly->color = CalcLight( &n->fn[0], n->color );
@@ -768,12 +768,12 @@ void hgdraw::NodeToPrim( PNODE *n )
 			poly->v[a].tx = n->uv[a].x;
 			poly->v[a].ty = n->uv[a].y + uoffset;
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->tex = (short)n->tex;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 
 			//	simple shade calc
 			poly->color = CalcLight( &n->fn[0], 0xffffff );
@@ -801,11 +801,11 @@ void hgdraw::NodeToPrim( PNODE *n )
 			//	simple shade calc
 			poly->color[a] = CalcLight( &n->fn[a], n->color );
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 			poly->alpha = drawmat_alpha;
 			AddPrim( poly, OT_ALL-a );
 		}
@@ -832,12 +832,12 @@ void hgdraw::NodeToPrim( PNODE *n )
 			//	simple shade calc
 			poly->color[a] = CalcLight( &n->fn[a], 0xffffff );
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->tex = (short)n->tex;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 			poly->alpha = drawmat_alpha;
 			AddPrim( poly, OT_ALL-a );
 		}
@@ -862,11 +862,11 @@ void hgdraw::NodeToPrim( PNODE *n )
 			poly->v[a].x = (short)x;
 			poly->v[a].y = (short)pos.y;
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 			poly->color = *(int *)&n->color;
 			poly->alpha = drawmat_alpha;
 			AddPrim( poly, OT_ALL-a );
@@ -891,11 +891,11 @@ void hgdraw::NodeToPrim( PNODE *n )
 			poly->v[a].x = (short)x;
 			poly->v[a].y = (short)pos.y;
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 
 			//	simple shade calc
 			poly->color = CalcLight( &n->fn[0], n->color );
@@ -924,11 +924,11 @@ void hgdraw::NodeToPrim( PNODE *n )
 			//	simple shade calc
 			poly->color[a] = CalcLight( &n->fn[a], n->color );
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 			poly->alpha = drawmat_alpha;
 			AddPrim( poly, OT_ALL-a );
 		}
@@ -954,7 +954,7 @@ void hgdraw::NodeToPrim( PNODE *n )
 		if (( ang2d.x != 1.0f )||( ang2d.y != 1.0f )||( ang2d.z != 0.0f )) a++;
 		if ( a==0 )
 		{
-			//		“™”{ƒXƒvƒ‰ƒCƒg
+			//		ï¿½ï¿½ï¿½{ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½g
 			P_SPRITE *spr = (P_SPRITE *)MakePrim( PRIM_PSPRITE );
 			short tx0,ty0,tx1,ty1;
 			int ofsx,ofsy;
@@ -984,7 +984,7 @@ void hgdraw::NodeToPrim( PNODE *n )
 		}
 		else
 		{
-			//		Šg‘å‰ñ“]ƒXƒvƒ‰ƒCƒg
+			//		ï¿½gï¿½ï¿½ï¿½]ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½g
 			POLY4 *poly;
 			IAXIS2 *iv;
 			float ang,x0,y0,x1,y1,ofsx,ofsy;
@@ -1091,11 +1091,11 @@ void hgdraw::NodeToPrim( PNODE *n )
 			poly->v[a].x = (short)x;
 			poly->v[a].y = (short)pos.y;
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 			poly->color = *(int *)&n->color;
 			poly->alpha = drawmat_alpha;
 			AddPrim( poly, OT_ALL-a );
@@ -1121,12 +1121,12 @@ void hgdraw::NodeToPrim( PNODE *n )
 			poly->v[a].tx = n->uv[a].x;
 			poly->v[a].ty = n->uv[a].y + uoffset;
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->tex = (short)n->tex;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 			poly->color = 0xffffff;
 			poly->alpha = drawmat_alpha;
 			AddPrim( poly, OT_ALL-a );
@@ -1150,11 +1150,11 @@ void hgdraw::NodeToPrim( PNODE *n )
 			poly->v[a].x = (short)x;
 			poly->v[a].y = (short)pos.y;
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 
 			//	simple shade calc
 			poly->color = CalcLight( &n->fn[0], n->color );
@@ -1182,12 +1182,12 @@ void hgdraw::NodeToPrim( PNODE *n )
 			poly->v[a].tx = n->uv[a].x;
 			poly->v[a].ty = n->uv[a].y + uoffset;
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->tex = (short)n->tex;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 
 			//	simple shade calc
 			poly->color = CalcLight( &n->fn[0], 0xffffff );
@@ -1215,11 +1215,11 @@ void hgdraw::NodeToPrim( PNODE *n )
 			//	simple shade calc
 			poly->color[a] = CalcLight( &n->fn[a], n->color );
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 			poly->alpha = drawmat_alpha;
 			AddPrim( poly, OT_ALL-a );
 		}
@@ -1246,12 +1246,12 @@ void hgdraw::NodeToPrim( PNODE *n )
 			//	simple shade calc
 			poly->color[a] = CalcLight( &n->fn[a], 0xffffff );
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->tex = (short)n->tex;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 			poly->alpha = drawmat_alpha;
 			AddPrim( poly, OT_ALL-a );
 		}
@@ -1276,11 +1276,11 @@ void hgdraw::NodeToPrim( PNODE *n )
 			poly->v[a].x = (short)x;
 			poly->v[a].y = (short)pos.y;
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 			poly->color = *(int *)&n->color;
 			poly->alpha = drawmat_alpha;
 			AddPrim( poly, OT_ALL-a );
@@ -1305,11 +1305,11 @@ void hgdraw::NodeToPrim( PNODE *n )
 			poly->v[a].x = (short)x;
 			poly->v[a].y = (short)pos.y;
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 
 			//	simple shade calc
 			poly->color = CalcLight( &n->fn[0], n->color );
@@ -1338,11 +1338,11 @@ void hgdraw::NodeToPrim( PNODE *n )
 			//	simple shade calc
 			poly->color[a] = CalcLight( &n->fn[a], n->color );
 		}
-		a = ((int)(zot * otzv))>>2;			// ’¸“_‚Ì•½‹Ï‚ðŽæ‚é
+		a = ((int)(zot * otzv))>>2;			// ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½
 		if ( a <= clipzf ) {
 			a += otofs;
 			poly->attr = n->attr;
-			poly->npoly = n->num >> 2;		// ƒ|ƒŠƒSƒ“”
+			poly->npoly = n->num >> 2;		// ï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
 			poly->alpha = drawmat_alpha;
 			AddPrim( poly, OT_ALL-a );
 		}
@@ -1609,7 +1609,7 @@ void hgdraw::MakeMeshNode( MODEL *mdl, float sx, float sy, int divx, int divy, i
 
 MODEL *hgdraw::MakeModel( void )
 {
-	//		ƒ‚ƒfƒ‹î•ñ‚ðV‹Kì¬(mem)
+	//		ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½Kï¿½ì¬(mem)
 	//
 	MODEL *m;
 	PNODE **pn;
@@ -1622,7 +1622,7 @@ MODEL *hgdraw::MakeModel( void )
 	m->nummax = MDL_NODE_MAX;
 	m->aindex = 0;
 
-	//	‰Šú’l
+	//	ï¿½ï¿½ï¿½ï¿½ï¿½l
 	SetVector( &m->pos, 0.0f, 0.0f, 0.0f, 1.0f );
 	SetVector( &m->ang, 0.0f, 0.0f, 0.0f, 1.0f );
 	SetVector( &m->scale, 1.0f, 1.0f, 1.0f, 1.0f );
@@ -1633,7 +1633,7 @@ MODEL *hgdraw::MakeModel( void )
 	
 int hgdraw::RegistModel( void )
 {
-	//		ƒ‚ƒfƒ‹î•ñ‚ðV‹Kì¬(buffer)
+	//		ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½Kï¿½ì¬(buffer)
 	//
 	MODEL *m;
 	MODBASE *base;
@@ -1679,7 +1679,7 @@ void hgdraw::RebuildModelTreeSub( MODBASE *base, MODEL *m, char *output )
 
 int hgdraw::RebuildModelTree( int id, char *output )
 {
-	//		ƒ‚ƒfƒ‹î•ñ‚ðV‹Kì¬(buffer)
+	//		ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½Kï¿½ì¬(buffer)
 	//
 	MODBASE *base;
 	tree_depth = 0;
@@ -1704,7 +1704,7 @@ int hgdraw::RebuildModelTree( int id, char *output )
 
 void hgdraw::ArrangeModelTree( int modelid, int subid, int newid, int mode )
 {
-	//		ŠK‘w\‘¢‚Ì•ÏX
+	//		ï¿½Kï¿½wï¿½\ï¿½ï¿½ï¿½Ì•ÏX
 	//			(mode:0=child/1=sibling)
 	//
 	MODEL *m;
@@ -1730,7 +1730,7 @@ void hgdraw::ArrangeModelTree( int modelid, int subid, int newid, int mode )
 
 int hgdraw::GetModelSubID( int id, MODEL *model )
 {
-	//		model‚ÌƒAƒhƒŒƒX‚ÉŠY“–‚·‚éƒ‚ƒfƒ‹SubID‚ð“¾‚é
+	//		modelï¿½ÌƒAï¿½hï¿½ï¿½ï¿½Xï¿½ÉŠYï¿½ï¿½ï¿½ï¿½ï¿½éƒ‚ï¿½fï¿½ï¿½SubIDï¿½ð“¾‚ï¿½
 	//
 	int i,max;
 	MODBASE *base;
@@ -1749,7 +1749,7 @@ int hgdraw::GetModelSubID( int id, MODEL *model )
 
 int hgdraw::GetModelSubMax( int id )
 {
-	//		SubID‚Ì”‚ð“¾‚é
+	//		SubIDï¿½Ìï¿½ï¿½ð“¾‚ï¿½
 	//
 	return mem_model[ id ].num;
 }
@@ -1757,7 +1757,7 @@ int hgdraw::GetModelSubMax( int id )
 
 MODEL *hgdraw::GetModel( int id )
 {
-	//		ID‚©‚çƒ‚ƒfƒ‹‚ðŽæ“¾(buffer)
+	//		IDï¿½ï¿½ï¿½çƒ‚ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½æ“¾(buffer)
 	//
 	MODEL *m;
 	MODEL **mbuf;
@@ -1775,7 +1775,7 @@ MODEL *hgdraw::GetModel( int id )
 
 MODEL *hgdraw::GetModelEx( int id, int sub )
 {
-	//		IDAƒTƒuID‚©‚çƒ‚ƒfƒ‹‚ðŽæ“¾(buffer)
+	//		IDï¿½Aï¿½Tï¿½uIDï¿½ï¿½ï¿½çƒ‚ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½æ“¾(buffer)
 	//
 	MODEL *m;
 	MODEL **mbuf;
@@ -1789,8 +1789,8 @@ MODEL *hgdraw::GetModelEx( int id, int sub )
 
 void hgdraw::SetModelAnimFrame( int id, int frame, int opt )
 {
-	//		ID‚Ìƒ‚ƒfƒ‹‚ÉƒAƒjƒ[ƒVƒ‡ƒ“ƒtƒŒ[ƒ€”‚ðÝ’è
-	//		( SetModelAnim ‚Ì’¼Œã‚Ì‚Ý )
+	//		IDï¿½Ìƒï¿½ï¿½fï¿½ï¿½ï¿½ÉƒAï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý’ï¿½
+	//		( SetModelAnim ï¿½Ì’ï¿½ï¿½ï¿½Ì‚ï¿½ )
 	//
 	int a;
 	MODEL *m;
@@ -1807,7 +1807,7 @@ void hgdraw::SetModelAnimFrame( int id, int frame, int opt )
 
 MDLANM *hgdraw::GetModelAnimFrame( int id )
 {
-	//		ID‚Ìƒ‚ƒfƒ‹ƒAƒjƒ[ƒVƒ‡ƒ“ƒtƒŒ[ƒ€î•ñ‚ðŽæ“¾
+	//		IDï¿½Ìƒï¿½ï¿½fï¿½ï¿½ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	//
 	return &mem_manim[ id ];
 }
@@ -1815,7 +1815,7 @@ MDLANM *hgdraw::GetModelAnimFrame( int id )
 
 void hgdraw::SetModelAnimDef( int id, int ua_mode, int ua_wait, int ua_times )
 {
-	//		ID‚Ìƒ‚ƒfƒ‹UVƒAƒjƒ[ƒVƒ‡ƒ“î•ñ‚ðÝ’è
+	//		IDï¿½Ìƒï¿½ï¿½fï¿½ï¿½UVï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý’ï¿½
 	//
 	MDLANM *ma;
 	ma = &mem_manim[ id ];
@@ -1829,7 +1829,7 @@ void hgdraw::SetModelAnimDef( int id, int ua_mode, int ua_wait, int ua_times )
 
 void hgdraw::SetModelModeDef( int id, int mode )
 {
-	//		ID‚Ìƒ‚ƒfƒ‹ƒfƒtƒHƒ‹ƒgƒ‚[ƒh‚ðÝ’è
+	//		IDï¿½Ìƒï¿½ï¿½fï¿½ï¿½ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½Ý’ï¿½
 	//
 	MDLANM *ma;
 	ma = &mem_manim[ id ];
@@ -1839,7 +1839,7 @@ void hgdraw::SetModelModeDef( int id, int mode )
 
 void hgdraw::SetModelTimerDef( int id, int timer )
 {
-	//		ID‚Ìƒ‚ƒfƒ‹ƒfƒtƒHƒ‹ƒgƒ^ƒCƒ}[‚ðÝ’è
+	//		IDï¿½Ìƒï¿½ï¿½fï¿½ï¿½ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½^ï¿½Cï¿½}ï¿½[ï¿½ï¿½Ý’ï¿½
 	//
 	MDLANM *ma;
 	ma = &mem_manim[ id ];
@@ -1850,7 +1850,7 @@ void hgdraw::SetModelTimerDef( int id, int timer )
 
 P_BGSPR *hgdraw::GetBG( MODEL *m )
 {
-	//		Model‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éBG‚ÌƒAƒhƒŒƒX‚ðŽæ“¾
+	//		Modelï¿½ÉŠÖ˜Aï¿½tï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½BGï¿½ÌƒAï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½æ“¾
 	//
 	PNODE *n;
 	if ( m == NULL ) return NULL;
@@ -1871,7 +1871,7 @@ char *hgdraw::GetBGVram( MODEL *m )
 	
 void hgdraw::SetBGView( MODEL *m, int x, int y )
 {
-	//		Model‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éBG‚ÌMAP•\Ž¦ˆÊ’u‚ðÝ’è
+	//		Modelï¿½ÉŠÖ˜Aï¿½tï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½BGï¿½ï¿½MAPï¿½\ï¿½ï¿½ï¿½Ê’uï¿½ï¿½Ý’ï¿½
 	//
 	//int xx,yy,mx,my;
 	P_BGSPR *bg;
@@ -1879,7 +1879,7 @@ void hgdraw::SetBGView( MODEL *m, int x, int y )
 	if ( bg == NULL ) return;
 
 /*
-	//			( x,y‚ª‰æ–Ê’†‰›‚É‚­‚é‚æ‚¤‚ÉÝ’è )
+	//			( x,yï¿½ï¿½ï¿½ï¿½Ê’ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½æ‚¤ï¿½ÉÝ’ï¿½ )
 	mx = ( bg->sx - bg->wx ) * bg->cx;
 	my = ( bg->sy - bg->wy ) * bg->cy;
 	xx = x - (( bg->wx>>1 ) * bg->cx );
@@ -1920,7 +1920,7 @@ void hgdraw::DeleteModelSub( MODEL *m )
 
 void hgdraw::DeleteModel( int id )
 {
-	//		ƒ‚ƒfƒ‹î•ñ‚ð”jŠü
+	//		ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½
 	//
 	MODEL *m;
 	m = mem_model[id].model;
@@ -2069,11 +2069,11 @@ PNODE *hgdraw::GetModelNode( MODEL *m, int nodeid )
 
 void hgdraw::SetModelNode( MODEL *m, PNODE *n )
 {
-	//		ƒ‚ƒfƒ‹‚ÉNODE‚ð’Ç‰Á
+	//		ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½NODEï¿½ï¿½Ç‰ï¿½
 	//
 	int i;
 	i = m->num;
-	if ( i >= m->nummax ) {				// NODE buffer‚ðŠg’£
+	if ( i >= m->nummax ) {				// NODE bufferï¿½ï¿½ï¿½gï¿½ï¿½
 		int a;
 		PNODE **pn;
 		m->nummax += MDL_NODE_MAX;
@@ -2089,18 +2089,18 @@ void hgdraw::SetModelNode( MODEL *m, PNODE *n )
 
 void hgdraw::SetModelAnim( MODEL *m, ANMINF *ani, int frame )
 {
-	//		ƒ‚ƒfƒ‹‚ÉAnimation‚ð’Ç‰Á
+	//		ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½Animationï¿½ï¿½Ç‰ï¿½
 	//
 	int a,i;
 	ANMINF *p;
 	ANMINF *pw;
 	ANMINF *pold;
 	i = m->anum;
-	if ( i == 0 ) {						// V‹Kƒoƒbƒtƒ@
+	if ( i == 0 ) {						// ï¿½Vï¿½Kï¿½oï¿½bï¿½tï¿½@
 		p = (ANMINF *)malloc( sizeof(ANMINF) * frame );
 		pw = p;
 	}
-	else {								// ƒoƒbƒtƒ@Šg’£
+	else {								// ï¿½oï¿½bï¿½tï¿½@ï¿½gï¿½ï¿½
 		pold = m->ani;
 		p = (ANMINF *)malloc( sizeof(ANMINF) * (i+frame) );
 		for(a=0;a<i;a++) {
@@ -2111,7 +2111,7 @@ void hgdraw::SetModelAnim( MODEL *m, ANMINF *ani, int frame )
 	}
 
 	for(a=0;a<frame;a++) {
-		pw[a] = ani[a];					// ƒf[ƒ^‚ðƒRƒs[
+		pw[a] = ani[a];					// ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Rï¿½sï¿½[
 	}
 
 	m->ani = p;
@@ -2132,14 +2132,14 @@ void hgdraw::DrawModelSub( MODEL *m )
 	ANMINF *ani;
 	PushMatrix();
 
-	if ( aniflag == 0 ) {						// ’ÊíŽž
+	if ( aniflag == 0 ) {						// ï¿½ÊíŽž
 		Trans( m->pos.x, m->pos.y, m->pos.z );
 		RotZ( m->ang.z );
 		RotY( m->ang.y );
 		RotX( m->ang.x );
 		Scale( m->scale.x ,m->scale.y, m->scale.z );
 	}
-	else {										// ƒAƒjƒ[ƒVƒ‡ƒ“Žž
+	else {										// ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if ( m->anum ) {
 			frmax = m->animax[ curanim ];
 			a = curframe;if ( a >= frmax ) a = frmax-1;
@@ -2171,7 +2171,7 @@ void hgdraw::DrawModel( MODEL *m, VECTOR *pos, VECTOR *ang, VECTOR *scale, VECTO
 {
 	if ( m==NULL ) return;
 
-//	SetCurrentMatrix( &m_camera );		// T&LŽÀsŽž‚Ì‚Ý
+//	SetCurrentMatrix( &m_camera );		// T&Lï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ì‚ï¿½
 	SetCurrentMatrix( &m_view );
 	Trans( pos->x, pos->y, pos->z );
 	RotX( ang->x );
@@ -2180,7 +2180,7 @@ void hgdraw::DrawModel( MODEL *m, VECTOR *pos, VECTOR *ang, VECTOR *scale, VECTO
 	Scale( scale->x ,scale->y, scale->z );
 	drawmat_alpha = (int)efx->x;
 
-	aniflag = 0;							// ƒAƒjƒ‚È‚µ•`‰æ
+	aniflag = 0;							// ï¿½Aï¿½jï¿½ï¿½ï¿½È‚ï¿½ï¿½`ï¿½ï¿½
 	DrawModelSub( m );
 }
 
@@ -2325,7 +2325,7 @@ void hgdraw::ModelSetShade( int modelid, int mode )
 
 void hgdraw::MakeNodeNormals( MODEL *m, int node, int mode )
 {
-	//		Node‚Ì–@ü‚ðÝ’è‚·‚é
+	//		Nodeï¿½Ì–@ï¿½ï¿½ï¿½ï¿½Ý’è‚·ï¿½ï¿½
 	//
 	PNODE *n;
 	PNODE *n2;
@@ -2369,7 +2369,7 @@ void hgdraw::MakeNodeNormals( MODEL *m, int node, int mode )
 
 void hgdraw::MakeModelNormals( int modelid, int mode )
 {
-	//		ƒ‚ƒfƒ‹‚Ì–@ü‚ðÝ’è‚·‚é
+	//		ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½Ì–@ï¿½ï¿½ï¿½ï¿½Ý’è‚·ï¿½ï¿½
 	//			( mode:0=flat/1=gouraud )
 	//
 	int i,a,b,max;
@@ -2415,7 +2415,7 @@ void hgdraw::MakeModelNormals( int modelid, int mode )
 /*
 void hgdraw::DrawFontEx( int x, int y, char *mes, char *buf, int sx, int sy )
 {
-	//		Žw’è‚µ‚½ƒoƒbƒtƒ@‚É•¶Žš—ñ‚ð•`‰æ
+	//		ï¿½wï¿½è‚µï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½É•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½
 	//
 	char *tmp_dest;
 	int tmp_sx,tmp_sy,tmp_size;
@@ -2449,7 +2449,7 @@ void hgdraw::DrawFontEx( int x, int y, char *mes, char *buf, int sx, int sy )
 	
 void hgdraw::DrawFont( int x, int y, int alp, char *mes )
 {
-	//		•¶Žš—ñ‚ð•`‰æ
+	//		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½
 	//
 	io.DrawFontSprite( x, y, mescx, mescy, mespx, mes, mesmode|alp, mestex );
 }
@@ -2538,7 +2538,7 @@ void hgdraw::DrawOTSync( void )
 		prim = p->adr;
 		if ( prim != NULL ) DrawPrim( prim );
 		p = (Packet *)p->next;
-		if ( syncwait <= timecnt ) {		// ŽžŠÔ“à‚É•`‰æ‚Å‚«‚È‚¢
+		if ( syncwait <= timecnt ) {		// ï¿½ï¿½ï¿½Ô“ï¿½ï¿½É•`ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½
 			pkcurrent = p; return;
 		}
 	}
@@ -2549,12 +2549,12 @@ void hgdraw::DrawOTSync( void )
 void hgdraw::DrawStart( void )
 {
 	if ( pkcurrent == NULL ) {
-		pkBeginBuffer();		// ƒ_ƒuƒ‹ƒpƒPƒbƒgƒoƒbƒtƒ@‚ð‰Šú‰»
+		pkBeginBuffer();		// ï¿½_ï¿½uï¿½ï¿½ï¿½pï¿½Pï¿½bï¿½gï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if ( bgclr ) {
 			io.ClearDest( bgclr,bgcolor,bgtex );
 		}
 	}
-	else {						// OT•`‰æ’†‚ÍƒpƒPƒbƒgÄ‰Šú‰»
+	else {						// OTï¿½`ï¿½æ’†ï¿½Íƒpï¿½Pï¿½bï¿½gï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½
 		pkRestartBuffer();
 	}
 }
@@ -2595,10 +2595,10 @@ int hgdraw::DrawEnd( void )
 #endif
 
 	if ( syncwait < 0 ) {
-		DrawOT();					// OT‚Ì•`‰æ
+		DrawOT();					// OTï¿½Ì•`ï¿½ï¿½
 	}
 	else {
-		DrawOTSync();				// OT‚Ì•`‰æ(Sync)
+		DrawOTSync();				// OTï¿½Ì•`ï¿½ï¿½(Sync)
 	}
 	syncflag = ( pkcurrent == NULL );
 
@@ -2655,16 +2655,16 @@ void hgdraw::RegistCam( void )
 {
 	VECTOR v;
 	cammocnum = SCN_MOC_MAX;
-	cammoc = MocRegist( cammocnum );		// MOC‚ðŠm•Û
+	cammoc = MocRegist( cammocnum );		// MOCï¿½ï¿½ï¿½mï¿½ï¿½
 	cammode = 0;
 
-	//	‰Šú’l
+	//	ï¿½ï¿½ï¿½ï¿½ï¿½l
 	SetVector( &v, 0.0f, 0.0f, 4.0f, 1.0f );
 	SetCamPos( &v );
 	SetVector( &v, 0.0f, 0.0f, 0.0f, 0.0f );
 	SetCamAng( &v );
 
-	//	ver2.61’Ç‰Á
+	//	ver2.61ï¿½Ç‰ï¿½
 	SetVector( &v, 0.0f, 1.0f, 1.0f, 0.0f );
 	MocSetKeyFV( cammoc + SCN_MOC_DIR, &v );
 
@@ -2724,14 +2724,14 @@ void hgdraw::SetCamMode( int mode )
 void hgdraw::GetTargetAngle( VECTOR *ang, VECTOR *src, VECTOR *target )
 {
 	//--------------------------------------------------
-	//	ƒJƒƒ‰‚Ìƒ|ƒWƒVƒ‡ƒ“->’Ž‹“_‚Ì‰ñ“]Šp‚ð‹‚ß‚é
+	//	ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ|ï¿½Wï¿½Vï¿½ï¿½ï¿½ï¿½->ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½Ì‰ï¿½]ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 	//--------------------------------------------------
 	VECTOR vec;
-	/* ’Ž‹“_->ƒ|ƒWƒVƒ‡ƒ“‚ÌƒxƒNƒgƒ‹ */
+	/* ï¿½ï¿½ï¿½ï¿½ï¿½_->ï¿½|ï¿½Wï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ìƒxï¿½Nï¿½gï¿½ï¿½ */
 	vec.x = src->x - target->x;
 	vec.y = src->y - target->y;
 	vec.z = src->z - target->z;
-	/* ‰ñ“]Šp */
+	/* ï¿½ï¿½]ï¿½p */
 	ang->y = (float)-atan2( vec.x, vec.z );
 	ang->x = (float)-atan2( vec.y, sqrt(vec.x*vec.x + vec.z*vec.z) );
 	ang->z = 0.0f;
@@ -2742,7 +2742,7 @@ void hgdraw::GetTargetAngle( VECTOR *ang, VECTOR *src, VECTOR *target )
 void hgdraw::CalcCamInt( void )
 {
 //--------------------------------------------------
-//	ƒJƒƒ‰‚Ì’Ž‹“_‚©‚çƒ|ƒWƒVƒ‡ƒ“‚Ì‰ñ“]Šp‚ð‹‚ß‚é
+//	ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½|ï¿½Wï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½]ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 //--------------------------------------------------
 	VECTOR vec;
 	VECTOR ang;
@@ -2752,12 +2752,12 @@ void hgdraw::CalcCamInt( void )
 	MocGetKeyFV( cammoc + SCN_MOC_POS, &CamTrans );
 	MocGetKeyFV( cammoc + SCN_MOC_SCALE, &CamInt );
 
-	/* ’Ž‹“_->ƒ|ƒWƒVƒ‡ƒ“‚ÌƒxƒNƒgƒ‹ */
+	/* ï¿½ï¿½ï¿½ï¿½ï¿½_->ï¿½|ï¿½Wï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ìƒxï¿½Nï¿½gï¿½ï¿½ */
 	vec.x = CamTrans.x - CamInt.x;
 	vec.y = CamTrans.y - CamInt.y;
 	vec.z = CamTrans.z - CamInt.z;
 
-	/* ‰ñ“]Šp */
+	/* ï¿½ï¿½]ï¿½p */
 	ang.y = (float)atan2(vec.x, vec.z);
 	ang.x = (float)-atan2(vec.y, sqrt(vec.x*vec.x + vec.z*vec.z));
 	ang.z = 0.0f;
@@ -2795,7 +2795,7 @@ int inline hgdraw::CalcLight( VECTOR *normal, int color )
 	int a1,a2,a3,col;
 
 	cc = (unsigned char *)&color;
-	lg = &light[0];					// LIGHTINF ID#0‚ðŽg—p
+	lg = &light[0];					// LIGHTINF ID#0ï¿½ï¿½ï¿½gï¿½p
 
 	ApplyMatrixRot( &pos, normal );
 	
@@ -2870,9 +2870,9 @@ void hgdraw::ResetLight( void )
 	lg=GetLight(0);
 	lg->flag = 1;
 	lg->mode = 0;
-	lg->id = MocRegist( LIGHT_MOC_MAX );		// MOC‚ðŠm•Û
+	lg->id = MocRegist( LIGHT_MOC_MAX );		// MOCï¿½ï¿½ï¿½mï¿½ï¿½
 
-	//	‰Šú’l
+	//	ï¿½ï¿½ï¿½ï¿½ï¿½l
 	SetVector( &v, 0.0f, 0.0f, 0.0f, 0.0f );
 	MocSetKeyFV( lg->id + LIGHT_MOC_POS, &v );
 	MocSetKeyFV( lg->id + LIGHT_MOC_FALLOFF, &v );

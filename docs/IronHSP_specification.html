@@ -51,8 +51,10 @@
   <li><a href="#dotnet">4. .NET 連携機能</a></li>
   <li><a href="#winforms">5. WinForms 統合</a></li>
   <li><a href="#vartypes">6. 変数型一覧</a></li>
-  <li><a href="#changelog">7. 変更履歴</a></li>
-  <li><a href="#notes">8. 注意事項・既知の制限</a></li>
+  <li><a href="#struct">7. 構造体・共用体</a></li>
+  <li><a href="#wstr">8. UTF-16 ワイド文字列型 (wstr)</a></li>
+  <li><a href="#changelog">9. 変更履歴</a></li>
+  <li><a href="#notes">10. 注意事項・既知の制限</a></li>
 </ul>
 </div>
 
@@ -388,7 +390,7 @@ mcall net_controls, "Add", pButton</code></pre>
 </table>
 
 <!-- ======================================== -->
-<h2 id="changelog">7. 変更履歴</h2>
+<h2 id="changelog">9. 変更履歴</h2>
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
@@ -411,7 +413,7 @@ mcall net_controls, "Add", pButton</code></pre>
 </table>
 
 <!-- ======================================== -->
-<h2 id="notes">8. 注意事項・既知の制限</h2>
+<h2 id="notes">10. 注意事項・既知の制限</h2>
 
 <div class="card">
 <h3>HSPCTX 構造体レイアウトの変更</h3>
@@ -512,6 +514,93 @@ mes _sqrt(2.0)          ; => 1.414214</code></pre>
 戻り値は整数レジスタ（RAX/EAX）の値となり正しくありません。必ず <code>#cfuncd</code> / <code>#cfuncf</code> を使用してください。
 </div>
 </div>
+
+<!-- ======================================== -->
+<h2 id="struct">7. 構造体・共用体</h2>
+
+<p><code>#defstruct</code> / <code>#defunion</code> プリプロセッサ命令で C 言語互換の構造体・共用体を定義できます。
+Windows API の構造体を直接扱う場合に便利です。</p>
+
+<div class="card">
+<h3>使用例</h3>
+<pre><code>#defstruct POINT
+  int x
+  int y
+#endstruct
+
+structdim pt, POINT
+pt->x = 100
+pt->y = 200
+mes "x=" + pt->x + " y=" + pt->y</code></pre>
+</div>
+
+<h3>サポートするメンバ型</h3>
+<table>
+<tr><th>型名</th><th>サイズ</th><th>備考</th></tr>
+<tr><td><code>int</code></td><td>4 bytes</td><td>32bit 整数</td></tr>
+<tr><td><code>short</code></td><td>2 bytes</td><td>16bit 整数</td></tr>
+<tr><td><code>char</code></td><td>1 byte</td><td>8bit 整数</td></tr>
+<tr><td><code>char[N]</code></td><td>N bytes</td><td>固定長バイト配列 (strncpy で代入)</td></tr>
+<tr><td><code>float</code></td><td>4 bytes</td><td>単精度浮動小数点</td></tr>
+<tr><td><code>double</code></td><td>8 bytes</td><td>倍精度浮動小数点</td></tr>
+<tr><td><code>STRUCT_NAME</code></td><td>可変</td><td>入れ子構造体</td></tr>
+</table>
+
+<h3>共用体</h3>
+<pre><code>#defunion VARIANT_DATA
+  int iVal
+  float fVal
+  double dVal
+#endunion</code></pre>
+
+<h3>パックアライメント</h3>
+<pre><code>#defstruct PACKED_STRUCT, pack=1
+  char flag
+  int value
+#endstruct
+; size = 5 (パディングなし)</code></pre>
+
+<p>詳細は <a href="struct_implementation.html">構造体実装設計書</a> を参照してください。</p>
+
+<!-- ======================================== -->
+<h2 id="wstr">8. UTF-16 ワイド文字列型 (wstr)</h2>
+
+<p>新しい変数型 <code>wstr</code> (HSPVAR_FLAG_WSTR = 10) で UTF-16 LE 文字列を直接扱えます。
+Windows API の wchar_t 引数に変換なしで渡す用途を想定しています。</p>
+
+<div class="card">
+<h3>使用例</h3>
+<pre><code>wsdim ws, 256               ; wstr 変数を宣言
+ws = L"Unicode文字列"        ; L"..." リテラルで UTF-16 直接代入
+ws = "SJIS文字列"            ; str → wstr 自動変換
+
+n = strlen(ws)               ; wcslen() で文字数を返す
+ws2 = strmid(ws, 0, 4)      ; wstr → wstr 部分文字列
+p = instr(ws, 0, L"検索")   ; wcsstr() で検索
+s = "" + ws                  ; wstr → str 自動変換</code></pre>
+</div>
+
+<h3>対応済み関数・命令</h3>
+<table>
+<tr><th>種別</th><th>名前</th><th>wstr 動作</th></tr>
+<tr><td>関数</td><td><code>strlen</code></td><td>wcslen() で文字数を返す</td></tr>
+<tr><td>関数</td><td><code>instr</code></td><td>wcsstr() で検索</td></tr>
+<tr><td>関数</td><td><code>strmid</code></td><td>wchar_t 部分文字列 (戻り値も wstr)</td></tr>
+<tr><td>関数</td><td><code>strtrim</code></td><td>wchar_t トリム (戻り値も wstr)</td></tr>
+<tr><td>関数</td><td><code>getpath</code></td><td>パス操作 (戻り値も wstr)</td></tr>
+<tr><td>命令</td><td><code>strrep</code></td><td>wchar_t 文字列置換</td></tr>
+<tr><td>命令</td><td><code>split</code></td><td>wchar_t 分割 (出力変数も wstr)</td></tr>
+<tr><td>命令</td><td><code>getstr</code></td><td>wchar_t 区切り読み取り</td></tr>
+<tr><td>note</td><td><code>notesel/noteget/noteadd/notedel</code></td><td>wchar_t 行操作</td></tr>
+<tr><td>note</td><td><code>noteinfo/notefind</code></td><td>wchar_t 行カウント/検索</td></tr>
+<tr><td>note</td><td><code>noteload/notesave</code></td><td>UTF-16 LE バイナリ読み書き</td></tr>
+</table>
+
+<h3>自動変換</h3>
+<p>str と wstr の間は <code>MultiByteToWideChar</code> / <code>WideCharToMultiByte</code> で自動変換されます。
+int/double との変換も <code>wcstol</code> / <code>swprintf</code> 等で対応済みです。</p>
+
+<p>詳細は <a href="wstr_design.html">wstr 設計書</a> を参照してください。</p>
 
 <footer>
   <p>IronHSP &mdash; HSP3 .NET Framework Integration</p>

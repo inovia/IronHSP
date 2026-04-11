@@ -19,7 +19,7 @@ static void Alertf(const char *format, ...)
 	va_start(args, format);
 	vsprintf_s(textbf, format, args);
 	va_end(args);
-	MessageBox(NULL, textbf, "error", MB_ICONINFORMATION | MB_OK);
+	MessageBoxA(NULL, textbf, "error", MB_ICONINFORMATION | MB_OK);
 }
 
 /*------------------------------------------------------------*/
@@ -98,7 +98,7 @@ char *ConvSJis2Utf8(char* pSource, int *ressize)
 	ZeroMemory(pDist, size);
 	::WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)buffUtf16, -1, (LPSTR)pDist, size, NULL, NULL);
 
-	size = lstrlen((char*)pDist);
+	size = lstrlenA((char*)pDist);
 	if (ressize) *ressize = size;
 
 	delete[] buffUtf16;

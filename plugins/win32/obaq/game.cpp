@@ -11,10 +11,10 @@ void GAME::init(VESSEL* pVessel_)
 	}
 	pVessel = pVessel_;
 
-	// „‘Ì—pƒƒO—ÌˆæŠm•Û
+	// ï¿½ï¿½ï¿½Ì—pï¿½ï¿½ï¿½Oï¿½Ìˆï¿½mï¿½ï¿½
 	pVessel->rockbase.init( GetSysReqInt( SYSREQ_MAXLOG ) );
 
-	// ƒQ[ƒ€î•ñ‰Šú‰»
+	// ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ñ‰Šï¿½ï¿½ï¿½
 	gameTick = 0;
 	rocknum_wall = -1;
 }
@@ -26,7 +26,7 @@ void GAME::proc(void)
 	curlog = NULL;
 	gameTick ++;
 
-	//	Vessel‚ÌXV
+	//	Vesselï¿½ÌXï¿½V
 	pVessel->rockbase.resetCollisionLog();
 	for(int i = 0; i < GetSysReqInt(SYSREQ_PHYSICS_RATE); i ++) {
 		pVessel->proc(i);
@@ -57,7 +57,7 @@ int GAME::addRock(int stat, int type, float x, float y, float angle, float xsize
 
 class GAMEROCK* GAME::delRock(GAMEROCK* pG)
 {
-	//		ROCK‚ÆGAMEROCK‚ğíœ
+	//		ROCKï¿½ï¿½GAMEROCKï¿½ï¿½ï¿½íœ
 	pVessel->rockbase.delRock(pG->pRock);
 
 	return delGameRock(pG);
@@ -84,7 +84,7 @@ class GAMEROCK* GAME::addGameRock(void)
 
 class GAMEROCK* GAME::delGameRock(GAMEROCK* pG)
 {
-	//		GAMEROCK‚Ì‚İíœ
+	//		GAMEROCKï¿½Ì‚İíœ
 	//
 	GAMEROCK* pGn = pG->next;
 
@@ -153,7 +153,7 @@ int GAME::addShape(int shape, int stat, int type, float x, float y, float r, flo
 
 int GAME::setBorder( float x1, float y1, float x2, float y2, float cen_x, float cen_y )
 {
-	//		ŠO•Ç‚ğİ’è
+	//		ï¿½Oï¿½Ç‚ï¿½İ’ï¿½
 	//
 	FVECTOR2 tt[4];
 
@@ -187,7 +187,7 @@ int GAME::setBorder( float x1, float y1, float x2, float y2, float cen_x, float 
 
 void GAMEROCK::UpdateMinMaxInfo( void )
 {
-	//		GAMEROCKƒ}ƒeƒŠƒAƒ‹‚Ìmin,maxî•ñ‚ğXV
+	//		GAMEROCKï¿½}ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½min,maxï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
 	//
 	float x,y;
 
@@ -222,7 +222,7 @@ void GAMEROCK::UpdateMinMaxInfo( void )
 
 void GAME::setRockWeight( int num, float weight, float moment )
 {
-	//		weight“™‚ğİ’è
+	//		weightï¿½ï¿½ï¿½ï¿½İ’ï¿½
 	//
 	ROCK* pR = getRock( num );
 	if ( pR == NULL ) return;
@@ -235,7 +235,7 @@ void GAME::setRockWeight( int num, float weight, float moment )
 
 void GAME::setRockDamper( int num, float damper, float friction )
 {
-	//		damper“™‚ğİ’è
+	//		damperï¿½ï¿½ï¿½ï¿½İ’ï¿½
 	//
 	ROCK* pR = getRock( num );
 	if ( pR == NULL ) return;
@@ -246,7 +246,7 @@ void GAME::setRockDamper( int num, float damper, float friction )
 
 void GAME::setRockInertia( int num, float inertia, float gravity )
 {
-	//		inertia“™‚ğİ’è
+	//		inertiaï¿½ï¿½ï¿½ï¿½İ’ï¿½
 	//
 	ROCK* pR = getRock( num );
 	if ( pR == NULL ) return;
@@ -257,7 +257,7 @@ void GAME::setRockInertia( int num, float inertia, float gravity )
 
 void GAME::setRockAngle( int num, float angle )
 {
-	//		angle‚ğİ’è
+	//		angleï¿½ï¿½İ’ï¿½
 	//
 	ROCK* pR = getRock( num );
 	if ( pR == NULL ) return;
@@ -267,7 +267,7 @@ void GAME::setRockAngle( int num, float angle )
 
 void GAME::setRockCenter( int num, float x, float y )
 {
-	//		centerˆÊ’u‚ğİ’è
+	//		centerï¿½Ê’uï¿½ï¿½İ’ï¿½
 	//
 	ROCK* pR = getRock( num );
 	if ( pR == NULL ) return;
@@ -278,7 +278,7 @@ void GAME::setRockCenter( int num, float x, float y )
 
 void GAME::setRockSpeed( int num, float px, float py, float pr, int option )
 {
-	//		speed‚ğİ’è
+	//		speedï¿½ï¿½İ’ï¿½
 	//
 	ROCK* pR = getRock( num );
 	if ( pR == NULL ) return;
@@ -304,7 +304,7 @@ void GAME::setRockSpeed( int num, float px, float py, float pr, int option )
 
 void GAME::setRockGroup( int num, int group, int exgroup, int loggroup )
 {
-	//		group‚ğİ’è
+	//		groupï¿½ï¿½İ’ï¿½
 	//
 	ROCK* pR = getRock( num );
 	if ( pR == NULL ) return;
@@ -316,7 +316,7 @@ void GAME::setRockGroup( int num, int group, int exgroup, int loggroup )
 
 void GAME::setRockType( int num, unsigned int type, int calcop )
 {
-	//		type‚ğİ’è
+	//		typeï¿½ï¿½İ’ï¿½
 	//		(calcop:0=set,1=on,2=off)
 	//
 	int oldtype;
@@ -342,7 +342,7 @@ void GAME::setRockType( int num, unsigned int type, int calcop )
 
 void GAME::setRockStat( int num, unsigned int stat, int sleepcount )
 {
-	//		stat‚ğİ’è
+	//		statï¿½ï¿½İ’ï¿½
 	//
 	ROCK* pR = getRock( num );
 	if ( pR == NULL ) return;
@@ -353,7 +353,7 @@ void GAME::setRockStat( int num, unsigned int stat, int sleepcount )
 
 void GAME::getCollision( int num, int target )
 {
-	//		ƒRƒŠƒWƒ‡ƒ“æ“¾ŠJn
+	//		ï¿½Rï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½Jï¿½n
 	//
 	curlog = NULL;
 	collision_id = num;
@@ -363,7 +363,7 @@ void GAME::getCollision( int num, int target )
 
 COLLISIONLOG* GAME::getCollisionLog( void )
 {
-	//		ƒRƒŠƒWƒ‡ƒ“æ“¾
+	//		ï¿½Rï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
 	//
 	curlog = pVessel->rockbase.getCollisionLog( collision_id, collision_target, curlog==NULL );
 	return curlog;
@@ -372,7 +372,7 @@ COLLISIONLOG* GAME::getCollisionLog( void )
 
 void GAME::setRockMaterial( int num, int type, int matid, int subid )
 {
-	//		ƒ}ƒeƒŠƒAƒ‹‚ğİ’è
+	//		ï¿½}ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½İ’ï¿½
 	//
 	GAMEROCK *gr = getGameRock( num );
 	if ( gr == NULL ) return;
@@ -384,7 +384,7 @@ void GAME::setRockMaterial( int num, int type, int matid, int subid )
 
 void GAME::setRockMaterial2( int num, int offsetx, int offsety, float zoomx, float zoomy )
 {
-	//		ƒ}ƒeƒŠƒAƒ‹‚ğİ’è
+	//		ï¿½}ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½İ’ï¿½
 	//
 	GAMEROCK *gr = getGameRock( num );
 	if ( gr == NULL ) return;
@@ -397,7 +397,7 @@ void GAME::setRockMaterial2( int num, int offsetx, int offsety, float zoomx, flo
 
 void GAME::setRockMaterial3( int num, int gmode, int rate )
 {
-	//		ƒ}ƒeƒŠƒAƒ‹‚ğİ’è
+	//		ï¿½}ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½İ’ï¿½
 	//
 	GAMEROCK *gr = getGameRock( num );
 	if ( gr == NULL ) return;
@@ -408,7 +408,7 @@ void GAME::setRockMaterial3( int num, int gmode, int rate )
 
 void GAME::setRockUserData( int num, int user1, int user2, int user3 )
 {
-	//		ƒ†[ƒU[’è‹`ƒf[ƒ^‚ğİ’è
+	//		ï¿½ï¿½ï¿½[ï¿½Uï¿½[ï¿½ï¿½`ï¿½fï¿½[ï¿½^ï¿½ï¿½İ’ï¿½
 	//
 	GAMEROCK *gr = getGameRock( num );
 	if ( gr == NULL ) return;
@@ -420,7 +420,7 @@ void GAME::setRockUserData( int num, int user1, int user2, int user3 )
 
 void GAME::setRockUserData2( int num, float user4, float user5, float user6 )
 {
-	//		ƒ†[ƒU[’è‹`ƒf[ƒ^‚ğİ’è
+	//		ï¿½ï¿½ï¿½[ï¿½Uï¿½[ï¿½ï¿½`ï¿½fï¿½[ï¿½^ï¿½ï¿½İ’ï¿½
 	//
 	GAMEROCK *gr = getGameRock( num );
 	if ( gr == NULL ) return;
@@ -432,7 +432,7 @@ void GAME::setRockUserData2( int num, float user4, float user5, float user6 )
 
 void GAME::BlastAll( float ax, float ay, float power, float p_near, float p_far, int sw )
 {
-	//		•úËó‚É—Í‚ğ—^‚¦‚é
+	//		ï¿½ï¿½ï¿½Ëï¿½É—Í‚ï¿½^ï¿½ï¿½ï¿½ï¿½
 	//
 	int i;
 	for(i = 0; i < MAX_ROCK; i ++) {
@@ -452,7 +452,7 @@ void GAME::BlastAll( float ax, float ay, float power, float p_near, float p_far,
 
 int GAME::CheckInsidePosition( int num, float chkx, float chky )
 {
-	//		w’èÀ•W‚ªƒIƒuƒWƒFƒNƒg”ÍˆÍ“à‚©‚Ç‚¤‚©’²‚×‚é
+	//		ï¿½wï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ÍˆÍ“ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×‚ï¿½
 	//
 	int i;
 	int dummy;
@@ -492,7 +492,7 @@ int GAME::CheckInsidePosition( int num, float chkx, float chky )
 
 float GAME::moveRockToTarget( ROCK *pR, float x, float y, float angle, float maxspeed, float maxrotsp, int opt )
 {
-	//		w’èÀ•W(Šp“x)‚ÉƒIƒuƒWƒFƒNƒg‚ğ‹ß‚Ã‚¯‚é
+	//		ï¿½wï¿½ï¿½ï¿½ï¿½W(ï¿½pï¿½x)ï¿½ÉƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ß‚Ã‚ï¿½ï¿½ï¿½
 	//
 	float px,py,prot,gorot,dist,org;
 	int opti;
@@ -502,8 +502,8 @@ float GAME::moveRockToTarget( ROCK *pR, float x, float y, float angle, float max
 	px = x - pR->center.x;
 	py = y - pR->center.y;
 	gorot = atan2( py, px );
-	px = abs( px );
-	py = abs( py );
+	px = fabsf( px );
+	py = fabsf( py );
 	org = sqrt( px*px + py*py );
 	dist = px + py;
 

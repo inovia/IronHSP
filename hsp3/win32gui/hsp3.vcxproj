@@ -303,6 +303,7 @@
     <ClCompile Include="..\hspvar_int64.cpp" />
     <ClCompile Include="..\hspvar_label.cpp" />
     <ClCompile Include="..\hspvar_str.cpp" />
+    <ClCompile Include="..\hspvar_wstr.cpp" />
     <ClCompile Include="..\hspvar_struct.cpp" />
     <ClCompile Include="..\stack.cpp" />
     <ClCompile Include="..\strbuf.cpp" />

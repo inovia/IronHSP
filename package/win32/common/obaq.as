@@ -4,7 +4,11 @@
 #ifndef __obaq__
 #define __obaq__
 
+#ifdef __hsp64__
+#uselib "obaq64.dll"
+#else
 #uselib "obaq.dll"
+#endif
 #func qreset qreset $202
 #func qterm qterm 0
 #func qexec qexec 0

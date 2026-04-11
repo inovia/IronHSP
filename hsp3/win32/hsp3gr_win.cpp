@@ -129,7 +129,7 @@ static void cmdfunc_dialog( void )
 		i=0;
 		if (p1&1) i|=MB_ICONEXCLAMATION; else i|=MB_ICONINFORMATION;
 		if (p1&2) i|=MB_YESNO; else i|=MB_OK;
-		ctx->stat = MessageBox( NULL, stmp, ps, i );
+		ctx->stat = MessageBoxA( NULL, stmp, ps, i );
 	}
 }
 
