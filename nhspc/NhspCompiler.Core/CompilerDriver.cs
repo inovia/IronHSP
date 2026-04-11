@@ -1,4 +1,6 @@
+using System;
 using System.IO;
+using System.Reflection;
 using NhspCompiler.Core.Lexing;
 using NhspCompiler.Core.Parsing;
 using NhspCompiler.Core.Emit;
@@ -18,38 +20,51 @@ namespace NhspCompiler.Core
         public CompilationResult Compile(string sourcePath, string outputPath = null)
         {
             var diag = new DiagnosticBag();
-
             if (!File.Exists(sourcePath))
             {
                 diag.Error(0, 0, $"Source file not found: {sourcePath}");
                 return new CompilationResult { Success = false, Diagnostics = diag };
             }
-
-            string source = File.ReadAllText(sourcePath);
-            return CompileSource(source, sourcePath, outputPath, diag);
+            return CompileSource(File.ReadAllText(sourcePath), sourcePath, outputPath, diag);
         }
 
         public CompilationResult CompileFromString(string source, string outputPath)
         {
-            var diag = new DiagnosticBag();
-            return CompileSource(source, "<string>", outputPath, diag);
+            return CompileSource(source, "<string>", outputPath, new DiagnosticBag());
         }
 
         private CompilationResult CompileSource(string source, string fileName, string outputPath, DiagnosticBag diag)
         {
-            // Lexer
             var lexer = new Lexer(source, fileName);
             var tokens = lexer.Tokenize();
-
-            // Parser
             var parser = new Parser(tokens, diag);
             var unit = parser.ParseCompilationUnit();
             if (diag.HasErrors)
-            {
                 return new CompilationResult { Success = false, Diagnostics = diag };
+
+            // Load referenced assemblies
+            foreach (var refPath in unit.References)
+            {
+                try
+                {
+                    string fullPath = refPath;
+                    if (!File.Exists(fullPath))
+                    {
+                        // Search in .NET Framework directory
+                        string fwDir = System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory();
+                        fullPath = Path.Combine(fwDir, refPath);
+                    }
+                    if (File.Exists(fullPath))
+                        Assembly.LoadFrom(fullPath);
+                    else
+                        diag.Warning(0, 0, $"Reference not found: {refPath}");
+                }
+                catch (Exception ex)
+                {
+                    diag.Warning(0, 0, $"Failed to load reference {refPath}: {ex.Message}");
+                }
             }
 
-            // Output path
             if (string.IsNullOrEmpty(outputPath))
             {
                 string ext = unit.OutputType == "exe" ? ".exe" : ".dll";
@@ -58,7 +73,6 @@ namespace NhspCompiler.Core
                     unit.AssemblyName + ext);
             }
 
-            // Emit
             var emitter = new AssemblyEmitter(unit, diag, outputPath);
             bool ok = emitter.Emit();
 

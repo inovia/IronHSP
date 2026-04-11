@@ -54,6 +54,13 @@ namespace NhspCompiler.Core.Parsing
                     else if (MatchKW("using")) { Advance(); unit.Usings.Add(Expect(TokenKind.StringLiteral, "Expected ns").Text); }
                     else if (MatchKW("interface")) { unit.Interfaces.Add(ParseInterface()); }
                     else if (MatchKW("class")) { unit.Classes.Add(ParseClass()); }
+                    else if (MatchKW("main"))
+                    {
+                        Advance(); SkipEOL();
+                        unit.MainBody = ParseBlock("endmain");
+                        if (MatchKW("endmain")) Advance();
+                        if (unit.OutputType == "dll") unit.OutputType = "exe";
+                    }
                     else { _diag.Error(Current.Line, Current.Column, $"Unknown directive: {Current.Text}"); Advance(); }
                 }
                 else { Advance(); }

@@ -10,6 +10,7 @@ namespace NhspCompiler.Core.Parsing.Ast
         public List<string> Usings { get; set; } = new List<string>();
         public List<InterfaceDeclaration> Interfaces { get; set; } = new List<InterfaceDeclaration>();
         public List<ClassDeclaration> Classes { get; set; } = new List<ClassDeclaration>();
+        public List<Statement> MainBody { get; set; } // null = no entry point (DLL)
     }
 
     public class InterfaceDeclaration : AstNode
