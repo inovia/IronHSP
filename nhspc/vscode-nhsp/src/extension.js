@@ -486,7 +486,7 @@ class NhspDefinitionProvider {
 // ========== Debug ==========
 
 class NhspDebugConfigProvider {
-    resolveDebugConfiguration(folder, config, token) {
+    async resolveDebugConfiguration(folder, config, token) {
         const editor = vscode.window.activeTextEditor;
         if (!editor || editor.document.languageId !== 'nhsp') return config;
 
@@ -495,15 +495,45 @@ class NhspDebugConfigProvider {
         const baseName = path.basename(sourceFile, '.nhsp');
         const exePath = path.join(sourceDir, baseName + '.exe');
 
-        // If no config or empty config, provide default
-        if (!config.type && !config.request) {
-            config.type = 'clr';
-            config.request = 'launch';
-            config.name = 'NHSP Debug';
-            config.program = exePath;
-            config.cwd = sourceDir;
-            config.preLaunchTask = undefined;
+        // Auto-compile with debug info before launching
+        const compilerPath = findCompiler();
+        if (compilerPath) {
+            await editor.document.save();
+            outputChannel.clear();
+            outputChannel.appendLine(`[Debug] Compiling ${baseName}.nhsp with debug info...`);
+            outputChannel.show(true);
+
+            const ok = await new Promise((resolve) => {
+                execFile(compilerPath, [sourceFile, '-o', exePath, '-debug'],
+                    { cwd: sourceDir, timeout: 30000 }, (error, stdout, stderr) => {
+                    const output = (stdout || '') + (stderr || '');
+                    outputChannel.appendLine(output);
+                    diagnosticCollection.clear();
+                    const diags = parseDiagnostics(output, sourceFile);
+                    if (diags.length > 0) diagnosticCollection.set(vscode.Uri.file(sourceFile), diags);
+                    const errors = diags.filter(d => d.severity === vscode.DiagnosticSeverity.Error).length;
+                    if (error || errors > 0) {
+                        outputChannel.appendLine('\n[Debug] Compile FAILED');
+                        vscode.window.showErrorMessage('NHSP: コンパイル失敗。デバッグを中止します。');
+                        resolve(false);
+                    } else {
+                        outputChannel.appendLine(`\n[Debug] Compile OK: ${exePath}`);
+                        resolve(true);
+                    }
+                });
+            });
+
+            if (!ok) return undefined; // Cancel debug
         }
+
+        // Set up debug config
+        if (!config.type || config.type === 'nhsp') {
+            config.type = 'clr';
+        }
+        if (!config.request) config.request = 'launch';
+        if (!config.name) config.name = 'NHSP Debug';
+        if (!config.program) config.program = exePath;
+        if (!config.cwd) config.cwd = sourceDir;
 
         return config;
     }
