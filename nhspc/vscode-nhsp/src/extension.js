@@ -514,16 +514,33 @@ class NhspDebugConfigProvider {
                     const errors = diags.filter(d => d.severity === vscode.DiagnosticSeverity.Error).length;
                     if (error || errors > 0) {
                         outputChannel.appendLine('\n[Debug] Compile FAILED');
-                        vscode.window.showErrorMessage('NHSP: コンパイル失敗。デバッグを中止します。');
+                        vscode.window.showErrorMessage('NHSP: Compile failed.');
                         resolve(false);
                     } else {
-                        outputChannel.appendLine(`\n[Debug] Compile OK: ${exePath}`);
+                        outputChannel.appendLine(`[Debug] Compile OK: ${exePath}`);
                         resolve(true);
                     }
                 });
             });
 
             if (!ok) return undefined; // Cancel debug
+
+            // Convert Windows PDB to Portable PDB for VS Code debugging
+            const pdbConverter = findPdbConverter();
+            const pdbPath = exePath.replace(/\.exe$/i, '.pdb');
+            if (pdbConverter && fs.existsSync(pdbPath)) {
+                outputChannel.appendLine(`[Debug] Converting PDB to Portable format...`);
+                await new Promise((resolve) => {
+                    execFile(pdbConverter, [exePath], { cwd: sourceDir, timeout: 15000 }, (err2, out2, err2b) => {
+                        if (err2) {
+                            outputChannel.appendLine(`[Debug] PDB conversion failed (breakpoints may not work): ${(out2||'')+(err2b||'')}`);
+                        } else {
+                            outputChannel.appendLine(`[Debug] PDB converted to Portable format`);
+                        }
+                        resolve();
+                    });
+                });
+            }
         }
 
         // Set up debug config
@@ -637,6 +654,28 @@ function findCompiler() {
     }
 
     vscode.window.showErrorMessage('nhspc.exe not found. Set nhsp.compilerPath in settings, or re-run install.bat.');
+    return null;
+}
+
+function findPdbConverter() {
+    // Check extension's bundled converter
+    const extDir = path.join(__dirname, '..');
+    const bundled = path.join(extDir, 'compiler', 'Pdb2PortablePdb.exe');
+    if (fs.existsSync(bundled)) return bundled;
+
+    // Search workspace
+    const workspaceFolders = vscode.workspace.workspaceFolders;
+    if (workspaceFolders) {
+        for (const folder of workspaceFolders) {
+            const candidates = [
+                path.join(folder.uri.fsPath, 'Pdb2PortablePdb.exe'),
+                path.join(folder.uri.fsPath, 'nhspc', 'Pdb2PortablePdb', 'bin', 'Debug', 'net48', 'Pdb2PortablePdb.exe'),
+            ];
+            for (const c of candidates) {
+                if (fs.existsSync(c)) return c;
+            }
+        }
+    }
     return null;
 }
 

@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 echo ========================================
-echo   NHSP VS Code 拡張 インストーラー
+echo   NHSP VS Code Extension Installer
 echo ========================================
 echo.
 
@@ -51,6 +51,23 @@ if exist "%NHSPC_ROOT%\nhspc\bin\Release\nhspc.exe" (
     set "NHSPC_FOUND=1"
 )
 
+:: Pdb2PortablePdb (PDB変換ツール)
+set "PDB_FOUND=0"
+if exist "%NHSPC_ROOT%\Pdb2PortablePdb\bin\Debug\net48\Pdb2PortablePdb.exe" (
+    echo [*] PDB変換ツールをコピーしています。
+    copy /Y "%NHSPC_ROOT%\Pdb2PortablePdb\bin\Debug\net48\Pdb2PortablePdb.exe" "%COMPILER_DIR%\" >nul
+    copy /Y "%NHSPC_ROOT%\Pdb2PortablePdb\bin\Debug\net48\Microsoft.DiaSymReader.*.dll" "%COMPILER_DIR%\" >nul 2>nul
+    :: amd64 native DLL
+    for /R "%USERPROFILE%\.nuget\packages\microsoft.diasymreader.native" %%F in (Microsoft.DiaSymReader.Native.amd64.dll) do (
+        copy /Y "%%F" "%COMPILER_DIR%\" >nul 2>nul
+    )
+    :: x86 native DLL
+    for /R "%USERPROFILE%\.nuget\packages\microsoft.diasymreader.native" %%F in (Microsoft.DiaSymReader.Native.x86.dll) do (
+        copy /Y "%%F" "%COMPILER_DIR%\" >nul 2>nul
+    )
+    set "PDB_FOUND=1"
+)
+
 echo.
 echo ========================================
 echo   インストール完了
@@ -59,12 +76,18 @@ echo.
 echo   拡張:      %TARGET%
 if "!NHSPC_FOUND!"=="1" (
     echo   コンパイラ: %COMPILER_DIR%\nhspc.exe
-    echo.
+)
+if "!PDB_FOUND!"=="1" (
+    echo   PDB変換:   %COMPILER_DIR%\Pdb2PortablePdb.exe
+)
+echo.
+if "!NHSPC_FOUND!"=="1" (
     echo   VS Code で .nhsp を開いて F5 でコンパイルできます。
     echo   パス設定は不要です。
 ) else (
-    echo   コンパイラ: 見つかりません
-    echo   VS Code の設定で nhsp.compilerPath を指定してください。
+    echo   コンパイラが見つかりません。先にビルドしてください:
+    echo     cd nhspc
+    echo     dotnet build NhspCompiler.sln
 )
 echo.
 echo   VS Code を再起動してください。
