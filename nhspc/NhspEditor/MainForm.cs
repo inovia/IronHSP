@@ -45,8 +45,11 @@ namespace NhspEditor
             menu.Items.Add(fileMenu);
 
             var buildMenu = new ToolStripMenuItem("ビルド(&B)");
-            buildMenu.DropDownItems.Add(new ToolStripMenuItem("コンパイル(&C)", null, (s, e) => Compile(false)) { ShortcutKeys = Keys.F5 });
-            buildMenu.DropDownItems.Add(new ToolStripMenuItem("デバッグビルド(&D)", null, (s, e) => Compile(true)) { ShortcutKeys = Keys.Control | Keys.F5 });
+            buildMenu.DropDownItems.Add(new ToolStripMenuItem("コンパイル(&C)", null, (s, e) => Compile(false, false)) { ShortcutKeys = Keys.F5 });
+            buildMenu.DropDownItems.Add(new ToolStripMenuItem("DLL ビルド(&L)", null, (s, e) => Compile(false, true)) { ShortcutKeys = Keys.F7 });
+            buildMenu.DropDownItems.Add(new ToolStripMenuItem("デバッグビルド(&D)", null, (s, e) => Compile(true, false)) { ShortcutKeys = Keys.Control | Keys.F5 });
+            buildMenu.DropDownItems.Add(new ToolStripMenuItem("DLL デバッグビルド", null, (s, e) => Compile(true, true)));
+            buildMenu.DropDownItems.Add(new ToolStripSeparator());
             buildMenu.DropDownItems.Add(new ToolStripMenuItem("コンパイル && 実行(&R)", null, (s, e) => CompileAndRun()) { ShortcutKeys = Keys.F6 });
             menu.Items.Add(buildMenu);
             Controls.Add(menu);
@@ -58,8 +61,9 @@ namespace NhspEditor
             _toolbar.Items.Add(new ToolStripButton("開く", null, (s, e) => OpenFileDialog()) { ToolTipText = "開く (Ctrl+O)" });
             _toolbar.Items.Add(new ToolStripButton("保存", null, (s, e) => SaveFile()) { ToolTipText = "保存 (Ctrl+S)" });
             _toolbar.Items.Add(new ToolStripSeparator());
-            _toolbar.Items.Add(new ToolStripButton("コンパイル (F5)", null, (s, e) => Compile(false)) { ToolTipText = "コンパイル" });
-            _toolbar.Items.Add(new ToolStripButton("デバッグビルド", null, (s, e) => Compile(true)) { ToolTipText = "デバッグ情報付き (Ctrl+F5)" });
+            _toolbar.Items.Add(new ToolStripButton("コンパイル (F5)", null, (s, e) => Compile(false, false)) { ToolTipText = "自動判定 (EXE/DLL)" });
+            _toolbar.Items.Add(new ToolStripButton("DLL (F7)", null, (s, e) => Compile(false, true)) { ToolTipText = "DLL としてビルド" });
+            _toolbar.Items.Add(new ToolStripButton("デバッグ", null, (s, e) => Compile(true, false)) { ToolTipText = "デバッグ情報付き (Ctrl+F5)" });
             _toolbar.Items.Add(new ToolStripButton("実行 (F6)", null, (s, e) => CompileAndRun()) { ToolTipText = "コンパイル && 実行" });
             Controls.Add(_toolbar);
 
@@ -218,7 +222,7 @@ namespace NhspEditor
             }
         }
 
-        private void Compile(bool debug)
+        private void Compile(bool debug, bool forceDll = false)
         {
             if (_currentFile == null) SaveFileAs();
             if (_currentFile == null) return;
@@ -228,7 +232,11 @@ namespace NhspEditor
             var driver = new CompilerDriver();
             driver.Options.EmitDebugInfo = debug;
 
-            string ext = _editor.Text.Contains("#main") ? ".exe" : ".dll";
+            string ext;
+            if (forceDll)
+                ext = ".dll";
+            else
+                ext = _editor.Text.Contains("#main") ? ".exe" : ".dll";
             string outPath = Path.ChangeExtension(_currentFile, ext);
 
             var result = driver.Compile(_currentFile, outPath);
@@ -237,7 +245,8 @@ namespace NhspEditor
 
             if (result.Success)
             {
-                _statusLabel.Text = $"コンパイル成功: {Path.GetFileName(outPath)}" + (debug ? " (Debug)" : "");
+                string typeStr = ext == ".dll" ? "DLL" : "EXE";
+                _statusLabel.Text = $"{typeStr} コンパイル成功: {Path.GetFileName(outPath)}" + (debug ? " (Debug)" : "");
                 _errorList.Items.Add($"--- コンパイル成功: {outPath} ---");
             }
             else
@@ -323,9 +332,10 @@ namespace NhspEditor
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == Keys.F5) { Compile(false); return true; }
-            if (keyData == (Keys.Control | Keys.F5)) { Compile(true); return true; }
+            if (keyData == Keys.F5) { Compile(false, false); return true; }
+            if (keyData == (Keys.Control | Keys.F5)) { Compile(true, false); return true; }
             if (keyData == Keys.F6) { CompileAndRun(); return true; }
+            if (keyData == Keys.F7) { Compile(false, true); return true; }
             return base.ProcessCmdKey(ref msg, keyData);
         }
     }

@@ -46,11 +46,15 @@
       },
       {
         "command": "nhsp.compileDll",
-        "title": "NHSP: Compile (DLL)"
+        "title": "NHSP: Compile as DLL"
       },
       {
         "command": "nhsp.compileDebug",
         "title": "NHSP: Compile with Debug Info"
+      },
+      {
+        "command": "nhsp.compileDebugDll",
+        "title": "NHSP: Compile as DLL with Debug Info"
       },
       {
         "command": "nhsp.run",
