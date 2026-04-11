@@ -127,7 +127,7 @@ namespace NhspCompiler.Core.Emit
             }
             catch (Exception ex)
             {
-                _diag.Error(0, 0, $"Emit failed: {ex.Message}");
+                _diag.Error(0, 0, $"Emit failed: {ex.Message}\n{ex.StackTrace}");
                 return false;
             }
         }

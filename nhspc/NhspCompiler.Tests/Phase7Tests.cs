@@ -110,10 +110,7 @@ namespace NhspCompiler.Tests
             Assert.AreEqual(123, Call(asm, "C", "ParseNum", "123"));
         }
 
-        // TODO: CrossClassNew needs full EmitterRegistry-based resolution
-        // TypeBuilder.GetConstructor/GetMethod fails before CreateType
-        // [Test]
-        public void CrossClassNew()
+        [Test] public void CrossClassNew()
         {
             // Create instance of another class defined in same assembly
             var asm = Compile(

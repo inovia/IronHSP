@@ -145,7 +145,9 @@ namespace NhspCompiler.Core.Emit
             {
                 EmitExpression(exprS.Expr);
                 // Pop result if not void
-                _il.Emit(OpCodes.Pop);
+                var retType = InferType(exprS.Expr);
+                if (retType != typeof(void))
+                    _il.Emit(OpCodes.Pop);
             }
         }
 
@@ -687,21 +689,7 @@ namespace NhspCompiler.Core.Emit
                 foreach (var arg in call.Arguments) EmitExpression(arg);
                 if (targetType != null)
                 {
-                    var argTypes = new Type[call.Arguments.Count];
-                    for (int i = 0; i < call.Arguments.Count; i++)
-                        argTypes[i] = InferType(call.Arguments[i]);
-
-                    MethodInfo mi = null;
-                    try { mi = targetType.GetMethod(call.MethodName, argTypes); } catch { }
-                    if (mi == null) try { mi = targetType.GetMethod(call.MethodName); } catch { }
-
-                    if (mi != null)
-                    {
-                        _il.Emit((mi.IsStatic || targetType.IsValueType) ? OpCodes.Call : OpCodes.Callvirt, mi);
-                        return;
-                    }
-
-                    // TypeBuilder: resolve from EmitterRegistry
+                    // TypeBuilder: MUST use EmitterRegistry (GetMethod fails before CreateType)
                     if (targetType is TypeBuilder && _typeEmitter?._asmEmitter != null)
                     {
                         if (_typeEmitter._asmEmitter.EmitterRegistry.TryGetValue(targetType.Name, out var te2))
@@ -711,6 +699,23 @@ namespace NhspCompiler.Core.Emit
                                 _il.Emit(mb2.IsStatic ? OpCodes.Call : OpCodes.Callvirt, mb2);
                                 return;
                             }
+                        }
+                    }
+                    else
+                    {
+                        // Regular .NET type
+                        var argTypes = new Type[call.Arguments.Count];
+                        for (int i = 0; i < call.Arguments.Count; i++)
+                            argTypes[i] = InferType(call.Arguments[i]);
+
+                        MethodInfo mi = null;
+                        try { mi = targetType.GetMethod(call.MethodName, argTypes); } catch { }
+                        if (mi == null) try { mi = targetType.GetMethod(call.MethodName); } catch { }
+
+                        if (mi != null)
+                        {
+                            _il.Emit((mi.IsStatic || targetType.IsValueType) ? OpCodes.Call : OpCodes.Callvirt, mi);
+                            return;
                         }
                     }
                 }
@@ -752,30 +757,34 @@ namespace NhspCompiler.Core.Emit
             }
 
             ConstructorInfo ctor = null;
-            try { ctor = type.GetConstructor(argTypes); } catch { }
-            if (ctor == null) try { ctor = type.GetConstructor(Type.EmptyTypes); } catch { }
 
-            // TypeBuilder: search EmitterRegistry for ConstructorBuilder
+            // TypeBuilder: MUST use EmitterRegistry first
             if (ctor == null && type is TypeBuilder && _typeEmitter?._asmEmitter != null)
             {
                 if (_typeEmitter._asmEmitter.EmitterRegistry.TryGetValue(type.Name, out var te))
                 {
+                    // Match constructor by parameter count
+                    // (GetParameters() fails on TypeBuilder before CreateType)
                     foreach (var cb in te.Constructors)
                     {
-                        var cbParams = cb.GetParameters();
-                        if (cbParams.Length == argTypes.Length)
+                        // Use ConstructorParamCounts stored alongside
+                        int cbParamCount = te.ConstructorParamCounts[te.Constructors.IndexOf(cb)];
+                        if (cbParamCount == argTypes.Length)
                         {
-                            bool match = true;
-                            for (int k = 0; k < cbParams.Length; k++)
-                            {
-                                if (cbParams[k].ParameterType != argTypes[k]) { match = false; break; }
-                            }
-                            if (match) { ctor = cb; break; }
+                            ctor = cb;
+                            break;
                         }
                     }
                     if (ctor == null && newObj.Arguments.Count == 0 && te.Constructors.Count > 0)
-                        ctor = te.Constructors[0]; // fallback to first
+                        ctor = te.Constructors[0];
                 }
+            }
+
+            // Fallback: regular .NET type (not TypeBuilder)
+            if (ctor == null && !(type is TypeBuilder))
+            {
+                try { ctor = type.GetConstructor(argTypes); } catch { }
+                if (ctor == null) try { ctor = type.GetConstructor(Type.EmptyTypes); } catch { }
             }
 
             if (ctor != null)

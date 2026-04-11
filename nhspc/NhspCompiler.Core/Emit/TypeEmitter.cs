@@ -20,6 +20,7 @@ namespace NhspCompiler.Core.Emit
         public Dictionary<string, FieldBuilder> Fields { get; } = new Dictionary<string, FieldBuilder>();
         public Dictionary<string, MethodBuilder> Methods { get; } = new Dictionary<string, MethodBuilder>();
         public List<ConstructorBuilder> Constructors { get; } = new List<ConstructorBuilder>();
+        public List<int> ConstructorParamCounts { get; } = new List<int>();
 
         // Resolve a field including inherited fields from base TypeBuilder
         public FieldInfo ResolveField(string name)
@@ -205,6 +206,7 @@ namespace NhspCompiler.Core.Emit
             {
                 var ctor = TypeBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, Type.EmptyTypes);
                 Constructors.Add(ctor);
+                ConstructorParamCounts.Add(0);
                 var il = ctor.GetILGenerator();
                 il.Emit(OpCodes.Ldarg_0);
                 il.Emit(OpCodes.Call, _baseDefaultCtor);
@@ -245,6 +247,7 @@ namespace NhspCompiler.Core.Emit
             var access = decl.Access == "private" ? MethodAttributes.Private : MethodAttributes.Public;
             var ctor = TypeBuilder.DefineConstructor(access, CallingConventions.Standard, paramTypes.ToArray());
             Constructors.Add(ctor);
+            ConstructorParamCounts.Add(paramTypes.Count);
             for (int i = 0; i < paramNames.Count; i++)
                 ctor.DefineParameter(i + 1, ParameterAttributes.None, paramNames[i]);
 

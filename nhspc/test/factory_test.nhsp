@@ -1,0 +1,18 @@
+#assembly "FactoryTest"
+
+#interface IAnimal
+  #func string Speak
+#endinterface
+
+#class public Cat : IAnimal
+  #func public string Speak
+    return "Meow"
+  #endfunc
+#endclass
+
+#class public Tester
+  #func public static string Test
+    new c, Cat()
+    return c.Speak()
+  #endfunc
+#endclass
