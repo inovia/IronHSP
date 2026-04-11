@@ -75,6 +75,151 @@ static PVal *netres_pval;
 static APTR netres_aptr;
 int neterror_mode = 0;				// 0=stat only, 1=throw HSPERR_DOTNET_EXCEPTION
 
+/*------------------------------------------------------------*/
+/*		callback thunk (setcallback / callbackarg)            */
+/*------------------------------------------------------------*/
+
+#define HSP_CALLBACK_ARG_MAX 16
+
+struct HspCallbackThunk {
+	void *code;
+	int codeSize;
+	unsigned short *label;
+	int argCount;
+	INT_PTR args[HSP_CALLBACK_ARG_MAX];
+};
+
+static HspCallbackThunk **hsp_callback_thunks = NULL;
+static int hsp_callback_thunk_count = 0;
+static int hsp_callback_thunk_capacity = 0;
+static HspCallbackThunk *hsp_callback_current = NULL;
+
+static HspCallbackThunk *hsp_callback_alloc()
+{
+	if (hsp_callback_thunk_count >= hsp_callback_thunk_capacity) {
+		int newCap = (hsp_callback_thunk_capacity == 0) ? 16 : hsp_callback_thunk_capacity * 2;
+		HspCallbackThunk **newArr = (HspCallbackThunk **)realloc(
+			hsp_callback_thunks, sizeof(HspCallbackThunk*) * newCap);
+		if (newArr == NULL) return NULL;
+		hsp_callback_thunks = newArr;
+		hsp_callback_thunk_capacity = newCap;
+	}
+	HspCallbackThunk *thunk = (HspCallbackThunk *)malloc(sizeof(HspCallbackThunk));
+	if (thunk == NULL) return NULL;
+	memset(thunk, 0, sizeof(HspCallbackThunk));
+	hsp_callback_thunks[hsp_callback_thunk_count++] = thunk;
+	return thunk;
+}
+
+static void __cdecl hsp_thunk_bridge(HspCallbackThunk *thunk)
+{
+	hsp_callback_current = thunk;
+	code_callback((const unsigned short *)thunk->label);
+}
+
+static INT_PTR __cdecl hsp_thunk_getstat(void)
+{
+	return (INT_PTR)hspctx->stat;
+}
+
+#ifndef HSP64
+static void *create_callback_thunk_x86(HspCallbackThunk *thunk)
+{
+	int nargs = thunk->argCount;
+	unsigned char buf[256];
+	int pos = 0;
+	buf[pos++] = 0x55;
+	buf[pos++] = 0x89; buf[pos++] = 0xE5;
+	for (int i = 0; i < nargs && i < HSP_CALLBACK_ARG_MAX; i++) {
+		int offset = 8 + i * 4;
+		buf[pos++] = 0x8B; buf[pos++] = 0x45; buf[pos++] = (unsigned char)offset;
+		buf[pos++] = 0xA3;
+		*(void**)(buf + pos) = &thunk->args[i];
+		pos += 4;
+	}
+	buf[pos++] = 0x68;
+	*(void**)(buf + pos) = thunk;
+	pos += 4;
+	buf[pos++] = 0xE8;
+	int callRelPos = pos;
+	*(int*)(buf + pos) = 0;
+	pos += 4;
+	buf[pos++] = 0x83; buf[pos++] = 0xC4; buf[pos++] = 0x04;
+	buf[pos++] = 0xE8;
+	int statRelPos = pos;
+	*(int*)(buf + pos) = 0;
+	pos += 4;
+	buf[pos++] = 0x5D;
+	if (nargs > 0) {
+		buf[pos++] = 0xC2;
+		*(unsigned short*)(buf + pos) = (unsigned short)(nargs * 4);
+		pos += 2;
+	} else {
+		buf[pos++] = 0xC3;
+	}
+	void *execMem = VirtualAlloc(NULL, pos, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	if (execMem == NULL) return NULL;
+	memcpy(execMem, buf, pos);
+	INT_PTR execBase = (INT_PTR)execMem;
+	*(int*)((unsigned char*)execMem + callRelPos) =
+		(int)((INT_PTR)&hsp_thunk_bridge - (execBase + callRelPos + 4));
+	*(int*)((unsigned char*)execMem + statRelPos) =
+		(int)((INT_PTR)&hsp_thunk_getstat - (execBase + statRelPos + 4));
+	thunk->code = execMem;
+	thunk->codeSize = pos;
+	return execMem;
+}
+#else
+static void *create_callback_thunk_x64(HspCallbackThunk *thunk)
+{
+	int nargs = thunk->argCount;
+	unsigned char buf[512];
+	int pos = 0;
+	buf[pos++] = 0x48; buf[pos++] = 0x83; buf[pos++] = 0xEC; buf[pos++] = 0x28;
+	INT_PTR argsAddr = (INT_PTR)&thunk->args[0];
+	for (int i = 0; i < nargs && i < 4; i++) {
+		buf[pos++] = 0x48; buf[pos++] = 0xB8;
+		*(INT_PTR*)(buf + pos) = argsAddr + i * sizeof(INT_PTR);
+		pos += 8;
+		switch (i) {
+		case 0: buf[pos++] = 0x48; buf[pos++] = 0x89; buf[pos++] = 0x08; break;
+		case 1: buf[pos++] = 0x48; buf[pos++] = 0x89; buf[pos++] = 0x10; break;
+		case 2: buf[pos++] = 0x4C; buf[pos++] = 0x89; buf[pos++] = 0x00; break;
+		case 3: buf[pos++] = 0x4C; buf[pos++] = 0x89; buf[pos++] = 0x08; break;
+		}
+	}
+	for (int i = 4; i < nargs && i < HSP_CALLBACK_ARG_MAX; i++) {
+		int stackOff = 0x50 + (i - 4) * 8;
+		buf[pos++] = 0x48; buf[pos++] = 0x8B; buf[pos++] = 0x84; buf[pos++] = 0x24;
+		*(int*)(buf + pos) = stackOff;
+		pos += 4;
+		buf[pos++] = 0x49; buf[pos++] = 0xBA;
+		*(INT_PTR*)(buf + pos) = argsAddr + i * sizeof(INT_PTR);
+		pos += 8;
+		buf[pos++] = 0x49; buf[pos++] = 0x89; buf[pos++] = 0x02;
+	}
+	buf[pos++] = 0x48; buf[pos++] = 0xB9;
+	*(INT_PTR*)(buf + pos) = (INT_PTR)thunk;
+	pos += 8;
+	buf[pos++] = 0x48; buf[pos++] = 0xB8;
+	*(INT_PTR*)(buf + pos) = (INT_PTR)&hsp_thunk_bridge;
+	pos += 8;
+	buf[pos++] = 0xFF; buf[pos++] = 0xD0;
+	buf[pos++] = 0x48; buf[pos++] = 0xB8;
+	*(INT_PTR*)(buf + pos) = (INT_PTR)&hsp_thunk_getstat;
+	pos += 8;
+	buf[pos++] = 0xFF; buf[pos++] = 0xD0;
+	buf[pos++] = 0x48; buf[pos++] = 0x83; buf[pos++] = 0xC4; buf[pos++] = 0x28;
+	buf[pos++] = 0xC3;
+	void *execMem = VirtualAlloc(NULL, pos, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	if (execMem == NULL) return NULL;
+	memcpy(execMem, buf, pos);
+	thunk->code = execMem;
+	thunk->codeSize = pos;
+	return execMem;
+}
+#endif
+
 // netdelegate 用: HSP ラベルを .NET コールバックから呼び出すヘルパー
 static void hsp_callback_invoke(void *label_ptr)
 {
@@ -1846,6 +1991,43 @@ static int cmdfunc_ctrlcmd( int cmd )
 		neterror_mode = code_getdi(0);
 		break;
 	}
+	case 0x1b:									// setcallback
+	{
+		PVal *pval;
+		APTR aptr;
+		unsigned short *label;
+		int nargs;
+		void *funcptr;
+
+		aptr = code_getva(&pval);
+		{
+			int prm = code_get();
+			if (prm <= PARAM_END) throw HSPERR_NO_DEFAULT;
+			if (mpval->flag != HSPVAR_FLAG_LABEL) throw HSPERR_LABEL_REQUIRED;
+			label = *(unsigned short **)mpval->pt;
+		}
+		nargs = code_getdi(2);
+		if (nargs < 0 || nargs > HSP_CALLBACK_ARG_MAX) throw HSPERR_INVALID_PARAMETER;
+
+		HspCallbackThunk *thunk = hsp_callback_alloc();
+		if (thunk == NULL) throw HSPERR_INVALID_PARAMETER;
+		thunk->label = label;
+		thunk->argCount = nargs;
+#ifndef HSP64
+		funcptr = create_callback_thunk_x86(thunk);
+#else
+		funcptr = create_callback_thunk_x64(thunk);
+#endif
+		if (funcptr == NULL) throw HSPERR_INVALID_PARAMETER;
+
+#ifndef HSP64
+		{ int iptr = (int)(INT_PTR)funcptr; code_setva(pval, aptr, HSPVAR_FLAG_INT, &iptr); }
+#else
+		{ int64_t i64ptr = (int64_t)(INT_PTR)funcptr; code_setva(pval, aptr, HSPVAR_FLAG_INT64, &i64ptr); }
+#endif
+		hspctx->stat = 0;
+		break;
+	}
 	case 0x19:									// netdelegate
 	{
 		// netdelegate outvar, "DelegateType", *label
@@ -2456,6 +2638,25 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 			ptr = StringToHspStrA(gcnew System::String(""));
 		} else {
 			ptr = StringToHspStrA(expStr);
+		}
+		break;
+	}
+
+	case 0x109:								// callbackarg
+	{
+		p1 = code_geti();
+		if (hsp_callback_current == NULL) {
+			reffunc_intfunc_ivalue = 0;
+		} else if (p1 < 0 || p1 >= HSP_CALLBACK_ARG_MAX) {
+			reffunc_intfunc_ivalue = 0;
+		} else {
+#ifndef HSP64
+			reffunc_intfunc_ivalue = (int)hsp_callback_current->args[p1];
+#else
+			*type_res = HSPVAR_FLAG_INT64;
+			reffunc_intfunc_i64value = (int64_t)hsp_callback_current->args[p1];
+			ptr = &reffunc_intfunc_i64value;
+#endif
 		}
 		break;
 	}

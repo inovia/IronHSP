@@ -250,6 +250,7 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$018 17 neterror",				// (ver3.7)
 	"$019 17 netdelegate",			// (ver3.8)
 	"$01a 17 netlinq",				// (ver3.8)
+	"$01b 17 setcallback",			// (ver3.8)
 
 	"$100 17 callfunc",
 	"$101 17 cnvwtos",
@@ -261,6 +262,7 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$106 17 netexerr",				// (ver3.7)
 	"$107 17 callfuncd",			// (ver3.7)
 	"$108 17 callfuncf",			// (ver3.7)
+	"$109 17 callbackarg",			// (ver3.8)
 
 	//	3.0 system vals
 

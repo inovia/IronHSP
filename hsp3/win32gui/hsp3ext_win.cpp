@@ -75,6 +75,212 @@ static LPTSTR atxwndclass = NULL;
 #define GetPRM(id) (&hspctx->mem_finfo[id])
 #define strp(dsptr) &hspctx->mem_mds[dsptr]
 
+/*------------------------------------------------------------*/
+/*
+		callback thunk (setcallback / callbackarg)
+		動的にマシン語を生成して HSP ラベルへのコールバック関数ポインタを作成
+*/
+/*------------------------------------------------------------*/
+
+#define HSP_CALLBACK_ARG_MAX 16
+
+struct HspCallbackThunk {
+	void *code;					// VirtualAlloc で確保した実行可能メモリ
+	int codeSize;
+	unsigned short *label;		// HSP ラベルポインタ
+	int argCount;				// 引数の数
+	INT_PTR args[HSP_CALLBACK_ARG_MAX];	// コールバック引数の退避領域
+};
+
+static HspCallbackThunk **hsp_callback_thunks = NULL;	// 動的配列
+static int hsp_callback_thunk_count = 0;
+static int hsp_callback_thunk_capacity = 0;
+static HspCallbackThunk *hsp_callback_current = NULL;	// 現在実行中のサンク
+
+static HspCallbackThunk *hsp_callback_alloc()
+{
+	if (hsp_callback_thunk_count >= hsp_callback_thunk_capacity) {
+		int newCap = (hsp_callback_thunk_capacity == 0) ? 16 : hsp_callback_thunk_capacity * 2;
+		HspCallbackThunk **newArr = (HspCallbackThunk **)realloc(
+			hsp_callback_thunks, sizeof(HspCallbackThunk*) * newCap);
+		if (newArr == NULL) return NULL;
+		hsp_callback_thunks = newArr;
+		hsp_callback_thunk_capacity = newCap;
+	}
+	HspCallbackThunk *thunk = (HspCallbackThunk *)malloc(sizeof(HspCallbackThunk));
+	if (thunk == NULL) return NULL;
+	memset(thunk, 0, sizeof(HspCallbackThunk));
+	hsp_callback_thunks[hsp_callback_thunk_count++] = thunk;
+	return thunk;
+}
+
+// code_callback を呼び出すブリッジ関数 (thunk から call される)
+static void __cdecl hsp_thunk_bridge(HspCallbackThunk *thunk)
+{
+	hsp_callback_current = thunk;
+	code_callback((const unsigned short *)thunk->label);
+}
+
+// stat の値を返すヘルパー
+static INT_PTR __cdecl hsp_thunk_getstat(void)
+{
+	return (INT_PTR)hspctx->stat;
+}
+
+#ifndef HSP64
+// x86 stdcall thunk 生成
+// 引数はスタック上 [esp+4], [esp+8], ... に並ぶ
+// thunk は bridge(thunkPtr) を呼び、stat を返す
+static void *create_callback_thunk_x86(HspCallbackThunk *thunk)
+{
+	int nargs = thunk->argCount;
+	// 最大コードサイズ見積もり
+	unsigned char buf[256];
+	int pos = 0;
+
+	// push ebp / mov ebp, esp
+	buf[pos++] = 0x55;					// push ebp
+	buf[pos++] = 0x89; buf[pos++] = 0xE5;	// mov ebp, esp
+
+	// 引数をthunk->argsに退避
+	// [ebp+8] = arg0, [ebp+12] = arg1, ...
+	for (int i = 0; i < nargs && i < HSP_CALLBACK_ARG_MAX; i++) {
+		int offset = 8 + i * 4;
+		// mov eax, [ebp+offset]
+		buf[pos++] = 0x8B; buf[pos++] = 0x45; buf[pos++] = (unsigned char)offset;
+		// mov [addr], eax  (absolute address)
+		buf[pos++] = 0xA3;
+		*(void**)(buf + pos) = &thunk->args[i];
+		pos += 4;
+	}
+
+	// push thunkPtr / call bridge / add esp, 4
+	buf[pos++] = 0x68;	// push imm32 (thunk pointer)
+	*(void**)(buf + pos) = thunk;
+	pos += 4;
+	buf[pos++] = 0xE8;	// call rel32
+	INT_PTR callTarget = (INT_PTR)&hsp_thunk_bridge;
+	INT_PTR callFrom = 0; // 後で修正
+	*(int*)(buf + pos) = 0; // placeholder
+	int callRelPos = pos;
+	pos += 4;
+	buf[pos++] = 0x83; buf[pos++] = 0xC4; buf[pos++] = 0x04; // add esp, 4
+
+	// call getstat
+	buf[pos++] = 0xE8;	// call rel32
+	int statRelPos = pos;
+	*(int*)(buf + pos) = 0; // placeholder
+	pos += 4;
+
+	// pop ebp / ret N (stdcall)
+	buf[pos++] = 0x5D;	// pop ebp
+	if (nargs > 0) {
+		buf[pos++] = 0xC2;	// ret imm16
+		*(unsigned short*)(buf + pos) = (unsigned short)(nargs * 4);
+		pos += 2;
+	} else {
+		buf[pos++] = 0xC3;	// ret
+	}
+
+	// VirtualAlloc で実行可能メモリを確保してコピー
+	void *execMem = VirtualAlloc(NULL, pos, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	if (execMem == NULL) return NULL;
+	memcpy(execMem, buf, pos);
+
+	// call の相対アドレスを修正
+	INT_PTR execBase = (INT_PTR)execMem;
+	*(int*)((unsigned char*)execMem + callRelPos) =
+		(int)((INT_PTR)&hsp_thunk_bridge - (execBase + callRelPos + 4));
+	*(int*)((unsigned char*)execMem + statRelPos) =
+		(int)((INT_PTR)&hsp_thunk_getstat - (execBase + statRelPos + 4));
+
+	thunk->code = execMem;
+	thunk->codeSize = pos;
+	return execMem;
+}
+
+#else // HSP64
+
+// x64 fastcall thunk 生成
+// 引数: rcx, rdx, r8, r9, [rsp+0x28], [rsp+0x30], ...
+// thunk は bridge(thunkPtr) を呼び、stat を返す
+static void *create_callback_thunk_x64(HspCallbackThunk *thunk)
+{
+	int nargs = thunk->argCount;
+	unsigned char buf[512];
+	int pos = 0;
+
+	// sub rsp, 40 (0x28) — shadow space (32) + alignment (8)
+	buf[pos++] = 0x48; buf[pos++] = 0x83; buf[pos++] = 0xEC; buf[pos++] = 0x28;
+
+	// レジスタ引数を thunk->args に退避
+	// rcx = arg0, rdx = arg1, r8 = arg2, r9 = arg3
+	INT_PTR argsAddr = (INT_PTR)&thunk->args[0];
+
+	for (int i = 0; i < nargs && i < 4; i++) {
+		// mov rax, imm64 (args[i]のアドレス)
+		buf[pos++] = 0x48; buf[pos++] = 0xB8;
+		*(INT_PTR*)(buf + pos) = argsAddr + i * sizeof(INT_PTR);
+		pos += 8;
+		// mov [rax], reg
+		switch (i) {
+		case 0: buf[pos++] = 0x48; buf[pos++] = 0x89; buf[pos++] = 0x08; break; // mov [rax], rcx
+		case 1: buf[pos++] = 0x48; buf[pos++] = 0x89; buf[pos++] = 0x10; break; // mov [rax], rdx
+		case 2: buf[pos++] = 0x4C; buf[pos++] = 0x89; buf[pos++] = 0x00; break; // mov [rax], r8
+		case 3: buf[pos++] = 0x4C; buf[pos++] = 0x89; buf[pos++] = 0x08; break; // mov [rax], r9
+		}
+	}
+
+	// スタック引数 (arg4+) の退避
+	for (int i = 4; i < nargs && i < HSP_CALLBACK_ARG_MAX; i++) {
+		int stackOff = 0x28 + 0x28 + (i - 4) * 8; // rsp + sub(0x28) + shadow(0x20) + home(0x08)...
+		// 実際は rsp + 0x28(自分のsub) + 0x08(ret addr) + 0x20(shadow) + (i-4)*8
+		// = rsp + 0x28 + 8 + 0x20 + (i-4)*8 = rsp + 0x50 + (i-4)*8
+		stackOff = 0x50 + (i - 4) * 8;
+		// mov rax, [rsp + stackOff]
+		buf[pos++] = 0x48; buf[pos++] = 0x8B; buf[pos++] = 0x84; buf[pos++] = 0x24;
+		*(int*)(buf + pos) = stackOff;
+		pos += 4;
+		// mov r10, imm64
+		buf[pos++] = 0x49; buf[pos++] = 0xBA;
+		*(INT_PTR*)(buf + pos) = argsAddr + i * sizeof(INT_PTR);
+		pos += 8;
+		// mov [r10], rax
+		buf[pos++] = 0x49; buf[pos++] = 0x89; buf[pos++] = 0x02;
+	}
+
+	// mov rcx, thunkPtr (引数1 = thunk)
+	buf[pos++] = 0x48; buf[pos++] = 0xB9;
+	*(INT_PTR*)(buf + pos) = (INT_PTR)thunk;
+	pos += 8;
+
+	// mov rax, &hsp_thunk_bridge / call rax
+	buf[pos++] = 0x48; buf[pos++] = 0xB8;
+	*(INT_PTR*)(buf + pos) = (INT_PTR)&hsp_thunk_bridge;
+	pos += 8;
+	buf[pos++] = 0xFF; buf[pos++] = 0xD0; // call rax
+
+	// mov rax, &hsp_thunk_getstat / call rax
+	buf[pos++] = 0x48; buf[pos++] = 0xB8;
+	*(INT_PTR*)(buf + pos) = (INT_PTR)&hsp_thunk_getstat;
+	pos += 8;
+	buf[pos++] = 0xFF; buf[pos++] = 0xD0; // call rax
+
+	// add rsp, 40
+	buf[pos++] = 0x48; buf[pos++] = 0x83; buf[pos++] = 0xC4; buf[pos++] = 0x28;
+	// ret
+	buf[pos++] = 0xC3;
+
+	void *execMem = VirtualAlloc(NULL, pos, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	if (execMem == NULL) return NULL;
+	memcpy(execMem, buf, pos);
+
+	thunk->code = execMem;
+	thunk->codeSize = pos;
+	return execMem;
+}
+#endif // HSP64
+
 
 /*------------------------------------------------------------*/
 /*
@@ -1169,6 +1375,60 @@ static int cmdfunc_ctrlcmd( int cmd )
 		break;
 		}
 #endif
+	case 0x1b:								// setcallback
+		{
+		// setcallback var, *label, argcount
+		// HSP ラベルへの関数ポインタ (thunk) を生成し、var に格納
+		PVal *pval;
+		APTR aptr;
+		unsigned short *label;
+		int nargs;
+		void *funcptr;
+
+		// 引数:1（出力先変数）
+		aptr = code_getva(&pval);
+
+		// 引数:2（HSP ラベル）
+		{
+			int prm = code_get();
+			if (prm <= PARAM_END) throw HSPERR_NO_DEFAULT;
+			if (mpval->flag != HSPVAR_FLAG_LABEL) throw HSPERR_LABEL_REQUIRED;
+			label = *(unsigned short **)mpval->pt;
+		}
+
+		// 引数:3（コールバック引数の数, デフォルト=2）
+		nargs = code_getdi(2);
+		if (nargs < 0 || nargs > HSP_CALLBACK_ARG_MAX) throw HSPERR_INVALID_PARAMETER;
+
+		// thunk 登録 (動的確保)
+		HspCallbackThunk *thunk = hsp_callback_alloc();
+		if (thunk == NULL) throw HSPERR_INVALID_PARAMETER;
+		thunk->label = label;
+		thunk->argCount = nargs;
+
+#ifndef HSP64
+		funcptr = create_callback_thunk_x86(thunk);
+#else
+		funcptr = create_callback_thunk_x64(thunk);
+#endif
+		if (funcptr == NULL) throw HSPERR_INVALID_PARAMETER;
+
+		// 関数ポインタを変数に格納
+#ifndef HSP64
+		{
+			int iptr = (int)(INT_PTR)funcptr;
+			code_setva(pval, aptr, HSPVAR_FLAG_INT, &iptr);
+		}
+#else
+		{
+			int64_t i64ptr = (int64_t)(INT_PTR)funcptr;
+			code_setva(pval, aptr, HSPVAR_FLAG_INT64, &i64ptr);
+		}
+#endif
+		hspctx->stat = 0;
+		break;
+		}
+
 	default:
 		throw ( HSPERR_SYNTAX );
 	}
@@ -1298,6 +1558,27 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 			break;
 		}
 #endif
+
+	case 0x109:								// callbackarg
+		{
+		// callbackarg(index)
+		// 現在実行中のコールバックの引数を返す
+		p1 = code_geti();
+		if (hsp_callback_current == NULL) {
+			reffunc_intfunc_ivalue = 0;
+		} else if (p1 < 0 || p1 >= HSP_CALLBACK_ARG_MAX) {
+			reffunc_intfunc_ivalue = 0;
+		} else {
+#ifndef HSP64
+			reffunc_intfunc_ivalue = (int)hsp_callback_current->args[p1];
+#else
+			*type_res = HSPVAR_FLAG_INT64;
+			reffunc_intfunc_i64value = (int64_t)hsp_callback_current->args[p1];
+			ptr = &reffunc_intfunc_i64value;
+#endif
+		}
+		break;
+		}
 
 	default:
 		throw ( HSPERR_SYNTAX );
