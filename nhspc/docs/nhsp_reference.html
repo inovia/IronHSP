@@ -106,6 +106,7 @@
 <tr><td>dim 省略</td><td><code>int x = 42</code></td><td><code>dim int x = 42</code> と同等。C# 風の変数宣言</td></tr>
 <tr><td>コメント</td><td><code>; コメント</code> / <code>// コメント</code></td><td>HSP 形式と C 形式の両方に対応</td></tr>
 <tr><td>16進数</td><td><code>$FF</code> / <code>0xFF</code></td><td>HSP 形式と C 形式の両方に対応</td></tr>
+<tr><td>null リテラル</td><td><code>null</code> / <code>nullptr</code></td><td>C# 形式と C++ 形式の両方に対応 (同じ動作)</td></tr>
 </table>
 
 <h3>コロン区切りと行継続の例</h3>
@@ -237,7 +238,12 @@ int? maybe = 42        ; null も入れられる
 
 ; 16進数リテラル
 int hex1 = 0xFF        ; C 形式
-int hex2 = $FF         ; HSP 形式 (同じ値)</code></pre>
+int hex2 = $FF         ; HSP 形式 (同じ値)
+
+; null リテラル (C# / C++ どちらの書き方も OK)
+string s1 = null       ; C# 形式
+string s2 = nullptr    ; C++ 形式 (同じ動作)
+string safe = s1 ?? "default"  ; null なら "default"</code></pre>
 </div>
 <div>
 <h4>C#</h4>
@@ -262,7 +268,10 @@ List&lt;int&gt; nums = new List&lt;int&gt;();
 int? maybe = 42;
 
 int hex1 = 0xFF;
-// HSP形式の $FF は C# にはない</code></pre>
+
+string s1 = null;
+// nullptr は C# にはない (NHSP独自)
+string safe = s1 ?? "default";</code></pre>
 </div>
 </div>
 

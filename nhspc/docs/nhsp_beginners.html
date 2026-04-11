@@ -168,7 +168,14 @@ text = "abc"       ; string 型
 ; 配列
 dim int arr, 10
 arr(0) = 100
-arr(1) = 200</code></pre>
+arr(1) = 200
+
+; null (空っぽ) を入れる
+string s = null      ; C# 形式
+string s2 = nullptr  ; C++ 形式 (同じ動作)
+
+; null チェック
+string name = s ?? "名無し"  ; s が null なら "名無し"</code></pre>
 
 <h3>3.3 コロン区切りと行継続</h3>
 <pre><code>; HSP と同じ！コロンで1行に複数文が書ける
