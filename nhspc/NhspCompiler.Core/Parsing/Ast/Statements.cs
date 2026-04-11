@@ -74,6 +74,11 @@ namespace NhspCompiler.Core.Parsing.Ast
         public Expression Value { get; set; }
     }
 
+    public class PrintStatement : Statement
+    {
+        public Expression Value { get; set; }
+    }
+
     // arr(i) = expr
     public class IndexAssignStatement : Statement
     {

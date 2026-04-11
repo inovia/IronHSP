@@ -127,8 +127,7 @@ namespace NhspCompiler.Tests
             Assert.AreEqual(1, Call(asm, "FizzBuzz", "CountFizzBuzz", 15)); // 15
         }
 
-        // TODO: Debug Dog() constructor resolution issue
-        // [Test]
+        // [Test] // TODO: Fix cross-class default ctor resolution
         public void DogOnly()
         {
             var asm = Compile(

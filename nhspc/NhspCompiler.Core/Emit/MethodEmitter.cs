@@ -137,6 +137,7 @@ namespace NhspCompiler.Core.Emit
             else if (stmt is IfStatement ifStmt) EmitIf(ifStmt);
             else if (stmt is RepeatStatement rep) EmitRepeat(rep);
             else if (stmt is WhileStatement wh) EmitWhile(wh);
+            else if (stmt is PrintStatement printStmt) EmitPrint(printStmt);
             else if (stmt is ForStatement forStmt) EmitFor(forStmt);
             else if (stmt is IndexAssignStatement ia) EmitIndexAssign(ia);
             else if (stmt is BreakStatement) EmitBreak();
@@ -364,6 +365,34 @@ namespace NhspCompiler.Core.Emit
         {
             if (_loopStack.Count > 0)
                 _il.Emit(OpCodes.Br, _loopStack.Peek().continueLabel);
+        }
+
+        private void EmitPrint(PrintStatement stmt)
+        {
+            if (stmt.Value != null)
+            {
+                var valType = InferType(stmt.Value);
+                EmitExpression(stmt.Value);
+
+                // Console.WriteLine overload selection
+                MethodInfo writeMethod;
+                if (valType == typeof(string))
+                    writeMethod = typeof(Console).GetMethod("WriteLine", new[] { typeof(string) });
+                else if (valType == typeof(int))
+                    writeMethod = typeof(Console).GetMethod("WriteLine", new[] { typeof(int) });
+                else if (valType == typeof(double))
+                    writeMethod = typeof(Console).GetMethod("WriteLine", new[] { typeof(double) });
+                else if (valType == typeof(bool))
+                    writeMethod = typeof(Console).GetMethod("WriteLine", new[] { typeof(bool) });
+                else
+                    writeMethod = typeof(Console).GetMethod("WriteLine", new[] { typeof(object) });
+
+                _il.Emit(OpCodes.Call, writeMethod);
+            }
+            else
+            {
+                _il.Emit(OpCodes.Call, typeof(Console).GetMethod("WriteLine", Type.EmptyTypes));
+            }
         }
 
         private void EmitFor(ForStatement forStmt)
@@ -730,9 +759,12 @@ namespace NhspCompiler.Core.Emit
 
         private void EmitNewObject(NewObjectExpr newObj)
         {
-            var type = AssemblyEmitter.ResolveTypeStatic(newObj.TypeName);
-            if (type == null && _typeEmitter?._asmEmitter != null)
+            // Resolve type: local TypeRegistry first, then global
+            Type type = null;
+            if (_typeEmitter?._asmEmitter != null)
                 type = _typeEmitter._asmEmitter.ResolveType(newObj.TypeName);
+            if (type == null)
+                type = AssemblyEmitter.ResolveTypeStatic(newObj.TypeName);
             if (type == null)
             {
                 _diag.Error(newObj.Line, 0, $"Type not found: {newObj.TypeName}");
@@ -793,7 +825,7 @@ namespace NhspCompiler.Core.Emit
             }
             else
             {
-                _diag.Error(newObj.Line, 0, $"Constructor not found: {newObj.TypeName}({string.Join(",", argTypes.Select(t2 => t2.Name))})");
+                _diag.Error(newObj.Line, 0, $"Constructor not found: {newObj.TypeName}({string.Join(",", argTypes.Select(t2 => t2.Name))}) isTB={type is TypeBuilder}");
                 _il.Emit(OpCodes.Ldnull);
             }
         }

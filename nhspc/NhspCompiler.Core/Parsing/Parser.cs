@@ -290,6 +290,13 @@ namespace NhspCompiler.Core.Parsing
             // new var, TypeName [, args...]  or  dim var = new TypeName(args)
             if (MatchKW("new")) return ParseNew();
 
+            // print expr
+            if (MatchKW("print"))
+            {
+                Advance();
+                return new PrintStatement { Value = ParseExpression(), Line = Current.Line };
+            }
+
             // break / continue
             if (MatchKW("break")) { Advance(); return new BreakStatement { Line = Current.Line }; }
             if (MatchKW("continue")) { Advance(); return new ContinueStatement { Line = Current.Line }; }

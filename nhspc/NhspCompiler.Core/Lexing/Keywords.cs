@@ -12,7 +12,7 @@ namespace NhspCompiler.Core.Lexing
             "return", "as", "dim", "newobj", "mcall",
             "if", "else", "elseif", "endif",
             "repeat", "loop", "while", "wend", "for", "to", "step", "next",
-            "break", "continue",
+            "break", "continue", "print",
             "public", "private", "protected", "static", "virtual", "override", "abstract",
             "new",
             "namespace", "endnamespace", "using", "reference",
