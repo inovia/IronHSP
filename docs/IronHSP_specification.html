@@ -410,6 +410,27 @@ mcall net_controls, "Add", pButton</code></pre>
 <tr><td>4/10</td><td></td><td><span class="badge">Phase 10</span> .NET 例外処理: neterror/netexerr 追加、Enum 自動変換</td></tr>
 <tr><td>4/10</td><td></td><td><span class="badge">Phase 11</span> CnvCustom実装、tonet実装、objprm .NET対応、InvokeMethod Enum変換、enablewpfエラーチェック</td></tr>
 <tr><td>4/10</td><td></td><td><span class="badge">Phase 12</span> #cfuncd/#cfuncf (double/float戻り値DLL)、callfuncd/callfuncf追加</td></tr>
+<tr><td>4/11</td><td><code>62878cbc</code></td><td>構造体/共用体サポート (#defstruct/#defunion)</td></tr>
+<tr><td>4/11</td><td><code>8d770d0c</code></td><td>wstr (UTF-16) Phase 1-2: 変数型 + L"..." リテラル</td></tr>
+<tr><td>4/11</td><td><code>b87295f5</code></td><td>wstr Phase 3-5: 文字列関数/命令/note系 + 64bitビルド対応 + プラグイン64bit化</td></tr>
+</table>
+
+<h3>64bit ビルド対応一覧</h3>
+<table>
+<tr><th>ターゲット</th><th>32bit 出力名</th><th>64bit 出力名</th><th>状態</th></tr>
+<tr><td>ランタイム (GUI)</td><td>hsp3.exe</td><td>hsp3_64.exe</td><td>既存</td></tr>
+<tr><td>ランタイム (CL)</td><td>hsp3cl.exe</td><td>hsp3cl_64.exe</td><td>新規</td></tr>
+<tr><td>コンパイラ (DLL)</td><td>hspcmp.dll</td><td>hspcmp64.dll</td><td>新規</td></tr>
+<tr><td>コンパイラ (EXE)</td><td>hspcmp.exe</td><td>hspcmp64.exe</td><td>新規</td></tr>
+<tr><td>デバッガ</td><td>hsp3debug.dll</td><td>hsp3debug_64.dll</td><td>出力名修正</td></tr>
+<tr><td>hspext</td><td>hspext.dll</td><td>hspext64.dll</td><td>出力名修正</td></tr>
+<tr><td>hspda</td><td>hspda.dll</td><td>hspda64.dll</td><td>新規</td></tr>
+<tr><td>hspinet</td><td>hspinet.dll</td><td>hspinet64.dll</td><td>新規</td></tr>
+<tr><td>hspvoicevox</td><td>hspvoicevox.dll</td><td>hspvoicevox64.dll</td><td>新規</td></tr>
+<tr><td>hgimg</td><td>hgimg.dll</td><td>hgimg64.dll</td><td>vcxproj新規</td></tr>
+<tr><td>obaq</td><td>obaq.dll</td><td>obaq64.dll</td><td>vcxproj新規</td></tr>
+<tr><td>hgimgx</td><td>hgimgx.dll</td><td>—</td><td>DirectX 8依存 (32bitのみ)</td></tr>
+<tr><td>ZLibWrap</td><td>ZLibWrap.dll</td><td>—</td><td>未対応 (外部依存複雑)</td></tr>
 </table>
 
 <!-- ======================================== -->
@@ -439,6 +460,27 @@ mcall net_controls, "Add", pButton</code></pre>
   <li>int64 リテラルはデータセグメント (DS) に格納され、<code>TYPE_INUM64 = 19</code> として参照される</li>
   <li>従来の int リテラルとの互換性は保たれている（既存の .ax ファイルはそのまま動作する）</li>
   <li>int64 リテラルを含む .ax は従来のランタイムでは実行できない</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>wstr (UTF-16) の制限</h3>
+<ul>
+  <li><code>L"..."</code> リテラルを含む .ax は従来のランタイムでは実行できない</li>
+  <li><code>strf</code> は現状 wstr 非対応（wstr 引数は自動的に str に変換される）</li>
+  <li>ソースファイルのエンコーディング（SJIS/UTF-8）と <code>L"..."</code> の変換は <code>CP_ACP</code> で行われる。32bit版はSJIS、64bit版はUTF-8前提</li>
+  <li><code>notesave</code> で wstr バッファを保存すると UTF-16 LE バイナリとして出力される（BOM なし）</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>64bit ビルドの注意</h3>
+<ul>
+  <li>64bit版はUTF-8前提（<code>HSPUTF8</code> + <code>CharacterSet=Unicode</code>）</li>
+  <li>プラグインの .as ヘッダファイルは <code>#ifdef __hsp64__</code> で DLL名を分岐（例: <code>hspext.dll</code> → <code>hspext64.dll</code>）</li>
+  <li>Windows システム DLL（kernel32, user32 等）は 32/64bit で名前が同じため分岐不要</li>
+  <li>コンパイラ（hspcmp）は 64bit でも MultiByte で動作（HSPUTF8 不要）</li>
+  <li>hgimgx は DirectX 8 依存のため 32bit のみ</li>
 </ul>
 </div>
 
