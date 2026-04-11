@@ -288,10 +288,10 @@ namespace NhspCompiler.Core.Emit
                 varType = typeof(int);
             }
 
-            // Check if it's array dimension: dim arr as int, 10  (ArraySize > 0)
+            // Check if it's array dimension: dim int arr, 10  (ArraySize > 0)
             if (decl.ArraySize > 0)
             {
-                varType = varType.MakeArrayType();
+                if (!varType.IsArray) varType = varType.MakeArrayType();
                 var local = DeclareLocalWithSymbol(varType, decl.Name);
                 _locals[decl.Name] = local;
                 _il.Emit(OpCodes.Ldc_I4, decl.ArraySize);
