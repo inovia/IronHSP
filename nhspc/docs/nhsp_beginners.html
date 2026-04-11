@@ -786,13 +786,26 @@ dim int right = 256 >> 3        ; 右シフト: 256 → 32</code></pre>
 
 <h3>文字列補間</h3>
 
-<p><code>$"..."</code> の中で <code>{変数名}</code> を書くと、その部分に変数の値が埋め込まれます。</p>
+<p><code>$"..."</code> の中で <code>{式}</code> を書くと、その部分に値が埋め込まれます。変数名だけでなく、関数呼び出しやプロパティアクセスも使えます。</p>
 
 <pre><code>dim string name = "World"
-dim string msg = $"Hello {name}!"   ; → "Hello World!"</code></pre>
+int x = 42
+
+; 変数
+print $"Hello {name}!"              ; → Hello World!
+
+; 関数呼び出し
+print $"x = {str(x)}"              ; → x = 42
+
+; プロパティアクセス
+print $"len = {name.Length}"        ; → len = 5
+
+; 式
+print $"{str(x)} * 2 = {str(x*2)}" ; → 42 * 2 = 84</code></pre>
 
 <div class="tip">
-<code>$"..."</code> は内部的に <code>String.Concat</code> に変換されます。HSP の <code>"Hello " + name + "!"</code> と同じですが、より読みやすく書けます。
+<code>$"..."</code> 内の <code>{}</code> には変数、関数、プロパティ、計算式が書けます。C# の補間文字列とほぼ同じです。
+数値は自動的に <code>str()</code> で文字列に変換されます。
 </div>
 
 <h3>typeof</h3>

@@ -1865,6 +1865,49 @@ double? price = 19.99;</code></pre>
 ジャグ配列 <code>int[][]</code> (配列の配列) もサポート。
 </div>
 
+<h3>値型のプロパティ・メソッドアクセス</h3>
+
+<p><code>DateTime</code> などの値型 (struct) のプロパティやメソッドも正しく呼び出せます。</p>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>; DateTime (値型) のプロパティ
+dim DateTime now = DateTime.Now
+int y = now.Year
+int m = now.Month
+int d = now.Day
+
+; メソッド呼び出し
+string text = now.ToString("yyyy-MM-dd")
+
+; メソッドチェーン
+string time = DateTime.Now.ToString("HH:mm:ss")
+
+print $"Date: {str(y)}-{str(m)}-{str(d)}"
+print $"Time: {time}"</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>DateTime now = DateTime.Now;
+int y = now.Year;
+int m = now.Month;
+int d = now.Day;
+
+string text = now.ToString("yyyy-MM-dd");
+
+string time = DateTime.Now.ToString("HH:mm:ss");
+
+Console.WriteLine($"Date: {y}-{m}-{d}");
+Console.WriteLine($"Time: {time}");</code></pre>
+</div>
+</div>
+
+<div class="note">
+値型のメンバーアクセスは IL レベルで <code>Ldloca</code> (アドレス取得) + <code>Call</code> を使用。
+メソッドチェーン (<code>DateTime.Now.ToString()</code>) は中間結果を一時変数に格納して処理。
+</div>
+
 <!-- ========================================== -->
 <h2 id="marshalas">MarshalAs 属性</h2>
 
@@ -2230,7 +2273,7 @@ IL レベルでは <code>try { 本体 } finally { if (var != null) var.Dispose()
 <tr><td><code>??</code></td><td>null 合体 (左が null なら右を返す)</td><td><code>s ?? "default"</code></td></tr>
 <tr><td><code>? :</code></td><td>三項演算子 (条件分岐式)</td><td><code>a &gt; b ? a : b</code></td></tr>
 <tr><td><code>typeof(型)</code></td><td>型の Type オブジェクトを取得</td><td><code>typeof(int)</code> → <code>System.Type</code></td></tr>
-<tr><td><code>$"...{式}..."</code></td><td>文字列補間</td><td><code>$"Hello {name}!"</code></td></tr>
+<tr><td><code>$"...{式}..."</code></td><td>文字列補間 (変数・関数・式 全対応)</td><td><code>$"x={str(x)}, len={s.Length}"</code></td></tr>
 </table>
 
 <h3>演算子の使用例</h3>
@@ -2311,7 +2354,7 @@ Console.WriteLine($"x = {x}, name = {name}");</code></pre>
 <tr><td><code>new var, Type(args)</code></td><td>オブジェクト生成 (文形式)</td><td><code>var x = new Type(args)</code></td></tr>
 <tr><td><code>dim var = new Type()</code></td><td>オブジェクト生成 (dim 形式)</td><td><code>var x = new Type()</code></td></tr>
 <tr><td><code>typeof(型)</code></td><td>Type オブジェクト取得</td><td><code>typeof(int)</code></td></tr>
-<tr><td><code>$"...{変数}..."</code></td><td>文字列補間</td><td><code>$"...{expr}..."</code></td></tr>
+<tr><td><code>$"...{式}..."</code></td><td>文字列補間 (変数・関数呼び出し・プロパティ・式 全対応)</td><td><code>$"...{expr}..."</code></td></tr>
 <tr><td><code>x++</code> / <code>x--</code></td><td>インクリメント / デクリメント</td><td><code>x++; / x--;</code></td></tr>
 </table>
 
@@ -2329,9 +2372,13 @@ print "Hello"              ; Hello
 print 42                   ; 42
 print "x = " + str(x)     ; x = 10
 
-; 文字列補間
+; 文字列補間 (変数・関数・プロパティ・式に対応)
 dim string name = "World"
-print $"Hello {name}!"    ; Hello World!
+int x = 42
+print $"Hello {name}!"            ; Hello World!
+print $"x = {str(x)}"             ; x = 42
+print $"len = {name.Length}"       ; len = 5
+print $"{str(x)} * 2 = {str(x*2)}" ; 42 * 2 = 84
 
 ; オブジェクト生成 (2つの書き方)
 new sb, StringBuilder()          ; 文形式
@@ -2621,11 +2668,11 @@ Process.Start("notepad.exe");</code></pre>
 <tr><td>演算子</td><td>算術 (+,-,*,/,%), 比較 (==,!=,&lt;,&gt;,&lt;=,&gt;=), 論理 (&amp;&amp;,||,!), ビット (&amp;,|,^,~,&lt;&lt;,&gt;&gt;), 三項 (?:), null合体 (??), is, as, typeof, ++/--</td></tr>
 <tr><td>型</td><td>int, int64, double, float, string, bool, byte, sbyte, short, ushort, uint, ulong, char, IntPtr, UIntPtr, int? (Nullable), int[] (配列), int[][] (ジャグ配列), List&lt;T&gt; (ジェネリクス利用)</td></tr>
 <tr><td>文</td><td>dim, new, print, sleep, lock, using, return, throw</td></tr>
-<tr><td>その他</td><td>$"補間文字列", 16進数 ($FF/0xFF), #namespace, #include, #dllimport/#dllfunc (EntryPoint/CharSet/CallingConvention/SetLastError), COM属性, PDB デバッグ情報, コロン区切り (:), 行継続 (\), dim 省略形</td></tr>
+<tr><td>その他</td><td>$"補間文字列 (変数・関数・式対応)", 16進数 ($FF/0xFF), #namespace, #include, #dllimport/#dllfunc (EntryPoint/CharSet/CallingConvention/SetLastError), COM属性, PDB デバッグ情報 (Portable PDB 変換), コロン区切り (:), 行継続 (\), dim 省略形, null/nullptr, 値型メンバーアクセス (DateTime 等)</td></tr>
 </table>
 
 <footer>
-  <p>NHSP (Net HSP) 言語リファレンス &mdash; nhspc コンパイラ Phase 1-18 (155 テスト)</p>
+  <p>NHSP (Net HSP) 言語リファレンス &mdash; nhspc コンパイラ Phase 1-18 (157 テスト / 50 サンプル)</p>
 </footer>
 
 </div>
