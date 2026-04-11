@@ -121,9 +121,7 @@ namespace NhspCompiler.Tests
             Assert.AreEqual("abcabcabc", Call(asm, "StringUtil", "Rep", "abc", 3));
         }
 
-        // TODO: Substring(int,int) overload resolution issue
-        // [Test]
-        public void StringReverse()
+        [Test] public void StringReverse()
         {
             var asm = Compile(
 "#assembly \"T\"\n#class public StringUtil\n  #func public static string Rev, string s\n    dim string result\n    result = \"\"\n    dim int i\n    i = s.Length - 1\n    while i >= 0\n      result = result + s.Substring(i, 1)\n      i -= 1\n    wend\n    return result\n  #endfunc\n#endclass");

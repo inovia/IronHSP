@@ -127,7 +127,9 @@ namespace NhspCompiler.Tests
             Assert.AreEqual(1, Call(asm, "FizzBuzz", "CountFizzBuzz", 15)); // 15
         }
 
-        // [Test] // TODO: Fix cross-class default ctor resolution
+        // Skipped: AccessViolationException from generated IL
+        // Requires investigation of cross-class method call IL generation
+        // [Test]
         public void DogOnly()
         {
             var asm = Compile(

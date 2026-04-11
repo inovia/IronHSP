@@ -67,8 +67,9 @@ namespace NhspCompiler.Tests
                     }
                     catch (Exception ex)
                     {
-                        var inner = ex.InnerException ?? ex;
-                        Console.WriteLine($"  [FAIL] {name}: {inner.Message}");
+                        var inner = ex;
+                        while (inner.InnerException != null) inner = inner.InnerException;
+                        Console.WriteLine($"  [FAIL] {name}: {inner.GetType().Name}: {inner.Message}");
                         fail++;
                     }
                 }

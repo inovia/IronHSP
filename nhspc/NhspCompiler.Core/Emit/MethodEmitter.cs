@@ -743,15 +743,7 @@ namespace NhspCompiler.Core.Emit
                     }
                     else
                     {
-                        // Regular .NET type
-                        var argTypes = new Type[call.Arguments.Count];
-                        for (int i = 0; i < call.Arguments.Count; i++)
-                            argTypes[i] = InferType(call.Arguments[i]);
-
-                        MethodInfo mi = null;
-                        try { mi = targetType.GetMethod(call.MethodName, argTypes); } catch { }
-                        if (mi == null) try { mi = targetType.GetMethod(call.MethodName); } catch { }
-
+                        var mi = ResolveMethod(targetType, call.MethodName, call.Arguments);
                         if (mi != null)
                         {
                             _il.Emit((mi.IsStatic || targetType.IsValueType) ? OpCodes.Call : OpCodes.Callvirt, mi);
@@ -766,6 +758,49 @@ namespace NhspCompiler.Core.Emit
             foreach (var arg in call.Arguments) EmitExpression(arg);
             _diag.Warning(call.Line, 0, $"Method call '{call.MethodName}' not resolved");
             if (call.Arguments.Count == 0) _il.Emit(OpCodes.Ldc_I4_0);
+        }
+
+        private MethodInfo ResolveMethod(Type type, string name, List<Expression> args)
+        {
+            var argTypes = new Type[args.Count];
+            for (int i = 0; i < args.Count; i++)
+                argTypes[i] = InferType(args[i]);
+
+            // 1. Exact match by name + arg types
+            MethodInfo mi = null;
+            try { mi = type.GetMethod(name, argTypes); } catch { }
+            if (mi != null) return mi;
+
+            // 2. Match by name + arg count (handles implicit conversions)
+            try
+            {
+                var candidates = type.GetMethods().Where(m =>
+                    m.Name == name && m.GetParameters().Length == args.Count).ToArray();
+                if (candidates.Length == 1) return candidates[0];
+                if (candidates.Length > 1)
+                {
+                    // Try to find best match by checking assignability
+                    foreach (var c in candidates)
+                    {
+                        var ps = c.GetParameters();
+                        bool ok = true;
+                        for (int i = 0; i < ps.Length; i++)
+                        {
+                            if (!ps[i].ParameterType.IsAssignableFrom(argTypes[i]) &&
+                                !(argTypes[i] == typeof(int) && ps[i].ParameterType == typeof(long)) &&
+                                !(argTypes[i] == typeof(int) && ps[i].ParameterType == typeof(double)))
+                            { ok = false; break; }
+                        }
+                        if (ok) return c;
+                    }
+                    return candidates[0]; // fallback to first
+                }
+            }
+            catch { }
+
+            // 3. Name only (single overload)
+            try { mi = type.GetMethod(name); } catch { }
+            return mi;
         }
 
         private void EmitNewObject(NewObjectExpr newObj)
@@ -876,8 +911,11 @@ namespace NhspCompiler.Core.Emit
                 }
                 if (_typeEmitter != null && _typeEmitter.ResolveField(id.Name) is FieldInfo fld2)
                     return fld2.FieldType;
-                // Static type reference (e.g., Console, Math, etc.)
-                var resolvedType = AssemblyEmitter.ResolveTypeStatic(id.Name);
+                // Static type reference: local TypeRegistry first, then global
+                Type resolvedType = null;
+                if (_typeEmitter?._asmEmitter != null)
+                    resolvedType = _typeEmitter._asmEmitter.ResolveType(id.Name);
+                if (resolvedType == null) resolvedType = AssemblyEmitter.ResolveTypeStatic(id.Name);
                 if (resolvedType == null) resolvedType = AssemblyEmitter.ResolveTypeStatic("System." + id.Name);
                 if (resolvedType != null) return resolvedType;
             }
@@ -924,7 +962,20 @@ namespace NhspCompiler.Core.Emit
                     var targetType = InferType(callExpr.Target);
                     if (targetType != null)
                     {
-                        var mi = targetType.GetMethod(callExpr.MethodName);
+                        MethodInfo mi = null;
+                        try { mi = targetType.GetMethod(callExpr.MethodName); } catch { }
+                        if (mi == null)
+                        {
+                            // Fallback: match by name + arg count
+                            try
+                            {
+                                var candidates = targetType.GetMethods()
+                                    .Where(m => m.Name == callExpr.MethodName && m.GetParameters().Length == callExpr.Arguments.Count)
+                                    .ToArray();
+                                if (candidates.Length > 0) mi = candidates[0];
+                            }
+                            catch { }
+                        }
                         if (mi != null) return mi.ReturnType;
                     }
                 }
