@@ -65,12 +65,38 @@ static void* reffunc_ptrfunc_ptrvalue[2];
 static PVal *comres_pval;
 static APTR comres_aptr;
 #include "hspvar_netobj.h"
+#ifndef HSPCL_WIN
+#include "HspFormsInterop.h"
+#endif
 #include "Hsp3Net.h"
 using namespace tv::hsp::net;
 // .NET
 static PVal *netres_pval;
 static APTR netres_aptr;
 int neterror_mode = 0;				// 0=stat only, 1=throw HSPERR_DOTNET_EXCEPTION
+
+// netdelegate 用: HSP ラベルを .NET コールバックから呼び出すヘルパー
+static void hsp_callback_invoke(void *label_ptr)
+{
+	code_callback((const unsigned short *)label_ptr);
+}
+
+static int hsp_callback_getstat()
+{
+	auto ctx = code_getctx();
+	return (int)ctx->stat;
+}
+
+static bool hsp_callback_initialized = false;
+static void hsp_callback_init()
+{
+	if (!hsp_callback_initialized)
+	{
+		HspCallbackProxy::_CallbackFunc = IntPtr((void*)&hsp_callback_invoke);
+		HspCallbackProxy::_GetStatFunc = IntPtr((void*)&hsp_callback_getstat);
+		hsp_callback_initialized = true;
+	}
+}
 
 // .NET操作の結果をstatに設定し、失敗時はneterror_modeに応じてthrowする
 static void net_setstat(bool success)
@@ -1268,7 +1294,11 @@ static int cmdfunc_ctrlcmd( int cmd )
 	}
 	case 0x0e:								// newnet
 	{
-		// newnet outvar, "System.Windows.Forms", "MessageBox", 1, constructor_p1, p2... 
+		// newnet outvar, "assembly", "ClassName", opt, params...
+		// opt: 0 = instance, 1 = static
+		// ジェネリクス: クラス名に `N が含まれる場合、最初のN個のnetobj引数を型パラメータとして使用
+		// 例: newnet v, "", "System.Collections.Generic.List`1", 0, pTypeStr
+		//     newnet v, "", "System.Collections.Generic.Dictionary`2", 0, pTypeStr, pTypeInt
 		PVal *pval;
 		APTR aptr;
 		char *ps;
@@ -1295,8 +1325,27 @@ static int cmdfunc_ctrlcmd( int cmd )
 		opt = code_getdi(0);
 		auto p4 = (opt == 0) ? false : true;
 
-		// 引数:5 以降は可変長（コンストラクタ引数）
+		// クラス名から `N を検出してジェネリック型パラメータ数を取得
+		int genericCount = 0;
+		{
+			int backtickPos = p3->LastIndexOf('`');
+			if (backtickPos >= 0 && backtickPos + 1 < p3->Length)
+			{
+				System::String ^numStr = p3->Substring(backtickPos + 1);
+				int parsedCount;
+				if (System::Int32::TryParse(numStr, parsedCount) && parsedCount > 0)
+				{
+					genericCount = parsedCount;
+				}
+			}
+		}
+
+		// 引数:5 以降は可変長
+		// ジェネリクスの場合: 最初のgenericCount個がジェネリック型パラメータ (netobj)
+		// それ以降がコンストラクタ引数
+		List<NetClass^>^ listGenericTypes = (genericCount > 0) ? gcnew List<NetClass^>() : nullptr;
 		List<NetClass^>^ listParams = gcnew List<NetClass^>();
+		int argIndex = 0;
 
 		do
 		{
@@ -1304,6 +1353,47 @@ static int cmdfunc_ctrlcmd( int cmd )
 
 			if ( prm == PARAM_OK || prm == PARAM_SPLIT)
 			{
+				// ジェネリック型パラメータ領域
+				if (argIndex < genericCount)
+				{
+					if (mpval->flag == TYPE_NETOBJ)
+					{
+						NativePointer native_ptr = *((NativePointer*)mpval->pt);
+						auto managed_ptr = GlobalAccess::GetNativePtrToNetClass(native_ptr);
+						if (managed_ptr == nullptr)
+							throw HSPERR_TYPE_MISMATCH;
+						listGenericTypes->Add(managed_ptr);
+					}
+					else if (mpval->flag == HSPVAR_FLAG_STR)
+					{
+						// 文字列で型名を指定可能 ("System.String" 等)
+						auto typeName = marshal_as<System::String^>((char*)mpval->pt);
+						// まず Type::GetType で解決
+						Type ^resolvedType = Type::GetType(typeName);
+						if (resolvedType == nullptr)
+						{
+							// ロード済みアセンブリから検索
+							for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
+							{
+								resolvedType = a->GetType(typeName, false);
+								if (resolvedType != nullptr) break;
+							}
+						}
+						if (resolvedType == nullptr)
+							throw HSPERR_INVALID_PARAMETER;
+						NetClass ^typeNC = gcnew NetClass();
+						typeNC->Class = resolvedType;
+						listGenericTypes->Add(typeNC);
+					}
+					else
+					{
+						throw HSPERR_INVALID_TYPE;
+					}
+					argIndex++;
+					continue;
+				}
+
+				// コンストラクタ引数
 				switch (mpval->flag)
 				{
 					case HSPVAR_FLAG_STR:
@@ -1337,12 +1427,15 @@ static int cmdfunc_ctrlcmd( int cmd )
 					default:
 						throw HSPERR_INVALID_TYPE;
 				}
+				argIndex++;
 			}
 		} while (PARAM_END < prm);
 
 		// 実行
+		array<NetClass^>^ genericArray = (listGenericTypes != nullptr && listGenericTypes->Count > 0)
+			? listGenericTypes->ToArray() : nullptr;
 		ret = GlobalAccess::g_Hsp3Net->CreateInstance(
-			p2, p3, nullptr, p4, listParams->ToArray());
+			p2, p3, genericArray, p4, listParams->ToArray());
 
 		if (ret != nullptr)
 		{
@@ -1454,7 +1547,8 @@ static int cmdfunc_ctrlcmd( int cmd )
 	}
 	case 0x12:								// enumnet
 	{
-		// enumnet outvar, innet, "MessageBoxButtons", "OK"	// 複数値の場合はカンマ区切り
+		// enumnet outvar, innet_or_asm_name, "EnumType", "Member"
+		// 第2引数: netobj変数 または アセンブリ名文字列
 		PVal *pval;
 		APTR aptr;
 		char *ps;
@@ -1463,7 +1557,6 @@ static int cmdfunc_ctrlcmd( int cmd )
 		void *iptr = nullptr;
 		void *ptr;
 		NativePointer* pNativePtrOut;
-		NativePointer pNativePtrIn;
 		NetClass^ Input;
 		NetClass^ ret;
 
@@ -1472,21 +1565,63 @@ static int cmdfunc_ctrlcmd( int cmd )
 		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
 		pNativePtrOut = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
 
-		// 引数:2（インスタンス）
-		aptr = code_getva(&pval);
-		ptr = HspVarCorePtrAPTR(pval, aptr);
-		switch (pval->flag)
+		// 引数:2（netobj変数 or アセンブリ名文字列）
 		{
-			case TYPE_NETOBJ:
+			int prm2 = code_get();
+			if (prm2 <= PARAM_END) throw HSPERR_NO_DEFAULT;
+
+			if (mpval->flag == TYPE_NETOBJ)
 			{
-				pNativePtrIn = *((NativePointer*)ptr);
+				NativePointer pNativePtrIn = *((NativePointer*)mpval->pt);
 				Input = GlobalAccess::GetNativePtrToNetClass(pNativePtrIn);
 				if (Input == nullptr)
 					throw HSPERR_INVALID_PARAMETER;
-				break;
 			}
-			default:
+			else if (mpval->flag == HSPVAR_FLAG_STR)
+			{
+				// アセンブリ名文字列からダミーのNetClassを作成
+				auto assyName = marshal_as<System::String^>((char*)mpval->pt);
+				Assembly ^assy = nullptr;
+
+				// 空文字列の場合は全ロード済みアセンブリから検索
+				if (System::String::IsNullOrEmpty(assyName))
+				{
+					// ダミーのNetClass（mscorlib等のデフォルト）
+					Input = gcnew NetClass();
+					Input->Assembly = System::Int32::typeid->Assembly; // mscorlib
+				}
+				else
+				{
+					// アセンブリ名で検索
+					for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
+					{
+						if (a->GetName()->Name == assyName)
+						{
+							assy = a;
+							break;
+						}
+					}
+					if (assy == nullptr)
+					{
+						// 部分名で再検索
+						for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
+						{
+							if (a->GetName()->Name->Contains(assyName))
+							{
+								assy = a;
+								break;
+							}
+						}
+					}
+					if (assy == nullptr) throw HSPERR_INVALID_PARAMETER;
+					Input = gcnew NetClass();
+					Input->Assembly = assy;
+				}
+			}
+			else
+			{
 				throw HSPERR_TYPE_MISMATCH;
+			}
 		}
 
 		// 引数:3（列挙型名）
@@ -1498,7 +1633,31 @@ static int cmdfunc_ctrlcmd( int cmd )
 		auto p4 = marshal_as<System::String^>(ps);
 
 		// 実行
-		ret = GlobalAccess::g_Hsp3Net->GetEnumMember(Input, p3, p4);
+		// 空文字列アセンブリの場合、全アセンブリから検索
+		if (Input->Assembly != nullptr)
+		{
+			ret = GlobalAccess::g_Hsp3Net->GetEnumMember(Input, p3, p4);
+		}
+		else
+		{
+			ret = nullptr;
+		}
+
+		// Inputのアセンブリで見つか���なかった場合、全アセンブリを検索
+		if (ret == nullptr)
+		{
+			for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
+			{
+				Type ^t = a->GetType(p3, false);
+				if (t != nullptr && t->IsEnum)
+				{
+					NetClass ^tempInput = gcnew NetClass();
+					tempInput->Assembly = a;
+					ret = GlobalAccess::g_Hsp3Net->GetEnumMember(tempInput, p3, p4);
+					if (ret != nullptr) break;
+				}
+			}
+		}
 
 		if (ret != nullptr)
 		{
@@ -1553,6 +1712,87 @@ static int cmdfunc_ctrlcmd( int cmd )
 		net_setstat(ret != nullptr);
 		break;
 	}
+	case 0x14:									// formsaddctrl
+	{
+#ifdef HSPCL_WIN
+		throw HSPERR_UNSUPPORTED_FUNCTION;
+#else
+		// formsaddctrl outvar, type, "text", x, y, w, h [, wid]
+		// type: 0=Button, 1=CheckBox, 2=TextBox, 3=ComboBox, 4=ListBox
+		PVal *pval;
+		APTR aptr;
+		void *iptr = nullptr;
+		NativePointer* pNativePtrOut;
+		char *text;
+		int ctrl_type, x, y, w, h, wid;
+		void *hwndCtrl = nullptr;
+
+		// 引数:1（戻り値 netobj変数）
+		aptr = code_getva(&pval);
+		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
+		pNativePtrOut = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
+
+		// 引数:2（コントロールタイプ）
+		ctrl_type = code_getdi(0);
+
+		// 引数:3（テキスト）
+		text = code_gets();
+
+		// 引数:4-7（位置とサイズ）
+		x = code_getdi(0);
+		y = code_getdi(0);
+		w = code_getdi(100);
+		h = code_getdi(24);
+
+		// 引数:8（ウィンドウID, 省略時0）
+		wid = code_getdi(0);
+
+		// ウィンドウID -> HWND
+		auto pBmscr = (BMSCR *)hspctx->exinfo2->HspFunc_getbmscr(wid);
+		if (pBmscr == nullptr) throw HSPERR_INVALID_PARAMETER;
+		void *formHwnd = (void *)pBmscr->hwnd;
+
+		// コントロール生成
+		switch (ctrl_type)
+		{
+		case 0: // Button
+			hwndCtrl = HspInterop_CreateButton(formHwnd, text, x, y, w, h, 0, 0);
+			break;
+		case 1: // CheckBox
+			hwndCtrl = HspInterop_CreateCheckBox(formHwnd, text, x, y, w, h, 0, 0);
+			break;
+		case 2: // TextBox
+			hwndCtrl = HspInterop_CreateTextBox(formHwnd, text, x, y, w, h, 0, 0, 0);
+			break;
+		case 3: // ComboBox
+			hwndCtrl = HspInterop_CreateComboBox(formHwnd, x, y, w, h, 0);
+			break;
+		case 4: // ListBox
+			hwndCtrl = HspInterop_CreateListBox(formHwnd, x, y, w, h, 0);
+			break;
+		default:
+			throw HSPERR_INVALID_PARAMETER;
+		}
+
+		// コントロールの.NETオブジェクトをnetobjとして返す
+		if (hwndCtrl != nullptr)
+		{
+			auto managed_ctrl =
+				System::Windows::Forms::Control::FromHandle((IntPtr)hwndCtrl);
+			if (managed_ctrl != nullptr)
+			{
+				auto ret = GlobalAccess::g_Hsp3Net->CreateObject(managed_ctrl);
+				if (ret != nullptr)
+				{
+					*pNativePtrOut = GlobalAccess::CreateNativePtr(ret);
+				}
+			}
+		}
+
+		net_setstat(hwndCtrl != nullptr);
+#endif
+		break;
+	}
 	case 0x15:									// pushnet
 	{
 		GlobalAccess::PushNativePtrCurrentStack();
@@ -1603,10 +1843,202 @@ static int cmdfunc_ctrlcmd( int cmd )
 
 	case 0x18:									// neterror
 	{
-		// neterror mode
-		// mode=0: .NET例外はstat=-1のみ（デフォルト）
-		// mode=1: .NET例外発生時にHSPエラー(HSPERR_DOTNET_EXCEPTION)をthrow
 		neterror_mode = code_getdi(0);
+		break;
+	}
+	case 0x19:									// netdelegate
+	{
+		// netdelegate outvar, "DelegateType", *label
+		// HSP ラベルを .NET デリゲートに変換
+		PVal *pval;
+		APTR aptr;
+		void *iptr = nullptr;
+		NativePointer* pNativePtrOut;
+
+		hsp_callback_init();
+
+		// 引数:1（出力先 netobj）
+		aptr = code_getva(&pval);
+		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
+		pNativePtrOut = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
+
+		// 引数:2（デリゲート型名）
+		char *ps = code_gets();
+		auto delegateTypeName = marshal_as<System::String^>(ps);
+
+		// 引数:3（HSP ラベル）
+		unsigned short *label;
+		{
+			int prm3 = code_get();
+			if (prm3 <= PARAM_END) throw HSPERR_NO_DEFAULT;
+			if (mpval->flag != HSPVAR_FLAG_LABEL) throw HSPERR_LABEL_REQUIRED;
+			label = *(unsigned short **)mpval->pt;
+		}
+
+		auto proxy = gcnew HspCallbackProxy(
+			IntPtr(label), IntPtr(hspctx));
+
+		// デリゲート型を解決
+		Type ^delegateType = nullptr;
+		if (delegateTypeName == "EventHandler" || delegateTypeName == "System.EventHandler")
+			delegateType = System::EventHandler::typeid;
+		else if (delegateTypeName == "Action" || delegateTypeName == "System.Action")
+			delegateType = System::Action::typeid;
+		else
+		{
+			delegateType = Type::GetType(delegateTypeName);
+			if (delegateType == nullptr)
+			{
+				for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
+				{
+					delegateType = a->GetType(delegateTypeName, false);
+					if (delegateType != nullptr) break;
+				}
+			}
+		}
+		if (delegateType == nullptr) throw HSPERR_INVALID_PARAMETER;
+
+		// シグネチャに応じたデリゲート生成
+		Delegate ^del = nullptr;
+		try
+		{
+			auto invokeMethod = delegateType->GetMethod("Invoke");
+			auto invokeParams = invokeMethod->GetParameters();
+
+			if (delegateType == System::EventHandler::typeid)
+			{
+				del = gcnew System::EventHandler(proxy, &HspCallbackProxy::HandleEvent);
+			}
+			else if (delegateType == System::Action::typeid)
+			{
+				del = gcnew System::Action(proxy, &HspCallbackProxy::HandleAction);
+			}
+			else if (invokeParams->Length == 0 && invokeMethod->ReturnType == void::typeid)
+			{
+				del = Delegate::CreateDelegate(delegateType, proxy,
+					proxy->GetType()->GetMethod("HandleAction"));
+			}
+			else if (invokeParams->Length == 2 && invokeMethod->ReturnType == void::typeid)
+			{
+				del = Delegate::CreateDelegate(delegateType, proxy,
+					proxy->GetType()->GetMethod("HandleEvent"));
+			}
+			else if (invokeParams->Length == 1 && invokeMethod->ReturnType == bool::typeid)
+			{
+				del = Delegate::CreateDelegate(delegateType, proxy,
+					proxy->GetType()->GetMethod("HandlePredicate"));
+			}
+			else
+			{
+				// フォールバック: HandleEvent を試行
+				del = Delegate::CreateDelegate(delegateType, proxy,
+					proxy->GetType()->GetMethod("HandleEvent"));
+			}
+		}
+		catch (HSPERROR) { throw; }
+		catch (Exception ^ex)
+		{
+			GlobalAccess::g_Hsp3Net->_ExceptionStack->Push(ex);
+			net_setstat(false);
+			break;
+		}
+
+		auto nc = gcnew tv::hsp::net::NetClass();
+		nc->Class = del->GetType();
+		nc->Instance = del;
+		*pNativePtrOut = GlobalAccess::CreateNativePtr(nc);
+
+		// プロキシの GC 回収防止
+		auto proxyNC = gcnew tv::hsp::net::NetClass();
+		proxyNC->Class = proxy->GetType();
+		proxyNC->Instance = proxy;
+		GlobalAccess::CreateNativePtr(proxyNC);
+
+		net_setstat(true);
+		break;
+	}
+	case 0x1a:									// netlinq
+	{
+		// netlinq outvar, collection, "Operation", "lambda"
+		// 内部 C# コンパイルで LINQ 実行
+		PVal *pval;
+		APTR aptr;
+		void *iptr = nullptr;
+		NativePointer* pNativePtrOut;
+		char *ps;
+
+		// 引数:1（出力先）
+		aptr = code_getva(&pval);
+		code_setva(pval, aptr, TYPE_NETOBJ, &iptr);
+		pNativePtrOut = (NativePointer *)HspVarCorePtrAPTR(pval, aptr);
+
+		// 引数:2（コレクション）
+		{
+			int prm2 = code_get();
+			if (prm2 <= PARAM_END) throw HSPERR_NO_DEFAULT;
+			if (mpval->flag != TYPE_NETOBJ) throw HSPERR_TYPE_MISMATCH;
+		}
+		NativePointer collNP = *((NativePointer*)mpval->pt);
+		auto collection = GlobalAccess::GetNativePtrToNetClass(collNP);
+		if (collection == nullptr) throw HSPERR_INVALID_PARAMETER;
+
+		// 引数:3（操作名）
+		ps = code_gets();
+		auto operation = marshal_as<System::String^>(ps);
+
+		// 引数:4（ラムダ式文字列）
+		ps = code_gets();
+		auto lambda = marshal_as<System::String^>(ps);
+
+		// コレクションの要素型を検出
+		Type ^elemType = nullptr;
+		auto collType = collection->Instance->GetType();
+		for each (auto iface in collType->GetInterfaces())
+		{
+			if (iface->IsGenericType &&
+				iface->GetGenericTypeDefinition() ==
+					System::Collections::Generic::IEnumerable<int>::typeid->GetGenericTypeDefinition())
+			{
+				elemType = iface->GetGenericArguments()[0];
+				break;
+			}
+		}
+		if (elemType == nullptr) elemType = Object::typeid;
+
+		// C# コードを生成・コンパイル・実行
+		auto csCode = String::Format(
+			"using System;\nusing System.Linq;\nusing System.Collections.Generic;\n"
+			"public static class LQ {{ public static object Run(System.Collections.IEnumerable s) {{\n"
+			"  var t = s.Cast<{0}>();\n"
+			"  var r = t.{1}({2});\n"
+			"  return r;\n}} }}\n",
+			elemType->FullName, operation, lambda);
+
+		auto assy = GlobalAccess::g_Hsp3Net->LoadAssemblyByCsSource(
+			csCode, nullptr, gcnew array<String^>{ "System.Core.dll" });
+
+		if (assy == nullptr) { net_setstat(false); break; }
+
+		try
+		{
+			auto helperType = assy->GetType("LQ");
+			auto method = helperType->GetMethod("Run");
+			auto result = method->Invoke(nullptr,
+				gcnew array<Object^>{ collection->Instance });
+
+			if (result != nullptr)
+			{
+				auto nc = GlobalAccess::g_Hsp3Net->CreateObject(result);
+				if (nc != nullptr)
+					*pNativePtrOut = GlobalAccess::CreateNativePtr(nc);
+			}
+			net_setstat(result != nullptr);
+		}
+		catch (Exception ^ex)
+		{
+			GlobalAccess::g_Hsp3Net->_ExceptionStack->Push(ex);
+			net_setstat(false);
+		}
 		break;
 	}
 
@@ -1768,30 +2200,20 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 
 	case 0x105:								// nettoval
 	{
-		PVal *pval;
-		APTR aptr;
-		void *ptr_in;
 		NativePointer native_ptr;
-		bool ret;
 
-		// 引数:1（変換元変数）
-		aptr = code_getva(&pval);
-		ptr_in = HspVarCorePtrAPTR(pval, aptr);
-		switch (pval->flag)
+		// 引数:1（変換元 - 変数または式 obj("$field") に対応）
 		{
-			case TYPE_NETOBJ:
-			{
-				native_ptr = *((NativePointer*)ptr_in);
-				break;
-			}
-		default:
-			throw HSPERR_TYPE_MISMATCH;
+			int prm = code_get();
+			if (prm <= PARAM_END) throw HSPERR_NO_DEFAULT;
+			if (mpval->flag != TYPE_NETOBJ) throw HSPERR_TYPE_MISMATCH;
+			native_ptr = *((NativePointer*)mpval->pt);
 		}
 
 		// マネージド型に変換
-		auto managed_ptr = 
+		auto managed_ptr =
 			GlobalAccess::GetNativePtrToNetClass(native_ptr);
-		
+
 		if ( managed_ptr == nullptr)
 			throw HSPERR_TYPE_MISMATCH;
 
@@ -1856,7 +2278,7 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 			{
 			case HSPVAR_FLAG_INT:
 			{
-				auto val = ((bool)managed_ptr->Instance) ? 0 : 1;
+				auto val = ((bool)managed_ptr->Instance) ? 1 : 0;
 				*(int*)&reffunc_ptrfunc_ptrvalue = val;
 				break;
 			}
@@ -1884,6 +2306,32 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 				{
 					ptr =
 						StringToHspStrA( managed_ptr->Instance->ToString());
+					break;
+				}
+				default:
+					throw HSPERR_TYPE_MISMATCH;
+			}
+		}
+		else if ( before_type->IsEnum)
+		{
+			// Enum型: int/double/str に変換可能
+			switch (p2)
+			{
+				case HSPVAR_FLAG_INT:
+				{
+					auto val = System::Convert::ToInt32(managed_ptr->Instance);
+					*(int*)&reffunc_ptrfunc_ptrvalue = val;
+					break;
+				}
+				case HSPVAR_FLAG_DOUBLE:
+				{
+					auto val = System::Convert::ToDouble(managed_ptr->Instance);
+					*(double*)&reffunc_ptrfunc_ptrvalue = val;
+					break;
+				}
+				case HSPVAR_FLAG_STR:
+				{
+					ptr = StringToHspStrA(managed_ptr->Instance->ToString());
 					break;
 				}
 				default:

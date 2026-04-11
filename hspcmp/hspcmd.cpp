@@ -248,6 +248,8 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$016 17 popnet",				// (ver3.7)
 	"$017 17 enablewpf",			// (ver3.7)
 	"$018 17 neterror",				// (ver3.7)
+	"$019 17 netdelegate",			// (ver3.8)
+	"$01a 17 netlinq",				// (ver3.8)
 
 	"$100 17 callfunc",
 	"$101 17 cnvwtos",

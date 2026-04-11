@@ -28,9 +28,10 @@ namespace tv::hsp::net
 
 	public ref class Hsp3Net
 	{
-	private:
+	public:
 		System::Collections::Generic::Stack<Exception^> ^_ExceptionStack = gcnew System::Collections::Generic::Stack<Exception^>();
 		String ^_LastCompileError = "";
+	private:
 		HashSet<Assembly^> ^_AssemblySet = gcnew HashSet<Assembly^>();
 		Dictionary<String^, Assembly^> ^_AssemblyDic = gcnew Dictionary<String^, Assembly^>();
 		HashSet<NetClass^> ^_NetClassSet = gcnew HashSet<NetClass^>();
@@ -557,11 +558,103 @@ public:
 
 
 private:
-	static GlobalAccess() 
+	static GlobalAccess()
 	{
 		g_Hsp3Net = gcnew tv::hsp::net::Hsp3Net();
 		_NativePtrAllSet = gcnew HashSet<IntPtr>();
 		_NativePtrCurrentScopeSet = gcnew HashSet<IntPtr>();
 		_NativePtrCurrentScopeStack = gcnew System::Collections::Generic::Stack<HashSet<IntPtr>^>();
 	}
+};
+
+// HSP ラベル → .NET デリゲート変換用プロキシ
+// code_callback() を呼び出して HSP のラベルを実行する
+public ref class HspCallbackProxy
+{
+public:
+	IntPtr LabelPtr;			// HSP ラベルポインタ (unsigned short*)
+	IntPtr HspCtxPtr;			// HSPCTX ポインタ
+	List<Object^>^ LastArgs;	// 最後に呼ばれた時の引数
+
+	HspCallbackProxy(IntPtr label, IntPtr ctx)
+	{
+		LabelPtr = label;
+		HspCtxPtr = ctx;
+		LastArgs = gcnew List<Object^>();
+	}
+
+	// EventHandler (object sender, EventArgs e)
+	void HandleEvent(Object^ sender, EventArgs^ e)
+	{
+		LastArgs->Clear();
+		LastArgs->Add(sender);
+		LastArgs->Add(e);
+		CallHspLabel();
+	}
+
+	// Action (引数なし)
+	void HandleAction()
+	{
+		LastArgs->Clear();
+		CallHspLabel();
+	}
+
+	// Func<T, bool> — LINQ Where 等用
+	bool HandlePredicate(Object^ item)
+	{
+		LastArgs->Clear();
+		LastArgs->Add(item);
+		CallHspLabel();
+		// stat の値を結果として使う (0=false, 非0=true)
+		auto ctx = (unsigned char*)HspCtxPtr.ToPointer();
+		// HSPCTX の stat オフセットは環境依存だが、コールバック後の stat を使用
+		return GetStatValue() != 0;
+	}
+
+	// Func<T, TResult> — LINQ Select 等用
+	Object^ HandleSelector(Object^ item)
+	{
+		LastArgs->Clear();
+		LastArgs->Add(item);
+		CallHspLabel();
+		return LastResult;
+	}
+
+	// コールバック結果
+	Object^ LastResult;
+
+private:
+	void CallHspLabel()
+	{
+		// ネイティブ関数 code_callback() を P/Invoke 的に呼び出す
+		// 実際には hsp3ext_win.cpp 側のヘルパー関数経由
+		auto funcPtr = _CallbackFunc;
+		if (funcPtr != IntPtr::Zero)
+		{
+			typedef void (*CallbackFn)(void*);
+			auto fn = (CallbackFn)funcPtr.ToPointer();
+			fn(LabelPtr.ToPointer());
+		}
+	}
+
+	int GetStatValue()
+	{
+		auto funcPtr = _GetStatFunc;
+		if (funcPtr != IntPtr::Zero)
+		{
+			typedef int (*GetStatFn)();
+			auto fn = (GetStatFn)funcPtr.ToPointer();
+			return fn();
+		}
+		return 0;
+	}
+
+public:
+	// ネイティブ関数ポインタ (hsp3ext_win.cpp から設定)
+	static IntPtr _CallbackFunc = IntPtr::Zero;
+	static IntPtr _GetStatFunc = IntPtr::Zero;
+	static IntPtr _SetArgFunc = IntPtr::Zero;
+
+	// 現在のプロキシインスタンスをスレッドローカルで保持 (引数取得用)
+	static HspCallbackProxy^ CurrentProxy = nullptr;
 };

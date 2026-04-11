@@ -1071,7 +1071,60 @@ namespace tv::hsp::net
 			cps->GenerateInMemory = true;
 			for each (auto asy in prms)
 			{
-				cps->ReferencedAssemblies->Add(asy); // System.Windows.Forms.dll など参照したいアセンブリ
+				// ファイル名がロード済みアセンブリに一致する場合、Location パスに置換
+				String ^resolvedPath = asy;
+				auto asyBase = System::IO::Path::GetFileNameWithoutExtension(asy);
+				for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
+				{
+					try
+					{
+						if (!a->IsDynamic && a->GetName()->Name == asyBase)
+						{
+							if (!String::IsNullOrEmpty(a->Location))
+							{
+								resolvedPath = a->Location;
+								break;
+							}
+						}
+					}
+					catch (...) {}
+				}
+				cps->ReferencedAssemblies->Add(resolvedPath);
+			}
+
+			// netstandard 2.0 を参照する DLL がある場合、自動的に netstandard.dll を追加
+			{
+				bool needsNetStandard = false;
+				for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
+				{
+					try
+					{
+						if (!a->IsDynamic)
+						{
+							for each (auto refName in a->GetReferencedAssemblies())
+							{
+								if (refName->Name == "netstandard")
+								{
+									needsNetStandard = true;
+									break;
+								}
+							}
+						}
+					}
+					catch (...) {}
+					if (needsNetStandard) break;
+				}
+				if (needsNetStandard)
+				{
+					// .NET Framework 4.7.2+ には netstandard.dll が含まれている
+					auto netStdPath = System::IO::Path::Combine(
+						System::Runtime::InteropServices::RuntimeEnvironment::GetRuntimeDirectory(),
+						"netstandard.dll");
+					if (System::IO::File::Exists(netStdPath))
+					{
+						cps->ReferencedAssemblies->Add(netStdPath);
+					}
+				}
 			}
 
 			// 出力名（付けないと適当な名前になるだけ）
@@ -1091,6 +1144,7 @@ namespace tv::hsp::net
 					sbError->AppendLine(err->ToString());
 				}
 				_LastCompileError = sbError->ToString();
+				_ExceptionStack->Push(gcnew Exception(_LastCompileError));
 				return nullptr;
 			}
 
@@ -1122,7 +1176,60 @@ namespace tv::hsp::net
 			cps->GenerateInMemory = true;
 			for each (auto asy in prms)
 			{
-				cps->ReferencedAssemblies->Add(asy); // System.Windows.Forms.dll など参照したいアセンブリ
+				// ファイル名がロード済みアセンブリに一致する場合、Location パスに置換
+				String ^resolvedPath = asy;
+				auto asyBase = System::IO::Path::GetFileNameWithoutExtension(asy);
+				for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
+				{
+					try
+					{
+						if (!a->IsDynamic && a->GetName()->Name == asyBase)
+						{
+							if (!String::IsNullOrEmpty(a->Location))
+							{
+								resolvedPath = a->Location;
+								break;
+							}
+						}
+					}
+					catch (...) {}
+				}
+				cps->ReferencedAssemblies->Add(resolvedPath);
+			}
+
+			// netstandard 2.0 を参照する DLL がある場合、自動的に netstandard.dll を追加
+			{
+				bool needsNetStandard = false;
+				for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
+				{
+					try
+					{
+						if (!a->IsDynamic)
+						{
+							for each (auto refName in a->GetReferencedAssemblies())
+							{
+								if (refName->Name == "netstandard")
+								{
+									needsNetStandard = true;
+									break;
+								}
+							}
+						}
+					}
+					catch (...) {}
+					if (needsNetStandard) break;
+				}
+				if (needsNetStandard)
+				{
+					// .NET Framework 4.7.2+ には netstandard.dll が含まれている
+					auto netStdPath = System::IO::Path::Combine(
+						System::Runtime::InteropServices::RuntimeEnvironment::GetRuntimeDirectory(),
+						"netstandard.dll");
+					if (System::IO::File::Exists(netStdPath))
+					{
+						cps->ReferencedAssemblies->Add(netStdPath);
+					}
+				}
 			}
 
 			// 出力名（付けないと適当な名前になるだけ）
@@ -1142,6 +1249,7 @@ namespace tv::hsp::net
 					sbError->AppendLine(err->ToString());
 				}
 				_LastCompileError = sbError->ToString();
+				_ExceptionStack->Push(gcnew Exception(_LastCompileError));
 				return nullptr;
 			}
 

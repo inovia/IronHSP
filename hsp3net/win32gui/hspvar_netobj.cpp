@@ -269,8 +269,42 @@ static void HspVarNetobj_ObjectMethod(PVal *pval)
 		}
 	} while (PARAM_END < prm);
 	
+	// ジェネリックメソッド: メソッド名に <Type1,Type2,...> が含まれる場合
+	// 例: "ConvertAll<System.Int32>" → methodName="ConvertAll", genericTypes=[Int32]
+	array<NetClass^>^ genericTypes = nullptr;
+	{
+		int ltPos = p1->IndexOf('<');
+		int gtPos = p1->LastIndexOf('>');
+		if (ltPos >= 0 && gtPos > ltPos)
+		{
+			auto genericPart = p1->Substring(ltPos + 1, gtPos - ltPos - 1);
+			p1 = p1->Substring(0, ltPos);
+
+			auto typeNames = genericPart->Split(',');
+			List<NetClass^>^ gList = gcnew List<NetClass^>();
+			for each (auto typeName in typeNames)
+			{
+				auto tn = typeName->Trim();
+				Type ^resolved = Type::GetType(tn);
+				if (resolved == nullptr)
+				{
+					for each (Assembly ^a in AppDomain::CurrentDomain->GetAssemblies())
+					{
+						resolved = a->GetType(tn, false);
+						if (resolved != nullptr) break;
+					}
+				}
+				if (resolved == nullptr) throw HSPERR_INVALID_PARAMETER;
+				NetClass ^nc = gcnew NetClass();
+				nc->Class = resolved;
+				gList->Add(nc);
+			}
+			genericTypes = gList->ToArray();
+		}
+	}
+
 	ret = GlobalAccess::g_Hsp3Net->InvokeMethod(
-		GlobalAccess::GetNativePtrToNetClass(pObj), p1, nullptr, listParams->ToArray());
+		GlobalAccess::GetNativePtrToNetClass(pObj), p1, genericTypes, listParams->ToArray());
 
 	// 戻り値
 	const auto ctx = code_getctx();

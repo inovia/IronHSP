@@ -39,7 +39,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-10</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-11</p>
 <p class="muted">ベース: OpenHSP 3.7 (SVN r1616) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="toc">
@@ -51,10 +51,10 @@
   <li><a href="#dotnet">4. .NET 連携機能</a></li>
   <li><a href="#winforms">5. WinForms 統合</a></li>
   <li><a href="#vartypes">6. 変数型一覧</a></li>
-  <li><a href="#struct">7. 構造体・共用体</a></li>
-  <li><a href="#wstr">8. UTF-16 ワイド文字列型 (wstr)</a></li>
-  <li><a href="#changelog">9. 変更履歴</a></li>
-  <li><a href="#notes">10. 注意事項・既知の制限</a></li>
+  <li><a href="#notes">7. 注意事項・既知の制限</a></li>
+  <li><a href="#struct">8. 構造体・共用体</a></li>
+  <li><a href="#wstr">9. UTF-16 ワイド文字列型 (wstr)</a></li>
+  <li><a href="#changelog">10. 変更履歴</a></li>
 </ul>
 </div>
 
@@ -212,19 +212,19 @@ mes r  ; => 3000000000000</code></pre>
 <table>
 <tr><th>命令</th><th>説明</th></tr>
 <tr><td><code>loadnet</code></td><td>アセンブリをロードする。mode: 0=GAC短縮名, 1=GAC完全名, 2=ファイルパス, 3=C#ソース, 4=VBソース</td></tr>
-<tr><td><code>newnet</code></td><td>.NET クラスのインスタンスを生成する。static メソッド呼び出し用のモードあり</td></tr>
+<tr><td><code>newnet</code></td><td>.NET クラスのインスタンスを生成する。static モード、ジェネリック型パラメータの自動検出に対応</td></tr>
 <tr><td><code>delnet</code></td><td>.NET オブジェクトを解放する</td></tr>
 <tr><td><code>netres</code></td><td>メソッド戻り値の格納先変数を設定する</td></tr>
 <tr><td><code>tonet</code></td><td>HSP の値（int/double/str/int64）を .NET オブジェクト (netobj) に変換する</td></tr>
-<tr><td><code>enumnet</code></td><td>enum メンバーの値を取得する</td></tr>
+<tr><td><code>enumnet</code></td><td>enum メンバーの値を取得する。第2引数に netobj 変数またはアセンブリ名文字列を指定可能</td></tr>
 <tr><td><code>getforms</code></td><td>HSP ウィンドウ ID から WinForms の Form インスタンスを取得する</td></tr>
 <tr><td><code>pushnet</code></td><td>ネイティブポインタのスコープをプッシュする（メモリ管理用）</td></tr>
 <tr><td><code>popnet</code></td><td>スコープをポップし、自動的にポインタを解放する。引数で保持するポインタを指定可能</td></tr>
 <tr><td><code>enablewpf</code></td><td>WPF 関連アセンブリ（PresentationCore等）をロードする</td></tr>
 <tr><td><code>neterror</code></td><td>.NET 例外のエラーモードを設定する。0=stat のみ（デフォルト）, 1=HSP エラーとして throw</td></tr>
-<tr><td><code>nettoval</code></td><td>.NET オブジェクトを HSP の値型に変換する（関数形式）</td></tr>
+<tr><td><code>nettoval</code></td><td>.NET オブジェクトを HSP の値型に変換する（関数形式）。Enum→int 変換、<code>obj("$field")</code> 式に対応</td></tr>
 <tr><td><code>netexerr</code></td><td>最後に発生した .NET 例外の情報を文字列で返す（関数形式）</td></tr>
-<tr><td><code>formsaddctrl</code></td><td>Form に .NET コントロールを追加する</td></tr>
+<tr><td><code>formsaddctrl</code></td><td>Form に .NET コントロールを追加する (0=Button, 1=CheckBox, 2=TextBox, 3=ComboBox, 4=ListBox)。GUI版のみ</td></tr>
 </table>
 
 <div class="note">
@@ -269,7 +269,63 @@ mcall pObj, "ToString"
 s = nettoval(net_ret, 2)
 mes s  ; => "Hello"</code></pre>
 
-<h3>4.5 GlobalAccess クラス（メモリ管理）</h3>
+<h3>4.5 ジェネリクス</h3>
+<p>クラス名に <code>`N</code> が含まれる場合、<code>newnet</code> は最初のN個の引数をジェネリック型パラメータとして自動認識します。
+型パラメータは netobj 変数または型名文字列で指定できます。</p>
+
+<pre><code>; List&lt;String&gt; を作成
+newnet pList, "", "System.Collections.Generic.List`1", 0, "System.String"
+mcall pList, "Add", "Alpha"
+mcall pList, "Add", "Beta"
+netres ret
+mcall pList, "get_Count"
+v = nettoval(ret, 4)    ; => 2
+
+; Dictionary&lt;String, Int32&gt; を作成
+newnet pDict, "", "System.Collections.Generic.Dictionary`2", 0, "System.String", "System.Int32"
+tonet pVal, 100
+mcall pDict, "Add", "key1", pVal</code></pre>
+
+<h3>4.6 enumnet の拡張</h3>
+<p><code>enumnet</code> の第2引数は、従来の netobj 変数に加えて<strong>アセンブリ名文字列</strong>でも指定可能です。
+空文字列を指定するとロード済み全アセンブリから自動検索します。</p>
+
+<pre><code>; アセンブリ名文字列で指定
+enumnet pFill, "System.Windows.Forms", "System.Windows.Forms.DockStyle", "Fill"
+
+; 空文字列で全アセンブリ自動検索
+enumnet pTop, "", "System.Windows.Forms.DockStyle", "Top"
+
+; 従来通り netobj 変数でも指定可能
+enumnet pDR, pDockPanel, "WeifenLuo.WinFormsUI.Docking.DockState", "DockRight"
+
+; Enum → int / str 変換
+v = nettoval(pFill, 4)   ; => 5 (DockStyle.Fill の整数値)
+s = nettoval(pFill, 2)   ; => "Fill"</code></pre>
+
+<h3>4.7 フィールドアクセス ($prefix)</h3>
+<p>netobj 変数の連想配列記法で <code>$</code> プレフィックスを付けるとフィールドに、付けないとプロパティにアクセスします。
+<code>nettoval</code> と組み合わせてフィールド値を直接取得可能です。</p>
+
+<pre><code>; フィールド読み取り
+s = nettoval(pObj("$FieldName"), 2)
+
+; フィールド書き込み
+pObj("$FieldName") = "new value"
+
+; プロパティアクセス（$なし）
+s = nettoval(pObj("Text"), 2)</code></pre>
+
+<h3>4.8 formsaddctrl</h3>
+<p>HSP ウィンドウに .NET コントロールを追加する命令です。GUI版ランタイムのみ対応（CL版では非サポート）。</p>
+
+<pre><code>; formsaddctrl outvar, type, "text", x, y, w, h [, wid]
+; type: 0=Button, 1=CheckBox, 2=TextBox, 3=ComboBox, 4=ListBox
+formsaddctrl pBtn, 0, "OK", 10, 10, 100, 30
+formsaddctrl pChk, 1, "Enable", 10, 50, 120, 24
+formsaddctrl pTxt, 2, "input here", 10, 80, 200, 24</code></pre>
+
+<h3>4.9 GlobalAccess クラス（メモリ管理）</h3>
 <p>.NET オブジェクトのネイティブポインタを管理する静的クラスです。</p>
 <ul>
   <li><code>CreateNativePtr()</code> &mdash; GCHandle を確保してネイティブポインタを返す</li>
@@ -278,7 +334,7 @@ mes s  ; => "Hello"</code></pre>
   <li><code>PushNativePtrCurrentStack()</code> / <code>PopNativePtrCurrentStack()</code> &mdash; スコープベースの自動解放</li>
 </ul>
 
-<h3>4.6 例外処理とエラー報告</h3>
+<h3>4.10 例外処理とエラー報告</h3>
 
 <p>.NET の例外が発生した場合のエラー報告には2つのモードがあります。<code>neterror</code> 命令で切り替えます。</p>
 
@@ -405,6 +461,60 @@ mcall net_controls, "Add", pButton</code></pre>
 <strong>objprm 命令</strong>: <code>SetWindowText</code> 等の Win32 API 経由で動作するため、.NET コントロールでもそのまま使用可能です。
 </div>
 
+<h3>5.5 システム変数 hwnd / hinstance / hdc</h3>
+<p>以下のシステム変数で、現在アクティブなスクリーン (<code>gsel</code> で選択中) の情報を取得できます。</p>
+
+<table>
+<tr><th>変数</th><th>型 (32bit)</th><th>型 (64bit)</th><th>内容</th></tr>
+<tr><td><code>hwnd</code></td><td>int</td><td>int64</td><td>ウィンドウハンドル (HWND)</td></tr>
+<tr><td><code>hinstance</code></td><td>int</td><td>int64</td><td>インスタンスハンドル (HINSTANCE)</td></tr>
+<tr><td><code>hdc</code></td><td>int</td><td>int64</td><td>描画バッファの DC (HDC)</td></tr>
+</table>
+
+<div class="note">
+<strong>hdc について:</strong> <code>hdc</code> はオフスクリーン描画バッファ (DIB Section) のデバイスコンテキストです。
+HSP の描画命令 (<code>mes</code>, <code>boxf</code>, <code>line</code> 等) と同じ DC なので、
+Win32 GDI API (BitBlt, TextOut 等) で直接描画すればスクリーンに反映されます。
+<br><br>
+<strong>.NET での HDC 取得:</strong> <code>getforms</code> + <code>CreateGraphics()</code> + <code>GetHdc()</code> でも取得可能ですが、
+この場合はウィンドウ DC (画面に直接描画) であり、HSP の描画バッファ DC とは異なります。
+HSP の描画と統合するにはシステム変数 <code>hdc</code> を使用してください。
+</div>
+
+<h3>5.6 外部 .NET ライブラリとの連携</h3>
+<p>NuGet パッケージ等の外部 .NET ライブラリは <code>loadnet</code> (opt=2: ファイルパス) でロードして使用できます。
+以下のライブラリで動作確認済みです。</p>
+
+<table>
+<tr><th>ライブラリ</th><th>バージョン</th><th>確認項目</th><th>結果</th></tr>
+<tr><td>DockPanelSuite</td><td>3.1.0</td><td>DLL ロード / インスタンス生成 / Enum / プロパティ / Form 追加</td><td>全項目 PASS</td></tr>
+<tr><td>Newtonsoft.Json</td><td>13.0.3</td><td>JObject.Parse / indexer / SerializeObject / JArray / ToString</td><td>全項目 PASS</td></tr>
+<tr><td>NAudio</td><td>2.2.1</td><td>WaveFormat / Enum / C# コンパイルからの参照 / IEnumerable 列挙</td><td>PASS (WaveOut はメッセージループ必要)</td></tr>
+</table>
+
+<pre><code>; Newtonsoft.Json の使用例
+loadnet "Newtonsoft.Json.dll", 2
+newnet pJObj, "Newtonsoft.Json", "Newtonsoft.Json.Linq.JObject", 1
+netres rParsed
+mcall pJObj, "Parse", "{\"name\":\"IronHSP\",\"version\":3}"
+netres rName
+mcall rParsed, "get_Item", "name"
+mes nettoval(rName, 2)   ; => "IronHSP"
+
+; NAudio の使用例
+loadnet "NAudio.Core.dll", 2
+newnet pFmt, "", "NAudio.Wave.WaveFormat", 0, 44100, 2
+netres rSR
+mcall pFmt, "get_SampleRate"
+mes nettoval(rSR, 4)     ; => 44100</code></pre>
+
+<div class="note">
+<strong>netstandard 2.0 対応:</strong> netstandard 2.0 ターゲットの DLL を参照する場合、C#/VB コンパイル時に
+<code>netstandard.dll</code> が自動的に参照に追加されます（.NET Framework 4.7.2 以降に同梱）。<br>
+<strong>参照 DLL の自動解決:</strong> <code>loadnet</code> (opt=3/4) で C#/VB をコンパイルする際、参照 DLL のファイル名は
+ロード済みアセンブリの <code>Location</code> パスに自動解決されます。
+</div>
+
 <!-- ======================================== -->
 <h2 id="vartypes">6. 変数型一覧</h2>
 
@@ -424,51 +534,7 @@ mcall net_controls, "Add", pButton</code></pre>
 </table>
 
 <!-- ======================================== -->
-<h2 id="changelog">9. 変更履歴</h2>
-
-<table>
-<tr><th>日時</th><th>コミット</th><th>内容</th></tr>
-<tr><td>4/10 18:00</td><td><code>a61b1f32</code></td><td>OpenHSP 3.7 (SVN r1616) をインポート</td></tr>
-<tr><td>4/10 18:30</td><td><code>ca517453</code></td><td>3.7 を master にマージ（3-way merge）</td></tr>
-<tr><td>4/10 19:00</td><td><code>51f7a621</code></td><td>hsp3net を 3.7 ベースに更新（87ファイル置換 + 6ファイル 3-way merge）</td></tr>
-<tr><td>4/10 19:30</td><td><code>7576902e</code></td><td>ビルド修正: v143化、CLR対応、charset設定、マージミス修正</td></tr>
-<tr><td>4/10 20:00</td><td><code>e284b003</code></td><td><span class="badge">Phase 1</span> int64 変数型の基盤追加</td></tr>
-<tr><td>4/10 20:30</td><td><code>baa389e5</code></td><td><span class="badge">Phase 2</span> システム変数 stat/wparam/lparam/iparam の int64 化</td></tr>
-<tr><td>4/10 21:00</td><td><code>dbc1c3ee</code></td><td><span class="badge">Phase 3</span> int64()/dim64/qpeek/qpoke + varptr/dupptr 64bit対応</td></tr>
-<tr><td>4/10 21:30</td><td><code>452d10ee</code></td><td><span class="badge">Phase 4</span> hspcmp: int64 リテラル（Lサフィックス、自動昇格）</td></tr>
-<tr><td>4/10 22:00</td><td><code>3ee4970b</code></td><td><span class="badge">Phase 5</span> #deffunc/#func の int64 パラメータ対応</td></tr>
-<tr><td>4/10 22:30</td><td><code>edb1dfda</code></td><td><span class="badge">Phase 6</span> #defcfunc 戻り値 + DLL 戻り値 int64 + hsp3cl 対応</td></tr>
-<tr><td>4/10 23:00</td><td><code>c3a136ae</code></td><td><span class="badge">Phase 7</span> hsp3cl .NET対応、DLL戻り値自動int64、mref修正、v4.8</td></tr>
-<tr><td>4/10 23:30</td><td><code>b03f3c0a</code></td><td><span class="badge">Phase 8</span> アセンブリ自動解決、hsp3cl NETOBJ登録</td></tr>
-<tr><td>4/11 00:00</td><td><code>46f627ec</code></td><td><span class="badge-orange badge">Phase 9</span> GUI オブジェクトを .NET コントロールに置換、Form.Controls 統合</td></tr>
-<tr><td>4/10</td><td></td><td><span class="badge">Phase 10</span> .NET 例外処理: neterror/netexerr 追加、Enum 自動変換</td></tr>
-<tr><td>4/10</td><td></td><td><span class="badge">Phase 11</span> CnvCustom実装、tonet実装、objprm .NET対応、InvokeMethod Enum変換、enablewpfエラーチェック</td></tr>
-<tr><td>4/10</td><td></td><td><span class="badge">Phase 12</span> #cfuncd/#cfuncf (double/float戻り値DLL)、callfuncd/callfuncf追加</td></tr>
-<tr><td>4/11</td><td><code>62878cbc</code></td><td>構造体/共用体サポート (#defstruct/#defunion)</td></tr>
-<tr><td>4/11</td><td><code>8d770d0c</code></td><td>wstr (UTF-16) Phase 1-2: 変数型 + L"..." リテラル</td></tr>
-<tr><td>4/11</td><td><code>b87295f5</code></td><td>wstr Phase 3-5: 文字列関数/命令/note系 + 64bitビルド対応 + プラグイン64bit化</td></tr>
-</table>
-
-<h3>64bit ビルド対応一覧</h3>
-<table>
-<tr><th>ターゲット</th><th>32bit 出力名</th><th>64bit 出力名</th><th>状態</th></tr>
-<tr><td>ランタイム (GUI)</td><td>hsp3.exe</td><td>hsp3_64.exe</td><td>既存</td></tr>
-<tr><td>ランタイム (CL)</td><td>hsp3cl.exe</td><td>hsp3cl_64.exe</td><td>新規</td></tr>
-<tr><td>コンパイラ (DLL)</td><td>hspcmp.dll</td><td>hspcmp64.dll</td><td>新規</td></tr>
-<tr><td>コンパイラ (EXE)</td><td>hspcmp.exe</td><td>hspcmp64.exe</td><td>新規</td></tr>
-<tr><td>デバッガ</td><td>hsp3debug.dll</td><td>hsp3debug_64.dll</td><td>出力名修正</td></tr>
-<tr><td>hspext</td><td>hspext.dll</td><td>hspext64.dll</td><td>出力名修正</td></tr>
-<tr><td>hspda</td><td>hspda.dll</td><td>hspda64.dll</td><td>新規</td></tr>
-<tr><td>hspinet</td><td>hspinet.dll</td><td>hspinet64.dll</td><td>新規</td></tr>
-<tr><td>hspvoicevox</td><td>hspvoicevox.dll</td><td>hspvoicevox64.dll</td><td>新規</td></tr>
-<tr><td>hgimg</td><td>hgimg.dll</td><td>hgimg64.dll</td><td>vcxproj新規</td></tr>
-<tr><td>obaq</td><td>obaq.dll</td><td>obaq64.dll</td><td>vcxproj新規</td></tr>
-<tr><td>hgimgx</td><td>hgimgx.dll</td><td>—</td><td>DirectX 8依存 (32bitのみ)</td></tr>
-<tr><td>ZLibWrap</td><td>ZLibWrap.dll</td><td>—</td><td>未対応 (外部依存複雑)</td></tr>
-</table>
-
-<!-- ======================================== -->
-<h2 id="notes">10. 注意事項・既知の制限</h2>
+<h2 id="notes">7. 注意事項・既知の制限</h2>
 
 <div class="card">
 <h3>HSPCTX 構造体レイアウトの変更</h3>
@@ -515,6 +581,7 @@ mcall net_controls, "Add", pButton</code></pre>
   <li>Windows システム DLL（kernel32, user32 等）は 32/64bit で名前が同じため分岐不要</li>
   <li>コンパイラ（hspcmp）は 64bit でも MultiByte で動作（HSPUTF8 不要）</li>
   <li>hgimgx は DirectX 8 依存のため 32bit のみ</li>
+  <li>システム変数 <code>hwnd</code>, <code>hinstance</code>, <code>hdc</code> は 64bit 環境で int64 型を返す（HWND/HINSTANCE/HDC はポインタサイズ）</li>
 </ul>
 </div>
 
@@ -532,6 +599,8 @@ mcall net_controls, "Add", pButton</code></pre>
   <li><code>nettoval</code> は<strong>関数</strong>形式で使用する: <code>s = nettoval(net_var, type)</code></li>
   <li>第2引数の型指定: <code>2</code> = str, <code>4</code> = int, <code>3</code> = double</li>
   <li>命令形式 (<code>nettoval s, net_var</code>) では使用できない</li>
+  <li>フィールドアクセス式 <code>nettoval(obj("$field"), 2)</code> に対応</li>
+  <li>Enum 型は int / double / str のいずれにも変換可能（<code>Convert.ToInt32</code> 等で変換）</li>
 </ul>
 </div>
 
@@ -592,7 +661,7 @@ mes _sqrt(2.0)          ; => 1.414214</code></pre>
 </div>
 
 <!-- ======================================== -->
-<h2 id="struct">7. 構造体・共用体</h2>
+<h2 id="struct">8. 構造体・共用体</h2>
 
 <p><code>#defstruct</code> / <code>#defunion</code> プリプロセッサ命令で C 言語互換の構造体・共用体を定義できます。
 Windows API の構造体を直接扱う場合に便利です。</p>
@@ -719,7 +788,7 @@ points(1)->y = 400</code></pre>
 <p>詳細は <a href="struct_implementation.html">構造体実装設計書</a> を参照してください。</p>
 
 <!-- ======================================== -->
-<h2 id="wstr">8. UTF-16 ワイド文字列型 (wstr)</h2>
+<h2 id="wstr">9. UTF-16 ワイド文字列型 (wstr)</h2>
 
 <p>新しい変数型 <code>wstr</code> (HSPVAR_FLAG_WSTR = 10) で UTF-16 LE 文字列を直接扱えます。
 Windows API の wchar_t 引数に変換なしで渡す用途を想定しています。</p>
@@ -757,6 +826,54 @@ s = "" + ws                  ; wstr → str 自動変換</code></pre>
 int/double との変換も <code>wcstol</code> / <code>swprintf</code> 等で対応済みです。</p>
 
 <p>詳細は <a href="wstr_design.html">wstr 設計書</a> を参照してください。</p>
+
+<!-- ======================================== -->
+<h2 id="changelog">10. 変更履歴</h2>
+
+<table>
+<tr><th>日時</th><th>コミット</th><th>内容</th></tr>
+<tr><td>4/10 18:00</td><td><code>a61b1f32</code></td><td>OpenHSP 3.7 (SVN r1616) をインポート</td></tr>
+<tr><td>4/10 18:30</td><td><code>ca517453</code></td><td>3.7 を master にマージ（3-way merge）</td></tr>
+<tr><td>4/10 19:00</td><td><code>51f7a621</code></td><td>hsp3net を 3.7 ベースに更新（87ファイル置換 + 6ファイル 3-way merge）</td></tr>
+<tr><td>4/10 19:30</td><td><code>7576902e</code></td><td>ビルド修正: v143化、CLR対応、charset設定、マージミス修正</td></tr>
+<tr><td>4/10 20:00</td><td><code>e284b003</code></td><td><span class="badge">Phase 1</span> int64 変数型の基盤追加</td></tr>
+<tr><td>4/10 20:30</td><td><code>baa389e5</code></td><td><span class="badge">Phase 2</span> システム変数 stat/wparam/lparam/iparam の int64 化</td></tr>
+<tr><td>4/10 21:00</td><td><code>dbc1c3ee</code></td><td><span class="badge">Phase 3</span> int64()/dim64/qpeek/qpoke + varptr/dupptr 64bit対応</td></tr>
+<tr><td>4/10 21:30</td><td><code>452d10ee</code></td><td><span class="badge">Phase 4</span> hspcmp: int64 リテラル（Lサフィックス、自動昇格）</td></tr>
+<tr><td>4/10 22:00</td><td><code>3ee4970b</code></td><td><span class="badge">Phase 5</span> #deffunc/#func の int64 パラメータ対応</td></tr>
+<tr><td>4/10 22:30</td><td><code>edb1dfda</code></td><td><span class="badge">Phase 6</span> #defcfunc 戻り値 + DLL 戻り値 int64 + hsp3cl 対応</td></tr>
+<tr><td>4/10 23:00</td><td><code>c3a136ae</code></td><td><span class="badge">Phase 7</span> hsp3cl .NET対応、DLL戻り値自動int64、mref修正、v4.8</td></tr>
+<tr><td>4/10 23:30</td><td><code>b03f3c0a</code></td><td><span class="badge">Phase 8</span> アセンブリ自動解決、hsp3cl NETOBJ登録</td></tr>
+<tr><td>4/11 00:00</td><td><code>46f627ec</code></td><td><span class="badge-orange badge">Phase 9</span> GUI オブジェクトを .NET コントロールに置換、Form.Controls 統合</td></tr>
+<tr><td>4/10</td><td></td><td><span class="badge">Phase 10</span> .NET 例外処理: neterror/netexerr 追加、Enum 自動変換</td></tr>
+<tr><td>4/10</td><td></td><td><span class="badge">Phase 11</span> CnvCustom実装、tonet実装、objprm .NET対応、InvokeMethod Enum変換、enablewpfエラーチェック</td></tr>
+<tr><td>4/10</td><td></td><td><span class="badge">Phase 12</span> #cfuncd/#cfuncf (double/float戻り値DLL)、callfuncd/callfuncf追加</td></tr>
+<tr><td>4/11</td><td><code>62878cbc</code></td><td>構造体/共用体サポート (#defstruct/#defunion)</td></tr>
+<tr><td>4/11</td><td><code>8d770d0c</code></td><td>wstr (UTF-16) Phase 1-2: 変数型 + L"..." リテラル</td></tr>
+<tr><td>4/11</td><td><code>b87295f5</code></td><td>wstr Phase 3-5: 文字列関数/命令/note系 + 64bitビルド対応 + プラグイン64bit化</td></tr>
+<tr><td>4/11</td><td></td><td>.NET命令改良: newnetジェネリクス対応、enumnet文字列アセンブリ名対応、nettovalフィールドアクセス修正・Enum変換追加、formsaddctrl実装</td></tr>
+<tr><td>4/11</td><td></td><td>.NET品質改善: Boolean→int変換修正、C#/VBコンパイル参照DLL自動解決、netstandard.dll自動参照、コンパイルエラーのnetexerr対応</td></tr>
+<tr><td>4/11</td><td></td><td>外部ライブラリ連携検証: Newtonsoft.Json 13.0.3 / NAudio 2.2.1 / DockPanelSuite 3.1.0</td></tr>
+<tr><td>4/11</td><td></td><td>hwnd/hinstance/hdc を64bit環境で int64 として返すよう修正</td></tr>
+</table>
+
+<h3>64bit ビルド対応一覧</h3>
+<table>
+<tr><th>ターゲット</th><th>32bit 出力名</th><th>64bit 出力名</th><th>状態</th></tr>
+<tr><td>ランタイム (GUI)</td><td>hsp3.exe</td><td>hsp3_64.exe</td><td>既存</td></tr>
+<tr><td>ランタイム (CL)</td><td>hsp3cl.exe</td><td>hsp3cl_64.exe</td><td>新規</td></tr>
+<tr><td>コンパイラ (DLL)</td><td>hspcmp.dll</td><td>hspcmp64.dll</td><td>新規</td></tr>
+<tr><td>コンパイラ (EXE)</td><td>hspcmp.exe</td><td>hspcmp64.exe</td><td>新規</td></tr>
+<tr><td>デバッガ</td><td>hsp3debug.dll</td><td>hsp3debug_64.dll</td><td>出力名修正</td></tr>
+<tr><td>hspext</td><td>hspext.dll</td><td>hspext64.dll</td><td>出力名修正</td></tr>
+<tr><td>hspda</td><td>hspda.dll</td><td>hspda64.dll</td><td>新規</td></tr>
+<tr><td>hspinet</td><td>hspinet.dll</td><td>hspinet64.dll</td><td>新規</td></tr>
+<tr><td>hspvoicevox</td><td>hspvoicevox.dll</td><td>hspvoicevox64.dll</td><td>新規</td></tr>
+<tr><td>hgimg</td><td>hgimg.dll</td><td>hgimg64.dll</td><td>vcxproj新規</td></tr>
+<tr><td>obaq</td><td>obaq.dll</td><td>obaq64.dll</td><td>vcxproj新規</td></tr>
+<tr><td>hgimgx</td><td>hgimgx.dll</td><td>—</td><td>DirectX 8依存 (32bitのみ)</td></tr>
+<tr><td>ZLibWrap</td><td>ZLibWrap.dll</td><td>ZLibWrap64.dll</td><td>対応済み</td></tr>
+</table>
 
 <footer>
   <p>IronHSP &mdash; HSP3 .NET Framework Integration</p>

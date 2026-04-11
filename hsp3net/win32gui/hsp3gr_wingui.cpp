@@ -1494,12 +1494,21 @@ static void *reffunc_sysvar( int *type_res, int arg )
 		bmscr->savepos[ BMSCR_SAVEPOS_MOSUEW ] = 0;
 		break;
 	case 0x003:								// hwnd
+#ifdef HSP64
+		*type_res = HSPVAR_FLAG_INT64;
+#endif
 		ptr = (void *)(&(bmscr->hwnd));
 		break;
 	case 0x004:								// hinstance
+#ifdef HSP64
+		*type_res = HSPVAR_FLAG_INT64;
+#endif
 		ptr = (void *)(&(bmscr->hInst));
 		break;
 	case 0x005:								// hdc
+#ifdef HSP64
+		*type_res = HSPVAR_FLAG_INT64;
+#endif
 		ptr = (void *)(&(bmscr->hdc));
 		break;
 
