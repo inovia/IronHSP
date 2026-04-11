@@ -5,12 +5,13 @@
   "version": "0.1.0",
   "publisher": "ironhsp",
   "engines": {
-    "vscode": "^1.75.0"
+    "vscode": "^1.93.0"
   },
   "categories": [
     "Programming Languages",
     "Snippets",
-    "Debuggers"
+    "Debuggers",
+    "Chat"
   ],
   "activationEvents": [
     "onLanguage:nhsp"
@@ -36,6 +37,67 @@
       {
         "language": "nhsp",
         "path": "./snippets/nhsp.json"
+      }
+    ],
+    "languageModelTools": [
+      {
+        "name": "nhsp-spec",
+        "displayName": "NHSP Language Specification",
+        "description": "Look up NHSP (Net HSP) language syntax, directives, types, control flow, operators, and built-in functions. NHSP is a custom language with HSP-like syntax that compiles to .NET assemblies. Use this tool when the user asks about NHSP syntax or wants to write NHSP code.",
+        "canBeReferencedInPrompt": true,
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "topic": {
+              "type": "string",
+              "description": "Topic to look up: 'all', 'directives', 'types', 'control', 'operators', 'builtins', or 'overview'",
+              "enum": ["all", "overview", "directives", "types", "control", "operators", "builtins"]
+            }
+          }
+        }
+      },
+      {
+        "name": "nhsp-convert",
+        "displayName": "C# to NHSP Conversion Rules",
+        "description": "Get the rules for converting C# code to NHSP syntax. Use this when the user wants to convert C# code to NHSP or needs to understand the mapping between C# and NHSP constructs.",
+        "canBeReferencedInPrompt": true,
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      {
+        "name": "nhsp-current-file",
+        "displayName": "Current NHSP File",
+        "description": "Get the contents and structure of the currently open NHSP file, including class names, method names, and field names.",
+        "canBeReferencedInPrompt": true,
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        }
+      }
+    ],
+    "chatParticipants": [
+      {
+        "id": "nhsp.chat",
+        "fullName": "NHSP Language Assistant",
+        "name": "nhsp",
+        "description": "NHSP (HSP風 .NET言語) のコーディング支援。文法の質問、C#からの変換、コード生成に対応。",
+        "isSticky": true,
+        "commands": [
+          {
+            "name": "convert",
+            "description": "C# コードを NHSP に変換"
+          },
+          {
+            "name": "explain",
+            "description": "NHSP コードの説明"
+          },
+          {
+            "name": "spec",
+            "description": "NHSP の言語仕様を表示"
+          }
+        ]
       }
     ],
     "commands": [

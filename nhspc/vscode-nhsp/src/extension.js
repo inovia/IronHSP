@@ -13,6 +13,16 @@ function activate(context) {
     outputChannel = vscode.window.createOutputChannel('NHSP');
     context.subscriptions.push(diagnosticCollection, outputChannel);
 
+    // Chat Participant & Language Model Tools
+    try {
+        const { registerChatParticipant } = require('./chat-participant');
+        registerChatParticipant(context);
+        const { registerLanguageModelTools } = require('./lm-tools');
+        registerLanguageModelTools(context);
+    } catch (e) {
+        console.log('Chat/LM Tools API not available:', e.message);
+    }
+
     // Commands
     context.subscriptions.push(
         vscode.commands.registerCommand('nhsp.compile', () => compile(false, false)),
