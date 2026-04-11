@@ -63,6 +63,12 @@
   <li><a href="#pinvoke">Win32 API を呼び出す (P/Invoke)</a></li>
   <li><a href="#com">COM コンポーネント</a></li>
   <li><a href="#hsp3">HSP3 から使う</a></li>
+  <li><a href="#struct">構造体を使う</a></li>
+  <li><a href="#refout">ref / out で値を返す</a></li>
+  <li><a href="#const">定数とデリゲート</a></li>
+  <li><a href="#enum">列挙型 (enum)</a></li>
+  <li><a href="#switch">switch と三項演算子</a></li>
+  <li><a href="#bitwise">ビット演算と文字列補間</a></li>
 </ol>
 </nav>
 
@@ -448,6 +454,23 @@ print str(result)    ; => -1</code></pre>
 同じ DLL の関数は <code>#dllimport</code> 1回で複数宣言できます。
 </div>
 
+<h3>Unicode や C ランタイム関数の呼び出し</h3>
+
+<p><code>#dllimport</code> にオプションを指定できます。</p>
+
+<pre><code>; Unicode 版の API を呼ぶ
+#dllimport "user32.dll", CharSet = Unicode
+#dllfunc public static int MessageBoxW, IntPtr hWnd, string text, string caption, int type
+
+; C ランタイム関数は Cdecl で呼ぶ
+#dllimport "msvcrt.dll", CallingConvention = Cdecl
+#dllfunc public static int puts, string str</code></pre>
+
+<p>引数に <code>[MarshalAs]</code> を付けて文字列の変換方式を指定することもできます。</p>
+
+<pre><code>; 引数の文字列を ANSI 文字として渡す
+#dllfunc public static int GetModuleFileName, IntPtr hModule, [LPStr] string buffer, int size</code></pre>
+
 <!-- ========================================== -->
 <h2 id="com">12. COM コンポーネント</h2>
 
@@ -488,6 +511,279 @@ mes "結果: " + nettoval(r, 4)   ; => 結果: 30</code></pre>
 <div class="tip">
 NHSP の出力は標準的な .NET アセンブリなので、C# や VB.NET からも参照できます。
 </div>
+
+<!-- ========================================== -->
+<h2 id="struct">14. 構造体を使う</h2>
+
+<p>構造体は「値型」と呼ばれるデータの入れ物です。Win32 API にデータを渡すときによく使います。HSP の構造体変数に近い考え方です。</p>
+
+<h3>基本の構造体</h3>
+<pre><code>; 2D座標を表す構造体
+#struct public Point2D, Sequential
+  #field public int X
+  #field public int Y
+#endstruct</code></pre>
+
+<p>C# では <code>struct</code> キーワードで書くものが、NHSP では <code>#struct</code> ... <code>#endstruct</code> になります。</p>
+
+<h3>Win32 API 用の構造体</h3>
+
+<p>Windows API で使う構造体はパッキング (アラインメント) の指定が必要な場合があります。</p>
+
+<pre><code>; SYSTEMTIME 構造体 (Pack = 2 でパッキング指定)
+#struct public SYSTEMTIME, Sequential, Pack = 2
+  #field public ushort wYear
+  #field public ushort wMonth
+  #field public ushort wDayOfWeek
+  #field public ushort wDay
+  #field public ushort wHour
+  #field public ushort wMinute
+  #field public ushort wSecond
+  #field public ushort wMilliseconds
+#endstruct
+
+; 使い方: P/Invoke と組み合わせる
+#class public TimeUtil
+  #dllimport "kernel32.dll"
+  #dllfunc public static void GetSystemTime, ref SYSTEMTIME st
+#endclass</code></pre>
+
+<div class="tip">
+<code>ushort</code> は符号なし16ビット整数。他にも <code>uint</code>, <code>ulong</code>, <code>sbyte</code>, <code>char</code> などの型が使えます。
+<code>IntPtr</code> はポインタサイズの整数で、ハンドル (HWND, HANDLE) を渡すときに使います。
+</div>
+
+<h3>共用体 (Union)</h3>
+
+<p>同じメモリ位置に違う型でアクセスしたい場合は <code>Explicit</code> レイアウトと <code>[FieldOffset]</code> を使います。</p>
+
+<pre><code>#struct public NumberUnion, Explicit
+  [FieldOffset 0] #field public int IntValue
+  [FieldOffset 0] #field public float FloatValue
+#endstruct</code></pre>
+
+<h3>文字列を含む構造体</h3>
+
+<p>固定長の文字列フィールドには <code>[MarshalAs]</code> で長さを指定します。</p>
+
+<pre><code>#struct public FileInfo, Sequential, CharSet = Unicode
+  #field public int Id
+  [MarshalAs ByValTStr, 260] #field public string Path
+#endstruct</code></pre>
+
+<!-- ========================================== -->
+<h2 id="refout">15. ref / out で値を返す</h2>
+
+<p>通常メソッドは <code>return</code> で1つの値しか返せませんが、<code>ref</code> や <code>out</code> を使うと引数経由で複数の値を返せます。</p>
+
+<h3>ref (参照渡し)</h3>
+
+<p><code>ref</code> は「呼び出し元の変数を直接書き換える」意味です。</p>
+
+<pre><code>#class public MathUtil
+  ; ref で渡した変数を直接変更
+  #func public static void AddTen, ref int value
+    value = value + 10
+  #endfunc
+
+  ; 2つの変数を入れ替え
+  #func public static void Swap, ref int a, ref int b
+    dim int temp
+    temp = a
+    a = b
+    b = temp
+  #endfunc
+#endclass</code></pre>
+
+<h3>out (出力引数)</h3>
+
+<p><code>out</code> は「メソッド内で必ず値を設定して返す」意味です。TryParse パターンでよく使います。</p>
+
+<pre><code>#class public Parser
+  ; 文字列を数値に変換、成功/失敗を return で返し、結果は out で返す
+  #func public static bool TryParse, string s, out int result
+    result = 42
+    return true
+  #endfunc
+#endclass</code></pre>
+
+<div class="compare">
+<div>
+<h4>HSP3 で同じこと</h4>
+<pre><code>; HSP では変数を直接参照渡しできないので
+; 配列の要素を使ったり、命令で返す
+; NHSP の ref/out なら直接書ける</code></pre>
+</div>
+<div>
+<h4>C# で同じこと</h4>
+<pre><code>public static void AddTen(ref int value)
+{
+    value = value + 10;
+}
+public static bool TryParse(
+    string s, out int result)
+{
+    result = 42;
+    return true;
+}</code></pre>
+</div>
+</div>
+
+<!-- ========================================== -->
+<h2 id="const">16. 定数とデリゲート</h2>
+
+<h3>const (コンパイル時定数)</h3>
+
+<p><code>const</code> をつけたフィールドはコンパイル時に値が確定し、変更できません。</p>
+
+<pre><code>#class public Config
+  #field public const int MAX_PATH = 260
+  #field public const string VERSION = "1.0"
+#endclass</code></pre>
+
+<h3>readonly (読み取り専用)</h3>
+
+<p><code>readonly</code> はコンストラクタで1回だけ設定でき、その後は変更できません。</p>
+
+<pre><code>#class public Settings
+  #field public readonly int MaxSize
+
+  #init int size
+    MaxSize = size
+  #endinit
+#endclass</code></pre>
+
+<h3>static フィールド</h3>
+
+<p><code>static</code> フィールドはクラスに1つだけ存在し、全インスタンスで共有されます。</p>
+
+<pre><code>#class public Counter
+  #field public static int Count
+#endclass</code></pre>
+
+<h3>デリゲート (関数の型)</h3>
+
+<p>デリゲートは「この形の関数」を表す型です。コールバックやイベントで使います。</p>
+
+<pre><code>; 「int を2つ受け取って int を返す関数」を表すデリゲート型
+#delegate public int BinaryOp, int a, int b
+
+; void のデリゲート
+#delegate public void EventHandler, object sender, string message</code></pre>
+
+<div class="tip">
+デリゲートは C# の <code>delegate</code> と同じです。HSP にはない概念ですが、
+.NET のイベント処理やコールバック関数で必要になることがあります。
+</div>
+
+<!-- ========================================== -->
+<h2 id="enum">17. 列挙型 (enum)</h2>
+
+<p>列挙型は、決まった選択肢の中から値を選ぶときに使います。HSP の定数定義に近い使い方ができます。</p>
+
+<pre><code>; 色を表す列挙型
+#enum Color
+  Red
+  Green
+  Blue
+#endenum
+
+; 値を指定することもできる
+#enum Priority
+  Low = 1
+  Medium = 5
+  High
+  Critical = 100
+#endenum</code></pre>
+
+<div class="tip">
+値を省略すると 0 から順番に自動で番号がつきます。途中で値を指定すると、その次からはその値 +1 になります。
+</div>
+
+<!-- ========================================== -->
+<h2 id="switch">18. switch と三項演算子</h2>
+
+<h3>switch 文</h3>
+
+<p>値で分岐するとき、<code>if / elseif</code> の連続よりも見やすく書けます。</p>
+
+<pre><code>switch x
+  case 1
+    print "one"
+  case 2
+    print "two"
+  default
+    print "other"
+endswitch</code></pre>
+
+<div class="tip">
+NHSP の switch は C# と違い、自動的に break が入ります。フォールスルー (次の case に落ちる) は発生しません。
+</div>
+
+<h3>三項演算子</h3>
+
+<p>1行で「もし〜なら A、そうでなければ B」を書けます。</p>
+
+<pre><code>; 大きい方を返す
+dim int result = a > b ? a : b
+
+; null チェック
+dim string name = s ?? "名無し"</code></pre>
+
+<div class="compare">
+<div>
+<h4>NHSP</h4>
+<pre><code>return a > b ? a : b
+return s ?? "default"</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>return a > b ? a : b;
+return s ?? "default";</code></pre>
+</div>
+</div>
+
+<!-- ========================================== -->
+<h2 id="bitwise">19. ビット演算と文字列補間</h2>
+
+<h3>ビット演算子</h3>
+
+<p>ハードウェア制御やフラグ操作でよく使います。HSP の <code>&amp;</code>, <code>|</code> と同じ考え方です。</p>
+
+<pre><code>dim int flags = $FF
+dim int masked = flags & $0F   ; AND: 下位4ビットだけ残す → $0F
+dim int combined = $0F | $F0   ; OR: 合成 → $FF
+dim int toggled = flags ^ $0F  ; XOR: 反転 → $F0
+dim int inverted = ~flags       ; NOT: 全ビット反転
+dim int shifted = 1 << 4        ; 左シフト: 1 → 16
+dim int right = 256 >> 3        ; 右シフト: 256 → 32</code></pre>
+
+<h3>文字列補間</h3>
+
+<p><code>$"..."</code> の中で <code>{変数名}</code> を書くと、その部分に変数の値が埋め込まれます。</p>
+
+<pre><code>dim string name = "World"
+dim string msg = $"Hello {name}!"   ; → "Hello World!"</code></pre>
+
+<div class="tip">
+<code>$"..."</code> は内部的に <code>String.Concat</code> に変換されます。HSP の <code>"Hello " + name + "!"</code> と同じですが、より読みやすく書けます。
+</div>
+
+<h3>typeof</h3>
+
+<p>型の情報を取得できます。</p>
+
+<pre><code>dim t = typeof(int)
+print t.Name   ; → "Int32"</code></pre>
+
+<h3>インクリメント / デクリメント</h3>
+
+<p><code>x++</code> は <code>x += 1</code>、<code>x--</code> は <code>x -= 1</code> のショートカットです。</p>
+
+<pre><code>dim int i = 0
+i++   ; i = 1
+i++   ; i = 2
+i--   ; i = 1</code></pre>
 
 <footer>
   <p>NHSP (Net HSP) &mdash; HSP風 .NET アセンブリコンパイラ</p>

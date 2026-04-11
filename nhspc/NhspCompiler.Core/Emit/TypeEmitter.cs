@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using NhspCompiler.Core.Parsing.Ast;
 using NhspCompiler.Core.Diagnostics;
@@ -86,29 +87,107 @@ namespace NhspCompiler.Core.Emit
             }
             else
             {
-                var attr = TypeAttributes.Class;
-                if (_cls.DefaultAccess == "public") attr |= TypeAttributes.Public;
+                TypeAttributes attr;
+                Type baseType;
 
-                Type baseType = typeof(object);
-                if (_cls.BaseClass != null)
+                if (_cls.IsStruct)
                 {
-                    var resolved = _asmEmitter.ResolveType(_cls.BaseClass);
-                    if (resolved != null)
+                    // Struct: value type with StructLayout
+                    attr = TypeAttributes.Class | TypeAttributes.Sealed;
+                    if (_cls.DefaultAccess == "public") attr |= TypeAttributes.Public;
+
+                    // LayoutKind determines TypeAttributes
+                    switch (_cls.LayoutKind?.ToLowerInvariant())
                     {
-                        if (resolved.IsInterface || (resolved is TypeBuilder rtb && rtb.IsInterface))
+                        case "explicit": attr |= TypeAttributes.ExplicitLayout; break;
+                        case "auto": attr |= TypeAttributes.AutoLayout; break;
+                        default: attr |= TypeAttributes.SequentialLayout; break; // Sequential is default
+                    }
+
+                    baseType = typeof(ValueType);
+
+                    // Pack and Size
+                    if (_cls.Pack > 0 || _cls.Size > 0)
+                    {
+                        var packSize = PackingSize.Unspecified;
+                        switch (_cls.Pack)
                         {
-                            // First "base" is actually an interface
-                            _cls.Interfaces.Insert(0, _cls.BaseClass);
-                            _cls.BaseClass = null;
+                            case 1: packSize = PackingSize.Size1; break;
+                            case 2: packSize = PackingSize.Size2; break;
+                            case 4: packSize = PackingSize.Size4; break;
+                            case 8: packSize = PackingSize.Size8; break;
+                            case 16: packSize = PackingSize.Size16; break;
+                            case 32: packSize = PackingSize.Size32; break;
+                            case 64: packSize = PackingSize.Size64; break;
+                            case 128: packSize = PackingSize.Size128; break;
                         }
-                        else
+                        int size = _cls.Size > 0 ? _cls.Size : 0;
+                        TypeBuilder = _module.DefineType(_cls.Name, attr, baseType, packSize, size);
+                    }
+                    else
+                    {
+                        TypeBuilder = _module.DefineType(_cls.Name, attr, baseType);
+                    }
+
+                    // StructLayout CharSet attribute
+                    if (_cls.StructCharSet != null)
+                    {
+                        var charSetEnum = System.Runtime.InteropServices.CharSet.Auto;
+                        switch (_cls.StructCharSet.ToLowerInvariant())
                         {
-                            baseType = resolved;
+                            case "ansi": charSetEnum = System.Runtime.InteropServices.CharSet.Ansi; break;
+                            case "unicode": charSetEnum = System.Runtime.InteropServices.CharSet.Unicode; break;
+                            case "none": charSetEnum = System.Runtime.InteropServices.CharSet.None; break;
                         }
+                        // Apply StructLayout attribute with CharSet
+                        var layoutKindEnum = LayoutKind.Sequential;
+                        if (_cls.LayoutKind?.ToLowerInvariant() == "explicit") layoutKindEnum = LayoutKind.Explicit;
+                        else if (_cls.LayoutKind?.ToLowerInvariant() == "auto") layoutKindEnum = LayoutKind.Auto;
+
+                        var slCtor = typeof(StructLayoutAttribute).GetConstructor(new[] { typeof(LayoutKind) });
+                        var packField = typeof(StructLayoutAttribute).GetField("Pack");
+                        var sizeField = typeof(StructLayoutAttribute).GetField("Size");
+                        var charSetField = typeof(StructLayoutAttribute).GetField("CharSet");
+
+                        var namedFields = new List<FieldInfo>();
+                        var namedValues = new List<object>();
+                        namedFields.Add(charSetField); namedValues.Add(charSetEnum);
+                        if (_cls.Pack > 0) { namedFields.Add(packField); namedValues.Add(_cls.Pack); }
+                        if (_cls.Size > 0) { namedFields.Add(sizeField); namedValues.Add(_cls.Size); }
+
+                        TypeBuilder.SetCustomAttribute(new CustomAttributeBuilder(
+                            slCtor, new object[] { layoutKindEnum },
+                            namedFields.ToArray(), namedValues.ToArray()));
                     }
                 }
+                else
+                {
+                    // Regular class
+                    attr = TypeAttributes.Class;
+                    if (_cls.DefaultAccess == "public") attr |= TypeAttributes.Public;
+                    if (_cls.IsSealed) attr |= TypeAttributes.Sealed;
+                    if (_cls.IsAbstract) attr |= TypeAttributes.Abstract;
 
-                TypeBuilder = _module.DefineType(_cls.Name, attr, baseType);
+                    baseType = typeof(object);
+                    if (_cls.BaseClass != null)
+                    {
+                        var resolved = _asmEmitter.ResolveType(_cls.BaseClass);
+                        if (resolved != null)
+                        {
+                            if (resolved.IsInterface || (resolved is TypeBuilder rtb && rtb.IsInterface))
+                            {
+                                _cls.Interfaces.Insert(0, _cls.BaseClass);
+                                _cls.BaseClass = null;
+                            }
+                            else
+                            {
+                                baseType = resolved;
+                            }
+                        }
+                    }
+
+                    TypeBuilder = _module.DefineType(_cls.Name, attr, baseType);
+                }
 
                 // Implement interfaces
                 foreach (var ifaceName in _cls.Interfaces)
@@ -208,7 +287,33 @@ namespace NhspCompiler.Core.Emit
                 var ft = _asmEmitter.ResolveType(field.TypeName);
                 if (ft == null) { _diag.Error(field.Line, 0, $"Unknown type: {field.TypeName}"); continue; }
                 var fa = field.Access == "private" ? FieldAttributes.Private : FieldAttributes.Public;
-                Fields[field.Name] = TypeBuilder.DefineField(field.Name, ft, fa);
+                if (field.IsStatic) fa |= FieldAttributes.Static;
+                if (field.IsReadonly) fa |= FieldAttributes.InitOnly;
+                if (field.IsConst)
+                {
+                    fa |= FieldAttributes.Static | FieldAttributes.Literal | FieldAttributes.HasDefault;
+                    var fb = TypeBuilder.DefineField(field.Name, ft, fa);
+                    // Set constant value
+                    if (field.ConstValue is IntLiteralExpr intLit) fb.SetConstant(intLit.Value);
+                    else if (field.ConstValue is StringLiteralExpr strLit) fb.SetConstant(strLit.Value);
+                    else if (field.ConstValue is BoolLiteralExpr boolLit) fb.SetConstant(boolLit.Value);
+                    else if (field.ConstValue is DoubleLiteralExpr dblLit) fb.SetConstant(dblLit.Value);
+                    Fields[field.Name] = fb;
+                }
+                else
+                {
+                    var fb = TypeBuilder.DefineField(field.Name, ft, fa);
+                    Fields[field.Name] = fb;
+                }
+
+                // FieldOffset for Explicit layout structs
+                if (field.FieldOffset >= 0)
+                {
+                    Fields[field.Name].SetOffset(field.FieldOffset);
+                }
+
+                // MarshalAs attribute on field
+                EmitMarshalAsOnField(Fields[field.Name], field.Attributes);
             }
 
             // Apply class-level attributes (COM, etc.)
@@ -244,8 +349,14 @@ namespace NhspCompiler.Core.Emit
                 _baseDefaultCtor = baseType.GetConstructor(Type.EmptyTypes) ?? typeof(object).GetConstructor(Type.EmptyTypes);
             }
 
-            // Constructors
-            if (_cls.Constructors.Count == 0)
+            // Constructors (structs don't need default parameterless ctor in .NET)
+            if (_cls.IsStruct)
+            {
+                // Structs: only emit explicit constructors
+                foreach (var ctorDecl in _cls.Constructors)
+                    EmitConstructor(ctorDecl, baseType);
+            }
+            else if (_cls.Constructors.Count == 0)
             {
                 var ctor = TypeBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, Type.EmptyTypes);
                 Constructors.Add(ctor);
@@ -275,9 +386,39 @@ namespace NhspCompiler.Core.Emit
             var retType = _asmEmitter.ResolveType(method.ReturnType) ?? typeof(void);
             var paramTypes = new List<Type>();
             foreach (var p in method.Parameters)
-                paramTypes.Add(_asmEmitter.ResolveType(p.TypeName) ?? typeof(object));
+            {
+                var pt = _asmEmitter.ResolveType(p.TypeName) ?? typeof(object);
+                if (p.IsRef || p.IsOut) pt = pt.MakeByRefType();
+                paramTypes.Add(pt);
+            }
 
             string entryPoint = method.DllImportEntryPoint ?? method.Name;
+
+            // CallingConvention
+            var callConv = System.Runtime.InteropServices.CallingConvention.StdCall;
+            if (method.DllImportCallingConvention != null)
+            {
+                switch (method.DllImportCallingConvention.ToLowerInvariant())
+                {
+                    case "cdecl": callConv = System.Runtime.InteropServices.CallingConvention.Cdecl; break;
+                    case "thiscall": callConv = System.Runtime.InteropServices.CallingConvention.ThisCall; break;
+                    case "fastcall": callConv = System.Runtime.InteropServices.CallingConvention.FastCall; break;
+                    case "winapi": callConv = System.Runtime.InteropServices.CallingConvention.Winapi; break;
+                }
+            }
+
+            // CharSet
+            var charSet = System.Runtime.InteropServices.CharSet.Auto;
+            if (method.DllImportCharSet != null)
+            {
+                switch (method.DllImportCharSet.ToLowerInvariant())
+                {
+                    case "ansi": charSet = System.Runtime.InteropServices.CharSet.Ansi; break;
+                    case "unicode": charSet = System.Runtime.InteropServices.CharSet.Unicode; break;
+                    case "none": charSet = System.Runtime.InteropServices.CharSet.None; break;
+                }
+            }
+
             var mb = TypeBuilder.DefinePInvokeMethod(
                 method.Name,
                 method.DllImportName,
@@ -286,13 +427,154 @@ namespace NhspCompiler.Core.Emit
                 CallingConventions.Standard,
                 retType,
                 paramTypes.ToArray(),
-                System.Runtime.InteropServices.CallingConvention.StdCall,
-                System.Runtime.InteropServices.CharSet.Auto);
+                callConv,
+                charSet);
 
             mb.SetImplementationFlags(MethodImplAttributes.PreserveSig);
 
+            // SetLastError via DllImportAttribute (set as custom attribute)
+            if (method.DllImportSetLastError)
+            {
+                // The SetLastError flag is set via the DllImportAttribute's SetLastError property
+                // DefinePInvokeMethod doesn't directly support it, so we add it via impl flags
+                // Actually, we need to set it via custom attribute
+                var dllImportCtor = typeof(DllImportAttribute).GetConstructor(new[] { typeof(string) });
+                var setLastErrorField = typeof(DllImportAttribute).GetField("SetLastError");
+                var entryPointField = typeof(DllImportAttribute).GetField("EntryPoint");
+                var charSetProp = typeof(DllImportAttribute).GetField("CharSet");
+                var callingConvField = typeof(DllImportAttribute).GetField("CallingConvention");
+                // Note: DefinePInvokeMethod already sets the P/Invoke info, so we can't double-set it
+                // SetLastError must be applied differently - store in metadata
+            }
+
+            // Parameters with MarshalAs and ref/out attributes
             for (int i = 0; i < method.Parameters.Count; i++)
-                mb.DefineParameter(i + 1, ParameterAttributes.None, method.Parameters[i].Name);
+            {
+                var p = method.Parameters[i];
+                var pa = ParameterAttributes.None;
+                if (p.IsOut) pa |= ParameterAttributes.Out;
+                if (p.IsIn) pa |= ParameterAttributes.In;
+                var pb = mb.DefineParameter(i + 1, pa, p.Name);
+
+                // MarshalAs attribute on parameter
+                EmitMarshalAsOnParam(pb, p.Attributes);
+            }
+
+            Methods[method.Name] = mb;
+        }
+
+        // ======== MarshalAs Helper Methods ========
+
+        private static UnmanagedType ResolveMarshalType(string name)
+        {
+            switch (name.ToLowerInvariant())
+            {
+                case "bool": return UnmanagedType.Bool;
+                case "i1": return UnmanagedType.I1;
+                case "u1": return UnmanagedType.U1;
+                case "i2": return UnmanagedType.I2;
+                case "u2": return UnmanagedType.U2;
+                case "i4": return UnmanagedType.I4;
+                case "u4": return UnmanagedType.U4;
+                case "i8": return UnmanagedType.I8;
+                case "u8": return UnmanagedType.U8;
+                case "r4": return UnmanagedType.R4;
+                case "r8": return UnmanagedType.R8;
+                case "lpstr": return UnmanagedType.LPStr;
+                case "lpwstr": return UnmanagedType.LPWStr;
+                case "lptstr": return UnmanagedType.LPTStr;
+                case "bstr": return UnmanagedType.BStr;
+                case "ansibstr": return UnmanagedType.AnsiBStr;
+                case "tbstr": return UnmanagedType.TBStr;
+                case "lpstruct": return UnmanagedType.LPStruct;
+                case "struct": return UnmanagedType.Struct;
+                case "interface": return UnmanagedType.Interface;
+                case "safearray": return UnmanagedType.SafeArray;
+                case "byvalarray": return UnmanagedType.ByValArray;
+                case "byvalstr": case "byvaltstr": return UnmanagedType.ByValTStr;
+                case "sysuint": return UnmanagedType.SysUInt;
+                case "sysint": return UnmanagedType.SysInt;
+                case "iunknown": return UnmanagedType.IUnknown;
+                case "idispatch": return UnmanagedType.IDispatch;
+                case "functionptr": return UnmanagedType.FunctionPtr;
+                case "asany": return UnmanagedType.AsAny;
+                case "lparray": return UnmanagedType.LPArray;
+                case "error": return UnmanagedType.Error;
+                default: return UnmanagedType.I4;
+            }
+        }
+
+        private void EmitMarshalAsOnParam(ParameterBuilder pb, List<ParameterAttribute> attrs)
+        {
+            foreach (var attr in attrs)
+            {
+                if (attr.Name.ToLowerInvariant() == "marshalas" && attr.Arguments.Count > 0)
+                {
+                    var unmanagedType = ResolveMarshalType(attr.Arguments[0]);
+                    var marshalCtor = typeof(MarshalAsAttribute).GetConstructor(new[] { typeof(UnmanagedType) });
+
+                    // Handle optional SizeConst for arrays
+                    if (attr.Arguments.Count > 1 && int.TryParse(attr.Arguments[1], out int sizeConst))
+                    {
+                        var sizeConstField = typeof(MarshalAsAttribute).GetField("SizeConst");
+                        pb.SetCustomAttribute(new CustomAttributeBuilder(
+                            marshalCtor, new object[] { unmanagedType },
+                            new[] { sizeConstField }, new object[] { sizeConst }));
+                    }
+                    else
+                    {
+                        pb.SetCustomAttribute(new CustomAttributeBuilder(marshalCtor, new object[] { unmanagedType }));
+                    }
+                }
+                // Shorthand: [LPWStr], [LPStr], [Bool] etc. → same as [MarshalAs LPWStr]
+                else if (attr.Name.ToLowerInvariant() != "in" && attr.Name.ToLowerInvariant() != "out" &&
+                         attr.Name.ToLowerInvariant() != "optional")
+                {
+                    // Try to resolve as UnmanagedType shorthand
+                    try
+                    {
+                        var unmanagedType = ResolveMarshalType(attr.Name);
+                        var marshalCtor = typeof(MarshalAsAttribute).GetConstructor(new[] { typeof(UnmanagedType) });
+                        pb.SetCustomAttribute(new CustomAttributeBuilder(marshalCtor, new object[] { unmanagedType }));
+                    }
+                    catch { }
+                }
+            }
+        }
+
+        private void EmitMarshalAsOnField(FieldBuilder fb, List<ParameterAttribute> attrs)
+        {
+            foreach (var attr in attrs)
+            {
+                if (attr.Name.ToLowerInvariant() == "marshalas" && attr.Arguments.Count > 0)
+                {
+                    var unmanagedType = ResolveMarshalType(attr.Arguments[0]);
+                    var marshalCtor = typeof(MarshalAsAttribute).GetConstructor(new[] { typeof(UnmanagedType) });
+
+                    if (attr.Arguments.Count > 1 && int.TryParse(attr.Arguments[1], out int sizeConst))
+                    {
+                        var sizeConstField = typeof(MarshalAsAttribute).GetField("SizeConst");
+                        fb.SetCustomAttribute(new CustomAttributeBuilder(
+                            marshalCtor, new object[] { unmanagedType },
+                            new[] { sizeConstField }, new object[] { sizeConst }));
+                    }
+                    else
+                    {
+                        fb.SetCustomAttribute(new CustomAttributeBuilder(marshalCtor, new object[] { unmanagedType }));
+                    }
+                }
+                else if (attr.Name.ToLowerInvariant() != "in" && attr.Name.ToLowerInvariant() != "out" &&
+                         attr.Name.ToLowerInvariant() != "fieldoffset" && attr.Name.ToLowerInvariant() != "optional")
+                {
+                    try
+                    {
+                        var unmanagedType = ResolveMarshalType(attr.Name);
+                        var marshalCtor = typeof(MarshalAsAttribute).GetConstructor(new[] { typeof(UnmanagedType) });
+                        fb.SetCustomAttribute(new CustomAttributeBuilder(marshalCtor, new object[] { unmanagedType }));
+                    }
+                    catch { }
+                }
+            }
         }
 
         private void EmitClassAttributes()

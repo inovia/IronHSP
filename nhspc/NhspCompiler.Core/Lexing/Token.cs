@@ -20,6 +20,8 @@ namespace NhspCompiler.Core.Lexing
         RParen,         // )
         LBrace,         // {
         RBrace,         // }
+        LBracket,       // [
+        RBracket,       // ]
         Plus,           // +
         Minus,          // -
         Star,           // *
@@ -47,6 +49,28 @@ namespace NhspCompiler.Core.Lexing
         MinusEqual,     // -=
         StarEqual,      // *=
         SlashEqual,     // /=
+        AmpEqual,       // &=
+        PipeEqual,      // |=
+        CaretEqual,     // ^=
+
+        // Bitwise
+        Amp,            // &
+        Pipe,           // |
+        Caret,          // ^
+        Tilde,          // ~
+        LessLess,       // <<
+        GreaterGreater, // >>
+
+        // Increment / Decrement
+        PlusPlus,       // ++
+        MinusMinus,     // --
+
+        // Ternary / Null coalescing
+        Question,       // ?
+        QuestionQuestion, // ??
+
+        // Interpolated string
+        InterpolatedString,  // $"...{expr}..."
 
         // Special
         EOL,

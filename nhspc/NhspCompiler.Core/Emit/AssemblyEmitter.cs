@@ -19,6 +19,7 @@ namespace NhspCompiler.Core.Emit
 
         public Dictionary<string, TypeBuilder> TypeRegistry { get; } = new Dictionary<string, TypeBuilder>();
         public Dictionary<string, TypeEmitter> EmitterRegistry { get; } = new Dictionary<string, TypeEmitter>();
+        private Dictionary<string, Type> _enumTypes = new Dictionary<string, Type>();
 
         private readonly bool _emitDebug;
 
@@ -67,7 +68,19 @@ namespace NhspCompiler.Core.Emit
                             System.Diagnostics.DebuggableAttribute.DebuggingModes.DisableOptimizations }));
                 }
 
-                // Pass 1: Define all types (interfaces first, then classes)
+                // Pass 0a: Define enum types
+                foreach (var en in _unit.Enums)
+                {
+                    EmitEnumType(modBuilder, en);
+                }
+
+                // Pass 0b: Define delegate types
+                foreach (var del in _unit.Delegates)
+                {
+                    EmitDelegateType(modBuilder, del);
+                }
+
+                // Pass 1: Define all types (interfaces first, then classes/structs)
                 var interfaceEmitters = new List<TypeEmitter>();
                 var classEmitters = new List<TypeEmitter>();
 
@@ -79,7 +92,7 @@ namespace NhspCompiler.Core.Emit
                     interfaceEmitters.Add(te);
                 }
 
-                // Classes
+                // Classes and Structs
                 foreach (var cls in _unit.Classes)
                 {
                     var te = new TypeEmitter(cls, modBuilder, _diag, this, isInterface: false);
@@ -161,11 +174,90 @@ namespace NhspCompiler.Core.Emit
             }
         }
 
+        private void EmitEnumType(ModuleBuilder modBuilder, Parsing.Ast.EnumDeclaration en)
+        {
+            var enumBuilder = modBuilder.DefineEnum(en.Name,
+                en.Access == "public" ? TypeAttributes.Public : TypeAttributes.NotPublic,
+                typeof(int));
+
+            foreach (var mem in en.Members)
+            {
+                enumBuilder.DefineLiteral(mem.Name, mem.Value ?? 0);
+            }
+
+            var createdType = enumBuilder.CreateType();
+            // EnumBuilder is not TypeBuilder, but we can register the created type for resolution
+            // We'll use a separate lookup since TypeRegistry expects TypeBuilder
+            _enumTypes[en.Name] = createdType;
+        }
+
+        private void EmitDelegateType(ModuleBuilder modBuilder, Parsing.Ast.DelegateDeclaration del)
+        {
+            var attr = TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.AutoClass;
+            var delegateType = modBuilder.DefineType(del.Name, attr, typeof(MulticastDelegate));
+
+            // Constructor: (object, IntPtr)
+            var ctor = delegateType.DefineConstructor(
+                MethodAttributes.RTSpecialName | MethodAttributes.HideBySig | MethodAttributes.Public,
+                CallingConventions.Standard,
+                new[] { typeof(object), typeof(IntPtr) });
+            ctor.SetImplementationFlags(MethodImplAttributes.Runtime | MethodImplAttributes.Managed);
+
+            // Invoke method
+            var retType = ResolveType(del.ReturnType) ?? typeof(void);
+            var paramTypes = new List<Type>();
+            foreach (var p in del.Parameters)
+            {
+                var pt = ResolveType(p.TypeName) ?? typeof(object);
+                if (p.IsRef || p.IsOut) pt = pt.MakeByRefType();
+                paramTypes.Add(pt);
+            }
+
+            var invoke = delegateType.DefineMethod("Invoke",
+                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual,
+                retType, paramTypes.ToArray());
+            invoke.SetImplementationFlags(MethodImplAttributes.Runtime | MethodImplAttributes.Managed);
+
+            for (int i = 0; i < del.Parameters.Count; i++)
+            {
+                var pa = ParameterAttributes.None;
+                if (del.Parameters[i].IsOut) pa |= ParameterAttributes.Out;
+                invoke.DefineParameter(i + 1, pa, del.Parameters[i].Name);
+            }
+
+            // BeginInvoke
+            var biParams = new List<Type>(paramTypes);
+            biParams.Add(typeof(AsyncCallback));
+            biParams.Add(typeof(object));
+            var beginInvoke = delegateType.DefineMethod("BeginInvoke",
+                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual,
+                typeof(IAsyncResult), biParams.ToArray());
+            beginInvoke.SetImplementationFlags(MethodImplAttributes.Runtime | MethodImplAttributes.Managed);
+
+            // EndInvoke
+            var endInvoke = delegateType.DefineMethod("EndInvoke",
+                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual,
+                retType, new[] { typeof(IAsyncResult) });
+            endInvoke.SetImplementationFlags(MethodImplAttributes.Runtime | MethodImplAttributes.Managed);
+
+            delegateType.CreateType();
+            TypeRegistry[del.Name] = delegateType;
+        }
+
         public Type ResolveType(string typeName)
         {
-            // Check local type registry first
+            // Array types: int[], string[]
+            if (typeName != null && typeName.EndsWith("[]"))
+            {
+                var elemType = ResolveType(typeName.Substring(0, typeName.Length - 2));
+                return elemType?.MakeArrayType();
+            }
+
+            // Check local type registries
             if (TypeRegistry.TryGetValue(typeName, out var tb))
                 return tb;
+            if (_enumTypes.TryGetValue(typeName, out var enumType))
+                return enumType;
 
             // Resolve nhsp type aliases
             if (Keywords.TypeAliases.TryGetValue(typeName, out string dotnetName))
@@ -352,6 +444,11 @@ namespace NhspCompiler.Core.Emit
         // Static version for backward compatibility
         public static Type ResolveTypeStatic(string typeName)
         {
+            if (typeName != null && typeName.EndsWith("[]"))
+            {
+                var elemType = ResolveTypeStatic(typeName.Substring(0, typeName.Length - 2));
+                return elemType?.MakeArrayType();
+            }
             if (Keywords.TypeAliases.TryGetValue(typeName, out string dotnetName))
                 return Type.GetType(dotnetName);
             var t = Type.GetType(typeName);

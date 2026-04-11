@@ -99,6 +99,40 @@ namespace NhspCompiler.Core.Parsing.Ast
         public Expression Value { get; set; }
     }
 
+    public class SwitchStatement : Statement
+    {
+        public Expression Value { get; set; }
+        public List<CaseClause> Cases { get; set; } = new List<CaseClause>();
+        public List<Statement> DefaultBody { get; set; }
+    }
+
+    public class CaseClause : AstNode
+    {
+        public Expression Value { get; set; }
+        public List<Statement> Body { get; set; } = new List<Statement>();
+    }
+
+    public class ForeachStatement : Statement
+    {
+        public string VarName { get; set; }
+        public string VarType { get; set; } // null = var/auto
+        public Expression Collection { get; set; }
+        public List<Statement> Body { get; set; } = new List<Statement>();
+    }
+
+    public class UsingStatement : Statement
+    {
+        public string VarName { get; set; }
+        public Expression Initializer { get; set; }
+        public List<Statement> Body { get; set; } = new List<Statement>();
+    }
+
+    public class IncrementStatement : Statement
+    {
+        public string VariableName { get; set; }
+        public bool IsIncrement { get; set; } // true = ++, false = --
+    }
+
     // arr(i) = expr
     public class IndexAssignStatement : Statement
     {

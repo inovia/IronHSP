@@ -30,6 +30,10 @@ namespace NhspCompiler.Core.Emit
             _typeEmitter = typeEmitter;
         }
 
+        private HashSet<string> _refParams = new HashSet<string>();
+        private HashSet<string> _outParams = new HashSet<string>();
+        private Dictionary<string, Type> _paramBaseType = new Dictionary<string, Type>(); // base type before MakeByRefType
+
         // Pass 1: Define the method signature (so other methods can reference it)
         public void DefineMethod(AssemblyEmitter asmEmitter = null)
         {
@@ -40,9 +44,18 @@ namespace NhspCompiler.Core.Emit
 
             for (int i = 0; i < _method.Parameters.Count; i++)
             {
-                var pt = AssemblyEmitter.ResolveTypeStatic(_method.Parameters[i].TypeName) ?? typeof(object);
+                var p = _method.Parameters[i];
+                var pt = AssemblyEmitter.ResolveTypeStatic(p.TypeName) ?? typeof(object);
+                if (asmEmitter != null)
+                {
+                    var resolved = asmEmitter.ResolveType(p.TypeName);
+                    if (resolved != null) pt = resolved;
+                }
+                _paramBaseType[p.Name] = pt;
+                if (p.IsRef || p.IsOut) { pt = pt.MakeByRefType(); _refParams.Add(p.Name); }
+                if (p.IsOut) _outParams.Add(p.Name);
                 paramTypes.Add(pt);
-                _paramIndex[_method.Parameters[i].Name] = i + argOff;
+                _paramIndex[p.Name] = i + argOff;
             }
 
             var attr = MethodAttributes.HideBySig;
@@ -51,6 +64,7 @@ namespace NhspCompiler.Core.Emit
             if (_method.IsStatic) attr |= MethodAttributes.Static;
             if (_method.IsVirtual) attr |= MethodAttributes.Virtual | MethodAttributes.NewSlot;
             if (_method.IsOverride) attr |= MethodAttributes.Virtual;
+            if (_method.IsAbstract) attr |= MethodAttributes.Virtual | MethodAttributes.Abstract | MethodAttributes.NewSlot;
 
             // Auto-detect interface implementation
             // Use ClassDeclaration's Interfaces list (from parser) instead of TypeBuilder reflection
@@ -92,12 +106,25 @@ namespace NhspCompiler.Core.Emit
 
             Builder = _type.DefineMethod(_method.Name, attr, _retType, paramTypes.ToArray());
             for (int i = 0; i < _method.Parameters.Count; i++)
-                Builder.DefineParameter(i + 1, ParameterAttributes.None, _method.Parameters[i].Name);
+            {
+                var p = _method.Parameters[i];
+                var pa = ParameterAttributes.None;
+                if (p.IsOut) pa |= ParameterAttributes.Out;
+                if (p.IsIn) pa |= ParameterAttributes.In;
+                var pb = Builder.DefineParameter(i + 1, pa, p.Name);
+                if (p.IsParams)
+                {
+                    var paramArrayCtor = typeof(ParamArrayAttribute).GetConstructor(Type.EmptyTypes);
+                    pb.SetCustomAttribute(new System.Reflection.Emit.CustomAttributeBuilder(paramArrayCtor, new object[0]));
+                }
+            }
         }
 
         // Pass 2: Emit the method body
         public void EmitBody()
         {
+            if (_method.IsAbstract) return; // abstract methods have no body
+
             _locals = new Dictionary<string, LocalBuilder>();
             _loopStack = new Stack<(Label, Label)>();
             _il = Builder.GetILGenerator();
@@ -154,6 +181,10 @@ namespace NhspCompiler.Core.Emit
             else if (stmt is PrintStatement printStmt) EmitPrint(printStmt);
             else if (stmt is ForStatement forStmt) EmitFor(forStmt);
             else if (stmt is IndexAssignStatement ia) EmitIndexAssign(ia);
+            else if (stmt is SwitchStatement switchStmt) EmitSwitch(switchStmt);
+            else if (stmt is ForeachStatement foreachStmt) EmitForeach(foreachStmt);
+            else if (stmt is UsingStatement usingStmt) EmitUsing(usingStmt);
+            else if (stmt is IncrementStatement incStmt) EmitIncrement(incStmt);
             else if (stmt is BreakStatement) EmitBreak();
             else if (stmt is ContinueStatement) EmitContinue();
             else if (stmt is ExpressionStatement exprS)
@@ -234,6 +265,16 @@ namespace NhspCompiler.Core.Emit
                 }
                 _il.Emit(OpCodes.Stloc, local);
             }
+            else if (_refParams.Contains(assign.VariableName) && _paramIndex.TryGetValue(assign.VariableName, out int refIdx))
+            {
+                // ref/out param assignment: load addr, eval value, stind
+                _il.Emit(OpCodes.Ldarg, refIdx);
+                EmitExpression(assign.Value);
+                if (_paramBaseType.TryGetValue(assign.VariableName, out var baseType))
+                    EmitStind(baseType);
+                else
+                    _il.Emit(OpCodes.Stind_I4);
+            }
             else if (_typeEmitter != null && _typeEmitter.ResolveField(assign.VariableName) is FieldInfo fb2 && fb2 != null)
             {
                 _il.Emit(OpCodes.Ldarg_0);
@@ -268,7 +309,36 @@ namespace NhspCompiler.Core.Emit
                 case "-=": _il.Emit(OpCodes.Sub); break;
                 case "*=": _il.Emit(OpCodes.Mul); break;
                 case "/=": _il.Emit(OpCodes.Div); break;
+                case "&=": _il.Emit(OpCodes.And); break;
+                case "|=": _il.Emit(OpCodes.Or); break;
+                case "^=": _il.Emit(OpCodes.Xor); break;
             }
+        }
+
+        private void EmitLdind(Type t)
+        {
+            if (t == typeof(int) || t == typeof(bool)) _il.Emit(OpCodes.Ldind_I4);
+            else if (t == typeof(long)) _il.Emit(OpCodes.Ldind_I8);
+            else if (t == typeof(short)) _il.Emit(OpCodes.Ldind_I2);
+            else if (t == typeof(byte)) _il.Emit(OpCodes.Ldind_U1);
+            else if (t == typeof(float)) _il.Emit(OpCodes.Ldind_R4);
+            else if (t == typeof(double)) _il.Emit(OpCodes.Ldind_R8);
+            else if (t == typeof(IntPtr) || t == typeof(UIntPtr)) _il.Emit(OpCodes.Ldind_I);
+            else if (t.IsValueType) _il.Emit(OpCodes.Ldobj, t);
+            else _il.Emit(OpCodes.Ldind_Ref);
+        }
+
+        private void EmitStind(Type t)
+        {
+            if (t == typeof(int) || t == typeof(bool)) _il.Emit(OpCodes.Stind_I4);
+            else if (t == typeof(long)) _il.Emit(OpCodes.Stind_I8);
+            else if (t == typeof(short) || t == typeof(ushort)) _il.Emit(OpCodes.Stind_I2);
+            else if (t == typeof(byte) || t == typeof(sbyte)) _il.Emit(OpCodes.Stind_I1);
+            else if (t == typeof(float)) _il.Emit(OpCodes.Stind_R4);
+            else if (t == typeof(double)) _il.Emit(OpCodes.Stind_R8);
+            else if (t == typeof(IntPtr) || t == typeof(UIntPtr)) _il.Emit(OpCodes.Stind_I);
+            else if (t.IsValueType) _il.Emit(OpCodes.Stobj, t);
+            else _il.Emit(OpCodes.Stind_Ref);
         }
 
         private void EmitIf(IfStatement ifStmt)
@@ -537,6 +607,149 @@ namespace NhspCompiler.Core.Emit
             _loopStack.Pop();
         }
 
+        private void EmitSwitch(SwitchStatement stmt)
+        {
+            // Evaluate switch value, store in temp
+            var switchVal = _il.DeclareLocal(InferType(stmt.Value));
+            EmitExpression(stmt.Value);
+            _il.Emit(OpCodes.Stloc, switchVal);
+
+            var endLabel = _il.DefineLabel();
+            var nextLabel = _il.DefineLabel();
+
+            for (int i = 0; i < stmt.Cases.Count; i++)
+            {
+                var c = stmt.Cases[i];
+                nextLabel = _il.DefineLabel();
+
+                _il.Emit(OpCodes.Ldloc, switchVal);
+                EmitExpression(c.Value);
+                _il.Emit(OpCodes.Ceq);
+                _il.Emit(OpCodes.Brfalse, nextLabel);
+
+                foreach (var s in c.Body) EmitStatement(s);
+                _il.Emit(OpCodes.Br, endLabel);
+
+                _il.MarkLabel(nextLabel);
+            }
+
+            if (stmt.DefaultBody != null)
+                foreach (var s in stmt.DefaultBody) EmitStatement(s);
+
+            _il.MarkLabel(endLabel);
+        }
+
+        private void EmitForeach(ForeachStatement stmt)
+        {
+            // enumerator = collection.GetEnumerator()
+            // while (enumerator.MoveNext()) { var = enumerator.Current; body; }
+            var collType = InferType(stmt.Collection);
+            EmitExpression(stmt.Collection);
+
+            var getEnumerator = collType?.GetMethod("GetEnumerator");
+            if (getEnumerator == null)
+            {
+                // Try IEnumerable
+                getEnumerator = typeof(System.Collections.IEnumerable).GetMethod("GetEnumerator");
+            }
+            _il.Emit(collType != null && collType.IsValueType ? OpCodes.Call : OpCodes.Callvirt, getEnumerator);
+
+            var enumeratorType = getEnumerator.ReturnType;
+            var enumeratorLocal = _il.DeclareLocal(enumeratorType);
+            _il.Emit(OpCodes.Stloc, enumeratorLocal);
+
+            var loopStart = _il.DefineLabel();
+            var loopEnd = _il.DefineLabel();
+            _loopStack.Push((loopEnd, loopStart));
+
+            _il.MarkLabel(loopStart);
+
+            // MoveNext()
+            _il.Emit(OpCodes.Ldloc, enumeratorLocal);
+            var moveNext = enumeratorType.GetMethod("MoveNext")
+                ?? typeof(System.Collections.IEnumerator).GetMethod("MoveNext");
+            _il.Emit(enumeratorType.IsValueType ? OpCodes.Call : OpCodes.Callvirt, moveNext);
+            _il.Emit(OpCodes.Brfalse, loopEnd);
+
+            // var = Current
+            _il.Emit(OpCodes.Ldloc, enumeratorLocal);
+            var currentProp = enumeratorType.GetProperty("Current")
+                ?? typeof(System.Collections.IEnumerator).GetProperty("Current");
+            var getter = currentProp.GetGetMethod();
+            _il.Emit(enumeratorType.IsValueType ? OpCodes.Call : OpCodes.Callvirt, getter);
+
+            var elemType = currentProp.PropertyType;
+            if (!_locals.TryGetValue(stmt.VarName, out var iterVar))
+            {
+                iterVar = _il.DeclareLocal(elemType);
+                _locals[stmt.VarName] = iterVar;
+            }
+            _il.Emit(OpCodes.Stloc, iterVar);
+
+            // Body
+            foreach (var s in stmt.Body) EmitStatement(s);
+            _il.Emit(OpCodes.Br, loopStart);
+
+            _il.MarkLabel(loopEnd);
+            _loopStack.Pop();
+
+            // Dispose if IDisposable
+            if (typeof(IDisposable).IsAssignableFrom(enumeratorType))
+            {
+                _il.Emit(OpCodes.Ldloc, enumeratorLocal);
+                _il.Emit(OpCodes.Callvirt, typeof(IDisposable).GetMethod("Dispose"));
+            }
+        }
+
+        private void EmitUsing(UsingStatement stmt)
+        {
+            // var = init; try { body } finally { if (var != null) var.Dispose(); }
+            EmitExpression(stmt.Initializer);
+            var varType = InferType(stmt.Initializer);
+            var local = _il.DeclareLocal(varType);
+            _locals[stmt.VarName] = local;
+            _il.Emit(OpCodes.Stloc, local);
+
+            _il.BeginExceptionBlock();
+            foreach (var s in stmt.Body) EmitStatement(s);
+
+            _il.BeginFinallyBlock();
+            if (!varType.IsValueType)
+            {
+                var endFinally = _il.DefineLabel();
+                _il.Emit(OpCodes.Ldloc, local);
+                _il.Emit(OpCodes.Brfalse, endFinally);
+                _il.Emit(OpCodes.Ldloc, local);
+                _il.Emit(OpCodes.Callvirt, typeof(IDisposable).GetMethod("Dispose"));
+                _il.MarkLabel(endFinally);
+            }
+            else
+            {
+                _il.Emit(OpCodes.Ldloca, local);
+                _il.Emit(OpCodes.Constrained, varType);
+                _il.Emit(OpCodes.Callvirt, typeof(IDisposable).GetMethod("Dispose"));
+            }
+            _il.EndExceptionBlock();
+        }
+
+        private void EmitIncrement(IncrementStatement stmt)
+        {
+            if (_locals.TryGetValue(stmt.VariableName, out var local))
+            {
+                _il.Emit(OpCodes.Ldloc, local);
+                _il.Emit(OpCodes.Ldc_I4_1);
+                _il.Emit(stmt.IsIncrement ? OpCodes.Add : OpCodes.Sub);
+                _il.Emit(OpCodes.Stloc, local);
+            }
+            else if (_paramIndex.TryGetValue(stmt.VariableName, out int idx))
+            {
+                _il.Emit(OpCodes.Ldarg, idx);
+                _il.Emit(OpCodes.Ldc_I4_1);
+                _il.Emit(stmt.IsIncrement ? OpCodes.Add : OpCodes.Sub);
+                _il.Emit(OpCodes.Starg, idx);
+            }
+        }
+
         private void EmitIndexAssign(IndexAssignStatement ia)
         {
             // arr(i) = value → arr[i] = value
@@ -605,6 +818,9 @@ namespace NhspCompiler.Core.Emit
                 }
                 _diag.Warning(mem.Line, 0, $"Member '{mem.MemberName}' not resolved on {targetType?.Name}");
             }
+            else if (expr is TernaryExpr ternary) { EmitTernary(ternary); }
+            else if (expr is TypeofExpr typeofExpr) { EmitTypeof(typeofExpr); }
+            else if (expr is InterpolatedStringExpr interp) { EmitInterpolatedString(interp); }
             else { _il.Emit(OpCodes.Ldc_I4_0); }
         }
 
@@ -620,7 +836,14 @@ namespace NhspCompiler.Core.Emit
             if (_locals.TryGetValue(name, out var local))
                 _il.Emit(OpCodes.Ldloc, local);
             else if (_paramIndex.TryGetValue(name, out int idx))
+            {
                 _il.Emit(OpCodes.Ldarg, idx);
+                // For ref/out params, dereference the pointer
+                if (_refParams.Contains(name) && _paramBaseType.TryGetValue(name, out var baseType))
+                {
+                    EmitLdind(baseType);
+                }
+            }
             else if (_typeEmitter != null && _typeEmitter.ResolveField(name) is FieldInfo fld && fld != null)
             {
                 _il.Emit(OpCodes.Ldarg_0);
@@ -646,6 +869,10 @@ namespace NhspCompiler.Core.Emit
                 _il.Emit(OpCodes.Ldc_I4_0);
                 _il.Emit(OpCodes.Ceq);
             }
+            else if (unary.Operator == "~")
+            {
+                _il.Emit(OpCodes.Not);
+            }
         }
 
         private void EmitBinary(BinaryExpr bin)
@@ -658,6 +885,19 @@ namespace NhspCompiler.Core.Emit
                 EmitStringify(bin.Left);
                 EmitStringify(bin.Right);
                 _il.Emit(OpCodes.Call, typeof(string).GetMethod("Concat", new[] { typeof(string), typeof(string) }));
+                return;
+            }
+
+            // Null coalescing: left ?? right
+            if (bin.Operator == "??")
+            {
+                EmitExpression(bin.Left);
+                _il.Emit(OpCodes.Dup);
+                var hasValueLabel = _il.DefineLabel();
+                _il.Emit(OpCodes.Brtrue, hasValueLabel);
+                _il.Emit(OpCodes.Pop);
+                EmitExpression(bin.Right);
+                _il.MarkLabel(hasValueLabel);
                 return;
             }
 
@@ -717,6 +957,11 @@ namespace NhspCompiler.Core.Emit
                     _il.Emit(OpCodes.Ldc_I4_0);
                     _il.Emit(OpCodes.Ceq);
                     break;
+                case "&": _il.Emit(OpCodes.And); break;
+                case "|": _il.Emit(OpCodes.Or); break;
+                case "^": _il.Emit(OpCodes.Xor); break;
+                case "<<": _il.Emit(OpCodes.Shl); break;
+                case ">>": _il.Emit(OpCodes.Shr); break;
             }
         }
 
@@ -979,6 +1224,69 @@ namespace NhspCompiler.Core.Emit
             }
         }
 
+        private void EmitTernary(TernaryExpr ternary)
+        {
+            var falseLabel = _il.DefineLabel();
+            var endLabel = _il.DefineLabel();
+            EmitExpression(ternary.Condition);
+            _il.Emit(OpCodes.Brfalse, falseLabel);
+            EmitExpression(ternary.TrueExpr);
+            _il.Emit(OpCodes.Br, endLabel);
+            _il.MarkLabel(falseLabel);
+            EmitExpression(ternary.FalseExpr);
+            _il.MarkLabel(endLabel);
+        }
+
+        private void EmitTypeof(TypeofExpr expr)
+        {
+            var type = AssemblyEmitter.ResolveTypeStatic(expr.TypeName);
+            if (type == null && _typeEmitter?._asmEmitter != null)
+                type = _typeEmitter._asmEmitter.ResolveType(expr.TypeName);
+            if (type != null)
+            {
+                _il.Emit(OpCodes.Ldtoken, type);
+                _il.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle", new[] { typeof(RuntimeTypeHandle) }));
+            }
+            else
+            {
+                _il.Emit(OpCodes.Ldnull);
+            }
+        }
+
+        private void EmitInterpolatedString(InterpolatedStringExpr expr)
+        {
+            // Parse "Hello {name}, age {age}" into parts
+            var parts = new System.Collections.Generic.List<Expression>();
+            var raw = expr.RawText;
+            int i = 0;
+            var sb = new System.Text.StringBuilder();
+            while (i < raw.Length)
+            {
+                if (raw[i] == '{')
+                {
+                    if (sb.Length > 0) { parts.Add(new StringLiteralExpr { Value = sb.ToString() }); sb.Clear(); }
+                    i++;
+                    var nameBuf = new System.Text.StringBuilder();
+                    while (i < raw.Length && raw[i] != '}') { nameBuf.Append(raw[i]); i++; }
+                    if (i < raw.Length) i++; // skip }
+                    parts.Add(new IdentifierExpr { Name = nameBuf.ToString().Trim(), Line = expr.Line });
+                }
+                else { sb.Append(raw[i]); i++; }
+            }
+            if (sb.Length > 0) parts.Add(new StringLiteralExpr { Value = sb.ToString() });
+
+            if (parts.Count == 0) { _il.Emit(OpCodes.Ldstr, ""); return; }
+            if (parts.Count == 1) { EmitStringify(parts[0]); return; }
+
+            // Chain String.Concat calls
+            EmitStringify(parts[0]);
+            for (int j = 1; j < parts.Count; j++)
+            {
+                EmitStringify(parts[j]);
+                _il.Emit(OpCodes.Call, typeof(string).GetMethod("Concat", new[] { typeof(string), typeof(string) }));
+            }
+        }
+
         // ======== Type Inference ========
 
         private Type InferType(Expression expr)
@@ -993,6 +1301,8 @@ namespace NhspCompiler.Core.Emit
                 if (_locals.TryGetValue(id.Name, out var loc)) return loc.LocalType;
                 if (_paramIndex.TryGetValue(id.Name, out int idx))
                 {
+                    // For ref/out, return the base type (not ByRef)
+                    if (_paramBaseType.TryGetValue(id.Name, out var bt)) return bt;
                     int pi = _method.IsStatic ? idx : idx - 1;
                     if (pi >= 0 && pi < _method.Parameters.Count)
                         return AssemblyEmitter.ResolveTypeStatic(_method.Parameters[pi].TypeName) ?? typeof(object);
@@ -1069,6 +1379,9 @@ namespace NhspCompiler.Core.Emit
                     }
                 }
             }
+            if (expr is TernaryExpr tern) return InferType(tern.TrueExpr);
+            if (expr is TypeofExpr) return typeof(Type);
+            if (expr is InterpolatedStringExpr) return typeof(string);
             return typeof(int);
         }
 

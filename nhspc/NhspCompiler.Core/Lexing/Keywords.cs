@@ -7,6 +7,7 @@ namespace NhspCompiler.Core.Lexing
         public static readonly HashSet<string> All = new HashSet<string>
         {
             "assembly", "class", "endclass", "interface", "endinterface",
+            "struct", "endstruct", "delegate",
             "access", "field", "func", "endfunc", "init", "endinit",
             "property", "endproperty", "endget", "endset",
             "return", "as", "dim", "newobj", "mcall",
@@ -16,9 +17,16 @@ namespace NhspCompiler.Core.Lexing
             "try", "catch", "finally", "endtry", "throw",
             "lock", "endlock", "sleep",
             "public", "private", "protected", "static", "virtual", "override", "abstract",
+            "ref", "out", "const", "readonly",
+            "sealed", "params",
+            "enum", "endenum",
+            "switch", "case", "default", "endswitch",
+            "foreach", "in",
             "new", "dllimport", "dllfunc", "attribute",
-            "namespace", "endnamespace", "using", "reference",
+            "namespace", "endnamespace", "using", "endusing", "reference",
+            "include",
             "main", "endmain",
+            "typeof",
             "and", "or", "not",  // alternative logical operators
         };
 
@@ -33,9 +41,16 @@ namespace NhspCompiler.Core.Lexing
             { "void",   "System.Void" },
             { "var",    "System.Object" },
             { "byte",   "System.Byte" },
+            { "sbyte",  "System.SByte" },
             { "short",  "System.Int16" },
+            { "ushort", "System.UInt16" },
+            { "uint",   "System.UInt32" },
+            { "ulong",  "System.UInt64" },
             { "long",   "System.Int64" },
             { "object", "System.Object" },
+            { "char",   "System.Char" },
+            { "intptr", "System.IntPtr" },
+            { "uintptr","System.UIntPtr" },
         };
 
         public static bool IsKeyword(string word) => All.Contains(word);

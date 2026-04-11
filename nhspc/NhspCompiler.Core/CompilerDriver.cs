@@ -42,6 +42,10 @@ namespace NhspCompiler.Core
 
         private CompilationResult CompileSource(string source, string fileName, string outputPath, DiagnosticBag diag)
         {
+            // Preprocess #include directives (only for real files, not in-memory strings)
+            if (fileName != "<string>" && source.Contains("#include"))
+                source = PreprocessIncludes(source, fileName);
+
             var lexer = new Lexer(source, fileName);
             var tokens = lexer.Tokenize();
             var parser = new Parser(tokens, diag);
@@ -89,6 +93,33 @@ namespace NhspCompiler.Core
                 Diagnostics = diag,
                 OutputPath = outputPath
             };
+        }
+        private string PreprocessIncludes(string source, string fileName)
+        {
+            var sb = new System.Text.StringBuilder();
+            string baseDir = Path.GetDirectoryName(Path.GetFullPath(fileName)) ?? ".";
+            foreach (var line in source.Split('\n'))
+            {
+                var trimmed = line.Trim();
+                if (trimmed.StartsWith("#include"))
+                {
+                    // Extract filename from #include "file.nhsp"
+                    int q1 = trimmed.IndexOf('"');
+                    int q2 = trimmed.LastIndexOf('"');
+                    if (q1 >= 0 && q2 > q1)
+                    {
+                        string incFile = trimmed.Substring(q1 + 1, q2 - q1 - 1);
+                        string incPath = Path.Combine(baseDir, incFile);
+                        if (File.Exists(incPath))
+                        {
+                            sb.AppendLine(File.ReadAllText(incPath));
+                            continue;
+                        }
+                    }
+                }
+                sb.AppendLine(line);
+            }
+            return sb.ToString();
         }
     }
 }

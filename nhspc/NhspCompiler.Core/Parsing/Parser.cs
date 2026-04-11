@@ -12,6 +12,10 @@ namespace NhspCompiler.Core.Parsing
         private int _pos;
         private string _currentNamespace;
         private string _pendingDllImport; // DLL name for next #func
+        private string _pendingDllCharSet; // CharSet for next #dllfunc
+        private string _pendingDllCallingConvention; // CallingConvention for next #dllfunc
+        private bool _pendingDllSetLastError;
+        private bool _pendingDllExactSpelling;
         private List<AttributeDeclaration> _pendingAttributes = new List<AttributeDeclaration>();
 
         public Parser(List<Token> tokens, DiagnosticBag diag)
@@ -77,6 +81,31 @@ namespace NhspCompiler.Core.Parsing
                         if (_currentNamespace != null) iface.Name = _currentNamespace + "." + iface.Name;
                         unit.Interfaces.Add(iface);
                     }
+                    else if (MatchKW("include"))
+                    {
+                        Advance();
+                        unit.Includes.Add(Expect(TokenKind.StringLiteral, "Expected filename").Text);
+                    }
+                    else if (MatchKW("enum"))
+                    {
+                        var en = ParseEnum();
+                        if (_currentNamespace != null) en.Name = _currentNamespace + "." + en.Name;
+                        unit.Enums.Add(en);
+                    }
+                    else if (MatchKW("struct"))
+                    {
+                        var cls = ParseStruct();
+                        if (_currentNamespace != null) cls.Name = _currentNamespace + "." + cls.Name;
+                        cls.Attributes.AddRange(_pendingAttributes);
+                        _pendingAttributes.Clear();
+                        unit.Classes.Add(cls); // structs go in Classes list with IsStruct=true
+                    }
+                    else if (MatchKW("delegate"))
+                    {
+                        var del = ParseDelegate();
+                        if (_currentNamespace != null) del.Name = _currentNamespace + "." + del.Name;
+                        unit.Delegates.Add(del);
+                    }
                     else if (MatchKW("class"))
                     {
                         var cls = ParseClass();
@@ -108,11 +137,13 @@ namespace NhspCompiler.Core.Parsing
             var cls = new ClassDeclaration { Line = Current.Line };
             Advance(); // "class"
 
-            // Leading modifiers: #class public ClassName
-            while (IsModifierKeyword())
+            // Leading modifiers: #class public sealed ClassName
+            while (IsModifierKeyword() || MatchKW("sealed") || MatchKW("abstract"))
             {
                 string mod = Advance().Text;
                 if (mod == "public" || mod == "private") cls.DefaultAccess = mod;
+                else if (mod == "sealed") cls.IsSealed = true;
+                else if (mod == "abstract") cls.IsAbstract = true;
             }
 
             cls.Name = Expect(TokenKind.Identifier, "Expected class name").Text;
@@ -134,9 +165,16 @@ namespace NhspCompiler.Core.Parsing
             }
             SkipEOL();
 
+            var pendingFieldAttrsC = new List<ParameterAttribute>();
             while (!Match(TokenKind.EOF))
             {
                 SkipEOL();
+                // Bracket attributes before #field in class body
+                if (Match(TokenKind.LBracket))
+                {
+                    pendingFieldAttrsC.Add(ParseBracketAttribute());
+                    continue;
+                }
                 if (Match(TokenKind.Hash))
                 {
                     Advance();
@@ -146,18 +184,63 @@ namespace NhspCompiler.Core.Parsing
                     {
                         Advance();
                         _pendingDllImport = Expect(TokenKind.StringLiteral, "Expected DLL name").Text;
+                        _pendingDllCharSet = null;
+                        _pendingDllCallingConvention = null;
+                        _pendingDllSetLastError = false;
+                        _pendingDllExactSpelling = false;
+                        // Options: , CharSet = Unicode, SetLastError = true, CallingConvention = Cdecl, ExactSpelling = true
+                        while (Match(TokenKind.Comma))
+                        {
+                            Advance();
+                            if (Current.Kind == TokenKind.Identifier)
+                            {
+                                string optName = Advance().Text;
+                                if (Match(TokenKind.Equals)) Advance(); // skip =
+                                string optVal = "";
+                                if (Current.Kind == TokenKind.Identifier || Current.Kind == TokenKind.Keyword)
+                                    optVal = Advance().Text;
+                                else if (Match(TokenKind.StringLiteral))
+                                    optVal = Advance().Text;
+                                switch (optName.ToLowerInvariant())
+                                {
+                                    case "charset": _pendingDllCharSet = optVal; break;
+                                    case "callingconvention": _pendingDllCallingConvention = optVal; break;
+                                    case "setlasterror": _pendingDllSetLastError = optVal.ToLowerInvariant() == "true"; break;
+                                    case "exactspelling": _pendingDllExactSpelling = optVal.ToLowerInvariant() == "true"; break;
+                                }
+                            }
+                            else break;
+                        }
                     }
                     else if (MatchKW("dllfunc"))
                     {
                         var m = ParseDllFunc(cls.DefaultAccess);
                         m.DllImportName = _pendingDllImport;
+                        m.DllImportCharSet = _pendingDllCharSet;
+                        m.DllImportCallingConvention = _pendingDllCallingConvention;
+                        m.DllImportSetLastError = _pendingDllSetLastError;
+                        m.DllImportExactSpelling = _pendingDllExactSpelling;
                         cls.Methods.Add(m);
                     }
                     else if (MatchKW("attribute"))
                     {
                         _pendingAttributes.Add(ParseAttribute());
                     }
-                    else if (MatchKW("field")) { cls.Fields.Add(ParseField(cls.DefaultAccess)); }
+                    else if (MatchKW("field"))
+                    {
+                        var f = ParseField(cls.DefaultAccess);
+                        if (pendingFieldAttrsC.Count > 0)
+                        {
+                            f.Attributes.InsertRange(0, pendingFieldAttrsC);
+                            foreach (var a2 in pendingFieldAttrsC)
+                            {
+                                if (a2.Name.ToLowerInvariant() == "fieldoffset" && a2.Arguments.Count > 0)
+                                    if (int.TryParse(a2.Arguments[0], out int off)) f.FieldOffset = off;
+                            }
+                            pendingFieldAttrsC.Clear();
+                        }
+                        cls.Fields.Add(f);
+                    }
                     else if (MatchKW("func"))
                     {
                         cls.Methods.Add(ParseMethod(cls.DefaultAccess));
@@ -176,11 +259,20 @@ namespace NhspCompiler.Core.Parsing
             var f = new FieldDeclaration { Line = Current.Line, Access = defAccess };
             Advance(); // "field"
 
-            // #field [access] [type] Name  or  #field Name as type [, access]
-            while (IsModifierKeyword())
+            // Parse [attributes] before field: [MarshalAs LPWStr] [FieldOffset 0]
+            while (Match(TokenKind.LBracket))
+            {
+                f.Attributes.Add(ParseBracketAttribute());
+            }
+
+            // #field [access/modifiers] [type] Name  [= value]
+            while (IsModifierKeyword() || MatchKW("const") || MatchKW("readonly") || MatchKW("static"))
             {
                 string mod = Advance().Text;
                 if (mod == "public" || mod == "private" || mod == "protected") f.Access = mod;
+                else if (mod == "static") f.IsStatic = true;
+                else if (mod == "const") f.IsConst = true;
+                else if (mod == "readonly") f.IsReadonly = true;
             }
 
             // type + name, or just name
@@ -196,6 +288,24 @@ namespace NhspCompiler.Core.Parsing
                 if (MatchKW("as")) { Advance(); f.TypeName = ReadTypeName(); }
                 else { f.TypeName = "int"; }
             }
+
+            // Const initializer: = value
+            if (Match(TokenKind.Equals))
+            {
+                Advance();
+                f.ConstValue = ParseExpression();
+            }
+
+            // [FieldOffset N] from attributes
+            foreach (var attr in f.Attributes)
+            {
+                if (attr.Name.ToLowerInvariant() == "fieldoffset" && attr.Arguments.Count > 0)
+                {
+                    if (int.TryParse(attr.Arguments[0], out int offset))
+                        f.FieldOffset = offset;
+                }
+            }
+
             return f;
         }
 
@@ -236,22 +346,16 @@ namespace NhspCompiler.Core.Parsing
                 m.Name = Expect(TokenKind.Identifier, "Expected method name").Text;
             }
 
-            // Parameters: , type name [, type name] ...
-            while (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
-            {
-                if (Match(TokenKind.Comma)) { Advance(); }
-                if (Match(TokenKind.EOL) || Match(TokenKind.EOF)) break;
-                if (MatchType() || (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Identifier))
-                {
-                    var p = new ParameterDeclaration { Line = Current.Line };
-                    p.TypeName = ReadTypeName();
-                    p.Name = Expect(TokenKind.Identifier, "Expected param name").Text;
-                    m.Parameters.Add(p);
-                    continue;
-                }
-                break;
-            }
+            // Parameters: , [attrs] [ref|out|params] type name ...
+            ParseParameterList(m.Parameters);
             if (m.Access == null) m.Access = defAccess;
+
+            // Abstract methods have no body
+            if (m.IsAbstract)
+            {
+                SkipEOL();
+                return m;
+            }
             SkipEOL();
 
             m.Body = ParseBlock("endfunc");
@@ -261,7 +365,8 @@ namespace NhspCompiler.Core.Parsing
         private bool IsModifierKeyword()
         {
             return MatchKW("public") || MatchKW("private") || MatchKW("protected") ||
-                   MatchKW("static") || MatchKW("virtual") || MatchKW("override") || MatchKW("abstract");
+                   MatchKW("static") || MatchKW("virtual") || MatchKW("override") ||
+                   MatchKW("abstract") || MatchKW("sealed");
         }
 
         private bool IsKnownType()
@@ -277,6 +382,7 @@ namespace NhspCompiler.Core.Parsing
             if (mod == "static") m.IsStatic = true;
             if (mod == "virtual") m.IsVirtual = true;
             if (mod == "override") m.IsOverride = true;
+            if (mod == "abstract") m.IsAbstract = true;
         }
 
         // ======== Statements ========
@@ -382,9 +488,30 @@ namespace NhspCompiler.Core.Parsing
                 return new PrintStatement { Value = ParseExpression(), Line = Current.Line };
             }
 
+            // switch expr ... endswitch
+            if (MatchKW("switch")) return ParseSwitch();
+
+            // foreach [type] var in collection ... next
+            if (MatchKW("foreach")) return ParseForeach();
+
+            // using var = expr ... endusing
+            if (MatchKW("using") && Peek().Kind == TokenKind.Identifier) return ParseUsingStmt();
+
             // break / continue
             if (MatchKW("break")) { Advance(); return new BreakStatement { Line = Current.Line }; }
             if (MatchKW("continue")) { Advance(); return new ContinueStatement { Line = Current.Line }; }
+
+            // identifier++ / identifier--
+            if (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.PlusPlus)
+            {
+                string name = Advance().Text; Advance(); // skip ++
+                return new IncrementStatement { VariableName = name, IsIncrement = true, Line = Current.Line };
+            }
+            if (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.MinusMinus)
+            {
+                string name = Advance().Text; Advance(); // skip --
+                return new IncrementStatement { VariableName = name, IsIncrement = false, Line = Current.Line };
+            }
 
             // Array element assignment: arr(i) = expr
             if (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.LParen)
@@ -429,7 +556,8 @@ namespace NhspCompiler.Core.Parsing
         {
             return t.Kind == TokenKind.Equals || t.Kind == TokenKind.PlusEqual ||
                    t.Kind == TokenKind.MinusEqual || t.Kind == TokenKind.StarEqual ||
-                   t.Kind == TokenKind.SlashEqual;
+                   t.Kind == TokenKind.SlashEqual || t.Kind == TokenKind.AmpEqual ||
+                   t.Kind == TokenKind.PipeEqual || t.Kind == TokenKind.CaretEqual;
         }
 
         private Statement ParseDim()
@@ -673,7 +801,29 @@ namespace NhspCompiler.Core.Parsing
 
         // ======== Expressions (precedence climbing) ========
 
-        private Expression ParseExpression() => ParseOr();
+        private Expression ParseExpression() => ParseTernary();
+
+        private Expression ParseTernary()
+        {
+            var expr = ParseNullCoalesce();
+            if (Match(TokenKind.Question))
+            {
+                Advance();
+                var trueExpr = ParseExpression();
+                Expect(TokenKind.Colon, "Expected ':' in ternary");
+                var falseExpr = ParseExpression();
+                return new TernaryExpr { Condition = expr, TrueExpr = trueExpr, FalseExpr = falseExpr, Line = expr.Line };
+            }
+            return expr;
+        }
+
+        private Expression ParseNullCoalesce()
+        {
+            var left = ParseOr();
+            while (Match(TokenKind.QuestionQuestion))
+            { Advance(); left = new BinaryExpr { Left = left, Operator = "??", Right = ParseOr() }; }
+            return left;
+        }
 
         private Expression ParseOr()
         {
@@ -685,9 +835,33 @@ namespace NhspCompiler.Core.Parsing
 
         private Expression ParseAnd()
         {
-            var left = ParseEquality();
+            var left = ParseBitwiseOr();
             while (Match(TokenKind.AmpAmp) || MatchKW("and"))
-            { Advance(); left = new BinaryExpr { Left = left, Operator = "&&", Right = ParseEquality() }; }
+            { Advance(); left = new BinaryExpr { Left = left, Operator = "&&", Right = ParseBitwiseOr() }; }
+            return left;
+        }
+
+        private Expression ParseBitwiseOr()
+        {
+            var left = ParseBitwiseXor();
+            while (Match(TokenKind.Pipe))
+            { Advance(); left = new BinaryExpr { Left = left, Operator = "|", Right = ParseBitwiseXor() }; }
+            return left;
+        }
+
+        private Expression ParseBitwiseXor()
+        {
+            var left = ParseBitwiseAnd();
+            while (Match(TokenKind.Caret))
+            { Advance(); left = new BinaryExpr { Left = left, Operator = "^", Right = ParseBitwiseAnd() }; }
+            return left;
+        }
+
+        private Expression ParseBitwiseAnd()
+        {
+            var left = ParseEquality();
+            while (Match(TokenKind.Amp))
+            { Advance(); left = new BinaryExpr { Left = left, Operator = "&", Right = ParseEquality() }; }
             return left;
         }
 
@@ -706,8 +880,16 @@ namespace NhspCompiler.Core.Parsing
 
         private Expression ParseComparison()
         {
-            var left = ParseAddSub();
+            var left = ParseShift();
             while (Match(TokenKind.Less) || Match(TokenKind.Greater) || Match(TokenKind.LessEqual) || Match(TokenKind.GreaterEqual))
+            { string op = Advance().Text; left = new BinaryExpr { Left = left, Operator = op, Right = ParseShift() }; }
+            return left;
+        }
+
+        private Expression ParseShift()
+        {
+            var left = ParseAddSub();
+            while (Match(TokenKind.LessLess) || Match(TokenKind.GreaterGreater))
             { string op = Advance().Text; left = new BinaryExpr { Left = left, Operator = op, Right = ParseAddSub() }; }
             return left;
         }
@@ -734,6 +916,8 @@ namespace NhspCompiler.Core.Parsing
             { Advance(); return new UnaryExpr { Operator = "-", Operand = ParseUnary() }; }
             if (Match(TokenKind.Bang) || MatchKW("not"))
             { Advance(); return new UnaryExpr { Operator = "!", Operand = ParseUnary() }; }
+            if (Match(TokenKind.Tilde))
+            { Advance(); return new UnaryExpr { Operator = "~", Operand = ParseUnary() }; }
             return ParseCallOrPrimary();
         }
 
@@ -800,6 +984,20 @@ namespace NhspCompiler.Core.Parsing
             { var t = Advance(); return new BoolLiteralExpr { Value = t.Text == "true", Line = t.Line }; }
             if (MatchKW("cnt"))
             { Advance(); return new CntExpr { Line = Current.Line }; }
+            // typeof(TypeName)
+            if (MatchKW("typeof") && Peek().Kind == TokenKind.LParen)
+            {
+                Advance(); Advance(); // skip typeof (
+                string tn = ReadTypeName();
+                Expect(TokenKind.RParen, "Expected ')'");
+                return new TypeofExpr { TypeName = tn, Line = Current.Line };
+            }
+            // Interpolated string $"Hello {name}"
+            if (Match(TokenKind.InterpolatedString))
+            {
+                var t = Advance();
+                return new InterpolatedStringExpr { RawText = t.Text, Line = t.Line };
+            }
             // Type name as function call: int(x), str(x), double(x)
             if (MatchType() && Peek().Kind == TokenKind.LParen)
             {
@@ -831,20 +1029,8 @@ namespace NhspCompiler.Core.Parsing
             else if (Current.Kind == TokenKind.Identifier)
             { m.Name = Advance().Text; }
 
-            // Parameters
-            while (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
-            {
-                if (Match(TokenKind.Comma)) { Advance(); continue; }
-                if (MatchType() || (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Identifier))
-                {
-                    var p = new ParameterDeclaration { Line = Current.Line };
-                    p.TypeName = ReadTypeName();
-                    p.Name = Expect(TokenKind.Identifier, "Expected param name").Text;
-                    m.Parameters.Add(p);
-                    continue;
-                }
-                break;
-            }
+            // Parameters: , [attrs] [ref|out] type name ...
+            ParseParameterList(m.Parameters);
             if (m.Access == null) m.Access = defAccess;
             // No body - P/Invoke declaration only
             return m;
@@ -905,20 +1091,8 @@ namespace NhspCompiler.Core.Parsing
                             sig.Name = Expect(TokenKind.Identifier, "Expected method name").Text;
                         }
 
-                        // Params: , type name [, type name]
-                        while (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
-                        {
-                            if (Match(TokenKind.Comma)) { Advance(); continue; }
-                            if (MatchType() || (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Identifier))
-                            {
-                                var p = new ParameterDeclaration { Line = Current.Line };
-                                p.TypeName = ReadTypeName();
-                                p.Name = Expect(TokenKind.Identifier, "Expected param name").Text;
-                                sig.Parameters.Add(p);
-                                continue;
-                            }
-                            break;
-                        }
+                        // Params: , [attrs] [ref|out] type name ...
+                        ParseParameterList(sig.Parameters);
                         iface.Methods.Add(sig);
                     }
                     else { Advance(); }
@@ -940,20 +1114,8 @@ namespace NhspCompiler.Core.Parsing
                 if (mod == "public" || mod == "private") ctor.Access = mod;
             }
 
-            // Parameters: type name [, type name] ...
-            while (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
-            {
-                if (Match(TokenKind.Comma)) { Advance(); continue; }
-                if (MatchType() || (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Identifier))
-                {
-                    var p = new ParameterDeclaration { Line = Current.Line };
-                    p.TypeName = ReadTypeName();
-                    p.Name = Expect(TokenKind.Identifier, "Expected param name").Text;
-                    ctor.Parameters.Add(p);
-                    continue;
-                }
-                break;
-            }
+            // Parameters: [attrs] [ref|out] type name ...
+            ParseParameterList(ctor.Parameters);
             SkipEOL();
             ctor.Body = ParseBlock("endinit");
             return ctor;
@@ -1002,12 +1164,336 @@ namespace NhspCompiler.Core.Parsing
             return prop;
         }
 
+        // ======== Shared Parameter Parsing ========
+
+        private void ParseParameterList(List<ParameterDeclaration> parameters)
+        {
+            while (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
+            {
+                if (Match(TokenKind.Comma)) { Advance(); }
+                if (Match(TokenKind.EOL) || Match(TokenKind.EOF)) break;
+
+                // [Attributes] before param
+                var attrs = new List<ParameterAttribute>();
+                while (Match(TokenKind.LBracket))
+                {
+                    attrs.Add(ParseBracketAttribute());
+                }
+
+                // ref / out / in / params
+                bool isRef = false, isOut = false, isIn = false, isParams = false;
+                if (MatchKW("ref")) { Advance(); isRef = true; }
+                else if (MatchKW("out")) { Advance(); isOut = true; }
+                else if (MatchKW("params")) { Advance(); isParams = true; }
+                // [In] attribute sets isIn
+                foreach (var a in attrs)
+                {
+                    if (a.Name.ToLowerInvariant() == "in") isIn = true;
+                    if (a.Name.ToLowerInvariant() == "out") isOut = true;
+                }
+
+                if (MatchType() || (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Identifier))
+                {
+                    var p = new ParameterDeclaration { Line = Current.Line };
+                    p.TypeName = ReadTypeName();
+                    p.Name = Expect(TokenKind.Identifier, "Expected param name").Text;
+                    p.IsRef = isRef;
+                    p.IsOut = isOut;
+                    p.IsIn = isIn;
+                    p.IsParams = isParams;
+                    p.Attributes = attrs;
+                    parameters.Add(p);
+                    continue;
+                }
+                break;
+            }
+        }
+
+        private ParameterAttribute ParseBracketAttribute()
+        {
+            Advance(); // skip [
+            var attr = new ParameterAttribute { Line = Current.Line };
+            if (Current.Kind == TokenKind.Identifier || Current.Kind == TokenKind.Keyword)
+                attr.Name = Advance().Text;
+            else
+                attr.Name = Expect(TokenKind.Identifier, "Expected attribute name").Text;
+
+            // Arguments: space-separated or comma-separated values
+            while (!Match(TokenKind.RBracket) && !Match(TokenKind.EOL) && !Match(TokenKind.EOF))
+            {
+                if (Match(TokenKind.Comma)) Advance();
+                if (Match(TokenKind.RBracket)) break;
+                if (Match(TokenKind.StringLiteral))
+                    attr.Arguments.Add(Advance().Text);
+                else if (Match(TokenKind.IntLiteral))
+                    attr.Arguments.Add(Advance().Text);
+                else if (Current.Kind == TokenKind.Identifier || Current.Kind == TokenKind.Keyword)
+                    attr.Arguments.Add(Advance().Text);
+                else if (Match(TokenKind.Dot))
+                {
+                    // Handle UnmanagedType.LPWStr style
+                    Advance();
+                    if (Current.Kind == TokenKind.Identifier)
+                        attr.Arguments.Add(Advance().Text);
+                }
+                else break;
+            }
+            if (Match(TokenKind.RBracket)) Advance();
+            return attr;
+        }
+
+        // ======== #struct ========
+
+        private ClassDeclaration ParseStruct()
+        {
+            var cls = new ClassDeclaration { Line = Current.Line, IsStruct = true, LayoutKind = "Sequential" };
+            Advance(); // "struct"
+
+            // Leading modifiers
+            while (IsModifierKeyword())
+            {
+                string mod = Advance().Text;
+                if (mod == "public" || mod == "private") cls.DefaultAccess = mod;
+            }
+
+            cls.Name = Expect(TokenKind.Identifier, "Expected struct name").Text;
+
+            // Options: , Sequential/Explicit/Auto, Pack = N, Size = N, CharSet = Unicode
+            while (Match(TokenKind.Comma))
+            {
+                Advance();
+                if (Current.Kind == TokenKind.Identifier || Current.Kind == TokenKind.Keyword)
+                {
+                    string optName = Current.Text;
+                    // Check if it's a LayoutKind value
+                    if (optName == "Sequential" || optName == "Explicit" || optName == "Auto")
+                    {
+                        cls.LayoutKind = Advance().Text;
+                        continue;
+                    }
+                    Advance(); // consume option name
+                    if (Match(TokenKind.Equals)) Advance(); // skip =
+                    string optVal = "";
+                    if (Current.Kind == TokenKind.Identifier || Current.Kind == TokenKind.Keyword)
+                        optVal = Advance().Text;
+                    else if (Match(TokenKind.IntLiteral))
+                        optVal = Advance().Text;
+                    else if (Match(TokenKind.StringLiteral))
+                        optVal = Advance().Text;
+
+                    switch (optName.ToLowerInvariant())
+                    {
+                        case "pack": int.TryParse(optVal, out int pk); cls.Pack = pk; break;
+                        case "size": int.TryParse(optVal, out int sz); cls.Size = sz; break;
+                        case "charset": cls.StructCharSet = optVal; break;
+                    }
+                }
+                else break;
+            }
+            SkipEOL();
+
+            // Struct body: fields, methods, constructors
+            var pendingFieldAttrs = new List<ParameterAttribute>();
+            while (!Match(TokenKind.EOF))
+            {
+                SkipEOL();
+                // Bracket attributes before #field: [FieldOffset 0] #field ...
+                if (Match(TokenKind.LBracket))
+                {
+                    pendingFieldAttrs.Add(ParseBracketAttribute());
+                    continue;
+                }
+                if (Match(TokenKind.Hash))
+                {
+                    Advance();
+                    if (MatchKW("endstruct")) { Advance(); break; }
+                    if (MatchKW("field"))
+                    {
+                        var f = ParseField(cls.DefaultAccess);
+                        // Prepend any pending bracket attributes
+                        if (pendingFieldAttrs.Count > 0)
+                        {
+                            f.Attributes.InsertRange(0, pendingFieldAttrs);
+                            // Re-check FieldOffset from prepended attrs
+                            foreach (var attr in pendingFieldAttrs)
+                            {
+                                if (attr.Name.ToLowerInvariant() == "fieldoffset" && attr.Arguments.Count > 0)
+                                {
+                                    if (int.TryParse(attr.Arguments[0], out int offset))
+                                        f.FieldOffset = offset;
+                                }
+                            }
+                            pendingFieldAttrs.Clear();
+                        }
+                        cls.Fields.Add(f);
+                    }
+                    else if (MatchKW("func")) { cls.Methods.Add(ParseMethod(cls.DefaultAccess)); }
+                    else if (MatchKW("init")) { cls.Constructors.Add(ParseConstructor(cls.DefaultAccess)); }
+                    else if (MatchKW("attribute")) { _pendingAttributes.Add(ParseAttribute()); }
+                    else { _diag.Error(Current.Line, Current.Column, $"Unexpected in struct: #{Current.Text}"); Advance(); }
+                }
+                else { Advance(); }
+            }
+            return cls;
+        }
+
+        // ======== #delegate ========
+
+        private DelegateDeclaration ParseDelegate()
+        {
+            var del = new DelegateDeclaration { Line = Current.Line };
+            Advance(); // "delegate"
+
+            // Modifiers
+            while (IsModifierKeyword())
+            {
+                string mod = Advance().Text;
+                if (mod == "public" || mod == "private") del.Access = mod;
+            }
+
+            // Return type + name
+            if ((MatchType() || IsKnownType()) && Peek().Kind == TokenKind.Identifier)
+            {
+                del.ReturnType = ReadTypeName();
+                del.Name = Expect(TokenKind.Identifier, "Expected delegate name").Text;
+            }
+            else if (Current.Kind == TokenKind.Identifier)
+            {
+                del.Name = Advance().Text;
+            }
+
+            // Parameters
+            ParseParameterList(del.Parameters);
+            return del;
+        }
+
+        // ======== #enum ========
+        private EnumDeclaration ParseEnum()
+        {
+            var en = new EnumDeclaration { Line = Current.Line };
+            Advance(); // "enum"
+            while (IsModifierKeyword()) { string mod = Advance().Text; if (mod == "public" || mod == "private") en.Access = mod; }
+            en.Name = Expect(TokenKind.Identifier, "Expected enum name").Text;
+            SkipEOL();
+
+            int nextVal = 0;
+            while (!Match(TokenKind.EOF))
+            {
+                SkipEOL();
+                if (Match(TokenKind.Hash) && Peek().Text == "endenum") { Advance(); Advance(); break; }
+                if (MatchKW("endenum")) { Advance(); break; }
+                if (Current.Kind == TokenKind.Identifier)
+                {
+                    var mem = new EnumMemberDeclaration { Name = Advance().Text, Line = Current.Line };
+                    if (Match(TokenKind.Equals))
+                    {
+                        Advance();
+                        if (Match(TokenKind.IntLiteral)) { mem.Value = int.Parse(Advance().Text); nextVal = mem.Value.Value + 1; }
+                    }
+                    else { mem.Value = nextVal++; }
+                    en.Members.Add(mem);
+                    if (Match(TokenKind.Comma)) Advance(); // optional comma between members
+                }
+                else { Advance(); }
+            }
+            return en;
+        }
+
+        // ======== switch / case ========
+        private SwitchStatement ParseSwitch()
+        {
+            Advance(); // "switch"
+            var stmt = new SwitchStatement { Line = Current.Line, Value = ParseExpression() };
+            SkipEOL();
+
+            while (!Match(TokenKind.EOF))
+            {
+                SkipEOL();
+                if (MatchKW("endswitch")) { Advance(); break; }
+                if (Match(TokenKind.Hash) && Peek().Text == "endswitch") { Advance(); Advance(); break; }
+                if (MatchKW("case"))
+                {
+                    Advance();
+                    var clause = new CaseClause { Value = ParseExpression(), Line = Current.Line };
+                    SkipEOL();
+                    clause.Body = ParseSwitchBody();
+                    stmt.Cases.Add(clause);
+                }
+                else if (MatchKW("default"))
+                {
+                    Advance(); SkipEOL();
+                    stmt.DefaultBody = ParseSwitchBody();
+                }
+                else { Advance(); }
+            }
+            return stmt;
+        }
+
+        private List<Statement> ParseSwitchBody()
+        {
+            var stmts = new List<Statement>();
+            while (!Match(TokenKind.EOF))
+            {
+                SkipEOL();
+                if (MatchKW("case") || MatchKW("default") || MatchKW("endswitch")) break;
+                if (Match(TokenKind.Hash) && Peek().Text == "endswitch") break;
+                var s = ParseStatement();
+                if (s != null) stmts.Add(s);
+            }
+            return stmts;
+        }
+
+        // ======== foreach ========
+        private ForeachStatement ParseForeach()
+        {
+            Advance(); // "foreach"
+            var stmt = new ForeachStatement { Line = Current.Line };
+
+            // foreach [type] varName in collection
+            if ((MatchType() || IsKnownType()) && Peek().Kind == TokenKind.Identifier)
+            {
+                stmt.VarType = ReadTypeName();
+                stmt.VarName = Expect(TokenKind.Identifier, "Expected variable name").Text;
+            }
+            else
+            {
+                stmt.VarName = Expect(TokenKind.Identifier, "Expected variable name").Text;
+            }
+            if (MatchKW("in")) Advance();
+            stmt.Collection = ParseExpression();
+            SkipEOL();
+            stmt.Body = ParseBlock("next");
+            if (MatchKW("next")) Advance();
+            return stmt;
+        }
+
+        // ======== using statement ========
+        private UsingStatement ParseUsingStmt()
+        {
+            Advance(); // "using"
+            var stmt = new UsingStatement { Line = Current.Line };
+            stmt.VarName = Expect(TokenKind.Identifier, "Expected variable name").Text;
+            Expect(TokenKind.Equals, "Expected '='");
+            stmt.Initializer = ParseExpression();
+            SkipEOL();
+            stmt.Body = ParseBlock("endusing");
+            return stmt;
+        }
+
         private string ReadTypeName()
         {
-            if (MatchType()) return Advance().Text;
-            if (Current.Kind == TokenKind.Identifier) return Advance().Text;
-            _diag.Error(Current.Line, Current.Column, "Expected type name");
-            return "void";
+            string name;
+            if (MatchType()) name = Advance().Text;
+            else if (Current.Kind == TokenKind.Identifier) name = Advance().Text;
+            else { _diag.Error(Current.Line, Current.Column, "Expected type name"); return "void"; }
+
+            // Array type: int[], string[]
+            if (Match(TokenKind.LBracket) && Peek().Kind == TokenKind.RBracket)
+            {
+                Advance(); Advance(); // skip []
+                name += "[]";
+            }
+            return name;
         }
     }
 }

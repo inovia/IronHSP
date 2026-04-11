@@ -46,16 +46,25 @@
   <a href="#directives">ディレクティブ一覧</a>
   <a href="#types">型システム</a>
   <a href="#class-def">クラス定義</a>
+  <a href="#struct-def">構造体 (値型)</a>
+  <a href="#delegate-def">デリゲート</a>
   <a href="#methods">メソッド定義</a>
+  <a href="#refout">ref / out パラメータ</a>
   <a href="#fields">フィールド・プロパティ</a>
   <a href="#constructors">コンストラクタ</a>
   <a href="#inheritance">継承・インターフェース</a>
   <a href="#control">制御構文</a>
   <a href="#exceptions">例外処理</a>
   <a href="#threading">スレッド・同期</a>
+  <a href="#enum-def">enum 定義</a>
+  <a href="#switch">switch / case</a>
+  <a href="#foreach">foreach</a>
+  <a href="#using-stmt">using 文</a>
   <a href="#operators">演算子一覧</a>
   <a href="#builtins">ビルトイン関数</a>
+  <a href="#include">ファイル分割 (#include)</a>
   <a href="#pinvoke">P/Invoke (DllImport)</a>
+  <a href="#marshalas">MarshalAs 属性</a>
   <a href="#com">COM 属性</a>
   <a href="#dotnet">.NET API アクセス</a>
   <a href="#cli">CLI オプション</a>
@@ -101,6 +110,11 @@
 <tr><td><code>#main / #endmain</code></td><td>エントリポイント</td><td><code>static void Main() {</code></td></tr>
 <tr><td><code>#dllimport "dll名"</code></td><td>DLL 宣言 (以降の #dllfunc に適用)</td><td><code>[DllImport("dll名")]</code></td></tr>
 <tr><td><code>#dllfunc [修飾子] [戻型] Name [, params]</code></td><td>P/Invoke 関数宣言 (本体なし)</td><td><code>static extern RetType Name(params);</code></td></tr>
+<tr><td><code>#struct [修飾子] Name [, Layout] [, Pack=N] [, Size=N] [, CharSet=X]</code></td><td>構造体 (値型) 定義</td><td><code>[StructLayout(...)] public struct Name {</code></td></tr>
+<tr><td><code>#endstruct</code></td><td>構造体終了</td><td><code>}</code></td></tr>
+<tr><td><code>#delegate [修飾子] [戻型] Name [, params]</code></td><td>デリゲート型定義</td><td><code>public delegate RetType Name(params);</code></td></tr>
+<tr><td><code>#enum Name ... #endenum</code></td><td>列挙型定義</td><td><code>public enum Name { ... }</code></td></tr>
+<tr><td><code>#include "file.nhsp"</code></td><td>ファイルのインクルード</td><td>C# には直接相当なし (partial class 等)</td></tr>
 <tr><td><code>#attribute Name, "value"</code></td><td>カスタム属性付与</td><td><code>[Name("value")]</code></td></tr>
 </table>
 
@@ -116,7 +130,14 @@
 <tr><td><code>string</code></td><td><code>System.String</code></td><td>参照</td><td><code>"Hello"</code></td></tr>
 <tr><td><code>bool</code></td><td><code>System.Boolean</code></td><td>1 byte</td><td><code>true</code>, <code>false</code></td></tr>
 <tr><td><code>byte</code></td><td><code>System.Byte</code></td><td>1 byte</td><td></td></tr>
+<tr><td><code>sbyte</code></td><td><code>System.SByte</code></td><td>1 byte</td><td></td></tr>
 <tr><td><code>short</code></td><td><code>System.Int16</code></td><td>2 byte</td><td></td></tr>
+<tr><td><code>ushort</code></td><td><code>System.UInt16</code></td><td>2 byte</td><td></td></tr>
+<tr><td><code>uint</code></td><td><code>System.UInt32</code></td><td>4 byte</td><td></td></tr>
+<tr><td><code>ulong</code></td><td><code>System.UInt64</code></td><td>8 byte</td><td></td></tr>
+<tr><td><code>char</code></td><td><code>System.Char</code></td><td>2 byte</td><td></td></tr>
+<tr><td><code>IntPtr</code></td><td><code>System.IntPtr</code></td><td>4/8 byte</td><td>ポインタサイズ</td></tr>
+<tr><td><code>UIntPtr</code></td><td><code>System.UIntPtr</code></td><td>4/8 byte</td><td>ポインタサイズ</td></tr>
 <tr><td><code>object</code> / <code>var</code></td><td><code>System.Object</code></td><td>参照</td><td></td></tr>
 </table>
 
@@ -166,6 +187,119 @@
 </div>
 
 <!-- ========================================== -->
+<h2 id="struct-def">構造体 (値型)</h2>
+
+<p><code>#struct</code> で値型 (struct) を定義できます。P/Invoke でネイティブ構造体を渡す際に必要です。<code>StructLayoutAttribute</code> の全パラメータに対応。</p>
+
+<h3>構文</h3>
+<pre><code>#struct [修飾子] 名前 [, LayoutKind] [, Pack = N] [, Size = N] [, CharSet = X]
+  #field [修飾子] 型 フィールド名
+  ...
+#endstruct</code></pre>
+
+<h3>StructLayout パラメータ</h3>
+<table>
+<tr><th>パラメータ</th><th>値</th><th>説明</th></tr>
+<tr><td>LayoutKind</td><td><code>Sequential</code> (既定), <code>Explicit</code>, <code>Auto</code></td><td>フィールドのメモリ配置方式</td></tr>
+<tr><td>Pack</td><td><code>1</code>, <code>2</code>, <code>4</code>, <code>8</code>, <code>16</code>, <code>32</code>, <code>64</code>, <code>128</code></td><td>パッキングアラインメント (バイト単位)</td></tr>
+<tr><td>Size</td><td>整数</td><td>構造体の明示的な合計サイズ (バイト)</td></tr>
+<tr><td>CharSet</td><td><code>Ansi</code>, <code>Unicode</code>, <code>Auto</code>, <code>None</code></td><td>文字列マーシャリングの文字セット</td></tr>
+</table>
+
+<h3>例: SYSTEMTIME 構造体 (Pack 指定)</h3>
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#struct public SYSTEMTIME, Sequential, Pack = 2
+  #field public ushort wYear
+  #field public ushort wMonth
+  #field public ushort wDayOfWeek
+  #field public ushort wDay
+  #field public ushort wHour
+  #field public ushort wMinute
+  #field public ushort wSecond
+  #field public ushort wMilliseconds
+#endstruct</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>[StructLayout(LayoutKind.Sequential, Pack = 2)]
+public struct SYSTEMTIME
+{
+    public ushort wYear;
+    public ushort wMonth;
+    public ushort wDayOfWeek;
+    public ushort wDay;
+    public ushort wHour;
+    public ushort wMinute;
+    public ushort wSecond;
+    public ushort wMilliseconds;
+}</code></pre>
+</div>
+</div>
+
+<h3>例: 共用体 (Explicit Layout + FieldOffset)</h3>
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#struct public Union, Explicit
+  [FieldOffset 0] #field public int IntValue
+  [FieldOffset 0] #field public float FloatValue
+#endstruct</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>[StructLayout(LayoutKind.Explicit)]
+public struct Union
+{
+    [FieldOffset(0)] public int IntValue;
+    [FieldOffset(0)] public float FloatValue;
+}</code></pre>
+</div>
+</div>
+
+<h3>例: 文字列フィールドの MarshalAs</h3>
+<pre><code>#struct public WinStruct, Sequential, CharSet = Unicode
+  #field public int Id
+  [MarshalAs ByValTStr, 256] #field public string Name
+#endstruct</code></pre>
+
+<div class="note">
+構造体はクラスと異なり <code>System.ValueType</code> を継承する値型です。スタック上に配置され、代入時にコピーされます。
+P/Invoke で Win32 API にネイティブ構造体を��す場合に使います。
+</div>
+
+<!-- ========================================== -->
+<h2 id="delegate-def">デリゲート</h2>
+
+<p><code>#delegate</code> でデリゲート型を定義できます。コールバック関数の型や P/Invoke の関数ポ��ンタに使用します。</p>
+
+<h3>構文</h3>
+<pre><code>#delegate [修飾子] [戻り値型] デリゲート名 [, 型 引数名, ...]</code></pre>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>; 戻り値 int、引数 2つの演算デリゲート
+#delegate public int BinaryOp, int a, int b
+
+; void デリゲート (イベントハンドラ)
+#delegate public void EventHandler, object sender, string message</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public delegate int BinaryOp(int a, int b);
+
+public delegate void EventHandler(
+    object sender, string message);</code></pre>
+</div>
+</div>
+
+<div class="note">
+デリゲートは <code>MulticastDelegate</code> を継承し、<code>Invoke</code>, <code>BeginInvoke</code>, <code>EndInvoke</code> メソッドが自動生成されます。
+</div>
+
+<!-- ========================================== -->
 <h2 id="methods">メソッド定義</h2>
 
 <h3>構文</h3>
@@ -202,6 +336,46 @@
 </div>
 
 <!-- ========================================== -->
+<h2 id="refout">ref / out パラメータ</h2>
+
+<p>メソッドの引数に <code>ref</code> (参照渡し) や <code>out</code> (出力引数) を指定できます。呼び出し元の変数を直接変更します。</p>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>; ref: 呼び出し元の変数を読み書き
+#func public static void AddTen, ref int value
+  value = value + 10
+#endfunc
+
+; out: 呼び出し元に値を返す
+#func public static bool TryParse, string s, out int result
+  result = 42
+  return true
+#endfunc</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public static void AddTen(ref int value)
+{
+    value = value + 10;
+}
+
+public static bool TryParse(
+    string s, out int result)
+{
+    result = 42;
+    return true;
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+<code>ref</code> は IL レベルで <code>Type.MakeByRefType()</code> + <code>Ldarg</code>/<code>Ldind</code>/<code>Stind</code> を使用。
+<code>out</code> は <code>ref</code> と同じ ByRef 型に加えて <code>ParameterAttributes.Out</code> を設定。
+</div>
+
+<!-- ========================================== -->
 <h2 id="fields">フィールド・プロパティ</h2>
 
 <div class="cmp">
@@ -226,6 +400,49 @@ public int Area
     get { return Width * Height; }
 }</code></pre>
 </div>
+</div>
+
+<h3>フィールド修飾子</h3>
+<table>
+<tr><th>NHSP</th><th>C#</th><th>説明</th></tr>
+<tr><td><code>#field public int X</code></td><td><code>public int X;</code></td><td>通常のインスタンスフィールド</td></tr>
+<tr><td><code>#field public static int Count</code></td><td><code>public static int Count;</code></td><td>静的フィールド (クラスに1つ)</td></tr>
+<tr><td><code>#field public const int MAX = 260</code></td><td><code>public const int MAX = 260;</code></td><td>コンパイル時定数 (リテラル値が直接埋め込まれる)</td></tr>
+<tr><td><code>#field public readonly int Id</code></td><td><code>public readonly int Id;</code></td><td>コンストラクタでのみ代入可能な読み取り専用フィールド</td></tr>
+</table>
+
+<h3>const / readonly の例</h3>
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#class public Config
+  #field public const int MAX_PATH = 260
+  #field public const string VERSION = "1.0"
+  #field public readonly int MaxSize
+
+  #init int size
+    MaxSize = size
+  #endinit
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public class Config
+{
+    public const int MAX_PATH = 260;
+    public const string VERSION = "1.0";
+    public readonly int MaxSize;
+
+    public Config(int size)
+    {
+        MaxSize = size;
+    }
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+<code>const</code> は <code>FieldAttributes.Literal</code> で IL レベルのコンパイル時定数。<code>readonly</code> は <code>FieldAttributes.InitOnly</code> でコンストラクタ内のみ代入可。
 </div>
 
 <!-- ========================================== -->
@@ -405,9 +622,105 @@ Thread.Sleep(100);</code></pre>
 </div>
 
 <div class="note">
-<code>#dllimport</code> で DLL 名を宣言し、<code>#dllfunc</code> で関数を列挙します。<code>#dllfunc</code> は本体を持たず、<code>#endfunc</code> は不要です。同じ DLL の関数は <code>#dllimport</code> 1回で複数宣言可能。<br>
-呼び出し規約: <code>StdCall</code>、文字セット: <code>CharSet.Auto</code>、<code>PreserveSig</code> が既定。
+<code>#dllimport</code> で DLL 名を宣言し、<code>#dllfunc</code> で関数を列挙します。<code>#dllfunc</code> は本体を持たず、<code>#endfunc</code> は不要です。同じ DLL の関数は <code>#dllimport</code> 1回で複数宣言可能。
 </div>
+
+<h3>#dllimport オプション</h3>
+
+<p><code>#dllimport</code> には文字セットや呼び出し規約などのオプションを指定できます。</p>
+
+<pre><code>#dllimport "DLL名", CharSet = Unicode, SetLastError = true, CallingConvention = Cdecl, ExactSpelling = true</code></pre>
+
+<table>
+<tr><th>オプション</th><th>値</th><th>既定値</th><th>説明</th></tr>
+<tr><td><code>CharSet</code></td><td><code>Ansi</code>, <code>Unicode</code>, <code>Auto</code>, <code>None</code></td><td><code>Auto</code></td><td>文字列パラメータのマーシャリング方式</td></tr>
+<tr><td><code>CallingConvention</code></td><td><code>StdCall</code>, <code>Cdecl</code>, <code>ThisCall</code>, <code>FastCall</code>, <code>Winapi</code></td><td><code>StdCall</code></td><td>呼び出し規約 (C ランタイムは Cdecl)</td></tr>
+<tr><td><code>SetLastError</code></td><td><code>true</code>, <code>false</code></td><td><code>false</code></td><td>Win32 の SetLastError を保持する</td></tr>
+<tr><td><code>ExactSpelling</code></td><td><code>true</code>, <code>false</code></td><td><code>false</code></td><td>A/W サフィックスの自動検索を無効化</td></tr>
+</table>
+
+<h3>例: Unicode + SetLastError</h3>
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#dllimport "user32.dll", CharSet = Unicode, SetLastError = true
+#dllfunc public static int MessageBoxW, IntPtr hWnd, string text, string caption, int type</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>[DllImport("user32.dll",
+    CharSet = CharSet.Unicode,
+    SetLastError = true)]
+public static extern int MessageBoxW(
+    IntPtr hWnd, string text,
+    string caption, int type);</code></pre>
+</div>
+</div>
+
+<h3>例: C ランタイム (Cdecl)</h3>
+<pre><code>#dllimport "msvcrt.dll", CallingConvention = Cdecl
+#dllfunc public static int puts, string str</code></pre>
+
+<h3>ref / out パラメータと P/Invoke</h3>
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#dllimport "kernel32.dll"
+#dllfunc public static void GetSystemTime, ref SYSTEMTIME st</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>[DllImport("kernel32.dll")]
+public static extern void GetSystemTime(
+    ref SYSTEMTIME st);</code></pre>
+</div>
+</div>
+
+<!-- ========================================== -->
+<h2 id="marshalas">MarshalAs 属性</h2>
+
+<p>P/Invoke のパラメータや構造体のフィールドに <code>[MarshalAs]</code> 属性を付けて、マネージド型とアンマネージド型の変換方式を指定できます。</p>
+
+<h3>パラメータへの指定</h3>
+<pre><code>; フルネーム: [MarshalAs 型名]
+#dllfunc public static int GetModuleFileName, IntPtr hModule, [MarshalAs LPStr] string buffer, int size
+
+; ショートカット: [型名] だけでも MarshalAs として適用される
+#dllfunc public static int GetModuleFileName, IntPtr hModule, [LPStr] string buffer, int size</code></pre>
+
+<h3>フィールドへの指定</h3>
+<pre><code>; 固定長文字列: [MarshalAs ByValTStr, サイズ]
+[MarshalAs ByValTStr, 260] #field public string Path
+
+; 固定長配列: [MarshalAs ByValArray, サイズ]
+[MarshalAs ByValArray, 4] #field public byte Reserved</code></pre>
+
+<h3>対応する UnmanagedType 一覧</h3>
+<table>
+<tr><th>名前</th><th>UnmanagedType</th><th>説明</th></tr>
+<tr><td><code>Bool</code></td><td><code>UnmanagedType.Bool</code></td><td>Win32 BOOL (4 byte)</td></tr>
+<tr><td><code>I1</code> / <code>U1</code></td><td><code>.I1</code> / <code>.U1</code></td><td>符号付/符号なし 1 byte</td></tr>
+<tr><td><code>I2</code> / <code>U2</code></td><td><code>.I2</code> / <code>.U2</code></td><td>符号付/符号なし 2 byte</td></tr>
+<tr><td><code>I4</code> / <code>U4</code></td><td><code>.I4</code> / <code>.U4</code></td><td>符号付/符号なし 4 byte</td></tr>
+<tr><td><code>I8</code> / <code>U8</code></td><td><code>.I8</code> / <code>.U8</code></td><td>符号付/符号なし 8 byte</td></tr>
+<tr><td><code>R4</code> / <code>R8</code></td><td><code>.R4</code> / <code>.R8</code></td><td>float / double</td></tr>
+<tr><td><code>LPStr</code></td><td><code>.LPStr</code></td><td>ANSI char* (null終端)</td></tr>
+<tr><td><code>LPWStr</code></td><td><code>.LPWStr</code></td><td>Unicode wchar_t* (null終端)</td></tr>
+<tr><td><code>LPTStr</code></td><td><code>.LPTStr</code></td><td>TCHAR* (プラットフォーム依存)</td></tr>
+<tr><td><code>BStr</code></td><td><code>.BStr</code></td><td>COM BSTR</td></tr>
+<tr><td><code>ByValTStr</code></td><td><code>.ByValTStr</code></td><td>構造体内の固定長文字列 (SizeConst 必須)</td></tr>
+<tr><td><code>ByValArray</code></td><td><code>.ByValArray</code></td><td>構造体内の固定長配列 (SizeConst 必須)</td></tr>
+<tr><td><code>LPStruct</code></td><td><code>.LPStruct</code></td><td>構造体ポインタ</td></tr>
+<tr><td><code>Struct</code></td><td><code>.Struct</code></td><td>構造体 (値渡し)</td></tr>
+<tr><td><code>Interface</code></td><td><code>.Interface</code></td><td>COM インターフェースポインタ</td></tr>
+<tr><td><code>IUnknown</code></td><td><code>.IUnknown</code></td><td>IUnknown*</td></tr>
+<tr><td><code>IDispatch</code></td><td><code>.IDispatch</code></td><td>IDispatch*</td></tr>
+<tr><td><code>FunctionPtr</code></td><td><code>.FunctionPtr</code></td><td>関数ポインタ (デリゲート → native)</td></tr>
+<tr><td><code>SysInt</code> / <code>SysUInt</code></td><td><code>.SysInt</code> / <code>.SysUInt</code></td><td>ネイティブ整数 (IntPtr)</td></tr>
+<tr><td><code>SafeArray</code></td><td><code>.SafeArray</code></td><td>COM SAFEARRAY</td></tr>
+<tr><td><code>AsAny</code></td><td><code>.AsAny</code></td><td>実行時型推論</td></tr>
+<tr><td><code>Error</code></td><td><code>.Error</code></td><td>HRESULT</td></tr>
+</table>
 
 <!-- ========================================== -->
 <h2 id="com">COM 属性</h2>
@@ -482,16 +795,202 @@ public class ComClass1 : ComClass1Interface
 </div>
 
 <!-- ========================================== -->
+<h2 id="enum-def">enum 定義</h2>
+
+<p><code>#enum</code> で列挙型を定義します。値の指定がない場合は自動的にインクリメントされます。</p>
+
+<h3>構文</h3>
+<pre><code>#enum [修飾子] 列挙名
+  メンバ名 [= 値]
+  メンバ名 [= 値]
+  ...
+#endenum</code></pre>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#enum Color
+  Red
+  Green
+  Blue
+#endenum
+
+#enum Priority
+  Low = 1
+  Medium = 5
+  High
+  Critical = 100
+#endenum</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public enum Color
+{
+    Red,    // 0
+    Green,  // 1
+    Blue    // 2
+}
+
+public enum Priority
+{
+    Low = 1,
+    Medium = 5,
+    High,       // 6 (自動)
+    Critical = 100
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+値を省略すると 0 から自動インクリメント。途中で値を指定すると、以降はその値+1 から再開。
+IL レベルでは <code>ModuleBuilder.DefineEnum</code> + <code>DefineLiteral</code> で生成。
+</div>
+
+<!-- ========================================== -->
+<h2 id="switch">switch / case</h2>
+
+<p>値による分岐処理。C# の <code>switch</code> 文に相当します。</p>
+
+<h3>構文</h3>
+<pre><code>switch 式
+  case 値1
+    ; 処理
+  case 値2
+    ; 処理
+  default
+    ; どれにも一致しない場合
+endswitch</code></pre>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>switch x
+  case 1
+    return "one"
+  case 2
+    return "two"
+  default
+    return "other"
+endswitch</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>switch (x)
+{
+    case 1: return "one";
+    case 2: return "two";
+    default: return "other";
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+NHSP の switch は自動的に break が入ります (C# のフォールスルーは発生しません)。<br>
+IL レベルでは各 case を <code>Ceq</code> + <code>Brfalse</code> の if-else チェーンで生成。
+</div>
+
+<!-- ========================================== -->
+<h2 id="foreach">foreach</h2>
+
+<p><code>IEnumerable</code> を実装するコレクションを反復処理します。</p>
+
+<h3>構文</h3>
+<pre><code>foreach [型] 変数名 in コレクション式
+  ; 本体
+next</code></pre>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>foreach string item in list
+  print item
+next</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>foreach (string item in list)
+{
+    Console.WriteLine(item);
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+IL レベルでは <code>GetEnumerator()</code> → <code>MoveNext()</code> / <code>Current</code> のパターンを生成。
+<code>IDisposable</code> を実装する列挙子は自動的に <code>Dispose()</code> が呼ばれます。<br>
+型名は省略可能 (その場合は Current プロパティの型から推論)。
+</div>
+
+<!-- ========================================== -->
+<h2 id="using-stmt">using 文 (IDisposable)</h2>
+
+<p><code>using</code> 文でリソースのスコープを管理します。ブロック終了時に自動的に <code>Dispose()</code> が呼ばれます。</p>
+
+<h3>構文</h3>
+<pre><code>using 変数名 = 初期化式
+  ; 本体
+endusing</code></pre>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>using reader = new StreamReader("file.txt")
+  dim string line = reader.ReadLine()
+  print line
+endusing</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>using (var reader =
+    new StreamReader("file.txt"))
+{
+    string line = reader.ReadLine();
+    Console.WriteLine(line);
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+IL レベルでは <code>try { 本体 } finally { if (var != null) var.Dispose(); }</code> パターンを生成。
+</div>
+
+<!-- ========================================== -->
 <h2 id="operators">演算子一覧</h2>
 
+<h3>演算子の優先順位 (上が高優先)</h3>
 <table>
-<tr><th>種別</th><th>演算子</th><th>備考</th></tr>
-<tr><td>算術</td><td><code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>%</code></td><td>優先順位: * / % &gt; + -</td></tr>
-<tr><td>比較</td><td><code>==</code> <code>!=</code> <code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code></td><td><code>=</code> も <code>==</code> と同じ (HSP互換)</td></tr>
-<tr><td>論理</td><td><code>&&</code> <code>||</code> <code>!</code></td><td>短絡評価</td></tr>
-<tr><td>代入</td><td><code>=</code> <code>+=</code> <code>-=</code> <code>*=</code> <code>/=</code></td><td></td></tr>
-<tr><td>単項</td><td><code>-</code> (符号反転) <code>!</code> (否定)</td><td></td></tr>
-<tr><td>文字列連結</td><td><code>+</code></td><td>片方が string なら自動 String.Concat</td></tr>
+<tr><th>優先度</th><th>種別</th><th>演算子</th></tr>
+<tr><td>1</td><td>単項</td><td><code>-</code> <code>!</code> <code>~</code> (ビット反転)</td></tr>
+<tr><td>2</td><td>乗除余</td><td><code>*</code> <code>/</code> <code>%</code></td></tr>
+<tr><td>3</td><td>加減</td><td><code>+</code> <code>-</code></td></tr>
+<tr><td>4</td><td>シフト</td><td><code>&lt;&lt;</code> (左シフト) <code>&gt;&gt;</code> (右シフト)</td></tr>
+<tr><td>5</td><td>比較</td><td><code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code></td></tr>
+<tr><td>6</td><td>等値</td><td><code>==</code> <code>!=</code> (<code>=</code> も == と同等)</td></tr>
+<tr><td>7</td><td>ビット AND</td><td><code>&amp;</code></td></tr>
+<tr><td>8</td><td>ビット XOR</td><td><code>^</code></td></tr>
+<tr><td>9</td><td>ビット OR</td><td><code>|</code></td></tr>
+<tr><td>10</td><td>論理 AND</td><td><code>&amp;&amp;</code> / <code>and</code> (短絡評価)</td></tr>
+<tr><td>11</td><td>論理 OR</td><td><code>||</code> / <code>or</code> (短絡評価)</td></tr>
+<tr><td>12</td><td>null 合体</td><td><code>??</code></td></tr>
+<tr><td>13</td><td>三項</td><td><code>条件 ? 真 : 偽</code></td></tr>
+</table>
+
+<h3>代入演算子</h3>
+<table>
+<tr><th>演算子</th><th>説明</th><th>IL</th></tr>
+<tr><td><code>=</code></td><td>代入</td><td>Stloc / Stfld</td></tr>
+<tr><td><code>+=</code> <code>-=</code> <code>*=</code> <code>/=</code></td><td>算術複合代入</td><td>Add / Sub / Mul / Div</td></tr>
+<tr><td><code>&amp;=</code> <code>|=</code> <code>^=</code></td><td>ビット複合代入</td><td>And / Or / Xor</td></tr>
+<tr><td><code>++</code> <code>--</code></td><td>インクリメント / デクリメント</td><td>Ldloc + Ldc_I4_1 + Add/Sub + Stloc</td></tr>
+</table>
+
+<h3>特殊演算子</h3>
+<table>
+<tr><th>演算子</th><th>説明</th><th>例</th></tr>
+<tr><td><code>??</code></td><td>null 合体 (左が null なら右を返す)</td><td><code>s ?? "default"</code></td></tr>
+<tr><td><code>? :</code></td><td>三項演算子 (条件分岐式)</td><td><code>a &gt; b ? a : b</code></td></tr>
+<tr><td><code>typeof(型)</code></td><td>型の Type オブジェクトを取得</td><td><code>typeof(int)</code> → <code>System.Type</code></td></tr>
+<tr><td><code>$"...{式}..."</code></td><td>文字列補間</td><td><code>$"Hello {name}!"</code></td></tr>
 </table>
 
 <!-- ========================================== -->
@@ -505,7 +1004,46 @@ public class ComClass1 : ComClass1Interface
 <tr><td><code>double(s)</code></td><td>実数パース</td><td><code>double.Parse(s)</code></td></tr>
 <tr><td><code>sleep ms</code></td><td>スレッド停止</td><td><code>Thread.Sleep(ms)</code></td></tr>
 <tr><td><code>new var, Type(args)</code></td><td>オブジェクト生成</td><td><code>var = new Type(args)</code></td></tr>
+<tr><td><code>typeof(型)</code></td><td>Type オブジェクト取得</td><td><code>typeof(int)</code></td></tr>
+<tr><td><code>$"...{expr}..."</code></td><td>文字列補間</td><td><code>$"...{expr}..."</code></td></tr>
+<tr><td><code>x++</code> / <code>x--</code></td><td>インクリメント / デクリメント</td><td><code>x++; / x--;</code></td></tr>
 </table>
+
+<!-- ========================================== -->
+<h2 id="include">ファイル分割 (#include)</h2>
+
+<p><code>#include</code> ディレクティブでソースファイルを分割できます。指定されたファイルの内容がその位置に挿入されます。</p>
+
+<h3>構文</h3>
+<pre><code>#include "ファイル名"</code></pre>
+
+<h3>例</h3>
+<div class="cmp">
+<div>
+<h4>main.nhsp</h4>
+<pre><code>#assembly "MyApp", exe
+#include "classes.nhsp"
+#include "utils.nhsp"
+
+#main
+  new calc, Calculator
+  print calc.Add(1, 2)
+#endmain</code></pre>
+</div>
+<div>
+<h4>classes.nhsp</h4>
+<pre><code>#class public Calculator
+  #func public int Add, int a, int b
+    return a + b
+  #endfunc
+#endclass</code></pre>
+</div>
+</div>
+
+<div class="note">
+<code>#include</code> はコンパイル前のプリプロセス段階で処理されます。指定パスはソースファイルからの相対パスです。
+ネストした <code>#include</code> は現在サポートされていません。
+</div>
 
 <!-- ========================================== -->
 <h2 id="dotnet">.NET API アクセス</h2>
@@ -540,13 +1078,18 @@ Math.Min(a, b)</code></pre>
 <tr><td>try/catch 内の return</td><td>結果を外部変数に格納してから try 外で return</td></tr>
 <tr><td>メソッド名に HSP 予約語 (repeat 等) は使えない</td><td>別の名前を使用</td></tr>
 <tr><td>ジェネリクス (List&lt;T&gt; 等) 未対応</td><td>.NET API を直接呼び出し、または C# ヘルパーを使用</td></tr>
-<tr><td>ラムダ式・デリゲート未対応</td><td>メソッド参照で代替</td></tr>
+<tr><td>ラムダ式 / クロージャ未対応</td><td><code>#delegate</code> でデリゲート型は定義可能、ラムダ式 (匿名関数) は未対応</td></tr>
 <tr><td>async/await 未対応</td><td>Thread / Task.Run で代替</td></tr>
+<tr><td>ジェネリクス定義未対応</td><td>.NET の既存ジェネリクス型 (List&lt;T&gt; 等) は利用可能、独自定義は未対応</td></tr>
+<tr><td>LINQ クエリ構文未対応</td><td>メソッドチェーン (.Where().Select()) で代替</td></tr>
+<tr><td>イベント (event) 未対応</td><td>デリゲートフィールド + 手動 add/remove で代替</td></tr>
+<tr><td>演算子オーバーロード未対応</td><td>通常のメソッドで代替 (Add, Equals 等)</td></tr>
+<tr><td>yield return 未対応</td><td>List を直接構築して返す</td></tr>
 <tr><td>複数クラスの new で一部 AccessViolation</td><td>同一クラス内または1対1のクロス参照のみ</td></tr>
 </table>
 
 <footer>
-  <p>NHSP (Net HSP) 言語リファレンス &mdash; nhspc コンパイラ Phase 1-13</p>
+  <p>NHSP (Net HSP) 言語リファレンス &mdash; nhspc コンパイラ Phase 1-16</p>
 </footer>
 
 </div>

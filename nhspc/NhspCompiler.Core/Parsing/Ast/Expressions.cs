@@ -76,6 +76,26 @@ namespace NhspCompiler.Core.Parsing.Ast
         public Expression Index { get; set; }
     }
 
+    // Ternary: cond ? a : b
+    public class TernaryExpr : Expression
+    {
+        public Expression Condition { get; set; }
+        public Expression TrueExpr { get; set; }
+        public Expression FalseExpr { get; set; }
+    }
+
+    // typeof(TypeName)
+    public class TypeofExpr : Expression
+    {
+        public string TypeName { get; set; }
+    }
+
+    // Interpolated string: $"Hello {name}"
+    public class InterpolatedStringExpr : Expression
+    {
+        public string RawText { get; set; } // "Hello {name}, age {age}"
+    }
+
     // Type cast / conversion
     public class CastExpr : Expression
     {

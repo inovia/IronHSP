@@ -54,6 +54,9 @@ namespace NhspCompiler.Core.Lexing
                 // String literal
                 if (Cur == '"') { tokens.Add(ReadString()); continue; }
 
+                // Interpolated string: $"..."
+                if (Cur == '$' && Next == '"') { tokens.Add(ReadInterpolatedString()); continue; }
+
                 // Hex: $FF or 0xFF
                 if (Cur == '$' && IsHexDigit(Next)) { tokens.Add(ReadHex('$')); continue; }
                 if (Cur == '0' && (Next == 'x' || Next == 'X')) { tokens.Add(ReadHex('0')); continue; }
@@ -64,18 +67,26 @@ namespace NhspCompiler.Core.Lexing
                 // Identifier / Keyword / TypeName / Bool
                 if (char.IsLetter(Cur) || Cur == '_') { tokens.Add(ReadIdentifier()); continue; }
 
-                // Multi-char operators
+                // Multi-char operators (order matters: longer match first)
                 int sc = _col;
                 if (Cur == '=' && Next == '=') { tokens.Add(Sym2(TokenKind.EqualEqual, "==")); continue; }
                 if (Cur == '!' && Next == '=') { tokens.Add(Sym2(TokenKind.BangEqual, "!=")); continue; }
+                if (Cur == '<' && Next == '<') { tokens.Add(Sym2(TokenKind.LessLess, "<<")); continue; }
                 if (Cur == '<' && Next == '=') { tokens.Add(Sym2(TokenKind.LessEqual, "<=")); continue; }
+                if (Cur == '>' && Next == '>') { tokens.Add(Sym2(TokenKind.GreaterGreater, ">>")); continue; }
                 if (Cur == '>' && Next == '=') { tokens.Add(Sym2(TokenKind.GreaterEqual, ">=")); continue; }
                 if (Cur == '&' && Next == '&') { tokens.Add(Sym2(TokenKind.AmpAmp, "&&")); continue; }
+                if (Cur == '&' && Next == '=') { tokens.Add(Sym2(TokenKind.AmpEqual, "&=")); continue; }
                 if (Cur == '|' && Next == '|') { tokens.Add(Sym2(TokenKind.PipePipe, "||")); continue; }
+                if (Cur == '|' && Next == '=') { tokens.Add(Sym2(TokenKind.PipeEqual, "|=")); continue; }
+                if (Cur == '^' && Next == '=') { tokens.Add(Sym2(TokenKind.CaretEqual, "^=")); continue; }
+                if (Cur == '+' && Next == '+') { tokens.Add(Sym2(TokenKind.PlusPlus, "++")); continue; }
                 if (Cur == '+' && Next == '=') { tokens.Add(Sym2(TokenKind.PlusEqual, "+=")); continue; }
+                if (Cur == '-' && Next == '-') { tokens.Add(Sym2(TokenKind.MinusMinus, "--")); continue; }
                 if (Cur == '-' && Next == '=') { tokens.Add(Sym2(TokenKind.MinusEqual, "-=")); continue; }
                 if (Cur == '*' && Next == '=') { tokens.Add(Sym2(TokenKind.StarEqual, "*=")); continue; }
                 if (Cur == '/' && Next == '=') { tokens.Add(Sym2(TokenKind.SlashEqual, "/=")); continue; }
+                if (Cur == '?' && Next == '?') { tokens.Add(Sym2(TokenKind.QuestionQuestion, "??")); continue; }
 
                 // Single-char symbols
                 switch (Cur)
@@ -86,6 +97,8 @@ namespace NhspCompiler.Core.Lexing
                     case ')': tokens.Add(Sym1(TokenKind.RParen)); break;
                     case '{': tokens.Add(Sym1(TokenKind.LBrace)); break;
                     case '}': tokens.Add(Sym1(TokenKind.RBrace)); break;
+                    case '[': tokens.Add(Sym1(TokenKind.LBracket)); break;
+                    case ']': tokens.Add(Sym1(TokenKind.RBracket)); break;
                     case '+': tokens.Add(Sym1(TokenKind.Plus)); break;
                     case '-': tokens.Add(Sym1(TokenKind.Minus)); break;
                     case '*': tokens.Add(Sym1(TokenKind.Star)); break;
@@ -97,6 +110,11 @@ namespace NhspCompiler.Core.Lexing
                     case '<': tokens.Add(Sym1(TokenKind.Less)); break;
                     case '>': tokens.Add(Sym1(TokenKind.Greater)); break;
                     case ':': tokens.Add(Sym1(TokenKind.Colon)); break;
+                    case '&': tokens.Add(Sym1(TokenKind.Amp)); break;
+                    case '|': tokens.Add(Sym1(TokenKind.Pipe)); break;
+                    case '^': tokens.Add(Sym1(TokenKind.Caret)); break;
+                    case '~': tokens.Add(Sym1(TokenKind.Tilde)); break;
+                    case '?': tokens.Add(Sym1(TokenKind.Question)); break;
                     default: _pos++; _col++; break;
                 }
             }
@@ -183,6 +201,32 @@ namespace NhspCompiler.Core.Lexing
 
             int val = int.Parse(sb.ToString(), System.Globalization.NumberStyles.HexNumber);
             return new Token(TokenKind.IntLiteral, val.ToString(), _line, startCol);
+        }
+
+        private Token ReadInterpolatedString()
+        {
+            int startCol = _col;
+            _pos += 2; _col += 2; // skip $"
+            var sb = new StringBuilder();
+            while (_pos < _source.Length && Cur != '"' && Cur != '\n')
+            {
+                if (Cur == '\\' && _pos + 1 < _source.Length)
+                {
+                    _pos++; _col++;
+                    switch (Cur) {
+                        case 'n': sb.Append('\n'); break;
+                        case 't': sb.Append('\t'); break;
+                        case '\\': sb.Append('\\'); break;
+                        case '"': sb.Append('"'); break;
+                        case '{': sb.Append('{'); break;
+                        default: sb.Append('\\'); sb.Append(Cur); break;
+                    }
+                }
+                else { sb.Append(Cur); }
+                _pos++; _col++;
+            }
+            if (_pos < _source.Length && Cur == '"') { _pos++; _col++; }
+            return new Token(TokenKind.InterpolatedString, sb.ToString(), _line, startCol);
         }
 
         private Token ReadIdentifier()
