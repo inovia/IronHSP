@@ -8,7 +8,10 @@ echo.
 
 set "VSCODE_EXT=%USERPROFILE%\.vscode\extensions"
 set "TARGET=%VSCODE_EXT%\nhsp-language-0.1.0"
+
+:: このバッチ自身の場所を記録（コピー前に確定させる）
 set "SCRIPT_DIR=%~dp0"
+for %%I in ("%SCRIPT_DIR%\..") do set "NHSPC_ROOT=%%~fI"
 
 if not exist "%VSCODE_EXT%" (
     echo [!] VS Code 拡張ディレクトリが見つかりません。
@@ -36,19 +39,16 @@ mkdir "%COMPILER_DIR%" 2>nul
 set "NHSPC_FOUND=0"
 set "PDB_FOUND=0"
 
-for %%I in ("%SCRIPT_DIR%\..") do set "NHSPC_ROOT=%%~fI"
-
-:: nhspc.exe
-if exist "%NHSPC_ROOT%\nhspc\bin\Debug\nhspc.exe" (
-    echo [*] コンパイラをコピーしています [Debug]
-    copy /Y "%NHSPC_ROOT%\nhspc\bin\Debug\nhspc.exe" "%COMPILER_DIR%\" >nul
-    copy /Y "%NHSPC_ROOT%\nhspc\bin\Debug\NhspCompiler.Core.dll" "%COMPILER_DIR%\" >nul
-    set "NHSPC_FOUND=1"
-)
+:: nhspc.exe (ソースツリーから直接コピー)
 if exist "%NHSPC_ROOT%\nhspc\bin\Release\nhspc.exe" (
     echo [*] コンパイラをコピーしています [Release]
     copy /Y "%NHSPC_ROOT%\nhspc\bin\Release\nhspc.exe" "%COMPILER_DIR%\" >nul
-    copy /Y "%NHSPC_ROOT%\nhspc\bin\Release\NhspCompiler.Core.dll" "%COMPILER_DIR%\" >nul
+    copy /Y "%NHSPC_ROOT%\NhspCompiler.Core\bin\Release\NhspCompiler.Core.dll" "%COMPILER_DIR%\" >nul
+    set "NHSPC_FOUND=1"
+) else if exist "%NHSPC_ROOT%\nhspc\bin\Debug\nhspc.exe" (
+    echo [*] コンパイラをコピーしています [Debug]
+    copy /Y "%NHSPC_ROOT%\nhspc\bin\Debug\nhspc.exe" "%COMPILER_DIR%\" >nul
+    copy /Y "%NHSPC_ROOT%\NhspCompiler.Core\bin\Debug\NhspCompiler.Core.dll" "%COMPILER_DIR%\" >nul
     set "NHSPC_FOUND=1"
 )
 
