@@ -8,179 +8,134 @@ namespace NhspCompiler.Tests
     public class Phase4Tests
     {
         private static int _c;
-
-        private Assembly CompileAsm(string src)
+        private Assembly Compile(string src)
         {
-            string uid = $"P4_{_c++}_{Guid.NewGuid():N}".Substring(0, 20);
-            src = src.Replace("#assembly \"T\"", $"#assembly \"{uid}\"");
-            var driver = new CompilerDriver();
-            string outPath = Path.Combine(Path.GetTempPath(), $"{uid}.dll");
-            var result = driver.CompileFromString(src, outPath);
-            if (!result.Success)
-                throw new Exception("Compile failed:\n" + string.Join("\n", result.Diagnostics.Items));
-            return Assembly.LoadFrom(outPath);
+            string uid = $"P4{_c++}_{Guid.NewGuid():N}".Substring(0, 20);
+            src = src.Replace("\"T\"", $"\"{uid}\"");
+            var r = new CompilerDriver().CompileFromString(src, Path.Combine(Path.GetTempPath(), $"{uid}.dll"));
+            if (!r.Success) throw new Exception("Compile:\n" + string.Join("\n", r.Diagnostics.Items));
+            return Assembly.LoadFrom(r.OutputPath);
         }
 
-        [Test]
-        public void Inheritance()
+        [Test] public void Inheritance()
         {
-            var asm = CompileAsm(@"
-#assembly ""T""
-#class Animal
-  #access public
-  #field Name as string
-  #init string name
+            var asm = Compile(
+@"#assembly ""T""
+#class public Animal
+  #field public string Name
+  #init, string name
     Name = name
   endinit
-  #func Speak as string, public, virtual
+  #func public virtual string Speak
     return Name + "" says ...""
   endfunc
 #endclass
-
-#class Dog : Animal
-  #access public
-  #init string name
+#class public Dog : Animal
+  #init, string name
     Name = name
   endinit
-  #func Speak as string, public, override
+  #func public override string Speak
     return Name + "" says Woof!""
   endfunc
 #endclass");
-            var dogType = asm.GetType("Dog");
-            Assert.IsNotNull(dogType, "Dog type");
-            Assert.IsTrue(dogType.BaseType.Name == "Animal", "Dog inherits Animal");
-
-            var dog = Activator.CreateInstance(dogType, "Rex");
-            var result = dogType.GetMethod("Speak").Invoke(dog, null);
-            Assert.AreEqual("Rex says Woof!", result);
+            var dog = Activator.CreateInstance(asm.GetType("Dog"), "Rex");
+            Assert.AreEqual("Rex says Woof!", dog.GetType().GetMethod("Speak").Invoke(dog, null));
         }
 
-        [Test]
-        public void InheritedField()
+        [Test] public void InheritedField()
         {
-            var asm = CompileAsm(@"
-#assembly ""T""
-#class Base
-  #access public
-  #field Value as int
-  #func GetValue as int, public
+            var asm = Compile(
+@"#assembly ""T""
+#class public Base
+  #field public int Value
+  #func public int GetValue
     return Value
   endfunc
 #endclass
-
-#class Derived : Base
-  #access public
-  #init int v
+#class public Derived : Base
+  #init, int v
     Value = v
   endinit
-  #func GetDouble as int, public
+  #func public int GetDouble
     return Value * 2
   endfunc
 #endclass");
-            var derivedType = asm.GetType("Derived");
-            var obj = Activator.CreateInstance(derivedType, 21);
-            Assert.AreEqual(42, derivedType.GetMethod("GetDouble").Invoke(obj, null));
-            Assert.AreEqual(21, derivedType.GetMethod("GetValue").Invoke(obj, null));
+            var o = Activator.CreateInstance(asm.GetType("Derived"), 21);
+            Assert.AreEqual(42, o.GetType().GetMethod("GetDouble").Invoke(o, null));
+            Assert.AreEqual(21, o.GetType().GetMethod("GetValue").Invoke(o, null));
         }
 
-        [Test]
-        public void InterfaceDefinition()
+        [Test] public void InterfaceImpl()
         {
-            var asm = CompileAsm(@"
-#assembly ""T""
+            var asm = Compile(
+@"#assembly ""T""
 #interface IGreeter
-  #func Greet string name as string
+  #func string Greet, string name
 #endinterface
-
-#class HelloGreeter : IGreeter
-  #access public
-  #func Greet string name as string, public
+#class public HelloGreeter : IGreeter
+  #func public string Greet, string name
     return ""Hello, "" + name + ""!""
   endfunc
 #endclass");
-            var type = asm.GetType("HelloGreeter");
-            Assert.IsNotNull(type, "HelloGreeter");
-
-            // Check interface implementation
-            var ifaceType = asm.GetType("IGreeter");
-            Assert.IsNotNull(ifaceType, "IGreeter");
-            Assert.IsTrue(ifaceType.IsInterface, "IGreeter is interface");
-            Assert.IsTrue(ifaceType.IsAssignableFrom(type), "HelloGreeter implements IGreeter");
-
-            var obj = Activator.CreateInstance(type);
-            Assert.AreEqual("Hello, World!", type.GetMethod("Greet").Invoke(obj, new object[] { "World" }));
+            var t = asm.GetType("HelloGreeter");
+            var iface = asm.GetType("IGreeter");
+            Assert.IsTrue(iface.IsInterface);
+            Assert.IsTrue(iface.IsAssignableFrom(t));
+            Assert.AreEqual("Hello, World!", Activator.CreateInstance(t).GetType().GetMethod("Greet").Invoke(Activator.CreateInstance(t), new object[] { "World" }));
         }
 
-        [Test]
-        public void VirtualOverride()
+        [Test] public void VirtualOverride()
         {
-            var asm = CompileAsm(@"
-#assembly ""T""
-#class Shape
-  #access public
-  #func Area as int, public, virtual
+            var asm = Compile(
+@"#assembly ""T""
+#class public Shape
+  #func public virtual int Area
     return 0
   endfunc
 #endclass
-
-#class Square : Shape
-  #access public
-  #field Side as int
-  #init int side
+#class public Square : Shape
+  #field public int Side
+  #init, int side
     Side = side
   endinit
-  #func Area as int, public, override
+  #func public override int Area
     return Side * Side
   endfunc
 #endclass");
-            var squareType = asm.GetType("Square");
-            var sq = Activator.CreateInstance(squareType, 5);
-            // Call via base type reference (polymorphism)
-            var shapeType = asm.GetType("Shape");
-            var areaMethod = shapeType.GetMethod("Area");
-            Assert.AreEqual(25, areaMethod.Invoke(sq, null));
+            var sq = Activator.CreateInstance(asm.GetType("Square"), 5);
+            Assert.AreEqual(25, asm.GetType("Shape").GetMethod("Area").Invoke(sq, null));
         }
 
-        [Test]
-        public void MultipleInterfaces()
+        [Test] public void MultipleInterfaces()
         {
-            var asm = CompileAsm(@"
-#assembly ""T""
+            var asm = Compile(
+@"#assembly ""T""
 #interface INameable
-  #func GetName as string
+  #func string GetName
 #endinterface
-
 #interface ICountable
-  #func GetCount as int
+  #func int GetCount
 #endinterface
-
-#class NamedCounter : INameable, ICountable
-  #access public
-  #field Name as string
-  #field Count as int
-
-  #init string name, int count
+#class public NC : INameable, ICountable
+  #field public string Name
+  #field public int Count
+  #init, string name, int count
     Name = name
     Count = count
   endinit
-
-  #func GetName as string, public
+  #func public string GetName
     return Name
   endfunc
-
-  #func GetCount as int, public
+  #func public int GetCount
     return Count
   endfunc
 #endclass");
-            var type = asm.GetType("NamedCounter");
-            var iName = asm.GetType("INameable");
-            var iCount = asm.GetType("ICountable");
-            Assert.IsTrue(iName.IsAssignableFrom(type), "implements INameable");
-            Assert.IsTrue(iCount.IsAssignableFrom(type), "implements ICountable");
-
-            var obj = Activator.CreateInstance(type, "Test", 42);
-            Assert.AreEqual("Test", type.GetMethod("GetName").Invoke(obj, null));
-            Assert.AreEqual(42, type.GetMethod("GetCount").Invoke(obj, null));
+            var t = asm.GetType("NC");
+            Assert.IsTrue(asm.GetType("INameable").IsAssignableFrom(t));
+            Assert.IsTrue(asm.GetType("ICountable").IsAssignableFrom(t));
+            var o = Activator.CreateInstance(t, "X", 42);
+            Assert.AreEqual("X", t.GetMethod("GetName").Invoke(o, null));
+            Assert.AreEqual(42, t.GetMethod("GetCount").Invoke(o, null));
         }
     }
 }

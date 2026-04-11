@@ -7,60 +7,30 @@ namespace NhspCompiler.Tests
 {
     public class EmitTests
     {
-        private static int _counter = 0;
-
-        private object CompileAndCall(string sourceTemplate, string className, string methodName, params object[] args)
+        private static int _c;
+        private object Call(string src, string cls, string method, params object[] args)
         {
-            string uid = $"E_{_counter++}_{Guid.NewGuid():N}".Substring(0, 20);
-            string source = sourceTemplate.Replace("#assembly \"T\"", $"#assembly \"{uid}\"");
-
-            var driver = new CompilerDriver();
-            string outPath = Path.Combine(Path.GetTempPath(), $"{uid}.dll");
-            var result = driver.CompileFromString(source, outPath);
-            if (!result.Success)
-            {
-                string errors = string.Join("\n", result.Diagnostics.Items);
-                throw new Exception($"Compile failed:\n{errors}");
-            }
-            var asm = Assembly.LoadFrom(outPath);
-            var type = asm.GetType(className);
-            Assert.IsNotNull(type, $"Type {className}");
-            var obj = Activator.CreateInstance(type);
-            var method = type.GetMethod(methodName);
-            Assert.IsNotNull(method, $"Method {methodName}");
-            return method.Invoke(obj, args);
+            string uid = $"E{_c++}_{Guid.NewGuid():N}".Substring(0, 20);
+            src = src.Replace("\"T\"", $"\"{uid}\"");
+            var r = new CompilerDriver().CompileFromString(src, Path.Combine(Path.GetTempPath(), $"{uid}.dll"));
+            if (!r.Success) throw new Exception("Compile:\n" + string.Join("\n", r.Diagnostics.Items));
+            var asm = Assembly.LoadFrom(r.OutputPath);
+            var t = asm.GetType(cls); Assert.IsNotNull(t, cls);
+            var o = Activator.CreateInstance(t);
+            var m = t.GetMethod(method); Assert.IsNotNull(m, method);
+            return m.Invoke(o, args);
         }
 
-        [Test]
-        public void ReturnStringLiteral()
-        {
-            Assert.AreEqual("hello", CompileAndCall(
-                "#assembly \"T\"\n#class C\n  #access public\n  #func M as string, public\n    return \"hello\"\n  endfunc\n#endclass",
-                "C", "M"));
-        }
+        [Test] public void ReturnString() => Assert.AreEqual("hello", Call(
+            "#assembly \"T\"\n#class public C\n  #func public string M\n    return \"hello\"\n  endfunc\n#endclass", "C", "M"));
 
-        [Test]
-        public void ReturnIntLiteral()
-        {
-            Assert.AreEqual(42, CompileAndCall(
-                "#assembly \"T\"\n#class C\n  #access public\n  #func M as int, public\n    return 42\n  endfunc\n#endclass",
-                "C", "M"));
-        }
+        [Test] public void ReturnInt() => Assert.AreEqual(42, Call(
+            "#assembly \"T\"\n#class public C\n  #func public int M\n    return 42\n  endfunc\n#endclass", "C", "M"));
 
-        [Test]
-        public void IntAddition()
-        {
-            Assert.AreEqual(30, CompileAndCall(
-                "#assembly \"T\"\n#class C\n  #access public\n  #func Add int a, int b as int, public\n    return a + b\n  endfunc\n#endclass",
-                "C", "Add", 10, 20));
-        }
+        [Test] public void IntAdd() => Assert.AreEqual(30, Call(
+            "#assembly \"T\"\n#class public C\n  #func public int Add, int a, int b\n    return a + b\n  endfunc\n#endclass", "C", "Add", 10, 20));
 
-        [Test]
-        public void StringConcat()
-        {
-            Assert.AreEqual("Hi, World!", CompileAndCall(
-                "#assembly \"T\"\n#class C\n  #access public\n  #func Greet string name as string, public\n    return \"Hi, \" + name + \"!\"\n  endfunc\n#endclass",
-                "C", "Greet", "World"));
-        }
+        [Test] public void StringConcat() => Assert.AreEqual("Hi, World!", Call(
+            "#assembly \"T\"\n#class public C\n  #func public string Greet, string name\n    return \"Hi, \" + name + \"!\"\n  endfunc\n#endclass", "C", "Greet", "World"));
     }
 }

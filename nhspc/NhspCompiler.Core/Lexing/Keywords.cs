@@ -8,7 +8,7 @@ namespace NhspCompiler.Core.Lexing
         {
             "assembly", "class", "endclass", "interface", "endinterface",
             "access", "field", "func", "endfunc", "init", "endinit",
-            "property", "endproperty", "get", "endget", "set", "endset",
+            "property", "endproperty", "endget", "endset",
             "return", "as", "dim", "newobj", "mcall",
             "if", "else", "elseif", "endif",
             "repeat", "loop", "while", "wend", "for", "next",

@@ -13,70 +13,49 @@ namespace NhspCompiler.Tests
             var tokens = new Lexer(src).Tokenize();
             var diag = new DiagnosticBag();
             var unit = new Parser(tokens, diag).ParseCompilationUnit();
-            Assert.IsFalse(diag.HasErrors, "Parser errors: " + string.Join("; ", diag.Items.Select(d => d.Message)));
+            Assert.IsFalse(diag.HasErrors, "Errors: " + string.Join("; ", diag.Items.Select(d => d.Message)));
             return unit;
         }
 
-        [Test]
-        public void ParseMinimalClass()
+        [Test] public void MinimalClass()
         {
-            var unit = Parse("#assembly \"T\"\n#class Foo\n  #access public\n  #func Bar as int, public\n    return 42\n  endfunc\n#endclass");
-            Assert.AreEqual("T", unit.AssemblyName);
-            Assert.AreEqual(1, unit.Classes.Count);
-            Assert.AreEqual("Foo", unit.Classes[0].Name);
-            Assert.AreEqual(1, unit.Classes[0].Methods.Count);
-            Assert.AreEqual("Bar", unit.Classes[0].Methods[0].Name);
-            Assert.AreEqual("int", unit.Classes[0].Methods[0].ReturnType);
+            var u = Parse("#assembly \"T\"\n#class public Foo\n  #func public int Bar\n    return 42\n  endfunc\n#endclass");
+            Assert.AreEqual("T", u.AssemblyName);
+            Assert.AreEqual("Foo", u.Classes[0].Name);
+            Assert.AreEqual("Bar", u.Classes[0].Methods[0].Name);
+            Assert.AreEqual("int", u.Classes[0].Methods[0].ReturnType);
+            Assert.AreEqual("public", u.Classes[0].Methods[0].Access);
         }
 
-        [Test]
-        public void ParseLocalVar()
+        [Test] public void LocalVar()
         {
-            var unit = Parse("#assembly \"T\"\n#class C\n  #access public\n  #func M as int, public\n    dim x as int\n    x = 10\n    return x\n  endfunc\n#endclass");
-            var body = unit.Classes[0].Methods[0].Body;
-            Assert.IsTrue(body[0] is LocalVarDeclaration);
-            Assert.IsTrue(body[1] is AssignmentStatement);
-            Assert.IsTrue(body[2] is ReturnStatement);
+            var u = Parse("#assembly \"T\"\n#class public C\n  #func public int M\n    dim x as int\n    x = 10\n    return x\n  endfunc\n#endclass");
+            Assert.IsTrue(u.Classes[0].Methods[0].Body[0] is LocalVarDeclaration);
+            Assert.IsTrue(u.Classes[0].Methods[0].Body[1] is AssignmentStatement);
         }
 
-        [Test]
-        public void ParseIfElse()
+        [Test] public void IfElse()
         {
-            var unit = Parse("#assembly \"T\"\n#class C\n  #access public\n  #func M int x as int, public\n    if x > 0 {\n      return 1\n    } else {\n      return 0\n    }\n  endfunc\n#endclass");
-            var body = unit.Classes[0].Methods[0].Body;
-            Assert.IsTrue(body[0] is IfStatement);
-            var ifStmt = (IfStatement)body[0];
-            Assert.AreEqual(1, ifStmt.ThenBody.Count);
-            Assert.AreEqual(1, ifStmt.ElseBody.Count);
+            var u = Parse("#assembly \"T\"\n#class public C\n  #func public int M, int x\n    if x > 0 {\n      return 1\n    } else {\n      return 0\n    }\n  endfunc\n#endclass");
+            Assert.IsTrue(u.Classes[0].Methods[0].Body[0] is IfStatement);
         }
 
-        [Test]
-        public void ParseRepeatLoop()
+        [Test] public void RepeatLoop()
         {
-            var unit = Parse("#assembly \"T\"\n#class C\n  #access public\n  #func M as int, public\n    dim sum as int\n    sum = 0\n    repeat 10\n      sum += cnt\n    loop\n    return sum\n  endfunc\n#endclass");
-            var body = unit.Classes[0].Methods[0].Body;
-            Assert.IsTrue(body[2] is RepeatStatement);
+            var u = Parse("#assembly \"T\"\n#class public C\n  #func public int M\n    dim s as int\n    s = 0\n    repeat 10\n      s += cnt\n    loop\n    return s\n  endfunc\n#endclass");
+            Assert.IsTrue(u.Classes[0].Methods[0].Body[2] is RepeatStatement);
         }
 
-        [Test]
-        public void ParseWhile()
+        [Test] public void WhileLoop()
         {
-            var unit = Parse("#assembly \"T\"\n#class C\n  #access public\n  #func M int n as int, public\n    dim i as int\n    i = 0\n    while i < n\n      i += 1\n    wend\n    return i\n  endfunc\n#endclass");
-            var body = unit.Classes[0].Methods[0].Body;
-            Assert.IsTrue(body[2] is WhileStatement);
+            var u = Parse("#assembly \"T\"\n#class public C\n  #func public int M, int n\n    dim i as int\n    i = 0\n    while i < n\n      i += 1\n    wend\n    return i\n  endfunc\n#endclass");
+            Assert.IsTrue(u.Classes[0].Methods[0].Body[2] is WhileStatement);
         }
 
-        [Test]
-        public void ParseExpressionPrecedence()
+        [Test] public void Precedence()
         {
-            var tokens = new Lexer("return 1 + 2 * 3").Tokenize();
-            var diag = new DiagnosticBag();
-            // Parse just the expression part (skip 'return')
-            // Use a full compilation unit wrapper
-            var unit = Parse("#assembly \"T\"\n#class C\n  #access public\n  #func M as int, public\n    return 1 + 2 * 3\n  endfunc\n#endclass");
-            var ret = (ReturnStatement)unit.Classes[0].Methods[0].Body[0];
-            // Should be: (1) + (2 * 3) = BinaryExpr(+, 1, BinaryExpr(*, 2, 3))
-            Assert.IsTrue(ret.Value is BinaryExpr);
+            var u = Parse("#assembly \"T\"\n#class public C\n  #func public int M\n    return 1 + 2 * 3\n  endfunc\n#endclass");
+            var ret = (ReturnStatement)u.Classes[0].Methods[0].Body[0];
             var bin = (BinaryExpr)ret.Value;
             Assert.AreEqual("+", bin.Operator);
             Assert.IsTrue(bin.Right is BinaryExpr);

@@ -70,6 +70,14 @@ namespace NhspCompiler.Core.Parsing
         {
             var cls = new ClassDeclaration { Line = Current.Line };
             Advance(); // "class"
+
+            // Leading modifiers: #class public ClassName
+            while (IsModifierKeyword())
+            {
+                string mod = Advance().Text;
+                if (mod == "public" || mod == "private") cls.DefaultAccess = mod;
+            }
+
             cls.Name = Expect(TokenKind.Identifier, "Expected class name").Text;
 
             // Inheritance: : BaseClass, IFace1, IFace2
@@ -110,13 +118,29 @@ namespace NhspCompiler.Core.Parsing
 
         private FieldDeclaration ParseField(string defAccess)
         {
-            var f = new FieldDeclaration { Line = Current.Line };
+            var f = new FieldDeclaration { Line = Current.Line, Access = defAccess };
             Advance(); // "field"
-            f.Name = Expect(TokenKind.Identifier, "Expected field name").Text;
-            if (MatchKW("as")) { Advance(); f.TypeName = ReadTypeName(); }
-            else { f.TypeName = "int"; }
-            if (Match(TokenKind.Comma)) { Advance(); f.Access = Advance().Text; }
-            else { f.Access = defAccess; }
+
+            // #field [access] [type] Name  or  #field Name as type [, access]
+            while (IsModifierKeyword())
+            {
+                string mod = Advance().Text;
+                if (mod == "public" || mod == "private" || mod == "protected") f.Access = mod;
+            }
+
+            // type + name, or just name
+            if ((MatchType() || IsKnownType()) && Peek().Kind == TokenKind.Identifier)
+            {
+                f.TypeName = ReadTypeName();
+                f.Name = Expect(TokenKind.Identifier, "Expected field name").Text;
+            }
+            else
+            {
+                f.Name = Expect(TokenKind.Identifier, "Expected field name").Text;
+                // old: as type
+                if (MatchKW("as")) { Advance(); f.TypeName = ReadTypeName(); }
+                else { f.TypeName = "int"; }
+            }
             return f;
         }
 
@@ -124,26 +148,44 @@ namespace NhspCompiler.Core.Parsing
         {
             var m = new MethodDeclaration { Line = Current.Line };
             Advance(); // "func"
-            m.Name = Expect(TokenKind.Identifier, "Expected method name").Text;
 
-            // Parameters and modifiers on same line
+            // New syntax: #func [modifiers...] [returnType] Name [, params...]
+            // Old syntax: #func Name [params...] [as ReturnType] [, modifiers...]
+            // Detection: if next tokens are modifiers or type before identifier, use new syntax
+
+            // Consume leading modifiers
+            while (IsModifierKeyword())
+            {
+                ApplyModifier(m, Advance().Text);
+            }
+
+            // Next: returnType Name  OR  just Name (void)
+            // returnType is present if: current is a type/typename AND next is identifier
+            if (MatchType() && Peek().Kind == TokenKind.Identifier)
+            {
+                m.ReturnType = ReadTypeName();
+                m.Name = Expect(TokenKind.Identifier, "Expected method name").Text;
+            }
+            else if (IsKnownType() && Peek().Kind == TokenKind.Identifier)
+            {
+                m.ReturnType = ReadTypeName();
+                m.Name = Expect(TokenKind.Identifier, "Expected method name").Text;
+            }
+            else if (Current.Kind == TokenKind.Identifier)
+            {
+                // No return type → void
+                m.Name = Advance().Text;
+            }
+            else
+            {
+                m.Name = Expect(TokenKind.Identifier, "Expected method name").Text;
+            }
+
+            // Parameters: , type name [, type name] ...
             while (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
             {
-                if (MatchKW("as")) { Advance(); m.ReturnType = ReadTypeName(); continue; }
-                if (Match(TokenKind.Comma))
-                {
-                    Advance();
-                    while (MatchKW("public") || MatchKW("private") || MatchKW("static") || MatchKW("virtual") || MatchKW("override") || MatchKW("abstract"))
-                    {
-                        string mod = Advance().Text;
-                        if (mod == "public" || mod == "private") m.Access = mod;
-                        if (mod == "static") m.IsStatic = true;
-                        if (mod == "virtual") m.IsVirtual = true;
-                        if (mod == "override") m.IsOverride = true;
-                        if (Match(TokenKind.Comma)) Advance();
-                    }
-                    continue;
-                }
+                if (Match(TokenKind.Comma)) { Advance(); }
+                if (Match(TokenKind.EOL) || Match(TokenKind.EOF)) break;
                 if (MatchType() || (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Identifier))
                 {
                     var p = new ParameterDeclaration { Line = Current.Line };
@@ -157,9 +199,29 @@ namespace NhspCompiler.Core.Parsing
             if (m.Access == null) m.Access = defAccess;
             SkipEOL();
 
-            // Body
             m.Body = ParseBlock("endfunc");
             return m;
+        }
+
+        private bool IsModifierKeyword()
+        {
+            return MatchKW("public") || MatchKW("private") || MatchKW("protected") ||
+                   MatchKW("static") || MatchKW("virtual") || MatchKW("override") || MatchKW("abstract");
+        }
+
+        private bool IsKnownType()
+        {
+            // Check if current identifier is a known type (in TypeAliases or registered)
+            return Current.Kind == TokenKind.Identifier &&
+                   Lexing.Keywords.TypeAliases.ContainsKey(Current.Text.ToLowerInvariant());
+        }
+
+        private void ApplyModifier(MethodDeclaration m, string mod)
+        {
+            if (mod == "public" || mod == "private" || mod == "protected") m.Access = mod;
+            if (mod == "static") m.IsStatic = true;
+            if (mod == "virtual") m.IsVirtual = true;
+            if (mod == "override") m.IsOverride = true;
         }
 
         // ======== Statements ========
@@ -359,8 +421,13 @@ namespace NhspCompiler.Core.Parsing
         private Expression ParseEquality()
         {
             var left = ParseComparison();
-            while (Match(TokenKind.EqualEqual) || Match(TokenKind.BangEqual))
-            { string op = Advance().Text; left = new BinaryExpr { Left = left, Operator = op, Right = ParseComparison() }; }
+            // HSP compatibility: single = in expression context is treated as ==
+            while (Match(TokenKind.EqualEqual) || Match(TokenKind.BangEqual) || Match(TokenKind.Equals))
+            {
+                string op = Advance().Text;
+                if (op == "=") op = "=="; // HSP style: = is == in expressions
+                left = new BinaryExpr { Left = left, Operator = op, Right = ParseComparison() };
+            }
             return left;
         }
 
@@ -487,11 +554,27 @@ namespace NhspCompiler.Core.Parsing
                     {
                         Advance();
                         var sig = new MethodSignature { Line = Current.Line };
-                        sig.Name = Expect(TokenKind.Identifier, "Expected method name").Text;
-                        // Params
+
+                        // Same syntax as #func: [returnType] Name [, params]
+                        if (MatchType() && Peek().Kind == TokenKind.Identifier)
+                        {
+                            sig.ReturnType = ReadTypeName();
+                            sig.Name = Expect(TokenKind.Identifier, "Expected method name").Text;
+                        }
+                        else if (IsKnownType() && Peek().Kind == TokenKind.Identifier)
+                        {
+                            sig.ReturnType = ReadTypeName();
+                            sig.Name = Expect(TokenKind.Identifier, "Expected method name").Text;
+                        }
+                        else
+                        {
+                            sig.Name = Expect(TokenKind.Identifier, "Expected method name").Text;
+                        }
+
+                        // Params: , type name [, type name]
                         while (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
                         {
-                            if (MatchKW("as")) { Advance(); sig.ReturnType = ReadTypeName(); continue; }
+                            if (Match(TokenKind.Comma)) { Advance(); continue; }
                             if (MatchType() || (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Identifier))
                             {
                                 var p = new ParameterDeclaration { Line = Current.Line };
@@ -516,16 +599,17 @@ namespace NhspCompiler.Core.Parsing
             var ctor = new ConstructorDeclaration { Line = Current.Line, Access = defAccess };
             Advance(); // "init"
 
-            // Parameters
+            // #init [access], params...
+            while (IsModifierKeyword())
+            {
+                string mod = Advance().Text;
+                if (mod == "public" || mod == "private") ctor.Access = mod;
+            }
+
+            // Parameters: , type name [, type name] ...
             while (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
             {
-                if (Match(TokenKind.Comma))
-                {
-                    Advance();
-                    if (MatchKW("public") || MatchKW("private"))
-                        ctor.Access = Advance().Text;
-                    continue;
-                }
+                if (Match(TokenKind.Comma)) { Advance(); continue; }
                 if (MatchType() || (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Identifier))
                 {
                     var p = new ParameterDeclaration { Line = Current.Line };
@@ -566,13 +650,13 @@ namespace NhspCompiler.Core.Parsing
                 if (Match(TokenKind.Hash))
                 {
                     Advance();
-                    if (MatchKW("get"))
+                    if (MatchKW("get") || (Current.Kind == TokenKind.Identifier && Current.Text == "get"))
                     {
                         Advance(); SkipEOL();
                         prop.GetterBody = ParseBlock("endget");
                         if (MatchKW("endget")) Advance();
                     }
-                    else if (MatchKW("set"))
+                    else if (MatchKW("set") || (Current.Kind == TokenKind.Identifier && Current.Text == "set"))
                     {
                         Advance(); SkipEOL();
                         prop.SetterBody = ParseBlock("endset");
