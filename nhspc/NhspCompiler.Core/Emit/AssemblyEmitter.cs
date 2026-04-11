@@ -365,6 +365,69 @@ namespace NhspCompiler.Core.Emit
                 _il.Emit(OpCodes.Pop);
             }
             else if (stmt is Parsing.Ast.ReturnStatement) { _il.Emit(OpCodes.Ret); }
+            else if (stmt is Parsing.Ast.PrintStatement print)
+            {
+                if (print.Value != null)
+                {
+                    var valType = InferType(print.Value);
+                    EmitExpr(print.Value);
+                    System.Reflection.MethodInfo writeMethod;
+                    if (valType == typeof(string))
+                        writeMethod = typeof(Console).GetMethod("WriteLine", new[] { typeof(string) });
+                    else if (valType == typeof(int))
+                        writeMethod = typeof(Console).GetMethod("WriteLine", new[] { typeof(int) });
+                    else
+                        writeMethod = typeof(Console).GetMethod("WriteLine", new[] { typeof(object) });
+                    _il.Emit(OpCodes.Call, writeMethod);
+                }
+                else
+                {
+                    _il.Emit(OpCodes.Call, typeof(Console).GetMethod("WriteLine", Type.EmptyTypes));
+                }
+            }
+            else if (stmt is Parsing.Ast.IfStatement ifStmt)
+            {
+                // Simplified if for #main
+                EmitExpr(ifStmt.Condition);
+                var endLabel = _il.DefineLabel();
+                _il.Emit(OpCodes.Brfalse, endLabel);
+                foreach (var s in ifStmt.ThenBody) EmitStatement(s);
+                _il.MarkLabel(endLabel);
+            }
+            else if (stmt is Parsing.Ast.ForStatement forStmt)
+            {
+                // Simplified for loop
+                var loopVar = _il.DeclareLocal(typeof(int));
+                _locals[forStmt.VarName] = loopVar;
+                EmitExpr(forStmt.Start);
+                _il.Emit(OpCodes.Stloc, loopVar);
+                var endVar = _il.DeclareLocal(typeof(int));
+                EmitExpr(forStmt.End);
+                _il.Emit(OpCodes.Stloc, endVar);
+                var loopStart = _il.DefineLabel();
+                var loopEnd = _il.DefineLabel();
+                _il.MarkLabel(loopStart);
+                _il.Emit(OpCodes.Ldloc, loopVar);
+                _il.Emit(OpCodes.Ldloc, endVar);
+                _il.Emit(OpCodes.Bgt, loopEnd);
+                foreach (var s in forStmt.Body) EmitStatement(s);
+                _il.Emit(OpCodes.Ldloc, loopVar);
+                _il.Emit(OpCodes.Ldc_I4_1);
+                _il.Emit(OpCodes.Add);
+                _il.Emit(OpCodes.Stloc, loopVar);
+                _il.Emit(OpCodes.Br, loopStart);
+                _il.MarkLabel(loopEnd);
+            }
+            else if (stmt is Parsing.Ast.IncrementStatement inc)
+            {
+                if (_locals.TryGetValue(inc.VariableName, out var loc2))
+                {
+                    _il.Emit(OpCodes.Ldloc, loc2);
+                    _il.Emit(OpCodes.Ldc_I4_1);
+                    _il.Emit(inc.IsIncrement ? OpCodes.Add : OpCodes.Sub);
+                    _il.Emit(OpCodes.Stloc, loc2);
+                }
+            }
         }
 
         public void EmitExpr(Parsing.Ast.Expression e)
