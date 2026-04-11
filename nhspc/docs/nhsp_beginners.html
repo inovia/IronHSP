@@ -153,18 +153,35 @@ mes nettoval(r, 2)   ; => "Hello from NHSP!"</code></pre>
 // これもコメント（C スタイル）</code></pre>
 
 <h3>3.2 変数</h3>
-<pre><code>; 型指定して宣言
-dim int x
-x = 42
+<pre><code>; dim を使った宣言
+dim int x = 42
+dim string name = "Taro"
+
+; dim 省略形 (C# と同じ書き方)
+int y = 100
+string msg = "Hello"
 
 ; 型推論（最初の代入で型が決まる）
-y = 100        ; int 型
-name = "Taro"  ; string 型
+count = 100        ; int 型
+text = "abc"       ; string 型
 
 ; 配列
 dim int arr, 10
 arr(0) = 100
 arr(1) = 200</code></pre>
+
+<h3>3.3 コロン区切りと行継続</h3>
+<pre><code>; HSP と同じ！コロンで1行に複数文が書ける
+int a = 1 : int b = 2 : int c = a + b
+
+; 長い行は \ で分割できる（HSP 互換）
+#dllfunc public static int MessageBoxW, \
+  IntPtr hWnd, string text, \
+  string caption, int type</code></pre>
+
+<div class="tip">
+HSP の <code>:</code> (文区切り) と <code>\</code> (行継続) がそのまま使えます。C# には同じ機能がありません。
+</div>
 
 <h3>3.3 型の一覧</h3>
 <table style="width:100%; border-collapse:collapse; margin:1rem 0;">

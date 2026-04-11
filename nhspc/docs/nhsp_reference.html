@@ -97,6 +97,56 @@
 <h3>コンパイルパイプライン</h3>
 <pre><code>Source (.nhsp) → Lexer → Parser → AST → Semantic → IL Emit → Assembly (.dll/.exe)</code></pre>
 
+<h3>構文の基本ルール</h3>
+<table>
+<tr><th>機能</th><th>構文</th><th>説明</th></tr>
+<tr><td>1行1文</td><td><code>x = 42</code></td><td>改行が文の区切り (セミコロン不要)</td></tr>
+<tr><td>コロン区切り</td><td><code>a = 1 : b = 2</code></td><td>HSP と同様、<code>:</code> で1行に複数文を記述可能</td></tr>
+<tr><td>行継続</td><td><code>a + b + \<br>&nbsp;&nbsp;c + d</code></td><td>HSP と同様、<code>\</code> + 改行で次の行に続く</td></tr>
+<tr><td>dim 省略</td><td><code>int x = 42</code></td><td><code>dim int x = 42</code> と同等。C# 風の変数宣言</td></tr>
+<tr><td>コメント</td><td><code>; コメント</code> / <code>// コメント</code></td><td>HSP 形式と C 形式の両方に対応</td></tr>
+<tr><td>16進数</td><td><code>$FF</code> / <code>0xFF</code></td><td>HSP 形式と C 形式の両方に対応</td></tr>
+</table>
+
+<h3>コロン区切りと行継続の例</h3>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>; コロン区切り: 1行に複数文
+int a = 1 : int b = 2 : int c = a + b
+
+; 行継続: 長い行を分割
+#dllfunc public static int MessageBoxW \
+  "MessageBoxW", \
+  IntPtr hWnd, string text, \
+  string caption, int type
+
+; 式の途中でも分割可能
+int result = 1 + 2 + \
+  3 + 4</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>// C# は ; で文を区切る
+int a = 1; int b = 2; int c = a + b;
+
+// C# は改行を無視するので行継続不要
+[DllImport("user32.dll")]
+static extern int MessageBoxW(
+  IntPtr hWnd, string text,
+  string caption, int type);
+
+int result = 1 + 2 +
+  3 + 4;</code></pre>
+</div>
+</div>
+
+<div class="note">
+<strong>HSP との違い:</strong> HSP ではコメントに <code>;</code> を使いますが、NHSP でも同じです。<code>:</code> は HSP と同じく文の区切りです。<code>\</code> による行継続も HSP 互換です。<br>
+<strong>C# との違い:</strong> C# では文末の <code>;</code> が必須ですが、NHSP では不要です (改行が区切り)。
+</div>
+
 <!-- ========================================== -->
 <h2 id="directives">ディレクティブ一覧</h2>
 
@@ -217,8 +267,9 @@ int hex1 = 0xFF;
 </div>
 
 <div class="note">
-<code>dim</code> は省略可能。<code>int x = 42</code> と <code>dim int x = 42</code> は同じ意味です。<br>
-C# 経験者は <code>dim</code> なしの方が自然に書けます。HSP ユーザーは <code>dim</code> 付きが馴染みやすいかもしれません。
+<code>dim</code> は省略可能。<code>int x = 42</code> と <code>dim int x = 42</code> は同じ意味。<br>
+C# 経験者は <code>dim</code> なし、HSP ユーザーは <code>dim</code> 付きが馴染みやすい。どちらの書き方も混在可能。<br>
+.NET の型名 (<code>StringBuilder</code>, <code>StreamReader</code> 等) もフルネーム不要で使用可能 (主要な名前空間を自動検索)。
 </div>
 
 <div class="note">
@@ -2561,11 +2612,11 @@ Process.Start("notepad.exe");</code></pre>
 <tr><td>演算子</td><td>算術 (+,-,*,/,%), 比較 (==,!=,&lt;,&gt;,&lt;=,&gt;=), 論理 (&amp;&amp;,||,!), ビット (&amp;,|,^,~,&lt;&lt;,&gt;&gt;), 三項 (?:), null合体 (??), is, as, typeof, ++/--</td></tr>
 <tr><td>型</td><td>int, int64, double, float, string, bool, byte, sbyte, short, ushort, uint, ulong, char, IntPtr, UIntPtr, int? (Nullable), int[] (配列), int[][] (ジャグ配列), List&lt;T&gt; (ジェネリクス利用)</td></tr>
 <tr><td>文</td><td>dim, new, print, sleep, lock, using, return, throw</td></tr>
-<tr><td>その他</td><td>$"補間文字列", 16進数 ($FF/0xFF), #namespace, #include, #dllimport/#dllfunc (EntryPoint/CharSet/CallingConvention/SetLastError), COM属性, PDB デバッグ情報</td></tr>
+<tr><td>その他</td><td>$"補間文字列", 16進数 ($FF/0xFF), #namespace, #include, #dllimport/#dllfunc (EntryPoint/CharSet/CallingConvention/SetLastError), COM属性, PDB デバッグ情報, コロン区切り (:), 行継続 (\), dim 省略形</td></tr>
 </table>
 
 <footer>
-  <p>NHSP (Net HSP) 言語リファレンス &mdash; nhspc コンパイラ Phase 1-18 (147 テスト)</p>
+  <p>NHSP (Net HSP) 言語リファレンス &mdash; nhspc コンパイラ Phase 1-18 (155 テスト)</p>
 </footer>
 
 </div>
