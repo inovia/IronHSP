@@ -530,12 +530,29 @@ class NhspDebugConfigProvider {
             const pdbPath = exePath.replace(/\.exe$/i, '.pdb');
             if (pdbConverter && fs.existsSync(pdbPath)) {
                 outputChannel.appendLine(`[Debug] Converting PDB to Portable format...`);
+                // Wait a moment for nhspc to release the file
+                await new Promise(r => setTimeout(r, 500));
+                const portablePdb = pdbPath + '.portable';
                 await new Promise((resolve) => {
-                    execFile(pdbConverter, [exePath], { cwd: sourceDir, timeout: 15000 }, (err2, out2, err2b) => {
+                    execFile(pdbConverter, [exePath, '-o', portablePdb], { cwd: sourceDir, timeout: 15000 }, (err2, out2, err2b) => {
                         if (err2) {
                             outputChannel.appendLine(`[Debug] PDB conversion failed (breakpoints may not work): ${(out2||'')+(err2b||'')}`);
                         } else {
-                            outputChannel.appendLine(`[Debug] PDB converted to Portable format`);
+                            // Replace original PDB with portable version
+                            try {
+                                if (fs.existsSync(pdbPath)) fs.unlinkSync(pdbPath);
+                                fs.renameSync(portablePdb, pdbPath);
+                                outputChannel.appendLine(`[Debug] PDB converted to Portable format`);
+                            } catch (e3) {
+                                // If rename fails, copy instead
+                                try {
+                                    fs.copyFileSync(portablePdb, pdbPath);
+                                    fs.unlinkSync(portablePdb);
+                                    outputChannel.appendLine(`[Debug] PDB converted to Portable format`);
+                                } catch (e4) {
+                                    outputChannel.appendLine(`[Debug] PDB replace failed: ${e4.message}`);
+                                }
+                            }
                         }
                         resolve();
                     });
