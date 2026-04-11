@@ -21,7 +21,7 @@ namespace NhspCompiler.Tests
         [Test] public void PInvokeCompiles()
         {
             var asm = Compile(
-"#assembly \"T\"\n#class public NativeApi\n  #dllimport \"kernel32.dll\"\n  #func public static int GetTickCount\n#endclass");
+"#assembly \"T\"\n#class public NativeApi\n  #dllimport \"kernel32.dll\"\n  #dllfunc public static int GetTickCount\n#endclass");
             var t = asm.GetType("NativeApi");
             Assert.IsNotNull(t, "NativeApi");
             var m = t.GetMethod("GetTickCount");
@@ -35,7 +35,7 @@ namespace NhspCompiler.Tests
         [Test] public void PInvokeWithParams()
         {
             var asm = Compile(
-"#assembly \"T\"\n#class public NativeApi\n  #dllimport \"kernel32.dll\"\n  #func public static int GetCurrentProcessId\n#endclass");
+"#assembly \"T\"\n#class public NativeApi\n  #dllimport \"kernel32.dll\"\n  #dllfunc public static int GetCurrentProcessId\n#endclass");
             var t = asm.GetType("NativeApi");
             var m = t.GetMethod("GetCurrentProcessId");
             Assert.IsNotNull(m, "GetCurrentProcessId");

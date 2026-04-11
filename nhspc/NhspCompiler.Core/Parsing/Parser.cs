@@ -147,23 +147,20 @@ namespace NhspCompiler.Core.Parsing
                         Advance();
                         _pendingDllImport = Expect(TokenKind.StringLiteral, "Expected DLL name").Text;
                     }
+                    else if (MatchKW("dllfunc"))
+                    {
+                        var m = ParseDllFunc(cls.DefaultAccess);
+                        m.DllImportName = _pendingDllImport;
+                        cls.Methods.Add(m);
+                    }
                     else if (MatchKW("attribute"))
                     {
-                        // Attribute before next class member (future: per-method attrs)
                         _pendingAttributes.Add(ParseAttribute());
                     }
                     else if (MatchKW("field")) { cls.Fields.Add(ParseField(cls.DefaultAccess)); }
                     else if (MatchKW("func"))
                     {
-                        var m = ParseMethod(cls.DefaultAccess);
-                        if (_pendingDllImport != null)
-                        {
-                            m.DllImportName = _pendingDllImport;
-                            m.IsStatic = true; // P/Invoke is always static
-                            m.Body.Clear(); // P/Invoke has no body
-                            _pendingDllImport = null;
-                        }
-                        cls.Methods.Add(m);
+                        cls.Methods.Add(ParseMethod(cls.DefaultAccess));
                     }
                     else if (MatchKW("init")) { cls.Constructors.Add(ParseConstructor(cls.DefaultAccess)); }
                     else if (MatchKW("property")) { cls.Properties.Add(ParseProperty(cls.DefaultAccess)); }
@@ -816,6 +813,41 @@ namespace NhspCompiler.Core.Parsing
             if (Match(TokenKind.LParen))
             { Advance(); var e = ParseExpression(); Expect(TokenKind.RParen, "Expected ')'"); return e; }
             return null;
+        }
+
+        private MethodDeclaration ParseDllFunc(string defAccess)
+        {
+            var m = new MethodDeclaration { Line = Current.Line, IsStatic = true };
+            Advance(); // "dllfunc"
+
+            // Same header as #func: [modifiers] [returnType] Name [, params]
+            while (IsModifierKeyword()) ApplyModifier(m, Advance().Text);
+            m.IsStatic = true; // always static for P/Invoke
+
+            if (MatchType() && Peek().Kind == TokenKind.Identifier)
+            { m.ReturnType = ReadTypeName(); m.Name = Advance().Text; }
+            else if (IsKnownType() && Peek().Kind == TokenKind.Identifier)
+            { m.ReturnType = ReadTypeName(); m.Name = Advance().Text; }
+            else if (Current.Kind == TokenKind.Identifier)
+            { m.Name = Advance().Text; }
+
+            // Parameters
+            while (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
+            {
+                if (Match(TokenKind.Comma)) { Advance(); continue; }
+                if (MatchType() || (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Identifier))
+                {
+                    var p = new ParameterDeclaration { Line = Current.Line };
+                    p.TypeName = ReadTypeName();
+                    p.Name = Expect(TokenKind.Identifier, "Expected param name").Text;
+                    m.Parameters.Add(p);
+                    continue;
+                }
+                break;
+            }
+            if (m.Access == null) m.Access = defAccess;
+            // No body - P/Invoke declaration only
+            return m;
         }
 
         private AttributeDeclaration ParseAttribute()

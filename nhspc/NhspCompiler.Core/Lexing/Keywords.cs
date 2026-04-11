@@ -16,7 +16,7 @@ namespace NhspCompiler.Core.Lexing
             "try", "catch", "finally", "endtry", "throw",
             "lock", "endlock", "sleep",
             "public", "private", "protected", "static", "virtual", "override", "abstract",
-            "new", "dllimport", "attribute",
+            "new", "dllimport", "dllfunc", "attribute",
             "namespace", "endnamespace", "using", "reference",
             "main", "endmain",
             "and", "or", "not",  // alternative logical operators

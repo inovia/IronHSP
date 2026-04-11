@@ -416,13 +416,15 @@ print str(result)    ; => -1</code></pre>
 <p>Windows の DLL にある関数を直接呼び出すことができます。HSP の <code>#uselib</code> / <code>#func</code> に相当します。</p>
 
 <pre><code>#class public WinApi
-  ; user32.dll の MessageBoxA を呼ぶ
+  ; user32.dll の関数を宣言
   #dllimport "user32.dll"
-  #func public static int MessageBoxA, int hWnd, string text, string caption, int type
+  #dllfunc public static int MessageBoxA, int hWnd, string text, string caption, int type
+  #dllfunc public static int MessageBoxW, int hWnd, string text, string caption, int type
 
-  ; kernel32.dll の GetTickCount を呼ぶ
+  ; kernel32.dll の関数を宣言
   #dllimport "kernel32.dll"
-  #func public static int GetTickCount
+  #dllfunc public static int GetTickCount
+  #dllfunc public static int GetCurrentProcessId
 #endclass</code></pre>
 
 <div class="compare">
@@ -430,7 +432,7 @@ print str(result)    ; => -1</code></pre>
 <h4>NHSP</h4>
 <pre><code>; DLL の関数を宣言
 #dllimport "user32.dll"
-#func public static int MessageBoxA, int hWnd, string text, string caption, int type</code></pre>
+#dllfunc public static int MessageBoxA, int hWnd, string text, string caption, int type</code></pre>
 </div>
 <div>
 <h4>HSP3 で同じこと</h4>
@@ -441,8 +443,9 @@ print str(result)    ; => -1</code></pre>
 </div>
 
 <div class="tip">
-<code>#dllimport</code> の直後に書いた <code>#func</code> は本体が不要です（<code>#endfunc</code> を書かなくて OK）。
-DLL 内の関数を宣言するだけで、実装はネイティブ DLL 側にあります。
+<code>#dllimport</code> で DLL 名を宣言し、<code>#dllfunc</code> で関数を列挙します。
+<code>#dllfunc</code> は宣言だけなので <code>#endfunc</code> は不要。
+同じ DLL の関数は <code>#dllimport</code> 1回で複数宣言できます。
 </div>
 
 <!-- ========================================== -->
