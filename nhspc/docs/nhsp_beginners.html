@@ -69,6 +69,7 @@
   <li><a href="#enum">列挙型 (enum)</a></li>
   <li><a href="#switch">switch と三項演算子</a></li>
   <li><a href="#bitwise">ビット演算と文字列補間</a></li>
+  <li><a href="#advanced">型チェックとイベント</a></li>
 </ol>
 </nav>
 
@@ -784,6 +785,39 @@ print t.Name   ; → "Int32"</code></pre>
 i++   ; i = 1
 i++   ; i = 2
 i--   ; i = 1</code></pre>
+
+<!-- ========================================== -->
+<h2 id="advanced">20. 型チェックとイベント</h2>
+
+<h3>is / as 演算子</h3>
+
+<p><code>is</code> で型チェック、<code>as</code> で安全なキャストができます。</p>
+
+<pre><code>; is: 型が合っているか調べる
+if obj is string
+  print "文字列です"
+endif
+
+; as: キャストを試みる (失敗したら null)
+dim string s = obj as string
+dim string result = s ?? "文字列ではない"</code></pre>
+
+<h3>イベント</h3>
+
+<p>.NET のイベント機能を使えます。ボタンのクリックなど、通知の仕組みに使います。</p>
+
+<pre><code>#class public Button
+  ; EventHandler 型のイベントを宣言
+  #event public EventHandler Click
+#endclass</code></pre>
+
+<h3>デフォルト引数</h3>
+
+<p>引数にデフォルト値を設定できます。呼び出し時に省略可能になります。</p>
+
+<pre><code>#func public static string Greet, string name = "World", int count = 1
+  return name
+#endfunc</code></pre>
 
 <footer>
   <p>NHSP (Net HSP) &mdash; HSP風 .NET アセンブリコンパイラ</p>

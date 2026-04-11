@@ -56,6 +56,10 @@ namespace NhspCompiler.Core.Parsing.Ast
         public List<ConstructorDeclaration> Constructors { get; set; } = new List<ConstructorDeclaration>();
         public List<MethodDeclaration> Methods { get; set; } = new List<MethodDeclaration>();
         public List<PropertyDeclaration> Properties { get; set; } = new List<PropertyDeclaration>();
+        public List<EventDeclaration> Events { get; set; } = new List<EventDeclaration>();
+        public List<IndexerDeclaration> Indexers { get; set; } = new List<IndexerDeclaration>();
+        public List<OperatorDeclaration> Operators { get; set; } = new List<OperatorDeclaration>();
+        public List<ClassDeclaration> NestedClasses { get; set; } = new List<ClassDeclaration>();
 
         public bool IsSealed { get; set; }
         public bool IsAbstract { get; set; }
@@ -91,6 +95,7 @@ namespace NhspCompiler.Core.Parsing.Ast
         public bool IsOut { get; set; }
         public bool IsIn { get; set; }
         public bool IsParams { get; set; }
+        public Expression DefaultValue { get; set; } // null = no default
         public List<ParameterAttribute> Attributes { get; set; } = new List<ParameterAttribute>(); // [MarshalAs] etc.
     }
 
@@ -142,6 +147,30 @@ namespace NhspCompiler.Core.Parsing.Ast
         public string ReturnType { get; set; } = "void";
         public string Access { get; set; } = "public";
         public List<ParameterDeclaration> Parameters { get; set; } = new List<ParameterDeclaration>();
+    }
+
+    public class EventDeclaration : AstNode
+    {
+        public string Name { get; set; }
+        public string TypeName { get; set; } // delegate type
+        public string Access { get; set; } = "public";
+    }
+
+    public class IndexerDeclaration : AstNode
+    {
+        public string TypeName { get; set; }
+        public string Access { get; set; } = "public";
+        public List<ParameterDeclaration> Parameters { get; set; } = new List<ParameterDeclaration>();
+        public List<Statement> GetterBody { get; set; }
+        public List<Statement> SetterBody { get; set; }
+    }
+
+    public class OperatorDeclaration : AstNode
+    {
+        public string Operator { get; set; } // "+", "-", "*", "/", "==", "!=", "implicit", "explicit"
+        public string ReturnType { get; set; }
+        public List<ParameterDeclaration> Parameters { get; set; } = new List<ParameterDeclaration>();
+        public List<Statement> Body { get; set; } = new List<Statement>();
     }
 
     public class PropertyDeclaration : AstNode

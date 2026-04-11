@@ -246,11 +246,19 @@ namespace NhspCompiler.Core.Emit
 
         public Type ResolveType(string typeName)
         {
+            if (typeName == null) return null;
+
             // Array types: int[], string[]
-            if (typeName != null && typeName.EndsWith("[]"))
+            if (typeName.EndsWith("[]"))
             {
                 var elemType = ResolveType(typeName.Substring(0, typeName.Length - 2));
                 return elemType?.MakeArrayType();
+            }
+
+            // Generic types: List<int>, Dictionary<string,int>
+            if (typeName.Contains("<") && typeName.Contains(">"))
+            {
+                return ResolveGenericType(typeName);
             }
 
             // Check local type registries
@@ -273,6 +281,18 @@ namespace NhspCompiler.Core.Emit
                 t = asm.GetType(typeName, false);
                 if (t != null) return t;
             }
+
+            // Try with System. prefix
+            t = Type.GetType("System." + typeName);
+            if (t != null) return t;
+
+            // Search loaded assemblies with System. prefix
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                t = asm.GetType("System." + typeName, false);
+                if (t != null) return t;
+            }
+
             return null;
         }
 
@@ -441,13 +461,154 @@ namespace NhspCompiler.Core.Emit
 
     public partial class AssemblyEmitter
     {
+        private Type ResolveGenericType(string typeName)
+        {
+            int ltPos = typeName.IndexOf('<');
+            int gtPos = typeName.LastIndexOf('>');
+            if (ltPos < 0 || gtPos < 0) return null;
+
+            string baseName = typeName.Substring(0, ltPos);
+            string argsStr = typeName.Substring(ltPos + 1, gtPos - ltPos - 1);
+
+            // Parse type arguments (handle nested generics)
+            var typeArgs = new List<Type>();
+            int depth = 0;
+            int start = 0;
+            for (int i = 0; i < argsStr.Length; i++)
+            {
+                if (argsStr[i] == '<') depth++;
+                else if (argsStr[i] == '>') depth--;
+                else if (argsStr[i] == ',' && depth == 0)
+                {
+                    var argType = ResolveType(argsStr.Substring(start, i - start).Trim());
+                    if (argType != null) typeArgs.Add(argType);
+                    start = i + 1;
+                }
+            }
+            var lastArg = ResolveType(argsStr.Substring(start).Trim());
+            if (lastArg != null) typeArgs.Add(lastArg);
+
+            // Resolve generic type definition: List`1, Dictionary`2, etc.
+            string genericName = baseName + "`" + typeArgs.Count;
+            Type genericDef = null;
+
+            // Common System.Collections.Generic types
+            var commonGenerics = new Dictionary<string, string>
+            {
+                { "List", "System.Collections.Generic.List`" },
+                { "Dictionary", "System.Collections.Generic.Dictionary`" },
+                { "HashSet", "System.Collections.Generic.HashSet`" },
+                { "Queue", "System.Collections.Generic.Queue`" },
+                { "Stack", "System.Collections.Generic.Stack`" },
+                { "LinkedList", "System.Collections.Generic.LinkedList`" },
+                { "SortedList", "System.Collections.Generic.SortedList`" },
+                { "SortedDictionary", "System.Collections.Generic.SortedDictionary`" },
+                { "IEnumerable", "System.Collections.Generic.IEnumerable`" },
+                { "IList", "System.Collections.Generic.IList`" },
+                { "ICollection", "System.Collections.Generic.ICollection`" },
+                { "IDictionary", "System.Collections.Generic.IDictionary`" },
+                { "IComparer", "System.Collections.Generic.IComparer`" },
+                { "IEqualityComparer", "System.Collections.Generic.IEqualityComparer`" },
+                { "KeyValuePair", "System.Collections.Generic.KeyValuePair`" },
+                { "Nullable", "System.Nullable`" },
+                { "Action", "System.Action`" },
+                { "Func", "System.Func`" },
+                { "Tuple", "System.Tuple`" },
+                { "Task", "System.Threading.Tasks.Task`" },
+            };
+
+            if (commonGenerics.TryGetValue(baseName, out string fullName))
+            {
+                genericDef = Type.GetType(fullName + typeArgs.Count);
+            }
+
+            if (genericDef == null)
+            {
+                // Search in loaded assemblies
+                foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    genericDef = asm.GetType(genericName, false);
+                    if (genericDef != null) break;
+                    // Try with System.Collections.Generic prefix
+                    genericDef = asm.GetType("System.Collections.Generic." + genericName, false);
+                    if (genericDef != null) break;
+                }
+            }
+
+            if (genericDef != null && typeArgs.Count > 0)
+            {
+                try { return genericDef.MakeGenericType(typeArgs.ToArray()); }
+                catch { return null; }
+            }
+            return null;
+        }
+
+        private static Type ResolveGenericTypeStatic(string typeName)
+        {
+            int ltPos = typeName.IndexOf('<');
+            int gtPos = typeName.LastIndexOf('>');
+            if (ltPos < 0 || gtPos < 0) return null;
+
+            string baseName = typeName.Substring(0, ltPos);
+            string argsStr = typeName.Substring(ltPos + 1, gtPos - ltPos - 1);
+
+            var typeArgs = new List<Type>();
+            int depth = 0; int start = 0;
+            for (int i = 0; i < argsStr.Length; i++)
+            {
+                if (argsStr[i] == '<') depth++;
+                else if (argsStr[i] == '>') depth--;
+                else if (argsStr[i] == ',' && depth == 0)
+                {
+                    var a = ResolveTypeStatic(argsStr.Substring(start, i - start).Trim());
+                    if (a != null) typeArgs.Add(a);
+                    start = i + 1;
+                }
+            }
+            var last = ResolveTypeStatic(argsStr.Substring(start).Trim());
+            if (last != null) typeArgs.Add(last);
+
+            string genericName = baseName + "`" + typeArgs.Count;
+            Type genericDef = null;
+
+            var prefixes = new[] { "System.Collections.Generic.", "System.", "System.Threading.Tasks.", "" };
+            foreach (var prefix in prefixes)
+            {
+                genericDef = Type.GetType(prefix + genericName);
+                if (genericDef != null) break;
+            }
+
+            if (genericDef == null)
+            {
+                foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    genericDef = asm.GetType(genericName, false);
+                    if (genericDef == null) genericDef = asm.GetType("System.Collections.Generic." + genericName, false);
+                    if (genericDef != null) break;
+                }
+            }
+
+            if (genericDef != null && typeArgs.Count > 0)
+            {
+                try { return genericDef.MakeGenericType(typeArgs.ToArray()); }
+                catch { return null; }
+            }
+            return null;
+        }
+
         // Static version for backward compatibility
         public static Type ResolveTypeStatic(string typeName)
         {
-            if (typeName != null && typeName.EndsWith("[]"))
+            if (typeName == null) return null;
+            if (typeName.EndsWith("[]"))
             {
                 var elemType = ResolveTypeStatic(typeName.Substring(0, typeName.Length - 2));
                 return elemType?.MakeArrayType();
+            }
+            // Generics in static context
+            if (typeName.Contains("<") && typeName.Contains(">"))
+            {
+                return ResolveGenericTypeStatic(typeName);
             }
             if (Keywords.TypeAliases.TryGetValue(typeName, out string dotnetName))
                 return Type.GetType(dotnetName);

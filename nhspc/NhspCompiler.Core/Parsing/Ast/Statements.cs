@@ -80,7 +80,15 @@ namespace NhspCompiler.Core.Parsing.Ast
         public string CatchVarName { get; set; } // null = no variable
         public string CatchTypeName { get; set; } = "Exception";
         public List<Statement> CatchBody { get; set; } = new List<Statement>();
+        public List<CatchClause> AdditionalCatches { get; set; } = new List<CatchClause>();
         public List<Statement> FinallyBody { get; set; }
+    }
+
+    public class CatchClause : AstNode
+    {
+        public string CatchTypeName { get; set; } = "Exception";
+        public string CatchVarName { get; set; }
+        public List<Statement> Body { get; set; } = new List<Statement>();
     }
 
     public class LockStatement : Statement

@@ -247,6 +247,14 @@ namespace NhspCompiler.Core.Parsing
                     }
                     else if (MatchKW("init")) { cls.Constructors.Add(ParseConstructor(cls.DefaultAccess)); }
                     else if (MatchKW("property")) { cls.Properties.Add(ParseProperty(cls.DefaultAccess)); }
+                    else if (MatchKW("event")) { cls.Events.Add(ParseEvent(cls.DefaultAccess)); }
+                    else if (MatchKW("indexer")) { cls.Indexers.Add(ParseIndexer(cls.DefaultAccess)); }
+                    else if (MatchKW("operator")) { cls.Operators.Add(ParseOperator()); }
+                    else if (MatchKW("class"))
+                    {
+                        var nested = ParseClass();
+                        cls.NestedClasses.Add(nested);
+                    }
                     else { _diag.Error(Current.Line, Current.Column, $"Unexpected: #{Current.Text}"); Advance(); }
                 }
                 else { Advance(); }
@@ -372,8 +380,42 @@ namespace NhspCompiler.Core.Parsing
         private bool IsKnownType()
         {
             // Check if current identifier is a known type (in TypeAliases or registered)
-            return Current.Kind == TokenKind.Identifier &&
-                   Lexing.Keywords.TypeAliases.ContainsKey(Current.Text.ToLowerInvariant());
+            if (Current.Kind == TokenKind.Identifier &&
+                Lexing.Keywords.TypeAliases.ContainsKey(Current.Text.ToLowerInvariant()))
+                return true;
+            // Generic type pattern: Identifier< - but only if followed by type args and > then identifier
+            if (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Less)
+                return true;
+            return false;
+        }
+
+        // Check if current position starts with a type name followed by an identifier (for dim, field, etc.)
+        private bool IsTypeFollowedByIdentifier()
+        {
+            if (MatchType() && Peek().Kind == TokenKind.Identifier) return true;
+            // For TypeAliases followed by identifier
+            if (Current.Kind == TokenKind.Identifier &&
+                Lexing.Keywords.TypeAliases.ContainsKey(Current.Text.ToLowerInvariant()) &&
+                Peek().Kind == TokenKind.Identifier) return true;
+            // For generic types: Identifier<...> followed by identifier
+            // Scan ahead to find the matching > then check next token
+            if (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Less)
+            {
+                int save = _pos;
+                _pos++; // skip name
+                _pos++; // skip <
+                int depth = 1;
+                while (_pos < _tokens.Count && depth > 0)
+                {
+                    if (_tokens[_pos].Kind == TokenKind.Less) depth++;
+                    else if (_tokens[_pos].Kind == TokenKind.Greater) depth--;
+                    _pos++;
+                }
+                bool result = _pos < _tokens.Count && _tokens[_pos].Kind == TokenKind.Identifier;
+                _pos = save;
+                return result;
+            }
+            return false;
         }
 
         private void ApplyModifier(MethodDeclaration m, string mod)
@@ -567,7 +609,7 @@ namespace NhspCompiler.Core.Parsing
 
             // New syntax: dim type name [, size]
             // Also: dim name = expr (type inferred)
-            if ((MatchType() || IsKnownType()) && Peek().Kind == TokenKind.Identifier)
+            if (IsTypeFollowedByIdentifier())
             {
                 decl.TypeName = ReadTypeName();
                 decl.Name = Expect(TokenKind.Identifier, "Expected variable name").Text;
@@ -697,19 +739,36 @@ namespace NhspCompiler.Core.Parsing
             // Parse try body until catch/finally/endtry
             stmt.TryBody = ParseTryBlock();
 
-            // catch [Type varName]
+            // First catch [Type varName]
             if (IsTryKW("catch"))
             {
-                ConsumeTryKW(); // consume catch (with optional #)
+                ConsumeTryKW();
                 if (Current.Kind == TokenKind.Identifier || MatchType())
                 {
-                    if (MatchType() && Peek().Kind == TokenKind.Identifier)
+                    if ((MatchType() || Current.Kind == TokenKind.Identifier) && Peek().Kind == TokenKind.Identifier)
                     { stmt.CatchTypeName = ReadTypeName(); stmt.CatchVarName = Advance().Text; }
                     else if (Current.Kind == TokenKind.Identifier)
                     { stmt.CatchVarName = Advance().Text; }
                 }
                 SkipEOL();
                 stmt.CatchBody = ParseTryBlock();
+            }
+
+            // Additional catch blocks
+            while (IsTryKW("catch"))
+            {
+                var clause = new CatchClause { Line = Current.Line };
+                ConsumeTryKW();
+                if (Current.Kind == TokenKind.Identifier || MatchType())
+                {
+                    if ((MatchType() || Current.Kind == TokenKind.Identifier) && Peek().Kind == TokenKind.Identifier)
+                    { clause.CatchTypeName = ReadTypeName(); clause.CatchVarName = Advance().Text; }
+                    else if (Current.Kind == TokenKind.Identifier)
+                    { clause.CatchVarName = Advance().Text; }
+                }
+                SkipEOL();
+                clause.Body = ParseTryBlock();
+                stmt.AdditionalCatches.Add(clause);
             }
 
             if (IsTryKW("finally"))
@@ -881,8 +940,27 @@ namespace NhspCompiler.Core.Parsing
         private Expression ParseComparison()
         {
             var left = ParseShift();
-            while (Match(TokenKind.Less) || Match(TokenKind.Greater) || Match(TokenKind.LessEqual) || Match(TokenKind.GreaterEqual))
-            { string op = Advance().Text; left = new BinaryExpr { Left = left, Operator = op, Right = ParseShift() }; }
+            while (Match(TokenKind.Less) || Match(TokenKind.Greater) || Match(TokenKind.LessEqual) || Match(TokenKind.GreaterEqual)
+                || MatchKW("is") || MatchKW("as"))
+            {
+                if (MatchKW("is"))
+                {
+                    Advance();
+                    string tn = ReadTypeName();
+                    left = new IsExpr { Value = left, TypeName = tn, Line = left.Line };
+                }
+                else if (MatchKW("as"))
+                {
+                    Advance();
+                    string tn = ReadTypeName();
+                    left = new AsExpr { Value = left, TypeName = tn, Line = left.Line };
+                }
+                else
+                {
+                    string op = Advance().Text;
+                    left = new BinaryExpr { Left = left, Operator = op, Right = ParseShift() };
+                }
+            }
             return left;
         }
 
@@ -1003,6 +1081,24 @@ namespace NhspCompiler.Core.Parsing
             {
                 var t = Advance();
                 return new IdentifierExpr { Name = t.Text, Line = t.Line };
+            }
+            // new TypeName(args) in expression context
+            if (MatchKW("new"))
+            {
+                Advance();
+                string tn = ReadTypeName();
+                var args = new System.Collections.Generic.List<Expression>();
+                if (Match(TokenKind.LParen))
+                {
+                    Advance();
+                    if (!Match(TokenKind.RParen))
+                    {
+                        args.Add(ParseExpression());
+                        while (Match(TokenKind.Comma)) { Advance(); args.Add(ParseExpression()); }
+                    }
+                    Expect(TokenKind.RParen, "Expected ')'");
+                }
+                return new NewObjectExpr { TypeName = tn, Arguments = args, Line = Current.Line };
             }
             if (Current.Kind == TokenKind.Identifier && Current.Text == "this")
             { Advance(); return new ThisExpr { Line = Current.Line }; }
@@ -1202,6 +1298,12 @@ namespace NhspCompiler.Core.Parsing
                     p.IsIn = isIn;
                     p.IsParams = isParams;
                     p.Attributes = attrs;
+                    // Default value: type name = value
+                    if (Match(TokenKind.Equals))
+                    {
+                        Advance();
+                        p.DefaultValue = ParseExpression();
+                    }
                     parameters.Add(p);
                     continue;
                 }
@@ -1367,6 +1469,73 @@ namespace NhspCompiler.Core.Parsing
             return del;
         }
 
+        // ======== #event ========
+        private EventDeclaration ParseEvent(string defAccess)
+        {
+            var ev = new EventDeclaration { Line = Current.Line, Access = defAccess };
+            Advance(); // "event"
+            while (IsModifierKeyword()) { string mod = Advance().Text; if (mod == "public" || mod == "private") ev.Access = mod; }
+            ev.TypeName = ReadTypeName();
+            ev.Name = Expect(TokenKind.Identifier, "Expected event name").Text;
+            return ev;
+        }
+
+        // ======== #indexer ========
+        private IndexerDeclaration ParseIndexer(string defAccess)
+        {
+            var idx = new IndexerDeclaration { Line = Current.Line, Access = defAccess };
+            Advance(); // "indexer"
+            while (IsModifierKeyword()) { string mod = Advance().Text; if (mod == "public" || mod == "private") idx.Access = mod; }
+            idx.TypeName = ReadTypeName();
+            // Parameters: , type name [, type name]
+            ParseParameterList(idx.Parameters);
+            SkipEOL();
+
+            while (!Match(TokenKind.EOF))
+            {
+                SkipEOL();
+                if (MatchKW("endindexer")) { Advance(); break; }
+                if (Match(TokenKind.Hash))
+                {
+                    Advance();
+                    if (MatchKW("endindexer")) { Advance(); break; }
+                    if (MatchKW("get") || (Current.Kind == TokenKind.Identifier && Current.Text == "get"))
+                    { Advance(); SkipEOL(); idx.GetterBody = ParseBlock("endget"); if (MatchKW("endget")) Advance(); }
+                    else if (MatchKW("set") || (Current.Kind == TokenKind.Identifier && Current.Text == "set"))
+                    { Advance(); SkipEOL(); idx.SetterBody = ParseBlock("endset"); if (MatchKW("endset")) Advance(); }
+                    else { Advance(); }
+                }
+                else { Advance(); }
+            }
+            return idx;
+        }
+
+        // ======== #operator ========
+        private OperatorDeclaration ParseOperator()
+        {
+            var op = new OperatorDeclaration { Line = Current.Line };
+            Advance(); // "operator"
+
+            // Return type
+            if ((MatchType() || IsKnownType()) && Peek().Kind != TokenKind.EOL && Peek().Kind != TokenKind.EOF)
+            {
+                op.ReturnType = ReadTypeName();
+            }
+            else { op.ReturnType = "int"; }
+
+            // Operator symbol: +, -, *, /, ==, !=, <, >, implicit, explicit
+            if (Current.Kind == TokenKind.Identifier)
+                op.Operator = Advance().Text; // implicit, explicit
+            else
+                op.Operator = Advance().Text; // +, -, etc.
+
+            // Parameters
+            ParseParameterList(op.Parameters);
+            SkipEOL();
+            op.Body = ParseBlock("endoperator");
+            return op;
+        }
+
         // ======== #enum ========
         private EnumDeclaration ParseEnum()
         {
@@ -1486,6 +1655,22 @@ namespace NhspCompiler.Core.Parsing
             if (MatchType()) name = Advance().Text;
             else if (Current.Kind == TokenKind.Identifier) name = Advance().Text;
             else { _diag.Error(Current.Line, Current.Column, "Expected type name"); return "void"; }
+
+            // Generic type: List<int>, Dictionary<string, int>
+            if (Match(TokenKind.Less))
+            {
+                Advance(); // skip <
+                name += "<";
+                name += ReadTypeName();
+                while (Match(TokenKind.Comma))
+                {
+                    Advance();
+                    name += ",";
+                    name += ReadTypeName();
+                }
+                if (Match(TokenKind.Greater)) Advance();
+                name += ">";
+            }
 
             // Array type: int[], string[]
             if (Match(TokenKind.LBracket) && Peek().Kind == TokenKind.RBracket)

@@ -96,6 +96,20 @@ namespace NhspCompiler.Core.Parsing.Ast
         public string RawText { get; set; } // "Hello {name}, age {age}"
     }
 
+    // is operator: expr is TypeName
+    public class IsExpr : Expression
+    {
+        public Expression Value { get; set; }
+        public string TypeName { get; set; }
+    }
+
+    // as operator: expr as TypeName
+    public class AsExpr : Expression
+    {
+        public Expression Value { get; set; }
+        public string TypeName { get; set; }
+    }
+
     // Type cast / conversion
     public class CastExpr : Expression
     {

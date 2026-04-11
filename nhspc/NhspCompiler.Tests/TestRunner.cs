@@ -55,11 +55,19 @@ namespace NhspCompiler.Tests
                 typeof(Phase14Tests),
                 typeof(Phase15Tests),
                 typeof(Phase16Tests),
+                typeof(Phase17Tests),
             };
 
             foreach (var cls in testClasses)
             {
-                var instance = Activator.CreateInstance(cls);
+                object instance;
+                try { instance = Activator.CreateInstance(cls); }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"  [FAIL] {cls.Name}: Class init failed: {ex.InnerException?.Message ?? ex.Message}");
+                    fail++;
+                    continue;
+                }
                 foreach (var method in cls.GetMethods())
                 {
                     if (method.GetCustomAttribute<TestAttribute>() == null) continue;
@@ -70,11 +78,15 @@ namespace NhspCompiler.Tests
                         Console.WriteLine($"  [PASS] {name}");
                         pass++;
                     }
+                    catch (TargetInvocationException tie)
+                    {
+                        var inner = tie.InnerException ?? tie;
+                        Console.WriteLine($"  [FAIL] {name}: {inner.GetType().Name}: {inner.Message}");
+                        fail++;
+                    }
                     catch (Exception ex)
                     {
-                        var inner = ex;
-                        while (inner.InnerException != null) inner = inner.InnerException;
-                        Console.WriteLine($"  [FAIL] {name}: {inner.GetType().Name}: {inner.Message}");
+                        Console.WriteLine($"  [FAIL] {name}: {ex.GetType().Name}: {ex.Message}");
                         fail++;
                     }
                 }

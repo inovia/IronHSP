@@ -379,6 +379,34 @@ namespace NhspCompiler.Core.Emit
             // Properties
             foreach (var prop in _cls.Properties)
                 EmitProperty(prop);
+
+            // Events
+            foreach (var ev in _cls.Events)
+                EmitEvent(ev);
+
+            // Indexers
+            foreach (var idx in _cls.Indexers)
+                EmitIndexer(idx);
+
+            // Operators
+            foreach (var op in _cls.Operators)
+                EmitOperator(op);
+
+            // Nested classes
+            foreach (var nested in _cls.NestedClasses)
+            {
+                var nestedAttr = TypeAttributes.NestedPublic | TypeAttributes.Class;
+                if (nested.IsSealed) nestedAttr |= TypeAttributes.Sealed;
+                var nestedTB = TypeBuilder.DefineNestedType(nested.Name, nestedAttr);
+                _asmEmitter.TypeRegistry[_cls.Name + "+" + nested.Name] = nestedTB;
+                // Emit nested class members via a new TypeEmitter
+                var nestedEmitter = new TypeEmitter(nested, null, _diag, _asmEmitter, false);
+                nestedEmitter.TypeBuilder = nestedTB;
+                _asmEmitter.TypeRegistry[nested.Name] = nestedTB;
+                _asmEmitter.EmitterRegistry[nested.Name] = nestedEmitter;
+                nestedEmitter.EmitMembers();
+                nestedEmitter.FinalizeType();
+            }
         }
 
         private void EmitPInvokeMethod(MethodDeclaration method)
@@ -703,6 +731,145 @@ namespace NhspCompiler.Core.Emit
                 il.Emit(OpCodes.Ret);
                 pb.SetSetMethod(setter);
             }
+        }
+        private void EmitEvent(EventDeclaration ev)
+        {
+            var handlerType = _asmEmitter.ResolveType(ev.TypeName) ?? typeof(EventHandler);
+            var fieldBuilder = TypeBuilder.DefineField(ev.Name, handlerType,
+                FieldAttributes.Private);
+            Fields[ev.Name] = fieldBuilder;
+
+            var eventBuilder = TypeBuilder.DefineEvent(ev.Name, System.Reflection.EventAttributes.None, handlerType);
+
+            // add accessor
+            var addMethod = TypeBuilder.DefineMethod("add_" + ev.Name,
+                MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig,
+                typeof(void), new[] { handlerType });
+            var addIL = addMethod.GetILGenerator();
+            addIL.Emit(OpCodes.Ldarg_0);
+            addIL.Emit(OpCodes.Ldarg_0);
+            addIL.Emit(OpCodes.Ldfld, fieldBuilder);
+            addIL.Emit(OpCodes.Ldarg_1);
+            addIL.Emit(OpCodes.Call, typeof(Delegate).GetMethod("Combine", new[] { typeof(Delegate), typeof(Delegate) }));
+            addIL.Emit(OpCodes.Castclass, handlerType);
+            addIL.Emit(OpCodes.Stfld, fieldBuilder);
+            addIL.Emit(OpCodes.Ret);
+            eventBuilder.SetAddOnMethod(addMethod);
+
+            // remove accessor
+            var removeMethod = TypeBuilder.DefineMethod("remove_" + ev.Name,
+                MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig,
+                typeof(void), new[] { handlerType });
+            var removeIL = removeMethod.GetILGenerator();
+            removeIL.Emit(OpCodes.Ldarg_0);
+            removeIL.Emit(OpCodes.Ldarg_0);
+            removeIL.Emit(OpCodes.Ldfld, fieldBuilder);
+            removeIL.Emit(OpCodes.Ldarg_1);
+            removeIL.Emit(OpCodes.Call, typeof(Delegate).GetMethod("Remove", new[] { typeof(Delegate), typeof(Delegate) }));
+            removeIL.Emit(OpCodes.Castclass, handlerType);
+            removeIL.Emit(OpCodes.Stfld, fieldBuilder);
+            removeIL.Emit(OpCodes.Ret);
+            eventBuilder.SetRemoveOnMethod(removeMethod);
+        }
+
+        private void EmitIndexer(IndexerDeclaration idx)
+        {
+            var propType = _asmEmitter.ResolveType(idx.TypeName) ?? typeof(object);
+            var paramTypes = new List<Type>();
+            foreach (var p in idx.Parameters)
+                paramTypes.Add(_asmEmitter.ResolveType(p.TypeName) ?? typeof(int));
+
+            var pb = TypeBuilder.DefineProperty("Item", PropertyAttributes.None, propType, paramTypes.ToArray());
+
+            if (idx.GetterBody != null)
+            {
+                var getter = TypeBuilder.DefineMethod("get_Item",
+                    MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig,
+                    propType, paramTypes.ToArray());
+                for (int i = 0; i < idx.Parameters.Count; i++)
+                    getter.DefineParameter(i + 1, ParameterAttributes.None, idx.Parameters[i].Name);
+                var il = getter.GetILGenerator();
+                var paramIdx = new Dictionary<string, int>();
+                for (int i = 0; i < idx.Parameters.Count; i++)
+                    paramIdx[idx.Parameters[i].Name] = i + 1;
+                var emitter = new ConstructorBodyEmitter(il, paramIdx, _diag, this, idx.Parameters);
+                foreach (var stmt in idx.GetterBody) emitter.EmitStatement(stmt);
+                il.Emit(OpCodes.Ldnull);
+                il.Emit(OpCodes.Ret);
+                pb.SetGetMethod(getter);
+            }
+
+            if (idx.SetterBody != null)
+            {
+                var setParamTypes = new List<Type>(paramTypes);
+                setParamTypes.Add(propType);
+                var setter = TypeBuilder.DefineMethod("set_Item",
+                    MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig,
+                    typeof(void), setParamTypes.ToArray());
+                for (int i = 0; i < idx.Parameters.Count; i++)
+                    setter.DefineParameter(i + 1, ParameterAttributes.None, idx.Parameters[i].Name);
+                setter.DefineParameter(idx.Parameters.Count + 1, ParameterAttributes.None, "value");
+                var il = setter.GetILGenerator();
+                var paramIdx = new Dictionary<string, int>();
+                for (int i = 0; i < idx.Parameters.Count; i++)
+                    paramIdx[idx.Parameters[i].Name] = i + 1;
+                paramIdx["value"] = idx.Parameters.Count + 1;
+                var emitter = new ConstructorBodyEmitter(il, paramIdx, _diag, this, idx.Parameters);
+                foreach (var stmt in idx.SetterBody) emitter.EmitStatement(stmt);
+                il.Emit(OpCodes.Ret);
+                pb.SetSetMethod(setter);
+            }
+        }
+
+        private void EmitOperator(OperatorDeclaration op)
+        {
+            var retType = _asmEmitter.ResolveType(op.ReturnType) ?? typeof(int);
+            var paramTypes = new List<Type>();
+            foreach (var p in op.Parameters)
+                paramTypes.Add(_asmEmitter.ResolveType(p.TypeName) ?? typeof(object));
+
+            // Map operator to CLR special name
+            string methodName;
+            switch (op.Operator)
+            {
+                case "+": methodName = "op_Addition"; break;
+                case "-": methodName = "op_Subtraction"; break;
+                case "*": methodName = "op_Multiply"; break;
+                case "/": methodName = "op_Division"; break;
+                case "%": methodName = "op_Modulus"; break;
+                case "==": methodName = "op_Equality"; break;
+                case "!=": methodName = "op_Inequality"; break;
+                case "<": methodName = "op_LessThan"; break;
+                case ">": methodName = "op_GreaterThan"; break;
+                case "<=": methodName = "op_LessThanOrEqual"; break;
+                case ">=": methodName = "op_GreaterThanOrEqual"; break;
+                case "implicit": methodName = "op_Implicit"; break;
+                case "explicit": methodName = "op_Explicit"; break;
+                default: methodName = "op_" + op.Operator; break;
+            }
+
+            var mb = TypeBuilder.DefineMethod(methodName,
+                MethodAttributes.Public | MethodAttributes.Static | MethodAttributes.SpecialName | MethodAttributes.HideBySig,
+                retType, paramTypes.ToArray());
+
+            for (int i = 0; i < op.Parameters.Count; i++)
+                mb.DefineParameter(i + 1, ParameterAttributes.None, op.Parameters[i].Name);
+
+            var me = new MethodEmitter(
+                new MethodDeclaration
+                {
+                    Name = methodName,
+                    ReturnType = op.ReturnType,
+                    IsStatic = true,
+                    Access = "public",
+                    Parameters = op.Parameters,
+                    Body = op.Body
+                },
+                TypeBuilder, _diag, this);
+            me.Builder = mb;
+            me.EmitBodyDirect(_asmEmitter);
+
+            Methods[methodName] = mb;
         }
     }
 

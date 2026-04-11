@@ -19,8 +19,12 @@ namespace NhspCompiler.Core.Emit
         private Dictionary<string, LocalBuilder> _locals;
         private Stack<(Label breakLabel, Label continueLabel)> _loopStack;
         private LocalBuilder _cntLocal;
-        public MethodBuilder Builder { get; private set; }
+        public MethodBuilder Builder { get; set; }
         private Type _retType;
+        private int _tryDepth;
+        private Label _retLabel;
+        private LocalBuilder _retLocal;
+        private bool _hasRetInTry;
 
         public MethodEmitter(MethodDeclaration method, TypeBuilder type, DiagnosticBag diag, TypeEmitter typeEmitter)
         {
@@ -111,13 +115,35 @@ namespace NhspCompiler.Core.Emit
                 var pa = ParameterAttributes.None;
                 if (p.IsOut) pa |= ParameterAttributes.Out;
                 if (p.IsIn) pa |= ParameterAttributes.In;
+                if (p.DefaultValue != null) pa |= ParameterAttributes.Optional | ParameterAttributes.HasDefault;
                 var pb = Builder.DefineParameter(i + 1, pa, p.Name);
                 if (p.IsParams)
                 {
                     var paramArrayCtor = typeof(ParamArrayAttribute).GetConstructor(Type.EmptyTypes);
                     pb.SetCustomAttribute(new System.Reflection.Emit.CustomAttributeBuilder(paramArrayCtor, new object[0]));
                 }
+                if (p.DefaultValue != null)
+                {
+                    if (p.DefaultValue is Parsing.Ast.IntLiteralExpr intLit) pb.SetConstant(intLit.Value);
+                    else if (p.DefaultValue is Parsing.Ast.StringLiteralExpr strLit) pb.SetConstant(strLit.Value);
+                    else if (p.DefaultValue is Parsing.Ast.BoolLiteralExpr boolLit) pb.SetConstant(boolLit.Value);
+                    else if (p.DefaultValue is Parsing.Ast.DoubleLiteralExpr dblLit) pb.SetConstant(dblLit.Value);
+                }
             }
+        }
+
+        // Direct body emission (for operator overloads etc. where Builder is pre-set)
+        public void EmitBodyDirect(AssemblyEmitter asmEmitter)
+        {
+            _retType = asmEmitter.ResolveType(_method.ReturnType) ?? typeof(void);
+            _paramIndex = new Dictionary<string, int>();
+            int argOff = _method.IsStatic ? 0 : 1;
+            for (int i = 0; i < _method.Parameters.Count; i++)
+            {
+                _paramBaseType[_method.Parameters[i].Name] = asmEmitter.ResolveType(_method.Parameters[i].TypeName) ?? typeof(object);
+                _paramIndex[_method.Parameters[i].Name] = i + argOff;
+            }
+            EmitBody();
         }
 
         // Pass 2: Emit the method body
@@ -128,17 +154,28 @@ namespace NhspCompiler.Core.Emit
             _locals = new Dictionary<string, LocalBuilder>();
             _loopStack = new Stack<(Label, Label)>();
             _il = Builder.GetILGenerator();
+            _tryDepth = 0;
+            _hasRetInTry = false;
+            _retLabel = _il.DefineLabel();
+            if (_retType != typeof(void))
+                _retLocal = _il.DeclareLocal(_retType);
 
             foreach (var stmt in _method.Body)
                 EmitStatement(stmt);
 
+            // Return epilogue: all paths jump here
+            _il.MarkLabel(_retLabel);
             if (_retType == typeof(void))
             {
                 _il.Emit(OpCodes.Ret);
             }
             else
             {
-                if (_retType == typeof(int) || _retType == typeof(bool))
+                if (_hasRetInTry)
+                {
+                    _il.Emit(OpCodes.Ldloc, _retLocal);
+                }
+                else if (_retType == typeof(int) || _retType == typeof(bool))
                     _il.Emit(OpCodes.Ldc_I4_0);
                 else if (_retType == typeof(long))
                     _il.Emit(OpCodes.Ldc_I8, 0L);
@@ -199,8 +236,22 @@ namespace NhspCompiler.Core.Emit
 
         private void EmitReturn(ReturnStatement ret)
         {
-            if (ret.Value != null) EmitExpression(ret.Value);
-            _il.Emit(OpCodes.Ret);
+            if (_tryDepth > 0)
+            {
+                // Inside try/catch: use Leave instead of Ret
+                if (ret.Value != null && _retLocal != null)
+                {
+                    EmitExpression(ret.Value);
+                    _il.Emit(OpCodes.Stloc, _retLocal);
+                }
+                _hasRetInTry = true;
+                _il.Emit(OpCodes.Leave, _retLabel);
+            }
+            else
+            {
+                if (ret.Value != null) EmitExpression(ret.Value);
+                _il.Emit(OpCodes.Ret);
+            }
         }
 
         private void EmitLocalDecl(LocalVarDeclaration decl)
@@ -483,6 +534,7 @@ namespace NhspCompiler.Core.Emit
             }
 
             _il.BeginExceptionBlock();
+            _tryDepth++;
 
             // Try body
             foreach (var s in stmt.TryBody) EmitStatement(s);
@@ -507,6 +559,27 @@ namespace NhspCompiler.Core.Emit
                 foreach (var s in stmt.CatchBody) EmitStatement(s);
             }
 
+            // Additional catch blocks
+            foreach (var clause in stmt.AdditionalCatches)
+            {
+                var ct2 = typeof(Exception);
+                if (clause.CatchTypeName != null)
+                {
+                    var resolved2 = AssemblyEmitter.ResolveTypeStatic(clause.CatchTypeName);
+                    if (resolved2 == null) resolved2 = AssemblyEmitter.ResolveTypeStatic("System." + clause.CatchTypeName);
+                    if (resolved2 != null) ct2 = resolved2;
+                }
+                _il.BeginCatchBlock(ct2);
+                if (clause.CatchVarName != null)
+                {
+                    var exLocal2 = _il.DeclareLocal(ct2);
+                    _locals[clause.CatchVarName] = exLocal2;
+                    _il.Emit(OpCodes.Stloc, exLocal2);
+                }
+                else { _il.Emit(OpCodes.Pop); }
+                foreach (var s in clause.Body) EmitStatement(s);
+            }
+
             // Finally
             if (stmt.FinallyBody != null && stmt.FinallyBody.Count > 0)
             {
@@ -515,6 +588,7 @@ namespace NhspCompiler.Core.Emit
             }
 
             _il.EndExceptionBlock();
+            _tryDepth--;
         }
 
         private void EmitThrow(ThrowStatement stmt)
@@ -798,18 +872,30 @@ namespace NhspCompiler.Core.Emit
                 var targetType = InferType(mem.Target);
                 if (targetType != null)
                 {
-                    // Property
-                    var prop = targetType.GetProperty(mem.MemberName);
-                    if (prop != null)
+                    // TypeBuilder: use EmitterRegistry for field access
+                    if (targetType is TypeBuilder && _typeEmitter?._asmEmitter != null)
                     {
-                        var getter = prop.GetGetMethod();
-                        _il.Emit(targetType.IsValueType ? OpCodes.Call : OpCodes.Callvirt, getter);
-                        return;
+                        if (_typeEmitter._asmEmitter.EmitterRegistry.TryGetValue(targetType.Name, out var te2))
+                        {
+                            if (te2.Fields.TryGetValue(mem.MemberName, out var fb))
+                            { _il.Emit(OpCodes.Ldfld, fb); return; }
+                        }
                     }
-                    // Field
-                    var fi = targetType.GetField(mem.MemberName);
-                    if (fi != null) { _il.Emit(OpCodes.Ldfld, fi); return; }
-                    // Local TypeBuilder field
+                    else
+                    {
+                        // Property
+                        var prop = targetType.GetProperty(mem.MemberName);
+                        if (prop != null)
+                        {
+                            var getter = prop.GetGetMethod();
+                            _il.Emit(targetType.IsValueType ? OpCodes.Call : OpCodes.Callvirt, getter);
+                            return;
+                        }
+                        // Field
+                        var fi = targetType.GetField(mem.MemberName);
+                        if (fi != null) { _il.Emit(OpCodes.Ldfld, fi); return; }
+                    }
+                    // Local TypeBuilder field (this.field)
                     if (mem.Target is ThisExpr && _typeEmitter != null)
                     {
                         var resolved = _typeEmitter.ResolveField(mem.MemberName);
@@ -821,6 +907,8 @@ namespace NhspCompiler.Core.Emit
             else if (expr is TernaryExpr ternary) { EmitTernary(ternary); }
             else if (expr is TypeofExpr typeofExpr) { EmitTypeof(typeofExpr); }
             else if (expr is InterpolatedStringExpr interp) { EmitInterpolatedString(interp); }
+            else if (expr is IsExpr isExpr) { EmitIs(isExpr); }
+            else if (expr is AsExpr asExpr) { EmitAs(asExpr); }
             else { _il.Emit(OpCodes.Ldc_I4_0); }
         }
 
@@ -1224,6 +1312,35 @@ namespace NhspCompiler.Core.Emit
             }
         }
 
+        private void EmitIs(IsExpr expr)
+        {
+            EmitExpression(expr.Value);
+            var type = AssemblyEmitter.ResolveTypeStatic(expr.TypeName);
+            if (type == null && _typeEmitter?._asmEmitter != null)
+                type = _typeEmitter._asmEmitter.ResolveType(expr.TypeName);
+            if (type != null)
+            {
+                _il.Emit(OpCodes.Isinst, type);
+                _il.Emit(OpCodes.Ldnull);
+                _il.Emit(OpCodes.Cgt_Un); // result: 1 if non-null (is match), 0 otherwise
+            }
+            else
+            {
+                _il.Emit(OpCodes.Pop);
+                _il.Emit(OpCodes.Ldc_I4_0);
+            }
+        }
+
+        private void EmitAs(AsExpr expr)
+        {
+            EmitExpression(expr.Value);
+            var type = AssemblyEmitter.ResolveTypeStatic(expr.TypeName);
+            if (type == null && _typeEmitter?._asmEmitter != null)
+                type = _typeEmitter._asmEmitter.ResolveType(expr.TypeName);
+            if (type != null)
+                _il.Emit(OpCodes.Isinst, type);
+        }
+
         private void EmitTernary(TernaryExpr ternary)
         {
             var falseLabel = _il.DefineLabel();
@@ -1382,6 +1499,14 @@ namespace NhspCompiler.Core.Emit
             if (expr is TernaryExpr tern) return InferType(tern.TrueExpr);
             if (expr is TypeofExpr) return typeof(Type);
             if (expr is InterpolatedStringExpr) return typeof(string);
+            if (expr is IsExpr) return typeof(bool);
+            if (expr is AsExpr asE)
+            {
+                var t2 = AssemblyEmitter.ResolveTypeStatic(asE.TypeName);
+                if (t2 == null && _typeEmitter?._asmEmitter != null)
+                    t2 = _typeEmitter._asmEmitter.ResolveType(asE.TypeName);
+                return t2 ?? typeof(object);
+            }
             return typeof(int);
         }
 

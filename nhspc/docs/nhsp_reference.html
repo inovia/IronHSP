@@ -64,6 +64,12 @@
   <a href="#builtins">ビルトイン関数</a>
   <a href="#include">ファイル分割 (#include)</a>
   <a href="#pinvoke">P/Invoke (DllImport)</a>
+  <a href="#is-as">is / as 演算子</a>
+  <a href="#events">イベント</a>
+  <a href="#indexers">インデクサ</a>
+  <a href="#op-overload">演算子オーバーロード</a>
+  <a href="#nested">ネストクラス</a>
+  <a href="#generics">ジェネリクス</a>
   <a href="#marshalas">MarshalAs 属性</a>
   <a href="#com">COM 属性</a>
   <a href="#dotnet">.NET API アクセス</a>
@@ -115,6 +121,9 @@
 <tr><td><code>#delegate [修飾子] [戻型] Name [, params]</code></td><td>デリゲート型定義</td><td><code>public delegate RetType Name(params);</code></td></tr>
 <tr><td><code>#enum Name ... #endenum</code></td><td>列挙型定義</td><td><code>public enum Name { ... }</code></td></tr>
 <tr><td><code>#include "file.nhsp"</code></td><td>ファイルのインクルード</td><td>C# には直接相当なし (partial class 等)</td></tr>
+<tr><td><code>#event [修飾子] DelegateType Name</code></td><td>イベント定義</td><td><code>public event EventHandler Name;</code></td></tr>
+<tr><td><code>#indexer [修飾子] Type [, params]</code></td><td>インデクサ定義</td><td><code>public Type this[params] { }</code></td></tr>
+<tr><td><code>#operator RetType Op, params</code></td><td>演算子オーバーロード</td><td><code>public static RetType operator Op(params)</code></td></tr>
 <tr><td><code>#attribute Name, "value"</code></td><td>カスタム属性付与</td><td><code>[Name("value")]</code></td></tr>
 </table>
 
@@ -677,6 +686,221 @@ public static extern void GetSystemTime(
 </div>
 
 <!-- ========================================== -->
+<h2 id="is-as">is / as 演算子</h2>
+
+<p>実行時の型チェック (<code>is</code>) と安全なキャスト (<code>as</code>) をサポートします。</p>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>; 型チェック
+if obj is string
+  print "It's a string"
+endif
+
+; 安全なキャスト (失敗時は null)
+dim string s = obj as string
+dim string result = s ?? "not a string"</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>if (obj is string)
+    Console.WriteLine("It's a string");
+
+string s = obj as string;
+string result = s ?? "not a string";</code></pre>
+</div>
+</div>
+
+<div class="note">
+<code>is</code> は IL の <code>Isinst</code> + null チェック。<code>as</code> は <code>Isinst</code> のみ (null を返す)。
+参照型にのみ使用可能。値型の <code>as</code> は使用不可。
+</div>
+
+<!-- ========================================== -->
+<h2 id="events">イベント</h2>
+
+<p><code>#event</code> でイベントを定義します。内部的にデリゲートフィールド + add/remove メソッドが自動生成されます。</p>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#class public Button
+  #event public EventHandler Click
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public class Button
+{
+    public event EventHandler Click;
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+IL レベルでは <code>DefineEvent</code> + <code>Delegate.Combine</code>/<code>Delegate.Remove</code> パターンで add/remove メソッドを生成。
+イベントの型はデリゲート型 (EventHandler, Action 等) を指定。
+</div>
+
+<!-- ========================================== -->
+<h2 id="indexers">インデクサ</h2>
+
+<p><code>#indexer</code> でインデクサ (添字アクセス) を定義します。C# の <code>this[int index]</code> に相当。</p>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#indexer public int, int index
+  #get
+    return index * 10
+  #endget
+  #set
+    ; value でセットされる値を受け取る
+  #endset
+#endindexer</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public int this[int index]
+{
+    get { return index * 10; }
+    set { /* value */ }
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+IL レベルでは <code>DefineProperty("Item", ...)</code> + <code>get_Item</code>/<code>set_Item</code> メソッドを生成。
+</div>
+
+<!-- ========================================== -->
+<h2 id="op-overload">演算子オーバーロード</h2>
+
+<p><code>#operator</code> で演算子のオーバーロードを定義します。C# の <code>operator +</code> 等に相当。</p>
+
+<h3>構文</h3>
+<pre><code>#operator 戻り値型 演算子記号, 型 引数名 [, 型 引数名]
+  ; 本体
+#endoperator</code></pre>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#class public Vector
+  #field public int X
+  #field public int Y
+  #operator Vector +, Vector a, Vector b
+    dim Vector r = new Vector()
+    r.X = a.X + b.X
+    r.Y = a.Y + b.Y
+    return r
+  #endoperator
+  #operator bool ==, Vector a, Vector b
+    return a.X == b.X && a.Y == b.Y
+  #endoperator
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public class Vector {
+    public int X, Y;
+    public static Vector operator +(
+        Vector a, Vector b)
+    {
+        return new Vector {
+            X = a.X + b.X,
+            Y = a.Y + b.Y };
+    }
+    public static bool operator ==(
+        Vector a, Vector b)
+    {
+        return a.X == b.X &amp;&amp;
+               a.Y == b.Y;
+    }
+}</code></pre>
+</div>
+</div>
+
+<h3>対応する演算子</h3>
+<table>
+<tr><th>演算子</th><th>CLR メソッド名</th><th>パラメータ数</th></tr>
+<tr><td><code>+</code></td><td><code>op_Addition</code></td><td>2</td></tr>
+<tr><td><code>-</code></td><td><code>op_Subtraction</code></td><td>2</td></tr>
+<tr><td><code>*</code></td><td><code>op_Multiply</code></td><td>2</td></tr>
+<tr><td><code>/</code></td><td><code>op_Division</code></td><td>2</td></tr>
+<tr><td><code>%</code></td><td><code>op_Modulus</code></td><td>2</td></tr>
+<tr><td><code>==</code></td><td><code>op_Equality</code></td><td>2</td></tr>
+<tr><td><code>!=</code></td><td><code>op_Inequality</code></td><td>2</td></tr>
+<tr><td><code>&lt;</code> / <code>&gt;</code></td><td><code>op_LessThan</code> / <code>op_GreaterThan</code></td><td>2</td></tr>
+<tr><td><code>implicit</code></td><td><code>op_Implicit</code></td><td>1 (変換元)</td></tr>
+<tr><td><code>explicit</code></td><td><code>op_Explicit</code></td><td>1 (変換元)</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="nested">ネストクラス</h2>
+
+<p>クラスの内部に別のクラスを定義できます。外部からは <code>Outer+Inner</code> (CLR) または <code>Outer.Inner</code> で参照。</p>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#class public Outer
+  #class public Inner
+    #func public static int Value
+      return 42
+    #endfunc
+  #endclass
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public class Outer
+{
+    public class Inner
+    {
+        public static int Value()
+            =&gt; 42;
+    }
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+IL レベルでは <code>TypeBuilder.DefineNestedType</code> で生成。<code>TypeAttributes.NestedPublic</code> が設定されます。
+</div>
+
+<!-- ========================================== -->
+<h2 id="generics">ジェネリクス</h2>
+
+<p>.NET の既存のジェネリクス型 (<code>List&lt;T&gt;</code>, <code>Dictionary&lt;K,V&gt;</code> 等) を利用できます。</p>
+
+<h3>型名の書き方</h3>
+<pre><code>; ジェネリクス型の利用
+dim List&lt;int&gt; nums = new List&lt;int&gt;()
+dim Dictionary&lt;string,string&gt; map = new Dictionary&lt;string,string&gt;()
+dim HashSet&lt;int&gt; set = new HashSet&lt;int&gt;()</code></pre>
+
+<h3>対応するジェネリクス型</h3>
+<table>
+<tr><th>NHSP</th><th>.NET 型</th></tr>
+<tr><td><code>List&lt;T&gt;</code></td><td><code>System.Collections.Generic.List&lt;T&gt;</code></td></tr>
+<tr><td><code>Dictionary&lt;K,V&gt;</code></td><td><code>System.Collections.Generic.Dictionary&lt;K,V&gt;</code></td></tr>
+<tr><td><code>HashSet&lt;T&gt;</code></td><td><code>System.Collections.Generic.HashSet&lt;T&gt;</code></td></tr>
+<tr><td><code>Queue&lt;T&gt;</code></td><td><code>System.Collections.Generic.Queue&lt;T&gt;</code></td></tr>
+<tr><td><code>Stack&lt;T&gt;</code></td><td><code>System.Collections.Generic.Stack&lt;T&gt;</code></td></tr>
+<tr><td><code>Nullable&lt;T&gt;</code></td><td><code>System.Nullable&lt;T&gt;</code></td></tr>
+<tr><td><code>Action&lt;T&gt;</code></td><td><code>System.Action&lt;T&gt;</code></td></tr>
+<tr><td><code>Func&lt;T,R&gt;</code></td><td><code>System.Func&lt;T,TResult&gt;</code></td></tr>
+<tr><td><code>Task&lt;T&gt;</code></td><td><code>System.Threading.Tasks.Task&lt;T&gt;</code></td></tr>
+</table>
+
+<div class="note">
+独自のジェネリクス型の定義 (<code>#class public MyBox&lt;T&gt;</code>) は現在未対応。.NET 標準ライブラリのジェネリクス型の利用のみサポート。<br>
+<strong>既知の制限:</strong> 一部のジェネリクス型操作でスタックオーバーフローが発生する場合があります。
+</div>
+
+<!-- ========================================== -->
 <h2 id="marshalas">MarshalAs 属性</h2>
 
 <p>P/Invoke のパラメータや構造体のフィールドに <code>[MarshalAs]</code> 属性を付けて、マネージド型とアンマネージド型の変換方式を指定できます。</p>
@@ -1089,7 +1313,7 @@ Math.Min(a, b)</code></pre>
 </table>
 
 <footer>
-  <p>NHSP (Net HSP) 言語リファレンス &mdash; nhspc コンパイラ Phase 1-16</p>
+  <p>NHSP (Net HSP) 言語リファレンス &mdash; nhspc コンパイラ Phase 1-17</p>
 </footer>
 
 </div>
