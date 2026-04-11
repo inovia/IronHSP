@@ -24,6 +24,8 @@ namespace NhspCompiler.Core.Parsing.Ast
         public bool Value { get; set; }
     }
 
+    public class NullLiteralExpr : Expression { }
+
     public class IdentifierExpr : Expression
     {
         public string Name { get; set; }

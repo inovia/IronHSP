@@ -352,8 +352,38 @@ namespace NhspCompiler.Tests
 "#endclass\n");
             Assert.AreEqual(10, Call(asm, "ExprTest", "Calc"));
         }
+        // ===== null / nullptr =====
+
+        [Test]
+        public void NullLiteral()
+        {
+            var asm = Compile(@"
+#assembly ""T""
+#class public NullTest
+  #func public static string Run
+    string s = null
+    return s ?? ""was null""
+  #endfunc
+#endclass");
+            Assert.AreEqual("was null", Call(asm, "NullTest", "Run"));
+        }
+
+        [Test]
+        public void NullptrLiteral()
+        {
+            var asm = Compile(@"
+#assembly ""T""
+#class public NullTest2
+  #func public static bool Run
+    string s = nullptr
+    return s is string
+  #endfunc
+#endclass");
+            Assert.AreEqual(false, Call(asm, "NullTest2", "Run"));
+        }
     }
 }
+
 
 
 

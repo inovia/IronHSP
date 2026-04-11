@@ -854,6 +854,7 @@ namespace NhspCompiler.Core.Emit
             else if (expr is DoubleLiteralExpr dblLit) { _il.Emit(OpCodes.Ldc_R8, dblLit.Value); }
             else if (expr is StringLiteralExpr strLit) { _il.Emit(OpCodes.Ldstr, strLit.Value); }
             else if (expr is BoolLiteralExpr boolLit) { _il.Emit(boolLit.Value ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0); }
+            else if (expr is NullLiteralExpr) { _il.Emit(OpCodes.Ldnull); }
             else if (expr is CntExpr)
             {
                 if (_cntLocal != null) _il.Emit(OpCodes.Ldloc, _cntLocal);
@@ -1412,6 +1413,7 @@ namespace NhspCompiler.Core.Emit
             if (expr is DoubleLiteralExpr) return typeof(double);
             if (expr is StringLiteralExpr) return typeof(string);
             if (expr is BoolLiteralExpr) return typeof(bool);
+            if (expr is NullLiteralExpr) return typeof(object);
             if (expr is CntExpr) return typeof(int);
             if (expr is IdentifierExpr id)
             {

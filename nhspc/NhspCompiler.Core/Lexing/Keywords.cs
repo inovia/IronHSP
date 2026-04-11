@@ -29,6 +29,7 @@ namespace NhspCompiler.Core.Lexing
             "include",
             "main", "endmain",
             "typeof",
+            "null", "nullptr",
             "and", "or", "not",  // alternative logical operators
         };
 

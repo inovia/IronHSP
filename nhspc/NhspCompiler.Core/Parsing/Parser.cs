@@ -1127,6 +1127,8 @@ namespace NhspCompiler.Core.Parsing
             { var t = Advance(); return new BoolLiteralExpr { Value = t.Text == "true", Line = t.Line }; }
             if (MatchKW("cnt"))
             { Advance(); return new CntExpr { Line = Current.Line }; }
+            if (MatchKW("null") || MatchKW("nullptr"))
+            { Advance(); return new NullLiteralExpr { Line = Current.Line }; }
             // typeof(TypeName)
             if (MatchKW("typeof") && Peek().Kind == TokenKind.LParen)
             {
