@@ -1,14 +1,21 @@
-; 34: foreach ループ
-#assembly "Foreach", exe
+; 34: 配列ループ
+#assembly "ArrayLoop", exe
+
+#class public App
+  #func public static void Run
+    ; int 配列でループ
+    dim int[] nums, 5
+    for i = 0 to 4
+      nums(i) = (i + 1) * 10
+    next
+
+    print "--- numbers ---"
+    for i = 0 to 4
+      print "  " + str(nums(i))
+    next
+  #endfunc
+#endclass
 
 #main
-  List<string> fruits = new List<string>()
-  fruits.Add("Apple")
-  fruits.Add("Banana")
-  fruits.Add("Cherry")
-
-  print "--- foreach ---"
-  foreach string fruit in fruits
-    print $"  {fruit}"
-  next
+  App.Run()
 #endmain

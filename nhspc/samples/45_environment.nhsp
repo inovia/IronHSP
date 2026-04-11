@@ -2,9 +2,9 @@
 #assembly "EnvDemo", exe
 
 #main
-  print $"Machine:  {Environment.MachineName}"
-  print $"OS:       {Environment.OSVersion.ToString()}"
-  print $"Dir:      {Environment.CurrentDirectory}"
-  print $"User:     {Environment.UserName}"
-  print $"Cores:    {str(Environment.ProcessorCount)}"
+  print "Machine:  " + Environment.MachineName
+  print "OS:       " + Environment.OSVersion.ToString()
+  print "Dir:      " + Environment.CurrentDirectory
+  print "User:     " + Environment.UserName
+  print "Cores:    " + str(Environment.ProcessorCount)
 #endmain

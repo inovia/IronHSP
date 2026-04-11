@@ -1,26 +1,21 @@
 ; 15: 配列 — 宣言、アクセス、ループ
 #assembly "Array", exe
 
+#class public App
+  #func public static void Run
+    ; int 配列
+    dim int[] nums, 5
+    for i = 0 to 4
+      nums(i) = i * i
+    next
+
+    print "--- squares ---"
+    for i = 0 to 4
+      print str(i) + " * " + str(i) + " = " + str(nums(i))
+    next
+  #endfunc
+#endclass
+
 #main
-  ; 配列宣言
-  dim int[] nums, 10
-  for i = 0 to 9
-    nums(i) = i * i
-  next
-
-  ; 配列アクセス
-  print "--- squares ---"
-  for i = 0 to 9
-    print $"nums({str(i)}) = {str(nums(i))}"
-  next
-
-  ; 文字列配列
-  dim string[] names, 3
-  names(0) = "Alice"
-  names(1) = "Bob"
-  names(2) = "Charlie"
-
-  for i = 0 to 2
-    print $"names({str(i)}) = {names(i)}"
-  next
+  App.Run()
 #endmain

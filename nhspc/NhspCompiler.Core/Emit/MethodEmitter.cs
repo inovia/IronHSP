@@ -904,7 +904,7 @@ namespace NhspCompiler.Core.Emit
                         }
                         // Field
                         var fi = targetType.GetField(mem.MemberName);
-                        if (fi != null) { _il.Emit(OpCodes.Ldfld, fi); return; }
+                        if (fi != null) { _il.Emit(fi.IsStatic ? OpCodes.Ldsfld : OpCodes.Ldfld, fi); return; }
                     }
                     // Local TypeBuilder field (this.field)
                     if (mem.Target is ThisExpr && _typeEmitter != null)

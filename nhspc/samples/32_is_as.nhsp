@@ -1,17 +1,12 @@
 ; 32: is / as 演算子 — 型チェックとキャスト
-#assembly "IsAs", exe
+#assembly "IsAs"
 
 #class public TypeChecker
   #func public static string Check, object obj
     if obj is string
       string s = obj as string
-      return $"String: {s}"
+      return "String: " + s
     endif
     return "Not a string"
   #endfunc
 #endclass
-
-#main
-  print TypeChecker.Check("hello")
-  print TypeChecker.Check(42)
-#endmain

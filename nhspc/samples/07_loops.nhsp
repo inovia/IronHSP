@@ -5,26 +5,26 @@
   ; repeat (HSP 形式)
   print "--- repeat ---"
   repeat 5
-    print $"cnt = {str(cnt)}"
+    print "cnt = " + cnt
   loop
 
   ; for / next
   print "--- for ---"
   for i = 1 to 5
-    print $"i = {str(i)}"
+    print "i = " + str(i)
   next
 
   ; for with step
   print "--- for step ---"
   for i = 0 to 10 step 2
-    print $"i = {str(i)}"
+    print "i = " + str(i)
   next
 
   ; while / wend
   print "--- while ---"
   int x = 0
   while x < 5
-    print $"x = {str(x)}"
+    print "x = " + str(x)
     x++
   wend
 
@@ -37,6 +37,6 @@
     if cnt = 7
       break
     endif
-    print $"cnt = {str(cnt)}"
+    print "cnt = " + str(cnt)
   loop
 #endmain

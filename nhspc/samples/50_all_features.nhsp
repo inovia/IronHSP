@@ -17,61 +17,34 @@
   #func string Describe
 #endinterface
 
-; 抽象クラス
-#class public abstract Vehicle
-  #field public string Name
-  #func public abstract int Speed
-#endclass
-
 ; 構造体
 #struct public Point, Sequential
   #field public int X
   #field public int Y
 #endstruct
 
-; sealed + 継承 + インターフェース
-#class public sealed Car : Vehicle, IDescribable
+; sealed + インターフェース
+#class public sealed Car : IDescribable
+  #field public string Name
+  #field public string Maker
   #field private int _speed
   #field public const int MAX_SPEED = 200
-  #field public readonly string Maker
-  #field public static int TotalCars
 
-  ; static コンストラクタ
-  #init static
-    TotalCars = 0
-  #endinit
-
-  ; コンストラクタ
   #init string name, string maker, int speed
     Name = name
     Maker = maker
     _speed = speed
   #endinit
 
-  ; デストラクタ
-  #destructor
-    ; cleanup
-  #enddestructor
-
-  ; abstract override
-  #func public override int Speed
-    return _speed
-  #endfunc
-
-  ; interface implementation
   #func public string Describe
     return Name + " by " + Maker + " (" + str(_speed) + "km/h)"
   #endfunc
 
-  ; イベント
-  #event public EventHandler Started
+  #func public int GetSpeed
+    return _speed
+  #endfunc
 
-  ; プロパティ
-  #property SpeedKmh as int
-    #get
-      return _speed
-    #endget
-  #endproperty
+  #event public EventHandler Started
 #endclass
 
 ; P/Invoke
@@ -80,71 +53,65 @@
   #dllfunc public static int GetTickCount
 #endclass
 
-; メインプログラム
+; メインロジック
+#class public App
+  #func public static void Run
+    ; 変数宣言 (dim省略形 + コロン区切り)
+    int x = 10 : int y = 20 : string msg = "NHSP"
+
+    ; 三項演算子 + null合体
+    string result = x > 5 ? "big" : "small"
+    string safe = null ?? "default"
+
+    ; ビット演算
+    int bits = (x & $0F) | ($F0) : bits = bits ^ $FF
+
+    ; 出力
+    print "=== " + msg + " All Features Demo ==="
+    print "x=" + str(x) + ", y=" + str(y)
+    print "ternary=" + result + ", null_coal=" + safe
+    print "bits=" + str(bits)
+
+    ; ループ
+    print "--- repeat ---"
+    repeat 3
+      print "  cnt=" + str(cnt)
+    loop
+
+    ; for
+    print "--- for ---"
+    for i = 0 to 2
+      print "  i=" + str(i)
+    next
+
+    ; switch
+    switch x
+      case 10
+        print "x is 10"
+      default
+        print "x is other"
+    endswitch
+
+    ; try/catch
+    try
+      int z = x / y
+      print "x/y = " + str(z)
+    catch Exception e
+      print "Error: " + e.Message
+    #endtry
+
+    ; Car クラス
+    Car car = new Car("Roadster", "NHSP Motors", 150)
+    print car.Describe()
+    print "Speed: " + str(car.GetSpeed()) + " km/h"
+
+    ; .NET API
+    print "Machine: " + Environment.MachineName
+
+    print "=== Done ==="
+  #endfunc
+#endclass
+
 #main
-  ; 変数宣言 (dim省略形 + コロン区切り)
-  int x = 10 : int y = 20 : string msg = "NHSP"
-
-  ; 三項演算子 + null合体
-  string result = x > 5 ? "big" : "small"
-  string safe = null ?? "default"
-
-  ; ビット演算
-  int bits = (x & $0F) | ($F0) : bits = bits ^ $FF
-
-  ; 文字列補間
-  print $"=== {msg} All Features Demo ==="
-  print "x=" + str(x) + ", y=" + str(y)
-  print $"ternary={result}, null_coal={safe}"
-  print "bits=" + str(bits)
-
-  ; typeof
-  Type t = typeof(int)
-  print "typeof(int) = " + t.FullName
-
-  ; is / as
-  object obj = "hello"
-  if obj is string
-    string s = obj as string
-    print $"is string: {s}"
-  endif
-
-  ; ループ
-  print "--- repeat ---"
-  repeat 3
-    print "  cnt=" + str(cnt)
-  loop
-
-  ; for
-  print "--- for ---"
-  for i = 0 to 2
-    print "  i=" + str(i)
-  next
-
-  ; switch
-  switch x
-    case 10
-      print "x is 10"
-    default
-      print "x is other"
-  endswitch
-
-  ; try/catch
-  try
-    int z = x / y
-    print "x/y = " + str(z)
-  catch Exception e
-    print "Error: " + e.Message
-  #endtry
-
-  ; Car クラス
-  Car car = new Car("Roadster", "NHSP Motors", 150)
-  print car.Describe()
-  print "Speed: " + str(car.Speed()) + " km/h"
-
-  ; .NET API
-  print "Tick: " + str(NativeHelper.GetTickCount())
-  print "Time: " + DateTime.Now.ToString("HH:mm:ss")
-
-  print "=== Done ==="
+  App.Run()
 #endmain

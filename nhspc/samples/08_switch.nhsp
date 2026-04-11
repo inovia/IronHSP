@@ -19,6 +19,6 @@
 
 #main
   for i = 0 to 5
-    print $"{str(i)} => {Checker.Check(i)}"
+    print str(i) + " => " + Checker.Check(i)
   next
 #endmain

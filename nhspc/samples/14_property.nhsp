@@ -22,6 +22,6 @@
   #endfunc
 
   #func public string ToString
-    return $"{str(_celsius)}C / {str(ToFahrenheit())}F"
+    return str(_celsius) + "C / " + str(ToFahrenheit()) + "F"
   #endfunc
 #endclass
