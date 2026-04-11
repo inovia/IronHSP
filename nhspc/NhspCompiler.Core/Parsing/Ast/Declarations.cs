@@ -18,7 +18,9 @@ namespace NhspCompiler.Core.Parsing.Ast
         public List<string> Interfaces { get; set; } = new List<string>();
         public string DefaultAccess { get; set; } = "public";
         public List<FieldDeclaration> Fields { get; set; } = new List<FieldDeclaration>();
+        public List<ConstructorDeclaration> Constructors { get; set; } = new List<ConstructorDeclaration>();
         public List<MethodDeclaration> Methods { get; set; } = new List<MethodDeclaration>();
+        public List<PropertyDeclaration> Properties { get; set; } = new List<PropertyDeclaration>();
     }
 
     public class FieldDeclaration : AstNode
@@ -40,7 +42,25 @@ namespace NhspCompiler.Core.Parsing.Ast
         public string ReturnType { get; set; } = "void";
         public string Access { get; set; } = "public";
         public bool IsStatic { get; set; }
+        public bool IsVirtual { get; set; }
+        public bool IsOverride { get; set; }
         public List<ParameterDeclaration> Parameters { get; set; } = new List<ParameterDeclaration>();
         public List<Statement> Body { get; set; } = new List<Statement>();
+    }
+
+    public class ConstructorDeclaration : AstNode
+    {
+        public string Access { get; set; } = "public";
+        public List<ParameterDeclaration> Parameters { get; set; } = new List<ParameterDeclaration>();
+        public List<Statement> Body { get; set; } = new List<Statement>();
+    }
+
+    public class PropertyDeclaration : AstNode
+    {
+        public string Name { get; set; }
+        public string TypeName { get; set; }
+        public string Access { get; set; } = "public";
+        public List<Statement> GetterBody { get; set; }
+        public List<Statement> SetterBody { get; set; }
     }
 }

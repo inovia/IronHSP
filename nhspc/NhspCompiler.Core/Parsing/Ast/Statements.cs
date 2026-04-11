@@ -56,4 +56,12 @@ namespace NhspCompiler.Core.Parsing.Ast
 
     public class BreakStatement : Statement { }
     public class ContinueStatement : Statement { }
+
+    // Field assignment: Name = expr  or  this.Name = expr (within class method)
+    public class FieldAssignStatement : Statement
+    {
+        public string FieldName { get; set; }
+        public string Operator { get; set; } = "=";
+        public Expression Value { get; set; }
+    }
 }

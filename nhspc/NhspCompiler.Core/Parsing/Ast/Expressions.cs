@@ -51,4 +51,21 @@ namespace NhspCompiler.Core.Parsing.Ast
 
     // cnt (repeat counter)
     public class CntExpr : Expression { }
+
+    // Member access: obj.Field or this.Field
+    public class MemberAccessExpr : Expression
+    {
+        public Expression Target { get; set; }
+        public string MemberName { get; set; }
+    }
+
+    // new object creation: newobj(ClassName, args...)
+    public class NewObjectExpr : Expression
+    {
+        public string TypeName { get; set; }
+        public List<Expression> Arguments { get; set; } = new List<Expression>();
+    }
+
+    // this reference
+    public class ThisExpr : Expression { }
 }

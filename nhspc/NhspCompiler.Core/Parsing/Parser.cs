@@ -98,6 +98,8 @@ namespace NhspCompiler.Core.Parsing
                     if (MatchKW("access")) { Advance(); cls.DefaultAccess = Advance().Text; }
                     else if (MatchKW("field")) { cls.Fields.Add(ParseField(cls.DefaultAccess)); }
                     else if (MatchKW("func")) { cls.Methods.Add(ParseMethod(cls.DefaultAccess)); }
+                    else if (MatchKW("init")) { cls.Constructors.Add(ParseConstructor(cls.DefaultAccess)); }
+                    else if (MatchKW("property")) { cls.Properties.Add(ParseProperty(cls.DefaultAccess)); }
                     else { _diag.Error(Current.Line, Current.Column, $"Unexpected: #{Current.Text}"); Advance(); }
                 }
                 else { Advance(); }
@@ -396,18 +398,49 @@ namespace NhspCompiler.Core.Parsing
         {
             var expr = ParsePrimary();
 
-            // Function call: identifier(args)
-            if (expr is IdentifierExpr ident && Match(TokenKind.LParen))
+            // Chain: member access (.) and calls (())
+            while (true)
             {
-                Advance();
-                var call = new CallExpr { MethodName = ident.Name, Line = ident.Line };
-                if (!Match(TokenKind.RParen))
+                if (Match(TokenKind.Dot))
                 {
-                    call.Arguments.Add(ParseExpression());
-                    while (Match(TokenKind.Comma)) { Advance(); call.Arguments.Add(ParseExpression()); }
+                    Advance();
+                    string member = Expect(TokenKind.Identifier, "Expected member name").Text;
+                    if (Match(TokenKind.LParen))
+                    {
+                        // Method call: expr.Method(args)
+                        Advance();
+                        var call = new CallExpr { Target = expr, MethodName = member, Line = expr.Line };
+                        if (!Match(TokenKind.RParen))
+                        {
+                            call.Arguments.Add(ParseExpression());
+                            while (Match(TokenKind.Comma)) { Advance(); call.Arguments.Add(ParseExpression()); }
+                        }
+                        Expect(TokenKind.RParen, "Expected ')'");
+                        expr = call;
+                    }
+                    else
+                    {
+                        // Member access: expr.Field
+                        expr = new MemberAccessExpr { Target = expr, MemberName = member, Line = expr.Line };
+                    }
+                    continue;
                 }
-                Expect(TokenKind.RParen, "Expected ')'");
-                return call;
+
+                // Function call without dot: name(args)
+                if (expr is IdentifierExpr ident && Match(TokenKind.LParen))
+                {
+                    Advance();
+                    var call = new CallExpr { MethodName = ident.Name, Line = ident.Line };
+                    if (!Match(TokenKind.RParen))
+                    {
+                        call.Arguments.Add(ParseExpression());
+                        while (Match(TokenKind.Comma)) { Advance(); call.Arguments.Add(ParseExpression()); }
+                    }
+                    Expect(TokenKind.RParen, "Expected ')'");
+                    expr = call;
+                    continue;
+                }
+                break;
             }
             return expr;
         }
@@ -424,11 +457,87 @@ namespace NhspCompiler.Core.Parsing
             { var t = Advance(); return new BoolLiteralExpr { Value = t.Text == "true", Line = t.Line }; }
             if (MatchKW("cnt"))
             { Advance(); return new CntExpr { Line = Current.Line }; }
+            if (Current.Kind == TokenKind.Identifier && Current.Text == "this")
+            { Advance(); return new ThisExpr { Line = Current.Line }; }
             if (Current.Kind == TokenKind.Identifier)
             { var t = Advance(); return new IdentifierExpr { Name = t.Text, Line = t.Line }; }
             if (Match(TokenKind.LParen))
             { Advance(); var e = ParseExpression(); Expect(TokenKind.RParen, "Expected ')'"); return e; }
             return null;
+        }
+
+        private ConstructorDeclaration ParseConstructor(string defAccess)
+        {
+            var ctor = new ConstructorDeclaration { Line = Current.Line, Access = defAccess };
+            Advance(); // "init"
+
+            // Parameters
+            while (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
+            {
+                if (Match(TokenKind.Comma))
+                {
+                    Advance();
+                    if (MatchKW("public") || MatchKW("private"))
+                        ctor.Access = Advance().Text;
+                    continue;
+                }
+                if (MatchType() || (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Identifier))
+                {
+                    var p = new ParameterDeclaration { Line = Current.Line };
+                    p.TypeName = ReadTypeName();
+                    p.Name = Expect(TokenKind.Identifier, "Expected param name").Text;
+                    ctor.Parameters.Add(p);
+                    continue;
+                }
+                break;
+            }
+            SkipEOL();
+            ctor.Body = ParseBlock("endinit");
+            if (MatchKW("endinit")) Advance();
+            return ctor;
+        }
+
+        private PropertyDeclaration ParseProperty(string defAccess)
+        {
+            var prop = new PropertyDeclaration { Line = Current.Line, Access = defAccess };
+            Advance(); // "property"
+            prop.Name = Expect(TokenKind.Identifier, "Expected property name").Text;
+            if (MatchKW("as")) { Advance(); prop.TypeName = ReadTypeName(); }
+            else prop.TypeName = "int";
+
+            // Modifiers
+            while (Match(TokenKind.Comma))
+            {
+                Advance();
+                if (MatchKW("public") || MatchKW("private")) prop.Access = Advance().Text;
+            }
+            SkipEOL();
+
+            // get/set blocks
+            while (!Match(TokenKind.EOF))
+            {
+                SkipEOL();
+                if (MatchKW("endproperty")) { Advance(); break; }
+                if (Match(TokenKind.Hash))
+                {
+                    Advance();
+                    if (MatchKW("get"))
+                    {
+                        Advance(); SkipEOL();
+                        prop.GetterBody = ParseBlock("endget");
+                        if (MatchKW("endget")) Advance();
+                    }
+                    else if (MatchKW("set"))
+                    {
+                        Advance(); SkipEOL();
+                        prop.SetterBody = ParseBlock("endset");
+                        if (MatchKW("endset")) Advance();
+                    }
+                    else { Advance(); }
+                }
+                else { Advance(); }
+            }
+            return prop;
         }
 
         private string ReadTypeName()

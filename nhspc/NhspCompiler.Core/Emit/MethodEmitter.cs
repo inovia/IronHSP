@@ -12,26 +12,29 @@ namespace NhspCompiler.Core.Emit
         private readonly MethodDeclaration _method;
         private readonly TypeBuilder _type;
         private readonly DiagnosticBag _diag;
+        private readonly TypeEmitter _typeEmitter;
         private ILGenerator _il;
         private Dictionary<string, int> _paramIndex;
         private Dictionary<string, LocalBuilder> _locals;
         private Stack<(Label breakLabel, Label continueLabel)> _loopStack;
-        private LocalBuilder _cntLocal; // repeat counter
+        private LocalBuilder _cntLocal;
+        public MethodBuilder Builder { get; private set; }
+        private Type _retType;
 
-        public MethodEmitter(MethodDeclaration method, TypeBuilder type, DiagnosticBag diag)
+        public MethodEmitter(MethodDeclaration method, TypeBuilder type, DiagnosticBag diag, TypeEmitter typeEmitter)
         {
             _method = method;
             _type = type;
             _diag = diag;
+            _typeEmitter = typeEmitter;
         }
 
-        public void Emit()
+        // Pass 1: Define the method signature (so other methods can reference it)
+        public void DefineMethod()
         {
-            var retType = AssemblyEmitter.ResolveType(_method.ReturnType) ?? typeof(void);
+            _retType = AssemblyEmitter.ResolveType(_method.ReturnType) ?? typeof(void);
             var paramTypes = new List<Type>();
             _paramIndex = new Dictionary<string, int>();
-            _locals = new Dictionary<string, LocalBuilder>();
-            _loopStack = new Stack<(Label, Label)>();
             int argOff = _method.IsStatic ? 0 : 1;
 
             for (int i = 0; i < _method.Parameters.Count; i++)
@@ -45,33 +48,39 @@ namespace NhspCompiler.Core.Emit
             if (_method.Access == "public") attr |= MethodAttributes.Public;
             else if (_method.Access == "private") attr |= MethodAttributes.Private;
             if (_method.IsStatic) attr |= MethodAttributes.Static;
+            if (_method.IsVirtual) attr |= MethodAttributes.Virtual | MethodAttributes.NewSlot;
+            if (_method.IsOverride) attr |= MethodAttributes.Virtual;
 
-            var mb = _type.DefineMethod(_method.Name, attr, retType, paramTypes.ToArray());
+            Builder = _type.DefineMethod(_method.Name, attr, _retType, paramTypes.ToArray());
             for (int i = 0; i < _method.Parameters.Count; i++)
-                mb.DefineParameter(i + 1, ParameterAttributes.None, _method.Parameters[i].Name);
+                Builder.DefineParameter(i + 1, ParameterAttributes.None, _method.Parameters[i].Name);
+        }
 
-            _il = mb.GetILGenerator();
+        // Pass 2: Emit the method body
+        public void EmitBody()
+        {
+            _locals = new Dictionary<string, LocalBuilder>();
+            _loopStack = new Stack<(Label, Label)>();
+            _il = Builder.GetILGenerator();
 
             foreach (var stmt in _method.Body)
                 EmitStatement(stmt);
 
-            // Ensure method always ends with ret
-            if (retType == typeof(void))
+            if (_retType == typeof(void))
             {
                 _il.Emit(OpCodes.Ret);
             }
             else
             {
-                // Default return value for non-void methods (fallback)
-                if (retType == typeof(int) || retType == typeof(bool))
+                if (_retType == typeof(int) || _retType == typeof(bool))
                     _il.Emit(OpCodes.Ldc_I4_0);
-                else if (retType == typeof(long))
+                else if (_retType == typeof(long))
                     _il.Emit(OpCodes.Ldc_I8, 0L);
-                else if (retType == typeof(double))
+                else if (_retType == typeof(double))
                     _il.Emit(OpCodes.Ldc_R8, 0.0);
-                else if (retType == typeof(float))
+                else if (_retType == typeof(float))
                     _il.Emit(OpCodes.Ldc_R4, 0.0f);
-                else if (retType == typeof(string))
+                else if (_retType == typeof(string))
                     _il.Emit(OpCodes.Ldstr, "");
                 else
                     _il.Emit(OpCodes.Ldnull);
@@ -139,13 +148,7 @@ namespace NhspCompiler.Core.Emit
                 {
                     _il.Emit(OpCodes.Ldloc, local);
                     EmitExpression(assign.Value);
-                    switch (assign.Operator)
-                    {
-                        case "+=": _il.Emit(OpCodes.Add); break;
-                        case "-=": _il.Emit(OpCodes.Sub); break;
-                        case "*=": _il.Emit(OpCodes.Mul); break;
-                        case "/=": _il.Emit(OpCodes.Div); break;
-                    }
+                    EmitCompoundOp(assign.Operator);
                 }
                 else
                 {
@@ -153,14 +156,41 @@ namespace NhspCompiler.Core.Emit
                 }
                 _il.Emit(OpCodes.Stloc, local);
             }
+            else if (_typeEmitter != null && _typeEmitter.Fields.TryGetValue(assign.VariableName, out var fb))
+            {
+                // Field assignment
+                _il.Emit(OpCodes.Ldarg_0); // this
+                if (assign.Operator != "=")
+                {
+                    _il.Emit(OpCodes.Ldarg_0);
+                    _il.Emit(OpCodes.Ldfld, fb);
+                    EmitExpression(assign.Value);
+                    EmitCompoundOp(assign.Operator);
+                }
+                else
+                {
+                    EmitExpression(assign.Value);
+                }
+                _il.Emit(OpCodes.Stfld, fb);
+            }
             else
             {
-                // Auto-declare as local (HSP style: first assignment creates variable)
+                // Auto-declare local
                 var varType = InferType(assign.Value);
                 var newLocal = _il.DeclareLocal(varType);
                 _locals[assign.VariableName] = newLocal;
                 EmitExpression(assign.Value);
                 _il.Emit(OpCodes.Stloc, newLocal);
+            }
+        }
+
+        private void EmitCompoundOp(string op)
+        {
+            switch (op) {
+                case "+=": _il.Emit(OpCodes.Add); break;
+                case "-=": _il.Emit(OpCodes.Sub); break;
+                case "*=": _il.Emit(OpCodes.Mul); break;
+                case "/=": _il.Emit(OpCodes.Div); break;
             }
         }
 
@@ -293,6 +323,16 @@ namespace NhspCompiler.Core.Emit
             else if (expr is UnaryExpr unary) { EmitUnary(unary); }
             else if (expr is BinaryExpr bin) { EmitBinary(bin); }
             else if (expr is CallExpr call) { EmitCall(call); }
+            else if (expr is ThisExpr) { _il.Emit(OpCodes.Ldarg_0); }
+            else if (expr is MemberAccessExpr mem)
+            {
+                EmitExpression(mem.Target);
+                // Try to resolve field on the type
+                if (mem.Target is ThisExpr && _typeEmitter != null && _typeEmitter.Fields.TryGetValue(mem.MemberName, out var fb))
+                    _il.Emit(OpCodes.Ldfld, fb);
+                else
+                    _diag.Warning(mem.Line, 0, $"Member access '{mem.MemberName}' not fully resolved");
+            }
             else { _il.Emit(OpCodes.Ldc_I4_0); }
         }
 
@@ -309,6 +349,11 @@ namespace NhspCompiler.Core.Emit
                 _il.Emit(OpCodes.Ldloc, local);
             else if (_paramIndex.TryGetValue(name, out int idx))
                 _il.Emit(OpCodes.Ldarg, idx);
+            else if (_typeEmitter != null && _typeEmitter.Fields.TryGetValue(name, out var fb))
+            {
+                _il.Emit(OpCodes.Ldarg_0); // this
+                _il.Emit(OpCodes.Ldfld, fb);
+            }
             else
             {
                 _diag.Error(line, 0, $"Unknown variable: {name}");
@@ -420,29 +465,37 @@ namespace NhspCompiler.Core.Emit
 
         private void EmitCall(CallExpr call)
         {
-            // Look for a method on the current type (static methods)
-            // For Phase 2, only support calling other methods in the same class
-            var methods = _type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
-            // Since type isn't created yet, we can't use GetMethod. Just emit args.
-            // For built-in functions like str(), int(), etc.
-            if (call.MethodName == "str")
+            // Built-in functions
+            if (call.Target == null)
             {
-                if (call.Arguments.Count > 0)
-                {
-                    EmitStringify(call.Arguments[0]);
-                    return;
-                }
+                if (call.MethodName == "str" && call.Arguments.Count > 0)
+                { EmitStringify(call.Arguments[0]); return; }
+                if (call.MethodName == "int" && call.Arguments.Count > 0)
+                { EmitExpression(call.Arguments[0]); return; }
             }
-            if (call.MethodName == "int" && call.Arguments.Count > 0)
+
+            // Method call on this type (same class)
+            if (call.Target == null && _typeEmitter != null && _typeEmitter.Methods.TryGetValue(call.MethodName, out var mb))
             {
-                EmitExpression(call.Arguments[0]);
-                // Assume already int or convertible
+                if (!mb.IsStatic) _il.Emit(OpCodes.Ldarg_0); // this
+                foreach (var arg in call.Arguments) EmitExpression(arg);
+                _il.Emit(mb.IsStatic ? OpCodes.Call : OpCodes.Callvirt, mb);
                 return;
             }
 
-            // Default: emit args and leave on stack (future: resolve method)
+            // Member call: target.Method(args)
+            if (call.Target != null)
+            {
+                EmitExpression(call.Target);
+                foreach (var arg in call.Arguments) EmitExpression(arg);
+                // Resolve method from target type... simplified for now
+                // TODO: full type resolution
+                _diag.Warning(call.Line, 0, $"External method call '{call.MethodName}' not yet fully resolved");
+                return;
+            }
+
             foreach (var arg in call.Arguments) EmitExpression(arg);
-            _diag.Warning(call.Line, 0, $"Method call '{call.MethodName}' not resolved (Phase 2 limitation)");
+            _diag.Warning(call.Line, 0, $"Method call '{call.MethodName}' not resolved");
             if (call.Arguments.Count == 0) _il.Emit(OpCodes.Ldc_I4_0);
         }
 
@@ -464,6 +517,8 @@ namespace NhspCompiler.Core.Emit
                     if (pi >= 0 && pi < _method.Parameters.Count)
                         return AssemblyEmitter.ResolveType(_method.Parameters[pi].TypeName) ?? typeof(object);
                 }
+                if (_typeEmitter != null && _typeEmitter.Fields.TryGetValue(id.Name, out var fb))
+                    return fb.FieldType;
             }
             if (expr is BinaryExpr bin)
             {
