@@ -1,22 +1,20 @@
 @echo off
 setlocal
-chcp 65001 >nul 2>&1
 
 echo ========================================
-echo   NHSP VS Code 拡張 アンインストーラー
+echo   NHSP VS Code Extension Uninstaller
 echo ========================================
 echo.
 
 set "TARGET=%USERPROFILE%\.vscode\extensions\nhsp-language-0.1.0"
 
 if exist "%TARGET%" (
-    echo [*] 拡張を削除しています。
-    echo     %TARGET%
+    echo [*] Removing extension...
     rmdir /S /Q "%TARGET%"
     echo.
-    echo   アンインストール完了。VS Code を再起動してください。
+    echo   Uninstall complete. Please restart VS Code.
 ) else (
-    echo [*] 拡張はインストールされていません。
+    echo [*] Extension is not installed.
 )
 
 echo.
