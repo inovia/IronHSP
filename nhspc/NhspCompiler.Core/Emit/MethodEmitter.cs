@@ -878,8 +878,30 @@ namespace NhspCompiler.Core.Emit
             else if (expr is ThisExpr) { _il.Emit(OpCodes.Ldarg_0); }
             else if (expr is MemberAccessExpr mem)
             {
-                EmitExpression(mem.Target);
                 var targetType = InferType(mem.Target);
+
+                // ValueType local: need address (Ldloca) for property/method access
+                bool needAddr = targetType != null && targetType.IsValueType && !(targetType is TypeBuilder);
+                if (needAddr && mem.Target is IdentifierExpr valId && _locals.TryGetValue(valId.Name, out var valLoc))
+                {
+                    _il.Emit(OpCodes.Ldloca, valLoc);
+                }
+                else if (needAddr && mem.Target is IdentifierExpr valId2 && _paramIndex.TryGetValue(valId2.Name, out int valIdx))
+                {
+                    _il.Emit(OpCodes.Ldarga, valIdx);
+                }
+                else
+                {
+                    EmitExpression(mem.Target);
+                    // If result is a value type from a method/property call, box or store in temp
+                    if (needAddr && !(mem.Target is IdentifierExpr))
+                    {
+                        // Store in temp local and load address
+                        var temp = _il.DeclareLocal(targetType);
+                        _il.Emit(OpCodes.Stloc, temp);
+                        _il.Emit(OpCodes.Ldloca, temp);
+                    }
+                }
 
                 if (targetType != null)
                 {
@@ -1157,7 +1179,26 @@ namespace NhspCompiler.Core.Emit
                 }
 
                 if (!isStaticCall)
-                    EmitExpression(call.Target);
+                {
+                    // ValueType: need address for method call
+                    bool needAddr = targetType != null && targetType.IsValueType && !(targetType is TypeBuilder);
+                    if (needAddr && call.Target is IdentifierExpr vtId && _locals.TryGetValue(vtId.Name, out var vtLoc))
+                    {
+                        _il.Emit(OpCodes.Ldloca, vtLoc);
+                    }
+                    else if (needAddr && call.Target is MemberAccessExpr)
+                    {
+                        // Chain: DateTime.Now.ToString() — emit target value, store temp, load addr
+                        EmitExpression(call.Target);
+                        var temp = _il.DeclareLocal(targetType);
+                        _il.Emit(OpCodes.Stloc, temp);
+                        _il.Emit(OpCodes.Ldloca, temp);
+                    }
+                    else
+                    {
+                        EmitExpression(call.Target);
+                    }
+                }
                 foreach (var arg in call.Arguments) EmitExpression(arg);
                 if (targetType != null)
                 {

@@ -1,2 +1,14 @@
+# Build outputs
 dist/*
 !dist/.gitkeep
+*/bin/
+*/obj/
+
+# Compiled samples
+samples/*.exe
+samples/*.dll
+samples/*.pdb
+samples/*.pdb.tmp
+
+# NuGet
+*.nupkg

@@ -65,8 +65,8 @@ namespace NhspCompiler.Core.Lexing
                 // String literal
                 if (Cur == '"') { tokens.Add(ReadString()); continue; }
 
-                // Interpolated string: $"..."
-                if (Cur == '$' && Next == '"') { tokens.Add(ReadInterpolatedString()); continue; }
+                // Interpolated string: $"..." → expand to string concat tokens
+                if (Cur == '$' && Next == '"') { ReadInterpolatedStringExpanded(tokens); continue; }
 
                 // Hex: $FF or 0xFF
                 if (Cur == '$' && IsHexDigit(Next)) { tokens.Add(ReadHex('$')); continue; }
@@ -214,11 +214,14 @@ namespace NhspCompiler.Core.Lexing
             return new Token(TokenKind.IntLiteral, val.ToString(), _line, startCol);
         }
 
-        private Token ReadInterpolatedString()
+        private void ReadInterpolatedStringExpanded(List<Token> tokens)
         {
-            int startCol = _col;
+            int startLine = _line, startCol = _col;
             _pos += 2; _col += 2; // skip $"
+
             var sb = new StringBuilder();
+            bool first = true;
+
             while (_pos < _source.Length && Cur != '"' && Cur != '\n')
             {
                 if (Cur == '\\' && _pos + 1 < _source.Length)
@@ -232,12 +235,88 @@ namespace NhspCompiler.Core.Lexing
                         case '{': sb.Append('{'); break;
                         default: sb.Append('\\'); sb.Append(Cur); break;
                     }
+                    _pos++; _col++;
                 }
-                else { sb.Append(Cur); }
-                _pos++; _col++;
+                else if (Cur == '{')
+                {
+                    // Flush text before {
+                    if (sb.Length > 0 || first)
+                    {
+                        if (!first) tokens.Add(new Token(TokenKind.Plus, "+", _line, _col));
+                        tokens.Add(new Token(TokenKind.StringLiteral, sb.ToString(), _line, _col));
+                        sb.Clear();
+                        first = false;
+                    }
+                    _pos++; _col++; // skip {
+
+                    // Read expression inside { } and tokenize it
+                    var exprSb = new StringBuilder();
+                    int depth = 1;
+                    while (_pos < _source.Length && depth > 0)
+                    {
+                        if (Cur == '{') depth++;
+                        else if (Cur == '}') { depth--; if (depth == 0) break; }
+                        exprSb.Append(Cur);
+                        _pos++; _col++;
+                    }
+                    if (_pos < _source.Length && Cur == '}') { _pos++; _col++; } // skip }
+
+                    // Tokenize the expression
+                    string exprStr = exprSb.ToString().Trim();
+                    if (exprStr.Length > 0)
+                    {
+                        if (!first) tokens.Add(new Token(TokenKind.Plus, "+", _line, _col));
+                        first = false;
+
+                        // Wrap in str() for auto-stringify if it's not already a string expression
+                        var innerLexer = new Lexer(exprStr, _fileName);
+                        var innerTokens = innerLexer.Tokenize();
+
+                        // Check if the expression is already string-like
+                        bool needStringify = true;
+                        if (innerTokens.Count >= 2 && innerTokens[0].Kind == TokenKind.Identifier &&
+                            innerTokens[0].Text == "str") needStringify = false;
+                        if (innerTokens.Count >= 1 && innerTokens[0].Kind == TokenKind.StringLiteral) needStringify = false;
+
+                        if (needStringify)
+                        {
+                            // Wrap: str( expr )
+                            tokens.Add(new Token(TokenKind.Identifier, "str", _line, _col));
+                            tokens.Add(new Token(TokenKind.LParen, "(", _line, _col));
+                        }
+
+                        // Add inner tokens (except EOF)
+                        foreach (var t in innerTokens)
+                        {
+                            if (t.Kind != TokenKind.EOF) tokens.Add(t);
+                        }
+
+                        if (needStringify)
+                        {
+                            tokens.Add(new Token(TokenKind.RParen, ")", _line, _col));
+                        }
+                    }
+                }
+                else
+                {
+                    sb.Append(Cur);
+                    _pos++; _col++;
+                }
             }
+
+            // Flush remaining text
+            if (sb.Length > 0)
+            {
+                if (!first) tokens.Add(new Token(TokenKind.Plus, "+", _line, _col));
+                tokens.Add(new Token(TokenKind.StringLiteral, sb.ToString(), _line, _col));
+            }
+            else if (first)
+            {
+                // Empty string $""
+                tokens.Add(new Token(TokenKind.StringLiteral, "", _line, _col));
+            }
+
             if (_pos < _source.Length && Cur == '"') { _pos++; _col++; }
-            return new Token(TokenKind.InterpolatedString, sb.ToString(), _line, startCol);
         }
 
         private Token ReadIdentifier()
