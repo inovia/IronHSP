@@ -648,6 +648,12 @@ namespace NhspCompiler.Core.Parsing
             { var t = Advance(); return new BoolLiteralExpr { Value = t.Text == "true", Line = t.Line }; }
             if (MatchKW("cnt"))
             { Advance(); return new CntExpr { Line = Current.Line }; }
+            // Type name as function call: int(x), str(x), double(x)
+            if (MatchType() && Peek().Kind == TokenKind.LParen)
+            {
+                var t = Advance();
+                return new IdentifierExpr { Name = t.Text, Line = t.Line };
+            }
             if (Current.Kind == TokenKind.Identifier && Current.Text == "this")
             { Advance(); return new ThisExpr { Line = Current.Line }; }
             if (Current.Kind == TokenKind.Identifier)

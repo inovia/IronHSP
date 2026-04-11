@@ -40,6 +40,7 @@
     <Compile Include="Phase4Tests.cs" />
     <Compile Include="Phase5Tests.cs" />
     <Compile Include="Phase6Tests.cs" />
+    <Compile Include="Phase7Tests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

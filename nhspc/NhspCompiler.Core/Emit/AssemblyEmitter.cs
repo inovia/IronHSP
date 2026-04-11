@@ -14,8 +14,8 @@ namespace NhspCompiler.Core.Emit
         private readonly DiagnosticBag _diag;
         private readonly string _outputPath;
 
-        // Type registry: maps type name to TypeBuilder (for cross-class references)
         public Dictionary<string, TypeBuilder> TypeRegistry { get; } = new Dictionary<string, TypeBuilder>();
+        public Dictionary<string, TypeEmitter> EmitterRegistry { get; } = new Dictionary<string, TypeEmitter>();
 
         public AssemblyEmitter(CompilationUnit unit, DiagnosticBag diag, string outputPath)
         {

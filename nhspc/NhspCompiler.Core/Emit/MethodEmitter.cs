@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Collections.Generic;
+using System.Linq;
 using NhspCompiler.Core.Parsing.Ast;
 using NhspCompiler.Core.Diagnostics;
 
@@ -457,11 +458,28 @@ namespace NhspCompiler.Core.Emit
             else if (expr is MemberAccessExpr mem)
             {
                 EmitExpression(mem.Target);
-                // Try to resolve field on the type
-                if (mem.Target is ThisExpr && _typeEmitter != null && _typeEmitter.Fields.TryGetValue(mem.MemberName, out var fb))
-                    _il.Emit(OpCodes.Ldfld, fb);
-                else
-                    _diag.Warning(mem.Line, 0, $"Member access '{mem.MemberName}' not fully resolved");
+                var targetType = InferType(mem.Target);
+                if (targetType != null)
+                {
+                    // Property
+                    var prop = targetType.GetProperty(mem.MemberName);
+                    if (prop != null)
+                    {
+                        var getter = prop.GetGetMethod();
+                        _il.Emit(targetType.IsValueType ? OpCodes.Call : OpCodes.Callvirt, getter);
+                        return;
+                    }
+                    // Field
+                    var fi = targetType.GetField(mem.MemberName);
+                    if (fi != null) { _il.Emit(OpCodes.Ldfld, fi); return; }
+                    // Local TypeBuilder field
+                    if (mem.Target is ThisExpr && _typeEmitter != null)
+                    {
+                        var resolved = _typeEmitter.ResolveField(mem.MemberName);
+                        if (resolved != null) { _il.Emit(OpCodes.Ldfld, resolved); return; }
+                    }
+                }
+                _diag.Warning(mem.Line, 0, $"Member '{mem.MemberName}' not resolved on {targetType?.Name}");
             }
             else { _il.Emit(OpCodes.Ldc_I4_0); }
         }
@@ -486,6 +504,10 @@ namespace NhspCompiler.Core.Emit
             }
             else
             {
+                // Could be a static type reference (Console, Math, etc.) - no emit needed
+                var resolvedType = AssemblyEmitter.ResolveTypeStatic(name);
+                if (resolvedType == null) resolvedType = AssemblyEmitter.ResolveTypeStatic("System." + name);
+                if (resolvedType != null) return; // static type ref - nothing to push
                 _diag.Error(line, 0, $"Unknown variable: {name}");
                 _il.Emit(OpCodes.Ldc_I4_0);
             }
@@ -614,7 +636,27 @@ namespace NhspCompiler.Core.Emit
                 if (call.MethodName == "str" && call.Arguments.Count > 0)
                 { EmitStringify(call.Arguments[0]); return; }
                 if (call.MethodName == "int" && call.Arguments.Count > 0)
-                { EmitExpression(call.Arguments[0]); return; }
+                {
+                    EmitExpression(call.Arguments[0]);
+                    var st = InferType(call.Arguments[0]);
+                    if (st == typeof(double) || st == typeof(float))
+                        _il.Emit(OpCodes.Conv_I4);
+                    else if (st == typeof(string))
+                    {
+                        _il.Emit(OpCodes.Call, typeof(int).GetMethod("Parse", new[] { typeof(string) }));
+                    }
+                    return;
+                }
+                if ((call.MethodName == "double" || call.MethodName == "float") && call.Arguments.Count > 0)
+                {
+                    EmitExpression(call.Arguments[0]);
+                    var st = InferType(call.Arguments[0]);
+                    if (st == typeof(int) || st == typeof(long))
+                        _il.Emit(OpCodes.Conv_R8);
+                    else if (st == typeof(string))
+                        _il.Emit(OpCodes.Call, typeof(double).GetMethod("Parse", new[] { typeof(string) }));
+                    return;
+                }
             }
 
             // Method call on this type (same class)
@@ -629,22 +671,47 @@ namespace NhspCompiler.Core.Emit
             // Member call: target.Method(args)
             if (call.Target != null)
             {
-                EmitExpression(call.Target);
-                foreach (var arg in call.Arguments) EmitExpression(arg);
-
-                // Resolve method from target's type
                 var targetType = InferType(call.Target);
+                bool isStaticCall = false;
+
+                // Check if target is a static type reference (nothing to push)
+                if (call.Target is IdentifierExpr targetId)
+                {
+                    var st = AssemblyEmitter.ResolveTypeStatic(targetId.Name);
+                    if (st == null) st = AssemblyEmitter.ResolveTypeStatic("System." + targetId.Name);
+                    if (st != null) { targetType = st; isStaticCall = true; }
+                }
+
+                if (!isStaticCall)
+                    EmitExpression(call.Target);
+                foreach (var arg in call.Arguments) EmitExpression(arg);
                 if (targetType != null)
                 {
                     var argTypes = new Type[call.Arguments.Count];
                     for (int i = 0; i < call.Arguments.Count; i++)
                         argTypes[i] = InferType(call.Arguments[i]);
-                    var mi = targetType.GetMethod(call.MethodName, argTypes);
-                    if (mi == null) mi = targetType.GetMethod(call.MethodName);
+
+                    MethodInfo mi = null;
+                    try { mi = targetType.GetMethod(call.MethodName, argTypes); } catch { }
+                    if (mi == null) try { mi = targetType.GetMethod(call.MethodName); } catch { }
+
                     if (mi != null)
                     {
-                        _il.Emit(targetType.IsValueType ? OpCodes.Call : OpCodes.Callvirt, mi);
+                        _il.Emit((mi.IsStatic || targetType.IsValueType) ? OpCodes.Call : OpCodes.Callvirt, mi);
                         return;
+                    }
+
+                    // TypeBuilder: resolve from EmitterRegistry
+                    if (targetType is TypeBuilder && _typeEmitter?._asmEmitter != null)
+                    {
+                        if (_typeEmitter._asmEmitter.EmitterRegistry.TryGetValue(targetType.Name, out var te2))
+                        {
+                            if (te2.Methods.TryGetValue(call.MethodName, out var mb2))
+                            {
+                                _il.Emit(mb2.IsStatic ? OpCodes.Call : OpCodes.Callvirt, mb2);
+                                return;
+                            }
+                        }
                     }
                 }
                 _diag.Warning(call.Line, 0, $"Method '{call.MethodName}' not resolved on {targetType?.Name}");
@@ -684,15 +751,40 @@ namespace NhspCompiler.Core.Emit
                 argTypes[i] = InferType(newObj.Arguments[i]);
             }
 
-            var ctor = type.GetConstructor(argTypes);
-            if (ctor == null) ctor = type.GetConstructor(Type.EmptyTypes);
+            ConstructorInfo ctor = null;
+            try { ctor = type.GetConstructor(argTypes); } catch { }
+            if (ctor == null) try { ctor = type.GetConstructor(Type.EmptyTypes); } catch { }
+
+            // TypeBuilder: search EmitterRegistry for ConstructorBuilder
+            if (ctor == null && type is TypeBuilder && _typeEmitter?._asmEmitter != null)
+            {
+                if (_typeEmitter._asmEmitter.EmitterRegistry.TryGetValue(type.Name, out var te))
+                {
+                    foreach (var cb in te.Constructors)
+                    {
+                        var cbParams = cb.GetParameters();
+                        if (cbParams.Length == argTypes.Length)
+                        {
+                            bool match = true;
+                            for (int k = 0; k < cbParams.Length; k++)
+                            {
+                                if (cbParams[k].ParameterType != argTypes[k]) { match = false; break; }
+                            }
+                            if (match) { ctor = cb; break; }
+                        }
+                    }
+                    if (ctor == null && newObj.Arguments.Count == 0 && te.Constructors.Count > 0)
+                        ctor = te.Constructors[0]; // fallback to first
+                }
+            }
+
             if (ctor != null)
             {
                 _il.Emit(OpCodes.Newobj, ctor);
             }
             else
             {
-                _diag.Error(newObj.Line, 0, $"Constructor not found: {newObj.TypeName}");
+                _diag.Error(newObj.Line, 0, $"Constructor not found: {newObj.TypeName}({string.Join(",", argTypes.Select(t2 => t2.Name))})");
                 _il.Emit(OpCodes.Ldnull);
             }
         }
@@ -732,6 +824,10 @@ namespace NhspCompiler.Core.Emit
                 }
                 if (_typeEmitter != null && _typeEmitter.ResolveField(id.Name) is FieldInfo fld2)
                     return fld2.FieldType;
+                // Static type reference (e.g., Console, Math, etc.)
+                var resolvedType = AssemblyEmitter.ResolveTypeStatic(id.Name);
+                if (resolvedType == null) resolvedType = AssemblyEmitter.ResolveTypeStatic("System." + id.Name);
+                if (resolvedType != null) return resolvedType;
             }
             if (expr is BinaryExpr bin)
             {
@@ -761,13 +857,24 @@ namespace NhspCompiler.Core.Emit
                 if (arrType != null && arrType.IsArray)
                     return arrType.GetElementType();
             }
-            if (expr is CallExpr callExpr && callExpr.Target != null)
+            if (expr is CallExpr callExpr)
             {
-                var targetType = InferType(callExpr.Target);
-                if (targetType != null)
+                if (callExpr.Target == null)
                 {
-                    var mi = targetType.GetMethod(callExpr.MethodName);
-                    if (mi != null) return mi.ReturnType;
+                    if (callExpr.MethodName == "str") return typeof(string);
+                    if (callExpr.MethodName == "int") return typeof(int);
+                    if (callExpr.MethodName == "double") return typeof(double);
+                    if (_typeEmitter != null && _typeEmitter.Methods.TryGetValue(callExpr.MethodName, out var cmb))
+                        return cmb.ReturnType;
+                }
+                if (callExpr.Target != null)
+                {
+                    var targetType = InferType(callExpr.Target);
+                    if (targetType != null)
+                    {
+                        var mi = targetType.GetMethod(callExpr.MethodName);
+                        if (mi != null) return mi.ReturnType;
+                    }
                 }
             }
             return typeof(int);
