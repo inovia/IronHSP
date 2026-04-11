@@ -16,4 +16,15 @@
     </ItemGroup>
     <Copy SourceFiles="@(NativeDlls)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" />
   </Target>
+  <Target Name="CopyToDist" AfterTargets="CopyNativeDlls">
+    <PropertyGroup>
+      <DistDir>$(ProjectDir)..\dist\</DistDir>
+    </PropertyGroup>
+    <MakeDir Directories="$(DistDir)" />
+    <ItemGroup>
+      <DistFiles Include="$(OutputPath)Pdb2PortablePdb.exe" />
+      <DistFiles Include="$(OutputPath)*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(DistFiles)" DestinationFolder="$(DistDir)" SkipUnchangedFiles="true" />
+  </Target>
 </Project>

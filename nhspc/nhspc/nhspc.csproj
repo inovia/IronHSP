@@ -38,4 +38,12 @@
     <Compile Include="Program.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="CopyToDist" AfterTargets="Build">
+    <PropertyGroup>
+      <DistDir>$(ProjectDir)..\dist\</DistDir>
+    </PropertyGroup>
+    <MakeDir Directories="$(DistDir)" />
+    <Copy SourceFiles="$(OutputPath)nhspc.exe" DestinationFolder="$(DistDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(OutputPath)NhspCompiler.Core.dll" DestinationFolder="$(DistDir)" SkipUnchangedFiles="true" />
+  </Target>
 </Project>

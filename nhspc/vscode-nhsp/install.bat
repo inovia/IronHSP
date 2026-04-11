@@ -8,10 +8,9 @@ echo.
 
 set "VSCODE_EXT=%USERPROFILE%\.vscode\extensions"
 set "TARGET=%VSCODE_EXT%\nhsp-language-0.1.0"
-
-:: このバッチ自身の場所を記録（コピー前に確定させる）
 set "SCRIPT_DIR=%~dp0"
 for %%I in ("%SCRIPT_DIR%\..") do set "NHSPC_ROOT=%%~fI"
+set "DIST_DIR=%NHSPC_ROOT%\dist"
 
 if not exist "%VSCODE_EXT%" (
     echo [!] VS Code 拡張ディレクトリが見つかりません。
@@ -28,7 +27,7 @@ echo [*] 拡張ファイルをコピーしています。
 xcopy /E /I /Q "%SCRIPT_DIR%." "%TARGET%\" >nul 2>&1
 
 if not exist "%TARGET%\package.json" (
-    echo [!] コピーに失敗しました。
+    echo [!] 拡張のコピーに失敗しました。
     pause
     exit /b 1
 )
@@ -36,28 +35,20 @@ echo     拡張ファイル: OK
 
 set "COMPILER_DIR=%TARGET%\compiler"
 mkdir "%COMPILER_DIR%" 2>nul
-set "NHSPC_FOUND=0"
-set "PDB_FOUND=0"
 
-:: nhspc.exe (ソースツリーから直接コピー)
-if exist "%NHSPC_ROOT%\nhspc\bin\Release\nhspc.exe" (
-    echo [*] コンパイラをコピーしています [Release]
-    copy /Y "%NHSPC_ROOT%\nhspc\bin\Release\nhspc.exe" "%COMPILER_DIR%\" >nul
-    copy /Y "%NHSPC_ROOT%\NhspCompiler.Core\bin\Release\NhspCompiler.Core.dll" "%COMPILER_DIR%\" >nul
-    set "NHSPC_FOUND=1"
-) else if exist "%NHSPC_ROOT%\nhspc\bin\Debug\nhspc.exe" (
-    echo [*] コンパイラをコピーしています [Debug]
-    copy /Y "%NHSPC_ROOT%\nhspc\bin\Debug\nhspc.exe" "%COMPILER_DIR%\" >nul
-    copy /Y "%NHSPC_ROOT%\NhspCompiler.Core\bin\Debug\NhspCompiler.Core.dll" "%COMPILER_DIR%\" >nul
-    set "NHSPC_FOUND=1"
-)
-
-:: Pdb2PortablePdb + 全依存DLL
-if exist "%NHSPC_ROOT%\Pdb2PortablePdb\bin\Debug\net48\Pdb2PortablePdb.exe" (
-    echo [*] PDB変換ツールをコピーしています。
-    copy /Y "%NHSPC_ROOT%\Pdb2PortablePdb\bin\Debug\net48\Pdb2PortablePdb.exe" "%COMPILER_DIR%\" >nul
-    copy /Y "%NHSPC_ROOT%\Pdb2PortablePdb\bin\Debug\net48\*.dll" "%COMPILER_DIR%\" >nul 2>nul
-    set "PDB_FOUND=1"
+:: dist/ フォルダから全ファイルをコピー
+if exist "%DIST_DIR%\nhspc.exe" (
+    echo [*] dist/ からコンパイラ+ツールをコピーしています。
+    copy /Y "%DIST_DIR%\*.*" "%COMPILER_DIR%\" >nul 2>nul
+    echo     コンパイラ: OK
+    echo     PDB変換:   OK
+) else (
+    echo [!] dist/ フォルダが見つかりません。
+    echo     先にビルドしてください:
+    echo       cd nhspc
+    echo       dotnet build NhspCompiler.sln -c Release
+    pause
+    exit /b 1
 )
 
 echo.
@@ -66,16 +57,11 @@ echo   インストール完了
 echo ========================================
 echo.
 echo   拡張:      %TARGET%
-if "!NHSPC_FOUND!"=="1" echo   コンパイラ: %COMPILER_DIR%\nhspc.exe
-if "!PDB_FOUND!"=="1" echo   PDB変換:   %COMPILER_DIR%\Pdb2PortablePdb.exe
+echo   コンパイラ: %COMPILER_DIR%\nhspc.exe
+echo   PDB変換:   %COMPILER_DIR%\Pdb2PortablePdb.exe
 echo.
-if "!NHSPC_FOUND!"=="1" (
-    echo   VS Code で .nhsp を開いて F5 でコンパイルできます。
-) else (
-    echo   コンパイラが見つかりません。先にビルドしてください:
-    echo     cd nhspc
-    echo     dotnet build NhspCompiler.sln
-)
+echo   VS Code で .nhsp を開いて F5 でコンパイルできます。
+echo   パス設定は不要です。
 echo.
 echo   VS Code を再起動してください。
 echo.
