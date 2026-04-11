@@ -123,6 +123,49 @@
         "title": "NHSP: Compile & Run"
       }
     ],
+    "menus": {
+      "editor/title/run": [
+        {
+          "command": "nhsp.compile",
+          "group": "1_nhsp@1",
+          "when": "resourceLangId == nhsp"
+        },
+        {
+          "command": "nhsp.run",
+          "group": "1_nhsp@2",
+          "when": "resourceLangId == nhsp"
+        },
+        {
+          "command": "nhsp.compileDebug",
+          "group": "1_nhsp@3",
+          "when": "resourceLangId == nhsp"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "nhsp.compile",
+          "group": "navigation",
+          "when": "resourceLangId == nhsp"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "nhsp.compile",
+          "group": "1_nhsp@1",
+          "when": "resourceLangId == nhsp"
+        },
+        {
+          "command": "nhsp.compileDll",
+          "group": "1_nhsp@2",
+          "when": "resourceLangId == nhsp"
+        },
+        {
+          "command": "nhsp.run",
+          "group": "1_nhsp@3",
+          "when": "resourceLangId == nhsp"
+        }
+      ]
+    },
     "keybindings": [
       {
         "command": "nhsp.compile",
