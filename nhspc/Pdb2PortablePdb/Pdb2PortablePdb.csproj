@@ -10,4 +10,10 @@
   <PropertyGroup>
     <RestoreAdditionalProjectSources>https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json</RestoreAdditionalProjectSources>
   </PropertyGroup>
+  <Target Name="CopyNativeDlls" AfterTargets="Build">
+    <ItemGroup>
+      <NativeDlls Include="$(NuGetPackageRoot)microsoft.diasymreader.native\**\runtimes\win\native\*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(NativeDlls)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" />
+  </Target>
 </Project>
