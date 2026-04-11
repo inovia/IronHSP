@@ -78,21 +78,48 @@
 <!-- ======================================== -->
 <h2 id="build">2. ビルド構成</h2>
 
+<h3>2.1 ランタイム</h3>
 <table>
-<tr><th>ソリューション</th><th>説明</th><th>CLR</th><th>プラットフォーム</th></tr>
-<tr><td><code>hsp3net\win32gui\hsp3.sln</code></td><td>GUI版 (32bit)</td><td>あり</td><td>x86</td></tr>
-<tr><td><code>hsp3net\hsp3_64.sln</code></td><td>GUI版 (64bit)</td><td>あり</td><td>x64</td></tr>
-<tr><td><code>hsp3net\win32\hsp3cl.sln</code></td><td>コンソール版 (32bit)</td><td>あり</td><td>x86</td></tr>
-<tr><td><code>hsp3\win32gui\hsp3.sln</code></td><td>標準GUI版 (.NETなし)</td><td>なし</td><td>x86</td></tr>
-<tr><td><code>hsp3\hsp3_64.sln</code></td><td>標準64bit版 (.NETなし)</td><td>なし</td><td>x64</td></tr>
-<tr><td><code>hsp3\win32\hsp3cl.sln</code></td><td>標準コンソール版 (.NETなし)</td><td>なし</td><td>x86</td></tr>
-<tr><td><code>hspcmp\win32\hspcmp.sln</code></td><td>コンパイラ (EXE)</td><td>なし</td><td>x86</td></tr>
-<tr><td><code>hspcmp\win32dll\hspcmp.sln</code></td><td>コンパイラ (DLL)</td><td>なし</td><td>x86</td></tr>
+<tr><th>プロジェクト</th><th>出力ファイル</th><th>CLR</th><th>プラットフォーム</th></tr>
+<tr><td><code>hsp3\win32gui\hsp3.sln</code></td><td>hsp3.exe</td><td>なし</td><td>x86</td></tr>
+<tr><td><code>hsp3\hsp3_64.sln</code></td><td>hsp3_64.exe</td><td>なし</td><td>x64</td></tr>
+<tr><td><code>hsp3\win32\hsp3cl.sln</code></td><td>hsp3cl.exe</td><td>なし</td><td>x86</td></tr>
+<tr><td><code>hsp3\hsp3cl_64.vcxproj</code></td><td>hsp3cl_64.exe</td><td>なし</td><td>x64</td></tr>
+<tr><td><code>hsp3net\win32gui\hsp3.sln</code></td><td>hsp3.exe (.NET版)</td><td>あり</td><td>x86</td></tr>
+<tr><td><code>hsp3net\hsp3_64.sln</code></td><td>hsp3_64.exe (.NET版)</td><td>あり</td><td>x64</td></tr>
+<tr><td><code>hsp3net\win32\hsp3cl.sln</code></td><td>hsp3cl.exe (.NET版)</td><td>あり</td><td>x86</td></tr>
+<tr><td><code>hsp3net\hsp3cl_64.vcxproj</code></td><td>hsp3cl_64.exe (.NET版)</td><td>あり</td><td>x64</td></tr>
+</table>
+
+<h3>2.2 コンパイラ・デバッガ</h3>
+<table>
+<tr><th>プロジェクト</th><th>出力ファイル (x86)</th><th>出力ファイル (x64)</th></tr>
+<tr><td><code>hspcmp\win32dll\hspcmp.vcxproj</code></td><td>hspcmp.dll</td><td>hspcmp64.dll</td></tr>
+<tr><td><code>hspcmp\win32\hspcmp.vcxproj</code></td><td>hspcmp.exe</td><td>hspcmp64.exe</td></tr>
+<tr><td><code>tools\win32\hsp3debug\hsp3debug.vcxproj</code></td><td>hsp3debug.dll</td><td>hsp3debug_64.dll</td></tr>
+</table>
+
+<h3>2.3 プラグイン</h3>
+<table>
+<tr><th>プラグイン</th><th>出力 (x86)</th><th>出力 (x64)</th><th>備考</th></tr>
+<tr><td>hspext</td><td>hspext.dll</td><td>hspext64.dll</td><td></td></tr>
+<tr><td>hspda</td><td>hspda.dll</td><td>hspda64.dll</td><td></td></tr>
+<tr><td>hspinet</td><td>hspinet.dll</td><td>hspinet64.dll</td><td></td></tr>
+<tr><td>hspvoicevox</td><td>hspvoicevox.dll</td><td>hspvoicevox64.dll</td><td>voicevox_core 0.14.6</td></tr>
+<tr><td>hgimg</td><td>hgimg.dll</td><td>hgimg64.dll</td><td>vcxproj 新規作成 (VS2022)</td></tr>
+<tr><td>obaq</td><td>obaq.dll</td><td>obaq64.dll</td><td>vcxproj 新規作成 (VS2022)</td></tr>
+<tr><td>ZLibWrap</td><td>ZLibWrap.dll</td><td>ZLibWrap64.dll</td><td></td></tr>
+<tr><td>hgimgx</td><td>hgimgx.dll</td><td>—</td><td>DirectX 8 依存 (32bitのみ)</td></tr>
+<tr><td>hspcv</td><td>hspcv.dll</td><td>—</td><td>旧OpenCV (後日対応予定)</td></tr>
 </table>
 
 <div class="note">
-全プロジェクトは Visual Studio 2022 (v143)、Windows SDK 10.0、.NET Framework 4.8 をターゲットとしています。
-ソースファイルは UTF-8 エンコーディングで、<code>/source-charset:utf-8</code> オプションを使用します。
+<ul>
+<li>全プロジェクトは Visual Studio 2022 (v143)、Windows SDK 10.0 をターゲットとしています。</li>
+<li>.NET 版は .NET Framework 4.8、C++17 を使用します。</li>
+<li>32bit版はSJIS (<code>/execution-charset:shift_jis</code>)、64bit版はUTF-8 (<code>/execution-charset:utf-8</code>) で動作します。</li>
+<li>プラグインの .as ヘッダは <code>#ifdef __hsp64__</code> で 64bit DLL 名に自動切替されます。</li>
+</ul>
 </div>
 
 <!-- ======================================== -->
