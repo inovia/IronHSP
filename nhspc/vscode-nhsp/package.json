@@ -1,0 +1,102 @@
+{
+  "name": "nhsp-language",
+  "displayName": "NHSP Language Support",
+  "description": "Syntax highlighting, compile, and debug support for NHSP (.nhsp) - HSP-style .NET compiler",
+  "version": "0.1.0",
+  "publisher": "ironhsp",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Debuggers"
+  ],
+  "activationEvents": [
+    "onLanguage:nhsp"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "nhsp",
+        "aliases": ["NHSP", "nhsp", "Net HSP"],
+        "extensions": [".nhsp"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "nhsp",
+        "scopeName": "source.nhsp",
+        "path": "./syntaxes/nhsp.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "nhsp",
+        "path": "./snippets/nhsp.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "nhsp.compile",
+        "title": "NHSP: Compile",
+        "icon": "$(play)"
+      },
+      {
+        "command": "nhsp.compileDll",
+        "title": "NHSP: Compile (DLL)"
+      },
+      {
+        "command": "nhsp.compileDebug",
+        "title": "NHSP: Compile with Debug Info"
+      },
+      {
+        "command": "nhsp.run",
+        "title": "NHSP: Compile & Run"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "nhsp.compile",
+        "key": "f5",
+        "when": "editorLangId == nhsp"
+      },
+      {
+        "command": "nhsp.compileDebug",
+        "key": "ctrl+f5",
+        "when": "editorLangId == nhsp"
+      }
+    ],
+    "configuration": {
+      "title": "NHSP",
+      "properties": {
+        "nhsp.compilerPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to nhspc.exe compiler. Leave empty to auto-detect."
+        },
+        "nhsp.outputDirectory": {
+          "type": "string",
+          "default": "",
+          "description": "Output directory for compiled files. Leave empty for same directory as source."
+        }
+      }
+    },
+    "problemMatchers": [
+      {
+        "name": "nhsp",
+        "owner": "nhsp",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": {
+          "regexp": "^\\((\\d+),(\\d+)\\): (error|warning): (.*)$",
+          "line": 1,
+          "column": 2,
+          "severity": 3,
+          "message": 4
+        }
+      }
+    ]
+  }
+}

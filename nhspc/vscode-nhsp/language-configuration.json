@@ -1,0 +1,34 @@
+{
+  "comments": {
+    "lineComment": ";",
+    "blockComment": null
+  },
+  "brackets": [
+    ["{", "}"],
+    ["(", ")"],
+    ["[", "]"]
+  ],
+  "autoClosingPairs": [
+    { "open": "{", "close": "}" },
+    { "open": "(", "close": ")" },
+    { "open": "[", "close": "]" },
+    { "open": "\"", "close": "\"" }
+  ],
+  "surroundingPairs": [
+    { "open": "{", "close": "}" },
+    { "open": "(", "close": ")" },
+    { "open": "[", "close": "]" },
+    { "open": "\"", "close": "\"" }
+  ],
+  "folding": {
+    "markers": {
+      "start": "^\\s*#(class|struct|interface|func|init|property|indexer|operator|destructor|enum|main|if|repeat|while|for|foreach|switch|try|lock|using)\\b",
+      "end": "^\\s*#?(endclass|endstruct|endinterface|endfunc|endinit|endproperty|endindexer|endoperator|enddestructor|endenum|endmain|endif|loop|wend|next|endswitch|endtry|endlock|endusing)\\b"
+    }
+  },
+  "indentationRules": {
+    "increaseIndentPattern": "^\\s*#(class|struct|interface|func|init|property|indexer|operator|destructor|enum|main)\\b|^\\s*(if|elseif|else|repeat|while|for|foreach|switch|case|default|try|catch|finally|lock|using)\\b|\\{\\s*$",
+    "decreaseIndentPattern": "^\\s*#?(endclass|endstruct|endinterface|endfunc|endinit|endproperty|endindexer|endoperator|enddestructor|endenum|endmain|endif|elseif|else|loop|wend|next|endswitch|endtry|catch|finally|endlock|endusing)\\b|^\\s*\\}"
+  },
+  "wordPattern": "[a-zA-Z_][a-zA-Z0-9_]*"
+}

@@ -1,0 +1,179 @@
+{
+  "Class": {
+    "prefix": "#class",
+    "body": [
+      "#class public ${1:ClassName}",
+      "  $0",
+      "#endclass"
+    ],
+    "description": "Class definition"
+  },
+  "Function": {
+    "prefix": "#func",
+    "body": [
+      "#func public ${1:void} ${2:MethodName}${3:, ${4:int} ${5:param}}",
+      "  $0",
+      "#endfunc"
+    ],
+    "description": "Method definition"
+  },
+  "Constructor": {
+    "prefix": "#init",
+    "body": [
+      "#init ${1:int param}",
+      "  $0",
+      "#endinit"
+    ],
+    "description": "Constructor"
+  },
+  "Interface": {
+    "prefix": "#interface",
+    "body": [
+      "#interface ${1:IName}",
+      "  #func ${2:void} ${3:Method}",
+      "#endinterface"
+    ],
+    "description": "Interface definition"
+  },
+  "Struct": {
+    "prefix": "#struct",
+    "body": [
+      "#struct public ${1:Name}, Sequential",
+      "  #field public ${2:int} ${3:Field}",
+      "#endstruct"
+    ],
+    "description": "Struct definition"
+  },
+  "Enum": {
+    "prefix": "#enum",
+    "body": [
+      "#enum ${1:Name}",
+      "  ${2:Value1}",
+      "  ${3:Value2}",
+      "#endenum"
+    ],
+    "description": "Enum definition"
+  },
+  "If-Else": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition}",
+      "  $0",
+      "endif"
+    ],
+    "description": "If statement"
+  },
+  "If-Brace": {
+    "prefix": "ifb",
+    "body": [
+      "if ${1:condition} {",
+      "  $0",
+      "}"
+    ],
+    "description": "If statement (brace style)"
+  },
+  "For Loop": {
+    "prefix": "for",
+    "body": [
+      "for ${1:i} = ${2:0} to ${3:10}",
+      "  $0",
+      "next"
+    ],
+    "description": "For loop"
+  },
+  "Repeat Loop": {
+    "prefix": "repeat",
+    "body": [
+      "repeat ${1:10}",
+      "  $0",
+      "loop"
+    ],
+    "description": "Repeat loop (HSP style)"
+  },
+  "While Loop": {
+    "prefix": "while",
+    "body": [
+      "while ${1:condition}",
+      "  $0",
+      "wend"
+    ],
+    "description": "While loop"
+  },
+  "Foreach": {
+    "prefix": "foreach",
+    "body": [
+      "foreach ${1:var} ${2:item} in ${3:collection}",
+      "  $0",
+      "next"
+    ],
+    "description": "Foreach loop"
+  },
+  "Switch": {
+    "prefix": "switch",
+    "body": [
+      "switch ${1:value}",
+      "  case ${2:1}",
+      "    $0",
+      "  default",
+      "    ",
+      "endswitch"
+    ],
+    "description": "Switch statement"
+  },
+  "Try-Catch": {
+    "prefix": "try",
+    "body": [
+      "try",
+      "  $0",
+      "catch Exception ${1:e}",
+      "  print ${1:e}.Message",
+      "#endtry"
+    ],
+    "description": "Try-catch block"
+  },
+  "DllImport": {
+    "prefix": "#dllimport",
+    "body": [
+      "#dllimport \"${1:kernel32.dll}\"",
+      "#dllfunc public static ${2:int} ${3:FuncName}, ${4:IntPtr param}"
+    ],
+    "description": "P/Invoke declaration"
+  },
+  "Assembly": {
+    "prefix": "#assembly",
+    "body": [
+      "#assembly \"${1:MyApp}\"${2:, exe}",
+      "",
+      "$0"
+    ],
+    "description": "Assembly declaration"
+  },
+  "Main": {
+    "prefix": "#main",
+    "body": [
+      "#main",
+      "  $0",
+      "#endmain"
+    ],
+    "description": "Entry point"
+  },
+  "Property": {
+    "prefix": "#property",
+    "body": [
+      "#property ${1:Name} as ${2:int}",
+      "  #get",
+      "    return ${3:_field}",
+      "  #endget",
+      "  #set",
+      "    ${3:_field} = value",
+      "  #endset",
+      "#endproperty"
+    ],
+    "description": "Property with getter/setter"
+  },
+  "Print": {
+    "prefix": "print",
+    "body": "print ${1:\"Hello\"}",
+    "description": "Console output"
+  }
+}
