@@ -415,7 +415,8 @@ namespace NhspCompiler.Core.Parsing
             // Try to scan past the type name, then check if next is Identifier
             if (MatchType() || (Current.Kind == TokenKind.Identifier &&
                 (Lexing.Keywords.TypeAliases.ContainsKey(Current.Text.ToLowerInvariant()) ||
-                 Peek().Kind == TokenKind.Less)))
+                 Peek().Kind == TokenKind.Less ||
+                 Peek().Kind == TokenKind.Identifier)))  // ClassName varName pattern
             {
                 _pos++; // skip type name
 

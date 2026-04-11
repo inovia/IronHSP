@@ -255,7 +255,45 @@ namespace NhspCompiler.Tests
 #endclass");
             Assert.AreEqual(2, Call(asm, "ImplicitNew", "Run"));
         }
+        [Test]
+        public void ImplicitDimWithClassName()
+        {
+            var asm = Compile(@"
+#assembly ""T""
+#class public MyData
+  #field public int Value
+  #init int v
+    Value = v
+  #endinit
+#endclass
+
+#class public Runner
+  #func public static int Run
+    MyData d = new MyData(42)
+    return d.Value
+  #endfunc
+#endclass");
+            Assert.AreEqual(42, Call(asm, "Runner", "Run"));
+        }
+
+        [Test]
+        public void ImplicitDimStringBuilder()
+        {
+            var asm = Compile(@"
+#assembly ""T""
+#class public SBTest
+  #func public static string Run
+    StringBuilder sb = new StringBuilder()
+    sb.Append(""Hello"")
+    sb.Append("" "")
+    sb.Append(""World"")
+    return sb.ToString()
+  #endfunc
+#endclass");
+            Assert.AreEqual("Hello World", Call(asm, "SBTest", "Run"));
+        }
     }
 }
+
 
 
