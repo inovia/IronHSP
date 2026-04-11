@@ -292,8 +292,38 @@ namespace NhspCompiler.Tests
 #endclass");
             Assert.AreEqual("Hello World", Call(asm, "SBTest", "Run"));
         }
+        // ===== コロン区切り (HSP互換) =====
+
+        [Test]
+        public void ColonSeparator()
+        {
+            var asm = Compile(@"
+#assembly ""T""
+#class public ColonTest
+  #func public static int Run
+    int a = 1 : int b = 2 : int c = a + b
+    return c
+  #endfunc
+#endclass");
+            Assert.AreEqual(3, Call(asm, "ColonTest", "Run"));
+        }
+
+        [Test]
+        public void ColonSeparatorMultipleStatements()
+        {
+            var asm = Compile(@"
+#assembly ""T""
+#class public ColonTest2
+  #func public static int Run
+    int x = 0 : x += 10 : x += 20 : x += 30
+    return x
+  #endfunc
+#endclass");
+            Assert.AreEqual(60, Call(asm, "ColonTest2", "Run"));
+        }
     }
 }
+
 
 
 

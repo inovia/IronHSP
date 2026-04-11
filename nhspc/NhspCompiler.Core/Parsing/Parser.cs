@@ -38,7 +38,8 @@ namespace NhspCompiler.Core.Parsing
             return Current;
         }
 
-        private void SkipEOL() { while (Match(TokenKind.EOL)) Advance(); }
+        private bool MatchEOL() => Match(TokenKind.EOL) || Match(TokenKind.Colon);
+        private void SkipEOL() { while (MatchEOL()) Advance(); }
 
         // ======== Top Level ========
 
@@ -503,7 +504,7 @@ namespace NhspCompiler.Core.Parsing
             {
                 Advance();
                 Expression val = null;
-                if (!Match(TokenKind.EOL) && !Match(TokenKind.EOF)) val = ParseExpression();
+                if (!MatchEOL() && !Match(TokenKind.EOF)) val = ParseExpression();
                 return new ReturnStatement { Value = val, Line = Current.Line };
             }
 
@@ -541,7 +542,7 @@ namespace NhspCompiler.Core.Parsing
             {
                 Advance();
                 Expression val = null;
-                if (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
+                if (!MatchEOL() && !Match(TokenKind.EOF))
                     val = ParseExpression();
                 return new ThrowStatement { Value = val, Line = Current.Line };
             }
@@ -773,7 +774,7 @@ namespace NhspCompiler.Core.Parsing
         {
             Advance(); // "repeat"
             var stmt = new RepeatStatement { Line = Current.Line };
-            if (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
+            if (!MatchEOL() && !Match(TokenKind.EOF))
                 stmt.Count = ParseExpression();
             SkipEOL();
             stmt.Body = ParseBlock("loop");
@@ -912,7 +913,7 @@ namespace NhspCompiler.Core.Parsing
                 while (Match(TokenKind.Comma))
                 {
                     Advance();
-                    if (Match(TokenKind.EOL) || Match(TokenKind.EOF)) break;
+                    if (MatchEOL() || Match(TokenKind.EOF)) break;
                     args.Add(ParseExpression());
                 }
             }
@@ -1334,10 +1335,10 @@ namespace NhspCompiler.Core.Parsing
 
         private void ParseParameterList(List<ParameterDeclaration> parameters)
         {
-            while (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
+            while (!MatchEOL() && !Match(TokenKind.EOF))
             {
                 if (Match(TokenKind.Comma)) { Advance(); }
-                if (Match(TokenKind.EOL) || Match(TokenKind.EOF)) break;
+                if (MatchEOL() || Match(TokenKind.EOF)) break;
 
                 // [Attributes] before param
                 var attrs = new List<ParameterAttribute>();
@@ -1391,7 +1392,7 @@ namespace NhspCompiler.Core.Parsing
                 attr.Name = Expect(TokenKind.Identifier, "Expected attribute name").Text;
 
             // Arguments: space-separated or comma-separated values
-            while (!Match(TokenKind.RBracket) && !Match(TokenKind.EOL) && !Match(TokenKind.EOF))
+            while (!Match(TokenKind.RBracket) && !MatchEOL() && !Match(TokenKind.EOF))
             {
                 if (Match(TokenKind.Comma)) Advance();
                 if (Match(TokenKind.RBracket)) break;
