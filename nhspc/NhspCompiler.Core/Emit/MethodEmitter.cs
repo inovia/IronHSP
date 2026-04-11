@@ -193,6 +193,16 @@ namespace NhspCompiler.Core.Emit
 
         // ======== Statements ========
 
+        private LocalBuilder DeclareLocalWithSymbol(Type type, string name)
+        {
+            var local = _il.DeclareLocal(type);
+            if (_typeEmitter?._asmEmitter?.DebugDocument != null && name != null)
+            {
+                try { local.SetLocalSymInfo(name); } catch { }
+            }
+            return local;
+        }
+
         private void MarkDebugPoint(AstNode node)
         {
             if (_typeEmitter?._asmEmitter?.DebugDocument != null && node.Line > 0)
@@ -282,7 +292,7 @@ namespace NhspCompiler.Core.Emit
             if (decl.ArraySize > 0)
             {
                 varType = varType.MakeArrayType();
-                var local = _il.DeclareLocal(varType);
+                var local = DeclareLocalWithSymbol(varType, decl.Name);
                 _locals[decl.Name] = local;
                 _il.Emit(OpCodes.Ldc_I4, decl.ArraySize);
                 _il.Emit(OpCodes.Newarr, varType.GetElementType());
@@ -290,7 +300,7 @@ namespace NhspCompiler.Core.Emit
                 return;
             }
 
-            var loc = _il.DeclareLocal(varType);
+            var loc = DeclareLocalWithSymbol(varType, decl.Name);
             _locals[decl.Name] = loc;
 
             if (decl.Initializer != null)
@@ -346,7 +356,7 @@ namespace NhspCompiler.Core.Emit
             {
                 // Auto-declare local
                 var varType = InferType(assign.Value);
-                var newLocal = _il.DeclareLocal(varType);
+                var newLocal = DeclareLocalWithSymbol(varType, assign.VariableName);
                 _locals[assign.VariableName] = newLocal;
                 EmitExpression(assign.Value);
                 _il.Emit(OpCodes.Stloc, newLocal);
@@ -431,7 +441,7 @@ namespace NhspCompiler.Core.Emit
             var continueLabel = _il.DefineLabel();
 
             // cnt local
-            _cntLocal = _il.DeclareLocal(typeof(int));
+            _cntLocal = DeclareLocalWithSymbol(typeof(int), "cnt");
             _il.Emit(OpCodes.Ldc_I4_0);
             _il.Emit(OpCodes.Stloc, _cntLocal);
 
@@ -546,8 +556,7 @@ namespace NhspCompiler.Core.Emit
 
                 if (stmt.CatchVarName != null)
                 {
-                    // Store exception in local variable
-                    var exLocal = _il.DeclareLocal(catchType);
+                    var exLocal = DeclareLocalWithSymbol(catchType, stmt.CatchVarName);
                     _locals[stmt.CatchVarName] = exLocal;
                     _il.Emit(OpCodes.Stloc, exLocal);
                 }
@@ -642,7 +651,7 @@ namespace NhspCompiler.Core.Emit
             // Declare/get loop var
             if (!_locals.TryGetValue(forStmt.VarName, out var loopVar))
             {
-                loopVar = _il.DeclareLocal(typeof(int));
+                loopVar = DeclareLocalWithSymbol(typeof(int), forStmt.VarName);
                 _locals[forStmt.VarName] = loopVar;
             }
 
@@ -755,7 +764,7 @@ namespace NhspCompiler.Core.Emit
             var elemType = currentProp.PropertyType;
             if (!_locals.TryGetValue(stmt.VarName, out var iterVar))
             {
-                iterVar = _il.DeclareLocal(elemType);
+                iterVar = DeclareLocalWithSymbol(elemType, stmt.VarName);
                 _locals[stmt.VarName] = iterVar;
             }
             _il.Emit(OpCodes.Stloc, iterVar);
@@ -780,7 +789,7 @@ namespace NhspCompiler.Core.Emit
             // var = init; try { body } finally { if (var != null) var.Dispose(); }
             EmitExpression(stmt.Initializer);
             var varType = InferType(stmt.Initializer);
-            var local = _il.DeclareLocal(varType);
+            var local = DeclareLocalWithSymbol(varType, stmt.VarName);
             _locals[stmt.VarName] = local;
             _il.Emit(OpCodes.Stloc, local);
 
