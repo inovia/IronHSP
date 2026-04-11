@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "dgSpecHash": "c1wy0n2zP7g=",
+  "success": true,
+  "projectFilePath": "J:\\HNWorks\\IronHSP_2026\\nhspc\\Pdb2PortablePdb\\Pdb2PortablePdb.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\inovia\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\5.0.0\\microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",
+    "C:\\Users\\inovia\\.nuget\\packages\\microsoft.diasymreader\\1.4.0-beta2-21528-01\\microsoft.diasymreader.1.4.0-beta2-21528-01.nupkg.sha512",
+    "C:\\Users\\inovia\\.nuget\\packages\\microsoft.diasymreader.converter\\1.1.0-beta2-22302-02\\microsoft.diasymreader.converter.1.1.0-beta2-22302-02.nupkg.sha512",
+    "C:\\Users\\inovia\\.nuget\\packages\\microsoft.diasymreader.native\\17.12.0-beta1.24603.5\\microsoft.diasymreader.native.17.12.0-beta1.24603.5.nupkg.sha512",
+    "C:\\Users\\inovia\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\inovia\\.nuget\\packages\\system.collections.immutable\\5.0.0\\system.collections.immutable.5.0.0.nupkg.sha512",
+    "C:\\Users\\inovia\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
+    "C:\\Users\\inovia\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
+    "C:\\Users\\inovia\\.nuget\\packages\\system.reflection.metadata\\5.0.0\\system.reflection.metadata.5.0.0.nupkg.sha512",
+    "C:\\Users\\inovia\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
+    "C:\\Users\\inovia\\.nuget\\packages\\system.text.encodings.web\\5.0.0\\system.text.encodings.web.5.0.0.nupkg.sha512",
+    "C:\\Users\\inovia\\.nuget\\packages\\system.text.json\\5.0.0\\system.text.json.5.0.0.nupkg.sha512",
+    "C:\\Users\\inovia\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
+    "C:\\Users\\inovia\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
