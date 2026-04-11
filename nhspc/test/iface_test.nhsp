@@ -1,0 +1,12 @@
+#assembly "IfaceTest"
+
+#interface IGreeter
+  #func Greet string name as string
+#endinterface
+
+#class HelloGreeter : IGreeter
+  #access public
+  #func Greet string name as string, public
+    return "Hello, " + name + "!"
+  endfunc
+#endclass

@@ -8,7 +8,22 @@ namespace NhspCompiler.Core.Parsing.Ast
         public string OutputType { get; set; } = "dll"; // dll or exe
         public List<string> References { get; set; } = new List<string>();
         public List<string> Usings { get; set; } = new List<string>();
+        public List<InterfaceDeclaration> Interfaces { get; set; } = new List<InterfaceDeclaration>();
         public List<ClassDeclaration> Classes { get; set; } = new List<ClassDeclaration>();
+    }
+
+    public class InterfaceDeclaration : AstNode
+    {
+        public string Name { get; set; }
+        public string Access { get; set; } = "public";
+        public List<MethodSignature> Methods { get; set; } = new List<MethodSignature>();
+    }
+
+    public class MethodSignature : AstNode
+    {
+        public string Name { get; set; }
+        public string ReturnType { get; set; } = "void";
+        public List<ParameterDeclaration> Parameters { get; set; } = new List<ParameterDeclaration>();
     }
 
     public class ClassDeclaration : AstNode

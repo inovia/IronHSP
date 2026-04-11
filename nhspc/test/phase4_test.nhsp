@@ -1,0 +1,22 @@
+#assembly "Phase4Test"
+
+#class Animal
+  #access public
+  #field Name as string
+  #init string name
+    Name = name
+  endinit
+  #func Speak as string, public, virtual
+    return Name + " says ..."
+  endfunc
+#endclass
+
+#class Dog : Animal
+  #access public
+  #init string name
+    Name = name
+  endinit
+  #func Speak as string, public, override
+    return Name + " says Woof!"
+  endfunc
+#endclass

@@ -52,6 +52,7 @@ namespace NhspCompiler.Core.Parsing
                     }
                     else if (MatchKW("reference")) { Advance(); unit.References.Add(Expect(TokenKind.StringLiteral, "Expected ref").Text); }
                     else if (MatchKW("using")) { Advance(); unit.Usings.Add(Expect(TokenKind.StringLiteral, "Expected ns").Text); }
+                    else if (MatchKW("interface")) { unit.Interfaces.Add(ParseInterface()); }
                     else if (MatchKW("class")) { unit.Classes.Add(ParseClass()); }
                     else { _diag.Error(Current.Line, Current.Column, $"Unknown directive: {Current.Text}"); Advance(); }
                 }
@@ -132,11 +133,13 @@ namespace NhspCompiler.Core.Parsing
                 if (Match(TokenKind.Comma))
                 {
                     Advance();
-                    while (MatchKW("public") || MatchKW("private") || MatchKW("static") || MatchKW("virtual") || MatchKW("override"))
+                    while (MatchKW("public") || MatchKW("private") || MatchKW("static") || MatchKW("virtual") || MatchKW("override") || MatchKW("abstract"))
                     {
                         string mod = Advance().Text;
                         if (mod == "public" || mod == "private") m.Access = mod;
                         if (mod == "static") m.IsStatic = true;
+                        if (mod == "virtual") m.IsVirtual = true;
+                        if (mod == "override") m.IsOverride = true;
                         if (Match(TokenKind.Comma)) Advance();
                     }
                     continue;
@@ -464,6 +467,48 @@ namespace NhspCompiler.Core.Parsing
             if (Match(TokenKind.LParen))
             { Advance(); var e = ParseExpression(); Expect(TokenKind.RParen, "Expected ')'"); return e; }
             return null;
+        }
+
+        private InterfaceDeclaration ParseInterface()
+        {
+            var iface = new InterfaceDeclaration { Line = Current.Line };
+            Advance(); // "interface"
+            iface.Name = Expect(TokenKind.Identifier, "Expected interface name").Text;
+            SkipEOL();
+
+            while (!Match(TokenKind.EOF))
+            {
+                SkipEOL();
+                if (Match(TokenKind.Hash))
+                {
+                    Advance();
+                    if (MatchKW("endinterface")) { Advance(); break; }
+                    if (MatchKW("func"))
+                    {
+                        Advance();
+                        var sig = new MethodSignature { Line = Current.Line };
+                        sig.Name = Expect(TokenKind.Identifier, "Expected method name").Text;
+                        // Params
+                        while (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
+                        {
+                            if (MatchKW("as")) { Advance(); sig.ReturnType = ReadTypeName(); continue; }
+                            if (MatchType() || (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.Identifier))
+                            {
+                                var p = new ParameterDeclaration { Line = Current.Line };
+                                p.TypeName = ReadTypeName();
+                                p.Name = Expect(TokenKind.Identifier, "Expected param name").Text;
+                                sig.Parameters.Add(p);
+                                continue;
+                            }
+                            break;
+                        }
+                        iface.Methods.Add(sig);
+                    }
+                    else { Advance(); }
+                }
+                else { Advance(); }
+            }
+            return iface;
         }
 
         private ConstructorDeclaration ParseConstructor(string defAccess)

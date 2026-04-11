@@ -30,16 +30,16 @@ namespace NhspCompiler.Core.Emit
         }
 
         // Pass 1: Define the method signature (so other methods can reference it)
-        public void DefineMethod()
+        public void DefineMethod(AssemblyEmitter asmEmitter = null)
         {
-            _retType = AssemblyEmitter.ResolveType(_method.ReturnType) ?? typeof(void);
+            _retType = (asmEmitter != null ? asmEmitter.ResolveType(_method.ReturnType) : AssemblyEmitter.ResolveTypeStatic(_method.ReturnType)) ?? typeof(void);
             var paramTypes = new List<Type>();
             _paramIndex = new Dictionary<string, int>();
             int argOff = _method.IsStatic ? 0 : 1;
 
             for (int i = 0; i < _method.Parameters.Count; i++)
             {
-                var pt = AssemblyEmitter.ResolveType(_method.Parameters[i].TypeName) ?? typeof(object);
+                var pt = AssemblyEmitter.ResolveTypeStatic(_method.Parameters[i].TypeName) ?? typeof(object);
                 paramTypes.Add(pt);
                 _paramIndex[_method.Parameters[i].Name] = i + argOff;
             }
@@ -50,6 +50,44 @@ namespace NhspCompiler.Core.Emit
             if (_method.IsStatic) attr |= MethodAttributes.Static;
             if (_method.IsVirtual) attr |= MethodAttributes.Virtual | MethodAttributes.NewSlot;
             if (_method.IsOverride) attr |= MethodAttributes.Virtual;
+
+            // Auto-detect interface implementation
+            // Use ClassDeclaration's Interfaces list (from parser) instead of TypeBuilder reflection
+            if (!_method.IsStatic && !_method.IsVirtual && !_method.IsOverride &&
+                _typeEmitter != null && _typeEmitter._asmEmitter != null)
+            {
+                // Collect all interface names this class implements
+                var ifaceNames = new HashSet<string>();
+                if (_typeEmitter._cls != null)
+                {
+                    foreach (var iname in _typeEmitter._cls.Interfaces)
+                        ifaceNames.Add(iname);
+                }
+                // Check if this method is defined in any implemented interface
+                foreach (var iname in ifaceNames)
+                {
+                    if (_typeEmitter._asmEmitter.TypeRegistry.TryGetValue(iname, out var ifaceTB))
+                    {
+                        // Check if interface has a method with same name (via our Methods dict)
+                        // Search classEmitters is complex, so check ifaceTB attributes
+                        if (ifaceTB.IsInterface)
+                        {
+                            attr |= MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.NewSlot;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        // External interface
+                        var ifaceType = _typeEmitter._asmEmitter.ResolveType(iname);
+                        if (ifaceType != null && ifaceType.IsInterface && ifaceType.GetMethod(_method.Name) != null)
+                        {
+                            attr |= MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.NewSlot;
+                            break;
+                        }
+                    }
+                }
+            }
 
             Builder = _type.DefineMethod(_method.Name, attr, _retType, paramTypes.ToArray());
             for (int i = 0; i < _method.Parameters.Count; i++)
@@ -119,7 +157,7 @@ namespace NhspCompiler.Core.Emit
             Type varType;
             if (decl.TypeName != null)
             {
-                varType = AssemblyEmitter.ResolveType(decl.TypeName) ?? typeof(object);
+                varType = AssemblyEmitter.ResolveTypeStatic(decl.TypeName) ?? typeof(object);
             }
             else if (decl.Initializer != null)
             {
@@ -156,14 +194,13 @@ namespace NhspCompiler.Core.Emit
                 }
                 _il.Emit(OpCodes.Stloc, local);
             }
-            else if (_typeEmitter != null && _typeEmitter.Fields.TryGetValue(assign.VariableName, out var fb))
+            else if (_typeEmitter != null && _typeEmitter.ResolveField(assign.VariableName) is FieldInfo fb2 && fb2 != null)
             {
-                // Field assignment
-                _il.Emit(OpCodes.Ldarg_0); // this
+                _il.Emit(OpCodes.Ldarg_0);
                 if (assign.Operator != "=")
                 {
                     _il.Emit(OpCodes.Ldarg_0);
-                    _il.Emit(OpCodes.Ldfld, fb);
+                    _il.Emit(OpCodes.Ldfld, fb2);
                     EmitExpression(assign.Value);
                     EmitCompoundOp(assign.Operator);
                 }
@@ -171,7 +208,7 @@ namespace NhspCompiler.Core.Emit
                 {
                     EmitExpression(assign.Value);
                 }
-                _il.Emit(OpCodes.Stfld, fb);
+                _il.Emit(OpCodes.Stfld, fb2);
             }
             else
             {
@@ -349,10 +386,10 @@ namespace NhspCompiler.Core.Emit
                 _il.Emit(OpCodes.Ldloc, local);
             else if (_paramIndex.TryGetValue(name, out int idx))
                 _il.Emit(OpCodes.Ldarg, idx);
-            else if (_typeEmitter != null && _typeEmitter.Fields.TryGetValue(name, out var fb))
+            else if (_typeEmitter != null && _typeEmitter.ResolveField(name) is FieldInfo fld && fld != null)
             {
-                _il.Emit(OpCodes.Ldarg_0); // this
-                _il.Emit(OpCodes.Ldfld, fb);
+                _il.Emit(OpCodes.Ldarg_0);
+                _il.Emit(OpCodes.Ldfld, fld);
             }
             else
             {
@@ -515,10 +552,10 @@ namespace NhspCompiler.Core.Emit
                 {
                     int pi = _method.IsStatic ? idx : idx - 1;
                     if (pi >= 0 && pi < _method.Parameters.Count)
-                        return AssemblyEmitter.ResolveType(_method.Parameters[pi].TypeName) ?? typeof(object);
+                        return AssemblyEmitter.ResolveTypeStatic(_method.Parameters[pi].TypeName) ?? typeof(object);
                 }
-                if (_typeEmitter != null && _typeEmitter.Fields.TryGetValue(id.Name, out var fb))
-                    return fb.FieldType;
+                if (_typeEmitter != null && _typeEmitter.ResolveField(id.Name) is FieldInfo fld2)
+                    return fld2.FieldType;
             }
             if (expr is BinaryExpr bin)
             {
