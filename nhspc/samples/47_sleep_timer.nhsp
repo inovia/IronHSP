@@ -4,7 +4,7 @@
 #main
   print "Countdown:"
   for i = 5 to 1 step -1
-    print $"  {str(i)}..."
+    print "  " + str(i) + "..."
     sleep 500
   next
   print "Go!"

@@ -20,6 +20,6 @@
 #main
   print "Fibonacci:"
   for i = 0 to 15
-    print $"  F({str(i)}) = {str(Fib.Calc(i))}"
+    print "  F(" + str(i) + ") = " + str(Fib.Calc(i))
   next
 #endmain

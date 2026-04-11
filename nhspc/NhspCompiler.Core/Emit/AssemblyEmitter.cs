@@ -144,24 +144,36 @@ namespace NhspCompiler.Core.Emit
                 foreach (var te in remaining)
                     te.FinalizeType(); // fallback
 
-                // Entry point (#main block → static void Main)
+                // Entry point (#main block → static void Main using full MethodEmitter)
                 if (_unit.MainBody != null)
                 {
                     var mainType = modBuilder.DefineType("__Program",
                         TypeAttributes.Class | TypeAttributes.Public, typeof(object));
-                    var mainMethod = mainType.DefineMethod("Main",
-                        MethodAttributes.Public | MethodAttributes.Static | MethodAttributes.HideBySig,
-                        typeof(void), Type.EmptyTypes);
 
-                    // Create a minimal MethodEmitter-like IL generator for Main body
-                    var il = mainMethod.GetILGenerator();
-                    var mainEmitter = new MainBodyEmitter(il, _diag, this);
-                    foreach (var stmt in _unit.MainBody)
-                        mainEmitter.EmitStatement(stmt);
-                    il.Emit(OpCodes.Ret);
+                    // Create a MethodDeclaration AST for #main → treated as static void Main()
+                    var mainDecl = new Parsing.Ast.MethodDeclaration
+                    {
+                        Name = "Main",
+                        ReturnType = "void",
+                        Access = "public",
+                        IsStatic = true,
+                        Body = _unit.MainBody
+                    };
+
+                    // Use full MethodEmitter (same as #func)
+                    var mainTypeEmitter = new TypeEmitter(
+                        new Parsing.Ast.ClassDeclaration { Name = "__Program" },
+                        modBuilder, _diag, this, false);
+                    mainTypeEmitter.TypeBuilder = mainType;
+                    TypeRegistry["__Program"] = mainType;
+                    EmitterRegistry["__Program"] = mainTypeEmitter;
+
+                    var me = new MethodEmitter(mainDecl, mainType, _diag, mainTypeEmitter);
+                    me.DefineMethod(this);
+                    me.EmitBody();
 
                     mainType.CreateType();
-                    asmBuilder.SetEntryPoint(mainMethod);
+                    asmBuilder.SetEntryPoint(me.Builder);
                 }
 
                 asmBuilder.Save(fileName);

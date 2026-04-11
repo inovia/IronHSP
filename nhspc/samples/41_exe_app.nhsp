@@ -18,7 +18,7 @@
 #main
   print "=== NHSP Calculator ==="
   int a = 10 : int b = 3
-  print $"{str(a)} + {str(b)} = {str(Calculator.Add(a, b))}"
-  print $"{str(a)} - {str(b)} = {str(Calculator.Subtract(a, b))}"
-  print $"{str(a)} * {str(b)} = {str(Calculator.Multiply(a, b))}"
+  print str(a) + " + " + str(b) + " = " + str(Calculator.Add(a, b))
+  print str(a) + " - " + str(b) + " = " + str(Calculator.Subtract(a, b))
+  print str(a) + " * " + str(b) + " = " + str(Calculator.Multiply(a, b))
 #endmain

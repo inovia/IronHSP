@@ -17,7 +17,7 @@ namespace NhspCompiler.Core.Emit
         internal readonly AssemblyEmitter _asmEmitter;
         private readonly bool _isInterface;
 
-        public TypeBuilder TypeBuilder { get; private set; }
+        public TypeBuilder TypeBuilder { get; set; }
         public Dictionary<string, FieldBuilder> Fields { get; } = new Dictionary<string, FieldBuilder>();
         public Dictionary<string, MethodBuilder> Methods { get; } = new Dictionary<string, MethodBuilder>();
         public List<ConstructorBuilder> Constructors { get; } = new List<ConstructorBuilder>();
