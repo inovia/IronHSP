@@ -47,7 +47,7 @@
 <ul>
   <li><a href="#overview">1. 概要</a></li>
   <li><a href="#build">2. ビルド構成</a></li>
-  <li><a href="#int64">3. int64 型サポート</a></li>
+  <li><a href="#int64">3. int64 型サポート / ネイティブコールバック</a></li>
   <li><a href="#dotnet">4. .NET 連携機能</a></li>
   <li><a href="#winforms">5. WinForms 統合</a></li>
   <li><a href="#vartypes">6. 変数型一覧</a></li>
@@ -205,6 +205,42 @@ qpoke buf, 0, "0xFFFFFFFFFFFFFFFF"
 r = myadd64(int64("1000000000000"), int64("2000000000000"))
 mes r  ; => 3000000000000</code></pre>
 
+<h3>3.6 ネイティブコールバック (setcallback / callbackarg)</h3>
+<p>Win32 API の <code>EnumWindows</code> 等、コールバック関数ポインタを要求する API を HSP から直接利用可能にします。
+動的にマシン語サンク (thunk) を生成し、HSP ラベルを関数ポインタに変換します。<strong>.NET 不要</strong>で全ランタイムで動作します。</p>
+
+<table>
+<tr><th>命令/関数</th><th>書式</th><th>説明</th></tr>
+<tr><td><code>setcallback</code></td><td><code>setcallback var, *label, argcount</code></td><td>コールバック関数ポインタを生成して var に格納。argcount はコールバック引数の数（デフォルト2）</td></tr>
+<tr><td><code>callbackarg()</code></td><td><code>callbackarg(n)</code></td><td>コールバック実行中の第 n 引数を返す（32bit: int, 64bit: int64）</td></tr>
+</table>
+
+<pre><code>; EnumWindows でウィンドウ列挙
+#uselib "user32.dll"
+#func EnumWindows "EnumWindows" int, int
+
+setcallback pFunc, *on_enum, 2   ; 引数2個のコールバック
+enum_count = 0
+EnumWindows pFunc, 0
+mes "ウィンドウ数: " + enum_count
+stop
+
+*on_enum
+    hwnd_val = callbackarg(0)    ; 第1引数 (HWND)
+    lparam_val = callbackarg(1)  ; 第2引数 (LPARAM)
+    enum_count++
+    return 1                     ; stat=1 → 列挙続行、stat=0 → 停止</code></pre>
+
+<div class="note">
+<strong>仕組み:</strong> <code>VirtualAlloc</code> (<code>PAGE_EXECUTE_READWRITE</code>) で実行可能メモリを確保し、
+x86 では <code>stdcall</code>、x64 では <code>fastcall</code> 規約のマシン語を動的生成します。
+コールバックが呼ばれると引数を退避した後 <code>code_callback()</code> で HSP ラベルを実行し、
+<code>stat</code> の値を戻り値として返します。<br>
+<strong>引数上限:</strong> 最大16個。登録数は動的配列で無制限。<br>
+<strong>注意:</strong> コールバックは HSP のメインスレッドで同期的に実行されます。
+別スレッドから呼ばれるコールバック（一部のマルチメディア API 等）には対応していません。
+</div>
+
 <!-- ======================================== -->
 <h2 id="dotnet">4. .NET 連携機能</h2>
 
@@ -225,6 +261,8 @@ mes r  ; => 3000000000000</code></pre>
 <tr><td><code>nettoval</code></td><td>.NET オブジェクトを HSP の値型に変換する（関数形式）。Enum→int 変換、<code>obj("$field")</code> 式に対応</td></tr>
 <tr><td><code>netexerr</code></td><td>最後に発生した .NET 例外の情報を文字列で返す（関数形式）</td></tr>
 <tr><td><code>formsaddctrl</code></td><td>Form に .NET コントロールを追加する (0=Button, 1=CheckBox, 2=TextBox, 3=ComboBox, 4=ListBox)。GUI版のみ</td></tr>
+<tr><td><code>netdelegate</code></td><td>HSP ラベルを .NET デリゲートに変換する。EventHandler, Action 等に対応</td></tr>
+<tr><td><code>netlinq</code></td><td>LINQ 操作を C# ラムダ式文字列で実行する (Where, Select, OrderBy 等)</td></tr>
 </table>
 
 <div class="note">
@@ -325,7 +363,58 @@ formsaddctrl pBtn, 0, "OK", 10, 10, 100, 30
 formsaddctrl pChk, 1, "Enable", 10, 50, 120, 24
 formsaddctrl pTxt, 2, "input here", 10, 80, 200, 24</code></pre>
 
-<h3>4.9 GlobalAccess クラス（メモリ管理）</h3>
+<h3>4.9 netdelegate (HSPラベル → .NETデリゲート)</h3>
+<p>HSP のラベル（サブルーチン）を .NET のデリゲートに変換します。
+イベントハンドラ登録やコールバック渡しに使用できます。</p>
+
+<pre><code>; EventHandler デリゲートを生成
+netdelegate pHandler, "EventHandler", *on_click
+
+; Button.Click に登録
+newnet pBtn, "", "System.Windows.Forms.Button", 0
+mcall pBtn, "add_Click", pHandler
+stop
+
+*on_click
+    mes "Button clicked!"
+    return</code></pre>
+
+<table>
+<tr><th>デリゲート型</th><th>シグネチャ</th><th>HSP ラベル仕様</th></tr>
+<tr><td><code>EventHandler</code></td><td><code>(object, EventArgs)</code></td><td><code>return</code> で戻る</td></tr>
+<tr><td><code>Action</code></td><td><code>()</code></td><td><code>return</code> で戻る</td></tr>
+<tr><td>2引数 void 型</td><td><code>(object, XXXEventArgs)</code></td><td>EventHandler 互換として自動マッチ</td></tr>
+<tr><td>1引数 bool 型</td><td><code>(T) → bool</code></td><td><code>return 0/1</code> で結果返却（Predicate等）</td></tr>
+</table>
+
+<h3>4.10 netlinq (LINQ 操作)</h3>
+<p>コレクションに対して LINQ 操��を C# ラムダ式文字列で実行します。
+内部的に C# コードを動的コンパイルして実行します。</p>
+
+<pre><code>; List&lt;String&gt; を作成
+newnet pNames, "", "System.Collections.Generic.List`1", 0, "System.String"
+mcall pNames, "Add", "Alice"
+mcall pNames, "Add", "Bob"
+mcall pNames, "Add", "Charlie"
+
+; Where: 条件フィルタ
+netlinq pFiltered, pNames, "Where", "x => x.Length > 3"
+
+; Select: ��影
+netlinq pUpper, pNames, "Select", "x => x.ToUpper()"
+
+; OrderBy: ソート
+netlinq pSorted, pNames, "OrderBy", "x => x.Length"
+
+; First / Count (引数なし)
+netlinq pFirst, pNames, "First", ""
+netlinq pCount, pNames, "Count", ""
+
+; チェーン: Where → ToList
+netlinq pW, pNames, "Where", "x => x.StartsWith(\"A\")"
+netlinq pList, pW, "ToList", ""</code></pre>
+
+<h3>4.11 GlobalAccess クラス（メモリ管理）</h3>
 <p>.NET オブジェクトのネイティブポインタを管理する静的クラスです。</p>
 <ul>
   <li><code>CreateNativePtr()</code> &mdash; GCHandle を確保してネイティブポインタを返す</li>
@@ -334,7 +423,7 @@ formsaddctrl pTxt, 2, "input here", 10, 80, 200, 24</code></pre>
   <li><code>PushNativePtrCurrentStack()</code> / <code>PopNativePtrCurrentStack()</code> &mdash; スコープベースの自動解放</li>
 </ul>
 
-<h3>4.10 例外処理とエラー報告</h3>
+<h3>4.12 例外処理とエラー報告</h3>
 
 <p>.NET の例外が発生した場合のエラー報告には2つのモードがあります。<code>neterror</code> 命令で切り替えます。</p>
 
@@ -855,6 +944,10 @@ int/double との変換も <code>wcstol</code> / <code>swprintf</code> 等で対
 <tr><td>4/11</td><td></td><td>.NET品質改善: Boolean→int変換修正、C#/VBコンパイル参照DLL自動解決、netstandard.dll自動参照、コンパイルエラーのnetexerr対応</td></tr>
 <tr><td>4/11</td><td></td><td>外部ライブラリ連携検証: Newtonsoft.Json 13.0.3 / NAudio 2.2.1 / DockPanelSuite 3.1.0</td></tr>
 <tr><td>4/11</td><td></td><td>hwnd/hinstance/hdc を64bit環境で int64 として返すよう修正</td></tr>
+<tr><td>4/11</td><td></td><td>netdelegate: HSPラベル→.NETデリゲート変換 (EventHandler, Action, Predicate対応)</td></tr>
+<tr><td>4/11</td><td></td><td>netlinq: LINQ操作のC#ラムダ式文字列実行 (Where, Select, OrderBy, First, Count等)</td></tr>
+<tr><td>4/11</td><td></td><td>mcall: ジェネリックメソッド型パラメータ指定 ("Method&lt;Type&gt;" 構文)</td></tr>
+<tr><td>4/11</td><td><code>d1e4fae4</code></td><td>setcallback/callbackarg: ネイティブコールバック関数ポインタ (x86 stdcall / x64 fastcall thunk動的生成)</td></tr>
 </table>
 
 <h3>64bit ビルド対応一覧</h3>
