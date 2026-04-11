@@ -11,9 +11,10 @@ namespace NhspCompiler.Core.Lexing
             "property", "endproperty", "endget", "endset",
             "return", "as", "dim", "newobj", "mcall",
             "if", "else", "elseif", "endif",
-            "repeat", "loop", "while", "wend", "for", "next",
+            "repeat", "loop", "while", "wend", "for", "to", "step", "next",
             "break", "continue",
             "public", "private", "protected", "static", "virtual", "override", "abstract",
+            "new",
             "namespace", "endnamespace", "using", "reference",
             "main", "endmain",
             "and", "or", "not",  // alternative logical operators

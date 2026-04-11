@@ -234,7 +234,7 @@ namespace NhspCompiler.Core.Parsing
                 SkipEOL();
                 if (MatchKW(endKeyword)) { Advance(); break; }
                 if (MatchKW("else") || MatchKW("elseif") || MatchKW("endif")) break; // caller handles
-                if (MatchKW("loop") || MatchKW("wend")) break;
+                if (MatchKW("loop") || MatchKW("wend") || MatchKW("next")) break;
                 var stmt = ParseStatement();
                 if (stmt != null) stmts.Add(stmt);
             }
@@ -264,9 +264,40 @@ namespace NhspCompiler.Core.Parsing
             // while condition ... wend
             if (MatchKW("while")) return ParseWhile();
 
+            // for var = start to end [step N] ... next
+            if (MatchKW("for")) return ParseFor();
+
+            // new var, TypeName [, args...]  or  dim var = new TypeName(args)
+            if (MatchKW("new")) return ParseNew();
+
             // break / continue
             if (MatchKW("break")) { Advance(); return new BreakStatement { Line = Current.Line }; }
             if (MatchKW("continue")) { Advance(); return new ContinueStatement { Line = Current.Line }; }
+
+            // Array element assignment: arr(i) = expr
+            if (Current.Kind == TokenKind.Identifier && Peek().Kind == TokenKind.LParen)
+            {
+                // Lookahead: name ( expr ) = expr ?
+                int save = _pos;
+                string name = Advance().Text;
+                if (Match(TokenKind.LParen))
+                {
+                    Advance();
+                    var idx = ParseExpression();
+                    if (Match(TokenKind.RParen))
+                    {
+                        Advance();
+                        if (Match(TokenKind.Equals))
+                        {
+                            Advance();
+                            var val = ParseExpression();
+                            return new IndexAssignStatement { ArrayName = name, Index = idx, Value = val, Line = Current.Line };
+                        }
+                    }
+                }
+                // Not an array assign, restore position
+                _pos = save;
+            }
 
             // Assignment: identifier = expr  or  identifier += expr
             if (Current.Kind == TokenKind.Identifier && IsAssignOp(Peek()))
@@ -295,6 +326,13 @@ namespace NhspCompiler.Core.Parsing
             var decl = new LocalVarDeclaration { Line = Current.Line };
             decl.Name = Expect(TokenKind.Identifier, "Expected variable name").Text;
             if (MatchKW("as")) { Advance(); decl.TypeName = ReadTypeName(); }
+            // Array dimension: dim arr as int, 10
+            if (Match(TokenKind.Comma))
+            {
+                Advance();
+                if (Match(TokenKind.IntLiteral))
+                    decl.ArraySize = int.Parse(Advance().Text);
+            }
             if (Match(TokenKind.Equals)) { Advance(); decl.Initializer = ParseExpression(); }
             return decl;
         }
@@ -396,6 +434,57 @@ namespace NhspCompiler.Core.Parsing
             stmt.Body = ParseBlock("wend");
             if (MatchKW("wend")) Advance();
             return stmt;
+        }
+
+        private ForStatement ParseFor()
+        {
+            Advance(); // "for"
+            var stmt = new ForStatement { Line = Current.Line };
+            stmt.VarName = Expect(TokenKind.Identifier, "Expected loop variable").Text;
+            Expect(TokenKind.Equals, "Expected '='");
+            stmt.Start = ParseExpression();
+            if (MatchKW("to")) Advance();
+            stmt.End = ParseExpression();
+            if (MatchKW("step")) { Advance(); stmt.Step = ParseExpression(); }
+            SkipEOL();
+            stmt.Body = ParseBlock("next");
+            if (MatchKW("next")) Advance();
+            return stmt;
+        }
+
+        private Statement ParseNew()
+        {
+            // new var, TypeName(args...)  or  new var, TypeName, args...
+            Advance(); // "new"
+            string varName = Expect(TokenKind.Identifier, "Expected variable name").Text;
+            if (Match(TokenKind.Comma)) Advance();
+            string typeName = ReadTypeName();
+
+            var args = new System.Collections.Generic.List<Expression>();
+            // args: (expr, expr, ...) or , expr, expr
+            if (Match(TokenKind.LParen))
+            {
+                Advance();
+                if (!Match(TokenKind.RParen))
+                {
+                    args.Add(ParseExpression());
+                    while (Match(TokenKind.Comma)) { Advance(); args.Add(ParseExpression()); }
+                }
+                Expect(TokenKind.RParen, "Expected ')'");
+            }
+            else
+            {
+                while (Match(TokenKind.Comma))
+                {
+                    Advance();
+                    if (Match(TokenKind.EOL) || Match(TokenKind.EOF)) break;
+                    args.Add(ParseExpression());
+                }
+            }
+
+            // Generate: dim varName = new TypeName(args)
+            var newExpr = new NewObjectExpr { TypeName = typeName, Arguments = args, Line = Current.Line };
+            return new LocalVarDeclaration { Name = varName, Initializer = newExpr, Line = Current.Line };
         }
 
         // ======== Expressions (precedence climbing) ========

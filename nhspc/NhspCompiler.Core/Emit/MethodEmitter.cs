@@ -136,6 +136,8 @@ namespace NhspCompiler.Core.Emit
             else if (stmt is IfStatement ifStmt) EmitIf(ifStmt);
             else if (stmt is RepeatStatement rep) EmitRepeat(rep);
             else if (stmt is WhileStatement wh) EmitWhile(wh);
+            else if (stmt is ForStatement forStmt) EmitFor(forStmt);
+            else if (stmt is IndexAssignStatement ia) EmitIndexAssign(ia);
             else if (stmt is BreakStatement) EmitBreak();
             else if (stmt is ContinueStatement) EmitContinue();
             else if (stmt is ExpressionStatement exprS)
@@ -155,7 +157,15 @@ namespace NhspCompiler.Core.Emit
         private void EmitLocalDecl(LocalVarDeclaration decl)
         {
             Type varType;
-            if (decl.TypeName != null)
+            if (decl.Initializer is NewObjectExpr newObj)
+            {
+                // Infer from new expression
+                varType = AssemblyEmitter.ResolveTypeStatic(newObj.TypeName);
+                if (varType == null && _typeEmitter?._asmEmitter != null)
+                    varType = _typeEmitter._asmEmitter.ResolveType(newObj.TypeName);
+                varType = varType ?? typeof(object);
+            }
+            else if (decl.TypeName != null)
             {
                 varType = AssemblyEmitter.ResolveTypeStatic(decl.TypeName) ?? typeof(object);
             }
@@ -165,16 +175,28 @@ namespace NhspCompiler.Core.Emit
             }
             else
             {
-                varType = typeof(int); // default
+                varType = typeof(int);
             }
 
-            var local = _il.DeclareLocal(varType);
-            _locals[decl.Name] = local;
+            // Check if it's array dimension: dim arr as int, 10  (ArraySize > 0)
+            if (decl.ArraySize > 0)
+            {
+                varType = varType.MakeArrayType();
+                var local = _il.DeclareLocal(varType);
+                _locals[decl.Name] = local;
+                _il.Emit(OpCodes.Ldc_I4, decl.ArraySize);
+                _il.Emit(OpCodes.Newarr, varType.GetElementType());
+                _il.Emit(OpCodes.Stloc, local);
+                return;
+            }
+
+            var loc = _il.DeclareLocal(varType);
+            _locals[decl.Name] = loc;
 
             if (decl.Initializer != null)
             {
                 EmitExpression(decl.Initializer);
-                _il.Emit(OpCodes.Stloc, local);
+                _il.Emit(OpCodes.Stloc, loc);
             }
         }
 
@@ -341,6 +363,75 @@ namespace NhspCompiler.Core.Emit
                 _il.Emit(OpCodes.Br, _loopStack.Peek().continueLabel);
         }
 
+        private void EmitFor(ForStatement forStmt)
+        {
+            // for i = start to end [step N]
+            var loopStart = _il.DefineLabel();
+            var loopEnd = _il.DefineLabel();
+            var continueLabel = _il.DefineLabel();
+
+            // Declare/get loop var
+            if (!_locals.TryGetValue(forStmt.VarName, out var loopVar))
+            {
+                loopVar = _il.DeclareLocal(typeof(int));
+                _locals[forStmt.VarName] = loopVar;
+            }
+
+            // i = start
+            EmitExpression(forStmt.Start);
+            _il.Emit(OpCodes.Stloc, loopVar);
+
+            // end value
+            var endVar = _il.DeclareLocal(typeof(int));
+            EmitExpression(forStmt.End);
+            _il.Emit(OpCodes.Stloc, endVar);
+
+            _loopStack.Push((loopEnd, continueLabel));
+
+            _il.MarkLabel(loopStart);
+            // Check: i <= end (for step > 0)
+            _il.Emit(OpCodes.Ldloc, loopVar);
+            _il.Emit(OpCodes.Ldloc, endVar);
+            _il.Emit(OpCodes.Bgt, loopEnd);
+
+            // Body
+            foreach (var s in forStmt.Body) EmitStatement(s);
+
+            // Continue: i += step
+            _il.MarkLabel(continueLabel);
+            _il.Emit(OpCodes.Ldloc, loopVar);
+            if (forStmt.Step != null)
+                EmitExpression(forStmt.Step);
+            else
+                _il.Emit(OpCodes.Ldc_I4_1);
+            _il.Emit(OpCodes.Add);
+            _il.Emit(OpCodes.Stloc, loopVar);
+            _il.Emit(OpCodes.Br, loopStart);
+
+            _il.MarkLabel(loopEnd);
+            _loopStack.Pop();
+        }
+
+        private void EmitIndexAssign(IndexAssignStatement ia)
+        {
+            // arr(i) = value → arr[i] = value
+            if (_locals.TryGetValue(ia.ArrayName, out var arrLocal))
+            {
+                _il.Emit(OpCodes.Ldloc, arrLocal);
+                EmitExpression(ia.Index);
+                EmitExpression(ia.Value);
+                var elemType = arrLocal.LocalType.GetElementType();
+                if (elemType == typeof(int)) _il.Emit(OpCodes.Stelem_I4);
+                else if (elemType == typeof(string)) _il.Emit(OpCodes.Stelem_Ref);
+                else if (elemType == typeof(double)) _il.Emit(OpCodes.Stelem_R8);
+                else _il.Emit(OpCodes.Stelem_Ref);
+            }
+            else
+            {
+                _diag.Error(ia.Line, 0, $"Unknown array: {ia.ArrayName}");
+            }
+        }
+
         // ======== Expressions ========
 
         private void EmitExpression(Expression expr)
@@ -360,6 +451,8 @@ namespace NhspCompiler.Core.Emit
             else if (expr is UnaryExpr unary) { EmitUnary(unary); }
             else if (expr is BinaryExpr bin) { EmitBinary(bin); }
             else if (expr is CallExpr call) { EmitCall(call); }
+            else if (expr is NewObjectExpr newObj) { EmitNewObject(newObj); }
+            else if (expr is IndexExpr idx) { EmitIndexAccess(idx); }
             else if (expr is ThisExpr) { _il.Emit(OpCodes.Ldarg_0); }
             else if (expr is MemberAccessExpr mem)
             {
@@ -502,6 +595,19 @@ namespace NhspCompiler.Core.Emit
 
         private void EmitCall(CallExpr call)
         {
+            // Array index access: arr(i) → emit as array element load
+            if (call.Target == null && _locals.TryGetValue(call.MethodName, out var arrLocal2)
+                && arrLocal2.LocalType.IsArray && call.Arguments.Count == 1)
+            {
+                _il.Emit(OpCodes.Ldloc, arrLocal2);
+                EmitExpression(call.Arguments[0]);
+                var elemType = arrLocal2.LocalType.GetElementType();
+                if (elemType == typeof(int)) _il.Emit(OpCodes.Ldelem_I4);
+                else if (elemType == typeof(double)) _il.Emit(OpCodes.Ldelem_R8);
+                else _il.Emit(OpCodes.Ldelem_Ref);
+                return;
+            }
+
             // Built-in functions
             if (call.Target == null)
             {
@@ -525,15 +631,85 @@ namespace NhspCompiler.Core.Emit
             {
                 EmitExpression(call.Target);
                 foreach (var arg in call.Arguments) EmitExpression(arg);
-                // Resolve method from target type... simplified for now
-                // TODO: full type resolution
-                _diag.Warning(call.Line, 0, $"External method call '{call.MethodName}' not yet fully resolved");
+
+                // Resolve method from target's type
+                var targetType = InferType(call.Target);
+                if (targetType != null)
+                {
+                    var argTypes = new Type[call.Arguments.Count];
+                    for (int i = 0; i < call.Arguments.Count; i++)
+                        argTypes[i] = InferType(call.Arguments[i]);
+                    var mi = targetType.GetMethod(call.MethodName, argTypes);
+                    if (mi == null) mi = targetType.GetMethod(call.MethodName);
+                    if (mi != null)
+                    {
+                        _il.Emit(targetType.IsValueType ? OpCodes.Call : OpCodes.Callvirt, mi);
+                        return;
+                    }
+                }
+                _diag.Warning(call.Line, 0, $"Method '{call.MethodName}' not resolved on {targetType?.Name}");
                 return;
             }
 
             foreach (var arg in call.Arguments) EmitExpression(arg);
             _diag.Warning(call.Line, 0, $"Method call '{call.MethodName}' not resolved");
             if (call.Arguments.Count == 0) _il.Emit(OpCodes.Ldc_I4_0);
+        }
+
+        private void EmitNewObject(NewObjectExpr newObj)
+        {
+            var type = AssemblyEmitter.ResolveTypeStatic(newObj.TypeName);
+            if (type == null && _typeEmitter?._asmEmitter != null)
+                type = _typeEmitter._asmEmitter.ResolveType(newObj.TypeName);
+            if (type == null)
+            {
+                _diag.Error(newObj.Line, 0, $"Type not found: {newObj.TypeName}");
+                _il.Emit(OpCodes.Ldnull);
+                return;
+            }
+
+            // Array creation: dim arr as int, 10 → new int[10]
+            if (type.IsArray)
+            {
+                EmitExpression(newObj.Arguments[0]);
+                _il.Emit(OpCodes.Newarr, type.GetElementType());
+                return;
+            }
+
+            // Constructor args
+            var argTypes = new Type[newObj.Arguments.Count];
+            for (int i = 0; i < newObj.Arguments.Count; i++)
+            {
+                EmitExpression(newObj.Arguments[i]);
+                argTypes[i] = InferType(newObj.Arguments[i]);
+            }
+
+            var ctor = type.GetConstructor(argTypes);
+            if (ctor == null) ctor = type.GetConstructor(Type.EmptyTypes);
+            if (ctor != null)
+            {
+                _il.Emit(OpCodes.Newobj, ctor);
+            }
+            else
+            {
+                _diag.Error(newObj.Line, 0, $"Constructor not found: {newObj.TypeName}");
+                _il.Emit(OpCodes.Ldnull);
+            }
+        }
+
+        private void EmitIndexAccess(IndexExpr idx)
+        {
+            EmitExpression(idx.Target);
+            EmitExpression(idx.Index);
+            var arrType = InferType(idx.Target);
+            if (arrType != null && arrType.IsArray)
+            {
+                var elemType = arrType.GetElementType();
+                if (elemType == typeof(int)) _il.Emit(OpCodes.Ldelem_I4);
+                else if (elemType == typeof(double)) _il.Emit(OpCodes.Ldelem_R8);
+                else if (elemType == typeof(string)) _il.Emit(OpCodes.Ldelem_Ref);
+                else _il.Emit(OpCodes.Ldelem_Ref);
+            }
         }
 
         // ======== Type Inference ========
@@ -571,6 +747,28 @@ namespace NhspCompiler.Core.Emit
             {
                 if (un.Operator == "!") return typeof(bool);
                 return InferType(un.Operand);
+            }
+            if (expr is NewObjectExpr newObj)
+            {
+                var t = AssemblyEmitter.ResolveTypeStatic(newObj.TypeName);
+                if (t == null && _typeEmitter?._asmEmitter != null)
+                    t = _typeEmitter._asmEmitter.ResolveType(newObj.TypeName);
+                return t ?? typeof(object);
+            }
+            if (expr is IndexExpr idxExpr)
+            {
+                var arrType = InferType(idxExpr.Target);
+                if (arrType != null && arrType.IsArray)
+                    return arrType.GetElementType();
+            }
+            if (expr is CallExpr callExpr && callExpr.Target != null)
+            {
+                var targetType = InferType(callExpr.Target);
+                if (targetType != null)
+                {
+                    var mi = targetType.GetMethod(callExpr.MethodName);
+                    if (mi != null) return mi.ReturnType;
+                }
             }
             return typeof(int);
         }

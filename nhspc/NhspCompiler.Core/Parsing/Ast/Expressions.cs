@@ -68,4 +68,18 @@ namespace NhspCompiler.Core.Parsing.Ast
 
     // this reference
     public class ThisExpr : Expression { }
+
+    // Array index access: arr(i) or arr[i]
+    public class IndexExpr : Expression
+    {
+        public Expression Target { get; set; }
+        public Expression Index { get; set; }
+    }
+
+    // Type cast / conversion
+    public class CastExpr : Expression
+    {
+        public string TypeName { get; set; }
+        public Expression Value { get; set; }
+    }
 }

@@ -19,6 +19,7 @@ namespace NhspCompiler.Core.Parsing.Ast
         public string Name { get; set; }
         public string TypeName { get; set; } // null = infer from initializer
         public Expression Initializer { get; set; } // null = default
+        public int ArraySize { get; set; } // > 0 = array declaration
     }
 
     public class AssignmentStatement : Statement
@@ -57,11 +58,27 @@ namespace NhspCompiler.Core.Parsing.Ast
     public class BreakStatement : Statement { }
     public class ContinueStatement : Statement { }
 
-    // Field assignment: Name = expr  or  this.Name = expr (within class method)
+    public class ForStatement : Statement
+    {
+        public string VarName { get; set; }
+        public Expression Start { get; set; }
+        public Expression End { get; set; }
+        public Expression Step { get; set; } // null = 1
+        public List<Statement> Body { get; set; } = new List<Statement>();
+    }
+
     public class FieldAssignStatement : Statement
     {
         public string FieldName { get; set; }
         public string Operator { get; set; } = "=";
+        public Expression Value { get; set; }
+    }
+
+    // arr(i) = expr
+    public class IndexAssignStatement : Statement
+    {
+        public string ArrayName { get; set; }
+        public Expression Index { get; set; }
         public Expression Value { get; set; }
     }
 }
