@@ -102,7 +102,7 @@ int hsp3win_debugopen( void )
 	//
 #ifdef HSPDEBUG
 	if ( h_dbgwin != NULL ) return 0;
-	h_dbgwin = LoadLibrary( "hsp3debug.dll" );
+	h_dbgwin = LoadLibraryA( "hsp3debug.dll" );
 	if ( h_dbgwin != NULL ) {
 		dbgwin = (HSP3DBGFUNC)GetProcAddress( h_dbgwin, "_debugini@16" );
 		dbgnotice = (HSP3DBGFUNC)GetProcAddress( h_dbgwin, "_debug_notice@16" );
@@ -395,7 +395,7 @@ void hsp3cl_error( void )
 #ifdef HSPDEBUG
 	hsp3win_debugopen();
 	hsp3win_dialog( errmsg );
-	MessageBox( NULL, errmsg, "Error",MB_ICONEXCLAMATION | MB_OK );
+	MessageBoxA( NULL, errmsg, "Error",MB_ICONEXCLAMATION | MB_OK );
 #else
 	hsp3win_dialog( errmsg );
 #endif
