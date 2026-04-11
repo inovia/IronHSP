@@ -580,24 +580,526 @@ return result;</code></pre>
 <!-- ========================================== -->
 <h2 id="threading">スレッド・同期</h2>
 
+<p><code>System.Threading</code> の API を利用してマルチスレッドプログラミングが可能です。</p>
+
+<h3>sleep (スレッド停止)</h3>
+
 <div class="cmp">
 <div>
 <h4>NHSP</h4>
-<pre><code>lock this
-  Count += 1
-endlock
-
+<pre><code>; 100ミリ秒待機
 sleep 100</code></pre>
 </div>
 <div>
 <h4>C#</h4>
-<pre><code>lock (this)
+<pre><code>Thread.Sleep(100);</code></pre>
+</div>
+</div>
+
+<h3>lock (排他制御)</h3>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#class public Counter
+  #field private int _count
+  #field private object _lock
+
+  #init
+    _count = 0
+    _lock = new object()
+  #endinit
+
+  #func public void Increment
+    lock _lock
+      _count += 1
+    endlock
+  #endfunc
+
+  #func public int GetCount
+    return _count
+  #endfunc
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public class Counter
 {
-    Count += 1;
+    private int _count;
+    private object _lock;
+
+    public Counter()
+    {
+        _count = 0;
+        _lock = new object();
+    }
+
+    public void Increment()
+    {
+        lock (_lock)
+        {
+            _count += 1;
+        }
+    }
+
+    public int GetCount() => _count;
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+<code>lock</code> は IL レベルで <code>Monitor.Enter</code> / <code>Monitor.Exit</code> を <code>try/finally</code> で囲んで生成。<br>
+ロック対象は参照型のオブジェクトが必要 (<code>this</code> や <code>new object()</code> 等)。
+</div>
+
+<h3>Thread で並列実行</h3>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>; スレッドで並列に処理を実行
+#assembly "ThreadDemo", exe
+#reference "System.dll"
+
+#class public Worker
+  #func public static void DoWork
+    print "Worker start"
+    sleep 500
+    print "Worker done"
+  #endfunc
+#endclass
+
+#main
+  ; ThreadStart デリゲートを作成して Thread に渡す
+  dim ThreadStart ts = new ThreadStart(Worker.DoWork)
+  dim Thread t = new Thread(ts)
+  t.Start()
+  print "Main thread"
+  t.Join()
+  print "All done"
+#endmain</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>using System.Threading;
+
+class Worker
+{
+    public static void DoWork()
+    {
+        Console.WriteLine("Worker start");
+        Thread.Sleep(500);
+        Console.WriteLine("Worker done");
+    }
 }
 
-Thread.Sleep(100);</code></pre>
+class Program
+{
+    static void Main()
+    {
+        var t = new Thread(Worker.DoWork);
+        t.Start();
+        Console.WriteLine("Main thread");
+        t.Join();
+        Console.WriteLine("All done");
+    }
+}</code></pre>
 </div>
+</div>
+
+<h3>Thread のプロパティ・バックグラウンドスレッド</h3>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#class public ThreadExample
+  #func public static void Run
+    ; 現在のスレッド情報
+    dim Thread current = Thread.CurrentThread
+    print "ThreadId: " + str(current.ManagedThreadId)
+    print "Name: " + current.Name
+    print "IsBackground: " + str(current.IsBackground)
+
+    ; バックグラウンドスレッド作成
+    dim ThreadStart ts = new ThreadStart(Worker)
+    dim Thread bg = new Thread(ts)
+    bg.Name = "MyWorker"
+    bg.IsBackground = true   ; メインスレッド終了時に自動停止
+    bg.Priority = ThreadPriority.BelowNormal
+    bg.Start()
+    bg.Join()  ; 完了待ち
+  #endfunc
+
+  #func public static void Worker
+    dim Thread me = Thread.CurrentThread
+    print "Worker on: " + me.Name
+    sleep 100
+  #endfunc
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>class ThreadExample
+{
+    static void Run()
+    {
+        var current = Thread.CurrentThread;
+        Console.WriteLine(
+            $"ThreadId: {current.ManagedThreadId}");
+        Console.WriteLine($"Name: {current.Name}");
+        Console.WriteLine(
+            $"IsBackground: {current.IsBackground}");
+
+        var bg = new Thread(Worker);
+        bg.Name = "MyWorker";
+        bg.IsBackground = true;
+        bg.Priority = ThreadPriority.BelowNormal;
+        bg.Start();
+        bg.Join();
+    }
+
+    static void Worker()
+    {
+        var me = Thread.CurrentThread;
+        Console.WriteLine($"Worker on: {me.Name}");
+        Thread.Sleep(100);
+    }
+}</code></pre>
+</div>
+</div>
+
+<h3>ParameterizedThreadStart (引数付きスレッド)</h3>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#class public ParamThread
+  #func public static void PrintN, object arg
+    dim int n = int(arg.ToString())
+    repeat n
+      print "Count: " + str(cnt)
+      sleep 50
+    loop
+  #endfunc
+
+  #func public static void Run
+    dim ParameterizedThreadStart pts = new ParameterizedThreadStart(PrintN)
+    dim Thread t1 = new Thread(pts)
+    t1.Start(5)   ; 引数 5 を渡す
+
+    dim Thread t2 = new Thread(pts)
+    t2.Start(3)   ; 引数 3 を渡す
+
+    t1.Join()
+    t2.Join()
+    print "Both done"
+  #endfunc
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>class ParamThread
+{
+    static void PrintN(object arg)
+    {
+        int n = (int)arg;
+        for (int i = 0; i &lt; n; i++)
+        {
+            Console.WriteLine($"Count: {i}");
+            Thread.Sleep(50);
+        }
+    }
+
+    static void Run()
+    {
+        var t1 = new Thread(PrintN);
+        t1.Start(5);
+
+        var t2 = new Thread(PrintN);
+        t2.Start(3);
+
+        t1.Join();
+        t2.Join();
+        Console.WriteLine("Both done");
+    }
+}</code></pre>
+</div>
+</div>
+
+<h3>ThreadPool (スレッドプール)</h3>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>#class public PoolExample
+  #func public static void Work, object state
+    dim string name = state.ToString()
+    print "Start: " + name
+    sleep 200
+    print "End: " + name
+  #endfunc
+
+  #func public static void Run
+    ; スレッドプールにジョブを投入
+    dim WaitCallback cb = new WaitCallback(Work)
+    ThreadPool.QueueUserWorkItem(cb, "Job1")
+    ThreadPool.QueueUserWorkItem(cb, "Job2")
+    ThreadPool.QueueUserWorkItem(cb, "Job3")
+
+    ; 全ジョブ完了を待つ (簡易)
+    sleep 1000
+    print "All jobs done"
+  #endfunc
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>class PoolExample
+{
+    static void Work(object state)
+    {
+        string name = (string)state;
+        Console.WriteLine($"Start: {name}");
+        Thread.Sleep(200);
+        Console.WriteLine($"End: {name}");
+    }
+
+    static void Run()
+    {
+        ThreadPool.QueueUserWorkItem(Work, "Job1");
+        ThreadPool.QueueUserWorkItem(Work, "Job2");
+        ThreadPool.QueueUserWorkItem(Work, "Job3");
+
+        Thread.Sleep(1000);
+        Console.WriteLine("All jobs done");
+    }
+}</code></pre>
+</div>
+</div>
+
+<h3>Task.Run で非同期タスク</h3>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>; Task.Run でバックグラウンド処理
+#assembly "TaskDemo", exe
+#reference "System.dll"
+
+#class public Downloader
+  #func public static string Fetch, string url
+    ; 重い処理のシミュレーション
+    sleep 1000
+    return "Data from " + url
+  #endfunc
+#endclass
+
+#main
+  ; Task.Run で非同期実行
+  dim Task task1 = Task.Run(new Action(Downloader.Fetch))
+
+  print "Waiting..."
+  task1.Wait()
+  print "Done"
+#endmain</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>using System.Threading.Tasks;
+
+class Downloader
+{
+    public static string Fetch(string url)
+    {
+        Thread.Sleep(1000);
+        return "Data from " + url;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Task task1 = Task.Run(() =>
+            Downloader.Fetch("http://example.com"));
+
+        Console.WriteLine("Waiting...");
+        task1.Wait();
+        Console.WriteLine("Done");
+    }
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+<strong>async/await は未対応</strong>のため、<code>Task.Wait()</code> や <code>Task.Result</code> で同期的に待機する方法を使います。<br>
+ラムダ式も未対応のため、<code>Task.Run</code> にはデリゲート / メソッド参照を渡します。
+</div>
+
+<h3>Mutex でプロセス間排他</h3>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>; 二重起動防止
+#assembly "MutexDemo", exe
+#reference "System.dll"
+
+#main
+  dim bool createdNew
+  dim Mutex mutex = new Mutex(true, "MyAppMutex")
+
+  ; Mutex.WaitOne で取得を試みる
+  if mutex.WaitOne(0)
+    print "アプリ起動"
+    sleep 3000
+    mutex.ReleaseMutex()
+  else
+    print "既に起動済みです"
+  endif
+#endmain</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>using System.Threading;
+
+class Program
+{
+    static void Main()
+    {
+        bool createdNew;
+        var mutex = new Mutex(true,
+            "MyAppMutex", out createdNew);
+
+        if (mutex.WaitOne(0))
+        {
+            Console.WriteLine("アプリ起動");
+            Thread.Sleep(3000);
+            mutex.ReleaseMutex();
+        }
+        else
+        {
+            Console.WriteLine("既に起動済みです");
+        }
+    }
+}</code></pre>
+</div>
+</div>
+
+<h3>スレッドセーフなコレクション操作</h3>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>; lock で List への追加を保護
+#class public SafeList
+  #field private List&lt;int&gt; _items
+  #field private object _sync
+
+  #init
+    _items = new List&lt;int&gt;()
+    _sync = new object()
+  #endinit
+
+  #func public void Add, int item
+    lock _sync
+      _items.Add(item)
+    endlock
+  #endfunc
+
+  #func public int Count
+    lock _sync
+      return _items.Count
+    endlock
+    return 0
+  #endfunc
+#endclass</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>public class SafeList
+{
+    private List&lt;int&gt; _items = new();
+    private object _sync = new();
+
+    public void Add(int item)
+    {
+        lock (_sync)
+        {
+            _items.Add(item);
+        }
+    }
+
+    public int Count
+    {
+        get
+        {
+            lock (_sync)
+            {
+                return _items.Count;
+            }
+        }
+    }
+}</code></pre>
+</div>
+</div>
+
+<h3>タイマー (Timer)</h3>
+
+<div class="cmp">
+<div>
+<h4>NHSP</h4>
+<pre><code>; 1秒ごとにコールバック
+#assembly "TimerDemo", exe
+#reference "System.dll"
+
+#class public App
+  #func public static void OnTick, object state
+    print "Tick: " + DateTime.Now.ToString("HH:mm:ss")
+  #endfunc
+#endclass
+
+#main
+  dim TimerCallback cb = new TimerCallback(App.OnTick)
+  dim Timer timer = new Timer(cb, 0, 0, 1000)
+  print "Timer started (5秒後に停止)"
+  sleep 5000
+  timer.Dispose()
+  print "Timer stopped"
+#endmain</code></pre>
+</div>
+<div>
+<h4>C#</h4>
+<pre><code>using System.Threading;
+
+class App
+{
+    static void OnTick(object state)
+    {
+        Console.WriteLine(
+            $"Tick: {DateTime.Now:HH:mm:ss}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        var timer = new Timer(
+            App.OnTick, null, 0, 1000);
+        Console.WriteLine(
+            "Timer started (5秒後に停止)");
+        Thread.Sleep(5000);
+        timer.Dispose();
+        Console.WriteLine("Timer stopped");
+    }
+}</code></pre>
+</div>
+</div>
+
+<div class="note">
+<code>System.Threading.Timer</code> はスレッドプールで定期実行。<code>System.Timers.Timer</code> はイベントベースで、<code>#event</code> と組み合わせて使用可能。<br>
+コールバックにはデリゲート (<code>TimerCallback</code>, <code>ThreadStart</code> 等) を渡します。
 </div>
 
 <!-- ========================================== -->
