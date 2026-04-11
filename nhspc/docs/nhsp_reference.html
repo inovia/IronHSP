@@ -1434,25 +1434,57 @@ Math.Min(a, b)</code></pre>
   -debug        : PDB デバッグ情報を生成</code></pre>
 
 <!-- ========================================== -->
-<h2 id="limits">既知の制限</h2>
+<h2 id="limits">既知の制限・未実装機能</h2>
 
+<h3>既知の制限</h3>
 <table>
 <tr><th>制限</th><th>回避策</th></tr>
-<tr><td>try/catch 内の return</td><td>Leave 命令で自動対応済み (Phase 17 で修正)</td></tr>
-<tr><td>メソッド名に HSP 予約語 (repeat 等) は使えない</td><td>別の名前を使用</td></tr>
-<tr><td>ジェネリクス (List&lt;T&gt; 等) 未対応</td><td>.NET API を直接呼び出し、または C# ヘルパーを使用</td></tr>
-<tr><td>ラムダ式 / クロージャ未対応</td><td><code>#delegate</code> でデリゲート型は定義可能、ラムダ式 (匿名関数) は未対応</td></tr>
-<tr><td>async/await 未対応</td><td>Thread / Task.Run で代替</td></tr>
-<tr><td>ジェネリクス定義未対応</td><td>.NET の既存ジェネリクス型 (List&lt;T&gt; 等) は利用可能、独自定義は未対応</td></tr>
-<tr><td>LINQ クエリ構文未対応</td><td>メソッドチェーン (.Where().Select()) で代替</td></tr>
-<tr><td>イベント (event) 未対応</td><td>デリゲートフィールド + 手動 add/remove で代替</td></tr>
-<tr><td>演算子オーバーロード未対応</td><td>通常のメソッドで代替 (Add, Equals 等)</td></tr>
-<tr><td>yield return 未対応</td><td>List を直接構築して返す</td></tr>
-<tr><td>複数クラスの new で一部 AccessViolation</td><td>同一クラス内または1対1のクロス参照のみ</td></tr>
+<tr><td>メソッド名に HSP 予��語 (repeat, double 等) は使えない</td><td>別の名前を使用 (例: Double → Twice)</td></tr>
+<tr><td>複数クラスの new で一部 AccessViolation</td><td>同一クラス内からの参照、または1対1のクロス参照のみ</td></tr>
+<tr><td>ジェネリクス型の利用で一部 StackOverflow</td><td>複雑なネストを避ける</td></tr>
+<tr><td>catch when (例外フィルタ) の IL 生成未実装</td><td>構文は認識されるが、when 条件は実行時に無視される。catch 内で if 分岐で代替</td></tr>
+</table>
+
+<h3>未実装の C# 機能</h3>
+
+<h4>中優先 (実装可能だが工数が必要)</h4>
+<table>
+<tr><th>機能</th><th>C# 例</th><th>難易度</th><th>回避策</th></tr>
+<tr><td>ジェネリクス型定義</td><td><code>class Box&lt;T&gt; { T Value; }</code></td><td>難</td><td>既存の .NET ジェネリクス型 (<code>List&lt;int&gt;</code> 等) の<strong>利用は対応済み</strong>。独自ジェネリクスクラスの定義のみ未対応。C# ヘルパー DLL で定義して参照する方法で代替可能</td></tr>
+<tr><td>yield return (イテレータ)</td><td><code>yield return x;</code></td><td>難</td><td>ステートマシンクラスの自動生成が必要。<code>List&lt;T&gt;</code> を構築して返すことで代替</td></tr>
+<tr><td>多次元配列</td><td><code>int[,] matrix</code></td><td>中</td><td>ジャグ配列 <code>int[][]</code> は対応済み。真の多次元配列は <code>Array.CreateInstance</code> で代替</td></tr>
+</table>
+
+<h4>低優先 (C# コンパイラレベルの実装が必要)</h4>
+<table>
+<tr><th>機能</th><th>C# 例</th><th>難易度</th><th>回避策</th></tr>
+<tr><td>async / await</td><td><code>async Task&lt;int&gt; M() { await ...; }</code></td><td>超難</td><td>ステートマシン + <code>AsyncTaskMethodBuilder</code> の完全生成が必要。<code>Thread</code> / <code>Task.Run</code> で代替</td></tr>
+<tr><td>ラムダ式</td><td><code>(x) =&gt; x * 2</code></td><td>難</td><td>クロージャクラスの自動生成 + キャプチャ変数の管理が必要。<code>#delegate</code> 型定義は対応済み。通常のメソッド参照で代替</td></tr>
+<tr><td>LINQ クエリ構文</td><td><code>from x in list where x &gt; 5 select x</code></td><td>難</td><td>メソッドチェーン (<code>.Where().Select()</code>) への構文変換が必要。直接メソッドチェーンを記述して代替</td></tr>
+<tr><td>パターンマッチング</td><td><code>x is int i and &gt; 0</code></td><td>難</td><td>C# 7+ の高度なパターン。<code>is</code> / <code>as</code> + <code>if</code> 分岐で代替</td></tr>
+<tr><td>拡張メソッド</td><td><code>static void M(this string s)</code></td><td>中</td><td>メソッド解決の仕組み変更が必要。通常の static メソッドとして定義・呼び出しで代替</td></tr>
+<tr><td>レコード型</td><td><code>record Person(string Name)</code></td><td>中</td><td><code>Equals</code>/<code>GetHashCode</code>/<code>ToString</code> の自動生成が必要。通常のクラスで手動実装して代替</td></tr>
+<tr><td>タプル</td><td><code>(int, string) pair = (1, "a")</code></td><td>中</td><td><code>ValueTuple&lt;T1,T2&gt;</code> + 分解代入が必要。クラスやフィールドで代替</td></tr>
+<tr><td>dynamic 型</td><td><code>dynamic obj = ...;</code></td><td>超難</td><td>DLR (<code>CallSite</code> / <code>Binder</code>) が必���。<code>var</code> (Object) + リフレクションで代替</td></tr>
+<tr><td>unsafe / ポインタ</td><td><code>int* p = &amp;x;</code></td><td>中</td><td>P/Invoke + <code>IntPtr</code> で代替</td></tr>
+</table>
+
+<h3>対応済み機能一覧 (Phase 1-18)</h3>
+<table>
+<tr><th>カテゴリ</th><th>機能</th></tr>
+<tr><td>型定義</td><td>class, interface, struct, enum, delegate, sealed, abstract, nested class</td></tr>
+<tr><td>メンバー</td><td>field (const/readonly/static), method (virtual/override/abstract), constructor, static constructor, destructor, property, event, indexer, operator overload</td></tr>
+<tr><td>パラメータ</td><td>ref, out, params, default value, [MarshalAs], [In]/[Out]</td></tr>
+<tr><td>制御構文</td><td>if/elseif/else, repeat/loop, while/wend, for/next, foreach/next, switch/case, break, continue</td></tr>
+<tr><td>例外処理</td><td>try/catch (複数)/finally, throw, catch with type filter, Leave 自動対応</td></tr>
+<tr><td>演算子</td><td>算術 (+,-,*,/,%), 比較 (==,!=,&lt;,&gt;,&lt;=,&gt;=), 論理 (&amp;&amp;,||,!), ビット (&amp;,|,^,~,&lt;&lt;,&gt;&gt;), 三項 (?:), null合体 (??), is, as, typeof, ++/--</td></tr>
+<tr><td>型</td><td>int, int64, double, float, string, bool, byte, sbyte, short, ushort, uint, ulong, char, IntPtr, UIntPtr, int? (Nullable), int[] (配列), int[][] (ジャグ配列), List&lt;T&gt; (ジェネリクス利用)</td></tr>
+<tr><td>文</td><td>dim, new, print, sleep, lock, using, return, throw</td></tr>
+<tr><td>その他</td><td>$"補間文字列", 16進数 ($FF/0xFF), #namespace, #include, #dllimport/#dllfunc (EntryPoint/CharSet/CallingConvention/SetLastError), COM属性, PDB デバッグ情報</td></tr>
 </table>
 
 <footer>
-  <p>NHSP (Net HSP) 言語リファレンス &mdash; nhspc コンパイラ Phase 1-18</p>
+  <p>NHSP (Net HSP) 言語リファレンス &mdash; nhspc コンパイラ Phase 1-18 (147 テスト)</p>
 </footer>
 
 </div>
