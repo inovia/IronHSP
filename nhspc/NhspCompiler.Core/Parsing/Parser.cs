@@ -10,6 +10,7 @@ namespace NhspCompiler.Core.Parsing
         private readonly List<Token> _tokens;
         private readonly DiagnosticBag _diag;
         private int _pos;
+        private string _currentNamespace;
 
         public Parser(List<Token> tokens, DiagnosticBag diag)
         {
@@ -52,8 +53,28 @@ namespace NhspCompiler.Core.Parsing
                     }
                     else if (MatchKW("reference")) { Advance(); unit.References.Add(Expect(TokenKind.StringLiteral, "Expected ref").Text); }
                     else if (MatchKW("using")) { Advance(); unit.Usings.Add(Expect(TokenKind.StringLiteral, "Expected ns").Text); }
-                    else if (MatchKW("interface")) { unit.Interfaces.Add(ParseInterface()); }
-                    else if (MatchKW("class")) { unit.Classes.Add(ParseClass()); }
+                    else if (MatchKW("namespace"))
+                    {
+                        Advance();
+                        _currentNamespace = Expect(TokenKind.StringLiteral, "Expected namespace").Text;
+                    }
+                    else if (MatchKW("endnamespace"))
+                    {
+                        Advance();
+                        _currentNamespace = null;
+                    }
+                    else if (MatchKW("interface"))
+                    {
+                        var iface = ParseInterface();
+                        if (_currentNamespace != null) iface.Name = _currentNamespace + "." + iface.Name;
+                        unit.Interfaces.Add(iface);
+                    }
+                    else if (MatchKW("class"))
+                    {
+                        var cls = ParseClass();
+                        if (_currentNamespace != null) cls.Name = _currentNamespace + "." + cls.Name;
+                        unit.Classes.Add(cls);
+                    }
                     else if (MatchKW("main"))
                     {
                         Advance(); SkipEOL();
@@ -251,10 +272,11 @@ namespace NhspCompiler.Core.Parsing
             {
                 SkipEOL();
                 if (MatchHashKW(endKeyword)) { AdvanceHashKW(); break; }
-                // Also accept without # for backward compat during transition
                 if (MatchKW(endKeyword)) { Advance(); break; }
                 if (MatchKW("else") || MatchKW("elseif") || MatchKW("endif")) break;
                 if (MatchKW("loop") || MatchKW("wend") || MatchKW("next")) break;
+                if (MatchKW("catch") || MatchKW("finally") || MatchKW("endtry")) break;
+                if (MatchHashKW("catch") || MatchHashKW("finally") || MatchHashKW("endtry")) break;
                 var stmt = ParseStatement();
                 if (stmt != null) stmts.Add(stmt);
             }
@@ -289,6 +311,20 @@ namespace NhspCompiler.Core.Parsing
 
             // new var, TypeName [, args...]  or  dim var = new TypeName(args)
             if (MatchKW("new")) return ParseNew();
+
+            // try ... catch ... endtry (also via #try from Hash context)
+            if (MatchKW("try")) return ParseTryCatch();
+            if (Match(TokenKind.Hash) && Peek().Text == "try") { Advance(); return ParseTryCatch(); }
+
+            // throw [expr]
+            if (MatchKW("throw"))
+            {
+                Advance();
+                Expression val = null;
+                if (!Match(TokenKind.EOL) && !Match(TokenKind.EOF))
+                    val = ParseExpression();
+                return new ThrowStatement { Value = val, Line = Current.Line };
+            }
 
             // print expr
             if (MatchKW("print"))
@@ -473,6 +509,66 @@ namespace NhspCompiler.Core.Parsing
             stmt.Body = ParseBlock("wend");
             if (MatchKW("wend")) Advance();
             return stmt;
+        }
+
+        private TryCatchStatement ParseTryCatch()
+        {
+            Advance(); // "try"
+            SkipEOL();
+            var stmt = new TryCatchStatement { Line = Current.Line };
+
+            // Parse try body until catch/finally/endtry
+            stmt.TryBody = ParseTryBlock();
+
+            // catch [Type varName]
+            if (IsTryKW("catch"))
+            {
+                ConsumeTryKW(); // consume catch (with optional #)
+                if (Current.Kind == TokenKind.Identifier || MatchType())
+                {
+                    if (MatchType() && Peek().Kind == TokenKind.Identifier)
+                    { stmt.CatchTypeName = ReadTypeName(); stmt.CatchVarName = Advance().Text; }
+                    else if (Current.Kind == TokenKind.Identifier)
+                    { stmt.CatchVarName = Advance().Text; }
+                }
+                SkipEOL();
+                stmt.CatchBody = ParseTryBlock();
+            }
+
+            if (IsTryKW("finally"))
+            {
+                ConsumeTryKW(); SkipEOL();
+                stmt.FinallyBody = ParseTryBlock();
+            }
+
+            if (IsTryKW("endtry")) ConsumeTryKW();
+            return stmt;
+        }
+
+        private bool IsTryKW(string kw)
+        {
+            return MatchKW(kw) || MatchHashKW(kw);
+        }
+
+        private void ConsumeTryKW()
+        {
+            if (Match(TokenKind.Hash)) Advance(); // skip optional #
+            Advance(); // skip keyword
+        }
+
+        // Parse statements until catch/finally/endtry is seen (without consuming it)
+        private List<Statement> ParseTryBlock()
+        {
+            var stmts = new List<Statement>();
+            while (!Match(TokenKind.EOF))
+            {
+                SkipEOL();
+                if (IsTryKW("catch") || IsTryKW("finally") || IsTryKW("endtry")) break;
+                if (MatchHashKW("endfunc") || MatchHashKW("endclass")) break; // safety
+                var s = ParseStatement();
+                if (s != null) stmts.Add(s);
+            }
+            return stmts;
         }
 
         private ForStatement ParseFor()

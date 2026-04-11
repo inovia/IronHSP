@@ -74,6 +74,20 @@ namespace NhspCompiler.Core.Parsing.Ast
         public Expression Value { get; set; }
     }
 
+    public class TryCatchStatement : Statement
+    {
+        public List<Statement> TryBody { get; set; } = new List<Statement>();
+        public string CatchVarName { get; set; } // null = no variable
+        public string CatchTypeName { get; set; } = "Exception";
+        public List<Statement> CatchBody { get; set; } = new List<Statement>();
+        public List<Statement> FinallyBody { get; set; }
+    }
+
+    public class ThrowStatement : Statement
+    {
+        public Expression Value { get; set; } // null = rethrow
+    }
+
     public class PrintStatement : Statement
     {
         public Expression Value { get; set; }

@@ -148,6 +148,8 @@ namespace NhspCompiler.Core.Emit
             else if (stmt is IfStatement ifStmt) EmitIf(ifStmt);
             else if (stmt is RepeatStatement rep) EmitRepeat(rep);
             else if (stmt is WhileStatement wh) EmitWhile(wh);
+            else if (stmt is TryCatchStatement tryStmt) EmitTryCatch(tryStmt);
+            else if (stmt is ThrowStatement throwStmt) EmitThrow(throwStmt);
             else if (stmt is PrintStatement printStmt) EmitPrint(printStmt);
             else if (stmt is ForStatement forStmt) EmitFor(forStmt);
             else if (stmt is IndexAssignStatement ia) EmitIndexAssign(ia);
@@ -376,6 +378,64 @@ namespace NhspCompiler.Core.Emit
         {
             if (_loopStack.Count > 0)
                 _il.Emit(OpCodes.Br, _loopStack.Peek().continueLabel);
+        }
+
+        private void EmitTryCatch(TryCatchStatement stmt)
+        {
+            var catchType = typeof(Exception);
+            if (stmt.CatchTypeName != null)
+            {
+                var resolved = AssemblyEmitter.ResolveTypeStatic(stmt.CatchTypeName);
+                if (resolved == null) resolved = AssemblyEmitter.ResolveTypeStatic("System." + stmt.CatchTypeName);
+                if (resolved != null) catchType = resolved;
+            }
+
+            _il.BeginExceptionBlock();
+
+            // Try body
+            foreach (var s in stmt.TryBody) EmitStatement(s);
+
+            // Catch
+            if (stmt.CatchBody.Count > 0)
+            {
+                _il.BeginCatchBlock(catchType);
+
+                if (stmt.CatchVarName != null)
+                {
+                    // Store exception in local variable
+                    var exLocal = _il.DeclareLocal(catchType);
+                    _locals[stmt.CatchVarName] = exLocal;
+                    _il.Emit(OpCodes.Stloc, exLocal);
+                }
+                else
+                {
+                    _il.Emit(OpCodes.Pop); // discard exception
+                }
+
+                foreach (var s in stmt.CatchBody) EmitStatement(s);
+            }
+
+            // Finally
+            if (stmt.FinallyBody != null && stmt.FinallyBody.Count > 0)
+            {
+                _il.BeginFinallyBlock();
+                foreach (var s in stmt.FinallyBody) EmitStatement(s);
+            }
+
+            _il.EndExceptionBlock();
+        }
+
+        private void EmitThrow(ThrowStatement stmt)
+        {
+            if (stmt.Value != null)
+            {
+                EmitExpression(stmt.Value);
+                _il.Emit(OpCodes.Throw);
+            }
+            else
+            {
+                _il.Emit(OpCodes.Rethrow);
+            }
         }
 
         private void EmitPrint(PrintStatement stmt)
