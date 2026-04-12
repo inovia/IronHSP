@@ -4,6 +4,8 @@ VisualStudioVersion = 17.0.0.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hspcv4", "hspcv4.vcxproj", "{C4CF0001-4CF4-4CF4-8CF4-4CF4CF44CF40}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hspcv4_contrib", "hspcv4_contrib.vcxproj", "{C4CF0002-4CF4-4CF4-8CF4-4CF4CF44CF40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -20,6 +22,14 @@ Global
 		{C4CF0001-4CF4-4CF4-8CF4-4CF4CF44CF40}.Release|Win32.Build.0 = Release|Win32
 		{C4CF0001-4CF4-4CF4-8CF4-4CF4CF44CF40}.Release|x64.ActiveCfg = Release|x64
 		{C4CF0001-4CF4-4CF4-8CF4-4CF4CF44CF40}.Release|x64.Build.0 = Release|x64
+		{C4CF0002-4CF4-4CF4-8CF4-4CF4CF44CF40}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C4CF0002-4CF4-4CF4-8CF4-4CF4CF44CF40}.Debug|Win32.Build.0 = Debug|Win32
+		{C4CF0002-4CF4-4CF4-8CF4-4CF4CF44CF40}.Debug|x64.ActiveCfg = Debug|x64
+		{C4CF0002-4CF4-4CF4-8CF4-4CF4CF44CF40}.Debug|x64.Build.0 = Debug|x64
+		{C4CF0002-4CF4-4CF4-8CF4-4CF4CF44CF40}.Release|Win32.ActiveCfg = Release|Win32
+		{C4CF0002-4CF4-4CF4-8CF4-4CF4CF44CF40}.Release|Win32.Build.0 = Release|Win32
+		{C4CF0002-4CF4-4CF4-8CF4-4CF4CF44CF40}.Release|x64.ActiveCfg = Release|x64
+		{C4CF0002-4CF4-4CF4-8CF4-4CF4CF44CF40}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

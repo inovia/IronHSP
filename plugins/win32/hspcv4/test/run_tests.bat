@@ -24,6 +24,7 @@ set "REPO_ROOT=%HSPCV4_DIR%\..\..\.."
 set "WORK_DIR=%SCRIPT_DIR%_work"
 
 set "HSPCV4_DLL=%HSPCV4_DIR%\Release\hspcv4.dll"
+set "HSPCV4_CONTRIB_DLL=%HSPCV4_DIR%\Release\hspcv4_contrib.dll"
 set "HSPCV4_AS=%HSPCV4_DIR%\package\hspcv4.as"
 rem Use the freshly built hspcmp (supports #defstruct/NSTRUCT),
 rem NOT the stale package/win32/hspcmp.exe (2021, pre-defstruct).
@@ -53,6 +54,10 @@ mkdir "%WORK_DIR%"
 
 copy /y "%HSPCV4_DLL%"               "%WORK_DIR%\hspcv4.dll"       >nul
 copy /y "%HSPCV4_AS%"                "%WORK_DIR%\hspcv4.as"        >nul
+rem Stage optional contrib DLL (Phase 13a). Tests handle its absence gracefully.
+if exist "%HSPCV4_CONTRIB_DLL%" (
+    copy /y "%HSPCV4_CONTRIB_DLL%"   "%WORK_DIR%\hspcv4_contrib.dll" >nul
+)
 copy /y "%HSPCMP_EXE%"               "%WORK_DIR%\hspcmp.exe"       >nul
 copy /y "%HSP3CL_EXE%"               "%WORK_DIR%\hsp3cl.exe"       >nul
 copy /y "%SCRIPT_DIR%test_image.png" "%WORK_DIR%\test_image.png"   >nul

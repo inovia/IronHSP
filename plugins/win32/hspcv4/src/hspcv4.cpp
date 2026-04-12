@@ -6,6 +6,7 @@
 //  Return 0 = success (HSP stat = 0), negative = error (stat < 0).
 //
 #include "hspcv4.h"
+#include "hspcv4_capi.h"
 #include <string>
 #include <memory>
 
@@ -45,6 +46,73 @@ inline int fail(const char* msg)
 
 
 //============================================================================
+//  Contrib DLL delayed loader
+//
+//  opencv_contrib 系の機能は hspcv4_contrib.dll / hspcv4_contrib_64.dll
+//  という別 DLL に分離されている。ユーザーはこれを配布せず軽量ビルドを
+//  使うことも、配布して contrib 機能を有効にすることもできる。
+//
+//  実行時に最初の contrib 関数が呼ばれたとき LoadLibrary で動的に取得。
+//  DLL が見つからない場合は「hspcv4_contrib.dll not found」エラーを stat
+//  として返す (負値 return = OLDDLL 符号反転で正の error stat)。
+//============================================================================
+
+typedef int (__stdcall *hspcv4_contrib_fn_t)(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api);
+
+static HMODULE g_contrib_dll = nullptr;
+static bool    g_contrib_load_tried = false;
+
+static HMODULE load_contrib_dll()
+{
+    if (g_contrib_dll) return g_contrib_dll;
+    if (g_contrib_load_tried) return nullptr;
+    g_contrib_load_tried = true;
+
+    // 32bit 版なら hspcv4_contrib.dll、64bit 版なら hspcv4_contrib_64.dll
+#ifdef _WIN64
+    const char* name = "hspcv4_contrib_64.dll";
+#else
+    const char* name = "hspcv4_contrib.dll";
+#endif
+    g_contrib_dll = LoadLibraryA(name);
+    if (!g_contrib_dll) {
+        hspcv4::set_last_error(
+            "hspcv4_contrib.dll not found. "
+            "Install the contrib DLL next to hspcv4.dll to use this feature.");
+    }
+    return g_contrib_dll;
+}
+
+static hspcv4_contrib_fn_t get_contrib_fn(const char* impl_name)
+{
+    HMODULE h = load_contrib_dll();
+    if (!h) return nullptr;
+    return (hspcv4_contrib_fn_t)GetProcAddress(h, impl_name);
+}
+
+//  cv4_contrib_version var_str
+//    hspcv4_contrib.dll がロードされていることを確認するためのテスト関数。
+//    OpenCV のバージョン文字列を var_str に格納する (contrib 側で実装)。
+//
+//  注意: contrib DLL が見つからない場合でも HSP 側の引数を空読みする
+//  必要がある (そうしないと HSP が残留引数を TOO_MANY_PARAMETERS で throw)。
+//  各 contrib proxy stub は自分が取る引数数・型に合わせて手動で空読みする。
+CV4_EXPORT BOOL WINAPI cv4_contrib_version(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_contrib_version_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    // contrib DLL が無い場合のフォールバック: var_str を空読みしてエラーを返す
+    PVal* pv;
+    hei->HspFunc_prm_getva(&pv);
+    return fail("cv4_contrib_version: hspcv4_contrib.dll not available");
+}
+
+
+//============================================================================
 //  DllMain
 //============================================================================
 BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
@@ -62,6 +130,9 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
         hspcv4::bgsub_clear_all();
         hspcv4::tracker_clear_all();
         cv::destroyAllWindows();
+        // contrib DLL は OS が process 終了時に自動 FreeLibrary するので
+        // ここで明示的に解放する必要はない (static ハンドルが残ったまま
+        // でも害はない)。
     }
     return TRUE;
 }

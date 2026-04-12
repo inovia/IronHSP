@@ -220,7 +220,75 @@ rmdir /s /q build\opencv_build_64 build\opencv_install_64
 build_all.bat
 </pre>
 
-<h2>10. バージョン情報</h2>
+<h2>10. オプション: opencv_contrib 対応 (hspcv4_contrib.dll)</h2>
+
+<p>
+OpenCV の <code>opencv_contrib</code> リポジトリには、tracking (KCF/CSRT)、
+aruco マーカ、xfeatures2d (SURF/BRIEF 等)、bgsegm の追加背景差分、ximgproc、
+img_hash、optflow、dnn_superres 等の追加モジュールが含まれています。
+hspcv4 ではこれらを <strong>別 DLL</strong> (<code>hspcv4_contrib.dll</code> /
+<code>hspcv4_contrib_64.dll</code>) に分離して、必要なユーザーだけが
+配布に含められるようにしています。
+</p>
+
+<h3>10.1 アーキテクチャ</h3>
+
+<ul>
+<li><strong>hspcv4.dll</strong> (main): OpenCV main モジュールのラッパ + contrib 機能用の薄い proxy stub</li>
+<li><strong>hspcv4_contrib.dll</strong> (optional): opencv_contrib 機能の実体。main DLL から LoadLibrary で遅延ロードされる</li>
+<li>両 DLL は同じ <code>opencv_world4120.lib</code> を静的リンク。main はリンカが contrib シンボルを pull しないのでサイズ増無し、contrib DLL は contrib モジュールのシンボルを pull するので大きくなる</li>
+<li>ハンドル空間 (Mat/Cascade/Capture/Writer/Net/Contours/KeyPoints/Matches/BgSub/Tracker) は main DLL が所有し、contrib DLL は <code>hspcv4_get_api()</code> から取得する関数テーブル経由で共有アクセスする</li>
+</ul>
+
+<h3>10.2 ビルド</h3>
+
+<p>
+既定ビルド (<code>build_all.bat</code>) は opencv_contrib を
+<code>setup_opencv.bat</code> で自動ダウンロードして、OpenCV に
+<code>-DOPENCV_EXTRA_MODULES_PATH</code> 指定でビルドに組み込みます。
+<code>-DBUILD_LIST</code> で hspcv4 がラップ予定の下記モジュールのみ有効化:
+</p>
+
+<pre>core, imgproc, imgcodecs, videoio, highgui, video, calib3d, features2d,
+objdetect, dnn, photo, stitching,
+tracking, aruco, xfeatures2d, bgsegm, ximgproc, img_hash, optflow, dnn_superres
+</pre>
+
+<p>
+残りの contrib モジュール (text, face, freetype, sfm, viz, datasets 等) は
+依存が重い、ニーズが低い、または特殊ライセンスなので含めていません。
+これらを追加したい場合は <code>_build_opencv_common.bat</code> の
+<code>CONTRIB_BUILD_LIST</code> を編集してください。
+</p>
+
+<h3>10.3 配布</h3>
+
+<p>
+contrib 機能が不要なユーザーには <code>hspcv4_contrib*.dll</code> を
+含めずに配布できます。その場合 contrib 系命令
+(<code>cv4_contrib_version</code> 等) を呼ぶと stat にエラーコードが入り、
+エラーメッセージ「<code>hspcv4_contrib.dll not found</code>」が last_error に
+設定されます (main 側の命令は normaly に動作)。
+</p>
+
+<h3>10.4 ハンドル共有の技術的注意</h3>
+
+<p>
+main と contrib 両方が同じ OpenCV をリンクしているので、<code>cv::Mat</code>
+などの ABI は互換です。両 DLL ともに <code>/MD</code> (動的 CRT) を使うので
+<code>new</code>/<code>delete</code> をまたいでも MSVCRT.dll 上で解決されます。
+<code>cv::Mat</code> のリファレンスカウントは UMatData 経由で CRT の new/delete を
+使っており、これもまたいで安全です。
+</p>
+
+<div class="note">
+contrib DLL を手動で FreeLibrary しない設計になっています。
+プロセス終了時に OS が自動解放するので、main DLL が Mat を解放する際に
+contrib DLL 内の deallocator 関数ポインタへの呼出しが必要になっても
+問題ありません。
+</div>
+
+<h2>11. バージョン情報</h2>
 
 <p>本ビルドシステムが取得する OpenCV のバージョンは
 

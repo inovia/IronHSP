@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{C4CF0001-4CF4-4CF4-8CF4-4CF4CF44CF40}</ProjectGuid>
-    <RootNamespace>hspcv4</RootNamespace>
+    <ProjectGuid>{C4CF0002-4CF4-4CF4-8CF4-4CF4CF44CF40}</ProjectGuid>
+    <RootNamespace>hspcv4_contrib</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -48,16 +48,16 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
 
-  <!-- Output name: hspcv4.dll (Win32) / hspcv4_64.dll (x64) -->
+  <!-- Output name: hspcv4_contrib.dll (Win32) / hspcv4_contrib_64.dll (x64) -->
   <PropertyGroup Condition="'$(Platform)'=='Win32'">
-    <TargetName>hspcv4</TargetName>
+    <TargetName>hspcv4_contrib</TargetName>
     <OutDir>$(ProjectDir)Release\</OutDir>
-    <IntDir>$(ProjectDir)Release\obj32\</IntDir>
+    <IntDir>$(ProjectDir)Release\obj_contrib_32\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='x64'">
-    <TargetName>hspcv4_64</TargetName>
+    <TargetName>hspcv4_contrib_64</TargetName>
     <OutDir>$(ProjectDir)Release\</OutDir>
-    <IntDir>$(ProjectDir)Release\obj64\</IntDir>
+    <IntDir>$(ProjectDir)Release\obj_contrib_64\</IntDir>
   </PropertyGroup>
 
   <!-- OpenCV include/lib paths -->
@@ -68,15 +68,14 @@
     <OpenCVStaticLibDir Condition="'$(Platform)'=='x64'">$(OpenCVInstallDir)\x64\vc17\staticlib</OpenCVStaticLibDir>
   </PropertyGroup>
 
-  <!-- ===== Common ClCompile / Link settings (all configs) ===== -->
   <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(OpenCVInstallDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;HSPCV4_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(OpenCVInstallDir)\include;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;HSPCV4_CONTRIB_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <AdditionalOptions>/source-charset:utf-8 /execution-charset:utf-8 /wd4819 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -84,11 +83,11 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OpenCVStaticLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world4120.lib;ittnotify.lib;ipphal.lib;ippiw.lib;ippicvmt.lib;libjpeg-turbo.lib;libopenjp2.lib;libpng.lib;libtiff.lib;libprotobuf.lib;libwebp.lib;zlib.lib;comctl32.lib;gdi32.lib;user32.lib;ole32.lib;oleaut32.lib;uuid.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world4120.lib;opencv_img_hash4120.lib;ittnotify.lib;ipphal.lib;ippiw.lib;ippicvmt.lib;libjpeg-turbo.lib;libopenjp2.lib;libpng.lib;libtiff.lib;libprotobuf.lib;libwebp.lib;zlib.lib;comctl32.lib;gdi32.lib;user32.lib;ole32.lib;oleaut32.lib;uuid.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>src_contrib\hspcv4_contrib.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
 
-  <!-- Release -->
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -103,7 +102,6 @@
     </Link>
   </ItemDefinitionGroup>
 
-  <!-- Debug -->
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -113,13 +111,10 @@
   </ItemDefinitionGroup>
 
   <ItemGroup>
-    <ClInclude Include="src\hspcv4.h" />
     <ClInclude Include="src\hspcv4_capi.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\hspcv4.cpp" />
-    <ClCompile Include="src\cv4_handle.cpp" />
-    <ClCompile Include="src\hspcv4_capi.cpp" />
+    <ClCompile Include="src_contrib\hspcv4_contrib.cpp" />
   </ItemGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

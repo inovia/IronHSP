@@ -1,0 +1,6 @@
+; hspcv4_contrib.dll export definitions
+; x86 で __stdcall 名前修飾 (_name@N) が付くのを防いで、
+; 両アーキで同じ名前 (cv4_xxx_impl) で GetProcAddress できるようにする。
+LIBRARY hspcv4_contrib
+EXPORTS
+    cv4_contrib_version_impl

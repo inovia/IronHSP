@@ -412,4 +412,15 @@
 #func global cv4_get_pixel      cv4_get_pixel      $202
 #func global cv4_build_version  cv4_build_version  $202
 
+; ---- contrib DLL proxy (requires hspcv4_contrib.dll / hspcv4_contrib_64.dll) ----
+; これらの命令は main DLL が遅延ロードで hspcv4_contrib.dll を呼び出す形で
+; 実装されています。contrib DLL が配布に含まれていない場合は実行時エラーに
+; なります (stat にエラーコードが入る)。
+;
+; Phase 13a 時点では cv4_contrib_version のみがテスト用に実装されています。
+; Phase 13b 以降で KCF/CSRT トラッカ、Aruco マーカ、xfeatures2d (SURF/BRIEF 等)、
+; bgsegm の追加背景差分、ximgproc、img_hash、optflow、dnn_superres 等の
+; ラッパを順次追加予定です。
+#func global cv4_contrib_version  cv4_contrib_version  $202
+
 #endif

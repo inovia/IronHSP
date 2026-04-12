@@ -79,10 +79,30 @@ rem   resulting DLL must be placed next to hspcv4.dll at runtime.
 rem   Default is OFF to keep the static build fully self-contained.
 if /I "%HSPCV4_WITH_FFMPEG%"=="1" (
     set "FFMPEG_FLAG=ON"
-    echo [ffmpeg] HSPCV4_WITH_FFMPEG=1 — FFmpeg support enabled
+    echo [ffmpeg] HSPCV4_WITH_FFMPEG=1 -- FFmpeg support enabled
 ) else (
     set "FFMPEG_FLAG=OFF"
 )
+
+rem --- Optional opencv_contrib support ---
+rem   The main hspcv4.dll does not use any contrib symbols, so its size
+rem   is unaffected by contrib being present in opencv_world lib.
+rem   hspcv4_contrib.dll is a separate DLL that links the same
+rem   opencv_world lib and pulls contrib symbols.
+set "CONTRIB_MODULES_PATH=%ROOT_DIR%\third_party\opencv_contrib-%OPENCV_VERSION%\modules"
+set "CONTRIB_FLAG="
+set "CONTRIB_BUILD_LIST="
+if exist "%CONTRIB_MODULES_PATH%" goto :use_contrib
+echo [contrib] opencv_contrib not found, building without contrib modules
+goto :after_contrib
+
+:use_contrib
+set "CONTRIB_FLAG=-DOPENCV_EXTRA_MODULES_PATH=%CONTRIB_MODULES_PATH%"
+rem Only enable the modules we plan to wrap. Others are skipped via
+rem BUILD_LIST to keep the opencv_world binary size reasonable.
+set "CONTRIB_BUILD_LIST=core,imgproc,imgcodecs,videoio,highgui,video,calib3d,features2d,objdetect,dnn,photo,stitching,tracking,aruco,xfeatures2d,bgsegm,ximgproc,img_hash,optflow,dnn_superres"
+echo [contrib] opencv_contrib modules enabled
+:after_contrib
 
 if not exist "%BUILD_DIR%" mkdir "%BUILD_DIR%"
 if not exist "%INSTALL_DIR%" mkdir "%INSTALL_DIR%"
@@ -94,6 +114,12 @@ echo     build   : %BUILD_DIR%
 echo     install : %INSTALL_DIR%
 echo.
 
+if not "%CONTRIB_BUILD_LIST%"=="" (
+    set "BUILD_LIST_FLAG=-DBUILD_LIST=%CONTRIB_BUILD_LIST%"
+) else (
+    set "BUILD_LIST_FLAG="
+)
+
 "%CMAKE_EXE%" ^
     -S "%OPENCV_SRC_DIR%" ^
     -B "%BUILD_DIR%" ^
@@ -103,6 +129,8 @@ echo.
     -DBUILD_SHARED_LIBS=OFF ^
     -DBUILD_WITH_STATIC_CRT=OFF ^
     -DBUILD_opencv_world=ON ^
+    %BUILD_LIST_FLAG% ^
+    %CONTRIB_FLAG% ^
     -DBUILD_TESTS=OFF ^
     -DBUILD_PERF_TESTS=OFF ^
     -DBUILD_EXAMPLES=OFF ^
