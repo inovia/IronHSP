@@ -43,11 +43,33 @@
     if (rx != 320) | (ry != 240) { mes "cv4 roundtrip size FAIL" : end 1 }
     mes strf("cv4 roundtrip OK: %d x %d ch=%d", rx, ry, rch)
 
+    ; --- drawing on Mat handle 1 (320x240 color) ---
+    cv4line   1, 10, 10, 310, 230,   0,   0, 255, 2
+    if stat < 0 { mes "cv4line FAIL" : end 1 }
+    cv4rect   1, 50, 50, 100,  80,   0, 255,   0, 3
+    if stat < 0 { mes "cv4rect FAIL" : end 1 }
+    cv4circle 1, 200, 120, 40, 255,   0,   0, -1
+    if stat < 0 { mes "cv4circle FAIL" : end 1 }
+    cv4text   1, "hello", 20, 220, 0.8, 255, 255, 255, 2
+    if stat < 0 { mes "cv4text FAIL" : end 1 }
+    mes "cv4line/rect/circle/text OK"
+
+    ; 描画結果を保存して再 load し、サイズが変わっていないこと (= 破壊されて
+    ; いないこと) と、読み込めること (ファイル形式として有効) を確認する。
+    cv4save 1, "out_drawn.png"
+    if stat < 0 { mes "cv4save drawn FAIL" : end 1 }
+    cv4load 4, "out_drawn.png"
+    if stat < 0 { mes "cv4load drawn FAIL" : end 1 }
+    cv4info 4, dx, dy, dch
+    if (dx != 320) | (dy != 240) { mes "drawn roundtrip size FAIL" : end 1 }
+    mes strf("drawing roundtrip OK: %d x %d ch=%d", dx, dy, dch)
+
     ; --- cv4del / cv4reset ---
     cv4del 0
     cv4del 1
     cv4del 2
     cv4del 3
+    cv4del 4
     cv4reset
     mes "cv4del/cv4reset OK"
 

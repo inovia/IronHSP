@@ -290,6 +290,123 @@ CV4_EXPORT BOOL WINAPI cv4getimg(HSPEXINFO* hei, int p1, int p2, int p3)
     }
 }
 
+//============================================================================
+//  Drawing : line / rect / circle / text  (beginner, 色は B,G,R 指定)
+//============================================================================
+
+//  cv4line id, x1, y1, x2, y2, b, g, r [, thickness=1]
+CV4_EXPORT BOOL WINAPI cv4line(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        int x1 = getint();
+        int y1 = getint();
+        int x2 = getint();
+        int y2 = getint();
+        int b  = getint();
+        int g  = getint();
+        int r  = getint();
+        int thickness = getint_def(1);
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4line: invalid handle");
+        cv::line(*m, cv::Point(x1, y1), cv::Point(x2, y2),
+                 cv::Scalar(b, g, r), thickness);
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4line: unknown exception");
+    }
+}
+
+//  cv4rect id, x, y, w, h, b, g, r [, thickness=1]
+//  thickness=-1 で塗りつぶし
+CV4_EXPORT BOOL WINAPI cv4rect(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        int x  = getint();
+        int y  = getint();
+        int w  = getint();
+        int h  = getint();
+        int b  = getint();
+        int g  = getint();
+        int r  = getint();
+        int thickness = getint_def(1);
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4rect: invalid handle");
+        cv::rectangle(*m, cv::Rect(x, y, w, h),
+                      cv::Scalar(b, g, r), thickness);
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4rect: unknown exception");
+    }
+}
+
+//  cv4circle id, cx, cy, radius, b, g, r [, thickness=1]
+CV4_EXPORT BOOL WINAPI cv4circle(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id     = getint();
+        int cx     = getint();
+        int cy     = getint();
+        int radius = getint();
+        int b      = getint();
+        int g      = getint();
+        int r      = getint();
+        int thickness = getint_def(1);
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4circle: invalid handle");
+        cv::circle(*m, cv::Point(cx, cy), radius,
+                   cv::Scalar(b, g, r), thickness);
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4circle: unknown exception");
+    }
+}
+
+//  cv4text id, "text", x, y, scale, b, g, r [, thickness=1]
+//  フォント: HERSHEY_SIMPLEX 固定
+//  scale は double (倍率)。beginner 向けに int を渡せるよう double 解釈する
+CV4_EXPORT BOOL WINAPI cv4text(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id        = getint();
+        const char* t = getstr();
+        int x         = getint();
+        int y         = getint();
+        // scale は double で受け取る (HSP 側で 1.0 / 1.5 等)
+        double scale  = hei->HspFunc_prm_getdd(1.0);
+        int b         = getint();
+        int g         = getint();
+        int r         = getint();
+        int thickness = getint_def(1);
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4text: invalid handle");
+        cv::putText(*m, t ? t : "", cv::Point(x, y),
+                    cv::FONT_HERSHEY_SIMPLEX, scale,
+                    cv::Scalar(b, g, r), thickness, cv::LINE_AA);
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4text: unknown exception");
+    }
+}
+
+
 //  cv4putimg id
 //  -> 現在の HSP カレント window を id に取り込み (上下反転して BGR に)
 CV4_EXPORT BOOL WINAPI cv4putimg(HSPEXINFO* hei, int p1, int p2, int p3)

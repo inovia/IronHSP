@@ -48,4 +48,13 @@
 #func global cv4getimg  cv4getimg  $202
 #func global cv4putimg  cv4putimg  $202
 
+; ---- drawing ----
+; 色は B, G, R の順で指定します (OpenCV の慣習)。
+; thickness に -1 を指定すると塗りつぶし (cv4rect / cv4circle のみ有効)。
+; cv4text のフォントは HERSHEY_SIMPLEX 固定、scale は double (例: 1.0, 1.5)。
+#func global cv4line    cv4line    $202
+#func global cv4rect    cv4rect    $202
+#func global cv4circle  cv4circle  $202
+#func global cv4text    cv4text    $202
+
 #endif
