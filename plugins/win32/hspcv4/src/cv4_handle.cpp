@@ -28,6 +28,7 @@ std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::Tracker>>> g_trackers;
 std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::ml::StatModel>>> g_ml_models;
 std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::face::FaceRecognizer>>> g_face_recognizers;
 std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::face::Facemark>>> g_facemarks;
+std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::StereoMatcher>>> g_stereos;
 std::mutex g_mutex;
 int g_next_id = 0;
 std::string g_last_error;
@@ -373,6 +374,30 @@ void facemark_clear_all()
 {
     std::lock_guard<std::mutex> lock(g_mutex);
     g_facemarks.clear();
+}
+
+bool stereo_set(int id, cv::Ptr<cv::StereoMatcher> ptr)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_stereos[id] = std::make_unique<cv::Ptr<cv::StereoMatcher>>(std::move(ptr));
+    return true;
+}
+cv::Ptr<cv::StereoMatcher>* stereo_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_stereos.find(id);
+    if (it == g_stereos.end()) return nullptr;
+    return it->second.get();
+}
+void stereo_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_stereos.erase(id);
+}
+void stereo_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_stereos.clear();
 }
 
 void set_last_error(const char* msg)

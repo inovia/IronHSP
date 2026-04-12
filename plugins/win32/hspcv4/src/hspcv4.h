@@ -148,6 +148,12 @@ cv::Ptr<cv::face::Facemark>* facemark_get(int id);
 void facemark_free(int id);
 void facemark_clear_all();
 
+// StereoMatcher (Phase 21): StereoBM / StereoSGBM
+bool stereo_set(int id, cv::Ptr<cv::StereoMatcher> ptr);
+cv::Ptr<cv::StereoMatcher>* stereo_get(int id);
+void stereo_free(int id);
+void stereo_clear_all();
+
 //---------------------------------------------------------------------------
 // Last error message (for future cv4_getlasterror if needed)
 //---------------------------------------------------------------------------

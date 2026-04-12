@@ -422,6 +422,7 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
         hspcv4::ml_model_clear_all();
         hspcv4::face_recognizer_clear_all();
         hspcv4::facemark_clear_all();
+        hspcv4::stereo_clear_all();
         cv::destroyAllWindows();
         // contrib DLL は OS が process 終了時に自動 FreeLibrary するので
         // ここで明示的に解放する必要はない (static ハンドルが残ったまま
@@ -2728,6 +2729,81 @@ CV4_EXPORT BOOL WINAPI cv4_connected_components(HSPEXINFO* hei, int p1, int p2, 
         return 0;
     } catch (const cv::Exception& e) { return fail(e.what()); }
       catch (...) { return fail("cv4_connected_components: unknown"); }
+}
+
+//============================================================================
+//  Stereo / projection (Phase 21): StereoBM / StereoSGBM / projectPoints
+//============================================================================
+
+//  cv4_stereo_bm_create stereo_id [, num_disparities=64] [, block_size=21]
+CV4_EXPORT BOOL WINAPI cv4_stereo_bm_create(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int sid     = getint();
+        int numDisp = getint_def(64);
+        int blkSize = getint_def(21);
+        cv::Ptr<cv::StereoMatcher> sm = cv::StereoBM::create(numDisp, blkSize);
+        hspcv4::stereo_set(sid, sm);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_stereo_bm_create: unknown"); }
+}
+
+//  cv4_stereo_sgbm_create stereo_id [, min_disp=0] [, num_disp=64] [, block_size=5]
+//                                    [, P1=0] [, P2=0]
+CV4_EXPORT BOOL WINAPI cv4_stereo_sgbm_create(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int sid     = getint();
+        int minDisp = getint_def(0);
+        int numDisp = getint_def(64);
+        int blkSize = getint_def(5);
+        int P1      = getint_def(0);
+        int P2      = getint_def(0);
+        cv::Ptr<cv::StereoMatcher> sm =
+            cv::StereoSGBM::create(minDisp, numDisp, blkSize, P1, P2);
+        hspcv4::stereo_set(sid, sm);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_stereo_sgbm_create: unknown"); }
+}
+
+//  cv4_stereo_compute disparity_dst, stereo_id, left_id, right_id
+CV4_EXPORT BOOL WINAPI cv4_stereo_compute(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id   = getint();
+        int sid      = getint();
+        int left_id  = getint();
+        int right_id = getint();
+        auto* sp = hspcv4::stereo_get(sid);
+        if (!sp || sp->empty()) return fail("cv4_stereo_compute: invalid stereo");
+        cv::Mat* L = hspcv4::handle_get(left_id);
+        cv::Mat* R = hspcv4::handle_get(right_id);
+        if (!L || L->empty() || !R || R->empty())
+            return fail("cv4_stereo_compute: invalid input image");
+        cv::Mat disp;
+        (*sp)->compute(*L, *R, disp);
+        hspcv4::handle_set(dst_id, std::move(disp));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_stereo_compute: unknown"); }
+}
+
+//  cv4_stereo_free stereo_id
+CV4_EXPORT BOOL WINAPI cv4_stereo_free(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int sid = getint();
+    hspcv4::stereo_free(sid);
+    return 0;
 }
 
 //  cv4_moments_centroid cid, index, var_cx_x10, var_cy_x10

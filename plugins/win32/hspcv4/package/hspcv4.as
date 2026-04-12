@@ -512,6 +512,12 @@
 #func global cv4_connected_components cv4_connected_components $202
 #func global cv4_moments_centroid     cv4_moments_centroid     $202
 
+; ---- Stereo (Phase 21) ----
+#func global cv4_stereo_bm_create     cv4_stereo_bm_create     $202
+#func global cv4_stereo_sgbm_create   cv4_stereo_sgbm_create   $202
+#func global cv4_stereo_compute       cv4_stereo_compute       $202
+#func global cv4_stereo_free          cv4_stereo_free          $202
+
 ; ---- calib3d full (Phase 14): camera calibration / pose estimation ----
 ; cv4_camera_matrix dst, fx, fy, cx, cy        — 3x3 K 行列を生成
 ; cv4_dist_coeffs   dst, k1, k2, p1, p2, k3    — 1x5 歪み係数 D を生成
