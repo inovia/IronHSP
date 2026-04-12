@@ -45,6 +45,9 @@
 #include <opencv2/ximgproc/edge_filter.hpp>
 #include <opencv2/ximgproc/fast_line_detector.hpp>
 #include <opencv2/ximgproc/peilin.hpp>
+#include <opencv2/wechat_qrcode.hpp>
+#include <opencv2/quality.hpp>
+#include <opencv2/plot.hpp>
 #pragma warning(pop)
 
 #define CV4_EXPORT extern "C" __declspec(dllexport)

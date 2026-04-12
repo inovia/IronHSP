@@ -539,6 +539,13 @@
 #func global cv4_peilin_normalize     cv4_peilin_normalize     $202
 #func global cv4_am_filter            cv4_am_filter            $202
 
+; ---- Phase 25: wechat_qrcode + quality + plot ----
+; text/OCR (Tesseract) と saliency は別フェーズへ繰り延べ。
+#func global cv4_wechat_qr_decode     cv4_wechat_qr_decode     $202
+#func global cv4_quality_psnr         cv4_quality_psnr         $202
+#func global cv4_quality_ssim         cv4_quality_ssim         $202
+#func global cv4_plot                 cv4_plot                 $202
+
 ; ---- calib3d full (Phase 14): camera calibration / pose estimation ----
 ; cv4_camera_matrix dst, fx, fy, cx, cy        — 3x3 K 行列を生成
 ; cv4_dist_coeffs   dst, k1, k2, p1, p2, k3    — 1x5 歪み係数 D を生成

@@ -9,6 +9,7 @@
 #include "hspcv4_capi.h"
 #include <string>
 #include <memory>
+#include <cmath>
 
 HSPEXINFO* g_hei = nullptr;
 
@@ -2731,6 +2732,129 @@ CV4_EXPORT BOOL WINAPI cv4_connected_components(HSPEXINFO* hei, int p1, int p2, 
     } catch (const cv::Exception& e) { return fail(e.what()); }
       catch (...) { return fail("cv4_connected_components: unknown"); }
 }
+
+//============================================================================
+//  Phase 25: wechat_qrcode + quality + plot
+//   text/OCR (Tesseract 依存) と saliency は別タスクへ繰り延べ。
+//============================================================================
+
+//  cv4_wechat_qr_decode count_var, src_id, "det.prototxt", "det.caffemodel",
+//                                          "sr.prototxt",  "sr.caffemodel"
+//    検出された QR コード文字列の個数を count_var に書き戻す。
+//    実際の文字列は将来 cv4_qr_get_string などで取り出す想定 (今回は count のみ)。
+CV4_EXPORT BOOL WINAPI cv4_wechat_qr_decode(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        PVal* pv;
+        APTR  ap = hei->HspFunc_prm_getva(&pv);
+        if (pv->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_wechat_qr_decode: var_count must be int");
+        pv->offset = ap;
+        int src_id = getint();
+        const char* dp = getstr();
+        const char* dm = getstr();
+        const char* sp = getstr();
+        const char* sm = getstr();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_wechat_qr_decode: invalid src");
+        cv::wechat_qrcode::WeChatQRCode qr(
+            dp ? dp : "", dm ? dm : "",
+            sp ? sp : "", sm ? sm : "");
+        std::vector<cv::Mat> points;
+        std::vector<std::string> results = qr.detectAndDecode(*src, points);
+        int n = (int)results.size();
+        HspVarProc* proc = hei->HspFunc_getproc(HSPVAR_FLAG_INT);
+        proc->Set(pv, proc->GetPtr(pv), &n);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_wechat_qr_decode: unknown"); }
+}
+
+//  cv4_quality_psnr var_psnr_x100, ref_id, cmp_id
+CV4_EXPORT BOOL WINAPI cv4_quality_psnr(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        PVal* pv;
+        APTR  ap = hei->HspFunc_prm_getva(&pv);
+        if (pv->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_quality_psnr: var must be int");
+        pv->offset = ap;
+        int ref_id = getint();
+        int cmp_id = getint();
+        cv::Mat* ref = hspcv4::handle_get(ref_id);
+        cv::Mat* cmp = hspcv4::handle_get(cmp_id);
+        if (!ref || ref->empty() || !cmp || cmp->empty())
+            return fail("cv4_quality_psnr: invalid input");
+        cv::Mat qmap;
+        cv::Scalar s = cv::quality::QualityPSNR::compute(*ref, *cmp, qmap);
+        double psnr = s[0];
+        // identical → +inf。HSP int で扱える最大値にクランプ。
+        int v_x100;
+        if (!std::isfinite(psnr)) v_x100 = 999999;
+        else                       v_x100 = (int)(psnr * 100.0);
+        HspVarProc* proc = hei->HspFunc_getproc(HSPVAR_FLAG_INT);
+        proc->Set(pv, proc->GetPtr(pv), &v_x100);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_quality_psnr: unknown"); }
+}
+
+//  cv4_quality_ssim var_ssim_x10000, ref_id, cmp_id
+CV4_EXPORT BOOL WINAPI cv4_quality_ssim(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        PVal* pv;
+        APTR  ap = hei->HspFunc_prm_getva(&pv);
+        if (pv->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_quality_ssim: var must be int");
+        pv->offset = ap;
+        int ref_id = getint();
+        int cmp_id = getint();
+        cv::Mat* ref = hspcv4::handle_get(ref_id);
+        cv::Mat* cmp = hspcv4::handle_get(cmp_id);
+        if (!ref || ref->empty() || !cmp || cmp->empty())
+            return fail("cv4_quality_ssim: invalid input");
+        cv::Mat qmap;
+        cv::Scalar s = cv::quality::QualitySSIM::compute(*ref, *cmp, qmap);
+        int v_x10000 = (int)(s[0] * 10000.0);
+        HspVarProc* proc = hei->HspFunc_getproc(HSPVAR_FLAG_INT);
+        proc->Set(pv, proc->GetPtr(pv), &v_x10000);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_quality_ssim: unknown"); }
+}
+
+//  cv4_plot dst_id, data_y_id [, width=600] [, height=400]
+//    1次元データ (CV_64F or CV_32F) を 2D グラフ画像 (BGR) として描画。
+CV4_EXPORT BOOL WINAPI cv4_plot(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id  = getint();
+        int data_id = getint();
+        int w       = getint_def(600);
+        int h       = getint_def(400);
+        cv::Mat* data = hspcv4::handle_get(data_id);
+        if (!data || data->empty()) return fail("cv4_plot: invalid data");
+        cv::Ptr<cv::plot::Plot2d> plot = cv::plot::Plot2d::create(*data);
+        plot->setPlotSize(w, h);
+        plot->setShowGrid(true);
+        plot->setShowText(true);
+        cv::Mat out;
+        plot->render(out);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_plot: unknown"); }
+}
+
 
 //============================================================================
 //  xfeatures2d / ximgproc extras (Phase 24)
