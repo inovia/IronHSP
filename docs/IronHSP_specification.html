@@ -39,7 +39,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-11</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-12</p>
 <p class="muted">ベース: OpenHSP 3.7 (SVN r1616) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="toc">
@@ -54,7 +54,9 @@
   <li><a href="#notes">7. 注意事項・既知の制限</a></li>
   <li><a href="#struct">8. 構造体・共用体</a></li>
   <li><a href="#wstr">9. UTF-16 ワイド文字列型 (wstr)</a></li>
-  <li><a href="#changelog">10. 変更履歴</a></li>
+  <li><a href="#dllfunc">10. DLL 関数拡張 (#cfuncd / #cfuncf / #cfuncst)</a></li>
+  <li><a href="#dxlib">11. DxLib 統合 (hspdxlib)</a></li>
+  <li><a href="#changelog">12. 変更履歴</a></li>
 </ul>
 </div>
 
@@ -620,6 +622,7 @@ mes nettoval(rSR, 4)     ; => 44100</code></pre>
 <tr><td><code>HSPVAR_FLAG_INT64</code></td><td>8</td><td>int64</td><td>8 byte</td><td><span class="badge">新規</span> 64bit 符号付き整数</td></tr>
 <tr><td><code>TYPE_NETOBJ</code></td><td>9</td><td>netobj</td><td>ポインタ</td><td><span class="badge-green badge">.NET</span> .NET オブジェクト参照</td></tr>
 <tr><td><code>HSPVAR_FLAG_WSTR</code></td><td>10</td><td>wstr</td><td>可変長</td><td><span class="badge">新規</span> UTF-16 LE ワイド文字列</td></tr>
+<tr><td><code>HSPVAR_FLAG_NSTRUCT</code></td><td>11</td><td>nstruct</td><td>可変</td><td><span class="badge">新規</span> ネイティブ構造体 (<code>#defstruct</code> 用、<code>stdim</code> で確保)</td></tr>
 </table>
 
 <!-- ======================================== -->
@@ -737,11 +740,32 @@ mes _sqrt(2.0)          ; => 1.414214</code></pre>
 
 <p>ポインタ直接呼び出し用の関数も追加されています:</p>
 <table>
-<tr><th>関数</th><th>戻り値の型</th></tr>
-<tr><td><code>callfunc(prmbuf, addr, nargs)</code></td><td>int</td></tr>
-<tr><td><code>callfuncd(prmbuf, addr, nargs)</code></td><td>double</td></tr>
-<tr><td><code>callfuncf(prmbuf, addr, nargs)</code></td><td>float → double</td></tr>
+<tr><th>関数</th><th>戻り値の型</th><th>備考</th></tr>
+<tr><td><code>callfunc(prmbuf, addr, nargs)</code></td><td>int</td><td></td></tr>
+<tr><td><code>callfuncd(prmbuf, addr, nargs)</code></td><td>double</td><td></td></tr>
+<tr><td><code>callfuncf(prmbuf, addr, nargs)</code></td><td>float → double</td><td></td></tr>
+<tr><td><code>callfuncst(prmbuf, addr, nargs, size)</code></td><td>NSTRUCT (構造体)</td><td><span class="badge">IronHSP</span> 構造体戻り値の DLL 関数を直接呼び出す</td></tr>
 </table>
+
+<p><code>callfuncst</code> は <code>#cfuncst</code> 同様に MSVC ABI の隠し第 1 引数 (戻り値バッファのポインタ) を使う関数を呼び出します。
+ただし宣言ベースの <code>#cfuncst</code> と異なり、低レベル API として呼び出し側が <code>prmbuf[0]</code> に
+あらかじめ戻り値バッファのアドレスを設定する必要があります。</p>
+
+<pre><code>; #cfuncst global VECTOR GetCameraTarget "dx_GetCameraTarget" 相当を
+; varptr + callfuncst で組み立てる例
+
+stdim retbuf, VECTOR              ; 戻り値バッファ
+dim   prm, 1
+prm(0) = varptr(retbuf)           ; prmbuf[0] = 隠しポインタ
+addr   = varptr(GetCameraTarget)  ; 関数アドレス (#func 経由で取得)
+
+stdim v, VECTOR
+v = callfuncst(prm, addr, 1, varsize(VECTOR))
+mes "v = " + v->x + ", " + v->y + ", " + v->z</code></pre>
+
+<p>戻り値は <code>HSPVAR_FLAG_NSTRUCT</code> として返るため、<code>#cfuncst</code> と同じ要領で
+<code>v = callfuncst(...)</code> という代入経路でメンバ参照可能な構造体変数に取り込めます。
+動的に取得した関数アドレス (<code>varptr</code>, <code>GetProcAddress</code> 等) からの呼び出しに使えます。</p>
 
 <div class="note">
 <strong>注意:</strong> 従来の <code>#cfunc</code> で double/float を返す DLL 関数を呼び出すと、
@@ -752,20 +776,39 @@ mes _sqrt(2.0)          ; => 1.414214</code></pre>
 <!-- ======================================== -->
 <h2 id="struct">8. 構造体・共用体</h2>
 
-<p><code>#defstruct</code> / <code>#defunion</code> プリプロセッサ命令で C 言語互換の構造体・共用体を定義できます。
-Windows API の構造体を直接扱う場合に便利です。</p>
+<p><code>#defstruct</code> / <code>#defunion</code> プリプロセッサディレクティブで C 言語互換の構造体・共用体を定義できます。
+Windows API や DxLib のような C 構造体を直接扱う場合に便利です。
+構造体変数は専用の <code>HSPVAR_FLAG_NSTRUCT</code> 変数型として確保され、
+代入は同型同サイズのバイト列コピー (<code>memcpy</code>) として処理されます。</p>
 
 <div class="card">
 <h3>使用例</h3>
 <pre><code>#defstruct POINT
-  int x
-  int y
+#field int x
+#field int y
 #endstruct
 
-structdim pt, POINT
+stdim pt, POINT
 pt->x = 100
 pt->y = 200
-mes "x=" + pt->x + " y=" + pt->y</code></pre>
+mes "x=" + pt->x + " y=" + pt->y
+mes "size=" + varsize(POINT)   ; → 8</code></pre>
+</div>
+
+<h3>定義ディレクティブ</h3>
+<table>
+<tr><th>ディレクティブ</th><th>説明</th></tr>
+<tr><td><code>#defstruct NAME [, pack=N]</code></td><td>構造体定義の開始。<code>pack=N</code> でアライメントを指定 (デフォルト 8、C ABI に従い末尾はメンバ最大アライメントで切り上げ)</td></tr>
+<tr><td><code>#defunion NAME</code></td><td>トップレベル共用体定義の開始 (全メンバが同一オフセット)</td></tr>
+<tr><td><code>#defunion</code> (名前なし)</td><td><code>#defstruct</code> 内のサブ共用体ブロック開始</td></tr>
+<tr><td><code>#field 型 メンバ名 [配列]</code></td><td>メンバ定義 (<code>#defstruct</code>/<code>#defunion</code> 内で必須)</td></tr>
+<tr><td><code>#endstruct</code> / <code>#endunion</code></td><td>定義の終了</td></tr>
+</table>
+
+<div class="note">
+<strong>変更点 (2026/04/12):</strong> 旧式のインデント記法 (例: <code>&nbsp;&nbsp;int x</code>) は廃止されました。
+構造体メンバは必ず <code>#field</code> ディレクティブで宣言してください。
+共用体サブブロックは <code>#defunion</code> ～ <code>#endunion</code> で記述します。
 </div>
 
 <h3>サポートするメンバ型</h3>
@@ -809,72 +852,265 @@ mes "x=" + pt->x + " y=" + pt->y</code></pre>
 <tr><td><code>STRUCT_NAME</code></td><td>可変</td><td>入れ子構造体 (定義済みの構造体名を指定)</td></tr>
 </table>
 
+<h3>変数の宣言 (stdim)</h3>
+
+<p>構造体型の変数を確保するには <code>stdim</code> 命令を使います。
+内部では <code>HSPVAR_FLAG_NSTRUCT</code> 型の PVal が確保されます。</p>
+
+<pre><code>#defstruct VECTOR, pack=1
+#field float x
+#field float y
+#field float z
+#endstruct
+
+stdim v, VECTOR              ; 1要素 (12 byte) を確保
+stdim arr, VECTOR, 10        ; 構造体配列 (12 byte × 10 要素 = 120 byte)
+
+v->x = 1.5
+v->y = 2.5
+v->z = 3.5
+
+arr(2)->x = 100.0            ; 配列要素のメンバアクセス</code></pre>
+
+<div class="note">
+<strong>互換性:</strong> 標準 HSP の <code>dim v, N</code> は引き続き整数配列を確保するだけで、構造体型としては扱われません。
+<code>dim v, VECTOR</code> と書いても <code>VECTOR</code> はプリプロセッサ定数として展開されるため、結果は <code>dim v, 12</code>
+(12 個の int 配列 = 48 byte) と同じになります。構造体として扱いたい場合は <code>stdim</code> を使ってください。
+</div>
+
+<h3>構造体名は定数として扱える</h3>
+
+<p><code>#defstruct</code> で定義した構造体名は、<code>#endstruct</code> の時点で
+プリプロセッサ定数 (<code>LAB_TYPE_PPVAL</code>) として登録されます。値は構造体の合計バイトサイズです。
+このため、構造体名をそのまま整数リテラルのように式の中で使えます。</p>
+
+<pre><code>#defstruct VECTOR, pack=1
+#field float x
+#field float y
+#field float z
+#endstruct
+
+mes VECTOR                  ; → 12
+mes "size = " + VECTOR      ; → "size = 12"
+sdim buf, VECTOR * 100      ; VECTOR バイト × 100 個分のバッファ
+memcpy dst, src, VECTOR     ; 1 構造体分コピー</code></pre>
+
+<h3>varsize() &mdash; 構造体サイズ取得</h3>
+
+<p><code>varsize(STRUCT_NAME)</code> も同じく構造体サイズを返します
+(プリプロセッサ段階で整数リテラルに置換されます)。
+<code>VECTOR</code> 単体の記法と完全に等価ですが、他言語経験者には <code>sizeof()</code> 風の記法が
+分かりやすい場合に使えます。</p>
+
+<pre><code>mes "VECTOR size = " + varsize(VECTOR)   ; → 12
+sdim buf, varsize(VECTOR) * 100          ; バッファ確保にも使える</code></pre>
+
+<p><code>varsize(変数名)</code> 形式は従来通り変数の確保バイトサイズを返します
+(<code>#func</code> 関数名を渡すと <code>varptr</code> と同じ要領で関数のサイズが返ります)。</p>
+
 <h3>共用体</h3>
 <p>共用体は全メンバが同一メモリ領域を共有します。最大メンバのサイズが全体サイズになります。</p>
 <pre><code>#defunion VARIANT_DATA
-  int iVal
-  float fVal
-  double dVal
+#field int iVal
+#field float fVal
+#field double dVal
 #endunion
 ; size = 8 (double の 8 bytes が最大)</code></pre>
 
-<p>構造体内にインラインの共用体サブブロックを定義できます:</p>
-<pre><code>#defstruct MY_VARIANT
-  short vt
-  union
-    int intVal
-    float fltVal
-    double dblVal
-  endunion
-#endstruct</code></pre>
+<p>構造体内にインラインの共用体サブブロックを定義する場合も <code>#defunion</code> / <code>#endunion</code> を使います
+(構造体名は省略します):</p>
 
-<h3>配列</h3>
+<pre><code>#defstruct MY_VARIANT
+#field short vt
+#defunion
+#field int intVal
+#field float fltVal
+#field double dblVal
+#endunion
+#endstruct
+; size = 16 (vt[2] + padding[6] + union[8])</code></pre>
+
+<p><code>#defunion</code> は文脈で動作が変わります:</p>
+<ul>
+  <li><strong>トップレベル</strong> &mdash; <code>#defunion 名前 ... #endunion</code>: 共用体型を定義 (名前は <code>varsize()</code> や型として参照可能)</li>
+  <li><strong><code>#defstruct</code> 内</strong> &mdash; <code>#defunion ... #endunion</code> (名前なし): 構造体内のサブ共用体ブロック。
+      ブロック内の全メンバが同じオフセットを共有します。</li>
+</ul>
+
+<h3>配列メンバ</h3>
 <pre><code>#defstruct MATRIX
-  float m[16]
+#field float m[16]
 #endstruct
 
-structdim mat, MATRIX
+stdim mat, MATRIX
 mat->m(0) = 1.0
 mat->m(5) = 1.0</code></pre>
 
 <h3>パックアライメント</h3>
 <pre><code>#defstruct PACKED_STRUCT, pack=1
-  byte flag
-  int value
+#field byte flag
+#field int value
 #endstruct
 ; size = 5 (パディングなし。pack=1 で詰め詰め配置)
 
 #defstruct DEFAULT_STRUCT
-  byte flag
-  int value
+#field byte flag
+#field int value
 #endstruct
 ; size = 8 (デフォルト pack=8。flag の後に 3 bytes パディング)</code></pre>
 
 <h3>入れ子構造体</h3>
 <pre><code>#defstruct POINT
-  int x
-  int y
+#field int x
+#field int y
 #endstruct
 
 #defstruct RECT
-  POINT topLeft
-  POINT bottomRight
+#field POINT topLeft
+#field POINT bottomRight
 #endstruct
 
-structdim rc, RECT
+stdim rc, RECT
 rc->topLeft->x = 10
 rc->topLeft->y = 20
 rc->bottomRight->x = 100
 rc->bottomRight->y = 200</code></pre>
 
 <h3>構造体配列</h3>
-<pre><code>structdim points, POINT, 10   ; POINT 構造体 10 個分の配列
+<pre><code>stdim points, POINT, 10   ; POINT 構造体 10 個分の配列
 points(0)->x = 100
 points(0)->y = 200
 points(1)->x = 300
 points(1)->y = 400</code></pre>
 
-<p>詳細は <a href="struct_implementation.html">構造体実装設計書</a> を参照してください。</p>
+<h3>DLL 関数への値渡し</h3>
+
+<p><code>#func</code> / <code>#cfunc</code> / <code>#cfuncst</code> のパラメータ型に構造体名を書くと、
+構造体を <strong>値渡し (pass by value)</strong> で C/C++ 側 DLL に渡せます。
+DxLib の <code>VECTOR</code> や Win32 API の <code>POINT</code>, <code>RECT</code> などを直接呼び出せます。</p>
+
+<pre><code>#defstruct VECTOR, pack=1
+#field float x
+#field float y
+#field float z
+#endstruct
+
+#uselib "DxLibW.dll"
+#func global SetCamPosTarget "dx_SetCameraPositionAndTarget_UpVecY" VECTOR, VECTOR
+;                                                                   ↑ 値渡しパラメータ
+
+stdim cpos, VECTOR
+cpos->x = 10.0
+cpos->y = 50.0
+cpos->z = -100.0
+stdim ctgt, VECTOR
+ctgt->x = 5.0
+ctgt->y = 25.0
+ctgt->z = 0.0
+
+SetCamPosTarget cpos, ctgt   ; ← 構造体 2 つを値渡し</code></pre>
+
+<div class="note">
+<strong>x86/x64 の ABI 差異:</strong> 値渡しは MSVC ABI に従って自動的に展開されます。
+<ul>
+  <li><strong>x86</strong>: 構造体バイト列をスタックに直接 push (call_extfunc に渡す prmbuf に memcpy)</li>
+  <li><strong>x64 (Win64 ABI)</strong>: 8 バイト以下なら整数レジスタ枠に直接格納、9 バイト以上はテンポラリバッファを確保してそのポインタを渡す (これが Win64 ABI の構造体引数規約)</li>
+</ul>
+</div>
+
+<h4>値渡しと参照渡しの使い分け</h4>
+
+<p>同じ C 構造体でも、関数によって「値渡し」と「ポインタ渡し」のどちらで宣言されているかが異なります。
+<code>#func</code> 宣言では <strong>パラメータ型キーワードで明示的に指定</strong> します:</p>
+
+<table>
+<tr><th>C 側のシグネチャ</th><th>HSP の <code>#func</code> 宣言</th><th>呼び出し例</th></tr>
+<tr><td><code>void f(VECTOR v)</code><br>(構造体の値渡し)</td><td><code>#func global f "f" VECTOR</code></td><td><code>f myvec</code> &mdash; 12 バイトを直接展開</td></tr>
+<tr><td><code>void f(VECTOR *v)</code><br>(ポインタ渡し / out 引数)</td><td><code>#func global f "f" var</code></td><td><code>f myvec</code> &mdash; 変数のアドレスを渡す</td></tr>
+<tr><td><code>void f(int n)</code></td><td><code>#func global f "f" int</code></td><td><code>f 42</code></td></tr>
+</table>
+
+<p>判断基準:</p>
+<ul>
+  <li><strong>関数が構造体を値で受け取る</strong> (C で <code>VECTOR v</code> と書かれている) &rarr; <code>VECTOR</code> 等の構造体名を指定</li>
+  <li><strong>関数がポインタで受け取る / 結果を書き戻す</strong> (C で <code>VECTOR *v</code> や <code>VECTOR &amp;v</code>) &rarr; 従来通り <code>var</code> を指定</li>
+</ul>
+
+<p>DxLib のように構造体値渡しが多用される API では <code>VECTOR</code>, <code>MATRIX</code> などを直接書きます。
+逆に Win32 API の <code>GetWindowRect(HWND, LPRECT)</code> のように out 引数として構造体ポインタを取る関数は <code>int, var</code> のままです。</p>
+
+<div class="note">
+<strong>注意:</strong> C 側が値渡しなのに HSP 側で <code>var</code> と宣言してしまうと、
+ポインタの 4/8 バイトしかスタックに積まれず、構造体の残りバイトが読まれずに ABI が破綻して動作不定になります。
+DxLib の auto-generated <code>hspdxlib.as</code> はこの罠を避けるため、ヘッダの自動生成時に
+構造体値渡しの関数を全て <code>VECTOR, VECTOR</code> 等として展開してあります。
+</div>
+
+<h4>内部実装</h4>
+<ol>
+  <li>コンパイラの <code>PP_ReplaceStructParamNames()</code> が <code>#func</code> 行のパラメータリスト中の構造体名を
+      <code>svalN</code> (N = サイズ) に置換。マクロ展開で <code>VECTOR → 12</code> に化けるのを防ぎます。</li>
+  <li><code>GetParameterTypeCG()</code> が <code>svalN</code> を <code>MPTYPE_STRUCTVAL (-23)</code> として認識し、
+      <code>STRUCTPRM-&gt;subid</code> に N を格納。</li>
+  <li>ランタイムの <code>code_expand_next()</code> の <code>MPTYPE_STRUCTVAL</code> ハンドラ (<code>hsp3extlib.cpp</code>) が
+      上記の x86/x64 ABI に従ってバイト列を展開。</li>
+</ol>
+
+<h3 id="struct-internal">内部処理 (構造体パイプライン)</h3>
+
+<p>HSP コンパイラ (hspcmp) とランタイム (hsp3) の連携で構造体を処理しています。
+プリプロセッサ段階・コード生成段階・実行段階のそれぞれで以下の処理が走ります:</p>
+
+<div class="card">
+<h4>プリプロセッサ段階 (token.cpp)</h4>
+<ol>
+  <li><code>#defstruct</code> / <code>#defunion</code> &mdash; 構造体定義テーブル <code>cg_structdefs</code> にエントリを追加。
+      ブロックレベルカウンタ <code>pp_defstruct_level</code> を増加。</li>
+  <li><code>#field 型 名前</code> &mdash; <code>PP_StructMember()</code> でメンバを解析し、
+      pack を考慮したオフセットを計算して <code>cg_structdefs.back().members</code> に追加。</li>
+  <li><code>#defunion</code> (名前なし) / <code>#endunion</code> &mdash; <code>pp_union_base_offset</code> を保存し、
+      ブロック内のメンバが同一オフセットを共有するように制御。</li>
+  <li><code>#endstruct</code> &mdash; アライメント切り上げで <code>total_size</code> を確定し、
+      構造体名を <code>LAB_TYPE_PPVAL</code> として登録 (値 = 構造体サイズ)。
+      これにより <code>VECTOR</code> という識別子はマクロ展開で <code>12</code> に展開されます。</li>
+  <li><code>PP_DetectStructDim()</code> &mdash; <code>stdim v, STRUCT</code> 行を検出して
+      <code>pp_var_structid</code> マップに変数 → 構造体ID を記録。</li>
+  <li><code>PP_DetectCfuncstAssign()</code> &mdash; <code>v = SomeCfuncstFunc()</code> 行を検出して、
+      <code>v</code> を構造体型の変数として <code>pp_var_structid</code> に登録 (メタデータのみ、テキストは書き換えない)。</li>
+  <li><code>PP_RewriteVarsizeStruct()</code> &mdash; <code>varsize(STRUCTNAME)</code> を整数リテラルに置換
+      (文字列リテラル内・コメント以降はスキップ)。</li>
+  <li><code>PP_ExpandStructAccess()</code> &mdash; <code>v-&gt;x</code> パターンを <code>_struct_peek(v, offset, type, struct_size)</code>
+      または <code>_struct_poke v, offset, type, struct_size, member_size, value</code> 形式に展開
+      (オフセットはコンパイル時に解決)。</li>
+  <li><code>PP_ReplaceStructParamNames()</code> &mdash; <code>#func</code> / <code>#cfunc</code> / <code>#cfuncst</code> 行のパラメータリスト中の
+      構造体名を <code>svalN</code> (N = 構造体サイズ) に置換。マクロ展開で構造体名が数値に化けるのを防ぎます。</li>
+</ol>
+</div>
+
+<div class="card">
+<h4>コード生成段階 (codegen.cpp)</h4>
+<ul>
+  <li><code>stdim</code> 命令 → opcode <code>0x22</code> として出力。第 1 引数 = 変数、第 2 引数 = サイズ (バイト)、第 3 引数 = 要素数。</li>
+  <li><code>v-&gt;x</code> 書き込み (CG case <code>0x65</code>) → <code>_struct_poke</code> 内部命令を生成。</li>
+  <li><code>v-&gt;x</code> 読み取り → PP 段階で展開済みの <code>_struct_peek()</code> 関数呼び出し。</li>
+  <li>構造体メンバオフセット・サイズ・型はすべてバイトコード中の即値として埋め込まれます。</li>
+</ul>
+</div>
+
+<div class="card">
+<h4>実行段階 (hsp3code.cpp / hspvar_nstruct.cpp)</h4>
+<ul>
+  <li><strong><code>HSPVAR_FLAG_NSTRUCT</code> (= 11)</strong> 専用変数型。
+      <code>pval-&gt;len[0]</code> に 1 要素のバイトサイズ、<code>pval-&gt;pt</code> に生バイト列を保持。</li>
+  <li><code>stdim</code> opcode は <code>HspVarCoreDispose</code> + 直接 PVal 構築 + <code>Alloc</code> で
+      指定サイズ × 要素数を <code>calloc</code>。</li>
+  <li><code>_struct_poke</code> / <code>_struct_peek</code> は <code>pval-&gt;pt + (aptr * struct_size) + member_offset</code>
+      に対する型付きアクセス。</li>
+  <li>構造体同士の代入 (<code>v1 = v2</code>) は標準の <code>'='</code> ハンドラ経由で
+      <code>HspVarNstruct_Set()</code> が <code>memcpy(dst, src, len[0])</code> を実行。</li>
+  <li><code>#cfuncst</code> の戻り値も <code>HSPVAR_FLAG_NSTRUCT</code> として返ります (詳細は次章)。</li>
+</ul>
+</div>
 
 <!-- ======================================== -->
 <h2 id="wstr">9. UTF-16 ワイド文字列型 (wstr)</h2>
@@ -917,7 +1153,369 @@ int/double との変換も <code>wcstol</code> / <code>swprintf</code> 等で対
 <p>詳細は <a href="wstr_design.html">wstr 設計書</a> を参照してください。</p>
 
 <!-- ======================================== -->
-<h2 id="changelog">10. 変更履歴</h2>
+<h2 id="dllfunc">10. DLL 関数拡張 (#cfuncd / #cfuncf / #cfuncst)</h2>
+
+<p>標準 HSP の <code>#func</code> / <code>#cfunc</code> に加え、IronHSP では戻り値の型に応じた拡張ディレクティブを提供します。</p>
+
+<h3>10.1 一覧</h3>
+
+<table>
+<tr><th>ディレクティブ</th><th>戻り値型</th><th>DLL の戻り値</th><th>追加バージョン</th></tr>
+<tr><td><code>#func</code></td><td>なし (stat に int 格納)</td><td>EAX / RAX → stat</td><td>標準 HSP</td></tr>
+<tr><td><code>#cfunc</code></td><td>int / int64</td><td>EAX / RAX</td><td>標準 HSP</td></tr>
+<tr><td><code>#cfuncd</code></td><td>double (実数)</td><td>x87 FPU / XMM0</td><td><span class="badge">IronHSP</span></td></tr>
+<tr><td><code>#cfuncf</code></td><td>float → double に変換</td><td>x87 FPU / XMM0</td><td><span class="badge">IronHSP</span></td></tr>
+<tr><td><code>#cfuncst</code></td><td>NSTRUCT (構造体)</td><td>隠しポインタ経由</td><td><span class="badge">IronHSP</span></td></tr>
+</table>
+
+<!-- ======================================== -->
+<h3>10.2 #cfuncd &mdash; double 戻り値</h3>
+
+<p>C/C++ の DLL 関数が <code>double</code> を返す場合に使用します。</p>
+
+<pre><code>; 構文
+#cfuncd global 関数名 "エントリポイント" パラメータ型...
+
+; 例
+#uselib "mymath.dll"
+#cfuncd global CalcSin "CalcSin" double
+#cfuncd global CalcCos "CalcCos" double
+
+; 使用
+result = CalcSin(3.14159)  ; result は double 型</code></pre>
+
+<p>戻り値は x87 FPU スタック (x86) または XMM0 レジスタ (x64) から取得し、HSP の double (実数) 型として返されます。</p>
+
+<div class="note">
+<strong>注意:</strong> <code>#cfunc</code> で double を返す関数を呼ぶと、FPU/XMM の値ではなく EAX/RAX の整数値が返るため、正しい値を取得できません。double を返す DLL 関数には必ず <code>#cfuncd</code> を使用してください。
+</div>
+
+<!-- ======================================== -->
+<h3>10.3 #cfuncf &mdash; float 戻り値</h3>
+
+<p>C/C++ の DLL 関数が <code>float</code> を返す場合に使用します。float は HSP 内部で double に変換されます。</p>
+
+<pre><code>; 構文
+#cfuncf global 関数名 "エントリポイント" パラメータ型...
+
+; 例
+#uselib "mymath.dll"
+#cfuncf global GetDistance "GetDistance" float, float, float, float
+
+; 使用
+d = GetDistance(0.0, 0.0, 3.0, 4.0)  ; d = 5.0 (double型)</code></pre>
+
+<div class="note">
+<strong>注意:</strong> float パラメータは <code>float</code> キーワードで宣言します。<code>double</code> とは異なる 4 バイト幅で渡されます。
+</div>
+
+<!-- ======================================== -->
+<h3>10.4 #cfuncst &mdash; 構造体を値で返す DLL 関数</h3>
+
+<p>C/C++ の DLL 関数が<strong>構造体を値で返す</strong>場合に安全に呼び出すための新しいディレクティブです。</p>
+
+<h4>背景・問題</h4>
+
+<p>標準の <code>#cfunc</code> は戻り値として EAX/RAX（整数 1 つ）しか取得できません。
+C/C++ の関数が構造体を値で返す場合、MSVC ABI は<strong>隠し第 1 引数</strong>（呼び出し元が確保したバッファへのポインタ）を自動挿入し、関数はそこに書き込みます。</p>
+
+<pre><code>// C側: VECTOR を値で返す関数
+VECTOR dx_VGet(float x, float y, float z);
+
+// MSVC ABI 実際の呼び出し:
+//   x86: push z, push y, push x, push &hidden_buf, call dx_VGet
+//   x64: rcx=&hidden_buf, xmm1=x, xmm2=y, xmm3=z, call dx_VGet</code></pre>
+
+<p><code>#cfunc</code> はこの隠しポインタを挿入しないため、スタック破壊やクラッシュの原因になります。</p>
+
+<h4>構文</h4>
+
+<p><strong>新構文</strong> (推奨、構造体名指定):</p>
+<pre><code>#cfuncst global 構造体名 関数名 "エントリポイント" [パラメータ型...]</code></pre>
+
+<p><strong>旧構文</strong> (サイズ指定、引き続きサポート):</p>
+<pre><code>#cfuncst global 関数名 "エントリポイント" 構造体サイズ, パラメータ型...</code></pre>
+
+<table>
+<tr><th>要素</th><th>説明</th></tr>
+<tr><td><code>#cfuncst</code></td><td>構造体戻り値専用の関数宣言ディレクティブ</td></tr>
+<tr><td><code>構造体名</code></td><td><code>#defstruct</code> で定義済みの構造体名。サイズは定義から自動計算される</td></tr>
+<tr><td><code>構造体サイズ</code></td><td>(旧構文) 戻り値の構造体サイズ (バイト数、整数リテラル)。最大 4096</td></tr>
+<tr><td>パラメータ型</td><td>通常の <code>#cfunc</code> と同じ型キーワード (int, float, double, wstr, var 等)</td></tr>
+</table>
+
+<h4>新構文の特徴</h4>
+
+<ul>
+  <li><strong>サイズ自動計算</strong>: <code>#defstruct</code> の定義からサイズが自動取得されるため、手動指定が不要</li>
+  <li><strong>NSTRUCT 戻り値</strong>: 戻り値は <code>HSPVAR_FLAG_NSTRUCT</code> 型として返るため、
+      標準の <code>'='</code> 代入経路 (<code>HspVarCoreClearWC</code> + <code>Set</code>) で自動的にコピーされる</li>
+  <li><strong>dim 省略可能</strong>: <code>strmid(...)</code> の戻り値が代入先変数を自動的に文字列型にするのと同じ要領で、
+      <code>v = GetCameraTarget()</code> だけで <code>v</code> は自動的に構造体型として確保される (事前の <code>stdim</code> 不要)</li>
+  <li><strong>メンバアクセス</strong>: 代入後すぐに <code>vec-&gt;x</code> のようなメンバアクセスが可能
+      (PP_DetectCfuncstAssign が変数 → 構造体ID メタデータを記録するため)</li>
+</ul>
+
+<h4>使用例 (新構文)</h4>
+
+<pre><code>#defstruct VECTOR, pack=1
+#field float x
+#field float y
+#field float z
+#endstruct
+
+#uselib "DxLibW.dll"
+#cfuncst global VECTOR GetCameraTarget "dx_GetCameraTarget"
+#cfuncst global VECTOR GetCameraPosition "dx_GetCameraPosition"
+
+; パターン1: stdim で明示的に確保してから代入
+stdim tgt, VECTOR
+tgt = GetCameraTarget()
+mes "tgt: " + tgt->x + ", " + tgt->y + ", " + tgt->z
+
+; パターン2: dim 省略 (NSTRUCT サイズヒントによる自動確保)
+pos = GetCameraPosition()
+mes "pos: " + pos->x + ", " + pos->y + ", " + pos->z</code></pre>
+
+<h4>使用例 (旧構文)</h4>
+
+<pre><code>; DxLib の VECTOR 構造体 (12バイト: float x, y, z)
+#uselib "DxLibW.dll"
+#cfuncst global VGet "dx_VGet" 12, float, float, float
+#cfuncst global VAdd "dx_VAdd" 12, var, var
+
+; 使用
+p = VGet(1.0, 2.0, 3.0)
+; 旧構文では戻り値は HSPVAR_FLAG_NSTRUCT になるが、
+; メンバ名 → 構造体ID 紐付けはないので -&gt; アクセスはできない
+; (構造体名指定の新構文を推奨)</code></pre>
+
+<h4>内部実装</h4>
+
+<div class="card">
+<h4>コンパイラ (hspcmp)</h4>
+<ul>
+  <li><code>PP_Cfuncst()</code> が <code>#cfuncst</code> ディレクティブを認識し、<code>STRUCTDAT_OT_RETSTRUCT (0x30)</code> フラグを <code>otindex</code> に設定</li>
+  <li>最初のパラメータとして <code>MPTYPE_SRET (-22)</code> の STRUCTPRM を生成。<code>subid</code> フィールドに構造体サイズを格納</li>
+  <li>新構文の場合は <code>pp_cfuncst_structid</code> マップに 関数名 → 構造体ID を記録</li>
+  <li>以降のパラメータは通常の <code>#cfunc</code> と同じ処理</li>
+</ul>
+</div>
+
+<div class="card">
+<h4>ランタイム (hsp3)</h4>
+<ol>
+  <li><code>code_expand_and_call()</code> が <code>STRUCTDAT_OT_RETSTRUCT</code> フラグを検出</li>
+  <li>スタック方式のバッファプール (<code>sret_buffers[16][4096]</code>) からスロットを確保し、ゼロ初期化</li>
+  <li><code>code_expand_next()</code> で <code>MPTYPE_SRET</code> を処理 &mdash; バッファポインタを隠し第 1 引数としてパラメータ配列に挿入 (ユーザー入力は読まない)</li>
+  <li><code>call_extfunc()</code> で DLL 関数を呼び出し &mdash; x86/x64 とも既存アセンブリがそのまま動作</li>
+  <li>戻り値としてバッファのアドレスを <code>hspctx-&gt;stat</code> に格納</li>
+  <li><code>reffunc_dllcmd()</code> が RETSTRUCT を再検出し、<code>hsp_nstruct_pending_size</code> に構造体サイズを書き込む。
+      <code>*type_res = HSPVAR_FLAG_NSTRUCT</code> として sret_buffer のポインタを返す</li>
+  <li>標準の代入経路 (<code>code_get</code> → <code>StackPush</code> → <code>HspVarCoreClearWC</code> → <code>Set</code>) が
+      <code>HspVarNstruct_GetSize</code> / <code>HspVarNstruct_Alloc</code> 経由でヒントを参照し、
+      代入先変数を NSTRUCT として正しいサイズで確保 → memcpy</li>
+  <li><code>'='</code> ハンドラの末尾でヒント (<code>hsp_nstruct_pending_size</code>) をクリア</li>
+</ol>
+</div>
+
+<div class="card">
+<h4>NSTRUCT サイズヒント機構</h4>
+<p>HSPVAR の <code>GetSize(PDAT*)</code> は要素サイズしか返せない API ですが、構造体は型ごとにサイズが異なるため、
+グローバル変数 <code>int hsp_nstruct_pending_size</code> をヒントとして使います。
+これは <code>strmid()</code> が <code>strsize</code> 経由で文字列長を伝達するのと同様の仕組みです。</p>
+<table>
+<tr><th>段階</th><th>動作</th></tr>
+<tr><td>1. <code>reffunc_dllcmd</code></td><td><code>hsp_nstruct_pending_size = struct_size</code> をセット</td></tr>
+<tr><td>2. <code>HspVarNstruct_GetSize</code></td><td>ヒント値を返す (StackPush のサイズになる)</td></tr>
+<tr><td>3. <code>HspVarNstruct_Alloc</code></td><td><code>pval-&gt;len[0]</code> が 1 (デフォルト) ならヒント値を採用</td></tr>
+<tr><td>4. <code>'='</code> ハンドラ末尾</td><td>ヒントをクリア (他の NSTRUCT 操作への影響を防ぐ)</td></tr>
+</table>
+</div>
+
+<h4>入れ子呼び出しの安全性</h4>
+
+<p><code>#cfuncst</code> 関数は式の中で入れ子にできます:</p>
+
+<pre><code>result = VAdd(VGet(1,0,0), VGet(0,1,0))
+; VGet(1,0,0) → slot 0
+; VGet(0,1,0) → slot 1
+; VAdd        → slot 2 (自身の戻り値用) + slot 0,1 を引数として参照
+; すべてのスロットが DLL 呼び出し時点で有効</code></pre>
+
+<p>内部では<strong>スタック方式のバッファプール</strong>（16 スロット × 4096 バイト = 64KB）を使用:</p>
+
+<table>
+<tr><th>要素</th><th>説明</th></tr>
+<tr><td><code>sret_buffers[16][4096]</code></td><td>静的バッファプール</td></tr>
+<tr><td><code>sret_depth</code></td><td>現在の入れ子深度。0 = 最外レベル</td></tr>
+<tr><td><code>sret_ring_index</code></td><td>次に割り当てるスロット番号</td></tr>
+</table>
+
+<ul>
+  <li>各 <code>#cfuncst</code> 呼び出しは新しいスロットを確保（<code>sret_ring_index++</code>, <code>sret_depth++</code>）</li>
+  <li>呼び出し完了で <code>sret_depth--</code></li>
+  <li><strong>最外レベル</strong>（<code>sret_depth == 0</code>）に戻った時点で <code>sret_ring_index = 0</code> にリセット → 全スロット解放</li>
+  <li>入れ子が 16 段を超えると <code>HSPERR_STACK_OVERFLOW</code> エラー</li>
+</ul>
+
+<div class="note">
+<strong>注意:</strong> <code>#cfuncst</code> の戻り値ポインタは一時バッファへの参照です。次の最外レベル <code>#cfuncst</code> 呼び出しで再利用されます。結果を保持するには <code>dupptr</code> や <code>memcpy</code> で即座にコピーしてください。
+</div>
+
+<h4>パラメータ型一覧</h4>
+
+<p><code>#cfuncst</code> は <code>#cfunc</code> と同じパラメータ型キーワードが使えます:</p>
+
+<table>
+<tr><th>型キーワード</th><th>用途</th><th>DLL 側の型</th></tr>
+<tr><td><code>int</code></td><td>整数</td><td>int, DWORD, BOOL 等</td></tr>
+<tr><td><code>float</code></td><td>単精度浮動小数点</td><td>float</td></tr>
+<tr><td><code>double</code></td><td>倍精度浮動小数点</td><td>double</td></tr>
+<tr><td><code>str</code></td><td>ANSI 文字列</td><td>const char*</td></tr>
+<tr><td><code>wstr</code></td><td>Unicode 文字列</td><td>const wchar_t*</td></tr>
+<tr><td><code>var</code></td><td>変数アドレス（構造体ポインタ等）</td><td>void*, VECTOR* 等</td></tr>
+<tr><td><code>int64</code></td><td>64bit 整数</td><td>int64_t, LONGLONG</td></tr>
+</table>
+
+<h3>10.5 全ディレクティブ比較</h3>
+
+<table>
+<tr><th>ディレクティブ</th><th>戻り値型</th><th>DLL の戻り値</th></tr>
+<tr><td><code>#func</code></td><td>なし (stat に格納)</td><td>int → stat</td></tr>
+<tr><td><code>#cfunc</code></td><td>int / int64</td><td>EAX / RAX</td></tr>
+<tr><td><code>#cfuncd</code></td><td>double</td><td>FPU / XMM0</td></tr>
+<tr><td><code>#cfuncf</code></td><td>float</td><td>FPU / XMM0</td></tr>
+<tr><td><code>#cfuncst</code> <span class="badge">IronHSP</span></td><td>NSTRUCT (構造体)</td><td>隠しポインタ経由で構造体バッファに書き込み → NSTRUCT として代入先に memcpy</td></tr>
+</table>
+
+<!-- ======================================== -->
+<h2 id="dxlib">11. DxLib 統合 (hspdxlib)</h2>
+
+<p>DxLib (DX ライブラリ) を HSP から直接呼び出すためのヘッダファイル群です。
+<strong>DxLibW</strong>（Unicode 版）を使用し、32bit / 64bit の両方に対応します。</p>
+
+<h3>11.1 ファイル構成</h3>
+
+<table>
+<tr><th>ファイル</th><th>場所</th><th>内容</th></tr>
+<tr><td><code>hspdxlib.as</code></td><td>common/</td><td>メインヘッダ &mdash; 2,548 <code>#cfunc</code>/<code>#func</code> 関数 + 151 <code>#cfuncst</code> 関数（構造体戻り）</td></tr>
+<tr><td><code>hspdxlib_const.as</code></td><td>common/</td><td>901 個の定数定義 (<code>DX_SCREEN_BACK</code>, <code>KEY_INPUT_*</code>, <code>PAD_INPUT_*</code> 等)</td></tr>
+<tr><td><code>hspdxlib_struct.as</code></td><td>common/</td><td>55 構造体のバッファオフセット定義 (VECTOR, MATRIX, RECT 等)</td></tr>
+<tr><td><code>hspdxlib_macro.as</code></td><td>common/</td><td>HSP 風短縮名マクロ (<code>dxinit</code>, <code>dxdraw</code>, <code>dxflip</code> 等)</td></tr>
+<tr><td><code>hspdxlib.hs</code></td><td>hsphelp/</td><td>ヘルプファイル（全 2,212 関数 / うち 594 関数に DxLib 公式ドキュメントの引数解説・戻り値・詳細説明を収録）</td></tr>
+<tr><td><code>DxLibW.dll</code></td><td>runtime/dxlib/</td><td>DxLib ネイティブ DLL（32bit）</td></tr>
+<tr><td><code>DxLibW_x64.dll</code></td><td>runtime/dxlib/</td><td>DxLib ネイティブ DLL（64bit）</td></tr>
+</table>
+
+<h3>11.2 基本的な使い方</h3>
+
+<pre><code>#include "hspdxlib.as"
+
+    ; ウィンドウモードで初期化
+    ChangeWindowMode TRUE
+    SetGraphMode 640, 480, 32
+    SetMainWindowText "My Game"
+    if DxLib_Init() == -1 : end
+    SetDrawScreen DX_SCREEN_BACK
+
+    white = GetColor(255, 255, 255)
+
+*main
+    ClearDrawScreen_1
+    DrawString 10, 10, "Hello, DxLib!", white
+    ScreenFlip
+    if ProcessMessage() != 0 : goto *quit
+    if CheckHitKey(KEY_INPUT_ESCAPE) == 1 : goto *quit
+    goto *main
+
+*quit
+    DxLib_End
+    end</code></pre>
+
+<h3>11.3 32bit / 64bit 自動切り替え</h3>
+
+<p><code>hspdxlib.as</code> 内部で <code>__hsp64__</code> プリプロセッサを使用して DLL 名を自動選択します:</p>
+
+<pre><code>; hspdxlib.as 内部:
+#ifdef __hsp64__
+#uselib "DxLibW_x64.dll"
+#else
+#uselib "DxLibW.dll"
+#endif</code></pre>
+
+<p>ユーザーは 32bit/64bit を意識せずに同じコードを使えます。
+実行ファイルと同じフォルダに対応する DLL を配置してください。</p>
+
+<h3>11.4 構造体の扱い</h3>
+
+<p>DxLib は多くの構造体を使用します。<code>hspdxlib_struct.as</code> にオフセット定数が定義されています:</p>
+
+<pre><code>; 構造体サイズとフィールドオフセット
+#const global VECTOR_SIZE 12
+#const global VECTOR_x 0     ; float (4バイト)
+#const global VECTOR_y 4     ; float
+#const global VECTOR_z 8     ; float
+
+; バッファとして使用
+sdim vec, VECTOR_SIZE
+lpoke vec, VECTOR_x, 0x3F800000  ; 1.0f のビットパターン</code></pre>
+
+<p>構造体を値で返す DLL 関数（VGet, VAdd 等）は <code>#cfuncst</code> で宣言できます。
+詳細は <a href="#cfuncst">10. #cfuncst</a> を参照してください。</p>
+
+<h3>11.5 主要関数カテゴリ</h3>
+
+<table>
+<tr><th>カテゴリ</th><th>代表的な関数</th></tr>
+<tr><td>システム</td><td><code>DxLib_Init</code>, <code>DxLib_End</code>, <code>ProcessMessage</code>, <code>WaitTimer</code></td></tr>
+<tr><td>ウィンドウ</td><td><code>ChangeWindowMode</code>, <code>SetGraphMode</code>, <code>SetMainWindowText</code></td></tr>
+<tr><td>描画</td><td><code>DrawGraph</code>, <code>DrawBox</code>, <code>DrawLine</code>, <code>DrawCircle</code>, <code>ScreenFlip</code>, <code>ClearDrawScreen_1</code></td></tr>
+<tr><td>画像</td><td><code>LoadGraph</code>, <code>DeleteGraph</code>, <code>DrawRotaGraph</code>, <code>DrawExtendGraph</code></td></tr>
+<tr><td>文字</td><td><code>DrawString</code>, <code>DrawFormatString</code>, <code>SetFontSize</code>, <code>CreateFontToHandle</code></td></tr>
+<tr><td>入力</td><td><code>CheckHitKey</code>, <code>GetMousePoint</code>, <code>GetJoypadInputState</code>, <code>GetXInputState</code></td></tr>
+<tr><td>サウンド</td><td><code>LoadSoundMem</code>, <code>PlaySoundMem</code>, <code>StopSoundMem</code>, <code>SetVolumeSoundMem</code></td></tr>
+<tr><td>3D モデル</td><td><code>MV1LoadModel</code>, <code>MV1DrawModel</code>, <code>MV1SetPosition</code>, <code>MV1AttachAnim</code></td></tr>
+<tr><td>3D カメラ</td><td><code>SetCameraNearFar</code>, <code>SetCameraPositionAndTarget_UpVecY</code></td></tr>
+</table>
+
+<h3>11.6 マクロラッパー</h3>
+
+<p><code>hspdxlib_macro.as</code> をインクルードすると、短縮名が使えます:</p>
+
+<table>
+<tr><th>マクロ名</th><th>元の関数</th></tr>
+<tr><td><code>dxinit</code></td><td><code>DxLib_Init</code></td></tr>
+<tr><td><code>dxend</code></td><td><code>DxLib_End</code></td></tr>
+<tr><td><code>dxdraw</code></td><td><code>DrawGraph</code></td></tr>
+<tr><td><code>dxflip</code></td><td><code>ScreenFlip</code></td></tr>
+<tr><td><code>dxcls</code></td><td><code>ClearDrawScreen</code></td></tr>
+<tr><td><code>dxload</code></td><td><code>LoadGraph</code></td></tr>
+<tr><td><code>dxkey</code></td><td><code>CheckHitKey</code></td></tr>
+<tr><td><code>dxcolor</code></td><td><code>GetColor</code></td></tr>
+</table>
+
+<h3>11.7 自動生成ツール</h3>
+
+<p><code>plugins/win32/hspdxlib/gen_hspdxlib.py</code> スクリプトで、DxLib の C# P/Invoke ソース（DxDLLW.cs）からヘッダファイルを自動生成できます:</p>
+
+<pre><code>python gen_hspdxlib.py DxDLLW.cs output_dir</code></pre>
+
+<p>DxLib のバージョンアップ時に新しい DxDLLW.cs を入力すれば、ヘッダを再生成可能です。</p>
+
+<h3>11.8 注意事項</h3>
+
+<ul>
+  <li><code>ClearDrawScreen</code> のデフォルトは <code>out RECT</code> 引数付き版。引数なし版は <code>ClearDrawScreen_1</code> を使用</li>
+  <li>DxLibW.dll / DxLibW_x64.dll は HSP 実行ファイルと同じフォルダに配置が必要</li>
+  <li>DxLib 3.24f (Unicode 版) を使用。DxLib のライセンスに従い配布すること</li>
+  <li>構造体を値で返す関数 (151 個) は <code>#cfuncst global VECTOR ...</code> 形式で自動宣言済み。
+      戻り値は <code>HSPVAR_FLAG_NSTRUCT</code> 型として返り、<code>v = SomeFunc()</code> だけで構造体変数にコピーされる
+      (<code>stdim</code> による事前確保も <code>dim</code> 省略もどちらも可)</li>
+</ul>
+
+<!-- ======================================== -->
+<h2 id="changelog">12. 変更履歴</h2>
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
@@ -948,6 +1546,21 @@ int/double との変換も <code>wcstol</code> / <code>swprintf</code> 等で対
 <tr><td>4/11</td><td></td><td>netlinq: LINQ操作のC#ラムダ式文字列実行 (Where, Select, OrderBy, First, Count等)</td></tr>
 <tr><td>4/11</td><td></td><td>mcall: ジェネリックメソッド型パラメータ指定 ("Method&lt;Type&gt;" 構文)</td></tr>
 <tr><td>4/11</td><td><code>d1e4fae4</code></td><td>setcallback/callbackarg: ネイティブコールバック関数ポインタ (x86 stdcall / x64 fastcall thunk動的生成)</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge">DxLib</span> hspdxlib: DxLibW ヘッダ自動生成 (2,548関数 + 901定数 + 55構造体)</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge">新機能</span> #cfuncst: 構造体を値で返す DLL 関数の安全な呼び出し (入れ子対応スタック方式バッファ)</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge">新機能</span> #field: #defstruct 内のメンバ定義ディレクティブ</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge">新機能</span> #cfuncst 構造体型連携: 自動 dim + メンバアクセス対応</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge-orange badge">整理</span> 構造体の旧式インデント記法を廃止 (<code>#field</code> 必須化)。<code>#union</code>/<code>#endunion</code> もディレクティブ化</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge">新機能</span> <code>HSPVAR_FLAG_NSTRUCT</code> 型 (= 11) を追加。構造体変数を専用変数型として確保し、代入は標準の <code>'='</code> 経路で memcpy</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge">新機能</span> <code>stdim</code> 命令: <code>NSTRUCT</code> 型での構造体変数確保 (旧 <code>structdim</code> をリネーム)</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge">新機能</span> <code>varsize(STRUCT_NAME)</code>: 構造体サイズを取得する組み込み関数 (PP 段階でリテラルに置換)</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge">新機能</span> <code>#cfuncst</code> 戻り値を <code>NSTRUCT</code> として返却。<code>v = GetCameraTarget()</code> の dim 省略を <code>strmid()</code> と同じ <code>pending_size</code> ヒント方式で実装</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge-orange badge">整理</span> <code>_struct_load</code> opcode、<code>sret_get_last_size</code> ハック、PP <code>dim→structdim</code> 自動書き換え、<code>GenerateCodeLET</code> の自動 dim 補正を削除 (NSTRUCT 化により不要)</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge">バグ修正</span> 構造体末尾アライメントを <code>min(pack, max_member_align)</code> で計算するように修正 (C ABI 互換)。<code>#defstruct VECTOR</code> が pack 指定なしでも 12 byte になる</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge">改善</span> <code>#defunion</code>/<code>#endunion</code> を <code>#defstruct</code> 内のサブ共用体ブロックにも統一。旧 <code>#union</code> 記法は廃止 (使用するとエラー)</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge">新機能</span> <code>callfuncst(prmbuf, addr, nargs, size)</code>: 構造体戻り値DLL関数の動的呼び出し (<code>callfuncd</code>/<code>callfuncf</code> と対称)</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge">改善</span> NSTRUCT 型に <code>GetBlockSize</code> コールバックを実装 (<code>varptr(struct_var)</code> 等のサポート)</td></tr>
+<tr><td>4/12</td><td></td><td><span class="badge">DxLib</span> hspdxlib.as: 166 個の関数で <code>var</code> → 構造体名 (VECTOR/MATRIX 等) に修正、7 個の <code>#defstruct</code> ブロックを追加 (構造体値渡しの ABI バグ修正)</td></tr>
 </table>
 
 <h3>64bit ビルド対応一覧</h3>
