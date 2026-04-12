@@ -1,0 +1,42 @@
+;
+;  hspcv4 sample: FreeType による日本語/絵文字対応のテキスト描画
+;
+;  cv4_freetype_create で TTF/OTF/TTC フォントを読み込み、
+;  cv4_freetype_put_text で UTF-8 文字列を画像に描画する。
+;  cv4_putText (Hershey フォント) と違って日本語や任意の Unicode 文字
+;  をなめらかに描画できる。
+;
+;  必要: hspcv4 を WITH_FREETYPE=ON でビルドしていること
+;        (build/_build_opencv_common.bat で vcpkg の freetype/harfbuzz
+;         を自動検出する)
+;
+#include "hspcv4.as"
+
+    ; --- 1. 背景画像を作る ---
+    cv4_mat_zeros 0, 240, 640, 3   ; 640 x 240, BGR
+
+    ; --- 2. システムフォントから FreeType を初期化 ---
+    ;     Windows なら以下の TTC ファイルが利用可能 (Meiryo / Yu Gothic 等):
+    ;       C:\Windows\Fonts\meiryo.ttc
+    ;       C:\Windows\Fonts\YuGothM.ttc
+    ;       C:\Windows\Fonts\msgothic.ttc
+    ;     ライセンスに注意が必要なものは再配布不可。配布パッケージに
+    ;     同梱したい場合は Noto Sans JP (SIL OFL) や IPAex Gothic
+    ;     (IPA フォントライセンス) など自由に使えるフォントを使用する。
+    cv4_freetype_create 0, "C:/Windows/Fonts/meiryo.ttc"
+    if stat { mes "freetype create FAIL stat=" + stat : end 1 }
+
+    ; --- 3. 日本語テキストを 3 段に描画 ---
+    cv4_freetype_put_text 0, 0, "hspcv4 + FreeType サンプル",     30,  60, 36,   0, 255, 255
+    cv4_freetype_put_text 0, 0, "Hello, World! 你好 안녕",         30, 110, 28, 255, 200,   0
+    cv4_freetype_put_text 0, 0, "アンチエイリアス対応 (LINE_AA)",   30, 160, 24,   0, 255,   0
+
+    ; --- 4. 保存 ---
+    cv4save 0, "out_freetype_sample.png"
+    if stat { mes "save FAIL" : end 1 }
+    mes "saved: out_freetype_sample.png"
+
+    ; --- 5. 後始末 ---
+    cv4_freetype_free 0
+    cv4del 0
+    end 0
