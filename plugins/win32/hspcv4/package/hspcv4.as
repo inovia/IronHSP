@@ -518,6 +518,13 @@
 #func global cv4_stereo_compute       cv4_stereo_compute       $202
 #func global cv4_stereo_free          cv4_stereo_free          $202
 
+; ---- xphoto (Phase 22): white balance / oil painting / BM3D ----
+; freetype は WITH_FREETYPE=OFF (FreeType/HarfBuzz 未導入) のため別途
+#func global cv4_xphoto_simple_wb     cv4_xphoto_simple_wb     $202
+#func global cv4_xphoto_grayworld_wb  cv4_xphoto_grayworld_wb  $202
+#func global cv4_xphoto_oil_painting  cv4_xphoto_oil_painting  $202
+#func global cv4_xphoto_bm3d_denoise  cv4_xphoto_bm3d_denoise  $202
+
 ; ---- calib3d full (Phase 14): camera calibration / pose estimation ----
 ; cv4_camera_matrix dst, fx, fy, cx, cy        — 3x3 K 行列を生成
 ; cv4_dist_coeffs   dst, k1, k2, p1, p2, k3    — 1x5 歪み係数 D を生成

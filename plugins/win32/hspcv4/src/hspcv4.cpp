@@ -2732,6 +2732,88 @@ CV4_EXPORT BOOL WINAPI cv4_connected_components(HSPEXINFO* hei, int p1, int p2, 
 }
 
 //============================================================================
+//  xphoto module (Phase 22): white balance / oil painting / BM3D denoising
+//============================================================================
+
+//  cv4_xphoto_simple_wb dst, src
+CV4_EXPORT BOOL WINAPI cv4_xphoto_simple_wb(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_xphoto_simple_wb: invalid src");
+        cv::Ptr<cv::xphoto::SimpleWB> wb = cv::xphoto::createSimpleWB();
+        cv::Mat dst;
+        wb->balanceWhite(*src, dst);
+        hspcv4::handle_set(dst_id, std::move(dst));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_xphoto_simple_wb: unknown"); }
+}
+
+//  cv4_xphoto_grayworld_wb dst, src
+CV4_EXPORT BOOL WINAPI cv4_xphoto_grayworld_wb(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_xphoto_grayworld_wb: invalid src");
+        cv::Ptr<cv::xphoto::GrayworldWB> wb = cv::xphoto::createGrayworldWB();
+        cv::Mat dst;
+        wb->balanceWhite(*src, dst);
+        hspcv4::handle_set(dst_id, std::move(dst));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_xphoto_grayworld_wb: unknown"); }
+}
+
+//  cv4_xphoto_oil_painting dst, src [, size=10] [, dyn_ratio=1]
+CV4_EXPORT BOOL WINAPI cv4_xphoto_oil_painting(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int size   = getint_def(10);
+        int dynr   = getint_def(1);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_xphoto_oil_painting: invalid src");
+        cv::Mat dst;
+        cv::xphoto::oilPainting(*src, dst, size, dynr);
+        hspcv4::handle_set(dst_id, std::move(dst));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_xphoto_oil_painting: unknown"); }
+}
+
+//  cv4_xphoto_bm3d_denoise dst, src [, h_x100=10] (h は実数; x100 で渡す)
+CV4_EXPORT BOOL WINAPI cv4_xphoto_bm3d_denoise(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int h_x100 = getint_def(10);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_xphoto_bm3d_denoise: invalid src");
+        cv::Mat dst;
+        cv::xphoto::bm3dDenoising(*src, dst, (float)h_x100 / 100.0f);
+        hspcv4::handle_set(dst_id, std::move(dst));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_xphoto_bm3d_denoise: unknown"); }
+}
+
+
+//============================================================================
 //  Stereo / projection (Phase 21): StereoBM / StereoSGBM / projectPoints
 //============================================================================
 

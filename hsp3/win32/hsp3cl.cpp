@@ -61,6 +61,7 @@ static HSP3DEBUG *dbginfo;
 void hsp3win_dialog( char *mes )
 {
 	printf( "%s\n", mes );
+	fflush( stdout );
 }
 
 

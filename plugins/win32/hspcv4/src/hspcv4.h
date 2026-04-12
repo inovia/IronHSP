@@ -39,6 +39,7 @@
 #include <opencv2/calib3d.hpp>
 #include <opencv2/stitching.hpp>
 #include <opencv2/face.hpp>
+#include <opencv2/xphoto.hpp>
 #pragma warning(pop)
 
 #define CV4_EXPORT extern "C" __declspec(dllexport)
