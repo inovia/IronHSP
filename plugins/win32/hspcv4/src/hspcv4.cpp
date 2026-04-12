@@ -632,6 +632,259 @@ CV4_EXPORT BOOL WINAPI cv4_writer_close(HSPEXINFO* hei, int p1, int p2, int p3)
 
 
 //============================================================================
+//  Stitching / Drawing extras / Misc
+//============================================================================
+
+// --- Stitching (パノラマ合成) ---
+
+//  cv4_stitch dst_id, img_ids_array, count
+//    HSP の int 配列に入っているハンドル ID のリストから Stitcher で
+//    パノラマ画像を合成する。count は使用する要素数 (配列の要素数ではない)。
+CV4_EXPORT BOOL WINAPI cv4_stitch(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+        pv->offset = a;
+        if (pv->flag != HSPVAR_FLAG_INT) return fail("cv4_stitch: img_ids must be int array");
+        int count = getint();
+        if (count <= 0) return fail("cv4_stitch: count must be > 0");
+
+        int arr_len = pv->len[1];
+        if (arr_len < count) return fail("cv4_stitch: array too small");
+
+        int* ids = (int*)pv->pt;
+        std::vector<cv::Mat> imgs;
+        imgs.reserve(count);
+        for (int i = 0; i < count; ++i) {
+            cv::Mat* m = hspcv4::handle_get(ids[i]);
+            if (!m || m->empty()) return fail("cv4_stitch: invalid input handle");
+            imgs.push_back(*m);
+        }
+
+        cv::Ptr<cv::Stitcher> stitcher = cv::Stitcher::create(cv::Stitcher::PANORAMA);
+        cv::Mat panorama;
+        cv::Stitcher::Status status = stitcher->stitch(imgs, panorama);
+        if (status != cv::Stitcher::OK) {
+            switch (status) {
+            case cv::Stitcher::ERR_NEED_MORE_IMGS:
+                return fail("cv4_stitch: need more images");
+            case cv::Stitcher::ERR_HOMOGRAPHY_EST_FAIL:
+                return fail("cv4_stitch: homography estimation failed");
+            case cv::Stitcher::ERR_CAMERA_PARAMS_ADJUST_FAIL:
+                return fail("cv4_stitch: camera parameter adjustment failed");
+            default:
+                return fail("cv4_stitch: stitch failed");
+            }
+        }
+        hspcv4::handle_set(dst_id, std::move(panorama));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_stitch: unknown"); }
+}
+
+// --- 描画拡張 ---
+
+//  cv4_draw_arrow id, x1, y1, x2, y2, b, g, r [, thickness=1] [, tip_len_x100=10]
+CV4_EXPORT BOOL WINAPI cv4_draw_arrow(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        int x1 = getint(); int y1 = getint();
+        int x2 = getint(); int y2 = getint();
+        int b = getint(); int g = getint(); int r = getint();
+        int thick = getint_def(1);
+        int tip_x100 = getint_def(10);
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4_draw_arrow: invalid handle");
+        cv::arrowedLine(*m, cv::Point(x1, y1), cv::Point(x2, y2),
+                        cv::Scalar(b, g, r), thick, cv::LINE_AA, 0, tip_x100 / 100.0);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_draw_arrow: unknown"); }
+}
+
+//  cv4_draw_marker id, cx, cy, b, g, r [, marker_type=0] [, size=20] [, thickness=1]
+//    marker_type: 0=CROSS, 1=TILTED_CROSS, 2=STAR, 3=DIAMOND, 4=SQUARE,
+//                 5=TRIANGLE_UP, 6=TRIANGLE_DOWN
+CV4_EXPORT BOOL WINAPI cv4_draw_marker(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        int cx = getint(); int cy = getint();
+        int b = getint(); int g = getint(); int r = getint();
+        int mtype = getint_def(0);
+        int size  = getint_def(20);
+        int thick = getint_def(1);
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4_draw_marker: invalid handle");
+        cv::drawMarker(*m, cv::Point(cx, cy), cv::Scalar(b, g, r),
+                       mtype, size, thick, cv::LINE_AA);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_draw_marker: unknown"); }
+}
+
+//  cv4_draw_ellipse id, cx, cy, rx, ry, angle, start_angle, end_angle, b, g, r [, thickness=1]
+CV4_EXPORT BOOL WINAPI cv4_draw_ellipse(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        int cx = getint(); int cy = getint();
+        int rx = getint(); int ry = getint();
+        double ang  = hei->HspFunc_prm_getdd(0.0);
+        double sang = hei->HspFunc_prm_getdd(0.0);
+        double eang = hei->HspFunc_prm_getdd(360.0);
+        int b = getint(); int g = getint(); int r = getint();
+        int thick = getint_def(1);
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4_draw_ellipse: invalid handle");
+        cv::ellipse(*m, cv::Point(cx, cy), cv::Size(rx, ry), ang, sang, eang,
+                    cv::Scalar(b, g, r), thick, cv::LINE_AA);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_draw_ellipse: unknown"); }
+}
+
+//  cv4_fill_poly id, points_array, point_count, b, g, r
+//    points_array は [x0,y0,x1,y1,...] の int 配列
+CV4_EXPORT BOOL WINAPI cv4_fill_poly(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+        pv->offset = a;
+        if (pv->flag != HSPVAR_FLAG_INT) return fail("cv4_fill_poly: points must be int array");
+        int ncount = getint();
+        int b = getint(); int g = getint(); int r = getint();
+        if (ncount <= 0) return fail("cv4_fill_poly: count must be > 0");
+        if (pv->len[1] < ncount * 2) return fail("cv4_fill_poly: array too small");
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4_fill_poly: invalid handle");
+        std::vector<cv::Point> pts;
+        pts.reserve(ncount);
+        int* src = (int*)pv->pt;
+        for (int i = 0; i < ncount; ++i) {
+            pts.emplace_back(src[i*2], src[i*2+1]);
+        }
+        std::vector<std::vector<cv::Point>> polys = { pts };
+        cv::fillPoly(*m, polys, cv::Scalar(b, g, r), cv::LINE_AA);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_fill_poly: unknown"); }
+}
+
+// --- その他ユーティリティ ---
+
+//  cv4_mat_clone dst, src
+CV4_EXPORT BOOL WINAPI cv4_mat_clone(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_mat_clone: invalid source");
+        cv::Mat out = src->clone();
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_mat_clone: unknown"); }
+}
+
+//  cv4_put_pixel id, x, y, b, g, r  (CV_8UC3 前提)
+CV4_EXPORT BOOL WINAPI cv4_put_pixel(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        int x = getint(); int y = getint();
+        int b = getint(); int g = getint(); int r = getint();
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4_put_pixel: invalid handle");
+        if (x < 0 || y < 0 || x >= m->cols || y >= m->rows) {
+            return fail("cv4_put_pixel: out of bounds");
+        }
+        if (m->channels() == 3 && m->depth() == CV_8U) {
+            auto& px = m->at<cv::Vec3b>(y, x);
+            px[0] = (uchar)b; px[1] = (uchar)g; px[2] = (uchar)r;
+        } else if (m->channels() == 1 && m->depth() == CV_8U) {
+            m->at<uchar>(y, x) = (uchar)b;
+        } else {
+            return fail("cv4_put_pixel: unsupported Mat type");
+        }
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_put_pixel: unknown"); }
+}
+
+//  cv4_get_pixel id, x, y, var_b, var_g, var_r
+CV4_EXPORT BOOL WINAPI cv4_get_pixel(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        int x = getint(); int y = getint();
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4_get_pixel: invalid handle");
+        if (x < 0 || y < 0 || x >= m->cols || y >= m->rows) {
+            return fail("cv4_get_pixel: out of bounds");
+        }
+        int vals[3] = { 0, 0, 0 };
+        if (m->channels() == 3 && m->depth() == CV_8U) {
+            auto& px = m->at<cv::Vec3b>(y, x);
+            vals[0] = px[0]; vals[1] = px[1]; vals[2] = px[2];
+        } else if (m->channels() == 1 && m->depth() == CV_8U) {
+            int v = m->at<uchar>(y, x);
+            vals[0] = vals[1] = vals[2] = v;
+        } else {
+            return fail("cv4_get_pixel: unsupported Mat type");
+        }
+        for (int i = 0; i < 3; ++i) {
+            PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+            if (pv->flag != HSPVAR_FLAG_INT) return fail("cv4_get_pixel: var must be int");
+            pv->offset = a;
+            HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+            proc->Set(pv, proc->GetPtr(pv), &vals[i]);
+        }
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_get_pixel: unknown"); }
+}
+
+//  cv4_build_version var_str
+//    OpenCV のバージョン情報を str 変数に格納
+CV4_EXPORT BOOL WINAPI cv4_build_version(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+        pv->offset = a;
+        if (pv->flag != HSPVAR_FLAG_STR) return fail("cv4_build_version: var must be str");
+        std::string ver = cv::getVersionString();
+        HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+        proc->Set(pv, proc->GetPtr(pv), (void*)ver.c_str());
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_build_version: unknown"); }
+}
+
+
+//============================================================================
 //  Imgcodecs extras : imdecode (memory buffer) / imencode + imread flags
 //============================================================================
 

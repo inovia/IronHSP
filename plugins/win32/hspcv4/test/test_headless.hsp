@@ -512,6 +512,49 @@
     if (dec_r != 240) | (dec_c != 320) : mes "imdecode size FAIL" : end 1
     mes strf("cv4_imdecode roundtrip: %dx%d ch=%d", dec_r, dec_c, dec_ch)
 
+    ; --- Phase 12: stitching / drawing extras / misc ---
+    ; 描画拡張
+    cv4_mat_clone 170, 1
+    cv4_draw_arrow   170, 10, 10, 200, 150, 0, 255, 255, 2, 15
+    cv4_draw_marker  170, 160, 120, 255, 0, 255, 0, 30, 2
+    cv4_draw_ellipse 170, 160, 120, 80, 40, 30.0, 0.0, 360.0, 0, 128, 255, 2
+    if stat : mes "cv4_draw_arrow/marker/ellipse FAIL" : end 1
+    mes "cv4_draw_arrow/marker/ellipse OK"
+
+    ; fillPoly: 三角形
+    dim tri_pts, 6
+    tri_pts(0) = 50  : tri_pts(1) = 50
+    tri_pts(2) = 200 : tri_pts(3) = 80
+    tri_pts(4) = 120 : tri_pts(5) = 200
+    cv4_fill_poly 170, tri_pts, 3, 255, 200, 100
+    if stat : mes "cv4_fill_poly FAIL" : end 1
+    mes "cv4_fill_poly OK"
+
+    ; put/get pixel
+    cv4_put_pixel 170, 10, 10, 123, 45, 67
+    cv4_get_pixel 170, 10, 10, pxb, pxg, pxr
+    if (pxb != 123) | (pxg != 45) | (pxr != 67) { mes "put/get_pixel FAIL" : end 1 }
+    mes strf("put/get pixel OK (b=%d g=%d r=%d)", pxb, pxg, pxr)
+
+    ; stitching (りんご 1 枚だけだとエラー、複数必要)
+    ; 3 枚使って動作確認 (同じ画像 3 枚はちゃんとは合成できないが API は通る想定)
+    dim stitch_ids, 3
+    stitch_ids(0) = 1
+    stitch_ids(1) = 1
+    stitch_ids(2) = 1
+    cv4_stitch 171, stitch_ids, 3
+    if stat = 0 {
+        mes "cv4_stitch OK (but same image x3 is not a real panorama)"
+    } else {
+        mes "cv4_stitch rejected same-image stitch (expected)"
+    }
+
+    ; build version
+    sdim ver_str, 256
+    cv4_build_version ver_str
+    if stat : mes "cv4_build_version FAIL" : end 1
+    mes "OpenCV version: " + ver_str
+
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---
     cv4_dnn_load 0, "nonexistent_model.onnx"
     if stat = 0 {

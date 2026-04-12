@@ -396,4 +396,20 @@
 #func global cv4_imdecode       cv4_imdecode       $202
 #func global cv4_imencode       cv4_imencode       $202
 
+; ---- stitching / panorama ----
+; img_ids_array: int 配列 (cv4 画像ハンドル ID のリスト)
+#func global cv4_stitch         cv4_stitch         $202
+
+; ---- drawing extras ----
+#func global cv4_draw_arrow     cv4_draw_arrow     $202
+#func global cv4_draw_marker    cv4_draw_marker    $202
+#func global cv4_draw_ellipse   cv4_draw_ellipse   $202
+#func global cv4_fill_poly      cv4_fill_poly      $202
+
+; ---- misc utilities ----
+#func global cv4_mat_clone      cv4_mat_clone      $202
+#func global cv4_put_pixel      cv4_put_pixel      $202
+#func global cv4_get_pixel      cv4_get_pixel      $202
+#func global cv4_build_version  cv4_build_version  $202
+
 #endif
