@@ -546,6 +546,13 @@
 #func global cv4_quality_ssim         cv4_quality_ssim         $202
 #func global cv4_plot                 cv4_plot                 $202
 
+; ---- core 拡充 (Phase 26): PCA / SVD / dft / dct / kmeans ----
+#func global cv4_dft                  cv4_dft                  $202
+#func global cv4_dct                  cv4_dct                  $202
+#func global cv4_kmeans               cv4_kmeans               $202
+#func global cv4_pca_compute          cv4_pca_compute          $202
+#func global cv4_svd_compute          cv4_svd_compute          $202
+
 ; ---- calib3d full (Phase 14): camera calibration / pose estimation ----
 ; cv4_camera_matrix dst, fx, fy, cx, cy        — 3x3 K 行列を生成
 ; cv4_dist_coeffs   dst, k1, k2, p1, p2, k3    — 1x5 歪み係数 D を生成

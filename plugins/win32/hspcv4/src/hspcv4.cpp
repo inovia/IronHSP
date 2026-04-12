@@ -2734,6 +2734,119 @@ CV4_EXPORT BOOL WINAPI cv4_connected_components(HSPEXINFO* hei, int p1, int p2, 
 }
 
 //============================================================================
+//  core 拡充 (Phase 26): PCA / SVD / dft / dct / kmeans
+//============================================================================
+
+//  cv4_dft dst, src [, flags=0]
+CV4_EXPORT BOOL WINAPI cv4_dft(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int flags  = getint_def(0);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_dft: invalid src");
+        cv::Mat dst;
+        cv::dft(*src, dst, flags);
+        hspcv4::handle_set(dst_id, std::move(dst));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_dft: unknown"); }
+}
+
+//  cv4_dct dst, src [, flags=0]
+CV4_EXPORT BOOL WINAPI cv4_dct(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int flags  = getint_def(0);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_dct: invalid src");
+        cv::Mat dst;
+        cv::dct(*src, dst, flags);
+        hspcv4::handle_set(dst_id, std::move(dst));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_dct: unknown"); }
+}
+
+//  cv4_kmeans labels_id, data_id, K, max_iter, attempts [, centers_id=-1]
+CV4_EXPORT BOOL WINAPI cv4_kmeans(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int labels_id  = getint();
+        int data_id    = getint();
+        int K          = getint();
+        int max_iter   = getint_def(10);
+        int attempts   = getint_def(3);
+        int centers_id = getint_def(-1);
+        cv::Mat* data = hspcv4::handle_get(data_id);
+        if (!data || data->empty()) return fail("cv4_kmeans: invalid data");
+        cv::Mat labels, centers;
+        cv::TermCriteria tc(cv::TermCriteria::EPS + cv::TermCriteria::MAX_ITER,
+                            max_iter, 1.0);
+        cv::kmeans(*data, K, labels, tc, attempts, cv::KMEANS_PP_CENTERS, centers);
+        hspcv4::handle_set(labels_id, std::move(labels));
+        if (centers_id >= 0) hspcv4::handle_set(centers_id, std::move(centers));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_kmeans: unknown"); }
+}
+
+//  cv4_pca_compute mean_id, eigenvecs_id, eigenvals_id, data_id [, max_components=0]
+CV4_EXPORT BOOL WINAPI cv4_pca_compute(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int mean_id  = getint();
+        int evec_id  = getint();
+        int eval_id  = getint();
+        int data_id  = getint();
+        int max_comp = getint_def(0);
+        cv::Mat* data = hspcv4::handle_get(data_id);
+        if (!data || data->empty()) return fail("cv4_pca_compute: invalid data");
+        cv::PCA pca(*data, cv::Mat(), cv::PCA::DATA_AS_ROW, max_comp);
+        hspcv4::handle_set(mean_id, pca.mean.clone());
+        hspcv4::handle_set(evec_id, pca.eigenvectors.clone());
+        hspcv4::handle_set(eval_id, pca.eigenvalues.clone());
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_pca_compute: unknown"); }
+}
+
+//  cv4_svd_compute u_id, w_id, vt_id, src_id [, flags=0]
+CV4_EXPORT BOOL WINAPI cv4_svd_compute(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int u_id   = getint();
+        int w_id   = getint();
+        int vt_id  = getint();
+        int src_id = getint();
+        int flags  = getint_def(0);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_svd_compute: invalid src");
+        cv::Mat u, w, vt;
+        cv::SVD::compute(*src, w, u, vt, flags);
+        hspcv4::handle_set(u_id, std::move(u));
+        hspcv4::handle_set(w_id, std::move(w));
+        hspcv4::handle_set(vt_id, std::move(vt));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_svd_compute: unknown"); }
+}
+
+
+//============================================================================
 //  Phase 25: wechat_qrcode + quality + plot
 //   text/OCR (Tesseract 依存) と saliency は別タスクへ繰り延べ。
 //============================================================================
