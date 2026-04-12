@@ -31,6 +31,7 @@
 #include <opencv2/objdetect.hpp>
 #include <opencv2/videoio.hpp>
 #include <opencv2/dnn.hpp>
+#include <opencv2/features2d.hpp>
 #pragma warning(pop)
 
 #define CV4_EXPORT extern "C" __declspec(dllexport)
@@ -95,6 +96,20 @@ bool contours_set(int id, ContourSet&& cs);
 ContourSet* contours_get(int id);
 void contours_free(int id);
 void contours_clear_all();
+
+// Keypoint set: std::vector<cv::KeyPoint>
+using KeyPointSet = std::vector<cv::KeyPoint>;
+bool kps_set(int id, KeyPointSet&& kps);
+KeyPointSet* kps_get(int id);
+void kps_free(int id);
+void kps_clear_all();
+
+// DMatch set: std::vector<cv::DMatch>
+using MatchSet = std::vector<cv::DMatch>;
+bool matches_set(int id, MatchSet&& ms);
+MatchSet* matches_get(int id);
+void matches_free(int id);
+void matches_clear_all();
 
 //---------------------------------------------------------------------------
 // Last error message (for future cv4_getlasterror if needed)

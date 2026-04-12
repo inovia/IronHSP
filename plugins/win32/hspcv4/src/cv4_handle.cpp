@@ -21,6 +21,8 @@ std::unordered_map<int, std::unique_ptr<cv::VideoCapture>> g_captures;
 std::unordered_map<int, std::unique_ptr<cv::VideoWriter>> g_writers;
 std::unordered_map<int, std::unique_ptr<cv::dnn::Net>> g_nets;
 std::unordered_map<int, std::unique_ptr<ContourSet>> g_contours;
+std::unordered_map<int, std::unique_ptr<KeyPointSet>> g_kps;
+std::unordered_map<int, std::unique_ptr<MatchSet>> g_matches;
 std::mutex g_mutex;
 int g_next_id = 0;
 std::string g_last_error;
@@ -198,6 +200,54 @@ void contours_clear_all()
 {
     std::lock_guard<std::mutex> lock(g_mutex);
     g_contours.clear();
+}
+
+bool kps_set(int id, KeyPointSet&& kps)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_kps[id] = std::make_unique<KeyPointSet>(std::move(kps));
+    return true;
+}
+KeyPointSet* kps_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_kps.find(id);
+    if (it == g_kps.end()) return nullptr;
+    return it->second.get();
+}
+void kps_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_kps.erase(id);
+}
+void kps_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_kps.clear();
+}
+
+bool matches_set(int id, MatchSet&& ms)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_matches[id] = std::make_unique<MatchSet>(std::move(ms));
+    return true;
+}
+MatchSet* matches_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_matches.find(id);
+    if (it == g_matches.end()) return nullptr;
+    return it->second.get();
+}
+void matches_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_matches.erase(id);
+}
+void matches_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_matches.clear();
 }
 
 void set_last_error(const char* msg)

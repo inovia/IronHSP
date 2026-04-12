@@ -340,6 +340,65 @@
     cv4_contours_free 80
     cv4_contours_free 81
 
+    ; --- Phase 6: features2d ---
+    ; ORB 検出 (ID 90=kp, 91=desc)
+    cv4_orb_detect_compute 90, 91, 1, 200
+    if stat : mes "cv4_orb_detect_compute FAIL" : end 1
+    cv4_kp_count 90, n_kp
+    mes strf("cv4_orb_detect_compute: %d keypoints", n_kp)
+    if n_kp > 0 {
+        cv4_kp_get 90, 0, kpx, kpy, kps_size, kpang, kpres
+        mes strf("  kp[0]: pos=(%d,%d x10) size=%d angle=%d", kpx, kpy, kps_size, kpang)
+    }
+
+    ; AKAZE
+    cv4_akaze_detect_compute 92, 93, 1
+    if stat : mes "cv4_akaze_detect_compute FAIL" : end 1
+    cv4_kp_count 92, n_ak
+    mes strf("cv4_akaze: %d keypoints", n_ak)
+
+    ; SIFT
+    cv4_sift_detect_compute 94, 95, 1, 0
+    if stat : mes "cv4_sift_detect_compute FAIL" : end 1
+    cv4_kp_count 94, n_sf
+    mes strf("cv4_sift: %d keypoints", n_sf)
+
+    ; goodFeaturesToTrack
+    cv4_good_features_to_track 96, 1, 100, 0.01, 10.0
+    if stat : mes "cv4_good_features_to_track FAIL" : end 1
+    cv4_kp_count 96, n_gf
+    mes strf("cv4_good_features_to_track: %d corners", n_gf)
+
+    ; Harris
+    cv4_corner_harris 97, 1, 2, 3, 0.04
+    if stat : mes "cv4_corner_harris FAIL" : end 1
+    mes "cv4_corner_harris OK"
+
+    ; BFMatcher (自己マッチで完璧な一致)
+    cv4_bf_match 98, 91, 91, CV4_NORM_HAMMING
+    if stat : mes "cv4_bf_match FAIL" : end 1
+    cv4_match_count 98, n_mt
+    mes strf("cv4_bf_match self: %d matches", n_mt)
+    if n_mt > 0 {
+        cv4_match_get 98, 0, mq, mt, md
+        mes strf("  match[0]: query=%d train=%d dist=%d", mq, mt, md)
+    }
+
+    ; 描画
+    cv4_draw_keypoints 99, 1, 90, 0
+    if stat : mes "cv4_draw_keypoints FAIL" : end 1
+    mes "cv4_draw_keypoints OK"
+
+    cv4_draw_matches 100, 1, 90, 1, 90, 98
+    if stat : mes "cv4_draw_matches FAIL" : end 1
+    mes "cv4_draw_matches OK"
+
+    cv4_kp_free 90
+    cv4_kp_free 92
+    cv4_kp_free 94
+    cv4_kp_free 96
+    cv4_match_free 98
+
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---
     cv4_dnn_load 0, "nonexistent_model.onnx"
     if stat = 0 {
@@ -371,6 +430,9 @@
     cv4del 80
     cv4del 81
     cv4del 82
+    repeat 11
+        cv4del 91 + cnt
+    loop
     cv4reset
     mes "cv4del/cv4reset OK"
 

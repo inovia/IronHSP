@@ -17,6 +17,11 @@
 #define global CV4_BGR2BGRA    0
 #define global CV4_BGRA2BGR    1
 
+; --- norm types for matchers (cv4_bf_match 第4引数) ---
+;  NORM_L1 / NORM_L2 は cv4_normalize で定義済みのものを流用
+#define global CV4_NORM_HAMMING       6
+#define global CV4_NORM_HAMMING2      7
+
 ; --- findContours retrieval mode (cv4_find_contours 第3引数) ---
 #define global CV4_RETR_EXTERNAL 0
 #define global CV4_RETR_LIST     1
@@ -320,5 +325,24 @@
 #func global cv4_contour_size         cv4_contour_size         $202
 #func global cv4_contour_point        cv4_contour_point        $202
 #func global cv4_moments              cv4_moments              $202
+
+; ---- features2d : ORB / AKAZE / SIFT / matchers ----
+; 検出器はキーポイント + 記述子をハンドルとして返す。
+; キーポイントは cv4_kp_count / cv4_kp_get で、マッチは
+; cv4_match_count / cv4_match_get で HSP 側から反復する。
+#func global cv4_orb_detect_compute   cv4_orb_detect_compute   $202
+#func global cv4_akaze_detect_compute cv4_akaze_detect_compute $202
+#func global cv4_sift_detect_compute  cv4_sift_detect_compute  $202
+#func global cv4_good_features_to_track cv4_good_features_to_track $202
+#func global cv4_corner_harris        cv4_corner_harris        $202
+#func global cv4_bf_match             cv4_bf_match             $202
+#func global cv4_kp_free              cv4_kp_free              $202
+#func global cv4_kp_count             cv4_kp_count             $202
+#func global cv4_kp_get               cv4_kp_get               $202
+#func global cv4_match_free           cv4_match_free           $202
+#func global cv4_match_count          cv4_match_count          $202
+#func global cv4_match_get            cv4_match_get            $202
+#func global cv4_draw_keypoints       cv4_draw_keypoints       $202
+#func global cv4_draw_matches         cv4_draw_matches         $202
 
 #endif

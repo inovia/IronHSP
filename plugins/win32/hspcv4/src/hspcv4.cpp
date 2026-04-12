@@ -57,6 +57,8 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
         hspcv4::writer_clear_all();
         hspcv4::dnn_clear_all();
         hspcv4::contours_clear_all();
+        hspcv4::kps_clear_all();
+        hspcv4::matches_clear_all();
         cv::destroyAllWindows();
     }
     return TRUE;
@@ -978,6 +980,339 @@ CV4_EXPORT BOOL WINAPI cv4warp(HSPEXINFO* hei, int p1, int p2, int p3)
     } catch (...) {
         return fail("cv4warp: unknown exception");
     }
+}
+
+
+//============================================================================
+//  Features2D : ORB / AKAZE / SIFT / keypoint detection / descriptor matching
+//============================================================================
+
+// --- 検出器 (ORB/AKAZE/SIFT は detectAndCompute で一括) ---
+
+//  cv4_orb_detect_compute kp_id, desc_id, img_id [, nfeatures=500]
+CV4_EXPORT BOOL WINAPI cv4_orb_detect_compute(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int kp_id   = getint();
+        int desc_id = getint();
+        int img_id  = getint();
+        int nfeat   = getint_def(500);
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_orb_detect_compute: invalid image");
+        cv::Mat gray = (img->channels() == 1) ? *img : cv::Mat();
+        if (gray.empty()) cv::cvtColor(*img, gray, cv::COLOR_BGR2GRAY);
+        auto orb = cv::ORB::create(nfeat);
+        hspcv4::KeyPointSet kps;
+        cv::Mat desc;
+        orb->detectAndCompute(gray, cv::noArray(), kps, desc);
+        hspcv4::kps_set(kp_id, std::move(kps));
+        hspcv4::handle_set(desc_id, std::move(desc));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_orb_detect_compute: unknown"); }
+}
+
+//  cv4_akaze_detect_compute kp_id, desc_id, img_id
+CV4_EXPORT BOOL WINAPI cv4_akaze_detect_compute(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int kp_id   = getint();
+        int desc_id = getint();
+        int img_id  = getint();
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_akaze_detect_compute: invalid image");
+        cv::Mat gray = (img->channels() == 1) ? *img : cv::Mat();
+        if (gray.empty()) cv::cvtColor(*img, gray, cv::COLOR_BGR2GRAY);
+        auto akaze = cv::AKAZE::create();
+        hspcv4::KeyPointSet kps;
+        cv::Mat desc;
+        akaze->detectAndCompute(gray, cv::noArray(), kps, desc);
+        hspcv4::kps_set(kp_id, std::move(kps));
+        hspcv4::handle_set(desc_id, std::move(desc));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_akaze_detect_compute: unknown"); }
+}
+
+//  cv4_sift_detect_compute kp_id, desc_id, img_id [, nfeatures=0]
+CV4_EXPORT BOOL WINAPI cv4_sift_detect_compute(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int kp_id   = getint();
+        int desc_id = getint();
+        int img_id  = getint();
+        int nfeat   = getint_def(0);
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_sift_detect_compute: invalid image");
+        cv::Mat gray = (img->channels() == 1) ? *img : cv::Mat();
+        if (gray.empty()) cv::cvtColor(*img, gray, cv::COLOR_BGR2GRAY);
+        auto sift = cv::SIFT::create(nfeat);
+        hspcv4::KeyPointSet kps;
+        cv::Mat desc;
+        sift->detectAndCompute(gray, cv::noArray(), kps, desc);
+        hspcv4::kps_set(kp_id, std::move(kps));
+        hspcv4::handle_set(desc_id, std::move(desc));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_sift_detect_compute: unknown"); }
+}
+
+//  cv4_good_features_to_track kp_id, img_id, max_corners, quality, min_distance
+CV4_EXPORT BOOL WINAPI cv4_good_features_to_track(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int kp_id     = getint();
+        int img_id    = getint();
+        int max_c     = getint_def(100);
+        double qlevel = hei->HspFunc_prm_getdd(0.01);
+        double mindis = hei->HspFunc_prm_getdd(10.0);
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_good_features_to_track: invalid image");
+        cv::Mat gray = (img->channels() == 1) ? *img : cv::Mat();
+        if (gray.empty()) cv::cvtColor(*img, gray, cv::COLOR_BGR2GRAY);
+        std::vector<cv::Point2f> corners;
+        cv::goodFeaturesToTrack(gray, corners, max_c, qlevel, mindis);
+        hspcv4::KeyPointSet kps;
+        kps.reserve(corners.size());
+        for (auto& p : corners) kps.emplace_back(p, 5.0f);
+        hspcv4::kps_set(kp_id, std::move(kps));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_good_features_to_track: unknown"); }
+}
+
+//  cv4_corner_harris dst, src, block_size, ksize, k
+CV4_EXPORT BOOL WINAPI cv4_corner_harris(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int block  = getint_def(2);
+        int ksize  = getint_def(3);
+        double k   = hei->HspFunc_prm_getdd(0.04);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_corner_harris: invalid source");
+        cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
+        if (gray.empty()) cv::cvtColor(*src, gray, cv::COLOR_BGR2GRAY);
+        cv::Mat out;
+        cv::cornerHarris(gray, out, block, ksize, k);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_corner_harris: unknown"); }
+}
+
+// --- マッチング ---
+
+//  cv4_bf_match match_id, desc1_id, desc2_id [, norm_type=NORM_HAMMING]
+//    norm_type: 4=NORM_L2, 5=NORM_L1, 6=NORM_HAMMING, 7=NORM_HAMMING2
+//    ORB/AKAZE は Hamming、SIFT は L2 を使う。
+CV4_EXPORT BOOL WINAPI cv4_bf_match(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int match_id = getint();
+        int d1_id    = getint();
+        int d2_id    = getint();
+        int nt       = getint_def(cv::NORM_HAMMING);
+        cv::Mat* d1 = hspcv4::handle_get(d1_id);
+        cv::Mat* d2 = hspcv4::handle_get(d2_id);
+        if (!d1 || !d2 || d1->empty() || d2->empty())
+            return fail("cv4_bf_match: invalid descriptors");
+        cv::BFMatcher matcher(nt, true);  // crossCheck=true
+        hspcv4::MatchSet ms;
+        matcher.match(*d1, *d2, ms);
+        hspcv4::matches_set(match_id, std::move(ms));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_bf_match: unknown"); }
+}
+
+// --- キーポイント/マッチ アクセッサ ---
+
+//  cv4_kp_free kp_id
+CV4_EXPORT BOOL WINAPI cv4_kp_free(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int id = getint();
+    hspcv4::kps_free(id);
+    return 0;
+}
+
+//  cv4_kp_count kp_id, var_n
+CV4_EXPORT BOOL WINAPI cv4_kp_count(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+        if (pv->flag != HSPVAR_FLAG_INT) return fail("cv4_kp_count: var must be int");
+        pv->offset = a;
+        auto* kps = hspcv4::kps_get(id);
+        if (!kps) return fail("cv4_kp_count: invalid kp set");
+        int n = (int)kps->size();
+        HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+        proc->Set(pv, proc->GetPtr(pv), &n);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_kp_count: unknown"); }
+}
+
+//  cv4_kp_get kp_id, idx, var_x_x10, var_y_x10, var_size_x10, var_angle_x100, var_response_x10000
+CV4_EXPORT BOOL WINAPI cv4_kp_get(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id  = getint();
+        int idx = getint();
+        auto* kps = hspcv4::kps_get(id);
+        if (!kps || idx < 0 || idx >= (int)kps->size())
+            return fail("cv4_kp_get: out of range");
+        const auto& kp = (*kps)[idx];
+        int vals[5] = {
+            (int)(kp.pt.x * 10.0f),
+            (int)(kp.pt.y * 10.0f),
+            (int)(kp.size * 10.0f),
+            (int)(kp.angle * 100.0f),
+            (int)(kp.response * 10000.0f)
+        };
+        for (int i = 0; i < 5; ++i) {
+            PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+            if (pv->flag != HSPVAR_FLAG_INT) return fail("cv4_kp_get: var must be int");
+            pv->offset = a;
+            HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+            proc->Set(pv, proc->GetPtr(pv), &vals[i]);
+        }
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_kp_get: unknown"); }
+}
+
+//  cv4_match_free match_id
+CV4_EXPORT BOOL WINAPI cv4_match_free(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int id = getint();
+    hspcv4::matches_free(id);
+    return 0;
+}
+
+//  cv4_match_count match_id, var_n
+CV4_EXPORT BOOL WINAPI cv4_match_count(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+        if (pv->flag != HSPVAR_FLAG_INT) return fail("cv4_match_count: var must be int");
+        pv->offset = a;
+        auto* ms = hspcv4::matches_get(id);
+        if (!ms) return fail("cv4_match_count: invalid match set");
+        int n = (int)ms->size();
+        HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+        proc->Set(pv, proc->GetPtr(pv), &n);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_match_count: unknown"); }
+}
+
+//  cv4_match_get match_id, idx, var_query, var_train, var_distance_x10000
+CV4_EXPORT BOOL WINAPI cv4_match_get(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id  = getint();
+        int idx = getint();
+        auto* ms = hspcv4::matches_get(id);
+        if (!ms || idx < 0 || idx >= (int)ms->size())
+            return fail("cv4_match_get: out of range");
+        const auto& m = (*ms)[idx];
+        int vals[3] = {
+            m.queryIdx,
+            m.trainIdx,
+            (int)(m.distance * 10000.0f)
+        };
+        for (int i = 0; i < 3; ++i) {
+            PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+            if (pv->flag != HSPVAR_FLAG_INT) return fail("cv4_match_get: var must be int");
+            pv->offset = a;
+            HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+            proc->Set(pv, proc->GetPtr(pv), &vals[i]);
+        }
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_match_get: unknown"); }
+}
+
+// --- 描画 ---
+
+//  cv4_draw_keypoints dst, src, kp_id [, flags=0]
+CV4_EXPORT BOOL WINAPI cv4_draw_keypoints(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int kp_id  = getint();
+        int flags  = getint_def(0);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_draw_keypoints: invalid source");
+        auto* kps = hspcv4::kps_get(kp_id);
+        if (!kps) return fail("cv4_draw_keypoints: invalid kp set");
+        cv::Mat out;
+        cv::drawKeypoints(*src, *kps, out, cv::Scalar::all(-1),
+                          (cv::DrawMatchesFlags)flags);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_draw_keypoints: unknown"); }
+}
+
+//  cv4_draw_matches dst, img1, kp1, img2, kp2, match_id
+CV4_EXPORT BOOL WINAPI cv4_draw_matches(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id   = getint();
+        int img1_id  = getint();
+        int kp1_id   = getint();
+        int img2_id  = getint();
+        int kp2_id   = getint();
+        int match_id = getint();
+        cv::Mat* img1 = hspcv4::handle_get(img1_id);
+        cv::Mat* img2 = hspcv4::handle_get(img2_id);
+        auto* kp1 = hspcv4::kps_get(kp1_id);
+        auto* kp2 = hspcv4::kps_get(kp2_id);
+        auto* ms  = hspcv4::matches_get(match_id);
+        if (!img1 || !img2 || img1->empty() || img2->empty())
+            return fail("cv4_draw_matches: invalid images");
+        if (!kp1 || !kp2 || !ms)
+            return fail("cv4_draw_matches: invalid kp/match sets");
+        cv::Mat out;
+        cv::drawMatches(*img1, *kp1, *img2, *kp2, *ms, out);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_draw_matches: unknown"); }
 }
 
 
