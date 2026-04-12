@@ -405,6 +405,22 @@
 #func global cv4_get_perspective_transform  cv4_get_perspective_transform  $202
 #func global cv4_get_affine_transform       cv4_get_affine_transform       $202
 
+; ---- calib3d full (Phase 14): camera calibration / pose estimation ----
+; cv4_camera_matrix dst, fx, fy, cx, cy        — 3x3 K 行列を生成
+; cv4_dist_coeffs   dst, k1, k2, p1, p2, k3    — 1x5 歪み係数 D を生成
+; cv4_undistort     dst, src, K, D             — 歪み補正
+; cv4_rodrigues     dst, src                   — 回転ベクトル <-> 回転行列
+; cv4_solve_pnp     rvec, tvec, obj_pts, img_pts, K, D [, flags=0]
+; cv4_project_points img_pts, obj_pts, rvec, tvec, K, D
+; cv4_find_chessboard_corners corners, img, w, h
+#func global cv4_camera_matrix           cv4_camera_matrix           $202
+#func global cv4_dist_coeffs             cv4_dist_coeffs             $202
+#func global cv4_undistort               cv4_undistort               $202
+#func global cv4_rodrigues               cv4_rodrigues               $202
+#func global cv4_solve_pnp               cv4_solve_pnp               $202
+#func global cv4_project_points          cv4_project_points          $202
+#func global cv4_find_chessboard_corners cv4_find_chessboard_corners $202
+
 ; ---- objdetect extras : HOG + QR code ----
 #func global cv4_hog_detect_people  cv4_hog_detect_people  $202
 #func global cv4_qr_detect          cv4_qr_detect          $202

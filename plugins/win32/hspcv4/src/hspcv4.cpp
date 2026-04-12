@@ -2046,6 +2046,190 @@ CV4_EXPORT BOOL WINAPI cv4_get_affine_transform(HSPEXINFO* hei, int p1, int p2, 
 
 
 //============================================================================
+//  Calib3D extras (Phase 14): undistort / rodrigues / camera matrix etc.
+//============================================================================
+
+//  cv4_camera_matrix dst_id, fx, fy, cx, cy
+//    3x3 カメラ内部行列を生成: [[fx,0,cx],[0,fy,cy],[0,0,1]]
+CV4_EXPORT BOOL WINAPI cv4_camera_matrix(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        double fx  = hei->HspFunc_prm_getdd(0.0);
+        double fy  = hei->HspFunc_prm_getdd(0.0);
+        double cx  = hei->HspFunc_prm_getdd(0.0);
+        double cy  = hei->HspFunc_prm_getdd(0.0);
+        cv::Mat K = (cv::Mat_<double>(3, 3) <<
+            fx, 0,  cx,
+            0,  fy, cy,
+            0,  0,  1);
+        hspcv4::handle_set(dst_id, std::move(K));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_camera_matrix: unknown"); }
+}
+
+//  cv4_dist_coeffs dst_id, k1, k2, p1, p2, k3
+//    5 要素の歪み係数ベクトル [k1, k2, p1, p2, k3] を作成
+CV4_EXPORT BOOL WINAPI cv4_dist_coeffs(HSPEXINFO* hei, int p1_, int p2_, int p3)
+{
+    (void)p1_; (void)p2_; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        double k1 = hei->HspFunc_prm_getdd(0.0);
+        double k2 = hei->HspFunc_prm_getdd(0.0);
+        double pp1 = hei->HspFunc_prm_getdd(0.0);
+        double pp2 = hei->HspFunc_prm_getdd(0.0);
+        double k3 = hei->HspFunc_prm_getdd(0.0);
+        cv::Mat D = (cv::Mat_<double>(1, 5) << k1, k2, pp1, pp2, k3);
+        hspcv4::handle_set(dst_id, std::move(D));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_dist_coeffs: unknown"); }
+}
+
+//  cv4_undistort dst_id, src_id, K_id, D_id
+CV4_EXPORT BOOL WINAPI cv4_undistort(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int K_id   = getint();
+        int D_id   = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        cv::Mat* K   = hspcv4::handle_get(K_id);
+        cv::Mat* D   = hspcv4::handle_get(D_id);
+        if (!src || src->empty()) return fail("cv4_undistort: invalid source");
+        if (!K || K->empty()) return fail("cv4_undistort: invalid K");
+        if (!D || D->empty()) return fail("cv4_undistort: invalid D");
+        cv::Mat out;
+        cv::undistort(*src, out, *K, *D);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_undistort: unknown"); }
+}
+
+//  cv4_rodrigues dst_id, src_id
+//    入力 3x1 (or 1x3) ベクトル → 3x3 回転行列、または逆方向
+//    入力が float/double でなければ自動で CV_64F に変換する
+CV4_EXPORT BOOL WINAPI cv4_rodrigues(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_rodrigues: invalid source");
+        cv::Mat in_f;
+        if (src->depth() == CV_32F || src->depth() == CV_64F) {
+            in_f = *src;
+        } else {
+            src->convertTo(in_f, CV_64F);
+        }
+        cv::Mat out;
+        cv::Rodrigues(in_f, out);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_rodrigues: unknown"); }
+}
+
+//  cv4_solve_pnp rvec_id, tvec_id, obj_pts_id, img_pts_id, K_id, D_id [, flags=ITERATIVE(0)]
+CV4_EXPORT BOOL WINAPI cv4_solve_pnp(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int rvec_id = getint();
+        int tvec_id = getint();
+        int obj_id  = getint();
+        int img_id  = getint();
+        int K_id    = getint();
+        int D_id    = getint();
+        int flags   = getint_def(0);
+        cv::Mat* obj = hspcv4::handle_get(obj_id);
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        cv::Mat* K   = hspcv4::handle_get(K_id);
+        cv::Mat* D   = hspcv4::handle_get(D_id);
+        if (!obj || !img || !K || !D ||
+            obj->empty() || img->empty() || K->empty() || D->empty())
+            return fail("cv4_solve_pnp: invalid inputs");
+        cv::Mat rvec, tvec;
+        bool ok = cv::solvePnP(*obj, *img, *K, *D, rvec, tvec, false, flags);
+        if (!ok) return fail("cv4_solve_pnp: solvePnP returned false");
+        hspcv4::handle_set(rvec_id, std::move(rvec));
+        hspcv4::handle_set(tvec_id, std::move(tvec));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_solve_pnp: unknown"); }
+}
+
+//  cv4_project_points img_pts_id, obj_pts_id, rvec_id, tvec_id, K_id, D_id
+CV4_EXPORT BOOL WINAPI cv4_project_points(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int img_id  = getint();
+        int obj_id  = getint();
+        int rvec_id = getint();
+        int tvec_id = getint();
+        int K_id    = getint();
+        int D_id    = getint();
+        cv::Mat* obj  = hspcv4::handle_get(obj_id);
+        cv::Mat* rvec = hspcv4::handle_get(rvec_id);
+        cv::Mat* tvec = hspcv4::handle_get(tvec_id);
+        cv::Mat* K    = hspcv4::handle_get(K_id);
+        cv::Mat* D    = hspcv4::handle_get(D_id);
+        if (!obj || !rvec || !tvec || !K || !D ||
+            obj->empty() || rvec->empty() || tvec->empty() || K->empty() || D->empty())
+            return fail("cv4_project_points: invalid inputs");
+        cv::Mat out;
+        cv::projectPoints(*obj, *rvec, *tvec, *K, *D, out);
+        hspcv4::handle_set(img_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_project_points: unknown"); }
+}
+
+//  cv4_find_chessboard_corners corners_id, img_id, w, h
+//    チェスボード w x h の内側コーナー検出
+CV4_EXPORT BOOL WINAPI cv4_find_chessboard_corners(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int corners_id = getint();
+        int img_id     = getint();
+        int w          = getint();
+        int h          = getint();
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_find_chessboard_corners: invalid image");
+        cv::Mat gray = (img->channels() == 1) ? *img : cv::Mat();
+        if (gray.empty()) cv::cvtColor(*img, gray, cv::COLOR_BGR2GRAY);
+        std::vector<cv::Point2f> corners;
+        bool found = cv::findChessboardCorners(gray, cv::Size(w, h), corners);
+        if (!found) return fail("cv4_find_chessboard_corners: not found");
+        cv::Mat out((int)corners.size(), 2, CV_32F);
+        for (size_t i = 0; i < corners.size(); ++i) {
+            out.at<float>((int)i, 0) = corners[i].x;
+            out.at<float>((int)i, 1) = corners[i].y;
+        }
+        hspcv4::handle_set(corners_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_find_chessboard_corners: unknown"); }
+}
+
+
+//============================================================================
 //  Video : optical flow / background subtraction / trackers
 //============================================================================
 
