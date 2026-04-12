@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>hspcv4 ビルド手順</title>
+<style>
+body { font-family: "Meiryo", sans-serif; max-width: 900px; margin: 2em auto; padding: 0 1em; line-height: 1.6; color: #222; }
+h1 { border-bottom: 3px solid #2a7; padding-bottom: 0.3em; }
+h2 { border-bottom: 1px solid #ccc; padding-bottom: 0.2em; margin-top: 2em; }
+code, pre { background: #f4f4f4; font-family: Consolas, monospace; }
+pre { padding: 0.8em; border-left: 4px solid #2a7; overflow-x: auto; }
+code { padding: 0.1em 0.3em; }
+table { border-collapse: collapse; margin: 1em 0; }
+th, td { border: 1px solid #aaa; padding: 0.4em 0.8em; }
+th { background: #eef; }
+.note { background: #fffbe8; border-left: 4px solid #f90; padding: 0.6em 1em; margin: 1em 0; }
+.warn { background: #ffe8e8; border-left: 4px solid #c33; padding: 0.6em 1em; margin: 1em 0; }
+</style>
+</head>
+<body>
+
+<h1>hspcv4 ビルド手順</h1>
+
+<p>
+hspcv4 は OpenCV 4.x の機能を HSP から利用するためのプラグインです。
+OpenCV 本体は配布リポジトリに含まれず、<strong>ビルドバッチが実行時に
+GitHub から自動ダウンロードします</strong>。本書はビルド手順と内部の動作を
+記した開発者向けドキュメントです。
+</p>
+
+<h2>1. 必要な環境</h2>
+
+<ul>
+<li><strong>Windows 10 (build 17063+) 以降</strong> &mdash; curl と tar/PowerShell Expand-Archive が標準搭載</li>
+<li><strong>Visual Studio 2022 Community 以上</strong>
+    <ul>
+    <li>ワークロード: 「C++ によるデスクトップ開発」</li>
+    <li>個別コンポーネント: 「Windows 用 C++ CMake ツール」</li>
+    </ul>
+</li>
+<li>インターネット接続 (初回のみ、OpenCV ソース取得のため)</li>
+<li>空きディスク容量: 約 <strong>8 GB</strong> (ソース ~1GB、Debug 用中間生成物含めると x86/x64 合計でこのくらい)</li>
+</ul>
+
+<div class="note">
+Visual Studio のインストールパスは <code>vswhere.exe</code> で自動検出されます。
+標準的な Community 以上なら追加設定は不要です。
+</div>
+
+<h2>2. クイックスタート</h2>
+
+<p>最短ルート:</p>
+
+<pre>cd plugins\win32\hspcv4\build
+build_all.bat
+</pre>
+
+<p>これだけで以下が順に実行されます:</p>
+
+<ol>
+<li><code>setup_opencv.bat</code> &mdash; OpenCV 4.12.0 の zip を curl で取得し、<code>third_party\opencv-4.12.0\</code> に展開</li>
+<li><code>build_opencv_64.bat</code> &mdash; x64 版を cmake + msbuild で静的ビルド</li>
+<li><code>build_opencv_32.bat</code> &mdash; Win32 版を同様にビルド</li>
+</ol>
+
+<p>初回は 30〜60 分程度かかります。2 回目以降は成果物が残っていればスキップされます。</p>
+
+<h2>3. ディレクトリ構成</h2>
+
+<pre>plugins\win32\hspcv4\
+├─ README.md
+├─ .gitignore                  third_party/ と build 生成物を除外
+├─ build\
+│  ├─ setup_opencv.bat         OpenCV ソース DL + 展開 (冪等)
+│  ├─ build_opencv_32.bat      Win32 ビルドドライバ
+│  ├─ build_opencv_64.bat      x64 ビルドドライバ
+│  ├─ build_all.bat            上記 3 つを順に実行
+│  ├─ _build_opencv_common.bat 内部用 (cmake/msbuild 呼び出し本体)
+│  ├─ opencv_build_32\         [git 管理外] cmake 中間生成物
+│  ├─ opencv_build_64\
+│  ├─ opencv_install_32\       [git 管理外] 静的ライブラリ出力
+│  └─ opencv_install_64\
+├─ docs\
+│  └─ hspcv4_build.html        本ドキュメント
+├─ src\                        hspcv4 本体 (Phase 1 以降)
+├─ package\                    .as / .hs (Phase 1 以降)
+└─ third_party\                [git 管理外]
+   ├─ opencv-4.12.0.zip        DL したアーカイブ
+   └─ opencv-4.12.0\           展開されたソース
+</pre>
+
+<h2>4. CMake 設定の要点</h2>
+
+<p>
+<code>_build_opencv_common.bat</code> から呼び出される cmake は次の主要オプションを指定しています:
+</p>
+
+<table>
+<tr><th>オプション</th><th>値</th><th>意味</th></tr>
+<tr><td><code>BUILD_SHARED_LIBS</code></td><td>OFF</td><td>静的ライブラリとしてビルド</td></tr>
+<tr><td><code>BUILD_WITH_STATIC_CRT</code></td><td>OFF</td><td>CRT は /MD (動的) を使用。hspcv4.dll 側の CRT と一致させる</td></tr>
+<tr><td><code>BUILD_opencv_world</code></td><td>ON</td><td>全モジュールを 1 本の <code>opencv_world4120.lib</code> に統合</td></tr>
+<tr><td><code>BUILD_TESTS</code> / <code>BUILD_PERF_TESTS</code> / <code>BUILD_EXAMPLES</code></td><td>OFF</td><td>ビルド時間短縮</td></tr>
+<tr><td><code>BUILD_opencv_python3</code> / <code>BUILD_opencv_java</code> / <code>BUILD_opencv_js</code></td><td>OFF</td><td>不要なバインディングを除外</td></tr>
+<tr><td><code>WITH_CUDA</code></td><td>OFF</td><td>CUDA を要求しない</td></tr>
+<tr><td><code>WITH_IPP</code></td><td>ON</td><td>Intel IPP による高速化を有効</td></tr>
+<tr><td><code>WITH_OPENCL</code></td><td>ON</td><td>OpenCL 対応</td></tr>
+<tr><td><code>WITH_FFMPEG</code> / <code>WITH_MSMF</code> / <code>WITH_DSHOW</code></td><td>ON</td><td>動画・カメラ入力の主要経路を全部有効</td></tr>
+</table>
+
+<div class="warn">
+<strong>CRT の一致</strong>: OpenCV は <code>/MD</code> (動的 CRT) でビルドされます。
+hspcv4.dll 側も必ず <code>/MD</code> を使ってください。混在すると
+<code>LNK2038: 'RuntimeLibrary' の不一致が検出されました</code> が出ます。
+</div>
+
+<h2>5. 出力物</h2>
+
+<p>ビルドが成功すると以下に静的ライブラリが配置されます:</p>
+
+<pre>build\opencv_install_64\x64\vc17\staticlib\opencv_world4120.lib
+build\opencv_install_32\x86\vc17\staticlib\opencv_world4120.lib
+</pre>
+
+<p>
+ヘッダは <code>opencv_install_XX\include\opencv2\</code> 以下に。
+hspcv4 本体の Visual Studio プロジェクトはこの install ディレクトリを
+include / lib パスとして参照します (Phase 1 で追加)。
+</p>
+
+<h2>6. 再ビルド・クリーンビルド</h2>
+
+<p>ビルドドライバは冪等です。次のルールで動作します:</p>
+
+<ul>
+<li><code>opencv_install_XX\...\opencv_world4120.lib</code> が存在すれば、そのアーキテクチャはスキップ</li>
+<li>クリーンビルドしたい場合は、対応する <code>opencv_build_XX</code> と <code>opencv_install_XX</code> を削除してから再実行</li>
+</ul>
+
+<pre>rmdir /s /q build\opencv_build_64 build\opencv_install_64
+build\build_opencv_64.bat
+</pre>
+
+<h2>7. OpenCV ソースだけ更新したい</h2>
+
+<pre>rmdir /s /q third_party
+build\setup_opencv.bat
+</pre>
+
+<p>
+ZIP が <code>third_party</code> に残っていると再 DL は行われません。
+完全に再 DL するには <code>third_party\opencv-4.12.0.zip</code> も削除してください。
+</p>
+
+<h2>8. トラブルシューティング</h2>
+
+<dl>
+<dt><strong>curl / tar が見つからない</strong></dt>
+<dd>Windows 10 build 17063 未満の場合は標準添付がありません。Windows を更新するか、Git for Windows などで別途導入してください。</dd>
+
+<dt><strong>vswhere.exe が見つからない</strong></dt>
+<dd>Visual Studio 2017 以降のインストーラがセットアップする共通コンポーネントです。VS2022 を正規の手順でインストールすれば存在します。</dd>
+
+<dt><strong>cmake.exe が見つからない</strong></dt>
+<dd>VS インストーラで「Windows 用 C++ CMake ツール」をチェックし直してください。</dd>
+
+<dt><strong>ビルド中にメモリ不足</strong></dt>
+<dd><code>-maxCpuCount</code> を <code>-maxCpuCount:2</code> のように明示すると並列数を抑えられます (<code>_build_opencv_common.bat</code> 内)。</dd>
+
+<dt><strong>ZIP 展開に失敗する</strong></dt>
+<dd>ウイルス対策ソフトが展開をブロックしていないか確認してください。<code>third_party\</code> を除外対象に追加すると改善します。</dd>
+</dl>
+
+<h2>9. バージョン情報</h2>
+
+<p>本ビルドシステムが取得する OpenCV のバージョンは
+<code>setup_opencv.bat</code> 内の <code>OPENCV_VERSION</code> 変数で管理されています。
+上げる場合は以下を変更してください:</p>
+
+<pre>set "OPENCV_VERSION=4.12.0"
+</pre>
+
+<p>
+同時に <code>_build_opencv_common.bat</code> のスキップ判定で使っている
+<code>opencv_world4120.lib</code> のファイル名 (<code>4120</code> 部分) も
+新バージョンに合わせて更新する必要があります。
+</p>
+
+</body>
+</html>

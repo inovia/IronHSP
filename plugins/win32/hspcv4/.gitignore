@@ -1,0 +1,26 @@
+# OpenCV source is downloaded by build/setup_opencv.bat, never committed.
+third_party/
+
+# Test runner work dir (staged DLL/compiler/test input+output).
+test/_work/
+
+# All build artifacts (cmake cache, static libs, obj files).
+build/opencv_src_*/
+build/opencv_build_*/
+build/opencv_install_*/
+build/*.log
+
+# MSVC / VS generated files
+*.obj
+*.exp
+*.lib
+*.pdb
+*.ilk
+*.idb
+*.tlog
+*.log
+x64/
+Win32/
+Debug/
+Release/
+.vs/
