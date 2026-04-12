@@ -420,6 +420,8 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
         hspcv4::bgsub_clear_all();
         hspcv4::tracker_clear_all();
         hspcv4::ml_model_clear_all();
+        hspcv4::face_recognizer_clear_all();
+        hspcv4::facemark_clear_all();
         cv::destroyAllWindows();
         // contrib DLL は OS が process 終了時に自動 FreeLibrary するので
         // ここで明示的に解放する必要はない (static ハンドルが残ったまま
@@ -2404,6 +2406,227 @@ CV4_EXPORT BOOL WINAPI cv4_ml_free(HSPEXINFO* hei, int p1, int p2, int p3)
     set_hei(hei);
     int model_id = getint();
     hspcv4::ml_model_free(model_id);
+    return 0;
+}
+
+
+//============================================================================
+//  Face module (Phase 19): LBPH / Eigen / Fisher + FacemarkLBF / Kazemi
+//
+//  cv::face::FaceRecognizer は cv::Algorithm 派生で、train/predict/save/load
+//  を共通インターフェースで提供する。
+//  cv::face::Facemark は loadModel + fit (顔ランドマーク検出) を提供する。
+//============================================================================
+
+// FaceRecognizer の種類 (cv4_face_load の第3引数)
+enum {
+    CV4_FACE_LBPH = 0,
+    CV4_FACE_EIGEN = 1,
+    CV4_FACE_FISHER = 2,
+};
+
+// Facemark の種類 (cv4_facemark_create の第2引数)
+enum {
+    CV4_FACEMARK_LBF = 0,
+    CV4_FACEMARK_KAZEMI = 1,
+};
+
+//  cv4_face_lbph_create model_id [, radius=1] [, neighbors=8] [, grid_x=8] [, grid_y=8]
+CV4_EXPORT BOOL WINAPI cv4_face_lbph_create(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id = getint();
+        int radius   = getint_def(1);
+        int neigh    = getint_def(8);
+        int gx       = getint_def(8);
+        int gy       = getint_def(8);
+        cv::Ptr<cv::face::FaceRecognizer> r =
+            cv::face::LBPHFaceRecognizer::create(radius, neigh, gx, gy);
+        hspcv4::face_recognizer_set(model_id, r);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_face_lbph_create: unknown"); }
+}
+
+//  cv4_face_eigen_create model_id [, num_components=0]
+CV4_EXPORT BOOL WINAPI cv4_face_eigen_create(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id = getint();
+        int n        = getint_def(0);
+        cv::Ptr<cv::face::FaceRecognizer> r =
+            cv::face::EigenFaceRecognizer::create(n);
+        hspcv4::face_recognizer_set(model_id, r);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_face_eigen_create: unknown"); }
+}
+
+//  cv4_face_fisher_create model_id [, num_components=0]
+CV4_EXPORT BOOL WINAPI cv4_face_fisher_create(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id = getint();
+        int n        = getint_def(0);
+        cv::Ptr<cv::face::FaceRecognizer> r =
+            cv::face::FisherFaceRecognizer::create(n);
+        hspcv4::face_recognizer_set(model_id, r);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_face_fisher_create: unknown"); }
+}
+
+//  cv4_face_predict model_id, src_mat_id, var_label, var_confidence
+//    予測結果のラベル(int)と確信度/距離(double)を出力変数に書き戻す。
+CV4_EXPORT BOOL WINAPI cv4_face_predict(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id = getint();
+        int src_id   = getint();
+        PVal* pval_label;
+        APTR  alabel = hei->HspFunc_prm_getva(&pval_label);
+        if (pval_label->flag != HSPVAR_FLAG_INT) {
+            return fail("cv4_face_predict: var_label must be int");
+        }
+        pval_label->offset = alabel;
+        PVal* pval_conf;
+        APTR  aconf = hei->HspFunc_prm_getva(&pval_conf);
+        if (pval_conf->flag != HSPVAR_FLAG_DOUBLE) {
+            return fail("cv4_face_predict: var_confidence must be double");
+        }
+        pval_conf->offset = aconf;
+
+        auto* rp = hspcv4::face_recognizer_get(model_id);
+        if (!rp || rp->empty()) return fail("cv4_face_predict: invalid model");
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_face_predict: invalid src");
+        int label = -1;
+        double conf = 0.0;
+        (*rp)->predict(*src, label, conf);
+
+        HspVarProc* procI = hei->HspFunc_getproc(HSPVAR_FLAG_INT);
+        procI->Set(pval_label, procI->GetPtr(pval_label), &label);
+        HspVarProc* procD = hei->HspFunc_getproc(HSPVAR_FLAG_DOUBLE);
+        procD->Set(pval_conf,  procD->GetPtr(pval_conf),  &conf);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_face_predict: unknown"); }
+}
+
+//  cv4_face_save model_id, "path.xml"
+CV4_EXPORT BOOL WINAPI cv4_face_save(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id  = getint();
+        const char* p = getstr();
+        auto* rp = hspcv4::face_recognizer_get(model_id);
+        if (!rp || rp->empty()) return fail("cv4_face_save: invalid model");
+        if (!p) return fail("cv4_face_save: null path");
+        (*rp)->write(p);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_face_save: unknown"); }
+}
+
+//  cv4_face_load model_id, "path.xml", type
+//    type: CV4_FACE_LBPH/EIGEN/FISHER
+CV4_EXPORT BOOL WINAPI cv4_face_load(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id  = getint();
+        const char* p = getstr();
+        int type      = getint();
+        if (!p) return fail("cv4_face_load: null path");
+        cv::Ptr<cv::face::FaceRecognizer> r;
+        switch (type) {
+        case CV4_FACE_LBPH:   r = cv::face::LBPHFaceRecognizer::create(); break;
+        case CV4_FACE_EIGEN:  r = cv::face::EigenFaceRecognizer::create(); break;
+        case CV4_FACE_FISHER: r = cv::face::FisherFaceRecognizer::create(); break;
+        default: return fail("cv4_face_load: unknown type");
+        }
+        r->read(p);
+        hspcv4::face_recognizer_set(model_id, r);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_face_load: unknown"); }
+}
+
+//  cv4_face_free model_id
+CV4_EXPORT BOOL WINAPI cv4_face_free(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int model_id = getint();
+    hspcv4::face_recognizer_free(model_id);
+    return 0;
+}
+
+//  cv4_facemark_create model_id, type
+//    type: CV4_FACEMARK_LBF / CV4_FACEMARK_KAZEMI
+CV4_EXPORT BOOL WINAPI cv4_facemark_create(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id = getint();
+        int type     = getint();
+        cv::Ptr<cv::face::Facemark> fm;
+        switch (type) {
+        case CV4_FACEMARK_LBF: {
+            cv::face::FacemarkLBF::Params params;
+            fm = cv::face::FacemarkLBF::create(params);
+            break;
+        }
+        case CV4_FACEMARK_KAZEMI: {
+            cv::face::FacemarkKazemi::Params params;
+            fm = cv::face::FacemarkKazemi::create(params);
+            break;
+        }
+        default: return fail("cv4_facemark_create: unknown type");
+        }
+        if (fm.empty()) return fail("cv4_facemark_create: create returned empty");
+        hspcv4::facemark_set(model_id, fm);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_facemark_create: unknown"); }
+}
+
+//  cv4_facemark_load model_id, "model.bin"
+CV4_EXPORT BOOL WINAPI cv4_facemark_load(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id  = getint();
+        const char* p = getstr();
+        auto* fp = hspcv4::facemark_get(model_id);
+        if (!fp || fp->empty()) return fail("cv4_facemark_load: invalid facemark");
+        if (!p) return fail("cv4_facemark_load: null path");
+        (*fp)->loadModel(p);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_facemark_load: unknown"); }
+}
+
+//  cv4_facemark_free model_id
+CV4_EXPORT BOOL WINAPI cv4_facemark_free(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int model_id = getint();
+    hspcv4::facemark_free(model_id);
     return 0;
 }
 

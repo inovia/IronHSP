@@ -26,6 +26,8 @@ std::unordered_map<int, std::unique_ptr<MatchSet>> g_matches;
 std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::BackgroundSubtractor>>> g_bgsubs;
 std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::Tracker>>> g_trackers;
 std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::ml::StatModel>>> g_ml_models;
+std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::face::FaceRecognizer>>> g_face_recognizers;
+std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::face::Facemark>>> g_facemarks;
 std::mutex g_mutex;
 int g_next_id = 0;
 std::string g_last_error;
@@ -323,6 +325,54 @@ void ml_model_clear_all()
 {
     std::lock_guard<std::mutex> lock(g_mutex);
     g_ml_models.clear();
+}
+
+bool face_recognizer_set(int id, cv::Ptr<cv::face::FaceRecognizer> ptr)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_face_recognizers[id] = std::make_unique<cv::Ptr<cv::face::FaceRecognizer>>(std::move(ptr));
+    return true;
+}
+cv::Ptr<cv::face::FaceRecognizer>* face_recognizer_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_face_recognizers.find(id);
+    if (it == g_face_recognizers.end()) return nullptr;
+    return it->second.get();
+}
+void face_recognizer_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_face_recognizers.erase(id);
+}
+void face_recognizer_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_face_recognizers.clear();
+}
+
+bool facemark_set(int id, cv::Ptr<cv::face::Facemark> ptr)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_facemarks[id] = std::make_unique<cv::Ptr<cv::face::Facemark>>(std::move(ptr));
+    return true;
+}
+cv::Ptr<cv::face::Facemark>* facemark_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_facemarks.find(id);
+    if (it == g_facemarks.end()) return nullptr;
+    return it->second.get();
+}
+void facemark_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_facemarks.erase(id);
+}
+void facemark_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_facemarks.clear();
 }
 
 void set_last_error(const char* msg)

@@ -38,6 +38,7 @@
 #include <opencv2/video.hpp>
 #include <opencv2/calib3d.hpp>
 #include <opencv2/stitching.hpp>
+#include <opencv2/face.hpp>
 #pragma warning(pop)
 
 #define CV4_EXPORT extern "C" __declspec(dllexport)
@@ -134,6 +135,18 @@ bool ml_model_set(int id, cv::Ptr<cv::ml::StatModel> ptr);
 cv::Ptr<cv::ml::StatModel>* ml_model_get(int id);
 void ml_model_free(int id);
 void ml_model_clear_all();
+
+// Face recognizer (Phase 19): LBPH/Eigen/Fisher
+bool face_recognizer_set(int id, cv::Ptr<cv::face::FaceRecognizer> ptr);
+cv::Ptr<cv::face::FaceRecognizer>* face_recognizer_get(int id);
+void face_recognizer_free(int id);
+void face_recognizer_clear_all();
+
+// Facemark (Phase 19): FacemarkLBF/Kazemi
+bool facemark_set(int id, cv::Ptr<cv::face::Facemark> ptr);
+cv::Ptr<cv::face::Facemark>* facemark_get(int id);
+void facemark_free(int id);
+void facemark_clear_all();
 
 //---------------------------------------------------------------------------
 // Last error message (for future cv4_getlasterror if needed)

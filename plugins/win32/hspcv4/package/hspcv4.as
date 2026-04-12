@@ -467,6 +467,26 @@
 #func global cv4_ml_load           cv4_ml_load           $202
 #func global cv4_ml_free           cv4_ml_free           $202
 
+; ---- Face module (Phase 19): LBPH/Eigen/Fisher + FacemarkLBF/Kazemi ----
+; FaceRecognizer 種別 (cv4_face_load 第 3 引数)
+#define global CV4_FACE_LBPH       0
+#define global CV4_FACE_EIGEN      1
+#define global CV4_FACE_FISHER     2
+; Facemark 種別 (cv4_facemark_create 第 2 引数)
+#define global CV4_FACEMARK_LBF    0
+#define global CV4_FACEMARK_KAZEMI 1
+;
+#func global cv4_face_lbph_create   cv4_face_lbph_create   $202
+#func global cv4_face_eigen_create  cv4_face_eigen_create  $202
+#func global cv4_face_fisher_create cv4_face_fisher_create $202
+#func global cv4_face_predict       cv4_face_predict       $202
+#func global cv4_face_save          cv4_face_save          $202
+#func global cv4_face_load          cv4_face_load          $202
+#func global cv4_face_free          cv4_face_free          $202
+#func global cv4_facemark_create    cv4_facemark_create    $202
+#func global cv4_facemark_load      cv4_facemark_load      $202
+#func global cv4_facemark_free      cv4_facemark_free      $202
+
 ; ---- calib3d full (Phase 14): camera calibration / pose estimation ----
 ; cv4_camera_matrix dst, fx, fy, cx, cy        — 3x3 K 行列を生成
 ; cv4_dist_coeffs   dst, k1, k2, p1, p2, k3    — 1x5 歪み係数 D を生成
