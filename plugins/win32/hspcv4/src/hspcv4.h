@@ -30,6 +30,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/objdetect.hpp>
 #include <opencv2/videoio.hpp>
+#include <opencv2/dnn.hpp>
 #pragma warning(pop)
 
 #define CV4_EXPORT extern "C" __declspec(dllexport)
@@ -82,6 +83,11 @@ bool writer_set(int id, cv::VideoWriter&& vw);
 cv::VideoWriter* writer_get(int id);
 void writer_free(int id);
 void writer_clear_all();
+
+bool dnn_set(int id, cv::dnn::Net&& net);
+cv::dnn::Net* dnn_get(int id);
+void dnn_free(int id);
+void dnn_clear_all();
 
 //---------------------------------------------------------------------------
 // Last error message (for future cv4_getlasterror if needed)

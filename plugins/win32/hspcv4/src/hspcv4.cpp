@@ -55,6 +55,7 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
         hspcv4::cascade_clear_all();
         hspcv4::capture_clear_all();
         hspcv4::writer_clear_all();
+        hspcv4::dnn_clear_all();
         cv::destroyAllWindows();
     }
     return TRUE;
@@ -303,6 +304,148 @@ CV4_EXPORT BOOL WINAPI cv4getimg(HSPEXINFO* hei, int p1, int p2, int p3)
         return fail("cv4getimg: unknown exception");
     }
 }
+
+//============================================================================
+//  DNN : ONNX (and similar) inference via cv::dnn::Net
+//============================================================================
+
+//  cv4_dnn_load nid, "model.onnx"
+//    ONNX 形式のモデルを読み込む。
+CV4_EXPORT BOOL WINAPI cv4_dnn_load(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int nid          = getint();
+        const char* path = getstr();
+        if (!path || !*path) return fail("cv4_dnn_load: empty path");
+        cv::dnn::Net net = cv::dnn::readNetFromONNX(path);
+        if (net.empty()) return fail("cv4_dnn_load: readNetFromONNX returned empty net");
+        hspcv4::dnn_set(nid, std::move(net));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_dnn_load: unknown exception");
+    }
+}
+
+//  cv4_dnn_free nid
+CV4_EXPORT BOOL WINAPI cv4_dnn_free(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int nid = getint();
+    hspcv4::dnn_free(nid);
+    return 0;
+}
+
+//  cv4_dnn_set_input nid, img_id, scale, mean_b, mean_g, mean_r, w, h, swap_rb
+//    blobFromImage で 4D テンソル (1,C,H,W) を作って setInput する。
+//    scale: 画素値のスケール (例: 1.0/255.0 で [0,1] に正規化)
+//    mean_*: チャンネルごとに引く平均値
+//    swap_rb: 非 0 で BGR→RGB スワップ (OpenCV のデフォルト BGR モデルなら 0)
+CV4_EXPORT BOOL WINAPI cv4_dnn_set_input(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int nid      = getint();
+        int img_id   = getint();
+        double scale = hei->HspFunc_prm_getdd(1.0);
+        double mb    = hei->HspFunc_prm_getdd(0.0);
+        double mg    = hei->HspFunc_prm_getdd(0.0);
+        double mr    = hei->HspFunc_prm_getdd(0.0);
+        int w        = getint();
+        int h        = getint();
+        int swap_rb  = getint_def(0);
+
+        cv::dnn::Net* net = hspcv4::dnn_get(nid);
+        if (!net || net->empty()) return fail("cv4_dnn_set_input: invalid net");
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_dnn_set_input: invalid image");
+
+        cv::Mat blob = cv::dnn::blobFromImage(
+            *img, scale, cv::Size(w, h),
+            cv::Scalar(mb, mg, mr), swap_rb != 0, false);
+        net->setInput(blob);
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_dnn_set_input: unknown exception");
+    }
+}
+
+//  cv4_dnn_forward nid, out_id
+//    推論実行。結果 (出力 blob) を Mat ハンドル out_id に保存。
+CV4_EXPORT BOOL WINAPI cv4_dnn_forward(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int nid    = getint();
+        int out_id = getint();
+        cv::dnn::Net* net = hspcv4::dnn_get(nid);
+        if (!net || net->empty()) return fail("cv4_dnn_forward: invalid net");
+        cv::Mat out = net->forward();
+        hspcv4::handle_set(out_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_dnn_forward: unknown exception");
+    }
+}
+
+//  cv4_dnn_argmax out_id, var_class, var_score
+//    分類タスク向けヘルパ: 出力 blob (float32) から argmax を計算して
+//    クラス index (int) と最大スコア (double に int 変換したもの) を返す。
+//    実行時にスコアを 0-1 の float から整数に変換する際は
+//    var_score_int = scoreFloat * 10000 する (小数 4 桁相当の固定小数点)。
+CV4_EXPORT BOOL WINAPI cv4_dnn_argmax(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int out_id = getint();
+        PVal* pval_cls;
+        APTR  ac = hei->HspFunc_prm_getva(&pval_cls);
+        if (pval_cls->flag != HSPVAR_FLAG_INT) {
+            return fail("cv4_dnn_argmax: var_class must be int");
+        }
+        pval_cls->offset = ac;
+        PVal* pval_sc;
+        APTR  as = hei->HspFunc_prm_getva(&pval_sc);
+        if (pval_sc->flag != HSPVAR_FLAG_INT) {
+            return fail("cv4_dnn_argmax: var_score must be int");
+        }
+        pval_sc->offset = as;
+
+        cv::Mat* m = hspcv4::handle_get(out_id);
+        if (!m || m->empty()) return fail("cv4_dnn_argmax: invalid output");
+        cv::Mat flat = m->reshape(1, 1);
+        cv::Mat flatF;
+        if (flat.type() != CV_32F) flat.convertTo(flatF, CV_32F);
+        else flatF = flat;
+
+        cv::Point maxLoc;
+        double maxVal = 0.0;
+        cv::minMaxLoc(flatF, nullptr, &maxVal, nullptr, &maxLoc);
+        int cls = maxLoc.x;
+        int scInt = (int)(maxVal * 10000.0);
+
+        HspVarProc* proc = hei->HspFunc_getproc(HSPVAR_FLAG_INT);
+        proc->Set(pval_cls, proc->GetPtr(pval_cls), &cls);
+        proc->Set(pval_sc,  proc->GetPtr(pval_sc),  &scInt);
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_dnn_argmax: unknown exception");
+    }
+}
+
 
 //============================================================================
 //  Video I/O : VideoCapture / VideoWriter

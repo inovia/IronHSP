@@ -19,6 +19,7 @@ std::unordered_map<int, std::unique_ptr<cv::Mat>> g_handles;
 std::unordered_map<int, std::unique_ptr<cv::CascadeClassifier>> g_cascades;
 std::unordered_map<int, std::unique_ptr<cv::VideoCapture>> g_captures;
 std::unordered_map<int, std::unique_ptr<cv::VideoWriter>> g_writers;
+std::unordered_map<int, std::unique_ptr<cv::dnn::Net>> g_nets;
 std::mutex g_mutex;
 int g_next_id = 0;
 std::string g_last_error;
@@ -142,6 +143,33 @@ void writer_clear_all()
 {
     std::lock_guard<std::mutex> lock(g_mutex);
     g_writers.clear();
+}
+
+bool dnn_set(int id, cv::dnn::Net&& net)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_nets[id] = std::make_unique<cv::dnn::Net>(std::move(net));
+    return true;
+}
+
+cv::dnn::Net* dnn_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_nets.find(id);
+    if (it == g_nets.end()) return nullptr;
+    return it->second.get();
+}
+
+void dnn_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_nets.erase(id);
+}
+
+void dnn_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_nets.clear();
 }
 
 void set_last_error(const char* msg)

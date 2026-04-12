@@ -147,4 +147,26 @@
 #func global cv4_writer_write  cv4_writer_write  $202
 #func global cv4_writer_close  cv4_writer_close  $202
 
+; ---- DNN : ONNX inference ----
+;
+; 使い方 (分類タスクの例):
+;   cv4_dnn_load 0, "model.onnx"
+;   cv4load 1, "input.jpg"
+;   ; scale=1/255, mean=(0,0,0), input=224x224, swap_rb=1 (BGR->RGB)
+;   cv4_dnn_set_input 0, 1, 0.003921568, 0.0, 0.0, 0.0, 224, 224, 1
+;   cv4_dnn_forward 0, 2
+;   cv4_dnn_argmax 2, cls, score_x10000
+;   mes strf("class=%d score=%.4f", cls, double(score_x10000) / 10000.0)
+;   cv4_dnn_free 0
+;
+; 注意:
+;   cv4_dnn_argmax の var_score は HSP int に収まるよう
+;   (スコア * 10000) の固定小数点で返される。HSP 側で /10000.0 する。
+;
+#func global cv4_dnn_load       cv4_dnn_load       $202
+#func global cv4_dnn_free       cv4_dnn_free       $202
+#func global cv4_dnn_set_input  cv4_dnn_set_input  $202
+#func global cv4_dnn_forward    cv4_dnn_forward    $202
+#func global cv4_dnn_argmax     cv4_dnn_argmax     $202
+
 #endif

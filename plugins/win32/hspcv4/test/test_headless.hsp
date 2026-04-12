@@ -164,6 +164,13 @@
         }
     }
 
+    ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---
+    cv4_dnn_load 0, "nonexistent_model.onnx"
+    if stat = 0 {
+        mes "cv4_dnn_load should have failed" : end 1
+    }
+    mes "cv4_dnn_load error handling OK"
+
     ; --- cv4del / cv4reset ---
     cv4del 0
     cv4del 1
