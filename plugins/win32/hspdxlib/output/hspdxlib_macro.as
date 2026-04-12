@@ -21,7 +21,7 @@
 #define global dxdrawex DrawExtendGraph	; 画像拡大縮小描画
 #define global dxdrawrota DrawRotaGraph	; 画像回転描画
 #define global dxload LoadGraph	; 画像読込
-#define global dxfree DeleteGraph	; 画像解放
+#define global dxdel DeleteGraph	; 画像解放
 #define global dxcolor GetColor	; 色コード取得
 #define global dxtitle SetMainWindowText	; タイトル設定
 #define global dxwindow ChangeWindowMode	; ウィンドウモード変更

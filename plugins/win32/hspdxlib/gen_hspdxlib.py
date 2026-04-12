@@ -610,7 +610,7 @@ def generate_macro_as(methods):
         ('dxdrawex',    'DrawExtendGraph',  '画像拡大縮小描画'),
         ('dxdrawrota',  'DrawRotaGraph',    '画像回転描画'),
         ('dxload',      'LoadGraph',        '画像読込'),
-        ('dxfree',      'DeleteGraph',      '画像解放'),
+        ('dxdel',       'DeleteGraph',      '画像解放'),	# dxfree は DxFree() と case-insensitive で衝突するため dxdel に変更
         ('dxcolor',     'GetColor',         '色コード取得'),
         ('dxtitle',     'SetMainWindowText','タイトル設定'),
         ('dxwindow',    'ChangeWindowMode', 'ウィンドウモード変更'),
