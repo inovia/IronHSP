@@ -365,6 +365,42 @@ CV4_OPTFLOW_PROXY(cv4_optflow_sparse_to_dense,  "cv4_optflow_sparse_to_dense_imp
 
 #undef CV4_OPTFLOW_PROXY
 
+// --- dnn_superres proxies (Phase 13b-8) ---
+
+//  cv4_dnn_sr_create sr_id, "model.pb", "algo", scale
+CV4_EXPORT BOOL WINAPI cv4_dnn_sr_create(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_dnn_sr_create_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_gets();
+    hei->HspFunc_prm_gets(); hei->HspFunc_prm_geti();
+    return fail("cv4_dnn_sr_create: hspcv4_contrib.dll not available");
+}
+
+//  cv4_dnn_sr_upsample sr_id, dst_img_id, src_img_id
+CV4_EXPORT BOOL WINAPI cv4_dnn_sr_upsample(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_dnn_sr_upsample_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti();
+    return fail("cv4_dnn_sr_upsample: hspcv4_contrib.dll not available");
+}
+
+//  cv4_dnn_sr_free sr_id
+CV4_EXPORT BOOL WINAPI cv4_dnn_sr_free(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_dnn_sr_free_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti();
+    return fail("cv4_dnn_sr_free: hspcv4_contrib.dll not available");
+}
+
 
 //============================================================================
 //  DllMain

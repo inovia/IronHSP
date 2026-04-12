@@ -24,7 +24,12 @@
 #include <opencv2/ximgproc.hpp>     // contrib: thinning/guided/anisotropic/etc
 #include <opencv2/img_hash.hpp>     // contrib: aHash/pHash/blockMean/etc
 #include <opencv2/optflow.hpp>      // contrib: DualTVL1/DeepFlow/SparseToDense/SimpleFlow
+#include <opencv2/dnn_superres.hpp> // contrib: super resolution (EDSR/ESPCN/etc)
 #pragma warning(pop)
+
+#include <unordered_map>
+#include <mutex>
+#include <memory>
 
 #include "../src/hspcv4_capi.h"
 
@@ -697,4 +702,82 @@ CV4C_EXPORT int __stdcall cv4_optflow_sparse_to_dense_impl(
         return 0;
     } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; }
       catch (...) { api->set_last_error("cv4_optflow_sparse_to_dense: unknown"); return -1; }
+}
+
+
+//============================================================================
+//  Phase 13b-8 : dnn_superres (EDSR / ESPCN / FSRCNN / LapSRN)
+//
+//  超解像モデルは外部 .pb ファイルが必要 (https://github.com/Saafke/EDSR_Tensorflow
+//  などからダウンロード)。本 DLL では handle を contrib 内 static map で管理。
+//============================================================================
+
+namespace {
+    std::unordered_map<int, cv::Ptr<cv::dnn_superres::DnnSuperResImpl>> g_sr_map;
+    std::mutex g_sr_mutex;
+}
+
+//  cv4_dnn_sr_create sr_id, "model.pb", "algo", scale
+//    algo: "edsr" / "espcn" / "fsrcnn" / "lapsrn"
+CV4C_EXPORT int __stdcall cv4_dnn_sr_create_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int sr_id        = hei->HspFunc_prm_geti();
+        const char* path = hei->HspFunc_prm_gets();
+        const char* algo = hei->HspFunc_prm_gets();
+        int scale        = hei->HspFunc_prm_geti();
+        if (!path || !algo) {
+            api->set_last_error("cv4_dnn_sr_create: null path/algo");
+            return -1;
+        }
+        auto sr = cv::dnn_superres::DnnSuperResImpl::create();
+        sr->readModel(path);
+        sr->setModel(algo, scale);
+        std::lock_guard<std::mutex> lk(g_sr_mutex);
+        g_sr_map[sr_id] = sr;
+        return 0;
+    } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; }
+      catch (...) { api->set_last_error("cv4_dnn_sr_create: unknown"); return -1; }
+}
+
+//  cv4_dnn_sr_upsample sr_id, dst_img_id, src_img_id
+CV4C_EXPORT int __stdcall cv4_dnn_sr_upsample_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int sr_id      = hei->HspFunc_prm_geti();
+        int dst_img_id = hei->HspFunc_prm_geti();
+        int src_img_id = hei->HspFunc_prm_geti();
+        cv::Mat* src = static_cast<cv::Mat*>(api->mat_get(src_img_id));
+        if (!src || src->empty()) { api->set_last_error("invalid source"); return -1; }
+        cv::Ptr<cv::dnn_superres::DnnSuperResImpl> sr;
+        {
+            std::lock_guard<std::mutex> lk(g_sr_mutex);
+            auto it = g_sr_map.find(sr_id);
+            if (it == g_sr_map.end()) { api->set_last_error("invalid sr handle"); return -1; }
+            sr = it->second;
+        }
+        cv::Mat out;
+        sr->upsample(*src, out);
+        api->mat_set_move(dst_img_id, &out);
+        return 0;
+    } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; }
+      catch (...) { api->set_last_error("cv4_dnn_sr_upsample: unknown"); return -1; }
+}
+
+//  cv4_dnn_sr_free sr_id
+CV4C_EXPORT int __stdcall cv4_dnn_sr_free_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3; (void)api;
+    int sr_id = hei->HspFunc_prm_geti();
+    std::lock_guard<std::mutex> lk(g_sr_mutex);
+    g_sr_map.erase(sr_id);
+    return 0;
 }

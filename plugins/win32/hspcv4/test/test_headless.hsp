@@ -705,6 +705,15 @@
         cv4_optflow_sparse_to_dense 262, 1, 1
         if stat : mes "cv4_optflow_sparse_to_dense FAIL" : end 1
         mes "cv4 optflow (dualtvl1/deepflow/sparse_to_dense) OK"
+
+        ; Phase 13b-8: dnn_superres - 存在しないモデルでエラー検出のみ確認
+        cv4_dnn_sr_create 0, "nonexistent_edsr.pb", "edsr", 4
+        if stat = 0 {
+            mes "cv4_dnn_sr_create unexpectedly succeeded"
+            cv4_dnn_sr_free 0
+        } else {
+            mes "cv4_dnn_sr_create error handling OK (no model file)"
+        }
     }
 
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---

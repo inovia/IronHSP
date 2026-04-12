@@ -506,4 +506,13 @@
 #func global cv4_optflow_deepflow        cv4_optflow_deepflow        $202
 #func global cv4_optflow_sparse_to_dense cv4_optflow_sparse_to_dense $202
 
+; ---- contrib: dnn_superres (EDSR / ESPCN / FSRCNN / LapSRN) ----
+; 外部 .pb モデルファイルが必要 (EDSR_x4.pb 等を別途取得)。
+;   cv4_dnn_sr_create   sr_id, "model.pb", "algo_name", scale
+;   cv4_dnn_sr_upsample sr_id, dst_img_id, src_img_id
+;   cv4_dnn_sr_free     sr_id
+#func global cv4_dnn_sr_create   cv4_dnn_sr_create   $202
+#func global cv4_dnn_sr_upsample cv4_dnn_sr_upsample $202
+#func global cv4_dnn_sr_free     cv4_dnn_sr_free     $202
+
 #endif

@@ -32,3 +32,6 @@ EXPORTS
     cv4_optflow_dualtvl1_impl
     cv4_optflow_deepflow_impl
     cv4_optflow_sparse_to_dense_impl
+    cv4_dnn_sr_create_impl
+    cv4_dnn_sr_upsample_impl
+    cv4_dnn_sr_free_impl
