@@ -8,6 +8,13 @@
 #ifndef __hspcv4__
 #define __hspcv4__
 
+; --- cv::imread flags (cv4_imread_flags 第3引数) ---
+#define global CV4_IMREAD_UNCHANGED   -1
+#define global CV4_IMREAD_GRAYSCALE    0
+#define global CV4_IMREAD_COLOR        1
+#define global CV4_IMREAD_ANYDEPTH     2
+#define global CV4_IMREAD_ANYCOLOR     4
+
 ; --- cv::cvtColor codes (subset, OpenCV 4.x) ---
 #define global CV4_BGR2GRAY    6
 #define global CV4_GRAY2BGR    8
@@ -383,5 +390,10 @@
 #func global cv4_hog_detect_people  cv4_hog_detect_people  $202
 #func global cv4_qr_detect          cv4_qr_detect          $202
 #func global cv4_qr_decode          cv4_qr_decode          $202
+
+; ---- imgcodecs extras: flags / memory buffer encode/decode ----
+#func global cv4_imread_flags   cv4_imread_flags   $202
+#func global cv4_imdecode       cv4_imdecode       $202
+#func global cv4_imencode       cv4_imencode       $202
 
 #endif

@@ -632,6 +632,94 @@ CV4_EXPORT BOOL WINAPI cv4_writer_close(HSPEXINFO* hei, int p1, int p2, int p3)
 
 
 //============================================================================
+//  Imgcodecs extras : imdecode (memory buffer) / imencode + imread flags
+//============================================================================
+
+//  cv4_imread_flags id, "file", flags
+//    cv4load の flag 指定版。
+//    flags: CV4_IMREAD_UNCHANGED=-1, GRAYSCALE=0, COLOR=1, ANYDEPTH=2, ANYCOLOR=4
+CV4_EXPORT BOOL WINAPI cv4_imread_flags(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id          = getint();
+        const char* f   = getstr();
+        int flags       = getint_def(cv::IMREAD_COLOR);
+        if (!f) return fail("cv4_imread_flags: null path");
+        cv::Mat img = cv::imread(f, flags);
+        if (img.empty()) return fail("cv4_imread_flags: imread failed");
+        hspcv4::handle_set(id, std::move(img));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_imread_flags: unknown"); }
+}
+
+//  cv4_imdecode id, buffer_var, size
+//    HSP の変数に入っているバイト列 (netload や cv4_imencode で取得した
+//    PNG/JPEG バイト列) から Mat をデコードする。
+//    size は実際のバイト数。cv4_imencode で取得した var_size をそのまま渡す。
+CV4_EXPORT BOOL WINAPI cv4_imdecode(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+        pv->offset = a;
+        if (pv->flag != HSPVAR_FLAG_STR) return fail("cv4_imdecode: buffer must be str");
+        int size = getint();
+        if (size <= 0) return fail("cv4_imdecode: size must be > 0");
+        std::vector<unsigned char> buf((unsigned char*)pv->pt, (unsigned char*)pv->pt + size);
+        cv::Mat img = cv::imdecode(buf, cv::IMREAD_COLOR);
+        if (img.empty()) return fail("cv4_imdecode: decode failed");
+        hspcv4::handle_set(id, std::move(img));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_imdecode: unknown"); }
+}
+
+//  cv4_imencode ext, id, buffer_var, var_size
+//    Mat を指定フォーマット (".png", ".jpg" 等) でエンコードして
+//    HSP の str 変数にバイト列として格納し、バイト数を var_size に返す。
+//    PNG 等には NUL バイトが含まれるので strlen では長さを測れない。
+//    必ず var_size を使って後続 cv4_imdecode に渡すこと。
+CV4_EXPORT BOOL WINAPI cv4_imencode(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        const char* ext = getstr();
+        int id          = getint();
+        PVal* pv_buf; APTR a_buf = hei->HspFunc_prm_getva(&pv_buf);
+        pv_buf->offset = a_buf;
+        if (pv_buf->flag != HSPVAR_FLAG_STR) return fail("cv4_imencode: buffer must be str");
+        PVal* pv_size; APTR a_size = hei->HspFunc_prm_getva(&pv_size);
+        pv_size->offset = a_size;
+        if (pv_size->flag != HSPVAR_FLAG_INT) return fail("cv4_imencode: var_size must be int");
+
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4_imencode: invalid handle");
+        std::vector<unsigned char> buf;
+        if (!cv::imencode(ext ? ext : ".png", *m, buf))
+            return fail("cv4_imencode: encode failed");
+
+        // str 変数を必要サイズで再確保 (nul 終端 1 バイト分多め)
+        hei->HspFunc_dim(pv_buf, HSPVAR_FLAG_STR, (int)buf.size() + 1, 0, 0, 0, 0);
+        memcpy(pv_buf->pt, buf.data(), buf.size());
+        ((char*)pv_buf->pt)[buf.size()] = 0;
+
+        // size を返す
+        int sz = (int)buf.size();
+        HspVarProc* proc = hei->HspFunc_getproc(pv_size->flag);
+        proc->Set(pv_size, proc->GetPtr(pv_size), &sz);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_imencode: unknown"); }
+}
+
+
+//============================================================================
 //  Object detection extras : HOG Descriptor / QRCode Detector
 //============================================================================
 

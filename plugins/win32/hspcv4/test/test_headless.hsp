@@ -490,6 +490,28 @@
     if stat : mes "cv4_qr_decode FAIL" : end 1
     mes "cv4_qr_decode: '" + qr_text + "' (empty=not found)"
 
+    ; --- Phase 11: imgcodecs extras ---
+    ; グレースケール強制読込
+    cv4_imread_flags 160, "test_image.png", CV4_IMREAD_GRAYSCALE
+    if stat : mes "cv4_imread_flags FAIL" : end 1
+    cv4_mat_shape 160, gr_r, gr_c, _, gr_ch
+    if gr_ch != 1 : mes "imread_flags grayscale FAIL" : end 1
+    mes strf("cv4_imread_flags GRAYSCALE: %dx%d ch=%d", gr_r, gr_c, gr_ch)
+
+    ; imencode: Mat -> PNG バッファ (str 変数) + 実サイズ
+    sdim png_buf, 1048576
+    cv4_imencode ".png", 1, png_buf, buf_size
+    if stat : mes "cv4_imencode FAIL" : end 1
+    mes strf("cv4_imencode PNG: %d bytes", buf_size)
+    if buf_size <= 0 : mes "imencode size invalid" : end 1
+
+    ; imdecode: バッファから Mat に復元
+    cv4_imdecode 161, png_buf, buf_size
+    if stat : mes "cv4_imdecode FAIL" : end 1
+    cv4_mat_shape 161, dec_r, dec_c, _, dec_ch
+    if (dec_r != 240) | (dec_c != 320) : mes "imdecode size FAIL" : end 1
+    mes strf("cv4_imdecode roundtrip: %dx%d ch=%d", dec_r, dec_c, dec_ch)
+
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---
     cv4_dnn_load 0, "nonexistent_model.onnx"
     if stat = 0 {
