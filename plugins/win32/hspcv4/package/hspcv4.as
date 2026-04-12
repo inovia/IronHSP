@@ -75,4 +75,14 @@
 #func global cv4canny   cv4canny   $202
 #func global cv4thresh  cv4thresh  $202
 
+; ---- geometric transform ----
+; cv4flip   flipcode: 0=上下反転, 1=左右反転, -1=両方
+; cv4rotate angle は度単位 (反時計回り)、scale は倍率 double
+; cv4crop   (x,y)-(w,h) の ROI を切り抜く (範囲外はエラー)
+; cv4warp   2x3 アフィン行列を直接指定。out_w/out_h は出力サイズ
+#func global cv4flip    cv4flip    $202
+#func global cv4rotate  cv4rotate  $202
+#func global cv4crop    cv4crop    $202
+#func global cv4warp    cv4warp    $202
+
 #endif

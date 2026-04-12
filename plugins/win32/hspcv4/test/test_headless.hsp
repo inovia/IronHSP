@@ -90,6 +90,29 @@
     if thch != 1 { mes "cv4thresh should be 1ch FAIL" : end 1 }
     mes strf("cv4blur/gauss/median/canny/thresh OK")
 
+    ; --- geometric transform ---
+    ; flip (上下反転)
+    cv4flip 9, 1, 0
+    if stat < 0 { mes "cv4flip FAIL" : end 1 }
+    cv4info 9, fx, fy, fch
+    if (fx != 320) | (fy != 240) { mes "cv4flip size FAIL" : end 1 }
+    ; rotate (30 度、等倍)
+    cv4rotate 10, 1, 30.0, 1.0
+    if stat < 0 { mes "cv4rotate FAIL" : end 1 }
+    cv4info 10, rtx, rty, _
+    if (rtx != 320) | (rty != 240) { mes "cv4rotate size FAIL" : end 1 }
+    ; crop (100x80 の ROI)
+    cv4crop 11, 1, 50, 30, 100, 80
+    if stat < 0 { mes "cv4crop FAIL" : end 1 }
+    cv4info 11, crx, cry, _
+    if (crx != 100) | (cry != 80) { mes "cv4crop size FAIL" : end 1 }
+    ; warp (恒等行列で 200x150 にパディング)
+    cv4warp 12, 1, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 200, 150
+    if stat < 0 { mes "cv4warp FAIL" : end 1 }
+    cv4info 12, wx, wy, _
+    if (wx != 200) | (wy != 150) { mes "cv4warp size FAIL" : end 1 }
+    mes "cv4flip/rotate/crop/warp OK"
+
     ; --- cv4del / cv4reset ---
     cv4del 0
     cv4del 1
@@ -100,6 +123,10 @@
     cv4del 6
     cv4del 7
     cv4del 8
+    cv4del 9
+    cv4del 10
+    cv4del 11
+    cv4del 12
     cv4reset
     mes "cv4del/cv4reset OK"
 

@@ -291,6 +291,129 @@ CV4_EXPORT BOOL WINAPI cv4getimg(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //============================================================================
+//  Geometric : flip / rotate / crop / warp
+//============================================================================
+
+//  cv4flip dst_id, src_id, flipcode
+//    flipcode:  0 = 上下反転, 1 = 左右反転, -1 = 両方
+CV4_EXPORT BOOL WINAPI cv4flip(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int code   = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4flip: invalid source");
+        cv::Mat out;
+        cv::flip(*src, out, code);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4flip: unknown exception");
+    }
+}
+
+//  cv4rotate dst_id, src_id, angle [, scale=1.0]
+//    angle は度単位 (反時計回り)、中心は画像中央。出力サイズは入力と同じ。
+CV4_EXPORT BOOL WINAPI cv4rotate(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id    = getint();
+        int src_id    = getint();
+        double angle  = hei->HspFunc_prm_getdd(0.0);
+        double scale  = hei->HspFunc_prm_getdd(1.0);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4rotate: invalid source");
+        cv::Point2f center((float)(src->cols * 0.5), (float)(src->rows * 0.5));
+        cv::Mat rot = cv::getRotationMatrix2D(center, angle, scale);
+        cv::Mat out;
+        cv::warpAffine(*src, out, rot, src->size(),
+                       cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar());
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4rotate: unknown exception");
+    }
+}
+
+//  cv4crop dst_id, src_id, x, y, w, h
+//    ROI クロップ。範囲外だとエラー。
+CV4_EXPORT BOOL WINAPI cv4crop(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int x      = getint();
+        int y      = getint();
+        int w      = getint();
+        int h      = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4crop: invalid source");
+        if (x < 0 || y < 0 || w <= 0 || h <= 0 ||
+            x + w > src->cols || y + h > src->rows) {
+            return fail("cv4crop: roi out of bounds");
+        }
+        cv::Mat out = (*src)(cv::Rect(x, y, w, h)).clone();
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4crop: unknown exception");
+    }
+}
+
+//  cv4warp dst_id, src_id, m00, m01, m02, m10, m11, m12, out_w, out_h
+//    2x3 アフィン行列を直接指定して warpAffine。
+//    行列の要素は double。HSP 側では int リテラルでも自動で double 解釈される。
+CV4_EXPORT BOOL WINAPI cv4warp(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        double m00 = hei->HspFunc_prm_getdd(1.0);
+        double m01 = hei->HspFunc_prm_getdd(0.0);
+        double m02 = hei->HspFunc_prm_getdd(0.0);
+        double m10 = hei->HspFunc_prm_getdd(0.0);
+        double m11 = hei->HspFunc_prm_getdd(1.0);
+        double m12 = hei->HspFunc_prm_getdd(0.0);
+        int ow     = getint();
+        int oh     = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4warp: invalid source");
+        cv::Mat mat(2, 3, CV_64F);
+        mat.at<double>(0, 0) = m00;
+        mat.at<double>(0, 1) = m01;
+        mat.at<double>(0, 2) = m02;
+        mat.at<double>(1, 0) = m10;
+        mat.at<double>(1, 1) = m11;
+        mat.at<double>(1, 2) = m12;
+        cv::Mat out;
+        cv::warpAffine(*src, out, mat, cv::Size(ow, oh),
+                       cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar());
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4warp: unknown exception");
+    }
+}
+
+
+//============================================================================
 //  Filters : blur / gauss / median / canny / thresh
 //  dst と src は別ハンドル可、同一ハンドルでも可。
 //============================================================================
