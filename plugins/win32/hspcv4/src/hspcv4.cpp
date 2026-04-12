@@ -3164,6 +3164,75 @@ CV4_EXPORT BOOL WINAPI cv4_find_contours(HSPEXINFO* hei, int p1, int p2, int p3)
       catch (...) { return fail("cv4_find_contours: unknown"); }
 }
 
+//  cv4_find_contours_hier cid, hierarchy_mat_id, src_id [, mode=RETR_TREE] [, method=CHAIN_APPROX_SIMPLE]
+//    階層情報付きの findContours。hierarchy_mat_id には Nx1x4 CV_32SC4 の Mat
+//    が格納される。各輪郭に対して [next, prev, first_child, parent] の
+//    インデックス (なしは -1) が記録される。
+CV4_EXPORT BOOL WINAPI cv4_find_contours_hier(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int cid     = getint();
+        int hier_id = getint();
+        int src_id  = getint();
+        int mode    = getint_def(cv::RETR_TREE);
+        int method  = getint_def(cv::CHAIN_APPROX_SIMPLE);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_find_contours_hier: invalid source");
+        cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
+        if (gray.empty()) cv::cvtColor(*src, gray, cv::COLOR_BGR2GRAY);
+        hspcv4::ContourSet cs;
+        std::vector<cv::Vec4i> hierarchy;
+        cv::findContours(gray, cs, hierarchy, mode, method);
+        hspcv4::contours_set(cid, std::move(cs));
+        // hierarchy を Nx4 CV_32S Mat に詰める (cv4_mat_geti でアクセス可能)
+        cv::Mat hmat((int)hierarchy.size(), 4, CV_32S);
+        for (size_t i = 0; i < hierarchy.size(); ++i) {
+            hmat.at<int>((int)i, 0) = hierarchy[i][0];  // next
+            hmat.at<int>((int)i, 1) = hierarchy[i][1];  // prev
+            hmat.at<int>((int)i, 2) = hierarchy[i][2];  // first child
+            hmat.at<int>((int)i, 3) = hierarchy[i][3];  // parent
+        }
+        hspcv4::handle_set(hier_id, std::move(hmat));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_find_contours_hier: unknown"); }
+}
+
+//  cv4_contour_hier_get hier_mat_id, idx, var_next, var_prev, var_child, var_parent
+//    階層情報を 4 つの int 変数で取得 (上記 cv4_find_contours_hier で作った hmat 専用)
+CV4_EXPORT BOOL WINAPI cv4_contour_hier_get(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int hier_id = getint();
+        int idx     = getint();
+        cv::Mat* h = hspcv4::handle_get(hier_id);
+        if (!h || h->empty()) return fail("cv4_contour_hier_get: invalid hierarchy");
+        if (idx < 0 || idx >= h->rows) return fail("cv4_contour_hier_get: idx out of range");
+        if (h->cols != 4 || h->type() != CV_32S)
+            return fail("cv4_contour_hier_get: not a hierarchy Mat (Nx4 CV_32S)");
+        int vals[4] = {
+            h->at<int>(idx, 0),
+            h->at<int>(idx, 1),
+            h->at<int>(idx, 2),
+            h->at<int>(idx, 3)
+        };
+        for (int i = 0; i < 4; ++i) {
+            PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+            if (pv->flag != HSPVAR_FLAG_INT)
+                return fail("cv4_contour_hier_get: var must be int");
+            pv->offset = a;
+            HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+            proc->Set(pv, proc->GetPtr(pv), &vals[i]);
+        }
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_contour_hier_get: unknown"); }
+}
+
 //  cv4_contours_free cid
 CV4_EXPORT BOOL WINAPI cv4_contours_free(HSPEXINFO* hei, int p1, int p2, int p3)
 {

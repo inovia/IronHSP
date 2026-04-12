@@ -362,6 +362,13 @@
 ;   cv4_contours_free 0
 ;
 #func global cv4_find_contours        cv4_find_contours        $202
+; --- Phase 17: hierarchical contours ---
+; cv4_find_contours_hier cid, hier_mat_id, src [, mode=RETR_TREE] [, method=CHAIN_APPROX_SIMPLE]
+;   階層情報を hier_mat (Nx4 CV_32S) で同時取得
+; cv4_contour_hier_get hier_mat_id, idx, var_next, var_prev, var_child, var_parent
+;   特定 contour の階層関係 (隣接 / 親子 index、なしは -1) を取得
+#func global cv4_find_contours_hier   cv4_find_contours_hier   $202
+#func global cv4_contour_hier_get     cv4_contour_hier_get     $202
 #func global cv4_contours_free        cv4_contours_free        $202
 #func global cv4_contours_count       cv4_contours_count       $202
 #func global cv4_draw_contours        cv4_draw_contours        $202

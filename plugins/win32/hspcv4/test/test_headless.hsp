@@ -347,6 +347,20 @@
     cv4_contours_free 80
     cv4_contours_free 81
 
+    ; Phase 17: hierarchical contours (RETR_TREE)
+    cv4_find_contours_hier 0, 83, 8, CV4_RETR_TREE, CV4_CHAIN_APPROX_SIMPLE
+    if stat : mes "cv4_find_contours_hier FAIL" : end 1
+    cv4_contours_count 0, h_n
+    cv4_mat_shape 83, h_r, h_c, _, _
+    mes strf("cv4_find_contours_hier: %d contours, hierarchy %dx%d", h_n, h_r, h_c)
+
+    if h_n > 0 {
+        cv4_contour_hier_get 83, 0, h_next, h_prev, h_child, h_parent
+        mes strf("  contour[0] hier: next=%d prev=%d child=%d parent=%d", h_next, h_prev, h_child, h_parent)
+    }
+    cv4_contours_free 0
+    cv4del 83
+
     ; --- Phase 6: features2d ---
     ; ORB 検出 (ID 90=kp, 91=desc)
     cv4_orb_detect_compute 90, 91, 1, 200
