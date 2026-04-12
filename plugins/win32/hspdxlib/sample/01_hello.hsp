@@ -1,0 +1,45 @@
+;
+; DxLib サンプル01: Hello World
+; DxLibW を使ってウィンドウにテキストを表示する基本サンプル
+;
+
+#include "hspdxlib.as"
+#include "hspdxlib_macro.as"
+
+	; ウィンドウモードで起動
+	ChangeWindowMode TRUE
+	SetGraphMode 640, 480, 32
+	SetMainWindowText "DxLib Hello World"
+
+	; DxLib初期化
+	if DxLib_Init() == -1 : end
+
+	; 描画先を裏画面に設定
+	SetDrawScreen DX_SCREEN_BACK
+
+	; 色を取得
+	white = GetColor(255, 255, 255)
+	yellow = GetColor(255, 255, 0)
+	cyan = GetColor(0, 255, 255)
+
+	; メインループ
+*main
+	; 画面クリア
+	ClearDrawScreen_1
+
+	; 文字列描画
+	DrawString 10, 10, "Hello, DxLib from HSP!", white
+	DrawString 10, 40, "DxLibW (Unicode) を使用中", yellow
+	DrawString 10, 70, "ESCキーで終了", cyan
+
+	; 画面フリップ
+	ScreenFlip
+
+	; メッセージ処理 & ESC終了判定
+	if ProcessMessage() != 0 : goto *quit
+	if CheckHitKey(KEY_INPUT_ESCAPE) == 1 : goto *quit
+	goto *main
+
+*quit
+	DxLib_End
+	end

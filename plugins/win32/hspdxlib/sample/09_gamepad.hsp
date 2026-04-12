@@ -1,0 +1,94 @@
+;
+; DxLib サンプル09: ゲームパッド入力
+; ジョイパッド・XInput の入力取得
+;
+
+#include "hspdxlib.as"
+#include "hspdxlib_macro.as"
+
+	ChangeWindowMode TRUE
+	SetGraphMode 640, 480, 32
+	SetMainWindowText "DxLib ゲームパッド入力サンプル"
+
+	if DxLib_Init() == -1 : end
+	SetDrawScreen DX_SCREEN_BACK
+
+	white  = GetColor(255, 255, 255)
+	green  = GetColor(0, 255, 0)
+	red    = GetColor(255, 0, 0)
+	yellow = GetColor(255, 255, 0)
+	gray   = GetColor(128, 128, 128)
+
+	px = 320
+	py = 240
+
+*main
+	ClearDrawScreen_1
+
+	; ジョイパッド接続数
+	pad_num = GetJoypadNum()
+	DrawFormatString 10, 10, white, "接続パッド数: %d", pad_num
+
+	if pad_num > 0 {
+		; パッド入力取得
+		pad = GetJoypadInputState(DX_INPUT_PAD1)
+
+		; 方向入力
+		if pad & PAD_INPUT_UP    : py -= 4
+		if pad & PAD_INPUT_DOWN  : py += 4
+		if pad & PAD_INPUT_LEFT  : px -= 4
+		if pad & PAD_INPUT_RIGHT : px += 4
+
+		; ボタン状態表示
+		DrawString 10, 40, "=== デジタル入力 ===", yellow
+
+		if pad & PAD_INPUT_UP    : DrawString 10, 70, "↑", green
+		if pad & PAD_INPUT_DOWN  : DrawString 10, 90, "↓", green
+		if pad & PAD_INPUT_LEFT  : DrawString 10, 110, "←", green
+		if pad & PAD_INPUT_RIGHT : DrawString 10, 130, "→", green
+
+		if pad & PAD_INPUT_1 : DrawString 100, 70, "Button1", green
+		if pad & PAD_INPUT_2 : DrawString 100, 90, "Button2", green
+		if pad & PAD_INPUT_3 : DrawString 100, 110, "Button3", green
+		if pad & PAD_INPUT_4 : DrawString 100, 130, "Button4", green
+
+		; アナログ入力
+		GetJoypadAnalogInput ax, ay, DX_INPUT_PAD1
+		DrawString 10, 170, "=== アナログ入力 ===", yellow
+		DrawFormatString 10, 200, white, "X: %d  Y: %d", ax, ay
+
+		; アナログスティック可視化
+		DrawCircle 500, 100, 50, gray, FALSE
+		DrawCircle 500 + ax / 20, 100 + ay / 20, 5, green, TRUE
+	} else {
+		DrawString 10, 40, "ゲームパッドが接続されていません", red
+		DrawString 10, 60, "キーボード(矢印キー)で操作できます", white
+
+		; キーボードフォールバック
+		if CheckHitKey(KEY_INPUT_UP) == 1 : py -= 4
+		if CheckHitKey(KEY_INPUT_DOWN) == 1 : py += 4
+		if CheckHitKey(KEY_INPUT_LEFT) == 1 : px -= 4
+		if CheckHitKey(KEY_INPUT_RIGHT) == 1 : px += 4
+	}
+
+	; 範囲制限
+	if px < 10 : px = 10
+	if px > 620 : px = 620
+	if py < 10 : py = 10
+	if py > 460 : py = 460
+
+	; プレイヤー描画
+	DrawCircle px, py, 10, green, TRUE
+
+	DrawString 10, 450, "ESCキーで終了", gray
+
+	ScreenFlip
+
+	if ProcessMessage() != 0 : goto *quit
+	if CheckHitKey(KEY_INPUT_ESCAPE) == 1 : goto *quit
+	WaitTimer 16
+	goto *main
+
+*quit
+	DxLib_End
+	end

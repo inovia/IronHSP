@@ -1,0 +1,153 @@
+;
+; DxLib サンプル10: シューティングゲーム (ミニ)
+; 簡易的なシューティングゲーム
+;
+
+#include "hspdxlib.as"
+#include "hspdxlib_macro.as"
+
+	ChangeWindowMode TRUE
+	SetGraphMode 480, 640, 32
+	SetMainWindowText "DxLib シューティングサンプル"
+
+	if DxLib_Init() == -1 : end
+	SetDrawScreen DX_SCREEN_BACK
+	SetBackgroundColor 0, 0, 32
+
+	white  = GetColor(255, 255, 255)
+	green  = GetColor(0, 255, 0)
+	red    = GetColor(255, 50, 50)
+	yellow = GetColor(255, 255, 0)
+	cyan   = GetColor(0, 200, 255)
+
+	; プレイヤー
+	px = 240
+	py = 580
+	pspeed = 5
+
+	; 弾 (最大20発)
+	max_bullet = 20
+	dim bx, max_bullet
+	dim by, max_bullet
+	dim bflag, max_bullet
+
+	; 敵 (最大10体)
+	max_enemy = 10
+	dim ex, max_enemy
+	dim ey, max_enemy
+	dim eflag, max_enemy
+	dim espeed, max_enemy
+
+	; スコア
+	score = 0
+	shot_timer = 0
+
+	; 初期敵配置
+	repeat max_enemy
+		ex(cnt) = rnd(440) + 20
+		ey(cnt) = -(rnd(400))
+		eflag(cnt) = 1
+		espeed(cnt) = rnd(3) + 1
+	loop
+
+*main
+	ClearDrawScreen_1
+
+	; === プレイヤー操作 ===
+	if CheckHitKey(KEY_INPUT_LEFT) == 1  : px -= pspeed
+	if CheckHitKey(KEY_INPUT_RIGHT) == 1 : px += pspeed
+	if CheckHitKey(KEY_INPUT_UP) == 1    : py -= pspeed
+	if CheckHitKey(KEY_INPUT_DOWN) == 1  : py += pspeed
+	if px < 10 : px = 10
+	if px > 470 : px = 470
+	if py < 10 : py = 10
+	if py > 620 : py = 620
+
+	; 弾発射 (Zキー or スペース)
+	shot_timer -= 1
+	if shot_timer < 0 : shot_timer = 0
+	if CheckHitKey(KEY_INPUT_Z) == 1 || CheckHitKey(KEY_INPUT_SPACE) == 1 {
+		if shot_timer == 0 {
+			repeat max_bullet
+				if bflag(cnt) == 0 {
+					bx(cnt) = px
+					by(cnt) = py - 10
+					bflag(cnt) = 1
+					shot_timer = 5
+					break
+				}
+			loop
+		}
+	}
+
+	; === 弾更新・描画 ===
+	repeat max_bullet
+		if bflag(cnt) {
+			by(cnt) -= 10
+			if by(cnt) < -10 : bflag(cnt) = 0
+			DrawBox bx(cnt) - 2, by(cnt), bx(cnt) + 2, by(cnt) + 8, cyan, TRUE
+		}
+	loop
+
+	; === 敵更新・描画 ===
+	repeat max_enemy
+		if eflag(cnt) {
+			ey(cnt) += espeed(cnt)
+			if ey(cnt) > 660 {
+				; 画面外に出たら再配置
+				ex(cnt) = rnd(440) + 20
+				ey(cnt) = -(rnd(200))
+				espeed(cnt) = rnd(3) + 1
+			}
+			DrawBox ex(cnt) - 12, ey(cnt) - 12, ex(cnt) + 12, ey(cnt) + 12, red, TRUE
+			DrawBox ex(cnt) - 10, ey(cnt) - 10, ex(cnt) + 10, ey(cnt) + 10, GetColor(200, 0, 0), TRUE
+		}
+	loop
+
+	; === 当たり判定 ===
+	repeat max_enemy
+		ei = cnt
+		if eflag(ei) {
+			repeat max_bullet
+				bi = cnt
+				if bflag(bi) {
+					; 簡易矩形判定
+					dx = bx(bi) - ex(ei)
+					dy = by(bi) - ey(ei)
+					if dx < 0 : dx = 0 - dx
+					if dy < 0 : dy = 0 - dy
+					if dx < 14 && dy < 14 {
+						; ヒット！
+						eflag(ei) = 0
+						bflag(bi) = 0
+						score += 100
+
+						; 敵を再生成
+						ex(ei) = rnd(440) + 20
+						ey(ei) = -(rnd(200))
+						eflag(ei) = 1
+						espeed(ei) = rnd(3) + 2
+					}
+				}
+			loop
+		}
+	loop
+
+	; === プレイヤー描画 ===
+	; 三角形で自機を表現
+	DrawTriangle px, py - 15, px - 10, py + 10, px + 10, py + 10, green, TRUE
+
+	; === UI ===
+	DrawFormatString 10, 10, yellow, "SCORE: %d", score
+	DrawString 10, 620, "←→↑↓:移動  Z/Space:弾  ESC:終了", white
+
+	ScreenFlip
+
+	if ProcessMessage() != 0 : goto *quit
+	if CheckHitKey(KEY_INPUT_ESCAPE) == 1 : goto *quit
+	WaitTimer 16
+	goto *main
+
+*quit
+	DxLib_End
+	end

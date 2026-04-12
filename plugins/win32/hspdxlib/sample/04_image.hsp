@@ -1,0 +1,81 @@
+;
+; DxLib サンプル04: 画像描画
+; 画像の読み込みと各種描画方法
+;
+; ※ 実行前に sample_image.png (適当なPNG画像) を用意してください
+;
+
+#include "hspdxlib.as"
+#include "hspdxlib_macro.as"
+
+	ChangeWindowMode TRUE
+	SetGraphMode 800, 600, 32
+	SetMainWindowText "DxLib 画像描画サンプル"
+
+	if DxLib_Init() == -1 : end
+	SetDrawScreen DX_SCREEN_BACK
+
+	white = GetColor(255, 255, 255)
+
+	; 画像読み込み
+	gh = LoadGraph("sample_image.png")
+	if gh == -1 {
+		; 画像がない場合はダミー画面を作成
+		gh = MakeGraph(64, 64)
+		; ダミー画像を描画
+		SetDrawScreen gh
+		DrawBox 0, 0, 64, 64, GetColor(100, 100, 255), TRUE
+		DrawBox 0, 0, 32, 32, GetColor(255, 100, 100), TRUE
+		DrawBox 32, 32, 64, 64, GetColor(255, 100, 100), TRUE
+		SetDrawScreen DX_SCREEN_BACK
+	}
+
+	angle = 0.0
+	scale = 1.0
+	ds = 0.01
+
+*main
+	ClearDrawScreen_1
+
+	; 通常描画
+	DrawGraph 10, 10, gh, TRUE
+	DrawString 10, 80, "DrawGraph (通常)", white
+
+	; 拡大縮小描画
+	DrawExtendGraph 200, 10, 330, 90, gh, TRUE
+	DrawString 200, 100, "DrawExtendGraph (拡大)", white
+
+	; 回転描画
+	angle += 0.02
+	DrawRotaGraph 500, 80, 2.0, angle, gh, TRUE
+	DrawString 440, 150, "DrawRotaGraph (回転)", white
+
+	; 拡大率変動
+	scale += ds
+	if scale > 3.0 : ds = -0.01
+	if scale < 0.5 : ds = 0.01
+	DrawRotaGraph 150, 300, scale, 0.0, gh, TRUE
+	DrawFormatString 80, 400, white, "Scale: %.2f", scale
+
+	; 半透明描画
+	SetDrawBlendMode DX_BLENDMODE_ALPHA, 128
+	DrawGraph 400, 250, gh, TRUE
+	SetDrawBlendMode DX_BLENDMODE_NOBLEND, 0
+	DrawString 400, 320, "半透明 (Alpha=128)", white
+
+	; 左右反転描画
+	DrawTurnGraph 600, 250, gh, TRUE
+	DrawString 580, 320, "DrawTurnGraph (反転)", white
+
+	DrawString 10, 560, "ESCキーで終了", white
+
+	ScreenFlip
+
+	if ProcessMessage() != 0 : goto *quit
+	if CheckHitKey(KEY_INPUT_ESCAPE) == 1 : goto *quit
+	goto *main
+
+*quit
+	DeleteGraph gh
+	DxLib_End
+	end

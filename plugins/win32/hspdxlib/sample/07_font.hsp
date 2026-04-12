@@ -1,0 +1,85 @@
+;
+; DxLib サンプル07: フォント描画
+; フォントハンドルの作成と文字描画
+;
+
+#include "hspdxlib.as"
+#include "hspdxlib_macro.as"
+
+	ChangeWindowMode TRUE
+	SetGraphMode 800, 600, 32
+	SetMainWindowText "DxLib フォントサンプル"
+
+	if DxLib_Init() == -1 : end
+	SetDrawScreen DX_SCREEN_BACK
+
+	white  = GetColor(255, 255, 255)
+	red    = GetColor(255, 0, 0)
+	green  = GetColor(0, 255, 0)
+	yellow = GetColor(255, 255, 0)
+	cyan   = GetColor(0, 255, 255)
+	gray   = GetColor(128, 128, 128)
+
+	; フォントハンドル作成
+	font_big   = CreateFontToHandle("メイリオ", 32, -1)
+	font_small = CreateFontToHandle("ＭＳ ゴシック", 14, -1)
+	font_edge  = CreateFontToHandle("メイリオ", 24, -1, DX_FONTTYPE_ANTIALIASING_EDGE)
+
+*main
+	ClearDrawScreen_1
+
+	; デフォルトフォントで描画
+	DrawString 20, 20, "デフォルトフォント (DrawString)", white
+
+	; フォントサイズ変更
+	SetFontSize 24
+	DrawString 20, 50, "フォントサイズ 24", yellow
+	SetFontSize 16  ; 戻す
+
+	; フォントハンドルを使って描画
+	if font_big != -1 {
+		DrawStringToHandle 20, 100, "大きいフォント (メイリオ 32pt)", green, font_big
+	}
+
+	if font_small != -1 {
+		DrawStringToHandle 20, 150, "小さいフォント (MS ゴシック 14pt)", cyan, font_small
+	}
+
+	if font_edge != -1 {
+		DrawStringToHandle 20, 180, "縁取りフォント (AA+Edge)", red, font_edge
+	}
+
+	; 書式付き文字列
+	DrawFormatString 20, 240, white, "整数: %d  小数: %.2f  文字列: %s", 42, 3.14, "Hello"
+
+	; 文字列の描画幅を取得して右寄せ
+	msg = "右寄せテキスト"
+	w = GetDrawStringWidth(msg, strlen(msg))
+	DrawString 800 - w - 20, 300, msg, yellow
+
+	; 複数行テキスト
+	DrawString 20, 350, "行1: HSPからDxLibを使う", white
+	DrawString 20, 370, "行2: Unicode文字列対応 (DxLibW)", white
+	DrawString 20, 390, "行3: フォントハンドルで自由なフォント", white
+	DrawString 20, 410, "行4: 縁取り・アンチエイリアス対応", white
+
+	; 色付きテキスト
+	DrawString 20, 460, "赤", red
+	DrawString 60, 460, "緑", green
+	DrawString 100, 460, "青", GetColor(0, 100, 255)
+	DrawString 140, 460, "黄", yellow
+
+	DrawString 20, 560, "ESCキーで終了", gray
+
+	ScreenFlip
+
+	if ProcessMessage() != 0 : goto *quit
+	if CheckHitKey(KEY_INPUT_ESCAPE) == 1 : goto *quit
+	goto *main
+
+*quit
+	if font_big != -1 : DeleteFontToHandle font_big
+	if font_small != -1 : DeleteFontToHandle font_small
+	if font_edge != -1 : DeleteFontToHandle font_edge
+	DxLib_End
+	end

@@ -1,0 +1,96 @@
+;
+; DxLib サンプル05: サウンド再生
+; BGMとSEの再生制御
+;
+; ※ 実行前に bgm.mp3 / se.wav を用意してください
+;
+
+#include "hspdxlib.as"
+#include "hspdxlib_macro.as"
+
+	ChangeWindowMode TRUE
+	SetGraphMode 640, 480, 32
+	SetMainWindowText "DxLib サウンドサンプル"
+
+	if DxLib_Init() == -1 : end
+	SetDrawScreen DX_SCREEN_BACK
+
+	white  = GetColor(255, 255, 255)
+	green  = GetColor(0, 255, 0)
+	red    = GetColor(255, 0, 0)
+	yellow = GetColor(255, 255, 0)
+
+	; サウンド読み込み (ファイルがなくてもエラーにはならない)
+	bgm = LoadSoundMem("bgm.mp3")
+	se  = LoadSoundMem("se.wav")
+
+	bgm_playing = 0
+	volume = 200  ; 0-255
+
+*main
+	ClearDrawScreen_1
+
+	; BGM制御
+	DrawString 20, 20, "=== サウンド制御 ===", yellow
+
+	if bgm != -1 {
+		DrawString 20, 60, "[1] BGM 再生", white
+		DrawString 20, 80, "[2] BGM 停止", white
+		DrawFormatString 20, 100, white, "[↑/↓] 音量: %d / 255", volume
+
+		if CheckHitKey(KEY_INPUT_1) == 1 {
+			if bgm_playing == 0 {
+				PlaySoundMem bgm, DX_PLAYTYPE_LOOP
+				bgm_playing = 1
+			}
+		}
+		if CheckHitKey(KEY_INPUT_2) == 1 {
+			StopSoundMem bgm
+			bgm_playing = 0
+		}
+		if CheckHitKey(KEY_INPUT_UP) == 1 {
+			volume += 2
+			if volume > 255 : volume = 255
+			ChangeVolumeSoundMem volume, bgm
+		}
+		if CheckHitKey(KEY_INPUT_DOWN) == 1 {
+			volume -= 2
+			if volume < 0 : volume = 0
+			ChangeVolumeSoundMem volume, bgm
+		}
+
+		; 再生状態表示
+		if bgm_playing {
+			DrawString 300, 60, "● BGM再生中", green
+		} else {
+			DrawString 300, 60, "■ BGM停止", red
+		}
+	} else {
+		DrawString 20, 60, "bgm.mp3 が見つかりません", red
+	}
+
+	; SE制御
+	DrawString 20, 160, "=== 効果音 ===", yellow
+	if se != -1 {
+		DrawString 20, 200, "[スペース] SE再生", white
+		if CheckHitKey(KEY_INPUT_SPACE) == 1 {
+			PlaySoundMem se, DX_PLAYTYPE_BACK
+		}
+	} else {
+		DrawString 20, 200, "se.wav が見つかりません", red
+	}
+
+	DrawString 20, 440, "ESCキーで終了", white
+
+	ScreenFlip
+
+	if ProcessMessage() != 0 : goto *quit
+	if CheckHitKey(KEY_INPUT_ESCAPE) == 1 : goto *quit
+	WaitTimer 16
+	goto *main
+
+*quit
+	if bgm != -1 : DeleteSoundMem bgm
+	if se != -1 : DeleteSoundMem se
+	DxLib_End
+	end

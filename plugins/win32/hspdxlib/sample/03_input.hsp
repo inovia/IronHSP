@@ -1,0 +1,73 @@
+;
+; DxLib サンプル03: キーボード・マウス入力
+; キー入力とマウス入力の取得
+;
+
+#include "hspdxlib.as"
+#include "hspdxlib_macro.as"
+
+	ChangeWindowMode TRUE
+	SetGraphMode 640, 480, 32
+	SetMainWindowText "DxLib 入力サンプル"
+
+	if DxLib_Init() == -1 : end
+	SetDrawScreen DX_SCREEN_BACK
+
+	white = GetColor(255, 255, 255)
+	red   = GetColor(255, 0, 0)
+	green = GetColor(0, 255, 0)
+	yellow = GetColor(255, 255, 0)
+
+	; プレイヤー座標
+	px = 320
+	py = 240
+	speed = 4
+
+*main
+	ClearDrawScreen_1
+
+	; キー入力でプレイヤー移動
+	if CheckHitKey(KEY_INPUT_UP) == 1 : py -= speed
+	if CheckHitKey(KEY_INPUT_DOWN) == 1 : py += speed
+	if CheckHitKey(KEY_INPUT_LEFT) == 1 : px -= speed
+	if CheckHitKey(KEY_INPUT_RIGHT) == 1 : px += speed
+
+	; 画面範囲内に収める
+	if px < 0 : px = 0
+	if px > 620 : px = 620
+	if py < 0 : py = 0
+	if py > 460 : py = 460
+
+	; プレイヤー描画 (矩形)
+	DrawBox px, py, px + 20, py + 20, green, TRUE
+
+	; マウス座標取得
+	GetMousePoint mx, my
+	mouse_btn = GetMouseInput()
+
+	; マウスカーソル位置に十字
+	DrawLine mx - 10, my, mx + 10, my, red
+	DrawLine mx, my - 10, mx, my + 10, red
+
+	; マウスクリック表示
+	if mouse_btn & MOUSE_INPUT_LEFT {
+		DrawCircle mx, my, 15, yellow, TRUE
+	}
+	if mouse_btn & MOUSE_INPUT_RIGHT {
+		DrawCircle mx, my, 15, red, FALSE
+	}
+
+	; 情報表示
+	DrawString 10, 10, "矢印キー: 移動  マウス: 十字表示  ESC: 終了", white
+	DrawFormatString 10, 30, white, "Player: (%d, %d)", px, py
+	DrawFormatString 10, 50, white, "Mouse: (%d, %d) btn=%d", mx, my, mouse_btn
+
+	ScreenFlip
+
+	if ProcessMessage() != 0 : goto *quit
+	if CheckHitKey(KEY_INPUT_ESCAPE) == 1 : goto *quit
+	goto *main
+
+*quit
+	DxLib_End
+	end

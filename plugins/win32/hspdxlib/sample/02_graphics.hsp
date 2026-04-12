@@ -1,0 +1,68 @@
+;
+; DxLib サンプル02: 基本図形描画
+; 矩形、線、円、三角形の描画
+;
+
+#include "hspdxlib.as"
+#include "hspdxlib_macro.as"
+
+	ChangeWindowMode TRUE
+	SetGraphMode 640, 480, 32
+	SetMainWindowText "DxLib 図形描画サンプル"
+
+	if DxLib_Init() == -1 : end
+	SetDrawScreen DX_SCREEN_BACK
+
+	; 色を準備
+	red    = GetColor(255, 0, 0)
+	green  = GetColor(0, 255, 0)
+	blue   = GetColor(0, 0, 255)
+	white  = GetColor(255, 255, 255)
+	yellow = GetColor(255, 255, 0)
+	cyan   = GetColor(0, 255, 255)
+	magenta = GetColor(255, 0, 255)
+
+*main
+	ClearDrawScreen_1
+
+	; 塗りつぶし矩形
+	DrawBox 20, 20, 150, 100, red, TRUE
+
+	; 枠のみ矩形
+	DrawBox 170, 20, 300, 100, green, FALSE
+
+	; 線
+	DrawLine 320, 20, 450, 100, blue
+
+	; 円 (塗りつぶし)
+	DrawCircle 80, 200, 60, yellow, TRUE
+
+	; 円 (枠のみ)
+	DrawCircle 230, 200, 60, cyan, FALSE
+
+	; 楕円
+	DrawOval 400, 200, 80, 40, magenta, TRUE
+
+	; 三角形
+	DrawTriangle 50, 350, 150, 280, 250, 350, white, TRUE
+
+	; ピクセル描画
+	repeat 100
+		px = 320 + rnd(200)
+		py = 280 + rnd(100)
+		c = GetColor(rnd(256), rnd(256), rnd(256))
+		DrawPixel px, py, c
+	loop
+
+	; ラベル
+	DrawString 20, 420, "矩形・線・円・楕円・三角形・ピクセル描画", white
+
+	ScreenFlip
+
+	if ProcessMessage() != 0 : goto *quit
+	if CheckHitKey(KEY_INPUT_ESCAPE) == 1 : goto *quit
+	goto *main
+
+*quit
+	DxLib_End
+	end
