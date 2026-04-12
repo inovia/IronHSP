@@ -231,6 +231,65 @@
     if (pd_r != 120) | (pd_c != 160) { mes "pyr_down size unexpected" : end 1 }
     mes "cv4_pyr_up/down OK"
 
+    ; --- Phase 4: core Mat operations ---
+    ; まず同じ画像を 2 枚用意 (ID 50 と 51)
+    cv4resize 50, 0, 320, 240
+    cv4resize 51, 0, 320, 240
+    cv4_add         52, 50, 51
+    cv4_sub         53, 50, 51
+    cv4_mul         54, 50, 51, 1.0
+    cv4_div         55, 50, 51, 1.0
+    cv4_abs_diff    56, 50, 51
+    cv4_add_weighted 57, 50, 0.5, 51, 0.5, 0.0
+    if stat : mes "cv4_add/sub/mul/div/abs_diff/add_weighted FAIL" : end 1
+    mes "cv4 arithmetic OK"
+
+    cv4_add_scalar  58, 50, 30.0, 30.0, 30.0
+    cv4_mul_scalar  59, 50, 0.5
+    if stat : mes "cv4_add_scalar/mul_scalar FAIL" : end 1
+    mes "cv4 scalar ops OK"
+
+    cv4_bit_and 60, 50, 51
+    cv4_bit_or  61, 50, 51
+    cv4_bit_xor 62, 50, 51
+    cv4_bit_not 63, 50
+    if stat : mes "cv4_bit_* FAIL" : end 1
+    mes "cv4 bitwise ops OK"
+
+    cv4_compare 64, 50, 51, CV4_CMP_EQ
+    cv4_mat_shape 64, cmp_r, cmp_c, _, _
+    if (cmp_r != 240) | (cmp_c != 320) : mes "compare shape FAIL" : end 1
+    mes "cv4_compare OK"
+
+    ; 統計
+    cv4_mean 50, mean_b, mean_g, mean_r
+    mes strf("cv4_mean: B=%d G=%d R=%d (x10000)", mean_b, mean_g, mean_r)
+    cv4_sum 50, sum_b, sum_g, sum_r
+    mes strf("cv4_sum: B=%d G=%d R=%d", sum_b, sum_g, sum_r)
+    cv4_count_nonzero 2, cnt_nz
+    mes strf("cv4_count_nonzero (gray): %d", cnt_nz)
+
+    ; チャンネル操作
+    cv4_split 50, 65, 66, 67
+    cv4_mat_shape 65, sp_r, sp_c, sp_t, sp_ch
+    if sp_ch != 1 : mes "split channel count FAIL" : end 1
+    cv4_merge 68, 65, 66, 67
+    cv4_mat_shape 68, mg_r, mg_c, mg_t, mg_ch
+    if mg_ch != 3 : mes "merge channel count FAIL" : end 1
+    mes "cv4_split/merge OK"
+
+    ; Mat 作成
+    cv4_mat_zeros 70, 100, 200, 3
+    cv4_mat_shape 70, z_r, z_c, _, _
+    if (z_r != 100) | (z_c != 200) : mes "mat_zeros size FAIL" : end 1
+    cv4_mat_full 71, 50, 80, 255, 128, 0
+    mes "cv4_mat_zeros/full OK"
+
+    ; マスクコピー (8 はグレー binary なのでマスクに使える)
+    cv4resize 72, 8, 320, 240    ; マスクサイズを合わせる
+    cv4_copy_masked 73, 50, 72
+    mes "cv4_copy_masked OK"
+
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---
     cv4_dnn_load 0, "nonexistent_model.onnx"
     if stat = 0 {
@@ -255,6 +314,9 @@
     cv4del 13
     repeat 22
         cv4del 20 + cnt
+    loop
+    repeat 30
+        cv4del 50 + cnt
     loop
     cv4reset
     mes "cv4del/cv4reset OK"

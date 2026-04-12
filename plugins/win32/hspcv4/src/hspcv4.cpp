@@ -981,6 +981,482 @@ CV4_EXPORT BOOL WINAPI cv4warp(HSPEXINFO* hei, int p1, int p2, int p3)
 
 
 //============================================================================
+//  Core Mat operations : arithmetic / bitwise / statistics / channels
+//============================================================================
+
+// --- 算術演算 ---
+
+//  cv4_add         dst, a_id, b_id
+CV4_EXPORT BOOL WINAPI cv4_add(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst = getint();
+        int aid = getint();
+        int bid = getint();
+        cv::Mat* a = hspcv4::handle_get(aid);
+        cv::Mat* b = hspcv4::handle_get(bid);
+        if (!a || !b || a->empty() || b->empty()) return fail("cv4_add: invalid input");
+        cv::Mat out;
+        cv::add(*a, *b, out);
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_add: unknown"); }
+}
+
+//  cv4_sub         dst, a_id, b_id
+CV4_EXPORT BOOL WINAPI cv4_sub(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst = getint();
+        int aid = getint();
+        int bid = getint();
+        cv::Mat* a = hspcv4::handle_get(aid);
+        cv::Mat* b = hspcv4::handle_get(bid);
+        if (!a || !b || a->empty() || b->empty()) return fail("cv4_sub: invalid input");
+        cv::Mat out;
+        cv::subtract(*a, *b, out);
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_sub: unknown"); }
+}
+
+//  cv4_mul         dst, a_id, b_id [, scale=1.0]
+CV4_EXPORT BOOL WINAPI cv4_mul(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst = getint();
+        int aid = getint();
+        int bid = getint();
+        double scale = hei->HspFunc_prm_getdd(1.0);
+        cv::Mat* a = hspcv4::handle_get(aid);
+        cv::Mat* b = hspcv4::handle_get(bid);
+        if (!a || !b || a->empty() || b->empty()) return fail("cv4_mul: invalid input");
+        cv::Mat out;
+        cv::multiply(*a, *b, out, scale);
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_mul: unknown"); }
+}
+
+//  cv4_div         dst, a_id, b_id [, scale=1.0]
+CV4_EXPORT BOOL WINAPI cv4_div(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst = getint();
+        int aid = getint();
+        int bid = getint();
+        double scale = hei->HspFunc_prm_getdd(1.0);
+        cv::Mat* a = hspcv4::handle_get(aid);
+        cv::Mat* b = hspcv4::handle_get(bid);
+        if (!a || !b || a->empty() || b->empty()) return fail("cv4_div: invalid input");
+        cv::Mat out;
+        cv::divide(*a, *b, out, scale);
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_div: unknown"); }
+}
+
+//  cv4_abs_diff    dst, a_id, b_id
+CV4_EXPORT BOOL WINAPI cv4_abs_diff(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst = getint();
+        int aid = getint();
+        int bid = getint();
+        cv::Mat* a = hspcv4::handle_get(aid);
+        cv::Mat* b = hspcv4::handle_get(bid);
+        if (!a || !b || a->empty() || b->empty()) return fail("cv4_abs_diff: invalid input");
+        cv::Mat out;
+        cv::absdiff(*a, *b, out);
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_abs_diff: unknown"); }
+}
+
+//  cv4_add_weighted dst, a_id, alpha, b_id, beta, gamma
+//    alpha, beta, gamma は double
+CV4_EXPORT BOOL WINAPI cv4_add_weighted(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst        = getint();
+        int aid        = getint();
+        double alpha   = hei->HspFunc_prm_getdd(0.5);
+        int bid        = getint();
+        double beta    = hei->HspFunc_prm_getdd(0.5);
+        double gamma   = hei->HspFunc_prm_getdd(0.0);
+        cv::Mat* a = hspcv4::handle_get(aid);
+        cv::Mat* b = hspcv4::handle_get(bid);
+        if (!a || !b || a->empty() || b->empty()) return fail("cv4_add_weighted: invalid input");
+        cv::Mat out;
+        cv::addWeighted(*a, alpha, *b, beta, gamma, out);
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_add_weighted: unknown"); }
+}
+
+// --- スカラー演算 (定数を Mat に加算等) ---
+
+//  cv4_add_scalar dst, src, s_b, s_g, s_r
+CV4_EXPORT BOOL WINAPI cv4_add_scalar(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst = getint();
+        int src = getint();
+        double sb = hei->HspFunc_prm_getdd(0.0);
+        double sg = hei->HspFunc_prm_getdd(0.0);
+        double sr = hei->HspFunc_prm_getdd(0.0);
+        cv::Mat* s = hspcv4::handle_get(src);
+        if (!s || s->empty()) return fail("cv4_add_scalar: invalid source");
+        cv::Mat out;
+        cv::add(*s, cv::Scalar(sb, sg, sr), out);
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_add_scalar: unknown"); }
+}
+
+//  cv4_mul_scalar dst, src, scale
+CV4_EXPORT BOOL WINAPI cv4_mul_scalar(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst = getint();
+        int src = getint();
+        double scale = hei->HspFunc_prm_getdd(1.0);
+        cv::Mat* s = hspcv4::handle_get(src);
+        if (!s || s->empty()) return fail("cv4_mul_scalar: invalid source");
+        cv::Mat out;
+        (*s).convertTo(out, -1, scale, 0);
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_mul_scalar: unknown"); }
+}
+
+// --- ビット演算 ---
+
+//  cv4_bit_and dst, a, b
+CV4_EXPORT BOOL WINAPI cv4_bit_and(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst = getint();
+        int aid = getint();
+        int bid = getint();
+        cv::Mat* a = hspcv4::handle_get(aid);
+        cv::Mat* b = hspcv4::handle_get(bid);
+        if (!a || !b || a->empty() || b->empty()) return fail("cv4_bit_and: invalid input");
+        cv::Mat out;
+        cv::bitwise_and(*a, *b, out);
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_bit_and: unknown"); }
+}
+
+//  cv4_bit_or dst, a, b
+CV4_EXPORT BOOL WINAPI cv4_bit_or(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst = getint();
+        int aid = getint();
+        int bid = getint();
+        cv::Mat* a = hspcv4::handle_get(aid);
+        cv::Mat* b = hspcv4::handle_get(bid);
+        if (!a || !b || a->empty() || b->empty()) return fail("cv4_bit_or: invalid input");
+        cv::Mat out;
+        cv::bitwise_or(*a, *b, out);
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_bit_or: unknown"); }
+}
+
+//  cv4_bit_xor dst, a, b
+CV4_EXPORT BOOL WINAPI cv4_bit_xor(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst = getint();
+        int aid = getint();
+        int bid = getint();
+        cv::Mat* a = hspcv4::handle_get(aid);
+        cv::Mat* b = hspcv4::handle_get(bid);
+        if (!a || !b || a->empty() || b->empty()) return fail("cv4_bit_xor: invalid input");
+        cv::Mat out;
+        cv::bitwise_xor(*a, *b, out);
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_bit_xor: unknown"); }
+}
+
+//  cv4_bit_not dst, src
+CV4_EXPORT BOOL WINAPI cv4_bit_not(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst = getint();
+        int src = getint();
+        cv::Mat* s = hspcv4::handle_get(src);
+        if (!s || s->empty()) return fail("cv4_bit_not: invalid source");
+        cv::Mat out;
+        cv::bitwise_not(*s, out);
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_bit_not: unknown"); }
+}
+
+// --- 比較 ---
+
+//  cv4_compare dst, a, b, cmpop
+//    cmpop: 0=EQ, 1=GT, 2=GE, 3=LT, 4=LE, 5=NE (cv::CmpTypes に対応)
+CV4_EXPORT BOOL WINAPI cv4_compare(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst = getint();
+        int aid = getint();
+        int bid = getint();
+        int op  = getint();
+        cv::Mat* a = hspcv4::handle_get(aid);
+        cv::Mat* b = hspcv4::handle_get(bid);
+        if (!a || !b || a->empty() || b->empty()) return fail("cv4_compare: invalid input");
+        cv::Mat out;
+        cv::compare(*a, *b, out, op);
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_compare: unknown"); }
+}
+
+// --- 統計 ---
+
+//  cv4_mean id, var_mean_b_x10000, var_mean_g_x10000, var_mean_r_x10000
+CV4_EXPORT BOOL WINAPI cv4_mean(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4_mean: invalid handle");
+        cv::Scalar s = cv::mean(*m);
+        int vals[3] = {
+            (int)(s[0] * 10000.0),
+            (int)(s[1] * 10000.0),
+            (int)(s[2] * 10000.0)
+        };
+        for (int i = 0; i < 3; ++i) {
+            PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+            if (pv->flag != HSPVAR_FLAG_INT) return fail("cv4_mean: var must be int");
+            pv->offset = a;
+            HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+            proc->Set(pv, proc->GetPtr(pv), &vals[i]);
+        }
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_mean: unknown"); }
+}
+
+//  cv4_sum id, var_sum_b_x10000, var_sum_g_x10000, var_sum_r_x10000
+CV4_EXPORT BOOL WINAPI cv4_sum(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4_sum: invalid handle");
+        cv::Scalar s = cv::sum(*m);
+        // sum はオーバーフローしやすいので x10000 ではなく 1.0 倍で格納
+        int vals[3] = { (int)s[0], (int)s[1], (int)s[2] };
+        for (int i = 0; i < 3; ++i) {
+            PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+            if (pv->flag != HSPVAR_FLAG_INT) return fail("cv4_sum: var must be int");
+            pv->offset = a;
+            HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+            proc->Set(pv, proc->GetPtr(pv), &vals[i]);
+        }
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_sum: unknown"); }
+}
+
+//  cv4_count_nonzero id, var_count
+CV4_EXPORT BOOL WINAPI cv4_count_nonzero(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+        if (pv->flag != HSPVAR_FLAG_INT) return fail("cv4_count_nonzero: var must be int");
+        pv->offset = a;
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4_count_nonzero: invalid handle");
+        cv::Mat gray = (m->channels() == 1) ? *m : cv::Mat();
+        if (gray.empty()) cv::cvtColor(*m, gray, cv::COLOR_BGR2GRAY);
+        int n = cv::countNonZero(gray);
+        HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+        proc->Set(pv, proc->GetPtr(pv), &n);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_count_nonzero: unknown"); }
+}
+
+// --- チャンネル操作 ---
+
+//  cv4_split src_id, b_id, g_id, r_id
+//    3ch 画像を B / G / R の 1ch 画像 3 枚に分解
+CV4_EXPORT BOOL WINAPI cv4_split(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int src_id = getint();
+        int b_id   = getint();
+        int g_id   = getint();
+        int r_id   = getint();
+        cv::Mat* s = hspcv4::handle_get(src_id);
+        if (!s || s->empty()) return fail("cv4_split: invalid source");
+        if (s->channels() != 3) return fail("cv4_split: source must be 3ch");
+        std::vector<cv::Mat> chs;
+        cv::split(*s, chs);
+        hspcv4::handle_set(b_id, std::move(chs[0]));
+        hspcv4::handle_set(g_id, std::move(chs[1]));
+        hspcv4::handle_set(r_id, std::move(chs[2]));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_split: unknown"); }
+}
+
+//  cv4_merge dst_id, b_id, g_id, r_id
+CV4_EXPORT BOOL WINAPI cv4_merge(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int b_id   = getint();
+        int g_id   = getint();
+        int r_id   = getint();
+        cv::Mat* b = hspcv4::handle_get(b_id);
+        cv::Mat* g = hspcv4::handle_get(g_id);
+        cv::Mat* r = hspcv4::handle_get(r_id);
+        if (!b || !g || !r || b->empty() || g->empty() || r->empty()) {
+            return fail("cv4_merge: invalid channel input");
+        }
+        std::vector<cv::Mat> chs = { *b, *g, *r };
+        cv::Mat out;
+        cv::merge(chs, out);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_merge: unknown"); }
+}
+
+// --- Mat 作成 ---
+
+//  cv4_mat_zeros dst, rows, cols, channels
+//    channels=1 or 3 の CV_8U を作成 (全 0)
+CV4_EXPORT BOOL WINAPI cv4_mat_zeros(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst = getint();
+        int rows = getint();
+        int cols = getint();
+        int ch   = getint_def(3);
+        int type = (ch == 1) ? CV_8UC1 : CV_8UC3;
+        cv::Mat out = cv::Mat::zeros(rows, cols, type);
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_mat_zeros: unknown"); }
+}
+
+//  cv4_mat_full dst, rows, cols, b, g, r
+//    3ch CV_8U の Mat を B,G,R で塗りつぶして作成
+CV4_EXPORT BOOL WINAPI cv4_mat_full(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst  = getint();
+        int rows = getint();
+        int cols = getint();
+        int b    = getint();
+        int g    = getint();
+        int r    = getint();
+        cv::Mat out(rows, cols, CV_8UC3, cv::Scalar(b, g, r));
+        hspcv4::handle_set(dst, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_mat_full: unknown"); }
+}
+
+// --- マスク操作 ---
+
+//  cv4_copy_masked dst, src, mask
+//    mask の非 0 ピクセル部分だけ src を dst にコピー (dst の他の部分は保持)
+CV4_EXPORT BOOL WINAPI cv4_copy_masked(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id  = getint();
+        int src_id  = getint();
+        int mask_id = getint();
+        cv::Mat* dst = hspcv4::handle_get(dst_id);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        cv::Mat* msk = hspcv4::handle_get(mask_id);
+        if (!src || src->empty()) return fail("cv4_copy_masked: invalid source");
+        if (!msk || msk->empty()) return fail("cv4_copy_masked: invalid mask");
+        cv::Mat out;
+        if (dst && !dst->empty()) {
+            out = dst->clone();
+        } else {
+            out = cv::Mat::zeros(src->size(), src->type());
+        }
+        src->copyTo(out, *msk);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_copy_masked: unknown"); }
+}
+
+
+//============================================================================
 //  Morphology : erode / dilate / morph_open/close/gradient/tophat/blackhat
 //  構造要素の shape: 0=CV4_MORPH_RECT, 1=CV4_MORPH_CROSS, 2=CV4_MORPH_ELLIPSE
 //============================================================================

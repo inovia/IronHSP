@@ -17,6 +17,14 @@
 #define global CV4_BGR2BGRA    0
 #define global CV4_BGRA2BGR    1
 
+; --- compare operators (cv4_compare 第4引数) ---
+#define global CV4_CMP_EQ  0
+#define global CV4_CMP_GT  1
+#define global CV4_CMP_GE  2
+#define global CV4_CMP_LT  3
+#define global CV4_CMP_LE  4
+#define global CV4_CMP_NE  5
+
 ; --- morphology structuring element shape (cv4_erode/dilate/morph_* 等) ---
 #define global CV4_MORPH_RECT    0
 #define global CV4_MORPH_CROSS   1
@@ -242,5 +250,36 @@
 #func global cv4_mat_geti       cv4_mat_geti       $202
 #func global cv4_mat_getf       cv4_mat_getf       $202
 #func global cv4_min_max_loc    cv4_min_max_loc    $202
+
+; ---- core Mat operations ----
+; 算術演算 (2 つの Mat 間)
+#func global cv4_add            cv4_add            $202
+#func global cv4_sub            cv4_sub            $202
+#func global cv4_mul            cv4_mul            $202
+#func global cv4_div            cv4_div            $202
+#func global cv4_abs_diff       cv4_abs_diff       $202
+#func global cv4_add_weighted   cv4_add_weighted   $202
+; スカラー演算
+#func global cv4_add_scalar     cv4_add_scalar     $202
+#func global cv4_mul_scalar     cv4_mul_scalar     $202
+; ビット演算
+#func global cv4_bit_and        cv4_bit_and        $202
+#func global cv4_bit_or         cv4_bit_or         $202
+#func global cv4_bit_xor        cv4_bit_xor        $202
+#func global cv4_bit_not        cv4_bit_not        $202
+; 比較
+#func global cv4_compare        cv4_compare        $202
+; 統計
+#func global cv4_mean           cv4_mean           $202
+#func global cv4_sum            cv4_sum            $202
+#func global cv4_count_nonzero  cv4_count_nonzero  $202
+; チャンネル操作
+#func global cv4_split          cv4_split          $202
+#func global cv4_merge          cv4_merge          $202
+; Mat 作成
+#func global cv4_mat_zeros      cv4_mat_zeros      $202
+#func global cv4_mat_full       cv4_mat_full       $202
+; マスクコピー
+#func global cv4_copy_masked    cv4_copy_masked    $202
 
 #endif
