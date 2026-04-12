@@ -662,6 +662,24 @@
         cv4_bgsub_apply 0, 1, 234, -1.0
         cv4_bgsub_free 0
         mes "cv4_bgsub_create_mog + apply OK"
+
+        ; Phase 13b-5: ximgproc
+        ; thinning は binary 入力を想定 (8 = otsu 結果)
+        cv4_thinning 240, 8, 0
+        if stat : mes "cv4_thinning FAIL" : end 1
+        cv4_niblack 241, 1, 255.0, CV4_THRESH_BINARY, 11, 0.5
+        if stat : mes "cv4_niblack FAIL" : end 1
+        cv4_anisotropic_diffusion 242, 1, 1.0, 0.02, 5
+        if stat : mes "cv4_anisotropic_diffusion FAIL" : end 1
+        cv4_guided_filter 243, 1, 1, 5, 0.01
+        if stat : mes "cv4_guided_filter FAIL" : end 1
+        cv4_l0_smooth 244, 1, 0.02, 2.0
+        if stat : mes "cv4_l0_smooth FAIL" : end 1
+        cv4_fast_global_smoother 245, 1, 1, 125.0, 8.0
+        if stat : mes "cv4_fast_global_smoother FAIL" : end 1
+        cv4_weighted_median 246, 1, 1, 5
+        if stat : mes "cv4_weighted_median FAIL" : end 1
+        mes "cv4 ximgproc (thinning/niblack/anisotropic/guided/l0/fgs/wmedian) OK"
     }
 
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---

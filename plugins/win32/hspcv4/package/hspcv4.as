@@ -474,4 +474,20 @@
 #func global cv4_bgsub_create_gsoc  cv4_bgsub_create_gsoc  $202
 #func global cv4_bgsub_create_mog   cv4_bgsub_create_mog   $202
 
+; ---- contrib: ximgproc (selected) ----
+; cv4_thinning              dst, src [, type=0(ZHANGSUEN) or 1(GUOHALL)]
+; cv4_niblack               dst, src, max_value, type, block_size, k
+; cv4_anisotropic_diffusion dst, src, alpha, K, niters
+; cv4_guided_filter         dst, guide, src, radius, eps
+; cv4_l0_smooth             dst, src [, lambda=0.02] [, kappa=2.0]
+; cv4_fast_global_smoother  dst, guide, src, lambda, sigma_color
+; cv4_weighted_median       dst, joint, src [, radius=7]
+#func global cv4_thinning              cv4_thinning              $202
+#func global cv4_niblack               cv4_niblack               $202
+#func global cv4_anisotropic_diffusion cv4_anisotropic_diffusion $202
+#func global cv4_guided_filter         cv4_guided_filter         $202
+#func global cv4_l0_smooth             cv4_l0_smooth             $202
+#func global cv4_fast_global_smoother  cv4_fast_global_smoother  $202
+#func global cv4_weighted_median       cv4_weighted_median       $202
+
 #endif

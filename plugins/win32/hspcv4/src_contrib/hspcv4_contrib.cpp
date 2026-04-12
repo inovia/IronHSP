@@ -21,6 +21,7 @@
 #include <opencv2/features2d.hpp>
 #include <opencv2/xfeatures2d.hpp>  // contrib: BRIEF / FREAK / DAISY / Star / HarrisLaplace
 #include <opencv2/bgsegm.hpp>       // contrib: CNT/GMG/LSBP/GSOC/MOG
+#include <opencv2/ximgproc.hpp>     // contrib: thinning/guided/anisotropic/etc
 #pragma warning(pop)
 
 #include "../src/hspcv4_capi.h"
@@ -390,4 +391,182 @@ CV4C_EXPORT int __stdcall cv4_bgsub_create_mog_impl(
     } catch (const cv::Exception& e) {
         api->set_last_error(e.what()); return -1;
     } catch (...) { api->set_last_error("cv4_bgsub_create_mog: unknown"); return -1; }
+}
+
+
+//============================================================================
+//  Phase 13b-5 : ximgproc (selected functions)
+//============================================================================
+
+// 共通: get_mat_or_fail
+static cv::Mat* get_mat(const hspcv4_handle_api_t* api, int id, const char* msg)
+{
+    cv::Mat* m = static_cast<cv::Mat*>(api->mat_get(id));
+    if (!m || m->empty()) {
+        api->set_last_error(msg);
+        return nullptr;
+    }
+    return m;
+}
+
+//  cv4_thinning dst_id, src_id [, type=0]   (0=ZHANGSUEN, 1=GUOHALL)
+CV4C_EXPORT int __stdcall cv4_thinning_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int dst_id = hei->HspFunc_prm_geti();
+        int src_id = hei->HspFunc_prm_geti();
+        int type   = hei->HspFunc_prm_getdi(0);
+        cv::Mat* src = get_mat(api, src_id, "cv4_thinning: invalid source");
+        if (!src) return -1;
+        cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
+        if (gray.empty()) cv::cvtColor(*src, gray, cv::COLOR_BGR2GRAY);
+        cv::Mat out;
+        cv::ximgproc::thinning(gray, out, type);
+        api->mat_set_move(dst_id, &out);
+        return 0;
+    } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; }
+      catch (...) { api->set_last_error("cv4_thinning: unknown"); return -1; }
+}
+
+//  cv4_niblack dst_id, src_id, max_value, type, block_size, k
+CV4C_EXPORT int __stdcall cv4_niblack_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int dst_id  = hei->HspFunc_prm_geti();
+        int src_id  = hei->HspFunc_prm_geti();
+        double mv   = hei->HspFunc_prm_getdd(255.0);
+        int type    = hei->HspFunc_prm_geti();
+        int bsize   = hei->HspFunc_prm_geti();
+        double k    = hei->HspFunc_prm_getdd(0.5);
+        cv::Mat* src = get_mat(api, src_id, "cv4_niblack: invalid source");
+        if (!src) return -1;
+        cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
+        if (gray.empty()) cv::cvtColor(*src, gray, cv::COLOR_BGR2GRAY);
+        cv::Mat out;
+        cv::ximgproc::niBlackThreshold(gray, out, mv, type, bsize, k);
+        api->mat_set_move(dst_id, &out);
+        return 0;
+    } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; }
+      catch (...) { api->set_last_error("cv4_niblack: unknown"); return -1; }
+}
+
+//  cv4_anisotropic_diffusion dst_id, src_id, alpha, K, niters
+CV4C_EXPORT int __stdcall cv4_anisotropic_diffusion_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int dst_id = hei->HspFunc_prm_geti();
+        int src_id = hei->HspFunc_prm_geti();
+        double alpha = hei->HspFunc_prm_getdd(1.0);
+        double K     = hei->HspFunc_prm_getdd(0.02);
+        int niters   = hei->HspFunc_prm_getdi(10);
+        cv::Mat* src = get_mat(api, src_id, "cv4_anisotropic_diffusion: invalid source");
+        if (!src) return -1;
+        // anisotropicDiffusion は 3ch CV_8U を要求する
+        cv::Mat in3;
+        if (src->channels() == 3) in3 = *src;
+        else cv::cvtColor(*src, in3, cv::COLOR_GRAY2BGR);
+        cv::Mat out;
+        cv::ximgproc::anisotropicDiffusion(in3, out, (float)alpha, (float)K, niters);
+        api->mat_set_move(dst_id, &out);
+        return 0;
+    } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; }
+      catch (...) { api->set_last_error("cv4_anisotropic_diffusion: unknown"); return -1; }
+}
+
+//  cv4_guided_filter dst_id, guide_id, src_id, radius, eps
+CV4C_EXPORT int __stdcall cv4_guided_filter_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int dst_id   = hei->HspFunc_prm_geti();
+        int guide_id = hei->HspFunc_prm_geti();
+        int src_id   = hei->HspFunc_prm_geti();
+        int radius   = hei->HspFunc_prm_geti();
+        double eps   = hei->HspFunc_prm_getdd(1e-2);
+        cv::Mat* guide = get_mat(api, guide_id, "cv4_guided_filter: invalid guide");
+        cv::Mat* src   = get_mat(api, src_id, "cv4_guided_filter: invalid source");
+        if (!guide || !src) return -1;
+        cv::Mat out;
+        cv::ximgproc::guidedFilter(*guide, *src, out, radius, eps);
+        api->mat_set_move(dst_id, &out);
+        return 0;
+    } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; }
+      catch (...) { api->set_last_error("cv4_guided_filter: unknown"); return -1; }
+}
+
+//  cv4_l0_smooth dst_id, src_id [, lambda=0.02] [, kappa=2.0]
+CV4C_EXPORT int __stdcall cv4_l0_smooth_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int dst_id   = hei->HspFunc_prm_geti();
+        int src_id   = hei->HspFunc_prm_geti();
+        double lam   = hei->HspFunc_prm_getdd(0.02);
+        double kap   = hei->HspFunc_prm_getdd(2.0);
+        cv::Mat* src = get_mat(api, src_id, "cv4_l0_smooth: invalid source");
+        if (!src) return -1;
+        cv::Mat out;
+        cv::ximgproc::l0Smooth(*src, out, lam, kap);
+        api->mat_set_move(dst_id, &out);
+        return 0;
+    } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; }
+      catch (...) { api->set_last_error("cv4_l0_smooth: unknown"); return -1; }
+}
+
+//  cv4_fast_global_smoother dst_id, guide_id, src_id, lambda, sigma_color
+CV4C_EXPORT int __stdcall cv4_fast_global_smoother_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int dst_id   = hei->HspFunc_prm_geti();
+        int guide_id = hei->HspFunc_prm_geti();
+        int src_id   = hei->HspFunc_prm_geti();
+        double lam   = hei->HspFunc_prm_getdd(125.0);
+        double sc    = hei->HspFunc_prm_getdd(8.0);
+        cv::Mat* guide = get_mat(api, guide_id, "cv4_fast_global_smoother: invalid guide");
+        cv::Mat* src   = get_mat(api, src_id, "cv4_fast_global_smoother: invalid source");
+        if (!guide || !src) return -1;
+        cv::Mat out;
+        cv::ximgproc::fastGlobalSmootherFilter(*guide, *src, out, lam, sc);
+        api->mat_set_move(dst_id, &out);
+        return 0;
+    } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; }
+      catch (...) { api->set_last_error("cv4_fast_global_smoother: unknown"); return -1; }
+}
+
+//  cv4_weighted_median dst_id, joint_id, src_id, radius
+CV4C_EXPORT int __stdcall cv4_weighted_median_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int dst_id   = hei->HspFunc_prm_geti();
+        int joint_id = hei->HspFunc_prm_geti();
+        int src_id   = hei->HspFunc_prm_geti();
+        int radius   = hei->HspFunc_prm_getdi(7);
+        cv::Mat* j = get_mat(api, joint_id, "cv4_weighted_median: invalid joint");
+        cv::Mat* s = get_mat(api, src_id, "cv4_weighted_median: invalid source");
+        if (!j || !s) return -1;
+        cv::Mat out;
+        cv::ximgproc::weightedMedianFilter(*j, *s, out, radius);
+        api->mat_set_move(dst_id, &out);
+        return 0;
+    } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; }
+      catch (...) { api->set_last_error("cv4_weighted_median: unknown"); return -1; }
 }

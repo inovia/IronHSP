@@ -16,3 +16,10 @@ EXPORTS
     cv4_bgsub_create_lsbp_impl
     cv4_bgsub_create_gsoc_impl
     cv4_bgsub_create_mog_impl
+    cv4_thinning_impl
+    cv4_niblack_impl
+    cv4_anisotropic_diffusion_impl
+    cv4_guided_filter_impl
+    cv4_l0_smooth_impl
+    cv4_fast_global_smoother_impl
+    cv4_weighted_median_impl

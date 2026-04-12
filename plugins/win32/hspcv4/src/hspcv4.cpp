@@ -246,6 +246,84 @@ CV4_EXPORT BOOL WINAPI cv4_bgsub_create_mog(HSPEXINFO* hei, int p1, int p2, int 
     return fail("cv4_bgsub_create_mog: hspcv4_contrib.dll not available");
 }
 
+// --- ximgproc proxies (Phase 13b-5) ---
+
+CV4_EXPORT BOOL WINAPI cv4_thinning(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_thinning_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti(); hei->HspFunc_prm_getdi(0);
+    return fail("cv4_thinning: hspcv4_contrib.dll not available");
+}
+
+CV4_EXPORT BOOL WINAPI cv4_niblack(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_niblack_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti(); hei->HspFunc_prm_getdd(255);
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti(); hei->HspFunc_prm_getdd(0.5);
+    return fail("cv4_niblack: hspcv4_contrib.dll not available");
+}
+
+CV4_EXPORT BOOL WINAPI cv4_anisotropic_diffusion(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_anisotropic_diffusion_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti();
+    hei->HspFunc_prm_getdd(1.0); hei->HspFunc_prm_getdd(0.02); hei->HspFunc_prm_getdi(10);
+    return fail("cv4_anisotropic_diffusion: hspcv4_contrib.dll not available");
+}
+
+CV4_EXPORT BOOL WINAPI cv4_guided_filter(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_guided_filter_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti();
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_getdd(1e-2);
+    return fail("cv4_guided_filter: hspcv4_contrib.dll not available");
+}
+
+CV4_EXPORT BOOL WINAPI cv4_l0_smooth(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_l0_smooth_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti();
+    hei->HspFunc_prm_getdd(0.02); hei->HspFunc_prm_getdd(2.0);
+    return fail("cv4_l0_smooth: hspcv4_contrib.dll not available");
+}
+
+CV4_EXPORT BOOL WINAPI cv4_fast_global_smoother(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_fast_global_smoother_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti();
+    hei->HspFunc_prm_getdd(125); hei->HspFunc_prm_getdd(8);
+    return fail("cv4_fast_global_smoother: hspcv4_contrib.dll not available");
+}
+
+CV4_EXPORT BOOL WINAPI cv4_weighted_median(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_weighted_median_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti();
+    hei->HspFunc_prm_getdi(7);
+    return fail("cv4_weighted_median: hspcv4_contrib.dll not available");
+}
+
 
 //============================================================================
 //  DllMain
