@@ -25,7 +25,9 @@ set "WORK_DIR=%SCRIPT_DIR%_work"
 
 set "HSPCV4_DLL=%HSPCV4_DIR%\Release\hspcv4.dll"
 set "HSPCV4_AS=%HSPCV4_DIR%\package\hspcv4.as"
-set "HSPCMP_EXE=%REPO_ROOT%\package\win32\hspcmp.exe"
+rem Use the freshly built hspcmp (supports #defstruct/NSTRUCT),
+rem NOT the stale package/win32/hspcmp.exe (2021, pre-defstruct).
+set "HSPCMP_EXE=%REPO_ROOT%\hspcmp\win32\Release\hspcmp.exe"
 set "HSP3CL_EXE=%REPO_ROOT%\hsp3\win32\Release\hsp3cl.exe"
 
 echo === hspcv4 headless self-test ===
@@ -55,6 +57,15 @@ copy /y "%HSPCMP_EXE%"               "%WORK_DIR%\hspcmp.exe"       >nul
 copy /y "%HSP3CL_EXE%"               "%WORK_DIR%\hsp3cl.exe"       >nul
 copy /y "%SCRIPT_DIR%test_image.png" "%WORK_DIR%\test_image.png"   >nul
 copy /y "%SCRIPT_DIR%test_headless.hsp" "%WORK_DIR%\test_headless.hsp" >nul
+
+rem Stage Haar cascade XML if OpenCV install dir exists (Phase 2e)
+set "OPENCV_ETC_32=%HSPCV4_DIR%\build\opencv_install_32\etc\haarcascades"
+set "OPENCV_ETC_64=%HSPCV4_DIR%\build\opencv_install_64\etc\haarcascades"
+if exist "%OPENCV_ETC_32%\haarcascade_frontalface_default.xml" (
+    copy /y "%OPENCV_ETC_32%\haarcascade_frontalface_default.xml" "%WORK_DIR%\" >nul
+) else if exist "%OPENCV_ETC_64%\haarcascade_frontalface_default.xml" (
+    copy /y "%OPENCV_ETC_64%\haarcascade_frontalface_default.xml" "%WORK_DIR%\" >nul
+)
 
 pushd "%WORK_DIR%"
 

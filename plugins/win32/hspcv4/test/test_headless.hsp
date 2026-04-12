@@ -113,6 +113,22 @@
     if (wx != 200) | (wy != 150) { mes "cv4warp size FAIL" : end 1 }
     mes "cv4flip/rotate/crop/warp OK"
 
+    ; --- cascade load (XML パスは環境依存なのでロード成否のみテスト) ---
+    ; build/opencv_install_32/etc/haarcascades/ に置かれる。
+    ; test/_work/ に置いたものを相対パスで参照する想定。
+    cv4_cascade_load 0, "haarcascade_frontalface_default.xml"
+    if stat < 0 {
+        mes "(cv4_cascade_load skipped: xml not staged)"
+    } else {
+        mes "cv4_cascade_load OK"
+        ; 検出は画像次第なので 0 件でも成功とみなす
+        stdim rects, cv_rect, 16
+        cv4_detect 0, 1, rects, ndet, 1.1, 3
+        if stat < 0 { mes "cv4_detect FAIL" : end 1 }
+        mes strf("cv4_detect OK: found %d rect(s) in resized apple image", ndet)
+        cv4_cascade_free 0
+    }
+
     ; --- cv4del / cv4reset ---
     cv4del 0
     cv4del 1

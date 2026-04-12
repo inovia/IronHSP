@@ -28,6 +28,7 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
+#include <opencv2/objdetect.hpp>
 #pragma warning(pop)
 
 #define CV4_EXPORT extern "C" __declspec(dllexport)
@@ -57,6 +58,15 @@ void  handle_free(int id);
 
 // Free every handle.
 void  handle_clear_all();
+
+//---------------------------------------------------------------------------
+// Cascade classifier handle manager (Phase 2e)
+//---------------------------------------------------------------------------
+
+bool cascade_set(int id, cv::CascadeClassifier&& cc);
+cv::CascadeClassifier* cascade_get(int id);
+void cascade_free(int id);
+void cascade_clear_all();
 
 //---------------------------------------------------------------------------
 // Last error message (for future cv4_getlasterror if needed)

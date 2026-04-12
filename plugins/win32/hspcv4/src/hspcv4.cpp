@@ -41,6 +41,7 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
     (void)hInst; (void)reserved;
     if (reason == DLL_PROCESS_DETACH) {
         hspcv4::handle_clear_all();
+        hspcv4::cascade_clear_all();
         cv::destroyAllWindows();
     }
     return TRUE;
@@ -289,6 +290,125 @@ CV4_EXPORT BOOL WINAPI cv4getimg(HSPEXINFO* hei, int p1, int p2, int p3)
         return fail("cv4getimg: unknown exception");
     }
 }
+
+//============================================================================
+//  Object detection : CascadeClassifier (Haar / LBP)
+//
+//  cv_rect (HSP 構造体) レイアウト: { int x; int y; int w; int h; } (16 bytes)
+//  HSP 側で stdim rects, cv_rect, N として確保した配列に検出結果を書き込む。
+//============================================================================
+
+// cv4_cascade_load cid, "xmlpath"
+CV4_EXPORT BOOL WINAPI cv4_cascade_load(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int cid         = getint();
+        const char* f   = getstr();
+        cv::CascadeClassifier cc;
+        if (!cc.load(f ? f : "")) {
+            return fail("cv4_cascade_load: load failed (file not found or invalid)");
+        }
+        hspcv4::cascade_set(cid, std::move(cc));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_cascade_load: unknown exception");
+    }
+}
+
+// cv4_cascade_free cid
+CV4_EXPORT BOOL WINAPI cv4_cascade_free(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int cid = getint();
+    hspcv4::cascade_free(cid);
+    return 0;
+}
+
+// cv4_detect cid, img_id, rects_array, count_var [, scale=1.1] [, min_neighbors=3]
+//   rects_array : HSP 側で stdim で確保した cv_rect 構造体配列
+//   count_var   : int 変数。検出数を格納 (配列サイズで打ち切り)
+CV4_EXPORT BOOL WINAPI cv4_detect(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int cid    = getint();
+        int img_id = getint();
+
+        // rects_array : 構造体配列 (NSTRUCT)
+        PVal* pval_rects;
+        APTR  aptr_rects = hei->HspFunc_prm_getva(&pval_rects);
+        pval_rects->offset = aptr_rects;
+
+        // count_var : int 変数
+        PVal* pval_count;
+        APTR  aptr_count = hei->HspFunc_prm_getva(&pval_count);
+        if (pval_count->flag != HSPVAR_FLAG_INT) {
+            return fail("cv4_detect: count var must be int");
+        }
+        pval_count->offset = aptr_count;
+
+        double scale      = hei->HspFunc_prm_getdd(1.1);
+        int min_neighbors = hei->HspFunc_prm_getdi(3);
+
+        cv::CascadeClassifier* cc = hspcv4::cascade_get(cid);
+        if (!cc || cc->empty()) return fail("cv4_detect: invalid cascade");
+
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_detect: invalid image");
+
+        // 入力をグレー化 (detectMultiScale の推奨)
+        cv::Mat gray;
+        if (img->channels() == 1) {
+            gray = *img;
+        } else {
+            cv::cvtColor(*img, gray, cv::COLOR_BGR2GRAY);
+        }
+        cv::equalizeHist(gray, gray);
+
+        std::vector<cv::Rect> faces;
+        cc->detectMultiScale(gray, faces, scale, min_neighbors,
+                             0, cv::Size(30, 30));
+
+        // rects 配列に書き込む。配列の最大要素数 = pval_rects->len[1]
+        // 要素サイズは cv_rect 構造体 (16 bytes) だが、pval->len[0] が
+        // NSTRUCT の要素サイズを持っている。
+        int max_elems = pval_rects->len[1];
+        if (max_elems <= 0) max_elems = 1;
+        int elem_size = pval_rects->len[0];
+        if (elem_size < (int)sizeof(int) * 4) {
+            return fail("cv4_detect: rects array must be cv_rect (16 bytes)");
+        }
+
+        int n = (int)faces.size();
+        if (n > max_elems) n = max_elems;
+
+        char* base = (char*)pval_rects->pt;
+        for (int i = 0; i < n; ++i) {
+            int* p = (int*)(base + (size_t)elem_size * i);
+            p[0] = faces[i].x;
+            p[1] = faces[i].y;
+            p[2] = faces[i].width;
+            p[3] = faces[i].height;
+        }
+
+        // count_var に検出数を格納
+        HspVarProc* proc = hei->HspFunc_getproc(pval_count->flag);
+        proc->Set(pval_count, proc->GetPtr(pval_count), &n);
+
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_detect: unknown exception");
+    }
+}
+
 
 //============================================================================
 //  Advanced : OpenCV native window display with HSP-safe key wait

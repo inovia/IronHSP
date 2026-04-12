@@ -33,6 +33,15 @@
 #define global CV4_INTER_AREA    3
 #define global CV4_INTER_LANCZOS4 4
 
+; ---- struct types (Phase 2e 以降で使用) ----
+; cv_rect: 検出結果などの矩形領域を表す構造体 (16 bytes)
+#defstruct cv_rect
+#field int x
+#field int y
+#field int w
+#field int h
+#endstruct
+
 #uselib "hspcv4.dll"
 
 ; ---- beginner API (no underscore) ----
@@ -101,5 +110,19 @@
 #func global cv4_wait_key      cv4_wait_key      $202
 #func global cv4_close_window  cv4_close_window  $202
 #func global cv4_close_all     cv4_close_all     $202
+
+; ---- object detection (Haar / LBP cascade) ----
+;
+; 使い方:
+;   stdim rects, cv_rect, 64      ; 最大 64 個の結果バッファ
+;   cv4_cascade_load 0, "haarcascade_frontalface_default.xml"
+;   cv4_detect 0, img_id, rects, n, 1.1, 3
+;   repeat n
+;     cv4rect img_id, rects(cnt).x, rects(cnt).y, rects(cnt).w, rects(cnt).h, 0,255,0, 2
+;   loop
+;
+#func global cv4_cascade_load  cv4_cascade_load  $202
+#func global cv4_cascade_free  cv4_cascade_free  $202
+#func global cv4_detect        cv4_detect        $202
 
 #endif

@@ -16,6 +16,7 @@ namespace hspcv4 {
 namespace {
 
 std::unordered_map<int, std::unique_ptr<cv::Mat>> g_handles;
+std::unordered_map<int, std::unique_ptr<cv::CascadeClassifier>> g_cascades;
 std::mutex g_mutex;
 int g_next_id = 0;
 std::string g_last_error;
@@ -58,6 +59,33 @@ void handle_clear_all()
     std::lock_guard<std::mutex> lock(g_mutex);
     g_handles.clear();
     g_next_id = 0;
+}
+
+bool cascade_set(int id, cv::CascadeClassifier&& cc)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_cascades[id] = std::make_unique<cv::CascadeClassifier>(std::move(cc));
+    return true;
+}
+
+cv::CascadeClassifier* cascade_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_cascades.find(id);
+    if (it == g_cascades.end()) return nullptr;
+    return it->second.get();
+}
+
+void cascade_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_cascades.erase(id);
+}
+
+void cascade_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_cascades.clear();
 }
 
 void set_last_error(const char* msg)
