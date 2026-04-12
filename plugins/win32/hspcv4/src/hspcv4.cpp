@@ -764,6 +764,150 @@ CV4_EXPORT BOOL WINAPI cv4_dnn_forward(HSPEXINFO* hei, int p1, int p2, int p3)
     }
 }
 
+//  cv4_dnn_load_caffe nid, "proto.txt", "model.caffemodel"
+CV4_EXPORT BOOL WINAPI cv4_dnn_load_caffe(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int nid              = getint();
+        const char* proto    = getstr();
+        const char* model    = getstr();
+        if (!proto || !model) return fail("cv4_dnn_load_caffe: empty path");
+        cv::dnn::Net net = cv::dnn::readNetFromCaffe(proto, model);
+        if (net.empty()) return fail("cv4_dnn_load_caffe: net empty");
+        hspcv4::dnn_set(nid, std::move(net));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_dnn_load_caffe: unknown"); }
+}
+
+//  cv4_dnn_load_tf nid, "model.pb" [, "config.pbtxt"]
+CV4_EXPORT BOOL WINAPI cv4_dnn_load_tf(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int nid              = getint();
+        const char* model    = getstr();
+        const char* config   = getstr_def("");
+        if (!model) return fail("cv4_dnn_load_tf: empty path");
+        cv::dnn::Net net = cv::dnn::readNetFromTensorflow(model, config ? config : "");
+        if (net.empty()) return fail("cv4_dnn_load_tf: net empty");
+        hspcv4::dnn_set(nid, std::move(net));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_dnn_load_tf: unknown"); }
+}
+
+//  cv4_dnn_load_darknet nid, "yolo.cfg", "yolo.weights"
+CV4_EXPORT BOOL WINAPI cv4_dnn_load_darknet(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int nid              = getint();
+        const char* cfg      = getstr();
+        const char* weights  = getstr();
+        if (!cfg || !weights) return fail("cv4_dnn_load_darknet: empty path");
+        cv::dnn::Net net = cv::dnn::readNetFromDarknet(cfg, weights);
+        if (net.empty()) return fail("cv4_dnn_load_darknet: net empty");
+        hspcv4::dnn_set(nid, std::move(net));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_dnn_load_darknet: unknown"); }
+}
+
+//  cv4_dnn_set_backend nid, backend, target
+//    backend: 0=DEFAULT, 1=HALIDE, 2=INFERENCE_ENGINE, 3=OPENCV, 5=CUDA
+//    target:  0=CPU, 1=OPENCL, 2=OPENCL_FP16, 3=MYRIAD, 6=CUDA, 7=CUDA_FP16
+CV4_EXPORT BOOL WINAPI cv4_dnn_set_backend(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int nid     = getint();
+        int backend = getint();
+        int target  = getint();
+        cv::dnn::Net* net = hspcv4::dnn_get(nid);
+        if (!net || net->empty()) return fail("cv4_dnn_set_backend: invalid net");
+        net->setPreferableBackend(backend);
+        net->setPreferableTarget(target);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_dnn_set_backend: unknown"); }
+}
+
+//  cv4_dnn_nms_boxes rects_array, var_count, scores_var, score_thresh, nms_thresh
+//    rects_array: cv_rect 配列 (in/out)。指定した index の rect だけが残る
+//    var_count: 入力時=候補数、出力時=NMS 後の数
+//    scores_var: float 配列を int x10000 で渡す
+//    score_thresh / nms_thresh: x10000 固定小数点 int
+CV4_EXPORT BOOL WINAPI cv4_dnn_nms_boxes(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        PVal* pv_rects;
+        APTR a1 = hei->HspFunc_prm_getva(&pv_rects);
+        pv_rects->offset = a1;
+        if (pv_rects->len[0] < (int)sizeof(int) * 4)
+            return fail("cv4_dnn_nms_boxes: rects must be cv_rect array");
+
+        PVal* pv_count;
+        APTR a2 = hei->HspFunc_prm_getva(&pv_count);
+        if (pv_count->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_dnn_nms_boxes: count must be int");
+        pv_count->offset = a2;
+
+        PVal* pv_scores;
+        APTR a3 = hei->HspFunc_prm_getva(&pv_scores);
+        if (pv_scores->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_dnn_nms_boxes: scores must be int array (x10000)");
+        pv_scores->offset = a3;
+
+        int score_th_x10000 = getint();
+        int nms_th_x10000   = getint();
+
+        // 入力 count を取得
+        int n_in = *(int*)pv_count->pt;
+        if (n_in <= 0) return 0;
+        if (pv_rects->len[1] < n_in) return fail("cv4_dnn_nms_boxes: rects too small");
+        if (pv_scores->len[1] < n_in) return fail("cv4_dnn_nms_boxes: scores too small");
+
+        // HSP -> std::vector
+        std::vector<cv::Rect> boxes(n_in);
+        std::vector<float> scores(n_in);
+        char* base_r = (char*)pv_rects->pt;
+        int es_r = pv_rects->len[0];
+        int* base_s = (int*)pv_scores->pt;
+        for (int i = 0; i < n_in; ++i) {
+            int* p = (int*)(base_r + (size_t)es_r * i);
+            boxes[i] = cv::Rect(p[0], p[1], p[2], p[3]);
+            scores[i] = (float)base_s[i] / 10000.0f;
+        }
+
+        std::vector<int> indices;
+        cv::dnn::NMSBoxes(boxes, scores, score_th_x10000 / 10000.0f,
+                          nms_th_x10000 / 10000.0f, indices);
+
+        // 出力: rects 配列を kept index で詰め直す
+        for (int i = 0; i < (int)indices.size(); ++i) {
+            int src = indices[i];
+            int* psrc = (int*)(base_r + (size_t)es_r * src);
+            int* pdst = (int*)(base_r + (size_t)es_r * i);
+            int tmp[4] = { psrc[0], psrc[1], psrc[2], psrc[3] };
+            pdst[0] = tmp[0]; pdst[1] = tmp[1]; pdst[2] = tmp[2]; pdst[3] = tmp[3];
+        }
+        int n_out = (int)indices.size();
+        HspVarProc* proc = hei->HspFunc_getproc(pv_count->flag);
+        proc->Set(pv_count, proc->GetPtr(pv_count), &n_out);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_dnn_nms_boxes: unknown"); }
+}
+
+
 //  cv4_dnn_argmax out_id, var_class, var_score
 //    分類タスク向けヘルパ: 出力 blob (float32) から argmax を計算して
 //    クラス index (int) と最大スコア (double に int 変換したもの) を返す。

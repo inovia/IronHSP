@@ -758,6 +758,27 @@
     }
     mes "cv4_dnn_load error handling OK"
 
+    ; Phase 16: DNN extras (各 loader のエラーパスのみテスト)
+    cv4_dnn_load_caffe 0, "no_proto.txt", "no.caffemodel"
+    if stat = 0 : mes "caffe load should fail" : end 1
+    cv4_dnn_load_tf 0, "no.pb", ""
+    if stat = 0 : mes "tf load should fail" : end 1
+    cv4_dnn_load_darknet 0, "no.cfg", "no.weights"
+    if stat = 0 : mes "darknet load should fail" : end 1
+    mes "cv4_dnn_load_{caffe,tf,darknet} error handling OK"
+
+    ; NMS boxes: 重なる 3 つの矩形を渡して suppressing 確認
+    stdim nms_rects, cv_rect, 8
+    nms_rects(0)->x = 10 : nms_rects(0)->y = 10 : nms_rects(0)->w = 100 : nms_rects(0)->h = 100
+    nms_rects(1)->x = 15 : nms_rects(1)->y = 15 : nms_rects(1)->w = 100 : nms_rects(1)->h = 100
+    nms_rects(2)->x = 200 : nms_rects(2)->y = 200 : nms_rects(2)->w = 50 : nms_rects(2)->h = 50
+    dim nms_scores, 8
+    nms_scores(0) = 9000 : nms_scores(1) = 8500 : nms_scores(2) = 7000
+    nms_n = 3
+    cv4_dnn_nms_boxes nms_rects, nms_n, nms_scores, 5000, 5000
+    if stat : mes "cv4_dnn_nms_boxes FAIL" : end 1
+    mes strf("cv4_dnn_nms_boxes: 3 -> %d boxes after NMS", nms_n)
+
     ; --- cv4del / cv4reset ---
     cv4del 0
     cv4del 1

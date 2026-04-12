@@ -248,6 +248,20 @@
 #func global cv4_dnn_forward    cv4_dnn_forward    $202
 #func global cv4_dnn_argmax     cv4_dnn_argmax     $202
 
+; --- Phase 16: DNN extras ---
+; cv4_dnn_load_caffe   nid, "deploy.prototxt", "model.caffemodel"
+; cv4_dnn_load_tf      nid, "model.pb" [, "config.pbtxt"]
+; cv4_dnn_load_darknet nid, "yolo.cfg", "yolo.weights"
+; cv4_dnn_set_backend  nid, backend, target
+;   backend: 0=DEFAULT, 3=OPENCV, 5=CUDA  / target: 0=CPU, 1=OPENCL, 6=CUDA
+; cv4_dnn_nms_boxes    rects, count, scores_x10000, score_thresh_x10000, nms_thresh_x10000
+;   YOLO 等の検出後に Non-Maximum Suppression をかける
+#func global cv4_dnn_load_caffe   cv4_dnn_load_caffe   $202
+#func global cv4_dnn_load_tf      cv4_dnn_load_tf      $202
+#func global cv4_dnn_load_darknet cv4_dnn_load_darknet $202
+#func global cv4_dnn_set_backend  cv4_dnn_set_backend  $202
+#func global cv4_dnn_nms_boxes    cv4_dnn_nms_boxes    $202
+
 ; ---- morphology ----
 ;   shape : CV4_MORPH_RECT / CROSS / ELLIPSE
 ;   ksize : カーネルサイズ (奇数推奨)
