@@ -20,6 +20,7 @@ std::unordered_map<int, std::unique_ptr<cv::CascadeClassifier>> g_cascades;
 std::unordered_map<int, std::unique_ptr<cv::VideoCapture>> g_captures;
 std::unordered_map<int, std::unique_ptr<cv::VideoWriter>> g_writers;
 std::unordered_map<int, std::unique_ptr<cv::dnn::Net>> g_nets;
+std::unordered_map<int, std::unique_ptr<ContourSet>> g_contours;
 std::mutex g_mutex;
 int g_next_id = 0;
 std::string g_last_error;
@@ -170,6 +171,33 @@ void dnn_clear_all()
 {
     std::lock_guard<std::mutex> lock(g_mutex);
     g_nets.clear();
+}
+
+bool contours_set(int id, ContourSet&& cs)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_contours[id] = std::make_unique<ContourSet>(std::move(cs));
+    return true;
+}
+
+ContourSet* contours_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_contours.find(id);
+    if (it == g_contours.end()) return nullptr;
+    return it->second.get();
+}
+
+void contours_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_contours.erase(id);
+}
+
+void contours_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_contours.clear();
 }
 
 void set_last_error(const char* msg)

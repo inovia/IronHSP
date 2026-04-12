@@ -17,6 +17,18 @@
 #define global CV4_BGR2BGRA    0
 #define global CV4_BGRA2BGR    1
 
+; --- findContours retrieval mode (cv4_find_contours 第3引数) ---
+#define global CV4_RETR_EXTERNAL 0
+#define global CV4_RETR_LIST     1
+#define global CV4_RETR_CCOMP    2
+#define global CV4_RETR_TREE     3
+
+; --- findContours approximation method (cv4_find_contours 第4引数) ---
+#define global CV4_CHAIN_APPROX_NONE      1
+#define global CV4_CHAIN_APPROX_SIMPLE    2
+#define global CV4_CHAIN_APPROX_TC89_L1   3
+#define global CV4_CHAIN_APPROX_TC89_KCOS 4
+
 ; --- compare operators (cv4_compare 第4引数) ---
 #define global CV4_CMP_EQ  0
 #define global CV4_CMP_GT  1
@@ -281,5 +293,32 @@
 #func global cv4_mat_full       cv4_mat_full       $202
 ; マスクコピー
 #func global cv4_copy_masked    cv4_copy_masked    $202
+
+; ---- contours and shape analysis ----
+;
+; 使い方:
+;   cv4_find_contours 0, src_id, CV4_RETR_EXTERNAL, CV4_CHAIN_APPROX_SIMPLE
+;   cv4_contours_count 0, n
+;   repeat n
+;     cv4_contour_area 0, cnt, area
+;     cv4_bounding_rect 0, cnt, x, y, w, h
+;     cv4rect img_id, x, y, w, h, 0, 255, 0, 2
+;   loop
+;   cv4_contours_free 0
+;
+#func global cv4_find_contours        cv4_find_contours        $202
+#func global cv4_contours_free        cv4_contours_free        $202
+#func global cv4_contours_count       cv4_contours_count       $202
+#func global cv4_draw_contours        cv4_draw_contours        $202
+#func global cv4_contour_area         cv4_contour_area         $202
+#func global cv4_contour_length       cv4_contour_length       $202
+#func global cv4_bounding_rect        cv4_bounding_rect        $202
+#func global cv4_min_area_rect        cv4_min_area_rect        $202
+#func global cv4_min_enclosing_circle cv4_min_enclosing_circle $202
+#func global cv4_approx_poly_dp       cv4_approx_poly_dp       $202
+#func global cv4_convex_hull          cv4_convex_hull          $202
+#func global cv4_contour_size         cv4_contour_size         $202
+#func global cv4_contour_point        cv4_contour_point        $202
+#func global cv4_moments              cv4_moments              $202
 
 #endif

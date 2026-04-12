@@ -89,6 +89,13 @@ cv::dnn::Net* dnn_get(int id);
 void dnn_free(int id);
 void dnn_clear_all();
 
+// Contour set: std::vector<std::vector<cv::Point>>
+using ContourSet = std::vector<std::vector<cv::Point>>;
+bool contours_set(int id, ContourSet&& cs);
+ContourSet* contours_get(int id);
+void contours_free(int id);
+void contours_clear_all();
+
 //---------------------------------------------------------------------------
 // Last error message (for future cv4_getlasterror if needed)
 //---------------------------------------------------------------------------

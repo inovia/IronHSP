@@ -290,6 +290,56 @@
     cv4_copy_masked 73, 50, 72
     mes "cv4_copy_masked OK"
 
+    ; --- Phase 5: contours / shape analysis ---
+    ; 8 は otsu 二値化済みのグレー画像
+    cv4_find_contours 0, 8, CV4_RETR_EXTERNAL, CV4_CHAIN_APPROX_SIMPLE
+    if stat : mes "cv4_find_contours FAIL" : end 1
+    cv4_contours_count 0, n_cont
+    mes strf("cv4_find_contours: found %d contours", n_cont)
+    if n_cont <= 0 : mes "no contours found" : end 1
+
+    ; 最初の輪郭の情報を取得
+    cv4_contour_size 0, 0, ct_size
+    cv4_contour_area 0, 0, ct_area
+    cv4_contour_length 0, 0, 1, ct_len
+    mes strf("contour[0]: size=%d points, area=%d, length=%d (x100)", ct_size, ct_area, ct_len)
+
+    cv4_bounding_rect 0, 0, br_x, br_y, br_w, br_h
+    mes strf("contour[0] bbox: (%d,%d,%d,%d)", br_x, br_y, br_w, br_h)
+
+    cv4_min_area_rect 0, 0, mar_cx, mar_cy, mar_w, mar_h, mar_ang
+    mes strf("contour[0] minAreaRect: center=(%d,%d), size=(%d,%d) x10", mar_cx, mar_cy, mar_w, mar_h)
+
+    cv4_min_enclosing_circle 0, 0, mc_x, mc_y, mc_r
+    mes strf("contour[0] minEnclosingCircle: center=(%d,%d), r=%d x10", mc_x, mc_y, mc_r)
+
+    cv4_moments 0, 0, mo_cx, mo_cy, mo_m00
+    mes strf("contour[0] moments: cg=(%d,%d x10), m00=%d", mo_cx, mo_cy, mo_m00)
+
+    ; approximation と hull
+    cv4_approx_poly_dp 0, 0, 80, 3.0, 1
+    cv4_contours_count 80, n_ap
+    cv4_contour_size   80, 0, ap_size
+    mes strf("approxPolyDP: %d contours, first has %d points", n_ap, ap_size)
+
+    cv4_convex_hull 0, 0, 81
+    cv4_contour_size 81, 0, hl_size
+    mes strf("convexHull: first has %d points", hl_size)
+
+    ; 最初の頂点座標
+    cv4_contour_point 0, 0, 0, pt_x, pt_y
+    mes strf("contour[0] point[0] = (%d,%d)", pt_x, pt_y)
+
+    ; 描画テスト
+    cv4resize 82, 0, 320, 240
+    cv4_draw_contours 82, 0, -1, 0, 255, 0, 2
+    if stat : mes "cv4_draw_contours FAIL" : end 1
+    mes "cv4_draw_contours OK"
+
+    cv4_contours_free 0
+    cv4_contours_free 80
+    cv4_contours_free 81
+
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---
     cv4_dnn_load 0, "nonexistent_model.onnx"
     if stat = 0 {
@@ -318,6 +368,9 @@
     repeat 30
         cv4del 50 + cnt
     loop
+    cv4del 80
+    cv4del 81
+    cv4del 82
     cv4reset
     mes "cv4del/cv4reset OK"
 
