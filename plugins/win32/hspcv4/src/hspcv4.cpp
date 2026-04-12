@@ -2733,6 +2733,107 @@ CV4_EXPORT BOOL WINAPI cv4_connected_components(HSPEXINFO* hei, int p1, int p2, 
 }
 
 //============================================================================
+//  xfeatures2d / ximgproc extras (Phase 24)
+//============================================================================
+
+//  cv4_msd_detect kp_id, src_id [, patch_radius=3] [, search_area_radius=5]
+CV4_EXPORT BOOL WINAPI cv4_msd_detect(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int kp_id  = getint();
+        int src_id = getint();
+        int prad   = getint_def(3);
+        int srad   = getint_def(5);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_msd_detect: invalid src");
+        auto detector = cv::xfeatures2d::MSDDetector::create(prad, srad);
+        std::vector<cv::KeyPoint> kps;
+        detector->detect(*src, kps);
+        hspcv4::kps_set(kp_id, std::move(kps));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_msd_detect: unknown"); }
+}
+
+//  cv4_fast_line_detect lines_mat_id, src_id [, len_thresh=10]
+//                                            [, do_merge=0]
+//    出力 lines は Nx4 CV_32F (x1, y1, x2, y2)
+CV4_EXPORT BOOL WINAPI cv4_fast_line_detect(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id  = getint();
+        int src_id  = getint();
+        int len_th  = getint_def(10);
+        int do_mrg  = getint_def(0);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_fast_line_detect: invalid src");
+        auto fld = cv::ximgproc::createFastLineDetector(
+            len_th, 1.4142135f, 50.0, 50.0, 3, do_mrg != 0);
+        std::vector<cv::Vec4f> lines;
+        fld->detect(*src, lines);
+        cv::Mat out((int)lines.size(), 4, CV_32F);
+        for (size_t i = 0; i < lines.size(); ++i) {
+            out.at<float>((int)i, 0) = lines[i][0];
+            out.at<float>((int)i, 1) = lines[i][1];
+            out.at<float>((int)i, 2) = lines[i][2];
+            out.at<float>((int)i, 3) = lines[i][3];
+        }
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_fast_line_detect: unknown"); }
+}
+
+//  cv4_peilin_normalize dst, src
+//    PeiLin 正規化 (画像のアフィン正規化用変換 T 行列を出力)
+CV4_EXPORT BOOL WINAPI cv4_peilin_normalize(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_peilin_normalize: invalid src");
+        cv::Mat T;
+        cv::ximgproc::PeiLinNormalization(*src, T);
+        hspcv4::handle_set(dst_id, std::move(T));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_peilin_normalize: unknown"); }
+}
+
+//  cv4_am_filter dst, joint, src, sigma_s_x10, sigma_r_x10
+//    Adaptive Manifold Filter (sigma は 0.1 単位の整数で渡す)
+CV4_EXPORT BOOL WINAPI cv4_am_filter(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id   = getint();
+        int joint_id = getint();
+        int src_id   = getint();
+        int s_s_x10  = getint_def(160); // 16.0
+        int s_r_x10  = getint_def(2);   // 0.2
+        cv::Mat* joint = hspcv4::handle_get(joint_id);
+        cv::Mat* src   = hspcv4::handle_get(src_id);
+        if (!joint || joint->empty() || !src || src->empty())
+            return fail("cv4_am_filter: invalid input");
+        cv::Mat dst;
+        cv::ximgproc::amFilter(*joint, *src, dst,
+            (double)s_s_x10 / 10.0, (double)s_r_x10 / 10.0);
+        hspcv4::handle_set(dst_id, std::move(dst));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_am_filter: unknown"); }
+}
+
+
+//============================================================================
 //  features2d extras (Phase 23): BRISK / FAST + KalmanFilter
 //============================================================================
 

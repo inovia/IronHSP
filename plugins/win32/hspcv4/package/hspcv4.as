@@ -533,6 +533,12 @@
 #func global cv4_kalman_correct       cv4_kalman_correct       $202
 #func global cv4_kalman_free          cv4_kalman_free          $202
 
+; ---- xfeatures2d / ximgproc extras (Phase 24) ----
+#func global cv4_msd_detect           cv4_msd_detect           $202
+#func global cv4_fast_line_detect     cv4_fast_line_detect     $202
+#func global cv4_peilin_normalize     cv4_peilin_normalize     $202
+#func global cv4_am_filter            cv4_am_filter            $202
+
 ; ---- calib3d full (Phase 14): camera calibration / pose estimation ----
 ; cv4_camera_matrix dst, fx, fy, cx, cy        — 3x3 K 行列を生成
 ; cv4_dist_coeffs   dst, k1, k2, p1, p2, k3    — 1x5 歪み係数 D を生成

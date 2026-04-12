@@ -40,6 +40,11 @@
 #include <opencv2/stitching.hpp>
 #include <opencv2/face.hpp>
 #include <opencv2/xphoto.hpp>
+#include <opencv2/xfeatures2d.hpp>
+#include <opencv2/ximgproc.hpp>
+#include <opencv2/ximgproc/edge_filter.hpp>
+#include <opencv2/ximgproc/fast_line_detector.hpp>
+#include <opencv2/ximgproc/peilin.hpp>
 #pragma warning(pop)
 
 #define CV4_EXPORT extern "C" __declspec(dllexport)
