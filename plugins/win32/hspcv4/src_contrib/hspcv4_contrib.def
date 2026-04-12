@@ -6,3 +6,8 @@ EXPORTS
     cv4_contrib_version_impl
     cv4_tracker_create_csrt_impl
     cv4_tracker_create_kcf_impl
+    cv4_star_detect_impl
+    cv4_harris_laplace_detect_impl
+    cv4_brief_compute_impl
+    cv4_freak_compute_impl
+    cv4_daisy_compute_impl

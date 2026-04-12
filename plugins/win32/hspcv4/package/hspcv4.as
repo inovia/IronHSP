@@ -456,4 +456,14 @@
 #func global cv4_tracker_create_csrt  cv4_tracker_create_csrt  $202
 #func global cv4_tracker_create_kcf   cv4_tracker_create_kcf   $202
 
+; ---- contrib: xfeatures2d (BRIEF/FREAK/DAISY/Star/HarrisLaplace) ----
+; SURF は nonfree なので含めず。Detector 系は keypoints を生成、
+; Compute 系は既存 keypoints から記述子を計算 (cv4_orb_detect_compute と
+; 同じ KeyPointSet ハンドルを使用)。
+#func global cv4_star_detect           cv4_star_detect           $202
+#func global cv4_harris_laplace_detect cv4_harris_laplace_detect $202
+#func global cv4_brief_compute         cv4_brief_compute         $202
+#func global cv4_freak_compute         cv4_freak_compute         $202
+#func global cv4_daisy_compute         cv4_daisy_compute         $202
+
 #endif

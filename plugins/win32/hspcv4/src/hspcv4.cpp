@@ -133,6 +133,64 @@ CV4_EXPORT BOOL WINAPI cv4_tracker_create_kcf(HSPEXINFO* hei, int p1, int p2, in
     return fail("cv4_tracker_create_kcf: hspcv4_contrib.dll not available");
 }
 
+// --- xfeatures2d proxies (Phase 13b-3) ---
+
+//  cv4_star_detect kp_id, img_id
+CV4_EXPORT BOOL WINAPI cv4_star_detect(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_star_detect_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti();
+    return fail("cv4_star_detect: hspcv4_contrib.dll not available");
+}
+
+//  cv4_harris_laplace_detect kp_id, img_id
+CV4_EXPORT BOOL WINAPI cv4_harris_laplace_detect(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_harris_laplace_detect_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti();
+    return fail("cv4_harris_laplace_detect: hspcv4_contrib.dll not available");
+}
+
+//  cv4_brief_compute kp_id, desc_id, img_id [, bytes=32]
+CV4_EXPORT BOOL WINAPI cv4_brief_compute(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_brief_compute_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti();
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_getdi(32);
+    return fail("cv4_brief_compute: hspcv4_contrib.dll not available");
+}
+
+//  cv4_freak_compute kp_id, desc_id, img_id
+CV4_EXPORT BOOL WINAPI cv4_freak_compute(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_freak_compute_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti();
+    return fail("cv4_freak_compute: hspcv4_contrib.dll not available");
+}
+
+//  cv4_daisy_compute kp_id, desc_id, img_id
+CV4_EXPORT BOOL WINAPI cv4_daisy_compute(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_daisy_compute_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti();
+    return fail("cv4_daisy_compute: hspcv4_contrib.dll not available");
+}
+
 
 //============================================================================
 //  DllMain

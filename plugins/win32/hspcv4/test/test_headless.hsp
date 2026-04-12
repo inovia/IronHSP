@@ -598,6 +598,39 @@
         cv4_tracker_update 0, 1, kcf_x, kcf_y, kcf_w, kcf_h
         mes strf("KCF tracker: box=(%d,%d,%d,%d) stat=%d", kcf_x, kcf_y, kcf_w, kcf_h, stat)
         cv4_tracker_free 0
+
+        ; Phase 13b-3: xfeatures2d
+        cv4_star_detect 210, 1
+        if stat : mes "cv4_star_detect FAIL" : end 1
+        cv4_kp_count 210, n_star
+        mes strf("cv4_star_detect: %d keypoints", n_star)
+
+        cv4_harris_laplace_detect 211, 1
+        if stat : mes "cv4_harris_laplace_detect FAIL" : end 1
+        cv4_kp_count 211, n_hl
+        mes strf("cv4_harris_laplace_detect: %d keypoints", n_hl)
+
+        ; ORB の keypoints (90) を使って BRIEF/FREAK/DAISY 記述子を計算
+        cv4_orb_detect_compute 212, 213, 1, 200
+        cv4_brief_compute 212, 214, 1, 32
+        if stat : mes "cv4_brief_compute FAIL" : end 1
+        cv4_mat_shape 214, br_r, br_c, _, _
+        mes strf("cv4_brief_compute: descriptors %dx%d", br_r, br_c)
+
+        cv4_orb_detect_compute 215, 216, 1, 200
+        cv4_freak_compute 215, 217, 1
+        if stat : mes "cv4_freak_compute FAIL" : end 1
+        cv4_mat_shape 217, fr_r, fr_c, _, _
+        mes strf("cv4_freak_compute: descriptors %dx%d", fr_r, fr_c)
+
+        cv4_orb_detect_compute 218, 219, 1, 200
+        cv4_daisy_compute 218, 220, 1
+        if stat : mes "cv4_daisy_compute FAIL" : end 1
+        cv4_mat_shape 220, da_r, da_c, _, _
+        mes strf("cv4_daisy_compute: descriptors %dx%d", da_r, da_c)
+
+        cv4_kp_free 210 : cv4_kp_free 211
+        cv4_kp_free 212 : cv4_kp_free 215 : cv4_kp_free 218
     }
 
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---

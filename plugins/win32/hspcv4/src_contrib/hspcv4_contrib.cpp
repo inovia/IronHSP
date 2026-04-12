@@ -18,6 +18,8 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/video.hpp>      // cv::Tracker base class
 #include <opencv2/tracking.hpp>   // contrib: TrackerCSRT / TrackerKCF
+#include <opencv2/features2d.hpp>
+#include <opencv2/xfeatures2d.hpp>  // contrib: BRIEF / FREAK / DAISY / Star / HarrisLaplace
 #pragma warning(pop)
 
 #include "../src/hspcv4_capi.h"
@@ -128,6 +130,163 @@ CV4C_EXPORT int __stdcall cv4_tracker_create_kcf_impl(
         return -1;
     } catch (...) {
         if (api) api->set_last_error("cv4_tracker_create_kcf: unknown");
+        return -1;
+    }
+}
+
+
+//============================================================================
+//  Phase 13b-3 : xfeatures2d (BRIEF / FREAK / DAISY / Star / HarrisLaplace)
+//
+//  Detector classes (Star, HarrisLaplace) は keypoints を生成する。
+//  Descriptor classes (BRIEF, FREAK, DAISY) は既存 keypoints から記述子を計算
+//  (compute は keypoints を破壊的に書き換えることがある)。
+//============================================================================
+
+// 共通: img_id をグレースケール化して取得
+static cv::Mat get_gray_image(const hspcv4_handle_api_t* api, int img_id, const char* fn)
+{
+    cv::Mat* img = static_cast<cv::Mat*>(api->mat_get(img_id));
+    if (!img || img->empty()) {
+        api->set_last_error("invalid image");
+        return cv::Mat();
+    }
+    cv::Mat gray = (img->channels() == 1) ? *img : cv::Mat();
+    if (gray.empty()) cv::cvtColor(*img, gray, cv::COLOR_BGR2GRAY);
+    return gray;
+}
+
+//  cv4_star_detect kp_id, img_id
+CV4C_EXPORT int __stdcall cv4_star_detect_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int kp_id  = hei->HspFunc_prm_geti();
+        int img_id = hei->HspFunc_prm_geti();
+        cv::Mat gray = get_gray_image(api, img_id, "cv4_star_detect");
+        if (gray.empty()) return -1;
+        auto star = cv::xfeatures2d::StarDetector::create();
+        std::vector<cv::KeyPoint> kps;
+        star->detect(gray, kps);
+        api->kps_set_move(kp_id, &kps);
+        return 0;
+    } catch (const cv::Exception& e) {
+        api->set_last_error(e.what());
+        return -1;
+    } catch (...) {
+        api->set_last_error("cv4_star_detect: unknown");
+        return -1;
+    }
+}
+
+//  cv4_harris_laplace_detect kp_id, img_id
+CV4C_EXPORT int __stdcall cv4_harris_laplace_detect_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int kp_id  = hei->HspFunc_prm_geti();
+        int img_id = hei->HspFunc_prm_geti();
+        cv::Mat gray = get_gray_image(api, img_id, "cv4_harris_laplace_detect");
+        if (gray.empty()) return -1;
+        auto hl = cv::xfeatures2d::HarrisLaplaceFeatureDetector::create();
+        std::vector<cv::KeyPoint> kps;
+        hl->detect(gray, kps);
+        api->kps_set_move(kp_id, &kps);
+        return 0;
+    } catch (const cv::Exception& e) {
+        api->set_last_error(e.what());
+        return -1;
+    } catch (...) {
+        api->set_last_error("cv4_harris_laplace_detect: unknown");
+        return -1;
+    }
+}
+
+//  cv4_brief_compute kp_id, desc_id, img_id [, bytes=32]
+CV4C_EXPORT int __stdcall cv4_brief_compute_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int kp_id   = hei->HspFunc_prm_geti();
+        int desc_id = hei->HspFunc_prm_geti();
+        int img_id  = hei->HspFunc_prm_geti();
+        int bytes   = hei->HspFunc_prm_getdi(32);
+        cv::Mat gray = get_gray_image(api, img_id, "cv4_brief_compute");
+        if (gray.empty()) return -1;
+        auto* kps = static_cast<std::vector<cv::KeyPoint>*>(api->kps_get(kp_id));
+        if (!kps) { api->set_last_error("invalid kp set"); return -1; }
+        auto brief = cv::xfeatures2d::BriefDescriptorExtractor::create(bytes);
+        cv::Mat desc;
+        brief->compute(gray, *kps, desc);
+        api->mat_set_move(desc_id, &desc);
+        return 0;
+    } catch (const cv::Exception& e) {
+        api->set_last_error(e.what());
+        return -1;
+    } catch (...) {
+        api->set_last_error("cv4_brief_compute: unknown");
+        return -1;
+    }
+}
+
+//  cv4_freak_compute kp_id, desc_id, img_id
+CV4C_EXPORT int __stdcall cv4_freak_compute_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int kp_id   = hei->HspFunc_prm_geti();
+        int desc_id = hei->HspFunc_prm_geti();
+        int img_id  = hei->HspFunc_prm_geti();
+        cv::Mat gray = get_gray_image(api, img_id, "cv4_freak_compute");
+        if (gray.empty()) return -1;
+        auto* kps = static_cast<std::vector<cv::KeyPoint>*>(api->kps_get(kp_id));
+        if (!kps) { api->set_last_error("invalid kp set"); return -1; }
+        auto freak = cv::xfeatures2d::FREAK::create();
+        cv::Mat desc;
+        freak->compute(gray, *kps, desc);
+        api->mat_set_move(desc_id, &desc);
+        return 0;
+    } catch (const cv::Exception& e) {
+        api->set_last_error(e.what());
+        return -1;
+    } catch (...) {
+        api->set_last_error("cv4_freak_compute: unknown");
+        return -1;
+    }
+}
+
+//  cv4_daisy_compute kp_id, desc_id, img_id
+CV4C_EXPORT int __stdcall cv4_daisy_compute_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int kp_id   = hei->HspFunc_prm_geti();
+        int desc_id = hei->HspFunc_prm_geti();
+        int img_id  = hei->HspFunc_prm_geti();
+        cv::Mat gray = get_gray_image(api, img_id, "cv4_daisy_compute");
+        if (gray.empty()) return -1;
+        auto* kps = static_cast<std::vector<cv::KeyPoint>*>(api->kps_get(kp_id));
+        if (!kps) { api->set_last_error("invalid kp set"); return -1; }
+        auto daisy = cv::xfeatures2d::DAISY::create();
+        cv::Mat desc;
+        daisy->compute(gray, *kps, desc);
+        api->mat_set_move(desc_id, &desc);
+        return 0;
+    } catch (const cv::Exception& e) {
+        api->set_last_error(e.what());
+        return -1;
+    } catch (...) {
+        api->set_last_error("cv4_daisy_compute: unknown");
         return -1;
     }
 }
