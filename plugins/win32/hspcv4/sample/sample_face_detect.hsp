@@ -1,0 +1,64 @@
+;
+;   sample_face_detect.hsp
+;   Haar cascade による顔検出サンプル。
+;
+;   必要なもの:
+;     - haarcascade_frontalface_default.xml
+;       (OpenCV ビルド後 build/opencv_install_XX/etc/haarcascades/
+;        からコピーして、このスクリプトと同じディレクトリに置く)
+;     - 人の顔が写っている適当な画像ファイル (ここでは face.jpg)
+;
+#include "hspcv4.as"
+
+    title "hspcv4 sample: face detect"
+    screen 0, 960, 720
+    cls 0
+
+    ; カスケード読み込み
+    cv4_cascade_load 0, "haarcascade_frontalface_default.xml"
+    if stat {
+        pos 10, 10 : color 255, 0, 0
+        mes "haarcascade_frontalface_default.xml が見つかりません。"
+        mes "OpenCV ビルドの etc/haarcascades/ からコピーしてください。"
+        stop
+    }
+
+    ; 画像読み込み (顔が写っているもの)
+    cv4load 0, "face.jpg"
+    if stat {
+        pos 10, 10 : color 255, 0, 0
+        mes "face.jpg が見つかりません。"
+        mes "顔の写っている画像ファイルをこのスクリプトと同じ"
+        mes "ディレクトリに face.jpg として置いてください。"
+        stop
+    }
+
+    cv4info 0, sx, sy, ch
+
+    ; 検出結果の受け皿 (最大 32 個)
+    stdim rects, cv_rect, 32
+
+    ; 検出実行
+    cv4_detect 0, 0, rects, n, 1.1, 3
+    if stat : dialog "cv4_detect failed" : end
+
+    ; 検出された矩形を緑の枠で描画
+    repeat n
+        cv4rect 0, rects(cnt)->x, rects(cnt)->y, rects(cnt)->w, rects(cnt)->h, 0, 255, 0, 3
+    loop
+
+    ; 結果を HSP 画面にプレビュー + 保存
+    redraw 0
+    cv4getimg 0
+    redraw 1
+
+    pos 10, sy + 20
+    color 255, 255, 255
+    mes strf("detected %d face(s)", n)
+
+    cv4save 0, "out_faces.png"
+    pos 10, sy + 40 : mes "saved -> out_faces.png"
+
+    cv4del 0
+    cv4_cascade_free 0
+    stop

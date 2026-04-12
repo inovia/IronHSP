@@ -1,0 +1,35 @@
+;
+;   sample_basic.hsp
+;   hspcv4 の最小サンプル: 画像の読込/情報取得/保存
+;
+#include "hspcv4.as"
+
+    title "hspcv4 sample: basic"
+    screen 0, 640, 480
+    cls 4
+
+    cv4load 0, "test_image.png"
+    if stat : dialog "cv4load failed" : end
+
+    cv4info 0, sx, sy, ch
+
+    pos 10, 10 : color 0, 0, 0
+    mes strf("loaded: %d x %d x %d", sx, sy, ch)
+
+    ; 半分のサイズに縮小
+    cv4resize 1, 0, sx / 2, sy / 2
+
+    ; HSP 画面に描画 (redraw で挟む)
+    redraw 0
+    cv4getimg 1
+    redraw 1
+
+    ; 再度ベースの座標にメッセージ
+    pos 10, sy / 2 + 20 : color 0, 128, 0
+    mes "resized image shown via cv4getimg"
+    mes "press any key or close the window..."
+
+    cv4save 1, "out_resized.png"
+    cv4del 0
+    cv4del 1
+    stop

@@ -121,7 +121,7 @@
 ;   cv4_cascade_load 0, "haarcascade_frontalface_default.xml"
 ;   cv4_detect 0, img_id, rects, n, 1.1, 3
 ;   repeat n
-;     cv4rect img_id, rects(cnt).x, rects(cnt).y, rects(cnt).w, rects(cnt).h, 0,255,0, 2
+;     cv4rect img_id, rects(cnt)->x, rects(cnt)->y, rects(cnt)->w, rects(cnt)->h, 0,255,0, 2
 ;   loop
 ;
 #func global cv4_cascade_load  cv4_cascade_load  $202

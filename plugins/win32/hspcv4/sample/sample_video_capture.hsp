@@ -1,0 +1,40 @@
+;
+;   sample_video_capture.hsp
+;   カメラ or 動画ファイルから連続フレームを読み込み、HSP 画面に
+;   ライブ表示するサンプル。
+;
+#include "hspcv4.as"
+
+    title "hspcv4 sample: video capture"
+    screen 0, 800, 600
+    cls 0
+
+    ; ソースを開く:
+    ;   カメラ 0 番: "0"
+    ;   動画ファイル: "video.mp4" など
+    cv4_video_open 0, "0"
+    if stat {
+        pos 10, 10 : color 255, 0, 0
+        mes "cv4_video_open failed."
+        mes "カメラが無い場合は 'video.mp4' などファイルパスに変えてください。"
+        stop
+    }
+
+    cv4_video_info 0, vw, vh, vfps, vtotal
+    pos 10, 10 : color 255, 255, 255
+    mes strf("video: %d x %d @ %d fps (total=%d)", vw, vh, vfps, vtotal)
+    mes "press 'stop button' to quit"
+
+    repeat
+        cv4_video_read 0, 1
+        if stat : break    ; 終端
+        ; フレームを HSP 画面の左上に描画
+        redraw 0
+        cv4getimg 1
+        redraw 1
+        await 10
+    loop
+
+    cv4_video_close 0
+    cv4del 1
+    stop

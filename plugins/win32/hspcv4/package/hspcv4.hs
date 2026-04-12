@@ -573,7 +573,7 @@ cascade.detectMultiScale ‚ðŒÄ‚ñ‚Å•¨‘ÌŒŸo‚ðŽÀs‚µ‚Ü‚·B
     cv4load 0, "photo.jpg"
     cv4_detect 0, 0, rects, n, 1.1, 3
     repeat n
-        cv4rect 0, rects(cnt).x, rects(cnt).y, rects(cnt).w, rects(cnt).h, 0,255,0, 2
+        cv4rect 0, rects(cnt)->x, rects(cnt)->y, rects(cnt)->w, rects(cnt)->h, 0,255,0, 2
     loop
     cv4save 0, "out.jpg"
 ^p

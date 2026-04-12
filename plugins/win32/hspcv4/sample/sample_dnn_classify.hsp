@@ -1,0 +1,70 @@
+;
+;   sample_dnn_classify.hsp
+;   ONNX 分類モデルによる画像分類サンプル。
+;
+;   必要なもの:
+;     - model.onnx          (ImageNet 系分類モデル、MobileNetV2 等)
+;     - input.jpg           (分類対象画像)
+;     - classes.txt         (1 行 1 クラス名、任意)
+;
+#include "hspcv4.as"
+
+    title "hspcv4 sample: DNN classification"
+    screen 0, 640, 480
+    cls 4
+
+    cv4_dnn_load 0, "model.onnx"
+    if stat {
+        pos 10, 10 : color 192, 0, 0
+        mes "model.onnx が見つかりません。"
+        mes "ONNX 分類モデル (MobileNetV2 など) をこのフォルダに"
+        mes "model.onnx として配置してください。"
+        stop
+    }
+
+    cv4load 1, "input.jpg"
+    if stat {
+        pos 10, 10 : color 192, 0, 0
+        mes "input.jpg が見つかりません。"
+        stop
+    }
+
+    ; 前処理: scale=1/255, mean=(0,0,0), 224x224, swap_rb=1 (BGR -> RGB)
+    cv4_dnn_set_input 0, 1, 0.003921568, 0.0, 0.0, 0.0, 224, 224, 1
+    if stat : dialog "set_input failed" : end
+
+    ; 推論実行
+    cv4_dnn_forward 0, 2
+    if stat : dialog "forward failed" : end
+
+    ; 分類結果の argmax を取得
+    cv4_dnn_argmax 2, cls, score_x10000
+    if stat : dialog "argmax failed" : end
+
+    score = double(score_x10000) / 10000.0
+    pos 10, 10 : color 0, 128, 0
+    mes strf("class index: %d", cls)
+    mes strf("score:       %.4f", score)
+
+    ; classes.txt があればクラス名を表示
+    exist "classes.txt"
+    if strsize >= 0 {
+        notesel buf
+        noteload "classes.txt"
+        if cls < notemax {
+            noteget name, cls
+            mes "class name:  " + name
+        }
+        notesel buf
+        noteunsel
+    }
+
+    ; 画像をプレビュー
+    redraw 0
+    cv4getimg 1
+    redraw 1
+
+    cv4del 1
+    cv4del 2
+    cv4_dnn_free 0
+    stop

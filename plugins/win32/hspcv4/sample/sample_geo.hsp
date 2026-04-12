@@ -1,0 +1,50 @@
+;
+;   sample_geo.hsp
+;   hspcv4 幾何変換のデモ: flip / rotate / crop / warp
+;
+#include "hspcv4.as"
+
+    title "hspcv4 sample: geometric"
+    screen 0, 640, 480
+    cls 0
+
+    cv4load 0, "test_image.png"
+    cv4resize 1, 0, 400, 300
+
+    ; 上下反転
+    cv4flip   2, 1, 0
+    cv4save   2, "out_flip_v.png"
+
+    ; 左右反転
+    cv4flip   3, 1, 1
+    cv4save   3, "out_flip_h.png"
+
+    ; 45 度回転
+    cv4rotate 4, 1, 45.0, 1.0
+    cv4save   4, "out_rotate45.png"
+
+    ; 中心 200x150 を切り抜き
+    cv4crop   5, 1, 100, 75, 200, 150
+    cv4save   5, "out_crop.png"
+
+    ; 恒等アフィン行列で平行移動 (50, 30)
+    ; | 1 0 50 |
+    ; | 0 1 30 |
+    cv4warp   6, 1, 1.0, 0.0, 50.0, 0.0, 1.0, 30.0, 400, 300
+    cv4save   6, "out_translate.png"
+
+    ; 画面には原画像を表示
+    redraw 0
+    cv4getimg 1
+    redraw 1
+
+    pos 10, 320 : color 255, 255, 0
+    mes "saved geometric transform results:"
+    mes "  out_flip_v.png / out_flip_h.png"
+    mes "  out_rotate45.png"
+    mes "  out_crop.png / out_translate.png"
+
+    repeat 7
+        cv4del cnt
+    loop
+    stop
