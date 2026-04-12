@@ -466,4 +466,12 @@
 #func global cv4_freak_compute         cv4_freak_compute         $202
 #func global cv4_daisy_compute         cv4_daisy_compute         $202
 
+; ---- contrib: bgsegm (CNT/GMG/LSBP/GSOC/MOG additional bgsubtractors) ----
+; 既存の cv4_bgsub_apply / cv4_bgsub_free がそのまま使える。
+#func global cv4_bgsub_create_cnt   cv4_bgsub_create_cnt   $202
+#func global cv4_bgsub_create_gmg   cv4_bgsub_create_gmg   $202
+#func global cv4_bgsub_create_lsbp  cv4_bgsub_create_lsbp  $202
+#func global cv4_bgsub_create_gsoc  cv4_bgsub_create_gsoc  $202
+#func global cv4_bgsub_create_mog   cv4_bgsub_create_mog   $202
+
 #endif

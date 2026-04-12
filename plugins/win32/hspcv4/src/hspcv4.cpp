@@ -191,6 +191,61 @@ CV4_EXPORT BOOL WINAPI cv4_daisy_compute(HSPEXINFO* hei, int p1, int p2, int p3)
     return fail("cv4_daisy_compute: hspcv4_contrib.dll not available");
 }
 
+// --- bgsegm proxies (Phase 13b-4) ---
+
+CV4_EXPORT BOOL WINAPI cv4_bgsub_create_cnt(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_bgsub_create_cnt_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_getdi(15); hei->HspFunc_prm_getdi(1);
+    hei->HspFunc_prm_getdi(900); hei->HspFunc_prm_getdi(1);
+    return fail("cv4_bgsub_create_cnt: hspcv4_contrib.dll not available");
+}
+
+CV4_EXPORT BOOL WINAPI cv4_bgsub_create_gmg(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_bgsub_create_gmg_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_getdi(120);
+    hei->HspFunc_prm_getdd(0.8);
+    return fail("cv4_bgsub_create_gmg: hspcv4_contrib.dll not available");
+}
+
+CV4_EXPORT BOOL WINAPI cv4_bgsub_create_lsbp(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_bgsub_create_lsbp_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti();
+    return fail("cv4_bgsub_create_lsbp: hspcv4_contrib.dll not available");
+}
+
+CV4_EXPORT BOOL WINAPI cv4_bgsub_create_gsoc(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_bgsub_create_gsoc_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti();
+    return fail("cv4_bgsub_create_gsoc: hspcv4_contrib.dll not available");
+}
+
+CV4_EXPORT BOOL WINAPI cv4_bgsub_create_mog(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_bgsub_create_mog_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_getdi(200); hei->HspFunc_prm_getdi(5);
+    hei->HspFunc_prm_getdd(0.7); hei->HspFunc_prm_getdd(0.0);
+    return fail("cv4_bgsub_create_mog: hspcv4_contrib.dll not available");
+}
+
 
 //============================================================================
 //  DllMain

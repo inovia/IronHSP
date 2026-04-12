@@ -631,6 +631,37 @@
 
         cv4_kp_free 210 : cv4_kp_free 211
         cv4_kp_free 212 : cv4_kp_free 215 : cv4_kp_free 218
+
+        ; Phase 13b-4: bgsegm (CNT/GMG/LSBP/GSOC/MOG)
+        cv4_bgsub_create_cnt 0
+        if stat : mes "cv4_bgsub_create_cnt FAIL" : end 1
+        cv4_bgsub_apply 0, 1, 230, -1.0
+        cv4_bgsub_free 0
+        mes "cv4_bgsub_create_cnt + apply OK"
+
+        cv4_bgsub_create_gmg 0
+        if stat : mes "cv4_bgsub_create_gmg FAIL" : end 1
+        cv4_bgsub_apply 0, 1, 231, -1.0
+        cv4_bgsub_free 0
+        mes "cv4_bgsub_create_gmg + apply OK"
+
+        cv4_bgsub_create_lsbp 0
+        if stat : mes "cv4_bgsub_create_lsbp FAIL" : end 1
+        cv4_bgsub_apply 0, 1, 232, -1.0
+        cv4_bgsub_free 0
+        mes "cv4_bgsub_create_lsbp + apply OK"
+
+        cv4_bgsub_create_gsoc 0
+        if stat : mes "cv4_bgsub_create_gsoc FAIL" : end 1
+        cv4_bgsub_apply 0, 1, 233, -1.0
+        cv4_bgsub_free 0
+        mes "cv4_bgsub_create_gsoc + apply OK"
+
+        cv4_bgsub_create_mog 0
+        if stat : mes "cv4_bgsub_create_mog FAIL" : end 1
+        cv4_bgsub_apply 0, 1, 234, -1.0
+        cv4_bgsub_free 0
+        mes "cv4_bgsub_create_mog + apply OK"
     }
 
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---

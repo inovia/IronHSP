@@ -20,6 +20,7 @@
 #include <opencv2/tracking.hpp>   // contrib: TrackerCSRT / TrackerKCF
 #include <opencv2/features2d.hpp>
 #include <opencv2/xfeatures2d.hpp>  // contrib: BRIEF / FREAK / DAISY / Star / HarrisLaplace
+#include <opencv2/bgsegm.hpp>       // contrib: CNT/GMG/LSBP/GSOC/MOG
 #pragma warning(pop)
 
 #include "../src/hspcv4_capi.h"
@@ -289,4 +290,104 @@ CV4C_EXPORT int __stdcall cv4_daisy_compute_impl(
         api->set_last_error("cv4_daisy_compute: unknown");
         return -1;
     }
+}
+
+
+//============================================================================
+//  Phase 13b-4 : bgsegm (CNT / GMG / LSBP / GSOC / MOG)
+//============================================================================
+
+//  cv4_bgsub_create_cnt bg_id [, min_pixel_stability=15] [, use_hist=1] [, max_pixel_stability=15*60] [, is_parallel=1]
+CV4C_EXPORT int __stdcall cv4_bgsub_create_cnt_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int bg_id   = hei->HspFunc_prm_geti();
+        int min_st  = hei->HspFunc_prm_getdi(15);
+        int use_h   = hei->HspFunc_prm_getdi(1);
+        int max_st  = hei->HspFunc_prm_getdi(15 * 60);
+        int par     = hei->HspFunc_prm_getdi(1);
+        cv::Ptr<cv::BackgroundSubtractor> bg =
+            cv::bgsegm::createBackgroundSubtractorCNT(min_st, use_h != 0, max_st, par != 0);
+        api->bgsub_set_copy(bg_id, &bg);
+        return 0;
+    } catch (const cv::Exception& e) {
+        api->set_last_error(e.what()); return -1;
+    } catch (...) { api->set_last_error("cv4_bgsub_create_cnt: unknown"); return -1; }
+}
+
+//  cv4_bgsub_create_gmg bg_id [, init_frames=120] [, decision_thresh=0.8]
+CV4C_EXPORT int __stdcall cv4_bgsub_create_gmg_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int bg_id  = hei->HspFunc_prm_geti();
+        int init   = hei->HspFunc_prm_getdi(120);
+        double dth = hei->HspFunc_prm_getdd(0.8);
+        cv::Ptr<cv::BackgroundSubtractor> bg =
+            cv::bgsegm::createBackgroundSubtractorGMG(init, dth);
+        api->bgsub_set_copy(bg_id, &bg);
+        return 0;
+    } catch (const cv::Exception& e) {
+        api->set_last_error(e.what()); return -1;
+    } catch (...) { api->set_last_error("cv4_bgsub_create_gmg: unknown"); return -1; }
+}
+
+//  cv4_bgsub_create_lsbp bg_id
+CV4C_EXPORT int __stdcall cv4_bgsub_create_lsbp_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int bg_id = hei->HspFunc_prm_geti();
+        cv::Ptr<cv::BackgroundSubtractor> bg =
+            cv::bgsegm::createBackgroundSubtractorLSBP();
+        api->bgsub_set_copy(bg_id, &bg);
+        return 0;
+    } catch (const cv::Exception& e) {
+        api->set_last_error(e.what()); return -1;
+    } catch (...) { api->set_last_error("cv4_bgsub_create_lsbp: unknown"); return -1; }
+}
+
+//  cv4_bgsub_create_gsoc bg_id
+CV4C_EXPORT int __stdcall cv4_bgsub_create_gsoc_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int bg_id = hei->HspFunc_prm_geti();
+        cv::Ptr<cv::BackgroundSubtractor> bg =
+            cv::bgsegm::createBackgroundSubtractorGSOC();
+        api->bgsub_set_copy(bg_id, &bg);
+        return 0;
+    } catch (const cv::Exception& e) {
+        api->set_last_error(e.what()); return -1;
+    } catch (...) { api->set_last_error("cv4_bgsub_create_gsoc: unknown"); return -1; }
+}
+
+//  cv4_bgsub_create_mog bg_id [, history=200] [, n_mixtures=5] [, bg_ratio=0.7] [, noise_sigma=0]
+CV4C_EXPORT int __stdcall cv4_bgsub_create_mog_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int bg_id    = hei->HspFunc_prm_geti();
+        int history  = hei->HspFunc_prm_getdi(200);
+        int nmix     = hei->HspFunc_prm_getdi(5);
+        double br    = hei->HspFunc_prm_getdd(0.7);
+        double ns    = hei->HspFunc_prm_getdd(0.0);
+        cv::Ptr<cv::BackgroundSubtractor> bg =
+            cv::bgsegm::createBackgroundSubtractorMOG(history, nmix, br, ns);
+        api->bgsub_set_copy(bg_id, &bg);
+        return 0;
+    } catch (const cv::Exception& e) {
+        api->set_last_error(e.what()); return -1;
+    } catch (...) { api->set_last_error("cv4_bgsub_create_mog: unknown"); return -1; }
 }
