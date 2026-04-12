@@ -49,6 +49,8 @@
 #include <opencv2/quality.hpp>
 #include <opencv2/plot.hpp>
 #include <opencv2/freetype.hpp>
+#include <opencv2/saliency.hpp>
+#include <opencv2/text.hpp>
 #pragma warning(pop)
 
 #define CV4_EXPORT extern "C" __declspec(dllexport)

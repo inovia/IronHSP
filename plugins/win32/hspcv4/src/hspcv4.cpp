@@ -2735,6 +2735,90 @@ CV4_EXPORT BOOL WINAPI cv4_connected_components(HSPEXINFO* hei, int p1, int p2, 
 }
 
 //============================================================================
+//  Saliency / text (Phase 25 follow)
+//============================================================================
+
+//  cv4_saliency_spectral dst, src
+//    Spectral Residual saliency map (CV_32F, 0..1)
+CV4_EXPORT BOOL WINAPI cv4_saliency_spectral(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_saliency_spectral: invalid src");
+        auto sal = cv::saliency::StaticSaliencySpectralResidual::create();
+        cv::Mat sal_map;
+        if (!sal->computeSaliency(*src, sal_map))
+            return fail("cv4_saliency_spectral: compute failed");
+        hspcv4::handle_set(dst_id, std::move(sal_map));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_saliency_spectral: unknown"); }
+}
+
+//  cv4_saliency_fine dst, src
+//    Fine-Grained saliency map (CV_8U)
+CV4_EXPORT BOOL WINAPI cv4_saliency_fine(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_saliency_fine: invalid src");
+        auto sal = cv::saliency::StaticSaliencyFineGrained::create();
+        cv::Mat sal_map;
+        if (!sal->computeSaliency(*src, sal_map))
+            return fail("cv4_saliency_fine: compute failed");
+        hspcv4::handle_set(dst_id, std::move(sal_map));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_saliency_fine: unknown"); }
+}
+
+//  cv4_text_detect_swt rects_count_var, rects_mat_id, src_id [, dark_on_light=1]
+//    Stroke Width Transform 文字検出。検出矩形数を var に、Nx4 (x,y,w,h)
+//    int Mat を rects_mat に書き戻す。Tesseract 等の OCR 依存なしで使える。
+CV4_EXPORT BOOL WINAPI cv4_text_detect_swt(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        PVal* pv;
+        APTR  ap = hei->HspFunc_prm_getva(&pv);
+        if (pv->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_text_detect_swt: var_count must be int");
+        pv->offset = ap;
+        int dst_id = getint();
+        int src_id = getint();
+        int dark_on_light = getint_def(1);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_text_detect_swt: invalid src");
+        std::vector<cv::Rect> rects;
+        cv::Mat draw, chains;
+        cv::text::detectTextSWT(*src, rects, dark_on_light != 0, draw, chains);
+        cv::Mat out((int)rects.size(), 4, CV_32S);
+        for (size_t i = 0; i < rects.size(); ++i) {
+            out.at<int>((int)i, 0) = rects[i].x;
+            out.at<int>((int)i, 1) = rects[i].y;
+            out.at<int>((int)i, 2) = rects[i].width;
+            out.at<int>((int)i, 3) = rects[i].height;
+        }
+        hspcv4::handle_set(dst_id, std::move(out));
+        int n = (int)rects.size();
+        HspVarProc* proc = hei->HspFunc_getproc(HSPVAR_FLAG_INT);
+        proc->Set(pv, proc->GetPtr(pv), &n);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_text_detect_swt: unknown"); }
+}
+
+
+//============================================================================
 //  FreeType (Phase 22 follow): TTF/OTF フォントで日本語を含む文字列を描画
 //============================================================================
 
