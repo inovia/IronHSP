@@ -71,6 +71,19 @@ echo        Delete %INSTALL_DIR% to rebuild.
 goto :done
 
 :build
+rem --- Optional FFmpeg support ---
+rem   Set HSPCV4_WITH_FFMPEG=1 to enable cv::VideoWriter with MJPG/H264/MP4.
+rem   OpenCV will attempt to auto-download opencv_videoio_ffmpeg.dll during
+rem   cmake configure; you need a working internet connection and the
+rem   resulting DLL must be placed next to hspcv4.dll at runtime.
+rem   Default is OFF to keep the static build fully self-contained.
+if /I "%HSPCV4_WITH_FFMPEG%"=="1" (
+    set "FFMPEG_FLAG=ON"
+    echo [ffmpeg] HSPCV4_WITH_FFMPEG=1 — FFmpeg support enabled
+) else (
+    set "FFMPEG_FLAG=OFF"
+)
+
 if not exist "%BUILD_DIR%" mkdir "%BUILD_DIR%"
 if not exist "%INSTALL_DIR%" mkdir "%INSTALL_DIR%"
 
@@ -105,7 +118,7 @@ echo.
     -DWITH_IPP=ON ^
     -DWITH_TBB=OFF ^
     -DWITH_OPENEXR=OFF ^
-    -DWITH_FFMPEG=ON ^
+    -DWITH_FFMPEG=%FFMPEG_FLAG% ^
     -DWITH_MSMF=ON ^
     -DWITH_DSHOW=ON ^
     -DCMAKE_BUILD_TYPE=Release

@@ -30,6 +30,21 @@ build_opencv_32.bat    :: Win32 のみ
 
 詳細は `docs/hspcv4_build.html` を参照。
 
+### オプション: FFmpeg 対応 (動画コーデック拡張)
+
+既定では FFmpeg 非同梱です (cv::VideoWriter で MJPG/H264/MP4 等は
+書き出せません)。有効にしたい場合:
+
+```
+set HSPCV4_WITH_FFMPEG=1
+build\build_all.bat
+```
+
+OpenCV がビルド時に `opencv_videoio_ffmpeg*.dll` を GitHub から
+自動ダウンロードします。実行時はこの DLL を hsp3.exe と同じ
+ディレクトリに配置する必要があります。詳細は
+`docs/hspcv4_build.html` の「オプション: FFmpeg 対応」節を参照。
+
 ## ディレクトリ構成
 
 ```

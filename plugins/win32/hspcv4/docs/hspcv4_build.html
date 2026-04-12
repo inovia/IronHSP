@@ -171,9 +171,59 @@ ZIP が <code>third_party</code> に残っていると再 DL は行われませ�
 <dd>ウイルス対策ソフトが展開をブロックしていないか確認してください。<code>third_party\</code> を除外対象に追加すると改善します。</dd>
 </dl>
 
-<h2>9. バージョン情報</h2>
+<h2>9. オプション: FFmpeg 対応 (動画コーデック拡張)</h2>
+
+<p>
+既定のビルドは自己完結性を優先して <strong>FFmpeg を含めていません</strong>。
+そのため <code>cv4_writer_open</code> / <code>cv::VideoWriter</code> で使える
+コーデックは Windows 標準の CV_IMAGES / DSHOW / MSMF 系バックエンドに限定されます。
+MJPG / H264 / MP4 などを動画として書き出したい場合は、以下の手順で
+FFmpeg 対応を有効にしてください。
+</p>
+
+<h3>9.1 環境変数を指定してビルド</h3>
+
+<pre>set HSPCV4_WITH_FFMPEG=1
+build_all.bat
+</pre>
+
+<p>
+<code>HSPCV4_WITH_FFMPEG=1</code> を設定すると、内部の
+<code>_build_opencv_common.bat</code> が cmake に
+<code>-DWITH_FFMPEG=ON</code> を渡します。これにより OpenCV は
+cmake configure 中に <code>opencv_videoio_ffmpeg4120_64.dll</code>
+(アーキに応じて 32/64bit の一方) を <strong>GitHub から自動ダウンロード</strong>
+して <code>opencv_install_XX/x64/vc17/bin/</code> に配置します。
+</p>
+
+<h3>9.2 実行時配置</h3>
+
+<p>
+FFmpeg 対応でビルドした場合、生成された <code>opencv_videoio_ffmpeg*.dll</code>
+を実行バイナリ (hsp3.exe や EXE 化したゲーム) と同じディレクトリに配置する
+必要があります。見つからない場合 <code>cv::VideoCapture::open</code> が
+動画ファイル読込に失敗します (カメラ読込や画像書き出しは影響を受けません)。
+</p>
+
+<div class="note">
+FFmpeg DLL は OpenCV のビルド時に GitHub Releases から配信される、
+OpenCV 用のアグリゲート ビルドです。ライセンスは LGPL-2.1+ で、
+Windows 上のみで使えます。商用配布に含める際はライセンス条項を
+確認してください。
+</div>
+
+<h3>9.3 既定に戻す</h3>
+
+<pre>set HSPCV4_WITH_FFMPEG=
+rmdir /s /q build\opencv_build_32 build\opencv_install_32
+rmdir /s /q build\opencv_build_64 build\opencv_install_64
+build_all.bat
+</pre>
+
+<h2>10. バージョン情報</h2>
 
 <p>本ビルドシステムが取得する OpenCV のバージョンは
+
 <code>setup_opencv.bat</code> 内の <code>OPENCV_VERSION</code> 変数で管理されています。
 上げる場合は以下を変更してください:</p>
 
