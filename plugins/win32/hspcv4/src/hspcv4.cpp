@@ -2734,6 +2734,131 @@ CV4_EXPORT BOOL WINAPI cv4_connected_components(HSPEXINFO* hei, int p1, int p2, 
 }
 
 //============================================================================
+//  Main fillers (Phase 27): flip / transpose / copy_make_border / in_range
+//                           + highgui setWindowTitle / resizeWindow
+//============================================================================
+
+//  cv4_flip dst, src, flip_code
+//    flip_code: 0=x軸, 1=y軸, -1=両軸
+CV4_EXPORT BOOL WINAPI cv4_flip(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int code   = getint_def(0);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_flip: invalid src");
+        cv::Mat dst;
+        cv::flip(*src, dst, code);
+        hspcv4::handle_set(dst_id, std::move(dst));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_flip: unknown"); }
+}
+
+//  cv4_transpose dst, src
+CV4_EXPORT BOOL WINAPI cv4_transpose(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_transpose: invalid src");
+        cv::Mat dst;
+        cv::transpose(*src, dst);
+        hspcv4::handle_set(dst_id, std::move(dst));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_transpose: unknown"); }
+}
+
+//  cv4_copy_make_border dst, src, top, bottom, left, right
+//                       [, border_type=BORDER_CONSTANT(0)]
+//                       [, value_b=0] [, value_g=0] [, value_r=0]
+CV4_EXPORT BOOL WINAPI cv4_copy_make_border(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int t      = getint();
+        int b      = getint();
+        int l      = getint();
+        int r      = getint();
+        int btype  = getint_def(cv::BORDER_CONSTANT);
+        int vb     = getint_def(0);
+        int vg     = getint_def(0);
+        int vr     = getint_def(0);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_copy_make_border: invalid src");
+        cv::Mat dst;
+        cv::copyMakeBorder(*src, dst, t, b, l, r, btype,
+                           cv::Scalar(vb, vg, vr));
+        hspcv4::handle_set(dst_id, std::move(dst));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_copy_make_border: unknown"); }
+}
+
+//  cv4_in_range mask, src, lo_b, lo_g, lo_r, hi_b, hi_g, hi_r
+//    BGR それぞれの上下限から二値マスクを生成。
+CV4_EXPORT BOOL WINAPI cv4_in_range(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int lb = getint(), lg = getint(), lr = getint();
+        int hb = getint(), hg = getint(), hr = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_in_range: invalid src");
+        cv::Mat dst;
+        cv::inRange(*src, cv::Scalar(lb, lg, lr), cv::Scalar(hb, hg, hr), dst);
+        hspcv4::handle_set(dst_id, std::move(dst));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_in_range: unknown"); }
+}
+
+//  cv4_set_window_title "winname", "title"
+CV4_EXPORT BOOL WINAPI cv4_set_window_title(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        const char* win = getstr();
+        const char* ttl = getstr();
+        if (!win || !ttl) return fail("cv4_set_window_title: null arg");
+        cv::setWindowTitle(win, ttl);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_set_window_title: unknown"); }
+}
+
+//  cv4_resize_window "winname", width, height
+CV4_EXPORT BOOL WINAPI cv4_resize_window(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        const char* win = getstr();
+        int w = getint();
+        int h = getint();
+        if (!win) return fail("cv4_resize_window: null winname");
+        cv::resizeWindow(win, w, h);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_resize_window: unknown"); }
+}
+
+
+//============================================================================
 //  core 拡充 (Phase 26): PCA / SVD / dft / dct / kmeans
 //============================================================================
 
