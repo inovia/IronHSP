@@ -667,7 +667,12 @@ static int64_t code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 		case STRUCTPRM_SUBID_OLDDLLINIT:
 			// 外部 DLL 関数の呼び出し
 #ifdef HSP64
-			result = call_extfunc(st->proc, (INT_PTR *)prmbuf, st->prmmax);
+			// OLDDLL 関数は BOOL/int (32bit) を返すが、CallFunc64 は rax (64bit)
+			// を返す。MSVC は `mov eax,N` でゼロ拡張するため、-1 を返した場合
+			// rax = 0x00000000FFFFFFFF となり、int64_t では 4294967295 (正の値)。
+			// exec_dllcmd 側で result > 0 と判定されてしまうので、int32 として
+			// サインエクステンドし直す。
+			result = (int32_t)call_extfunc(st->proc, (INT_PTR *)prmbuf, st->prmmax);
 #else
 			result = call_extfunc(st->proc, (INT_PTR *)prmbuf, st->size / sizeof(INT_PTR));
 #endif
