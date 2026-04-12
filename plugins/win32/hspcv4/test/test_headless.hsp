@@ -472,6 +472,24 @@
     if stat : mes "cv4_warp_perspective FAIL" : end 1
     mes "cv4_warp_perspective OK"
 
+    ; --- Phase 10: objdetect extras ---
+    ; HOG人物検出 (りんごには人はいないので 0 件想定)
+    stdim hog_rects, cv_rect, 16
+    cv4_hog_detect_people hog_rects, hog_n, 1
+    if stat : mes "cv4_hog_detect_people FAIL" : end 1
+    mes strf("cv4_hog_detect_people: %d people", hog_n)
+
+    ; QR コード検出 (りんご画像には QR 無し)
+    stdim qr_rects, cv_rect, 4
+    cv4_qr_detect qr_rects, qr_n, 1
+    if stat : mes "cv4_qr_detect FAIL" : end 1
+    mes strf("cv4_qr_detect: %d QR codes", qr_n)
+
+    sdim qr_text, 1024
+    cv4_qr_decode 1, qr_text
+    if stat : mes "cv4_qr_decode FAIL" : end 1
+    mes "cv4_qr_decode: '" + qr_text + "' (empty=not found)"
+
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---
     cv4_dnn_load 0, "nonexistent_model.onnx"
     if stat = 0 {

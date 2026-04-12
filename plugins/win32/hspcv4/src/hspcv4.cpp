@@ -632,6 +632,142 @@ CV4_EXPORT BOOL WINAPI cv4_writer_close(HSPEXINFO* hei, int p1, int p2, int p3)
 
 
 //============================================================================
+//  Object detection extras : HOG Descriptor / QRCode Detector
+//============================================================================
+
+// --- HOG: 人物検出の定番 (cv::HOGDescriptor) ---
+//   HOGDescriptor はハンドル保持せず、都度生成して検出する簡易 API にする。
+
+//  cv4_hog_detect_people rects_array, count_var, img_id [, hit_thresh=0.0]
+//    検出された矩形を cv_rect 配列に書き込み、個数を count_var に格納。
+//    デフォルト SVM は人物用 (HOGDescriptor::getDefaultPeopleDetector)。
+CV4_EXPORT BOOL WINAPI cv4_hog_detect_people(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        PVal* pval_rects;
+        APTR  aptr_rects = hei->HspFunc_prm_getva(&pval_rects);
+        pval_rects->offset = aptr_rects;
+        PVal* pval_count;
+        APTR  aptr_count = hei->HspFunc_prm_getva(&pval_count);
+        if (pval_count->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_hog_detect_people: count must be int");
+        pval_count->offset = aptr_count;
+
+        int img_id    = getint();
+        double hit_th = hei->HspFunc_prm_getdd(0.0);
+
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_hog_detect_people: invalid image");
+
+        cv::HOGDescriptor hog;
+        hog.setSVMDetector(cv::HOGDescriptor::getDefaultPeopleDetector());
+        std::vector<cv::Rect> rects;
+        std::vector<double> weights;
+        hog.detectMultiScale(*img, rects, weights, hit_th, cv::Size(8,8), cv::Size(32,32), 1.05, 2);
+
+        int max_elems = pval_rects->len[1];
+        if (max_elems <= 0) max_elems = 1;
+        int elem_size = pval_rects->len[0];
+        if (elem_size < (int)sizeof(int) * 4)
+            return fail("cv4_hog_detect_people: rects array must be cv_rect");
+
+        int n = (int)rects.size();
+        if (n > max_elems) n = max_elems;
+        char* base = (char*)pval_rects->pt;
+        for (int i = 0; i < n; ++i) {
+            int* p = (int*)(base + (size_t)elem_size * i);
+            p[0] = rects[i].x;
+            p[1] = rects[i].y;
+            p[2] = rects[i].width;
+            p[3] = rects[i].height;
+        }
+        HspVarProc* proc = hei->HspFunc_getproc(pval_count->flag);
+        proc->Set(pval_count, proc->GetPtr(pval_count), &n);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_hog_detect_people: unknown"); }
+}
+
+// --- QR コード ---
+//   QRCodeDetector も都度生成する簡易 API。
+
+//  cv4_qr_detect rects_array, count_var, img_id
+//    QR コードを検出。結果の矩形(または外接矩形)を cv_rect 配列に。
+CV4_EXPORT BOOL WINAPI cv4_qr_detect(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        PVal* pval_rects;
+        APTR  aptr_rects = hei->HspFunc_prm_getva(&pval_rects);
+        pval_rects->offset = aptr_rects;
+        PVal* pval_count;
+        APTR  aptr_count = hei->HspFunc_prm_getva(&pval_count);
+        if (pval_count->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_qr_detect: count must be int");
+        pval_count->offset = aptr_count;
+
+        int img_id = getint();
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_qr_detect: invalid image");
+
+        cv::QRCodeDetector det;
+        std::vector<cv::Point> corners;
+        bool found = det.detect(*img, corners);
+
+        int max_elems = pval_rects->len[1];
+        if (max_elems <= 0) max_elems = 1;
+        int elem_size = pval_rects->len[0];
+        if (elem_size < (int)sizeof(int) * 4)
+            return fail("cv4_qr_detect: rects array must be cv_rect");
+
+        int n = 0;
+        if (found && corners.size() >= 4 && max_elems >= 1) {
+            cv::Rect br = cv::boundingRect(corners);
+            int* p = (int*)pval_rects->pt;
+            p[0] = br.x;
+            p[1] = br.y;
+            p[2] = br.width;
+            p[3] = br.height;
+            n = 1;
+        }
+        HspVarProc* proc = hei->HspFunc_getproc(pval_count->flag);
+        proc->Set(pval_count, proc->GetPtr(pval_count), &n);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_qr_detect: unknown"); }
+}
+
+//  cv4_qr_decode img_id, refstr_var
+//    画像から QR コードを検出してデコード。結果文字列を refstr_var に格納。
+//    空文字列は「検出失敗または空の QR」を意味する。
+CV4_EXPORT BOOL WINAPI cv4_qr_decode(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int img_id = getint();
+        PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+        if (pv->flag != HSPVAR_FLAG_STR) return fail("cv4_qr_decode: var must be str");
+        pv->offset = a;
+
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_qr_decode: invalid image");
+
+        cv::QRCodeDetector det;
+        std::string decoded = det.detectAndDecode(*img);
+
+        HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+        proc->Set(pv, proc->GetPtr(pv), (void*)decoded.c_str());
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_qr_decode: unknown"); }
+}
+
+
+//============================================================================
 //  Object detection : CascadeClassifier (Haar / LBP)
 //
 //  cv_rect (HSP 構造体) レイアウト: { int x; int y; int w; int h; } (16 bytes)

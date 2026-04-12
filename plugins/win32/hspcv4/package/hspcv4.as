@@ -379,4 +379,9 @@
 #func global cv4_get_perspective_transform  cv4_get_perspective_transform  $202
 #func global cv4_get_affine_transform       cv4_get_affine_transform       $202
 
+; ---- objdetect extras : HOG + QR code ----
+#func global cv4_hog_detect_people  cv4_hog_detect_people  $202
+#func global cv4_qr_detect          cv4_qr_detect          $202
+#func global cv4_qr_decode          cv4_qr_decode          $202
+
 #endif
