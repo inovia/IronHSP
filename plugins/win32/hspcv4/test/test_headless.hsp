@@ -64,12 +64,42 @@
     if (dx != 320) | (dy != 240) { mes "drawn roundtrip size FAIL" : end 1 }
     mes strf("drawing roundtrip OK: %d x %d ch=%d", dx, dy, dch)
 
+    ; --- filters ---
+    ; blur (in-place)
+    cv4blur 1, 1, 5
+    if stat < 0 { mes "cv4blur FAIL" : end 1 }
+    ; gauss (dst != src)
+    cv4gauss 5, 1, 5, 1.5
+    if stat < 0 { mes "cv4gauss FAIL" : end 1 }
+    cv4info 5, bx, by, bch
+    if (bx != 320) | (by != 240) { mes "cv4gauss size FAIL" : end 1 }
+    ; median (dst != src, odd ksize auto-fix)
+    cv4median 6, 1, 5
+    if stat < 0 { mes "cv4median FAIL" : end 1 }
+
+    ; canny requires grayscale -> ID 2 は既にグレー
+    cv4canny 7, 2, 80, 160
+    if stat < 0 { mes "cv4canny FAIL" : end 1 }
+    cv4info 7, cnx, cny, cnch
+    if cnch != 1 { mes "cv4canny should be 1ch FAIL" : end 1 }
+
+    ; threshold: gray -> binary (THRESH_BINARY | THRESH_OTSU で自動しきい値)
+    cv4thresh 8, 2, 0, 255, CV4_THRESH_BINARY | CV4_THRESH_OTSU
+    if stat < 0 { mes "cv4thresh FAIL" : end 1 }
+    cv4info 8, thx, thy, thch
+    if thch != 1 { mes "cv4thresh should be 1ch FAIL" : end 1 }
+    mes strf("cv4blur/gauss/median/canny/thresh OK")
+
     ; --- cv4del / cv4reset ---
     cv4del 0
     cv4del 1
     cv4del 2
     cv4del 3
     cv4del 4
+    cv4del 5
+    cv4del 6
+    cv4del 7
+    cv4del 8
     cv4reset
     mes "cv4del/cv4reset OK"
 

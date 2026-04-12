@@ -291,6 +291,136 @@ CV4_EXPORT BOOL WINAPI cv4getimg(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //============================================================================
+//  Filters : blur / gauss / median / canny / thresh
+//  dst と src は別ハンドル可、同一ハンドルでも可。
+//============================================================================
+
+//  cv4blur dst_id, src_id, ksize
+CV4_EXPORT BOOL WINAPI cv4blur(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int ksize  = getint();
+        if (ksize < 1) ksize = 1;
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4blur: invalid source");
+        cv::Mat out;
+        cv::blur(*src, out, cv::Size(ksize, ksize));
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4blur: unknown exception");
+    }
+}
+
+//  cv4gauss dst_id, src_id, ksize [, sigma=0]
+//  ksize は奇数を推奨。偶数を渡したら +1 する。
+CV4_EXPORT BOOL WINAPI cv4gauss(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id   = getint();
+        int src_id   = getint();
+        int ksize    = getint();
+        double sigma = hei->HspFunc_prm_getdd(0.0);
+        if (ksize < 1) ksize = 1;
+        if ((ksize & 1) == 0) ksize += 1;   // 偶数なら奇数化
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4gauss: invalid source");
+        cv::Mat out;
+        cv::GaussianBlur(*src, out, cv::Size(ksize, ksize), sigma);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4gauss: unknown exception");
+    }
+}
+
+//  cv4median dst_id, src_id, ksize
+//  ksize は 3 以上の奇数を推奨。偶数なら +1、1 以下は 3 に補正。
+CV4_EXPORT BOOL WINAPI cv4median(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int ksize  = getint();
+        if (ksize < 3) ksize = 3;
+        if ((ksize & 1) == 0) ksize += 1;
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4median: invalid source");
+        cv::Mat out;
+        cv::medianBlur(*src, out, ksize);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4median: unknown exception");
+    }
+}
+
+//  cv4canny dst_id, src_id, thresh1, thresh2 [, aperture=3]
+//  src はグレースケール推奨 (カラーでも動くが、先に cv4cvt CV4_BGR2GRAY する方が良い)
+CV4_EXPORT BOOL WINAPI cv4canny(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id  = getint();
+        int src_id  = getint();
+        int t1      = getint();
+        int t2      = getint();
+        int aperture = getint_def(3);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4canny: invalid source");
+        cv::Mat out;
+        cv::Canny(*src, out, (double)t1, (double)t2, aperture);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4canny: unknown exception");
+    }
+}
+
+//  cv4thresh dst_id, src_id, thresh, maxval, type
+//  type は CV4_THRESH_BINARY 等。OTSU (8) は THRESH_BINARY と ORで指定 (= 8|0).
+CV4_EXPORT BOOL WINAPI cv4thresh(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int th     = getint();
+        int mx     = getint();
+        int type   = getint_def(0);  // 0 = THRESH_BINARY
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4thresh: invalid source");
+        cv::Mat out;
+        cv::threshold(*src, out, (double)th, (double)mx, type);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4thresh: unknown exception");
+    }
+}
+
+
+//============================================================================
 //  Drawing : line / rect / circle / text  (beginner, 色は B,G,R 指定)
 //============================================================================
 

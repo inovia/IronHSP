@@ -17,6 +17,15 @@
 #define global CV4_BGR2BGRA    0
 #define global CV4_BGRA2BGR    1
 
+; --- cv::threshold types (cv4thresh 第5引数) ---
+#define global CV4_THRESH_BINARY      0
+#define global CV4_THRESH_BINARY_INV  1
+#define global CV4_THRESH_TRUNC       2
+#define global CV4_THRESH_TOZERO      3
+#define global CV4_THRESH_TOZERO_INV  4
+#define global CV4_THRESH_OTSU        8      ; 他の type と OR する (| 演算)
+#define global CV4_THRESH_TRIANGLE    16
+
 ; --- Interpolation (cv::resize flag, unused in Phase 1 but reserved) ---
 #define global CV4_INTER_NEAREST 0
 #define global CV4_INTER_LINEAR  1
@@ -56,5 +65,14 @@
 #func global cv4rect    cv4rect    $202
 #func global cv4circle  cv4circle  $202
 #func global cv4text    cv4text    $202
+
+; ---- filters ----
+; dst と src は同一ハンドルも可。ksize は奇数推奨 (偶数は自動補正)。
+; cv4canny は src にグレースケール推奨 (事前に cv4cvt で CV4_BGR2GRAY する)。
+#func global cv4blur    cv4blur    $202
+#func global cv4gauss   cv4gauss   $202
+#func global cv4median  cv4median  $202
+#func global cv4canny   cv4canny   $202
+#func global cv4thresh  cv4thresh  $202
 
 #endif
