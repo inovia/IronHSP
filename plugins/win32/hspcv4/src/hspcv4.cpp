@@ -423,6 +423,7 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
         hspcv4::face_recognizer_clear_all();
         hspcv4::facemark_clear_all();
         hspcv4::stereo_clear_all();
+        hspcv4::kalman_clear_all();
         cv::destroyAllWindows();
         // contrib DLL は OS が process 終了時に自動 FreeLibrary するので
         // ここで明示的に解放する必要はない (static ハンドルが残ったまま
@@ -2730,6 +2731,130 @@ CV4_EXPORT BOOL WINAPI cv4_connected_components(HSPEXINFO* hei, int p1, int p2, 
     } catch (const cv::Exception& e) { return fail(e.what()); }
       catch (...) { return fail("cv4_connected_components: unknown"); }
 }
+
+//============================================================================
+//  features2d extras (Phase 23): BRISK / FAST + KalmanFilter
+//============================================================================
+
+//  cv4_brisk_detect_compute kp_id, desc_id, src_id [, threshold=30]
+//                                                  [, octaves=3]
+CV4_EXPORT BOOL WINAPI cv4_brisk_detect_compute(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int kp_id   = getint();
+        int desc_id = getint();
+        int src_id  = getint();
+        int thresh  = getint_def(30);
+        int octaves = getint_def(3);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_brisk_detect_compute: invalid src");
+        auto detector = cv::BRISK::create(thresh, octaves);
+        std::vector<cv::KeyPoint> kps;
+        cv::Mat desc;
+        detector->detectAndCompute(*src, cv::noArray(), kps, desc);
+        hspcv4::kps_set(kp_id, std::move(kps));
+        hspcv4::handle_set(desc_id, std::move(desc));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_brisk_detect_compute: unknown"); }
+}
+
+//  cv4_fast_detect kp_id, src_id [, threshold=10] [, nonmax=1]
+CV4_EXPORT BOOL WINAPI cv4_fast_detect(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int kp_id  = getint();
+        int src_id = getint();
+        int thresh = getint_def(10);
+        int nmax   = getint_def(1);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_fast_detect: invalid src");
+        auto detector = cv::FastFeatureDetector::create(thresh, nmax != 0);
+        std::vector<cv::KeyPoint> kps;
+        detector->detect(*src, kps);
+        hspcv4::kps_set(kp_id, std::move(kps));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_fast_detect: unknown"); }
+}
+
+//  cv4_kalman_create kf_id, dynam_params, measure_params [, control_params=0]
+//    例: 2D 等速度モデル → dynam=4 (x,y,vx,vy), measure=2 (x,y)
+CV4_EXPORT BOOL WINAPI cv4_kalman_create(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int kf_id  = getint();
+        int dynP   = getint();
+        int meaP   = getint();
+        int conP   = getint_def(0);
+        cv::KalmanFilter kf(dynP, meaP, conP);
+        // デフォルトの transitionMatrix は単位行列。最低限 measurementMatrix と
+        // 各種ノイズ共分散だけ初期値を入れておく (実用時は HSP 側から個別に
+        // 行列ハンドルで上書きする想定)。
+        cv::setIdentity(kf.measurementMatrix);
+        cv::setIdentity(kf.processNoiseCov, cv::Scalar::all(1e-4));
+        cv::setIdentity(kf.measurementNoiseCov, cv::Scalar::all(1e-1));
+        cv::setIdentity(kf.errorCovPost, cv::Scalar::all(1.0));
+        hspcv4::kalman_set(kf_id, std::move(kf));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_kalman_create: unknown"); }
+}
+
+//  cv4_kalman_predict kf_id, dst_state_mat
+CV4_EXPORT BOOL WINAPI cv4_kalman_predict(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int kf_id  = getint();
+        int dst_id = getint();
+        auto* kf = hspcv4::kalman_get(kf_id);
+        if (!kf) return fail("cv4_kalman_predict: invalid kalman");
+        cv::Mat pred = kf->predict();
+        hspcv4::handle_set(dst_id, pred.clone());
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_kalman_predict: unknown"); }
+}
+
+//  cv4_kalman_correct kf_id, measurement_mat_id [, dst_state_mat_id=-1]
+//    dst_state_mat_id を -1 以外で指定すると更新後 statePost を書き戻す。
+CV4_EXPORT BOOL WINAPI cv4_kalman_correct(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int kf_id   = getint();
+        int meas_id = getint();
+        int dst_id  = getint_def(-1);
+        auto* kf = hspcv4::kalman_get(kf_id);
+        if (!kf) return fail("cv4_kalman_correct: invalid kalman");
+        cv::Mat* meas = hspcv4::handle_get(meas_id);
+        if (!meas || meas->empty()) return fail("cv4_kalman_correct: invalid measurement");
+        cv::Mat updated = kf->correct(*meas);
+        if (dst_id >= 0) hspcv4::handle_set(dst_id, updated.clone());
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_kalman_correct: unknown"); }
+}
+
+//  cv4_kalman_free kf_id
+CV4_EXPORT BOOL WINAPI cv4_kalman_free(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int kf_id = getint();
+    hspcv4::kalman_free(kf_id);
+    return 0;
+}
+
 
 //============================================================================
 //  xphoto module (Phase 22): white balance / oil painting / BM3D denoising

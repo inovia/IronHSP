@@ -155,6 +155,12 @@ cv::Ptr<cv::StereoMatcher>* stereo_get(int id);
 void stereo_free(int id);
 void stereo_clear_all();
 
+// KalmanFilter (Phase 23)
+bool kalman_set(int id, cv::KalmanFilter&& kf);
+cv::KalmanFilter* kalman_get(int id);
+void kalman_free(int id);
+void kalman_clear_all();
+
 //---------------------------------------------------------------------------
 // Last error message (for future cv4_getlasterror if needed)
 //---------------------------------------------------------------------------
