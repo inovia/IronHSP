@@ -490,4 +490,14 @@
 #func global cv4_fast_global_smoother  cv4_fast_global_smoother  $202
 #func global cv4_weighted_median       cv4_weighted_median       $202
 
+; ---- contrib: img_hash (perceptual hashes) ----
+; すべて (dst_id, src_id) の 2 引数。出力 hash は Mat (1xN) 形式。
+; ハッシュ同士の比較は cv4_abs_diff + cv4_count_nonzero 等で実装可能。
+#func global cv4_phash                cv4_phash                $202
+#func global cv4_average_hash         cv4_average_hash         $202
+#func global cv4_block_mean_hash      cv4_block_mean_hash      $202
+#func global cv4_color_moment_hash    cv4_color_moment_hash    $202
+#func global cv4_marr_hildreth_hash   cv4_marr_hildreth_hash   $202
+#func global cv4_radial_variance_hash cv4_radial_variance_hash $202
+
 #endif

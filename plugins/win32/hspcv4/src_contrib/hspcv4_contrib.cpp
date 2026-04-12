@@ -22,6 +22,7 @@
 #include <opencv2/xfeatures2d.hpp>  // contrib: BRIEF / FREAK / DAISY / Star / HarrisLaplace
 #include <opencv2/bgsegm.hpp>       // contrib: CNT/GMG/LSBP/GSOC/MOG
 #include <opencv2/ximgproc.hpp>     // contrib: thinning/guided/anisotropic/etc
+#include <opencv2/img_hash.hpp>     // contrib: aHash/pHash/blockMean/etc
 #pragma warning(pop)
 
 #include "../src/hspcv4_capi.h"
@@ -570,3 +571,39 @@ CV4C_EXPORT int __stdcall cv4_weighted_median_impl(
     } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; }
       catch (...) { api->set_last_error("cv4_weighted_median: unknown"); return -1; }
 }
+
+
+//============================================================================
+//  Phase 13b-6 : img_hash (perceptual / dct / radial / color moment hashes)
+//
+//  各 hash 関数は cv::Mat を入力に取り、出力 hash を Mat (1 行) として返す。
+//  ハッシュ同士の類似度を計算するには 2 つの hash mat を比較する必要がある
+//  (Hamming distance や L1 距離)。本実装では HSP 側で cv4_abs_diff +
+//  cv4_count_nonzero 等を組み合わせれば類似度比較ができる。
+//============================================================================
+
+#define CV4_HASH_IMPL(name, fn) \
+CV4C_EXPORT int __stdcall name(HSPEXINFO* hei, int p1, int p2, int p3, \
+                                const hspcv4_handle_api_t* api) { \
+    (void)p1; (void)p2; (void)p3; \
+    try { \
+        int dst_id = hei->HspFunc_prm_geti(); \
+        int src_id = hei->HspFunc_prm_geti(); \
+        cv::Mat* src = get_mat(api, src_id, #name ": invalid source"); \
+        if (!src) return -1; \
+        cv::Mat out; \
+        cv::img_hash::fn(*src, out); \
+        api->mat_set_move(dst_id, &out); \
+        return 0; \
+    } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; } \
+      catch (...) { api->set_last_error(#name ": unknown"); return -1; } \
+}
+
+CV4_HASH_IMPL(cv4_phash_impl,             pHash)
+CV4_HASH_IMPL(cv4_average_hash_impl,      averageHash)
+CV4_HASH_IMPL(cv4_block_mean_hash_impl,   blockMeanHash)
+CV4_HASH_IMPL(cv4_color_moment_hash_impl, colorMomentHash)
+CV4_HASH_IMPL(cv4_marr_hildreth_hash_impl, marrHildrethHash)
+CV4_HASH_IMPL(cv4_radial_variance_hash_impl, radialVarianceHash)
+
+#undef CV4_HASH_IMPL

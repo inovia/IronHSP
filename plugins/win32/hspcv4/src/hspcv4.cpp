@@ -324,6 +324,28 @@ CV4_EXPORT BOOL WINAPI cv4_weighted_median(HSPEXINFO* hei, int p1, int p2, int p
     return fail("cv4_weighted_median: hspcv4_contrib.dll not available");
 }
 
+// --- img_hash proxies (Phase 13b-6) ---
+//   どれも (dst_id, src_id) の 2 引数
+
+#define CV4_HASH_PROXY(name, impl_name) \
+CV4_EXPORT BOOL WINAPI name(HSPEXINFO* hei, int p1, int p2, int p3) { \
+    set_hei(hei); \
+    static hspcv4_contrib_fn_t fn = nullptr; \
+    if (!fn) fn = get_contrib_fn(impl_name); \
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api()); \
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti(); \
+    return fail(impl_name ": hspcv4_contrib.dll not available"); \
+}
+
+CV4_HASH_PROXY(cv4_phash,             "cv4_phash_impl")
+CV4_HASH_PROXY(cv4_average_hash,      "cv4_average_hash_impl")
+CV4_HASH_PROXY(cv4_block_mean_hash,   "cv4_block_mean_hash_impl")
+CV4_HASH_PROXY(cv4_color_moment_hash, "cv4_color_moment_hash_impl")
+CV4_HASH_PROXY(cv4_marr_hildreth_hash, "cv4_marr_hildreth_hash_impl")
+CV4_HASH_PROXY(cv4_radial_variance_hash, "cv4_radial_variance_hash_impl")
+
+#undef CV4_HASH_PROXY
+
 
 //============================================================================
 //  DllMain

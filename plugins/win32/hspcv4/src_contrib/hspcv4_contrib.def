@@ -23,3 +23,9 @@ EXPORTS
     cv4_l0_smooth_impl
     cv4_fast_global_smoother_impl
     cv4_weighted_median_impl
+    cv4_phash_impl
+    cv4_average_hash_impl
+    cv4_block_mean_hash_impl
+    cv4_color_moment_hash_impl
+    cv4_marr_hildreth_hash_impl
+    cv4_radial_variance_hash_impl
