@@ -16,6 +16,8 @@
 #pragma warning(disable: 4819)
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
+#include <opencv2/video.hpp>      // cv::Tracker base class
+#include <opencv2/tracking.hpp>   // contrib: TrackerCSRT / TrackerKCF
 #pragma warning(pop)
 
 #include "../src/hspcv4_capi.h"
@@ -78,6 +80,54 @@ CV4C_EXPORT int __stdcall cv4_contrib_version_impl(
         return -1;
     } catch (...) {
         if (api) api->set_last_error("cv4_contrib_version: unknown exception");
+        return -1;
+    }
+}
+
+
+//============================================================================
+//  Phase 13b-1 : tracking module (TrackerCSRT / TrackerKCF)
+//
+//  既存の cv4_tracker_init / update / free は cv::Ptr<cv::Tracker> 抽象を
+//  使うので、KCF/CSRT トラッカに対しても再利用できる。
+//============================================================================
+
+//  cv4_tracker_create_csrt tid
+CV4C_EXPORT int __stdcall cv4_tracker_create_csrt_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int tid = hei->HspFunc_prm_geti();
+        cv::Ptr<cv::Tracker> t = cv::TrackerCSRT::create();
+        api->tracker_set_copy(tid, &t);
+        return 0;
+    } catch (const cv::Exception& e) {
+        if (api) api->set_last_error(e.what());
+        return -1;
+    } catch (...) {
+        if (api) api->set_last_error("cv4_tracker_create_csrt: unknown");
+        return -1;
+    }
+}
+
+//  cv4_tracker_create_kcf tid
+CV4C_EXPORT int __stdcall cv4_tracker_create_kcf_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int tid = hei->HspFunc_prm_geti();
+        cv::Ptr<cv::Tracker> t = cv::TrackerKCF::create();
+        api->tracker_set_copy(tid, &t);
+        return 0;
+    } catch (const cv::Exception& e) {
+        if (api) api->set_last_error(e.what());
+        return -1;
+    } catch (...) {
+        if (api) api->set_last_error("cv4_tracker_create_kcf: unknown");
         return -1;
     }
 }

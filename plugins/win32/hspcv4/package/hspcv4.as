@@ -423,4 +423,10 @@
 ; ラッパを順次追加予定です。
 #func global cv4_contrib_version  cv4_contrib_version  $202
 
+; ---- contrib: tracking module (KCF / CSRT) ----
+; cv::Tracker 抽象を継承するため、init/update/free は既存の cv4_tracker_*
+; をそのまま使えます。create のみ contrib DLL から呼ばれます。
+#func global cv4_tracker_create_csrt  cv4_tracker_create_csrt  $202
+#func global cv4_tracker_create_kcf   cv4_tracker_create_kcf   $202
+
 #endif

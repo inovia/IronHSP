@@ -111,6 +111,28 @@ CV4_EXPORT BOOL WINAPI cv4_contrib_version(HSPEXINFO* hei, int p1, int p2, int p
     return fail("cv4_contrib_version: hspcv4_contrib.dll not available");
 }
 
+//  cv4_tracker_create_csrt tid   (contrib only)
+CV4_EXPORT BOOL WINAPI cv4_tracker_create_csrt(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_tracker_create_csrt_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti();   // consume tid
+    return fail("cv4_tracker_create_csrt: hspcv4_contrib.dll not available");
+}
+
+//  cv4_tracker_create_kcf tid   (contrib only)
+CV4_EXPORT BOOL WINAPI cv4_tracker_create_kcf(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    set_hei(hei);
+    static hspcv4_contrib_fn_t fn = nullptr;
+    if (!fn) fn = get_contrib_fn("cv4_tracker_create_kcf_impl");
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api());
+    hei->HspFunc_prm_geti();
+    return fail("cv4_tracker_create_kcf: hspcv4_contrib.dll not available");
+}
+
 
 //============================================================================
 //  DllMain

@@ -4,3 +4,5 @@
 LIBRARY hspcv4_contrib
 EXPORTS
     cv4_contrib_version_impl
+    cv4_tracker_create_csrt_impl
+    cv4_tracker_create_kcf_impl

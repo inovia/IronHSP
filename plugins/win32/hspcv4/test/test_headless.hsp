@@ -560,8 +560,26 @@
     cv4_contrib_version contrib_ver
     if stat {
         mes "cv4_contrib_version: hspcv4_contrib.dll not loaded (error stat)"
+        mes "(skipping contrib tests)"
     } else {
         mes "cv4_contrib_version: " + contrib_ver
+
+        ; Phase 13b-1: tracking (KCF/CSRT)
+        cv4_tracker_create_csrt 0
+        if stat : mes "cv4_tracker_create_csrt FAIL" : end 1
+        cv4_tracker_init 0, 1, 50, 30, 100, 80
+        if stat : mes "cv4_tracker_init (CSRT) FAIL" : end 1
+        cv4_tracker_update 0, 1, csrt_x, csrt_y, csrt_w, csrt_h
+        mes strf("CSRT tracker: box=(%d,%d,%d,%d) stat=%d", csrt_x, csrt_y, csrt_w, csrt_h, stat)
+        cv4_tracker_free 0
+
+        cv4_tracker_create_kcf 0
+        if stat : mes "cv4_tracker_create_kcf FAIL" : end 1
+        cv4_tracker_init 0, 1, 50, 30, 100, 80
+        if stat : mes "cv4_tracker_init (KCF) FAIL" : end 1
+        cv4_tracker_update 0, 1, kcf_x, kcf_y, kcf_w, kcf_h
+        mes strf("KCF tracker: box=(%d,%d,%d,%d) stat=%d", kcf_x, kcf_y, kcf_w, kcf_h, stat)
+        cv4_tracker_free 0
     }
 
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---
