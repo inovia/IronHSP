@@ -2788,19 +2788,25 @@ CV4_EXPORT BOOL WINAPI cv4_create_trackbar(HSPEXINFO* hei, int p1, int p2, int p
 }
 
 //  cv4_get_trackbar_pos var_pos, "winname", "trackbar"
-//
-//  KNOWN ISSUE: HSP の OLDDLL 経由で「var + str + str」または
-//  「str + str + var」の混合パラメータパターンを使うと
-//  HSPERR_UNSUPPORTED_FUNCTION (21) または HSPERR_TOO_MANY_PARAMETERS
-//  (16) が発生することを確認。原因はまだ特定できていない (.ax の
-//  パラメータ型解析 vs OLDDLL ABI のずれと推測)。現状は stub として
-//  fail を返す。回避するには戻り値を stat に乗せる API に再設計するか、
-//  HSPERR の出所をさらに調査する必要あり。
 CV4_EXPORT BOOL WINAPI cv4_get_trackbar_pos(HSPEXINFO* hei, int p1, int p2, int p3)
 {
     (void)p1; (void)p2; (void)p3;
     set_hei(hei);
-    return fail("cv4_get_trackbar_pos: not yet usable (HSP param type issue)");
+    try {
+        PVal* pv;
+        APTR  ap = hei->HspFunc_prm_getva(&pv);
+        if (pv->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_get_trackbar_pos: var_pos must be int");
+        pv->offset = ap;
+        const char* win = getstr();
+        const char* tb  = getstr();
+        if (!win || !tb) return fail("cv4_get_trackbar_pos: null name");
+        int pos = cv::getTrackbarPos(tb, win);
+        HspVarProc* proc = hei->HspFunc_getproc(HSPVAR_FLAG_INT);
+        proc->Set(pv, proc->GetPtr(pv), &pos);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_get_trackbar_pos: unknown"); }
 }
 
 //  cv4_set_mouse_listener "winname"
@@ -2827,16 +2833,42 @@ CV4_EXPORT BOOL WINAPI cv4_set_mouse_listener(HSPEXINFO* hei, int p1, int p2, in
       catch (...) { return fail("cv4_set_mouse_listener: unknown"); }
 }
 
-//  cv4_get_mouse_event "winname", var_event, var_x, var_y, var_flags
-//
-//  KNOWN ISSUE: cv4_get_trackbar_pos と同じ HSP の str+var 混在
-//  パラメータ問題でランタイム例外が出る。stub として fail を返す。
-//  内部 callback 自体は cv4_set_mouse_listener で正しく登録される。
+//  cv4_get_mouse_event var_event, var_x, var_y, var_flags, "winname"
+//    var を先に並べることで HSP の OLDDLL パラメータ消費順を安定させる
 CV4_EXPORT BOOL WINAPI cv4_get_mouse_event(HSPEXINFO* hei, int p1, int p2, int p3)
 {
     (void)p1; (void)p2; (void)p3;
     set_hei(hei);
-    return fail("cv4_get_mouse_event: not yet usable (HSP param type issue)");
+    try {
+        PVal* pv_e; APTR a_e = hei->HspFunc_prm_getva(&pv_e);
+        if (pv_e->flag != HSPVAR_FLAG_INT) return fail("cv4_get_mouse_event: var_event must be int");
+        pv_e->offset = a_e;
+        PVal* pv_x; APTR a_x = hei->HspFunc_prm_getva(&pv_x);
+        if (pv_x->flag != HSPVAR_FLAG_INT) return fail("cv4_get_mouse_event: var_x must be int");
+        pv_x->offset = a_x;
+        PVal* pv_y; APTR a_y = hei->HspFunc_prm_getva(&pv_y);
+        if (pv_y->flag != HSPVAR_FLAG_INT) return fail("cv4_get_mouse_event: var_y must be int");
+        pv_y->offset = a_y;
+        PVal* pv_f; APTR a_f = hei->HspFunc_prm_getva(&pv_f);
+        if (pv_f->flag != HSPVAR_FLAG_INT) return fail("cv4_get_mouse_event: var_flags must be int");
+        pv_f->offset = a_f;
+        const char* win = getstr();
+        if (!win) return fail("cv4_get_mouse_event: null winname");
+
+        MouseState s;
+        {
+            std::lock_guard<std::mutex> lock(g_mouse_mutex);
+            auto it = g_mouse_states.find(win);
+            if (it != g_mouse_states.end()) s = it->second;
+        }
+        HspVarProc* proc = hei->HspFunc_getproc(HSPVAR_FLAG_INT);
+        proc->Set(pv_e, proc->GetPtr(pv_e), &s.event);
+        proc->Set(pv_x, proc->GetPtr(pv_x), &s.x);
+        proc->Set(pv_y, proc->GetPtr(pv_y), &s.y);
+        proc->Set(pv_f, proc->GetPtr(pv_f), &s.flags);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_get_mouse_event: unknown"); }
 }
 
 
