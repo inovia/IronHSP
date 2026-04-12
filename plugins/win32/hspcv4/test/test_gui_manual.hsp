@@ -10,7 +10,7 @@
 
     ; 画像読込 + 情報
     cv4load 0, "test_image.png"
-    if stat < 0 : dialog "cv4load failed" : end
+    if stat : dialog "cv4load failed" : end
 
     cv4info 0, sx, sy, ch
 
@@ -36,7 +36,7 @@
 
     ; cv4putimg: HSP 画面 -> ID 10
     cv4putimg 10
-    if stat < 0 : dialog "cv4putimg failed" : end
+    if stat : dialog "cv4putimg failed" : end
 
     cv4info 10, px, py, pch
     color 0, 128, 0

@@ -16,7 +16,7 @@
     redraw 1
 
     cv4load 0, "test_image.png"
-    if stat < 0 : dialog "cv4load failed" : end
+    if stat : dialog "cv4load failed" : end
 
     ; リサイズして描画込みの画像を作る
     cv4resize 1, 0, 400, 300
@@ -30,21 +30,20 @@
     mes "  2. OpenCV window opened. Press any key (5 sec timeout)..."
     redraw 1
 
-    ; 5 秒タイムアウトでキー待ち
-    cv4_wait_key 5000
-    key = stat
+    ; 5 秒タイムアウトでキー待ち (var_key に格納)
+    cv4_wait_key key, 5000
     pos 10, 70
-    if key >= 0 {
-        mes "  3. key pressed: " + key + " (success)"
+    if stat {
+        mes "  3. timeout — OK if you did not press a key"
     } else {
-        mes "  3. timeout (-1) — OK if you did not press a key"
+        mes "  3. key pressed: " + key + " (success)"
     }
     redraw 1
 
     ; 追記描画: 押したキーコードを画像にテキストで描き込む
     cv4text 1, "key=" + key, 20, 50, 1.2, 0, 0, 255, 2
     cv4_show 1, "hspcv4 window"
-    cv4_wait_key 1500
+    cv4_wait_key dummy, 1500
 
     ; ウィンドウを閉じる
     cv4_close_window "hspcv4 window"
@@ -55,7 +54,7 @@
     mes "  4. Testing cv4putimg after window operations..."
     redraw 1
     cv4putimg 2
-    if stat < 0 : dialog "cv4putimg FAILED after wait_key" : end
+    if stat : dialog "cv4putimg FAILED after wait_key" : end
     cv4info 2, px, py, _
     pos 10, 130
     color 0, 128, 0

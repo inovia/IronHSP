@@ -70,7 +70,7 @@ if exist "%OPENCV_ETC_32%\haarcascade_frontalface_default.xml" (
 pushd "%WORK_DIR%"
 
 echo [1/2] Compiling test_headless.hsp
-".\hspcmp.exe" -otest.ax test_headless.hsp
+".\hspcmp.exe" -d -otest.ax test_headless.hsp
 if errorlevel 1 (
     echo [error] hspcmp failed.
     popd

@@ -100,11 +100,14 @@
 ;       beginner API には含まれません。代わりに cv::pollKey() ベースの
 ;       ノンブロッキング実装を用意しています。
 ;
-;   cv4_show       id, "window"       — OpenCV ウィンドウに画像を表示
-;   cv4_wait_key   ms                  — タイムアウト付きキー待ち (stat=キー/-1)
-;                                        ms=0 で 10ms 間隔のポーリング待ち
-;   cv4_close_window "window"         — 指定ウィンドウを閉じる
-;   cv4_close_all                      — 全 OpenCV ウィンドウを閉じる
+;   cv4_show         id, "window"       — OpenCV ウィンドウに画像を表示
+;   cv4_wait_key     var_key, ms         — タイムアウト付きキー待ち
+;                                          キーコードは var_key に格納。
+;                                          stat = 0 : キーが押された
+;                                          stat = 1 : タイムアウト
+;                                          ms=0 で「押されるまで」動作
+;   cv4_close_window "window"           — 指定ウィンドウを閉じる
+;   cv4_close_all                        — 全 OpenCV ウィンドウを閉じる
 ;
 #func global cv4_show          cv4_show          $202
 #func global cv4_wait_key      cv4_wait_key      $202
@@ -124,5 +127,24 @@
 #func global cv4_cascade_load  cv4_cascade_load  $202
 #func global cv4_cascade_free  cv4_cascade_free  $202
 #func global cv4_detect        cv4_detect        $202
+
+; ---- video I/O : VideoCapture / VideoWriter ----
+;
+; cv4_video_open   vid, "path_or_index"          ; "0"=カメラ 0 / "file.mp4"
+; cv4_video_read   vid, frame_id                  ; stat=0 成功, 1 で終端
+; cv4_video_info   vid, var_w, var_h, var_fps, var_total
+; cv4_video_close  vid
+;
+; cv4_writer_open  wid, "path", "fourcc", fps, w, h  ; fourcc は "MJPG" 等
+; cv4_writer_write wid, frame_id
+; cv4_writer_close wid
+;
+#func global cv4_video_open    cv4_video_open    $202
+#func global cv4_video_read    cv4_video_read    $202
+#func global cv4_video_info    cv4_video_info    $202
+#func global cv4_video_close   cv4_video_close   $202
+#func global cv4_writer_open   cv4_writer_open   $202
+#func global cv4_writer_write  cv4_writer_write  $202
+#func global cv4_writer_close  cv4_writer_close  $202
 
 #endif

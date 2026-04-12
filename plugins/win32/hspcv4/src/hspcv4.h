@@ -29,6 +29,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/objdetect.hpp>
+#include <opencv2/videoio.hpp>
 #pragma warning(pop)
 
 #define CV4_EXPORT extern "C" __declspec(dllexport)
@@ -67,6 +68,20 @@ bool cascade_set(int id, cv::CascadeClassifier&& cc);
 cv::CascadeClassifier* cascade_get(int id);
 void cascade_free(int id);
 void cascade_clear_all();
+
+//---------------------------------------------------------------------------
+// VideoCapture / VideoWriter handle managers (Phase 2f)
+//---------------------------------------------------------------------------
+
+bool capture_set(int id, cv::VideoCapture&& vc);
+cv::VideoCapture* capture_get(int id);
+void capture_free(int id);
+void capture_clear_all();
+
+bool writer_set(int id, cv::VideoWriter&& vw);
+cv::VideoWriter* writer_get(int id);
+void writer_free(int id);
+void writer_clear_all();
 
 //---------------------------------------------------------------------------
 // Last error message (for future cv4_getlasterror if needed)

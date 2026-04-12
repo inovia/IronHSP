@@ -17,6 +17,8 @@ namespace {
 
 std::unordered_map<int, std::unique_ptr<cv::Mat>> g_handles;
 std::unordered_map<int, std::unique_ptr<cv::CascadeClassifier>> g_cascades;
+std::unordered_map<int, std::unique_ptr<cv::VideoCapture>> g_captures;
+std::unordered_map<int, std::unique_ptr<cv::VideoWriter>> g_writers;
 std::mutex g_mutex;
 int g_next_id = 0;
 std::string g_last_error;
@@ -86,6 +88,60 @@ void cascade_clear_all()
 {
     std::lock_guard<std::mutex> lock(g_mutex);
     g_cascades.clear();
+}
+
+bool capture_set(int id, cv::VideoCapture&& vc)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_captures[id] = std::make_unique<cv::VideoCapture>(std::move(vc));
+    return true;
+}
+
+cv::VideoCapture* capture_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_captures.find(id);
+    if (it == g_captures.end()) return nullptr;
+    return it->second.get();
+}
+
+void capture_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_captures.erase(id);
+}
+
+void capture_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_captures.clear();
+}
+
+bool writer_set(int id, cv::VideoWriter&& vw)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_writers[id] = std::make_unique<cv::VideoWriter>(std::move(vw));
+    return true;
+}
+
+cv::VideoWriter* writer_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_writers.find(id);
+    if (it == g_writers.end()) return nullptr;
+    return it->second.get();
+}
+
+void writer_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_writers.erase(id);
+}
+
+void writer_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_writers.clear();
 }
 
 void set_last_error(const char* msg)

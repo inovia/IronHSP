@@ -22,12 +22,23 @@ inline int         getint_def(int d) { return g_hei->HspFunc_prm_getdi(d); }
 inline char*       getstr()          { return g_hei->HspFunc_prm_gets(); }
 inline char*       getstr_def(const char* d) { return g_hei->HspFunc_prm_getds(d); }
 
-// Report an error via Hsp3 "error" facility (if available).
-// In Phase 1 we just set the last-error string and return negative.
+// Report an error.
+// IMPORTANT: hspcv4 の #func は $202 (OLDDLL) を使っており、HSP runtime は
+// BindFUNC で subid を OLDDLL → OLDDLLINIT に降格したあと、戻り値を次の
+// ように stat に変換する (hsp3extlib.cpp exec_dllcmd):
+//   result == 0  → stat = 0                      (success)
+//   result >  0  → legacy wait-count 経路に突入し
+//                  bit 0x20000/0x10000 が立っていなければ HSPERR_DLL_ERROR
+//   result <  0  → stat = -result                (positive error code)
+// よって C 関数は:
+//   - 成功: return 0
+//   - 失敗: return -N  (N 正、HSP 側で stat = N として観察される)
+//   - 正の値は絶対に返さない (Error 38 を引き起こす)
+// HSP 側は「if stat : <error>」で検出できる。
 inline int fail(const char* msg)
 {
     hspcv4::set_last_error(msg);
-    return -1;
+    return -1;   // => stat = 1 after HSP の OLDDLL 符号反転
 }
 
 } // namespace
@@ -42,6 +53,8 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
     if (reason == DLL_PROCESS_DETACH) {
         hspcv4::handle_clear_all();
         hspcv4::cascade_clear_all();
+        hspcv4::capture_clear_all();
+        hspcv4::writer_clear_all();
         cv::destroyAllWindows();
     }
     return TRUE;
@@ -292,6 +305,185 @@ CV4_EXPORT BOOL WINAPI cv4getimg(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //============================================================================
+//  Video I/O : VideoCapture / VideoWriter
+//============================================================================
+
+//  cv4_video_open vid, "path_or_index"
+//    path が 10 進数字列 (例: "0", "1") のときはカメラ index として開く。
+//    それ以外のときはファイルパスとして開く。
+CV4_EXPORT BOOL WINAPI cv4_video_open(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int vid          = getint();
+        const char* path = getstr();
+        if (!path) return fail("cv4_video_open: null path");
+
+        // 全桁数字ならカメラ index として扱う
+        bool all_digit = (*path != '\0');
+        for (const char* p = path; *p; ++p) {
+            if (*p < '0' || *p > '9') { all_digit = false; break; }
+        }
+
+        cv::VideoCapture vc;
+        bool ok = false;
+        if (all_digit) {
+            int idx = atoi(path);
+            ok = vc.open(idx);
+        } else {
+            ok = vc.open(path);
+        }
+        if (!ok || !vc.isOpened()) {
+            return fail("cv4_video_open: failed to open source");
+        }
+        hspcv4::capture_set(vid, std::move(vc));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_video_open: unknown exception");
+    }
+}
+
+//  cv4_video_read vid, frame_id
+//    stat に 0 (成功) / -1 (終端 or 読込失敗)。成功時は frame_id に Mat が入る。
+CV4_EXPORT BOOL WINAPI cv4_video_read(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int vid      = getint();
+        int frame_id = getint();
+        cv::VideoCapture* vc = hspcv4::capture_get(vid);
+        if (!vc || !vc->isOpened()) {
+            return fail("cv4_video_read: invalid capture");
+        }
+        cv::Mat frame;
+        if (!vc->read(frame) || frame.empty()) {
+            return -1;  // 終端 (stat = 1 after negation)
+        }
+        hspcv4::handle_set(frame_id, std::move(frame));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_video_read: unknown exception");
+    }
+}
+
+//  cv4_video_info vid, var_w, var_h, var_fps, var_total
+CV4_EXPORT BOOL WINAPI cv4_video_info(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int vid = getint();
+        cv::VideoCapture* vc = hspcv4::capture_get(vid);
+        if (!vc || !vc->isOpened()) {
+            return fail("cv4_video_info: invalid capture");
+        }
+        int vals[4];
+        vals[0] = (int)vc->get(cv::CAP_PROP_FRAME_WIDTH);
+        vals[1] = (int)vc->get(cv::CAP_PROP_FRAME_HEIGHT);
+        vals[2] = (int)vc->get(cv::CAP_PROP_FPS);
+        vals[3] = (int)vc->get(cv::CAP_PROP_FRAME_COUNT);
+        for (int i = 0; i < 4; ++i) {
+            PVal* pval;
+            APTR aptr = hei->HspFunc_prm_getva(&pval);
+            if (pval->flag != HSPVAR_FLAG_INT) {
+                return fail("cv4_video_info: var must be int");
+            }
+            pval->offset = aptr;
+            HspVarProc* proc = hei->HspFunc_getproc(pval->flag);
+            proc->Set(pval, proc->GetPtr(pval), &vals[i]);
+        }
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_video_info: unknown exception");
+    }
+}
+
+//  cv4_video_close vid
+CV4_EXPORT BOOL WINAPI cv4_video_close(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int vid = getint();
+    hspcv4::capture_free(vid);
+    return 0;
+}
+
+//  cv4_writer_open wid, "path", "fourcc", fps, w, h
+//    fourcc は 4 文字の文字列 (例: "MJPG", "XVID", "mp4v")
+CV4_EXPORT BOOL WINAPI cv4_writer_open(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int wid            = getint();
+        const char* path   = getstr();
+        const char* fourcc = getstr();
+        double fps         = hei->HspFunc_prm_getdd(30.0);
+        int w              = getint();
+        int h              = getint();
+        if (!path || !fourcc || strlen(fourcc) < 4) {
+            return fail("cv4_writer_open: path/fourcc invalid");
+        }
+        int fcc = cv::VideoWriter::fourcc(
+            fourcc[0], fourcc[1], fourcc[2], fourcc[3]);
+        cv::VideoWriter vw;
+        if (!vw.open(path, fcc, fps, cv::Size(w, h))) {
+            return fail("cv4_writer_open: VideoWriter open failed");
+        }
+        hspcv4::writer_set(wid, std::move(vw));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_writer_open: unknown exception");
+    }
+}
+
+//  cv4_writer_write wid, frame_id
+CV4_EXPORT BOOL WINAPI cv4_writer_write(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int wid      = getint();
+        int frame_id = getint();
+        cv::VideoWriter* vw = hspcv4::writer_get(wid);
+        if (!vw || !vw->isOpened()) {
+            return fail("cv4_writer_write: invalid writer");
+        }
+        cv::Mat* m = hspcv4::handle_get(frame_id);
+        if (!m || m->empty()) {
+            return fail("cv4_writer_write: invalid frame");
+        }
+        vw->write(*m);
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_writer_write: unknown exception");
+    }
+}
+
+//  cv4_writer_close wid
+CV4_EXPORT BOOL WINAPI cv4_writer_close(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int wid = getint();
+    hspcv4::writer_free(wid);
+    return 0;
+}
+
+
+//============================================================================
 //  Object detection : CascadeClassifier (Haar / LBP)
 //
 //  cv_rect (HSP 構造体) レイアウト: { int x; int y; int w; int h; } (16 bytes)
@@ -442,27 +634,46 @@ CV4_EXPORT BOOL WINAPI cv4_show(HSPEXINFO* hei, int p1, int p2, int p3)
     }
 }
 
-//  cv4_wait_key ms
-//    タイムアウト付きキー待ち。stat にキーコード (押されなければ -1)。
-//    ms=0 は「押されるまで待つ」(ただし 10ms ポーリングなのでプロセスは
-//    応答可能な状態を保つ)。
-//    内部で cv::pollKey() を回すので OpenCV ウィンドウの描画更新も行われる。
+//  cv4_wait_key var_key, ms
+//    タイムアウト付きキー待ち。
+//    var_key にキーコードを格納 (押されなければ -1)。
+//    stat = 0  : キーが押された (var_key は有効)
+//    stat = -1 : タイムアウト (var_key = -1)
+//    ms=0 は「押されるまで待つ」(10ms ポーリング)
+//
+//  OLDDLL 符号反転の制約 (return 値に正の整数を使えない) を避けるため、
+//  キーコードは return 値ではなく var 引数で返す設計にしている。
 CV4_EXPORT BOOL WINAPI cv4_wait_key(HSPEXINFO* hei, int p1, int p2, int p3)
 {
     (void)p1; (void)p2; (void)p3;
     set_hei(hei);
     try {
+        // var_key (int 変数) を取得
+        PVal* pval;
+        APTR  aptr = hei->HspFunc_prm_getva(&pval);
+        if (pval->flag != HSPVAR_FLAG_INT) {
+            return fail("cv4_wait_key: var_key must be int");
+        }
+        pval->offset = aptr;
+
         int ms = getint_def(0);
         DWORD start = GetTickCount();
+        int key = -1;
         while (true) {
-            int key = cv::pollKey();
-            if (key >= 0) return key;
+            key = cv::pollKey();
+            if (key >= 0) break;
             if (ms > 0) {
                 DWORD elapsed = GetTickCount() - start;
-                if (elapsed >= (DWORD)ms) return -1;
+                if (elapsed >= (DWORD)ms) { key = -1; break; }
             }
             Sleep(10);
         }
+
+        // var_key に結果を格納
+        HspVarProc* proc = hei->HspFunc_getproc(pval->flag);
+        proc->Set(pval, proc->GetPtr(pval), &key);
+
+        return (key >= 0) ? 0 : -1;   // 0=success / -1=>stat 1=timeout
     } catch (const cv::Exception& e) {
         return fail(e.what());
     } catch (...) {

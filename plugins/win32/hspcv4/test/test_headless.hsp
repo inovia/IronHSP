@@ -9,7 +9,7 @@
 
     ; --- cv4load ---
     cv4load 0, "test_image.png"
-    if stat < 0 { mes "cv4load FAIL" : end 1 }
+    if stat { mes "cv4load FAIL" : end 1 }
     mes "cv4load OK"
 
     ; --- cv4info ---
@@ -19,47 +19,47 @@
 
     ; --- cv4resize ---
     cv4resize 1, 0, 320, 240
-    if stat < 0 { mes "cv4resize FAIL" : end 1 }
+    if stat { mes "cv4resize FAIL" : end 1 }
     cv4info 1, sx2, sy2, _
     if (sx2 != 320) | (sy2 != 240) { mes "cv4resize size FAIL" : end 1 }
     mes strf("cv4resize OK: %d x %d", sx2, sy2)
 
     ; --- cv4cvt BGR -> GRAY ---
     cv4cvt 2, 1, CV4_BGR2GRAY
-    if stat < 0 { mes "cv4cvt FAIL" : end 1 }
+    if stat { mes "cv4cvt FAIL" : end 1 }
     cv4info 2, gx, gy, gch
     if gch != 1 { mes "cv4cvt channel FAIL" : end 1 }
     mes strf("cv4cvt OK: %d x %d ch=%d", gx, gy, gch)
 
     ; --- cv4save ---
     cv4save 2, "out_gray.png"
-    if stat < 0 { mes "cv4save FAIL" : end 1 }
+    if stat { mes "cv4save FAIL" : end 1 }
     mes "cv4save OK -> out_gray.png"
 
     ; --- cv4load saved file to verify roundtrip ---
     cv4load 3, "out_gray.png"
-    if stat < 0 { mes "cv4load roundtrip FAIL" : end 1 }
+    if stat { mes "cv4load roundtrip FAIL" : end 1 }
     cv4info 3, rx, ry, rch
     if (rx != 320) | (ry != 240) { mes "cv4 roundtrip size FAIL" : end 1 }
     mes strf("cv4 roundtrip OK: %d x %d ch=%d", rx, ry, rch)
 
     ; --- drawing on Mat handle 1 (320x240 color) ---
     cv4line   1, 10, 10, 310, 230,   0,   0, 255, 2
-    if stat < 0 { mes "cv4line FAIL" : end 1 }
+    if stat { mes "cv4line FAIL" : end 1 }
     cv4rect   1, 50, 50, 100,  80,   0, 255,   0, 3
-    if stat < 0 { mes "cv4rect FAIL" : end 1 }
+    if stat { mes "cv4rect FAIL" : end 1 }
     cv4circle 1, 200, 120, 40, 255,   0,   0, -1
-    if stat < 0 { mes "cv4circle FAIL" : end 1 }
+    if stat { mes "cv4circle FAIL" : end 1 }
     cv4text   1, "hello", 20, 220, 0.8, 255, 255, 255, 2
-    if stat < 0 { mes "cv4text FAIL" : end 1 }
+    if stat { mes "cv4text FAIL" : end 1 }
     mes "cv4line/rect/circle/text OK"
 
     ; 描画結果を保存して再 load し、サイズが変わっていないこと (= 破壊されて
     ; いないこと) と、読み込めること (ファイル形式として有効) を確認する。
     cv4save 1, "out_drawn.png"
-    if stat < 0 { mes "cv4save drawn FAIL" : end 1 }
+    if stat { mes "cv4save drawn FAIL" : end 1 }
     cv4load 4, "out_drawn.png"
-    if stat < 0 { mes "cv4load drawn FAIL" : end 1 }
+    if stat { mes "cv4load drawn FAIL" : end 1 }
     cv4info 4, dx, dy, dch
     if (dx != 320) | (dy != 240) { mes "drawn roundtrip size FAIL" : end 1 }
     mes strf("drawing roundtrip OK: %d x %d ch=%d", dx, dy, dch)
@@ -67,25 +67,25 @@
     ; --- filters ---
     ; blur (in-place)
     cv4blur 1, 1, 5
-    if stat < 0 { mes "cv4blur FAIL" : end 1 }
+    if stat { mes "cv4blur FAIL" : end 1 }
     ; gauss (dst != src)
     cv4gauss 5, 1, 5, 1.5
-    if stat < 0 { mes "cv4gauss FAIL" : end 1 }
+    if stat { mes "cv4gauss FAIL" : end 1 }
     cv4info 5, bx, by, bch
     if (bx != 320) | (by != 240) { mes "cv4gauss size FAIL" : end 1 }
     ; median (dst != src, odd ksize auto-fix)
     cv4median 6, 1, 5
-    if stat < 0 { mes "cv4median FAIL" : end 1 }
+    if stat { mes "cv4median FAIL" : end 1 }
 
     ; canny requires grayscale -> ID 2 は既にグレー
     cv4canny 7, 2, 80, 160
-    if stat < 0 { mes "cv4canny FAIL" : end 1 }
+    if stat { mes "cv4canny FAIL" : end 1 }
     cv4info 7, cnx, cny, cnch
     if cnch != 1 { mes "cv4canny should be 1ch FAIL" : end 1 }
 
     ; threshold: gray -> binary (THRESH_BINARY | THRESH_OTSU で自動しきい値)
     cv4thresh 8, 2, 0, 255, CV4_THRESH_BINARY | CV4_THRESH_OTSU
-    if stat < 0 { mes "cv4thresh FAIL" : end 1 }
+    if stat { mes "cv4thresh FAIL" : end 1 }
     cv4info 8, thx, thy, thch
     if thch != 1 { mes "cv4thresh should be 1ch FAIL" : end 1 }
     mes strf("cv4blur/gauss/median/canny/thresh OK")
@@ -93,22 +93,22 @@
     ; --- geometric transform ---
     ; flip (上下反転)
     cv4flip 9, 1, 0
-    if stat < 0 { mes "cv4flip FAIL" : end 1 }
+    if stat { mes "cv4flip FAIL" : end 1 }
     cv4info 9, fx, fy, fch
     if (fx != 320) | (fy != 240) { mes "cv4flip size FAIL" : end 1 }
     ; rotate (30 度、等倍)
     cv4rotate 10, 1, 30.0, 1.0
-    if stat < 0 { mes "cv4rotate FAIL" : end 1 }
+    if stat { mes "cv4rotate FAIL" : end 1 }
     cv4info 10, rtx, rty, _
     if (rtx != 320) | (rty != 240) { mes "cv4rotate size FAIL" : end 1 }
     ; crop (100x80 の ROI)
     cv4crop 11, 1, 50, 30, 100, 80
-    if stat < 0 { mes "cv4crop FAIL" : end 1 }
+    if stat { mes "cv4crop FAIL" : end 1 }
     cv4info 11, crx, cry, _
     if (crx != 100) | (cry != 80) { mes "cv4crop size FAIL" : end 1 }
     ; warp (恒等行列で 200x150 にパディング)
     cv4warp 12, 1, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 200, 150
-    if stat < 0 { mes "cv4warp FAIL" : end 1 }
+    if stat { mes "cv4warp FAIL" : end 1 }
     cv4info 12, wx, wy, _
     if (wx != 200) | (wy != 150) { mes "cv4warp size FAIL" : end 1 }
     mes "cv4flip/rotate/crop/warp OK"
@@ -117,16 +117,51 @@
     ; build/opencv_install_32/etc/haarcascades/ に置かれる。
     ; test/_work/ に置いたものを相対パスで参照する想定。
     cv4_cascade_load 0, "haarcascade_frontalface_default.xml"
-    if stat < 0 {
+    if stat {
         mes "(cv4_cascade_load skipped: xml not staged)"
     } else {
         mes "cv4_cascade_load OK"
         ; 検出は画像次第なので 0 件でも成功とみなす
         stdim rects, cv_rect, 16
         cv4_detect 0, 1, rects, ndet, 1.1, 3
-        if stat < 0 { mes "cv4_detect FAIL" : end 1 }
+        if stat { mes "cv4_detect FAIL" : end 1 }
         mes strf("cv4_detect OK: found %d rect(s) in resized apple image", ndet)
         cv4_cascade_free 0
+    }
+
+    ; --- video writer -> capture roundtrip ---
+    ; Mat hande 1 (320x240 colour) を 10 フレーム MJPG で書き出し、
+    ; そのファイルを VideoCapture で読み戻せるかを確認する。
+    cv4_writer_open 0, "out.avi", "MJPG", 30.0, 320, 240
+    if stat {
+        mes "(cv4_writer_open MJPG skipped: codec may not be available)"
+    } else {
+        repeat 10
+            cv4_writer_write 0, 1
+            if stat { mes "cv4_writer_write FAIL" : end 1 }
+        loop
+        cv4_writer_close 0
+        mes "cv4_writer write 10 frames OK"
+
+        cv4_video_open 0, "out.avi"
+        if stat {
+            mes "(cv4_video_open skipped: written file not readable)"
+        } else {
+            cv4_video_info 0, vw, vh, vfps, vtotal
+            mes strf("video info: %d x %d @ %d fps, total=%d", vw, vh, vfps, vtotal)
+            if (vw != 320) | (vh != 240) {
+                mes "video size FAIL" : end 1
+            }
+            read_count = 0
+            repeat 20    ; 念のため多め
+                cv4_video_read 0, 13
+                if stat : break
+                read_count = read_count + 1
+            loop
+            cv4_video_close 0
+            mes strf("cv4_video_read roundtrip OK: read %d frame(s)", read_count)
+            if read_count < 1 { mes "video roundtrip FAIL (0 frames)" : end 1 }
+        }
     }
 
     ; --- cv4del / cv4reset ---
@@ -143,6 +178,7 @@
     cv4del 10
     cv4del 11
     cv4del 12
+    cv4del 13
     cv4reset
     mes "cv4del/cv4reset OK"
 
