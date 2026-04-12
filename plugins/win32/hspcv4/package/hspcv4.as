@@ -487,6 +487,31 @@
 #func global cv4_facemark_load      cv4_facemark_load      $202
 #func global cv4_facemark_free      cv4_facemark_free      $202
 
+; ---- imgproc extras (Phase 20): watershed / grabCut / colormap / etc ----
+; ColorMap 種別 (cv4_apply_color_map 第 3 引数; cv::COLORMAP_*)
+#define global CV4_COLORMAP_AUTUMN    0
+#define global CV4_COLORMAP_BONE      1
+#define global CV4_COLORMAP_JET       2
+#define global CV4_COLORMAP_WINTER    3
+#define global CV4_COLORMAP_RAINBOW   4
+#define global CV4_COLORMAP_OCEAN     5
+#define global CV4_COLORMAP_SUMMER    6
+#define global CV4_COLORMAP_SPRING    7
+#define global CV4_COLORMAP_COOL      8
+#define global CV4_COLORMAP_HSV       9
+#define global CV4_COLORMAP_PINK      10
+#define global CV4_COLORMAP_HOT       11
+; GrabCut mode
+#define global CV4_GC_INIT_WITH_RECT  0
+#define global CV4_GC_INIT_WITH_MASK  1
+#define global CV4_GC_EVAL            2
+;
+#func global cv4_apply_color_map      cv4_apply_color_map      $202
+#func global cv4_watershed            cv4_watershed            $202
+#func global cv4_grab_cut             cv4_grab_cut             $202
+#func global cv4_connected_components cv4_connected_components $202
+#func global cv4_moments_centroid     cv4_moments_centroid     $202
+
 ; ---- calib3d full (Phase 14): camera calibration / pose estimation ----
 ; cv4_camera_matrix dst, fx, fy, cx, cy        — 3x3 K 行列を生成
 ; cv4_dist_coeffs   dst, k1, k2, p1, p2, k3    — 1x5 歪み係数 D を生成

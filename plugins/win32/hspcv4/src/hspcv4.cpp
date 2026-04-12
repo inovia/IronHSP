@@ -2632,6 +2632,140 @@ CV4_EXPORT BOOL WINAPI cv4_facemark_free(HSPEXINFO* hei, int p1, int p2, int p3)
 
 
 //============================================================================
+//  Imgproc extras (Phase 20): watershed / grabCut / applyColorMap /
+//                             distanceTransform / connectedComponents
+//============================================================================
+
+//  cv4_apply_color_map dst, src, colormap
+//    colormap: cv::COLORMAP_* (0=AUTUMN, 2=JET, 11=HOT, 16=TWILIGHT, ...)
+CV4_EXPORT BOOL WINAPI cv4_apply_color_map(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int cmap   = getint_def(cv::COLORMAP_JET);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_apply_color_map: invalid src");
+        cv::Mat dst;
+        cv::applyColorMap(*src, dst, cmap);
+        hspcv4::handle_set(dst_id, std::move(dst));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_apply_color_map: unknown"); }
+}
+
+//  cv4_watershed markers, src
+//    src は CV_8UC3, markers は呼び出し前に CV_32SC1 で seed が打たれていること
+//    (in/out: markers が直接書き換えられる)
+CV4_EXPORT BOOL WINAPI cv4_watershed(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int markers_id = getint();
+        int src_id     = getint();
+        cv::Mat* markers = hspcv4::handle_get(markers_id);
+        cv::Mat* src     = hspcv4::handle_get(src_id);
+        if (!markers || markers->empty()) return fail("cv4_watershed: invalid markers");
+        if (!src || src->empty()) return fail("cv4_watershed: invalid src");
+        cv::watershed(*src, *markers);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_watershed: unknown"); }
+}
+
+//  cv4_grab_cut mask, src, x, y, w, h, iters [, mode=GC_INIT_WITH_RECT(0)]
+//    mask は出力 (CV_8UC1)。bgdModel/fgdModel は内部で確保。
+CV4_EXPORT BOOL WINAPI cv4_grab_cut(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int mask_id = getint();
+        int src_id  = getint();
+        int x       = getint();
+        int y       = getint();
+        int w       = getint();
+        int h       = getint();
+        int iters   = getint_def(5);
+        int mode    = getint_def(cv::GC_INIT_WITH_RECT);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_grab_cut: invalid src");
+        cv::Mat mask = cv::Mat::zeros(src->size(), CV_8UC1);
+        cv::Mat bgd, fgd;
+        cv::Rect rect(x, y, w, h);
+        cv::grabCut(*src, mask, rect, bgd, fgd, iters, mode);
+        hspcv4::handle_set(mask_id, std::move(mask));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_grab_cut: unknown"); }
+}
+
+//  cv4_connected_components labels, src, var_count [, connectivity=8]
+//    var_count に検出ラベル数 (背景含む) を書き戻す。
+CV4_EXPORT BOOL WINAPI cv4_connected_components(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        PVal* pv;
+        APTR  ap = hei->HspFunc_prm_getva(&pv);
+        if (pv->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_connected_components: var_count must be int");
+        pv->offset = ap;
+        int conn = getint_def(8);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_connected_components: invalid src");
+        cv::Mat labels;
+        int n = cv::connectedComponents(*src, labels, conn, CV_32S);
+        hspcv4::handle_set(dst_id, std::move(labels));
+        HspVarProc* proc = hei->HspFunc_getproc(HSPVAR_FLAG_INT);
+        proc->Set(pv, proc->GetPtr(pv), &n);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_connected_components: unknown"); }
+}
+
+//  cv4_moments_centroid cid, index, var_cx_x10, var_cy_x10
+//    輪郭セット内のi番目について重心 (cx, cy) を計算し、x10 整数で書き戻す。
+CV4_EXPORT BOOL WINAPI cv4_moments_centroid(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int cid    = getint();
+        int idx    = getint();
+        PVal* pvx;
+        APTR  apx = hei->HspFunc_prm_getva(&pvx);
+        if (pvx->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_moments_centroid: var_cx must be int");
+        pvx->offset = apx;
+        PVal* pvy;
+        APTR  apy = hei->HspFunc_prm_getva(&pvy);
+        if (pvy->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_moments_centroid: var_cy must be int");
+        pvy->offset = apy;
+        auto* cs = hspcv4::contours_get(cid);
+        if (!cs) return fail("cv4_moments_centroid: invalid contours");
+        if (idx < 0 || idx >= (int)cs->size())
+            return fail("cv4_moments_centroid: index out of range");
+        cv::Moments m = cv::moments((*cs)[idx]);
+        int cx_x10 = (m.m00 != 0.0) ? (int)(10.0 * m.m10 / m.m00) : 0;
+        int cy_x10 = (m.m00 != 0.0) ? (int)(10.0 * m.m01 / m.m00) : 0;
+        HspVarProc* proc = hei->HspFunc_getproc(HSPVAR_FLAG_INT);
+        proc->Set(pvx, proc->GetPtr(pvx), &cx_x10);
+        proc->Set(pvy, proc->GetPtr(pvy), &cy_x10);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_moments_centroid: unknown"); }
+}
+
+
+//============================================================================
 //  Calib3D extras (Phase 14): undistort / rodrigues / camera matrix etc.
 //============================================================================
 
