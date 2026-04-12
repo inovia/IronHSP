@@ -241,6 +241,7 @@ public:
 	int PutLIB( int flag, char *name );
 	void SetLIBIID( int id, char *clsid );
 	int PutStructParam( short mptype, int extype );
+	int PutStructParam_sret( int sret_size );
 	int PutStructParamTag( void );
 	void PutStructStart( void );
 	int PutStructEnd( char *name, int libindex, int otindex, int funcflag );
@@ -360,6 +361,8 @@ private:
 	void GenerateCodePP_module( void );
 	void GenerateCodePP_struct( void );
 	void GenerateCodePP_func( int deftype );
+	void GenerateCodePP_func_sret( void );
+	void GenerateCodePP_field( void );
 	void GenerateCodePP_usecom( void );
 	void GenerateCodePP_comfunc( void );
 	void GenerateCodePP_defvars( int fixedvalue );
@@ -454,7 +457,15 @@ private:
 	int pp_defstruct_level;			// #defstruct ネストレベル (>0 = メンバ行スキップ中)
 	int pp_union_base_offset;		// union サブブロックの開始オフセット (-1=非union中)
 	int pp_union_max_size;			// union サブブロック内の最大メンバサイズ
-	std::map<std::string, int> pp_var_structid;	// PP用: 変数名→struct_id マッピング
+	// 変数→struct_id マッピング (PP/CG パス間で共有するため static)
+	static std::map<std::string, int> pp_var_structid;
+	static std::map<std::string, int> pp_cfuncst_structid;
+	char pp_linebuf_raw[4096];	// マクロ展開前の行バッファ (#cfuncst用)
+
+	ppresult_t PP_Cfuncst( void );
+	void PP_DetectCfuncstAssign( char *line );	// var = cfuncst_func() を検出して var を構造体登録 (-> 展開用メタデータ)
+	void PP_RewriteVarsizeStruct( char *line );	// varsize(STRUCTNAME) を構造体サイズリテラルに書き換え
+	void PP_ReplaceStructParamNames( char *line );
 	short swstack[SWSTACK_MAX];		// generator sw stack (flag)
 	short swstack2[SWSTACK_MAX];	// generator sw stack (mode)
 	short swstack3[SWSTACK_MAX];	// generator sw stack (sw)
@@ -586,14 +597,15 @@ public:
 		std::vector<StructMember> members;
 	};
 
-	std::vector<StructDef> cg_structdefs;	// 構造体定義テーブル
+	static std::vector<StructDef> cg_structdefs;	// 構造体定義テーブル (PP/CG間で共有)
 	int cg_defstruct_active;				// 構造体定義中フラグ (-1=非定義中, else=struct index)
 	int cg_structdim_varid;					// structdim で処理中の変数 label_id
 
 	// 変数→構造体ID マッピング (structdim で登録)
 	std::map<int, int> cg_var_structid;		// label_id → struct_id
 
-	int GetStructDefId(const char *name);	// 名前から構造体定義IDを取得
+	int cg_last_structval_size;				// 直前の MPTYPE_STRUCTVAL のサ��ズ
+	int GetStructDefId(const char *name);	// 名��から構造体定義IDを取得
 	int GetStructMemberSize(StructMemberType stype);
 
 	// Struct パーサー

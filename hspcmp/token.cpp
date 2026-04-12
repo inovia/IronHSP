@@ -338,6 +338,11 @@ int CToken::AddPackfileOrig(char* name, int mode)
 //		Interfaces
 //-------------------------------------------------------------
 
+// static メンバの定義 (PP/CG パス間で共有)
+std::map<std::string, int> CToken::pp_var_structid;
+std::map<std::string, int> CToken::pp_cfuncst_structid;
+std::vector<CToken::StructDef> CToken::cg_structdefs;
+
 CToken::CToken( void )
 {
 	s3 = (unsigned char *)malloc( s3size );
@@ -3138,6 +3143,137 @@ ppresult_t CToken::PP_Func( char *name )
 }
 
 
+ppresult_t CToken::PP_Cfuncst( void )
+{
+	//		#cfuncst解析
+	//		新形式: #cfuncst [global] STRUCT_NAME FuncName "entry" [params...]
+	//		旧形式: #cfuncst [global] FuncName "entry" SIZE [, params...]
+	//
+	//		注意: STRUCT_NAME は PPVAL として登録済みのため、GetToken() では
+	//		TK_NUM (サイズ値) に展開されてしまう。そのため linebuf からテキスト
+	//		レベルで構造体名を拾い、GetStructDefId で検索する。
+	//
+	int id;
+	int glmode;
+	char func_name[256] = {};
+	int struct_id = -1;
+	int struct_size = 0;
+
+	// マクロ展開前のテキスト (pp_linebuf_raw) からパース
+	// linebuf はマクロ展開済みのため VECTOR→12 に変換されている
+	char *p = pp_linebuf_raw;
+	// '#' をスキップ
+	if (*p == '#') p++;
+	// "cfuncst" をスキップ
+	while (*p && *p != ' ' && *p != '\t') p++;
+	while (*p == ' ' || *p == '\t') p++;
+
+	// "global" チェック
+	glmode = 0;
+	if (strncmp(p, "global", 6) == 0 && (p[6] == ' ' || p[6] == '\t')) {
+		glmode = 1;
+		p += 6;
+		while (*p == ' ' || *p == '\t') p++;
+	}
+
+	// 次のワード: 構造体名 or 関数名
+	char word1[256] = {};
+	int w1i = 0;
+	while (*p && *p != ' ' && *p != '\t' && w1i < 255) {
+		word1[w1i++] = *p++;
+	}
+	word1[w1i] = 0;
+	while (*p == ' ' || *p == '\t') p++;
+
+	// word1 が構造体名かチェック (大文字小文字無視)
+	struct_id = GetStructDefId(word1);
+
+	if (struct_id >= 0) {
+		// 新形式: word1=構造体名, 次のワード=関数名
+		struct_size = cg_structdefs[struct_id].total_size;
+		int fni = 0;
+		while (*p && *p != ' ' && *p != '\t' && fni < 255) {
+			func_name[fni++] = *p++;
+		}
+		func_name[fni] = 0;
+	} else {
+		// 旧形式: word1=関数名
+		strncpy(func_name, word1, 255);
+	}
+
+	if (func_name[0] == 0) {
+		SetError("function name required"); return PPRESULT_ERROR;
+	}
+
+	// ラベル登録 (func_name を小文字化)
+	char func_lower[256];
+	strncpy(func_lower, func_name, 255);
+	for (char *c = func_lower; *c; c++) *c = tolower(*c);
+
+	if ( glmode ) FixModuleName( func_lower ); else AddModuleName( func_lower );
+	int search_id = lb->Search( func_lower );
+	if ( search_id != -1 ) { SetErrorSymbolOverdefined(func_lower, search_id); return PPRESULT_ERROR; }
+	id = lb->Regist( func_lower, LAB_TYPE_PPDLLFUNC, 0 );
+	if ( glmode ) lb->SetEternal( id );
+
+	// cfuncst → struct_id マッピングを記録
+	if (struct_id >= 0) {
+		std::string fn_lower = func_name;
+		for (auto &c : fn_lower) c = tolower(c);
+		pp_cfuncst_structid[fn_lower] = struct_id;
+	}
+
+	// linebuf から func_name の後のテキストを取得
+	// p は func_name の直後を指している
+	while (*p == ' ' || *p == '\t') p++;
+	char rest[4096];
+	strncpy(rest, p, sizeof(rest) - 1);
+	rest[sizeof(rest) - 1] = 0;
+
+	if (struct_id >= 0) {
+		// 新形式 → 旧形式に変換: エントリポイントの後にサイズを挿入
+		// rest = ' "dx_FuncName" [params...]'
+		// → ' "dx_FuncName" SIZE [, params...]'
+		char *p = rest;
+		while (*p == ' ' || *p == '\t') p++;
+
+		// エントリポイント文字列を読み取る ("..." 部分)
+		char entry[256] = {};
+		if (*p == '"') {
+			char *ep = entry;
+			*ep++ = *p++;  // 開始 "
+			while (*p && *p != '"') *ep++ = *p++;
+			if (*p == '"') *ep++ = *p++;
+			*ep = 0;
+		} else {
+			// エントリポイントなしの場合
+			char *ep = entry;
+			while (*p && *p != ' ' && *p != '\t' && *p != ',') *ep++ = *p++;
+			*ep = 0;
+		}
+
+		// p は残りのパラメータ部分を指す
+		while (*p == ' ' || *p == '\t') p++;
+		char params[4096] = {};
+		if (*p == ',') {
+			strncpy(params, p, sizeof(params) - 1);  // ", params..."
+		} else if (*p && *p != '\r' && *p != '\n' && *p != ';') {
+			// パラメータがカンマなしで続いている場合
+			snprintf(params, sizeof(params), ", %s", p);
+		}
+
+		// 旧形式として出力: #cfuncst funcname "entry" SIZE[, params]
+		wrtbuf->PutStrf( "#cfuncst %s %s %d%s", func_name, entry, struct_size, params );
+	} else {
+		// 旧形式: そのまま出力
+		wrtbuf->PutStrf( "#cfuncst %s%s", func_name, rest );
+	}
+	wrtbuf->PutCR();
+
+	return PPRESULT_WROTE_LINE;
+}
+
+
 ppresult_t CToken::PP_Cmd( char *name )
 {
 	//		#cmd解析
@@ -3762,7 +3898,21 @@ ppresult_t CToken::Preprocess( char *str )
 		}
 		if (tstrcmp(word, "defstruct") || tstrcmp(word, "defunion")) {
 			// #defstruct / #defunion: 構造体定義開始
+			//
+			// 特殊ケース: #defstruct ブロック内で #defunion (構造体名なし) が出現した場合は
+			// 「サブ共用体ブロック」として扱う (#union の代替記法)。
 			bool is_union = tstrcmp(word, "defunion");
+			if (is_union && pp_defstruct_level > 0) {
+				if (cg_structdefs.empty()) {
+					SetError("#defunion: outer #defstruct missing");
+					return PPRESULT_ERROR;
+				}
+				// サブ共用体ブロック開始 (#union と同じ動作)
+				pp_union_base_offset = cg_structdefs.back().total_size;
+				pp_union_max_size = 0;
+				return PPRESULT_SUCCESS;
+			}
+
 			StructDef sdef;
 			sdef.is_union = is_union;
 			sdef.pack = 8;
@@ -3776,10 +3926,10 @@ ppresult_t CToken::Preprocess( char *str )
 			// pack=N オプション: #defstruct NAME, pack=N
 			{
 				int tk = GetToken();
-				if (tk == TK_NONE && val == ',') {
+				if (tk == ',') {
 					// カンマの後に pack=N
 					if (GetToken() == TK_OBJ && tstrcmp((char*)s3, "pack")) {
-						if (GetToken() == TK_NONE && val == '=') {
+						if (GetToken() == '=') {
 							CALCVAR cres;
 							if (!Calc(cres)) {
 								sdef.pack = (int)cres;
@@ -3791,6 +3941,42 @@ ppresult_t CToken::Preprocess( char *str )
 
 			cg_structdefs.push_back(sdef);
 			pp_defstruct_level++;
+			return PPRESULT_SUCCESS;
+		}
+		if (tstrcmp(word, "field")) {
+			// #field type name [array] — #defstruct 内のメンバ定義
+			if (pp_defstruct_level <= 0 || cg_structdefs.empty()) {
+				SetError("#field must be inside #defstruct");
+				return PPRESULT_ERROR;
+			}
+			// マクロ展開前のテキスト (pp_linebuf_raw) から "#field " 以降を取り出す。
+			// (linebuf はマクロ展開済みで型名が数値に化ける可能性があるため)
+			char member_line[4096];
+			char *src = pp_linebuf_raw;
+			while (*src == ' ' || *src == '\t') src++;
+			if (*src == '#') src++;
+			while (*src && *src != ' ' && *src != '\t') src++;
+			while (*src == ' ' || *src == '\t') src++;
+			strncpy(member_line, src, sizeof(member_line) - 1);
+			member_line[sizeof(member_line) - 1] = 0;
+			PP_StructMember(member_line);
+			return PPRESULT_SUCCESS;
+		}
+		// 旧記法 #union を明示的に拒絶 (silent fall-through で誤動作するのを防ぐ)
+		if (tstrcmp(word, "union")) {
+			SetError("#union is removed; use #defunion inside #defstruct");
+			return PPRESULT_ERROR;
+		}
+		// #endunion がサブ共用体ブロックの終了を指している場合は先に処理する
+		// (#defunion ～ #endunion を入れ子で書けるようにするため)
+		if (tstrcmp(word, "endunion") && pp_union_base_offset >= 0) {
+			if (cg_structdefs.empty()) {
+				SetError("#endunion without #defunion");
+				return PPRESULT_ERROR;
+			}
+			cg_structdefs.back().total_size = pp_union_base_offset + pp_union_max_size;
+			pp_union_base_offset = -1;
+			pp_union_max_size = 0;
 			return PPRESULT_SUCCESS;
 		}
 		if (tstrcmp(word, "endstruct") || tstrcmp(word, "endunion")) {
@@ -3807,8 +3993,15 @@ ppresult_t CToken::Preprocess( char *str )
 						}
 						sdef.total_size = max_size;
 					}
-					// アライメント切り上げ
-					sdef.total_size = pp_align_offset(sdef.total_size, sdef.pack);
+					// 末尾アライメント: MSVC C 構造体ABIに従い、
+					// 全メンバの最大アライメントと pack のうち小さい方で切り上げる。
+					// (`pack` だけで切り上げると VECTOR (3*float) が 12 ではなく 16 になってしまう)
+					int max_align = 1;
+					for (auto &m : sdef.members) {
+						int ma = pp_get_member_alignment(m.stype, sdef.pack);
+						if (ma > max_align) max_align = ma;
+					}
+					sdef.total_size = pp_align_offset(sdef.total_size, max_align);
 
 					// 構造体名を定数として登録（値 = total_size）
 					// structdim p, POINT → structdim p, 8 に展開される
@@ -3826,6 +4019,18 @@ ppresult_t CToken::Preprocess( char *str )
 		}
 		if (tstrcmp(word, "cfunc")) {		// DLL function
 			res = PP_Func("cfunc");
+			return res;
+		}
+		if (tstrcmp(word, "cfuncst")) {	// DLL function with struct return
+			res = PP_Cfuncst();
+			return res;
+		}
+		if (tstrcmp(word, "cfuncd")) {	// DLL function (double return)
+			res = PP_Func("cfuncd");
+			return res;
+		}
+		if (tstrcmp(word, "cfuncf")) {	// DLL function (float return)
+			res = PP_Func("cfuncf");
 			return res;
 		}
 		if (tstrcmp(word, "cmd")) {			// DLL function (3.0)
@@ -4086,31 +4291,56 @@ int CToken::ExpandLine( CMemBuf *buf, CMemBuf *src, char *refname )
 //			wrtbuf->PutStr( ss );
 //		}
 
-		//		#defstruct ブロック内のメンバ行をパース
+		//		#defstruct ブロック内は #field / #union / #endunion / #endstruct のみ許可。
+		//		非ディレクティブ行は空行扱いにしてスキップする (従来のインデント記法は廃止)。
 		if ( pp_defstruct_level > 0 && !is_preprocess_line ) {
-			// メンバ行をパースして cg_structdefs に追加
-			if (!cg_structdefs.empty()) {
-				PP_StructMember(linebuf);
+			// 非空行・非コメント行はエラー
+			char *scan = linebuf;
+			while (*scan == ' ' || *scan == '\t') scan++;
+			if (*scan != 0 && *scan != ';' && *scan != '\r' && *scan != '\n') {
+				SetError("#field required inside #defstruct");
+				LineError( errtmp, pline, refname );
+				return -1;
 			}
-			buf->PutCR();  // 空行として出力（コード生成段階では無視される）
+			buf->PutCR();
 			pline++;
 			continue;
 		}
 
-		//		structdim 行から変数→構造体マッピングを検出
+		//		stdim / dim 行から変数→構造体マッピングを検出
+		//		マクロ展開前のテキスト (linebuf, この時点ではまだ展開されていない) を使用
 		if ( !is_preprocess_line && pp_defstruct_level == 0 && !cg_structdefs.empty() ) {
 			PP_DetectStructDim( linebuf );
+			// var = CfuncstFunc(...) で var を構造体型として登録 (-> 展開用)
+			PP_DetectCfuncstAssign( linebuf );
+			// varsize(STRUCT_NAME) を構造体サイズリテラルに書き換え
+			PP_RewriteVarsizeStruct( linebuf );
 		}
 
-		//		-> 演算子をテキストレベルで展開（同一行に複数あればループ）
+		//		-> 演算子をテキストレベルで展開（読み取り側 _struct_peek の生成）
+		//		書き込み側 (var->x = ...) は CG case 0x65 で処理されるが、
+		//		読み取り側は PP 展開が必要
 		if ( !is_preprocess_line && pp_defstruct_level == 0 && !cg_structdefs.empty() && strstr(linebuf, "->") != NULL ) {
 			char expanded[4096];
-			int max_iter = 32;  // 無限ループ防止
+			int max_iter = 32;
 			while ( max_iter-- > 0 && PP_ExpandStructAccess( linebuf, expanded, sizeof(expanded) ) ) {
 				strncpy( linebuf, expanded, LINEBUF_MAX - 1 );
 				linebuf[LINEBUF_MAX - 1] = 0;
 			}
 		}
+
+		//		#cfuncst 構造体代入の自動展開はランタイム側で処理
+		//		(reffunc_dllcmd で TYPE_STRING として返し、HSP の代入で memcpy)
+
+		//		#func/#cfunc 行のパラメータ内の構造体名を svalN に変換
+		//		(マクロ展開で VECTOR→12 に化けるのを防ぐ)
+		if ( is_preprocess_line && !cg_structdefs.empty() ) {
+			PP_ReplaceStructParamNames( linebuf );
+		}
+
+		//		マクロ展開前の linebuf を保存 (#cfuncst で構造体名を参照するため)
+		strncpy(pp_linebuf_raw, linebuf, sizeof(pp_linebuf_raw) - 1);
+		pp_linebuf_raw[sizeof(pp_linebuf_raw) - 1] = 0;
 
 		//		マクロを展開
 		int lineext;			// 1行->複数行にマクロ展開されたか?
@@ -4877,22 +5107,6 @@ void CToken::PP_StructMember( char *line )
 	while (*p == ' ' || *p == '\t') p++;
 	if (*p == 0 || *p == ';' || *p == '\r' || *p == '\n') return;  // 空行・コメント
 
-	// union/endunion サブブロック
-	if (strncmp(p, "union", 5) == 0 && (p[5] == 0 || p[5] == ' ' || p[5] == '\t' || p[5] == '\r' || p[5] == '\n' || p[5] == ';')) {
-		pp_union_base_offset = sdef.total_size;
-		pp_union_max_size = 0;
-		return;
-	}
-	if (strncmp(p, "endunion", 8) == 0 && (p[8] == 0 || p[8] == ' ' || p[8] == '\t' || p[8] == '\r' || p[8] == '\n' || p[8] == ';')) {
-		// union ブロック終了: total_size = base + max_member_size
-		if (pp_union_base_offset >= 0) {
-			sdef.total_size = pp_union_base_offset + pp_union_max_size;
-			pp_union_base_offset = -1;
-			pp_union_max_size = 0;
-		}
-		return;
-	}
-
 	// 型名を読む
 	char type_name[256] = {};
 	int ti = 0;
@@ -4985,17 +5199,96 @@ void CToken::PP_StructMember( char *line )
 }
 
 
+void CToken::PP_RewriteVarsizeStruct( char *line )
+{
+	//		`varsize(STRUCTNAME)` を構造体サイズの整数リテラルに書き換える。
+	//		マクロ展開前のテキストに対して動作する。STRUCTNAME は通常 PPVAL として
+	//		サイズに展開されるので varsize() の中身としては引数誤りになるため、
+	//		PP 段階で先回りしてリテラルに置き換える。
+	//
+	if (line == NULL) return;
+	if (cg_structdefs.empty()) return;
+
+	char *p = line;
+	bool in_string = false;
+	while (*p) {
+		if (*p == '"') { in_string = !in_string; p++; continue; }
+		if (in_string) { p++; continue; }
+		if (*p == ';') break;	// 行コメント以降は処理しない
+		// "varsize(" を探す
+		if ((p[0] == 'v' || p[0] == 'V') &&
+			(p[1] == 'a' || p[1] == 'A') &&
+			(p[2] == 'r' || p[2] == 'R') &&
+			(p[3] == 's' || p[3] == 'S') &&
+			(p[4] == 'i' || p[4] == 'I') &&
+			(p[5] == 'z' || p[5] == 'Z') &&
+			(p[6] == 'e' || p[6] == 'E')) {
+			// 前文字が識別子文字でないこと
+			if (p > line && (isalnum((unsigned char)*(p-1)) || *(p-1) == '_')) {
+				p++; continue;
+			}
+			char *vstart = p;
+			char *q = p + 7;
+			while (*q == ' ' || *q == '\t') q++;
+			if (*q != '(') { p++; continue; }
+			q++;
+			while (*q == ' ' || *q == '\t') q++;
+
+			// 引数: 識別子を取得
+			char arg[256];
+			int ai = 0;
+			char *aend = q;
+			while (*aend && (isalnum((unsigned char)*aend) || *aend == '_') && ai < 255) {
+				arg[ai++] = tolower((unsigned char)*aend++);
+			}
+			arg[ai] = 0;
+			if (ai == 0) { p++; continue; }
+
+			while (*aend == ' ' || *aend == '\t') aend++;
+			if (*aend != ')') { p++; continue; }
+			char *close = aend + 1;
+
+			// 構造体名か確認
+			int sid = GetStructDefId(arg);
+			if (sid < 0) { p++; continue; }
+
+			int ssize = cg_structdefs[sid].total_size;
+			char repl[32];
+			int rlen = snprintf(repl, sizeof(repl), "%d", ssize);
+
+			// `varsize(...)` を整数リテラルに置換
+			int orig_len = (int)(close - vstart);
+			int line_len = (int)strlen(line);
+			int diff = rlen - orig_len;
+			if (line_len + diff + 1 >= LINEBUF_MAX) return;
+			memmove(vstart + rlen, close, line_len - (int)(close - line) + 1);
+			memcpy(vstart, repl, rlen);
+			p = vstart + rlen;
+			continue;
+		}
+		p++;
+	}
+}
+
+
 void CToken::PP_DetectStructDim( char *line )
 {
-	// "structdim varname, ..." 行を検出して pp_var_structid に登録
+	// "stdim varname, ..." または "dim varname, STRUCT" を検出して
+	// pp_var_structid に登録
 	// line はマクロ展開前のテキスト
 	char *p = line;
 	while (*p == ' ' || *p == '\t') p++;
 
-	// "structdim" チェック
-	if (strncmp(p, "structdim", 9) != 0) return;
-	p += 9;
-	if (*p != ' ' && *p != '\t') return;
+	// "stdim" / "structdim" / "dim" チェック
+	if (strncmp(p, "stdim", 5) == 0 && (p[5] == ' ' || p[5] == '\t')) {
+		p += 5;
+	} else if (strncmp(p, "structdim", 9) == 0 && (p[9] == ' ' || p[9] == '\t')) {
+		p += 9;
+	} else if (strncmp(p, "dim", 3) == 0 && (p[3] == ' ' || p[3] == '\t')) {
+		p += 3;
+	} else {
+		return;
+	}
 	while (*p == ' ' || *p == '\t') p++;
 
 	// 変数名を取得
@@ -5015,7 +5308,7 @@ void CToken::PP_DetectStructDim( char *line )
 
 	char structname[256];
 	int si = 0;
-	while (*p && *p != ',' && *p != ' ' && *p != '\t' && *p != '\r' && *p != '\n' && si < 255) {
+	while (*p && *p != ',' && *p != ' ' && *p != '\t' && *p != '\r' && *p != '\n' && *p != ':' && *p != ';' && si < 255) {
 		structname[si++] = tolower(*p++);
 	}
 	structname[si] = 0;
@@ -5028,6 +5321,288 @@ void CToken::PP_DetectStructDim( char *line )
 		pp_var_structid[varname] = sid;
 	}
 }
+
+
+void CToken::PP_ReplaceStructParamNames( char *line )
+{
+	//		#func/#cfunc 行のパラメータリスト内の構造体名を svalN に変換
+	//		例: #func global test "test" VECTOR, VECTOR
+	//		  → #func global test "test" sval12, sval12
+	//		(マクロ展開で VECTOR→12 に化けるのを防ぐ)
+	//
+	if (cg_structdefs.empty()) return;
+
+	// #func, #cfunc, #cfuncst, #cfuncd, #cfuncf 行かチェック
+	char *p = line;
+	while (*p == ' ' || *p == '\t') p++;
+	// is_preprocess_line の場合、linebuf には '#' が含まれていない
+	if (*p == '#') p++;
+
+	// ディレクティブ名を取得
+	char directive[32] = {};
+	int di = 0;
+	while (*p && *p != ' ' && *p != '\t' && di < 31) {
+		directive[di++] = tolower(*p++);
+	}
+	directive[di] = 0;
+
+	if (strcmp(directive, "func") != 0 &&
+		strcmp(directive, "cfunc") != 0 &&
+		strcmp(directive, "cfuncst") != 0 &&
+		strcmp(directive, "cfuncd") != 0 &&
+		strcmp(directive, "cfuncf") != 0 &&
+		strcmp(directive, "comfunc") != 0) {
+		return;
+	}
+
+	// エントリポイント文字列("...")の後がパラメータリスト
+	// エントリポイントを探す
+	char *quote1 = strchr(p, '"');
+	if (quote1 == NULL) return;
+	char *quote2 = strchr(quote1 + 1, '"');
+	if (quote2 == NULL) return;
+
+	// quote2 の後がパラメータリスト
+	char *params = quote2 + 1;
+
+	// パラメータリスト内の構造体名を svalN に置換
+	// ワードを順に走査
+	char *scan = params;
+	while (*scan) {
+		// 空白・カンマをスキップ
+		while (*scan == ' ' || *scan == '\t' || *scan == ',') scan++;
+		if (*scan == 0 || *scan == ';' || *scan == '\r' || *scan == '\n') break;
+
+		// ワードを取得
+		char *word_start = scan;
+		char word[256] = {};
+		int wi = 0;
+		while (*scan && *scan != ' ' && *scan != '\t' && *scan != ',' &&
+			   *scan != ';' && *scan != '\r' && *scan != '\n' && wi < 255) {
+			word[wi++] = *scan++;
+		}
+		word[wi] = 0;
+
+		// 構造体名かチェック (大文字小文字無視)
+		int sid = GetStructDefId(word);
+		if (sid >= 0) {
+			int ssize = cg_structdefs[sid].total_size;
+			char replacement[32];
+			snprintf(replacement, sizeof(replacement), "sval%d", ssize);
+			int rlen = (int)strlen(replacement);
+			int wlen = wi;
+			if (rlen != wlen) {
+				memmove(word_start + rlen, word_start + wlen, strlen(word_start + wlen) + 1);
+			}
+			memcpy(word_start, replacement, rlen);
+			scan = word_start + rlen;
+		}
+	}
+}
+
+
+void CToken::PP_DetectCfuncstAssign( char *line )
+{
+	//		`var = CfuncstFunc(...)` パターンを検出し、var を構造体変数として
+	//		pp_var_structid に登録する。テキスト展開は行わない (純粋にメタデータ)。
+	//		これにより後続行で `var->member` を PP_ExpandStructAccess が展開できる。
+	//		ランタイムの自動 NSTRUCT 確保 (NSTRUCT サイズヒント) と組み合わせて
+	//		dim 省略を実現する。
+	//
+	if (line == NULL) return;
+	if (pp_cfuncst_structid.empty()) return;
+
+	// '=' を検索（文字列リテラル・コメント内はスキップ）
+	char *eq = NULL;
+	{
+		bool in_string = false;
+		for (char *scan = line; *scan; scan++) {
+			if (*scan == '"') { in_string = !in_string; continue; }
+			if (!in_string && *scan == ';') break;
+			if (!in_string && *scan == '=' && *(scan+1) != '=') {
+				if (scan > line && *(scan-1) != '!' && *(scan-1) != '<' && *(scan-1) != '>') {
+					eq = scan;
+					break;
+				}
+			}
+		}
+	}
+	if (eq == NULL) return;
+
+	// 左辺の変数名
+	char *var_end = eq - 1;
+	while (var_end >= line && (*var_end == ' ' || *var_end == '\t')) var_end--;
+	char *var_start = var_end;
+	while (var_start > line && (isalnum((unsigned char)*(var_start-1)) || *(var_start-1) == '_')) var_start--;
+	char *line_start = line;
+	while (*line_start == ' ' || *line_start == '\t') line_start++;
+	if (var_start < line_start) var_start = line_start;
+
+	char varname[256];
+	int vni = 0;
+	for (char *p = var_start; p <= var_end && vni < 255; p++) {
+		varname[vni++] = tolower((unsigned char)*p);
+	}
+	varname[vni] = 0;
+	if (vni == 0) return;
+
+	// 既に登録済みならスキップ
+	if (pp_var_structid.find(varname) != pp_var_structid.end()) return;
+
+	// 右辺の関数名
+	char *rhs = eq + 1;
+	while (*rhs == ' ' || *rhs == '\t') rhs++;
+	char funcname[256];
+	int fni = 0;
+	char *fp = rhs;
+	while (*fp && (isalnum((unsigned char)*fp) || *fp == '_') && fni < 255) {
+		funcname[fni++] = tolower((unsigned char)*fp++);
+	}
+	funcname[fni] = 0;
+	if (fni == 0) return;
+	while (*fp == ' ' || *fp == '\t') fp++;
+	if (*fp != '(') return;
+
+	auto it = pp_cfuncst_structid.find(funcname);
+	if (it == pp_cfuncst_structid.end()) return;
+
+	// 構造体変数として登録 (メタデータのみ)
+	pp_var_structid[varname] = it->second;
+}
+
+
+#if 0	// 旧式: テキスト展開で _struct_load を生成していたが NSTRUCT 化により不要。
+bool CToken::PP_ExpandCfuncstAssign( char *line, char *out, int outsize )
+{
+	//		var = CfuncstFunc(args)  パターンを検出して展開
+	//
+	//		展開結果:
+	//		  変数が未登録 → "structdim var, SIZE : _struct_load var, CfuncstFunc(args), SIZE"
+	//		  変数が登録済 → "_struct_load var, CfuncstFunc(args), SIZE"
+	//
+	if (line == NULL || out == NULL || outsize <= 0) return false;
+	if (pp_cfuncst_structid.empty()) return false;
+
+	// '=' を検索（文字列リテラル・コメント内はスキップ）
+	char *eq = NULL;
+	{
+		bool in_string = false;
+		for (char *scan = line; *scan; scan++) {
+			if (*scan == '"') { in_string = !in_string; continue; }
+			if (!in_string && *scan == ';') break;
+			if (!in_string && *scan == '=' && *(scan+1) != '=') {
+				// '==' ではなく '=' のみ
+				if (scan > line && *(scan-1) != '!' && *(scan-1) != '<' && *(scan-1) != '>') {
+					eq = scan;
+					break;
+				}
+			}
+		}
+	}
+	if (eq == NULL) return false;
+
+	// '=' の左側: 変数名を取得
+	char *var_end = eq - 1;
+	while (var_end >= line && (*var_end == ' ' || *var_end == '\t')) var_end--;
+	char *var_start = var_end;
+	while (var_start > line && (isalnum((unsigned char)*(var_start-1)) || *(var_start-1) == '_')) var_start--;
+	// 行頭の空白をスキップした結果が変数名の先頭
+	char *line_start = line;
+	while (*line_start == ' ' || *line_start == '\t') line_start++;
+	if (var_start < line_start) var_start = line_start;
+
+	char varname[256];
+	int vni = 0;
+	for (char *p = var_start; p <= var_end && vni < 255; p++) {
+		varname[vni++] = tolower(*p);
+	}
+	varname[vni] = 0;
+	if (vni == 0) return false;
+
+	// '=' の右側: 関数名を取得
+	char *rhs = eq + 1;
+	while (*rhs == ' ' || *rhs == '\t') rhs++;
+
+	// 関数名を抽出 (英数字+_、直後に '(' が続く)
+	char funcname[256];
+	int fni = 0;
+	char *fp = rhs;
+	while (*fp && (isalnum((unsigned char)*fp) || *fp == '_') && fni < 255) {
+		funcname[fni++] = tolower(*fp++);
+	}
+	funcname[fni] = 0;
+	if (fni == 0) return false;
+
+	// '(' が直後に続くか確認（関数呼び出し）
+	while (*fp == ' ' || *fp == '\t') fp++;
+	if (*fp != '(') return false;
+
+	// cfuncst マップに存在するか
+	auto it = pp_cfuncst_structid.find(funcname);
+	if (it == pp_cfuncst_structid.end()) return false;
+
+	int struct_id = it->second;
+	int struct_size = cg_structdefs[struct_id].total_size;
+	const char *struct_name = cg_structdefs[struct_id].name.c_str();
+
+	// 右辺の関数呼び出し全体を取得 (元の大文字小文字を保持)
+	// rhs から行末(コメント除く)まで
+	char rhs_expr[4096];
+	{
+		char *src = rhs;
+		int ri = 0;
+		bool in_str = false;
+		while (*src && ri < (int)sizeof(rhs_expr) - 1) {
+			if (*src == '"') in_str = !in_str;
+			if (!in_str && *src == ';') break;
+			if (*src == '\r' || *src == '\n') break;
+			rhs_expr[ri++] = *src++;
+		}
+		// 末尾の空白を除去
+		while (ri > 0 && (rhs_expr[ri-1] == ' ' || rhs_expr[ri-1] == '\t')) ri--;
+		rhs_expr[ri] = 0;
+	}
+
+	// 変数名（元の大文字小文字を保持）
+	char varname_orig[256];
+	vni = 0;
+	for (char *p = var_start; p <= var_end && vni < 255; p++) {
+		varname_orig[vni++] = *p;
+	}
+	varname_orig[vni] = 0;
+
+	// 先頭のインデント
+	char indent[256] = {};
+	int ii = 0;
+	for (char *p = line; p < var_start && ii < 255; p++) {
+		indent[ii++] = *p;
+	}
+	indent[ii] = 0;
+
+	// 展開: _struct_load を使用 (ポインタから構造体変数に直接コピー)
+	//
+	// vec = GetCameraTarget()
+	// → dim vec, STRUCT : _struct_load vec, GetCameraTarget(), SIZE
+	//
+	auto var_it = pp_var_structid.find(varname);
+	if (var_it == pp_var_structid.end()) {
+		// 自動 dim + struct_id 登録
+		pp_var_structid[varname] = struct_id;
+		snprintf(out, outsize,
+				"%sdim %s, %s : _struct_load %s, %s, %d",
+				indent, varname_orig, struct_name,
+				varname_orig, rhs_expr, struct_size);
+	} else {
+		// 既に構造体変数として登録済み
+		snprintf(out, outsize,
+				"%s_struct_load %s, %s, %d",
+				indent,
+				varname_orig, rhs_expr, struct_size);
+	}
+
+	return true;
+}
+#endif
 
 
 bool CToken::PP_ExpandStructAccess( char *line, char *out, int outsize )

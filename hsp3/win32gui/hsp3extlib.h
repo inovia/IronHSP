@@ -62,6 +62,7 @@ int cmdfunc_dllcmd( int cmd );
 int exec_dllcmd( int cmd, int mask );
 int64_t code_expand_and_call( const STRUCTDAT *st );
 
+
 #ifdef HSP64
 
 extern "C" INT_PTR CallFunc64(INT_PTR *, FARPROC, int);

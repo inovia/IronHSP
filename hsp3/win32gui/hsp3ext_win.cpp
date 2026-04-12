@@ -1465,6 +1465,31 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 		reffunc_intfunc_ivalue = call_extfunc( (void *)p1, (int *)p, p2 );
 		break;
 		}
+	case 0x10A:								// callfuncst
+		{
+		// callfuncst(prmbuf, proc, nargs, struct_size)
+		//   構造体戻り値DLL関数の直接呼び出し。
+		//   prmbuf[0] には構造体戻り値用バッファのポインタ (隠し第1引数) を呼び出し側で
+		//   セットしておく必要がある。返り値は HSPVAR_FLAG_NSTRUCT として返るので、
+		//   そのまま `v = callfuncst(...)` のように構造体変数に代入できる。
+		PVal *pval;
+		PDAT *p;
+		pval = code_getpval();
+		p = HspVarCorePtrAPTR( pval, 0 );
+		p1 = code_geti();					// 関数アドレス
+		p2 = code_geti();					// 引数の総数 (隠しポインタを含む)
+		int ssize = code_geti();			// 構造体サイズ (バイト)
+#ifdef HSP64
+		int64_t result_ptr = (int64_t)call_extfunc( (void *)p1, (int *)p, p2 );
+#else
+		int64_t result_ptr = (int64_t)(uint32_t)call_extfunc( (void *)p1, (int *)p, p2 );
+#endif
+		extern int hsp_nstruct_pending_size;
+		hsp_nstruct_pending_size = ssize;
+		*type_res = HSPVAR_FLAG_NSTRUCT;
+		ptr = (void *)(intptr_t)result_ptr;
+		break;
+		}
 	case 0x101:								// cnvwtos
 		{
 #ifndef HSPUTF8
@@ -1612,6 +1637,30 @@ static void *reffunc_dllcmd( int *type_res, int arg )
 	if ( *type != TYPE_MARK ) throw ( HSPERR_INVALID_FUNCPARAM );
 	if ( *val != ')' ) throw ( HSPERR_INVALID_FUNCPARAM );
 	code_next();
+
+	//	#cfuncst (構造体戻り値) の場合は HSPVAR_FLAG_NSTRUCT として返す。
+	//	hspctx->stat には sret_buffer へのポインタが入っているので、
+	//	NSTRUCT のサイズヒント (hsp_nstruct_pending_size) を構造体サイズに
+	//	設定して標準の代入経路に流せば、`a = strmid(...)` と同じ要領で
+	//	dim 省略の `v = GetCameraTarget()` も自動的に動作する。
+	{
+		STRUCTDAT *st_chk = GetPRM(arg);
+		if ( (st_chk->otindex & STRUCTDAT_OT_RETMASK) == STRUCTDAT_OT_RETSTRUCT ) {
+			if ( st_chk->prmmax > 0 ) {
+				STRUCTPRM *first_prm = &hspctx->mem_minfo[ st_chk->prmindex ];
+				if ( first_prm->mptype == MPTYPE_SRET ) {
+					int ssize = first_prm->subid;
+					if ( ssize > 0 ) {
+						extern int hsp_nstruct_pending_size;
+						hsp_nstruct_pending_size = ssize;
+						*type_res = HSPVAR_FLAG_NSTRUCT;
+						// hspctx->stat は sret_buffer のポインタ
+						return (void *)(intptr_t)hspctx->stat;
+					}
+				}
+			}
+		}
+	}
 
 	// stat の値に応じて int または int64 で返す
 	if ( hspctx->stat > 0x7FFFFFFFLL || hspctx->stat < -0x80000000LL ) {

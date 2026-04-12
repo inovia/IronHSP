@@ -1459,7 +1459,17 @@ int CToken::CheckInternalProgCMD( int opt, int orgcs )
 			lb->SetInitFlag( i, LAB_INIT_DONE );
 			GenerateLabelListAndTag(i, LABBUF_FLAG_VAR);
 			lb->SetSkipLabList(i);						// 次回のラベル参照リスト生成をスキップする
-			//Mesf( "#initflag set [%s]", cg_str );
+
+			// dim var, STRUCT_NAME のとき、PP 側で記録した構造体IDを CG にコピー
+			// pp_var_structid は static なので PP パスから引き継がれる
+			if ( opt == 0x09 ) {
+				std::string varname_lower = firstSymbolName;
+				for (auto &c : varname_lower) c = tolower(c);
+				auto it = pp_var_structid.find(varname_lower);
+				if (it != pp_var_structid.end()) {
+					cg_var_structid[i] = it->second;
+				}
+			}
 			return 1;
 		}
 
@@ -1478,7 +1488,14 @@ int CToken::CheckInternalProgCMD( int opt, int orgcs )
 			GenerateLabelListAndTag(i, LABBUF_FLAG_VAR);
 			lb->SetSkipLabList(i);
 
-			// ※ -> 展開は PP で完了しているため、CG での struct マッピングは不要
+			// PP 側で記録した変数→構造体ID マッピング (pp_var_structid) を
+			// CG 側のマッピング (cg_var_structid) にコピーする
+			std::string varname_lower = firstSymbolName;
+			for (auto &c : varname_lower) c = tolower(c);
+			auto it = pp_var_structid.find(varname_lower);
+			if (it != pp_var_structid.end()) {
+				cg_var_structid[i] = it->second;
+			}
 			return 1;
 		}
 
@@ -1631,7 +1648,7 @@ void CToken::GenerateCodeLET( int id, bool first )
 	if (( ttype == TK_NONE )&&( val == 0x65 )) {	// ->が続いているか?
 		// struct 変数の場合はメンバアクセスに変換（PP で展開済みなのでここには来ない）
 		auto it = cg_var_structid.find(id);
-		if (it != cg_var_structid.end()) {
+		if (it != cg_var_structid.end() && it->second >= 0 && it->second < (int)cg_structdefs.size()) {
 			// struct メンバ書き込み: _struct_poke var, offset, member_type, value
 			int struct_id = it->second;
 			auto &sdef = cg_structdefs[struct_id];
@@ -1983,6 +2000,121 @@ void CToken::GenerateCodePP_func( int deftype )
 	//Mesf( "#func [%s][%s][%d]",fbase, fname, i );
 }
 
+void CToken::GenerateCodePP_func_sret( void )
+{
+	//		HSP3Codeを展開する(cfuncst)
+	//		#cfuncst global Name "EntryPoint" StructSize, param_types...
+	//
+	//		構造体を値で返すDLL関数を呼び出すための宣言。
+	//		ランタイム側で隠しポインタ（第1引数）を自動挿入する。
+	//		StructSize は構造体のバイトサイズ（整数リテラル）。
+	//
+	int warn,i,t,subid,otflag;
+	int ref;
+	char fbase[1024];
+	char fname[1024];
+
+	otflag = STRUCTDAT_OT_FUNCTION | STRUCTDAT_OT_RETSTRUCT;
+
+	GetTokenCG( GETTOKEN_DEFAULT );
+	if ( ttype != TK_OBJ ) throw CGERROR_PP_NAMEREQUIRED;
+	strncpy( fbase, cg_str, 1023 );
+
+	ref = -1;
+	if (( hed_cmpmode & CMPMODE_OPTCODE )&&( tmp_lb != NULL )) {
+		i = tmp_lb->Search( fbase );
+		if ( i >= 0 ) {
+			ref = tmp_lb->GetReference( i );
+		}
+	}
+
+	warn = 0;
+	GetTokenCG( GETTOKEN_DEFAULT );
+
+	if ( ttype == TK_OBJ ) {
+		if ( strcmp( cg_str, "onexit" ) == 0 ) {
+			otflag |= STRUCTDAT_OT_CLEANUP;
+			GetTokenCG( GETTOKEN_DEFAULT );
+		}
+	}
+
+	if ( ref == 0 && (otflag & STRUCTDAT_OT_CLEANUP) == 0 ) {
+		if ( hed_cmpmode & CMPMODE_OPTINFO ) {
+#ifdef JPNMSG
+			Mesf( "#未使用の外部DLL関数の登録を削除しました %s", fbase );
+#else
+			Mesf( "#Delete func %s", fbase );
+#endif
+		}
+		GenerateLabelListAndTag(fbase, LABBUF_FLAG_EXCMD);
+		return;
+	}
+
+	if ( cg_libmode == CG_LIBMODE_DLLNEW ) {
+		cg_libindex = PutLIB( LIBDAT_FLAG_DLL, cg_libname );
+		cg_libmode = CG_LIBMODE_DLL;
+	}
+	if ( cg_libmode != CG_LIBMODE_DLL ) throw CGERROR_PP_NO_USELIB;
+
+	switch( ttype ) {
+	case TK_OBJ:
+		sprintf( fname,"_%s@16",cg_str );
+		warn = 1;
+		break;
+	case TK_STRING:
+		strncpy( fname, cg_str, 1023 );
+		break;
+	case TK_NONE:
+		if ( val == '*' ) break;
+		throw CGERROR_PP_BAD_IMPORT_NAME;
+	default:
+		throw CGERROR_PP_BAD_IMPORT_NAME;
+	}
+	GetTokenCG( GETTOKEN_DEFAULT );
+
+	PutStructStart();
+
+	// 最初の引数: 構造体サイズ（整数リテラル）→ MPTYPE_SRET パラメータとして登録
+	if ( ttype != TK_NUM ) throw CGERROR_PP_WRONG_PARAM_NAME;
+	int sret_size = val;
+	if ( sret_size <= 0 || sret_size > 65535 ) throw CGERROR_PP_WRONG_PARAM_NAME;
+	// MPTYPE_SRET パラメータ: subid にサイズを格納
+	PutStructParam_sret( sret_size );
+	GetTokenCG( GETTOKEN_DEFAULT );
+
+	// カンマの後に通常のパラメータが続く
+	if ( ttype == TK_NONE && val == ',' ) {
+		GetTokenCG( GETTOKEN_DEFAULT );
+	}
+
+	while(1) {
+		if ( ttype >= TK_EOL ) break;
+		if ( ttype != TK_OBJ ) throw CGERROR_PP_WRONG_PARAM_NAME;
+		t = GetParameterFuncTypeCG( cg_str );
+		if ( t == MPTYPE_NONE ) throw CGERROR_PP_WRONG_PARAM_NAME;
+		PutStructParam( t, STRUCTPRM_SUBID_STID );
+		GetTokenCG( GETTOKEN_DEFAULT );
+
+		if ( ttype >= TK_EOL ) break;
+		if ( ttype != TK_NONE ) throw CGERROR_PP_WRONG_PARAM_NAME;
+		if ( val != ',' ) throw CGERROR_PP_WRONG_PARAM_NAME;
+		GetTokenCG( GETTOKEN_DEFAULT );
+	}
+
+	i = lb->Search( fbase );
+	if ( i >= 0 ) {
+		CG_MesLabelDefinition(i);
+		throw CGERROR_PP_ALREADY_USE_FUNCNAME;
+	}
+	subid = STRUCTPRM_SUBID_DLL;
+	if ( warn ) {
+		subid = STRUCTPRM_SUBID_OLDDLL;
+	}
+	i = PutStructEndDll( fname, cg_libindex, subid, otflag );
+	int id = lb->Regist( fbase, TYPE_DLLFUNC, i, cg_orgfilefull, cg_orgline );
+	GenerateLabelListAndTag(id, LABBUF_FLAG_EXCMD);
+}
+
 void CToken::GenerateCodePP_comfunc( void )
 {
 	//		HSP3Codeを展開する(comfunc)
@@ -2107,6 +2239,12 @@ int CToken::GetParameterFuncTypeCG( char *name )
 //	if ( !strcmp( cg_str,"hwnd" ) ) return MPTYPE_PTR_HWND;
 //	if ( !strcmp( cg_str,"hdc" ) ) return MPTYPE_PTR_HDC;
 //	if ( !strcmp( cg_str,"hinst" ) ) return MPTYPE_PTR_HINST;
+
+	// svalN: struct by value (preprocessor が構造体名を変換済み)
+	if ( strncmp( cg_str, "sval", 4 ) == 0 && cg_str[4] >= '0' && cg_str[4] <= '9' ) {
+		cg_last_structval_size = atoi( cg_str + 4 );
+		return MPTYPE_STRUCTVAL;
+	}
 
 	return MPTYPE_NONE;
 }
@@ -2447,6 +2585,7 @@ void CToken::GenerateCodePP( char *buf )
 	if ( !strcmp( cg_str,"cfunc" ) ) { GenerateCodePP_func( STRUCTDAT_OT_FUNCTION ); return; }
 	if ( !strcmp( cg_str,"cfuncd" ) ) { GenerateCodePP_func( STRUCTDAT_OT_FUNCTION | STRUCTDAT_OT_RETDOUBLE ); return; }
 	if ( !strcmp( cg_str,"cfuncf" ) ) { GenerateCodePP_func( STRUCTDAT_OT_FUNCTION | STRUCTDAT_OT_RETFLOAT ); return; }
+	if ( !strcmp( cg_str,"cfuncst" ) ) { GenerateCodePP_func_sret(); return; }
 	if ( !strcmp( cg_str,"deffunc" ) ) { GenerateCodePP_deffunc(); return; }
 	if ( !strcmp( cg_str,"defcfunc" ) ) { GenerateCodePP_defcfunc(); return; }
 	if ( !strcmp( cg_str,"module" ) ) { GenerateCodePP_module(); return; }
@@ -2455,6 +2594,7 @@ void CToken::GenerateCodePP( char *buf )
 	if ( !strcmp( cg_str,"defunion" ) ) { GenerateCodePP_defstruct(true); return; }
 	if ( !strcmp( cg_str,"endstruct" ) ) { GenerateCodePP_endstruct(); return; }
 	if ( !strcmp( cg_str,"endunion" ) ) { GenerateCodePP_endstruct(); return; }
+	if ( !strcmp( cg_str,"field" ) ) { GenerateCodePP_field(); return; }
 	if ( !strcmp( cg_str,"usecom" ) ) { GenerateCodePP_usecom(); return; }
 	if ( !strcmp( cg_str,"comfunc" ) ) { GenerateCodePP_comfunc(); return; }
 	if ( !strcmp(cg_str, "var") ) { GenerateCodePP_defvars(LAB_TYPEFIX_NONE); return; }
@@ -3245,6 +3385,15 @@ int CToken::PutStructParam( short mptype, int extype )
 		//size = sizeof(char *);
 		size = 4;
 		break;
+	case MPTYPE_STRUCTVAL:
+		{
+		// 構造体値渡し: x86 では構造体サイズ分のスタック領域を使用
+		// subid にサイズを格納
+		int sval_size = cg_last_structval_size;
+		prm.subid = (short)sval_size;
+		size = (sval_size + 3) & ~3;  // 4バイトアライメント
+		}
+		break;
 	case MPTYPE_SINGLEVAR:
 	case MPTYPE_ARRAYVAR:
 		size = sizeof(MPVarData);
@@ -3258,6 +3407,30 @@ int CToken::PutStructParam( short mptype, int extype )
 		return i;
 	}
 	cg_stsize += size;
+	cg_stnum++;
+	mi_buf->PutData( &prm, sizeof(STRUCTPRM) );
+	return i;
+}
+
+
+int CToken::PutStructParam_sret( int sret_size )
+{
+	//		MPTYPE_SRET パラメータを登録する(cfuncst用)
+	//		subid に構造体サイズ(バイト数)を格納。
+	//		スタック上はポインタ1つ分（4 or 8バイト）を占有。
+	//
+	int i;
+	STRUCTPRM prm;
+
+	i = mi_buf->GetSize() / sizeof(STRUCTPRM);
+
+	prm.mptype = MPTYPE_SRET;
+	prm.subid  = (short)sret_size;		// 構造体サイズを格納
+	prm.offset = cg_stsize;
+
+	// スタック上はポインタサイズ (32bit=4, 64bit=8)
+	// XXX 32bit版換算でax出力する
+	cg_stsize += 4;
 	cg_stnum++;
 	mi_buf->PutData( &prm, sizeof(STRUCTPRM) );
 	return i;
@@ -3399,6 +3572,7 @@ int CToken::GenerateCode( CMemBuf *srcbuf, char *oname, int mode )
 
 	cg_defstruct_active = -1;
 	cg_structdim_varid = -1;
+	cg_last_structval_size = 0;
 	cg_debug = mode & COMP_MODE_DEBUG;
 	cg_utf8out = mode & COMP_MODE_UTF8;
 	cg_strmap = mode & COMP_MODE_STRMAP;
@@ -3908,10 +4082,35 @@ void CToken::GenerateCodePP_endstruct(void)
 }
 
 
+void CToken::GenerateCodePP_field(void)
+{
+	//		#field type name [array]
+	//		#defstruct 内で使用するメンバ定義ディレクティブ
+	//		GenerateCodeStructMember と同じ処理だが、# 付きで明示的に書く形式
+	//
+	//		例:
+	//		  #defstruct VECTOR
+	//		  #field float x
+	//		  #field float y
+	//		  #field float z
+	//		  #endstruct
+	//
+	if (cg_defstruct_active < 0) {
+		throw CGERROR_SYNTAX;	// #defstruct の外で #field は使えない
+	}
+	// GenerateCodeStructMember に処理を委譲
+	// （トークンストリームは #field の次、つまり型名から始まる状態）
+	if (!GenerateCodeStructMember()) {
+		throw CGERROR_SYNTAX;
+	}
+}
+
+
 bool CToken::GenerateCodeStructMember(void)
 {
 	//		構造体定義中のメンバ行をパースする
 	//		"int x" や "double speed" や "char name[260]" 等
+	//		#field int x 形式でも呼ばれる
 	//		union/endunion もここで処理する
 	//
 	if (cg_defstruct_active < 0) return false;

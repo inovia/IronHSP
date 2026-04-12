@@ -56,7 +56,7 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 //	"$01f 15 yield",				// (ver3.2)(cancelled)
 	"$020 15 strexchange",			// (ver3.6)
 	"$021 15 dim64",				// (IronHSP)
-	"$022 15 structdim",			// (IronHSP) 構造体変数確保
+	"$022 15 stdim",				// (IronHSP) 構造体変数確保 (NSTRUCT 型)
 	"$024 15 wsdim",				// (IronHSP) UTF-16ワイド文字列変数確保
 	"$023 15 _struct_poke",			// (IronHSP) 内部: 構造体メンバ書き込み
 
@@ -262,6 +262,7 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$106 17 netexerr",				// (ver3.7)
 	"$107 17 callfuncd",			// (ver3.7)
 	"$108 17 callfuncf",			// (ver3.7)
+	"$10A 17 callfuncst",			// (IronHSP) struct戻り値DLL関数の直接呼び出し
 	"$109 17 callbackarg",			// (ver3.8)
 
 	//	3.0 system vals

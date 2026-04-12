@@ -1984,6 +1984,8 @@ static int cmdfunc_var( int cmd )
 	dst = HspVarCorePtrAPTR( pval, aptr );
 	ptr = mpval->pt;
 	if ( exp == CALCCODE_EQ ) {							// '='による代入
+		// NSTRUCT (ネイティブ構造体) への代入は標準の ClearWC + Set 経路で処理する。
+		// 代入後にサイズヒントをクリアして他の NSTRUCT 操作に影響しないようにする。
 		if ( pval->support & HSPVAR_SUPPORT_NOCONVERT ) {	// 型変換なしの場合
 			if ( arrayobj_flag ) {
 				proc->ObjectWrite( pval, ptr, mpval->flag );
@@ -2010,6 +2012,12 @@ static int cmdfunc_var( int cmd )
 			}
 		}
 		proc->Set( pval, dst, ptr );
+
+		// NSTRUCT のサイズヒントをクリア (cfuncst 戻り値の代入完了後)
+		if ( pval->flag == HSPVAR_FLAG_NSTRUCT ) {
+			extern int hsp_nstruct_pending_size;
+			hsp_nstruct_pending_size = 0;
+		}
 
 #ifdef HSPDEBUG
 		if (logvar) code_logmesv(pval,aptr);
@@ -2573,16 +2581,27 @@ static int cmdfunc_prog( int cmd )
 	case 0x22:								// structdim
 		{
 		// structdim var, struct_size [, count]
-		// 内部的に dim var, ceil(struct_size * count / 4) を実行
+		// HSPVAR_FLAG_NSTRUCT として確保する。
+		// pval->len[0] に 1 要素のバイトサイズを格納し、len[1] に要素数を入れる。
 		PVal *pval;
 		pval = code_getpval();
 		int struct_size = code_getdi(0);
 		int count = code_getdi(1);
-		int total_bytes = struct_size * count;
-		int dim_count = (total_bytes + 3) / 4;  // ceil(total_bytes / 4)
-		HspVarCoreDimWC( pval, HSPVAR_FLAG_INT, dim_count, 0, 0, 0 );
-		// ゼロクリア
-		memset( pval->pt, 0, dim_count * sizeof(int) );
+		if ( count <= 0 ) count = 1;
+		if ( struct_size <= 0 ) throw HSPERR_ILLEGAL_FUNCTION;
+
+		HspVarProc *p = HspVarCoreGetProc( HSPVAR_FLAG_NSTRUCT );
+		HspVarCoreDispose( pval );
+		pval->flag = HSPVAR_FLAG_NSTRUCT;
+		pval->len[0] = struct_size;	// 1要素のバイトサイズ
+		pval->len[1] = count;
+		pval->len[2] = 0;
+		pval->len[3] = 0;
+		pval->len[4] = 0;
+		pval->offset = 0;
+		pval->arraycnt = 0;
+		pval->support = p->support;
+		p->Alloc( pval, NULL );
 		break;
 		}
 
