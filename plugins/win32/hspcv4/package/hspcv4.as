@@ -373,4 +373,10 @@
 #func global cv4_tracker_update      cv4_tracker_update      $202
 #func global cv4_tracker_free        cv4_tracker_free        $202
 
+; ---- calib3d : homography / perspective transforms ----
+#func global cv4_find_homography            cv4_find_homography            $202
+#func global cv4_warp_perspective           cv4_warp_perspective           $202
+#func global cv4_get_perspective_transform  cv4_get_perspective_transform  $202
+#func global cv4_get_affine_transform       cv4_get_affine_transform       $202
+
 #endif

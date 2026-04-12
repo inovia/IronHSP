@@ -986,6 +986,128 @@ CV4_EXPORT BOOL WINAPI cv4warp(HSPEXINFO* hei, int p1, int p2, int p3)
 
 
 //============================================================================
+//  Calib3D : homography / perspective / camera calibration helpers
+//
+//  点集合は HSP の cv_rect 配列 (stdim rects, cv_rect, N) の x/y フィールド
+//  を流用したり、N x 2 の CV_32F Mat で受け取ったりする設計。ここでは
+//  直接点を受け取るのは煩雑なので、2 つのキーポイント集合と BFMatch 結果
+//  を入力として受けて findHomography を呼ぶ API にする。
+//============================================================================
+
+//  cv4_find_homography h_mat_id, kp1_id, kp2_id, match_id [, ransac_thresh=3.0]
+//    match から対応点ペアを取り出し findHomography を呼ぶ。
+//    出力は 3x3 CV_64F Mat。
+CV4_EXPORT BOOL WINAPI cv4_find_homography(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int h_id    = getint();
+        int kp1_id  = getint();
+        int kp2_id  = getint();
+        int m_id    = getint();
+        double rth  = hei->HspFunc_prm_getdd(3.0);
+        auto* kp1 = hspcv4::kps_get(kp1_id);
+        auto* kp2 = hspcv4::kps_get(kp2_id);
+        auto* ms  = hspcv4::matches_get(m_id);
+        if (!kp1 || !kp2 || !ms) return fail("cv4_find_homography: invalid kp/match");
+        std::vector<cv::Point2f> p1v, p2v;
+        for (auto& m : *ms) {
+            if (m.queryIdx >= 0 && m.queryIdx < (int)kp1->size() &&
+                m.trainIdx >= 0 && m.trainIdx < (int)kp2->size())
+            {
+                p1v.push_back((*kp1)[m.queryIdx].pt);
+                p2v.push_back((*kp2)[m.trainIdx].pt);
+            }
+        }
+        if (p1v.size() < 4) return fail("cv4_find_homography: need at least 4 pairs");
+        cv::Mat H = cv::findHomography(p1v, p2v, cv::RANSAC, rth);
+        if (H.empty()) return fail("cv4_find_homography: no homography found");
+        hspcv4::handle_set(h_id, std::move(H));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_find_homography: unknown"); }
+}
+
+//  cv4_warp_perspective dst, src, h_mat_id, out_w, out_h
+CV4_EXPORT BOOL WINAPI cv4_warp_perspective(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int h_id   = getint();
+        int ow     = getint();
+        int oh     = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        cv::Mat* H   = hspcv4::handle_get(h_id);
+        if (!src || src->empty()) return fail("cv4_warp_perspective: invalid source");
+        if (!H || H->empty()) return fail("cv4_warp_perspective: invalid H");
+        cv::Mat out;
+        cv::warpPerspective(*src, out, *H, cv::Size(ow, oh));
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_warp_perspective: unknown"); }
+}
+
+//  cv4_get_perspective_transform h_mat_id, sx1,sy1, sx2,sy2, sx3,sy3, sx4,sy4, dx1,dy1, dx2,dy2, dx3,dy3, dx4,dy4
+//    4 対のソース頂点と先頂点から 3x3 透視変換行列を作成
+CV4_EXPORT BOOL WINAPI cv4_get_perspective_transform(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int h_id = getint();
+        cv::Point2f src_pts[4];
+        cv::Point2f dst_pts[4];
+        for (int i = 0; i < 4; ++i) {
+            src_pts[i].x = (float)getint();
+            src_pts[i].y = (float)getint();
+        }
+        for (int i = 0; i < 4; ++i) {
+            dst_pts[i].x = (float)getint();
+            dst_pts[i].y = (float)getint();
+        }
+        cv::Mat H = cv::getPerspectiveTransform(src_pts, dst_pts);
+        hspcv4::handle_set(h_id, std::move(H));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_get_perspective_transform: unknown"); }
+}
+
+//  cv4_get_affine_transform m_mat_id, sx1,sy1, sx2,sy2, sx3,sy3, dx1,dy1, dx2,dy2, dx3,dy3
+//    3 対のソース/先頂点から 2x3 アフィン変換行列を作成
+CV4_EXPORT BOOL WINAPI cv4_get_affine_transform(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int m_id = getint();
+        cv::Point2f src_pts[3];
+        cv::Point2f dst_pts[3];
+        for (int i = 0; i < 3; ++i) {
+            src_pts[i].x = (float)getint();
+            src_pts[i].y = (float)getint();
+        }
+        for (int i = 0; i < 3; ++i) {
+            dst_pts[i].x = (float)getint();
+            dst_pts[i].y = (float)getint();
+        }
+        cv::Mat M = cv::getAffineTransform(src_pts, dst_pts);
+        hspcv4::handle_set(m_id, std::move(M));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_get_affine_transform: unknown"); }
+}
+
+//  cv4_warp_perspective_mat dst, src, m_id, out_w, out_h
+//    既存 cv4_warp_perspective と同等だが汎用 Mat を受け取る版 (上と同じ)
+//    (alias、削除してもよい)
+
+
+//============================================================================
 //  Video : optical flow / background subtraction / trackers
 //============================================================================
 
