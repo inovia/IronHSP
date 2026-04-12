@@ -1,0 +1,58 @@
+;
+;   sample_orb_match.hsp
+;   ORB 特徴点で 2 枚の画像の対応点をマッチングして可視化するデモ。
+;   Phase 6 (features2d) + Phase 9 (calib3d) の find_homography を併用。
+;
+;   2 枚目の画像は元画像をリサイズ・回転した「変形版」を内部で生成。
+;
+#include "hspcv4.as"
+
+    title "hspcv4 sample: ORB matching"
+    screen 0, 1000, 500
+
+    cv4load 0, "test_image.png"
+    if stat : dialog "test_image.png not found" : end
+
+    cv4resize 1, 0, 400, 300        ; 元画像
+    cv4rotate 2, 1, 15.0, 0.9       ; 15度回転 + 0.9 倍
+
+    ; ORB 特徴点検出
+    cv4_orb_detect_compute 10, 11, 1, 500   ; kp=10, desc=11
+    cv4_orb_detect_compute 12, 13, 2, 500   ; kp=12, desc=13
+
+    cv4_kp_count 10, n1
+    cv4_kp_count 12, n2
+    pos 10, 10 : color 0, 0, 0
+    mes strf("ORB: image1 = %d kp, image2 = %d kp", n1, n2)
+
+    ; マッチング (Hamming, ORB は binary descriptor)
+    cv4_bf_match 14, 11, 13, CV4_NORM_HAMMING
+    cv4_match_count 14, nm
+    mes strf("matches: %d", nm)
+
+    ; 描画
+    cv4_draw_matches 15, 1, 10, 2, 12, 14
+    cv4_mat_shape 15, mr, mc, _, _
+    mes strf("draw_matches: %d x %d", mr, mc)
+
+    cv4save 15, "out_orb_matches.png"
+    mes "saved -> out_orb_matches.png"
+    mes "(open in image viewer to see horizontal pair with match lines)"
+
+    ; 主要マッチの distance を表示
+    if nm >= 5 {
+        mes ""
+        mes "first 5 match distances (lower=better):"
+        repeat 5
+            cv4_match_get 14, cnt, mq, mt, md
+            mes strf("  match[%d]: query=%d train=%d distance=%d", cnt, mq, mt, md)
+        loop
+    }
+
+    cv4_kp_free 10 : cv4_kp_free 12
+    cv4_match_free 14
+    repeat 6
+        cv4del cnt
+    loop
+    cv4del 11 : cv4del 13 : cv4del 15
+    stop

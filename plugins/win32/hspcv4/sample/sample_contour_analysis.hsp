@@ -1,0 +1,65 @@
+;
+;   sample_contour_analysis.hsp
+;   Canny + findContours で物体の輪郭を検出し、各輪郭の面積・外接矩形・
+;   最小外接円・モーメント (重心) を計算して可視化する。
+;   Phase 5 (contours) + Phase 17 (hierarchy) を活用。
+;
+#include "hspcv4.as"
+
+    title "hspcv4 sample: contour analysis"
+    screen 0, 800, 600
+
+    cv4load 0, "test_image.png"
+    if stat : dialog "test_image.png not found" : end
+
+    cv4resize 1, 0, 600, 400
+    cv4cvt    2, 1, CV4_BGR2GRAY
+    cv4_equalize_hist 3, 2
+    cv4canny  4, 3, 100, 200
+
+    ; 階層情報付きで検出
+    cv4_find_contours_hier 0, 5, 4, CV4_RETR_EXTERNAL, CV4_CHAIN_APPROX_SIMPLE
+    if stat : dialog "find_contours failed" : end
+
+    cv4_contours_count 0, n
+    pos 10, 10 : color 0, 0, 0
+    mes strf("found %d external contours", n)
+
+    ; 描画用にカラー画像をクローン
+    cv4_mat_clone 6, 1
+
+    ; 各輪郭を解析
+    repeat n
+        cv4_contour_area 0, cnt, ar
+        if ar < 100 : continue        ; 小さすぎる輪郭はスキップ
+
+        cv4_bounding_rect 0, cnt, bx, by, bw, bh
+        cv4_min_enclosing_circle 0, cnt, cx10, cy10, cr10
+        cv4_moments 0, cnt, mo_cx, mo_cy, mo_m00
+
+        ; 外接矩形 = 緑
+        cv4rect 6, bx, by, bw, bh, 0, 255, 0, 2
+        ; 最小外接円 = 黄
+        cv4circle 6, cx10 / 10, cy10 / 10, cr10 / 10, 0, 255, 255, 2
+        ; 重心 = 赤十字 (cv4line で簡易表現)
+        cv4line 6, mo_cx / 10 - 5, mo_cy / 10, mo_cx / 10 + 5, mo_cy / 10, 0, 0, 255, 2
+        cv4line 6, mo_cx / 10, mo_cy / 10 - 5, mo_cx / 10, mo_cy / 10 + 5, 0, 0, 255, 2
+
+        if cnt < 5 : mes strf("  contour[%d] area=%d, bbox=(%d,%d %dx%d)", cnt, ar, bx, by, bw, bh)
+    loop
+
+    redraw 0
+    cv4getimg 6
+    redraw 1
+
+    pos 10, 420 : color 0, 0, 192
+    mes "green = bounding rect, yellow = min enclosing circle, red cross = moment centroid"
+
+    cv4save 6, "out_contour_analysis.png"
+    mes "saved -> out_contour_analysis.png"
+
+    cv4_contours_free 0
+    repeat 7
+        cv4del cnt
+    loop
+    stop

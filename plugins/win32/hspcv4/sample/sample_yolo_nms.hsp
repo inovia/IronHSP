@@ -1,0 +1,62 @@
+;
+;   sample_yolo_nms.hsp
+;   Phase 16 の DNN 拡張 (load_darknet/set_backend/nms_boxes) を使った
+;   YOLO 物体検出のスケルトンサンプル。
+;
+;   実際に動かすには yolov4.cfg / yolov4.weights が必要なので、
+;   このサンプルは「ファイル無し時にエラー検出される」ことだけ
+;   確認します。実モデルがある環境では `model_path` と `weights_path`
+;   を書き換えれば動作します。
+;
+#include "hspcv4.as"
+
+    title "hspcv4 sample: YOLO + NMS skeleton"
+    screen 0, 800, 600
+    cls 4
+
+    pos 10, 10 : color 0, 0, 0
+    mes "YOLO detection skeleton (no actual model loaded)"
+    mes ""
+
+    cv4_dnn_load_darknet 0, "yolov4.cfg", "yolov4.weights"
+    if stat {
+        mes "yolov4.cfg / yolov4.weights が見つかりません"
+        mes "実際に YOLO を使うには:"
+        mes "  1. https://github.com/AlexeyAB/darknet からモデルを取得"
+        mes "  2. このスクリプトと同じディレクトリに配置"
+        mes "  3. 必要に応じて cv4_dnn_set_backend 0, 5, 6 で CUDA 有効化"
+        stop
+    }
+
+    ; --- 以下、モデルがあった場合の流れ ---
+    cv4load 1, "test_image.png"
+    cv4_dnn_set_input 0, 1, 0.003921568, 0, 0, 0, 416, 416, 1
+    cv4_dnn_forward 0, 2
+
+    ; 出力を解析して候補矩形を作る (省略、YOLO 出力レイヤごとに異なる)
+    ; → ここでは仮に手動で 3 つの候補を入れる
+    stdim cands, cv_rect, 100
+    dim scores, 100
+    cands(0)->x = 50  : cands(0)->y = 50  : cands(0)->w = 100 : cands(0)->h = 100
+    cands(1)->x = 55  : cands(1)->y = 55  : cands(1)->w = 100 : cands(1)->h = 100
+    cands(2)->x = 200 : cands(2)->y = 100 : cands(2)->w = 80  : cands(2)->h = 80
+    scores(0) = 9000
+    scores(1) = 8500
+    scores(2) = 7800
+    n = 3
+
+    cv4_dnn_nms_boxes cands, n, scores, 5000, 4500
+    mes strf("after NMS: %d boxes", n)
+
+    cv4_mat_clone 3, 1
+    repeat n
+        cv4rect 3, cands(cnt)->x, cands(cnt)->y, cands(cnt)->w, cands(cnt)->h, 0, 255, 0, 2
+    loop
+
+    redraw 0
+    cv4getimg 3
+    redraw 1
+
+    cv4_dnn_free 0
+    cv4del 1 : cv4del 2 : cv4del 3
+    stop

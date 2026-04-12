@@ -1,0 +1,47 @@
+;
+;   sample_filter2d.hsp
+;   Phase 15 の cv4_filter2d_3x3 で代表的な 3x3 カーネルを試すデモ。
+;
+;   sharpen / emboss / edge / box blur を順に適用して保存。
+;
+#include "hspcv4.as"
+
+    title "hspcv4 sample: filter2d (3x3 kernels)"
+    screen 0, 800, 600
+
+    cv4load 0, "test_image.png"
+    if stat : dialog "test_image.png not found" : end
+
+    cv4resize 1, 0, 400, 300
+
+    ; sharpen
+    cv4_filter2d_3x3 10, 1, 0.0, -1.0, 0.0, -1.0, 5.0, -1.0, 0.0, -1.0, 0.0, 0.0
+    cv4save 10, "out_sharpen.png"
+
+    ; emboss (delta=128 で中間値オフセット)
+    cv4_filter2d_3x3 11, 1, -2.0, -1.0, 0.0, -1.0, 1.0, 1.0, 0.0, 1.0, 2.0, 128.0
+    cv4save 11, "out_emboss.png"
+
+    ; edge (Laplacian 8-connect)
+    cv4_filter2d_3x3 12, 1, -1.0, -1.0, -1.0, -1.0, 8.0, -1.0, -1.0, -1.0, -1.0, 0.0
+    cv4save 12, "out_edge.png"
+
+    ; box blur (1/9)
+    cv4_filter2d_3x3 13, 1, 0.111, 0.111, 0.111, 0.111, 0.111, 0.111, 0.111, 0.111, 0.111, 0.0
+    cv4save 13, "out_boxblur.png"
+
+    redraw 0
+    cv4getimg 10                ; sharpen を表示
+    redraw 1
+
+    pos 10, 320 : color 0, 0, 0
+    mes "shown: out_sharpen.png"
+    mes ""
+    mes "all results saved:"
+    mes "  out_sharpen.png  out_emboss.png"
+    mes "  out_edge.png     out_boxblur.png"
+
+    repeat 14
+        cv4del cnt
+    loop
+    stop

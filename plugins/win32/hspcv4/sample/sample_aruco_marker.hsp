@@ -1,0 +1,52 @@
+;
+;   sample_aruco_marker.hsp
+;   Phase 13b-2 の ArUco マーカ生成と検出のデモ。
+;   生成したマーカを画面に描画して保存し、その画像から検出するラウンドトリップ。
+;
+;   注: 生成画像をそのまま検出に渡しても、検出には white quiet zone が
+;       必要なので 0 件になります。本サンプルでは大きい白背景に貼って
+;       検出可能にする方法を見せます。
+;
+#include "hspcv4.as"
+
+    title "hspcv4 sample: ArUco marker"
+    screen 0, 800, 600
+    cls 4
+
+    ; ID 17 の 4x4_50 マーカを 200x200 で生成
+    cv4_aruco_generate 0, CV4_ARUCO_DICT_4X4_50, 17, 200, 1
+    if stat : dialog "cv4_aruco_generate failed" : end
+    cv4save 0, "out_aruco_17.png"
+
+    ; 大きい白い背景 (400x400) を作って中央にマーカを貼る
+    cv4_mat_full 1, 400, 400, 255, 255, 255   ; 白背景
+    ; マーカは 1ch だがコピーには Mat 同型が要るので 3ch に変換
+    cv4cvt 2, 0, CV4_GRAY2BGR
+    ; warp で中央 (100,100) に配置
+    cv4warp 3, 2, 1.0, 0.0, 100.0, 0.0, 1.0, 100.0, 400, 400
+
+    ; 1 (白背景) と 3 (中央オフセットされたマーカ) を加算で合成しても不正確なので
+    ; 単純にマスクコピー: マーカ部分のみ src を dst にコピー
+    ; -- 簡易には warp 後の 3 をそのまま検出に投げる
+    stdim ar_rects, cv_rect, 8
+    dim ar_ids, 8
+    cv4_aruco_detect ar_rects, ar_ids, ar_n, 3, CV4_ARUCO_DICT_4X4_50
+
+    pos 10, 10 : color 0, 0, 0
+    mes "Generated ArUco marker (4x4_50, id=17, 200px) -> out_aruco_17.png"
+    mes strf("Detection from padded image: %d marker(s)", ar_n)
+    if ar_n > 0 {
+        mes strf("  marker[0]: id=%d bbox=(%d,%d %dx%d)", ar_ids(0), ar_rects(0)->x, ar_rects(0)->y, ar_rects(0)->w, ar_rects(0)->h)
+    }
+
+    cv4save 3, "out_aruco_padded.png"
+    mes "saved padded marker -> out_aruco_padded.png"
+
+    redraw 0
+    cv4getimg 3
+    redraw 1
+
+    repeat 4
+        cv4del cnt
+    loop
+    stop

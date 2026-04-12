@@ -1,0 +1,55 @@
+;
+;   sample_morphology.hsp
+;   モルフォロジー処理のデモ。グレースケール → 2 値化 → 細線化と
+;   open/close/gradient で前景・骨格・輪郭を抽出する。
+;
+;   Phase 3 のフィルタと Phase 13b-5 の thinning を組み合わせます。
+;   thinning は contrib DLL が必要です。
+;
+#include "hspcv4.as"
+
+    title "hspcv4 sample: morphology"
+    screen 0, 800, 600
+    cls 4
+
+    cv4load 0, "test_image.png"
+    if stat : dialog "test_image.png not found" : end
+
+    cv4resize 1, 0, 400, 300
+    cv4cvt    2, 1, CV4_BGR2GRAY                       ; グレースケール
+    cv4thresh 3, 2, 0, 255, CV4_THRESH_BINARY | CV4_THRESH_OTSU  ; 大津で 2 値化
+
+    ; 各種モルフォロジー
+    cv4_erode         4, 3, CV4_MORPH_RECT, 3
+    cv4_dilate        5, 3, CV4_MORPH_RECT, 3
+    cv4_morph_open    6, 3, CV4_MORPH_RECT, 5
+    cv4_morph_close   7, 3, CV4_MORPH_RECT, 5
+    cv4_morph_gradient 8, 3, CV4_MORPH_RECT, 3   ; 輪郭
+
+    ; 細線化 (contrib DLL があれば実行)
+    cv4_thinning      9, 3, 0
+    if stat {
+        mes "(thinning skipped: hspcv4_contrib.dll missing)"
+    } else {
+        mes "thinning OK"
+    }
+
+    cv4save 4, "out_erode.png"
+    cv4save 5, "out_dilate.png"
+    cv4save 6, "out_open.png"
+    cv4save 7, "out_close.png"
+    cv4save 8, "out_gradient.png"
+
+    redraw 0
+    cv4getimg 8                  ; 輪郭画像を表示
+    redraw 1
+
+    pos 10, 320 : color 0, 0, 0
+    mes "Saved morphology results:"
+    mes "  out_erode.png  out_dilate.png"
+    mes "  out_open.png   out_close.png   out_gradient.png"
+
+    repeat 10
+        cv4del cnt
+    loop
+    stop

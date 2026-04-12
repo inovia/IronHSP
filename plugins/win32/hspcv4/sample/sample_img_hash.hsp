@@ -1,0 +1,58 @@
+;
+;   sample_img_hash.hsp
+;   Phase 13b-6 の img_hash で 2 枚の画像を比較するデモ。
+;
+;   pHash で original / blurred / rotated / different の 4 つを比較し、
+;   類似度 (距離が小さいほど類似) を表示する。
+;   img_hash は contrib DLL が必要。
+;
+#include "hspcv4.as"
+
+    title "hspcv4 sample: image hashing"
+    screen 0, 800, 500
+    cls 4
+
+    cv4load 0, "test_image.png"
+    if stat : dialog "test_image.png not found" : end
+
+    cv4resize 1, 0, 256, 256
+
+    ; 4 つの変形画像
+    cv4_mat_clone 2, 1                      ; original
+    cv4gauss 3, 1, 11, 3.0                  ; blurred
+    cv4rotate 4, 1, 90.0, 1.0               ; rotated 90
+    cv4_mat_full 5, 256, 256, 30, 60, 90    ; まったく違う solid color
+
+    ; 各画像の pHash を計算
+    cv4_phash 10, 2
+    if stat {
+        dialog "hspcv4_contrib.dll が見つかりません (img_hash)"
+        end
+    }
+    cv4_phash 11, 3
+    cv4_phash 12, 4
+    cv4_phash 13, 5
+
+    ; ハッシュ間の距離を計算 (cv4_abs_diff + cv4_count_nonzero)
+    cv4_abs_diff 20, 10, 11    ; original vs blur
+    cv4_count_nonzero 20, d_blur
+
+    cv4_abs_diff 21, 10, 12    ; original vs rotate
+    cv4_count_nonzero 21, d_rot
+
+    cv4_abs_diff 22, 10, 13    ; original vs different
+    cv4_count_nonzero 22, d_diff
+
+    pos 10, 10 : color 0, 0, 0
+    mes "pHash distance from original (lower = more similar):"
+    mes ""
+    mes strf("  vs blurred:   %d", d_blur)
+    mes strf("  vs rotated 90: %d", d_rot)
+    mes strf("  vs different:  %d", d_diff)
+    mes ""
+    mes "0 = identical hash, larger = less similar"
+
+    repeat 23
+        cv4del cnt
+    loop
+    stop
