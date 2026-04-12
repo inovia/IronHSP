@@ -1,0 +1,31 @@
+--- a/modules/freetype/CMakeLists.txt
++++ b/modules/freetype/CMakeLists.txt
+@@ -3,8 +3,26 @@ if(APPLE_FRAMEWORK)
+   ocv_module_disable(freetype)
+ endif()
+ 
+-ocv_check_modules(FREETYPE freetype2)
+-ocv_check_modules(HARFBUZZ harfbuzz)
++# hspcv4 patch: allow direct cmake -D injection of FREETYPE_*/HARFBUZZ_* vars
++# (avoids the pkg-config dependency that fails on Windows w/o pkgconf in PATH).
++if(NOT FREETYPE_FOUND AND HSPCV4_FREETYPE_LIB AND HSPCV4_FREETYPE_INC)
++  set(FREETYPE_FOUND TRUE)
++  set(FREETYPE_VERSION "vcpkg")
++  set(FREETYPE_LIBRARIES "${HSPCV4_FREETYPE_LIB}")
++  set(FREETYPE_INCLUDE_DIRS "${HSPCV4_FREETYPE_INC}")
++endif()
++if(NOT HARFBUZZ_FOUND AND HSPCV4_HARFBUZZ_LIB AND HSPCV4_HARFBUZZ_INC)
++  set(HARFBUZZ_FOUND TRUE)
++  set(HARFBUZZ_VERSION "vcpkg")
++  set(HARFBUZZ_LIBRARIES "${HSPCV4_HARFBUZZ_LIB}")
++  set(HARFBUZZ_INCLUDE_DIRS "${HSPCV4_HARFBUZZ_INC}")
++endif()
++if(NOT FREETYPE_FOUND)
++  ocv_check_modules(FREETYPE freetype2)
++endif()
++if(NOT HARFBUZZ_FOUND)
++  ocv_check_modules(HARFBUZZ harfbuzz)
++endif()
+ 
+ if(OPENCV_INITIAL_PASS)
+   if(NOT FREETYPE_FOUND)

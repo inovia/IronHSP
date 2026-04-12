@@ -30,6 +30,7 @@ std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::face::FaceRecognizer>>> g_fa
 std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::face::Facemark>>> g_facemarks;
 std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::StereoMatcher>>> g_stereos;
 std::unordered_map<int, std::unique_ptr<cv::KalmanFilter>> g_kalmans;
+std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::freetype::FreeType2>>> g_freetypes;
 std::mutex g_mutex;
 int g_next_id = 0;
 std::string g_last_error;
@@ -423,6 +424,30 @@ void kalman_clear_all()
 {
     std::lock_guard<std::mutex> lock(g_mutex);
     g_kalmans.clear();
+}
+
+bool freetype_set(int id, cv::Ptr<cv::freetype::FreeType2> ptr)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_freetypes[id] = std::make_unique<cv::Ptr<cv::freetype::FreeType2>>(std::move(ptr));
+    return true;
+}
+cv::Ptr<cv::freetype::FreeType2>* freetype_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_freetypes.find(id);
+    if (it == g_freetypes.end()) return nullptr;
+    return it->second.get();
+}
+void freetype_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_freetypes.erase(id);
+}
+void freetype_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_freetypes.clear();
 }
 
 void set_last_error(const char* msg)

@@ -120,6 +120,33 @@ if not "%CONTRIB_BUILD_LIST%"=="" (
     set "BUILD_LIST_FLAG="
 )
 
+rem --- FreeType / HarfBuzz via vcpkg-installed staticlib (Phase 22 follow) ---
+rem   When third_party\vcpkg_work\installed has freetype.lib and
+rem   harfbuzz.lib for the current ARCH, point cmake at them so
+rem   opencv_freetype can be built.
+set "VCPKG_WORK=%ROOT_DIR%\third_party\vcpkg_work"
+if /I "%ARCH_NAME%"=="x64" (
+    set "VCPKG_TRIPLET=x64-windows-static-md"
+) else (
+    set "VCPKG_TRIPLET=x86-windows-static-md"
+)
+set "VCPKG_INSTALLED=%VCPKG_WORK%\installed\%VCPKG_TRIPLET%"
+set "FT_LIB=%VCPKG_INSTALLED%\lib\freetype.lib"
+set "HB_LIB=%VCPKG_INSTALLED%\lib\harfbuzz.lib"
+set "FREETYPE_FLAG="
+if not exist "%FT_LIB%" goto :no_freetype
+if not exist "%HB_LIB%" goto :no_freetype
+rem cmake は path 内の \H を escape sequence として解釈するので forward slash に変換する。
+set "FT_LIB_F=%FT_LIB:\=/%"
+set "HB_LIB_F=%HB_LIB:\=/%"
+set "FT_INC_F=%VCPKG_INSTALLED:\=/%/include"
+set "HB_INC_F=%VCPKG_INSTALLED:\=/%/include/harfbuzz"
+rem hspcv4 patches opencv_contrib/freetype/CMakeLists.txt to honor these vars
+rem and skip the pkg-config probe entirely.
+set "FREETYPE_FLAG=-DWITH_FREETYPE=ON -DHSPCV4_FREETYPE_LIB=%FT_LIB_F% -DHSPCV4_FREETYPE_INC=%FT_INC_F% -DHSPCV4_HARFBUZZ_LIB=%HB_LIB_F% -DHSPCV4_HARFBUZZ_INC=%HB_INC_F%"
+echo [freetype] vcpkg %VCPKG_TRIPLET% staticlib detected, injecting via HSPCV4_* vars
+:no_freetype
+
 "%CMAKE_EXE%" ^
     -S "%OPENCV_SRC_DIR%" ^
     -B "%BUILD_DIR%" ^
@@ -131,6 +158,7 @@ if not "%CONTRIB_BUILD_LIST%"=="" (
     -DBUILD_opencv_world=ON ^
     %BUILD_LIST_FLAG% ^
     %CONTRIB_FLAG% ^
+    %FREETYPE_FLAG% ^
     -DBUILD_TESTS=OFF ^
     -DBUILD_PERF_TESTS=OFF ^
     -DBUILD_EXAMPLES=OFF ^

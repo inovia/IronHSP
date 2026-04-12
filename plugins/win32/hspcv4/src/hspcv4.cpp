@@ -425,6 +425,7 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
         hspcv4::facemark_clear_all();
         hspcv4::stereo_clear_all();
         hspcv4::kalman_clear_all();
+        hspcv4::freetype_clear_all();
         cv::destroyAllWindows();
         // contrib DLL は OS が process 終了時に自動 FreeLibrary するので
         // ここで明示的に解放する必要はない (static ハンドルが残ったまま
@@ -2732,6 +2733,69 @@ CV4_EXPORT BOOL WINAPI cv4_connected_components(HSPEXINFO* hei, int p1, int p2, 
     } catch (const cv::Exception& e) { return fail(e.what()); }
       catch (...) { return fail("cv4_connected_components: unknown"); }
 }
+
+//============================================================================
+//  FreeType (Phase 22 follow): TTF/OTF フォントで日本語を含む文字列を描画
+//============================================================================
+
+//  cv4_freetype_create ft_id, "font_path.ttf"
+CV4_EXPORT BOOL WINAPI cv4_freetype_create(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int ft_id = getint();
+        const char* font_path = getstr();
+        if (!font_path) return fail("cv4_freetype_create: null font path");
+        cv::Ptr<cv::freetype::FreeType2> ft = cv::freetype::createFreeType2();
+        ft->loadFontData(font_path, 0);
+        hspcv4::freetype_set(ft_id, ft);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_freetype_create: unknown"); }
+}
+
+//  cv4_freetype_put_text ft_id, dst_id, "text(UTF-8)", x, y, font_height
+//                         [, b=255] [, g=255] [, r=255]
+//                         [, thickness=-1] [, line_type=16(LINE_AA)]
+CV4_EXPORT BOOL WINAPI cv4_freetype_put_text(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int ft_id   = getint();
+        int dst_id  = getint();
+        const char* text = getstr();
+        int x       = getint();
+        int y       = getint();
+        int height  = getint();
+        int b       = getint_def(255);
+        int g       = getint_def(255);
+        int r       = getint_def(255);
+        int thick   = getint_def(-1);
+        int ltype   = getint_def(cv::LINE_AA);
+        auto* fp = hspcv4::freetype_get(ft_id);
+        if (!fp || fp->empty()) return fail("cv4_freetype_put_text: invalid ft");
+        if (!text) return fail("cv4_freetype_put_text: null text");
+        cv::Mat* dst = hspcv4::handle_get(dst_id);
+        if (!dst || dst->empty()) return fail("cv4_freetype_put_text: invalid dst");
+        (*fp)->putText(*dst, text, cv::Point(x, y), height,
+                       cv::Scalar(b, g, r), thick, ltype, true);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_freetype_put_text: unknown"); }
+}
+
+//  cv4_freetype_free ft_id
+CV4_EXPORT BOOL WINAPI cv4_freetype_free(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int ft_id = getint();
+    hspcv4::freetype_free(ft_id);
+    return 0;
+}
+
 
 //============================================================================
 //  Main fillers (Phase 27): flip / transpose / copy_make_border / in_range

@@ -66,6 +66,8 @@
     <OpenCVInstallDir Condition="'$(Platform)'=='x64'">$(ProjectDir)build\opencv_install_64</OpenCVInstallDir>
     <OpenCVStaticLibDir Condition="'$(Platform)'=='Win32'">$(OpenCVInstallDir)\x86\vc17\staticlib</OpenCVStaticLibDir>
     <OpenCVStaticLibDir Condition="'$(Platform)'=='x64'">$(OpenCVInstallDir)\x64\vc17\staticlib</OpenCVStaticLibDir>
+    <VcpkgWorkLibDir Condition="'$(Platform)'=='Win32'">$(ProjectDir)third_party\vcpkg_work\installed\x86-windows-static-md\lib</VcpkgWorkLibDir>
+    <VcpkgWorkLibDir Condition="'$(Platform)'=='x64'">$(ProjectDir)third_party\vcpkg_work\installed\x64-windows-static-md\lib</VcpkgWorkLibDir>
   </PropertyGroup>
 
   <!-- ===== Common ClCompile / Link settings (all configs) ===== -->
@@ -83,8 +85,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OpenCVStaticLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world4120.lib;ittnotify.lib;ipphal.lib;ippiw.lib;ippicvmt.lib;libjpeg-turbo.lib;libopenjp2.lib;libpng.lib;libtiff.lib;libprotobuf.lib;libwebp.lib;zlib.lib;comctl32.lib;gdi32.lib;user32.lib;ole32.lib;oleaut32.lib;uuid.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OpenCVStaticLibDir);$(VcpkgWorkLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_world4120.lib;ittnotify.lib;ipphal.lib;ippiw.lib;ippicvmt.lib;libjpeg-turbo.lib;libopenjp2.lib;libpng.lib;libtiff.lib;libprotobuf.lib;libwebp.lib;zlib.lib;freetype.lib;harfbuzz.lib;brotlidec.lib;brotlicommon.lib;bz2.lib;libpng16.lib;comctl32.lib;gdi32.lib;user32.lib;ole32.lib;oleaut32.lib;uuid.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
 

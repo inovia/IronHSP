@@ -48,6 +48,7 @@
 #include <opencv2/wechat_qrcode.hpp>
 #include <opencv2/quality.hpp>
 #include <opencv2/plot.hpp>
+#include <opencv2/freetype.hpp>
 #pragma warning(pop)
 
 #define CV4_EXPORT extern "C" __declspec(dllexport)
@@ -168,6 +169,12 @@ bool kalman_set(int id, cv::KalmanFilter&& kf);
 cv::KalmanFilter* kalman_get(int id);
 void kalman_free(int id);
 void kalman_clear_all();
+
+// FreeType2 (Phase 22 follow)
+bool freetype_set(int id, cv::Ptr<cv::freetype::FreeType2> ptr);
+cv::Ptr<cv::freetype::FreeType2>* freetype_get(int id);
+void freetype_free(int id);
+void freetype_clear_all();
 
 //---------------------------------------------------------------------------
 // Last error message (for future cv4_getlasterror if needed)
