@@ -59,6 +59,8 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
         hspcv4::contours_clear_all();
         hspcv4::kps_clear_all();
         hspcv4::matches_clear_all();
+        hspcv4::bgsub_clear_all();
+        hspcv4::tracker_clear_all();
         cv::destroyAllWindows();
     }
     return TRUE;
@@ -980,6 +982,230 @@ CV4_EXPORT BOOL WINAPI cv4warp(HSPEXINFO* hei, int p1, int p2, int p3)
     } catch (...) {
         return fail("cv4warp: unknown exception");
     }
+}
+
+
+//============================================================================
+//  Video : optical flow / background subtraction / trackers
+//============================================================================
+
+// --- オプティカルフロー ---
+
+//  cv4_optflow_farneback flow_mat_id, prev_id, next_id
+//    Farneback dense optical flow. 出力は HxWx2 CV_32F (dx, dy)
+CV4_EXPORT BOOL WINAPI cv4_optflow_farneback(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int flow_id = getint();
+        int prev_id = getint();
+        int next_id = getint();
+        cv::Mat* prev = hspcv4::handle_get(prev_id);
+        cv::Mat* next = hspcv4::handle_get(next_id);
+        if (!prev || !next || prev->empty() || next->empty())
+            return fail("cv4_optflow_farneback: invalid input");
+        cv::Mat pg = (prev->channels() == 1) ? *prev : cv::Mat();
+        cv::Mat ng = (next->channels() == 1) ? *next : cv::Mat();
+        if (pg.empty()) cv::cvtColor(*prev, pg, cv::COLOR_BGR2GRAY);
+        if (ng.empty()) cv::cvtColor(*next, ng, cv::COLOR_BGR2GRAY);
+        cv::Mat flow;
+        cv::calcOpticalFlowFarneback(pg, ng, flow, 0.5, 3, 15, 3, 5, 1.2, 0);
+        hspcv4::handle_set(flow_id, std::move(flow));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_optflow_farneback: unknown"); }
+}
+
+//  cv4_optflow_lk out_kp_id, status_mat_id, prev_id, next_id, prev_kp_id
+//    Lucas-Kanade sparse optical flow. prev_kp_id は次フレームでの対応点に
+//    置換された新しいキーポイントセット out_kp_id として出力する。
+//    status は Nx1 CV_8U (成功=1/失敗=0)。
+CV4_EXPORT BOOL WINAPI cv4_optflow_lk(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int out_kp_id  = getint();
+        int status_id  = getint();
+        int prev_id    = getint();
+        int next_id    = getint();
+        int prev_kp_id = getint();
+        cv::Mat* prev = hspcv4::handle_get(prev_id);
+        cv::Mat* next = hspcv4::handle_get(next_id);
+        auto* pkps = hspcv4::kps_get(prev_kp_id);
+        if (!prev || !next || prev->empty() || next->empty())
+            return fail("cv4_optflow_lk: invalid images");
+        if (!pkps || pkps->empty())
+            return fail("cv4_optflow_lk: invalid prev kp set");
+        cv::Mat pg = (prev->channels() == 1) ? *prev : cv::Mat();
+        cv::Mat ng = (next->channels() == 1) ? *next : cv::Mat();
+        if (pg.empty()) cv::cvtColor(*prev, pg, cv::COLOR_BGR2GRAY);
+        if (ng.empty()) cv::cvtColor(*next, ng, cv::COLOR_BGR2GRAY);
+        std::vector<cv::Point2f> pts_prev, pts_next;
+        pts_prev.reserve(pkps->size());
+        for (auto& k : *pkps) pts_prev.push_back(k.pt);
+        std::vector<uchar> status;
+        std::vector<float> err;
+        cv::calcOpticalFlowPyrLK(pg, ng, pts_prev, pts_next, status, err);
+        hspcv4::KeyPointSet next_kps;
+        next_kps.reserve(pts_next.size());
+        for (auto& p : pts_next) next_kps.emplace_back(p, 5.0f);
+        hspcv4::kps_set(out_kp_id, std::move(next_kps));
+        cv::Mat status_mat((int)status.size(), 1, CV_8U);
+        for (size_t i = 0; i < status.size(); ++i)
+            status_mat.at<uchar>((int)i, 0) = status[i];
+        hspcv4::handle_set(status_id, std::move(status_mat));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_optflow_lk: unknown"); }
+}
+
+// --- 背景差分 ---
+
+//  cv4_bgsub_create_mog2 bg_id [, history=500] [, var_thresh=16] [, detect_shadows=1]
+CV4_EXPORT BOOL WINAPI cv4_bgsub_create_mog2(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int bg_id   = getint();
+        int hist    = getint_def(500);
+        double vt   = hei->HspFunc_prm_getdd(16.0);
+        int shadow  = getint_def(1);
+        cv::Ptr<cv::BackgroundSubtractor> bg = cv::createBackgroundSubtractorMOG2(hist, vt, shadow != 0);
+        hspcv4::bgsub_set(bg_id, bg);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_bgsub_create_mog2: unknown"); }
+}
+
+//  cv4_bgsub_create_knn bg_id [, history=500] [, dist2_thresh=400] [, detect_shadows=1]
+CV4_EXPORT BOOL WINAPI cv4_bgsub_create_knn(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int bg_id   = getint();
+        int hist    = getint_def(500);
+        double dt   = hei->HspFunc_prm_getdd(400.0);
+        int shadow  = getint_def(1);
+        cv::Ptr<cv::BackgroundSubtractor> bg = cv::createBackgroundSubtractorKNN(hist, dt, shadow != 0);
+        hspcv4::bgsub_set(bg_id, bg);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_bgsub_create_knn: unknown"); }
+}
+
+//  cv4_bgsub_apply bg_id, src_id, fg_id [, learning_rate=-1]
+CV4_EXPORT BOOL WINAPI cv4_bgsub_apply(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int bg_id = getint();
+        int src_id = getint();
+        int fg_id = getint();
+        double lr = hei->HspFunc_prm_getdd(-1.0);
+        auto* bg = hspcv4::bgsub_get(bg_id);
+        if (!bg || bg->empty()) return fail("cv4_bgsub_apply: invalid bg");
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_bgsub_apply: invalid source");
+        cv::Mat fg;
+        (*bg)->apply(*src, fg, lr);
+        hspcv4::handle_set(fg_id, std::move(fg));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_bgsub_apply: unknown"); }
+}
+
+//  cv4_bgsub_free bg_id
+CV4_EXPORT BOOL WINAPI cv4_bgsub_free(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int id = getint();
+    hspcv4::bgsub_free(id);
+    return 0;
+}
+
+// --- トラッカ ---
+//    OpenCV 4.12 main build に含まれる: TrackerMIL, TrackerGOTURN, TrackerDaSiamRPN,
+//    TrackerNano, TrackerVit (後者 4 つは外部モデルファイル必須)
+//    KCF / CSRT は opencv_contrib にあり、本ビルドには同梱されていない。
+
+//  cv4_tracker_create_mil tid
+CV4_EXPORT BOOL WINAPI cv4_tracker_create_mil(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int tid = getint();
+        cv::Ptr<cv::Tracker> t = cv::TrackerMIL::create();
+        hspcv4::tracker_set(tid, t);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_tracker_create_mil: unknown"); }
+}
+
+//  cv4_tracker_init tid, img_id, x, y, w, h
+CV4_EXPORT BOOL WINAPI cv4_tracker_init(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int tid    = getint();
+        int img_id = getint();
+        int x      = getint();
+        int y      = getint();
+        int w      = getint();
+        int h      = getint();
+        auto* t = hspcv4::tracker_get(tid);
+        if (!t || t->empty()) return fail("cv4_tracker_init: invalid tracker");
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_tracker_init: invalid image");
+        (*t)->init(*img, cv::Rect(x, y, w, h));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_tracker_init: unknown"); }
+}
+
+//  cv4_tracker_update tid, img_id, var_x, var_y, var_w, var_h
+//    stat: 0=成功, 1=ロスト
+CV4_EXPORT BOOL WINAPI cv4_tracker_update(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int tid    = getint();
+        int img_id = getint();
+        auto* t = hspcv4::tracker_get(tid);
+        if (!t || t->empty()) return fail("cv4_tracker_update: invalid tracker");
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_tracker_update: invalid image");
+        cv::Rect box;
+        bool ok = (*t)->update(*img, box);
+        int vals[4] = { box.x, box.y, box.width, box.height };
+        for (int i = 0; i < 4; ++i) {
+            PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+            if (pv->flag != HSPVAR_FLAG_INT) return fail("cv4_tracker_update: var must be int");
+            pv->offset = a;
+            HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+            proc->Set(pv, proc->GetPtr(pv), &vals[i]);
+        }
+        return ok ? 0 : -1;   // -1 で stat=1 (ロスト扱い)
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_tracker_update: unknown"); }
+}
+
+//  cv4_tracker_free tid
+CV4_EXPORT BOOL WINAPI cv4_tracker_free(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int id = getint();
+    hspcv4::tracker_free(id);
+    return 0;
 }
 
 

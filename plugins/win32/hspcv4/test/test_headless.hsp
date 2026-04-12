@@ -419,6 +419,41 @@
     if stat : mes "cv4_pencil_sketch FAIL" : end 1
     mes "cv4 photo filters (bilateral/denoise/inpaint/decolor/detail/edge/stylize/pencil) OK"
 
+    ; --- Phase 8: video ---
+    ; Farneback (同じ画像同士なので flow は 0 に近い)
+    cv4_optflow_farneback 130, 1, 1
+    if stat : mes "cv4_optflow_farneback FAIL" : end 1
+    cv4_mat_shape 130, fl_r, fl_c, fl_t, fl_ch
+    mes strf("cv4_optflow_farneback: %dx%d type=%d ch=%d", fl_r, fl_c, fl_t, fl_ch)
+
+    ; LK (GFTT キーポイント -> 次フレームへ)
+    cv4_good_features_to_track 131, 1, 50, 0.01, 10.0
+    cv4_optflow_lk 132, 133, 1, 1, 131
+    if stat : mes "cv4_optflow_lk FAIL" : end 1
+    cv4_kp_count 132, lk_n
+    mes strf("cv4_optflow_lk: tracked %d points", lk_n)
+
+    ; 背景差分
+    cv4_bgsub_create_mog2 0, 500, 16.0, 1
+    if stat : mes "cv4_bgsub_create_mog2 FAIL" : end 1
+    cv4_bgsub_apply 0, 1, 134, -1.0
+    if stat : mes "cv4_bgsub_apply FAIL" : end 1
+    cv4_bgsub_free 0
+    mes "cv4_bgsub (MOG2) OK"
+
+    ; トラッカ (MIL)
+    cv4_tracker_create_mil 0
+    if stat : mes "cv4_tracker_create_mil FAIL" : end 1
+    cv4_tracker_init 0, 1, 50, 30, 100, 80
+    if stat : mes "cv4_tracker_init FAIL" : end 1
+    cv4_tracker_update 0, 1, tbx, tby, tbw, tbh
+    mes strf("cv4_tracker MIL: box=(%d,%d,%d,%d) stat=%d", tbx, tby, tbw, tbh, stat)
+    cv4_tracker_free 0
+    mes "cv4_tracker OK"
+
+    cv4_kp_free 131
+    cv4_kp_free 132
+
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---
     cv4_dnn_load 0, "nonexistent_model.onnx"
     if stat = 0 {
@@ -455,6 +490,9 @@
     loop
     repeat 10
         cv4del 110 + cnt
+    loop
+    repeat 10
+        cv4del 130 + cnt
     loop
     cv4reset
     mes "cv4del/cv4reset OK"

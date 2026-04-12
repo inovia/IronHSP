@@ -23,6 +23,8 @@ std::unordered_map<int, std::unique_ptr<cv::dnn::Net>> g_nets;
 std::unordered_map<int, std::unique_ptr<ContourSet>> g_contours;
 std::unordered_map<int, std::unique_ptr<KeyPointSet>> g_kps;
 std::unordered_map<int, std::unique_ptr<MatchSet>> g_matches;
+std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::BackgroundSubtractor>>> g_bgsubs;
+std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::Tracker>>> g_trackers;
 std::mutex g_mutex;
 int g_next_id = 0;
 std::string g_last_error;
@@ -248,6 +250,54 @@ void matches_clear_all()
 {
     std::lock_guard<std::mutex> lock(g_mutex);
     g_matches.clear();
+}
+
+bool bgsub_set(int id, cv::Ptr<cv::BackgroundSubtractor> ptr)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_bgsubs[id] = std::make_unique<cv::Ptr<cv::BackgroundSubtractor>>(std::move(ptr));
+    return true;
+}
+cv::Ptr<cv::BackgroundSubtractor>* bgsub_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_bgsubs.find(id);
+    if (it == g_bgsubs.end()) return nullptr;
+    return it->second.get();
+}
+void bgsub_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_bgsubs.erase(id);
+}
+void bgsub_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_bgsubs.clear();
+}
+
+bool tracker_set(int id, cv::Ptr<cv::Tracker> ptr)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_trackers[id] = std::make_unique<cv::Ptr<cv::Tracker>>(std::move(ptr));
+    return true;
+}
+cv::Ptr<cv::Tracker>* tracker_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_trackers.find(id);
+    if (it == g_trackers.end()) return nullptr;
+    return it->second.get();
+}
+void tracker_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_trackers.erase(id);
+}
+void tracker_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_trackers.clear();
 }
 
 void set_last_error(const char* msg)

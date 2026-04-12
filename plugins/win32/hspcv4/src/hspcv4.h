@@ -33,6 +33,7 @@
 #include <opencv2/dnn.hpp>
 #include <opencv2/features2d.hpp>
 #include <opencv2/photo.hpp>
+#include <opencv2/video.hpp>
 #pragma warning(pop)
 
 #define CV4_EXPORT extern "C" __declspec(dllexport)
@@ -111,6 +112,18 @@ bool matches_set(int id, MatchSet&& ms);
 MatchSet* matches_get(int id);
 void matches_free(int id);
 void matches_clear_all();
+
+// BackgroundSubtractor smart pointer
+bool bgsub_set(int id, cv::Ptr<cv::BackgroundSubtractor> ptr);
+cv::Ptr<cv::BackgroundSubtractor>* bgsub_get(int id);
+void bgsub_free(int id);
+void bgsub_clear_all();
+
+// Tracker smart pointer
+bool tracker_set(int id, cv::Ptr<cv::Tracker> ptr);
+cv::Ptr<cv::Tracker>* tracker_get(int id);
+void tracker_free(int id);
+void tracker_clear_all();
 
 //---------------------------------------------------------------------------
 // Last error message (for future cv4_getlasterror if needed)

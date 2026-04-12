@@ -358,4 +358,19 @@
 #func global cv4_stylization     cv4_stylization     $202
 #func global cv4_pencil_sketch   cv4_pencil_sketch   $202
 
+; ---- video : optical flow / background subtraction / trackers ----
+; オプティカルフロー
+#func global cv4_optflow_farneback cv4_optflow_farneback $202
+#func global cv4_optflow_lk        cv4_optflow_lk        $202
+; 背景差分
+#func global cv4_bgsub_create_mog2 cv4_bgsub_create_mog2 $202
+#func global cv4_bgsub_create_knn  cv4_bgsub_create_knn  $202
+#func global cv4_bgsub_apply       cv4_bgsub_apply       $202
+#func global cv4_bgsub_free        cv4_bgsub_free        $202
+; トラッカ (OpenCV 4.12 main: MIL のみ。KCF/CSRT は contrib 同梱)
+#func global cv4_tracker_create_mil  cv4_tracker_create_mil  $202
+#func global cv4_tracker_init        cv4_tracker_init        $202
+#func global cv4_tracker_update      cv4_tracker_update      $202
+#func global cv4_tracker_free        cv4_tracker_free        $202
+
 #endif
