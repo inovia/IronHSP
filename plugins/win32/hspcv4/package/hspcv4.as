@@ -264,6 +264,16 @@
 #func global cv4_scharr         cv4_scharr         $202
 #func global cv4_laplacian      cv4_laplacian      $202
 
+; ---- arbitrary kernel convolution (Phase 15) ----
+; cv4_filter2d_3x3 dst, src, k00, k01, k02, k10, k11, k12, k20, k21, k22 [, delta]
+;   3x3 任意カーネルで畳み込み。9 つの要素を直接 double で指定。
+;   例 (sharpen): cv4_filter2d_3x3 dst, src, 0,-1,0, -1,5,-1, 0,-1,0
+;   例 (emboss):  cv4_filter2d_3x3 dst, src, -2,-1,0, -1,1,1, 0,1,2, 128
+; cv4_filter2d_mat dst, src, kernel_mat_id [, delta]
+;   任意サイズの kernel を Mat ハンドルで渡す版 (高度用途)
+#func global cv4_filter2d_3x3   cv4_filter2d_3x3   $202
+#func global cv4_filter2d_mat   cv4_filter2d_mat   $202
+
 ; ---- histogram / LUT / normalize ----
 #func global cv4_equalize_hist  cv4_equalize_hist  $202
 #func global cv4_clahe          cv4_clahe          $202

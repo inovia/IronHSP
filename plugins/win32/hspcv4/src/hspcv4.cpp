@@ -3983,6 +3983,64 @@ CV4_EXPORT BOOL WINAPI cv4_laplacian(HSPEXINFO* hei, int p1, int p2, int p3)
       catch (...) { return fail("cv4_laplacian: unknown"); }
 }
 
+//  cv4_filter2d_3x3 dst, src, k00, k01, k02, k10, k11, k12, k20, k21, k22 [, delta=0]
+//    3x3 任意カーネルで畳み込み。
+//    HSP に動的 double 配列を渡す自然な方法が無いので、9 つの double を
+//    直接パラメータとして受け取る形にしている。(ほとんどのカーネルは 3x3 で済む)
+//    sharpen / emboss / edge / motion blur 等の効果を作りたい時に使用。
+//    より大きなカーネルが必要な場合は cv4_blur / cv4_gauss / cv4_median /
+//    cv4_filter2d_mat (将来追加予定) を使用。
+CV4_EXPORT BOOL WINAPI cv4_filter2d_3x3(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        double k[9];
+        for (int i = 0; i < 9; ++i) k[i] = hei->HspFunc_prm_getdd(0.0);
+        double delta = hei->HspFunc_prm_getdd(0.0);
+
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_filter2d_3x3: invalid source");
+
+        cv::Mat kernel = (cv::Mat_<double>(3, 3) <<
+            k[0], k[1], k[2],
+            k[3], k[4], k[5],
+            k[6], k[7], k[8]);
+
+        cv::Mat out;
+        cv::filter2D(*src, out, -1, kernel, cv::Point(-1, -1), delta);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_filter2d_3x3: unknown"); }
+}
+
+//  cv4_filter2d_mat dst, src, kernel_mat_id [, delta=0]
+//    任意サイズの kernel を Mat ハンドル (CV_32F or CV_64F) で渡す版。
+//    cv4_imread_flags でカーネルを読み込んで使う等の応用が可能。
+CV4_EXPORT BOOL WINAPI cv4_filter2d_mat(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id    = getint();
+        int src_id    = getint();
+        int kernel_id = getint();
+        double delta  = hei->HspFunc_prm_getdd(0.0);
+        cv::Mat* src    = hspcv4::handle_get(src_id);
+        cv::Mat* kernel = hspcv4::handle_get(kernel_id);
+        if (!src || src->empty()) return fail("cv4_filter2d_mat: invalid source");
+        if (!kernel || kernel->empty()) return fail("cv4_filter2d_mat: invalid kernel");
+        cv::Mat out;
+        cv::filter2D(*src, out, -1, *kernel, cv::Point(-1, -1), delta);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_filter2d_mat: unknown"); }
+}
+
 
 //============================================================================
 //  Histogram / LUT / normalize

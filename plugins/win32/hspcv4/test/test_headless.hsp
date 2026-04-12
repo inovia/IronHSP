@@ -185,6 +185,13 @@
     if stat : mes "cv4_sobel/scharr/laplacian FAIL" : end 1
     mes "cv4_sobel/scharr/laplacian OK"
 
+    ; Phase 15: filter2d_3x3 (sharpen kernel)
+    cv4_filter2d_3x3 295, 1, 0.0, -1.0, 0.0, -1.0, 5.0, -1.0, 0.0, -1.0, 0.0, 0.0
+    if stat : mes "cv4_filter2d_3x3 FAIL" : end 1
+    cv4_mat_shape 295, fl_r, fl_c, _, _
+    mes strf("cv4_filter2d_3x3 (sharpen): %dx%d", fl_r, fl_c)
+    cv4del 295
+
     ; histogram / LUT
     cv4_equalize_hist 30, 2
     cv4_clahe         31, 2, 2.0, 8
