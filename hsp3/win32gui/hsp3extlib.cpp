@@ -206,6 +206,22 @@ static int BindFUNC( STRUCTDAT *st, char *name )
 	hd = (HINSTANCE)(lib->hlib);
 	if ( hd == NULL ) return 1;
 	st->proc = (void *)GetProcAddress( hd, n );
+#ifdef HSP64
+	// x64では __stdcall 装飾名 (_name@N) は使われない。
+	// hspcmp が埋め込んだ装飾名から素の名前を抽出して再試行する。
+	if ( st->proc == NULL && n[0] == '_' ) {
+		const char *at = strchr( n + 1, '@' );
+		if ( at != NULL ) {
+			char bare[256];
+			size_t len = (size_t)(at - (n + 1));
+			if ( len < sizeof(bare) ) {
+				memcpy( bare, n + 1, len );
+				bare[len] = '\0';
+				st->proc = (void *)GetProcAddress( hd, bare );
+			}
+		}
+	}
+#endif
 	if ( st->proc == NULL ) return 1;
 	st->subid--;
 	return 0;

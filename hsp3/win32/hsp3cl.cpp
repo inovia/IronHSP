@@ -392,7 +392,6 @@ void hsp3cl_error( void )
 #ifdef HSPDEBUG
 	hsp3win_debugopen();
 	hsp3win_dialog( errmsg );
-	MessageBoxA( NULL, errmsg, "Error",MB_ICONEXCLAMATION | MB_OK );
 #else
 	hsp3win_dialog( errmsg );
 #endif
