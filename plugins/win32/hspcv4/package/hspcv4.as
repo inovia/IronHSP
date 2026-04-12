@@ -17,6 +17,34 @@
 #define global CV4_BGR2BGRA    0
 #define global CV4_BGRA2BGR    1
 
+; --- morphology structuring element shape (cv4_erode/dilate/morph_* 等) ---
+#define global CV4_MORPH_RECT    0
+#define global CV4_MORPH_CROSS   1
+#define global CV4_MORPH_ELLIPSE 2
+
+; --- adaptive threshold method (cv4_adaptive_thresh 第4引数) ---
+#define global CV4_ADAPTIVE_MEAN_C      0
+#define global CV4_ADAPTIVE_GAUSSIAN_C  1
+
+; --- distance transform type (cv4_distance_transform 第3引数) ---
+#define global CV4_DIST_L1   1
+#define global CV4_DIST_L2   2
+#define global CV4_DIST_C    3
+
+; --- template matching methods (cv4_match_template 第4引数) ---
+#define global CV4_TM_SQDIFF         0
+#define global CV4_TM_SQDIFF_NORMED  1
+#define global CV4_TM_CCORR          2
+#define global CV4_TM_CCORR_NORMED   3
+#define global CV4_TM_CCOEFF         4
+#define global CV4_TM_CCOEFF_NORMED  5
+
+; --- normalize types (cv4_normalize 第5引数) ---
+#define global CV4_NORM_INF      1
+#define global CV4_NORM_L1       2
+#define global CV4_NORM_L2       4
+#define global CV4_NORM_MINMAX  32
+
 ; --- cv::threshold types (cv4thresh 第5引数) ---
 #define global CV4_THRESH_BINARY      0
 #define global CV4_THRESH_BINARY_INV  1
@@ -168,5 +196,51 @@
 #func global cv4_dnn_set_input  cv4_dnn_set_input  $202
 #func global cv4_dnn_forward    cv4_dnn_forward    $202
 #func global cv4_dnn_argmax     cv4_dnn_argmax     $202
+
+; ---- morphology ----
+;   shape : CV4_MORPH_RECT / CROSS / ELLIPSE
+;   ksize : カーネルサイズ (奇数推奨)
+#func global cv4_erode          cv4_erode          $202
+#func global cv4_dilate         cv4_dilate         $202
+#func global cv4_morph_open     cv4_morph_open     $202
+#func global cv4_morph_close    cv4_morph_close    $202
+#func global cv4_morph_gradient cv4_morph_gradient $202
+#func global cv4_morph_tophat   cv4_morph_tophat   $202
+#func global cv4_morph_blackhat cv4_morph_blackhat $202
+
+; ---- gradient / edge operators ----
+#func global cv4_sobel          cv4_sobel          $202
+#func global cv4_scharr         cv4_scharr         $202
+#func global cv4_laplacian      cv4_laplacian      $202
+
+; ---- histogram / LUT / normalize ----
+#func global cv4_equalize_hist  cv4_equalize_hist  $202
+#func global cv4_clahe          cv4_clahe          $202
+#func global cv4_normalize      cv4_normalize      $202
+#func global cv4_lut            cv4_lut            $202
+
+; ---- advanced thresholding ----
+#func global cv4_adaptive_thresh   cv4_adaptive_thresh   $202
+#func global cv4_distance_transform cv4_distance_transform $202
+
+; ---- Hough transforms ----
+; 出力は Mat ハンドル (Nx2 / Nx4 / Nx3 の行列)。cv4_mat_shape と
+; cv4_mat_geti / cv4_mat_getf でイテレートする。
+#func global cv4_hough_lines    cv4_hough_lines    $202
+#func global cv4_hough_linesp   cv4_hough_linesp   $202
+#func global cv4_hough_circles  cv4_hough_circles  $202
+
+; ---- template matching ----
+#func global cv4_match_template cv4_match_template $202
+
+; ---- image pyramids ----
+#func global cv4_pyr_up         cv4_pyr_up         $202
+#func global cv4_pyr_down       cv4_pyr_down       $202
+
+; ---- Mat generic accessors (Hough 結果や DNN 出力を HSP から読む) ----
+#func global cv4_mat_shape      cv4_mat_shape      $202
+#func global cv4_mat_geti       cv4_mat_geti       $202
+#func global cv4_mat_getf       cv4_mat_getf       $202
+#func global cv4_min_max_loc    cv4_min_max_loc    $202
 
 #endif

@@ -164,6 +164,73 @@
         }
     }
 
+    ; --- Phase 3: imgproc 拡張 ---
+    ; morphology
+    cv4_erode   20, 1, CV4_MORPH_RECT, 3
+    if stat : mes "cv4_erode FAIL" : end 1
+    cv4_dilate  21, 1, CV4_MORPH_ELLIPSE, 5
+    if stat : mes "cv4_dilate FAIL" : end 1
+    cv4_morph_open     22, 1, CV4_MORPH_RECT, 3
+    cv4_morph_close    23, 1, CV4_MORPH_RECT, 3
+    cv4_morph_gradient 24, 1, CV4_MORPH_RECT, 3
+    cv4_morph_tophat   25, 1, CV4_MORPH_RECT, 7
+    cv4_morph_blackhat 26, 1, CV4_MORPH_RECT, 7
+    if stat : mes "cv4_morph_* FAIL" : end 1
+    mes "cv4_erode/dilate/morph_* OK"
+
+    ; gradient operators
+    cv4_sobel     27, 2, 1, 0, 3
+    cv4_scharr    28, 2, 1, 0
+    cv4_laplacian 29, 2, 3
+    if stat : mes "cv4_sobel/scharr/laplacian FAIL" : end 1
+    mes "cv4_sobel/scharr/laplacian OK"
+
+    ; histogram / LUT
+    cv4_equalize_hist 30, 2
+    cv4_clahe         31, 2, 2.0, 8
+    cv4_normalize     32, 1, 0.0, 255.0, CV4_NORM_MINMAX
+    ; LUT: 反転テーブル
+    dim lut_table, 256
+    repeat 256
+        lut_table(cnt) = 255 - cnt
+    loop
+    cv4_lut 33, 1, lut_table
+    if stat : mes "cv4_equalize/clahe/normalize/lut FAIL" : end 1
+    mes "cv4_equalize_hist/clahe/normalize/lut OK"
+
+    ; advanced thresholding
+    cv4_adaptive_thresh 34, 2, 255.0, CV4_ADAPTIVE_GAUSSIAN_C, CV4_THRESH_BINARY, 11, 2.0
+    cv4_distance_transform 35, 8, CV4_DIST_L2, 3
+    if stat : mes "cv4_adaptive_thresh/distance_transform FAIL" : end 1
+    mes "cv4_adaptive_thresh/distance_transform OK"
+
+    ; Hough transforms (Canny 結果の 7 をソースに使う)
+    cv4_hough_lines  36, 7, 1.0, 0.017453293, 80
+    cv4_hough_linesp 37, 7, 1.0, 0.017453293, 50, 30.0, 10.0
+    cv4_hough_circles 38, 2, 1.0, 20.0, 100.0, 30.0, 10, 100
+    if stat : mes "cv4_hough_* FAIL" : end 1
+
+    ; shape 検査 (cv4_mat_shape)
+    cv4_mat_shape 38, hc_rows, hc_cols, hc_type, hc_ch
+    mes strf("cv4_hough_circles result: %d rows x %d cols (type=%d)", hc_rows, hc_cols, hc_type)
+
+    ; template matching (self-matching で完璧な一致)
+    cv4_match_template 39, 1, 1, CV4_TM_CCOEFF_NORMED
+    if stat : mes "cv4_match_template FAIL" : end 1
+    cv4_mat_shape 39, tm_r, tm_c, _, _
+    ; 自己マッチだと result は 1x1 になる
+    if (tm_r != 1) | (tm_c != 1) { mes "match_template self size unexpected" : end 1 }
+    cv4_min_max_loc 39, mn_x10000, mx_x10000, mn_x, mn_y, mx_x, mx_y
+    mes strf("match_template self: max=%d (x10000), at (%d,%d)", mx_x10000, mx_x, mx_y)
+    mes "cv4_match_template + cv4_min_max_loc OK"
+
+    ; pyramids
+    cv4_pyr_down 40, 1
+    cv4_pyr_up   41, 40
+    cv4_mat_shape 40, pd_r, pd_c, _, _
+    if (pd_r != 120) | (pd_c != 160) { mes "pyr_down size unexpected" : end 1 }
+    mes "cv4_pyr_up/down OK"
+
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---
     cv4_dnn_load 0, "nonexistent_model.onnx"
     if stat = 0 {
@@ -186,6 +253,9 @@
     cv4del 11
     cv4del 12
     cv4del 13
+    repeat 22
+        cv4del 20 + cnt
+    loop
     cv4reset
     mes "cv4del/cv4reset OK"
 
