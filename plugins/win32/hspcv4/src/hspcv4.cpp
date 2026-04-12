@@ -291,6 +291,99 @@ CV4_EXPORT BOOL WINAPI cv4getimg(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //============================================================================
+//  Advanced : OpenCV native window display with HSP-safe key wait
+//
+//  cv::waitKey は独自の GetMessage ループを回すため HSP のメインウィンドウの
+//  メッセージポンプと競合して SEH クラッシュを起こす (Phase 1 で確認済み)。
+//  代わりに OpenCV 4.x で追加された cv::pollKey() を使ってノンブロッキング
+//  に問い合わせし、HSP 側の処理を阻害しない形で実装する。
+//============================================================================
+
+//  cv4_show id, "window_name"
+//    OpenCV ウィンドウに画像を表示 (非ブロッキング)。
+//    ウィンドウが無ければ namedWindow で作成。
+CV4_EXPORT BOOL WINAPI cv4_show(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id        = getint();
+        const char* w = getstr_def("hspcv4");
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4_show: invalid handle");
+        cv::namedWindow(w, cv::WINDOW_AUTOSIZE);
+        cv::imshow(w, *m);
+        cv::pollKey();   // 1 回ポンプしてウィンドウを可視化
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_show: unknown exception");
+    }
+}
+
+//  cv4_wait_key ms
+//    タイムアウト付きキー待ち。stat にキーコード (押されなければ -1)。
+//    ms=0 は「押されるまで待つ」(ただし 10ms ポーリングなのでプロセスは
+//    応答可能な状態を保つ)。
+//    内部で cv::pollKey() を回すので OpenCV ウィンドウの描画更新も行われる。
+CV4_EXPORT BOOL WINAPI cv4_wait_key(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int ms = getint_def(0);
+        DWORD start = GetTickCount();
+        while (true) {
+            int key = cv::pollKey();
+            if (key >= 0) return key;
+            if (ms > 0) {
+                DWORD elapsed = GetTickCount() - start;
+                if (elapsed >= (DWORD)ms) return -1;
+            }
+            Sleep(10);
+        }
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_wait_key: unknown exception");
+    }
+}
+
+//  cv4_close_window "window_name"
+//    指定 OpenCV ウィンドウを閉じる。
+CV4_EXPORT BOOL WINAPI cv4_close_window(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        const char* w = getstr();
+        cv::destroyWindow(w ? w : "hspcv4");
+        cv::pollKey();  // 閉じる処理をポンプ
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_close_window: unknown exception");
+    }
+}
+
+//  cv4_close_all
+//    全 OpenCV ウィンドウを閉じる。
+CV4_EXPORT BOOL WINAPI cv4_close_all(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)hei; (void)p1; (void)p2; (void)p3;
+    try {
+        cv::destroyAllWindows();
+        cv::pollKey();
+        return 0;
+    } catch (...) {
+        return -1;
+    }
+}
+
+
+//============================================================================
 //  Geometric : flip / rotate / crop / warp
 //============================================================================
 

@@ -85,4 +85,21 @@
 #func global cv4crop    cv4crop    $202
 #func global cv4warp    cv4warp    $202
 
+; ---- advanced: OpenCV native window display (玄人向け) ----
+;
+; 注意: cv::waitKey は HSP のメッセージポンプと競合してクラッシュするため
+;       beginner API には含まれません。代わりに cv::pollKey() ベースの
+;       ノンブロッキング実装を用意しています。
+;
+;   cv4_show       id, "window"       — OpenCV ウィンドウに画像を表示
+;   cv4_wait_key   ms                  — タイムアウト付きキー待ち (stat=キー/-1)
+;                                        ms=0 で 10ms 間隔のポーリング待ち
+;   cv4_close_window "window"         — 指定ウィンドウを閉じる
+;   cv4_close_all                      — 全 OpenCV ウィンドウを閉じる
+;
+#func global cv4_show          cv4_show          $202
+#func global cv4_wait_key      cv4_wait_key      $202
+#func global cv4_close_window  cv4_close_window  $202
+#func global cv4_close_all     cv4_close_all     $202
+
 #endif
