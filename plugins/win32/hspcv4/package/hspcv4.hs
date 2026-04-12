@@ -2294,3 +2294,752 @@ var_str
 %inst
 cv::getVersionString() でビルドされている OpenCV のバージョン
 (例: "4.12.0") を str 変数に格納します。
+
+
+
+;==========================================================================
+; Phase 13a : contrib DLL proxy
+;==========================================================================
+
+%index
+cv4_contrib_version
+hspcv4_contribのバージョン取得
+%group
+hspcv4 contrib
+%prm
+var_str
+var_str : OpenCV のバージョン文字列を受け取る str 変数
+%inst
+hspcv4_contrib.dll が同じフォルダにあるかを確認するためのテスト関数。
+contrib DLL がロードできた場合は OpenCV のバージョンと
+"(hspcv4_contrib loaded)" を返します。ロードできなかった場合は
+stat に非 0 のエラーコードが入ります。
+^p
+すべての cv4_contrib_xxx 系命令は contrib DLL がない場合に
+graceful にエラーになるので、配布時に contrib を含めない選択も可能です。
+^p
+
+
+
+;==========================================================================
+; Phase 13b-1 : tracking (KCF / CSRT) - contrib only
+;==========================================================================
+
+%index
+cv4_tracker_create_csrt
+CSRTトラッカの生成
+%group
+hspcv4 contrib トラッカ
+%prm
+tid
+tid : トラッカハンドル ID
+%inst
+cv::TrackerCSRT::create による Discriminative Correlation Filter with
+Channel and Spatial Reliability tracker。高精度だがやや重い。
+init/update/free は既存の cv4_tracker_init/update/free を共有します。
+
+
+
+%index
+cv4_tracker_create_kcf
+KCFトラッカの生成
+%group
+hspcv4 contrib トラッカ
+%prm
+tid
+%inst
+cv::TrackerKCF::create による Kernelized Correlation Filter tracker。
+CSRT より高速で、リアルタイム追跡向けのバランス型。
+
+
+
+;==========================================================================
+; Phase 13b-2 : ArUco markers (main DLL, OpenCV 4.x)
+;==========================================================================
+
+%index
+cv4_aruco_detect
+ArUcoマーカ検出
+%group
+hspcv4 物体検出
+%prm
+rects_array, ids_array, var_count, img_id, dict
+rects_array : stdim cv_rect, N で確保した検出結果バッファ
+ids_array : マーカ ID を受け取る int 配列
+var_count : 検出数を受け取る int 変数
+img_id : 検出対象画像のハンドル
+dict : 辞書 (CV4_ARUCO_DICT_4X4_50 等)
+%inst
+cv::aruco::ArucoDetector で ArUco マーカを検出します。
+検出した各マーカの外接矩形を rects_array に、ID を ids_array に格納します。
+基本検出は OpenCV 4.x main objdetect モジュールに含まれているので
+contrib DLL は不要です。
+
+
+
+%index
+cv4_aruco_generate
+ArUcoマーカ画像の生成
+%group
+hspcv4 物体検出
+%prm
+dst_id, dict, marker_id, side_pixels, border_bits
+dst_id : 出力 Mat ハンドル
+dict : 辞書 (CV4_ARUCO_DICT_4X4_50 等)
+marker_id : 生成するマーカの ID
+side_pixels : 出力画像の一辺のピクセル数
+border_bits : マーカの外側境界ビット数 (省略時 1)
+%inst
+cv::aruco::generateImageMarker で指定 ID のマーカ画像を生成します。
+印刷して撮影 → cv4_aruco_detect で読み取りという流れで使えます。
+
+
+
+;==========================================================================
+; Phase 13b-3 : xfeatures2d (BRIEF/FREAK/DAISY/Star/HarrisLaplace) - contrib
+;==========================================================================
+
+%index
+cv4_star_detect
+Star特徴点検出
+%group
+hspcv4 contrib 特徴点
+%prm
+kp_id, img_id
+%inst
+cv::xfeatures2d::StarDetector::create による CenSurE スケール不変
+特徴点検出。記述子は別途 cv4_brief_compute / cv4_freak_compute /
+cv4_daisy_compute と組み合わせて使用します。
+
+
+
+%index
+cv4_harris_laplace_detect
+Harris-Laplace特徴点検出
+%group
+hspcv4 contrib 特徴点
+%prm
+kp_id, img_id
+%inst
+cv::xfeatures2d::HarrisLaplaceFeatureDetector による Harris コーナー
++ Laplacian スケール選択。スケール不変のコーナー検出。
+
+
+
+%index
+cv4_brief_compute
+BRIEF記述子の計算
+%group
+hspcv4 contrib 特徴点
+%prm
+kp_id, desc_id, img_id, bytes
+kp_id : キーポイント集合 (in/out、フィルタリングされる)
+desc_id : 記述子 Mat ハンドル
+bytes : 記述子のバイト数 (16/32/64、デフォルト 32)
+%inst
+cv::xfeatures2d::BriefDescriptorExtractor。Binary Robust Independent
+Elementary Features 記述子を計算します。コンパクトでマッチング高速。
+
+
+
+%index
+cv4_freak_compute
+FREAK記述子の計算
+%group
+hspcv4 contrib 特徴点
+%prm
+kp_id, desc_id, img_id
+%inst
+cv::xfeatures2d::FREAK。Fast Retina Keypoint 記述子。
+人間の網膜に着想を得たサンプリングパターンを使用。
+内部で keypoints を一部フィルタリングするので kp_id の中身が変化します。
+
+
+
+%index
+cv4_daisy_compute
+DAISY記述子の計算
+%group
+hspcv4 contrib 特徴点
+%prm
+kp_id, desc_id, img_id
+%inst
+cv::xfeatures2d::DAISY。SIFT に近い精度で高速な記述子。
+密マッチング (dense matching) にも適しています。
+
+
+
+;==========================================================================
+; Phase 13b-4 : bgsegm (additional background subtractors) - contrib
+;==========================================================================
+
+%index
+cv4_bgsub_create_cnt
+CNT背景差分の生成
+%group
+hspcv4 contrib 動画解析
+%prm
+bg_id, min_pixel_stability, use_history, max_pixel_stability, parallel
+%inst
+cv::bgsegm::createBackgroundSubtractorCNT。Counting based の高速 BGS。
+組み込み機器向けに最適化されています。
+
+
+
+%index
+cv4_bgsub_create_gmg
+GMG背景差分の生成
+%group
+hspcv4 contrib 動画解析
+%prm
+bg_id, init_frames, decision_thresh
+%inst
+cv::bgsegm::createBackgroundSubtractorGMG。Godbehere-Matsukawa-Goldberg
+の手法。長期間の背景モデル学習向け。
+
+
+
+%index
+cv4_bgsub_create_lsbp
+LSBP背景差分の生成
+%group
+hspcv4 contrib 動画解析
+%prm
+bg_id
+%inst
+cv::bgsegm::createBackgroundSubtractorLSBP。Local Binary Similarity
+Pattern を使用した背景差分。
+
+
+
+%index
+cv4_bgsub_create_gsoc
+GSOC背景差分の生成
+%group
+hspcv4 contrib 動画解析
+%prm
+bg_id
+%inst
+cv::bgsegm::createBackgroundSubtractorGSOC。Generalized Subtraction-on-
+Codebook、Google Summer of Code 採用の高性能背景差分。
+
+
+
+%index
+cv4_bgsub_create_mog
+MOG背景差分の生成
+%group
+hspcv4 contrib 動画解析
+%prm
+bg_id, history, n_mixtures, bg_ratio, noise_sigma
+%inst
+cv::bgsegm::createBackgroundSubtractorMOG。オリジナルの MOG (MOG2 の前身)。
+軽量で組み込み向け。
+
+
+
+;==========================================================================
+; Phase 13b-5 : ximgproc (selected) - contrib
+;==========================================================================
+
+%index
+cv4_thinning
+細線化 (skeletonization)
+%group
+hspcv4 contrib フィルタ
+%prm
+dst_id, src_id, type
+type : 0=ZHANGSUEN, 1=GUOHALL
+%inst
+cv::ximgproc::thinning による 2 値画像の細線化 (1 ピクセル幅まで)。
+文字認識の前処理などに使用します。
+
+
+
+%index
+cv4_niblack
+Niblack 適応二値化
+%group
+hspcv4 contrib フィルタ
+%prm
+dst_id, src_id, max_value, type, block_size, k
+%inst
+cv::ximgproc::niBlackThreshold による Niblack 法の適応二値化。
+古文書等のスキャン画像の OCR 前処理に強い。
+
+
+
+%index
+cv4_anisotropic_diffusion
+異方性拡散 (Perona-Malik)
+%group
+hspcv4 contrib フィルタ
+%prm
+dst_id, src_id, alpha, K, niters
+%inst
+cv::ximgproc::anisotropicDiffusion。エッジを保存しながらノイズを除去。
+
+
+
+%index
+cv4_guided_filter
+ガイデッドフィルタ
+%group
+hspcv4 contrib フィルタ
+%prm
+dst_id, guide_id, src_id, radius, eps
+%inst
+cv::ximgproc::guidedFilter。エッジ保存スムージングの代表格。
+バイラテラルフィルタより高速で高品質。
+
+
+
+%index
+cv4_l0_smooth
+L0勾配最小化スムージング
+%group
+hspcv4 contrib フィルタ
+%prm
+dst_id, src_id, lambda, kappa
+%inst
+cv::ximgproc::l0Smooth。Image abstraction や cartoonization に有効。
+
+
+
+%index
+cv4_fast_global_smoother
+Fast Global Smoother
+%group
+hspcv4 contrib フィルタ
+%prm
+dst_id, guide_id, src_id, lambda, sigma_color
+%inst
+cv::ximgproc::fastGlobalSmootherFilter。エッジ保存スムージングの
+高速実装。
+
+
+
+%index
+cv4_weighted_median
+重み付きメジアンフィルタ
+%group
+hspcv4 contrib フィルタ
+%prm
+dst_id, joint_id, src_id, radius
+%inst
+cv::ximgproc::weightedMedianFilter。joint 画像のエッジで重み付けする
+メジアンフィルタ。
+
+
+
+;==========================================================================
+; Phase 13b-6 : img_hash (perceptual hashes) - contrib
+;==========================================================================
+
+%index
+cv4_phash
+pHash (DCT ベース)
+%group
+hspcv4 contrib ハッシュ
+%prm
+dst_id, src_id
+%inst
+cv::img_hash::pHash。DCT ベースのパーセプチュアルハッシュ。
+リサイズや軽い色調整に頑健。出力は 1x8 = 64bit。
+
+
+
+%index
+cv4_average_hash
+aHash (平均ハッシュ)
+%group
+hspcv4 contrib ハッシュ
+%prm
+dst_id, src_id
+%inst
+cv::img_hash::averageHash。最も単純な平均ベースのハッシュ。
+出力は 1x8 = 64bit。
+
+
+
+%index
+cv4_block_mean_hash
+ブロック平均ハッシュ
+%group
+hspcv4 contrib ハッシュ
+%prm
+dst_id, src_id
+%inst
+cv::img_hash::blockMeanHash。ブロック平均ベース。出力は 1x32 = 256bit。
+
+
+
+%index
+cv4_color_moment_hash
+カラーモーメントハッシュ
+%group
+hspcv4 contrib ハッシュ
+%prm
+dst_id, src_id
+%inst
+cv::img_hash::colorMomentHash。色のモーメントを使うので色変化に
+最も頑健。
+
+
+
+%index
+cv4_marr_hildreth_hash
+Marr-Hildreth ハッシュ
+%group
+hspcv4 contrib ハッシュ
+%prm
+dst_id, src_id
+%inst
+cv::img_hash::marrHildrethHash。Marr-Hildreth エッジ検出ベース。
+
+
+
+%index
+cv4_radial_variance_hash
+放射状分散ハッシュ
+%group
+hspcv4 contrib ハッシュ
+%prm
+dst_id, src_id
+%inst
+cv::img_hash::radialVarianceHash。回転に強いハッシュ。
+
+
+
+;==========================================================================
+; Phase 13b-7 : optflow (advanced dense flows) - contrib
+;==========================================================================
+
+%index
+cv4_optflow_dualtvl1
+Dual TV-L1 オプティカルフロー
+%group
+hspcv4 contrib 動画解析
+%prm
+flow_id, prev_id, next_id
+%inst
+cv::optflow::createOptFlow_DualTVL1。高精度な dense optical flow の
+定番。Farneback より精度高い (が遅い)。
+
+
+
+%index
+cv4_optflow_deepflow
+DeepFlow オプティカルフロー
+%group
+hspcv4 contrib 動画解析
+%prm
+flow_id, prev_id, next_id
+%inst
+cv::optflow::createOptFlow_DeepFlow。エッジ保存に優れた dense flow。
+
+
+
+%index
+cv4_optflow_sparse_to_dense
+Sparse-to-Dense オプティカルフロー
+%group
+hspcv4 contrib 動画解析
+%prm
+flow_id, prev_id, next_id
+%inst
+cv::optflow::createOptFlow_SparseToDense。疎なマッチを密に補間して
+高速かつ高精度な flow を生成。
+
+
+
+;==========================================================================
+; Phase 13b-8 : dnn_superres (super resolution) - contrib
+;==========================================================================
+
+%index
+cv4_dnn_sr_create
+超解像モデルの読み込み
+%group
+hspcv4 contrib DNN
+%prm
+sr_id, model_path, algo_name, scale
+sr_id : 超解像ハンドル ID (contrib DLL 内の独立空間)
+model_path : .pb モデルファイルのパス
+algo_name : "edsr" / "espcn" / "fsrcnn" / "lapsrn"
+scale : 倍率 (2/3/4/8 等、モデル依存)
+%inst
+cv::dnn_superres::DnnSuperResImpl による超解像 DNN モデルを読み込みます。
+モデル .pb ファイルは別途 GitHub から取得してください
+(例: https://github.com/Saafke/EDSR_Tensorflow/blob/master/models/EDSR_x4.pb)。
+
+
+
+%index
+cv4_dnn_sr_upsample
+超解像の実行
+%group
+hspcv4 contrib DNN
+%prm
+sr_id, dst_img_id, src_img_id
+%inst
+src_img を sr のスケール倍に超解像して dst_img に格納します。
+
+
+
+%index
+cv4_dnn_sr_free
+超解像ハンドルの解放
+%group
+hspcv4 contrib DNN
+%prm
+sr_id
+
+
+
+;==========================================================================
+; Phase 14 : calib3d full
+;==========================================================================
+
+%index
+cv4_camera_matrix
+カメラ内部行列の生成
+%group
+hspcv4 calib3d
+%prm
+dst_id, fx, fy, cx, cy
+fx, fy : 焦点距離 (ピクセル単位)
+cx, cy : 主点座標
+%inst
+3x3 のカメラ内部行列 K = [[fx,0,cx],[0,fy,cy],[0,0,1]] を CV_64F Mat
+として生成します。
+
+
+
+%index
+cv4_dist_coeffs
+歪み係数ベクトルの生成
+%group
+hspcv4 calib3d
+%prm
+dst_id, k1, k2, p1, p2, k3
+k1, k2, k3 : 半径方向歪み係数
+p1, p2 : 接線方向歪み係数
+%inst
+1x5 の歪み係数ベクトル D = [k1, k2, p1, p2, k3] を CV_64F Mat として生成。
+
+
+
+%index
+cv4_undistort
+画像の歪み補正
+%group
+hspcv4 calib3d
+%prm
+dst_id, src_id, K_id, D_id
+%inst
+cv::undistort で K と D に基づいて画像の歪みを補正します。
+レンズ補正後の正規化画像が得られます。
+
+
+
+%index
+cv4_rodrigues
+回転ベクトル <-> 回転行列
+%group
+hspcv4 calib3d
+%prm
+dst_id, src_id
+%inst
+cv::Rodrigues。3x1 の回転ベクトル → 3x3 回転行列、または逆方向。
+入力が float/double でない場合は自動的に CV_64F に変換します。
+
+
+
+%index
+cv4_solve_pnp
+3D-2D 対応からの姿勢推定
+%group
+hspcv4 calib3d
+%prm
+rvec_id, tvec_id, obj_pts_id, img_pts_id, K_id, D_id, flags
+flags : 0=ITERATIVE, 1=EPNP, 2=P3P, ...
+%inst
+cv::solvePnP で 3D 点群と対応する 2D 投影点から、カメラの回転と
+並進を推定します。出力 rvec/tvec は 3x1 CV_64F。
+AR 等で物体の姿勢を求めるのに使用。
+
+
+
+%index
+cv4_project_points
+3D点を2Dに投影
+%group
+hspcv4 calib3d
+%prm
+img_pts_id, obj_pts_id, rvec_id, tvec_id, K_id, D_id
+%inst
+cv::projectPoints で 3D 点群を rvec/tvec/K/D に従って 2D 画像座標に
+投影します。
+
+
+
+%index
+cv4_find_chessboard_corners
+チェスボードコーナーの検出
+%group
+hspcv4 calib3d
+%prm
+corners_id, img_id, w, h
+w, h : チェスボードの内側コーナー数 (例: 7x5 マスなら w=6, h=4)
+%inst
+cv::findChessboardCorners でカメラキャリブレーション用のチェスボード
+内側コーナーを検出します。検出失敗時は stat に非 0。
+結果は Nx2 CV_32F の Mat に格納されます。
+
+
+
+;==========================================================================
+; Phase 15 : filter2D (arbitrary kernel convolution)
+;==========================================================================
+
+%index
+cv4_filter2d_3x3
+3x3任意カーネル畳み込み
+%group
+hspcv4 フィルタ命令
+%prm
+dst_id, src_id, k00, k01, k02, k10, k11, k12, k20, k21, k22, delta
+%inst
+3x3 任意カーネルで畳み込みを実行します。9 つのカーネル要素を直接 double で
+指定し、最後に delta (オフセット) を渡します。
+^p
+sharpen : (0,-1,0, -1,5,-1, 0,-1,0)
+emboss  : (-2,-1,0, -1,1,1, 0,1,2) with delta=128
+edge    : (-1,-1,-1, -1,8,-1, -1,-1,-1)
+^p
+
+
+
+%index
+cv4_filter2d_mat
+任意サイズMatカーネルで畳み込み
+%group
+hspcv4 フィルタ命令
+%prm
+dst_id, src_id, kernel_mat_id, delta
+kernel_mat_id : CV_32F または CV_64F の Mat ハンドル (任意サイズ)
+%inst
+カーネルを Mat ハンドルで指定する版。cv4_imread_flags で float 画像を
+読み込むなどして任意サイズのカーネルを使えます。
+
+
+
+;==========================================================================
+; Phase 16 : DNN extras
+;==========================================================================
+
+%index
+cv4_dnn_load_caffe
+Caffeモデルの読み込み
+%group
+hspcv4 玄人向け
+%prm
+nid, prototxt_path, caffemodel_path
+%inst
+cv::dnn::readNetFromCaffe で Caffe 形式のモデルを読み込みます。
+
+
+
+%index
+cv4_dnn_load_tf
+TensorFlowモデルの読み込み
+%group
+hspcv4 玄人向け
+%prm
+nid, model_pb_path, config_pbtxt_path
+%inst
+cv::dnn::readNetFromTensorflow で TensorFlow .pb モデルを読み込みます。
+config (pbtxt) は省略可能です。
+
+
+
+%index
+cv4_dnn_load_darknet
+Darknet (YOLO) モデルの読み込み
+%group
+hspcv4 玄人向け
+%prm
+nid, cfg_path, weights_path
+%inst
+cv::dnn::readNetFromDarknet で YOLO 系 Darknet モデルを読み込みます。
+
+
+
+%index
+cv4_dnn_set_backend
+DNN バックエンド/ターゲット選択
+%group
+hspcv4 玄人向け
+%prm
+nid, backend, target
+backend : 0=DEFAULT, 3=OPENCV, 5=CUDA
+target : 0=CPU, 1=OPENCL, 2=OPENCL_FP16, 6=CUDA, 7=CUDA_FP16
+%inst
+推論バックエンドとターゲットデバイスを指定します。CUDA が利用可能な
+環境では GPU 推論で大幅高速化できます。
+
+
+
+%index
+cv4_dnn_nms_boxes
+Non-Maximum Suppression
+%group
+hspcv4 玄人向け
+%prm
+rects_array, var_count, scores_array, score_thresh_x10000, nms_thresh_x10000
+rects_array : cv_rect 配列 (in/out、抑制後の矩形が前から詰められる)
+var_count : 入力時=候補数、出力時=NMS 後の数
+scores_array : 各候補のスコア (x10000 固定小数点 int)
+score_thresh : スコア閾値 (x10000)
+nms_thresh : IOU 閾値 (x10000)
+%inst
+cv::dnn::NMSBoxes による Non-Maximum Suppression。重なりの大きい矩形を
+スコアに基づいて抑制します。YOLO 等の検出後処理で必須。
+
+
+
+;==========================================================================
+; Phase 17 : hierarchical contours
+;==========================================================================
+
+%index
+cv4_find_contours_hier
+階層情報付き輪郭検出
+%group
+hspcv4 輪郭解析
+%prm
+cid, hierarchy_mat_id, src_id, mode, method
+cid : 輪郭セットハンドル
+hierarchy_mat_id : 階層情報を格納する Mat ハンドル (Nx4 CV_32S)
+src_id : 2 値画像
+mode : CV4_RETR_CCOMP / CV4_RETR_TREE などの階層情報を返すモード
+method : 近似手法
+%inst
+cv::findContours の階層情報付き版。各輪郭について
+[next, prev, first_child, parent] のインデックスが hierarchy_mat に
+Nx4 CV_32S Mat として格納されます。なしは -1。
+RETR_TREE モードでは内側の穴も含めて完全な階層が取得できます。
+
+
+
+%index
+cv4_contour_hier_get
+階層情報の取得 (helper)
+%group
+hspcv4 輪郭解析
+%prm
+hier_mat_id, idx, var_next, var_prev, var_child, var_parent
+%inst
+特定の輪郭の階層関係を 4 つの int 変数に格納します。
+cv4_mat_geti でも読めますが、こちらの方が直接的です。
