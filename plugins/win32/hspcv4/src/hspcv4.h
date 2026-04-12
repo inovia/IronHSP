@@ -29,6 +29,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/objdetect.hpp>
+#include <opencv2/objdetect/aruco_detector.hpp>
 #include <opencv2/videoio.hpp>
 #include <opencv2/dnn.hpp>
 #include <opencv2/features2d.hpp>

@@ -8,6 +8,25 @@
 #ifndef __hspcv4__
 #define __hspcv4__
 
+; --- aruco predefined dictionaries (cv4_aruco_detect / generate 第引数) ---
+#define global CV4_ARUCO_DICT_4X4_50      0
+#define global CV4_ARUCO_DICT_4X4_100     1
+#define global CV4_ARUCO_DICT_4X4_250     2
+#define global CV4_ARUCO_DICT_4X4_1000    3
+#define global CV4_ARUCO_DICT_5X5_50      4
+#define global CV4_ARUCO_DICT_5X5_100     5
+#define global CV4_ARUCO_DICT_5X5_250     6
+#define global CV4_ARUCO_DICT_5X5_1000    7
+#define global CV4_ARUCO_DICT_6X6_50      8
+#define global CV4_ARUCO_DICT_6X6_100     9
+#define global CV4_ARUCO_DICT_6X6_250    10
+#define global CV4_ARUCO_DICT_6X6_1000   11
+#define global CV4_ARUCO_DICT_7X7_50     12
+#define global CV4_ARUCO_DICT_7X7_100    13
+#define global CV4_ARUCO_DICT_7X7_250    14
+#define global CV4_ARUCO_DICT_7X7_1000   15
+#define global CV4_ARUCO_DICT_ARUCO_ORIGINAL 16
+
 ; --- cv::imread flags (cv4_imread_flags 第3引数) ---
 #define global CV4_IMREAD_UNCHANGED   -1
 #define global CV4_IMREAD_GRAYSCALE    0
@@ -390,6 +409,14 @@
 #func global cv4_hog_detect_people  cv4_hog_detect_people  $202
 #func global cv4_qr_detect          cv4_qr_detect          $202
 #func global cv4_qr_decode          cv4_qr_decode          $202
+
+; ---- aruco markers (basic detection in OpenCV 4.x main module) ----
+; cv4_aruco_detect rects, ids, count, img_id [, dict=DICT_4X4_50]
+;   rects: stdim cv_rect array で確保
+;   ids: int 配列、検出したマーカ ID を格納
+; cv4_aruco_generate dst_id, dict, marker_id, side_pixels [, border=1]
+#func global cv4_aruco_detect       cv4_aruco_detect       $202
+#func global cv4_aruco_generate     cv4_aruco_generate     $202
 
 ; ---- imgcodecs extras: flags / memory buffer encode/decode ----
 #func global cv4_imread_flags   cv4_imread_flags   $202

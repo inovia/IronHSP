@@ -490,6 +490,24 @@
     if stat : mes "cv4_qr_decode FAIL" : end 1
     mes "cv4_qr_decode: '" + qr_text + "' (empty=not found)"
 
+    ; Phase 13b-2: ArUco
+    ; マーカ生成 (4x4_50 辞書から ID 17 を 200x200 px で生成)
+    cv4_aruco_generate 200, CV4_ARUCO_DICT_4X4_50, 17, 200, 1
+    if stat : mes "cv4_aruco_generate FAIL" : end 1
+    cv4_mat_shape 200, am_r, am_c, _, _
+    mes strf("cv4_aruco_generate: %dx%d marker generated", am_r, am_c)
+
+    ; 生成したマーカを検出してみる
+    stdim ar_rects, cv_rect, 8
+    dim ar_ids, 8
+    cv4_aruco_detect ar_rects, ar_ids, ar_n, 200, CV4_ARUCO_DICT_4X4_50
+    if stat : mes "cv4_aruco_detect FAIL" : end 1
+    mes strf("cv4_aruco_detect: found %d marker(s)", ar_n)
+    if ar_n > 0 {
+        mes strf("  marker[0]: id=%d bbox=(%d,%d,%d,%d)", ar_ids(0), ar_rects(0)->x, ar_rects(0)->y, ar_rects(0)->w, ar_rects(0)->h)
+    }
+    cv4del 200
+
     ; --- Phase 11: imgcodecs extras ---
     ; グレースケール強制読込
     cv4_imread_flags 160, "test_image.png", CV4_IMREAD_GRAYSCALE

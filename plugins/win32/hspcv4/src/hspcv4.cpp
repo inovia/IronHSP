@@ -1066,6 +1066,106 @@ CV4_EXPORT BOOL WINAPI cv4_imencode(HSPEXINFO* hei, int p1, int p2, int p3)
 
 
 //============================================================================
+//  Aruco markers (main objdetect module in OpenCV 4.x)
+//
+//  辞書 (dictionary) は HSP からは整数 ID (PREDEFINED_DICTIONARY_NAME) で指定。
+//  検出関数は cv_rect 配列に各マーカの外接矩形を、別 int 配列に ID を返す。
+//============================================================================
+
+//  cv4_aruco_detect rects_array, ids_array, count_var, img_id [, dict=DICT_4X4_50(0)]
+CV4_EXPORT BOOL WINAPI cv4_aruco_detect(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        PVal* pv_rects;
+        APTR a1 = hei->HspFunc_prm_getva(&pv_rects);
+        pv_rects->offset = a1;
+
+        PVal* pv_ids;
+        APTR a2 = hei->HspFunc_prm_getva(&pv_ids);
+        if (pv_ids->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_aruco_detect: ids must be int array");
+        pv_ids->offset = a2;
+
+        PVal* pv_count;
+        APTR a3 = hei->HspFunc_prm_getva(&pv_count);
+        if (pv_count->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_aruco_detect: count must be int");
+        pv_count->offset = a3;
+
+        int img_id = getint();
+        int dict_id = getint_def(0);   // DICT_4X4_50 = 0
+
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_aruco_detect: invalid image");
+
+        cv::aruco::Dictionary dict =
+            cv::aruco::getPredefinedDictionary(dict_id);
+        cv::aruco::ArucoDetector detector(dict);
+        std::vector<std::vector<cv::Point2f>> corners;
+        std::vector<int> ids;
+        detector.detectMarkers(*img, corners, ids);
+
+        // 矩形配列のサイズ
+        int max_r = pv_rects->len[1];
+        if (max_r <= 0) max_r = 1;
+        int es_r = pv_rects->len[0];
+        if (es_r < (int)sizeof(int) * 4)
+            return fail("cv4_aruco_detect: rects must be cv_rect array");
+
+        int max_i = pv_ids->len[1];
+        if (max_i <= 0) max_i = 1;
+
+        int n = (int)ids.size();
+        if (n > max_r) n = max_r;
+        if (n > max_i) n = max_i;
+
+        char* base_r = (char*)pv_rects->pt;
+        int* base_i = (int*)pv_ids->pt;
+        for (int i = 0; i < n; ++i) {
+            cv::Rect br = cv::boundingRect(corners[i]);
+            int* p = (int*)(base_r + (size_t)es_r * i);
+            p[0] = br.x; p[1] = br.y; p[2] = br.width; p[3] = br.height;
+            base_i[i] = ids[i];
+        }
+        HspVarProc* proc = hei->HspFunc_getproc(pv_count->flag);
+        proc->Set(pv_count, proc->GetPtr(pv_count), &n);
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_aruco_detect: unknown");
+    }
+}
+
+//  cv4_aruco_generate dst_id, dict, marker_id, side_pixels [, border=1]
+//    指定 ID のマーカ画像を生成する。
+CV4_EXPORT BOOL WINAPI cv4_aruco_generate(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int dict_id = getint();
+        int marker_id = getint();
+        int side = getint();
+        int border = getint_def(1);
+        cv::aruco::Dictionary dict =
+            cv::aruco::getPredefinedDictionary(dict_id);
+        cv::Mat out;
+        cv::aruco::generateImageMarker(dict, marker_id, side, out, border);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) {
+        return fail(e.what());
+    } catch (...) {
+        return fail("cv4_aruco_generate: unknown");
+    }
+}
+
+
+//============================================================================
 //  Object detection extras : HOG Descriptor / QRCode Detector
 //============================================================================
 
