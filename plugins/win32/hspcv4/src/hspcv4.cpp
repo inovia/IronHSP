@@ -419,6 +419,7 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
         hspcv4::matches_clear_all();
         hspcv4::bgsub_clear_all();
         hspcv4::tracker_clear_all();
+        hspcv4::ml_model_clear_all();
         cv::destroyAllWindows();
         // contrib DLL は OS が process 終了時に自動 FreeLibrary するので
         // ここで明示的に解放する必要はない (static ハンドルが残ったまま
@@ -2187,6 +2188,224 @@ CV4_EXPORT BOOL WINAPI cv4_get_affine_transform(HSPEXINFO* hei, int p1, int p2, 
 //  cv4_warp_perspective_mat dst, src, m_id, out_w, out_h
 //    既存 cv4_warp_perspective と同等だが汎用 Mat を受け取る版 (上と同じ)
 //    (alias、削除してもよい)
+
+
+//============================================================================
+//  ML module (Phase 18): SVM / KNN / RTrees / ANN_MLP
+//
+//  ハンドル型: cv::Ptr<cv::ml::StatModel>
+//  すべてのアルゴリズムは StatModel 派生なので、共通の train/predict/
+//  save/load を 1 セット用意するだけで全アルゴ対応できる。
+//============================================================================
+
+// アルゴリズム種別 (cv4_ml_load の第3引数)
+//   0=SVM, 1=KNN, 2=RTrees, 3=ANN_MLP, 4=Boost, 5=DTrees,
+//   6=NormalBayes, 7=EM, 8=LogisticRegression
+enum {
+    CV4_ML_SVM = 0,
+    CV4_ML_KNN = 1,
+    CV4_ML_RTREES = 2,
+    CV4_ML_ANN_MLP = 3,
+    CV4_ML_BOOST = 4,
+    CV4_ML_DTREES = 5,
+    CV4_ML_NORMAL_BAYES = 6,
+    CV4_ML_EM = 7,
+    CV4_ML_LOGISTIC = 8,
+};
+
+//  cv4_ml_svm_create model_id [, type=C_SVC(100)] [, kernel=RBF(2)] [, c=1.0] [, gamma=1.0]
+CV4_EXPORT BOOL WINAPI cv4_ml_svm_create(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id = getint();
+        int type     = getint_def(cv::ml::SVM::C_SVC);
+        int kernel   = getint_def(cv::ml::SVM::RBF);
+        double c     = hei->HspFunc_prm_getdd(1.0);
+        double gamma = hei->HspFunc_prm_getdd(1.0);
+        cv::Ptr<cv::ml::SVM> svm = cv::ml::SVM::create();
+        svm->setType(type);
+        svm->setKernel(kernel);
+        svm->setC(c);
+        svm->setGamma(gamma);
+        cv::Ptr<cv::ml::StatModel> model = svm;
+        hspcv4::ml_model_set(model_id, model);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_ml_svm_create: unknown"); }
+}
+
+//  cv4_ml_knn_create model_id [, k=3]
+CV4_EXPORT BOOL WINAPI cv4_ml_knn_create(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id = getint();
+        int k        = getint_def(3);
+        cv::Ptr<cv::ml::KNearest> knn = cv::ml::KNearest::create();
+        knn->setDefaultK(k);
+        cv::Ptr<cv::ml::StatModel> model = knn;
+        hspcv4::ml_model_set(model_id, model);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_ml_knn_create: unknown"); }
+}
+
+//  cv4_ml_rtrees_create model_id [, max_depth=10] [, min_sample_count=10]
+CV4_EXPORT BOOL WINAPI cv4_ml_rtrees_create(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id = getint();
+        int max_d    = getint_def(10);
+        int min_s    = getint_def(10);
+        cv::Ptr<cv::ml::RTrees> rt = cv::ml::RTrees::create();
+        rt->setMaxDepth(max_d);
+        rt->setMinSampleCount(min_s);
+        cv::Ptr<cv::ml::StatModel> model = rt;
+        hspcv4::ml_model_set(model_id, model);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_ml_rtrees_create: unknown"); }
+}
+
+//  cv4_ml_ann_create model_id, layer_sizes_mat_id
+//    layer_sizes_mat: 各レイヤの neuron 数を含む int 配列 (Mat、CV_32S, 1xN)
+//                     例: 3 入力 / 5 中間 / 2 出力 → [3,5,2]
+CV4_EXPORT BOOL WINAPI cv4_ml_ann_create(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id = getint();
+        int layers_id = getint();
+        cv::Mat* layers = hspcv4::handle_get(layers_id);
+        if (!layers || layers->empty())
+            return fail("cv4_ml_ann_create: invalid layer sizes");
+        cv::Ptr<cv::ml::ANN_MLP> ann = cv::ml::ANN_MLP::create();
+        ann->setLayerSizes(*layers);
+        ann->setActivationFunction(cv::ml::ANN_MLP::SIGMOID_SYM);
+        ann->setTrainMethod(cv::ml::ANN_MLP::BACKPROP);
+        ann->setBackpropMomentumScale(0.1);
+        ann->setBackpropWeightScale(0.1);
+        ann->setTermCriteria(cv::TermCriteria(
+            cv::TermCriteria::MAX_ITER + cv::TermCriteria::EPS, 300, 0.01));
+        cv::Ptr<cv::ml::StatModel> model = ann;
+        hspcv4::ml_model_set(model_id, model);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_ml_ann_create: unknown"); }
+}
+
+//  cv4_ml_train model_id, samples_id, layout, responses_id
+//    layout: 0=ROW_SAMPLE, 1=COL_SAMPLE
+//    samples / responses は CV_32F の Mat
+CV4_EXPORT BOOL WINAPI cv4_ml_train(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id = getint();
+        int samples_id = getint();
+        int layout    = getint_def(cv::ml::ROW_SAMPLE);
+        int resp_id   = getint();
+        auto* mp = hspcv4::ml_model_get(model_id);
+        if (!mp || mp->empty()) return fail("cv4_ml_train: invalid model");
+        cv::Mat* samples = hspcv4::handle_get(samples_id);
+        cv::Mat* resp    = hspcv4::handle_get(resp_id);
+        if (!samples || samples->empty()) return fail("cv4_ml_train: invalid samples");
+        if (!resp || resp->empty()) return fail("cv4_ml_train: invalid responses");
+        bool ok = (*mp)->train(*samples, layout, *resp);
+        if (!ok) return fail("cv4_ml_train: train returned false");
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_ml_train: unknown"); }
+}
+
+//  cv4_ml_predict model_id, samples_id, results_id [, flags=0]
+CV4_EXPORT BOOL WINAPI cv4_ml_predict(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id   = getint();
+        int samples_id = getint();
+        int results_id = getint();
+        int flags      = getint_def(0);
+        auto* mp = hspcv4::ml_model_get(model_id);
+        if (!mp || mp->empty()) return fail("cv4_ml_predict: invalid model");
+        cv::Mat* samples = hspcv4::handle_get(samples_id);
+        if (!samples || samples->empty()) return fail("cv4_ml_predict: invalid samples");
+        cv::Mat results;
+        (*mp)->predict(*samples, results, flags);
+        hspcv4::handle_set(results_id, std::move(results));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_ml_predict: unknown"); }
+}
+
+//  cv4_ml_save model_id, "path.xml"
+CV4_EXPORT BOOL WINAPI cv4_ml_save(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id   = getint();
+        const char* p  = getstr();
+        auto* mp = hspcv4::ml_model_get(model_id);
+        if (!mp || mp->empty()) return fail("cv4_ml_save: invalid model");
+        if (!p) return fail("cv4_ml_save: null path");
+        (*mp)->save(p);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_ml_save: unknown"); }
+}
+
+//  cv4_ml_load model_id, "path.xml", algo_type
+//    algo_type: CV4_ML_SVM/KNN/RTREES/ANN_MLP/...
+CV4_EXPORT BOOL WINAPI cv4_ml_load(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int model_id   = getint();
+        const char* p  = getstr();
+        int algo       = getint();
+        if (!p) return fail("cv4_ml_load: null path");
+        cv::Ptr<cv::ml::StatModel> model;
+        switch (algo) {
+        case CV4_ML_SVM:    model = cv::ml::SVM::load(p); break;
+        case CV4_ML_KNN:    model = cv::Algorithm::load<cv::ml::KNearest>(p); break;
+        case CV4_ML_RTREES: model = cv::ml::RTrees::load(p); break;
+        case CV4_ML_ANN_MLP: model = cv::ml::ANN_MLP::load(p); break;
+        case CV4_ML_BOOST:  model = cv::ml::Boost::load(p); break;
+        case CV4_ML_DTREES: model = cv::ml::DTrees::load(p); break;
+        case CV4_ML_NORMAL_BAYES:
+            model = cv::Algorithm::load<cv::ml::NormalBayesClassifier>(p); break;
+        case CV4_ML_EM:     model = cv::ml::EM::load(p); break;
+        case CV4_ML_LOGISTIC:
+            model = cv::Algorithm::load<cv::ml::LogisticRegression>(p); break;
+        default: return fail("cv4_ml_load: unknown algo type");
+        }
+        if (model.empty()) return fail("cv4_ml_load: load returned empty");
+        hspcv4::ml_model_set(model_id, model);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_ml_load: unknown"); }
+}
+
+//  cv4_ml_free model_id
+CV4_EXPORT BOOL WINAPI cv4_ml_free(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int model_id = getint();
+    hspcv4::ml_model_free(model_id);
+    return 0;
+}
 
 
 //============================================================================

@@ -521,6 +521,23 @@
     if stat = 0 : mes "chessboard unexpectedly found" : end 1
     mes "cv4_find_chessboard_corners error handling OK"
 
+    ; Phase 18: ml module - 各 algorithm の create のみ確認
+    cv4_ml_svm_create 0, 100, CV4_ML_SVM_RBF, 1.0, 1.0
+    if stat : mes "cv4_ml_svm_create FAIL" : end 1
+    cv4_ml_free 0
+    cv4_ml_knn_create 0, 5
+    if stat : mes "cv4_ml_knn_create FAIL" : end 1
+    cv4_ml_free 0
+    cv4_ml_rtrees_create 0, 10, 10
+    if stat : mes "cv4_ml_rtrees_create FAIL" : end 1
+    cv4_ml_free 0
+    mes "cv4_ml_svm/knn/rtrees create OK"
+
+    ; ANN: layer sizes をMatで作る (3 -> 5 -> 2)
+    ; cv4_mat_zeros + cv4_put_pixel では type=int で作れないので skip
+    ; (ANN_MLP の検証は train データが必要なのでサンプル/手動テスト送り)
+    mes "(cv4_ml_ann_create requires int Mat for layers, skipped in headless)"
+
     ; --- Phase 10: objdetect extras ---
     ; HOG人物検出 (りんごには人はいないので 0 件想定)
     stdim hog_rects, cv_rect, 16

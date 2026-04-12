@@ -100,7 +100,7 @@ goto :after_contrib
 set "CONTRIB_FLAG=-DOPENCV_EXTRA_MODULES_PATH=%CONTRIB_MODULES_PATH%"
 rem Only enable the modules we plan to wrap. Others are skipped via
 rem BUILD_LIST to keep the opencv_world binary size reasonable.
-set "CONTRIB_BUILD_LIST=core,imgproc,imgcodecs,videoio,highgui,video,calib3d,features2d,objdetect,dnn,photo,stitching,tracking,aruco,xfeatures2d,bgsegm,ximgproc,img_hash,optflow,dnn_superres"
+set "CONTRIB_BUILD_LIST=core,imgproc,imgcodecs,videoio,highgui,video,calib3d,features2d,objdetect,dnn,photo,stitching,ml,tracking,aruco,xfeatures2d,bgsegm,ximgproc,img_hash,optflow,dnn_superres,face,text,xphoto,freetype,wechat_qrcode,plot,quality,saliency,shape"
 echo [contrib] opencv_contrib modules enabled
 :after_contrib
 

@@ -25,6 +25,7 @@ std::unordered_map<int, std::unique_ptr<KeyPointSet>> g_kps;
 std::unordered_map<int, std::unique_ptr<MatchSet>> g_matches;
 std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::BackgroundSubtractor>>> g_bgsubs;
 std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::Tracker>>> g_trackers;
+std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::ml::StatModel>>> g_ml_models;
 std::mutex g_mutex;
 int g_next_id = 0;
 std::string g_last_error;
@@ -298,6 +299,30 @@ void tracker_clear_all()
 {
     std::lock_guard<std::mutex> lock(g_mutex);
     g_trackers.clear();
+}
+
+bool ml_model_set(int id, cv::Ptr<cv::ml::StatModel> ptr)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_ml_models[id] = std::make_unique<cv::Ptr<cv::ml::StatModel>>(std::move(ptr));
+    return true;
+}
+cv::Ptr<cv::ml::StatModel>* ml_model_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_ml_models.find(id);
+    if (it == g_ml_models.end()) return nullptr;
+    return it->second.get();
+}
+void ml_model_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_ml_models.erase(id);
+}
+void ml_model_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_ml_models.clear();
 }
 
 void set_last_error(const char* msg)

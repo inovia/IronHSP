@@ -436,6 +436,37 @@
 #func global cv4_get_perspective_transform  cv4_get_perspective_transform  $202
 #func global cv4_get_affine_transform       cv4_get_affine_transform       $202
 
+; ---- ML module (Phase 18): SVM / KNN / RTrees / ANN_MLP ----
+; algo type 定数 (cv4_ml_load 第 3 引数)
+#define global CV4_ML_SVM           0
+#define global CV4_ML_KNN           1
+#define global CV4_ML_RTREES        2
+#define global CV4_ML_ANN_MLP       3
+#define global CV4_ML_BOOST         4
+#define global CV4_ML_DTREES        5
+#define global CV4_ML_NORMAL_BAYES  6
+#define global CV4_ML_EM            7
+#define global CV4_ML_LOGISTIC      8
+; SVM kernel types
+#define global CV4_ML_SVM_LINEAR    0
+#define global CV4_ML_SVM_POLY      1
+#define global CV4_ML_SVM_RBF       2
+#define global CV4_ML_SVM_SIGMOID   3
+#define global CV4_ML_SVM_CHI2      4
+; sample layout
+#define global CV4_ML_ROW_SAMPLE    0
+#define global CV4_ML_COL_SAMPLE    1
+;
+#func global cv4_ml_svm_create     cv4_ml_svm_create     $202
+#func global cv4_ml_knn_create     cv4_ml_knn_create     $202
+#func global cv4_ml_rtrees_create  cv4_ml_rtrees_create  $202
+#func global cv4_ml_ann_create     cv4_ml_ann_create     $202
+#func global cv4_ml_train          cv4_ml_train          $202
+#func global cv4_ml_predict        cv4_ml_predict        $202
+#func global cv4_ml_save           cv4_ml_save           $202
+#func global cv4_ml_load           cv4_ml_load           $202
+#func global cv4_ml_free           cv4_ml_free           $202
+
 ; ---- calib3d full (Phase 14): camera calibration / pose estimation ----
 ; cv4_camera_matrix dst, fx, fy, cx, cy        — 3x3 K 行列を生成
 ; cv4_dist_coeffs   dst, k1, k2, p1, p2, k3    — 1x5 歪み係数 D を生成

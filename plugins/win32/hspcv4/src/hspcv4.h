@@ -31,6 +31,7 @@
 #include <opencv2/objdetect.hpp>
 #include <opencv2/objdetect/aruco_detector.hpp>
 #include <opencv2/videoio.hpp>
+#include <opencv2/ml.hpp>
 #include <opencv2/dnn.hpp>
 #include <opencv2/features2d.hpp>
 #include <opencv2/photo.hpp>
@@ -127,6 +128,12 @@ bool tracker_set(int id, cv::Ptr<cv::Tracker> ptr);
 cv::Ptr<cv::Tracker>* tracker_get(int id);
 void tracker_free(int id);
 void tracker_clear_all();
+
+// ML StatModel smart pointer (Phase 18)
+bool ml_model_set(int id, cv::Ptr<cv::ml::StatModel> ptr);
+cv::Ptr<cv::ml::StatModel>* ml_model_get(int id);
+void ml_model_free(int id);
+void ml_model_clear_all();
 
 //---------------------------------------------------------------------------
 // Last error message (for future cv4_getlasterror if needed)
