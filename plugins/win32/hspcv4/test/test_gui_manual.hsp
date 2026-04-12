@@ -1,0 +1,60 @@
+;
+;  hspcv4 GUI manual test
+;  cv4getimg / cv4putimg の色順序・向きを目視確認するスクリプト。
+;  自動判定はできないので CI 対象外。
+;
+#include "hspcv4.as"
+
+    title "hspcv4 GUI manual test"
+    screen 0, 800, 600
+
+    ; 画像読込 + 情報
+    cv4load 0, "test_image.png"
+    if stat < 0 : dialog "cv4load failed" : end
+
+    cv4info 0, sx, sy, ch
+
+    ; HSP 画面の上部にオレンジ矩形を描いて目印にする
+    color 200, 100, 50
+    boxf 0, 0, 800, 100
+    color 0, 0, 0
+    pos 20, 20
+    mes "cv4getimg test: apple image should appear below (correct colors, upright)"
+    pos 20, 50
+    mes strf("loaded: %d x %d x %d", sx, sy, ch)
+
+    ; cv4getimg: OpenCV Mat を HSP 画面の (0,0) から貼り付け
+    ; pos 命令は無視され、常に画面左上から ベタ貼りされる。
+    redraw 0
+    cv4getimg 0
+    redraw 1
+
+    pos 20, sy + 20
+    color 0, 0, 192
+    mes "Top half: apple image (via cv4getimg)"
+    mes "Now capturing entire HSP screen into handle 10 via cv4putimg..."
+
+    ; cv4putimg: HSP 画面 -> ID 10
+    cv4putimg 10
+    if stat < 0 : dialog "cv4putimg failed" : end
+
+    cv4info 10, px, py, pch
+    color 0, 128, 0
+    mes strf("cv4putimg OK: %d x %d ch=%d", px, py, pch)
+
+    ; 保存して目視確認
+    cv4save 10, "captured.png"
+    mes "saved -> captured.png (open in an image viewer to verify)"
+
+    ; クリーンアップ
+    cv4del 0
+    cv4del 10
+    cv4reset
+
+    color 0, 0, 0
+    mes ""
+    mes "Manual checks:"
+    mes "  [1] Apple image is drawn upright with correct colors"
+    mes "  [2] captured.png is a correct snapshot of this window"
+    mes "  [3] Close window to exit"
+    stop

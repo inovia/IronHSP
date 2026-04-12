@@ -1,0 +1,56 @@
+;
+;  hspcv4 headless self-test
+;  CI/自動テスト用 — GUI を使わずコア API 9 命令を一通り検証します。
+;  成功時に "ALL PASSED" を出力し exit 0、失敗時は "FAIL" を含む行を出力し exit 1。
+;
+#include "hspcv4.as"
+
+    mes "=== hspcv4 Phase 1 headless test ==="
+
+    ; --- cv4load ---
+    cv4load 0, "test_image.png"
+    if stat < 0 { mes "cv4load FAIL" : end 1 }
+    mes "cv4load OK"
+
+    ; --- cv4info ---
+    cv4info 0, sx, sy, ch
+    if (sx <= 0) | (sy <= 0) | (ch <= 0) { mes "cv4info FAIL" : end 1 }
+    mes strf("cv4info OK: %d x %d ch=%d", sx, sy, ch)
+
+    ; --- cv4resize ---
+    cv4resize 1, 0, 320, 240
+    if stat < 0 { mes "cv4resize FAIL" : end 1 }
+    cv4info 1, sx2, sy2, _
+    if (sx2 != 320) | (sy2 != 240) { mes "cv4resize size FAIL" : end 1 }
+    mes strf("cv4resize OK: %d x %d", sx2, sy2)
+
+    ; --- cv4cvt BGR -> GRAY ---
+    cv4cvt 2, 1, CV4_BGR2GRAY
+    if stat < 0 { mes "cv4cvt FAIL" : end 1 }
+    cv4info 2, gx, gy, gch
+    if gch != 1 { mes "cv4cvt channel FAIL" : end 1 }
+    mes strf("cv4cvt OK: %d x %d ch=%d", gx, gy, gch)
+
+    ; --- cv4save ---
+    cv4save 2, "out_gray.png"
+    if stat < 0 { mes "cv4save FAIL" : end 1 }
+    mes "cv4save OK -> out_gray.png"
+
+    ; --- cv4load saved file to verify roundtrip ---
+    cv4load 3, "out_gray.png"
+    if stat < 0 { mes "cv4load roundtrip FAIL" : end 1 }
+    cv4info 3, rx, ry, rch
+    if (rx != 320) | (ry != 240) { mes "cv4 roundtrip size FAIL" : end 1 }
+    mes strf("cv4 roundtrip OK: %d x %d ch=%d", rx, ry, rch)
+
+    ; --- cv4del / cv4reset ---
+    cv4del 0
+    cv4del 1
+    cv4del 2
+    cv4del 3
+    cv4reset
+    mes "cv4del/cv4reset OK"
+
+    mes ""
+    mes "ALL PASSED"
+    end 0
