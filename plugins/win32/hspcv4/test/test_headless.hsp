@@ -399,6 +399,26 @@
     cv4_kp_free 96
     cv4_match_free 98
 
+    ; --- Phase 7: photo ---
+    cv4_bilateral      110, 1, 9, 75.0, 75.0
+    if stat : mes "cv4_bilateral FAIL" : end 1
+    cv4_denoise        111, 1, 10.0, 7, 21
+    if stat : mes "cv4_denoise FAIL" : end 1
+    ; inpaint: 8 (otsu 結果) をマスクに
+    cv4_inpaint        112, 1, 8, 3.0, 0
+    if stat : mes "cv4_inpaint FAIL" : end 1
+    cv4_decolor        113, 1
+    if stat : mes "cv4_decolor FAIL" : end 1
+    cv4_detail_enhance 114, 1, 10.0, 0.15
+    if stat : mes "cv4_detail_enhance FAIL" : end 1
+    cv4_edge_preserve  115, 1, 1, 60.0, 0.4
+    if stat : mes "cv4_edge_preserve FAIL" : end 1
+    cv4_stylization    116, 1, 60.0, 0.45
+    if stat : mes "cv4_stylization FAIL" : end 1
+    cv4_pencil_sketch  117, 118, 1, 60.0, 0.07, 0.02
+    if stat : mes "cv4_pencil_sketch FAIL" : end 1
+    mes "cv4 photo filters (bilateral/denoise/inpaint/decolor/detail/edge/stylize/pencil) OK"
+
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---
     cv4_dnn_load 0, "nonexistent_model.onnx"
     if stat = 0 {
@@ -432,6 +452,9 @@
     cv4del 82
     repeat 11
         cv4del 91 + cnt
+    loop
+    repeat 10
+        cv4del 110 + cnt
     loop
     cv4reset
     mes "cv4del/cv4reset OK"

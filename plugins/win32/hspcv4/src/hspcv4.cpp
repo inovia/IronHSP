@@ -984,6 +984,211 @@ CV4_EXPORT BOOL WINAPI cv4warp(HSPEXINFO* hei, int p1, int p2, int p3)
 
 
 //============================================================================
+//  Photo : denoising / inpaint / bilateral / seamless clone / decolor
+//============================================================================
+
+//  cv4_bilateral dst, src, d, sigma_color, sigma_space
+CV4_EXPORT BOOL WINAPI cv4_bilateral(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int d      = getint_def(9);
+        double sc  = hei->HspFunc_prm_getdd(75.0);
+        double ss  = hei->HspFunc_prm_getdd(75.0);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_bilateral: invalid source");
+        cv::Mat out;
+        cv::bilateralFilter(*src, out, d, sc, ss);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_bilateral: unknown"); }
+}
+
+//  cv4_denoise dst, src [, h=10.0] [, template_window=7] [, search_window=21]
+//    カラー画像用: fastNlMeansDenoisingColored / グレーなら fastNlMeansDenoising
+CV4_EXPORT BOOL WINAPI cv4_denoise(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        double h   = hei->HspFunc_prm_getdd(10.0);
+        int tw     = getint_def(7);
+        int sw     = getint_def(21);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_denoise: invalid source");
+        cv::Mat out;
+        if (src->channels() == 1) {
+            cv::fastNlMeansDenoising(*src, out, (float)h, tw, sw);
+        } else {
+            cv::fastNlMeansDenoisingColored(*src, out, (float)h, (float)h, tw, sw);
+        }
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_denoise: unknown"); }
+}
+
+//  cv4_inpaint dst, src, mask, radius [, method=INPAINT_TELEA(0)]
+//    mask: 1ch binary、非 0 ピクセルが修復対象
+CV4_EXPORT BOOL WINAPI cv4_inpaint(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id  = getint();
+        int src_id  = getint();
+        int mask_id = getint();
+        double r    = hei->HspFunc_prm_getdd(3.0);
+        int method  = getint_def(cv::INPAINT_TELEA);
+        cv::Mat* src  = hspcv4::handle_get(src_id);
+        cv::Mat* mask = hspcv4::handle_get(mask_id);
+        if (!src || src->empty()) return fail("cv4_inpaint: invalid source");
+        if (!mask || mask->empty()) return fail("cv4_inpaint: invalid mask");
+        cv::Mat out;
+        cv::inpaint(*src, *mask, out, r, method);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_inpaint: unknown"); }
+}
+
+//  cv4_seamless_clone dst, src, dst_base, mask, cx, cy [, flags=NORMAL_CLONE(1)]
+CV4_EXPORT BOOL WINAPI cv4_seamless_clone(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id      = getint();
+        int src_id      = getint();
+        int dst_base_id = getint();
+        int mask_id     = getint();
+        int cx          = getint();
+        int cy          = getint();
+        int flags       = getint_def(cv::NORMAL_CLONE);
+        cv::Mat* src  = hspcv4::handle_get(src_id);
+        cv::Mat* base = hspcv4::handle_get(dst_base_id);
+        cv::Mat* mask = hspcv4::handle_get(mask_id);
+        if (!src || src->empty()) return fail("cv4_seamless_clone: invalid source");
+        if (!base || base->empty()) return fail("cv4_seamless_clone: invalid base");
+        if (!mask || mask->empty()) return fail("cv4_seamless_clone: invalid mask");
+        cv::Mat out;
+        cv::seamlessClone(*src, *base, *mask, cv::Point(cx, cy), out, flags);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_seamless_clone: unknown"); }
+}
+
+//  cv4_decolor dst_gray, src
+CV4_EXPORT BOOL WINAPI cv4_decolor(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_decolor: invalid source");
+        cv::Mat gray_out, boost;
+        cv::decolor(*src, gray_out, boost);
+        hspcv4::handle_set(dst_id, std::move(gray_out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_decolor: unknown"); }
+}
+
+//  cv4_detail_enhance dst, src [, sigma_s=10] [, sigma_r=0.15]
+CV4_EXPORT BOOL WINAPI cv4_detail_enhance(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        double ss  = hei->HspFunc_prm_getdd(10.0);
+        double sr  = hei->HspFunc_prm_getdd(0.15);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_detail_enhance: invalid source");
+        cv::Mat out;
+        cv::detailEnhance(*src, out, (float)ss, (float)sr);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_detail_enhance: unknown"); }
+}
+
+//  cv4_edge_preserve dst, src [, flags=1 (RECURS_FILTER)] [, sigma_s=60] [, sigma_r=0.4]
+CV4_EXPORT BOOL WINAPI cv4_edge_preserve(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        int flags  = getint_def(1);
+        double ss  = hei->HspFunc_prm_getdd(60.0);
+        double sr  = hei->HspFunc_prm_getdd(0.4);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_edge_preserve: invalid source");
+        cv::Mat out;
+        cv::edgePreservingFilter(*src, out, flags, (float)ss, (float)sr);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_edge_preserve: unknown"); }
+}
+
+//  cv4_stylization dst, src [, sigma_s=60] [, sigma_r=0.45]
+CV4_EXPORT BOOL WINAPI cv4_stylization(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id = getint();
+        int src_id = getint();
+        double ss  = hei->HspFunc_prm_getdd(60.0);
+        double sr  = hei->HspFunc_prm_getdd(0.45);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_stylization: invalid source");
+        cv::Mat out;
+        cv::stylization(*src, out, (float)ss, (float)sr);
+        hspcv4::handle_set(dst_id, std::move(out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_stylization: unknown"); }
+}
+
+//  cv4_pencil_sketch dst_gray, dst_color, src [, sigma_s=60] [, sigma_r=0.07] [, shade=0.02]
+CV4_EXPORT BOOL WINAPI cv4_pencil_sketch(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_gray_id  = getint();
+        int dst_color_id = getint();
+        int src_id       = getint();
+        double ss        = hei->HspFunc_prm_getdd(60.0);
+        double sr        = hei->HspFunc_prm_getdd(0.07);
+        double shade     = hei->HspFunc_prm_getdd(0.02);
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_pencil_sketch: invalid source");
+        cv::Mat gray_out, color_out;
+        cv::pencilSketch(*src, gray_out, color_out, (float)ss, (float)sr, (float)shade);
+        hspcv4::handle_set(dst_gray_id, std::move(gray_out));
+        hspcv4::handle_set(dst_color_id, std::move(color_out));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_pencil_sketch: unknown"); }
+}
+
+
+//============================================================================
 //  Features2D : ORB / AKAZE / SIFT / keypoint detection / descriptor matching
 //============================================================================
 

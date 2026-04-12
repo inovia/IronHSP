@@ -345,4 +345,17 @@
 #func global cv4_draw_keypoints       cv4_draw_keypoints       $202
 #func global cv4_draw_matches         cv4_draw_matches         $202
 
+; ---- photo : denoising / inpaint / bilateral / seamless / stylization ----
+; photo モジュールの主要関数。seamless_clone は別の画像をベースに
+; src をブレンド、stylization/pencil_sketch は芸術的フィルタ。
+#func global cv4_bilateral       cv4_bilateral       $202
+#func global cv4_denoise         cv4_denoise         $202
+#func global cv4_inpaint         cv4_inpaint         $202
+#func global cv4_seamless_clone  cv4_seamless_clone  $202
+#func global cv4_decolor         cv4_decolor         $202
+#func global cv4_detail_enhance  cv4_detail_enhance  $202
+#func global cv4_edge_preserve   cv4_edge_preserve   $202
+#func global cv4_stylization     cv4_stylization     $202
+#func global cv4_pencil_sketch   cv4_pencil_sketch   $202
+
 #endif

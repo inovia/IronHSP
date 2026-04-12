@@ -32,6 +32,7 @@
 #include <opencv2/videoio.hpp>
 #include <opencv2/dnn.hpp>
 #include <opencv2/features2d.hpp>
+#include <opencv2/photo.hpp>
 #pragma warning(pop)
 
 #define CV4_EXPORT extern "C" __declspec(dllexport)
