@@ -572,6 +572,14 @@
 #func global cv4_saliency_fine        cv4_saliency_fine        $202
 #func global cv4_text_detect_swt      cv4_text_detect_swt      $202
 
+; ---- highgui Trackbar / mouse (Phase 27 follow): polling style ----
+; HSP からはコールバック登録ができないため、内部 callback で状態を蓄え、
+; HSP 側から get で読み出す方式。Trackbar はコールバック無しで作る。
+#func global cv4_create_trackbar      cv4_create_trackbar      $202
+#func global cv4_get_trackbar_pos     cv4_get_trackbar_pos     $202
+#func global cv4_set_mouse_listener   cv4_set_mouse_listener   $202
+#func global cv4_get_mouse_event      cv4_get_mouse_event      $202
+
 ; ---- calib3d full (Phase 14): camera calibration / pose estimation ----
 ; cv4_camera_matrix dst, fx, fy, cx, cy        — 3x3 K 行列を生成
 ; cv4_dist_coeffs   dst, k1, k2, p1, p2, k3    — 1x5 歪み係数 D を生成

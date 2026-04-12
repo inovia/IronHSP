@@ -10,6 +10,8 @@
 #include <string>
 #include <memory>
 #include <cmath>
+#include <unordered_map>
+#include <mutex>
 
 HSPEXINFO* g_hei = nullptr;
 
@@ -2733,6 +2735,110 @@ CV4_EXPORT BOOL WINAPI cv4_connected_components(HSPEXINFO* hei, int p1, int p2, 
     } catch (const cv::Exception& e) { return fail(e.what()); }
       catch (...) { return fail("cv4_connected_components: unknown"); }
 }
+
+//============================================================================
+//  highgui Trackbar / mouse (Phase 27 follow)
+//
+//  HSP は直接 C コールバックを渡せないので、ポーリング方式で実装する。
+//  Trackbar はコールバックなしで作り、cv4_get_trackbar_pos で値を取得。
+//  Mouse は内部 callback で最後のイベントを保存し、cv4_get_mouse_event
+//  で読み出す方式。
+//============================================================================
+
+namespace {
+struct MouseState {
+    int event = 0;
+    int x = 0;
+    int y = 0;
+    int flags = 0;
+};
+std::unordered_map<std::string, MouseState> g_mouse_states;
+std::mutex g_mouse_mutex;
+
+void cv4_mouse_callback(int event, int x, int y, int flags, void* userdata)
+{
+    const char* winname = static_cast<const char*>(userdata);
+    if (!winname) return;
+    std::lock_guard<std::mutex> lock(g_mouse_mutex);
+    auto& s = g_mouse_states[winname];
+    s.event = event;
+    s.x = x;
+    s.y = y;
+    s.flags = flags;
+}
+} // anonymous namespace
+
+//  cv4_create_trackbar "winname", "trackbar", initial, max
+CV4_EXPORT BOOL WINAPI cv4_create_trackbar(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        const char* win = getstr();
+        const char* tb  = getstr();
+        int init = getint();
+        int maxv = getint();
+        if (!win || !tb) return fail("cv4_create_trackbar: null name");
+        // ポインタ更新先がない場合は nullptr を渡す。後で getTrackbarPos で読む。
+        cv::createTrackbar(tb, win, nullptr, maxv);
+        cv::setTrackbarPos(tb, win, init);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_create_trackbar: unknown"); }
+}
+
+//  cv4_get_trackbar_pos var_pos, "winname", "trackbar"
+//
+//  KNOWN ISSUE: HSP の OLDDLL 経由で「var + str + str」または
+//  「str + str + var」の混合パラメータパターンを使うと
+//  HSPERR_UNSUPPORTED_FUNCTION (21) または HSPERR_TOO_MANY_PARAMETERS
+//  (16) が発生することを確認。原因はまだ特定できていない (.ax の
+//  パラメータ型解析 vs OLDDLL ABI のずれと推測)。現状は stub として
+//  fail を返す。回避するには戻り値を stat に乗せる API に再設計するか、
+//  HSPERR の出所をさらに調査する必要あり。
+CV4_EXPORT BOOL WINAPI cv4_get_trackbar_pos(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    return fail("cv4_get_trackbar_pos: not yet usable (HSP param type issue)");
+}
+
+//  cv4_set_mouse_listener "winname"
+//    内部 callback を登録し、その後 cv4_get_mouse_event で最新イベントを取得可能。
+CV4_EXPORT BOOL WINAPI cv4_set_mouse_listener(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        const char* win = getstr();
+        if (!win) return fail("cv4_set_mouse_listener: null winname");
+        {
+            std::lock_guard<std::mutex> lock(g_mouse_mutex);
+            g_mouse_states[win] = MouseState{};
+        }
+        // userdata は static string にしないと寿命問題があるため、map のキーを使う
+        static std::unordered_map<std::string, std::string> name_storage;
+        auto& stored = name_storage[win];
+        stored = win;
+        cv::setMouseCallback(win, cv4_mouse_callback,
+                             static_cast<void*>(const_cast<char*>(stored.c_str())));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_set_mouse_listener: unknown"); }
+}
+
+//  cv4_get_mouse_event "winname", var_event, var_x, var_y, var_flags
+//
+//  KNOWN ISSUE: cv4_get_trackbar_pos と同じ HSP の str+var 混在
+//  パラメータ問題でランタイム例外が出る。stub として fail を返す。
+//  内部 callback 自体は cv4_set_mouse_listener で正しく登録される。
+CV4_EXPORT BOOL WINAPI cv4_get_mouse_event(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    return fail("cv4_get_mouse_event: not yet usable (HSP param type issue)");
+}
+
 
 //============================================================================
 //  Saliency / text (Phase 25 follow)
