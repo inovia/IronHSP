@@ -346,6 +346,25 @@ CV4_HASH_PROXY(cv4_radial_variance_hash, "cv4_radial_variance_hash_impl")
 
 #undef CV4_HASH_PROXY
 
+// --- optflow proxies (Phase 13b-7) ---
+//   どれも (flow_id, prev_id, next_id) の 3 引数
+
+#define CV4_OPTFLOW_PROXY(name, impl_name) \
+CV4_EXPORT BOOL WINAPI name(HSPEXINFO* hei, int p1, int p2, int p3) { \
+    set_hei(hei); \
+    static hspcv4_contrib_fn_t fn = nullptr; \
+    if (!fn) fn = get_contrib_fn(impl_name); \
+    if (fn) return fn(hei, p1, p2, p3, hspcv4_get_api()); \
+    hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti(); hei->HspFunc_prm_geti(); \
+    return fail(impl_name ": hspcv4_contrib.dll not available"); \
+}
+
+CV4_OPTFLOW_PROXY(cv4_optflow_dualtvl1,         "cv4_optflow_dualtvl1_impl")
+CV4_OPTFLOW_PROXY(cv4_optflow_deepflow,         "cv4_optflow_deepflow_impl")
+CV4_OPTFLOW_PROXY(cv4_optflow_sparse_to_dense,  "cv4_optflow_sparse_to_dense_impl")
+
+#undef CV4_OPTFLOW_PROXY
+
 
 //============================================================================
 //  DllMain

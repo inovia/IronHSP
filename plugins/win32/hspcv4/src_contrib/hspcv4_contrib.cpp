@@ -23,6 +23,7 @@
 #include <opencv2/bgsegm.hpp>       // contrib: CNT/GMG/LSBP/GSOC/MOG
 #include <opencv2/ximgproc.hpp>     // contrib: thinning/guided/anisotropic/etc
 #include <opencv2/img_hash.hpp>     // contrib: aHash/pHash/blockMean/etc
+#include <opencv2/optflow.hpp>      // contrib: DualTVL1/DeepFlow/SparseToDense/SimpleFlow
 #pragma warning(pop)
 
 #include "../src/hspcv4_capi.h"
@@ -607,3 +608,93 @@ CV4_HASH_IMPL(cv4_marr_hildreth_hash_impl, marrHildrethHash)
 CV4_HASH_IMPL(cv4_radial_variance_hash_impl, radialVarianceHash)
 
 #undef CV4_HASH_IMPL
+
+
+//============================================================================
+//  Phase 13b-7 : optflow (DualTVL1 / DeepFlow / SparseToDense / SimpleFlow)
+//
+//  これらは dense optical flow algorithm。出力は flow Mat (HxWx2 CV_32F)。
+//  プラグイン側でアルゴリズム instance を都度生成 (state-less な使用)。
+//============================================================================
+
+// 共通: 2 つのフレームを取り出してグレー化
+static bool prepare_optflow_inputs(
+    const hspcv4_handle_api_t* api,
+    int prev_id, int next_id,
+    cv::Mat& pg, cv::Mat& ng, const char* fn)
+{
+    cv::Mat* prev = static_cast<cv::Mat*>(api->mat_get(prev_id));
+    cv::Mat* next = static_cast<cv::Mat*>(api->mat_get(next_id));
+    if (!prev || !next || prev->empty() || next->empty()) {
+        api->set_last_error("invalid prev/next image");
+        return false;
+    }
+    if (prev->channels() == 1) pg = *prev;
+    else cv::cvtColor(*prev, pg, cv::COLOR_BGR2GRAY);
+    if (next->channels() == 1) ng = *next;
+    else cv::cvtColor(*next, ng, cv::COLOR_BGR2GRAY);
+    return true;
+}
+
+//  cv4_optflow_dualtvl1 flow_id, prev_id, next_id
+CV4C_EXPORT int __stdcall cv4_optflow_dualtvl1_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int flow_id = hei->HspFunc_prm_geti();
+        int prev_id = hei->HspFunc_prm_geti();
+        int next_id = hei->HspFunc_prm_geti();
+        cv::Mat pg, ng;
+        if (!prepare_optflow_inputs(api, prev_id, next_id, pg, ng, "cv4_optflow_dualtvl1")) return -1;
+        auto algo = cv::optflow::createOptFlow_DualTVL1();
+        cv::Mat flow;
+        algo->calc(pg, ng, flow);
+        api->mat_set_move(flow_id, &flow);
+        return 0;
+    } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; }
+      catch (...) { api->set_last_error("cv4_optflow_dualtvl1: unknown"); return -1; }
+}
+
+//  cv4_optflow_deepflow flow_id, prev_id, next_id
+CV4C_EXPORT int __stdcall cv4_optflow_deepflow_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int flow_id = hei->HspFunc_prm_geti();
+        int prev_id = hei->HspFunc_prm_geti();
+        int next_id = hei->HspFunc_prm_geti();
+        cv::Mat pg, ng;
+        if (!prepare_optflow_inputs(api, prev_id, next_id, pg, ng, "cv4_optflow_deepflow")) return -1;
+        auto algo = cv::optflow::createOptFlow_DeepFlow();
+        cv::Mat flow;
+        algo->calc(pg, ng, flow);
+        api->mat_set_move(flow_id, &flow);
+        return 0;
+    } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; }
+      catch (...) { api->set_last_error("cv4_optflow_deepflow: unknown"); return -1; }
+}
+
+//  cv4_optflow_sparse_to_dense flow_id, prev_id, next_id
+CV4C_EXPORT int __stdcall cv4_optflow_sparse_to_dense_impl(
+    HSPEXINFO* hei, int p1, int p2, int p3,
+    const hspcv4_handle_api_t* api)
+{
+    (void)p1; (void)p2; (void)p3;
+    try {
+        int flow_id = hei->HspFunc_prm_geti();
+        int prev_id = hei->HspFunc_prm_geti();
+        int next_id = hei->HspFunc_prm_geti();
+        cv::Mat pg, ng;
+        if (!prepare_optflow_inputs(api, prev_id, next_id, pg, ng, "cv4_optflow_sparse_to_dense")) return -1;
+        auto algo = cv::optflow::createOptFlow_SparseToDense();
+        cv::Mat flow;
+        algo->calc(pg, ng, flow);
+        api->mat_set_move(flow_id, &flow);
+        return 0;
+    } catch (const cv::Exception& e) { api->set_last_error(e.what()); return -1; }
+      catch (...) { api->set_last_error("cv4_optflow_sparse_to_dense: unknown"); return -1; }
+}

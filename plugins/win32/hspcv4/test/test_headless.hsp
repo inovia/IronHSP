@@ -695,6 +695,16 @@
         cv4_mat_shape 252, bm_r, bm_c, _, _
         mes strf("cv4_block_mean_hash: %dx%d", bm_r, bm_c)
         mes "cv4 img_hash (phash/avg/blockmean/colormoment/marr/radial) OK"
+
+        ; Phase 13b-7: optflow (DualTVL1, DeepFlow, SparseToDense)
+        ; 同じ画像同士なので flow は ~0 になるが API 通過確認
+        cv4_optflow_dualtvl1 260, 1, 1
+        if stat : mes "cv4_optflow_dualtvl1 FAIL" : end 1
+        cv4_optflow_deepflow 261, 1, 1
+        if stat : mes "cv4_optflow_deepflow FAIL" : end 1
+        cv4_optflow_sparse_to_dense 262, 1, 1
+        if stat : mes "cv4_optflow_sparse_to_dense FAIL" : end 1
+        mes "cv4 optflow (dualtvl1/deepflow/sparse_to_dense) OK"
     }
 
     ; --- DNN: 存在しないモデルを読んでエラー検出を確認 ---

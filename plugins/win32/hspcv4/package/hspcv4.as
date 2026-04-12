@@ -500,4 +500,10 @@
 #func global cv4_marr_hildreth_hash   cv4_marr_hildreth_hash   $202
 #func global cv4_radial_variance_hash cv4_radial_variance_hash $202
 
+; ---- contrib: optflow (advanced dense flows) ----
+; どれも (flow_mat_id, prev_id, next_id)。出力 flow は HxWx2 CV_32F。
+#func global cv4_optflow_dualtvl1        cv4_optflow_dualtvl1        $202
+#func global cv4_optflow_deepflow        cv4_optflow_deepflow        $202
+#func global cv4_optflow_sparse_to_dense cv4_optflow_sparse_to_dense $202
+
 #endif

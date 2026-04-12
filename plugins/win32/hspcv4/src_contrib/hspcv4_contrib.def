@@ -29,3 +29,6 @@ EXPORTS
     cv4_color_moment_hash_impl
     cv4_marr_hildreth_hash_impl
     cv4_radial_variance_hash_impl
+    cv4_optflow_dualtvl1_impl
+    cv4_optflow_deepflow_impl
+    cv4_optflow_sparse_to_dense_impl
