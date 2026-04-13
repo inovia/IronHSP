@@ -1,0 +1,46 @@
+// First batch of user32 APIs to prove the CsWin32 → .as pipeline.
+// One API / struct / constant group per line. CsWin32 will pull in
+// dependent types (HWND, LPARAM, MSG, etc.) automatically.
+
+CreateWindowEx
+DestroyWindow
+ShowWindow
+UpdateWindow
+GetForegroundWindow
+SetForegroundWindow
+GetActiveWindow
+IsWindow
+IsWindowVisible
+GetClientRect
+GetWindowRect
+SetWindowPos
+MoveWindow
+ClientToScreen
+ScreenToClient
+GetParent
+SetParent
+SendMessage
+PostMessage
+GetMessage
+TranslateMessage
+DispatchMessage
+MessageBox
+LoadCursor
+SetCursor
+GetCursorPos
+SetCursorPos
+GetSystemMetrics
+GetAsyncKeyState
+GetKeyState
+GetWindowLongPtr
+SetWindowLongPtr
+
+// Struct / enum groups we want surfaced
+MSG
+RECT
+POINT
+WNDCLASSEX
+SM_*
+SW_*
+WS_*
+MB_*
