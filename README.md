@@ -13,10 +13,13 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 ### ランタイム / 言語コア
 
 - **`int64` / `long` 型** — Phase 1〜6 で導入。変数型・システム変数・関数・コンパイラリテラル・パラメータすべて対応。
+- **`intptr` 型** — プラットフォーム依存サイズの整数型 (x86=32bit / x64=64bit)。`#func` / `#cfunc` / `#cfuncd` / `#cfuncf` / `#cfuncst` / `#comfunc` / `#cbmethod` の全 DLL 系関数で `int` / `int64` の代わりに使えて、**同じ HSP source が x86/x64 両方で動く**。HANDLE / ポインタ系引数を書くときに使う。hsp3net 専用。
 - **`wstr` 型 (UTF-16 ワイド文字列)** — `L"..."` リテラル + 文字列関数 / 命令 / `note` 系 / 自動変換まで全 Phase 完了。
 - **構造体型 `HSPVAR_FLAG_NSTRUCT`** — `#defstruct` / `stdim` で確保。`#field` / `#defunion` / `pack` / `Size` / `LayoutKind` 全対応。`#cfuncst` で構造体戻り値 DLL 関数を呼べる、`callfuncst` で動的呼び出し可。`varsize(STRUCT)` で型サイズ取得。`MPTYPE_STRUCTVAL` で構造体値渡しも対応。
 - **.NET 連携 (hsp3net)** — Phase 7〜12 で `loadnet` / `newnet` / `netres` / `mcall` 等を通じて任意の .NET 4.8 アセンブリを呼び出せます。例外処理 (`neterror` / `netexerr`)、`CnvCustom`、`tonet`、Enum 変換、`objprm` 対応済み。
 - **DLL の double / float 戻り値** — `#cfuncd` / `#cfuncf` / `callfuncd` / `callfuncf`。
+- **`setcallback` / `callbackarg`** — flat C 関数コールバックを HSP ラベルから生成 (動的 thunk)。WNDPROC や SetWindowsHookEx 等に渡せる。hsp3net 専用。
+- **COM コールバックインターフェース (`#defcbcom`)** — `IDropTarget` / `IBindStatusCallback` 等の COM インターフェースを HSP 側で実装し、外部 COM API に渡せる。`#cbmethod` で各メソッドを HSP ラベルにマッピング、`newcomcb` でインスタンス化、`comprm()` / `comcbidx()` / `comcbtag()` / `comret` で実行コンテキストにアクセス。IUnknown (QI/AddRef/Release) は runtime が自動実装。x86/x64 両対応の動的 vtable トランポリン生成。hsp3net 専用。詳細は [`package/win32/sample/cbcom/`](package/win32/sample/cbcom/)。
 - **WinForms 統合** — `screen` を Form として扱い、HSP の GUI オブジェクトを .NET 化。
 
 ### 新規プラグイン
@@ -26,6 +29,10 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 ### 大幅拡張したプラグイン
 
 - **hspdxlib** ([`plugins/win32/hspdxlib/`](plugins/win32/hspdxlib/)) — [DX ライブラリ (山田 巧 氏)](https://dxlib.xsrv.jp/) を `#uselib` / `#func` / `#cfunc` / `#cfuncst` で呼べるよう自動ラッパ生成。`gen_hspdxlib.py` で 55 構造体を自動 `#defstruct` 化、166 関数で値渡し ABI 修正、32 / 64 bit 検証済み。
+
+### Pure HSP モジュール
+
+- **hspd2d** ([`package/win32/common/hspd2d.hsp`](package/win32/common/hspd2d.hsp)) — DirectWrite + Direct2D + WIC を **HSP の COM 機能 (`#usecom` / `#comfunc` / `newcom -1/-2`) だけで wrap** したモジュール。C++ DLL を介さずに高品質テキスト描画と PNG 出力を実現。`d2d_init` / `d2d_image_create` / `d2d_clear` / `d2d_font` / `d2d_color` / `d2d_drawtext` / `d2d_image_save` 等のコマンドを提供。`D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT` を有効にしているので **Segoe UI Emoji 等の COLR/CPAL カラーフォントによる絵文字** も自動で色付き描画される。サンプル: [`package/win32/sample/hspd2d/`](package/win32/sample/hspd2d/)。
 
 ### 標準プラグインの 64bit 対応
 

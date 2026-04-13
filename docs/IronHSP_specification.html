@@ -39,8 +39,8 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-12</p>
-<p class="muted">ベース: OpenHSP 3.7 (SVN r1616) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-13</p>
+<p class="muted">ベース: OpenHSP 3.8beta1 (SVN trunk) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="toc">
 <strong>目次</strong>
@@ -55,8 +55,11 @@
   <li><a href="#struct">8. 構造体・共用体</a></li>
   <li><a href="#wstr">9. UTF-16 ワイド文字列型 (wstr)</a></li>
   <li><a href="#dllfunc">10. DLL 関数拡張 (#cfuncd / #cfuncf / #cfuncst)</a></li>
-  <li><a href="#dxlib">11. DxLib 統合 (hspdxlib)</a></li>
-  <li><a href="#changelog">12. 変更履歴</a></li>
+  <li><a href="#intptr">11. プラットフォーム依存整数型 (intptr)</a></li>
+  <li><a href="#cbcom">12. COM コールバックインターフェース (#defcbcom)</a></li>
+  <li><a href="#hspd2d">13. hspd2d (DirectWrite + Direct2D + WIC モジュール)</a></li>
+  <li><a href="#dxlib">14. DxLib 統合 (hspdxlib)</a></li>
+  <li><a href="#changelog">15. 変更履歴</a></li>
 </ul>
 </div>
 
@@ -1390,7 +1393,182 @@ p = VGet(1.0, 2.0, 3.0)
 </table>
 
 <!-- ======================================== -->
-<h2 id="dxlib">11. DxLib 統合 (hspdxlib)</h2>
+<h2 id="intptr">11. プラットフォーム依存整数型 (intptr) <span class="badge">IronHSP</span></h2>
+
+<p><code>intptr</code> はプラットフォーム依存サイズの整数型で、x86 ビルドでは 32bit、x64 ビルドでは 64bit のスロットを使用します。
+<code>HANDLE</code> や <code>LPxxx</code> 系のポインタ引数を含む DLL 関数を 1 つの HSP source で **両プラットフォーム共通** に書けます。
+hsp3net 専用 (vanilla hsp3 では未サポート)。</p>
+
+<h3>11.1 用途</h3>
+<p>従来は x86 / x64 で <code>int</code> / <code>int64</code> を使い分ける必要があり、
+ポインタ系の引数が出てくるたびに <code>#ifdef __hsp64__</code> 等での切り替えが必要でした。
+<code>intptr</code> を使えば 1 行で両対応できます。</p>
+
+<h3>11.2 使用可能な #directive</h3>
+<table>
+<tr><th>directive</th><th>用途</th></tr>
+<tr><td><code>#func</code></td><td>void 戻り値の DLL 関数</td></tr>
+<tr><td><code>#cfunc</code></td><td>int 戻り値の DLL 関数</td></tr>
+<tr><td><code>#cfuncd</code> / <code>#cfuncf</code></td><td>double / float 戻り値</td></tr>
+<tr><td><code>#cfuncst</code></td><td>構造体戻り値</td></tr>
+<tr><td><code>#comfunc</code></td><td>COM メソッド呼出</td></tr>
+<tr><td><code>#cbmethod</code></td><td>COM コールバックメソッド (後述)</td></tr>
+</table>
+
+<h3>11.3 使用例</h3>
+<pre><code>#uselib "user32.dll"
+#cfunc GetWindowLongPtr "GetWindowLongPtrW" intptr, int
+#func  SetWindowLongPtr "SetWindowLongPtrW" intptr, int, intptr
+
+#uselib "kernel32.dll"
+#cfunc LoadLibraryW "LoadLibraryW" wstr
+#func  FreeLibrary  "FreeLibrary"  intptr
+#cfunc GetProcAddress "GetProcAddress" intptr, str
+
+    hmod = LoadLibraryW("user32.dll")    ; intptr 戻り値 → 自動的に platform-sized
+    fnPtr = GetProcAddress(hmod, "MessageBoxW")
+    FreeLibrary hmod                      ; intptr 引数 → 自動的に正しいサイズで渡る</code></pre>
+
+<div class="note">
+<strong>内部実装:</strong> 新しい <code>MPTYPE_INTPTR</code> 定数を hspcmp と hsp3net で共有。
+hspcmp は型 ID を .ax に書き込むだけで、<strong>x64 / x86 共通の .ax を吐ける</strong>。
+runtime 側は <code>#ifdef HSP64</code> で <code>code_geti64()</code> または <code>code_getdi()</code> を使い分けて読む。
+スロットサイズも platform に従う (x64=8 byte / x86=4 byte)。
+</div>
+
+<!-- ======================================== -->
+<h2 id="cbcom">12. COM コールバックインターフェース (#defcbcom) <span class="badge">IronHSP</span></h2>
+
+<p><code>IDropTarget</code> や <code>IBindStatusCallback</code> のように
+<strong>HSP 側で実装して外部 COM API に渡す</strong> COM コールバックインターフェースを宣言・実装するための言語拡張。
+hsp3net 専用。</p>
+
+<p><code>IUnknown</code> の <code>QueryInterface</code> / <code>AddRef</code> / <code>Release</code> は runtime が自動実装するので、
+ユーザーは vtable index 3 以降の実メソッドだけを HSP ラベルにマッピングすればよい。
+動的 vtable トランポリンは x86 / x64 両対応。</p>
+
+<h3>12.1 構文</h3>
+<pre><code>#defcbcom &lt;CLASS_NAME&gt; &lt;IFACE_NAME&gt;
+    #cbmethod &lt;vtable_idx&gt; &lt;ret_type&gt; &lt;arg_types...&gt;, *&lt;label&gt;
+    ...
+#endcbcom</code></pre>
+
+<table>
+<tr><th>directive</th><th>説明</th></tr>
+<tr><td><code>#defcbcom NAME IFACE</code></td><td>クラス宣言開始。<code>IFACE</code> は事前に <code>#usecom</code> で IID 登録済みである必要がある</td></tr>
+<tr><td><code>#cbmethod VTABLE_IDX RET_TYPE ARGS..., *LABEL</code></td><td>メソッドを vtable index にマッピング。<code>VTABLE_IDX</code> は 3 以上 (0..2 は IUnknown 自動実装)</td></tr>
+<tr><td><code>#endcbcom</code></td><td>クラス宣言終了。この時点で hspcmp が登録 bytecode を発行</td></tr>
+</table>
+
+<h3>12.2 引数型</h3>
+<table>
+<tr><th>型</th><th>用途</th><th>備考</th></tr>
+<tr><td><code>int</code></td><td>32bit DWORD / BOOL / enum</td><td></td></tr>
+<tr><td><code>int64</code></td><td>明示的 64bit</td><td>LARGE_INTEGER 等</td></tr>
+<tr><td><code>intptr</code></td><td>platform-sized pointer</td><td>HANDLE / 構造体ポインタ等</td></tr>
+<tr><td><code>comobj</code></td><td>IUnknown 派生インターフェース</td><td>auto wrap (callback 終了で auto release)</td></tr>
+<tr><td><code>wstr</code></td><td>LPCWSTR</td><td>SJIS 自動変換</td></tr>
+<tr><td><code>str</code></td><td>LPCSTR</td><td></td></tr>
+<tr><td><code>double</code> / <code>float</code></td><td>浮動小数点</td><td>XMM 経由</td></tr>
+</table>
+
+<h3>12.3 callback 実行コンテキスト関数</h3>
+<table>
+<tr><th>関数</th><th>戻り値</th><th>説明</th></tr>
+<tr><td><code>comprm(N)</code></td><td>宣言型に応じる</td><td>現在 callback の N 番目 (0-origin) の user 引数を取得。<code>#cbmethod</code> で宣言した型に従ってマーシャリング</td></tr>
+<tr><td><code>comcbidx()</code></td><td>int</td><td>呼ばれたメソッドの vtable index</td></tr>
+<tr><td><code>comcbtag()</code></td><td>int</td><td><code>newcomcb</code> 時に指定した int tag</td></tr>
+<tr><td><code>comcbtags()</code></td><td>str</td><td><code>newcomcb</code> 時に指定した str tag</td></tr>
+<tr><td><code>comcbis(comobj_var)</code></td><td>int</td><td>引数の comobj 変数が現 callback の <code>this</code> と一致なら 1</td></tr>
+<tr><td><code>comcbthis()</code></td><td>intptr</td><td>raw <code>IUnknown*</code> (advanced 用途)</td></tr>
+<tr><td><code>comret val</code></td><td>(命令)</td><td>HRESULT 戻り値を明示セット (省略時 0 = S_OK)</td></tr>
+<tr><td><code>newcomcb var, "CLASS" [, tag]</code></td><td>(命令)</td><td>callback クラスのインスタンス生成</td></tr>
+</table>
+
+<div class="note">
+<strong>注意:</strong> <code>comcbtag()</code> 等の関数は <strong>必ず () 付き</strong>で呼ぶこと。
+括弧なしで呼ぶと cmdfunc_dllctrl の statement 経路に流れて syntax error になる。
+</div>
+
+<h3>12.4 使用例 (IBindStatusCallback)</h3>
+<pre><code>#define IID_IBindStatusCallback "{79eac9c1-baf9-11ce-8c82-00aa004ba90b}"
+#usecom IBindStatusCallback IID_IBindStatusCallback "{}"
+
+#defcbcom MyBSC IBindStatusCallback
+    #cbmethod 3  int int, comobj,                  *bsc_start
+    #cbmethod 4  int intptr,                       *bsc_priority
+    #cbmethod 5  int int,                          *bsc_lowres
+    #cbmethod 6  int int, int, int, wstr,          *bsc_progress
+    #cbmethod 7  int int, wstr,                    *bsc_stop
+    #cbmethod 8  int intptr, intptr,               *bsc_bindinfo
+    #cbmethod 9  int int, int, intptr, intptr,     *bsc_data
+    #cbmethod 10 int intptr, comobj,               *bsc_object
+#endcbcom
+
+#uselib "urlmon.dll"
+#cfunc URLDownloadToFile "URLDownloadToFileW" intptr, wstr, wstr, intptr, comobj
+
+    newcomcb cb, "MyBSC", "session_1"
+    hr = URLDownloadToFile(0, "https://www.example.com/", "ex.html", 0, cb)
+    delcom cb
+    end
+
+*bsc_progress
+    mes "[" + comcbtags() + "] " + comprm(0) + "/" + comprm(1)
+    comret 0 : return
+
+*bsc_start    : comret 0 : return
+*bsc_priority : comret 0 : return
+*bsc_lowres   : comret 0 : return
+*bsc_stop     : comret 0 : return
+*bsc_bindinfo : comret 0 : return
+*bsc_data     : comret 0 : return
+*bsc_object   : comret 0 : return</code></pre>
+
+<div class="note">
+<strong>内部実装:</strong> 1 クラス = 1 vtable (全インスタンス共有)。
+各メソッドごとに動的に C トランポリンを <code>VirtualAlloc(PAGE_EXECUTE_READWRITE)</code> で生成し、
+COM 呼び出し時に rcx/rdx/r8/r9 + stack 引数を <code>HspCbComMethodThunk::args[]</code> にコピーして
+<code>hsp_cbcom_bridge</code> 経由で HSP ラベルに dispatch。<br>
+<strong>制限:</strong> STA (apartment threaded) 限定。pathological reentrancy は対象外。
+<code>newcomcb</code> の class name 引数は現状 string literal のみ対応。
+</div>
+
+<!-- ======================================== -->
+<h2 id="hspd2d">13. hspd2d (DirectWrite + Direct2D + WIC モジュール) <span class="badge">IronHSP</span></h2>
+
+<p><a href="../package/win32/common/hspd2d.hsp"><code>package/win32/common/hspd2d.hsp</code></a> は、
+DirectWrite + Direct2D + WIC を <strong>HSP の COM 機能 (#usecom / #comfunc / newcom -1/-2) だけで wrap</strong> した pure HSP モジュール。
+C++ DLL を介さずに高品質テキスト描画と PNG 出力を実現する。Artlet2D (a2d.hsp / GDI+) と並列するコンセプト。</p>
+
+<h3>13.1 主なコマンド</h3>
+<table>
+<tr><th>コマンド</th><th>説明</th></tr>
+<tr><td><code>d2d_init</code></td><td>COM 初期化 + DWrite / D2D / WIC factory 作成</td></tr>
+<tr><td><code>d2d_image_create id, w, h</code></td><td>オフスクリーン画像 (32bpp PBGRA) を作成</td></tr>
+<tr><td><code>d2d_image_select id</code></td><td>カレント描画対象を切り替え</td></tr>
+<tr><td><code>d2d_clear r, g, b, a</code></td><td>単色で塗りつぶし</td></tr>
+<tr><td><code>d2d_color r, g, b, a</code></td><td>以後の描画色を設定</td></tr>
+<tr><td><code>d2d_font "family", size, weight, italic</code></td><td>テキストフォーマット作成</td></tr>
+<tr><td><code>d2d_drawtext "text", x, y, w, h</code></td><td>文字列描画 (<code>D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT</code> 有効、<strong>色付き絵文字対応</strong>)</td></tr>
+<tr><td><code>d2d_image_save id, "out.png"</code></td><td>PNG として保存</td></tr>
+<tr><td><code>d2d_image_delete id</code></td><td>画像を破棄</td></tr>
+<tr><td><code>d2d_shutdown</code></td><td>リソース解放</td></tr>
+</table>
+
+<h3>13.2 サンプル</h3>
+<ul>
+<li><a href="../package/win32/sample/hspd2d/sample_01_hello.hsp"><code>sample_01_hello.hsp</code></a> — 基本的なテキスト描画 + PNG 出力</li>
+<li><a href="../package/win32/sample/hspd2d/sample_02_emoji.hsp"><code>sample_02_emoji.hsp</code></a> — Segoe UI Emoji 経由でカラー絵文字描画 (🎨🎮🌈🚀🍣)</li>
+</ul>
+
+<div class="note">
+<strong>環境:</strong> Windows 10 22H2 以降 + hsp3net 系ランタイム (NSTRUCT を使うため)。
+<strong>既知制限:</strong> <code>d2d_font</code> を 1 セッション中に 2 回以上呼ぶと旧 TextFormat の release を leak workaround で回避している (HSP runtime 側の comobj cleanup table とのインタラクションバグ)。実害は小さい。
+</div>
+
+<!-- ======================================== -->
+<h2 id="dxlib">14. DxLib 統合 (hspdxlib)</h2>
 
 <p>DxLib (DX ライブラリ) を HSP から直接呼び出すためのヘッダファイル群です。
 <strong>DxLibW</strong>（Unicode 版）を使用し、32bit / 64bit の両方に対応します。</p>
@@ -1515,7 +1693,7 @@ lpoke vec, VECTOR_x, 0x3F800000  ; 1.0f のビットパターン</code></pre>
 </ul>
 
 <!-- ======================================== -->
-<h2 id="changelog">12. 変更履歴</h2>
+<h2 id="changelog">15. 変更履歴</h2>
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
@@ -1561,6 +1739,16 @@ lpoke vec, VECTOR_x, 0x3F800000  ; 1.0f のビットパターン</code></pre>
 <tr><td>4/12</td><td></td><td><span class="badge">新機能</span> <code>callfuncst(prmbuf, addr, nargs, size)</code>: 構造体戻り値DLL関数の動的呼び出し (<code>callfuncd</code>/<code>callfuncf</code> と対称)</td></tr>
 <tr><td>4/12</td><td></td><td><span class="badge">改善</span> NSTRUCT 型に <code>GetBlockSize</code> コールバックを実装 (<code>varptr(struct_var)</code> 等のサポート)</td></tr>
 <tr><td>4/12</td><td></td><td><span class="badge">DxLib</span> hspdxlib.as: 166 個の関数で <code>var</code> → 構造体名 (VECTOR/MATRIX 等) に修正、7 個の <code>#defstruct</code> ブロックを追加 (構造体値渡しの ABI バグ修正)</td></tr>
+<tr><td>4/13</td><td><code>908aca8b</code></td><td><span class="badge">バグ修正</span> hsp3/hsp3net: x64 COM <code>#comfunc</code> dispatch のバグ (vtable indexing が 4 byte 単位で誤動作) と <code>newcom -1</code> で 64bit ポインタが切り詰められる問題を修正</td></tr>
+<tr><td>4/13</td><td><code>3436d4e4 / 7ecdea9f</code></td><td><span class="badge-orange badge">整理</span> NSTRUCT / <code>#cfuncst</code> / <code>setcallback</code> を hsp3net 専用に集約。hsp3 (vanilla) からは削除し、文法を拡張する系は hsp3net のみ持つ役割分担に</td></tr>
+<tr><td>4/13</td><td><code>c3e07e41</code></td><td><span class="badge">新機能</span> <strong>hspd2d</strong>: DirectWrite + Direct2D + WIC を pure HSP の COM 機能だけで wrap した 2D 描画モジュール (Phase 1 PoC)</td></tr>
+<tr><td>4/13</td><td><code>be451a92</code></td><td><span class="badge">新機能</span> hspd2d Phase 2: <code>d2d_font</code> / <code>d2d_drawtext</code> / <code>d2d_image_save</code> 動作確認 + <code>local</code> 宣言追加で安定化</td></tr>
+<tr><td>4/13</td><td><code>b27f3b09</code></td><td><span class="badge">新機能</span> hspd2d Phase 3: 複数フォント対応 + <code>D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT</code> による <strong>色付き絵文字</strong>レンダリング</td></tr>
+<tr><td>4/13</td><td><code>70a76926</code></td><td><span class="badge">新機能</span> <strong><code>intptr</code> 型</strong>を hsp3net + hspcmp に追加。プラットフォーム依存サイズ整数 (x86=32bit / x64=64bit)。<code>#func</code> / <code>#cfunc</code> / <code>#cfuncd</code> / <code>#cfuncf</code> / <code>#cfuncst</code> / <code>#comfunc</code> / <code>#cbmethod</code> 全 DLL 系で使用可</td></tr>
+<tr><td>4/13</td><td><code>7cbef99b</code></td><td><span class="badge">新機能</span> COM コールバック Phase B0: vtable allocator + IUnknown 自動実装 + 動的 thunk + bridge dispatcher (runtime 基盤)</td></tr>
+<tr><td>4/13</td><td><code>6b1d2541</code></td><td><span class="badge">新機能</span> COM コールバック Phase B1: hspcmp に <code>#defcbcom</code> / <code>#cbmethod</code> / <code>#endcbcom</code> パーサ追加</td></tr>
+<tr><td>4/13</td><td><code>90e9bdb1</code></td><td><span class="badge">新機能</span> COM コールバック Phase B2: bytecode emission + runtime opcodes (<code>newcomcb</code> / <code>comprm</code> / <code>comcbtag</code> / <code>comcbtags</code> / <code>comcbis</code> / <code>comcbthis</code> / <code>comcbidx</code> / <code>comret</code>)</td></tr>
+<tr><td>4/13</td><td><code>b91186e9</code></td><td><span class="badge">新機能</span> COM コールバック Phase B3: <code>IBindStatusCallback</code> サンプルで <code>URLDownloadToFile</code> 経由の e2e 動作確認 (HSP 側で実装した COM コールバックが外部 COM API から正しく invoke される)</td></tr>
 </table>
 
 <h3>64bit ビルド対応一覧</h3>
@@ -1583,7 +1771,7 @@ lpoke vec, VECTOR_x, 0x3F800000  ; 1.0f のビットパターン</code></pre>
 
 <footer>
   <p>IronHSP &mdash; HSP3 .NET Framework Integration</p>
-  <p>Based on OpenHSP 3.7 (SVN r1616) &copy; onion software/onitama</p>
+  <p>Based on OpenHSP 3.8beta1 (SVN trunk) &copy; onion software/onitama</p>
 </footer>
 
 </div>
