@@ -36,6 +36,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="MainForm.cs" />
     <Compile Include="SyntaxHighlighter.cs" />
+    <Compile Include="EditorSettings.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

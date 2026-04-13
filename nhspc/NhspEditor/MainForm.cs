@@ -16,6 +16,10 @@ namespace NhspEditor
         private StatusStrip _statusBar;
         private ToolStripStatusLabel _statusLabel;
         private ToolStripStatusLabel _posLabel;
+        private ToolStripComboBox _platformCombo;
+        private ToolStripComboBox _targetCombo;
+        private ToolStripComboBox _subsystemCombo;
+        private ToolStripTextBox _runArgsBox;
         private string _currentFile;
         private bool _modified;
         private Timer _highlightTimer;
@@ -65,6 +69,57 @@ namespace NhspEditor
             _toolbar.Items.Add(new ToolStripButton("DLL (F7)", null, (s, e) => Compile(false, true)) { ToolTipText = "DLL としてビルド" });
             _toolbar.Items.Add(new ToolStripButton("デバッグ", null, (s, e) => Compile(true, false)) { ToolTipText = "デバッグ情報付き (Ctrl+F5)" });
             _toolbar.Items.Add(new ToolStripButton("実行 (F6)", null, (s, e) => CompileAndRun()) { ToolTipText = "コンパイル && 実行" });
+            _toolbar.Items.Add(new ToolStripSeparator());
+
+            _toolbar.Items.Add(new ToolStripLabel("Platform:"));
+            _platformCombo = new ToolStripComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 110, ToolTipText = "ターゲットプラットフォーム" };
+            _platformCombo.Items.AddRange(new object[] { "anycpu", "x86", "x64", "anycpu32" });
+            _platformCombo.SelectedIndex = 0;
+            string savedPlatform = EditorSettings.Default.Platform;
+            int idx = _platformCombo.Items.IndexOf(savedPlatform);
+            if (idx >= 0) _platformCombo.SelectedIndex = idx;
+            _platformCombo.SelectedIndexChanged += (s, e) =>
+            {
+                EditorSettings.Default.Platform = _platformCombo.SelectedItem.ToString();
+                EditorSettings.Default.Save();
+            };
+            _toolbar.Items.Add(_platformCombo);
+
+            _toolbar.Items.Add(new ToolStripLabel("Target:"));
+            _targetCombo = new ToolStripComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 80, ToolTipText = "出力種別 (auto = #main 有無で判定)" };
+            _targetCombo.Items.AddRange(new object[] { "auto", "exe", "dll" });
+            _targetCombo.SelectedIndex = 0;
+            int tidx = _targetCombo.Items.IndexOf(EditorSettings.Default.Target);
+            if (tidx >= 0) _targetCombo.SelectedIndex = tidx;
+            _targetCombo.SelectedIndexChanged += (s, e) =>
+            {
+                EditorSettings.Default.Target = _targetCombo.SelectedItem.ToString();
+                EditorSettings.Default.Save();
+            };
+            _toolbar.Items.Add(_targetCombo);
+
+            _toolbar.Items.Add(new ToolStripLabel("SubSys:"));
+            _subsystemCombo = new ToolStripComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 90, ToolTipText = "EXE のサブシステム (windows = コンソール窓なし)" };
+            _subsystemCombo.Items.AddRange(new object[] { "console", "windows" });
+            _subsystemCombo.SelectedIndex = 0;
+            int sidx = _subsystemCombo.Items.IndexOf(EditorSettings.Default.Subsystem);
+            if (sidx >= 0) _subsystemCombo.SelectedIndex = sidx;
+            _subsystemCombo.SelectedIndexChanged += (s, e) =>
+            {
+                EditorSettings.Default.Subsystem = _subsystemCombo.SelectedItem.ToString();
+                EditorSettings.Default.Save();
+            };
+            _toolbar.Items.Add(_subsystemCombo);
+
+            _toolbar.Items.Add(new ToolStripLabel("引数:"));
+            _runArgsBox = new ToolStripTextBox { Width = 200, ToolTipText = "実行時のコマンドライン引数 (デバッグ実行にも使用)" };
+            _runArgsBox.Text = EditorSettings.Default.RunArguments ?? "";
+            _runArgsBox.TextChanged += (s, e) =>
+            {
+                EditorSettings.Default.RunArguments = _runArgsBox.Text;
+                EditorSettings.Default.Save();
+            };
+            _toolbar.Items.Add(_runArgsBox);
             Controls.Add(_toolbar);
 
             // Status bar
@@ -222,6 +277,17 @@ namespace NhspEditor
             }
         }
 
+        private static TargetPlatform ParsePlatform(string s)
+        {
+            switch ((s ?? "").ToLowerInvariant())
+            {
+                case "x86": return TargetPlatform.X86;
+                case "x64": return TargetPlatform.X64;
+                case "anycpu32": return TargetPlatform.AnyCpu32BitPreferred;
+                default: return TargetPlatform.AnyCpu;
+            }
+        }
+
         private void Compile(bool debug, bool forceDll = false)
         {
             if (_currentFile == null) SaveFileAs();
@@ -231,12 +297,33 @@ namespace NhspEditor
             _errorList.Items.Clear();
             var driver = new CompilerDriver();
             driver.Options.EmitDebugInfo = debug;
+            driver.Options.Platform = ParsePlatform(_platformCombo?.SelectedItem?.ToString() ?? "anycpu");
 
+            string uiTarget = _targetCombo?.SelectedItem?.ToString() ?? "auto";
             string ext;
             if (forceDll)
+            {
                 ext = ".dll";
+                driver.Options.ForceOutputType = "dll";
+            }
+            else if (uiTarget == "exe")
+            {
+                ext = ".exe";
+                driver.Options.ForceOutputType = "exe";
+            }
+            else if (uiTarget == "dll")
+            {
+                ext = ".dll";
+                driver.Options.ForceOutputType = "dll";
+            }
             else
+            {
                 ext = _editor.Text.Contains("#main") ? ".exe" : ".dll";
+            }
+
+            string sub = _subsystemCombo?.SelectedItem?.ToString() ?? "console";
+            driver.Options.Subsystem = (sub == "windows") ? SubsystemKind.Windows : SubsystemKind.Console;
+
             string outPath = Path.ChangeExtension(_currentFile, ext);
 
             var result = driver.Compile(_currentFile, outPath);
@@ -269,7 +356,13 @@ namespace NhspEditor
 
             try
             {
-                System.Diagnostics.Process.Start(exePath);
+                var psi = new System.Diagnostics.ProcessStartInfo(exePath)
+                {
+                    Arguments = _runArgsBox?.Text ?? "",
+                    UseShellExecute = true,
+                    WorkingDirectory = Path.GetDirectoryName(exePath) ?? "."
+                };
+                System.Diagnostics.Process.Start(psi);
                 _statusLabel.Text = "実行中: " + Path.GetFileName(exePath);
             }
             catch (Exception ex)
