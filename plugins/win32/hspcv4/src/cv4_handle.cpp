@@ -31,6 +31,7 @@ std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::face::Facemark>>> g_facemark
 std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::StereoMatcher>>> g_stereos;
 std::unordered_map<int, std::unique_ptr<cv::KalmanFilter>> g_kalmans;
 std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::freetype::FreeType2>>> g_freetypes;
+std::unordered_map<int, std::unique_ptr<cv::Ptr<cv::text::OCRTesseract>>> g_ocrs;
 std::mutex g_mutex;
 int g_next_id = 0;
 std::string g_last_error;
@@ -448,6 +449,30 @@ void freetype_clear_all()
 {
     std::lock_guard<std::mutex> lock(g_mutex);
     g_freetypes.clear();
+}
+
+bool ocr_set(int id, cv::Ptr<cv::text::OCRTesseract> ptr)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_ocrs[id] = std::make_unique<cv::Ptr<cv::text::OCRTesseract>>(std::move(ptr));
+    return true;
+}
+cv::Ptr<cv::text::OCRTesseract>* ocr_get(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    auto it = g_ocrs.find(id);
+    if (it == g_ocrs.end()) return nullptr;
+    return it->second.get();
+}
+void ocr_free(int id)
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_ocrs.erase(id);
+}
+void ocr_clear_all()
+{
+    std::lock_guard<std::mutex> lock(g_mutex);
+    g_ocrs.clear();
 }
 
 void set_last_error(const char* msg)

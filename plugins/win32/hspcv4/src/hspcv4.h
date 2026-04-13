@@ -178,6 +178,12 @@ cv::Ptr<cv::freetype::FreeType2>* freetype_get(int id);
 void freetype_free(int id);
 void freetype_clear_all();
 
+// OCRTesseract (Phase 25 follow-2)
+bool ocr_set(int id, cv::Ptr<cv::text::OCRTesseract> ptr);
+cv::Ptr<cv::text::OCRTesseract>* ocr_get(int id);
+void ocr_free(int id);
+void ocr_clear_all();
+
 //---------------------------------------------------------------------------
 // Last error message (for future cv4_getlasterror if needed)
 //---------------------------------------------------------------------------

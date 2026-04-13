@@ -3020,6 +3020,81 @@ CV4_EXPORT BOOL WINAPI cv4_freetype_free(HSPEXINFO* hei, int p1, int p2, int p3)
 
 
 //============================================================================
+//  Tesseract OCR (Phase 25 follow-2): cv::text::OCRTesseract
+//
+//  事前準備:
+//    1) tessdata フォルダを用意 (eng.traineddata, jpn.traineddata 等)
+//    2) cv4_ocr_create id, "tessdata_dir", "eng+jpn"
+//    3) cv4_ocr_run    result_var, id, src_id
+//    4) cv4_ocr_free   id
+//
+//  注意: lang は Tesseract 流に "eng" / "jpn" / "eng+jpn" の形式。
+//  data_dir に NULL/"" を渡すと TESSDATA_PREFIX 環境変数を見る。
+//============================================================================
+
+//  cv4_ocr_create id, "tessdata_dir", "lang"
+//                    [, oem=3 (DEFAULT)]
+//                    [, psm=3 (AUTO)]
+CV4_EXPORT BOOL WINAPI cv4_ocr_create(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id           = getint();
+        const char* dir  = getstr();
+        const char* lang = getstr();
+        int oem          = getint_def(cv::text::OEM_DEFAULT);
+        int psm          = getint_def(cv::text::PSM_AUTO);
+        if (!lang || !*lang) return fail("cv4_ocr_create: lang required");
+        const char* data_dir = (dir && *dir) ? dir : nullptr;
+        cv::Ptr<cv::text::OCRTesseract> ocr =
+            cv::text::OCRTesseract::create(data_dir, lang, nullptr, oem, psm);
+        if (ocr.empty()) return fail("cv4_ocr_create: create failed");
+        hspcv4::ocr_set(id, ocr);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_ocr_create: unknown"); }
+}
+
+//  cv4_ocr_run result_str_var, id, src_id [, component=0 (TEXT)]
+//    component: 0=COMPONENT_LEVEL_TEXTLINE / 1=COMPONENT_LEVEL_WORD ではなく
+//               cv::text::OCR_LEVEL_WORD=0 / OCR_LEVEL_TEXTLINE=1
+CV4_EXPORT BOOL WINAPI cv4_ocr_run(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+        pv->offset = a;
+        if (pv->flag != HSPVAR_FLAG_STR) return fail("cv4_ocr_run: var must be str");
+        int id     = getint();
+        int src_id = getint();
+        int comp   = getint_def(cv::text::OCR_LEVEL_TEXTLINE);
+        auto* op = hspcv4::ocr_get(id);
+        if (!op || op->empty()) return fail("cv4_ocr_run: invalid ocr id");
+        cv::Mat* src = hspcv4::handle_get(src_id);
+        if (!src || src->empty()) return fail("cv4_ocr_run: invalid src");
+        std::string out;
+        (*op)->run(*src, out, nullptr, nullptr, nullptr, comp);
+        HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+        proc->Set(pv, proc->GetPtr(pv), (void*)out.c_str());
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_ocr_run: unknown"); }
+}
+
+//  cv4_ocr_free id
+CV4_EXPORT BOOL WINAPI cv4_ocr_free(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    int id = getint();
+    hspcv4::ocr_free(id);
+    return 0;
+}
+
+
+//============================================================================
 //  Main fillers (Phase 27): flip / transpose / copy_make_border / in_range
 //                           + highgui setWindowTitle / resizeWindow
 //============================================================================

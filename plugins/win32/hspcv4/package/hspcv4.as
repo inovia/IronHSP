@@ -567,10 +567,15 @@
 #func global cv4_freetype_free        cv4_freetype_free        $202
 
 ; ---- Saliency / text (Phase 25 follow): no external deps ----
-; Tesseract 依存の OCR は別タスクへ繰り延べ。
 #func global cv4_saliency_spectral    cv4_saliency_spectral    $202
 #func global cv4_saliency_fine        cv4_saliency_fine        $202
 #func global cv4_text_detect_swt      cv4_text_detect_swt      $202
+
+; ---- Tesseract OCR (Phase 25 follow-2) ----
+;   tessdata フォルダ (eng.traineddata 等) が必要。
+#func global cv4_ocr_create           cv4_ocr_create           $202
+#func global cv4_ocr_run              cv4_ocr_run              $202
+#func global cv4_ocr_free             cv4_ocr_free             $202
 
 ; ---- highgui Trackbar / mouse (Phase 27 follow): polling style ----
 ; HSP からはコールバック登録ができないため、内部 callback で状態を蓄え、

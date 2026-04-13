@@ -147,6 +147,19 @@ set "FREETYPE_FLAG=-DWITH_FREETYPE=ON -DHSPCV4_FREETYPE_LIB=%FT_LIB_F% -DHSPCV4_
 echo [freetype] vcpkg %VCPKG_TRIPLET% staticlib detected, injecting via HSPCV4_* vars
 :no_freetype
 
+rem --- Tesseract OCR via vcpkg-installed staticlib (Phase 25 follow-2) ---
+set "TESSERACT_FLAG=-DWITH_TESSERACT=OFF"
+for %%F in ("%VCPKG_INSTALLED%\lib\tesseract*.lib") do set "TESS_LIB=%%F"
+for %%F in ("%VCPKG_INSTALLED%\lib\leptonica*.lib") do set "LEPT_LIB=%%F"
+if not defined TESS_LIB goto :no_tesseract
+if not defined LEPT_LIB goto :no_tesseract
+set "TESS_LIB_F=%TESS_LIB:\=/%"
+set "LEPT_LIB_F=%LEPT_LIB:\=/%"
+set "TESS_INC_F=%VCPKG_INSTALLED:\=/%/include"
+set "TESSERACT_FLAG=-DWITH_TESSERACT=ON -DHSPCV4_TESSERACT_LIB=%TESS_LIB_F% -DHSPCV4_LEPTONICA_LIB=%LEPT_LIB_F% -DHSPCV4_TESSERACT_INC=%TESS_INC_F%"
+echo [tesseract] vcpkg %VCPKG_TRIPLET% staticlib detected, injecting via HSPCV4_* vars
+:no_tesseract
+
 "%CMAKE_EXE%" ^
     -S "%OPENCV_SRC_DIR%" ^
     -B "%BUILD_DIR%" ^
@@ -159,6 +172,7 @@ echo [freetype] vcpkg %VCPKG_TRIPLET% staticlib detected, injecting via HSPCV4_*
     %BUILD_LIST_FLAG% ^
     %CONTRIB_FLAG% ^
     %FREETYPE_FLAG% ^
+    %TESSERACT_FLAG% ^
     -DBUILD_TESTS=OFF ^
     -DBUILD_PERF_TESTS=OFF ^
     -DBUILD_EXAMPLES=OFF ^

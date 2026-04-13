@@ -1,0 +1,51 @@
+;
+;  hspcv4 sample: Tesseract OCR で画像の文字列を読み取る
+;
+;  cv4_ocr_create でエンジンを作成し、cv4_ocr_run で画像を OCR する。
+;  事前に Tesseract の言語データ (.traineddata) を tessdata/ に置く。
+;
+;  必要なファイル:
+;    tessdata/eng.traineddata          (英語)
+;    tessdata/jpn.traineddata          (日本語、必要なら)
+;
+;  入手先:
+;    https://github.com/tesseract-ocr/tessdata    (フル / 約20MB/言語)
+;    https://github.com/tesseract-ocr/tessdata_fast  (軽量版を推奨)
+;
+;  必要: hspcv4 を WITH_TESSERACT=ON でビルドしていること
+;
+#include "hspcv4.as"
+
+    ; --- 1. テスト用に文字列を描画した画像を作る ---
+    cv4_mat_zeros 0, 120, 640, 3            ; 640 x 120, BGR
+    if stat { mes "mat_zeros FAIL" : end 1 }
+
+    ; FreeType で英語をはっきり描く (Hershey でも可)
+    cv4_freetype_create 0, "C:/Windows/Fonts/arial.ttf"
+    if stat { mes "freetype FAIL stat=" + stat : end 1 }
+    cv4_freetype_put_text 0, 0, "Hello OpenCV OCR 12345", 20, 80, 48, 255, 255, 255
+
+    cv4save 0, "ocr_input.png"
+
+    ; --- 2. OCR エンジンを初期化 ---
+    ;     第2引数: tessdata フォルダ。NULL/"" で TESSDATA_PREFIX 環境変数を使う。
+    ;     第3引数: 言語 ("eng" / "jpn" / "eng+jpn" など)
+    cv4_ocr_create 0, "tessdata", "eng"
+    if stat {
+        mes "cv4_ocr_create FAIL: tessdata/eng.traineddata が見つからない可能性"
+        end 1
+    }
+
+    ; --- 3. OCR 実行 ---
+    sdim ocr_text, 4096
+    cv4_ocr_run ocr_text, 0, 0
+    if stat { mes "cv4_ocr_run FAIL" : end 1 }
+
+    mes "OCR result:"
+    mes ocr_text
+
+    ; --- 4. 後始末 ---
+    cv4_ocr_free 0
+    cv4_freetype_free 0
+    cv4del 0
+    end 0

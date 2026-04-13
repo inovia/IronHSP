@@ -86,7 +86,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OpenCVStaticLibDir);$(VcpkgWorkLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world4120.lib;ittnotify.lib;ipphal.lib;ippiw.lib;ippicvmt.lib;libjpeg-turbo.lib;libopenjp2.lib;libpng.lib;libtiff.lib;libprotobuf.lib;libwebp.lib;zlib.lib;freetype.lib;harfbuzz.lib;brotlidec.lib;brotlicommon.lib;bz2.lib;libpng16.lib;comctl32.lib;gdi32.lib;user32.lib;ole32.lib;oleaut32.lib;uuid.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world4120.lib;ittnotify.lib;ipphal.lib;ippiw.lib;ippicvmt.lib;libjpeg-turbo.lib;libopenjp2.lib;libpng.lib;libtiff.lib;libprotobuf.lib;libwebp.lib;zlib.lib;freetype.lib;harfbuzz.lib;tesseract55.lib;leptonica-1.85.0.lib;archive.lib;libcurl.lib;libssl.lib;libcrypto.lib;gif.lib;zstd.lib;lz4.lib;lzma.lib;ws2_32.lib;crypt32.lib;wldap32.lib;normaliz.lib;secur32.lib;iphlpapi.lib;xmllite.lib;brotlidec.lib;brotlicommon.lib;bz2.lib;libpng16.lib;comctl32.lib;gdi32.lib;user32.lib;ole32.lib;oleaut32.lib;uuid.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
 
