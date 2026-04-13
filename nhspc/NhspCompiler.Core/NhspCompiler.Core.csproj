@@ -27,6 +27,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Lexing\Token.cs" />
@@ -38,6 +39,8 @@
     <Compile Include="Parsing\Ast\Statements.cs" />
     <Compile Include="Parsing\Ast\Expressions.cs" />
     <Compile Include="Emit\AssemblyEmitter.cs" />
+    <Compile Include="Emit\Win32ResBuilder.cs" />
+    <Compile Include="Emit\ImageToIco.cs" />
     <Compile Include="Emit\TypeEmitter.cs" />
     <Compile Include="Emit\MethodEmitter.cs" />
     <Compile Include="Diagnostics\Diagnostic.cs" />

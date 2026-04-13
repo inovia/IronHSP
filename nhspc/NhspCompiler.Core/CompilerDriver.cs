@@ -15,9 +15,35 @@ namespace NhspCompiler.Core
         public string OutputPath { get; set; }
     }
 
+    public enum TargetPlatform
+    {
+        AnyCpu = 0,
+        X86 = 1,
+        X64 = 2,
+        AnyCpu32BitPreferred = 3,
+    }
+
+    public enum SubsystemKind
+    {
+        Default = 0,     // Console for EXE, none for DLL (current behavior)
+        Console = 1,
+        Windows = 2,
+    }
+
     public class CompilerOptions
     {
         public bool EmitDebugInfo { get; set; } = false;
+        public TargetPlatform Platform { get; set; } = TargetPlatform.AnyCpu;
+
+        /// <summary>Force output type (null = auto from #main/#assembly)</summary>
+        public string ForceOutputType { get; set; } // "exe" or "dll"
+
+        public SubsystemKind Subsystem { get; set; } = SubsystemKind.Default;
+
+        public System.Collections.Generic.List<string> ExtraReferences { get; set; }
+            = new System.Collections.Generic.List<string>();
+
+        public string Win32IconPath { get; set; }
     }
 
     public class CompilerDriver
@@ -53,6 +79,14 @@ namespace NhspCompiler.Core
             if (diag.HasErrors)
                 return new CompilationResult { Success = false, Diagnostics = diag };
 
+            // CLI overrides
+            if (!string.IsNullOrEmpty(Options.ForceOutputType))
+                unit.OutputType = Options.ForceOutputType;
+            if (!string.IsNullOrEmpty(Options.Win32IconPath) && string.IsNullOrEmpty(unit.Win32Icon))
+                unit.Win32Icon = Options.Win32IconPath;
+            foreach (var r in Options.ExtraReferences)
+                if (!unit.References.Contains(r)) unit.References.Add(r);
+
             // Load referenced assemblies
             foreach (var refPath in unit.References)
             {
@@ -84,7 +118,7 @@ namespace NhspCompiler.Core
                     unit.AssemblyName + ext);
             }
 
-            var emitter = new AssemblyEmitter(unit, diag, outputPath, fileName, Options.EmitDebugInfo);
+            var emitter = new AssemblyEmitter(unit, diag, outputPath, fileName, Options.EmitDebugInfo, Options.Platform, Options.Subsystem);
             bool ok = emitter.Emit();
 
             return new CompilationResult

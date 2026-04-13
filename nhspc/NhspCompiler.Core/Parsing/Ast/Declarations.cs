@@ -7,6 +7,21 @@ namespace NhspCompiler.Core.Parsing.Ast
         public string AssemblyName { get; set; }
         public string OutputType { get; set; } = "dll"; // dll or exe
         public List<string> References { get; set; } = new List<string>();
+
+        // Assembly metadata
+        public string AsmVersion { get; set; }              // AssemblyVersion
+        public string AsmFileVersion { get; set; }          // AssemblyFileVersion
+        public string AsmInformationalVersion { get; set; } // AssemblyInformationalVersion
+        public string AsmTitle { get; set; }
+        public string AsmDescription { get; set; }
+        public string AsmCompany { get; set; }
+        public string AsmProduct { get; set; }
+        public string AsmCopyright { get; set; }
+        public string AsmTrademark { get; set; }
+
+        // Win32 resource paths
+        public string Win32Icon { get; set; }
+        public string Win32Manifest { get; set; }
         public List<string> Usings { get; set; } = new List<string>();
         public List<InterfaceDeclaration> Interfaces { get; set; } = new List<InterfaceDeclaration>();
         public List<ClassDeclaration> Classes { get; set; } = new List<ClassDeclaration>();

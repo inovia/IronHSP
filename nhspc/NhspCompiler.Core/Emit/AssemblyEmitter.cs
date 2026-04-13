@@ -22,14 +22,18 @@ namespace NhspCompiler.Core.Emit
         private Dictionary<string, Type> _enumTypes = new Dictionary<string, Type>();
 
         private readonly bool _emitDebug;
+        private readonly TargetPlatform _platform;
+        private readonly SubsystemKind _subsystem;
 
-        public AssemblyEmitter(CompilationUnit unit, DiagnosticBag diag, string outputPath, string sourceFile = null, bool emitDebug = false)
+        public AssemblyEmitter(CompilationUnit unit, DiagnosticBag diag, string outputPath, string sourceFile = null, bool emitDebug = false, TargetPlatform platform = TargetPlatform.AnyCpu, SubsystemKind subsystem = SubsystemKind.Default)
         {
             _unit = unit;
             _diag = diag;
             _outputPath = outputPath;
             _sourceFile = sourceFile;
             _emitDebug = emitDebug;
+            _platform = platform;
+            _subsystem = subsystem;
         }
 
         public bool Emit()
@@ -39,10 +43,19 @@ namespace NhspCompiler.Core.Emit
                 string asmName = _unit.AssemblyName;
                 string fileName = System.IO.Path.GetFileName(_outputPath);
 
+                var asmNameObj = new AssemblyName(asmName);
+                if (!string.IsNullOrEmpty(_unit.AsmVersion))
+                {
+                    try { asmNameObj.Version = new Version(_unit.AsmVersion); }
+                    catch { _diag.Warning(0, 0, $"Invalid #version '{_unit.AsmVersion}', expected 'a.b[.c[.d]]'"); }
+                }
+
                 var asmBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
-                    new AssemblyName(asmName),
+                    asmNameObj,
                     AssemblyBuilderAccess.RunAndSave,
                     System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(_outputPath)));
+
+                ApplyAssemblyMetadata(asmBuilder);
 
                 var modBuilder = asmBuilder.DefineDynamicModule(asmName, fileName, _emitDebug);
 
@@ -173,10 +186,80 @@ namespace NhspCompiler.Core.Emit
                     me.EmitBody();
 
                     mainType.CreateType();
-                    asmBuilder.SetEntryPoint(me.Builder);
+                    PEFileKinds peFileKind;
+                    switch (_subsystem)
+                    {
+                        case SubsystemKind.Windows: peFileKind = PEFileKinds.WindowApplication; break;
+                        case SubsystemKind.Console: peFileKind = PEFileKinds.ConsoleApplication; break;
+                        default: peFileKind = PEFileKinds.ConsoleApplication; break;
+                    }
+                    asmBuilder.SetEntryPoint(me.Builder, peFileKind);
                 }
 
-                asmBuilder.Save(fileName);
+                PortableExecutableKinds peKind;
+                ImageFileMachine machine;
+                switch (_platform)
+                {
+                    case TargetPlatform.X86:
+                        peKind = PortableExecutableKinds.ILOnly | PortableExecutableKinds.Required32Bit;
+                        machine = ImageFileMachine.I386;
+                        break;
+                    case TargetPlatform.X64:
+                        peKind = PortableExecutableKinds.ILOnly | PortableExecutableKinds.PE32Plus;
+                        machine = ImageFileMachine.AMD64;
+                        break;
+                    case TargetPlatform.AnyCpu32BitPreferred:
+                        peKind = PortableExecutableKinds.ILOnly | PortableExecutableKinds.Preferred32Bit;
+                        machine = ImageFileMachine.I386;
+                        break;
+                    case TargetPlatform.AnyCpu:
+                    default:
+                        peKind = PortableExecutableKinds.ILOnly;
+                        machine = ImageFileMachine.I386;
+                        break;
+                }
+                // Win32 VERSIONINFO resource (must be called before Save, and only if we
+                // actually have metadata to emit — otherwise it emits an empty block).
+                if (HasAnyVersionMetadata())
+                {
+                    try { asmBuilder.DefineVersionInfoResource(); }
+                    catch (Exception ex) { _diag.Warning(0, 0, $"DefineVersionInfoResource failed: {ex.Message}"); }
+                }
+
+                // Win32 icon / manifest resources (packed into a .res blob in memory).
+                // Icon source can be .ico (used as-is) or any GDI+-readable image
+                // (.png/.bmp/.gif/.jpg/.jpeg/.tif/.tiff) which is converted to a
+                // multi-size PNG-encoded .ico in memory.
+                string iconPath = _unit.Win32Icon;
+                string manifestPath = _unit.Win32Manifest;
+                if (!string.IsNullOrEmpty(iconPath) || !string.IsNullOrEmpty(manifestPath))
+                {
+                    try
+                    {
+                        byte[] icoBytes = null;
+                        if (!string.IsNullOrEmpty(iconPath))
+                        {
+                            if (!System.IO.File.Exists(iconPath))
+                                _diag.Warning(0, 0, $"Win32 icon not found: {iconPath}");
+                            else
+                            {
+                                string ext = System.IO.Path.GetExtension(iconPath).ToLowerInvariant();
+                                if (ext == ".ico")
+                                    icoBytes = System.IO.File.ReadAllBytes(iconPath);
+                                else if (ImageToIco.IsSupportedExtension(ext))
+                                    icoBytes = ImageToIco.Convert(iconPath);
+                                else
+                                    _diag.Warning(0, 0, $"Unsupported icon extension '{ext}' (use .ico/.png/.bmp/.gif/.jpg/.tif).");
+                            }
+                        }
+                        byte[] res = Win32ResBuilder.Build(icoBytes, manifestPath);
+                        if (res != null && res.Length > 32) // more than the null entry
+                            asmBuilder.DefineUnmanagedResource(res);
+                    }
+                    catch (Exception ex) { _diag.Warning(0, 0, $"Win32 resource embed failed: {ex.Message}"); }
+                }
+
+                asmBuilder.Save(fileName, peKind, machine);
                 return !_diag.HasErrors;
             }
             catch (Exception ex)
@@ -184,6 +267,39 @@ namespace NhspCompiler.Core.Emit
                 _diag.Error(0, 0, $"Emit failed: {ex.Message}\n{ex.StackTrace}");
                 return false;
             }
+        }
+
+        private bool HasAnyVersionMetadata()
+        {
+            return !string.IsNullOrEmpty(_unit.AsmVersion)
+                || !string.IsNullOrEmpty(_unit.AsmFileVersion)
+                || !string.IsNullOrEmpty(_unit.AsmInformationalVersion)
+                || !string.IsNullOrEmpty(_unit.AsmTitle)
+                || !string.IsNullOrEmpty(_unit.AsmDescription)
+                || !string.IsNullOrEmpty(_unit.AsmCompany)
+                || !string.IsNullOrEmpty(_unit.AsmProduct)
+                || !string.IsNullOrEmpty(_unit.AsmCopyright)
+                || !string.IsNullOrEmpty(_unit.AsmTrademark);
+        }
+
+        private void ApplyAssemblyMetadata(AssemblyBuilder asmBuilder)
+        {
+            AddStringAttr<System.Reflection.AssemblyFileVersionAttribute>(asmBuilder, _unit.AsmFileVersion);
+            AddStringAttr<System.Reflection.AssemblyInformationalVersionAttribute>(asmBuilder, _unit.AsmInformationalVersion);
+            AddStringAttr<System.Reflection.AssemblyTitleAttribute>(asmBuilder, _unit.AsmTitle);
+            AddStringAttr<System.Reflection.AssemblyDescriptionAttribute>(asmBuilder, _unit.AsmDescription);
+            AddStringAttr<System.Reflection.AssemblyCompanyAttribute>(asmBuilder, _unit.AsmCompany);
+            AddStringAttr<System.Reflection.AssemblyProductAttribute>(asmBuilder, _unit.AsmProduct);
+            AddStringAttr<System.Reflection.AssemblyCopyrightAttribute>(asmBuilder, _unit.AsmCopyright);
+            AddStringAttr<System.Reflection.AssemblyTrademarkAttribute>(asmBuilder, _unit.AsmTrademark);
+        }
+
+        private static void AddStringAttr<TAttr>(AssemblyBuilder asmBuilder, string value) where TAttr : Attribute
+        {
+            if (string.IsNullOrEmpty(value)) return;
+            var ctor = typeof(TAttr).GetConstructor(new[] { typeof(string) });
+            if (ctor == null) return;
+            asmBuilder.SetCustomAttribute(new CustomAttributeBuilder(ctor, new object[] { value }));
         }
 
         private void EmitEnumType(ModuleBuilder modBuilder, Parsing.Ast.EnumDeclaration en)

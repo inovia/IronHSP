@@ -29,6 +29,12 @@ namespace NhspCompiler.Core.Parsing
         private Token Advance() { var t = Current; _pos++; return t; }
         private bool Match(TokenKind kind) => Current.Kind == kind;
         private bool MatchKW(string kw) => Current.Kind == TokenKind.Keyword && Current.Text == kw;
+        // For directives that we intentionally keep OUT of the keyword table
+        // (to avoid polluting the identifier namespace). Accepts either a Keyword or
+        // an Identifier with the same (case-insensitive) text. Call right after '#'.
+        private bool MatchDirective(string name) =>
+            (Current.Kind == TokenKind.Keyword || Current.Kind == TokenKind.Identifier)
+            && string.Equals(Current.Text, name, System.StringComparison.OrdinalIgnoreCase);
         private bool MatchType() => Current.Kind == TokenKind.TypeName;
 
         private Token Expect(TokenKind kind, string msg)
@@ -59,6 +65,17 @@ namespace NhspCompiler.Core.Parsing
                         if (Match(TokenKind.Comma)) { Advance(); if (MatchKW("exe")) { unit.OutputType = "exe"; Advance(); } }
                     }
                     else if (MatchKW("reference")) { Advance(); unit.References.Add(Expect(TokenKind.StringLiteral, "Expected ref").Text); }
+                    else if (MatchDirective("version"))      { Advance(); unit.AsmVersion              = Expect(TokenKind.StringLiteral, "Expected version string").Text; }
+                    else if (MatchDirective("fileversion"))  { Advance(); unit.AsmFileVersion          = Expect(TokenKind.StringLiteral, "Expected file version string").Text; }
+                    else if (MatchDirective("infoversion"))  { Advance(); unit.AsmInformationalVersion = Expect(TokenKind.StringLiteral, "Expected informational version string").Text; }
+                    else if (MatchDirective("title"))        { Advance(); unit.AsmTitle                = Expect(TokenKind.StringLiteral, "Expected title string").Text; }
+                    else if (MatchDirective("description"))  { Advance(); unit.AsmDescription          = Expect(TokenKind.StringLiteral, "Expected description string").Text; }
+                    else if (MatchDirective("company"))      { Advance(); unit.AsmCompany              = Expect(TokenKind.StringLiteral, "Expected company string").Text; }
+                    else if (MatchDirective("product"))      { Advance(); unit.AsmProduct              = Expect(TokenKind.StringLiteral, "Expected product string").Text; }
+                    else if (MatchDirective("copyright"))    { Advance(); unit.AsmCopyright            = Expect(TokenKind.StringLiteral, "Expected copyright string").Text; }
+                    else if (MatchDirective("trademark"))    { Advance(); unit.AsmTrademark            = Expect(TokenKind.StringLiteral, "Expected trademark string").Text; }
+                    else if (MatchDirective("icon"))         { Advance(); unit.Win32Icon               = Expect(TokenKind.StringLiteral, "Expected icon path").Text; }
+                    else if (MatchDirective("manifest"))     { Advance(); unit.Win32Manifest           = Expect(TokenKind.StringLiteral, "Expected manifest path").Text; }
                     else if (MatchKW("using")) { Advance(); unit.Usings.Add(Expect(TokenKind.StringLiteral, "Expected ns").Text); }
                     else if (MatchKW("namespace"))
                     {
