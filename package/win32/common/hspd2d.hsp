@@ -1,0 +1,625 @@
+;============================================================
+;	hspd2d
+;		DirectWrite + Direct2D + WIC を pure HSP の COM 機能で wrap
+;		Artlet2D (a2d.hsp) と並列するコンセプトのモジュール
+;
+;	対象環境:
+;		- Windows 10 22H2 以降 (Win7/8 はサポート外)
+;		- hsp3net 系ランタイム (NSTRUCT を使うので)
+;
+;	Phase 1 (PoC) コマンド:
+;		d2d_init                                  COM 初期化 + 各 factory 作成
+;		d2d_shutdown                              リソース解放
+;		d2d_image_create id, w, h                 オフスクリーン画像を作成
+;		d2d_image_delete id                       画像を破棄
+;		d2d_image_select id                       描画対象を切り替え
+;		d2d_clear  r, g, b [, a]                  単色クリア
+;		d2d_color  r, g, b [, a]                  以後の描画色を設定
+;		d2d_font   "family", size, weight, italic フォントを設定
+;		d2d_drawtext "text", x, y, w, h           テキスト描画
+;		d2d_image_save id, "out.png"              PNG 保存
+;
+;	参考:
+;		https://learn.microsoft.com/en-us/windows/win32/api/d2d1/
+;		https://learn.microsoft.com/en-us/windows/win32/api/dwrite/
+;		https://learn.microsoft.com/en-us/windows/win32/wic/
+;============================================================
+
+#ifndef d2d_init
+
+#module hspd2d
+
+#define D2D_IMGS_MAX 256
+
+;-----------------------------------------------------------
+; IID / CLSID 文字列定数
+;-----------------------------------------------------------
+#define IID_IDWriteFactory        "{b859ee5a-d838-4b5b-a2e8-1adc7d93db48}"
+#define IID_IDWriteTextFormat     "{9c906818-31d7-4fd3-a151-7c5e225db55a}"
+#define IID_ID2D1Factory          "{06152247-6f50-465a-9245-118bfd3b6007}"
+#define IID_ID2D1RenderTarget     "{2cd90694-12e2-11dc-9fed-001143a055f9}"
+#define IID_ID2D1SolidColorBrush  "{2cd906a9-12e2-11dc-9fed-001143a055f9}"
+#define IID_IWICImagingFactory    "{ec5ec8a9-c395-4314-9c77-54d7a935ff70}"
+#define CLSID_WICImagingFactory   "{cacaf262-9370-4615-a13b-9f5539da4c0a}"
+#define IID_IWICBitmap            "{00000121-a8f2-4877-ba0a-fd2b6645fb94}"
+#define IID_IWICBitmapEncoder     "{00000103-a8f2-4877-ba0a-fd2b6645fb94}"
+#define IID_IWICBitmapFrameEncode "{00000105-a8f2-4877-ba0a-fd2b6645fb94}"
+#define IID_IWICStream            "{135ff860-22b7-4ddf-b0f6-218f4f299a43}"
+
+; WIC pixel formats / container formats (16 byte GUID, IIDFromString でパース)
+#define GUID_WICPixelFormat32bppPBGRA  "{6fddc324-4e03-4bfe-b185-3d77768dc910}"
+#define GUID_WICPixelFormat32bppBGRA   "{6fddc324-4e03-4bfe-b185-3d77768dc90f}"
+#define GUID_ContainerFormatPng        "{1b7cfaf4-713f-473c-bbcd-6137425faeaf}"
+
+;-----------------------------------------------------------
+; 基本 Win32 関数 (flat)
+;-----------------------------------------------------------
+#uselib "ole32.dll"
+#cfunc d2d_IIDFromString  "IIDFromString" wstr, var
+#func  d2d_CoInitializeEx "CoInitializeEx" int, int
+
+#uselib "dwrite.dll"
+#cfunc d2d_DWriteCreateFactory "DWriteCreateFactory" int, var, var
+
+#uselib "d2d1.dll"
+#cfunc d2d_D2D1CreateFactory "D2D1CreateFactory" int, var, int, var
+
+#uselib "kernel32.dll"
+#func  d2d_RtlMoveMemory "RtlMoveMemory" var, var, int
+
+;-----------------------------------------------------------
+; COM インターフェース宣言
+;   (CLSID は CoCreateInstance しないインターフェースは "{}" を渡す。
+;    HSP の newcom 第3引数 = -1 で raw IUnknown* をアタッチして使う)
+;-----------------------------------------------------------
+
+; --- IDWriteFactory (vtable index = #usecom 内のメソッド順) ---
+#usecom IDWriteFactory IID_IDWriteFactory "{}"
+; vtable 15: CreateTextFormat(WCHAR* family, IDWriteFontCollection*, DWRITE_FONT_WEIGHT,
+;                             DWRITE_FONT_STYLE, DWRITE_FONT_STRETCH, FLOAT fontSize,
+;                             WCHAR* locale, IDWriteTextFormat** out)
+#comfunc d2d_DWFac_CreateTextFormat 15 wstr, int, int, int, int, float, wstr, var
+#comfunc d2d_DWFac_Release 2
+
+; --- IDWriteTextFormat ---
+#usecom IDWriteTextFormat IID_IDWriteTextFormat "{}"
+#comfunc d2d_DWFmt_Release 2
+
+; --- ID2D1Factory ---
+#usecom ID2D1Factory IID_ID2D1Factory "{}"
+; vtable 13: CreateWicBitmapRenderTarget(IWICBitmap*, D2D1_RENDER_TARGET_PROPERTIES*,
+;                                        ID2D1RenderTarget** out)
+#comfunc d2d_D2DFac_CreateWicBitmapRenderTarget 13 comobj, var, var
+#comfunc d2d_D2DFac_Release 2
+
+; --- ID2D1RenderTarget (extends ID2D1Resource extends IUnknown) ---
+;   IUnknown:    0=QI 1=AddRef 2=Release
+;   ID2D1Resource: 3=GetFactory
+;   ID2D1RenderTarget: 4..56
+#usecom ID2D1RenderTarget IID_ID2D1RenderTarget "{}"
+#comfunc d2d_RT_CreateSolidColorBrush 8 var, var, var
+; DrawText(WCHAR*, UINT32 strLen, IDWriteTextFormat*, D2D1_RECT_F*, ID2D1Brush*,
+;          D2D1_DRAW_TEXT_OPTIONS, DWRITE_MEASURING_MODE)
+#comfunc d2d_RT_DrawText 27 wstr, int, comobj, var, comobj, int, int
+#comfunc d2d_RT_Clear 47 var
+#comfunc d2d_RT_BeginDraw 48
+#comfunc d2d_RT_EndDraw 49 var, var
+#comfunc d2d_RT_Release 2
+
+; --- ID2D1SolidColorBrush ---
+;   ID2D1Brush extends ID2D1Resource extends IUnknown
+;   IUnknown 0..2, ID2D1Resource 3 (GetFactory), ID2D1Brush 4..7
+;   ID2D1SolidColorBrush: 8=SetColor
+#usecom ID2D1SolidColorBrush IID_ID2D1SolidColorBrush "{}"
+#comfunc d2d_SCB_SetColor 8 var
+#comfunc d2d_SCB_Release 2
+
+; --- IWICImagingFactory (CoCreate 可能な唯一のもの) ---
+#usecom IWICImagingFactory IID_IWICImagingFactory CLSID_WICImagingFactory
+#comfunc d2d_WIC_CreateEncoder 8 var, int, var
+#comfunc d2d_WIC_CreateStream 14 var
+; CreateBitmap(UINT w, UINT h, REFGUID pixelFormat, WICBitmapCreateCacheOption, IWICBitmap** out)
+#comfunc d2d_WIC_CreateBitmap 17 int, int, var, int, var
+#comfunc d2d_WIC_Release 2
+
+; --- IWICBitmap (extends IWICBitmapSource) ---
+#usecom IWICBitmap IID_IWICBitmap "{}"
+#comfunc d2d_WICBmp_Release 2
+
+; --- IWICBitmapEncoder ---
+#usecom IWICBitmapEncoder IID_IWICBitmapEncoder "{}"
+#comfunc d2d_WICEnc_Initialize 3 comobj, int
+#comfunc d2d_WICEnc_CreateNewFrame 10 var, var
+#comfunc d2d_WICEnc_Commit 11
+#comfunc d2d_WICEnc_Release 2
+
+; --- IWICBitmapFrameEncode ---
+#usecom IWICBitmapFrameEncode IID_IWICBitmapFrameEncode "{}"
+#comfunc d2d_WICFrm_Initialize 3 int
+#comfunc d2d_WICFrm_SetSize 4 int, int
+#comfunc d2d_WICFrm_SetPixelFormat 6 var
+#comfunc d2d_WICFrm_WriteSource 10 comobj, int
+#comfunc d2d_WICFrm_Commit 12
+#comfunc d2d_WICFrm_Release 2
+
+; --- IWICStream (extends IStream extends ISequentialStream extends IUnknown) ---
+;   IUnknown 0..2 / ISeq 3..4 / IStream 5..13 / IWICStream 14..17
+#usecom IWICStream IID_IWICStream "{}"
+#comfunc d2d_WICStr_InitializeFromFilename 15 wstr, int
+#comfunc d2d_WICStr_Release 2
+
+;-----------------------------------------------------------
+; D2D / WIC 構造体 (NSTRUCT で表現)
+;-----------------------------------------------------------
+
+#defstruct D2D_COLOR_F
+    #field float r
+    #field float g
+    #field float b
+    #field float a
+#endstruct
+
+#defstruct D2D_RECT_F
+    #field float left
+    #field float top
+    #field float right
+    #field float bottom
+#endstruct
+
+; D2D1_RENDER_TARGET_PROPERTIES = 28 byte
+#defstruct D2D_RT_PROPS
+    #field int   rtType        ; D2D1_RENDER_TARGET_TYPE
+    #field int   dxgiFormat    ; DXGI_FORMAT (B8G8R8A8_UNORM = 87)
+    #field int   alphaMode     ; D2D1_ALPHA_MODE  (PREMULTIPLIED = 1)
+    #field float dpiX
+    #field float dpiY
+    #field int   usage         ; D2D1_RENDER_TARGET_USAGE
+    #field int   minLevel      ; D2D1_FEATURE_LEVEL
+#endstruct
+
+; D2D1_BRUSH_PROPERTIES = 28 byte (FLOAT opacity + D2D1_MATRIX_3X2_F transform)
+#defstruct D2D_BRUSH_PROPS
+    #field float opacity
+    #field float m11
+    #field float m12
+    #field float m21
+    #field float m22
+    #field float dx
+    #field float dy
+#endstruct
+
+;-----------------------------------------------------------
+; モジュール内部状態
+;   HSP の #module ブロック直下の生の文 (dim/代入) は構文として通るが
+;   実行されないので、初期化は専用 deffunc で行う必要がある
+;-----------------------------------------------------------
+
+#deffunc _d2d_alloc_state
+    if d2d_state_ready : return
+    dim   d2d_initialized, 1
+    dim64 d2d_dwfac_ptr, 1
+    dim64 d2d_d2dfac_ptr, 1
+    dim64 d2d_wicbmp_ptrs, D2D_IMGS_MAX
+    dim64 d2d_rt_ptrs,     D2D_IMGS_MAX
+    dim   d2d_img_w,       D2D_IMGS_MAX
+    dim   d2d_img_h,       D2D_IMGS_MAX
+    dim   d2d_img_drawing, D2D_IMGS_MAX     ; BeginDraw 中フラグ
+    dim   d2d_cur_id, 1
+    d2d_cur_id = -1
+    ddim d2d_cur_color, 4                   ; カレント描画色 (0..1, RGBA)
+    d2d_cur_color(0) = 1.0
+    d2d_cur_color(1) = 1.0
+    d2d_cur_color(2) = 1.0
+    d2d_cur_color(3) = 1.0
+    dim64 d2d_cur_format_ptr, 1             ; IDWriteTextFormat* (or 0)
+    d2d_state_ready = 1
+    return
+
+;-----------------------------------------------------------
+; 内部ヘルパ
+;-----------------------------------------------------------
+
+; raw int64 ptr -> 一時 comobj を newcom -1 で生成
+;   newcom のインターフェース名はコンパイル時識別子なので、
+;   #define ctype で型別マクロを用意する
+#define ctype _attach_dwfac(%1, %2) newcom %1, IDWriteFactory, -2, %2
+#define ctype _attach_dwfmt(%1, %2) newcom %1, IDWriteTextFormat, -2, %2
+#define ctype _attach_d2dfac(%1, %2) newcom %1, ID2D1Factory, -2, %2
+#define ctype _attach_rt(%1, %2) newcom %1, ID2D1RenderTarget, -2, %2
+#define ctype _attach_scb(%1, %2) newcom %1, ID2D1SolidColorBrush, -2, %2
+#define ctype _attach_wicbmp(%1, %2) newcom %1, IWICBitmap, -2, %2
+#define ctype _attach_wicenc(%1, %2) newcom %1, IWICBitmapEncoder, -2, %2
+#define ctype _attach_wicfrm(%1, %2) newcom %1, IWICBitmapFrameEncode, -2, %2
+#define ctype _attach_wicstr(%1, %2) newcom %1, IWICStream, -2, %2
+
+
+;-----------------------------------------------------------
+; d2d_init
+;-----------------------------------------------------------
+#deffunc d2d_init
+    _d2d_alloc_state
+    if d2d_initialized {
+        return
+    }
+
+    sdim _iid, 16
+    sdim _out, 16
+
+    ; COM
+    d2d_CoInitializeEx 0, 2     ; APARTMENTTHREADED
+
+    ; DWrite factory
+    if d2d_IIDFromString(IID_IDWriteFactory, _iid) ! 0 : mes "d2d_init: IIDFromString FAIL" : end 1
+    _hr = d2d_DWriteCreateFactory(0, _iid, _out)    ; SHARED
+    if _hr ! 0 : mes "d2d_init: DWriteCreateFactory FAIL hr=" + _hr : end 1
+    d2d_RtlMoveMemory d2d_dwfac_ptr, _out, 8
+
+    ; D2D factory
+    if d2d_IIDFromString(IID_ID2D1Factory, _iid) ! 0 : mes "d2d_init: IID parse" : end 1
+    _hr = d2d_D2D1CreateFactory(0, _iid, 0, _out)   ; SINGLE_THREADED
+    if _hr ! 0 : mes "d2d_init: D2D1CreateFactory FAIL hr=" + _hr : end 1
+    d2d_RtlMoveMemory d2d_d2dfac_ptr, _out, 8
+
+    ; WIC factory (CoCreate 可能)
+    newcom d2d_wicfac, IWICImagingFactory
+    if stat ! 0 : mes "d2d_init: newcom WIC FAIL stat=" + stat : end 1
+
+    d2d_initialized = 1
+    return
+
+;-----------------------------------------------------------
+; d2d_shutdown
+;-----------------------------------------------------------
+#deffunc d2d_shutdown
+    if d2d_initialized = 0 : return
+
+    ; Phase 1 PoC: 画像の自動 sweep はしない。ユーザーが明示的に d2d_image_delete
+    ; を呼ぶ想定 (repeat ループから #deffunc 呼び出し + 配列参照の組み合わせで
+    ; 原因不明の Error 7 が出るため、ここでは factory のみ release する)
+
+    ; newcom -1 でオーナーシップごと引き取り、delcom で Release させる
+    if d2d_cur_format_ptr ! 0 {
+        newcom _fmt_final, IDWriteTextFormat, -1, d2d_cur_format_ptr
+        delcom _fmt_final
+        d2d_cur_format_ptr = 0
+    }
+    if d2d_dwfac_ptr ! 0 {
+        newcom _dwfac_final, IDWriteFactory, -1, d2d_dwfac_ptr
+        delcom _dwfac_final
+        d2d_dwfac_ptr = 0
+    }
+    if d2d_d2dfac_ptr ! 0 {
+        newcom _d2dfac_final, ID2D1Factory, -1, d2d_d2dfac_ptr
+        delcom _d2dfac_final
+        d2d_d2dfac_ptr = 0
+    }
+    delcom d2d_wicfac
+
+    d2d_initialized = 0
+    d2d_cur_id = -1
+    return
+
+;-----------------------------------------------------------
+; d2d_image_create id, width, height
+;-----------------------------------------------------------
+#deffunc d2d_image_create int id, int w, int h
+    if d2d_initialized = 0 : d2d_init
+    if id < 0 : return
+    if id >= D2D_IMGS_MAX : return
+
+    ; 既存 ID は解放
+    if d2d_rt_ptrs(id) ! 0 : d2d_image_delete id
+
+    sdim _pixfmt_buf, 16
+    if d2d_IIDFromString(GUID_WICPixelFormat32bppPBGRA, _pixfmt_buf) ! 0 {
+        return
+    }
+
+    ; WIC ビットマップ作成: factory.CreateBitmap(w, h, &fmt, OnLoad=2, &out)
+    sdim _out, 16
+    d2d_WIC_CreateBitmap d2d_wicfac, w, h, _pixfmt_buf, 2, _out
+    if stat ! 0 {
+        mes "d2d_image_create: WIC CreateBitmap stat=" + stat
+        return
+    }
+    d2d_RtlMoveMemory d2d_wicbmp_ptrs(id), _out, 8
+
+    ; D2D1_RENDER_TARGET_PROPERTIES を作成
+    stdim _props, D2D_RT_PROPS
+    _props->rtType     = 0    ; DEFAULT
+    _props->dxgiFormat = 87   ; DXGI_FORMAT_B8G8R8A8_UNORM
+    _props->alphaMode  = 1    ; PREMULTIPLIED
+    _props->dpiX       = 96.0
+    _props->dpiY       = 96.0
+    _props->usage      = 0
+    _props->minLevel   = 0    ; DEFAULT
+
+    ; D2D ファクトリ経由で WIC ビットマップ用 RenderTarget を作る
+    _attach_d2dfac(_d2dfac, d2d_d2dfac_ptr)
+    _attach_wicbmp(_wicbmp, d2d_wicbmp_ptrs(id))
+    sdim _rt_out, 16
+    d2d_D2DFac_CreateWicBitmapRenderTarget _d2dfac, _wicbmp, _props, _rt_out
+    _stat = stat
+    delcom _d2dfac
+    delcom _wicbmp
+    if _stat ! 0 {
+        mes "d2d_image_create: CreateWicBitmapRenderTarget stat=" + _stat
+        return
+    }
+    d2d_RtlMoveMemory d2d_rt_ptrs(id), _rt_out, 8
+
+    d2d_img_w(id)       = w
+    d2d_img_h(id)       = h
+    d2d_img_drawing(id) = 0
+    d2d_cur_id          = id
+    return
+
+;-----------------------------------------------------------
+; d2d_image_delete id
+;-----------------------------------------------------------
+#deffunc d2d_image_delete int id
+    if id < 0 : return
+    if id >= D2D_IMGS_MAX : return
+
+    if d2d_rt_ptrs(id) ! 0 {
+        ; 描画中なら EndDraw してから本体を Release
+        if d2d_img_drawing(id) {
+            _attach_rt(_rt, d2d_rt_ptrs(id))
+            sdim _t1, 8 : sdim _t2, 8
+            d2d_RT_EndDraw _rt, _t1, _t2
+            delcom _rt
+            d2d_img_drawing(id) = 0
+        }
+        ; 本体の Release は newcom -1 の delcom で行うため、一時 attach ではなく
+        ; 直接 ptr を消費する newcom -1 にする
+        newcom _rt_final, ID2D1RenderTarget, -1, d2d_rt_ptrs(id)
+        delcom _rt_final
+        d2d_rt_ptrs(id) = 0
+    }
+    if d2d_wicbmp_ptrs(id) ! 0 {
+        newcom _bmp_final, IWICBitmap, -1, d2d_wicbmp_ptrs(id)
+        delcom _bmp_final
+        d2d_wicbmp_ptrs(id) = 0
+    }
+    d2d_img_w(id) = 0
+    d2d_img_h(id) = 0
+    if d2d_cur_id = id : d2d_cur_id = -1
+    return
+
+;-----------------------------------------------------------
+; d2d_image_select id
+;-----------------------------------------------------------
+#deffunc d2d_image_select int id
+    if id < 0 : return
+    if id >= D2D_IMGS_MAX : return
+    if d2d_rt_ptrs(id) = 0 : return
+    d2d_cur_id = id
+    return
+
+;-----------------------------------------------------------
+; ensure BeginDraw on current image
+;-----------------------------------------------------------
+#deffunc _d2d_ensure_drawing
+    if d2d_cur_id < 0 : return
+    if d2d_img_drawing(d2d_cur_id) : return
+    _attach_rt(_rt, d2d_rt_ptrs(d2d_cur_id))
+    d2d_RT_BeginDraw _rt
+    delcom _rt
+    d2d_img_drawing(d2d_cur_id) = 1
+    return
+
+;-----------------------------------------------------------
+; flush (EndDraw) on a specific image
+;-----------------------------------------------------------
+#deffunc _d2d_flush int id
+    if id < 0 : return
+    if d2d_rt_ptrs(id) = 0 : return
+    if d2d_img_drawing(id) = 0 : return
+    _attach_rt(_rt, d2d_rt_ptrs(id))
+    sdim _t1, 8 : sdim _t2, 8
+    d2d_RT_EndDraw _rt, _t1, _t2
+    delcom _rt
+    d2d_img_drawing(id) = 0
+    return
+
+;-----------------------------------------------------------
+; d2d_clear r, g, b [, a]
+;-----------------------------------------------------------
+#deffunc d2d_clear int r, int g, int b, int a
+    if d2d_cur_id < 0 : return
+    _d2d_ensure_drawing
+    stdim _col, D2D_COLOR_F
+    _col->r = double(r) / 255.0
+    _col->g = double(g) / 255.0
+    _col->b = double(b) / 255.0
+    _col->a = double(a) / 255.0
+    _attach_rt(_rt, d2d_rt_ptrs(d2d_cur_id))
+    d2d_RT_Clear _rt, _col
+    delcom _rt
+    return
+
+;-----------------------------------------------------------
+; d2d_color r, g, b [, a]
+;-----------------------------------------------------------
+#deffunc d2d_color int r, int g, int b, int a
+    d2d_cur_color(0) = double(r) / 255.0
+    d2d_cur_color(1) = double(g) / 255.0
+    d2d_cur_color(2) = double(b) / 255.0
+    d2d_cur_color(3) = double(a) / 255.0
+    return
+
+;-----------------------------------------------------------
+; d2d_font "family", size, weight, italic
+;-----------------------------------------------------------
+#deffunc d2d_font str family, double size, int weight, int italic
+    if d2d_initialized = 0 : d2d_init
+
+    ; 既存 format を release
+    if d2d_cur_format_ptr ! 0 {
+        _attach_dwfmt(_old, d2d_cur_format_ptr)
+        d2d_DWFmt_Release _old
+        delcom _old
+        d2d_cur_format_ptr = 0
+    }
+
+    _w = weight
+    if _w <= 0 : _w = 400
+    _style = 0
+    if italic : _style = 2
+
+    sdim _out, 16
+    _attach_dwfac(_dwfac, d2d_dwfac_ptr)
+    ; CreateTextFormat(family, fontCollection=NULL, weight, style, stretch=5(NORMAL), size, locale, **out)
+    d2d_DWFac_CreateTextFormat _dwfac, family, 0, _w, _style, 5, size, "ja-jp", _out
+    delcom _dwfac
+    if stat ! 0 {
+        mes "d2d_font: CreateTextFormat stat=" + stat
+        return
+    }
+    d2d_RtlMoveMemory d2d_cur_format_ptr, _out, 8
+    return
+
+;-----------------------------------------------------------
+; d2d_drawtext "text", x, y, w, h
+;-----------------------------------------------------------
+#deffunc d2d_drawtext str text, int x, int y, int w, int h
+    if d2d_cur_id < 0 : return
+    if d2d_cur_format_ptr = 0 {
+        mes "d2d_drawtext: call d2d_font first"
+        return
+    }
+    _d2d_ensure_drawing
+
+    _w2 = w : if _w2 <= 0 : _w2 = d2d_img_w(d2d_cur_id) - x
+    _h2 = h : if _h2 <= 0 : _h2 = d2d_img_h(d2d_cur_id) - y
+
+    ; カレント色のソリッドブラシを作る
+    stdim _col, D2D_COLOR_F
+    _col->r = d2d_cur_color(0)
+    _col->g = d2d_cur_color(1)
+    _col->b = d2d_cur_color(2)
+    _col->a = d2d_cur_color(3)
+
+    stdim _bp, D2D_BRUSH_PROPS
+    _bp->opacity = 1.0
+    _bp->m11 = 1.0
+    _bp->m12 = 0.0
+    _bp->m21 = 0.0
+    _bp->m22 = 1.0
+    _bp->dx  = 0.0
+    _bp->dy  = 0.0
+
+    sdim _brush_out, 16
+    _attach_rt(_rt, d2d_rt_ptrs(d2d_cur_id))
+    d2d_RT_CreateSolidColorBrush _rt, _col, _bp, _brush_out
+    if stat ! 0 {
+        delcom _rt
+        mes "d2d_drawtext: CreateSolidColorBrush stat=" + stat
+        return
+    }
+    dim64 _brush_ptr, 1
+    d2d_RtlMoveMemory _brush_ptr, _brush_out, 8
+
+    ; 矩形と TextFormat を attach して DrawText 呼び出し
+    stdim _rect, D2D_RECT_F
+    _rect->left   = double(x)
+    _rect->top    = double(y)
+    _rect->right  = double(x + _w2)
+    _rect->bottom = double(y + _h2)
+
+    _attach_dwfmt(_fmt, d2d_cur_format_ptr)
+    _attach_scb(_brush, _brush_ptr)
+
+    ; DrawText("text", strlen, fmt, &rect, brush, options=0, measuringMode=0=NATURAL)
+    d2d_RT_DrawText _rt, text, strlen(text), _fmt, _rect, _brush, 0, 0
+    if stat ! 0 : mes "d2d_drawtext: DrawText stat=" + stat
+
+    ; ブラシを Release
+    d2d_SCB_Release _brush
+    delcom _brush
+    delcom _fmt
+    delcom _rt
+    return
+
+;-----------------------------------------------------------
+; d2d_image_save id, "out.png"
+;-----------------------------------------------------------
+#deffunc d2d_image_save int id, str path
+    if id < 0 : return
+    if id >= D2D_IMGS_MAX : return
+    if d2d_rt_ptrs(id) = 0 : return
+
+    _d2d_flush id   ; EndDraw を確実に
+
+    ; PNG のみ実装 (拡張子は無視)
+    sdim _png_guid_buf, 16
+    if d2d_IIDFromString(GUID_ContainerFormatPng, _png_guid_buf) ! 0 : return
+    sdim _fmt_guid_buf, 16
+    if d2d_IIDFromString(GUID_WICPixelFormat32bppBGRA, _fmt_guid_buf) ! 0 : return
+
+    ; Stream 作成 + ファイルに紐付け
+    sdim _out, 16
+    d2d_WIC_CreateStream d2d_wicfac, _out
+    if stat ! 0 : mes "d2d_image_save: CreateStream stat=" + stat : return
+    dim64 _stream_ptr, 1
+    d2d_RtlMoveMemory _stream_ptr, _out, 8
+
+    _attach_wicstr(_stream, _stream_ptr)
+    d2d_WICStr_InitializeFromFilename _stream, path, 0x40000000   ; GENERIC_WRITE
+    if stat ! 0 {
+        delcom _stream
+        mes "d2d_image_save: InitializeFromFilename stat=" + stat
+        return
+    }
+
+    ; Encoder 作成 + Initialize
+    sdim _out2, 16
+    d2d_WIC_CreateEncoder d2d_wicfac, _png_guid_buf, 0, _out2
+    if stat ! 0 {
+        delcom _stream
+        mes "d2d_image_save: CreateEncoder stat=" + stat
+        return
+    }
+    dim64 _enc_ptr, 1
+    d2d_RtlMoveMemory _enc_ptr, _out2, 8
+
+    _attach_wicenc(_enc, _enc_ptr)
+    d2d_WICEnc_Initialize _enc, _stream, 0    ; NoCache=0
+    if stat ! 0 {
+        delcom _enc : delcom _stream
+        mes "d2d_image_save: encoder Initialize stat=" + stat
+        return
+    }
+
+    ; CreateNewFrame + Initialize + SetSize + SetPixelFormat + WriteSource + Commit
+    sdim _frame_out, 16
+    sdim _props_out, 16
+    d2d_WICEnc_CreateNewFrame _enc, _frame_out, _props_out
+    if stat ! 0 {
+        delcom _enc : delcom _stream
+        mes "d2d_image_save: CreateNewFrame stat=" + stat
+        return
+    }
+    dim64 _frame_ptr, 1
+    d2d_RtlMoveMemory _frame_ptr, _frame_out, 8
+
+    _attach_wicfrm(_frame, _frame_ptr)
+    d2d_WICFrm_Initialize _frame, 0    ; null property bag
+    d2d_WICFrm_SetSize _frame, d2d_img_w(id), d2d_img_h(id)
+    d2d_WICFrm_SetPixelFormat _frame, _fmt_guid_buf
+
+    _attach_wicbmp(_bmp, d2d_wicbmp_ptrs(id))
+    d2d_WICFrm_WriteSource _frame, _bmp, 0
+    delcom _bmp
+
+    d2d_WICFrm_Commit _frame
+    d2d_WICEnc_Commit _enc
+
+    delcom _frame
+    delcom _enc
+    delcom _stream
+    return
+
+#global
+
+#endif

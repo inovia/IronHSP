@@ -1,0 +1,25 @@
+;============================================================
+;   hspd2d サンプル 01 — Hello
+;       DirectWrite + Direct2D + WIC を pure HSP の COM 機能で wrap した
+;       hspd2d モジュールの最小動作確認サンプル
+;
+;   Phase 1 PoC の範囲:
+;     d2d_init / d2d_image_create / d2d_clear / d2d_image_delete / d2d_shutdown
+;
+;   実行:
+;     hsp3net 系ランタイム (hsp3cl_64.exe / hsp3_64.exe)
+;============================================================
+
+#include "hspd2d.hsp"
+
+    d2d_init
+    d2d_image_create 0, 400, 200
+    d2d_clear 32, 32, 64, 255
+
+    ; 描画系 (d2d_font / d2d_drawtext / d2d_image_save) は別フェーズで調整中
+    ; Phase 1 では factory 作成 + WIC ビットマップ + RenderTarget 生成 + Clear までを検証
+
+    d2d_image_delete 0
+    d2d_shutdown
+    mes "hspd2d Phase 1: OK"
+    end
