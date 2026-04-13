@@ -3256,14 +3256,21 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 		}
 		break;
 	case 0x153:								// comcbtags() — str tag
+	{
+		// hspctx->refstr (= 標準 string buffer) にコピーして返す
 		*type_res = HSPVAR_FLAG_STR;
-		if (hsp_cbcom_current_thunk == NULL) {
-			ptr = (char *)"";
-		} else {
+		const char *src = "";
+		if (hsp_cbcom_current_thunk != NULL) {
 			HspCbComInstance *inst = (HspCbComInstance *)hsp_cbcom_current_thunk->args[0];
-			ptr = (inst && inst->tag_str) ? inst->tag_str : (char *)"";
+			if (inst && inst->tag_str) src = inst->tag_str;
 		}
+		int slen = (int)strlen(src);
+		if (slen >= HSPCTX_REFSTR_MAX) slen = HSPCTX_REFSTR_MAX - 1;
+		memcpy(hspctx->refstr, src, slen);
+		hspctx->refstr[slen] = 0;
+		ptr = hspctx->refstr;
 		break;
+	}
 	case 0x154:								// comcbis(comobj_var) — 現 callback の this と一致なら 1
 	{
 		PVal *pval;

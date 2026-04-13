@@ -1,0 +1,74 @@
+;============================================================
+;   COM コールバックインターフェース sample 01
+;     IBindStatusCallback を HSP 側で実装し、URLDownloadToFile に渡して
+;     ダウンロード進捗 callback が呼ばれることを確認する
+;
+;     hsp3net 限定 (#defcbcom / newcomcb / comprm / comret / comcbtag /
+;                    intptr 等は hsp3net 専用)
+;
+;   実行後に ex.html (528 bytes 程度) と cbcom_dl.log (callback トレース)
+;   が生成される。
+;============================================================
+
+#define IID_IBindStatusCallback "{79eac9c1-baf9-11ce-8c82-00aa004ba90b}"
+#usecom IBindStatusCallback IID_IBindStatusCallback "{}"
+
+;------ コールバッククラス宣言 ------
+#defcbcom MyBSC IBindStatusCallback
+    ; vtable: 3=OnStartBinding, 4=GetPriority, 5=OnLowResource,
+    ;         6=OnProgress, 7=OnStopBinding, 8=GetBindInfo,
+    ;         9=OnDataAvailable, 10=OnObjectAvailable
+    #cbmethod 3  int int, comobj,                  *bsc_start
+    #cbmethod 4  int intptr,                       *bsc_priority
+    #cbmethod 5  int int,                          *bsc_lowres
+    #cbmethod 6  int int, int, int, wstr,          *bsc_progress
+    #cbmethod 7  int int, wstr,                    *bsc_stop
+    #cbmethod 8  int intptr, intptr,               *bsc_bindinfo
+    #cbmethod 9  int int, int, intptr, intptr,     *bsc_data
+    #cbmethod 10 int intptr, comobj,               *bsc_object
+#endcbcom
+
+#uselib "urlmon.dll"
+#cfunc URLDownloadToFile "URLDownloadToFileW" intptr, wstr, wstr, intptr, comobj
+
+    newcomcb cb, "MyBSC", "session_1"
+    if stat ! 0 : mes "newcomcb failed" : end
+
+    hr = URLDownloadToFile(0, "https://www.example.com/", "ex.html", 0, cb)
+    delcom cb
+
+    mes "URLDownloadToFile hr=" + hr
+    mes "ex.html を保存しました"
+    mes "コールバック呼び出しログは cbcom_dl.log を参照"
+    end
+
+;------ コールバック実装 ------
+
+*bsc_start
+    _tag = comcbtags()
+    notesel _l : noteload "cbcom_dl.log" : noteadd "OnStartBinding [" + _tag + "] idx=" + comcbidx() : notesave "cbcom_dl.log"
+    comret 0 : return
+
+*bsc_priority
+    comret 0 : return
+
+*bsc_lowres
+    comret 0 : return
+
+*bsc_progress
+    notesel _l : noteload "cbcom_dl.log" : noteadd "OnProgress " + comprm(0) + "/" + comprm(1) : notesave "cbcom_dl.log"
+    comret 0 : return
+
+*bsc_stop
+    notesel _l : noteload "cbcom_dl.log" : noteadd "OnStopBinding hr=" + comprm(0) : notesave "cbcom_dl.log"
+    comret 0 : return
+
+*bsc_bindinfo
+    notesel _l : noteload "cbcom_dl.log" : noteadd "GetBindInfo" : notesave "cbcom_dl.log"
+    comret 0 : return
+
+*bsc_data
+    comret 0 : return
+
+*bsc_object
+    comret 0 : return
