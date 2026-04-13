@@ -17,6 +17,12 @@
 #define IID_IDropTarget "{00000122-0000-0000-c000-000000000046}"
 #usecom IDropTarget IID_IDropTarget "{}"
 
+;------ ドロップされたファイルパスを取り出すための IDataObject ------
+#define IID_IDataObject "{0000010e-0000-0000-c000-000000000046}"
+#usecom IDataObject IID_IDataObject "{}"
+; vtable: 3=GetData(FORMATETC*, STGMEDIUM*)
+#comfunc DO_GetData 3 intptr, intptr
+
 ;------ コールバッククラス宣言 ------
 #defcbcom MyDT IDropTarget
     ; vtable: 3=DragEnter, 4=DragOver, 5=DragLeave, 6=Drop
@@ -39,10 +45,20 @@
 #uselib "ole32.dll"
 #cfunc OleInitialize "OleInitialize" intptr
 #func  OleUninitialize "OleUninitialize"
-; HRESULT RegisterDragDrop(HWND, IDropTarget*)
 #cfunc RegisterDragDrop "RegisterDragDrop" intptr, comobj
-; HRESULT RevokeDragDrop(HWND)
 #cfunc RevokeDragDrop "RevokeDragDrop" intptr
+#func  ReleaseStgMedium "ReleaseStgMedium" var
+
+#uselib "shell32.dll"
+; UINT DragQueryFileW(HDROP, UINT iFile, LPWSTR buf, UINT cch)
+;   iFile = 0xFFFFFFFF (-1) で「ファイル数」を返す
+;   それ以外は indexed file path を buf に書き、必要 char 数を返す
+#cfunc DragQueryFileW "DragQueryFileW" intptr, int, var, int
+
+;------ FORMATETC / STGMEDIUM 構造体定数 ------
+#define CF_HDROP        15
+#define DVASPECT_CONTENT 1
+#define TYMED_HGLOBAL    1
 
 ;------ ウィンドウ準備 ------
     title "IDropTarget sample — ファイルをドラッグ&ドロップしてください"
@@ -85,9 +101,14 @@
 ;------ コールバック実装 ------
 
 *dt_enter
-    _key = comprm(0)        ; DWORD grfKeyState
-    _pt  = comprm(1)        ; POINTL packed (lo32=x, hi32=y)
-    _pe  = comprm(2)        ; LPDWORD pdwEffect (out)
+    ; DragEnter(IDataObject*, DWORD key, POINTL pt, DWORD* pe)
+    ;   comprm(0) = IDataObject* (raw int64)
+    ;   comprm(1) = key
+    ;   comprm(2) = POINTL packed (lo32=x, hi32=y)
+    ;   comprm(3) = pdwEffect (out)
+    _key = comprm(1)
+    _pt  = comprm(2)
+    _pe  = comprm(3)
 
     ; DROPEFFECT_COPY = 1 を out パラメータに書き戻す
     dupptr _eff_slot, _pe, 4, 4
@@ -107,10 +128,61 @@
     comret 0 : return
 
 *dt_drop
-    _key = comprm(0)
-    _pt  = comprm(1)
-    _pe  = comprm(2)
+    _do_ptr = comprm(0)        ; raw IDataObject*
+    _key    = comprm(1)        ; DWORD grfKeyState
+    _pt     = comprm(2)        ; POINTL
+    _pe     = comprm(3)        ; LPDWORD pdwEffect (out)
     dupptr _eff_slot, _pe, 4, 4
     _eff_slot = 1
+
     mes "Drop @ x=" + (_pt & 0xffffffff) + " y=" + ((_pt >> 32) & 0xffffffff)
+
+    ; --- IDataObject から CF_HDROP データを取り出す ---
+    ; FORMATETC を構築 (x64 では sizeof = 28 byte だが安全に 32 で確保)
+    ;   offset 0  : USHORT cfFormat = CF_HDROP
+    ;   offset 8  : DVTARGETDEVICE* ptd = NULL
+    ;   offset 16 : DWORD dwAspect = DVASPECT_CONTENT
+    ;   offset 20 : LONG  lindex   = -1
+    ;   offset 24 : DWORD tymed    = TYMED_HGLOBAL
+    sdim _fmt, 32
+    wpoke _fmt, 0,  CF_HDROP
+    lpoke _fmt, 16, DVASPECT_CONTENT
+    lpoke _fmt, 20, -1
+    lpoke _fmt, 24, TYMED_HGLOBAL
+
+    ; STGMEDIUM (24 byte) は GetData が埋める
+    ;   offset 0  : DWORD tymed
+    ;   offset 8  : HGLOBAL hGlobal (= HDROP)
+    ;   offset 16 : IUnknown* pUnkForRelease
+    sdim _stg, 24
+
+    ; raw IDataObject* を newcom -2 で一時 wrap して GetData を呼ぶ
+    newcom _do, IDataObject, -2, _do_ptr
+    DO_GetData _do, varptr(_fmt), varptr(_stg)
+    _hr = stat
+    delcom _do
+
+    if _hr ! 0 {
+        mes "  GetData failed hr=" + _hr
+        comret 0 : return
+    }
+
+    ; STGMEDIUM offset 8 から HDROP を取得 (8 byte)
+    _hdrop = qpeek(_stg, 8)
+
+    ; ファイル数取得
+    _nfiles = DragQueryFileW(_hdrop, -1, _dummy_buf, 0)
+    mes "  " + _nfiles + " file(s) dropped:"
+
+    ; 各ファイル名を取得
+    sdim _wpath, 1024     ; UTF-16 用 (512 WCHAR)
+    repeat _nfiles
+        DragQueryFileW _hdrop, cnt, _wpath, 512
+        ; UTF-16 → SJIS に変換して表示
+        mes "    " + cnvwtos(_wpath)
+    loop
+
+    ; STGMEDIUM を解放
+    ReleaseStgMedium _stg
+
     comret 0 : return
