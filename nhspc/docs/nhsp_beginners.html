@@ -85,6 +85,8 @@
   <li><strong>HSP風の文法</strong> &mdash; セミコロン不要、1行1文、<code>#func</code> / <code>#class</code> のディレクティブ形式</li>
   <li><strong>.NET Framework 4.8</strong> &mdash; String, Math, List&lt;T&gt; など全ての .NET API が使える</li>
   <li><strong>DLL / EXE 出力</strong> &mdash; 他の .NET 言語 (C#, VB.NET) や IronHSP から利用可能</li>
+  <li><strong>x86 / x64 / AnyCPU</strong> &mdash; <code>-platform</code> でターゲットアーキを切替可能</li>
+  <li><strong>アイコン &amp; バージョン情報</strong> &mdash; <code>#icon</code> (PNG/JPG/BMP/GIF も OK) や <code>#version</code> 等で EXE のメタ情報を埋め込み</li>
   <li><strong>デバッグ対応</strong> &mdash; <code>-debug</code> オプションで PDB を生成、Visual Studio や dnSpy でブレークポイント設定可能</li>
 </ul>
 </div>
@@ -134,7 +136,19 @@
 
 <div class="tip">
 <code>-debug</code> オプションを付けると、デバッグ用の PDB ファイルも生成されます:<br>
-<code>nhspc.exe hello.nhsp -o HelloLib.dll -debug</code>
+<code>nhspc.exe hello.nhsp -o HelloLib.dll -debug</code><br><br>
+<strong>VS Code でデバッグしたい場合:</strong> <code>nhspc -debug</code> が出力するのは
+<em>Windows PDB</em> 形式で、Visual Studio や dnSpy ではそのまま使えますが、
+VS Code (.NET) のデバッガは <em>Portable PDB</em> しか読めません。
+そのため nhspc には <code>Pdb2PortablePdb.exe</code> という変換ツールが付属しており、
+VS Code 拡張 (vscode-nhsp) を使えばコンパイル時に自動で変換されます。
+詳細は <a href="nhsp_reference.html#pdb">リファレンスの PDB セクション</a> を参照。<br><br>
+<strong>Visual Studio 2022 でデバッグしたい場合:</strong> nhspc が出す Windows PDB は
+VS 2022 のデバッガがネイティブに読めるので、追加変換は不要です。
+<code>app.exe</code> を VS で開いて F5 するだけでブレークポイント / Locals / コールスタックが
+動きます。シンタックスハイライト用に同梱の <code>nhsp-language.vsix</code> も合わせて
+インストールするのが推奨です。詳細は
+<a href="nhsp_reference.html#vs2022">リファレンスの Visual Studio 2022 セクション</a> を参照。
 </div>
 
 <h3>2.4 HSP3 から使う</h3>
@@ -440,6 +454,57 @@ print str(result)    ; => -1</code></pre>
 #endmain</code></pre>
 
 <pre><code>nhspc.exe app.nhsp -o MyApp.exe</code></pre>
+
+<h3>EXE にアイコンとバージョン情報を付ける</h3>
+
+<p>
+作った EXE のエクスプローラー上のアイコンや、右クリック → プロパティの「詳細」タブに出るバージョン情報・会社名・著作権なども
+ソース内でディレクティブとして指定できます。
+</p>
+
+<pre><code>#assembly "MyApp"
+
+; --- バージョン情報 (右クリックプロパティに出る) ---
+#version      "1.0.0.0"
+#fileversion  "1.0.0.0"
+#title        "私のアプリ"
+#description  "ボタンを押すと挨拶するアプリ"
+#company      "ACME 株式会社"
+#product      "MyApp"
+#copyright    "(c) 2026 ACME"
+
+; --- アイコン (.ico はもちろん、.png/.bmp/.gif/.jpg もそのまま渡せる) ---
+#icon "logo.png"
+
+#main
+  print "Hello"
+#endmain</code></pre>
+
+<div class="tip">
+<strong>アイコン:</strong> <code>#icon</code> に <code>.ico</code> を渡せばそのまま埋め込み、PNG / BMP / GIF / JPEG / TIFF を渡すと
+<code>nhspc</code> が内部で 16 / 32 / 48 / 256 ピクセルの 4 サイズに変換した <code>.ico</code> を自動生成して埋め込みます。
+わざわざ <code>.ico</code> を作る必要はありません。
+</div>
+
+<h3>GUI アプリで黒いコンソール窓を出さない</h3>
+
+<p>
+WinForms などの GUI アプリで EXE をダブルクリックすると、デフォルトでは後ろに黒いコンソール窓が出てしまいます。
+これを抑制するには <code>-subsystem windows</code> オプションを使います。
+</p>
+
+<pre><code>nhspc.exe gui_app.nhsp -o GuiApp.exe -subsystem windows</code></pre>
+
+<h3>x86 / x64 を指定する</h3>
+
+<p>
+既定の <code>AnyCPU</code> は実行マシンに合わせて自動的に 32bit / 64bit が選ばれます。
+特定のアーキテクチャに固定したい (例: 32bit DLL を P/Invoke する) 場合は <code>-platform</code> を使います。
+</p>
+
+<pre><code>nhspc.exe app.nhsp -platform x86       <span class="kw">REM</span> 32bit 専用
+nhspc.exe app.nhsp -platform x64       <span class="kw">REM</span> 64bit 専用
+nhspc.exe app.nhsp -platform anycpu32  <span class="kw">REM</span> AnyCPU + 32bit 優先</code></pre>
 
 <!-- ========================================== -->
 <!-- ========================================== -->

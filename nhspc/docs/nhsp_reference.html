@@ -77,6 +77,9 @@
   <a href="#com">COM 属性</a>
   <a href="#dotnet">.NET API アクセス</a>
   <a href="#cli">CLI オプション</a>
+  <a href="#pdb">PDB / Portable PDB</a>
+  <a href="#vs2022">Visual Studio 2022 で使う</a>
+  <a href="#lsp">Language Server (nhspls)</a>
   <a href="#limits">既知の制限</a>
 </nav>
 
@@ -88,9 +91,11 @@
 <tr><td>コンパイラ</td><td><code>nhspc.exe</code> (コンソール) / <code>NhspCompiler.Core.dll</code> (ライブラリ)</td></tr>
 <tr><td>実装言語</td><td>C# (.NET Framework 4.8)</td></tr>
 <tr><td>ターゲット</td><td>.NET Framework 4.8 アセンブリ (IL)</td></tr>
-<tr><td>出力形式</td><td>DLL (クラスライブラリ) / EXE (コンソールアプリ)</td></tr>
+<tr><td>出力形式</td><td>DLL (クラスライブラリ) / EXE (コンソール / Windows GUI)</td></tr>
+<tr><td>ターゲットアーキ</td><td>AnyCPU (既定) / x86 / x64 / AnyCPU 32-bit preferred &mdash; <code>-platform</code> オプション</td></tr>
 <tr><td>IL 生成</td><td><code>System.Reflection.Emit</code> (AssemblyBuilder / TypeBuilder / ILGenerator)</td></tr>
 <tr><td>デバッグ情報</td><td>PDB (SequencePoint / DebuggableAttribute) &mdash; <code>-debug</code> オプション</td></tr>
+<tr><td>Win32 リソース</td><td>VERSIONINFO (アセンブリメタデータディレクティブから自動生成) / RT_GROUP_ICON+RT_ICON / RT_MANIFEST</td></tr>
 <tr><td>ソース拡張子</td><td><code>.nhsp</code></td></tr>
 </table>
 
@@ -181,7 +186,26 @@ int result = 1 + 2 +
 <tr><td><code>#init static ... #endinit</code></td><td>静的コンストラクタ</td><td><code>static ClassName() { }</code></td></tr>
 <tr><td><code>#destructor ... #enddestructor</code></td><td>デストラクタ (ファイナライザ)</td><td><code>~ClassName() { }</code></td></tr>
 <tr><td><code>#attribute Name, "value"</code></td><td>カスタム属性付与</td><td><code>[Name("value")]</code></td></tr>
+<tr><td colspan="3" style="background:#f5f5f5;"><strong>アセンブリメタデータ / Win32 リソース</strong></td></tr>
+<tr><td><code>#version "1.2.3.4"</code></td><td>AssemblyVersion (CLR バージョン)</td><td><code>[assembly: AssemblyVersion("1.2.3.4")]</code></td></tr>
+<tr><td><code>#fileversion "1.2.3.4"</code></td><td>AssemblyFileVersion (Win32 VERSIONINFO の FileVersion)</td><td><code>[assembly: AssemblyFileVersion("1.2.3.4")]</code></td></tr>
+<tr><td><code>#infoversion "1.2.3-rc1"</code></td><td>AssemblyInformationalVersion (Win32 VERSIONINFO の ProductVersion)</td><td><code>[assembly: AssemblyInformationalVersion("1.2.3-rc1")]</code></td></tr>
+<tr><td><code>#title "App Name"</code></td><td>AssemblyTitle (FileDescription)</td><td><code>[assembly: AssemblyTitle("App Name")]</code></td></tr>
+<tr><td><code>#description "..."</code></td><td>AssemblyDescription</td><td><code>[assembly: AssemblyDescription("...")]</code></td></tr>
+<tr><td><code>#company "ACME"</code></td><td>AssemblyCompany (CompanyName)</td><td><code>[assembly: AssemblyCompany("ACME")]</code></td></tr>
+<tr><td><code>#product "MyApp"</code></td><td>AssemblyProduct (ProductName)</td><td><code>[assembly: AssemblyProduct("MyApp")]</code></td></tr>
+<tr><td><code>#copyright "(c) 2026"</code></td><td>AssemblyCopyright (LegalCopyright)</td><td><code>[assembly: AssemblyCopyright("(c) 2026")]</code></td></tr>
+<tr><td><code>#trademark "..."</code></td><td>AssemblyTrademark (LegalTrademarks)</td><td><code>[assembly: AssemblyTrademark("...")]</code></td></tr>
+<tr><td><code>#icon "logo.png"</code></td><td>Win32 アプリケーションアイコン (ico/png/bmp/gif/jpg/jpeg/tif/tiff)</td><td><code>csc /win32icon:logo.ico</code></td></tr>
+<tr><td><code>#manifest "app.manifest"</code></td><td>Win32 マニフェスト埋め込み (RT_MANIFEST)</td><td><code>csc /win32manifest:app.manifest</code></td></tr>
 </table>
+
+<p>
+メタデータディレクティブを 1 つでも書くと <code>nhspc</code> が Win32 VERSIONINFO リソースを自動生成します。
+エクスプローラーで EXE/DLL を右クリック → プロパティ → 詳細タブに表示される情報になります。
+<code>#icon</code> は <code>.ico</code> をそのまま埋め込むか、PNG/BMP/GIF/JPEG/TIFF を渡した場合は内部で
+16/32/48/256 サイズの PNG エントリを持つ Vista+ 形式 .ico に自動変換します (要 GDI+)。
+</p>
 
 <!-- ========================================== -->
 <h2 id="types">型システム</h2>
@@ -2615,11 +2639,343 @@ Process.Start("notepad.exe");</code></pre>
 <!-- ========================================== -->
 <h2 id="cli">CLI オプション</h2>
 
-<pre><code>nhspc.exe &lt;input.nhsp&gt; [-o &lt;output&gt;] [-debug]
+<pre><code>nhspc.exe &lt;input.nhsp&gt; [options]
 
-  &lt;input.nhsp&gt;  : ソースファイル
-  -o &lt;file&gt;     : 出力ファイルパス (省略時: アセンブリ名.dll)
-  -debug        : PDB デバッグ情報を生成</code></pre>
+  &lt;input.nhsp&gt;          : ソースファイル
+  -o &lt;file&gt;             : 出力ファイルパス (省略時: アセンブリ名.exe / .dll)
+  -debug                : PDB デバッグ情報を生成
+  -platform &lt;plat&gt;      : ターゲットプラットフォーム
+                            anycpu    (既定) — AnyCPU
+                            x86       — 32bit 専用
+                            x64       — 64bit 専用
+                            anycpu32  — AnyCPU + 32bit 優先
+  -target &lt;kind&gt;        : 出力種別を強制
+                            exe — 強制的に EXE
+                            dll — 強制的に DLL
+                            (省略時は #main の有無で自動判定)
+  -subsystem &lt;sub&gt;      : EXE のサブシステム
+                            console   (既定) — コンソール窓を表示
+                            windows   — GUI アプリ用 (コンソール窓なし)
+  -r &lt;assembly&gt;         : 参照アセンブリを追加 (複数指定可)
+  -reference &lt;assembly&gt; : -r の別名
+  -win32icon &lt;file&gt;     : アプリケーションアイコンを埋め込む
+                          ico/png/bmp/gif/jpg/jpeg/tif/tiff に対応
+                          (ico 以外は内部で .ico に自動変換)</code></pre>
+
+<h3>使用例</h3>
+
+<pre><code><span class="kw">REM</span> AnyCPU 既定 + メタデータはソース側 (#version 等) で指定
+nhspc.exe app.nhsp
+
+<span class="kw">REM</span> x64 専用 + デバッグ情報
+nhspc.exe app.nhsp -platform x64 -debug
+
+<span class="kw">REM</span> WinForms GUI アプリ (コンソール窓なし)
+nhspc.exe gui.nhsp -subsystem windows -win32icon logo.png
+
+<span class="kw">REM</span> ライブラリ参照を CLI から追加
+nhspc.exe app.nhsp -r System.Xml.dll -r System.Drawing.dll</code></pre>
+
+<p>
+以下の設定はソース側ディレクティブ (<code>#icon</code> / <code>#reference</code> / <code>#manifest</code> 等) と CLI オプション
+(<code>-win32icon</code> / <code>-r</code>) のどちらでも指定できます。両方指定された場合、ソース側が優先 (CLI は不足分のみ追加) される
+ものと、CLI が上書きするものがあるので注意してください。<br>
+- <code>#icon</code> が指定されている場合: <code>-win32icon</code> は無視<br>
+- <code>#reference</code> と <code>-r</code>: 両方の集合がマージされる<br>
+- <code>-target</code>: <code>#main</code> 自動判定や <code>#assembly "...", exe</code> を上書きする
+</p>
+
+<!-- ========================================== -->
+<h2 id="pdb">デバッグ情報 (PDB / Portable PDB)</h2>
+
+<p>
+<code>nhspc -debug</code> を付けてビルドすると、生成 EXE/DLL と並んで <code>.pdb</code>
+ファイルが出力されます。これは <strong>Windows PDB</strong> 形式 (フル PDB) で、
+<code>System.Reflection.Emit</code> がデフォルトで生成する形式です。
+</p>
+
+<p>
+Visual Studio や dnSpy はこの Windows PDB をそのまま読めますが、
+<strong>VS Code (.NET ランタイム coreclr デバッガ)</strong> や Rider のクロスプラット
+フォームデバッガは <strong>Portable PDB</strong> 形式しか受け付けません。
+そのため nhspc には変換ツールが同梱されています。
+</p>
+
+<h3>Pdb2PortablePdb ツール</h3>
+
+<pre><code>Pdb2PortablePdb &lt;assembly.exe|dll&gt; [-o &lt;output.pdb&gt;]
+
+  &lt;assembly&gt;     : 対象アセンブリ (隣接する同名 .pdb を読み込む)
+  -o &lt;output&gt;    : 出力先 .pdb (省略時は元の .pdb を上書き)</code></pre>
+
+<p>
+内部的には <code>Microsoft.DiaSymReader.Tools</code> の <code>PdbConverter</code> を使って
+Windows PDB → Portable PDB の変換を行います。アセンブリ本体は変更されません
+(MVID と PDB の対応関係はそのまま維持されます)。
+</p>
+
+<h3>VS Code 拡張 (vscode-nhsp) との連携</h3>
+
+<p>
+VS Code 拡張から <strong>NHSP Debug</strong> を起動すると、コンパイル直後に自動的に
+<code>Pdb2PortablePdb.exe</code> が呼ばれ、生成された Windows PDB がその場で Portable
+PDB に変換されてから、coreclr デバッガが起動されます。手動で変換する必要は
+ありません。ブレークポイント、ステップ実行、変数ウォッチがそのまま使えます。
+</p>
+
+<h3>変換が必要な場面・不要な場面</h3>
+
+<table>
+<tr><th>シナリオ</th><th>必要な PDB 形式</th><th>nhspc から見た手順</th></tr>
+<tr><td>Visual Studio (Windows) でデバッグ</td><td>Windows PDB</td><td><code>nhspc -debug</code> のみで OK (変換不要)</td></tr>
+<tr><td>dnSpy / dnSpyEx でデバッグ</td><td>Windows PDB</td><td><code>nhspc -debug</code> のみで OK</td></tr>
+<tr><td>VS Code (C# / coreclr) でデバッグ</td><td>Portable PDB</td><td>vscode-nhsp 拡張が自動変換 (手動なら <code>Pdb2PortablePdb</code>)</td></tr>
+<tr><td>Rider (.NET) でデバッグ</td><td>Portable PDB 推奨</td><td><code>Pdb2PortablePdb</code> で変換</td></tr>
+<tr><td>本番リリース (デバッグなし)</td><td>不要</td><td><code>-debug</code> を付けない</td></tr>
+</table>
+
+<div class="tip">
+<strong>なぜ nhspc 自体が Portable PDB を直接吐かないのか:</strong>
+<code>System.Reflection.Emit</code> の <code>DefineDocument</code> / <code>ISymbolWriter</code> 系 API は Windows PDB
+専用です。Portable PDB を直接生成するには <code>System.Reflection.Metadata.MetadataBuilder</code>
+を使った別系統の IL/メタデータビルダーが必要で、AssemblyBuilder ベースの現行
+コードからは差し替えコストが大きいため、現状は「フル PDB を出して必要なら
+変換」という二段構えにしています。
+</div>
+
+<!-- ========================================== -->
+<h2 id="vs2022">Visual Studio 2022 で使う</h2>
+
+<p>
+nhspc のリポジトリには Visual Studio 2022 用の TextMate ベース構文ハイライト拡張
+<code>nhsp-language.vsix</code> が同梱されています。インストールすると <code>.nhsp</code> ファイルが
+NHSP 用のシンタックスハイライトで開けるようになり、デバッグも追加設定なしで使えます。
+</p>
+
+<h3>ビルドとインストール</h3>
+
+<p>もっとも簡単な手順は <code>install.bat</code> を実行することです。VSIX が未ビルドなら自動でビルドします。
+ABC 全フェーズを 1 コマンドでセットアップできます:</p>
+
+<pre><code>install.bat [/q] [/home [path]] [/openfolder &lt;project-dir&gt;] [/noinstall]</code></pre>
+
+<table>
+<tr><th>フラグ</th><th>説明</th></tr>
+<tr><td><code>/q</code></td><td>サイレント (VSIXInstaller の GUI 確認ダイアログを出さない / 既存テンプレも問答無用で上書き)</td></tr>
+<tr><td><code>/home [path]</code></td><td>Phase B 用に <code>NHSPC_HOME</code> ユーザー環境変数を <code>setx</code> で永続設定。<br>パス省略時は <code>nhspc\bin\Release</code> や <code>dist</code> 等を自動検出</td></tr>
+<tr><td><code>/openfolder &lt;dir&gt;</code></td><td>Phase B テンプレ (<code>launch.vs.json</code> / <code>tasks.vs.json</code>) を <code>&lt;dir&gt;\.vs\</code> にコピー</td></tr>
+<tr><td><code>/noinstall</code></td><td>VSIXInstaller 呼び出しをスキップ。VSIX は既に入っていて <code>/home</code> や <code>/openfolder</code> だけ実行したい時に便利</td></tr>
+</table>
+
+<pre><code><span class="kw">REM</span> Phase A + C のみ (VSIX をインストール、確認ダイアログあり)
+install.bat
+
+<span class="kw">REM</span> Phase A + C のみ (サイレント)
+install.bat /q
+
+<span class="kw">REM</span> Phase A + B + C 全部入り (NHSPC_HOME を自動検出し、project に templates 配置)
+install.bat /home /openfolder C:\projects\myapp
+
+<span class="kw">REM</span> サイレント + 明示パス指定
+install.bat /q /home C:\tools\nhspc /openfolder C:\projects\myapp
+
+<span class="kw">REM</span> 既に VSIX 入れた後で別プロジェクトに Open Folder テンプレだけ追加
+install.bat /noinstall /openfolder C:\projects\anotherapp
+
+<span class="kw">REM</span> アンインストール
+nhspc\vs2022-nhsp\uninstall.bat
+
+<span class="kw">REM</span> サイレントアンインストール
+nhspc\vs2022-nhsp\uninstall.bat /q</code></pre>
+
+<p>
+<code>install.bat</code> は <code>vswhere.exe</code> で VS 2022 を検出し、<code>VSIXInstaller.exe</code> を呼び出します。
+インストール時は VS 2022 を <strong>事前に終了させておく</strong> 必要があります (起動中だとインストールがキューイングされて
+次回 VS 起動時まで反映されません)。
+</p>
+
+<p>手動でビルドだけしたい場合や、ZIP の中身を見たい場合は <code>build.bat</code> を直接呼んでください:</p>
+
+<pre><code>nhspc\vs2022-nhsp\build.bat        <span class="kw">REM</span> nhsp-language.vsix を生成のみ</code></pre>
+
+<p>
+VSIXInstaller がはじいた場合は、<code>nhsp-language.vsix</code> の中身 (zip として開く) を次の場所に手動で展開して
+VS を再起動するフォールバックもあります (<code>17.0_xxxx</code> のサフィックスはインスタンスごとに異なります):
+</p>
+
+<pre><code>%LocalAppData%\Microsoft\VisualStudio\17.0_xxxx\Extensions\IronHSP\NhspLanguage\</code></pre>
+
+<h3>デバッグ手順 (追加設定不要)</h3>
+
+<p>
+nhspc が出力する Windows PDB は VS 2022 のデバッガが第一級でサポートする形式なので、
+拡張機能を入れなくてもデバッグ自体は動きます。手順:
+</p>
+
+<ol>
+<li><code>nhspc app.nhsp -o app.exe -debug</code> で EXE と PDB を生成</li>
+<li>VS 2022 を起動 → <strong>File → Open → Project/Solution</strong> → <code>app.exe</code> を選択</li>
+<li>ソリューション エクスプローラーに表示された <code>app.exe</code> を右クリック → <strong>Set as Startup Project</strong></li>
+<li><code>app.nhsp</code> を VS 内で開いて行頭マージンをクリックしてブレークポイントを置く</li>
+<li><strong>F5</strong> で起動 → BP で停止 → ステップ実行 (F10 / F11) / Locals ウィンドウ / Call Stack / 変数ホバー評価 が C# と同じように動く</li>
+</ol>
+
+<div class="tip">
+<strong>なぜ追加設定なしで動くのか:</strong> nhspc は PDB の <code>DefineDocument</code> に
+<code>.nhsp</code> ファイルの絶対パスを書き込んでいるため、VS デバッガはソース行情報から
+直接 <code>.nhsp</code> を開けます。VS 2022 が <code>.nhsp</code> という拡張子を「言語」として知らなくても、
+デバッガはソース行のマップに拡張子を見ないので問題なく動きます。Locals ウィンドウに
+出る変数名・型は nhspc が PDB の LocalScope に書き込んだものがそのまま表示されます。
+</div>
+
+<h3>Open Folder モード (F5 で自動コンパイル → デバッグ)</h3>
+
+<p>
+プロジェクトファイルなしで .nhsp を直接編集 → F5 でビルド → デバッグしたい場合は、
+VS 2022 の <strong>Open Folder</strong> モードに <code>tasks.vs.json</code> と
+<code>launch.vs.json</code> を置く方法があります (VS Code の launch.json / tasks.json と同じノリ)。
+</p>
+
+<p>
+<code>nhspc/vs2022-nhsp/openfolder-templates/</code> にテンプレートを同梱しています。次の手順でセットアップしてください:
+</p>
+
+<ol>
+<li>nhspc.exe があるフォルダのパスを環境変数 <code>NHSPC_HOME</code> に設定 (例: <code>setx NHSPC_HOME C:\tools\nhspc</code>)</li>
+<li>作業フォルダ (例: <code>C:\projects\myapp</code>) に <code>.vs</code> サブフォルダを作る</li>
+<li>テンプレ 2 つを <code>.vs\</code> にコピー: <code>tasks.vs.json</code> / <code>launch.vs.json</code></li>
+<li>VS 2022 → <strong>File → Open → Folder</strong> でその作業フォルダを開く</li>
+<li><strong>F5</strong> → 初回のみ EXE 名を聞かれる (例: <code>app.exe</code>) → 入力するとビルドタスクが走り、デバッガが起動</li>
+</ol>
+
+<p>テンプレが提供するタスク:</p>
+
+<table>
+<tr><th>taskLabel</th><th>説明</th></tr>
+<tr><td><code>NHSP: Build (Debug)</code></td><td><code>nhspc -debug</code> で AnyCPU ビルド (BP / Locals 用 PDB 付き)</td></tr>
+<tr><td><code>NHSP: Build (Release)</code></td><td><code>-debug</code> なしの AnyCPU ビルド</td></tr>
+<tr><td><code>NHSP: Build x64 (Debug)</code></td><td><code>-platform x64 -debug</code> で 64bit 専用ビルド</td></tr>
+</table>
+
+<p>
+タスクは <strong>Solution Explorer の .nhsp ファイルを右クリック</strong> → 任意のタスクを実行で個別に呼ぶこともできます。
+ビルドだけしたい (デバッガを立ち上げたくない) ときに便利です。
+</p>
+
+<div class="tip">
+<strong>カスタマイズ:</strong> プラットフォーム固定 / アイコン埋め込み / 参照アセンブリ追加など
+プロジェクト固有のオプションを使いたい場合は、<code>tasks.vs.json</code> の
+<code>args</code> 配列を直接編集してください。<code>${file}</code> / <code>${fileDirname}</code> /
+<code>${fileBasenameNoExtension}</code> / <code>${workspaceRoot}</code> / <code>${env.X}</code> などの
+プレースホルダが使えます。
+</div>
+
+<h3>VSIX 拡張で何が増えるか</h3>
+
+<table>
+<tr><th>機能</th><th>VSIX なし</th><th>VSIX あり</th></tr>
+<tr><td>シンタックスハイライト</td><td>白黒</td><td>キーワード/型/文字列/コメントが色分け</td></tr>
+<tr><td>ファイル拡張子の関連付け</td><td>「不明な拡張子」扱い</td><td>NHSP として開く</td></tr>
+<tr><td>デバッグ (BP / Locals / Step)</td><td>動く</td><td>動く (変わらず)</td></tr>
+<tr><td>IntelliSense / 補完</td><td>なし</td><td>なし (LSP の補完機能は将来追加予定)</td></tr>
+<tr><td>エラー波線 (リアルタイム)</td><td>なし</td><td>VS Code 経由で nhspls.exe を使えば可 (下記 LSP セクション参照)</td></tr>
+</table>
+
+<!-- ========================================== -->
+<h2 id="lsp">Language Server (nhspls.exe)</h2>
+
+<p>
+<code>nhspls.exe</code> は nhspc のレキサー / パーサーをそのまま流用した
+<strong>Language Server Protocol</strong> 実装です。エディタが文書の変更を通知してくると、
+nhspls がリアルタイムで構文解析を回して <code>publishDiagnostics</code> で赤波線を返します。
+コンパイル (IL Emit) は走らないので軽量で、保存しなくてもタイプ中にエラー位置が出ます。
+</p>
+
+<h3>サポート機能</h3>
+
+<table>
+<tr><th>LSP メソッド</th><th>動作</th></tr>
+<tr><td><code>initialize</code> / <code>initialized</code></td><td>Capabilities ハンドシェイク (textDocumentSync = Full)</td></tr>
+<tr><td><code>textDocument/didOpen</code> / <code>didChange</code> / <code>didClose</code></td><td>文書ストアに lex+parse 結果をキャッシュ → 各機能で共有</td></tr>
+<tr><td><code>textDocument/publishDiagnostics</code></td><td>パースで集めた <code>DiagnosticBag</code> を LSP 形式で送出 (リアルタイム赤波線)</td></tr>
+<tr><td><code>textDocument/documentSymbol</code></td><td>アウトライン: クラス → メソッド/フィールド/プロパティ/イベント の階層、インターフェース、enum、delegate</td></tr>
+<tr><td><code>textDocument/completion</code></td><td><code>#</code> 後はディレクティブ一覧、それ以外はキーワード + 型エイリアス + ユーザー定義クラス/インターフェース</td></tr>
+<tr><td><code>textDocument/hover</code></td><td>カーソル下のトークン種別を判定: 型エイリアスは CLR 名、キーワードは説明、識別子はクラス/メソッド/フィールドのシグネチャ</td></tr>
+<tr><td><code>textDocument/definition</code></td><td>カーソル下の識別子をユニット内のクラス/メソッド/フィールド/プロパティ/インターフェース/enum/delegate と照合してジャンプ先を返す</td></tr>
+<tr><td><code>shutdown</code> / <code>exit</code></td><td>クリーン終了</td></tr>
+</table>
+
+<p>未実装 (将来予定):</p>
+<ul>
+<li>クロスファイル定義ジャンプ (現状は同一文書内のみ)</li>
+<li>メンバー補完 (<code>obj.</code> のあとの候補表示) &mdash; 型推論が必要</li>
+<li>シグネチャヘルプ (<code>(</code> 入力時のパラメータヒント)</li>
+<li>リネームリファクタリング</li>
+<li>セマンティックトークン (TextMate より精度の高い色付け)</li>
+</ul>
+
+<h3>VS Code から使う</h3>
+
+<p>
+vscode-nhsp 拡張は起動時に nhspls.exe を子プロセスとして spawn し、開いている <code>.nhsp</code>
+すべてに対して didOpen/didChange を流します。設定:
+</p>
+
+<table>
+<tr><th>設定キー</th><th>既定値</th><th>説明</th></tr>
+<tr><td><code>nhsp.languageServer.enabled</code></td><td><code>true</code></td><td>LSP を有効にするか。<code>false</code> にすると compile-on-save の診断のみになる</td></tr>
+<tr><td><code>nhsp.languageServerPath</code></td><td>(空)</td><td>nhspls.exe のパス。空なら拡張同梱版 → ワークスペース内のビルド出力 の順に自動検出</td></tr>
+</table>
+
+<h3>VS 2022 から使う</h3>
+
+<p>
+<code>nhsp-language.vsix</code> には MEF コンポーネント
+<code>NhspVsLanguageClient.dll</code> が同梱されており、VS 2022 で <code>.nhsp</code> ファイルを開くと
+自動的に <code>nhspls.exe</code> が子プロセスとして spawn されます。VS 2022 の
+<code>Microsoft.VisualStudio.LanguageServer.Client</code> API が LSP プロトコルを駆動するので、以下が動きます:
+</p>
+
+<table>
+<tr><th>機能</th><th>VS 2022 での見え方</th></tr>
+<tr><td>診断 (publishDiagnostics)</td><td>エラー リスト + コード ウィンドウの赤波線</td></tr>
+<tr><td>documentSymbol</td><td>ナビゲーションバー (上部のドロップダウン) と「コード マップ」</td></tr>
+<tr><td>completion</td><td>Ctrl+Space で候補表示、<code>#</code> でディレクティブ補完</td></tr>
+<tr><td>hover</td><td>識別子にマウスホバーで型/シグネチャ ツールチップ</td></tr>
+<tr><td>definition</td><td>F12 / Go to Definition で <code>#class</code> / <code>#func</code> へジャンプ</td></tr>
+</table>
+
+<p>
+ビルド方法: <code>nhspc\vs2022-nhsp\build.bat</code> を実行すると <code>NhspVsLanguageClient</code> と
+<code>NhspLanguageServer</code> をリリースビルドし、必要な DLL/EXE を全部 zip して <code>nhsp-language.vsix</code> を作ります。
+出来上がった VSIX をダブルクリックでインストール → VS 2022 を再起動 → <code>.nhsp</code> ファイルを開けば動き出します。
+</p>
+
+<div class="tip">
+<strong>VS 2022 LSP の制限:</strong> Microsoft.VisualStudio.LanguageServer.Client API はシンプルさを優先しているため、
+カスタムコマンドや CodeLens など一部の高度な LSP 機能は VS 側でサポートされていません。
+診断 / 補完 / hover / definition / documentSymbol の5つは公式にサポート済みなので nhspls との
+組み合わせでフル機能が動きます。
+</div>
+
+<h3>手動でテストする</h3>
+
+<p>
+<code>nhspls.exe</code> は単体で起動して JSON-RPC で対話できます。デバッグ用にスクリプトから叩く例:
+</p>
+
+<pre><code>; Python から (Content-Length ヘッダ + JSON ボディで送る)
+import subprocess, json
+def msg(m):
+    body = json.dumps(m).encode()
+    return f"Content-Length: {len(body)}\r\n\r\n".encode() + body
+
+p = subprocess.Popen([r"...\nhspls.exe"],
+    stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+p.stdin.write(msg({"jsonrpc":"2.0","id":1,"method":"initialize",
+    "params":{"processId":0,"rootUri":None,"capabilities":{}}}))
+p.stdin.flush()
+; ... read framed response from p.stdout</code></pre>
 
 <!-- ========================================== -->
 <h2 id="limits">既知の制限・未実装機能</h2>
@@ -2668,7 +3024,7 @@ Process.Start("notepad.exe");</code></pre>
 <tr><td>演算子</td><td>算術 (+,-,*,/,%), 比較 (==,!=,&lt;,&gt;,&lt;=,&gt;=), 論理 (&amp;&amp;,||,!), ビット (&amp;,|,^,~,&lt;&lt;,&gt;&gt;), 三項 (?:), null合体 (??), is, as, typeof, ++/--</td></tr>
 <tr><td>型</td><td>int, int64, double, float, string, bool, byte, sbyte, short, ushort, uint, ulong, char, IntPtr, UIntPtr, int? (Nullable), int[] (配列), int[][] (ジャグ配列), List&lt;T&gt; (ジェネリクス利用)</td></tr>
 <tr><td>文</td><td>dim, new, print, sleep, lock, using, return, throw</td></tr>
-<tr><td>その他</td><td>$"補間文字列 (変数・関数・式対応)", 16進数 ($FF/0xFF), #namespace, #include, #dllimport/#dllfunc (EntryPoint/CharSet/CallingConvention/SetLastError), COM属性, PDB デバッグ情報 (Portable PDB 変換), コロン区切り (:), 行継続 (\), dim 省略形, null/nullptr, 値型メンバーアクセス (DateTime 等)</td></tr>
+<tr><td>その他</td><td>$"補間文字列 (変数・関数・式対応)", 16進数 ($FF/0xFF), #namespace, #include, #dllimport/#dllfunc (EntryPoint/CharSet/CallingConvention/SetLastError), COM属性, PDB デバッグ情報 (Windows PDB + Pdb2PortablePdb で Portable PDB へ変換可), コロン区切り (:), 行継続 (\), dim 省略形, null/nullptr, 値型メンバーアクセス (DateTime 等)</td></tr>
 </table>
 
 <footer>
