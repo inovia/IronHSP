@@ -671,6 +671,15 @@ static int64_t code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 	case MPTYPE_INUM64:
 		*(int64_t *)out = code_geti64();
 		break;
+	case MPTYPE_INTPTR:
+		// platform-sized int (x86=32bit, x64=64bit)
+		// pointer 系引数を HSP source レベルで platform 中立に書けるようにする
+#ifdef HSP64
+		*(int64_t *)out = code_geti64();
+#else
+		*(UINT_PTR *)out = (UINT_PTR)code_getdi(0);
+#endif
+		break;
 	case MPTYPE_PVARPTR:
 		aptr = code_getva( &pval );
 		*(void **)out = HspVarCorePtrAPTR( pval, aptr );

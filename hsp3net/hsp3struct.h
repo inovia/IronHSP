@@ -245,6 +245,7 @@ typedef LIBDAT HED_LIBDAT;
 #define MPTYPE_TMODULEVAR -20
 #define MPTYPE_SRET -22					// struct return (hidden pointer parameter)
 #define MPTYPE_STRUCTVAL -23				// struct by value parameter
+#define MPTYPE_INTPTR -24					// platform-sized int (x86=32bit, x64=64bit) for pointer args
 #define MPTYPE_INUM64 HSPVAR_FLAG_INT64
 
 //#define MPTYPE_PTR_HWND -14

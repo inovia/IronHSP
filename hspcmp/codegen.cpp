@@ -13,7 +13,9 @@
 
 #include "../hsp3/hsp3config.h"
 #include "../hsp3/hsp3debug.h"
-#include "../hsp3/hsp3struct.h"
+// hspcmp は hsp3net 向けの .ax を生成するため、hsp3net の hsp3struct.h を参照する。
+// (NSTRUCT 系 MPTYPE_STRUCTVAL/SRET、MPTYPE_INTPTR 等は hsp3net 専用)
+#include "../hsp3net/hsp3struct.h"
 #include "../hsp3/strnote.h"
 
 #include "supio.h"
@@ -2218,6 +2220,7 @@ int CToken::GetParameterFuncTypeCG( char *name )
 	//
 	if ( !strcmp( cg_str,"int" ) ) return MPTYPE_INUM;
 	if ( !strcmp( cg_str,"int64" ) ) return MPTYPE_INUM64;
+	if ( !strcmp( cg_str,"intptr" ) ) return MPTYPE_INTPTR;
 	if ( !strcmp( cg_str,"var" ) ) return MPTYPE_PVARPTR;
 	if ( !strcmp( cg_str,"str" ) ) return MPTYPE_LOCALSTRING;
 	if ( !strcmp( cg_str,"double" ) ) return MPTYPE_DNUM;
@@ -3357,6 +3360,12 @@ int CToken::PutStructParam( short mptype, int extype )
 		break;
 	case MPTYPE_INUM64:
 		size = sizeof(int64_t);
+		break;
+	case MPTYPE_INTPTR:
+		// platform-sized int (x86=4byte, x64=8byte)
+		// .ax には 32bit 換算で出力 (他の pointer 型と同じ)。
+		// 実際の slot サイズは runtime 側で sizeof(INT_PTR) ベースに展開される。
+		size = 4;
 		break;
 	case MPTYPE_LOCALVAR:
 		size = sizeof(PVal);

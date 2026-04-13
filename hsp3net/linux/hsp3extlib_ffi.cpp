@@ -501,6 +501,7 @@ static int code_expand_next( ffi_type **prm_args, void **prm_values, const STRUC
 // libffi用引数をスタック上に保持する
 union FfiParam {
 	int i;
+	int64_t i64;
 	double d;
 	float f;
 	void *ptr;
@@ -589,6 +590,17 @@ static int code_expand_next( ffi_type **prm_args, void **prm_values, const STRUC
 		p.i = (int)code_getdi(0);
 		prm_values[index] = &p.i;
 		prm_args[index] = &ffi_type_sint;
+		break;
+	case MPTYPE_INTPTR:
+		// platform-sized int — libffi の ffi_type_pointer に委ねる
+#ifdef HSP64
+		p.i64 = code_geti64();
+		prm_values[index] = &p.i64;
+#else
+		p.i = (int)code_getdi(0);
+		prm_values[index] = &p.i;
+#endif
+		prm_args[index] = &ffi_type_pointer;
 		break;
 	case MPTYPE_PVARPTR:
 		aptr = code_getva( &pval );

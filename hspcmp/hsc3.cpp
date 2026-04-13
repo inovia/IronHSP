@@ -9,7 +9,7 @@
 
 #include "../hsp3/hsp3config.h"
 #include "../hsp3/hsp3debug.h"
-#include "../hsp3/hsp3struct.h"
+#include "../hsp3net/hsp3struct.h"
 #include "../hsp3/strnote.h"
 
 #include "supio.h"
