@@ -243,8 +243,6 @@ typedef LIBDAT HED_LIBDAT;
 #define MPTYPE_PTR_DPMINFO -18
 #define MPTYPE_NULLPTR -19
 #define MPTYPE_TMODULEVAR -20
-#define MPTYPE_SRET -22					// struct return (hidden pointer parameter)
-#define MPTYPE_STRUCTVAL -23				// struct by value parameter
 #define MPTYPE_INUM64 HSPVAR_FLAG_INT64
 
 //#define MPTYPE_PTR_HWND -14
@@ -286,7 +284,6 @@ typedef struct STRUCTPRM {
 #define STRUCTDAT_OT_RETINT   0x00		// int/int64 戻り値（デフォルト）
 #define STRUCTDAT_OT_RETDOUBLE 0x10		// double 戻り値
 #define STRUCTDAT_OT_RETFLOAT  0x20		// float 戻り値
-#define STRUCTDAT_OT_RETSTRUCT 0x30		// struct 戻り値（隠しポインタ方式）
 
 // function,module specific data
 

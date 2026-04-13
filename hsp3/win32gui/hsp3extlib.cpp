@@ -44,12 +44,7 @@ static MEM_HPIDAT *hpidat;
 // 入れ子呼び出し対応のリングバッファ方式。
 // 例: outer(inner(), 1) のように #cfuncst 関数が入れ子になっても
 // 各呼び出しが異なるバッファを使うため安全。
-#define SRET_BUFFER_SIZE 4096
-#define SRET_NUM_BUFFERS 16		// 最大入れ子深度（16段で十分）
-static char sret_buffers[SRET_NUM_BUFFERS][SRET_BUFFER_SIZE];
-static int sret_ring_index = 0;		// 次に使うスロット番号
-static int sret_depth = 0;			// #cfuncst 入れ子深度 (0=非入れ子)
-static int sret_current_slot = -1;	// 現在処理中の SRET スロット番号
+// SRET / NSTRUCT 関連 (#cfuncst の構造体戻り値受け取り) は hsp3net 側にのみ実装される。
 
 #define GetPRM(id) (&hspctx->mem_finfo[id])
 #define GetLIB(id) (&hspctx->mem_linfo[id])
@@ -570,48 +565,7 @@ int64_t code_expand_and_call( const STRUCTDAT *st )
 	//	DLL 関数呼び出し時は st->proc に関数アドレスをセットして
 	//	おかなければなりません（ BindFUNC() により）。
 	//
-	//	#cfuncst (RETSTRUCT) の場合:
-	//	先頭パラメータが MPTYPE_SRET で、subid に構造体サイズが格納されている。
-	//	呼び出し時に sret_buffer へのポインタを隠し第1引数として渡す。
-	//	DLL関数は sret_buffer に構造体を書き込み、そのポインタをEAX/RAXで返す。
-	//
 	int64_t result;
-
-	// RETSTRUCT フラグチェック: 先頭パラメータが MPTYPE_SRET かを確認
-	//
-	// 入れ子安全なスタック方式:
-	//   sret_depth: 入れ子深度。0 = 最外レベル。
-	//   sret_ring_index: 次に割り当てるスロット番号。
-	//
-	// 入れ子呼び出し中はスロットが蓄積される:
-	//   VAdd(VGet(1,0,0), VGet(0,1,0))
-	//     VAdd  → depth=1, slot=0
-	//     VGet1 → depth=2, slot=1
-	//     VGet1 完了 → depth=1 (slot 1 のデータは VAdd のパラメータとして参照中)
-	//     VGet2 → depth=2, slot=2
-	//     VGet2 完了 → depth=1 (slot 2 のデータも参照中)
-	//     VAdd DLL呼出し → slot 0,1,2 すべて有効
-	//     VAdd 完了 → depth=0 → ring_index=0 にリセット(全スロット解放)
-	//
-	int sret_slot = -1;
-	if ( (st->otindex & STRUCTDAT_OT_RETMASK) == STRUCTDAT_OT_RETSTRUCT ) {
-		if ( st->prmmax > 0 ) {
-			STRUCTPRM *first_prm = &hspctx->mem_minfo[ st->prmindex ];
-			if ( first_prm->mptype == MPTYPE_SRET ) {
-				int ssize = first_prm->subid;
-				if ( ssize > 0 && ssize <= SRET_BUFFER_SIZE ) {
-					if ( sret_ring_index >= SRET_NUM_BUFFERS ) {
-						throw ( HSPERR_STACK_OVERFLOW );	// 入れ子が深すぎる
-					}
-					sret_slot = sret_ring_index;
-					sret_ring_index++;
-					sret_depth++;
-					sret_current_slot = sret_slot;	// code_expand_next から参照
-					memset( sret_buffers[sret_slot], 0, ssize );
-				}
-			}
-		}
-	}
 
 #ifdef HSP64
 	char *prmbuf = sbAlloc(st->prmmax * sizeof(INT_PTR));
@@ -624,30 +578,9 @@ int64_t code_expand_and_call( const STRUCTDAT *st )
 	}
 	catch (...) {
 		sbFree( prmbuf );
-		if ( sret_slot >= 0 ) {
-			sret_depth--;
-			if ( sret_depth <= 0 ) {
-				sret_ring_index = 0;
-				sret_depth = 0;
-			}
-		}
 		throw;
 	}
 	sbFree( prmbuf );
-
-	// SRET の場合、result (EAX/RAX) は sret_buffers[slot] へのポインタのはず
-	// 明示的にバッファのアドレスを返す（DLLが同じポインタを返すはずだが安全策）
-	if ( sret_slot >= 0 ) {
-		result = (int64_t)(INT_PTR)sret_buffers[sret_slot];
-		sret_depth--;
-		if ( sret_depth <= 0 ) {
-			// 最外レベルの #cfuncst 呼び出しが完了:
-			// すべてのスロットを解放(次の呼び出しで再利用可能)
-			sret_ring_index = 0;
-			sret_depth = 0;
-		}
-	}
-
 	return result;
 }
 
@@ -777,35 +710,8 @@ static int64_t code_expand_next( char *prmbuf, const STRUCTDAT *st, int index )
 	case MPTYPE_NULLPTR:
 		*(void **)out = NULL;
 		break;
-	case MPTYPE_SRET:
-		// #cfuncst 用: 隠しポインタパラメータ
-		*(void **)out = (void *)sret_buffers[sret_current_slot];
-		break;
-	case MPTYPE_STRUCTVAL:
-		{
-		// 構造体値渡し: 変数から構造体バイトを読み取りパラメータに展開
-		int sval_size = prm->subid;  // 構造体サイズ(バイト)
-		aptr = code_getva( &pval );
-		char *src = (char *)HspVarCorePtrAPTR( pval, aptr );
-#ifdef HSP64
-		// x64 Win64 ABI: >8 バイトの構造体はポインタ渡し
-		if ( sval_size <= 8 ) {
-			// 小さい構造体: 値を直接 8バイトスロットに格納
-			memset( out, 0, sizeof(INT_PTR) );
-			memcpy( out, src, sval_size );
-		} else {
-			// 大きい構造体: テンプコピーを作成してポインタを渡す
-			localbuf = sbAlloc( sval_size );
-			memcpy( localbuf, src, sval_size );
-			*(void **)out = localbuf;
-		}
-#else
-		// x86: 構造体バイトを prmbuf に直接展開
-		// call_extfunc が全 dword をスタックに push する
-		memcpy( out, src, sval_size );
-#endif
-		}
-		break;
+	// MPTYPE_SRET / MPTYPE_STRUCTVAL は IronHSP の構造体型 (NSTRUCT) 専用で、
+	// hsp3 ではサポートしない (hsp3net のみ)
 #ifndef HSP_COM_UNSUPPORTED
 	case MPTYPE_IOBJECTVAR:
 		aptr = code_getva( &pval );
