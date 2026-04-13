@@ -3,13 +3,10 @@
 ;       DirectWrite + Direct2D + WIC を pure HSP の COM 機能で wrap した
 ;       hspd2d モジュールの最小動作確認サンプル
 ;
-;   出力: hspd2d_hello.png (400x200, テキスト 2 行)
+;   出力: hspd2d_hello.png (400x200, 複数フォントでテキスト 3 行)
 ;
 ;   実行:
 ;     hsp3net 系ランタイム (hsp3cl_64.exe / hsp3_64.exe)
-;
-;   注意: Phase 2 では d2d_font は 1 セッション中 1 回だけ呼び出すこと
-;         (2 回目の d2d_font 呼び出しで COM ptr が壊れる原因不明バグあり)
 ;============================================================
 
 #include "hspd2d.hsp"
@@ -18,11 +15,13 @@
     d2d_image_create 0, 400, 200
     d2d_clear 32, 32, 64, 255
 
-    d2d_font  "Yu Gothic UI", 22.0, 700, 0
+    d2d_font  "Yu Gothic UI", 28.0, 700, 0
     d2d_color 255, 240, 160, 255
     d2d_drawtext "Hello, hspd2d!", 20, 30, 0, 0
+
+    d2d_font  "Yu Gothic UI", 16.0, 400, 0
     d2d_color 200, 220, 255, 255
-    d2d_drawtext "DirectWrite + Direct2D + WIC", 20, 90, 0, 0
+    d2d_drawtext "DirectWrite + Direct2D + WIC", 20, 100, 0, 0
     d2d_color 160, 255, 200, 255
     d2d_drawtext "(pure HSP, no native DLL)", 20, 130, 0, 0
 

@@ -1,0 +1,37 @@
+;============================================================
+;   hspd2d サンプル 02 — 色付き絵文字
+;
+;   DirectWrite の COLR/CPAL/CBDT/sbix 系カラーフォントを使って
+;   Segoe UI Emoji 経由で色付き絵文字を描画する。
+;
+;   d2d_drawtext は内部的に
+;       D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT
+;   を有効にしているので、フォント選択さえ正しければ自動で
+;   color rendering される。
+;
+;   出力: hspd2d_emoji.png (480x240)
+;============================================================
+
+#include "hspd2d.hsp"
+
+    d2d_init
+    d2d_image_create 0, 480, 240
+    d2d_clear 24, 24, 32, 255
+
+    ; 普通のテキスト
+    d2d_font  "Yu Gothic UI", 18.0, 700, 0
+    d2d_color 220, 230, 255, 255
+    d2d_drawtext "hspd2d emoji test", 20, 20, 0, 0
+
+    ; 色付き絵文字 (Segoe UI Emoji)
+    d2d_font  "Segoe UI Emoji", 36.0, 400, 0
+    d2d_color 255, 255, 255, 255
+    d2d_drawtext "🎨 🎮 🌈 🚀 🍣", 20, 70, 0, 0
+    d2d_drawtext "❤ 🐱 🐶 🌸 ⭐", 20, 130, 0, 0
+
+    d2d_image_save 0, "hspd2d_emoji.png"
+    d2d_image_delete 0
+    d2d_shutdown
+
+    mes "saved: hspd2d_emoji.png"
+    end

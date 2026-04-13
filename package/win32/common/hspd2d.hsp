@@ -459,12 +459,10 @@
     local _old, local _w, local _style, local _out, local _dwfac
     if d2d_initialized = 0 : d2d_init
 
-    ; 既存 format を release
-    if d2d_cur_format_ptr(0) ! 0 {
-        newcom _old, IDWriteTextFormat, -1, d2d_cur_format_ptr(0)
-        delcom _old
-        d2d_cur_format_ptr(0) = 0
-    }
+    ; NOTE: 旧 format を Release すると d2d_shutdown 側の同パターン Release で
+    ; HSP 内の ReleaseComPtr が AV する (HSP comobj 側のバグ)。
+    ; 暫定対応: 旧 format を leak する。1 個 ~ 数百 byte なので実害は少ない。
+    ; 詳細は memory/reference_hsp_module_quirks 参照。Phase 3 で対処予定。
 
     _w = weight
     if _w <= 0 : _w = 400
@@ -536,8 +534,11 @@
     _attach_dwfmt(_fmt, d2d_cur_format_ptr)
     _attach_scb(_brush, _brush_ptr)
 
-    ; DrawText("text", strlen, fmt, &rect, brush, options=0, measuringMode=0=NATURAL)
-    d2d_RT_DrawText _rt, text, strlen(text), _fmt, _rect, _brush, 0, 0
+    ; DrawText("text", strlen, fmt, &rect, brush,
+    ;          options = D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT (= 4)
+    ;            → COLR/CPAL/CBDT/sbix 系の色付き絵文字フォントを有効化
+    ;          measuringMode = DWRITE_MEASURING_MODE_NATURAL (= 0))
+    d2d_RT_DrawText _rt, text, strlen(text), _fmt, _rect, _brush, 4, 0
     if stat ! 0 : mes "d2d_drawtext: DrawText stat=" + stat
 
     ; brush は newcom -2 で attach しているので delcom が AddRef を打ち消す。
