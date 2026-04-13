@@ -1,0 +1,69 @@
+; NHSP ディレクティブヘルプ for サクラエディタ
+; 制作: IronHSP project, https://github.com/inovia/IronHSP
+; 対象: NHSP (Net HSP) 0.2
+; 文字コード: Shift-JIS (CP932), 改行: CRLF
+; 書式: <ディレクティブ名> /// <説明>
+
+; --- アセンブリ・参照 ---
+assembly /// #assembly "Name" [, exe]\n出力アセンブリ名と種別 (dll / exe) を指定します。必須。
+reference /// #reference "Lib.dll"\n参照アセンブリを追加します。csc /r: 相当。
+namespace /// #namespace "Foo.Bar"\n以降の宣言を指定の名前空間に入れます。
+endnamespace /// 名前空間ブロックの終了。
+using /// #using "System.Collections"\nC# の using namespace 相当。型名解決用。
+endusing /// using ブロックの終了 (using "..." を範囲限定したい場合)。
+include /// #include "other.nhsp"\n別の .nhsp ファイルを取り込みます。
+
+; --- 型定義 ---
+class /// #class [修飾子] Name [: Base, IFace1, ...]\nクラス定義開始。#endclass で終了。
+endclass /// クラス定義の終了。
+interface /// #interface Name\nインターフェース定義開始。
+endinterface /// インターフェース定義の終了。
+struct /// #struct [修飾子] Name [, Layout] [, Pack=N] [, Size=N] [, CharSet=X]\n値型 (struct) の定義開始。
+endstruct /// struct 定義の終了。
+delegate /// #delegate [修飾子] [戻型] Name [, params]\nデリゲート型定義 (関数型)。
+enum /// #enum Name\n列挙型定義開始。
+endenum /// 列挙型定義の終了。
+
+; --- メンバー定義 ---
+field /// #field [修飾子] 型 名前\nフィールド宣言。
+property /// #property Name as 型\nプロパティ宣言。endproperty で終了、endget / endset でアクセサを区切る。
+endproperty /// プロパティ定義の終了。
+endget /// プロパティの get アクセサ終了。
+endset /// プロパティの set アクセサ終了。
+func /// #func [修飾子] [戻型] Name [, params]\nメソッド定義開始。#endfunc で終了。
+endfunc /// メソッド定義の終了。
+init /// #init [params]\nコンストラクタ定義開始。#init static でクラス静的コンストラクタ。
+endinit /// コンストラクタ定義の終了。
+indexer /// #indexer [修飾子] 型 [, params]\nインデクサ (this[i]) 定義開始。
+endindexer /// インデクサ定義の終了。
+event /// #event [修飾子] DelegateType Name\nイベント宣言。
+endevent /// event 定義の終了。
+operator /// #operator 戻型 演算子, params\n演算子オーバーロード。
+endoperator /// operator 定義の終了。
+destructor /// #destructor\nデストラクタ (ファイナライザ) 定義。
+enddestructor /// destructor の終了。
+attribute /// #attribute Name, "value"\nクラス・メソッドにカスタム属性を付与。
+access /// #access public/private\n以降のメンバーのデフォルトアクセス修飾子を設定。
+
+; --- P/Invoke ---
+dllimport /// #dllimport "user32.dll" [, CharSet=Unicode] [, CallingConvention=Cdecl]\n以降の #dllfunc に適用される DLL を指定。
+dllfunc /// #dllfunc [修飾子] [戻型] Name [, params]\nP/Invoke 関数宣言 (本体なし)。
+
+; --- エントリポイント ---
+main /// #main\n実行可能ファイル (EXE) のエントリポイントブロック開始。これがあると nhspc は EXE を出力。
+endmain /// main ブロックの終了。
+
+; --- アセンブリメタデータ ---
+version /// #version "1.2.3.4"\nAssemblyVersion (CLR バージョン)。
+fileversion /// #fileversion "1.2.3.4"\nAssemblyFileVersion (Win32 VERSIONINFO の FileVersion)。
+infoversion /// #infoversion "1.2.3-rc1"\nAssemblyInformationalVersion (ProductVersion)。
+title /// #title "App Name"\nAssemblyTitle (FileDescription として表示)。
+description /// #description "..."\nAssemblyDescription。
+company /// #company "ACME"\nAssemblyCompany (CompanyName)。
+product /// #product "MyApp"\nAssemblyProduct (ProductName)。
+copyright /// #copyright "(c) 2026 ..."\nAssemblyCopyright (LegalCopyright)。
+trademark /// #trademark "..."\nAssemblyTrademark (LegalTrademarks)。
+
+; --- Win32 リソース ---
+icon /// #icon "logo.png"\nWin32 アプリケーションアイコンを埋め込みます。.ico / .png / .bmp / .gif / .jpg / .tiff 対応 (ico 以外は内部で .ico に自動変換)。
+manifest /// #manifest "app.manifest"\nWin32 マニフェストを埋め込みます (RT_MANIFEST)。

@@ -1,0 +1,89 @@
+// NHSP 強調キーワード for サクラエディタ
+// 制作: IronHSP project, https://github.com/inovia/IronHSP
+// 対象: NHSP (Net HSP) 0.2 - HSP風文法 .NET コンパイラ言語
+// 文字コード: Shift-JIS (CP932), 改行: CRLF
+// 参考: https://github.com/inovia/IronHSP の nhspc ドキュメント
+
+// 制御構文
+break
+case
+catch
+continue
+default
+else
+elseif
+endif
+endlock
+endswitch
+endtry
+finally
+for
+foreach
+in
+if
+lock
+loop
+next
+repeat
+return
+sleep
+step
+switch
+throw
+to
+try
+wend
+when
+while
+
+// 宣言・式
+and
+as
+default
+dim
+is
+mcall
+new
+newobj
+not
+null
+nullptr
+or
+print
+typeof
+
+// アクセス修飾子・メンバー修飾子
+abstract
+const
+override
+params
+private
+protected
+public
+readonly
+ref
+out
+sealed
+static
+virtual
+
+// 型エイリアス (組み込み型)
+bool
+byte
+char
+double
+float
+int
+int64
+intptr
+long
+object
+sbyte
+short
+string
+uint
+uintptr
+ulong
+ushort
+var
+void

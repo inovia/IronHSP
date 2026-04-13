@@ -1,0 +1,70 @@
+// NHSP ディレクティブ強調キーワード for サクラエディタ
+// 制作: IronHSP project, https://github.com/inovia/IronHSP
+// 対象: NHSP (Net HSP) 0.2
+// 文字コード: Shift-JIS (CP932), 改行: CRLF
+//
+// このファイルには NHSP の '#' ディレクティブの名前を載せています。
+// nhsp.kwd と別セットとして登録すると別色で強調表示できます。
+// (例: nhsp.kwd は青、こちらはオレンジ など)
+
+// アセンブリ・参照
+assembly
+reference
+namespace
+endnamespace
+using
+endusing
+include
+
+// 型定義
+class
+endclass
+interface
+endinterface
+struct
+endstruct
+delegate
+enum
+endenum
+
+// メンバー定義
+field
+property
+endproperty
+endget
+endset
+func
+endfunc
+init
+endinit
+indexer
+endindexer
+event
+endevent
+operator
+endoperator
+destructor
+enddestructor
+attribute
+access
+
+// P/Invoke
+dllimport
+dllfunc
+
+// エントリポイント
+main
+endmain
+
+// アセンブリメタデータ / Win32 リソース
+version
+fileversion
+infoversion
+title
+description
+company
+product
+copyright
+trademark
+icon
+manifest

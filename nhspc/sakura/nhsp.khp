@@ -1,0 +1,88 @@
+; NHSP キーワードヘルプ for サクラエディタ
+; 制作: IronHSP project, https://github.com/inovia/IronHSP
+; 対象: NHSP (Net HSP) 0.2
+; 文字コード: Shift-JIS (CP932), 改行: CRLF
+; 書式: <キーワード> /// <説明> ('\n' で改行)
+
+; --- 制御構文 ---
+if /// "if" 条件 ":" suite\n条件分岐。条件式が真のときに続くブロックを実行します。
+else /// "else" ":" suite\nif の偽分岐。
+elseif /// "elseif" 条件 ":" suite\n複数条件分岐。
+endif /// if ブロックの終了。
+switch /// "switch" 式\n値による多分岐。case / default で各分岐を書きます。
+case /// "case" 値 ":"\nswitch の分岐ラベル。
+default /// "default" ":"\nswitch のいずれにもマッチしない場合の分岐。
+endswitch /// switch ブロックの終了。
+repeat /// "repeat" [回数]\nループ。HSP の repeat 命令と同じ。loop で次のイテレーションへ。
+loop /// repeat ブロック内で次のイテレーションへ。
+while /// "while" 条件\n条件が真の間ループ。wend で終了。
+wend /// while ブロックの終了。
+for /// "for" 変数 "to" 終値 ["step" 増分]\n指定回数ループ。next で終了。
+next /// for ブロックの終了 (または foreach の終了)。
+foreach /// "foreach" 変数 "in" コレクション\nコレクションの各要素を走査するループ。
+in /// foreach の "in" キーワード。
+to /// for の "to" キーワード (終値を指定)。
+step /// for の "step" キーワード (増分を指定)。
+break /// もっとも内側の for / repeat / while / switch を抜けます。
+continue /// ループの次のイテレーションへ進みます。
+return /// メソッドから値を返します。
+try /// "try"\n例外処理ブロックの開始。catch / finally / endtry で構成。
+catch /// "catch" [型 [変数]]\n例外捕捉ブロック。
+finally /// "finally"\n例外発生有無に関わらず必ず実行されるブロック。
+endtry /// try ブロックの終了。
+throw /// "throw" [式]\n例外を送出します。
+when /// "catch ... when" 式\n例外フィルタ。catch の追加条件。
+lock /// "lock" 式\n指定オブジェクトでスレッドを同期 (Monitor.Enter / Exit)。
+endlock /// lock ブロックの終了。
+sleep /// "sleep" ms\n現在スレッドを指定ミリ秒スリープ (Thread.Sleep)。
+print /// "print" 式\n標準出力に文字列を出力 (Console.WriteLine)。
+
+; --- 宣言・式 ---
+dim /// "dim" 変数, 型 [, サイズ]\n変数を宣言します。型推論可。
+new /// "new" 型 "(" 引数 ")"\nオブジェクトを生成します。
+newobj /// HSP 互換: COM オブジェクトを生成します。
+mcall /// HSP 互換: メソッド呼び出し。
+typeof /// "typeof" 型\n指定型の System.Type を取得。
+is /// 式 "is" 型\nオブジェクトが指定型のインスタンスか判定。
+as /// 式 "as" 型\nキャスト。失敗時は null を返す。
+null /// null 参照リテラル。
+nullptr /// IntPtr.Zero を表すリテラル (HSP 互換)。
+and /// 論理 AND の別名 (&& と等価)。
+or /// 論理 OR の別名 (|| と等価)。
+not /// 論理 NOT の別名 (! と等価)。
+
+; --- 修飾子 ---
+public /// 公開メンバー (どこからでもアクセス可)。
+private /// 同一クラス内からのみアクセス可。
+protected /// 同一クラスおよび派生クラスからアクセス可。
+static /// インスタンス不要のメンバー。クラス自体に属します。
+virtual /// 派生クラスでオーバーライド可能なメンバー。
+override /// 基底クラスの virtual メンバーを上書き。
+abstract /// 実装を持たない抽象メンバー。派生クラスで override 必須。
+sealed /// 派生不可 (クラス) または override 不可 (メンバー)。
+const /// コンパイル時定数。
+readonly /// 初期化以降は変更不可なフィールド。
+ref /// 参照渡しパラメータ (in / out 双方向)。
+out /// 出力専用パラメータ。呼び出し前に未初期化でも可。
+params /// 可変長引数 (配列パラメータ)。
+
+; --- 型エイリアス ---
+int /// System.Int32 (32bit 符号付き整数)。
+int64 /// System.Int64 (64bit 符号付き整数、long の別名)。
+long /// System.Int64 (64bit 符号付き整数)。
+double /// System.Double (64bit 浮動小数点数)。
+float /// System.Single (32bit 浮動小数点数)。
+string /// System.String (UTF-16 文字列)。
+bool /// System.Boolean (true / false)。
+void /// System.Void (戻り値なし)。
+var /// System.Object (任意型、HSP 互換用)。
+byte /// System.Byte (8bit 符号なし整数)。
+sbyte /// System.SByte (8bit 符号付き整数)。
+short /// System.Int16 (16bit 符号付き整数)。
+ushort /// System.UInt16 (16bit 符号なし整数)。
+uint /// System.UInt32 (32bit 符号なし整数)。
+ulong /// System.UInt64 (64bit 符号なし整数)。
+char /// System.Char (UTF-16 単一文字)。
+object /// System.Object (全ての型の基底)。
+intptr /// System.IntPtr (プラットフォーム依存サイズの整数; ポインタ用)。
+uintptr /// System.UIntPtr (プラットフォーム依存サイズの符号なし整数)。
