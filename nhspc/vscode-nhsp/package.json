@@ -147,6 +147,12 @@
               "sourceFile": {
                 "type": "string",
                 "description": "Path to the .nhsp source file"
+              },
+              "args": {
+                "type": "array",
+                "description": "Command line arguments passed to the program",
+                "items": { "type": "string" },
+                "default": []
               }
             }
           }
@@ -248,6 +254,70 @@
           "type": "string",
           "default": "",
           "description": "Output directory for compiled files. Leave empty for same directory as source."
+        },
+        "nhsp.platform": {
+          "type": "string",
+          "default": "anycpu",
+          "enum": ["anycpu", "x86", "x64", "anycpu32"],
+          "enumDescriptions": [
+            "AnyCPU (default)",
+            "x86 (32-bit only)",
+            "x64 (64-bit only)",
+            "AnyCPU 32-bit preferred"
+          ],
+          "description": "Target platform passed to nhspc -platform."
+        },
+        "nhsp.target": {
+          "type": "string",
+          "default": "auto",
+          "enum": ["auto", "exe", "dll"],
+          "enumDescriptions": [
+            "Auto (exe if #main is present, otherwise dll)",
+            "Force EXE",
+            "Force DLL"
+          ],
+          "description": "Output kind. 'auto' detects from #main; 'exe'/'dll' force via nhspc -target."
+        },
+        "nhsp.subsystem": {
+          "type": "string",
+          "default": "console",
+          "enum": ["console", "windows"],
+          "enumDescriptions": [
+            "Console EXE (default, shows a console window when double-clicked)",
+            "Windows EXE (no console window, for GUI apps)"
+          ],
+          "description": "Subsystem for EXE output. 'windows' suppresses the black console window."
+        },
+        "nhsp.references": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "Additional reference assemblies passed to nhspc -r (repeatable)."
+        },
+        "nhsp.win32icon": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a .ico file to embed as the application icon."
+        },
+        "nhsp.languageServer.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run nhspls.exe (language server) for real-time syntax error squiggles. Disable if it conflicts with the compile-on-save pass."
+        },
+        "nhsp.languageServerPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to nhspls.exe. Leave empty to auto-detect (bundled with extension or workspace dev build)."
+        },
+        "nhsp.runArguments": {
+          "type": "string",
+          "default": "",
+          "description": "Command line arguments passed to the EXE on Compile & Run (F6)."
+        },
+        "nhsp.debugArguments": {
+          "type": "string",
+          "default": "",
+          "description": "Command line arguments passed to the EXE when launched via NHSP Debug. Used as the 'args' value of the debug session unless overridden in launch.json."
         }
       }
     },

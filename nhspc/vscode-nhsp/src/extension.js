@@ -2,9 +2,11 @@ const vscode = require('vscode');
 const path = require('path');
 const { execFile } = require('child_process');
 const fs = require('fs');
+const { NhspLanguageClient } = require('./lsp-client');
 
 let diagnosticCollection;
 let outputChannel;
+let lspClient;
 
 // ========== Activation ==========
 
@@ -78,6 +80,27 @@ function activate(context) {
     context.subscriptions.push(
         vscode.languages.registerDefinitionProvider('nhsp', new NhspDefinitionProvider())
     );
+
+    // Language server (nhspls.exe) for real-time diagnostics.
+    // Uses a separate diagnostic collection so it doesn't fight with the
+    // compile-on-save pass.
+    const cfg = vscode.workspace.getConfiguration('nhsp');
+    if (cfg.get('languageServer.enabled') !== false) {
+        const lspDiagnostics = vscode.languages.createDiagnosticCollection('nhspls');
+        context.subscriptions.push(lspDiagnostics);
+        lspClient = new NhspLanguageClient(outputChannel, lspDiagnostics);
+        if (lspClient.start()) {
+            // Push every already-open .nhsp document to the server.
+            for (const doc of vscode.workspace.textDocuments)
+                if (doc.languageId === 'nhsp') lspClient.didOpen(doc);
+
+            context.subscriptions.push(
+                vscode.workspace.onDidOpenTextDocument((doc) => lspClient.didOpen(doc)),
+                vscode.workspace.onDidChangeTextDocument((e) => lspClient.didChange(e.document)),
+                vscode.workspace.onDidCloseTextDocument((doc) => lspClient.didClose(doc))
+            );
+        }
+    }
 }
 
 // ========== Block Auto-Close ==========
@@ -483,6 +506,46 @@ class NhspDefinitionProvider {
     }
 }
 
+// ========== Helpers ==========
+
+// Push -target / -subsystem / -r / -win32icon onto an argv list based on
+// current workspace configuration. Call this for every compile path (compile,
+// compileAndRun, compileAndDebug, NhspDebugConfigProvider) so the options stay
+// in sync across all entry points.
+function appendCommonOptions(args, cfg, outExt) {
+    const target = (cfg.get('target') || 'auto').toLowerCase();
+    if (target === 'exe' || target === 'dll') args.push('-target', target);
+
+    if (outExt === '.exe') {
+        const subsystem = (cfg.get('subsystem') || 'console').toLowerCase();
+        if (subsystem === 'windows') args.push('-subsystem', 'windows');
+    }
+
+    const refs = cfg.get('references') || [];
+    if (Array.isArray(refs)) for (const r of refs) if (r) args.push('-r', r);
+
+    const icon = cfg.get('win32icon');
+    if (icon) args.push('-win32icon', icon);
+}
+
+function splitArgs(s) {
+    if (!s) return [];
+    const out = [];
+    let cur = '';
+    let inQ = false;
+    for (let i = 0; i < s.length; i++) {
+        const ch = s[i];
+        if (ch === '"') { inQ = !inQ; continue; }
+        if (!inQ && (ch === ' ' || ch === '\t')) {
+            if (cur.length > 0) { out.push(cur); cur = ''; }
+            continue;
+        }
+        cur += ch;
+    }
+    if (cur.length > 0) out.push(cur);
+    return out;
+}
+
 // ========== Debug ==========
 
 class NhspDebugConfigProvider {
@@ -503,8 +566,12 @@ class NhspDebugConfigProvider {
             outputChannel.appendLine(`[Debug] Compiling ${baseName}.nhsp with debug info...`);
             outputChannel.show(true);
 
+            const cfg = vscode.workspace.getConfiguration('nhsp');
+            const platform = (cfg.get('platform') || 'anycpu').toLowerCase();
+            const provArgs = [sourceFile, '-o', exePath, '-debug', '-platform', platform];
+            appendCommonOptions(provArgs, cfg, '.exe');
             const ok = await new Promise((resolve) => {
-                execFile(compilerPath, [sourceFile, '-o', exePath, '-debug'],
+                execFile(compilerPath, provArgs,
                     { cwd: sourceDir, timeout: 30000 }, (error, stdout, stderr) => {
                     const output = (stdout || '') + (stderr || '');
                     outputChannel.appendLine(output);
@@ -568,6 +635,11 @@ class NhspDebugConfigProvider {
         if (!config.name) config.name = 'NHSP Debug';
         if (!config.program) config.program = exePath;
         if (!config.cwd) config.cwd = sourceDir;
+        if (config.args === undefined) {
+            const cfg = vscode.workspace.getConfiguration('nhsp');
+            const debugArgsStr = cfg.get('debugArguments') || '';
+            config.args = splitArgs(debugArgsStr);
+        }
 
         return config;
     }
@@ -606,7 +678,11 @@ async function compileAndDebug() {
     const exePath = path.join(sourceDir, baseName + '.exe');
 
     // Compile with debug info
-    const args = [sourceFile, '-o', exePath, '-debug'];
+    const cfg = vscode.workspace.getConfiguration('nhsp');
+    const platform = (cfg.get('platform') || 'anycpu').toLowerCase();
+    const debugArgsStr = cfg.get('debugArguments') || '';
+    const args = [sourceFile, '-o', exePath, '-debug', '-platform', platform];
+    appendCommonOptions(args, cfg, '.exe');
     outputChannel.clear();
     outputChannel.appendLine(`> nhspc ${args.join(' ')}`);
     outputChannel.show(true);
@@ -631,7 +707,8 @@ async function compileAndDebug() {
                     request: 'launch',
                     name: 'NHSP Debug',
                     program: exePath,
-                    cwd: sourceDir
+                    cwd: sourceDir,
+                    args: splitArgs(debugArgsStr)
                 });
             } else {
                 vscode.window.showErrorMessage('NHSP: Compile failed, cannot debug.');
@@ -724,6 +801,9 @@ function compile(debug = false, forceDll = false, silent = false) {
         const outputFile = path.join(outDir, baseName + ext);
         const args = [sourceFile, '-o', outputFile];
         if (debug) args.push('-debug');
+        const platform = (config.get('platform') || 'anycpu').toLowerCase();
+        args.push('-platform', platform);
+        appendCommonOptions(args, config, ext);
 
         if (!silent) {
             outputChannel.clear();
@@ -781,7 +861,11 @@ function compileAndRun() {
         const sourceDir = path.dirname(sourceFile);
         const baseName = path.basename(sourceFile, '.nhsp');
         const outputFile = path.join(sourceDir, baseName + '.exe');
-        const args = [sourceFile, '-o', outputFile];
+        const config = vscode.workspace.getConfiguration('nhsp');
+        const platform = (config.get('platform') || 'anycpu').toLowerCase();
+        const runArgs = config.get('runArguments') || '';
+        const args = [sourceFile, '-o', outputFile, '-platform', platform];
+        appendCommonOptions(args, config, '.exe');
 
         outputChannel.clear();
         outputChannel.appendLine(`> nhspc ${args.join(' ')}`);
@@ -794,10 +878,10 @@ function compileAndRun() {
             if (diagnostics.length > 0) diagnosticCollection.set(vscode.Uri.file(sourceFile), diagnostics);
 
             if (!error && diagnostics.filter(d => d.severity === vscode.DiagnosticSeverity.Error).length === 0) {
-                outputChannel.appendLine(`\nRunning: ${outputFile}\n${'='.repeat(50)}`);
+                outputChannel.appendLine(`\nRunning: ${outputFile} ${runArgs}\n${'='.repeat(50)}`);
                 const terminal = vscode.window.createTerminal('NHSP Run');
                 terminal.show();
-                terminal.sendText(`"${outputFile}"`);
+                terminal.sendText(runArgs ? `"${outputFile}" ${runArgs}` : `"${outputFile}"`);
             } else {
                 vscode.window.showErrorMessage('NHSP: Compile failed.');
             }
@@ -824,6 +908,10 @@ function parseDiagnostics(output, sourceFile) {
 }
 
 function deactivate() {
+    if (lspClient) {
+        try { lspClient.stop(); } catch (e) { /* ignore */ }
+        lspClient = null;
+    }
     if (diagnosticCollection) diagnosticCollection.dispose();
     if (outputChannel) outputChannel.dispose();
 }
