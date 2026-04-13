@@ -252,6 +252,19 @@ char 	s_rec[1]= "", *hsp_prestr[] =
 	"$01a 17 netlinq",				// (ver3.8)
 	"$01b 17 setcallback",			// (ver3.8)
 
+	// COM コールバックインターフェース (IronHSP, hsp3net 専用)
+	"$040 17 _cb_class_begin",		// (IronHSP) 内部: #defcbcom が emit
+	"$041 17 _cb_class_method",		// (IronHSP) 内部: #cbmethod が emit
+	"$042 17 _cb_class_end",		// (IronHSP) 内部: #endcbcom が emit
+	"$043 17 newcomcb",				// (IronHSP) コールバックインスタンス生成
+	"$044 17 comret",				// (IronHSP) コールバック戻り値設定
+	"$150 17 comprm",				// (IronHSP) コールバック引数取得
+	"$151 17 comcbidx",				// (IronHSP) 呼ばれた vtable index
+	"$152 17 comcbtag",				// (IronHSP) int tag
+	"$153 17 comcbtags",			// (IronHSP) str tag
+	"$154 17 comcbis",				// (IronHSP) インスタンス比較
+	"$155 17 comcbthis",			// (IronHSP) raw IUnknown*
+
 	"$100 17 callfunc",
 	"$101 17 cnvwtos",
 	"$102 17 comevdisp",

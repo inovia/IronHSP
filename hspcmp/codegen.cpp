@@ -4258,14 +4258,55 @@ void CToken::GenerateCodePP_endcbcom(void)
 {
 	//		#endcbcom
 	//
+	//		ここでクラス登録 + 各メソッド登録 + finalize の bytecode を発行する。
+	//		runtime 側で hsp_cbcom_register_class / add_method / finalize_class が呼ばれる。
+	//		(これらは TYPE_DLLCTRL の 0x40 / 0x41 / 0x42 opcode に対応)
+	//
 	if (cg_cbcom_active < 0) throw CGERROR_SYNTAX;
 	auto &cls = cg_cbcom_classes[cg_cbcom_active];
 	if (cls.methods.empty()) {
 		// メソッド0個は許可しない (IUnknown 3 つだけのクラスは意味がないので)
 		throw CGERROR_SYNTAX;
 	}
-	// Phase B1 では parsing 結果を cg_cbcom_classes に貯めるだけ。
-	// Phase B2 で bytecode emission + runtime opcode を実装する。
+
+	// 引数 token の flags 規約 (gosub などの emission を参考):
+	//   1st arg : EXFLG_0
+	//   2nd+    : EXFLG_0 | EXFLG_2
+	//   label   : EXFLG_2 のみ (TYPE_LABEL は EXFLG_0 を内包する)
+	const int FIRST = EXFLG_0;
+	const int NEXT  = EXFLG_0 | EXFLG_2;
+	const int LABEL_FL = EXFLG_2;
+
+	// _cb_class_begin "ClassName", iface_lib_index, max_vtable_idx
+	// (TYPE_DLLCTRL の opcode は hspcmd.cpp と同期: 0x40/0x41/0x42)
+	PutCS(TYPE_DLLCTRL, 0x40, EXFLG_1);
+	PutCS(TYPE_STRING, PutDS((char *)cls.name.c_str()), FIRST);
+	PutCS(TYPE_INUM, cls.iface_lib_index, NEXT);
+	PutCS(TYPE_INUM, cls.max_vtable_idx, NEXT);
+
+	// _cb_class_method "ClassName", vtable_idx, ret_type, argc, [argtypes...], *label
+	for (auto &m : cls.methods) {
+		PutCS(TYPE_DLLCTRL, 0x41, EXFLG_1);
+		PutCS(TYPE_STRING, PutDS((char *)cls.name.c_str()), FIRST);
+		PutCS(TYPE_INUM, m.vtable_idx, NEXT);
+		PutCS(TYPE_INUM, m.return_type, NEXT);
+		PutCS(TYPE_INUM, (int)m.arg_types.size(), NEXT);
+		for (auto t : m.arg_types) {
+			PutCS(TYPE_INUM, (int)t, NEXT);
+		}
+		// label 参照: 未定義なら TYPE_XLABEL で仮登録 (gosub *label と同じ pattern)
+		int lid = lb->Search((char *)m.label_name.c_str());
+		if (lid < 0) {
+			int ot_slot = PutOT(-1);
+			lid = lb->Regist((char *)m.label_name.c_str(), TYPE_XLABEL, ot_slot);
+		}
+		PutCS(TYPE_LABEL, lb->GetOpt(lid), LABEL_FL);
+	}
+
+	// _cb_class_end "ClassName"
+	PutCS(TYPE_DLLCTRL, 0x42, EXFLG_1);
+	PutCS(TYPE_STRING, PutDS((char *)cls.name.c_str()), FIRST);
+
 	cg_cbcom_active = -1;
 }
 

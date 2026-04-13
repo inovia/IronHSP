@@ -2381,6 +2381,103 @@ static int cmdfunc_ctrlcmd( int cmd )
 		neterror_mode = code_getdi(0);
 		break;
 	}
+	// ----- COM コールバックインターフェース -----
+	case 0x40:									// _cb_class_begin name, iface_lib_idx, max_vidx
+	{
+		// hspcmp が #endcbcom 時に発行する内部命令。User からは直接呼ばない。
+		char *cls_name = code_getds("");
+		int iface_lib_idx = code_getdi(0);
+		int max_vidx = code_getdi(0);
+
+		LIBDAT *lib = &hspctx->mem_linfo[iface_lib_idx];
+		IID *piid = (IID *)strp(lib->nameidx);
+
+		HspCbComClass *klass = hsp_cbcom_register_class(cls_name, *piid, max_vidx);
+		if (klass == NULL) throw HSPERR_OUT_OF_MEMORY;
+		break;
+	}
+	case 0x41:									// _cb_class_method cls_name, vidx, ret_type, argc, [argtypes...], *label
+	{
+		char *cls_name = code_getds("");
+		int vidx = code_getdi(0);
+		int rt = code_getdi(0);
+		int argc = code_getdi(0);
+		if (argc < 0 || argc >= HSP_CBCOM_ARG_MAX) throw HSPERR_INVALID_PARAMETER;
+
+		short arg_types[HSP_CBCOM_ARG_MAX] = {0};
+		for (int i = 0; i < argc; i++) {
+			arg_types[i] = (short)code_getdi(0);
+		}
+
+		// label
+		unsigned short *label;
+		{
+			int prm = code_get();
+			if (prm <= PARAM_END) throw HSPERR_NO_DEFAULT;
+			if (mpval->flag != HSPVAR_FLAG_LABEL) throw HSPERR_LABEL_REQUIRED;
+			label = *(unsigned short **)mpval->pt;
+		}
+
+		HspCbComClass *klass = hsp_cbcom_find_class(cls_name);
+		if (klass == NULL) throw HSPERR_INVALID_PARAMETER;
+		if (hsp_cbcom_add_method(klass, vidx, rt, argc, arg_types, label) != 0) {
+			throw HSPERR_INVALID_PARAMETER;
+		}
+		break;
+	}
+	case 0x42:									// _cb_class_end cls_name
+	{
+		char *cls_name = code_getds("");
+		HspCbComClass *klass = hsp_cbcom_find_class(cls_name);
+		if (klass == NULL) throw HSPERR_INVALID_PARAMETER;
+		if (hsp_cbcom_finalize_class(klass) != 0) {
+			throw HSPERR_OUT_OF_MEMORY;
+		}
+		break;
+	}
+	case 0x43:									// newcomcb var, cls_name [, tag_int_or_str]
+	{
+		PVal *pval;
+		APTR aptr;
+		void *iptr = NULL;
+
+		// 引数1: 出力先 comobj 変数
+		aptr = code_getva(&pval);
+		code_setva(pval, aptr, TYPE_COMOBJ, &iptr);
+		IUnknown **ppunkNew = (IUnknown **)HspVarCorePtrAPTR(pval, aptr);
+
+		// 引数2: クラス名
+		char *cls_name = code_getds("");
+		HspCbComClass *klass = hsp_cbcom_find_class(cls_name);
+		if (klass == NULL) throw HSPERR_INVALID_PARAMETER;
+
+		// 引数3: tag (省略可)
+		int tag_int = 0;
+		const char *tag_str = NULL;
+		int prm = code_get();
+		if (prm > PARAM_END) {
+			if (mpval->flag == HSPVAR_FLAG_STR) {
+				tag_str = (const char *)mpval->pt;
+			} else if (mpval->flag == HSPVAR_FLAG_INT) {
+				tag_int = *(int *)mpval->pt;
+			} else if (mpval->flag == HSPVAR_FLAG_INT64) {
+				tag_int = (int)*(int64_t *)mpval->pt;
+			}
+		}
+
+		IUnknown *punk = hsp_cbcom_create_instance(klass, tag_int, tag_str);
+		if (punk == NULL) throw HSPERR_OUT_OF_MEMORY;
+		*ppunkNew = punk;
+		hspctx->stat = 0;
+		break;
+	}
+	case 0x44:									// comret val
+	{
+		// 現在 callback 中の戻り値を設定 (HRESULT)
+		hsp_cbcom_return_value = (INT_PTR)code_geti64();
+		break;
+	}
+
 	case 0x1b:									// setcallback
 	{
 		PVal *pval;
@@ -3075,6 +3172,119 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 		}
 		break;
 	}
+
+	// ----- COM コールバック関連 関数群 -----
+	case 0x150:								// comprm(N) — 現在 callback の N 番目引数 (0=user 引数 0)
+	{
+		p1 = code_geti();
+		HspCbComMethodThunk *t = hsp_cbcom_current_thunk;
+		if (t == NULL) {
+			*type_res = HSPVAR_FLAG_INT;
+			reffunc_intfunc_ivalue = 0;
+			break;
+		}
+		// args[0] は this。user 引数は args[1..]
+		int idx = p1 + 1;
+		if (idx < 0 || idx >= t->slot_count || idx >= HSP_CBCOM_ARG_MAX) {
+			*type_res = HSPVAR_FLAG_INT;
+			reffunc_intfunc_ivalue = 0;
+			break;
+		}
+		// 宣言された型に応じて返す
+		HspCbComMethodInfo *info = &t->klass->methods[t->method_idx];
+		short at = (idx - 1 < info->arg_count) ? info->arg_types[idx - 1] : (short)MPTYPE_INUM;
+		switch (at) {
+		case MPTYPE_INUM:
+			*type_res = HSPVAR_FLAG_INT;
+			reffunc_intfunc_ivalue = (int)t->args[idx];
+			break;
+		case MPTYPE_INUM64:
+		case MPTYPE_INTPTR:
+			*type_res = HSPVAR_FLAG_INT64;
+			reffunc_intfunc_i64value = (int64_t)t->args[idx];
+			ptr = &reffunc_intfunc_i64value;
+			break;
+		case MPTYPE_DNUM:
+			*type_res = HSPVAR_FLAG_DOUBLE;
+			memcpy(&reffunc_intfunc_dvalue, &t->args[idx], sizeof(double));
+			ptr = &reffunc_intfunc_dvalue;
+			break;
+		case MPTYPE_LOCALWSTR:
+			{
+				// LPCWSTR を SJIS に変換して返す
+				wchar_t *wp = (wchar_t *)t->args[idx];
+				if (wp == NULL) {
+					*type_res = HSPVAR_FLAG_STR;
+					hspctx->stmp[0] = 0;
+					ptr = hspctx->stmp;
+				} else {
+					int len = WideCharToMultiByte(CP_ACP, 0, wp, -1, NULL, 0, NULL, NULL);
+					hspctx->stmp = sbExpand(hspctx->stmp, len + 1);
+					WideCharToMultiByte(CP_ACP, 0, wp, -1, hspctx->stmp, len + 1, NULL, NULL);
+					*type_res = HSPVAR_FLAG_STR;
+					ptr = hspctx->stmp;
+				}
+			}
+			break;
+		case MPTYPE_LOCALSTRING:
+			{
+				char *sp = (char *)t->args[idx];
+				*type_res = HSPVAR_FLAG_STR;
+				ptr = (sp == NULL) ? (char *)"" : sp;
+			}
+			break;
+		default:
+			// その他 (comobj 等) は raw int64 で返す
+			*type_res = HSPVAR_FLAG_INT64;
+			reffunc_intfunc_i64value = (int64_t)t->args[idx];
+			ptr = &reffunc_intfunc_i64value;
+			break;
+		}
+		break;
+	}
+	case 0x151:								// comcbidx() — 現在 callback の vtable index
+		*type_res = HSPVAR_FLAG_INT;
+		reffunc_intfunc_ivalue = (hsp_cbcom_current_thunk == NULL) ? 0 : hsp_cbcom_current_thunk->method_idx;
+		break;
+	case 0x152:								// comcbtag() — int tag
+		*type_res = HSPVAR_FLAG_INT;
+		if (hsp_cbcom_current_thunk == NULL) {
+			reffunc_intfunc_ivalue = 0;
+		} else {
+			HspCbComInstance *inst = (HspCbComInstance *)hsp_cbcom_current_thunk->args[0];
+			reffunc_intfunc_ivalue = (inst != NULL) ? inst->tag_int : 0;
+		}
+		break;
+	case 0x153:								// comcbtags() — str tag
+		*type_res = HSPVAR_FLAG_STR;
+		if (hsp_cbcom_current_thunk == NULL) {
+			ptr = (char *)"";
+		} else {
+			HspCbComInstance *inst = (HspCbComInstance *)hsp_cbcom_current_thunk->args[0];
+			ptr = (inst && inst->tag_str) ? inst->tag_str : (char *)"";
+		}
+		break;
+	case 0x154:								// comcbis(comobj_var) — 現 callback の this と一致なら 1
+	{
+		PVal *pval;
+		APTR aptr;
+		aptr = code_getva(&pval);
+		*type_res = HSPVAR_FLAG_INT;
+		reffunc_intfunc_ivalue = 0;
+		if (hsp_cbcom_current_thunk != NULL && pval->flag == TYPE_COMOBJ) {
+			IUnknown **ppunk = (IUnknown **)HspVarCorePtrAPTR(pval, aptr);
+			if (ppunk != NULL && *ppunk == (IUnknown *)hsp_cbcom_current_thunk->args[0]) {
+				reffunc_intfunc_ivalue = 1;
+			}
+		}
+		break;
+	}
+	case 0x155:								// comcbthis() — raw IUnknown* (intptr)
+		*type_res = HSPVAR_FLAG_INT64;
+		reffunc_intfunc_i64value = (hsp_cbcom_current_thunk == NULL)
+			? 0 : (int64_t)hsp_cbcom_current_thunk->args[0];
+		ptr = &reffunc_intfunc_i64value;
+		break;
 
 	default:
 		throw ( HSPERR_SYNTAX );
