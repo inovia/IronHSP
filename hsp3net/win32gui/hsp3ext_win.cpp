@@ -3257,18 +3257,20 @@ static void *reffunc_ctrlfunc( int *type_res, int arg )
 		break;
 	case 0x153:								// comcbtags() — str tag
 	{
-		// hspctx->refstr (= 標準 string buffer) にコピーして返す
+		// hspctx->stmp (= sb-managed expandable temp buffer) を使う。
+		// HSP の他の str 戻り関数 (cnvwtos / cnvatos など) と同じ canonical pattern。
+		// raw inst->tag_str を直接返すと HSP 側の文字列マネージャと相性が悪く
+		// 不可解な動作になる。
 		*type_res = HSPVAR_FLAG_STR;
 		const char *src = "";
 		if (hsp_cbcom_current_thunk != NULL) {
 			HspCbComInstance *inst = (HspCbComInstance *)hsp_cbcom_current_thunk->args[0];
 			if (inst && inst->tag_str) src = inst->tag_str;
 		}
-		int slen = (int)strlen(src);
-		if (slen >= HSPCTX_REFSTR_MAX) slen = HSPCTX_REFSTR_MAX - 1;
-		memcpy(hspctx->refstr, src, slen);
-		hspctx->refstr[slen] = 0;
-		ptr = hspctx->refstr;
+		int slen = (int)strlen(src) + 1;
+		hspctx->stmp = sbExpand(hspctx->stmp, slen);
+		memcpy(hspctx->stmp, src, slen);
+		ptr = hspctx->stmp;
 		break;
 	}
 	case 0x154:								// comcbis(comobj_var) — 現 callback の this と一致なら 1
