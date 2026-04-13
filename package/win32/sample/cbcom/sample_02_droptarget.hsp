@@ -45,15 +45,16 @@
 #cfunc RevokeDragDrop "RevokeDragDrop" intptr
 
 ;------ ウィンドウ準備 ------
-    title "hspd2d / IDropTarget sample — ファイルをドラッグ&ドロップしてください"
+    title "IDropTarget sample — ファイルをドラッグ&ドロップしてください"
     screen 0, 600, 400
     color 240, 240, 250 : boxf : color 0, 0, 0
     pos 10, 10 : mes "ファイルをこのウィンドウにドラッグ&ドロップしてください"
-    pos 10, 30 : mes "----- イベントログ -----"
+    pos 10, 30 : mes "(ESC キーで終了)"
+    pos 10, 50 : mes "----- イベントログ -----"
     objmode 2
-    pos 10, 50
+    pos 10, 70
 
-    ; OLE 初期化
+    ; OLE 初期化 (HSP screen が既に初期化している場合は S_FALSE = hr=1 が返る、これは正常)
     hr = OleInitialize(0)
     if hr < 0 : mes "OleInitialize failed hr=" + hr : stop
 
@@ -64,16 +65,22 @@
     hr = RegisterDragDrop(hwnd, dt)
     if hr ! 0 : mes "RegisterDragDrop failed hr=" + hr : stop
 
-    mes "drop target 登録 OK (" + comcbtags() + ")"
+    mes "drop target 登録 OK (tag=" + comcbtags() + ")"
 
-    onexit *cleanup
-    stop
+    ; メインループ: stop ではなく wait を使ってメッセージを処理しつつ留まる
+    onkey *on_key
+*main_loop
+    wait 5
+    goto *main_loop
 
-*cleanup
-    hr = RevokeDragDrop(hwnd)
-    delcom dt
-    OleUninitialize
-    end
+*on_key
+    if iparam = 27 {        ; ESC
+        RevokeDragDrop hwnd
+        delcom dt
+        OleUninitialize
+        end
+    }
+    return
 
 ;------ コールバック実装 ------
 
