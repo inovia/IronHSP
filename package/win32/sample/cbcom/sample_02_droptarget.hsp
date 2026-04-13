@@ -1,0 +1,109 @@
+;============================================================
+;   COM コールバックインターフェース sample 02 — IDropTarget
+;
+;   HSP のウィンドウを OLE drop target として登録し、エクスプローラから
+;   ファイルをドラッグ&ドロップで受け取る。
+;
+;     hsp3net 系 GUI ランタイム (hsp3_64.exe) で実行
+;
+;   使い方:
+;     1. このスクリプトを実行 (hsp3_64.exe)
+;     2. エクスプローラで適当なファイルを掴んで、HSP のウィンドウに
+;        ドロップする
+;     3. 各イベント (DragEnter / DragOver / DragLeave / Drop) が
+;        発火したログがウィンドウに表示される
+;============================================================
+
+#define IID_IDropTarget "{00000122-0000-0000-c000-000000000046}"
+#usecom IDropTarget IID_IDropTarget "{}"
+
+;------ コールバッククラス宣言 ------
+#defcbcom MyDT IDropTarget
+    ; vtable: 3=DragEnter, 4=DragOver, 5=DragLeave, 6=Drop
+    ;
+    ; HRESULT DragEnter(IDataObject*, DWORD grfKeyState, POINTL pt, DWORD* pdwEffect)
+    ; HRESULT DragOver (DWORD grfKeyState, POINTL pt, DWORD* pdwEffect)
+    ; HRESULT DragLeave()
+    ; HRESULT Drop     (IDataObject*, DWORD grfKeyState, POINTL pt, DWORD* pdwEffect)
+    ;
+    ; POINTL は { LONG x, LONG y } の構造体 = 8 byte で、x64 ABI では
+    ; 値渡しでも 8byte = 1 register (rdx 等) に乗る。intptr で受ければ
+    ; 下位 32bit に x、上位 32bit に y が入る。
+    #cbmethod 3 int comobj, int, intptr, intptr, *dt_enter
+    #cbmethod 4 int int, intptr, intptr,         *dt_over
+    #cbmethod 5 int,                             *dt_leave
+    #cbmethod 6 int comobj, int, intptr, intptr, *dt_drop
+#endcbcom
+
+;------ OLE / Win32 ------
+#uselib "ole32.dll"
+#cfunc OleInitialize "OleInitialize" intptr
+#func  OleUninitialize "OleUninitialize"
+; HRESULT RegisterDragDrop(HWND, IDropTarget*)
+#cfunc RegisterDragDrop "RegisterDragDrop" intptr, comobj
+; HRESULT RevokeDragDrop(HWND)
+#cfunc RevokeDragDrop "RevokeDragDrop" intptr
+
+;------ ウィンドウ準備 ------
+    title "hspd2d / IDropTarget sample — ファイルをドラッグ&ドロップしてください"
+    screen 0, 600, 400
+    color 240, 240, 250 : boxf : color 0, 0, 0
+    pos 10, 10 : mes "ファイルをこのウィンドウにドラッグ&ドロップしてください"
+    pos 10, 30 : mes "----- イベントログ -----"
+    objmode 2
+    pos 10, 50
+
+    ; OLE 初期化
+    hr = OleInitialize(0)
+    if hr < 0 : mes "OleInitialize failed hr=" + hr : stop
+
+    ; コールバック生成 + 登録
+    newcomcb dt, "MyDT", "main_window"
+    if stat ! 0 : mes "newcomcb failed" : stop
+
+    hr = RegisterDragDrop(hwnd, dt)
+    if hr ! 0 : mes "RegisterDragDrop failed hr=" + hr : stop
+
+    mes "drop target 登録 OK (" + comcbtags() + ")"
+
+    onexit *cleanup
+    stop
+
+*cleanup
+    hr = RevokeDragDrop(hwnd)
+    delcom dt
+    OleUninitialize
+    end
+
+;------ コールバック実装 ------
+
+*dt_enter
+    _key = comprm(0)        ; DWORD grfKeyState
+    _pt  = comprm(1)        ; POINTL packed (lo32=x, hi32=y)
+    _pe  = comprm(2)        ; LPDWORD pdwEffect (out)
+
+    ; DROPEFFECT_COPY = 1 を out パラメータに書き戻す
+    dupptr _eff_slot, _pe, 4, 4
+    _eff_slot = 1
+
+    mes "DragEnter key=" + _key + " x=" + (_pt & 0xffffffff) + " y=" + ((_pt >> 32) & 0xffffffff)
+    comret 0 : return
+
+*dt_over
+    _pe = comprm(2)
+    dupptr _eff_slot, _pe, 4, 4
+    _eff_slot = 1
+    comret 0 : return
+
+*dt_leave
+    mes "DragLeave"
+    comret 0 : return
+
+*dt_drop
+    _key = comprm(0)
+    _pt  = comprm(1)
+    _pe  = comprm(2)
+    dupptr _eff_slot, _pe, 4, 4
+    _eff_slot = 1
+    mes "Drop @ x=" + (_pt & 0xffffffff) + " y=" + ((_pt >> 32) & 0xffffffff)
+    comret 0 : return
