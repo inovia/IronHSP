@@ -2,9 +2,9 @@
 
 **.NET をフル活用できる、HSP 互換 + 拡張ランタイム / 言語スイート**
 
-OpenHSP 3.6 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / wstr (UTF-16) / 構造体型 (NSTRUCT) / OpenCV 4 / DXLib / HSP風 .NET コンパイラ (nhspc) / Visual Studio 2022 + VS Code 統合まで、多数の機能を追加した実験プロジェクトです。
+OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / wstr (UTF-16) / 構造体型 (NSTRUCT) / OpenCV 4 / DXLib / HSP風 .NET コンパイラ (nhspc) / Visual Studio 2022 + VS Code 統合まで、多数の機能を追加した実験プロジェクトです。
 
-> Based on http://dev.onionsoft.net/svn/openhsp/tags/3.6 (Subversion)
+> Based on OpenHSP 3.8beta1 (`hspver "3.8beta1"`, [`hsp3/hsp3config.h`](hsp3/hsp3config.h))
 
 ---
 
