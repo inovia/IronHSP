@@ -41,7 +41,9 @@ filename : 読み込むファイル名 (string)
 画像ファイルを読み込んで int ハンドル ID に格納します。
 ファイル形式は PNG / JPEG / BMP / TIFF / WebP / OpenJPEG が
 静的リンクで利用可能です。
-読み込み後の画像は常に 3ch BGR 形式になります。
+読み込み後の画像は元ファイルに従います。アルファ付き PNG 等は 4ch BGRA に、
+JPEG など不透明画像は 3ch BGR になります (cv::IMREAD_UNCHANGED 使用)。
+従来の常に 3ch BGR 動作が欲しい場合は cv4_imread_flags に 1 を渡してください。
 同じ ID に再度 cv4load すると上書きされます。
 失敗時は stat に非 0 のエラーコードが入ります。
 %href
@@ -2264,23 +2266,53 @@ cv4_put_pixel
 %group
 hspcv4 Mat アクセッサ
 %prm
-id, x, y, b, g, r
+id, x, y, b, g, r [, a]
+id : 画像ハンドル
+x, y : 書き込む座標
+b, g, r : BGR 値 (0～255)
+a : アルファ値 (省略時 255、CV_8UC4 のみ有効)
 %inst
-CV_8UC1 / CV_8UC3 の Mat の特定画素に値を書き込みます。
-グレースケール (1ch) の場合は b のみが使われます。
+CV_8UC1 / CV_8UC3 / CV_8UC4 の Mat の特定画素に値を書き込みます。
+- 1ch: b のみが使われます (g,r,a は無視)
+- 3ch: b,g,r を書き込みます (a は無視)
+- 4ch: b,g,r,a を書き込みます (a 省略時は 255)
 
 
 
 %index
 cv4_get_pixel
-ピクセル値の読み取り
+ピクセル値の読み取り (BGR 3 チャンネル)
 %group
 hspcv4 Mat アクセッサ
 %prm
 id, x, y, var_b, var_g, var_r
+id : 画像ハンドル
+x, y : 読み取り座標
+var_b, var_g, var_r : 格納先の int 変数
 %inst
-特定画素の値を 3 つの int 変数に格納します。
-グレースケールの場合は 3 変数すべてに同じ値が入ります。
+CV_8UC1 / CV_8UC3 / CV_8UC4 のいずれかの Mat から BGR 3 チャンネルを読み取り、
+3 つの int 変数に格納します。
+- 1ch: 3 変数すべてに同じ値 (輝度) が入ります
+- 3ch: b, g, r それぞれの値
+- 4ch: b, g, r のみ取得、アルファは捨てられます (cv4_get_pixela を使用)
+
+
+%index
+cv4_get_pixela
+ピクセル値の読み取り (BGRA 4 チャンネル)
+%group
+hspcv4 Mat アクセッサ
+%prm
+id, x, y, var_b, var_g, var_r, var_a
+id : 画像ハンドル
+x, y : 読み取り座標
+var_b, var_g, var_r : BGR 格納先の int 変数
+var_a : アルファ格納先の int 変数
+%inst
+CV_8UC4 の Mat からアルファを含めた 4 チャンネルを読み取ります。
+- 4ch: b, g, r, a をすべて取得
+- 3ch: b, g, r、a は 255 固定
+- 1ch: b = g = r = 輝度、a = 255
 
 
 

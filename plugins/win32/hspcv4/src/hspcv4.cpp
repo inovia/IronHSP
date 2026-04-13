@@ -45,6 +45,66 @@ inline int fail(const char* msg)
     return -1;   // => stat = 1 after HSP の OLDDLL 符号反転
 }
 
+//----------------------------------------------------------------------------
+//  Alpha channel helpers
+//
+//  hspcv4 では画像は BGR (CV_8UC3) か BGRA (CV_8UC4) の両方がありうる。
+//  cv4load はデフォルトで IMREAD_UNCHANGED を使うので、アルファ付き PNG
+//  を読み込むと 4ch になる。処理関数 (blur / filter / canny ...) は内部
+//  的に BGR 3ch を前提にしていることが多いため、4ch 入力を素直に渡すと
+//  以下のいずれかの問題が起きる:
+//    - アルファまで一緒に畳み込まれる (フィルタが黒い縁を作る)
+//    - cvtColor(BGR2GRAY) 系で channel mismatch エラー
+//    - 出力が無条件に 3ch になってアルファが失われる
+//
+//  これを避けるために with_alpha_preserved() ヘルパーを用意する。
+//  入力が 4ch だった場合はアルファを一時的に切り離し、op に 3ch BGR だけ
+//  渡す。op の出力が 3ch なら元のアルファを合成し直して 4ch として返す。
+//  op の出力が 1ch (grayscale 系) なら素直にそれを返す (グレースケール
+//  画像にアルファをくっつけても意味がないため)。
+//  入力がもともと 3ch やそれ以外の形式なら op をそのまま呼ぶだけ。
+//----------------------------------------------------------------------------
+template <typename OpBGR>
+inline void with_alpha_preserved(const cv::Mat& in, cv::Mat& out, OpBGR op)
+{
+    if (in.channels() != 4) {
+        op(in, out);
+        return;
+    }
+    // 4ch (BGRA) — アルファを保存して BGR だけで op を呼ぶ
+    std::vector<cv::Mat> ch;
+    cv::split(in, ch);        // ch[0]=B ch[1]=G ch[2]=R ch[3]=A
+    cv::Mat bgr;
+    cv::merge(std::vector<cv::Mat>{ ch[0], ch[1], ch[2] }, bgr);
+    cv::Mat bgr_out;
+    op(bgr, bgr_out);
+    if (bgr_out.channels() == 1) {
+        out = bgr_out;        // grayscale: アルファは捨てる
+        return;
+    }
+    if (bgr_out.channels() != 3) {
+        out = bgr_out;        // 想定外: そのまま返す
+        return;
+    }
+    std::vector<cv::Mat> out_ch;
+    cv::split(bgr_out, out_ch);
+    out_ch.push_back(ch[3]);
+    cv::merge(out_ch, out);
+}
+
+//  入力が 4ch なら BGRA → BGR、3ch ならそのまま。処理関数内部で
+//  「BGR 前提の cvtColor(BGR2GRAY) 等を呼びたい」ときに使う軽量版。
+//  戻り値自体にアルファを戻したい場合は with_alpha_preserved を使うこと。
+inline cv::Mat as_bgr(const cv::Mat& in)
+{
+    if (in.channels() == 4) {
+        cv::Mat bgr;
+        cv::cvtColor(in, bgr, cv::COLOR_BGRA2BGR);
+        return bgr;
+    }
+    return in;
+}
+
 } // namespace
 
 
@@ -443,6 +503,11 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
 
 //  cv4load id, "file.png"
 //  -> id に画像を読み込む (既存ハンドルは上書き)
+//
+//  デフォルトは IMREAD_UNCHANGED — アルファ付き PNG/TIFF 等は CV_8UC4
+//  (BGRA) として読み込まれる。通常の JPEG は従来通り CV_8UC3 (BGR)。
+//  以前の「常に BGR 3ch」動作が欲しい場合は cv4_imread_flags に 1
+//  (= cv::IMREAD_COLOR) を渡すこと。
 CV4_EXPORT BOOL WINAPI cv4load(HSPEXINFO* hei, int p1, int p2, int p3)
 {
     (void)p1; (void)p2; (void)p3;
@@ -450,7 +515,7 @@ CV4_EXPORT BOOL WINAPI cv4load(HSPEXINFO* hei, int p1, int p2, int p3)
     try {
         int id        = getint();
         const char* f = getstr();
-        cv::Mat img = cv::imread(f, cv::IMREAD_COLOR);
+        cv::Mat img = cv::imread(f, cv::IMREAD_UNCHANGED);
         if (img.empty()) return fail("cv4load: imread failed");
         hspcv4::handle_set(id, std::move(img));
         return 0;
@@ -1317,7 +1382,11 @@ CV4_EXPORT BOOL WINAPI cv4_mat_clone(HSPEXINFO* hei, int p1, int p2, int p3)
       catch (...) { return fail("cv4_mat_clone: unknown"); }
 }
 
-//  cv4_put_pixel id, x, y, b, g, r  (CV_8UC3 前提)
+//  cv4_put_pixel id, x, y, b, g, r [, a=255]
+//    CV_8UC1 / CV_8UC3 / CV_8UC4 いずれにも対応。
+//    - 1ch: b をそのまま書き込み (g, r, a は無視)
+//    - 3ch: b, g, r を書き込み (a は無視)
+//    - 4ch: b, g, r, a を書き込み (a 省略時は 255)
 CV4_EXPORT BOOL WINAPI cv4_put_pixel(HSPEXINFO* hei, int p1, int p2, int p3)
 {
     (void)p1; (void)p2; (void)p3;
@@ -1326,15 +1395,20 @@ CV4_EXPORT BOOL WINAPI cv4_put_pixel(HSPEXINFO* hei, int p1, int p2, int p3)
         int id = getint();
         int x = getint(); int y = getint();
         int b = getint(); int g = getint(); int r = getint();
+        int a = getint_def(255);
         cv::Mat* m = hspcv4::handle_get(id);
         if (!m || m->empty()) return fail("cv4_put_pixel: invalid handle");
         if (x < 0 || y < 0 || x >= m->cols || y >= m->rows) {
             return fail("cv4_put_pixel: out of bounds");
         }
-        if (m->channels() == 3 && m->depth() == CV_8U) {
+        if (m->depth() != CV_8U) return fail("cv4_put_pixel: unsupported depth");
+        if (m->channels() == 3) {
             auto& px = m->at<cv::Vec3b>(y, x);
             px[0] = (uchar)b; px[1] = (uchar)g; px[2] = (uchar)r;
-        } else if (m->channels() == 1 && m->depth() == CV_8U) {
+        } else if (m->channels() == 4) {
+            auto& px = m->at<cv::Vec4b>(y, x);
+            px[0] = (uchar)b; px[1] = (uchar)g; px[2] = (uchar)r; px[3] = (uchar)a;
+        } else if (m->channels() == 1) {
             m->at<uchar>(y, x) = (uchar)b;
         } else {
             return fail("cv4_put_pixel: unsupported Mat type");
@@ -1345,6 +1419,8 @@ CV4_EXPORT BOOL WINAPI cv4_put_pixel(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_get_pixel id, x, y, var_b, var_g, var_r
+//    CV_8UC1 / CV_8UC3 / CV_8UC4 対応。4ch 画像でもアルファは読み取らない
+//    (アルファを読みたい場合は cv4_get_pixela を使うこと)。
 CV4_EXPORT BOOL WINAPI cv4_get_pixel(HSPEXINFO* hei, int p1, int p2, int p3)
 {
     (void)p1; (void)p2; (void)p3;
@@ -1357,11 +1433,15 @@ CV4_EXPORT BOOL WINAPI cv4_get_pixel(HSPEXINFO* hei, int p1, int p2, int p3)
         if (x < 0 || y < 0 || x >= m->cols || y >= m->rows) {
             return fail("cv4_get_pixel: out of bounds");
         }
+        if (m->depth() != CV_8U) return fail("cv4_get_pixel: unsupported depth");
         int vals[3] = { 0, 0, 0 };
-        if (m->channels() == 3 && m->depth() == CV_8U) {
+        if (m->channels() == 3) {
             auto& px = m->at<cv::Vec3b>(y, x);
             vals[0] = px[0]; vals[1] = px[1]; vals[2] = px[2];
-        } else if (m->channels() == 1 && m->depth() == CV_8U) {
+        } else if (m->channels() == 4) {
+            auto& px = m->at<cv::Vec4b>(y, x);
+            vals[0] = px[0]; vals[1] = px[1]; vals[2] = px[2];
+        } else if (m->channels() == 1) {
             int v = m->at<uchar>(y, x);
             vals[0] = vals[1] = vals[2] = v;
         } else {
@@ -1377,6 +1457,48 @@ CV4_EXPORT BOOL WINAPI cv4_get_pixel(HSPEXINFO* hei, int p1, int p2, int p3)
         return 0;
     } catch (const cv::Exception& e) { return fail(e.what()); }
       catch (...) { return fail("cv4_get_pixel: unknown"); }
+}
+
+//  cv4_get_pixela id, x, y, var_b, var_g, var_r, var_a
+//    CV_8UC4 前提。アルファを含めて 4 チャンネルを読み取る。
+//    CV_8UC3 に対して呼んだ場合は a に 255 が返る (便宜上)。
+//    CV_8UC1 は a = 255、b = g = r = 輝度値。
+CV4_EXPORT BOOL WINAPI cv4_get_pixela(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int id = getint();
+        int x = getint(); int y = getint();
+        cv::Mat* m = hspcv4::handle_get(id);
+        if (!m || m->empty()) return fail("cv4_get_pixela: invalid handle");
+        if (x < 0 || y < 0 || x >= m->cols || y >= m->rows) {
+            return fail("cv4_get_pixela: out of bounds");
+        }
+        if (m->depth() != CV_8U) return fail("cv4_get_pixela: unsupported depth");
+        int vals[4] = { 0, 0, 0, 255 };
+        if (m->channels() == 4) {
+            auto& px = m->at<cv::Vec4b>(y, x);
+            vals[0] = px[0]; vals[1] = px[1]; vals[2] = px[2]; vals[3] = px[3];
+        } else if (m->channels() == 3) {
+            auto& px = m->at<cv::Vec3b>(y, x);
+            vals[0] = px[0]; vals[1] = px[1]; vals[2] = px[2];
+        } else if (m->channels() == 1) {
+            int v = m->at<uchar>(y, x);
+            vals[0] = vals[1] = vals[2] = v;
+        } else {
+            return fail("cv4_get_pixela: unsupported Mat type");
+        }
+        for (int i = 0; i < 4; ++i) {
+            PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+            if (pv->flag != HSPVAR_FLAG_INT) return fail("cv4_get_pixela: var must be int");
+            pv->offset = a;
+            HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+            proc->Set(pv, proc->GetPtr(pv), &vals[i]);
+        }
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_get_pixela: unknown"); }
 }
 
 //  cv4_build_version var_str
@@ -1798,7 +1920,7 @@ CV4_EXPORT BOOL WINAPI cv4_detect(HSPEXINFO* hei, int p1, int p2, int p3)
         if (img->channels() == 1) {
             gray = *img;
         } else {
-            cv::cvtColor(*img, gray, cv::COLOR_BGR2GRAY);
+            cv::cvtColor(as_bgr(*img), gray, cv::COLOR_BGR2GRAY);
         }
         cv::equalizeHist(gray, gray);
 
@@ -4040,7 +4162,7 @@ CV4_EXPORT BOOL WINAPI cv4_find_chessboard_corners(HSPEXINFO* hei, int p1, int p
         cv::Mat* img = hspcv4::handle_get(img_id);
         if (!img || img->empty()) return fail("cv4_find_chessboard_corners: invalid image");
         cv::Mat gray = (img->channels() == 1) ? *img : cv::Mat();
-        if (gray.empty()) cv::cvtColor(*img, gray, cv::COLOR_BGR2GRAY);
+        if (gray.empty()) cv::cvtColor(as_bgr(*img), gray, cv::COLOR_BGR2GRAY);
         std::vector<cv::Point2f> corners;
         bool found = cv::findChessboardCorners(gray, cv::Size(w, h), corners);
         if (!found) return fail("cv4_find_chessboard_corners: not found");
@@ -4078,8 +4200,8 @@ CV4_EXPORT BOOL WINAPI cv4_optflow_farneback(HSPEXINFO* hei, int p1, int p2, int
             return fail("cv4_optflow_farneback: invalid input");
         cv::Mat pg = (prev->channels() == 1) ? *prev : cv::Mat();
         cv::Mat ng = (next->channels() == 1) ? *next : cv::Mat();
-        if (pg.empty()) cv::cvtColor(*prev, pg, cv::COLOR_BGR2GRAY);
-        if (ng.empty()) cv::cvtColor(*next, ng, cv::COLOR_BGR2GRAY);
+        if (pg.empty()) cv::cvtColor(as_bgr(*prev), pg, cv::COLOR_BGR2GRAY);
+        if (ng.empty()) cv::cvtColor(as_bgr(*next), ng, cv::COLOR_BGR2GRAY);
         cv::Mat flow;
         cv::calcOpticalFlowFarneback(pg, ng, flow, 0.5, 3, 15, 3, 5, 1.2, 0);
         hspcv4::handle_set(flow_id, std::move(flow));
@@ -4111,8 +4233,8 @@ CV4_EXPORT BOOL WINAPI cv4_optflow_lk(HSPEXINFO* hei, int p1, int p2, int p3)
             return fail("cv4_optflow_lk: invalid prev kp set");
         cv::Mat pg = (prev->channels() == 1) ? *prev : cv::Mat();
         cv::Mat ng = (next->channels() == 1) ? *next : cv::Mat();
-        if (pg.empty()) cv::cvtColor(*prev, pg, cv::COLOR_BGR2GRAY);
-        if (ng.empty()) cv::cvtColor(*next, ng, cv::COLOR_BGR2GRAY);
+        if (pg.empty()) cv::cvtColor(as_bgr(*prev), pg, cv::COLOR_BGR2GRAY);
+        if (ng.empty()) cv::cvtColor(as_bgr(*next), ng, cv::COLOR_BGR2GRAY);
         std::vector<cv::Point2f> pts_prev, pts_next;
         pts_prev.reserve(pkps->size());
         for (auto& k : *pkps) pts_prev.push_back(k.pt);
@@ -4297,8 +4419,11 @@ CV4_EXPORT BOOL WINAPI cv4_bilateral(HSPEXINFO* hei, int p1, int p2, int p3)
         double ss  = hei->HspFunc_prm_getdd(75.0);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_bilateral: invalid source");
+        // bilateralFilter は 4ch 入力を受け付けないので必ずアルファ分離
         cv::Mat out;
-        cv::bilateralFilter(*src, out, d, sc, ss);
+        with_alpha_preserved(*src, out, [&](const cv::Mat& in, cv::Mat& o) {
+            cv::bilateralFilter(in, o, d, sc, ss);
+        });
         hspcv4::handle_set(dst_id, std::move(out));
         return 0;
     } catch (const cv::Exception& e) { return fail(e.what()); }
@@ -4504,7 +4629,7 @@ CV4_EXPORT BOOL WINAPI cv4_orb_detect_compute(HSPEXINFO* hei, int p1, int p2, in
         cv::Mat* img = hspcv4::handle_get(img_id);
         if (!img || img->empty()) return fail("cv4_orb_detect_compute: invalid image");
         cv::Mat gray = (img->channels() == 1) ? *img : cv::Mat();
-        if (gray.empty()) cv::cvtColor(*img, gray, cv::COLOR_BGR2GRAY);
+        if (gray.empty()) cv::cvtColor(as_bgr(*img), gray, cv::COLOR_BGR2GRAY);
         auto orb = cv::ORB::create(nfeat);
         hspcv4::KeyPointSet kps;
         cv::Mat desc;
@@ -4528,7 +4653,7 @@ CV4_EXPORT BOOL WINAPI cv4_akaze_detect_compute(HSPEXINFO* hei, int p1, int p2, 
         cv::Mat* img = hspcv4::handle_get(img_id);
         if (!img || img->empty()) return fail("cv4_akaze_detect_compute: invalid image");
         cv::Mat gray = (img->channels() == 1) ? *img : cv::Mat();
-        if (gray.empty()) cv::cvtColor(*img, gray, cv::COLOR_BGR2GRAY);
+        if (gray.empty()) cv::cvtColor(as_bgr(*img), gray, cv::COLOR_BGR2GRAY);
         auto akaze = cv::AKAZE::create();
         hspcv4::KeyPointSet kps;
         cv::Mat desc;
@@ -4553,7 +4678,7 @@ CV4_EXPORT BOOL WINAPI cv4_sift_detect_compute(HSPEXINFO* hei, int p1, int p2, i
         cv::Mat* img = hspcv4::handle_get(img_id);
         if (!img || img->empty()) return fail("cv4_sift_detect_compute: invalid image");
         cv::Mat gray = (img->channels() == 1) ? *img : cv::Mat();
-        if (gray.empty()) cv::cvtColor(*img, gray, cv::COLOR_BGR2GRAY);
+        if (gray.empty()) cv::cvtColor(as_bgr(*img), gray, cv::COLOR_BGR2GRAY);
         auto sift = cv::SIFT::create(nfeat);
         hspcv4::KeyPointSet kps;
         cv::Mat desc;
@@ -4579,7 +4704,7 @@ CV4_EXPORT BOOL WINAPI cv4_good_features_to_track(HSPEXINFO* hei, int p1, int p2
         cv::Mat* img = hspcv4::handle_get(img_id);
         if (!img || img->empty()) return fail("cv4_good_features_to_track: invalid image");
         cv::Mat gray = (img->channels() == 1) ? *img : cv::Mat();
-        if (gray.empty()) cv::cvtColor(*img, gray, cv::COLOR_BGR2GRAY);
+        if (gray.empty()) cv::cvtColor(as_bgr(*img), gray, cv::COLOR_BGR2GRAY);
         std::vector<cv::Point2f> corners;
         cv::goodFeaturesToTrack(gray, corners, max_c, qlevel, mindis);
         hspcv4::KeyPointSet kps;
@@ -4605,7 +4730,7 @@ CV4_EXPORT BOOL WINAPI cv4_corner_harris(HSPEXINFO* hei, int p1, int p2, int p3)
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_corner_harris: invalid source");
         cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
-        if (gray.empty()) cv::cvtColor(*src, gray, cv::COLOR_BGR2GRAY);
+        if (gray.empty()) cv::cvtColor(as_bgr(*src), gray, cv::COLOR_BGR2GRAY);
         cv::Mat out;
         cv::cornerHarris(gray, out, block, ksize, k);
         hspcv4::handle_set(dst_id, std::move(out));
@@ -4838,7 +4963,7 @@ CV4_EXPORT BOOL WINAPI cv4_find_contours(HSPEXINFO* hei, int p1, int p2, int p3)
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_find_contours: invalid source");
         cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
-        if (gray.empty()) cv::cvtColor(*src, gray, cv::COLOR_BGR2GRAY);
+        if (gray.empty()) cv::cvtColor(as_bgr(*src), gray, cv::COLOR_BGR2GRAY);
         hspcv4::ContourSet cs;
         cv::findContours(gray, cs, mode, method);
         hspcv4::contours_set(cid, std::move(cs));
@@ -4864,7 +4989,7 @@ CV4_EXPORT BOOL WINAPI cv4_find_contours_hier(HSPEXINFO* hei, int p1, int p2, in
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_find_contours_hier: invalid source");
         cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
-        if (gray.empty()) cv::cvtColor(*src, gray, cv::COLOR_BGR2GRAY);
+        if (gray.empty()) cv::cvtColor(as_bgr(*src), gray, cv::COLOR_BGR2GRAY);
         hspcv4::ContourSet cs;
         std::vector<cv::Vec4i> hierarchy;
         cv::findContours(gray, cs, hierarchy, mode, method);
@@ -5581,7 +5706,7 @@ CV4_EXPORT BOOL WINAPI cv4_count_nonzero(HSPEXINFO* hei, int p1, int p2, int p3)
         cv::Mat* m = hspcv4::handle_get(id);
         if (!m || m->empty()) return fail("cv4_count_nonzero: invalid handle");
         cv::Mat gray = (m->channels() == 1) ? *m : cv::Mat();
-        if (gray.empty()) cv::cvtColor(*m, gray, cv::COLOR_BGR2GRAY);
+        if (gray.empty()) cv::cvtColor(as_bgr(*m), gray, cv::COLOR_BGR2GRAY);
         int n = cv::countNonZero(gray);
         HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
         proc->Set(pv, proc->GetPtr(pv), &n);
@@ -5742,7 +5867,9 @@ CV4_EXPORT BOOL WINAPI cv4_erode(HSPEXINFO* hei, int p1, int p2, int p3)
         if (!src || src->empty()) return fail("cv4_erode: invalid source");
         cv::Mat k = make_morph_kernel(shape, ksize);
         cv::Mat out;
-        cv::erode(*src, out, k, cv::Point(-1,-1), iter);
+        with_alpha_preserved(*src, out, [&](const cv::Mat& in, cv::Mat& o) {
+            cv::erode(in, o, k, cv::Point(-1,-1), iter);
+        });
         hspcv4::handle_set(dst_id, std::move(out));
         return 0;
     } catch (const cv::Exception& e) { return fail(e.what()); }
@@ -5764,7 +5891,9 @@ CV4_EXPORT BOOL WINAPI cv4_dilate(HSPEXINFO* hei, int p1, int p2, int p3)
         if (!src || src->empty()) return fail("cv4_dilate: invalid source");
         cv::Mat k = make_morph_kernel(shape, ksize);
         cv::Mat out;
-        cv::dilate(*src, out, k, cv::Point(-1,-1), iter);
+        with_alpha_preserved(*src, out, [&](const cv::Mat& in, cv::Mat& o) {
+            cv::dilate(in, o, k, cv::Point(-1,-1), iter);
+        });
         hspcv4::handle_set(dst_id, std::move(out));
         return 0;
     } catch (const cv::Exception& e) { return fail(e.what()); }
@@ -5783,7 +5912,9 @@ static int cv4_morph_op(int op, HSPEXINFO* hei)
         if (!src || src->empty()) return fail("cv4_morph_*: invalid source");
         cv::Mat k = make_morph_kernel(shape, ksize);
         cv::Mat out;
-        cv::morphologyEx(*src, out, op, k);
+        with_alpha_preserved(*src, out, [&](const cv::Mat& in, cv::Mat& o) {
+            cv::morphologyEx(in, o, op, k);
+        });
         hspcv4::handle_set(dst_id, std::move(out));
         return 0;
     } catch (const cv::Exception& e) { return fail(e.what()); }
@@ -5828,10 +5959,12 @@ CV4_EXPORT BOOL WINAPI cv4_sobel(HSPEXINFO* hei, int p1, int p2, int p3)
         int ksize  = getint_def(3);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_sobel: invalid source");
-        cv::Mat out;
-        cv::Sobel(*src, out, CV_16S, dx, dy, ksize);
         cv::Mat abs_out;
-        cv::convertScaleAbs(out, abs_out);
+        with_alpha_preserved(*src, abs_out, [&](const cv::Mat& in, cv::Mat& o) {
+            cv::Mat tmp;
+            cv::Sobel(in, tmp, CV_16S, dx, dy, ksize);
+            cv::convertScaleAbs(tmp, o);
+        });
         hspcv4::handle_set(dst_id, std::move(abs_out));
         return 0;
     } catch (const cv::Exception& e) { return fail(e.what()); }
@@ -5850,9 +5983,12 @@ CV4_EXPORT BOOL WINAPI cv4_scharr(HSPEXINFO* hei, int p1, int p2, int p3)
         int dy     = getint();
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_scharr: invalid source");
-        cv::Mat out, abs_out;
-        cv::Scharr(*src, out, CV_16S, dx, dy);
-        cv::convertScaleAbs(out, abs_out);
+        cv::Mat abs_out;
+        with_alpha_preserved(*src, abs_out, [&](const cv::Mat& in, cv::Mat& o) {
+            cv::Mat tmp;
+            cv::Scharr(in, tmp, CV_16S, dx, dy);
+            cv::convertScaleAbs(tmp, o);
+        });
         hspcv4::handle_set(dst_id, std::move(abs_out));
         return 0;
     } catch (const cv::Exception& e) { return fail(e.what()); }
@@ -5870,9 +6006,12 @@ CV4_EXPORT BOOL WINAPI cv4_laplacian(HSPEXINFO* hei, int p1, int p2, int p3)
         int ksize  = getint_def(3);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_laplacian: invalid source");
-        cv::Mat out, abs_out;
-        cv::Laplacian(*src, out, CV_16S, ksize);
-        cv::convertScaleAbs(out, abs_out);
+        cv::Mat abs_out;
+        with_alpha_preserved(*src, abs_out, [&](const cv::Mat& in, cv::Mat& o) {
+            cv::Mat tmp;
+            cv::Laplacian(in, tmp, CV_16S, ksize);
+            cv::convertScaleAbs(tmp, o);
+        });
         hspcv4::handle_set(dst_id, std::move(abs_out));
         return 0;
     } catch (const cv::Exception& e) { return fail(e.what()); }
@@ -5906,7 +6045,9 @@ CV4_EXPORT BOOL WINAPI cv4_filter2d_3x3(HSPEXINFO* hei, int p1, int p2, int p3)
             k[6], k[7], k[8]);
 
         cv::Mat out;
-        cv::filter2D(*src, out, -1, kernel, cv::Point(-1, -1), delta);
+        with_alpha_preserved(*src, out, [&](const cv::Mat& in, cv::Mat& o) {
+            cv::filter2D(in, o, -1, kernel, cv::Point(-1, -1), delta);
+        });
         hspcv4::handle_set(dst_id, std::move(out));
         return 0;
     } catch (const cv::Exception& e) { return fail(e.what()); }
@@ -5930,7 +6071,9 @@ CV4_EXPORT BOOL WINAPI cv4_filter2d_mat(HSPEXINFO* hei, int p1, int p2, int p3)
         if (!src || src->empty()) return fail("cv4_filter2d_mat: invalid source");
         if (!kernel || kernel->empty()) return fail("cv4_filter2d_mat: invalid kernel");
         cv::Mat out;
-        cv::filter2D(*src, out, -1, *kernel, cv::Point(-1, -1), delta);
+        with_alpha_preserved(*src, out, [&](const cv::Mat& in, cv::Mat& o) {
+            cv::filter2D(in, o, -1, *kernel, cv::Point(-1, -1), delta);
+        });
         hspcv4::handle_set(dst_id, std::move(out));
         return 0;
     } catch (const cv::Exception& e) { return fail(e.what()); }
@@ -5953,7 +6096,7 @@ CV4_EXPORT BOOL WINAPI cv4_equalize_hist(HSPEXINFO* hei, int p1, int p2, int p3)
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_equalize_hist: invalid source");
         cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
-        if (gray.empty()) cv::cvtColor(*src, gray, cv::COLOR_BGR2GRAY);
+        if (gray.empty()) cv::cvtColor(as_bgr(*src), gray, cv::COLOR_BGR2GRAY);
         cv::Mat out;
         cv::equalizeHist(gray, out);
         hspcv4::handle_set(dst_id, std::move(out));
@@ -5977,7 +6120,7 @@ CV4_EXPORT BOOL WINAPI cv4_clahe(HSPEXINFO* hei, int p1, int p2, int p3)
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_clahe: invalid source");
         cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
-        if (gray.empty()) cv::cvtColor(*src, gray, cv::COLOR_BGR2GRAY);
+        if (gray.empty()) cv::cvtColor(as_bgr(*src), gray, cv::COLOR_BGR2GRAY);
         auto clahe = cv::createCLAHE(clip, cv::Size(grid, grid));
         cv::Mat out;
         clahe->apply(gray, out);
@@ -6068,7 +6211,7 @@ CV4_EXPORT BOOL WINAPI cv4_adaptive_thresh(HSPEXINFO* hei, int p1, int p2, int p
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_adaptive_thresh: invalid source");
         cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
-        if (gray.empty()) cv::cvtColor(*src, gray, cv::COLOR_BGR2GRAY);
+        if (gray.empty()) cv::cvtColor(as_bgr(*src), gray, cv::COLOR_BGR2GRAY);
         cv::Mat out;
         cv::adaptiveThreshold(gray, out, maxv, amethod, ttype, bsize, C);
         hspcv4::handle_set(dst_id, std::move(out));
@@ -6182,7 +6325,7 @@ CV4_EXPORT BOOL WINAPI cv4_hough_circles(HSPEXINFO* hei, int p1, int p2, int p3)
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_hough_circles: invalid source");
         cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
-        if (gray.empty()) cv::cvtColor(*src, gray, cv::COLOR_BGR2GRAY);
+        if (gray.empty()) cv::cvtColor(as_bgr(*src), gray, cv::COLOR_BGR2GRAY);
         std::vector<cv::Vec3f> circles;
         cv::HoughCircles(gray, circles, cv::HOUGH_GRADIENT, dp, mdst, pr1, pr2, minR, maxR);
         cv::Mat out((int)circles.size(), 3, CV_32F);
@@ -6408,7 +6551,9 @@ CV4_EXPORT BOOL WINAPI cv4blur(HSPEXINFO* hei, int p1, int p2, int p3)
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4blur: invalid source");
         cv::Mat out;
-        cv::blur(*src, out, cv::Size(ksize, ksize));
+        with_alpha_preserved(*src, out, [&](const cv::Mat& in, cv::Mat& o) {
+            cv::blur(in, o, cv::Size(ksize, ksize));
+        });
         hspcv4::handle_set(dst_id, std::move(out));
         return 0;
     } catch (const cv::Exception& e) {
@@ -6434,7 +6579,9 @@ CV4_EXPORT BOOL WINAPI cv4gauss(HSPEXINFO* hei, int p1, int p2, int p3)
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4gauss: invalid source");
         cv::Mat out;
-        cv::GaussianBlur(*src, out, cv::Size(ksize, ksize), sigma);
+        with_alpha_preserved(*src, out, [&](const cv::Mat& in, cv::Mat& o) {
+            cv::GaussianBlur(in, o, cv::Size(ksize, ksize), sigma);
+        });
         hspcv4::handle_set(dst_id, std::move(out));
         return 0;
     } catch (const cv::Exception& e) {
@@ -6459,7 +6606,9 @@ CV4_EXPORT BOOL WINAPI cv4median(HSPEXINFO* hei, int p1, int p2, int p3)
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4median: invalid source");
         cv::Mat out;
-        cv::medianBlur(*src, out, ksize);
+        with_alpha_preserved(*src, out, [&](const cv::Mat& in, cv::Mat& o) {
+            cv::medianBlur(in, o, ksize);
+        });
         hspcv4::handle_set(dst_id, std::move(out));
         return 0;
     } catch (const cv::Exception& e) {
@@ -6484,7 +6633,11 @@ CV4_EXPORT BOOL WINAPI cv4canny(HSPEXINFO* hei, int p1, int p2, int p3)
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4canny: invalid source");
         cv::Mat out;
-        cv::Canny(*src, out, (double)t1, (double)t2, aperture);
+        // Canny の出力はグレースケール (1ch)。with_alpha_preserved は
+        // 1ch 出力を検知したらそのまま返すので、4ch 入力でも正しく動く。
+        with_alpha_preserved(*src, out, [&](const cv::Mat& in, cv::Mat& o) {
+            cv::Canny(in, o, (double)t1, (double)t2, aperture);
+        });
         hspcv4::handle_set(dst_id, std::move(out));
         return 0;
     } catch (const cv::Exception& e) {
@@ -6509,7 +6662,9 @@ CV4_EXPORT BOOL WINAPI cv4thresh(HSPEXINFO* hei, int p1, int p2, int p3)
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4thresh: invalid source");
         cv::Mat out;
-        cv::threshold(*src, out, (double)th, (double)mx, type);
+        with_alpha_preserved(*src, out, [&](const cv::Mat& in, cv::Mat& o) {
+            cv::threshold(in, o, (double)th, (double)mx, type);
+        });
         hspcv4::handle_set(dst_id, std::move(out));
         return 0;
     } catch (const cv::Exception& e) {

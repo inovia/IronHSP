@@ -633,6 +633,7 @@
 #func global cv4_mat_clone      cv4_mat_clone      $202
 #func global cv4_put_pixel      cv4_put_pixel      $202
 #func global cv4_get_pixel      cv4_get_pixel      $202
+#func global cv4_get_pixela     cv4_get_pixela     $202
 #func global cv4_build_version  cv4_build_version  $202
 
 ; ---- contrib DLL proxy (requires hspcv4_contrib.dll / hspcv4_contrib_64.dll) ----
