@@ -42,6 +42,7 @@ char *code_getdsi( const char *defval );
 int code_geti( void );
 int code_getdi( const int defval );
 int64_t code_geti64( void );
+int64_t code_getdi64( int64_t defval );
 double code_getd( void );
 double code_getdd( const double defval );
 PVal *code_getpval( void );

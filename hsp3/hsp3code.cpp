@@ -1042,6 +1042,30 @@ int code_getdi( const int defval )
 }
 
 
+int64_t code_getdi64( int64_t defval )
+{
+	//		数値パラメーターをint64で取得（デフォルト値あり）
+	//		x64 で COM オブジェクト等のポインタを newcom 第4引数に渡す用途に使う。
+	//		int / int64 / double のいずれも受け付け、無指定なら defval を返す。
+	//
+	int chk;
+	chk = code_get();
+	if ( chk<=PARAM_END ) { return defval; }
+	if ( mpval->flag == HSPVAR_FLAG_INT64 ) {
+		return *(int64_t *)(mpval->pt);
+	}
+	if ( mpval->flag == HSPVAR_FLAG_INT ) {
+		// HSP の int は符号付き 32bit。ポインタ値として使う場合は
+		// 上位 32bit を 0 にしたいので uint32_t を経由して 0 拡張する。
+		return (int64_t)(uint32_t)(*(int *)(mpval->pt));
+	}
+	if ( mpval->flag == HSPVAR_FLAG_DOUBLE ) {
+		return (int64_t)(*(double *)(mpval->pt));
+	}
+	throw HSPERR_TYPE_MISMATCH;
+}
+
+
 int64_t code_geti64( void )
 {
 	//		数値パラメーターをint64で取得

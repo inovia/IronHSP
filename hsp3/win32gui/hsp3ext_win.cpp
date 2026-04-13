@@ -697,11 +697,21 @@ BSTR comget_bstr( char *ps )
 
 int call_method( void *iptr, int index, int *prm, int count )
 {
+#ifdef HSP64
+	// x64: vtable entries are 8 bytes (function pointers), not 4.
+	// Read the vtable pointer as void**, advance by index * sizeof(void*),
+	// then dispatch via CallFunc64 which handles XMM register loading too.
+	void **proc;
+	proc = *(void ***)iptr;
+	proc += index;
+	return (int32_t)call_extfunc( (void*)*proc, (int *)prm, count );
+#else
 	int *proc;
 	proc = (*(int **)iptr);
 	proc += index;
 	//Alertf( "%x:%x:%d",proc,*proc,index );
 	return call_extfunc( (void*)*proc, prm, count );
+#endif
 }
 
 int call_method2( char *prmbuf, const STRUCTDAT *st )
@@ -722,7 +732,14 @@ int call_method2( char *prmbuf, const STRUCTDAT *st )
 	hr = punk->QueryInterface( *piid, (void**)&punk2 );
 	if ( FAILED(hr) || punk2 == NULL ) throw ( HSPERR_COMDLL_ERROR );
 	*(IUnknown **)prmbuf = punk2;
+#ifdef HSP64
+	// x64: prmbuf スロットは 8 バイト単位。st->size は 4 バイト単位の総バイト数で
+	// 表現されているので、引数本数 = size / sizeof(int) を 8 バイトスロット数として
+	// そのまま使えばよい (各引数は INT_PTR 1 個ずつ占有する)。
+	result = call_method( punk2, st->otindex, (int*)prmbuf, st->size / sizeof(int) );
+#else
 	result = call_method( punk2, st->otindex, (int*)prmbuf, st->size / 4 );
+#endif
 	punk2->Release();
 	return result;
 }
@@ -824,7 +841,13 @@ static int cmdfunc_ctrlcmd( int cmd )
 			piid2 = &IID_IUnknown;
 		}
 		inimode = code_getdi(0);				// 初期化モード
+#ifdef HSP64
+		// x64 では COM ポインタが 64bit。code_getdi だと上位 32bit が
+		// 切り詰められて壊れるので int64 経路で取得する。
+		punkDef = (IUnknown *)(intptr_t)code_getdi64(0);
+#else
 		punkDef = (IUnknown *)code_getdi(0);	// デフォルトオブジェクト
+#endif
 
 		// 新規CLSIDからインスタンスを作成
 		hspctx->stat = 0;
