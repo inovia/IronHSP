@@ -1,13 +1,13 @@
 ; ============================================================
 ;   Auto-generated from CsWin32 / win32metadata
-;   dll:    user32.dll
+;   dll:    shell32.dll
 ;   tool:   tools/cswin32_bridge/gen_from_cswin32.py
 ;   Do not edit by hand ? regenerate via the python script.
 ;   Needs hsp3net (intptr / NSTRUCT / wstr).
 ; ============================================================
 
-#ifndef __user32_gen2_as__
-#define __user32_gen2_as__
+#ifndef __shell32_gen2_as__
+#define __shell32_gen2_as__
 
 ;--- structs ---
 #defstruct BITMAPINFO
@@ -4428,113 +4428,41 @@
 #define WS_ACTIVECAPTION  0x1
 
 ;--- functions ---
-#uselib "user32.dll"
-; winmdroot.Foundation.BOOL DestroyMenu(winmdroot.UI.WindowsAndMessaging.HMENU hMenu)
-#cfunc DestroyMenu "DestroyMenu" intptr
+#uselib "shell32.dll"
+; void DragAcceptFiles(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.BOOL fAccept)
+#func DragAcceptFiles "DragAcceptFiles" intptr, int
 
-; winmdroot.Foundation.HWND CreateWindowEx(winmdroot.UI.WindowsAndMessaging.WINDOW_EX_STYLE dwExStyle, winmdroot.Foundation.PCWSTR lpClassName, winmdroot.Foundation.PCWSTR lpWindowName, winmdroot.UI.WindowsAndMessaging.WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, winmdroot.Foundation.HWND hWndParent, winmdroot.UI.WindowsAndMessaging.HMENU hMenu, winmdroot.Foundation.HINSTANCE hInstance, [Optional] void* lpParam)
-#cfunc CreateWindowExW "CreateWindowExW" int, wstr, wstr, int, int, int, int, int, intptr, intptr, intptr, intptr
+; void DragFinish(winmdroot.UI.Shell.HDROP hDrop)
+#func DragFinish "DragFinish" intptr
 
-; winmdroot.Foundation.BOOL DestroyWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc DestroyWindow "DestroyWindow" intptr
+; uint DragQueryFileW(winmdroot.UI.Shell.HDROP hDrop, uint iFile, winmdroot.Foundation.PWSTR lpszFile, uint cch)
+#cfunc DragQueryFileW "DragQueryFileW" intptr, int, wstr, int
 
-; winmdroot.Foundation.BOOL ShowWindow(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.SHOW_WINDOW_CMD nCmdShow)
-#cfunc ShowWindow "ShowWindow" intptr, int
+; winmdroot.Foundation.BOOL DragQueryPoint(winmdroot.UI.Shell.HDROP hDrop, global::System.Drawing.Point* ppt)
+#cfunc DragQueryPoint "DragQueryPoint" intptr, var
 
-; winmdroot.Foundation.BOOL UpdateWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc UpdateWindow "UpdateWindow" intptr
+; winmdroot.UI.WindowsAndMessaging.HICON ExtractIconW(winmdroot.Foundation.HINSTANCE hInst, winmdroot.Foundation.PCWSTR pszExeFileName, uint nIconIndex)
+#cfunc ExtractIconW "ExtractIconW" intptr, wstr, int
 
-; winmdroot.Foundation.HWND GetForegroundWindow()
-#cfunc GetForegroundWindow "GetForegroundWindow"
+; winmdroot.UI.Shell.Common.ITEMIDLIST* SHBrowseForFolderW(winmdroot.UI.Shell.BROWSEINFOW* lpbi)
+#cfunc SHBrowseForFolderW "SHBrowseForFolderW" var
 
-; winmdroot.Foundation.BOOL SetForegroundWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc SetForegroundWindow "SetForegroundWindow" intptr
+; void SHChangeNotify(int wEventId, winmdroot.UI.Shell.SHCNF_FLAGS uFlags, [Optional] void* dwItem1, [Optional] void* dwItem2)
+#func SHChangeNotify "SHChangeNotify" int, int, intptr, intptr
 
-; winmdroot.Foundation.HWND GetActiveWindow()
-#cfunc GetActiveWindow "GetActiveWindow"
+; winmdroot.Foundation.HRESULT SHGetFolderPathW(winmdroot.Foundation.HWND hwnd, int csidl, winmdroot.Foundation.HANDLE hToken, uint dwFlags, winmdroot.Foundation.PWSTR pszPath)
+#cfunc SHGetFolderPathW "SHGetFolderPathW" intptr, int, intptr, int, wstr
 
-; winmdroot.Foundation.BOOL IsWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc IsWindow "IsWindow" intptr
+; winmdroot.Foundation.HRESULT SHGetKnownFolderPath(global::System.Guid* rfid, uint dwFlags, winmdroot.Foundation.HANDLE hToken, winmdroot.Foundation.PWSTR* ppszPath)
+#cfunc SHGetKnownFolderPath "SHGetKnownFolderPath" var, int, intptr, var
 
-; winmdroot.Foundation.BOOL IsWindowVisible(winmdroot.Foundation.HWND hWnd)
-#cfunc IsWindowVisible "IsWindowVisible" intptr
+; winmdroot.Foundation.BOOL SHGetPathFromIDListW(winmdroot.UI.Shell.Common.ITEMIDLIST* pidl, winmdroot.Foundation.PWSTR pszPath)
+#cfunc SHGetPathFromIDListW "SHGetPathFromIDListW" var, wstr
 
-; winmdroot.Foundation.BOOL GetClientRect(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.RECT* lpRect)
-#cfunc GetClientRect "GetClientRect" intptr, var
+; winmdroot.Foundation.BOOL SHGetSpecialFolderPathW(winmdroot.Foundation.HWND hwnd, winmdroot.Foundation.PWSTR pszPath, int csidl, winmdroot.Foundation.BOOL fCreate)
+#cfunc SHGetSpecialFolderPathW "SHGetSpecialFolderPathW" intptr, wstr, int, int
 
-; winmdroot.Foundation.BOOL GetWindowRect(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.RECT* lpRect)
-#cfunc GetWindowRect "GetWindowRect" intptr, var
-
-; winmdroot.Foundation.BOOL SetWindowPos(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.HWND hWndInsertAfter, int X, int Y, int cx, int cy, winmdroot.UI.WindowsAndMessaging.SET_WINDOW_POS_FLAGS uFlags)
-#cfunc SetWindowPos "SetWindowPos" intptr, intptr, int, int, int, int, int
-
-; winmdroot.Foundation.BOOL MoveWindow(winmdroot.Foundation.HWND hWnd, int X, int Y, int nWidth, int nHeight, winmdroot.Foundation.BOOL bRepaint)
-#cfunc MoveWindow "MoveWindow" intptr, int, int, int, int, int
-
-; winmdroot.Foundation.BOOL ClientToScreen(winmdroot.Foundation.HWND hWnd, global::System.Drawing.Point* lpPoint)
-#cfunc ClientToScreen "ClientToScreen" intptr, var
-
-; winmdroot.Foundation.BOOL ScreenToClient(winmdroot.Foundation.HWND hWnd, global::System.Drawing.Point* lpPoint)
-#cfunc ScreenToClient "ScreenToClient" intptr, var
-
-; winmdroot.Foundation.HWND GetParent(winmdroot.Foundation.HWND hWnd)
-#cfunc GetParent "GetParent" intptr
-
-; winmdroot.Foundation.HWND SetParent(winmdroot.Foundation.HWND hWndChild, winmdroot.Foundation.HWND hWndNewParent)
-#cfunc SetParent "SetParent" intptr, intptr
-
-; winmdroot.Foundation.LRESULT SendMessage(winmdroot.Foundation.HWND hWnd, uint Msg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam)
-#cfunc SendMessageW "SendMessageW" intptr, int, intptr, intptr
-
-; winmdroot.Foundation.BOOL PostMessage(winmdroot.Foundation.HWND hWnd, uint Msg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam)
-#cfunc PostMessageW "PostMessageW" intptr, int, intptr, intptr
-
-; winmdroot.Foundation.BOOL GetMessage(winmdroot.UI.WindowsAndMessaging.MSG* lpMsg, winmdroot.Foundation.HWND hWnd, uint wMsgFilterMin, uint wMsgFilterMax)
-#cfunc GetMessageW "GetMessageW" var, intptr, int, int
-
-; winmdroot.Foundation.BOOL TranslateMessage(winmdroot.UI.WindowsAndMessaging.MSG* lpMsg)
-#cfunc TranslateMessage "TranslateMessage" var
-
-; winmdroot.Foundation.LRESULT DispatchMessageW(winmdroot.UI.WindowsAndMessaging.MSG* lpMsg)
-#cfunc DispatchMessageW "DispatchMessageW" var
-
-; winmdroot.UI.WindowsAndMessaging.MESSAGEBOX_RESULT MessageBox(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.PCWSTR lpText, winmdroot.Foundation.PCWSTR lpCaption, winmdroot.UI.WindowsAndMessaging.MESSAGEBOX_STYLE uType)
-#cfunc MessageBoxW "MessageBoxW" intptr, wstr, wstr, int
-
-; winmdroot.Foundation.BOOL DestroyCursor(winmdroot.UI.WindowsAndMessaging.HCURSOR hCursor)
-#cfunc DestroyCursor "DestroyCursor" intptr
-
-; winmdroot.Foundation.BOOL DestroyIcon(winmdroot.UI.WindowsAndMessaging.HICON hIcon)
-#cfunc DestroyIcon "DestroyIcon" intptr
-
-; winmdroot.UI.WindowsAndMessaging.HCURSOR LoadCursor(winmdroot.Foundation.HINSTANCE hInstance, winmdroot.Foundation.PCWSTR lpCursorName)
-#cfunc LoadCursorW "LoadCursorW" intptr, wstr
-
-; winmdroot.UI.WindowsAndMessaging.HCURSOR SetCursor(winmdroot.UI.WindowsAndMessaging.HCURSOR hCursor)
-#cfunc SetCursor "SetCursor" intptr
-
-; winmdroot.Foundation.BOOL GetCursorPos(global::System.Drawing.Point* lpPoint)
-#cfunc GetCursorPos "GetCursorPos" var
-
-; winmdroot.Foundation.BOOL SetCursorPos(int X, int Y)
-#cfunc SetCursorPos "SetCursorPos" int, int
-
-; int GetSystemMetrics(winmdroot.UI.WindowsAndMessaging.SYSTEM_METRICS_INDEX nIndex)
-#cfunc GetSystemMetrics "GetSystemMetrics" int
-
-; short GetAsyncKeyState(int vKey)
-#cfunc GetAsyncKeyState "GetAsyncKeyState" int
-
-; short GetKeyState(int nVirtKey)
-#cfunc GetKeyState "GetKeyState" int
-
-; int FillRect(winmdroot.Graphics.Gdi.HDC hDC, winmdroot.Foundation.RECT* lprc, winmdroot.Graphics.Gdi.HBRUSH hbr)
-#cfunc FillRect "FillRect" intptr, var, intptr
-
-; int FrameRect(winmdroot.Graphics.Gdi.HDC hDC, winmdroot.Foundation.RECT* lprc, winmdroot.Graphics.Gdi.HBRUSH hbr)
-#cfunc FrameRect "FrameRect" intptr, var, intptr
-
-; winmdroot.Foundation.BOOL InvertRect(winmdroot.Graphics.Gdi.HDC hDC, winmdroot.Foundation.RECT* lprc)
-#cfunc InvertRect "InvertRect" intptr, var
+; winmdroot.Foundation.HINSTANCE ShellExecuteW(winmdroot.Foundation.HWND hwnd, winmdroot.Foundation.PCWSTR lpOperation, winmdroot.Foundation.PCWSTR lpFile, winmdroot.Foundation.PCWSTR lpParameters, winmdroot.Foundation.PCWSTR lpDirectory, winmdroot.UI.WindowsAndMessaging.SHOW_WINDOW_CMD nShowCmd)
+#cfunc ShellExecuteW "ShellExecuteW" intptr, wstr, wstr, wstr, wstr, int
 
 #endif

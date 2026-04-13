@@ -1,13 +1,13 @@
 ; ============================================================
 ;   Auto-generated from CsWin32 / win32metadata
-;   dll:    user32.dll
+;   dll:    gdi32.dll
 ;   tool:   tools/cswin32_bridge/gen_from_cswin32.py
 ;   Do not edit by hand ? regenerate via the python script.
 ;   Needs hsp3net (intptr / NSTRUCT / wstr).
 ; ============================================================
 
-#ifndef __user32_gen2_as__
-#define __user32_gen2_as__
+#ifndef __gdi32_gen2_as__
+#define __gdi32_gen2_as__
 
 ;--- structs ---
 #defstruct BITMAPINFO
@@ -4428,113 +4428,104 @@
 #define WS_ACTIVECAPTION  0x1
 
 ;--- functions ---
-#uselib "user32.dll"
-; winmdroot.Foundation.BOOL DestroyMenu(winmdroot.UI.WindowsAndMessaging.HMENU hMenu)
-#cfunc DestroyMenu "DestroyMenu" intptr
+#uselib "gdi32.dll"
+; winmdroot.Foundation.BOOL BitBlt(winmdroot.Graphics.Gdi.HDC hdc, int x, int y, int cx, int cy, winmdroot.Graphics.Gdi.HDC hdcSrc, int x1, int y1, winmdroot.Graphics.Gdi.ROP_CODE rop)
+#cfunc BitBlt "BitBlt" intptr, int, int, int, int, intptr, int, int, int
 
-; winmdroot.Foundation.HWND CreateWindowEx(winmdroot.UI.WindowsAndMessaging.WINDOW_EX_STYLE dwExStyle, winmdroot.Foundation.PCWSTR lpClassName, winmdroot.Foundation.PCWSTR lpWindowName, winmdroot.UI.WindowsAndMessaging.WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, winmdroot.Foundation.HWND hWndParent, winmdroot.UI.WindowsAndMessaging.HMENU hMenu, winmdroot.Foundation.HINSTANCE hInstance, [Optional] void* lpParam)
-#cfunc CreateWindowExW "CreateWindowExW" int, wstr, wstr, int, int, int, int, int, intptr, intptr, intptr, intptr
+; winmdroot.Foundation.BOOL DeleteObject(winmdroot.Graphics.Gdi.HGDIOBJ ho)
+#cfunc DeleteObject "DeleteObject" intptr
 
-; winmdroot.Foundation.BOOL DestroyWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc DestroyWindow "DestroyWindow" intptr
+; winmdroot.Graphics.Gdi.HBITMAP CreateBitmap(int nWidth, int nHeight, uint nPlanes, uint nBitCount, [Optional] void* lpBits)
+#cfunc CreateBitmap "CreateBitmap" int, int, int, int, intptr
 
-; winmdroot.Foundation.BOOL ShowWindow(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.SHOW_WINDOW_CMD nCmdShow)
-#cfunc ShowWindow "ShowWindow" intptr, int
+; winmdroot.Graphics.Gdi.HBITMAP CreateCompatibleBitmap(winmdroot.Graphics.Gdi.HDC hdc, int cx, int cy)
+#cfunc CreateCompatibleBitmap "CreateCompatibleBitmap" intptr, int, int
 
-; winmdroot.Foundation.BOOL UpdateWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc UpdateWindow "UpdateWindow" intptr
+; winmdroot.Graphics.Gdi.HDC CreateCompatibleDC(winmdroot.Graphics.Gdi.HDC hdc)
+#cfunc CreateCompatibleDC "CreateCompatibleDC" intptr
 
-; winmdroot.Foundation.HWND GetForegroundWindow()
-#cfunc GetForegroundWindow "GetForegroundWindow"
+; winmdroot.Graphics.Gdi.HBITMAP CreateDIBSection(winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Graphics.Gdi.BITMAPINFO* pbmi, winmdroot.Graphics.Gdi.DIB_USAGE usage, void** ppvBits, winmdroot.Foundation.HANDLE hSection, uint offset)
+#cfunc CreateDIBSection "CreateDIBSection" intptr, var, int, var, intptr, int
 
-; winmdroot.Foundation.BOOL SetForegroundWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc SetForegroundWindow "SetForegroundWindow" intptr
+; winmdroot.Graphics.Gdi.HFONT CreateFontW(int cHeight, int cWidth, int cEscapement, int cOrientation, int cWeight, uint bItalic, uint bUnderline, uint bStrikeOut, uint iCharSet, uint iOutPrecision, uint iClipPrecision, uint iQuality, uint iPitchAndFamily, winmdroot.Foundation.PCWSTR pszFaceName)
+#cfunc CreateFontW "CreateFontW" int, int, int, int, int, int, int, int, int, int, int, int, int, wstr
 
-; winmdroot.Foundation.HWND GetActiveWindow()
-#cfunc GetActiveWindow "GetActiveWindow"
+; winmdroot.Graphics.Gdi.HFONT CreateFontIndirectW(winmdroot.Graphics.Gdi.LOGFONTW* lplf)
+#cfunc CreateFontIndirectW "CreateFontIndirectW" var
 
-; winmdroot.Foundation.BOOL IsWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc IsWindow "IsWindow" intptr
+; winmdroot.Graphics.Gdi.HBRUSH CreateHatchBrush(winmdroot.Graphics.Gdi.HATCH_BRUSH_STYLE iHatch, winmdroot.Foundation.COLORREF color)
+#cfunc CreateHatchBrush "CreateHatchBrush" int, int
 
-; winmdroot.Foundation.BOOL IsWindowVisible(winmdroot.Foundation.HWND hWnd)
-#cfunc IsWindowVisible "IsWindowVisible" intptr
+; winmdroot.Graphics.Gdi.HBRUSH CreatePatternBrush(winmdroot.Graphics.Gdi.HBITMAP hbm)
+#cfunc CreatePatternBrush "CreatePatternBrush" intptr
 
-; winmdroot.Foundation.BOOL GetClientRect(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.RECT* lpRect)
-#cfunc GetClientRect "GetClientRect" intptr, var
+; winmdroot.Graphics.Gdi.HPEN CreatePen(winmdroot.Graphics.Gdi.PEN_STYLE iStyle, int cWidth, winmdroot.Foundation.COLORREF color)
+#cfunc CreatePen "CreatePen" int, int, int
 
-; winmdroot.Foundation.BOOL GetWindowRect(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.RECT* lpRect)
-#cfunc GetWindowRect "GetWindowRect" intptr, var
+; winmdroot.Graphics.Gdi.HBRUSH CreateSolidBrush(winmdroot.Foundation.COLORREF color)
+#cfunc CreateSolidBrush "CreateSolidBrush" int
 
-; winmdroot.Foundation.BOOL SetWindowPos(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.HWND hWndInsertAfter, int X, int Y, int cx, int cy, winmdroot.UI.WindowsAndMessaging.SET_WINDOW_POS_FLAGS uFlags)
-#cfunc SetWindowPos "SetWindowPos" intptr, intptr, int, int, int, int, int
+; winmdroot.Foundation.BOOL DeleteDC(winmdroot.Graphics.Gdi.HDC hdc)
+#cfunc DeleteDC "DeleteDC" intptr
 
-; winmdroot.Foundation.BOOL MoveWindow(winmdroot.Foundation.HWND hWnd, int X, int Y, int nWidth, int nHeight, winmdroot.Foundation.BOOL bRepaint)
-#cfunc MoveWindow "MoveWindow" intptr, int, int, int, int, int
+; winmdroot.Foundation.BOOL Ellipse(winmdroot.Graphics.Gdi.HDC hdc, int left, int top, int right, int bottom)
+#cfunc Ellipse "Ellipse" intptr, int, int, int, int
 
-; winmdroot.Foundation.BOOL ClientToScreen(winmdroot.Foundation.HWND hWnd, global::System.Drawing.Point* lpPoint)
-#cfunc ClientToScreen "ClientToScreen" intptr, var
+; int GetDIBits(winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Graphics.Gdi.HBITMAP hbm, uint start, uint cLines, [Optional] void* lpvBits, winmdroot.Graphics.Gdi.BITMAPINFO* lpbmi, winmdroot.Graphics.Gdi.DIB_USAGE usage)
+#cfunc GetDIBits "GetDIBits" intptr, intptr, int, int, intptr, var, int
 
-; winmdroot.Foundation.BOOL ScreenToClient(winmdroot.Foundation.HWND hWnd, global::System.Drawing.Point* lpPoint)
-#cfunc ScreenToClient "ScreenToClient" intptr, var
+; winmdroot.Foundation.COLORREF GetPixel(winmdroot.Graphics.Gdi.HDC hdc, int x, int y)
+#cfunc GetPixel "GetPixel" intptr, int, int
 
-; winmdroot.Foundation.HWND GetParent(winmdroot.Foundation.HWND hWnd)
-#cfunc GetParent "GetParent" intptr
+; winmdroot.Graphics.Gdi.HGDIOBJ GetStockObject(winmdroot.Graphics.Gdi.GET_STOCK_OBJECT_FLAGS i)
+#cfunc GetStockObject "GetStockObject" int
 
-; winmdroot.Foundation.HWND SetParent(winmdroot.Foundation.HWND hWndChild, winmdroot.Foundation.HWND hWndNewParent)
-#cfunc SetParent "SetParent" intptr, intptr
+; winmdroot.Foundation.BOOL GetTextExtentPoint32W(winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Foundation.PCWSTR lpString, int c, winmdroot.Foundation.SIZE* psizl)
+#cfunc GetTextExtentPoint32W "GetTextExtentPoint32W" intptr, wstr, int, var
 
-; winmdroot.Foundation.LRESULT SendMessage(winmdroot.Foundation.HWND hWnd, uint Msg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam)
-#cfunc SendMessageW "SendMessageW" intptr, int, intptr, intptr
+; winmdroot.Foundation.BOOL GetTextMetricsW(winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Graphics.Gdi.TEXTMETRICW* lptm)
+#cfunc GetTextMetricsW "GetTextMetricsW" intptr, var
 
-; winmdroot.Foundation.BOOL PostMessage(winmdroot.Foundation.HWND hWnd, uint Msg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam)
-#cfunc PostMessageW "PostMessageW" intptr, int, intptr, intptr
+; winmdroot.Foundation.BOOL LineTo(winmdroot.Graphics.Gdi.HDC hdc, int x, int y)
+#cfunc LineTo "LineTo" intptr, int, int
 
-; winmdroot.Foundation.BOOL GetMessage(winmdroot.UI.WindowsAndMessaging.MSG* lpMsg, winmdroot.Foundation.HWND hWnd, uint wMsgFilterMin, uint wMsgFilterMax)
-#cfunc GetMessageW "GetMessageW" var, intptr, int, int
+; winmdroot.Foundation.BOOL MoveToEx(winmdroot.Graphics.Gdi.HDC hdc, int x, int y, [Optional] global::System.Drawing.Point* lppt)
+#cfunc MoveToEx "MoveToEx" intptr, int, int, var
 
-; winmdroot.Foundation.BOOL TranslateMessage(winmdroot.UI.WindowsAndMessaging.MSG* lpMsg)
-#cfunc TranslateMessage "TranslateMessage" var
+; winmdroot.Foundation.BOOL Polygon(winmdroot.Graphics.Gdi.HDC hdc, global::System.Drawing.Point* apt, int cpt)
+#cfunc Polygon "Polygon" intptr, var, int
 
-; winmdroot.Foundation.LRESULT DispatchMessageW(winmdroot.UI.WindowsAndMessaging.MSG* lpMsg)
-#cfunc DispatchMessageW "DispatchMessageW" var
+; winmdroot.Foundation.BOOL Polyline(winmdroot.Graphics.Gdi.HDC hdc, global::System.Drawing.Point* apt, int cpt)
+#cfunc Polyline "Polyline" intptr, var, int
 
-; winmdroot.UI.WindowsAndMessaging.MESSAGEBOX_RESULT MessageBox(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.PCWSTR lpText, winmdroot.Foundation.PCWSTR lpCaption, winmdroot.UI.WindowsAndMessaging.MESSAGEBOX_STYLE uType)
-#cfunc MessageBoxW "MessageBoxW" intptr, wstr, wstr, int
+; winmdroot.Foundation.BOOL Rectangle(winmdroot.Graphics.Gdi.HDC hdc, int left, int top, int right, int bottom)
+#cfunc Rectangle "Rectangle" intptr, int, int, int, int
 
-; winmdroot.Foundation.BOOL DestroyCursor(winmdroot.UI.WindowsAndMessaging.HCURSOR hCursor)
-#cfunc DestroyCursor "DestroyCursor" intptr
+; winmdroot.Graphics.Gdi.HGDIOBJ SelectObject(winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Graphics.Gdi.HGDIOBJ h)
+#cfunc SelectObject "SelectObject" intptr, intptr
 
-; winmdroot.Foundation.BOOL DestroyIcon(winmdroot.UI.WindowsAndMessaging.HICON hIcon)
-#cfunc DestroyIcon "DestroyIcon" intptr
+; winmdroot.Foundation.COLORREF SetBkColor(winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Foundation.COLORREF color)
+#cfunc SetBkColor "SetBkColor" intptr, int
 
-; winmdroot.UI.WindowsAndMessaging.HCURSOR LoadCursor(winmdroot.Foundation.HINSTANCE hInstance, winmdroot.Foundation.PCWSTR lpCursorName)
-#cfunc LoadCursorW "LoadCursorW" intptr, wstr
+; int SetBkMode(winmdroot.Graphics.Gdi.HDC hdc, int mode)
+#cfunc SetBkMode "SetBkMode" intptr, int
 
-; winmdroot.UI.WindowsAndMessaging.HCURSOR SetCursor(winmdroot.UI.WindowsAndMessaging.HCURSOR hCursor)
-#cfunc SetCursor "SetCursor" intptr
+; int SetDIBits(winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Graphics.Gdi.HBITMAP hbm, uint start, uint cLines, void* lpBits, winmdroot.Graphics.Gdi.BITMAPINFO* lpbmi, winmdroot.Graphics.Gdi.DIB_USAGE ColorUse)
+#cfunc SetDIBits "SetDIBits" intptr, intptr, int, int, intptr, var, int
 
-; winmdroot.Foundation.BOOL GetCursorPos(global::System.Drawing.Point* lpPoint)
-#cfunc GetCursorPos "GetCursorPos" var
+; winmdroot.Foundation.COLORREF SetPixel(winmdroot.Graphics.Gdi.HDC hdc, int x, int y, winmdroot.Foundation.COLORREF color)
+#cfunc SetPixel "SetPixel" intptr, int, int, int
 
-; winmdroot.Foundation.BOOL SetCursorPos(int X, int Y)
-#cfunc SetCursorPos "SetCursorPos" int, int
+; int SetROP2(winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Graphics.Gdi.R2_MODE rop2)
+#cfunc SetROP2 "SetROP2" intptr, int
 
-; int GetSystemMetrics(winmdroot.UI.WindowsAndMessaging.SYSTEM_METRICS_INDEX nIndex)
-#cfunc GetSystemMetrics "GetSystemMetrics" int
+; winmdroot.Foundation.COLORREF SetTextColor(winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Foundation.COLORREF color)
+#cfunc SetTextColor "SetTextColor" intptr, int
 
-; short GetAsyncKeyState(int vKey)
-#cfunc GetAsyncKeyState "GetAsyncKeyState" int
+; winmdroot.Foundation.BOOL StretchBlt(winmdroot.Graphics.Gdi.HDC hdcDest, int xDest, int yDest, int wDest, int hDest, winmdroot.Graphics.Gdi.HDC hdcSrc, int xSrc, int ySrc, int wSrc, int hSrc, winmdroot.Graphics.Gdi.ROP_CODE rop)
+#cfunc StretchBlt "StretchBlt" intptr, int, int, int, int, intptr, int, int, int, int, int
 
-; short GetKeyState(int nVirtKey)
-#cfunc GetKeyState "GetKeyState" int
-
-; int FillRect(winmdroot.Graphics.Gdi.HDC hDC, winmdroot.Foundation.RECT* lprc, winmdroot.Graphics.Gdi.HBRUSH hbr)
-#cfunc FillRect "FillRect" intptr, var, intptr
-
-; int FrameRect(winmdroot.Graphics.Gdi.HDC hDC, winmdroot.Foundation.RECT* lprc, winmdroot.Graphics.Gdi.HBRUSH hbr)
-#cfunc FrameRect "FrameRect" intptr, var, intptr
-
-; winmdroot.Foundation.BOOL InvertRect(winmdroot.Graphics.Gdi.HDC hDC, winmdroot.Foundation.RECT* lprc)
-#cfunc InvertRect "InvertRect" intptr, var
+; winmdroot.Foundation.BOOL TextOutW(winmdroot.Graphics.Gdi.HDC hdc, int x, int y, winmdroot.Foundation.PCWSTR lpString, int c)
+#cfunc TextOutW "TextOutW" intptr, int, int, wstr, int
 
 #endif

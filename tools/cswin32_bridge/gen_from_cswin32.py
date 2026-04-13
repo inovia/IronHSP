@@ -235,7 +235,8 @@ def cs_ret_to_hsp(cs: str) -> str:
 # ----------------------------------------------------------------------------
 
 HANDLE_RE = re.compile(
-    r"public\s+readonly\s+partial\s+struct\s+(\w+)\s*:\s*IEquatable<\1>\s*\{[^}]*readonly\s+IntPtr\s+Value",
+    r"public\s+readonly\s+partial\s+struct\s+(\w+)\b"
+    r"[^{]*?\{[^}]*?readonly\s+(?:IntPtr|nint)\s+Value",
     re.S,
 )
 
@@ -381,13 +382,74 @@ def scan_structs(sources: Dict[Path, str]) -> None:
 DLLIMPORT_RE = re.compile(
     r'\[DllImport\("([^"]+)"[^\]]*EntryPoint\s*=\s*"([^"]+)"[^\]]*\)\]'
 )
+# DllImport without explicit EntryPoint (CsWin32 uses this when the managed
+# name matches the export name, e.g. advapi32 RegCloseKey). The EntryPoint
+# then defaults to the method name, so we resolve it at the call site.
+DLLIMPORT_NOENTRY_RE = re.compile(
+    r'\[DllImport\("([^"]+)"[^\]]*\)\]'
+)
+# "public static [unsafe] extern RET NAME(ARGS);"
+# Direct extern form (no wrapper body). The DllImport attribute is immediately
+# above this line. We match the whole statement up to the trailing `;`.
+DIRECT_EXTERN_RE = re.compile(
+    r'^\s*public\s+static\s+(?:unsafe\s+)?extern\s+(?:unsafe\s+)?([\w\.\*]+)\s+(\w+)\s*\((.*?)\)\s*;',
+    re.S,
+)
 
 # Anchor the outer wrapper by its position; we then look backwards for doc
 # lines and forward for the matching inner DllImport.
 
 
+def _build_func(dll: str, entry: str, ret_raw: str, args_raw: str,
+                doc_lines: List[str]) -> "Func":
+    """Build a Func object from a parsed extern signature + doc lines."""
+    arg_list: List[Tuple[str, str, str]] = []
+    parts = split_top_commas(args_raw)
+    for p in parts:
+        p = p.strip()
+        if not p:
+            continue
+        p = re.sub(r"\[[^\]]*\]\s*", "", p)
+        am = re.match(r"^(.*?)(\b\w+)\s*$", p, re.S)
+        if not am:
+            continue
+        cs_ty = am.group(1).strip()
+        aname = am.group(2)
+        hsp_ty = cs_type_to_hsp(cs_ty)
+        arg_list.append((hsp_ty, aname, ""))
+
+    blob = "\n".join(doc_lines)
+    summary = ""
+    returns_doc = ""
+    remarks = ""
+    param_docs: Dict[str, str] = {}
+    sm = re.search(r"<summary>(.*?)</summary>", blob, re.S | re.I)
+    if sm:
+        summary = strip_xml(sm.group(1))
+    rm = re.search(r"<returns>(.*?)</returns>", blob, re.S | re.I)
+    if rm:
+        returns_doc = strip_xml(rm.group(1))
+    rem = re.search(r"<remarks>(.*?)</remarks>", blob, re.S | re.I)
+    if rem:
+        remarks = strip_xml(rem.group(1))
+    for pm in re.finditer(
+        r'<param\s+name="([^"]+)"[^>]*>(.*?)</param>', blob, re.S | re.I
+    ):
+        param_docs[pm.group(1)] = strip_xml(pm.group(2))
+
+    arg_list = [(t, a, param_docs.get(a, "")) for (t, a, _d) in arg_list]
+    ret_hsp = cs_ret_to_hsp(ret_raw)
+    func_sig_raw = f"{ret_raw} {entry}({args_raw.strip()})"
+    return Func(
+        dll=dll, entry=entry, ret_hsp=ret_hsp, args=arg_list,
+        summary=summary, ret_doc=returns_doc, remarks=remarks,
+        raw_cs_sig=func_sig_raw,
+    )
+
+
 def scan_functions(sources: Dict[Path, str]) -> List[Func]:
     out: List[Func] = []
+    seen_entries: set = set()
     for path, text in sources.items():
         if ".PInvoke." not in path.name or ".dll.g.cs" not in path.name:
             continue
@@ -396,12 +458,80 @@ def scan_functions(sources: Dict[Path, str]) -> List[Func]:
         n = len(lines)
         while i < n:
             ln = lines[i]
-            # Detect a public static wrapper: "public static ... NAME(...)"
+
+            # Case B: direct "public static extern RET NAME(...);" form,
+            # used when the managed name matches the export name (no wrapper
+            # body, no LocalExternFunction). The [DllImport] sits in the
+            # attribute block above.
+            mb = re.match(
+                r"\s*public\s+static\s+(?:unsafe\s+)?extern\s+(?:unsafe\s+)?([\w\.\*]+)\s+(\w+)\s*\(",
+                ln,
+            )
+            if mb:
+                # Collect the full statement until the terminating `;`
+                stmt_lines: List[str] = []
+                j2 = i
+                while j2 < n:
+                    stmt_lines.append(lines[j2])
+                    if ";" in lines[j2]:
+                        j2 += 1
+                        break
+                    j2 += 1
+                stmt = "\n".join(stmt_lines)
+                sm = DIRECT_EXTERN_RE.match(stmt)
+                if sm:
+                    ret_raw = sm.group(1)
+                    fname = sm.group(2)
+                    args_raw = sm.group(3)
+                    # Walk back for doc + attributes, grab DllImport attribute.
+                    k = i - 1
+                    doc_lines: List[str] = []
+                    dll = None
+                    entry = None
+                    while k >= 0:
+                        ls = lines[k].lstrip()
+                        if ls.startswith("///"):
+                            doc_lines.insert(0, ls[3:].lstrip())
+                            k -= 1
+                            continue
+                        if ls.startswith("["):
+                            # Try to parse DllImport from this attribute line
+                            dm_e = DLLIMPORT_RE.search(ls)
+                            if dm_e:
+                                dll = dm_e.group(1)
+                                entry = dm_e.group(2)
+                            else:
+                                dm_ne = DLLIMPORT_NOENTRY_RE.search(ls)
+                                if dm_ne:
+                                    dll = dm_ne.group(1)
+                                    entry = fname
+                            k -= 1
+                            continue
+                        break
+                    if dll is None:
+                        i = j2
+                        continue
+                    if entry in seen_entries:
+                        i = j2
+                        continue
+                    seen_entries.add(entry)
+                    out.append(_build_func(
+                        dll, entry, ret_raw, args_raw, doc_lines,
+                    ))
+                    i = j2
+                    continue
+
+            # Case A: wrapper form — "public static ... NAME(...)" with a body
+            # containing a LocalExternFunction extern.
             m = re.match(
                 r"\s*public\s+static\s+(unsafe\s+)?([\w\.\*]+)\s+(\w+)\s*\(",
                 ln,
             )
             if not m:
+                i += 1
+                continue
+            # Skip if this is actually "public static extern" — already handled
+            if re.match(r"\s*public\s+static\s+(?:unsafe\s+)?extern\s+(?:unsafe\s+)?", ln):
                 i += 1
                 continue
             ret_cs = m.group(2)
@@ -504,6 +634,11 @@ def scan_functions(sources: Dict[Path, str]) -> List[Func]:
             arg_list = [(t, a, param_docs.get(a, "")) for (t, a, _d) in arg_list]
 
             ret_hsp = cs_ret_to_hsp(ret_raw)
+
+            if entry in seen_entries:
+                i = j
+                continue
+            seen_entries.add(entry)
 
             func_sig_raw = f"{ret_raw} {fname}({args_raw})"
             out.append(Func(
