@@ -1,0 +1,51 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "NHSP: Build (Debug)",
+      "appliesTo": "*.nhsp",
+      "type": "launch",
+      "contextType": "build",
+      "command": "${env.NHSPC_HOME}\\nhspc.exe",
+      "args": [
+        "${file}",
+        "-o",
+        "${fileDirname}\\${fileBasenameNoExtension}.exe",
+        "-debug"
+      ],
+      "workingDirectory": "${fileDirname}",
+      "output": "${fileDirname}\\${fileBasenameNoExtension}.exe"
+    },
+    {
+      "taskLabel": "NHSP: Build (Release)",
+      "appliesTo": "*.nhsp",
+      "type": "launch",
+      "contextType": "build",
+      "command": "${env.NHSPC_HOME}\\nhspc.exe",
+      "args": [
+        "${file}",
+        "-o",
+        "${fileDirname}\\${fileBasenameNoExtension}.exe"
+      ],
+      "workingDirectory": "${fileDirname}",
+      "output": "${fileDirname}\\${fileBasenameNoExtension}.exe"
+    },
+    {
+      "taskLabel": "NHSP: Build x64 (Debug)",
+      "appliesTo": "*.nhsp",
+      "type": "launch",
+      "contextType": "build",
+      "command": "${env.NHSPC_HOME}\\nhspc.exe",
+      "args": [
+        "${file}",
+        "-o",
+        "${fileDirname}\\${fileBasenameNoExtension}.exe",
+        "-platform",
+        "x64",
+        "-debug"
+      ],
+      "workingDirectory": "${fileDirname}",
+      "output": "${fileDirname}\\${fileBasenameNoExtension}.exe"
+    }
+  ]
+}

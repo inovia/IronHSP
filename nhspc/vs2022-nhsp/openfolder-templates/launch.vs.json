@@ -1,0 +1,41 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "default",
+      "project": "${input:nhspExeName}",
+      "name": "NHSP: Debug current file",
+      "args": [],
+      "currentDir": "${workspaceRoot}",
+      "buildConfigurations": [
+        {
+          "name": "Debug",
+          "buildTaskLabel": "NHSP: Build (Debug)"
+        }
+      ]
+    },
+    {
+      "type": "default",
+      "project": "${input:nhspExeName}",
+      "name": "NHSP: Run current file (no debug)",
+      "args": [],
+      "currentDir": "${workspaceRoot}",
+      "noDebug": true,
+      "buildConfigurations": [
+        {
+          "name": "Debug",
+          "buildTaskLabel": "NHSP: Build (Debug)"
+        }
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "nhspExeName",
+      "type": "promptString",
+      "description": "Path to the .exe produced by tasks.vs.json (e.g. app.exe)",
+      "default": "app.exe"
+    }
+  ]
+}

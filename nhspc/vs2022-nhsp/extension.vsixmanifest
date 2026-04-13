@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0"
+                 xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011"
+                 xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="IronHSP.NhspLanguage.5b3a8b62-3f6e-4f9e-a2bd-6e4a8c1e6b7e"
+              Version="0.1.0"
+              Language="en-US"
+              Publisher="IronHSP" />
+    <DisplayName>NHSP Language Support</DisplayName>
+    <Description xml:space="preserve">Syntax highlighting and file association for NHSP (.nhsp) - a HSP-style .NET compiler language.
+
+Once installed, .nhsp files open with NHSP TextMate grammar coloring.
+
+Debugging .nhsp source works out of the box: compile with `nhspc -debug`,
+then open the resulting .exe in Visual Studio (File - Open - Project/Solution)
+and press F5. The Windows PDB emitted by nhspc records the .nhsp source path,
+so breakpoints in .nhsp files, the Locals window, and the call stack all
+work like for C# code.</Description>
+    <MoreInfo>https://github.com/IronHSP</MoreInfo>
+    <Tags>nhsp, hsp, ironhsp, language, textmate, syntax</Tags>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,18.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[17.0,18.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Enterprise" Version="[17.0,18.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName=".NET Framework" d:Source="Manual" Version="[4.5,)" />
+  </Dependencies>
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,18.0)" DisplayName="Visual Studio core editor" />
+  </Prerequisites>
+  <Assets>
+    <!-- TextMate grammar at Grammars/nhsp.tmLanguage.json is picked up automatically
+         by VS 2022's grammar scanner once the extension is installed. No formal
+         Asset entry is required for grammars; the entry below just keeps the
+         schema validator happy. -->
+    <Asset Type="NhspLanguage.Grammar" d:Source="File" Path="Grammars\nhsp.tmLanguage.json" />
+    <!-- LSP MEF component: declares the .nhsp content type and an ILanguageClient
+         that spawns nhspls.exe (bundled in the same folder). -->
+    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="File" Path="NhspVsLanguageClient.dll" />
+  </Assets>
+</PackageManifest>
