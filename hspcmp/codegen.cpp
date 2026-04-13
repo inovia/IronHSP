@@ -2600,6 +2600,9 @@ void CToken::GenerateCodePP( char *buf )
 	if ( !strcmp( cg_str,"field" ) ) { GenerateCodePP_field(); return; }
 	if ( !strcmp( cg_str,"usecom" ) ) { GenerateCodePP_usecom(); return; }
 	if ( !strcmp( cg_str,"comfunc" ) ) { GenerateCodePP_comfunc(); return; }
+	if ( !strcmp( cg_str,"defcbcom" ) ) { GenerateCodePP_defcbcom(); return; }
+	if ( !strcmp( cg_str,"cbmethod" ) ) { GenerateCodePP_cbmethod(); return; }
+	if ( !strcmp( cg_str,"endcbcom" ) ) { GenerateCodePP_endcbcom(); return; }
 	if ( !strcmp(cg_str, "var") ) { GenerateCodePP_defvars(LAB_TYPEFIX_NONE); return; }
 	if ( !strcmp(cg_str, "varint") ) { GenerateCodePP_defvars(LAB_TYPEFIX_INT); return; }
 	if ( !strcmp(cg_str, "varlabel") ) { GenerateCodePP_defvars(LAB_TYPEFIX_LABEL); return; }
@@ -3582,6 +3585,8 @@ int CToken::GenerateCode( CMemBuf *srcbuf, char *oname, int mode )
 	cg_defstruct_active = -1;
 	cg_structdim_varid = -1;
 	cg_last_structval_size = 0;
+	cg_cbcom_active = -1;
+	cg_cbcom_classes.clear();
 	cg_debug = mode & COMP_MODE_DEBUG;
 	cg_utf8out = mode & COMP_MODE_UTF8;
 	cg_strmap = mode & COMP_MODE_STRMAP;
@@ -4112,6 +4117,156 @@ void CToken::GenerateCodePP_field(void)
 	if (!GenerateCodeStructMember()) {
 		throw CGERROR_SYNTAX;
 	}
+}
+
+
+/*------------------------------------------------------------*/
+/*		COM コールバックインターフェース (#defcbcom)         */
+/*------------------------------------------------------------*/
+
+int CToken::GetCbComClassId(const char *name)
+{
+	for (int i = 0; i < (int)cg_cbcom_classes.size(); i++) {
+		if (_stricmp(cg_cbcom_classes[i].name.c_str(), name) == 0) return i;
+	}
+	return -1;
+}
+
+void CToken::GenerateCodePP_defcbcom(void)
+{
+	//		#defcbcom CLASS_NAME IFACE_NAME
+	//
+	//		COM コールバックインターフェースを HSP 側で実装するための class 宣言。
+	//		IFACE_NAME は事前に #usecom で IID 登録されている必要がある。
+	//
+	if (cg_cbcom_active >= 0) {
+		// 入れ子は許可しない
+		throw CGERROR_SYNTAX;
+	}
+
+	// クラス名
+	GetTokenCG(GETTOKEN_DEFAULT);
+	if (ttype != TK_OBJ) throw CGERROR_PP_NAMEREQUIRED;
+	std::string class_name = cg_str;
+
+	// インターフェース名 (#usecom 名)
+	GetTokenCG(GETTOKEN_DEFAULT);
+	if (ttype != TK_OBJ) throw CGERROR_PP_NAMEREQUIRED;
+	std::string iface_name = cg_str;
+
+	// 重複チェック
+	if (GetCbComClassId(class_name.c_str()) >= 0) {
+		throw CGERROR_PP_ALREADY_USE_PARAM;
+	}
+
+	// インターフェースが #usecom 済みかチェック
+	int iface_lib_id = lb->Search((char *)iface_name.c_str());
+	if (iface_lib_id < 0) {
+		throw CGERROR_PP_NO_USECOM;
+	}
+	int iface_label_type = lb->GetType(iface_lib_id);
+	if (iface_label_type != TYPE_DLLCTRL) {
+		// #usecom で登録された名前は TYPE_DLLCTRL になる
+		throw CGERROR_PP_NO_USECOM;
+	}
+	int iface_struct_id = lb->GetOpt(iface_lib_id) & ~TYPE_OFFSET_COMOBJ;
+	HED_STRUCTDAT *iface_st = (HED_STRUCTDAT *)(fi_buf->GetBuffer()) + iface_struct_id;
+	int iface_lib_index = iface_st->index;
+
+	CbComClass cls;
+	cls.name = class_name;
+	cls.iface_name = iface_name;
+	cls.iface_lib_index = iface_lib_index;
+	cls.max_vtable_idx = 2;	// 最低 IUnknown 3 個分
+
+	cg_cbcom_classes.push_back(cls);
+	cg_cbcom_active = (int)cg_cbcom_classes.size() - 1;
+}
+
+
+void CToken::GenerateCodePP_cbmethod(void)
+{
+	//		#cbmethod VTABLE_IDX RET_TYPE [arg_type, ...,] *LABEL
+	//
+	//		例:
+	//		  #cbmethod 3 int comobj, int, int, intptr, *on_drag_enter
+	//
+	if (cg_cbcom_active < 0) {
+		throw CGERROR_SYNTAX;	// #defcbcom の外
+	}
+	auto &cls = cg_cbcom_classes[cg_cbcom_active];
+
+	// vtable index
+	GetTokenCG(GETTOKEN_DEFAULT);
+	if (ttype != TK_NUM) throw CGERROR_SYNTAX;
+	int vidx = val;
+	if (vidx < 3 || vidx >= 64) throw CGERROR_SYNTAX;
+
+	// 重複チェック
+	for (auto &m : cls.methods) {
+		if (m.vtable_idx == vidx) throw CGERROR_PP_ALREADY_USE_PARAM;
+	}
+
+	// 戻り値型
+	GetTokenCG(GETTOKEN_DEFAULT);
+	if (ttype != TK_OBJ) throw CGERROR_SYNTAX;
+	int rt = GetParameterFuncTypeCG(cg_str);
+	if (rt == MPTYPE_NONE) throw CGERROR_PP_WRONG_PARAM_NAME;
+
+	CbComMethod method;
+	method.vtable_idx = vidx;
+	method.return_type = rt;
+
+	// 引数列 + 末尾の *label
+	// パターン: arg_type, arg_type, ..., *label_name
+	// ラベル token を有効化するため GETTOKEN_LABEL 使用
+	GetTokenCG(GETTOKEN_LABEL);
+	while (1) {
+		if (ttype >= TK_EOL) {
+			// 引数なし + label なし? エラー (label は必須)
+			throw CGERROR_SYNTAX;
+		}
+		if (ttype == TK_NONE && val == ',') {
+			// カンマ → 次の token
+			GetTokenCG(GETTOKEN_LABEL);
+			continue;
+		}
+		if (ttype == TK_LABEL) {
+			// label 名は cg_str に入っている (lb には未登録のままにする)
+			method.label_name = cg_str;
+			break;
+		}
+		if (ttype != TK_OBJ) throw CGERROR_SYNTAX;
+
+		// 引数型
+		int t = GetParameterFuncTypeCG(cg_str);
+		if (t == MPTYPE_NONE) throw CGERROR_PP_WRONG_PARAM_NAME;
+		method.arg_types.push_back((short)t);
+
+		GetTokenCG(GETTOKEN_LABEL);
+		// 次は ',' か '*label'
+	}
+
+	if (method.label_name.empty()) throw CGERROR_SYNTAX;
+
+	cls.methods.push_back(method);
+	if (vidx > cls.max_vtable_idx) cls.max_vtable_idx = vidx;
+}
+
+
+void CToken::GenerateCodePP_endcbcom(void)
+{
+	//		#endcbcom
+	//
+	if (cg_cbcom_active < 0) throw CGERROR_SYNTAX;
+	auto &cls = cg_cbcom_classes[cg_cbcom_active];
+	if (cls.methods.empty()) {
+		// メソッド0個は許可しない (IUnknown 3 つだけのクラスは意味がないので)
+		throw CGERROR_SYNTAX;
+	}
+	// Phase B1 では parsing 結果を cg_cbcom_classes に貯めるだけ。
+	// Phase B2 で bytecode emission + runtime opcode を実装する。
+	cg_cbcom_active = -1;
 }
 
 

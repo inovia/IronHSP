@@ -613,6 +613,30 @@ public:
 	void GenerateCodePP_endstruct(void);
 	bool GenerateCodeStructMember(void);		// メンバ行をパース (true=処理した)
 
+	// ----- COM コールバックインターフェース (#defcbcom / #cbmethod / #endcbcom) -----
+	struct CbComMethod {
+		int vtable_idx;					// 3..N
+		int return_type;				// MPTYPE_INUM (HRESULT)
+		std::vector<short> arg_types;	// MPTYPE_*
+		std::string label_name;			// label 名 (CG 段階で lb から ID を引く)
+	};
+
+	struct CbComClass {
+		std::string name;				// クラス名 (例 "MyDropTarget")
+		std::string iface_name;			// インターフェース名 (例 "IDropTarget")
+		int iface_lib_index;			// hspcmp の lib index (#usecom 経由で IID 取得)
+		int max_vtable_idx;				// 最大 vtable index (= 最大スロット番号)
+		std::vector<CbComMethod> methods;
+	};
+
+	static std::vector<CbComClass> cg_cbcom_classes;
+	int cg_cbcom_active;				// -1 = 非定義中、else = 編集中の class index
+
+	int GetCbComClassId(const char *name);
+	void GenerateCodePP_defcbcom(void);
+	void GenerateCodePP_cbmethod(void);
+	void GenerateCodePP_endcbcom(void);
+
 private:
 	//		for Error
 	//

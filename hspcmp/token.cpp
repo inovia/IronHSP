@@ -342,6 +342,7 @@ int CToken::AddPackfileOrig(char* name, int mode)
 std::map<std::string, int> CToken::pp_var_structid;
 std::map<std::string, int> CToken::pp_cfuncst_structid;
 std::vector<CToken::StructDef> CToken::cg_structdefs;
+std::vector<CToken::CbComClass> CToken::cg_cbcom_classes;
 
 CToken::CToken( void )
 {
