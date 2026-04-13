@@ -135,10 +135,13 @@
 
 ; --- IWICBitmapFrameEncode ---
 #usecom IWICBitmapFrameEncode IID_IWICBitmapFrameEncode "{}"
+; vtable: 3=Initialize, 4=SetSize, 5=SetResolution, 6=SetPixelFormat,
+;         7=SetColorContexts, 8=SetPalette, 9=SetThumbnail,
+;         10=WritePixels, 11=WriteSource, 12=Commit, 13=GetMetadataQueryWriter
 #comfunc d2d_WICFrm_Initialize 3 int
 #comfunc d2d_WICFrm_SetSize 4 int, int
 #comfunc d2d_WICFrm_SetPixelFormat 6 var
-#comfunc d2d_WICFrm_WriteSource 10 comobj, int
+#comfunc d2d_WICFrm_WriteSource 11 comobj, int
 #comfunc d2d_WICFrm_Commit 12
 #comfunc d2d_WICFrm_Release 2
 
@@ -236,7 +239,7 @@
 ;-----------------------------------------------------------
 ; d2d_init
 ;-----------------------------------------------------------
-#deffunc d2d_init
+#deffunc d2d_init local _iid, local _out, local _hr
     _d2d_alloc_state
     if d2d_initialized {
         return
@@ -270,18 +273,17 @@
 ;-----------------------------------------------------------
 ; d2d_shutdown
 ;-----------------------------------------------------------
-#deffunc d2d_shutdown
+#deffunc d2d_shutdown local _fmt_final, local _dwfac_final, local _d2dfac_final
     if d2d_initialized = 0 : return
 
     ; Phase 1 PoC: 画像の自動 sweep はしない。ユーザーが明示的に d2d_image_delete
     ; を呼ぶ想定 (repeat ループから #deffunc 呼び出し + 配列参照の組み合わせで
     ; 原因不明の Error 7 が出るため、ここでは factory のみ release する)
 
-    ; newcom -1 でオーナーシップごと引き取り、delcom で Release させる
-    if d2d_cur_format_ptr ! 0 {
-        newcom _fmt_final, IDWriteTextFormat, -1, d2d_cur_format_ptr
+    if d2d_cur_format_ptr(0) ! 0 {
+        newcom _fmt_final, IDWriteTextFormat, -1, d2d_cur_format_ptr(0)
         delcom _fmt_final
-        d2d_cur_format_ptr = 0
+        d2d_cur_format_ptr(0) = 0
     }
     if d2d_dwfac_ptr ! 0 {
         newcom _dwfac_final, IDWriteFactory, -1, d2d_dwfac_ptr
@@ -302,7 +304,8 @@
 ;-----------------------------------------------------------
 ; d2d_image_create id, width, height
 ;-----------------------------------------------------------
-#deffunc d2d_image_create int id, int w, int h
+#deffunc d2d_image_create int id, int w, int h, \
+    local _pixfmt_buf, local _out, local _props, local _d2dfac, local _wicbmp, local _rt_out, local _stat
     if d2d_initialized = 0 : d2d_init
     if id < 0 : return
     if id >= D2D_IMGS_MAX : return
@@ -357,7 +360,8 @@
 ;-----------------------------------------------------------
 ; d2d_image_delete id
 ;-----------------------------------------------------------
-#deffunc d2d_image_delete int id
+#deffunc d2d_image_delete int id, \
+    local _rt, local _t1, local _t2, local _rt_final, local _bmp_final
     if id < 0 : return
     if id >= D2D_IMGS_MAX : return
 
@@ -399,7 +403,7 @@
 ;-----------------------------------------------------------
 ; ensure BeginDraw on current image
 ;-----------------------------------------------------------
-#deffunc _d2d_ensure_drawing
+#deffunc _d2d_ensure_drawing local _rt
     if d2d_cur_id < 0 : return
     if d2d_img_drawing(d2d_cur_id) : return
     _attach_rt(_rt, d2d_rt_ptrs(d2d_cur_id))
@@ -411,7 +415,7 @@
 ;-----------------------------------------------------------
 ; flush (EndDraw) on a specific image
 ;-----------------------------------------------------------
-#deffunc _d2d_flush int id
+#deffunc _d2d_flush int id, local _rt, local _t1, local _t2
     if id < 0 : return
     if d2d_rt_ptrs(id) = 0 : return
     if d2d_img_drawing(id) = 0 : return
@@ -425,7 +429,7 @@
 ;-----------------------------------------------------------
 ; d2d_clear r, g, b [, a]
 ;-----------------------------------------------------------
-#deffunc d2d_clear int r, int g, int b, int a
+#deffunc d2d_clear int r, int g, int b, int a, local _col, local _rt
     if d2d_cur_id < 0 : return
     _d2d_ensure_drawing
     stdim _col, D2D_COLOR_F
@@ -451,15 +455,15 @@
 ;-----------------------------------------------------------
 ; d2d_font "family", size, weight, italic
 ;-----------------------------------------------------------
-#deffunc d2d_font str family, double size, int weight, int italic
+#deffunc d2d_font str family, double size, int weight, int italic, \
+    local _old, local _w, local _style, local _out, local _dwfac
     if d2d_initialized = 0 : d2d_init
 
     ; 既存 format を release
-    if d2d_cur_format_ptr ! 0 {
-        _attach_dwfmt(_old, d2d_cur_format_ptr)
-        d2d_DWFmt_Release _old
+    if d2d_cur_format_ptr(0) ! 0 {
+        newcom _old, IDWriteTextFormat, -1, d2d_cur_format_ptr(0)
         delcom _old
-        d2d_cur_format_ptr = 0
+        d2d_cur_format_ptr(0) = 0
     }
 
     _w = weight
@@ -482,7 +486,9 @@
 ;-----------------------------------------------------------
 ; d2d_drawtext "text", x, y, w, h
 ;-----------------------------------------------------------
-#deffunc d2d_drawtext str text, int x, int y, int w, int h
+#deffunc d2d_drawtext str text, int x, int y, int w, int h, \
+    local _w2, local _h2, local _col, local _bp, local _brush_out, local _rt, \
+    local _brush_ptr, local _rect, local _fmt, local _brush, local _brush_final
     if d2d_cur_id < 0 : return
     if d2d_cur_format_ptr = 0 {
         mes "d2d_drawtext: call d2d_font first"
@@ -534,17 +540,23 @@
     d2d_RT_DrawText _rt, text, strlen(text), _fmt, _rect, _brush, 0, 0
     if stat ! 0 : mes "d2d_drawtext: DrawText stat=" + stat
 
-    ; ブラシを Release
-    d2d_SCB_Release _brush
+    ; brush は newcom -2 で attach しているので delcom が AddRef を打ち消す。
+    ; 元のオーナーシップは _brush_ptr 側で保持しており、ここでは触らない
     delcom _brush
     delcom _fmt
     delcom _rt
+    ; CreateSolidColorBrush で得た参照を 1 回だけ Release (newcom -1 で引き取り)
+    newcom _brush_final, ID2D1SolidColorBrush, -1, _brush_ptr
+    delcom _brush_final
     return
 
 ;-----------------------------------------------------------
 ; d2d_image_save id, "out.png"
 ;-----------------------------------------------------------
-#deffunc d2d_image_save int id, str path
+#deffunc d2d_image_save int id, str path, \
+    local _png_guid_buf, local _fmt_guid_buf, local _out, local _stream_ptr, local _stream, \
+    local _out2, local _enc_ptr, local _enc, local _frame_out, local _props_out, \
+    local _frame_ptr, local _frame, local _bmp
     if id < 0 : return
     if id >= D2D_IMGS_MAX : return
     if d2d_rt_ptrs(id) = 0 : return
@@ -584,7 +596,10 @@
     d2d_RtlMoveMemory _enc_ptr, _out2, 8
 
     _attach_wicenc(_enc, _enc_ptr)
-    d2d_WICEnc_Initialize _enc, _stream, 0    ; NoCache=0
+    ; cacheOption = 2 (WICBitmapEncoderNoCache)
+    ; (0 = WICBitmapEncoderCacheInMemory は WINCODEC_ERR_UNSUPPORTEDOPERATION
+    ;  になる環境がある — 詳細は memory/reference_hsp_module_quirks 参照)
+    d2d_WICEnc_Initialize _enc, _stream, 2
     if stat ! 0 {
         delcom _enc : delcom _stream
         mes "d2d_image_save: encoder Initialize stat=" + stat
