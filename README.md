@@ -4,7 +4,7 @@
 
 OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / wstr (UTF-16) / 構造体型 (NSTRUCT) / OpenCV 4 / DXLib / HSP風 .NET コンパイラ (nhspc) / Visual Studio 2022 + VS Code 統合まで、多数の機能を追加した実験プロジェクトです。
 
-> Based on http://dev.onionsoft.net/svn/openhsp/tags/3.8beta1 (Subversion) — `hspver "3.8beta1"`, see [`hsp3/hsp3config.h`](hsp3/hsp3config.h)
+> Based on http://dev.onionsoft.net/svn/openhsp/trunk (Subversion) — 3.8beta1 系。`hspver "3.8beta1"`, see [`hsp3/hsp3config.h`](hsp3/hsp3config.h)
 
 ---
 
