@@ -4,7 +4,7 @@
 
 OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / wstr (UTF-16) / 構造体型 (NSTRUCT) / OpenCV 4 / DXLib / HSP風 .NET コンパイラ (nhspc) / Visual Studio 2022 + VS Code 統合まで、多数の機能を追加した実験プロジェクトです。
 
-> Based on OpenHSP 3.8beta1 (`hspver "3.8beta1"`, [`hsp3/hsp3config.h`](hsp3/hsp3config.h))
+> Based on [OpenHSP](https://github.com/onitama/OpenHSP) 3.8beta1 (`hspver "3.8beta1"`, see [`hsp3/hsp3config.h`](hsp3/hsp3config.h))
 
 ---
 
@@ -176,7 +176,7 @@ build_all.bat                              REM OpenCV 4.12 を vcpkg 経由で�
 
 ## ライセンス
 
-OpenHSP 3.6 (BSD ライセンス) をベースとしているため、追加分も基本的に BSD ライセンスとして扱います。詳細は [`License.txt`](License.txt) / [`License_j.txt`](License_j.txt) を参照。
+OpenHSP 3.8beta1 (BSD ライセンス) をベースとしているため、追加分も基本的に BSD ライセンスとして扱います。詳細は [`License.txt`](License.txt) / [`License_j.txt`](License_j.txt) を参照。
 
 サードパーティライブラリ (OpenCV / Tesseract / Newtonsoft.Json / DxLib 等) はそれぞれの配布元のライセンスに従います。
 
@@ -188,4 +188,4 @@ OpenHSP 3.6 (BSD ライセンス) をベースとしているため、追加分�
 - nhspc 言語リファレンス: [`nhspc/docs/nhsp_reference.html`](nhspc/docs/nhsp_reference.html)
 - nhspc 入門: [`nhspc/docs/nhsp_beginners.html`](nhspc/docs/nhsp_beginners.html)
 - HSP 本家: https://hsp.tv/
-- OpenHSP: http://dev.onionsoft.net/
+- OpenHSP: https://github.com/onitama/OpenHSP
