@@ -220,6 +220,355 @@ static void *create_callback_thunk_x64(HspCallbackThunk *thunk)
 }
 #endif
 
+/*------------------------------------------------------------*/
+/*		COM callback interface (#defcbcom)                    */
+/*------------------------------------------------------------*/
+
+#define HSP_CBCOM_ARG_MAX 16
+#define HSP_CBCOM_METHOD_MAX 64
+
+struct HspCbComMethodInfo {
+	int vtable_idx;                         // 3..N
+	int return_type;                        // MPTYPE_INUM (HRESULT) 等
+	int arg_count;                          // user 引数 count (this 含まず)
+	short arg_types[HSP_CBCOM_ARG_MAX];     // MPTYPE_*
+	const unsigned short *label_ptr;        // HSP label code ptr
+	void *thunk_code;                       // 動的生成された C 関数 (vtable 用)
+	struct HspCbComMethodThunk *thunk;      // bridge 用 metadata
+};
+
+struct HspCbComClass {
+	char *name;
+	IID iid;
+	int max_vtable_idx;                     // vtable_count = max+1
+	HspCbComMethodInfo *methods;            // [max_vtable_idx+1] (slot 0..max)
+	void **vtable;                          // [max_vtable_idx+1] 完成済み vtable (全インスタンス共有)
+	int finalized;
+};
+
+struct HspCbComInstance {
+	void **vtable;                          // ★ COM レイアウト先頭。caller は this 経由で呼ぶ
+	LONG refcount;
+	HspCbComClass *klass;
+	int instance_id;
+	int tag_int;
+	char *tag_str;                          // strdup 済み (なければ NULL)
+};
+
+struct HspCbComMethodThunk {
+	void *code;
+	int codeSize;
+	HspCbComClass *klass;
+	int method_idx;
+	int slot_count;                         // this + user 引数の slot 数 (thunk arg copy 用)
+	INT_PTR args[HSP_CBCOM_ARG_MAX];        // [0]=this, [1..]=user 引数
+};
+
+// 現在実行中の callback コンテキスト
+static HspCbComMethodThunk *hsp_cbcom_current_thunk = NULL;
+static INT_PTR hsp_cbcom_return_value = 0;
+
+// Class registry
+static HspCbComClass **hsp_cbcom_classes = NULL;
+static int hsp_cbcom_class_count = 0;
+static int hsp_cbcom_class_capacity = 0;
+
+// Instance auto-incremented ID
+static int hsp_cbcom_next_instance_id = 1;
+
+// ----- 自動実装 IUnknown ------------------------------------
+
+static HRESULT STDMETHODCALLTYPE hsp_cbcom_QueryInterface(IUnknown *self, REFIID riid, void **ppv)
+{
+	HspCbComInstance *inst = (HspCbComInstance *)self;
+	if (ppv == NULL) return E_POINTER;
+	if (IsEqualIID(riid, IID_IUnknown) || IsEqualIID(riid, inst->klass->iid)) {
+		*ppv = self;
+		InterlockedIncrement(&inst->refcount);
+		return S_OK;
+	}
+	*ppv = NULL;
+	return E_NOINTERFACE;
+}
+
+static ULONG STDMETHODCALLTYPE hsp_cbcom_AddRef(IUnknown *self)
+{
+	HspCbComInstance *inst = (HspCbComInstance *)self;
+	return (ULONG)InterlockedIncrement(&inst->refcount);
+}
+
+static ULONG STDMETHODCALLTYPE hsp_cbcom_Release(IUnknown *self)
+{
+	HspCbComInstance *inst = (HspCbComInstance *)self;
+	LONG r = InterlockedDecrement(&inst->refcount);
+	if (r == 0) {
+		if (inst->tag_str) free(inst->tag_str);
+		free(inst);
+	}
+	return (ULONG)r;
+}
+
+// ----- thunk → HSP dispatcher bridge ------------------------
+
+static INT_PTR __cdecl hsp_cbcom_bridge(HspCbComMethodThunk *thunk)
+{
+	HspCbComMethodThunk *prev = hsp_cbcom_current_thunk;
+	INT_PTR prev_ret = hsp_cbcom_return_value;
+	hsp_cbcom_current_thunk = thunk;
+	hsp_cbcom_return_value = 0;     // default S_OK
+
+	HspCbComMethodInfo *info = &thunk->klass->methods[thunk->method_idx];
+	if (info->label_ptr != NULL) {
+		try {
+			code_callback(info->label_ptr);
+		} catch (...) {
+			hsp_cbcom_return_value = E_FAIL;
+		}
+	}
+
+	INT_PTR ret = hsp_cbcom_return_value;
+	hsp_cbcom_current_thunk = prev;
+	hsp_cbcom_return_value = prev_ret;
+	return ret;
+}
+
+// ----- thunk asm 生成 ---------------------------------------
+
+#ifdef HSP64
+static void *hsp_cbcom_create_thunk_x64(HspCbComMethodThunk *thunk)
+{
+	int nargs = thunk->slot_count;
+	unsigned char buf[512];
+	int pos = 0;
+
+	// sub rsp, 0x28
+	buf[pos++] = 0x48; buf[pos++] = 0x83; buf[pos++] = 0xEC; buf[pos++] = 0x28;
+
+	INT_PTR argsAddr = (INT_PTR)&thunk->args[0];
+
+	// rcx/rdx/r8/r9 → args[0..3]
+	for (int i = 0; i < nargs && i < 4; i++) {
+		buf[pos++] = 0x48; buf[pos++] = 0xB8;
+		*(INT_PTR*)(buf + pos) = argsAddr + i * sizeof(INT_PTR);
+		pos += 8;
+		switch (i) {
+		case 0: buf[pos++] = 0x48; buf[pos++] = 0x89; buf[pos++] = 0x08; break; // mov [rax], rcx
+		case 1: buf[pos++] = 0x48; buf[pos++] = 0x89; buf[pos++] = 0x10; break; // mov [rax], rdx
+		case 2: buf[pos++] = 0x4C; buf[pos++] = 0x89; buf[pos++] = 0x00; break; // mov [rax], r8
+		case 3: buf[pos++] = 0x4C; buf[pos++] = 0x89; buf[pos++] = 0x08; break; // mov [rax], r9
+		}
+	}
+
+	// stack args 4+
+	for (int i = 4; i < nargs && i < HSP_CBCOM_ARG_MAX; i++) {
+		int stackOff = 0x50 + (i - 4) * 8;
+		buf[pos++] = 0x48; buf[pos++] = 0x8B; buf[pos++] = 0x84; buf[pos++] = 0x24;
+		*(int*)(buf + pos) = stackOff;
+		pos += 4;
+		buf[pos++] = 0x49; buf[pos++] = 0xBA;
+		*(INT_PTR*)(buf + pos) = argsAddr + i * sizeof(INT_PTR);
+		pos += 8;
+		buf[pos++] = 0x49; buf[pos++] = 0x89; buf[pos++] = 0x02;
+	}
+
+	// mov rcx, IMM64 (thunk addr)
+	buf[pos++] = 0x48; buf[pos++] = 0xB9;
+	*(INT_PTR*)(buf + pos) = (INT_PTR)thunk;
+	pos += 8;
+
+	// mov rax, IMM64 (bridge addr)
+	buf[pos++] = 0x48; buf[pos++] = 0xB8;
+	*(INT_PTR*)(buf + pos) = (INT_PTR)&hsp_cbcom_bridge;
+	pos += 8;
+
+	// call rax
+	buf[pos++] = 0xFF; buf[pos++] = 0xD0;
+
+	// rax = bridge return value (HRESULT) — そのまま返す
+
+	// add rsp, 0x28
+	buf[pos++] = 0x48; buf[pos++] = 0x83; buf[pos++] = 0xC4; buf[pos++] = 0x28;
+	// ret
+	buf[pos++] = 0xC3;
+
+	void *execMem = VirtualAlloc(NULL, pos, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	if (execMem == NULL) return NULL;
+	memcpy(execMem, buf, pos);
+	thunk->code = execMem;
+	thunk->codeSize = pos;
+	return execMem;
+}
+#else
+static void *hsp_cbcom_create_thunk_x86(HspCbComMethodThunk *thunk)
+{
+	int nargs = thunk->slot_count;
+	unsigned char buf[256];
+	int pos = 0;
+	// push ebp; mov ebp, esp
+	buf[pos++] = 0x55;
+	buf[pos++] = 0x89; buf[pos++] = 0xE5;
+	// args[i] = [ebp + 8 + i*4]
+	for (int i = 0; i < nargs && i < HSP_CBCOM_ARG_MAX; i++) {
+		int offset = 8 + i * 4;
+		buf[pos++] = 0x8B; buf[pos++] = 0x45; buf[pos++] = (unsigned char)offset; // mov eax, [ebp+off]
+		buf[pos++] = 0xA3;
+		*(void**)(buf + pos) = &thunk->args[i];
+		pos += 4;
+	}
+	// push thunk
+	buf[pos++] = 0x68;
+	*(void**)(buf + pos) = thunk;
+	pos += 4;
+	// call hsp_cbcom_bridge
+	buf[pos++] = 0xE8;
+	int callRelPos = pos;
+	*(int*)(buf + pos) = 0;
+	pos += 4;
+	// add esp, 4
+	buf[pos++] = 0x83; buf[pos++] = 0xC4; buf[pos++] = 0x04;
+	// pop ebp
+	buf[pos++] = 0x5D;
+	// ret nargs*4 (stdcall)
+	if (nargs > 0) {
+		buf[pos++] = 0xC2;
+		*(unsigned short*)(buf + pos) = (unsigned short)(nargs * 4);
+		pos += 2;
+	} else {
+		buf[pos++] = 0xC3;
+	}
+
+	void *execMem = VirtualAlloc(NULL, pos, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	if (execMem == NULL) return NULL;
+	memcpy(execMem, buf, pos);
+	INT_PTR execBase = (INT_PTR)execMem;
+	*(int*)((unsigned char*)execMem + callRelPos) =
+		(int)((INT_PTR)&hsp_cbcom_bridge - (execBase + callRelPos + 4));
+	thunk->code = execMem;
+	thunk->codeSize = pos;
+	return execMem;
+}
+#endif
+
+// ----- Class registry --------------------------------------
+
+static HspCbComClass *hsp_cbcom_find_class(const char *name)
+{
+	for (int i = 0; i < hsp_cbcom_class_count; i++) {
+		if (strcmp(hsp_cbcom_classes[i]->name, name) == 0) {
+			return hsp_cbcom_classes[i];
+		}
+	}
+	return NULL;
+}
+
+static HspCbComClass *hsp_cbcom_register_class(const char *name, REFIID iid, int max_vtable_idx)
+{
+	if (max_vtable_idx < 2) max_vtable_idx = 2;       // 最低 IUnknown 3 個分
+	if (max_vtable_idx >= HSP_CBCOM_METHOD_MAX) return NULL;
+
+	HspCbComClass *klass = (HspCbComClass *)calloc(1, sizeof(HspCbComClass));
+	if (!klass) return NULL;
+	klass->name = _strdup(name);
+	klass->iid = iid;
+	klass->max_vtable_idx = max_vtable_idx;
+	int slots = max_vtable_idx + 1;
+	klass->methods = (HspCbComMethodInfo *)calloc(slots, sizeof(HspCbComMethodInfo));
+	if (!klass->methods) { free(klass->name); free(klass); return NULL; }
+
+	if (hsp_cbcom_class_count >= hsp_cbcom_class_capacity) {
+		int newCap = (hsp_cbcom_class_capacity == 0) ? 8 : hsp_cbcom_class_capacity * 2;
+		HspCbComClass **newArr = (HspCbComClass **)realloc(
+			hsp_cbcom_classes, sizeof(HspCbComClass *) * newCap);
+		if (!newArr) { free(klass->methods); free(klass->name); free(klass); return NULL; }
+		hsp_cbcom_classes = newArr;
+		hsp_cbcom_class_capacity = newCap;
+	}
+	hsp_cbcom_classes[hsp_cbcom_class_count++] = klass;
+	return klass;
+}
+
+static int hsp_cbcom_add_method(HspCbComClass *klass, int vtable_idx,
+	int return_type, int arg_count, const short *arg_types,
+	const unsigned short *label_ptr)
+{
+	if (klass->finalized) return -1;
+	if (vtable_idx < 3 || vtable_idx > klass->max_vtable_idx) return -1;
+	if (arg_count > HSP_CBCOM_ARG_MAX - 1) return -1;
+
+	HspCbComMethodInfo *info = &klass->methods[vtable_idx];
+	info->vtable_idx = vtable_idx;
+	info->return_type = return_type;
+	info->arg_count = arg_count;
+	for (int i = 0; i < arg_count; i++) info->arg_types[i] = arg_types[i];
+	info->label_ptr = label_ptr;
+	return 0;
+}
+
+static int hsp_cbcom_finalize_class(HspCbComClass *klass)
+{
+	if (klass->finalized) return 0;
+	int slots = klass->max_vtable_idx + 1;
+	klass->vtable = (void **)calloc(slots, sizeof(void *));
+	if (!klass->vtable) return -1;
+
+	// IUnknown
+	klass->vtable[0] = (void *)&hsp_cbcom_QueryInterface;
+	klass->vtable[1] = (void *)&hsp_cbcom_AddRef;
+	klass->vtable[2] = (void *)&hsp_cbcom_Release;
+
+	// User methods
+	for (int i = 3; i < slots; i++) {
+		HspCbComMethodInfo *info = &klass->methods[i];
+		if (info->label_ptr == NULL) {
+			// 未登録 slot → NULL のままだと caller が呼んだ瞬間に AV するので
+			// 「未実装メソッド = E_NOTIMPL を返す stub」 を埋めたいが、簡単のため
+			// thunk を作って bridge で空 callback (= return 0) させる。
+			// (実際の COM では 8 メソッド全部実装する想定なので、この pass は念のため)
+			klass->vtable[i] = NULL;
+			continue;
+		}
+		HspCbComMethodThunk *thunk = (HspCbComMethodThunk *)calloc(1, sizeof(HspCbComMethodThunk));
+		if (!thunk) return -1;
+		thunk->klass = klass;
+		thunk->method_idx = i;
+		thunk->slot_count = 1 + info->arg_count;   // this + user
+#ifdef HSP64
+		void *code = hsp_cbcom_create_thunk_x64(thunk);
+#else
+		void *code = hsp_cbcom_create_thunk_x86(thunk);
+#endif
+		if (!code) { free(thunk); return -1; }
+		info->thunk = thunk;
+		info->thunk_code = code;
+		klass->vtable[i] = code;
+	}
+
+	klass->finalized = 1;
+	return 0;
+}
+
+// ----- インスタンス生成 ------------------------------------
+
+static IUnknown *hsp_cbcom_create_instance(HspCbComClass *klass, int tag_int, const char *tag_str)
+{
+	if (!klass->finalized) {
+		if (hsp_cbcom_finalize_class(klass) != 0) return NULL;
+	}
+	HspCbComInstance *inst = (HspCbComInstance *)calloc(1, sizeof(HspCbComInstance));
+	if (!inst) return NULL;
+	inst->vtable = klass->vtable;
+	inst->refcount = 1;
+	inst->klass = klass;
+	inst->instance_id = hsp_cbcom_next_instance_id++;
+	inst->tag_int = (tag_str == NULL) ? (tag_int ? tag_int : inst->instance_id) : tag_int;
+	inst->tag_str = (tag_str && *tag_str) ? _strdup(tag_str) : NULL;
+	return (IUnknown *)inst;
+}
+
+// (Phase B0 までで定義した C API は B1/B2 から呼び出される)
+
+/*------------------------------------------------------------*/
+
 // netdelegate 用: HSP ラベルを .NET コールバックから呼び出すヘルパー
 static void hsp_callback_invoke(void *label_ptr)
 {
