@@ -91,7 +91,7 @@
 
 *on_key
     if iparam = 27 {        ; ESC
-        RevokeDragDrop hwnd
+        _hr = RevokeDragDrop(hwnd)
         delcom dt
         OleUninitialize
         end
@@ -174,10 +174,10 @@
     _nfiles = DragQueryFileW(_hdrop, -1, _dummy_buf, 0)
     mes "  " + _nfiles + " file(s) dropped:"
 
-    ; 各ファイル名を取得
+    ; 各ファイル名を取得 (#cfunc なので戻り値受けで呼ぶ)
     sdim _wpath, 1024     ; UTF-16 用 (512 WCHAR)
     repeat _nfiles
-        DragQueryFileW _hdrop, cnt, _wpath, 512
+        _used = DragQueryFileW(_hdrop, cnt, _wpath, 512)
         ; UTF-16 → SJIS に変換して表示
         mes "    " + cnvwtos(_wpath)
     loop
