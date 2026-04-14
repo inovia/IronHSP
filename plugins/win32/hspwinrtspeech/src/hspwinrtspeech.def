@@ -1,0 +1,5 @@
+LIBRARY hspwinrtspeech
+EXPORTS
+    winrt_speech_open
+    winrt_speech_listen_once
+    winrt_speech_close

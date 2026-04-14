@@ -71,6 +71,14 @@
 #func  _hsapi_close             "sapi_close"              int
 
 ;------------------------------------------------------------
+; hspwinrtspeech.dll (Windows.Media.SpeechRecognition, mic only)
+;------------------------------------------------------------
+#uselib "hspwinrtspeech.dll"
+#cfunc _hwinrt_speech_open        "winrt_speech_open"        str
+#cfunc _hwinrt_speech_listen_once "winrt_speech_listen_once" int, var, int
+#func  _hwinrt_speech_close       "winrt_speech_close"       int
+
+;------------------------------------------------------------
 ; バックエンド ID 定数
 ;------------------------------------------------------------
 #define SPEECH_BACKEND_CLOUD    1
@@ -106,6 +114,7 @@
 	_isp_vosk_handle = -1
 	_isp_vosk_sr = 16000
 	_isp_sapi_handle = -1
+	_isp_winrt_handle = -1
 	goto *_isp_skip_init
 
 ;------------------------------------------------------------
@@ -159,7 +168,11 @@
         return SPEECH_OK
     }
     if _isp_backend = SPEECH_BACKEND_WINRT {
-        return SPEECH_ERR_NOT_IMPL
+        ; mic-only バックエンド。_isp_language に "en-US" 等
+        _isp_winrt_handle = _hwinrt_speech_open(_isp_language)
+        if _isp_winrt_handle < 0 : return SPEECH_ERR_BACKEND
+        _isp_opened = 1
+        return SPEECH_OK
     }
     if _isp_backend = SPEECH_BACKEND_VOSK {
         ; _isp_model に Vosk モデルディレクトリパスを指定 (例 "vosk-model-small-ja-0.22")
@@ -220,8 +233,29 @@
         _hsapi_close _isp_sapi_handle
         _isp_sapi_handle = -1
     }
+    if _isp_winrt_handle >= 0 {
+        _hwinrt_speech_close _isp_winrt_handle
+        _isp_winrt_handle = -1
+    }
     _isp_opened = 0
     return SPEECH_OK
+
+;------------------------------------------------------------
+; iron_speech_listen_once out_text
+;   ライブマイクから 1 phrase 取得 (現状 WINRT バックエンドのみサポート)
+;   ファイル文字起こしと違って、マイクからの 1 回の発話を待つ。
+;------------------------------------------------------------
+#deffunc iron_speech_listen_once var out_text
+    sdim out_text, 4096
+    out_text = ""
+    if _isp_opened = 0 : return SPEECH_ERR_NOT_OPEN
+    if _isp_backend = SPEECH_BACKEND_WINRT {
+        if _isp_winrt_handle < 0 : return SPEECH_ERR_NOT_OPEN
+        sdim out_text, 4096
+        _hwinrt_speech_listen_once _isp_winrt_handle, out_text, 4095
+        return SPEECH_OK
+    }
+    return SPEECH_ERR_NOT_IMPL
 
 ;------------------------------------------------------------
 ; iron_speech_backend_name() — defcfunc
@@ -231,7 +265,7 @@
     if _isp_backend = SPEECH_BACKEND_CLOUD   : return "cloud"
     if _isp_backend = SPEECH_BACKEND_WHISPER : return "whisper.cpp (offline)"
     if _isp_backend = SPEECH_BACKEND_SAPI    : return "Windows SAPI 5"
-    if _isp_backend = SPEECH_BACKEND_WINRT   : return "WinRT Speech (not impl)"
+    if _isp_backend = SPEECH_BACKEND_WINRT   : return "WinRT Speech (mic-only)"
     if _isp_backend = SPEECH_BACKEND_VOSK    : return "Vosk (offline)"
     return "(unknown)"
 
