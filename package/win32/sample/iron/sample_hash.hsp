@@ -1,0 +1,56 @@
+;============================================================
+;  iron_hash.hsp サンプル: ハッシュ / Base64
+;
+;  Win32 BCrypt (CNG) で SHA-256 / MD5 / SHA-512 を計算し、
+;  CryptStringToBinary / CryptBinaryToString で Base64 変換。
+;  どちらも .NET 不要、Win 標準 API のみ。
+;============================================================
+
+#include "iron_hash.hsp"
+
+	mes "==== ハッシュサンプル ===="
+	mes ""
+
+	; --- 文字列のハッシュ ---
+	hash_md5    "hello world" : mes "MD5    : " + refstr
+	hash_sha1   "hello world" : mes "SHA-1  : " + refstr
+	hash_sha256 "hello world" : mes "SHA-256: " + refstr
+	hash_sha384 "hello world" : mes "SHA-384: " + refstr
+	hash_sha512 "hello world" : mes "SHA-512: " + refstr
+
+	mes ""
+	mes "==== Base64 サンプル ===="
+	mes ""
+
+	; --- Base64 エンコード ---
+	original = "Hello, World! 日本語もOK"
+	base64_encode original
+	encoded = refstr
+	mes "原文: " + original
+	mes "Base64: " + encoded
+
+	; --- Base64 デコード ---
+	base64_decode encoded
+	decoded_size = stat
+	mes "デコード後サイズ: " + decoded_size + " bytes"
+	mes "デコード結果: " + refstr
+
+	mes ""
+	mes "==== バイナリバッファのハッシュ ===="
+	mes ""
+
+	; ファイルのハッシュ計算 (HSP ランタイム自身)
+	exist "hsp3_64.exe"
+	if strsize > 0 {
+		sz = strsize
+		sdim buf, sz
+		bload "hsp3_64.exe", buf, sz
+		hash_sha256_buf buf, sz
+		mes "hsp3_64.exe SHA-256:"
+		mes "  " + refstr
+		mes "  size: " + sz + " bytes"
+	} else {
+		mes "(hsp3_64.exe が見つからないので バッファ ハッシュ デモはスキップ)"
+	}
+
+	stop

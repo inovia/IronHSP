@@ -1,0 +1,230 @@
+;============================================================
+;   iron_hash.hsp — ハッシュ / Base64 簡易ラッパ
+;
+;   Win32 BCrypt (CNG) と CryptStringToBinary / CryptBinaryToString を
+;   使った 1 行 API。
+;
+;   API:
+;     hash_md5    "text"          → refstr に hex (32 文字)
+;     hash_sha1   "text"          → refstr に hex (40 文字)
+;     hash_sha256 "text"          → refstr に hex (64 文字)
+;     hash_sha384 "text"          → refstr に hex (96 文字)
+;     hash_sha512 "text"          → refstr に hex (128 文字)
+;
+;     hash_md5_buf    var, len    → refstr に hex (バイナリバッファ版)
+;     hash_sha1_buf   var, len    → refstr に hex
+;     hash_sha256_buf var, len    → refstr に hex
+;     hash_sha512_buf var, len    → refstr に hex
+;
+;     base64_encode "text"         → refstr に Base64 (改行付き)
+;     base64_encode_buf var, len   → refstr に Base64
+;     base64_decode "Base64..."    → refstr にデコード結果バイト列, stat にサイズ
+;
+;   例:
+;     #include "iron_hash.hsp"
+;
+;         hash_sha256 "hello world"
+;         mes "SHA-256: " + refstr
+;         ; → b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9
+;
+;         base64_encode "Hello, World!"
+;         mes refstr
+;         ; → SGVsbG8sIFdvcmxkIQ==
+;
+;     ファイルのハッシュ:
+;         exist "data.bin" : sz = strsize
+;         sdim buf, sz : bload "data.bin", buf, sz
+;         hash_sha256_buf buf, sz
+;         mes "SHA-256: " + refstr
+;============================================================
+
+#ifndef __iron_hash_hsp__
+#define __iron_hash_hsp__
+
+#module iron_hash
+
+;------------------------------------------------------------
+; BCrypt (CNG) API — bcrypt.dll
+;
+; ステップ:
+;   1. BCryptOpenAlgorithmProvider("SHA256", null, 0) → ALG_HANDLE
+;   2. BCryptCreateHash(ALG_HANDLE, &HASH_HANDLE, null, 0, null, 0, 0)
+;   3. BCryptHashData(HASH_HANDLE, data, len, 0)        — 何回でも追記可
+;   4. BCryptFinishHash(HASH_HANDLE, output, output_len, 0)
+;   5. BCryptDestroyHash(HASH_HANDLE)
+;   6. BCryptCloseAlgorithmProvider(ALG_HANDLE, 0)
+;
+; HSP 側の wstr で algorithm 名 (L"SHA256" 等) を渡すのが面倒なので、
+; ここでは ANSI 文字列を変換して wstr で渡す。
+;------------------------------------------------------------
+#uselib "bcrypt.dll"
+#cfunc _bc_open  "BCryptOpenAlgorithmProvider" var, wstr, wstr, int
+#cfunc _bc_close "BCryptCloseAlgorithmProvider" int, int
+#cfunc _bc_chash "BCryptCreateHash" int, var, int, int, int, int, int
+#cfunc _bc_hdata "BCryptHashData" int, var, int, int
+#cfunc _bc_fhash "BCryptFinishHash" int, var, int, int
+#cfunc _bc_dhash "BCryptDestroyHash" int
+
+;------------------------------------------------------------
+; CryptStringToBinary / CryptBinaryToString (crypt32.dll) — Base64 系
+;------------------------------------------------------------
+#uselib "crypt32.dll"
+#cfunc _b64_b2s "CryptBinaryToStringA" var, int, int, int, var
+#cfunc _b64_s2b "CryptStringToBinaryA" str, int, int, var, var, int, int
+
+;------------------------------------------------------------
+; ハッシュ size 表
+;------------------------------------------------------------
+;  MD5    : 16 byte
+;  SHA1   : 20 byte
+;  SHA256 : 32 byte
+;  SHA384 : 48 byte
+;  SHA512 : 64 byte
+
+;------------------------------------------------------------
+; 内部関数: 任意のアルゴリズムでバイナリバッファをハッシュ
+;
+; in:  alg_name (str), data_var, data_len
+; out: refstr に hex 文字列 (小文字)
+;------------------------------------------------------------
+#deffunc _hash_compute str alg, var data, int data_len, \
+        local _hAlg, local _hHash, local _out, local _hash_len, local _i, local _b, local _hex
+    _hAlg = 0
+    _hHash = 0
+
+    if _bc_open(_hAlg, alg, "", 0) != 0 : return "", -1
+
+    if _bc_chash(_hAlg, _hHash, 0, 0, 0, 0, 0) != 0 {
+        _bc_close _hAlg, 0
+        return "", -2
+    }
+
+    if _bc_hdata(_hHash, data, data_len, 0) != 0 {
+        _bc_dhash _hHash
+        _bc_close _hAlg, 0
+        return "", -3
+    }
+
+    ; アルゴリズムごとの出力長
+    if alg = "MD5"     : _hash_len = 16
+    if alg = "SHA1"    : _hash_len = 20
+    if alg = "SHA256"  : _hash_len = 32
+    if alg = "SHA384"  : _hash_len = 48
+    if alg = "SHA512"  : _hash_len = 64
+    if _hash_len = 0   : _hash_len = 64    ; safety
+
+    sdim _out, _hash_len + 16
+
+    if _bc_fhash(_hHash, _out, _hash_len, 0) != 0 {
+        _bc_dhash _hHash
+        _bc_close _hAlg, 0
+        return "", -4
+    }
+
+    _bc_dhash _hHash
+    _bc_close _hAlg, 0
+
+    ; hex 文字列化
+    _hex = ""
+    repeat _hash_len
+        _b = peek(_out, cnt)
+        _hex += strf("%02x", _b)
+    loop
+    return _hex, 0
+
+;------------------------------------------------------------
+; 文字列版 hash 関数群
+;------------------------------------------------------------
+#deffunc hash_md5 str s, local _b, local _l
+    _b = s
+    _l = strlen(s)
+    _hash_compute "MD5", _b, _l
+    return refstr, stat
+
+#deffunc hash_sha1 str s, local _b, local _l
+    _b = s
+    _l = strlen(s)
+    _hash_compute "SHA1", _b, _l
+    return refstr, stat
+
+#deffunc hash_sha256 str s, local _b, local _l
+    _b = s
+    _l = strlen(s)
+    _hash_compute "SHA256", _b, _l
+    return refstr, stat
+
+#deffunc hash_sha384 str s, local _b, local _l
+    _b = s
+    _l = strlen(s)
+    _hash_compute "SHA384", _b, _l
+    return refstr, stat
+
+#deffunc hash_sha512 str s, local _b, local _l
+    _b = s
+    _l = strlen(s)
+    _hash_compute "SHA512", _b, _l
+    return refstr, stat
+
+;------------------------------------------------------------
+; バイナリバッファ版 hash 関数群
+;------------------------------------------------------------
+#deffunc hash_md5_buf var data, int len
+    _hash_compute "MD5", data, len
+    return refstr, stat
+
+#deffunc hash_sha1_buf var data, int len
+    _hash_compute "SHA1", data, len
+    return refstr, stat
+
+#deffunc hash_sha256_buf var data, int len
+    _hash_compute "SHA256", data, len
+    return refstr, stat
+
+#deffunc hash_sha384_buf var data, int len
+    _hash_compute "SHA384", data, len
+    return refstr, stat
+
+#deffunc hash_sha512_buf var data, int len
+    _hash_compute "SHA512", data, len
+    return refstr, stat
+
+;------------------------------------------------------------
+; Base64 エンコード
+;
+; CryptBinaryToStringA(pbBinary, cbBinary, dwFlags, pszString, pcchString)
+;   dwFlags = CRYPT_STRING_BASE64 (1)
+;   出力に改行入れたくない場合は CRYPT_STRING_NOCRLF (0x40000000) を OR
+;------------------------------------------------------------
+#deffunc base64_encode_buf var data, int len, \
+        local _outsize, local _out, local _flags
+    _flags = 1 | 0x40000000        ; BASE64 + NOCRLF
+    _outsize = 0
+    if _b64_b2s(data, len, _flags, 0, _outsize) = 0 : return "", -1
+    sdim _out, _outsize + 16
+    if _b64_b2s(data, len, _flags, _out, _outsize) = 0 : return "", -2
+    return _out, _outsize
+
+#deffunc base64_encode str s, local _b, local _l
+    _b = s
+    _l = strlen(s)
+    base64_encode_buf _b, _l
+    return refstr, stat
+
+;------------------------------------------------------------
+; Base64 デコード
+;
+; CryptStringToBinaryA(pszString, cchString, dwFlags, pbBinary, pcbBinary,
+;                       pdwSkip, pdwFlags)
+;   dwFlags = CRYPT_STRING_BASE64 (1)
+;------------------------------------------------------------
+#deffunc base64_decode str s, \
+        local _outsize, local _out
+    _outsize = 0
+    if _b64_s2b(s, strlen(s), 1, 0, _outsize, 0, 0) = 0 : return "", -1
+    sdim _out, _outsize + 16
+    if _b64_s2b(s, strlen(s), 1, _out, _outsize, 0, 0) = 0 : return "", -2
+    return _out, _outsize
+
+#global
+
+#endif

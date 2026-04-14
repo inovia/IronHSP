@@ -1,0 +1,294 @@
+;============================================================
+;   iron_http.hsp — WinHTTP 簡易クライアントラッパ
+;
+;   HSP から GET / POST を 1 行で叩けるようにする薄いラッパ。
+;   内部では Win32 WinHTTP API を直接呼んでいるので .NET 不要。
+;
+;   API:
+;     http_get  url, [agent]                ; GET  → refstr に body / stat に HTTP status
+;     http_post url, body, [type], [agent]  ; POST → refstr に body / stat に HTTP status
+;     http_status                            ; 直前の HTTP ステータスコード (200, 404, 500 等)
+;     http_set_timeout sec                   ; 接続/送受信タイムアウト秒 (デフォルト 30)
+;
+;   例:
+;     #include "iron_http.hsp"
+;
+;         http_get "https://api.open-meteo.com/v1/forecast?latitude=35.68&longitude=139.69&current=temperature_2m"
+;         if stat = 200 {
+;             mes refstr   ; JSON 本文を表示
+;         } else {
+;             mes "HTTP error: " + stat
+;         }
+;
+;     POST 例:
+;         http_post "https://example.com/api", "{\"key\":\"value\"}", "application/json"
+;         mes refstr
+;
+;   注意:
+;     - HTTPS は自動で TLS ハンドシェイクされる (WinHTTP はシステム証明書ストアを使う)
+;     - リダイレクト (3xx) は WinHTTP デフォルトで自動追尾される (~5 hop まで)
+;     - User-Agent は省略時 "IronHSP/1.0"
+;     - 文字エンコーディングは応答 body をそのまま返すので、UTF-8 JSON は
+;       SJIS HSP 環境では mes 表示で化ける可能性あり (cnvuts 等で変換要)
+;============================================================
+
+#ifndef __iron_http_hsp__
+#define __iron_http_hsp__
+
+#module iron_http
+
+;------------------------------------------------------------
+; WinHTTP API (winhttp.dll, W = Unicode 版)
+;
+; 内部実装で wstr バッファを扱うので、この層ではあえて intptr (raw ptr) で
+; 受けて、ハンドル / バッファ管理を行う。
+;------------------------------------------------------------
+#uselib "winhttp.dll"
+
+; HINTERNET WinHttpOpen(LPCWSTR userAgent, DWORD accessType, LPCWSTR proxy,
+;                       LPCWSTR proxyBypass, DWORD flags)
+#cfunc _http_open "WinHttpOpen" wstr, int, wstr, wstr, int
+
+; HINTERNET WinHttpConnect(HINTERNET session, LPCWSTR serverName, INTERNET_PORT port, DWORD reserved)
+#cfunc _http_connect "WinHttpConnect" int, wstr, int, int
+
+; HINTERNET WinHttpOpenRequest(HINTERNET hConnect, LPCWSTR verb, LPCWSTR objectName,
+;                              LPCWSTR version, LPCWSTR referer, LPCWSTR* acceptTypes,
+;                              DWORD flags)
+#cfunc _http_request "WinHttpOpenRequest" int, wstr, wstr, wstr, wstr, int, int
+
+; BOOL WinHttpSendRequest(HINTERNET hRequest, LPCWSTR headers, DWORD headersLen,
+;                         LPVOID optional, DWORD optionalLen, DWORD totalLen, DWORD_PTR context)
+#cfunc _http_send "WinHttpSendRequest" int, wstr, int, var, int, int, int
+
+#cfunc _http_send_nobody "WinHttpSendRequest" int, wstr, int, int, int, int, int
+
+; BOOL WinHttpReceiveResponse(HINTERNET hRequest, LPVOID reserved)
+#cfunc _http_recv "WinHttpReceiveResponse" int, int
+
+; BOOL WinHttpQueryDataAvailable(HINTERNET hRequest, LPDWORD numberOfBytesAvailable)
+#cfunc _http_query_avail "WinHttpQueryDataAvailable" int, var
+
+; BOOL WinHttpReadData(HINTERNET hRequest, LPVOID buffer, DWORD numberOfBytesToRead, LPDWORD numberOfBytesRead)
+#cfunc _http_read "WinHttpReadData" int, var, int, var
+
+; BOOL WinHttpQueryHeaders(HINTERNET hRequest, DWORD info, LPCWSTR name,
+;                         LPVOID buffer, LPDWORD bufferLen, LPDWORD index)
+#cfunc _http_query_hdr "WinHttpQueryHeaders" int, int, int, var, var, var
+
+; BOOL WinHttpCloseHandle(HINTERNET handle)
+#cfunc _http_close "WinHttpCloseHandle" int
+
+; BOOL WinHttpSetTimeouts(HINTERNET handle, int resolveTimeout, int connectTimeout,
+;                         int sendTimeout, int receiveTimeout)
+#cfunc _http_set_to "WinHttpSetTimeouts" int, int, int, int, int
+
+;------------------------------------------------------------
+; URL パース helper (winhttp.dll の WinHttpCrackUrl を使う)
+;
+; URL_COMPONENTS 構造体は dwStructSize (DWORD) + 14 個のメンバ (各 8 byte) の
+; 計 116 byte。ここでは struct を雑にバイト配列で確保し、必要なメンバだけ
+; lpoke / lpeek で読み書きする。
+;------------------------------------------------------------
+#cfunc _http_crack_url "WinHttpCrackUrlW" wstr, int, int, var
+
+;------------------------------------------------------------
+; モジュール内部の状態 (timeout 等)
+;------------------------------------------------------------
+#deffunc _http_init
+    if _http_initialized != 0 : return
+    _http_initialized = 1
+    _http_timeout_ms = 30000        ; 30 秒
+    return
+
+;------------------------------------------------------------
+; http_set_timeout sec
+;   タイムアウト (秒) を設定。
+;------------------------------------------------------------
+#deffunc http_set_timeout int sec
+    _http_init
+    _http_timeout_ms = sec * 1000
+    return
+
+;------------------------------------------------------------
+; 内部関数: URL から host / port / path / scheme を取り出す
+;
+; 簡易パーサ (WinHTTP に依存しない自前実装)。WinHTTP の WinHttpCrackUrl は
+; URL_COMPONENTS 構造体経由でちょっと面倒なので、文字列操作で済ませる。
+;
+; in:  url
+; out: stat(host), refstr(path), refdval(port), prmidx(is_https)
+;------------------------------------------------------------
+#deffunc _http_parse_url str url, var out_host, var out_path, var out_port, var out_https
+    _u = url
+    out_https = 0
+
+    ; scheme
+    if instr(_u, 0, "https://") = 0 {
+        out_https = 1
+        out_port = 443
+        _u = strmid(_u, 8, strlen(_u) - 8)
+    } else : if instr(_u, 0, "http://") = 0 {
+        out_https = 0
+        out_port = 80
+        _u = strmid(_u, 7, strlen(_u) - 7)
+    } else {
+        out_https = 0
+        out_port = 80
+    }
+
+    ; first '/' splits host[:port] from path
+    _slash = instr(_u, 0, "/")
+    if _slash < 0 {
+        _hp = _u
+        out_path = "/"
+    } else {
+        _hp = strmid(_u, 0, _slash)
+        out_path = strmid(_u, _slash, strlen(_u) - _slash)
+    }
+
+    ; check for :port in _hp
+    _colon = instr(_hp, 0, ":")
+    if _colon < 0 {
+        out_host = _hp
+    } else {
+        out_host = strmid(_hp, 0, _colon)
+        out_port = int(strmid(_hp, _colon + 1, strlen(_hp) - _colon - 1))
+    }
+    return
+
+;------------------------------------------------------------
+; 内部関数: HTTP リクエスト実行
+;
+; in:  url, verb ("GET" / "POST"), body, content_type, agent
+; out: refstr = レスポンス body, stat = HTTP status
+;------------------------------------------------------------
+#deffunc _http_do str url, str verb, str body, str ctype, str agent, \
+        local _host, local _path, local _port, local _https, \
+        local _hSession, local _hConnect, local _hRequest, \
+        local _flags, local _headers, local _buf, local _avail, local _read, \
+        local _result, local _http_status, local _status_buf, local _status_len, local _status_idx
+    _http_init
+
+    ; URL パース
+    _http_parse_url url, _host, _path, _port, _https
+
+    ; セッション開始 (ユーザーエージェント、PROXY = NO_PROXY = 1)
+    _hSession = _http_open(agent, 1, "", "", 0)
+    if _hSession = 0 {
+        return -1, 0
+    }
+
+    ; タイムアウト設定
+    _http_set_to _hSession, _http_timeout_ms, _http_timeout_ms, _http_timeout_ms, _http_timeout_ms
+
+    ; サーバ接続
+    _hConnect = _http_connect(_hSession, _host, _port, 0)
+    if _hConnect = 0 {
+        _http_close _hSession
+        return -2, 0
+    }
+
+    ; リクエスト作成 (HTTPS なら WINHTTP_FLAG_SECURE = 0x00800000)
+    _flags = 0
+    if _https != 0 : _flags = 0x00800000
+    _hRequest = _http_request(_hConnect, verb, _path, "", "", 0, _flags)
+    if _hRequest = 0 {
+        _http_close _hConnect
+        _http_close _hSession
+        return -3, 0
+    }
+
+    ; ヘッダ
+    _headers = ""
+    if strlen(ctype) > 0 {
+        _headers = "Content-Type: " + ctype + "\r\n"
+    }
+
+    ; リクエスト送信
+    if strlen(body) > 0 {
+        _result = _http_send(_hRequest, _headers, -1, body, strlen(body), strlen(body), 0)
+    } else {
+        _result = _http_send_nobody(_hRequest, _headers, -1, 0, 0, 0, 0)
+    }
+    if _result = 0 {
+        _http_close _hRequest
+        _http_close _hConnect
+        _http_close _hSession
+        return -4, 0
+    }
+
+    ; 応答待ち
+    _result = _http_recv(_hRequest, 0)
+    if _result = 0 {
+        _http_close _hRequest
+        _http_close _hConnect
+        _http_close _hSession
+        return -5, 0
+    }
+
+    ; HTTP ステータスを取得
+    ; WINHTTP_QUERY_STATUS_CODE = 19, WINHTTP_QUERY_FLAG_NUMBER = 0x20000000
+    sdim _status_buf, 16
+    _status_len = 16
+    _status_idx = 0
+    _result = _http_query_hdr(_hRequest, 19 | 0x20000000, 0, _status_buf, _status_len, _status_idx)
+    if _result != 0 {
+        _http_status = lpeek(_status_buf, 0)
+    } else {
+        _http_status = 0
+    }
+
+    ; 応答 body を読む
+    sdim _result_body, 4096
+    _result_total = 0
+    repeat
+        _result = _http_query_avail(_hRequest, _avail)
+        if _result = 0 : break
+        if _avail = 0 : break
+        sdim _buf, _avail + 16
+        _result = _http_read(_hRequest, _buf, _avail, _read)
+        if _result = 0 : break
+        if _read = 0 : break
+        ; 連結
+        if _result_total + _read >= varsize(_result_body) {
+            sdim _result_body2, _result_total + _read + 4096
+            memcpy _result_body2, _result_body, _result_total
+            _result_body = _result_body2
+        }
+        memcpy _result_body, _buf, _read, _result_total, 0
+        _result_total += _read
+    loop
+    poke _result_body, _result_total, 0
+
+    _http_close _hRequest
+    _http_close _hConnect
+    _http_close _hSession
+
+    return _result_body, _http_status
+
+;------------------------------------------------------------
+; http_get url
+;   refstr に body、stat に HTTP status (200/404/500 等)
+;   ネットワークエラー時は stat=0, refstr=""
+;------------------------------------------------------------
+#deffunc http_get str url, \
+        local _agent
+    _agent = "IronHSP/1.0"
+    _http_do url, "GET", "", "", _agent
+    return refstr, stat
+
+;------------------------------------------------------------
+; http_post url, body [, content_type]
+;------------------------------------------------------------
+#deffunc http_post str url, str body, str ctype, \
+        local _agent, local _t
+    _agent = "IronHSP/1.0"
+    _t = ctype
+    if strlen(_t) = 0 : _t = "application/x-www-form-urlencoded"
+    _http_do url, "POST", body, _t, _agent
+    return refstr, stat
+
+#global
+
+#endif

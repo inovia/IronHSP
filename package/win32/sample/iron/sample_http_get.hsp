@@ -1,0 +1,42 @@
+;============================================================
+;  iron_http.hsp サンプル: HTTP GET で天気予報 API を叩く
+;
+;  Open-Meteo (https://open-meteo.com/) は無料・API キー不要・
+;  CORS フリーの天気予報 API。サンプル用に最適。
+;
+;  座標 35.68/139.69 = 東京駅近辺
+;============================================================
+
+#include "iron_http.hsp"
+
+	; タイムアウトを長めに (デフォルト 30 秒)
+	http_set_timeout 30
+
+	url = "https://api.open-meteo.com/v1/forecast?latitude=35.68&longitude=139.69&current=temperature_2m,wind_speed_10m"
+
+	mes "GET " + url
+	mes ""
+
+	http_get url
+	status = stat
+	body = refstr
+
+	mes "HTTP status: " + status
+	mes ""
+
+	if status = 200 {
+		mes "--- response body (JSON) ---"
+		mes body
+		mes ""
+		mes "iron_json モジュールが完成すると以下のように書ける:"
+		mes "  j = json_parse(body)"
+		mes "  temp = json_getd(j, \"current.temperature_2m\")"
+		mes "  mes \"気温: \" + temp + \"℃\""
+	} else : if status = 0 {
+		mes "ネットワークエラー (DNS / 接続 / TLS / タイムアウト)"
+		mes "オフラインの場合は HTTP GET 失敗します"
+	} else {
+		mes "HTTP error " + status
+	}
+
+	stop

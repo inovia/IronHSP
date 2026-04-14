@@ -1,0 +1,199 @@
+;============================================================
+;   iron_ini.hsp — INI 設定ファイル簡易ラッパ
+;
+;   Win32 GetPrivateProfile* / WritePrivateProfile* API を
+;   HSP から手軽に使えるようにする薄いラッパモジュール。
+;
+;   特徴:
+;     - 1 行で読み書き
+;     - SJIS ベース (HSP 標準) なのでエンコーディング変換不要
+;     - INI ファイルパスは相対 / 絶対どちらも可
+;     - 既定値付き取得もサポート
+;
+;   API:
+;     ini_setpath "config.ini"     ; カレント INI を設定 (必ず最初に呼ぶ)
+;
+;     ini_get sec, key, defval     ; 文字列読み込み → refstr に格納
+;     ini_geti sec, key, defval    ; 整数読み込み → stat に格納
+;     ini_getd sec, key, defval    ; 実数読み込み → refdval に格納
+;
+;     ini_set sec, key, val_str    ; 文字列書き込み
+;     ini_seti sec, key, val_int   ; 整数書き込み
+;     ini_setd sec, key, val_double; 実数書き込み
+;
+;     ini_delete_key sec, key
+;     ini_delete_section sec
+;
+;     ini_section_keys sec, out_array_var
+;     ini_section_names out_array_var
+;
+;   例:
+;     #include "iron_ini.hsp"
+;
+;         ini_setpath "config.ini"
+;
+;         ini_geti "Window", "Width", 800 : w = stat
+;         ini_geti "Window", "Height", 600 : h = stat
+;         ini_get  "Account", "Name", "guest" : user = refstr
+;         ini_getd "View", "Scale", 1.0 : scale = refdval
+;
+;         ini_seti "Window", "Width", 1920
+;         ini_set  "Account", "Name", "alice"
+;
+;   注意:
+;     - 相対パスは Windows 仕様で SystemDirectory を起点にすることが
+;       あるので、確実な動作のために絶対パスを推奨。
+;     - ini_setpath で絶対パスにしておけば気にしなくてよい。
+;============================================================
+
+#ifndef __iron_ini_hsp__
+#define __iron_ini_hsp__
+
+#module iron_ini
+
+;------------------------------------------------------------
+; 基礎 Win32 API (モジュール内 private)
+;------------------------------------------------------------
+#uselib "kernel32.dll"
+#cfunc _ini_get_str   "GetPrivateProfileStringA" str, str, str, var, int, str
+#cfunc _ini_get_int   "GetPrivateProfileIntA"    str, str, int, str
+#cfunc _ini_get_sec   "GetPrivateProfileSectionA" str, var, int, str
+#cfunc _ini_get_secs  "GetPrivateProfileSectionNamesA" var, int, str
+#cfunc _ini_set_str   "WritePrivateProfileStringA" str, str, str, str
+#cfunc _ini_set_sec   "WritePrivateProfileSectionA" str, str, str
+#cfunc _ini_get_full  "GetFullPathNameA"          str, int, var, int
+
+;------------------------------------------------------------
+; ini_setpath "config.ini"
+;   カレントの INI ファイルパスを設定する。
+;   相対パスを与えた場合はカレントディレクトリ起点で絶対パスに変換する。
+;------------------------------------------------------------
+#deffunc ini_setpath str p1, \
+        local _buf, local _n
+    sdim _ini_path, 520
+    sdim _buf, 520
+    _n = _ini_get_full(p1, 520, _buf, 0)
+    if _n > 0 {
+        _ini_path = _buf
+    } else {
+        _ini_path = p1
+    }
+    return
+
+;------------------------------------------------------------
+; ini_get sec, key, default_str
+;   文字列値を refstr に格納して返す。値が無ければ default を返す。
+;------------------------------------------------------------
+#deffunc ini_get str sec, str key, str defval, \
+        local _buf, local _n
+    sdim _buf, 1024
+    _n = _ini_get_str(sec, key, defval, _buf, 1024, _ini_path)
+    return _buf, _n
+
+;------------------------------------------------------------
+; ini_geti sec, key, default_int
+;   整数値を stat に格納して返す。値が無ければ default を返す。
+;------------------------------------------------------------
+#deffunc ini_geti str sec, str key, int defval, \
+        local _v
+    _v = _ini_get_int(sec, key, defval, _ini_path)
+    return _v
+
+;------------------------------------------------------------
+; ini_getd sec, key, default_double
+;   実数値を refdval に格納して返す。
+;------------------------------------------------------------
+#deffunc ini_getd str sec, str key, double defval, \
+        local _buf, local _n
+    sdim _buf, 64
+    _n = _ini_get_str(sec, key, str(defval), _buf, 64, _ini_path)
+    return double(_buf), _n
+
+;------------------------------------------------------------
+; ini_set sec, key, value
+;   文字列で書き込み。
+;------------------------------------------------------------
+#deffunc ini_set str sec, str key, str val
+    _ini_set_str sec, key, val, _ini_path
+    return
+
+#deffunc ini_seti str sec, str key, int val
+    _ini_set_str sec, key, str(val), _ini_path
+    return
+
+#deffunc ini_setd str sec, str key, double val
+    _ini_set_str sec, key, str(val), _ini_path
+    return
+
+;------------------------------------------------------------
+; ini_delete_key sec, key
+;   キーを削除する。lpString に NULL を渡すと削除になる。
+;------------------------------------------------------------
+#deffunc ini_delete_key str sec, str key
+    _ini_set_str sec, key, 0, _ini_path
+    return
+
+;------------------------------------------------------------
+; ini_delete_section sec
+;   セクション全体を削除する。
+;------------------------------------------------------------
+#deffunc ini_delete_section str sec
+    _ini_set_sec sec, 0, _ini_path
+    return
+
+;------------------------------------------------------------
+; ini_section_keys sec, out_array
+;   セクション内の全 key=value を文字列配列に取得する。
+;   各要素は "key=value" 形式。stat に件数。
+;------------------------------------------------------------
+#deffunc ini_section_keys str sec, array out, \
+        local _buf, local _n, local _p, local _s, local _c, local _cnt
+    sdim _buf, 16384
+    _n = _ini_get_sec(sec, _buf, 16384, _ini_path)
+    sdim out, 256, 1
+    _cnt = 0
+    _p = 0
+    repeat
+        if peek(_buf, _p) == 0 : break
+        _s = ""
+        repeat
+            _c = peek(_buf, _p)
+            if _c == 0 : break
+            _s += strf("%c", _c)
+            _p++
+        loop
+        out(_cnt) = _s
+        _cnt++
+        _p++
+    loop
+    return _cnt
+
+;------------------------------------------------------------
+; ini_section_names out_array
+;   全セクション名を文字列配列に取得する。stat に件数。
+;------------------------------------------------------------
+#deffunc ini_section_names array out, \
+        local _buf, local _n, local _p, local _s, local _c, local _cnt
+    sdim _buf, 16384
+    _n = _ini_get_secs(_buf, 16384, _ini_path)
+    sdim out, 256, 1
+    _cnt = 0
+    _p = 0
+    repeat
+        if peek(_buf, _p) == 0 : break
+        _s = ""
+        repeat
+            _c = peek(_buf, _p)
+            if _c == 0 : break
+            _s += strf("%c", _c)
+            _p++
+        loop
+        out(_cnt) = _s
+        _cnt++
+        _p++
+    loop
+    return _cnt
+
+#global
+
+#endif

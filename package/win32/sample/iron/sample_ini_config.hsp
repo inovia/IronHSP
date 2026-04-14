@@ -1,0 +1,72 @@
+;============================================================
+;  iron_ini.hsp サンプル: 設定ファイルの読み書き
+;
+;  起動時:
+;    - sample_config.ini から前回終了時のウィンドウサイズ等を読む
+;    - 無ければデフォルト値で起動
+;
+;  毎回:
+;    - 起動回数カウンタ + 1 → ini に書き戻し
+;
+;  ESC キー終了時:
+;    - 現在の値を ini に保存
+;
+;  HSP 既存 #func / #cfunc の戻り値慣習:
+;    - 文字列 → refstr
+;    - 整数   → stat
+;    - 実数   → refdval
+;============================================================
+
+#include "iron_ini.hsp"
+
+	; カレントディレクトリを起点にした絶対パスで ini を開く
+	ini_setpath "sample_config.ini"
+
+	; ----- 設定読み込み (デフォルト値付き) -----
+	ini_geti "Window", "Width",  640 : w        = stat
+	ini_geti "Window", "Height", 480 : h        = stat
+	ini_getd "View",   "Scale",  1.0 : scale    = refdval
+	ini_get  "Account", "Name",  "guest"   : username = refstr
+	ini_geti "Stat",   "Launches", 0  : launches = stat
+
+	mes "INI ファイル:"
+	mes "  sample_config.ini (カレントディレクトリ)"
+	mes ""
+	mes "前回サイズ : " + w + "x" + h
+	mes "スケール    : " + scale
+	mes "ユーザー    : " + username
+	mes "起動回数    : " + launches
+
+	; ----- 起動回数を + 1 してその場で保存 -----
+	launches++
+	ini_seti "Stat", "Launches", launches
+	mes ""
+	mes "今回起動 (累計 " + launches + " 回目) を ini に記録しました。"
+
+	; ----- セクション内の全キーを列挙 (確認用) -----
+	mes ""
+	mes "[Window] セクション内容:"
+	ini_section_keys "Window", win_keys
+	cnt_keys = stat
+	repeat cnt_keys
+		mes "  " + win_keys.cnt
+	loop
+
+	mes ""
+	mes "ウィンドウサイズを変更したい場合は sample_config.ini の"
+	mes "[Window] Width / Height を直接編集してから再起動してください。"
+	mes ""
+	mes "ESC キーで終了 (終了時に現在の値を ini に保存)"
+
+	onkey *quit
+	stop
+
+*quit
+	if iparam ! 27 : stop          ; ESC 以外は無視
+
+	; 終了時にスケールとユーザー名を更新する例
+	ini_setd "View", "Scale", scale * 1.1
+	ini_set  "Account", "Name", "demo_user_" + launches
+
+	dialog "config.ini に保存しました。\n次回起動時に反映されます。", 0, "iron_ini sample"
+	end
