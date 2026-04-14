@@ -55,6 +55,14 @@
 #func  _hwhisper_close          "whisper_close"          int
 
 ;------------------------------------------------------------
+; hspvosk.dll (オフライン Vosk バックエンド)
+;------------------------------------------------------------
+#uselib "hspvosk.dll"
+#cfunc _hvosk_open              "hvosk_open"              str, int
+#cfunc _hvosk_transcribe_wav    "hvosk_transcribe_wav"    int, str, var, int
+#func  _hvosk_close             "hvosk_close"             int
+
+;------------------------------------------------------------
 ; バックエンド ID 定数
 ;------------------------------------------------------------
 #define SPEECH_BACKEND_CLOUD    1
@@ -87,6 +95,8 @@
 	_isp_language = ""
 	_isp_opened = 0
 	_isp_whisper_handle = -1
+	_isp_vosk_handle = -1
+	_isp_vosk_sr = 16000
 	goto *_isp_skip_init
 
 ;------------------------------------------------------------
@@ -139,7 +149,11 @@
         return SPEECH_ERR_NOT_IMPL
     }
     if _isp_backend = SPEECH_BACKEND_VOSK {
-        return SPEECH_ERR_NOT_IMPL
+        ; _isp_model に Vosk モデルディレクトリパスを指定 (例 "vosk-model-small-ja-0.22")
+        _isp_vosk_handle = _hvosk_open(_isp_model, _isp_vosk_sr)
+        if _isp_vosk_handle < 0 : return SPEECH_ERR_BACKEND
+        _isp_opened = 1
+        return SPEECH_OK
     }
     return SPEECH_ERR_BACKEND
 
@@ -163,6 +177,12 @@
         _hwhisper_transcribe_wav _isp_whisper_handle, audio_path, _isp_language, out_text, 65535
         return SPEECH_OK
     }
+    if _isp_backend = SPEECH_BACKEND_VOSK {
+        if _isp_vosk_handle < 0 : return SPEECH_ERR_NOT_OPEN
+        sdim out_text, 65536
+        _hvosk_transcribe_wav _isp_vosk_handle, audio_path, out_text, 65535
+        return SPEECH_OK
+    }
     return SPEECH_ERR_NOT_IMPL
 
 ;------------------------------------------------------------
@@ -172,6 +192,10 @@
     if _isp_whisper_handle >= 0 {
         _hwhisper_close _isp_whisper_handle
         _isp_whisper_handle = -1
+    }
+    if _isp_vosk_handle >= 0 {
+        _hvosk_close _isp_vosk_handle
+        _isp_vosk_handle = -1
     }
     _isp_opened = 0
     return SPEECH_OK
@@ -185,7 +209,7 @@
     if _isp_backend = SPEECH_BACKEND_WHISPER : return "whisper.cpp (offline)"
     if _isp_backend = SPEECH_BACKEND_SAPI    : return "Windows SAPI 5 (not impl)"
     if _isp_backend = SPEECH_BACKEND_WINRT   : return "WinRT Speech (not impl)"
-    if _isp_backend = SPEECH_BACKEND_VOSK    : return "Vosk (not impl)"
+    if _isp_backend = SPEECH_BACKEND_VOSK    : return "Vosk (offline)"
     return "(unknown)"
 
 *_isp_skip_init

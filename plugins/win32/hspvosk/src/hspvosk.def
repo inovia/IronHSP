@@ -1,0 +1,6 @@
+LIBRARY hspvosk
+EXPORTS
+    hvosk_open
+    hvosk_transcribe_wav
+    hvosk_transcribe_pcm_s16
+    hvosk_close

@@ -1,0 +1,13 @@
+# Vosk prebuilt binaries
+third_party/vosk-win64-*/
+third_party/*.zip
+
+# Build artifacts
+Release/
+
+# Vosk model directories
+vosk-model-*/
+*.model
+
+# Test files
+*.wav
