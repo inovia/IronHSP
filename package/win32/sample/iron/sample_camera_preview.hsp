@@ -1,0 +1,102 @@
+;============================================================
+;  iron_camera サンプル: Webcam リアルタイムプレビュー
+;
+;  hspcv4 (内部 OpenCV → MSMF) を使ってカメラ映像を HSP ウィンドウに
+;  リアルタイム表示するシンプルプレイヤー。
+;
+;  機能:
+;    - カメラ自動検出 (デバイス 0 = 既定のカメラ)
+;    - リアルタイムプレビュー (~30fps)
+;    - スナップショット保存 (S キーで snapshot.png 出力)
+;    - 終了 (ESC キー)
+;    - FPS 表示
+;
+;  操作:
+;    - S キー: 現在のフレームを snapshot.png に保存
+;    - ESC  : 終了
+;============================================================
+
+#include "hspcv4.as"
+#include "iron_camera.hsp"
+
+	title "iron_camera — Webcam リアルタイムプレビュー"
+
+	; カメラを開く
+	iron_camera_open 0
+	if stat = 0 {
+		iron_camera_size cw, ch
+	} else {
+		dialog "カメラ 0 を開けませんでした。\nWebcam が接続されているか確認してください。", 1
+		end
+	}
+
+	; カメラ解像度に合わせてウィンドウ作成 (UI 領域 +60px)
+	if cw <= 0 : cw = 640
+	if ch <= 0 : ch = 480
+	screen 0, cw, ch + 60
+	font "MS Gothic", 14
+
+	; FPS 計測用
+	tick_prev = gettime(7) + gettime(6) * 1000
+	frame_count = 0
+	fps_disp = 0.0
+
+*main_loop
+	; ESC で終了
+	stick k_esc, 0
+	if k_esc & 128 : goto *do_exit
+
+	; S キーでスナップショット
+	getkey k_s, 'S'
+	if k_s {
+		iron_camera_save "snapshot.png"
+		snap_msg_until = gettime(7) + gettime(6) * 1000 + 1500
+	}
+
+	; フレーム取得
+	iron_camera_read
+	if stat ! 0 {
+		await 30
+		goto *main_loop
+	}
+
+	; 画面更新
+	redraw 0
+	; カメラ画像描画
+	iron_camera_draw 0, 0
+
+	; UI バー (画像下)
+	color 32, 32, 32 : boxf 0, ch, cw, ch + 60 : color 0, 0, 0
+	color 255, 255, 255
+	pos 10, ch + 10
+	mes strf("解像度: %d x %d   FPS: %.1f", cw, ch, fps_disp)
+	pos 10, ch + 30
+	mes "[S] スナップショット保存   [ESC] 終了"
+	color 0, 0, 0
+
+	; スナップショットメッセージ
+	now_ms = gettime(7) + gettime(6) * 1000
+	if snap_msg_until > now_ms {
+		color 255, 255, 0
+		pos cw - 200, ch + 10
+		mes "snapshot.png 保存しました"
+		color 0, 0, 0
+	}
+
+	redraw 1
+
+	; FPS 計算 (1 秒ごと)
+	frame_count++
+	tick_now = gettime(7) + gettime(6) * 1000
+	if tick_now - tick_prev >= 1000 {
+		fps_disp = double(frame_count) * 1000.0 / double(tick_now - tick_prev)
+		tick_prev = tick_now
+		frame_count = 0
+	}
+
+	await 16
+	goto *main_loop
+
+*do_exit
+	iron_camera_close
+	end

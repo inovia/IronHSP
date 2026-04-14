@@ -1,0 +1,97 @@
+;============================================================
+;   iron_camera.hsp — Webcam リアルタイムプレビューラッパ
+;
+;   hspcv4 (OpenCV 4.x) の VideoCapture を薄くラップして「Webcam
+;   から 1 フレーム取得 → HSP ウィンドウに描画」を 1 行で実現する
+;   モジュール。OpenCV は内部で Microsoft Media Foundation を使う
+;   ため iron_video と同じ MF バックエンド。
+;
+;   API:
+;     iron_camera_open [device_index]    ; カメラを開く (省略時 0 = 先頭)
+;     iron_camera_read                    ; 1 フレーム取得 → 内部画像 ID
+;     iron_camera_draw [x, y]             ; カレント HSP window に描画
+;     iron_camera_save "file.png"         ; 現在フレームを保存
+;     iron_camera_size var_w, var_h       ; カメラ解像度を取得
+;     iron_camera_close                   ; カメラを閉じる
+;
+;   例: リアルタイムプレビュー
+;     #include "hspcv4.as"
+;     #include "iron_camera.hsp"
+;
+;         screen 0, 640, 480
+;         iron_camera_open 0
+;     *loop
+;         iron_camera_read
+;         redraw 0
+;         iron_camera_draw 0, 0
+;         redraw 1
+;         await 33                ; ~30fps
+;         goto *loop
+;
+;   注意:
+;     - 事前に hspcv4.dll / hspcv4_64.dll が必要
+;     - hspcv4.as の include は本ラッパより前に書くこと
+;     - cv4 の image ID 0 をプレビュー用に固定で使用
+;============================================================
+
+#ifndef __iron_camera_hsp__
+#define __iron_camera_hsp__
+
+#module iron_camera_m
+
+#define IC_CAM_ID  0       ; cv4_video_open のハンドル
+#define IC_IMG_ID  0       ; cv4 image ハンドル
+
+#deffunc _ic_init
+    if _ic_inited ! 0 : return
+    _ic_inited = 1
+    _ic_opened = 0
+    _ic_w = 0
+    _ic_h = 0
+    return
+
+#deffunc iron_camera_open int dev_idx,  local _devstr
+    _ic_init
+    if _ic_opened : iron_camera_close
+    sdim _devstr, 16
+    _devstr = "" + dev_idx
+    cv4_video_open IC_CAM_ID, _devstr
+    if stat ! 0 {
+        _ic_opened = 0
+        return -1
+    }
+    _ic_opened = 1
+    cv4_video_info IC_CAM_ID, _ic_w, _ic_h, _fps, _total
+    return 0
+
+#deffunc iron_camera_read
+    if _ic_opened = 0 : return -1
+    cv4_video_read IC_CAM_ID, IC_IMG_ID
+    return stat
+
+#deffunc iron_camera_draw int x, int y
+    if _ic_opened = 0 : return
+    pos x, y
+    cv4getimg IC_IMG_ID
+    return
+
+#deffunc iron_camera_save str path
+    if _ic_opened = 0 : return
+    cv4save IC_IMG_ID, path
+    return
+
+#deffunc iron_camera_size var ow, var oh
+    _ic_init
+    ow = _ic_w
+    oh = _ic_h
+    return
+
+#deffunc iron_camera_close
+    if _ic_opened = 0 : return
+    cv4_video_close IC_CAM_ID
+    _ic_opened = 0
+    return
+
+#global
+
+#endif
