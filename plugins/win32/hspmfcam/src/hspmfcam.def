@@ -1,0 +1,13 @@
+LIBRARY hspmfcam
+EXPORTS
+    mfcam_count
+    mfcam_get_name
+    mfcam_audio_count
+    mfcam_audio_get_name
+    mfcam_open
+    mfcam_set_pos
+    mfcam_set_aspect
+    mfcam_get_state
+    mfcam_read
+    mfcam_save_snapshot
+    mfcam_close
