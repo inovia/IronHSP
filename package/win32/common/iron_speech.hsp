@@ -46,6 +46,15 @@
 #include "iron_ai.hsp"
 
 ;------------------------------------------------------------
+; hspwhisper.dll (オフライン whisper.cpp バックエンド)
+;   存在しない環境でも include 可 (open 時に -1 が返るだけ)
+;------------------------------------------------------------
+#uselib "hspwhisper.dll"
+#cfunc _hwhisper_open           "whisper_open"           str
+#cfunc _hwhisper_transcribe_wav "whisper_transcribe_wav" int, str, str, var, int
+#func  _hwhisper_close          "whisper_close"          int
+
+;------------------------------------------------------------
 ; バックエンド ID 定数
 ;------------------------------------------------------------
 #define SPEECH_BACKEND_CLOUD    1
@@ -77,6 +86,7 @@
 	_isp_model = "whisper-1"
 	_isp_language = ""
 	_isp_opened = 0
+	_isp_whisper_handle = -1
 	goto *_isp_skip_init
 
 ;------------------------------------------------------------
@@ -115,8 +125,12 @@
         return SPEECH_OK
     }
     if _isp_backend = SPEECH_BACKEND_WHISPER {
-        ; hspwhisper.dll が無いので未実装
-        return SPEECH_ERR_NOT_IMPL
+        ; whisper.cpp オフラインモデル open
+        ; _isp_model にモデルファイル (.bin) のパスを指定しておく
+        _isp_whisper_handle = _hwhisper_open(_isp_model)
+        if _isp_whisper_handle < 0 : return SPEECH_ERR_BACKEND
+        _isp_opened = 1
+        return SPEECH_OK
     }
     if _isp_backend = SPEECH_BACKEND_SAPI {
         return SPEECH_ERR_NOT_IMPL
@@ -143,12 +157,22 @@
         if stat ! 200 : return SPEECH_ERR_HTTP
         return SPEECH_OK
     }
+    if _isp_backend = SPEECH_BACKEND_WHISPER {
+        if _isp_whisper_handle < 0 : return SPEECH_ERR_NOT_OPEN
+        sdim out_text, 65536
+        _hwhisper_transcribe_wav _isp_whisper_handle, audio_path, _isp_language, out_text, 65535
+        return SPEECH_OK
+    }
     return SPEECH_ERR_NOT_IMPL
 
 ;------------------------------------------------------------
 ; iron_speech_close
 ;------------------------------------------------------------
 #deffunc iron_speech_close
+    if _isp_whisper_handle >= 0 {
+        _hwhisper_close _isp_whisper_handle
+        _isp_whisper_handle = -1
+    }
     _isp_opened = 0
     return SPEECH_OK
 
@@ -158,7 +182,7 @@
 ;------------------------------------------------------------
 #defcfunc iron_speech_backend_name
     if _isp_backend = SPEECH_BACKEND_CLOUD   : return "cloud"
-    if _isp_backend = SPEECH_BACKEND_WHISPER : return "whisper.cpp (not impl)"
+    if _isp_backend = SPEECH_BACKEND_WHISPER : return "whisper.cpp (offline)"
     if _isp_backend = SPEECH_BACKEND_SAPI    : return "Windows SAPI 5 (not impl)"
     if _isp_backend = SPEECH_BACKEND_WINRT   : return "WinRT Speech (not impl)"
     if _isp_backend = SPEECH_BACKEND_VOSK    : return "Vosk (not impl)"

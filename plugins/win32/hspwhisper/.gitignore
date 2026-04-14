@@ -1,0 +1,13 @@
+# whisper.cpp clone (~50 MB source + build_x64 ~500 MB)
+third_party/whisper.cpp/
+
+# Build artifacts
+Release/
+*.dll
+*.lib
+*.exp
+*.pdb
+*.obj
+
+# Models (75 MB 〜 3 GB)
+models/*.bin

@@ -1,0 +1,6 @@
+LIBRARY hspwhisper
+EXPORTS
+    whisper_open
+    whisper_transcribe_wav
+    whisper_transcribe_pcm
+    whisper_close
