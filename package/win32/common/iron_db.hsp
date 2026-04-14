@@ -1,0 +1,77 @@
+;============================================================
+;   iron_db.hsp — SQLite データベース操作 (hspdb.dll wrapper)
+;
+;   hspdb.dll (SQLite 3.46 amalgamation 埋め込み) を HSP から
+;   扱いやすくしたラッパー。組み込みデータベースを 1 行 API で。
+;
+;   API:
+;     h = db_open(path)                  DB open
+;     db_exec h, "SQL..."                SQL 1 文実行 (CREATE/INSERT/UPDATE/DELETE)
+;     qh = db_query(h, "SELECT...")      prepare + query
+;     repeat
+;         db_step qh : if stat = 0 : break   ; 行フェッチ, 0 = 終端
+;         db_col_text qh, 0, name
+;         age = db_col_int(qh, 1)
+;         ...
+;     loop
+;     db_query_close qh
+;     id = db_last_rowid(h)
+;     n = db_changes(h)
+;     db_close h
+;
+;   例: テーブル作成 + レコード追加 + 検索
+;     #include "iron_db.hsp"
+;         h = db_open("test.db")
+;         db_exec h, "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)"
+;         db_exec h, "INSERT INTO users (name, age) VALUES ('Alice', 30)"
+;         db_exec h, "INSERT INTO users (name, age) VALUES ('Bob', 25)"
+;         qh = db_query(h, "SELECT name, age FROM users WHERE age > 20")
+;         repeat
+;             db_step qh
+;             if stat = 0 : break
+;             db_col_text qh, 0, name
+;             age = db_col_int(qh, 1)
+;             mes name + " (" + age + ")"
+;         loop
+;         db_query_close qh
+;         db_close h
+;============================================================
+
+#ifndef __iron_db_hsp__
+#define __iron_db_hsp__
+
+#uselib "hspdb.dll"
+#cfunc db_open          "db_open"          str
+#cfunc db_exec          "db_exec"          int, str
+#cfunc db_query         "db_query"         int, str
+#func  db_step          "db_step"          int
+#cfunc db_col_count     "db_col_count"     int
+#func  _db_col_name     "db_col_name"      int, int, var, int
+#func  _db_col_text     "db_col_text"      int, int, var, int
+#cfunc db_col_int       "db_col_int"       int, int
+#cfunc db_col_dbl       "db_col_dbl"       int, int
+#func  db_query_close   "db_query_close"   int
+#cfunc db_last_rowid    "db_last_rowid"    int
+#cfunc db_changes       "db_changes"       int
+#func  _db_errmsg       "db_errmsg"        int, var, int
+#func  db_close         "db_close"         int
+
+;   列名取得 wrapper
+#deffunc db_col_name int qh, int col, var out_name
+    sdim out_name, 256
+    _db_col_name qh, col, out_name, 255
+    return
+
+;   列値 (TEXT) 取得 wrapper
+#deffunc db_col_text int qh, int col, var out_text
+    sdim out_text, 4096
+    _db_col_text qh, col, out_text, 4095
+    return
+
+;   エラーメッセージ取得
+#deffunc db_errmsg int h, var out_msg
+    sdim out_msg, 1024
+    _db_errmsg h, out_msg, 1023
+    return
+
+#endif

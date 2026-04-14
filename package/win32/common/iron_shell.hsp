@@ -1,0 +1,128 @@
+;============================================================
+;   iron_shell.hsp — Windows シェル操作 (ShellExecute / ゴミ箱 / .lnk)
+;
+;   shell32.dll の ShellExecute / SHFileOperationA / SHGetPathFromIDList 等を
+;   HSP から手軽に使えるようにするラッパー。
+;
+;   API:
+;     shell_open "path"                ファイル/URL をデフォルトアプリで開く
+;     shell_execute "cmd", "args"       任意コマンド実行 (verb = open)
+;     shell_runas "cmd", "args"         管理者権限で実行 (verb = runas)
+;     shell_recycle "path"              ファイル/フォルダをゴミ箱へ
+;     shell_show_in_explorer "file"     エクスプローラでファイル選択
+;     shell_mklink "target", "link.lnk", "args", "desc", "workdir"
+;                                       .lnk ショートカット作成 (IShellLink COM)
+;============================================================
+
+#ifndef __iron_shell_hsp__
+#define __iron_shell_hsp__
+
+#uselib "shell32.dll"
+#cfunc _shell_exec "ShellExecuteA" int, str, str, str, str, int
+
+;------------------------------------------------------------
+; shell_open "path"
+;   ファイル/フォルダ/URL をデフォルトアプリで開く
+;------------------------------------------------------------
+#deffunc shell_open str path
+    _r = _shell_exec(0, "open", path, "", "", 1)
+    return _r
+
+;------------------------------------------------------------
+; shell_execute "cmd" [, "args"] [, "workdir"]
+;------------------------------------------------------------
+#deffunc shell_execute str cmd, str args_opt, str workdir_opt
+    _r = _shell_exec(0, "open", cmd, args_opt, workdir_opt, 1)
+    return _r
+
+;------------------------------------------------------------
+; shell_runas "cmd" [, "args"]
+;   UAC プロンプトで管理者昇格
+;------------------------------------------------------------
+#deffunc shell_runas str cmd, str args_opt
+    _r = _shell_exec(0, "runas", cmd, args_opt, "", 1)
+    return _r
+
+;------------------------------------------------------------
+; shell_recycle "path"
+;   SHFileOperationA + FO_DELETE + FOF_ALLOWUNDO でゴミ箱に送る
+;------------------------------------------------------------
+;   SHFILEOPSTRUCTA 構造体は 32bit 環境で 30 byte、64bit で 38 byte。
+;   hWnd(int) + wFunc(uint) + pFrom(LPCSTR) + pTo(LPCSTR) + fFlags(FILEOP_FLAGS=WORD)
+;   + fAnyOperationsAborted(BOOL) + hNameMappings(LPVOID) + lpszProgressTitle(LPCSTR)
+;   sdim で手組み、ポインタは varptr ベース。
+;
+; 現在は ShellExecute 経由 cmd /c の簡易実装:
+#uselib "shell32.dll"
+#func _sh_file_op "SHFileOperationA" var
+
+#deffunc shell_recycle str path,  local _op, local _from, local _path2
+    ; SHFILEOPSTRUCTA を構築 (32bit layout)
+    ; offset 0  : hWnd (4)
+    ; offset 4  : wFunc (4)          — FO_DELETE = 3
+    ; offset 8  : pFrom (4/8)        — double null-terminated string pointer
+    ; offset 12: pTo (4/8)
+    ; offset 16/20 : fFlags (2)      — FOF_ALLOWUNDO(0x40) | FOF_NOCONFIRMATION(0x10) | FOF_SILENT(0x04)
+    ; 残りは 0
+    sdim _op, 64
+    sdim _from, strlen(path) + 4
+    _from = path
+    poke _from, strlen(path) + 1, 0    ; double null
+    lpoke _op, 0, 0                     ; hWnd
+    lpoke _op, 4, 3                     ; wFunc = FO_DELETE
+    lpoke _op, 8, varptr(_from)         ; pFrom
+    lpoke _op, 12, 0                    ; pTo
+    wpoke _op, 20, 0x40 | 0x10 | 0x04   ; fFlags (offset 20 for 32bit SHFILEOPSTRUCT)
+    _sh_file_op _op
+    return
+
+;------------------------------------------------------------
+; shell_show_in_explorer "path"
+;   explorer.exe /select,path でファイルを選択状態で開く
+;------------------------------------------------------------
+#deffunc shell_show_in_explorer str path,  local _args
+    _args = "/select,\"" + path + "\""
+    _r = _shell_exec(0, "open", "explorer.exe", _args, "", 1)
+    return _r
+
+;------------------------------------------------------------
+; shell_mklink "target", "link.lnk" [, "args"] [, "desc"] [, "workdir"]
+;   IShellLinkW COM でショートカット .lnk を作成
+;
+;   shell32.dll の CLSID_ShellLink + IID_IShellLinkA を使う。
+;   (A 版: SetPath / SetArguments 等が ANSI、パスに非 ASCII がある場合は W 版推奨)
+;------------------------------------------------------------
+#define CLSID_ShellLink   "{00021401-0000-0000-C000-000000000046}"
+#define IID_IShellLinkA   "{000214EE-0000-0000-C000-000000000046}"
+#define IID_IPersistFile  "{0000010B-0000-0000-C000-000000000046}"
+
+#usecom IShellLinkA IID_IShellLinkA CLSID_ShellLink
+
+#comfunc IShellLinkA_SetPath        20 str
+#comfunc IShellLinkA_SetArguments   11 str
+#comfunc IShellLinkA_SetDescription  7 str
+#comfunc IShellLinkA_SetIconLocation 17 str, int
+#comfunc IShellLinkA_SetWorkingDir   9 str
+
+#usecom IPersistFile IID_IPersistFile "{}"
+#comfunc IPersistFile_Save 6 wstr, int
+
+#deffunc shell_mklink str target, str lnk_path, str args_opt, str desc_opt, str workdir_opt,  local _sl, local _pf
+    newcom _sl, IShellLinkA
+    IShellLinkA_SetPath _sl, target
+    if strlen(args_opt) > 0    : IShellLinkA_SetArguments  _sl, args_opt
+    if strlen(desc_opt) > 0    : IShellLinkA_SetDescription _sl, desc_opt
+    if strlen(workdir_opt) > 0 : IShellLinkA_SetWorkingDir  _sl, workdir_opt
+
+    ; IPersistFile を QueryInterface で取得
+    querycom _pf, _sl, IID_IPersistFile
+    if _pf = 0 {
+        delcom _sl
+        return -1
+    }
+    IPersistFile_Save _pf, lnk_path, 1
+    delcom _pf
+    delcom _sl
+    return 0
+
+#endif

@@ -1,0 +1,178 @@
+;============================================================
+;   iron_serial.hsp — シリアルポート (RS-232 / USB CDC) 通信
+;
+;   Win32 CreateFile + SetCommState + ReadFile/WriteFile を使った
+;   シリアルポート読み書きラッパ。Arduino / マイコンとの UART 連携に。
+;
+;   依存: Pure HSP (kernel32.dll 直接叩き)、追加 DLL 不要
+;
+;   API:
+;     serial_open "COM3" [, baud=9600] [, bits=8] [, parity=N] [, stop=1]
+;                                    → stat = 0 成功
+;     serial_write "Hello\n"          送信
+;     serial_write_buf var, len       バイナリ送信
+;     serial_read var, max [, timeout_ms]
+;                                    → refstr に受信データ / stat に byte 数
+;     serial_avail                   → stat に受信バッファ内の byte 数
+;     serial_close
+;
+;   例:
+;     serial_open "COM3", 115200
+;     serial_write "hello\r\n"
+;     wait 10
+;     serial_avail
+;     if stat > 0 {
+;         sdim buf, 256
+;         serial_read buf, 255
+;         mes "received: " + buf
+;     }
+;     serial_close
+;
+;   注意:
+;     - 現状 1 ポートのみ同時に open 可 (内部グローバル状態)
+;     - COM1〜COM9 は "COM3"、COM10 以降は "\\\\.\\COM10" と書く必要あり
+;============================================================
+
+#ifndef __iron_serial_hsp__
+#define __iron_serial_hsp__
+
+#uselib "kernel32.dll"
+#cfunc _ser_create "CreateFileA" str, int, int, int, int, int, int
+#func  _ser_close_h "CloseHandle" int
+#cfunc _ser_set_state "SetCommState" int, var
+#cfunc _ser_get_state "GetCommState" int, var
+#cfunc _ser_set_timeouts "SetCommTimeouts" int, var
+#cfunc _ser_write "WriteFile" int, var, int, var, int
+#cfunc _ser_read "ReadFile" int, var, int, var, int
+#cfunc _ser_clear "PurgeComm" int, int
+#cfunc _ser_setup "SetupComm" int, int, int
+#cfunc _ser_clear_err "ClearCommError" int, var, var
+
+	_serial_handle = -1
+	goto *_serial_skip_init
+
+;------------------------------------------------------------
+; serial_open "COM3", baud, bits, parity_char, stop
+;   parity: 0=N 1=O 2=E 3=M 4=S (整数)
+;------------------------------------------------------------
+#deffunc serial_open str portname, int baud_opt, int bits_opt, int parity_opt, int stop_opt,  local _dcb, local _to, local _baud, local _bits, local _parity, local _stop, local _h
+    if _serial_handle >= 0 : serial_close
+
+    _baud = baud_opt
+    if _baud = 0 : _baud = 9600
+    _bits = bits_opt
+    if _bits = 0 : _bits = 8
+    _parity = parity_opt   ; 0 = NOPARITY
+    _stop = stop_opt       ; 0 = ONESTOPBIT
+
+    ; CreateFile: GENERIC_READ|WRITE = 0xC0000000, OPEN_EXISTING = 3
+    _h = _ser_create(portname, 0xC0000000, 0, 0, 3, 0, 0)
+    if _h = -1 : return -1       ; INVALID_HANDLE_VALUE
+
+    _serial_handle = _h
+
+    ; SetupComm で内部 buffer size を大きめに
+    _ser_setup _h, 4096, 4096
+
+    ; DCB 構造体 (32bit 環境で 28 byte, 64bit でも同じ)
+    ; offset 0  : DCBlength (DWORD)
+    ; offset 4  : BaudRate (DWORD)
+    ; offset 8  : bit flags (DWORD)
+    ; offset 12 : wReserved (WORD)
+    ; offset 14 : XonLim (WORD)
+    ; offset 16 : XoffLim (WORD)
+    ; offset 18 : ByteSize (BYTE)
+    ; offset 19 : Parity (BYTE)
+    ; offset 20 : StopBits (BYTE)
+    ; offset 21 : XonChar (CHAR)
+    ; offset 22 : XoffChar (CHAR)
+    ; offset 23 : ErrorChar (CHAR)
+    ; offset 24 : EofChar (CHAR)
+    ; offset 25 : EvtChar (CHAR)
+    ; offset 26 : wReserved1 (WORD)
+    sdim _dcb, 32
+    lpoke _dcb, 0, 28                    ; DCBlength
+    _ser_get_state _h, _dcb              ; 現在の値を取得してから差分設定
+    lpoke _dcb, 4, _baud                 ; BaudRate
+    ; fBinary (1) + fParity (1bit) 等は bit 0 = fBinary を必須で立てる
+    lpoke _dcb, 8, 0x00000001            ; fBinary=1, その他 0
+    poke _dcb, 18, _bits                 ; ByteSize
+    poke _dcb, 19, _parity               ; Parity
+    poke _dcb, 20, _stop                 ; StopBits
+    _ser_set_state _h, _dcb
+    if stat = 0 {
+        _ser_close_h _h
+        _serial_handle = -1
+        return -2
+    }
+
+    ; COMMTIMEOUTS 構造体 (20 byte)
+    ; DWORD ReadIntervalTimeout, ReadTotalTimeoutMultiplier, ReadTotalTimeoutConstant,
+    ;       WriteTotalTimeoutMultiplier, WriteTotalTimeoutConstant
+    sdim _to, 32
+    lpoke _to, 0,  0xFFFFFFFF   ; ReadIntervalTimeout = MAXDWORD = ノンブロッキング read
+    lpoke _to, 4,  0            ; ReadTotalTimeoutMultiplier
+    lpoke _to, 8,  0            ; ReadTotalTimeoutConstant
+    lpoke _to, 12, 0            ; WriteTotalTimeoutMultiplier
+    lpoke _to, 16, 500          ; WriteTotalTimeoutConstant (500ms)
+    _ser_set_timeouts _h, _to
+
+    return 0
+
+;------------------------------------------------------------
+; serial_close
+;------------------------------------------------------------
+#deffunc serial_close
+    if _serial_handle >= 0 {
+        _ser_close_h _serial_handle
+        _serial_handle = -1
+    }
+    return
+
+;------------------------------------------------------------
+; serial_write "text"
+;------------------------------------------------------------
+#deffunc serial_write str text,  local _written, local _buf
+    if _serial_handle < 0 : return -1
+    _buf = text
+    _written = 0
+    _ser_write _serial_handle, _buf, strlen(_buf), _written, 0
+    return _written
+
+;------------------------------------------------------------
+; serial_write_buf var, len  (binary)
+;------------------------------------------------------------
+#deffunc serial_write_buf var buf, int len,  local _written
+    if _serial_handle < 0 : return -1
+    _written = 0
+    _ser_write _serial_handle, buf, len, _written, 0
+    return _written
+
+;------------------------------------------------------------
+; serial_avail → stat に受信バッファ内の byte 数
+;------------------------------------------------------------
+#deffunc serial_avail local _errs, local _stat, local _n
+    if _serial_handle < 0 : return 0
+    ; COMSTAT 構造体 (32bit 環境で 16 byte)
+    ; offset 0  : flags (DWORD)
+    ; offset 4  : cbInQue (DWORD)    ← 欲しい
+    ; offset 8  : cbOutQue (DWORD)
+    sdim _stat, 20
+    _errs = 0
+    _ser_clear_err _serial_handle, _errs, _stat
+    _n = lpeek(_stat, 4)
+    return _n
+
+;------------------------------------------------------------
+; serial_read var, max_bytes → stat に byte 数
+;------------------------------------------------------------
+#deffunc serial_read var out_buf, int max_bytes,  local _read, local _avail
+    sdim out_buf, max_bytes + 16
+    if _serial_handle < 0 : return 0
+    _read = 0
+    _ser_read _serial_handle, out_buf, max_bytes, _read, 0
+    return _read
+
+*_serial_skip_init
+
+#endif

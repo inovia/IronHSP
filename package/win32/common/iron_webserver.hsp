@@ -1,0 +1,82 @@
+;============================================================
+;   iron_webserver.hsp — Minimal HTTP server for HSP (winsock 経由)
+;
+;   hspwebsrv.dll をラップして HSP スクリプトから任意のポートに
+;   HTTP サーバを立てられるようにする薄いラッパ。
+;
+;   シンプルな 1 request at a time モデル (keep-alive なし):
+;     web_open port
+;     repeat
+;         web_accept method, path, body, timeout_ms
+;         if stat = 1 {
+;             ; ハンドル処理
+;             web_respond 200, "text/html", "<h1>Hello " + path + "</h1>"
+;         }
+;     loop
+;     web_close
+;
+;   依存: hspwebsrv.dll (winsock 経由、httpapi.dll 不要、admin 権限不要)
+;
+;   用途:
+;     - ローカル API (HSP 製アプリが外部ツールからアクセスされる)
+;     - MCP server を HTTP transport で公開
+;     - デバッグ用 UI
+;     - IoT デバイスから HSP 側に POST してもらう
+;============================================================
+
+#ifndef __iron_webserver_hsp__
+#define __iron_webserver_hsp__
+
+#uselib "hspwebsrv.dll"
+#cfunc _websrv_open    "websrv_open"    int
+#cfunc _websrv_accept  "websrv_accept"  int, var, int, var, int, var, int, int
+#cfunc _websrv_respond "websrv_respond" int, int, str, str, int
+#func  _websrv_close   "websrv_close"   int
+
+	_web_handle = -1
+	goto *_web_skip_init
+
+;------------------------------------------------------------
+; web_open port
+;   指定ポートで listen 開始。stat にハンドル (>=0 成功)
+;------------------------------------------------------------
+#deffunc web_open int port
+    if _web_handle >= 0 : web_close
+    _web_handle = _websrv_open(port)
+    return _web_handle
+
+;------------------------------------------------------------
+; web_accept method_var, path_var, body_var [, timeout_ms]
+;   新規 HTTP リクエスト受付 (ノンブロッキング, timeout_ms=100 デフォルト)
+;   stat: 1 = 受信あり / 0 = timeout / -1 = エラー
+;------------------------------------------------------------
+#deffunc web_accept var out_method, var out_path, var out_body, int timeout_ms,  local _to
+    sdim out_method, 32
+    sdim out_path, 1024
+    sdim out_body, 16384
+    if _web_handle < 0 : return -1
+    _to = timeout_ms
+    if _to = 0 : _to = 100
+    return _websrv_accept(_web_handle, out_method, 31, out_path, 1023, out_body, 16383, _to)
+
+;------------------------------------------------------------
+; web_respond status, "content_type", "body"
+;   直前に受信した request に対して HTTP レスポンスを返す
+;------------------------------------------------------------
+#deffunc web_respond int status, str content_type, str body
+    if _web_handle < 0 : return -1
+    return _websrv_respond(_web_handle, status, content_type, body, 0)
+
+;------------------------------------------------------------
+; web_close
+;   サーバを停止
+;------------------------------------------------------------
+#deffunc web_close
+    if _web_handle < 0 : return
+    _websrv_close _web_handle
+    _web_handle = -1
+    return
+
+*_web_skip_init
+
+#endif

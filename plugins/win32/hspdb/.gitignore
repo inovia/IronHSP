@@ -1,0 +1,3 @@
+third_party/sqlite/
+third_party/*.zip
+Release/

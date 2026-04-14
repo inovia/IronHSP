@@ -1,0 +1,16 @@
+LIBRARY hspdb
+EXPORTS
+    db_open
+    db_exec
+    db_query
+    db_step
+    db_col_count
+    db_col_name
+    db_col_text
+    db_col_int
+    db_col_dbl
+    db_query_close
+    db_last_rowid
+    db_changes
+    db_errmsg
+    db_close

@@ -1,0 +1,64 @@
+;============================================================
+;  iron_webserver サンプル: HSP を localhost HTTP サーバに
+;
+;  起動後 http://localhost:8080/ にアクセスするとレスポンスが返る
+;============================================================
+
+#include "iron_webserver.hsp"
+
+	title "iron_webserver sample (localhost:8080)"
+	screen 0, 720, 480
+	font "MS Gothic", 14
+
+	mes "==== iron_webserver サンプル ===="
+	mes ""
+
+	web_open 8080
+	if stat < 0 {
+		mes "[error] ポート 8080 が既に使用中の可能性"
+		stop
+	}
+	mes "http://localhost:8080/ で HTTP サーバ開始"
+	mes "ブラウザ or curl からアクセスしてください"
+	mes "ESC キーで終了"
+	mes ""
+	mes "----- リクエストログ -----"
+
+	req_count = 0
+
+*main_loop
+	stick k_esc, 0
+	if k_esc & 128 : goto *do_exit
+
+	web_accept method, path, body, 50
+	if stat = 1 {
+		req_count++
+		color 0, 80, 160
+		mes strf("[%d] %s %s", req_count, method, path)
+		color 0, 0, 0
+
+		; シンプルな HTML を返す
+		sdim html, 4096
+		html = "<!DOCTYPE html><html><head><meta charset=\"utf-8\">"
+		html = html + "<title>IronHSP Web Server</title></head><body>"
+		html = html + "<h1>Hello from IronHSP!</h1>"
+		html = html + "<p>Method: <code>" + method + "</code></p>"
+		html = html + "<p>Path: <code>" + path + "</code></p>"
+		html = html + "<p>Request count: " + req_count + "</p>"
+		if strlen(body) > 0 {
+			html = html + "<h3>Body</h3><pre>" + body + "</pre>"
+		}
+		html = html + "<hr><small>Served by hspwebsrv.dll (winsock)</small>"
+		html = html + "</body></html>"
+
+		web_respond 200, "text/html; charset=utf-8", html
+	}
+
+	await 10
+	goto *main_loop
+
+*do_exit
+	web_close
+	mes ""
+	mes "サーバ停止"
+	end
