@@ -672,21 +672,25 @@ def split_top_commas(s: str) -> List[str]:
 # Emitters
 # ----------------------------------------------------------------------------
 
-def emit_as(dll_short: str, funcs: List[Func],
-            structs: List[Struct],
-            enums: Dict[str, List[Tuple[str, int, str]]]) -> str:
+def emit_types(structs: List[Struct],
+               enums: Dict[str, List[Tuple[str, int, str]]]) -> str:
+    """Emit the shared types file (structs + enums) referenced by all DLL .as
+    files. This avoids duplicating ~200KB of struct/enum definitions in every
+    individual DLL .as.
+    """
     L: List[str] = []
     ap = L.append
     ap("; ============================================================")
-    ap(f";   Auto-generated from CsWin32 / win32metadata")
-    ap(f";   dll:    {dll_short}.dll")
-    ap(f";   tool:   tools/cswin32_bridge/gen_from_cswin32.py")
+    ap(";   Auto-generated from CsWin32 / win32metadata")
+    ap(";   shared types: NSTRUCT / enum constants")
+    ap(";   tool: tools/cswin32_bridge/gen_from_cswin32.py")
+    ap(";")
+    ap(";   This file is included automatically by every <dll>_gen2.as.")
     ap(";   Do not edit by hand — regenerate via the python script.")
-    ap(";   Needs hsp3net (intptr / NSTRUCT / wstr).")
     ap("; ============================================================")
     ap("")
-    ap(f"#ifndef __{dll_short}_gen2_as__")
-    ap(f"#define __{dll_short}_gen2_as__")
+    ap("#ifndef __win32_types_gen2_as__")
+    ap("#define __win32_types_gen2_as__")
     ap("")
     if structs:
         ap(";--- structs ---")
@@ -706,6 +710,31 @@ def emit_as(dll_short: str, funcs: List[Func],
                 else:
                     ap(f"#define {mname}  {val}")
             ap("")
+    ap("#endif")
+    ap("")
+    return "\n".join(L)
+
+
+def emit_as(dll_short: str, funcs: List[Func]) -> str:
+    """Per-DLL .as containing only function declarations. Shared structs and
+    enum constants live in win32_types_gen2.as which we #include at the top.
+    """
+    L: List[str] = []
+    ap = L.append
+    ap("; ============================================================")
+    ap(f";   Auto-generated from CsWin32 / win32metadata")
+    ap(f";   dll:    {dll_short}.dll")
+    ap(f";   tool:   tools/cswin32_bridge/gen_from_cswin32.py")
+    ap(";   Do not edit by hand — regenerate via the python script.")
+    ap(";   Needs hsp3net (intptr / NSTRUCT / wstr).")
+    ap("; ============================================================")
+    ap("")
+    ap(f"#ifndef __{dll_short}_gen2_as__")
+    ap(f"#define __{dll_short}_gen2_as__")
+    ap("")
+    ap("; Shared NSTRUCT + #define constants for all win32 *_gen2.as")
+    ap('#include "win32_types_gen2.as"')
+    ap("")
     if funcs:
         ap(";--- functions ---")
         ap(f'#uselib "{dll_short}.dll"')
@@ -869,6 +898,14 @@ def main() -> int:
     # Dump English docs for the translator to consume
     dump_docs_en(funcs)
 
+    # Emit the shared types file (structs + enums) once. Every DLL .as will
+    # `#include "win32_types_gen2.as"` to access these.
+    types_text = emit_types(list(STRUCT_TYPES.values()), enum_data)
+    types_path = OUT_AS_DIR / "win32_types_gen2.as"
+    nb_types = write_sjis_crlf(types_path, types_text)
+    print(f"[write] {types_path.relative_to(ROOT)} ({nb_types} bytes, "
+          f"{len(STRUCT_TYPES)} structs + {len(enum_data)} enums) [shared]")
+
     # Group by dll
     by_dll: Dict[str, List[Func]] = {}
     for fn in funcs:
@@ -876,10 +913,7 @@ def main() -> int:
         by_dll.setdefault(key, []).append(fn)
 
     for dll, fs in sorted(by_dll.items()):
-        # Emit .as + .hs for this dll
-        # Structs / enums aren't per-dll; include everything for now
-        st_list = list(STRUCT_TYPES.values())
-        as_text = emit_as(dll, fs, st_list, enum_data)
+        as_text = emit_as(dll, fs)
         hs_text = emit_hs(dll, fs)
         as_path = OUT_AS_DIR / f"{dll}_gen2.as"
         hs_path = OUT_HS_DIR / f"win32_{dll}_gen2.hs"

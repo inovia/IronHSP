@@ -869,28 +869,20 @@ lprc : [var] 反転する矩形の論理座標を含む RECT 構造体へのポインタ。
 
 %index
 UnloadKeyboardLayout
-Unloads an input locale identifier (formerly called a keyboard layout).
+入力ロケール識別子(旧称キーボードレイアウト)をアンロードする。
 %group
 Win32 user32
 %prm
 hkl
-hkl : [intptr] Type: HKL The input locale identifier to be unloaded.
+hkl : [intptr] 型: HKL アンロードする入力ロケール識別子。
 %inst
-Unloads an input locale identifier (formerly called a keyboard
-layout).
+入力ロケール識別子(旧称キーボードレイアウト)をアンロードする。
 
 [戻り値]
-Type: BOOL If the function succeeds, the return value is nonzero. If
-the function fails, the return value is zero. The function can fail
-for the following reasons:
-This doc was truncated.
+型: BOOL 成功時は 0 以外、失敗時は 0 を返す。失敗する可能性のある原因は以下の通り。
+（以下省略）
 
 [備考]
-The input locale identifier is a broader concept than a keyboard
-layout, since it can also encompass a speech-to-text converter, an
-Input Method Editor (IME), or any other form of input.
-UnloadKeyboardLayout cannot unload the system default input locale
-identifier if it is the only keyboard layout loaded. You must first
-load another input locale identifier before unloading the default
-input locale identifier.
+
+入力ロケール識別子はキーボードレイアウトより広い概念で、音声認識、IME、その他の入力形式を含む。システム既定の入力ロケール識別子のみがロードされている場合はアンロードできない。先に別の入力ロケール識別子をロードしてから既定をアンロードすること。
 
