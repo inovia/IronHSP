@@ -5,24 +5,23 @@
 ;   内部では Win32 WinHTTP API を直接呼んでいるので .NET 不要。
 ;
 ;   API:
-;     http_get  url, [agent]                ; GET  → refstr に body / stat に HTTP status
-;     http_post url, body, [type], [agent]  ; POST → refstr に body / stat に HTTP status
-;     http_status                            ; 直前の HTTP ステータスコード (200, 404, 500 等)
-;     http_set_timeout sec                   ; 接続/送受信タイムアウト秒 (デフォルト 30)
+;     http_get  url, body                        ; GET  → body に本文 / stat に HTTP status
+;     http_post url, send_body, body [, ctype]   ; POST → body に本文 / stat に HTTP status
+;     http_set_timeout sec                        ; 接続/送受信タイムアウト秒 (デフォルト 30)
 ;
 ;   例:
 ;     #include "iron_http.hsp"
 ;
-;         http_get "https://api.open-meteo.com/v1/forecast?latitude=35.68&longitude=139.69&current=temperature_2m"
+;         http_get "https://api.open-meteo.com/v1/forecast?latitude=35.68&longitude=139.69&current=temperature_2m", body
 ;         if stat = 200 {
-;             mes refstr   ; JSON 本文を表示
+;             mes body     ; JSON 本文を表示
 ;         } else {
 ;             mes "HTTP error: " + stat
 ;         }
 ;
 ;     POST 例:
-;         http_post "https://example.com/api", "{\"key\":\"value\"}", "application/json"
-;         mes refstr
+;         http_post "https://example.com/api", "{\"key\":\"value\"}", body, "application/json"
+;         mes body
 ;
 ;   注意:
 ;     - HTTPS は自動で TLS ハンドシェイクされる (WinHTTP はシステム証明書ストアを使う)
@@ -77,11 +76,11 @@
 #cfunc _http_query_hdr "WinHttpQueryHeaders" int, int, int, var, var, var
 
 ; BOOL WinHttpCloseHandle(HINTERNET handle)
-#cfunc _http_close "WinHttpCloseHandle" int
+#func _http_close "WinHttpCloseHandle" int
 
 ; BOOL WinHttpSetTimeouts(HINTERNET handle, int resolveTimeout, int connectTimeout,
 ;                         int sendTimeout, int receiveTimeout)
-#cfunc _http_set_to "WinHttpSetTimeouts" int, int, int, int, int
+#func _http_set_to "WinHttpSetTimeouts" int, int, int, int, int
 
 ;------------------------------------------------------------
 ; URL パース helper (winhttp.dll の WinHttpCrackUrl を使う)
@@ -96,9 +95,9 @@
 ; モジュール内部の状態 (timeout 等)
 ;------------------------------------------------------------
 #deffunc _http_init
-    if _http_initialized != 0 : return
+    if _http_initialized ! 0 : return
     _http_initialized = 1
-    _http_timeout_ms = 30000        ; 30 秒
+    _http_timeout_ms = 30000
     return
 
 ;------------------------------------------------------------
@@ -160,52 +159,44 @@
 ;------------------------------------------------------------
 ; 内部関数: HTTP リクエスト実行
 ;
-; in:  url, verb ("GET" / "POST"), body, content_type, agent
-; out: refstr = レスポンス body, stat = HTTP status
+; in:  url, verb, body, content_type, agent, out_body (var)
+; out: out_body に body 本文、return で HTTP status
 ;------------------------------------------------------------
-#deffunc _http_do str url, str verb, str body, str ctype, str agent, \
-        local _host, local _path, local _port, local _https, \
-        local _hSession, local _hConnect, local _hRequest, \
-        local _flags, local _headers, local _buf, local _avail, local _read, \
-        local _result, local _http_status, local _status_buf, local _status_len, local _status_idx
+#deffunc _http_do str url, str verb, str body, str ctype, str agent, var out_body,  local _host, local _path, local _port, local _https,  local _hSession, local _hConnect, local _hRequest,  local _flags, local _headers, local _buf, local _avail, local _read,  local _result, local _http_status, local _status_buf, local _status_len, local _status_idx, local _result_body, local _result_body2, local _result_total, local _to_r, local _to_c, local _to_s, local _to_v
     _http_init
 
-    ; URL パース
+    sdim out_body, 16
     _http_parse_url url, _host, _path, _port, _https
 
-    ; セッション開始 (ユーザーエージェント、PROXY = NO_PROXY = 1)
     _hSession = _http_open(agent, 1, "", "", 0)
-    if _hSession = 0 {
-        return -1, 0
-    }
+    if _hSession = 0 : return 0
 
-    ; タイムアウト設定
-    _http_set_to _hSession, _http_timeout_ms, _http_timeout_ms, _http_timeout_ms, _http_timeout_ms
+    _to_r = _http_timeout_ms
+    _to_c = _http_timeout_ms
+    _to_s = _http_timeout_ms
+    _to_v = _http_timeout_ms
+    _http_set_to _hSession, _to_r, _to_c, _to_s, _to_v
 
-    ; サーバ接続
     _hConnect = _http_connect(_hSession, _host, _port, 0)
     if _hConnect = 0 {
         _http_close _hSession
-        return -2, 0
+        return 0
     }
 
-    ; リクエスト作成 (HTTPS なら WINHTTP_FLAG_SECURE = 0x00800000)
     _flags = 0
-    if _https != 0 : _flags = 0x00800000
+    if _https ! 0 : _flags = 0x00800000
     _hRequest = _http_request(_hConnect, verb, _path, "", "", 0, _flags)
     if _hRequest = 0 {
         _http_close _hConnect
         _http_close _hSession
-        return -3, 0
+        return 0
     }
 
-    ; ヘッダ
     _headers = ""
     if strlen(ctype) > 0 {
         _headers = "Content-Type: " + ctype + "\r\n"
     }
 
-    ; リクエスト送信
     if strlen(body) > 0 {
         _result = _http_send(_hRequest, _headers, -1, body, strlen(body), strlen(body), 0)
     } else {
@@ -215,25 +206,23 @@
         _http_close _hRequest
         _http_close _hConnect
         _http_close _hSession
-        return -4, 0
+        return 0
     }
 
-    ; 応答待ち
     _result = _http_recv(_hRequest, 0)
     if _result = 0 {
         _http_close _hRequest
         _http_close _hConnect
         _http_close _hSession
-        return -5, 0
+        return 0
     }
 
-    ; HTTP ステータスを取得
-    ; WINHTTP_QUERY_STATUS_CODE = 19, WINHTTP_QUERY_FLAG_NUMBER = 0x20000000
+    ; HTTP ステータス取得: WINHTTP_QUERY_STATUS_CODE(19) | WINHTTP_QUERY_FLAG_NUMBER(0x20000000)
     sdim _status_buf, 16
     _status_len = 16
     _status_idx = 0
     _result = _http_query_hdr(_hRequest, 19 | 0x20000000, 0, _status_buf, _status_len, _status_idx)
-    if _result != 0 {
+    if _result ! 0 {
         _http_status = lpeek(_status_buf, 0)
     } else {
         _http_status = 0
@@ -250,7 +239,6 @@
         _result = _http_read(_hRequest, _buf, _avail, _read)
         if _result = 0 : break
         if _read = 0 : break
-        ; 連結
         if _result_total + _read >= varsize(_result_body) {
             sdim _result_body2, _result_total + _read + 4096
             memcpy _result_body2, _result_body, _result_total
@@ -265,29 +253,28 @@
     _http_close _hConnect
     _http_close _hSession
 
-    return _result_body, _http_status
+    out_body = _result_body
+    return _http_status
 
 ;------------------------------------------------------------
-; http_get url
-;   refstr に body、stat に HTTP status (200/404/500 等)
-;   ネットワークエラー時は stat=0, refstr=""
+; http_get url, body
+;   body に本文、stat に HTTP status (200/404/500 等)
+;   ネットワークエラー時は stat=0, body=""
 ;------------------------------------------------------------
-#deffunc http_get str url, \
-        local _agent
+#deffunc http_get str url, var out_body,  local _agent
     _agent = "IronHSP/1.0"
-    _http_do url, "GET", "", "", _agent
-    return refstr, stat
+    _http_do url, "GET", "", "", _agent, out_body
+    return stat
 
 ;------------------------------------------------------------
-; http_post url, body [, content_type]
+; http_post url, body_send, out_body [, content_type]
 ;------------------------------------------------------------
-#deffunc http_post str url, str body, str ctype, \
-        local _agent, local _t
+#deffunc http_post str url, str body, var out_body, str ctype,  local _agent, local _t
     _agent = "IronHSP/1.0"
     _t = ctype
     if strlen(_t) = 0 : _t = "application/x-www-form-urlencoded"
-    _http_do url, "POST", body, _t, _agent
-    return refstr, stat
+    _http_do url, "POST", body, _t, _agent, out_body
+    return stat
 
 #global
 

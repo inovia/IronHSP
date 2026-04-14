@@ -1,0 +1,70 @@
+;============================================================
+;  iron_http + iron_json 連携サンプル: 天気予報を取得して表示
+;
+;  Open-Meteo (https://open-meteo.com/) は無料・API キー不要・
+;  CORS フリーの天気予報 API。
+;
+;  座標 35.68/139.69 = 東京駅近辺
+;
+;  これだけで HSP から REST API を叩いて JSON を解析 → 値表示まで
+;  一気通貫で書ける。生の Win32 API なら 100 行以上必要な処理が
+;  iron_http + iron_json でわずか十数行に。
+;============================================================
+
+#include "iron_http.hsp"
+#include "iron_json.hsp"
+
+	; --- パラメータ ---
+	lat  = "35.68"
+	lon  = "139.69"
+	url  = "https://api.open-meteo.com/v1/forecast?latitude=" + lat + "&longitude=" + lon + "&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FTokyo&forecast_days=3"
+
+	mes "==== iron_http + iron_json 連携デモ: 天気予報 ===="
+	mes ""
+	mes "GET " + url
+	mes ""
+
+	; --- HTTP GET ---
+	http_get url, body
+	if stat ! 200 {
+		mes "HTTP error: stat=" + stat
+		mes "(オフラインの可能性、もしくは Open-Meteo の障害)"
+		end
+	}
+	mes "HTTP 200 OK (" + strlen(body) + " bytes)"
+	mes ""
+
+	; --- JSON parse ---
+	hid = json_load(body)
+	if hid < 0 {
+		mes "JSON parse error"
+		end
+	}
+
+	; --- 現在の天気 ---
+	mes "■ 現在の東京 (lat=" + json_dbl(hid, "latitude") + " lon=" + json_dbl(hid, "longitude") + ")"
+	mes "  時刻        : " + json_str(hid, "current.time")
+	mes "  気温        : " + json_dbl(hid, "current.temperature_2m") + " ℃"
+	mes "  湿度        : " + json_int(hid, "current.relative_humidity_2m") + " %"
+	mes "  風速        : " + json_dbl(hid, "current.wind_speed_10m") + " km/h"
+	mes "  天気コード  : " + json_int(hid, "current.weather_code") + " (WMO code)"
+	mes ""
+
+	; --- 3 日間予報 ---
+	mes "■ 3 日間予報"
+	n = json_len(hid, "daily.time")
+	repeat n
+		date = json_str(hid, "daily.time[" + cnt + "]")
+		tmax = json_dbl(hid, "daily.temperature_2m_max[" + cnt + "]")
+		tmin = json_dbl(hid, "daily.temperature_2m_min[" + cnt + "]")
+		mes strf("  %s  最高 %5.1f℃ / 最低 %5.1f℃", date, tmax, tmin)
+	loop
+	mes ""
+
+	; --- 後片付け ---
+	json_release hid
+
+	mes "=========================================="
+	mes "↑ HSP で書いた REST + JSON クライアント"
+	mes "  (iron_http + iron_json で~50 行)"
+	end
