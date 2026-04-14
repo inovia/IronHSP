@@ -1,0 +1,167 @@
+;============================================================
+;   iron_7z.hsp — 7-Zip サブプロセスラッパ (7z/zip/tar/gz/rar 他)
+;
+;   hsp7z.dll + 同梱の 7za.exe / 7za_x64.exe を使って、7z/zip/tar/gz/bz2/
+;   xz/rar(読みのみ)/wim/iso など 40+ アーカイブフォーマットを扱う。
+;
+;   iron_zip.hsp (miniz 版) より高機能だが、プロセス起動コストがあるので
+;   1 ファイル単位の細かい処理には向かず、まとめて extract / compress する
+;   用途向け。
+;
+;   API:
+;     iron_7z_list   "archive.7z", names, sizes → stat = 件数
+;     iron_7z_add    "archive.7z", "file_or_dir"
+;     iron_7z_extract "archive.7z", "out_dir\"
+;     iron_7z_extract_one "archive.7z", "entry_path", "out_dir\"
+;     iron_7z_test   "archive.7z"   → stat = exit_code (0=OK)
+;     sevenz_run     "l archive.7z", out_buf → stat = exit_code
+;                                              (低レベル、生コマンドライン)
+;
+;   依存: plugins/win32/hsp7z/Release/hsp7z.dll (+ 7za_x86.exe / 7za_x64.exe)
+;         hsp7z.dll と同じディレクトリに 7za_*.exe を配置
+;
+;   例:
+;     #include "iron_7z.hsp"
+;         iron_7z_list "backup.7z", ns, ss
+;         mes "entries: " + stat
+;         repeat stat
+;             mes ns(cnt) + " (" + ss(cnt) + " bytes)"
+;         loop
+;         iron_7z_extract "backup.7z", "restore\\"
+;============================================================
+
+#ifndef __iron_7z_hsp__
+#define __iron_7z_hsp__
+
+#module iron_7z
+
+#uselib "hsp7z.dll"
+#cfunc global sevenz_run     "sevenz_run"     str, var, int
+#cfunc global sevenz_set_exe "sevenz_set_exe" str
+
+;------------------------------------------------------------
+; 内部: quote  — パスにスペースや日本語が混じっても OK にする
+;------------------------------------------------------------
+#defcfunc _q str s
+    return "\"" + s + "\""
+
+;------------------------------------------------------------
+; iron_7z_add "archive", "file_or_dir"
+;   既存アーカイブに追加、なければ新規作成
+;------------------------------------------------------------
+#deffunc iron_7z_add str archive, str path,  local _args, local _buf
+    sdim _buf, 8192
+    _args = "a -y " + _q(archive) + " " + _q(path)
+    return sevenz_run(_args, _buf, 8191)
+
+;------------------------------------------------------------
+; iron_7z_extract "archive", "out_dir"
+;   全エントリを out_dir に展開 (パス保持)
+;------------------------------------------------------------
+#deffunc iron_7z_extract str archive, str out_dir,  local _args, local _buf
+    sdim _buf, 8192
+    _args = "x -y " + _q(archive) + " -o" + _q(out_dir)
+    return sevenz_run(_args, _buf, 8191)
+
+;------------------------------------------------------------
+; iron_7z_extract_one "archive", "entry_path", "out_dir"
+;------------------------------------------------------------
+#deffunc iron_7z_extract_one str archive, str entry, str out_dir,  local _args, local _buf
+    sdim _buf, 8192
+    _args = "x -y " + _q(archive) + " " + _q(entry) + " -o" + _q(out_dir)
+    return sevenz_run(_args, _buf, 8191)
+
+;------------------------------------------------------------
+; iron_7z_test "archive"  → stat = 0 (OK) / 非 0 (破損)
+;------------------------------------------------------------
+#deffunc iron_7z_test str archive,  local _args, local _buf
+    sdim _buf, 4096
+    _args = "t " + _q(archive)
+    return sevenz_run(_args, _buf, 4095)
+
+;------------------------------------------------------------
+; iron_7z_list "archive", names, sizes → stat = 件数
+;
+;   7za l -slt archive  の "technical" モード出力をパース:
+;     ----------
+;     Path = foo.txt
+;     Size = 100
+;     ...
+;     Path = bar.txt
+;     Size = 200
+;------------------------------------------------------------
+#deffunc iron_7z_list str archive, array out_names, array out_sizes,  local _args, local _buf, local _line, local _count, local _i, local _len, local _c, local _in_entries, local _eq, local _key, local _val, local _cur_name, local _cur_size, local _rc, local _lpos
+    sdim _buf, 262144       ; 256KB stdout buffer (典型 1000 エントリ対応)
+    _args = "l -slt " + _q(archive)
+    _rc = sevenz_run(_args, _buf, 262143)
+    if _rc ! 0 : return 0
+
+    sdim out_names, 256, 32
+    sdim out_sizes, 64, 32
+    _count = 0
+    _in_entries = 0
+    sdim _cur_name, 1024
+    _cur_size = 0
+    _cur_name = ""
+
+    _i = 0
+    _len = strlen(_buf)
+    sdim _line, 2048
+    repeat
+        if _i >= _len : break
+        ; 1 行切り出し (位置カウンタで明示的に管理)
+        _lpos = 0
+        repeat
+            if _i >= _len : break
+            _c = peek(_buf, _i)
+            _i++
+            if _c = 0x0d : continue
+            if _c = 0x0a : break
+            poke _line, _lpos, _c
+            _lpos++
+        loop
+        poke _line, _lpos, 0   ; 明示的に null 終端
+
+        ; "----------" より前は全体ヘッダなので skip
+        if _in_entries = 0 {
+            if strmid(_line, 0, 10) = "----------" : _in_entries = 1
+            continue
+        }
+
+        ; 空行 = エントリ境界
+        if strlen(_line) = 0 {
+            if strlen(_cur_name) > 0 {
+                if _count < 32 {
+                    out_names(_count) = _cur_name
+                    out_sizes(_count) = _cur_size
+                    _count++
+                }
+            }
+            _cur_name = ""
+            _cur_size = 0
+            continue
+        }
+
+        ; "Key = Value"
+        _eq = instr(_line, 0, " = ")
+        if _eq < 0 : continue
+        _key = strmid(_line, 0, _eq)
+        _val = strmid(_line, _eq + 3, strlen(_line) - _eq - 3)
+
+        if _key = "Path" : _cur_name = _val
+        if _key = "Size" : _cur_size = int(_val)
+    loop
+
+    ; 末尾エントリ取り込み (末尾改行がない場合の保険)
+    if strlen(_cur_name) > 0 {
+        if _count < 32 {
+            out_names(_count) = _cur_name
+            out_sizes(_count) = _cur_size
+            _count++
+        }
+    }
+    return _count
+
+#global
+
+#endif

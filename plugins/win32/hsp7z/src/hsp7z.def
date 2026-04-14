@@ -1,0 +1,4 @@
+LIBRARY hsp7z
+EXPORTS
+    sevenz_run
+    sevenz_set_exe

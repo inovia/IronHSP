@@ -48,7 +48,7 @@ HSP は手軽にグラフィックスとゲームを作れる言語ですが、�
 <tr><td><code>iron_mcp_client</code></td><td>Model Context Protocol クライアント</td><td>hspmcp.dll</td></tr>
 <tr><td><code>iron_mcp_server</code></td><td>HSP3CL を MCP stdio server 化</td><td>hspmcp.dll</td></tr>
 <tr><td><code>iron_webserver</code></td><td>localhost HTTP サーバ</td><td>hspwebsrv.dll</td></tr>
-<tr><td><code>iron_zip</code></td><td>ZIP 読み書き (miniz 埋め込み)</td><td>hspzip.dll</td></tr>
+<tr><td><code>iron_7z</code></td><td>7z / zip / tar.gz / xz / rar(読) 等 40+ アーカイブ形式</td><td>hsp7z.dll + 同梱 7za.exe</td></tr>
 <tr><td><code>iron_db</code></td><td>SQLite 3.46 データベース</td><td>hspdb.dll</td></tr>
 <tr><td><code>iron_hash</code></td><td>SHA-1/256/512, MD5, Base64</td><td>bcrypt + crypt32 (OS 標準)</td></tr>
 <tr><td><code>iron_shell</code></td><td>ShellExecute, ゴミ箱送り, .lnk 作成</td><td>shell32 + ole32 (OS 標準)</td></tr>
@@ -168,13 +168,22 @@ HSP は手軽にグラフィックスとゲームを作れる言語ですが、�
 	db_query_close qh
 	db_close h</code></pre>
 
-<h3>8. ZIP 作成</h3>
+<h3>8. アーカイブ作成 (7z / zip / tar.gz / xz 等 40+ 形式)</h3>
 
-<pre><code>#include "iron_zip.hsp"
-	h = zip_open_write("out.zip")
-	zip_add_file h, "hello.txt", "input.txt"
-	zip_add_file h, "data/info.json", "info.json"
-	zip_close h</code></pre>
+<pre><code>#include "iron_7z.hsp"
+	; 7z 作成 (出力拡張子で形式が自動判別される)
+	iron_7z_add "backup.7z", "mydir\\"
+	iron_7z_add "release.zip", "bin\\"
+	iron_7z_add "data.tar.gz", "logs\\"
+
+	; 一覧取得
+	iron_7z_list "backup.7z", names, sizes
+	repeat stat
+		mes names(cnt) + " (" + sizes(cnt) + " bytes)"
+	loop
+
+	; 展開
+	iron_7z_extract "backup.7z", "restore\\"</code></pre>
 
 <h3>9. ローカル HTTP サーバ</h3>
 

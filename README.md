@@ -97,7 +97,7 @@ dumpbin /exports → tools/cswin32_bridge/dump_exports.py → NativeMethods.txt
 | **`iron_clip.hsp`** | クリップボード文字列 (HSP 標準より柔軟) | `clip_set_text "..."` / `clip_get_text` / `clip_has_text` |
 | **`iron_toast.hsp`** | タスクトレイバルーン通知 (Shell_NotifyIcon) | `toast "title", "body"` / `toast_warning` / `toast_error` |
 | **`iron_shell.hsp`** | ShellExecute / ゴミ箱送り / .lnk 作成 (shell32 + IShellLink COM) | `shell_open "path"` / `shell_recycle "file"` / `shell_mklink target, "link.lnk"` |
-| **`iron_zip.hsp`** | ZIP 読み書き (miniz 埋め込み, hspzip.dll) | `h = zip_open_write("out.zip")` / `zip_add_file h, "entry", "src.txt"` |
+| **`iron_7z.hsp`** | 7z / zip / tar.gz / xz / rar(読) / iso など 40+ 形式の読み書き (hsp7z.dll + 同梱 7za.exe) | `iron_7z_add "out.7z", "dir\\"` / `iron_7z_list "in.zip", names, sizes` / `iron_7z_extract "a.tar.gz", "out\\"` |
 | **`iron_db.hsp`** | SQLite 3.46 組み込みデータベース (hspdb.dll) | `h = db_open("test.db")` / `db_exec h, "INSERT..."` / `qh = db_query(h, "SELECT...")` |
 | **`iron_webserver.hsp`** | localhost HTTP サーバ (winsock ベース, hspwebsrv.dll) | `web_open 8080` / `web_accept method, path, body` / `web_respond 200, "text/html", html` |
 | **`iron_serial.hsp`** | シリアルポート (kernel32 CreateFile + DCB) | `serial_open "COM3", 115200` / `serial_write "hello\n"` / `serial_read buf, 256` |
@@ -133,7 +133,7 @@ dumpbin /exports → tools/cswin32_bridge/dump_exports.py → NativeMethods.txt
 | **[`hspsapi.dll`](plugins/win32/hspsapi/)** | Windows SAPI 5 (sapi.dll) オフライン音声認識。OS 標準、追加 DL 不要 | Win32 + x64 |
 | **[`hspwinrtspeech.dll`](plugins/win32/hspwinrtspeech/)** | Windows.Media.SpeechRecognition (cppwinrt) ライブマイク認識 | x64 |
 | **[`hspwebsrv.dll`](plugins/win32/hspwebsrv/)** | winsock ベースの minimal HTTP server (URL reservation/admin 不要) | Win32 + x64 |
-| **[`hspzip.dll`](plugins/win32/hspzip/)** | miniz 3.0.2 埋め込み ZIP archive 読み書き | x64 |
+| **[`hsp7z.dll`](plugins/win32/hsp7z/)** | 7-Zip 公式 CLI (7za.exe) のサブプロセスラッパ。7z/zip/tar.gz/xz/bz2/rar(読)/wim/iso 等 40+ フォーマット。LGPL な 7za.exe を同梱して DLL 差し替えでセキュリティ追従可 | Win32 + x64 |
 | **[`hspdb.dll`](plugins/win32/hspdb/)** | SQLite 3.46.1 amalgamation 組み込み (2348 関数内包) | x64 |
 
 ### 標準プラグインの 64bit 対応
@@ -208,7 +208,7 @@ IronHSP_2026/
 │   ├── hspsapi/                — Windows SAPI 5 音声認識
 │   ├── hspwinrtspeech/         — WinRT ライブマイク認識
 │   ├── hspwebsrv/              — winsock HTTP server
-│   ├── hspzip/                 — miniz ZIP archive
+│   ├── hsp7z/                  — 7-Zip (7za.exe 同梱) アーカイブラッパ
 │   ├── hspdb/                  — SQLite 3.46
 │   └── ... (hgimg / hspinet / hspsock / hspda / 他)
 ├── nhspc/                      — HSP風 .NET アセンブリコンパイラ

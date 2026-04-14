@@ -1881,9 +1881,9 @@ package/hsphelp/
 <tr><td><code>iron_shell.hsp</code></td><td>ShellExecute / ゴミ箱送り / .lnk 作成</td>
     <td><code>shell_open "path"</code><br><code>shell_execute / shell_runas</code><br><code>shell_recycle "file"</code> (SHFileOperation)<br><code>shell_mklink target, "link.lnk"</code> (IShellLinkA COM)</td>
     <td>shell32 + ole32 + IShellLinkA COM</td></tr>
-<tr><td><code>iron_zip.hsp</code></td><td>ZIP アーカイブ読み書き (miniz 3.0.2 埋め込み)</td>
-    <td><code>h = zip_open_read("a.zip")</code><br><code>n = zip_count(h)</code><br><code>zip_extract_file h, idx, "out.txt"</code><br><code>h2 = zip_open_write("b.zip")</code><br><code>zip_add_file h2, "entry.txt", "src.txt"</code></td>
-    <td>hspzip.dll (miniz)</td></tr>
+<tr><td><code>iron_7z.hsp</code></td><td>7z / zip / tar.gz / xz / bz2 / rar(読) / wim / iso 等 40+ フォーマット (7-Zip 公式 7za.exe ラッパ)</td>
+    <td><code>iron_7z_add "out.7z", "dir\\"</code><br><code>iron_7z_list "in.zip", names, sizes</code><br><code>iron_7z_extract "a.tar.gz", "out\\"</code><br><code>iron_7z_extract_one "a.7z", "entry.txt", "out\\"</code><br><code>iron_7z_test "a.7z"</code><br><code>sevenz_run "l -slt a.7z", buf, 4095</code> (低レベル)</td>
+    <td>hsp7z.dll + 7za_x86.exe / 7za_x64.exe</td></tr>
 <tr><td><code>iron_db.hsp</code></td><td>SQLite 3.46 組み込みデータベース</td>
     <td><code>h = db_open("test.db")</code><br><code>db_exec h, "CREATE TABLE ..."</code><br><code>qh = db_query(h, "SELECT ...")</code><br><code>db_step qh</code> / <code>db_col_int / text / dbl</code></td>
     <td>hspdb.dll (SQLite amalgamation)</td></tr>
@@ -1982,12 +1982,13 @@ package/hsphelp/
     Method/URL/Body の簡易パースを C++ 側で実施。<br>
     <strong>HTTPS / WebSocket 未対応</strong> (将来対応候補)</td>
     <td>4</td><td>Win32 + x64</td></tr>
-<tr><td><code>hspzip.dll</code></td>
-    <td>miniz 3.0.2 (public domain single-file zlib/zip) 埋め込み。<br>
-    ZIP 読み込み (count / entry_name / entry_size / extract_file / extract_mem) +<br>
-    ZIP 作成 (add_file / add_mem) の両対応。<br>
-    MINIZ_NO_ARCHIVE_WRITING_APIS をアンセットして writer API を有効化</td>
-    <td>10</td><td>x64</td></tr>
+<tr><td><code>hsp7z.dll</code></td>
+    <td>7-Zip 公式 CLI (<code>7za.exe</code> / <code>7za_x64.exe</code>) のサブプロセスラッパ。<br>
+    CreateProcess + anonymous pipe で stdout を捕まえて HSP に返す薄い実装 (~150 行)。<br>
+    対応フォーマット: 7z / zip / tar / tar.gz / tar.bz2 / tar.xz / gz / bz2 / xz / wim / iso (全て読み書き) / rar / cab / chm / msi / deb / rpm / dmg / apm / hfs / ntfs / fat / vhd / lzma / lzma2 (読み)。<br>
+    LGPL の 7za.exe は同梱のまま差し替え可能で、CVE 対応もファイル置換だけで追従できる。<br>
+    エクスポート 2 個のみ (<code>sevenz_run</code> / <code>sevenz_set_exe</code>) だが、高レベル操作は iron_7z.hsp で提供</td>
+    <td>2</td><td>Win32 + x64</td></tr>
 <tr><td><code>hspdb.dll</code></td>
     <td>SQLite 3.46.1 amalgamation (sqlite3.c 単体) 埋め込み。<br>
     DB open/exec + prepared query + column getter。<br>
@@ -1996,7 +1997,7 @@ package/hsphelp/
     <td>14</td><td>x64</td></tr>
 </table>
 
-<p>合計 <strong>11 個の新規 C++ プラグイン DLL / 127 export 関数</strong>。各 DLL に対応する日本語ヘルプは <code>package/hsphelp/hsp*.hs</code>。</p>
+<p>合計 <strong>11 個の新規 C++ プラグイン DLL / 119 export 関数</strong> (hspzip → hsp7z 置き換えで -10 +2 関数)。各 DLL に対応する日本語ヘルプは <code>package/hsphelp/hsp*.hs</code>。</p>
 
 <h3>16.5 音声認識バックエンド比較</h3>
 
@@ -2193,6 +2194,12 @@ package/hsphelp/
 <tr><td>4/14 20:36</td><td><code>0fce7424</code></td><td><span class="badge">新機能</span> <strong>A1〜A4 既存機能補完</strong>: (A1) iron_mcp_client に resources/prompts 対応追加 (iron_mcp_resource_list/read + iron_mcp_prompt_list/get)。(A2) iron_http の streaming 低レベル API (http_stream_open/read/close) + iron_ai の SSE streaming (iron_ai_chat_stream_start/poll/end、data:{...}\n\n イベントパーサで delta.content 抽出)。(A3) iron_video に Position/Duration/Seek 追加 (IMFPMediaPlayer SetPosition/GetPosition/GetDuration #comfunc + MFP_POSITIONTYPE_100NS GUID + PROPVARIANT 手組み、ms 単位 API)。(A4) iron_speech に連続認識追加 (hspvosk に accept_pcm_s16/partial_result/final_result/reset を追加、iron_speech_listen_start_mic/poll/stop で mic→vosk pipeline)</td></tr>
 <tr><td>4/14 20:37</td><td><code>32fb2c5b</code></td><td><span class="badge">新機能</span> <strong>B1〜B5 新規 iron_* 5 個</strong>: (B1) hspwebsrv.dll + iron_webserver.hsp — winsock ベース minimal HTTP server (URL reservation/admin 不要、web_open/accept/respond/close API)。(B2) hspzip.dll + iron_zip.hsp — miniz 3.0.2 埋め込み ZIP 読み書き (zip_open_read/write + entry_name/size + extract_file/mem + add_file/mem)。(B3) hspdb.dll + iron_db.hsp — SQLite 3.46.1 amalgamation 組み込み (db_open/exec/query/step + col getter、max 32 DB 並列)。(B4) iron_shell.hsp — Pure HSP で shell32 + IShellLinkA COM (shell_open/execute/runas/recycle/mklink)。(B5) iron_serial.hsp — Pure HSP で kernel32 シリアル (serial_open/write/read/avail、DCB 手組み)</td></tr>
 <tr><td>4/14 20:38</td><td><code>b71ef7b9</code></td><td><span class="badge">新機能 / ドキュメント</span> <strong>D2/D3/D4 + C4</strong>: (D2) sample_video_player2.hsp — iron_video のフル GUI プレイヤー (シークバー + 速度切替 + 音量 + 時刻表示)。(D3) sample_cam_ai.hsp — Webcam スナップショット → Base64 化 → Groq llama-3.2-vision で画像説明、iron_camera_mf + iron_ai + iron_hash の連動デモ。(D4) docs/iron_modules_intro.html — iron_* モジュール入門記事 (17 モジュール一覧 + 10 個コード例 + API キー取得リンク)。(C4) _test_all.bat — iron_*.hsp サンプル一括コンパイルテスト (24/25 pass)</td></tr>
+<tr><td>4/14 20:40</td><td><code>8da9880c</code></td><td><span class="badge">改修</span> <strong>hspwebsrv.dll HTTP.sys + WebSocket 書き直し</strong>: C# HttpListener と同じ HTTP.sys (httpapi.dll v2) バックエンドに全面書き直し。URL reservation 不要の localhost listen に加え、<code>websrv_accept_ws</code> / <code>ws_send</code> / <code>ws_recv</code> で WebSocket echo server も書ける。RFC 6455 フレーム encoder/decoder + Sec-WebSocket-Accept SHA-1 を自前実装。HTTPS + HTTP/2 は URL reservation さえ用意すれば自動有効化</td></tr>
+<tr><td>4/14 20:41</td><td><code>e69627d8</code></td><td><span class="badge">新機能</span> <strong>iron_url.hsp</strong> Pure HSP で C# WebUtility 相当 (url_encode / url_encode_form / url_decode / html_encode / html_decode / url_parse_query)。外部 DLL 不要</td></tr>
+<tr><td>4/14 20:42</td><td><code>a3ea7d05</code></td><td><span class="badge">改修</span> <strong>iron_* を #module/#global パターンに統一</strong>: top-level <code>#deffunc</code> fall-through 回避に使っていた <code>goto *_xxx_skip_init</code> ワークアラウンドを、HSP 正統派の <code>#module modname</code> / <code>#global</code> で囲む形に置き換え。11 ファイル (ai/camera_mf/db/mcp_client/mcp_server/serial/shell/speech/url/video/webserver)。初期化は <code>varname@modname</code> 構文で module 内変数に代入</td></tr>
+<tr><td>4/14 20:43</td><td><code>3c4fd3d8</code></td><td><span class="badge">改修</span> <strong>win32 gen2 + user32_ext</strong>: 全 58 個の *_gen2.as の #cfunc/#func 宣言に <code>global</code> キーワードを追加 (HSP スクリプト側で #module 内から Win32 API を直接呼べるように)。PoC reference だった user32_ext.as は本番未使用 + 定数名衝突のため削除。gen_from_cswin32.py 側にも同等修正</td></tr>
+<tr><td>4/14 20:44</td><td><code>7bc95bf2</code></td><td><span class="badge">改修</span> <strong>win32_types_gen2.as pre-existing バグ修正</strong>: HSP 識別子 case-insensitive で衝突していた <code>#defstruct COLORMAP</code> vs <code>ColorMap</code> / <code>RECT</code> vs <code>Rect</code> を GDI+ 側を <code>GdipColorMap</code> / <code>GdipRect</code> にリネーム。複数 enum で共通する <code>#define</code> (SERVICE_NO_CHANGE 等) を初出のみ emit する dedup。#define 定数にも global キーワード付与で #module 内から参照可能に</td></tr>
+<tr><td>4/14 20:45</td><td><code>-</code></td><td><span class="badge">新機能 / 削除</span> <strong>hsp7z.dll + iron_7z.hsp</strong>: 7-Zip 公式 CLI (<code>7za.exe</code> / <code>7za_x64.exe</code>) を CreateProcess + anonymous pipe で呼び出す薄いサブプロセスラッパ (2 export: <code>sevenz_run</code> / <code>sevenz_set_exe</code>)。7z / zip / tar.gz / xz / rar(読) / wim / iso など 40+ フォーマット対応。LGPL 7za.exe を同梱して DLL 差し替えでセキュリティ追従可。高レベル API は iron_7z.hsp が提供 (<code>iron_7z_add</code> / <code>extract</code> / <code>extract_one</code> / <code>list</code> / <code>test</code>、list は <code>-slt</code> 技術モードを Pure HSP でパース)。<strong>削除</strong>: hspzip.dll + iron_zip.hsp (miniz ベース) は OpenHSP 標準の ZLibWrap/zipfile.as と機能が被っていた上、単一形式 (.zip) しか扱えなかったので廃止</td></tr>
 </table>
 
 <h3>64bit ビルド対応一覧</h3>

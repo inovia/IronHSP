@@ -1,0 +1,72 @@
+;============================================================
+;  sample_7z.hsp — hsp7z.dll (7-Zip 同梱) の使用例
+;
+;  7z / zip / tar.gz / xz / wim / iso など多数フォーマットに対応。
+;============================================================
+
+#include "iron_7z.hsp"
+
+	title "iron_7z sample"
+	screen 0, 720, 560
+	font "MS Gothic", 12
+
+	mes "==== iron_7z (hsp7z.dll + 7za) サンプル ===="
+	mes ""
+
+	; 1. テスト用ファイル作成
+	sdim txt, 256
+	txt = "iron_7z sample text #1"
+	bsave "sample_a.txt", txt, strlen(txt)
+	txt = "iron_7z sample text #2 with more data"
+	bsave "sample_b.txt", txt, strlen(txt)
+	mes "[1] テストファイル作成: sample_a.txt, sample_b.txt"
+
+	; 2. 7z アーカイブ作成
+	iron_7z_add "sample.7z", "sample_a.txt"
+	mes "[2] sample_a.txt → sample.7z (exit=" + stat + ")"
+
+	iron_7z_add "sample.7z", "sample_b.txt"
+	mes "    sample_b.txt 追加 (exit=" + stat + ")"
+
+	; 3. 一覧表示
+	iron_7z_list "sample.7z", names, sizes
+	count = stat
+	mes "[3] sample.7z エントリ数: " + count
+	repeat count
+		mes "     - " + names(cnt) + "  (" + sizes(cnt) + " bytes)"
+	loop
+
+	; 4. 整合性テスト
+	iron_7z_test "sample.7z"
+	if stat = 0 : mes "[4] 整合性テスト: OK" : else : mes "[4] 破損検出 (exit=" + stat + ")"
+
+	; 5. 別ディレクトリに展開
+	iron_7z_extract "sample.7z", "sample_extracted"
+	mes "[5] sample_extracted\\ に展開 (exit=" + stat + ")"
+
+	; 6. ZIP 形式でも作成 (7za は .zip も直接扱える)
+	iron_7z_add "sample.zip", "sample_a.txt"
+	iron_7z_add "sample.zip", "sample_b.txt"
+	iron_7z_list "sample.zip", zn, zs
+	mes "[6] sample.zip エントリ数: " + stat
+	repeat stat
+		mes "     - " + zn(cnt) + "  (" + zs(cnt) + " bytes)"
+	loop
+
+	; 7. 生コマンドライン呼び出し (低レベル)
+	mes "[7] sevenz_run 直叩き (バージョン取得):"
+	sdim verbuf, 4096
+	sevenz_run "", verbuf, 4095
+	; 先頭行だけ取得
+	sdim head, 256
+	repeat strlen(verbuf)
+		c = peek(verbuf, cnt)
+		if (c = 0x0d) | (c = 0x0a) : break
+		poke head, cnt, c
+	loop
+	poke head, cnt, 0
+	mes "     " + head
+
+	mes ""
+	mes "==== 完了 ===="
+	stop
