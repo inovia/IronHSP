@@ -702,9 +702,16 @@ def emit_types(structs: List[Struct],
             ap("")
     if enums:
         ap(";--- enums / constants ---")
+        # HSP #define は同名で再定義できないので、複数 enum で共通する
+        # メンバー (SERVICE_NO_CHANGE 等) は最初に出た 1 回だけ emit する。
+        _emitted_names: set = set()
         for ename, members in enums.items():
+            _dedup = [m for m in members if m[0].lower() not in _emitted_names]
+            if not _dedup:
+                continue
             ap(f"; {ename}")
-            for (mname, val, _doc) in members:
+            for (mname, val, _doc) in _dedup:
+                _emitted_names.add(mname.lower())
                 if val >= 0:
                     ap(f"#define global {mname}  {hex(val)}")
                 else:
@@ -883,6 +890,27 @@ def main() -> int:
 
     scan_structs(sources)
     print(f"[scan] structs: {len(STRUCT_TYPES)}")
+
+    # HSP は識別子 case-insensitive なので、ALLCAPS (Win32) と CamelCase (GDI+)
+    # の同名衝突を避けるため CamelCase 側を 'Gdip' プレフィックス付きでリネーム。
+    # 例: RECT (Win32) + Rect (GDI+) → RECT + GdipRect
+    _lower_groups: Dict[str, List[str]] = {}
+    for _nm in STRUCT_TYPES.keys():
+        _lower_groups.setdefault(_nm.lower(), []).append(_nm)
+    _rename_struct: Dict[str, str] = {}
+    for _lk, _names in _lower_groups.items():
+        if len(_names) < 2:
+            continue
+        for _nm in _names:
+            # ALL_CAPS / ALL-CAPS-WITH-UNDERSCORE は Win32 スタイルなので残す
+            if _nm.isupper() or "_" in _nm:
+                continue
+            _rename_struct[_nm] = "Gdip" + _nm
+    if _rename_struct:
+        print(f"[scan] renaming GDI+ struct conflicts: {_rename_struct}")
+        for _old, _new in _rename_struct.items():
+            STRUCT_TYPES[_new] = STRUCT_TYPES.pop(_old)
+            STRUCT_TYPES[_new].name = _new
 
     funcs = scan_functions(sources)
     print(f"[scan] funcs:   {len(funcs)}")
