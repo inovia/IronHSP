@@ -55,30 +55,28 @@ Ksecdd.lib を使用する。
 
 %index
 BCryptAddContextFunction
-Adds a cryptographic function to the list of functions that are supported by an existing CNG context.
+既存の CNG コンテキストがサポートする関数の一覧に、暗号関数を追加する。
 %group
 Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pszFunction, dwPosition
 dwTable : [int] 
-pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to add the function to.
+pszContext : [wstr] 関数を追加する対象コンテキストの識別子を含む、null 終端 Unicode 文字列へのポインタ。
 dwInterface : [int] 
-pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the cryptographic function to add.
-dwPosition : [int] Specifies the position in the list at which to insert this function. The function is inserted at this position ahead of any existing functions. The CRYPT_PRIORITY_TOP value is used to insert the function at the top of the list. The CRYPT_PRIORITY_BOTTOM value is used to insert the function at the end of the list.
+pszFunction : [wstr] 追加する暗号関数の識別子を含む、null 終端 Unicode 文字列へのポインタ。
+dwPosition : [int] この関数をリストに挿入する位置を指定する。関数は既存のすべての関数の前のこの位置に挿入される。CRYPT_PRIORITY_TOP を指定するとリストの先頭に、CRYPT_PRIORITY_BOTTOM を指定するとリストの末尾に挿入される。
 %inst
-Adds a cryptographic function to the list of functions that are
-supported by an existing CNG context.
+既存の CNG コンテキストがサポートする関数の一覧に、暗号関数を追加する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-If the function added is already in the list, it will be removed and
-inserted at the new position. BCryptAddContextFunction can be called
-only in user mode.
+
+追加しようとした関数がすでにリスト内に存在する場合、いったん削除されたうえで新しい位置に挿入される。BCryptAddContextFunction
+はユーザーモードでのみ呼び出すことができる。
 
 
 %index
@@ -107,74 +105,70 @@ WDK および Developer Tools を参照。Windows Server 2008 および Windows Vista:
 
 %index
 BCryptConfigureContext
-Sets the configuration information for an existing CNG context.
+既存の CNG コンテキストの構成情報を設定する。
 %group
 Win32 bcrypt
 %prm
 dwTable, pszContext, pConfig
 dwTable : [int] 
-pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to set the configuration information for.
-pConfig : [var] The address of a CRYPT_CONTEXT_CONFIG structure that contains the new context configuration information.
+pszContext : [wstr] 構成情報を設定する対象コンテキストの識別子を含む、null 終端 Unicode 文字列へのポインタ。
+pConfig : [var] 新しいコンテキスト構成情報を格納した CRYPT_CONTEXT_CONFIG 構造体のアドレス。
 %inst
-Sets the configuration information for an existing CNG context.
+既存の CNG コンテキストの構成情報を設定する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptConfigureContext can be called only in user mode.
+BCryptConfigureContext はユーザーモードでのみ呼び出すことができる。
 
 
 %index
 BCryptConfigureContextFunction
-Sets the configuration information for the cryptographic function of an existing CNG context.
+既存の CNG コンテキストの暗号関数に対する構成情報を設定する。
 %group
 Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pszFunction, pConfig
 dwTable : [int] 
-pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to set the cryptographic function configuration information for.
+pszContext : [wstr] 暗号関数の構成情報を設定する対象コンテキストの識別子を含む、null 終端 Unicode 文字列へのポインタ。
 dwInterface : [int] 
-pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the cryptographic function to set the configuration information for.
-pConfig : [var] The address of a CRYPT_CONTEXT_FUNCTION_CONFIG structure that contains the new function configuration information.
+pszFunction : [wstr] 構成情報を設定する対象暗号関数の識別子を含む、null 終端 Unicode 文字列へのポインタ。
+pConfig : [var] 新しい関数構成情報を格納した CRYPT_CONTEXT_FUNCTION_CONFIG 構造体のアドレス。
 %inst
-Sets the configuration information for the cryptographic function of
-an existing CNG context.
+既存の CNG コンテキストの暗号関数に対する構成情報を設定する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptConfigureContextFunction can be called only in user mode.
+BCryptConfigureContextFunction はユーザーモードでのみ呼び出すことができる。
 
 
 %index
 BCryptCreateContext
-Creates a new CNG configuration context.
+新しい CNG 構成コンテキストを作成する。
 %group
 Win32 bcrypt
 %prm
 dwTable, pszContext, pConfig
 dwTable : [int] 
-pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to create.
-pConfig : [var] A pointer to a CRYPT_CONTEXT_CONFIG structure that contains additional configuration data for the new context. This parameter can be NULL if it is not needed.
+pszContext : [wstr] 作成するコンテキストの識別子を含む、null 終端 Unicode 文字列へのポインタ。
+pConfig : [var] 新しいコンテキスト用の追加構成データを格納した CRYPT_CONTEXT_CONFIG 構造体へのポインタ。不要であればこのパラメータは NULL にできる。
 %inst
-Creates a new CNG configuration context.
+新しい CNG 構成コンテキストを作成する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptCreateContext can be called only in user mode.
+BCryptCreateContext はユーザーモードでのみ呼び出すことができる。
 
 
 %index
@@ -210,43 +204,35 @@ Ksecdd.lib を使用する。
 
 %index
 BCryptCreateMultiHash
-The BCryptCreateMultiHash function creates a multi-hash state that allows for the parallel computation of multiple hash operations.
+BCryptCreateMultiHash 関数は、複数のハッシュ操作を並列に計算できるマルチハッシュ状態を作成する。
 %group
 Win32 bcrypt
 %prm
 hAlgorithm, phHash, nHashes, pbHashObject, cbHashObject, pbSecret, cbSecret, dwFlags
-hAlgorithm : [int] *BCRYPT_ALG_HANDLE* `[in, out]` The algorithm handle used for all of the hash states in the multi-hash array. The algorithm handle must have been opened with the **BCYRPT_MULTI_FLAG** passed to the [BCryptOpenAlgorithmProvider](nf-bcrypt-bcryptopenalgorithmprovider.md) function. Alternatively, the caller can use the pseudo-handles.
-phHash : [var] *BCRYPT_HASH_HANDLE** `[out]` A pointer to a **BCRYPT_HASH_HANDLE** value that receives a handle that represents the multi-hash state. This handle is used in subsequent operations such as [BCryptProcessMultiOperations](nf-bcrypt-bcryptprocessmultioperations.md). When you have finished using this handle, release it by passing it to the [BCryptDestroyHash](nf-bcrypt-bcryptdestroyhash.md) function.
-nHashes : [int] *ULONG* `[in]` The number of elements in the array. The multi-hash state that this function creates is able to perform parallel computations on *nHashes* different hash states.
-pbHashObject : [var] *PUCHAR* `[out]` A pointer to a buffer that receives the multi-hash state. The size can be calculated from the **cbPerObject** and **cbPerElement** members of the [BCRYPT_MULTI_OBJECT_LENGTH_STRUCT](ns-bcrypt-bcrypt_multi_object_length_struct.md) structure. The value is the following: `cbPerObject + (number of hash states) * cbPerElement`. If *pbHashObject* is `NULL` and *cbHashObject* has a value of zero (`0`), the object buffer is automatically allocated.
-cbHashObject : [int] *ULONG* `[in]` The size of the *pbHashObject* buffer, or zero (`0`) if *pbHashObject* is `NULL`.
-pbSecret : [var] *PUCHAR* `[in]` A pointer to a buffer that contains the key to use for the hash or MAC. The *cbSecret* parameter contains the size of this buffer. This key only applies to hash algorithms opened by the [BCryptOpenAlgorithmProvider](nf-bcrypt-bcryptopenalgorithmprovider.md) function by using the **BCRYPT_ALG_HANDLE_HMAC** flag. Otherwise, set this parameter to `NULL`. The same key is used for all elements of the array.
-cbSecret : [int] *ULONG* `[in]` The size, in bytes, of the *pbSecret* buffer. If no key is used, set this parameter to zero (`0`).
-dwFlags : [int] *ULONG* `[in]` Flags that modify the behavior of the function. This can be zero or the values below. Multi-hash objects are always reusable and always behave as if the **BCRYPT_HASH_REUSABLE_FLAG** was passed. This flag is supported here for consistency. | Value | Meaning | |--------|--------| | **BCRYPT_HASH_REUSABLE_FLAG** | Creates a reusable hashing object. The object can be used for a new hashing operation immediately after calling [BCryptFinishHash](nf-bcrypt-bcryptfinishhash.md). For more information, see [Creating a Hash with CNG](/windows/win32/SecCNG/creating-a-hash-with-cng). |
+hAlgorithm : [int] *BCRYPT_ALG_HANDLE* `[in, out]` マルチハッシュ配列内のすべてのハッシュ状態に使用されるアルゴリズムハンドル。このアルゴリズムハンドルは、[BCryptOpenAlgorithmProvider](nf-bcrypt-bcryptopenalgorithmprovider.md) 関数に **BCYRPT_MULTI_FLAG** を渡してオープンされたものでなければならない。あるいは、呼び出し元が疑似ハンドルを使用することもできる。
+phHash : [var] *BCRYPT_HASH_HANDLE** `[out]` マルチハッシュ状態を表すハンドルを受け取る **BCRYPT_HASH_HANDLE** 値へのポインタ。このハンドルは [BCryptProcessMultiOperations](nf-bcrypt-bcryptprocessmultioperations.md) などの後続の操作で使用される。ハンドルの使用が終わったら、[BCryptDestroyHash](nf-bcrypt-bcryptdestroyhash.md) 関数に渡して解放する。
+nHashes : [int] *ULONG* `[in]` 配列内の要素数。この関数によって作成されるマルチハッシュ状態は、*nHashes* 個の異なるハッシュ状態に対する並列計算を行える。
+pbHashObject : [var] *PUCHAR* `[out]` マルチハッシュ状態を受け取るバッファへのポインタ。サイズは [BCRYPT_MULTI_OBJECT_LENGTH_STRUCT](ns-bcrypt-bcrypt_multi_object_length_struct.md) 構造体の **cbPerObject** メンバと **cbPerElement** メンバから計算できる。値は次のとおり: `cbPerObject + (ハッシュ状態の数) * cbPerElement`。*pbHashObject* が `NULL` で *cbHashObject* が 0 の場合、オブジェクトバッファは自動的に確保される。
+cbHashObject : [int] *ULONG* `[in]` *pbHashObject* バッファのサイズ。*pbHashObject* が `NULL` の場合は 0。
+pbSecret : [var] *PUCHAR* `[in]` ハッシュまたは MAC に使用するキーを格納したバッファへのポインタ。*cbSecret* パラメータがこのバッファのサイズを示す。このキーは、[BCryptOpenAlgorithmProvider](nf-bcrypt-bcryptopenalgorithmprovider.md) 関数を **BCRYPT_ALG_HANDLE_HMAC** フラグを指定してオープンしたハッシュアルゴリズムにのみ適用される。それ以外の場合はこのパラメータを `NULL` に設定する。同じキーが配列のすべての要素に対して使用される。
+cbSecret : [int] *ULONG* `[in]` *pbSecret* バッファのバイト単位のサイズ。キーを使用しない場合はこのパラメータを 0 に設定する。
+dwFlags : [int] *ULONG* `[in]` 関数の動作を変更するフラグ。0 または以下の値を指定できる。マルチハッシュオブジェクトは常に再利用可能であり、常に **BCRYPT_HASH_REUSABLE_FLAG** が渡されたかのように振る舞う。このフラグは一貫性のためにここでもサポートされている。 | 値 | 意味 | |--------|--------| | **BCRYPT_HASH_REUSABLE_FLAG** | 再利用可能なハッシュオブジェクトを作成する。[BCryptFinishHash](nf-bcrypt-bcryptfinishhash.md) を呼び出した直後に新しいハッシュ操作で使用できる。詳細は [Creating a Hash with CNG](/windows/win32/SecCNG/creating-a-hash-with-cng) を参照。 |
 %inst
-The BCryptCreateMultiHash function creates a multi-hash state that
-allows for the parallel computation of multiple hash operations.
+BCryptCreateMultiHash 関数は、複数のハッシュ操作を並列に計算できるマルチハッシュ状態を作成する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function. If the method succeeds, it will return `STATUS_SUCCESS`.
-For other **NTSTATUS** values, see [NTSTATUS
-Values](/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55).
+関数の成否を示すステータスコードを返す。メソッドが成功した場合は `STATUS_SUCCESS` を返す。その他の
+**NTSTATUS** 値については [NTSTATUS
+Values](/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55)
+を参照。
 
 [備考]
-Internally, parallel hash computations are done using
-single-instruction multiple-data (SIMD) instructions with up to 8
-parallel computations at a time, depending on the hash algorithm and
-the CPU features available. To maximize performance, we recommend
-that the caller provide at least eight computations that can be
-processed in parallel. For computations of unequal length, providing
-more computations in parallel allows the implementation to schedule
-the computations better across the CPU registers. This can provide a
-throughput benefit. For optimal throughput, we recommend that the
-caller provide between eight and 100 computations. Select a lower
-value in that range only if all the hash computations are the same
-length. Multi-hashing is not supported for HMAC-MD2, HMAC-MD4, and
-GMAC.
+内部的には、ハッシュアルゴリズムと使用可能な CPU 機能に応じて、SIMD 命令を用いて最大 8
+個までの並列ハッシュ計算が同時に行われる。性能を最大化するため、呼び出し元は並列処理可能な計算を最低でも 8
+個用意することが推奨される。長さの異なる計算では、より多くの計算を並列に渡したほうが、CPU
+レジスタへの計算スケジューリングがうまく行え、スループットの向上が見込める。最適なスループットを得るためには、8 ～ 100
+個の計算を渡すことが推奨される。すべてのハッシュ計算が同じ長さである場合のみ、その範囲の下限を選ぶとよい。マルチハッシュは
+HMAC-MD2、HMAC-MD4、GMAC ではサポートされない。
 
 
 %index
@@ -284,216 +270,190 @@ Cng.lib(Windows Server 2008/Vista では Ksecdd.lib)を使用する。
 
 %index
 BCryptDeleteContext
-Deletes an existing CNG configuration context.
+既存の CNG 構成コンテキストを削除する。
 %group
 Win32 bcrypt
 %prm
 dwTable, pszContext
 dwTable : [int] 
-pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to delete.
+pszContext : [wstr] 削除するコンテキストの識別子を含む、null 終端 Unicode 文字列へのポインタ。
 %inst
-Deletes an existing CNG configuration context.
+既存の CNG 構成コンテキストを削除する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptDeleteContext can be called only in user mode.
+BCryptDeleteContext はユーザーモードでのみ呼び出すことができる。
 
 
 %index
 BCryptDestroySecret
-Destroys a secret agreement handle that was created by using the BCryptSecretAgreement function.
+BCryptSecretAgreement 関数によって作成された秘密合意ハンドルを破棄する。
 %group
 Win32 bcrypt
 %prm
 hSecret
-hSecret : [int] The BCRYPT_SECRET_HANDLE to be destroyed.
+hSecret : [int] 破棄する BCRYPT_SECRET_HANDLE。
 %inst
-Destroys a secret agreement handle that was created by using the
-BCryptSecretAgreement function.
+BCryptSecretAgreement 関数によって作成された秘密合意ハンドルを破棄する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-Depending on what processor modes a provider supports,
-BCryptDestroySecret can be called either from user mode or kernel
-mode. Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
-DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
-handle provided in the hSecret parameter must be derived from an
-algorithm handle returned by a provider that was opened by using the
-BCRYPT_PROV_DISPATCH flag. To call this function in kernel mode, use
-Cng.lib, which is part of the Driver Development Kit (DDK). Windows
-Server 2008 and Windows Vista: To call this function in kernel mode,
-use Ksecdd.lib.
+プロバイダがサポートするプロセッサモードに応じて、BCryptDestroySecret
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL レベルが DISPATCH_LEVEL
+である場合、hSecret パラメータに渡すハンドルは BCRYPT_PROV_DISPATCH
+フラグを指定してオープンされたプロバイダから返されたアルゴリズムハンドルから取得されたものでなければならない。この関数をカーネルモードで呼び出すには、Driver
+Development Kit (DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および
+Windows Vista: この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 
 
 %index
 BCryptDeriveKey
-Derives a key from a secret agreement value. (BCryptDeriveKey)
+秘密合意値からキーを導出する。 (BCryptDeriveKey)
 %group
 Win32 bcrypt
 %prm
 hSharedSecret, pwszKDF, pParameterList, pbDerivedKey, cbDerivedKey, pcbResult, dwFlags
-hSharedSecret : [int] The secret agreement handle to create the key from. This handle is obtained from the BCryptSecretAgreement function.
-pwszKDF : [wstr] A pointer to a null-terminated Unicode string that identifies the key derivation function (KDF) to use to derive the key. This can be one of the following strings.
-pParameterList : [var] The address of a BCryptBufferDesc structure that contains the KDF parameters. This parameter is optional and can be NULL if it is not needed.
-pbDerivedKey : [var] The address of a buffer that receives the key. The cbDerivedKey parameter contains the size of this buffer. If this parameter is NULL, this function will place the required size, in bytes, in the ULONG pointed to by the pcbResult parameter.
-cbDerivedKey : [int] The size, in bytes, of the pbDerivedKey buffer.
-pcbResult : [var] A pointer to a ULONG that receives the number of bytes that were copied to the pbDerivedKey buffer. If the pbDerivedKey parameter is NULL, this function will place the required size, in bytes, in the ULONG pointed to by this parameter.
-dwFlags : [int] A set of flags that modify the behavior of this function. This can be zero or the following value.
+hSharedSecret : [int] キーを作成するための秘密合意ハンドル。このハンドルは BCryptSecretAgreement 関数から取得する。
+pwszKDF : [wstr] キーを導出するために使用するキー導出関数 (KDF) を識別する、null 終端 Unicode 文字列へのポインタ。次の文字列のいずれかを指定できる。
+pParameterList : [var] KDF パラメータを格納した BCryptBufferDesc 構造体のアドレス。このパラメータは省略可能で、不要な場合は NULL を指定できる。
+pbDerivedKey : [var] キーを受け取るバッファのアドレス。cbDerivedKey パラメータがこのバッファのサイズを示す。このパラメータが NULL の場合、関数は必要なサイズをバイト単位で pcbResult が指す ULONG に格納する。
+cbDerivedKey : [int] pbDerivedKey バッファのバイト単位のサイズ。
+pcbResult : [var] pbDerivedKey バッファにコピーされたバイト数を受け取る ULONG へのポインタ。pbDerivedKey が NULL の場合、関数は必要なサイズをバイト単位で、このパラメータが指す ULONG に格納する。
+dwFlags : [int] 関数の動作を変更するフラグの集合。0 または次の値を指定できる。
 %inst
-Derives a key from a secret agreement value. (BCryptDeriveKey)
+秘密合意値からキーを導出する。 (BCryptDeriveKey)
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-The BCryptBufferDesc structure in the pParameterList parameter can
-contain more than one of the KDF_SECRET_PREPEND and KDF_SECRET_APPEND
-parameters. If more than one of these parameters is specified, the
-parameter values are concatenated in the order in which they are
-contained in the array before the KDF is called. For example, assume
-the following parameter values are specified.
-This doc was truncated.
+pParameterList パラメータの BCryptBufferDesc 構造体には、KDF_SECRET_PREPEND および
+KDF_SECRET_APPEND パラメータを複数含めることができる。これらのパラメータが複数指定された場合、KDF
+が呼び出される前に、配列内に格納された順序で値が連結される。たとえば、次のパラメータ値が指定されたと想定する。
+（以下省略）
 
 
 %index
 BCryptDeriveKeyCapi
-Derives a key from a hash value.
+ハッシュ値からキーを導出する。
 %group
 Win32 bcrypt
 %prm
 hHash, hTargetAlg, pbDerivedKey, cbDerivedKey, dwFlags
-hHash : [int] The handle of the hash object. The handle is obtained by calling the BCryptCreateHash function. When you have finished using the handle, you must free it by calling the BCryptDestroyHash function.
-hTargetAlg : [int] The handle of the algorithm object.  This can be an ALG_ID value that is compatible with the CryptDeriveKey function. Note??Limitations in CAPI and key expansion prevent the use of any hash algorithm that generates an output that is larger than 512 bits.
-pbDerivedKey : [var] A pointer to the buffer that receives the derived key.
-cbDerivedKey : [int] The size, in characters, of the derived key pointed to by the pbDerivedKey parameter.
-dwFlags : [int] This parameter is reserved and must be set to zero.
+hHash : [int] ハッシュオブジェクトのハンドル。BCryptCreateHash 関数を呼び出して取得する。ハンドルの使用が終わったら、BCryptDestroyHash 関数を呼び出して解放しなければならない。
+hTargetAlg : [int] アルゴリズムオブジェクトのハンドル。CryptDeriveKey 関数と互換性のある ALG_ID 値であってもよい。注: CAPI とキー拡張の制限により、512 ビットを超える出力を生成するハッシュアルゴリズムは使用できない。
+pbDerivedKey : [var] 導出されたキーを受け取るバッファへのポインタ。
+cbDerivedKey : [int] pbDerivedKey パラメータが指す導出キーの文字数によるサイズ。
+dwFlags : [int] このパラメータは予約されており、0 を設定する必要がある。
 %inst
-Derives a key from a hash value.
+ハッシュ値からキーを導出する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-This function does not support the PK salt functionality of the CAPI
-CryptDeriveKey function.
+この関数は、CAPI の CryptDeriveKey 関数の PK ソルト機能をサポートしない。
 
 
 %index
 BCryptDeriveKeyPBKDF2
-Derives a key from a hash value by using the PBKDF2 key derivation algorithm as defined by RFC 2898.
+RFC 2898 で定義されている PBKDF2 キー導出アルゴリズムを用いて、ハッシュ値からキーを導出する。
 %group
 Win32 bcrypt
 %prm
 hPrf, pbPassword, cbPassword, pbSalt, cbSalt, cIterations, pbDerivedKey, cbDerivedKey, dwFlags
-hPrf : [int] The handle of an algorithm provider that provides the pseudo-random function. This should be an algorithm provider that performs a Message Authentication Code computation. When you use the default Microsoft algorithm provider, any hashing algorithm opened by using the  BCRYPT_ALG_HANDLE_HMAC_FLAG flag can be used. Note??Only algorithms that implement the BCRYPT_IS_KEYED_HASH  property can be used to populate this parameter.
-pbPassword : [var] A pointer to a buffer that contains the password parameter for the PBKDF2 key derivation algorithm. Note??Any secret information used in the key derivation should be passed in this buffer.
-cbPassword : [int] The length, in bytes, of the data in the buffer pointed to by the pbPassword parameter.
-pbSalt : [var] A pointer to a buffer that contains the salt argument  for the PBKDF2 key derivation algorithm. Note??Any information that is not secret and that is used in the key derivation should be passed in this buffer.
-cbSalt : [int] The length, in bytes, of the salt argument pointed to by the pbSalt parameter.
-cIterations : [int64] The iteration count for the PBKDF2 key derivation algorithm.
-pbDerivedKey : [var] A pointer to a buffer that receives the derived key.
-cbDerivedKey : [int] The length, in bytes, of the derived key returned in the buffer pointed to by the pbDerivedKey parameter.
-dwFlags : [int] This parameter is reserved and must be set to zero.
+hPrf : [int] 疑似ランダム関数を提供するアルゴリズムプロバイダのハンドル。これはメッセージ認証コード計算を行うアルゴリズムプロバイダであるべきである。Microsoft 既定のアルゴリズムプロバイダを使用する場合、BCRYPT_ALG_HANDLE_HMAC_FLAG フラグを指定してオープンされた任意のハッシュアルゴリズムを使用できる。注: BCRYPT_IS_KEYED_HASH プロパティを実装しているアルゴリズムのみがこのパラメータに使用できる。
+pbPassword : [var] PBKDF2 キー導出アルゴリズムのパスワードパラメータを格納するバッファへのポインタ。注: キー導出に使用される秘密情報はすべてこのバッファに渡す必要がある。
+cbPassword : [int] pbPassword パラメータが指すバッファ内のデータのバイト単位の長さ。
+pbSalt : [var] PBKDF2 キー導出アルゴリズムのソルト引数を格納するバッファへのポインタ。注: キー導出に使用される秘密ではない情報はすべてこのバッファに渡す必要がある。
+cbSalt : [int] pbSalt パラメータが指すソルト引数のバイト単位の長さ。
+cIterations : [int64] PBKDF2 キー導出アルゴリズムの反復回数。
+pbDerivedKey : [var] 導出されたキーを受け取るバッファへのポインタ。
+cbDerivedKey : [int] pbDerivedKey パラメータが指すバッファに返される、導出キーのバイト単位の長さ。
+dwFlags : [int] このパラメータは予約されており、0 を設定する必要がある。
 %inst
-Derives a key from a hash value by using the PBKDF2 key derivation
-algorithm as defined by RFC 2898.
+RFC 2898 で定義されている PBKDF2 キー導出アルゴリズムを用いて、ハッシュ値からキーを導出する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 
 %index
 BCryptDuplicateHash
-Duplicates an existing hash or Message Authentication Code (MAC) object.
+既存のハッシュまたはメッセージ認証コード (MAC) オブジェクトを複製する。
 %group
 Win32 bcrypt
 %prm
 hHash, phNewHash, pbHashObject, cbHashObject, dwFlags
-hHash : [int] The handle of the hash or MAC object to duplicate.
-phNewHash : [var] A pointer to a BCRYPT_HASH_HANDLE value that receives the handle that represents the duplicate hash or MAC object.
-pbHashObject : [var] A pointer to a buffer that receives the duplicate hash or MAC object. The cbHashObject parameter contains the size of this buffer. The required size of this buffer can be obtained by calling the BCryptGetProperty function to get the BCRYPT_OBJECT_LENGTH property. This will provide the size of the hash object for the specified algorithm. When the duplicate hash handle is released, free this memory.
-cbHashObject : [int] The size, in bytes, of the pbHashObject buffer.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are currently defined, so this parameter should be zero.
+hHash : [int] 複製するハッシュまたは MAC オブジェクトのハンドル。
+phNewHash : [var] 複製されたハッシュまたは MAC オブジェクトを表すハンドルを受け取る BCRYPT_HASH_HANDLE 値へのポインタ。
+pbHashObject : [var] 複製されたハッシュまたは MAC オブジェクトを受け取るバッファへのポインタ。cbHashObject パラメータがこのバッファのサイズを示す。必要なバッファサイズは、BCryptGetProperty 関数を呼び出して BCRYPT_OBJECT_LENGTH プロパティを取得することで得られる。これは指定したアルゴリズムにおけるハッシュオブジェクトのサイズを返す。複製ハッシュハンドルが解放された後、このメモリを解放する。
+cbHashObject : [int] pbHashObject バッファのバイト単位のサイズ。
+dwFlags : [int] 関数の動作を変更するフラグの集合。現在定義されているフラグはないため、このパラメータには 0 を指定する。
 %inst
-Duplicates an existing hash or Message Authentication Code (MAC)
-object.
+既存のハッシュまたはメッセージ認証コード (MAC) オブジェクトを複製する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-This function is useful when computing a hash or MAC over a block of
-common data. After the common data has been processed, the hash or
-MAC object can be duplicated, and then the unique data can be added
-to the individual objects. Depending on what processor modes a
-provider supports, BCryptDuplicateHash can be called either from user
-mode or kernel mode. Kernel mode callers can execute either at
-PASSIVE_LEVEL IRQL or DISPATCH_LEVEL IRQL. If the current IRQL level
-is DISPATCH_LEVEL, the handle provided in the hHash parameter must be
-derived from an algorithm handle returned by a provider that was
-opened by using the BCRYPT_PROV_DISPATCH flag, and any pointers
-passed to the BCryptDestroyKey function must refer to nonpaged (or
-locked) memory. To call this function in kernel mode, use Cng.lib,
-which is part of the Driver Development Kit (DDK). Windows Server
-2008 and Windows Vista: To call this function in kernel mode, use
-Ksecdd.lib.
+この関数は、共通データブロックに対するハッシュまたは MAC を計算する際に役立つ。共通データを処理した後、ハッシュまたは MAC
+オブジェクトを複製し、その後個々のオブジェクトに固有のデータを追加できる。プロバイダがサポートするプロセッサモードに応じて、BCryptDuplicateHash
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL レベルが DISPATCH_LEVEL
+である場合、hHash パラメータに渡すハンドルは BCRYPT_PROV_DISPATCH
+フラグを指定してオープンされたプロバイダから返されたアルゴリズムハンドルから取得されたものでなければならず、BCryptDestroyKey
+関数に渡すポインタはページング不可（あるいはロックされた）メモリを参照しなければならない。この関数をカーネルモードで呼び出すには、Driver
+Development Kit (DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および
+Windows Vista: この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 
 
 %index
 BCryptDuplicateKey
-Creates a duplicate of a symmetric key.
+対称キーの複製を作成する。
 %group
 Win32 bcrypt
 %prm
 hKey, phNewKey, pbKeyObject, cbKeyObject, dwFlags
-hKey : [int] The handle of the key to duplicate. This must be a handle to a symmetric key.
-phNewKey : [var] A pointer to a BCRYPT_KEY_HANDLE variable that receives the handle of the duplicate key. This handle is used in subsequent functions that require a key, such as BCryptEncrypt. This handle must be released when it is no longer needed by passing it to the BCryptDestroyKey function.
-pbKeyObject : [var] A pointer to a buffer that receives the duplicate key object. The cbKeyObject parameter contains the size of this buffer. The required size of this buffer can be obtained by calling the BCryptGetProperty function to get the BCRYPT_OBJECT_LENGTH property. This will provide the size of the key object for the specified algorithm. This memory can only be freed after the phNewKey key handle is destroyed.
-cbKeyObject : [int] The size, in bytes, of the pbKeyObject buffer.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are currently defined, so this parameter should be zero.
+hKey : [int] 複製するキーのハンドル。これは対称キーへのハンドルでなければならない。
+phNewKey : [var] 複製キーのハンドルを受け取る BCRYPT_KEY_HANDLE 変数へのポインタ。このハンドルは BCryptEncrypt のようにキーを必要とする後続の関数で使用される。このハンドルが不要になったら、BCryptDestroyKey 関数に渡して解放しなければならない。
+pbKeyObject : [var] 複製されたキーオブジェクトを受け取るバッファへのポインタ。cbKeyObject パラメータがこのバッファのサイズを示す。必要なバッファサイズは、BCryptGetProperty 関数を呼び出して BCRYPT_OBJECT_LENGTH プロパティを取得することで得られる。これは指定したアルゴリズムにおけるキーオブジェクトのサイズを返す。このメモリは phNewKey キーハンドルが破棄された後にのみ解放できる。
+cbKeyObject : [int] pbKeyObject バッファのバイト単位のサイズ。
+dwFlags : [int] 関数の動作を変更するフラグの集合。現在定義されているフラグはないため、このパラメータには 0 を指定する。
 %inst
-Creates a duplicate of a symmetric key.
+対称キーの複製を作成する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-Depending on what processor modes a provider supports,
-BCryptDuplicateKey can be called either from user mode or kernel
-mode. Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
-DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
-handle provided in the hKey parameter must be derived from an
-algorithm handle returned by a provider that was opened with the
-BCRYPT_PROV_DISPATCH flag, and any pointers passed to the
-BCryptDuplicateKey function must refer to nonpaged (or locked)
-memory. To call this function in kernel mode, use Cng.lib, which is
-part of the Driver Development Kit (DDK). Windows Server 2008 and
-Windows Vista: To call this function in kernel mode, use Ksecdd.lib.
+プロバイダがサポートするプロセッサモードに応じて、BCryptDuplicateKey
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL レベルが DISPATCH_LEVEL
+である場合、hKey パラメータに渡すハンドルは BCRYPT_PROV_DISPATCH
+フラグを指定してオープンされたプロバイダから返されたアルゴリズムハンドルから取得されたものでなければならず、BCryptDuplicateKey
+関数に渡すポインタはページング不可（あるいはロックされた）メモリを参照しなければならない。この関数をカーネルモードで呼び出すには、Driver
+Development Kit (DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および
+Windows Vista: この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 
 
 %index
@@ -530,221 +490,203 @@ pbInput と pbOutput
 
 %index
 BCryptEnumAlgorithms
-Gets a list of the registered algorithm identifiers.
+登録済みのアルゴリズム識別子の一覧を取得する。
 %group
 Win32 bcrypt
 %prm
 dwAlgOperations, pAlgCount, ppAlgList, dwFlags
 dwAlgOperations : [int] 
-pAlgCount : [var] A pointer to a ULONG variable to receive the number of elements in the ppAlgList array.
-ppAlgList : [var] The address of a BCRYPT_ALGORITHM_IDENTIFIER structure pointer to receive the array of registered algorithm identifiers. This pointer must be passed to the BCryptFreeBuffer function when it is no longer needed.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are defined for this function.
+pAlgCount : [var] ppAlgList 配列の要素数を受け取る ULONG 変数へのポインタ。
+ppAlgList : [var] 登録済みアルゴリズム識別子の配列を受け取る BCRYPT_ALGORITHM_IDENTIFIER 構造体ポインタのアドレス。このポインタは不要になったら BCryptFreeBuffer 関数に渡さなければならない。
+dwFlags : [int] 関数の動作を変更するフラグの集合。この関数で定義されているフラグはない。
 %inst
-Gets a list of the registered algorithm identifiers.
+登録済みのアルゴリズム識別子の一覧を取得する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptEnumAlgorithms can be called either from user mode or kernel
-mode. Kernel mode callers must be executing at PASSIVE_LEVEL IRQL.
+BCryptEnumAlgorithms はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は
+PASSIVE_LEVEL IRQL で実行されていなければならない。
 
 
 %index
 BCryptEnumContextFunctionProviders
-Obtains the providers for the cryptographic functions for a context in the specified configuration table.
+指定された構成テーブル内のコンテキストに対する暗号関数のプロバイダを取得する。
 %group
 Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pszFunction, pcbBuffer, ppBuffer
 dwTable : [int] 
-pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to enumerate the function providers for.
+pszContext : [wstr] 関数プロバイダを列挙する対象コンテキストの識別子を含む、null 終端 Unicode 文字列へのポインタ。
 dwInterface : [int] 
-pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the function to enumerate the providers for.
-pcbBuffer : [var] The address of a ULONG variable that, on entry, contains the size, in bytes, of the buffer pointed to by ppBuffer. If this size is not large enough to hold the set of context identifiers, this function will fail with STATUS_BUFFER_TOO_SMALL. After this function returns, this value contains the number of bytes that were copied to the ppBuffer buffer.
-ppBuffer : [var] The address of a pointer to a CRYPT_CONTEXT_FUNCTION_PROVIDERS structure that receives the set of context function providers retrieved by this function. The value pointed to by the pcbBuffer parameter contains the size of this buffer. If the value pointed to by this parameter is NULL, this function will allocate the required memory. This memory must be freed when it is no longer needed by passing this pointer to the BCryptFreeBuffer function. If this parameter is NULL, this function will place the required size, in bytes, in the variable pointed to by the pcbBuffer parameter and return STATUS_BUFFER_TOO_SMALL.
+pszFunction : [wstr] プロバイダを列挙する対象関数の識別子を含む、null 終端 Unicode 文字列へのポインタ。
+pcbBuffer : [var] ULONG 変数のアドレスで、入力時には ppBuffer が指すバッファのバイト単位のサイズを格納する。このサイズがコンテキスト識別子の集合を保持するのに十分でない場合、関数は STATUS_BUFFER_TOO_SMALL で失敗する。関数が戻った後、この値には ppBuffer バッファにコピーされたバイト数が格納される。
+ppBuffer : [var] この関数によって取得されたコンテキスト関数プロバイダの集合を受け取る、CRYPT_CONTEXT_FUNCTION_PROVIDERS 構造体へのポインタのアドレス。pcbBuffer パラメータが指す値がこのバッファのサイズを示す。このパラメータが指す値が NULL の場合、関数は必要なメモリを確保する。このメモリは不要になったら、このポインタを BCryptFreeBuffer 関数に渡して解放しなければならない。このパラメータが NULL の場合、関数は必要なサイズをバイト単位で pcbBuffer パラメータが指す変数に格納し、STATUS_BUFFER_TOO_SMALL を返す。
 %inst
-Obtains the providers for the cryptographic functions for a context
-in the specified configuration table.
+指定された構成テーブル内のコンテキストに対する暗号関数のプロバイダを取得する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptEnumContextFunctionProviders can be called only in user mode.
+BCryptEnumContextFunctionProviders はユーザーモードでのみ呼び出すことができる。
 
 
 %index
 BCryptEnumContextFunctions
-Obtains the cryptographic functions for a context in the specified configuration table.
+指定された構成テーブル内のコンテキストに対する暗号関数を取得する。
 %group
 Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pcbBuffer, ppBuffer
 dwTable : [int] 
-pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to enumerate the functions for.
+pszContext : [wstr] 関数を列挙する対象コンテキストの識別子を含む、null 終端 Unicode 文字列へのポインタ。
 dwInterface : [int] 
-pcbBuffer : [var] The address of a ULONG variable that, on entry, contains the size, in bytes, of the buffer pointed to by ppBuffer. If this size is not large enough to hold the set of context identifiers, this function will fail with STATUS_BUFFER_TOO_SMALL. After this function returns, this value contains the number of bytes that were copied to the ppBuffer buffer.
-ppBuffer : [var] The address of a pointer to a CRYPT_CONTEXT_FUNCTIONS structure that receives the set of context functions retrieved by this function. The value pointed to by the pcbBuffer parameter contains the size of this buffer. If the value pointed to by this parameter is NULL, this function will allocate the required memory. This memory must be freed when it is no longer needed by passing this pointer to the BCryptFreeBuffer function. If this parameter is NULL, this function will place the required size, in bytes, in the variable pointed to by the pcbBuffer parameter and return STATUS_BUFFER_TOO_SMALL.
+pcbBuffer : [var] ULONG 変数のアドレスで、入力時には ppBuffer が指すバッファのバイト単位のサイズを格納する。このサイズがコンテキスト識別子の集合を保持するのに十分でない場合、関数は STATUS_BUFFER_TOO_SMALL で失敗する。関数が戻った後、この値には ppBuffer バッファにコピーされたバイト数が格納される。
+ppBuffer : [var] この関数によって取得されたコンテキスト関数の集合を受け取る、CRYPT_CONTEXT_FUNCTIONS 構造体へのポインタのアドレス。pcbBuffer パラメータが指す値がこのバッファのサイズを示す。このパラメータが指す値が NULL の場合、関数は必要なメモリを確保する。このメモリは不要になったら、このポインタを BCryptFreeBuffer 関数に渡して解放しなければならない。このパラメータが NULL の場合、関数は必要なサイズをバイト単位で pcbBuffer パラメータが指す変数に格納し、STATUS_BUFFER_TOO_SMALL を返す。
 %inst
-Obtains the cryptographic functions for a context in the specified
-configuration table.
+指定された構成テーブル内のコンテキストに対する暗号関数を取得する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptEnumContextFunctions can be called only in user mode.
+BCryptEnumContextFunctions はユーザーモードでのみ呼び出すことができる。
 
 
 %index
 BCryptEnumContexts
-Obtains the identifiers of the contexts in the specified configuration table.
+指定された構成テーブル内のコンテキストの識別子を取得する。
 %group
 Win32 bcrypt
 %prm
 dwTable, pcbBuffer, ppBuffer
 dwTable : [int] 
-pcbBuffer : [var] The address of a ULONG variable that, on entry, contains the size, in bytes, of the buffer pointed to by ppBuffer. If this size is not large enough to hold the set of context identifiers, this function will fail with STATUS_BUFFER_TOO_SMALL. After this function returns, this value contains the number of bytes that were copied to the ppBuffer buffer.
-ppBuffer : [var] The address of a pointer to a CRYPT_CONTEXTS structure that receives the set of contexts retrieved by this function. The value pointed to by the pcbBuffer parameter contains the size of this buffer. If the value pointed to by this parameter is NULL, this function will allocate the required memory. This memory must be freed when it is no longer needed by passing this pointer to the BCryptFreeBuffer function. If this parameter is NULL, this function will place the required size, in bytes, in the variable pointed to by the pcbBuffer parameter and return STATUS_BUFFER_TOO_SMALL.
+pcbBuffer : [var] ULONG 変数のアドレスで、入力時には ppBuffer が指すバッファのバイト単位のサイズを格納する。このサイズがコンテキスト識別子の集合を保持するのに十分でない場合、関数は STATUS_BUFFER_TOO_SMALL で失敗する。関数が戻った後、この値には ppBuffer バッファにコピーされたバイト数が格納される。
+ppBuffer : [var] この関数によって取得されたコンテキストの集合を受け取る、CRYPT_CONTEXTS 構造体へのポインタのアドレス。pcbBuffer パラメータが指す値がこのバッファのサイズを示す。このパラメータが指す値が NULL の場合、関数は必要なメモリを確保する。このメモリは不要になったら、このポインタを BCryptFreeBuffer 関数に渡して解放しなければならない。このパラメータが NULL の場合、関数は必要なサイズをバイト単位で pcbBuffer パラメータが指す変数に格納し、STATUS_BUFFER_TOO_SMALL を返す。
 %inst
-Obtains the identifiers of the contexts in the specified
-configuration table.
+指定された構成テーブル内のコンテキストの識別子を取得する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptEnumContexts can be called only in user mode.
+BCryptEnumContexts はユーザーモードでのみ呼び出すことができる。
 
 
 %index
 BCryptEnumProviders
-Obtains all of the CNG providers that support a specified algorithm.
+指定したアルゴリズムをサポートするすべての CNG プロバイダを取得する。
 %group
 Win32 bcrypt
 %prm
 pszAlgId, pImplCount, ppImplList, dwFlags
-pszAlgId : [wstr] A pointer to a null-terminated Unicode string that identifies the algorithm to obtain the providers for. This can be one of the predefined CNG Algorithm Identifiers or another algorithm identifier.
-pImplCount : [var] A pointer to a ULONG variable to receive the number of elements in the ppImplList array.
-ppImplList : [var] The address of an array of BCRYPT_PROVIDER_NAME structures to receive the collection of providers that support the specified algorithm. The pImplCount parameter receives the number of elements in this array. This memory must be freed when it is no longer needed by passing this pointer to the BCryptFreeBuffer function.
-dwFlags : [int] A set of flags that modifies the behavior of this function. There are currently no flags defined, so this parameter must be zero.
+pszAlgId : [wstr] プロバイダを取得する対象のアルゴリズムを識別する、null 終端 Unicode 文字列へのポインタ。事前定義された CNG アルゴリズム識別子のいずれか、または別のアルゴリズム識別子を指定できる。
+pImplCount : [var] ppImplList 配列の要素数を受け取る ULONG 変数へのポインタ。
+ppImplList : [var] 指定したアルゴリズムをサポートするプロバイダの集合を受け取る BCRYPT_PROVIDER_NAME 構造体配列のアドレス。pImplCount パラメータがこの配列の要素数を受け取る。このメモリは不要になったら、このポインタを BCryptFreeBuffer 関数に渡して解放しなければならない。
+dwFlags : [int] 関数の動作を変更するフラグの集合。現在定義されているフラグはないため、このパラメータは 0 でなければならない。
 %inst
-Obtains all of the CNG providers that support a specified algorithm.
+指定したアルゴリズムをサポートするすべての CNG プロバイダを取得する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptEnumProviders can be called either from user mode or kernel
-mode. Kernel mode callers must be executing at PASSIVE_LEVEL IRQL.
+BCryptEnumProviders はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は
+PASSIVE_LEVEL IRQL で実行されていなければならない。
 
 
 %index
 BCryptEnumRegisteredProviders
-Retrieves information about the registered providers.
+登録済みプロバイダに関する情報を取得する。
 %group
 Win32 bcrypt
 %prm
 pcbBuffer, ppBuffer
-pcbBuffer : [var] A pointer to a ULONG value that, on entry, contains the size, in bytes, of the buffer pointed to by the ppBuffer parameter. On exit, this value receives either the number of bytes copied to the buffer or the required size, in bytes, of the buffer. Note??This is the total size, in bytes, of the entire buffer, not just the size of the CRYPT_PROVIDERS structure. The buffer must be able to hold other data for the providers in addition to the CRYPT_PROVIDERS structure.
-ppBuffer : [var] A pointer to a buffer pointer that receives a CRYPT_PROVIDERS structure and other data that describes the collection of registered providers. If this parameter is NULL, this function will return STATUS_BUFFER_TOO_SMALL and place in the value pointed to by the pcbBuffer parameter, the required size, in bytes, of all the data. If this parameter is the address of a NULL pointer, this function will allocate the required memory, fill the memory with the information about the providers, and place the pointer to this memory in this parameter. When you have finished using this memory,  free it by passing this pointer to the BCryptFreeBuffer function. If this parameter is the address of a non-NULL pointer, this function will copy the provider information into this buffer. The pcbBuffer parameter must contain the size, in bytes, of the entire buffer. If the buffer is not large enough to hold all of the provider information, this function will return STATUS_BUFFER_TOO_SMALL.
+pcbBuffer : [var] ULONG 値へのポインタで、入力時には ppBuffer パラメータが指すバッファのバイト単位のサイズを格納する。出力時には、バッファにコピーされたバイト数、またはバッファに必要なサイズ（バイト単位）を受け取る。注: これはバッファ全体のバイト単位の合計サイズであり、CRYPT_PROVIDERS 構造体だけのサイズではない。バッファは CRYPT_PROVIDERS 構造体に加え、プロバイダに関するその他のデータも保持できなければならない。
+ppBuffer : [var] 登録済みプロバイダの集合を記述する CRYPT_PROVIDERS 構造体およびその他データを受け取るバッファポインタへのポインタ。このパラメータが NULL の場合、関数は STATUS_BUFFER_TOO_SMALL を返し、pcbBuffer パラメータが指す値に必要なサイズ（バイト単位）を格納する。このパラメータが NULL ポインタのアドレスである場合、関数は必要なメモリを確保し、プロバイダ情報で埋め、そのメモリへのポインタをこのパラメータに格納する。このメモリの使用が終わったら、このポインタを BCryptFreeBuffer 関数に渡して解放する。このパラメータが非 NULL ポインタのアドレスである場合、関数はプロバイダ情報をそのバッファにコピーする。pcbBuffer パラメータにはバッファ全体のバイト単位のサイズを格納しておく必要がある。バッファがすべてのプロバイダ情報を保持するのに十分でない場合、関数は STATUS_BUFFER_TOO_SMALL を返す。
 %inst
-Retrieves information about the registered providers.
+登録済みプロバイダに関する情報を取得する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-The BCryptEnumRegisteredProviders function can be called in one of
-two ways:
-This doc was truncated.
+BCryptEnumRegisteredProviders 関数は次の 2 つの方法のいずれかで呼び出すことができる。
+（以下省略）
 
 
 %index
 BCryptExportKey
-Exports a key to a memory BLOB that can be persisted for later use.
+後で使用するために永続化できるメモリ BLOB へキーをエクスポートする。
 %group
 Win32 bcrypt
 %prm
 hKey, hExportKey, pszBlobType, pbOutput, cbOutput, pcbResult, dwFlags
-hKey : [int] The handle of the key to export.
-hExportKey : [int] The handle of the key with which to wrap the exported key. Use this parameter when exporting BLOBs of type BCRYPT_AES_WRAP_KEY_BLOB; otherwise, set it to NULL.Note??The hExportKey handle must be supplied by the same provider that supplied the hKey handle, and hExportKey must be a handle to a symmetric key that can be used in the Advanced Encryption Standard (AES) key wrap algorithm. When the hKey handle is from the Microsoft provider, hExportKey must be an AES key handle.
+hKey : [int] エクスポートするキーのハンドル。
+hExportKey : [int] エクスポートするキーをラップするためのキーのハンドル。BCRYPT_AES_WRAP_KEY_BLOB 型の BLOB をエクスポートする場合に使用し、それ以外は NULL に設定する。注: hExportKey ハンドルは hKey ハンドルを供給したのと同じプロバイダから供給され、AES キーラップアルゴリズムで使用可能な対称キーへのハンドルでなければならない。hKey ハンドルが Microsoft プロバイダのものである場合、hExportKey は AES キーハンドルでなければならない。
 pszBlobType : [wstr] 
-pbOutput : [var] The address of a buffer that receives the key BLOB. The cbOutput parameter contains the size of this buffer. If this parameter is NULL, this function will place the required size, in bytes, in the ULONG pointed to by the pcbResult parameter.
-cbOutput : [int] Contains the size, in bytes, of the pbOutput buffer.
-pcbResult : [var] A pointer to a ULONG that receives the number of bytes that were copied to the pbOutput buffer. If the pbOutput parameter is NULL, this function will place the required size, in bytes, in the ULONG pointed to by this parameter.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are defined for this function.
+pbOutput : [var] キー BLOB を受け取るバッファのアドレス。cbOutput パラメータがこのバッファのサイズを示す。このパラメータが NULL の場合、関数は必要なサイズをバイト単位で pcbResult が指す ULONG に格納する。
+cbOutput : [int] pbOutput バッファのバイト単位のサイズを格納する。
+pcbResult : [var] pbOutput バッファにコピーされたバイト数を受け取る ULONG へのポインタ。pbOutput パラメータが NULL の場合、関数は必要なサイズをバイト単位で、このパラメータが指す ULONG に格納する。
+dwFlags : [int] 関数の動作を変更するフラグの集合。この関数で定義されているフラグはない。
 %inst
-Exports a key to a memory BLOB that can be persisted for later use.
+後で使用するために永続化できるメモリ BLOB へキーをエクスポートする。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-Depending on what processor modes a provider supports,
-BCryptExportKey can be called either from user mode or kernel mode.
-Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
-DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
-handle provided in the hKey parameter must be derived from an
-algorithm handle returned by a provider that was opened with the
-BCRYPT_PROV_DISPATCH flag, and any pointers passed to the
-BCryptExportKey function must refer to nonpaged (or locked) memory.
-To call this function in kernel mode, use Cng.lib, which is part of
-the Driver Development Kit (DDK). Windows Server 2008 and Windows
-Vista: To call this function in kernel mode, use Ksecdd.lib.
+プロバイダがサポートするプロセッサモードに応じて、BCryptExportKey
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL レベルが DISPATCH_LEVEL
+である場合、hKey パラメータに渡すハンドルは BCRYPT_PROV_DISPATCH
+フラグを指定してオープンされたプロバイダから返されたアルゴリズムハンドルから取得されたものでなければならず、BCryptExportKey
+関数に渡すポインタはページング不可（あるいはロックされた）メモリを参照しなければならない。この関数をカーネルモードで呼び出すには、Driver
+Development Kit (DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および
+Windows Vista: この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 
 
 %index
 BCryptFinalizeKeyPair
-Completes a public/private key pair.
+公開鍵/秘密鍵ペアを完成させる。
 %group
 Win32 bcrypt
 %prm
 hKey, dwFlags
-hKey : [int] The handle of the key to complete. This handle is obtained by calling the BCryptGenerateKeyPair function.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are currently defined, so this parameter should be zero.
+hKey : [int] 完了させるキーのハンドル。BCryptGenerateKeyPair 関数を呼び出して取得する。
+dwFlags : [int] 関数の動作を変更するフラグの集合。現在定義されているフラグはないため、このパラメータには 0 を指定する。
 %inst
-Completes a public/private key pair.
+公開鍵/秘密鍵ペアを完成させる。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-Depending on what processor modes a provider supports,
-BCryptFinalizeKeyPair can be called either from user mode or kernel
-mode. Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
-DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
-handle provided in the hKey parameter must be derived from an
-algorithm handle returned by a provider that was opened with the
-BCRYPT_PROV_DISPATCH flag. To call this function in kernel mode, use
-Cng.lib, which is part of the Driver Development Kit (DDK). Windows
-Server 2008 and Windows Vista: To call this function in kernel mode,
-use Ksecdd.lib.
+プロバイダがサポートするプロセッサモードに応じて、BCryptFinalizeKeyPair
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL レベルが DISPATCH_LEVEL
+である場合、hKey パラメータに渡すハンドルは BCRYPT_PROV_DISPATCH
+フラグを指定してオープンされたプロバイダから返されたアルゴリズムハンドルから取得されたものでなければならない。この関数をカーネルモードで呼び出すには、Driver
+Development Kit (DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および
+Windows Vista: この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 
 
 %index
@@ -774,24 +716,22 @@ BCryptHashData の呼び出しで蓄積されたデータに対するハッシュまたは MAC 値を取得す
 
 %index
 BCryptFreeBuffer
-Used to free memory that was allocated by one of the CNG functions.
+CNG 関数のいずれかによって確保されたメモリを解放するために使用される。
 %group
 Win32 bcrypt
 %prm
 pvBuffer
-pvBuffer : [intptr] A pointer to the memory buffer to be freed.
+pvBuffer : [intptr] 解放するメモリバッファへのポインタ。
 %inst
-Used to free memory that was allocated by one of the CNG functions.
+CNG 関数のいずれかによって確保されたメモリを解放するために使用される。
 
 [備考]
-BCryptFreeBuffer must be called in the same processor mode as the
-BCrypt API function that allocated the buffer. In addition, if the
-buffer was allocated at PASSIVE_LEVEL IRQL, it must be freed at that
-IRQL. If the buffer was allocated at DISPATCH_LEVEL IRQL, it can be
-freed at either DISPATCH_LEVEL IRQL or PASSIVE_LEVEL IRQL. To call
-this function in kernel mode, use Cng.lib, which is part of the
-Driver Development Kit (DDK). Windows Server 2008 and Windows Vista:
-To call this function in kernel mode, use Ksecdd.lib.
+BCryptFreeBuffer は、バッファを確保した BCrypt API
+関数と同じプロセッサモードで呼び出さなければならない。さらに、バッファが PASSIVE_LEVEL IRQL で確保された場合は、その
+IRQL で解放しなければならない。バッファが DISPATCH_LEVEL IRQL で確保された場合、DISPATCH_LEVEL
+IRQL または PASSIVE_LEVEL IRQL のいずれかで解放できる。この関数をカーネルモードで呼び出すには、Driver
+Development Kit (DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および
+Windows Vista: この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 
 
 %index
@@ -824,158 +764,144 @@ BCRYPT_PROV_DISPATCH
 
 %index
 BCryptGenerateKeyPair
-Creates an empty public/private key pair.
+空の公開鍵/秘密鍵ペアを作成する。
 %group
 Win32 bcrypt
 %prm
 hAlgorithm, phKey, dwLength, dwFlags
-hAlgorithm : [int] Handle of an algorithm provider that supports signing, asymmetric encryption, or key agreement. This handle must have been created by using the BCryptOpenAlgorithmProvider function.
-phKey : [var] A pointer to a BCRYPT_KEY_HANDLE that receives the handle of the key. This handle is used in subsequent functions that require a key, such as BCryptEncrypt. This handle must be released when it is no longer needed by passing it to the BCryptDestroyKey function.
-dwLength : [int] The length, in bits, of the key. Algorithm providers have different key size restrictions for each standard asymmetric algorithm.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are currently defined, so this parameter should be zero.
+hAlgorithm : [int] 署名、非対称暗号、またはキー合意をサポートするアルゴリズムプロバイダのハンドル。このハンドルは BCryptOpenAlgorithmProvider 関数を使用して作成されたものでなければならない。
+phKey : [var] キーのハンドルを受け取る BCRYPT_KEY_HANDLE へのポインタ。このハンドルは BCryptEncrypt のようにキーを必要とする後続の関数で使用される。このハンドルが不要になったら、BCryptDestroyKey 関数に渡して解放しなければならない。
+dwLength : [int] キーのビット単位の長さ。アルゴリズムプロバイダは、標準的な非対称アルゴリズムごとに異なるキーサイズ制限を持つ。
+dwFlags : [int] 関数の動作を変更するフラグの集合。現在定義されているフラグはないため、このパラメータには 0 を指定する。
 %inst
-Creates an empty public/private key pair.
+空の公開鍵/秘密鍵ペアを作成する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-Depending on what processor modes a provider supports,
-BCryptGenerateKeyPair can be called either from user mode or kernel
-mode. Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
-DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
-handle provided in the hAlgorithm parameter must have been opened by
-using the BCRYPT_PROV_DISPATCH flag, and any pointers passed to the
-BCryptGenerateKeyPair function must refer to nonpaged (or locked)
-memory. To call this function in kernel mode, use Cng.lib, which is
-part of the Driver Development Kit (DDK). Windows Server 2008 and
-Windows Vista: To call this function in kernel mode, use Ksecdd.lib.
+プロバイダがサポートするプロセッサモードに応じて、BCryptGenerateKeyPair
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL レベルが DISPATCH_LEVEL
+である場合、hAlgorithm パラメータに渡すハンドルは BCRYPT_PROV_DISPATCH
+フラグを指定してオープンされたものでなければならず、BCryptGenerateKeyPair
+関数に渡すポインタはページング不可（あるいはロックされた）メモリを参照しなければならない。この関数をカーネルモードで呼び出すには、Driver
+Development Kit (DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および
+Windows Vista: この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 
 
 %index
 BCryptGenerateSymmetricKey
-Creates a key object for use with a symmetrical key encryption algorithm from a supplied key.
+指定されたキーから対称キー暗号化アルゴリズムで使用するキーオブジェクトを作成する。
 %group
 Win32 bcrypt
 %prm
 hAlgorithm, phKey, pbKeyObject, cbKeyObject, pbSecret, cbSecret, dwFlags
-hAlgorithm : [int] The handle of an algorithm provider created with the BCryptOpenAlgorithmProvider function. The algorithm specified when the provider was created must support symmetric key encryption.
-phKey : [var] A pointer to a BCRYPT_KEY_HANDLE that receives the handle of the key. This handle is used in subsequent functions that require a key, such as BCryptEncrypt. This handle must be released when it is no longer needed by passing it to the BCryptDestroyKey function.
-pbKeyObject : [var] A pointer to a buffer that receives the key object. The cbKeyObject parameter contains the size of this buffer. The required size of this buffer can be obtained by calling the BCryptGetProperty function to get the BCRYPT_OBJECT_LENGTH property. This will provide the size of the key object for the specified algorithm. This memory can only be freed after the phKey key handle is destroyed. If the value of this parameter is NULL and the value of the cbKeyObject parameter is zero, the memory for the key object is allocated and freed by this function.Windows?7:??This memory management functionality is available beginning with Windows?7.
-cbKeyObject : [int] The size, in bytes, of the pbKeyObject buffer. If the value of this parameter is zero and the value of the pbKeyObject parameter is NULL, the memory for the key object is allocated and freed by this function.Windows?7:??This memory management functionality is available beginning with Windows?7.
-pbSecret : [var] Pointer to a buffer that contains the key from which to create the key object. The cbSecret parameter contains the size of this buffer. This is normally a hash of a password or some other reproducible data. If the data passed in exceeds the target key size, the data will be truncated and the excess will be ignored. Note??We strongly recommended that applications pass in the exact number of bytes required by the target key.
-cbSecret : [int] The size, in bytes, of the pbSecret buffer.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are currently defined, so this parameter should be zero.
+hAlgorithm : [int] BCryptOpenAlgorithmProvider 関数で作成されたアルゴリズムプロバイダのハンドル。プロバイダ作成時に指定されたアルゴリズムは対称キー暗号化をサポートしていなければならない。
+phKey : [var] キーのハンドルを受け取る BCRYPT_KEY_HANDLE へのポインタ。このハンドルは BCryptEncrypt のようにキーを必要とする後続の関数で使用される。このハンドルが不要になったら、BCryptDestroyKey 関数に渡して解放しなければならない。
+pbKeyObject : [var] キーオブジェクトを受け取るバッファへのポインタ。cbKeyObject パラメータがこのバッファのサイズを示す。必要なバッファサイズは、BCryptGetProperty 関数を呼び出して BCRYPT_OBJECT_LENGTH プロパティを取得することで得られる。これは指定したアルゴリズムにおけるキーオブジェクトのサイズを返す。このメモリは phKey キーハンドルが破棄された後にのみ解放できる。このパラメータの値が NULL で cbKeyObject パラメータの値が 0 の場合、キーオブジェクトのメモリはこの関数によって確保および解放される。Windows 7: このメモリ管理機能は Windows 7 以降で使用可能。
+cbKeyObject : [int] pbKeyObject バッファのバイト単位のサイズ。このパラメータの値が 0 で pbKeyObject パラメータの値が NULL の場合、キーオブジェクトのメモリはこの関数によって確保および解放される。Windows 7: このメモリ管理機能は Windows 7 以降で使用可能。
+pbSecret : [var] キーオブジェクトを作成する元となるキーを格納するバッファへのポインタ。cbSecret パラメータがこのバッファのサイズを示す。これは通常、パスワードのハッシュ、あるいは他の再現可能なデータである。渡されたデータが対象キーサイズを超える場合、データは切り詰められ、超過部分は無視される。注: アプリケーションは対象キーで必要な正確なバイト数を渡すことを強く推奨する。
+cbSecret : [int] pbSecret バッファのバイト単位のサイズ。
+dwFlags : [int] 関数の動作を変更するフラグの集合。現在定義されているフラグはないため、このパラメータには 0 を指定する。
 %inst
-Creates a key object for use with a symmetrical key encryption
-algorithm from a supplied key.
+指定されたキーから対称キー暗号化アルゴリズムで使用するキーオブジェクトを作成する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-Depending on what processor modes a provider supports,
-BCryptGenerateSymmetricKey can be called either from user mode or
-kernel mode. Kernel mode callers can execute either at PASSIVE_LEVEL
-IRQL or DISPATCH_LEVEL IRQL. If the current IRQL level is
-DISPATCH_LEVEL, the handle provided in the hAlgorithm parameter must
-have been opened by using the BCRYPT_PROV_DISPATCH flag, and any
-pointers passed to the BCryptGenerateSymmetricKey function must refer
-to nonpaged (or locked) memory. To call this function in kernel mode,
-use Cng.lib, which is part of the Driver Development Kit (DDK).
-Windows Server 2008 and Windows Vista: To call this function in
-kernel mode, use Ksecdd.lib.
+プロバイダがサポートするプロセッサモードに応じて、BCryptGenerateSymmetricKey
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL レベルが DISPATCH_LEVEL
+である場合、hAlgorithm パラメータに渡すハンドルは BCRYPT_PROV_DISPATCH
+フラグを指定してオープンされたものでなければならず、BCryptGenerateSymmetricKey
+関数に渡すポインタはページング不可（あるいはロックされた）メモリを参照しなければならない。この関数をカーネルモードで呼び出すには、Driver
+Development Kit (DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および
+Windows Vista: この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 
 
 %index
 BCryptGetFipsAlgorithmMode
-Determines whether Federal Information Processing Standard (FIPS) compliance is enabled.
+Federal Information Processing Standard (FIPS) 準拠が有効になっているかを判定する。
 %group
 Win32 bcrypt
 %prm
 pfEnabled
-pfEnabled : [var] The address of a BOOLEAN variable that receives zero if FIPS compliance is not enabled, or a nonzero value if FIPS compliance is enabled.
+pfEnabled : [var] FIPS 準拠が無効である場合は 0、有効である場合は非 0 値を受け取る BOOLEAN 変数のアドレス。
 %inst
-Determines whether Federal Information Processing Standard (FIPS)
-compliance is enabled.
+Federal Information Processing Standard (FIPS) 準拠が有効になっているかを判定する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptGetFipsAlgorithmMode can be called either from user mode or
-kernel mode. Kernel mode callers must be executing at PASSIVE_LEVEL
-IRQL.
+BCryptGetFipsAlgorithmMode
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL
+で実行されていなければならない。
 
 
 %index
 BCryptGetProperty
-Retrieves the value of a named property for a CNG object.
+CNG オブジェクトの名前付きプロパティの値を取得する。
 %group
 Win32 bcrypt
 %prm
 hObject, pszProperty, pbOutput, cbOutput, pcbResult, dwFlags
-hObject : [int] A handle that represents the CNG object to obtain the property value for.
-pszProperty : [wstr] A pointer to a null-terminated Unicode string that contains the name of the property to retrieve. This can be one of the predefined Cryptography Primitive Property Identifiers or a custom property identifier.
-pbOutput : [var] The address of a buffer that receives the property value. The cbOutput parameter contains the size of this buffer.
-cbOutput : [int] The size, in bytes, of the pbOutput buffer.
-pcbResult : [var] A pointer to a ULONG variable that receives the number of bytes that were copied to the pbOutput buffer. If the pbOutput parameter is NULL, this function will place the required size, in bytes, in the location pointed to by this parameter.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are defined for this function.
+hObject : [int] プロパティ値を取得する対象 CNG オブジェクトを表すハンドル。
+pszProperty : [wstr] 取得するプロパティの名前を含む、null 終端 Unicode 文字列へのポインタ。事前定義された Cryptography Primitive Property 識別子のいずれか、またはカスタムプロパティ識別子を指定できる。
+pbOutput : [var] プロパティ値を受け取るバッファのアドレス。cbOutput パラメータがこのバッファのサイズを示す。
+cbOutput : [int] pbOutput バッファのバイト単位のサイズ。
+pcbResult : [var] pbOutput バッファにコピーされたバイト数を受け取る ULONG 変数へのポインタ。pbOutput パラメータが NULL の場合、関数は必要なサイズをバイト単位で、このパラメータが指す位置に格納する。
+dwFlags : [int] 関数の動作を変更するフラグの集合。この関数で定義されているフラグはない。
 %inst
-Retrieves the value of a named property for a CNG object.
+CNG オブジェクトの名前付きプロパティの値を取得する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-To obtain the required size for a property, pass NULL for the
-pbOutput parameter. This function will place the required size, in
-bytes, in the value pointed to by the pcbResult parameter. Depending
-on what processor modes a provider supports, BCryptGetProperty can be
-called either from user mode or kernel mode. Kernel mode callers can
-execute either at PASSIVE_LEVEL IRQL or DISPATCH_LEVEL IRQL. If the
-current IRQL level is DISPATCH_LEVEL, any pointers passed to the
-BCryptGetProperty function must refer to nonpaged (or locked) memory.
-If the object specified in the hObject parameter is a handle, it must
-have been opened by using the BCRYPT_PROV_DISPATCH flag. To call this
-function in kernel mode, use Cng.lib, which is part of the Driver
-Development Kit (DDK). Windows Server 2008 and Windows Vista: To call
-this function in kernel mode, use Ksecdd.lib.
+プロパティに必要なサイズを取得するには、pbOutput パラメータに NULL を渡す。関数は必要なサイズをバイト単位で
+pcbResult パラメータが指す値に格納する。プロバイダがサポートするプロセッサモードに応じて、BCryptGetProperty
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL レベルが DISPATCH_LEVEL
+である場合、BCryptGetProperty
+関数に渡すポインタはページング不可（あるいはロックされた）メモリを参照しなければならない。hObject
+パラメータに指定したオブジェクトがハンドルである場合、それは BCRYPT_PROV_DISPATCH
+フラグを指定してオープンされたものでなければならない。この関数をカーネルモードで呼び出すには、Driver Development Kit
+(DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および Windows Vista:
+この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 
 
 %index
 BCryptHash
-Performs a single hash computation. This is a convenience function that wraps calls to BCryptCreateHash, BCryptHashData, BCryptFinishHash, and BCryptDestroyHash.
+単一のハッシュ計算を行う。これは BCryptCreateHash、BCryptHashData、BCryptFinishHash、BCryptDestroyHash の呼び出しをラップする便利関数である。
 %group
 Win32 bcrypt
 %prm
 hAlgorithm, pbSecret, cbSecret, pbInput, cbInput, pbOutput, cbOutput
-hAlgorithm : [int] The handle of an algorithm provider created by using the BCryptOpenAlgorithmProvider function. The algorithm that was specified when the provider was created must support the hash interface.
-pbSecret : [var] A pointer to a buffer that contains the key to use for the hash or MAC. The cbSecret parameter contains the size of this buffer. This key only applies to hash algorithms opened by the BCryptOpenAlgorithmProvider function by using the BCRYPT_ALG_HANDLE_HMAC flag.  Otherwise, set this parameter to NULL
-cbSecret : [int] The size, in bytes, of the pbSecret buffer. If no key is used, set this parameter to zero.
-pbInput : [var] A pointer to a buffer that contains the data to process. The cbInput parameter contains the number of bytes in this buffer. This function does not modify the contents of this buffer.
-cbInput : [int] The number of bytes in the pbInput buffer.
-pbOutput : [var] A pointer to a buffer that receives the hash or MAC value. The cbOutput parameter contains the size of this buffer.
-cbOutput : [int] The size, in bytes, of the pbOutput buffer. This size must exactly match the size of the hash or MAC value. The size can be obtained by calling the BCryptGetProperty function to get the BCRYPT_HASH_LENGTH property. This will provide the size of the hash or MAC value for the specified algorithm.
+hAlgorithm : [int] BCryptOpenAlgorithmProvider 関数を使用して作成されたアルゴリズムプロバイダのハンドル。プロバイダ作成時に指定されたアルゴリズムはハッシュインターフェイスをサポートしていなければならない。
+pbSecret : [var] ハッシュまたは MAC に使用するキーを格納するバッファへのポインタ。cbSecret パラメータがこのバッファのサイズを示す。このキーは、BCryptOpenAlgorithmProvider 関数を BCRYPT_ALG_HANDLE_HMAC フラグを指定してオープンしたハッシュアルゴリズムにのみ適用される。それ以外の場合はこのパラメータを NULL に設定する。
+cbSecret : [int] pbSecret バッファのバイト単位のサイズ。キーを使用しない場合はこのパラメータを 0 に設定する。
+pbInput : [var] 処理対象のデータを格納するバッファへのポインタ。cbInput パラメータがこのバッファ内のバイト数を示す。この関数はこのバッファの内容を変更しない。
+cbInput : [int] pbInput バッファ内のバイト数。
+pbOutput : [var] ハッシュまたは MAC 値を受け取るバッファへのポインタ。cbOutput パラメータがこのバッファのサイズを示す。
+cbOutput : [int] pbOutput バッファのバイト単位のサイズ。このサイズはハッシュまたは MAC 値のサイズと正確に一致しなければならない。サイズは BCryptGetProperty 関数を呼び出して BCRYPT_HASH_LENGTH プロパティを取得することで得られる。これは指定したアルゴリズムにおけるハッシュまたは MAC 値のサイズを返す。
 %inst
-Performs a single hash computation. This is a convenience function
-that wraps calls to BCryptCreateHash, BCryptHashData,
-BCryptFinishHash, and BCryptDestroyHash.
+単一のハッシュ計算を行う。これは
+BCryptCreateHash、BCryptHashData、BCryptFinishHash、BCryptDestroyHash
+の呼び出しをラップする便利関数である。
 
 [戻り値]
-A status code indicating success or failure.
+成否を示すステータスコード。
 
 
 %index
@@ -1007,103 +933,95 @@ Ksecdd.lib)を使用する。
 
 %index
 BCryptImportKey
-Imports a symmetric key from a key BLOB.
+キー BLOB から対称キーをインポートする。
 %group
 Win32 bcrypt
 %prm
 hAlgorithm, hImportKey, pszBlobType, phKey, pbKeyObject, cbKeyObject, pbInput, cbInput, dwFlags
-hAlgorithm : [int] The handle of the algorithm provider to import the key. This handle is obtained by calling the BCryptOpenAlgorithmProvider function.
-hImportKey : [int] The handle of the key encryption key needed to unwrap the key BLOB in the pbInput parameter.Note??The handle must be supplied by the same provider that supplied the key that is being imported.
+hAlgorithm : [int] キーをインポートするアルゴリズムプロバイダのハンドル。BCryptOpenAlgorithmProvider 関数を呼び出して取得する。
+hImportKey : [int] pbInput パラメータのキー BLOB をアンラップするのに必要なキー暗号化キーのハンドル。注: ハンドルはインポートされるキーを供給したプロバイダと同じプロバイダから供給されなければならない。
 pszBlobType : [wstr] 
-phKey : [var] A pointer to a BCRYPT_KEY_HANDLE that receives the handle of the imported key. This handle is used in subsequent functions that require a key, such as BCryptEncrypt. This handle must be released when it is no longer needed by passing it to the BCryptDestroyKey function.
-pbKeyObject : [var] A pointer to a buffer that receives the imported key object. The cbKeyObject parameter contains the size of this buffer. The required size of this buffer can be obtained by calling the BCryptGetProperty function to get the BCRYPT_OBJECT_LENGTH property. This will provide the size of the key object for the specified algorithm. This memory can only be freed after the phKey key handle is destroyed.
-cbKeyObject : [int] The size, in bytes, of the pbKeyObject buffer.
-pbInput : [var] The address of a buffer that contains the key BLOB to import. The cbInput parameter contains the size of this buffer. The pszBlobType parameter specifies the type of key BLOB this buffer contains.
-cbInput : [int] The size, in bytes, of the pbInput buffer.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are currently defined, so this parameter should be zero.
+phKey : [var] インポートされたキーのハンドルを受け取る BCRYPT_KEY_HANDLE へのポインタ。このハンドルは BCryptEncrypt のようにキーを必要とする後続の関数で使用される。このハンドルが不要になったら、BCryptDestroyKey 関数に渡して解放しなければならない。
+pbKeyObject : [var] インポートされたキーオブジェクトを受け取るバッファへのポインタ。cbKeyObject パラメータがこのバッファのサイズを示す。必要なバッファサイズは、BCryptGetProperty 関数を呼び出して BCRYPT_OBJECT_LENGTH プロパティを取得することで得られる。これは指定したアルゴリズムにおけるキーオブジェクトのサイズを返す。このメモリは phKey キーハンドルが破棄された後にのみ解放できる。
+cbKeyObject : [int] pbKeyObject バッファのバイト単位のサイズ。
+pbInput : [var] インポートするキー BLOB を格納したバッファのアドレス。cbInput パラメータがこのバッファのサイズを示す。pszBlobType パラメータがこのバッファに含まれるキー BLOB の種類を指定する。
+cbInput : [int] pbInput バッファのバイト単位のサイズ。
+dwFlags : [int] 関数の動作を変更するフラグの集合。現在定義されているフラグはないため、このパラメータには 0 を指定する。
 %inst
-Imports a symmetric key from a key BLOB.
+キー BLOB から対称キーをインポートする。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-Depending on what processor modes a provider supports,
-BCryptImportKey can be called either from user mode or kernel mode.
-Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
-DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
-handle provided in the hAlgorithm parameter must have been opened by
-using the BCRYPT_PROV_DISPATCH flag, and any pointers passed to the
-BCryptImportKey function must refer to nonpaged (or locked) memory.
-To call this function in kernel mode, use Cng.lib, which is part of
-the Driver Development Kit (DDK). Windows Server 2008 and Windows
-Vista: To call this function in kernel mode, use Ksecdd.lib.
+プロバイダがサポートするプロセッサモードに応じて、BCryptImportKey
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL レベルが DISPATCH_LEVEL
+である場合、hAlgorithm パラメータに渡すハンドルは BCRYPT_PROV_DISPATCH
+フラグを指定してオープンされたものでなければならず、BCryptImportKey
+関数に渡すポインタはページング不可（あるいはロックされた）メモリを参照しなければならない。この関数をカーネルモードで呼び出すには、Driver
+Development Kit (DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および
+Windows Vista: この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 
 
 %index
 BCryptImportKeyPair
-Imports a public/private key pair from a key BLOB.
+キー BLOB から公開鍵/秘密鍵ペアをインポートする。
 %group
 Win32 bcrypt
 %prm
 hAlgorithm, hImportKey, pszBlobType, phKey, pbInput, cbInput, dwFlags
-hAlgorithm : [int] The handle of the algorithm provider to import the key. This handle is obtained by calling the BCryptOpenAlgorithmProvider function.
-hImportKey : [int] This parameter is not currently used and should be NULL.
+hAlgorithm : [int] キーをインポートするアルゴリズムプロバイダのハンドル。BCryptOpenAlgorithmProvider 関数を呼び出して取得する。
+hImportKey : [int] このパラメータは現在使用されておらず、NULL でなければならない。
 pszBlobType : [wstr] 
-phKey : [var] A pointer to a BCRYPT_KEY_HANDLE that receives the handle of the imported key. This handle is used in subsequent functions that require a key, such as BCryptSignHash. This handle must be released when it is no longer needed by passing it to the BCryptDestroyKey function.
-pbInput : [var] The address of a buffer that contains the key BLOB to import. The cbInput parameter contains the size of this buffer. The pszBlobType parameter specifies the type of key BLOB this buffer contains.
-cbInput : [int] The size, in bytes, of the pbInput buffer.
-dwFlags : [int] A set of flags that modify the behavior of this function. This can be zero or the following value.
+phKey : [var] インポートされたキーのハンドルを受け取る BCRYPT_KEY_HANDLE へのポインタ。このハンドルは BCryptSignHash のようにキーを必要とする後続の関数で使用される。このハンドルが不要になったら、BCryptDestroyKey 関数に渡して解放しなければならない。
+pbInput : [var] インポートするキー BLOB を格納したバッファのアドレス。cbInput パラメータがこのバッファのサイズを示す。pszBlobType パラメータがこのバッファに含まれるキー BLOB の種類を指定する。
+cbInput : [int] pbInput バッファのバイト単位のサイズ。
+dwFlags : [int] 関数の動作を変更するフラグの集合。0 または次の値を指定できる。
 %inst
-Imports a public/private key pair from a key BLOB.
+キー BLOB から公開鍵/秘密鍵ペアをインポートする。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-Depending on what processor modes a provider supports,
-BCryptImportKeyPair can be called either from user mode or kernel
-mode. Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
-DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
-handle provided in the hAlgorithm parameter must have been opened by
-using the BCRYPT_PROV_DISPATCH flag, and any pointers passed to the
-BCryptImportKeyPair function must refer to nonpaged (or locked)
-memory. To call this function in kernel mode, use Cng.lib, which is
-part of the Driver Development Kit (DDK). Windows Server 2008 and
-Windows Vista: To call this function in kernel mode, use Ksecdd.lib.
+プロバイダがサポートするプロセッサモードに応じて、BCryptImportKeyPair
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL レベルが DISPATCH_LEVEL
+である場合、hAlgorithm パラメータに渡すハンドルは BCRYPT_PROV_DISPATCH
+フラグを指定してオープンされたものでなければならず、BCryptImportKeyPair
+関数に渡すポインタはページング不可（あるいはロックされた）メモリを参照しなければならない。この関数をカーネルモードで呼び出すには、Driver
+Development Kit (DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および
+Windows Vista: この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 
 
 %index
 BCryptKeyDerivation
-Derives a key without requiring a secret agreement.
+秘密合意を必要とせずにキーを導出する。
 %group
 Win32 bcrypt
 %prm
 hKey, pParameterList, pbDerivedKey, cbDerivedKey, pcbResult, dwFlags
-hKey : [int] Handle of the input key.
-pParameterList : [var] Pointer to a  BCryptBufferDesc structure that contains the KDF parameters. This parameter is optional and can be NULL if it is not needed. The parameters can be specific to a key derivation function (KDF) or generic. The following table shows the required and optional parameters for specific KDFs implemented by the Microsoft Primitive provider.
-pbDerivedKey : [var] Address of a buffer that receives the key. The cbDerivedKey parameter contains the size of this buffer.
-cbDerivedKey : [int] Size, in bytes, of the buffer pointed to by the pbDerivedKey parameter.
-pcbResult : [var] Pointer to a variable that receives the number of bytes that were copied to the buffer pointed to by the pbDerivedKey parameter.
-dwFlags : [int] Flags that modify the behavior of this function. The following value can be used with the Microsoft Primitive provider.
+hKey : [int] 入力キーのハンドル。
+pParameterList : [var] KDF パラメータを格納した BCryptBufferDesc 構造体へのポインタ。このパラメータは省略可能で、不要な場合は NULL を指定できる。パラメータはキー導出関数 (KDF) 固有のものでも汎用のものでもよい。次の表は、Microsoft Primitive プロバイダによって実装される特定の KDF に対する必須およびオプションのパラメータを示している。
+pbDerivedKey : [var] キーを受け取るバッファのアドレス。cbDerivedKey パラメータがこのバッファのサイズを示す。
+cbDerivedKey : [int] pbDerivedKey パラメータが指すバッファのバイト単位のサイズ。
+pcbResult : [var] pbDerivedKey パラメータが指すバッファにコピーされたバイト数を受け取る変数へのポインタ。
+dwFlags : [int] 関数の動作を変更するフラグ。Microsoft Primitive プロバイダで次の値を使用できる。
 %inst
-Derives a key without requiring a secret agreement.
+秘密合意を必要とせずにキーを導出する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
+関数の成否を示すステータスコードを返す。
 
 [備考]
-You can use the following algorithm identifiers in the
-BCryptOpenAlgorithmProvider function before calling
-BCryptKeyDerivation:
-This doc was truncated.
+BCryptKeyDerivation を呼び出す前に、BCryptOpenAlgorithmProvider
+関数で次のアルゴリズム識別子を使用できる。
+（以下省略）
 
 
 %index
@@ -1136,435 +1054,386 @@ Windows 10 以降、CNG
 
 %index
 BCryptProcessMultiOperations
-The BCryptProcessMultiOperations function processes a sequence of operations on a multi-object state.
+BCryptProcessMultiOperations 関数は、マルチオブジェクト状態に対して一連の操作を実行する。
 %group
 Win32 bcrypt
 %prm
 hObject, operationType, pOperations, cbOperations, dwFlags
-hObject : [int] *BCRYPT_HANDLE* `[in, out]` A handle to a multi-object state, such as one created by the [BCryptCreateMultiHash](nf-bcrypt-bcryptcreatemultihash.md) function.
-operationType : [int] *BCRYPT_MULTI_OPERATION_TYPE* `[in]` One of the **BCRYPT_OPERATION_TYPE_**\* values. Currently the only defined value is **BCRYPT_OPERATION_TYPE_HASH**. This value identifies the *hObject* parameter as a multi-hash object and the *pOperations* pointer as pointing to an array of [BCRYPT_MULTI_HASH_OPERATION](ns-bcrypt-bcrypt_multi_hash_operation.md) elements.
-pOperations : [intptr] *PVOID* `[in]` A pointer to an array of operation command structures. For hashing, it is a pointer to an array of [BCRYPT_MULTI_HASH_OPERATION](ns-bcrypt-bcrypt_multi_hash_operation.md) structures.
-cbOperations : [int] *ULONG* `[in]` The size, in bytes, of the *pOperations* array.
-dwFlags : [int] *ULONG* `[in]` Specify a value of zero (`0`).
+hObject : [int] *BCRYPT_HANDLE* `[in, out]` [BCryptCreateMultiHash](nf-bcrypt-bcryptcreatemultihash.md) 関数で作成されたものなど、マルチオブジェクト状態のハンドル。
+operationType : [int] *BCRYPT_MULTI_OPERATION_TYPE* `[in]` **BCRYPT_OPERATION_TYPE_**\* 値のいずれか。現在定義されているのは **BCRYPT_OPERATION_TYPE_HASH** のみである。この値は、*hObject* パラメータがマルチハッシュオブジェクトであり、*pOperations* ポインタが [BCRYPT_MULTI_HASH_OPERATION](ns-bcrypt-bcrypt_multi_hash_operation.md) 要素の配列を指していることを示す。
+pOperations : [intptr] *PVOID* `[in]` 操作コマンド構造体の配列へのポインタ。ハッシュ処理の場合は [BCRYPT_MULTI_HASH_OPERATION](ns-bcrypt-bcrypt_multi_hash_operation.md) 構造体の配列へのポインタとなる。
+cbOperations : [int] *ULONG* `[in]` *pOperations* 配列のバイト単位のサイズ。
+dwFlags : [int] *ULONG* `[in]` 0 を指定する。
 %inst
-The BCryptProcessMultiOperations function processes a sequence of
-operations on a multi-object state.
+BCryptProcessMultiOperations 関数は、マルチオブジェクト状態に対して一連の操作を実行する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function. If the method succeeds, it will return `STATUS_SUCCESS`.
-For other **NTSTATUS** values, see [NTSTATUS
-Values](/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55).
+関数の成否を示すステータスコードを返す。メソッドが成功した場合は `STATUS_SUCCESS` を返す。その他の
+**NTSTATUS** 値については [NTSTATUS
+Values](/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55)
+を参照。
 
 [備考]
-Each element of the *pOperations* array contains instructions for a
-particular computation to be performed on a single element of the
-multi-object state. The functional behavior of
-**BCryptProcessMultiOperations** is equivalent to performing, for
-each element in the multi-object state, the computations specified in
-the operations array for that element, one at a time, in order. The
-relative order of two operations that operate on different elements
-of the array is not guaranteed. If an output buffer overlaps an input
-or output buffer the result is not deterministic.
+*pOperations*
+配列の各要素は、マルチオブジェクト状態の単一要素に対して実行する特定の計算の指示を含む。**BCryptProcessMultiOperations**
+の機能的振る舞いは、マルチオブジェクト状態の各要素に対して、その要素用に操作配列で指定された計算を順に 1
+つずつ実行するのと等価である。配列の異なる要素に作用する 2
+つの操作の相対順序は保証されない。出力バッファが入力または出力バッファと重なる場合、結果は決定的ではない。
 
 
 %index
 BCryptQueryContextConfiguration
-Retrieves the current configuration for the specified CNG context.
+指定された CNG コンテキストの現在の構成を取得する。
 %group
 Win32 bcrypt
 %prm
 dwTable, pszContext, pcbBuffer, ppBuffer
 dwTable : [int] 
-pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to obtain the configuration information for.
-pcbBuffer : [var] The address of a ULONG variable that, on entry, contains the size, in bytes, of the buffer pointed to by ppBuffer. If this size is not large enough to hold the context information, this function will fail with STATUS_BUFFER_TOO_SMALL. After this function returns, this variable contains the number of bytes that were copied to the ppBuffer buffer.
-ppBuffer : [var] The address of a pointer to a CRYPT_CONTEXT_CONFIG structure that receives the context configuration information retrieved by this function. The value pointed to by the pcbBuffer parameter contains the size of this buffer. If the value pointed to by this parameter is NULL, this function will allocate the required memory. This memory must be freed when it is no longer needed by passing this pointer to the BCryptFreeBuffer function. If this parameter is NULL, this function will place the required size, in bytes, in the variable pointed to by the pcbBuffer parameter and return STATUS_BUFFER_TOO_SMALL. For more information on the usage of this parameter, see Remarks.
+pszContext : [wstr] 構成情報を取得する対象コンテキストの識別子を含む、null 終端 Unicode 文字列へのポインタ。
+pcbBuffer : [var] ULONG 変数のアドレスで、入力時には ppBuffer が指すバッファのバイト単位のサイズを格納する。このサイズがコンテキスト情報を保持するのに十分でない場合、関数は STATUS_BUFFER_TOO_SMALL で失敗する。関数が戻った後、この変数には ppBuffer バッファにコピーされたバイト数が格納される。
+ppBuffer : [var] この関数によって取得されたコンテキスト構成情報を受け取る、CRYPT_CONTEXT_CONFIG 構造体へのポインタのアドレス。pcbBuffer パラメータが指す値がこのバッファのサイズを示す。このパラメータが指す値が NULL の場合、関数は必要なメモリを確保する。このメモリは不要になったら、このポインタを BCryptFreeBuffer 関数に渡して解放しなければならない。このパラメータが NULL の場合、関数は必要なサイズをバイト単位で pcbBuffer パラメータが指す変数に格納し、STATUS_BUFFER_TOO_SMALL を返す。このパラメータの使い方の詳細は「備考」を参照。
 %inst
-Retrieves the current configuration for the specified CNG context.
+指定された CNG コンテキストの現在の構成を取得する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-Each context has only one set of configuration information, so
-although the ppBuffer parameter appears to be a used as an array,
-this function treats this as an array with only one element. The
-following example helps clarify how this parameter is used.
-This doc was truncated.
+各コンテキストは構成情報の集合を 1 つしか持たないため、ppBuffer パラメータは配列のように見えるが、この関数は要素数 1
+の配列として扱う。次の例はこのパラメータの使い方を明確にする助けになる。
+（以下省略）
 
 
 %index
 BCryptQueryContextFunctionConfiguration
-Obtains the cryptographic function configuration information for an existing CNG context.
+既存の CNG コンテキストの暗号関数構成情報を取得する。
 %group
 Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pszFunction, pcbBuffer, ppBuffer
 dwTable : [int] 
-pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to obtain the function configuration information for.
+pszContext : [wstr] 関数構成情報を取得する対象コンテキストの識別子を含む、null 終端 Unicode 文字列へのポインタ。
 dwInterface : [int] 
-pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the cryptographic function to obtain the configuration information for.
-pcbBuffer : [var] The address of a ULONG variable that, on entry, contains the size, in bytes, of the buffer pointed to by ppBuffer. If this size is not large enough to hold the context information, this function will fail with STATUS_BUFFER_TOO_SMALL. After this function returns, this variable contains the number of bytes that were copied to the ppBuffer buffer.
-ppBuffer : [var] The address of a pointer to a CRYPT_CONTEXT_FUNCTION_CONFIG structure that receives the function configuration information retrieved by this function. The value pointed to by the pcbBuffer parameter contains the size of this buffer. If the value pointed to by this parameter is NULL, this function will allocate the required memory. This memory must be freed when it is no longer needed by passing this pointer to the BCryptFreeBuffer function. If this parameter is NULL, this function will place the required size, in bytes, in the variable pointed to by the pcbBuffer parameter and return STATUS_BUFFER_TOO_SMALL. For more information about the usage of this parameter, see Remarks.
+pszFunction : [wstr] 構成情報を取得する対象暗号関数の識別子を含む、null 終端 Unicode 文字列へのポインタ。
+pcbBuffer : [var] ULONG 変数のアドレスで、入力時には ppBuffer が指すバッファのバイト単位のサイズを格納する。このサイズがコンテキスト情報を保持するのに十分でない場合、関数は STATUS_BUFFER_TOO_SMALL で失敗する。関数が戻った後、この変数には ppBuffer バッファにコピーされたバイト数が格納される。
+ppBuffer : [var] この関数によって取得された関数構成情報を受け取る、CRYPT_CONTEXT_FUNCTION_CONFIG 構造体へのポインタのアドレス。pcbBuffer パラメータが指す値がこのバッファのサイズを示す。このパラメータが指す値が NULL の場合、関数は必要なメモリを確保する。このメモリは不要になったら、このポインタを BCryptFreeBuffer 関数に渡して解放しなければならない。このパラメータが NULL の場合、関数は必要なサイズをバイト単位で pcbBuffer パラメータが指す変数に格納し、STATUS_BUFFER_TOO_SMALL を返す。このパラメータの使い方の詳細は「備考」を参照。
 %inst
-Obtains the cryptographic function configuration information for an
-existing CNG context.
+既存の CNG コンテキストの暗号関数構成情報を取得する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-Each cryptographic function has only one set of configuration
-information, so although the ppBuffer parameter appears to be a used
-as an array, this function treats this as an array with only one
-element. The following example helps clarify how this parameter is
-used.
-This doc was truncated.
+各暗号関数は構成情報の集合を 1 つしか持たないため、ppBuffer パラメータは配列のように見えるが、この関数は要素数 1
+の配列として扱う。次の例はこのパラメータの使い方を明確にする助けになる。
+（以下省略）
 
 
 %index
 BCryptQueryContextFunctionProperty
-Obtains the value of a named property for a cryptographic function in an existing CNG context.
+既存の CNG コンテキスト内の暗号関数に対する名前付きプロパティの値を取得する。
 %group
 Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pszFunction, pszProperty, pcbValue, ppbValue
 dwTable : [int] 
-pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to obtain the function property from.
+pszContext : [wstr] 関数プロパティを取得する対象コンテキストの識別子を含む、null 終端 Unicode 文字列へのポインタ。
 dwInterface : [int] 
-pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the cryptographic function to obtain the property for.
-pszProperty : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the property to obtain.
-pcbValue : [var] The address of a ULONG variable that, on entry, contains the size, in bytes, of the buffer pointed to by ppbValue. If this size is not large enough to hold the property value, this function will fail with STATUS_BUFFER_TOO_SMALL. After this function returns, this variable contains the number of bytes that were copied to the ppbValue buffer.
-ppbValue : [var] The address of a pointer to a buffer that receives the property data. The size and format of this buffer depends on the format of the property being retrieved. The value pointed to by the pcbValue parameter contains the size of this buffer. If the value pointed to by this parameter is NULL, this function will allocate the required memory. This memory must be freed when it is no longer needed by passing this pointer to the BCryptFreeBuffer function. If this parameter is NULL, this function will place the required size, in bytes, in the variable pointed to by the pcbValue parameter and return STATUS_BUFFER_TOO_SMALL.
+pszFunction : [wstr] プロパティを取得する対象暗号関数の識別子を含む、null 終端 Unicode 文字列へのポインタ。
+pszProperty : [wstr] 取得するプロパティの識別子を含む、null 終端 Unicode 文字列へのポインタ。
+pcbValue : [var] ULONG 変数のアドレスで、入力時には ppbValue が指すバッファのバイト単位のサイズを格納する。このサイズがプロパティ値を保持するのに十分でない場合、関数は STATUS_BUFFER_TOO_SMALL で失敗する。関数が戻った後、この変数には ppbValue バッファにコピーされたバイト数が格納される。
+ppbValue : [var] プロパティデータを受け取るバッファへのポインタのアドレス。バッファのサイズと形式は取得するプロパティの形式に依存する。pcbValue パラメータが指す値がこのバッファのサイズを示す。このパラメータが指す値が NULL の場合、関数は必要なメモリを確保する。このメモリは不要になったら、このポインタを BCryptFreeBuffer 関数に渡して解放しなければならない。このパラメータが NULL の場合、関数は必要なサイズをバイト単位で pcbValue パラメータが指す変数に格納し、STATUS_BUFFER_TOO_SMALL を返す。
 %inst
-Obtains the value of a named property for a cryptographic function in
-an existing CNG context.
+既存の CNG コンテキスト内の暗号関数に対する名前付きプロパティの値を取得する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptQueryContextFunctionProperty can be called only in user mode.
+BCryptQueryContextFunctionProperty はユーザーモードでのみ呼び出すことができる。
 
 
 %index
 BCryptQueryProviderRegistration
-Retrieves information about a CNG provider.
+CNG プロバイダに関する情報を取得する。
 %group
 Win32 bcrypt
 %prm
 pszProvider, dwMode, dwInterface, pcbBuffer, ppBuffer
-pszProvider : [wstr] A pointer to a null-terminated Unicode string that contains the name of the provider to obtain information about.
+pszProvider : [wstr] 情報を取得する対象プロバイダの名前を含む、null 終端 Unicode 文字列へのポインタ。
 dwMode : [int] 
 dwInterface : [int] 
-pcbBuffer : [var] A pointer to a ULONG value that, on entry, contains the size, in bytes, of the buffer pointed to by the ppBuffer parameter. On exit, this value receives either the number of bytes copied to the buffer or the required size, in bytes, of the buffer.
-ppBuffer : [var] A pointer to a buffer pointer that receives a CRYPT_PROVIDER_REG structure and other data that describes the provider. If this parameter is NULL, this function will return STATUS_BUFFER_TOO_SMALL and place in the value pointed to by the pcbBuffer parameter, the required size, in bytes, of all data. If this parameter is the address of a NULL pointer, this function will allocate the required memory, fill it in with the provider information, and place a pointer to this memory in this parameter. When you have finished using this memory, free it by passing this pointer to the BCryptFreeBuffer function. If this parameter is the address of a non-NULL pointer, this function will copy the provider information into this buffer. The pcbBuffer parameter must contain the size, in bytes, of the entire buffer. If the buffer is not large enough to hold all of the provider information, this function will return STATUS_BUFFER_TOO_SMALL.
+pcbBuffer : [var] ULONG 値へのポインタで、入力時には ppBuffer パラメータが指すバッファのバイト単位のサイズを格納する。出力時には、バッファにコピーされたバイト数、またはバッファに必要なサイズ（バイト単位）を受け取る。
+ppBuffer : [var] プロバイダを記述する CRYPT_PROVIDER_REG 構造体およびその他データを受け取るバッファポインタへのポインタ。このパラメータが NULL の場合、関数は STATUS_BUFFER_TOO_SMALL を返し、pcbBuffer パラメータが指す値に必要なサイズ（バイト単位）を格納する。このパラメータが NULL ポインタのアドレスである場合、関数は必要なメモリを確保し、プロバイダ情報で埋め、そのメモリへのポインタをこのパラメータに格納する。このメモリの使用が終わったら、このポインタを BCryptFreeBuffer 関数に渡して解放する。このパラメータが非 NULL ポインタのアドレスである場合、関数はプロバイダ情報をそのバッファにコピーする。pcbBuffer パラメータにはバッファ全体のバイト単位のサイズを格納しておく必要がある。バッファがすべてのプロバイダ情報を保持するのに十分でない場合、関数は STATUS_BUFFER_TOO_SMALL を返す。
 %inst
-Retrieves information about a CNG provider.
+CNG プロバイダに関する情報を取得する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptQueryProviderRegistration can be called only in user mode.
+BCryptQueryProviderRegistration はユーザーモードでのみ呼び出すことができる。
 
 
 %index
 BCryptRegisterConfigChangeNotify
-Creates a user mode CNG configuration change event handler.
+ユーザーモードの CNG 構成変更イベントハンドラを作成する。
 %group
 Win32 bcrypt
 %prm
 phEvent
 phEvent : [intptr] 
 %inst
-Creates a user mode CNG configuration change event handler.
+ユーザーモードの CNG 構成変更イベントハンドラを作成する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-The handle returned in the variable pointed to by the phEvent
-parameter will be signaled when a change to the CNG configuration
-occurs. BCryptRegisterConfigChangeNotify(HANDLE*) can be called only
-in user mode. Code executing in kernel mode must call
-BCryptRegisterConfigChangeNotify(PRKEVENT).
+phEvent パラメータが指す変数に返されるハンドルは、CNG
+構成に変更が発生したときにシグナル状態になる。BCryptRegisterConfigChangeNotify(HANDLE*)
+はユーザーモードでのみ呼び出せる。カーネルモードで実行されるコードは
+BCryptRegisterConfigChangeNotify(PRKEVENT) を呼び出さなければならない。
 
 
 %index
 BCryptRemoveContextFunction
-Removes a cryptographic function from the list of functions that are supported by an existing CNG context.
+既存の CNG コンテキストがサポートする関数の一覧から、暗号関数を削除する。
 %group
 Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pszFunction
 dwTable : [int] 
-pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to remove the function from.
+pszContext : [wstr] 関数を削除する対象コンテキストの識別子を含む、null 終端 Unicode 文字列へのポインタ。
 dwInterface : [int] 
-pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the cryptographic function to remove.
+pszFunction : [wstr] 削除する暗号関数の識別子を含む、null 終端 Unicode 文字列へのポインタ。
 %inst
-Removes a cryptographic function from the list of functions that are
-supported by an existing CNG context.
+既存の CNG コンテキストがサポートする関数の一覧から、暗号関数を削除する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptRemoveContextFunction can be called only in user mode.
+BCryptRemoveContextFunction はユーザーモードでのみ呼び出すことができる。
 
 
 %index
 BCryptResolveProviders
-Obtains a collection of all of the providers that meet the specified criteria.
+指定された条件をすべて満たすプロバイダの集合を取得する。
 %group
 Win32 bcrypt
 %prm
 pszContext, dwInterface, pszFunction, pszProvider, dwMode, dwFlags, pcbBuffer, ppBuffer
-pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context for which to obtain the providers.  If this is set to NULL or to an empty string, the default context is assumed.
-dwInterface : [int] The identifier of an interface that the provider must support. This must be one of the CNG Interface Identifiers. If the pszFunction parameter is not NULL or an empty string, you can set dwInterface to zero to force the function to infer the interface.
-pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the algorithm or function identifier that the provider must support. This can be one of the standard CNG Algorithm Identifiers or the identifier for another registered algorithm.  If dwInterface is set to a nonzero value, then pszFunction can be NULL to include all algorithms and functions.
-pszProvider : [wstr] A pointer to a null-terminated Unicode string that contains the name of the provider to retrieve. If this parameter is NULL, then all providers will be included. This parameter allows you to specify a specific provider to retrieve in the event that more than one provider meets the other criteria.
+pszContext : [wstr] プロバイダを取得する対象コンテキストの識別子を含む、null 終端 Unicode 文字列へのポインタ。NULL または空文字列に設定された場合、既定のコンテキストが使用される。
+dwInterface : [int] プロバイダがサポートしなければならないインターフェイスの識別子。CNG インターフェイス識別子のいずれかでなければならない。pszFunction パラメータが NULL でなく空文字列でもない場合、dwInterface に 0 を設定すれば、関数にインターフェイスを推測させることができる。
+pszFunction : [wstr] プロバイダがサポートしなければならないアルゴリズムまたは関数の識別子を含む、null 終端 Unicode 文字列へのポインタ。標準の CNG アルゴリズム識別子、または別の登録済みアルゴリズムの識別子を指定できる。dwInterface に 0 以外の値が設定されている場合、すべてのアルゴリズムおよび関数を含めるために pszFunction に NULL を指定できる。
+pszProvider : [wstr] 取得するプロバイダの名前を含む、null 終端 Unicode 文字列へのポインタ。このパラメータが NULL の場合、すべてのプロバイダが対象となる。このパラメータを使用すると、他の条件を満たすプロバイダが複数ある場合に、特定のプロバイダだけを取得対象として指定できる。
 dwMode : [int] 
-dwFlags : [int] A set of flags that modify the behavior of this function.
-pcbBuffer : [var] A pointer to a DWORD value that, on entry, contains the size, in bytes, of the buffer pointed to by the ppBuffer parameter. On exit, this value receives either the number of bytes copied to the buffer or the required size, in bytes, of the buffer.
-ppBuffer : [var] The address of a CRYPT_PROVIDER_REFS pointer that receives the collection of providers that meet the specified criteria. If this parameter is NULL, this function will return STATUS_SUCCESS and place in the value pointed to by the pcbBuffer parameter, the required size, in bytes, of all the data. If this parameter is the address of a NULL pointer, this function will allocate the required memory, fill the memory with the information about the providers, and place the pointer to this memory in this parameter. When you have finished using this memory,  free it by passing this pointer to the BCryptFreeBuffer function. If this parameter is the address of a non-NULL pointer, this function will copy the provider information into this buffer. The pcbBuffer parameter must contain the size, in bytes, of the entire buffer. If the buffer is not large enough to hold all of the provider information, this function will return STATUS_BUFFER_TOO_SMALL.
+dwFlags : [int] 関数の動作を変更するフラグの集合。
+pcbBuffer : [var] DWORD 値へのポインタで、入力時には ppBuffer パラメータが指すバッファのバイト単位のサイズを格納する。出力時には、バッファにコピーされたバイト数、またはバッファに必要なサイズ（バイト単位）を受け取る。
+ppBuffer : [var] 指定された条件を満たすプロバイダの集合を受け取る CRYPT_PROVIDER_REFS ポインタのアドレス。このパラメータが NULL の場合、関数は STATUS_SUCCESS を返し、pcbBuffer パラメータが指す値にすべてのデータの必要なサイズ（バイト単位）を格納する。このパラメータが NULL ポインタのアドレスである場合、関数は必要なメモリを確保し、プロバイダ情報で埋め、そのメモリへのポインタをこのパラメータに格納する。このメモリの使用が終わったら、このポインタを BCryptFreeBuffer 関数に渡して解放する。このパラメータが非 NULL ポインタのアドレスである場合、関数はプロバイダ情報をそのバッファにコピーする。pcbBuffer パラメータにはバッファ全体のバイト単位のサイズを格納しておく必要がある。バッファがすべてのプロバイダ情報を保持するのに十分でない場合、関数は STATUS_BUFFER_TOO_SMALL を返す。
 %inst
-Obtains a collection of all of the providers that meet the specified
-criteria.
+指定された条件をすべて満たすプロバイダの集合を取得する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptResolveProviders can be called either from user mode or kernel
-mode. Kernel mode callers must be executing at PASSIVE_LEVEL IRQL.
+BCryptResolveProviders はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は
+PASSIVE_LEVEL IRQL で実行されていなければならない。
 
 
 %index
 BCryptSecretAgreement
-Creates a secret agreement value from a private and a public key. (BCryptSecretAgreement)
+秘密鍵と公開鍵から秘密合意値を作成する。 (BCryptSecretAgreement)
 %group
 Win32 bcrypt
 %prm
 hPrivKey, hPubKey, phAgreedSecret, dwFlags
-hPrivKey : [int] The handle of the private key to use to create the secret agreement value. This key and the hPubKey key must come from the same CNG cryptographic algorithm provider.
-hPubKey : [int] The handle of the public key to use to create the secret agreement value. This key and the hPrivKey key must come from the same CNG cryptographic algorithm provider.
-phAgreedSecret : [var] A pointer to a BCRYPT_SECRET_HANDLE that receives a handle that represents the secret agreement value. This handle must be released by passing it to the BCryptDestroySecret function when it is no longer needed.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are defined for this function.
+hPrivKey : [int] 秘密合意値を作成するために使用する秘密鍵のハンドル。このキーと hPubKey キーは同じ CNG 暗号アルゴリズムプロバイダから取得されたものでなければならない。
+hPubKey : [int] 秘密合意値を作成するために使用する公開鍵のハンドル。このキーと hPrivKey キーは同じ CNG 暗号アルゴリズムプロバイダから取得されたものでなければならない。
+phAgreedSecret : [var] 秘密合意値を表すハンドルを受け取る BCRYPT_SECRET_HANDLE へのポインタ。このハンドルが不要になったら、BCryptDestroySecret 関数に渡して解放しなければならない。
+dwFlags : [int] 関数の動作を変更するフラグの集合。この関数で定義されているフラグはない。
 %inst
-Creates a secret agreement value from a private and a public key.
-(BCryptSecretAgreement)
+秘密鍵と公開鍵から秘密合意値を作成する。 (BCryptSecretAgreement)
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-Depending on what processor modes a provider supports,
-BCryptSecretAgreement can be called either from user mode or kernel
-mode. Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
-DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
-handles provided in the hPrivKey and hPubKey parameters must be
-derived from an algorithm handle returned by a provider that was
-opened by using the BCRYPT_PROV_DISPATCH flag, and any pointers
-passed to the BCryptSecretAgreement function must refer to nonpaged
-(or locked) memory. To call this function in kernel mode, use
-Cng.lib, which is part of the Driver Development Kit (DDK). Windows
-Server 2008 and Windows Vista: To call this function in kernel mode,
-use Ksecdd.lib.
+プロバイダがサポートするプロセッサモードに応じて、BCryptSecretAgreement
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL レベルが DISPATCH_LEVEL
+である場合、hPrivKey および hPubKey パラメータに渡すハンドルは BCRYPT_PROV_DISPATCH
+フラグを指定してオープンされたプロバイダから返されたアルゴリズムハンドルから取得されたものでなければならず、BCryptSecretAgreement
+関数に渡すポインタはページング不可（あるいはロックされた）メモリを参照しなければならない。この関数をカーネルモードで呼び出すには、Driver
+Development Kit (DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および
+Windows Vista: この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 
 
 %index
 BCryptSetContextFunctionProperty
-Sets the value of a named property for a cryptographic function in an existing CNG context.
+既存の CNG コンテキスト内の暗号関数に対する名前付きプロパティの値を設定する。
 %group
 Win32 bcrypt
 %prm
 dwTable, pszContext, dwInterface, pszFunction, pszProperty, cbValue, pbValue
 dwTable : [int] 
-pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to set the function property in.
+pszContext : [wstr] 関数プロパティを設定する対象コンテキストの識別子を含む、null 終端 Unicode 文字列へのポインタ。
 dwInterface : [int] 
-pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the cryptographic function to set the property for.
-pszProperty : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the property to set.
-cbValue : [int] Contains the size, in bytes, of the pbValue buffer. This is the exact number of bytes that will be stored. If the property value is a string, you should add the size of one character to also store the terminating null character, if needed.
-pbValue : [var] The address of a buffer that contains the new property value.
+pszFunction : [wstr] プロパティを設定する対象暗号関数の識別子を含む、null 終端 Unicode 文字列へのポインタ。
+pszProperty : [wstr] 設定するプロパティの識別子を含む、null 終端 Unicode 文字列へのポインタ。
+cbValue : [int] pbValue バッファのバイト単位のサイズを格納する。これは格納される正確なバイト数である。プロパティ値が文字列の場合、必要であれば終端 null 文字を格納するために 1 文字分のサイズを加えるべきである。
+pbValue : [var] 新しいプロパティ値を格納したバッファのアドレス。
 %inst
-Sets the value of a named property for a cryptographic function in an
-existing CNG context.
+既存の CNG コンテキスト内の暗号関数に対する名前付きプロパティの値を設定する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptSetContextFunctionProperty can be called only in user mode.
+BCryptSetContextFunctionProperty はユーザーモードでのみ呼び出すことができる。
 
 
 %index
 BCryptSetProperty
-Sets the value of a named property for a CNG object.
+CNG オブジェクトの名前付きプロパティの値を設定する。
 %group
 Win32 bcrypt
 %prm
 hObject, pszProperty, pbInput, cbInput, dwFlags
-hObject : [int] A handle that represents the CNG object to set the property value for.
-pszProperty : [wstr] A pointer to a null-terminated Unicode string that contains the name of the property to set. This can be one of the predefined Cryptography Primitive Property Identifiers or a custom property identifier.
-pbInput : [var] The address of a buffer that contains the new property value. The cbInput parameter contains the size of this buffer.
-cbInput : [int] The size, in bytes, of the pbInput buffer.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are defined for this function.
+hObject : [int] プロパティ値を設定する対象 CNG オブジェクトを表すハンドル。
+pszProperty : [wstr] 設定するプロパティの名前を含む、null 終端 Unicode 文字列へのポインタ。事前定義された Cryptography Primitive Property 識別子のいずれか、またはカスタムプロパティ識別子を指定できる。
+pbInput : [var] 新しいプロパティ値を格納したバッファのアドレス。cbInput パラメータがこのバッファのサイズを示す。
+cbInput : [int] pbInput バッファのバイト単位のサイズ。
+dwFlags : [int] 関数の動作を変更するフラグの集合。この関数で定義されているフラグはない。
 %inst
-Sets the value of a named property for a CNG object.
+CNG オブジェクトの名前付きプロパティの値を設定する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-Depending on what processor modes a provider supports,
-BCryptSetProperty can be called either from user mode or kernel mode.
-Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
-DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, any
-pointers passed to BCryptSetProperty must refer to nonpaged (or
-locked) memory. If the object specified in the hObject parameter is a
-handle, it must have been opened by using the BCRYPT_PROV_DISPATCH
-flag. To call this function in kernel mode, use Cng.lib, which is
-part of the Driver Development Kit (DDK). Windows Server 2008 and
-Windows Vista: To call this function in kernel mode, use Ksecdd.lib.
+プロバイダがサポートするプロセッサモードに応じて、BCryptSetProperty
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL レベルが DISPATCH_LEVEL
+である場合、BCryptSetProperty
+に渡すポインタはページング不可（あるいはロックされた）メモリを参照しなければならない。hObject
+パラメータに指定したオブジェクトがハンドルである場合、それは BCRYPT_PROV_DISPATCH
+フラグを指定してオープンされたものでなければならない。この関数をカーネルモードで呼び出すには、Driver Development Kit
+(DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および Windows Vista:
+この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 
 
 %index
 BCryptSignHash
-Creates a signature of a hash value. (BCryptSignHash)
+ハッシュ値の署名を作成する。 (BCryptSignHash)
 %group
 Win32 bcrypt
 %prm
 hKey, pPaddingInfo, pbInput, cbInput, pbOutput, cbOutput, pcbResult, dwFlags
-hKey : [int] The handle of the key to use to sign the hash.
-pPaddingInfo : [intptr] A pointer to a structure that contains padding information. The actual type of structure this parameter points to depends on the value of the dwFlags parameter. This parameter is only used with asymmetric keys and must be NULL otherwise.
-pbInput : [var] A pointer to a buffer that contains the hash value to sign. The cbInput parameter contains the size of this buffer.
-cbInput : [int] The number of bytes in the pbInput buffer to sign.
-pbOutput : [var] The address of a buffer to receive the signature produced by this function. The cbOutput parameter contains the size of this buffer. If this parameter is NULL, this function will calculate the size required for the signature and return the size in the location pointed to by the pcbResult parameter.
-cbOutput : [int] The size, in bytes, of the pbOutput buffer. This parameter is ignored if the pbOutput parameter is NULL.
-pcbResult : [var] A pointer to a ULONG variable that receives the number of bytes copied to the pbOutput buffer. If pbOutput is NULL, this receives the size, in bytes, required for the signature.
-dwFlags : [int] A set of flags that modify the behavior of this function. The allowed set of flags depends on the type of key specified by the hKey parameter.
+hKey : [int] ハッシュへの署名に使用するキーのハンドル。
+pPaddingInfo : [intptr] パディング情報を格納する構造体へのポインタ。このパラメータが指す構造体の実際の型は dwFlags パラメータの値に依存する。このパラメータは非対称キーでのみ使用され、それ以外の場合は NULL でなければならない。
+pbInput : [var] 署名するハッシュ値を格納したバッファへのポインタ。cbInput パラメータがこのバッファのサイズを示す。
+cbInput : [int] 署名する pbInput バッファ内のバイト数。
+pbOutput : [var] この関数によって生成された署名を受け取るバッファのアドレス。cbOutput パラメータがこのバッファのサイズを示す。このパラメータが NULL の場合、関数は署名に必要なサイズを計算し、そのサイズを pcbResult パラメータが指す位置に返す。
+cbOutput : [int] pbOutput バッファのバイト単位のサイズ。pbOutput パラメータが NULL の場合、このパラメータは無視される。
+pcbResult : [var] pbOutput バッファにコピーされたバイト数を受け取る ULONG 変数へのポインタ。pbOutput が NULL の場合、ここに署名に必要なサイズ（バイト単位）を受け取る。
+dwFlags : [int] 関数の動作を変更するフラグの集合。指定可能なフラグは hKey パラメータで指定するキーの種類に依存する。
 %inst
-Creates a signature of a hash value. (BCryptSignHash)
+ハッシュ値の署名を作成する。 (BCryptSignHash)
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-This function will encrypt the hash value with the specified key to
-create the signature. To later verify that the signature is valid,
-call the BCryptVerifySignature function with an identical key and an
-identical hash of the original data. Depending on what processor
-modes a provider supports, BCryptSignHash can be called either from
-user mode or kernel mode. Kernel mode callers can execute either at
-PASSIVE_LEVEL IRQL or DISPATCH_LEVEL IRQL. If the current IRQL level
-is DISPATCH_LEVEL, the handle provided in the hKey parameter must be
-derived from an algorithm handle returned by a provider that was
-opened with the BCRYPT_PROV_DISPATCH flag, and any pointers passed to
-the BCryptSignHash function must refer to nonpaged (or locked)
-memory. To call this function in kernel mode, use Cng.lib, which is
-part of the Driver Development Kit (DDK). Windows Server 2008 and
-Windows Vista: To call this function in kernel mode, use Ksecdd.lib.
+
+この関数は、指定されたキーでハッシュ値を暗号化して署名を作成する。後で署名が有効であることを検証するには、同一のキーと元データの同一のハッシュを用いて
+BCryptVerifySignature 関数を呼び出す。プロバイダがサポートするプロセッサモードに応じて、BCryptSignHash
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL レベルが DISPATCH_LEVEL
+である場合、hKey パラメータに渡すハンドルは BCRYPT_PROV_DISPATCH
+フラグを指定してオープンされたプロバイダから返されたアルゴリズムハンドルから取得されたものでなければならず、BCryptSignHash
+関数に渡すポインタはページング不可（あるいはロックされた）メモリを参照しなければならない。この関数をカーネルモードで呼び出すには、Driver
+Development Kit (DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および
+Windows Vista: この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 
 
 %index
 BCryptUnregisterConfigChangeNotify
-Removes a user mode CNG configuration change event handler that was created by using the BCryptRegisterConfigChangeNotify(HANDLE*) function.
+BCryptRegisterConfigChangeNotify(HANDLE*) 関数で作成されたユーザーモード CNG 構成変更イベントハンドラを削除する。
 %group
 Win32 bcrypt
 %prm
 hEvent
 hEvent : [intptr] 
 %inst
-Removes a user mode CNG configuration change event handler that was
-created by using the BCryptRegisterConfigChangeNotify(HANDLE*)
-function.
+BCryptRegisterConfigChangeNotify(HANDLE*) 関数で作成されたユーザーモード CNG
+構成変更イベントハンドラを削除する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-BCryptUnregisterConfigChangeNotify(HANDLE) can be called only in user
-mode. Code executing in kernel mode must call
-BCryptUnregisterConfigChangeNotify(PRKEVENT).
+BCryptUnregisterConfigChangeNotify(HANDLE)
+はユーザーモードでのみ呼び出せる。カーネルモードで実行されるコードは
+BCryptUnregisterConfigChangeNotify(PRKEVENT) を呼び出さなければならない。
 
 
 %index
 BCryptVerifySignature
-Verifies that the specified signature matches the specified hash. (BCryptVerifySignature)
+指定された署名が指定されたハッシュと一致することを検証する。 (BCryptVerifySignature)
 %group
 Win32 bcrypt
 %prm
 hKey, pPaddingInfo, pbHash, cbHash, pbSignature, cbSignature, dwFlags
-hKey : [int] The handle of the key to use to decrypt the signature. This must be an identical key or the public key portion of the key pair used to sign the data with the BCryptSignHash function.
-pPaddingInfo : [intptr] A pointer to a structure that contains padding information. The actual type of structure this parameter points to depends on the value of the dwFlags parameter. This parameter is only used with asymmetric keys and must be NULL otherwise.
-pbHash : [var] The address of a buffer that contains the hash of the data. The cbHash parameter contains the size of this buffer.
-cbHash : [int] The size, in bytes, of the pbHash buffer.
-pbSignature : [var] The address of a buffer that contains the signed hash of the data. The BCryptSignHash function is used to create the signature. The cbSignature parameter contains the size of this buffer.
-cbSignature : [int] The size, in bytes, of the pbSignature buffer. The BCryptSignHash function is used to create the signature.
-dwFlags : [int] A set of flags that modify the behavior of this function. The allowed set of flags depends on the type of key specified by the hKey parameter. If the key is a symmetric key, this parameter is not used and should be zero.
+hKey : [int] 署名を復号するために使用するキーのハンドル。これは BCryptSignHash 関数でデータに署名するために使用したキー、または、その鍵ペアの公開鍵部分でなければならない。
+pPaddingInfo : [intptr] パディング情報を格納する構造体へのポインタ。このパラメータが指す構造体の実際の型は dwFlags パラメータの値に依存する。このパラメータは非対称キーでのみ使用され、それ以外の場合は NULL でなければならない。
+pbHash : [var] データのハッシュを格納するバッファのアドレス。cbHash パラメータがこのバッファのサイズを示す。
+cbHash : [int] pbHash バッファのバイト単位のサイズ。
+pbSignature : [var] データの署名済みハッシュを格納するバッファのアドレス。署名は BCryptSignHash 関数を使用して作成する。cbSignature パラメータがこのバッファのサイズを示す。
+cbSignature : [int] pbSignature バッファのバイト単位のサイズ。署名は BCryptSignHash 関数を使用して作成する。
+dwFlags : [int] 関数の動作を変更するフラグの集合。指定可能なフラグは hKey パラメータで指定するキーの種類に依存する。キーが対称キーの場合、このパラメータは使用されないので 0 を指定する。
 %inst
-Verifies that the specified signature matches the specified hash.
-(BCryptVerifySignature)
+指定された署名が指定されたハッシュと一致することを検証する。 (BCryptVerifySignature)
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+返される可能性のあるコードには次のものが含まれるが、これらに限られない。
+（以下省略）
 
 [備考]
-This function calculates the signature with provided key and then
-compares calculated signature value to the specified signature value.
-To use this function, you must hash the data by using the same
-hashing algorithm that was used to create the hash value that was
-signed. If applicable, you must also specify the same padding scheme
-that was specified when the signature was created. Depending on what
-processor modes a provider supports, BCryptVerifySignature can be
-called either from user mode or kernel mode. Kernel mode callers can
-execute either at PASSIVE_LEVEL IRQL or DISPATCH_LEVEL IRQL. If the
-current IRQL level is DISPATCH_LEVEL, the handle provided in the hKey
-parameter must be derived from an algorithm handle returned by a
-provider that was opened by using the BCRYPT_PROV_DISPATCH flag, and
-any pointers passed to the BCryptVerifySignature function must refer
-to nonpaged (or locked) memory. To call this function in kernel mode,
-use Cng.lib, which is part of the Driver Development Kit (DDK).
-Windows Server 2008 and Windows Vista: To call this function in
-kernel mode, use Ksecdd.lib.
+
+この関数は指定されたキーで署名を計算し、計算した署名値を指定された署名値と比較する。この関数を使用するには、署名されたハッシュ値の作成に使用したのと同じハッシュアルゴリズムでデータをハッシュしなければならない。該当する場合、署名作成時に指定したのと同じパディング方式も指定しなければならない。プロバイダがサポートするプロセッサモードに応じて、BCryptVerifySignature
+はユーザーモードまたはカーネルモードのいずれからでも呼び出せる。カーネルモードの呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL レベルが DISPATCH_LEVEL
+である場合、hKey パラメータに渡すハンドルは BCRYPT_PROV_DISPATCH
+フラグを指定してオープンされたプロバイダから返されたアルゴリズムハンドルから取得されたものでなければならず、BCryptVerifySignature
+関数に渡すポインタはページング不可（あるいはロックされた）メモリを参照しなければならない。この関数をカーネルモードで呼び出すには、Driver
+Development Kit (DDK) に含まれる Cng.lib を使用する。Windows Server 2008 および
+Windows Vista: この関数をカーネルモードで呼び出すには Ksecdd.lib を使用する。
 

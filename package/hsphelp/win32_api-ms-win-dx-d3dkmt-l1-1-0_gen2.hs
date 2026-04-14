@@ -6,16 +6,15 @@
 
 %index
 GdiEntry13
-Returns the current value of an integer that is incremented whenever a mode switch occurs, such as when there is a desktop switch, a Fast User Switch, or a full-screen Microsoft MS-DOS box.
+デスクトップ切り替え、ユーザーの簡易切り替え、フルスクリーンの Microsoft MS-DOS ボックスなど、モード切り替えが発生するたびにインクリメントされる整数の現在の値を返す。
 %group
 Win32 api-ms-win-dx-d3dkmt-l1-1-0
 %prm
 
 %inst
-Returns the current value of an integer that is incremented whenever
-a mode switch occurs, such as when there is a desktop switch, a Fast
-User Switch, or a full-screen Microsoft MS-DOS box.
+デスクトップ切り替え、ユーザーの簡易切り替え、フルスクリーンの Microsoft MS-DOS
+ボックスなど、モード切り替えが発生するたびにインクリメントされる整数の現在の値を返す。
 
 [戻り値]
-The current value of the mode switch integer is returned.
+モード切り替えカウンタの現在の値を返す。
 

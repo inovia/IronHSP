@@ -6,76 +6,57 @@
 
 %index
 CommDlgExtendedError
-The CommDlgExtendedError function (commdlg.h) returns a common dialog box error code.
+CommDlgExtendedError 関数 (commdlg.h) はコモンダイアログボックスのエラーコードを返す。
 %group
 Win32 comdlg32
 %prm
 
 %inst
-The CommDlgExtendedError function (commdlg.h) returns a common dialog
-box error code.
+CommDlgExtendedError 関数 (commdlg.h) はコモンダイアログボックスのエラーコードを返す。
 
 [戻り値]
-Type: DWORD If the most recent call to a common dialog box function
-succeeded, the return value is undefined. If the common dialog box
-function returned FALSE because the user closed or canceled the
-dialog box, the return value is zero. Otherwise, the return value is
-a nonzero error code. The CommDlgExtendedError function can return
-general error codes for any of the common dialog box functions. In
-addition, there are error codes that are returned only for a specific
-common dialog box. All of these error codes are defined in Cderr.h.
-The following general error codes can be returned for any of the
-common dialog box functions.
-This doc was truncated.
+型: DWORD
+直近のコモンダイアログ関数の呼び出しが成功した場合、戻り値は未定義となる。ユーザーがダイアログボックスを閉じる、またはキャンセルしたために
+FALSE が返された場合、戻り値は 0 となる。それ以外の場合、戻り値は 0
+以外のエラーコードとなる。CommDlgExtendedError
+関数は、いずれのコモンダイアログボックス関数についても一般的なエラーコードを返すことができる。さらに、特定のコモンダイアログボックスでのみ返されるエラーコードもある。これらのエラーコードはすべて
+Cderr.h で定義されている。任意のコモンダイアログボックス関数で返される可能性のある一般的なエラーコードを以下に示す。
+（以下省略）
 
 
 %index
 GetFileTitleW
-Retrieves the name of the specified file. (Unicode)
+指定されたファイルの名前を取得する。(Unicode)
 %group
 Win32 comdlg32
 %prm
 param0, Buf, cchSize
 param0 : [wstr] 
-Buf : [wstr] Type: LPTSTR The buffer that receives the name of the file.
-cchSize : [int] Type: WORD The length, in characters, of the buffer pointed to by the lpszTitle parameter.
+Buf : [wstr] 型: LPTSTR ファイル名を受け取るバッファ。
+cchSize : [int] 型: WORD lpszTitle パラメータが指すバッファの長さ（文字数）。
 %inst
-Retrieves the name of the specified file. (Unicode)
+指定されたファイルの名前を取得する。(Unicode)
 
 [戻り値]
-Type: short If the function succeeds, the return value is zero. If
-the file name is invalid, the return value is unknown. If there is an
-error, the return value is a negative number. If the buffer pointed
-to by the lpszTitle parameter is too small, the return value is a
-positive integer that specifies the required buffer size, in
-characters. The required buffer size includes the terminating null
-character.
+型: short 関数が成功した場合、戻り値は 0
+である。ファイル名が無効な場合、戻り値は不定である。エラーが発生した場合、戻り値は負の数となる。lpszTitle
+パラメータが指すバッファが小さすぎる場合、戻り値は必要なバッファサイズ（文字数）を表す正の整数となる。必要なバッファサイズには終端の
+null 文字も含まれる。
 
 [備考]
-GetFileTitle should only be called with legal file names; using an
-illegal file name has an undefined result. To get the buffer size
-needed for the name of a file, call the function with lpszTitle set
-to NULL and cchSize set to zero. The function returns the required
-size. GetFileTitle returns the string that the system would use to
-display the file name to the user. The display name includes an
-extension only if that is the user's preference for displaying file
-names. This means that the returned string may not accurately
-identify the file if it is used in calls to file system functions. If
-the lpszTitle buffer is too small, GetFileTitle returns the size
-required to hold the display name. However, there is no guaranteed
-relationship between the required size and the characters originally
-specified in the lpszFile buffer. For example, do not call
-GetFileTitle with lpszTitle set to NULL and cchSize set to zero, and
-then try to use the return value as an index into the lpszFile
-string. You can usually achieve similar results (and superior
-performance) with C run-time library functions such as strrchr,
-wcsrchr, and _mbsrchr.
-> [!NOTE] > The commdlg.h header defines GetFileTitle as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+GetFileTitle
+は正当なファイル名でのみ呼び出すべきである。不正なファイル名を使用した場合の結果は未定義である。ファイル名を格納するために必要なバッファサイズを取得するには、lpszTitle
+に NULL、cchSize に 0 を指定して関数を呼び出す。関数は必要なサイズを返す。GetFileTitle
+はシステムがファイル名をユーザーに表示する際に使用する文字列を返す。表示名は、ユーザーがファイル名表示の設定で拡張子表示を有効にしている場合にのみ拡張子を含む。そのため、返される文字列はファイルシステム関数の呼び出しに使用する場合、ファイルを正確に識別できないことがある。lpszTitle
+バッファが小さすぎる場合、GetFileTitle は表示名を保持するために必要なサイズを返す。ただし、必要サイズと lpszFile
+バッファに元々指定された文字との間に保証された関係はない。例えば、lpszTitle に NULL、cchSize に 0 を指定して
+GetFileTitle を呼び出し、その戻り値を lpszFile
+文字列のインデックスとして使用してはならない。同様の結果（およびより優れた性能）は、strrchr、wcsrchr、_mbsrchr
+などの C ランタイムライブラリ関数で達成できることが多い。
+> [!NOTE] > commdlg.h ヘッダは GetFileTitle を、UNICODE
+プリプロセッサ定数の定義に基づいてこの関数の ANSI 版または Unicode
+版を自動的に選択するエイリアスとして定義している。エンコーディング中立なエイリアスとエンコーディング中立でないコードを混在させると、コンパイルや実行時のエラーにつながる不一致が発生する場合がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 

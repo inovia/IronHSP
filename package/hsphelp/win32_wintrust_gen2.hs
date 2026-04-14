@@ -6,49 +6,45 @@
 
 %index
 CryptSIPCreateIndirectData
-Returns a SIP_INDIRECT_DATA structure that contains a hash of the supplied SIP_SUBJECTINFO structure, the digest algorithm, and an encoding attribute. The hash can be used as an indirect reference to the data.
+指定された SIP_SUBJECTINFO 構造体のハッシュ、ダイジェストアルゴリズム、およびエンコーディング属性を含む SIP_INDIRECT_DATA 構造体を返す。このハッシュはデータへの間接参照として使用できる。
 %group
 Win32 wintrust
 %prm
 pSubjectInfo, pcbIndirectData, pIndirectData
-pSubjectInfo : [var] A pointer to a [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) structure that contains the subject to which the indirect data reference will point.
-pcbIndirectData : [var] A pointer to a [SIP_INDIRECT_DATA](/windows/desktop/api/mssip/ns-mssip-sip_indirect_data) structure.
-pIndirectData : [var] A pointer to a [SIP_INDIRECT_DATA](/windows/desktop/api/mssip/ns-mssip-sip_indirect_data) structure to receive the catalog item.
+pSubjectInfo : [var] 間接データ参照が指し示す対象（サブジェクト）を含む [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) 構造体へのポインタ。
+pcbIndirectData : [var] [SIP_INDIRECT_DATA](/windows/desktop/api/mssip/ns-mssip-sip_indirect_data) 構造体へのポインタ。
+pIndirectData : [var] カタログ項目を受け取る [SIP_INDIRECT_DATA](/windows/desktop/api/mssip/ns-mssip-sip_indirect_data) 構造体へのポインタ。
 %inst
-Returns a SIP_INDIRECT_DATA structure that contains a hash of the
-supplied SIP_SUBJECTINFO structure, the digest algorithm, and an
-encoding attribute. The hash can be used as an indirect reference to
-the data.
+指定された SIP_SUBJECTINFO 構造体のハッシュ、ダイジェストアルゴリズム、およびエンコーディング属性を含む
+SIP_INDIRECT_DATA 構造体を返す。このハッシュはデータへの間接参照として使用できる。
 
 [戻り値]
-The return value is TRUE if the function succeeds; otherwise, FALSE.
-If this function returns FALSE, additional error information can be
-obtained by calling the GetLastError function. GetLastError will
-return one of the following error codes.
-This doc was truncated.
+関数が成功した場合は TRUE、そうでない場合は FALSE が返される。
+この関数が FALSE を返した場合、GetLastError 関数を呼び出すことで追加のエラー情報を取得できる。GetLastError
+は次のいずれかのエラーコードを返す。
+（以下省略）
 
 [備考]
-If pcbIndirectData points to a DWORD and pIndirectData points to
-NULL, the size of the data will be returned in pcbIndirectData.
+pcbIndirectData が DWORD を指し、pIndirectData が NULL を指している場合、データのサイズが
+pcbIndirectData に返される。
 
 
 %index
 CryptSIPGetCaps
-Retrieves the capabilities of a subject interface package (SIP).
+サブジェクトインターフェイスパッケージ (SIP) の機能を取得する。
 %group
 Win32 wintrust
 %prm
 pSubjInfo, pCaps
-pSubjInfo : [var] Pointer to a [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) structure that specifies subject information data to the SIP APIs.
-pCaps : [var] Pointer to a SIP_CAP_SET structure that defines the capabilities of an SIP.
+pSubjInfo : [var] SIP API に対して対象情報データを指定する [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) 構造体へのポインタ。
+pCaps : [var] SIP の機能を定義する SIP_CAP_SET 構造体へのポインタ。
 %inst
-Retrieves the capabilities of a subject interface package (SIP).
+サブジェクトインターフェイスパッケージ (SIP) の機能を取得する。
 
 [備考]
-Unlike other SIP functions,
-[SIP_DISPATCH_INFO](/windows/desktop/api/mssip/ns-mssip-sip_dispatch_info)
-structure. Instead, callers must map the object identifier (OID) to
-the function entry point.
+他の SIP
+関数と異なり、[SIP_DISPATCH_INFO](/windows/desktop/api/mssip/ns-mssip-sip_dispatch_info)
+構造体とは異なる。代わりに、呼び出し元はオブジェクト識別子 (OID) を関数のエントリポイントにマップする必要がある。
 
 
 %index
@@ -69,103 +65,91 @@ pcbDigest : [var]
 
 %index
 CryptSIPGetSignedDataMsg
-Retrieves an Authenticode signature from the file.
+ファイルから Authenticode 署名を取得する。
 %group
 Win32 wintrust
 %prm
 pSubjectInfo, pdwEncodingType, dwIndex, pcbSignedDataMsg, pbSignedDataMsg
-pSubjectInfo : [var] A pointer to a [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) structure that contains information about the message subject.
-pdwEncodingType : [var] The encoding type of the Authenticode signature.
-dwIndex : [int] This parameter is reserved and should be set to zero.
-pcbSignedDataMsg : [var] The length, in bytes, of the buffer pointed to by the pbSignedDataMsg parameter.
-pbSignedDataMsg : [var] A pointer to a buffer to receive the returned Authenticode signature. To determine the size of the buffer needed, set the pbSignedDataMsg parameter to NULL and call the CryptSIPGetSignedDataMsg function. This function will place the required size of the buffer, in bytes, in the value pointed to by pcbSignedDataMsg. For more information, see Retrieving Data of Unknown Length.
+pSubjectInfo : [var] メッセージのサブジェクトに関する情報を含む [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) 構造体へのポインタ。
+pdwEncodingType : [var] Authenticode 署名のエンコーディング種別。
+dwIndex : [int] このパラメータは予約されており、0 に設定する必要がある。
+pcbSignedDataMsg : [var] pbSignedDataMsg パラメータが指すバッファの長さ（バイト単位）。
+pbSignedDataMsg : [var] 返される Authenticode 署名を受け取るバッファへのポインタ。必要なバッファサイズを求めるには、pbSignedDataMsg を NULL に設定して CryptSIPGetSignedDataMsg 関数を呼び出す。この関数は必要なバッファサイズ（バイト単位）を pcbSignedDataMsg が指す値に格納する。詳細は「長さが不明なデータの取得」を参照。
 %inst
-Retrieves an Authenticode signature from the file.
+ファイルから Authenticode 署名を取得する。
 
 [戻り値]
-If the function succeeds, the function returns TRUE. If the function
-fails, it returns FALSE. For extended error information, call
-GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合は TRUE を返す。関数が失敗した場合は FALSE を返す。拡張エラー情報を取得するには GetLastError
+を呼び出す。返される可能性のあるエラーコードの一部を以下に示す。
+（以下省略）
 
 [備考]
-Subjects include, but are not limited to, portable executable images
-(.exe), cabinet (.cab) images, flat files, and catalog files. Each
-subject type uses a different subset of its data for hash calculation
-and requires a different procedure for storage and retrieval.
-Therefore, each subject type has a unique SIP specification.
+サブジェクトには、ポータブル実行イメージ (.exe)、キャビネット (.cab)
+イメージ、フラットファイル、カタログファイルなどが含まれるが、これらに限定されない。サブジェクト種別ごとに、ハッシュ計算に使用するデータのサブセットが異なり、格納や取得の手順も異なる。そのため、サブジェクト種別ごとに固有の
+SIP 仕様が存在する。
 
 
 %index
 CryptSIPPutSignedDataMsg
-Stores an Authenticode signature in the target file.
+対象ファイルに Authenticode 署名を格納する。
 %group
 Win32 wintrust
 %prm
 pSubjectInfo, dwEncodingType, pdwIndex, cbSignedDataMsg, pbSignedDataMsg
-pSubjectInfo : [var] Pointer to a [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) structure that contains information about the message subject.
+pSubjectInfo : [var] メッセージのサブジェクトに関する情報を含む [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) 構造体へのポインタ。
 dwEncodingType : [int] 
-pdwIndex : [var] Pointer to the message index.
-cbSignedDataMsg : [int] Length, in bytes, of the buffer pointed to by the pbSignedDataMsg parameter.
-pbSignedDataMsg : [var] Pointer to the buffer that contains the message.
+pdwIndex : [var] メッセージインデックスへのポインタ。
+cbSignedDataMsg : [int] pbSignedDataMsg パラメータが指すバッファの長さ（バイト単位）。
+pbSignedDataMsg : [var] メッセージを格納したバッファへのポインタ。
 %inst
-Stores an Authenticode signature in the target file.
+対象ファイルに Authenticode 署名を格納する。
 
 [戻り値]
-If the function succeeds, the function returns TRUE. If the function
-fails, it returns FALSE. For extended error information, call
-GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合は TRUE を返す。関数が失敗した場合は FALSE を返す。拡張エラー情報を取得するには GetLastError
+を呼び出す。返される可能性のあるエラーコードの一部を以下に示す。
+（以下省略）
 
 [備考]
-Each subject type uses a different subset of its data for hash
-calculation and requires a different procedure for storage and
-retrieval. Therefore, each subject type has a unique SIP
-specification.
+サブジェクト種別ごとに、ハッシュ計算に使用するデータのサブセットが異なり、格納や取得の手順も異なる。そのため、サブジェクト種別ごとに固有の
+SIP 仕様が存在する。
 
 
 %index
 CryptSIPRemoveSignedDataMsg
-Removes a specified Authenticode signature.
+指定された Authenticode 署名を削除する。
 %group
 Win32 wintrust
 %prm
 pSubjectInfo, dwIndex
-pSubjectInfo : [var] A pointer to a [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) structure that contains information about the message subject.
-dwIndex : [int] This parameter is reserved and should be set to zero.
+pSubjectInfo : [var] メッセージのサブジェクトに関する情報を含む [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) 構造体へのポインタ。
+dwIndex : [int] このパラメータは予約されており、0 に設定する必要がある。
 %inst
-Removes a specified Authenticode signature.
+指定された Authenticode 署名を削除する。
 
 [戻り値]
-If the function succeeds, the function returns TRUE. If the function
-fails, it returns FALSE. For extended error information, call
-GetLastError.
+関数が成功した場合は TRUE を返す。関数が失敗した場合は FALSE を返す。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 
 %index
 CryptSIPVerifyIndirectData
-Validates the indirect hashed data against the supplied subject.
+間接ハッシュ化データを指定されたサブジェクトに対して検証する。
 %group
 Win32 wintrust
 %prm
 pSubjectInfo, pIndirectData
-pSubjectInfo : [var] A pointer to a [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) structure that contains information about the message subject.
-pIndirectData : [var] A pointer to a [SIP_INDIRECT_DATA](/windows/desktop/api/mssip/ns-mssip-sip_indirect_data) structure that contains information about the hashed subject information.
+pSubjectInfo : [var] メッセージのサブジェクトに関する情報を含む [SIP_SUBJECTINFO](/windows/desktop/api/mssip/ns-mssip-sip_subjectinfo) 構造体へのポインタ。
+pIndirectData : [var] ハッシュ化されたサブジェクト情報に関する情報を含む [SIP_INDIRECT_DATA](/windows/desktop/api/mssip/ns-mssip-sip_indirect_data) 構造体へのポインタ。
 %inst
-Validates the indirect hashed data against the supplied subject.
+間接ハッシュ化データを指定されたサブジェクトに対して検証する。
 
 [戻り値]
-The return value is TRUE if the function succeeds; otherwise, FALSE.
-If this function returns FALSE, additional error information can be
-obtained by calling the GetLastError function. GetLastError will
-return one of the following error codes.
-This doc was truncated.
+関数が成功した場合は TRUE、そうでない場合は FALSE が返される。
+この関数が FALSE を返した場合、GetLastError 関数を呼び出すことで追加のエラー情報を取得できる。GetLastError
+は次のいずれかのエラーコードを返す。
+（以下省略）
 
 [備考]
-Subjects include, but are not limited to, portable executable images
-(.exe), cabinet (.cab) images, flat files, and catalog files. Each
-subject type uses a different subset of its data for hash calculation
-and requires a different procedure for storage and retrieval.
-Therefore each subject type has a unique subject interface package
-specification.
+サブジェクトには、ポータブル実行イメージ (.exe)、キャビネット (.cab)
+イメージ、フラットファイル、カタログファイルなどが含まれるが、これらに限定されない。サブジェクト種別ごとに、ハッシュ計算に使用するデータのサブセットが異なり、格納や取得の手順も異なる。そのため、サブジェクト種別ごとに固有のサブジェクトインターフェイスパッケージ仕様が存在する。
 

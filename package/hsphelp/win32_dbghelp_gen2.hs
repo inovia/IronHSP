@@ -20,263 +20,212 @@ UserData : [intptr]
 
 %index
 EnumDirTree
-The EnumDirTree function (dbghelp.h) enumerates all occurrences of the specified file in the specified directory tree.
+EnumDirTree ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠƒcƒŠ[“à‚É‚ ‚éw’èƒtƒ@ƒCƒ‹‚ÌoŒ»‰ÓŠ‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, RootPath, InputPathName, OutputPathBuffer, cb, data
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-RootPath : [str] The path where the function should begin searching for the file.
-InputPathName : [str] The name of the file to be found. You can specify a partial path.
-OutputPathBuffer : [str] A pointer to a buffer that receives the full path of the file. If the function fails or does not find a matching file, this buffer will still contain the last full path that was found. This parameter is optional and can be NULL.
-cb : [int] An application-defined callback function, or NULL. For more information, see EnumDirTreeProc.
-data : [intptr] The user-defined data or NULL. This value is passed to the callback function.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+RootPath : [str] ƒtƒ@ƒCƒ‹ŒŸõ‚ğŠJn‚·‚éƒpƒXB
+InputPathName : [str] ŒŸõ‘ÎÛ‚Ìƒtƒ@ƒCƒ‹–¼B•”•ªƒpƒX‚ğw’è‚Å‚«‚éB
+OutputPathBuffer : [str] ƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[BŠÖ”‚ª¸”s‚µ‚½ê‡‚âˆê’v‚·‚éƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚Å‚àA‚±‚Ìƒoƒbƒtƒ@‚É‚ÍÅŒã‚ÉŒ©‚Â‚©‚Á‚½ƒtƒ‹ƒpƒX‚ªŠi”[‚³‚ê‚½‚Ü‚Ü‚Æ‚È‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ÍÈ—ª‰Â”\‚ÅANULL ‚ğw’è‚Å‚«‚éB
+cb : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”A‚Ü‚½‚Í NULLBÚ×‚Í EnumDirTreeProc ‚ğQÆB
+data : [intptr] ƒ†[ƒU[’è‹`ƒf[ƒ^A‚Ü‚½‚Í NULLB‚±‚Ì’l‚ÍƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB
 %inst
-The EnumDirTree function (dbghelp.h) enumerates all occurrences of
-the specified file in the specified directory tree.
+EnumDirTree ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠƒcƒŠ[“à‚É‚ ‚éw’èƒtƒ@ƒCƒ‹‚ÌoŒ»‰ÓŠ‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The search can be canceled if you register a
-SymRegisterCallbackProc64 callback function. For every file
-operation, EnumDirTree calls this callback function with
-CBA_DEFERRED_SYMBOL_LOAD_CANCEL. If the callback function returns
-TRUE, EnumDirTree cancels the search. All DbgHelp functions, such as
-this one, are single threaded. Therefore, calls from more than one
-thread to this function will likely result in unexpected behavior or
-memory corruption. To avoid this, you must synchronize all concurrent
-calls from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
+SymRegisterCallbackProc64 ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚µ‚Ä‚¨‚¯‚ÎAŒŸõ‚ğƒLƒƒƒ“ƒZƒ‹‚Å‚«‚éBEnumDirTree
+‚Íƒtƒ@ƒCƒ‹‘€ì‚Ì‚½‚Ñ‚É‚±‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ CBA_DEFERRED_SYMBOL_LOAD_CANCEL
+‚ÅŒÄ‚Ño‚·BƒR[ƒ‹ƒoƒbƒNŠÖ”‚ª TRUE ‚ğ•Ô‚·‚Æ EnumDirTree ‚ÍŒŸõ‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 EnumerateLoadedModules64
-Enumerates the loaded modules for the specified process. (EnumerateLoadedModules64)
+w’è‚µ‚½ƒvƒƒZƒX‚Éƒ[ƒhÏ‚İ‚Ìƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚éB(EnumerateLoadedModules64)
 %group
 Win32 dbghelp
 %prm
 hProcess, EnumLoadedModulesCallback, UserContext
-hProcess : [intptr] A handle to the process whose modules will be enumerated.
-EnumLoadedModulesCallback : [int] An application-defined callback function. For more information, see EnumerateLoadedModulesProc64.
-UserContext : [intptr] Optional user-defined data. This value is passed to the callback function.
+hProcess : [intptr] ƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚é‘ÎÛƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+EnumLoadedModulesCallback : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”BÚ×‚Í EnumerateLoadedModulesProc64 ‚ğQÆB
+UserContext : [intptr] È—ª‰Â”\‚Èƒ†[ƒU[’è‹`ƒf[ƒ^B‚±‚Ì’l‚ÍƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB
 %inst
-Enumerates the loaded modules for the specified process.
-(EnumerateLoadedModules64)
+w’è‚µ‚½ƒvƒƒZƒX‚Éƒ[ƒhÏ‚İ‚Ìƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚éB(EnumerateLoadedModules64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, EnumerateLoadedModulesW64, define DBGHELP_TRANSLATE_TCHAR.
-EnumerateLoadedModulesW64 is defined as follows in DbgHelp.h.
-This doc was truncated.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚Ì EnumerateLoadedModulesW64 ‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR
+‚ğ’è‹`‚·‚éBEnumerateLoadedModulesW64 ‚Í DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 EnumerateLoadedModulesEx
-The EnumerateLoadedModulesEx function (dbghelp.h) enumerates the loaded modules for the specified process.
+EnumerateLoadedModulesEx ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒvƒƒZƒX‚Éƒ[ƒhÏ‚İ‚Ìƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, EnumLoadedModulesCallback, UserContext
-hProcess : [intptr] A handle to the process whose modules will be enumerated.
-EnumLoadedModulesCallback : [int] An application-defined callback function. For more information, see EnumerateLoadedModulesProc64.
-UserContext : [intptr] Optional user-defined data. This value is passed to the callback function.
+hProcess : [intptr] ƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚é‘ÎÛƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+EnumLoadedModulesCallback : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”BÚ×‚Í EnumerateLoadedModulesProc64 ‚ğQÆB
+UserContext : [intptr] È—ª‰Â”\‚Èƒ†[ƒU[’è‹`ƒf[ƒ^B‚±‚Ì’l‚ÍƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB
 %inst
-The EnumerateLoadedModulesEx function (dbghelp.h) enumerates the
-loaded modules for the specified process.
+EnumerateLoadedModulesEx ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒvƒƒZƒX‚Éƒ[ƒhÏ‚İ‚Ìƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 EnumerateLoadedModulesW64
-Enumerates the loaded modules for the specified process. (EnumerateLoadedModulesW64)
+w’è‚µ‚½ƒvƒƒZƒX‚Éƒ[ƒhÏ‚İ‚Ìƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚éB(EnumerateLoadedModulesW64)
 %group
 Win32 dbghelp
 %prm
 hProcess, EnumLoadedModulesCallback, UserContext
-hProcess : [intptr] A handle to the process whose modules will be enumerated.
-EnumLoadedModulesCallback : [int] An application-defined callback function. For more information, see EnumerateLoadedModulesProc64.
-UserContext : [intptr] Optional user-defined data. This value is passed to the callback function.
+hProcess : [intptr] ƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚é‘ÎÛƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+EnumLoadedModulesCallback : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”BÚ×‚Í EnumerateLoadedModulesProc64 ‚ğQÆB
+UserContext : [intptr] È—ª‰Â”\‚Èƒ†[ƒU[’è‹`ƒf[ƒ^B‚±‚Ì’l‚ÍƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB
 %inst
-Enumerates the loaded modules for the specified process.
-(EnumerateLoadedModulesW64)
+w’è‚µ‚½ƒvƒƒZƒX‚Éƒ[ƒhÏ‚İ‚Ìƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚·‚éB(EnumerateLoadedModulesW64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, EnumerateLoadedModulesW64, define DBGHELP_TRANSLATE_TCHAR.
-EnumerateLoadedModulesW64 is defined as follows in DbgHelp.h.
-This doc was truncated.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚Ì EnumerateLoadedModulesW64 ‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR
+‚ğ’è‹`‚·‚éBEnumerateLoadedModulesW64 ‚Í DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 FindDebugInfoFile
-Locates a debug (.dbg) file.
+ƒfƒoƒbƒO (.dbg) ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
 %group
 Win32 dbghelp
 %prm
 FileName, SymbolPath, DebugFilePath
-FileName : [str] The name of the .dbg file that is desired. You can use a partial path.
-SymbolPath : [str] The path where symbol files are located. This can be multiple paths separated by semicolons. To retrieve the symbol path, use the SymGetSearchPath function.
-DebugFilePath : [str] A pointer to a buffer that receives the full path of the .dbg file.
+FileName : [str] æ“¾‚µ‚½‚¢ .dbg ƒtƒ@ƒCƒ‹‚Ì–¼‘OB•”•ªƒpƒX‚ğw’è‚Å‚«‚éB
+SymbolPath : [str] ƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ª’u‚©‚ê‚Ä‚¢‚éƒpƒXBƒZƒ~ƒRƒƒ“‚Å‹æØ‚Á‚Ä•¡”‚ÌƒpƒX‚ğw’è‚Å‚«‚éBƒVƒ“ƒ{ƒ‹ƒpƒX‚ğæ“¾‚·‚é‚É‚Í SymGetSearchPath ŠÖ”‚ğg‚¤B
+DebugFilePath : [str] .dbg ƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Locates a debug (.dbg) file.
+ƒfƒoƒbƒO (.dbg) ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is an open handle to the
-.dbg file. If the function fails, the return value is NULL. To
-retrieve extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í .dbg ƒtƒ@ƒCƒ‹‚É‘Î‚·‚éƒI[ƒvƒ“Ï‚İƒnƒ“ƒhƒ‹‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL
+‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The FindDebugInfoFile function is used to locate a .dbg file. This
-function is provided so the search can be conducted in several
-different directories through a single function call. The SymbolPath
-parameter can contain multiple paths, with each separated by a
-semicolon (;). When multiple paths are specified, the function
-searches each directory for the file. Subdirectories are not
-searched. When the file is located, the search stops. Thus, be sure
-to specify SymbolPath with the paths in the correct order. All
-DbgHelp functions, such as this one, are single threaded. Therefore,
-calls from more than one thread to this function will likely result
-in unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function.
+FindDebugInfoFile ŠÖ”‚Í .dbg
+ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚é‚½‚ß‚É—p‚¢‚éB‚±‚ÌŠÖ”‚É‚æ‚èA’Pˆê‚ÌŠÖ”ŒÄ‚Ño‚µ‚Å•¡”‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğ‘ÎÛ‚ÉŒŸõ‚Å‚«‚éBSymbolPath
+ƒpƒ‰ƒ[ƒ^[‚É‚ÍƒZƒ~ƒRƒƒ“ (;)
+‚Å‹æØ‚Á‚Ä•¡”‚ÌƒpƒX‚ğw’è‚Å‚«‚éB•¡”‚ÌƒpƒX‚ğw’è‚µ‚½ê‡AŠÖ”‚ÍŠeƒfƒBƒŒƒNƒgƒŠ“à‚Åƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éBƒTƒuƒfƒBƒŒƒNƒgƒŠ‚ÍŒŸõ‚³‚ê‚È‚¢Bƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚Á‚½“_‚ÅŒŸõ‚ÍI—¹‚·‚éB‚µ‚½‚ª‚Á‚Ä
+SymbolPath ‚É‚ÍƒpƒX‚ğ³‚µ‚¢‡˜‚Åw’è‚·‚é‚±‚ÆBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 FindDebugInfoFileEx
-The FindDebugInfoFileEx function (dbghelp.h) locates the specified debug (.dbg) file.
+FindDebugInfoFileEx ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒfƒoƒbƒO (.dbg) ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
 %group
 Win32 dbghelp
 %prm
 FileName, SymbolPath, DebugFilePath, Callback, CallerData
-FileName : [str] The name of the .dbg file to locate. You can use a partial path.
-SymbolPath : [str] The path where symbol files are located. This can be multiple paths separated by semicolons. To retrieve the symbol path, use the SymGetSearchPath function.
-DebugFilePath : [str] A pointer to a buffer that receives the full path of the .dbg file.
-Callback : [int] An application-defined callback function that verifies whether the correct file was found or the function should continue its search. For more information, see FindDebugInfoFileProc.
-CallerData : [intptr] Optional user-defined data to pass to the callback function.
+FileName : [str] ŒŸõ‚·‚é .dbg ƒtƒ@ƒCƒ‹‚Ì–¼‘OB•”•ªƒpƒX‚ğw’è‚Å‚«‚éB
+SymbolPath : [str] ƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ª’u‚©‚ê‚Ä‚¢‚éƒpƒXBƒZƒ~ƒRƒƒ“‚Å‹æØ‚Á‚Ä•¡”‚ÌƒpƒX‚ğw’è‚Å‚«‚éBƒVƒ“ƒ{ƒ‹ƒpƒX‚ğæ“¾‚·‚é‚É‚Í SymGetSearchPath ŠÖ”‚ğg‚¤B
+DebugFilePath : [str] .dbg ƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+Callback : [int] ³‚µ‚¢ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚Á‚½‚©A‚Ü‚½‚ÍŒŸõ‚ğ‘±s‚·‚×‚«‚©‚ğ”»’è‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”BÚ×‚Í FindDebugInfoFileProc ‚ğQÆB
+CallerData : [intptr] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚·È—ª‰Â”\‚Èƒ†[ƒU[’è‹`ƒf[ƒ^B
 %inst
-The FindDebugInfoFileEx function (dbghelp.h) locates the specified
-debug (.dbg) file.
+FindDebugInfoFileEx ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒfƒoƒbƒO (.dbg) ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is an open handle to the
-.dbg file. If the function fails, the return value is NULL. To
-retrieve extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í .dbg ƒtƒ@ƒCƒ‹‚É‘Î‚·‚éƒI[ƒvƒ“Ï‚İƒnƒ“ƒhƒ‹‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL
+‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The FindDebugInfoFileEx function is used to locate a .dbg file. This
-function is provided so the search can be conducted in several
-different directories through a single function call. The SymbolPath
-parameter can contain multiple paths, with each separated by a
-semicolon (;). When multiple paths are specified, the function
-searches each specified directory for the file. When the file is
-located, the search stops. Thus, be sure to specify SymbolPath with
-the paths in the correct order. If the file name specified does not
-include a .dbg extension, FindDebugInfoFileEx searches for the file
-in the following sequence:
-This doc was truncated.
+FindDebugInfoFileEx ŠÖ”‚Í .dbg
+ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚é‚½‚ß‚É—p‚¢‚éB‚±‚ÌŠÖ”‚É‚æ‚èA’Pˆê‚ÌŠÖ”ŒÄ‚Ño‚µ‚Å•¡”‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğ‘ÎÛ‚ÉŒŸõ‚Å‚«‚éBSymbolPath
+ƒpƒ‰ƒ[ƒ^[‚É‚ÍƒZƒ~ƒRƒƒ“ (;)
+‚Å‹æØ‚Á‚Ä•¡”‚ÌƒpƒX‚ğw’è‚Å‚«‚éB•¡”‚ÌƒpƒX‚ğw’è‚µ‚½ê‡AŠÖ”‚Íw’è‚³‚ê‚½ŠeƒfƒBƒŒƒNƒgƒŠ“à‚Åƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éBƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚Á‚½“_‚ÅŒŸõ‚ÍI—¹‚·‚éB‚µ‚½‚ª‚Á‚Ä
+SymbolPath ‚É‚ÍƒpƒX‚ğ³‚µ‚¢‡˜‚Åw’è‚·‚é‚±‚ÆBw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼‚É .dbg
+Šg’£q‚ªŠÜ‚Ü‚ê‚Ä‚¢‚È‚¢ê‡AFindDebugInfoFileEx ‚ÍˆÈ‰º‚Ì‡˜‚Åƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 FindExecutableImage
-Locates an executable file.
+Às‰Â”\ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
 %group
 Win32 dbghelp
 %prm
 FileName, SymbolPath, ImageFilePath
-FileName : [str] The name of the symbol file to be located. This parameter can be a partial path.
-SymbolPath : [str] The path where symbol files are located. This can be multiple paths separated by semicolons. To retrieve the symbol path, use the SymGetSearchPath function.
-ImageFilePath : [str] A pointer to a buffer that receives the full path of the executable file.
+FileName : [str] ŒŸõ‚·‚éƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚Ì–¼‘OB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É‚Í•”•ªƒpƒX‚ğw’è‚Å‚«‚éB
+SymbolPath : [str] ƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ª’u‚©‚ê‚Ä‚¢‚éƒpƒXBƒZƒ~ƒRƒƒ“‚Å‹æØ‚Á‚Ä•¡”‚ÌƒpƒX‚ğw’è‚Å‚«‚éBƒVƒ“ƒ{ƒ‹ƒpƒX‚ğæ“¾‚·‚é‚É‚Í SymGetSearchPath ŠÖ”‚ğg‚¤B
+ImageFilePath : [str] Às‰Â”\ƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Locates an executable file.
+Às‰Â”\ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is an open handle to the
-executable file. If the function fails, the return value is NULL. To
-retrieve extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚ÍÀs‰Â”\ƒtƒ@ƒCƒ‹‚É‘Î‚·‚éƒI[ƒvƒ“Ï‚İƒnƒ“ƒhƒ‹‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL
+‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The FindExecutableImage function is provided so executable files can
-be located in several different directories through a single function
-call. The SymbolPath parameter can contain multiple paths, with each
-separated by a semicolon (;). When multiple paths are specified, the
-function searches each directory tree for the executable file. When
-the file is located, the search stops. Thus, be sure to specify
-SymbolPath with the paths in the correct order. All DbgHelp
-functions, such as this one, are single threaded. Therefore, calls
-from more than one thread to this function will likely result in
-unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function.
+FindExecutableImage
+ŠÖ”‚ÍA’Pˆê‚ÌŠÖ”ŒÄ‚Ño‚µ‚Å•¡”‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğ‘ÎÛ‚ÉÀs‰Â”\ƒtƒ@ƒCƒ‹‚ğŒŸõ‚Å‚«‚é‚æ‚¤‚É—pˆÓ‚³‚ê‚Ä‚¢‚éBSymbolPath
+ƒpƒ‰ƒ[ƒ^[‚É‚ÍƒZƒ~ƒRƒƒ“ (;)
+‚Å‹æØ‚Á‚Ä•¡”‚ÌƒpƒX‚ğw’è‚Å‚«‚éB•¡”‚ÌƒpƒX‚ğw’è‚µ‚½ê‡AŠÖ”‚ÍŠeƒfƒBƒŒƒNƒgƒŠƒcƒŠ[‚ğ‘ÎÛ‚ÉÀs‰Â”\ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éBƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚Á‚½“_‚ÅŒŸõ‚ÍI—¹‚·‚éB‚µ‚½‚ª‚Á‚Ä
+SymbolPath ‚É‚ÍƒpƒX‚ğ³‚µ‚¢‡˜‚Åw’è‚·‚é‚±‚ÆBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 FindExecutableImageEx
-The FindExecutableImageEx function (dbghelp.h) locates the specified executable file.
+FindExecutableImageEx ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½Às‰Â”\ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
 %group
 Win32 dbghelp
 %prm
 FileName, SymbolPath, ImageFilePath, Callback, CallerData
-FileName : [str] The name of the symbol file to be located. This parameter can be a partial path.
-SymbolPath : [str] The path where symbol files are located. This string can contain multiple paths separated by semicolons. To retrieve the symbol path, use the SymGetSearchPath function.
-ImageFilePath : [str] A pointer to a buffer that receives the full path of the executable file.
-Callback : [int] An application-defined callback function that verifies whether the correct executable file was found, or whether the function should continue its search. For more information, see FindExecutableImageProc.
-CallerData : [intptr] Optional user-defined data for the callback function. This parameter can be NULL.
+FileName : [str] ŒŸõ‚·‚éƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚Ì–¼‘OB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É‚Í•”•ªƒpƒX‚ğw’è‚Å‚«‚éB
+SymbolPath : [str] ƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ª’u‚©‚ê‚Ä‚¢‚éƒpƒXB‚±‚Ì•¶š—ñ‚É‚ÍƒZƒ~ƒRƒƒ“‚Å‹æØ‚Á‚Ä•¡”‚ÌƒpƒX‚ğw’è‚Å‚«‚éBƒVƒ“ƒ{ƒ‹ƒpƒX‚ğæ“¾‚·‚é‚É‚Í SymGetSearchPath ŠÖ”‚ğg‚¤B
+ImageFilePath : [str] Às‰Â”\ƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+Callback : [int] ³‚µ‚¢Às‰Â”\ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚Á‚½‚©A‚Ü‚½‚ÍŒŸõ‚ğ‘±s‚·‚×‚«‚©‚ğ”»’è‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”BÚ×‚Í FindExecutableImageProc ‚ğQÆB
+CallerData : [intptr] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚·È—ª‰Â”\‚Èƒ†[ƒU[’è‹`ƒf[ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É‚Í NULL ‚ğw’è‚Å‚«‚éB
 %inst
-The FindExecutableImageEx function (dbghelp.h) locates the specified
-executable file.
+FindExecutableImageEx ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½Às‰Â”\ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is an open handle to the
-executable file. If the function fails, the return value is NULL. To
-retrieve extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚ÍÀs‰Â”\ƒtƒ@ƒCƒ‹‚É‘Î‚·‚éƒI[ƒvƒ“Ï‚İƒnƒ“ƒhƒ‹‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL
+‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The FindExecutableImageEx function is provided so executable files
-can be found in several different directories by using a single
-function call. If the SymbolPath parameter contains multiple paths,
-the function searches each specified directory tree for the
-executable file. When the file is found, the search stops. Thus, be
-sure to specify SymbolPath with the paths in the correct order. All
-DbgHelp functions, such as this one, are single threaded. Therefore,
-calls from more than one thread to this function will likely result
-in unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function. To call the Unicode version of this function, define
-DBGHELP_TRANSLATE_TCHAR.
+FindExecutableImageEx
+ŠÖ”‚ÍA’Pˆê‚ÌŠÖ”ŒÄ‚Ño‚µ‚Å•¡”‚ÌƒfƒBƒŒƒNƒgƒŠ‚©‚çÀs‰Â”\ƒtƒ@ƒCƒ‹‚ğŒ©‚Â‚¯‚ç‚ê‚é‚æ‚¤‚É—pˆÓ‚³‚ê‚Ä‚¢‚éBSymbolPath
+ƒpƒ‰ƒ[ƒ^[‚É•¡”‚ÌƒpƒX‚ªŠÜ‚Ü‚ê‚éê‡AŠÖ”‚Íw’è‚³‚ê‚½ŠeƒfƒBƒŒƒNƒgƒŠƒcƒŠ[‚©‚çÀs‰Â”\ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éBƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚Á‚½“_‚ÅŒŸõ‚ÍI—¹‚·‚éB‚µ‚½‚ª‚Á‚Ä
+SymbolPath ‚É‚ÍƒpƒX‚ğ³‚µ‚¢‡˜‚Åw’è‚·‚é‚±‚ÆBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
@@ -318,188 +267,149 @@ FilePath : [str]
 
 %index
 GetSymLoadError
-Gets the last symbol load error.
+’¼‹ß‚ÌƒVƒ“ƒ{ƒ‹ƒ[ƒhƒGƒ‰[‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 
 %inst
-Gets the last symbol load error.
+’¼‹ß‚ÌƒVƒ“ƒ{ƒ‹ƒ[ƒhƒGƒ‰[‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-The last symbol load error.
+’¼‹ß‚ÌƒVƒ“ƒ{ƒ‹ƒ[ƒhƒGƒ‰[B
 
 
 %index
 GetTimestampForLoadedLibrary
-Retrieves the time stamp of a loaded image.
+ƒ[ƒhÏ‚İƒCƒ[ƒW‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 Module
-Module : [intptr] The base address of an image that is mapped into memory by a call to the MapViewOfFile function.
+Module : [intptr] MapViewOfFile ŠÖ”‚É‚æ‚èƒƒ‚ƒŠ‚Éƒ}ƒbƒv‚³‚ê‚½ƒCƒ[ƒW‚Ìƒx[ƒXƒAƒhƒŒƒXB
 %inst
-Retrieves the time stamp of a loaded image.
+ƒ[ƒhÏ‚İƒCƒ[ƒW‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is the time stamp from the
-image. If the function fails, the return value is zero. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚ÍƒCƒ[ƒW‚©‚çæ“¾‚³‚ê‚½ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0
+‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The time stamp for an image is initially set by the linker, but it
-can be modified by operations such as rebasing. The value is
-represented in the number of seconds elapsed since midnight
-(00:00:00), January 1, 1970, Universal Coordinated Time, according to
-the system clock. The time stamp can be printed using the C run-time
-(CRT) function ctime. All DbgHelp Functions, such as this one, are
-single threaded. Therefore, calls from more than one thread to this
-function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function.
+ƒCƒ[ƒW‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ÍƒŠƒ“ƒJ[‚É‚æ‚è‰Šúİ’è‚³‚ê‚é‚ªAƒŠƒx[ƒX‚È‚Ç‚Ì‘€ì‚É‚æ‚Á‚Ä•ÏX‚³‚ê‚é‚±‚Æ‚ª‚ ‚éB’l‚ÍƒVƒXƒeƒ€Œv‚É‚æ‚èA1970
+”N 1 Œ 1 “úŒß‘O 0  (‹¦’è¢ŠE) ‚©‚ç‚ÌŒo‰ß•b”‚Å•\‚³‚ê‚éBƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚Í C ƒ‰ƒ“ƒ^ƒCƒ€ (CRT) ŠÖ” ctime
+‚Åˆóš‚Å‚«‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 ImageDirectoryEntryToData
-Obtains access to image-specific data.
+ƒCƒ[ƒWŒÅ—L‚Ìƒf[ƒ^‚Ö‚ÌƒAƒNƒZƒX‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 Base, MappedAsImage, DirectoryEntry, Size
-Base : [intptr] The base address of the image.
-MappedAsImage : [int] If this parameter is TRUE, the file is mapped by the system as an image. If the flag is FALSE, the file is mapped as a data file by the MapViewOfFile function.
+Base : [intptr] ƒCƒ[ƒW‚Ìƒx[ƒXƒAƒhƒŒƒXB
+MappedAsImage : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª TRUE ‚Ìê‡Aƒtƒ@ƒCƒ‹‚ÍƒVƒXƒeƒ€‚É‚æ‚èƒCƒ[ƒW‚Æ‚µ‚Äƒ}ƒbƒv‚³‚ê‚Ä‚¢‚éBFALSE ‚Ìê‡Aƒtƒ@ƒCƒ‹‚Í MapViewOfFile ŠÖ”‚É‚æ‚èƒf[ƒ^ƒtƒ@ƒCƒ‹‚Æ‚µ‚Äƒ}ƒbƒv‚³‚ê‚Ä‚¢‚éB
 DirectoryEntry : [int] 
-Size : [var] A pointer to a variable that receives the size of the data for the directory entry, in bytes.
+Size : [var] ƒfƒBƒŒƒNƒgƒŠƒGƒ“ƒgƒŠ‚Ìƒf[ƒ^ƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Obtains access to image-specific data.
+ƒCƒ[ƒWŒÅ—L‚Ìƒf[ƒ^‚Ö‚ÌƒAƒNƒZƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is a pointer to the
-directory entry's data. If the function fails, the return value is
-NULL. To retrieve extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚ÍƒfƒBƒŒƒNƒgƒŠƒGƒ“ƒgƒŠ‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL
+‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The ImageDirectoryEntryToData function is used to obtain access to
-image-specific data. All DbgHelp functions, such as this one, are
-single threaded. Therefore, calls from more than one thread to this
-function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function.
+ImageDirectoryEntryToData ŠÖ”‚ÍAƒCƒ[ƒWŒÅ—L‚Ìƒf[ƒ^‚Ö‚ÌƒAƒNƒZƒX‚ğæ“¾‚·‚é‚½‚ß‚É—p‚¢‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 ImageDirectoryEntryToDataEx
-Locates a directory entry within the image header and returns the address of the data for the directory entry. This function returns the section header for the data located, if one exists.
+ƒCƒ[ƒWƒwƒbƒ_[“à‚ÌƒfƒBƒŒƒNƒgƒŠƒGƒ“ƒgƒŠ‚ğ“Á’è‚µA‚»‚ÌƒfƒBƒŒƒNƒgƒŠƒGƒ“ƒgƒŠ‚Ìƒf[ƒ^‚ÌƒAƒhƒŒƒX‚ğ•Ô‚·BŒ©‚Â‚©‚Á‚½ƒf[ƒ^‚É‘Î‰‚·‚éƒZƒNƒVƒ‡ƒ“ƒwƒbƒ_[‚ª‘¶İ‚·‚éê‡‚Í‚»‚ê‚à•Ô‚·B
 %group
 Win32 dbghelp
 %prm
 Base, MappedAsImage, DirectoryEntry, Size, FoundHeader
-Base : [intptr] The base address of the image or data file.
-MappedAsImage : [int] If the flag is TRUE, the file is mapped by the system as an image. If this flag is FALSE, the file is mapped as a data file by the MapViewOfFile function.
+Base : [intptr] ƒCƒ[ƒW‚Ü‚½‚Íƒf[ƒ^ƒtƒ@ƒCƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+MappedAsImage : [int] ‚±‚Ìƒtƒ‰ƒO‚ª TRUE ‚Ìê‡Aƒtƒ@ƒCƒ‹‚ÍƒVƒXƒeƒ€‚É‚æ‚èƒCƒ[ƒW‚Æ‚µ‚Äƒ}ƒbƒv‚³‚ê‚Ä‚¢‚éBFALSE ‚Ìê‡Aƒtƒ@ƒCƒ‹‚Í MapViewOfFile ŠÖ”‚É‚æ‚èƒf[ƒ^ƒtƒ@ƒCƒ‹‚Æ‚µ‚Äƒ}ƒbƒv‚³‚ê‚Ä‚¢‚éB
 DirectoryEntry : [int] 
-Size : [var] A pointer to a variable that receives the size of the data for the directory entry that is located.
-FoundHeader : [var] A pointer to an IMAGE_SECTION_HEADER structure that receives the data. If the section header does not exist, this parameter is NULL.
+Size : [var] Œ©‚Â‚©‚Á‚½ƒfƒBƒŒƒNƒgƒŠƒGƒ“ƒgƒŠ‚Ìƒf[ƒ^ƒTƒCƒY‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+FoundHeader : [var] ƒf[ƒ^‚ğó‚¯æ‚é IMAGE_SECTION_HEADER \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[BƒZƒNƒVƒ‡ƒ“ƒwƒbƒ_[‚ª‘¶İ‚µ‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Æ‚È‚éB
 %inst
-Locates a directory entry within the image header and returns the
-address of the data for the directory entry. This function returns
-the section header for the data located, if one exists.
+
+ƒCƒ[ƒWƒwƒbƒ_[“à‚ÌƒfƒBƒŒƒNƒgƒŠƒGƒ“ƒgƒŠ‚ğ“Á’è‚µA‚»‚ÌƒfƒBƒŒƒNƒgƒŠƒGƒ“ƒgƒŠ‚Ìƒf[ƒ^‚ÌƒAƒhƒŒƒX‚ğ•Ô‚·BŒ©‚Â‚©‚Á‚½ƒf[ƒ^‚É‘Î‰‚·‚éƒZƒNƒVƒ‡ƒ“ƒwƒbƒ_[‚ª‘¶İ‚·‚éê‡‚Í‚»‚ê‚à•Ô‚·B
 
 [–ß‚è’l]
-If the function succeeds, the return value is a pointer to the data
-for the directory entry. If the function fails, the return value is
-NULL. To retrieve extended error information, call GetLastError. All
-DbgHelp functions, such as this one, are single threaded. Therefore,
-calls from more than one thread to this function will likely result
-in unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚ÍƒfƒBƒŒƒNƒgƒŠƒGƒ“ƒgƒŠ‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL
+‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·BDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 ImagehlpApiVersion
-Retrieves the version information of the DbgHelp library installed on the system.
+ƒVƒXƒeƒ€‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é DbgHelp ƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒo[ƒWƒ‡ƒ“î•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 
 %inst
-Retrieves the version information of the DbgHelp library installed on
-the system.
+ƒVƒXƒeƒ€‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é DbgHelp ƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒo[ƒWƒ‡ƒ“î•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-The return value is a pointer to an API_VERSION structure.
+–ß‚è’l‚Í API_VERSION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 
 [”õl]
-Use the information in the API_VERSION structure to determine whether
-the version of the library installed on the system is compatible with
-the version of the library used by the application. Although the
-library functions are backward compatible, functions introduced in
-one version are obviously not available in earlier versions. All
-DbgHelp functions, such as this one, are single threaded. Therefore,
-calls from more than one thread to this function will likely result
-in unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function.
+
+ƒVƒXƒeƒ€‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚éƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒo[ƒWƒ‡ƒ“‚ªAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åg—p‚µ‚Ä‚¢‚éƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒo[ƒWƒ‡ƒ“‚ÆŒİŠ·«‚ª‚ ‚é‚©‚ğŠm”F‚·‚é‚É‚ÍAAPI_VERSION
+\‘¢‘Ì‚Ìî•ñ‚ğg‚¤Bƒ‰ƒCƒuƒ‰ƒŠŠÖ”‚ÍŒã•ûŒİŠ·«‚ª‚ ‚é‚ªA‚ ‚éƒo[ƒWƒ‡ƒ“‚Å“±“ü‚³‚ê‚½ŠÖ”‚Í“–‘R‚Ì‚±‚Æ‚È‚ª‚çA‚»‚êˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Å‚Í—˜—p‚Å‚«‚È‚¢BDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 ImagehlpApiVersionEx
-Modifies the version information of the library used by the application.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªg—p‚·‚éƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒo[ƒWƒ‡ƒ“î•ñ‚ğ•ÏX‚·‚éB
 %group
 Win32 dbghelp
 %prm
 AppVersion
-AppVersion : [var] A pointer to an API_VERSION structure that contains valid version information for your application.
+AppVersion : [var] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚Æ‚Á‚Ä—LŒø‚Èƒo[ƒWƒ‡ƒ“î•ñ‚ğ•Û‚·‚é API_VERSION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Modifies the version information of the library used by the
-application.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªg—p‚·‚éƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒo[ƒWƒ‡ƒ“î•ñ‚ğ•ÏX‚·‚éB
 
 [–ß‚è’l]
-The return value is a pointer to an API_VERSION structure.
+–ß‚è’l‚Í API_VERSION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 
 [”õl]
-Use the ImagehlpApiVersionEx function to indicate the version of the
-library with which the application was built. The library uses this
-information to ensure compatibility. For example, consider walking
-through kernel-mode callback stack frames (User and GDI exist in
-kernel mode). If you call ImagehlpApiVersionEx to set the Revision
-member to version 4 or later, the StackWalk64 function will continue
-through a callback stack frame. Otherwise, if you set Revision to a
-version earlier than 4, StackWalk64 will stop at the kernel
-transition. All DbgHelp functions, such as this one, are single
-threaded. Therefore, calls from more than one thread to this function
-will likely result in unexpected behavior or memory corruption. To
-avoid this, you must synchronize all concurrent calls from more than
-one thread to this function.
+ImagehlpApiVersionEx
+ŠÖ”‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒrƒ‹ƒh‚³‚ê‚½ƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒo[ƒWƒ‡ƒ“‚ğ¦‚·‚½‚ß‚É—p‚¢‚éBƒ‰ƒCƒuƒ‰ƒŠ‚Í‚±‚Ìî•ñ‚ğg‚Á‚ÄŒİŠ·«‚ğ•Û‚ÂB—á‚¦‚ÎƒJ[ƒlƒ‹ƒ‚[ƒh‚ÌƒR[ƒ‹ƒoƒbƒNƒXƒ^ƒbƒNƒtƒŒ[ƒ€
+(User ‚Æ GDI ‚ÍƒJ[ƒlƒ‹ƒ‚[ƒh‚É‘¶İ‚·‚é) ‚ğ’H‚éê‡‚ğl‚¦‚éBImagehlpApiVersionEx ‚ğŒÄ‚Ño‚µ‚Ä
+Revision ƒƒ“ƒo[‚ğ 4 ˆÈ~‚Éİ’è‚·‚é‚ÆAStackWalk64
+ŠÖ”‚ÍƒR[ƒ‹ƒoƒbƒNƒXƒ^ƒbƒNƒtƒŒ[ƒ€‚ğ‰z‚¦‚Äˆ—‚ğ‘±‚¯‚éB‚»‚êˆÈŠO‚É Revision ‚ğ 4
+‚æ‚è¬‚³‚¢ƒo[ƒWƒ‡ƒ“‚Éİ’è‚·‚é‚ÆAStackWalk64 ‚ÍƒJ[ƒlƒ‹‘JˆÚ‚Å’â~‚·‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 MakeSureDirectoryPathExists
-Creates all the directories in the specified path, beginning with the root.
+w’è‚µ‚½ƒpƒX‚ÉŠÜ‚Ü‚ê‚é‚·‚×‚Ä‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğAƒ‹[ƒg‚©‚ç‡‚Éì¬‚·‚éB
 %group
 Win32 dbghelp
 %prm
 DirPath
-DirPath : [str] A valid path name. If the final component of the path is a directory, not a file name, the string must end with a backslash (\\) character.
+DirPath : [str] —LŒø‚ÈƒpƒX–¼BƒpƒX‚Ì––”ö—v‘f‚ªƒtƒ@ƒCƒ‹–¼‚Å‚Í‚È‚­ƒfƒBƒŒƒNƒgƒŠ‚Å‚ ‚éê‡A•¶š—ñ‚Í‰~‹L† (\\) ‚ÅI‚í‚é•K—v‚ª‚ ‚éB
 %inst
-Creates all the directories in the specified path, beginning with the
-root.
+w’è‚µ‚½ƒpƒX‚ÉŠÜ‚Ü‚ê‚é‚·‚×‚Ä‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğAƒ‹[ƒg‚©‚ç‡‚Éì¬‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Each directory specified is created, if it does not already exist. If
-only some of the directories are created, the function will return
-FALSE. This function does not support Unicode strings. To specify a
-Unicode path, use the SHCreateDirectoryEx function. All DbgHelp
-functions, such as this one, are single threaded. Therefore, calls
-from more than one thread to this function will likely result in
-unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function.
+w’è‚³‚ê‚½ŠeƒfƒBƒŒƒNƒgƒŠ‚ª‚Ü‚¾‘¶İ‚µ‚È‚¯‚ê‚Îì¬‚³‚ê‚éBˆê•”‚ÌƒfƒBƒŒƒNƒgƒŠ‚µ‚©ì¬‚Å‚«‚È‚©‚Á‚½ê‡AŠÖ”‚Í FALSE ‚ğ•Ô‚·B‚±‚ÌŠÖ”‚Í
+Unicode •¶š—ñ‚ğƒTƒ|[ƒg‚µ‚È‚¢BUnicode ƒpƒX‚ğw’è‚·‚é‚É‚Í SHCreateDirectoryEx
+ŠÖ”‚ğg‚¤BDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
@@ -618,43 +528,33 @@ pSymbolData : [var]
 
 %index
 SearchTreeForFile
-The SearchTreeForFile function (dbghelp.h) searches a directory tree for a specified file.
+SearchTreeForFile ŠÖ” (dbghelp.h) ‚ÍAƒfƒBƒŒƒNƒgƒŠƒcƒŠ[“à‚©‚çw’è‚µ‚½ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
 %group
 Win32 dbghelp
 %prm
 RootPath, InputPathName, OutputPathBuffer
-RootPath : [str] The path where the function should begin searching for the file.
-InputPathName : [str] The file for which the function will search. You can use a partial path.
-OutputPathBuffer : [str] A pointer to a buffer that receives the full path to the file that is found. This string is not modified if the return value is FALSE.
+RootPath : [str] ƒtƒ@ƒCƒ‹ŒŸõ‚ğŠJn‚·‚éƒpƒXB
+InputPathName : [str] ŠÖ”‚ªŒŸõ‚·‚éƒtƒ@ƒCƒ‹B•”•ªƒpƒX‚ğw’è‚Å‚«‚éB
+OutputPathBuffer : [str] Œ©‚Â‚©‚Á‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B–ß‚è’l‚ª FALSE ‚Ìê‡A‚±‚Ì•¶š—ñ‚Í•ÏX‚³‚ê‚È‚¢B
 %inst
-The SearchTreeForFile function (dbghelp.h) searches a directory tree
-for a specified file.
+SearchTreeForFile ŠÖ” (dbghelp.h) ‚ÍAƒfƒBƒŒƒNƒgƒŠƒcƒŠ[“à‚©‚çw’è‚µ‚½ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The function searches for the file specified by the InputPathName
-parameter beginning at the path specified in the RootPath parameter.
-The maximum path depth that is allowed in the RootPath is 32
-directories. When the function finds the file in the directory tree,
-it places the full path to the file in the buffer specified by the
-OutputPathBuffer parameter. The underlying file system specifies the
-order of the subdirectory search. The search can be canceled if you
-register a SymRegisterCallbackProc64 callback function. For every
-directory searched, SearchTreeForFile calls this callback function
-with CBA_DEFERRED_SYMBOL_LOAD_CANCEL. If the callback function
-returns TRUE, SearchTreeForFile cancels the search. This function
-triggers one CBA_DEFERRED_SYMBOL_LOAD_CANCEL event per directory
-searched. This allows the caller to cancel the search. All DbgHelp
-functions, such as this one, are single threaded. Therefore, calls
-from more than one thread to this function will likely result in
-unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function. To call the Unicode version of this function, define
-DBGHELP_TRANSLATE_TCHAR.
+ŠÖ”‚Í RootPath ƒpƒ‰ƒ[ƒ^[‚Åw’è‚³‚ê‚½ƒpƒX‚ğ‹N“_‚Æ‚µ‚ÄAInputPathName
+ƒpƒ‰ƒ[ƒ^[‚Åw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éBRootPath ‚Å‹–—e‚³‚ê‚éÅ‘åƒpƒX[“x‚Í 32
+ƒfƒBƒŒƒNƒgƒŠ‚Å‚ ‚éBƒfƒBƒŒƒNƒgƒŠƒcƒŠ[“à‚Åƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚é‚ÆAOutputPathBuffer
+ƒpƒ‰ƒ[ƒ^[‚Åw’è‚³‚ê‚½ƒoƒbƒtƒ@‚Éƒtƒ‹ƒpƒX‚ªŠi”[‚³‚ê‚éBƒTƒuƒfƒBƒŒƒNƒgƒŠ‚ÌŒŸõ‡˜‚ÍŠî”Õ‚Ìƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÉˆË‘¶‚·‚éBSymRegisterCallbackProc64
+ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚µ‚Ä‚¨‚¯‚ÎŒŸõ‚ğƒLƒƒƒ“ƒZƒ‹‚Å‚«‚éBSearchTreeForFile
+‚ÍŒŸõ‘ÎÛ‚ÌƒfƒBƒŒƒNƒgƒŠ‚²‚Æ‚ÉA‚±‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ CBA_DEFERRED_SYMBOL_LOAD_CANCEL
+‚ÅŒÄ‚Ño‚·BƒR[ƒ‹ƒoƒbƒNŠÖ”‚ª TRUE ‚ğ•Ô‚·‚Æ SearchTreeForFile
+‚ÍŒŸõ‚ğƒLƒƒƒ“ƒZƒ‹‚·‚éB‚±‚ÌŠÖ”‚ÍŒŸõ‘ÎÛƒfƒBƒŒƒNƒgƒŠ‚²‚Æ‚É 1 ‰ñ CBA_DEFERRED_SYMBOL_LOAD_CANCEL
+ƒCƒxƒ“ƒg‚ğ”­¶‚³‚¹‚éB‚±‚ê‚É‚æ‚èŒÄ‚Ño‚µ‘¤‚ÍŒŸõ‚ğƒLƒƒƒ“ƒZƒ‹‚Å‚«‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
@@ -671,17 +571,17 @@ lpStartAddress : [int]
 
 %index
 SetSymLoadError
-Sets a symbol load error.
+ƒVƒ“ƒ{ƒ‹ƒ[ƒhƒGƒ‰[‚ğİ’è‚·‚éB
 %group
 Win32 dbghelp
 %prm
 error
-error : [int] A symbol load error.
+error : [int] ƒVƒ“ƒ{ƒ‹ƒ[ƒhƒGƒ‰[B
 %inst
-Sets a symbol load error.
+ƒVƒ“ƒ{ƒ‹ƒ[ƒhƒGƒ‰[‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-This function does not return a value.
+‚±‚ÌŠÖ”‚Í’l‚ğ•Ô‚³‚È‚¢B
 
 
 %index
@@ -717,127 +617,110 @@ AddrPCAAddrFrameAAddrStack ƒƒ“ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‰‰ñŒÄ‚Ño‚µ‚Í¸”
 
 %index
 StackWalkEx
-Obtains a stack trace. (StackWalkEx)
+ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚·‚éB(StackWalkEx)
 %group
 Win32 dbghelp
 %prm
 MachineType, hProcess, hThread, StackFrame, ContextRecord, ReadMemoryRoutine, FunctionTableAccessRoutine, GetModuleBaseRoutine, TranslateAddress, Flags
-MachineType : [int] The architecture type of the computer for which the stack trace is generated. This parameter can be one of the following values.
-hProcess : [intptr] A handle to the process for which the stack trace is generated. If the caller supplies a valid callback pointer for the ReadMemoryRoutine parameter, then this value does not have to be a valid process handle. It can be a token that is unique and consistently the same for all calls to the StackWalkEx function. If the symbol handler is used with StackWalkEx, use the same process handles for the calls to each function.
-hThread : [intptr] A handle to the thread for which the stack trace is generated. If the caller supplies a valid callback pointer for the ReadMemoryRoutine parameter, then this value does not have to be a valid thread handle. It can be a token that is unique and consistently the same for all calls to the StackWalkEx function.
-StackFrame : [var] A pointer to a STACKFRAME_EX structure. This structure receives information for the next frame, if the function call succeeds.
-ContextRecord : [intptr] A pointer to a CONTEXT structure. This parameter is required only when the MachineType parameter is not IMAGE_FILE_MACHINE_I386. However, it is recommended that this parameter contain a valid context record. This allows StackWalkEx to handle a greater variety of situations. This context may be modified, so do not pass a context record that should not be modified.
-ReadMemoryRoutine : [int] A callback routine that provides memory read services. When the StackWalkEx function needs to read memory from the process's address space, the ReadProcessMemoryProc64 callback is used. If this parameter is NULL, then the function uses a default routine. In this case, the hProcess parameter must be a valid process handle. If this parameter is not NULL, the application should implement and register a symbol handler callback function that handles CBA_READ_MEMORY.
-FunctionTableAccessRoutine : [int] A callback routine that provides access to the run-time function table for the process. This parameter is required because the StackWalkEx function does not have access to the process's run-time function table. For more information, see FunctionTableAccessProc64. The symbol handler provides functions that load and access the run-time table. If these functions are used, then SymFunctionTableAccess64 can be passed as a valid parameter.
-GetModuleBaseRoutine : [int] A callback routine that provides a module base for any given virtual address. This parameter is required. For more information, see GetModuleBaseProc64. The symbol handler provides functions that load and maintain module information. If these functions are used, then SymGetModuleBase64 can be passed as a valid parameter.
-TranslateAddress : [int] A callback routine that provides address translation for 16-bit addresses. For more information, see TranslateAddressProc64. Most callers of StackWalkEx can safely pass NULL for this parameter.
-Flags : [int] A combination of zero or more flags.
+MachineType : [int] ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ¶¬‚·‚é‘ÎÛƒRƒ“ƒsƒ…[ƒ^[‚ÌƒA[ƒLƒeƒNƒ`ƒƒí•ÊB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğw’è‚Å‚«‚éB
+hProcess : [intptr] ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ¶¬‚·‚é‘ÎÛƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BŒÄ‚Ño‚µŒ³‚ª ReadMemoryRoutine ƒpƒ‰ƒ[ƒ^[‚É—LŒø‚ÈƒR[ƒ‹ƒoƒbƒNƒ|ƒCƒ“ƒ^[‚ğw’è‚·‚éê‡A‚±‚Ì’l‚Í—LŒø‚ÈƒvƒƒZƒXƒnƒ“ƒhƒ‹‚Å‚È‚­‚Ä‚à\‚í‚È‚¢BStackWalkEx ŠÖ”‚ÌŒÄ‚Ño‚µ‚ÌŠÔ‚ÅˆêˆÓ‚©‚ÂˆêŠÑ‚µ‚Ä“¯‚¶’l‚ğ‚Âƒg[ƒNƒ“‚Å‚à‚æ‚¢BStackWalkEx ‚Æ‹¤‚ÉƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰[‚ğg‚¤ê‡‚ÍAŠeŠÖ”ŒÄ‚Ño‚µ‚Å“¯‚¶ƒvƒƒZƒXƒnƒ“ƒhƒ‹‚ğg‚¤B
+hThread : [intptr] ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğ¶¬‚·‚é‘ÎÛƒXƒŒƒbƒh‚Ö‚Ìƒnƒ“ƒhƒ‹BŒÄ‚Ño‚µŒ³‚ª ReadMemoryRoutine ƒpƒ‰ƒ[ƒ^[‚É—LŒø‚ÈƒR[ƒ‹ƒoƒbƒNƒ|ƒCƒ“ƒ^[‚ğw’è‚·‚éê‡A‚±‚Ì’l‚Í—LŒø‚ÈƒXƒŒƒbƒhƒnƒ“ƒhƒ‹‚Å‚È‚­‚Ä‚à\‚í‚È‚¢BStackWalkEx ŠÖ”‚ÌŒÄ‚Ño‚µ‚ÌŠÔ‚ÅˆêˆÓ‚©‚ÂˆêŠÑ‚µ‚Ä“¯‚¶’l‚ğ‚Âƒg[ƒNƒ“‚Å‚à‚æ‚¢B
+StackFrame : [var] STACKFRAME_EX \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[BŠÖ”ŒÄ‚Ño‚µ‚É¬Œ÷‚·‚é‚ÆA‚±‚Ì\‘¢‘Ì‚ÉŸ‚ÌƒtƒŒ[ƒ€‚Ìî•ñ‚ªŠi”[‚³‚ê‚éB
+ContextRecord : [intptr] CONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í MachineType ƒpƒ‰ƒ[ƒ^[‚ª IMAGE_FILE_MACHINE_I386 ˆÈŠO‚Ìê‡‚É‚Ì‚İ•K{‚Å‚ ‚éB‚½‚¾‚µA‚æ‚è‘½—l‚Èó‹µ‚É StackWalkEx ‚ª‘Î‰‚Å‚«‚é‚æ‚¤A—LŒø‚ÈƒRƒ“ƒeƒLƒXƒgƒŒƒR[ƒh‚ğw’è‚·‚é‚±‚Æ‚ª„§‚³‚ê‚éB‚±‚ÌƒRƒ“ƒeƒLƒXƒg‚Í•ÏX‚³‚ê‚é‰Â”\«‚ª‚ ‚é‚½‚ßA•ÏX‚³‚ê‚Ä‚Í¢‚éƒRƒ“ƒeƒLƒXƒgƒŒƒR[ƒh‚ğ“n‚µ‚Ä‚Í‚È‚ç‚È‚¢B
+ReadMemoryRoutine : [int] ƒƒ‚ƒŠ“Ç‚İæ‚èƒT[ƒrƒX‚ğ’ñ‹Ÿ‚·‚éƒR[ƒ‹ƒoƒbƒNƒ‹[ƒ`ƒ“BStackWalkEx ŠÖ”‚ªƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ‚©‚çƒƒ‚ƒŠ‚ğ“Ç‚İæ‚é•K—v‚ª‚ ‚é‚Æ‚«AReadProcessMemoryProc64 ƒR[ƒ‹ƒoƒbƒN‚ªg—p‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Ìê‡AŠÖ”‚ÍŠù’è‚Ìƒ‹[ƒ`ƒ“‚ğg‚¤B‚»‚ÌÛ hProcess ƒpƒ‰ƒ[ƒ^[‚É‚Í—LŒø‚ÈƒvƒƒZƒXƒnƒ“ƒhƒ‹‚ğw’è‚·‚é•K—v‚ª‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Å‚È‚¢ê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í CBA_READ_MEMORY ‚ğˆ—‚·‚éƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰[‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğÀ‘•‚µ‚Ä“o˜^‚·‚é‚±‚ÆB
+FunctionTableAccessRoutine : [int] ƒvƒƒZƒX‚ÌÀsŠÖ”ƒe[ƒuƒ‹‚Ö‚ÌƒAƒNƒZƒX‚ğ’ñ‹Ÿ‚·‚éƒR[ƒ‹ƒoƒbƒNƒ‹[ƒ`ƒ“BStackWalkEx ŠÖ”‚ÍƒvƒƒZƒX‚ÌÀsŠÖ”ƒe[ƒuƒ‹‚ÉƒAƒNƒZƒX‚Å‚«‚È‚¢‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í•K{‚Å‚ ‚éBÚ×‚Í FunctionTableAccessProc64 ‚ğQÆBƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰[‚ÍÀsƒe[ƒuƒ‹‚ğƒ[ƒh‚¨‚æ‚ÑƒAƒNƒZƒX‚·‚éŠÖ”‚ğ’ñ‹Ÿ‚·‚éB‚»‚ê‚ç‚ğg‚¤ê‡‚Í SymFunctionTableAccess64 ‚ğ—LŒø‚Èƒpƒ‰ƒ[ƒ^[‚Æ‚µ‚Ä“n‚·‚±‚Æ‚ª‚Å‚«‚éB
+GetModuleBaseRoutine : [int] ”CˆÓ‚Ì‰¼‘zƒAƒhƒŒƒX‚É‘Î‰‚·‚éƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒX‚ğ’ñ‹Ÿ‚·‚éƒR[ƒ‹ƒoƒbƒNƒ‹[ƒ`ƒ“B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í•K{‚Å‚ ‚éBÚ×‚Í GetModuleBaseProc64 ‚ğQÆBƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰[‚Íƒ‚ƒWƒ…[ƒ‹î•ñ‚Ìƒ[ƒh‚ÆˆÛ‚ğs‚¤ŠÖ”‚ğ’ñ‹Ÿ‚·‚éB‚»‚ê‚ç‚ğg‚¤ê‡‚Í SymGetModuleBase64 ‚ğ—LŒø‚Èƒpƒ‰ƒ[ƒ^[‚Æ‚µ‚Ä“n‚·‚±‚Æ‚ª‚Å‚«‚éB
+TranslateAddress : [int] 16 ƒrƒbƒgƒAƒhƒŒƒX‚ÌƒAƒhƒŒƒX•ÏŠ·‚ğ’ñ‹Ÿ‚·‚éƒR[ƒ‹ƒoƒbƒNƒ‹[ƒ`ƒ“BÚ×‚Í TranslateAddressProc64 ‚ğQÆBStackWalkEx ‚ğŒÄ‚Ño‚·‚Ù‚Æ‚ñ‚Ç‚ÌŒÄ‚Ño‚µŒ³‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ÉˆÀ‘S‚É NULL ‚ğ“n‚·‚±‚Æ‚ª‚Å‚«‚éB
+Flags : [int] 0 ŒÂˆÈã‚Ìƒtƒ‰ƒO‚Ì‘g‚İ‡‚í‚¹B
 %inst
-Obtains a stack trace. (StackWalkEx)
+ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚·‚éB(StackWalkEx)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. Note that StackWalkEx generally
-does not set the last error code.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBStackWalkEx
+‚Í’ÊíAÅIƒGƒ‰[ƒR[ƒh‚ğİ’è‚µ‚È‚¢“_‚É’ˆÓB
 
 [”õl]
-The StackWalkEx function provides a portable method for obtaining a
-stack trace. Using the StackWalkEx function is recommended over
-writing your own function because of all the complexities associated
-with stack walking on platforms. In addition, there are compiler
-options that cause the stack to appear differently, depending on how
-the module is compiled. By using this function, your application has
-a portable stack trace that continues to work as the compiler and
-operating system change. The first call to this function will fail if
-the AddrPC, AddrFrame, and AddrStack members of the STACKFRAME64
-structure passed in the StackFrame parameter are not initialized. All
-DbgHelp functions, such as this one, are single threaded. Therefore,
-calls from more than one thread to this function will likely result
-in unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function.
+StackWalkEx
+ŠÖ”‚ÍAƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğæ“¾‚·‚é‚½‚ß‚ÌˆÚA«‚Ì‚ ‚éè’i‚ğ’ñ‹Ÿ‚·‚éBƒvƒ‰ƒbƒgƒtƒH[ƒ€‚²‚Æ‚ÌƒXƒ^ƒbƒNƒEƒH[ƒN‚É•t‚·‚é•¡G‚³‚ğl‚¦‚é‚ÆA“Æ©‚ÌŠÖ”‚ğÀ‘•‚·‚é‚æ‚è
+StackWalkEx
+‚ğg‚¤‚±‚Æ‚ª„§‚³‚ê‚éB‰Á‚¦‚ÄAƒ‚ƒWƒ…[ƒ‹‚ÌƒRƒ“ƒpƒCƒ‹•û–@‚É‚æ‚Á‚ÄƒXƒ^ƒbƒN‚ÌŒ©‚¦•û‚ğ•Ï‚¦‚éƒRƒ“ƒpƒCƒ‰[ƒIƒvƒVƒ‡ƒ“‚à‘¶İ‚·‚éB‚±‚ÌŠÖ”‚ğg‚¦‚ÎAƒRƒ“ƒpƒCƒ‰[‚â
+OS ‚ª•Ï‚í‚Á‚Ä‚à“®ì‚µ‘±‚¯‚éˆÚA«‚Ì‚‚¢ƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ª“¾‚ç‚ê‚éBStackFrame ƒpƒ‰ƒ[ƒ^[‚Å“n‚· STACKFRAME64
+\‘¢‘Ì‚Ì AddrPCAAddrFrameAAddrStack
+ƒƒ“ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚ÌÅ‰‚ÌŒÄ‚Ño‚µ‚Í¸”s‚·‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymAddSourceStream
-The SymAddSourceStream function (dbghelp.h) adds the stream to the specified module for use by the Source Server.
+SymAddSourceStream ŠÖ” (dbghelp.h) ‚ÍAƒ\[ƒXƒT[ƒo[‚Åg—p‚·‚é‚½‚ß‚ÉƒXƒgƒŠ[ƒ€‚ğw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚É’Ç‰Á‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Base, StreamFile, Buffer, Size
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Base : [int64] The base address of the module.
-StreamFile : [str] A null-terminated string that contains the absolute or relative path to a file that contains the source indexing stream. Can be NULL if Buffer is not NULL.
-Buffer : [var] A buffer that contains the source indexing stream. Can be NULL if StreamFile is not NULL.
-Size : [int] Size, in bytes, of the Buffer buffer.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+Base : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+StreamFile : [str] ƒ\[ƒXƒCƒ“ƒfƒbƒNƒXƒXƒgƒŠ[ƒ€‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚Ìâ‘ÎƒpƒX‚Ü‚½‚Í‘Š‘ÎƒpƒX‚ğ¦‚·ANULL I’[‚Ì•¶š—ñBBuffer ‚ª NULL ‚Å‚È‚¢ê‡‚Í NULL ‚ğw’è‚Å‚«‚éB
+Buffer : [var] ƒ\[ƒXƒCƒ“ƒfƒbƒNƒXƒXƒgƒŠ[ƒ€‚ğŠi”[‚·‚éƒoƒbƒtƒ@BStreamFile ‚ª NULL ‚Å‚È‚¢ê‡‚Í NULL ‚ğw’è‚Å‚«‚éB
+Size : [int] Buffer ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The SymAddSourceStream function (dbghelp.h) adds the stream to the
-specified module for use by the Source Server.
+SymAddSourceStream ŠÖ” (dbghelp.h)
+‚ÍAƒ\[ƒXƒT[ƒo[‚Åg—p‚·‚é‚½‚ß‚ÉƒXƒgƒŠ[ƒ€‚ğw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚É’Ç‰Á‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-SymAddSourceStream adds a stream of data formatted for use by the
-source Server to a designated module. The caller can pass the stream
-either as a buffer in the Buffer parameter or a file in the
-StreamFile parameter. If both parameters are filled, then the
-function uses the Buffer parameter. If both parameters are NULL, then
-the function returns FALSE and the last-error code is set to
-ERROR_INVALID_PARAMETER. It is important to note that
-SymAddSourceStream does not add the stream to any corresponding PDB
-in order to persist the data. This function is used by those
-programmatically implementing their own debuggers in scenarios in
-which a PDB is not available.
+SymAddSourceStream
+‚ÍAƒ\[ƒXƒT[ƒo[‚Åg—p‚·‚éŒ`®‚Ìƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ğw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚É’Ç‰Á‚·‚éBŒÄ‚Ño‚µŒ³‚ÍƒXƒgƒŠ[ƒ€‚ğ Buffer
+ƒpƒ‰ƒ[ƒ^[‚Éƒoƒbƒtƒ@‚Æ‚µ‚Ä“n‚·‚©AStreamFile
+ƒpƒ‰ƒ[ƒ^[‚Éƒtƒ@ƒCƒ‹‚Æ‚µ‚Ä“n‚·‚±‚Æ‚ª‚Å‚«‚éB—¼•û‚Ìƒpƒ‰ƒ[ƒ^[‚ªw’è‚³‚ê‚½ê‡AŠÖ”‚Í Buffer
+ƒpƒ‰ƒ[ƒ^[‚ğg—p‚·‚éB—¼•û‚Ìƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Ìê‡AŠÖ”‚Í FALSE ‚ğ•Ô‚µAÅIƒGƒ‰[ƒR[ƒh‚Í
+ERROR_INVALID_PARAMETER ‚Éİ’è‚³‚ê‚éBSymAddSourceStream ‚Í‘Î‰‚·‚é PDB
+‚ÉƒXƒgƒŠ[ƒ€‚ğ’Ç‰Á‚µ‚Äƒf[ƒ^‚ğ‰i‘±‰»‚·‚é‚±‚Æ‚Í‚µ‚È‚¢“_‚É’ˆÓ‚ª•K—v‚Å‚ ‚éB‚±‚ÌŠÖ”‚ÍAPDB
+‚ª—˜—p‚Å‚«‚È‚¢ó‹µ‚Å“Æ©‚ÌƒfƒoƒbƒK‚ğƒvƒƒOƒ‰ƒ€“I‚ÉÀ‘•‚·‚éê‡‚Ég—p‚³‚ê‚éB
 
 
 %index
 SymAddSymbol
-The SymAddSymbol function (dbghelp.h) adds a virtual symbol to the specified module.
+SymAddSymbol ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚É‰¼‘zƒVƒ“ƒ{ƒ‹‚ğ’Ç‰Á‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Name, Address, Size, Flags
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module.
-Name : [str] The name of the symbol. The maximum size of a symbol name is MAX_SYM_NAME characters.
-Address : [int64] The address of the symbol. This address must be within the address range of the specified module.
-Size : [int] The size of the symbol, in bytes. This parameter is optional.
-Flags : [int] This parameter is unused.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+BaseOfDll : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+Name : [str] ƒVƒ“ƒ{ƒ‹‚Ì–¼‘OBƒVƒ“ƒ{ƒ‹–¼‚ÌÅ‘åƒTƒCƒY‚Í MAX_SYM_NAME •¶š‚Å‚ ‚éB
+Address : [int64] ƒVƒ“ƒ{ƒ‹‚ÌƒAƒhƒŒƒXB‚±‚ÌƒAƒhƒŒƒX‚Íw’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ÌƒAƒhƒŒƒX”ÍˆÍ“à‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+Size : [int] ƒVƒ“ƒ{ƒ‹‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ÍÈ—ª‰Â”\‚Å‚ ‚éB
+Flags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Íg—p‚³‚ê‚È‚¢B
 %inst
-The SymAddSymbol function (dbghelp.h) adds a virtual symbol to the
-specified module.
+SymAddSymbol ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚É‰¼‘zƒVƒ“ƒ{ƒ‹‚ğ’Ç‰Á‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymAddrIncludeInlineTrace
-Indicates whether the specified address is within an inline frame.
+w’è‚µ‚½ƒAƒhƒŒƒX‚ªƒCƒ“ƒ‰ƒCƒ“ƒtƒŒ[ƒ€“à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚·B
 %group
 Win32 dbghelp
 %prm
 hProcess, Address
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Address : [int64] The address.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+Address : [int64] ƒAƒhƒŒƒXB
 %inst
-Indicates whether the specified address is within an inline frame.
+w’è‚µ‚½ƒAƒhƒŒƒX‚ªƒCƒ“ƒ‰ƒCƒ“ƒtƒŒ[ƒ€“à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚·B
 
 [–ß‚è’l]
-Returns zero if the address is not within an inline frame.
+w’èƒAƒhƒŒƒX‚ªƒCƒ“ƒ‰ƒCƒ“ƒtƒŒ[ƒ€“à‚É‚È‚¢ê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
@@ -862,203 +745,170 @@ SymCleanup ‚ğŒÄ‚Ô‚Ì‚ª³‚µ‚¢g‚¢•ûB
 
 %index
 SymCompareInlineTrace
-Compares two inline traces.
+2 ‚Â‚ÌƒCƒ“ƒ‰ƒCƒ“ƒgƒŒ[ƒX‚ğ”äŠr‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Address1, InlineContext1, RetAddress1, Address2, RetAddress2
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Address1 : [int64] The first address to be compared.
-InlineContext1 : [int] The inline context for the first trace to be compared.
-RetAddress1 : [int64] The return address of the first trace to be compared.
-Address2 : [int64] The second address to be compared.
-RetAddress2 : [int64] The return address of the second trace to be compared.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+Address1 : [int64] ”äŠr‚·‚é 1 ‚Â–Ú‚ÌƒAƒhƒŒƒXB
+InlineContext1 : [int] ”äŠr‚·‚é 1 ‚Â–Ú‚ÌƒgƒŒ[ƒX‚ÌƒCƒ“ƒ‰ƒCƒ“ƒRƒ“ƒeƒLƒXƒgB
+RetAddress1 : [int64] ”äŠr‚·‚é 1 ‚Â–Ú‚ÌƒgƒŒ[ƒX‚ÌƒŠƒ^[ƒ“ƒAƒhƒŒƒXB
+Address2 : [int64] ”äŠr‚·‚é 2 ‚Â–Ú‚ÌƒAƒhƒŒƒXB
+RetAddress2 : [int64] ”äŠr‚·‚é 2 ‚Â–Ú‚ÌƒgƒŒ[ƒX‚ÌƒŠƒ^[ƒ“ƒAƒhƒŒƒXB
 %inst
-Compares two inline traces.
+2 ‚Â‚ÌƒCƒ“ƒ‰ƒCƒ“ƒgƒŒ[ƒX‚ğ”äŠr‚·‚éB
 
 [–ß‚è’l]
-Indicates the result of the comparison.
-This doc was truncated.
+”äŠr‚ÌŒ‹‰Ê‚ğ¦‚·B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymDeleteSymbol
-The SymDeleteSymbol function (dbghelp.h) deletes a virtual symbol from the specified module.
+SymDeleteSymbol ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚©‚ç‰¼‘zƒVƒ“ƒ{ƒ‹‚ğíœ‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Name, Address, Flags
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module.
-Name : [str] The name of the symbol.
-Address : [int64] The address of the symbol. This address must be within the address range of the specified module.
-Flags : [int] This parameter is unused.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+BaseOfDll : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+Name : [str] ƒVƒ“ƒ{ƒ‹‚Ì–¼‘OB
+Address : [int64] ƒVƒ“ƒ{ƒ‹‚ÌƒAƒhƒŒƒXB‚±‚ÌƒAƒhƒŒƒX‚Íw’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ÌƒAƒhƒŒƒX”ÍˆÍ“à‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+Flags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Íg—p‚³‚ê‚È‚¢B
 %inst
-The SymDeleteSymbol function (dbghelp.h) deletes a virtual symbol
-from the specified module.
+SymDeleteSymbol ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚©‚ç‰¼‘zƒVƒ“ƒ{ƒ‹‚ğíœ‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymEnumLines
-The SymEnumLines function (dbghelp.h) enumerates all lines in the specified module.
+SymEnumLines ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚Ìs‚ğ—ñ‹“‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Base, Obj, File, EnumLinesCallback, UserContext
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Base : [int64] The base address of the module.
-Obj : [str] The name of an .obj file within the module. The scope of the enumeration is limited to this file. If this parameter is NULL or an empty string, all .obj files are searched.
-File : [str] A wildcard expression that indicates the names of the source files to be searched. If this parameter is NULL or an empty string, all files are searched.
-EnumLinesCallback : [int] A SymEnumLinesProc callback function that receives the line information.
-UserContext : [intptr] A user-defined value that is passed to the callback function, or NULL. This parameter is typically used by an application to pass a pointer to a data structure that provides context for the callback function.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+Base : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+Obj : [str] ƒ‚ƒWƒ…[ƒ‹“à‚Ì .obj ƒtƒ@ƒCƒ‹‚Ì–¼‘OB—ñ‹“‚Í‚±‚Ìƒtƒ@ƒCƒ‹‚ÉŒÀ’è‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Ü‚½‚Í‹ó•¶š—ñ‚Ìê‡A‚·‚×‚Ä‚Ì .obj ƒtƒ@ƒCƒ‹‚ªŒŸõ‚³‚ê‚éB
+File : [str] ŒŸõ‘ÎÛ‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹–¼‚ğ¦‚·ƒƒCƒ‹ƒhƒJ[ƒh®B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Ü‚½‚Í‹ó•¶š—ñ‚Ìê‡A‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹‚ªŒŸõ‚³‚ê‚éB
+EnumLinesCallback : [int] sî•ñ‚ğó‚¯æ‚é SymEnumLinesProc ƒR[ƒ‹ƒoƒbƒNŠÖ”B
+UserContext : [intptr] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’ÊíAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÉƒRƒ“ƒeƒLƒXƒg‚ğ’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚³‚ê‚éB
 %inst
-The SymEnumLines function (dbghelp.h) enumerates all lines in the
-specified module.
+SymEnumLines ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚Ìs‚ğ—ñ‹“‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-This function is supported for PDB information only. If you have COFF
-information, try using one of the SymGetLineXXX functions. All
-DbgHelp functions, such as this one, are single threaded. Therefore,
-calls from more than one thread to this function will likely result
-in unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function. To call the Unicode version of this function, define
-DBGHELP_TRANSLATE_TCHAR.
+‚±‚ÌŠÖ”‚Í PDB î•ñ‚É‘Î‚µ‚Ä‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éBCOFF î•ñ‚ª‚ ‚éê‡‚Í SymGetLineXXX
+ŒnŠÖ”‚Ì‚¢‚¸‚ê‚©‚ğg—p‚·‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymEnumProcesses
-Enumerates each process that has called the SymInitialize function.
+SymInitialize ŠÖ”‚ğŒÄ‚Ño‚µ‚½‚·‚×‚Ä‚ÌƒvƒƒZƒX‚ğ—ñ‹“‚·‚éB
 %group
 Win32 dbghelp
 %prm
 EnumProcessesCallback, UserContext
-EnumProcessesCallback : [int] A SymEnumProcessesProc callback function that receives the process information.
-UserContext : [intptr] A user-defined value that is passed to the callback function, or NULL. This parameter is typically used by an application to pass a pointer to a data structure that provides context for the callback function.
+EnumProcessesCallback : [int] ƒvƒƒZƒXî•ñ‚ğó‚¯æ‚é SymEnumProcessesProc ƒR[ƒ‹ƒoƒbƒNŠÖ”B
+UserContext : [intptr] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’ÊíAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÉƒRƒ“ƒeƒLƒXƒg‚ğ’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚³‚ê‚éB
 %inst
-Enumerates each process that has called the SymInitialize function.
+SymInitialize ŠÖ”‚ğŒÄ‚Ño‚µ‚½‚·‚×‚Ä‚ÌƒvƒƒZƒX‚ğ—ñ‹“‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymEnumSourceFileTokens
-Enumerates all individual entries in a module's source server data, if available.
+ƒ‚ƒWƒ…[ƒ‹‚Ìƒ\[ƒXƒT[ƒo[ƒf[ƒ^“à‚ÌŒÂX‚ÌƒGƒ“ƒgƒŠ‚ğA—˜—p‰Â”\‚Å‚ ‚ê‚Î‚·‚×‚Ä—ñ‹“‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Base, Callback
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Base : [int64] The base address of the module.
-Callback : [int] A SymEnumSourceFileTokensProc callback function that receives the symbol information.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+Base : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+Callback : [int] ƒVƒ“ƒ{ƒ‹î•ñ‚ğó‚¯æ‚é SymEnumSourceFileTokensProc ƒR[ƒ‹ƒoƒbƒNŠÖ”B
 %inst
-Enumerates all individual entries in a module's source server data,
-if available.
+ƒ‚ƒWƒ…[ƒ‹‚Ìƒ\[ƒXƒT[ƒo[ƒf[ƒ^“à‚ÌŒÂX‚ÌƒGƒ“ƒgƒŠ‚ğA—˜—p‰Â”\‚Å‚ ‚ê‚Î‚·‚×‚Ä—ñ‹“‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Some modules have PDB files with source server information detailing
-the version control information for each of the source files used to
-create each individual module. An application can use this function
-to enumerate the data for every source file that was "source
-indexed". All DbgHelp functions, such as this one, are single
-threaded. Therefore, calls from more than one thread to this function
-will likely result in unexpected behavior or memory corruption. To
-avoid this, you must synchronize all concurrent calls from more than
-one thread to this function.
+ˆê•”‚Ìƒ‚ƒWƒ…[ƒ‹‚Í PDB
+ƒtƒ@ƒCƒ‹‚Éƒ\[ƒXƒT[ƒo[î•ñ‚ğ‚¿AŠeƒ‚ƒWƒ…[ƒ‹‚Ìì¬‚Ég—p‚³‚ê‚½ŒÂX‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹‚Ìƒo[ƒWƒ‡ƒ“ŠÇ—î•ñ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌŠÖ”‚ğg‚¤‚±‚Æ‚ÅAuƒ\[ƒXƒCƒ“ƒfƒbƒNƒX‰»‚³‚ê‚½v‚·‚×‚Ä‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹‚Ìƒf[ƒ^‚ğ—ñ‹“‚Å‚«‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymEnumSourceFiles
-The SymEnumSourceFiles function (dbghelp.h) enumerates all source files in a process.
+SymEnumSourceFiles ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX“à‚Ì‚·‚×‚Ä‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹‚ğ—ñ‹“‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, ModBase, Mask, cbSrcFiles, UserContext
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-ModBase : [int64] The base address of the module. If this value is zero and Mask contains an exclamation point (!), the function looks across modules. If this value is zero and Mask does not contain an exclamation point, the function uses the scope established by the SymSetContext function.
-Mask : [str] A wildcard expression that indicates the names of the source files to be enumerated. To specify a module name, use the !mod syntax. If this parameter is NULL, the function will enumerate all files.
-cbSrcFiles : [int] Pointer to a SymEnumSourceFilesProc callback function that receives the source file information.
-UserContext : [intptr] User-defined value that is passed to the callback function, or NULL. This parameter is typically used by an application to pass a pointer to a data structure that provides context for the callback function.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+ModBase : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB‚±‚Ì’l‚ª 0 ‚ÅAMask ‚ÉŠ´’Q•„ (!) ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡AŠÖ”‚Íƒ‚ƒWƒ…[ƒ‹‚ğ‚Ü‚½‚¢‚ÅŒŸõ‚·‚éB‚±‚Ì’l‚ª 0 ‚Å Mask ‚ÉŠ´’Q•„‚ªŠÜ‚Ü‚ê‚Ä‚¢‚È‚¢ê‡AŠÖ”‚Í SymSetContext ŠÖ”‚ÅŠm—§‚³‚ê‚½ƒXƒR[ƒv‚ğg‚¤B
+Mask : [str] —ñ‹“‚·‚éƒ\[ƒXƒtƒ@ƒCƒ‹–¼‚ğ¦‚·ƒƒCƒ‹ƒhƒJ[ƒh®Bƒ‚ƒWƒ…[ƒ‹–¼‚ğw’è‚·‚é‚É‚Í !mod \•¶‚ğg‚¤B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Ìê‡AŠÖ”‚Í‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹‚ğ—ñ‹“‚·‚éB
+cbSrcFiles : [int] ƒ\[ƒXƒtƒ@ƒCƒ‹î•ñ‚ğó‚¯æ‚é SymEnumSourceFilesProc ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+UserContext : [intptr] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’ÊíAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÉƒRƒ“ƒeƒLƒXƒg‚ğ’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚³‚ê‚éB
 %inst
-The SymEnumSourceFiles function (dbghelp.h) enumerates all source
-files in a process.
+SymEnumSourceFiles ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX“à‚Ì‚·‚×‚Ä‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹‚ğ—ñ‹“‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymEnumSourceLines
-The SymEnumSourceLines function (dbghelp.h) enumerates all source lines in a module.
+SymEnumSourceLines ŠÖ” (dbghelp.h) ‚ÍAƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚Ìƒ\[ƒXs‚ğ—ñ‹“‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Base, Obj, File, Line, Flags, EnumLinesCallback, UserContext
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Base : [int64] The base address of the module.
-Obj : [str] The name of an .obj file within the module. The scope of the enumeration is limited to this file. If this parameter is NULL or an empty string, all .obj files are searched.
-File : [str] A wildcard expression that indicates the names of the source files to be searched. If this parameter is NULL or an empty string, all files are searched.
-Line : [int] The line number of a line within the module. The scope of the enumeration is limited to this line. If this parameter is 0, all lines are searched.
-Flags : [int] If this parameter is ESLFLAG_FULLPATH, the function matches the full path in the File parameter.
-EnumLinesCallback : [int] A SymEnumLinesProc callback function that receives the line information.
-UserContext : [intptr] A user-defined value that is passed to the callback function, or NULL. This parameter is typically used by an application to pass a pointer to a data structure that provides context for the callback function.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+Base : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+Obj : [str] ƒ‚ƒWƒ…[ƒ‹“à‚Ì .obj ƒtƒ@ƒCƒ‹‚Ì–¼‘OB—ñ‹“‚Í‚±‚Ìƒtƒ@ƒCƒ‹‚ÉŒÀ’è‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Ü‚½‚Í‹ó•¶š—ñ‚Ìê‡A‚·‚×‚Ä‚Ì .obj ƒtƒ@ƒCƒ‹‚ªŒŸõ‚³‚ê‚éB
+File : [str] ŒŸõ‘ÎÛ‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹–¼‚ğ¦‚·ƒƒCƒ‹ƒhƒJ[ƒh®B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Ü‚½‚Í‹ó•¶š—ñ‚Ìê‡A‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹‚ªŒŸõ‚³‚ê‚éB
+Line : [int] ƒ‚ƒWƒ…[ƒ‹“à‚Ìs”Ô†B—ñ‹“‚Í‚±‚Ìs‚ÉŒÀ’è‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª 0 ‚Ìê‡A‚·‚×‚Ä‚Ìs‚ªŒŸõ‚³‚ê‚éB
+Flags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª ESLFLAG_FULLPATH ‚Ìê‡AŠÖ”‚Í File ƒpƒ‰ƒ[ƒ^[‚Ìƒtƒ‹ƒpƒX‚É‘Î‚µ‚Äˆê’v‚ğæ‚éB
+EnumLinesCallback : [int] sî•ñ‚ğó‚¯æ‚é SymEnumLinesProc ƒR[ƒ‹ƒoƒbƒNŠÖ”B
+UserContext : [intptr] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’ÊíAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÉƒRƒ“ƒeƒLƒXƒg‚ğ’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚³‚ê‚éB
 %inst
-The SymEnumSourceLines function (dbghelp.h) enumerates all source
-lines in a module.
+SymEnumSourceLines ŠÖ” (dbghelp.h) ‚ÍAƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚Ìƒ\[ƒXs‚ğ—ñ‹“‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
@@ -1078,372 +928,308 @@ UserContext : [intptr]
 
 %index
 SymEnumSymbols
-The SymEnumSymbols function (dbghelp.h) enumerates all symbols in a process.
+SymEnumSymbols ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Mask, EnumSymbolsCallback, UserContext
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module. If this value is zero and Mask contains an exclamation point (!), the function looks across modules. If this value is zero and Mask does not contain an exclamation point, the function uses the scope established by the SymSetContext function.
-Mask : [str] A wildcard string that indicates the names of the symbols to be enumerated. The text can optionally contain the wildcards, "*" and "?". To specify a specific module or set of modules, begin the text with a wildcard string specifying the module, followed by an exclamation point. When specifying a module, BaseOfDll is ignored.
-EnumSymbolsCallback : [int] A SymEnumSymbolsProc callback function that receives the symbol information.
-UserContext : [intptr] A user-defined value that is passed to the callback function, or NULL. This parameter is typically used by an application to pass a pointer to a data structure that provides context for the callback function.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+BaseOfDll : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB‚±‚Ì’l‚ª 0 ‚Å Mask ‚ÉŠ´’Q•„ (!) ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡AŠÖ”‚Íƒ‚ƒWƒ…[ƒ‹‚ğ‚Ü‚½‚¢‚ÅŒŸõ‚·‚éB‚±‚Ì’l‚ª 0 ‚Å Mask ‚ÉŠ´’Q•„‚ªŠÜ‚Ü‚ê‚Ä‚¢‚È‚¢ê‡AŠÖ”‚Í SymSetContext ŠÖ”‚ÅŠm—§‚³‚ê‚½ƒXƒR[ƒv‚ğg‚¤B
+Mask : [str] —ñ‹“‚·‚éƒVƒ“ƒ{ƒ‹–¼‚ğ¦‚·ƒƒCƒ‹ƒhƒJ[ƒh•¶š—ñBƒeƒLƒXƒg‚É‚Í”CˆÓ‚ÅƒƒCƒ‹ƒhƒJ[ƒh "*" ‚¨‚æ‚Ñ "?" ‚ğŠÜ‚ß‚ç‚ê‚éB“Á’è‚Ìƒ‚ƒWƒ…[ƒ‹‚Ü‚½‚Íƒ‚ƒWƒ…[ƒ‹ŒQ‚ğw’è‚·‚é‚É‚ÍAƒ‚ƒWƒ…[ƒ‹‚ğ¦‚·ƒƒCƒ‹ƒhƒJ[ƒh•¶š—ñ‚ÌŒã‚ÉŠ´’Q•„‚ğ•t‚¯‚Äæ“ª‚É’u‚­Bƒ‚ƒWƒ…[ƒ‹‚ğw’è‚µ‚½ê‡ABaseOfDll ‚Í–³‹‚³‚ê‚éB
+EnumSymbolsCallback : [int] ƒVƒ“ƒ{ƒ‹î•ñ‚ğó‚¯æ‚é SymEnumSymbolsProc ƒR[ƒ‹ƒoƒbƒNŠÖ”B
+UserContext : [intptr] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’ÊíAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÉƒRƒ“ƒeƒLƒXƒg‚ğ’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚³‚ê‚éB
 %inst
-The SymEnumSymbols function (dbghelp.h) enumerates all symbols in a
-process.
+SymEnumSymbols ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymEnumSymbolsEx
-The SymEnumSymbolsEx function (dbghelp.h) enumerates all symbols in a process.
+SymEnumSymbolsEx ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Mask, EnumSymbolsCallback, UserContext, Options
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module. If this value is zero and Mask contains an exclamation point (!), the function looks across modules. If this value is zero and Mask does not contain an exclamation point, the function uses the scope established by the SymSetContext function.
-Mask : [str] A wildcard string that indicates the names of the symbols to be enumerated. The text can optionally contain the wildcards, "*" and "?". To specify a specific module or set of modules, begin the text with a wildcard string specifying the module, followed by an exclamation point. When specifying a module, BaseOfDll is ignored.
-EnumSymbolsCallback : [int] A SymEnumSymbolsProc callback function that receives the symbol information.
-UserContext : [intptr] A user-defined value that is passed to the callback function, or NULL. This parameter is typically used by an application to pass a pointer to a data structure that provides context for the callback function.
-Options : [int] Indicates possible options.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+BaseOfDll : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB‚±‚Ì’l‚ª 0 ‚Å Mask ‚ÉŠ´’Q•„ (!) ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡AŠÖ”‚Íƒ‚ƒWƒ…[ƒ‹‚ğ‚Ü‚½‚¢‚ÅŒŸõ‚·‚éB‚±‚Ì’l‚ª 0 ‚Å Mask ‚ÉŠ´’Q•„‚ªŠÜ‚Ü‚ê‚Ä‚¢‚È‚¢ê‡AŠÖ”‚Í SymSetContext ŠÖ”‚ÅŠm—§‚³‚ê‚½ƒXƒR[ƒv‚ğg‚¤B
+Mask : [str] —ñ‹“‚·‚éƒVƒ“ƒ{ƒ‹–¼‚ğ¦‚·ƒƒCƒ‹ƒhƒJ[ƒh•¶š—ñBƒeƒLƒXƒg‚É‚Í”CˆÓ‚ÅƒƒCƒ‹ƒhƒJ[ƒh "*" ‚¨‚æ‚Ñ "?" ‚ğŠÜ‚ß‚ç‚ê‚éB“Á’è‚Ìƒ‚ƒWƒ…[ƒ‹‚Ü‚½‚Íƒ‚ƒWƒ…[ƒ‹ŒQ‚ğw’è‚·‚é‚É‚ÍAƒ‚ƒWƒ…[ƒ‹‚ğ¦‚·ƒƒCƒ‹ƒhƒJ[ƒh•¶š—ñ‚ÌŒã‚ÉŠ´’Q•„‚ğ•t‚¯‚Äæ“ª‚É’u‚­Bƒ‚ƒWƒ…[ƒ‹‚ğw’è‚µ‚½ê‡ABaseOfDll ‚Í–³‹‚³‚ê‚éB
+EnumSymbolsCallback : [int] ƒVƒ“ƒ{ƒ‹î•ñ‚ğó‚¯æ‚é SymEnumSymbolsProc ƒR[ƒ‹ƒoƒbƒNŠÖ”B
+UserContext : [intptr] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’ÊíAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÉƒRƒ“ƒeƒLƒXƒg‚ğ’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚³‚ê‚éB
+Options : [int] w’è‰Â”\‚ÈƒIƒvƒVƒ‡ƒ“‚ğ¦‚·B
 %inst
-The SymEnumSymbolsEx function (dbghelp.h) enumerates all symbols in a
-process.
+SymEnumSymbolsEx ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 
 %index
 SymEnumSymbolsForAddr
-The SymEnumSymbolsForAddr function (dbghelp.h) enumerates the symbols for the specified address.
+SymEnumSymbolsForAddr ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒAƒhƒŒƒX‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Address, EnumSymbolsCallback, UserContext
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Address : [int64] The address for which symbols are to be located. The address does not have to be on a symbol boundary. If the address comes after the beginning of a symbol and before the end of the symbol (the beginning of the symbol plus the symbol size), the function will find the symbol.
-EnumSymbolsCallback : [int] An application-defined callback function. This function is called for every symbol found at Address. For more information, see SymEnumSymbolsProc.
-UserContext : [intptr] Optional user-defined data. This value is passed to the callback function.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+Address : [int64] ƒVƒ“ƒ{ƒ‹‚ğŒŸõ‚·‚é‘ÎÛƒAƒhƒŒƒXBƒAƒhƒŒƒX‚ÍƒVƒ“ƒ{ƒ‹‚Ì‹«ŠEã‚É‚ ‚é•K—v‚Í‚È‚¢BƒAƒhƒŒƒX‚ªƒVƒ“ƒ{ƒ‹‚ÌŠJnˆÈ~AI’[ (ƒVƒ“ƒ{ƒ‹ŠJn + ƒVƒ“ƒ{ƒ‹ƒTƒCƒY) ‚æ‚è‘O‚É‚ ‚éê‡AŠÖ”‚Í‚»‚ÌƒVƒ“ƒ{ƒ‹‚ğŒŸo‚·‚éB
+EnumSymbolsCallback : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”B‚±‚ÌŠÖ”‚Í Address ‚ÅŒ©‚Â‚©‚Á‚½ƒVƒ“ƒ{ƒ‹‚²‚Æ‚ÉŒÄ‚Ño‚³‚ê‚éBÚ×‚Í SymEnumSymbolsProc ‚ğQÆB
+UserContext : [intptr] È—ª‰Â”\‚Èƒ†[ƒU[’è‹`ƒf[ƒ^B‚±‚Ì’l‚ÍƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB
 %inst
-The SymEnumSymbolsForAddr function (dbghelp.h) enumerates the symbols
-for the specified address.
+SymEnumSymbolsForAddr ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒAƒhƒŒƒX‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymEnumTypes
-The SymEnumTypes function (dbghelp.h) enumerates all user-defined types.
+SymEnumTypes ŠÖ” (dbghelp.h) ‚ÍAƒ†[ƒU[’è‹`Œ^‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll, EnumSymbolsCallback, UserContext
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module.
-EnumSymbolsCallback : [int] A pointer to an SymEnumSymbolsProc callback function that receives the symbol information.
-UserContext : [intptr] A user-defined value to be passed to the callback function, or NULL. This parameter is typically used by an application to pass a pointer to a data structure that provides context information for the callback function.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+BaseOfDll : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+EnumSymbolsCallback : [int] ƒVƒ“ƒ{ƒ‹î•ñ‚ğó‚¯æ‚é SymEnumSymbolsProc ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+UserContext : [intptr] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’ÊíAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÉƒRƒ“ƒeƒLƒXƒgî•ñ‚ğ’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚³‚ê‚éB
 %inst
-The SymEnumTypes function (dbghelp.h) enumerates all user-defined
-types.
+SymEnumTypes ŠÖ” (dbghelp.h) ‚ÍAƒ†[ƒU[’è‹`Œ^‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymEnumTypesByName
-The SymEnumTypesByName function (dbghelp.h) enumerates all user-defined types.
+SymEnumTypesByName ŠÖ” (dbghelp.h) ‚ÍAƒ†[ƒU[’è‹`Œ^‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll, mask, EnumSymbolsCallback, UserContext
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module.
-mask : [str] A wildcard expression that indicates the names of the symbols to be enumerated. To specify a module name, use the !mod syntax.
-EnumSymbolsCallback : [int] A pointer to an SymEnumSymbolsProc callback function that receives the symbol information.
-UserContext : [intptr] A user-defined value to be passed to the callback function, or NULL. This parameter is typically used by an application to pass a pointer to a data structure that provides context information for the callback function.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+BaseOfDll : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+mask : [str] —ñ‹“‚·‚éƒVƒ“ƒ{ƒ‹–¼‚ğ¦‚·ƒƒCƒ‹ƒhƒJ[ƒh®Bƒ‚ƒWƒ…[ƒ‹–¼‚ğw’è‚·‚é‚É‚Í !mod \•¶‚ğg‚¤B
+EnumSymbolsCallback : [int] ƒVƒ“ƒ{ƒ‹î•ñ‚ğó‚¯æ‚é SymEnumSymbolsProc ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+UserContext : [intptr] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’ÊíAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÉƒRƒ“ƒeƒLƒXƒgî•ñ‚ğ’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚³‚ê‚éB
 %inst
-The SymEnumTypesByName function (dbghelp.h) enumerates all
-user-defined types.
+SymEnumTypesByName ŠÖ” (dbghelp.h) ‚ÍAƒ†[ƒU[’è‹`Œ^‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymEnumerateModules64
-Enumerates all modules that have been loaded for the process by the SymLoadModule64 or SymLoadModuleEx function. (SymEnumerateModules64)
+SymLoadModule64 ‚Ü‚½‚Í SymLoadModuleEx ŠÖ”‚É‚æ‚Á‚ÄƒvƒƒZƒX‚Éƒ[ƒh‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB(SymEnumerateModules64)
 %group
 Win32 dbghelp
 %prm
 hProcess, EnumModulesCallback, UserContext
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-EnumModulesCallback : [int] The enumeration callback function. This function is called once per module. For more information, see SymEnumerateModulesProc64.
-UserContext : [intptr] A user-defined value or NULL. This value is simply passed to the callback function. Normally, this parameter is used by an application to pass a pointer to a data structure that lets the callback function establish some type of context.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+EnumModulesCallback : [int] —ñ‹“—p‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”B‚±‚ÌŠÖ”‚Íƒ‚ƒWƒ…[ƒ‹‚²‚Æ‚É 1 ‰ñŒÄ‚Ño‚³‚ê‚éBÚ×‚Í SymEnumerateModulesProc64 ‚ğQÆB
+UserContext : [intptr] ƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ì’l‚Í‚»‚Ì‚Ü‚ÜƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB’Êí‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ÍAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ª‰½‚ç‚©‚ÌƒRƒ“ƒeƒLƒXƒg‚ğŠm—§‚Å‚«‚é‚æ‚¤AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚·‚éB
 %inst
-Enumerates all modules that have been loaded for the process by the
-SymLoadModule64 or SymLoadModuleEx function. (SymEnumerateModules64)
+SymLoadModule64 ‚Ü‚½‚Í SymLoadModuleEx
+ŠÖ”‚É‚æ‚Á‚ÄƒvƒƒZƒX‚Éƒ[ƒh‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB(SymEnumerateModules64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymEnumerateModules64 function enumerates all modules that have
-been loaded for the process by SymLoadModule64, even if the symbol
-loading is deferred. The enumeration callback function is called once
-for each module and is passed the module information. All DbgHelp
-functions, such as this one, are single threaded. Therefore, calls
-from more than one thread to this function will likely result in
-unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function. To call the Unicode version of this function, define
-DBGHELP_TRANSLATE_TCHAR. SymEnumerateModulesW64 is defined as follows
-in Dbghelp.h.
-This doc was truncated.
+SymEnumerateModules64 ŠÖ”‚ÍAƒVƒ“ƒ{ƒ‹‚Ìƒ[ƒh‚ª’x‰„‚³‚ê‚Ä‚¢‚éê‡‚àŠÜ‚ßASymLoadModule64
+‚É‚æ‚Á‚ÄƒvƒƒZƒX‚Éƒ[ƒh‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB—ñ‹“—p‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÍŠeƒ‚ƒWƒ…[ƒ‹‚É‘Î‚µ‚Ä 1
+‰ñŒÄ‚Ño‚³‚êAƒ‚ƒWƒ…[ƒ‹î•ñ‚ª“n‚³‚ê‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymEnumerateModulesW64 ‚Í
+Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymEnumerateModulesW64
-Enumerates all modules that have been loaded for the process by the SymLoadModule64 or SymLoadModuleEx function. (SymEnumerateModulesW64)
+SymLoadModule64 ‚Ü‚½‚Í SymLoadModuleEx ŠÖ”‚É‚æ‚Á‚ÄƒvƒƒZƒX‚Éƒ[ƒh‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB(SymEnumerateModulesW64)
 %group
 Win32 dbghelp
 %prm
 hProcess, EnumModulesCallback, UserContext
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-EnumModulesCallback : [int] The enumeration callback function. This function is called once per module. For more information, see SymEnumerateModulesProc64.
-UserContext : [intptr] A user-defined value or NULL. This value is simply passed to the callback function. Normally, this parameter is used by an application to pass a pointer to a data structure that lets the callback function establish some type of context.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+EnumModulesCallback : [int] —ñ‹“—p‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”B‚±‚ÌŠÖ”‚Íƒ‚ƒWƒ…[ƒ‹‚²‚Æ‚É 1 ‰ñŒÄ‚Ño‚³‚ê‚éBÚ×‚Í SymEnumerateModulesProc64 ‚ğQÆB
+UserContext : [intptr] ƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ì’l‚Í‚»‚Ì‚Ü‚ÜƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB’Êí‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ÍAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ª‰½‚ç‚©‚ÌƒRƒ“ƒeƒLƒXƒg‚ğŠm—§‚Å‚«‚é‚æ‚¤AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚·‚éB
 %inst
-Enumerates all modules that have been loaded for the process by the
-SymLoadModule64 or SymLoadModuleEx function. (SymEnumerateModulesW64)
+SymLoadModule64 ‚Ü‚½‚Í SymLoadModuleEx
+ŠÖ”‚É‚æ‚Á‚ÄƒvƒƒZƒX‚Éƒ[ƒh‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB(SymEnumerateModulesW64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymEnumerateModules64 function enumerates all modules that have
-been loaded for the process by SymLoadModule64, even if the symbol
-loading is deferred. The enumeration callback function is called once
-for each module and is passed the module information. All DbgHelp
-functions, such as this one, are single threaded. Therefore, calls
-from more than one thread to this function will likely result in
-unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function. To call the Unicode version of this function, define
-DBGHELP_TRANSLATE_TCHAR. SymEnumerateModulesW64 is defined as follows
-in Dbghelp.h.
-This doc was truncated.
+SymEnumerateModules64 ŠÖ”‚ÍAƒVƒ“ƒ{ƒ‹‚Ìƒ[ƒh‚ª’x‰„‚³‚ê‚Ä‚¢‚éê‡‚àŠÜ‚ßASymLoadModule64
+‚É‚æ‚Á‚ÄƒvƒƒZƒX‚Éƒ[ƒh‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ğ‚·‚×‚Ä—ñ‹“‚·‚éB—ñ‹“—p‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÍŠeƒ‚ƒWƒ…[ƒ‹‚É‘Î‚µ‚Ä 1
+‰ñŒÄ‚Ño‚³‚êAƒ‚ƒWƒ…[ƒ‹î•ñ‚ª“n‚³‚ê‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymEnumerateModulesW64 ‚Í
+Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymEnumerateSymbols64
-Enumerates all the symbols for a specified module. (SymEnumerateSymbols64)
+w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB(SymEnumerateSymbols64)
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll, EnumSymbolsCallback, UserContext
-hProcess : [intptr] A handle to the process. This handle must have been previously passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module for which symbols are to be enumerated.
-EnumSymbolsCallback : [int] The callback function that receives the symbol information. For more information, see SymEnumerateSymbolsProc64.
-UserContext : [intptr] A user-defined value or NULL. This value is passed to the callback function. Typically, this parameter is used by an application to pass a pointer to a data structure that enables the callback function establish some type of context.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+BaseOfDll : [int64] ƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚é‘ÎÛƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+EnumSymbolsCallback : [int] ƒVƒ“ƒ{ƒ‹î•ñ‚ğó‚¯æ‚éƒR[ƒ‹ƒoƒbƒNŠÖ”BÚ×‚Í SymEnumerateSymbolsProc64 ‚ğQÆB
+UserContext : [intptr] ƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ì’l‚ÍƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB’Êí‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ÍAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ª‰½‚ç‚©‚ÌƒRƒ“ƒeƒLƒXƒg‚ğŠm—§‚Å‚«‚é‚æ‚¤AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚·‚éB
 %inst
-Enumerates all the symbols for a specified module.
-(SymEnumerateSymbols64)
+w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB(SymEnumerateSymbols64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymEnumerateSymbols64 function enumerates all the symbols for the
-specified module. The module information is located by the BaseOfDll
-parameter. The callback function is called once per symbol and is
-passed the information for each symbol. All DbgHelp functions, such
-as this one, are single threaded. Therefore, calls from more than one
-thread to this function will likely result in unexpected behavior or
-memory corruption. To avoid this, you must synchronize all concurrent
-calls from more than one thread to this function. The Unicode version
-of this function, SymEnumerateSymbolsW64 is defined as follows in
-Dbghelp.h.
-This doc was truncated.
+SymEnumerateSymbols64 ŠÖ”‚ÍAw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éBƒ‚ƒWƒ…[ƒ‹î•ñ‚Í BaseOfDll
+ƒpƒ‰ƒ[ƒ^[‚©‚ç“Á’è‚³‚ê‚éBƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÍƒVƒ“ƒ{ƒ‹‚²‚Æ‚É 1 ‰ñŒÄ‚Ño‚³‚êAŠeƒVƒ“ƒ{ƒ‹‚Ìî•ñ‚ª“n‚³‚ê‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚Ì SymEnumerateSymbolsW64 ‚Í Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymEnumerateSymbolsW64
-Enumerates all the symbols for a specified module. (SymEnumerateSymbolsW64)
+w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB(SymEnumerateSymbolsW64)
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll, EnumSymbolsCallback, UserContext
-hProcess : [intptr] A handle to the process. This handle must have been previously passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module for which symbols are to be enumerated.
-EnumSymbolsCallback : [int] The callback function that receives the symbol information. For more information, see SymEnumerateSymbolsProc64.
-UserContext : [intptr] A user-defined value or NULL. This value is passed to the callback function. Typically, this parameter is used by an application to pass a pointer to a data structure that enables the callback function establish some type of context.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+BaseOfDll : [int64] ƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚é‘ÎÛƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+EnumSymbolsCallback : [int] ƒVƒ“ƒ{ƒ‹î•ñ‚ğó‚¯æ‚éƒR[ƒ‹ƒoƒbƒNŠÖ”BÚ×‚Í SymEnumerateSymbolsProc64 ‚ğQÆB
+UserContext : [intptr] ƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ì’l‚ÍƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB’Êí‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ÍAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ª‰½‚ç‚©‚ÌƒRƒ“ƒeƒLƒXƒg‚ğŠm—§‚Å‚«‚é‚æ‚¤AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚·‚éB
 %inst
-Enumerates all the symbols for a specified module.
-(SymEnumerateSymbolsW64)
+w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éB(SymEnumerateSymbolsW64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymEnumerateSymbols64 function enumerates all the symbols for the
-specified module. The module information is located by the BaseOfDll
-parameter. The callback function is called once per symbol and is
-passed the information for each symbol. All DbgHelp functions, such
-as this one, are single threaded. Therefore, calls from more than one
-thread to this function will likely result in unexpected behavior or
-memory corruption. To avoid this, you must synchronize all concurrent
-calls from more than one thread to this function. The Unicode version
-of this function, SymEnumerateSymbolsW64 is defined as follows in
-Dbghelp.h.
-This doc was truncated.
+SymEnumerateSymbols64 ŠÖ”‚ÍAw’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì‚·‚×‚Ä‚ÌƒVƒ“ƒ{ƒ‹‚ğ—ñ‹“‚·‚éBƒ‚ƒWƒ…[ƒ‹î•ñ‚Í BaseOfDll
+ƒpƒ‰ƒ[ƒ^[‚©‚ç“Á’è‚³‚ê‚éBƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÍƒVƒ“ƒ{ƒ‹‚²‚Æ‚É 1 ‰ñŒÄ‚Ño‚³‚êAŠeƒVƒ“ƒ{ƒ‹‚Ìî•ñ‚ª“n‚³‚ê‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚Ì SymEnumerateSymbolsW64 ‚Í Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymFindDebugInfoFile
-The SymFindDebugInfoFile function (dbghelp.h) locates a .dbg file in the process search path.
+SymFindDebugInfoFile ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX‚ÌŒŸõƒpƒX“à‚©‚ç .dbg ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, FileName, DebugFilePath, Callback, CallerData
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-FileName : [str] The name of the .dbg file. You can use a partial path.
-DebugFilePath : [str] The fully qualified path of the .dbg file. This buffer must be at least MAX_PATH characters.
-Callback : [int] An application-defined callback function that verifies whether the correct file was found or the function should continue its search. For more information, see FindDebugInfoFileProc.
-CallerData : [intptr] A user-defined value or NULL. This value is simply passed to the callback function. This parameter is typically used by an application to pass a pointer to a data structure that provides some context for the callback function.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+FileName : [str] .dbg ƒtƒ@ƒCƒ‹‚Ì–¼‘OB•”•ªƒpƒX‚ğw’è‚Å‚«‚éB
+DebugFilePath : [str] .dbg ƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒXB‚±‚Ìƒoƒbƒtƒ@‚Í­‚È‚­‚Æ‚à MAX_PATH •¶š•ª‚Ì—e—Ê‚ª•K—vB
+Callback : [int] ³‚µ‚¢ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚Á‚½‚©A‚Ü‚½‚ÍŒŸõ‚ğ‘±s‚·‚×‚«‚©‚ğ”»’è‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”BÚ×‚Í FindDebugInfoFileProc ‚ğQÆB
+CallerData : [intptr] ƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ì’l‚Í‚»‚Ì‚Ü‚ÜƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’ÊíAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÉƒRƒ“ƒeƒLƒXƒg‚ğ’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚³‚ê‚éB
 %inst
-The SymFindDebugInfoFile function (dbghelp.h) locates a .dbg file in
-the process search path.
+SymFindDebugInfoFile ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX‚ÌŒŸõƒpƒX“à‚©‚ç .dbg ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is an open handle to the
-.dbg file. If the function fails, the return value is NULL. To
-retrieve extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í .dbg ƒtƒ@ƒCƒ‹‚É‘Î‚·‚éƒI[ƒvƒ“Ï‚İƒnƒ“ƒhƒ‹‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL
+‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-This function uses the search path set using the SymInitialize or
-SymSetSearchPath function. All DbgHelp functions, such as this one,
-are single threaded. Therefore, calls from more than one thread to
-this function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
+‚±‚ÌŠÖ”‚Í SymInitialize ‚Ü‚½‚Í SymSetSearchPath ŠÖ”‚Åİ’è‚³‚ê‚½ŒŸõƒpƒX‚ğg—p‚·‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymFindExecutableImage
-The SymFindExecutableImage function (dbghelp.h) locates an executable file in the process search path.
+SymFindExecutableImage ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX‚ÌŒŸõƒpƒX“à‚©‚çÀs‰Â”\ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, FileName, ImageFilePath, Callback, CallerData
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-FileName : [str] The name of the executable file. You can use a partial path.
-ImageFilePath : [str] The fully qualified path of the executable file. This buffer must be at least MAX_PATH characters.
-Callback : [int] An application-defined callback function that verifies whether the correct executable file was found, or whether the function should continue its search. For more information, see FindExecutableImageProc.
-CallerData : [intptr] A user-defined value or NULL. This value is simply passed to the callback function. This parameter is typically used by an application to pass a pointer to a data structure that provides some context for the callback function.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+FileName : [str] Às‰Â”\ƒtƒ@ƒCƒ‹‚Ì–¼‘OB•”•ªƒpƒX‚ğw’è‚Å‚«‚éB
+ImageFilePath : [str] Às‰Â”\ƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒXB‚±‚Ìƒoƒbƒtƒ@‚Í­‚È‚­‚Æ‚à MAX_PATH •¶š•ª‚Ì—e—Ê‚ª•K—vB
+Callback : [int] ³‚µ‚¢Às‰Â”\ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚Á‚½‚©A‚Ü‚½‚ÍŒŸõ‚ğ‘±s‚·‚×‚«‚©‚ğ”»’è‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”BÚ×‚Í FindExecutableImageProc ‚ğQÆB
+CallerData : [intptr] ƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ì’l‚Í‚»‚Ì‚Ü‚ÜƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’ÊíAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÉƒRƒ“ƒeƒLƒXƒg‚ğ’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚³‚ê‚éB
 %inst
-The SymFindExecutableImage function (dbghelp.h) locates an executable
-file in the process search path.
+SymFindExecutableImage ŠÖ” (dbghelp.h) ‚ÍAƒvƒƒZƒX‚ÌŒŸõƒpƒX“à‚©‚çÀs‰Â”\ƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is an open handle to the
-executable file. If the function fails, the return value is NULL. To
-retrieve extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚ÍÀs‰Â”\ƒtƒ@ƒCƒ‹‚É‘Î‚·‚éƒI[ƒvƒ“Ï‚İƒnƒ“ƒhƒ‹‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL
+‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-This function uses the search path set using the SymInitialize or
-SymSetSearchPath function. All DbgHelp functions, such as this one,
-are single threaded. Therefore, calls from more than one thread to
-this function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
+‚±‚ÌŠÖ”‚Í SymInitialize ‚Ü‚½‚Í SymSetSearchPath ŠÖ”‚Åİ’è‚³‚ê‚½ŒŸõƒpƒX‚ğg—p‚·‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymFindFileInPath
-The SymFindFileInPath function (dbghelp.h) locates a symbol file or executable image.
+SymFindFileInPath ŠÖ” (dbghelp.h) ‚ÍAƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍÀs‰Â”\ƒCƒ[ƒW‚ğŒŸõ‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hprocess, SearchPathA, FileName, id, two, three, flags, FoundFile, callback, context
-hprocess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
+hprocess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
 SearchPathA : [str] 
-FileName : [str] The name of the file. You can specify a path; however, only the file name is used.
-id : [intptr] The first of three identifying parameters (see Remarks).
-two : [int] The second of three identifying parameters (see Remarks).
-three : [int] The third of three identifying parameters (see Remarks).
+FileName : [str] ƒtƒ@ƒCƒ‹‚Ì–¼‘OBƒpƒX‚ğw’è‚·‚é‚±‚Æ‚à‚Å‚«‚é‚ªAƒtƒ@ƒCƒ‹–¼‚Ì‚İ‚ªg—p‚³‚ê‚éB
+id : [intptr] 3 ‚Â‚Ì¯•Êƒpƒ‰ƒ[ƒ^[‚Ì‚¤‚¿‚Ì 1 ‚Â–Ú (”õlQÆ)B
+two : [int] 3 ‚Â‚Ì¯•Êƒpƒ‰ƒ[ƒ^[‚Ì‚¤‚¿‚Ì 2 ‚Â–Ú (”õlQÆ)B
+three : [int] 3 ‚Â‚Ì¯•Êƒpƒ‰ƒ[ƒ^[‚Ì‚¤‚¿‚Ì 3 ‚Â–Ú (”õlQÆ)B
 flags : [int] 
-FoundFile : [str] A pointer to a buffer that receives the fully qualified path to the symbol file. This buffer must be at least MAX_PATH characters.
-callback : [int] A SymFindFileInPathProc callback function.
-context : [intptr] A user-defined value or NULL. This value is simply passed to the callback function. This parameter is typically used by an application to pass a pointer to a data structure that provides some context for the callback function.
+FoundFile : [str] ƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚Ö‚ÌŠ®‘SCüƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒoƒbƒtƒ@‚Í­‚È‚­‚Æ‚à MAX_PATH •¶š•ª‚Ì—e—Ê‚ª•K—vB
+callback : [int] SymFindFileInPathProc ƒR[ƒ‹ƒoƒbƒNŠÖ”B
+context : [intptr] ƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB‚±‚Ì’l‚Í‚»‚Ì‚Ü‚ÜƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’ÊíAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÉƒRƒ“ƒeƒLƒXƒg‚ğ’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ“n‚·‚½‚ß‚Ég—p‚³‚ê‚éB
 %inst
-The SymFindFileInPath function (dbghelp.h) locates a symbol file or
-executable image.
+SymFindFileInPath ŠÖ” (dbghelp.h) ‚ÍAƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍÀs‰Â”\ƒCƒ[ƒW‚ğŒŸõ‚·‚éB
 
 [–ß‚è’l]
-If the server locates a valid symbol file, it returns TRUE;
-otherwise, it returns FALSE and GetLastError returns a value that
-indicates why the symbol file was not returned.
+ƒT[ƒo[‚ª—LŒø‚ÈƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ğŒ©‚Â‚¯‚½ê‡‚Í TRUE ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚µAGetLastError
+‚ÍƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ª•Ô‚³‚ê‚È‚©‚Á‚½——R‚ğ¦‚·’l‚ğ•Ô‚·B
 
 [”õl]
-The identifying parameters are filled in as follows:
-This doc was truncated.
+¯•Êƒpƒ‰ƒ[ƒ^[‚ÍŸ‚Ì‚æ‚¤‚É–„‚ß‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
@@ -1470,231 +1256,196 @@ DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 %index
 SymFromIndex
-The SymFromIndex function (dbghelp.h) retrieves symbol information for the specified index.
+SymFromIndex ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Index, Symbol
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module.
-Index : [int] A unique value for the symbol.
-Symbol : [var] A pointer to a SYMBOL_INFO structure that provides information about the symbol.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+BaseOfDll : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+Index : [int] ƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚éˆêˆÓ‚È’lB
+Symbol : [var] ƒVƒ“ƒ{ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğ’ñ‹Ÿ‚·‚é SYMBOL_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-The SymFromIndex function (dbghelp.h) retrieves symbol information
-for the specified index.
+SymFromIndex ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymFromInlineContext
-The SymFromInlineContext function (dbghelp.h) retrieves symbol information for the specified address and inline context.
+SymFromInlineContext ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒAƒhƒŒƒX‚¨‚æ‚ÑƒCƒ“ƒ‰ƒCƒ“ƒRƒ“ƒeƒLƒXƒg‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Address, InlineContext, Displacement, Symbol
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Address : [int64] The address for which a symbol should be located. The address does not have to be on a symbol boundary. If the address comes after the beginning of a symbol and before the end of the symbol, the symbol is found.
-InlineContext : [int] The inline context for which a symbol should be located.
-Displacement : [var] The displacement from the beginning of the symbol, or zero.
-Symbol : [var] A pointer to a SYMBOL_INFO structure that provides information about the symbol. The symbol name is variable in length; therefore this buffer must be large enough to hold the name stored at the end of the SYMBOL_INFO structure. Be sure to set the MaxNameLen member to the number of bytes reserved for the name.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+Address : [int64] ƒVƒ“ƒ{ƒ‹‚ğŒŸõ‚·‚é‘ÎÛƒAƒhƒŒƒXBƒAƒhƒŒƒX‚ÍƒVƒ“ƒ{ƒ‹‚Ì‹«ŠEã‚É‚ ‚é•K—v‚Í‚È‚¢BƒAƒhƒŒƒX‚ªƒVƒ“ƒ{ƒ‹‚ÌŠJnˆÈ~AI’[‚æ‚è‘O‚É‚ ‚éê‡A‚»‚ÌƒVƒ“ƒ{ƒ‹‚ªŒŸo‚³‚ê‚éB
+InlineContext : [int] ƒVƒ“ƒ{ƒ‹‚ğŒŸõ‚·‚é‘ÎÛ‚ÌƒCƒ“ƒ‰ƒCƒ“ƒRƒ“ƒeƒLƒXƒgB
+Displacement : [var] ƒVƒ“ƒ{ƒ‹æ“ª‚©‚ç‚Ì•ÏˆÊA‚Ü‚½‚Í 0B
+Symbol : [var] ƒVƒ“ƒ{ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğ’ñ‹Ÿ‚·‚é SYMBOL_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[BƒVƒ“ƒ{ƒ‹–¼‚Í‰Â•Ï’·‚Ì‚½‚ßA‚±‚Ìƒoƒbƒtƒ@‚Í SYMBOL_INFO \‘¢‘Ì‚Ì––”ö‚ÉŠi”[‚³‚ê‚é–¼‘O‚ğ•Û‚Å‚«‚é\•ª‚È‘å‚«‚³‚ª•K—v‚Å‚ ‚éBMaxNameLen ƒƒ“ƒo[‚ÉA–¼‘O‚Ì‚½‚ß‚ÉŠm•Û‚µ‚½ƒoƒCƒg”‚ğ•K‚¸İ’è‚·‚é‚±‚ÆB
 %inst
-The SymFromInlineContext function (dbghelp.h) retrieves symbol
-information for the specified address and inline context.
+SymFromInlineContext ŠÖ” (dbghelp.h)
+‚ÍAw’è‚µ‚½ƒAƒhƒŒƒX‚¨‚æ‚ÑƒCƒ“ƒ‰ƒCƒ“ƒRƒ“ƒeƒLƒXƒg‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 
 %index
 SymFromName
-The SymFromName function (dbghelp.h) retrieves symbol information for the specified name.
+SymFromName ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½–¼‘O‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Name, Symbol
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Name : [str] The name of the symbol to be located.
-Symbol : [var] A pointer to a SYMBOL_INFO structure that provides information about the symbol.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+Name : [str] ŒŸõ‘ÎÛ‚ÌƒVƒ“ƒ{ƒ‹–¼B
+Symbol : [var] ƒVƒ“ƒ{ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğ’ñ‹Ÿ‚·‚é SYMBOL_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-The SymFromName function (dbghelp.h) retrieves symbol information for
-the specified name.
+SymFromName ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½–¼‘O‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymFromToken
-The SymFromToken function (dbghelp.h) retrieves symbol information for the specified managed code token.
+SymFromToken ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒ}ƒl[ƒWƒR[ƒhƒg[ƒNƒ“‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Base, Token, Symbol
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Base : [int64] The base address of the managed code module.
-Token : [int] The managed code token.
-Symbol : [var] A pointer to a SYMBOL_INFO structure that provides information about the symbol.
+hProcess : [intptr] ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+Base : [int64] ƒ}ƒl[ƒWƒR[ƒhƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+Token : [int] ƒ}ƒl[ƒWƒR[ƒh‚Ìƒg[ƒNƒ“B
+Symbol : [var] ƒVƒ“ƒ{ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğ’ñ‹Ÿ‚·‚é SYMBOL_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-The SymFromToken function (dbghelp.h) retrieves symbol information
-for the specified managed code token.
+SymFromToken ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒ}ƒl[ƒWƒR[ƒhƒg[ƒNƒ“‚É‘Î‰‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymFunctionTableAccess64
-Retrieves the function table entry for the specified address. (SymFunctionTableAccess64)
+w’è‚µ‚½ƒAƒhƒŒƒX‚É‘Î‰‚·‚éŠÖ”ƒe[ƒuƒ‹ƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB(SymFunctionTableAccess64)
 %group
 Win32 dbghelp
 %prm
 hProcess, AddrBase
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-AddrBase : [int64] The base address for which function table information is required.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+AddrBase : [int64] ŠÖ”ƒe[ƒuƒ‹î•ñ‚ª•K—v‚Èƒx[ƒXƒAƒhƒŒƒXB
 %inst
-Retrieves the function table entry for the specified address.
-(SymFunctionTableAccess64)
+w’è‚µ‚½ƒAƒhƒŒƒX‚É‘Î‰‚·‚éŠÖ”ƒe[ƒuƒ‹ƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB(SymFunctionTableAccess64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is a pointer to the
-function table entry. If the function fails, the return value is
-NULL. To retrieve extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚ÍŠÖ”ƒe[ƒuƒ‹ƒGƒ“ƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL
+‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The type of pointer returned is specific to the image from which
-symbols are loaded. x86: If the image is for an x86 system, this is a
-pointer to an FPO_DATA structure. x64: If the image is for an x64
-system, this is a pointer to an _IMAGE_RUNTIME_FUNCTION_ENTRY
-structure. All DbgHelp functions, such as this one, are single
-threaded. Therefore, calls from more than one thread to this function
-will likely result in unexpected behavior or memory corruption. To
-avoid this, you must synchronize all concurrent calls from more than
-one thread to this function. This function supersedes the
-SymFunctionTableAccess function. For more information, see Updated
-Platform Support. SymFunctionTableAccess is defined as follows in
-Dbghelp.h.
-This doc was truncated.
+•Ô‚³‚ê‚éƒ|ƒCƒ“ƒ^[‚ÌŒ^‚ÍAƒVƒ“ƒ{ƒ‹‚ªƒ[ƒh‚³‚ê‚éƒCƒ[ƒW‚ÉˆË‘¶‚·‚éBx86: ƒCƒ[ƒW‚ª x86 ƒVƒXƒeƒ€Œü‚¯‚Ìê‡A‚±‚ê‚Í
+FPO_DATA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚Æ‚È‚éBx64: ƒCƒ[ƒW‚ª x64 ƒVƒXƒeƒ€Œü‚¯‚Ìê‡A‚±‚ê‚Í
+_IMAGE_RUNTIME_FUNCTION_ENTRY \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚Æ‚È‚éBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Í
+SymFunctionTableAccess ŠÖ”‚Éæ‚Á‚Ä‘ã‚í‚é‚à‚Ì‚Å‚ ‚éBÚ×‚Í Updated Platform Support
+‚ğQÆBSymFunctionTableAccess ‚Í Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymFunctionTableAccess64AccessRoutines
-Finds a function table entry or frame pointer omission (FPO) record for an address.
+‚ ‚éƒAƒhƒŒƒX‚É‘Î‚·‚éŠÖ”ƒe[ƒuƒ‹ƒGƒ“ƒgƒŠA‚Ü‚½‚ÍƒtƒŒ[ƒ€ƒ|ƒCƒ“ƒ^[È—ª (FPO) ƒŒƒR[ƒh‚ğŒŸõ‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, AddrBase, ReadMemoryRoutine, GetModuleBaseRoutine
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-AddrBase : [int64] The base address for which function table information is required.
-ReadMemoryRoutine : [int] Pointer to a read memory callback function.
-GetModuleBaseRoutine : [int] Pointer to a get module base callback function.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+AddrBase : [int64] ŠÖ”ƒe[ƒuƒ‹î•ñ‚ª•K—v‚Èƒx[ƒXƒAƒhƒŒƒXB
+ReadMemoryRoutine : [int] ƒƒ‚ƒŠ“Ç‚İæ‚è—pƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+GetModuleBaseRoutine : [int] ƒ‚ƒWƒ…[ƒ‹ƒx[ƒXæ“¾—pƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Finds a function table entry or frame pointer omission (FPO) record
-for an address.
+‚ ‚éƒAƒhƒŒƒX‚É‘Î‚·‚éŠÖ”ƒe[ƒuƒ‹ƒGƒ“ƒgƒŠA‚Ü‚½‚ÍƒtƒŒ[ƒ€ƒ|ƒCƒ“ƒ^[È—ª (FPO) ƒŒƒR[ƒh‚ğŒŸõ‚·‚éB
 
 
 %index
 SymGetExtendedOption
-Gets whether the specified extended symbol option on or off.
+w’è‚µ‚½Šg’£ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“‚ª—LŒø‚©–³Œø‚©‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 option
-option : [int] The extended symbol option to check. The following are valid values.
+option : [int] Šm”F‚·‚éŠg’£ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“B—LŒø‚È’l‚ÍŸ‚Ì‚Æ‚¨‚èB
 %inst
-Gets whether the specified extended symbol option on or off.
+w’è‚µ‚½Šg’£ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“‚ª—LŒø‚©–³Œø‚©‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-The value of the specified symbol option.
+w’è‚µ‚½ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“‚Ì’lB
 
 
 %index
 SymGetFileLineOffsets64
-Locates line information for the specified module and file name.
+w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚¨‚æ‚Ñƒtƒ@ƒCƒ‹–¼‚É‘Î‚·‚ésî•ñ‚ğŒŸõ‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, ModuleName, FileName, Buffer, BufferLines
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-ModuleName : [str] The name of the module in which  lines are to be located. If this parameter is NULL, the function searches all modules.
-FileName : [str] The name of the file in which lines are to be located.
-Buffer : [var] An array of offsets for each line. The offset for the line n is stored in element n-1. Array elements for lines that do not have line information are left unchanged.
-BufferLines : [int] The size of the Buffer array, in elements.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+ModuleName : [str] s‚ğŒŸõ‚·‚é‘ÎÛƒ‚ƒWƒ…[ƒ‹‚Ì–¼‘OB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Ìê‡AŠÖ”‚Í‚·‚×‚Ä‚Ìƒ‚ƒWƒ…[ƒ‹‚ğŒŸõ‚·‚éB
+FileName : [str] s‚ğŒŸõ‚·‚é‘ÎÛƒtƒ@ƒCƒ‹–¼B
+Buffer : [var] Šes‚É‘Î‚·‚éƒIƒtƒZƒbƒg‚Ì”z—ñBs n ‚ÌƒIƒtƒZƒbƒg‚Í—v‘f n-1 ‚ÉŠi”[‚³‚ê‚éBsî•ñ‚ğ‚½‚È‚¢s‚É‘Î‰‚·‚é”z—ñ—v‘f‚Í•ÏX‚³‚ê‚È‚¢B
+BufferLines : [int] Buffer ”z—ñ‚Ì—v‘f”B
 %inst
-Locates line information for the specified module and file name.
+w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹‚¨‚æ‚Ñƒtƒ@ƒCƒ‹–¼‚É‘Î‚·‚ésî•ñ‚ğŒŸõ‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is the highest line number
-found. This value is zero if no line information was found. If the
-function fails, the return value is LINE_ERROR. To retrieve extended
-error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚ÍŒ©‚Â‚©‚Á‚½Å‘å‚Ìs”Ô†‚Æ‚È‚éBsî•ñ‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡A‚±‚Ì’l‚Í 0 ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í
+LINE_ERROR ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymGetHomeDirectory
-The SymGetHomeDirectory function (dbghelp.h) retrieves the home directory used by Dbghelp.
+SymGetHomeDirectory ŠÖ” (dbghelp.h) ‚ÍADbghelp ‚ªg—p‚·‚éƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 type, dir, size
 type : [int] 
-dir : [str] A pointer to a string that receives the directory.
-size : [int] The size of the output buffer, in characters.
+dir : [str] ƒfƒBƒŒƒNƒgƒŠ‚ğó‚¯æ‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+size : [int] o—Íƒoƒbƒtƒ@‚ÌƒTƒCƒY (•¶š’PˆÊ)B
 %inst
-The SymGetHomeDirectory function (dbghelp.h) retrieves the home
-directory used by Dbghelp.
+SymGetHomeDirectory ŠÖ” (dbghelp.h) ‚ÍADbghelp ‚ªg—p‚·‚éƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is a pointer to the dir
-parameter. If the function fails, the return value is NULL. To
-retrieve extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í dir ƒpƒ‰ƒ[ƒ^[‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL
+‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+DbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
@@ -1723,950 +1474,763 @@ Line64 : [var] IMAGEHLP_LINE64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 
 %index
 SymGetLineFromAddrW64
-Locates the source line for the specified address. (SymGetLineFromAddrW64)
+w’è‚µ‚½ƒAƒhƒŒƒX‚É‘Î‰‚·‚éƒ\[ƒXs‚ğŒŸõ‚·‚éB(SymGetLineFromAddrW64)
 %group
 Win32 dbghelp
 %prm
 hProcess, dwAddr, pdwDisplacement, Line
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-dwAddr : [int64] The address for which a line should be located. It is not necessary for the address to be on a line boundary. If the address appears after the beginning of a line and before the end of the line, the line is found.
-pdwDisplacement : [var] The displacement in bytes from the beginning of the line, or zero.
-Line : [var] A pointer to an IMAGEHLP_LINE64 structure.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+dwAddr : [int64] s‚ğŒŸõ‚·‚é‘ÎÛƒAƒhƒŒƒXBƒAƒhƒŒƒX‚Ís‹«ŠEã‚É‚ ‚é•K—v‚Í‚È‚¢BƒAƒhƒŒƒX‚ªs‚ÌŠJnˆÈ~AI’[‚æ‚è‘O‚ÉˆÊ’u‚µ‚Ä‚¢‚ê‚ÎA‚»‚Ìs‚ªŒŸo‚³‚ê‚éB
+pdwDisplacement : [var] sæ“ª‚©‚ç‚Ì•ÏˆÊ (ƒoƒCƒg’PˆÊ)A‚Ü‚½‚Í 0B
+Line : [var] IMAGEHLP_LINE64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Locates the source line for the specified address.
-(SymGetLineFromAddrW64)
+w’è‚µ‚½ƒAƒhƒŒƒX‚É‘Î‰‚·‚éƒ\[ƒXs‚ğŒŸõ‚·‚éB(SymGetLineFromAddrW64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The caller must allocate the Line buffer properly and fill in the
-required members of the IMAGEHLP_LINE64 structure before calling
-SymGetLineFromAddr64. This function returns a pointer to a buffer
-that may be reused by another function. Therefore, be sure to copy
-the data returned to another buffer immediately. All DbgHelp
-functions, such as this one, are single threaded. Therefore, calls
-from more than one thread to this function will likely result in
-unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function. To call the Unicode version of this function, define
-DBGHELP_TRANSLATE_TCHAR. SymGetLineFromAddrW64 is defined as follows
-in Dbghelp.h.
-This doc was truncated.
+ŒÄ‚Ño‚µŒ³‚Í SymGetLineFromAddr64 ‚ğŒÄ‚Ño‚·‘O‚ÉALine ƒoƒbƒtƒ@‚ğ“KØ‚ÉŠm•Û‚µAIMAGEHLP_LINE64
+\‘¢‘Ì‚Ì•K{ƒƒ“ƒo[‚ğİ’è‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Í•Ê‚ÌŠÖ”‚É‚æ‚Á‚ÄÄ—˜—p‚³‚ê‚é‰Â”\«‚Ì‚ ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ•Ô‚·B‚µ‚½‚ª‚Á‚ÄA•Ô‚³‚ê‚½ƒf[ƒ^‚Í‚·‚®‚É•Ê‚Ìƒoƒbƒtƒ@‚ÉƒRƒs[‚µ‚Ä‚¨‚­‚±‚ÆBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymGetLineFromAddrW64 ‚Í
+Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetLineFromInlineContext
-The SymGetLineFromInlineContext function (dbghelp.h) locates the source line for the specified inline context.
+SymGetLineFromInlineContext ŠÖ” (dbghelp.h) ‚ÍAw’è‚µ‚½ƒCƒ“ƒ‰ƒCƒ“ƒRƒ“ƒeƒLƒXƒg‚É‘Î‰‚·‚éƒ\[ƒXs‚ğŒŸõ‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, qwAddr, InlineContext, qwModuleBaseAddress, pdwDisplacement, Line64
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-qwAddr : [int64] The address for which a line should be located. It is not necessary for the address to be on a line boundary. If the address appears after the beginning of a line and before the end of the line, the line is found.
-InlineContext : [int] The inline context.
-qwModuleBaseAddress : [int64] The base address of the module.
-pdwDisplacement : [var] The displacement in bytes from the beginning of the line, or zero.
-Line64 : [var] A pointer to an IMAGEHLP_LINE64 structure.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+qwAddr : [int64] s‚ğŒŸõ‚·‚é‘ÎÛƒAƒhƒŒƒXBƒAƒhƒŒƒX‚Ís‹«ŠEã‚É‚ ‚é•K—v‚Í‚È‚¢BƒAƒhƒŒƒX‚ªs‚ÌŠJnˆÈ~AI’[‚æ‚è‘O‚ÉˆÊ’u‚µ‚Ä‚¢‚ê‚ÎA‚»‚Ìs‚ªŒŸo‚³‚ê‚éB
+InlineContext : [int] ƒCƒ“ƒ‰ƒCƒ“ƒRƒ“ƒeƒLƒXƒgB
+qwModuleBaseAddress : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+pdwDisplacement : [var] sæ“ª‚©‚ç‚Ì•ÏˆÊ (ƒoƒCƒg’PˆÊ)A‚Ü‚½‚Í 0B
+Line64 : [var] IMAGEHLP_LINE64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-The SymGetLineFromInlineContext function (dbghelp.h) locates the
-source line for the specified inline context.
+SymGetLineFromInlineContext ŠÖ” (dbghelp.h)
+‚ÍAw’è‚µ‚½ƒCƒ“ƒ‰ƒCƒ“ƒRƒ“ƒeƒLƒXƒg‚É‘Î‰‚·‚éƒ\[ƒXs‚ğŒŸõ‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The caller must allocate the Line buffer properly and fill in the
-required members of the IMAGEHLP_LINE64 structure before calling
-SymGetLineFromInlineContext. This function returns a pointer to a
-buffer that may be reused by another function. Therefore, be sure to
-copy the data returned to another buffer immediately. All DbgHelp
-functions, such as this one, are single threaded. Therefore, calls
-from more than one thread to this function will likely result in
-unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function. To call the Unicode version of this function, define
-DBGHELP_TRANSLATE_TCHAR. SymGetLineFromInlineContext is defined as
-follows in Dbghelp.h.
-This doc was truncated.
+ŒÄ‚Ño‚µŒ³‚Í SymGetLineFromInlineContext ‚ğŒÄ‚Ño‚·‘O‚ÉALine
+ƒoƒbƒtƒ@‚ğ“KØ‚ÉŠm•Û‚µAIMAGEHLP_LINE64
+\‘¢‘Ì‚Ì•K{ƒƒ“ƒo[‚ğİ’è‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Í•Ê‚ÌŠÖ”‚É‚æ‚Á‚ÄÄ—˜—p‚³‚ê‚é‰Â”\«‚Ì‚ ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ•Ô‚·B‚µ‚½‚ª‚Á‚ÄA•Ô‚³‚ê‚½ƒf[ƒ^‚Í‚·‚®‚É•Ê‚Ìƒoƒbƒtƒ@‚ÉƒRƒs[‚µ‚Ä‚¨‚­‚±‚ÆBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymGetLineFromInlineContext ‚Í
+Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetLineFromName64
-Locates a source line for the specified module, file name, and line number. (SymGetLineFromName64)
+w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹Aƒtƒ@ƒCƒ‹–¼As”Ô†‚É‘Î‚·‚éƒ\[ƒXs‚ğŒŸõ‚·‚éB(SymGetLineFromName64)
 %group
 Win32 dbghelp
 %prm
 hProcess, ModuleName, FileName, dwLineNumber, plDisplacement, Line
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-ModuleName : [str] The name of the module in which a line is to be located.
-FileName : [str] The name of the file in which a line is to be located. If the application has more than one source file with this name, be sure to specify a full path.
-dwLineNumber : [int] The line number to be located.
-plDisplacement : [var] The displacement in bytes from the beginning of the line, or zero.
-Line : [var] A pointer to an IMAGEHLP_LINE64 structure.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+ModuleName : [str] s‚ğŒŸõ‚·‚é‘ÎÛƒ‚ƒWƒ…[ƒ‹‚Ì–¼‘OB
+FileName : [str] s‚ğŒŸõ‚·‚é‘ÎÛƒtƒ@ƒCƒ‹–¼BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª“¯–¼‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹‚ğ•¡”‚Âê‡‚ÍA•K‚¸ƒtƒ‹ƒpƒX‚ğw’è‚·‚é‚±‚ÆB
+dwLineNumber : [int] ŒŸõ‘ÎÛ‚Ìs”Ô†B
+plDisplacement : [var] sæ“ª‚©‚ç‚Ì•ÏˆÊ (ƒoƒCƒg’PˆÊ)A‚Ü‚½‚Í 0B
+Line : [var] IMAGEHLP_LINE64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Locates a source line for the specified module, file name, and line
-number. (SymGetLineFromName64)
+w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹Aƒtƒ@ƒCƒ‹–¼As”Ô†‚É‘Î‚·‚éƒ\[ƒXs‚ğŒŸõ‚·‚éB(SymGetLineFromName64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The caller must allocate the Line buffer properly and fill in the
-required members of the IMAGEHLP_LINE64 structure before calling
-SymGetLineFromName64. Before calling this function, ensure that the
-symbols are initialized correctly by first calling SymInitialize,
-SymSetOptions, and SymLoadModule64. This function returns a pointer
-to a buffer that may be reused by another function. Therefore, be
-sure to copy the data returned to another buffer immediately. All
-DbgHelp functions, such as this one, are single threaded. Therefore,
-calls from more than one thread to this function will likely result
-in unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function. To call the Unicode version of this function, define
-DBGHELP_TRANSLATE_TCHAR. SymGetLineFromNameW64 is defined as follows
-in Dbghelp.h.
-This doc was truncated.
+ŒÄ‚Ño‚µŒ³‚Í SymGetLineFromName64 ‚ğŒÄ‚Ño‚·‘O‚ÉALine ƒoƒbƒtƒ@‚ğ“KØ‚ÉŠm•Û‚µAIMAGEHLP_LINE64
+\‘¢‘Ì‚Ì•K{ƒƒ“ƒo[‚ğİ’è‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‘O‚ÉA‚Ü‚¸
+SymInitializeASymSetOptionsASymLoadModule64
+‚ğŒÄ‚Ño‚µ‚ÄƒVƒ“ƒ{ƒ‹‚ª³‚µ‚­‰Šú‰»‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğŠm”F‚·‚é‚±‚ÆB‚±‚ÌŠÖ”‚Í•Ê‚ÌŠÖ”‚É‚æ‚Á‚ÄÄ—˜—p‚³‚ê‚é‰Â”\«‚Ì‚ ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ•Ô‚·B‚µ‚½‚ª‚Á‚ÄA•Ô‚³‚ê‚½ƒf[ƒ^‚Í‚·‚®‚É•Ê‚Ìƒoƒbƒtƒ@‚ÉƒRƒs[‚µ‚Ä‚¨‚­‚±‚ÆBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymGetLineFromNameW64 ‚Í
+Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetLineFromNameW64
-Locates a source line for the specified module, file name, and line number. (SymGetLineFromNameW64)
+w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹Aƒtƒ@ƒCƒ‹–¼As”Ô†‚É‘Î‚·‚éƒ\[ƒXs‚ğŒŸõ‚·‚éB(SymGetLineFromNameW64)
 %group
 Win32 dbghelp
 %prm
 hProcess, ModuleName, FileName, dwLineNumber, plDisplacement, Line
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-ModuleName : [wstr] The name of the module in which a line is to be located.
-FileName : [wstr] The name of the file in which a line is to be located. If the application has more than one source file with this name, be sure to specify a full path.
-dwLineNumber : [int] The line number to be located.
-plDisplacement : [var] The displacement in bytes from the beginning of the line, or zero.
-Line : [var] A pointer to an IMAGEHLP_LINE64 structure.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+ModuleName : [wstr] s‚ğŒŸõ‚·‚é‘ÎÛƒ‚ƒWƒ…[ƒ‹‚Ì–¼‘OB
+FileName : [wstr] s‚ğŒŸõ‚·‚é‘ÎÛƒtƒ@ƒCƒ‹–¼BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª“¯–¼‚Ìƒ\[ƒXƒtƒ@ƒCƒ‹‚ğ•¡”‚Âê‡‚ÍA•K‚¸ƒtƒ‹ƒpƒX‚ğw’è‚·‚é‚±‚ÆB
+dwLineNumber : [int] ŒŸõ‘ÎÛ‚Ìs”Ô†B
+plDisplacement : [var] sæ“ª‚©‚ç‚Ì•ÏˆÊ (ƒoƒCƒg’PˆÊ)A‚Ü‚½‚Í 0B
+Line : [var] IMAGEHLP_LINE64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Locates a source line for the specified module, file name, and line
-number. (SymGetLineFromNameW64)
+w’è‚µ‚½ƒ‚ƒWƒ…[ƒ‹Aƒtƒ@ƒCƒ‹–¼As”Ô†‚É‘Î‚·‚éƒ\[ƒXs‚ğŒŸõ‚·‚éB(SymGetLineFromNameW64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The caller must allocate the Line buffer properly and fill in the
-required members of the IMAGEHLP_LINE64 structure before calling
-SymGetLineFromName64. Before calling this function, ensure that the
-symbols are initialized correctly by first calling SymInitialize,
-SymSetOptions, and SymLoadModule64. This function returns a pointer
-to a buffer that may be reused by another function. Therefore, be
-sure to copy the data returned to another buffer immediately. All
-DbgHelp functions, such as this one, are single threaded. Therefore,
-calls from more than one thread to this function will likely result
-in unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function. To call the Unicode version of this function, define
-DBGHELP_TRANSLATE_TCHAR. SymGetLineFromNameW64 is defined as follows
-in Dbghelp.h.
-This doc was truncated.
+ŒÄ‚Ño‚µŒ³‚Í SymGetLineFromName64 ‚ğŒÄ‚Ño‚·‘O‚ÉALine ƒoƒbƒtƒ@‚ğ“KØ‚ÉŠm•Û‚µAIMAGEHLP_LINE64
+\‘¢‘Ì‚Ì•K{ƒƒ“ƒo[‚ğİ’è‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‘O‚ÉA‚Ü‚¸
+SymInitializeASymSetOptionsASymLoadModule64
+‚ğŒÄ‚Ño‚µ‚ÄƒVƒ“ƒ{ƒ‹‚ª³‚µ‚­‰Šú‰»‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğŠm”F‚·‚é‚±‚ÆB‚±‚ÌŠÖ”‚Í•Ê‚ÌŠÖ”‚É‚æ‚Á‚ÄÄ—˜—p‚³‚ê‚é‰Â”\«‚Ì‚ ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ•Ô‚·B‚µ‚½‚ª‚Á‚ÄA•Ô‚³‚ê‚½ƒf[ƒ^‚Í‚·‚®‚É•Ê‚Ìƒoƒbƒtƒ@‚ÉƒRƒs[‚µ‚Ä‚¨‚­‚±‚ÆBDbgHelp
+ŠÖ”‚Í‚·‚×‚ÄA‚±‚ÌŠÖ”‚ğŠÜ‚ßƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚½‚ßA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì“¯ŒÄ‚Ño‚µ‚Í‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éBUnicode
+”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymGetLineFromNameW64 ‚Í
+Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetLineNext64
-Retrieves the line information for the next source line. (SymGetLineNext64)
+Ÿ‚Ìƒ\[ƒXs‚Ìsî•ñ‚ğæ“¾‚·‚éB(SymGetLineNext64)
 %group
 Win32 dbghelp
 %prm
 hProcess, Line
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-Line : [var] A pointer to an IMAGEHLP_LINE64 structure that contains the line information.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+Line : [var] sî•ñ‚ğ•Û‚·‚é IMAGEHLP_LINE64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves the line information for the next source line.
-(SymGetLineNext64)
+Ÿ‚Ìƒ\[ƒXs‚Ìsî•ñ‚ğæ“¾‚·‚éB(SymGetLineNext64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymGetLineNext64 function requires that the IMAGEHLP_LINE64
-structure have valid data, presumably obtained from a call to the
-SymGetLineFromAddr64 or SymGetLineFromName64 function. This structure
-receives the line information for the next line in sequence. This
-function returns a pointer to a buffer that may be reused by another
-function. Therefore, be sure to copy the data returned to another
-buffer immediately. All DbgHelp functions, such as this one, are
-single threaded. Therefore, calls from more than one thread to this
-function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
-SymGetLineNextW64 is defined as follows in Dbghelp.h.
-This doc was truncated.
+SymGetLineNext64 ŠÖ”‚Å‚ÍAIMAGEHLP_LINE64 \‘¢‘Ì‚ª—LŒø‚Èƒf[ƒ^‚ğ•Û‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚èA’Êí‚Í
+SymGetLineFromAddr64 ‚Ü‚½‚Í SymGetLineFromName64
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚Å“¾‚½‚à‚Ì‚ğg—p‚·‚éB‚±‚Ì\‘¢‘Ì‚É‚ÍA‡˜ã‚ÌŸ‚Ìs‚Ìsî•ñ‚ªŠi”[‚³‚ê‚éB‚±‚ÌŠÖ”‚Í‘¼‚ÌŠÖ”‚©‚çÄ—˜—p‚³‚ê‚é‰Â”\«‚ª‚ ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·‚½‚ßA•Ô‚³‚ê‚½ƒf[ƒ^‚Í‚½‚¾‚¿‚É•Ê‚Ìƒoƒbƒtƒ@‚ÖƒRƒs[‚·‚é‚±‚ÆB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymGetLineNextW64 ‚Í
+Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetLineNextW64
-Retrieves the line information for the next source line. (SymGetLineNextW64)
+Ÿ‚Ìƒ\[ƒXs‚Ìsî•ñ‚ğæ“¾‚·‚éB(SymGetLineNextW64)
 %group
 Win32 dbghelp
 %prm
 hProcess, Line
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-Line : [var] A pointer to an IMAGEHLP_LINE64 structure that contains the line information.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+Line : [var] sî•ñ‚ğ•Û‚·‚é IMAGEHLP_LINE64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the line information for the next source line.
-(SymGetLineNextW64)
+Ÿ‚Ìƒ\[ƒXs‚Ìsî•ñ‚ğæ“¾‚·‚éB(SymGetLineNextW64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymGetLineNext64 function requires that the IMAGEHLP_LINE64
-structure have valid data, presumably obtained from a call to the
-SymGetLineFromAddr64 or SymGetLineFromName64 function. This structure
-receives the line information for the next line in sequence. This
-function returns a pointer to a buffer that may be reused by another
-function. Therefore, be sure to copy the data returned to another
-buffer immediately. All DbgHelp functions, such as this one, are
-single threaded. Therefore, calls from more than one thread to this
-function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
-SymGetLineNextW64 is defined as follows in Dbghelp.h.
-This doc was truncated.
+SymGetLineNext64 ŠÖ”‚Å‚ÍAIMAGEHLP_LINE64 \‘¢‘Ì‚ª—LŒø‚Èƒf[ƒ^‚ğ•Û‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚èA’Êí‚Í
+SymGetLineFromAddr64 ‚Ü‚½‚Í SymGetLineFromName64
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚Å“¾‚½‚à‚Ì‚ğg—p‚·‚éB‚±‚Ì\‘¢‘Ì‚É‚ÍA‡˜ã‚ÌŸ‚Ìs‚Ìsî•ñ‚ªŠi”[‚³‚ê‚éB‚±‚ÌŠÖ”‚Í‘¼‚ÌŠÖ”‚©‚çÄ—˜—p‚³‚ê‚é‰Â”\«‚ª‚ ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·‚½‚ßA•Ô‚³‚ê‚½ƒf[ƒ^‚Í‚½‚¾‚¿‚É•Ê‚Ìƒoƒbƒtƒ@‚ÖƒRƒs[‚·‚é‚±‚ÆB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymGetLineNextW64 ‚Í
+Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetLinePrev64
-Retrieves the line information for the previous source line. (SymGetLinePrev64)
+‘O‚Ìƒ\[ƒXs‚Ìsî•ñ‚ğæ“¾‚·‚éB(SymGetLinePrev64)
 %group
 Win32 dbghelp
 %prm
 hProcess, Line
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-Line : [var] A pointer to an IMAGEHLP_LINE64 structure.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+Line : [var] IMAGEHLP_LINE64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the line information for the previous source line.
-(SymGetLinePrev64)
+‘O‚Ìƒ\[ƒXs‚Ìsî•ñ‚ğæ“¾‚·‚éB(SymGetLinePrev64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymGetLinePrev64 function requires that the IMAGEHLP_LINE64
-structure have valid data, presumably obtained from a call to the
-SymGetLineFromAddr64 or SymGetLineFromName64 function. This structure
-is filled with the line information for the previous line in
-sequence. This function returns a pointer to a buffer that may be
-reused by another function. Therefore, be sure to copy the data
-returned to another buffer immediately. All DbgHelp functions, such
-as this one, are single threaded. Therefore, calls from more than one
-thread to this function will likely result in unexpected behavior or
-memory corruption. To avoid this, you must synchronize all concurrent
-calls from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
-SymGetLinePrevW64 is defined as follows in DbgHelp.h.
-This doc was truncated.
+SymGetLinePrev64 ŠÖ”‚Å‚ÍAIMAGEHLP_LINE64 \‘¢‘Ì‚ª—LŒø‚Èƒf[ƒ^‚ğ•Û‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚èA’Êí‚Í
+SymGetLineFromAddr64 ‚Ü‚½‚Í SymGetLineFromName64
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚Å“¾‚½‚à‚Ì‚ğg—p‚·‚éB‚±‚Ì\‘¢‘Ì‚É‚ÍA‡˜ã‚Ì‘O‚Ìs‚Ìsî•ñ‚ªŠi”[‚³‚ê‚éB‚±‚ÌŠÖ”‚Í‘¼‚ÌŠÖ”‚©‚çÄ—˜—p‚³‚ê‚é‰Â”\«‚ª‚ ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·‚½‚ßA•Ô‚³‚ê‚½ƒf[ƒ^‚Í‚½‚¾‚¿‚É•Ê‚Ìƒoƒbƒtƒ@‚ÖƒRƒs[‚·‚é‚±‚ÆB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymGetLinePrevW64 ‚Í
+DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetLinePrevW64
-Retrieves the line information for the previous source line. (SymGetLinePrevW64)
+‘O‚Ìƒ\[ƒXs‚Ìsî•ñ‚ğæ“¾‚·‚éB(SymGetLinePrevW64)
 %group
 Win32 dbghelp
 %prm
 hProcess, Line
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-Line : [var] A pointer to an IMAGEHLP_LINE64 structure.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+Line : [var] IMAGEHLP_LINE64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the line information for the previous source line.
-(SymGetLinePrevW64)
+‘O‚Ìƒ\[ƒXs‚Ìsî•ñ‚ğæ“¾‚·‚éB(SymGetLinePrevW64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymGetLinePrev64 function requires that the IMAGEHLP_LINE64
-structure have valid data, presumably obtained from a call to the
-SymGetLineFromAddr64 or SymGetLineFromName64 function. This structure
-is filled with the line information for the previous line in
-sequence. This function returns a pointer to a buffer that may be
-reused by another function. Therefore, be sure to copy the data
-returned to another buffer immediately. All DbgHelp functions, such
-as this one, are single threaded. Therefore, calls from more than one
-thread to this function will likely result in unexpected behavior or
-memory corruption. To avoid this, you must synchronize all concurrent
-calls from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
-SymGetLinePrevW64 is defined as follows in DbgHelp.h.
-This doc was truncated.
+SymGetLinePrev64 ŠÖ”‚Å‚ÍAIMAGEHLP_LINE64 \‘¢‘Ì‚ª—LŒø‚Èƒf[ƒ^‚ğ•Û‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚èA’Êí‚Í
+SymGetLineFromAddr64 ‚Ü‚½‚Í SymGetLineFromName64
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚Å“¾‚½‚à‚Ì‚ğg—p‚·‚éB‚±‚Ì\‘¢‘Ì‚É‚ÍA‡˜ã‚Ì‘O‚Ìs‚Ìsî•ñ‚ªŠi”[‚³‚ê‚éB‚±‚ÌŠÖ”‚Í‘¼‚ÌŠÖ”‚©‚çÄ—˜—p‚³‚ê‚é‰Â”\«‚ª‚ ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·‚½‚ßA•Ô‚³‚ê‚½ƒf[ƒ^‚Í‚½‚¾‚¿‚É•Ê‚Ìƒoƒbƒtƒ@‚ÖƒRƒs[‚·‚é‚±‚ÆB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymGetLinePrevW64 ‚Í
+DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetModuleBase64
-Retrieves the base address of the module that contains the specified address. (SymGetModuleBase64)
+w’è‚³‚ê‚½ƒAƒhƒŒƒX‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒX‚ğæ“¾‚·‚éB(SymGetModuleBase64)
 %group
 Win32 dbghelp
 %prm
 hProcess, qwAddr
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-qwAddr : [int64] The virtual address that is contained in one of the modules loaded by the SymLoadModule64 function.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+qwAddr : [int64] SymLoadModule64 ŠÖ”‚É‚æ‚Á‚Ä“Ç‚İ‚Ü‚ê‚½‚¢‚¸‚ê‚©‚Ìƒ‚ƒWƒ…[ƒ‹‚ÉŠÜ‚Ü‚ê‚é‰¼‘zƒAƒhƒŒƒXB
 %inst
-Retrieves the base address of the module that contains the specified
-address. (SymGetModuleBase64)
+w’è‚³‚ê‚½ƒAƒhƒŒƒX‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒX‚ğæ“¾‚·‚éB(SymGetModuleBase64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is a nonzero virtual
-address. The value is the base address of the module containing the
-address specified by the dwAddr parameter. If the function fails, the
-return value is zero. To retrieve extended error information, call
-GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í 0 ˆÈŠO‚Ì‰¼‘zƒAƒhƒŒƒX‚Å‚ ‚éB’l‚Í dwAddr
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒAƒhƒŒƒX‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒX‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The module table is searched for a module that contains dwAddr. The
-module is located based on the load address and size of each module.
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. This function supersedes the
-SymGetModuleBase function. For more information, see Updated Platform
-Support. SymGetModuleBase is defined as follows in DbgHelp.h.
-This doc was truncated.
+ƒ‚ƒWƒ…[ƒ‹ƒe[ƒuƒ‹‚©‚ç dwAddr
+‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚ªŒŸõ‚³‚ê‚éBƒ‚ƒWƒ…[ƒ‹‚ÍŠeƒ‚ƒWƒ…[ƒ‹‚Ì“Ç‚İ‚İƒAƒhƒŒƒX‚ÆƒTƒCƒY‚ğŠî‚É“Á’è‚³‚ê‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Í
+SymGetModuleBase ŠÖ”‚ÌŒãŒp‚Å‚ ‚éBÚ×‚Í Updated Platform Support
+‚ğQÆ‚Ì‚±‚ÆBSymGetModuleBase ‚Í DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetModuleInfo64
-Retrieves the module information of the specified module. (SymGetModuleInfo64)
+w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚Ìƒ‚ƒWƒ…[ƒ‹î•ñ‚ğæ“¾‚·‚éB(SymGetModuleInfo64)
 %group
 Win32 dbghelp
 %prm
 hProcess, qwAddr, ModuleInfo
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-qwAddr : [int64] The virtual address that is contained in one of the modules loaded by the SymLoadModule64 function.
-ModuleInfo : [var] A pointer to an IMAGEHLP_MODULE64 structure. The SizeOfStruct member must be set to the size of the IMAGEHLP_MODULE64 structure. An invalid value will result in an error.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+qwAddr : [int64] SymLoadModule64 ŠÖ”‚É‚æ‚Á‚Ä“Ç‚İ‚Ü‚ê‚½‚¢‚¸‚ê‚©‚Ìƒ‚ƒWƒ…[ƒ‹‚ÉŠÜ‚Ü‚ê‚é‰¼‘zƒAƒhƒŒƒXB
+ModuleInfo : [var] IMAGEHLP_MODULE64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BSizeOfStruct ƒƒ“ƒo‚É‚Í IMAGEHLP_MODULE64 \‘¢‘Ì‚ÌƒTƒCƒY‚ğİ’è‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB–³Œø‚È’l‚ğw’è‚·‚é‚ÆƒGƒ‰[‚É‚È‚éB
 %inst
-Retrieves the module information of the specified module.
-(SymGetModuleInfo64)
+w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚Ìƒ‚ƒWƒ…[ƒ‹î•ñ‚ğæ“¾‚·‚éB(SymGetModuleInfo64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The module table is searched for a module that contains the dwAddr.
-The module is located based on the load address and size of each
-module. If a valid module is found, the ModuleInfo parameter is
-filled with the information about the module. The size of the
-IMAGEHLP_MODULE64 structure used by this function has changed over
-the years. If a version of DbgHelp.dll is called that is older than
-the DbgHelp.h used to compile the calling code, then this function
-may fail with an error code of ERROR_INVALID_PARAMETER. This most
-commonly occurs when the system version
-(%WinDir%\System32\DbgHelp.dll) is called. Code that calls the system
-version of DbgHelp.dll must be compiled using the appropriate SDK for
-that Windows release or the SDK for a previous release. The
-recommended model is to redistribute the required version of
-DbgHelp.dll along with the calling software. This allows the caller
-to use the most robust versions of DbgHelp.dll as well as a
-simplifying upgrades. The most recent version of DbgHelp.dll can
-always be found in the Debugging Tools for Windows package. As a
-general rule, code that is compiled to work with older versions will
-always work with newer versions. All DbgHelp functions, such as this
-one, are single threaded. Therefore, calls from more than one thread
-to this function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
-SymGetModuleInfoW64 is defined as follows in DbgHelp.h.
-This doc was truncated.
+ƒ‚ƒWƒ…[ƒ‹ƒe[ƒuƒ‹‚©‚ç dwAddr
+‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚ªŒŸõ‚³‚ê‚éBƒ‚ƒWƒ…[ƒ‹‚ÍŠeƒ‚ƒWƒ…[ƒ‹‚Ì“Ç‚İ‚İƒAƒhƒŒƒX‚ÆƒTƒCƒY‚ğŠî‚É“Á’è‚³‚ê‚éB—LŒø‚Èƒ‚ƒWƒ…[ƒ‹‚ªŒ©‚Â‚©‚é‚ÆAModuleInfo
+ƒpƒ‰ƒ[ƒ^‚É‚»‚Ìƒ‚ƒWƒ…[ƒ‹‚Ìî•ñ‚ªŠi”[‚³‚ê‚éB‚±‚ÌŠÖ”‚Åg—p‚³‚ê‚é IMAGEHLP_MODULE64
+\‘¢‘Ì‚ÌƒTƒCƒY‚Í’·”N‚Ì‚ ‚¢‚¾‚É•Ï‰»‚µ‚Ä‚«‚½BŒÄ‚Ño‚µ‘¤ƒR[ƒh‚ÌƒRƒ“ƒpƒCƒ‹‚Ég—p‚µ‚½ DbgHelp.h ‚æ‚èŒÃ‚¢ƒo[ƒWƒ‡ƒ“‚Ì
+DbgHelp.dll ‚ğŒÄ‚Ño‚·‚ÆA‚±‚ÌŠÖ”‚Í ERROR_INVALID_PARAMETER
+‚ÌƒGƒ‰[ƒR[ƒh‚Å¸”s‚·‚é‚±‚Æ‚ª‚ ‚éB‚±‚ê‚Í“Á‚ÉƒVƒXƒeƒ€”Å (%WinDir%\System32\DbgHelp.dll)
+‚ğŒÄ‚Ño‚·ê‡‚É”­¶‚µ‚â‚·‚¢BƒVƒXƒeƒ€”Å‚Ì DbgHelp.dll ‚ğŒÄ‚Ño‚·ƒR[ƒh‚ÍA‘Î‰‚·‚é Windows ƒŠƒŠ[ƒXŒü‚¯‚Ì
+SDKA‚Ü‚½‚Í‚»‚êˆÈ‘O‚ÌƒŠƒŠ[ƒXŒü‚¯ SDK ‚ÅƒRƒ“ƒpƒCƒ‹‚·‚é•K—v‚ª‚ ‚éB„§‚³‚ê‚éƒ‚ƒfƒ‹‚ÍA•K—v‚Èƒo[ƒWƒ‡ƒ“‚Ì DbgHelp.dll
+‚ğŒÄ‚Ño‚µ‘¤ƒ\ƒtƒgƒEƒFƒA‚Æ‚Æ‚à‚ÉÄ”z•z‚·‚é‚±‚Æ‚Å‚ ‚éB‚±‚ê‚É‚æ‚èA‚à‚Á‚Æ‚àŒ˜˜S‚Èƒo[ƒWƒ‡ƒ“‚Ì DbgHelp.dll
+‚ğg—p‚Å‚«AƒAƒbƒvƒOƒŒ[ƒh‚à—eˆÕ‚É‚È‚éBÅVƒo[ƒWƒ‡ƒ“‚Ì DbgHelp.dll ‚Í Debugging Tools for
+Windows
+ƒpƒbƒP[ƒW‚©‚çí‚É“üè‚Å‚«‚éBŒ´‘¥‚Æ‚µ‚ÄAŒÃ‚¢ƒo[ƒWƒ‡ƒ“Œü‚¯‚ÉƒRƒ“ƒpƒCƒ‹‚³‚ê‚½ƒR[ƒh‚ÍV‚µ‚¢ƒo[ƒWƒ‡ƒ“‚Å‚à“®ì‚·‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymGetModuleInfoW64 ‚Í
+DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetModuleInfoW64
-Retrieves the module information of the specified module. (SymGetModuleInfoW64)
+w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚Ìƒ‚ƒWƒ…[ƒ‹î•ñ‚ğæ“¾‚·‚éB(SymGetModuleInfoW64)
 %group
 Win32 dbghelp
 %prm
 hProcess, qwAddr, ModuleInfo
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-qwAddr : [int64] The virtual address that is contained in one of the modules loaded by the SymLoadModule64 function.
-ModuleInfo : [var] A pointer to an IMAGEHLP_MODULEW64 structure. The SizeOfStruct member must be set to the size of the IMAGEHLP_MODULEW64 structure. An invalid value will result in an error.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+qwAddr : [int64] SymLoadModule64 ŠÖ”‚É‚æ‚Á‚Ä“Ç‚İ‚Ü‚ê‚½‚¢‚¸‚ê‚©‚Ìƒ‚ƒWƒ…[ƒ‹‚ÉŠÜ‚Ü‚ê‚é‰¼‘zƒAƒhƒŒƒXB
+ModuleInfo : [var] IMAGEHLP_MODULEW64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BSizeOfStruct ƒƒ“ƒo‚É‚Í IMAGEHLP_MODULEW64 \‘¢‘Ì‚ÌƒTƒCƒY‚ğİ’è‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB–³Œø‚È’l‚ğw’è‚·‚é‚ÆƒGƒ‰[‚É‚È‚éB
 %inst
-Retrieves the module information of the specified module.
-(SymGetModuleInfoW64)
+w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚Ìƒ‚ƒWƒ…[ƒ‹î•ñ‚ğæ“¾‚·‚éB(SymGetModuleInfoW64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The module table is searched for a module that contains the dwAddr.
-The module is located based on the load address and size of each
-module. If a valid module is found, the ModuleInfo parameter is
-filled with the information about the module. The size of the
-IMAGEHLP_MODULEW64 structure used by this function has changed over
-the years. If a version of DbgHelp.dll is called that is older than
-the DbgHelp.h used to compile the calling code, then this function
-may fail with an error code of ERROR_INVALID_PARAMETER. This most
-commonly occurs when the system version
-(%WinDir%\System32\DbgHelp.dll) is called. Code that calls the system
-version of DbgHelp.dll must be compiled using the appropriate SDK for
-that Windows release or the SDK for a previous release. The
-recommended model is to redistribute the required version of
-DbgHelp.dll along with the calling software. This allows the caller
-to use the most robust versions of DbgHelp.dll as well as a
-simplifying upgrades. The most recent version of DbgHelp.dll can
-always be found in the Debugging Tools for Windows package. As a
-general rule, code that is compiled to work with older versions will
-always work with newer versions. All DbgHelp functions, such as this
-one, are single threaded. Therefore, calls from more than one thread
-to this function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
-SymGetModuleInfoW64 is defined as follows in DbgHelp.h.
-This doc was truncated.
+ƒ‚ƒWƒ…[ƒ‹ƒe[ƒuƒ‹‚©‚ç dwAddr
+‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚ªŒŸõ‚³‚ê‚éBƒ‚ƒWƒ…[ƒ‹‚ÍŠeƒ‚ƒWƒ…[ƒ‹‚Ì“Ç‚İ‚İƒAƒhƒŒƒX‚ÆƒTƒCƒY‚ğŠî‚É“Á’è‚³‚ê‚éB—LŒø‚Èƒ‚ƒWƒ…[ƒ‹‚ªŒ©‚Â‚©‚é‚ÆAModuleInfo
+ƒpƒ‰ƒ[ƒ^‚É‚»‚Ìƒ‚ƒWƒ…[ƒ‹‚Ìî•ñ‚ªŠi”[‚³‚ê‚éB‚±‚ÌŠÖ”‚Åg—p‚³‚ê‚é IMAGEHLP_MODULEW64
+\‘¢‘Ì‚ÌƒTƒCƒY‚Í’·”N‚Ì‚ ‚¢‚¾‚É•Ï‰»‚µ‚Ä‚«‚½BŒÄ‚Ño‚µ‘¤ƒR[ƒh‚ÌƒRƒ“ƒpƒCƒ‹‚Ég—p‚µ‚½ DbgHelp.h ‚æ‚èŒÃ‚¢ƒo[ƒWƒ‡ƒ“‚Ì
+DbgHelp.dll ‚ğŒÄ‚Ño‚·‚ÆA‚±‚ÌŠÖ”‚Í ERROR_INVALID_PARAMETER
+‚ÌƒGƒ‰[ƒR[ƒh‚Å¸”s‚·‚é‚±‚Æ‚ª‚ ‚éB‚±‚ê‚Í“Á‚ÉƒVƒXƒeƒ€”Å (%WinDir%\System32\DbgHelp.dll)
+‚ğŒÄ‚Ño‚·ê‡‚É”­¶‚µ‚â‚·‚¢BƒVƒXƒeƒ€”Å‚Ì DbgHelp.dll ‚ğŒÄ‚Ño‚·ƒR[ƒh‚ÍA‘Î‰‚·‚é Windows ƒŠƒŠ[ƒXŒü‚¯‚Ì
+SDKA‚Ü‚½‚Í‚»‚êˆÈ‘O‚ÌƒŠƒŠ[ƒXŒü‚¯ SDK ‚ÅƒRƒ“ƒpƒCƒ‹‚·‚é•K—v‚ª‚ ‚éB„§‚³‚ê‚éƒ‚ƒfƒ‹‚ÍA•K—v‚Èƒo[ƒWƒ‡ƒ“‚Ì DbgHelp.dll
+‚ğŒÄ‚Ño‚µ‘¤ƒ\ƒtƒgƒEƒFƒA‚Æ‚Æ‚à‚ÉÄ”z•z‚·‚é‚±‚Æ‚Å‚ ‚éB‚±‚ê‚É‚æ‚èA‚à‚Á‚Æ‚àŒ˜˜S‚Èƒo[ƒWƒ‡ƒ“‚Ì DbgHelp.dll
+‚ğg—p‚Å‚«AƒAƒbƒvƒOƒŒ[ƒh‚à—eˆÕ‚É‚È‚éBÅVƒo[ƒWƒ‡ƒ“‚Ì DbgHelp.dll ‚Í Debugging Tools for
+Windows
+ƒpƒbƒP[ƒW‚©‚çí‚É“üè‚Å‚«‚éBŒ´‘¥‚Æ‚µ‚ÄAŒÃ‚¢ƒo[ƒWƒ‡ƒ“Œü‚¯‚ÉƒRƒ“ƒpƒCƒ‹‚³‚ê‚½ƒR[ƒh‚ÍV‚µ‚¢ƒo[ƒWƒ‡ƒ“‚Å‚à“®ì‚·‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymGetModuleInfoW64 ‚Í
+DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetOmaps
-Retrieves the omap tables within a loaded module.
+“Ç‚İ‚Ü‚ê‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì omap ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll, OmapTo, cOmapTo, OmapFrom, cOmapFrom
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module.
-OmapTo : [var] An array of address map entries to the new image layout taken from the original layout. For details on the map entries, see the OMAP structure.
-cOmapTo : [var] The number of entries in the OmapTo array.
-OmapFrom : [var] An array of address map entries from the new image layout to the original layout (as described by the debug symbols). For details on the map entries, see the OMAP structure.
-cOmapFrom : [var] The number of entries in the OmapFrom array.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+BaseOfDll : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+OmapTo : [var] Œ³‚ÌƒŒƒCƒAƒEƒg‚©‚çV‚µ‚¢ƒCƒ[ƒWƒŒƒCƒAƒEƒg‚Ö‚ÌƒAƒhƒŒƒXƒ}ƒbƒvƒGƒ“ƒgƒŠ‚Ì”z—ñBƒ}ƒbƒvƒGƒ“ƒgƒŠ‚ÌÚ×‚Í OMAP \‘¢‘Ì‚ğQÆ‚Ì‚±‚ÆB
+cOmapTo : [var] OmapTo ”z—ñ‚ÌƒGƒ“ƒgƒŠ”B
+OmapFrom : [var] V‚µ‚¢ƒCƒ[ƒWƒŒƒCƒAƒEƒg‚©‚çŒ³‚ÌƒŒƒCƒAƒEƒgiƒfƒoƒbƒOƒVƒ“ƒ{ƒ‹‚É‹Lq‚³‚ê‚½‚à‚Ìj‚Ö‚ÌƒAƒhƒŒƒXƒ}ƒbƒvƒGƒ“ƒgƒŠ‚Ì”z—ñBƒ}ƒbƒvƒGƒ“ƒgƒŠ‚ÌÚ×‚Í OMAP \‘¢‘Ì‚ğQÆ‚Ì‚±‚ÆB
+cOmapFrom : [var] OmapFrom ”z—ñ‚ÌƒGƒ“ƒgƒŠ”B
 %inst
-Retrieves the omap tables within a loaded module.
+“Ç‚İ‚Ü‚ê‚½ƒ‚ƒWƒ…[ƒ‹“à‚Ì omap ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails (the omap is not found), the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡iomap ‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡jA–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymGetOptions
-Retrieves the current option mask.
+Œ»İ‚ÌƒIƒvƒVƒ‡ƒ“ƒ}ƒXƒN‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 
 %inst
-Retrieves the current option mask.
+Œ»İ‚ÌƒIƒvƒVƒ‡ƒ“ƒ}ƒXƒN‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-The function returns the current options that have been set. Zero is
-a valid value and indicates that all options are turned off.
+ŠÖ”‚ÍŒ»İİ’è‚³‚ê‚Ä‚¢‚éƒIƒvƒVƒ‡ƒ“‚ğ•Ô‚·B0 ‚à—LŒø‚È’l‚Å‚ ‚èA‚·‚×‚Ä‚ÌƒIƒvƒVƒ‡ƒ“‚ªƒIƒt‚É‚È‚Á‚Ä‚¢‚é‚±‚Æ‚ğ¦‚·B
 
 [”õl]
-These options can be changed several times while the library is in
-use by an application. Any option change affects all future calls to
-the symbol handler. The return value is the combination of the
-following values that have been set using the SymSetOptions function.
-This doc was truncated.
+
+‚±‚ê‚ç‚ÌƒIƒvƒVƒ‡ƒ“‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒ‰ƒCƒuƒ‰ƒŠ‚ğg—p‚µ‚Ä‚¢‚éŠÔ‚É‰½“x‚Å‚à•ÏX‚Å‚«‚éBƒIƒvƒVƒ‡ƒ“‚Ì•ÏX‚ÍˆÈ~‚ÌƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰ŒÄ‚Ño‚µ‚·‚×‚Ä‚É‰e‹¿‚·‚éB–ß‚è’l‚Í
+SymSetOptions ŠÖ”‚Åİ’è‚³‚ê‚½ˆÈ‰º‚Ì’l‚Ì‘g‚İ‡‚í‚¹‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetScope
-The SymGetScope function (dbghelp.h) retrieves the scope for the specified index.
+SymGetScope ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒCƒ“ƒfƒbƒNƒX‚É‘Î‚·‚éƒXƒR[ƒv‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Index, Symbol
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module.
-Index : [int] A unique value for the symbol.
-Symbol : [var] A pointer to a SYMBOL_INFO structure. The Scope member contains the scope.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+BaseOfDll : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+Index : [int] ƒVƒ“ƒ{ƒ‹‚ğˆêˆÓ‚É¯•Ê‚·‚é’lB
+Symbol : [var] SYMBOL_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BScope ƒƒ“ƒo‚ÉƒXƒR[ƒv‚ªŠi”[‚³‚ê‚éB
 %inst
-The SymGetScope function (dbghelp.h) retrieves the scope for the
-specified index.
+SymGetScope ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒCƒ“ƒfƒbƒNƒX‚É‘Î‚·‚éƒXƒR[ƒv‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymGetSearchPath
-The SymGetSearchPath function (dbghelp.h) retrieves the symbol search path for the specified process.
+SymGetSearchPath ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒvƒƒZƒX‚ÌƒVƒ“ƒ{ƒ‹ŒŸõƒpƒX‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, SearchPathA, SearchPathLength
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
 SearchPathA : [str] 
-SearchPathLength : [int] The size of the SearchPath buffer, in characters.
+SearchPathLength : [int] SearchPath ƒoƒbƒtƒ@‚ÌƒTƒCƒYi•¶š”jB
 %inst
-The SymGetSearchPath function (dbghelp.h) retrieves the symbol search
-path for the specified process.
+SymGetSearchPath ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒvƒƒZƒX‚ÌƒVƒ“ƒ{ƒ‹ŒŸõƒpƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymGetSearchPath function copies the symbol search path for the
-specified process into the SearchPath buffer. If the function fails,
-the contents of the buffer are undefined. To specify a symbol search
-path for the process, use the SymSetSearchPath function. All DbgHelp
-functions, such as this one, are single threaded. Therefore, calls
-from more than one thread to this function will likely result in
-unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function. To call the Unicode version of this function, define
-DBGHELP_TRANSLATE_TCHAR.
+SymGetSearchPath ŠÖ”‚ÍAw’è‚³‚ê‚½ƒvƒƒZƒX‚ÌƒVƒ“ƒ{ƒ‹ŒŸõƒpƒX‚ğ SearchPath
+ƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚éBŠÖ”‚ª¸”s‚µ‚½ê‡Aƒoƒbƒtƒ@‚Ì“à—e‚Í•s’è‚Å‚ ‚éBƒvƒƒZƒX‚ÌƒVƒ“ƒ{ƒ‹ŒŸõƒpƒX‚ğİ’è‚·‚é‚É‚ÍASymSetSearchPath
+ŠÖ”‚ğg—p‚·‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymGetSourceFile
-The SymGetSourceFile function (dbghelp.h) retrieves the specified source file from the source server.
+SymGetSourceFile ŠÖ” (dbghelp.h) ‚ÍAƒ\[ƒXƒT[ƒo[‚©‚çw’è‚³‚ê‚½ƒ\[ƒXƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Base, Params, FileSpec, FilePath, Size
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Base : [int64] The base address of the module.
-Params : [str] This parameter is unused.
-FileSpec : [str] The name of the source file.
-FilePath : [str] A pointer to a buffer that receives the fully qualified path of the source file.
-Size : [int] The size of the FilePath buffer, in characters.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+Base : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+Params : [str] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íg—p‚³‚ê‚È‚¢B
+FileSpec : [str] ƒ\[ƒXƒtƒ@ƒCƒ‹‚Ì–¼‘OB
+FilePath : [str] ƒ\[ƒXƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+Size : [int] FilePath ƒoƒbƒtƒ@‚ÌƒTƒCƒYi•¶š”jB
 %inst
-The SymGetSourceFile function (dbghelp.h) retrieves the specified
-source file from the source server.
+SymGetSourceFile ŠÖ” (dbghelp.h) ‚ÍAƒ\[ƒXƒT[ƒo[‚©‚çw’è‚³‚ê‚½ƒ\[ƒXƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-To control which directory receives the source files, use the
-SymSetHomeDirectory function. All DbgHelp functions, such as this
-one, are single threaded. Therefore, calls from more than one thread
-to this function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
+ƒ\[ƒXƒtƒ@ƒCƒ‹‚ğó‚¯æ‚éƒfƒBƒŒƒNƒgƒŠ‚ğ§Œä‚·‚é‚É‚ÍASymSetHomeDirectory ŠÖ”‚ğg—p‚·‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymGetSourceFileChecksum
-The SymGetSourceFileChecksum function (dbghelp.h) retrieves the specified source file checksum from the source server.
+SymGetSourceFileChecksum ŠÖ” (dbghelp.h) ‚ÍAƒ\[ƒXƒT[ƒo[‚©‚çw’è‚³‚ê‚½ƒ\[ƒXƒtƒ@ƒCƒ‹‚Ìƒ`ƒFƒbƒNƒTƒ€‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Base, FileSpec, pCheckSumType, pChecksum, checksumSize, pActualBytesWritten
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Base : [int64] The base address of the module.
-FileSpec : [str] The name of the source file.
-pCheckSumType : [var] On success, points to the checksum type.
-pChecksum : [var] pointer to a buffer that receives the checksum. If NULL, then when the call returns pActualBytesWritten returns the number of bytes required.
-checksumSize : [int] The size of the pChecksum buffer, in bytes.
-pActualBytesWritten : [var] Pointer to the actual bytes written in the buffer.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+Base : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+FileSpec : [str] ƒ\[ƒXƒtƒ@ƒCƒ‹‚Ì–¼‘OB
+pCheckSumType : [var] ¬Œ÷‚Éƒ`ƒFƒbƒNƒTƒ€í•Ê‚ğw‚·B
+pChecksum : [var] ƒ`ƒFƒbƒNƒTƒ€‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚ğw’è‚µ‚½ê‡AŒÄ‚Ño‚µ‚©‚ç–ß‚Á‚½‚Æ‚«‚É pActualBytesWritten ‚É•K—v‚ÈƒoƒCƒg”‚ª•Ô‚³‚ê‚éB
+checksumSize : [int] pChecksum ƒoƒbƒtƒ@‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
+pActualBytesWritten : [var] ƒoƒbƒtƒ@‚ÉÀÛ‚É‘‚«‚Ü‚ê‚½ƒoƒCƒg”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The SymGetSourceFileChecksum function (dbghelp.h) retrieves the
-specified source file checksum from the source server.
+SymGetSourceFileChecksum ŠÖ” (dbghelp.h)
+‚ÍAƒ\[ƒXƒT[ƒo[‚©‚çw’è‚³‚ê‚½ƒ\[ƒXƒtƒ@ƒCƒ‹‚Ìƒ`ƒFƒbƒNƒTƒ€‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 
 %index
 SymGetSourceFileFromToken
-The SymGetSourceFileFromToken function (dbghelp.h) retrieves the source file associated with the specified token from the source server.
+SymGetSourceFileFromToken ŠÖ” (dbghelp.h) ‚ÍAƒ\[ƒXƒT[ƒo[‚©‚çw’è‚³‚ê‚½ƒg[ƒNƒ“‚É‘Î‰‚·‚éƒ\[ƒXƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Token, Params, FilePath, Size
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Token : [intptr] A pointer to the token.
-Params : [str] This parameter is unused.
-FilePath : [str] A pointer to a buffer that receives the fully qualified path of the source file.
-Size : [int] The size of the FilePath buffer, in characters.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+Token : [intptr] ƒg[ƒNƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+Params : [str] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íg—p‚³‚ê‚È‚¢B
+FilePath : [str] ƒ\[ƒXƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+Size : [int] FilePath ƒoƒbƒtƒ@‚ÌƒTƒCƒYi•¶š”jB
 %inst
-The SymGetSourceFileFromToken function (dbghelp.h) retrieves the
-source file associated with the specified token from the source
-server.
+SymGetSourceFileFromToken ŠÖ” (dbghelp.h)
+‚ÍAƒ\[ƒXƒT[ƒo[‚©‚çw’è‚³‚ê‚½ƒg[ƒNƒ“‚É‘Î‰‚·‚éƒ\[ƒXƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymGetSourceFileToken
-The SymGetSourceFileToken function (dbghelp.h) retrieves token for the specified source file from the source server.
+SymGetSourceFileToken ŠÖ” (dbghelp.h) ‚ÍAƒ\[ƒXƒT[ƒo[‚©‚çw’è‚³‚ê‚½ƒ\[ƒXƒtƒ@ƒCƒ‹‚Ìƒg[ƒNƒ“‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Base, FileSpec, Token, Size
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Base : [int64] The base address of the module.
-FileSpec : [str] The name of the source file.
-Token : [var] A pointer to a buffer that receives the token.
-Size : [var] The size of the Token buffer, in bytes.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+Base : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+FileSpec : [str] ƒ\[ƒXƒtƒ@ƒCƒ‹‚Ì–¼‘OB
+Token : [var] ƒg[ƒNƒ“‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+Size : [var] Token ƒoƒbƒtƒ@‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
 %inst
-The SymGetSourceFileToken function (dbghelp.h) retrieves token for
-the specified source file from the source server.
+SymGetSourceFileToken ŠÖ” (dbghelp.h)
+‚ÍAƒ\[ƒXƒT[ƒo[‚©‚çw’è‚³‚ê‚½ƒ\[ƒXƒtƒ@ƒCƒ‹‚Ìƒg[ƒNƒ“‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymGetSourceVarFromToken
-The SymGetSourceVarFromToken function (dbghelp.h) retrieves the value associated with the specified variable name from the Source Server token.
+SymGetSourceVarFromToken ŠÖ” (dbghelp.h) ‚ÍAƒ\[ƒXƒT[ƒo[ƒg[ƒNƒ“‚©‚çw’è‚³‚ê‚½•Ï”–¼‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½’l‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Token, Params, VarName, Value, Size
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Token : [intptr] A pointer to the token.
-Params : [str] This parameter is unused.
-VarName : [str] The name of the variable token whose value you want to retrieve.
-Value : [str] A pointer to a buffer that receives the value associated with the variable token specified in the VarName parameter.
-Size : [int] The size of the Value buffer, in characters.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+Token : [intptr] ƒg[ƒNƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+Params : [str] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íg—p‚³‚ê‚È‚¢B
+VarName : [str] ’l‚ğæ“¾‚µ‚½‚¢•Ï”ƒg[ƒNƒ“‚Ì–¼‘OB
+Value : [str] VarName ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½•Ï”ƒg[ƒNƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½’l‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+Size : [int] Value ƒoƒbƒtƒ@‚ÌƒTƒCƒYi•¶š”jB
 %inst
-The SymGetSourceVarFromToken function (dbghelp.h) retrieves the value
-associated with the specified variable name from the Source Server
-token.
+SymGetSourceVarFromToken ŠÖ” (dbghelp.h)
+‚ÍAƒ\[ƒXƒT[ƒo[ƒg[ƒNƒ“‚©‚çw’è‚³‚ê‚½•Ï”–¼‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymGetSymFromAddr64
-Locates the symbol for the specified address. (SymGetSymFromAddr64)
+w’è‚³‚ê‚½ƒAƒhƒŒƒX‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹‚ğ“Á’è‚·‚éB(SymGetSymFromAddr64)
 %group
 Win32 dbghelp
 %prm
 hProcess, qwAddr, pdwDisplacement, Symbol
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-qwAddr : [int64] The address for which a symbol is to be located. The address does not have to be on a symbol boundary. If the address comes after the beginning of a symbol and before the end of the symbol (the beginning of the symbol plus the symbol size), the symbol is found.
-pdwDisplacement : [var] The displacement from the beginning of the symbol, or zero.
-Symbol : [var] A pointer to an IMAGEHLP_SYMBOL64 structure.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+qwAddr : [int64] ƒVƒ“ƒ{ƒ‹‚ğ“Á’è‚·‚éƒAƒhƒŒƒXBƒAƒhƒŒƒX‚ÍƒVƒ“ƒ{ƒ‹‹«ŠE‚Éˆê’v‚µ‚Ä‚¢‚È‚­‚Ä‚à‚æ‚¢BƒAƒhƒŒƒX‚ªƒVƒ“ƒ{ƒ‹‚Ìæ“ªˆÈ~A‚©‚ÂƒVƒ“ƒ{ƒ‹‚Ì––”öiƒVƒ“ƒ{ƒ‹‚Ìæ“ª‚ÉƒVƒ“ƒ{ƒ‹ƒTƒCƒY‚ğ‰Á‚¦‚½ˆÊ’uj‚æ‚è‘O‚É‚ ‚ê‚ÎAƒVƒ“ƒ{ƒ‹‚ªŒ©‚Â‚©‚éB
+pdwDisplacement : [var] ƒVƒ“ƒ{ƒ‹‚Ìæ“ª‚©‚ç‚ÌƒIƒtƒZƒbƒgA‚Ü‚½‚Í 0B
+Symbol : [var] IMAGEHLP_SYMBOL64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Locates the symbol for the specified address. (SymGetSymFromAddr64)
+w’è‚³‚ê‚½ƒAƒhƒŒƒX‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹‚ğ“Á’è‚·‚éB(SymGetSymFromAddr64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymGetSymFromAddr64 function locates the symbol for a specified
-address. The modules are searched for the one the address belongs to.
-When the module is found, its symbol table is searched for a match.
-When the symbol is found, the symbol information is copied into the
-Symbol buffer provided by the caller. The caller must allocate the
-Symbol buffer properly and fill in the required parameters in the
-IMAGEHLP_SYMBOL64 structure before calling SymGetSymFromAddr64. All
-DbgHelp functions, such as this one, are single threaded. Therefore,
-calls from more than one thread to this function will likely result
-in unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function. This function supersedes the SymGetSymFromAddr function.
-For more information, see Updated Platform Support. SymGetSymFromAddr
-is defined as follows in Dbghelp.h.
-This doc was truncated.
+SymGetSymFromAddr64
+ŠÖ”‚ÍAw’è‚³‚ê‚½ƒAƒhƒŒƒX‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹‚ğ“Á’è‚·‚éB‚Ü‚¸ŠY“–‚·‚éƒAƒhƒŒƒX‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚ªƒ‚ƒWƒ…[ƒ‹ŒQ‚©‚çŒŸõ‚³‚ê‚éBƒ‚ƒWƒ…[ƒ‹‚ªŒ©‚Â‚©‚é‚ÆA‚»‚ÌƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚©‚çˆê’v‚·‚éƒVƒ“ƒ{ƒ‹‚ªŒŸõ‚³‚ê‚éBƒVƒ“ƒ{ƒ‹‚ªŒ©‚Â‚©‚é‚ÆAŒÄ‚Ño‚µ‘¤‚ª—pˆÓ‚µ‚½
+Symbol ƒoƒbƒtƒ@‚ÉƒVƒ“ƒ{ƒ‹î•ñ‚ªƒRƒs[‚³‚ê‚éBSymGetSymFromAddr64 ‚ğŒÄ‚Ño‚·‘O‚ÉAŒÄ‚Ño‚µ‘¤‚Å Symbol
+ƒoƒbƒtƒ@‚ğ“KØ‚ÉŠm•Û‚µAIMAGEHLP_SYMBOL64 \‘¢‘Ì‚Ì•K{ƒpƒ‰ƒ[ƒ^‚ğİ’è‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Í
+SymGetSymFromAddr ŠÖ”‚ÌŒãŒp‚Å‚ ‚éBÚ×‚Í Updated Platform Support
+‚ğQÆ‚Ì‚±‚ÆBSymGetSymFromAddr ‚Í Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetSymFromName64
-Locates a symbol for the specified name. (SymGetSymFromName64)
+w’è‚³‚ê‚½–¼‘O‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹‚ğ“Á’è‚·‚éB(SymGetSymFromName64)
 %group
 Win32 dbghelp
 %prm
 hProcess, Name, Symbol
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-Name : [str] The symbol name for which a symbol is to be located.
-Symbol : [var] A pointer to an IMAGEHLP_SYMBOL64 structure.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+Name : [str] ƒVƒ“ƒ{ƒ‹‚ğ“Á’è‚·‚é‚½‚ß‚ÌƒVƒ“ƒ{ƒ‹–¼B
+Symbol : [var] IMAGEHLP_SYMBOL64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Locates a symbol for the specified name. (SymGetSymFromName64)
+w’è‚³‚ê‚½–¼‘O‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹‚ğ“Á’è‚·‚éB(SymGetSymFromName64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymGetSymFromName64 function is used to locate a symbol for a
-specified name. The name can contain a module prefix that isolates
-the symbol search to a single module's symbol table. The module
-prefix is in the form of "module!". The "!" character is the
-delimiter between the module name and the symbol name. If there is no
-module prefix, then the search is performed on each module's symbol
-table in a linear manner, beginning with the first module that is
-loaded. Using the module prefix is preferable for two reasons. First,
-the symbol search occurs much faster. Second, when deferred symbol
-loading is turned on, the search causes symbols to be loaded for each
-module that is searched. When the symbol is found, the symbol
-information is copied into the Symbol buffer provided by the caller.
-The caller must allocate the Symbol buffer properly and fill in the
-required parameters in the IMAGEHLP_SYMBOL64 structure before calling
-SymGetSymFromName64. All DbgHelp functions, such as this one, are
-single threaded. Therefore, calls from more than one thread to this
-function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. This function supersedes
-the SymGetSymFromName function. For more information, see Updated
-Platform Support. SymGetSymFromName is defined as follows in
-Dbghelp.h.
-This doc was truncated.
+SymGetSymFromName64
+ŠÖ”‚ÍAw’è‚³‚ê‚½–¼‘O‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹‚ğ“Á’è‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB–¼‘O‚É‚Íumodule!v‚Æ‚¢‚¤Œ`®‚Ìƒ‚ƒWƒ…[ƒ‹Ú“ª«‚ğŠÜ‚ß‚ÄAƒVƒ“ƒ{ƒ‹ŒŸõ‚ğ’Pˆêƒ‚ƒWƒ…[ƒ‹‚ÌƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚ÉŒÀ’è‚·‚é‚±‚Æ‚ª‚Å‚«‚éBu!v•¶š‚Íƒ‚ƒWƒ…[ƒ‹–¼‚ÆƒVƒ“ƒ{ƒ‹–¼‚Ì‹æØ‚è•¶š‚Å‚ ‚éBƒ‚ƒWƒ…[ƒ‹Ú“ª«‚ª‚È‚¢ê‡AÅ‰‚É“Ç‚İ‚Ü‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚©‚ç‡‚ÉAŠeƒ‚ƒWƒ…[ƒ‹‚ÌƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚É‘Î‚µ‚ÄüŒ`‚ÉŒŸõ‚ªs‚í‚ê‚éBƒ‚ƒWƒ…[ƒ‹Ú“ª«‚ğg—p‚·‚é‚ÆA“ñ‚Â‚Ì“_‚Å–]‚Ü‚µ‚¢B‚Ü‚¸AƒVƒ“ƒ{ƒ‹ŒŸõ‚ª‚Í‚é‚©‚É‚‘¬‚É‚È‚éBŸ‚ÉA’x‰„ƒVƒ“ƒ{ƒ‹“Ç‚İ‚İ‚ª—LŒø‚Èê‡AŒŸõ‘ÎÛ‚ÌŠeƒ‚ƒWƒ…[ƒ‹‚ÌƒVƒ“ƒ{ƒ‹‚ª“Ç‚İ‚Ü‚ê‚Ä‚µ‚Ü‚¤‚±‚Æ‚ğ”ğ‚¯‚ç‚ê‚éBƒVƒ“ƒ{ƒ‹‚ªŒ©‚Â‚©‚é‚ÆAŒÄ‚Ño‚µ‘¤‚ª—pˆÓ‚µ‚½
+Symbol ƒoƒbƒtƒ@‚ÉƒVƒ“ƒ{ƒ‹î•ñ‚ªƒRƒs[‚³‚ê‚éBSymGetSymFromName64 ‚ğŒÄ‚Ño‚·‘O‚ÉAŒÄ‚Ño‚µ‘¤‚Å Symbol
+ƒoƒbƒtƒ@‚ğ“KØ‚ÉŠm•Û‚µAIMAGEHLP_SYMBOL64 \‘¢‘Ì‚Ì•K{ƒpƒ‰ƒ[ƒ^‚ğİ’è‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Í
+SymGetSymFromName ŠÖ”‚ÌŒãŒp‚Å‚ ‚éBÚ×‚Í Updated Platform Support
+‚ğQÆ‚Ì‚±‚ÆBSymGetSymFromName ‚Í Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetSymNext64
-Retrieves the symbol information for the next symbol. (SymGetSymNext64)
+Ÿ‚ÌƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB(SymGetSymNext64)
 %group
 Win32 dbghelp
 %prm
 hProcess, Symbol
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-Symbol : [var] A pointer to an IMAGEHLP_SYMBOL64 structure.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+Symbol : [var] IMAGEHLP_SYMBOL64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the symbol information for the next symbol.
-(SymGetSymNext64)
+Ÿ‚ÌƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB(SymGetSymNext64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymGetSymNext64 function requires that the IMAGEHLP_SYMBOL64
-structure have valid data, presumably obtained from a call to the
-SymGetSymFromAddr64 or SymGetSymFromName64 function. This structure
-is filled with the symbol information for the next symbol in sequence
-by virtual address. All DbgHelp functions, such as this one, are
-single threaded. Therefore, calls from more than one thread to this
-function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
-SymGetSymNextW64 is defined as follows in DbgHelp.h.
-This doc was truncated.
+SymGetSymNext64 ŠÖ”‚Å‚ÍAIMAGEHLP_SYMBOL64 \‘¢‘Ì‚ª—LŒø‚Èƒf[ƒ^‚ğ•Û‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚èA’Êí‚Í
+SymGetSymFromAddr64 ‚Ü‚½‚Í SymGetSymFromName64
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚Å“¾‚½‚à‚Ì‚ğg—p‚·‚éB‚±‚Ì\‘¢‘Ì‚É‚ÍA‰¼‘zƒAƒhƒŒƒX‡‚ÅŸ‚É‚ ‚½‚éƒVƒ“ƒ{ƒ‹‚ÌƒVƒ“ƒ{ƒ‹î•ñ‚ªŠi”[‚³‚ê‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymGetSymNextW64 ‚Í
+DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetSymPrev64
-Retrieves the symbol information for the previous symbol. (SymGetSymPrev64)
+‘O‚ÌƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB(SymGetSymPrev64)
 %group
 Win32 dbghelp
 %prm
 hProcess, Symbol
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-Symbol : [var] A pointer to an IMAGEHLP_SYMBOL64 structure.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+Symbol : [var] IMAGEHLP_SYMBOL64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the symbol information for the previous symbol.
-(SymGetSymPrev64)
+‘O‚ÌƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB(SymGetSymPrev64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymGetSymPrev64 function requires the IMAGEHLP_SYMBOL64 structure
-to have valid data, presumably obtained from a call to the
-SymGetSymFromAddr64 or SymGetSymFromName64 function. This structure
-is filled in with the symbol information for the previous symbol in
-sequence by virtual address. All DbgHelp functions, such as this one,
-are single threaded. Therefore, calls from more than one thread to
-this function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
-SymGetSymPrevW64 is defined as follows in DbgHelp.h.
-This doc was truncated.
+SymGetSymPrev64 ŠÖ”‚Å‚ÍAIMAGEHLP_SYMBOL64 \‘¢‘Ì‚ª—LŒø‚Èƒf[ƒ^‚ğ•Û‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚èA’Êí‚Í
+SymGetSymFromAddr64 ‚Ü‚½‚Í SymGetSymFromName64
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚Å“¾‚½‚à‚Ì‚ğg—p‚·‚éB‚±‚Ì\‘¢‘Ì‚É‚ÍA‰¼‘zƒAƒhƒŒƒX‡‚Å‘O‚É‚ ‚½‚éƒVƒ“ƒ{ƒ‹‚ÌƒVƒ“ƒ{ƒ‹î•ñ‚ªŠi”[‚³‚ê‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymGetSymPrevW64 ‚Í
+DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymGetSymbolFile
-The SymGetSymbolFile function (dbghelp.h) locates a symbol file in the specified symbol path.
+SymGetSymbolFile ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒVƒ“ƒ{ƒ‹ƒpƒX‚©‚çƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ğ“Á’è‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, SymPath, ImageFile, Type, SymbolFile, cSymbolFile, DbgFile, cDbgFile
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function. If this handle is 0, SymPath cannot be NULL. Use this option to load a symbol file without calling SymInitialize or SymCleanup.
-SymPath : [str] The symbol path. If this parameter is NULL or an empty string, the function uses the symbol path set using the SymInitialize or SymSetSearchPath function.
-ImageFile : [str] The name of the image  file.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚ª 0 ‚Ìê‡ASymPath ‚ğ NULL ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BSymInitialize ‚â SymCleanup ‚ğŒÄ‚Ño‚³‚¸‚ÉƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İ‚½‚¢ê‡‚É‚±‚ÌƒIƒvƒVƒ‡ƒ“‚ğg—p‚·‚éB
+SymPath : [str] ƒVƒ“ƒ{ƒ‹ƒpƒXB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ü‚½‚Í‹ó•¶š—ñ‚Ìê‡AŠÖ”‚Í SymInitialize ‚Ü‚½‚Í SymSetSearchPath ŠÖ”‚Åİ’è‚³‚ê‚½ƒVƒ“ƒ{ƒ‹ƒpƒX‚ğg—p‚·‚éB
+ImageFile : [str] ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚Ì–¼‘OB
 Type : [int] 
-SymbolFile : [str] A pointer to a null-terminated string that receives the name of the symbol file.
-cSymbolFile : [int] The size of the SymbolFile buffer, in characters.
-DbgFile : [str] A pointer to a buffer that receives the fully qualified path to the symbol file. This buffer must be at least MAX_PATH characters.
-cDbgFile : [int] The size of the DbgFile buffer, in characters.
+SymbolFile : [str] ƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğó‚¯æ‚éANULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cSymbolFile : [int] SymbolFile ƒoƒbƒtƒ@‚ÌƒTƒCƒYi•¶š”jB
+DbgFile : [str] ƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒoƒbƒtƒ@‚ÍÅ’á‚Å‚à MAX_PATH •¶š•ª‚Ì‘å‚«‚³‚ª•K—v‚Å‚ ‚éB
+cDbgFile : [int] DbgFile ƒoƒbƒtƒ@‚ÌƒTƒCƒYi•¶š”jB
 %inst
-The SymGetSymbolFile function (dbghelp.h) locates a symbol file in
-the specified symbol path.
+SymGetSymbolFile ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒVƒ“ƒ{ƒ‹ƒpƒX‚©‚çƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ğ“Á’è‚·‚éB
 
 [–ß‚è’l]
-If the server locates a valid symbol file, it returns TRUE;
-otherwise, it returns FALSE and GetLastError returns a value that
-indicates why the symbol file was not returned.
+ƒT[ƒo[‚ª—LŒø‚ÈƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ğŒ©‚Â‚¯‚½ê‡‚Í TRUE ‚ğ•Ô‚µA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·BFALSE
+‚Ì‚Æ‚«AGetLastError ‚ÍƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ª•Ô‚³‚ê‚È‚©‚Á‚½——R‚ğ¦‚·’l‚ğ•Ô‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymGetTypeFromName
-The SymGetTypeFromName function (dbghelp.h) retrieves a type index for the specified type name.
+SymGetTypeFromName ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½Œ^–¼‚É‘Î‚·‚éŒ^ƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Name, Symbol
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module.
-Name : [str] The name of the type.
-Symbol : [var] A pointer to a SYMBOL_INFO structure. The TypeIndex member contains the type index.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+BaseOfDll : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+Name : [str] Œ^‚Ì–¼‘OB
+Symbol : [var] SYMBOL_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BTypeIndex ƒƒ“ƒo‚ÉŒ^ƒCƒ“ƒfƒbƒNƒX‚ªŠi”[‚³‚ê‚éB
 %inst
-The SymGetTypeFromName function (dbghelp.h) retrieves a type index
-for the specified type name.
+SymGetTypeFromName ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½Œ^–¼‚É‘Î‚·‚éŒ^ƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-To retrieve information about the type, pass the type index to the
-SymGetTypeInfo function. All DbgHelp functions, such as this one, are
-single threaded. Therefore, calls from more than one thread to this
-function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
+Œ^‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚é‚É‚ÍAŒ^ƒCƒ“ƒfƒbƒNƒX‚ğ SymGetTypeInfo ŠÖ”‚É“n‚·B‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymGetTypeInfo
-Retrieves type information for the specified type index.
+w’è‚³‚ê‚½Œ^ƒCƒ“ƒfƒbƒNƒX‚É‘Î‚·‚éŒ^î•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, ModBase, TypeId, GetType, pInfo
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-ModBase : [int64] The base address of the module.
-TypeId : [int] The type index. (A number of functions return a type index in the TypeIndex member of the SYMBOL_INFO structure.)
-GetType : [int] The information type. This parameter can be one of more of the values from the IMAGEHLP_SYMBOL_TYPE_INFO enumeration type.
-pInfo : [intptr] The data. The format of the data depends on the value of the GetType parameter.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+ModBase : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+TypeId : [int] Œ^ƒCƒ“ƒfƒbƒNƒXBi‘½‚­‚ÌŠÖ”‚ª SYMBOL_INFO \‘¢‘Ì‚Ì TypeIndex ƒƒ“ƒo‚Æ‚µ‚ÄŒ^ƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚·Bj
+GetType : [int] æ“¾‚·‚éî•ñ‚Ìí—ŞB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í IMAGEHLP_SYMBOL_TYPE_INFO —ñ‹“Œ^‚Ì’l‚ğ 1 ‚ÂˆÈãw’è‚Å‚«‚éB
+pInfo : [intptr] ƒf[ƒ^Bƒf[ƒ^‚ÌŒ`®‚Í GetType ƒpƒ‰ƒ[ƒ^‚Ì’l‚É‚æ‚Á‚ÄˆÙ‚È‚éB
 %inst
-Retrieves type information for the specified type index.
+w’è‚³‚ê‚½Œ^ƒCƒ“ƒfƒbƒNƒX‚É‘Î‚·‚éŒ^î•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-For more details on the type information, see the documentation for
-the PDB format. All DbgHelp functions, such as this one, are single
-threaded. Therefore, calls from more than one thread to this function
-will likely result in unexpected behavior or memory corruption. To
-avoid this, you must synchronize all concurrent calls from more than
-one thread to this function.
+Œ^î•ñ‚ÌÚ×‚É‚Â‚¢‚Ä‚ÍAPDB Œ`®‚ÌƒhƒLƒ…ƒƒ“ƒg‚ğQÆ‚Ì‚±‚ÆB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymGetTypeInfoEx
-Retrieves multiple pieces of type information.
+•¡”‚ÌŒ^î•ñ‚ğ‚Ü‚Æ‚ß‚Äæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, ModBase, Params
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-ModBase : [int64] The base address of the module.
-Params : [var] A pointer to an IMAGEHLP_GET_TYPE_INFO_PARAMS structure that specifies input and output information for the query.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+ModBase : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+Params : [var] ƒNƒGƒŠ‚Ì“ü—Í‚¨‚æ‚Ño—Íî•ñ‚ğw’è‚·‚é IMAGEHLP_GET_TYPE_INFO_PARAMS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves multiple pieces of type information.
+•¡”‚ÌŒ^î•ñ‚ğ‚Ü‚Æ‚ß‚Äæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
@@ -2713,992 +2277,801 @@ GetModuleFileNameEx ‚ğŒÄ‚ñ‚ÅƒpƒX‚ğæ“¾‚µ UserSearchPath ‚É’Ç‰Á‚·‚éBSymInitializ
 
 %index
 SymLoadModule64
-Loads the symbol table. (SymLoadModule64)
+ƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚ğ“Ç‚İ‚ŞB(SymLoadModule64)
 %group
 Win32 dbghelp
 %prm
 hProcess, hFile, ImageName, ModuleName, BaseOfDll, SizeOfDll
-hProcess : [intptr] A handle to the process. This handle must have been previously passed to the SymInitialize function.
-hFile : [intptr] A handle to the file for the executable image. This argument is used mostly by debuggers, where the debugger passes the file handle obtained from a debugging event. A value of NULL indicates that hFile is not used.
-ImageName : [str] The name of the executable image. This name can contain a partial path, a full path, or no path at all. If the file cannot be located by the name provided, the symbol search path is used.
-ModuleName : [str] A shortcut name for the module. If the pointer value is NULL, the library creates a name using the base name of the symbol file.
-BaseOfDll : [int64] The load address of the module. If the value is zero, the library obtains the load address from the symbol file. The load address contained in the symbol file is not necessarily the actual load address. Debuggers and other applications having an actual load address should use the real load address when calling this function. If the image is a .pdb file, this parameter cannot be zero.
-SizeOfDll : [int] The size of the module, in bytes. If the value is zero, the library obtains the size from the symbol file. The size contained in the symbol file is not necessarily the actual size. Debuggers and other applications having an actual size should use the real size when calling this function. If the image is a .pdb file, this parameter cannot be zero.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+hFile : [intptr] Às‰Â”\ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìˆø”‚Íå‚ÉƒfƒoƒbƒK‚Åg—p‚³‚êAƒfƒoƒbƒOƒCƒxƒ“ƒg‚©‚çæ“¾‚µ‚½ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ğ“n‚·BNULL ‚ğw’è‚·‚é‚Æ hFile ‚Íg—p‚³‚ê‚È‚¢B
+ImageName : [str] Às‰Â”\ƒCƒ[ƒW‚Ì–¼‘OB‚±‚Ì–¼‘O‚É‚Í•”•ªƒpƒXAƒtƒ‹ƒpƒXA‚Ü‚½‚ÍƒpƒX‚È‚µ‚ğw’è‚Å‚«‚éBw’è‚³‚ê‚½–¼‘O‚Åƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡AƒVƒ“ƒ{ƒ‹ŒŸõƒpƒX‚ªg—p‚³‚ê‚éB
+ModuleName : [str] ƒ‚ƒWƒ…[ƒ‹‚ÌƒVƒ‡[ƒgƒJƒbƒg–¼Bƒ|ƒCƒ“ƒ^’l‚ª NULL ‚Ìê‡Aƒ‰ƒCƒuƒ‰ƒŠ‚ÍƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚Ìƒx[ƒX–¼‚ğ—p‚¢‚Ä–¼‘O‚ğ¶¬‚·‚éB
+BaseOfDll : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ì“Ç‚İ‚İƒAƒhƒŒƒXB’l‚ª 0 ‚Ìê‡Aƒ‰ƒCƒuƒ‰ƒŠ‚ÍƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚İƒAƒhƒŒƒX‚ğæ“¾‚·‚éBƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ÉŠÜ‚Ü‚ê‚é“Ç‚İ‚İƒAƒhƒŒƒX‚ÍA•K‚¸‚µ‚àÀÛ‚Ì“Ç‚İ‚İƒAƒhƒŒƒX‚Æˆê’v‚·‚é‚Æ‚ÍŒÀ‚ç‚È‚¢BƒfƒoƒbƒK‚È‚ÇÀÛ‚Ì“Ç‚İ‚İƒAƒhƒŒƒX‚ğ”cˆ¬‚µ‚Ä‚¢‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚ÍA‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·Û‚ÉÀÛ‚Ì“Ç‚İ‚İƒAƒhƒŒƒX‚ğg—p‚·‚×‚«‚Å‚ ‚éBƒCƒ[ƒW‚ª .pdb ƒtƒ@ƒCƒ‹‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ 0 ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+SizeOfDll : [int] ƒ‚ƒWƒ…[ƒ‹‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB’l‚ª 0 ‚Ìê‡Aƒ‰ƒCƒuƒ‰ƒŠ‚ÍƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚©‚çƒTƒCƒY‚ğæ“¾‚·‚éBƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ÉŠÜ‚Ü‚ê‚éƒTƒCƒY‚ÍA•K‚¸‚µ‚àÀÛ‚ÌƒTƒCƒY‚Æˆê’v‚·‚é‚Æ‚ÍŒÀ‚ç‚È‚¢BƒfƒoƒbƒK‚È‚ÇÀÛ‚ÌƒTƒCƒY‚ğ”cˆ¬‚µ‚Ä‚¢‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚ÍA‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·Û‚ÉÀÛ‚ÌƒTƒCƒY‚ğg—p‚·‚×‚«‚Å‚ ‚éBƒCƒ[ƒW‚ª .pdb ƒtƒ@ƒCƒ‹‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ 0 ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
 %inst
-Loads the symbol table. (SymLoadModule64)
+ƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚ğ“Ç‚İ‚ŞB(SymLoadModule64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is the base address of the
-loaded module. If the function fails, the return value is zero. To
-retrieve extended error information, call GetLastError. If the module
-is already loaded, the return value is zero and GetLastError returns
-ERROR_SUCCESS.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í“Ç‚İ‚Ü‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒX‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·Bƒ‚ƒWƒ…[ƒ‹‚ª‚·‚Å‚É“Ç‚İ‚Ü‚ê‚Ä‚¢‚éê‡A–ß‚è’l‚Í 0
+‚Æ‚È‚èAGetLastError ‚Í ERROR_SUCCESS ‚ğ•Ô‚·B
 
 [”õl]
-The symbol handler creates an entry for the module and if the
-deferred symbol loading option is turned off, an attempt is made to
-load the symbols. If deferred symbol loading is enabled, the module
-is marked as deferred and the symbols are not loaded until a
-reference is made to a symbol in the module. To unload the symbol
-table, use the SymUnloadModule64 function. All DbgHelp functions,
-such as this one, are single threaded. Therefore, calls from more
-than one thread to this function will likely result in unexpected
-behavior or memory corruption. To avoid this, you must synchronize
-all concurrent calls from more than one thread to this function. This
-function supersedes the SymLoadModule function. For more information,
-see Updated Platform Support. SymLoadModule is defined as follows in
-DbgHelp.h.
-This doc was truncated.
+
+ƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰‚Íƒ‚ƒWƒ…[ƒ‹‚ÌƒGƒ“ƒgƒŠ‚ğì¬‚·‚éB’x‰„ƒVƒ“ƒ{ƒ‹“Ç‚İ‚İƒIƒvƒVƒ‡ƒ“‚ª–³Œø‚Å‚ ‚ê‚ÎAƒVƒ“ƒ{ƒ‹‚Ì“Ç‚İ‚İ‚ª‚İ‚ç‚ê‚éB’x‰„ƒVƒ“ƒ{ƒ‹“Ç‚İ‚İ‚ª—LŒø‚Èê‡Aƒ‚ƒWƒ…[ƒ‹‚Í’x‰„ó‘Ô‚Æ‚µ‚Äƒ}[ƒN‚³‚êAƒ‚ƒWƒ…[ƒ‹“à‚ÌƒVƒ“ƒ{ƒ‹‚ªQÆ‚³‚ê‚é‚Ü‚ÅƒVƒ“ƒ{ƒ‹‚Í“Ç‚İ‚Ü‚ê‚È‚¢BƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚ğ‰ğ•ú‚·‚é‚É‚ÍASymUnloadModule64
+ŠÖ”‚ğg—p‚·‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Í
+SymLoadModule ŠÖ”‚ÌŒãŒp‚Å‚ ‚éBÚ×‚Í Updated Platform Support
+‚ğQÆ‚Ì‚±‚ÆBSymLoadModule ‚Í DbgHelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymLoadModuleEx
-The SymLoadModuleEx function (dbghelp.h) loads the symbol table for the specified module.
+SymLoadModuleEx ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ÌƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚ğ“Ç‚İ‚ŞB
 %group
 Win32 dbghelp
 %prm
 hProcess, hFile, ImageName, ModuleName, BaseOfDll, DllSize, Data, Flags
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-hFile : [intptr] A handle to the file for the executable image. This argument is used mostly by debuggers, where the debugger passes the file handle obtained from a debugging event. A value of NULL indicates that hFile is not used.
-ImageName : [str] The name of the executable image. This name can contain a partial path, a full path, or no path at all. If the file cannot be located by the name provided, the symbol search path is used.
-ModuleName : [str] A shortcut name for the module. If the pointer value is NULL, the library creates a name using the base name of the symbol file.
-BaseOfDll : [int64] The load address of the module. If the value is zero, the library obtains the load address from the symbol file. The load address contained in the symbol file is not necessarily the actual load address. Debuggers and other applications having an actual load address should use the real load address when calling this function. If the image is a .pdb file, this parameter cannot be zero.
-DllSize : [int] The size of the module, in bytes. If the value is zero, the library obtains the size from the symbol file. The size contained in the symbol file is not necessarily the actual size. Debuggers and other applications having an actual size should use the real size when calling this function. If the image is a .pdb file, this parameter cannot be zero.
-Data : [var] A pointer to a MODLOAD_DATA structure that represents headers other than the standard PE header. This parameter is optional and can be NULL.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+hFile : [intptr] Às‰Â”\ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìˆø”‚Íå‚ÉƒfƒoƒbƒK‚Åg—p‚³‚êAƒfƒoƒbƒOƒCƒxƒ“ƒg‚©‚çæ“¾‚µ‚½ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ğ“n‚·BNULL ‚ğw’è‚·‚é‚Æ hFile ‚Íg—p‚³‚ê‚È‚¢B
+ImageName : [str] Às‰Â”\ƒCƒ[ƒW‚Ì–¼‘OB‚±‚Ì–¼‘O‚É‚Í•”•ªƒpƒXAƒtƒ‹ƒpƒXA‚Ü‚½‚ÍƒpƒX‚È‚µ‚ğw’è‚Å‚«‚éBw’è‚³‚ê‚½–¼‘O‚Åƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡AƒVƒ“ƒ{ƒ‹ŒŸõƒpƒX‚ªg—p‚³‚ê‚éB
+ModuleName : [str] ƒ‚ƒWƒ…[ƒ‹‚ÌƒVƒ‡[ƒgƒJƒbƒg–¼Bƒ|ƒCƒ“ƒ^’l‚ª NULL ‚Ìê‡Aƒ‰ƒCƒuƒ‰ƒŠ‚ÍƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚Ìƒx[ƒX–¼‚ğ—p‚¢‚Ä–¼‘O‚ğ¶¬‚·‚éB
+BaseOfDll : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ì“Ç‚İ‚İƒAƒhƒŒƒXB’l‚ª 0 ‚Ìê‡Aƒ‰ƒCƒuƒ‰ƒŠ‚ÍƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İ‚İƒAƒhƒŒƒX‚ğæ“¾‚·‚éBƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ÉŠÜ‚Ü‚ê‚é“Ç‚İ‚İƒAƒhƒŒƒX‚ÍA•K‚¸‚µ‚àÀÛ‚Ì“Ç‚İ‚İƒAƒhƒŒƒX‚Æˆê’v‚·‚é‚Æ‚ÍŒÀ‚ç‚È‚¢BƒfƒoƒbƒK‚È‚ÇÀÛ‚Ì“Ç‚İ‚İƒAƒhƒŒƒX‚ğ”cˆ¬‚µ‚Ä‚¢‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚ÍA‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·Û‚ÉÀÛ‚Ì“Ç‚İ‚İƒAƒhƒŒƒX‚ğg—p‚·‚×‚«‚Å‚ ‚éBƒCƒ[ƒW‚ª .pdb ƒtƒ@ƒCƒ‹‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ 0 ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+DllSize : [int] ƒ‚ƒWƒ…[ƒ‹‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB’l‚ª 0 ‚Ìê‡Aƒ‰ƒCƒuƒ‰ƒŠ‚ÍƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚©‚çƒTƒCƒY‚ğæ“¾‚·‚éBƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹‚ÉŠÜ‚Ü‚ê‚éƒTƒCƒY‚ÍA•K‚¸‚µ‚àÀÛ‚ÌƒTƒCƒY‚Æˆê’v‚·‚é‚Æ‚ÍŒÀ‚ç‚È‚¢BƒfƒoƒbƒK‚È‚ÇÀÛ‚ÌƒTƒCƒY‚ğ”cˆ¬‚µ‚Ä‚¢‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚ÍA‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·Û‚ÉÀÛ‚ÌƒTƒCƒY‚ğg—p‚·‚×‚«‚Å‚ ‚éBƒCƒ[ƒW‚ª .pdb ƒtƒ@ƒCƒ‹‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ 0 ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+Data : [var] •W€‚Ì PE ƒwƒbƒ_ˆÈŠO‚Ìƒwƒbƒ_‚ğ•\‚· MODLOAD_DATA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍÈ—ª‰Â”\‚Å‚ ‚èANULL ‚Å‚à\‚í‚È‚¢B
 Flags : [int] 
 %inst
-The SymLoadModuleEx function (dbghelp.h) loads the symbol table for
-the specified module.
+SymLoadModuleEx ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ÌƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚ğ“Ç‚İ‚ŞB
 
 [–ß‚è’l]
-If the function succeeds, the return value is the base address of the
-loaded module. If the function fails, the return value is zero. To
-retrieve extended error information, call GetLastError. If the module
-is already loaded, the return value is zero and GetLastError returns
-ERROR_SUCCESS.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í“Ç‚İ‚Ü‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒX‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·Bƒ‚ƒWƒ…[ƒ‹‚ª‚·‚Å‚É“Ç‚İ‚Ü‚ê‚Ä‚¢‚éê‡A–ß‚è’l‚Í 0
+‚Æ‚È‚èAGetLastError ‚Í ERROR_SUCCESS ‚ğ•Ô‚·B
 
 [”õl]
-The symbol handler creates an entry for the module and if the
-deferred symbol loading option is turned off, an attempt is made to
-load the symbols. If deferred symbol loading is enabled, the module
-is marked as deferred and the symbols are not loaded until a
-reference is made to a symbol in the module. Therefore, you should
-always call the SymGetModuleInfo64 function after calling
-SymLoadModuleEx. To unload the symbol table, use the
-SymUnloadModule64 function. All DbgHelp functions, such as this one,
-are single threaded. Therefore, calls from more than one thread to
-this function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
+
+ƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰‚Íƒ‚ƒWƒ…[ƒ‹‚ÌƒGƒ“ƒgƒŠ‚ğì¬‚·‚éB’x‰„ƒVƒ“ƒ{ƒ‹“Ç‚İ‚İƒIƒvƒVƒ‡ƒ“‚ª–³Œø‚Å‚ ‚ê‚ÎAƒVƒ“ƒ{ƒ‹‚Ì“Ç‚İ‚İ‚ª‚İ‚ç‚ê‚éB’x‰„ƒVƒ“ƒ{ƒ‹“Ç‚İ‚İ‚ª—LŒø‚Èê‡Aƒ‚ƒWƒ…[ƒ‹‚Í’x‰„ó‘Ô‚Æ‚µ‚Äƒ}[ƒN‚³‚êAƒ‚ƒWƒ…[ƒ‹“à‚ÌƒVƒ“ƒ{ƒ‹‚ªQÆ‚³‚ê‚é‚Ü‚ÅƒVƒ“ƒ{ƒ‹‚Í“Ç‚İ‚Ü‚ê‚È‚¢B‚»‚Ì‚½‚ßASymLoadModuleEx
+‚ğŒÄ‚Ño‚µ‚½Œã‚Íí‚É SymGetModuleInfo64
+ŠÖ”‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚ğ‰ğ•ú‚·‚é‚É‚ÍASymUnloadModule64 ŠÖ”‚ğg—p‚·‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymMatchFileName
-The SymMatchFileName function (dbghelp.h) compares a string to a file name and path.
+SymMatchFileName ŠÖ” (dbghelp.h) ‚ÍA•¶š—ñ‚ğƒtƒ@ƒCƒ‹–¼‚¨‚æ‚ÑƒpƒX‚Æ”äŠr‚·‚éB
 %group
 Win32 dbghelp
 %prm
 FileName, Match, FileNameStop, MatchStop
-FileName : [str] The file name to be compared to the Match parameter.
-Match : [str] The string to be compared to the FileName parameter.
-FileNameStop : [var] A pointer to a string buffer that receives a pointer to the location in FileName where matching stopped. For a complete match, this value can be one character before FileName. This value can also be NULL.
-MatchStop : [var] A pointer to a string buffer that receives a pointer to the location in Match where matching stopped. For a complete match, this value may be one character before Match. This value may be NULL.
+FileName : [str] Match ƒpƒ‰ƒ[ƒ^‚Æ”äŠr‚³‚ê‚éƒtƒ@ƒCƒ‹–¼B
+Match : [str] FileName ƒpƒ‰ƒ[ƒ^‚Æ”äŠr‚³‚ê‚é•¶š—ñB
+FileNameStop : [var] Æ‡‚ªI—¹‚µ‚½ FileName “à‚ÌˆÊ’u‚ğw‚·ƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é•¶š—ñƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠ®‘Sˆê’v‚µ‚½ê‡A‚±‚Ì’l‚Í FileName ‚Ìæ“ª‚æ‚è 1 •¶š‘O‚ğw‚·‚±‚Æ‚ª‚ ‚éB‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
+MatchStop : [var] Æ‡‚ªI—¹‚µ‚½ Match “à‚ÌˆÊ’u‚ğw‚·ƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é•¶š—ñƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠ®‘Sˆê’v‚µ‚½ê‡A‚±‚Ì’l‚Í Match ‚Ìæ“ª‚æ‚è 1 •¶š‘O‚ğw‚·‚±‚Æ‚ª‚ ‚éB‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
 %inst
-The SymMatchFileName function (dbghelp.h) compares a string to a file
-name and path.
+SymMatchFileName ŠÖ” (dbghelp.h) ‚ÍA•¶š—ñ‚ğƒtƒ@ƒCƒ‹–¼‚¨‚æ‚ÑƒpƒX‚Æ”äŠr‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Because the match string can be a suffix of the complete file name,
-this function can be used to match a plain file name to a fully
-qualified file name. Matching begins from the end of both strings and
-proceeds backward. Matching is case-insensitive and equates a
-backslash (\\) with a forward slash (/). All DbgHelp functions, such
-as this one, are single threaded. Therefore, calls from more than one
-thread to this function will likely result in unexpected behavior or
-memory corruption. To avoid this, you must synchronize all concurrent
-calls from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
+
+ƒ}ƒbƒ`•¶š—ñ‚ÍŠ®‘S‚Èƒtƒ@ƒCƒ‹–¼‚ÌƒTƒtƒBƒbƒNƒX‚Æ‚·‚é‚±‚Æ‚ª‚Å‚«‚é‚½‚ßA‚±‚ÌŠÖ”‚ğg‚¦‚Î’Pƒ‚Èƒtƒ@ƒCƒ‹–¼‚ÆŠ®‘SCüƒtƒ@ƒCƒ‹–¼‚ğÆ‡‚·‚é‚±‚Æ‚ª‰Â”\‚Å‚ ‚éBÆ‡‚Í—¼•û‚Ì•¶š—ñ‚Ì––”ö‚©‚çn‚Ü‚èA‘O•ûŒü‚Öis‚·‚éBÆ‡‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚¹‚¸AƒoƒbƒNƒXƒ‰ƒbƒVƒ…
+(\\) ‚ÆƒXƒ‰ƒbƒVƒ… (/) ‚ğ“¯ˆê‹‚·‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymMatchString
-The SymMatchString function (dbghelp.h) compares the specified string to the specified wildcard expression.
+SymMatchString ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½•¶š—ñ‚ğw’è‚³‚ê‚½ƒƒCƒ‹ƒhƒJ[ƒh®‚Æ”äŠr‚·‚éB
 %group
 Win32 dbghelp
 %prm
 string, expression, fCase
 string : [int] 
-expression : [str] The wildcard expression to compare to the string parameter.  The wildcard expression supports the inclusion of the * and ? characters.  * matches any string and ? matches any single character.
-fCase : [int] A variable that indicates whether or not the comparison is to be case sensitive.
+expression : [str] string ƒpƒ‰ƒ[ƒ^‚Æ”äŠr‚·‚éƒƒCƒ‹ƒhƒJ[ƒh®BƒƒCƒ‹ƒhƒJ[ƒh®‚É‚Í * ‚Æ ? ‚ğŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éB* ‚Í”CˆÓ‚Ì•¶š—ñ‚Éˆê’v‚µA? ‚Í”CˆÓ‚Ì 1 •¶š‚Éˆê’v‚·‚éB
+fCase : [int] ”äŠr‚Å‘å•¶š¬•¶š‚ğ‹æ•Ê‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·•Ï”B
 %inst
-The SymMatchString function (dbghelp.h) compares the specified string
-to the specified wildcard expression.
+SymMatchString ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½•¶š—ñ‚ğw’è‚³‚ê‚½ƒƒCƒ‹ƒhƒJ[ƒh®‚Æ”äŠr‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymNext
-The SymNext function (dbghelp.h) retrieves symbol information for the next symbol.
+SymNext ŠÖ” (dbghelp.h) ‚ÍAŸ‚ÌƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, si
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-si : [var] A pointer to a SYMBOL_INFO structure that provides information about the current symbol. Upon return, the structure contains information about the next symbol.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+si : [var] Œ»İ‚ÌƒVƒ“ƒ{ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğ•Û‚·‚é SYMBOL_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚©‚ç–ß‚é‚ÆA\‘¢‘Ì‚É‚ÍŸ‚ÌƒVƒ“ƒ{ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ªŠi”[‚³‚ê‚éB
 %inst
-The SymNext function (dbghelp.h) retrieves symbol information for the
-next symbol.
+SymNext ŠÖ” (dbghelp.h) ‚ÍAŸ‚ÌƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-This function requires that the SYMBOL_INFO structure have valid data
-for the current symbol. The next symbol is the symbol with the
-virtual address that is next in the sequence. All DbgHelp functions,
-such as this one, are single threaded. Therefore, calls from more
-than one thread to this function will likely result in unexpected
-behavior or memory corruption. To avoid this, you must synchronize
-all concurrent calls from more than one thread to this function. To
-call the Unicode version of this function, define
-DBGHELP_TRANSLATE_TCHAR.
+‚±‚ÌŠÖ”‚Å‚ÍASYMBOL_INFO
+\‘¢‘Ì‚ªŒ»İ‚ÌƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚é—LŒø‚Èƒf[ƒ^‚ğ•Û‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éBŸ‚ÌƒVƒ“ƒ{ƒ‹‚Æ‚ÍA‰¼‘zƒAƒhƒŒƒX‡‚ÅŸ‚É‚ ‚½‚éƒVƒ“ƒ{ƒ‹‚Å‚ ‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymPrev
-The SymPrev function (dbghelp.h) retrieves symbol information for the previous symbol.
+SymPrev ŠÖ” (dbghelp.h) ‚ÍA‘O‚ÌƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, si
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-si : [var] A pointer to a SYMBOL_INFO structure that provides information about the current symbol. Upon return, the structure contains information about the previous symbol.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+si : [var] Œ»İ‚ÌƒVƒ“ƒ{ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğ•Û‚·‚é SYMBOL_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚©‚ç–ß‚é‚ÆA\‘¢‘Ì‚É‚Í‘O‚ÌƒVƒ“ƒ{ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ªŠi”[‚³‚ê‚éB
 %inst
-The SymPrev function (dbghelp.h) retrieves symbol information for the
-previous symbol.
+SymPrev ŠÖ” (dbghelp.h) ‚ÍA‘O‚ÌƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚éƒVƒ“ƒ{ƒ‹î•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-This function requires that the SYMBOL_INFO structure have valid data
-for the current symbol. The previous symbol is the symbol with a
-virtual address that immediately precedes this symbol. All DbgHelp
-functions, such as this one, are single threaded. Therefore, calls
-from more than one thread to this function will likely result in
-unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function. To call the Unicode version of this function, define
-DBGHELP_TRANSLATE_TCHAR.
+‚±‚ÌŠÖ”‚Å‚ÍASYMBOL_INFO
+\‘¢‘Ì‚ªŒ»İ‚ÌƒVƒ“ƒ{ƒ‹‚É‘Î‚·‚é—LŒø‚Èƒf[ƒ^‚ğ•Û‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB‘O‚ÌƒVƒ“ƒ{ƒ‹‚Æ‚ÍAŒ»İ‚ÌƒVƒ“ƒ{ƒ‹‚Ì’¼‘O‚É‚ ‚é‰¼‘zƒAƒhƒŒƒX‚ğ‚ÂƒVƒ“ƒ{ƒ‹‚Å‚ ‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymQueryInlineTrace
-Queries an inline trace.
+ƒCƒ“ƒ‰ƒCƒ“ƒgƒŒ[ƒX‚ğƒNƒGƒŠ‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, StartAddress, StartContext, StartRetAddress, CurAddress, CurContext, CurFrameIndex
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-StartAddress : [int64] The start address.
-StartContext : [int] Contains the context of the start of block.
-StartRetAddress : [int64] Contains the return address of the start of the current block/
-CurAddress : [int64] Contains the current address.
-CurContext : [var] Address of a DWORD that receives the current context.
-CurFrameIndex : [var] If the function succeeds, the return value is TRUE. If the function fails, the return value is FALSE. To retrieve extended error information, call GetLastError.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+StartAddress : [int64] ŠJnƒAƒhƒŒƒXB
+StartContext : [int] ƒuƒƒbƒN‚ÌŠJnˆÊ’u‚ÌƒRƒ“ƒeƒLƒXƒg‚ğŠi”[‚·‚éB
+StartRetAddress : [int64] Œ»İ‚ÌƒuƒƒbƒN‚ÌŠJnˆÊ’u‚ÌƒŠƒ^[ƒ“ƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
+CurAddress : [int64] Œ»İ‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
+CurContext : [var] Œ»İ‚ÌƒRƒ“ƒeƒLƒXƒg‚ğó‚¯æ‚é DWORD ‚ÌƒAƒhƒŒƒXB
+CurFrameIndex : [var] ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 %inst
-Queries an inline trace.
+ƒCƒ“ƒ‰ƒCƒ“ƒgƒŒ[ƒX‚ğƒNƒGƒŠ‚·‚éB
 
 [”õl]
-Either the StartAddress or StartRetAddress parameters must be within
-the same function scope as the CurAddress parameter. The former
-indicates a step-over within the same function and the latter
-indicates a step-over from StartAddress.
+StartAddress ‚Ü‚½‚Í StartRetAddress ‚Ì‚¢‚¸‚ê‚©‚ÍACurAddress
+‚Æ“¯‚¶ŠÖ”ƒXƒR[ƒv“à‚É‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‘OÒ‚Í“¯ˆêŠÖ”“à‚ÌƒXƒeƒbƒvƒI[ƒo[‚ğ¦‚µAŒãÒ‚Í StartAddress
+‚©‚ç‚ÌƒXƒeƒbƒvƒI[ƒo[‚ğ¦‚·B
 
 
 %index
 SymRefreshModuleList
-Refreshes the module list for the process.
+ƒvƒƒZƒX‚Ìƒ‚ƒWƒ…[ƒ‹ˆê——‚ğXV‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 %inst
-Refreshes the module list for the process.
+ƒvƒƒZƒX‚Ìƒ‚ƒWƒ…[ƒ‹ˆê——‚ğXV‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-This function enumerates the loaded modules for the process and
-effectively calls the SymLoadModule64 function for each module. This
-same process is performed by SymInitialize if fInvadeProcess is TRUE.
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function.
+‚±‚ÌŠÖ”‚ÍƒvƒƒZƒX‚É“Ç‚İ‚Ü‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ğ—ñ‹“‚µAŠeƒ‚ƒWƒ…[ƒ‹‚É‘Î‚µ‚ÄÀ¿“I‚É SymLoadModule64
+ŠÖ”‚ğŒÄ‚Ño‚·BfInvadeProcess ‚ğ TRUE ‚É‚µ‚Ä SymInitialize
+‚ğŒÄ‚Ño‚µ‚½ê‡‚àA“¯‚¶ˆ—‚ªs‚í‚ê‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymRegisterCallback64
-Registers a callback function for use by the symbol handler. (SymRegisterCallback64)
+ƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰‚ªg—p‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚·‚éB(SymRegisterCallback64)
 %group
 Win32 dbghelp
 %prm
 hProcess, CallbackFunction, UserContext
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-CallbackFunction : [int] A SymRegisterCallbackProc64 callback function.
-UserContext : [int64] A user-defined value or NULL. This value is simply passed to the callback function. Normally, this parameter is used by an application to pass a pointer to a data structure that lets the callback function establish some context.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+CallbackFunction : [int] SymRegisterCallbackProc64 ƒR[ƒ‹ƒoƒbƒNŠÖ”B
+UserContext : [int64] ƒ†[ƒU[’è‹`‚Ì’l‚Ü‚½‚Í NULLB‚±‚Ì’l‚Í‚»‚Ì‚Ü‚ÜƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB’ÊíAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğg—p‚µ‚ÄAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ªƒRƒ“ƒeƒLƒXƒg‚ğŠm—§‚·‚é‚½‚ß‚Ìƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·B
 %inst
-Registers a callback function for use by the symbol handler.
-(SymRegisterCallback64)
+ƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰‚ªg—p‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚·‚éB(SymRegisterCallback64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymRegisterCallback64 function lets an application register a
-callback function for use by the symbol handler. The symbol handler
-calls the registered callback function when there is status or
-progress information for the application. All DbgHelp functions, such
-as this one, are single threaded. Therefore, calls from more than one
-thread to this function will likely result in unexpected behavior or
-memory corruption. To avoid this, you must synchronize all concurrent
-calls from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
-SymRegisterCallbackW64 is defined as follows in Dbghelp.h.
-This doc was truncated.
+SymRegisterCallback64
+ŠÖ”‚ğg—p‚·‚é‚ÆAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰‚ªg—p‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚Å‚«‚éBƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‘Î‚·‚éó‘Ô‚âisî•ñ‚ª‚ ‚é‚Æ‚«‚ÉA“o˜^‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·B‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymRegisterCallbackW64
+‚Í Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymRegisterCallbackW64
-Registers a callback function for use by the symbol handler. (SymRegisterCallbackW64)
+ƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰‚ªg—p‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚·‚éB(SymRegisterCallbackW64)
 %group
 Win32 dbghelp
 %prm
 hProcess, CallbackFunction, UserContext
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-CallbackFunction : [int] A SymRegisterCallbackProc64 callback function.
-UserContext : [int64] A user-defined value or NULL. This value is simply passed to the callback function. Normally, this parameter is used by an application to pass a pointer to a data structure that lets the callback function establish some context.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+CallbackFunction : [int] SymRegisterCallbackProc64 ƒR[ƒ‹ƒoƒbƒNŠÖ”B
+UserContext : [int64] ƒ†[ƒU[’è‹`‚Ì’l‚Ü‚½‚Í NULLB‚±‚Ì’l‚Í‚»‚Ì‚Ü‚ÜƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB’ÊíAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğg—p‚µ‚ÄAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ªƒRƒ“ƒeƒLƒXƒg‚ğŠm—§‚·‚é‚½‚ß‚Ìƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·B
 %inst
-Registers a callback function for use by the symbol handler.
-(SymRegisterCallbackW64)
+ƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰‚ªg—p‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚·‚éB(SymRegisterCallbackW64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymRegisterCallback64 function lets an application register a
-callback function for use by the symbol handler. The symbol handler
-calls the registered callback function when there is status or
-progress information for the application. All DbgHelp functions, such
-as this one, are single threaded. Therefore, calls from more than one
-thread to this function will likely result in unexpected behavior or
-memory corruption. To avoid this, you must synchronize all concurrent
-calls from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
-SymRegisterCallbackW64 is defined as follows in Dbghelp.h.
-This doc was truncated.
+SymRegisterCallback64
+ŠÖ”‚ğg—p‚·‚é‚ÆAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰‚ªg—p‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚Å‚«‚éBƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‘Î‚·‚éó‘Ô‚âisî•ñ‚ª‚ ‚é‚Æ‚«‚ÉA“o˜^‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·B‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éBSymRegisterCallbackW64
+‚Í Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymRegisterFunctionEntryCallback64
-Registers a callback function for use by the stack walking procedure on Alpha computers. (SymRegisterFunctionEntryCallback64)
+Alpha ƒRƒ“ƒsƒ…[ƒ^ã‚ÅƒXƒ^ƒbƒNƒEƒH[ƒNˆ—‚ªg—p‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚·‚éB(SymRegisterFunctionEntryCallback64)
 %group
 Win32 dbghelp
 %prm
 hProcess, CallbackFunction, UserContext
-hProcess : [intptr] A handle to the process that was originally passed to the StackWalk64 function.
-CallbackFunction : [int] A SymRegisterFunctionEntryCallbackProc64 callback function.
-UserContext : [int64] A user-defined value or NULL. This value is simply passed to the callback function. Normally, this parameter is used by an application to pass a pointer to a data structure that lets the callback function establish some context.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ StackWalk64 ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+CallbackFunction : [int] SymRegisterFunctionEntryCallbackProc64 ƒR[ƒ‹ƒoƒbƒNŠÖ”B
+UserContext : [int64] ƒ†[ƒU[’è‹`‚Ì’l‚Ü‚½‚Í NULLB‚±‚Ì’l‚Í‚»‚Ì‚Ü‚ÜƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB’ÊíAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğg—p‚µ‚ÄAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ªƒRƒ“ƒeƒLƒXƒg‚ğŠm—§‚·‚é‚½‚ß‚Ìƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·B
 %inst
-Registers a callback function for use by the stack walking procedure
-on Alpha computers. (SymRegisterFunctionEntryCallback64)
+Alpha
+ƒRƒ“ƒsƒ…[ƒ^ã‚ÅƒXƒ^ƒbƒNƒEƒH[ƒNˆ—‚ªg—p‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚·‚éB(SymRegisterFunctionEntryCallback64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The SymRegisterFunctionEntryCallback64 function lets an application
-register a callback function for use by the stack walking procedure.
-The stack walking procedure calls the registered callback function
-when it is unable to locate a function table entry for an address. In
-most cases, the stack walking procedure locates the function table
-entries in the function table of the image containing the address.
-However, in situations where the function table entries are not in
-the image, this callback allows the debugger to provide the function
-table entry from another source. For example, run-time generated code
-on Alpha computers can define dynamic function tables to support
-exception handling and stack tracing. All DbgHelp functions, such as
-this one, are single threaded. Therefore, calls from more than one
-thread to this function will likely result in unexpected behavior or
-memory corruption. To avoid this, you must synchronize all concurrent
-calls from more than one thread to this function. This function
-supersedes the SymRegisterFunctionEntryCallback function. For more
-information, see Updated Platform Support.
-SymRegisterFunctionEntryCallback is defined as follows in Dbghelp.h.
-This doc was truncated.
+SymRegisterFunctionEntryCallback64
+ŠÖ”‚ğg—p‚·‚é‚ÆAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒXƒ^ƒbƒNƒEƒH[ƒNˆ—‚ªg—p‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğ“o˜^‚Å‚«‚éBƒXƒ^ƒbƒNƒEƒH[ƒNˆ—‚ÍƒAƒhƒŒƒX‚É‘Î‚·‚éŠÖ”ƒe[ƒuƒ‹ƒGƒ“ƒgƒŠ‚ğ“Á’è‚Å‚«‚È‚©‚Á‚½ê‡‚ÉA“o˜^‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·B‘½‚­‚Ìê‡AƒXƒ^ƒbƒNƒEƒH[ƒNˆ—‚Í‚»‚ÌƒAƒhƒŒƒX‚ğŠÜ‚ŞƒCƒ[ƒW‚ÌŠÖ”ƒe[ƒuƒ‹‚©‚çŠÖ”ƒe[ƒuƒ‹ƒGƒ“ƒgƒŠ‚ğ“Á’è‚·‚éB‚µ‚©‚µŠÖ”ƒe[ƒuƒ‹ƒGƒ“ƒgƒŠ‚ªƒCƒ[ƒW“à‚É‘¶İ‚µ‚È‚¢ó‹µ‚Å‚ÍA‚±‚ÌƒR[ƒ‹ƒoƒbƒN‚É‚æ‚èƒfƒoƒbƒK‚ª•Ê‚Ìî•ñŒ¹‚©‚çŠÖ”ƒe[ƒuƒ‹ƒGƒ“ƒgƒŠ‚ğ’ñ‹Ÿ‚Å‚«‚éB‚½‚Æ‚¦‚Î
+Alpha
+ƒRƒ“ƒsƒ…[ƒ^ã‚ÌÀs¶¬ƒR[ƒh‚ÍA—áŠOˆ—‚ÆƒXƒ^ƒbƒNƒgƒŒ[ƒX‚ğƒTƒ|[ƒg‚·‚é‚½‚ß‚É“®“IŠÖ”ƒe[ƒuƒ‹‚ğ’è‹`‚Å‚«‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Í
+SymRegisterFunctionEntryCallback ŠÖ”‚ÌŒãŒp‚Å‚ ‚éBÚ×‚Í Updated Platform
+Support ‚ğQÆ‚Ì‚±‚ÆBSymRegisterFunctionEntryCallback ‚Í Dbghelp.h
+‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymSearch
-The SymSearch function (dbghelp.h) searches for PDB symbols that meet the specified criteria.
+SymSearch ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ğŒ‚Éˆê’v‚·‚é PDB ƒVƒ“ƒ{ƒ‹‚ğŒŸõ‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Index, SymTag, Mask, Address, EnumSymbolsCallback, UserContext, Options
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module. If this value is zero and Mask contains an exclamation point (!), the function looks across modules. If this value is zero and Mask does not contain an exclamation point, the function uses the scope established by the SymSetContext function.
-Index : [int] A unique value for the symbol.
-SymTag : [int] The PDB classification. These values are defined in Dbghelp.h in the SymTagEnum enumeration type. For  descriptions, see the PDB documentation.
-Mask : [str] A wildcard expression that indicates the names of the symbols to be enumerated. To specify a module name, use the !mod syntax.
-Address : [int64] The address of the symbol.
-EnumSymbolsCallback : [int] A SymEnumSymbolsProc callback function that receives the symbol information.
-UserContext : [intptr] A user-defined value that is passed to the callback function, or NULL. This parameter is typically used by an application to pass a pointer to a data structure that provides context for the callback function.
-Options : [int] The options that control the behavior of this function.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+BaseOfDll : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB‚±‚Ì’l‚ª 0 ‚Å Mask ‚ÉŠ´’Q•„ (!) ‚ªŠÜ‚Ü‚ê‚éê‡AŠÖ”‚Í•¡”ƒ‚ƒWƒ…[ƒ‹‚ğ‰¡’f‚µ‚ÄŒŸõ‚·‚éB‚±‚Ì’l‚ª 0 ‚Å Mask ‚ÉŠ´’Q•„‚ªŠÜ‚Ü‚ê‚È‚¢ê‡AŠÖ”‚Í SymSetContext ŠÖ”‚Åİ’è‚³‚ê‚½ƒXƒR[ƒv‚ğg—p‚·‚éB
+Index : [int] ƒVƒ“ƒ{ƒ‹‚ğˆêˆÓ‚É¯•Ê‚·‚é’lB
+SymTag : [int] PDB ‚Ì•ª—ŞB‚±‚ê‚ç‚Ì’l‚Í Dbghelp.h ‚Ì SymTagEnum —ñ‹“Œ^‚Å’è‹`‚³‚ê‚Ä‚¢‚éBà–¾‚É‚Â‚¢‚Ä‚Í PDB ƒhƒLƒ…ƒƒ“ƒg‚ğQÆ‚Ì‚±‚ÆB
+Mask : [str] —ñ‹“‘ÎÛ‚ÌƒVƒ“ƒ{ƒ‹–¼‚ğ¦‚·ƒƒCƒ‹ƒhƒJ[ƒh®Bƒ‚ƒWƒ…[ƒ‹–¼‚ğw’è‚·‚é‚É‚Í !mod \•¶‚ğg—p‚·‚éB
+Address : [int64] ƒVƒ“ƒ{ƒ‹‚ÌƒAƒhƒŒƒXB
+EnumSymbolsCallback : [int] ƒVƒ“ƒ{ƒ‹î•ñ‚ğó‚¯æ‚é SymEnumSymbolsProc ƒR[ƒ‹ƒoƒbƒNŠÖ”B
+UserContext : [intptr] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éƒ†[ƒU[’è‹`‚Ì’lA‚Ü‚½‚Í NULLB’ÊíAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğg—p‚µ‚ÄAƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÉƒRƒ“ƒeƒLƒXƒg‚ğ’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·B
+Options : [int] ŠÖ”‚Ì“®ì‚ğ§Œä‚·‚éƒIƒvƒVƒ‡ƒ“B
 %inst
-The SymSearch function (dbghelp.h) searches for PDB symbols that meet
-the specified criteria.
+SymSearch ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ğŒ‚Éˆê’v‚·‚é PDB ƒVƒ“ƒ{ƒ‹‚ğŒŸõ‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymSetContext
-Sets context information used by the SymEnumSymbols function. This function only works with PDB symbols.
+SymEnumSymbols ŠÖ”‚ªg—p‚·‚éƒRƒ“ƒeƒLƒXƒgî•ñ‚ğİ’è‚·‚éB‚±‚ÌŠÖ”‚Í PDB ƒVƒ“ƒ{ƒ‹‚Å‚Ì‚İ‹@”\‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, StackFrame, Context
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-StackFrame : [var] A pointer to an IMAGEHLP_STACK_FRAME structure that contains frame information.
-Context : [intptr] This parameter is ignored.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+StackFrame : [var] ƒtƒŒ[ƒ€î•ñ‚ğŠÜ‚Ş IMAGEHLP_STACK_FRAME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+Context : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
 %inst
-Sets context information used by the SymEnumSymbols function. This
-function only works with PDB symbols.
+SymEnumSymbols ŠÖ”‚ªg—p‚·‚éƒRƒ“ƒeƒLƒXƒgî•ñ‚ğİ’è‚·‚éB‚±‚ÌŠÖ”‚Í PDB ƒVƒ“ƒ{ƒ‹‚Å‚Ì‚İ‹@”\‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-If you call SymSetContext to set the context to its current value,
-the function fails but GetLastError returns ERROR_SUCCESS. All
-DbgHelp functions, such as this one, are single threaded. Therefore,
-calls from more than one thread to this function will likely result
-in unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function.
+SymSetContext ‚ğŒÄ‚Ño‚µ‚ÄŒ»İ‚Ì’l‚Æ“¯‚¶ƒRƒ“ƒeƒLƒXƒg‚Éİ’è‚·‚é‚ÆAŠÖ”‚Í¸”s‚·‚é‚ª GetLastError ‚Í
+ERROR_SUCCESS ‚ğ•Ô‚·B‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymSetExtendedOption
-Turns the specified extended symbol option on or off.
+w’è‚³‚ê‚½Šg’£ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“‚ğƒIƒ“‚Ü‚½‚ÍƒIƒt‚É‚·‚éB
 %group
 Win32 dbghelp
 %prm
 option, value
-option : [int] The extended symbol option to turn on or off. The following are valid values.
-value : [int] The value to set for the specified option, either TRUE or FALSE.
+option : [int] ƒIƒ“‚Ü‚½‚ÍƒIƒt‚É‚·‚éŠg’£ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“B—LŒø‚È’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+value : [int] w’è‚³‚ê‚½ƒIƒvƒVƒ‡ƒ“‚Éİ’è‚·‚é’l‚ÅATRUE ‚Ü‚½‚Í FALSEB
 %inst
-Turns the specified extended symbol option on or off.
+w’è‚³‚ê‚½Šg’£ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“‚ğƒIƒ“‚Ü‚½‚ÍƒIƒt‚É‚·‚éB
 
 [–ß‚è’l]
-The previous value of the specified extended option.
+w’è‚³‚ê‚½Šg’£ƒIƒvƒVƒ‡ƒ“‚ÌˆÈ‘O‚Ì’lB
 
 
 %index
 SymSetHomeDirectory
-The SymSetHomeDirectory function (dbghelp.h) sets the home directory used by Dbghelp.
+SymSetHomeDirectory ŠÖ” (dbghelp.h) ‚ÍADbghelp ‚ªg—p‚·‚éƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ‚ğİ’è‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, dir
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-dir : [str] The home directory. This directory must be writable, otherwise the home directory is the common application directory specified with [CSIDL_COMMON_APPDATA](/windows/win32/shell/csidl). If this parameter is NULL, the function uses the default directory.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+dir : [str] ƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠB‚±‚ÌƒfƒBƒŒƒNƒgƒŠ‚Í‘‚«‚İ‰Â”\‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‘‚«‚ß‚È‚¢ê‡Aƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ‚É‚Í [CSIDL_COMMON_APPDATA](/windows/win32/shell/csidl) ‚Åw’è‚³‚ê‚é‹¤’ÊƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒfƒBƒŒƒNƒgƒŠ‚ªg—p‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚ÍŠù’è‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğg—p‚·‚éB
 %inst
-The SymSetHomeDirectory function (dbghelp.h) sets the home directory
-used by Dbghelp.
+SymSetHomeDirectory ŠÖ” (dbghelp.h) ‚ÍADbghelp ‚ªg—p‚·‚éƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is a pointer to the dir
-parameter. If the function fails, the return value is NULL. To
-retrieve extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í dir ƒpƒ‰ƒ[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The default home directory is the directory in which Dbghelp.dll
-resides. Dbghelp uses this directory as a basis for other
-directories, such as the default downstream store directory (the sym
-subdirectory of the home directory). The home directory used for the
-default symbol store and the source server cache location is stored
-in the DBGHELP_HOMEDIR environment variable. All DbgHelp functions,
-such as this one, are single threaded. Therefore, calls from more
-than one thread to this function will likely result in unexpected
-behavior or memory corruption. To avoid this, you must synchronize
-all concurrent calls from more than one thread to this function. To
-call the Unicode version of this function, define
-DBGHELP_TRANSLATE_TCHAR.
+Šù’è‚Ìƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ‚Í Dbghelp.dll ‚ª‘¶İ‚·‚éƒfƒBƒŒƒNƒgƒŠ‚Å‚ ‚éBDbghelp
+‚Í‚±‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğ‘¼‚ÌƒfƒBƒŒƒNƒgƒŠiŠù’è‚Ìƒ_ƒEƒ“ƒXƒgƒŠ[ƒ€ƒXƒgƒAƒfƒBƒŒƒNƒgƒŠA‚·‚È‚í‚¿ƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ’¼‰º‚Ì sym
+ƒTƒuƒfƒBƒŒƒNƒgƒŠ‚È‚Çj‚ÌŠî“_‚Æ‚µ‚Äg—p‚·‚éBŠù’è‚ÌƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚¨‚æ‚Ñƒ\[ƒXƒT[ƒo[ƒLƒƒƒbƒVƒ…‚ÌêŠ‚Æ‚µ‚Äg—p‚³‚ê‚éƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ‚ÍADBGHELP_HOMEDIR
+ŠÂ‹«•Ï”‚É•Û‘¶‚³‚ê‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymSetOptions
-Sets the options mask.
+ƒIƒvƒVƒ‡ƒ“ƒ}ƒXƒN‚ğİ’è‚·‚éB
 %group
 Win32 dbghelp
 %prm
 SymOptions
-SymOptions : [int] The symbol options. Zero is a valid value and indicates that all options are turned off. The options values are combined using the OR operator to form a valid options value. The following are valid values.
+SymOptions : [int] ƒVƒ“ƒ{ƒ‹ƒIƒvƒVƒ‡ƒ“B0 ‚à—LŒø‚È’l‚ÅA‚·‚×‚Ä‚ÌƒIƒvƒVƒ‡ƒ“‚ªƒIƒt‚Å‚ ‚é‚±‚Æ‚ğ¦‚·BƒIƒvƒVƒ‡ƒ“’l‚Í OR ‰‰Zq‚Å‘g‚İ‡‚í‚¹‚Ä—LŒø‚ÈƒIƒvƒVƒ‡ƒ“’l‚ğ\¬‚·‚éB—LŒø‚È’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
 %inst
-Sets the options mask.
+ƒIƒvƒVƒ‡ƒ“ƒ}ƒXƒN‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-The function returns the current options mask.
+ŠÖ”‚ÍŒ»İ‚ÌƒIƒvƒVƒ‡ƒ“ƒ}ƒXƒN‚ğ•Ô‚·B
 
 [”õl]
-The options value can be changed any number of times while the
-library is in use by an application. The option change affects all
-future calls to the symbol handler. To get the current options mask,
-call the SymGetOptions function. All DbgHelp functions, such as this
-one, are single threaded. Therefore, calls from more than one thread
-to this function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function.
+
+ƒIƒvƒVƒ‡ƒ“’l‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒ‰ƒCƒuƒ‰ƒŠ‚ğg—p‚µ‚Ä‚¢‚éŠÔA‰½“x‚Å‚à•ÏX‚Å‚«‚éBƒIƒvƒVƒ‡ƒ“‚Ì•ÏX‚ÍˆÈ~‚ÌƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰ŒÄ‚Ño‚µ‚·‚×‚Ä‚É‰e‹¿‚·‚éBŒ»İ‚ÌƒIƒvƒVƒ‡ƒ“ƒ}ƒXƒN‚ğæ“¾‚·‚é‚É‚ÍASymGetOptions
+ŠÖ”‚ğŒÄ‚Ño‚·B‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymSetParentWindow
-Sets the window that the caller will use to display a user interface.
+ŒÄ‚Ño‚µ‘¤‚ªƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì•\¦‚Ég—p‚·‚éƒEƒBƒ“ƒhƒE‚ğİ’è‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hwnd
-hwnd : [intptr] A handle to the window.
+hwnd : [intptr] ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Sets the window that the caller will use to display a user interface.
+ŒÄ‚Ño‚µ‘¤‚ªƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì•\¦‚Ég—p‚·‚éƒEƒBƒ“ƒhƒE‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymSetScopeFromAddr
-Sets the local scope to the symbol that matches the specified address.
+w’è‚³‚ê‚½ƒAƒhƒŒƒX‚Éˆê’v‚·‚éƒVƒ“ƒ{ƒ‹‚ğƒ[ƒJƒ‹ƒXƒR[ƒv‚Éİ’è‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Address
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Address : [int64] The address.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+Address : [int64] ƒAƒhƒŒƒXB
 %inst
-Sets the local scope to the symbol that matches the specified
-address.
+w’è‚³‚ê‚½ƒAƒhƒŒƒX‚Éˆê’v‚·‚éƒVƒ“ƒ{ƒ‹‚ğƒ[ƒJƒ‹ƒXƒR[ƒv‚Éİ’è‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymSetScopeFromIndex
-Sets the local scope to the symbol that matches the specified index.
+w’è‚³‚ê‚½ƒCƒ“ƒfƒbƒNƒX‚Éˆê’v‚·‚éƒVƒ“ƒ{ƒ‹‚ğƒ[ƒJƒ‹ƒXƒR[ƒv‚Éİ’è‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll, Index
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module.
-Index : [int] The unique value for the symbol.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+BaseOfDll : [int64] ƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
+Index : [int] ƒVƒ“ƒ{ƒ‹‚ğˆêˆÓ‚É¯•Ê‚·‚é’lB
 %inst
-Sets the local scope to the symbol that matches the specified index.
+w’è‚³‚ê‚½ƒCƒ“ƒfƒbƒNƒX‚Éˆê’v‚·‚éƒVƒ“ƒ{ƒ‹‚ğƒ[ƒJƒ‹ƒXƒR[ƒv‚Éİ’è‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SymSetScopeFromInlineContext
-Sets the local scope to the symbol that matches the specified address and inline context.
+w’è‚³‚ê‚½ƒAƒhƒŒƒX‚¨‚æ‚ÑƒCƒ“ƒ‰ƒCƒ“ƒRƒ“ƒeƒLƒXƒg‚Éˆê’v‚·‚éƒVƒ“ƒ{ƒ‹‚ğƒ[ƒJƒ‹ƒXƒR[ƒv‚Éİ’è‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, Address, InlineContext
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-Address : [int64] The address.
-InlineContext : [int] The inline context.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+Address : [int64] ƒAƒhƒŒƒXB
+InlineContext : [int] ƒCƒ“ƒ‰ƒCƒ“ƒRƒ“ƒeƒLƒXƒgB
 %inst
-Sets the local scope to the symbol that matches the specified address
-and inline context.
+w’è‚³‚ê‚½ƒAƒhƒŒƒX‚¨‚æ‚ÑƒCƒ“ƒ‰ƒCƒ“ƒRƒ“ƒeƒLƒXƒg‚Éˆê’v‚·‚éƒVƒ“ƒ{ƒ‹‚ğƒ[ƒJƒ‹ƒXƒR[ƒv‚Éİ’è‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 
 %index
 SymSetSearchPath
-The SymSetSearchPath function (dbghelp.h) sets the search path for the specified process.
+SymSetSearchPath ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒvƒƒZƒX‚ÌŒŸõƒpƒX‚ğİ’è‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, SearchPathA
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
 SearchPathA : [str] 
 %inst
-The SymSetSearchPath function (dbghelp.h) sets the search path for
-the specified process.
+SymSetSearchPath ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒvƒƒZƒX‚ÌŒŸõƒpƒX‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The symbol search path can be changed any number of times while the
-library is in use by an application. The change affects all future
-calls to the symbol handler. To get the current search path, call the
-SymGetSearchPath function. All DbgHelp functions, such as this one,
-are single threaded. Therefore, calls from more than one thread to
-this function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
+
+ƒVƒ“ƒ{ƒ‹ŒŸõƒpƒX‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒ‰ƒCƒuƒ‰ƒŠ‚ğg—p‚µ‚Ä‚¢‚éŠÔA‰½“x‚Å‚à•ÏX‚Å‚«‚éB•ÏX‚ÍˆÈ~‚ÌƒVƒ“ƒ{ƒ‹ƒnƒ“ƒhƒ‰ŒÄ‚Ño‚µ‚·‚×‚Ä‚É‰e‹¿‚·‚éBŒ»İ‚ÌŒŸõƒpƒX‚ğæ“¾‚·‚é‚É‚ÍASymGetSearchPath
+ŠÖ”‚ğŒÄ‚Ño‚·B‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymSrvDeltaName
-The SymSrvDeltaName function (dbghelp.h) generates the name for a file that describes the relationship between two versions of the same symbol/image.
+SymSrvDeltaName ŠÖ” (dbghelp.h) ‚ÍA“¯ˆê‚ÌƒVƒ“ƒ{ƒ‹^ƒCƒ[ƒW‚Ì 2 ‚Â‚Ìƒo[ƒWƒ‡ƒ“ŠÔ‚ÌŠÖŒW‚ğ•\‚·ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ¶¬‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, SymPath, Type, File1, File2
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-SymPath : [str] The symbol path. The function uses only the symbol stores described in standard syntax for symbol stores. All other paths are ignored. If this parameter is NULL, the function uses the symbol path set using the SymInitialize or SymSetSearchPath function.
-Type : [str] The extension for the generated file name.
-File1 : [str] The path of the first version of the symbol or image file.
-File2 : [str] The path of the second version of the symbol or image file.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+SymPath : [str] ƒVƒ“ƒ{ƒ‹ƒpƒXBŠÖ”‚ÍƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Ì•W€\•¶‚Å‹Lq‚³‚ê‚½ƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Ì‚İ‚ğg—p‚·‚éB‚»‚Ì‘¼‚ÌƒpƒX‚Í–³‹‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚Í SymInitialize ‚Ü‚½‚Í SymSetSearchPath ŠÖ”‚Åİ’è‚³‚ê‚½ƒVƒ“ƒ{ƒ‹ƒpƒX‚ğg—p‚·‚éB
+Type : [str] ¶¬‚³‚ê‚éƒtƒ@ƒCƒ‹–¼‚ÌŠg’£qB
+File1 : [str] ƒVƒ“ƒ{ƒ‹‚Ü‚½‚ÍƒCƒ[ƒWƒtƒ@ƒCƒ‹‚Ì‘æ 1 ƒo[ƒWƒ‡ƒ“‚ÌƒpƒXB
+File2 : [str] ƒVƒ“ƒ{ƒ‹‚Ü‚½‚ÍƒCƒ[ƒWƒtƒ@ƒCƒ‹‚Ì‘æ 2 ƒo[ƒWƒ‡ƒ“‚ÌƒpƒXB
 %inst
-The SymSrvDeltaName function (dbghelp.h) generates the name for a
-file that describes the relationship between two versions of the same
-symbol/image.
+SymSrvDeltaName ŠÖ” (dbghelp.h) ‚ÍA“¯ˆê‚ÌƒVƒ“ƒ{ƒ‹^ƒCƒ[ƒW‚Ì 2
+‚Â‚Ìƒo[ƒWƒ‡ƒ“ŠÔ‚ÌŠÖŒW‚ğ•\‚·ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is the resulting file
-name.
-If the function fails, the return value is NULL. To retrieve extended
-error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í¶¬‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-This function opens the two specified files, reads the indexing
-information from the header, and passes this information to the
-symbol server so it can create the file name. If you specify the Type
-parameter as "xml", the name is the index of File1, followed by a
-dash, followed by the index of File2, followed by an .xml extension.
-For example: 3F3D5C755000-3F3D647621000.xml This function returns a
-pointer to a buffer that may be reused by another function.
-Therefore, be sure to copy the data returned to another buffer
-immediately. All DbgHelp functions, such as this one, are single
-threaded. Therefore, calls from more than one thread to this function
-will likely result in unexpected behavior or memory corruption. To
-avoid this, you must synchronize all concurrent calls from more than
-one thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+‚±‚ÌŠÖ”‚Íw’è‚³‚ê‚½ 2
+‚Â‚Ìƒtƒ@ƒCƒ‹‚ğŠJ‚«Aƒwƒbƒ_‚©‚çƒCƒ“ƒfƒbƒNƒXî•ñ‚ğ“Ç‚İæ‚Á‚ÄƒVƒ“ƒ{ƒ‹ƒT[ƒo[‚É“n‚µAƒtƒ@ƒCƒ‹–¼‚ğ¶¬‚³‚¹‚éBType ƒpƒ‰ƒ[ƒ^‚É
+"xml" ‚ğw’è‚·‚é‚ÆA–¼‘O‚Í File1 ‚ÌƒCƒ“ƒfƒbƒNƒX‚É‘±‚¢‚Äƒ_ƒbƒVƒ…A‚³‚ç‚É File2 ‚ÌƒCƒ“ƒfƒbƒNƒXA.xml
+Šg’£q‚Ì‡‚Æ‚È‚éB—á: 3F3D5C755000-3F3D647621000.xml
+‚±‚ÌŠÖ”‚Í‘¼‚ÌŠÖ”‚©‚çÄ—˜—p‚³‚ê‚é‰Â”\«‚ª‚ ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·‚½‚ßA•Ô‚³‚ê‚½ƒf[ƒ^‚Í‚½‚¾‚¿‚É•Ê‚Ìƒoƒbƒtƒ@‚ÖƒRƒs[‚·‚é‚±‚ÆB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymSrvGetFileIndexInfo
-The SymSrvGetFileIndexInfo function (dbghelp.h) retrieves the index information for the specified .pdb, .dbg, or image file.
+SymSrvGetFileIndexInfo ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ .pdbA.dbgA‚Ü‚½‚ÍƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ÌƒCƒ“ƒfƒbƒNƒXî•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 File, Info, Flags
-File : [str] The name of the file.
-Info : [var] A SYMSRV_INDEX_INFO structure that receives the index information.
-Flags : [int] This parameter is reserved for future use.
+File : [str] ƒtƒ@ƒCƒ‹–¼B
+Info : [var] ƒCƒ“ƒfƒbƒNƒXî•ñ‚ğó‚¯æ‚é SYMSRV_INDEX_INFO \‘¢‘ÌB
+Flags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB
 %inst
-The SymSrvGetFileIndexInfo function (dbghelp.h) retrieves the index
-information for the specified .pdb, .dbg, or image file.
+SymSrvGetFileIndexInfo ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½
+.pdbA.dbgA‚Ü‚½‚ÍƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ÌƒCƒ“ƒfƒbƒNƒXî•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-This function is not for general use. Those writing utilities for the
-management of files in symbol server stores may use to this function
-to predict the relative path the symbol server will look for a file.
-It is used by srctool.exe to actually populate symbol server stores.
-It may also be of use to those looking to find the parameters to feed
-the SymFindFileInPath function. All DbgHelp functions, such as this
-one, are single threaded. Therefore, calls from more than one thread
-to this function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
+
+‚±‚ÌŠÖ”‚Íˆê”Ê“I‚È—p“rŒü‚¯‚Å‚Í‚È‚¢BƒVƒ“ƒ{ƒ‹ƒT[ƒo[ƒXƒgƒA“à‚Ìƒtƒ@ƒCƒ‹ŠÇ——pƒ†[ƒeƒBƒŠƒeƒB‚ğì¬‚·‚éê‡AƒVƒ“ƒ{ƒ‹ƒT[ƒo[‚ªƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚é‘Š‘ÎƒpƒX‚ğ—\‘ª‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğg—p‚Å‚«‚éBsrctool.exe
+‚Í‚±‚ÌŠÖ”‚ğg‚Á‚ÄÀÛ‚ÉƒVƒ“ƒ{ƒ‹ƒT[ƒo[ƒXƒgƒA‚ğ\’z‚µ‚Ä‚¢‚éB‚Ü‚½ SymFindFileInPath
+ŠÖ”‚É“n‚·ƒpƒ‰ƒ[ƒ^‚ğ‹‚ß‚é—p“r‚É‚à–ğ—§‚ÂB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymSrvGetFileIndexString
-The SymSrvGetFileIndexString function (dbghelp.h) retrieves the index string for the specified .pdb, .dbg, or image file.
+SymSrvGetFileIndexString ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ .pdbA.dbgA‚Ü‚½‚ÍƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX•¶š—ñ‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, SrvPath, File, Index, Size, Flags
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-SrvPath : [str] The path to the symbol server.
-File : [str] The name of the file.
-Index : [str] A pointer to a buffer that receives the index string.
-Size : [int] The size of the Index buffer, in characters.
-Flags : [int] This parameter is reserved for future use.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+SrvPath : [str] ƒVƒ“ƒ{ƒ‹ƒT[ƒo[‚Ö‚ÌƒpƒXB
+File : [str] ƒtƒ@ƒCƒ‹–¼B
+Index : [str] ƒCƒ“ƒfƒbƒNƒX•¶š—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+Size : [int] Index ƒoƒbƒtƒ@‚ÌƒTƒCƒYi•¶š”jB
+Flags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB
 %inst
-The SymSrvGetFileIndexString function (dbghelp.h) retrieves the index
-string for the specified .pdb, .dbg, or image file.
+SymSrvGetFileIndexString ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½
+.pdbA.dbgA‚Ü‚½‚ÍƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX•¶š—ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. To retrieve
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-This function is not for general use. Those writing utilities for the
-management of files in symbol server stores may use to this function
-to predict the relative path the symbol server will look for a file.
-It is used by srctool.exe to actually populate symbol server stores.
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+
+‚±‚ÌŠÖ”‚Íˆê”Ê“I‚È—p“rŒü‚¯‚Å‚Í‚È‚¢BƒVƒ“ƒ{ƒ‹ƒT[ƒo[ƒXƒgƒA“à‚Ìƒtƒ@ƒCƒ‹ŠÇ——pƒ†[ƒeƒBƒŠƒeƒB‚ğì¬‚·‚éê‡AƒVƒ“ƒ{ƒ‹ƒT[ƒo[‚ªƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚é‘Š‘ÎƒpƒX‚ğ—\‘ª‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğg—p‚Å‚«‚éBsrctool.exe
+‚Í‚±‚ÌŠÖ”‚ğg‚Á‚ÄÀÛ‚ÉƒVƒ“ƒ{ƒ‹ƒT[ƒo[ƒXƒgƒA‚ğ\’z‚µ‚Ä‚¢‚éB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymSrvGetFileIndexes
-The SymSrvGetFileIndexes function (dbghelp.h) retrieves the indexes for the specified .pdb, .dbg, or image file that would be used to store the file.
+SymSrvGetFileIndexes ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ .pdbA.dbgA‚Ü‚½‚ÍƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ğƒXƒgƒA‚É•Û‘¶‚·‚éÛ‚Ég—p‚³‚ê‚éƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 File, Id, Val1, Val2, Flags
-File : [str] The name of the file.
-Id : [var] The first of three identifying parameters.
-Val1 : [var] The second of three identifying parameters.
-Val2 : [var] The third of three identifying parameters.
-Flags : [int] This parameter is reserved for future use.
+File : [str] ƒtƒ@ƒCƒ‹–¼B
+Id : [var] ¯•Ê—p‚Ì 3 ‚Â‚Ìƒpƒ‰ƒ[ƒ^‚Ì‚¤‚¿ 1 ‚Â–ÚB
+Val1 : [var] ¯•Ê—p‚Ì 3 ‚Â‚Ìƒpƒ‰ƒ[ƒ^‚Ì‚¤‚¿ 2 ‚Â–ÚB
+Val2 : [var] ¯•Ê—p‚Ì 3 ‚Â‚Ìƒpƒ‰ƒ[ƒ^‚Ì‚¤‚¿ 3 ‚Â–ÚB
+Flags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB
 %inst
-The SymSrvGetFileIndexes function (dbghelp.h) retrieves the indexes
-for the specified .pdb, .dbg, or image file that would be used to
-store the file.
+SymSrvGetFileIndexes ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½
+.pdbA.dbgA‚Ü‚½‚ÍƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ğƒXƒgƒA‚É•Û‘¶‚·‚éÛ‚Ég—p‚³‚ê‚éƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í 0 ˆÈŠO‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. To call the Unicode version of this
-function, define DBGHELP_TRANSLATE_TCHAR.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymSrvGetSupplement
-The SymSrvGetSupplement function (dbghelp.h) retrieves the specified file from the supplement for a symbol store.
+SymSrvGetSupplement ŠÖ” (dbghelp.h) ‚ÍAƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Ì•â•—Ìˆæ‚©‚çw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, SymPath, Node, File
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-SymPath : [str] The symbol path. The function uses only the symbol stores described in standard syntax for symbol stores. All other paths are ignored. If this parameter is NULL, the function uses the symbol path set using the SymInitialize or SymSetSearchPath function.
-Node : [str] The symbol file associated with the supplemental file.
-File : [str] The name of the file.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+SymPath : [str] ƒVƒ“ƒ{ƒ‹ƒpƒXBŠÖ”‚ÍƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Ì•W€\•¶‚Å‹Lq‚³‚ê‚½ƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Ì‚İ‚ğg—p‚·‚éB‚»‚Ì‘¼‚ÌƒpƒX‚Í–³‹‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚Í SymInitialize ‚Ü‚½‚Í SymSetSearchPath ŠÖ”‚Åİ’è‚³‚ê‚½ƒVƒ“ƒ{ƒ‹ƒpƒX‚ğg—p‚·‚éB
+Node : [str] •â•ƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹B
+File : [str] ƒtƒ@ƒCƒ‹–¼B
 %inst
-The SymSrvGetSupplement function (dbghelp.h) retrieves the specified
-file from the supplement for a symbol store.
+SymSrvGetSupplement ŠÖ” (dbghelp.h) ‚ÍAƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Ì•â•—Ìˆæ‚©‚çw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is the fully qualified
-path for the supplemental file.
-If the function fails, the return value is NULL. To retrieve extended
-error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í•â•ƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-For more information on supplemental files, see
-SymSrvStoreSupplement. This function returns a pointer to a buffer
-that may be reused by another function. Therefore, be sure to copy
-the data returned to another buffer immediately. All DbgHelp
-functions, such as this one, are single threaded. Therefore, calls
-from more than one thread to this function will likely result in
-unexpected behavior or memory corruption. To avoid this, you must
-synchronize all concurrent calls from more than one thread to this
-function. To call the Unicode version of this function, define
-DBGHELP_TRANSLATE_TCHAR.
+•â•ƒtƒ@ƒCƒ‹‚ÌÚ×‚É‚Â‚¢‚Ä‚ÍASymSrvStoreSupplement
+‚ğQÆ‚Ì‚±‚ÆB‚±‚ÌŠÖ”‚Í‘¼‚ÌŠÖ”‚©‚çÄ—˜—p‚³‚ê‚é‰Â”\«‚ª‚ ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·‚½‚ßA•Ô‚³‚ê‚½ƒf[ƒ^‚Í‚½‚¾‚¿‚É•Ê‚Ìƒoƒbƒtƒ@‚ÖƒRƒs[‚·‚é‚±‚ÆB‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì
+DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymSrvIsStore
-The SymSrvIsStore function (dbghelp.h) determines whether the specified path points to a symbol store.
+SymSrvIsStore ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒpƒX‚ªƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚ğw‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, path
-hProcess : [intptr] The handle of a process that you previously passed to the SymInitialize function. If this parameter is set to  NULL, the function determines only whether the store exists; otherwise, the function determines whether the store exists and contains a process entry for the specified process handle.
-path : [str] The path to a symbol store. The path can specify the default symbol store (for example, SRV*), point to an HTTP or HTTPS symbol server, or specify a UNC, absolute, or relative path to the store.
+hProcess : [intptr] –‘O‚É SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ‚Éİ’è‚µ‚½ê‡AŠÖ”‚ÍƒXƒgƒA‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚Ì‚İ‚ğ”»’è‚·‚éBNULL ‚Å‚È‚¢ê‡AŠÖ”‚ÍƒXƒgƒA‚ª‘¶İ‚µA‚©‚Âw’è‚³‚ê‚½ƒvƒƒZƒXƒnƒ“ƒhƒ‹‚É‘Î‰‚·‚éƒvƒƒZƒXƒGƒ“ƒgƒŠ‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
+path : [str] ƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Ö‚ÌƒpƒXBƒpƒX‚ÍŠù’è‚ÌƒVƒ“ƒ{ƒ‹ƒXƒgƒAi‚½‚Æ‚¦‚Î SRV*jAHTTP ‚Ü‚½‚Í HTTPS ƒVƒ“ƒ{ƒ‹ƒT[ƒo[A‚ ‚é‚¢‚ÍƒXƒgƒA‚Ö‚Ì UNCEâ‘ÎE‘Š‘ÎƒpƒX‚ğw’è‚Å‚«‚éB
 %inst
-The SymSrvIsStore function (dbghelp.h) determines whether the
-specified path points to a symbol store.
+SymSrvIsStore ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒpƒX‚ªƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚ğw‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-If the path specifies a symbol store, the function returns TRUE.
-Otherwise, it returns FALSE. To get extended error information, call
-the GetLastError function.
+ƒpƒX‚ªƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚ğw‚µ‚Ä‚¢‚éê‡AŠÖ”‚Í TRUE ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE
+‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ŠÖ”‚ğŒÄ‚Ño‚·B
 
 [”õl]
-If the path points to the default symbol store (for example, SRV*) or
-to an HTTP or HTTPS symbol server, the function assumes the store
-exists. If there is a proxy computer between the client computer and
-the server, the version of the SymSrv.dll on the proxy cannot be less
-than the version that is on the client. All DbgHelp functions, such
-as this one, are single threaded. Therefore, calls from more than one
-thread to this function will likely result in unexpected behavior or
-memory corruption. To avoid this, you must synchronize all concurrent
-calls from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
+ƒpƒX‚ªŠù’è‚ÌƒVƒ“ƒ{ƒ‹ƒXƒgƒAi‚½‚Æ‚¦‚Î SRV*j‚Ü‚½‚Í HTTP^HTTPS
+ƒVƒ“ƒ{ƒ‹ƒT[ƒo[‚ğw‚µ‚Ä‚¢‚éê‡AŠÖ”‚ÍƒXƒgƒA‚ª‘¶İ‚·‚é‚ÆŒ©‚È‚·BƒNƒ‰ƒCƒAƒ“ƒgƒRƒ“ƒsƒ…[ƒ^‚ÆƒT[ƒo[‚ÌŠÔ‚ÉƒvƒƒLƒVƒRƒ“ƒsƒ…[ƒ^‚ª‚ ‚éê‡AƒvƒƒLƒVã‚Ì
+SymSrv.dll ‚Ìƒo[ƒWƒ‡ƒ“‚ÍƒNƒ‰ƒCƒAƒ“ƒgã‚Ìƒo[ƒWƒ‡ƒ“‚æ‚è’á‚­‚Ä‚Í‚È‚ç‚È‚¢B‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymSrvStoreFile
-The SymSrvStoreFile function (dbghelp.h) stores a file in the specified symbol store.
+SymSrvStoreFile ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Éƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, SrvPath, File, Flags
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-SrvPath : [str] The symbol store.
-File : [str] The name of the file.
-Flags : [int] The flags that control the function.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+SrvPath : [str] ƒVƒ“ƒ{ƒ‹ƒXƒgƒAB
+File : [str] ƒtƒ@ƒCƒ‹–¼B
+Flags : [int] ŠÖ”‚Ì“®ì‚ğ§Œä‚·‚éƒtƒ‰ƒOB
 %inst
-The SymSrvStoreFile function (dbghelp.h) stores a file in the
-specified symbol store.
+SymSrvStoreFile ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½ƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Éƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is a pointer to a
-null-terminated string that specifies the full-qualified path to the
-stored file.
-If the function fails, the return value is NULL. To retrieve extended
-error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í•Û‘¶‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğw‚· NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. This function returns a pointer to a buffer
-that may be reused by another function. Therefore, be sure to copy
-the data returned to another buffer immediately. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Í‘¼‚ÌŠÖ”‚©‚çÄ—˜—p‚³‚ê‚é‰Â”\«‚ª‚ ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·‚½‚ßA•Ô‚³‚ê‚½ƒf[ƒ^‚Í‚½‚¾‚¿‚É•Ê‚Ìƒoƒbƒtƒ@‚ÖƒRƒs[‚·‚é‚±‚ÆB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymSrvStoreSupplement
-The SymSrvStoreSupplement function (dbghelp.h) stores a file in the specified supplement to a symbol store.
+SymSrvStoreSupplement ŠÖ” (dbghelp.h) ‚ÍAƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Ìw’è‚³‚ê‚½•â•—Ìˆæ‚Éƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éB
 %group
 Win32 dbghelp
 %prm
 hProcess, SrvPath, Node, File, Flags
-hProcess : [intptr] A handle to a process. This handle must have been previously passed to the SymInitialize function.
-SrvPath : [str] The path to the symbol store.
-Node : [str] The symbol file associated with the supplemental file.
-File : [str] The name of the file.
-Flags : [int] If this parameter is SYMSTOREOPT_COMPRESS, the file is compressed in the symbol store. Currently, there are no other supported values.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í–‘O‚É SymInitialize ŠÖ”‚É“n‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+SrvPath : [str] ƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Ö‚ÌƒpƒXB
+Node : [str] •â•ƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒVƒ“ƒ{ƒ‹ƒtƒ@ƒCƒ‹B
+File : [str] ƒtƒ@ƒCƒ‹–¼B
+Flags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª SYMSTOREOPT_COMPRESS ‚Ìê‡Aƒtƒ@ƒCƒ‹‚ÍƒVƒ“ƒ{ƒ‹ƒXƒgƒA“à‚Åˆ³k‚³‚ê‚éBŒ»İ‚Ì‚Æ‚±‚ëA‚»‚êˆÈŠO‚ÉƒTƒ|[ƒg‚³‚ê‚é’l‚Í‚È‚¢B
 %inst
-The SymSrvStoreSupplement function (dbghelp.h) stores a file in the
-specified supplement to a symbol store.
+SymSrvStoreSupplement ŠÖ” (dbghelp.h) ‚ÍAƒVƒ“ƒ{ƒ‹ƒXƒgƒA‚Ìw’è‚³‚ê‚½•â•—Ìˆæ‚Éƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is the fully qualified
-path for the supplemental file.
-If the function fails, the return value is NULL. To retrieve extended
-error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í•â•ƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-An important use for this function is to store delta files. For more
-information, see SymSrvDeltaName. This function returns a pointer to
-a buffer that may be reused by another function. Therefore, be sure
-to copy the data returned to another buffer immediately. The symbol
-server stores supplemental files with the same extension in a common
-directory. For example, Sup1.xml would be stored in the following
-directory: SymPath\supplement\Node\xml. The administrator of a store
-can prevent users from writing supplemental files by creating a
-read-only file in the root of the store named Supplement.
-Alternatively, the administrator can create the supplement directory
-and use ACLs to control access. All DbgHelp functions, such as this
-one, are single threaded. Therefore, calls from more than one thread
-to this function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
+‚±‚ÌŠÖ”‚Ìd—v‚È—p“r‚Ì 1 ‚Â‚Í·•ªƒtƒ@ƒCƒ‹‚Ì•Û‘¶‚Å‚ ‚éBÚ×‚Í SymSrvDeltaName
+‚ğQÆ‚Ì‚±‚ÆB‚±‚ÌŠÖ”‚Í‘¼‚ÌŠÖ”‚©‚çÄ—˜—p‚³‚ê‚é‰Â”\«‚ª‚ ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·‚½‚ßA•Ô‚³‚ê‚½ƒf[ƒ^‚Í‚½‚¾‚¿‚É•Ê‚Ìƒoƒbƒtƒ@‚ÖƒRƒs[‚·‚é‚±‚ÆBƒVƒ“ƒ{ƒ‹ƒT[ƒo[‚Í“¯‚¶Šg’£q‚ğ‚Â•â•ƒtƒ@ƒCƒ‹‚ğ‹¤’Ê‚ÌƒfƒBƒŒƒNƒgƒŠ‚É•Û‘¶‚·‚éB‚½‚Æ‚¦‚Î
+Sup1.xml ‚ÍŸ‚ÌƒfƒBƒŒƒNƒgƒŠ‚É•Û‘¶‚³‚ê‚é:
+SymPath\supplement\Node\xmlBƒXƒgƒA‚ÌŠÇ—Ò‚ÍAƒXƒgƒA‚Ìƒ‹[ƒg‚É Supplement
+‚Æ‚¢‚¤–¼‘O‚Ì“Ç‚İæ‚èê—pƒtƒ@ƒCƒ‹‚ğì¬‚·‚é‚±‚Æ‚ÅAƒ†[ƒU[‚É‚æ‚é•â•ƒtƒ@ƒCƒ‹‚Ì‘‚«‚İ‚ğ–h~‚Å‚«‚éB‚ ‚é‚¢‚ÍAsupplement
+ƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚µAACL ‚ÅƒAƒNƒZƒX‚ğ§Œä‚µ‚Ä‚à‚æ‚¢B‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 
 
 %index
 SymUnDName64
-Undecorates a decorated C++ symbol name. (SymUnDName64)
+‘•ü‚³‚ê‚½ C++ ƒVƒ“ƒ{ƒ‹–¼‚ğŒ³‚É–ß‚·B(SymUnDName64)
 %group
 Win32 dbghelp
 %prm
 sym, UnDecName, UnDecNameLength
-sym : [var] A pointer to an IMAGEHLP_SYMBOL64 structure that specifies the symbol to be undecorated.
-UnDecName : [str] A pointer to a buffer that receives the undecorated name.
-UnDecNameLength : [int] The size of the UnDecName buffer, in characters.
+sym : [var] Œ³‚É–ß‚·‘ÎÛ‚ÌƒVƒ“ƒ{ƒ‹‚ğw’è‚·‚é IMAGEHLP_SYMBOL64 \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+UnDecName : [str] Œ³‚É–ß‚³‚ê‚½ƒVƒ“ƒ{ƒ‹–¼‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+UnDecNameLength : [int] UnDecName ƒoƒbƒtƒ@‚ÌƒTƒCƒYi•¶š”jB
 %inst
-Undecorates a decorated C++ symbol name. (SymUnDName64)
+‘•ü‚³‚ê‚½ C++ ƒVƒ“ƒ{ƒ‹–¼‚ğŒ³‚É–ß‚·B(SymUnDName64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. This function supersedes the SymUnDName
-function. For more information, see Updated Platform Support.
-SymUnDName is defined as follows in Dbghelp.h.
-This doc was truncated.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Í
+SymUnDName ŠÖ”‚ÌŒãŒp‚Å‚ ‚éBÚ×‚Í Updated Platform Support ‚ğQÆ‚Ì‚±‚ÆBSymUnDName ‚Í
+Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SymUnloadModule64
-Unloads the symbol table. (SymUnloadModule64)
+ƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚ğ‰ğ•ú‚·‚éB(SymUnloadModule64)
 %group
 Win32 dbghelp
 %prm
 hProcess, BaseOfDll
-hProcess : [intptr] A handle to the process that was originally passed to the SymInitialize function.
-BaseOfDll : [int64] The base address of the module that is to be unloaded.
+hProcess : [intptr] ‚à‚Æ‚à‚Æ SymInitialize ŠÖ”‚É“n‚µ‚½ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+BaseOfDll : [int64] ‰ğ•ú‚·‚éƒ‚ƒWƒ…[ƒ‹‚Ìƒx[ƒXƒAƒhƒŒƒXB
 %inst
-Unloads the symbol table. (SymUnloadModule64)
+ƒVƒ“ƒ{ƒ‹ƒe[ƒuƒ‹‚ğ‰ğ•ú‚·‚éB(SymUnloadModule64)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To retrieve extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-All DbgHelp functions, such as this one, are single threaded.
-Therefore, calls from more than one thread to this function will
-likely result in unexpected behavior or memory corruption. To avoid
-this, you must synchronize all concurrent calls from more than one
-thread to this function. This function supersedes the
-SymUnloadedModule function. For more information, see Updated
-Platform Support. SymUnloadedModule is defined as follows in
-Dbghelp.h.
-This doc was truncated.
+‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Í
+SymUnloadedModule ŠÖ”‚ÌŒãŒp‚Å‚ ‚éBÚ×‚Í Updated Platform Support
+‚ğQÆ‚Ì‚±‚ÆBSymUnloadedModule ‚Í Dbghelp.h ‚ÅŸ‚Ì‚æ‚¤‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 UnDecorateSymbolName
-The UnDecorateSymbolName function (dbghelp.h) undecorates the specified decorated C++ symbol name.
+UnDecorateSymbolName ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½‘•ü•t‚« C++ ƒVƒ“ƒ{ƒ‹–¼‚ğŒ³‚É–ß‚·B
 %group
 Win32 dbghelp
 %prm
 name, outputString, maxStringLength, flags
-name : [str] The decorated C++ symbol name. This name can be identified by the first character of the name, which is always a question mark (?).
-outputString : [str] A pointer to a string buffer that receives the undecorated name.
-maxStringLength : [int] The size of the UnDecoratedName buffer, in characters.
-flags : [int] The options for how the decorated name is undecorated. This parameter can be zero or more of the following values.
+name : [str] ‘•ü‚³‚ê‚½ C++ ƒVƒ“ƒ{ƒ‹–¼B‚±‚Ì–¼‘O‚Íæ“ª‚Ì•¶š‚Å¯•Ê‚Å‚«Aí‚É‹^–â•„ (?) ‚Ån‚Ü‚éB
+outputString : [str] Œ³‚É–ß‚³‚ê‚½–¼‘O‚ğó‚¯æ‚é•¶š—ñƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+maxStringLength : [int] UnDecoratedName ƒoƒbƒtƒ@‚ÌƒTƒCƒYi•¶š”jB
+flags : [int] ‘•ü–¼‚ğ‚Ç‚Ì‚æ‚¤‚ÉŒ³‚É–ß‚·‚©‚ÌƒIƒvƒVƒ‡ƒ“B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚ÍˆÈ‰º‚Ì’l‚ğ 0 ŒÂˆÈãw’è‚Å‚«‚éB
 %inst
-The UnDecorateSymbolName function (dbghelp.h) undecorates the
-specified decorated C++ symbol name.
+UnDecorateSymbolName ŠÖ” (dbghelp.h) ‚ÍAw’è‚³‚ê‚½‘•ü•t‚« C++ ƒVƒ“ƒ{ƒ‹–¼‚ğŒ³‚É–ß‚·B
 
 [–ß‚è’l]
-If the function succeeds, the return value is the number of
-characters in the UnDecoratedName buffer, not including the NULL
-terminator. If the function fails, the return value is zero. To
-retrieve extended error information, call GetLastError. If the
-function fails and returns zero, the content of the UnDecoratedName
-buffer is undetermined.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í UnDecoratedName ƒoƒbƒtƒ@“à‚Ì•¶š”iNULL
+I’[‚ğŠÜ‚Ü‚È‚¢j‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0 ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetLastError
+‚ğŒÄ‚Ño‚·BŠÖ”‚ª¸”s‚µ‚Ä 0 ‚ğ•Ô‚µ‚½ê‡AUnDecoratedName ƒoƒbƒtƒ@‚Ì“à—e‚Í•s’è‚Å‚ ‚éB
 
 [”õl]
-To use undecorated symbols, call the SymSetOptions function with the
-SYMOPT_UNDNAME option. All DbgHelp functions, such as this one, are
-single threaded. Therefore, calls from more than one thread to this
-function will likely result in unexpected behavior or memory
-corruption. To avoid this, you must synchronize all concurrent calls
-from more than one thread to this function. To call the Unicode
-version of this function, define DBGHELP_TRANSLATE_TCHAR.
+Œ³‚É–ß‚³‚ê‚½ƒVƒ“ƒ{ƒ‹‚ğg—p‚·‚é‚É‚ÍASymSetOptions ŠÖ”‚É SYMOPT_UNDNAME
+ƒIƒvƒVƒ‡ƒ“‚ğw’è‚µ‚ÄŒÄ‚Ño‚·B‚±‚ÌŠÖ”‚ğŠÜ‚ßA‚·‚×‚Ä‚Ì DbgHelp
+ŠÖ”‚ÍƒVƒ“ƒOƒ‹ƒXƒŒƒbƒh‚Å‚ ‚éB‚»‚Ì‚½‚ß•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚ÆA—\Šú‚µ‚È‚¢“®ì‚âƒƒ‚ƒŠ”j‰ó‚ğµ‚­‰Â”\«‚ª‚‚¢B‚±‚ê‚ğ”ğ‚¯‚é‚É‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì•ÀsŒÄ‚Ño‚µ‚ğ‚·‚×‚Ä“¯Šú‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì
+Unicode ”Å‚ğŒÄ‚Ño‚·‚É‚Í DBGHELP_TRANSLATE_TCHAR ‚ğ’è‹`‚·‚éB
 

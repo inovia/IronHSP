@@ -6,77 +6,63 @@
 
 %index
 IdnToAscii
-Converts an internationalized domain name (IDN) or another internationalized label to a Unicode (wide character) representation of the ASCII string that represents the name in the Punycode transfer encoding syntax.
+国際化ドメイン名 (IDN) またはその他の国際化ラベルを、Punycode 転送エンコーディング構文で名前を表現する ASCII 文字列の Unicode (ワイド文字) 表現に変換する。
 %group
 Win32 normaliz
 %prm
 dwFlags, lpUnicodeCharStr, cchUnicodeChar, lpASCIICharStr, cchASCIIChar
-dwFlags : [int] Flags specifying conversion options. The following table lists the possible values.
-lpUnicodeCharStr : [wstr] Pointer to a Unicode string representing an IDN or another internationalized label.
-cchUnicodeChar : [int] Count of characters in the input Unicode string indicated by lpUnicodeCharStr.
-lpASCIICharStr : [wstr] Pointer to a buffer that receives a Unicode string consisting only of characters in the ASCII character set. On return from this function, the buffer contains the ASCII string equivalent of the string provided in lpUnicodeCharStr under Punycode. Alternatively, the function can retrieve NULL for this parameter, if cchASCIIChar is set to 0. In this case, the function returns the size required for this buffer.
-cchASCIIChar : [int] Size of the buffer indicated by lpASCIICharStr. The application can set the parameter to 0 to retrieve NULL in lpASCIICharStr.
+dwFlags : [int] 変換オプションを指定するフラグ。指定可能な値を次の表に示す。
+lpUnicodeCharStr : [wstr] IDN またはその他の国際化ラベルを表す Unicode 文字列へのポインタ。
+cchUnicodeChar : [int] lpUnicodeCharStr が示す入力 Unicode 文字列の文字数。
+lpASCIICharStr : [wstr] ASCII 文字セットの文字のみで構成される Unicode 文字列を受け取るバッファへのポインタ。この関数から戻った時点で、バッファには lpUnicodeCharStr で渡された文字列を Punycode で表現した ASCII 文字列が格納される。あるいは、cchASCIIChar が 0 に設定されている場合、この関数はこのパラメータに NULL を取得することもできる。その場合、関数はこのバッファに必要なサイズを返す。
+cchASCIIChar : [int] lpASCIICharStr が示すバッファのサイズ。アプリケーションがこのパラメータを 0 に設定すると、lpASCIICharStr に NULL を取得できる。
 %inst
-Converts an internationalized domain name (IDN) or another
-internationalized label to a Unicode (wide character) representation
-of the ASCII string that represents the name in the Punycode transfer
-encoding syntax.
+国際化ドメイン名 (IDN) またはその他の国際化ラベルを、Punycode 転送エンコーディング構文で名前を表現する ASCII
+文字列の Unicode (ワイド文字) 表現に変換する。
 
 [戻り値]
-Returns the number of characters retrieved in lpASCIICharStr if
-successful. The retrieved string is null-terminated only if the input
-Unicode string is null-terminated. If the function succeeds and the
-value of cchASCIIChar is 0, the function returns the required size,
-in characters including a terminating null character if it was part
-of the input buffer. The function returns 0 if it does not succeed.
-To get extended error information, the application can call
-GetLastError, which can return one of the following error codes:
-This doc was truncated.
+成功した場合、lpASCIICharStr に取得された文字数を返す。取得された文字列は、入力 Unicode 文字列が NULL
+終端されている場合にのみ NULL 終端される。関数が成功し、cchASCIIChar の値が 0
+の場合、必要なサイズを文字数で返す。これには入力バッファに含まれていれば終端 NULL 文字も含まれる。失敗した場合は 0
+を返す。拡張エラー情報を取得するには、アプリケーションは GetLastError
+を呼び出す。次のいずれかのエラーコードが返される可能性がある:
+このドキュメントは省略されている。
 
 [備考]
-The function does not null-terminate an output string if the input
-string length is explicitly specified without a terminating null
-character. To null-terminate an output string for this function, the
-application should supply -1 for the cchUnicodeChar parameter or
-explicitly count the terminating null character for the input string.
-Note that the function always fails if the input string contains
-control characters (U+0001 through U+0020) or the "delete" character
-(U+007F). Since the character U+0000 can appear only as a terminating
-null character, the function always fails if U+0000 appears anywhere
-else in the input string. Windows XP, Windows Server 2003: No longer
-supported. The required header file and DLL are part of the Microsoft
-Internationalized Domain Name (IDN) Mitigation APIs, which are no
-longer available for download.
+入力文字列の長さが終端の NULL 文字なしで明示的に指定された場合、この関数は出力文字列を NULL 終端しない。この関数で出力文字列を
+NULL 終端させるには、アプリケーションは cchUnicodeChar パラメータに -1 を指定するか、入力文字列の終端 NULL
+文字を明示的にカウントする必要がある。なお、入力文字列に制御文字 (U+0001 から U+0020) または "delete" 文字
+(U+007F) が含まれる場合、この関数は常に失敗する。U+0000 は終端の NULL
+文字としてのみ出現できるため、入力文字列の他の位置に U+0000 が出現すると、この関数は常に失敗する。Windows XP,
+Windows Server 2003: サポートされなくなった。必要なヘッダファイルおよび DLL は Microsoft
+Internationalized Domain Name (IDN) Mitigation API
+に含まれており、現在はダウンロードできない。
 
 
 %index
 IdnToUnicode
-Converts the Punycode form of an internationalized domain name (IDN) or another internationalized label to the normal Unicode UTF-16 encoding syntax.
+国際化ドメイン名 (IDN) またはその他の国際化ラベルの Punycode 形式を、通常の Unicode UTF-16 エンコーディング構文に変換する。
 %group
 Win32 normaliz
 %prm
 dwFlags, lpASCIICharStr, cchASCIIChar, lpUnicodeCharStr, cchUnicodeChar
-dwFlags : [int] Flags specifying conversion options. For detailed definitions, see the dwFlags parameter of IdnToAscii.
-lpASCIICharStr : [wstr] Pointer to a string representing the Punycode encoding of an IDN or another internationalized label. This string must consist only of ASCII characters, and can include Punycode-encoded Unicode. The function decodes Punycode values to their UTF-16 values.
-cchASCIIChar : [int] Count of characters in the input string indicated by lpASCIICharStr.
-lpUnicodeCharStr : [wstr] Pointer to a buffer that receives a normal Unicode UTF-16 encoding equivalent to the Punycode value of the input string. Alternatively, the function can retrieve NULL for this parameter, if cchUnicodeChar set to 0. In this case, the function returns the size required for this buffer.
-cchUnicodeChar : [int] Size, in characters, of the buffer indicated by lpUnicodeCharStr. The application can set the size to 0 to retrieve NULL in lpUnicodeCharStr and have the function return the required buffer size.
+dwFlags : [int] 変換オプションを指定するフラグ。詳細な定義については、IdnToAscii の dwFlags パラメータを参照のこと。
+lpASCIICharStr : [wstr] IDN またはその他の国際化ラベルの Punycode エンコーディングを表す文字列へのポインタ。この文字列は ASCII 文字のみで構成されている必要があり、Punycode エンコードされた Unicode を含むことができる。関数は Punycode の値を UTF-16 の値にデコードする。
+cchASCIIChar : [int] lpASCIICharStr が示す入力文字列の文字数。
+lpUnicodeCharStr : [wstr] 入力文字列の Punycode 値に対応する通常の Unicode UTF-16 エンコーディングを受け取るバッファへのポインタ。あるいは、cchUnicodeChar が 0 に設定されている場合、この関数はこのパラメータに NULL を取得することもできる。その場合、関数はこのバッファに必要なサイズを返す。
+cchUnicodeChar : [int] lpUnicodeCharStr が示すバッファのサイズ (文字数)。アプリケーションがサイズを 0 に設定すると、lpUnicodeCharStr に NULL を取得し、関数に必要なバッファサイズを返させることができる。
 %inst
-Converts the Punycode form of an internationalized domain name (IDN)
-or another internationalized label to the normal Unicode UTF-16
-encoding syntax.
+国際化ドメイン名 (IDN) またはその他の国際化ラベルの Punycode 形式を、通常の Unicode UTF-16
+エンコーディング構文に変換する。
 
 [戻り値]
-Returns the number of characters retrieved in lpUnicodeCharStr if
-successful. The retrieved string is null-terminated only if the input
-string is null-terminated. If the function succeeds and the value of
-cchUnicodeChar is 0, the function returns the required size, in
-characters including a terminating null character if it was part of
-the input buffer. The function returns 0 if it does not succeed. To
-get extended error information, the application can call
-GetLastError, which can return one of the following error codes:
-This doc was truncated.
+成功した場合、lpUnicodeCharStr に取得された文字数を返す。取得された文字列は、入力文字列が NULL
+終端されている場合にのみ NULL 終端される。関数が成功し、cchUnicodeChar の値が 0
+の場合、必要なサイズを文字数で返す。これには入力バッファに含まれていれば終端 NULL 文字も含まれる。失敗した場合は 0
+を返す。拡張エラー情報を取得するには、アプリケーションは GetLastError
+を呼び出す。次のいずれかのエラーコードが返される可能性がある:
+このドキュメントは省略されている。
 
 [備考]
-See Remarks for IdnToAscii.
+IdnToAscii の Remarks を参照のこと。
 

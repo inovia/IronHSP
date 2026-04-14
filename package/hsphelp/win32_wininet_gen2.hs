@@ -244,59 +244,49 @@ phAppCache : [var]
 
 %index
 CommitUrlCacheEntryW
-Stores data in the specified file in the Internet cache and associates it with the specified URL. (Unicode)
+w’è‚µ‚½ƒtƒ@ƒCƒ‹“à‚Ìƒf[ƒ^‚ğƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…‚ÉŠi”[‚µAw’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrlName, lpszLocalFileName, ExpireTime, LastModifiedTime, CacheEntryType, lpszHeaderInfo, cchHeaderInfo, lpszFileExtension, lpszOriginalUrl
-lpszUrlName : [wstr] Pointer to a string variable that contains the source name of the cache entry. The name string must be unique and should not contain any escape characters.
-lpszLocalFileName : [wstr] Pointer to a string variable that contains the name of the local file that is being cached. This should be the same name as that returned by CreateUrlCacheEntryW.
-ExpireTime : [int] FILETIME structure that contains the expire date and time (in Greenwich mean time) of the file that is being cached. If the expire date and time is unknown, set this parameter to zero.
-LastModifiedTime : [int] FILETIME structure that contains the last modified date and time (in Greenwich mean time) of the URL that is being cached. If the last modified date and time is unknown, set this parameter to zero.
-CacheEntryType : [int] A bitmask indicating the type of cache entry and its properties. The cache entry types include: history entries (URLHISTORY_CACHE_ENTRY),  cookie entries  (COOKIE_CACHE_ENTRY), and normal cached content (NORMAL_CACHE_ENTRY). This parameter can be zero or more of the following property flags, and  cache type flags listed below.
-lpszHeaderInfo : [wstr] Pointer to the buffer that contains the header information. If this parameter is not NULL, the header information is treated as extended attributes of the URL that are returned in the lpHeaderInfo member of the INTERNET_CACHE_ENTRY_INFO structure.
-cchHeaderInfo : [int] Size of the header information, in TCHARs. If lpHeaderInfo is not NULL, this value is assumed to indicate the size of the buffer that  stores the header information. An application can maintain headers as part of the data and provide cchHeaderInfo together with a NULL value for lpHeaderInfo.
-lpszFileExtension : [wstr] This parameter is reserved and must be NULL.
-lpszOriginalUrl : [wstr] Pointer to a string  that contains the original URL, if redirection has occurred.
+lpszUrlName : [wstr] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìƒ\[ƒX–¼‚ğŠi”[‚µ‚½•¶š—ñ•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B–¼‘O•¶š—ñ‚ÍˆêˆÓ‚Å‚È‚¯‚ê‚Î‚È‚ç‚¸AƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
+lpszLocalFileName : [wstr] ƒLƒƒƒbƒVƒ…‚³‚ê‚éƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğŠi”[‚µ‚½•¶š—ñ•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BCreateUrlCacheEntryW ‚Å•Ô‚³‚ê‚½–¼‘O‚Æ“¯‚¶–¼‘O‚ğw’è‚·‚éB
+ExpireTime : [int] ƒLƒƒƒbƒVƒ…‘ÎÛƒtƒ@ƒCƒ‹‚Ì—LŒøŠúŒÀ‚Ì“ú (ƒOƒŠƒjƒbƒW•W€) ‚ğŠi”[‚µ‚½ FILETIME \‘¢‘ÌB—LŒøŠúŒÀ‚ª•s–¾‚Èê‡‚ÍA–{ƒpƒ‰ƒ[ƒ^‚ğ 0 ‚Éİ’è‚·‚éB
+LastModifiedTime : [int] ƒLƒƒƒbƒVƒ…‘ÎÛ URL ‚ÌÅIXV“ú (ƒOƒŠƒjƒbƒW•W€) ‚ğŠi”[‚µ‚½ FILETIME \‘¢‘ÌBÅIXV“ú‚ª•s–¾‚Èê‡‚ÍA–{ƒpƒ‰ƒ[ƒ^‚ğ 0 ‚Éİ’è‚·‚éB
+CacheEntryType : [int] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìí•Ê‚ÆƒvƒƒpƒeƒB‚ğ¦‚·ƒrƒbƒgƒ}ƒXƒNBƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠí•Ê‚É‚ÍA—š—ğƒGƒ“ƒgƒŠ (URLHISTORY_CACHE_ENTRY)AƒNƒbƒL[ƒGƒ“ƒgƒŠ (COOKIE_CACHE_ENTRY)A’Êí‚ÌƒLƒƒƒbƒVƒ…ƒRƒ“ƒeƒ“ƒc (NORMAL_CACHE_ENTRY) ‚ª‚ ‚éB–{ƒpƒ‰ƒ[ƒ^‚É‚ÍAˆÈ‰º‚ÌƒvƒƒpƒeƒBƒtƒ‰ƒO‚¨‚æ‚ÑƒLƒƒƒbƒVƒ…í•Êƒtƒ‰ƒO‚ğ 0 ŒÂˆÈãw’è‚Å‚«‚éB
+lpszHeaderInfo : [wstr] ƒwƒbƒ_[î•ñ‚ğŠi”[‚µ‚½ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Å‚È‚¢ê‡Aƒwƒbƒ_[î•ñ‚Í INTERNET_CACHE_ENTRY_INFO \‘¢‘Ì‚Ì lpHeaderInfo ƒƒ“ƒo‚Æ‚µ‚Ä•Ô‚³‚ê‚éAURL ‚ÌŠg’£‘®«‚Æ‚µ‚Äˆµ‚í‚ê‚éB
+cchHeaderInfo : [int] ƒwƒbƒ_[î•ñ‚ÌƒTƒCƒY (TCHAR ’PˆÊ)BlpHeaderInfo ‚ª NULL ‚Å‚È‚¢ê‡A‚±‚Ì’l‚Íƒwƒbƒ_[î•ñ‚ğŠi”[‚·‚éƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğ¦‚·‚à‚Ì‚Æ‚İ‚È‚³‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íƒwƒbƒ_[‚ğƒf[ƒ^‚Ìˆê•”‚Æ‚µ‚Ä•Û‚µAlpHeaderInfo ‚É NULL ‚ğw’è‚µ‚½‚¤‚¦‚Å cchHeaderInfo ‚ğw’è‚·‚é‚±‚Æ‚à‚Å‚«‚éB
+lpszFileExtension : [wstr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpszOriginalUrl : [wstr] ƒŠƒ_ƒCƒŒƒNƒg‚ª”­¶‚µ‚½ê‡‚ÌŒ³‚Ì URL ‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Stores data in the specified file in the Internet cache and
-associates it with the specified URL. (Unicode)
+w’è‚µ‚½ƒtƒ@ƒCƒ‹“à‚Ìƒf[ƒ^‚ğƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…‚ÉŠi”[‚µAw’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError. The following are possible error
-values.
-This doc was truncated.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·BˆÈ‰º‚Í‘z’è‚³‚ê‚éƒGƒ‰[’l‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The STICKY_CACHE_ENTRY type is used to make cache entries exempt from
-scavenging. The default exempt time for entries set using
-CommitUrlCacheEntryW is ten minutes. The exempt time can be changed
-by setting the expires time parameter in the
-INTERNET_CACHE_ENTRY_INFO structure in the call to the
-SetUrlCacheEntryInfo function. If the cache storage is full,
-CommitUrlCacheEntryW invokes cache cleanup to make space for this new
-file. If the cache entry already exists, the function overwrites the
-entry if it is not in use. An entry is in use when it has been
-retrieved with either RetrieveUrlCacheEntryStream or
-RetrieveUrlCacheEntryFile. Clients that add entries to the cache
-should set the headers to at least "HTTP/1.0 200 OK\r\n\r\n";
-otherwise, Microsoft Internet Explorer and other client applications
-should disregard the entry. See Caching for example code calling
-CreateUrlCacheEntryW. Like all other aspects of the WinINet API, this
-function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines CommitUrlCacheEntry as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+STICKY_CACHE_ENTRY
+í•Ê‚ÍAƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğƒXƒJƒxƒ“ƒW‘ÎÛ‚©‚çœŠO‚·‚é‚½‚ß‚Ég—p‚·‚éBCommitUrlCacheEntryW
+‚Åİ’è‚µ‚½ƒGƒ“ƒgƒŠ‚ÌŠù’è‚ÌœŠOŠÔ‚Í 10 •ª‚Å‚ ‚éBœŠOŠÔ‚ÍASetUrlCacheEntryInfo ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä
+INTERNET_CACHE_ENTRY_INFO
+\‘¢‘Ì‚Ì—LŒøŠúŒÀƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚é‚±‚Æ‚Å•ÏX‚Å‚«‚éBƒLƒƒƒbƒVƒ…—Ìˆæ‚ª–”t‚Ìê‡ACommitUrlCacheEntryW
+‚ÍV‚µ‚¢ƒtƒ@ƒCƒ‹—p‚Ì—Ìˆæ‚ğŠm•Û‚·‚é‚½‚ß‚ÉƒLƒƒƒbƒVƒ…ƒNƒŠ[ƒ“ƒAƒbƒv‚ğŒÄ‚Ño‚·BƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ªŠù‚É‘¶İ‚·‚éê‡AŠÖ”‚Íg—p’†‚Å‚È‚¯‚ê‚ÎƒGƒ“ƒgƒŠ‚ğã‘‚«‚·‚éBƒGƒ“ƒgƒŠ‚Í
+RetrieveUrlCacheEntryStream ‚Ü‚½‚Í RetrieveUrlCacheEntryFile
+‚Åæ“¾‚³‚ê‚Ä‚¢‚éŠÔAg—p’†‚Æ‚İ‚È‚³‚ê‚éBƒLƒƒƒbƒVƒ…‚ÉƒGƒ“ƒgƒŠ‚ğ’Ç‰Á‚·‚éƒNƒ‰ƒCƒAƒ“ƒg‚ÍAƒwƒbƒ_[‚ğ­‚È‚­‚Æ‚à "HTTP/1.0 200
+OK\r\n\r\n" ‚Éİ’è‚·‚é•K—v‚ª‚ ‚éB‚»‚¤‚µ‚È‚¢ê‡AMicrosoft Internet Explorer
+‚È‚Ç‚ÌƒNƒ‰ƒCƒAƒ“ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒGƒ“ƒgƒŠ‚ğ–³‹‚·‚é‰Â”\«‚ª‚ ‚éBCreateUrlCacheEntryW
+‚ğŒÄ‚Ño‚·ƒTƒ“ƒvƒ‹ƒR[ƒh‚É‚Â‚¢‚Ä‚Í Caching ‚ğQÆ‚Ì‚±‚ÆBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í
+DllMain ‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í CommitUrlCacheEntry
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -318,108 +308,93 @@ cbBlob : [int]
 
 %index
 CreateMD5SSOHash
-The CreateMD5SSOHash function (wininet.h) obtains the Microsoft Passport password, creates an MD5 hash using a specific string, and returns the result.
+CreateMD5SSOHash ŠÖ” (wininet.h) ‚Í Microsoft Passport ƒpƒXƒ[ƒh‚ğæ“¾‚µA“Á’è‚Ì•¶š—ñ‚ğ—p‚¢‚Ä MD5 ƒnƒbƒVƒ…‚ğì¬‚µA‚»‚ÌŒ‹‰Ê‚ğ•Ô‚·B
 %group
 Win32 wininet
 %prm
 pszChallengeInfo, pwszRealm, pwszTarget, pbHexHash
-pszChallengeInfo : [wstr] Pointer to the wide-character challenge string to use for the MD5 hash.
-pwszRealm : [wstr] Pointer to a string that names a realm for which to obtain the password. This parameter is ignored unless pwszTarget is NULL. If both pwszTarget and pwszRealm are NULL, the default realm is used.
-pwszTarget : [wstr] Pointer to a string that names an account for which to obtain the password. If pwszTarget is NULL, the realm indicated by pwszRealm is used.
-pbHexHash : [var] Pointer to an output buffer into which the MD5 hash is returned in hex string format. This buffer must be at least 33 bytes long.
+pszChallengeInfo : [wstr] MD5 ƒnƒbƒVƒ…‚Ég—p‚·‚éƒƒCƒh•¶š‚Ìƒ`ƒƒƒŒƒ“ƒW•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pwszRealm : [wstr] ƒpƒXƒ[ƒh‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒŒƒ‹ƒ€–¼‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚Í pwszTarget ‚ª NULL ‚Ìê‡‚É‚Ì‚İg—p‚³‚ê‚éBpwszTarget ‚Æ pwszRealm ‚Ì—¼•û‚ª NULL ‚Ìê‡AŠù’è‚ÌƒŒƒ‹ƒ€‚ªg—p‚³‚ê‚éB
+pwszTarget : [wstr] ƒpƒXƒ[ƒh‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒAƒJƒEƒ“ƒg–¼‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BpwszTarget ‚ª NULL ‚Ìê‡ApwszRealm ‚Åw’è‚³‚ê‚½ƒŒƒ‹ƒ€‚ªg—p‚³‚ê‚éB
+pbHexHash : [var] MD5 ƒnƒbƒVƒ…‚ª 16 i•¶š—ñŒ`®‚Å•Ô‚³‚ê‚éo—Íƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒoƒbƒtƒ@‚Í­‚È‚­‚Æ‚à 33 ƒoƒCƒg‚Ì’·‚³‚ª‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The CreateMD5SSOHash function (wininet.h) obtains the Microsoft
-Passport password, creates an MD5 hash using a specific string, and
-returns the result.
+CreateMD5SSOHash ŠÖ” (wininet.h) ‚Í Microsoft Passport
+ƒpƒXƒ[ƒh‚ğæ“¾‚µA“Á’è‚Ì•¶š—ñ‚ğ—p‚¢‚Ä MD5 ƒnƒbƒVƒ…‚ğì¬‚µA‚»‚ÌŒ‹‰Ê‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-Once the CreateMD5SSOHash function successfully obtains the Microsoft
-Passport password for the specified account or realm, it converts
-both the challenge string and the password from wide characters to
-multi-byte (generally 8-bit) characters, concatenates them, and uses
-the RSA library to generate an MD5 hash from the resulting key. It
-then converts the hash into a null-terminated string of 8-bit
-hexadecimal digits (using lowercase letters) which it places in the
-buffer pointed to by the pbHexHash parameter. The output buffer
-pointed to by pbHexHash must therefore be long enough to accept two
-bytes for each of the 16 bytes of the hash, plus a terminating null
-character, for a total of 33 bytes. Like all other aspects of the
-WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+CreateMD5SSOHash ŠÖ”‚ÍAw’è‚³‚ê‚½ƒAƒJƒEƒ“ƒg‚Ü‚½‚ÍƒŒƒ‹ƒ€‚É‘Î‚·‚é Microsoft Passport
+ƒpƒXƒ[ƒh‚Ìæ“¾‚É¬Œ÷‚·‚é‚ÆAƒ`ƒƒƒŒƒ“ƒW•¶š—ñ‚ÆƒpƒXƒ[ƒh‚Ì—¼•û‚ğƒƒCƒh•¶š‚©‚çƒ}ƒ‹ƒ`ƒoƒCƒg•¶š (ˆê”Ê‚É 8 ƒrƒbƒg)
+‚É•ÏŠ·‚µA‚»‚ê‚ç‚ğ˜AŒ‹‚µ‚ÄAŒ‹‰Ê‚ÌƒL[‚©‚ç MD5 ƒnƒbƒVƒ…‚ğ¶¬‚·‚é‚½‚ß‚É RSA ƒ‰ƒCƒuƒ‰ƒŠ‚ğg—p‚·‚éB‘±‚¢‚ÄƒnƒbƒVƒ…‚ğ
+(¬•¶š‚ğg—p‚µ‚½) 8 ƒrƒbƒg 16 i”‚Ì null I’[•¶š—ñ‚É•ÏŠ·‚µApbHexHash
+ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚ÉŠi”[‚·‚éB‚µ‚½‚ª‚Á‚Ä pbHexHash ‚ªw‚·o—Íƒoƒbƒtƒ@‚ÍAƒnƒbƒVƒ…‚Ì 16 ƒoƒCƒg•ª‚»‚ê‚¼‚ê‚É 2
+ƒoƒCƒgA‰Á‚¦‚ÄI’[ null •¶š 1 ƒoƒCƒg‚ÌA‡Œv 33 ƒoƒCƒg‚ğŠi”[‚Å‚«‚é’·‚³‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 CreateUrlCacheContainerW
-Creates a cache container in the specified cache path to hold cache entries based on the specified name, cache prefix, and container type. (Unicode)
+w’è‚µ‚½ƒLƒƒƒbƒVƒ…ƒpƒX‚ÉAw’è‚µ‚½–¼‘OEƒLƒƒƒbƒVƒ…ƒvƒŒƒtƒBƒbƒNƒXEƒRƒ“ƒeƒií•Ê‚ÉŠî‚Ã‚¢‚ÄƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğ•Û‚·‚éƒLƒƒƒbƒVƒ…ƒRƒ“ƒeƒi‚ğì¬‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 Name, lpCachePrefix, lpszCachePath, KBCacheLimit, dwContainerType, dwOptions, pvBuffer, cbBuffer
-Name : [wstr] The name to give to the cache.
-lpCachePrefix : [wstr] The cache prefix to base the cache on.
-lpszCachePath : [wstr] The cache prefix to create the cache in.
-KBCacheLimit : [int] The size limit of the cache in whole kilobytes, or 0 for the default size.
-dwContainerType : [int] The container type to base the cache on.
-dwOptions : [int] This parameter is reserved and must be 0.
-pvBuffer : [intptr] This parameter is reserved and must be NULL.
-cbBuffer : [var] This parameter is reserved and must be NULL.
+Name : [wstr] ƒLƒƒƒbƒVƒ…‚É•t‚¯‚é–¼‘OB
+lpCachePrefix : [wstr] ƒLƒƒƒbƒVƒ…‚ÌŠî€‚Æ‚·‚éƒLƒƒƒbƒVƒ…ƒvƒŒƒtƒBƒbƒNƒXB
+lpszCachePath : [wstr] ƒLƒƒƒbƒVƒ…‚ğì¬‚·‚éƒLƒƒƒbƒVƒ…ƒvƒŒƒtƒBƒbƒNƒXB
+KBCacheLimit : [int] ƒLƒƒƒbƒVƒ…‚ÌƒTƒCƒYãŒÀ (ƒLƒƒoƒCƒg’PˆÊA®”)BŠù’èƒTƒCƒY‚ğg—p‚·‚éê‡‚Í 0 ‚ğw’è‚·‚éB
+dwContainerType : [int] ƒLƒƒƒbƒVƒ…‚ÌŠî€‚Æ‚·‚éƒRƒ“ƒeƒií•ÊB
+dwOptions : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pvBuffer : [intptr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+cbBuffer : [var] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Creates a cache container in the specified cache path to hold cache
-entries based on the specified name, cache prefix, and container
-type. (Unicode)
+
+w’è‚µ‚½ƒLƒƒƒbƒVƒ…ƒpƒX‚ÉAw’è‚µ‚½–¼‘OEƒLƒƒƒbƒVƒ…ƒvƒŒƒtƒBƒbƒNƒXEƒRƒ“ƒeƒií•Ê‚ÉŠî‚Ã‚¢‚ÄƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğ•Û‚·‚éƒLƒƒƒbƒVƒ…ƒRƒ“ƒeƒi‚ğì¬‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-> [!NOTE] > The winineti.h header defines CreateUrlCacheContainer as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > winineti.h ƒwƒbƒ_[‚Í CreateUrlCacheContainer
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 CreateUrlCacheEntryW
-Creates a local file name for saving the cache entry based on the specified URL and the file name extension. (Unicode)
+w’è‚µ‚½ URL ‚Æƒtƒ@ƒCƒ‹Šg’£q‚ÉŠî‚Ã‚¢‚ÄAƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğ•Û‘¶‚·‚é‚½‚ß‚Ìƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹–¼‚ğì¬‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrlName, dwExpectedFileSize, lpszFileExtension, lpszFileName, dwReserved
-lpszUrlName : [wstr] Pointer to a string value that contains the name of the URL. The string must contain a value; an empty string will cause CreateUrlCacheEntry to fail. In addition, the string must not contain any escape characters.
-dwExpectedFileSize : [int] Expected size of the file needed to store the data that corresponds to the source entity, in TCHARs. If the expected size is unknown, set this value to zero.
-lpszFileExtension : [wstr] Pointer to a string value that contains an extension name of the file in the local storage.
-lpszFileName : [wstr] Pointer to a buffer that receives the file name. The buffer should be large enough  to store the path of the created file (at least MAX_PATH  characters in length).
-dwReserved : [int] This parameter is reserved and must be 0.
+lpszUrlName : [wstr] URL ‚Ì–¼‘O‚ğŠi”[‚µ‚½•¶š—ñ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B•¶š—ñ‚Í’l‚ğŠÜ‚Ş•K—v‚ª‚ ‚èA‹ó•¶š—ñ‚ğw’è‚·‚é‚Æ CreateUrlCacheEntry ‚Í¸”s‚·‚éB‚³‚ç‚ÉA•¶š—ñ‚ÉƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
+dwExpectedFileSize : [int] ƒ\[ƒXƒGƒ“ƒeƒBƒeƒB‚É‘Î‰‚·‚éƒf[ƒ^‚ğŠi”[‚·‚é‚½‚ß‚É•K—v‚Èƒtƒ@ƒCƒ‹‚Ì—\‘zƒTƒCƒY (TCHAR ’PˆÊ)B—\‘zƒTƒCƒY‚ª•s–¾‚Èê‡‚Í 0 ‚ğw’è‚·‚éB
+lpszFileExtension : [wstr] ƒ[ƒJƒ‹ƒXƒgƒŒ[ƒWã‚Ìƒtƒ@ƒCƒ‹‚ÌŠg’£q–¼‚ğŠi”[‚µ‚½•¶š—ñ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszFileName : [wstr] ƒtƒ@ƒCƒ‹–¼‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒoƒbƒtƒ@‚Íì¬‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğŠi”[‚·‚é‚Ì‚É\•ª‚È‘å‚«‚³ (­‚È‚­‚Æ‚à MAX_PATH •¶šˆÈã) ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Creates a local file name for saving the cache entry based on the
-specified URL and the file name extension. (Unicode)
+w’è‚µ‚½ URL ‚Æƒtƒ@ƒCƒ‹Šg’£q‚ÉŠî‚Ã‚¢‚ÄAƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğ•Û‘¶‚·‚é‚½‚ß‚Ìƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹–¼‚ğì¬‚·‚éB(Unicode)
 
 [–ß‚è’l]
-If the function succeeds, the function returns TRUE.
-If the function fails, it returns FALSE. To get extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-After CreateUrlCacheEntry is called, the application can write
-directly into the file in local storage. When the file is completely
-received, the caller should call CommitUrlCacheEntry to commit the
-entry in the cache. WinINet attempts to decode Unicode parameters
-according to the system code page. Applications should ensure that
-Unicode parameters are properly encoded for the system code page.
-Applications can set the system code page with InternetSetOption as
-shown in the following code example:
-This doc was truncated.
+CreateUrlCacheEntry
+‚ğŒÄ‚Ño‚µ‚½ŒãAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íƒ[ƒJƒ‹ƒXƒgƒŒ[ƒWã‚Ìƒtƒ@ƒCƒ‹‚É’¼Ú‘‚«‚Ş‚±‚Æ‚ª‚Å‚«‚éBƒtƒ@ƒCƒ‹‚ğŠ®‘S‚ÉóM‚µ‚½‚çAŒÄ‚Ño‚µ‘¤‚Í
+CommitUrlCacheEntry ‚ğŒÄ‚Ño‚µ‚ÄƒGƒ“ƒgƒŠ‚ğƒLƒƒƒbƒVƒ…‚ÉƒRƒ~ƒbƒg‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWinINet
+‚ÍƒVƒXƒeƒ€‚ÌƒR[ƒhƒy[ƒW‚É]‚Á‚Ä Unicode ƒpƒ‰ƒ[ƒ^‚ğƒfƒR[ƒh‚µ‚æ‚¤‚Æ‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í Unicode
+ƒpƒ‰ƒ[ƒ^‚ªƒVƒXƒeƒ€‚ÌƒR[ƒhƒy[ƒW—p‚É³‚µ‚­ƒGƒ“ƒR[ƒh‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ•ÛØ‚·‚é•K—v‚ª‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍŸ‚ÌƒR[ƒh—á‚Ì‚æ‚¤‚É
+InternetSetOption ‚ğg‚Á‚ÄƒVƒXƒeƒ€‚ÌƒR[ƒhƒy[ƒW‚ğİ’è‚Å‚«‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
@@ -441,24 +416,23 @@ fPreserveIncomingFileName : [int]
 
 %index
 CreateUrlCacheGroup
-Generates cache group identifications.
+ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì¯•Êq‚ğ¶¬‚·‚éB
 %group
 Win32 wininet
 %prm
 dwFlags, lpReserved
-dwFlags : [int] Controls the creation of the cache group. This parameter can be set to CACHEGROUP_FLAG_GIDONLY, which causes CreateUrlCacheGroup to generate a unique GROUPID, but does not create a physical group.
-lpReserved : [intptr] This parameter is reserved and must be NULL.
+dwFlags : [int] ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ìì¬‚ğ§Œä‚·‚éB–{ƒpƒ‰ƒ[ƒ^‚É‚Í CACHEGROUP_FLAG_GIDONLY ‚ğw’è‚Å‚«A‚±‚ê‚É‚æ‚è CreateUrlCacheGroup ‚ÍˆêˆÓ‚Ì GROUPID ‚ğ¶¬‚·‚é‚ªA•¨—“I‚ÈƒOƒ‹[ƒv‚Íì¬‚µ‚È‚¢B
+lpReserved : [intptr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Generates cache group identifications.
+ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì¯•Êq‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Returns a valid GROUPID if successful, or FALSE otherwise. To get
-specific error information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í—LŒø‚È GROUPID ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
@@ -478,82 +452,72 @@ nCmdShow : [int]
 
 %index
 DeleteUrlCacheContainerW
-Deletes a cache container (which contains cache entries) based on the specified name. (Unicode)
+w’è‚µ‚½–¼‘O‚ÉŠî‚Ã‚¢‚ÄAƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğ•Û‚·‚éƒLƒƒƒbƒVƒ…ƒRƒ“ƒeƒi‚ğíœ‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 Name, dwOptions
-Name : [wstr] The name of the cache container to be deleted.
-dwOptions : [int] This parameter is reserved, and must be 0.
+Name : [wstr] íœ‚·‚éƒLƒƒƒbƒVƒ…ƒRƒ“ƒeƒi‚Ì–¼‘OB
+dwOptions : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Deletes a cache container (which contains cache entries) based on the
-specified name. (Unicode)
+w’è‚µ‚½–¼‘O‚ÉŠî‚Ã‚¢‚ÄAƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğ•Û‚·‚éƒLƒƒƒbƒVƒ…ƒRƒ“ƒeƒi‚ğíœ‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service nor when impersonating a security
-context. For server implementations or services use Microsoft Windows
-HTTP Services (WinHTTP).
-> [!NOTE] > The winineti.h header defines DeleteUrlCacheContainer as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚µ‚½‚èAƒZƒLƒ…ƒŠƒeƒBƒRƒ“ƒeƒLƒXƒg‚Ì‹U‘•’†‚Ég—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > winineti.h ƒwƒbƒ_[‚Í DeleteUrlCacheContainer
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 DeleteUrlCacheEntry
-The DeleteUrlCacheEntry function (wininet.h) removes the file associated with the source name from the cache, if the file exists.
+DeleteUrlCacheEntry ŠÖ” (wininet.h) ‚ÍAw’è‚µ‚½ƒ\[ƒX–¼‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹‚ªƒLƒƒƒbƒVƒ…‚É‘¶İ‚·‚éê‡A‚»‚ê‚ğíœ‚·‚éB
 %group
 Win32 wininet
 %prm
 lpszUrlName
-lpszUrlName : [str] Pointer to a string that contains the name of the source that corresponds to the cache entry.
+lpszUrlName : [str] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚É‘Î‰‚·‚éƒ\[ƒX–¼‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The DeleteUrlCacheEntry function (wininet.h) removes the file
-associated with the source name from the cache, if the file exists.
+DeleteUrlCacheEntry ŠÖ” (wininet.h)
+‚ÍAw’è‚µ‚½ƒ\[ƒX–¼‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹‚ªƒLƒƒƒbƒVƒ…‚É‘¶İ‚·‚éê‡A‚»‚ê‚ğíœ‚·‚éB
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError. Possible error values include the
-following.
-This doc was truncated.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B‘z’è‚³‚ê‚éƒGƒ‰[’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 DeleteUrlCacheGroup
-Releases the specified GROUPID and any associated state in the cache index file.
+w’è‚µ‚½ GROUPID ‚ÆAƒLƒƒƒbƒVƒ…ƒCƒ“ƒfƒbƒNƒXƒtƒ@ƒCƒ‹“à‚ÌŠÖ˜A‚·‚éó‘Ô‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 wininet
 %prm
 GroupId, dwFlags, lpReserved
-GroupId : [int64] ID of the cache group to be released.
-dwFlags : [int] Controls the cache group deletion. This can be set to any member of the cache group constants. When this parameter is set to CACHEGROUP_FLAG_FLUSHURL_ONDELETE, it causes DeleteUrlCacheGroup to delete all of the cache entries associated with this group, unless the entry belongs to another group.
-lpReserved : [intptr] This parameter is reserved and must be NULL.
+GroupId : [int64] ‰ğ•ú‚·‚éƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì IDB
+dwFlags : [int] ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ìíœ‚ğ§Œä‚·‚éBƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv’è”‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB–{ƒpƒ‰ƒ[ƒ^‚É CACHEGROUP_FLAG_FLUSHURL_ONDELETE ‚ğw’è‚·‚é‚ÆADeleteUrlCacheGroup ‚Í‚±‚ÌƒOƒ‹[ƒv‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚ÌƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğíœ‚·‚é (‚½‚¾‚µAƒGƒ“ƒgƒŠ‚ª•Ê‚ÌƒOƒ‹[ƒv‚É‚à‘®‚µ‚Ä‚¢‚éê‡‚ğœ‚­)B
+lpReserved : [intptr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Releases the specified GROUPID and any associated state in the cache
-index file.
+w’è‚µ‚½ GROUPID ‚ÆAƒLƒƒƒbƒVƒ…ƒCƒ“ƒfƒbƒNƒXƒtƒ@ƒCƒ‹“à‚ÌŠÖ˜A‚·‚éó‘Ô‚ğ‰ğ•ú‚·‚éB
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get specific error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
@@ -570,47 +534,42 @@ param0 : [int]
 
 %index
 DetectAutoProxyUrl
-The DetectAutoProxyUrl function (wininet.h) attempts to determine the location of a WPAD autoproxy script.
+DetectAutoProxyUrl ŠÖ” (wininet.h) ‚Í WPAD ©“®ƒvƒƒLƒVƒXƒNƒŠƒvƒg‚ÌêŠ‚ğŒŸo‚µ‚æ‚¤‚Æ‚·‚éB
 %group
 Win32 wininet
 %prm
 pszAutoProxyUrl, cchAutoProxyUrl, dwDetectFlags
-pszAutoProxyUrl : [str] Pointer to a buffer to receive the URL from which a WPAD autoproxy script can be downloaded.
-cchAutoProxyUrl : [int] Size of the buffer pointed to by lpszAutoProxyUrl, in bytes.
+pszAutoProxyUrl : [str] WPAD ©“®ƒvƒƒLƒVƒXƒNƒŠƒvƒg‚Ìƒ_ƒEƒ“ƒ[ƒhŒ³ URL ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cchAutoProxyUrl : [int] lpszAutoProxyUrl ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 dwDetectFlags : [int] 
 %inst
-The DetectAutoProxyUrl function (wininet.h) attempts to determine the
-location of a WPAD autoproxy script.
+DetectAutoProxyUrl ŠÖ” (wininet.h) ‚Í WPAD ©“®ƒvƒƒLƒVƒXƒNƒŠƒvƒg‚ÌêŠ‚ğŒŸo‚µ‚æ‚¤‚Æ‚·‚éB
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 FindCloseUrlCache
-Closes the specified cache enumeration handle.
+w’è‚µ‚½ƒLƒƒƒbƒVƒ…—ñ‹“ƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
 %group
 Win32 wininet
 %prm
 hEnumHandle
-hEnumHandle : [intptr] Handle returned by a previous call to the FindFirstUrlCacheEntry function.
+hEnumHandle : [intptr] FindFirstUrlCacheEntry ŠÖ”‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Å•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
 %inst
-Closes the specified cache enumeration handle.
+w’è‚µ‚½ƒLƒƒƒbƒVƒ…—ñ‹“ƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚éB
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
@@ -630,128 +589,109 @@ dwOptions : [int]
 
 %index
 FindFirstUrlCacheEntryW
-Begins the enumeration of the Internet cache. (Unicode)
+ƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…‚Ì—ñ‹“‚ğŠJn‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrlSearchPattern, lpFirstCacheEntryInfo, lpcbCacheEntryInfo
-lpszUrlSearchPattern : [wstr] A pointer to a string that contains the source name pattern to search for. This parameter can only be set to "cookie:", "visited:", or NULL. Set this parameter to "cookie:" to enumerate the cookies or "visited:" to enumerate the URL History entries in the cache. If this parameter is NULL, FindFirstUrlCacheEntry returns all content entries in the cache.
-lpFirstCacheEntryInfo : [var] Pointer to an INTERNET_CACHE_ENTRY_INFO structure.
-lpcbCacheEntryInfo : [var] Pointer to a variable that specifies the size of the lpFirstCacheEntryInfo buffer, in bytes. When the function returns, the variable contains the number of bytes copied to the buffer, or the required size needed to retrieve the cache entry, in bytes.
+lpszUrlSearchPattern : [wstr] ŒŸõ‚·‚éƒ\[ƒX–¼‚Ìƒpƒ^[ƒ“‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚É‚Í "cookie:"A"visited:"A‚Ü‚½‚Í NULL ‚Ì‚İ‚ğw’è‚Å‚«‚éBƒNƒbƒL[‚ğ—ñ‹“‚·‚é‚É‚Í "cookie:" ‚ğAURL —š—ğƒGƒ“ƒgƒŠ‚ğ—ñ‹“‚·‚é‚É‚Í "visited:" ‚ğw’è‚·‚éB–{ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AFindFirstUrlCacheEntry ‚ÍƒLƒƒƒbƒVƒ…“à‚Ì‚·‚×‚Ä‚ÌƒRƒ“ƒeƒ“ƒcƒGƒ“ƒgƒŠ‚ğ•Ô‚·B
+lpFirstCacheEntryInfo : [var] INTERNET_CACHE_ENTRY_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpcbCacheEntryInfo : [var] lpFirstCacheEntryInfo ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª–ß‚é‚ÆA•Ï”‚É‚Íƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½ƒoƒCƒg”A‚Ü‚½‚ÍƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìæ“¾‚É•K—v‚ÈƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ªŠi”[‚³‚ê‚éB
 %inst
-Begins the enumeration of the Internet cache. (Unicode)
+ƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…‚Ì—ñ‹“‚ğŠJn‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns a handle that the application can use in the
-FindNextUrlCacheEntry function to retrieve subsequent entries in the
-cache. If the function fails, the return value is NULL. To get
-extended error information, call GetLastError.
-ERROR_INSUFFICIENT_BUFFER indicates that the size of
-lpFirstCacheEntryInfo as specified by
-lpdwFirstCacheEntryInfoBufferSize is not sufficient to contain all
-the information. The value returned in
-lpdwFirstCacheEntryInfoBufferSize indicates the buffer size necessary
-to contain all the information.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª FindNextUrlCacheEntry
+ŠÖ”‚ÅŒã‘±‚ÌƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éƒnƒ“ƒhƒ‹‚ğ•Ô‚·BŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL
+‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·BERROR_INSUFFICIENT_BUFFER
+‚ÍAlpdwFirstCacheEntryInfoBufferSize ‚Åw’è‚³‚ê‚½ lpFirstCacheEntryInfo
+‚ÌƒTƒCƒY‚ªA‚·‚×‚Ä‚Ìî•ñ‚ğŠi”[‚·‚é‚Ì‚É\•ª‚Å‚È‚¢‚±‚Æ‚ğ¦‚·BlpdwFirstCacheEntryInfoBufferSize
+‚É•Ô‚³‚ê‚é’l‚ÍA‚·‚×‚Ä‚Ìî•ñ‚ğŠi”[‚·‚é‚Ì‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ¦‚·B
 
 [”õl]
-The handle returned from FindFirstUrlCacheEntry is used in all
-subsequent calls to FindNextUrlCacheEntry. At the end of the
-enumeration, the application should call FindCloseUrlCache.
-FindFirstUrlCacheEntry and FindNextUrlCacheEntry return variable size
-information. If ERROR_INSUFFICIENT_BUFFER is returned, the
-application should allocate a buffer of the size specified by
-lpdwFirstCacheEntryInfoBufferSize. For more information, see Using
-Buffers. Like all other aspects of the WinINet API, this function
-cannot be safely called from within DllMain or the constructors and
-destructors of global objects. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines FindFirstUrlCacheEntry as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+FindFirstUrlCacheEntry ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚ÍA‚»‚êˆÈ~‚Ì‚·‚×‚Ä‚Ì FindNextUrlCacheEntry
+‚ÌŒÄ‚Ño‚µ‚Åg—p‚³‚ê‚éB—ñ‹“‚ÌI—¹‚ÉAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í FindCloseUrlCache
+‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBFindFirstUrlCacheEntry ‚Æ FindNextUrlCacheEntry
+‚Í‰Â•ÏƒTƒCƒY‚Ìî•ñ‚ğ•Ô‚·BERROR_INSUFFICIENT_BUFFER ‚ª•Ô‚³‚ê‚½ê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+lpdwFirstCacheEntryInfoBufferSize ‚Åw’è‚³‚ê‚½ƒTƒCƒY‚Ìƒoƒbƒtƒ@‚ğŠ„‚è“–‚Ä‚é‚×‚«‚Å‚ ‚éBÚ×‚Í Using
+Buffers ‚ğQÆ‚Ì‚±‚ÆBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FindFirstUrlCacheEntry
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 FindFirstUrlCacheEntryExW
-Starts a filtered enumeration of the Internet cache. (Unicode)
+ƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…‚ÌƒtƒBƒ‹ƒ^•t‚«—ñ‹“‚ğŠJn‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrlSearchPattern, dwFlags, dwFilter, GroupId, lpFirstCacheEntryInfo, lpcbCacheEntryInfo, lpGroupAttributes, lpcbGroupAttributes, lpReserved
-lpszUrlSearchPattern : [wstr] A pointer to a string that contains the source name pattern to search for. This parameter can only be set to "cookie:", "visited:", or NULL. Set this parameter to "cookie:" to enumerate the cookies or "visited:" to enumerate the URL History entries in the cache. If this parameter is NULL, FindFirstUrlCacheEntryEx returns all content entries in the cache.
-dwFlags : [int] Controls the enumeration. No flags are currently implemented; this parameter must be set to zero.
-dwFilter : [int] A bitmask indicating the type of cache entry and its properties. The cache entry types include: history entries (URLHISTORY_CACHE_ENTRY),  cookie entries  (COOKIE_CACHE_ENTRY), and normal cached content (NORMAL_CACHE_ENTRY). This parameter can be zero or more of the following property flags, and  cache type flags listed below.
-GroupId : [int64] ID of the cache group to be enumerated. Set this parameter to zero to enumerate all entries that are not grouped.
-lpFirstCacheEntryInfo : [var] Pointer to a INTERNET_CACHE_ENTRY_INFO structure to receive the cache entry information.
-lpcbCacheEntryInfo : [var] Pointer to variable that indicates the size of the structure referenced by the lpFirstCacheEntryInfo parameter, in bytes.
-lpGroupAttributes : [intptr] This parameter is reserved and must be NULL.
-lpcbGroupAttributes : [var] This parameter is reserved and must be NULL.
-lpReserved : [intptr] This parameter is reserved and must be NULL.
+lpszUrlSearchPattern : [wstr] ŒŸõ‚·‚éƒ\[ƒX–¼‚Ìƒpƒ^[ƒ“‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚É‚Í "cookie:"A"visited:"A‚Ü‚½‚Í NULL ‚Ì‚İ‚ğw’è‚Å‚«‚éBƒNƒbƒL[‚ğ—ñ‹“‚·‚é‚É‚Í "cookie:" ‚ğAURL —š—ğƒGƒ“ƒgƒŠ‚ğ—ñ‹“‚·‚é‚É‚Í "visited:" ‚ğw’è‚·‚éB–{ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AFindFirstUrlCacheEntryEx ‚ÍƒLƒƒƒbƒVƒ…“à‚Ì‚·‚×‚Ä‚ÌƒRƒ“ƒeƒ“ƒcƒGƒ“ƒgƒŠ‚ğ•Ô‚·B
+dwFlags : [int] —ñ‹“‚ğ§Œä‚·‚éBŒ»“_‚Åƒtƒ‰ƒO‚ÍÀ‘•‚³‚ê‚Ä‚¨‚ç‚¸A–{ƒpƒ‰ƒ[ƒ^‚Í 0 ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwFilter : [int] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìí•Ê‚ÆƒvƒƒpƒeƒB‚ğ¦‚·ƒrƒbƒgƒ}ƒXƒNBƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠí•Ê‚É‚ÍA—š—ğƒGƒ“ƒgƒŠ (URLHISTORY_CACHE_ENTRY)AƒNƒbƒL[ƒGƒ“ƒgƒŠ (COOKIE_CACHE_ENTRY)A’Êí‚ÌƒLƒƒƒbƒVƒ…ƒRƒ“ƒeƒ“ƒc (NORMAL_CACHE_ENTRY) ‚ª‚ ‚éB–{ƒpƒ‰ƒ[ƒ^‚É‚ÍAˆÈ‰º‚ÌƒvƒƒpƒeƒBƒtƒ‰ƒO‚¨‚æ‚ÑƒLƒƒƒbƒVƒ…í•Êƒtƒ‰ƒO‚ğ 0 ŒÂˆÈãw’è‚Å‚«‚éB
+GroupId : [int64] —ñ‹“‘ÎÛ‚ÌƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì IDBƒOƒ‹[ƒv‚É‘®‚³‚È‚¢‚·‚×‚Ä‚ÌƒGƒ“ƒgƒŠ‚ğ—ñ‹“‚·‚é‚É‚ÍA–{ƒpƒ‰ƒ[ƒ^‚ğ 0 ‚Éİ’è‚·‚éB
+lpFirstCacheEntryInfo : [var] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠî•ñ‚ğó‚¯æ‚é INTERNET_CACHE_ENTRY_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpcbCacheEntryInfo : [var] lpFirstCacheEntryInfo ƒpƒ‰ƒ[ƒ^‚ªQÆ‚·‚é\‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğ¦‚·•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpGroupAttributes : [intptr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpcbGroupAttributes : [var] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpReserved : [intptr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Starts a filtered enumeration of the Internet cache. (Unicode)
+ƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…‚ÌƒtƒBƒ‹ƒ^•t‚«—ñ‹“‚ğŠJn‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns a valid handle if successful, or NULL otherwise. To get
-specific error information, call GetLastError. If the function finds
-no matching files, GetLastError returns ERROR_NO_MORE_FILES.
+¬Œ÷‚µ‚½ê‡‚Í—LŒø‚Èƒnƒ“ƒhƒ‹‚ğA¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·Bˆê’v‚·‚éƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡AGetLastError ‚Í ERROR_NO_MORE_FILES ‚ğ•Ô‚·B
 
 [”õl]
-The handle returned from FindFirstUrlCacheEntryEx is used in all
-subsequent calls to FindNextUrlCacheEntryEx. At the end of the
-enumeration, the application should call FindCloseUrlCache. Like all
-other aspects of the WinINet API, this function cannot be safely
-called from within DllMain or the constructors and destructors of
-global objects. Note WinINet does not support server implementations.
-In addition, it should not be used from a service. For server
-implementations or services use Microsoft Windows HTTP Services
-(WinHTTP).
-> [!NOTE] > The wininet.h header defines FindFirstUrlCacheEntryEx as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+FindFirstUrlCacheEntryEx ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚ÍA‚»‚êˆÈ~‚Ì‚·‚×‚Ä‚Ì
+FindNextUrlCacheEntryEx ‚ÌŒÄ‚Ño‚µ‚Åg—p‚³‚ê‚éB—ñ‹“‚ÌI—¹‚ÉAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+FindCloseUrlCache ‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FindFirstUrlCacheEntryEx
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 FindFirstUrlCacheGroup
-Initiates the enumeration of the cache groups in the Internet cache.
+ƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…“à‚ÌƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì—ñ‹“‚ğŠJn‚·‚éB
 %group
 Win32 wininet
 %prm
 dwFlags, dwFilter, lpSearchCondition, dwSearchCondition, lpGroupId, lpReserved
-dwFlags : [int] This parameter is reserved and must be 0.
+dwFlags : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 dwFilter : [int] 
-lpSearchCondition : [intptr] This parameter is reserved and must be NULL.
-dwSearchCondition : [int] This parameter is reserved and must be 0.
-lpGroupId : [var] Pointer to the ID of the first cache group that matches the search criteria.
-lpReserved : [intptr] This parameter is reserved and must be NULL.
+lpSearchCondition : [intptr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwSearchCondition : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpGroupId : [var] ŒŸõğŒ‚Éˆê’v‚·‚éÅ‰‚ÌƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì ID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpReserved : [intptr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Initiates the enumeration of the cache groups in the Internet cache.
+ƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…“à‚ÌƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì—ñ‹“‚ğŠJn‚·‚éB
 
 [–ß‚è’l]
-Returns a valid handle to the first item in the enumeration if
-successful, or NULL otherwise. To get specific error information,
-call GetLastError. If the function finds no matching files,
-GetLastError returns ERROR_NO_MORE_FILES.
+¬Œ÷‚µ‚½ê‡‚Í—ñ‹“‚ÌÅ‰‚Ì€–Ú‚Ö‚Ì—LŒø‚Èƒnƒ“ƒhƒ‹‚ğA¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·Bˆê’v‚·‚éƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡AGetLastError ‚Í
+ERROR_NO_MORE_FILES ‚ğ•Ô‚·B
 
 [”õl]
-The handle returned from FindFirstUrlCacheGroup is used in subsequent
-calls to FindNextUrlCacheGroup. At the end of the enumeration, the
-application should call FindCloseUrlCache. Like all other aspects of
-the WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+FindFirstUrlCacheGroup ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚ÍA‚»‚êˆÈ~‚Ì FindNextUrlCacheGroup
+‚ÌŒÄ‚Ño‚µ‚Åg—p‚³‚ê‚éB—ñ‹“‚ÌI—¹‚ÉAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í FindCloseUrlCache ‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBWinINet
+API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
@@ -770,402 +710,341 @@ lpcbContainerInfo : [var]
 
 %index
 FindNextUrlCacheEntryW
-Retrieves the next entry in the Internet cache. (Unicode)
+ƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…“à‚ÌŸ‚ÌƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hEnumHandle, lpNextCacheEntryInfo, lpcbCacheEntryInfo
-hEnumHandle : [intptr] Handle to the enumeration obtained from a previous call to FindFirstUrlCacheEntry.
-lpNextCacheEntryInfo : [var] Pointer to an INTERNET_CACHE_ENTRY_INFO structure that receives information about the cache entry.
-lpcbCacheEntryInfo : [var] Pointer to a variable that specifies the size of the lpNextCacheEntryInfo buffer, in bytes. When the function returns, the variable contains the number of bytes copied to the buffer, or the size of the buffer required to retrieve the cache entry, in bytes.
+hEnumHandle : [intptr] FindFirstUrlCacheEntry ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚µ‚½—ñ‹“‚Ìƒnƒ“ƒhƒ‹B
+lpNextCacheEntryInfo : [var] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğó‚¯æ‚é INTERNET_CACHE_ENTRY_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpcbCacheEntryInfo : [var] lpNextCacheEntryInfo ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª–ß‚é‚ÆA•Ï”‚É‚Íƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½ƒoƒCƒg”A‚Ü‚½‚ÍƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìæ“¾‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ªŠi”[‚³‚ê‚éB
 %inst
-Retrieves the next entry in the Internet cache. (Unicode)
+ƒCƒ“ƒ^[ƒlƒbƒgƒLƒƒƒbƒVƒ…“à‚ÌŸ‚ÌƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError. Possible error values include the
-following.
-This doc was truncated.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B‘z’è‚³‚ê‚éƒGƒ‰[’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Continue to call FindNextUrlCacheEntry until the last item in the
-cache is returned. Like all other aspects of the WinINet API, this
-function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines FindNextUrlCacheEntry as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ƒLƒƒƒbƒVƒ…“à‚ÌÅŒã‚Ì€–Ú‚ª•Ô‚³‚ê‚é‚Ü‚ÅAFindNextUrlCacheEntry ‚ÌŒÄ‚Ño‚µ‚ğ‘±‚¯‚é‚±‚ÆBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FindNextUrlCacheEntry
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 FindNextUrlCacheEntryExW
-Finds the next cache entry in a cache enumeration started by the FindFirstUrlCacheEntryEx function. (Unicode)
+FindFirstUrlCacheEntryEx ŠÖ”‚ÅŠJn‚³‚ê‚½ƒLƒƒƒbƒVƒ…—ñ‹“‚ÌŸ‚ÌƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hEnumHandle, lpNextCacheEntryInfo, lpcbCacheEntryInfo, lpGroupAttributes, lpcbGroupAttributes, lpReserved
-hEnumHandle : [intptr] Handle returned by FindFirstUrlCacheEntryEx, which started a cache enumeration.
-lpNextCacheEntryInfo : [var] Pointer to the INTERNET_CACHE_ENTRY_INFO structure that receives the cache entry information.
-lpcbCacheEntryInfo : [var] Pointer to a variable that indicates the size of the buffer, in bytes.
-lpGroupAttributes : [intptr] This parameter is reserved and must be NULL.
-lpcbGroupAttributes : [var] This parameter is reserved and must be NULL.
-lpReserved : [intptr] This parameter is reserved.
+hEnumHandle : [intptr] ƒLƒƒƒbƒVƒ…—ñ‹“‚ğŠJn‚µ‚½ FindFirstUrlCacheEntryEx ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
+lpNextCacheEntryInfo : [var] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠî•ñ‚ğó‚¯æ‚é INTERNET_CACHE_ENTRY_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpcbCacheEntryInfo : [var] ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğ¦‚·•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpGroupAttributes : [intptr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpcbGroupAttributes : [var] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpReserved : [intptr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¢‚éB
 %inst
-Finds the next cache entry in a cache enumeration started by the
-FindFirstUrlCacheEntryEx function. (Unicode)
+FindFirstUrlCacheEntryEx ŠÖ”‚ÅŠJn‚³‚ê‚½ƒLƒƒƒbƒVƒ…—ñ‹“‚ÌŸ‚ÌƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get specific error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Continue to call FindNextUrlCacheEntryEx until the last item in the
-cache is returned. Like all other aspects of the WinINet API, this
-function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines FindNextUrlCacheEntryEx as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ƒLƒƒƒbƒVƒ…“à‚ÌÅŒã‚Ì€–Ú‚ª•Ô‚³‚ê‚é‚Ü‚ÅAFindNextUrlCacheEntryEx ‚ÌŒÄ‚Ño‚µ‚ğ‘±‚¯‚é‚±‚ÆBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FindNextUrlCacheEntryEx
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 FindNextUrlCacheGroup
-Retrieves the next cache group in a cache group enumeration started by FindFirstUrlCacheGroup.
+FindFirstUrlCacheGroup ‚ÅŠJn‚³‚ê‚½ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv—ñ‹“‚ÌŸ‚ÌƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚ğæ“¾‚·‚éB
 %group
 Win32 wininet
 %prm
 hFind, lpGroupId, lpReserved
-hFind : [intptr] The cache group enumeration handle, which is returned by FindFirstUrlCacheGroup.
-lpGroupId : [var] Pointer to a variable that receives the cache group identifier.
-lpReserved : [intptr] This parameter is reserved and must be NULL.
+hFind : [intptr] FindFirstUrlCacheGroup ‚©‚ç•Ô‚³‚ê‚½ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv—ñ‹“ƒnƒ“ƒhƒ‹B
+lpGroupId : [var] ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv¯•Êq‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpReserved : [intptr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Retrieves the next cache group in a cache group enumeration started
-by FindFirstUrlCacheGroup.
+FindFirstUrlCacheGroup ‚ÅŠJn‚³‚ê‚½ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv—ñ‹“‚ÌŸ‚ÌƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get specific error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Continue to call FindNextUrlCacheGroup until the last item in the
-cache is returned. Like all other aspects of the WinINet API, this
-function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
+ƒLƒƒƒbƒVƒ…“à‚ÌÅŒã‚Ì€–Ú‚ª•Ô‚³‚ê‚é‚Ü‚ÅAFindNextUrlCacheGroup ‚ÌŒÄ‚Ño‚µ‚ğ‘±‚¯‚é‚±‚ÆBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 FreeUrlCacheSpaceW
-Frees space in the cache. (Unicode)
+ƒLƒƒƒbƒVƒ…“à‚Ì—Ìˆæ‚ğ‰ğ•ú‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszCachePath, dwSize, dwFilter
-lpszCachePath : [wstr] The path for the cache.
-dwSize : [int] The percentage of the cache to free (in the range 1 to 100, inclusive).
-dwFilter : [int] This parameter is reserved, and must be 0.
+lpszCachePath : [wstr] ƒLƒƒƒbƒVƒ…‚ÌƒpƒXB
+dwSize : [int] ‰ğ•ú‚·‚éƒLƒƒƒbƒVƒ…‚ÌŠ„‡ (1 ‚©‚ç 100 ‚Ì”ÍˆÍA—¼’[‚ğŠÜ‚Ş)B
+dwFilter : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Frees space in the cache. (Unicode)
+ƒLƒƒƒbƒVƒ…“à‚Ì—Ìˆæ‚ğ‰ğ•ú‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service nor when impersonating a security
-context. For server implementations or services use Microsoft Windows
-HTTP Services (WinHTTP).
-> [!NOTE] > The winineti.h header defines FreeUrlCacheSpace as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚µ‚½‚èAƒZƒLƒ…ƒŠƒeƒBƒRƒ“ƒeƒLƒXƒg‚Ì‹U‘•’†‚Ég—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > winineti.h ƒwƒbƒ_[‚Í FreeUrlCacheSpace
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 FtpCommandW
-Sends commands directly to an FTP server. (Unicode)
+FTP ƒT[ƒo[‚É’¼ÚƒRƒ}ƒ“ƒh‚ğ‘—M‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, fExpectResponse, dwFlags, lpszCommand, dwContext, phFtpCommand
-hConnect : [intptr] A handle returned from a call to InternetConnect.
-fExpectResponse : [int] A Boolean value that indicates whether the application expects a data connection to be established by the FTP server. This must be set to TRUE if a data connection is expected, or FALSE otherwise.
+hConnect : [intptr] InternetConnect ‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
+fExpectResponse : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª FTP ƒT[ƒo[‚É‚æ‚éƒf[ƒ^Ú‘±‚ÌŠm—§‚ğŠú‘Ò‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒu[ƒ‹’lBƒf[ƒ^Ú‘±‚ªŠú‘Ò‚³‚ê‚éê‡‚Í TRUE ‚ğA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğw’è‚·‚éB
 dwFlags : [int] 
-lpszCommand : [wstr] A pointer to a string that contains the command to send to the FTP server.
-dwContext : [int] A pointer to a variable that contains an application-defined value used to identify the application context in callback operations.
-phFtpCommand : [var] A pointer to a handle that is created if a valid data socket is opened. The fExpectResponse parameter must be set to TRUE for phFtpCommand to be filled.
+lpszCommand : [wstr] FTP ƒT[ƒo[‚É‘—M‚·‚éƒRƒ}ƒ“ƒh‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwContext : [int] ƒR[ƒ‹ƒoƒbƒNˆ—‚ÅƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì’l‚ğŠi”[‚µ‚½•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+phFtpCommand : [var] —LŒø‚Èƒf[ƒ^ƒ\ƒPƒbƒg‚ªŠJ‚©‚ê‚½ê‡‚Éì¬‚³‚ê‚éƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^BphFtpCommand ‚ğ–„‚ß‚é‚É‚ÍAfExpectResponse ƒpƒ‰ƒ[ƒ^‚ğ TRUE ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Sends commands directly to an FTP server. (Unicode)
+FTP ƒT[ƒo[‚É’¼ÚƒRƒ}ƒ“ƒh‚ğ‘—M‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get a specific
-error message, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-GetLastError can return ERROR_INTERNET_NO_DIRECT_ACCESS if the client
-application is offline. If one or more of the parameters are invalid,
-GetLastError will return ERROR_INVALID_PARAMETER. Like all other
-aspects of the WinINet API, this function cannot be safely called
-from within DllMain or the constructors and destructors of global
-objects. Note WinINet does not support server implementations. In
-addition, it should not be used from a service. For server
-implementations or services use Microsoft Windows HTTP Services
-(WinHTTP).
-> [!NOTE] > The wininet.h header defines FtpCommand as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ƒNƒ‰ƒCƒAƒ“ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒIƒtƒ‰ƒCƒ“‚Ìê‡AGetLastError ‚Í
+ERROR_INTERNET_NO_DIRECT_ACCESS ‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB1
+‚ÂˆÈã‚Ìƒpƒ‰ƒ[ƒ^‚ª–³Œø‚Å‚ ‚éê‡AGetLastError ‚Í ERROR_INVALID_PARAMETER ‚ğ•Ô‚·BWinINet
+API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FtpCommand ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 FtpCreateDirectoryW
-Creates a new directory on the FTP server. (Unicode)
+FTP ƒT[ƒo[ã‚ÉV‚µ‚¢ƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, lpszDirectory
-hConnect : [intptr] Handle returned by a previous call to InternetConnect using INTERNET_SERVICE_FTP.
-lpszDirectory : [wstr] Pointer to a null-terminated string that contains the name of the directory to be created. This can be either a fully qualified path or a name relative to the current directory.
+hConnect : [intptr] INTERNET_SERVICE_FTP ‚ğw’è‚µ‚½ InternetConnect ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
+lpszDirectory : [wstr] ì¬‚·‚éƒfƒBƒŒƒNƒgƒŠ‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠ®‘SCüƒpƒXA‚Ü‚½‚ÍƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ì‘Š‘Î–¼‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
 %inst
-Creates a new directory on the FTP server. (Unicode)
+FTP ƒT[ƒo[ã‚ÉV‚µ‚¢ƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get a specific
-error message, call GetLastError. If the error message indicates that
-the FTP server denied the request to create a directory, use
-InternetGetLastResponseInfo to determine why.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·BƒGƒ‰[ƒƒbƒZ[ƒW‚ª FTP
+ƒT[ƒo[‚É‚æ‚Á‚ÄƒfƒBƒŒƒNƒgƒŠì¬—v‹‚ª‹‘”Û‚³‚ê‚½‚±‚Æ‚ğ¦‚µ‚Ä‚¢‚éê‡‚ÍAInternetGetLastResponseInfo
+‚ğg—p‚µ‚Ä——R‚ğŠm”F‚·‚é‚±‚ÆB
 
 [”õl]
-An application should use FtpGetCurrentDirectory to determine the
-remote site's current working directory instead of assuming that the
-remote system uses a hierarchical naming scheme for directories. The
-lpszDirectory parameter can be either partially or fully qualified
-file names relative to the current directory. Like all other aspects
-of the WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines FtpCreateDirectory as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒŠƒ‚[ƒgƒVƒXƒeƒ€‚ªŠK‘w“I‚ÈƒfƒBƒŒƒNƒgƒŠ–½–¼ƒXƒL[ƒ€‚ğg—p‚µ‚Ä‚¢‚é‚Æ‰¼’è‚·‚é‚Ì‚Å‚Í‚È‚­AFtpGetCurrentDirectory
+‚ğg—p‚µ‚ÄƒŠƒ‚[ƒgƒTƒCƒg‚ÌƒJƒŒƒ“ƒgì‹ÆƒfƒBƒŒƒNƒgƒŠ‚ğ”»’è‚·‚×‚«‚Å‚ ‚éBlpszDirectory
+ƒpƒ‰ƒ[ƒ^‚É‚ÍAƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ì•”•ªCü‚Ü‚½‚ÍŠ®‘SCü‚Ìƒtƒ@ƒCƒ‹–¼‚ğw’è‚Å‚«‚éBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FtpCreateDirectory
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 FtpDeleteFileW
-Deletes a file stored on the FTP server. (Unicode)
+FTP ƒT[ƒo[‚É•Û‘¶‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹‚ğíœ‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, lpszFileName
-hConnect : [intptr] Handle returned by a previous call to InternetConnect using INTERNET_SERVICE_FTP.
-lpszFileName : [wstr] Pointer to a null-terminated string that contains the name of the file to be deleted.
+hConnect : [intptr] INTERNET_SERVICE_FTP ‚ğw’è‚µ‚½ InternetConnect ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
+lpszFileName : [wstr] íœ‚·‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Deletes a file stored on the FTP server. (Unicode)
+FTP ƒT[ƒo[‚É•Û‘¶‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹‚ğíœ‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get a specific
-error message, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The lpszFileName parameter can be either partially or fully qualified
-file names relative to the current directory. Like all other aspects
-of the WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines FtpDeleteFile as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+lpszFileName ƒpƒ‰ƒ[ƒ^‚É‚ÍAƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ì•”•ªCü‚Ü‚½‚ÍŠ®‘SCü‚Ìƒtƒ@ƒCƒ‹–¼‚ğw’è‚Å‚«‚éBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FtpDeleteFile ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 FtpFindFirstFileW
-Searches the specified directory of the given FTP session. File and directory entries are returned to the application in the WIN32_FIND_DATA structure. (Unicode)
+w’è‚³‚ê‚½ FTP ƒZƒbƒVƒ‡ƒ“‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğŒŸõ‚·‚éBƒtƒ@ƒCƒ‹‚ÆƒfƒBƒŒƒNƒgƒŠ‚ÌƒGƒ“ƒgƒŠ‚Í WIN32_FIND_DATA \‘¢‘Ì‚Æ‚µ‚ÄƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É•Ô‚³‚ê‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, lpszSearchFile, lpFindFileData, dwFlags, dwContext
-hConnect : [intptr] Handle to an FTP session returned from InternetConnect.
-lpszSearchFile : [wstr] Pointer to a null-terminated string that specifies a valid directory path or file name for the FTP server's file system. The string can contain wildcards, but no blank spaces are allowed. If the value of lpszSearchFile is NULL or if it is an empty string, the function  finds the first file in the current directory on the server.
-lpFindFileData : [var] Pointer to a WIN32_FIND_DATA structure that receives information about the found file or directory.
+hConnect : [intptr] InternetConnect ‚©‚ç•Ô‚³‚ê‚½ FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lpszSearchFile : [wstr] FTP ƒT[ƒo[‚Ìƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ã‚Ì—LŒø‚ÈƒfƒBƒŒƒNƒgƒŠƒpƒX‚Ü‚½‚Íƒtƒ@ƒCƒ‹–¼‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B•¶š—ñ‚É‚ÍƒƒCƒ‹ƒhƒJ[ƒh‚ğŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚é‚ªA‹ó”’‚Í‹–‰Â‚³‚ê‚È‚¢BlpszSearchFile ‚Ì’l‚ª NULL ‚Ü‚½‚Í‹ó•¶š—ñ‚Ìê‡AŠÖ”‚ÍƒT[ƒo[ã‚ÌƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ÅÅ‰‚Ìƒtƒ@ƒCƒ‹‚ğŒŸõ‚·‚éB
+lpFindFileData : [var] Œ©‚Â‚©‚Á‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ìî•ñ‚ğó‚¯æ‚é WIN32_FIND_DATA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 dwFlags : [int] 
-dwContext : [int] Pointer to a variable that specifies the application-defined value that associates this search with any application data. This parameter is used only if the application has already called InternetSetStatusCallback to set up a status callback function.
+dwContext : [int] –{ŒŸõ‚ğ”CˆÓ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒf[ƒ^‚ÆŠÖ˜A•t‚¯‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì’l‚ğw’è‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŠù‚É InternetSetStatusCallback ‚ğŒÄ‚Ño‚µ‚ÄƒXƒe[ƒ^ƒXƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğİ’è‚µ‚Ä‚¢‚éê‡‚É‚Ì‚İg—p‚³‚ê‚éB
 %inst
-Searches the specified directory of the given FTP session. File and
-directory entries are returned to the application in the
-WIN32_FIND_DATA structure. (Unicode)
+w’è‚³‚ê‚½ FTP ƒZƒbƒVƒ‡ƒ“‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğŒŸõ‚·‚éBƒtƒ@ƒCƒ‹‚ÆƒfƒBƒŒƒNƒgƒŠ‚ÌƒGƒ“ƒgƒŠ‚Í WIN32_FIND_DATA
+\‘¢‘Ì‚Æ‚µ‚ÄƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É•Ô‚³‚ê‚éB(Unicode)
 
 [–ß‚è’l]
-Returns a valid handle for the request if the directory enumeration
-was started successfully, or returns NULL otherwise. To get a
-specific error message, call GetLastError. If GetLastError returns
-ERROR_INTERNET_EXTENDED_ERROR, as in the case where the function
-finds no matching files, call the InternetGetLastResponseInfo
-function to retrieve the extended error text, as documented in
-Handling Errors.
+ƒfƒBƒŒƒNƒgƒŠ—ñ‹“‚ª³í‚ÉŠJn‚³‚ê‚½ê‡‚Í—v‹‚É‘Î‚·‚é—LŒø‚Èƒnƒ“ƒhƒ‹‚ğA‚»‚¤‚Å‚È‚¢ê‡‚Í NULL
+‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·Bˆê’v‚·‚éƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚È‚Ç‚É
+GetLastError ‚ª ERROR_INTERNET_EXTENDED_ERROR
+‚ğ•Ô‚µ‚½ê‡‚ÍAInternetGetLastResponseInfo ŠÖ”‚ğŒÄ‚Ño‚µ‚ÄŠg’£ƒGƒ‰[ƒeƒLƒXƒg‚ğæ“¾‚·‚é‚±‚Æ
+(Handling Errors ‚ğQÆ)B
 
 [”õl]
-For FtpFindFirstFile, file times returned in the WIN32_FIND_DATA
-structure are in the local time zone, not in a coordinated universal
-time (UTC) format. FtpFindFirstFile is similar to the FindFirstFile
-function. Note, however, that only one FtpFindFirstFile can occur at
-a time within a given FTP session. The enumerations, therefore, are
-correlated with the FTP session handle. This is because the FTP
-protocol allows only a single directory enumeration per session.
-After calling FtpFindFirstFile and until calling InternetCloseHandle,
-the application cannot call FtpFindFirstFile again on the given FTP
-session handle. If a call is made to FtpFindFirstFile on that handle,
-the function fails with ERROR_FTP_TRANSFER_IN_PROGRESS. After the
-calling application has finished using the HINTERNET handle returned
-by FtpFindFirstFile, it must be closed using the InternetCloseHandle
-function. After beginning a directory enumeration with
-FtpFindFirstFile, the InternetFindNextFile function can be used to
-continue the enumeration. Because the FTP protocol provides no
-standard means of enumerating, some of the common information about
-files, such as file creation date and time, is not always available
-or correct. When this happens, FtpFindFirstFile and
-InternetFindNextFile fill in unavailable information with a best
-guess based on available information. For example, creation and last
-access dates are often the same as the file's modification date. The
-application cannot call FtpFindFirstFile between calls to FtpOpenFile
-and InternetCloseHandle. Like all other aspects of the WinINet API,
-this function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines FtpFindFirstFile as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+FtpFindFirstFile ‚Å‚ÍAWIN32_FIND_DATA
+\‘¢‘Ì‚É•Ô‚³‚ê‚éƒtƒ@ƒCƒ‹‚Íƒ[ƒJƒ‹ƒ^ƒCƒ€ƒ][ƒ“‚Å‚ ‚èA‹¦’è¢ŠE (UTC) Œ`®‚Å‚Í‚È‚¢BFtpFindFirstFile ‚Í
+FindFirstFile ŠÖ”‚É—Ş—‚µ‚Ä‚¢‚éB‚½‚¾‚µA“Á’è‚Ì FTP ƒZƒbƒVƒ‡ƒ““à‚Å“¯‚É”­¶‚Å‚«‚é FtpFindFirstFile
+‚Í 1 ‚Â‚¾‚¯‚Å‚ ‚é‚±‚Æ‚É’ˆÓ‚·‚é‚±‚ÆB‚µ‚½‚ª‚Á‚ÄA—ñ‹“‚Í FTP ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚Æ‘ŠŠÖ‚·‚éB‚±‚ê‚Í FTP
+ƒvƒƒgƒRƒ‹‚ªƒZƒbƒVƒ‡ƒ“‚²‚Æ‚É 1 ‚Â‚ÌƒfƒBƒŒƒNƒgƒŠ—ñ‹“‚Ì‚İ‚ğ‹–‰Â‚µ‚Ä‚¢‚é‚½‚ß‚Å‚ ‚éBFtpFindFirstFile
+‚ğŒÄ‚Ño‚µ‚½ŒãAInternetCloseHandle ‚ğŒÄ‚Ño‚·‚Ü‚ÅAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íw’è‚µ‚½ FTP ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚Å
+FtpFindFirstFile ‚ğÄ“xŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚È‚¢B‚»‚Ìƒnƒ“ƒhƒ‹‚Å FtpFindFirstFile ‚ğŒÄ‚Ño‚·‚ÆAŠÖ”‚Í
+ERROR_FTP_TRANSFER_IN_PROGRESS ‚Å¸”s‚·‚éBŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª FtpFindFirstFile
+‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ HINTERNET ƒnƒ“ƒhƒ‹‚Ìg—p‚ğI‚¦‚½‚çAInternetCloseHandle
+ŠÖ”‚Å•Â‚¶‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BFtpFindFirstFile ‚É‚æ‚éƒfƒBƒŒƒNƒgƒŠ—ñ‹“‚ÌŠJnŒãAInternetFindNextFile
+ŠÖ”‚ğg—p‚µ‚Ä—ñ‹“‚ğŒp‘±‚Å‚«‚éBFTP
+ƒvƒƒgƒRƒ‹‚É‚Í—ñ‹“‚Ì•W€“I‚Èè’i‚ª‚È‚¢‚½‚ßAƒtƒ@ƒCƒ‹ì¬“ú‚È‚ÇAƒtƒ@ƒCƒ‹‚ÉŠÖ‚·‚éˆê”Ê“I‚Èî•ñ‚Ìˆê•”‚Íí‚É—˜—p‚Å‚«‚é‚Æ‚ÍŒÀ‚ç‚¸A³Šm‚Å‚È‚¢ê‡‚à‚ ‚éB‚»‚Ì‚æ‚¤‚Èê‡AFtpFindFirstFile
+‚Æ InternetFindNextFile
+‚ÍA—˜—p‰Â”\‚Èî•ñ‚ÉŠî‚Ã‚­Å‘P‚Ì„‘ª‚Å—˜—p‚Å‚«‚È‚¢î•ñ‚ğ–„‚ß‚éB—á‚¦‚ÎAì¬“ú‚âÅIƒAƒNƒZƒX“ú‚ÍA‚µ‚Î‚µ‚Îƒtƒ@ƒCƒ‹‚ÌXV“ú‚Æ“¯‚¶‚É‚È‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+FtpOpenFile ‚Æ InternetCloseHandle ‚ÌŒÄ‚Ño‚µ‚ÌŠÔ‚É FtpFindFirstFile
+‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚È‚¢BWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FtpFindFirstFile ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 FtpGetCurrentDirectoryW
-Retrieves the current directory for the specified FTP session. (Unicode)
+w’è‚µ‚½ FTP ƒZƒbƒVƒ‡ƒ“‚ÌƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, lpszCurrentDirectory, lpdwCurrentDirectory
-hConnect : [intptr] Handle to an FTP session.
-lpszCurrentDirectory : [wstr] Pointer to a null-terminated string that receives the absolute path of the current directory.
-lpdwCurrentDirectory : [var] Pointer to a variable that specifies the length of the buffer, in TCHARs. The buffer length must include room for a terminating null character. Using a length of MAX_PATH is sufficient for all paths. When the function returns, the variable receives the number of characters copied into the buffer.
+hConnect : [intptr] FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lpszCurrentDirectory : [wstr] ƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚Ìâ‘ÎƒpƒX‚ğó‚¯æ‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpdwCurrentDirectory : [var] ƒoƒbƒtƒ@‚Ì’·‚³ (TCHAR ’PˆÊ) ‚ğw’è‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒoƒbƒtƒ@‚Ì’·‚³‚É‚ÍI’[ null •¶š‚Ì—Ìˆæ‚ğŠÜ‚ß‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BMAX_PATH ‚Ì’·‚³‚ª‚ ‚ê‚Î‚·‚×‚Ä‚ÌƒpƒX‚É\•ª‚Å‚ ‚éBŠÖ”‚ª–ß‚é‚ÆA•Ï”‚É‚Íƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½•¶š”‚ªŠi”[‚³‚ê‚éB
 %inst
-Retrieves the current directory for the specified FTP session.
-(Unicode)
+w’è‚µ‚½ FTP ƒZƒbƒVƒ‡ƒ“‚ÌƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get a specific
-error message, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-If the lpszCurrentDirectory buffer is not large enough,
-lpdwCurrentDirectory receives the number of bytes required to
-retrieve the full, current directory name. Like all other aspects of
-the WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines FtpGetCurrentDirectory as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+lpszCurrentDirectory ƒoƒbƒtƒ@‚ª\•ª‘å‚«‚­‚È‚¢ê‡AlpdwCurrentDirectory
+‚É‚ÍŠ®‘S‚ÈƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ–¼‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈƒoƒCƒg”‚ª•Ô‚³‚ê‚éBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í
+DllMain ‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FtpGetCurrentDirectory
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 FtpGetFileW
-Retrieves a file from the FTP server and stores it under the specified file name, creating a new local file in the process. (Unicode)
+FTP ƒT[ƒo[‚©‚çƒtƒ@ƒCƒ‹‚ğæ“¾‚µAw’è‚µ‚½ƒtƒ@ƒCƒ‹–¼‚Å•Û‘¶‚·‚éB‚»‚Ì‰ß’ö‚ÅV‚µ‚¢ƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹‚ğì¬‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, lpszRemoteFile, lpszNewFile, fFailIfExists, dwFlagsAndAttributes, dwFlags, dwContext
-hConnect : [intptr] Handle to an FTP session.
-lpszRemoteFile : [wstr] Pointer to a null-terminated string that contains the name of the file to be retrieved.
-lpszNewFile : [wstr] Pointer to a null-terminated string that contains the name of the file to be created on the local system.
-fFailIfExists : [int] Indicates whether the function should proceed if a local file of the specified name already exists. If fFailIfExists is TRUE and the local file exists, FtpGetFile fails.
-dwFlagsAndAttributes : [int] File attributes for the new file. This parameter can be any combination of the FILE_ATTRIBUTE_* flags used by the CreateFile function.
-dwFlags : [int] Controls how the function will handle the file download. The first set of flag values indicates the conditions under which the transfer occurs. These transfer type flags can be used in combination with the second set of flags that control caching.
-dwContext : [int] Pointer to a variable that contains the application-defined value that associates this search with any application data. This is used only if the application has already called InternetSetStatusCallback to set up a status callback function.
+hConnect : [intptr] FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lpszRemoteFile : [wstr] æ“¾‚·‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszNewFile : [wstr] ƒ[ƒJƒ‹ƒVƒXƒeƒ€ã‚Éì¬‚·‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fFailIfExists : [int] w’è‚³‚ê‚½–¼‘O‚Ìƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹‚ªŠù‚É‘¶İ‚·‚éê‡‚ÉŠÖ”‚ğ‘±s‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·BfFailIfExists ‚ª TRUE ‚Åƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚éê‡AFtpGetFile ‚Í¸”s‚·‚éB
+dwFlagsAndAttributes : [int] V‚µ‚¢ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹‘®«B–{ƒpƒ‰ƒ[ƒ^‚É‚Í CreateFile ŠÖ”‚Åg—p‚³‚ê‚é FILE_ATTRIBUTE_* ƒtƒ‰ƒO‚Ì”CˆÓ‚Ì‘g‚İ‡‚í‚¹‚ğw’è‚Å‚«‚éB
+dwFlags : [int] ŠÖ”‚ªƒtƒ@ƒCƒ‹ƒ_ƒEƒ“ƒ[ƒh‚ğ‚Ç‚¤ˆ—‚·‚é‚©‚ğ§Œä‚·‚éBÅ‰‚Ìƒtƒ‰ƒO’l‚Ì‘g‚ÍA“]‘—‚ª”­¶‚·‚éğŒ‚ğ¦‚·B‚±‚ê‚ç‚Ì“]‘—í•Êƒtƒ‰ƒO‚ÍAƒLƒƒƒbƒVƒ…‚ğ§Œä‚·‚é 2 ”Ô–Ú‚Ìƒtƒ‰ƒO‘g‚Æ‘g‚İ‡‚í‚¹‚Äg—p‚Å‚«‚éB
+dwContext : [int] –{ŒŸõ‚ğ”CˆÓ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒf[ƒ^‚ÆŠÖ˜A•t‚¯‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì’l‚ğŠi”[‚µ‚½•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŠù‚É InternetSetStatusCallback ‚ğŒÄ‚Ño‚µ‚ÄƒXƒe[ƒ^ƒXƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğİ’è‚µ‚Ä‚¢‚éê‡‚É‚Ì‚İg—p‚³‚ê‚éB
 %inst
-Retrieves a file from the FTP server and stores it under the
-specified file name, creating a new local file in the process.
-(Unicode)
+FTP ƒT[ƒo[‚©‚çƒtƒ@ƒCƒ‹‚ğæ“¾‚µAw’è‚µ‚½ƒtƒ@ƒCƒ‹–¼‚Å•Û‘¶‚·‚éB‚»‚Ì‰ß’ö‚ÅV‚µ‚¢ƒ[ƒJƒ‹ƒtƒ@ƒCƒ‹‚ğì¬‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get a specific
-error message, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-FtpGetFile is a high-level routine that handles all the bookkeeping
-and overhead associated with reading a file from an FTP server and
-storing it locally. An application that needs to retrieve file data
-only or that requires close control over the file transfer should use
-the FtpOpenFile and InternetReadFile functions. If the dwFlags
-parameter specifies FTP_TRANSFER_TYPE_ASCII, translation of the file
-data converts control and formatting characters to local equivalents.
-The default transfer is binary mode, where the file is downloaded in
-the same format as it is stored on the server. Both lpszRemoteFile
-and lpszNewFile can be either partially or fully qualified file names
-relative to the current directory. Like all other aspects of the
-WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines FtpGetFile as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+FtpGetFile ‚ÍAFTP
+ƒT[ƒo[‚©‚ç‚Ìƒtƒ@ƒCƒ‹“Ç‚İæ‚è‚Æƒ[ƒJƒ‹‚Ö‚Ì•Û‘¶‚É”º‚¤‚·‚×‚Ä‚ÌŠÇ—ˆ—‚ğˆµ‚¤‚ƒŒƒxƒ‹‚Èƒ‹[ƒ`ƒ“‚Å‚ ‚éBƒtƒ@ƒCƒ‹ƒf[ƒ^‚Ì‚İ‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“A‚Ü‚½‚Íƒtƒ@ƒCƒ‹“]‘—‚Ì×‚©‚È§Œä‚ğ•K—v‚Æ‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAFtpOpenFile
+‚Æ InternetReadFile ŠÖ”‚ğg—p‚·‚×‚«‚Å‚ ‚éBdwFlags ƒpƒ‰ƒ[ƒ^‚É FTP_TRANSFER_TYPE_ASCII
+‚ğw’è‚·‚é‚ÆAƒtƒ@ƒCƒ‹ƒf[ƒ^‚Ì•ÏŠ·‚É‚æ‚è§Œä•¶š‚â‘®•¶š‚ªƒ[ƒJƒ‹‚Ì‘Š“–‚·‚é•¶š‚É•ÏŠ·‚³‚ê‚éBŠù’è‚Ì“]‘—‚ÍƒoƒCƒiƒŠƒ‚[ƒh‚Å‚ ‚èAƒtƒ@ƒCƒ‹‚ÍƒT[ƒo[ã‚É•Û‘¶‚³‚ê‚½‚Ü‚Ü‚ÌŒ`®‚Åƒ_ƒEƒ“ƒ[ƒh‚³‚ê‚éBlpszRemoteFile
+‚Æ lpszNewFile ‚Ì—¼•û‚É‚ÍAƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ì•”•ªCü‚Ü‚½‚ÍŠ®‘SCü‚Ìƒtƒ@ƒCƒ‹–¼‚ğw’è‚Å‚«‚éBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FtpGetFile ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -1188,114 +1067,98 @@ dwContext : [int]
 
 %index
 FtpGetFileSize
-Retrieves the file size of the requested FTP resource.
+—v‹‚³‚ê‚½ FTP ƒŠƒ\[ƒX‚Ìƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğæ“¾‚·‚éB
 %group
 Win32 wininet
 %prm
 hFile, lpdwFileSizeHigh
-hFile : [intptr] Handle returned from a call to FtpOpenFile.
-lpdwFileSizeHigh : [var] Pointer to the high-order unsigned long integer of the file size of the requested FTP resource.
+hFile : [intptr] FtpOpenFile ‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
+lpdwFileSizeHigh : [var] —v‹‚³‚ê‚½ FTP ƒŠƒ\[ƒX‚Ìƒtƒ@ƒCƒ‹ƒTƒCƒY‚ÌãˆÊ unsigned long ®”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the file size of the requested FTP resource.
+—v‹‚³‚ê‚½ FTP ƒŠƒ\[ƒX‚Ìƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns the low-order unsigned long integer of the file size of the
-requested FTP resource.
+—v‹‚³‚ê‚½ FTP ƒŠƒ\[ƒX‚Ìƒtƒ@ƒCƒ‹ƒTƒCƒY‚Ì‰ºˆÊ unsigned long ®”‚ğ•Ô‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 FtpOpenFileW
-Initiates access to a remote file on an FTP server for reading or writing. (Unicode)
+FTP ƒT[ƒo[ã‚ÌƒŠƒ‚[ƒgƒtƒ@ƒCƒ‹‚Ö‚Ì“Ç‚İæ‚è‚Ü‚½‚Í‘‚«‚İƒAƒNƒZƒX‚ğŠJn‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, lpszFileName, dwAccess, dwFlags, dwContext
-hConnect : [intptr] Handle to an FTP session.
-lpszFileName : [wstr] Pointer to a null-terminated string that contains the name of the file to be accessed.
-dwAccess : [int] File  access. This parameter can be GENERIC_READ or GENERIC_WRITE, but not both.
-dwFlags : [int] Conditions under which the transfers occur. The application should select one transfer type and any of the flags that indicate how the caching of the file will be controlled.
-dwContext : [int] Pointer to a variable that contains the application-defined value that associates this search with any application data. This is only used if the application has already called InternetSetStatusCallback to set up a status callback function.
+hConnect : [intptr] FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lpszFileName : [wstr] ƒAƒNƒZƒX‚·‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwAccess : [int] ƒtƒ@ƒCƒ‹ƒAƒNƒZƒXB–{ƒpƒ‰ƒ[ƒ^‚É‚Í GENERIC_READ ‚Ü‚½‚Í GENERIC_WRITE ‚ğw’è‚Å‚«‚é‚ªA—¼•û‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+dwFlags : [int] “]‘—‚ª”­¶‚·‚éğŒBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í 1 ‚Â‚Ì“]‘—í•Ê‚ÆAƒtƒ@ƒCƒ‹‚ÌƒLƒƒƒbƒVƒ…•û–@‚ğ§Œä‚·‚éƒtƒ‰ƒO‚Ì”CˆÓ‚Ì‘g‚İ‡‚í‚¹‚ğ‘I‘ğ‚·‚×‚«‚Å‚ ‚éB
+dwContext : [int] –{ŒŸõ‚ğ”CˆÓ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒf[ƒ^‚ÆŠÖ˜A•t‚¯‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì’l‚ğŠi”[‚µ‚½•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŠù‚É InternetSetStatusCallback ‚ğŒÄ‚Ño‚µ‚ÄƒXƒe[ƒ^ƒXƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğİ’è‚µ‚Ä‚¢‚éê‡‚É‚Ì‚İg—p‚³‚ê‚éB
 %inst
-Initiates access to a remote file on an FTP server for reading or
-writing. (Unicode)
+FTP ƒT[ƒo[ã‚ÌƒŠƒ‚[ƒgƒtƒ@ƒCƒ‹‚Ö‚Ì“Ç‚İæ‚è‚Ü‚½‚Í‘‚«‚İƒAƒNƒZƒX‚ğŠJn‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns a handle if successful, or NULL otherwise. To retrieve a
-specific error message, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Íƒnƒ“ƒhƒ‹‚ğA¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-After calling FtpOpenFile and until calling InternetCloseHandle, all
-other calls to FTP functions on the same FTP session handle will fail
-and set the error message to ERROR_FTP_TRANSFER_IN_PROGRESS. After
-the calling application has finished using the HINTERNET handle
-returned by FtpOpenFile, it must be closed using the
-InternetCloseHandle function. Only one file can be open in a single
-FTP session. Therefore, no file handle is returned and the
-application simply uses the FTP session handle when necessary. The
-lpszFileName parameter can be either a partially or fully qualified
-file name relative to the current directory. Like all other aspects
-of the WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines FtpOpenFile as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+FtpOpenFile ‚ğŒÄ‚Ño‚µ‚½ŒãAInternetCloseHandle ‚ğŒÄ‚Ño‚·‚Ü‚ÅA“¯‚¶ FTP ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚É‘Î‚·‚é
+FTP ŠÖ”‚Ì‘¼‚Ì‚·‚×‚Ä‚ÌŒÄ‚Ño‚µ‚Í¸”s‚µAƒGƒ‰[ƒƒbƒZ[ƒW‚Æ‚µ‚Ä ERROR_FTP_TRANSFER_IN_PROGRESS
+‚ªİ’è‚³‚ê‚éBŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª FtpOpenFile ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ HINTERNET
+ƒnƒ“ƒhƒ‹‚Ìg—p‚ğI‚¦‚½‚çAInternetCloseHandle ŠÖ”‚Å•Â‚¶‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B1 ‚Â‚Ì FTP ƒZƒbƒVƒ‡ƒ“‚Å‚Í 1
+‚Â‚Ìƒtƒ@ƒCƒ‹‚µ‚©ŠJ‚­‚±‚Æ‚ª‚Å‚«‚È‚¢B‚µ‚½‚ª‚Á‚ÄAƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚Í•Ô‚³‚ê‚¸AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í•K—v‚É‰‚¶‚Ä FTP
+ƒZƒbƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹‚ğg—p‚·‚é‚¾‚¯‚Å‚ ‚éBlpszFileName
+ƒpƒ‰ƒ[ƒ^‚É‚ÍAƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ì•”•ªCü‚Ü‚½‚ÍŠ®‘SCü‚Ìƒtƒ@ƒCƒ‹–¼‚ğw’è‚Å‚«‚éBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FtpOpenFile ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 FtpPutFileW
-Stores a file on the FTP server. (Unicode)
+FTP ƒT[ƒo[ã‚Éƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, lpszLocalFile, lpszNewRemoteFile, dwFlags, dwContext
-hConnect : [intptr] Handle to an FTP session.
-lpszLocalFile : [wstr] Pointer to a null-terminated string that contains the name of the file to be sent from the local system.
-lpszNewRemoteFile : [wstr] Pointer to a null-terminated string that contains the name of the file to be created on the remote system.
-dwFlags : [int] Conditions under which the transfers occur. The application should select one transfer type and any of the flags that control how the caching of the file will be controlled.
-dwContext : [int] Pointer to a variable that contains the application-defined value that associates this search with any application data. This parameter is used only if the application has already called InternetSetStatusCallback to set up a status callback.
+hConnect : [intptr] FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lpszLocalFile : [wstr] ƒ[ƒJƒ‹ƒVƒXƒeƒ€‚©‚ç‘—M‚·‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszNewRemoteFile : [wstr] ƒŠƒ‚[ƒgƒVƒXƒeƒ€ã‚Éì¬‚·‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwFlags : [int] “]‘—‚ª”­¶‚·‚éğŒBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í 1 ‚Â‚Ì“]‘—í•Ê‚ÆAƒtƒ@ƒCƒ‹‚ÌƒLƒƒƒbƒVƒ…•û–@‚ğ§Œä‚·‚éƒtƒ‰ƒO‚Ì”CˆÓ‚Ì‘g‚İ‡‚í‚¹‚ğ‘I‘ğ‚·‚×‚«‚Å‚ ‚éB
+dwContext : [int] –{ŒŸõ‚ğ”CˆÓ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒf[ƒ^‚ÆŠÖ˜A•t‚¯‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì’l‚ğŠi”[‚µ‚½•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŠù‚É InternetSetStatusCallback ‚ğŒÄ‚Ño‚µ‚ÄƒXƒe[ƒ^ƒXƒR[ƒ‹ƒoƒbƒN‚ğİ’è‚µ‚Ä‚¢‚éê‡‚É‚Ì‚İg—p‚³‚ê‚éB
 %inst
-Stores a file on the FTP server. (Unicode)
+FTP ƒT[ƒo[ã‚Éƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get a specific
-error message, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-FtpPutFile is a high-level routine that handles all the bookkeeping
-and overhead associated with reading a file locally and storing it on
-an FTP server. An application that needs to send file data only, or
-that requires close control over the file transfer, should use the
-FtpOpenFile and InternetWriteFile functions. If the dwFlags parameter
-specifies FILE_TRANSFER_TYPE_ASCII, translation of the file data
-converts control and formatting characters to local equivalents. Both
-lpszNewRemoteFile and lpszLocalFile can be either partially or fully
-qualified file names relative to the current directory. Like all
-other aspects of the WinINet API, this function cannot be safely
-called from within DllMain or the constructors and destructors of
-global objects. Note WinINet does not support server implementations.
-In addition, it should not be used from a service. For server
-implementations or services use Microsoft Windows HTTP Services
-(WinHTTP).
-> [!NOTE] > The wininet.h header defines FtpPutFile as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+FtpPutFile ‚ÍAƒ[ƒJƒ‹‚Å‚Ìƒtƒ@ƒCƒ‹“Ç‚İæ‚è‚Æ FTP
+ƒT[ƒo[‚Ö‚Ì•Û‘¶‚É”º‚¤‚·‚×‚Ä‚ÌŠÇ—ˆ—‚ğˆµ‚¤‚ƒŒƒxƒ‹‚Èƒ‹[ƒ`ƒ“‚Å‚ ‚éBƒtƒ@ƒCƒ‹ƒf[ƒ^‚Ì‘—M‚Ì‚İ‚ğ•K—v‚Æ‚·‚éA‚Ü‚½‚Íƒtƒ@ƒCƒ‹“]‘—‚Ì×‚©‚È§Œä‚ğ•K—v‚Æ‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAFtpOpenFile
+‚Æ InternetWriteFile ŠÖ”‚ğg—p‚·‚×‚«‚Å‚ ‚éBdwFlags ƒpƒ‰ƒ[ƒ^‚É
+FILE_TRANSFER_TYPE_ASCII
+‚ğw’è‚·‚é‚ÆAƒtƒ@ƒCƒ‹ƒf[ƒ^‚Ì•ÏŠ·‚É‚æ‚è§Œä•¶š‚â‘®•¶š‚ªƒ[ƒJƒ‹‚Ì‘Š“–‚·‚é•¶š‚É•ÏŠ·‚³‚ê‚éBlpszNewRemoteFile ‚Æ
+lpszLocalFile ‚Ì—¼•û‚É‚ÍAƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ì•”•ªCü‚Ü‚½‚ÍŠ®‘SCü‚Ìƒtƒ@ƒCƒ‹–¼‚ğw’è‚Å‚«‚éBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FtpPutFile ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -1316,147 +1179,131 @@ dwContext : [int]
 
 %index
 FtpRemoveDirectoryW
-Removes the specified directory on the FTP server. (Unicode)
+FTP ƒT[ƒo[ã‚Ìw’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠ‚ğíœ‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, lpszDirectory
-hConnect : [intptr] Handle to an FTP session.
-lpszDirectory : [wstr] Pointer to a null-terminated string that contains the name of the directory to be removed. This can be either a fully qualified path or a name relative to the current directory.
+hConnect : [intptr] FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lpszDirectory : [wstr] íœ‚·‚éƒfƒBƒŒƒNƒgƒŠ‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠ®‘SCüƒpƒXA‚Ü‚½‚ÍƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ì‘Š‘Î–¼‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
 %inst
-Removes the specified directory on the FTP server. (Unicode)
+FTP ƒT[ƒo[ã‚Ìw’è‚µ‚½ƒfƒBƒŒƒNƒgƒŠ‚ğíœ‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get a specific
-error message, call GetLastError. If the error message indicates that
-the FTP server denied the request to remove a directory, use
-InternetGetLastResponseInfo to determine why.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·BƒGƒ‰[ƒƒbƒZ[ƒW‚ª FTP
+ƒT[ƒo[‚É‚æ‚Á‚ÄƒfƒBƒŒƒNƒgƒŠíœ—v‹‚ª‹‘”Û‚³‚ê‚½‚±‚Æ‚ğ¦‚µ‚Ä‚¢‚éê‡‚ÍAInternetGetLastResponseInfo
+‚ğg—p‚µ‚Ä——R‚ğŠm”F‚·‚é‚±‚ÆB
 
 [”õl]
-An application should use FtpGetCurrentDirectory to determine the
-remote site's current working directory, instead of assuming that the
-remote system uses a hierarchical naming scheme for directories. The
-lpszDirectory parameter can be either partially or fully qualified
-file names relative to the current directory. Like all other aspects
-of the WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines FtpRemoveDirectory as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒŠƒ‚[ƒgƒVƒXƒeƒ€‚ªŠK‘w“I‚ÈƒfƒBƒŒƒNƒgƒŠ–½–¼ƒXƒL[ƒ€‚ğg—p‚µ‚Ä‚¢‚é‚Æ‰¼’è‚·‚é‚Ì‚Å‚Í‚È‚­AFtpGetCurrentDirectory
+‚ğg—p‚µ‚ÄƒŠƒ‚[ƒgƒTƒCƒg‚ÌƒJƒŒƒ“ƒgì‹ÆƒfƒBƒŒƒNƒgƒŠ‚ğ”»’è‚·‚×‚«‚Å‚ ‚éBlpszDirectory
+ƒpƒ‰ƒ[ƒ^‚É‚ÍAƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ì•”•ªCü‚Ü‚½‚ÍŠ®‘SCü‚Ìƒtƒ@ƒCƒ‹–¼‚ğw’è‚Å‚«‚éBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FtpRemoveDirectory
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 FtpRenameFileW
-Renames a file stored on the FTP server. (Unicode)
+FTP ƒT[ƒo[ã‚É•Û‘¶‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ•ÏX‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, lpszExisting, lpszNew
-hConnect : [intptr] Handle to an FTP session.
-lpszExisting : [wstr] Pointer to a null-terminated string that contains the name of the file to be renamed.
-lpszNew : [wstr] Pointer to a null-terminated string that contains the new name for the remote file.
+hConnect : [intptr] FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lpszExisting : [wstr] –¼‘O‚ğ•ÏX‚·‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszNew : [wstr] ƒŠƒ‚[ƒgƒtƒ@ƒCƒ‹‚ÌV‚µ‚¢–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Renames a file stored on the FTP server. (Unicode)
+FTP ƒT[ƒo[ã‚É•Û‘¶‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ•ÏX‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get a specific
-error message, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The lpszExisting and lpszNew parameters can be either partially or
-fully qualified file names relative to the current directory. Like
-all other aspects of the WinINet API, this function cannot be safely
-called from within DllMain or the constructors and destructors of
-global objects. Note WinINet does not support server implementations.
-In addition, it should not be used from a service. For server
-implementations or services use Microsoft Windows HTTP Services
-(WinHTTP).
-> [!NOTE] > The wininet.h header defines FtpRenameFile as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+lpszExisting ‚Æ lpszNew
+ƒpƒ‰ƒ[ƒ^‚É‚ÍAƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ì•”•ªCü‚Ü‚½‚ÍŠ®‘SCü‚Ìƒtƒ@ƒCƒ‹–¼‚ğw’è‚Å‚«‚éBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FtpRenameFile ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 FtpSetCurrentDirectoryW
-Changes to a different working directory on the FTP server. (Unicode)
+FTP ƒT[ƒo[ã‚Ìì‹ÆƒfƒBƒŒƒNƒgƒŠ‚ğ•ÏX‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, lpszDirectory
-hConnect : [intptr] Handle to an FTP session.
-lpszDirectory : [wstr] Pointer to a null-terminated string that contains the name of the directory to become the current working directory. This can be either a fully qualified path or a name relative to the current directory.
+hConnect : [intptr] FTP ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lpszDirectory : [wstr] ƒJƒŒƒ“ƒgì‹ÆƒfƒBƒŒƒNƒgƒŠ‚É‚·‚éƒfƒBƒŒƒNƒgƒŠ‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠ®‘SCüƒpƒXA‚Ü‚½‚ÍƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ì‘Š‘Î–¼‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
 %inst
-Changes to a different working directory on the FTP server. (Unicode)
+FTP ƒT[ƒo[ã‚Ìì‹ÆƒfƒBƒŒƒNƒgƒŠ‚ğ•ÏX‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get a specific
-error message, call GetLastError. If the error message indicates that
-the FTP server denied the request to change a directory, use
-InternetGetLastResponseInfo to determine why.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·BƒGƒ‰[ƒƒbƒZ[ƒW‚ª FTP
+ƒT[ƒo[‚É‚æ‚Á‚ÄƒfƒBƒŒƒNƒgƒŠ•ÏX—v‹‚ª‹‘”Û‚³‚ê‚½‚±‚Æ‚ğ¦‚µ‚Ä‚¢‚éê‡‚ÍAInternetGetLastResponseInfo
+‚ğg—p‚µ‚Ä——R‚ğŠm”F‚·‚é‚±‚ÆB
 
 [”õl]
-An application should use FtpGetCurrentDirectory to determine the
-remote site's current working directory, instead of assuming that the
-remote system uses a hierarchical naming scheme for directories. The
-lpszDirectory parameter can be either partially or fully qualified
-file names relative to the current directory. Like all other aspects
-of the WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines FtpSetCurrentDirectory as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒŠƒ‚[ƒgƒVƒXƒeƒ€‚ªŠK‘w“I‚ÈƒfƒBƒŒƒNƒgƒŠ–½–¼ƒXƒL[ƒ€‚ğg—p‚µ‚Ä‚¢‚é‚Æ‰¼’è‚·‚é‚Ì‚Å‚Í‚È‚­AFtpGetCurrentDirectory
+‚ğg—p‚µ‚ÄƒŠƒ‚[ƒgƒTƒCƒg‚ÌƒJƒŒƒ“ƒgì‹ÆƒfƒBƒŒƒNƒgƒŠ‚ğ”»’è‚·‚×‚«‚Å‚ ‚éBlpszDirectory
+ƒpƒ‰ƒ[ƒ^‚É‚ÍAƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚©‚ç‚Ì•”•ªCü‚Ü‚½‚ÍŠ®‘SCü‚Ìƒtƒ@ƒCƒ‹–¼‚ğw’è‚Å‚«‚éBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í FtpSetCurrentDirectory
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 GetUrlCacheConfigInfoW
-Retrieves information about cache configuration. (Unicode)
+ƒLƒƒƒbƒVƒ…\¬‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpCacheConfigInfo, lpcbCacheConfigInfo, dwFieldControl
-lpCacheConfigInfo : [var] A pointer to an INTERNET_CACHE_CONFIG_INFO structure that receives information about the cache configuration. The dwStructSize field of the structure should be initialized to the size of INTERNET_CACHE_CONFIG_INFO.
-lpcbCacheConfigInfo : [var] This parameter is reserved and must be NULL.
+lpCacheConfigInfo : [var] ƒLƒƒƒbƒVƒ…\¬î•ñ‚ğó‚¯æ‚é INTERNET_CACHE_CONFIG_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B\‘¢‘Ì‚Ì dwStructSize ƒtƒB[ƒ‹ƒh‚Í INTERNET_CACHE_CONFIG_INFO ‚ÌƒTƒCƒY‚Å‰Šú‰»‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpcbCacheConfigInfo : [var] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 dwFieldControl : [int] 
 %inst
-Retrieves information about cache configuration. (Unicode)
+ƒLƒƒƒbƒVƒ…\¬‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The winineti.h header defines GetUrlCacheConfigInfo as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > winineti.h ƒwƒbƒ_[‚Í GetUrlCacheConfigInfo
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -1479,125 +1326,107 @@ pcbBlob : [var]
 
 %index
 GetUrlCacheEntryInfoW
-Retrieves information about a cache entry. (Unicode)
+ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrlName, lpCacheEntryInfo, lpcbCacheEntryInfo
-lpszUrlName : [wstr] A pointer to a null-terminated string that contains the name of the cache entry. The name string should not contain any escape characters.
-lpCacheEntryInfo : [var] A pointer to an INTERNET_CACHE_ENTRY_INFO structure that receives information about the cache entry. A buffer should be allocated for this parameter. Since the required size of the buffer is not known in advance,  it is best to allocate a buffer adequate to handle the size of most INTERNET_CACHE_ENTRY_INFO entries. There is no cache entry size limit, so applications that need to enumerate the cache must be prepared to allocate variable-sized buffers.
-lpcbCacheEntryInfo : [var] A pointer to a variable that specifies the size of the lpCacheEntryInfo buffer, in bytes. When the function returns, the variable contains the number of bytes copied to the buffer, or the required size of the buffer, in bytes.
+lpszUrlName : [wstr] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–¼‘O•¶š—ñ‚ÉƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
+lpCacheEntryInfo : [var] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠî•ñ‚ğó‚¯æ‚é INTERNET_CACHE_ENTRY_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^—p‚Éƒoƒbƒtƒ@‚ğŠ„‚è“–‚Ä‚é•K—v‚ª‚ ‚éBƒoƒbƒtƒ@‚É•K—v‚ÈƒTƒCƒY‚Í–‘O‚É•ª‚©‚ç‚È‚¢‚½‚ßA‚Ù‚Æ‚ñ‚Ç‚Ì INTERNET_CACHE_ENTRY_INFO ƒGƒ“ƒgƒŠ‚ÌƒTƒCƒY‚ğˆµ‚¦‚é’ö“x‚Ìƒoƒbƒtƒ@‚ğŠ„‚è“–‚Ä‚é‚Ì‚ªÅ—Ç‚Å‚ ‚éBƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ÌƒTƒCƒY‚ÉãŒÀ‚Í‚È‚¢‚½‚ßAƒLƒƒƒbƒVƒ…‚ğ—ñ‹“‚·‚é•K—v‚ª‚ ‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‰Â•ÏƒTƒCƒY‚Ìƒoƒbƒtƒ@‚ğŠ„‚è“–‚Ä‚é—pˆÓ‚ª•K—v‚Å‚ ‚éB
+lpcbCacheEntryInfo : [var] lpCacheEntryInfo ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª–ß‚é‚ÆA•Ï”‚É‚Íƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½ƒoƒCƒg”A‚Ü‚½‚Íƒoƒbƒtƒ@‚É•K—v‚ÈƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ªŠi”[‚³‚ê‚éB
 %inst
-Retrieves information about a cache entry. (Unicode)
+ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError. Possible error values include the
-following.
-This doc was truncated.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B‘z’è‚³‚ê‚éƒGƒ‰[’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-GetUrlCacheEntryInfo does not do any URL parsing, so a URL containing
-an anchor (#) will not be found in the cache, even if the resource is
-cached. For example, if the URL
-`http://example.com/example.htm#sample` is passed, the function
-returns ERROR_FILE_NOT_FOUND even if `http://example.com/example.htm`
-is in the cache. Like all other aspects of the WinINet API, this
-function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines GetUrlCacheEntryInfo as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+GetUrlCacheEntryInfo ‚Í URL ‚Ì‰ğÍ‚ğˆêØs‚í‚È‚¢‚½‚ßAƒAƒ“ƒJ[ (#) ‚ğŠÜ‚Ş URL
+‚ÍAƒŠƒ\[ƒX‚ªƒLƒƒƒbƒVƒ…‚³‚ê‚Ä‚¢‚Ä‚àƒLƒƒƒbƒVƒ…“à‚ÅŒ©‚Â‚©‚ç‚È‚¢B—á‚¦‚Î
+`http://example.com/example.htm#sample`
+‚ğ“n‚µ‚½ê‡A`http://example.com/example.htm` ‚ªƒLƒƒƒbƒVƒ…‚É‚ ‚Á‚Ä‚àŠÖ”‚Í
+ERROR_FILE_NOT_FOUND ‚ğ•Ô‚·BWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í GetUrlCacheEntryInfo
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 GetUrlCacheEntryInfoExW
-Retrieves information on the cache entry associated with the specified URL, taking into account any redirections that are applied in offline mode by the HttpSendRequest function. (Unicode)
+w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğæ“¾‚·‚éBHttpSendRequest ŠÖ”‚É‚æ‚èƒIƒtƒ‰ƒCƒ“ƒ‚[ƒh‚Å“K—p‚³‚ê‚éƒŠƒ_ƒCƒŒƒNƒg‚ğl—¶‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrl, lpCacheEntryInfo, lpcbCacheEntryInfo, lpszRedirectUrl, lpcbRedirectUrl, lpReserved, dwFlags
-lpszUrl : [wstr] A pointer to a null-terminated string that contains the name of the cache entry. The name string should not contain any escape characters.
-lpCacheEntryInfo : [var] A pointer to an INTERNET_CACHE_ENTRY_INFO structure that receives information about the cache entry. A buffer should be allocated for this parameter. Since the required size of the buffer is not known in advance,  it is best to allocate a buffer adequate to handle the size of most INTERNET_CACHE_ENTRY_INFO entries. There is no cache entry size limit, so applications that need to enumerate the cache must be prepared to allocate variable-sized buffers.
-lpcbCacheEntryInfo : [var] Pointer to a variable that specifies the size of the lpCacheEntryInfo buffer, in bytes. When the function returns, the variable contains the number of bytes copied to the buffer, or the required size of the buffer in bytes.
-lpszRedirectUrl : [wstr] This parameter is reserved and must be NULL.
-lpcbRedirectUrl : [var] This parameter is reserved and must be NULL.
-lpReserved : [intptr] This parameter is reserved and must be NULL.
-dwFlags : [int] This parameter is reserved and must be 0.
+lpszUrl : [wstr] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–¼‘O•¶š—ñ‚ÉƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
+lpCacheEntryInfo : [var] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠî•ñ‚ğó‚¯æ‚é INTERNET_CACHE_ENTRY_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^—p‚Éƒoƒbƒtƒ@‚ğŠ„‚è“–‚Ä‚é•K—v‚ª‚ ‚éBƒoƒbƒtƒ@‚É•K—v‚ÈƒTƒCƒY‚Í–‘O‚É•ª‚©‚ç‚È‚¢‚½‚ßA‚Ù‚Æ‚ñ‚Ç‚Ì INTERNET_CACHE_ENTRY_INFO ƒGƒ“ƒgƒŠ‚ÌƒTƒCƒY‚ğˆµ‚¦‚é’ö“x‚Ìƒoƒbƒtƒ@‚ğŠ„‚è“–‚Ä‚é‚Ì‚ªÅ—Ç‚Å‚ ‚éBƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ÌƒTƒCƒY‚ÉãŒÀ‚Í‚È‚¢‚½‚ßAƒLƒƒƒbƒVƒ…‚ğ—ñ‹“‚·‚é•K—v‚ª‚ ‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‰Â•ÏƒTƒCƒY‚Ìƒoƒbƒtƒ@‚ğŠ„‚è“–‚Ä‚é—pˆÓ‚ª•K—v‚Å‚ ‚éB
+lpcbCacheEntryInfo : [var] lpCacheEntryInfo ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª–ß‚é‚ÆA•Ï”‚É‚Íƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½ƒoƒCƒg”A‚Ü‚½‚Íƒoƒbƒtƒ@‚É•K—v‚ÈƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ªŠi”[‚³‚ê‚éB
+lpszRedirectUrl : [wstr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpcbRedirectUrl : [var] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpReserved : [intptr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwFlags : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Retrieves information on the cache entry associated with the
-specified URL, taking into account any redirections that are applied
-in offline mode by the HttpSendRequest function. (Unicode)
+w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğæ“¾‚·‚éBHttpSendRequest
+ŠÖ”‚É‚æ‚èƒIƒtƒ‰ƒCƒ“ƒ‚[ƒh‚Å“K—p‚³‚ê‚éƒŠƒ_ƒCƒŒƒNƒg‚ğl—¶‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if the URL was located, or FALSE otherwise. Call
-GetLastError for specific error information. Possible errors include
-the following.
-This doc was truncated.
+URL ‚ªŒ©‚Â‚©‚Á‚½ê‡‚Í TRUE ‚ğAŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B‘z’è‚³‚ê‚éƒGƒ‰[‚É‚ÍŸ‚Ì‚à‚Ì‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-GetUrlCacheEntryInfoEx does not do any URL parsing, so a URL
-containing an anchor (#) will not be found in the cache, even if the
-resource is cached. For example, if the URL
-`http://example.com/example.htm#sample` is passed, the function
-returns ERROR_FILE_NOT_FOUND even if `http://example.com/example.htm`
-is in the cache. Like all other aspects of the WinINet API, this
-function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines GetUrlCacheEntryInfoEx as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+GetUrlCacheEntryInfoEx ‚Í URL ‚Ì‰ğÍ‚ğˆêØs‚í‚È‚¢‚½‚ßAƒAƒ“ƒJ[ (#) ‚ğŠÜ‚Ş URL
+‚ÍAƒŠƒ\[ƒX‚ªƒLƒƒƒbƒVƒ…‚³‚ê‚Ä‚¢‚Ä‚àƒLƒƒƒbƒVƒ…“à‚ÅŒ©‚Â‚©‚ç‚È‚¢B—á‚¦‚Î
+`http://example.com/example.htm#sample`
+‚ğ“n‚µ‚½ê‡A`http://example.com/example.htm` ‚ªƒLƒƒƒbƒVƒ…‚É‚ ‚Á‚Ä‚àŠÖ”‚Í
+ERROR_FILE_NOT_FOUND ‚ğ•Ô‚·BWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í GetUrlCacheEntryInfoEx
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 GetUrlCacheGroupAttributeW
-Retrieves the attribute information of the specified cache group. (Unicode)
+w’è‚µ‚½ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì‘®«î•ñ‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 gid, dwFlags, dwAttributes, lpGroupInfo, lpcbGroupInfo, lpReserved
-gid : [int64] Identifier of the cache group.
-dwFlags : [int] This parameter is reserved and must be 0.
+gid : [int64] ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì¯•ÊqB
+dwFlags : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 dwAttributes : [int] 
-lpGroupInfo : [var] Pointer to an INTERNET_CACHE_GROUP_INFO structure that receives the requested information.
-lpcbGroupInfo : [var] Pointer to a variable that contains the size of the lpGroupInfo buffer. When the function returns, the variable contains the number of bytes copied to the buffer, or the required size of the buffer, in bytes.
-lpReserved : [intptr] This parameter is reserved and must be NULL.
+lpGroupInfo : [var] —v‹‚³‚ê‚½î•ñ‚ğó‚¯æ‚é INTERNET_CACHE_GROUP_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpcbGroupInfo : [var] lpGroupInfo ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğŠi”[‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª–ß‚é‚ÆA•Ï”‚É‚Íƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½ƒoƒCƒg”A‚Ü‚½‚Íƒoƒbƒtƒ@‚É•K—v‚ÈƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ªŠi”[‚³‚ê‚éB
+lpReserved : [intptr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Retrieves the attribute information of the specified cache group.
-(Unicode)
+w’è‚µ‚½ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì‘®«î•ñ‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get specific error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines GetUrlCacheGroupAttribute as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í GetUrlCacheGroupAttribute
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -1615,267 +1444,222 @@ lpdwData : [var]
 
 %index
 GopherCreateLocatorW
-Creates a Gopher or Gopher+ locator string from the selector string's component parts. (Unicode)
+ƒZƒŒƒNƒ^•¶š—ñ‚Ì\¬—v‘f‚©‚ç Gopher ‚Ü‚½‚Í Gopher+ ƒƒP[ƒ^•¶š—ñ‚ğì¬‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszHost, nServerPort, lpszDisplayString, lpszSelectorString, dwGopherType, lpszLocator, lpdwBufferLength
-lpszHost : [wstr] Pointer to a null-terminated string that contains the name of the host, or a dotted-decimal IP address (such as 198.105.232.1).
-nServerPort : [int] Port number on which the Gopher server at lpszHost lives, in host byte order. If nServerPort is INTERNET_INVALID_PORT_NUMBER, the default Gopher port is used.
-lpszDisplayString : [wstr] Pointer to a null-terminated string that contains the Gopher document or directory to be displayed. If this parameter is NULL, the function returns the default directory for the Gopher server.
-lpszSelectorString : [wstr] Pointer to the selector string to send to the Gopher server in order to retrieve information. This parameter can be NULL.
-dwGopherType : [int] Determines whether lpszSelectorString refers to a directory or document, and whether the request is Gopher+ or Gopher. The default value, GOPHER_TYPE_DIRECTORY, is used if the value of dwGopherType is zero. This can be one of the gopher type values.
-lpszLocator : [wstr] Pointer to a buffer  that receives the locator string. If lpszLocator is NULL, lpdwBufferLength receives the necessary buffer length, but the function performs no other processing.
-lpdwBufferLength : [var] Pointer to a variable that contains the length of the lpszLocator buffer, in characters. When the function returns, this parameter receives the number of characters written to the buffer. If GetLastError returns ERROR_INSUFFICIENT_BUFFER, this parameter receives the number of characters required.
+lpszHost : [wstr] ƒzƒXƒg–¼A‚Ü‚½‚Íƒhƒbƒg‹æØ‚è 10 i IP ƒAƒhƒŒƒX (—á: 198.105.232.1) ‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+nServerPort : [int] lpszHost ‚É‚ ‚é Gopher ƒT[ƒo[‚ªg—p‚·‚éƒ|[ƒg”Ô† (ƒzƒXƒgƒoƒCƒgƒI[ƒ_[)BnServerPort ‚ª INTERNET_INVALID_PORT_NUMBER ‚Ìê‡AŠù’è‚Ì Gopher ƒ|[ƒg‚ªg—p‚³‚ê‚éB
+lpszDisplayString : [wstr] •\¦‚·‚é Gopher •¶‘‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚Í Gopher ƒT[ƒo[‚ÌŠù’è‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğ•Ô‚·B
+lpszSelectorString : [wstr] î•ñ‚ğæ“¾‚·‚é‚½‚ß‚É Gopher ƒT[ƒo[‚É‘—M‚·‚éƒZƒŒƒNƒ^•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB
+dwGopherType : [int] lpszSelectorString ‚ªƒfƒBƒŒƒNƒgƒŠ‚Æ•¶‘‚Ì‚Ç‚¿‚ç‚ğQÆ‚·‚é‚©A‚Ü‚½—v‹‚ª Gopher+ ‚© Gopher ‚©‚ğŒˆ’è‚·‚éBdwGopherType ‚Ì’l‚ª 0 ‚Ìê‡AŠù’è’l‚Å‚ ‚é GOPHER_TYPE_DIRECTORY ‚ªg—p‚³‚ê‚éBGopher í•Ê’l‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
+lpszLocator : [wstr] ƒƒP[ƒ^•¶š—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BlpszLocator ‚ª NULL ‚Ìê‡AlpdwBufferLength ‚É•K—v‚Èƒoƒbƒtƒ@’·‚ª•Ô‚³‚ê‚é‚ªAŠÖ”‚Í‘¼‚Ìˆ—‚ğs‚í‚È‚¢B
+lpdwBufferLength : [var] lpszLocator ƒoƒbƒtƒ@‚Ì’·‚³ (•¶š’PˆÊ) ‚ğŠi”[‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª–ß‚é‚ÆA–{ƒpƒ‰ƒ[ƒ^‚É‚Íƒoƒbƒtƒ@‚É‘‚«‚Ü‚ê‚½•¶š”‚ªŠi”[‚³‚ê‚éBGetLastError ‚ª ERROR_INSUFFICIENT_BUFFER ‚ğ•Ô‚µ‚½ê‡A–{ƒpƒ‰ƒ[ƒ^‚É‚Í•K—v‚È•¶š”‚ªŠi”[‚³‚ê‚éB
 %inst
-Creates a Gopher or Gopher+ locator string from the selector string's
-component parts. (Unicode)
+ƒZƒŒƒNƒ^•¶š—ñ‚Ì\¬—v‘f‚©‚ç Gopher ‚Ü‚½‚Í Gopher+ ƒƒP[ƒ^•¶š—ñ‚ğì¬‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError or InternetGetLastResponseInfo.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚Ü‚½‚Í
+InternetGetLastResponseInfo ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-To retrieve information from a Gopher server, an application must
-first get a Gopher "locator" from the Gopher server. The locator,
-which the application should treat as an opaque token, is normally
-used for calls to the GopherFindFirstFile function to retrieve a
-specific piece of information. Like all other aspects of the WinINet
-API, this function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines GopherCreateLocator as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+Gopher ƒT[ƒo[‚©‚çî•ñ‚ğæ“¾‚·‚é‚É‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚Ü‚¸ Gopher ƒT[ƒo[‚©‚ç Gopher
+uƒƒP[ƒ^v‚ğæ“¾‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª•s“§–¾‚Èƒg[ƒNƒ“‚Æ‚µ‚Äˆµ‚¤‚×‚«ƒƒP[ƒ^‚ÍA’ÊíA“Á’è‚Ìî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ì
+GopherFindFirstFile ŠÖ”‚ÌŒÄ‚Ño‚µ‚Ég—p‚³‚ê‚éBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í
+DllMain ‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í GopherCreateLocator
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 GopherFindFirstFileW
-Uses a Gopher locator and search criteria to create a session with the server and locate the requested documents, binary files, index servers, or directory trees. (Unicode)
+Gopher ƒƒP[ƒ^‚ÆŒŸõğŒ‚ğg—p‚µ‚ÄƒT[ƒo[‚Æ‚ÌƒZƒbƒVƒ‡ƒ“‚ğì¬‚µA—v‹‚³‚ê‚½•¶‘AƒoƒCƒiƒŠƒtƒ@ƒCƒ‹AƒCƒ“ƒfƒbƒNƒXƒT[ƒo[A‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠƒcƒŠ[‚ğŒŸõ‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, lpszLocator, lpszSearchString, lpFindData, dwFlags, dwContext
-hConnect : [intptr] Handle to a Gopher session returned by InternetConnect.
-lpszLocator : [wstr] Pointer to a null-terminated string that contains the name of the item to locate. This can be one of the following:
-lpszSearchString : [wstr] Pointer to a buffer that contains the strings to search, if this request is to an index server. Otherwise, this parameter should be NULL.
-lpFindData : [var] Pointer to a GOPHER_FIND_DATA structure that receives the information retrieved by this function.
+hConnect : [intptr] InternetConnect ‚©‚ç•Ô‚³‚ê‚½ Gopher ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lpszLocator : [wstr] ŒŸõ‚·‚é€–Ú‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŸ‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
+lpszSearchString : [wstr] –{—v‹‚ªƒCƒ“ƒfƒbƒNƒXƒT[ƒo[‚Ö‚Ì‚à‚Ì‚Å‚ ‚éê‡AŒŸõ‚·‚é•¶š—ñ‚ğŠi”[‚µ‚½ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚»‚êˆÈŠO‚Ìê‡A–{ƒpƒ‰ƒ[ƒ^‚Í NULL ‚ğw’è‚·‚×‚«‚Å‚ ‚éB
+lpFindData : [var] –{ŠÖ”‚Åæ“¾‚µ‚½î•ñ‚ğó‚¯æ‚é GOPHER_FIND_DATA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 dwFlags : [int] 
-dwContext : [int] Pointer to a variable that contains the application-defined value that associates this search with any application data.
+dwContext : [int] –{ŒŸõ‚ğ”CˆÓ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒf[ƒ^‚ÆŠÖ˜A•t‚¯‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì’l‚ğŠi”[‚µ‚½•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Uses a Gopher locator and search criteria to create a session with
-the server and locate the requested documents, binary files, index
-servers, or directory trees. (Unicode)
+Gopher
+ƒƒP[ƒ^‚ÆŒŸõğŒ‚ğg—p‚µ‚ÄƒT[ƒo[‚Æ‚ÌƒZƒbƒVƒ‡ƒ“‚ğì¬‚µA—v‹‚³‚ê‚½•¶‘AƒoƒCƒiƒŠƒtƒ@ƒCƒ‹AƒCƒ“ƒfƒbƒNƒXƒT[ƒo[A‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠƒcƒŠ[‚ğŒŸõ‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns a valid search handle if successful, or NULL otherwise. To
-retrieve extended error information, call GetLastError or
-InternetGetLastResponseInfo.
+¬Œ÷‚µ‚½ê‡‚Í—LŒø‚ÈŒŸõƒnƒ“ƒhƒ‹‚ğA¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚Ü‚½‚Í
+InternetGetLastResponseInfo ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-GopherFindFirstFile closely resembles the FindFirstFile function. It
-creates a connection with a Gopher server, and then returns a single
-structure containing information about the first Gopher object
-referenced by the locator string. After calling GopherFindFirstFile
-to retrieve the first Gopher object in an enumeration, an application
-can use the InternetFindNextFile function to retrieve subsequent
-Gopher objects. After the calling application has finished using the
-HINTERNET handle returned by GopherFindFirstFile, it must be closed
-using the InternetCloseHandle function. Like all other aspects of the
-WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines GopherFindFirstFile as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+GopherFindFirstFile ‚Í FindFirstFile ŠÖ”‚É‚æ‚­—‚Ä‚¢‚éBGopher
+ƒT[ƒo[‚Æ‚ÌÚ‘±‚ğì¬‚µAƒƒP[ƒ^•¶š—ñ‚ªQÆ‚·‚éÅ‰‚Ì Gopher
+ƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş’Pˆê‚Ì\‘¢‘Ì‚ğ•Ô‚·BGopherFindFirstFile ‚ğŒÄ‚Ño‚µ‚Ä—ñ‹“‚ÌÅ‰‚Ì Gopher
+ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚½ŒãAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í InternetFindNextFile ŠÖ”‚ğg—p‚µ‚ÄŒã‘±‚Ì Gopher
+ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚Å‚«‚éBŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª GopherFindFirstFile ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ HINTERNET
+ƒnƒ“ƒhƒ‹‚Ìg—p‚ğI‚¦‚½‚çAInternetCloseHandle ŠÖ”‚Å•Â‚¶‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í GopherFindFirstFile
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 GopherGetAttributeW
-Retrieves the specific attribute information from the server. (Unicode)
+ƒT[ƒo[‚©‚ç“Á’è‚Ì‘®«î•ñ‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, lpszLocator, lpszAttributeName, lpBuffer, dwBufferLength, lpdwCharactersReturned, lpfnEnumerator, dwContext
-hConnect : [intptr] Handle to a Gopher session returned by InternetConnect.
-lpszLocator : [wstr] Pointer to a null-terminated string that identifies the item at the Gopher server on which to return attribute information.
-lpszAttributeName : [wstr] Pointer to a space-delimited string specifying the names of attributes to return. If lpszAttributeName is NULL, GopherGetAttribute returns information about all attributes.
-lpBuffer : [var] Pointer to an application-defined buffer from which attribute information is retrieved.
-dwBufferLength : [int] Size of the lpBuffer buffer, in TCHARs.
-lpdwCharactersReturned : [var] Pointer to a variable that contains the number of characters read into the lpBuffer buffer.
-lpfnEnumerator : [int] Pointer to a GopherAttributeEnumerator callback function that enumerates each attribute of the locator. This parameter is optional. If it is NULL, all  Gopher attribute information is placed into lpBuffer. If lpfnEnumerator is specified, the callback function is called once for each attribute of the object.
-dwContext : [int] Application-defined value that associates this operation with any application data.
+hConnect : [intptr] InternetConnect ‚©‚ç•Ô‚³‚ê‚½ Gopher ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lpszLocator : [wstr] ‘®«î•ñ‚ğ•Ô‚· Gopher ƒT[ƒo[ã‚Ì€–Ú‚ğ¯•Ê‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszAttributeName : [wstr] •Ô‚·‘®«–¼‚ğw’è‚·‚éƒXƒy[ƒX‹æØ‚è•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BlpszAttributeName ‚ª NULL ‚Ìê‡AGopherGetAttribute ‚Í‚·‚×‚Ä‚Ì‘®«‚ÉŠÖ‚·‚éî•ñ‚ğ•Ô‚·B
+lpBuffer : [var] ‘®«î•ñ‚ğæ“¾‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ìƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwBufferLength : [int] lpBuffer ƒoƒbƒtƒ@‚ÌƒTƒCƒY (TCHAR ’PˆÊ)B
+lpdwCharactersReturned : [var] lpBuffer ƒoƒbƒtƒ@‚É“Ç‚İæ‚ç‚ê‚½•¶š”‚ğŠi”[‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpfnEnumerator : [int] ƒƒP[ƒ^‚ÌŠe‘®«‚ğ—ñ‹“‚·‚é GopherAttributeEnumerator ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚ÍÈ—ª‰Â”\‚Å‚ ‚éBNULL ‚Ìê‡AGopher ‘®«î•ñ‚Ì‚·‚×‚Ä‚ª lpBuffer ‚ÉŠi”[‚³‚ê‚éBlpfnEnumerator ‚ªw’è‚³‚ê‚Ä‚¢‚éê‡AƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÍƒIƒuƒWƒFƒNƒg‚Ì‘®«‚²‚Æ‚É 1 ‰ñŒÄ‚Ño‚³‚ê‚éB
+dwContext : [int] –{‘€ì‚ğ”CˆÓ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒf[ƒ^‚ÆŠÖ˜A•t‚¯‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì’lB
 %inst
-Retrieves the specific attribute information from the server.
-(Unicode)
+ƒT[ƒo[‚©‚ç“Á’è‚Ì‘®«î•ñ‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if the request is satisfied, or FALSE otherwise. To get
-extended error information, call GetLastError or
-InternetGetLastResponseInfo.
+—v‹‚ª–‚½‚³‚ê‚½ê‡‚Í TRUE ‚ğA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚Ü‚½‚Í
+InternetGetLastResponseInfo ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Generally, applications call this function after calling
-GopherFindFirstFile or InternetFindNextFile. The size of the lpBuffer
-parameter must be equal to or greater than the value of
-MIN_GOPHER_ATTRIBUTE_LENGTH. Like all other aspects of the WinINet
-API, this function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines GopherGetAttribute as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ˆê”Ê‚ÉAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í GopherFindFirstFile ‚Ü‚½‚Í InternetFindNextFile
+‚ğŒÄ‚Ño‚µ‚½Œã‚É–{ŠÖ”‚ğŒÄ‚Ño‚·BlpBuffer ƒpƒ‰ƒ[ƒ^‚ÌƒTƒCƒY‚Í MIN_GOPHER_ATTRIBUTE_LENGTH
+‚Ì’lˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í GopherGetAttribute
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 GopherGetLocatorTypeW
-Parses a Gopher locator and determines its attributes. (Unicode)
+Gopher ƒƒP[ƒ^‚ğ‰ğÍ‚µ‚Ä‚»‚Ì‘®«‚ğ”»’è‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszLocator, lpdwGopherType
-lpszLocator : [wstr] Pointer to a null-terminated string that specifies the Gopher locator to be parsed.
-lpdwGopherType : [var] Pointer to a variable that receives the type of the locator. The type is a bitmask that consists of a combination of the gopher type values.
+lpszLocator : [wstr] ‰ğÍ‚·‚é Gopher ƒƒP[ƒ^‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpdwGopherType : [var] ƒƒP[ƒ^‚Ìí•Ê‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^Bí•Ê‚Í Gopher í•Ê’l‚Ì‘g‚İ‡‚í‚¹‚©‚ç¬‚éƒrƒbƒgƒ}ƒXƒN‚Å‚ ‚éB
 %inst
-Parses a Gopher locator and determines its attributes. (Unicode)
+Gopher ƒƒP[ƒ^‚ğ‰ğÍ‚µ‚Ä‚»‚Ì‘®«‚ğ”»’è‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-GopherGetLocatorType returns information about the item referenced by
-a Gopher locator. Note that it is possible for multiple attributes to
-be set on a file. For example, both GOPHER_TYPE_TEXT_FILE and
-GOPHER_TYPE_GOPHER_PLUS are set for a text file stored on a Gopher+
-server. Like all other aspects of the WinINet API, this function
-cannot be safely called from within DllMain or the constructors and
-destructors of global objects. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines GopherGetLocatorType as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+GopherGetLocatorType ‚Í Gopher
+ƒƒP[ƒ^‚ªQÆ‚·‚é€–Ú‚ÉŠÖ‚·‚éî•ñ‚ğ•Ô‚·B‚È‚¨Aƒtƒ@ƒCƒ‹‚É‚Í•¡”‚Ì‘®«‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚ª‚ ‚éB—á‚¦‚ÎAGopher+
+ƒT[ƒo[‚ÉŠi”[‚³‚ê‚½ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚É‚Í GOPHER_TYPE_TEXT_FILE ‚Æ GOPHER_TYPE_GOPHER_PLUS
+‚Ì—¼•û‚ªİ’è‚³‚ê‚éBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í GopherGetLocatorType
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 GopherOpenFileW
-Begins reading a Gopher data file from a Gopher server. (Unicode)
+Gopher ƒT[ƒo[‚©‚ç Gopher ƒf[ƒ^ƒtƒ@ƒCƒ‹‚Ì“Ç‚İæ‚è‚ğŠJn‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, lpszLocator, lpszView, dwFlags, dwContext
-hConnect : [intptr] Handle to a Gopher session returned by InternetConnect.
-lpszLocator : [wstr] Pointer to a null-terminated string that specifies the file to be opened. Generally, this locator is returned from a call to GopherFindFirstFile or InternetFindNextFile. Because the Gopher protocol has no concept of a current directory, the locator is always fully qualified.
-lpszView : [wstr] Pointer to a null-terminated string that describes the view to open if several views of the file exist on the server. If lpszView is NULL, the function uses the default file view.
+hConnect : [intptr] InternetConnect ‚©‚ç•Ô‚³‚ê‚½ Gopher ƒZƒbƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lpszLocator : [wstr] ŠJ‚­ƒtƒ@ƒCƒ‹‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bˆê”Ê‚ÉA‚±‚ÌƒƒP[ƒ^‚Í GopherFindFirstFile ‚Ü‚½‚Í InternetFindNextFile ‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚éBGopher ƒvƒƒgƒRƒ‹‚É‚ÍƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ÌŠT”O‚ª‚È‚¢‚½‚ßAƒƒP[ƒ^‚Íí‚ÉŠ®‘SCü‚Å‚ ‚éB
+lpszView : [wstr] ƒT[ƒo[ã‚Éƒtƒ@ƒCƒ‹‚Ì•¡”‚Ìƒrƒ…[‚ª‘¶İ‚·‚éê‡‚ÉŠJ‚­ƒrƒ…[‚ğ‹Lq‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BlpszView ‚ª NULL ‚Ìê‡AŠÖ”‚ÍŠù’è‚Ìƒtƒ@ƒCƒ‹ƒrƒ…[‚ğg—p‚·‚éB
 dwFlags : [int] 
-dwContext : [int] Pointer to a variable that contains an application-defined value that associates this operation with any application data.
+dwContext : [int] –{‘€ì‚ğ”CˆÓ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒf[ƒ^‚ÆŠÖ˜A•t‚¯‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì’l‚ğŠi”[‚µ‚½•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Begins reading a Gopher data file from a Gopher server. (Unicode)
+Gopher ƒT[ƒo[‚©‚ç Gopher ƒf[ƒ^ƒtƒ@ƒCƒ‹‚Ì“Ç‚İæ‚è‚ğŠJn‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns a handle if successful, or NULL if the file cannot be opened.
-To retrieve extended error information, call GetLastError or
-InternetGetLastResponseInfo.
+¬Œ÷‚µ‚½ê‡‚Íƒnƒ“ƒhƒ‹‚ğAƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚È‚©‚Á‚½ê‡‚Í NULL ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚Ü‚½‚Í
+InternetGetLastResponseInfo ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-GopherOpenFile opens a file at a Gopher server. Because a file cannot
-actually be opened or locked at a server, this function simply
-associates location information with a handle that an application can
-use for file-based operations such as InternetReadFile or
-GopherGetAttribute. After the calling application has finished using
-the HINTERNET handle returned by GopherOpenFile, it must be closed
-using the InternetCloseHandle function. Like all other aspects of the
-WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines GopherOpenFile as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+GopherOpenFile ‚Í Gopher
+ƒT[ƒo[ã‚Ìƒtƒ@ƒCƒ‹‚ğŠJ‚­BƒT[ƒo[ã‚ÅÀÛ‚Éƒtƒ@ƒCƒ‹‚ğŠJ‚¢‚½‚èƒƒbƒN‚µ‚½‚è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢‚½‚ßA–{ŠÖ”‚Í’P‚ÉAInternetReadFile
+‚â GopherGetAttribute
+‚È‚Ç‚Ìƒtƒ@ƒCƒ‹ƒx[ƒX‚Ì‘€ì‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªg—p‚Å‚«‚éƒnƒ“ƒhƒ‹‚ÉˆÊ’uî•ñ‚ğŠÖ˜A•t‚¯‚é‚¾‚¯‚Å‚ ‚éBŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª
+GopherOpenFile ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ HINTERNET ƒnƒ“ƒhƒ‹‚Ìg—p‚ğI‚¦‚½‚çAInternetCloseHandle
+ŠÖ”‚Å•Â‚¶‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í GopherOpenFile ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 HttpAddRequestHeadersW
-Adds one or more HTTP request headers to the HTTP request handle. (HttpAddRequestHeadersW)
+1 ‚ÂˆÈã‚Ì HTTP ƒŠƒNƒGƒXƒgƒwƒbƒ_[‚ğ HTTP ƒŠƒNƒGƒXƒgƒnƒ“ƒhƒ‹‚É’Ç‰Á‚·‚éB(HttpAddRequestHeadersW)
 %group
 Win32 wininet
 %prm
 hRequest, lpszHeaders, dwHeadersLength, dwModifiers
-hRequest : [intptr] A handle returned by a call to the HttpOpenRequest function.
-lpszHeaders : [wstr] A pointer to a string variable containing the headers to append to the request. Each header must be terminated by a CR/LF (carriage return/line feed) pair.
-dwHeadersLength : [int] The size of lpszHeaders, in TCHARs. If this parameter is -1L, the function assumes that lpszHeaders is zero-terminated (ASCIIZ), and the length is computed.
+hRequest : [intptr] HttpOpenRequest ŠÖ”‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
+lpszHeaders : [wstr] ƒŠƒNƒGƒXƒg‚É’Ç‰Á‚·‚éƒwƒbƒ_[‚ğŠi”[‚µ‚½•¶š—ñ•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠeƒwƒbƒ_[‚Í CR/LF (ƒLƒƒƒŠƒbƒWƒŠƒ^[ƒ“/ƒ‰ƒCƒ“ƒtƒB[ƒh) ‚ÌƒyƒA‚ÅI’[‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwHeadersLength : [int] lpszHeaders ‚ÌƒTƒCƒY (TCHAR ’PˆÊ)B–{ƒpƒ‰ƒ[ƒ^‚ª -1L ‚Ìê‡AŠÖ”‚Í lpszHeaders ‚ªƒ[ƒI’[ (ASCIIZ) ‚Å‚ ‚é‚Æ‰¼’è‚µA’·‚³‚ğŒvZ‚·‚éB
 dwModifiers : [int] 
 %inst
-Adds one or more HTTP request headers to the HTTP request handle.
-(HttpAddRequestHeadersW)
+1 ‚ÂˆÈã‚Ì HTTP ƒŠƒNƒGƒXƒgƒwƒbƒ_[‚ğ HTTP ƒŠƒNƒGƒXƒgƒnƒ“ƒhƒ‹‚É’Ç‰Á‚·‚éB(HttpAddRequestHeadersW)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-HttpAddRequestHeaders appends additional, free-format headers to the
-HTTP request handle and is intended for use by sophisticated clients
-that need detailed control over the exact request sent to the HTTP
-server. Note that for basic HttpAddRequestHeaders, the application
-can pass in multiple headers in a single buffer. If the application
-is trying to remove or replace a header, only one header can be
-supplied in lpszHeaders. Note The HttpAddRequestHeadersA function
-represents headers as ISO-8859-1 characters not ANSI characters. The
-HttpAddRequestHeadersW function represents headers as ISO-8859-1
-characters converted to UTF-16LE characters. As a result, it is never
-safe to use the HttpAddRequestHeadersW function when the headers to
-be added can contain non-ASCII characters. Instead, an application
-can use the MultiByteToWideChar and WideCharToMultiByte functions
-with a Codepage parameter set to 28591 to map between ANSI characters
-and UTF-16LE characters. Like all other aspects of the WinINet API,
-this function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines HttpAddRequestHeaders as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+HttpAddRequestHeaders ‚Í HTTP ƒŠƒNƒGƒXƒgƒnƒ“ƒhƒ‹‚É’Ç‰Á‚Ì©—RŒ`®ƒwƒbƒ_[‚ğ’Ç‰Á‚·‚é‚à‚Ì‚ÅAHTTP
+ƒT[ƒo[‚É‘—M‚³‚ê‚é³Šm‚ÈƒŠƒNƒGƒXƒg‚ğ×‚©‚­§Œä‚·‚é•K—v‚ª‚ ‚é‚“x‚ÈƒNƒ‰ƒCƒAƒ“ƒg‚É‚æ‚ég—p‚ğ‘z’è‚µ‚Ä‚¢‚éB‚È‚¨Šî–{“I‚È
+HttpAddRequestHeaders
+‚Å‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í•¡”‚Ìƒwƒbƒ_[‚ğ’Pˆê‚Ìƒoƒbƒtƒ@‚Å“n‚·‚±‚Æ‚ª‚Å‚«‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒwƒbƒ_[‚Ìíœ‚Ü‚½‚Í’uŠ·‚ğ‚İ‚éê‡AlpszHeaders
+‚Éw’è‚Å‚«‚éƒwƒbƒ_[‚Í 1 ‚Â‚¾‚¯‚Å‚ ‚éB’ˆÓ: HttpAddRequestHeadersA ŠÖ”‚Íƒwƒbƒ_[‚ğ ANSI •¶š‚Å‚Í‚È‚­
+ISO-8859-1 •¶š‚Æ‚µ‚Ä•\Œ»‚·‚éBHttpAddRequestHeadersW ŠÖ”‚Íƒwƒbƒ_[‚ğ ISO-8859-1 •¶š‚ğ
+UTF-16LE •¶š‚É•ÏŠ·‚µ‚½‚à‚Ì‚Æ‚µ‚Ä•\Œ»‚·‚éB‚»‚ÌŒ‹‰ÊA’Ç‰Á‚·‚éƒwƒbƒ_[‚É”ñ ASCII
+•¶š‚ğŠÜ‚Ş‰Â”\«‚ª‚ ‚éê‡AHttpAddRequestHeadersW ŠÖ”‚ğg—p‚·‚é‚Ì‚ÍŒˆ‚µ‚ÄˆÀ‘S‚Å‚Í‚È‚¢B‘ã‚í‚è‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+MultiByteToWideChar ‚¨‚æ‚Ñ WideCharToMultiByte ŠÖ”‚Å Codepage ƒpƒ‰ƒ[ƒ^‚É 28591
+‚ğw’è‚µAANSI •¶š‚Æ UTF-16LE •¶š‚ÌŠÔ‚Åƒ}ƒbƒsƒ“ƒO‚Å‚«‚éBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í
+DllMain ‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í HttpAddRequestHeaders
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -1921,41 +1705,35 @@ phDuplicatedDependencyHandle : [var]
 
 %index
 HttpEndRequestW
-Ends an HTTP request that was initiated by HttpSendRequestEx. (Unicode)
+HttpSendRequestEx ‚É‚æ‚Á‚ÄŠJn‚³‚ê‚½ HTTP ƒŠƒNƒGƒXƒg‚ğI—¹‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hRequest, lpBuffersOut, dwFlags, dwContext
-hRequest : [intptr] Handle returned by HttpOpenRequest and sent by HttpSendRequestEx.
-lpBuffersOut : [var] This parameter is reserved and must be NULL.
-dwFlags : [int] This parameter is reserved and must be set to 0.
-dwContext : [int] This parameter is reserved and must be set to 0.
+hRequest : [intptr] HttpOpenRequest ‚É‚æ‚Á‚Ä•Ô‚³‚êAHttpSendRequestEx ‚Å‘—M‚³‚ê‚½ƒnƒ“ƒhƒ‹B
+lpBuffersOut : [var] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwFlags : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwContext : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Ends an HTTP request that was initiated by HttpSendRequestEx.
-(Unicode)
+HttpSendRequestEx ‚É‚æ‚Á‚ÄŠJn‚³‚ê‚½ HTTP ƒŠƒNƒGƒXƒg‚ğI—¹‚·‚éB(Unicode)
 
 [–ß‚è’l]
-If the function succeeds, the function returns TRUE.
-If the function fails, it returns FALSE. To get extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-If lpBuffersOut is not set to NULL, HttpEndRequest will return
-ERROR_INVALID_PARAMETER.
-Like all other aspects of the WinINet API, this function cannot be
-safely called from within DllMain or the constructors and destructors
-of global objects. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines HttpEndRequest as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+lpBuffersOut ‚ª NULL ‚Éİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AHttpEndRequest ‚Í
+ERROR_INVALID_PARAMETER ‚ğ•Ô‚·B
+WinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í HttpEndRequest ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -2138,52 +1916,43 @@ ERROR_INVALID_PARAMETER)BHttpSendRequestW ‚Í ISO-8859-1 ‚ğ UTF-16LE
 
 %index
 HttpSendRequestExW
-Sends the specified request to the HTTP server. (HttpSendRequestExW)
+w’è‚³‚ê‚½ƒŠƒNƒGƒXƒg‚ğ HTTP ƒT[ƒo[‚É‘—M‚·‚éB(HttpSendRequestExW)
 %group
 Win32 wininet
 %prm
 hRequest, lpBuffersIn, lpBuffersOut, dwFlags, dwContext
-hRequest : [intptr] A handle returned by a call to the HttpOpenRequest function.
-lpBuffersIn : [var] Optional. A pointer to an INTERNET_BUFFERS structure.
-lpBuffersOut : [var] Reserved. Must be NULL.
-dwFlags : [int] Reserved. Must be zero.
-dwContext : [int] Application-defined context value, if a status callback function has been registered.
+hRequest : [intptr] HttpOpenRequest ŠÖ”‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
+lpBuffersIn : [var] È—ª‰Â”\BINTERNET_BUFFERS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpBuffersOut : [var] —\–ñÏ‚İBNULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwFlags : [int] —\–ñÏ‚İB0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwContext : [int] ƒXƒe[ƒ^ƒXƒR[ƒ‹ƒoƒbƒNŠÖ”‚ª“o˜^‚³‚ê‚Ä‚¢‚éê‡‚Ég—p‚³‚ê‚éAƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒRƒ“ƒeƒLƒXƒg’lB
 %inst
-Sends the specified request to the HTTP server. (HttpSendRequestExW)
+w’è‚³‚ê‚½ƒŠƒNƒGƒXƒg‚ğ HTTP ƒT[ƒo[‚É‘—M‚·‚éB(HttpSendRequestExW)
 
 [–ß‚è’l]
-If the function succeeds, the function returns TRUE.
-If the function fails, it returns FALSE. To get extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-HttpSendRequestEx performs both the send and the receive for the
-response. This does not allow the application to send any extra data
-beyond the single buffer that was passed to HttpSendRequestEx.
-Callers that need to send extra data beyond what is normally passed
-to HttpSendRequestEx can do so by calling HttpSendRequest instead.
-After the call to HttpSendRequestEx, send the remaining data by
-calling InternetWriteFile. Finally, follow up with a call to
-HttpEndRequest. Note The HttpSendRequestExA function represents data
-to send as ISO-8859-1 characters not ANSI characters. The
-HttpSendRequestExW function represents data to send as ISO-8859-1
-characters converted to UTF-16LE characters. As a result, it is never
-safe to use the HttpSendRequestExW function when the headers to be
-added can contain non-ASCII characters. Instead, an application can
-use the MultiByteToWideChar and WideCharToMultiByte functions with a
-Codepage parameter set to 28591 to map between ANSI characters and
-UTF-16LE characters. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines HttpSendRequestEx as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+HttpSendRequestEx ‚ÍƒŒƒXƒ|ƒ“ƒX‚Ì‘—M‚ÆóM‚Ì—¼•û‚ğÀs‚·‚éB‚±‚ê‚É‚æ‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+HttpSendRequestEx ‚É“n‚³‚ê‚½’Pˆêƒoƒbƒtƒ@ˆÈŠO‚Ì—]•ª‚Èƒf[ƒ^‚ğ‘—M‚Å‚«‚È‚¢BHttpSendRequestEx
+‚É’Êí“n‚³‚ê‚é”ÍˆÍ‚ğ’´‚¦‚Ä—]•ª‚Èƒf[ƒ^‚ğ‘—M‚·‚é•K—v‚ª‚ ‚éŒÄ‚Ño‚µ‘¤‚ÍA‘ã‚í‚è‚É HttpSendRequest
+‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éBHttpSendRequestEx ‚ÌŒÄ‚Ño‚µŒãAInternetWriteFile
+‚ğŒÄ‚Ño‚µ‚Äc‚è‚Ìƒf[ƒ^‚ğ‘—M‚·‚éBÅŒã‚É HttpEndRequest ‚ÌŒÄ‚Ño‚µ‚Åˆ—‚ğŠ®—¹‚·‚éB’ˆÓ:
+HttpSendRequestExA ŠÖ”‚Í‘—M‚·‚éƒf[ƒ^‚ğ ANSI •¶š‚Å‚Í‚È‚­ ISO-8859-1
+•¶š‚Æ‚µ‚Ä•\Œ»‚·‚éBHttpSendRequestExW ŠÖ”‚Í‘—M‚·‚éƒf[ƒ^‚ğ ISO-8859-1 •¶š‚ğ UTF-16LE
+•¶š‚É•ÏŠ·‚µ‚½‚à‚Ì‚Æ‚µ‚Ä•\Œ»‚·‚éB‚»‚ÌŒ‹‰ÊA’Ç‰Á‚·‚éƒwƒbƒ_[‚É”ñ ASCII
+•¶š‚ğŠÜ‚Ş‰Â”\«‚ª‚ ‚éê‡AHttpSendRequestExW ŠÖ”‚ğg—p‚·‚é‚Ì‚ÍŒˆ‚µ‚ÄˆÀ‘S‚Å‚Í‚È‚¢B‘ã‚í‚è‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+MultiByteToWideChar ‚¨‚æ‚Ñ WideCharToMultiByte ŠÖ”‚Å Codepage ƒpƒ‰ƒ[ƒ^‚É 28591
+‚ğw’è‚µAANSI •¶š‚Æ UTF-16LE •¶š‚ÌŠÔ‚Åƒ}ƒbƒsƒ“ƒO‚Å‚«‚éB’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í HttpSendRequestEx ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -2306,215 +2075,177 @@ dwReserved : [int]
 
 %index
 InternetAttemptConnect
-Attempts to make a connection to the Internet.
+ƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌÚ‘±‚ğ‚İ‚éB
 %group
 Win32 wininet
 %prm
 dwReserved
-dwReserved : [int] This parameter is reserved and must be 0.
+dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Attempts to make a connection to the Internet.
+ƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌÚ‘±‚ğ‚İ‚éB
 
 [–ß‚è’l]
-Returns ERROR_SUCCESS if successful, or a system error code
-otherwise.
+¬Œ÷‚µ‚½ê‡‚Í ERROR_SUCCESS ‚ğA¸”s‚µ‚½ê‡‚ÍƒVƒXƒeƒ€ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function allows an application to first attempt to connect
-before issuing any requests. A client program can use this to evoke
-the dial-up dialog box. If the attempt fails, the application should
-enter offline mode. Like all other aspects of the WinINet API, this
-function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
+
+–{ŠÖ”‚ğg—p‚·‚é‚ÆAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒŠƒNƒGƒXƒg‚ğ”­s‚·‚é‘O‚É‚Ü‚¸Ú‘±‚ğ‚İ‚é‚±‚Æ‚ª‚Å‚«‚éBƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒOƒ‰ƒ€‚Í‚±‚ê‚ğ—˜—p‚µ‚Äƒ_ƒCƒAƒ‹ƒAƒbƒvƒ_ƒCƒAƒƒO‚ğ•\¦‚Å‚«‚éBs‚ª¸”s‚µ‚½ê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒIƒtƒ‰ƒCƒ“ƒ‚[ƒh‚É“ü‚é‚×‚«‚Å‚ ‚éBWinINet
+API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetAutodial
-The InternetAutodial function (wininet.h) causes the modem to automatically dial the default Internet connection.
+InternetAutodial ŠÖ” (wininet.h) ‚Íƒ‚ƒfƒ€‚ÉŠù’è‚ÌƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ğ©“®‚Åƒ_ƒCƒAƒ‹‚³‚¹‚éB
 %group
 Win32 wininet
 %prm
 dwFlags, hwndParent
 dwFlags : [int] 
-hwndParent : [intptr] Handle to the parent window.
+hwndParent : [intptr] eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-The InternetAutodial function (wininet.h) causes the modem to
-automatically dial the default Internet connection.
+InternetAutodial ŠÖ” (wininet.h) ‚Íƒ‚ƒfƒ€‚ÉŠù’è‚ÌƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ğ©“®‚Åƒ_ƒCƒAƒ‹‚³‚¹‚éB
 
 [–ß‚è’l]
-If the function succeeds, it returns TRUE.
-If the function fails, it returns FALSE. Applications can call
-GetLastError to retrieve the error code.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í GetLastError ‚ğŒÄ‚Ño‚µ‚ÄƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
 
 [”õl]
-InternetAutodial does not support double-dial connections, SmartCard
-authentication, or connections that require registry-based
-certification. Note Starting on Windows Vista and Windows Server
-2008, the WinINet dial-up functions use the RAS functions to
-establish a dial-up connection. WinINet supports the functionality
-documented in the RasDialDlg function. InternetAutodial does not
-attempt to dial if there is an existing dial-up connection on the
-system. Also, if there is an existing LAN connection, and
-InternetAutodial is not configured to force dial (set the
-INTERNET_AUTODIAL_FORCE_ONLINE in the dwFlags parameter),
-InternetAutodial does not attempt to dial the connection and returns
-TRUE. Like all other aspects of the WinINet API, this function cannot
-be safely called from within DllMain or the constructors and
-destructors of global objects. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
+InternetAutodial ‚Íƒ_ƒuƒ‹ƒ_ƒCƒAƒ‹Ú‘±ASmartCard
+”FØAƒŒƒWƒXƒgƒŠƒx[ƒX‚ÌØ–¾‘‚ğ•K—v‚Æ‚·‚éÚ‘±‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B’ˆÓ: Windows Vista ‚¨‚æ‚Ñ Windows
+Server 2008 ˆÈ~AWinINet ‚Ìƒ_ƒCƒAƒ‹ƒAƒbƒvŠÖ”‚Íƒ_ƒCƒAƒ‹ƒAƒbƒvÚ‘±‚ğŠm—§‚·‚é‚½‚ß‚É RAS
+ŠÖ”‚ğg—p‚·‚éBWinINet ‚Í RasDialDlg
+ŠÖ”‚Å•¶‘‰»‚³‚ê‚Ä‚¢‚é‹@”\‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚éBƒVƒXƒeƒ€ã‚ÉŠù‘¶‚Ìƒ_ƒCƒAƒ‹ƒAƒbƒvÚ‘±‚ª‚ ‚éê‡AInternetAutodial
+‚Íƒ_ƒCƒAƒ‹‚ğ‚İ‚È‚¢B‚Ü‚½AŠù‘¶‚Ì LAN Ú‘±‚ª‚ ‚èAInternetAutodial ‚ª‹­§ƒ_ƒCƒAƒ‹ (dwFlags ƒpƒ‰ƒ[ƒ^‚É
+INTERNET_AUTODIAL_FORCE_ONLINE ‚ğİ’è) ‚·‚é‚æ‚¤‚É\¬‚³‚ê‚Ä‚¢‚È‚¢ê‡AInternetAutodial
+‚ÍÚ‘±‚Ìƒ_ƒCƒAƒ‹‚ğ‚İ‚¸ TRUE ‚ğ•Ô‚·BWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetAutodialHangup
-The InternetAutodialHangup function (wininet.h) disconnects an automatic dial-up connection.
+InternetAutodialHangup ŠÖ” (wininet.h) ‚Í©“®ƒ_ƒCƒAƒ‹ƒAƒbƒvÚ‘±‚ğØ’f‚·‚éB
 %group
 Win32 wininet
 %prm
 dwReserved
-dwReserved : [int] This parameter is reserved and must be 0.
+dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The InternetAutodialHangup function (wininet.h) disconnects an
-automatic dial-up connection.
+InternetAutodialHangup ŠÖ” (wininet.h) ‚Í©“®ƒ_ƒCƒAƒ‹ƒAƒbƒvÚ‘±‚ğØ’f‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, it returns TRUE.
-If the function fails, it returns FALSE. Applications can call
-GetLastError to retrieve the error code.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í GetLastError ‚ğŒÄ‚Ño‚µ‚ÄƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
 
 [”õl]
-InternetAutoDialHangup returns TRUE if autodial is not enabled, or if
-autodial is enabled but does not have an entry configured on the
-computer. Like all other aspects of the WinINet API, this function
-cannot be safely called from within DllMain or the constructors and
-destructors of global objects. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
+InternetAutoDialHangup
+‚ÍA©“®ƒ_ƒCƒAƒ‹‚ª—LŒø‚Å‚È‚¢ê‡A‚Ü‚½‚Í©“®ƒ_ƒCƒAƒ‹‚ª—LŒø‚Å‚à\¬Ï‚İ‚ÌƒGƒ“ƒgƒŠ‚ªƒRƒ“ƒsƒ…[ƒ^‚É‚È‚¢ê‡ATRUE ‚ğ•Ô‚·BWinINet
+API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetCanonicalizeUrlW
-Canonicalizes a URL, which includes converting unsafe characters and spaces into escape sequences. (Unicode)
+URL ‚ğ³‹K‰»‚·‚éBˆÀ‘S‚Å‚È‚¢•¶š‚â‹ó”’‚ğƒGƒXƒP[ƒvƒV[ƒPƒ“ƒX‚É•ÏŠ·‚·‚éˆ—‚ğŠÜ‚ŞB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrl, lpszBuffer, lpdwBufferLength, dwFlags
-lpszUrl : [wstr] A pointer to the string that contains the URL to canonicalize.
-lpszBuffer : [wstr] A pointer to the buffer that receives the resulting canonicalized URL.
-lpdwBufferLength : [var] A pointer to a variable that contains the size, in characters,  of the lpszBuffer buffer. If the function succeeds, this parameter receives the number of characters actually copied to the lpszBuffer buffer, which does not include the terminating null character. If the function fails, this parameter receives the required size of the buffer, in characters, which includes the terminating null character.
-dwFlags : [int] Controls canonicalization. If no flags are specified, the function converts all unsafe characters and meta sequences (such as \.,\ .., and \...) to escape sequences.
+lpszUrl : [wstr] ³‹K‰»‚·‚é URL ‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszBuffer : [wstr] ³‹K‰»‚³‚ê‚½ URL ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpdwBufferLength : [var] lpszBuffer ƒoƒbƒtƒ@‚ÌƒTƒCƒY (•¶š’PˆÊ) ‚ğŠi”[‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–{ƒpƒ‰ƒ[ƒ^‚É‚Í lpszBuffer ƒoƒbƒtƒ@‚ÉÀÛ‚ÉƒRƒs[‚³‚ê‚½•¶š” (I’[ null •¶š‚ğœ‚­) ‚ªŠi”[‚³‚ê‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–{ƒpƒ‰ƒ[ƒ^‚É‚Í•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY (•¶š’PˆÊAI’[ null •¶š‚ğŠÜ‚Ş) ‚ªŠi”[‚³‚ê‚éB
+dwFlags : [int] ³‹K‰»‚ğ§Œä‚·‚éBƒtƒ‰ƒO‚ªw’è‚³‚ê‚È‚¢ê‡AŠÖ”‚Í‚·‚×‚Ä‚ÌˆÀ‘S‚Å‚È‚¢•¶š‚Æƒƒ^ƒV[ƒPƒ“ƒX (\.A\..A\... ‚È‚Ç) ‚ğƒGƒXƒP[ƒvƒV[ƒPƒ“ƒX‚É•ÏŠ·‚·‚éB
 %inst
-Canonicalizes a URL, which includes converting unsafe characters and
-spaces into escape sequences. (Unicode)
+URL ‚ğ³‹K‰»‚·‚éBˆÀ‘S‚Å‚È‚¢•¶š‚â‹ó”’‚ğƒGƒXƒP[ƒvƒV[ƒPƒ“ƒX‚É•ÏŠ·‚·‚éˆ—‚ğŠÜ‚ŞB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call the GetLastError function. Possible errors include
-the following.
-This doc was truncated.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+ŠÖ”‚ğŒÄ‚Ño‚·B‘z’è‚³‚ê‚éƒGƒ‰[‚É‚ÍŸ‚Ì‚à‚Ì‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-In Internet Explorer 4.0 and later, InternetCanonicalizeUrl always
-functions as if the ICU_BROWSER_MODE flag is set. Client applications
-that must canonicalize the entire URL should use either
-CoInternetParseUrl (with the action PARSE_CANONICALIZE and the flag
-URL_ESCAPE_UNSAFE) or UrlCanonicalize. InternetCanonicalizeUrl always
-encodes by default, even if the ICU_DECODE flag has been specified.
-To decode without reencoding, use ICU_DECODE | ICU_NO_ENCODE. If the
-ICU_DECODE flag is used without ICU_NO_ENCODE, the URL is decoded
-before being parsed; unsafe characters are then re-encoded after
-parsing. This function handles arbitrary protocol schemes, but to do
-so it must make inferences from the unsafe character set.
-Applications that call InternetCanonicalizeUrl when using Internet
-Explorer 3.0 (or when setting the ICU_ENCODE_PERCENT flag for
-Internet Explorer 5 and later) should track the usage of this
-function on a particular URL. If unsafe characters in a URL have been
-converted to escape sequences, using InternetCanonicalizeUrl again on
-the URL (with no flags) causes the escape sequences to be converted
-to another escape sequence. For example, a blank space in a URL would
-be converted to the escape sequence %20. Calling
-InternetCanonicalizeUrl again on the URL would cause the escape
-sequence %20 to be converted to the escape sequence %2520, because
-the % sign is an unsafe character that is reserved for escape
-sequences and is replaced by the function with the escape sequence
-%25. Like all other aspects of the WinINet API, this function cannot
-be safely called from within DllMain or the constructors and
-destructors of global objects. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetCanonicalizeUrl as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+Internet Explorer 4.0 ˆÈ~‚Å‚ÍAInternetCanonicalizeUrl ‚Íí‚É
+ICU_BROWSER_MODE ƒtƒ‰ƒO‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚Ì‚æ‚¤‚É“®ì‚·‚éBURL
+‘S‘Ì‚ğ³‹K‰»‚·‚é•K—v‚ª‚ ‚éƒNƒ‰ƒCƒAƒ“ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍACoInternetParseUrl (ƒAƒNƒVƒ‡ƒ“
+PARSE_CANONICALIZE ‚¨‚æ‚Ñƒtƒ‰ƒO URL_ESCAPE_UNSAFE ‚ğw’è) ‚Ü‚½‚Í UrlCanonicalize
+‚Ì‚¢‚¸‚ê‚©‚ğg—p‚·‚×‚«‚Å‚ ‚éBInternetCanonicalizeUrl ‚ÍAICU_DECODE
+ƒtƒ‰ƒO‚ªw’è‚³‚ê‚Ä‚¢‚Ä‚àAŠù’è‚Åí‚ÉƒGƒ“ƒR[ƒh‚ğs‚¤BÄƒGƒ“ƒR[ƒh‚¹‚¸‚ÉƒfƒR[ƒh‚·‚é‚É‚ÍAICU_DECODE |
+ICU_NO_ENCODE ‚ğg—p‚·‚é‚±‚ÆBICU_NO_ENCODE ‚È‚µ‚Å ICU_DECODE ƒtƒ‰ƒO‚ğg—p‚·‚é‚ÆAURL
+‚Í‰ğÍ‘O‚ÉƒfƒR[ƒh‚³‚êAˆÀ‘S‚Å‚È‚¢•¶š‚Í‰ğÍŒã‚ÉÄƒGƒ“ƒR[ƒh‚³‚ê‚éB–{ŠÖ”‚Í”CˆÓ‚ÌƒvƒƒgƒRƒ‹ƒXƒL[ƒ€‚ğˆ—‚Å‚«‚é‚ªA‚»‚Ì‚½‚ß‚É‚ÍˆÀ‘S‚Å‚È‚¢•¶šW‡‚©‚ç„˜_‚ğs‚í‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BInternet
+Explorer 3.0 ‚ğg—p‚·‚éÛ (‚Ü‚½‚Í Internet Explorer 5 ˆÈ~‚Å ICU_ENCODE_PERCENT
+ƒtƒ‰ƒO‚ğİ’è‚·‚éÛ) ‚É InternetCanonicalizeUrl ‚ğŒÄ‚Ño‚·ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA“Á’è‚Ì URL
+‚É‘Î‚·‚é–{ŠÖ”‚Ìg—pó‹µ‚ğ’ÇÕ‚·‚×‚«‚Å‚ ‚éBURL “à‚ÌˆÀ‘S‚Å‚È‚¢•¶š‚ªƒGƒXƒP[ƒvƒV[ƒPƒ“ƒX‚É•ÏŠ·‚³‚ê‚Ä‚¢‚éê‡A‚»‚Ì URL
+‚É‘Î‚µ‚ÄÄ“x (ƒtƒ‰ƒO‚È‚µ‚Å) InternetCanonicalizeUrl
+‚ğg—p‚·‚é‚ÆAƒGƒXƒP[ƒvƒV[ƒPƒ“ƒX‚ª•Ê‚ÌƒGƒXƒP[ƒvƒV[ƒPƒ“ƒX‚É•ÏŠ·‚³‚ê‚éB—á‚¦‚ÎAURL “à‚Ì‹ó”’‚ÍƒGƒXƒP[ƒvƒV[ƒPƒ“ƒX %20
+‚É•ÏŠ·‚³‚ê‚éB‚»‚Ì URL ‚É‘Î‚µ‚ÄÄ“x InternetCanonicalizeUrl ‚ğŒÄ‚Ño‚·‚ÆA%
+‹L†‚ªƒGƒXƒP[ƒvƒV[ƒPƒ“ƒX—p‚É—\–ñ‚³‚ê‚½ˆÀ‘S‚Å‚È‚¢•¶š‚Å‚ ‚èŠÖ”‚É‚æ‚Á‚Ä %25 ‚É’u‚«Š·‚¦‚ç‚ê‚é‚½‚ßAƒGƒXƒP[ƒvƒV[ƒPƒ“ƒX %20
+‚ªƒGƒXƒP[ƒvƒV[ƒPƒ“ƒX %2520 ‚É•ÏŠ·‚³‚ê‚éBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetCanonicalizeUrl
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 InternetCheckConnectionW
-Allows an application to check if a connection to the Internet can be established. (Unicode)
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌÚ‘±‚ğŠm—§‚Å‚«‚é‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚Å‚«‚é‚æ‚¤‚É‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrl, dwFlags, dwReserved
-lpszUrl : [wstr] Pointer to a null-terminated string that specifies the URL to use to check the connection. This value can be NULL.
-dwFlags : [int] Options. FLAG_ICC_FORCE_CONNECTION is the only flag that is currently available. If this flag is set, it forces a connection. A sockets connection is attempted in the following order:
-dwReserved : [int] This parameter is reserved and must be 0.
+lpszUrl : [wstr] Ú‘±‚ğƒ`ƒFƒbƒN‚·‚é‚½‚ß‚Ég—p‚·‚é URL ‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{’l‚É‚Í NULL ‚ğw’è‚Å‚«‚éB
+dwFlags : [int] ƒIƒvƒVƒ‡ƒ“BŒ»İg—p‰Â”\‚Èƒtƒ‰ƒO‚Í FLAG_ICC_FORCE_CONNECTION ‚Ì‚İ‚Å‚ ‚éB‚±‚Ìƒtƒ‰ƒO‚ªİ’è‚³‚ê‚é‚ÆAÚ‘±‚ª‹­§‚³‚ê‚éBƒ\ƒPƒbƒgÚ‘±‚ÍŸ‚Ì‡˜‚Å‚İ‚ç‚ê‚éB
+dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Allows an application to check if a connection to the Internet can be
-established. (Unicode)
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌÚ‘±‚ğŠm—§‚Å‚«‚é‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚Å‚«‚é‚æ‚¤‚É‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if a connection is made successfully, or FALSE
-otherwise. Use GetLastError to retrieve the error code.
-ERROR_NOT_CONNECTED is returned by GetLastError if a connection
-cannot be made or if the sockets database is unconditionally offline.
+Ú‘±‚ª¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·BƒGƒ‰[ƒR[ƒh‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğg—p‚·‚éBÚ‘±‚Å‚«‚È‚¢ê‡A‚Ü‚½‚Íƒ\ƒPƒbƒgƒf[ƒ^ƒx[ƒX‚ª–³ğŒ‚ÉƒIƒtƒ‰ƒCƒ“‚Å‚ ‚éê‡AGetLastError ‚Í
+ERROR_NOT_CONNECTED ‚ğ•Ô‚·B
 
 [”õl]
-InternetCheckConnection is deprecated. InternetCheckConnection does
-not work in environments that use a web proxy server to access the
-Internet. Depending on the environment, use
-NetworkInformation.GetInternetConnectionProfile or the NLM Interfaces
-to check for Internet access instead. Note WinINet does not support
-server implementations. In addition, it should not be used from a
-service. For server implementations or services use Microsoft Windows
-HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetCheckConnection as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+InternetCheckConnection ‚Í”ñ„§‚Å‚ ‚éBInternetCheckConnection
+‚ÍƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌƒAƒNƒZƒX‚É Web ƒvƒƒLƒVƒT[ƒo[‚ğg—p‚·‚éŠÂ‹«‚Å‚Í‹@”\‚µ‚È‚¢BŠÂ‹«‚É‰‚¶‚ÄA‘ã‚í‚è‚É
+NetworkInformation.GetInternetConnectionProfile ‚Ü‚½‚Í NLM
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğg—p‚µ‚ÄƒCƒ“ƒ^[ƒlƒbƒgƒAƒNƒZƒX‚ğƒ`ƒFƒbƒN‚·‚×‚«‚Å‚ ‚éB’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetCheckConnection
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 InternetClearAllPerSiteCookieDecisions
-Clears all decisions that were made about cookies on a site by site basis.
+ƒTƒCƒg‚²‚Æ‚És‚í‚ê‚½ƒNƒbƒL[‚ÉŠÖ‚·‚é‚·‚×‚Ä‚Ì”»’f‚ğƒNƒŠƒA‚·‚éB
 %group
 Win32 wininet
 %prm
 
 %inst
-Clears all decisions that were made about cookies on a site by site
-basis.
+ƒTƒCƒg‚²‚Æ‚És‚í‚ê‚½ƒNƒbƒL[‚ÉŠÖ‚·‚é‚·‚×‚Ä‚Ì”»’f‚ğƒNƒŠƒA‚·‚éB
 
 [–ß‚è’l]
-Returns TRUE if all decisions were cleared and FALSE otherwise.
+‚·‚×‚Ä‚Ì”»’f‚ªƒNƒŠƒA‚³‚ê‚½ê‡‚Í TRUE ‚ğA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
@@ -2542,68 +2273,62 @@ ERROR_IO_PENDING ‚ğ•Ô‚µ‚½ŒãA‚»‚êˆÈ~‚É API ŒÄ‚Ño‚µ‚ğs‚í‚È‚¢ŒÀ‚èˆÀ‘S‚É I/O
 
 %index
 InternetCombineUrlW
-Combines a base and relative URL into a single URL. The resultant URL is canonicalized (see InternetCanonicalizeUrl). (Unicode)
+ƒx[ƒX URL ‚Æ‘Š‘Î URL ‚ğ 1 ‚Â‚Ì URL ‚ÉŒ‹‡‚·‚éBŒ‹‡‚³‚ê‚½ URL ‚Í³‹K‰»‚³‚ê‚é (InternetCanonicalizeUrl ‚ğQÆ)B(Unicode)
 %group
 Win32 wininet
 %prm
 lpszBaseUrl, lpszRelativeUrl, lpszBuffer, lpdwBufferLength, dwFlags
-lpszBaseUrl : [wstr] Pointer to a null-terminated string  that contains the base URL.
-lpszRelativeUrl : [wstr] Pointer to a null-terminated string  that contains the relative URL.
-lpszBuffer : [wstr] Pointer to a buffer that receives the combined URL.
-lpdwBufferLength : [var] Pointer to a variable that contains the size of the lpszBuffer buffer, in characters. If the function succeeds, this parameter receives the size of the combined URL, in characters, not including the null-terminating character. If the function fails, this parameter receives the size of the required buffer, in characters (including the null-terminating character).
+lpszBaseUrl : [wstr] ƒx[ƒX URL ‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszRelativeUrl : [wstr] ‘Š‘Î URL ‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszBuffer : [wstr] Œ‹‡Œã‚Ì URL ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpdwBufferLength : [var] lpszBuffer ƒoƒbƒtƒ@‚ÌƒTƒCƒY (•¶š’PˆÊ) ‚ğŠi”[‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–{ƒpƒ‰ƒ[ƒ^‚É‚ÍŒ‹‡Œã‚Ì URL ‚ÌƒTƒCƒY (•¶š’PˆÊAI’[ null •¶š‚ğŠÜ‚Ü‚È‚¢) ‚ªŠi”[‚³‚ê‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–{ƒpƒ‰ƒ[ƒ^‚É‚Í•K—v‚Èƒoƒbƒtƒ@‚ÌƒTƒCƒY (•¶š’PˆÊAI’[ null •¶š‚ğŠÜ‚Ş) ‚ªŠi”[‚³‚ê‚éB
 dwFlags : [int] 
 %inst
-Combines a base and relative URL into a single URL. The resultant URL
-is canonicalized (see InternetCanonicalizeUrl). (Unicode)
+ƒx[ƒX URL ‚Æ‘Š‘Î URL ‚ğ 1 ‚Â‚Ì URL ‚ÉŒ‹‡‚·‚éBŒ‹‡‚³‚ê‚½ URL ‚Í³‹K‰»‚³‚ê‚é
+(InternetCanonicalizeUrl ‚ğQÆ)B(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError. Possible errors include the
-following.
-This doc was truncated.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B‘z’è‚³‚ê‚éƒGƒ‰[‚É‚ÍŸ‚Ì‚à‚Ì‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetCombineUrl as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetCombineUrl
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 InternetConfirmZoneCrossing
-The InternetConfirmZoneCrossing function (wininet.h) checks for changes between secure and nonsecure URLs.
+InternetConfirmZoneCrossing ŠÖ” (wininet.h) ‚ÍƒZƒLƒ…ƒA URL ‚Æ”ñƒZƒLƒ…ƒA URL ‚ÌŠÔ‚Ì•ÏX‚ğƒ`ƒFƒbƒN‚·‚éB
 %group
 Win32 wininet
 %prm
 hWnd, szUrlPrev, szUrlNew, bPost
-hWnd : [intptr] Handle to the parent window for any required dialog box.
-szUrlPrev : [str] Pointer to a null-terminated string that specifies the URL that was viewed before the current request was made.
-szUrlNew : [str] Pointer to a null-terminated string that specifies the new URL that the user has requested to view.
-bPost : [int] Not implemented.
+hWnd : [intptr] •K—v‚Æ‚È‚éƒ_ƒCƒAƒƒO‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+szUrlPrev : [str] Œ»İ‚Ì—v‹‚ªs‚í‚ê‚é‘O‚É•\¦‚³‚ê‚Ä‚¢‚½ URL ‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+szUrlNew : [str] ƒ†[ƒU[‚ª•\¦‚ğ—v‹‚µ‚½V‚µ‚¢ URL ‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+bPost : [int] À‘•‚³‚ê‚Ä‚¢‚È‚¢B
 %inst
-The InternetConfirmZoneCrossing function (wininet.h) checks for
-changes between secure and nonsecure URLs.
+InternetConfirmZoneCrossing ŠÖ” (wininet.h) ‚ÍƒZƒLƒ…ƒA URL ‚Æ”ñƒZƒLƒ…ƒA URL
+‚ÌŠÔ‚Ì•ÏX‚ğƒ`ƒFƒbƒN‚·‚éB
 
 [–ß‚è’l]
-Returns one of the following values.
-This doc was truncated.
+Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Always inform the user when a change in security level occurs, or you
-risk subjecting the user to involuntary information disclosure. Like
-all other aspects of the WinINet API, this function cannot be safely
-called from within DllMain or the constructors and destructors of
-global objects. Note WinINet does not support server implementations.
-In addition, it should not be used from a service. For server
-implementations or services use Microsoft Windows HTTP Services
-(WinHTTP).
+
+ƒZƒLƒ…ƒŠƒeƒBƒŒƒxƒ‹‚Ì•ÏX‚ª”­¶‚µ‚½ê‡‚Íí‚Éƒ†[ƒU[‚É’Ê’m‚·‚é‚±‚ÆB‚³‚à‚È‚¯‚ê‚ÎAƒ†[ƒU[‚ğˆÓ}‚µ‚È‚¢î•ñŠJ¦‚É‚³‚ç‚·‚¨‚»‚ê‚ª‚ ‚éBWinINet
+API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
@@ -2654,229 +2379,195 @@ ppwszConvertedUrl : [var]
 
 %index
 InternetCrackUrlW
-Cracks a URL into its component parts. (Unicode)
+URL ‚ğ\¬—v‘f‚É•ª‰ğ‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrl, dwUrlLength, dwFlags, lpUrlComponents
-lpszUrl : [wstr] Pointer to a string that contains the canonical URL to be cracked.
-dwUrlLength : [int] Size of the lpszUrl string, in TCHARs, or zero if lpszUrl is an ASCIIZ string.
+lpszUrl : [wstr] ‰ğÍ‚·‚é³‹K‰»‚³‚ê‚½ URL ‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwUrlLength : [int] lpszUrl •¶š—ñ‚ÌƒTƒCƒY (TCHAR ’PˆÊ)BlpszUrl ‚ª ASCIIZ •¶š—ñ‚Ìê‡‚Í 0B
 dwFlags : [int] 
-lpUrlComponents : [var] Pointer to a URL_COMPONENTS structure that receives the URL components.
+lpUrlComponents : [var] URL ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğó‚¯æ‚é URL_COMPONENTS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Cracks a URL into its component parts. (Unicode)
+URL ‚ğ\¬—v‘f‚É•ª‰ğ‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if the function succeeds, or FALSE otherwise. To get
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The required components are indicated by members of the
-URL_COMPONENTS structure. Each component has a pointer to the value
-and has a member that stores the length of the stored value. If both
-the value and the length for a component are equal to zero, that
-component is not returned. Windows Vista and later.: If the pointer
-to the value of the component is NULL and the value of its
-corresponding length member is nonzero, the address of the first
-character of the corresponding component in the lpszUrl string is
-stored in the pointer, and the length of the component is stored in
-the length member.
-If the pointer contains the address of the user-supplied buffer, the
-length member must contain the size of the buffer. InternetCrackUrl
-copies the component into the buffer, and the length member is set to
-the length of the copied component, minus 1 for the trailing string
-terminator. For InternetCrackUrl to work properly, the size of the
-URL_COMPONENTS structure, in bytes, must be stored in the
-dwStructSize member. Note Do not use InternetCrackUrl on "file://"
-URLs that contain spaces, because the value returned in the
-dwUrlPathLength member of the URL_COMPONENTS structure pointed to by
-lpUrlComponents is too large. This is only the case, however, with
-"file://" URLs that contain space characters. Like all other aspects
-of the WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetCrackUrl as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+•K—v‚ÈƒRƒ“ƒ|[ƒlƒ“ƒg‚Í URL_COMPONENTS
+\‘¢‘Ì‚Ìƒƒ“ƒo‚Åw’è‚·‚éBŠeƒRƒ“ƒ|[ƒlƒ“ƒg‚Í’l‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÆAŠi”[‚³‚ê‚½’l‚Ì’·‚³‚ğ•Û‚·‚éƒƒ“ƒo‚ğ‚ÂBƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’l‚Æ’·‚³‚Ì—¼•û‚ª
+0 ‚Ìê‡A‚»‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Í•Ô‚³‚ê‚È‚¢BWindows Vista ˆÈ~: ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’l‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ª NULL
+‚ÅA‘Î‰‚·‚é’·‚³ƒƒ“ƒo‚Ì’l‚ª 0 ‚Å‚È‚¢ê‡AlpszUrl
+•¶š—ñ“à‚Ì‘Î‰‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìæ“ª•¶š‚ÌƒAƒhƒŒƒX‚ªƒ|ƒCƒ“ƒ^‚ÉŠi”[‚³‚êAƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’·‚³‚ª’·‚³ƒƒ“ƒo‚ÉŠi”[‚³‚ê‚éB
+
+ƒ|ƒCƒ“ƒ^‚Éƒ†[ƒU[w’è‚Ìƒoƒbƒtƒ@‚ÌƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚Ä‚¢‚éê‡A’·‚³ƒƒ“ƒo‚É‚Íƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ªŠi”[‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BInternetCrackUrl
+‚ÍƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒoƒbƒtƒ@‚ÉƒRƒs[‚µA’·‚³ƒƒ“ƒo‚ÍƒRƒs[‚³‚ê‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’·‚³‚©‚ç––”ö‚Ì•¶š—ñI’[—p‚Ì 1
+‚ğˆø‚¢‚½’l‚Éİ’è‚³‚ê‚éBInternetCrackUrl ‚ª³‚µ‚­“®ì‚·‚é‚½‚ß‚É‚ÍAURL_COMPONENTS \‘¢‘Ì‚ÌƒTƒCƒY
+(ƒoƒCƒg’PˆÊ) ‚ğ dwStructSize ƒƒ“ƒo‚ÉŠi”[‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B’ˆÓ: ‹ó”’‚ğŠÜ‚Ş "file://" URL ‚É‘Î‚µ‚Ä‚Í
+InternetCrackUrl ‚ğg—p‚µ‚È‚¢‚±‚ÆBlpUrlComponents ‚ªw‚· URL_COMPONENTS \‘¢‘Ì‚Ì
+dwUrlPathLength ƒƒ“ƒo‚É•Ô‚³‚ê‚é’l‚ª‘å‚«‚·‚¬‚é‚½‚ß‚Å‚ ‚éB‚½‚¾‚µ‚±‚ê‚Í‹ó”’•¶š‚ğŠÜ‚Ş "file://" URL
+‚Ìê‡‚Ì‚İ‚Å‚ ‚éBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetCrackUrl ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 InternetCreateUrlW
-Creates a URL from its component parts. (Unicode)
+\¬—v‘f‚©‚ç URL ‚ğì¬‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpUrlComponents, dwFlags, lpszUrl, lpdwUrlLength
-lpUrlComponents : [var] Pointer to a URL_COMPONENTS structure that contains the components from which to create the URL.
+lpUrlComponents : [var] URL ‚ğì¬‚·‚é‚½‚ß‚Ì\¬—v‘f‚ğŠi”[‚µ‚½ URL_COMPONENTS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 dwFlags : [int] 
-lpszUrl : [wstr] Pointer to a buffer that receives the URL.
-lpdwUrlLength : [var] Pointer to a variable that specifies the size of the URL lpszUrl buffer, in TCHARs. When the function returns, this parameter receives the size of the URL string, excluding the NULL terminator. If GetLastError returns ERROR_INSUFFICIENT_BUFFER, this parameter receives the number of bytes required to hold the created URL.
+lpszUrl : [wstr] URL ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpdwUrlLength : [var] URL lpszUrl ƒoƒbƒtƒ@‚ÌƒTƒCƒY (TCHAR ’PˆÊ) ‚ğw’è‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª–ß‚é‚ÆA–{ƒpƒ‰ƒ[ƒ^‚É‚Í URL •¶š—ñ‚ÌƒTƒCƒY (NULL I’[‚ğœ‚­) ‚ªŠi”[‚³‚ê‚éBGetLastError ‚ª ERROR_INSUFFICIENT_BUFFER ‚ğ•Ô‚µ‚½ê‡A–{ƒpƒ‰ƒ[ƒ^‚É‚Íì¬‚³‚ê‚½ URL ‚ğ•Û‚·‚é‚½‚ß‚É•K—v‚ÈƒoƒCƒg”‚ªŠi”[‚³‚ê‚éB
 %inst
-Creates a URL from its component parts. (Unicode)
+\¬—v‘f‚©‚ç URL ‚ğì¬‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if the function succeeds, or FALSE otherwise. To get
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-When specifying scheme in the URL_COMPONENTS structure passed to
-lpUrlComponents, if lpszScheme is not NULL it will be used for the
-scheme. If lpszScheme is NULL, the scheme can be specified using the
-INTERNET_SCHEME enumeration by setting nScheme to the required
-INTERNET_SCHEME or INTERNET_SCHEME_DEFAULT. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetCreateUrl as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+lpUrlComponents ‚É“n‚· URL_COMPONENTS \‘¢‘Ì‚ÅƒXƒL[ƒ€‚ğw’è‚·‚éê‡AlpszScheme ‚ª NULL
+‚Å‚È‚¯‚ê‚Î‚»‚ê‚ªƒXƒL[ƒ€‚Æ‚µ‚Äg—p‚³‚ê‚éBlpszScheme ‚ª NULL ‚Ìê‡AnScheme ‚É•K—v‚È
+INTERNET_SCHEME ’l‚Ü‚½‚Í INTERNET_SCHEME_DEFAULT ‚ğİ’è‚·‚é‚±‚Æ‚ÅAINTERNET_SCHEME
+—ñ‹“‚ğg—p‚µ‚ÄƒXƒL[ƒ€‚ğw’è‚Å‚«‚éB’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetCreateUrl ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 InternetDial
-The InternetDial function (wininet.h) initiates a connection to the Internet using a modem.
+InternetDial ŠÖ” (wininet.h) ‚Íƒ‚ƒfƒ€‚ğg—p‚µ‚ÄƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌÚ‘±‚ğŠJn‚·‚éB
 %group
 Win32 wininet
 %prm
 hwndParent, lpszConnectoid, dwFlags, lpdwConnection, dwReserved
-hwndParent : [intptr] Handle to the parent window.
-lpszConnectoid : [str] Pointer to a null-terminated string that specifies the name of the dial-up connection to be used. If this parameter contains the empty string (""), the user chooses the connection. If this parameter is NULL, the function connects to the autodial connection.
+hwndParent : [intptr] eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lpszConnectoid : [str] g—p‚·‚éƒ_ƒCƒAƒ‹ƒAƒbƒvÚ‘±‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚É‹ó•¶š—ñ ("") ‚ğw’è‚µ‚½ê‡Aƒ†[ƒU[‚ªÚ‘±‚ğ‘I‘ğ‚·‚éB–{ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚Í©“®ƒ_ƒCƒAƒ‹Ú‘±‚ÉÚ‘±‚·‚éB
 dwFlags : [int] 
-lpdwConnection : [var] Pointer to a variable that specifies the connection number. This number is a unique identifier for the connection that can be used in other functions, such as InternetHangUp.
-dwReserved : [int] This parameter is reserved and must be NULL.
+lpdwConnection : [var] Ú‘±”Ô†‚ğw’è‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì”Ô†‚ÍÚ‘±‚ÌˆêˆÓ‚È¯•Êq‚Å‚ ‚èAInternetHangUp ‚È‚Ç‘¼‚ÌŠÖ”‚Åg—p‚Å‚«‚éB
+dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The InternetDial function (wininet.h) initiates a connection to the
-Internet using a modem.
+InternetDial ŠÖ” (wininet.h) ‚Íƒ‚ƒfƒ€‚ğg—p‚µ‚ÄƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌÚ‘±‚ğŠJn‚·‚éB
 
 [–ß‚è’l]
-Returns ERROR_SUCCESS if successful, or an error value otherwise. The
-error code can be one of the following values.
-This doc was truncated.
+¬Œ÷‚µ‚½ê‡‚Í ERROR_SUCCESS ‚ğA¸”s‚µ‚½ê‡‚ÍƒGƒ‰[’l‚ğ•Ô‚·BƒGƒ‰[ƒR[ƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-InternetDial does not support double-dial connections, SmartCard
-authentication, or connections that require registry-based
-certification. Note Starting on Windows Vista and Windows Server
-2008, the WinINet dial-up functions use the RAS functions to
-establish a dial-up connection. WinINet supports the functionality
-documented in the RasDialDlg function. Like all other aspects of the
-WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+InternetDial ‚Íƒ_ƒuƒ‹ƒ_ƒCƒAƒ‹Ú‘±ASmartCard
+”FØAƒŒƒWƒXƒgƒŠƒx[ƒX‚ÌØ–¾‘‚ğ•K—v‚Æ‚·‚éÚ‘±‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B’ˆÓ: Windows Vista ‚¨‚æ‚Ñ Windows
+Server 2008 ˆÈ~AWinINet ‚Ìƒ_ƒCƒAƒ‹ƒAƒbƒvŠÖ”‚Íƒ_ƒCƒAƒ‹ƒAƒbƒvÚ‘±‚ğŠm—§‚·‚é‚½‚ß‚É RAS
+ŠÖ”‚ğg—p‚·‚éBWinINet ‚Í RasDialDlg ŠÖ”‚Å•¶‘‰»‚³‚ê‚Ä‚¢‚é‹@”\‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚éBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetEnumPerSiteCookieDecisionW
-The InternetEnumPerSiteCookieDecisionW (Unicode) function (wininet.h) retrieves the domains and cookie settings of websites with set site-specific cookie regulations.
+InternetEnumPerSiteCookieDecisionW (Unicode) ŠÖ” (wininet.h) ‚ÍAƒTƒCƒgŒÅ—L‚ÌƒNƒbƒL[‹K§‚ªİ’è‚³‚ê‚½ Web ƒTƒCƒg‚ÌƒhƒƒCƒ“‚ÆƒNƒbƒL[İ’è‚ğæ“¾‚·‚éB
 %group
 Win32 wininet
 %prm
 pszSiteName, pcSiteNameSize, pdwDecision, dwIndex
-pszSiteName : [wstr] An LPSTR that receives a string specifying a website domain.
-pcSiteNameSize : [var] A pointer to an unsigned long that specifies the size of the pcSiteNameSize parameter provided to the InternetEnumPerSiteCookieDecision function when it is called. When InternetEnumPerSiteCookieDecision returns, pcSiteNameSize receives the actual length of the domain string returned in pszSiteName.
-pdwDecision : [var] Pointer to an unsigned long that receives the InternetCookieState enumeration value corresponding to pszSiteName.
-dwIndex : [int] An unsigned long that specifies the index of the website and corresponding cookie setting to retrieve.
+pszSiteName : [wstr] Web ƒTƒCƒgƒhƒƒCƒ“‚ğw’è‚·‚é•¶š—ñ‚ğó‚¯æ‚é LPSTRB
+pcSiteNameSize : [var] InternetEnumPerSiteCookieDecision ŠÖ”‚ÌŒÄ‚Ño‚µ‚É’ñ‹Ÿ‚³‚ê‚é pcSiteNameSize ƒpƒ‰ƒ[ƒ^‚ÌƒTƒCƒY‚ğw’è‚·‚é unsigned long ‚Ö‚Ìƒ|ƒCƒ“ƒ^BInternetEnumPerSiteCookieDecision ‚ª–ß‚é‚ÆApcSiteNameSize ‚É‚Í pszSiteName ‚É•Ô‚³‚ê‚½ƒhƒƒCƒ“•¶š—ñ‚ÌÀÛ‚Ì’·‚³‚ªŠi”[‚³‚ê‚éB
+pdwDecision : [var] pszSiteName ‚É‘Î‰‚·‚é InternetCookieState —ñ‹“’l‚ğó‚¯æ‚é unsigned long ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwIndex : [int] æ“¾‚·‚é Web ƒTƒCƒg‚Æ‘Î‰‚·‚éƒNƒbƒL[İ’è‚ÌƒCƒ“ƒfƒbƒNƒX‚ğw’è‚·‚é unsigned longB
 %inst
-The InternetEnumPerSiteCookieDecisionW (Unicode) function (wininet.h)
-retrieves the domains and cookie settings of websites with set
-site-specific cookie regulations.
+InternetEnumPerSiteCookieDecisionW (Unicode) ŠÖ” (wininet.h)
+‚ÍAƒTƒCƒgŒÅ—L‚ÌƒNƒbƒL[‹K§‚ªİ’è‚³‚ê‚½ Web ƒTƒCƒg‚ÌƒhƒƒCƒ“‚ÆƒNƒbƒL[İ’è‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-TRUE if the function retrieved the cookie setting for the given
-domain; otherwise, false. FALSE.
+w’è‚µ‚½ƒhƒƒCƒ“‚ÌƒNƒbƒL[İ’è‚ğæ“¾‚µ‚½ê‡‚Í TRUE ‚ğA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-InternetEnumPerSiteCookieDecision should be initially called with
-dwIndex equal to 0. Incrementing the dwIndex parameter steps through
-the list of websites and cookie settings. The end of the list is
-reached when InternetEnumPerSiteCookieDecision returns FALSE and
-produces the wininet error, ERROR_NO_MORE_ITEMS. Like all other
-aspects of the WinINet API, this function cannot be safely called
-from within DllMain or the constructors and destructors of global
-objects. Note WinINet does not support server implementations. In
-addition, it should not be used from a service. For server
-implementations or services use Microsoft Windows HTTP Services
-(WinHTTP).
-> [!NOTE] > The wininet.h header defines
-InternetEnumPerSiteCookieDecision as an alias which automatically
-selects the ANSI or Unicode version of this function based on the
-definition of the UNICODE preprocessor constant. Mixing usage of the
-encoding-neutral alias with code that not encoding-neutral can lead
-to mismatches that result in compilation or runtime errors. For more
-information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+InternetEnumPerSiteCookieDecision ‚ÍÅ‰‚É dwIndex ‚ğ 0
+‚É‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBdwIndex ƒpƒ‰ƒ[ƒ^‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é‚±‚Æ‚Å Web
+ƒTƒCƒg‚ÆƒNƒbƒL[İ’è‚ÌƒŠƒXƒg‚ğ‡‚É’H‚éBInternetEnumPerSiteCookieDecision ‚ª FALSE
+‚ğ•Ô‚µAwininet ƒGƒ‰[ ERROR_NO_MORE_ITEMS ‚ğ”­¶‚³‚¹‚½“_‚ÅƒŠƒXƒg‚Ì––”ö‚É“’B‚·‚éBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetEnumPerSiteCookieDecision
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 InternetErrorDlg
-Displays a dialog box for the error that is passed to InternetErrorDlg, if an appropriate dialog box exists.
+“KØ‚Èƒ_ƒCƒAƒƒO‚ª‘¶İ‚·‚éê‡AInternetErrorDlg ‚É“n‚³‚ê‚½ƒGƒ‰[‚É‘Î‚·‚éƒ_ƒCƒAƒƒO‚ğ•\¦‚·‚éB
 %group
 Win32 wininet
 %prm
 hWnd, hRequest, dwError, dwFlags, lppvData
-hWnd : [intptr] Handle to the parent window for any needed dialog box. If no dialog box is needed and FLAGS_ERROR_UI_FLAGS_NO_UI is passed to dwFlags, then this parameter can be NULL.
-hRequest : [intptr] Handle to the Internet connection used in the call to HttpSendRequest.
+hWnd : [intptr] •K—v‚Æ‚È‚éƒ_ƒCƒAƒƒO‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒ_ƒCƒAƒƒO‚ª•s—v‚ÅAdwFlags ‚É FLAGS_ERROR_UI_FLAGS_NO_UI ‚ª“n‚³‚ê‚éê‡A–{ƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB
+hRequest : [intptr] HttpSendRequest ‚ÌŒÄ‚Ño‚µ‚Åg—p‚³‚ê‚½ƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚Ö‚Ìƒnƒ“ƒhƒ‹B
 dwError : [int] 
 dwFlags : [int] 
-lppvData : [var] Pointer  to the address of a data structure. The structure can be different for each error that needs to be handled.
+lppvData : [var] ƒf[ƒ^\‘¢‘Ì‚ÌƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B\‘¢‘Ì‚Íˆ—‚ª•K—v‚ÈŠeƒGƒ‰[‚²‚Æ‚ÉˆÙ‚È‚éê‡‚ª‚ ‚éB
 %inst
-Displays a dialog box for the error that is passed to
-InternetErrorDlg, if an appropriate dialog box exists.
+“KØ‚Èƒ_ƒCƒAƒƒO‚ª‘¶İ‚·‚éê‡AInternetErrorDlg ‚É“n‚³‚ê‚½ƒGƒ‰[‚É‘Î‚·‚éƒ_ƒCƒAƒƒO‚ğ•\¦‚·‚éB
 
 [–ß‚è’l]
-Returns one of the following values, or an error value otherwise.
-This doc was truncated.
+Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’lA‚Ü‚½‚ÍƒGƒ‰[’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This doc was truncated.
+iˆÈ‰ºÈ—ªj
 
 
 %index
 InternetFindNextFileW
-Continues a file search started as a result of a previous call to FtpFindFirstFile.Windows?XP and Windows Server?2003?R2 and earlier:??Or continues a file search as a result of a previous call to GopherFindFirstFile. (Unicode)
+FtpFindFirstFile ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚Æ‚µ‚ÄŠJn‚³‚ê‚½ƒtƒ@ƒCƒ‹ŒŸõ‚ğŒp‘±‚·‚éBWindows XP ‚¨‚æ‚Ñ Windows Server 2003 R2 ˆÈ‘O: GopherFindFirstFile ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚Æ‚µ‚Ä‚Ìƒtƒ@ƒCƒ‹ŒŸõ‚ÌŒp‘±‚É‚àg—p‚Å‚«‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hFind, lpvFindData
-hFind : [intptr] Handle returned from either FtpFindFirstFile or InternetOpenUrl (directories only). Windows?XP and Windows Server?2003?R2 and earlier:??Also a handle returned from GopherFindFirstFile.
-lpvFindData : [intptr] Pointer to the buffer that receives information about the  file or directory. The format of the information placed in the buffer depends on the protocol in use. The FTP protocol returns a WIN32_FIND_DATA structure. Windows?XP and Windows Server?2003?R2 and earlier:??The Gopher protocol returns a GOPHER_FIND_DATA structure.
+hFind : [intptr] FtpFindFirstFile ‚Ü‚½‚Í InternetOpenUrl (ƒfƒBƒŒƒNƒgƒŠ‚Ì‚İ) ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹BWindows XP ‚¨‚æ‚Ñ Windows Server 2003 R2 ˆÈ‘O: GopherFindFirstFile ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚àw’è‰Â”\B
+lpvFindData : [intptr] ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ÉŠÖ‚·‚éî•ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒoƒbƒtƒ@‚ÉŠi”[‚³‚ê‚éî•ñ‚ÌŒ`®‚Íg—p‚·‚éƒvƒƒgƒRƒ‹‚ÉˆË‘¶‚·‚éBFTP ƒvƒƒgƒRƒ‹‚Í WIN32_FIND_DATA \‘¢‘Ì‚ğ•Ô‚·BWindows XP ‚¨‚æ‚Ñ Windows Server 2003 R2 ˆÈ‘O: Gopher ƒvƒƒgƒRƒ‹‚Í GOPHER_FIND_DATA \‘¢‘Ì‚ğ•Ô‚·B
 %inst
-Continues a file search started as a result of a previous call to
-FtpFindFirstFile.Windows XP and Windows Server 2003 R2 and earlier:
-Or continues a file search as a result of a previous call to
-GopherFindFirstFile. (Unicode)
+FtpFindFirstFile ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚Æ‚µ‚ÄŠJn‚³‚ê‚½ƒtƒ@ƒCƒ‹ŒŸõ‚ğŒp‘±‚·‚éBWindows XP ‚¨‚æ‚Ñ
+Windows Server 2003 R2 ˆÈ‘O: GopherFindFirstFile
+‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚Æ‚µ‚Ä‚Ìƒtƒ@ƒCƒ‹ŒŸõ‚ÌŒp‘±‚É‚àg—p‚Å‚«‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if the function succeeds, or FALSE otherwise. To get
-extended error information, call GetLastError. If the function finds
-no matching files, GetLastError returns ERROR_NO_MORE_FILES.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·Bˆê’v‚·‚éƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡AGetLastError ‚Í ERROR_NO_MORE_FILES ‚ğ•Ô‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetFindNextFile as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetFindNextFile
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -2895,21 +2586,21 @@ dwReserved : [int]
 
 %index
 InternetFreeCookies
-Frees an array of INTERNET_COOKIE2 structures.
+INTERNET_COOKIE2 \‘¢‘Ì‚Ì”z—ñ‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 wininet
 %prm
 pCookies, dwCookieCount
-pCookies : [var] Pointer to an array of [**INTERNET\_COOKIE2**](ns-wininet-internet_cookie2.md) structures.
-dwCookieCount : [int] The number of structures in the array.
+pCookies : [var] [**INTERNET\_COOKIE2**](ns-wininet-internet_cookie2.md) \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwCookieCount : [int] ”z—ñ“à‚Ì\‘¢‘Ì‚Ì”B
 %inst
-Frees an array of INTERNET_COOKIE2 structures.
+INTERNET_COOKIE2 \‘¢‘Ì‚Ì”z—ñ‚ğ‰ğ•ú‚·‚éB
 
 [”õl]
-> [!NOTE] > WinINet does not support server implementations. In
-addition, it should not be used from a service. For server
-implementations or services use [Microsoft Windows HTTP Services
-(WinHTTP)](/windows/desktop/winhttp/winhttp-start-page).
+> [!NOTE] > WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í [Microsoft
+Windows HTTP Services
+(WinHTTP)](/windows/desktop/winhttp/winhttp-start-page) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
@@ -2926,291 +2617,243 @@ pProxyInfoList : [var]
 
 %index
 InternetGetConnectedState
-The InternetGetConnectedState function (wininet.h) retrieves the connected state of the local system and is not recommended for use.
+InternetGetConnectedState ŠÖ” (wininet.h) ‚Íƒ[ƒJƒ‹ƒVƒXƒeƒ€‚ÌÚ‘±ó‘Ô‚ğæ“¾‚·‚éBg—p‚Í„§‚³‚ê‚È‚¢B
 %group
 Win32 wininet
 %prm
 lpdwFlags, dwReserved
 lpdwFlags : [var] 
-dwReserved : [int] This parameter is reserved and must be 0.
+dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The InternetGetConnectedState function (wininet.h) retrieves the
-connected state of the local system and is not recommended for use.
+InternetGetConnectedState ŠÖ” (wininet.h)
+‚Íƒ[ƒJƒ‹ƒVƒXƒeƒ€‚ÌÚ‘±ó‘Ô‚ğæ“¾‚·‚éBg—p‚Í„§‚³‚ê‚È‚¢B
 
 [–ß‚è’l]
-Returns TRUE if there is an active modem or a LAN Internet
-connection, or FALSE if there is no Internet connection, or if all
-possible Internet connections are not currently active. For more
-information, see the Remarks section. When InternetGetConnectedState
-returns FALSE, the application can call GetLastError to retrieve the
-error code.
+ƒAƒNƒeƒBƒu‚Èƒ‚ƒfƒ€‚Ü‚½‚Í LAN ƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ª‚ ‚éê‡‚Í TRUE
+‚ğAƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ª‚È‚¢ê‡A‚Ü‚½‚Í‰Â”\‚È‚·‚×‚Ä‚ÌƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ªŒ»İƒAƒNƒeƒBƒu‚Å‚È‚¢ê‡‚Í FALSE
+‚ğ•Ô‚·BÚ×‚Í”õl‚Ìß‚ğQÆ‚Ì‚±‚ÆBInternetGetConnectedState ‚ª FALSE ‚ğ•Ô‚µ‚½‚Æ‚«AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+GetLastError ‚ğŒÄ‚Ño‚µ‚ÄƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
 
 [”õl]
-A return value of TRUE from InternetGetConnectedState indicates that
-at least one connection to the Internet is available. It does not
-guarantee that a connection to a specific host can be established.
-Applications should always check for errors returned from API calls
-that connect to a server. InternetCheckConnection can be called to
-determine if a connection to a specific destination can be
-established. A return value of TRUE indicates that either the modem
-connection is active, or a LAN connection is active and a proxy is
-properly configured for the LAN. A return value of FALSE indicates
-that neither the modem nor the LAN is connected. If FALSE is
-returned, the INTERNET_CONNECTION_CONFIGURED flag may be set to
-indicate that autodial is configured to "always dial" but is not
-currently active. If autodial is not configured, the function returns
-FALSE. Like all other aspects of the WinINet API, this function
-cannot be safely called from within DllMain or the constructors and
-destructors of global objects. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
+InternetGetConnectedState ‚©‚ç TRUE ‚ª•Ô‚³‚ê‚é‚±‚Æ‚ÍAƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌÚ‘±‚ª­‚È‚­‚Æ‚à 1
+‚Â—˜—p‰Â”\‚Å‚ ‚é‚±‚Æ‚ğ¦‚·B“Á’è‚ÌƒzƒXƒg‚Ö‚ÌÚ‘±‚ğŠm—§‚Å‚«‚é‚±‚Æ‚ğ•ÛØ‚·‚é‚à‚Ì‚Å‚Í‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íí‚ÉƒT[ƒo[‚ÉÚ‘±‚·‚é API
+ŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚éƒGƒ‰[‚ğƒ`ƒFƒbƒN‚·‚×‚«‚Å‚ ‚éBInternetCheckConnection
+‚ğŒÄ‚Ño‚µ‚Ä“Á’è‚Ìˆ¶æ‚Ö‚ÌÚ‘±‚ªŠm—§‚Å‚«‚é‚©‚Ç‚¤‚©‚ğ”»’è‚Å‚«‚éBTRUE ‚Æ‚¢‚¤–ß‚è’l‚ÍAƒ‚ƒfƒ€Ú‘±‚ªƒAƒNƒeƒBƒu‚Å‚ ‚é‚©ALAN
+Ú‘±‚ªƒAƒNƒeƒBƒu‚Å LAN —p‚ÉƒvƒƒLƒV‚ª³‚µ‚­\¬‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ¦‚·BFALSE ‚Æ‚¢‚¤–ß‚è’l‚ÍAƒ‚ƒfƒ€‚à LAN
+‚àÚ‘±‚³‚ê‚Ä‚¢‚È‚¢‚±‚Æ‚ğ¦‚·BFALSE
+‚ª•Ô‚³‚ê‚½ê‡A©“®ƒ_ƒCƒAƒ‹‚ªuí‚Éƒ_ƒCƒAƒ‹v‚É\¬‚³‚ê‚Ä‚¢‚é‚ªŒ»İƒAƒNƒeƒBƒu‚Å‚È‚¢‚±‚Æ‚ğ¦‚·‚½‚ß‚É
+INTERNET_CONNECTION_CONFIGURED ƒtƒ‰ƒO‚ªİ’è‚³‚ê‚éê‡‚ª‚ ‚éB©“®ƒ_ƒCƒAƒ‹‚ª\¬‚³‚ê‚Ä‚¢‚È‚¢ê‡AŠÖ”‚Í
+FALSE ‚ğ•Ô‚·BWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetGetConnectedStateEx
-The InternetGetConnectedStateEx function (wininet.h) retrieves the connected state of the specified Internet connection and is not recommended for use.
+InternetGetConnectedStateEx ŠÖ” (wininet.h) ‚Íw’è‚µ‚½ƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ÌÚ‘±ó‘Ô‚ğæ“¾‚·‚éBg—p‚Í„§‚³‚ê‚È‚¢B
 %group
 Win32 wininet
 %prm
 lpdwFlags, lpszConnectionName, dwNameLen, dwReserved
 lpdwFlags : [var] 
-lpszConnectionName : [str] Pointer to a string value that receives the connection name.
-dwNameLen : [int] Size of the lpszConnectionName string, in TCHARs.
-dwReserved : [int] This parameter is reserved and must be NULL.
+lpszConnectionName : [str] Ú‘±–¼‚ğó‚¯æ‚é•¶š—ñ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwNameLen : [int] lpszConnectionName •¶š—ñ‚ÌƒTƒCƒY (TCHAR ’PˆÊ)B
+dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The InternetGetConnectedStateEx function (wininet.h) retrieves the
-connected state of the specified Internet connection and is not
-recommended for use.
+InternetGetConnectedStateEx ŠÖ” (wininet.h)
+‚Íw’è‚µ‚½ƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ÌÚ‘±ó‘Ô‚ğæ“¾‚·‚éBg—p‚Í„§‚³‚ê‚È‚¢B
 
 [–ß‚è’l]
-Returns TRUE if there is an Internet connection, or FALSE if there is
-no Internet connection, or if all possible Internet connections are
-not currently active. For more information, see the Remarks section.
-When InternetGetConnectedState returns FALSE, the application can
-call GetLastError to retrieve the error code.
+ƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ª‚ ‚éê‡‚Í TRUE
+‚ğAƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ª‚È‚¢ê‡A‚Ü‚½‚Í‰Â”\‚È‚·‚×‚Ä‚ÌƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ªŒ»İƒAƒNƒeƒBƒu‚Å‚È‚¢ê‡‚Í FALSE
+‚ğ•Ô‚·BÚ×‚Í”õl‚Ìß‚ğQÆ‚Ì‚±‚ÆBInternetGetConnectedState ‚ª FALSE ‚ğ•Ô‚µ‚½‚Æ‚«AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+GetLastError ‚ğŒÄ‚Ño‚µ‚ÄƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB
 
 [”õl]
-A return value of TRUE from InternetGetConnectedState indicates that
-at least one connection to the Internet is available. It does not
-guarantee that a connection to a specific host can be established.
-Applications should always check for errors returned from API calls
-that connect to a server. InternetCheckConnection can be called to
-determine if a connection to a specific destination can be
-established. A return value of TRUE indicates that either the modem
-connection is active, or a LAN connection is active and a proxy is
-properly configured for the LAN. A return value of FALSE indicates
-that neither the modem nor the LAN is connected. If FALSE is
-returned, the INTERNET_CONNECTION_CONFIGURED flag may be set to
-indicate that autodial is configured to "always dial" but is not
-currently active. If autodial is not configured, the function returns
-FALSE. Like all other aspects of the WinINet API, this function
-cannot be safely called from within DllMain or the constructors and
-destructors of global objects. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
+InternetGetConnectedState ‚©‚ç TRUE ‚ª•Ô‚³‚ê‚é‚±‚Æ‚ÍAƒCƒ“ƒ^[ƒlƒbƒg‚Ö‚ÌÚ‘±‚ª­‚È‚­‚Æ‚à 1
+‚Â—˜—p‰Â”\‚Å‚ ‚é‚±‚Æ‚ğ¦‚·B“Á’è‚ÌƒzƒXƒg‚Ö‚ÌÚ‘±‚ğŠm—§‚Å‚«‚é‚±‚Æ‚ğ•ÛØ‚·‚é‚à‚Ì‚Å‚Í‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íí‚ÉƒT[ƒo[‚ÉÚ‘±‚·‚é API
+ŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚éƒGƒ‰[‚ğƒ`ƒFƒbƒN‚·‚×‚«‚Å‚ ‚éBInternetCheckConnection
+‚ğŒÄ‚Ño‚µ‚Ä“Á’è‚Ìˆ¶æ‚Ö‚ÌÚ‘±‚ªŠm—§‚Å‚«‚é‚©‚Ç‚¤‚©‚ğ”»’è‚Å‚«‚éBTRUE ‚Æ‚¢‚¤–ß‚è’l‚ÍAƒ‚ƒfƒ€Ú‘±‚ªƒAƒNƒeƒBƒu‚Å‚ ‚é‚©ALAN
+Ú‘±‚ªƒAƒNƒeƒBƒu‚Å LAN —p‚ÉƒvƒƒLƒV‚ª³‚µ‚­\¬‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ¦‚·BFALSE ‚Æ‚¢‚¤–ß‚è’l‚ÍAƒ‚ƒfƒ€‚à LAN
+‚àÚ‘±‚³‚ê‚Ä‚¢‚È‚¢‚±‚Æ‚ğ¦‚·BFALSE
+‚ª•Ô‚³‚ê‚½ê‡A©“®ƒ_ƒCƒAƒ‹‚ªuí‚Éƒ_ƒCƒAƒ‹v‚É\¬‚³‚ê‚Ä‚¢‚é‚ªŒ»İƒAƒNƒeƒBƒu‚Å‚È‚¢‚±‚Æ‚ğ¦‚·‚½‚ß‚É
+INTERNET_CONNECTION_CONFIGURED ƒtƒ‰ƒO‚ªİ’è‚³‚ê‚éê‡‚ª‚ ‚éB©“®ƒ_ƒCƒAƒ‹‚ª\¬‚³‚ê‚Ä‚¢‚È‚¢ê‡AŠÖ”‚Í
+FALSE ‚ğ•Ô‚·BWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetGetCookieW
-Retrieves the cookie for the specified URL. (Unicode)
+w’è‚µ‚½ URL ‚ÌƒNƒbƒL[‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrl, lpszCookieName, lpszCookieData, lpdwSize
-lpszUrl : [wstr] A pointer to a null-terminated string that specifies the URL for which cookies are to be retrieved.
-lpszCookieName : [wstr] Not implemented.
-lpszCookieData : [wstr] A pointer to a buffer that receives the cookie data. This parameter can be NULL.
-lpdwSize : [var] A pointer to a variable that specifies the size of the lpszCookieData parameter buffer, in TCHARs. If the function succeeds, the buffer receives the amount of data copied to the lpszCookieData buffer. If lpszCookieData is NULL, this parameter receives a value that specifies the size of the buffer necessary to copy all the cookie data, expressed as a byte count.
+lpszUrl : [wstr] ƒNƒbƒL[‚ğæ“¾‚·‚é‘ÎÛ‚Ì URL ‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszCookieName : [wstr] À‘•‚³‚ê‚Ä‚¢‚È‚¢B
+lpszCookieData : [wstr] ƒNƒbƒL[ƒf[ƒ^‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB
+lpdwSize : [var] lpszCookieData ƒpƒ‰ƒ[ƒ^ƒoƒbƒtƒ@‚ÌƒTƒCƒY (TCHAR ’PˆÊ) ‚ğw’è‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª¬Œ÷‚µ‚½ê‡Aƒoƒbƒtƒ@‚É‚Í lpszCookieData ƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½ƒf[ƒ^—Ê‚ª•Ô‚³‚ê‚éBlpszCookieData ‚ª NULL ‚Ìê‡A–{ƒpƒ‰ƒ[ƒ^‚É‚Í‚·‚×‚Ä‚ÌƒNƒbƒL[ƒf[ƒ^‚ğƒRƒs[‚·‚é‚½‚ß‚É•K—v‚Èƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg”) ‚ğw’è‚·‚é’l‚ª•Ô‚³‚ê‚éB
 %inst
-Retrieves the cookie for the specified URL. (Unicode)
+w’è‚µ‚½ URL ‚ÌƒNƒbƒL[‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-If the function succeeds, the function returns TRUE.
-If the function fails, it returns FALSE. To get extended error data,
-call GetLastError. The following error values apply to
-InternetGetCookie.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBŠg’£ƒGƒ‰[ƒf[ƒ^‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·BInternetGetCookie ‚É‚ÍŸ‚ÌƒGƒ‰[’l‚ª“K—p‚³‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-InternetGetCookie does not require a call to InternetOpen.
-InternetGetCookie checks in the windows\cookies directory for
-persistent cookies that have an expiration date set sometime in the
-future. InternetGetCookie also searches memory for any session
-cookies, that is, cookies that do not have an expiration date that
-were created in the same process by InternetSetCookie, because these
-cookies are not written to any files. Rules for creating cookie files
-are internal to the system and can change in the future. As noted in
-HTTP Cookies, InternetGetCookie does not return cookies that the
-server marked as non-scriptable with the "HttpOnly" attribute in the
-Set-Cookie header. Like all other aspects of the WinINet API, this
-function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetGetCookie as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+InternetGetCookie ‚Í InternetOpen ‚ÌŒÄ‚Ño‚µ‚ğ•K—v‚Æ‚µ‚È‚¢BInternetGetCookie ‚Í
+windows\cookies
+ƒfƒBƒŒƒNƒgƒŠ‚ÅA—LŒøŠúŒÀ‚ª«—ˆ‚Éİ’è‚³‚ê‚½‰i‘±“I‚ÈƒNƒbƒL[‚ğƒ`ƒFƒbƒN‚·‚éBInternetGetCookie
+‚Íƒƒ‚ƒŠ“à‚ÌƒZƒbƒVƒ‡ƒ“ƒNƒbƒL[A‚Â‚Ü‚è“¯‚¶ƒvƒƒZƒX“à‚Å InternetSetCookie
+‚É‚æ‚Á‚Äì¬‚³‚ê‚½—LŒøŠúŒÀ‚ğ‚½‚È‚¢ƒNƒbƒL[‚àŒŸõ‚·‚éB‚±‚ê‚ç‚Í‚Ç‚Ìƒtƒ@ƒCƒ‹‚É‚à‘‚«‚Ü‚ê‚È‚¢‚½‚ß‚Å‚ ‚éBƒNƒbƒL[ƒtƒ@ƒCƒ‹‚Ìì¬‹K‘¥‚ÍƒVƒXƒeƒ€“à•”‚Ì‚à‚Ì‚Å‚ ‚èA«—ˆ•ÏX‚³‚ê‚é‰Â”\«‚ª‚ ‚éBHTTP
+Cookies ‚É‹LÚ‚³‚ê‚Ä‚¢‚é‚æ‚¤‚ÉAInternetGetCookie ‚ÍƒT[ƒo[‚ª Set-Cookie
+ƒwƒbƒ_[‚ÅuHttpOnlyv‘®«‚É‚æ‚èƒXƒNƒŠƒvƒg‚©‚ç—˜—p•s‰Â‚Æƒ}[ƒN‚µ‚½ƒNƒbƒL[‚ğ•Ô‚³‚È‚¢BWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetGetCookie ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 InternetGetCookieExW
-Retrieves data stored in cookies associated with a specified URL. (Unicode)
+w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒNƒbƒL[‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒf[ƒ^‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrl, lpszCookieName, lpszCookieData, lpdwSize, dwFlags, lpReserved
-lpszUrl : [wstr] A pointer to a null-terminated string that contains the URL with which the cookie to retrieve is associated. This parameter cannot be NULL or InternetGetCookieEx fails and returns an  ERROR_INVALID_PARAMETER error.
-lpszCookieName : [wstr] A pointer to a null-terminated string that contains the name of the cookie to retrieve. This name is case-sensitive.
-lpszCookieData : [wstr] A pointer to a buffer to receive the cookie data.
-lpdwSize : [var] A pointer to a DWORD variable. On entry, the variable must contain the size, in TCHARs, of the buffer pointed to by the pchCookieData parameter. On exit, if the function is successful, this variable contains the number of TCHARs of cookie data copied into the buffer. If NULL was passed as the lpszCookieData parameter, or if the function fails with an error of ERROR_INSUFFICIENT_BUFFER, the variable contains the size, in BYTEs, of buffer required to receive the cookie data. This parameter cannot be NULL or InternetGetCookieEx fails and returns an  ERROR_INVALID_PARAMETER error.
+lpszUrl : [wstr] æ“¾‚·‚éƒNƒbƒL[‚ªŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é URL ‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚É NULL ‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BNULL ‚ğw’è‚·‚é‚Æ InternetGetCookieEx ‚Í¸”s‚µAERROR_INVALID_PARAMETER ƒGƒ‰[‚ğ•Ô‚·B
+lpszCookieName : [wstr] æ“¾‚·‚éƒNƒbƒL[‚Ì–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì–¼‘O‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚·‚éB
+lpszCookieData : [wstr] ƒNƒbƒL[ƒf[ƒ^‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpdwSize : [var] DWORD •Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B“ü—ÍA•Ï”‚É‚Í pchCookieData ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒY (TCHAR ’PˆÊ) ‚ğŠi”[‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bo—ÍAŠÖ”‚ª¬Œ÷‚µ‚½ê‡A•Ï”‚É‚Íƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½ƒNƒbƒL[ƒf[ƒ^‚Ì TCHAR ”‚ªŠi”[‚³‚ê‚éBlpszCookieData ƒpƒ‰ƒ[ƒ^‚É NULL ‚ª“n‚³‚ê‚½ê‡A‚Ü‚½‚ÍŠÖ”‚ª ERROR_INSUFFICIENT_BUFFER ƒGƒ‰[‚Å¸”s‚µ‚½ê‡A•Ï”‚É‚ÍƒNƒbƒL[ƒf[ƒ^‚ğó‚¯æ‚é‚½‚ß‚É•K—v‚Èƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ªŠi”[‚³‚ê‚éB–{ƒpƒ‰ƒ[ƒ^‚É NULL ‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BNULL ‚ğw’è‚·‚é‚Æ InternetGetCookieEx ‚Í¸”s‚µAERROR_INVALID_PARAMETER ƒGƒ‰[‚ğ•Ô‚·B
 dwFlags : [int] 
-lpReserved : [intptr] Reserved for future use. Set to NULL.
+lpReserved : [intptr] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éBNULL ‚ğİ’è‚·‚é‚±‚ÆB
 %inst
-Retrieves data stored in cookies associated with a specified URL.
-(Unicode)
+w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒNƒbƒL[‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒf[ƒ^‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-If the function succeeds, the function returns TRUE.
-If the function fails, it returns FALSE. To get a specific error
-value, call GetLastError. If NULL is passed to lpszCookieData, the
-call will succeed and the function will not set
-ERROR_INSUFFICIENT_BUFFER.
-The following error codes may be set by this function.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éB‹ï‘Ì“I‚ÈƒGƒ‰[’l‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·BlpszCookieData ‚É NULL ‚ğ“n‚µ‚½ê‡AŒÄ‚Ño‚µ‚Í¬Œ÷‚µAŠÖ”‚Í
+ERROR_INSUFFICIENT_BUFFER ‚ğİ’è‚µ‚È‚¢B
+–{ŠÖ”‚ÍŸ‚ÌƒGƒ‰[ƒR[ƒh‚ğİ’è‚·‚é‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetGetCookieEx as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetGetCookieEx
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 InternetGetCookieEx2
-Retrieves one or more cookies associated with the specified URL.
+w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ 1 ‚ÂˆÈã‚ÌƒNƒbƒL[‚ğæ“¾‚·‚éB
 %group
 Win32 wininet
 %prm
 pcwszUrl, pcwszCookieName, dwFlags, ppCookies, pdwCookieCount
-pcwszUrl : [wstr] The URL for which to retrieve cookies.
-pcwszCookieName : [wstr] The name of the cookie to retrieve. May be NULL.
-dwFlags : [int] Flags of the cookie to retrieve. The following flags are available. | Value | Meaning | |-------|---------| | INTERNET_COOKIE_THIRD_PARTY | Retrieve cookies as a third party, causing first-party-only cookies to be excluded. | | INTERNET_COOKIE_NON_SCRIPT | Indicate that this query was not triggered via JavaScript, allowing retrieval of HTTP-only cookies. | | INTERNET_COOKIE_SAME_SITE_LEVEL_CROSS_SITE | Retrieve cookies as if in a cross site context, excluding cookies with the SameSite property set. | | INTERNET_FLAG_RESTRICTED_ZONE | Retrieve only cookies that would be allowed if the specified URL were untrusted; that is, if it belonged to the URLZONE_UNTRUSTED zone. |
-ppCookies : [var] Pointer that receives an array of [INTERNET\_COOKIE2](ns-wininet-internet_cookie2.md) structures. The returned array must be freed by [InternetFreeCookies](nf-wininet-internetfreecookies.md).
-pdwCookieCount : [var] Pointer to a DWORD that receives the number of structures in the array.
+pcwszUrl : [wstr] ƒNƒbƒL[‚ğæ“¾‚·‚é URLB
+pcwszCookieName : [wstr] æ“¾‚·‚éƒNƒbƒL[‚Ì–¼‘OBNULL ‚ğw’è‰Â”\B
+dwFlags : [int] æ“¾‚·‚éƒNƒbƒL[‚Ìƒtƒ‰ƒOBŸ‚Ìƒtƒ‰ƒO‚ª—˜—p‚Å‚«‚éB | ’l | ˆÓ–¡ | |-------|---------| | INTERNET_COOKIE_THIRD_PARTY | ƒT[ƒhƒp[ƒeƒB‚Æ‚µ‚ÄƒNƒbƒL[‚ğæ“¾‚µAƒtƒ@[ƒXƒgƒp[ƒeƒBê—pƒNƒbƒL[‚ğœŠO‚·‚éB | | INTERNET_COOKIE_NON_SCRIPT | –{ƒNƒGƒŠ‚ª JavaScript ‚©‚çƒgƒŠƒK[‚³‚ê‚½‚à‚Ì‚Å‚Í‚È‚¢‚±‚Æ‚ğ¦‚µAHTTP-only ƒNƒbƒL[‚Ìæ“¾‚ğ‹–‰Â‚·‚éB | | INTERNET_COOKIE_SAME_SITE_LEVEL_CROSS_SITE | ƒNƒƒXƒTƒCƒgƒRƒ“ƒeƒLƒXƒg‚É‚¢‚é‚©‚Ì‚æ‚¤‚ÉƒNƒbƒL[‚ğæ“¾‚µASameSite ƒvƒƒpƒeƒB‚ªİ’è‚³‚ê‚½ƒNƒbƒL[‚ğœŠO‚·‚éB | | INTERNET_FLAG_RESTRICTED_ZONE | w’è‚³‚ê‚½ URL ‚ªM—Š‚³‚ê‚Ä‚¢‚È‚¢ê‡ (URLZONE_UNTRUSTED ƒ][ƒ“‚É‘®‚·‚éê‡) ‚É‹–‰Â‚³‚ê‚éƒNƒbƒL[‚Ì‚İ‚ğæ“¾‚·‚éB |
+ppCookies : [var] [INTERNET\_COOKIE2](ns-wininet-internet_cookie2.md) \‘¢‘Ì‚Ì”z—ñ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B•Ô‚³‚ê‚½”z—ñ‚Í [InternetFreeCookies](nf-wininet-internetfreecookies.md) ‚Å‰ğ•ú‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pdwCookieCount : [var] ”z—ñ“à‚Ì\‘¢‘Ì‚Ì”‚ğó‚¯æ‚é DWORD ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves one or more cookies associated with the specified URL.
+w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ 1 ‚ÂˆÈã‚ÌƒNƒbƒL[‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns ERROR_SUCCESS if successful, or a [system error
-code](/windows/desktop/debug/system-error-codes) on failure.
+¬Œ÷‚µ‚½ê‡‚Í ERROR_SUCCESS
+‚ğA¸”s‚µ‚½ê‡‚Í[ƒVƒXƒeƒ€ƒGƒ‰[ƒR[ƒh](/windows/desktop/debug/system-error-codes)‚ğ•Ô‚·B
 
 [”õl]
-> [!NOTE] > WinINet does not support server implementations. In
-addition, it should not be used from a service. For server
-implementations or services use [Microsoft Windows HTTP Services
-(WinHTTP)](/windows/desktop/winhttp/winhttp-start-page).
+> [!NOTE] > WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í [Microsoft
+Windows HTTP Services
+(WinHTTP)](/windows/desktop/winhttp/winhttp-start-page) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetGetLastResponseInfoW
-Retrieves the last error description or server response on the thread calling this function. (Unicode)
+–{ŠÖ”‚ğŒÄ‚Ño‚µ‚½ƒXƒŒƒbƒhã‚Å‚ÌÅŒã‚ÌƒGƒ‰[à–¾‚Ü‚½‚ÍƒT[ƒo[ƒŒƒXƒ|ƒ“ƒX‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpdwError, lpszBuffer, lpdwBufferLength
-lpdwError : [var] Pointer to a variable that receives an error message pertaining to the operation that failed.
-lpszBuffer : [wstr] Pointer to a buffer that receives the error text.
-lpdwBufferLength : [var] Pointer to a variable that contains the size of the lpszBuffer buffer, in TCHARs. When the function returns, this parameter contains the size of the string written to the buffer, not including the terminating zero.
+lpdwError : [var] ¸”s‚µ‚½‘€ì‚ÉŠÖ˜A‚·‚éƒGƒ‰[ƒƒbƒZ[ƒW‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszBuffer : [wstr] ƒGƒ‰[ƒeƒLƒXƒg‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpdwBufferLength : [var] lpszBuffer ƒoƒbƒtƒ@‚ÌƒTƒCƒY (TCHAR ’PˆÊ) ‚ğŠi”[‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª–ß‚é‚ÆA–{ƒpƒ‰ƒ[ƒ^‚É‚Íƒoƒbƒtƒ@‚É‘‚«‚Ü‚ê‚½•¶š—ñ‚ÌƒTƒCƒY (I’[‚Ì 0 ‚ğŠÜ‚Ü‚È‚¢) ‚ªŠi”[‚³‚ê‚éB
 %inst
-Retrieves the last error description or server response on the thread
-calling this function. (Unicode)
+–{ŠÖ”‚ğŒÄ‚Ño‚µ‚½ƒXƒŒƒbƒhã‚Å‚ÌÅŒã‚ÌƒGƒ‰[à–¾‚Ü‚½‚ÍƒT[ƒo[ƒŒƒXƒ|ƒ“ƒX‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if error text was successfully written to the buffer, or
-FALSE otherwise. To get extended error information, call
-GetLastError. If the buffer is too small to hold all the error text,
-GetLastError returns ERROR_INSUFFICIENT_BUFFER, and the
-lpdwBufferLength parameter contains the minimum buffer size required
-to return all the error text.
+ƒGƒ‰[ƒeƒLƒXƒg‚ªƒoƒbƒtƒ@‚É³í‚É‘‚«‚Ü‚ê‚½ê‡‚Í TRUE ‚ğA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·Bƒoƒbƒtƒ@‚ª‚·‚×‚Ä‚ÌƒGƒ‰[ƒeƒLƒXƒg‚ğ•Û‚·‚é‚É‚Í¬‚³‚·‚¬‚éê‡AGetLastError ‚Í
+ERROR_INSUFFICIENT_BUFFER ‚ğ•Ô‚µAlpdwBufferLength
+ƒpƒ‰ƒ[ƒ^‚É‚Í‚·‚×‚Ä‚ÌƒGƒ‰[ƒeƒLƒXƒg‚ğ•Ô‚·‚½‚ß‚É•K—v‚ÈÅ¬ƒoƒbƒtƒ@ƒTƒCƒY‚ªŠi”[‚³‚ê‚éB
 
 [”õl]
-The FTP protocols can return additional text information along with
-most errors. This extended error information can be retrieved by
-using the InternetGetLastResponseInfo function whenever GetLastError
-returns ERROR_INTERNET_EXTENDED_ERROR (occurring after an
-unsuccessful function call). The buffer pointed to by lpszBuffer must
-be large enough to hold both the error string and a zero terminator
-at the end of the string. However, note that the value returned in
-lpdwBufferLength does not include the terminating zero.
-InternetGetLastResponseInfo can be called multiple times until
-another function is called on this thread. When another function is
-called, the internal buffer that is storing the last response
-information is cleared. Like all other aspects of the WinINet API,
-this function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetGetLastResponseInfo
-as an alias which automatically selects the ANSI or Unicode version
-of this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+FTP ƒvƒƒgƒRƒ‹‚Í‚Ù‚Æ‚ñ‚Ç‚ÌƒGƒ‰[‚Æ‚Æ‚à‚É’Ç‰Á‚ÌƒeƒLƒXƒgî•ñ‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB‚±‚ÌŠg’£ƒGƒ‰[î•ñ‚ÍA(¸”s‚µ‚½ŠÖ”ŒÄ‚Ño‚µ‚ÌŒã‚É)
+GetLastError ‚ª ERROR_INTERNET_EXTENDED_ERROR
+‚ğ•Ô‚·‚½‚Ñ‚ÉAInternetGetLastResponseInfo ŠÖ”‚ğg—p‚µ‚Äæ“¾‚Å‚«‚éBlpszBuffer
+‚ªw‚·ƒoƒbƒtƒ@‚ÍAƒGƒ‰[•¶š—ñ‚Æ––”ö‚Ìƒ[ƒI’[‚Ì—¼•û‚ğ•Û‚Å‚«‚é\•ª‚È‘å‚«‚³‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚½‚¾‚µAlpdwBufferLength
+‚É•Ô‚³‚ê‚é’l‚ÍI’[‚Ìƒ[ƒ‚ğŠÜ‚Ü‚È‚¢‚±‚Æ‚É’ˆÓBInternetGetLastResponseInfo
+‚ÍA–{ƒXƒŒƒbƒh‚Å•Ê‚ÌŠÖ”‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚Å•¡”‰ñŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB•Ê‚ÌŠÖ”‚ªŒÄ‚Ño‚³‚ê‚é‚ÆAÅŒã‚ÌƒŒƒXƒ|ƒ“ƒXî•ñ‚ğ•Û‘¶‚·‚é“à•”ƒoƒbƒtƒ@‚ÍƒNƒŠƒA‚³‚ê‚éBWinINet
+API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetGetLastResponseInfo
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 InternetGetPerSiteCookieDecisionW
-Retrieves a decision on cookies for a given domain. (Unicode)
+w’è‚µ‚½ƒhƒƒCƒ“‚ÌƒNƒbƒL[‚ÉŠÖ‚·‚é”»’f‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 pchHostName, pResult
-pchHostName : [wstr] An LPCTSTR that points to a string containing a domain.
-pResult : [var] A pointer to an unsigned long that contains one of the InternetCookieState enumeration values.
+pchHostName : [wstr] ƒhƒƒCƒ“‚ğŠi”[‚µ‚½•¶š—ñ‚ğw‚· LPCTSTRB
+pResult : [var] InternetCookieState —ñ‹“’l‚Ì‚¢‚¸‚ê‚©‚ğŠi”[‚·‚é unsigned long ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves a decision on cookies for a given domain. (Unicode)
+w’è‚µ‚½ƒhƒƒCƒ“‚ÌƒNƒbƒL[‚ÉŠÖ‚·‚é”»’f‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if the decision was retrieved and FALSE otherwise.
+”»’f‚ªæ“¾‚³‚ê‚½ê‡‚Í TRUE ‚ğA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-A return value of FALSE may indicate that the domain pchHostName does
-not have any site-specific cookie regulations.
-WinINet minimizes the domain specified in the pchHostName parameter
-and sets the cookie policy on the minimum legal domain. For example,
-if the specified host name is widgets.microsoft.com, the policy is
-set on the minimized host name microsoft.com. Like all other aspects
-of the WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines
-InternetGetPerSiteCookieDecision as an alias which automatically
-selects the ANSI or Unicode version of this function based on the
-definition of the UNICODE preprocessor constant. Mixing usage of the
-encoding-neutral alias with code that not encoding-neutral can lead
-to mismatches that result in compilation or runtime errors. For more
-information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+FALSE ‚Æ‚¢‚¤–ß‚è’l‚ÍApchHostName ‚ÌƒhƒƒCƒ“‚ÉƒTƒCƒgŒÅ—L‚ÌƒNƒbƒL[‹K§‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢‚±‚Æ‚ğ¦‚·ê‡‚ª‚ ‚éB
+WinINet ‚Í pchHostName
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒhƒƒCƒ“‚ğÅ¬‰»‚µAÅ¬‚Ì—LŒøƒhƒƒCƒ“‚ÉƒNƒbƒL[ƒ|ƒŠƒV[‚ğİ’è‚·‚éB—á‚¦‚ÎAw’è‚³‚ê‚½ƒzƒXƒg–¼‚ª
+widgets.microsoft.com ‚Ìê‡Aƒ|ƒŠƒV[‚ÍÅ¬‰»‚³‚ê‚½ƒzƒXƒg–¼ microsoft.com
+‚Éİ’è‚³‚ê‚éBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetGetPerSiteCookieDecision
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -3271,109 +2914,97 @@ pdwSecureFlags : [var]
 
 %index
 InternetGoOnline
-The InternetGoOnline function (wininet.h) prompts the user for permission to initiate connection to a URL.
+InternetGoOnline ŠÖ” (wininet.h) ‚Í URL ‚Ö‚ÌÚ‘±ŠJn‚Ì‹–‰Â‚ğƒ†[ƒU[‚É‹‚ß‚éB
 %group
 Win32 wininet
 %prm
 lpszURL, hwndParent, dwFlags
-lpszURL : [str] Pointer to a null-terminated string that specifies the URL of the website for the connection.
-hwndParent : [intptr] Handle to the parent window.
-dwFlags : [int] This parameter can be zero or the following flag.
+lpszURL : [str] Ú‘±æ Web ƒTƒCƒg‚Ì URL ‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+hwndParent : [intptr] eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+dwFlags : [int] –{ƒpƒ‰ƒ[ƒ^‚É‚Í 0A‚Ü‚½‚ÍŸ‚Ìƒtƒ‰ƒO‚ğw’è‚Å‚«‚éB
 %inst
-The InternetGoOnline function (wininet.h) prompts the user for
-permission to initiate connection to a URL.
+InternetGoOnline ŠÖ” (wininet.h) ‚Í URL ‚Ö‚ÌÚ‘±ŠJn‚Ì‹–‰Â‚ğƒ†[ƒU[‚É‹‚ß‚éB
 
 [–ß‚è’l]
-If the function succeeds, it returns TRUE.
-If the function fails, it returns FALSE. Applications can call
-GetLastError to retrieve the error code. If the functions fails, it
-can return the following error code:
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í GetLastError
+‚ğŒÄ‚Ño‚µ‚ÄƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éBŠÖ”‚ª¸”s‚µ‚½ê‡AŸ‚ÌƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetHangUp
-The InternetHangUp function (wininet.h) instructs the modem to disconnect from the Internet.
+InternetHangUp ŠÖ” (wininet.h) ‚Íƒ‚ƒfƒ€‚ÉƒCƒ“ƒ^[ƒlƒbƒg‚©‚ç‚ÌØ’f‚ğw¦‚·‚éB
 %group
 Win32 wininet
 %prm
 dwConnection, dwReserved
-dwConnection : [int] Connection number of  the connection to be disconnected.
-dwReserved : [int] This parameter is reserved and must be 0.
+dwConnection : [int] Ø’f‚·‚éÚ‘±‚ÌÚ‘±”Ô†B
+dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The InternetHangUp function (wininet.h) instructs the modem to
-disconnect from the Internet.
+InternetHangUp ŠÖ” (wininet.h) ‚Íƒ‚ƒfƒ€‚ÉƒCƒ“ƒ^[ƒlƒbƒg‚©‚ç‚ÌØ’f‚ğw¦‚·‚éB
 
 [–ß‚è’l]
-Returns ERROR_SUCCESS if successful, or an error value otherwise.
+¬Œ÷‚µ‚½ê‡‚Í ERROR_SUCCESS ‚ğA¸”s‚µ‚½ê‡‚ÍƒGƒ‰[’l‚ğ•Ô‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetInitializeAutoProxyDll
-The InternetInitializeAutoProxyDll function (wininet.h) is one of two WinINet functions named InternetInitializeAutoProxyDll.
+InternetInitializeAutoProxyDll ŠÖ” (wininet.h) ‚ÍAInternetInitializeAutoProxyDll ‚Æ‚¢‚¤–¼‘O‚ğ‚Â 2 ‚Â‚Ì WinINet ŠÖ”‚Ì‚¤‚¿‚Ì 1 ‚Â‚Å‚ ‚éB
 %group
 Win32 wininet
 %prm
 dwReserved
-dwReserved : [int] This parameter is reserved and must be 0.
+dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The InternetInitializeAutoProxyDll function (wininet.h) is one of two
-WinINet functions named InternetInitializeAutoProxyDll.
+InternetInitializeAutoProxyDll ŠÖ” (wininet.h)
+‚ÍAInternetInitializeAutoProxyDll ‚Æ‚¢‚¤–¼‘O‚ğ‚Â 2 ‚Â‚Ì WinINet ŠÖ”‚Ì‚¤‚¿‚Ì 1 ‚Â‚Å‚ ‚éB
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Because the InternetInitializeAutoProxyDll function takes time to
-complete its operation, it should not be called from a UI thread.
-Like all other aspects of the WinINet API, this function cannot be
-safely called from within DllMain or the constructors and destructors
-of global objects. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
+InternetInitializeAutoProxyDll ŠÖ”‚Íˆ—‚ÌŠ®—¹‚ÉŠÔ‚ğ—v‚·‚é‚½‚ßAUI
+ƒXƒŒƒbƒh‚©‚çŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢BWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetLockRequestFile
-Places a lock on the file that is being used.
+g—p’†‚Ìƒtƒ@ƒCƒ‹‚ÉƒƒbƒN‚ğŠ|‚¯‚éB
 %group
 Win32 wininet
 %prm
 hInternet, lphLockRequestInfo
-hInternet : [intptr] Handle returned by the FtpOpenFile, GopherOpenFile, HttpOpenRequest, or InternetOpenUrl function.
-lphLockRequestInfo : [intptr] Pointer to a handle that receives the lock request handle.
+hInternet : [intptr] FtpOpenFileAGopherOpenFileAHttpOpenRequestA‚Ü‚½‚Í InternetOpenUrl ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
+lphLockRequestInfo : [intptr] ƒƒbƒN—v‹ƒnƒ“ƒhƒ‹‚ğó‚¯æ‚éƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Places a lock on the file that is being used.
+g—p’†‚Ìƒtƒ@ƒCƒ‹‚ÉƒƒbƒN‚ğŠ|‚¯‚éB
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get a specific
-error message, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-If the HINTERNET handle passed to hInternet was created using
-INTERNET_FLAG_NO_CACHE_WRITE or INTERNET_FLAG_DONT_CACHE, the
-function creates a temporary file with the extension .tmp, unless it
-is an HTTPS resource. If the handle was created using
-INTERNET_FLAG_NO_CACHE_WRITE or INTERNET_FLAG_DONT_CACHE and it is
-accessing an HTTPS resource, InternetLockRequestFile fails. Like all
-other aspects of the WinINet API, this function cannot be safely
-called from within DllMain or the constructors and destructors of
-global objects. Note WinINet does not support server implementations.
-In addition, it should not be used from a service. For server
-implementations or services use Microsoft Windows HTTP Services
-(WinHTTP).
+hInternet ‚É“n‚³‚ê‚½ HINTERNET ƒnƒ“ƒhƒ‹‚ª INTERNET_FLAG_NO_CACHE_WRITE ‚Ü‚½‚Í
+INTERNET_FLAG_DONT_CACHE ‚Åì¬‚³‚ê‚Ä‚¢‚éê‡AHTTPS ƒŠƒ\[ƒX‚Å‚È‚¢ŒÀ‚èAŠÖ”‚ÍŠg’£q .tmp
+‚Ìˆêƒtƒ@ƒCƒ‹‚ğì¬‚·‚éBƒnƒ“ƒhƒ‹‚ª INTERNET_FLAG_NO_CACHE_WRITE ‚Ü‚½‚Í
+INTERNET_FLAG_DONT_CACHE ‚Åì¬‚³‚êAHTTPS
+ƒŠƒ\[ƒX‚ÉƒAƒNƒZƒX‚µ‚Ä‚¢‚éê‡AInternetLockRequestFile ‚Í¸”s‚·‚éBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
@@ -3438,39 +3069,32 @@ ANSI/Unicode ”Å‚ÌƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 
 %index
 InternetQueryDataAvailable
-Queries the server to determine the amount of data available.
+ƒT[ƒo[‚É–â‚¢‡‚í‚¹‚Ä—˜—p‰Â”\‚Èƒf[ƒ^‚Ì—Ê‚ğæ“¾‚·‚éB
 %group
 Win32 wininet
 %prm
 hFile, lpdwNumberOfBytesAvailable, dwFlags, dwContext
-hFile : [intptr] Handle returned by the InternetOpenUrl, FtpOpenFile, GopherOpenFile, or HttpOpenRequest function.
-lpdwNumberOfBytesAvailable : [var] Pointer to a variable that receives the number of available bytes. May be NULL.
-dwFlags : [int] This parameter is reserved and must be 0.
-dwContext : [int] This parameter is reserved and must be 0.
+hFile : [intptr] InternetOpenUrlAFtpOpenFileAGopherOpenFileA‚Ü‚½‚Í HttpOpenRequest ŠÖ”‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
+lpdwNumberOfBytesAvailable : [var] —˜—p‰Â”\‚ÈƒoƒCƒg”‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚ğw’è‰Â”\B
+dwFlags : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwContext : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Queries the server to determine the amount of data available.
+ƒT[ƒo[‚É–â‚¢‡‚í‚¹‚Ä—˜—p‰Â”\‚Èƒf[ƒ^‚Ì—Ê‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns TRUE if the function succeeds, or FALSE otherwise. To get
-extended error information, call GetLastError. If the function finds
-no matching files, GetLastError returns ERROR_NO_MORE_FILES.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·Bˆê’v‚·‚éƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡AGetLastError ‚Í ERROR_NO_MORE_FILES ‚ğ•Ô‚·B
 
 [”õl]
-This function returns the number of bytes of data that are available
-to be read immediately by a subsequent call to InternetReadFile. If
-there is currently no data available and the end of the file has not
-been reached, the request waits until data becomes available. The
-amount of data remaining will not be recalculated until all available
-data indicated by the call to InternetQueryDataAvailable is read. For
-HINTERNET handles created by HttpOpenRequest and sent by
-HttpSendRequestEx, a call to HttpEndRequest must be made on the
-handle before InternetQueryDataAvailable can be used. Like all other
-aspects of the WinINet API, this function cannot be safely called
-from within DllMain or the constructors and destructors of global
-objects. Note WinINet does not support server implementations. In
-addition, it should not be used from a service. For server
-implementations or services use Microsoft Windows HTTP Services
-(WinHTTP).
+–{ŠÖ”‚ÍAŒã‘±‚Ì InternetReadFile
+‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä‘¦À‚É“Ç‚İæ‚è‰Â”\‚Èƒf[ƒ^‚ÌƒoƒCƒg”‚ğ•Ô‚·BŒ»İ—˜—p‚Å‚«‚éƒf[ƒ^‚ª‚È‚­Aƒtƒ@ƒCƒ‹‚Ì––”ö‚É‚à“’B‚µ‚Ä‚¢‚È‚¢ê‡A—v‹‚Íƒf[ƒ^‚ª—˜—p‰Â”\‚É‚È‚é‚Ü‚Å‘Ò‹@‚·‚éBc‚è‚Ìƒf[ƒ^—Ê‚ÍAInternetQueryDataAvailable
+‚ÌŒÄ‚Ño‚µ‚Å¦‚³‚ê‚½—˜—p‰Â”\‚È‚·‚×‚Ä‚Ìƒf[ƒ^‚ª“Ç‚İæ‚ç‚ê‚é‚Ü‚ÅÄŒvZ‚³‚ê‚È‚¢BHttpOpenRequest ‚Åì¬‚³‚ê
+HttpSendRequestEx ‚Å‘—M‚³‚ê‚½ HINTERNET ƒnƒ“ƒhƒ‹‚Ìê‡AInternetQueryDataAvailable
+‚ğg—p‚·‚é‘O‚Éƒnƒ“ƒhƒ‹‚É‘Î‚µ‚Ä HttpEndRequest ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
@@ -3488,40 +3112,35 @@ dwReserved : [int]
 
 %index
 InternetQueryOptionW
-Queries an Internet option on the specified handle. (Unicode)
+w’è‚µ‚½ƒnƒ“ƒhƒ‹ã‚ÌƒCƒ“ƒ^[ƒlƒbƒgƒIƒvƒVƒ‡ƒ“‚ğ–â‚¢‡‚í‚¹‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hInternet, dwOption, lpBuffer, lpdwBufferLength
-hInternet : [intptr] Handle on which to query information.
-dwOption : [int] Internet option to be queried. This can be one of the Option Flags values.
-lpBuffer : [intptr] Pointer to a buffer that receives the option setting. Strings returned by InternetQueryOption are globally allocated, so the calling application must  free them when it  is finished using them.
-lpdwBufferLength : [var] Pointer to a variable that contains the size of lpBuffer, in bytes.  When InternetQueryOption returns, lpdwBufferLength specifies the size of the data placed into lpBuffer. If GetLastError returns ERROR_INSUFFICIENT_BUFFER, this parameter points to the number of bytes required to hold the requested information.
+hInternet : [intptr] î•ñ‚ğ–â‚¢‡‚í‚¹‚é‘ÎÛ‚Ìƒnƒ“ƒhƒ‹B
+dwOption : [int] –â‚¢‡‚í‚¹‚éƒCƒ“ƒ^[ƒlƒbƒgƒIƒvƒVƒ‡ƒ“BOption Flags ’l‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
+lpBuffer : [intptr] ƒIƒvƒVƒ‡ƒ“İ’è‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BInternetQueryOption ‚ª•Ô‚·•¶š—ñ‚ÍƒOƒ[ƒoƒ‹‚ÉŠ„‚è“–‚Ä‚ç‚ê‚Ä‚¢‚é‚½‚ßAŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íg—p‚ªI‚í‚Á‚½‚ç‚»‚ê‚ç‚ğ‰ğ•ú‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpdwBufferLength : [var] lpBuffer ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğŠi”[‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BInternetQueryOption ‚ª–ß‚é‚ÆAlpdwBufferLength ‚É‚Í lpBuffer ‚ÉŠi”[‚³‚ê‚½ƒf[ƒ^‚ÌƒTƒCƒY‚ªw’è‚³‚ê‚éBGetLastError ‚ª ERROR_INSUFFICIENT_BUFFER ‚ğ•Ô‚µ‚½ê‡A–{ƒpƒ‰ƒ[ƒ^‚Í—v‹‚³‚ê‚½î•ñ‚ğ•Û‚·‚é‚½‚ß‚É•K—v‚ÈƒoƒCƒg”‚ğw‚·B
 %inst
-Queries an Internet option on the specified handle. (Unicode)
+w’è‚µ‚½ƒnƒ“ƒhƒ‹ã‚ÌƒCƒ“ƒ^[ƒlƒbƒgƒIƒvƒVƒ‡ƒ“‚ğ–â‚¢‡‚í‚¹‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get a specific
-error message, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-GetLastError will return the ERROR_INVALID_PARAMETER if an option
-flag that is invalid for the specified handle type is passed to the
-dwOption parameter. For more information, see Setting and Retrieving
-Internet Options. Like all other aspects of the WinINet API, this
-function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetQueryOption as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+w’è‚µ‚½ƒnƒ“ƒhƒ‹í•Ê‚É‘Î‚µ‚Ä–³Œø‚ÈƒIƒvƒVƒ‡ƒ“ƒtƒ‰ƒO‚ª dwOption ƒpƒ‰ƒ[ƒ^‚É“n‚³‚ê‚½ê‡AGetLastError ‚Í
+ERROR_INVALID_PARAMETER ‚ğ•Ô‚·BÚ×‚Í Setting and Retrieving Internet
+Options ‚ğQÆ‚Ì‚±‚ÆBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetQueryOption
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -3555,36 +3174,31 @@ INTERNET_STATUS_REQUEST_COMPLETE ‚ÅŒÄ‚Î‚ê‚éBWinINet ‚ÍƒT[ƒrƒXÀ‘•‚Å‚Íg—p‚µ‚È‚
 
 %index
 InternetReadFileExW
-Reads data from a handle opened by the InternetOpenUrl or HttpOpenRequest function. (Unicode)
+InternetOpenUrl ‚Ü‚½‚Í HttpOpenRequest ŠÖ”‚ÅŠJ‚©‚ê‚½ƒnƒ“ƒhƒ‹‚©‚çƒf[ƒ^‚ğ“Ç‚İæ‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 hFile, lpBuffersOut, dwFlags, dwContext
-hFile : [intptr] Handle returned by the InternetOpenUrl or HttpOpenRequest function.
-lpBuffersOut : [var] Pointer to an INTERNET_BUFFERS structure that receives the data downloaded.
+hFile : [intptr] InternetOpenUrl ‚Ü‚½‚Í HttpOpenRequest ŠÖ”‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
+lpBuffersOut : [var] ƒ_ƒEƒ“ƒ[ƒh‚³‚ê‚½ƒf[ƒ^‚ğó‚¯æ‚é INTERNET_BUFFERS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 dwFlags : [int] 
-dwContext : [int] A caller supplied context value used for asynchronous operations.
+dwContext : [int] ”ñ“¯Šú‘€ì‚Åg—p‚³‚ê‚éAŒÄ‚Ño‚µ‘¤‚ª’ñ‹Ÿ‚·‚éƒRƒ“ƒeƒLƒXƒg’lB
 %inst
-Reads data from a handle opened by the InternetOpenUrl or
-HttpOpenRequest function. (Unicode)
+InternetOpenUrl ‚Ü‚½‚Í HttpOpenRequest ŠÖ”‚ÅŠJ‚©‚ê‚½ƒnƒ“ƒhƒ‹‚©‚çƒf[ƒ^‚ğ“Ç‚İæ‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError. An application can also use
-InternetGetLastResponseInfo when necessary.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í•K—v‚É‰‚¶‚Ä InternetGetLastResponseInfo ‚àg—p‚Å‚«‚éB
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetReadFileEx as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetReadFileEx
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -3604,203 +3218,170 @@ dwReserved : [int]
 
 %index
 InternetSetCookieW
-Creates a cookie associated with the specified URL. (InternetSetCookieW)
+w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒNƒbƒL[‚ğì¬‚·‚éB(InternetSetCookieW)
 %group
 Win32 wininet
 %prm
 lpszUrl, lpszCookieName, lpszCookieData
-lpszUrl : [wstr] Pointer to a null-terminated string that specifies the URL for which the cookie should be set.
-lpszCookieName : [wstr] Pointer to a null-terminated string that specifies the name to be associated with the cookie data. If this parameter is NULL, no name is associated with the cookie.
-lpszCookieData : [wstr] Pointer to the actual data to be associated with the URL.
+lpszUrl : [wstr] ƒNƒbƒL[‚ğİ’è‚·‚é URL ‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszCookieName : [wstr] ƒNƒbƒL[ƒf[ƒ^‚ÉŠÖ˜A•t‚¯‚é–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AƒNƒbƒL[‚É‚Í–¼‘O‚ªŠÖ˜A•t‚¯‚ç‚ê‚È‚¢B
+lpszCookieData : [wstr] URL ‚ÉŠÖ˜A•t‚¯‚éÀÛ‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Creates a cookie associated with the specified URL.
-(InternetSetCookieW)
+w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒNƒbƒL[‚ğì¬‚·‚éB(InternetSetCookieW)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get a specific
-error message, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Cookies created by InternetSetCookie without an expiration date are
-stored in memory and are available only in the same process that
-created them. Cookies that include an expiration date are stored in
-the windows\cookies directory. Creating a new cookie might cause a
-dialog box to appear on the screen asking the user if they want to
-allow or disallow cookies from this site based on the privacy
-settings for the user.
-Caution InternetSetCookie will unconditionally create a cookie even
-if gBlock all cookiesh is set in Internet Explorer. This behavior can
-be viewed as a breach of privacy even though such cookies are not
-subsequently sent back to servers while the gBlock all cookiesh
-setting is active. Applications should use InternetSetCookieEx to
-correctly honor the user's privacy settings. For more cookie
-internals, see
-http://blogs.msdn.com/ieinternals/archive/2009/08/20/WinINET-IE-Cookie-Internals-FAQ.aspx.
-Like all other aspects of the WinINet API, this function cannot be
-safely called from within DllMain or the constructors and destructors
-of global objects. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetSetCookie as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+InternetSetCookie
+‚Å—LŒøŠúŒÀ‚È‚µ‚Éì¬‚³‚ê‚½ƒNƒbƒL[‚Íƒƒ‚ƒŠ‚ÉŠi”[‚³‚êA‚»‚ê‚ç‚ğì¬‚µ‚½“¯ˆêƒvƒƒZƒX“à‚Å‚Ì‚İ—˜—p‰Â”\‚Å‚ ‚éB—LŒøŠúŒÀ‚ğŠÜ‚ŞƒNƒbƒL[‚Í
+windows\cookies
+ƒfƒBƒŒƒNƒgƒŠ‚ÉŠi”[‚³‚ê‚éBV‚µ‚¢ƒNƒbƒL[‚Ìì¬‚ÍAƒ†[ƒU[‚Ìƒvƒ‰ƒCƒoƒV[İ’è‚ÉŠî‚Ã‚¢‚ÄA–{ƒTƒCƒg‚©‚ç‚ÌƒNƒbƒL[‚ğ‹–‰Â‚·‚é‚©‹‘”Û‚·‚é‚©‚ğƒ†[ƒU[‚Éq‚Ë‚éƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ‰æ–Ê‚É•\¦‚·‚é‚±‚Æ‚ª‚ ‚éB
+’ˆÓ: InternetSetCookie ‚ÍAInternet Explorer
+‚Åu‚·‚×‚Ä‚ÌƒNƒbƒL[‚ğƒuƒƒbƒNv‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚Å‚àA–³ğŒ‚ÉƒNƒbƒL[‚ğì¬‚·‚éBu‚·‚×‚Ä‚ÌƒNƒbƒL[‚ğƒuƒƒbƒNvİ’è‚ª—LŒø‚ÈŠÔA‚»‚Ì‚æ‚¤‚ÈƒNƒbƒL[‚ª‚»‚ÌŒãƒT[ƒo[‚É‘—‚è•Ô‚³‚ê‚é‚±‚Æ‚Í‚È‚¢‚ªA‚±‚Ì“®ì‚Íƒvƒ‰ƒCƒoƒV[‚ÌNŠQ‚ÆŒ©‚È‚³‚ê‚é‰Â”\«‚ª‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íƒ†[ƒU[‚Ìƒvƒ‰ƒCƒoƒV[İ’è‚ğ³‚µ‚­‘¸d‚·‚é‚½‚ß‚É
+InternetSetCookieEx ‚ğg—p‚·‚×‚«‚Å‚ ‚éBƒNƒbƒL[‚Ì“à•”d—l‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+http://blogs.msdn.com/ieinternals/archive/2009/08/20/WinINET-IE-Cookie-Internals-FAQ.aspx
+‚ğQÆ‚Ì‚±‚ÆB
+WinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetSetCookie ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 InternetSetCookieExW
-The InternetSetCookieEx function creates a cookie with a specified name that is associated with a specified URL. This function differs from the InternetSetCookie function by being able to create third-party cookies. (Unicode)
+InternetSetCookieEx ŠÖ”‚ÍAw’è‚³‚ê‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½w’è‚Ì–¼‘O‚ÌƒNƒbƒL[‚ğì¬‚·‚éB–{ŠÖ”‚ÍƒT[ƒhƒp[ƒeƒBƒNƒbƒL[‚ğì¬‚Å‚«‚é“_‚Å InternetSetCookie ŠÖ”‚ÆˆÙ‚È‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrl, lpszCookieName, lpszCookieData, dwFlags, dwReserved
-lpszUrl : [wstr] Pointer to a null-terminated string that contains the URL for which the cookie should be set. If this pointer is NULL, InternetSetCookieEx fails with an ERROR_INVALID_PARAMETER error.
-lpszCookieName : [wstr] Pointer to a null-terminated string that  contains the name to associate with this cookie. If this pointer is NULL, then no name is associated with the cookie.
-lpszCookieData : [wstr] Pointer to a null-terminated string that contains the data to be associated with the new cookie. If this pointer is NULL, InternetSetCookieEx fails with an ERROR_INVALID_PARAMETER error.
-dwFlags : [int] Flags that control how the function retrieves cookie data:
-dwReserved : [int] NULL, or contains a pointer to a Platform-for-Privacy-Protection (P3P) header to be associated with the cookie.
+lpszUrl : [wstr] ƒNƒbƒL[‚ğİ’è‚·‚é URL ‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒ|ƒCƒ“ƒ^‚ª NULL ‚Ìê‡AInternetSetCookieEx ‚Í ERROR_INVALID_PARAMETER ƒGƒ‰[‚Å¸”s‚·‚éB
+lpszCookieName : [wstr] –{ƒNƒbƒL[‚ÉŠÖ˜A•t‚¯‚é–¼‘O‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒ|ƒCƒ“ƒ^‚ª NULL ‚Ìê‡AƒNƒbƒL[‚É‚Í–¼‘O‚ªŠÖ˜A•t‚¯‚ç‚ê‚È‚¢B
+lpszCookieData : [wstr] V‚µ‚¢ƒNƒbƒL[‚ÉŠÖ˜A•t‚¯‚éƒf[ƒ^‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒ|ƒCƒ“ƒ^‚ª NULL ‚Ìê‡AInternetSetCookieEx ‚Í ERROR_INVALID_PARAMETER ƒGƒ‰[‚Å¸”s‚·‚éB
+dwFlags : [int] ŠÖ”‚ªƒNƒbƒL[ƒf[ƒ^‚ğæ“¾‚·‚é•û–@‚ğ§Œä‚·‚éƒtƒ‰ƒOB
+dwReserved : [int] NULLA‚Ü‚½‚ÍƒNƒbƒL[‚ÉŠÖ˜A•t‚¯‚é Platform-for-Privacy-Protection (P3P) ƒwƒbƒ_[‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The InternetSetCookieEx function creates a cookie with a specified
-name that is associated with a specified URL. This function differs
-from the InternetSetCookie function by being able to create
-third-party cookies. (Unicode)
+InternetSetCookieEx ŠÖ”‚ÍAw’è‚³‚ê‚½ URL
+‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½w’è‚Ì–¼‘O‚ÌƒNƒbƒL[‚ğì¬‚·‚éB–{ŠÖ”‚ÍƒT[ƒhƒp[ƒeƒBƒNƒbƒL[‚ğì¬‚Å‚«‚é“_‚Å InternetSetCookie
+ŠÖ”‚ÆˆÙ‚È‚éB(Unicode)
 
 [–ß‚è’l]
-Returns a member of the InternetCookieState enumeration if
-successful, or FALSE if the function fails. On failure, if a call to
-GetLastError returns ERROR_NOT_ENOUGH_MEMORY, insufficient system
-memory was available.
+¬Œ÷‚µ‚½ê‡‚Í InternetCookieState —ñ‹“‚Ìƒƒ“ƒo‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B¸”s‚É
+GetLastError ‚ÌŒÄ‚Ño‚µ‚ª ERROR_NOT_ENOUGH_MEMORY
+‚ğ•Ô‚µ‚½ê‡AƒVƒXƒeƒ€ƒƒ‚ƒŠ‚ª•s‘«‚µ‚Ä‚¢‚½‚±‚Æ‚ğ¦‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetSetCookieEx as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetSetCookieEx
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 InternetSetCookieEx2
-Creates a cookie associated with the specified URL. (InternetSetCookieEx2)
+w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒNƒbƒL[‚ğì¬‚·‚éB(InternetSetCookieEx2)
 %group
 Win32 wininet
 %prm
 pcwszUrl, pCookie, pcwszP3PPolicy, dwFlags, pdwCookieState
-pcwszUrl : [wstr] The URL for which to set the cookie.
-pCookie : [var] Pointer to an [INTERNET\_COOKIE2](ns-wininet-internet_cookie2.md) structure containing the cookie data.
-pcwszP3PPolicy : [wstr] String containing the Platform-for-Privacy-Protection (P3P) policy for the cookie. May be NULL.
-dwFlags : [int] Flags for the cookie to be set. The following flags are available. | Value | Meaning | |-------|---------| | INTERNET_COOKIE_THIRD_PARTY | Set this cookie in a third-party context. | | INTERNET_COOKIE_PROMPT_REQUIRED | Show a UI prompt for the user to accept or reject this cookie. | | INTERNET_COOKIE_EVALUATE_P3P | Evaluate the provided P3P policy for this cookie. This will evaluate default policy when *pcwszP3PPolicy* is NULL. | | INTERNET_COOKIE_NON_SCRIPT | Indicate that this cookie is not being set via JavaScript, allowing HTTP-only cookies to be set. | | INTERNET_COOKIE_APPLY_HOST_ONLY | Apply host-only policy to this cookie. If the domain attribute is not set, then this cookie will be marked host-only. |
-pdwCookieState : [var] Pointer to a DWORD that receives the result of setting the cookie. For a list of possible values, see [InternetCookieState](/windows/win32/api/wininet/ne-wininet-internetcookiestate).
+pcwszUrl : [wstr] ƒNƒbƒL[‚ğİ’è‚·‚é URLB
+pCookie : [var] ƒNƒbƒL[ƒf[ƒ^‚ğŠi”[‚µ‚½ [INTERNET\_COOKIE2](ns-wininet-internet_cookie2.md) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pcwszP3PPolicy : [wstr] ƒNƒbƒL[‚É‘Î‚·‚é Platform-for-Privacy-Protection (P3P) ƒ|ƒŠƒV[‚ğŠi”[‚µ‚½•¶š—ñBNULL ‚ğw’è‰Â”\B
+dwFlags : [int] İ’è‚·‚éƒNƒbƒL[‚Ìƒtƒ‰ƒOBŸ‚Ìƒtƒ‰ƒO‚ª—˜—p‚Å‚«‚éB | ’l | ˆÓ–¡ | |-------|---------| | INTERNET_COOKIE_THIRD_PARTY | –{ƒNƒbƒL[‚ğƒT[ƒhƒp[ƒeƒBƒRƒ“ƒeƒLƒXƒg‚Åİ’è‚·‚éB | | INTERNET_COOKIE_PROMPT_REQUIRED | ƒ†[ƒU[‚ª–{ƒNƒbƒL[‚ğ³‘ø‚Ü‚½‚Í‹‘”Û‚·‚é‚½‚ß‚Ì UI ƒvƒƒ“ƒvƒg‚ğ•\¦‚·‚éB | | INTERNET_COOKIE_EVALUATE_P3P | –{ƒNƒbƒL[‚É‘Î‚µ‚Äw’è‚³‚ê‚½ P3P ƒ|ƒŠƒV[‚ğ•]‰¿‚·‚éB*pcwszP3PPolicy* ‚ª NULL ‚Ìê‡‚ÍŠù’è‚Ìƒ|ƒŠƒV[‚ğ•]‰¿‚·‚éB | | INTERNET_COOKIE_NON_SCRIPT | –{ƒNƒbƒL[‚ª JavaScript Œo—R‚Åİ’è‚³‚ê‚Ä‚¢‚é‚Ì‚Å‚Í‚È‚¢‚±‚Æ‚ğ¦‚µAHTTP-only ƒNƒbƒL[‚Ìİ’è‚ğ‹–‰Â‚·‚éB | | INTERNET_COOKIE_APPLY_HOST_ONLY | –{ƒNƒbƒL[‚ÉƒzƒXƒg‚Ì‚İ‚Ìƒ|ƒŠƒV[‚ğ“K—p‚·‚éBƒhƒƒCƒ“‘®«‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A–{ƒNƒbƒL[‚ÍƒzƒXƒg‚Ì‚İ‚Æƒ}[ƒN‚³‚ê‚éB |
+pdwCookieState : [var] ƒNƒbƒL[İ’è‚ÌŒ‹‰Ê‚ğó‚¯æ‚é DWORD ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‰Â”\‚È’l‚É‚Â‚¢‚Ä‚Í [InternetCookieState](/windows/win32/api/wininet/ne-wininet-internetcookiestate) ‚ğQÆ‚Ì‚±‚ÆB
 %inst
-Creates a cookie associated with the specified URL.
-(InternetSetCookieEx2)
+w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒNƒbƒL[‚ğì¬‚·‚éB(InternetSetCookieEx2)
 
 [–ß‚è’l]
-Returns ERROR_SUCCESS if successful, or a [system error
-code](/windows/desktop/debug/system-error-codes) on failure.
+¬Œ÷‚µ‚½ê‡‚Í ERROR_SUCCESS
+‚ğA¸”s‚µ‚½ê‡‚Í[ƒVƒXƒeƒ€ƒGƒ‰[ƒR[ƒh](/windows/desktop/debug/system-error-codes)‚ğ•Ô‚·B
 
 [”õl]
-> [!NOTE] > WinINet does not support server implementations. In
-addition, it should not be used from a service. For server
-implementations or services use [Microsoft Windows HTTP Services
-(WinHTTP)](/windows/desktop/winhttp/winhttp-start-page).
+> [!NOTE] > WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í [Microsoft
+Windows HTTP Services
+(WinHTTP)](/windows/desktop/winhttp/winhttp-start-page) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetSetDialState
-The InternetSetDialState function (wininet.h) is not supported, is obsolete, and should not be used.
+InternetSetDialState ŠÖ” (wininet.h) ‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¨‚ç‚¸A”p~‚³‚ê‚Ä‚¨‚èAg—p‚·‚×‚«‚Å‚Í‚È‚¢B
 %group
 Win32 wininet
 %prm
 lpszConnectoid, dwState, dwReserved
-lpszConnectoid : [str] Unused.
-dwState : [int] Unused.
-dwReserved : [int] Unused.
+lpszConnectoid : [str] –¢g—pB
+dwState : [int] –¢g—pB
+dwReserved : [int] –¢g—pB
 %inst
-The InternetSetDialState function (wininet.h) is not supported, is
-obsolete, and should not be used.
+InternetSetDialState ŠÖ” (wininet.h) ‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¨‚ç‚¸A”p~‚³‚ê‚Ä‚¨‚èAg—p‚·‚×‚«‚Å‚Í‚È‚¢B
 
 [–ß‚è’l]
-This function does not return a value.
+–{ŠÖ”‚Í’l‚ğ•Ô‚³‚È‚¢B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetSetFilePointer
-Sets a file position for InternetReadFile. This is a synchronous call; however, subsequent calls to InternetReadFile might block or return pending if the data is not available from the cache and the server does not support random access.
+InternetReadFile ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚ğİ’è‚·‚éB–{ŒÄ‚Ño‚µ‚Í“¯Šú‚¾‚ªAŒã‘±‚Ì InternetReadFile ‚ÌŒÄ‚Ño‚µ‚ÍAƒf[ƒ^‚ªƒLƒƒƒbƒVƒ…‚©‚ç—˜—p‰Â”\‚Å‚È‚­A‚©‚ÂƒT[ƒo[‚ªƒ‰ƒ“ƒ_ƒ€ƒAƒNƒZƒX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡‚ÉƒuƒƒbƒN‚µ‚½‚è pending ‚ğ•Ô‚µ‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 wininet
 %prm
 hFile, lDistanceToMove, lpDistanceToMoveHigh, dwMoveMethod, dwContext
-hFile : [intptr] Handle returned from a previous call to InternetOpenUrl (on an HTTP or HTTPS URL) or HttpOpenRequest (using the GET or HEAD HTTP verb and passed to HttpSendRequest or HttpSendRequestEx). This handle must not have been created with the INTERNET_FLAG_DONT_CACHE or INTERNET_FLAG_NO_CACHE_WRITE value set.
-lDistanceToMove : [int] The low order 32-bits of a signed 64-bit number of bytes to move the file pointer. Internet Explorer?7 and earlier:??InternetSetFilePointer used to move the pointer only within the bounds of  a LONG. When calling this older version of the function, lpDistanceToMoveHigh is reserved and should be set to 0. A positive value moves the pointer forward in the file; a negative value moves it backward.
-lpDistanceToMoveHigh : [var] A pointer to the high order 32-bits of the signed 64-bit distance to move. If you do not need the high order 32-bits, this pointer must  be set to NULL.  When not NULL, this parameter also receives the high order DWORD of the new value of the file pointer. A positive value moves the pointer forward in the file; a negative value moves it backward.Internet Explorer?7 and earlier:??InternetSetFilePointer used to move the pointer only within the bounds of  a LONG. When calling this older version of the function, lpDistanceToMoveHigh is reserved and should be set to 0.
+hFile : [intptr] InternetOpenUrl (HTTP ‚Ü‚½‚Í HTTPS URL ‚É‘Î‚·‚é‚à‚Ì)A‚Ü‚½‚Í HttpOpenRequest (GET ‚Ü‚½‚Í HEAD HTTP “®Œ‚ğg—p‚µ HttpSendRequest ‚Ü‚½‚Í HttpSendRequestEx ‚É“n‚³‚ê‚½‚à‚Ì) ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B–{ƒnƒ“ƒhƒ‹‚Í INTERNET_FLAG_DONT_CACHE ‚Ü‚½‚Í INTERNET_FLAG_NO_CACHE_WRITE ‚ğİ’è‚µ‚Äì¬‚³‚ê‚½‚à‚Ì‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
+lDistanceToMove : [int] ƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚ğˆÚ“®‚·‚é•„†•t‚« 64 ƒrƒbƒgƒoƒCƒg”‚Ì‰ºˆÊ 32 ƒrƒbƒgBInternet Explorer 7 ˆÈ‘O: InternetSetFilePointer ‚Íƒ|ƒCƒ“ƒ^‚ğ LONG ‚Ì”ÍˆÍ“à‚Å‚Ì‚İˆÚ“®‚µ‚Ä‚¢‚½B‚±‚ÌŒÃ‚¢ƒo[ƒWƒ‡ƒ“‚ÌŠÖ”‚ğŒÄ‚Ño‚·ÛAlpDistanceToMoveHigh ‚Í—\–ñ‚³‚ê‚Ä‚¨‚è 0 ‚Éİ’è‚·‚×‚«‚Å‚ ‚éB³‚Ì’l‚Íƒtƒ@ƒCƒ‹“à‚Åƒ|ƒCƒ“ƒ^‚ğ‘O•û‚ÉA•‰‚Ì’l‚ÍŒã•û‚ÉˆÚ“®‚·‚éB
+lpDistanceToMoveHigh : [var] •„†•t‚« 64 ƒrƒbƒgˆÚ“®‹——£‚ÌãˆÊ 32 ƒrƒbƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^BãˆÊ 32 ƒrƒbƒg‚ª•s—v‚Èê‡A–{ƒ|ƒCƒ“ƒ^‚Í NULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BNULL ‚Å‚È‚¢ê‡A–{ƒpƒ‰ƒ[ƒ^‚ÍV‚µ‚¢ƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^’l‚ÌãˆÊ DWORD ‚àó‚¯æ‚éB³‚Ì’l‚Íƒtƒ@ƒCƒ‹“à‚Åƒ|ƒCƒ“ƒ^‚ğ‘O•û‚ÉA•‰‚Ì’l‚ÍŒã•û‚ÉˆÚ“®‚·‚éBInternet Explorer 7 ˆÈ‘O: InternetSetFilePointer ‚Íƒ|ƒCƒ“ƒ^‚ğ LONG ‚Ì”ÍˆÍ“à‚Å‚Ì‚İˆÚ“®‚µ‚Ä‚¢‚½B‚±‚ÌŒÃ‚¢ƒo[ƒWƒ‡ƒ“‚ÌŠÖ”‚ğŒÄ‚Ño‚·ÛAlpDistanceToMoveHigh ‚Í—\–ñ‚³‚ê‚Ä‚¨‚è 0 ‚Éİ’è‚·‚×‚«‚Å‚ ‚éB
 dwMoveMethod : [int] 
-dwContext : [int] This parameter is reserved and must be 0.
+dwContext : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Sets a file position for InternetReadFile. This is a synchronous
-call; however, subsequent calls to InternetReadFile might block or
-return pending if the data is not available from the cache and the
-server does not support random access.
+InternetReadFile ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚ğİ’è‚·‚éB–{ŒÄ‚Ño‚µ‚Í“¯Šú‚¾‚ªAŒã‘±‚Ì InternetReadFile
+‚ÌŒÄ‚Ño‚µ‚ÍAƒf[ƒ^‚ªƒLƒƒƒbƒVƒ…‚©‚ç—˜—p‰Â”\‚Å‚È‚­A‚©‚ÂƒT[ƒo[‚ªƒ‰ƒ“ƒ_ƒ€ƒAƒNƒZƒX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡‚ÉƒuƒƒbƒN‚µ‚½‚è pending
+‚ğ•Ô‚µ‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-I the function succeeds, it returns the current file position. A
-return value of INVALID_SET_FILE_POINTER indicates a potential
-failure and needs to be followed by be a call to GetLastError. Since
-INVALID_SET_FILE_POINTER is a valid value for the low-order DWORD of
-the new file pointer, the caller must check both the return value of
-the function and the error code returned by GetLastError to determine
-whether or not an error has occurred. If an error has occurred, the
-return value of InternetSetFilePointer is INVALID_SET_FILE_POINTER
-and GetLastError returns a value other than NO_ERROR. If the function
-succeeds and lpDistanceToMoveHigh is NULL, the return value is the
-low-order DWORD of the new file pointer. Note that if the function
-returns a value other than INVALID_SET_FILE_POINTER, the call to
-InternetSetFilePointer has succeeded and there is no need to call
-GetLastError. If the function succeeds and lpDistanceToMoveHigh is
-not NULL, the return value is the lower-order DWORD of the new file
-pointer and lpDistanceToMoveHigh contains the high order DWORD of the
-new file pointer. If a new file pointer is a negative value, the
-function fails, the file pointer is not moved, and the code returned
-by GetLastError is ERROR_NEGATIVE_SEEK. If lpDistanceToMoveHigh is
-NULL and the new file position does not fit in a 32-bit value the
-function fails and returns INVALID_SET_FILE_POINTER.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡AŒ»İ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚ğ•Ô‚·BINVALID_SET_FILE_POINTER ‚Æ‚¢‚¤–ß‚è’l‚Í¸”s‚Ì‰Â”\«‚ğ¦‚µA‚»‚ÌŒã
+GetLastError ‚ÌŒÄ‚Ño‚µ‚ª•K—v‚Å‚ ‚éBINVALID_SET_FILE_POINTER ‚ÍV‚µ‚¢ƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚Ì‰ºˆÊ
+DWORD ‚Æ‚µ‚Ä—LŒø‚È’l‚Å‚ ‚é‚½‚ßAŒÄ‚Ño‚µ‘¤‚ÍƒGƒ‰[‚ª”­¶‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’f‚·‚é‚½‚ß‚ÉAŠÖ”‚Ì–ß‚è’l‚Æ GetLastError
+‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éƒGƒ‰[ƒR[ƒh‚Ì—¼•û‚ğƒ`ƒFƒbƒN‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒGƒ‰[‚ª”­¶‚µ‚½ê‡AInternetSetFilePointer
+‚Ì–ß‚è’l‚Í INVALID_SET_FILE_POINTER ‚Æ‚È‚èAGetLastError ‚Í NO_ERROR
+ˆÈŠO‚Ì’l‚ğ•Ô‚·BŠÖ”‚ª¬Œ÷‚µ lpDistanceToMoveHigh ‚ª NULL ‚Ìê‡A–ß‚è’l‚ÍV‚µ‚¢ƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚Ì‰ºˆÊ
+DWORD ‚Å‚ ‚éB‚È‚¨ŠÖ”‚ª INVALID_SET_FILE_POINTER
+ˆÈŠO‚Ì’l‚ğ•Ô‚µ‚½ê‡AInternetSetFilePointer ‚ÌŒÄ‚Ño‚µ‚Í¬Œ÷‚µ‚Ä‚¨‚è GetLastError
+‚ğŒÄ‚Ño‚·•K—v‚Í‚È‚¢BŠÖ”‚ª¬Œ÷‚µ lpDistanceToMoveHigh ‚ª NULL
+‚Å‚È‚¢ê‡A–ß‚è’l‚ÍV‚µ‚¢ƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚Ì‰ºˆÊ DWORD ‚Å‚ ‚èAlpDistanceToMoveHigh
+‚É‚ÍV‚µ‚¢ƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚ÌãˆÊ DWORD
+‚ªŠi”[‚³‚ê‚éBV‚µ‚¢ƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚ª•‰‚Ì’l‚Å‚ ‚éê‡AŠÖ”‚Í¸”s‚µAƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚ÍˆÚ“®‚³‚ê‚¸AGetLastError
+‚É‚æ‚Á‚Ä•Ô‚³‚ê‚éƒR[ƒh‚Í ERROR_NEGATIVE_SEEK ‚Æ‚È‚éBlpDistanceToMoveHigh ‚ª NULL
+‚Å‚ ‚èAV‚µ‚¢ƒtƒ@ƒCƒ‹ˆÊ’u‚ª 32 ƒrƒbƒg’l‚Éû‚Ü‚ç‚È‚¢ê‡AŠÖ”‚Í¸”s‚µ INVALID_SET_FILE_POINTER ‚ğ•Ô‚·B
 
 [”õl]
-This function cannot be used once the end of the file has been
-reached by InternetReadFile. For HINTERNET handles created by
-HttpOpenRequest and sent by HttpSendRequestEx, a call to
-HttpEndRequest must be made on the handle before
-InternetSetFilePointer is used. InternetSetFilePointer cannot be used
-reliably if the content length is unknown. Like all other aspects of
-the WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects.
-InternetSetFilePointer has changed over time. In Internet Explorer 7
-and earlier, it used to move the pointer only within the bounds of a
-LONG. When calling this older version of the function,
-lDistanceToMove contains the entire value. A positive value moves the
-pointer forward in the file; a negative value moves it backward.
-lpDistanceToMoveHigh is reserved and is set to 0. In current
-versions, lpDistanceToMoveHigh is a significant value and where any
-negative value would be indicated. Note WinINet does not support
-server implementations. In addition, it should not be used from a
-service. For server implementations or services use Microsoft Windows
-HTTP Services (WinHTTP).
+InternetReadFile ‚É‚æ‚Á‚Äƒtƒ@ƒCƒ‹‚Ì––”ö‚É“’B‚µ‚½Œã‚ÍA–{ŠÖ”‚ğg—p‚Å‚«‚È‚¢BHttpOpenRequest ‚Åì¬‚³‚ê
+HttpSendRequestEx ‚Å‘—M‚³‚ê‚½ HINTERNET ƒnƒ“ƒhƒ‹‚Ìê‡AInternetSetFilePointer
+‚ğg—p‚·‚é‘O‚Éƒnƒ“ƒhƒ‹‚É‘Î‚µ‚Ä HttpEndRequest
+‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒRƒ“ƒeƒ“ƒc’·‚ª•s–¾‚Èê‡AInternetSetFilePointer
+‚ğŠmÀ‚Ég—p‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢BInternetSetFilePointer
+‚ÍŠÔ‚Æ‚Æ‚à‚É•ÏX‚³‚ê‚Ä‚«‚½BInternet Explorer 7 ˆÈ‘O‚Å‚Íƒ|ƒCƒ“ƒ^‚ğ LONG
+‚Ì”ÍˆÍ“à‚Å‚Ì‚İˆÚ“®‚µ‚Ä‚¢‚½B‚±‚ÌŒÃ‚¢ƒo[ƒWƒ‡ƒ“‚ÌŠÖ”‚ğŒÄ‚Ño‚·ÛAlDistanceToMove
+‚É’l‘S‘Ì‚ªŠi”[‚³‚ê‚éB³‚Ì’l‚Íƒtƒ@ƒCƒ‹“à‚Åƒ|ƒCƒ“ƒ^‚ğ‘O•û‚ÉA•‰‚Ì’l‚ÍŒã•û‚ÉˆÚ“®‚·‚éBlpDistanceToMoveHigh
+‚Í—\–ñ‚³‚ê‚Ä‚¨‚è 0 ‚Éİ’è‚³‚ê‚éBŒ»sƒo[ƒWƒ‡ƒ“‚Å‚Í lpDistanceToMoveHigh
+‚ÍˆÓ–¡‚Ì‚ ‚é’l‚Å‚ ‚èA•‰‚Ì’l‚àw’è‰Â”\‚Å‚ ‚éB’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
@@ -3829,71 +3410,64 @@ ANSI/Unicode ”Å‚ÌƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚·‚éB
 
 %index
 InternetSetOptionExW
-Not supported.Implemented only as a stub that calls the InternetSetOption function; InternetSetOptionEx has no functionality of its own. Do not use this function at this time. (Unicode)
+ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢BInternetSetOption ŠÖ”‚ğŒÄ‚Ño‚·ƒXƒ^ƒu‚Æ‚µ‚Ä‚Ì‚İÀ‘•‚³‚ê‚Ä‚¨‚èAInternetSetOptionEx ©‘Ì‚É‚Í‹@”\‚ª‚È‚¢BŒ»“_‚Å‚Í–{ŠÖ”‚ğg—p‚µ‚È‚¢‚±‚ÆB(Unicode)
 %group
 Win32 wininet
 %prm
 hInternet, dwOption, lpBuffer, dwBufferLength, dwFlags
-hInternet : [intptr] Unused.
-dwOption : [int] Unused.
-lpBuffer : [intptr] Unused.
-dwBufferLength : [int] Unused.
-dwFlags : [int] Unused.
+hInternet : [intptr] –¢g—pB
+dwOption : [int] –¢g—pB
+lpBuffer : [intptr] –¢g—pB
+dwBufferLength : [int] –¢g—pB
+dwFlags : [int] –¢g—pB
 %inst
-Not supported.Implemented only as a stub that calls the
-InternetSetOption function; InternetSetOptionEx has no functionality
-of its own. Do not use this function at this time. (Unicode)
+ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢BInternetSetOption
+ŠÖ”‚ğŒÄ‚Ño‚·ƒXƒ^ƒu‚Æ‚µ‚Ä‚Ì‚İÀ‘•‚³‚ê‚Ä‚¨‚èAInternetSetOptionEx
+©‘Ì‚É‚Í‹@”\‚ª‚È‚¢BŒ»“_‚Å‚Í–{ŠÖ”‚ğg—p‚µ‚È‚¢‚±‚ÆB(Unicode)
 
 [–ß‚è’l]
-This function does not return a value.
+–{ŠÖ”‚Í’l‚ğ•Ô‚³‚È‚¢B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetSetOptionEx as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetSetOptionEx
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 InternetSetPerSiteCookieDecisionW
-Sets a decision on cookies for a given domain. (Unicode)
+w’è‚µ‚½ƒhƒƒCƒ“‚ÌƒNƒbƒL[‚ÉŠÖ‚·‚é”»’f‚ğİ’è‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 pchHostName, dwDecision
-pchHostName : [wstr] An LPCTSTR that points to a string containing a domain.
-dwDecision : [int] A value of type DWORD that contains one of the InternetCookieState enumeration values.
+pchHostName : [wstr] ƒhƒƒCƒ“‚ğŠi”[‚µ‚½•¶š—ñ‚ğw‚· LPCTSTRB
+dwDecision : [int] InternetCookieState —ñ‹“’l‚Ì‚¢‚¸‚ê‚©‚ğŠi”[‚·‚é DWORD Œ^‚Ì’lB
 %inst
-Sets a decision on cookies for a given domain. (Unicode)
+w’è‚µ‚½ƒhƒƒCƒ“‚ÌƒNƒbƒL[‚ÉŠÖ‚·‚é”»’f‚ğİ’è‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if the decision is set and FALSE otherwise.
+”»’f‚ªİ’è‚³‚ê‚½ê‡‚Í TRUE ‚ğA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-WinINet minimizes the domain specified in the pchHostName parameter
-and sets the cookie policy on the minimum legal domain. For example,
-if the specified host name is widgets.microsoft.com, the policy is
-set on the minimized host name microsoft.com. Like all other aspects
-of the WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines
-InternetSetPerSiteCookieDecision as an alias which automatically
-selects the ANSI or Unicode version of this function based on the
-definition of the UNICODE preprocessor constant. Mixing usage of the
-encoding-neutral alias with code that not encoding-neutral can lead
-to mismatches that result in compilation or runtime errors. For more
-information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+WinINet ‚Í pchHostName
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒhƒƒCƒ“‚ğÅ¬‰»‚µAÅ¬‚Ì—LŒøƒhƒƒCƒ“‚ÉƒNƒbƒL[ƒ|ƒŠƒV[‚ğİ’è‚·‚éB—á‚¦‚ÎAw’è‚³‚ê‚½ƒzƒXƒg–¼‚ª
+widgets.microsoft.com ‚Ìê‡Aƒ|ƒŠƒV[‚ÍÅ¬‰»‚³‚ê‚½ƒzƒXƒg–¼ microsoft.com
+‚Éİ’è‚³‚ê‚éBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í InternetSetPerSiteCookieDecision
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -3937,101 +3511,95 @@ hwndParent : [intptr]
 
 %index
 InternetTimeFromSystemTime
-The InternetTimeFromSystemTime function (wininet.h) formats a date and time according to the HTTP version 1.0 specification.
+InternetTimeFromSystemTime ŠÖ” (wininet.h) ‚Í HTTP ƒo[ƒWƒ‡ƒ“ 1.0 d—l‚É]‚Á‚Ä“ú‚ğ‘®‰»‚·‚éB
 %group
 Win32 wininet
 %prm
 pst, dwRFC, lpszTime, cbTime
-pst : [var] Pointer to a SYSTEMTIME structure that contains the date and time to format.
-dwRFC : [int] RFC format used. Currently, the only valid format is INTERNET_RFC1123_FORMAT.
-lpszTime : [str] Pointer to a string buffer that receives the formatted date and time. The buffer should be of size INTERNET_RFC1123_BUFSIZE.
-cbTime : [int] Size of the lpszTime buffer, in bytes.
+pst : [var] ‘®‰»‚·‚é“ú‚ğŠi”[‚µ‚½ SYSTEMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwRFC : [int] g—p‚·‚é RFC Œ`®BŒ»İA—LŒø‚ÈŒ`®‚Í INTERNET_RFC1123_FORMAT ‚Ì‚İ‚Å‚ ‚éB
+lpszTime : [str] ‘®‰»‚³‚ê‚½“ú‚ğó‚¯æ‚é•¶š—ñƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒoƒbƒtƒ@‚ÌƒTƒCƒY‚Í INTERNET_RFC1123_BUFSIZE ‚Å‚ ‚é‚×‚«‚Å‚ ‚éB
+cbTime : [int] lpszTime ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The InternetTimeFromSystemTime function (wininet.h) formats a date
-and time according to the HTTP version 1.0 specification.
+InternetTimeFromSystemTime ŠÖ” (wininet.h) ‚Í HTTP ƒo[ƒWƒ‡ƒ“ 1.0
+d—l‚É]‚Á‚Ä“ú‚ğ‘®‰»‚·‚éB
 
 [–ß‚è’l]
-Returns TRUE if the function succeeds, or FALSE otherwise. To get
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetTimeToSystemTime
-The InternetTimeToSystemTime function (wininet.h) converts an HTTP time/date string to a SYSTEMTIME structure.
+InternetTimeToSystemTime ŠÖ” (wininet.h) ‚Í HTTP ‚Ì/“ú•t•¶š—ñ‚ğ SYSTEMTIME \‘¢‘Ì‚É•ÏŠ·‚·‚éB
 %group
 Win32 wininet
 %prm
 lpszTime, pst, dwReserved
-lpszTime : [str] Pointer to a null-terminated string that specifies the date/time to  be converted.
-pst : [var] Pointer to a SYSTEMTIME structure that receives the converted time.
-dwReserved : [int] This parameter is reserved and must be 0.
+lpszTime : [str] •ÏŠ·‚·‚é“ú‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pst : [var] •ÏŠ·‚³‚ê‚½‚ğó‚¯æ‚é SYSTEMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The InternetTimeToSystemTime function (wininet.h) converts an HTTP
-time/date string to a SYSTEMTIME structure.
+InternetTimeToSystemTime ŠÖ” (wininet.h) ‚Í HTTP ‚Ì/“ú•t•¶š—ñ‚ğ SYSTEMTIME
+\‘¢‘Ì‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-Returns TRUE if the string was converted, or FALSE otherwise. To get
-extended error information, call GetLastError.
+•¶š—ñ‚ª•ÏŠ·‚³‚ê‚½ê‡‚Í TRUE ‚ğA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetUnlockRequestFile
-Unlocks a file that was locked using InternetLockRequestFile.
+InternetLockRequestFile ‚ğg—p‚µ‚ÄƒƒbƒN‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
 %group
 Win32 wininet
 %prm
 hLockRequestInfo
-hLockRequestInfo : [intptr] Handle to a lock request that was returned by InternetLockRequestFile.
+hLockRequestInfo : [intptr] InternetLockRequestFile ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ƒƒbƒN—v‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Unlocks a file that was locked using InternetLockRequestFile.
+InternetLockRequestFile ‚ğg—p‚µ‚ÄƒƒbƒN‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get a specific
-error message, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 InternetWriteFile
-Writes data to an open Internet file.
+ŠJ‚©‚ê‚½ƒCƒ“ƒ^[ƒlƒbƒgƒtƒ@ƒCƒ‹‚Éƒf[ƒ^‚ğ‘‚«‚ŞB
 %group
 Win32 wininet
 %prm
 hFile, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten
-hFile : [intptr] Handle returned from a previous call to FtpOpenFile or an HINTERNET handle sent by HttpSendRequestEx.
-lpBuffer : [intptr] Pointer to a buffer that contains the data to be written to the file.
-dwNumberOfBytesToWrite : [int] Number of bytes to be written to the file.
-lpdwNumberOfBytesWritten : [var] Pointer to a variable that receives the number of bytes written to the file. InternetWriteFile sets this value to zero before doing any work or error checking.
+hFile : [intptr] FtpOpenFile ‚ÌˆÈ‘O‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹A‚Ü‚½‚Í HttpSendRequestEx ‚Å‘—M‚³‚ê‚½ HINTERNET ƒnƒ“ƒhƒ‹B
+lpBuffer : [intptr] ƒtƒ@ƒCƒ‹‚É‘‚«‚Şƒf[ƒ^‚ğŠi”[‚µ‚½ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwNumberOfBytesToWrite : [int] ƒtƒ@ƒCƒ‹‚É‘‚«‚ŞƒoƒCƒg”B
+lpdwNumberOfBytesWritten : [var] ƒtƒ@ƒCƒ‹‚É‘‚«‚Ü‚ê‚½ƒoƒCƒg”‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BInternetWriteFile ‚Íˆ—‚âƒGƒ‰[ƒ`ƒFƒbƒN‚ğs‚¤‘O‚É–{’l‚ğƒ[ƒ‚Éİ’è‚·‚éB
 %inst
-Writes data to an open Internet file.
+ŠJ‚©‚ê‚½ƒCƒ“ƒ^[ƒlƒbƒgƒtƒ@ƒCƒ‹‚Éƒf[ƒ^‚ğ‘‚«‚ŞB
 
 [–ß‚è’l]
-Returns TRUE if the function succeeds, or FALSE otherwise. To get
-extended error information, call GetLastError. An application can
-also use InternetGetLastResponseInfo when necessary.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í•K—v‚É‰‚¶‚Ä InternetGetLastResponseInfo ‚àg—p‚Å‚«‚éB
 
 [”õl]
-When the application is sending data, it must call
-InternetCloseHandle to end the data transfer. Like all other aspects
-of the WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒf[ƒ^‚ğ‘—M‚µ‚Ä‚¢‚é‚Æ‚«Aƒf[ƒ^“]‘—‚ğI—¹‚·‚é‚½‚ß‚É InternetCloseHandle
+‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
@@ -4105,108 +3673,94 @@ lpdwListBoxEntry : [var]
 
 %index
 PrivacyGetZonePreferenceW
-The PrivacyGetZonePreferenceW (Unicode) function (wininet.h) retrieves the privacy settings for a given URLZONE and PrivacyType.
+PrivacyGetZonePreferenceW (Unicode) ŠÖ” (wininet.h) ‚ÍAw’è‚³‚ê‚½ URLZONE ‚Æ PrivacyType ‚Ìƒvƒ‰ƒCƒoƒV[İ’è‚ğæ“¾‚·‚éB
 %group
 Win32 wininet
 %prm
 dwZone, dwType, pdwTemplate, pszBuffer, pdwBufferLength
-dwZone : [int] A value of type DWORD that specifies the URLZONE for which privacy settings are being retrieved.
-dwType : [int] A value of type DWORD that specifies the PrivacyType for which privacy settings are being retrieved.
-pdwTemplate : [var] An LPDWORD that returns a pointer to a DWORD containing which of the PrivacyTemplates is in use for this dwZone and dwType.
-pszBuffer : [wstr] An  LPWSTR that points to a buffer containing a LPCWSTR representing a string version of the pdwTemplate or a customized string if the pdwTemplate is set to PRIVACY_TEMPLATE_CUSTOM. See PrivacySetZonePreferenceW for a description of a customized privacy preferences string.
-pdwBufferLength : [var] An LPDWORD that contains the buffer length in characters. If the buffer length is not sufficient, PrivacyGetZonePreferenceW returns with this parameter set to the number of characters required and with a return value of ERROR_MORE_DATA.
+dwZone : [int] ƒvƒ‰ƒCƒoƒV[İ’è‚ğæ“¾‚·‚é URLZONE ‚ğw’è‚·‚é DWORD Œ^‚Ì’lB
+dwType : [int] ƒvƒ‰ƒCƒoƒV[İ’è‚ğæ“¾‚·‚é PrivacyType ‚ğw’è‚·‚é DWORD Œ^‚Ì’lB
+pdwTemplate : [var] –{ dwZone ‚Æ dwType ‚É‘Î‚µ‚Äg—p‚³‚ê‚Ä‚¢‚é PrivacyTemplates ‚Ì‚Ç‚ê‚ğŠi”[‚·‚é DWORD ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚· LPDWORDB
+pszBuffer : [wstr] pdwTemplate ‚Ì•¶š—ñƒo[ƒWƒ‡ƒ“‚ğ•\‚· LPCWSTRA‚Ü‚½‚Í pdwTemplate ‚ª PRIVACY_TEMPLATE_CUSTOM ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡‚ÍƒJƒXƒ^ƒ}ƒCƒY‚³‚ê‚½•¶š—ñ‚ğŠÜ‚Şƒoƒbƒtƒ@‚ğw‚· LPWSTRBƒJƒXƒ^ƒ}ƒCƒY‚³‚ê‚½ƒvƒ‰ƒCƒoƒV[İ’è•¶š—ñ‚Ìà–¾‚É‚Â‚¢‚Ä‚Í PrivacySetZonePreferenceW ‚ğQÆ‚Ì‚±‚ÆB
+pdwBufferLength : [var] ƒoƒbƒtƒ@’· (•¶š’PˆÊ) ‚ğŠi”[‚·‚é LPDWORDBƒoƒbƒtƒ@’·‚ª\•ª‚Å‚È‚¢ê‡APrivacyGetZonePreferenceW ‚Í–{ƒpƒ‰ƒ[ƒ^‚É•K—v‚È•¶š”‚ğİ’è‚µA–ß‚è’l ERROR_MORE_DATA ‚Å–ß‚éB
 %inst
-The PrivacyGetZonePreferenceW (Unicode) function (wininet.h)
-retrieves the privacy settings for a given URLZONE and PrivacyType.
+PrivacyGetZonePreferenceW (Unicode) ŠÖ” (wininet.h) ‚ÍAw’è‚³‚ê‚½ URLZONE ‚Æ
+PrivacyType ‚Ìƒvƒ‰ƒCƒoƒV[İ’è‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns zero if successful. Otherwise, one of the Error Messages
-defined in winerr.h is returned.
+¬Œ÷‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í winerr.h ‚Å’è‹`‚³‚ê‚½ƒGƒ‰[ƒƒbƒZ[ƒW‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-These privacy settings for the Internet zone are found on the Privacy
-tab of the Internet Options dialog box. Like all other aspects of the
-WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+ƒCƒ“ƒ^[ƒlƒbƒgƒ][ƒ“‚Ì‚±‚ê‚ç‚Ìƒvƒ‰ƒCƒoƒV[İ’è‚ÍAƒCƒ“ƒ^[ƒlƒbƒgƒIƒvƒVƒ‡ƒ“ƒ_ƒCƒAƒƒO‚Ìƒvƒ‰ƒCƒoƒV[ƒ^ƒu‚É‚ ‚éBWinINet API
+‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 PrivacySetZonePreferenceW
-The PrivacySetZonePreferenceW (Unicode) function (wininet.h) sets the privacy settings for a given URLZONE and PrivacyType.
+PrivacySetZonePreferenceW (Unicode) ŠÖ” (wininet.h) ‚ÍAw’è‚³‚ê‚½ URLZONE ‚Æ PrivacyType ‚Ìƒvƒ‰ƒCƒoƒV[İ’è‚ğs‚¤B
 %group
 Win32 wininet
 %prm
 dwZone, dwType, dwTemplate, pszPreference
-dwZone : [int] Value of type DWORD that specifies the URLZONE for which privacy settings are being set.
-dwType : [int] Value of type DWORD that specifies the PrivacyType for which privacy settings are being set.
-dwTemplate : [int] Value of type DWORD that specifies which of the privacy templates is to be used to set the privacy settings.
-pszPreference : [wstr] If dwTemplate is set to PRIVACY_TEMPLATE_CUSTOM, this parameter is the string representation of the custom preferences. Otherwise, it should be set to NULL. A description of this string representation is included in the Remarks section.
+dwZone : [int] ƒvƒ‰ƒCƒoƒV[İ’è‚ğs‚¤ URLZONE ‚ğw’è‚·‚é DWORD Œ^‚Ì’lB
+dwType : [int] ƒvƒ‰ƒCƒoƒV[İ’è‚ğs‚¤ PrivacyType ‚ğw’è‚·‚é DWORD Œ^‚Ì’lB
+dwTemplate : [int] ƒvƒ‰ƒCƒoƒV[İ’è‚Ìİ’è‚Ég—p‚·‚éƒvƒ‰ƒCƒoƒV[ƒeƒ“ƒvƒŒ[ƒg‚ğw’è‚·‚é DWORD Œ^‚Ì’lB
+pszPreference : [wstr] dwTemplate ‚ª PRIVACY_TEMPLATE_CUSTOM ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡A–{ƒpƒ‰ƒ[ƒ^‚ÍƒJƒXƒ^ƒ€İ’è‚Ì•¶š—ñ•\Œ»‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡ANULL ‚Éİ’è‚·‚×‚«‚Å‚ ‚éB‚±‚Ì•¶š—ñ•\Œ»‚Ìà–¾‚Í”õl‚Ìß‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚éB
 %inst
-The PrivacySetZonePreferenceW (Unicode) function (wininet.h) sets the
-privacy settings for a given URLZONE and PrivacyType.
+PrivacySetZonePreferenceW (Unicode) ŠÖ” (wininet.h) ‚ÍAw’è‚³‚ê‚½ URLZONE ‚Æ
+PrivacyType ‚Ìƒvƒ‰ƒCƒoƒV[İ’è‚ğs‚¤B
 
 [–ß‚è’l]
-Returns zero if successful. Otherwise, one of the errors defined in
-winerr.h is returned.
+¬Œ÷‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í winerr.h ‚Å’è‹`‚³‚ê‚½ƒGƒ‰[‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-These privacy settings for the Internet zone are found on the Privacy
-tab of the Internet Options dialog box. Setting the privacy options
-for the URLZONE_INTERNET involves setting the privacy templates for
-both PrivacyTypes. The slider on the Privacy Menu in Internet Options
-only moves if privacy is set for both PrivacyTypes. Custom privacy
-preferences for a given URLZONE and PrivacyType can be set through
-the pszPreference parameter. The pszPreference parameter can contain
-a series of rules separated by white space describing the privacy
-preferences. It is important to note that the rules themselves cannot
-contain white space. The pszPreference has the following structure
-where there can be multiple logical rules: <signature> <logical-rule>
-<special-rule>. Currently, the signature must be set to
-IE6-P3PSettings/V1:. Logical rules have the following format:
-/<expression>=<decision>/. An expression is a Boolean statement
-composed of compact policy tokens using the operators & (logical AND)
-and ! (logical NOT). The compact policy token is case-sensitive. (For
-more information on Platform for Privacy Preferences (P3P) privacy
-policies and compact policy tokens, see the W3C: Platform for Privacy
-Preferences (P3P) Project specification.) The decision is a single
-lowercase character that defines the action to take on the cookie
-whose compact policy contains the specified token(s). The following
-table lists valid decision characters.
-This doc was truncated.
+
+ƒCƒ“ƒ^[ƒlƒbƒgƒ][ƒ“‚Ì‚±‚ê‚ç‚Ìƒvƒ‰ƒCƒoƒV[İ’è‚ÍAƒCƒ“ƒ^[ƒlƒbƒgƒIƒvƒVƒ‡ƒ“ƒ_ƒCƒAƒƒO‚Ìƒvƒ‰ƒCƒoƒV[ƒ^ƒu‚É‚ ‚éBURLZONE_INTERNET
+‚Ìƒvƒ‰ƒCƒoƒV[ƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚é‚É‚ÍA—¼•û‚Ì PrivacyType
+‚É‘Î‚·‚éƒvƒ‰ƒCƒoƒV[ƒeƒ“ƒvƒŒ[ƒg‚ğİ’è‚·‚é•K—v‚ª‚ ‚éBƒCƒ“ƒ^[ƒlƒbƒgƒIƒvƒVƒ‡ƒ“‚Ìƒvƒ‰ƒCƒoƒV[ƒƒjƒ…[‚ÌƒXƒ‰ƒCƒ_[‚ÍA—¼•û‚Ì
+PrivacyType ‚Éƒvƒ‰ƒCƒoƒV[‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚É‚Ì‚İˆÚ“®‚·‚éBw’è‚³‚ê‚½ URLZONE ‚Æ PrivacyType
+‚ÌƒJƒXƒ^ƒ€ƒvƒ‰ƒCƒoƒV[İ’è‚Í pszPreference ƒpƒ‰ƒ[ƒ^‚ğ’Ê‚¶‚Äİ’è‚Å‚«‚éBpszPreference
+ƒpƒ‰ƒ[ƒ^‚É‚ÍAƒvƒ‰ƒCƒoƒV[İ’è‚ğ‹Lq‚·‚é‹ó”’‚Å‹æØ‚ç‚ê‚½ˆê˜A‚Ìƒ‹[ƒ‹‚ğŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éBƒ‹[ƒ‹©‘Ì‚É‚Í‹ó”’‚ğŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚È‚¢“_‚É’ˆÓ‚·‚é‚±‚Æ‚ªd—v‚Å‚ ‚éBpszPreference
+‚ÍŸ‚Ì\‘¢‚ğ‚¿A•¡”‚Ì˜_—ƒ‹[ƒ‹‚ğŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚é: <signature> <logical-rule>
+<special-rule>BŒ»İAsignature ‚Í IE6-P3PSettings/V1:
+‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B˜_—ƒ‹[ƒ‹‚ÍŸ‚ÌŒ`®‚ğ‚Â: /<expression>=<decision>/Bexpression ‚Í &
+(˜_— AND) ‚Æ ! (˜_— NOT)
+‰‰Zq‚ğg—p‚µ‚½ƒRƒ“ƒpƒNƒgƒ|ƒŠƒV[ƒg[ƒNƒ“‚Å\¬‚³‚ê‚éƒu[ƒ‹•¶‚Å‚ ‚éBƒRƒ“ƒpƒNƒgƒ|ƒŠƒV[ƒg[ƒNƒ“‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚·‚é
+(Platform for Privacy Preferences (P3P)
+‚Ìƒvƒ‰ƒCƒoƒV[ƒ|ƒŠƒV[‚ÆƒRƒ“ƒpƒNƒgƒ|ƒŠƒV[ƒg[ƒNƒ“‚ÌÚ×‚É‚Â‚¢‚Ä‚ÍAW3C: Platform for Privacy
+Preferences (P3P) Project d—l‚ğQÆ‚Ì‚±‚Æ)Bdecision
+‚ÍAw’è‚µ‚½ƒg[ƒNƒ“‚ğŠÜ‚ŞƒRƒ“ƒpƒNƒgƒ|ƒŠƒV[‚ğ‚ÂƒNƒbƒL[‚É‘Î‚µ‚Äæ‚éƒAƒNƒVƒ‡ƒ“‚ğ’è‹`‚·‚é’Pˆê‚Ì¬•¶š‚Å‚ ‚éBŸ‚Ì•\‚Í—LŒø‚È
+decision •¶š‚ğ¦‚·B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 ReadUrlCacheEntryStream
-Reads the cached data from a stream that has been opened using the RetrieveUrlCacheEntryStream function.
+RetrieveUrlCacheEntryStream ŠÖ”‚ğg—p‚µ‚ÄŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€‚©‚çAƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒf[ƒ^‚ğ“Ç‚İæ‚éB
 %group
 Win32 wininet
 %prm
 hUrlCacheStream, dwLocation, lpBuffer, lpdwLen, Reserved
-hUrlCacheStream : [intptr] Handle that was returned by the RetrieveUrlCacheEntryStream function.
-dwLocation : [int] Offset to be read from.
-lpBuffer : [intptr] Pointer to a buffer that receives the data.
-lpdwLen : [var] Pointer to a  variable that specifies the size of the lpBuffer buffer, in bytes. When the function returns, the variable contains the number of bytes copied to the buffer, or the required size of the buffer, in bytes.
-Reserved : [int] This parameter is reserved and must be 0.
+hUrlCacheStream : [intptr] RetrieveUrlCacheEntryStream ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
+dwLocation : [int] “Ç‚İæ‚èŠJnˆÊ’u‚ÌƒIƒtƒZƒbƒgB
+lpBuffer : [intptr] ƒf[ƒ^‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpdwLen : [var] lpBuffer ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª–ß‚é‚ÆA•Ï”‚É‚Íƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½ƒoƒCƒg”A‚Ü‚½‚Íƒoƒbƒtƒ@‚É•K—v‚ÈƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ªŠi”[‚³‚ê‚éB
+Reserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Reads the cached data from a stream that has been opened using the
-RetrieveUrlCacheEntryStream function.
+RetrieveUrlCacheEntryStream ŠÖ”‚ğg—p‚µ‚ÄŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€‚©‚çAƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒf[ƒ^‚ğ“Ç‚İæ‚éB
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-If the buffer size is not sufficient, GetLastError returns
-ERROR_INSUFFICIENT_BUFFER and sets lpdwLen to the size necessary to
-contain all the information. Like all other aspects of the WinINet
-API, this function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
+ƒoƒbƒtƒ@ƒTƒCƒY‚ª\•ª‚Å‚È‚¢ê‡AGetLastError ‚Í ERROR_INSUFFICIENT_BUFFER ‚ğ•Ô‚µAlpdwLen
+‚É‚Í‚·‚×‚Ä‚Ìî•ñ‚ğŠi”[‚·‚é‚½‚ß‚É•K—v‚ÈƒTƒCƒY‚ªİ’è‚³‚ê‚éBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
@@ -4242,138 +3796,107 @@ dwReserved : [int]
 
 %index
 ResumeSuspendedDownload
-The ResumeSuspendedDownload function resumes a request that is suspended by a user interface dialog box.
+ResumeSuspendedDownload ŠÖ”‚ÍAƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ_ƒCƒAƒƒO‚É‚æ‚Á‚Ä’†’f‚³‚ê‚½—v‹‚ğÄŠJ‚·‚éB
 %group
 Win32 wininet
 %prm
 hRequest, dwResultCode
-hRequest : [intptr] Handle of the request that is suspended by a user interface dialog box.
-dwResultCode : [int] The error result returned from InternetErrorDlg, or zero if a different dialog  is  invoked.
+hRequest : [intptr] ƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ_ƒCƒAƒƒO‚É‚æ‚Á‚Ä’†’f‚³‚ê‚½—v‹‚Ìƒnƒ“ƒhƒ‹B
+dwResultCode : [int] InternetErrorDlg ‚©‚ç•Ô‚³‚ê‚½ƒGƒ‰[Œ‹‰ÊB•Ê‚Ìƒ_ƒCƒAƒƒO‚ªŒÄ‚Ño‚³‚ê‚½ê‡‚Í 0B
 %inst
-The ResumeSuspendedDownload function resumes a request that is
-suspended by a user interface dialog box.
+ResumeSuspendedDownload ŠÖ”‚ÍAƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ_ƒCƒAƒƒO‚É‚æ‚Á‚Ä’†’f‚³‚ê‚½—v‹‚ğÄŠJ‚·‚éB
 
 [–ß‚è’l]
-Returns TRUE if successful; otherwise FALSE. Call GetLastError for
-extended error information.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Applications that use WinINet functions asynchronously can call
-ResumeSuspendedDownload to resume a request that is suspended by a
-user interface dialog box. For example, call ResumeSuspendedDownload
-after a call to InternetErrorDlg, or in an InternetStatusCallback
-function when the lpvStatusInformation parameter equals
-INTERNET_STATUS_USER_INPUT_REQUIRED. The following code example shows
-you how to use the ResumeSuspendedDownload function in a callback.
-Like all other aspects of the WinINet API, this function cannot be
-safely called from within DllMain or the constructors and destructors
-of global objects. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
+WinINet ŠÖ”‚ğ”ñ“¯Šú‚Ég—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ_ƒCƒAƒƒO‚É‚æ‚Á‚Ä’†’f‚³‚ê‚½—v‹‚ğÄŠJ‚·‚é‚½‚ß‚É
+ResumeSuspendedDownload ‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB—á‚¦‚ÎAInternetErrorDlg ‚ÌŒÄ‚Ño‚µŒã‚ÉA‚Ü‚½‚Í
+InternetStatusCallback ŠÖ”“à‚Å lpvStatusInformation ƒpƒ‰ƒ[ƒ^‚ª
+INTERNET_STATUS_USER_INPUT_REQUIRED ‚Æ“™‚µ‚¢‚Æ‚«‚ÉŒÄ‚Ño‚·BŸ‚ÌƒR[ƒh—á‚ÍƒR[ƒ‹ƒoƒbƒN“à‚Å‚Ì
+ResumeSuspendedDownload ŠÖ”‚Ìg—p•û–@‚ğ¦‚·BWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í
+DllMain ‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 RetrieveUrlCacheEntryFileW
-Locks the cache entry file associated with the specified URL. (Unicode)
+w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠƒtƒ@ƒCƒ‹‚ğƒƒbƒN‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrlName, lpCacheEntryInfo, lpcbCacheEntryInfo, dwReserved
-lpszUrlName : [wstr] Pointer to a string that contains the URL of the resource associated with the cache entry. This must be a unique name. The name string should not contain any escape characters.
-lpCacheEntryInfo : [var] Pointer to a cache entry information buffer. If the buffer is not sufficient, this function returns ERROR_INSUFFICIENT_BUFFER and sets lpdwCacheEntryInfoBufferSize to the number of bytes required.
-lpcbCacheEntryInfo : [var] Pointer to an unsigned long integer variable that specifies the size of the lpCacheEntryInfo buffer, in bytes. When the function returns, the variable contains the size, in bytes, of the actual buffer used or the number of bytes required to retrieve the cache entry file. The caller should check the return value in this parameter. If the return size is less than or equal to the size passed in, all the relevant data has been returned.
-dwReserved : [int] This parameter is reserved and must be 0.
+lpszUrlName : [wstr] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒŠƒ\[ƒX‚Ì URL ‚ğŠi”[‚µ‚½•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚ÍˆêˆÓ‚È–¼‘O‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B–¼‘O•¶š—ñ‚ÉƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
+lpCacheEntryInfo : [var] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠî•ñƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒoƒbƒtƒ@‚ª\•ª‚Å‚È‚¢ê‡A–{ŠÖ”‚Í ERROR_INSUFFICIENT_BUFFER ‚ğ•Ô‚µAlpdwCacheEntryInfoBufferSize ‚É•K—v‚ÈƒoƒCƒg”‚ğİ’è‚·‚éB
+lpcbCacheEntryInfo : [var] lpCacheEntryInfo ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚é unsigned long ®”•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª–ß‚é‚ÆA•Ï”‚É‚ÍÀÛ‚Ég—p‚³‚ê‚½ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)A‚Ü‚½‚ÍƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠƒtƒ@ƒCƒ‹‚Ìæ“¾‚É•K—v‚ÈƒoƒCƒg”‚ªŠi”[‚³‚ê‚éBŒÄ‚Ño‚µ‘¤‚Í–{ƒpƒ‰ƒ[ƒ^‚Ì–ß‚è’l‚ğƒ`ƒFƒbƒN‚·‚×‚«‚Å‚ ‚éB–ß‚èƒTƒCƒY‚ª“n‚³‚ê‚½ƒTƒCƒYˆÈ‰º‚Å‚ ‚ê‚ÎAŠÖ˜A‚·‚é‚·‚×‚Ä‚Ìƒf[ƒ^‚ª•Ô‚³‚ê‚Ä‚¢‚éB
+dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Locks the cache entry file associated with the specified URL.
-(Unicode)
+w’è‚µ‚½ URL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠƒtƒ@ƒCƒ‹‚ğƒƒbƒN‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError. Possible error values include:
-This doc was truncated.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B‘z’è‚³‚ê‚éƒGƒ‰[’l‚É‚ÍŸ‚Ì‚à‚Ì‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-RetrieveUrlCacheEntryFile does not do any URL parsing, so a URL
-containing an anchor (#) will not be found in the cache, even if the
-resource is cached. For example, if the URL
-http://adatum.com/example.htm#sample was passed, the function would
-return ERROR_FILE_NOT_FOUND even if http://adatum.com/example.htm is
-in the cache. The file is locked for the caller when it is retrieved;
-the caller should unlock the file after the caller is finished with
-the file. The cache manager automatically unlocks the files after a
-certain interval. While the file is locked, the cache manager will
-not remove the file from the cache. It is important to note that this
-function may or may not perform efficiently, depending on the
-internal implementation of the cache. For instance, if the URL data
-is stored in a packed file that contains data for other URLs, the
-cache will make a copy of the data to a file in a temporary directory
-maintained by the cache. The cache will eventually delete the copy.
-It is recommended that this function be used only in situations where
-a file name is needed to launch an application.
-RetrieveUrlCacheEntryStream and associated stream functions should be
-used in most cases. Like all other aspects of the WinINet API, this
-function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines RetrieveUrlCacheEntryFile as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+RetrieveUrlCacheEntryFile ‚Í URL ‚Ì‰ğÍ‚ğˆêØs‚í‚È‚¢‚½‚ßAƒAƒ“ƒJ[ (#) ‚ğŠÜ‚Ş URL
+‚ÍAƒŠƒ\[ƒX‚ªƒLƒƒƒbƒVƒ…‚³‚ê‚Ä‚¢‚Ä‚àƒLƒƒƒbƒVƒ…“à‚ÅŒ©‚Â‚©‚ç‚È‚¢B—á‚¦‚Î
+http://adatum.com/example.htm#sample
+‚ğ“n‚µ‚½ê‡Ahttp://adatum.com/example.htm ‚ªƒLƒƒƒbƒVƒ…‚É‚ ‚Á‚Ä‚àŠÖ”‚Í
+ERROR_FILE_NOT_FOUND
+‚ğ•Ô‚·Bƒtƒ@ƒCƒ‹‚Íæ“¾‚ÉŒÄ‚Ño‚µ‘¤‚Ì‚½‚ß‚ÉƒƒbƒN‚³‚ê‚éBŒÄ‚Ño‚µ‘¤‚Íƒtƒ@ƒCƒ‹‚Ìg—p‚ªI‚í‚Á‚½‚çƒƒbƒN‚ğ‰ğœ‚·‚×‚«‚Å‚ ‚éBƒLƒƒƒbƒVƒ…ƒ}ƒl[ƒWƒƒ‚Íˆê’èŠÔŠu‚ÌŒã‚Éƒtƒ@ƒCƒ‹‚ÌƒƒbƒN‚ğ©“®“I‚É‰ğœ‚·‚éBƒtƒ@ƒCƒ‹‚ªƒƒbƒN‚³‚ê‚Ä‚¢‚éŠÔAƒLƒƒƒbƒVƒ…ƒ}ƒl[ƒWƒƒ‚ÍƒLƒƒƒbƒVƒ…‚©‚çƒtƒ@ƒCƒ‹‚ğíœ‚µ‚È‚¢B–{ŠÖ”‚ÍƒLƒƒƒbƒVƒ…‚Ì“à•”À‘•‚É‰‚¶‚ÄŒø—¦“I‚É“®ì‚·‚éê‡‚Æ‚»‚¤‚Å‚È‚¢ê‡‚ª‚ ‚é‚±‚Æ‚É’ˆÓ‚·‚é‚±‚Æ‚ªd—v‚Å‚ ‚éB—á‚¦‚ÎAURL
+ƒf[ƒ^‚ª‘¼‚Ì URL
+‚Ìƒf[ƒ^‚àŠÜ‚ŞƒpƒbƒNƒtƒ@ƒCƒ‹‚ÉŠi”[‚³‚ê‚Ä‚¢‚éê‡AƒLƒƒƒbƒVƒ…‚ÍƒLƒƒƒbƒVƒ…‚ªŠÇ—‚·‚éˆêƒfƒBƒŒƒNƒgƒŠ“à‚Ìƒtƒ@ƒCƒ‹‚Éƒf[ƒ^‚ğƒRƒs[‚·‚éBƒRƒs[‚ÍÅI“I‚ÉƒLƒƒƒbƒVƒ…‚É‚æ‚Á‚Äíœ‚³‚ê‚éB–{ŠÖ”‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‹N“®‚·‚é‚½‚ß‚Éƒtƒ@ƒCƒ‹–¼‚ª•K—v‚Èó‹µ‚Å‚Ì‚İg—p‚·‚é‚±‚Æ‚ğ„§‚·‚éB‚Ù‚Æ‚ñ‚Ç‚Ìê‡ARetrieveUrlCacheEntryStream
+‚¨‚æ‚ÑŠÖ˜A‚·‚éƒXƒgƒŠ[ƒ€ŠÖ”‚ğg—p‚·‚×‚«‚Å‚ ‚éBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í RetrieveUrlCacheEntryFile
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 RetrieveUrlCacheEntryStreamW
-Provides the most efficient and implementation-independent way to access the cache data. (Unicode)
+ƒLƒƒƒbƒVƒ…ƒf[ƒ^‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚ÌAÅ‚àŒø—¦“I‚ÅÀ‘•”ñˆË‘¶‚Èè’i‚ğ’ñ‹Ÿ‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrlName, lpCacheEntryInfo, lpcbCacheEntryInfo, fRandomRead, dwReserved
-lpszUrlName : [wstr] Pointer to a null-terminated string that contains the source name of the cache entry. This must be a unique name. The name string should not contain any escape characters.
-lpCacheEntryInfo : [var] Pointer to an INTERNET_CACHE_ENTRY_INFO structure that receives information about the cache entry.
-lpcbCacheEntryInfo : [var] Pointer to a variable that specifies the size, in bytes, of the lpCacheEntryInfo buffer. When the function returns, the variable receives the number of bytes copied to the buffer or the required size, in bytes, of the buffer. Note that this buffer size must accommodate both the INTERNET_CACHE_ENTRY_INFO structure and the associated strings that are stored immediately following it.
-fRandomRead : [int] Whether the stream is open for random access. Set the flag to TRUE to open the stream for random access.
-dwReserved : [int] This parameter is reserved and must be 0.
+lpszUrlName : [wstr] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìƒ\[ƒX–¼‚ğŠi”[‚µ‚½ null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚ÍˆêˆÓ‚È–¼‘O‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B–¼‘O•¶š—ñ‚ÉƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
+lpCacheEntryInfo : [var] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğó‚¯æ‚é INTERNET_CACHE_ENTRY_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpcbCacheEntryInfo : [var] lpCacheEntryInfo ƒoƒbƒtƒ@‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª–ß‚é‚ÆA•Ï”‚É‚Íƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½ƒoƒCƒg”A‚Ü‚½‚Íƒoƒbƒtƒ@‚É•K—v‚ÈƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ªŠi”[‚³‚ê‚éB–{ƒoƒbƒtƒ@ƒTƒCƒY‚Í INTERNET_CACHE_ENTRY_INFO \‘¢‘Ì‚ÆA‚»‚Ì’¼Œã‚ÉŠi”[‚³‚ê‚éŠÖ˜A•¶š—ñ‚Ì—¼•û‚ğû—e‚Å‚«‚È‚¯‚ê‚Î‚È‚ç‚È‚¢“_‚É’ˆÓB
+fRandomRead : [int] ƒXƒgƒŠ[ƒ€‚ğƒ‰ƒ“ƒ_ƒ€ƒAƒNƒZƒX—p‚ÉŠJ‚­‚©‚Ç‚¤‚©Bƒ‰ƒ“ƒ_ƒ€ƒAƒNƒZƒX—p‚ÉƒXƒgƒŠ[ƒ€‚ğŠJ‚­‚É‚Íƒtƒ‰ƒO‚ğ TRUE ‚Éİ’è‚·‚éB
+dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Provides the most efficient and implementation-independent way to
-access the cache data. (Unicode)
+ƒLƒƒƒbƒVƒ…ƒf[ƒ^‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚ÌAÅ‚àŒø—¦“I‚ÅÀ‘•”ñˆË‘¶‚Èè’i‚ğ’ñ‹Ÿ‚·‚éB(Unicode)
 
 [–ß‚è’l]
-If the function succeeds, the function returns a valid handle for use
-in the ReadUrlCacheEntryStream and UnlockUrlCacheEntryStream
-functions. If the function fails, it returns NULL. To get extended
-error information, call GetLastError. Possible error values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í ReadUrlCacheEntryStream ‚¨‚æ‚Ñ UnlockUrlCacheEntryStream
+ŠÖ”‚Åg—p‚Å‚«‚é—LŒø‚Èƒnƒ“ƒhƒ‹‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B‘z’è‚³‚ê‚éƒGƒ‰[’l‚É‚ÍŸ‚Ì‚à‚Ì‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-RetrieveUrlCacheEntryStream does not do any URL parsing, so a URL
-containing an anchor (#) will not be found in the cache, even if the
-resource is cached. For example, if the URL
-http://adatum.com/example.htm#sample is passed, the function returns
-ERROR_FILE_NOT_FOUND even if http://adatum.com/example.htm is in the
-cache. Cache clients that do not need URL data in the form of a file
-should use this function to access the data for a particular URL.
-Like all other aspects of the WinINet API, this function cannot be
-safely called from within DllMain or the constructors and destructors
-of global objects. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines RetrieveUrlCacheEntryStream
-as an alias which automatically selects the ANSI or Unicode version
-of this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+RetrieveUrlCacheEntryStream ‚Í URL ‚Ì‰ğÍ‚ğˆêØs‚í‚È‚¢‚½‚ßAƒAƒ“ƒJ[ (#) ‚ğŠÜ‚Ş URL
+‚ÍAƒŠƒ\[ƒX‚ªƒLƒƒƒbƒVƒ…‚³‚ê‚Ä‚¢‚Ä‚àƒLƒƒƒbƒVƒ…“à‚ÅŒ©‚Â‚©‚ç‚È‚¢B—á‚¦‚Î
+http://adatum.com/example.htm#sample
+‚ğ“n‚µ‚½ê‡Ahttp://adatum.com/example.htm ‚ªƒLƒƒƒbƒVƒ…‚É‚ ‚Á‚Ä‚àŠÖ”‚Í
+ERROR_FILE_NOT_FOUND ‚ğ•Ô‚·Bƒtƒ@ƒCƒ‹Œ`®‚Å‚Ì URL ƒf[ƒ^‚ª•K—v‚È‚¢ƒLƒƒƒbƒVƒ…ƒNƒ‰ƒCƒAƒ“ƒg‚ÍA“Á’è‚Ì URL
+‚Ìƒf[ƒ^‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚É–{ŠÖ”‚ğg—p‚·‚×‚«‚Å‚ ‚éBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í RetrieveUrlCacheEntryStream
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -4406,100 +3929,87 @@ dwFieldControl : [int]
 
 %index
 SetUrlCacheEntryGroup
-The SetUrlCacheEntryGroup function (wininet.h) adds entries to or removes entries from a cache group.
+SetUrlCacheEntryGroup ŠÖ” (wininet.h) ‚ÍƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚ÖƒGƒ“ƒgƒŠ‚ğ’Ç‰Á‚·‚é‚©AƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚©‚çƒGƒ“ƒgƒŠ‚ğíœ‚·‚éB
 %group
 Win32 wininet
 %prm
 lpszUrlName, dwFlags, GroupId, pbGroupAttributes, cbGroupAttributes, lpReserved
-lpszUrlName : [str] Pointer to a null-terminated string value that specifies the URL of the cached resource.
+lpszUrlName : [str] ƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒŠƒ\[ƒX‚Ì URL ‚ğw’è‚·‚é null I’[•¶š—ñ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 dwFlags : [int] 
-GroupId : [int64] Identifier of the cache group that the entry will be added to or removed from.
-pbGroupAttributes : [var] This parameter is reserved and must be NULL.
-cbGroupAttributes : [int] This parameter is reserved and must be 0.
-lpReserved : [intptr] This parameter is reserved and must be NULL.
+GroupId : [int64] ƒGƒ“ƒgƒŠ‚ğ’Ç‰Á‚Ü‚½‚Ííœ‚·‚é‘ÎÛ‚ÌƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì¯•ÊqB
+pbGroupAttributes : [var] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+cbGroupAttributes : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpReserved : [intptr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The SetUrlCacheEntryGroup function (wininet.h) adds entries to or
-removes entries from a cache group.
+SetUrlCacheEntryGroup ŠÖ” (wininet.h)
+‚ÍƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚ÖƒGƒ“ƒgƒŠ‚ğ’Ç‰Á‚·‚é‚©AƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚©‚çƒGƒ“ƒgƒŠ‚ğíœ‚·‚éB
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-A cache entry can belong to more than one cache group. Like all other
-aspects of the WinINet API, this function cannot be safely called
-from within DllMain or the constructors and destructors of global
-objects. Note WinINet does not support server implementations. In
-addition, it should not be used from a service. For server
-implementations or services use Microsoft Windows HTTP Services
-(WinHTTP).
+ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Í•¡”‚ÌƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚É‘®‚·‚é‚±‚Æ‚ª‚Å‚«‚éBWinINet API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í
+DllMain ‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 SetUrlCacheEntryInfoW
-Sets the specified members of the INTERNET_CACHE_ENTRY_INFO structure. (Unicode)
+INTERNET_CACHE_ENTRY_INFO \‘¢‘Ì‚Ìw’è‚µ‚½ƒƒ“ƒo‚ğİ’è‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 lpszUrlName, lpCacheEntryInfo, dwFieldControl
-lpszUrlName : [wstr] Pointer to a null-terminated string that specifies the name of the cache entry. The name string should not contain any escape characters.
-lpCacheEntryInfo : [var] Pointer to an INTERNET_CACHE_ENTRY_INFO structure containing the values to be assigned to the cache entry designated by lpszUrlName.
+lpszUrlName : [wstr] ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–¼‘O•¶š—ñ‚ÉƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
+lpCacheEntryInfo : [var] lpszUrlName ‚Åw’è‚³‚ê‚½ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ÉŠ„‚è“–‚Ä‚é’l‚ğŠÜ‚Ş INTERNET_CACHE_ENTRY_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 dwFieldControl : [int] 
 %inst
-Sets the specified members of the INTERNET_CACHE_ENTRY_INFO
-structure. (Unicode)
+INTERNET_CACHE_ENTRY_INFO \‘¢‘Ì‚Ìw’è‚µ‚½ƒƒ“ƒo‚ğİ’è‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError. Possible error values include the
-following.
-This doc was truncated.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·B‘z’è‚³‚ê‚éƒGƒ‰[’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚è‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines SetUrlCacheEntryInfo as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í SetUrlCacheEntryInfo
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 SetUrlCacheGroupAttributeW
-Sets the attribute information of the specified cache group. (Unicode)
+w’è‚µ‚½ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì‘®«î•ñ‚ğİ’è‚·‚éB(Unicode)
 %group
 Win32 wininet
 %prm
 gid, dwFlags, dwAttributes, lpGroupInfo, lpReserved
-gid : [int64] Identifier of the cache group.
-dwFlags : [int] This parameter is reserved and must be 0.
+gid : [int64] ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì¯•ÊqB
+dwFlags : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 dwAttributes : [int] 
-lpGroupInfo : [var] Pointer to an INTERNET_CACHE_GROUP_INFO structure that specifies the attribute information to be stored.
-lpReserved : [intptr] This parameter is reserved and must be NULL.
+lpGroupInfo : [var] Ši”[‚·‚é‘®«î•ñ‚ğw’è‚·‚é INTERNET_CACHE_GROUP_INFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpReserved : [intptr] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Sets the attribute information of the specified cache group.
-(Unicode)
+w’è‚µ‚½ƒLƒƒƒbƒVƒ…ƒOƒ‹[ƒv‚Ì‘®«î•ñ‚ğİ’è‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get specific error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B‹ï‘Ì“I‚ÈƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines SetUrlCacheGroupAttribute as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
+> [!NOTE] > wininet.h ƒwƒbƒ_[‚Í SetUrlCacheGroupAttribute
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚éƒ~ƒXƒ}ƒbƒ`‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
@@ -4556,56 +4066,49 @@ cbCert : [int]
 
 %index
 UnlockUrlCacheEntryFile
-The UnlockUrlCacheEntryFile function (wininet.h) unlocks the cache entry that was locked while the file was retrieved for use from the cache.
+UnlockUrlCacheEntryFile ŠÖ” (wininet.h) ‚ÍAƒLƒƒƒbƒVƒ…‚©‚ç‚Ìg—p‚Ì‚½‚ß‚Éƒtƒ@ƒCƒ‹‚ªæ“¾‚³‚ê‚éÛ‚ÉƒƒbƒN‚³‚ê‚½ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
 %group
 Win32 wininet
 %prm
 lpszUrlName, dwReserved
-lpszUrlName : [str] Pointer to a null-terminated string that specifies the source name of the cache entry that is being unlocked. The name string should not contain any escape characters.
-dwReserved : [int] This parameter is reserved and must be 0.
+lpszUrlName : [str] ƒƒbƒN‚ğ‰ğœ‚·‚éƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚Ìƒ\[ƒX–¼‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–¼‘O•¶š—ñ‚ÉƒGƒXƒP[ƒv•¶š‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B
+dwReserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The UnlockUrlCacheEntryFile function (wininet.h) unlocks the cache
-entry that was locked while the file was retrieved for use from the
-cache.
+UnlockUrlCacheEntryFile ŠÖ” (wininet.h)
+‚ÍAƒLƒƒƒbƒVƒ…‚©‚ç‚Ìg—p‚Ì‚½‚ß‚Éƒtƒ@ƒCƒ‹‚ªæ“¾‚³‚ê‚éÛ‚ÉƒƒbƒN‚³‚ê‚½ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError. ERROR_FILE_NOT_FOUND indicates that
-the cache entry specified by the source name is not found in the
-cache storage.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+‚ğŒÄ‚Ño‚·BERROR_FILE_NOT_FOUND
+‚ÍAƒ\[ƒX–¼‚Åw’è‚³‚ê‚½ƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ªƒLƒƒƒbƒVƒ…ƒXƒgƒŒ[ƒW“à‚ÉŒ©‚Â‚©‚ç‚È‚¢‚±‚Æ‚ğ¦‚·B
 
 [”õl]
-The application should not access the file after calling this
-function. When this function returns, the cache manager is free to
-delete the cache entry. Like all other aspects of the WinINet API,
-this function cannot be safely called from within DllMain or the
-constructors and destructors of global objects. Note WinINet does not
-support server implementations. In addition, it should not be used
-from a service. For server implementations or services use Microsoft
-Windows HTTP Services (WinHTTP).
+
+–{ŠÖ”‚ğŒÄ‚Ño‚µ‚½ŒãAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íƒtƒ@ƒCƒ‹‚ÉƒAƒNƒZƒX‚·‚×‚«‚Å‚Í‚È‚¢B–{ŠÖ”‚ª–ß‚é‚ÆAƒLƒƒƒbƒVƒ…ƒ}ƒl[ƒWƒƒ‚ÍƒLƒƒƒbƒVƒ…ƒGƒ“ƒgƒŠ‚ğ©—R‚Éíœ‚Å‚«‚éBWinINet
+API ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ì‘¤–Ê‚Æ“¯—l‚ÉA–{ŠÖ”‚Í DllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^‚Ì’†‚©‚çˆÀ‘S‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B’ˆÓ: WinINet
+‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í Microsoft Windows
+HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 UnlockUrlCacheEntryStream
-Closes the stream that has been retrieved using the RetrieveUrlCacheEntryStream function.
+RetrieveUrlCacheEntryStream ŠÖ”‚ğg—p‚µ‚Äæ“¾‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚ğ•Â‚¶‚éB
 %group
 Win32 wininet
 %prm
 hUrlCacheStream, Reserved
-hUrlCacheStream : [intptr] Handle that was returned by the RetrieveUrlCacheEntryStream function.
-Reserved : [int] This parameter is reserved and must be NULL.
+hUrlCacheStream : [intptr] RetrieveUrlCacheEntryStream ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹B
+Reserved : [int] –{ƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Closes the stream that has been retrieved using the
-RetrieveUrlCacheEntryStream function.
+RetrieveUrlCacheEntryStream ŠÖ”‚ğg—p‚µ‚Äæ“¾‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚ğ•Â‚¶‚éB
 
 [–ß‚è’l]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError.
+¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Note WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
+’ˆÓ: WinINet ‚ÍƒT[ƒo[À‘•‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B‚³‚ç‚ÉAƒT[ƒrƒX‚©‚çg—p‚·‚×‚«‚Å‚à‚È‚¢BƒT[ƒo[À‘•‚âƒT[ƒrƒX‚Å‚Í
+Microsoft Windows HTTP Services (WinHTTP) ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index

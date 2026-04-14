@@ -21,779 +21,710 @@ himl : [intptr] Œ^: HIMAGELIST ”jŠü‚·‚éƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
 
 %index
 DestroyPropertySheetPage
-Destroys a property sheet page. An application must call this function for pages that have not been passed to the PropertySheet function.
+ƒvƒƒpƒeƒBƒV[ƒg‚Ìƒy[ƒW‚ğ”jŠü‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAPropertySheet ŠÖ”‚É“n‚³‚ê‚È‚©‚Á‚½ƒy[ƒW‚É‘Î‚µ‚Ä‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
 %group
 Win32 comctl32
 %prm
 param0
 param0 : [intptr] 
 %inst
-Destroys a property sheet page. An application must call this
-function for pages that have not been passed to the PropertySheet
-function.
+ƒvƒƒpƒeƒBƒV[ƒg‚Ìƒy[ƒW‚ğ”jŠü‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAPropertySheet
+ŠÖ”‚É“n‚³‚ê‚È‚©‚Á‚½ƒy[ƒW‚É‘Î‚µ‚Ä‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğ•Ô‚µA‚»‚êˆÈŠO‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 CreateMappedBitmap
-Creates a bitmap for use in a toolbar.
+ƒc[ƒ‹ƒo[‚Åg—p‚·‚éƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
 %group
 Win32 comctl32
 %prm
 hInstance, idBitmap, wFlags, lpColorMap, iNumMaps
-hInstance : [intptr] Type: HINSTANCE Handle to the module instance with the executable file that contains the bitmap resource.
-idBitmap : [int] Type: INT_PTR Resource identifier of the bitmap resource.
-wFlags : [int] Type: UINT Bitmap flag. This parameter can be zero or the following value:
-lpColorMap : [var] Type: LPCOLORMAP Pointer to a COLORMAP structure that contains the color information needed to map the bitmaps. If this parameter is NULL, the function uses the default color map.
-iNumMaps : [int] Type: int Number of color maps pointed to by lpColorMap.
+hInstance : [intptr] Œ^: HINSTANCE ƒrƒbƒgƒ}ƒbƒvƒŠƒ\[ƒX‚ğŠÜ‚ŞÀs‰Â”\ƒtƒ@ƒCƒ‹‚Ìƒ‚ƒWƒ…[ƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+idBitmap : [int] Œ^: INT_PTR ƒrƒbƒgƒ}ƒbƒvƒŠƒ\[ƒX‚ÌƒŠƒ\[ƒX¯•ÊqB
+wFlags : [int] Œ^: UINT ƒrƒbƒgƒ}ƒbƒvƒtƒ‰ƒOB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Íƒ[ƒ‚Ü‚½‚ÍŸ‚Ì’l‚ğw’è‚Å‚«‚éB
+lpColorMap : [var] Œ^: LPCOLORMAP ƒrƒbƒgƒ}ƒbƒv‚Ìƒ}ƒbƒsƒ“ƒO‚É•K—v‚ÈFî•ñ‚ğŠi”[‚µ‚½ COLORMAP \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AŠÖ”‚ÍŠù’è‚ÌƒJƒ‰[ƒ}ƒbƒv‚ğg—p‚·‚éB
+iNumMaps : [int] Œ^: int lpColorMap ‚ªw‚·ƒJƒ‰[ƒ}ƒbƒv‚ÌŒÂ”B
 %inst
-Creates a bitmap for use in a toolbar.
+ƒc[ƒ‹ƒo[‚Åg—p‚·‚éƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HBITMAP Returns the handle to the bitmap if successful, or NULL
-otherwise. To retrieve extended error information, call GetLastError.
+Œ^: HBITMAP ¬Œ÷‚µ‚½ê‡‚Íƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µA¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The function creates a new bitmap using the bitmap data and colors
-specified by the bitmap resource and the color mapping information.
-This function is fully supported only for images with color maps;
-that is, images with 256 or fewer colors.
+
+‚±‚ÌŠÖ”‚ÍAƒrƒbƒgƒ}ƒbƒvƒŠƒ\[ƒX‚Åw’è‚³‚ê‚½ƒrƒbƒgƒ}ƒbƒvƒf[ƒ^‚¨‚æ‚ÑF‚ÆAƒJƒ‰[ƒ}ƒbƒsƒ“ƒOî•ñ‚ğ—p‚¢‚ÄV‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚éB‚±‚ÌŠÖ”‚ÍAƒJƒ‰[ƒ}ƒbƒv‚ğ‚Â‰æ‘œA‚·‚È‚í‚¿
+256 FˆÈ‰º‚Ì‰æ‘œ‚É‘Î‚µ‚Ä‚Ì‚İŠ®‘S‚ÉƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
 CreatePropertySheetPageW
-Creates a new page for a property sheet. (Unicode)
+ƒvƒƒpƒeƒBƒV[ƒg—p‚ÌV‚µ‚¢ƒy[ƒW‚ğì¬‚·‚éB(Unicode)
 %group
 Win32 comctl32
 %prm
 constPropSheetPagePointer
-constPropSheetPagePointer : [var] Type: LPCPROPSHEETPAGE Pointer to a PROPSHEETPAGE structure that defines a page to be included in a property sheet.
+constPropSheetPagePointer : [var] Œ^: LPCPROPSHEETPAGE ƒvƒƒpƒeƒBƒV[ƒg‚ÉŠÜ‚ß‚éƒy[ƒW‚ğ’è‹`‚·‚é PROPSHEETPAGE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Creates a new page for a property sheet. (Unicode)
+ƒvƒƒpƒeƒBƒV[ƒg—p‚ÌV‚µ‚¢ƒy[ƒW‚ğì¬‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HPROPSHEETPAGE Returns the handle to the new property page if
-successful, or NULL otherwise.
+Œ^: HPROPSHEETPAGE ¬Œ÷‚µ‚½ê‡‚ÍV‚µ‚¢ƒvƒƒpƒeƒBƒy[ƒW‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µA¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B
 
 [”õl]
-Note Before common controls version 7.0, this function did not
-support visual styles. An application uses the PropertySheet function
-to create a property sheet that includes the new page. If you are not
-using the Aero wizard style (PSH_AEROWIZARD), the application can use
-the PSM_ADDPAGE message to add the new page to an existing property
-sheet. Windows 95: The system can support a maximum of 16,364 window
-handles.
-> [!NOTE] > The prsht.h header defines CreatePropertySheetPage as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ƒƒ‚: ƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹ ƒo[ƒWƒ‡ƒ“ 7.0 ‚æ‚è‘O‚Å‚ÍA‚±‚ÌŠÖ”‚ÍƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚©‚Á‚½BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+PropertySheet ŠÖ”‚ğg—p‚µ‚ÄAV‚µ‚¢ƒy[ƒW‚ğŠÜ‚ŞƒvƒƒpƒeƒBƒV[ƒg‚ğì¬‚·‚éBAero ƒEƒBƒU[ƒhƒXƒ^ƒCƒ‹
+(PSH_AEROWIZARD) ‚ğg—p‚µ‚È‚¢ê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í PSM_ADDPAGE
+ƒƒbƒZ[ƒW‚ğg—p‚µ‚ÄŠù‘¶‚ÌƒvƒƒpƒeƒBƒV[ƒg‚ÉV‚µ‚¢ƒy[ƒW‚ğ’Ç‰Á‚Å‚«‚éBWindows 95: ƒVƒXƒeƒ€‚ÍÅ‘å 16,364
+ŒÂ‚ÌƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğƒTƒ|[ƒg‚·‚éB
+> [!NOTE] > prsht.h ƒwƒbƒ_‚Í CreatePropertySheetPage
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚É‰‚¶‚Ä ANSI ‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚Æ’†—§ƒGƒCƒŠƒAƒX‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚Ü‚½‚ÍÀsƒGƒ‰[‚É‚Â‚È‚ª‚é•s®‡‚ª¶‚¶‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 CreateStatusWindowW
-Creates a status window, which is typically used to display the status of an application. (Unicode)
+’ÊíAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìó‘Ô‚ğ•\¦‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚ğì¬‚·‚éB(Unicode)
 %group
 Win32 comctl32
 %prm
 style, lpszText, hwndParent, wID
-style : [int] Type: LONG Window styles for the status window. This parameter must include the WS_CHILD style and should also include the WS_VISIBLE style.
-lpszText : [wstr] Type: LPCTSTR Pointer to a null-terminated string that specifies the status text for the first part.
-hwndParent : [intptr] Type: HWND handle to the parent window.
-wID : [int] Type: UINT Control identifier for the status window. The window procedure uses this value to identify messages it sends to the parent window.
+style : [int] Œ^: LONG ƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚ÌƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í WS_CHILD ƒXƒ^ƒCƒ‹‚ğŠÜ‚ß‚é•K—v‚ª‚ ‚èA’Êí‚Í WS_VISIBLE ƒXƒ^ƒCƒ‹‚àŠÜ‚ß‚é‚×‚«‚Å‚ ‚éB
+lpszText : [wstr] Œ^: LPCTSTR Å‰‚Ìƒp[ƒg‚É•\¦‚·‚éƒXƒe[ƒ^ƒXƒeƒLƒXƒg‚ğw’è‚·‚éANULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+hwndParent : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+wID : [int] Œ^: UINT ƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚ÌƒRƒ“ƒgƒ[ƒ‹¯•ÊqBƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚Í‚±‚Ì’l‚ğg—p‚µ‚ÄAeƒEƒBƒ“ƒhƒE‚É‘—M‚·‚éƒƒbƒZ[ƒW‚ğ¯•Ê‚·‚éB
 %inst
-Creates a status window, which is typically used to display the
-status of an application. (Unicode)
+’ÊíAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìó‘Ô‚ğ•\¦‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚ğì¬‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HWND Returns the handle to the status window if successful, or
-NULL otherwise. To retrieve extended error information, call
-GetLastError.
+Œ^: HWND ¬Œ÷‚µ‚½ê‡‚ÍƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µA¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·BŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The CreateStatusWindow function calls the CreateWindow function to
-create the window. It passes the parameters to without modification
-and sets the position, width, and height parameters to CreateWindow
-default values.
-> [!NOTE] > The commctrl.h header defines CreateStatusWindow as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+CreateStatusWindow ŠÖ”‚Í CreateWindow
+ŠÖ”‚ğŒÄ‚Ño‚µ‚ÄƒEƒBƒ“ƒhƒE‚ğì¬‚·‚éBƒpƒ‰ƒ[ƒ^‚Í•ÏX‚¹‚¸‚É‚»‚Ì‚Ü‚Ü“n‚³‚êAˆÊ’uE•E‚‚³‚ÌŠeƒpƒ‰ƒ[ƒ^‚Í CreateWindow
+‚ÌŠù’è’l‚Éİ’è‚³‚ê‚éB
+> [!NOTE] > commctrl.h ƒwƒbƒ_‚Í CreateStatusWindow
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚É‰‚¶‚Ä ANSI ‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚Æ’†—§ƒGƒCƒŠƒAƒX‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚Ü‚½‚ÍÀsƒGƒ‰[‚É‚Â‚È‚ª‚é•s®‡‚ª¶‚¶‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 CreateUpDownControl
-Creates an up-down control. Note:\_This function is obsolete. It is a 16 bit function and cannot handle 32 bit values for range and position.
+ƒAƒbƒvƒ_ƒEƒ“ƒRƒ“ƒgƒ[ƒ‹‚ğì¬‚·‚éBƒƒ‚: ‚±‚ÌŠÖ”‚Í”p~‚³‚ê‚Ä‚¢‚éB16 ƒrƒbƒgŠÖ”‚Å‚ ‚èA”ÍˆÍ‚ÆˆÊ’u‚É 32 ƒrƒbƒg’l‚ğˆµ‚¤‚±‚Æ‚ª‚Å‚«‚È‚¢B
 %group
 Win32 comctl32
 %prm
 dwStyle, x, y, cx, cy, hParent, nID, hInst, hBuddy, nUpper, nLower, nPos
-dwStyle : [int] Type: DWORD Window styles for the control. This parameter should include the WS_CHILD, WS_BORDER, and WS_VISIBLE styles, and it may include any of the window styles specific to the up-down control.
-x : [int] Type: int Horizontal coordinate, in client coordinates, of the upper-left corner of the control.
-y : [int] Type: int Vertical coordinate, in client coordinates, of the upper-left corner of the control.
-cx : [int] Type: int Width, in pixels, of the up-down control.
-cy : [int] Type: int Height, in pixels, of the up-down control.
-hParent : [intptr] Type: HWND Handle to the parent window of the up-down control.
-nID : [int] Type: int Identifier for the up-down control.
-hInst : [intptr] Type: HINSTANCE Handle to the module instance of the application creating the up-down control.
-hBuddy : [intptr] Type: HWND Handle to the window associated with the up-down control. If this parameter is NULL, the control has no buddy window.
-nUpper : [int] Type: int Upper limit (range) of the up-down control.
-nLower : [int] Type: int Lower limit (range) of the up-down control.
-nPos : [int] Type: int Position of the control.
+dwStyle : [int] Œ^: DWORD ƒRƒ“ƒgƒ[ƒ‹‚ÌƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í WS_CHILDAWS_BORDERAWS_VISIBLE ‚ÌŠeƒXƒ^ƒCƒ‹‚ğŠÜ‚ß‚é‚×‚«‚Å‚ ‚èAƒAƒbƒvƒ_ƒEƒ“ƒRƒ“ƒgƒ[ƒ‹ŒÅ—L‚ÌƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹‚à”CˆÓ‚ÉŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éB
+x : [int] Œ^: int ƒRƒ“ƒgƒ[ƒ‹‚Ì¶ã‹÷‚Ì…•½À•WiƒNƒ‰ƒCƒAƒ“ƒgÀ•WjB
+y : [int] Œ^: int ƒRƒ“ƒgƒ[ƒ‹‚Ì¶ã‹÷‚Ì‚’¼À•WiƒNƒ‰ƒCƒAƒ“ƒgÀ•WjB
+cx : [int] Œ^: int ƒAƒbƒvƒ_ƒEƒ“ƒRƒ“ƒgƒ[ƒ‹‚Ì•iƒsƒNƒZƒ‹’PˆÊjB
+cy : [int] Œ^: int ƒAƒbƒvƒ_ƒEƒ“ƒRƒ“ƒgƒ[ƒ‹‚Ì‚‚³iƒsƒNƒZƒ‹’PˆÊjB
+hParent : [intptr] Œ^: HWND ƒAƒbƒvƒ_ƒEƒ“ƒRƒ“ƒgƒ[ƒ‹‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+nID : [int] Œ^: int ƒAƒbƒvƒ_ƒEƒ“ƒRƒ“ƒgƒ[ƒ‹‚Ì¯•ÊqB
+hInst : [intptr] Œ^: HINSTANCE ƒAƒbƒvƒ_ƒEƒ“ƒRƒ“ƒgƒ[ƒ‹‚ğì¬‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒ‚ƒWƒ…[ƒ‹ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+hBuddy : [intptr] Œ^: HWND ƒAƒbƒvƒ_ƒEƒ“ƒRƒ“ƒgƒ[ƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AƒRƒ“ƒgƒ[ƒ‹‚É‚ÍƒoƒfƒBƒEƒBƒ“ƒhƒE‚ª‚È‚¢B
+nUpper : [int] Œ^: int ƒAƒbƒvƒ_ƒEƒ“ƒRƒ“ƒgƒ[ƒ‹‚ÌãŒÀ’li”ÍˆÍjB
+nLower : [int] Œ^: int ƒAƒbƒvƒ_ƒEƒ“ƒRƒ“ƒgƒ[ƒ‹‚Ì‰ºŒÀ’li”ÍˆÍjB
+nPos : [int] Œ^: int ƒRƒ“ƒgƒ[ƒ‹‚ÌˆÊ’uB
 %inst
-Creates an up-down control. Note:\_This function is obsolete. It is a
-16 bit function and cannot handle 32 bit values for range and
-position.
+ƒAƒbƒvƒ_ƒEƒ“ƒRƒ“ƒgƒ[ƒ‹‚ğì¬‚·‚éBƒƒ‚: ‚±‚ÌŠÖ”‚Í”p~‚³‚ê‚Ä‚¢‚éB16 ƒrƒbƒgŠÖ”‚Å‚ ‚èA”ÍˆÍ‚ÆˆÊ’u‚É 32
+ƒrƒbƒg’l‚ğˆµ‚¤‚±‚Æ‚ª‚Å‚«‚È‚¢B
 
 [–ß‚è’l]
-Type: HWND If the function succeeds, the return value is the window
-handle to the up-down control. If the function fails, the return
-value is NULL.
+Œ^: HWND ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚ÍƒAƒbƒvƒ_ƒEƒ“ƒRƒ“ƒgƒ[ƒ‹‚ÌƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚Å‚ ‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL
+‚Å‚ ‚éB
 
 
 %index
 DPA_Destroy
-Frees a Dynamic Pointer Array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdpa
-hdpa : [intptr] Type: HDPA A handle to a DPA.
+hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Frees a Dynamic Pointer Array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğ‰ğ•ú‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE on success, FALSE on failure.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUEA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 DPA_Clone
-Duplicates a dynamic pointer array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğ•¡»‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdpa, hdpaNew
-hdpa : [intptr] Type: const HDPA A handle to an existing DPA to copy.
-hdpaNew : [intptr] Type: HDPA When NULL, a new array is copied from hdpaSource.
+hdpa : [intptr] Œ^: const HDPA ƒRƒs[Œ³‚Æ‚È‚éŠù‘¶‚Ì DPA ‚Ìƒnƒ“ƒhƒ‹B
+hdpaNew : [intptr] Œ^: HDPA NULL ‚Ìê‡AhdpaSource ‚©‚çV‚µ‚¢”z—ñ‚ªƒRƒs[‚³‚ê‚éB
 %inst
-Duplicates a dynamic pointer array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğ•¡»‚·‚éB
 
 [–ß‚è’l]
-Type: HDPA The handle to the new or altered DPA (hdpaNew) if
-successful; otherwise, NULL.
+Œ^: HDPA ¬Œ÷‚µ‚½ê‡‚ÍV‚µ‚¢‚Ü‚½‚Í•ÏX‚³‚ê‚½ DPA (hdpaNew) ‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µA‚»‚êˆÈŠO‚Í NULL ‚ğ•Ô‚·B
 
 [”õl]
-DPA_Clone is not exported by name or declared in a public header
-file. To use it, you must use GetProcAddress and request ordinal 331
-from ComCtl32.dll to obtain a function pointer.
+DPA_Clone ‚Í–¼‘O‚ÅƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¨‚ç‚¸AŒöŠJƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É‚àéŒ¾‚³‚ê‚Ä‚¢‚È‚¢Bg—p‚·‚é‚É‚ÍAGetProcAddress
+‚ğg—p‚µ‚Ä ComCtl32.dll ‚©‚ç˜” 331 ‚ğ—v‹‚µAŠÖ”ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 DPA_Create
-Creates a dynamic pointer array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğì¬‚·‚éB
 %group
 Win32 comctl32
 %prm
 cItemGrow
-cItemGrow : [int] Type: int The number of elements by which the array should be expanded, if the DPA needs to be enlarged.
+cItemGrow : [int] Œ^: int DPA ‚ÌŠg’£‚ª•K—v‚É‚È‚Á‚½‚Æ‚«‚ÉA”z—ñ‚ğŠg’£‚·‚é—v‘f”B
 %inst
-Creates a dynamic pointer array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HDPA Returns a handle to a DPA if successful, or NULL if the
-call fails.
+Œ^: HDPA ¬Œ÷‚µ‚½ê‡‚Í DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µAŒÄ‚Ño‚µ‚ª¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 DPA_CreateEx
-Creates a dynamic pointer array (DPA) using a given specified size and heap location.
+w’è‚³‚ê‚½ƒTƒCƒY‚Æƒq[ƒv‚ÌêŠ‚ğg—p‚µ‚ÄA“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğì¬‚·‚éB
 %group
 Win32 comctl32
 %prm
 cpGrow, hheap
-cpGrow : [int] Type: int The number of elements by which the array should be expanded, if the DPA needs to be enlarged.
-hheap : [intptr] Type: HANDLE A handle to the heap where the array is stored.
+cpGrow : [int] Œ^: int DPA ‚ÌŠg’£‚ª•K—v‚É‚È‚Á‚½‚Æ‚«‚ÉA”z—ñ‚ğŠg’£‚·‚é—v‘f”B
+hheap : [intptr] Œ^: HANDLE ”z—ñ‚ğŠi”[‚·‚éƒq[ƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Creates a dynamic pointer array (DPA) using a given specified size
-and heap location.
+w’è‚³‚ê‚½ƒTƒCƒY‚Æƒq[ƒv‚ÌêŠ‚ğg—p‚µ‚ÄA“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HDPA Returns a handle to a DPA if successful, or NULL if the
-call fails.
+Œ^: HDPA ¬Œ÷‚µ‚½ê‡‚Í DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µAŒÄ‚Ño‚µ‚ª¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B
 
 [”õl]
-DPA_CreateEx is not exported by name. To use it, you must use
-GetProcAddress and request ordinal 340 from ComCtl32.dll to obtain a
-function pointer.
+DPA_CreateEx ‚Í–¼‘O‚ÅƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢Bg—p‚·‚é‚É‚ÍAGetProcAddress ‚ğg—p‚µ‚Ä
+ComCtl32.dll ‚©‚ç˜” 340 ‚ğ—v‹‚µAŠÖ”ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 DPA_DeleteAllPtrs
-Removes all items from a dynamic pointer array (DPA) and shrinks the DPA accordingly.
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚©‚ç‚·‚×‚Ä‚Ì€–Ú‚ğíœ‚µA‚»‚ê‚É‰‚¶‚Ä DPA ‚ğk¬‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdpa
-hdpa : [intptr] Type: HDPA Handle to a DPA.
+hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Removes all items from a dynamic pointer array (DPA) and shrinks the
-DPA accordingly.
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚©‚ç‚·‚×‚Ä‚Ì€–Ú‚ğíœ‚µA‚»‚ê‚É‰‚¶‚Ä DPA ‚ğk¬‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE on success or FALSE on failure.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 DPA_DeletePtr
-Removes an item from a dynamic pointer array (DPA). The DPA shrinks if necessary to accommodate the removed item.
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚©‚ç€–Ú‚ğíœ‚·‚éBíœŒã‚Í•K—v‚É‰‚¶‚Ä DPA ‚ªk¬‚³‚ê‚éB
 %group
 Win32 comctl32
 %prm
 hdpa, i
-hdpa : [intptr] Type: HDPA A handle to a DPA.
-i : [int] Type: int An index of item to be removed from DPA.
+hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int DPA ‚©‚çíœ‚·‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒXB
 %inst
-Removes an item from a dynamic pointer array (DPA). The DPA shrinks
-if necessary to accommodate the removed item.
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚©‚ç€–Ú‚ğíœ‚·‚éBíœŒã‚Í•K—v‚É‰‚¶‚Ä DPA ‚ªk¬‚³‚ê‚éB
 
 [–ß‚è’l]
-Returns the removed item or NULL, if the call fails.
+íœ‚³‚ê‚½€–Ú‚ğ•Ô‚µAŒÄ‚Ño‚µ‚ª¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 DPA_DestroyCallback
-Calls pfnCB on each element of the dynamic pointer array (DPA), then frees the DPA.
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ÌŠe—v‘f‚É‘Î‚µ‚Ä pfnCB ‚ğŒÄ‚Ño‚µ‚½ŒãADPA ‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdpa, pfnCB, pData
-hdpa : [intptr] Type: HDPA A handle to a DPA.
-pfnCB : [int] Type: PFNDPAENUMCALLBACK A callback function pointer. See PFNDPAENUMCALLBACK for the callback function prototype.
-pData : [intptr] Type: void* A callback data pointer. pData is passed as a parameter to pfnCB.
+hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pfnCB : [int] Œ^: PFNDPAENUMCALLBACK ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ìƒvƒƒgƒ^ƒCƒv‚É‚Â‚¢‚Ä‚Í PFNDPAENUMCALLBACK ‚ğQÆB
+pData : [intptr] Œ^: void* ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^BpData ‚Í pfnCB ‚Éƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB
 %inst
-Calls pfnCB on each element of the dynamic pointer array (DPA), then
-frees the DPA.
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ÌŠe—v‘f‚É‘Î‚µ‚Ä pfnCB ‚ğŒÄ‚Ño‚µ‚½ŒãADPA ‚ğ‰ğ•ú‚·‚éB
 
 
 %index
 DPA_EnumCallback
-Iterates through the Dynamic Pointer Array (DPA) and calls pfnCB on each item.
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğ—ñ‹“‚µAŠe€–Ú‚É‘Î‚µ‚Ä pfnCB ‚ğŒÄ‚Ño‚·B
 %group
 Win32 comctl32
 %prm
 hdpa, pfnCB, pData
-hdpa : [intptr] Type: HDPA A handle to a DPA.
-pfnCB : [int] Type: PFNDPAENUMCALLBACK A callback function pointer. See PFNDPAENUMCALLBACK for the callback function prototype.
-pData : [intptr] Type: void* A callback data pointer. pData is passed as a parameter to pfnCB.
+hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pfnCB : [int] Œ^: PFNDPAENUMCALLBACK ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ìƒvƒƒgƒ^ƒCƒv‚É‚Â‚¢‚Ä‚Í PFNDPAENUMCALLBACK ‚ğQÆB
+pData : [intptr] Œ^: void* ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^BpData ‚Í pfnCB ‚Éƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB
 %inst
-Iterates through the Dynamic Pointer Array (DPA) and calls pfnCB on
-each item.
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğ—ñ‹“‚µAŠe€–Ú‚É‘Î‚µ‚Ä pfnCB ‚ğŒÄ‚Ño‚·B
 
 
 %index
 DPA_GetPtr
-Gets an item from a dynamic pointer array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚©‚ç€–Ú‚ğæ“¾‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdpa, i
-hdpa : [intptr] Type: HDPA A handle to a DPA.
-i : [int] Type: int The index of item to be retrieved.
+hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int æ“¾‚·‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒXB
 %inst
-Gets an item from a dynamic pointer array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚©‚ç€–Ú‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns the specified item or NULL, if the call fails.
+w’è‚³‚ê‚½€–Ú‚ğ•Ô‚µAŒÄ‚Ño‚µ‚ª¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 DPA_GetPtrIndex
-Gets the index of a matching item found in a dynamic pointer array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) “à‚Åˆê’v‚·‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdpa, p
-hdpa : [intptr] Type: HDPA A handle to an existing DPA.
-p : [intptr] Type: const void* A pointer to an item to locate in hdpa.
+hdpa : [intptr] Œ^: HDPA Šù‘¶‚Ì DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+p : [intptr] Œ^: const void* hdpa “à‚ÅŒŸõ‚·‚é€–Ú‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Gets the index of a matching item found in a dynamic pointer array
-(DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) “à‚Åˆê’v‚·‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: int The index of the item pointed to by pvoid, if found;
-otherwise, -1.
+Œ^: int €–Ú‚ªŒ©‚Â‚©‚Á‚½ê‡‚Í pvoid ‚ªw‚·€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚µAŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚Í -1 ‚ğ•Ô‚·B
 
 [”õl]
-DPA_GetPtrIndex is not exported by name. To use it, you must use
-GetProcAddress and request ordinal 333 from ComCtl32.dll to obtain a
-function pointer.
+DPA_GetPtrIndex ‚Í–¼‘O‚ÅƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢Bg—p‚·‚é‚É‚ÍAGetProcAddress ‚ğg—p‚µ‚Ä
+ComCtl32.dll ‚©‚ç˜” 333 ‚ğ—v‹‚µAŠÖ”ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 DPA_Grow
-Changes the number of pointers in a dynamic pointer array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚Ìƒ|ƒCƒ“ƒ^”‚ğ•ÏX‚·‚éB
 %group
 Win32 comctl32
 %prm
 pdpa, cp
-pdpa : [intptr] Type: HDPA A handle to an existing DPA.
-cp : [int] Type: int The number of pointers desired in the DPA.
+pdpa : [intptr] Œ^: HDPA Šù‘¶‚Ì DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+cp : [int] Œ^: int DPA ‚É•K—v‚Æ‚·‚éƒ|ƒCƒ“ƒ^”B
 %inst
-Changes the number of pointers in a dynamic pointer array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚Ìƒ|ƒCƒ“ƒ^”‚ğ•ÏX‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if successful, or FALSE otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-If cp is less than the number of pointers already in the DPA, the DPA
-is left unchanged. If cp is greater than the number of pointers in
-the DPA, the added pointers are initialized to NULL.
+cp ‚ªŠù‚É DPA ‚É‚ ‚éƒ|ƒCƒ“ƒ^”‚æ‚è­‚È‚¢ê‡ADPA ‚Í•ÏX‚³‚ê‚È‚¢Bcp ‚ª DPA
+“à‚Ìƒ|ƒCƒ“ƒ^”‚æ‚è‘½‚¢ê‡A’Ç‰Á‚³‚ê‚½ƒ|ƒCƒ“ƒ^‚Í NULL ‚Å‰Šú‰»‚³‚ê‚éB
 
 
 %index
 DPA_InsertPtr
-Inserts a new item at a specified position in a dynamic pointer array (DPA). If necessary, the DPA expands to accommodate the new item.
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚Ìw’è‚³‚ê‚½ˆÊ’u‚ÉV‚µ‚¢€–Ú‚ğ‘}“ü‚·‚éB•K—v‚É‰‚¶‚Ä DPA ‚ÍV‚µ‚¢€–Ú‚ğû‚ß‚é‚½‚ß‚ÉŠg’£‚³‚ê‚éB
 %group
 Win32 comctl32
 %prm
 hdpa, i, p
-hdpa : [intptr] Type: HDPA A handle to a DPA.
-i : [int] Type: int Tbe position where new item is to be inserted.
-p : [intptr] Type: void* A pointer to the item that is to be inserted.
+hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int V‚µ‚¢€–Ú‚ğ‘}“ü‚·‚éˆÊ’uB
+p : [intptr] Œ^: void* ‘}“ü‚·‚é€–Ú‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Inserts a new item at a specified position in a dynamic pointer array
-(DPA). If necessary, the DPA expands to accommodate the new item.
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚Ìw’è‚³‚ê‚½ˆÊ’u‚ÉV‚µ‚¢€–Ú‚ğ‘}“ü‚·‚éB•K—v‚É‰‚¶‚Ä DPA ‚ÍV‚µ‚¢€–Ú‚ğû‚ß‚é‚½‚ß‚ÉŠg’£‚³‚ê‚éB
 
 [–ß‚è’l]
-Type: int Returns the index of the new item or -1, if the insertion
-fails.
+Œ^: int V‚µ‚¢€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚µA‘}“ü‚ª¸”s‚µ‚½ê‡‚Í -1 ‚ğ•Ô‚·B
 
 
 %index
 DPA_LoadStream
-Loads the dynamic pointer array (DPA) from a stream by calling the specified callback function to read each element.
+w’è‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚µ‚ÄŠe—v‘f‚ğ“Ç‚İ‚Ş‚±‚Æ‚É‚æ‚èAƒXƒgƒŠ[ƒ€‚©‚ç“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğƒ[ƒh‚·‚éB
 %group
 Win32 comctl32
 %prm
 phdpa, pfn, pstream, pvInstData
-phdpa : [intptr] Type: HDPA* A handle to a DPA.
-pfn : [int] Type: PFNDPASTREAM The callback function. See PFNDPASTREAM for the callback function prototype.
-pstream : [var] Type: IStream* An IStream object.
-pvInstData : [intptr] Type: void* A pointer to callback data. pvInstData is passed as a parameter to pfn.
+phdpa : [intptr] Œ^: HDPA* DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pfn : [int] Œ^: PFNDPASTREAM ƒR[ƒ‹ƒoƒbƒNŠÖ”BƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ìƒvƒƒgƒ^ƒCƒv‚É‚Â‚¢‚Ä‚Í PFNDPASTREAM ‚ğQÆB
+pstream : [var] Œ^: IStream* IStream ƒIƒuƒWƒFƒNƒgB
+pvInstData : [intptr] Œ^: void* ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^BpvInstData ‚Í pfn ‚Éƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB
 %inst
-Loads the dynamic pointer array (DPA) from a stream by calling the
-specified callback function to read each element.
+w’è‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚µ‚ÄŠe—v‘f‚ğ“Ç‚İ‚Ş‚±‚Æ‚É‚æ‚èAƒXƒgƒŠ[ƒ€‚©‚ç“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğƒ[ƒh‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the following values.
-This doc was truncated.
+Œ^: HRESULT Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function must be called directly from ComCtl32.dll. It is
-ordinal 9. The callback is responsible for writing the pvInstData
-data to the stream.
+‚±‚ÌŠÖ”‚Í ComCtl32.dll ‚©‚ç’¼ÚŒÄ‚Ño‚·•K—v‚ª‚ ‚éB˜”‚Í 9 ‚Å‚ ‚éBƒR[ƒ‹ƒoƒbƒN‚Í pvInstData
+‚Ìƒf[ƒ^‚ğƒXƒgƒŠ[ƒ€‚É‘‚«‚ŞÓ”C‚ğ‚ÂB
 
 
 %index
 DPA_Merge
-Combines the contents of two dynamic pointer arrays (DPAs).
+2 ‚Â‚Ì“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚Ì“à—e‚ğŒ‹‡‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdpaDest, hdpaSrc, dwFlags, pfnCompare, pfnMerge, lParam
-hdpaDest : [intptr] Type: HDPA A handle to the first DPA. This array can be optionally presorted. When this function returns, contains the handle to the merged array.
-hdpaSrc : [intptr] Type: HDPA A handle to the second DPA. This array can be optionally presorted.
-dwFlags : [int] Type: DWORD Options determining the method used to merge the two arrays. DPAM_NORMAL, DPAM_UNION, and DPAM_UNION are mutually exclusive?only one of those flags can be set, optionally in conjunction with DPAM_SORTED.
-pfnCompare : [int] Type: PFNDPACOMPARE The PFNDPACOMPARE callback function that compares two elements, one from each DPA, to determine whether they are the same item. If so, the callback function pointed to by pfnCompare is called.
-pfnMerge : [int] Type: PFNDPAMERGE The PFNDPAMERGE callback function that merges the contents when an element is found in both DPAs and is found to be the same item by PFNDPACOMPARE.
-lParam : [intptr] Type: LPARAM Additional parameter used to declare the basis of comparison upon which equality is determined.
+hdpaDest : [intptr] Œ^: HDPA Å‰‚Ì DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì”z—ñ‚Í–‘O‚Éƒ\[ƒg‚µ‚Ä‚¨‚¢‚Ä‚à‚æ‚¢BŠÖ”‚©‚ç•Ô‚Á‚½‚Æ‚«‚É‚ÍAƒ}[ƒW‚³‚ê‚½”z—ñ‚Ìƒnƒ“ƒhƒ‹‚ªŠi”[‚³‚ê‚éB
+hdpaSrc : [intptr] Œ^: HDPA 2 ”Ô–Ú‚Ì DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì”z—ñ‚Í–‘O‚Éƒ\[ƒg‚µ‚Ä‚¨‚¢‚Ä‚à‚æ‚¢B
+dwFlags : [int] Œ^: DWORD 2 ‚Â‚Ì”z—ñ‚ğƒ}[ƒW‚·‚é•û–@‚ğŒˆ’è‚·‚éƒIƒvƒVƒ‡ƒ“BDPAM_NORMALADPAM_UNIONADPAM_UNION ‚Í‘ŠŒİ”r‘¼“I‚Å‚ ‚èA‚±‚ê‚ç‚Ìƒtƒ‰ƒO‚Ì‚¤‚¿ 1 ‚Â‚¾‚¯‚ğİ’è‚Å‚«ADPAM_SORTED ‚Æ‘g‚İ‡‚í‚¹‚é‚±‚Æ‚ª‚Å‚«‚éB
+pfnCompare : [int] Œ^: PFNDPACOMPARE 2 ‚Â‚Ì DPA ‚©‚ç‚»‚ê‚¼‚ê 1 ‚Â‚¸‚Â—v‘f‚ğæ‚èo‚µ‚ÄA‚»‚ê‚ç‚ª“¯ˆê€–Ú‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é PFNDPACOMPARE ƒR[ƒ‹ƒoƒbƒNŠÖ”B“¯ˆê‚Å‚ ‚ê‚ÎApfnCompare ‚ªw‚·ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ªŒÄ‚Ño‚³‚ê‚éB
+pfnMerge : [int] Œ^: PFNDPAMERGE PFNDPACOMPARE ‚É‚æ‚è“¯ˆê€–Ú‚Æ”»’è‚³‚ê‚½—v‘f‚ª—¼•û‚Ì DPA ‚É‘¶İ‚·‚éê‡‚ÉA‚»‚Ì“à—e‚ğƒ}[ƒW‚·‚é PFNDPAMERGE ƒR[ƒ‹ƒoƒbƒNŠÖ”B
+lParam : [intptr] Œ^: LPARAM “™‰¿«‚ğ”»’è‚·‚é”äŠr‚ÌŠî€‚ğéŒ¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é’Ç‰Á‚Ìƒpƒ‰ƒ[ƒ^B
 %inst
-Combines the contents of two dynamic pointer arrays (DPAs).
+2 ‚Â‚Ì“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚Ì“à—e‚ğŒ‹‡‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL TRUE if successful; otherwise, FALSE.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUEA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-DPA_Merge is not exported by name. To use it, you must use
-GetProcAddress and request ordinal 11 from ComCtl32.dll to obtain a
-function pointer.
+DPA_Merge ‚Í–¼‘O‚ÅƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢Bg—p‚·‚é‚É‚ÍAGetProcAddress ‚ğg—p‚µ‚Ä ComCtl32.dll
+‚©‚ç˜” 11 ‚ğ—v‹‚µAŠÖ”ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 DPA_SaveStream
-Saves the dynamic pointer array (DPA) to a stream by writing out a header, and then calling the specified callback function to write each element.
+ƒwƒbƒ_‚ğ‘‚«o‚µ‚½ŒãAw’è‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚µ‚ÄŠe—v‘f‚ğ‘‚«‚Ş‚±‚Æ‚É‚æ‚èA“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚ğƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdpa, pfn, pstream, pvInstData
-hdpa : [intptr] Type: HDPA Receives a handle to a DPA.
-pfn : [int] Type: PFNDPASTREAM The callback function. See PFNDPASTREAM for the callback function prototype.
-pstream : [var] Type: IStream* An IStream object.
-pvInstData : [intptr] Type: void* A pointer to callback data. pvInstData is passed as a parameter to pfn.
+hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğó‚¯æ‚éB
+pfn : [int] Œ^: PFNDPASTREAM ƒR[ƒ‹ƒoƒbƒNŠÖ”BƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ìƒvƒƒgƒ^ƒCƒv‚É‚Â‚¢‚Ä‚Í PFNDPASTREAM ‚ğQÆB
+pstream : [var] Œ^: IStream* IStream ƒIƒuƒWƒFƒNƒgB
+pvInstData : [intptr] Œ^: void* ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^BpvInstData ‚Í pfn ‚Éƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB
 %inst
-Saves the dynamic pointer array (DPA) to a stream by writing out a
-header, and then calling the specified callback function to write
-each element.
+ƒwƒbƒ_‚ğ‘‚«o‚µ‚½ŒãAw’è‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚µ‚ÄŠe—v‘f‚ğ‘‚«‚Ş‚±‚Æ‚É‚æ‚èA“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA)
+‚ğƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the following values.
-This doc was truncated.
+Œ^: HRESULT Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function must be called directly from ComCtl32.dll. It is
-ordinal 10. The callback is responsible for writing the pvInstData
-data to the stream.
+‚±‚ÌŠÖ”‚Í ComCtl32.dll ‚©‚ç’¼ÚŒÄ‚Ño‚·•K—v‚ª‚ ‚éB˜”‚Í 10 ‚Å‚ ‚éBƒR[ƒ‹ƒoƒbƒN‚Í pvInstData
+‚Ìƒf[ƒ^‚ğƒXƒgƒŠ[ƒ€‚É‘‚«‚ŞÓ”C‚ğ‚ÂB
 
 
 %index
 DPA_Search
-Finds an item in a dynamic pointer array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) “à‚Å€–Ú‚ğŒŸõ‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdpa, pFind, iStart, pfnCompare, lParam, options
-hdpa : [intptr] Type: HDPA A handle to a DPA.
-pFind : [intptr] Type: void* A pointer to search for.
-iStart : [int] Type: int The index at which to start search.
-pfnCompare : [int] Type: PFNDPACOMPARE A comparison function pointer. See PFNDPACOMPARE for the comparison function prototype.
-lParam : [intptr] Type: LPARAM An additional parameter to be passed to pfnCmp.
-options : [int] Type: UINT This parameter may be one or more of the following.
+hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pFind : [intptr] Œ^: void* ŒŸõ‚·‚éƒ|ƒCƒ“ƒ^B
+iStart : [int] Œ^: int ŒŸõ‚ğŠJn‚·‚éƒCƒ“ƒfƒbƒNƒXB
+pfnCompare : [int] Œ^: PFNDPACOMPARE ”äŠrŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^B”äŠrŠÖ”‚Ìƒvƒƒgƒ^ƒCƒv‚É‚Â‚¢‚Ä‚Í PFNDPACOMPARE ‚ğQÆB
+lParam : [intptr] Œ^: LPARAM pfnCmp ‚É“n‚³‚ê‚é’Ç‰Á‚Ìƒpƒ‰ƒ[ƒ^B
+options : [int] Œ^: UINT ‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚ÍAŸ‚Ì’l‚Ì‚¤‚¿ 1 ‚ÂˆÈã‚ğw’è‚Å‚«‚éB
 %inst
-Finds an item in a dynamic pointer array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) “à‚Å€–Ú‚ğŒŸõ‚·‚éB
 
 [–ß‚è’l]
-Type: int Returns the index where the item was found in the DPA or -1
-if the item was not found.
+Œ^: int DPA “à‚Å€–Ú‚ªŒ©‚Â‚©‚Á‚½êŠ‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚µA€–Ú‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚Í -1 ‚ğ•Ô‚·B
 
 
 %index
 DPA_SetPtr
-Assigns a value to an item in a dynamic pointer array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚Ì€–Ú‚É’l‚ğŠ„‚è“–‚Ä‚éB
 %group
 Win32 comctl32
 %prm
 hdpa, i, p
-hdpa : [intptr] Type: HDPA A handle to a DPA.
-i : [int] Type: int The index of the item in the DPA. Note??If the index is beyond the current size of the DPA, the DPA expands to accommodate it. You do not need to assign items contiguously.
-p : [intptr] Type: void* A pointer to the value to assign to the specified DPA item.
+hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int DPA “à‚Ì€–Ú‚ÌƒCƒ“ƒfƒbƒNƒXBƒƒ‚: ƒCƒ“ƒfƒbƒNƒX‚ª DPA ‚ÌŒ»İ‚ÌƒTƒCƒY‚ğ’´‚¦‚éê‡ADPA ‚Í‚»‚ê‚ğû‚ß‚é‚½‚ß‚ÉŠg’£‚³‚ê‚éB€–Ú‚ğ˜A‘±‚µ‚ÄŠ„‚è“–‚Ä‚é•K—v‚Í‚È‚¢B
+p : [intptr] Œ^: void* w’è‚³‚ê‚½ DPA ‚Ì€–Ú‚ÉŠ„‚è“–‚Ä‚é’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Assigns a value to an item in a dynamic pointer array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚Ì€–Ú‚É’l‚ğŠ„‚è“–‚Ä‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if successful, or FALSE otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 DPA_Sort
-Sorts the items in a Dynamic Pointer Array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) “à‚Ì€–Ú‚ğƒ\[ƒg‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdpa, pfnCompare, lParam
-hdpa : [intptr] Type: HDPA A handle to a DPA.
-pfnCompare : [int] Type: PFNDPACOMPARE A comparison function pointer. See PFNDPACOMPARE for the comparison function prototype.
-lParam : [intptr] Type: LPARAM An additional parameter to be passed to pfnCmp.
+hdpa : [intptr] Œ^: HDPA DPA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pfnCompare : [int] Œ^: PFNDPACOMPARE ”äŠrŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^B”äŠrŠÖ”‚Ìƒvƒƒgƒ^ƒCƒv‚É‚Â‚¢‚Ä‚Í PFNDPACOMPARE ‚ğQÆB
+lParam : [intptr] Œ^: LPARAM pfnCmp ‚É“n‚³‚ê‚é’Ç‰Á‚Ìƒpƒ‰ƒ[ƒ^B
 %inst
-Sorts the items in a Dynamic Pointer Array (DPA).
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) “à‚Ì€–Ú‚ğƒ\[ƒg‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE on success or FALSE on failure.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 DSA_Destroy
-Frees a dynamic structure array (DSA).
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdsa
-hdsa : [intptr] Type: HDSA A handle to a DSA to destroy.
+hdsa : [intptr] Œ^: HDSA ”jŠü‚·‚é DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Frees a dynamic structure array (DSA).
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚ğ‰ğ•ú‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE on success, FALSE on failure.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUEA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 DSA_Create
-Creates a dynamic structure array (DSA).
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚ğì¬‚·‚éB
 %group
 Win32 comctl32
 %prm
 cbItem, cItemGrow
-cbItem : [int] Type: int The size, in bytes, of the item.
-cItemGrow : [int] Type: int The number of items by which the array should be incremented, if the DSA needs to be enlarged.
+cbItem : [int] Œ^: int €–Ú‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
+cItemGrow : [int] Œ^: int DSA ‚ÌŠg’£‚ª•K—v‚É‚È‚Á‚½‚Æ‚«‚ÉA”z—ñ‚ğŠg’£‚·‚é€–Ú”B
 %inst
-Creates a dynamic structure array (DSA).
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HDSA Returns a handle to a DSA if successful, or NULL if the
-creation fails.
+Œ^: HDSA ¬Œ÷‚µ‚½ê‡‚Í DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µAì¬‚É¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B
 
 [”õl]
-Unlike a dynamic pointer array (DPA), a DSA can contain elements of
-any size. This allows structures to be stored directly in the array.
+“®“Iƒ|ƒCƒ“ƒ^”z—ñ (DPA) ‚Æ‚ÍˆÙ‚È‚èADSA ‚Í”CˆÓ‚ÌƒTƒCƒY‚Ì—v‘f‚ğŠÜ‚Ş‚±‚Æ‚ª‚Å‚«‚éB‚±‚ê‚É‚æ‚èA\‘¢‘Ì‚ğ”z—ñ‚É’¼ÚŠi”[‚Å‚«‚éB
 
 
 %index
 DSA_DeleteAllItems
-Deletes all items from a dynamic structure array (DSA).
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚©‚ç‚·‚×‚Ä‚Ì€–Ú‚ğíœ‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdsa
-hdsa : [intptr] Type: HDSA A handle to an existing DSA.
+hdsa : [intptr] Œ^: HDSA Šù‘¶‚Ì DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Deletes all items from a dynamic structure array (DSA).
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚©‚ç‚·‚×‚Ä‚Ì€–Ú‚ğíœ‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL TRUE if the items were successfully deleted; otherwise,
-FALSE.
+Œ^: BOOL €–Ú‚ª³í‚Éíœ‚³‚ê‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 DSA_DeleteItem
-Deletes an item from a dynamic structure array (DSA).
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚©‚ç€–Ú‚ğíœ‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdsa, i
-hdsa : [intptr] Type: HDSA A handle to an existing DSA.
-i : [int] Type: int The zero-based index of the item to delete.
+hdsa : [intptr] Œ^: HDSA Šù‘¶‚Ì DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int íœ‚·‚é€–Ú‚Ìƒ[ƒ‚©‚çn‚Ü‚éƒCƒ“ƒfƒbƒNƒXB
 %inst
-Deletes an item from a dynamic structure array (DSA).
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚©‚ç€–Ú‚ğíœ‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL TRUE if the item was successfully deleted; otherwise,
-FALSE.
+Œ^: BOOL €–Ú‚ª³í‚Éíœ‚³‚ê‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-DSA_DeleteItem is not exported by name. To use it, you must use
-GetProcAddress and request ordinal 326 from ComCtl32.dll to obtain a
-function pointer.
+DSA_DeleteItem ‚Í–¼‘O‚ÅƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢Bg—p‚·‚é‚É‚ÍAGetProcAddress ‚ğg—p‚µ‚Ä
+ComCtl32.dll ‚©‚ç˜” 326 ‚ğ—v‹‚µAŠÖ”ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 DSA_DestroyCallback
-Iterates through a dynamic structure array (DSA), calling a specified callback function on each item. Upon reaching the end of the array, the DSA is freed.
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚ğ—ñ‹“‚µAŠe€–Ú‚É‘Î‚µ‚Äw’è‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·B”z—ñ‚Ì––”ö‚É’B‚µ‚½‚ç DSA ‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdsa, pfnCB, pData
-hdsa : [intptr] Type: HDSA A handle to a DSA to walk and destroy.
-pfnCB : [int] Type: PFNDSAENUMCALLBACK A callback function pointer. For the callback function prototype, see PFNDSAENUMCALLBACK.
-pData : [intptr] Type: void* A callback data pointer. This pointer is, in turn, passed as a parameter to pfnCB.
+hdsa : [intptr] Œ^: HDSA ‘–¸‚µ‚Ä”jŠü‚·‚é DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pfnCB : [int] Œ^: PFNDSAENUMCALLBACK ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ìƒvƒƒgƒ^ƒCƒv‚É‚Â‚¢‚Ä‚Í PFNDSAENUMCALLBACK ‚ğQÆB
+pData : [intptr] Œ^: void* ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚Í pfnCB ‚Éƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB
 %inst
-Iterates through a dynamic structure array (DSA), calling a specified
-callback function on each item. Upon reaching the end of the array,
-the DSA is freed.
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚ğ—ñ‹“‚µAŠe€–Ú‚É‘Î‚µ‚Äw’è‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·B”z—ñ‚Ì––”ö‚É’B‚µ‚½‚ç DSA ‚ğ‰ğ•ú‚·‚éB
 
 
 %index
 DSA_EnumCallback
-Iterates through the dynamic structure array (DSA) and calls pfnCB on each item.
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚ğ—ñ‹“‚µAŠe€–Ú‚É‘Î‚µ‚Ä pfnCB ‚ğŒÄ‚Ño‚·B
 %group
 Win32 comctl32
 %prm
 hdsa, pfnCB, pData
-hdsa : [intptr] Type: HDSA A handle to an existing DSA.
-pfnCB : [int] Type: PFNDAENUMCALLBACK* A callback function pointer. See PFNDSAENUMCALLBACK for the callback function prototype.
-pData : [intptr] Type: void* A callback data pointer. pData is passed as a parameter to pfnCB.
+hdsa : [intptr] Œ^: HDSA Šù‘¶‚Ì DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pfnCB : [int] Œ^: PFNDAENUMCALLBACK* ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ìƒvƒƒgƒ^ƒCƒv‚É‚Â‚¢‚Ä‚Í PFNDSAENUMCALLBACK ‚ğQÆB
+pData : [intptr] Œ^: void* ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^BpData ‚Í pfnCB ‚Éƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB
 %inst
-Iterates through the dynamic structure array (DSA) and calls pfnCB on
-each item.
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚ğ—ñ‹“‚µAŠe€–Ú‚É‘Î‚µ‚Ä pfnCB ‚ğŒÄ‚Ño‚·B
 
 
 %index
 DSA_GetItem
-Gets an element from a dynamic structure array (DSA).
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚©‚ç—v‘f‚ğæ“¾‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdsa, i, pitem
-hdsa : [intptr] Type: HDSA A handle to the DSA containing the element.
-i : [int] Type: int The index of the element to be retrieved (zero-based).
-pitem : [intptr] Type: void* A pointer to a buffer which is filled with a copy of the specified element of the DSA.
+hdsa : [intptr] Œ^: HDSA —v‘f‚ğŠÜ‚Ş DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int æ“¾‚·‚é—v‘f‚ÌƒCƒ“ƒfƒbƒNƒXiƒ[ƒ‚©‚çn‚Ü‚éjB
+pitem : [intptr] Œ^: void* DSA ‚Ìw’è‚³‚ê‚½—v‘f‚ÌƒRƒs[‚ğŠi”[‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Gets an element from a dynamic structure array (DSA).
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚©‚ç—v‘f‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if successful or FALSE otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-DSA_GetItem is not exported by name. To use it, you must use
-GetProcAddress and request ordinal 322 from ComCtl32.dll to obtain a
-function pointer. Using the element pointer that this function
-retrieves, you can modify the data in that element directly. However,
-be aware that a subsequent insert or destroy operation could cause
-this pointer value to become invalid or to point to a different
-element.
+DSA_GetItem ‚Í–¼‘O‚ÅƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢Bg—p‚·‚é‚É‚ÍAGetProcAddress ‚ğg—p‚µ‚Ä ComCtl32.dll
+‚©‚ç˜” 322
+‚ğ—v‹‚µAŠÖ”ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚Åæ“¾‚µ‚½—v‘fƒ|ƒCƒ“ƒ^‚ğg—p‚µ‚ÄA‚»‚Ì—v‘f‚Ìƒf[ƒ^‚ğ’¼Ú•ÏX‚Å‚«‚éB‚½‚¾‚µA‚»‚ÌŒã‚Ì‘}“ü‚â”jŠü‘€ì‚É‚æ‚Á‚ÄA‚±‚Ìƒ|ƒCƒ“ƒ^’l‚ª–³Œø‚É‚È‚Á‚½‚èA•Ê‚Ì—v‘f‚ğw‚·‚æ‚¤‚É‚È‚é‰Â”\«‚ª‚ ‚é‚±‚Æ‚É’ˆÓB
 
 
 %index
 DSA_GetItemPtr
-Gets a pointer to an element from a dynamic structure array (DSA).
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚©‚ç—v‘f‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdsa, i
-hdsa : [intptr] Type: HDSA A handle to the DSA containing the element.
-i : [int] Type: int The index of the element to be retrieved (zero-based).
+hdsa : [intptr] Œ^: HDSA —v‘f‚ğŠÜ‚Ş DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int æ“¾‚·‚é—v‘f‚ÌƒCƒ“ƒfƒbƒNƒXiƒ[ƒ‚©‚çn‚Ü‚éjB
 %inst
-Gets a pointer to an element from a dynamic structure array (DSA).
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚©‚ç—v‘f‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns a pointer to the specified element or NULL if the call fails.
+w’è‚³‚ê‚½—v‘f‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚µAŒÄ‚Ño‚µ‚ª¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B
 
 [”õl]
-Using the element pointer that this function returns, you can modify
-the data in that element directly. However, be aware that a
-subsequent insert or destroy operation could cause this pointer value
-to become invalid or to point to a different element.
+
+‚±‚ÌŠÖ”‚ª•Ô‚·—v‘fƒ|ƒCƒ“ƒ^‚ğg—p‚µ‚ÄA‚»‚Ì—v‘f‚Ìƒf[ƒ^‚ğ’¼Ú•ÏX‚Å‚«‚éB‚½‚¾‚µA‚»‚ÌŒã‚Ì‘}“ü‚â”jŠü‘€ì‚É‚æ‚Á‚ÄA‚±‚Ìƒ|ƒCƒ“ƒ^’l‚ª–³Œø‚É‚È‚Á‚½‚èA•Ê‚Ì—v‘f‚ğw‚·‚æ‚¤‚É‚È‚é‰Â”\«‚ª‚ ‚é‚±‚Æ‚É’ˆÓB
 
 
 %index
 DSA_InsertItem
-Inserts a new item into a dynamic structure array (DSA). If necessary, the DSA expands to accommodate the new item.
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚ÉV‚µ‚¢€–Ú‚ğ‘}“ü‚·‚éB•K—v‚É‰‚¶‚Ä DSA ‚ÍV‚µ‚¢€–Ú‚ğû‚ß‚é‚½‚ß‚ÉŠg’£‚³‚ê‚éB
 %group
 Win32 comctl32
 %prm
 hdsa, i, pitem
-hdsa : [intptr] Type: HDSA A handle to the DSA in which to insert the item.
-i : [int] Type: int The position in the DSA where new item is to be inserted, or DSA_APPEND to insert the item at the end of the array.
-pitem : [intptr] Type: void* A pointer to the item that is to be inserted.
+hdsa : [intptr] Œ^: HDSA €–Ú‚ğ‘}“ü‚·‚é DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int V‚µ‚¢€–Ú‚ğ‘}“ü‚·‚é DSA “à‚ÌˆÊ’uB”z—ñ‚Ì––”ö‚É€–Ú‚ğ‘}“ü‚·‚é‚É‚Í DSA_APPEND ‚ğw’è‚·‚éB
+pitem : [intptr] Œ^: void* ‘}“ü‚·‚é€–Ú‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Inserts a new item into a dynamic structure array (DSA). If
-necessary, the DSA expands to accommodate the new item.
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚ÉV‚µ‚¢€–Ú‚ğ‘}“ü‚·‚éB•K—v‚É‰‚¶‚Ä DSA ‚ÍV‚µ‚¢€–Ú‚ğû‚ß‚é‚½‚ß‚ÉŠg’£‚³‚ê‚éB
 
 [–ß‚è’l]
-Type: int Returns the index of the new item if the insertion
-succeeds, or DSA_ERR (-1) if the insertion fails.
+Œ^: int ‘}“ü‚ª¬Œ÷‚µ‚½ê‡‚ÍV‚µ‚¢€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚µA¸”s‚µ‚½ê‡‚Í DSA_ERR (-1) ‚ğ•Ô‚·B
 
 [”õl]
-The actual data pointed to by pItem is copied into the DSA.
-Subsequent actions performed on that item do not affect the original
-copy.
+pItem ‚ªw‚·ÀÛ‚Ìƒf[ƒ^‚Í DSA ‚ÉƒRƒs[‚³‚ê‚éB‚»‚Ì‚½‚ßAŒ³‚Ì€–Ú‚É‘Î‚·‚éŒã‘±‚Ì‘€ì‚ÍƒRƒs[‚É‰e‹¿‚µ‚È‚¢B
 
 
 %index
 DSA_SetItem
-Sets the contents of an element in a dynamic structure array (DSA).
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚Ì—v‘f‚Ì“à—e‚ğİ’è‚·‚éB
 %group
 Win32 comctl32
 %prm
 hdsa, i, pitem
-hdsa : [intptr] Type: HDSA A handle to an existing DSA that contains the element.
-i : [int] Type: int The zero-based index of the item to set.
-pitem : [intptr] Type: void* A pointer to the item that will replace the specified item in the array.
+hdsa : [intptr] Œ^: HDSA —v‘f‚ğŠÜ‚ŞŠù‘¶‚Ì DSA ‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int İ’è‚·‚é€–Ú‚Ìƒ[ƒ‚©‚çn‚Ü‚éƒCƒ“ƒfƒbƒNƒXB
+pitem : [intptr] Œ^: void* ”z—ñ“à‚Ìw’è‚³‚ê‚½€–Ú‚ğ’u‚«Š·‚¦‚é€–Ú‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Sets the contents of an element in a dynamic structure array (DSA).
+“®“I\‘¢‘Ì”z—ñ (DSA) ‚Ì—v‘f‚Ì“à—e‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL TRUE if successful; otherwise, FALSE.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUEA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-DSA_SetItem is not exported by name. To use it, you must use
-GetProcAddress and request ordinal 325 from ComCtl32.dll to obtain a
-function pointer.
+DSA_SetItem ‚Í–¼‘O‚ÅƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢Bg—p‚·‚é‚É‚ÍAGetProcAddress ‚ğg—p‚µ‚Ä ComCtl32.dll
+‚©‚ç˜” 325 ‚ğ—v‹‚µAŠÖ”ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 DefSubclassProc
-Calls the next handler in a window's subclass chain. The last handler in the subclass chain calls the original window procedure for the window.
+ƒEƒBƒ“ƒhƒE‚ÌƒTƒuƒNƒ‰ƒXƒ`ƒF[ƒ““à‚ÌŸ‚Ìƒnƒ“ƒhƒ‰‚ğŒÄ‚Ño‚·BƒTƒuƒNƒ‰ƒXƒ`ƒF[ƒ“‚ÌÅŒã‚Ìƒnƒ“ƒhƒ‰‚ÍA‚»‚ÌƒEƒBƒ“ƒhƒE‚ÌŒ³‚ÌƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ğŒÄ‚Ño‚·B
 %group
 Win32 comctl32
 %prm
 hWnd, uMsg, wParam, lParam
-hWnd : [intptr] Type: HWND A handle to the window being subclassed.
-uMsg : [int] Type: UINT A value of type unsigned int that specifies a window message.
-wParam : [intptr] Type: WPARAM Specifies additional message information. The contents of this parameter depend on the value of the window message.
-lParam : [intptr] Type: LPARAM Specifies additional message information. The contents of this parameter depend on the value of the window message. Note: On 64-bit versions of Windows LPARAM is a 64-bit value.
+hWnd : [intptr] Œ^: HWND ƒTƒuƒNƒ‰ƒX‰»‚³‚ê‚Ä‚¢‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+uMsg : [int] Œ^: UINT ƒEƒBƒ“ƒhƒEƒƒbƒZ[ƒW‚ğw’è‚·‚é unsigned int Œ^‚Ì’lB
+wParam : [intptr] Œ^: WPARAM ’Ç‰Á‚ÌƒƒbƒZ[ƒWî•ñ‚ğw’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì“à—e‚ÍƒEƒBƒ“ƒhƒEƒƒbƒZ[ƒW‚Ì’l‚ÉˆË‘¶‚·‚éB
+lParam : [intptr] Œ^: LPARAM ’Ç‰Á‚ÌƒƒbƒZ[ƒWî•ñ‚ğw’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì“à—e‚ÍƒEƒBƒ“ƒhƒEƒƒbƒZ[ƒW‚Ì’l‚ÉˆË‘¶‚·‚éBƒƒ‚: 64 ƒrƒbƒg”Å Windows ‚Å‚Í LPARAM ‚Í 64 ƒrƒbƒg’l‚Å‚ ‚éB
 %inst
-Calls the next handler in a window's subclass chain. The last handler
-in the subclass chain calls the original window procedure for the
-window.
+
+ƒEƒBƒ“ƒhƒE‚ÌƒTƒuƒNƒ‰ƒXƒ`ƒF[ƒ““à‚ÌŸ‚Ìƒnƒ“ƒhƒ‰‚ğŒÄ‚Ño‚·BƒTƒuƒNƒ‰ƒXƒ`ƒF[ƒ“‚ÌÅŒã‚Ìƒnƒ“ƒhƒ‰‚ÍA‚»‚ÌƒEƒBƒ“ƒhƒE‚ÌŒ³‚ÌƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ğŒÄ‚Ño‚·B
 
 [–ß‚è’l]
-Type: LRESULT The returned value is specific to the message sent.
-This value should be ignored.
+Œ^: LRESULT –ß‚è’l‚Í‘—M‚³‚ê‚½ƒƒbƒZ[ƒW‚ÉŒÅ—L‚Å‚ ‚éB‚±‚Ì’l‚Í–³‹‚·‚×‚«‚Å‚ ‚éB
 
 [”õl]
-You do not need to call the default window procedure; this function
-calls it automatically. The SUBCLASS module defines helper functions
-that are used to subclass windows. The code maintains a single
-property on the subclassed window and dispatches various subclass
-callbacks to its clients as required. The client is provided
-reference data and a default processing API. A subclass callback is
-identified by a unique pairing of a callback function pointer and an
-unsigned ID value. Each callback can also store a single DWORD of
-reference data, which is passed to the callback function when it is
-called to filter messages. No reference counting is performed for the
-callback; it may repeatedly call SetWindowSubclass to alter the value
-of its reference data element. Warning You cannot use the subclassing
-helper functions to subclass a window across threads.
+Šù’è‚ÌƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ğ©•ª‚ÅŒÄ‚Ño‚·•K—v‚Í‚È‚¢B‚±‚ÌŠÖ”‚ª©“®“I‚ÉŒÄ‚Ño‚·BSUBCLASS
+ƒ‚ƒWƒ…[ƒ‹‚ÍAƒEƒBƒ“ƒhƒE‚ÌƒTƒuƒNƒ‰ƒX‰»‚Ég—p‚³‚ê‚éƒwƒ‹ƒp[ŠÖ”‚ğ’è‹`‚µ‚Ä‚¢‚éB‚±‚ÌƒR[ƒh‚ÍƒTƒuƒNƒ‰ƒX‰»‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚É’Pˆê‚ÌƒvƒƒpƒeƒB‚ğ•Û‚µA•K—v‚É‰‚¶‚ÄŠeíƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ğƒNƒ‰ƒCƒAƒ“ƒg‚ÉƒfƒBƒXƒpƒbƒ`‚·‚éBƒNƒ‰ƒCƒAƒ“ƒg‚É‚ÍQÆƒf[ƒ^‚ÆŠù’èˆ—
+API ‚ª’ñ‹Ÿ‚³‚ê‚éBƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ÍAƒR[ƒ‹ƒoƒbƒNŠÖ”ƒ|ƒCƒ“ƒ^‚Æ•„†‚È‚µ ID
+’l‚ÌˆêˆÓ‚Ì‘g‚İ‡‚í‚¹‚Å¯•Ê‚³‚ê‚éBŠeƒR[ƒ‹ƒoƒbƒN‚Í DWORD 1
+ŒÂ•ª‚ÌQÆƒf[ƒ^‚ğ•Û‚Å‚«AƒƒbƒZ[ƒW‚ğƒtƒBƒ‹ƒ^‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚ÉƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éBƒR[ƒ‹ƒoƒbƒN‚É‘Î‚µ‚ÄQÆƒJƒEƒ“ƒg‚Ís‚í‚ê‚È‚¢BSetWindowSubclass
+‚ğŒJ‚è•Ô‚µŒÄ‚Ño‚µ‚ÄQÆƒf[ƒ^—v‘f‚Ì’l‚ğ•ÏX‚µ‚Ä‚à‚æ‚¢BŒx:
+ƒTƒuƒNƒ‰ƒXƒwƒ‹ƒp[ŠÖ”‚ğg—p‚µ‚ÄƒXƒŒƒbƒh‚ğ‚Ü‚½‚¢‚ÅƒEƒBƒ“ƒhƒE‚ğƒTƒuƒNƒ‰ƒX‰»‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
 
 
 %index
 DrawInsert
-Draws the insert icon in the parent window of the specified drag list box.
+w’è‚³‚ê‚½ƒhƒ‰ƒbƒOƒŠƒXƒgƒ{ƒbƒNƒX‚ÌeƒEƒBƒ“ƒhƒE‚É‘}“üƒAƒCƒRƒ“‚ğ•`‰æ‚·‚éB
 %group
 Win32 comctl32
 %prm
 handParent, hLB, nItem
-handParent : [intptr] Type: HWND A handle to the parent window of the drag list box.
-hLB : [intptr] Type: HWND A handle to the drag list box.
-nItem : [int] Type: int The identifier of the icon item to be drawn.
+handParent : [intptr] Œ^: HWND ƒhƒ‰ƒbƒOƒŠƒXƒgƒ{ƒbƒNƒX‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+hLB : [intptr] Œ^: HWND ƒhƒ‰ƒbƒOƒŠƒXƒgƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+nItem : [int] Œ^: int •`‰æ‚·‚éƒAƒCƒRƒ“€–Ú‚Ì¯•ÊqB
 %inst
-Draws the insert icon in the parent window of the specified drag list
-box.
+w’è‚³‚ê‚½ƒhƒ‰ƒbƒOƒŠƒXƒgƒ{ƒbƒNƒX‚ÌeƒEƒBƒ“ƒhƒE‚É‘}“üƒAƒCƒRƒ“‚ğ•`‰æ‚·‚éB
 
 
 %index
 DrawStatusTextW
-The DrawStatusText function draws the specified text in the style of a status window with borders. (Unicode)
+DrawStatusText ŠÖ”‚ÍA‹«ŠEü•t‚«‚ÌƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚ÌƒXƒ^ƒCƒ‹‚Åw’è‚³‚ê‚½ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB(Unicode)
 %group
 Win32 comctl32
 %prm
 hDC, lprc, pszText, uFlags
-hDC : [intptr] Type: HDC Handle to the display context for the window.
-lprc : [var] Type: LPCRECT Pointer to a RECT structure that contains the position, in client coordinates, of the rectangle in which the text is drawn. The function draws the borders just inside the edges of the specified rectangle.
-pszText : [wstr] Type: LPCTSTR Pointer to a null-terminated string that specifies the text to display. Tab characters in the string determine whether the string is left-aligned, right-aligned, or centered.
-uFlags : [int] Type: UINT Text drawing flags. This parameter can be a combination of these values:
+hDC : [intptr] Œ^: HDC ƒEƒBƒ“ƒhƒE‚Ì•\¦ƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lprc : [var] Œ^: LPCRECT ƒeƒLƒXƒg‚ğ•`‰æ‚·‚é‹éŒ`‚ÌˆÊ’uiƒNƒ‰ƒCƒAƒ“ƒgÀ•Wj‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚Íw’è‚³‚ê‚½‹éŒ`‚Ì‰‚Ì‚·‚®“à‘¤‚É‹«ŠEü‚ğ•`‰æ‚·‚éB
+pszText : [wstr] Œ^: LPCTSTR •\¦‚·‚éƒeƒLƒXƒg‚ğw’è‚·‚é NULL I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B•¶š—ñ’†‚Ìƒ^ƒu•¶š‚É‚æ‚Á‚ÄA•¶š—ñ‚ª¶‘µ‚¦E‰E‘µ‚¦E’†‰›‘µ‚¦‚Ì‚¢‚¸‚ê‚É‚È‚é‚©‚ªŒˆ‚Ü‚éB
+uFlags : [int] Œ^: UINT ƒeƒLƒXƒg•`‰æƒtƒ‰ƒOB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚ÍŸ‚Ì’l‚Ì‘g‚İ‡‚í‚¹‚ğw’è‚Å‚«‚éB
 %inst
-The DrawStatusText function draws the specified text in the style of
-a status window with borders. (Unicode)
+DrawStatusText ŠÖ”‚ÍA‹«ŠEü•t‚«‚ÌƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚ÌƒXƒ^ƒCƒ‹‚Åw’è‚³‚ê‚½ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB(Unicode)
 
 [”õl]
-Normal windows display text left-to-right (LTR). Windows can be
-mirrored to display languages such as Hebrew or Arabic that read
-right-to-left (RTL). Normally, the pszText string will be displayed
-in the same direction as the text in its parent window. If
-SBT_RTLREADING is set, the pszText string will read in the opposite
-direction from the text in the parent window.
-> [!NOTE] > The commctrl.h header defines DrawStatusText as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+’Êí‚ÌƒEƒBƒ“ƒhƒE‚ÍƒeƒLƒXƒg‚ğ¶‚©‚ç‰E (LTR) ‚É•\¦‚·‚éBƒwƒuƒ‰ƒCŒê‚âƒAƒ‰ƒrƒAŒê‚Ì‚æ‚¤‚É‰E‚©‚ç¶ (RTL)
+‚É“Ç‚ŞŒ¾Œê‚ğ•\¦‚·‚é‚½‚ß‚ÉƒEƒBƒ“ƒhƒE‚ğƒ~ƒ‰[ƒŠƒ“ƒO‚·‚é‚±‚Æ‚à‚Å‚«‚éB’ÊíApszText
+•¶š—ñ‚ÍeƒEƒBƒ“ƒhƒE‚ÌƒeƒLƒXƒg‚Æ“¯‚¶•ûŒü‚É•\¦‚³‚ê‚éBSBT_RTLREADING ‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡ApszText
+•¶š—ñ‚ÍeƒEƒBƒ“ƒhƒE‚ÌƒeƒLƒXƒg‚Æ‚Í‹t•ûŒü‚É“Ç‚Ü‚ê‚éB
+> [!NOTE] > commctrl.h ƒwƒbƒ_‚Í DrawStatusText ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚É‰‚¶‚Ä ANSI ‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚Æ’†—§ƒGƒCƒŠƒAƒX‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚Ü‚½‚ÍÀsƒGƒ‰[‚É‚Â‚È‚ª‚é•s®‡‚ª¶‚¶‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 FlatSB_EnableScrollBar
-Enables or disables one or both flat scroll bar direction buttons. If flat scroll bars are not initialized for the window, this function calls the standard EnableScrollBar function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚Ì•Ğ•û‚Ü‚½‚Í—¼•û‚Ì•ûŒüƒ{ƒ^ƒ“‚ğ—LŒø‚Ü‚½‚Í–³Œø‚É‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì EnableScrollBar ŠÖ”‚ğŒÄ‚Ño‚·B
 %group
 Win32 comctl32
 %prm
@@ -802,287 +733,259 @@ param0 : [intptr]
 param1 : [int] 
 param2 : [int] 
 %inst
-Enables or disables one or both flat scroll bar direction buttons. If
-flat scroll bars are not initialized for the window, this function
-calls the standard EnableScrollBar function.
+
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚Ì•Ğ•û‚Ü‚½‚Í—¼•û‚Ì•ûŒüƒ{ƒ^ƒ“‚ğ—LŒø‚Ü‚½‚Í–³Œø‚É‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì
+EnableScrollBar ŠÖ”‚ğŒÄ‚Ño‚·B
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if the scroll bar changes, or zero
-otherwise.
+Œ^: BOOL ƒXƒNƒ[ƒ‹ƒo[‚ª•ÏX‚³‚ê‚½ê‡‚Í 0 ˆÈŠO‚ğA‚»‚êˆÈŠO‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-Note Flat scroll bar functions are implemented in Comctl32.dll
-versions 4.71 through 5.82. Comctl32.dll versions 6.00 and higher do
-not support flat scroll bars.
+ƒƒ‚: ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[ŠÖ”‚Í Comctl32.dll ƒo[ƒWƒ‡ƒ“ 4.71 ‚©‚ç 5.82
+‚ÅÀ‘•‚³‚ê‚Ä‚¢‚éBComctl32.dll ƒo[ƒWƒ‡ƒ“ 6.00 ˆÈ~‚Å‚Íƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B
 
 
 %index
 FlatSB_GetScrollInfo
-Gets the information for a flat scroll bar. If flat scroll bars are not initialized for the window, this function calls the standard GetScrollInfo function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚Ìî•ñ‚ğæ“¾‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì GetScrollInfo ŠÖ”‚ğŒÄ‚Ño‚·B
 %group
 Win32 comctl32
 %prm
 param0, code, param2
 param0 : [intptr] 
-code : [int] Type: int
+code : [int] Œ^: int
 param2 : [var] 
 %inst
-Gets the information for a flat scroll bar. If flat scroll bars are
-not initialized for the window, this function calls the standard
-GetScrollInfo function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚Ìî•ñ‚ğæ“¾‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì
+GetScrollInfo ŠÖ”‚ğŒÄ‚Ño‚·B
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-Note Flat scroll bar functions are implemented in Comctl32.dll
-versions 4.71 through 5.82. Comctl32.dll versions 6.00 and higher do
-not support flat scroll bars.
+ƒƒ‚: ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[ŠÖ”‚Í Comctl32.dll ƒo[ƒWƒ‡ƒ“ 4.71 ‚©‚ç 5.82
+‚ÅÀ‘•‚³‚ê‚Ä‚¢‚éBComctl32.dll ƒo[ƒWƒ‡ƒ“ 6.00 ˆÈ~‚Å‚Íƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B
 
 
 %index
 FlatSB_GetScrollPos
-Gets the thumb position in a flat scroll bar. If flat scroll bars are not initialized for the window, this function calls the standard GetScrollPos function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[“à‚Ì‚Â‚Ü‚İ‚ÌˆÊ’u‚ğæ“¾‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì GetScrollPos ŠÖ”‚ğŒÄ‚Ño‚·B
 %group
 Win32 comctl32
 %prm
 param0, code
 param0 : [intptr] 
-code : [int] Type: int
+code : [int] Œ^: int
 %inst
-Gets the thumb position in a flat scroll bar. If flat scroll bars are
-not initialized for the window, this function calls the standard
-GetScrollPos function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[“à‚Ì‚Â‚Ü‚İ‚ÌˆÊ’u‚ğæ“¾‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì
+GetScrollPos ŠÖ”‚ğŒÄ‚Ño‚·B
 
 [–ß‚è’l]
-Type: int Returns the current thumb position of the specified flat
-scroll bar.
+Œ^: int w’è‚³‚ê‚½ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÌŒ»İ‚Ì‚Â‚Ü‚İ‚ÌˆÊ’u‚ğ•Ô‚·B
 
 [”õl]
-Note Flat scroll bar functions are implemented in Comctl32.dll
-versions 4.71 through 5.82. Comctl32.dll versions 6.00 and higher do
-not support flat scroll bars.
+ƒƒ‚: ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[ŠÖ”‚Í Comctl32.dll ƒo[ƒWƒ‡ƒ“ 4.71 ‚©‚ç 5.82
+‚ÅÀ‘•‚³‚ê‚Ä‚¢‚éBComctl32.dll ƒo[ƒWƒ‡ƒ“ 6.00 ˆÈ~‚Å‚Íƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B
 
 
 %index
 FlatSB_GetScrollProp
-Gets the properties for a flat scroll bar. This function can also be used to determine if InitializeFlatSB has been called for this window.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÌƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB‚±‚ÌŠÖ”‚ÍA‚±‚ÌƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Ä InitializeFlatSB ‚ªŒÄ‚Ño‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚Ì”»’è‚É‚àg—p‚Å‚«‚éB
 %group
 Win32 comctl32
 %prm
 param0, propIndex, param2
 param0 : [intptr] 
-propIndex : [int] Type: UINT The parameter that determines what
+propIndex : [int] Œ^: UINT ‰½‚ğæ“¾‚·‚é‚©‚ğŒˆ’è‚·‚éƒpƒ‰ƒ[ƒ^B
 param2 : [var] 
 %inst
-Gets the properties for a flat scroll bar. This function can also be
-used to determine if InitializeFlatSB has been called for this
-window.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÌƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB‚±‚ÌŠÖ”‚ÍA‚±‚ÌƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Ä InitializeFlatSB
+‚ªŒÄ‚Ño‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚Ì”»’è‚É‚àg—p‚Å‚«‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise. If index
-is WSB_PROP_HSTYLE, the return is nonzero if InitializeFlatSB has
-been called for this window, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·Bindex ‚ª WSB_PROP_HSTYLE
+‚Ìê‡A‚±‚ÌƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Ä InitializeFlatSB ‚ªŒÄ‚Ño‚³‚ê‚Ä‚¢‚ê‚Î 0 ˆÈŠO‚ğA‚»‚¤‚Å‚È‚¯‚ê‚Î 0 ‚ğ•Ô‚·B
 
 [”õl]
-Note Flat scroll bar functions are implemented in Comctl32.dll
-versions 4.71 through 5.82. Comctl32.dll versions 6.00 and higher do
-not support flat scroll bars.
+ƒƒ‚: ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[ŠÖ”‚Í Comctl32.dll ƒo[ƒWƒ‡ƒ“ 4.71 ‚©‚ç 5.82
+‚ÅÀ‘•‚³‚ê‚Ä‚¢‚éBComctl32.dll ƒo[ƒWƒ‡ƒ“ 6.00 ˆÈ~‚Å‚Íƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B
 
 
 %index
 FlatSB_GetScrollRange
-Gets the scroll range for a flat scroll bar. If flat scroll bars are not initialized for the window, this function calls the standard GetScrollRange function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÌƒXƒNƒ[ƒ‹”ÍˆÍ‚ğæ“¾‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì GetScrollRange ŠÖ”‚ğŒÄ‚Ño‚·B
 %group
 Win32 comctl32
 %prm
 param0, code, param2, param3
 param0 : [intptr] 
-code : [int] Type: int
+code : [int] Œ^: int
 param2 : [var] 
 param3 : [var] 
 %inst
-Gets the scroll range for a flat scroll bar. If flat scroll bars are
-not initialized for the window, this function calls the standard
-GetScrollRange function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÌƒXƒNƒ[ƒ‹”ÍˆÍ‚ğæ“¾‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì
+GetScrollRange ŠÖ”‚ğŒÄ‚Ño‚·B
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-Note Flat scroll bar functions are implemented in Comctl32.dll
-versions 4.71 through 5.82. Comctl32.dll versions 6.00 and higher do
-not support flat scroll bars.
+ƒƒ‚: ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[ŠÖ”‚Í Comctl32.dll ƒo[ƒWƒ‡ƒ“ 4.71 ‚©‚ç 5.82
+‚ÅÀ‘•‚³‚ê‚Ä‚¢‚éBComctl32.dll ƒo[ƒWƒ‡ƒ“ 6.00 ˆÈ~‚Å‚Íƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B
 
 
 %index
 FlatSB_SetScrollInfo
-Sets the information for a flat scroll bar. If flat scroll bars are not initialized for the window, this function calls the standard SetScrollInfo function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚Ìî•ñ‚ğİ’è‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì SetScrollInfo ŠÖ”‚ğŒÄ‚Ño‚·B
 %group
 Win32 comctl32
 %prm
 param0, code, psi, fRedraw
 param0 : [intptr] 
-code : [int] Type: int
-psi : [var] Type: LPSCROLLINFO A pointer to a SCROLLINFO structure that contains the new information for the specified scroll bar. The cbSize and
-fRedraw : [int] Type: BOOL Specifies whether the scroll bar should be redrawn immediately to reflect the change. If this parameter is TRUE, the scroll bar is redrawn; if it is FALSE, the scroll bar is not redrawn.
+code : [int] Œ^: int
+psi : [var] Œ^: LPSCROLLINFO w’è‚³‚ê‚½ƒXƒNƒ[ƒ‹ƒo[‚ÌV‚µ‚¢î•ñ‚ğŠÜ‚Ş SCROLLINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BcbSize ‚Æ
+fRedraw : [int] Œ^: BOOL •ÏX‚ğ”½‰f‚·‚é‚½‚ß‚ÉƒXƒNƒ[ƒ‹ƒo[‚ğ‚½‚¾‚¿‚ÉÄ•`‰æ‚·‚é‚©‚Ç‚¤‚©‚ğw’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª TRUE ‚Ìê‡‚ÍƒXƒNƒ[ƒ‹ƒo[‚ªÄ•`‰æ‚³‚êAFALSE ‚Ìê‡‚ÍÄ•`‰æ‚³‚ê‚È‚¢B
 %inst
-Sets the information for a flat scroll bar. If flat scroll bars are
-not initialized for the window, this function calls the standard
-SetScrollInfo function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚Ìî•ñ‚ğİ’è‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì
+SetScrollInfo ŠÖ”‚ğŒÄ‚Ño‚·B
 
 [–ß‚è’l]
-Type: int Returns the current scroll position. If the call to
-FlatSB_SetScrollInfo changes the scroll position, then the previous
-position is returned.
+Œ^: int Œ»İ‚ÌƒXƒNƒ[ƒ‹ˆÊ’u‚ğ•Ô‚·BFlatSB_SetScrollInfo
+‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚ÄƒXƒNƒ[ƒ‹ˆÊ’u‚ª•ÏX‚³‚ê‚½ê‡A•ÏX‘O‚ÌˆÊ’u‚ª•Ô‚³‚ê‚éB
 
 [”õl]
-Note Flat scroll bar functions are implemented in Comctl32.dll
-versions 4.71 through 5.82. Comctl32.dll versions 6.00 and higher do
-not support flat scroll bars.
+ƒƒ‚: ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[ŠÖ”‚Í Comctl32.dll ƒo[ƒWƒ‡ƒ“ 4.71 ‚©‚ç 5.82
+‚ÅÀ‘•‚³‚ê‚Ä‚¢‚éBComctl32.dll ƒo[ƒWƒ‡ƒ“ 6.00 ˆÈ~‚Å‚Íƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B
 
 
 %index
 FlatSB_SetScrollPos
-Sets the current position of the thumb in a flat scroll bar. If flat scroll bars are not initialized for the window, this function calls the standard SetScrollPos function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[“à‚Ì‚Â‚Ü‚İ‚ÌŒ»İˆÊ’u‚ğİ’è‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì SetScrollPos ŠÖ”‚ğŒÄ‚Ño‚·B
 %group
 Win32 comctl32
 %prm
 param0, code, pos, fRedraw
 param0 : [intptr] 
-code : [int] Type: int
-pos : [int] Type: int The new thumb position.
-fRedraw : [int] Type: BOOL Specifies whether the scroll bar should be redrawn immediately to reflect the change. If this parameter is TRUE, the scroll bar is redrawn; if it is FALSE, the scroll bar is not redrawn.
+code : [int] Œ^: int
+pos : [int] Œ^: int V‚µ‚¢‚Â‚Ü‚İ‚ÌˆÊ’uB
+fRedraw : [int] Œ^: BOOL •ÏX‚ğ”½‰f‚·‚é‚½‚ß‚ÉƒXƒNƒ[ƒ‹ƒo[‚ğ‚½‚¾‚¿‚ÉÄ•`‰æ‚·‚é‚©‚Ç‚¤‚©‚ğw’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª TRUE ‚Ìê‡‚ÍƒXƒNƒ[ƒ‹ƒo[‚ªÄ•`‰æ‚³‚êAFALSE ‚Ìê‡‚ÍÄ•`‰æ‚³‚ê‚È‚¢B
 %inst
-Sets the current position of the thumb in a flat scroll bar. If flat
-scroll bars are not initialized for the window, this function calls
-the standard SetScrollPos function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[“à‚Ì‚Â‚Ü‚İ‚ÌŒ»İˆÊ’u‚ğİ’è‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì
+SetScrollPos ŠÖ”‚ğŒÄ‚Ño‚·B
 
 [–ß‚è’l]
-Type: int Returns the previous position of the thumb in the specified
-flat scroll bar.
+Œ^: int w’è‚³‚ê‚½ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚É‚¨‚¯‚é‚Â‚Ü‚İ‚Ì•ÏX‘O‚ÌˆÊ’u‚ğ•Ô‚·B
 
 [”õl]
-Note Flat scroll bar functions are implemented in Comctl32.dll
-versions 4.71 through 5.82. Comctl32.dll versions 6.00 and higher do
-not support flat scroll bars.
+ƒƒ‚: ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[ŠÖ”‚Í Comctl32.dll ƒo[ƒWƒ‡ƒ“ 4.71 ‚©‚ç 5.82
+‚ÅÀ‘•‚³‚ê‚Ä‚¢‚éBComctl32.dll ƒo[ƒWƒ‡ƒ“ 6.00 ˆÈ~‚Å‚Íƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B
 
 
 %index
 FlatSB_SetScrollProp
-Sets the properties for a flat scroll bar.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
 %group
 Win32 comctl32
 %prm
 param0, index, newValue, param3
 param0 : [intptr] 
-index : [int] Type: UINT Determines what
-newValue : [int] Type: INT_PTR A new value to set. This parameter depends on the flag passed in index.
+index : [int] Œ^: UINT ‰½‚ğİ’è‚·‚é‚©‚ğŒˆ’è‚·‚éB
+newValue : [int] Œ^: INT_PTR İ’è‚·‚éV‚µ‚¢’lB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í index ‚É“n‚³‚ê‚½ƒtƒ‰ƒO‚ÉˆË‘¶‚·‚éB
 param3 : [int] 
 %inst
-Sets the properties for a flat scroll bar.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-Note Flat scroll bar functions are implemented in Comctl32.dll
-versions 4.71 through 5.82. Comctl32.dll versions 6.00 and higher do
-not support flat scroll bars.
+ƒƒ‚: ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[ŠÖ”‚Í Comctl32.dll ƒo[ƒWƒ‡ƒ“ 4.71 ‚©‚ç 5.82
+‚ÅÀ‘•‚³‚ê‚Ä‚¢‚éBComctl32.dll ƒo[ƒWƒ‡ƒ“ 6.00 ˆÈ~‚Å‚Íƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B
 
 
 %index
 FlatSB_SetScrollRange
-Sets the scroll range of a flat scroll bar. If flat scroll bars are not initialized for the window, this function calls the standard SetScrollRange function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÌƒXƒNƒ[ƒ‹”ÍˆÍ‚ğİ’è‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì SetScrollRange ŠÖ”‚ğŒÄ‚Ño‚·B
 %group
 Win32 comctl32
 %prm
 param0, code, min, max, fRedraw
 param0 : [intptr] 
-code : [int] Type: int
-min : [int] Type: int The new minimum scroll range value.
-max : [int] Type: int The new maximum scroll range value.
-fRedraw : [int] Type: BOOL Specifies whether the scroll bar should be redrawn immediately to reflect the change. If this parameter is TRUE, the scroll bar is redrawn; if it is FALSE, the scroll bar is not redrawn.
+code : [int] Œ^: int
+min : [int] Œ^: int V‚µ‚¢ƒXƒNƒ[ƒ‹”ÍˆÍ‚ÌÅ¬’lB
+max : [int] Œ^: int V‚µ‚¢ƒXƒNƒ[ƒ‹”ÍˆÍ‚ÌÅ‘å’lB
+fRedraw : [int] Œ^: BOOL •ÏX‚ğ”½‰f‚·‚é‚½‚ß‚ÉƒXƒNƒ[ƒ‹ƒo[‚ğ‚½‚¾‚¿‚ÉÄ•`‰æ‚·‚é‚©‚Ç‚¤‚©‚ğw’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª TRUE ‚Ìê‡‚ÍƒXƒNƒ[ƒ‹ƒo[‚ªÄ•`‰æ‚³‚êAFALSE ‚Ìê‡‚ÍÄ•`‰æ‚³‚ê‚È‚¢B
 %inst
-Sets the scroll range of a flat scroll bar. If flat scroll bars are
-not initialized for the window, this function calls the standard
-SetScrollRange function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÌƒXƒNƒ[ƒ‹”ÍˆÍ‚ğİ’è‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì
+SetScrollRange ŠÖ”‚ğŒÄ‚Ño‚·B
 
 [–ß‚è’l]
-Type: int Returns nonzero if successful, or zero otherwise.
+Œ^: int ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-Note Flat scroll bar functions are implemented in Comctl32.dll
-versions 4.71 through 5.82. Comctl32.dll versions 6.00 and higher do
-not support flat scroll bars.
+ƒƒ‚: ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[ŠÖ”‚Í Comctl32.dll ƒo[ƒWƒ‡ƒ“ 4.71 ‚©‚ç 5.82
+‚ÅÀ‘•‚³‚ê‚Ä‚¢‚éBComctl32.dll ƒo[ƒWƒ‡ƒ“ 6.00 ˆÈ~‚Å‚Íƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B
 
 
 %index
 FlatSB_ShowScrollBar
-Shows or hides a flat scroll bar. If flat scroll bars are not initialized for the window, this function calls the standard ShowScrollBar function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì ShowScrollBar ŠÖ”‚ğŒÄ‚Ño‚·B
 %group
 Win32 comctl32
 %prm
 param0, code, param2
 param0 : [intptr] 
-code : [int] Type: int
+code : [int] Œ^: int
 param2 : [int] 
 %inst
-Shows or hides a flat scroll bar. If flat scroll bars are not
-initialized for the window, this function calls the standard
-ShowScrollBar function.
+ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éBƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ª‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í•W€‚Ì
+ShowScrollBar ŠÖ”‚ğŒÄ‚Ño‚·B
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-Note Flat scroll bar functions are implemented in Comctl32.dll
-versions 4.71 through 5.82. Comctl32.dll versions 6.00 and higher do
-not support flat scroll bars.
+ƒƒ‚: ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[ŠÖ”‚Í Comctl32.dll ƒo[ƒWƒ‡ƒ“ 4.71 ‚©‚ç 5.82
+‚ÅÀ‘•‚³‚ê‚Ä‚¢‚éBComctl32.dll ƒo[ƒWƒ‡ƒ“ 6.00 ˆÈ~‚Å‚Íƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B
 
 
 %index
 GetEffectiveClientRect
-Calculates the dimensions of a rectangle in the client area that contains all the specified controls.
+w’è‚³‚ê‚½‚·‚×‚Ä‚ÌƒRƒ“ƒgƒ[ƒ‹‚ğŠÜ‚ŞAƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ“à‚Ì‹éŒ`‚Ì¡–@‚ğŒvZ‚·‚éB
 %group
 Win32 comctl32
 %prm
 hWnd, lprc, lpInfo
-hWnd : [intptr] Type: HWND A handle to the window that has the client area to check.
-lprc : [var] Type: LPRECT A pointer to a RECT structure that receives the dimensions of the rectangle.
-lpInfo : [var] Type: const INT* A pointer to a null-terminated array of integers that identify controls in the client area. Each control requires a pair of consecutive elements. The first element of the pair must be nonzero and the second element of the pair must be the control identifier. The first pair represents the menu and is ignored. The last element must be zero to identify the end of the array.
+hWnd : [intptr] Œ^: HWND Šm”F‚·‚éƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lprc : [var] Œ^: LPRECT ‹éŒ`‚Ì¡–@‚ğó‚¯æ‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpInfo : [var] Œ^: const INT* ƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ“à‚ÌƒRƒ“ƒgƒ[ƒ‹‚ğ¯•Ê‚·‚é®”‚Ì NULL I’[”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠeƒRƒ“ƒgƒ[ƒ‹‚Í 2 ŒÂ˜A‘±‚µ‚½—v‘f‚ğ•K—v‚Æ‚·‚éBŠeƒyƒA‚ÌÅ‰‚Ì—v‘f‚Í 0 ˆÈŠO‚Å‚È‚¯‚ê‚Î‚È‚ç‚¸A2 ”Ô–Ú‚Ì—v‘f‚ÍƒRƒ“ƒgƒ[ƒ‹¯•Êq‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÅ‰‚ÌƒyƒA‚Íƒƒjƒ…[‚ğ•\‚µA–³‹‚³‚ê‚éB”z—ñ‚ÌI’[‚ğ¦‚·‚½‚ß‚ÉÅŒã‚Ì—v‘f‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Calculates the dimensions of a rectangle in the client area that
-contains all the specified controls.
+w’è‚³‚ê‚½‚·‚×‚Ä‚ÌƒRƒ“ƒgƒ[ƒ‹‚ğŠÜ‚ŞAƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ“à‚Ì‹éŒ`‚Ì¡–@‚ğŒvZ‚·‚éB
 
 [”õl]
-If a window in the lprc array is visible, or will be visible when its
-parent becomes visible, its rectangle is subtracted from the
-effective client rectangle.
+lprc
+”z—ñ“à‚ÌƒEƒBƒ“ƒhƒE‚ª•\¦‚³‚ê‚Ä‚¢‚éê‡A‚Ü‚½‚Íe‚ª•\¦ó‘Ô‚É‚È‚Á‚½‚Æ‚«‚É•\¦‚³‚ê‚éê‡A‚»‚Ì‹éŒ`‚Í—LŒø‚ÈƒNƒ‰ƒCƒAƒ“ƒg‹éŒ`‚©‚ç·‚µˆø‚©‚ê‚éB
 
 
 %index
 GetMUILanguage
-Gets the language currently in use by the common controls for a particular process.
+“Á’è‚ÌƒvƒƒZƒX‚É‘Î‚µ‚ÄƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚ªŒ»İg—p‚µ‚Ä‚¢‚éŒ¾Œê‚ğæ“¾‚·‚éB
 %group
 Win32 comctl32
 %prm
 
 %inst
-Gets the language currently in use by the common controls for a
-particular process.
+“Á’è‚ÌƒvƒƒZƒX‚É‘Î‚µ‚ÄƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚ªŒ»İg—p‚µ‚Ä‚¢‚éŒ¾Œê‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: LANGID Returns the language identifier of the language an
-application has specified for the common controls by calling
-InitMUILanguage. GetMUILanguage returns the value for the process
-from which it is called. If InitMUILanguage has not been called or
-was not called from the same process, GetMUILanguage returns the
-language-neutral LANGID, MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL).
+Œ^: LANGID ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª InitMUILanguage
+‚ğŒÄ‚Ño‚µ‚ÄƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹—p‚Éw’è‚µ‚½Œ¾Œê‚ÌŒ¾Œê¯•Êq‚ğ•Ô‚·BGetMUILanguage
+‚ÍAŒÄ‚Ño‚µŒ³‚ÌƒvƒƒZƒX‚É‘Î‚·‚é’l‚ğ•Ô‚·BInitMUILanguage
+‚ªŒÄ‚Ño‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚Ü‚½‚Í“¯‚¶ƒvƒƒZƒX‚©‚çŒÄ‚Ño‚³‚ê‚Ä‚¢‚È‚¢ê‡AGetMUILanguage ‚ÍŒ¾Œê’†—§‚Ì LANGID ‚Å‚ ‚é
+MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL) ‚ğ•Ô‚·B
 
 [”õl]
-See Internationalization for Windows Applications for further
-discussion of localization.
+ƒ[ƒJƒ‰ƒCƒY‚ÌÚ×‚É‚Â‚¢‚Ä‚ÍAWindows ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‘Û‰»‚ğQÆB
 
 
 %index
@@ -1108,70 +1011,66 @@ hbmMask ‚ğ•K‚¸íœ‚·‚éB
 
 %index
 ImageList_AddMasked
-Adds an image or images to an image list, generating a mask from the specified bitmap. (ImageList_AddMasked)
+w’è‚³‚ê‚½ƒrƒbƒgƒ}ƒbƒv‚©‚çƒ}ƒXƒN‚ğ¶¬‚µ‚È‚ª‚çAƒCƒ[ƒWƒŠƒXƒg‚É‰æ‘œ‚ğ’Ç‰Á‚·‚éB(ImageList_AddMasked)
 %group
 Win32 comctl32
 %prm
 himl, hbmImage, crMask
-himl : [intptr] Type: HIMAGELIST A handle to the image list.
-hbmImage : [intptr] Type: HBITMAP A handle to the bitmap that contains one or more images. The number of images is inferred from the width of the bitmap.
-crMask : [int] Type: COLORREF The color used to generate the mask. Each pixel of this color in the specified bitmap is changed to black, and the corresponding bit in the mask is set to 1. If this parameter is CLR_DEFAULT, then the color of the pixel at (0,0) is used as the mask.
+himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+hbmImage : [intptr] Œ^: HBITMAP 1 ‚ÂˆÈã‚Ì‰æ‘œ‚ğŠÜ‚Şƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B‰æ‘œ‚ÌŒÂ”‚Íƒrƒbƒgƒ}ƒbƒv‚Ì•‚©‚ç„‘ª‚³‚ê‚éB
+crMask : [int] Œ^: COLORREF ƒ}ƒXƒN‚Ì¶¬‚Ég—p‚·‚éFBw’è‚³‚ê‚½ƒrƒbƒgƒ}ƒbƒv‚Ì‚±‚ÌF‚ÌŠeƒsƒNƒZƒ‹‚Í•‚É•ÏX‚³‚êA‘Î‰‚·‚éƒ}ƒXƒN‚Ìƒrƒbƒg‚ª 1 ‚Éİ’è‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª CLR_DEFAULT ‚Ìê‡AÀ•W (0,0) ‚ÌƒsƒNƒZƒ‹‚ÌF‚ªƒ}ƒXƒN‚Æ‚µ‚Äg—p‚³‚ê‚éB
 %inst
-Adds an image or images to an image list, generating a mask from the
-specified bitmap. (ImageList_AddMasked)
+w’è‚³‚ê‚½ƒrƒbƒgƒ}ƒbƒv‚©‚çƒ}ƒXƒN‚ğ¶¬‚µ‚È‚ª‚çAƒCƒ[ƒWƒŠƒXƒg‚É‰æ‘œ‚ğ’Ç‰Á‚·‚éB(ImageList_AddMasked)
 
 [–ß‚è’l]
-Type: int Returns the index of the first new image if successful, or
--1 otherwise.
+Œ^: int ¬Œ÷‚µ‚½ê‡‚ÍÅ‰‚ÌV‚µ‚¢‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚µA‚»‚êˆÈŠO‚Í -1 ‚ğ•Ô‚·B
 
 [”õl]
-The ImageList_AddMasked function copies the bitmap to an internal
-data structure. Bitmaps with color depth greater than 8bpp are not
-supported. Be sure to use the DeleteObject function to delete
-hbmImage after the function returns.
+ImageList_AddMasked ŠÖ”‚ÍAƒrƒbƒgƒ}ƒbƒv‚ğ“à•”ƒf[ƒ^\‘¢‚ÉƒRƒs[‚·‚éB8bpp
+‚ğ’´‚¦‚éF[“x‚Ìƒrƒbƒgƒ}ƒbƒv‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢BŠÖ”‚ª–ß‚Á‚½Œã‚ÍADeleteObject ŠÖ”‚ğg‚Á‚Ä•K‚¸ hbmImage
+‚ğíœ‚·‚é‚±‚ÆB
 
 
 %index
 ImageList_BeginDrag
-Begins dragging an image. (ImageList_BeginDrag)
+‰æ‘œ‚Ìƒhƒ‰ƒbƒO‚ğŠJn‚·‚éB(ImageList_BeginDrag)
 %group
 Win32 comctl32
 %prm
 himlTrack, iTrack, dxHotspot, dyHotspot
-himlTrack : [intptr] Type: HIMAGELIST A handle to the image list.
-iTrack : [int] Type: int The index of the image to drag.
-dxHotspot : [int] Type: int The x-coordinate of the location of the drag position relative to the upper-left corner of the image.
-dyHotspot : [int] Type: int The y-coordinate of the location of the drag position relative to the upper-left corner of the image.
+himlTrack : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+iTrack : [int] Œ^: int ƒhƒ‰ƒbƒO‚·‚é‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒXB
+dxHotspot : [int] Œ^: int ‰æ‘œ‚Ì¶ã‹÷‚É‘Î‚·‚éƒhƒ‰ƒbƒOˆÊ’u‚Ì x À•WB
+dyHotspot : [int] Œ^: int ‰æ‘œ‚Ì¶ã‹÷‚É‘Î‚·‚éƒhƒ‰ƒbƒOˆÊ’u‚Ì y À•WB
 %inst
-Begins dragging an image. (ImageList_BeginDrag)
+‰æ‘œ‚Ìƒhƒ‰ƒbƒO‚ğŠJn‚·‚éB(ImageList_BeginDrag)
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-This function creates a temporary image list that is used for
-dragging. In response to subsequent WM_MOUSEMOVE messages, you can
-move the drag image by using the ImageList_DragMove function. To end
-the drag operation, you can use the ImageList_EndDrag function.
+‚±‚ÌŠÖ”‚ÍAƒhƒ‰ƒbƒO‚Ég—p‚³‚ê‚éˆê“I‚ÈƒCƒ[ƒWƒŠƒXƒg‚ğì¬‚·‚éB‚»‚ÌŒã‚Ì WM_MOUSEMOVE
+ƒƒbƒZ[ƒW‚É‰“š‚µ‚ÄAImageList_DragMove
+ŠÖ”‚ğg—p‚µ‚Äƒhƒ‰ƒbƒO‰æ‘œ‚ğˆÚ“®‚Å‚«‚éBƒhƒ‰ƒbƒO‘€ì‚ğI—¹‚·‚é‚É‚ÍAImageList_EndDrag ŠÖ”‚ğg—p‚·‚éB
 
 
 %index
 ImageList_Copy
-Copies images within a given image list.
+w’è‚³‚ê‚½ƒCƒ[ƒWƒŠƒXƒg“à‚Å‰æ‘œ‚ğƒRƒs[‚·‚éB
 %group
 Win32 comctl32
 %prm
 himlDst, iDst, himlSrc, iSrc, uFlags
-himlDst : [intptr] Type: HIMAGELIST A handle to an image list that is the target of the copy operation. In current versions of Windows, both himlDst and himlSrc must be identical.
-iDst : [int] Type: int The zero-based index of the image to be used as the destination of the copy operation.
-himlSrc : [intptr] Type: HIMAGELIST A handle to an image list that is the target of the copy operation. In current versions of Windows, both himlDst and himlSrc must be identical.
-iSrc : [int] Type: int The zero-based index of the image to be used as the source of the copy operation.
-uFlags : [int] Type: UINT
+himlDst : [intptr] Œ^: HIMAGELIST ƒRƒs[‘€ì‚Ì‘ÎÛ‚Æ‚È‚éƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚Ì Windows ‚Å‚ÍAhimlDst ‚Æ himlSrc ‚Í“¯ˆê‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+iDst : [int] Œ^: int ƒRƒs[‘€ì‚ÌƒRƒs[æ‚Æ‚µ‚Äg—p‚³‚ê‚é‰æ‘œ‚Ìƒ[ƒ‚©‚çn‚Ü‚éƒCƒ“ƒfƒbƒNƒXB
+himlSrc : [intptr] Œ^: HIMAGELIST ƒRƒs[‘€ì‚Ì‘ÎÛ‚Æ‚È‚éƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚Ì Windows ‚Å‚ÍAhimlDst ‚Æ himlSrc ‚Í“¯ˆê‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+iSrc : [int] Œ^: int ƒRƒs[‘€ì‚ÌƒRƒs[Œ³‚Æ‚µ‚Äg—p‚³‚ê‚é‰æ‘œ‚Ìƒ[ƒ‚©‚çn‚Ü‚éƒCƒ“ƒfƒbƒNƒXB
+uFlags : [int] Œ^: UINT
 %inst
-Copies images within a given image list.
+w’è‚³‚ê‚½ƒCƒ[ƒWƒŠƒXƒg“à‚Å‰æ‘œ‚ğƒRƒs[‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
@@ -1199,74 +1098,72 @@ cGrow : [int] Œ^: int ƒVƒXƒeƒ€‚ªV‚µ‚¢ƒCƒ[ƒW‚Ì‚½‚ß‚É‹ó‚«‚ğì‚é•K—v‚ª‚ ‚é‚Æ‚«‚É
 
 %index
 ImageList_DragEnter
-Displays the drag image at the specified position within the window.
+ƒEƒBƒ“ƒhƒE“à‚Ìw’è‚³‚ê‚½ˆÊ’u‚Éƒhƒ‰ƒbƒO‰æ‘œ‚ğ•\¦‚·‚éB
 %group
 Win32 comctl32
 %prm
 hwndLock, x, y
-hwndLock : [intptr] Type: HWND A handle to the window that owns the drag image.
-x : [int] Type: int The x-coordinate at which to display the drag image. The coordinate is relative to the upper-left corner of the window, not the client area.
-y : [int] Type: int The y-coordinate at which to display the drag image. The coordinate is relative to the upper-left corner of the window, not the client area.
+hwndLock : [intptr] Œ^: HWND ƒhƒ‰ƒbƒO‰æ‘œ‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+x : [int] Œ^: int ƒhƒ‰ƒbƒO‰æ‘œ‚ğ•\¦‚·‚é x À•WBÀ•W‚ÍƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚ğŠî€‚Æ‚µAƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Å‚Í‚È‚¢B
+y : [int] Œ^: int ƒhƒ‰ƒbƒO‰æ‘œ‚ğ•\¦‚·‚é y À•WBÀ•W‚ÍƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚ğŠî€‚Æ‚µAƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Å‚Í‚È‚¢B
 %inst
-Displays the drag image at the specified position within the window.
+ƒEƒBƒ“ƒhƒE“à‚Ìw’è‚³‚ê‚½ˆÊ’u‚Éƒhƒ‰ƒbƒO‰æ‘œ‚ğ•\¦‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-To begin a drag operation, use the ImageList_BeginDrag function.
+ƒhƒ‰ƒbƒO‘€ì‚ğŠJn‚·‚é‚É‚ÍAImageList_BeginDrag ŠÖ”‚ğg—p‚·‚éB
 
 
 %index
 ImageList_DragLeave
-Unlocks the specified window and hides the drag image, allowing the window to be updated.
+w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌƒƒbƒN‚ğ‰ğœ‚µAƒhƒ‰ƒbƒO‰æ‘œ‚ğ”ñ•\¦‚É‚µ‚ÄAƒEƒBƒ“ƒhƒE‚ğXV‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 %group
 Win32 comctl32
 %prm
 hwndLock
-hwndLock : [intptr] Type: HWND A handle to the window that owns the drag image.
+hwndLock : [intptr] Œ^: HWND ƒhƒ‰ƒbƒO‰æ‘œ‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Unlocks the specified window and hides the drag image, allowing the
-window to be updated.
+w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌƒƒbƒN‚ğ‰ğœ‚µAƒhƒ‰ƒbƒO‰æ‘œ‚ğ”ñ•\¦‚É‚µ‚ÄAƒEƒBƒ“ƒhƒE‚ğXV‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 ImageList_DragMove
-Moves the image that is being dragged during a drag-and-drop operation. This function is typically called in response to a WM_MOUSEMOVE message. (ImageList_DragMove)
+ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì’†‚Éƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚é‰æ‘œ‚ğˆÚ“®‚·‚éB‚±‚ÌŠÖ”‚Í’ÊíAWM_MOUSEMOVE ƒƒbƒZ[ƒW‚Ö‚Ì‰“š‚Æ‚µ‚ÄŒÄ‚Ño‚³‚ê‚éB(ImageList_DragMove)
 %group
 Win32 comctl32
 %prm
 x, y
-x : [int] Type: int The x-coordinate at which to display the drag image. The coordinate is relative to the upper-left corner of the window, not the client area.
-y : [int] Type: int The y-coordinate at which to display the drag image. The coordinate is relative to the upper-left corner of the window, not the client area.
+x : [int] Œ^: int ƒhƒ‰ƒbƒO‰æ‘œ‚ğ•\¦‚·‚é x À•WBÀ•W‚ÍƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚ğŠî€‚Æ‚µAƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Å‚Í‚È‚¢B
+y : [int] Œ^: int ƒhƒ‰ƒbƒO‰æ‘œ‚ğ•\¦‚·‚é y À•WBÀ•W‚ÍƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚ğŠî€‚Æ‚µAƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Å‚Í‚È‚¢B
 %inst
-Moves the image that is being dragged during a drag-and-drop
-operation. This function is typically called in response to a
-WM_MOUSEMOVE message. (ImageList_DragMove)
+ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì’†‚Éƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚é‰æ‘œ‚ğˆÚ“®‚·‚éB‚±‚ÌŠÖ”‚Í’ÊíAWM_MOUSEMOVE
+ƒƒbƒZ[ƒW‚Ö‚Ì‰“š‚Æ‚µ‚ÄŒÄ‚Ño‚³‚ê‚éB(ImageList_DragMove)
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-To begin a drag operation, use the ImageList_BeginDrag function.
+ƒhƒ‰ƒbƒO‘€ì‚ğŠJn‚·‚é‚É‚ÍAImageList_BeginDrag ŠÖ”‚ğg—p‚·‚éB
 
 
 %index
 ImageList_DragShowNolock
-Shows or hides the image being dragged. (ImageList_DragShowNolock)
+ƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚é‰æ‘œ‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éB(ImageList_DragShowNolock)
 %group
 Win32 comctl32
 %prm
 fShow
-fShow : [int] Type: BOOL A value specifying whether to show or hide the image being dragged. Specify TRUE to show the image or FALSE to hide the image.
+fShow : [int] Œ^: BOOL ƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚é‰æ‘œ‚ğ•\¦‚·‚é‚©”ñ•\¦‚É‚·‚é‚©‚ğw’è‚·‚é’lB‰æ‘œ‚ğ•\¦‚·‚é‚É‚Í TRUE ‚ğA”ñ•\¦‚É‚·‚é‚É‚Í FALSE ‚ğw’è‚·‚éB
 %inst
-Shows or hides the image being dragged. (ImageList_DragShowNolock)
+ƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚é‰æ‘œ‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éB(ImageList_DragShowNolock)
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
@@ -1296,164 +1193,154 @@ ImageList_SetOverlayImage ‚ÅƒI[ƒo[ƒŒƒCƒCƒ[ƒW‚Æ‚µ‚Äw’è‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
 
 %index
 ImageList_DrawEx
-Draws an image list item in the specified device context. The function uses the specified drawing style and blends the image with the specified color.
+w’è‚³‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉƒCƒ[ƒWƒŠƒXƒg‚Ì€–Ú‚ğ•`‰æ‚·‚éB‚±‚ÌŠÖ”‚Íw’è‚³‚ê‚½•`‰æƒXƒ^ƒCƒ‹‚ğg—p‚µA‰æ‘œ‚ğw’è‚³‚ê‚½F‚ÆƒuƒŒƒ“ƒh‚·‚éB
 %group
 Win32 comctl32
 %prm
 himl, i, hdcDst, x, y, dx, dy, rgbBk, rgbFg, fStyle
-himl : [intptr] Type: HIMAGELIST A handle to the image list
-i : [int] Type: int The index of the image to draw.
-hdcDst : [intptr] Type: HDC A handle to the destination device context.
-x : [int] Type: int The x-coordinate at which to draw within the specified device context.
-y : [int] Type: int The y-coordinate at which to draw within the specified device context.
-dx : [int] Type: int The width of the portion of the image to draw relative to the upper-left corner of the image. If dx and dy are zero, the function draws the entire image. The function does not ensure that the parameters are valid.
-dy : [int] Type: int The height of the portion of the image to draw, relative to the upper-left corner of the image. If dx and dy are zero, the function draws the entire image. The function does not ensure that the parameters are valid.
-rgbBk : [int] Type: COLORREF
-rgbFg : [int] Type: COLORREF
-fStyle : [int] Type: UINT
+himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int •`‰æ‚·‚é‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒXB
+hdcDst : [intptr] Œ^: HDC ƒRƒs[æ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+x : [int] Œ^: int w’è‚³‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg“à‚Å•`‰æ‚·‚é x À•WB
+y : [int] Œ^: int w’è‚³‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg“à‚Å•`‰æ‚·‚é y À•WB
+dx : [int] Œ^: int ‰æ‘œ‚Ì¶ã‹÷‚ğŠî€‚Æ‚µ‚½A•`‰æ‚·‚é‰æ‘œ‚Ì•”•ª‚Ì•Bdx ‚Æ dy ‚ª 0 ‚Ìê‡AŠÖ”‚Í‰æ‘œ‘S‘Ì‚ğ•`‰æ‚·‚éB‚±‚ÌŠÖ”‚Íƒpƒ‰ƒ[ƒ^‚Ì‘Ã“–«‚ğ•ÛØ‚µ‚È‚¢B
+dy : [int] Œ^: int ‰æ‘œ‚Ì¶ã‹÷‚ğŠî€‚Æ‚µ‚½A•`‰æ‚·‚é‰æ‘œ‚Ì•”•ª‚Ì‚‚³Bdx ‚Æ dy ‚ª 0 ‚Ìê‡AŠÖ”‚Í‰æ‘œ‘S‘Ì‚ğ•`‰æ‚·‚éB‚±‚ÌŠÖ”‚Íƒpƒ‰ƒ[ƒ^‚Ì‘Ã“–«‚ğ•ÛØ‚µ‚È‚¢B
+rgbBk : [int] Œ^: COLORREF
+rgbFg : [int] Œ^: COLORREF
+fStyle : [int] Œ^: UINT
 %inst
-Draws an image list item in the specified device context. The
-function uses the specified drawing style and blends the image with
-the specified color.
+
+w’è‚³‚ê‚½ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉƒCƒ[ƒWƒŠƒXƒg‚Ì€–Ú‚ğ•`‰æ‚·‚éB‚±‚ÌŠÖ”‚Íw’è‚³‚ê‚½•`‰æƒXƒ^ƒCƒ‹‚ğg—p‚µA‰æ‘œ‚ğw’è‚³‚ê‚½F‚ÆƒuƒŒƒ“ƒh‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-An overlay image is drawn transparently over the primary image
-specified in the i parameter. To specify an overlay image in the
-fStyle parameter, use the INDEXTOOVERLAYMASK macro to shift the
-one-based index of the overlay image. Use the OR operator to
-logically combine the return value of the macro with the drawing
-style flags specified in the fStyle parameter. You must first specify
-this image as an overlay image by using the ImageList_SetOverlayImage
-function.
+ƒI[ƒo[ƒŒƒC‰æ‘œ‚ÍAi ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒvƒ‰ƒCƒ}ƒŠ‰æ‘œ‚Ìã‚É“§‰ß“I‚É•`‰æ‚³‚ê‚éBfStyle
+ƒpƒ‰ƒ[ƒ^‚ÅƒI[ƒo[ƒŒƒC‰æ‘œ‚ğw’è‚·‚é‚É‚ÍAINDEXTOOVERLAYMASK ƒ}ƒNƒ‚ğg—p‚µ‚ÄƒI[ƒo[ƒŒƒC‰æ‘œ‚Ì 1
+‚©‚çn‚Ü‚éƒCƒ“ƒfƒbƒNƒX‚ğƒVƒtƒg‚·‚éBOR ‰‰Zq‚ğg—p‚µ‚ÄAƒ}ƒNƒ‚Ì–ß‚è’l‚ğ fStyle
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½•`‰æƒXƒ^ƒCƒ‹ƒtƒ‰ƒO‚Æ˜_—“I‚ÉŒ‹‡‚·‚éB‚±‚Ì‰æ‘œ‚ÍA‚ ‚ç‚©‚¶‚ß ImageList_SetOverlayImage
+ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒo[ƒŒƒC‰æ‘œ‚Æ‚µ‚Äw’è‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
 
 
 %index
 ImageList_DrawIndirect
-Draws an image list image based on an IMAGELISTDRAWPARAMS structure.
+IMAGELISTDRAWPARAMS \‘¢‘Ì‚ÉŠî‚Ã‚¢‚ÄƒCƒ[ƒWƒŠƒXƒg‚Ì‰æ‘œ‚ğ•`‰æ‚·‚éB
 %group
 Win32 comctl32
 %prm
 pimldp
-pimldp : [var] Type: IMAGELISTDRAWPARAMS* A pointer to an IMAGELISTDRAWPARAMS structure that contains information about the draw operation.
+pimldp : [var] Œ^: IMAGELISTDRAWPARAMS* •`‰æ‘€ì‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş IMAGELISTDRAWPARAMS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Draws an image list image based on an IMAGELISTDRAWPARAMS structure.
+IMAGELISTDRAWPARAMS \‘¢‘Ì‚ÉŠî‚Ã‚¢‚ÄƒCƒ[ƒWƒŠƒXƒg‚Ì‰æ‘œ‚ğ•`‰æ‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, and zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 ImageList_Duplicate
-Creates a duplicate of an existing image list.
+Šù‘¶‚ÌƒCƒ[ƒWƒŠƒXƒg‚Ì•¡»‚ğì¬‚·‚éB
 %group
 Win32 comctl32
 %prm
 himl
-himl : [intptr] Type: HIMAGELIST A handle to the image list to be duplicated. All information contained in the original image list for normal images is copied to the new image list. Overlay images are not copied.
+himl : [intptr] Œ^: HIMAGELIST •¡»‚·‚éƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BŒ³‚ÌƒCƒ[ƒWƒŠƒXƒg‚ÉŠÜ‚Ü‚ê‚é’Êí‰æ‘œ‚Ì‚·‚×‚Ä‚Ìî•ñ‚ªV‚µ‚¢ƒCƒ[ƒWƒŠƒXƒg‚ÉƒRƒs[‚³‚ê‚éBƒI[ƒo[ƒŒƒC‰æ‘œ‚ÍƒRƒs[‚³‚ê‚È‚¢B
 %inst
-Creates a duplicate of an existing image list.
+Šù‘¶‚ÌƒCƒ[ƒWƒŠƒXƒg‚Ì•¡»‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HIMAGELIST Returns the handle to the new duplicate image list
-if successful, or NULL otherwise.
+Œ^: HIMAGELIST ¬Œ÷‚µ‚½ê‡‚ÍV‚µ‚¢•¡»ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µA‚»‚êˆÈŠO‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 ImageList_EndDrag
-Ends a drag operation. (ImageList_EndDrag)
+ƒhƒ‰ƒbƒO‘€ì‚ğI—¹‚·‚éB(ImageList_EndDrag)
 %group
 Win32 comctl32
 %prm
 
 %inst
-Ends a drag operation. (ImageList_EndDrag)
+ƒhƒ‰ƒbƒO‘€ì‚ğI—¹‚·‚éB(ImageList_EndDrag)
 
 [”õl]
-The temporary image list is destroyed when the ImageList_EndDrag
-function is called. To begin a drag operation, use the
-ImageList_BeginDrag function.
+ImageList_EndDrag
+ŠÖ”‚ªŒÄ‚Ño‚³‚ê‚é‚ÆAˆê“I‚ÈƒCƒ[ƒWƒŠƒXƒg‚ª”jŠü‚³‚ê‚éBƒhƒ‰ƒbƒO‘€ì‚ğŠJn‚·‚é‚É‚ÍAImageList_BeginDrag
+ŠÖ”‚ğg—p‚·‚éB
 
 
 %index
 ImageList_GetBkColor
-Retrieves the current background color for an image list.
+ƒCƒ[ƒWƒŠƒXƒg‚ÌŒ»İ‚Ì”wŒiF‚ğæ“¾‚·‚éB
 %group
 Win32 comctl32
 %prm
 himl
-himl : [intptr] Type: HIMAGELIST A handle to the image list.
+himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Retrieves the current background color for an image list.
+ƒCƒ[ƒWƒŠƒXƒg‚ÌŒ»İ‚Ì”wŒiF‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: COLORREF The return value is the background color.
+Œ^: COLORREF –ß‚è’l‚Í”wŒiF‚Å‚ ‚éB
 
 
 %index
 ImageList_GetDragImage
-Retrieves the temporary image list that is used for the drag image. The function also retrieves the current drag position and the offset of the drag image relative to the drag position.
+ƒhƒ‰ƒbƒO‰æ‘œ‚Ég—p‚³‚ê‚éˆê“I‚ÈƒCƒ[ƒWƒŠƒXƒg‚ğæ“¾‚·‚éB‚±‚ÌŠÖ”‚ÍAŒ»İ‚Ìƒhƒ‰ƒbƒOˆÊ’u‚Æƒhƒ‰ƒbƒOˆÊ’u‚É‘Î‚·‚éƒhƒ‰ƒbƒO‰æ‘œ‚ÌƒIƒtƒZƒbƒg‚àæ“¾‚·‚éB
 %group
 Win32 comctl32
 %prm
 ppt, pptHotspot
-ppt : [var] Type: POINT* A pointer to a POINT structure that receives the current drag position. Can be NULL.
-pptHotspot : [var] Type: POINT* A pointer to a POINT structure that receives the offset of the drag image relative to the drag position. Can be NULL.
+ppt : [var] Œ^: POINT* Œ»İ‚Ìƒhƒ‰ƒbƒOˆÊ’u‚ğó‚¯æ‚é POINT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚ğw’è‚Å‚«‚éB
+pptHotspot : [var] Œ^: POINT* ƒhƒ‰ƒbƒOˆÊ’u‚É‘Î‚·‚éƒhƒ‰ƒbƒO‰æ‘œ‚ÌƒIƒtƒZƒbƒg‚ğó‚¯æ‚é POINT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚ğw’è‚Å‚«‚éB
 %inst
-Retrieves the temporary image list that is used for the drag image.
-The function also retrieves the current drag position and the offset
-of the drag image relative to the drag position.
+
+ƒhƒ‰ƒbƒO‰æ‘œ‚Ég—p‚³‚ê‚éˆê“I‚ÈƒCƒ[ƒWƒŠƒXƒg‚ğæ“¾‚·‚éB‚±‚ÌŠÖ”‚ÍAŒ»İ‚Ìƒhƒ‰ƒbƒOˆÊ’u‚Æƒhƒ‰ƒbƒOˆÊ’u‚É‘Î‚·‚éƒhƒ‰ƒbƒO‰æ‘œ‚ÌƒIƒtƒZƒbƒg‚àæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HIMAGELIST Returns the handle to the image list if successful,
-or NULL otherwise.
+Œ^: HIMAGELIST ¬Œ÷‚µ‚½ê‡‚ÍƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µA‚»‚êˆÈŠO‚Í NULL ‚ğ•Ô‚·B
 
 [”õl]
-The temporary image list is destroyed when the ImageList_EndDrag
-function is called. To begin a drag operation, use the
-ImageList_BeginDrag function.
+ImageList_EndDrag
+ŠÖ”‚ªŒÄ‚Ño‚³‚ê‚é‚ÆAˆê“I‚ÈƒCƒ[ƒWƒŠƒXƒg‚ª”jŠü‚³‚ê‚éBƒhƒ‰ƒbƒO‘€ì‚ğŠJn‚·‚é‚É‚ÍAImageList_BeginDrag
+ŠÖ”‚ğg—p‚·‚éB
 
 
 %index
 ImageList_GetIcon
-Creates an icon from an image and mask in an image list.
+ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚Æƒ}ƒXƒN‚©‚çƒAƒCƒRƒ“‚ğì¬‚·‚éB
 %group
 Win32 comctl32
 %prm
 himl, i, flags
-himl : [intptr] Type: HIMAGELIST A handle to the image list.
-i : [int] Type: int An index of the image.
-flags : [int] Type: UINT A combination of flags that specify the drawing style. For a list of values, see the description of the fStyle parameter of the ImageList_Draw function.
+himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int ‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒXB
+flags : [int] Œ^: UINT •`‰æƒXƒ^ƒCƒ‹‚ğw’è‚·‚éƒtƒ‰ƒO‚Ì‘g‚İ‡‚í‚¹B’l‚Ìˆê——‚É‚Â‚¢‚Ä‚ÍAImageList_Draw ŠÖ”‚Ì fStyle ƒpƒ‰ƒ[ƒ^‚Ìà–¾‚ğQÆB
 %inst
-Creates an icon from an image and mask in an image list.
+ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚Æƒ}ƒXƒN‚©‚çƒAƒCƒRƒ“‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HICON Returns the handle to the icon if successful, or NULL
-otherwise.
+Œ^: HICON ¬Œ÷‚µ‚½ê‡‚ÍƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µA‚»‚êˆÈŠO‚Í NULL ‚ğ•Ô‚·B
 
 [”õl]
-It is the responsibility of the calling application to destroy the
-icon returned from this function using the DestroyIcon function.
+‚±‚ÌŠÖ”‚©‚ç•Ô‚³‚ê‚½ƒAƒCƒRƒ“‚ğ”jŠü‚·‚é‚Ì‚ÍAŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÓ”C‚Å‚ ‚éBDestroyIcon ŠÖ”‚ğg—p‚µ‚Ä”jŠü‚·‚éB
 
 
 %index
 ImageList_GetIconSize
-Retrieves the dimensions of images in an image list. All images in an image list have the same dimensions.
+ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚Ì¡–@‚ğæ“¾‚·‚éBƒCƒ[ƒWƒŠƒXƒg“à‚Ì‚·‚×‚Ä‚Ì‰æ‘œ‚Í“¯‚¶¡–@‚ğ‚ÂB
 %group
 Win32 comctl32
 %prm
 himl, cx, cy
-himl : [intptr] Type: HIMAGELIST A handle to the image list.
-cx : [var] Type: int* A pointer to an integer variable that receives the width, in pixels, of each image.
-cy : [var] Type: int* A pointer to an integer variable that receives the height, in pixels, of each image.
+himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+cx : [var] Œ^: int* Še‰æ‘œ‚Ì•iƒsƒNƒZƒ‹’PˆÊj‚ğó‚¯æ‚é®”•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cy : [var] Œ^: int* Še‰æ‘œ‚Ì‚‚³iƒsƒNƒZƒ‹’PˆÊj‚ğó‚¯æ‚é®”•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the dimensions of images in an image list. All images in an
-image list have the same dimensions.
+ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚Ì¡–@‚ğæ“¾‚·‚éBƒCƒ[ƒWƒŠƒXƒg“à‚Ì‚·‚×‚Ä‚Ì‰æ‘œ‚Í“¯‚¶¡–@‚ğ‚ÂB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
@@ -1473,327 +1360,296 @@ himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
 
 %index
 ImageList_GetImageInfo
-Retrieves information about an image.
+‰æ‘œ‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 comctl32
 %prm
 himl, i, pImageInfo
-himl : [intptr] Type: HIMAGELIST A handle to the image list.
-i : [int] Type: int The index of the image.
-pImageInfo : [var] Type: IMAGEINFO* A pointer to an IMAGEINFO structure that receives information about the image. The information in this structure can be used to directly manipulate the bitmaps for the image.
+himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int ‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒXB
+pImageInfo : [var] Œ^: IMAGEINFO* ‰æ‘œ‚ÉŠÖ‚·‚éî•ñ‚ğó‚¯æ‚é IMAGEINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚Ìî•ñ‚ğg—p‚µ‚ÄA‰æ‘œ‚Ìƒrƒbƒgƒ}ƒbƒv‚ğ’¼Ú‘€ì‚Å‚«‚éB
 %inst
-Retrieves information about an image.
+‰æ‘œ‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-An application should not call DeleteObject to destroy the bitmaps
-retrieved by ImageList_GetImageInfo. The system destroys the bitmaps
-when the application calls the ImageList_Destroy function.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAImageList_GetImageInfo ‚Åæ“¾‚µ‚½ƒrƒbƒgƒ}ƒbƒv‚ğ”jŠü‚·‚é‚½‚ß‚É DeleteObject
+‚ğŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª ImageList_Destroy ŠÖ”‚ğŒÄ‚Ño‚µ‚½‚Æ‚«‚ÉAƒVƒXƒeƒ€‚ªƒrƒbƒgƒ}ƒbƒv‚ğ”jŠü‚·‚éB
 
 
 %index
 ImageList_LoadImageW
-Creates an image list from the specified bitmap. (Unicode)
+w’è‚³‚ê‚½ƒrƒbƒgƒ}ƒbƒv‚©‚çƒCƒ[ƒWƒŠƒXƒg‚ğì¬‚·‚éB(Unicode)
 %group
 Win32 comctl32
 %prm
 hi, lpbmp, cx, cGrow, crMask, uType, uFlags
-hi : [intptr] Type: HINSTANCE A handle to the instance that contains the resource. This parameter can be NULL if you are loading an image from a file or loading an OEM resource.
-lpbmp : [wstr] Type: LPCTSTR The image to load. If the uFlags parameter includes LR_LOADFROMFILE, lpbmp is the address of a null-terminated string that names the file containing the image to load. If the hi parameter is non-NULL and LR_LOADFROMFILE is not specified, lpbmp is the address of a null-terminated string that contains the name of the image resource in the hi module. If hi is NULL and LR_LOADFROMFILE is not specified, the LOWORD of this parameter must be the identifier of an OEM image to load. To create this value, use the MAKEINTRESOURCE macro with one of the OEM image identifiers defined in Winuser.h. These identifiers have the following prefixes.
-cx : [int] Type: int The width of each image. The height of each image and the initial number of images are inferred by the dimensions of the specified resource.
-cGrow : [int] Type: int The number of images by which the image list can grow when the system needs to make room for new images. This parameter represents the number of new images that the resized image list can contain.
-crMask : [int] Type: COLORREF The color used to generate a mask. Each pixel of this color in the specified bitmap, cursor, or icon is changed to black, and the corresponding bit in the mask is set to 1. If this parameter is the CLR_NONE value, no mask is generated. If this parameter is the CLR_DEFAULT value, the color of the pixel at the upper-left corner of the image is treated as the mask color.
-uType : [int] Type: UINT A flag that specifies the type of image to load. This parameter must be IMAGE_BITMAP to indicate that a bitmap is being loaded.
-uFlags : [int] Type: UINT
+hi : [intptr] Œ^: HINSTANCE ƒŠƒ\[ƒX‚ğŠÜ‚ŞƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒtƒ@ƒCƒ‹‚©‚ç‰æ‘œ‚ğ“Ç‚İ‚Şê‡‚â OEM ƒŠƒ\[ƒX‚ğ“Ç‚İ‚Şê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚ğw’è‚Å‚«‚éB
+lpbmp : [wstr] Œ^: LPCTSTR “Ç‚İ‚Ş‰æ‘œBuFlags ƒpƒ‰ƒ[ƒ^‚É LR_LOADFROMFILE ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡Alpbmp ‚Í“Ç‚İ‚Ş‰æ‘œ‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ•\‚· NULL I’[•¶š—ñ‚ÌƒAƒhƒŒƒX‚Å‚ ‚éBhi ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Å‚È‚­ALR_LOADFROMFILE ‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡Alpbmp ‚Í hi ƒ‚ƒWƒ…[ƒ‹“à‚Ì‰æ‘œƒŠƒ\[ƒX‚Ì–¼‘O‚ğŠÜ‚Ş NULL I’[•¶š—ñ‚ÌƒAƒhƒŒƒX‚Å‚ ‚éBhi ‚ª NULL ‚Å LR_LOADFROMFILE ‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì LOWORD ‚Í“Ç‚İ‚Ş OEM ‰æ‘œ‚Ì¯•Êq‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ì’l‚ğì¬‚·‚é‚É‚ÍAWinuser.h ‚Å’è‹`‚³‚ê‚½ OEM ‰æ‘œ¯•Êq‚Ì‚¢‚¸‚ê‚©‚ğ MAKEINTRESOURCE ƒ}ƒNƒ‚Åg—p‚·‚éB‚±‚ê‚ç‚Ì¯•Êq‚É‚ÍŸ‚ÌƒvƒŒƒtƒBƒbƒNƒX‚ª•t‚¢‚Ä‚¢‚éB
+cx : [int] Œ^: int Še‰æ‘œ‚Ì•BŠe‰æ‘œ‚Ì‚‚³‚Æ‰æ‘œ‚Ì‰ŠúŒÂ”‚ÍAw’è‚³‚ê‚½ƒŠƒ\[ƒX‚Ì¡–@‚©‚ç„‘ª‚³‚ê‚éB
+cGrow : [int] Œ^: int V‚µ‚¢‰æ‘œ‚Ì‚½‚ß‚Ì—Ìˆæ‚ª•K—v‚É‚È‚Á‚½‚Æ‚«‚ÉƒCƒ[ƒWƒŠƒXƒg‚ğŠg’£‚Å‚«‚é‰æ‘œ”B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍAƒTƒCƒY•ÏXŒã‚ÌƒCƒ[ƒWƒŠƒXƒg‚ÉŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éV‚µ‚¢‰æ‘œ‚Ì”‚ğ•\‚·B
+crMask : [int] Œ^: COLORREF ƒ}ƒXƒN‚Ì¶¬‚Ég—p‚·‚éFBw’è‚³‚ê‚½ƒrƒbƒgƒ}ƒbƒvAƒJ[ƒ\ƒ‹AƒAƒCƒRƒ“‚Ì‚±‚ÌF‚ÌŠeƒsƒNƒZƒ‹‚Í•‚É•ÏX‚³‚êA‘Î‰‚·‚éƒ}ƒXƒN‚Ìƒrƒbƒg‚ª 1 ‚Éİ’è‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª CLR_NONE ‚Ìê‡Aƒ}ƒXƒN‚Í¶¬‚³‚ê‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª CLR_DEFAULT ‚Ìê‡A‰æ‘œ‚Ì¶ã‹÷‚ÌƒsƒNƒZƒ‹‚ÌF‚ªƒ}ƒXƒN‚ÌF‚Æ‚µ‚Äˆµ‚í‚ê‚éB
+uType : [int] Œ^: UINT “Ç‚İ‚Ş‰æ‘œ‚Ìí—Ş‚ğw’è‚·‚éƒtƒ‰ƒOB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍAƒrƒbƒgƒ}ƒbƒv‚ğ“Ç‚İ‚Ş‚±‚Æ‚ğ¦‚·‚½‚ß‚É IMAGE_BITMAP ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+uFlags : [int] Œ^: UINT
 %inst
-Creates an image list from the specified bitmap. (Unicode)
+w’è‚³‚ê‚½ƒrƒbƒgƒ}ƒbƒv‚©‚çƒCƒ[ƒWƒŠƒXƒg‚ğì¬‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HIMAGELIST Returns the handle to the image list if successful,
-or NULL otherwise.
+Œ^: HIMAGELIST ¬Œ÷‚µ‚½ê‡‚ÍƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µA‚»‚êˆÈŠO‚Í NULL ‚ğ•Ô‚·B
 
 [”õl]
-LR_LOADTRANSPARENT does not load the image transparently. It creates
-an opaque image list that only appears transparent because all the
-background pixels have been changed to COLOR_WINDOW. If the images
-are drawn over a background that is not the color COLOR_WINDOW, the
-image does not draw properly. Also, LR_LOADTRANSPARENT and
-LR_LOADMAP3DCOLORS use the system colors that were in effect at the
-time that ImageList_LoadImage was called. If the system colors
-subsequently change, the application must reload the image to remap
-the colors.
-> [!NOTE] > The commctrl.h header defines ImageList_LoadImage as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+LR_LOADTRANSPARENT ‚Í‰æ‘œ‚ğ“§‰ß“I‚É“Ç‚İ‚Ş‚í‚¯‚Å‚Í‚È‚¢B‚·‚×‚Ä‚Ì”wŒiƒsƒNƒZƒ‹‚ª COLOR_WINDOW
+‚É•ÏX‚³‚ê‚Ä‚¢‚é‚½‚ß‚É“§‰ß‚ÉŒ©‚¦‚é•s“§–¾‚ÈƒCƒ[ƒWƒŠƒXƒg‚ğì¬‚·‚éB‰æ‘œ‚ª COLOR_WINDOW
+ˆÈŠO‚Ì”wŒiF‚Ìã‚É•`‰æ‚³‚ê‚é‚ÆA‰æ‘œ‚Í³‚µ‚­•`‰æ‚³‚ê‚È‚¢B‚Ü‚½ALR_LOADTRANSPARENT ‚Æ
+LR_LOADMAP3DCOLORS ‚ÍAImageList_LoadImage
+‚ªŒÄ‚Ño‚³‚ê‚½“_‚Å—LŒø‚¾‚Á‚½ƒVƒXƒeƒ€ƒJƒ‰[‚ğg—p‚·‚éB‚»‚ÌŒãƒVƒXƒeƒ€ƒJƒ‰[‚ª•ÏX‚³‚ê‚½ê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍF‚ğÄƒ}ƒbƒsƒ“ƒO‚·‚é‚½‚ß‚É‰æ‘œ‚ğÄ“Ç‚İ‚İ‚·‚é•K—v‚ª‚ ‚éB
+> [!NOTE] > commctrl.h ƒwƒbƒ_‚Í ImageList_LoadImage
+‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚É‰‚¶‚Ä ANSI ‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚Æ’†—§ƒGƒCƒŠƒAƒX‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚Ü‚½‚ÍÀsƒGƒ‰[‚É‚Â‚È‚ª‚é•s®‡‚ª¶‚¶‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 ImageList_Merge
-Creates a new image by combining two existing images. The function also creates a new image list in which to store the image.
+2 ‚Â‚ÌŠù‘¶‰æ‘œ‚ğŒ‹‡‚µ‚ÄV‚µ‚¢‰æ‘œ‚ğì¬‚·‚éB‚±‚ÌŠÖ”‚ÍA‰æ‘œ‚ğŠi”[‚·‚éV‚µ‚¢ƒCƒ[ƒWƒŠƒXƒg‚àì¬‚·‚éB
 %group
 Win32 comctl32
 %prm
 himl1, i1, himl2, i2, dx, dy
-himl1 : [intptr] Type: HIMAGELIST A handle to the first image list.
-i1 : [int] Type: int The index of the first existing image.
-himl2 : [intptr] Type: HIMAGELIST A handle to the second image list.
-i2 : [int] Type: int The index of the second existing image.
-dx : [int] Type: int The x-offset of the second image relative to the first image.
-dy : [int] Type: int The y-offset of the second image relative to the first image.
+himl1 : [intptr] Œ^: HIMAGELIST 1 ‚Â–Ú‚ÌƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i1 : [int] Œ^: int 1 ‚Â–Ú‚ÌŠù‘¶‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒXB
+himl2 : [intptr] Œ^: HIMAGELIST 2 ‚Â–Ú‚ÌƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i2 : [int] Œ^: int 2 ‚Â–Ú‚ÌŠù‘¶‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒXB
+dx : [int] Œ^: int 1 ‚Â–Ú‚Ì‰æ‘œ‚É‘Î‚·‚é 2 ‚Â–Ú‚Ì‰æ‘œ‚Ì x •ûŒü‚ÌƒIƒtƒZƒbƒgB
+dy : [int] Œ^: int 1 ‚Â–Ú‚Ì‰æ‘œ‚É‘Î‚·‚é 2 ‚Â–Ú‚Ì‰æ‘œ‚Ì y •ûŒü‚ÌƒIƒtƒZƒbƒgB
 %inst
-Creates a new image by combining two existing images. The function
-also creates a new image list in which to store the image.
+2 ‚Â‚ÌŠù‘¶‰æ‘œ‚ğŒ‹‡‚µ‚ÄV‚µ‚¢‰æ‘œ‚ğì¬‚·‚éB‚±‚ÌŠÖ”‚ÍA‰æ‘œ‚ğŠi”[‚·‚éV‚µ‚¢ƒCƒ[ƒWƒŠƒXƒg‚àì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HIMAGELIST Returns the handle to the new image list if
-successful, or NULL otherwise.
+Œ^: HIMAGELIST ¬Œ÷‚µ‚½ê‡‚ÍV‚µ‚¢ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µA‚»‚êˆÈŠO‚Í NULL ‚ğ•Ô‚·B
 
 [”õl]
-The new image consists of the second existing image drawn
-transparently over the first. The mask for the new image is the
-result of performing a logical OR operation on the masks of the two
-existing images.
+V‚µ‚¢‰æ‘œ‚ÍA2 ‚Â–Ú‚ÌŠù‘¶‰æ‘œ‚ª 1 ‚Â–Ú‚Ìã‚É“§‰ß“I‚É•`‰æ‚³‚ê‚½‚à‚Ì‚É‚È‚éBV‚µ‚¢‰æ‘œ‚Ìƒ}ƒXƒN‚ÍA2 ‚Â‚ÌŠù‘¶‰æ‘œ‚Ìƒ}ƒXƒN‚É‘Î‚µ‚Ä˜_—
+OR ‰‰Z‚ğs‚Á‚½Œ‹‰Ê‚Å‚ ‚éB
 
 
 %index
 ImageList_Read
-Reads an image list from a stream.
+ƒXƒgƒŠ[ƒ€‚©‚çƒCƒ[ƒWƒŠƒXƒg‚ğ“Ç‚İ‚ŞB
 %group
 Win32 comctl32
 %prm
 pstm
-pstm : [var] Type: LPSTREAM A pointer to the stream.
+pstm : [var] Œ^: LPSTREAM ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Reads an image list from a stream.
+ƒXƒgƒŠ[ƒ€‚©‚çƒCƒ[ƒWƒŠƒXƒg‚ğ“Ç‚İ‚ŞB
 
 [–ß‚è’l]
-Type: HIMAGELIST Returns the handle to the image list if successful,
-or NULL otherwise.
+Œ^: HIMAGELIST ¬Œ÷‚µ‚½ê‡‚ÍƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µA‚»‚êˆÈŠO‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 ImageList_Remove
-Removes an image from an image list. (ImageList_Remove)
+ƒCƒ[ƒWƒŠƒXƒg‚©‚ç‰æ‘œ‚ğíœ‚·‚éB(ImageList_Remove)
 %group
 Win32 comctl32
 %prm
 himl, i
-himl : [intptr] Type: HIMAGELIST A handle to the image list.
-i : [int] Type: int The index of the image to remove. If this parameter is -1, the function removes all images.
+himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int íœ‚·‚é‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒXB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª -1 ‚Ìê‡AŠÖ”‚Í‚·‚×‚Ä‚Ì‰æ‘œ‚ğíœ‚·‚éB
 %inst
-Removes an image from an image list. (ImageList_Remove)
+ƒCƒ[ƒWƒŠƒXƒg‚©‚ç‰æ‘œ‚ğíœ‚·‚éB(ImageList_Remove)
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-When an image is removed, the indexes of the remaining images are
-adjusted so that the image indexes always range from zero to one less
-than the number of images in the image list. For example, if you
-remove the image at index 0, then image 1 becomes image 0, image 2
-becomes image 1, and so on.
+‰æ‘œ‚ªíœ‚³‚ê‚é‚ÆA‰æ‘œƒCƒ“ƒfƒbƒNƒX‚ªí‚Éƒ[ƒ‚©‚çƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ”‚æ‚è 1
+­‚È‚¢”ÍˆÍ‚Éû‚Ü‚é‚æ‚¤‚ÉAc‚è‚Ì‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒX‚ª’²®‚³‚ê‚éB‚½‚Æ‚¦‚ÎAƒCƒ“ƒfƒbƒNƒX 0 ‚Ì‰æ‘œ‚ğíœ‚·‚é‚ÆA‰æ‘œ 1 ‚ª‰æ‘œ 0
+‚É‚È‚èA‰æ‘œ 2 ‚ª‰æ‘œ 1 ‚É‚È‚éA‚Æ‚¢‚¤‚æ‚¤‚É‘±‚­B
 
 
 %index
 ImageList_Replace
-Replaces an image in an image list with a new image. (ImageList_Replace)
+ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚ğV‚µ‚¢‰æ‘œ‚É’u‚«Š·‚¦‚éB(ImageList_Replace)
 %group
 Win32 comctl32
 %prm
 himl, i, hbmImage, hbmMask
-himl : [intptr] Type: HIMAGELIST A handle to the image list.
-i : [int] Type: int An index of the image to replace.
-hbmImage : [intptr] Type: HBITMAP A handle to the bitmap that contains the image.
-hbmMask : [intptr] Type: HBITMAP A handle to the bitmap that contains the mask. If no mask is used with the image list, this parameter is ignored.
+himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int ’u‚«Š·‚¦‚é‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒXB
+hbmImage : [intptr] Œ^: HBITMAP ‰æ‘œ‚ğŠÜ‚Şƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹B
+hbmMask : [intptr] Œ^: HBITMAP ƒ}ƒXƒN‚ğŠÜ‚Şƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹BƒCƒ[ƒWƒŠƒXƒg‚Åƒ}ƒXƒN‚ªg—p‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
 %inst
-Replaces an image in an image list with a new image.
-(ImageList_Replace)
+ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚ğV‚µ‚¢‰æ‘œ‚É’u‚«Š·‚¦‚éB(ImageList_Replace)
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-The ImageList_Replace function copies the bitmap to an internal data
-structure. Be sure to use the DeleteObject function to delete
-hbmImage and hbmMask after the function returns.
+ImageList_Replace ŠÖ”‚ÍAƒrƒbƒgƒ}ƒbƒv‚ğ“à•”ƒf[ƒ^\‘¢‚ÉƒRƒs[‚·‚éBŠÖ”‚ª–ß‚Á‚½Œã‚ÍADeleteObject
+ŠÖ”‚ğg‚Á‚Ä•K‚¸ hbmImage ‚Æ hbmMask ‚ğíœ‚·‚é‚±‚ÆB
 
 
 %index
 ImageList_ReplaceIcon
-Replaces an image with an icon or cursor. (ImageList_ReplaceIcon)
+‰æ‘œ‚ğƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚Å’u‚«Š·‚¦‚éB(ImageList_ReplaceIcon)
 %group
 Win32 comctl32
 %prm
 himl, i, hicon
-himl : [intptr] Type: HIMAGELIST A handle to the image list.
-i : [int] Type: int The index of the image to replace. If i is -1, the function appends the image to the end of the list.
-hicon : [intptr] Type: HICON The handle to the icon or cursor that contains the bitmap and mask for the new image.
+himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+i : [int] Œ^: int ’u‚«Š·‚¦‚é‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒXBi ‚ª -1 ‚Ìê‡AŠÖ”‚ÍƒŠƒXƒg‚Ì––”ö‚É‰æ‘œ‚ğ’Ç‰Á‚·‚éB
+hicon : [intptr] Œ^: HICON V‚µ‚¢‰æ‘œ‚Ì‚½‚ß‚Ìƒrƒbƒgƒ}ƒbƒv‚Æƒ}ƒXƒN‚ğŠÜ‚ŞƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Replaces an image with an icon or cursor. (ImageList_ReplaceIcon)
+‰æ‘œ‚ğƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚Å’u‚«Š·‚¦‚éB(ImageList_ReplaceIcon)
 
 [–ß‚è’l]
-Type: int Returns the index of the image if successful, or -1
-otherwise.
+Œ^: int ¬Œ÷‚µ‚½ê‡‚Í‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚µA‚»‚êˆÈŠO‚Í -1 ‚ğ•Ô‚·B
 
 [”õl]
-Because the system does not save hicon, you can destroy it after the
-function returns if the icon or cursor was created by the CreateIcon
-function. You do not need to destroy hicon if it was loaded by the
-LoadIcon function; the system automatically frees an icon resource
-when it is no longer needed.
+ƒVƒXƒeƒ€‚Í hicon ‚ğ•Û‘¶‚µ‚È‚¢‚½‚ßAƒAƒCƒRƒ“‚Ü‚½‚ÍƒJ[ƒ\ƒ‹‚ª CreateIcon
+ŠÖ”‚Åì¬‚³‚ê‚½‚à‚Ì‚Å‚ ‚ê‚ÎAŠÖ”‚ª–ß‚Á‚½Œã‚É”jŠü‚Å‚«‚éBhicon ‚ª LoadIcon
+ŠÖ”‚Å“Ç‚İ‚Ü‚ê‚½‚à‚Ì‚Å‚ ‚ê‚Î”jŠü‚·‚é•K—v‚Í‚È‚¢BƒVƒXƒeƒ€‚Í•s—v‚É‚È‚Á‚½ƒAƒCƒRƒ“ƒŠƒ\[ƒX‚ğ©“®“I‚É‰ğ•ú‚·‚éB
 
 
 %index
 ImageList_SetBkColor
-Sets the background color for an image list. This function only works if you add an icon or use ImageList_AddMasked with a black and white bitmap. Without a mask, the entire image is drawn; hence the background color is not visible.
+ƒCƒ[ƒWƒŠƒXƒg‚Ì”wŒiF‚ğİ’è‚·‚éB‚±‚ÌŠÖ”‚ÍAƒAƒCƒRƒ“‚ğ’Ç‰Á‚µ‚½ê‡A‚Ü‚½‚Í”’•ƒrƒbƒgƒ}ƒbƒv‚Å ImageList_AddMasked ‚ğg—p‚µ‚½ê‡‚É‚Ì‚İ‹@”\‚·‚éBƒ}ƒXƒN‚ª‚È‚¢‚Æ‰æ‘œ‘S‘Ì‚ª•`‰æ‚³‚ê‚é‚½‚ßA”wŒiF‚ÍŒ©‚¦‚È‚¢B
 %group
 Win32 comctl32
 %prm
 himl, clrBk
-himl : [intptr] Type: HIMAGELIST A handle to the image list.
-clrBk : [int] Type: COLORREF The background color to set. This parameter can be the CLR_NONE value; in that case, images are drawn transparently using the mask.
+himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+clrBk : [int] Œ^: COLORREF İ’è‚·‚é”wŒiFB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É CLR_NONE ’l‚ğw’è‚·‚é‚±‚Æ‚à‚Å‚«A‚»‚Ìê‡‚Í‰æ‘œ‚ªƒ}ƒXƒN‚ğg—p‚µ‚Ä“§‰ß“I‚É•`‰æ‚³‚ê‚éB
 %inst
-Sets the background color for an image list. This function only works
-if you add an icon or use ImageList_AddMasked with a black and white
-bitmap. Without a mask, the entire image is drawn; hence the
-background color is not visible.
+ƒCƒ[ƒWƒŠƒXƒg‚Ì”wŒiF‚ğİ’è‚·‚éB‚±‚ÌŠÖ”‚ÍAƒAƒCƒRƒ“‚ğ’Ç‰Á‚µ‚½ê‡A‚Ü‚½‚Í”’•ƒrƒbƒgƒ}ƒbƒv‚Å ImageList_AddMasked
+‚ğg—p‚µ‚½ê‡‚É‚Ì‚İ‹@”\‚·‚éBƒ}ƒXƒN‚ª‚È‚¢‚Æ‰æ‘œ‘S‘Ì‚ª•`‰æ‚³‚ê‚é‚½‚ßA”wŒiF‚ÍŒ©‚¦‚È‚¢B
 
 [–ß‚è’l]
-Type: COLORREF Returns the previous background color if successful,
-or CLR_NONE otherwise.
+Œ^: COLORREF ¬Œ÷‚µ‚½ê‡‚Í•ÏX‘O‚Ì”wŒiF‚ğ•Ô‚µA‚»‚êˆÈŠO‚Í CLR_NONE ‚ğ•Ô‚·B
 
 
 %index
 ImageList_SetDragCursorImage
-Creates a new drag image by combining the specified image (typically a mouse cursor image) with the current drag image.
+w’è‚³‚ê‚½‰æ‘œi’Êí‚Íƒ}ƒEƒXƒJ[ƒ\ƒ‹‰æ‘œj‚ğŒ»İ‚Ìƒhƒ‰ƒbƒO‰æ‘œ‚ÆŒ‹‡‚µ‚ÄAV‚µ‚¢ƒhƒ‰ƒbƒO‰æ‘œ‚ğì¬‚·‚éB
 %group
 Win32 comctl32
 %prm
 himlDrag, iDrag, dxHotspot, dyHotspot
-himlDrag : [intptr] Type: HIMAGELIST A handle to the image list that contains the new image to combine with the drag image.
-iDrag : [int] Type: int The index of the new image to combine with the drag image.
-dxHotspot : [int] Type: int The x-position of the hot spot within the new image.
-dyHotspot : [int] Type: int The y-position of the hot spot within the new image.
+himlDrag : [intptr] Œ^: HIMAGELIST ƒhƒ‰ƒbƒO‰æ‘œ‚ÆŒ‹‡‚·‚éV‚µ‚¢‰æ‘œ‚ğŠÜ‚ŞƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+iDrag : [int] Œ^: int ƒhƒ‰ƒbƒO‰æ‘œ‚ÆŒ‹‡‚·‚éV‚µ‚¢‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒXB
+dxHotspot : [int] Œ^: int V‚µ‚¢‰æ‘œ“à‚ÌƒzƒbƒgƒXƒ|ƒbƒg‚Ì x À•WB
+dyHotspot : [int] Œ^: int V‚µ‚¢‰æ‘œ“à‚ÌƒzƒbƒgƒXƒ|ƒbƒg‚Ì y À•WB
 %inst
-Creates a new drag image by combining the specified image (typically
-a mouse cursor image) with the current drag image.
+w’è‚³‚ê‚½‰æ‘œi’Êí‚Íƒ}ƒEƒXƒJ[ƒ\ƒ‹‰æ‘œj‚ğŒ»İ‚Ìƒhƒ‰ƒbƒO‰æ‘œ‚ÆŒ‹‡‚µ‚ÄAV‚µ‚¢ƒhƒ‰ƒbƒO‰æ‘œ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 ImageList_SetIconSize
-Sets the dimensions of images in an image list and removes all images from the list. (ImageList_SetIconSize)
+ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚Ì¡–@‚ğİ’è‚µAƒŠƒXƒg‚©‚ç‚·‚×‚Ä‚Ì‰æ‘œ‚ğíœ‚·‚éB(ImageList_SetIconSize)
 %group
 Win32 comctl32
 %prm
 himl, cx, cy
-himl : [intptr] Type: HIMAGELIST A handle to the image list.
-cx : [int] Type: int The width, in pixels, of the images in the image list. All images in an image list have the same dimensions.
-cy : [int] Type: int The height, in pixels, of the images in the image list. All images in an image list have the same dimensions.
+himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+cx : [int] Œ^: int ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚Ì•iƒsƒNƒZƒ‹’PˆÊjBƒCƒ[ƒWƒŠƒXƒg“à‚Ì‚·‚×‚Ä‚Ì‰æ‘œ‚Í“¯‚¶¡–@‚ğ‚ÂB
+cy : [int] Œ^: int ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚Ì‚‚³iƒsƒNƒZƒ‹’PˆÊjBƒCƒ[ƒWƒŠƒXƒg“à‚Ì‚·‚×‚Ä‚Ì‰æ‘œ‚Í“¯‚¶¡–@‚ğ‚ÂB
 %inst
-Sets the dimensions of images in an image list and removes all images
-from the list. (ImageList_SetIconSize)
+ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚Ì¡–@‚ğİ’è‚µAƒŠƒXƒg‚©‚ç‚·‚×‚Ä‚Ì‰æ‘œ‚ğíœ‚·‚éB(ImageList_SetIconSize)
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 ImageList_SetImageCount
-Resizes an existing image list. (ImageList_SetImageCount)
+Šù‘¶‚ÌƒCƒ[ƒWƒŠƒXƒg‚ÌƒTƒCƒY‚ğ•ÏX‚·‚éB(ImageList_SetImageCount)
 %group
 Win32 comctl32
 %prm
 himl, uNewCount
-himl : [intptr] Type: HIMAGELIST A handle to the image list that will be resized.
-uNewCount : [int] Type: UINT A value specifying the new size of the image list.
+himl : [intptr] Œ^: HIMAGELIST ƒTƒCƒY‚ğ•ÏX‚·‚éƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+uNewCount : [int] Œ^: UINT ƒCƒ[ƒWƒŠƒXƒg‚ÌV‚µ‚¢ƒTƒCƒY‚ğw’è‚·‚é’lB
 %inst
-Resizes an existing image list. (ImageList_SetImageCount)
+Šù‘¶‚ÌƒCƒ[ƒWƒŠƒXƒg‚ÌƒTƒCƒY‚ğ•ÏX‚·‚éB(ImageList_SetImageCount)
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-If an application expands an image list with this function, it must
-add new images by using the ImageList_Replace function. If your
-application does not add valid images at the new indexes, draw
-operations that use the new indexes will be unpredictable. If you
-decrease the size of an image list by using this function, the
-truncated images are freed.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‚±‚ÌŠÖ”‚ÅƒCƒ[ƒWƒŠƒXƒg‚ğŠg’£‚·‚éê‡AImageList_Replace
+ŠÖ”‚ğg—p‚µ‚ÄV‚µ‚¢‰æ‘œ‚ğ’Ç‰Á‚·‚é•K—v‚ª‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªV‚µ‚¢ƒCƒ“ƒfƒbƒNƒX‚É—LŒø‚È‰æ‘œ‚ğ’Ç‰Á‚µ‚È‚¢ê‡AV‚µ‚¢ƒCƒ“ƒfƒbƒNƒX‚ğg—p‚·‚é•`‰æ‘€ì‚ÌŒ‹‰Ê‚Í—\‘ª‚Å‚«‚È‚¢B‚±‚ÌŠÖ”‚ÅƒCƒ[ƒWƒŠƒXƒg‚ÌƒTƒCƒY‚ğ¬‚³‚­‚·‚é‚ÆAØ‚èÌ‚Ä‚ç‚ê‚½‰æ‘œ‚Í‰ğ•ú‚³‚ê‚éB
 
 
 %index
 ImageList_SetOverlayImage
-Adds a specified image to the list of images to be used as overlay masks. An image list can have up to four overlay masks in version 4.70 and earlier and up to 15 in version 4.71. The function assigns an overlay mask index to the specified image.
+ƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚Æ‚µ‚Äg—p‚³‚ê‚é‰æ‘œ‚ÌƒŠƒXƒg‚ÉAw’è‚³‚ê‚½‰æ‘œ‚ğ’Ç‰Á‚·‚éBƒCƒ[ƒWƒŠƒXƒg‚Íƒo[ƒWƒ‡ƒ“ 4.70 ˆÈ‘O‚ÅÅ‘å 4 ŒÂAƒo[ƒWƒ‡ƒ“ 4.71 ‚ÅÅ‘å 15 ŒÂ‚ÌƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚ğ‚Â‚±‚Æ‚ª‚Å‚«‚éBŠÖ”‚Íw’è‚³‚ê‚½‰æ‘œ‚ÉƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚ÌƒCƒ“ƒfƒbƒNƒX‚ğŠ„‚è“–‚Ä‚éB
 %group
 Win32 comctl32
 %prm
 himl, iImage, iOverlay
-himl : [intptr] Type: HIMAGELIST A handle to the image list.
-iImage : [int] Type: int The zero-based index of an image in the himl image list. This index identifies the image to use as an overlay mask.
-iOverlay : [int] Type: int The one-based index of the overlay mask.
+himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+iImage : [int] Œ^: int himl ƒCƒ[ƒWƒŠƒXƒg“à‚Ì‰æ‘œ‚Ìƒ[ƒ‚©‚çn‚Ü‚éƒCƒ“ƒfƒbƒNƒXB‚±‚ÌƒCƒ“ƒfƒbƒNƒX‚ÍƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚Æ‚µ‚Äg—p‚·‚é‰æ‘œ‚ğ¯•Ê‚·‚éB
+iOverlay : [int] Œ^: int ƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚Ì 1 ‚©‚çn‚Ü‚éƒCƒ“ƒfƒbƒNƒXB
 %inst
-Adds a specified image to the list of images to be used as overlay
-masks. An image list can have up to four overlay masks in version
-4.70 and earlier and up to 15 in version 4.71. The function assigns
-an overlay mask index to the specified image.
+ƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚Æ‚µ‚Äg—p‚³‚ê‚é‰æ‘œ‚ÌƒŠƒXƒg‚ÉAw’è‚³‚ê‚½‰æ‘œ‚ğ’Ç‰Á‚·‚éBƒCƒ[ƒWƒŠƒXƒg‚Íƒo[ƒWƒ‡ƒ“ 4.70 ˆÈ‘O‚ÅÅ‘å 4
+ŒÂAƒo[ƒWƒ‡ƒ“ 4.71 ‚ÅÅ‘å 15
+ŒÂ‚ÌƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚ğ‚Â‚±‚Æ‚ª‚Å‚«‚éBŠÖ”‚Íw’è‚³‚ê‚½‰æ‘œ‚ÉƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚ÌƒCƒ“ƒfƒbƒNƒX‚ğŠ„‚è“–‚Ä‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-An overlay mask is an image drawn transparently over another image.
-To draw an overlay mask over an image, call the ImageList_Draw or
-ImageList_DrawEx function. The fStyle parameter of these functions
-can use the INDEXTOOVERLAYMASK macro to specify an overlay mask
-index. A call to this method fails and returns E_INVALIDARG unless
-the image list is created using a mask.
+
+ƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚Æ‚ÍA•Ê‚Ì‰æ‘œ‚Ìã‚É“§‰ß“I‚É•`‰æ‚³‚ê‚é‰æ‘œ‚Ì‚±‚Æ‚Å‚ ‚éB‰æ‘œ‚Ìã‚ÉƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚ğ•`‰æ‚·‚é‚É‚ÍAImageList_Draw
+‚Ü‚½‚Í ImageList_DrawEx ŠÖ”‚ğŒÄ‚Ño‚·B‚±‚ê‚ç‚ÌŠÖ”‚Ì fStyle
+ƒpƒ‰ƒ[ƒ^‚Å‚ÍAINDEXTOOVERLAYMASK
+ƒ}ƒNƒ‚ğg—p‚µ‚ÄƒI[ƒo[ƒŒƒCƒ}ƒXƒN‚ÌƒCƒ“ƒfƒbƒNƒX‚ğw’è‚Å‚«‚éB‚±‚Ìƒƒ\ƒbƒh‚ÍAƒCƒ[ƒWƒŠƒXƒg‚ªƒ}ƒXƒN•t‚«‚Åì¬‚³‚ê‚Ä‚¢‚È‚¢ŒÀ‚è¸”s‚µAE_INVALIDARG
+‚ğ•Ô‚·B
 
 
 %index
 ImageList_Write
-Writes an image list to a stream. (ImageList_Write)
+ƒXƒgƒŠ[ƒ€‚ÉƒCƒ[ƒWƒŠƒXƒg‚ğ‘‚«‚ŞB(ImageList_Write)
 %group
 Win32 comctl32
 %prm
 himl, pstm
-himl : [intptr] Type: HIMAGELIST A handle to the image list.
-pstm : [var] Type: LPSTREAM A pointer to the stream.
+himl : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pstm : [var] Œ^: LPSTREAM ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Writes an image list to a stream. (ImageList_Write)
+ƒXƒgƒŠ[ƒ€‚ÉƒCƒ[ƒWƒŠƒXƒg‚ğ‘‚«‚ŞB(ImageList_Write)
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 InitCommonControls
-Registers and initializes certain common control window classes. This function is obsolete. New applications should use the InitCommonControlsEx function.
+“Á’è‚ÌƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚ÌƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğ“o˜^‚¨‚æ‚Ñ‰Šú‰»‚·‚éB‚±‚ÌŠÖ”‚Í”p~‚³‚ê‚Ä‚¢‚éBV‚µ‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í InitCommonControlsEx ŠÖ”‚ğg—p‚·‚é‚×‚«‚Å‚ ‚éB
 %group
 Win32 comctl32
 %prm
 
 %inst
-Registers and initializes certain common control window classes. This
-function is obsolete. New applications should use the
-InitCommonControlsEx function.
+“Á’è‚ÌƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚ÌƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğ“o˜^‚¨‚æ‚Ñ‰Šú‰»‚·‚éB‚±‚ÌŠÖ”‚Í”p~‚³‚ê‚Ä‚¢‚éBV‚µ‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+InitCommonControlsEx ŠÖ”‚ğg—p‚·‚é‚×‚«‚Å‚ ‚éB
 
 [”õl]
-Under Comctl32.dll version 5.x, only Windows 95 classes
-(ICC_WIN95_CLASSES) can be registered through InitCommonControls.
-Programs which require additional common control classes must use the
-InitCommonControlsEx function. Under Comctl32.dll version 6.0 and
-later, InitCommonControls does nothing. Applications must explicitly
-register all common controls through InitCommonControlsEx.
+Comctl32.dll ƒo[ƒWƒ‡ƒ“ 5.x ‚Å‚ÍAInitCommonControls ‚ğ’Ê‚¶‚Ä“o˜^‚Å‚«‚é‚Ì‚Í Windows 95
+ƒNƒ‰ƒX (ICC_WIN95_CLASSES)
+‚Ì‚İ‚Å‚ ‚éB’Ç‰Á‚ÌƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹ƒNƒ‰ƒX‚ª•K—v‚ÈƒvƒƒOƒ‰ƒ€‚ÍAInitCommonControlsEx
+ŠÖ”‚ğg—p‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BComctl32.dll ƒo[ƒWƒ‡ƒ“ 6.0 ˆÈ~‚Å‚ÍAInitCommonControls
+‚Í‰½‚às‚í‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í InitCommonControlsEx
+‚ğ’Ê‚¶‚Ä‚·‚×‚Ä‚ÌƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚ğ–¾¦“I‚É“o˜^‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
@@ -1818,290 +1674,256 @@ ICC_HOTKEY_CLASS ‚ÅŒÄ‚Î‚ê‚½ê‡AƒAƒbƒvƒ_ƒEƒ“‚ÆƒzƒbƒgƒL[‚ÌƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹ƒNƒ
 
 %index
 InitMUILanguage
-Enables an application to specify a language to be used with the common controls that is different from the system language.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªAƒVƒXƒeƒ€Œ¾Œê‚Æ‚ÍˆÙ‚È‚éŒ¾Œê‚ğƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚Åg—p‚·‚é‚±‚Æ‚ğw’è‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 %group
 Win32 comctl32
 %prm
 uiLang
-uiLang : [int] Type: LANGID The  language identifier of the language to be used by the common controls.
+uiLang : [int] Œ^: LANGID ƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚Åg—p‚·‚éŒ¾Œê‚ÌŒ¾Œê¯•ÊqB
 %inst
-Enables an application to specify a language to be used with the
-common controls that is different from the system language.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªAƒVƒXƒeƒ€Œ¾Œê‚Æ‚ÍˆÙ‚È‚éŒ¾Œê‚ğƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚Åg—p‚·‚é‚±‚Æ‚ğw’è‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 
 [”õl]
-This function enables an application to override the system language
-setting, and specify a different language for the common controls.
-The selected language only applies to the process that
-InitMUILanguage is called from. See Internationalization for Windows
-Applications for further discussion of localization.
+
+‚±‚ÌŠÖ”‚É‚æ‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒVƒXƒeƒ€‚ÌŒ¾Œêİ’è‚ğƒI[ƒo[ƒ‰ƒCƒh‚µAƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚É•Ê‚ÌŒ¾Œê‚ğw’è‚Å‚«‚éB‘I‘ğ‚³‚ê‚½Œ¾Œê‚ÍAInitMUILanguage
+‚ğŒÄ‚Ño‚µ‚½ƒvƒƒZƒX‚É‚Ì‚İ“K—p‚³‚ê‚éBƒ[ƒJƒ‰ƒCƒY‚ÌÚ×‚É‚Â‚¢‚Ä‚ÍAWindows ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‘Û‰»‚ğQÆB
 
 
 %index
 InitializeFlatSB
-Initializes flat scroll bars for a particular window.
+“Á’è‚ÌƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ğ‰Šú‰»‚·‚éB
 %group
 Win32 comctl32
 %prm
 param0
 param0 : [intptr] 
 %inst
-Initializes flat scroll bars for a particular window.
+“Á’è‚ÌƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-This function must be called before any other flat scroll bar
-functions are called. The window will receive flat scroll bars by
-default. The scroll bar style can be changed with the
-FlatSB_SetScrollProp function. Note Flat scroll bar functions are
-implemented in Comctl32.dll versions 4.71 through 5.82. Comctl32.dll
-versions 6.00 and higher do not support flat scroll bars.
+
+‚±‚ÌŠÖ”‚ÍA‘¼‚Ìƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[ŠÖ”‚ªŒÄ‚Ño‚³‚ê‚é‘O‚ÉŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒEƒBƒ“ƒhƒE‚ÍŠù’è‚Åƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ğó‚¯æ‚éBƒXƒNƒ[ƒ‹ƒo[‚ÌƒXƒ^ƒCƒ‹‚Í
+FlatSB_SetScrollProp ŠÖ”‚Å•ÏX‚Å‚«‚éBƒƒ‚: ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[ŠÖ”‚Í Comctl32.dll ƒo[ƒWƒ‡ƒ“
+4.71 ‚©‚ç 5.82 ‚ÅÀ‘•‚³‚ê‚Ä‚¢‚éBComctl32.dll ƒo[ƒWƒ‡ƒ“ 6.00
+ˆÈ~‚Å‚Íƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B
 
 
 %index
 LBItemFromPt
-Retrieves the index of the item at the specified point in a list box.
+ƒŠƒXƒgƒ{ƒbƒNƒX“à‚Ìw’è‚³‚ê‚½“_‚É‚ ‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
 %group
 Win32 comctl32
 %prm
 hLB, pt, bAutoScroll
-hLB : [intptr] Type: HWND A handle to the list box to check.
-pt : [int] Type: POINT A POINT structure that contains the screen coordinates to check.
-bAutoScroll : [int] Type: BOOL A scroll flag. If this parameter is TRUE and the point is directly above or below the list box, the function scrolls the list box by one line and returns -1. Otherwise, the function does not scroll the list box.
+hLB : [intptr] Œ^: HWND ’²‚×‚éƒŠƒXƒgƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pt : [int] Œ^: POINT ’²‚×‚éƒXƒNƒŠ[ƒ“À•W‚ğŠÜ‚Ş POINT \‘¢‘ÌB
+bAutoScroll : [int] Œ^: BOOL ƒXƒNƒ[ƒ‹ƒtƒ‰ƒOB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª TRUE ‚ÅAw’è‚³‚ê‚½“_‚ªƒŠƒXƒgƒ{ƒbƒNƒX‚Ì’¼ã‚Ü‚½‚Í’¼‰º‚É‚ ‚éê‡AŠÖ”‚ÍƒŠƒXƒgƒ{ƒbƒNƒX‚ğ 1 sƒXƒNƒ[ƒ‹‚µ‚Ä -1 ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡AŠÖ”‚ÍƒŠƒXƒgƒ{ƒbƒNƒX‚ğƒXƒNƒ[ƒ‹‚µ‚È‚¢B
 %inst
-Retrieves the index of the item at the specified point in a list box.
+ƒŠƒXƒgƒ{ƒbƒNƒX“à‚Ìw’è‚³‚ê‚½“_‚É‚ ‚é€–Ú‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: int Returns the item identifier if the point is over a list
-item, or -1 otherwise.
+Œ^: int “_‚ªƒŠƒXƒg€–Ú‚Ìã‚É‚ ‚éê‡‚Í€–Ú¯•Êq‚ğ•Ô‚µA‚»‚êˆÈŠO‚Í -1 ‚ğ•Ô‚·B
 
 [”õl]
-The LBItemFromPt function only scrolls the list box if a minimum
-amount of time has passed since it last did so. Timing prevents the
-list box from scrolling too quickly if the function is called
-repeatedly in rapid succession?for example, when DL_DRAGGING
-notification codes or WM_MOUSEMOVE messages are processed. If the
-specified point is outside the client area of the list box and
-bAutoScroll is TRUE, the function scrolls the list box instead of
-returning an item identifier.
+LBItemFromPt
+ŠÖ”‚ÍA‘O‰ñƒXƒNƒ[ƒ‹‚µ‚Ä‚©‚çÅ¬ŒÀ‚ÌŠÔ‚ªŒo‰ß‚µ‚Ä‚¢‚éê‡‚É‚Ì‚İƒŠƒXƒgƒ{ƒbƒNƒX‚ğƒXƒNƒ[ƒ‹‚·‚éB‚±‚Ìƒ^ƒCƒ~ƒ“ƒO§Œä‚ÍADL_DRAGGING
+’Ê’mƒR[ƒh‚â WM_MOUSEMOVE
+ƒƒbƒZ[ƒW‚ªˆ—‚³‚ê‚Ä‚¢‚é‚Æ‚«‚Ì‚æ‚¤‚ÉAŠÖ”‚ª‹}‘¬‚ÉŒJ‚è•Ô‚µŒÄ‚Ño‚³‚ê‚½ê‡‚ÉƒŠƒXƒgƒ{ƒbƒNƒX‚ª‘¬‚­ƒXƒNƒ[ƒ‹‚µ‰ß‚¬‚é‚Ì‚ğ–h‚®Bw’è‚³‚ê‚½“_‚ªƒŠƒXƒgƒ{ƒbƒNƒX‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ÌŠO‚É‚ ‚èA‚©‚Â
+bAutoScroll ‚ª TRUE ‚Ìê‡AŠÖ”‚Í€–Ú¯•Êq‚ğ•Ô‚·‘ã‚í‚è‚ÉƒŠƒXƒgƒ{ƒbƒNƒX‚ğƒXƒNƒ[ƒ‹‚·‚éB
 
 
 %index
 MakeDragList
-Changes the specified single-selection list box to a drag list box.
+w’è‚³‚ê‚½’Pˆê‘I‘ğƒŠƒXƒgƒ{ƒbƒNƒX‚ğƒhƒ‰ƒbƒOƒŠƒXƒgƒ{ƒbƒNƒX‚É•ÏX‚·‚éB
 %group
 Win32 comctl32
 %prm
 hLB
-hLB : [intptr] Type: HWND A handle to the single-selection list box.
+hLB : [intptr] Œ^: HWND ’Pˆê‘I‘ğƒŠƒXƒgƒ{ƒbƒNƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Changes the specified single-selection list box to a drag list box.
+w’è‚³‚ê‚½’Pˆê‘I‘ğƒŠƒXƒgƒ{ƒbƒNƒX‚ğƒhƒ‰ƒbƒOƒŠƒXƒgƒ{ƒbƒNƒX‚É•ÏX‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 MenuHelp
-Processes WM_MENUSELECT and WM_COMMAND messages and displays Help text about the current menu in the specified status window.
+WM_MENUSELECT ƒƒbƒZ[ƒW‚Æ WM_COMMAND ƒƒbƒZ[ƒW‚ğˆ—‚µAŒ»İ‚Ìƒƒjƒ…[‚ÉŠÖ‚·‚éƒwƒ‹ƒvƒeƒLƒXƒg‚ğw’è‚³‚ê‚½ƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚É•\¦‚·‚éB
 %group
 Win32 comctl32
 %prm
 uMsg, wParam, lParam, hMainMenu, hInst, hwndStatus, lpwIDs
-uMsg : [int] Type: UINT Message being processed. This can be either WM_MENUSELECT or WM_COMMAND.
-wParam : [intptr] Type: WPARAM wParam of the message specified in uMsg.
-lParam : [intptr] Type: LPARAM lParam of the message specified in uMsg.
-hMainMenu : [intptr] Type: HMENU Handle to the application's main menu.
-hInst : [intptr] Type: HINSTANCE Handle to the module that contains the string resources.
-hwndStatus : [intptr] Type: HWND Handle to the status window.
-lpwIDs : [var] Type: LPUINT Pointer to an array of values that contains pairs of string resource identifiers and menu handles. The function searches the array for the handle to the selected menu and, if found, uses the corresponding resource identifier to load the appropriate Help string.
+uMsg : [int] Œ^: UINT ˆ—‘ÎÛ‚ÌƒƒbƒZ[ƒWBWM_MENUSELECT ‚Ü‚½‚Í WM_COMMAND ‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
+wParam : [intptr] Œ^: WPARAM uMsg ‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚Ì wParamB
+lParam : [intptr] Œ^: LPARAM uMsg ‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚Ì lParamB
+hMainMenu : [intptr] Œ^: HMENU ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒƒCƒ“ƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
+hInst : [intptr] Œ^: HINSTANCE •¶š—ñƒŠƒ\[ƒX‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
+hwndStatus : [intptr] Œ^: HWND ƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lpwIDs : [var] Œ^: LPUINT •¶š—ñƒŠƒ\[ƒX¯•Êq‚Æƒƒjƒ…[ƒnƒ“ƒhƒ‹‚ÌƒyƒA‚ğŠÜ‚Ş’l‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚Í‘I‘ğ‚³‚ê‚½ƒƒjƒ…[‚Ìƒnƒ“ƒhƒ‹‚ğ”z—ñ“à‚ÅŒŸõ‚µAŒ©‚Â‚©‚Á‚½ê‡‚Í‘Î‰‚·‚éƒŠƒ\[ƒX¯•Êq‚ğg—p‚µ‚Ä“KØ‚Èƒwƒ‹ƒv•¶š—ñ‚ğ“Ç‚İ‚ŞB
 %inst
-Processes WM_MENUSELECT and WM_COMMAND messages and displays Help
-text about the current menu in the specified status window.
+WM_MENUSELECT ƒƒbƒZ[ƒW‚Æ WM_COMMAND
+ƒƒbƒZ[ƒW‚ğˆ—‚µAŒ»İ‚Ìƒƒjƒ…[‚ÉŠÖ‚·‚éƒwƒ‹ƒvƒeƒLƒXƒg‚ğw’è‚³‚ê‚½ƒXƒe[ƒ^ƒXƒEƒBƒ“ƒhƒE‚É•\¦‚·‚éB
 
 [”õl]
-The MenuHelp function is a helper function. Helper functions are
-available as a convenience to programming. They combine into one call
-a sequence of frequently used calls. You use MenuHelp to send
-WM_MENUSELECT and WM_COMMAND messages.
+MenuHelp ŠÖ”‚Íƒwƒ‹ƒp[ŠÖ”‚Å‚ ‚éBƒwƒ‹ƒp[ŠÖ”‚ÍƒvƒƒOƒ‰ƒ~ƒ“ƒO‚ğ—eˆÕ‚É‚·‚é‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚éB•p”É‚Ég—p‚³‚ê‚éˆê˜A‚ÌŒÄ‚Ño‚µ‚ğ
+1 ‰ñ‚ÌŒÄ‚Ño‚µ‚É‚Ü‚Æ‚ß‚Ä‚¢‚éBMenuHelp ‚Í WM_MENUSELECT ƒƒbƒZ[ƒW‚Æ WM_COMMAND
+ƒƒbƒZ[ƒW‚ğ‘—M‚·‚é‚½‚ß‚Ég—p‚·‚éB
 
 
 %index
 PropertySheetW
-Creates a property sheet and adds the pages defined in the specified property sheet header structure. (Unicode)
+ƒvƒƒpƒeƒBƒV[ƒg‚ğì¬‚µAw’è‚³‚ê‚½ƒvƒƒpƒeƒBƒV[ƒgƒwƒbƒ_\‘¢‘Ì‚Å’è‹`‚³‚ê‚½ƒy[ƒW‚ğ’Ç‰Á‚·‚éB(Unicode)
 %group
 Win32 comctl32
 %prm
 param0
 param0 : [var] 
 %inst
-Creates a property sheet and adds the pages defined in the specified
-property sheet header structure. (Unicode)
+ƒvƒƒpƒeƒBƒV[ƒg‚ğì¬‚µAw’è‚³‚ê‚½ƒvƒƒpƒeƒBƒV[ƒgƒwƒbƒ_\‘¢‘Ì‚Å’è‹`‚³‚ê‚½ƒy[ƒW‚ğ’Ç‰Á‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: INT_PTR For modal property sheets, the return value is as
-follows:
-This doc was truncated.
+Œ^: INT_PTR ƒ‚[ƒ_ƒ‹ƒvƒƒpƒeƒBƒV[ƒg‚Ìê‡A–ß‚è’l‚ÍŸ‚Ì‚Æ‚¨‚è‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-To retrieve extended error information, call GetLastError. If you
-attempt to add more than 99 pages to a property sheet, this function
-will fail, but with no indication of the cause of the error:
-PropertySheet returns a value of -1, but GetLastError returns 0. Note
-The following remarks refer only to wizards that do not use the Aero
-wizard style (PSH_AEROWIZARD) or non-wizard property sheets. By
-default, the PropertySheet function creates a modal dialog box. If
-the dwFlags member of the PROPSHEETHEADER structure specifies the
-PSH_MODELESS flag, PropertySheet creates a modeless dialog box and
-returns immediately after it is created. In this case, the
-PropertySheet return value is the window handle to the modeless
-dialog box. For a modeless property sheet, your message loop should
-use PSM_ISDIALOGMESSAGE to pass messages to the property sheet dialog
-box. Your message loop should use PSM_GETCURRENTPAGEHWND to determine
-when to destroy the dialog box. When the user clicks the OK or Cancel
-button, PSM_GETCURRENTPAGEHWND returns NULL. You can then use the
-DestroyWindow function to destroy the dialog box.
-Version 5.80. The PropertySheet return value carries different
-information for modal and modeless property sheets. In some cases,
-modeless property sheets might need the information they would have
-received from PropertySheet if they had been modal. In particular,
-they may need to know whether ID_PSREBOOTSYSTEM or
-ID_PSRESTARTWINDOWS would have been returned. A modeless property
-sheet can retrieve the value that a modal property sheet would have
-received from PropertySheet by waiting until PSM_GETCURRENTPAGEHWND
-returns NULL and then sending a PSM_GETRESULT message.
-> [!NOTE] > The prsht.h header defines PropertySheet as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+Šg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·BƒvƒƒpƒeƒBƒV[ƒg‚É 100
+ƒy[ƒWˆÈã’Ç‰Á‚µ‚æ‚¤‚Æ‚·‚é‚ÆA‚±‚ÌŠÖ”‚Í¸”s‚·‚é‚ªAƒGƒ‰[Œ´ˆö‚Í¦‚³‚ê‚È‚¢BPropertySheet ‚Í -1
+‚ğ•Ô‚·‚ªAGetLastError ‚Í 0 ‚ğ•Ô‚·Bƒƒ‚: ˆÈ~‚Ì’ˆÓ–€‚ÍAAero ƒEƒBƒU[ƒhƒXƒ^ƒCƒ‹
+(PSH_AEROWIZARD)
+‚ğg—p‚µ‚È‚¢ƒEƒBƒU[ƒh‚¨‚æ‚ÑƒEƒBƒU[ƒh‚Å‚È‚¢ƒvƒƒpƒeƒBƒV[ƒg‚É‚Ì‚İŠY“–‚·‚éBŠù’è‚Å‚ÍAPropertySheet
+ŠÖ”‚Íƒ‚[ƒ_ƒ‹ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğì¬‚·‚éBPROPSHEETHEADER \‘¢‘Ì‚Ì dwFlags ƒƒ“ƒo‚Å PSH_MODELESS
+ƒtƒ‰ƒO‚ªw’è‚³‚ê‚Ä‚¢‚éê‡APropertySheet
+‚Íƒ‚[ƒhƒŒƒXƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğì¬‚µAì¬’¼Œã‚É–ß‚éB‚±‚Ìê‡APropertySheet
+‚Ì–ß‚è’l‚Íƒ‚[ƒhƒŒƒXƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚Å‚ ‚éBƒ‚[ƒhƒŒƒXƒvƒƒpƒeƒBƒV[ƒg‚Ìê‡AƒƒbƒZ[ƒWƒ‹[ƒv‚Í
+PSM_ISDIALOGMESSAGE
+‚ğg—p‚µ‚ÄƒvƒƒpƒeƒBƒV[ƒgƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÉƒƒbƒZ[ƒW‚ğ“n‚·•K—v‚ª‚ ‚éBƒƒbƒZ[ƒWƒ‹[ƒv‚ÍAƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ”jŠü‚·‚éƒ^ƒCƒ~ƒ“ƒO‚ğ”»’f‚·‚é‚½‚ß‚É
+PSM_GETCURRENTPAGEHWND ‚ğg—p‚·‚é•K—v‚ª‚ ‚éBƒ†[ƒU[‚ª OK ‚Ü‚½‚Í Cancel
+ƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚·‚é‚ÆAPSM_GETCURRENTPAGEHWND ‚Í NULL ‚ğ•Ô‚·B‚»‚ÌŒãADestroyWindow
+ŠÖ”‚ğg—p‚µ‚Äƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ”jŠü‚Å‚«‚éB
+ƒo[ƒWƒ‡ƒ“ 5.80BPropertySheet
+‚Ì–ß‚è’l‚ÍAƒ‚[ƒ_ƒ‹ƒvƒƒpƒeƒBƒV[ƒg‚Æƒ‚[ƒhƒŒƒXƒvƒƒpƒeƒBƒV[ƒg‚ÅˆÙ‚È‚éî•ñ‚ğ‚ÂBê‡‚É‚æ‚Á‚Ä‚ÍAƒ‚[ƒhƒŒƒXƒvƒƒpƒeƒBƒV[ƒg‚ªƒ‚[ƒ_ƒ‹‚Å‚ ‚Á‚½ê‡‚É
+PropertySheet ‚©‚çó‚¯æ‚é‚Í‚¸‚¾‚Á‚½î•ñ‚ğ•K—v‚Æ‚·‚é‚±‚Æ‚ª‚ ‚éB“Á‚ÉAID_PSREBOOTSYSTEM ‚Ü‚½‚Í
+ID_PSRESTARTWINDOWS
+‚ª•Ô‚³‚ê‚½‚Í‚¸‚©‚Ç‚¤‚©‚ğ’m‚é•K—v‚ª‚ ‚é‚©‚à‚µ‚ê‚È‚¢Bƒ‚[ƒhƒŒƒXƒvƒƒpƒeƒBƒV[ƒg‚ÍAPSM_GETCURRENTPAGEHWND ‚ª
+NULL ‚ğ•Ô‚·‚Ü‚Å‘Ò‚¿A‚»‚ÌŒã PSM_GETRESULT ƒƒbƒZ[ƒW‚ğ‘—M‚·‚é‚±‚Æ‚ÅAƒ‚[ƒ_ƒ‹ƒvƒƒpƒeƒBƒV[ƒg‚ª
+PropertySheet ‚©‚çó‚¯æ‚é‚Í‚¸‚¾‚Á‚½’l‚ğæ“¾‚Å‚«‚éB
+> [!NOTE] > prsht.h ƒwƒbƒ_‚Í PropertySheet ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¨‚èAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚É‰‚¶‚Ä ANSI ‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚Æ’†—§ƒGƒCƒŠƒAƒX‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚Ü‚½‚ÍÀsƒGƒ‰[‚É‚Â‚È‚ª‚é•s®‡‚ª¶‚¶‚é‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 RemoveWindowSubclass
-Removes a subclass callback from a window.
+ƒEƒBƒ“ƒhƒE‚©‚çƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ğíœ‚·‚éB
 %group
 Win32 comctl32
 %prm
 hWnd, pfnSubclass, uIdSubclass
-hWnd : [intptr] Type: HWND The handle of the window being subclassed.
-pfnSubclass : [int] Type: SUBCLASSPROC A pointer to a window procedure. This pointer and the subclass ID uniquely identify this subclass callback. For the callback function prototype, see SUBCLASSPROC.
-uIdSubclass : [int] Type: UINT_PTR The UINT_PTR subclass ID. This ID and the callback pointer uniquely identify this subclass callback. Note: On 64-bit versions of Windows this is a 64-bit value.
+hWnd : [intptr] Œ^: HWND ƒTƒuƒNƒ‰ƒX‰»‚³‚ê‚Ä‚¢‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
+pfnSubclass : [int] Œ^: SUBCLASSPROC ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚ÆƒTƒuƒNƒ‰ƒX ID ‚É‚æ‚Á‚ÄA‚±‚ÌƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ªˆêˆÓ‚É¯•Ê‚³‚ê‚éBƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ìƒvƒƒgƒ^ƒCƒv‚É‚Â‚¢‚Ä‚Í SUBCLASSPROC ‚ğQÆB
+uIdSubclass : [int] Œ^: UINT_PTR UINT_PTR Œ^‚ÌƒTƒuƒNƒ‰ƒX IDB‚±‚Ì ID ‚ÆƒR[ƒ‹ƒoƒbƒNƒ|ƒCƒ“ƒ^‚É‚æ‚Á‚ÄA‚±‚ÌƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ªˆêˆÓ‚É¯•Ê‚³‚ê‚éBƒƒ‚: 64 ƒrƒbƒg”Å Windows ‚Å‚Í‚±‚ê‚Í 64 ƒrƒbƒg’l‚Å‚ ‚éB
 %inst
-Removes a subclass callback from a window.
+ƒEƒBƒ“ƒhƒE‚©‚çƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ğíœ‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL TRUE if the subclass callback was successfully removed;
-otherwise, FALSE.
+Œ^: BOOL ƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ª³í‚Éíœ‚³‚ê‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-Subclass callbacks are identified by their combination of the
-callback address and the subclass ID defined by the calling process.
-The SUBCLASS module defines helper functions that are used to
-subclass windows. The code maintains a single property on the
-subclassed window and dispatches various subclass callbacks to its
-clients as required. The client is provided reference data and a
-default processing API. No reference counting is performed for the
-callback; it may repeatedly call SetWindowSubclass to alter the value
-of its reference data element. Warning You cannot use the subclassing
-helper functions to subclass a window across threads.
+ƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ÍAƒR[ƒ‹ƒoƒbƒNƒAƒhƒŒƒX‚ÆŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ª’è‹`‚µ‚½ƒTƒuƒNƒ‰ƒX ID ‚Ì‘g‚İ‡‚í‚¹‚Å¯•Ê‚³‚ê‚éBSUBCLASS
+ƒ‚ƒWƒ…[ƒ‹‚ÍAƒEƒBƒ“ƒhƒE‚ÌƒTƒuƒNƒ‰ƒX‰»‚Ég—p‚³‚ê‚éƒwƒ‹ƒp[ŠÖ”‚ğ’è‹`‚µ‚Ä‚¢‚éB‚±‚ÌƒR[ƒh‚ÍƒTƒuƒNƒ‰ƒX‰»‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚É’Pˆê‚ÌƒvƒƒpƒeƒB‚ğ•Û‚µA•K—v‚É‰‚¶‚ÄŠeíƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ğƒNƒ‰ƒCƒAƒ“ƒg‚ÉƒfƒBƒXƒpƒbƒ`‚·‚éBƒNƒ‰ƒCƒAƒ“ƒg‚É‚ÍQÆƒf[ƒ^‚ÆŠù’èˆ—
+API ‚ª’ñ‹Ÿ‚³‚ê‚éBƒR[ƒ‹ƒoƒbƒN‚É‘Î‚µ‚ÄQÆƒJƒEƒ“ƒg‚Ís‚í‚ê‚È‚¢BSetWindowSubclass
+‚ğŒJ‚è•Ô‚µŒÄ‚Ño‚µ‚ÄQÆƒf[ƒ^—v‘f‚Ì’l‚ğ•ÏX‚µ‚Ä‚à‚æ‚¢BŒx:
+ƒTƒuƒNƒ‰ƒXƒwƒ‹ƒp[ŠÖ”‚ğg—p‚µ‚ÄƒXƒŒƒbƒh‚ğ‚Ü‚½‚¢‚ÅƒEƒBƒ“ƒhƒE‚ğƒTƒuƒNƒ‰ƒX‰»‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
 
 
 %index
 SetWindowSubclass
-Installs or updates a window subclass callback.
+ƒEƒBƒ“ƒhƒEƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ğƒCƒ“ƒXƒg[ƒ‹‚Ü‚½‚ÍXV‚·‚éB
 %group
 Win32 comctl32
 %prm
 hWnd, pfnSubclass, uIdSubclass, dwRefData
-hWnd : [intptr] Type: HWND The handle of the window being subclassed.
-pfnSubclass : [int] Type: SUBCLASSPROC A pointer to a window procedure. This pointer and the subclass ID uniquely identify this subclass callback. For the callback function prototype, see SUBCLASSPROC.
-uIdSubclass : [int] Type: UINT_PTR The subclass ID. This ID together with the subclass procedure uniquely identify a subclass. To remove a subclass, pass the subclass procedure and this value to the RemoveWindowSubclass function. This value is passed to the subclass procedure in the uIdSubclass parameter.
-dwRefData : [int] Type: DWORD_PTR DWORD_PTR to reference data. The meaning of this value is determined by the calling application. This value is passed to the subclass procedure in the dwRefData parameter. A different dwRefData is associated with each combination of window handle, subclass procedure and uIdSubclass.
+hWnd : [intptr] Œ^: HWND ƒTƒuƒNƒ‰ƒX‰»‚³‚ê‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
+pfnSubclass : [int] Œ^: SUBCLASSPROC ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚ÆƒTƒuƒNƒ‰ƒX ID ‚É‚æ‚Á‚ÄA‚±‚ÌƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ªˆêˆÓ‚É¯•Ê‚³‚ê‚éBƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ìƒvƒƒgƒ^ƒCƒv‚É‚Â‚¢‚Ä‚Í SUBCLASSPROC ‚ğQÆB
+uIdSubclass : [int] Œ^: UINT_PTR ƒTƒuƒNƒ‰ƒX IDB‚±‚Ì ID ‚ÆƒTƒuƒNƒ‰ƒXƒvƒƒV[ƒWƒƒ‚ğ‡‚í‚¹‚ÄƒTƒuƒNƒ‰ƒX‚ªˆêˆÓ‚É¯•Ê‚³‚ê‚éBƒTƒuƒNƒ‰ƒX‚ğíœ‚·‚é‚É‚ÍAƒTƒuƒNƒ‰ƒXƒvƒƒV[ƒWƒƒ‚Æ‚±‚Ì’l‚ğ RemoveWindowSubclass ŠÖ”‚É“n‚·B‚±‚Ì’l‚ÍƒTƒuƒNƒ‰ƒXƒvƒƒV[ƒWƒƒ‚Ì uIdSubclass ƒpƒ‰ƒ[ƒ^‚Å“n‚³‚ê‚éB
+dwRefData : [int] Œ^: DWORD_PTR QÆƒf[ƒ^‚Ö‚Ì DWORD_PTRB‚±‚Ì’l‚ÌˆÓ–¡‚ÍŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚æ‚Á‚ÄŒˆ’è‚³‚ê‚éB‚±‚Ì’l‚ÍƒTƒuƒNƒ‰ƒXƒvƒƒV[ƒWƒƒ‚Ì dwRefData ƒpƒ‰ƒ[ƒ^‚Å“n‚³‚ê‚éBƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹AƒTƒuƒNƒ‰ƒXƒvƒƒV[ƒWƒƒAuIdSubclass ‚Ì‚»‚ê‚¼‚ê‚Ì‘g‚İ‡‚í‚¹‚ÉAˆÙ‚È‚é dwRefData ‚ªŠÖ˜A•t‚¯‚ç‚ê‚éB
 %inst
-Installs or updates a window subclass callback.
+ƒEƒBƒ“ƒhƒEƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ğƒCƒ“ƒXƒg[ƒ‹‚Ü‚½‚ÍXV‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL TRUE if the subclass callback was successfully installed;
-otherwise, FALSE.
+Œ^: BOOL ƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ª³í‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-Subclass callbacks are identified by the combination of the callback
-address and the caller-defined subclass ID. If the callback address
-and ID pair have not yet been installed, then this function installs
-the subclass. If the pair has already been installed, then this
-function just updates the reference data. Each callback can store a
-single DWORD_PTR of reference data, which is passed to the callback
-function when it is called to filter messages. No reference counting
-is performed for the callback; it may repeatedly call
-SetWindowSubclass to alter the value of its reference data element.
-Warning You cannot use the subclassing helper functions to subclass a
-window across threads.
+ƒTƒuƒNƒ‰ƒXƒR[ƒ‹ƒoƒbƒN‚ÍAƒR[ƒ‹ƒoƒbƒNƒAƒhƒŒƒX‚ÆŒÄ‚Ño‚µŒ³‚ª’è‹`‚µ‚½ƒTƒuƒNƒ‰ƒX ID ‚Ì‘g‚İ‡‚í‚¹‚Å¯•Ê‚³‚ê‚éBƒR[ƒ‹ƒoƒbƒNƒAƒhƒŒƒX‚Æ
+ID
+‚ÌƒyƒA‚ª‚Ü‚¾ƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ÌŠÖ”‚ÍƒTƒuƒNƒ‰ƒX‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éBƒyƒA‚ªŠù‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚éê‡A‚±‚ÌŠÖ”‚ÍQÆƒf[ƒ^‚ğXV‚·‚é‚¾‚¯‚Å‚ ‚éBŠeƒR[ƒ‹ƒoƒbƒN‚Í
+DWORD_PTR 1
+ŒÂ•ª‚ÌQÆƒf[ƒ^‚ğ•Û‚Å‚«AƒƒbƒZ[ƒW‚ğƒtƒBƒ‹ƒ^‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚ÉƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éBƒR[ƒ‹ƒoƒbƒN‚É‘Î‚µ‚ÄQÆƒJƒEƒ“ƒg‚Ís‚í‚ê‚È‚¢BSetWindowSubclass
+‚ğŒJ‚è•Ô‚µŒÄ‚Ño‚µ‚ÄQÆƒf[ƒ^—v‘f‚Ì’l‚ğ•ÏX‚µ‚Ä‚à‚æ‚¢BŒx:
+ƒTƒuƒNƒ‰ƒXƒwƒ‹ƒp[ŠÖ”‚ğg—p‚µ‚ÄƒXƒŒƒbƒh‚ğ‚Ü‚½‚¢‚ÅƒEƒBƒ“ƒhƒE‚ğƒTƒuƒNƒ‰ƒX‰»‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
 
 
 %index
 ShowHideMenuCtl
-Sets or removes the specified menu item's check mark attribute and shows or hides the corresponding control.
+w’è‚³‚ê‚½ƒƒjƒ…[€–Ú‚Ìƒ`ƒFƒbƒNƒ}[ƒN‘®«‚ğİ’è‚Ü‚½‚Í‰ğœ‚µA‘Î‰‚·‚éƒRƒ“ƒgƒ[ƒ‹‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éB
 %group
 Win32 comctl32
 %prm
 hWnd, uFlags, lpInfo
-hWnd : [intptr] Type: HWND A handle to the window that contains the menu and controls.
-uFlags : [int] Type: UINT_PTR The identifier of the menu item to receive or lose a check mark.
-lpInfo : [var] Type: LPINT A pointer to an array that contains pairs of values. The second value in the first pair must be the handle to the application's main menu. Each subsequent pair consists of a menu item identifier and a control window identifier. The function searches the array for a value that matches uFlags and, if the value is found, checks or unchecks the menu item and shows or hides the corresponding control.
+hWnd : [intptr] Œ^: HWND ƒƒjƒ…[‚ÆƒRƒ“ƒgƒ[ƒ‹‚ğŠÜ‚ŞƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+uFlags : [int] Œ^: UINT_PTR ƒ`ƒFƒbƒNƒ}[ƒN‚ğó‚¯æ‚é‚©¸‚¤ƒƒjƒ…[€–Ú‚Ì¯•ÊqB
+lpInfo : [var] Œ^: LPINT ’l‚ÌƒyƒA‚ğŠÜ‚Ş”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BÅ‰‚ÌƒyƒA‚Ì 2 ”Ô–Ú‚Ì’l‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒƒCƒ“ƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BˆÈ~‚ÌŠeƒyƒA‚ÍAƒƒjƒ…[€–Ú¯•Êq‚ÆƒRƒ“ƒgƒ[ƒ‹ƒEƒBƒ“ƒhƒE¯•Êq‚©‚ç‚È‚éBŠÖ”‚Í”z—ñ“à‚Å uFlags ‚Æˆê’v‚·‚é’l‚ğŒŸõ‚µA’l‚ªŒ©‚Â‚©‚Á‚½ê‡‚Íƒƒjƒ…[€–Ú‚Ìƒ`ƒFƒbƒN‚ğØ‚è‘Ö‚¦A‘Î‰‚·‚éƒRƒ“ƒgƒ[ƒ‹‚Ì•\¦‚ğØ‚è‘Ö‚¦‚éB
 %inst
-Sets or removes the specified menu item's check mark attribute and
-shows or hides the corresponding control.
+w’è‚³‚ê‚½ƒƒjƒ…[€–Ú‚Ìƒ`ƒFƒbƒNƒ}[ƒN‘®«‚ğİ’è‚Ü‚½‚Í‰ğœ‚µA‘Î‰‚·‚éƒRƒ“ƒgƒ[ƒ‹‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠO‚ğA¸”s‚µ‚½ê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 Str_SetPtrW
-Sets ppszCurrent to a copy of pszNew and frees the previous value, if necessary.
+ppszCurrent ‚É pszNew ‚ÌƒRƒs[‚ğİ’è‚µA•K—v‚É‰‚¶‚Ä•ÏX‘O‚Ì’l‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 comctl32
 %prm
 ppsz, psz
-ppsz : [var] Type: LPTSTR* The address of a pointer to the current string. The current string is freed and the pointer is set to a copy of pszNew.
-psz : [wstr] Type: LPCTSTR A pointer to the string to copy into ppszCurrent.
+ppsz : [var] Œ^: LPTSTR* Œ»İ‚Ì•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXBŒ»İ‚Ì•¶š—ñ‚Í‰ğ•ú‚³‚êAƒ|ƒCƒ“ƒ^‚Í pszNew ‚ÌƒRƒs[‚Éİ’è‚³‚ê‚éB
+psz : [wstr] Œ^: LPCTSTR ppszCurrent ‚ÉƒRƒs[‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Sets ppszCurrent to a copy of pszNew and frees the previous value, if
-necessary.
+ppszCurrent ‚É pszNew ‚ÌƒRƒs[‚ğİ’è‚µA•K—v‚É‰‚¶‚Ä•ÏX‘O‚Ì’l‚ğ‰ğ•ú‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if successful; otherwise, FALSE.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-The ANSI version of Str_SetPtrW, Str_SetPtrA, is not exported by name
-or declared in a public header file. To use it, you must use
-GetProcAddress and request ordinal 234 from ComCtl32.dll to obtain a
-function pointer.
+Str_SetPtrW ‚Ì ANSI ”Å‚Å‚ ‚é Str_SetPtrA
+‚ÍA–¼‘O‚ÅƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¨‚ç‚¸AŒöŠJƒwƒbƒ_ƒtƒ@ƒCƒ‹‚É‚àéŒ¾‚³‚ê‚Ä‚¢‚È‚¢Bg—p‚·‚é‚É‚ÍAGetProcAddress ‚ğg—p‚µ‚Ä
+ComCtl32.dll ‚©‚ç˜” 234 ‚ğ—v‹‚µAŠÖ”ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 UninitializeFlatSB
-Uninitializes flat scroll bars for a particular window. The specified window will revert to standard scroll bars.
+“Á’è‚ÌƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚Ì‰Šú‰»‚ğ‰ğœ‚·‚éBw’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Í•W€‚ÌƒXƒNƒ[ƒ‹ƒo[‚É–ß‚éB
 %group
 Win32 comctl32
 %prm
 param0
 param0 : [intptr] 
 %inst
-Uninitializes flat scroll bars for a particular window. The specified
-window will revert to standard scroll bars.
+“Á’è‚ÌƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚Ì‰Šú‰»‚ğ‰ğœ‚·‚éBw’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Í•W€‚ÌƒXƒNƒ[ƒ‹ƒo[‚É–ß‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the following values.
-This doc was truncated.
+Œ^: HRESULT Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Note Flat scroll bar functions are implemented in Comctl32.dll
-versions 4.71 through 5.82. Comctl32.dll versions 6.00 and higher do
-not support flat scroll bars.
+ƒƒ‚: ƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[ŠÖ”‚Í Comctl32.dll ƒo[ƒWƒ‡ƒ“ 4.71 ‚©‚ç 5.82
+‚ÅÀ‘•‚³‚ê‚Ä‚¢‚éBComctl32.dll ƒo[ƒWƒ‡ƒ“ 6.00 ˆÈ~‚Å‚Íƒtƒ‰ƒbƒgƒXƒNƒ[ƒ‹ƒo[‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B
 

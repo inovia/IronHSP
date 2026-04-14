@@ -48,42 +48,38 @@ timeEndPeriod ŠÖ”‚ÍˆÈ‘Oİ’è‚µ‚½Å¬ƒ^ƒCƒ}[•ª‰ğ”\‚ğƒNƒŠƒA‚·‚éB
 
 %index
 timeGetDevCaps
-The timeGetDevCaps function queries the timer device to determine its resolution.
+timeGetDevCaps ŠÖ”‚Íƒ^ƒCƒ}ƒfƒoƒCƒX‚É–â‚¢‡‚í‚¹‚Ä‚»‚Ì•ª‰ğ”\‚ğ”»’è‚·‚éB
 %group
 Win32 winmm
 %prm
 ptc, cbtc
-ptc : [var] A pointer to a TIMECAPS structure. This structure is filled with information about the resolution of the timer device.
-cbtc : [int] The size, in bytes, of the TIMECAPS structure.
+ptc : [var] TIMECAPS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚Éƒ^ƒCƒ}ƒfƒoƒCƒX‚Ì•ª‰ğ”\‚ÉŠÖ‚·‚éî•ñ‚ªŠi”[‚³‚ê‚éB
+cbtc : [int] TIMECAPS \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The timeGetDevCaps function queries the timer device to determine its
-resolution.
+timeGetDevCaps ŠÖ”‚Íƒ^ƒCƒ}ƒfƒoƒCƒX‚É–â‚¢‡‚í‚¹‚Ä‚»‚Ì•ª‰ğ”\‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error code otherwise.
-Possible error codes include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[ƒR[ƒh‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 timeGetSystemTime
-The timeGetSystemTime function retrieves the system time, in milliseconds.
+timeGetSystemTime ŠÖ”‚ÍƒVƒXƒeƒ€‚ğƒ~ƒŠ•b’PˆÊ‚Åæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 pmmt, cbmmt
-pmmt : [var] Pointer to an MMTIME structure.
-cbmmt : [int] Size, in bytes, of the MMTIME structure.
+pmmt : [var] MMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbmmt : [int] MMTIME \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The timeGetSystemTime function retrieves the system time, in
-milliseconds.
+timeGetSystemTime ŠÖ”‚ÍƒVƒXƒeƒ€‚ğƒ~ƒŠ•b’PˆÊ‚Åæ“¾‚·‚éB
 
 [–ß‚è’l]
-If successful, returns TIMERR_NOERROR. Otherwise, returns an error
-code.
+¬Œ÷‚Í TIMERR_NOERROR ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The system time is returned in the ms member of the MMTIME structure.
+ƒVƒXƒeƒ€‚Í MMTIME \‘¢‘Ì‚Ì ms ƒƒ“ƒo‚É•Ô‚³‚ê‚éB
 
 
 %index
@@ -110,134 +106,120 @@ QueryPerformanceCounter/QueryPerformanceFrequency ‚ğg‚¤B
 
 %index
 CloseDriver
-Closes an installable driver.
+ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ğ•Â‚¶‚éB
 %group
 Win32 winmm
 %prm
 hDriver, lParam1, lParam2
-hDriver : [intptr] Handle of an installable driver instance. The handle must have been previously created by using the OpenDriver function.
-lParam1 : [intptr] 32-bit driver-specific data.
-lParam2 : [intptr] 32-bit driver-specific data.
+hDriver : [intptr] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒoƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹BOpenDriver ŠÖ”‚É‚æ‚Á‚Ä–‘O‚Éì¬‚³‚ê‚½ƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lParam1 : [intptr] 32 ƒrƒbƒg‚Ìƒhƒ‰ƒCƒoŒÅ—Lƒf[ƒ^B
+lParam2 : [intptr] 32 ƒrƒbƒg‚Ìƒhƒ‰ƒCƒoŒÅ—Lƒf[ƒ^B
 %inst
-Closes an installable driver.
+ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ğ•Â‚¶‚éB
 
 [–ß‚è’l]
-Returns nonzero if successful or zero otherwise.
+¬Œ÷‚Í”ñƒ[ƒ‚ğA‚»‚êˆÈŠO‚Ìê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-The function passes the lParam1 and lParam2 parameters to the
-DriverProc function of the installable driver.
+–{ŠÖ”‚Í lParam1 ‚¨‚æ‚Ñ lParam2 ƒpƒ‰ƒ[ƒ^‚ğƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚Ì DriverProc ŠÖ”‚É“n‚·B
 
 
 %index
 DefDriverProc
-Provides default processing for any messages not processed by an installable driver. This function is intended to be used only within the DriverProc function of an installable driver. (DefDriverProc)
+ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ªˆ—‚µ‚È‚¢ƒƒbƒZ[ƒW‚É‘Î‚·‚éŠù’è‚Ìˆ—‚ğ’ñ‹Ÿ‚·‚éB–{ŠÖ”‚ÍƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚Ì DriverProc ŠÖ”“à‚Å‚Ì‚İg—p‚·‚é‚±‚Æ‚ğ‘z’è‚µ‚Ä‚¢‚éB(DefDriverProc)
 %group
 Win32 winmm
 %prm
 dwDriverIdentifier, hdrvr, uMsg, lParam1, lParam2
-dwDriverIdentifier : [int] Identifier of the installable driver.
-hdrvr : [intptr] Handle of the installable driver instance.
-uMsg : [int] Driver message value.
-lParam1 : [intptr] 32-bit message-dependent information.
-lParam2 : [intptr] 32-bit message-dependent information.
+dwDriverIdentifier : [int] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚Ì¯•ÊqB
+hdrvr : [intptr] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒoƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹B
+uMsg : [int] ƒhƒ‰ƒCƒoƒƒbƒZ[ƒW’lB
+lParam1 : [intptr] 32 ƒrƒbƒg‚ÌƒƒbƒZ[ƒWˆË‘¶î•ñB
+lParam2 : [intptr] 32 ƒrƒbƒg‚ÌƒƒbƒZ[ƒWˆË‘¶î•ñB
 %inst
-Provides default processing for any messages not processed by an
-installable driver. This function is intended to be used only within
-the DriverProc function of an installable driver. (DefDriverProc)
+ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ªˆ—‚µ‚È‚¢ƒƒbƒZ[ƒW‚É‘Î‚·‚éŠù’è‚Ìˆ—‚ğ’ñ‹Ÿ‚·‚éB–{ŠÖ”‚ÍƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚Ì DriverProc
+ŠÖ”“à‚Å‚Ì‚İg—p‚·‚é‚±‚Æ‚ğ‘z’è‚µ‚Ä‚¢‚éB(DefDriverProc)
 
 [–ß‚è’l]
-Returns nonzero if successful or zero otherwise.
+¬Œ÷‚Í”ñƒ[ƒ‚ğA‚»‚êˆÈŠO‚Ìê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 DriverCallback
-Calls a callback function, sends a message to a window, or unblocks a thread. The action depends on the value of the notification flag. This function is intended to be used only within the DriverProc function of an installable driver.
+ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·‚©AƒEƒBƒ“ƒhƒE‚ÉƒƒbƒZ[ƒW‚ğ‘—M‚·‚é‚©AƒXƒŒƒbƒh‚ÌƒuƒƒbƒN‚ğ‰ğœ‚·‚éB“®ì‚Í’Ê’mƒtƒ‰ƒO‚Ì’l‚ÉˆË‘¶‚·‚éB–{ŠÖ”‚ÍƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚Ì DriverProc ŠÖ”“à‚Å‚Ì‚İg—p‚·‚é‚±‚Æ‚ğ‘z’è‚µ‚Ä‚¢‚éB
 %group
 Win32 winmm
 %prm
 dwCallback, dwFlags, hDevice, dwMsg, dwUser, dwParam1, dwParam2
-dwCallback : [int] Address of the callback function, a window handle, or a task handle, depending on the flag specified in the dwFlags parameter.
-dwFlags : [int] Notification flags. It can be one of these values:
-hDevice : [intptr] Handle of the installable driver instance.
-dwMsg : [int] Message value.
-dwUser : [int] 32-bit user-instance data supplied by the application when the device was opened.
-dwParam1 : [int] 32-bit message-dependent parameter.
-dwParam2 : [int] 32-bit message-dependent parameter.
+dwCallback : [int] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÌƒAƒhƒŒƒXAƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹A‚Ü‚½‚Íƒ^ƒXƒNƒnƒ“ƒhƒ‹BdwFlags ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒtƒ‰ƒO‚É‰‚¶‚ÄˆÓ–¡‚ª•Ï‚í‚éB
+dwFlags : [int] ’Ê’mƒtƒ‰ƒOBŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğw’è‚Å‚«‚éB
+hDevice : [intptr] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒoƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹B
+dwMsg : [int] ƒƒbƒZ[ƒW’lB
+dwUser : [int] ƒfƒoƒCƒX‚ªƒI[ƒvƒ“‚³‚ê‚½‚Æ‚«‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç‹Ÿ‹‹‚³‚ê‚½ 32 ƒrƒbƒg‚Ìƒ†[ƒUƒCƒ“ƒXƒ^ƒ“ƒXƒf[ƒ^B
+dwParam1 : [int] 32 ƒrƒbƒg‚ÌƒƒbƒZ[ƒWˆË‘¶ƒpƒ‰ƒ[ƒ^B
+dwParam2 : [int] 32 ƒrƒbƒg‚ÌƒƒbƒZ[ƒWˆË‘¶ƒpƒ‰ƒ[ƒ^B
 %inst
-Calls a callback function, sends a message to a window, or unblocks a
-thread. The action depends on the value of the notification flag.
-This function is intended to be used only within the DriverProc
-function of an installable driver.
+
+ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·‚©AƒEƒBƒ“ƒhƒE‚ÉƒƒbƒZ[ƒW‚ğ‘—M‚·‚é‚©AƒXƒŒƒbƒh‚ÌƒuƒƒbƒN‚ğ‰ğœ‚·‚éB“®ì‚Í’Ê’mƒtƒ‰ƒO‚Ì’l‚ÉˆË‘¶‚·‚éB–{ŠÖ”‚ÍƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚Ì
+DriverProc ŠÖ”“à‚Å‚Ì‚İg—p‚·‚é‚±‚Æ‚ğ‘z’è‚µ‚Ä‚¢‚éB
 
 [–ß‚è’l]
-Returns TRUE if successful or FALSE if a parameter is invalid or the
-task's message queue is full.
+¬Œ÷‚Í TRUE ‚ğ•Ô‚·Bƒpƒ‰ƒ[ƒ^‚ª–³ŒøA‚Ü‚½‚Íƒ^ƒXƒN‚ÌƒƒbƒZ[ƒWƒLƒ…[‚ª‚¢‚Á‚Ï‚¢‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-The client specifies how to notify it when the device is opened. The
-DCB_FUNCTION and DCB_WINDOW flags are equivalent to the high-order
-word of the corresponding flags CALLBACK_FUNCTION and CALLBACK_WINDOW
-specified in the lParam2 parameter of the DRV_OPEN message when the
-device was opened. If notification is accomplished with a callback
-function, hdrvr, msg, dwUser, dwParam1, and dwParam2 are passed to
-the callback function. If notification is accomplished by means of a
-window, only msg, hdrvr, and dwParam1 are passed to the window.
+ƒNƒ‰ƒCƒAƒ“ƒg‚ÍƒfƒoƒCƒX‚ªƒI[ƒvƒ“‚³‚ê‚½‚Æ‚«‚Ì’Ê’m•û–@‚ğw’è‚·‚éBDCB_FUNCTION ‚¨‚æ‚Ñ DCB_WINDOW
+ƒtƒ‰ƒO‚ÍAƒfƒoƒCƒX‚ªƒI[ƒvƒ“‚³‚ê‚½‚Æ‚«‚É DRV_OPEN ƒƒbƒZ[ƒW‚Ì lParam2 ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½‘Î‰‚·‚éƒtƒ‰ƒO
+CALLBACK_FUNCTION ‚¨‚æ‚Ñ CALLBACK_WINDOW
+‚ÌãˆÊƒ[ƒh‚Æ“™‰¿‚Å‚ ‚éBƒR[ƒ‹ƒoƒbƒNŠÖ”‚É‚æ‚é’Ê’m‚ªs‚í‚ê‚éê‡AhdrvrAmsgAdwUserAdwParam1AdwParam2
+‚ªƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éBƒEƒBƒ“ƒhƒE‚É‚æ‚é’Ê’m‚ªs‚í‚ê‚éê‡AmsgAhdrvrAdwParam1 ‚Ì‚İ‚ªƒEƒBƒ“ƒhƒE‚É“n‚³‚ê‚éB
 
 
 %index
 DrvGetModuleHandle
-Retrieves the instance handle of the module that contains the installable driver. This function is provided for compatibility with previous versions of Windows.
+ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB–{ŠÖ”‚ÍˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì Windows ‚Æ‚ÌŒİŠ·«‚Ì‚½‚ß‚É’ñ‹Ÿ‚³‚ê‚Ä‚¢‚éB
 %group
 Win32 winmm
 %prm
 hDriver
-hDriver : [intptr] Handle of the installable driver instance. The handle must have been previously created by using the OpenDriver function.
+hDriver : [intptr] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒoƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹BOpenDriver ŠÖ”‚É‚æ‚Á‚Ä–‘O‚Éì¬‚³‚ê‚½ƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Retrieves the instance handle of the module that contains the
-installable driver. This function is provided for compatibility with
-previous versions of Windows.
+ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB–{ŠÖ”‚ÍˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì Windows
+‚Æ‚ÌŒİŠ·«‚Ì‚½‚ß‚É’ñ‹Ÿ‚³‚ê‚Ä‚¢‚éB
 
 [–ß‚è’l]
-Returns an instance handle of the driver module if successful or NULL
-otherwise.
+¬Œ÷‚Íƒhƒ‰ƒCƒoƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹‚ğA¸”s‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 GetDriverModuleHandle
-Retrieves the instance handle of the module that contains the installable driver.
+ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 hDriver
-hDriver : [intptr] Handle of the installable driver instance. The handle must have been previously created by using the OpenDriver function.
+hDriver : [intptr] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒoƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹BOpenDriver ŠÖ”‚É‚æ‚Á‚Ä–‘O‚Éì¬‚³‚ê‚½ƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Retrieves the instance handle of the module that contains the
-installable driver.
+ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ğŠÜ‚Şƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns an instance handle of the driver module if successful or NULL
-otherwise.
+¬Œ÷‚Íƒhƒ‰ƒCƒoƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹‚ğA¸”s‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 OpenDriver
-Opens an instance of an installable driver and initializes the instance using either the driver's default settings or a driver-specific value.
+ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒI[ƒvƒ“‚µAƒhƒ‰ƒCƒoŠù’è‚Ìİ’è‚Ü‚½‚Íƒhƒ‰ƒCƒoŒÅ—L’l‚Ì‚¢‚¸‚ê‚©‚ğ—p‚¢‚ÄƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‰Šú‰»‚·‚éB
 %group
 Win32 winmm
 %prm
 szDriverName, szSectionName, lParam2
-szDriverName : [wstr] Address of a null-terminated, wide-character string that specifies the filename of an installable driver or the name of a registry value associated with the installable driver. (This value must have been previously set when the driver was installed.)
-szSectionName : [wstr] Address of a null-terminated, wide-character string that specifies the name of the registry key containing the registry value given by the lpDriverName parameter. If lpSectionName is NULL, the registry key is assumed to be Drivers32.
-lParam2 : [intptr] 32-bit driver-specific value. This value is passed as the lParam2 parameter to the DriverProc function of the installable driver.
+szDriverName : [wstr] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚Ìƒtƒ@ƒCƒ‹–¼A‚Ü‚½‚ÍƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒŒƒWƒXƒgƒŠ’l‚Ì–¼‘O‚ğw’è‚·‚é null I’[‚ÌƒƒCƒh•¶š—ñ‚ÌƒAƒhƒŒƒXB(‚±‚Ì’l‚Íƒhƒ‰ƒCƒo‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½‚Æ‚«‚É‚ ‚ç‚©‚¶‚ßİ’è‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB)
+szSectionName : [wstr] lpDriverName ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒŒƒWƒXƒgƒŠ’l‚ğŠÜ‚ŞƒŒƒWƒXƒgƒŠƒL[‚Ì–¼‘O‚ğw’è‚·‚é null I’[‚ÌƒƒCƒh•¶š—ñ‚ÌƒAƒhƒŒƒXBlpSectionName ‚ª NULL ‚Ìê‡AƒŒƒWƒXƒgƒŠƒL[‚Í Drivers32 ‚Æ‰¼’è‚³‚ê‚éB
+lParam2 : [intptr] 32 ƒrƒbƒg‚Ìƒhƒ‰ƒCƒoŒÅ—L’lB‚±‚Ì’l‚ÍƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚Ì DriverProc ŠÖ”‚Ì lParam2 ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB
 %inst
-Opens an instance of an installable driver and initializes the
-instance using either the driver's default settings or a
-driver-specific value.
+ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒI[ƒvƒ“‚µAƒhƒ‰ƒCƒoŠù’è‚Ìİ’è‚Ü‚½‚Íƒhƒ‰ƒCƒoŒÅ—L’l‚Ì‚¢‚¸‚ê‚©‚ğ—p‚¢‚ÄƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Returns the handle of the installable driver instance if successful
-or NULL otherwise.
+¬Œ÷‚ÍƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒoƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹‚ğA¸”s‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
@@ -256,404 +238,347 @@ fdwSound : [int]
 
 %index
 SendDriverMessage
-Sends the specified message to the installable driver.
+w’è‚µ‚½ƒƒbƒZ[ƒW‚ğƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚É‘—M‚·‚éB
 %group
 Win32 winmm
 %prm
 hDriver, message, lParam1, lParam2
-hDriver : [intptr] Handle of the installable driver instance. The handle must been previously created by using the OpenDriver function.
-message : [int] Driver message value. It can be a custom message value or one of these standard message values.
-lParam1 : [intptr] 32-bit message-dependent information.
-lParam2 : [intptr] 32-bit message-dependent information.
+hDriver : [intptr] ƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒoƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒnƒ“ƒhƒ‹BOpenDriver ŠÖ”‚É‚æ‚Á‚Ä–‘O‚Éì¬‚³‚ê‚½ƒnƒ“ƒhƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+message : [int] ƒhƒ‰ƒCƒoƒƒbƒZ[ƒW’lBƒJƒXƒ^ƒ€ƒƒbƒZ[ƒW’lA‚Ü‚½‚ÍŸ‚Ì•W€ƒƒbƒZ[ƒW’l‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
+lParam1 : [intptr] 32 ƒrƒbƒg‚ÌƒƒbƒZ[ƒWˆË‘¶î•ñB
+lParam2 : [intptr] 32 ƒrƒbƒg‚ÌƒƒbƒZ[ƒWˆË‘¶î•ñB
 %inst
-Sends the specified message to the installable driver.
+w’è‚µ‚½ƒƒbƒZ[ƒW‚ğƒCƒ“ƒXƒg[ƒ‹‰Â”\ƒhƒ‰ƒCƒo‚É‘—M‚·‚éB
 
 [–ß‚è’l]
-Returns nonzero if successful or zero otherwise.
+¬Œ÷‚Í”ñƒ[ƒ‚ğA‚»‚êˆÈŠO‚Ìê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 auxGetDevCapsW
-The auxGetDevCapsW (Unicode) function (mmeapi.h) retrieves the capabilities of a given auxiliary output device.
+auxGetDevCapsW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚³‚ê‚½•â•o—ÍƒfƒoƒCƒX‚Ì‹@”\‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 uDeviceID, pac, cbac
-uDeviceID : [int] Identifier of the auxiliary output device to be queried. Specify a valid device identifier (see the following comments section), or use the following constant:
-pac : [var] Pointer to an AUXCAPS structure to be filled with information about the capabilities of the device.
-cbac : [int] Size, in bytes, of the AUXCAPS structure.
+uDeviceID : [int] –â‚¢‡‚í‚¹‘ÎÛ‚Ì•â•o—ÍƒfƒoƒCƒX‚Ì¯•ÊqB—LŒø‚ÈƒfƒoƒCƒX¯•Êq (Œãq‚Ì‰ğà‚ğQÆ) ‚ğw’è‚·‚é‚©AŸ‚Ì’è”‚ğg—p‚·‚éB
+pac : [var] ƒfƒoƒCƒX‚Ì‹@”\‚ÉŠÖ‚·‚éî•ñ‚ªŠi”[‚³‚ê‚é AUXCAPS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbac : [int] AUXCAPS \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The auxGetDevCapsW (Unicode) function (mmeapi.h) retrieves the
-capabilities of a given auxiliary output device.
+auxGetDevCapsW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚³‚ê‚½•â•o—ÍƒfƒoƒCƒX‚Ì‹@”\‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The device identifier in uDeviceID varies from zero to one less than
-the number of devices present. AUX_MAPPER may also be used. Use the
-auxGetNumDevs function to determine the number of auxiliary output
-devices present in the system.
-> [!NOTE] > The mmeapi.h header defines auxGetDevCaps as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+uDeviceID ‚ÌƒfƒoƒCƒX¯•Êq‚Í 0 ‚©‚ç‘¶İ‚·‚éƒfƒoƒCƒX‚Ì”‚æ‚è 1 ­‚È‚¢’l‚Ü‚Å‚Ì”ÍˆÍ‚Æ‚È‚éBAUX_MAPPER
+‚àg—p‚Å‚«‚éBƒVƒXƒeƒ€‚É‘¶İ‚·‚é•â•o—ÍƒfƒoƒCƒX‚Ì”‚ğ”»’è‚·‚é‚É‚Í auxGetNumDevs ŠÖ”‚ğg—p‚·‚éB
+> [!NOTE] > mmeapi.h ƒwƒbƒ_‚Í auxGetDevCaps ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚«–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚é•sˆê’v‚ª”­¶‚µ“¾‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 auxGetNumDevs
-The auxGetNumDevs function retrieves the number of auxiliary output devices present in the system.
+auxGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é•â•o—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 
 %inst
-The auxGetNumDevs function retrieves the number of auxiliary output
-devices present in the system.
+auxGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é•â•o—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns the number of device. A return value of zero means that no
-devices are present or that an error occurred.
+ƒfƒoƒCƒX‚Ì”‚ğ•Ô‚·B–ß‚è’l‚ª 0 ‚Ìê‡‚ÍƒfƒoƒCƒX‚ª‘¶İ‚µ‚È‚¢‚©AƒGƒ‰[‚ª”­¶‚µ‚½‚±‚Æ‚ğˆÓ–¡‚·‚éB
 
 
 %index
 auxGetVolume
-The auxGetVolume function retrieves the current volume setting of the specified auxiliary output device.
+auxGetVolume ŠÖ”‚Íw’è‚³‚ê‚½•â•o—ÍƒfƒoƒCƒX‚ÌŒ»İ‚Ì‰¹—Êİ’è‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 uDeviceID, pdwVolume
-uDeviceID : [int] Identifier of the auxiliary output device to be queried.
-pdwVolume : [var] Pointer to a variable to be filled with the current volume setting. The low-order word of this location contains the left channel volume setting, and the high-order word contains the right channel setting. A value of 0xFFFF represents full volume, and a value of 0x0000 is silence. If a device does not support both left and right volume control, the low-order word of the specified location contains the volume level. The full 16-bit setting(s) set with the auxSetVolume function are returned, regardless of whether the device supports the full 16 bits of volume-level control.
+uDeviceID : [int] –â‚¢‡‚í‚¹‘ÎÛ‚Ì•â•o—ÍƒfƒoƒCƒX‚Ì¯•ÊqB
+pdwVolume : [var] Œ»İ‚Ì‰¹—Êİ’è‚ªŠi”[‚³‚ê‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‰ºˆÊƒ[ƒh‚É¶ƒ`ƒƒƒlƒ‹‚Ì‰¹—Êİ’è‚ªAãˆÊƒ[ƒh‚É‰Eƒ`ƒƒƒlƒ‹‚Ìİ’è‚ªŠi”[‚³‚ê‚éB0xFFFF ‚ªÅ‘å‰¹—ÊA0x0000 ‚ª–³‰¹‚ğ•\‚·BƒfƒoƒCƒX‚ª¶‰E—¼ƒ`ƒƒƒlƒ‹‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡Aw’è‚³‚ê‚½êŠ‚Ì‰ºˆÊƒ[ƒh‚É‰¹—ÊƒŒƒxƒ‹‚ªŠi”[‚³‚ê‚éBauxSetVolume ŠÖ”‚Åİ’è‚µ‚½Š®‘S‚È 16 ƒrƒbƒg‚Ì’l‚ªAƒfƒoƒCƒX‚ª 16 ƒrƒbƒg‘S‚Ä‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚É‚©‚©‚í‚ç‚¸•Ô‚³‚ê‚éB
 %inst
-The auxGetVolume function retrieves the current volume setting of the
-specified auxiliary output device.
+auxGetVolume ŠÖ”‚Íw’è‚³‚ê‚½•â•o—ÍƒfƒoƒCƒX‚ÌŒ»İ‚Ì‰¹—Êİ’è‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Not all devices support volume control. To determine whether a device
-supports volume control, use the AUXCAPS_VOLUME flag to test the
-dwSupport member of the AUXCAPS structure (filled by the
-auxGetDevCaps function). To determine whether a device supports
-volume control on both the left and right channels, use the
-AUXCAPS_LRVOLUME flag to test the dwSupport member of the AUXCAPS
-structure (filled by auxGetDevCaps).
+‘S‚Ä‚ÌƒfƒoƒCƒX‚ª‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚í‚¯‚Å‚Í‚È‚¢BƒfƒoƒCƒX‚ª‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚ÍAAUXCAPS_VOLUME
+ƒtƒ‰ƒO‚ğ—p‚¢‚Ä (auxGetDevCaps ŠÖ”‚Åæ“¾‚µ‚½) AUXCAPS \‘¢‘Ì‚Ì dwSupport
+ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éBƒfƒoƒCƒX‚ª¶‰E—¼ƒ`ƒƒƒlƒ‹‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚ÍAAUXCAPS_LRVOLUME ƒtƒ‰ƒO‚ğ—p‚¢‚Ä
+AUXCAPS \‘¢‘Ì‚Ì dwSupport ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éB
 
 
 %index
 auxOutMessage
-The auxOutMessage function sends a message to the given auxiliary output device. This function also performs error checking on the device identifier passed as part of the message.
+auxOutMessage ŠÖ”‚Íw’è‚µ‚½•â•o—ÍƒfƒoƒCƒX‚ÉƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB–{ŠÖ”‚ÍƒƒbƒZ[ƒW‚Ìˆê•”‚Æ‚µ‚Ä“n‚³‚ê‚½ƒfƒoƒCƒX¯•Êq‚É‘Î‚·‚éƒGƒ‰[ƒ`ƒFƒbƒN‚às‚¤B
 %group
 Win32 winmm
 %prm
 uDeviceID, uMsg, dw1, dw2
-uDeviceID : [int] Identifier of the auxiliary output device to receive the message.
-uMsg : [int] Message to send.
-dw1 : [int] Message parameter.
-dw2 : [int] Message parameter.
+uDeviceID : [int] ƒƒbƒZ[ƒW‚ğó‚¯æ‚é•â•o—ÍƒfƒoƒCƒX‚Ì¯•ÊqB
+uMsg : [int] ‘—M‚·‚éƒƒbƒZ[ƒWB
+dw1 : [int] ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^B
+dw2 : [int] ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^B
 %inst
-The auxOutMessage function sends a message to the given auxiliary
-output device. This function also performs error checking on the
-device identifier passed as part of the message.
+auxOutMessage
+ŠÖ”‚Íw’è‚µ‚½•â•o—ÍƒfƒoƒCƒX‚ÉƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB–{ŠÖ”‚ÍƒƒbƒZ[ƒW‚Ìˆê•”‚Æ‚µ‚Ä“n‚³‚ê‚½ƒfƒoƒCƒX¯•Êq‚É‘Î‚·‚éƒGƒ‰[ƒ`ƒFƒbƒN‚às‚¤B
 
 [–ß‚è’l]
-Returns the message return value.
+ƒƒbƒZ[ƒW‚Ì–ß‚è’l‚ğ•Ô‚·B
 
 [”õl]
-The DRV_QUERYDEVICEINTERFACE message queries for the device-interface
-name of a waveIn, waveOut, midiIn, midiOut, or mixer device. For
-DRV_QUERYDEVICEINTERFACE, dwParam1 is a pointer to a caller-allocated
-buffer into which the function writes a null-terminated Unicode
-string containing the device-interface name. If the device has no
-device interface, the string length is zero. For
-DRV_QUERYDEVICEINTERFACE, dwParam2 specifies the buffer size in
-bytes. This is an input parameter to the function. The caller should
-specify a size that is greater than or equal to the buffer size
-retrieved by the DRV_QUERYDEVICEINTERFACESIZE message. The
-DRV_QUERYDEVICEINTERFACE message is supported in Windows Me, and
-Windows 2000 and later. This message is valid only for the
-waveInMessage, waveOutMessage, midiInMessage, midiOutMessage, and
-mixerMessage functions. The system intercepts this message and
-returns the appropriate value without sending the message to the
-device driver. For general information about system-intercepted
-xxxMessage functions, see System-Intercepted Device Messages. The
-following two message constants are used together for the purpose of
-obtaining device interface names:
-This doc was truncated.
+DRV_QUERYDEVICEINTERFACE ƒƒbƒZ[ƒW‚ÍAwaveInAwaveOutAmidiInAmidiOutA‚Ü‚½‚Í
+mixer ƒfƒoƒCƒX‚ÌƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚ğ–â‚¢‡‚í‚¹‚éBDRV_QUERYDEVICEINTERFACE ‚Å‚ÍAdwParam1
+‚ÍƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚ğŠÜ‚Ş null I’[‚Ì Unicode
+•¶š—ñ‚ğŠÖ”‚ª‘‚«‚ŞŒÄ‚Ño‚µ‘¤Š„‚è“–‚Äƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚éBƒfƒoƒCƒX‚ÉƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª‚È‚¢ê‡A•¶š—ñ’·‚Í 0
+‚Æ‚È‚éBDRV_QUERYDEVICEINTERFACE ‚Å‚ÍAdwParam2
+‚Íƒoƒbƒtƒ@ƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Åw’è‚·‚éB‚±‚ê‚ÍŠÖ”‚Ö‚Ì“ü—Íƒpƒ‰ƒ[ƒ^‚Å‚ ‚éBŒÄ‚Ño‚µ‘¤‚Í
+DRV_QUERYDEVICEINTERFACESIZE
+ƒƒbƒZ[ƒW‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒYˆÈã‚ÌƒTƒCƒY‚ğw’è‚·‚é‚×‚«‚Å‚ ‚éBDRV_QUERYDEVICEINTERFACE ƒƒbƒZ[ƒW‚Í
+Windows MeAWindows 2000 ˆÈ~‚ÅƒTƒ|[ƒg‚³‚ê‚éB‚±‚ÌƒƒbƒZ[ƒW‚Í
+waveInMessageAwaveOutMessageAmidiInMessageAmidiOutMessageAmixerMessage
+ŠÖ”‚Å‚Ì‚İ—LŒø‚Å‚ ‚éBƒVƒXƒeƒ€‚Í‚±‚ÌƒƒbƒZ[ƒW‚ğ–Tó‚µAƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Ö‘—M‚¹‚¸‚É“KØ‚È’l‚ğ•Ô‚·BƒVƒXƒeƒ€–Tó xxxMessage
+ŠÖ”‚Ìˆê”Êî•ñ‚É‚Â‚¢‚Ä‚Í System-Intercepted Device Messages
+‚ğQÆBƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚Ìæ“¾‚ğ–Ú“I‚Æ‚µ‚ÄAŸ‚Ì 2 ‚Â‚ÌƒƒbƒZ[ƒW’è”‚ªˆê‚Ég—p‚³‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 auxSetVolume
-The auxSetVolume function sets the volume of the specified auxiliary output device.
+auxSetVolume ŠÖ”‚Íw’è‚³‚ê‚½•â•o—ÍƒfƒoƒCƒX‚Ì‰¹—Ê‚ğİ’è‚·‚éB
 %group
 Win32 winmm
 %prm
 uDeviceID, dwVolume
-uDeviceID : [int] Identifier of the auxiliary output device to be queried. Device identifiers are determined implicitly from the number of devices present in the system. Device identifier values range from zero to one less than the number of devices present. Use the auxGetNumDevs function to determine the number of auxiliary devices in the system.
-dwVolume : [int] Specifies the new volume setting. The low-order word specifies the left-channel volume setting, and the high-order word specifies the right-channel setting. A value of 0xFFFF represents full volume, and a value of 0x0000 is silence. If a device does not support both left and right volume control, the low-order word of dwVolume specifies the volume level, and the high-order word is ignored.
+uDeviceID : [int] –â‚¢‡‚í‚¹‘ÎÛ‚Ì•â•o—ÍƒfƒoƒCƒX‚Ì¯•ÊqBƒfƒoƒCƒX¯•Êq‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚éƒfƒoƒCƒX‚Ì”‚©‚çˆÃ–Ù“I‚ÉŒˆ’è‚³‚ê‚éBƒfƒoƒCƒX¯•Êq‚Ì’l‚Í 0 ‚©‚ç‘¶İ‚·‚éƒfƒoƒCƒX‚Ì”‚æ‚è 1 ­‚È‚¢’l‚Ü‚Å‚Ì”ÍˆÍ‚Æ‚È‚éBƒVƒXƒeƒ€“à‚Ì•â•ƒfƒoƒCƒX‚Ì”‚ğ”»’è‚·‚é‚É‚Í auxGetNumDevs ŠÖ”‚ğg—p‚·‚éB
+dwVolume : [int] V‚µ‚¢‰¹—Êİ’è‚ğw’è‚·‚éB‰ºˆÊƒ[ƒh‚É¶ƒ`ƒƒƒlƒ‹‚Ì‰¹—Êİ’è‚ğAãˆÊƒ[ƒh‚É‰Eƒ`ƒƒƒlƒ‹‚Ìİ’è‚ğw’è‚·‚éB0xFFFF ‚ªÅ‘å‰¹—ÊA0x0000 ‚ª–³‰¹‚ğ•\‚·BƒfƒoƒCƒX‚ª¶‰E—¼ƒ`ƒƒƒlƒ‹‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡AdwVolume ‚Ì‰ºˆÊƒ[ƒh‚Å‰¹—ÊƒŒƒxƒ‹‚ğw’è‚µAãˆÊƒ[ƒh‚Í–³‹‚³‚ê‚éB
 %inst
-The auxSetVolume function sets the volume of the specified auxiliary
-output device.
+auxSetVolume ŠÖ”‚Íw’è‚³‚ê‚½•â•o—ÍƒfƒoƒCƒX‚Ì‰¹—Ê‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Not all devices support volume control. To determine whether the
-device supports volume control, use the AUXCAPS_VOLUME flag to test
-the dwSupport member of the AUXCAPS structure (filled by the
-auxGetDevCaps function). To determine whether the device supports
-volume control on both the left and right channels, use the
-AUXCAPS_LRVOLUME flag to test the dwSupport member of the AUXCAPS
-structure (filled by auxGetDevCaps). Most devices do not support the
-full 16 bits of volume-level control and will use only the high-order
-bits of the requested volume setting. For example, for a device that
-supports 4 bits of volume control, requested volume level values of
-0x4000, 0x4FFF, and 0x43BE will produce the same physical volume
-setting, 0x4000. The auxGetVolume function will return the full
-16-bit setting set with auxSetVolume. Volume settings are interpreted
-logarithmically. This means the perceived volume increase is the same
-when increasing the volume level from 0x5000 to 0x6000 as it is from
-0x4000 to 0x5000.
+‘S‚Ä‚ÌƒfƒoƒCƒX‚ª‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚í‚¯‚Å‚Í‚È‚¢BƒfƒoƒCƒX‚ª‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚ÍAAUXCAPS_VOLUME
+ƒtƒ‰ƒO‚ğ—p‚¢‚Ä (auxGetDevCaps ŠÖ”‚Åæ“¾‚µ‚½) AUXCAPS \‘¢‘Ì‚Ì dwSupport
+ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éBƒfƒoƒCƒX‚ª¶‰E—¼ƒ`ƒƒƒlƒ‹‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚ÍAAUXCAPS_LRVOLUME ƒtƒ‰ƒO‚ğ—p‚¢‚Ä
+AUXCAPS \‘¢‘Ì‚Ì dwSupport ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éB‚Ù‚Æ‚ñ‚Ç‚ÌƒfƒoƒCƒX‚Í 16
+ƒrƒbƒg‘S‚Ä‚Ì‰¹—ÊƒŒƒxƒ‹§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¨‚ç‚¸A—v‹‚³‚ê‚½‰¹—Êİ’è‚ÌãˆÊƒrƒbƒg‚Ì‚İ‚ğg—p‚·‚éB—á‚¦‚Î 4
+ƒrƒbƒg‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚·‚éƒfƒoƒCƒX‚Å‚ÍA—v‹‰¹—ÊƒŒƒxƒ‹’l 0x4000A0x4FFFA0x43BE ‚Í“¯‚¶•¨—‰¹—Êİ’è 0x4000
+‚ğ¶¬‚·‚éBauxGetVolume ŠÖ”‚Í auxSetVolume ‚Åİ’è‚³‚ê‚½Š®‘S‚È 16
+ƒrƒbƒg’l‚ğ•Ô‚·B‰¹—Êİ’è‚Í‘Î”“I‚É‰ğß‚³‚ê‚éB‚±‚ê‚Í‰¹—ÊƒŒƒxƒ‹‚ğ 0x5000 ‚©‚ç 0x6000 ‚Éã‚°‚½‚Æ‚«‚Æ 0x4000 ‚©‚ç
+0x5000 ‚Éã‚°‚½‚Æ‚«‚Ì‰¹—Ê‘‰Á‚ª“¯‚¶‚æ‚¤‚É’mŠo‚³‚ê‚é‚±‚Æ‚ğˆÓ–¡‚·‚éB
 
 
 %index
 joyConfigChanged
-The joyConfigChanged function informs the joystick driver that the configuration has changed and should be reloaded from the registry.
+joyConfigChanged ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒNƒhƒ‰ƒCƒo‚É‘Î‚µİ’è‚ª•ÏX‚³‚ê‚½‚½‚ßƒŒƒWƒXƒgƒŠ‚©‚çÄ“Ç‚İ‚İ‚ª•K—v‚Å‚ ‚é‚±‚Æ‚ğ’Ê’m‚·‚éB
 %group
 Win32 winmm
 %prm
 dwFlags
-dwFlags : [int] Reserved for future use. Must equal zero.
+dwFlags : [int] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The joyConfigChanged function informs the joystick driver that the
-configuration has changed and should be reloaded from the registry.
+joyConfigChanged
+ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒNƒhƒ‰ƒCƒo‚É‘Î‚µİ’è‚ª•ÏX‚³‚ê‚½‚½‚ßƒŒƒWƒXƒgƒŠ‚©‚çÄ“Ç‚İ‚İ‚ª•K—v‚Å‚ ‚é‚±‚Æ‚ğ’Ê’m‚·‚éB
 
 [–ß‚è’l]
-Returns JOYERR_NOERROR if successful. Returns JOYERR_PARMS if the
-parameter is non-zero.
+¬Œ÷‚Í JOYERR_NOERROR ‚ğ•Ô‚·Bƒpƒ‰ƒ[ƒ^‚ª”ñƒ[ƒ‚Ìê‡‚Í JOYERR_PARMS ‚ğ•Ô‚·B
 
 [”õl]
-This function causes a window message to be sent to all top-level
-windows. This message may be defined by applications that need to
-respond to changes in joystick calibration by using
-RegisterWindowMessage with the following message ID:
-This doc was truncated.
+
+–{ŠÖ”‚Í‘S‚Ä‚ÌƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚ÖƒEƒBƒ“ƒhƒEƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB‚±‚ÌƒƒbƒZ[ƒW‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌƒLƒƒƒŠƒuƒŒ[ƒVƒ‡ƒ“•ÏX‚É‰“š‚·‚é•K—v‚ª‚ ‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªAŸ‚ÌƒƒbƒZ[ƒW
+ID ‚ğw’è‚µ‚Ä RegisterWindowMessage ‚Å’è‹`‚·‚é‚±‚Æ‚ª‚Å‚«‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 joyGetDevCapsW
-The joyGetDevCapsW (Unicode) function queries a joystick to determine its comprehensive capabilities.
+joyGetDevCapsW (Unicode) ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚É–â‚¢‡‚í‚¹‚ÄA‚»‚Ì•ïŠ‡“I‚È‹@”\‚ğ”»’è‚·‚éB
 %group
 Win32 winmm
 %prm
 uJoyID, pjc, cbjc
-uJoyID : [int] Identifier of the joystick to be queried. Valid values for uJoyID range from -1 to 15. A value of -1 enables retrieval of the szRegKey member of the JOYCAPS structure whether a device is present or not.
-pjc : [var] Pointer to a JOYCAPS structure to contain the capabilities of the joystick.
-cbjc : [int] Size, in bytes, of the JOYCAPS structure.
+uJoyID : [int] –â‚¢‡‚í‚¹‘ÎÛ‚ÌƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì¯•ÊqBuJoyID ‚Ì—LŒø’l‚Í -1 ‚©‚ç 15 ‚Ü‚Å‚Ì”ÍˆÍB-1 ‚ğw’è‚·‚é‚ÆAƒfƒoƒCƒX‚Ì—L–³‚É‚©‚©‚í‚ç‚¸ JOYCAPS \‘¢‘Ì‚Ì szRegKey ƒƒ“ƒo‚ğæ“¾‚Å‚«‚éB
+pjc : [var] ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì‹@”\‚ğŠi”[‚·‚é JOYCAPS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbjc : [int] JOYCAPS \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The joyGetDevCapsW (Unicode) function queries a joystick to determine
-its comprehensive capabilities.
+joyGetDevCapsW (Unicode) ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚É–â‚¢‡‚í‚¹‚ÄA‚»‚Ì•ïŠ‡“I‚È‹@”\‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-Returns JOYERR_NOERROR if successful or one of the following error
-values:
-This doc was truncated.
+¬Œ÷‚Í JOYERR_NOERROR ‚ğA¸”s‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ÌƒGƒ‰[’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Use the joyGetNumDevs function to determine the number of joystick
-devices supported by the driver.
-This method fails when passed an invalid value for the cbjc
-parameter.
-> [!NOTE] > The joystickapi.h header defines joyGetDevCaps as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ƒhƒ‰ƒCƒo‚ªƒTƒ|[ƒg‚·‚éƒWƒ‡ƒCƒXƒeƒBƒbƒNƒfƒoƒCƒX‚Ì”‚ğ”»’è‚·‚é‚É‚Í joyGetNumDevs ŠÖ”‚ğg—p‚·‚éB
+‚±‚Ìƒƒ\ƒbƒh‚Í cbjc ƒpƒ‰ƒ[ƒ^‚É–³Œø‚È’l‚ª“n‚³‚ê‚½ê‡‚É¸”s‚·‚éB
+> [!NOTE] > joystickapi.h ƒwƒbƒ_‚Í joyGetDevCaps ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚«–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚é•sˆê’v‚ª”­¶‚µ“¾‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 joyGetNumDevs
-The joyGetNumDevs function queries the joystick driver for the number of joysticks it supports.
+joyGetNumDevs ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒNƒhƒ‰ƒCƒo‚É‘Î‚µƒTƒ|[ƒg‚·‚éƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì”‚ğ–â‚¢‡‚í‚¹‚éB
 %group
 Win32 winmm
 %prm
 
 %inst
-The joyGetNumDevs function queries the joystick driver for the number
-of joysticks it supports.
+joyGetNumDevs ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒNƒhƒ‰ƒCƒo‚É‘Î‚µƒTƒ|[ƒg‚·‚éƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì”‚ğ–â‚¢‡‚í‚¹‚éB
 
 [–ß‚è’l]
-The joyGetNumDevs function returns the number of joysticks supported
-by the current driver or zero if no driver is installed.
+joyGetNumDevs ŠÖ”‚ÍŒ»İ‚Ìƒhƒ‰ƒCƒo‚ªƒTƒ|[ƒg‚·‚éƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì”‚ğ•Ô‚·Bƒhƒ‰ƒCƒo‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í 0
+‚ğ•Ô‚·B
 
 [”õl]
-Use the joyGetPos function to determine whether a given joystick is
-physically attached to the system. If the specified joystick is not
-connected, joyGetPos returns a JOYERR_UNPLUGGED error value.
+w’è‚µ‚½ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ªƒVƒXƒeƒ€‚É•¨—“I‚ÉÚ‘±‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚Í joyGetPos
+ŠÖ”‚ğg—p‚·‚éBw’è‚³‚ê‚½ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ªÚ‘±‚³‚ê‚Ä‚¢‚È‚¢ê‡AjoyGetPos ‚Í JOYERR_UNPLUGGED
+ƒGƒ‰[’l‚ğ•Ô‚·B
 
 
 %index
 joyGetPos
-The joyGetPos function queries a joystick for its position and button status.
+joyGetPos ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌˆÊ’u‚¨‚æ‚Ñƒ{ƒ^ƒ“ó‘Ô‚ğ–â‚¢‡‚í‚¹‚éB
 %group
 Win32 winmm
 %prm
 uJoyID, pji
-uJoyID : [int] Identifier of the joystick to be queried. Valid values for uJoyID range from zero (JOYSTICKID1) to 15.
-pji : [var] Pointer to a JOYINFO structure that contains the position and button status of the joystick.
+uJoyID : [int] –â‚¢‡‚í‚¹‘ÎÛ‚ÌƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì¯•ÊqBuJoyID ‚Ì—LŒø’l‚Í 0 (JOYSTICKID1) ‚©‚ç 15 ‚Ü‚Å‚Ì”ÍˆÍB
+pji : [var] ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌˆÊ’u‚¨‚æ‚Ñƒ{ƒ^ƒ“ó‘Ô‚ğŠÜ‚Ş JOYINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The joyGetPos function queries a joystick for its position and button
-status.
+joyGetPos ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌˆÊ’u‚¨‚æ‚Ñƒ{ƒ^ƒ“ó‘Ô‚ğ–â‚¢‡‚í‚¹‚éB
 
 [–ß‚è’l]
-Returns JOYERR_NOERROR if successful or one of the following error
-values.
-This doc was truncated.
+¬Œ÷‚Í JOYERR_NOERROR ‚ğA¸”s‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ÌƒGƒ‰[’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-For devices that have four to six axes of movement, a point-of-view
-control, or more than four buttons, use the joyGetPosEx function.
+4 ‚©‚ç 6 ²‚Ì“®‚«Aƒ|ƒCƒ“ƒgƒIƒuƒrƒ…[ƒRƒ“ƒgƒ[ƒ‹A‚Ü‚½‚Í 4 ŒÂ‚ğ’´‚¦‚éƒ{ƒ^ƒ“‚ğ‚ÂƒfƒoƒCƒX‚É‚Â‚¢‚Ä‚Í joyGetPosEx
+ŠÖ”‚ğg—p‚·‚éB
 
 
 %index
 joyGetPosEx
-The joyGetPosEx function queries a joystick for its position and button status.
+joyGetPosEx ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌˆÊ’u‚¨‚æ‚Ñƒ{ƒ^ƒ“ó‘Ô‚ğ–â‚¢‡‚í‚¹‚éB
 %group
 Win32 winmm
 %prm
 uJoyID, pji
-uJoyID : [int] Identifier of the joystick to be queried. Valid values for uJoyID range from zero (JOYSTICKID1) to 15.
-pji : [var] Pointer to a JOYINFOEX structure that contains extended position information and button status of the joystick. You must set the dwSize and dwFlags members or joyGetPosEx will fail. The information returned from joyGetPosEx depends on the flags you specify in dwFlags.
+uJoyID : [int] –â‚¢‡‚í‚¹‘ÎÛ‚ÌƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì¯•ÊqBuJoyID ‚Ì—LŒø’l‚Í 0 (JOYSTICKID1) ‚©‚ç 15 ‚Ü‚Å‚Ì”ÍˆÍB
+pji : [var] ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌŠg’£ˆÊ’uî•ñ‚¨‚æ‚Ñƒ{ƒ^ƒ“ó‘Ô‚ğŠÜ‚Ş JOYINFOEX \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BdwSize ‚¨‚æ‚Ñ dwFlags ƒƒ“ƒo‚ğİ’è‚·‚é•K—v‚ª‚ ‚éBİ’è‚µ‚È‚¢‚Æ joyGetPosEx ‚Í¸”s‚·‚éBjoyGetPosEx ‚©‚ç•Ô‚³‚ê‚éî•ñ‚Í dwFlags ‚Åw’è‚·‚éƒtƒ‰ƒO‚ÉˆË‘¶‚·‚éB
 %inst
-The joyGetPosEx function queries a joystick for its position and
-button status.
+joyGetPosEx ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌˆÊ’u‚¨‚æ‚Ñƒ{ƒ^ƒ“ó‘Ô‚ğ–â‚¢‡‚í‚¹‚éB
 
 [–ß‚è’l]
-Returns JOYERR_NOERROR if successful or one of the following error
-values.
-This doc was truncated.
+¬Œ÷‚Í JOYERR_NOERROR ‚ğA¸”s‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ÌƒGƒ‰[’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function provides access to extended devices such as rudder
-pedals, point-of-view hats, devices with a large number of buttons,
-and coordinate systems using up to six axes. For joystick devices
-that use three axes or fewer and have fewer than four buttons, use
-the joyGetPos function.
+–{ŠÖ”‚Íƒ‰ƒ_[ƒyƒ_ƒ‹Aƒ|ƒCƒ“ƒgƒIƒuƒrƒ…[ƒnƒbƒgA‘½”‚Ìƒ{ƒ^ƒ“‚ğ‚ÂƒfƒoƒCƒXAÅ‘å 6
+²‚ğg—p‚·‚éÀ•WŒn‚È‚Ç‚ÌŠg’£ƒfƒoƒCƒX‚Ö‚ÌƒAƒNƒZƒX‚ğ’ñ‹Ÿ‚·‚éB3 ²ˆÈ‰º‚Å 4 ŒÂ–¢–‚Ìƒ{ƒ^ƒ“‚ğg—p‚·‚éƒWƒ‡ƒCƒXƒeƒBƒbƒNƒfƒoƒCƒX‚É‚Â‚¢‚Ä‚Í
+joyGetPos ŠÖ”‚ğg—p‚·‚éB
 
 
 %index
 joyGetThreshold
-The joyGetThreshold function queries a joystick for its current movement threshold.
+joyGetThreshold ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌŒ»İ‚ÌˆÚ“®‚µ‚«‚¢’l‚ğ–â‚¢‡‚í‚¹‚éB
 %group
 Win32 winmm
 %prm
 uJoyID, puThreshold
-uJoyID : [int] Identifier of the joystick. Valid values for uJoyID range from zero (JOYSTICKID1) to 15.
-puThreshold : [var] Pointer to a variable that contains the movement threshold value.
+uJoyID : [int] ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì¯•ÊqBuJoyID ‚Ì—LŒø’l‚Í 0 (JOYSTICKID1) ‚©‚ç 15 ‚Ü‚Å‚Ì”ÍˆÍB
+puThreshold : [var] ˆÚ“®‚µ‚«‚¢’l‚ªŠi”[‚³‚ê‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The joyGetThreshold function queries a joystick for its current
-movement threshold.
+joyGetThreshold ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌŒ»İ‚ÌˆÚ“®‚µ‚«‚¢’l‚ğ–â‚¢‡‚í‚¹‚éB
 
 [–ß‚è’l]
-Returns JOYERR_NOERROR if successful or one of the following error
-values.
-This doc was truncated.
+¬Œ÷‚Í JOYERR_NOERROR ‚ğA¸”s‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ÌƒGƒ‰[’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The movement threshold is the distance the joystick must be moved
-before a joystick position-change message (MM_JOY1MOVE, MM_JOY1ZMOVE,
-MM_JOY2MOVE, or MM_JOY2ZMOVE) is sent to a window that has captured
-the device. The threshold is initially zero.
+ˆÚ“®‚µ‚«‚¢’l‚Æ‚ÍAƒfƒoƒCƒX‚ğƒLƒƒƒvƒ`ƒƒ‚µ‚½ƒEƒBƒ“ƒhƒE‚ÖƒWƒ‡ƒCƒXƒeƒBƒbƒNˆÊ’u•ÏXƒƒbƒZ[ƒW
+(MM_JOY1MOVEAMM_JOY1ZMOVEAMM_JOY2MOVEAMM_JOY2ZMOVE)
+‚ª‘—M‚³‚ê‚é‘O‚ÉƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ğ“®‚©‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‹——£‚Å‚ ‚éB‚µ‚«‚¢’l‚Í‰Šúó‘Ô‚Å‚Í 0 ‚Å‚ ‚éB
 
 
 %index
 joyReleaseCapture
-The joyReleaseCapture function releases the specified captured joystick.
+joyReleaseCapture ŠÖ”‚Íw’è‚µ‚½ƒLƒƒƒvƒ`ƒƒÏ‚İƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 winmm
 %prm
 uJoyID
-uJoyID : [int] Identifier of the joystick to be released. Valid values for uJoyID range from zero (JOYSTICKID1) to 15.
+uJoyID : [int] ‰ğ•ú‘ÎÛ‚ÌƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì¯•ÊqBuJoyID ‚Ì—LŒø’l‚Í 0 (JOYSTICKID1) ‚©‚ç 15 ‚Ü‚Å‚Ì”ÍˆÍB
 %inst
-The joyReleaseCapture function releases the specified captured
-joystick.
+joyReleaseCapture ŠÖ”‚Íw’è‚µ‚½ƒLƒƒƒvƒ`ƒƒÏ‚İƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ğ‰ğ•ú‚·‚éB
 
 [–ß‚è’l]
-Returns JOYERR_NOERROR if successful or one of the following error
-values.
-This doc was truncated.
+¬Œ÷‚Í JOYERR_NOERROR ‚ğA¸”s‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ÌƒGƒ‰[’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This method returns JOYERR_NOERROR when passed a valid joystick
-identifier that has not been captured.
+‚±‚Ìƒƒ\ƒbƒh‚ÍƒLƒƒƒvƒ`ƒƒ‚³‚ê‚Ä‚¢‚È‚¢—LŒø‚ÈƒWƒ‡ƒCƒXƒeƒBƒbƒN¯•Êq‚ª“n‚³‚ê‚½ê‡ JOYERR_NOERROR ‚ğ•Ô‚·B
 
 
 %index
 joySetCapture
-The joySetCapture function captures a joystick by causing its messages to be sent to the specified window.
+joySetCapture ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ğƒLƒƒƒvƒ`ƒƒ‚µA‚»‚ÌƒƒbƒZ[ƒW‚ğw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚É‘—M‚·‚éB
 %group
 Win32 winmm
 %prm
 hwnd, uJoyID, uPeriod, fChanged
-hwnd : [intptr] Handle to the window to receive the joystick messages.
-uJoyID : [int] Identifier of the joystick to be captured. Valid values for uJoyID range from zero (JOYSTICKID1) to 15.
-uPeriod : [int] Polling frequency, in milliseconds.
-fChanged : [int] Change position flag. Specify TRUE for this parameter to send messages only when the position changes by a value greater than the joystick movement threshold. Otherwise, messages are sent at the polling frequency specified in uPeriod.
+hwnd : [intptr] ƒWƒ‡ƒCƒXƒeƒBƒbƒNƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+uJoyID : [int] ƒLƒƒƒvƒ`ƒƒ‘ÎÛ‚ÌƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì¯•ÊqBuJoyID ‚Ì—LŒø’l‚Í 0 (JOYSTICKID1) ‚©‚ç 15 ‚Ü‚Å‚Ì”ÍˆÍB
+uPeriod : [int] ƒ|[ƒŠƒ“ƒO•p“x (ƒ~ƒŠ•b’PˆÊ)B
+fChanged : [int] ˆÊ’u•ÏXƒtƒ‰ƒOBˆÊ’u‚ªƒWƒ‡ƒCƒXƒeƒBƒbƒNˆÚ“®‚µ‚«‚¢’l‚æ‚è‘å‚«‚¢’l‚Å•Ï‰»‚µ‚½ê‡‚Ì‚İƒƒbƒZ[ƒW‚ğ‘—M‚·‚é‚É‚Í TRUE ‚ğw’è‚·‚éB‚»‚êˆÈŠO‚Ìê‡‚Í uPeriod ‚Åw’è‚µ‚½ƒ|[ƒŠƒ“ƒO•p“x‚ÅƒƒbƒZ[ƒW‚ª‘—M‚³‚ê‚éB
 %inst
-The joySetCapture function captures a joystick by causing its
-messages to be sent to the specified window.
+joySetCapture ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ğƒLƒƒƒvƒ`ƒƒ‚µA‚»‚ÌƒƒbƒZ[ƒW‚ğw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚É‘—M‚·‚éB
 
 [–ß‚è’l]
-Returns JOYERR_NOERROR if successful or one of the following error
-values.
-This doc was truncated.
+¬Œ÷‚Í JOYERR_NOERROR ‚ğA¸”s‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ÌƒGƒ‰[’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If the specified joystick is currently captured, the function returns
-undefined behavior. Call the joyReleaseCapture function to release
-the captured joystick, or destroy the window to release the joystick
-automatically.
+w’è‚µ‚½ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ªŒ»İƒLƒƒƒvƒ`ƒƒÏ‚İ‚Ìê‡A–{ŠÖ”‚Ì“®ì‚Í–¢’è‹`‚Æ‚È‚éBƒLƒƒƒvƒ`ƒƒ‚³‚ê‚½ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ğ‰ğ•ú‚·‚é‚É‚Í
+joyReleaseCapture ŠÖ”‚ğŒÄ‚Ño‚·‚©AƒEƒBƒ“ƒhƒE‚ğ”jŠü‚µ‚Ä©“®“I‚ÉƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ğ‰ğ•ú‚·‚éB
 
 
 %index
 joySetThreshold
-The joySetThreshold function sets the movement threshold of a joystick.
+joySetThreshold ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌˆÚ“®‚µ‚«‚¢’l‚ğİ’è‚·‚éB
 %group
 Win32 winmm
 %prm
 uJoyID, uThreshold
-uJoyID : [int] Identifier of the joystick. Valid values for uJoyID range from zero (JOYSTICKID1) to 15.
-uThreshold : [int] New movement threshold.
+uJoyID : [int] ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì¯•ÊqBuJoyID ‚Ì—LŒø’l‚Í 0 (JOYSTICKID1) ‚©‚ç 15 ‚Ü‚Å‚Ì”ÍˆÍB
+uThreshold : [int] V‚µ‚¢ˆÚ“®‚µ‚«‚¢’lB
 %inst
-The joySetThreshold function sets the movement threshold of a
-joystick.
+joySetThreshold ŠÖ”‚ÍƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ÌˆÚ“®‚µ‚«‚¢’l‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Returns JOYERR_NOERROR if successful or one of the following error
-values.
-This doc was truncated.
+¬Œ÷‚Í JOYERR_NOERROR ‚ğA¸”s‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ÌƒGƒ‰[’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The movement threshold is the distance the joystick must be moved
-before a joystick position-change message (MM_JOY1MOVE, MM_JOY1ZMOVE,
-MM_JOY2MOVE, or MM_JOY2ZMOVE) is sent to a window that has captured
-the device. The threshold is initially zero.
+ˆÚ“®‚µ‚«‚¢’l‚Æ‚ÍAƒfƒoƒCƒX‚ğƒLƒƒƒvƒ`ƒƒ‚µ‚½ƒEƒBƒ“ƒhƒE‚ÖƒWƒ‡ƒCƒXƒeƒBƒbƒNˆÊ’u•ÏXƒƒbƒZ[ƒW
+(MM_JOY1MOVEAMM_JOY1ZMOVEAMM_JOY2MOVEAMM_JOY2ZMOVE)
+‚ª‘—M‚³‚ê‚é‘O‚ÉƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ğ“®‚©‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‹——£‚Å‚ ‚éB‚µ‚«‚¢’l‚Í‰Šúó‘Ô‚Å‚Í 0 ‚Å‚ ‚éB
 
 
 %index
@@ -855,1902 +780,1618 @@ dwYieldData : [int]
 
 %index
 midiOutClose
-The midiOutClose function closes the specified MIDI output device.
+midiOutClose ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ğ•Â‚¶‚éB
 %group
 Win32 winmm
 %prm
 hmo
-hmo : [intptr] Handle to the MIDI output device. If the function is successful, the handle is no longer valid after the call to this function.
+hmo : [intptr] MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B–{ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A‚±‚Ìƒnƒ“ƒhƒ‹‚ÍŒÄ‚Ño‚µŒã‚É—LŒø‚Å‚Í‚È‚­‚È‚éB
 %inst
-The midiOutClose function closes the specified MIDI output device.
+midiOutClose ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ğ•Â‚¶‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If there are output buffers that have been sent by using the
-midiOutLongMsg function and have not been returned to the
-application, the close operation will fail. To mark all pending
-buffers as being done, use the midiOutReset function.
+midiOutLongMsg
+ŠÖ”‚ğg—p‚µ‚Ä‘—M‚µ‚½o—Íƒoƒbƒtƒ@‚Ì‚¤‚¿ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö•Ô‚³‚ê‚Ä‚¢‚È‚¢‚à‚Ì‚ª‚ ‚éê‡AƒNƒ[ƒY‘€ì‚Í¸”s‚·‚éB•Û—¯’†‚Ì‘Sƒoƒbƒtƒ@‚ğŠ®—¹‚Æƒ}[ƒN‚·‚é‚É‚Í
+midiOutReset ŠÖ”‚ğg—p‚·‚éB
 
 
 %index
 midiConnect
-The midiConnect function connects a MIDI input device to a MIDI thru or output device, or connects a MIDI thru device to a MIDI output device.
+midiConnect ŠÖ”‚Í MIDI “ü—ÍƒfƒoƒCƒX‚ğ MIDI ƒXƒ‹[‚Ü‚½‚Ío—ÍƒfƒoƒCƒX‚ÖÚ‘±‚·‚éA‚ ‚é‚¢‚Í MIDI ƒXƒ‹[ƒfƒoƒCƒX‚ğ MIDI o—ÍƒfƒoƒCƒX‚ÖÚ‘±‚·‚éB
 %group
 Win32 winmm
 %prm
 hmi, hmo, pReserved
-hmi : [intptr] Handle to a MIDI input device or a MIDI thru device. (For thru devices, this handle must have been returned by a call to the midiOutOpen function.)
-hmo : [intptr] Handle to the MIDI output or thru device.
-pReserved : [intptr] Reserved; must be NULL.
+hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ü‚½‚Í MIDI ƒXƒ‹[ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B(ƒXƒ‹[ƒfƒoƒCƒX‚Ìê‡A‚±‚Ìƒnƒ“ƒhƒ‹‚Í midiOutOpen ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B)
+hmo : [intptr] MIDI o—Í‚Ü‚½‚ÍƒXƒ‹[ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pReserved : [intptr] —\–ñBNULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The midiConnect function connects a MIDI input device to a MIDI thru
-or output device, or connects a MIDI thru device to a MIDI output
-device.
+midiConnect ŠÖ”‚Í MIDI “ü—ÍƒfƒoƒCƒX‚ğ MIDI ƒXƒ‹[‚Ü‚½‚Ío—ÍƒfƒoƒCƒX‚ÖÚ‘±‚·‚éA‚ ‚é‚¢‚Í MIDI
+ƒXƒ‹[ƒfƒoƒCƒX‚ğ MIDI o—ÍƒfƒoƒCƒX‚ÖÚ‘±‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-After calling this function, the MIDI input device receives event
-data in an MIM_DATA message whenever a message with the same event
-data is sent to the output device driver. A thru driver is a special
-form of MIDI output driver. The system will allow only one MIDI
-output device to be connected to a MIDI input device, but multiple
-MIDI output devices can be connected to a MIDI thru device. Whenever
-the given MIDI input device receives event data in an MIM_DATA
-message, a message with the same event data is sent to the given
-output device driver (or through the thru driver to the output
-drivers).
+–{ŠÖ”‚ğŒÄ‚Ño‚µ‚½Œã‚ÍAMIDI “ü—ÍƒfƒoƒCƒX‚ª MIM_DATA
+ƒƒbƒZ[ƒW‚ÅƒCƒxƒ“ƒgƒf[ƒ^‚ğó‚¯æ‚é‚½‚Ñ‚ÉA“¯‚¶ƒCƒxƒ“ƒgƒf[ƒ^‚ğ‚ÂƒƒbƒZ[ƒW‚ªo—ÍƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Ö‘—M‚³‚ê‚éBƒXƒ‹[ƒhƒ‰ƒCƒo‚Í
+MIDI o—Íƒhƒ‰ƒCƒo‚Ì“Áê‚ÈŒ`‘Ô‚Å‚ ‚éBƒVƒXƒeƒ€‚Í 1 ‚Â‚Ì MIDI o—ÍƒfƒoƒCƒX‚Ì‚İ‚ª MIDI
+“ü—ÍƒfƒoƒCƒX‚ÖÚ‘±‚³‚ê‚é‚±‚Æ‚ğ‹–‰Â‚·‚é‚ªA•¡”‚Ì MIDI o—ÍƒfƒoƒCƒX‚ğ MIDI ƒXƒ‹[ƒfƒoƒCƒX‚ÖÚ‘±‚Å‚«‚éBw’è‚³‚ê‚½ MIDI
+“ü—ÍƒfƒoƒCƒX‚ª MIM_DATA
+ƒƒbƒZ[ƒW‚ÅƒCƒxƒ“ƒgƒf[ƒ^‚ğó‚¯æ‚é‚½‚Ñ‚ÉA“¯‚¶ƒCƒxƒ“ƒgƒf[ƒ^‚ğ‚ÂƒƒbƒZ[ƒW‚ªw’è‚³‚ê‚½o—ÍƒfƒoƒCƒXƒhƒ‰ƒCƒo
+(‚Ü‚½‚ÍƒXƒ‹[ƒhƒ‰ƒCƒo‚ğ‰î‚µ‚Äo—Íƒhƒ‰ƒCƒo) ‚Ö‘—M‚³‚ê‚éB
 
 
 %index
 midiDisconnect
-The midiDisconnect function disconnects a MIDI input device from a MIDI thru or output device, or disconnects a MIDI thru device from a MIDI output device.
+midiDisconnect ŠÖ”‚Í MIDI “ü—ÍƒfƒoƒCƒX‚ğ MIDI ƒXƒ‹[‚Ü‚½‚Ío—ÍƒfƒoƒCƒX‚©‚çØ’f‚·‚éA‚ ‚é‚¢‚Í MIDI ƒXƒ‹[ƒfƒoƒCƒX‚ğ MIDI o—ÍƒfƒoƒCƒX‚©‚çØ’f‚·‚éB
 %group
 Win32 winmm
 %prm
 hmi, hmo, pReserved
-hmi : [intptr] Handle to a MIDI input device or a MIDI thru device.
-hmo : [intptr] Handle to the MIDI output device to be disconnected.
-pReserved : [intptr] Reserved; must be NULL.
+hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ü‚½‚Í MIDI ƒXƒ‹[ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+hmo : [intptr] Ø’f‘ÎÛ‚Ì MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pReserved : [intptr] —\–ñBNULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The midiDisconnect function disconnects a MIDI input device from a
-MIDI thru or output device, or disconnects a MIDI thru device from a
-MIDI output device.
+midiDisconnect ŠÖ”‚Í MIDI “ü—ÍƒfƒoƒCƒX‚ğ MIDI ƒXƒ‹[‚Ü‚½‚Ío—ÍƒfƒoƒCƒX‚©‚çØ’f‚·‚éA‚ ‚é‚¢‚Í MIDI
+ƒXƒ‹[ƒfƒoƒCƒX‚ğ MIDI o—ÍƒfƒoƒCƒX‚©‚çØ’f‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following:.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-MIDI input, output, and thru devices can be connected by using the
-midiConnect function. Thereafter, whenever the MIDI input device
-receives event data in an MIM_DATA message, a message with the same
-event data is sent to the output device driver (or through the thru
-driver to the output drivers).
+MIDI “ü—ÍAo—ÍAƒXƒ‹[ƒfƒoƒCƒX‚Í midiConnect ŠÖ”‚ğg—p‚µ‚ÄÚ‘±‚Å‚«‚éB‚»‚ÌŒãAMIDI “ü—ÍƒfƒoƒCƒX‚ª
+MIM_DATA ƒƒbƒZ[ƒW‚ÅƒCƒxƒ“ƒgƒf[ƒ^‚ğó‚¯æ‚é‚½‚Ñ‚ÉA“¯‚¶ƒCƒxƒ“ƒgƒf[ƒ^‚ğ‚ÂƒƒbƒZ[ƒW‚ªo—ÍƒfƒoƒCƒXƒhƒ‰ƒCƒo
+(‚Ü‚½‚ÍƒXƒ‹[ƒhƒ‰ƒCƒo‚ğ‰î‚µ‚Äo—Íƒhƒ‰ƒCƒo) ‚Ö‘—M‚³‚ê‚éB
 
 
 %index
 midiInClose
-The midiInClose function closes the specified MIDI input device.
+midiInClose ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚ğ•Â‚¶‚éB
 %group
 Win32 winmm
 %prm
 hmi
-hmi : [intptr] Handle to the MIDI input device. If the function is successful, the handle is no longer valid after the call to this function.
+hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B–{ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A‚±‚Ìƒnƒ“ƒhƒ‹‚ÍŒÄ‚Ño‚µŒã‚É—LŒø‚Å‚Í‚È‚­‚È‚éB
 %inst
-The midiInClose function closes the specified MIDI input device.
+midiInClose ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚ğ•Â‚¶‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If there are input buffers that have been sent by using the
-midiInAddBuffer function and have not been returned to the
-application, the close operation will fail. To return all pending
-buffers through the callback function, use the midiInReset function.
+midiInAddBuffer
+ŠÖ”‚ğg—p‚µ‚Ä‘—M‚µ‚½“ü—Íƒoƒbƒtƒ@‚Ì‚¤‚¿ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö•Ô‚³‚ê‚Ä‚¢‚È‚¢‚à‚Ì‚ª‚ ‚éê‡AƒNƒ[ƒY‘€ì‚Í¸”s‚·‚éB•Û—¯’†‚Ì‘Sƒoƒbƒtƒ@‚ğƒR[ƒ‹ƒoƒbƒNŠÖ”Œo—R‚Å•Ô‚·‚É‚Í
+midiInReset ŠÖ”‚ğg—p‚·‚éB
 
 
 %index
 midiInAddBuffer
-The midiInAddBuffer function sends an input buffer to a specified opened MIDI input device. This function is used for system-exclusive messages.
+midiInAddBuffer ŠÖ”‚Íw’è‚³‚ê‚½ƒI[ƒvƒ“Ï‚İ MIDI “ü—ÍƒfƒoƒCƒX‚Ö“ü—Íƒoƒbƒtƒ@‚ğ‘—M‚·‚éB–{ŠÖ”‚ÍƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒuƒƒbƒZ[ƒW‚Ég—p‚³‚ê‚éB
 %group
 Win32 winmm
 %prm
 hmi, pmh, cbmh
-hmi : [intptr] Handle to the MIDI input device.
-pmh : [var] Pointer to a MIDIHDR structure that identifies the buffer.
-cbmh : [int] Size, in bytes, of the MIDIHDR structure.
+hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pmh : [var] ƒoƒbƒtƒ@‚ğ¯•Ê‚·‚é MIDIHDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbmh : [int] MIDIHDR \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The midiInAddBuffer function sends an input buffer to a specified
-opened MIDI input device. This function is used for system-exclusive
-messages.
+midiInAddBuffer ŠÖ”‚Íw’è‚³‚ê‚½ƒI[ƒvƒ“Ï‚İ MIDI
+“ü—ÍƒfƒoƒCƒX‚Ö“ü—Íƒoƒbƒtƒ@‚ğ‘—M‚·‚éB–{ŠÖ”‚ÍƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒuƒƒbƒZ[ƒW‚Ég—p‚³‚ê‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-When the buffer is filled, it is sent back to the application. The
-buffer must be prepared by using the midiInPrepareHeader function
-before it is passed to the midiInAddBuffer function.
+ƒoƒbƒtƒ@‚ª–‚½‚³‚ê‚é‚ÆAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö•Ô‚³‚ê‚éBƒoƒbƒtƒ@‚Í midiInAddBuffer ŠÖ”‚É“n‚³‚ê‚é‘O‚É
+midiInPrepareHeader ŠÖ”‚Å€”õ‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 
 
 %index
 midiInGetDevCapsW
-The midiInGetDevCapsW (Unicode) function (mmeapi.h) determines the capabilities of a specified MIDI input device.
+midiInGetDevCapsW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚Ì‹@”\‚ğ”»’è‚·‚éB
 %group
 Win32 winmm
 %prm
 uDeviceID, pmic, cbmic
-uDeviceID : [int] Identifier of the MIDI input device. The device identifier varies from zero to one less than the number of devices present. This parameter can also be a properly cast device handle.
-pmic : [var] Pointer to a MIDIINCAPS structure that is filled with information about the capabilities of the device.
-cbmic : [int] Size, in bytes, of the MIDIINCAPS structure. Only cbMidiInCaps bytes (or less) of information is copied to the location pointed to by lpMidiInCaps. If cbMidiInCaps is zero, nothing is copied, and the function returns MMSYSERR_NOERROR.
+uDeviceID : [int] MIDI “ü—ÍƒfƒoƒCƒX‚Ì¯•ÊqBƒfƒoƒCƒX¯•Êq‚Í 0 ‚©‚ç‘¶İ‚·‚éƒfƒoƒCƒX‚Ì”‚æ‚è 1 ­‚È‚¢’l‚Ü‚Å‚Ì”ÍˆÍ‚Æ‚È‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í“KØ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚Å‚à‚æ‚¢B
+pmic : [var] ƒfƒoƒCƒX‚Ì‹@”\‚ÉŠÖ‚·‚éî•ñ‚ªŠi”[‚³‚ê‚é MIDIINCAPS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbmic : [int] MIDIINCAPS \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)BlpMidiInCaps ‚ªw‚·êŠ‚É‚Í cbMidiInCaps ƒoƒCƒg (‚Ü‚½‚Í‚»‚êˆÈ‰º) ‚Ìî•ñ‚Ì‚İƒRƒs[‚³‚ê‚éBcbMidiInCaps ‚ª 0 ‚Ìê‡‚Í‰½‚àƒRƒs[‚³‚ê‚¸AŠÖ”‚Í MMSYSERR_NOERROR ‚ğ•Ô‚·B
 %inst
-The midiInGetDevCapsW (Unicode) function (mmeapi.h) determines the
-capabilities of a specified MIDI input device.
+midiInGetDevCapsW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚Ì‹@”\‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-To determine the number of MIDI input devices present on the system,
-use the midiInGetNumDevs function.
-> [!NOTE] > The mmeapi.h header defines midiInGetDevCaps as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ƒVƒXƒeƒ€‚É‘¶İ‚·‚é MIDI “ü—ÍƒfƒoƒCƒX‚Ì”‚ğ”»’è‚·‚é‚É‚Í midiInGetNumDevs ŠÖ”‚ğg—p‚·‚éB
+> [!NOTE] > mmeapi.h ƒwƒbƒ_‚Í midiInGetDevCaps ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚«–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚é•sˆê’v‚ª”­¶‚µ“¾‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 midiInGetErrorTextW
-The midiInGetErrorTextW (Unicode) function (mmeapi.h) retrieves a textual description for an error identified by the specified error code.
+midiInGetErrorTextW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚µ‚½ƒGƒ‰[ƒR[ƒh‚Å¯•Ê‚³‚ê‚éƒGƒ‰[‚ÌƒeƒLƒXƒgŒ`®‚Ìà–¾‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 mmrError, pszText, cchText
-mmrError : [int] Error code.
-pszText : [wstr] Pointer to the buffer to be filled with the textual error description.
-cchText : [int] Length, in characters, of the buffer pointed to by lpText.
+mmrError : [int] ƒGƒ‰[ƒR[ƒhB
+pszText : [wstr] ƒeƒLƒXƒgŒ`®‚ÌƒGƒ‰[à–¾‚ªŠi”[‚³‚ê‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cchText : [int] lpText ‚ªw‚·ƒoƒbƒtƒ@‚Ì’·‚³ (•¶š’PˆÊ)B
 %inst
-The midiInGetErrorTextW (Unicode) function (mmeapi.h) retrieves a
-textual description for an error identified by the specified error
-code.
+midiInGetErrorTextW (Unicode) ŠÖ” (mmeapi.h)
+‚Íw’è‚µ‚½ƒGƒ‰[ƒR[ƒh‚Å¯•Ê‚³‚ê‚éƒGƒ‰[‚ÌƒeƒLƒXƒgŒ`®‚Ìà–¾‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If the textual error description is longer than the specified buffer,
-the description is truncated. The returned error string is always
-null-terminated. If cchText is zero, nothing is copied, and the
-function returns zero. All error descriptions are less than
-MAXERRORLENGTH characters long.
-> [!NOTE] > The mmeapi.h header defines midiInGetErrorText as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ƒeƒLƒXƒgŒ`®‚ÌƒGƒ‰[à–¾‚ªw’è‚µ‚½ƒoƒbƒtƒ@‚æ‚è’·‚¢ê‡Aà–¾‚ÍØ‚è‹l‚ß‚ç‚ê‚éB•Ô‚³‚ê‚éƒGƒ‰[•¶š—ñ‚Íí‚É null
+I’[‚³‚ê‚éBcchText ‚ª 0 ‚Ìê‡‚Í‰½‚àƒRƒs[‚³‚ê‚¸AŠÖ”‚Í 0 ‚ğ•Ô‚·B‘S‚Ä‚ÌƒGƒ‰[à–¾‚Í MAXERRORLENGTH
+•¶š–¢–‚Ì’·‚³‚Å‚ ‚éB
+> [!NOTE] > mmeapi.h ƒwƒbƒ_‚Í midiInGetErrorText ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚«–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚é•sˆê’v‚ª”­¶‚µ“¾‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 midiInGetID
-The midiInGetID function gets the device identifier for the given MIDI input device.
+midiInGetID ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 hmi, puDeviceID
-hmi : [intptr] Handle to the MIDI input device.
-puDeviceID : [var] Pointer to a variable to be filled with the device identifier.
+hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+puDeviceID : [var] ƒfƒoƒCƒX¯•Êq‚ªŠi”[‚³‚ê‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The midiInGetID function gets the device identifier for the given
-MIDI input device.
+midiInGetID ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 midiInGetNumDevs
-The midiInGetNumDevs function retrieves the number of MIDI input devices in the system.
+midiInGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€“à‚Ì MIDI “ü—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 
 %inst
-The midiInGetNumDevs function retrieves the number of MIDI input
-devices in the system.
+midiInGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€“à‚Ì MIDI “ü—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns the number of MIDI input devices present in the system. A
-return value of zero means that there are no devices (not that there
-is no error).
+ƒVƒXƒeƒ€‚É‘¶İ‚·‚é MIDI “ü—ÍƒfƒoƒCƒX‚Ì”‚ğ•Ô‚·B–ß‚è’l‚ª 0 ‚Ìê‡AƒfƒoƒCƒX‚ª‘¶İ‚µ‚È‚¢‚±‚Æ‚ğˆÓ–¡‚·‚é
+(ƒGƒ‰[‚ª”­¶‚µ‚½‚í‚¯‚Å‚Í‚È‚¢)B
 
 
 %index
 midiInMessage
-The midiInMessage function sends a message to the MIDI device driver.
+midiInMessage ŠÖ”‚Í MIDI ƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
 %group
 Win32 winmm
 %prm
 hmi, uMsg, dw1, dw2
-hmi : [intptr] Identifier of the MIDI device that receives the message. You must cast the device ID to the HMIDIIN handle type. If you supply a handle instead of a device ID, the function fails and returns the MMSYSERR_NOSUPPORT error code.
-uMsg : [int] Message to send.
-dw1 : [int] Message parameter.
-dw2 : [int] Message parameter.
+hmi : [intptr] ƒƒbƒZ[ƒW‚ğó‚¯æ‚é MIDI ƒfƒoƒCƒX‚Ì¯•ÊqBƒfƒoƒCƒX ID ‚ğ HMIDIIN ƒnƒ“ƒhƒ‹Œ^‚ÉƒLƒƒƒXƒg‚·‚é•K—v‚ª‚ ‚éBƒfƒoƒCƒX ID ‚Ì‘ã‚í‚è‚Éƒnƒ“ƒhƒ‹‚ğ“n‚·‚ÆAŠÖ”‚Í¸”s‚µ MMSYSERR_NOSUPPORT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+uMsg : [int] ‘—M‚·‚éƒƒbƒZ[ƒWB
+dw1 : [int] ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^B
+dw2 : [int] ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^B
 %inst
-The midiInMessage function sends a message to the MIDI device driver.
+midiInMessage ŠÖ”‚Í MIDI ƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
 
 [–ß‚è’l]
-Returns the value returned by the audio device driver.
+ƒI[ƒfƒBƒIƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ª•Ô‚µ‚½’l‚ğ•Ô‚·B
 
 [”õl]
-This function is used only for driver-specific messages that are not
-supported by the MIDI API. The DRV_QUERYDEVICEINTERFACE message
-queries for the device-interface name of a waveIn, waveOut, midiIn,
-midiOut, or mixer device. For DRV_QUERYDEVICEINTERFACE, dwParam1 is a
-pointer to a caller-allocated buffer into which the function writes a
-null-terminated Unicode string containing the device-interface name.
-If the device has no device interface, the string length is zero. For
-DRV_QUERYDEVICEINTERFACE, dwParam2 specifies the buffer size in
-bytes. This is an input parameter to the function. The caller should
-specify a size that is greater than or equal to the buffer size
-retrieved by the DRV_QUERYDEVICEINTERFACESIZE message. The
-DRV_QUERYDEVICEINTERFACE message is supported in Windows Me, and
-Windows 2000 and later. This message is valid only for the
-waveInMessage, waveOutMessage, midiInMessage, midiOutMessage, and
-mixerMessage functions. The system intercepts this message and
-returns the appropriate value without sending the message to the
-device driver. For general information about system-intercepted
-xxxMessage functions, see System-Intercepted Device Messages. The
-following two message constants are used together for the purpose of
-obtaining device interface names:
-This doc was truncated.
+–{ŠÖ”‚Í MIDI API
+‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢ƒhƒ‰ƒCƒoŒÅ—L‚ÌƒƒbƒZ[ƒW‚É‚Ì‚İg—p‚³‚ê‚éBDRV_QUERYDEVICEINTERFACE
+ƒƒbƒZ[ƒW‚ÍAwaveInAwaveOutAmidiInAmidiOutA‚Ü‚½‚Í mixer
+ƒfƒoƒCƒX‚ÌƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚ğ–â‚¢‡‚í‚¹‚éBDRV_QUERYDEVICEINTERFACE ‚Å‚ÍAdwParam1
+‚ÍƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚ğŠÜ‚Ş null I’[‚Ì Unicode
+•¶š—ñ‚ğŠÖ”‚ª‘‚«‚ŞŒÄ‚Ño‚µ‘¤Š„‚è“–‚Äƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚éBƒfƒoƒCƒX‚ÉƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª‚È‚¢ê‡A•¶š—ñ’·‚Í 0
+‚Æ‚È‚éBDRV_QUERYDEVICEINTERFACE ‚Å‚ÍAdwParam2
+‚Íƒoƒbƒtƒ@ƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Åw’è‚·‚éB‚±‚ê‚ÍŠÖ”‚Ö‚Ì“ü—Íƒpƒ‰ƒ[ƒ^‚Å‚ ‚éBŒÄ‚Ño‚µ‘¤‚Í
+DRV_QUERYDEVICEINTERFACESIZE
+ƒƒbƒZ[ƒW‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒYˆÈã‚ÌƒTƒCƒY‚ğw’è‚·‚é‚×‚«‚Å‚ ‚éBDRV_QUERYDEVICEINTERFACE ƒƒbƒZ[ƒW‚Í
+Windows MeAWindows 2000 ˆÈ~‚ÅƒTƒ|[ƒg‚³‚ê‚éB‚±‚ÌƒƒbƒZ[ƒW‚Í
+waveInMessageAwaveOutMessageAmidiInMessageAmidiOutMessageAmixerMessage
+ŠÖ”‚Å‚Ì‚İ—LŒø‚Å‚ ‚éBƒVƒXƒeƒ€‚Í‚±‚ÌƒƒbƒZ[ƒW‚ğ–Tó‚µAƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Ö‘—M‚¹‚¸‚É“KØ‚È’l‚ğ•Ô‚·BƒVƒXƒeƒ€–Tó xxxMessage
+ŠÖ”‚Ìˆê”Êî•ñ‚É‚Â‚¢‚Ä‚Í System-Intercepted Device Messages
+‚ğQÆBƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚Ìæ“¾‚ğ–Ú“I‚Æ‚µ‚ÄAŸ‚Ì 2 ‚Â‚ÌƒƒbƒZ[ƒW’è”‚ªˆê‚Ég—p‚³‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 midiInOpen
-The midiInOpen function opens a specified MIDI input device.
+midiInOpen ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚ğƒI[ƒvƒ“‚·‚éB
 %group
 Win32 winmm
 %prm
 phmi, uDeviceID, dwCallback, dwInstance, fdwOpen
-phmi : [intptr] Pointer to an HMIDIIN handle. This location is filled with a handle identifying the opened MIDI input device. The handle is used to identify the device in calls to other MIDI input functions.
-uDeviceID : [int] Identifier of the MIDI input device to be opened.
-dwCallback : [int] Pointer to a callback function, a thread identifier, or a handle of a window called with information about incoming MIDI messages. For more information on the callback function, see MidiInProc.
-dwInstance : [int] User instance data passed to the callback function. This parameter is not used with window callback functions or threads.
-fdwOpen : [int] Callback flag for opening the device and, optionally, a status flag that helps regulate rapid data transfers. It can be the following values.
+phmi : [intptr] HMIDIIN ƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌêŠ‚ÉƒI[ƒvƒ“‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒnƒ“ƒhƒ‹‚Í‘¼‚Ì MIDI “ü—ÍŠÖ”‚ÌŒÄ‚Ño‚µ‚ÅƒfƒoƒCƒX‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB
+uDeviceID : [int] ƒI[ƒvƒ“‘ÎÛ‚Ì MIDI “ü—ÍƒfƒoƒCƒX‚Ì¯•ÊqB
+dwCallback : [int] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^AƒXƒŒƒbƒh¯•ÊqA‚Ü‚½‚ÍóM‚µ‚½ MIDI ƒƒbƒZ[ƒW‚ÉŠÖ‚·‚éî•ñ‚Æ‚Æ‚à‚ÉŒÄ‚Ño‚³‚ê‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹BƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÌÚ×‚Í MidiInProc ‚ğQÆB
+dwInstance : [int] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö“n‚³‚ê‚éƒ†[ƒUƒCƒ“ƒXƒ^ƒ“ƒXƒf[ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍƒEƒBƒ“ƒhƒEƒR[ƒ‹ƒoƒbƒNŠÖ”‚âƒXƒŒƒbƒh‚Å‚Íg—p‚³‚ê‚È‚¢B
+fdwOpen : [int] ƒfƒoƒCƒX‚ğŠJ‚­‚½‚ß‚ÌƒR[ƒ‹ƒoƒbƒNƒtƒ‰ƒOA‚¨‚æ‚ÑƒIƒvƒVƒ‡ƒ“‚Å‚‘¬ƒf[ƒ^“]‘—‚ğ§Œä‚·‚é‚½‚ß‚ÌƒXƒe[ƒ^ƒXƒtƒ‰ƒOBŸ‚Ì’l‚ğw’è‚Å‚«‚éB
 %inst
-The midiInOpen function opens a specified MIDI input device.
+midiInOpen ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚ğƒI[ƒvƒ“‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following/
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-To determine the number of MIDI input devices present in the system,
-use the midiInGetNumDevs function. The device identifier specified by
-wDeviceID varies from zero to one less than the number of devices
-present. If a window or thread is chosen to receive callback
-information, the following messages are sent to the window procedure
-or thread to indicate the progress of MIDI input: MM_MIM_OPEN,
-MM_MIM_CLOSE, MM_MIM_DATA, MM_MIM_LONGDATA, MM_MIM_ERROR,
-MM_MIM_LONGERROR, and MM_MIM_MOREDATA. If a function is chosen to
-receive callback information, the following messages are sent to the
-function to indicate the progress of MIDI input: MIM_OPEN, MIM_CLOSE,
-MIM_DATA, MIM_LONGDATA, MIM_ERROR, MIM_LONGERROR, and MIM_MOREDATA.
+ƒVƒXƒeƒ€‚É‘¶İ‚·‚é MIDI “ü—ÍƒfƒoƒCƒX‚Ì”‚ğ”»’è‚·‚é‚É‚Í midiInGetNumDevs ŠÖ”‚ğg—p‚·‚éBwDeviceID
+‚Åw’è‚³‚ê‚éƒfƒoƒCƒX¯•Êq‚Í 0 ‚©‚ç‘¶İ‚·‚éƒfƒoƒCƒX‚Ì”‚æ‚è 1
+­‚È‚¢’l‚Ü‚Å‚Ì”ÍˆÍ‚Æ‚È‚éBƒR[ƒ‹ƒoƒbƒNî•ñ‚Ìó‚¯æ‚èæ‚Æ‚µ‚ÄƒEƒBƒ“ƒhƒE‚Ü‚½‚ÍƒXƒŒƒbƒh‚ª‘I‘ğ‚³‚ê‚½ê‡AMIDI
+“ü—Í‚Ìi’»‚ğ¦‚·‚½‚ß‚ÉŸ‚ÌƒƒbƒZ[ƒW‚ªƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚Ü‚½‚ÍƒXƒŒƒbƒh‚Ö‘—M‚³‚ê‚é:
+MM_MIM_OPENAMM_MIM_CLOSEAMM_MIM_DATAAMM_MIM_LONGDATAAMM_MIM_ERRORAMM_MIM_LONGERRORAMM_MIM_MOREDATABƒR[ƒ‹ƒoƒbƒNî•ñ‚Ìó‚¯æ‚èæ‚Æ‚µ‚ÄŠÖ”‚ª‘I‘ğ‚³‚ê‚½ê‡AMIDI
+“ü—Í‚Ìi’»‚ğ¦‚·‚½‚ß‚ÉŸ‚ÌƒƒbƒZ[ƒW‚ªŠÖ”‚Ö‘—M‚³‚ê‚é:
+MIM_OPENAMIM_CLOSEAMIM_DATAAMIM_LONGDATAAMIM_ERRORAMIM_LONGERRORAMIM_MOREDATAB
 
 
 %index
 midiInPrepareHeader
-The midiInPrepareHeader function prepares a buffer for MIDI input.
+midiInPrepareHeader ŠÖ”‚Í MIDI “ü—Í—p‚Ìƒoƒbƒtƒ@‚ğ€”õ‚·‚éB
 %group
 Win32 winmm
 %prm
 hmi, pmh, cbmh
-hmi : [intptr] Handle to the MIDI input device. To get the device handle, call midiInOpen.
-pmh : [var] Pointer to a MIDIHDR structure that identifies the buffer to be prepared.
-cbmh : [int] Size, in bytes, of the MIDIHDR structure.
+hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‚É‚Í midiInOpen ‚ğŒÄ‚Ño‚·B
+pmh : [var] €”õ‘ÎÛ‚Ìƒoƒbƒtƒ@‚ğ¯•Ê‚·‚é MIDIHDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbmh : [int] MIDIHDR \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The midiInPrepareHeader function prepares a buffer for MIDI input.
+midiInPrepareHeader ŠÖ”‚Í MIDI “ü—Í—p‚Ìƒoƒbƒtƒ@‚ğ€”õ‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Before you pass a MIDI data block to a device driver, you must
-prepare the buffer by passing it to the midiInPrepareHeader function.
-After the header has been prepared, do not modify the buffer. After
-the driver is done using the buffer, call the midiInUnprepareHeader
-function. The application can re-use the same buffer, or allocate
-multiple buffers and call midiInPrepareHeader for each buffer. If you
-re-use the same buffer, it is not necessary to prepare the buffer
-each time. You can call midiInPrepareHeader once at the beginning and
-then call midiInUnprepareHeader once at the end. Preparing a header
-that has already been prepared has no effect, and the function
-returns zero.
+MIDI ƒf[ƒ^ƒuƒƒbƒN‚ğƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Ö“n‚·‘O‚ÉAmidiInPrepareHeader
+ŠÖ”‚Ö“n‚·‚±‚Æ‚Åƒoƒbƒtƒ@‚ğ€”õ‚·‚é•K—v‚ª‚ ‚éBƒwƒbƒ_‚ª€”õ‚³‚ê‚½Œã‚Íƒoƒbƒtƒ@‚ğ•ÏX‚µ‚Ä‚Í‚È‚ç‚È‚¢Bƒhƒ‰ƒCƒo‚ªƒoƒbƒtƒ@‚Ìg—p‚ğI‚¦‚½Œã‚Í
+midiInUnprepareHeader
+ŠÖ”‚ğŒÄ‚Ño‚·BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í“¯‚¶ƒoƒbƒtƒ@‚ğÄ—˜—p‚·‚é‚©A•¡”‚Ìƒoƒbƒtƒ@‚ğŠ„‚è“–‚Ä‚»‚ê‚¼‚ê‚É‘Î‚µ
+midiInPrepareHeader ‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB“¯‚¶ƒoƒbƒtƒ@‚ğÄ—˜—p‚·‚éê‡‚Í–ˆ‰ñƒoƒbƒtƒ@‚ğ€”õ‚·‚é•K—v‚Í‚È‚¢BÅ‰‚É
+midiInPrepareHeader ‚ğ 1 ‰ñŒÄ‚Ño‚µAÅŒã‚É midiInUnprepareHeader ‚ğ 1
+‰ñŒÄ‚Ño‚·‚¾‚¯‚Å‚æ‚¢BŠù‚É€”õÏ‚İ‚Ìƒwƒbƒ_‚ğ€”õ‚µ‚Ä‚àŒø‰Ê‚Í‚È‚­AŠÖ”‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 midiInReset
-The midiInReset function stops input on a given MIDI input device.
+midiInReset ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚Å‚Ì“ü—Í‚ğ’â~‚·‚éB
 %group
 Win32 winmm
 %prm
 hmi
-hmi : [intptr] Handle to the MIDI input device.
+hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-The midiInReset function stops input on a given MIDI input device.
+midiInReset ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚Å‚Ì“ü—Í‚ğ’â~‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function returns all pending input buffers to the callback
-function and sets the MHDR_DONE flag in the dwFlags member of the
-MIDIHDR structure.
+–{ŠÖ”‚Í•Û—¯’†‚Ì‘S“ü—Íƒoƒbƒtƒ@‚ğƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö•Ô‚µAMIDIHDR \‘¢‘Ì‚Ì dwFlags ƒƒ“ƒo‚Ì MHDR_DONE
+ƒtƒ‰ƒO‚ğƒZƒbƒg‚·‚éB
 
 
 %index
 midiInStart
-The midiInStart function starts MIDI input on the specified MIDI input device.
+midiInStart ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚Å MIDI “ü—Í‚ğŠJn‚·‚éB
 %group
 Win32 winmm
 %prm
 hmi
-hmi : [intptr] Handle to the MIDI input device.
+hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-The midiInStart function starts MIDI input on the specified MIDI
-input device.
+midiInStart ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚Å MIDI “ü—Í‚ğŠJn‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function resets the time stamp to zero; time stamp values for
-subsequently received messages are relative to the time that this
-function was called. All messages except system-exclusive messages
-are sent directly to the client when they are received.
-System-exclusive messages are placed in the buffers supplied by the
-midiInAddBuffer function. If there are no buffers in the queue, the
-system-exclusive data is thrown away without notification to the
-client and input continues. Buffers are returned to the client when
-they are full, when a complete system-exclusive message has been
-received, or when the midiInReset function is used. The
-dwBytesRecorded member of the MIDIHDR structure will contain the
-actual length of data received. Calling this function when input is
-already started has no effect, and the function returns zero.
+–{ŠÖ”‚Íƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğ 0
+‚ÉƒŠƒZƒbƒg‚·‚éBˆÈ~‚ÉóM‚µ‚½ƒƒbƒZ[ƒW‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv’l‚Í–{ŠÖ”‚ªŒÄ‚Ño‚³‚ê‚½‚©‚ç‚Ì‘Š‘Î’l‚Æ‚È‚éBƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒuƒƒbƒZ[ƒWˆÈŠO‚Ì‘S‚Ä‚ÌƒƒbƒZ[ƒW‚ÍóM‚³‚ê‚½‚Æ‚«‚É’¼ÚƒNƒ‰ƒCƒAƒ“ƒg‚Ö‘—M‚³‚ê‚éBƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒuƒƒbƒZ[ƒW‚Í
+midiInAddBuffer
+ŠÖ”‚Å‹Ÿ‹‹‚³‚ê‚½ƒoƒbƒtƒ@‚ÉŠi”[‚³‚ê‚éBƒLƒ…[‚Éƒoƒbƒtƒ@‚ª‚È‚¢ê‡AƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒuƒf[ƒ^‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚Ö’Ê’m‚³‚ê‚é‚±‚Æ‚È‚­”jŠü‚³‚êA“ü—Í‚Í‘±s‚³‚ê‚éBƒoƒbƒtƒ@‚Í–”t‚É‚È‚Á‚½‚Æ‚«AŠ®‘S‚ÈƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒuƒƒbƒZ[ƒW‚ğóM‚µ‚½‚Æ‚«A‚Ü‚½‚Í
+midiInReset ŠÖ”‚ªg—p‚³‚ê‚½‚Æ‚«‚ÉƒNƒ‰ƒCƒAƒ“ƒg‚Ö•Ô‚³‚ê‚éBMIDIHDR \‘¢‘Ì‚Ì dwBytesRecorded
+ƒƒ“ƒo‚É‚ÍóM‚µ‚½ƒf[ƒ^‚ÌÀÛ‚Ì’·‚³‚ªŠi”[‚³‚ê‚éB“ü—Í‚ªŠù‚ÉŠJn‚³‚ê‚Ä‚¢‚éó‘Ô‚Å–{ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚àŒø‰Ê‚Í‚È‚­AŠÖ”‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 midiInStop
-The midiInStop function stops MIDI input on the specified MIDI input device.
+midiInStop ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚Å MIDI “ü—Í‚ğ’â~‚·‚éB
 %group
 Win32 winmm
 %prm
 hmi
-hmi : [intptr] Handle to the MIDI input device.
+hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-The midiInStop function stops MIDI input on the specified MIDI input
-device.
+midiInStop ŠÖ”‚Íw’è‚³‚ê‚½ MIDI “ü—ÍƒfƒoƒCƒX‚Å MIDI “ü—Í‚ğ’â~‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If there are any system-exclusive messages or stream buffers in the
-queue, the current buffer is marked as done (the dwBytesRecorded
-member of the MIDIHDR structure will contain the actual length of
-data), but any empty buffers in the queue remain there and are not
-marked as done. Calling this function when input is not started has
-no effect, and the function returns zero.
+ƒLƒ…[‚ÉƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒuƒƒbƒZ[ƒW‚âƒXƒgƒŠ[ƒ€ƒoƒbƒtƒ@‚ª‚ ‚éê‡AŒ»İ‚Ìƒoƒbƒtƒ@‚ÍŠ®—¹‚Æ‚µ‚Äƒ}[ƒN‚³‚ê (MIDIHDR \‘¢‘Ì‚Ì
+dwBytesRecorded
+ƒƒ“ƒo‚É‚ÍóMƒf[ƒ^‚ÌÀÛ‚Ì’·‚³‚ªŠi”[‚³‚ê‚é)AƒLƒ…[“à‚Ì‹ó‚Ìƒoƒbƒtƒ@‚Í‚»‚Ì‚Ü‚Üc‚èŠ®—¹‚Æ‚µ‚Äƒ}[ƒN‚³‚ê‚È‚¢B“ü—Í‚ªŠJn‚³‚ê‚Ä‚¢‚È‚¢ó‘Ô‚Å–{ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚àŒø‰Ê‚Í‚È‚­AŠÖ”‚Í
+0 ‚ğ•Ô‚·B
 
 
 %index
 midiInUnprepareHeader
-The midiInUnprepareHeader function cleans up the preparation performed by the midiInPrepareHeader function.
+midiInUnprepareHeader ŠÖ”‚Í midiInPrepareHeader ŠÖ”‚Ås‚Á‚½€”õ‚ÌŒãn––‚ğs‚¤B
 %group
 Win32 winmm
 %prm
 hmi, pmh, cbmh
-hmi : [intptr] Handle to the MIDI input device.
-pmh : [var] Pointer to a MIDIHDR structure identifying the buffer to be cleaned up.
-cbmh : [int] Size of the MIDIHDR structure.
+hmi : [intptr] MIDI “ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pmh : [var] Œãn––‘ÎÛ‚Ìƒoƒbƒtƒ@‚ğ¯•Ê‚·‚é MIDIHDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbmh : [int] MIDIHDR \‘¢‘Ì‚ÌƒTƒCƒYB
 %inst
-The midiInUnprepareHeader function cleans up the preparation
-performed by the midiInPrepareHeader function.
+midiInUnprepareHeader ŠÖ”‚Í midiInPrepareHeader ŠÖ”‚Ås‚Á‚½€”õ‚ÌŒãn––‚ğs‚¤B
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function is complementary to midiInPrepareHeader. You must use
-this function before freeing the buffer. After passing a buffer to
-the device driver by using the midiInAddBuffer function, you must
-wait until the driver is finished with the buffer before using
-midiInUnprepareHeader. Unpreparing a buffer that has not been
-prepared has no effect, and the function returns MMSYSERR_NOERROR.
+–{ŠÖ”‚Í midiInPrepareHeader
+‚Æ‘Î‚ğ‚È‚·Bƒoƒbƒtƒ@‚ğ‰ğ•ú‚·‚é‘O‚É–{ŠÖ”‚ğg—p‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BmidiInAddBuffer
+ŠÖ”‚ÅƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Öƒoƒbƒtƒ@‚ğ“n‚µ‚½Œã‚ÍAƒhƒ‰ƒCƒo‚ªƒoƒbƒtƒ@‚Ìg—p‚ğI‚¦‚é‚Ü‚Å‘Ò‚Á‚Ä‚©‚ç midiInUnprepareHeader
+‚ğg—p‚·‚é•K—v‚ª‚ ‚éB€”õ‚³‚ê‚Ä‚¢‚È‚¢ƒoƒbƒtƒ@‚É‘Î‚·‚éŒãn––‚ÍŒø‰Ê‚ª‚È‚­AŠÖ”‚Í MMSYSERR_NOERROR ‚ğ•Ô‚·B
 
 
 %index
 midiOutCacheDrumPatches
-The midiOutCacheDrumPatches function requests that an internal MIDI synthesizer device preload and cache a specified set of key-based percussion patches.
+midiOutCacheDrumPatches ŠÖ”‚Í“à•” MIDI ƒVƒ“ƒZƒTƒCƒUƒfƒoƒCƒX‚É‘Î‚µ‚ÄAw’è‚³‚ê‚½ˆê˜A‚ÌƒL[ƒx[ƒX‘ÅŠyŠíƒpƒbƒ`‚ğƒvƒŠƒ[ƒh‚µ‚ÄƒLƒƒƒbƒVƒ…‚·‚é‚æ‚¤—v‹‚·‚éB
 %group
 Win32 winmm
 %prm
 hmo, uPatch, pwkya, fuCache
-hmo : [intptr] Handle to the opened MIDI output device. This device should be an internal MIDI synthesizer. This parameter can also be the handle of a MIDI stream, cast to HMIDIOUT.
-uPatch : [int] Drum patch number that should be used. This parameter should be set to zero to cache the default drum patch.
-pwkya : [var] Pointer to a KEYARRAY array indicating the key numbers of the specified percussion patches to be cached or uncached.
-fuCache : [int] Options for the cache operation. It can be one of the following flags.
+hmo : [intptr] ƒI[ƒvƒ“Ï‚İ MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒfƒoƒCƒX‚Í“à•” MIDI ƒVƒ“ƒZƒTƒCƒU‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í HMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚àw’è‚Å‚«‚éB
+uPatch : [int] g—p‚·‚éƒhƒ‰ƒ€ƒpƒbƒ`”Ô†BŠù’è‚Ìƒhƒ‰ƒ€ƒpƒbƒ`‚ğƒLƒƒƒbƒVƒ…‚·‚é‚É‚Í 0 ‚ğw’è‚·‚éB
+pwkya : [var] ƒLƒƒƒbƒVƒ…‚Ü‚½‚ÍƒAƒ“ƒLƒƒƒbƒVƒ…‚·‚é‘ÅŠyŠíƒpƒbƒ`‚ÌƒL[”Ô†‚ğ¦‚· KEYARRAY ”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fuCache : [int] ƒLƒƒƒbƒVƒ…‘€ì‚ÌƒIƒvƒVƒ‡ƒ“BŸ‚Ìƒtƒ‰ƒO‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
 %inst
-The midiOutCacheDrumPatches function requests that an internal MIDI
-synthesizer device preload and cache a specified set of key-based
-percussion patches.
+midiOutCacheDrumPatches ŠÖ”‚Í“à•” MIDI
+ƒVƒ“ƒZƒTƒCƒUƒfƒoƒCƒX‚É‘Î‚µ‚ÄAw’è‚³‚ê‚½ˆê˜A‚ÌƒL[ƒx[ƒX‘ÅŠyŠíƒpƒbƒ`‚ğƒvƒŠƒ[ƒh‚µ‚ÄƒLƒƒƒbƒVƒ…‚·‚é‚æ‚¤—v‹‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Some synthesizers are not capable of keeping all percussion patches
-loaded simultaneously. Caching patches ensures that the specified
-patches are available. Each element of the KEYARRAY array represents
-one of the 128 key-based percussion patches and has bits set for each
-of the 16 MIDI channels that use the particular patch. The
-least-significant bit represents physical channel 0, and the
-most-significant bit represents physical channel 15. For example, if
-the patch on key number 60 is used by physical channels 9 and 15,
-element 60 would be set to 0x8200. This function applies only to
-internal MIDI synthesizer devices. Not all internal synthesizers
-support patch caching. To see if a device supports patch caching, use
-the MIDICAPS_CACHE flag to test the dwSupport member of the
-MIDIOUTCAPS structure filled by the midiOutGetDevCaps function.
+
+ƒVƒ“ƒZƒTƒCƒU‚Ì’†‚É‚Í‘S‚Ä‚Ì‘ÅŠyŠíƒpƒbƒ`‚ğ“¯‚Éƒ[ƒh‚µ‚Ä‚¨‚¯‚È‚¢‚à‚Ì‚ª‚ ‚éBƒpƒbƒ`‚ğƒLƒƒƒbƒVƒ…‚·‚é‚±‚Æ‚Åw’è‚³‚ê‚½ƒpƒbƒ`‚ª—˜—p‰Â”\‚Å‚ ‚é‚±‚Æ‚ğ•ÛØ‚·‚éBKEYARRAY
+”z—ñ‚ÌŠe—v‘f‚Í 128 ‚ÌƒL[ƒx[ƒX‘ÅŠyŠíƒpƒbƒ`‚Ì‚¢‚¸‚ê‚©‚ğ•\‚µA‚»‚Ì“Á’è‚Ìƒpƒbƒ`‚ğg—p‚·‚é 16 ‚Ì MIDI
+ƒ`ƒƒƒlƒ‹‚»‚ê‚¼‚ê‚É‘Î‚µƒrƒbƒg‚ªƒZƒbƒg‚³‚ê‚éBÅ‰ºˆÊƒrƒbƒg‚Í•¨—ƒ`ƒƒƒlƒ‹ 0 ‚ğAÅãˆÊƒrƒbƒg‚Í•¨—ƒ`ƒƒƒlƒ‹ 15 ‚ğ•\‚·B—á‚¦‚ÎƒL[”Ô†
+60 ‚Ìƒpƒbƒ`‚ª•¨—ƒ`ƒƒƒlƒ‹ 9 ‚Æ 15 ‚Åg—p‚³‚ê‚éê‡A—v‘f 60 ‚Í 0x8200 ‚ÉƒZƒbƒg‚³‚ê‚éB–{ŠÖ”‚Í“à•” MIDI
+ƒVƒ“ƒZƒTƒCƒUƒfƒoƒCƒX‚É‚Ì‚İ“K—p‚³‚ê‚éB‘S‚Ä‚Ì“à•”ƒVƒ“ƒZƒTƒCƒU‚ªƒpƒbƒ`ƒLƒƒƒbƒVƒ…‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚í‚¯‚Å‚Í‚È‚¢BƒfƒoƒCƒX‚ªƒpƒbƒ`ƒLƒƒƒbƒVƒ…‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚ÍAMIDICAPS_CACHE
+ƒtƒ‰ƒO‚ğ—p‚¢‚Ä midiOutGetDevCaps ŠÖ”‚Åæ“¾‚µ‚½ MIDIOUTCAPS \‘¢‘Ì‚Ì dwSupport
+ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éB
 
 
 %index
 midiOutCachePatches
-The midiOutCachePatches function requests that an internal MIDI synthesizer device preload and cache a specified set of patches.
+midiOutCachePatches ŠÖ”‚Í“à•” MIDI ƒVƒ“ƒZƒTƒCƒUƒfƒoƒCƒX‚É‘Î‚µ‚ÄAw’è‚³‚ê‚½ˆê˜A‚Ìƒpƒbƒ`‚ğƒvƒŠƒ[ƒh‚µ‚ÄƒLƒƒƒbƒVƒ…‚·‚é‚æ‚¤—v‹‚·‚éB
 %group
 Win32 winmm
 %prm
 hmo, uBank, pwpa, fuCache
-hmo : [intptr] Handle to the opened MIDI output device. This device must be an internal MIDI synthesizer. This parameter can also be the handle of a MIDI stream, cast to HMIDIOUT.
-uBank : [int] Bank of patches that should be used. This parameter should be set to zero to cache the default patch bank.
-pwpa : [var] Pointer to a PATCHARRAY array indicating the patches to be cached or uncached.
-fuCache : [int] Options for the cache operation. It can be one of the following flags.
+hmo : [intptr] ƒI[ƒvƒ“Ï‚İ MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ÌƒfƒoƒCƒX‚Í“à•” MIDI ƒVƒ“ƒZƒTƒCƒU‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í HMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚àw’è‚Å‚«‚éB
+uBank : [int] g—p‚·‚éƒpƒbƒ`‚Ìƒoƒ“ƒNBŠù’è‚Ìƒpƒbƒ`ƒoƒ“ƒN‚ğƒLƒƒƒbƒVƒ…‚·‚é‚É‚Í 0 ‚ğw’è‚·‚éB
+pwpa : [var] ƒLƒƒƒbƒVƒ…‚Ü‚½‚ÍƒAƒ“ƒLƒƒƒbƒVƒ…‚·‚éƒpƒbƒ`‚ğ¦‚· PATCHARRAY ”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fuCache : [int] ƒLƒƒƒbƒVƒ…‘€ì‚ÌƒIƒvƒVƒ‡ƒ“BŸ‚Ìƒtƒ‰ƒO‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
 %inst
-The midiOutCachePatches function requests that an internal MIDI
-synthesizer device preload and cache a specified set of patches.
+midiOutCachePatches ŠÖ”‚Í“à•” MIDI
+ƒVƒ“ƒZƒTƒCƒUƒfƒoƒCƒX‚É‘Î‚µ‚ÄAw’è‚³‚ê‚½ˆê˜A‚Ìƒpƒbƒ`‚ğƒvƒŠƒ[ƒh‚µ‚ÄƒLƒƒƒbƒVƒ…‚·‚é‚æ‚¤—v‹‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Some synthesizers are not capable of keeping all patches loaded
-simultaneously and must load data from disk when they receive MIDI
-program change messages. Caching patches ensures that the specified
-patches are immediately available. Each element of the PATCHARRAY
-array represents one of the 128 patches and has bits set for each of
-the 16 MIDI channels that use the particular patch. The
-least-significant bit represents physical channel 0, and the
-most-significant bit represents physical channel 15 (0x0F). For
-example, if patch 0 is used by physical channels 0 and 8, element 0
-would be set to 0x0101. This function applies only to internal MIDI
-synthesizer devices. Not all internal synthesizers support patch
-caching. To see if a device supports patch caching, use the
-MIDICAPS_CACHE flag to test the dwSupport member of the MIDIOUTCAPS
-structure filled by the midiOutGetDevCaps function.
+ƒVƒ“ƒZƒTƒCƒU‚Ì’†‚É‚Í‘S‚Ä‚Ìƒpƒbƒ`‚ğ“¯‚Éƒ[ƒh‚µ‚Ä‚¨‚¯‚¸AMIDI
+ƒvƒƒOƒ‰ƒ€ƒ`ƒFƒ“ƒWƒƒbƒZ[ƒW‚ğóM‚µ‚½‚Æ‚«‚ÉƒfƒBƒXƒN‚©‚çƒf[ƒ^‚ğƒ[ƒh‚·‚é•K—v‚ª‚ ‚é‚à‚Ì‚ª‚ ‚éBƒpƒbƒ`‚ğƒLƒƒƒbƒVƒ…‚·‚é‚±‚Æ‚Åw’è‚³‚ê‚½ƒpƒbƒ`‚ª’¼‚¿‚É—˜—p‰Â”\‚Å‚ ‚é‚±‚Æ‚ğ•ÛØ‚·‚éBPATCHARRAY
+”z—ñ‚ÌŠe—v‘f‚Í 128 ‚Ìƒpƒbƒ`‚Ì‚¢‚¸‚ê‚©‚ğ•\‚µA‚»‚Ì“Á’è‚Ìƒpƒbƒ`‚ğg—p‚·‚é 16 ‚Ì MIDI
+ƒ`ƒƒƒlƒ‹‚»‚ê‚¼‚ê‚É‘Î‚µƒrƒbƒg‚ªƒZƒbƒg‚³‚ê‚éBÅ‰ºˆÊƒrƒbƒg‚Í•¨—ƒ`ƒƒƒlƒ‹ 0 ‚ğAÅãˆÊƒrƒbƒg‚Í•¨—ƒ`ƒƒƒlƒ‹ 15 (0x0F)
+‚ğ•\‚·B—á‚¦‚Îƒpƒbƒ` 0 ‚ª•¨—ƒ`ƒƒƒlƒ‹ 0 ‚Æ 8 ‚Åg—p‚³‚ê‚éê‡A—v‘f 0 ‚Í 0x0101 ‚ÉƒZƒbƒg‚³‚ê‚éB–{ŠÖ”‚Í“à•” MIDI
+ƒVƒ“ƒZƒTƒCƒUƒfƒoƒCƒX‚É‚Ì‚İ“K—p‚³‚ê‚éB‘S‚Ä‚Ì“à•”ƒVƒ“ƒZƒTƒCƒU‚ªƒpƒbƒ`ƒLƒƒƒbƒVƒ…‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚í‚¯‚Å‚Í‚È‚¢BƒfƒoƒCƒX‚ªƒpƒbƒ`ƒLƒƒƒbƒVƒ…‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚ÍAMIDICAPS_CACHE
+ƒtƒ‰ƒO‚ğ—p‚¢‚Ä midiOutGetDevCaps ŠÖ”‚Åæ“¾‚µ‚½ MIDIOUTCAPS \‘¢‘Ì‚Ì dwSupport
+ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éB
 
 
 %index
 midiOutGetDevCapsW
-The midiOutGetDevCapsW (Unicode) function (mmeapi.h) queries a specified MIDI output device to determine its capabilities.
+midiOutGetDevCapsW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚É–â‚¢‡‚í‚¹‚Ä‚»‚Ì‹@”\‚ğ”»’è‚·‚éB
 %group
 Win32 winmm
 %prm
 uDeviceID, pmoc, cbmoc
-uDeviceID : [int] Identifier of the MIDI output device. The device identifier specified by this parameter varies from zero to one less than the number of devices present. The MIDI_MAPPER constant is also a valid device identifier. This parameter can also be a properly cast device handle.
-pmoc : [var] Pointer to a MIDIOUTCAPS structure. This structure is filled with information about the capabilities of the device.
-cbmoc : [int] Size, in bytes, of the MIDIOUTCAPS structure. Only cbMidiOutCaps bytes (or less) of information is copied to the location pointed to by lpMidiOutCaps. If cbMidiOutCaps is zero, nothing is copied, and the function returns MMSYSERR_NOERROR.
+uDeviceID : [int] MIDI o—ÍƒfƒoƒCƒX‚Ì¯•ÊqB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Åw’è‚·‚éƒfƒoƒCƒX¯•Êq‚Í 0 ‚©‚ç‘¶İ‚·‚éƒfƒoƒCƒX‚Ì”‚æ‚è 1 ­‚È‚¢’l‚Ü‚Å‚Ì”ÍˆÍ‚Æ‚È‚éBMIDI_MAPPER ’è”‚à—LŒø‚ÈƒfƒoƒCƒX¯•Êq‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í“KØ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚Å‚à‚æ‚¢B
+pmoc : [var] MIDIOUTCAPS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚ÉƒfƒoƒCƒX‚Ì‹@”\‚ÉŠÖ‚·‚éî•ñ‚ªŠi”[‚³‚ê‚éB
+cbmoc : [int] MIDIOUTCAPS \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)BlpMidiOutCaps ‚ªw‚·êŠ‚É‚Í cbMidiOutCaps ƒoƒCƒg (‚Ü‚½‚Í‚»‚êˆÈ‰º) ‚Ìî•ñ‚Ì‚İƒRƒs[‚³‚ê‚éBcbMidiOutCaps ‚ª 0 ‚Ìê‡‚Í‰½‚àƒRƒs[‚³‚ê‚¸AŠÖ”‚Í MMSYSERR_NOERROR ‚ğ•Ô‚·B
 %inst
-The midiOutGetDevCapsW (Unicode) function (mmeapi.h) queries a
-specified MIDI output device to determine its capabilities.
+midiOutGetDevCapsW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚³‚ê‚½ MIDI
+o—ÍƒfƒoƒCƒX‚É–â‚¢‡‚í‚¹‚Ä‚»‚Ì‹@”\‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-To determine the number of MIDI output devices present in the system,
-use the midiOutGetNumDevs function.
-> [!NOTE] > The mmeapi.h header defines midiOutGetDevCaps as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ƒVƒXƒeƒ€‚É‘¶İ‚·‚é MIDI o—ÍƒfƒoƒCƒX‚Ì”‚ğ”»’è‚·‚é‚É‚Í midiOutGetNumDevs ŠÖ”‚ğg—p‚·‚éB
+> [!NOTE] > mmeapi.h ƒwƒbƒ_‚Í midiOutGetDevCaps ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚«–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚é•sˆê’v‚ª”­¶‚µ“¾‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 midiOutGetErrorTextW
-The midiOutGetErrorTextW (Unicode) function (mmeapi.h) retrieves a textual description for an error identified by the specified error code.
+midiOutGetErrorTextW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚µ‚½ƒGƒ‰[ƒR[ƒh‚Å¯•Ê‚³‚ê‚éƒGƒ‰[‚ÌƒeƒLƒXƒgŒ`®‚Ìà–¾‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 mmrError, pszText, cchText
-mmrError : [int] Error code.
-pszText : [wstr] Pointer to a buffer to be filled with the textual error description.
-cchText : [int] Length, in characters, of the buffer pointed to by lpText.
+mmrError : [int] ƒGƒ‰[ƒR[ƒhB
+pszText : [wstr] ƒeƒLƒXƒgŒ`®‚ÌƒGƒ‰[à–¾‚ªŠi”[‚³‚ê‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cchText : [int] lpText ‚ªw‚·ƒoƒbƒtƒ@‚Ì’·‚³ (•¶š’PˆÊ)B
 %inst
-The midiOutGetErrorTextW (Unicode) function (mmeapi.h) retrieves a
-textual description for an error identified by the specified error
-code.
+midiOutGetErrorTextW (Unicode) ŠÖ” (mmeapi.h)
+‚Íw’è‚µ‚½ƒGƒ‰[ƒR[ƒh‚Å¯•Ê‚³‚ê‚éƒGƒ‰[‚ÌƒeƒLƒXƒgŒ`®‚Ìà–¾‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If the textual error description is longer than the specified buffer,
-the description is truncated. The returned error string is always
-null-terminated. If cchText is zero, nothing is copied, and the
-function returns MMSYSERR_NOERROR. All error descriptions are less
-than MAXERRORLENGTH characters long.
-> [!NOTE] > The mmeapi.h header defines midiOutGetErrorText as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ƒeƒLƒXƒgŒ`®‚ÌƒGƒ‰[à–¾‚ªw’è‚µ‚½ƒoƒbƒtƒ@‚æ‚è’·‚¢ê‡Aà–¾‚ÍØ‚è‹l‚ß‚ç‚ê‚éB•Ô‚³‚ê‚éƒGƒ‰[•¶š—ñ‚Íí‚É null
+I’[‚³‚ê‚éBcchText ‚ª 0 ‚Ìê‡‚Í‰½‚àƒRƒs[‚³‚ê‚¸AŠÖ”‚Í MMSYSERR_NOERROR ‚ğ•Ô‚·B‘S‚Ä‚ÌƒGƒ‰[à–¾‚Í
+MAXERRORLENGTH •¶š–¢–‚Ì’·‚³‚Å‚ ‚éB
+> [!NOTE] > mmeapi.h ƒwƒbƒ_‚Í midiOutGetErrorText ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚«–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚é•sˆê’v‚ª”­¶‚µ“¾‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 midiOutGetID
-The midiOutGetID function retrieves the device identifier for the given MIDI output device.
+midiOutGetID ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 hmo, puDeviceID
-hmo : [intptr] Handle to the MIDI output device.
-puDeviceID : [var] Pointer to a variable to be filled with the device identifier.
+hmo : [intptr] MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+puDeviceID : [var] ƒfƒoƒCƒX¯•Êq‚ªŠi”[‚³‚ê‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The midiOutGetID function retrieves the device identifier for the
-given MIDI output device.
+midiOutGetID ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 midiOutGetNumDevs
-The midiOutGetNumDevs function retrieves the number of MIDI output devices present in the system.
+midiOutGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é MIDI o—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 
 %inst
-The midiOutGetNumDevs function retrieves the number of MIDI output
-devices present in the system.
+midiOutGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é MIDI o—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns the number of MIDI output devices. A return value of zero
-means that there are no devices (not that there is no error).
+MIDI o—ÍƒfƒoƒCƒX‚Ì”‚ğ•Ô‚·B–ß‚è’l‚ª 0 ‚Ìê‡AƒfƒoƒCƒX‚ª‘¶İ‚µ‚È‚¢‚±‚Æ‚ğˆÓ–¡‚·‚é (ƒGƒ‰[‚ª”­¶‚µ‚½‚í‚¯‚Å‚Í‚È‚¢)B
 
 
 %index
 midiOutGetVolume
-The midiOutGetVolume function retrieves the current volume setting of a MIDI output device.
+midiOutGetVolume ŠÖ”‚Í MIDI o—ÍƒfƒoƒCƒX‚ÌŒ»İ‚Ì‰¹—Êİ’è‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 hmo, pdwVolume
-hmo : [intptr] Handle to an open MIDI output device. This parameter can also contain the handle of a MIDI stream, as long as it is cast to HMIDIOUT. This parameter can also be a device identifier.
-pdwVolume : [var] Pointer to the location to contain the current volume setting. The low-order word of this location contains the left-channel volume setting, and the high-order word contains the right-channel setting. A value of 0xFFFF represents full volume, and a value of 0x0000 is silence. If a device does not support both left and right volume control, the low-order word of the specified location contains the mono volume level. Any value set by using the midiOutSetVolume function is returned, regardless of whether the device supports that value.
+hmo : [intptr] ƒI[ƒvƒ“Ï‚İ MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í HMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚Ä‚¢‚ê‚Î MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚ğŠÜ‚ß‚é‚±‚Æ‚à‚Å‚«‚éBƒfƒoƒCƒX¯•Êq‚àw’è‚Å‚«‚éB
+pdwVolume : [var] Œ»İ‚Ì‰¹—Êİ’è‚ªŠi”[‚³‚ê‚éêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‰ºˆÊƒ[ƒh‚É¶ƒ`ƒƒƒlƒ‹‚Ì‰¹—Êİ’è‚ªAãˆÊƒ[ƒh‚É‰Eƒ`ƒƒƒlƒ‹‚Ìİ’è‚ªŠi”[‚³‚ê‚éB0xFFFF ‚ªÅ‘å‰¹—ÊA0x0000 ‚ª–³‰¹‚ğ•\‚·BƒfƒoƒCƒX‚ª¶‰E—¼ƒ`ƒƒƒlƒ‹‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡Aw’è‚³‚ê‚½êŠ‚Ì‰ºˆÊƒ[ƒh‚Éƒ‚ƒmƒ‰ƒ‹‰¹—ÊƒŒƒxƒ‹‚ªŠi”[‚³‚ê‚éBmidiOutSetVolume ŠÖ”‚Åİ’è‚³‚ê‚½’l‚ÍAƒfƒoƒCƒX‚ª‚»‚Ì’l‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚É‚©‚©‚í‚ç‚¸•Ô‚³‚ê‚éB
 %inst
-The midiOutGetVolume function retrieves the current volume setting of
-a MIDI output device.
+midiOutGetVolume ŠÖ”‚Í MIDI o—ÍƒfƒoƒCƒX‚ÌŒ»İ‚Ì‰¹—Êİ’è‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If a device identifier is used, then the result of the
-midiOutGetVolume call and the information returned in lpdwVolume
-applies to all instances of the device. If a device handle is used,
-then the result and information returned applies only to the instance
-of the device referenced by the device handle. Not all devices
-support volume control. You can determine whether a device supports
-volume control by querying the device by using the midiOutGetDevCaps
-function and specifying the MIDICAPS_VOLUME flag. You can also
-determine whether the device supports volume control on both the left
-and right channels by querying the device by using the
-midiOutGetDevCaps function and specifying the MIDICAPS_LRVOLUME flag.
+ƒfƒoƒCƒX¯•Êq‚ğg—p‚µ‚½ê‡AmidiOutGetVolume ŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚Æ lpdwVolume
+‚Å•Ô‚³‚ê‚éî•ñ‚Í‚»‚ÌƒfƒoƒCƒX‚Ì‘SƒCƒ“ƒXƒ^ƒ“ƒX‚É“K—p‚³‚ê‚éBƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½ê‡AŒ‹‰Ê‚Æ•Ô‚³‚ê‚éî•ñ‚Í‚»‚ÌƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ªQÆ‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX‚É‚Ì‚İ“K—p‚³‚ê‚éB‘S‚Ä‚ÌƒfƒoƒCƒX‚ª‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚í‚¯‚Å‚Í‚È‚¢BƒfƒoƒCƒX‚ª‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Í
+midiOutGetDevCaps ŠÖ”‚Å MIDICAPS_VOLUME ƒtƒ‰ƒO‚ğw’è‚µ‚Ä–â‚¢‡‚í‚¹‚é‚±‚Æ‚Å”»’è‚Å‚«‚éB“¯‚¶‚­
+MIDICAPS_LRVOLUME
+ƒtƒ‰ƒO‚ğw’è‚µ‚Ä–â‚¢‡‚í‚¹‚é‚±‚Æ‚ÅAƒfƒoƒCƒX‚ª¶‰E—¼ƒ`ƒƒƒlƒ‹‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚à”»’è‚Å‚«‚éB
 
 
 %index
 midiOutLongMsg
-The midiOutLongMsg function sends a system-exclusive MIDI message to the specified MIDI output device.
+midiOutLongMsg ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ÖƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒu MIDI ƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
 %group
 Win32 winmm
 %prm
 hmo, pmh, cbmh
-hmo : [intptr] Handle to the MIDI output device. This parameter can also be the handle of a MIDI stream cast to HMIDIOUT.
-pmh : [var] Pointer to a MIDIHDR structure that identifies the MIDI buffer.
-cbmh : [int] Size, in bytes, of the MIDIHDR structure.
+hmo : [intptr] MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BHMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚àw’è‚Å‚«‚éB
+pmh : [var] MIDI ƒoƒbƒtƒ@‚ğ¯•Ê‚·‚é MIDIHDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbmh : [int] MIDIHDR \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The midiOutLongMsg function sends a system-exclusive MIDI message to
-the specified MIDI output device.
+midiOutLongMsg ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ÖƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒu MIDI ƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Before the buffer is passed to midiOutLongMsg, it must be prepared by
-using the midiOutPrepareHeader function. The MIDI output device
-driver determines whether the data is sent synchronously or
-asynchronously.
+midiOutLongMsg ‚Éƒoƒbƒtƒ@‚ğ“n‚·‘O‚É midiOutPrepareHeader ŠÖ”‚Å€”õ‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éBMIDI
+o—ÍƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Íƒf[ƒ^‚ğ“¯Šú“I‚É‘—M‚·‚é‚©”ñ“¯Šú“I‚É‘—M‚·‚é‚©‚ğŒˆ’è‚·‚éB
 
 
 %index
 midiOutMessage
-The midiOutMessage function sends a message to the MIDI device drivers. This function is used only for driver-specific messages that are not supported by the MIDI API.
+midiOutMessage ŠÖ”‚Í MIDI ƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB–{ŠÖ”‚Í MIDI API ‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢ƒhƒ‰ƒCƒoŒÅ—L‚ÌƒƒbƒZ[ƒW‚É‚Ì‚İg—p‚³‚ê‚éB
 %group
 Win32 winmm
 %prm
 hmo, uMsg, dw1, dw2
-hmo : [intptr] Identifier of the MIDI device that receives the message. You must cast the device ID to the HMIDIOUT handle type. If you supply a handle instead of a device ID, the function fails and returns the MMSYSERR_NOSUPPORT error code.
-uMsg : [int] Message to send.
-dw1 : [int] Message parameter.
-dw2 : [int] Message parameter.
+hmo : [intptr] ƒƒbƒZ[ƒW‚ğó‚¯æ‚é MIDI ƒfƒoƒCƒX‚Ì¯•ÊqBƒfƒoƒCƒX ID ‚ğ HMIDIOUT ƒnƒ“ƒhƒ‹Œ^‚ÉƒLƒƒƒXƒg‚·‚é•K—v‚ª‚ ‚éBƒfƒoƒCƒX ID ‚Ì‘ã‚í‚è‚Éƒnƒ“ƒhƒ‹‚ğ“n‚·‚ÆAŠÖ”‚Í¸”s‚µ MMSYSERR_NOSUPPORT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+uMsg : [int] ‘—M‚·‚éƒƒbƒZ[ƒWB
+dw1 : [int] ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^B
+dw2 : [int] ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^B
 %inst
-The midiOutMessage function sends a message to the MIDI device
-drivers. This function is used only for driver-specific messages that
-are not supported by the MIDI API.
+midiOutMessage ŠÖ”‚Í MIDI ƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB–{ŠÖ”‚Í MIDI API
+‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢ƒhƒ‰ƒCƒoŒÅ—L‚ÌƒƒbƒZ[ƒW‚É‚Ì‚İg—p‚³‚ê‚éB
 
 [–ß‚è’l]
-Returns the value returned by the audio device driver.
+ƒI[ƒfƒBƒIƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ª•Ô‚µ‚½’l‚ğ•Ô‚·B
 
 [”õl]
-The DRV_QUERYDEVICEINTERFACE message queries for the device-interface
-name of a waveIn, waveOut, midiIn, midiOut, or mixer device. For
-DRV_QUERYDEVICEINTERFACE, dwParam1 is a pointer to a caller-allocated
-buffer into which the function writes a null-terminated Unicode
-string containing the device-interface name. If the device has no
-device interface, the string length is zero. For
-DRV_QUERYDEVICEINTERFACE, dwParam2 specifies the buffer size in
-bytes. This is an input parameter to the function. The caller should
-specify a size that is greater than or equal to the buffer size
-retrieved by the DRV_QUERYDEVICEINTERFACESIZE message. The
-DRV_QUERYDEVICEINTERFACE message is supported in Windows Me, and
-Windows 2000 and later. This message is valid only for the
-waveInMessage, waveOutMessage, midiInMessage, midiOutMessage, and
-mixerMessage functions. The system intercepts this message and
-returns the appropriate value without sending the message to the
-device driver. For general information about system-intercepted
-xxxMessage functions, see System-Intercepted Device Messages. The
-following two message constants are used together for the purpose of
-obtaining device interface names:
-This doc was truncated.
+DRV_QUERYDEVICEINTERFACE ƒƒbƒZ[ƒW‚ÍAwaveInAwaveOutAmidiInAmidiOutA‚Ü‚½‚Í
+mixer ƒfƒoƒCƒX‚ÌƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚ğ–â‚¢‡‚í‚¹‚éBDRV_QUERYDEVICEINTERFACE ‚Å‚ÍAdwParam1
+‚ÍƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚ğŠÜ‚Ş null I’[‚Ì Unicode
+•¶š—ñ‚ğŠÖ”‚ª‘‚«‚ŞŒÄ‚Ño‚µ‘¤Š„‚è“–‚Äƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚éBƒfƒoƒCƒX‚ÉƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª‚È‚¢ê‡A•¶š—ñ’·‚Í 0
+‚Æ‚È‚éBDRV_QUERYDEVICEINTERFACE ‚Å‚ÍAdwParam2
+‚Íƒoƒbƒtƒ@ƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Åw’è‚·‚éB‚±‚ê‚ÍŠÖ”‚Ö‚Ì“ü—Íƒpƒ‰ƒ[ƒ^‚Å‚ ‚éBŒÄ‚Ño‚µ‘¤‚Í
+DRV_QUERYDEVICEINTERFACESIZE
+ƒƒbƒZ[ƒW‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒYˆÈã‚ÌƒTƒCƒY‚ğw’è‚·‚é‚×‚«‚Å‚ ‚éBDRV_QUERYDEVICEINTERFACE ƒƒbƒZ[ƒW‚Í
+Windows MeAWindows 2000 ˆÈ~‚ÅƒTƒ|[ƒg‚³‚ê‚éB‚±‚ÌƒƒbƒZ[ƒW‚Í
+waveInMessageAwaveOutMessageAmidiInMessageAmidiOutMessageAmixerMessage
+ŠÖ”‚Å‚Ì‚İ—LŒø‚Å‚ ‚éBƒVƒXƒeƒ€‚Í‚±‚ÌƒƒbƒZ[ƒW‚ğ–Tó‚µAƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Ö‘—M‚¹‚¸‚É“KØ‚È’l‚ğ•Ô‚·BƒVƒXƒeƒ€–Tó xxxMessage
+ŠÖ”‚Ìˆê”Êî•ñ‚É‚Â‚¢‚Ä‚Í System-Intercepted Device Messages
+‚ğQÆBƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚Ìæ“¾‚ğ–Ú“I‚Æ‚µ‚ÄAŸ‚Ì 2 ‚Â‚ÌƒƒbƒZ[ƒW’è”‚ªˆê‚Ég—p‚³‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 midiOutOpen
-The midiOutOpen function opens a MIDI output device for playback.
+midiOutOpen ŠÖ”‚ÍÄ¶—p‚É MIDI o—ÍƒfƒoƒCƒX‚ğƒI[ƒvƒ“‚·‚éB
 %group
 Win32 winmm
 %prm
 phmo, uDeviceID, dwCallback, dwInstance, fdwOpen
-phmo : [intptr] Pointer to an HMIDIOUT handle. This location is filled with a handle identifying the opened MIDI output device. The handle is used to identify the device in calls to other MIDI output functions.
-uDeviceID : [int] Identifier of the MIDI output device that is to be opened.
-dwCallback : [int] Pointer to a callback function, an event handle, a thread identifier, or a handle of a window or thread called during MIDI playback to process messages related to the progress of the playback. If no callback is desired, specify NULL for this parameter. For more information on the callback function, see MidiOutProc.
-dwInstance : [int] User instance data passed to the callback. This parameter is not used with window callbacks or threads.
-fdwOpen : [int] Callback flag for opening the device. It can be the following values.
+phmo : [intptr] HMIDIOUT ƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌêŠ‚ÉƒI[ƒvƒ“‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒnƒ“ƒhƒ‹‚Í‘¼‚Ì MIDI o—ÍŠÖ”‚ÌŒÄ‚Ño‚µ‚ÅƒfƒoƒCƒX‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB
+uDeviceID : [int] ƒI[ƒvƒ“‘ÎÛ‚Ì MIDI o—ÍƒfƒoƒCƒX‚Ì¯•ÊqB
+dwCallback : [int] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^AƒCƒxƒ“ƒgƒnƒ“ƒhƒ‹AƒXƒŒƒbƒh¯•ÊqA‚Ü‚½‚Í MIDI Ä¶’†‚ÉÄ¶‚Ìi’»‚ÉŠÖ‚·‚éƒƒbƒZ[ƒW‚ğˆ—‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚³‚ê‚éƒEƒBƒ“ƒhƒE‚âƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹BƒR[ƒ‹ƒoƒbƒN‚ª•s—v‚Èê‡‚Í NULL ‚ğw’è‚·‚éBƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÌÚ×‚Í MidiOutProc ‚ğQÆB
+dwInstance : [int] ƒR[ƒ‹ƒoƒbƒN‚Ö“n‚³‚ê‚éƒ†[ƒUƒCƒ“ƒXƒ^ƒ“ƒXƒf[ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍƒEƒBƒ“ƒhƒEƒR[ƒ‹ƒoƒbƒN‚âƒXƒŒƒbƒh‚Å‚Íg—p‚³‚ê‚È‚¢B
+fdwOpen : [int] ƒfƒoƒCƒX‚ğŠJ‚­‚½‚ß‚ÌƒR[ƒ‹ƒoƒbƒNƒtƒ‰ƒOBŸ‚Ì’l‚ğw’è‚Å‚«‚éB
 %inst
-The midiOutOpen function opens a MIDI output device for playback.
+midiOutOpen ŠÖ”‚ÍÄ¶—p‚É MIDI o—ÍƒfƒoƒCƒX‚ğƒI[ƒvƒ“‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-To determine the number of MIDI output devices present in the system,
-use the midiOutGetNumDevs function. The device identifier specified
-by wDeviceID varies from zero to one less than the number of devices
-present. MIDI_MAPPER can also be used as the device identifier. If a
-window or thread is chosen to receive callback information, the
-following messages are sent to the window procedure or thread to
-indicate the progress of MIDI output: MM_MOM_OPEN, MM_MOM_CLOSE, and
-MM_MOM_DONE. If a function is chosen to receive callback information,
-the following messages are sent to the function to indicate the
-progress of MIDI output: MOM_OPEN, MOM_CLOSE, and MOM_DONE.
+ƒVƒXƒeƒ€‚É‘¶İ‚·‚é MIDI o—ÍƒfƒoƒCƒX‚Ì”‚ğ”»’è‚·‚é‚É‚Í midiOutGetNumDevs ŠÖ”‚ğg—p‚·‚éBwDeviceID
+‚Åw’è‚³‚ê‚éƒfƒoƒCƒX¯•Êq‚Í 0 ‚©‚ç‘¶İ‚·‚éƒfƒoƒCƒX‚Ì”‚æ‚è 1 ­‚È‚¢’l‚Ü‚Å‚Ì”ÍˆÍ‚Æ‚È‚éBMIDI_MAPPER
+‚àƒfƒoƒCƒX¯•Êq‚Æ‚µ‚Äg—p‚Å‚«‚éBƒR[ƒ‹ƒoƒbƒNî•ñ‚Ìó‚¯æ‚èæ‚Æ‚µ‚ÄƒEƒBƒ“ƒhƒE‚Ü‚½‚ÍƒXƒŒƒbƒh‚ª‘I‘ğ‚³‚ê‚½ê‡AMIDI
+o—Í‚Ìi’»‚ğ¦‚·‚½‚ß‚ÉŸ‚ÌƒƒbƒZ[ƒW‚ªƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚Ü‚½‚ÍƒXƒŒƒbƒh‚Ö‘—M‚³‚ê‚é:
+MM_MOM_OPENAMM_MOM_CLOSEAMM_MOM_DONEBƒR[ƒ‹ƒoƒbƒNî•ñ‚Ìó‚¯æ‚èæ‚Æ‚µ‚ÄŠÖ”‚ª‘I‘ğ‚³‚ê‚½ê‡AMIDI
+o—Í‚Ìi’»‚ğ¦‚·‚½‚ß‚ÉŸ‚ÌƒƒbƒZ[ƒW‚ªŠÖ”‚Ö‘—M‚³‚ê‚é: MOM_OPENAMOM_CLOSEAMOM_DONEB
 
 
 %index
 midiOutPrepareHeader
-The midiOutPrepareHeader function prepares a MIDI system-exclusive or stream buffer for output.
+midiOutPrepareHeader ŠÖ”‚Í MIDI ƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒu‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒoƒbƒtƒ@‚ğo—Í—p‚É€”õ‚·‚éB
 %group
 Win32 winmm
 %prm
 hmo, pmh, cbmh
-hmo : [intptr] Handle to the MIDI output device. To get the device handle, call midiOutOpen. This parameter can also be the handle of a MIDI stream cast to a HMIDIOUT type.
-pmh : [var] Pointer to a MIDIHDR structure that identifies the buffer to be prepared.
-cbmh : [int] Size, in bytes, of the MIDIHDR structure.
+hmo : [intptr] MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‚É‚Í midiOutOpen ‚ğŒÄ‚Ño‚·BHMIDIOUT Œ^‚ÉƒLƒƒƒXƒg‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚àw’è‚Å‚«‚éB
+pmh : [var] €”õ‘ÎÛ‚Ìƒoƒbƒtƒ@‚ğ¯•Ê‚·‚é MIDIHDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbmh : [int] MIDIHDR \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The midiOutPrepareHeader function prepares a MIDI system-exclusive or
-stream buffer for output.
+midiOutPrepareHeader ŠÖ”‚Í MIDI ƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒu‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒoƒbƒtƒ@‚ğo—Í—p‚É€”õ‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Before you pass a MIDI data block to a device driver, you must
-prepare the buffer by passing it to the midiOutPrepareHeader
-function. After the header has been prepared, do not modify the
-buffer. After the driver is done using the buffer, call the
-midiOutUnprepareHeader function. The application can re-use the same
-buffer, or allocate multiple buffers and call midiOutPrepareHeader
-for each buffer. If you re-use the same buffer, it is not necessary
-to prepare the buffer each time. You can call midiOutPrepareHeader
-once at the beginning and then call midiOutUnprepareHeader once at
-the end. A stream buffer cannot be larger than 64K.
-Preparing a header that has already been prepared has no effect, and
-the function returns MMSYSERR_NOERROR.
+MIDI ƒf[ƒ^ƒuƒƒbƒN‚ğƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Ö“n‚·‘O‚ÉAmidiOutPrepareHeader
+ŠÖ”‚Ö“n‚·‚±‚Æ‚Åƒoƒbƒtƒ@‚ğ€”õ‚·‚é•K—v‚ª‚ ‚éBƒwƒbƒ_‚ª€”õ‚³‚ê‚½Œã‚Íƒoƒbƒtƒ@‚ğ•ÏX‚µ‚Ä‚Í‚È‚ç‚È‚¢Bƒhƒ‰ƒCƒo‚ªƒoƒbƒtƒ@‚Ìg—p‚ğI‚¦‚½Œã‚Í
+midiOutUnprepareHeader
+ŠÖ”‚ğŒÄ‚Ño‚·BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í“¯‚¶ƒoƒbƒtƒ@‚ğÄ—˜—p‚·‚é‚©A•¡”‚Ìƒoƒbƒtƒ@‚ğŠ„‚è“–‚Ä‚»‚ê‚¼‚ê‚É‘Î‚µ
+midiOutPrepareHeader ‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB“¯‚¶ƒoƒbƒtƒ@‚ğÄ—˜—p‚·‚éê‡‚Í–ˆ‰ñƒoƒbƒtƒ@‚ğ€”õ‚·‚é•K—v‚Í‚È‚¢BÅ‰‚É
+midiOutPrepareHeader ‚ğ 1 ‰ñŒÄ‚Ño‚µAÅŒã‚É midiOutUnprepareHeader ‚ğ 1
+‰ñŒÄ‚Ño‚·‚¾‚¯‚Å‚æ‚¢BƒXƒgƒŠ[ƒ€ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚Í 64K ‚æ‚è‘å‚«‚­‚Å‚«‚È‚¢B
+Šù‚É€”õÏ‚İ‚Ìƒwƒbƒ_‚ğ€”õ‚µ‚Ä‚àŒø‰Ê‚Í‚È‚­AŠÖ”‚Í MMSYSERR_NOERROR ‚ğ•Ô‚·B
 
 
 %index
 midiOutReset
-The midiOutReset function turns off all notes on all MIDI channels for the specified MIDI output device.
+midiOutReset ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚Ì‘S MIDI ƒ`ƒƒƒlƒ‹‚Ì‘Sƒm[ƒg‚ğƒIƒt‚É‚·‚éB
 %group
 Win32 winmm
 %prm
 hmo
-hmo : [intptr] Handle to the MIDI output device. This parameter can also be the handle of a MIDI stream cast to HMIDIOUT.
+hmo : [intptr] MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BHMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚àw’è‚Å‚«‚éB
 %inst
-The midiOutReset function turns off all notes on all MIDI channels
-for the specified MIDI output device.
+midiOutReset ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚Ì‘S MIDI ƒ`ƒƒƒlƒ‹‚Ì‘Sƒm[ƒg‚ğƒIƒt‚É‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Any pending system-exclusive or stream output buffers are returned to
-the callback function and the MHDR_DONE flag is set in the dwFlags
-member of the MIDIHDR structure. Terminating a system-exclusive
-message without sending an EOX (end-of-exclusive) byte might cause
-problems for the receiving device. The midiOutReset function does not
-send an EOX byte when it terminates a system-exclusive message -
-applications are responsible for doing this. To turn off all notes, a
-note-off message for each note in each channel is sent. In addition,
-the sustain controller is turned off for each channel.
+•Û—¯’†‚ÌƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒu‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€o—Íƒoƒbƒtƒ@‚ÍƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö•Ô‚³‚êAMIDIHDR \‘¢‘Ì‚Ì dwFlags ƒƒ“ƒo‚Ì
+MHDR_DONE ƒtƒ‰ƒO‚ªƒZƒbƒg‚³‚ê‚éBEOX (end-of-exclusive)
+ƒoƒCƒg‚ğ‘—M‚¹‚¸‚ÉƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒuƒƒbƒZ[ƒW‚ğI—¹‚·‚é‚ÆAóMƒfƒoƒCƒX‚É–â‘è‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éBmidiOutReset
+ŠÖ”‚ÍƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒuƒƒbƒZ[ƒW‚ğI—¹‚·‚éÛ‚É EOX
+ƒoƒCƒg‚ğ‘—M‚µ‚È‚¢B‚±‚ê‚ğs‚¤‚Ì‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÓ”C‚Å‚ ‚éB‘Sƒm[ƒg‚ğƒIƒt‚É‚·‚é‚½‚ßAŠeƒ`ƒƒƒlƒ‹‚ÌŠeƒm[ƒg‚É‘Î‚µƒm[ƒgƒIƒtƒƒbƒZ[ƒW‚ª‘—M‚³‚ê‚éB‚³‚ç‚ÉŠeƒ`ƒƒƒlƒ‹‚ÌƒTƒXƒeƒBƒ“ƒRƒ“ƒgƒ[ƒ‰‚ªƒIƒt‚É‚³‚ê‚éB
 
 
 %index
 midiOutSetVolume
-The midiOutSetVolume function sets the volume of a MIDI output device.
+midiOutSetVolume ŠÖ”‚Í MIDI o—ÍƒfƒoƒCƒX‚Ì‰¹—Ê‚ğİ’è‚·‚éB
 %group
 Win32 winmm
 %prm
 hmo, dwVolume
-hmo : [intptr] Handle to an open MIDI output device. This parameter can also contain the handle of a MIDI stream, as long as it is cast to HMIDIOUT. This parameter can also be a device identifier.
-dwVolume : [int] New volume setting. The low-order word contains the left-channel volume setting, and the high-order word contains the right-channel setting. A value of 0xFFFF represents full volume, and a value of 0x0000 is silence. If a device does not support both left and right volume control, the low-order word of dwVolume specifies the mono volume level, and the high-order word is ignored.
+hmo : [intptr] ƒI[ƒvƒ“Ï‚İ MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í HMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚Ä‚¢‚ê‚Î MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚ğŠÜ‚ß‚é‚±‚Æ‚à‚Å‚«‚éBƒfƒoƒCƒX¯•Êq‚àw’è‚Å‚«‚éB
+dwVolume : [int] V‚µ‚¢‰¹—Êİ’èB‰ºˆÊƒ[ƒh‚É¶ƒ`ƒƒƒlƒ‹‚Ì‰¹—Êİ’è‚ğAãˆÊƒ[ƒh‚É‰Eƒ`ƒƒƒlƒ‹‚Ìİ’è‚ğw’è‚·‚éB0xFFFF ‚ªÅ‘å‰¹—ÊA0x0000 ‚ª–³‰¹‚ğ•\‚·BƒfƒoƒCƒX‚ª¶‰E—¼ƒ`ƒƒƒlƒ‹‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡AdwVolume ‚Ì‰ºˆÊƒ[ƒh‚Åƒ‚ƒmƒ‰ƒ‹‰¹—ÊƒŒƒxƒ‹‚ğw’è‚µAãˆÊƒ[ƒh‚Í–³‹‚³‚ê‚éB
 %inst
-The midiOutSetVolume function sets the volume of a MIDI output
-device.
+midiOutSetVolume ŠÖ”‚Í MIDI o—ÍƒfƒoƒCƒX‚Ì‰¹—Ê‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If a device identifier is used, then the result of the
-midiOutSetVolume call applies to all instances of the device. If a
-device handle is used, then the result applies only to the instance
-of the device referenced by the device handle. Not all devices
-support volume changes. You can determine whether a device supports
-it by querying the device using the midiOutGetDevCaps function and
-the MIDICAPS_VOLUME flag. You can also determine whether the device
-supports volume control on both the left and right channels by
-querying the device using the midiOutGetDevCaps function and the
-MIDICAPS_LRVOLUME flag. Devices that do not support a full 16 bits of
-volume-level control use the high-order bits of the requested volume
-setting. For example, a device that supports 4 bits of volume control
-produces the same volume setting for the following volume-level
-values: 0x4000, 0x43be, and 0x4fff. The midiOutGetVolume function
-returns the full 16-bit value, as set by midiOutSetVolume,
-irrespective of the device's capabilities. Volume settings are
-interpreted logarithmically. This means that the perceived increase
-in volume is the same when increasing the volume level from 0x5000 to
-0x6000 as it is from 0x4000 to 0x5000.
+ƒfƒoƒCƒX¯•Êq‚ğg—p‚µ‚½ê‡AmidiOutSetVolume
+ŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚Í‚»‚ÌƒfƒoƒCƒX‚Ì‘SƒCƒ“ƒXƒ^ƒ“ƒX‚É“K—p‚³‚ê‚éBƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½ê‡AŒ‹‰Ê‚Í‚»‚ÌƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ªQÆ‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX‚É‚Ì‚İ“K—p‚³‚ê‚éB‘S‚Ä‚ÌƒfƒoƒCƒX‚ª‰¹—Ê•ÏX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚í‚¯‚Å‚Í‚È‚¢BƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Í
+midiOutGetDevCaps ŠÖ”‚Å MIDICAPS_VOLUME ƒtƒ‰ƒO‚ğw’è‚µ‚Ä–â‚¢‡‚í‚¹‚é‚±‚Æ‚Å”»’è‚Å‚«‚éB“¯‚¶‚­
+MIDICAPS_LRVOLUME
+ƒtƒ‰ƒO‚ğw’è‚µ‚Ä–â‚¢‡‚í‚¹‚é‚±‚Æ‚ÅAƒfƒoƒCƒX‚ª¶‰E—¼ƒ`ƒƒƒlƒ‹‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚à”»’è‚Å‚«‚éB16
+ƒrƒbƒg‘S‚Ä‚Ì‰¹—ÊƒŒƒxƒ‹§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ƒfƒoƒCƒX‚Í—v‹‚³‚ê‚½‰¹—Êİ’è‚ÌãˆÊƒrƒbƒg‚ğg—p‚·‚éB—á‚¦‚Î 4
+ƒrƒbƒg‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚·‚éƒfƒoƒCƒX‚ÍA‰¹—ÊƒŒƒxƒ‹’l 0x4000A0x43beA0x4fff
+‚É‘Î‚µ‚Ä“¯‚¶‰¹—Êİ’è‚ğ¶¬‚·‚éBmidiOutGetVolume ŠÖ”‚ÍƒfƒoƒCƒX‚Ì”\—Í‚É‚©‚©‚í‚ç‚¸ midiOutSetVolume
+‚Åİ’è‚³‚ê‚½Š®‘S‚È 16 ƒrƒbƒg’l‚ğ•Ô‚·B‰¹—Êİ’è‚Í‘Î”“I‚É‰ğß‚³‚ê‚éB‚±‚ê‚Í‰¹—ÊƒŒƒxƒ‹‚ğ 0x5000 ‚©‚ç 0x6000
+‚Éã‚°‚½‚Æ‚«‚Æ 0x4000 ‚©‚ç 0x5000 ‚Éã‚°‚½‚Æ‚«‚Ì‰¹—Ê‘‰Á‚ª“¯‚¶‚æ‚¤‚É’mŠo‚³‚ê‚é‚±‚Æ‚ğˆÓ–¡‚·‚éB
 
 
 %index
 midiOutShortMsg
-The midiOutShortMsg function sends a short MIDI message to the specified MIDI output device.
+midiOutShortMsg ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ÖƒVƒ‡[ƒg MIDI ƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
 %group
 Win32 winmm
 %prm
 hmo, dwMsg
-hmo : [intptr] Handle to the MIDI output device. This parameter can also be the handle of a MIDI stream cast to HMIDIOUT.
-dwMsg : [int] MIDI message. The message is packed into a DWORD value with the first byte of the message in the low-order byte. The message is packed into this parameter as follows.
+hmo : [intptr] MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BHMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚àw’è‚Å‚«‚éB
+dwMsg : [int] MIDI ƒƒbƒZ[ƒWBƒƒbƒZ[ƒW‚Í DWORD ’l‚ÉƒpƒbƒN‚³‚êAƒƒbƒZ[ƒW‚ÌÅ‰‚ÌƒoƒCƒg‚ª‰ºˆÊƒoƒCƒg‚ÉŠi”[‚³‚ê‚éBƒƒbƒZ[ƒW‚ÍŸ‚Ì‚æ‚¤‚É‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÉƒpƒbƒN‚³‚ê‚éB
 %inst
-The midiOutShortMsg function sends a short MIDI message to the
-specified MIDI output device.
+midiOutShortMsg ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚ÖƒVƒ‡[ƒg MIDI ƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following:
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function is used to send any MIDI message except for
-system-exclusive or stream messages. This function might not return
-until the message has been sent to the output device. You can send
-short messages while streams are playing on the same device (although
-you cannot use a running status in this case).
+–{ŠÖ”‚ÍƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒu‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒƒbƒZ[ƒW‚ğœ‚­”CˆÓ‚Ì MIDI
+ƒƒbƒZ[ƒW‚ğ‘—M‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB–{ŠÖ”‚ÍƒƒbƒZ[ƒW‚ªo—ÍƒfƒoƒCƒX‚Ö‘—M‚³‚ê‚é‚Ü‚Å–ß‚ç‚È‚¢‚±‚Æ‚ª‚ ‚éB“¯‚¶ƒfƒoƒCƒXã‚ÅƒXƒgƒŠ[ƒ€‚ÌÄ¶’†‚ÉƒVƒ‡[ƒgƒƒbƒZ[ƒW‚ğ‘—M‚Å‚«‚é
+(‚½‚¾‚µ‚±‚Ìê‡ƒ‰ƒ“ƒjƒ“ƒOƒXƒe[ƒ^ƒX‚Íg—p‚Å‚«‚È‚¢)B
 
 
 %index
 midiOutUnprepareHeader
-The midiOutUnprepareHeader function cleans up the preparation performed by the midiOutPrepareHeader function.
+midiOutUnprepareHeader ŠÖ”‚Í midiOutPrepareHeader ŠÖ”‚Ås‚Á‚½€”õ‚ÌŒãn––‚ğs‚¤B
 %group
 Win32 winmm
 %prm
 hmo, pmh, cbmh
-hmo : [intptr] Handle to the MIDI output device. This parameter can also be the handle of a MIDI stream cast to HMIDIOUT.
-pmh : [var] Pointer to a MIDIHDR structure identifying the buffer to be cleaned up.
-cbmh : [int] Size, in bytes, of the MIDIHDR structure.
+hmo : [intptr] MIDI o—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BHMIDIOUT ‚ÉƒLƒƒƒXƒg‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ìƒnƒ“ƒhƒ‹‚àw’è‚Å‚«‚éB
+pmh : [var] Œãn––‘ÎÛ‚Ìƒoƒbƒtƒ@‚ğ¯•Ê‚·‚é MIDIHDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbmh : [int] MIDIHDR \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The midiOutUnprepareHeader function cleans up the preparation
-performed by the midiOutPrepareHeader function.
+midiOutUnprepareHeader ŠÖ”‚Í midiOutPrepareHeader ŠÖ”‚Ås‚Á‚½€”õ‚ÌŒãn––‚ğs‚¤B
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function is complementary to the midiOutPrepareHeader function.
-You must call midiOutUnprepareHeader before freeing the buffer. After
-passing a buffer to the device driver with the midiOutLongMsg
-function, you must wait until the device driver is finished with the
-buffer before calling midiOutUnprepareHeader. Unpreparing a buffer
-that has not been prepared has no effect, and the function returns
-MMSYSERR_NOERROR.
+–{ŠÖ”‚Í midiOutPrepareHeader ŠÖ”‚Æ‘Î‚ğ‚È‚·Bƒoƒbƒtƒ@‚ğ‰ğ•ú‚·‚é‘O‚É midiOutUnprepareHeader
+‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BmidiOutLongMsg
+ŠÖ”‚ÅƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Öƒoƒbƒtƒ@‚ğ“n‚µ‚½Œã‚ÍAƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ªƒoƒbƒtƒ@‚Ìg—p‚ğI‚¦‚é‚Ü‚Å‘Ò‚Á‚Ä‚©‚ç
+midiOutUnprepareHeader ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB€”õ‚³‚ê‚Ä‚¢‚È‚¢ƒoƒbƒtƒ@‚É‘Î‚·‚éŒãn––‚ÍŒø‰Ê‚ª‚È‚­AŠÖ”‚Í
+MMSYSERR_NOERROR ‚ğ•Ô‚·B
 
 
 %index
 midiStreamClose
-The midiStreamClose function closes an open MIDI stream.
+midiStreamClose ŠÖ”‚ÍƒI[ƒvƒ“Ï‚İ‚Ì MIDI ƒXƒgƒŠ[ƒ€‚ğ•Â‚¶‚éB
 %group
 Win32 winmm
 %prm
 hms
-hms : [intptr] Handle to a MIDI stream, as retrieved by using the midiStreamOpen function.
+hms : [intptr] midiStreamOpen ŠÖ”‚Åæ“¾‚µ‚½ MIDI ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-The midiStreamClose function closes an open MIDI stream.
+midiStreamClose ŠÖ”‚ÍƒI[ƒvƒ“Ï‚İ‚Ì MIDI ƒXƒgƒŠ[ƒ€‚ğ•Â‚¶‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 midiStreamOpen
-The midiStreamOpen function opens a MIDI stream for output. By default, the device is opened in paused mode. The stream handle retrieved by this function must be used in all subsequent references to the stream.
+midiStreamOpen ŠÖ”‚Ío—Í—p‚Ì MIDI ƒXƒgƒŠ[ƒ€‚ğƒI[ƒvƒ“‚·‚éBŠù’è‚Å‚ÍƒfƒoƒCƒX‚Íˆê’â~ƒ‚[ƒh‚ÅƒI[ƒvƒ“‚³‚ê‚éB–{ŠÖ”‚Åæ“¾‚µ‚½ƒXƒgƒŠ[ƒ€ƒnƒ“ƒhƒ‹‚ÍAˆÈ~‚»‚ÌƒXƒgƒŠ[ƒ€‚ğQÆ‚·‚é‘S‚Ä‚Ìê–Ê‚Åg—p‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %group
 Win32 winmm
 %prm
 phms, puDeviceID, cMidi, dwCallback, dwInstance, fdwOpen
-phms : [intptr] Pointer to a variable to contain the stream handle when the function returns.
-puDeviceID : [var] Pointer to a device identifier. The device is opened on behalf of the stream and closed again when the stream is closed.
-cMidi : [int] Reserved; must be 1.
-dwCallback : [int] Pointer to a callback function, an event handle, a thread identifier, or a handle of a window or thread called during MIDI playback to process messages related to the progress of the playback. If no callback mechanism is desired, specify NULL for this parameter.
-dwInstance : [int] Application-specific instance data that is returned to the application with every callback function.
-fdwOpen : [int] Callback flag for opening the device. One of the following callback flags must be specified.
+phms : [intptr] ŠÖ”‚ª–ß‚Á‚½‚Æ‚«‚ÉƒXƒgƒŠ[ƒ€ƒnƒ“ƒhƒ‹‚ğŠi”[‚·‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+puDeviceID : [var] ƒfƒoƒCƒX¯•Êq‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒfƒoƒCƒX‚ÍƒXƒgƒŠ[ƒ€‚É‘ã‚í‚Á‚ÄƒI[ƒvƒ“‚³‚êAƒXƒgƒŠ[ƒ€‚ª•Â‚¶‚ç‚ê‚é‚Æ‚«‚ÉÄ‚Ñ•Â‚¶‚ç‚ê‚éB
+cMidi : [int] —\–ñB1 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwCallback : [int] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^AƒCƒxƒ“ƒgƒnƒ“ƒhƒ‹AƒXƒŒƒbƒh¯•ÊqA‚Ü‚½‚Í MIDI Ä¶’†‚ÉÄ¶‚Ìi’»‚ÉŠÖ‚·‚éƒƒbƒZ[ƒW‚ğˆ—‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚³‚ê‚éƒEƒBƒ“ƒhƒE‚âƒXƒŒƒbƒh‚Ìƒnƒ“ƒhƒ‹BƒR[ƒ‹ƒoƒbƒN‹@\‚ª•s—v‚Èê‡‚Í NULL ‚ğw’è‚·‚éB
+dwInstance : [int] ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì‚½‚Ñ‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö•Ô‚³‚ê‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“ŒÅ—L‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒf[ƒ^B
+fdwOpen : [int] ƒfƒoƒCƒX‚ğŠJ‚­‚½‚ß‚ÌƒR[ƒ‹ƒoƒbƒNƒtƒ‰ƒOBŸ‚ÌƒR[ƒ‹ƒoƒbƒNƒtƒ‰ƒO‚Ì‚¢‚¸‚ê‚©‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The midiStreamOpen function opens a MIDI stream for output. By
-default, the device is opened in paused mode. The stream handle
-retrieved by this function must be used in all subsequent references
-to the stream.
+midiStreamOpen ŠÖ”‚Ío—Í—p‚Ì MIDI
+ƒXƒgƒŠ[ƒ€‚ğƒI[ƒvƒ“‚·‚éBŠù’è‚Å‚ÍƒfƒoƒCƒX‚Íˆê’â~ƒ‚[ƒh‚ÅƒI[ƒvƒ“‚³‚ê‚éB–{ŠÖ”‚Åæ“¾‚µ‚½ƒXƒgƒŠ[ƒ€ƒnƒ“ƒhƒ‹‚ÍAˆÈ~‚»‚ÌƒXƒgƒŠ[ƒ€‚ğQÆ‚·‚é‘S‚Ä‚Ìê–Ê‚Åg—p‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 midiStreamOut
-The midiStreamOut function plays or queues a stream (buffer) of MIDI data to a MIDI output device.
+midiStreamOut ŠÖ”‚Í MIDI ƒf[ƒ^‚ÌƒXƒgƒŠ[ƒ€ (ƒoƒbƒtƒ@) ‚ğ MIDI o—ÍƒfƒoƒCƒX‚ÅÄ¶‚Ü‚½‚ÍƒLƒ…[ƒCƒ“ƒO‚·‚éB
 %group
 Win32 winmm
 %prm
 hms, pmh, cbmh
-hms : [intptr] Handle to a MIDI stream. This handle must have been returned by a call to the midiStreamOpen function. This handle identifies the output device.
-pmh : [var] Pointer to a MIDIHDR structure that identifies the MIDI buffer.
-cbmh : [int] Size, in bytes, of the MIDIHDR structure.
+hms : [intptr] MIDI ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í midiStreamOpen ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒnƒ“ƒhƒ‹‚Ío—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éB
+pmh : [var] MIDI ƒoƒbƒtƒ@‚ğ¯•Ê‚·‚é MIDIHDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbmh : [int] MIDIHDR \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The midiStreamOut function plays or queues a stream (buffer) of MIDI
-data to a MIDI output device.
+midiStreamOut ŠÖ”‚Í MIDI ƒf[ƒ^‚ÌƒXƒgƒŠ[ƒ€ (ƒoƒbƒtƒ@) ‚ğ MIDI o—ÍƒfƒoƒCƒX‚ÅÄ¶‚Ü‚½‚ÍƒLƒ…[ƒCƒ“ƒO‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Before the buffer is passed to midiStreamOpen, it must be prepared by
-using the midiOutPrepareHeader function. Because the midiStreamOpen
-function opens the output device in paused mode, you must call the
-midiStreamRestart function before you can use midiStreamOut to start
-the playback. For the current implementation of this function, the
-buffer must be smaller than 64K. The buffer pointed to by the MIDIHDR
-structure contains one or more MIDI events, each of which is defined
-by a MIDIEVENT structure.
+midiStreamOpen ‚Éƒoƒbƒtƒ@‚ğ“n‚·‘O‚É midiOutPrepareHeader
+ŠÖ”‚Å€”õ‚·‚é•K—v‚ª‚ ‚éBmidiStreamOpen ŠÖ”‚Ío—ÍƒfƒoƒCƒX‚ğˆê’â~ƒ‚[ƒh‚ÅƒI[ƒvƒ“‚·‚é‚½‚ßAmidiStreamOut
+‚ÅÄ¶‚ğŠJn‚·‚é‘O‚É midiStreamRestart ŠÖ”‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB–{ŠÖ”‚ÌŒ»İ‚ÌÀ‘•‚Å‚ÍAƒoƒbƒtƒ@‚Í 64K
+‚æ‚è¬‚³‚­‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BMIDIHDR \‘¢‘Ì‚ªw‚·ƒoƒbƒtƒ@‚É‚Í 1 ‚ÂˆÈã‚Ì MIDI ƒCƒxƒ“ƒg‚ªŠÜ‚Ü‚êA‚»‚ê‚¼‚ê‚Í
+MIDIEVENT \‘¢‘Ì‚Å’è‹`‚³‚ê‚éB
 
 
 %index
 midiStreamPause
-The midiStreamPause function pauses playback of a specified MIDI stream.
+midiStreamPause ŠÖ”‚Íw’è‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚ÌÄ¶‚ğˆê’â~‚·‚éB
 %group
 Win32 winmm
 %prm
 hms
-hms : [intptr] Handle to a MIDI stream. This handle must have been returned by a call to the MIDIEVENT function. This handle identifies the output device.
+hms : [intptr] MIDI ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í MIDIEVENT ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒnƒ“ƒhƒ‹‚Ío—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éB
 %inst
-The midiStreamPause function pauses playback of a specified MIDI
-stream.
+midiStreamPause ŠÖ”‚Íw’è‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚ÌÄ¶‚ğˆê’â~‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The current playback position is saved when playback is paused. To
-resume playback from the current position, use the midiStreamRestart
-function. Calling this function when the output is already paused has
-no effect, and the function returns MMSYSERR_NOERROR.
+Ä¶‚ğˆê’â~‚·‚é‚ÆŒ»İ‚ÌÄ¶ˆÊ’u‚ª•Û‘¶‚³‚ê‚éBŒ»İˆÊ’u‚©‚çÄ¶‚ğÄŠJ‚·‚é‚É‚Í midiStreamRestart
+ŠÖ”‚ğg—p‚·‚éBo—Í‚ªŠù‚Éˆê’â~‚µ‚Ä‚¢‚éó‘Ô‚Å–{ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚àŒø‰Ê‚Í‚È‚­AŠÖ”‚Í MMSYSERR_NOERROR ‚ğ•Ô‚·B
 
 
 %index
 midiStreamPosition
-The midiStreamPosition function retrieves the current position in a MIDI stream.
+midiStreamPosition ŠÖ”‚Í MIDI ƒXƒgƒŠ[ƒ€‚ÌŒ»İˆÊ’u‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 hms, lpmmt, cbmmt
-hms : [intptr] Handle to a MIDI stream. This handle must have been returned by a call to the midiStreamOpen function. This handle identifies the output device.
-lpmmt : [var] Pointer to an MMTIME structure.
-cbmmt : [int] Size, in bytes, of the MMTIME structure.
+hms : [intptr] MIDI ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í midiStreamOpen ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒnƒ“ƒhƒ‹‚Ío—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éB
+lpmmt : [var] MMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbmmt : [int] MMTIME \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The midiStreamPosition function retrieves the current position in a
-MIDI stream.
+midiStreamPosition ŠÖ”‚Í MIDI ƒXƒgƒŠ[ƒ€‚ÌŒ»İˆÊ’u‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Before calling midiStreamPosition, set the wType member of the MMTIME
-structure to indicate the time format you desire. After calling
-midiStreamPosition, check the wType member to determine if the
-desired time format is supported. If the desired format is not
-supported, wType will specify an alternative format. The position is
-set to zero when the device is opened or reset.
+midiStreamPosition ‚ğŒÄ‚Ño‚·‘O‚É MMTIME \‘¢‘Ì‚Ì wType
+ƒƒ“ƒo‚ğİ’è‚µ‚ÄŠó–]‚·‚éŠÔŒ`®‚ğw’è‚·‚éBmidiStreamPosition ‚ğŒÄ‚Ño‚µ‚½ŒãAŠó–]‚·‚éŠÔŒ`®‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚ğ
+wType ƒƒ“ƒo‚ÅŠm”F‚·‚éBŠó–]‚·‚éŒ`®‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢ê‡AwType
+‚Í‘ã‘ÖŒ`®‚ğw’è‚·‚éBƒfƒoƒCƒX‚ªƒI[ƒvƒ“‚Ü‚½‚ÍƒŠƒZƒbƒg‚³‚ê‚½‚Æ‚«AˆÊ’u‚Í 0 ‚ÉƒZƒbƒg‚³‚ê‚éB
 
 
 %index
 midiStreamProperty
-The midiStreamProperty function sets or retrieves properties of a MIDI data stream associated with a MIDI output device.
+midiStreamProperty ŠÖ”‚Í MIDI o—ÍƒfƒoƒCƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MIDI ƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ÌƒvƒƒpƒeƒB‚ğİ’è‚Ü‚½‚Íæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 hms, lppropdata, dwProperty
-hms : [intptr] Handle to the MIDI device that the property is associated with.
-lppropdata : [var] Pointer to the property data.
-dwProperty : [int] Flags that specify the action to perform and identify the appropriate property of the MIDI data stream. The midiStreamProperty function requires setting two flags in each use. One flag (either MIDIPROP_GET or MIDIPROP_SET) specifies an action, and the other identifies a specific property to examine or edit.
+hms : [intptr] ƒvƒƒpƒeƒB‚ªŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é MIDI ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lppropdata : [var] ƒvƒƒpƒeƒBƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwProperty : [int] Às‚·‚éƒAƒNƒVƒ‡ƒ“‚ğw’è‚µAMIDI ƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ÌŠY“–ƒvƒƒpƒeƒB‚ğ¯•Ê‚·‚éƒtƒ‰ƒOBmidiStreamProperty ŠÖ”‚Íg—p‚·‚é‚½‚Ñ‚É 2 ‚Â‚Ìƒtƒ‰ƒO‚Ìİ’è‚ğ•K—v‚Æ‚·‚éB1 ‚Â‚Ìƒtƒ‰ƒO (MIDIPROP_GET ‚Ü‚½‚Í MIDIPROP_SET) ‚ÍƒAƒNƒVƒ‡ƒ“‚ğw’è‚µA‚à‚¤ 1 ‚Â‚ÍŒŸ¸‚Ü‚½‚Í•ÒW‚·‚é‹ï‘Ì“I‚ÈƒvƒƒpƒeƒB‚ğ¯•Ê‚·‚éB
 %inst
-The midiStreamProperty function sets or retrieves properties of a
-MIDI data stream associated with a MIDI output device.
+midiStreamProperty ŠÖ”‚Í MIDI o—ÍƒfƒoƒCƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MIDI
+ƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ÌƒvƒƒpƒeƒB‚ğİ’è‚Ü‚½‚Íæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-These properties are the default properties defined by the system.
-Driver writers can implement and document their own properties.
+‚±‚ê‚ç‚ÌƒvƒƒpƒeƒB‚ÍƒVƒXƒeƒ€‚É‚æ‚Á‚Ä’è‹`‚³‚ê‚½Šù’è‚ÌƒvƒƒpƒeƒB‚Å‚ ‚éBƒhƒ‰ƒCƒoƒ‰ƒCƒ^‚Í“Æ©‚ÌƒvƒƒpƒeƒB‚ğÀ‘•‚µ•¶‘‰»‚·‚é‚±‚Æ‚ª‚Å‚«‚éB
 
 
 %index
 midiStreamRestart
-The midiStreamRestart function restarts a paused MIDI stream.
+midiStreamRestart ŠÖ”‚Íˆê’â~‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚ğÄŠJ‚·‚éB
 %group
 Win32 winmm
 %prm
 hms
-hms : [intptr] Handle to a MIDI stream. This handle must have been returned by a call to the midiStreamOpen function. This handle identifies the output device.
+hms : [intptr] MIDI ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í midiStreamOpen ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒnƒ“ƒhƒ‹‚Ío—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éB
 %inst
-The midiStreamRestart function restarts a paused MIDI stream.
+midiStreamRestart ŠÖ”‚Íˆê’â~‚³‚ê‚½ MIDI ƒXƒgƒŠ[ƒ€‚ğÄŠJ‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Calling this function when the output is not paused has no effect,
-and the function returns MMSYSERR_NOERROR.
+o—Í‚ªˆê’â~‚µ‚Ä‚¢‚È‚¢ó‘Ô‚Å–{ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚àŒø‰Ê‚Í‚È‚­AŠÖ”‚Í MMSYSERR_NOERROR ‚ğ•Ô‚·B
 
 
 %index
 midiStreamStop
-The midiStreamStop function turns off all notes on all MIDI channels for the specified MIDI output device.
+midiStreamStop ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚Ì‘S MIDI ƒ`ƒƒƒlƒ‹‚Ì‘Sƒm[ƒg‚ğƒIƒt‚É‚·‚éB
 %group
 Win32 winmm
 %prm
 hms
-hms : [intptr] Handle to a MIDI stream. This handle must have been returned by a call to the midiStreamOpen function. This handle identifies the output device.
+hms : [intptr] MIDI ƒXƒgƒŠ[ƒ€‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í midiStreamOpen ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒnƒ“ƒhƒ‹‚Ío—ÍƒfƒoƒCƒX‚ğ¯•Ê‚·‚éB
 %inst
-The midiStreamStop function turns off all notes on all MIDI channels
-for the specified MIDI output device.
+midiStreamStop ŠÖ”‚Íw’è‚³‚ê‚½ MIDI o—ÍƒfƒoƒCƒX‚Ì‘S MIDI ƒ`ƒƒƒlƒ‹‚Ì‘Sƒm[ƒg‚ğƒIƒt‚É‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-When you call this function, any pending system-exclusive or stream
-output buffers are returned to the callback mechanism and the
-MHDR_DONE bit is set in the dwFlags member of the MIDIHDR structure.
-While the midiOutReset function turns off all notes, midiStreamStop
-turns off only those notes that have been turned on by a MIDI note-on
-message.
+–{ŠÖ”‚ğŒÄ‚Ño‚·‚ÆA•Û—¯’†‚ÌƒVƒXƒeƒ€ƒGƒNƒXƒNƒ‹[ƒVƒu‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€o—Íƒoƒbƒtƒ@‚ÍƒR[ƒ‹ƒoƒbƒN‹@\‚Ö•Ô‚³‚êAMIDIHDR \‘¢‘Ì‚Ì
+dwFlags ƒƒ“ƒo‚Ì MHDR_DONE ƒrƒbƒg‚ªƒZƒbƒg‚³‚ê‚éBmidiOutReset
+ŠÖ”‚ª‘Sƒm[ƒg‚ğƒIƒt‚É‚·‚é‚Ì‚É‘Î‚µAmidiStreamStop ‚Í MIDI
+ƒm[ƒgƒIƒ“ƒƒbƒZ[ƒW‚É‚æ‚Á‚ÄƒIƒ“‚É‚³‚ê‚½ƒm[ƒg‚Ì‚İ‚ğƒIƒt‚É‚·‚éB
 
 
 %index
 mixerClose
-The mixerClose function closes the specified mixer device.
+mixerClose ŠÖ”‚Íw’è‚³‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚ğ•Â‚¶‚éB
 %group
 Win32 winmm
 %prm
 hmx
-hmx : [intptr] Handle to the mixer device. This handle must have been returned successfully by the mixerOpen function. If mixerClose is successful, hmx is no longer valid.
+hmx : [intptr] ƒ~ƒLƒT[ƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒnƒ“ƒhƒ‹‚Í mixerOpen ŠÖ”‚É‚æ‚Á‚Ä³í‚É•Ô‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BmixerClose ‚ª¬Œ÷‚µ‚½ê‡Ahmx ‚Í—LŒø‚Å‚Í‚È‚­‚È‚éB
 %inst
-The mixerClose function closes the specified mixer device.
+mixerClose ŠÖ”‚Íw’è‚³‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚ğ•Â‚¶‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 mixerGetControlDetailsW
-The mixerGetControlDetailsW (Unicode) function (mmeapi.h) retrieves details about a single control associated with an audio line.
+mixerGetControlDetailsW (Unicode) ŠÖ” (mmeapi.h) ‚ÍƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½’Pˆê‚ÌƒRƒ“ƒgƒ[ƒ‹‚ÌÚ×‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 hmxobj, pmxcd, fdwDetails
-hmxobj : [intptr] Handle to the mixer device object being queried.
-pmxcd : [var] Pointer to a MIXERCONTROLDETAILS structure, which is filled with state information about the control.
-fdwDetails : [int] Flags for retrieving control details. The following values are defined.
+hmxobj : [intptr] –â‚¢‡‚í‚¹‘ÎÛ‚Ìƒ~ƒLƒT[ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pmxcd : [var] ƒRƒ“ƒgƒ[ƒ‹‚ÉŠÖ‚·‚éó‘Ôî•ñ‚ªŠi”[‚³‚ê‚é MIXERCONTROLDETAILS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fdwDetails : [int] ƒRƒ“ƒgƒ[ƒ‹Ú×‚ğæ“¾‚·‚é‚½‚ß‚Ìƒtƒ‰ƒOBŸ‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-The mixerGetControlDetailsW (Unicode) function (mmeapi.h) retrieves
-details about a single control associated with an audio line.
+mixerGetControlDetailsW (Unicode) ŠÖ” (mmeapi.h)
+‚ÍƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½’Pˆê‚ÌƒRƒ“ƒgƒ[ƒ‹‚ÌÚ×‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-All members of the MIXERCONTROLDETAILS structure must be initialized
-before calling this function.
-> [!NOTE] > The mmeapi.h header defines mixerGetControlDetails as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+–{ŠÖ”‚ğŒÄ‚Ño‚·‘O‚É MIXERCONTROLDETAILS \‘¢‘Ì‚Ì‘Sƒƒ“ƒo‚ğ‰Šú‰»‚·‚é•K—v‚ª‚ ‚éB
+> [!NOTE] > mmeapi.h ƒwƒbƒ_‚Í mixerGetControlDetails ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚«–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚é•sˆê’v‚ª”­¶‚µ“¾‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 mixerGetDevCapsW
-The mixerGetDevCapsW (Unicode) function (mmeapi.h) queries a specified mixer device to determine its capabilities.
+mixerGetDevCapsW (Unicode) ŠÖ” (mmeapi.h) ‚Íw’è‚³‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚É–â‚¢‡‚í‚¹‚Ä‚»‚Ì‹@”\‚ğ”»’è‚·‚éB
 %group
 Win32 winmm
 %prm
 uMxId, pmxcaps, cbmxcaps
-uMxId : [int] Identifier or handle of an open mixer device.
-pmxcaps : [var] Pointer to a MIXERCAPS structure that receives information about the capabilities of the device.
-cbmxcaps : [int] Size, in bytes, of the MIXERCAPS structure.
+uMxId : [int] ƒI[ƒvƒ“Ï‚İƒ~ƒLƒT[ƒfƒoƒCƒX‚Ì¯•Êq‚Ü‚½‚Íƒnƒ“ƒhƒ‹B
+pmxcaps : [var] ƒfƒoƒCƒX‚Ì‹@”\‚ÉŠÖ‚·‚éî•ñ‚ğó‚¯æ‚é MIXERCAPS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbmxcaps : [int] MIXERCAPS \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The mixerGetDevCapsW (Unicode) function (mmeapi.h) queries a
-specified mixer device to determine its capabilities.
+mixerGetDevCapsW (Unicode) ŠÖ” (mmeapi.h)
+‚Íw’è‚³‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚É–â‚¢‡‚í‚¹‚Ä‚»‚Ì‹@”\‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Use the mixerGetNumDevs function to determine the number of mixer
-devices present in the system. The device identifier specified by
-uMxId varies from zero to one less than the number of mixer devices
-present. Only the number of bytes (or less) of information specified
-in cbmxcaps is copied to the location pointed to by pmxcaps. If
-cbmxcaps is zero, nothing is copied, and the function returns
-successfully. This function also accepts a mixer device handle
-returned by the mixerOpen function as the uMxId parameter. The
-application should cast the HMIXER handle to a UINT.
-> [!NOTE] > The mmeapi.h header defines mixerGetDevCaps as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ƒVƒXƒeƒ€‚É‘¶İ‚·‚éƒ~ƒLƒT[ƒfƒoƒCƒX‚Ì”‚ğ”»’è‚·‚é‚É‚Í mixerGetNumDevs ŠÖ”‚ğg—p‚·‚éBuMxId
+‚Åw’è‚³‚ê‚éƒfƒoƒCƒX¯•Êq‚Í 0 ‚©‚ç‘¶İ‚·‚éƒ~ƒLƒT[ƒfƒoƒCƒX‚Ì”‚æ‚è 1 ­‚È‚¢’l‚Ü‚Å‚Ì”ÍˆÍ‚Æ‚È‚éBpmxcaps ‚ªw‚·êŠ‚É‚Í
+cbmxcaps ‚Åw’è‚µ‚½ƒoƒCƒg” (‚Ü‚½‚Í‚»‚êˆÈ‰º) ‚Ìî•ñ‚Ì‚İƒRƒs[‚³‚ê‚éBcbmxcaps ‚ª 0
+‚Ìê‡‚Í‰½‚àƒRƒs[‚³‚ê‚¸AŠÖ”‚Í³í‚É–ß‚éB–{ŠÖ”‚Í mixerOpen ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚à uMxId
+ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Äó‚¯“ü‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í HMIXER ƒnƒ“ƒhƒ‹‚ğ UINT ‚ÉƒLƒƒƒXƒg‚·‚é•K—v‚ª‚ ‚éB
+> [!NOTE] > mmeapi.h ƒwƒbƒ_‚Í mixerGetDevCaps ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚«–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚é•sˆê’v‚ª”­¶‚µ“¾‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 mixerGetID
-The mixerGetID function retrieves the device identifier for a mixer device associated with a specified device handle.
+mixerGetID ŠÖ”‚Íw’è‚³‚ê‚½ƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 hmxobj, puMxId, fdwId
-hmxobj : [intptr] Handle to the audio mixer object to map to a mixer device identifier.
-puMxId : [var] Pointer to a variable that receives the mixer device identifier. If no mixer device is available for the hmxobj object, the value -1 is placed in this location and the MMSYSERR_NODRIVER error value is returned.
-fdwId : [int] Flags for mapping the mixer object hmxobj. The following values are defined.
+hmxobj : [intptr] ƒ~ƒLƒT[ƒfƒoƒCƒX¯•Êq‚Éƒ}ƒbƒv‚·‚éƒI[ƒfƒBƒIƒ~ƒLƒT[ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+puMxId : [var] ƒ~ƒLƒT[ƒfƒoƒCƒX¯•Êq‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^Bhmxobj ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä—˜—p‰Â”\‚Èƒ~ƒLƒT[ƒfƒoƒCƒX‚ª‚È‚¢ê‡A‚±‚ÌêŠ‚É‚Í -1 ‚ªŠi”[‚³‚êAMMSYSERR_NODRIVER ƒGƒ‰[’l‚ª•Ô‚³‚ê‚éB
+fdwId : [int] ƒ~ƒLƒT[ƒIƒuƒWƒFƒNƒg hmxobj ‚ğƒ}ƒbƒv‚·‚é‚½‚ß‚Ìƒtƒ‰ƒOBŸ‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-The mixerGetID function retrieves the device identifier for a mixer
-device associated with a specified device handle.
+mixerGetID ŠÖ”‚Íw’è‚³‚ê‚½ƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 mixerGetLineControlsW
-The mixerGetLineControlsW (Unicode) function retrieves one or more controls associated with an audio line. (mixerGetLineControlsW)
+mixerGetLineControlsW (Unicode) ŠÖ”‚ÍƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ 1 ‚ÂˆÈã‚ÌƒRƒ“ƒgƒ[ƒ‹‚ğæ“¾‚·‚éB(mixerGetLineControlsW)
 %group
 Win32 winmm
 %prm
 hmxobj, pmxlc, fdwControls
-hmxobj : [intptr] Handle to the mixer device object that is being queried.
-pmxlc : [var] Pointer to a MIXERLINECONTROLS structure. This structure is used to reference one or more MIXERCONTROL structures to be filled with information about the controls associated with an audio line. The cbStruct member of the MIXERLINECONTROLS structure must always be initialized to be the size, in bytes, of the MIXERLINECONTROLS structure.
-fdwControls : [int] Flags for retrieving information about one or more controls associated with an audio line. The following values are defined.
+hmxobj : [intptr] –â‚¢‡‚í‚¹‘ÎÛ‚Ìƒ~ƒLƒT[ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pmxlc : [var] MIXERLINECONTROLS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚ÍAƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ“ƒgƒ[ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ªŠi”[‚³‚ê‚é 1 ‚ÂˆÈã‚Ì MIXERCONTROL \‘¢‘Ì‚ğQÆ‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBMIXERLINECONTROLS \‘¢‘Ì‚Ì cbStruct ƒƒ“ƒo‚Íí‚É MIXERLINECONTROLS \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Å‰Šú‰»‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+fdwControls : [int] ƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ 1 ‚ÂˆÈã‚ÌƒRƒ“ƒgƒ[ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ìƒtƒ‰ƒOBŸ‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-The mixerGetLineControlsW (Unicode) function retrieves one or more
-controls associated with an audio line. (mixerGetLineControlsW)
+mixerGetLineControlsW (Unicode) ŠÖ”‚ÍƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ 1
+‚ÂˆÈã‚ÌƒRƒ“ƒgƒ[ƒ‹‚ğæ“¾‚·‚éB(mixerGetLineControlsW)
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-> [!NOTE] > The mmeapi.h header defines mixerGetLineControls as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > mmeapi.h ƒwƒbƒ_‚Í mixerGetLineControls ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚«–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚é•sˆê’v‚ª”­¶‚µ“¾‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 mixerGetLineInfoW
-The mixerGetLineInfoW (Unicode) function retrieves information about a specific line of a mixer device. (mixerGetLineInfoW)
+mixerGetLineInfoW (Unicode) ŠÖ”‚Íƒ~ƒLƒT[ƒfƒoƒCƒX‚Ì“Á’è‚Ìƒ‰ƒCƒ“‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(mixerGetLineInfoW)
 %group
 Win32 winmm
 %prm
 hmxobj, pmxl, fdwInfo
-hmxobj : [intptr] Handle to the mixer device object that controls the specific audio line.
-pmxl : [var] Pointer to a MIXERLINE structure. This structure is filled with information about the audio line for the mixer device. The cbStruct member must always be initialized to be the size, in bytes, of the MIXERLINE structure.
-fdwInfo : [int] Flags for retrieving information about an audio line. The following values are defined.
+hmxobj : [intptr] “Á’è‚ÌƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ğ§Œä‚·‚éƒ~ƒLƒT[ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pmxl : [var] MIXERLINE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚É‚Íƒ~ƒLƒT[ƒfƒoƒCƒX‚ÌƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ÉŠÖ‚·‚éî•ñ‚ªŠi”[‚³‚ê‚éBcbStruct ƒƒ“ƒo‚Íí‚É MIXERLINE \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Å‰Šú‰»‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+fdwInfo : [int] ƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ìƒtƒ‰ƒOBŸ‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-The mixerGetLineInfoW (Unicode) function retrieves information about
-a specific line of a mixer device. (mixerGetLineInfoW)
+mixerGetLineInfoW (Unicode)
+ŠÖ”‚Íƒ~ƒLƒT[ƒfƒoƒCƒX‚Ì“Á’è‚Ìƒ‰ƒCƒ“‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB(mixerGetLineInfoW)
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-> [!NOTE] > The mmeapi.h header defines mixerGetLineInfo as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > mmeapi.h ƒwƒbƒ_‚Í mixerGetLineInfo ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚«–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚é•sˆê’v‚ª”­¶‚µ“¾‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 mixerGetNumDevs
-The mixerGetNumDevs function retrieves the number of mixer devices present in the system.
+mixerGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚éƒ~ƒLƒT[ƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 
 %inst
-The mixerGetNumDevs function retrieves the number of mixer devices
-present in the system.
+mixerGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚éƒ~ƒLƒT[ƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns the number of mixer devices or zero if no mixer devices are
-available.
+ƒ~ƒLƒT[ƒfƒoƒCƒX‚Ì”‚ğ•Ô‚·B—˜—p‰Â”\‚Èƒ~ƒLƒT[ƒfƒoƒCƒX‚ª‚È‚¢ê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 mixerMessage
-The mixerMessage function sends a custom mixer driver message directly to a mixer driver.
+mixerMessage ŠÖ”‚ÍƒJƒXƒ^ƒ€ƒ~ƒLƒT[ƒhƒ‰ƒCƒoƒƒbƒZ[ƒW‚ğƒ~ƒLƒT[ƒhƒ‰ƒCƒo‚Ö’¼Ú‘—M‚·‚éB
 %group
 Win32 winmm
 %prm
 hmx, uMsg, dwParam1, dwParam2
-hmx : [intptr] Identifier of the mixer that receives the message. You must cast the device ID to the HMIXER handle type. If you supply a handle instead of a device ID, the function fails and returns the MMSYSERR_NOSUPPORT error code.
-uMsg : [int] Custom mixer driver message to send to the mixer driver. This message must be above or equal to the MXDM_USER constant.
-dwParam1 : [int] Parameter associated with the message being sent.
-dwParam2 : [int] Parameter associated with the message being sent.
+hmx : [intptr] ƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒ~ƒLƒT[‚Ì¯•ÊqBƒfƒoƒCƒX ID ‚ğ HMIXER ƒnƒ“ƒhƒ‹Œ^‚ÉƒLƒƒƒXƒg‚·‚é•K—v‚ª‚ ‚éBƒfƒoƒCƒX ID ‚Ì‘ã‚í‚è‚Éƒnƒ“ƒhƒ‹‚ğ“n‚·‚ÆAŠÖ”‚Í¸”s‚µ MMSYSERR_NOSUPPORT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+uMsg : [int] ƒ~ƒLƒT[ƒhƒ‰ƒCƒo‚Ö‘—M‚·‚éƒJƒXƒ^ƒ€ƒ~ƒLƒT[ƒhƒ‰ƒCƒoƒƒbƒZ[ƒWB‚±‚ÌƒƒbƒZ[ƒW‚Í MXDM_USER ’è”ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwParam1 : [int] ‘—M‚·‚éƒƒbƒZ[ƒW‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒpƒ‰ƒ[ƒ^B
+dwParam2 : [int] ‘—M‚·‚éƒƒbƒZ[ƒW‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒpƒ‰ƒ[ƒ^B
 %inst
-The mixerMessage function sends a custom mixer driver message
-directly to a mixer driver.
+mixerMessage ŠÖ”‚ÍƒJƒXƒ^ƒ€ƒ~ƒLƒT[ƒhƒ‰ƒCƒoƒƒbƒZ[ƒW‚ğƒ~ƒLƒT[ƒhƒ‰ƒCƒo‚Ö’¼Ú‘—M‚·‚éB
 
 [–ß‚è’l]
-Returns a value that is specific to the custom mixer driver message.
-Possible error values include the following.
-This doc was truncated.
+ƒJƒXƒ^ƒ€ƒ~ƒLƒT[ƒhƒ‰ƒCƒoƒƒbƒZ[ƒW‚ÉŒÅ—L‚Ì’l‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-User-defined messages must be sent only to a mixer driver that
-supports the messages. The application should verify that the mixer
-driver is the driver that supports the message by retrieving the
-mixer capabilities and checking the wMid, wPid, vDriverVersion, and
-szPname members of the MIXERCAPS structure. The
-DRV_QUERYDEVICEINTERFACE message queries for the device-interface
-name of a waveIn, waveOut, midiIn, midiOut, or mixer device. For
-DRV_QUERYDEVICEINTERFACE, dwParam1 is a pointer to a caller-allocated
-buffer into which the function writes a null-terminated Unicode
-string containing the device-interface name. If the device has no
-device interface, the string length is zero. For
-DRV_QUERYDEVICEINTERFACE, dwParam2 specifies the buffer size in
-bytes. This is an input parameter to the function. The caller should
-specify a size that is greater than or equal to the buffer size
-retrieved by the DRV_QUERYDEVICEINTERFACESIZE message. The
-DRV_QUERYDEVICEINTERFACE message is supported in Windows Me, and
-Windows 2000 and later. This message is valid only for the
-waveInMessage, waveOutMessage, midiInMessage, midiOutMessage, and
-mixerMessage functions. The system intercepts this message and
-returns the appropriate value without sending the message to the
-device driver. For general information about system-intercepted
-xxxMessage functions, see System-Intercepted Device Messages. The
-following two message constants are used together for the purpose of
-obtaining device interface names:
-This doc was truncated.
+ƒ†[ƒU’è‹`ƒƒbƒZ[ƒW‚Í‚»‚ÌƒƒbƒZ[ƒW‚ğƒTƒ|[ƒg‚·‚éƒ~ƒLƒT[ƒhƒ‰ƒCƒo‚É‚Ì‚İ‘—M‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Íƒ~ƒLƒT[‚Ì‹@”\‚ğæ“¾‚µ
+MIXERCAPS \‘¢‘Ì‚Ì wMidAwPidAvDriverVersionAszPname
+ƒƒ“ƒo‚ğŠm”F‚·‚é‚±‚Æ‚ÅAƒ~ƒLƒT[ƒhƒ‰ƒCƒo‚ªƒƒbƒZ[ƒW‚ğƒTƒ|[ƒg‚·‚éƒhƒ‰ƒCƒo‚Å‚ ‚é‚±‚Æ‚ğŒŸØ‚·‚é•K—v‚ª‚ ‚éBDRV_QUERYDEVICEINTERFACE
+ƒƒbƒZ[ƒW‚ÍAwaveInAwaveOutAmidiInAmidiOutA‚Ü‚½‚Í mixer
+ƒfƒoƒCƒX‚ÌƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚ğ–â‚¢‡‚í‚¹‚éBDRV_QUERYDEVICEINTERFACE ‚Å‚ÍAdwParam1
+‚ÍƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚ğŠÜ‚Ş null I’[‚Ì Unicode
+•¶š—ñ‚ğŠÖ”‚ª‘‚«‚ŞŒÄ‚Ño‚µ‘¤Š„‚è“–‚Äƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚éBƒfƒoƒCƒX‚ÉƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª‚È‚¢ê‡A•¶š—ñ’·‚Í 0
+‚Æ‚È‚éBDRV_QUERYDEVICEINTERFACE ‚Å‚ÍAdwParam2
+‚Íƒoƒbƒtƒ@ƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Åw’è‚·‚éB‚±‚ê‚ÍŠÖ”‚Ö‚Ì“ü—Íƒpƒ‰ƒ[ƒ^‚Å‚ ‚éBŒÄ‚Ño‚µ‘¤‚Í
+DRV_QUERYDEVICEINTERFACESIZE
+ƒƒbƒZ[ƒW‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒYˆÈã‚ÌƒTƒCƒY‚ğw’è‚·‚é‚×‚«‚Å‚ ‚éBDRV_QUERYDEVICEINTERFACE ƒƒbƒZ[ƒW‚Í
+Windows MeAWindows 2000 ˆÈ~‚ÅƒTƒ|[ƒg‚³‚ê‚éB‚±‚ÌƒƒbƒZ[ƒW‚Í
+waveInMessageAwaveOutMessageAmidiInMessageAmidiOutMessageAmixerMessage
+ŠÖ”‚Å‚Ì‚İ—LŒø‚Å‚ ‚éBƒVƒXƒeƒ€‚Í‚±‚ÌƒƒbƒZ[ƒW‚ğ–Tó‚µAƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Ö‘—M‚¹‚¸‚É“KØ‚È’l‚ğ•Ô‚·BƒVƒXƒeƒ€–Tó xxxMessage
+ŠÖ”‚Ìˆê”Êî•ñ‚É‚Â‚¢‚Ä‚Í System-Intercepted Device Messages
+‚ğQÆBƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚Ìæ“¾‚ğ–Ú“I‚Æ‚µ‚ÄAŸ‚Ì 2 ‚Â‚ÌƒƒbƒZ[ƒW’è”‚ªˆê‚Ég—p‚³‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 mixerOpen
-The mixerOpen function opens a specified mixer device and ensures that the device will not be removed until the application closes the handle.
+mixerOpen ŠÖ”‚Íw’è‚³‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚ğƒI[ƒvƒ“‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚é‚Ü‚ÅƒfƒoƒCƒX‚ªæ‚èŠO‚³‚ê‚È‚¢‚±‚Æ‚ğ•ÛØ‚·‚éB
 %group
 Win32 winmm
 %prm
 phmx, uMxId, dwCallback, dwInstance, fdwOpen
-phmx : [intptr] Pointer to a variable that will receive a handle identifying the opened mixer device. Use this handle to identify the device when calling other audio mixer functions. This parameter cannot be NULL.
-uMxId : [int] Identifier of the mixer device to open. Use a valid device identifier or any HMIXEROBJ (see the mixerGetID function for a description of mixer object handles). A "mapper" for audio mixer devices does not currently exist, so a mixer device identifier of -1 is not valid.
-dwCallback : [int] Handle to a window called when the state of an audio line and/or control associated with the device being opened is changed. Specify NULL for this parameter if no callback mechanism is to be used.
-dwInstance : [int] Reserved. Must be zero.
-fdwOpen : [int] Flags for opening the device. The following values are defined.
+phmx : [intptr] ƒI[ƒvƒ“‚³‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚ğ¯•Ê‚·‚éƒnƒ“ƒhƒ‹‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒnƒ“ƒhƒ‹‚Í‘¼‚ÌƒI[ƒfƒBƒIƒ~ƒLƒT[ŠÖ”‚ğŒÄ‚Ño‚·‚Æ‚«‚ÉƒfƒoƒCƒX‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
+uMxId : [int] ƒI[ƒvƒ“‘ÎÛ‚Ìƒ~ƒLƒT[ƒfƒoƒCƒX‚Ì¯•ÊqB—LŒø‚ÈƒfƒoƒCƒX¯•Êq‚Ü‚½‚Í”CˆÓ‚Ì HMIXEROBJ ‚ğg—p‚·‚é (ƒ~ƒLƒT[ƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‹‚Ìà–¾‚Í mixerGetID ŠÖ”‚ğQÆ)BƒI[ƒfƒBƒIƒ~ƒLƒT[ƒfƒoƒCƒX‚Ìuƒ}ƒbƒp[v‚ÍŒ»İ‘¶İ‚µ‚È‚¢‚½‚ßAƒ~ƒLƒT[ƒfƒoƒCƒX¯•Êq -1 ‚Í–³Œø‚Å‚ ‚éB
+dwCallback : [int] ƒI[ƒvƒ“‘ÎÛ‚ÌƒfƒoƒCƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒI[ƒfƒBƒIƒ‰ƒCƒ“‚Ü‚½‚ÍƒRƒ“ƒgƒ[ƒ‹‚Ìó‘Ô‚ª•Ï‰»‚µ‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BƒR[ƒ‹ƒoƒbƒN‹@\‚ğg—p‚µ‚È‚¢ê‡‚Í NULL ‚ğw’è‚·‚éB
+dwInstance : [int] —\–ñB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+fdwOpen : [int] ƒfƒoƒCƒX‚ğŠJ‚­‚½‚ß‚Ìƒtƒ‰ƒOBŸ‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-The mixerOpen function opens a specified mixer device and ensures
-that the device will not be removed until the application closes the
-handle.
+mixerOpen
+ŠÖ”‚Íw’è‚³‚ê‚½ƒ~ƒLƒT[ƒfƒoƒCƒX‚ğƒI[ƒvƒ“‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚é‚Ü‚ÅƒfƒoƒCƒX‚ªæ‚èŠO‚³‚ê‚È‚¢‚±‚Æ‚ğ•ÛØ‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Use the mixerGetNumDevs function to determine the number of audio
-mixer devices present in the system. The device identifier specified
-by uMxId varies from zero to one less than the number of devices
-present. If a window is chosen to receive callback information, the
-MM_MIXM_LINE_CHANGE and MM_MIXM_CONTROL_CHANGE messages are sent to
-the window procedure function to indicate when an audio line or
-control state changes. For both messages, the wParam parameter is the
-handle of the mixer device. The lParam parameter is the line
-identifier for MM_MIXM_LINE_CHANGE or the control identifier for
-MM_MIXM_CONTROL_CHANGE that changed state. To query for audio mixer
-support or a media device, use the mixerGetID function. On 64-bit
-systems, this function may not work as expected in situations where
-you pass a 64-bit LPHWAVEOUT pointer in the uMxId parameter, because
-the uMxId parameter is truncated to 32 bits.
+ƒVƒXƒeƒ€‚É‘¶İ‚·‚éƒI[ƒfƒBƒIƒ~ƒLƒT[ƒfƒoƒCƒX‚Ì”‚ğ”»’è‚·‚é‚É‚Í mixerGetNumDevs ŠÖ”‚ğg—p‚·‚éBuMxId
+‚Åw’è‚³‚ê‚éƒfƒoƒCƒX¯•Êq‚Í 0 ‚©‚ç‘¶İ‚·‚éƒfƒoƒCƒX‚Ì”‚æ‚è 1
+­‚È‚¢’l‚Ü‚Å‚Ì”ÍˆÍ‚Æ‚È‚éBƒR[ƒ‹ƒoƒbƒNî•ñ‚Ìó‚¯æ‚èæ‚Æ‚µ‚ÄƒEƒBƒ“ƒhƒE‚ª‘I‘ğ‚³‚ê‚½ê‡AƒI[ƒfƒBƒIƒ‰ƒCƒ“‚Ü‚½‚ÍƒRƒ“ƒgƒ[ƒ‹ó‘Ô‚Ì•Ï‰»‚ğ¦‚·‚½‚ß‚É
+MM_MIXM_LINE_CHANGE ‚¨‚æ‚Ñ MM_MIXM_CONTROL_CHANGE
+ƒƒbƒZ[ƒW‚ªƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒŠÖ”‚Ö‘—M‚³‚ê‚éB—¼ƒƒbƒZ[ƒW‚É‚¨‚¢‚Ä wParam
+ƒpƒ‰ƒ[ƒ^‚Íƒ~ƒLƒT[ƒfƒoƒCƒX‚Ìƒnƒ“ƒhƒ‹‚Å‚ ‚éBlParam ƒpƒ‰ƒ[ƒ^‚Í MM_MIXM_LINE_CHANGE
+‚Ìê‡‚Íó‘Ô‚ª•Ï‰»‚µ‚½ƒ‰ƒCƒ“¯•ÊqAMM_MIXM_CONTROL_CHANGE
+‚Ìê‡‚ÍƒRƒ“ƒgƒ[ƒ‹¯•Êq‚Å‚ ‚éBƒI[ƒfƒBƒIƒ~ƒLƒT[ƒTƒ|[ƒg‚Ü‚½‚ÍƒƒfƒBƒAƒfƒoƒCƒX‚ğ–â‚¢‡‚í‚¹‚é‚É‚Í mixerGetID
+ŠÖ”‚ğg—p‚·‚éB64 ƒrƒbƒgƒVƒXƒeƒ€‚Å‚ÍAuMxId ƒpƒ‰ƒ[ƒ^‚ª 32 ƒrƒbƒg‚ÉØ‚è‹l‚ß‚ç‚ê‚é‚½‚ßA64 ƒrƒbƒg‚Ì LPHWAVEOUT
+ƒ|ƒCƒ“ƒ^‚ğ uMxId ƒpƒ‰ƒ[ƒ^‚É“n‚·ó‹µ‚Å‚Í–{ŠÖ”‚ÍŠú‘Ò‚Ç‚¨‚è‚É“®ì‚µ‚È‚¢‚±‚Æ‚ª‚ ‚éB
 
 
 %index
 mixerSetControlDetails
-The mixerSetControlDetails function sets properties of a single control associated with an audio line.
+mixerSetControlDetails ŠÖ”‚ÍƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½’Pˆê‚ÌƒRƒ“ƒgƒ[ƒ‹‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
 %group
 Win32 winmm
 %prm
 hmxobj, pmxcd, fdwDetails
-hmxobj : [intptr] Handle to the mixer device object for which properties are being set.
-pmxcd : [var] Pointer to a MIXERCONTROLDETAILS structure. This structure is used to reference control detail structures that contain the desired state for the control.
-fdwDetails : [int] Flags for setting properties for a control. The following values are defined.
+hmxobj : [intptr] ƒvƒƒpƒeƒB‚ğİ’è‚·‚é‘ÎÛ‚Ìƒ~ƒLƒT[ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pmxcd : [var] MIXERCONTROLDETAILS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚ÍƒRƒ“ƒgƒ[ƒ‹‚É‘Î‚·‚éŠó–]ó‘Ô‚ğŠÜ‚ŞƒRƒ“ƒgƒ[ƒ‹Ú×\‘¢‘Ì‚ğQÆ‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB
+fdwDetails : [int] ƒRƒ“ƒgƒ[ƒ‹‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚é‚½‚ß‚Ìƒtƒ‰ƒOBŸ‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-The mixerSetControlDetails function sets properties of a single
-control associated with an audio line.
+mixerSetControlDetails ŠÖ”‚ÍƒI[ƒfƒBƒIƒ‰ƒCƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½’Pˆê‚ÌƒRƒ“ƒgƒ[ƒ‹‚ÌƒvƒƒpƒeƒB‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-All members of the MIXERCONTROLDETAILS structure must be initialized
-before calling mixerSetControlDetails. If an application needs to
-retrieve only the current state of a custom mixer control and not
-display a dialog box, then mixerGetControlDetails can be used with
-the MIXER_GETCONTROLDETAILSF_VALUE flag.
+mixerSetControlDetails ‚ğŒÄ‚Ño‚·‘O‚É MIXERCONTROLDETAILS
+\‘¢‘Ì‚Ì‘Sƒƒ“ƒo‚ğ‰Šú‰»‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒJƒXƒ^ƒ€ƒ~ƒLƒT[ƒRƒ“ƒgƒ[ƒ‹‚ÌŒ»İ‚Ìó‘Ô‚Ì‚İ‚ğæ“¾‚·‚é•K—v‚ª‚ ‚èAƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚é•K—v‚ª‚È‚¢ê‡‚ÍAMIXER_GETCONTROLDETAILSF_VALUE
+ƒtƒ‰ƒO‚ğw’è‚µ‚Ä mixerGetControlDetails ‚ğg—p‚Å‚«‚éB
 
 
 %index
 mmioAdvance
-The mmioAdvance function advances the I/O buffer of a file set up for direct I/O buffer access with the mmioGetInfo function.
+mmioAdvance ŠÖ”‚Í mmioGetInfo ŠÖ”‚Å’¼Ú I/O ƒoƒbƒtƒ@ƒAƒNƒZƒX—p‚ÉƒZƒbƒgƒAƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ì I/O ƒoƒbƒtƒ@‚ği‚ß‚éB
 %group
 Win32 winmm
 %prm
 hmmio, pmmioinfo, fuAdvance
-hmmio : [intptr] File handle of a file opened by using the mmioOpen function.
-pmmioinfo : [var] Pointer to the MMIOINFO structure obtained by using the mmioGetInfo function. This structure is used to set the current file information, and then it is updated after the buffer is advanced. This parameter is optional.
-fuAdvance : [int] Flags for the operation. It can be one of the following.
+hmmio : [intptr] mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
+pmmioinfo : [var] mmioGetInfo ŠÖ”‚Åæ“¾‚µ‚½ MMIOINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚ÍŒ»İ‚Ìƒtƒ@ƒCƒ‹î•ñ‚ğİ’è‚·‚é‚½‚ß‚Ég—p‚³‚êAƒoƒbƒtƒ@‚ªi‚ß‚ç‚ê‚½Œã‚ÉXV‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éB
+fuAdvance : [int] ‘€ì‚Ìƒtƒ‰ƒOBŸ‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
 %inst
-The mmioAdvance function advances the I/O buffer of a file set up for
-direct I/O buffer access with the mmioGetInfo function.
+mmioAdvance ŠÖ”‚Í mmioGetInfo ŠÖ”‚Å’¼Ú I/O ƒoƒbƒtƒ@ƒAƒNƒZƒX—p‚ÉƒZƒbƒgƒAƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ì I/O
+ƒoƒbƒtƒ@‚ği‚ß‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If the file is opened for reading, the I/O buffer is filled from the
-disk. If the file is opened for writing and the MMIO_DIRTY flag is
-set in the dwFlags member of the MMIOINFO structure, the buffer is
-written to disk. The pchNext,pchEndRead, and pchEndWrite members of
-the MMIOINFO structure are updated to reflect the new state of the
-I/O buffer. If the specified file is opened for writing or for both
-reading and writing, the I/O buffer is flushed to disk before the
-next buffer is read. If the I/O buffer cannot be written to disk
-because the disk is full, mmioAdvance returns MMIOERR_CANNOTWRITE. If
-the specified file is open only for writing, the MMIO_WRITE flag must
-be specified. If you have written to the I/O buffer, you must set the
-MMIO_DIRTY flag in the dwFlags member of the MMIOINFO structure
-before calling mmioAdvance. Otherwise, the buffer will not be written
-to disk. If the end of file is reached, mmioAdvance still returns
-successfully even though no more data can be read. To check for the
-end of the file, check if the pchNext and pchEndRead members of the
-MMIOINFO structure are equal after calling mmioAdvance.
+ƒtƒ@ƒCƒ‹‚ª“Ç‚İæ‚è—p‚ÉƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚éê‡AI/O ƒoƒbƒtƒ@‚ÍƒfƒBƒXƒN‚©‚ç–„‚ß‚ç‚ê‚éBƒtƒ@ƒCƒ‹‚ª‘‚«‚İ—p‚ÉƒI[ƒvƒ“‚³‚ê‚Ä‚¨‚è
+MMIOINFO \‘¢‘Ì‚Ì dwFlags ƒƒ“ƒo‚É MMIO_DIRTY
+ƒtƒ‰ƒO‚ªƒZƒbƒg‚³‚ê‚Ä‚¢‚éê‡Aƒoƒbƒtƒ@‚ÍƒfƒBƒXƒN‚É‘‚«‚Ü‚ê‚éBMMIOINFO \‘¢‘Ì‚Ì
+pchNextApchEndReadApchEndWrite ƒƒ“ƒo‚Í I/O
+ƒoƒbƒtƒ@‚ÌV‚µ‚¢ó‘Ô‚ğ”½‰f‚·‚é‚æ‚¤‚ÉXV‚³‚ê‚éBw’è‚µ‚½ƒtƒ@ƒCƒ‹‚ª‘‚«‚İ—p‚Ü‚½‚Í“Ç‚İ‘‚«—¼—p‚ÉƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚éê‡AŸ‚Ìƒoƒbƒtƒ@‚ª“Ç‚İ‚Ü‚ê‚é‘O‚É
+I/O ƒoƒbƒtƒ@‚ÍƒfƒBƒXƒN‚Öƒtƒ‰ƒbƒVƒ…‚³‚ê‚éBƒfƒBƒXƒN‚ª–”t‚Ì‚½‚ß I/O ƒoƒbƒtƒ@‚ğƒfƒBƒXƒN‚Ö‘‚«‚ß‚È‚¢ê‡AmmioAdvance
+‚Í MMIOERR_CANNOTWRITE ‚ğ•Ô‚·Bw’è‚µ‚½ƒtƒ@ƒCƒ‹‚ª‘‚«‚İê—p‚ÅƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚éê‡‚Í MMIO_WRITE
+ƒtƒ‰ƒO‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BI/O ƒoƒbƒtƒ@‚É‘‚«‚ñ‚¾ê‡AmmioAdvance ‚ğŒÄ‚Ño‚·‘O‚É MMIOINFO \‘¢‘Ì‚Ì
+dwFlags ƒƒ“ƒo‚É MMIO_DIRTY
+ƒtƒ‰ƒO‚ğƒZƒbƒg‚·‚é•K—v‚ª‚ ‚éB‚»‚¤‚µ‚È‚¢‚Æƒoƒbƒtƒ@‚ÍƒfƒBƒXƒN‚Ö‘‚«‚Ü‚ê‚È‚¢Bƒtƒ@ƒCƒ‹‚Ì––”ö‚É“’B‚µ‚½ê‡‚Å‚àA‚±‚êˆÈãƒf[ƒ^‚ğ“Ç‚ß‚È‚¢‚É‚à‚©‚©‚í‚ç‚¸
+mmioAdvance ‚Í³í‚É–ß‚éBƒtƒ@ƒCƒ‹––”ö‚ğŠm”F‚·‚é‚É‚ÍAmmioAdvance ‚ğŒÄ‚Ño‚µ‚½Œã‚É MMIOINFO \‘¢‘Ì‚Ì
+pchNext ‚Æ pchEndRead ƒƒ“ƒo‚ª“™‚µ‚¢‚©‚ğƒ`ƒFƒbƒN‚·‚éB
 
 
 %index
 mmioAscend
-The mmioAscend function ascends out of a chunk in a RIFF file descended into with the mmioDescend function or created with the mmioCreateChunk function.
+mmioAscend ŠÖ”‚Í mmioDescend ŠÖ”‚Å~‰º‚µ‚½A‚Ü‚½‚Í mmioCreateChunk ŠÖ”‚Åì¬‚µ‚½ RIFF ƒtƒ@ƒCƒ‹“à‚Ìƒ`ƒƒƒ“ƒN‚©‚çã¸‚·‚éB
 %group
 Win32 winmm
 %prm
 hmmio, pmmcki, fuAscend
-hmmio : [intptr] File handle of an open RIFF file.
-pmmcki : [var] Pointer to an application-defined MMCKINFO structure previously filled by the mmioDescend or mmioCreateChunk function.
-fuAscend : [int] Reserved; must be zero.
+hmmio : [intptr] ƒI[ƒvƒ“Ï‚İ RIFF ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
+pmmcki : [var] –‘O‚É mmioDescend ‚Ü‚½‚Í mmioCreateChunk ŠÖ”‚É‚æ‚Á‚Ä–„‚ß‚ç‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì MMCKINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fuAscend : [int] —\–ñB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The mmioAscend function ascends out of a chunk in a RIFF file
-descended into with the mmioDescend function or created with the
-mmioCreateChunk function.
+mmioAscend ŠÖ”‚Í mmioDescend ŠÖ”‚Å~‰º‚µ‚½A‚Ü‚½‚Í mmioCreateChunk ŠÖ”‚Åì¬‚µ‚½ RIFF
+ƒtƒ@ƒCƒ‹“à‚Ìƒ`ƒƒƒ“ƒN‚©‚çã¸‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If the chunk was descended into by using mmioDescend, mmioAscend
-seeks to the location following the end of the chunk (past the extra
-pad byte, if any). If the chunk was created and descended into by
-using mmioCreateChunk, or if the MMIO_DIRTY flag is set in the
-dwFlags member of the MMCKINFO structure referenced by lpck, the
-current file position is assumed to be the end of the data portion of
-the chunk. If the chunk size is not the same as the value stored in
-the cksize member of the MMCKINFO structure when mmioCreateChunk was
-called, mmioAscend corrects the chunk size in the file before
-ascending from the chunk. If the chunk size is odd, mmioAscend writes
-a null pad byte at the end of the chunk. After ascending from the
-chunk, the current file position is the location following the end of
-the chunk (past the extra pad byte, if any).
+mmioDescend ‚ğg—p‚µ‚Äƒ`ƒƒƒ“ƒN‚Ö~‰º‚µ‚½ê‡AmmioAscend ‚Íƒ`ƒƒƒ“ƒN‚Ì––”ö‚Ì’¼Œã
+(ƒpƒbƒhƒoƒCƒg‚ª‚ ‚éê‡‚Í‚»‚êˆÈ~) ‚ÌˆÊ’u‚ÖƒV[ƒN‚·‚éBmmioCreateChunk ‚ğg—p‚µ‚Äƒ`ƒƒƒ“ƒN‚ğì¬‚µ~‰º‚µ‚½ê‡A‚Ü‚½‚Í
+lpck ‚ªQÆ‚·‚é MMCKINFO \‘¢‘Ì‚Ì dwFlags ƒƒ“ƒo‚É MMIO_DIRTY
+ƒtƒ‰ƒO‚ªƒZƒbƒg‚³‚ê‚Ä‚¢‚éê‡AŒ»İ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚ªƒ`ƒƒƒ“ƒN‚Ìƒf[ƒ^•”•ª‚Ì––”ö‚Æ‰¼’è‚³‚ê‚éBƒ`ƒƒƒ“ƒNƒTƒCƒY‚ª mmioCreateChunk
+ŒÄ‚Ño‚µ‚É MMCKINFO \‘¢‘Ì‚Ì cksize ƒƒ“ƒo‚ÉŠi”[‚³‚ê‚½’l‚ÆˆÙ‚È‚éê‡AmmioAscend
+‚Íƒ`ƒƒƒ“ƒN‚©‚çã¸‚·‚é‘O‚Éƒtƒ@ƒCƒ‹“à‚Ìƒ`ƒƒƒ“ƒNƒTƒCƒY‚ğ’ù³‚·‚éBƒ`ƒƒƒ“ƒNƒTƒCƒY‚ªŠï”‚Ìê‡AmmioAscend ‚Íƒ`ƒƒƒ“ƒN‚Ì––”ö‚É
+null ƒpƒbƒhƒoƒCƒg‚ğ‘‚«‚ŞBƒ`ƒƒƒ“ƒN‚©‚çã¸‚µ‚½ŒãAŒ»İ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚Íƒ`ƒƒƒ“ƒN‚Ì––”ö‚Ì’¼Œã (ƒpƒbƒhƒoƒCƒg‚ª‚ ‚éê‡‚Í‚»‚êˆÈ~)
+‚ÌˆÊ’u‚Æ‚È‚éB
 
 
 %index
 mmioClose
-The mmioClose function closes a file that was opened by using the mmioOpen function.
+mmioClose ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚éB
 %group
 Win32 winmm
 %prm
 hmmio, fuClose
-hmmio : [intptr] File handle of the file to close.
-fuClose : [int] Flags for the close operation. The following value is defined.
+hmmio : [intptr] ƒNƒ[ƒY‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
+fuClose : [int] ƒNƒ[ƒY‘€ì‚Ìƒtƒ‰ƒOBŸ‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-The mmioClose function closes a file that was opened by using the
-mmioOpen function.
+mmioClose ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚éB
 
 [–ß‚è’l]
-Returns zero if successful or an error otherwise. The error value can
-originate from the mmioFlush function or from the I/O procedure.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í 0 ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·BƒGƒ‰[’l‚Í mmioFlush ŠÖ”‚Ü‚½‚Í I/O
+ƒvƒƒV[ƒWƒƒ‚©‚ç”­¶‚·‚é‰Â”\«‚ª‚ ‚éBl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 mmioCreateChunk
-The mmioCreateChunk function creates a chunk in a RIFF file that was opened by using the mmioOpen function.
+mmioCreateChunk ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ RIFF ƒtƒ@ƒCƒ‹“à‚Éƒ`ƒƒƒ“ƒN‚ğì¬‚·‚éB
 %group
 Win32 winmm
 %prm
 hmmio, pmmcki, fuCreate
-hmmio : [intptr] File handle of an open RIFF file.
-pmmcki : [var] Pointer to a buffer that receives a MMCKINFO structure containing information about the chunk to be created.
-fuCreate : [int] Flags identifying what type of chunk to create. The following values are defined.
+hmmio : [intptr] ƒI[ƒvƒ“Ï‚İ RIFF ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
+pmmcki : [var] ì¬‚·‚éƒ`ƒƒƒ“ƒN‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş MMCKINFO \‘¢‘Ì‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fuCreate : [int] ì¬‚·‚éƒ`ƒƒƒ“ƒN‚Ìí—Ş‚ğ¯•Ê‚·‚éƒtƒ‰ƒOBŸ‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-The mmioCreateChunk function creates a chunk in a RIFF file that was
-opened by using the mmioOpen function.
+mmioCreateChunk ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ RIFF ƒtƒ@ƒCƒ‹“à‚Éƒ`ƒƒƒ“ƒN‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function cannot insert a chunk into the middle of a file. If an
-application attempts to create a chunk somewhere other than at the
-end of a file, mmioCreateChunk overwrites existing information in the
-file. The MMCKINFO structure pointed to by the lpck parameter should
-be set up as follows:
-This doc was truncated.
+
+–{ŠÖ”‚Íƒtƒ@ƒCƒ‹‚Ì“r’†‚Éƒ`ƒƒƒ“ƒN‚ğ‘}“ü‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒtƒ@ƒCƒ‹‚Ì––”öˆÈŠO‚ÌêŠ‚Éƒ`ƒƒƒ“ƒN‚ğì¬‚µ‚æ‚¤‚Æ‚·‚é‚ÆAmmioCreateChunk
+‚Íƒtƒ@ƒCƒ‹“à‚ÌŠù‘¶‚Ìî•ñ‚ğã‘‚«‚·‚éBlpck ƒpƒ‰ƒ[ƒ^‚ªw‚· MMCKINFO \‘¢‘Ì‚ÍŸ‚Ì‚æ‚¤‚Éİ’è‚·‚é•K—v‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 mmioDescend
-The mmioDescend function descends into a chunk of a RIFF file that was opened by using the mmioOpen function. It can also search for a given chunk.
+mmioDescend ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ RIFF ƒtƒ@ƒCƒ‹“à‚Ìƒ`ƒƒƒ“ƒN‚Ö~‰º‚·‚éBw’è‚³‚ê‚½ƒ`ƒƒƒ“ƒN‚ğŒŸõ‚·‚é‚±‚Æ‚à‚Å‚«‚éB
 %group
 Win32 winmm
 %prm
 hmmio, pmmcki, pmmckiParent, fuDescend
-hmmio : [intptr] File handle of an open RIFF file.
-pmmcki : [var] Pointer to a buffer that receives an MMCKINFO structure.
-pmmckiParent : [var] Pointer to an optional application-defined MMCKINFO structure identifying the parent of the chunk being searched for. If this parameter is not NULL, mmioDescend assumes the MMCKINFO structure it refers to was filled when mmioDescend was called to descend into the parent chunk, and mmioDescend searches for a chunk within the parent chunk. Set this parameter to NULL if no parent chunk is being specified.
-fuDescend : [int] Search flags. If no flags are specified, mmioDescend descends into the chunk beginning at the current file position. The following values are defined.
+hmmio : [intptr] ƒI[ƒvƒ“Ï‚İ RIFF ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
+pmmcki : [var] MMCKINFO \‘¢‘Ì‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pmmckiParent : [var] ŒŸõ‘ÎÛ‚Ìƒ`ƒƒƒ“ƒN‚Ìe‚ğ¯•Ê‚·‚éƒIƒvƒVƒ‡ƒ“‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹` MMCKINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Å‚È‚¢ê‡AmmioDescend ‚Í‚»‚ê‚ªQÆ‚·‚é MMCKINFO \‘¢‘Ì‚ªeƒ`ƒƒƒ“ƒN‚Ö~‰º‚·‚é‚½‚ß‚É mmioDescend ‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚É–„‚ß‚ç‚ê‚½‚à‚Ì‚Æ‰¼’è‚µAeƒ`ƒƒƒ“ƒN“à‚Ìƒ`ƒƒƒ“ƒN‚ğŒŸõ‚·‚éBeƒ`ƒƒƒ“ƒN‚ğw’è‚µ‚È‚¢ê‡‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ‚Éİ’è‚·‚éB
+fuDescend : [int] ŒŸõƒtƒ‰ƒOBƒtƒ‰ƒO‚ªw’è‚³‚ê‚È‚¢ê‡AmmioDescend ‚ÍŒ»İ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚©‚çn‚Ü‚éƒ`ƒƒƒ“ƒN‚Ö~‰º‚·‚éBŸ‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-The mmioDescend function descends into a chunk of a RIFF file that
-was opened by using the mmioOpen function. It can also search for a
-given chunk.
+mmioDescend ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ RIFF
+ƒtƒ@ƒCƒ‹“à‚Ìƒ`ƒƒƒ“ƒN‚Ö~‰º‚·‚éBw’è‚³‚ê‚½ƒ`ƒƒƒ“ƒN‚ğŒŸõ‚·‚é‚±‚Æ‚à‚Å‚«‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-A "RIFF" chunk consists of a four-byte chunk identifier (type
-FOURCC), followed by a four-byte chunk size (type DWORD), followed by
-the data portion of the chunk, followed by a null pad byte if the
-size of the data portion is odd. If the chunk identifier is "RIFF" or
-"LIST", the first four bytes of the data portion of the chunk are a
-form type or list type (type FOURCC). If you use mmioDescend to
-search for a chunk, make sure the file position is at the beginning
-of a chunk before calling the function. The search begins at the
-current file position and continues to the end of the file. If a
-parent chunk is specified, the file position should be somewhere
-within the parent chunk before calling mmioDescend. In this case, the
-search begins at the current file position and continues to the end
-of the parent chunk. If mmioDescend is unsuccessful in searching for
-a chunk, the current file position is undefined. If mmioDescend is
-successful, the current file position is changed. If the chunk is a
-"RIFF" or "LIST" chunk, the new file position will be just after the
-form type or list type (12 bytes from the beginning of the chunk).
-For other chunks, the new file position will be the start of the data
-portion of the chunk (8 bytes from the beginning of the chunk). The
-mmioDescend function fills the MMCKINFO structure pointed to by the
-lpck parameter with the following information:
-This doc was truncated.
+uRIFFvƒ`ƒƒƒ“ƒN‚Í 4 ƒoƒCƒg‚Ìƒ`ƒƒƒ“ƒN¯•Êq (FOURCC Œ^)A‘±‚¢‚Ä 4 ƒoƒCƒg‚Ìƒ`ƒƒƒ“ƒNƒTƒCƒY (DWORD
+Œ^)A‘±‚¢‚Äƒ`ƒƒƒ“ƒN‚Ìƒf[ƒ^•”•ªAƒf[ƒ^•”•ª‚ÌƒTƒCƒY‚ªŠï”‚Ìê‡‚Í null
+ƒpƒbƒhƒoƒCƒg‚Å\¬‚³‚ê‚éBƒ`ƒƒƒ“ƒN¯•Êq‚ªuRIFFv‚Ü‚½‚ÍuLISTv‚Ìê‡Aƒ`ƒƒƒ“ƒN‚Ìƒf[ƒ^•”•ª‚ÌÅ‰‚Ì 4
+ƒoƒCƒg‚ÍƒtƒH[ƒ€Œ^‚Ü‚½‚ÍƒŠƒXƒgŒ^ (FOURCC Œ^) ‚Å‚ ‚éBmmioDescend
+‚ğg—p‚µ‚Äƒ`ƒƒƒ“ƒN‚ğŒŸõ‚·‚éê‡‚ÍAŠÖ”‚ğŒÄ‚Ño‚·‘O‚Éƒtƒ@ƒCƒ‹ˆÊ’u‚ªƒ`ƒƒƒ“ƒN‚Ìæ“ª‚É‚ ‚é‚±‚Æ‚ğŠm”F‚·‚éBŒŸõ‚ÍŒ»İ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚©‚çn‚Ü‚èAƒtƒ@ƒCƒ‹––”ö‚Ü‚Å‘±‚­Beƒ`ƒƒƒ“ƒN‚ªw’è‚³‚ê‚Ä‚¢‚éê‡AmmioDescend
+‚ğŒÄ‚Ño‚·‘O‚Éƒtƒ@ƒCƒ‹ˆÊ’u‚ªeƒ`ƒƒƒ“ƒN“à‚Ì‚Ç‚±‚©‚É‚ ‚é‚×‚«‚Å‚ ‚éB‚±‚Ìê‡AŒŸõ‚ÍŒ»İ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚©‚çn‚Ü‚èeƒ`ƒƒƒ“ƒN‚Ì––”ö‚Ü‚Å‘±‚­BmmioDescend
+‚ªƒ`ƒƒƒ“ƒN‚ÌŒŸõ‚É¸”s‚µ‚½ê‡AŒ»İ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚Í–¢’è‹`‚Æ‚È‚éBmmioDescend
+‚ª¬Œ÷‚µ‚½ê‡AŒ»İ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚Í•ÏX‚³‚ê‚éBƒ`ƒƒƒ“ƒN‚ªuRIFFv‚Ü‚½‚ÍuLISTvƒ`ƒƒƒ“ƒN‚Ìê‡AV‚µ‚¢ƒtƒ@ƒCƒ‹ˆÊ’u‚ÍƒtƒH[ƒ€Œ^‚Ü‚½‚ÍƒŠƒXƒgŒ^‚Ì’¼Œã
+(ƒ`ƒƒƒ“ƒNæ“ª‚©‚ç 12 ƒoƒCƒg) ‚Æ‚È‚éB‚»‚Ì‘¼‚Ìƒ`ƒƒƒ“ƒN‚Ìê‡AV‚µ‚¢ƒtƒ@ƒCƒ‹ˆÊ’u‚Íƒ`ƒƒƒ“ƒN‚Ìƒf[ƒ^•”•ª‚Ìæ“ª (ƒ`ƒƒƒ“ƒNæ“ª‚©‚ç 8
+ƒoƒCƒg) ‚Æ‚È‚éBmmioDescend ŠÖ”‚Í lpck ƒpƒ‰ƒ[ƒ^‚ªw‚· MMCKINFO \‘¢‘Ì‚ÉŸ‚Ìî•ñ‚ğ–„‚ß‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 mmioFlush
-The mmioFlush function writes the I/O buffer of a file to disk if the buffer has been written to.
+mmioFlush ŠÖ”‚Íƒtƒ@ƒCƒ‹‚Ì I/O ƒoƒbƒtƒ@‚É‘‚«‚İ‚ªs‚í‚ê‚Ä‚¢‚½ê‡A‚»‚ê‚ğƒfƒBƒXƒN‚Ö‘‚«‚ŞB
 %group
 Win32 winmm
 %prm
 hmmio, fuFlush
-hmmio : [intptr] File handle of a file opened by using the mmioOpen function.
-fuFlush : [int] Flag determining how the flush is carried out. It can be zero or the following.
+hmmio : [intptr] mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
+fuFlush : [int] ƒtƒ‰ƒbƒVƒ…•û–@‚ğŒˆ’è‚·‚éƒtƒ‰ƒOB0 ‚Ü‚½‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
 %inst
-The mmioFlush function writes the I/O buffer of a file to disk if the
-buffer has been written to.
+mmioFlush ŠÖ”‚Íƒtƒ@ƒCƒ‹‚Ì I/O ƒoƒbƒtƒ@‚É‘‚«‚İ‚ªs‚í‚ê‚Ä‚¢‚½ê‡A‚»‚ê‚ğƒfƒBƒXƒN‚Ö‘‚«‚ŞB
 
 [–ß‚è’l]
-Returns zero if successful or an error otherwise. Possible error
-values include the following.
-This doc was truncated.
+¬Œ÷‚Í 0 ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Closing a file with the mmioClose function automatically flushes its
-buffer. If there is insufficient disk space to write the buffer,
-mmioFlush fails, even if the preceding calls of the mmioWrite
-function were successful.
+mmioClose
+ŠÖ”‚Åƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é‚ÆA‚»‚Ìƒoƒbƒtƒ@‚Í©“®“I‚Éƒtƒ‰ƒbƒVƒ…‚³‚ê‚éBƒoƒbƒtƒ@‚ğ‘‚«‚Ş‚½‚ß‚ÌƒfƒBƒXƒN—Ìˆæ‚ª•s‘«‚µ‚Ä‚¢‚éê‡Aæs‚·‚é
+mmioWrite ŠÖ”‚ÌŒÄ‚Ño‚µ‚ª¬Œ÷‚µ‚Ä‚¢‚½‚Æ‚µ‚Ä‚à mmioFlush ‚Í¸”s‚·‚éB
 
 
 %index
 mmioGetInfo
-The mmioGetInfo function retrieves information about a file opened by using the mmioOpen function. This information allows the application to directly access the I/O buffer, if the file is opened for buffered I/O.
+mmioGetInfo ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB‚±‚Ìî•ñ‚É‚æ‚èAƒtƒ@ƒCƒ‹‚ªƒoƒbƒtƒ@[ƒh I/O —p‚ÉƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚ê‚ÎƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª I/O ƒoƒbƒtƒ@‚É’¼ÚƒAƒNƒZƒX‚Å‚«‚éB
 %group
 Win32 winmm
 %prm
 hmmio, pmmioinfo, fuInfo
-hmmio : [intptr] File handle of the file.
-pmmioinfo : [var] Pointer to a buffer that receives an MMIOINFO structure that mmioGetInfo fills with information about the file.
-fuInfo : [int] Reserved; must be zero.
+hmmio : [intptr] ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
+pmmioinfo : [var] mmioGetInfo ‚ªƒtƒ@ƒCƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğ–„‚ß‚é MMIOINFO \‘¢‘Ì‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fuInfo : [int] —\–ñB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The mmioGetInfo function retrieves information about a file opened by
-using the mmioOpen function. This information allows the application
-to directly access the I/O buffer, if the file is opened for buffered
-I/O.
+mmioGetInfo ŠÖ”‚Í mmioOpen
+ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB‚±‚Ìî•ñ‚É‚æ‚èAƒtƒ@ƒCƒ‹‚ªƒoƒbƒtƒ@[ƒh I/O
+—p‚ÉƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚ê‚ÎƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª I/O ƒoƒbƒtƒ@‚É’¼ÚƒAƒNƒZƒX‚Å‚«‚éB
 
 [–ß‚è’l]
-Returns zero if successful or an error otherwise.
+¬Œ÷‚Í 0 ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·B
 
 [”õl]
-To directly access the I/O buffer of a file opened for buffered I/O,
-use the following members of the MMIOINFO structure filled by
-mmioGetInfo:
-This doc was truncated.
+ƒoƒbƒtƒ@[ƒh I/O —p‚ÉƒI[ƒvƒ“‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ì I/O ƒoƒbƒtƒ@‚É’¼ÚƒAƒNƒZƒX‚·‚é‚É‚ÍAmmioGetInfo ‚É‚æ‚Á‚Ä–„‚ß‚ç‚ê‚½
+MMIOINFO \‘¢‘Ì‚ÌŸ‚Ìƒƒ“ƒo‚ğg—p‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 mmioOpenW
-The mmioOpenW (Unicode) function opens a file for unbuffered or buffered I/O; creates a file; deletes a file; or checks whether a file exists. (mmioOpenW)
+mmioOpenW (Unicode) ŠÖ”‚Íƒoƒbƒtƒ@‚È‚µ‚Ü‚½‚Íƒoƒbƒtƒ@[ƒh I/O —p‚Éƒtƒ@ƒCƒ‹‚ğƒI[ƒvƒ“‚·‚éAƒtƒ@ƒCƒ‹‚ğì¬‚·‚éAƒtƒ@ƒCƒ‹‚ğíœ‚·‚éA‚Ü‚½‚Íƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚é‚©‚ğŠm”F‚·‚éB(mmioOpenW)
 %group
 Win32 winmm
 %prm
 pszFileName, pmmioinfo, fdwOpen
-pszFileName : [wstr] Pointer to a buffer that contains the name of the file. If no I/O procedure is specified to open the file, the file name determines how the file is opened, as follows:
-pmmioinfo : [var] Pointer to an MMIOINFO structure containing extra parameters used by mmioOpen. Unless you are opening a memory file, specifying the size of a buffer for buffered I/O, or specifying an uninstalled I/O procedure to open a file, this parameter should be NULL. If this parameter is not NULL, all unused members of the MMIOINFO structure it references must be set to zero, including the reserved members.
-fdwOpen : [int] Flags for the open operation. The MMIO_READ, MMIO_WRITE, and MMIO_READWRITE flags are mutually exclusive ? only one should be specified. The MMIO_COMPAT, MMIO_EXCLUSIVE, MMIO_DENYWRITE, MMIO_DENYREAD, and MMIO_DENYNONE flags are file-sharing flags. The following values are defined.
+pszFileName : [wstr] ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒtƒ@ƒCƒ‹‚ğƒI[ƒvƒ“‚·‚é‚½‚ß‚Ì I/O ƒvƒƒV[ƒWƒƒ‚ªw’è‚³‚ê‚È‚¢ê‡Aƒtƒ@ƒCƒ‹–¼‚ªƒI[ƒvƒ“•û–@‚ğŸ‚Ì‚æ‚¤‚ÉŒˆ’è‚·‚éB
+pmmioinfo : [var] mmioOpen ‚ªg—p‚·‚é’Ç‰Áƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş MMIOINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒƒ‚ƒŠƒtƒ@ƒCƒ‹‚ğƒI[ƒvƒ“‚·‚éAƒoƒbƒtƒ@[ƒh I/O —p‚Ìƒoƒbƒtƒ@ƒTƒCƒY‚ğw’è‚·‚éAƒtƒ@ƒCƒ‹‚ğƒI[ƒvƒ“‚·‚é‚½‚ß‚ÌƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚È‚¢ I/O ƒvƒƒV[ƒWƒƒ‚ğw’è‚·‚éA‚Ì‚¢‚¸‚ê‚Å‚à‚È‚¢ŒÀ‚èA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚ ‚é‚×‚«‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Å‚È‚¢ê‡A‚»‚ê‚ªQÆ‚·‚é MMIOINFO \‘¢‘Ì‚Ì–¢g—pƒƒ“ƒo (—\–ñƒƒ“ƒo‚ğŠÜ‚Ş) ‚Í‘S‚Ä 0 ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+fdwOpen : [int] ƒI[ƒvƒ“‘€ì‚Ìƒtƒ‰ƒOBMMIO_READAMMIO_WRITEAMMIO_READWRITE ƒtƒ‰ƒO‚Í‘ŠŒİ”r‘¼“I‚Å‚ ‚èA‚¢‚¸‚ê‚© 1 ‚Â‚Ì‚İ‚ğw’è‚·‚éBMMIO_COMPATAMMIO_EXCLUSIVEAMMIO_DENYWRITEAMMIO_DENYREADAMMIO_DENYNONE ƒtƒ‰ƒO‚Íƒtƒ@ƒCƒ‹‹¤—Lƒtƒ‰ƒO‚Å‚ ‚éBŸ‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-The mmioOpenW (Unicode) function opens a file for unbuffered or
-buffered I/O; creates a file; deletes a file; or checks whether a
-file exists. (mmioOpenW)
+mmioOpenW (Unicode) ŠÖ”‚Íƒoƒbƒtƒ@‚È‚µ‚Ü‚½‚Íƒoƒbƒtƒ@[ƒh I/O
+—p‚Éƒtƒ@ƒCƒ‹‚ğƒI[ƒvƒ“‚·‚éAƒtƒ@ƒCƒ‹‚ğì¬‚·‚éAƒtƒ@ƒCƒ‹‚ğíœ‚·‚éA‚Ü‚½‚Íƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚é‚©‚ğŠm”F‚·‚éB(mmioOpenW)
 
 [”õl]
-If lpmmioinfo points to an MMIOINFO structure, initialize the members
-of the structure as follows. All unused members must be set to zero,
-including reserved members.
-This doc was truncated.
+lpmmioinfo ‚ª MMIOINFO \‘¢‘Ì‚ğw‚·ê‡A\‘¢‘Ì‚Ìƒƒ“ƒo‚ğŸ‚Ì‚æ‚¤‚É‰Šú‰»‚·‚éB–¢g—pƒƒ“ƒo (—\–ñƒƒ“ƒo‚ğŠÜ‚Ş)
+‚Í‘S‚Ä 0 ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 mmioRead
-The mmioRead function reads a specified number of bytes from a file opened by using the mmioOpen function.
+mmioRead ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚©‚çw’è‚³‚ê‚½ƒoƒCƒg”‚ğ“Ç‚İæ‚éB
 %group
 Win32 winmm
 %prm
 hmmio, pch, cch
-hmmio : [intptr] File handle of the file to be read.
-pch : [var] Pointer to a buffer to contain the data read from the file.
-cch : [int] Number of bytes to read from the file.
+hmmio : [intptr] “Ç‚İæ‚è‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
+pch : [var] ƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İæ‚Á‚½ƒf[ƒ^‚ğŠi”[‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cch : [int] ƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İæ‚éƒoƒCƒg”B
 %inst
-The mmioRead function reads a specified number of bytes from a file
-opened by using the mmioOpen function.
+mmioRead ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚©‚çw’è‚³‚ê‚½ƒoƒCƒg”‚ğ“Ç‚İæ‚éB
 
 [–ß‚è’l]
-Returns the number of bytes actually read. If the end of the file has
-been reached and no more bytes can be read, the return value is 0. If
-there is an error reading from the file, the return value is ?1.
+ÀÛ‚É“Ç‚İæ‚Á‚½ƒoƒCƒg”‚ğ•Ô‚·Bƒtƒ@ƒCƒ‹––”ö‚É“’B‚µ‚±‚êˆÈãƒoƒCƒg‚ğ“Ç‚İæ‚ê‚È‚¢ê‡A–ß‚è’l‚Í 0
+‚Æ‚È‚éBƒtƒ@ƒCƒ‹‚©‚ç‚Ì“Ç‚İæ‚è’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡A–ß‚è’l‚Í -1 ‚Æ‚È‚éB
 
 
 %index
 mmioRenameW
-The mmioRenameW (Unicode) function renames the specified file and contains parameters that modify strings containing a file name. (mmioRenameW)
+mmioRenameW (Unicode) ŠÖ”‚Íw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğƒŠƒl[ƒ€‚µAƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Ş•¶š—ñ‚ğ•ÏX‚·‚éƒpƒ‰ƒ[ƒ^‚ğŠÜ‚ŞB(mmioRenameW)
 %group
 Win32 winmm
 %prm
 pszFileName, pszNewFileName, pmmioinfo, fdwRename
-pszFileName : [wstr] Pointer to a string containing the file name of the file to rename.
-pszNewFileName : [wstr] Pointer to a string containing the new file name.
-pmmioinfo : [var] Pointer to an MMIOINFO structure containing extra parameters used by mmioRename. If this parameter is not NULL, all unused members of the MMIOINFO structure it references must be set to zero, including the reserved members.
-fdwRename : [int] Flags for the rename operation. This parameter should be set to zero.
+pszFileName : [wstr] ƒŠƒl[ƒ€‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Ş•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pszNewFileName : [wstr] V‚µ‚¢ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Ş•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pmmioinfo : [var] mmioRename ‚ªg—p‚·‚é’Ç‰Áƒpƒ‰ƒ[ƒ^‚ğŠÜ‚Ş MMIOINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Å‚È‚¢ê‡A‚»‚ê‚ªQÆ‚·‚é MMIOINFO \‘¢‘Ì‚Ì–¢g—pƒƒ“ƒo (—\–ñƒƒ“ƒo‚ğŠÜ‚Ş) ‚Í‘S‚Ä 0 ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+fdwRename : [int] ƒŠƒl[ƒ€‘€ì‚Ìƒtƒ‰ƒOB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Éİ’è‚·‚é‚×‚«‚Å‚ ‚éB
 %inst
-The mmioRenameW (Unicode) function renames the specified file and
-contains parameters that modify strings containing a file name.
-(mmioRenameW)
+mmioRenameW (Unicode)
+ŠÖ”‚Íw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğƒŠƒl[ƒ€‚µAƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Ş•¶š—ñ‚ğ•ÏX‚·‚éƒpƒ‰ƒ[ƒ^‚ğŠÜ‚ŞB(mmioRenameW)
 
 [–ß‚è’l]
-Returns zero if the file was renamed. Otherwise, returns an error
-code returned from mmioRename or from the I/O procedure.
+ƒtƒ@ƒCƒ‹‚ªƒŠƒl[ƒ€‚³‚ê‚½ê‡‚Í 0 ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í mmioRename ‚Ü‚½‚Í I/O
+ƒvƒƒV[ƒWƒƒ‚©‚ç•Ô‚³‚ê‚½ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-> [!NOTE] > The mmiscapi.h header defines mmioRename as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > mmiscapi.h ƒwƒbƒ_‚Í mmioRename ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚«–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚é•sˆê’v‚ª”­¶‚µ“¾‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 mmioSeek
-The mmioSeek function changes the current file position in a file opened by using the mmioOpen function.
+mmioSeek ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚ÌŒ»İ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚ğ•ÏX‚·‚éB
 %group
 Win32 winmm
 %prm
 hmmio, lOffset, iOrigin
-hmmio : [intptr] File handle of the file to seek in.
-lOffset : [int] Offset to change the file position.
-iOrigin : [int] Flags indicating how the offset specified by lOffset is interpreted. The following values are defined:
+hmmio : [intptr] ƒV[ƒN‘ÎÛ‚Ìƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
+lOffset : [int] ƒtƒ@ƒCƒ‹ˆÊ’u‚ğ•ÏX‚·‚é‚½‚ß‚ÌƒIƒtƒZƒbƒgB
+iOrigin : [int] lOffset ‚Åw’è‚³‚ê‚½ƒIƒtƒZƒbƒg‚Ì‰ğß•û–@‚ğ¦‚·ƒtƒ‰ƒOBŸ‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-The mmioSeek function changes the current file position in a file
-opened by using the mmioOpen function.
+mmioSeek ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚ÌŒ»İ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚ğ•ÏX‚·‚éB
 
 [–ß‚è’l]
-Returns the new file position, in bytes, relative to the beginning of
-the file. If there is an error, the return value is ?1.
+V‚µ‚¢ƒtƒ@ƒCƒ‹ˆÊ’u‚ğƒtƒ@ƒCƒ‹æ“ª‚©‚ç‚ÌƒoƒCƒg”‚Å•Ô‚·BƒGƒ‰[‚ª”­¶‚µ‚½ê‡A–ß‚è’l‚Í -1 ‚Æ‚È‚éB
 
 [”õl]
-Seeking to an invalid location in the file, such as past the end of
-the file, might not cause mmioSeek to return an error, but it might
-cause subsequent I/O operations on the file to fail. To locate the
-end of a file, call mmioSeek with lOffset set to zero and iOrigin set
-to SEEK_END.
+ƒtƒ@ƒCƒ‹––”ö‚ğ’´‚¦‚éˆÊ’u‚È‚Çƒtƒ@ƒCƒ‹“à‚Ì–³Œø‚ÈêŠ‚ÖƒV[ƒN‚µ‚Ä‚à mmioSeek
+‚ªƒGƒ‰[‚ğ•Ô‚³‚È‚¢‚±‚Æ‚ª‚ ‚é‚ªA‚»‚Ìƒtƒ@ƒCƒ‹‚É‘Î‚·‚éˆÈ~‚Ì I/O ‘€ì‚ª¸”s‚·‚é‰Â”\«‚ª‚ ‚éBƒtƒ@ƒCƒ‹––”ö‚ğ“Á’è‚·‚é‚É‚ÍAlOffset
+‚ğ 0AiOrigin ‚ğ SEEK_END ‚Éİ’è‚µ‚Ä mmioSeek ‚ğŒÄ‚Ño‚·B
 
 
 %index
 mmioSendMessage
-The mmioSendMessage function sends a message to the I/O procedure associated with the specified file.
+mmioSendMessage ŠÖ”‚Íw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ I/O ƒvƒƒV[ƒWƒƒ‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
 %group
 Win32 winmm
 %prm
 hmmio, uMsg, lParam1, lParam2
-hmmio : [intptr] File handle for a file opened by using the mmioOpen function.
-uMsg : [int] Message to send to the I/O procedure.
-lParam1 : [intptr] Parameter for the message.
-lParam2 : [intptr] Parameter for the message.
+hmmio : [intptr] mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
+uMsg : [int] I/O ƒvƒƒV[ƒWƒƒ‚Ö‘—M‚·‚éƒƒbƒZ[ƒWB
+lParam1 : [intptr] ƒƒbƒZ[ƒW‚Ìƒpƒ‰ƒ[ƒ^B
+lParam2 : [intptr] ƒƒbƒZ[ƒW‚Ìƒpƒ‰ƒ[ƒ^B
 %inst
-The mmioSendMessage function sends a message to the I/O procedure
-associated with the specified file.
+mmioSendMessage ŠÖ”‚Íw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ I/O ƒvƒƒV[ƒWƒƒ‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
 
 [–ß‚è’l]
-Returns a value that corresponds to the message. If the I/O procedure
-does not recognize the message, the return value should be zero.
+ƒƒbƒZ[ƒW‚É‘Î‰‚·‚é’l‚ğ•Ô‚·BI/O ƒvƒƒV[ƒWƒƒ‚ªƒƒbƒZ[ƒW‚ğ”F¯‚µ‚È‚¢ê‡A–ß‚è’l‚Í 0 ‚Å‚ ‚é‚×‚«‚Å‚ ‚éB
 
 [”õl]
-Use this function to send custom user-defined messages. Do not use it
-to send the MMIOM_OPEN, MMIOM_CLOSE, MMIOM_READ, MMIOM_WRITE,
-MMIOM_WRITEFLUSH, or MMIOM_SEEK messages. Define custom messages to
-be greater than or equal to the MMIOM_USER constant.
+
+–{ŠÖ”‚ÍƒJƒXƒ^ƒ€ƒ†[ƒU’è‹`ƒƒbƒZ[ƒW‚ğ‘—M‚·‚é‚½‚ß‚Ég—p‚·‚éBMMIOM_OPENAMMIOM_CLOSEAMMIOM_READAMMIOM_WRITEAMMIOM_WRITEFLUSHAMMIOM_SEEK
+ƒƒbƒZ[ƒW‚Ì‘—M‚É‚Íg—p‚µ‚È‚¢‚±‚ÆBƒJƒXƒ^ƒ€ƒƒbƒZ[ƒW‚Í MMIOM_USER ’è”ˆÈã‚Å’è‹`‚·‚éB
 
 
 %index
 mmioSetBuffer
-The mmioSetBuffer function enables or disables buffered I/O, or changes the buffer or buffer size for a file opened by using the mmioOpen function.
+mmioSetBuffer ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚É‘Î‚µAƒoƒbƒtƒ@[ƒh I/O ‚Ì—LŒø‰»/–³Œø‰»A‚Ü‚½‚Íƒoƒbƒtƒ@Eƒoƒbƒtƒ@ƒTƒCƒY‚Ì•ÏX‚ğs‚¤B
 %group
 Win32 winmm
 %prm
 hmmio, pchBuffer, cchBuffer, fuBuffer
-hmmio : [intptr] File handle of the file.
-pchBuffer : [str] Pointer to an application-defined buffer to use for buffered I/O. If this parameter is NULL, mmioSetBuffer allocates an internal buffer for buffered I/O.
-cchBuffer : [int] Size, in characters, of the application-defined buffer, or the size of the buffer for mmioSetBuffer to allocate.
-fuBuffer : [int] Reserved; must be zero.
+hmmio : [intptr] ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
+pchBuffer : [str] ƒoƒbƒtƒ@[ƒh I/O ‚Ég—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AmmioSetBuffer ‚Íƒoƒbƒtƒ@[ƒh I/O —p‚Ì“à•”ƒoƒbƒtƒ@‚ğŠ„‚è“–‚Ä‚éB
+cchBuffer : [int] ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒoƒbƒtƒ@‚ÌƒTƒCƒY (•¶š’PˆÊ)A‚Ü‚½‚Í mmioSetBuffer ‚ªŠ„‚è“–‚Ä‚éƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+fuBuffer : [int] —\–ñB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The mmioSetBuffer function enables or disables buffered I/O, or
-changes the buffer or buffer size for a file opened by using the
-mmioOpen function.
+mmioSetBuffer ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚É‘Î‚µAƒoƒbƒtƒ@[ƒh I/O
+‚Ì—LŒø‰»/–³Œø‰»A‚Ü‚½‚Íƒoƒbƒtƒ@Eƒoƒbƒtƒ@ƒTƒCƒY‚Ì•ÏX‚ğs‚¤B
 
 [–ß‚è’l]
-Returns zero if successful or an error otherwise. If an error occurs,
-the file handle remains valid. The following values are defined.
-This doc was truncated.
+¬Œ÷‚Í 0 ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·BƒGƒ‰[‚ª”­¶‚µ‚Ä‚àƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚Í—LŒø‚È‚Ü‚Ü‚Å‚ ‚éBŸ‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-To enable buffering using an internal buffer, set pchBuffer to NULL
-and cchBuffer to the desired buffer size. To supply your own buffer,
-set pchBuffer to point to the buffer, and set cchBuffer to the size
-of the buffer. To disable buffered I/O, set pchBuffer to NULL and
-cchBuffer to zero. If buffered I/O is already enabled using an
-internal buffer, you can reallocate the buffer to a different size by
-setting pchBuffer to NULL and cchBuffer to the new buffer size. The
-contents of the buffer can be changed after resizing.
+“à•”ƒoƒbƒtƒ@‚ğg—p‚µ‚Äƒoƒbƒtƒ@ƒŠƒ“ƒO‚ğ—LŒø‚É‚·‚é‚É‚ÍApchBuffer ‚ğ NULL ‚ÉAcchBuffer
+‚ğŠó–]‚·‚éƒoƒbƒtƒ@ƒTƒCƒY‚Éİ’è‚·‚éB“Æ©‚Ìƒoƒbƒtƒ@‚ğ‹Ÿ‹‹‚·‚é‚É‚ÍApchBuffer ‚ğ‚»‚Ìƒoƒbƒtƒ@‚ğw‚·‚æ‚¤‚Éİ’è‚µAcchBuffer
+‚ğƒoƒbƒtƒ@‚ÌƒTƒCƒY‚Éİ’è‚·‚éBƒoƒbƒtƒ@[ƒh I/O ‚ğ–³Œø‚É‚·‚é‚É‚ÍApchBuffer ‚ğ NULL ‚ÉAcchBuffer ‚ğ 0
+‚Éİ’è‚·‚éB“à•”ƒoƒbƒtƒ@‚ğg—p‚µ‚Äƒoƒbƒtƒ@[ƒh I/O ‚ªŠù‚É—LŒø‚É‚È‚Á‚Ä‚¢‚éê‡ApchBuffer ‚ğ NULL
+‚ÉAcchBuffer
+‚ğV‚µ‚¢ƒoƒbƒtƒ@ƒTƒCƒY‚Éİ’è‚·‚é‚±‚Æ‚Åƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğ•ÏX‚µ‚ÄÄŠ„‚è“–‚Ä‚Å‚«‚éBƒTƒCƒY•ÏXŒã‚Íƒoƒbƒtƒ@‚Ì“à—e‚ª•Ï‚í‚é‰Â”\«‚ª‚ ‚éB
 
 
 %index
 mmioSetInfo
-The mmioSetInfo function updates the information retrieved by the mmioGetInfo function about a file opened by using the mmioOpen function. Use this function to terminate direct buffer access of a file opened for buffered I/O.
+mmioSetInfo ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚É‚Â‚¢‚Ä mmioGetInfo ŠÖ”‚Åæ“¾‚µ‚½î•ñ‚ğXV‚·‚éBƒoƒbƒtƒ@[ƒh I/O —p‚ÉƒI[ƒvƒ“‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ì’¼Úƒoƒbƒtƒ@ƒAƒNƒZƒX‚ğI—¹‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğg—p‚·‚éB
 %group
 Win32 winmm
 %prm
 hmmio, pmmioinfo, fuInfo
-hmmio : [intptr] File handle of the file.
-pmmioinfo : [var] Pointer to an MMIOINFO structure filled with information by the mmioGetInfo function.
-fuInfo : [int] Reserved; must be zero.
+hmmio : [intptr] ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
+pmmioinfo : [var] mmioGetInfo ŠÖ”‚É‚æ‚Á‚Äî•ñ‚ª–„‚ß‚ç‚ê‚½ MMIOINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fuInfo : [int] —\–ñB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The mmioSetInfo function updates the information retrieved by the
-mmioGetInfo function about a file opened by using the mmioOpen
-function. Use this function to terminate direct buffer access of a
-file opened for buffered I/O.
+mmioSetInfo ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚É‚Â‚¢‚Ä mmioGetInfo
+ŠÖ”‚Åæ“¾‚µ‚½î•ñ‚ğXV‚·‚éBƒoƒbƒtƒ@[ƒh I/O —p‚ÉƒI[ƒvƒ“‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ì’¼Úƒoƒbƒtƒ@ƒAƒNƒZƒX‚ğI—¹‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğg—p‚·‚éB
 
 [–ß‚è’l]
-Returns zero if successful or an error otherwise.
+¬Œ÷‚Í 0 ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·B
 
 [”õl]
-If you have written to the file I/O buffer, set the MMIO_DIRTY flag
-in the dwFlags member of the MMIOINFO structure before calling
-mmioSetInfo to terminate direct buffer access. Otherwise, the buffer
-will not get flushed to disk.
+ƒtƒ@ƒCƒ‹ I/O ƒoƒbƒtƒ@‚É‘‚«‚ñ‚¾ê‡A’¼Úƒoƒbƒtƒ@ƒAƒNƒZƒX‚ğI—¹‚·‚é‚½‚ß‚É mmioSetInfo ‚ğŒÄ‚Ño‚·‘O‚É MMIOINFO
+\‘¢‘Ì‚Ì dwFlags ƒƒ“ƒo‚É MMIO_DIRTY ƒtƒ‰ƒO‚ğƒZƒbƒg‚·‚éB‚»‚¤‚µ‚È‚¢‚Æƒoƒbƒtƒ@‚ÍƒfƒBƒXƒN‚Öƒtƒ‰ƒbƒVƒ…‚³‚ê‚È‚¢B
 
 
 %index
 mmioStringToFOURCCA
-The mmioStringToFOURCC function converts a null-terminated string to a four-character code. (mmioStringToFOURCCA)
+mmioStringToFOURCC ŠÖ”‚Í null I’[•¶š—ñ‚ğ 4 •¶šƒR[ƒh‚É•ÏŠ·‚·‚éB(mmioStringToFOURCCA)
 %group
 Win32 winmm
 %prm
 sz, uFlags
-sz : [str] Pointer to a null-terminated string to convert to a four-character code.
-uFlags : [int] Flags for the conversion. The following value is defined:
+sz : [str] 4 •¶šƒR[ƒh‚É•ÏŠ·‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+uFlags : [int] •ÏŠ·‚Ìƒtƒ‰ƒOBŸ‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-The mmioStringToFOURCC function converts a null-terminated string to
-a four-character code. (mmioStringToFOURCCA)
+mmioStringToFOURCC ŠÖ”‚Í null I’[•¶š—ñ‚ğ 4 •¶šƒR[ƒh‚É•ÏŠ·‚·‚éB(mmioStringToFOURCCA)
 
 [–ß‚è’l]
-Returns the four-character code created from the given string.
+w’è‚µ‚½•¶š—ñ‚©‚çì¬‚³‚ê‚½ 4 •¶šƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function copies the string to a four-character code and pads it
-with space characters or truncates it if necessary. It does not check
-whether the code it returns is valid.
-> [!NOTE] > The mmiscapi.h header defines mmioStringToFOURCC as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+–{ŠÖ”‚Í•¶š—ñ‚ğ 4
+•¶šƒR[ƒh‚ÖƒRƒs[‚µA•K—v‚É‰‚¶‚Ä‹ó”’•¶š‚ÅƒpƒfƒBƒ“ƒO‚Ü‚½‚ÍØ‚è‹l‚ß‚éB•Ô‚³‚ê‚éƒR[ƒh‚ª—LŒø‚©‚Ç‚¤‚©‚Íƒ`ƒFƒbƒN‚µ‚È‚¢B
+> [!NOTE] > mmiscapi.h ƒwƒbƒ_‚Í mmioStringToFOURCC ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚«–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚é•sˆê’v‚ª”­¶‚µ“¾‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 mmioStringToFOURCCW
-The mmioStringToFOURCCW (Unicode) function converts a null-terminated string to a four-character code. (mmioStringToFOURCCW)
+mmioStringToFOURCCW (Unicode) ŠÖ”‚Í null I’[•¶š—ñ‚ğ 4 •¶šƒR[ƒh‚É•ÏŠ·‚·‚éB(mmioStringToFOURCCW)
 %group
 Win32 winmm
 %prm
 sz, uFlags
-sz : [wstr] Pointer to a null-terminated string to convert to a four-character code.
-uFlags : [int] Flags for the conversion. The following value is defined:
+sz : [wstr] 4 •¶šƒR[ƒh‚É•ÏŠ·‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+uFlags : [int] •ÏŠ·‚Ìƒtƒ‰ƒOBŸ‚Ì’l‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-The mmioStringToFOURCCW (Unicode) function converts a null-terminated
-string to a four-character code. (mmioStringToFOURCCW)
+mmioStringToFOURCCW (Unicode) ŠÖ”‚Í null I’[•¶š—ñ‚ğ 4
+•¶šƒR[ƒh‚É•ÏŠ·‚·‚éB(mmioStringToFOURCCW)
 
 [–ß‚è’l]
-Returns the four-character code created from the given string.
+w’è‚µ‚½•¶š—ñ‚©‚çì¬‚³‚ê‚½ 4 •¶šƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function copies the string to a four-character code and pads it
-with space characters or truncates it if necessary. It does not check
-whether the code it returns is valid.
-> [!NOTE] > The mmiscapi.h header defines mmioStringToFOURCC as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+–{ŠÖ”‚Í•¶š—ñ‚ğ 4
+•¶šƒR[ƒh‚ÖƒRƒs[‚µA•K—v‚É‰‚¶‚Ä‹ó”’•¶š‚ÅƒpƒfƒBƒ“ƒO‚Ü‚½‚ÍØ‚è‹l‚ß‚éB•Ô‚³‚ê‚éƒR[ƒh‚ª—LŒø‚©‚Ç‚¤‚©‚Íƒ`ƒFƒbƒN‚µ‚È‚¢B
+> [!NOTE] > mmiscapi.h ƒwƒbƒ_‚Í mmioStringToFOURCC ‚ğƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚«–{ŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÌƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ÌŒ´ˆö‚Æ‚È‚é•sˆê’v‚ª”­¶‚µ“¾‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 mmioWrite
-The mmioWrite function writes a specified number of bytes to a file opened by using the mmioOpen function.
+mmioWrite ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚Öw’è‚³‚ê‚½ƒoƒCƒg”‚ğ‘‚«‚ŞB
 %group
 Win32 winmm
 %prm
 hmmio, pch, cch
-hmmio : [intptr] File handle of the file.
-pch : [str] Pointer to the buffer to be written to the file.
-cch : [int] Number of bytes to write to the file.
+hmmio : [intptr] ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
+pch : [str] ƒtƒ@ƒCƒ‹‚Ö‘‚«‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cch : [int] ƒtƒ@ƒCƒ‹‚Ö‘‚«‚ŞƒoƒCƒg”B
 %inst
-The mmioWrite function writes a specified number of bytes to a file
-opened by using the mmioOpen function.
+mmioWrite ŠÖ”‚Í mmioOpen ŠÖ”‚ğg—p‚µ‚ÄƒI[ƒvƒ“‚µ‚½ƒtƒ@ƒCƒ‹‚Öw’è‚³‚ê‚½ƒoƒCƒg”‚ğ‘‚«‚ŞB
 
 [–ß‚è’l]
-Returns the number of bytes actually written. If there is an error
-writing to the file, the return value is -1.
+ÀÛ‚É‘‚«‚Ü‚ê‚½ƒoƒCƒg”‚ğ•Ô‚·Bƒtƒ@ƒCƒ‹‚Ö‚Ì‘‚«‚İ’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚½ê‡A–ß‚è’l‚Í -1 ‚Æ‚È‚éB
 
 [”õl]
-The current file position is incremented by the number of bytes
-written.
+Œ»İ‚Ìƒtƒ@ƒCƒ‹ˆÊ’u‚Í‘‚«‚Ü‚ê‚½ƒoƒCƒg”‚¾‚¯i‚ŞB
 
 
 %index
@@ -2817,28 +2458,25 @@ waveInReset ‚ğŒÄ‚Ô‚±‚ÆB
 
 %index
 waveInAddBuffer
-The waveInAddBuffer function sends an input buffer to the given waveform-audio input device. When the buffer is filled, the application is notified.
+waveInAddBuffer ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö“ü—Íƒoƒbƒtƒ@‚ğ‘—M‚·‚éBƒoƒbƒtƒ@‚ª–‚½‚³‚ê‚é‚ÆƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö’Ê’m‚³‚ê‚éB
 %group
 Win32 winmm
 %prm
 hwi, pwh, cbwh
-hwi : [intptr] Handle to the waveform-audio input device.
-pwh : [var] Pointer to a WAVEHDR structure that identifies the buffer.
-cbwh : [int] Size, in bytes, of the WAVEHDR structure.
+hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pwh : [var] ƒoƒbƒtƒ@‚ğ¯•Ê‚·‚é WAVEHDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbwh : [int] WAVEHDR \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The waveInAddBuffer function sends an input buffer to the given
-waveform-audio input device. When the buffer is filled, the
-application is notified.
+waveInAddBuffer
+ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö“ü—Íƒoƒbƒtƒ@‚ğ‘—M‚·‚éBƒoƒbƒtƒ@‚ª–‚½‚³‚ê‚é‚ÆƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö’Ê’m‚³‚ê‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-When the buffer is filled, the WHDR_DONE bit is set in the dwFlags
-member of the WAVEHDR structure. The buffer must be prepared with the
-waveInPrepareHeader function before it is passed to this function.
+ƒoƒbƒtƒ@‚ª–‚½‚³‚ê‚é‚Æ WAVEHDR \‘¢‘Ì‚Ì dwFlags ƒƒ“ƒo‚Ì WHDR_DONE
+ƒrƒbƒg‚ªƒZƒbƒg‚³‚ê‚éBƒoƒbƒtƒ@‚Í–{ŠÖ”‚É“n‚³‚ê‚é‘O‚É waveInPrepareHeader ŠÖ”‚Å€”õ‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 
 
 %index
@@ -2871,105 +2509,91 @@ cchText : [int]
 
 %index
 waveInGetID
-The waveInGetID function gets the device identifier for the given waveform-audio input device.
+waveInGetID ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 hwi, puDeviceID
-hwi : [intptr] Handle to the waveform-audio input device.
-puDeviceID : [var] Pointer to a variable to be filled with the device identifier.
+hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+puDeviceID : [var] ƒfƒoƒCƒX¯•Êq‚ªŠi”[‚³‚ê‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The waveInGetID function gets the device identifier for the given
-waveform-audio input device.
+waveInGetID ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 waveInGetNumDevs
-The waveInGetNumDevs function returns the number of waveform-audio input devices present in the system.
+waveInGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ì”‚ğ•Ô‚·B
 %group
 Win32 winmm
 %prm
 
 %inst
-The waveInGetNumDevs function returns the number of waveform-audio
-input devices present in the system.
+waveInGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ì”‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Returns the number of devices. A return value of zero means that no
-devices are present or that an error occurred.
+ƒfƒoƒCƒX‚Ì”‚ğ•Ô‚·B–ß‚è’l‚ª 0 ‚Ìê‡‚ÍƒfƒoƒCƒX‚ª‘¶İ‚µ‚È‚¢‚©AƒGƒ‰[‚ª”­¶‚µ‚½‚±‚Æ‚ğˆÓ–¡‚·‚éB
 
 
 %index
 waveInGetPosition
-waveInGetPosition is no longer supported for use as of Windows?Vista.
+waveInGetPosition ‚Í Windows Vista ˆÈ~‚Å‚Íg—p‚ªƒTƒ|[ƒg‚³‚ê‚È‚­‚È‚Á‚½B
 %group
 Win32 winmm
 %prm
 hwi, pmmt, cbmmt
-hwi : [intptr] Handle to the waveform-audio input device.
-pmmt : [var] Pointer to an MMTIME structure.
-cbmmt : [int] Size, in bytes, of the MMTIME structure.
+hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pmmt : [var] MMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbmmt : [int] MMTIME \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-waveInGetPosition is no longer supported for use as of Windows Vista.
+waveInGetPosition ‚Í Windows Vista ˆÈ~‚Å‚Íg—p‚ªƒTƒ|[ƒg‚³‚ê‚È‚­‚È‚Á‚½B
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Before calling this function, set the wType member of the MMTIME
-structure to indicate the time format you want. After calling this
-function, check wType to determine whether the desired time format is
-supported. If the format is not supported, the member will specify an
-alternative format. The position is set to zero when the device is
-opened or reset.
+–{ŠÖ”‚ğŒÄ‚Ño‚·‘O‚É MMTIME \‘¢‘Ì‚Ì wType
+ƒƒ“ƒo‚ğİ’è‚µ‚ÄŠó–]‚·‚éŠÔŒ`®‚ğw’è‚·‚éB–{ŠÖ”‚ğŒÄ‚Ño‚µ‚½ŒãAŠó–]‚·‚éŠÔŒ`®‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚ğ wType
+‚ÅŠm”F‚·‚éBŒ`®‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢ê‡Aƒƒ“ƒo‚Í‘ã‘ÖŒ`®‚ğw’è‚·‚éBƒfƒoƒCƒX‚ªƒI[ƒvƒ“‚Ü‚½‚ÍƒŠƒZƒbƒg‚³‚ê‚½‚Æ‚«AˆÊ’u‚Í 0
+‚ÉƒZƒbƒg‚³‚ê‚éB
 
 
 %index
 waveInMessage
-The waveInMessage function sends messages to the waveform-audio input device drivers.
+waveInMessage ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
 %group
 Win32 winmm
 %prm
 hwi, uMsg, dw1, dw2
-hwi : [intptr] Identifier of the waveform device that receives the message. You must cast the device ID to the HWAVEIN handle type. If you supply a handle instead of a device ID, the function fails and returns the MMSYSERR_NOSUPPORT error code.
-uMsg : [int] Message to send.
-dw1 : [int] Message parameter.
-dw2 : [int] Message parameter.
+hwi : [intptr] ƒƒbƒZ[ƒW‚ğó‚¯æ‚é”gŒ`ƒfƒoƒCƒX‚Ì¯•ÊqBƒfƒoƒCƒX ID ‚ğ HWAVEIN ƒnƒ“ƒhƒ‹Œ^‚ÉƒLƒƒƒXƒg‚·‚é•K—v‚ª‚ ‚éBƒfƒoƒCƒX ID ‚Ì‘ã‚í‚è‚Éƒnƒ“ƒhƒ‹‚ğ“n‚·‚ÆAŠÖ”‚Í¸”s‚µ MMSYSERR_NOSUPPORT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+uMsg : [int] ‘—M‚·‚éƒƒbƒZ[ƒWB
+dw1 : [int] ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^B
+dw2 : [int] ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^B
 %inst
-The waveInMessage function sends messages to the waveform-audio input
-device drivers.
+waveInMessage ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
 
 [–ß‚è’l]
-Returns the value returned from the driver.
+ƒhƒ‰ƒCƒo‚©‚ç•Ô‚³‚ê‚½’l‚ğ•Ô‚·B
 
 [”õl]
-The DRV_QUERYDEVICEINTERFACE message queries for the device-interface
-name of a waveIn, waveOut, midiIn, midiOut, or mixer device. For
-DRV_QUERYDEVICEINTERFACE, dwParam1 is a pointer to a caller-allocated
-buffer into which the function writes a null-terminated Unicode
-string containing the device-interface name. If the device has no
-device interface, the string length is zero. For
-DRV_QUERYDEVICEINTERFACE, dwParam2 specifies the buffer size in
-bytes. This is an input parameter to the function. The caller should
-specify a size that is greater than or equal to the buffer size
-retrieved by the DRV_QUERYDEVICEINTERFACESIZE message. The
-DRV_QUERYDEVICEINTERFACE message is supported in Windows Me, and
-Windows 2000 and later. This message is valid only for the
-waveInMessage, waveOutMessage, midiInMessage, midiOutMessage, and
-mixerMessage functions. The system intercepts this message and
-returns the appropriate value without sending the message to the
-device driver. For general information about system-intercepted
-xxxMessage functions, see System-Intercepted Device Messages. The
-following two message constants are used together for the purpose of
-obtaining device interface names:
-This doc was truncated.
+DRV_QUERYDEVICEINTERFACE ƒƒbƒZ[ƒW‚ÍAwaveInAwaveOutAmidiInAmidiOutA‚Ü‚½‚Í
+mixer ƒfƒoƒCƒX‚ÌƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚ğ–â‚¢‡‚í‚¹‚éBDRV_QUERYDEVICEINTERFACE ‚Å‚ÍAdwParam1
+‚ÍƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚ğŠÜ‚Ş null I’[‚Ì Unicode
+•¶š—ñ‚ğŠÖ”‚ª‘‚«‚ŞŒÄ‚Ño‚µ‘¤Š„‚è“–‚Äƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚éBƒfƒoƒCƒX‚ÉƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª‚È‚¢ê‡A•¶š—ñ’·‚Í 0
+‚Æ‚È‚éBDRV_QUERYDEVICEINTERFACE ‚Å‚ÍAdwParam2
+‚Íƒoƒbƒtƒ@ƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Åw’è‚·‚éB‚±‚ê‚ÍŠÖ”‚Ö‚Ì“ü—Íƒpƒ‰ƒ[ƒ^‚Å‚ ‚éBŒÄ‚Ño‚µ‘¤‚Í
+DRV_QUERYDEVICEINTERFACESIZE
+ƒƒbƒZ[ƒW‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒYˆÈã‚ÌƒTƒCƒY‚ğw’è‚·‚é‚×‚«‚Å‚ ‚éBDRV_QUERYDEVICEINTERFACE ƒƒbƒZ[ƒW‚Í
+Windows MeAWindows 2000 ˆÈ~‚ÅƒTƒ|[ƒg‚³‚ê‚éB‚±‚ÌƒƒbƒZ[ƒW‚Í
+waveInMessageAwaveOutMessageAmidiInMessageAmidiOutMessageAmixerMessage
+ŠÖ”‚Å‚Ì‚İ—LŒø‚Å‚ ‚éBƒVƒXƒeƒ€‚Í‚±‚ÌƒƒbƒZ[ƒW‚ğ–Tó‚µAƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Ö‘—M‚¹‚¸‚É“KØ‚È’l‚ğ•Ô‚·BƒVƒXƒeƒ€–Tó xxxMessage
+ŠÖ”‚Ìˆê”Êî•ñ‚É‚Â‚¢‚Ä‚Í System-Intercepted Device Messages
+‚ğQÆBƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚Ìæ“¾‚ğ–Ú“I‚Æ‚µ‚ÄAŸ‚Ì 2 ‚Â‚ÌƒƒbƒZ[ƒW’è”‚ªˆê‚Ég—p‚³‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
@@ -3002,46 +2626,41 @@ waveInOpen ŠÖ”‚Íw’è‚Ì”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚ğ˜^‰¹—p‚ÉŠJ‚­B
 
 %index
 waveInPrepareHeader
-The waveInPrepareHeader function prepares a buffer for waveform-audio input.
+waveInPrepareHeader ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒI“ü—Í—p‚Ìƒoƒbƒtƒ@‚ğ€”õ‚·‚éB
 %group
 Win32 winmm
 %prm
 hwi, pwh, cbwh
-hwi : [intptr] Handle to the waveform-audio input device.
-pwh : [var] Pointer to a WAVEHDR structure that identifies the buffer to be prepared.
-cbwh : [int] Size, in bytes, of the WAVEHDR structure.
+hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pwh : [var] €”õ‘ÎÛ‚Ìƒoƒbƒtƒ@‚ğ¯•Ê‚·‚é WAVEHDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbwh : [int] WAVEHDR \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The waveInPrepareHeader function prepares a buffer for waveform-audio
-input.
+waveInPrepareHeader ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒI“ü—Í—p‚Ìƒoƒbƒtƒ@‚ğ€”õ‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The lpData, dwBufferLength, and dwFlags members of the WAVEHDR
-structure must be set before calling this function (dwFlags must be
-zero).
+–{ŠÖ”‚ğŒÄ‚Ño‚·‘O‚É WAVEHDR \‘¢‘Ì‚Ì lpDataAdwBufferLengthAdwFlags ƒƒ“ƒo‚ğİ’è‚·‚é•K—v‚ª‚ ‚é
+(dwFlags ‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢)B
 
 
 %index
 waveInReset
-The waveInReset function stops input on the given waveform-audio input device and resets the current position to zero. All pending buffers are marked as done and returned to the application.
+waveInReset ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Å‚Ì“ü—Í‚ğ’â~‚µAŒ»İˆÊ’u‚ğ 0 ‚ÉƒŠƒZƒbƒg‚·‚éB•Û—¯’†‚Ì‘Sƒoƒbƒtƒ@‚ÍŠ®—¹‚Æƒ}[ƒN‚³‚êƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö•Ô‚³‚ê‚éB
 %group
 Win32 winmm
 %prm
 hwi
-hwi : [intptr] Handle to the waveform-audio input device.
+hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-The waveInReset function stops input on the given waveform-audio
-input device and resets the current position to zero. All pending
-buffers are marked as done and returned to the application.
+waveInReset ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Å‚Ì“ü—Í‚ğ’â~‚µAŒ»İˆÊ’u‚ğ 0
+‚ÉƒŠƒZƒbƒg‚·‚éB•Û—¯’†‚Ì‘Sƒoƒbƒtƒ@‚ÍŠ®—¹‚Æƒ}[ƒN‚³‚êƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö•Ô‚³‚ê‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 
 %index
@@ -3088,30 +2707,26 @@ waveInStop ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒI“ü—Í‚ğ’â~‚·‚éB
 
 %index
 waveInUnprepareHeader
-The waveInUnprepareHeader function cleans up the preparation performed by the waveInPrepareHeader function.
+waveInUnprepareHeader ŠÖ”‚Í waveInPrepareHeader ŠÖ”‚Ås‚Á‚½€”õ‚ÌŒãn––‚ğs‚¤B
 %group
 Win32 winmm
 %prm
 hwi, pwh, cbwh
-hwi : [intptr] Handle to the waveform-audio input device.
-pwh : [var] Pointer to a WAVEHDR structure identifying the buffer to be cleaned up.
-cbwh : [int] Size, in bytes, of the WAVEHDR structure.
+hwi : [intptr] ”gŒ`ƒI[ƒfƒBƒI“ü—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pwh : [var] Œãn––‘ÎÛ‚Ìƒoƒbƒtƒ@‚ğ¯•Ê‚·‚é WAVEHDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbwh : [int] WAVEHDR \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The waveInUnprepareHeader function cleans up the preparation
-performed by the waveInPrepareHeader function.
+waveInUnprepareHeader ŠÖ”‚Í waveInPrepareHeader ŠÖ”‚Ås‚Á‚½€”õ‚ÌŒãn––‚ğs‚¤B
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function complements the waveInPrepareHeader function. You must
-call this function before freeing the buffer. After passing a buffer
-to the device driver with the waveInAddBuffer function, you must wait
-until the driver is finished with the buffer before calling
-waveInUnprepareHeader. Unpreparing a buffer that has not been
-prepared has no effect, and the function returns zero.
+–{ŠÖ”‚Í waveInPrepareHeader
+ŠÖ”‚Æ‘Î‚ğ‚È‚·Bƒoƒbƒtƒ@‚ğ‰ğ•ú‚·‚é‘O‚É–{ŠÖ”‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BwaveInAddBuffer
+ŠÖ”‚ÅƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Öƒoƒbƒtƒ@‚ğ“n‚µ‚½Œã‚ÍAƒhƒ‰ƒCƒo‚ªƒoƒbƒtƒ@‚Ìg—p‚ğI‚¦‚é‚Ü‚Å‘Ò‚Á‚Ä‚©‚ç waveInUnprepareHeader
+‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB€”õ‚³‚ê‚Ä‚¢‚È‚¢ƒoƒbƒtƒ@‚É‘Î‚·‚éŒãn––‚ÍŒø‰Ê‚ª‚È‚­AŠÖ”‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
@@ -3136,26 +2751,24 @@ waveOutWrite ‚Å‘—M‚µ‚½”gŒ`ƒoƒbƒtƒ@‚ğÄ¶’†‚Ìê‡A•Â‚¶‚é‘€ì‚Í¸”s‚·‚éBwaveOut
 
 %index
 waveOutBreakLoop
-The waveOutBreakLoop function breaks a loop on the given waveform-audio output device and allows playback to continue with the next block in the driver list.
+waveOutBreakLoop ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ìƒ‹[ƒv‚ğ’†’f‚µAƒhƒ‰ƒCƒoƒŠƒXƒg“à‚ÌŸ‚ÌƒuƒƒbƒN‚ÅÄ¶‚ğ‘±s‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 %group
 Win32 winmm
 %prm
 hwo
-hwo : [intptr] Handle to the waveform-audio output device.
+hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-The waveOutBreakLoop function breaks a loop on the given
-waveform-audio output device and allows playback to continue with the
-next block in the driver list.
+waveOutBreakLoop
+ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ìƒ‹[ƒv‚ğ’†’f‚µAƒhƒ‰ƒCƒoƒŠƒXƒg“à‚ÌŸ‚ÌƒuƒƒbƒN‚ÅÄ¶‚ğ‘±s‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The blocks making up the loop are played to the end before the loop
-is terminated. Calling this function when nothing is playing or
-looping has no effect, and the function returns zero.
+
+ƒ‹[ƒv‚ğ\¬‚·‚éƒuƒƒbƒN‚Íƒ‹[ƒv‚ªI—¹‚·‚é‘O‚ÉÅŒã‚Ü‚ÅÄ¶‚³‚ê‚éB‰½‚àÄ¶‚³‚ê‚Ä‚¨‚ç‚¸ƒ‹[ƒv‚à‚µ‚Ä‚¢‚È‚¢ó‘Ô‚Å–{ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚àŒø‰Ê‚Í‚È‚­AŠÖ”‚Í
+0 ‚ğ•Ô‚·B
 
 
 %index
@@ -3188,195 +2801,162 @@ cchText : [int]
 
 %index
 waveOutGetID
-The waveOutGetID function retrieves the device identifier for the given waveform-audio output device.
+waveOutGetID ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 hwo, puDeviceID
-hwo : [intptr] Handle to the waveform-audio output device.
-puDeviceID : [var] Pointer to a variable to be filled with the device identifier.
+hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+puDeviceID : [var] ƒfƒoƒCƒX¯•Êq‚ªŠi”[‚³‚ê‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The waveOutGetID function retrieves the device identifier for the
-given waveform-audio output device.
+waveOutGetID ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌƒfƒoƒCƒX¯•Êq‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 waveOutGetNumDevs
-The waveOutGetNumDevs function retrieves the number of waveform-audio output devices present in the system.
+waveOutGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 
 %inst
-The waveOutGetNumDevs function retrieves the number of waveform-audio
-output devices present in the system.
+waveOutGetNumDevs ŠÖ”‚ÍƒVƒXƒeƒ€‚É‘¶İ‚·‚é”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ì”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns the number of devices. A return value of zero means that no
-devices are present or that an error occurred.
+ƒfƒoƒCƒX‚Ì”‚ğ•Ô‚·B–ß‚è’l‚ª 0 ‚Ìê‡‚ÍƒfƒoƒCƒX‚ª‘¶İ‚µ‚È‚¢‚©AƒGƒ‰[‚ª”­¶‚µ‚½‚±‚Æ‚ğˆÓ–¡‚·‚éB
 
 
 %index
 waveOutGetPitch
-The waveOutGetPitch function retrieves the current pitch setting for the specified waveform-audio output device.
+waveOutGetPitch ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚Ìƒsƒbƒ`İ’è‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 hwo, pdwPitch
-hwo : [intptr] Handle to the waveform-audio output device.
-pdwPitch : [var] Pointer to a variable to be filled with the current pitch multiplier setting. The pitch multiplier indicates the current change in pitch from the original authored setting. The pitch multiplier must be a positive value. The pitch multiplier is specified as a fixed-point value. The high-order word of the variable contains the signed integer part of the number, and the low-order word contains the fractional part. A value of 0x8000 in the low-order word represents one-half, and 0x4000 represents one-quarter. For example, the value 0x00010000 specifies a multiplier of 1.0 (no pitch change), and a value of 0x000F8000 specifies a multiplier of 15.5.
+hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pdwPitch : [var] Œ»İ‚Ìƒsƒbƒ`”{—¦İ’è‚ªŠi”[‚³‚ê‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒsƒbƒ`”{—¦‚ÍŒ³‚Ìİ’è‚©‚ç‚ÌŒ»İ‚Ìƒsƒbƒ`‚Ì•Ï‰»‚ğ¦‚·Bƒsƒbƒ`”{—¦‚Í³‚Ì’l‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bƒsƒbƒ`”{—¦‚ÍŒÅ’è¬”“_’l‚Æ‚µ‚Äw’è‚³‚ê‚éB•Ï”‚ÌãˆÊƒ[ƒh‚É”’l‚Ì•„†•t‚«®”•”A‰ºˆÊƒ[ƒh‚É¬”•”‚ªŠi”[‚³‚ê‚éB‰ºˆÊƒ[ƒh‚Ì 0x8000 ‚ª 1/2A0x4000 ‚ª 1/4 ‚ğ•\‚·B—á‚¦‚Î 0x00010000 ‚Í”{—¦ 1.0 (ƒsƒbƒ`•Ï‰»‚È‚µ) ‚ğA0x000F8000 ‚Í”{—¦ 15.5 ‚ğw’è‚·‚éB
 %inst
-The waveOutGetPitch function retrieves the current pitch setting for
-the specified waveform-audio output device.
+waveOutGetPitch ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚Ìƒsƒbƒ`İ’è‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Changing the pitch does not change the playback rate, sample rate, or
-playback time. Not all devices support pitch changes. To determine
-whether the device supports pitch control, use the WAVECAPS_PITCH
-flag to test the dwSupport member of the WAVEOUTCAPS structure
-(filled by the waveOutGetDevCaps function).
+
+ƒsƒbƒ`‚ğ•ÏX‚µ‚Ä‚àÄ¶ƒŒ[ƒgAƒTƒ“ƒvƒ‹ƒŒ[ƒgAÄ¶ŠÔ‚Í•Ï‰»‚µ‚È‚¢B‘S‚Ä‚ÌƒfƒoƒCƒX‚ªƒsƒbƒ`•ÏX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚í‚¯‚Å‚Í‚È‚¢BƒfƒoƒCƒX‚ªƒsƒbƒ`§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚ÍAWAVECAPS_PITCH
+ƒtƒ‰ƒO‚ğ—p‚¢‚Ä (waveOutGetDevCaps ŠÖ”‚Åæ“¾‚µ‚½) WAVEOUTCAPS \‘¢‘Ì‚Ì dwSupport
+ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éB
 
 
 %index
 waveOutGetPlaybackRate
-The waveOutGetPlaybackRate function retrieves the current playback rate for the specified waveform-audio output device.
+waveOutGetPlaybackRate ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚ÌÄ¶ƒŒ[ƒg‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 hwo, pdwRate
-hwo : [intptr] Handle to the waveform-audio output device.
-pdwRate : [var] Pointer to a variable to be filled with the current playback rate. The playback rate setting is a multiplier indicating the current change in playback rate from the original authored setting. The playback rate multiplier must be a positive value. The rate is specified as a fixed-point value. The high-order word of the variable contains the signed integer part of the number, and the low-order word contains the fractional part. A value of 0x8000 in the low-order word represents one-half, and 0x4000 represents one-quarter. For example, the value 0x00010000 specifies a multiplier of 1.0 (no playback rate change), and a value of 0x000F8000 specifies a multiplier of 15.5.
+hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pdwRate : [var] Œ»İ‚ÌÄ¶ƒŒ[ƒg‚ªŠi”[‚³‚ê‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BÄ¶ƒŒ[ƒgİ’è‚ÍŒ³‚Ìİ’è‚©‚ç‚ÌŒ»İ‚ÌÄ¶ƒŒ[ƒg‚Ì•Ï‰»‚ğ¦‚·”{—¦‚Å‚ ‚éBÄ¶ƒŒ[ƒg”{—¦‚Í³‚Ì’l‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒŒ[ƒg‚ÍŒÅ’è¬”“_’l‚Æ‚µ‚Äw’è‚³‚ê‚éB•Ï”‚ÌãˆÊƒ[ƒh‚É”’l‚Ì•„†•t‚«®”•”A‰ºˆÊƒ[ƒh‚É¬”•”‚ªŠi”[‚³‚ê‚éB‰ºˆÊƒ[ƒh‚Ì 0x8000 ‚ª 1/2A0x4000 ‚ª 1/4 ‚ğ•\‚·B—á‚¦‚Î 0x00010000 ‚Í”{—¦ 1.0 (Ä¶ƒŒ[ƒg•Ï‰»‚È‚µ) ‚ğA0x000F8000 ‚Í”{—¦ 15.5 ‚ğw’è‚·‚éB
 %inst
-The waveOutGetPlaybackRate function retrieves the current playback
-rate for the specified waveform-audio output device.
+waveOutGetPlaybackRate ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚ÌÄ¶ƒŒ[ƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Changing the playback rate does not change the sample rate but does
-change the playback time. Not all devices support playback rate
-changes. To determine whether a device supports playback rate
-changes, use the WAVECAPS_PLAYBACKRATE flag to test the dwSupport
-member of the WAVEOUTCAPS structure (filled by the waveOutGetDevCaps
-function).
+
+Ä¶ƒŒ[ƒg‚ğ•ÏX‚µ‚Ä‚àƒTƒ“ƒvƒ‹ƒŒ[ƒg‚Í•Ï‰»‚µ‚È‚¢‚ªAÄ¶ŠÔ‚Í•Ï‰»‚·‚éB‘S‚Ä‚ÌƒfƒoƒCƒX‚ªÄ¶ƒŒ[ƒg•ÏX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚í‚¯‚Å‚Í‚È‚¢BƒfƒoƒCƒX‚ªÄ¶ƒŒ[ƒg•ÏX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚ÍAWAVECAPS_PLAYBACKRATE
+ƒtƒ‰ƒO‚ğ—p‚¢‚Ä (waveOutGetDevCaps ŠÖ”‚Åæ“¾‚µ‚½) WAVEOUTCAPS \‘¢‘Ì‚Ì dwSupport
+ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éB
 
 
 %index
 waveOutGetPosition
-The waveOutGetPosition function retrieves the current playback position of the given waveform-audio output device.
+waveOutGetPosition ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚ÌÄ¶ˆÊ’u‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 hwo, pmmt, cbmmt
-hwo : [intptr] Handle to the waveform-audio output device.
-pmmt : [var] Pointer to an MMTIME structure.
-cbmmt : [int] Size, in bytes, of the MMTIME structure.
+hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pmmt : [var] MMTIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbmmt : [int] MMTIME \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The waveOutGetPosition function retrieves the current playback
-position of the given waveform-audio output device.
+waveOutGetPosition ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚ÌÄ¶ˆÊ’u‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Before calling this function, set the wType member of the MMTIME
-structure to indicate the time format you want. After calling this
-function, check wType to determine whether the time format is
-supported. If the format is not supported, wType will specify an
-alternative format. The position is set to zero when the device is
-opened or reset.
+–{ŠÖ”‚ğŒÄ‚Ño‚·‘O‚É MMTIME \‘¢‘Ì‚Ì wType
+ƒƒ“ƒo‚ğİ’è‚µ‚ÄŠó–]‚·‚éŠÔŒ`®‚ğw’è‚·‚éB–{ŠÖ”‚ğŒÄ‚Ño‚µ‚½ŒãAŠÔŒ`®‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚ğ wType
+‚ÅŠm”F‚·‚éBŒ`®‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢ê‡AwType ‚Í‘ã‘ÖŒ`®‚ğw’è‚·‚éBƒfƒoƒCƒX‚ªƒI[ƒvƒ“‚Ü‚½‚ÍƒŠƒZƒbƒg‚³‚ê‚½‚Æ‚«AˆÊ’u‚Í 0
+‚ÉƒZƒbƒg‚³‚ê‚éB
 
 
 %index
 waveOutGetVolume
-The waveOutGetVolume function retrieves the current volume level of the specified waveform-audio output device.
+waveOutGetVolume ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚Ì‰¹—ÊƒŒƒxƒ‹‚ğæ“¾‚·‚éB
 %group
 Win32 winmm
 %prm
 hwo, pdwVolume
-hwo : [intptr] Handle to an open waveform-audio output device. This parameter can also be a device identifier.
-pdwVolume : [var] Pointer to a variable to be filled with the current volume setting. The low-order word of this location contains the left-channel volume setting, and the high-order word contains the right-channel setting. A value of 0xFFFF represents full volume, and a value of 0x0000 is silence. If a device does not support both left and right volume control, the low-order word of the specified location contains the mono volume level. The full 16-bit setting(s) set with the waveOutSetVolume function is returned, regardless of whether the device supports the full 16 bits of volume-level control.
+hwo : [intptr] ƒI[ƒvƒ“Ï‚İ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒfƒoƒCƒX¯•Êq‚àw’è‚Å‚«‚éB
+pdwVolume : [var] Œ»İ‚Ì‰¹—Êİ’è‚ªŠi”[‚³‚ê‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‰ºˆÊƒ[ƒh‚É¶ƒ`ƒƒƒlƒ‹‚Ì‰¹—Êİ’è‚ªAãˆÊƒ[ƒh‚É‰Eƒ`ƒƒƒlƒ‹‚Ìİ’è‚ªŠi”[‚³‚ê‚éB0xFFFF ‚ªÅ‘å‰¹—ÊA0x0000 ‚ª–³‰¹‚ğ•\‚·BƒfƒoƒCƒX‚ª¶‰E—¼ƒ`ƒƒƒlƒ‹‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡Aw’è‚³‚ê‚½êŠ‚Ì‰ºˆÊƒ[ƒh‚Éƒ‚ƒmƒ‰ƒ‹‰¹—ÊƒŒƒxƒ‹‚ªŠi”[‚³‚ê‚éBwaveOutSetVolume ŠÖ”‚Åİ’è‚µ‚½Š®‘S‚È 16 ƒrƒbƒg‚Ì’l‚ªAƒfƒoƒCƒX‚ª 16 ƒrƒbƒg‘S‚Ä‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚É‚©‚©‚í‚ç‚¸•Ô‚³‚ê‚éB
 %inst
-The waveOutGetVolume function retrieves the current volume level of
-the specified waveform-audio output device.
+waveOutGetVolume ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌŒ»İ‚Ì‰¹—ÊƒŒƒxƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If a device identifier is used, then the result of the
-waveOutGetVolume call and the information returned in pdwVolume
-applies to all instances of the device. If a device handle is used,
-then the result and information returned applies only to the instance
-of the device referenced by the device handle. Not all devices
-support volume changes. To determine whether the device supports
-volume control, use the WAVECAPS_VOLUME flag to test the dwSupport
-member of the WAVEOUTCAPS structure (filled by the waveOutGetDevCaps
-function). To determine whether the device supports left- and
-right-channel volume control, use the WAVECAPS_LRVOLUME flag to test
-the dwSupport member of the WAVEOUTCAPS structure (filled by
-waveOutGetDevCaps). Volume settings are interpreted logarithmically.
-This means the perceived increase in volume is the same when
-increasing the volume level from 0x5000 to 0x6000 as it is from
-0x4000 to 0x5000.
+ƒfƒoƒCƒX¯•Êq‚ğg—p‚µ‚½ê‡AwaveOutGetVolume ŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚Æ pdwVolume
+‚Å•Ô‚³‚ê‚éî•ñ‚Í‚»‚ÌƒfƒoƒCƒX‚Ì‘SƒCƒ“ƒXƒ^ƒ“ƒX‚É“K—p‚³‚ê‚éBƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½ê‡AŒ‹‰Ê‚Æ•Ô‚³‚ê‚éî•ñ‚Í‚»‚ÌƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ªQÆ‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX‚É‚Ì‚İ“K—p‚³‚ê‚éB‘S‚Ä‚ÌƒfƒoƒCƒX‚ª‰¹—Ê•ÏX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚í‚¯‚Å‚Í‚È‚¢BƒfƒoƒCƒX‚ª‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚ÍAWAVECAPS_VOLUME
+ƒtƒ‰ƒO‚ğ—p‚¢‚Ä (waveOutGetDevCaps ŠÖ”‚Åæ“¾‚µ‚½) WAVEOUTCAPS \‘¢‘Ì‚Ì dwSupport
+ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éBƒfƒoƒCƒX‚ª¶‰Eƒ`ƒƒƒlƒ‹‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚ÍAWAVECAPS_LRVOLUME ƒtƒ‰ƒO‚ğ—p‚¢‚Ä
+WAVEOUTCAPS \‘¢‘Ì‚Ì dwSupport ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éB‰¹—Êİ’è‚Í‘Î”“I‚É‰ğß‚³‚ê‚éB‚±‚ê‚Í‰¹—ÊƒŒƒxƒ‹‚ğ 0x5000
+‚©‚ç 0x6000 ‚Éã‚°‚½‚Æ‚«‚Æ 0x4000 ‚©‚ç 0x5000 ‚Éã‚°‚½‚Æ‚«‚Ì‰¹—Ê‘‰Á‚ª“¯‚¶‚æ‚¤‚É’mŠo‚³‚ê‚é‚±‚Æ‚ğˆÓ–¡‚·‚éB
 
 
 %index
 waveOutMessage
-The waveOutMessage function sends messages to the waveform-audio output device drivers.
+waveOutMessage ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
 %group
 Win32 winmm
 %prm
 hwo, uMsg, dw1, dw2
-hwo : [intptr] Identifier of the waveform device that receives the message. You must cast the device ID to the HWAVEOUT handle type. If you supply a handle instead of a device ID, the function fails and returns the MMSYSERR_NOSUPPORT error code.
-uMsg : [int] Message to send.
-dw1 : [int] Message parameter.
-dw2 : [int] Message parameter.
+hwo : [intptr] ƒƒbƒZ[ƒW‚ğó‚¯æ‚é”gŒ`ƒfƒoƒCƒX‚Ì¯•ÊqBƒfƒoƒCƒX ID ‚ğ HWAVEOUT ƒnƒ“ƒhƒ‹Œ^‚ÉƒLƒƒƒXƒg‚·‚é•K—v‚ª‚ ‚éBƒfƒoƒCƒX ID ‚Ì‘ã‚í‚è‚Éƒnƒ“ƒhƒ‹‚ğ“n‚·‚ÆAŠÖ”‚Í¸”s‚µ MMSYSERR_NOSUPPORT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
+uMsg : [int] ‘—M‚·‚éƒƒbƒZ[ƒWB
+dw1 : [int] ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^B
+dw2 : [int] ƒƒbƒZ[ƒWƒpƒ‰ƒ[ƒ^B
 %inst
-The waveOutMessage function sends messages to the waveform-audio
-output device drivers.
+waveOutMessage ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ÖƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
 
 [–ß‚è’l]
-Returns the value returned from the driver.
+ƒhƒ‰ƒCƒo‚©‚ç•Ô‚³‚ê‚½’l‚ğ•Ô‚·B
 
 [”õl]
-The DRV_QUERYDEVICEINTERFACE message queries for the device-interface
-name of a waveIn, waveOut, midiIn, midiOut, or mixer device. For
-DRV_QUERYDEVICEINTERFACE, dwParam1 is a pointer to a caller-allocated
-buffer into which the function writes a null-terminated Unicode
-string containing the device-interface name. If the device has no
-device interface, the string length is zero. For
-DRV_QUERYDEVICEINTERFACE, dwParam2 specifies the buffer size in
-bytes. This is an input parameter to the function. The caller should
-specify a size that is greater than or equal to the buffer size
-retrieved by the DRV_QUERYDEVICEINTERFACESIZE message. The
-DRV_QUERYDEVICEINTERFACE message is supported in Windows Me, and
-Windows 2000 and later. This message is valid only for the
-waveInMessage, waveOutMessage, midiInMessage, midiOutMessage, and
-mixerMessage functions. The system intercepts this message and
-returns the appropriate value without sending the message to the
-device driver. For general information about system-intercepted
-xxxMessage functions, see System-Intercepted Device Messages. The
-following two message constants are used together for the purpose of
-obtaining device interface names:
-This doc was truncated.
+DRV_QUERYDEVICEINTERFACE ƒƒbƒZ[ƒW‚ÍAwaveInAwaveOutAmidiInAmidiOutA‚Ü‚½‚Í
+mixer ƒfƒoƒCƒX‚ÌƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚ğ–â‚¢‡‚í‚¹‚éBDRV_QUERYDEVICEINTERFACE ‚Å‚ÍAdwParam1
+‚ÍƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚ğŠÜ‚Ş null I’[‚Ì Unicode
+•¶š—ñ‚ğŠÖ”‚ª‘‚«‚ŞŒÄ‚Ño‚µ‘¤Š„‚è“–‚Äƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚éBƒfƒoƒCƒX‚ÉƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª‚È‚¢ê‡A•¶š—ñ’·‚Í 0
+‚Æ‚È‚éBDRV_QUERYDEVICEINTERFACE ‚Å‚ÍAdwParam2
+‚Íƒoƒbƒtƒ@ƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Åw’è‚·‚éB‚±‚ê‚ÍŠÖ”‚Ö‚Ì“ü—Íƒpƒ‰ƒ[ƒ^‚Å‚ ‚éBŒÄ‚Ño‚µ‘¤‚Í
+DRV_QUERYDEVICEINTERFACESIZE
+ƒƒbƒZ[ƒW‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@ƒTƒCƒYˆÈã‚ÌƒTƒCƒY‚ğw’è‚·‚é‚×‚«‚Å‚ ‚éBDRV_QUERYDEVICEINTERFACE ƒƒbƒZ[ƒW‚Í
+Windows MeAWindows 2000 ˆÈ~‚ÅƒTƒ|[ƒg‚³‚ê‚éB‚±‚ÌƒƒbƒZ[ƒW‚Í
+waveInMessageAwaveOutMessageAmidiInMessageAmidiOutMessageAmixerMessage
+ŠÖ”‚Å‚Ì‚İ—LŒø‚Å‚ ‚éBƒVƒXƒeƒ€‚Í‚±‚ÌƒƒbƒZ[ƒW‚ğ–Tó‚µAƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Ö‘—M‚¹‚¸‚É“KØ‚È’l‚ğ•Ô‚·BƒVƒXƒeƒ€–Tó xxxMessage
+ŠÖ”‚Ìˆê”Êî•ñ‚É‚Â‚¢‚Ä‚Í System-Intercepted Device Messages
+‚ğQÆBƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒFƒCƒX–¼‚Ìæ“¾‚ğ–Ú“I‚Æ‚µ‚ÄAŸ‚Ì 2 ‚Â‚ÌƒƒbƒZ[ƒW’è”‚ªˆê‚Ég—p‚³‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
@@ -3413,57 +2993,50 @@ pwfx ‚ªw‚·\‘¢‘Ì‚Í“Á’èƒf[ƒ^Œ`®‚Ì‚½‚ß‚Éƒ^ƒCƒvŒÅ—Lî•ñ‚ÅŠg’£‚Å‚«‚éBPCM ƒf[ƒ^‚
 
 %index
 waveOutPause
-The waveOutPause function pauses playback on the given waveform-audio output device. The current position is saved. Use the waveOutRestart function to resume playback from the current position.
+waveOutPause ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌÄ¶‚ğˆê’â~‚·‚éBŒ»İˆÊ’u‚Í•Û‘¶‚³‚ê‚éBŒ»İˆÊ’u‚©‚çÄ¶‚ğÄŠJ‚·‚é‚É‚Í waveOutRestart ŠÖ”‚ğg—p‚·‚éB
 %group
 Win32 winmm
 %prm
 hwo
-hwo : [intptr] Handle to the waveform-audio output device.
+hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-The waveOutPause function pauses playback on the given waveform-audio
-output device. The current position is saved. Use the waveOutRestart
-function to resume playback from the current position.
+waveOutPause
+ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌÄ¶‚ğˆê’â~‚·‚éBŒ»İˆÊ’u‚Í•Û‘¶‚³‚ê‚éBŒ»İˆÊ’u‚©‚çÄ¶‚ğÄŠJ‚·‚é‚É‚Í
+waveOutRestart ŠÖ”‚ğg—p‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Calling this function when the output is already paused has no
-effect, and the function returns zero.
+o—Í‚ªŠù‚Éˆê’â~‚µ‚Ä‚¢‚éó‘Ô‚Å–{ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚àŒø‰Ê‚Í‚È‚­AŠÖ”‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 waveOutPrepareHeader
-The waveOutPrepareHeader function prepares a waveform-audio data block for playback.
+waveOutPrepareHeader ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒIƒf[ƒ^ƒuƒƒbƒN‚ğÄ¶—p‚É€”õ‚·‚éB
 %group
 Win32 winmm
 %prm
 hwo, pwh, cbwh
-hwo : [intptr] Handle to the waveform-audio output device.
-pwh : [var] Pointer to a WAVEHDR structure that identifies the data block to be prepared.
-cbwh : [int] Size, in bytes, of the WAVEHDR structure.
+hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pwh : [var] €”õ‘ÎÛ‚Ìƒf[ƒ^ƒuƒƒbƒN‚ğ¯•Ê‚·‚é WAVEHDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbwh : [int] WAVEHDR \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The waveOutPrepareHeader function prepares a waveform-audio data
-block for playback.
+waveOutPrepareHeader ŠÖ”‚Í”gŒ`ƒI[ƒfƒBƒIƒf[ƒ^ƒuƒƒbƒN‚ğÄ¶—p‚É€”õ‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Set the lpData, dwBufferLength, and dwFlags members of the WAVEHDR
-structure before calling this function. Set the dwFlags member to
-zero. The dwFlags, dwBufferLength, and dwLoops members of the WAVEHDR
-structure can change between calls to this function and the
-waveOutWrite function. If you change the size specified by
-dwBufferLength before the call to waveOutWrite, the new value must be
-less than the prepared value. If the method succeeds, the
-WHDR_PREPARED flag is set in the dwFlags member of the WAVEHDR
-structure. Preparing a header that has already been prepared has no
-effect, and the function returns zero.
+–{ŠÖ”‚ğŒÄ‚Ño‚·‘O‚É WAVEHDR \‘¢‘Ì‚Ì lpDataAdwBufferLengthAdwFlags
+ƒƒ“ƒo‚ğİ’è‚·‚éBdwFlags ƒƒ“ƒo‚Í 0 ‚Éİ’è‚·‚éBWAVEHDR \‘¢‘Ì‚Ì
+dwFlagsAdwBufferLengthAdwLoops ƒƒ“ƒo‚Í–{ŠÖ”‚Æ waveOutWrite
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚ÌŠÔ‚Å•ÏX‚Å‚«‚éBwaveOutWrite ‚ğŒÄ‚Ño‚·‘O‚É dwBufferLength
+‚Åw’è‚µ‚½ƒTƒCƒY‚ğ•ÏX‚·‚éê‡AV‚µ‚¢’l‚Í€”õ‚Ì’l‚æ‚è¬‚³‚­‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡AWAVEHDR \‘¢‘Ì‚Ì
+dwFlags ƒƒ“ƒo‚É WHDR_PREPARED ƒtƒ‰ƒO‚ªƒZƒbƒg‚³‚ê‚éBŠù‚É€”õÏ‚İ‚Ìƒwƒbƒ_‚ğ€”õ‚µ‚Ä‚àŒø‰Ê‚Í‚È‚­AŠÖ”‚Í 0
+‚ğ•Ô‚·B
 
 
 %index
@@ -3488,146 +3061,121 @@ waveOutReset ŠÖ”‚Íw’è‚Ì”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Å‚ÌÄ¶‚ğ’â~‚µAŒ»İˆÊ’u‚ğ 
 
 %index
 waveOutRestart
-The waveOutRestart function resumes playback on a paused waveform-audio output device.
+waveOutRestart ŠÖ”‚Íˆê’â~‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌÄ¶‚ğÄŠJ‚·‚éB
 %group
 Win32 winmm
 %prm
 hwo
-hwo : [intptr] Handle to the waveform-audio output device.
+hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-The waveOutRestart function resumes playback on a paused
-waveform-audio output device.
+waveOutRestart ŠÖ”‚Íˆê’â~‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌÄ¶‚ğÄŠJ‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Calling this function when the output is not paused has no effect,
-and the function returns zero.
+o—Í‚ªˆê’â~‚µ‚Ä‚¢‚È‚¢ó‘Ô‚Å–{ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚àŒø‰Ê‚Í‚È‚­AŠÖ”‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 waveOutSetPitch
-The waveOutSetPitch function sets the pitch for the specified waveform-audio output device.
+waveOutSetPitch ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ìƒsƒbƒ`‚ğİ’è‚·‚éB
 %group
 Win32 winmm
 %prm
 hwo, dwPitch
-hwo : [intptr] Handle to the waveform-audio output device.
-dwPitch : [int] New pitch multiplier setting. This setting indicates the current change in pitch from the original authored setting. The pitch multiplier must be a positive value. The pitch multiplier is specified as a fixed-point value. The high-order word contains the signed integer part of the number, and the low-order word contains the fractional part. A value of 0x8000 in the low-order word represents one-half, and 0x4000 represents one-quarter. For example, the value 0x00010000 specifies a multiplier of 1.0 (no pitch change), and a value of 0x000F8000 specifies a multiplier of 15.5.
+hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+dwPitch : [int] V‚µ‚¢ƒsƒbƒ`”{—¦İ’èB‚±‚Ìİ’è‚ÍŒ³‚Ìİ’è‚©‚ç‚ÌŒ»İ‚Ìƒsƒbƒ`‚Ì•Ï‰»‚ğ¦‚·Bƒsƒbƒ`”{—¦‚Í³‚Ì’l‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bƒsƒbƒ`”{—¦‚ÍŒÅ’è¬”“_’l‚Æ‚µ‚Äw’è‚³‚ê‚éBãˆÊƒ[ƒh‚É”’l‚Ì•„†•t‚«®”•”A‰ºˆÊƒ[ƒh‚É¬”•”‚ªŠi”[‚³‚ê‚éB‰ºˆÊƒ[ƒh‚Ì 0x8000 ‚ª 1/2A0x4000 ‚ª 1/4 ‚ğ•\‚·B—á‚¦‚Î 0x00010000 ‚Í”{—¦ 1.0 (ƒsƒbƒ`•Ï‰»‚È‚µ) ‚ğA0x000F8000 ‚Í”{—¦ 15.5 ‚ğw’è‚·‚éB
 %inst
-The waveOutSetPitch function sets the pitch for the specified
-waveform-audio output device.
+waveOutSetPitch ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ìƒsƒbƒ`‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Changing the pitch does not change the playback rate or the sample
-rate, nor does it change the playback time. Not all devices support
-pitch changes. To determine whether the device supports pitch
-control, use the WAVECAPS_PITCH flag to test the dwSupport member of
-the WAVEOUTCAPS structure (filled by the waveOutGetDevCaps function).
+
+ƒsƒbƒ`‚ğ•ÏX‚µ‚Ä‚àÄ¶ƒŒ[ƒgAƒTƒ“ƒvƒ‹ƒŒ[ƒgAÄ¶ŠÔ‚Í•Ï‰»‚µ‚È‚¢B‘S‚Ä‚ÌƒfƒoƒCƒX‚ªƒsƒbƒ`•ÏX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚í‚¯‚Å‚Í‚È‚¢BƒfƒoƒCƒX‚ªƒsƒbƒ`§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚ÍAWAVECAPS_PITCH
+ƒtƒ‰ƒO‚ğ—p‚¢‚Ä (waveOutGetDevCaps ŠÖ”‚Åæ“¾‚µ‚½) WAVEOUTCAPS \‘¢‘Ì‚Ì dwSupport
+ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éB
 
 
 %index
 waveOutSetPlaybackRate
-The waveOutSetPlaybackRate function sets the playback rate for the specified waveform-audio output device.
+waveOutSetPlaybackRate ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌÄ¶ƒŒ[ƒg‚ğİ’è‚·‚éB
 %group
 Win32 winmm
 %prm
 hwo, dwRate
-hwo : [intptr] Handle to the waveform-audio output device.
-dwRate : [int] New playback rate setting. This setting is a multiplier indicating the current change in playback rate from the original authored setting. The playback rate multiplier must be a positive value. The rate is specified as a fixed-point value. The high-order word contains the signed integer part of the number, and the low-order word contains the fractional part. A value of 0x8000 in the low-order word represents one-half, and 0x4000 represents one-quarter. For example, the value 0x00010000 specifies a multiplier of 1.0 (no playback rate change), and a value of 0x000F8000 specifies a multiplier of 15.5.
+hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+dwRate : [int] V‚µ‚¢Ä¶ƒŒ[ƒgİ’èB‚±‚Ìİ’è‚ÍŒ³‚Ìİ’è‚©‚ç‚ÌŒ»İ‚ÌÄ¶ƒŒ[ƒg‚Ì•Ï‰»‚ğ¦‚·”{—¦‚Å‚ ‚éBÄ¶ƒŒ[ƒg”{—¦‚Í³‚Ì’l‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒŒ[ƒg‚ÍŒÅ’è¬”“_’l‚Æ‚µ‚Äw’è‚³‚ê‚éBãˆÊƒ[ƒh‚É”’l‚Ì•„†•t‚«®”•”A‰ºˆÊƒ[ƒh‚É¬”•”‚ªŠi”[‚³‚ê‚éB‰ºˆÊƒ[ƒh‚Ì 0x8000 ‚ª 1/2A0x4000 ‚ª 1/4 ‚ğ•\‚·B—á‚¦‚Î 0x00010000 ‚Í”{—¦ 1.0 (Ä¶ƒŒ[ƒg•Ï‰»‚È‚µ) ‚ğA0x000F8000 ‚Í”{—¦ 15.5 ‚ğw’è‚·‚éB
 %inst
-The waveOutSetPlaybackRate function sets the playback rate for the
-specified waveform-audio output device.
+waveOutSetPlaybackRate ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚ÌÄ¶ƒŒ[ƒg‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Changing the playback rate does not change the sample rate but does
-change the playback time. Not all devices support playback rate
-changes. To determine whether a device supports playback rate
-changes, use the WAVECAPS_PLAYBACKRATE flag to test the dwSupport
-member of the WAVEOUTCAPS structure (filled by the waveOutGetDevCaps
-function).
+
+Ä¶ƒŒ[ƒg‚ğ•ÏX‚µ‚Ä‚àƒTƒ“ƒvƒ‹ƒŒ[ƒg‚Í•Ï‰»‚µ‚È‚¢‚ªAÄ¶ŠÔ‚Í•Ï‰»‚·‚éB‘S‚Ä‚ÌƒfƒoƒCƒX‚ªÄ¶ƒŒ[ƒg•ÏX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚í‚¯‚Å‚Í‚È‚¢BƒfƒoƒCƒX‚ªÄ¶ƒŒ[ƒg•ÏX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚ÍAWAVECAPS_PLAYBACKRATE
+ƒtƒ‰ƒO‚ğ—p‚¢‚Ä (waveOutGetDevCaps ŠÖ”‚Åæ“¾‚µ‚½) WAVEOUTCAPS \‘¢‘Ì‚Ì dwSupport
+ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éB
 
 
 %index
 waveOutSetVolume
-The waveOutSetVolume function sets the volume level of the specified waveform-audio output device.
+waveOutSetVolume ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ì‰¹—ÊƒŒƒxƒ‹‚ğİ’è‚·‚éB
 %group
 Win32 winmm
 %prm
 hwo, dwVolume
-hwo : [intptr] Handle to an open waveform-audio output device. This parameter can also be a device identifier.
-dwVolume : [int] New volume setting. The low-order word contains the left-channel volume setting, and the high-order word contains the right-channel setting. A value of 0xFFFF represents full volume, and a value of 0x0000 is silence. If a device does not support both left and right volume control, the low-order word of dwVolume specifies the volume level, and the high-order word is ignored.
+hwo : [intptr] ƒI[ƒvƒ“Ï‚İ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹BƒfƒoƒCƒX¯•Êq‚àw’è‚Å‚«‚éB
+dwVolume : [int] V‚µ‚¢‰¹—Êİ’èB‰ºˆÊƒ[ƒh‚É¶ƒ`ƒƒƒlƒ‹‚Ì‰¹—Êİ’è‚ğAãˆÊƒ[ƒh‚É‰Eƒ`ƒƒƒlƒ‹‚Ìİ’è‚ğw’è‚·‚éB0xFFFF ‚ªÅ‘å‰¹—ÊA0x0000 ‚ª–³‰¹‚ğ•\‚·BƒfƒoƒCƒX‚ª¶‰E—¼ƒ`ƒƒƒlƒ‹‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡AdwVolume ‚Ì‰ºˆÊƒ[ƒh‚Å‰¹—ÊƒŒƒxƒ‹‚ğw’è‚µAãˆÊƒ[ƒh‚Í–³‹‚³‚ê‚éB
 %inst
-The waveOutSetVolume function sets the volume level of the specified
-waveform-audio output device.
+waveOutSetVolume ŠÖ”‚Íw’è‚³‚ê‚½”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ì‰¹—ÊƒŒƒxƒ‹‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If a device identifier is used, then the result of the
-waveOutSetVolume call applies to all instances of the device. If a
-device handle is used, then the result applies only to the instance
-of the device referenced by the device handle. Not all devices
-support volume changes. To determine whether the device supports
-volume control, use the WAVECAPS_VOLUME flag to test the dwSupport
-member of the WAVEOUTCAPS structure (filled by the waveOutGetDevCaps
-function). To determine whether the device supports volume control on
-both the left and right channels, use the WAVECAPS_LRVOLUME flag.
-Most devices do not support the full 16 bits of volume-level control
-and will not use the least-significant bits of the requested volume
-setting. For example, if a device supports 4 bits of volume control,
-the values 0x4000, 0x4FFF, and 0x43BE will all be truncated to
-0x4000. The waveOutGetVolume function returns the full 16-bit setting
-set with waveOutSetVolume. Volume settings are interpreted
-logarithmically. This means the perceived increase in volume is the
-same when increasing the volume level from 0x5000 to 0x6000 as it is
-from 0x4000 to 0x5000.
+ƒfƒoƒCƒX¯•Êq‚ğg—p‚µ‚½ê‡AwaveOutSetVolume
+ŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚Í‚»‚ÌƒfƒoƒCƒX‚Ì‘SƒCƒ“ƒXƒ^ƒ“ƒX‚É“K—p‚³‚ê‚éBƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ğg—p‚µ‚½ê‡AŒ‹‰Ê‚Í‚»‚ÌƒfƒoƒCƒXƒnƒ“ƒhƒ‹‚ªQÆ‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX‚É‚Ì‚İ“K—p‚³‚ê‚éB‘S‚Ä‚ÌƒfƒoƒCƒX‚ª‰¹—Ê•ÏX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚í‚¯‚Å‚Í‚È‚¢BƒfƒoƒCƒX‚ª‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚ÍAWAVECAPS_VOLUME
+ƒtƒ‰ƒO‚ğ—p‚¢‚Ä (waveOutGetDevCaps ŠÖ”‚Åæ“¾‚µ‚½) WAVEOUTCAPS \‘¢‘Ì‚Ì dwSupport
+ƒƒ“ƒo‚ğƒeƒXƒg‚·‚éBƒfƒoƒCƒX‚ª¶‰E—¼ƒ`ƒƒƒlƒ‹‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é‚É‚Í WAVECAPS_LRVOLUME
+ƒtƒ‰ƒO‚ğg—p‚·‚éB‚Ù‚Æ‚ñ‚Ç‚ÌƒfƒoƒCƒX‚Í 16
+ƒrƒbƒg‘S‚Ä‚Ì‰¹—ÊƒŒƒxƒ‹§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¨‚ç‚¸A—v‹‚³‚ê‚½‰¹—Êİ’è‚ÌÅ‰ºˆÊƒrƒbƒg‚ğg—p‚µ‚È‚¢B—á‚¦‚ÎƒfƒoƒCƒX‚ª 4
+ƒrƒbƒg‚Ì‰¹—Ê§Œä‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚éê‡A’l 0x4000A0x4FFFA0x43BE ‚Í‘S‚Ä 0x4000
+‚ÉØ‚è‹l‚ß‚ç‚ê‚éBwaveOutGetVolume ŠÖ”‚Í waveOutSetVolume ‚Åİ’è‚³‚ê‚½Š®‘S‚È 16
+ƒrƒbƒg’l‚ğ•Ô‚·B‰¹—Êİ’è‚Í‘Î”“I‚É‰ğß‚³‚ê‚éB‚±‚ê‚Í‰¹—ÊƒŒƒxƒ‹‚ğ 0x5000 ‚©‚ç 0x6000 ‚Éã‚°‚½‚Æ‚«‚Æ 0x4000 ‚©‚ç
+0x5000 ‚Éã‚°‚½‚Æ‚«‚Ì‰¹—Ê‘‰Á‚ª“¯‚¶‚æ‚¤‚É’mŠo‚³‚ê‚é‚±‚Æ‚ğˆÓ–¡‚·‚éB
 
 
 %index
 waveOutUnprepareHeader
-The waveOutUnprepareHeader function cleans up the preparation performed by the waveOutPrepareHeader function. This function must be called after the device driver is finished with a data block. You must call this function before freeing the buffer.
+waveOutUnprepareHeader ŠÖ”‚Í waveOutPrepareHeader ŠÖ”‚Ås‚Á‚½€”õ‚ÌŒãn––‚ğs‚¤B–{ŠÖ”‚ÍƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ªƒf[ƒ^ƒuƒƒbƒN‚Ìg—p‚ğI‚¦‚½Œã‚ÉŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bƒoƒbƒtƒ@‚ğ‰ğ•ú‚·‚é‘O‚É–{ŠÖ”‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
 %group
 Win32 winmm
 %prm
 hwo, pwh, cbwh
-hwo : [intptr] Handle to the waveform-audio output device.
-pwh : [var] Pointer to a WAVEHDR structure identifying the data block to be cleaned up.
-cbwh : [int] Size, in bytes, of the WAVEHDR structure.
+hwo : [intptr] ”gŒ`ƒI[ƒfƒBƒIo—ÍƒfƒoƒCƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pwh : [var] Œãn––‘ÎÛ‚Ìƒf[ƒ^ƒuƒƒbƒN‚ğ¯•Ê‚·‚é WAVEHDR \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbwh : [int] WAVEHDR \‘¢‘Ì‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-The waveOutUnprepareHeader function cleans up the preparation
-performed by the waveOutPrepareHeader function. This function must be
-called after the device driver is finished with a data block. You
-must call this function before freeing the buffer.
+waveOutUnprepareHeader ŠÖ”‚Í waveOutPrepareHeader
+ŠÖ”‚Ås‚Á‚½€”õ‚ÌŒãn––‚ğs‚¤B–{ŠÖ”‚ÍƒfƒoƒCƒXƒhƒ‰ƒCƒo‚ªƒf[ƒ^ƒuƒƒbƒN‚Ìg—p‚ğI‚¦‚½Œã‚ÉŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bƒoƒbƒtƒ@‚ğ‰ğ•ú‚·‚é‘O‚É–{ŠÖ”‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
 
 [–ß‚è’l]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+¬Œ÷‚Í MMSYSERR_NOERROR ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[‚ğ•Ô‚·Bl‚¦‚ç‚ê‚éƒGƒ‰[’l‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function complements waveOutPrepareHeader. You must call this
-function before freeing the buffer. After passing a buffer to the
-device driver with the waveOutWrite function, you must wait until the
-driver is finished with the buffer before calling
-waveOutUnprepareHeader. Unpreparing a buffer that has not been
-prepared has no effect, and the function returns zero.
+–{ŠÖ”‚Í waveOutPrepareHeader
+‚Æ‘Î‚ğ‚È‚·Bƒoƒbƒtƒ@‚ğ‰ğ•ú‚·‚é‘O‚É–{ŠÖ”‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BwaveOutWrite
+ŠÖ”‚ÅƒfƒoƒCƒXƒhƒ‰ƒCƒo‚Öƒoƒbƒtƒ@‚ğ“n‚µ‚½Œã‚ÍAƒhƒ‰ƒCƒo‚ªƒoƒbƒtƒ@‚Ìg—p‚ğI‚¦‚é‚Ü‚Å‘Ò‚Á‚Ä‚©‚ç waveOutUnprepareHeader
+‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB€”õ‚³‚ê‚Ä‚¢‚È‚¢ƒoƒbƒtƒ@‚É‘Î‚·‚éŒãn––‚ÍŒø‰Ê‚ª‚È‚­AŠÖ”‚Í 0 ‚ğ•Ô‚·B
 
 
 %index

@@ -45,7 +45,7 @@ ImmAssociateContext 関数 (immdev.h) は指定の入力コンテキストを指定ウィンドウに関
 
 %index
 ImmAssociateContextEx
-The ImmAssociateContextEx function (immdev.h) changes the association between the input method context and the specified window or its children.
+ImmAssociateContextEx 関数 (immdev.h) は、入力コンテキストと指定したウィンドウまたはその子ウィンドウとの関連付けを変更する。
 %group
 Win32 imm32
 %prm
@@ -54,29 +54,23 @@ param0 : [intptr]
 param1 : [intptr] 
 param2 : [int] 
 %inst
-The ImmAssociateContextEx function (immdev.h) changes the association
-between the input method context and the specified window or its
-children.
+ImmAssociateContextEx 関数 (immdev.h)
+は、入力コンテキストと指定したウィンドウまたはその子ウィンドウとの関連付けを変更する。
 
 [戻り値]
-Returns TRUE if successful or FALSE otherwise.
+成功した場合は TRUE を、失敗した場合は FALSE を返す。
 
 [備考]
-If the application calls this function with IACE_CHILDREN, the
-operating system associates the specified input method context with
-child windows of the window indicated by hWnd. It associates the
-input method context only with child windows of the thread that
-creates hWnd. Any child window that is created after this function
-has been called will not be affected. Instead, the default input
-method context will be associated with it. If the application calls
-this function with IACE_DEFAULT, the operating system restores the
-default input method context for the window. In this case, the hIMC
-parameter is ignored.
+アプリケーションが IACE_CHILDREN を指定してこの関数を呼び出すと、オペレーティングシステムは指定した入力コンテキストを
+hWnd で示されるウィンドウの子ウィンドウに関連付ける。入力コンテキストは hWnd
+を作成したスレッドの子ウィンドウにのみ関連付けられる。この関数が呼び出された後に作成された子ウィンドウには影響せず、それらにはデフォルトの入力コンテキストが関連付けられる。IACE_DEFAULT
+を指定して呼び出した場合、オペレーティングシステムはそのウィンドウのデフォルトの入力コンテキストを復元する。この場合、hIMC
+パラメータは無視される。
 
 
 %index
 ImmConfigureIMEA
-The ImmConfigureIMEA (ANSI) function (immdev.h) displays the configuration dialog box for the IME of the specified input locale identifier.
+ImmConfigureIMEA (ANSI) 関数 (immdev.h) は、指定した入力ロケール識別子の IME 用構成ダイアログボックスを表示する。
 %group
 Win32 imm32
 %prm
@@ -86,27 +80,24 @@ param1 : [intptr]
 param2 : [int] 
 param3 : [intptr] 
 %inst
-The ImmConfigureIMEA (ANSI) function (immdev.h) displays the
-configuration dialog box for the IME of the specified input locale
-identifier.
+ImmConfigureIMEA (ANSI) 関数 (immdev.h) は、指定した入力ロケール識別子の IME
+用構成ダイアログボックスを表示する。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 [備考]
-> [!NOTE] > The immdev.h header defines ImmConfigureIME as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > immdev.h ヘッダーは ImmConfigureIME をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 ImmConfigureIMEW
-The ImmConfigureIMEW (Unicode) function (immdev.h) displays the configuration dialog box for the IME of the specified input locale identifier.
+ImmConfigureIMEW (Unicode) 関数 (immdev.h) は、指定した入力ロケール識別子の IME 用構成ダイアログボックスを表示する。
 %group
 Win32 imm32
 %prm
@@ -116,38 +107,33 @@ param1 : [intptr]
 param2 : [int] 
 param3 : [intptr] 
 %inst
-The ImmConfigureIMEW (Unicode) function (immdev.h) displays the
-configuration dialog box for the IME of the specified input locale
-identifier.
+ImmConfigureIMEW (Unicode) 関数 (immdev.h) は、指定した入力ロケール識別子の IME
+用構成ダイアログボックスを表示する。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 [備考]
-> [!NOTE] > The immdev.h header defines ImmConfigureIME as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > immdev.h ヘッダーは ImmConfigureIME をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 ImmCreateContext
-The ImmCreateContext function (immdev.h) creates a new input context, allocating memory for the context and initializing it.
+ImmCreateContext 関数 (immdev.h) は、新しい入力コンテキストを作成し、そのメモリを割り当てて初期化する。
 %group
 Win32 imm32
 %prm
 
 %inst
-The ImmCreateContext function (immdev.h) creates a new input context,
-allocating memory for the context and initializing it.
+ImmCreateContext 関数 (immdev.h) は、新しい入力コンテキストを作成し、そのメモリを割り当てて初期化する。
 
 [戻り値]
-Returns the handle to the new input context if successful, or NULL
-otherwise.
+成功した場合は新しい入力コンテキストへのハンドルを、失敗した場合は NULL を返す。
 
 
 %index
@@ -203,142 +189,125 @@ param0 : [intptr]
 
 %index
 ImmDisableIME
-The ImmDisableIME function (immdev.h) disables the IME for a thread or for all threads in a process.
+ImmDisableIME 関数 (immdev.h) は、スレッドまたはプロセス内のすべてのスレッドに対して IME を無効化する。
 %group
 Win32 imm32
 %prm
 param0
 param0 : [int] 
 %inst
-The ImmDisableIME function (immdev.h) disables the IME for a thread
-or for all threads in a process.
+ImmDisableIME 関数 (immdev.h) は、スレッドまたはプロセス内のすべてのスレッドに対して IME を無効化する。
 
 [戻り値]
-Returns TRUE if successful or FALSE otherwise.
+成功した場合は TRUE を、失敗した場合は FALSE を返す。
 
 [備考]
-The application must call this function before the first top-level
-window in the thread receives the WM_CREATE message. Thus, the
-application must call this function in one of the following places:
-This doc was truncated.
+アプリケーションは、スレッド内の最初のトップレベルウィンドウが WM_CREATE
+メッセージを受け取る前にこの関数を呼び出す必要がある。したがって、アプリケーションはこの関数を次のいずれかの場所で呼び出す必要がある。
+（以下省略）
 
 
 %index
 ImmDisableLegacyIME
-The ImmDisableLegacyIME function (immdev.h) indicates that this thread is a Windows Store app UI thread.
+ImmDisableLegacyIME 関数 (immdev.h) は、このスレッドが Windows ストアアプリ UI スレッドであることを示す。
 %group
 Win32 imm32
 %prm
 
 %inst
-The ImmDisableLegacyIME function (immdev.h) indicates that this
-thread is a Windows Store app UI thread.
+ImmDisableLegacyIME 関数 (immdev.h) は、このスレッドが Windows ストアアプリ UI
+スレッドであることを示す。
 
 [戻り値]
-Returns TRUE if successful; otherwise, FALSE.
+成功した場合は TRUE を、それ以外は FALSE を返す。
 
 [備考]
-Windows Store app brokers such as explorer.exe should call this
-function in Windows Store app UI threads to ensure that only IMEs
-that are compatible with Windows Store apps are made available. Those
-Windows Store app threads that don't require IME input should call
-ImmDisableIME to disable IMM entirely for that thread. The app must
-call this function before the first top-level window in the thread
-receives the WM_CREATE message. Thus, the app must call this function
-in one of the following places:
-This doc was truncated.
+explorer.exe のような Windows ストアアプリブローカーは、Windows ストアアプリ UI
+スレッドでこの関数を呼び出し、Windows ストアアプリ互換の IME のみが利用可能になるようにするべきである。IME
+入力を必要としない Windows ストアアプリスレッドでは、ImmDisableIME を呼び出してそのスレッドの IMM
+を完全に無効化するべきである。アプリは、スレッド内の最初のトップレベルウィンドウが WM_CREATE
+メッセージを受け取る前にこの関数を呼び出す必要がある。したがって、アプリはこの関数を次のいずれかの場所で呼び出す必要がある。
+（以下省略）
 
 
 %index
 ImmDisableTextFrameService
-The ImmDisableTextFrameService function (immdev.h) is no longer available for use as of Windows?Vista.
+ImmDisableTextFrameService 関数 (immdev.h) は、Windows Vista 以降では使用できなくなっている。
 %group
 Win32 imm32
 %prm
 idThread
-idThread : [int] Identifier of the thread for which to disable the text service. The thread must be in the same process as the application. The application sets this parameter to 0 to disable the service for the current thread. The application sets the parameter to ?1 to disable the service for all threads in the current process.
+idThread : [int] テキストサービスを無効化するスレッドの識別子。スレッドはアプリケーションと同じプロセス内にある必要がある。アプリケーションは、現在のスレッドのサービスを無効化する場合はこのパラメータに 0 を設定する。現在のプロセス内のすべてのスレッドのサービスを無効化する場合は ?1 を設定する。
 %inst
-The ImmDisableTextFrameService function (immdev.h) is no longer
-available for use as of Windows Vista.
+ImmDisableTextFrameService 関数 (immdev.h) は、Windows Vista
+以降では使用できなくなっている。
 
 [戻り値]
-Returns TRUE if successful or FALSE otherwise.
+成功した場合は TRUE を、失敗した場合は FALSE を返す。
 
 [備考]
-An application calls this function if it has a thread that is
-incompatible with TSF. Note that TSF functionality is provided to
-applications that are not specifically written to use TSF, Input
-Method Manager (IMM32), or Active Input Method Manager (AIMM 1.2).
-Although an application can be written to use TSF, IMM32, and AIMM
-1.2, there can be specific controls within the application that do
-not use these technologies. TSF support is provided to these specific
-controls as well. This TSF feature is available beginning with
-Windows XP when all of these dynamic-link libraries (DLLs) are
-loaded: system modules User32.dll, Imm32.dll, and Win32k.sys, and TSF
-modules Msctf.dll and Msimtf.dll.
+アプリケーションは、TSF と互換性のないスレッドを持っている場合にこの関数を呼び出す。TSF 機能は、TSF、入力メソッドマネージャ
+(IMM32)、または Active Input Method Manager (AIMM 1.2)
+を使うために特別に書かれていないアプリケーションに対しても提供される点に注意。アプリケーションが TSF、IMM32、AIMM 1.2
+を使うように書かれていても、アプリケーション内の特定のコントロールがこれらの技術を使わない場合がある。そうした特定のコントロールに対しても
+TSF サポートが提供される。この TSF 機能は、システムモジュール
+User32.dll、Imm32.dll、Win32k.sys、および TSF モジュール Msctf.dll、Msimtf.dll
+のすべてのダイナミックリンクライブラリ (DLL) がロードされている Windows XP 以降で利用できる。
 
 
 %index
 ImmEnumInputContext
-The ImmEnumInputContext function (immdev.h) retrieves the input context for the specified thread.
+ImmEnumInputContext 関数 (immdev.h) は、指定したスレッドの入力コンテキストを取得する。
 %group
 Win32 imm32
 %prm
 idThread, lpfn, lParam
 idThread : [int] 
-lpfn : [int] Pointer to the enumeration callback function. For more information, see EnumInputContext.
-lParam : [intptr] Application-supplied data. The function passes this data to the callback function.
+lpfn : [int] 列挙コールバック関数へのポインタ。詳細は EnumInputContext を参照。
+lParam : [intptr] アプリケーションが指定するデータ。関数はこのデータをコールバック関数に渡す。
 %inst
-The ImmEnumInputContext function (immdev.h) retrieves the input
-context for the specified thread.
+ImmEnumInputContext 関数 (immdev.h) は、指定したスレッドの入力コンテキストを取得する。
 
 [戻り値]
-Returns TRUE if successful or FALSE otherwise.
+成功した場合は TRUE を、失敗した場合は FALSE を返す。
 
 [備考]
-This function calls the application callback function for each
-enumerated input context, and passes the specified lParam value.
+この関数は列挙された入力コンテキストごとにアプリケーションのコールバック関数を呼び出し、指定した lParam の値を渡す。
 
 
 %index
 ImmEnumRegisterWordW
-The ImmEnumRegisterWordW (Unicode) function (immdev.h) enumerates the register strings having the specified reading string, style, and register string.
+ImmEnumRegisterWordW (Unicode) 関数 (immdev.h) は、指定した読み文字列、スタイル、登録文字列を持つ登録文字列を列挙する。
 %group
 Win32 imm32
 %prm
 param0, param1, lpszReading, param3, lpszRegister, param5
 param0 : [intptr] 
 param1 : [int] 
-lpszReading : [wstr] Pointer to the reading string to enumerate. The application sets this parameter to NULL if the function is to enumerate all available reading strings that match the dwStyle and lpszRegister settings.
+lpszReading : [wstr] 列挙する読み文字列へのポインタ。dwStyle と lpszRegister の設定に一致するすべての読み文字列を列挙する場合は、このパラメータに NULL を指定する。
 param3 : [int] 
-lpszRegister : [wstr] Pointer to the register string to enumerate. The application sets this parameter to NULL if the function is to enumerate all register strings that match the lpszReading and dwStyle settings.
+lpszRegister : [wstr] 列挙する登録文字列へのポインタ。lpszReading と dwStyle の設定に一致するすべての登録文字列を列挙する場合は、このパラメータに NULL を指定する。
 param5 : [intptr] 
 %inst
-The ImmEnumRegisterWordW (Unicode) function (immdev.h) enumerates the
-register strings having the specified reading string, style, and
-register string.
+ImmEnumRegisterWordW (Unicode) 関数 (immdev.h)
+は、指定した読み文字列、スタイル、登録文字列を持つ登録文字列を列挙する。
 
 [戻り値]
-Returns the last value returned by the callback function, with the
-meaning defined by the application. The function returns 0 if it
-cannot enumerate the register strings.
+コールバック関数が最後に返した値を返す。その意味はアプリケーションが定義する。登録文字列を列挙できなかった場合は 0 を返す。
 
 [備考]
-If dwStyle is set to 0 and both lpszReading and lpszRegister are set
-to NULL, this function enumerates all register strings in the IME
-dictionary. > [!NOTE] > The immdev.h header defines
-ImmEnumRegisterWord as an alias which automatically selects the ANSI
-or Unicode version of this function based on the definition of the
-UNICODE preprocessor constant. Mixing usage of the encoding-neutral
-alias with code that not encoding-neutral can lead to mismatches that
-result in compilation or runtime errors. For more information, see
+dwStyle が 0 で、lpszReading と lpszRegister の両方が NULL の場合、この関数は IME
+辞書内のすべての登録文字列を列挙する。 > [!NOTE] > immdev.h ヘッダーは ImmEnumRegisterWord
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
 [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 ImmEscapeW
-The ImmEscapeW (Unicode) function (immdev.h) accesses capabilities of particular IMEs that are not available through other IME API functions.
+ImmEscapeW (Unicode) 関数 (immdev.h) は、他の IME API 関数では利用できない特定の IME の機能にアクセスする。
 %group
 Win32 imm32
 %prm
@@ -348,19 +317,17 @@ param1 : [intptr]
 param2 : [int] 
 param3 : [intptr] 
 %inst
-The ImmEscapeW (Unicode) function (immdev.h) accesses capabilities of
-particular IMEs that are not available through other IME API
-functions.
+ImmEscapeW (Unicode) 関数 (immdev.h) は、他の IME API 関数では利用できない特定の IME
+の機能にアクセスする。
 
 [戻り値]
-Returns an operation-specific value if successful, or 0 otherwise.
+成功した場合は操作固有の値を、失敗した場合は 0 を返す。
 
 [備考]
-When uEscape is set to IME_ESC_QUERY_SUPPORT, lpData indicates the
-buffer containing the IME escape value. For example, to see if the
-current IME supports IME_ESC_GETHELPFILENAME, your application uses
-the following call:
-This doc was truncated.
+uEscape に IME_ESC_QUERY_SUPPORT を指定した場合、lpData は IME
+エスケープ値を格納したバッファを示す。たとえば、現在の IME が IME_ESC_GETHELPFILENAME
+をサポートしているかを調べるには、次のように呼び出す。
+（以下省略）
 
 
 %index
@@ -377,110 +344,97 @@ param0 : [intptr]
 
 %index
 ImmGetCandidateListW
-The ImmGetCandidateListW (Unicode) function (immdev.h) retrieves a candidate list.
+ImmGetCandidateListW (Unicode) 関数 (immdev.h) は、候補リストを取得する。
 %group
 Win32 imm32
 %prm
 param0, deIndex, lpCandList, dwBufLen
 param0 : [intptr] 
-deIndex : [int] Zero-based index of the candidate list.
-lpCandList : [var] Pointer to a CANDIDATELIST structure in which the function retrieves the candidate list.
-dwBufLen : [int] Size, in bytes, of the buffer to receive the candidate list. The application can specify 0 for this parameter if the function is to return the required size of the output buffer only.
+deIndex : [int] 候補リストのゼロベースのインデックス。
+lpCandList : [var] 関数が候補リストを取得する CANDIDATELIST 構造体へのポインタ。
+dwBufLen : [int] 候補リストを受け取るバッファのサイズ (バイト単位)。出力バッファに必要なサイズだけを返させたい場合、アプリケーションはこのパラメータに 0 を指定してもよい。
 %inst
-The ImmGetCandidateListW (Unicode) function (immdev.h) retrieves a
-candidate list.
+ImmGetCandidateListW (Unicode) 関数 (immdev.h) は、候補リストを取得する。
 
 [戻り値]
-Returns the number of bytes copied to the candidate list buffer if
-successful. If the application has supplied 0 for the dwBufLen
-parameter, the function returns the size required for the candidate
-list buffer. The function returns 0 if it does not succeed.
+成功した場合は候補リストバッファにコピーされたバイト数を返す。アプリケーションが dwBufLen パラメータに 0
+を指定した場合は、候補リストバッファに必要なサイズを返す。失敗した場合は 0 を返す。
 
 [備考]
-> [!NOTE] > The immdev.h header defines ImmGetCandidateList as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > immdev.h ヘッダーは ImmGetCandidateList
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 ImmGetCandidateListCountW
-The ImmGetCandidateListCountW (Unicode) function (immdev.h) retrieves the size of the candidate lists.
+ImmGetCandidateListCountW (Unicode) 関数 (immdev.h) は、候補リストのサイズを取得する。
 %group
 Win32 imm32
 %prm
 param0, lpdwListCount
 param0 : [intptr] 
-lpdwListCount : [var] Pointer to the buffer in which this function retrieves the size of the candidate lists.
+lpdwListCount : [var] この関数が候補リストのサイズを格納するバッファへのポインタ。
 %inst
-The ImmGetCandidateListCountW (Unicode) function (immdev.h) retrieves
-the size of the candidate lists.
+ImmGetCandidateListCountW (Unicode) 関数 (immdev.h) は、候補リストのサイズを取得する。
 
 [戻り値]
-Returns the number of bytes required for all candidate lists if
-successful, or 0 otherwise.
+成功した場合はすべての候補リストに必要なバイト数を、失敗した場合は 0 を返す。
 
 [備考]
-Applications typically call this function in response to an
-IMN_OPENCANDIDATE or IMN_CHANGECANDIDATE command.
-> [!NOTE] > The immdev.h header defines ImmGetCandidateListCount as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+アプリケーションは通常、IMN_OPENCANDIDATE または IMN_CHANGECANDIDATE
+コマンドに応じてこの関数を呼び出す。
+> [!NOTE] > immdev.h ヘッダーは ImmGetCandidateListCount
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 ImmGetCandidateWindow
-The ImmGetCandidateWindow function (immdev.h) retrieves information about the candidates window.
+ImmGetCandidateWindow 関数 (immdev.h) は、候補ウィンドウに関する情報を取得する。
 %group
 Win32 imm32
 %prm
 param0, param1, lpCandidate
 param0 : [intptr] 
 param1 : [int] 
-lpCandidate : [var] Pointer to a CANDIDATEFORM structure in which this function retrieves information about the candidates window.
+lpCandidate : [var] この関数が候補ウィンドウに関する情報を取得する CANDIDATEFORM 構造体へのポインタ。
 %inst
-The ImmGetCandidateWindow function (immdev.h) retrieves information
-about the candidates window.
+ImmGetCandidateWindow 関数 (immdev.h) は、候補ウィンドウに関する情報を取得する。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 
 %index
 ImmGetCompositionFontW
-The ImmGetCompositionFontW (Unicode) function (immdev.h) retrieves information about the logical font currently used to display characters in the composition window.
+ImmGetCompositionFontW (Unicode) 関数 (immdev.h) は、組み立てウィンドウで文字を表示するために現在使われている論理フォントに関する情報を取得する。
 %group
 Win32 imm32
 %prm
 param0, lplf
 param0 : [intptr] 
-lplf : [var] Pointer to a LOGFONT structure in which this function retrieves the font information.
+lplf : [var] この関数がフォント情報を取得する LOGFONT 構造体へのポインタ。
 %inst
-The ImmGetCompositionFontW (Unicode) function (immdev.h) retrieves
-information about the logical font currently used to display
-characters in the composition window.
+ImmGetCompositionFontW (Unicode) 関数 (immdev.h)
+は、組み立てウィンドウで文字を表示するために現在使われている論理フォントに関する情報を取得する。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 [備考]
-> [!NOTE] > The immdev.h header defines ImmGetCompositionFont as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > immdev.h ヘッダーは ImmGetCompositionFont
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
@@ -513,19 +467,18 @@ ANSI/Unicode 版のエイリアスとして定義する。
 
 %index
 ImmGetCompositionWindow
-The ImmGetCompositionWindow function (immdev.h) retrieves information about the composition window.
+ImmGetCompositionWindow 関数 (immdev.h) は、組み立てウィンドウに関する情報を取得する。
 %group
 Win32 imm32
 %prm
 param0, lpCompForm
 param0 : [intptr] 
-lpCompForm : [var] Pointer to a COMPOSITIONFORM structure in which the function retrieves information about the composition window.
+lpCompForm : [var] 関数が組み立てウィンドウに関する情報を取得する COMPOSITIONFORM 構造体へのポインタ。
 %inst
-The ImmGetCompositionWindow function (immdev.h) retrieves information
-about the composition window.
+ImmGetCompositionWindow 関数 (immdev.h) は、組み立てウィンドウに関する情報を取得する。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 
 %index
@@ -549,58 +502,52 @@ ImmReleaseContext を呼ぶ。
 
 %index
 ImmGetConversionListW
-The ImmGetConversionListW (Unicode) function (immdev.h) retrieves the conversion result list of characters or words without generating any IME-related messages.
+ImmGetConversionListW (Unicode) 関数 (immdev.h) は、IME 関連のメッセージを発生させずに、文字または単語の変換結果リストを取得する。
 %group
 Win32 imm32
 %prm
 param0, param1, lpSrc, lpDst, dwBufLen, uFlag
 param0 : [intptr] 
 param1 : [intptr] 
-lpSrc : [wstr] Pointer to a null-terminated character string specifying the source of the list.
-lpDst : [var] Pointer to a CANDIDATELIST structure in which the function retrieves the list.
-dwBufLen : [int] Size, in bytes, of the output buffer. The application sets this parameter to 0 if the function is to return the buffer size required for the complete conversion result list.
+lpSrc : [wstr] リストのソースを指定する、null で終わる文字列へのポインタ。
+lpDst : [var] 関数がリストを取得する CANDIDATELIST 構造体へのポインタ。
+dwBufLen : [int] 出力バッファのサイズ (バイト単位)。変換結果リスト全体に必要なバッファサイズを返させたい場合、アプリケーションはこのパラメータに 0 を指定する。
 uFlag : [int] 
 %inst
-The ImmGetConversionListW (Unicode) function (immdev.h) retrieves the
-conversion result list of characters or words without generating any
-IME-related messages.
+ImmGetConversionListW (Unicode) 関数 (immdev.h) は、IME
+関連のメッセージを発生させずに、文字または単語の変換結果リストを取得する。
 
 [戻り値]
-Returns the number of bytes copied to the output buffer. If the
-application sets the dwBufLen parameter to 0, the function returns
-the size, in bytes, of the required output buffer.
+出力バッファにコピーされたバイト数を返す。アプリケーションが dwBufLen パラメータに 0
+を指定した場合、必要な出力バッファのサイズ (バイト単位) を返す。
 
 [備考]
-> [!NOTE] > The immdev.h header defines ImmGetConversionList as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > immdev.h ヘッダーは ImmGetConversionList
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 ImmGetConversionStatus
-The ImmGetConversionStatus function (immdev.h) retrieves the current conversion status.
+ImmGetConversionStatus 関数 (immdev.h) は、現在の変換状態を取得する。
 %group
 Win32 imm32
 %prm
 param0, lpfdwConversion, lpfdwSentence
 param0 : [intptr] 
-lpfdwConversion : [var] Pointer to a variable in which the function retrieves a combination of conversion mode values. For more information, see IME Conversion Mode Values.
-lpfdwSentence : [var] Pointer to a variable in which the function retrieves a sentence mode value. For more information, see IME Sentence Mode Values.
+lpfdwConversion : [var] 関数が変換モード値の組み合わせを取得する変数へのポインタ。詳細は IME Conversion Mode Values を参照。
+lpfdwSentence : [var] 関数が文節モード値を取得する変数へのポインタ。詳細は IME Sentence Mode Values を参照。
 %inst
-The ImmGetConversionStatus function (immdev.h) retrieves the current
-conversion status.
+ImmGetConversionStatus 関数 (immdev.h) は、現在の変換状態を取得する。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 [備考]
-Conversion and sentence mode values are set only if the IME supports
-those modes.
+変換モードおよび文節モードの値は、IME がそれらのモードをサポートしている場合にのみ設定される。
 
 
 %index
@@ -624,70 +571,59 @@ WM_IME_CONTROL メッセージを送れる。
 
 %index
 ImmGetDescriptionW
-The ImmGetDescriptionW (Unicode) function (immdev.h) copies the description of the IME to the specified buffer.
+ImmGetDescriptionW (Unicode) 関数 (immdev.h) は、IME の説明を指定したバッファにコピーする。
 %group
 Win32 imm32
 %prm
 param0, lpszDescription, uBufLen
 param0 : [intptr] 
-lpszDescription : [wstr] Pointer to a buffer in which the function retrieves the null-terminated string describing the IME.
-uBufLen : [int] Size, in characters, of the output buffer. The application sets this parameter to 0 if the function is to return the buffer size needed for the complete description, excluding the terminating null character. Windows?NT, Windows?2000, Windows?XP: The size of the buffer is in Unicode characters, each consisting of two bytes. If the parameter is set to 0, the function returns the size of the buffer required in Unicode characters, excluding the Unicode terminating null character.
+lpszDescription : [wstr] 関数が IME を説明する null 終端文字列を取得するバッファへのポインタ。
+uBufLen : [int] 出力バッファのサイズ (文字単位)。説明全体に必要なバッファサイズ (終端の null 文字を除く) を返させたい場合、アプリケーションはこのパラメータに 0 を指定する。Windows NT、Windows 2000、Windows XP: バッファのサイズは Unicode 文字単位で、各文字は 2 バイトで構成される。このパラメータを 0 に設定すると、関数は必要なバッファサイズを Unicode 文字単位で (Unicode の終端 null 文字を除いて) 返す。
 %inst
-The ImmGetDescriptionW (Unicode) function (immdev.h) copies the
-description of the IME to the specified buffer.
+ImmGetDescriptionW (Unicode) 関数 (immdev.h) は、IME の説明を指定したバッファにコピーする。
 
 [戻り値]
-Returns the number of characters copied to the output buffer. If the
-application sets the uBufLen parameter to 0, the function returns the
-size of the buffer required to receive the description. Neither value
-includes the terminating null character. For Unicode, the function
-returns the number of Unicode characters, not including the Unicode
-terminating null character.
+出力バッファにコピーされた文字数を返す。アプリケーションが uBufLen パラメータに 0
+を指定した場合、説明を受け取るのに必要なバッファサイズを返す。いずれの値も終端の null 文字を含まない。Unicode
+の場合は、Unicode 終端 null 文字を除く Unicode 文字数を返す。
 
 [備考]
-> [!NOTE] > The immdev.h header defines ImmGetDescription as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > immdev.h ヘッダーは ImmGetDescription をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 ImmGetGuideLineW
-The ImmGetGuideLineW (Unicode) function (immdev.h) retrieves information about errors. Applications use the information for user notifications.
+ImmGetGuideLineW (Unicode) 関数 (immdev.h) は、エラーに関する情報を取得する。アプリケーションはこの情報をユーザーへの通知に利用する。
 %group
 Win32 imm32
 %prm
 param0, dwIndex, lpBuf, dwBufLen
 param0 : [intptr] 
 dwIndex : [int] 
-lpBuf : [wstr] Pointer to a buffer in which the function retrieves the error message string. This parameter contains NULL if dwIndex is not GGL_STRING or GGL_PRIVATE or if dwBufLen is set to 0.
-dwBufLen : [int] Size, in bytes, of the output buffer. The application sets this parameter to 0 if the function is to return the buffer size needed to receive the error message string, not including the terminating null character.
+lpBuf : [wstr] 関数がエラーメッセージ文字列を取得するバッファへのポインタ。dwIndex が GGL_STRING でも GGL_PRIVATE でもない場合、または dwBufLen が 0 の場合、このパラメータは NULL になる。
+dwBufLen : [int] 出力バッファのサイズ (バイト単位)。エラーメッセージ文字列を受け取るのに必要なバッファサイズ (終端の null 文字を除く) を返させたい場合、アプリケーションはこのパラメータに 0 を指定する。
 %inst
-The ImmGetGuideLineW (Unicode) function (immdev.h) retrieves
-information about errors. Applications use the information for user
-notifications.
+ImmGetGuideLineW (Unicode) 関数 (immdev.h)
+は、エラーに関する情報を取得する。アプリケーションはこの情報をユーザーへの通知に利用する。
 
 [戻り値]
-Returns an error level, an error index, or the size of an error
-message string, depending on the value of the dwIndex parameter. If
-dwIndex is GGL_LEVEL, the return is one of the following values.
-This doc was truncated.
+dwIndex パラメータの値に応じて、エラーレベル、エラーインデックス、またはエラーメッセージ文字列のサイズを返す。dwIndex が
+GGL_LEVEL の場合、戻り値は次のいずれかとなる。
+（以下省略）
 
 [備考]
-Applications typically call this function after receiving an
-IMN_GUIDELINE command.
-> [!NOTE] > The immdev.h header defines ImmGetGuideLine as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+アプリケーションは通常、IMN_GUIDELINE コマンドを受け取った後にこの関数を呼び出す。
+> [!NOTE] > immdev.h ヘッダーは ImmGetGuideLine をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
@@ -743,44 +679,38 @@ param0 : [intptr]
 
 %index
 ImmGetIMEFileNameW
-The ImmGetIMEFileNameW (Unicode) function (immdev.h) retrieves the file name of the IME associated with the specified input locale.
+ImmGetIMEFileNameW (Unicode) 関数 (immdev.h) は、指定した入力ロケールに関連付けられた IME のファイル名を取得する。
 %group
 Win32 imm32
 %prm
 param0, lpszFileName, uBufLen
 param0 : [intptr] 
-lpszFileName : [wstr] Pointer to a buffer in which the function retrieves the file name. This parameter contains NULL when uBufLen is set to NULL.
-uBufLen : [int] Size, in bytes, of the output buffer. The application specifies 0 if the function is to return the buffer size needed to receive the file name, not including the terminating null character. For Unicode, uBufLen specifies the size in Unicode characters, not including the terminating null character.
+lpszFileName : [wstr] 関数がファイル名を取得するバッファへのポインタ。uBufLen が NULL に設定されている場合、このパラメータは NULL になる。
+uBufLen : [int] 出力バッファのサイズ (バイト単位)。ファイル名を受け取るのに必要なバッファサイズ (終端の null 文字を除く) を返させたい場合、アプリケーションは 0 を指定する。Unicode の場合、uBufLen は Unicode 文字単位でのサイズを指定し、終端の null 文字は含まない。
 %inst
-The ImmGetIMEFileNameW (Unicode) function (immdev.h) retrieves the
-file name of the IME associated with the specified input locale.
+ImmGetIMEFileNameW (Unicode) 関数 (immdev.h) は、指定した入力ロケールに関連付けられた IME
+のファイル名を取得する。
 
 [戻り値]
-Returns the number of bytes in the file name copied to the output
-buffer. If the application sets uBufLen to 0, the function returns
-the size of the buffer required for the file name. In either case,
-the terminating null character is not included. For Unicode, the
-function returns the number of Unicode characters copied into the
-output buffer, not including the Unicode terminating null character.
+出力バッファにコピーされたファイル名のバイト数を返す。アプリケーションが uBufLen に 0
+を指定した場合は、ファイル名に必要なバッファサイズを返す。いずれの場合も終端の null 文字は含まない。Unicode
+の場合は、出力バッファにコピーされた Unicode 文字数 (Unicode 終端 null 文字を除く) を返す。
 
 [備考]
-In the registry, the operating system stores the file name as the
-"IME name value" in the registry key
+オペレーティングシステムはレジストリキー
 HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Keyboard
-Layouts\HKL.
-> [!NOTE] > The immdev.h header defines ImmGetIMEFileName as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+Layouts\HKL の「IME name value」としてファイル名を格納する。
+> [!NOTE] > immdev.h ヘッダーは ImmGetIMEFileName をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 ImmGetImeMenuItemsW
-The ImmGetImeMenuItemsW (Unicode) function (immdev.h) retrieves the menu items that are registered in the IME menu of a specified input context.
+ImmGetImeMenuItemsW (Unicode) 関数 (immdev.h) は、指定した入力コンテキストの IME メニューに登録されているメニュー項目を取得する。
 %group
 Win32 imm32
 %prm
@@ -788,49 +718,44 @@ param0, param1, param2, lpImeParentMenu, lpImeMenu, dwSize
 param0 : [intptr] 
 param1 : [int] 
 param2 : [int] 
-lpImeParentMenu : [var] Pointer to an IMEMENUITEMINFO structure in which the function retrieves parent menu information. To retrieve information about the submenu items of this parent menu, the application sets the fType member to MFT_SUBMENU. This parameter contains NULL if the function retrieves only top-level menu items.
-lpImeMenu : [var] Pointer to an array of IMEMENUITEMINFO structures in which the function retrieves information about the menu items. This parameter contains NULL if the function retrieves the number of registered menu items.
-dwSize : [int] Size of the buffer to receive the IMEMENUITEMINFO structure.
+lpImeParentMenu : [var] 関数が親メニュー情報を取得する IMEMENUITEMINFO 構造体へのポインタ。この親メニューのサブメニュー項目に関する情報を取得するには、アプリケーションは fType メンバに MFT_SUBMENU を設定する。関数がトップレベルのメニュー項目のみを取得する場合、このパラメータは NULL となる。
+lpImeMenu : [var] 関数がメニュー項目に関する情報を取得する IMEMENUITEMINFO 構造体の配列へのポインタ。関数が登録済みメニュー項目の数を取得する場合、このパラメータは NULL となる。
+dwSize : [int] IMEMENUITEMINFO 構造体を受け取るバッファのサイズ。
 %inst
-The ImmGetImeMenuItemsW (Unicode) function (immdev.h) retrieves the
-menu items that are registered in the IME menu of a specified input
-context.
+ImmGetImeMenuItemsW (Unicode) 関数 (immdev.h) は、指定した入力コンテキストの IME
+メニューに登録されているメニュー項目を取得する。
 
 [戻り値]
-Returns the number of menu items copied into lpImeMenu. If lpImeMenu
-specifies NULL, the function returns the number of registered menu
-items in the specified input context.
+lpImeMenu にコピーされたメニュー項目の数を返す。lpImeMenu が NULL
+の場合は、指定した入力コンテキストに登録されているメニュー項目の数を返す。
 
 [備考]
-> [!NOTE] > The immdev.h header defines ImmGetImeMenuItems as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > immdev.h ヘッダーは ImmGetImeMenuItems をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 ImmGetOpenStatus
-The ImmGetOpenStatus function (immdev.h) determines whether the IME is open or closed.
+ImmGetOpenStatus 関数 (immdev.h) は、IME が開いているか閉じているかを判定する。
 %group
 Win32 imm32
 %prm
 param0
 param0 : [intptr] 
 %inst
-The ImmGetOpenStatus function (immdev.h) determines whether the IME
-is open or closed.
+ImmGetOpenStatus 関数 (immdev.h) は、IME が開いているか閉じているかを判定する。
 
 [戻り値]
-Returns a nonzero value if the IME is open, or 0 otherwise.
+IME が開いている場合は 0 以外の値を、そうでない場合は 0 を返す。
 
 
 %index
 ImmGetProperty
-The ImmGetProperty function (immdev.h) retrieves the property and capabilities of the IME associated with the specified input locale.
+ImmGetProperty 関数 (immdev.h) は、指定した入力ロケールに関連付けられた IME のプロパティと機能を取得する。
 %group
 Win32 imm32
 %prm
@@ -838,145 +763,129 @@ param0, param1
 param0 : [intptr] 
 param1 : [int] 
 %inst
-The ImmGetProperty function (immdev.h) retrieves the property and
-capabilities of the IME associated with the specified input locale.
+ImmGetProperty 関数 (immdev.h) は、指定した入力ロケールに関連付けられた IME のプロパティと機能を取得する。
 
 [戻り値]
-Returns the property or capability value, depending on the value of
-the dwIndex parameter. If dwIndex is set to IGP_PROPERTY, the
-function returns one or more of the following values:
-This doc was truncated.
+dwIndex パラメータの値に応じて、プロパティまたは機能の値を返す。dwIndex が IGP_PROPERTY
+に設定されている場合、関数は次のいずれか (または複数) の値を返す。
+（以下省略）
 
 
 %index
 ImmGetRegisterWordStyleW
-The ImmGetRegisterWordStyleW (Unicode) function (immdev.h) retrieves a list of the styles supported by the IME associated with the specified input locale.
+ImmGetRegisterWordStyleW (Unicode) 関数 (immdev.h) は、指定した入力ロケールに関連付けられた IME がサポートするスタイルの一覧を取得する。
 %group
 Win32 imm32
 %prm
 param0, nItem, lpStyleBuf
 param0 : [intptr] 
-nItem : [int] Maximum number of styles that the output buffer can hold. The application sets this parameter to 0 if the function is to count the number of styles available in the IME.
-lpStyleBuf : [var] Pointer to a STYLEBUF structure in which the function retrieves the style information.
+nItem : [int] 出力バッファが保持できるスタイルの最大数。IME で利用可能なスタイル数をカウントさせたい場合、アプリケーションはこのパラメータに 0 を指定する。
+lpStyleBuf : [var] 関数がスタイル情報を取得する STYLEBUF 構造体へのポインタ。
 %inst
-The ImmGetRegisterWordStyleW (Unicode) function (immdev.h) retrieves
-a list of the styles supported by the IME associated with the
-specified input locale.
+ImmGetRegisterWordStyleW (Unicode) 関数 (immdev.h) は、指定した入力ロケールに関連付けられた
+IME がサポートするスタイルの一覧を取得する。
 
 [戻り値]
-Returns the number of styles copied to the buffer. If the application
-sets the nItem parameter to 0, the return value is the number of
-styles available in the IME.
+バッファにコピーされたスタイルの数を返す。アプリケーションが nItem パラメータに 0 を指定した場合、戻り値は IME
+で利用可能なスタイルの数となる。
 
 [備考]
-> [!NOTE] > The immdev.h header defines ImmGetRegisterWordStyle as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > immdev.h ヘッダーは ImmGetRegisterWordStyle
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 ImmGetStatusWindowPos
-The ImmGetStatusWindowPos function (immdev.h) retrieves the position of the status window.
+ImmGetStatusWindowPos 関数 (immdev.h) は、ステータスウィンドウの位置を取得する。
 %group
 Win32 imm32
 %prm
 param0, lpptPos
 param0 : [intptr] 
-lpptPos : [var] Pointer to a POINT structure in which the function retrieves the position coordinates. These are screen coordinates, relative to the upper left corner of the screen.
+lpptPos : [var] 関数が位置座標を取得する POINT 構造体へのポインタ。これらは画面の左上隅を基準としたスクリーン座標である。
 %inst
-The ImmGetStatusWindowPos function (immdev.h) retrieves the position
-of the status window.
+ImmGetStatusWindowPos 関数 (immdev.h) は、ステータスウィンドウの位置を取得する。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 
 %index
 ImmGetVirtualKey
-The ImmGetVirtualKey function (immdev.h) retrieves the original virtual key value associated with a key input message that the IME has already processed.
+ImmGetVirtualKey 関数 (immdev.h) は、IME がすでに処理したキー入力メッセージに関連付けられた元の仮想キー値を取得する。
 %group
 Win32 imm32
 %prm
 param0
 param0 : [intptr] 
 %inst
-The ImmGetVirtualKey function (immdev.h) retrieves the original
-virtual key value associated with a key input message that the IME
-has already processed.
+ImmGetVirtualKey 関数 (immdev.h) は、IME
+がすでに処理したキー入力メッセージに関連付けられた元の仮想キー値を取得する。
 
 [戻り値]
-If TranslateMessage has been called by the application,
-ImmGetVirtualKey returns VK_PROCESSKEY; otherwise, it returns the
-virtual key.
+アプリケーションが TranslateMessage を呼び出している場合、ImmGetVirtualKey は
+VK_PROCESSKEY を返す。そうでない場合は仮想キーを返す。
 
 [備考]
-Although the IME sets the virtual key value to VK_PROCESSKEY after
-processing a key input message, an application can recover the
-original virtual key value with the ImmGetVirtualKey function. This
-function is used only for key input messages containing the
-VK_PROCESSKEY value. Applications can only get the original virtual
-key by using this function after receiving the WM_KEYDOWN
-(VK_PROCESSKEY) message, and before TranslateMessage is called in its
-own message loop.
+IME はキー入力メッセージを処理した後に仮想キー値を VK_PROCESSKEY に設定するが、アプリケーションは
+ImmGetVirtualKey 関数を用いて元の仮想キー値を取得できる。この関数は VK_PROCESSKEY
+値を含むキー入力メッセージに対してのみ使用する。アプリケーションは、WM_KEYDOWN (VK_PROCESSKEY)
+メッセージを受け取った後、自身のメッセージループで TranslateMessage
+が呼ばれる前にこの関数を使って元の仮想キーを取得できる。
 
 
 %index
 ImmInstallIMEA
-The ImmInstallIMEA (ANSI) function (immdev.h) installs an IME.
+ImmInstallIMEA (ANSI) 関数 (immdev.h) は、IME をインストールする。
 %group
 Win32 imm32
 %prm
 lpszIMEFileName, lpszLayoutText
-lpszIMEFileName : [str] Pointer to a null-terminated string that specifies the full path of the IME.
-lpszLayoutText : [str] Pointer to a null-terminated string that specifies the name of the IME and the associated layout text.
+lpszIMEFileName : [str] IME のフルパスを指定する null 終端文字列へのポインタ。
+lpszLayoutText : [str] IME の名前と関連するレイアウトテキストを指定する null 終端文字列へのポインタ。
 %inst
-The ImmInstallIMEA (ANSI) function (immdev.h) installs an IME.
+ImmInstallIMEA (ANSI) 関数 (immdev.h) は、IME をインストールする。
 
 [戻り値]
-Returns the input locale identifier for the IME.
+IME の入力ロケール識別子を返す。
 
 [備考]
-This function is intended to be used by IME setup applications only.
-> [!NOTE] > The immdev.h header defines ImmInstallIME as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+この関数は IME のセットアップアプリケーションによってのみ使用されることを想定している。
+> [!NOTE] > immdev.h ヘッダーは ImmInstallIME をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 ImmInstallIMEW
-The ImmInstallIMEW (Unicode) function (immdev.h) installs an IME.
+ImmInstallIMEW (Unicode) 関数 (immdev.h) は、IME をインストールする。
 %group
 Win32 imm32
 %prm
 lpszIMEFileName, lpszLayoutText
-lpszIMEFileName : [wstr] Pointer to a null-terminated string that specifies the full path of the IME.
-lpszLayoutText : [wstr] Pointer to a null-terminated string that specifies the name of the IME and the associated layout text.
+lpszIMEFileName : [wstr] IME のフルパスを指定する null 終端文字列へのポインタ。
+lpszLayoutText : [wstr] IME の名前と関連するレイアウトテキストを指定する null 終端文字列へのポインタ。
 %inst
-The ImmInstallIMEW (Unicode) function (immdev.h) installs an IME.
+ImmInstallIMEW (Unicode) 関数 (immdev.h) は、IME をインストールする。
 
 [戻り値]
-Returns the input locale identifier for the IME.
+IME の入力ロケール識別子を返す。
 
 [備考]
-This function is intended to be used by IME setup applications only.
-> [!NOTE] > The immdev.h header defines ImmInstallIME as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+この関数は IME のセットアップアプリケーションによってのみ使用されることを想定している。
+> [!NOTE] > immdev.h ヘッダーは ImmInstallIME をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
@@ -996,7 +905,7 @@ ImmIsIME 関数 (immdev.h) は指定の入力ロケールが IME を持つかを判定する。
 
 %index
 ImmIsUIMessageW
-The ImmIsUIMessageW (Unicode) function (immdev.h) checks for messages intended for the IME window and sends those messages to the window.
+ImmIsUIMessageW (Unicode) 関数 (immdev.h) は、IME ウィンドウ向けのメッセージをチェックし、それらをウィンドウに送信する。
 %group
 Win32 imm32
 %prm
@@ -1006,28 +915,23 @@ param1 : [int]
 param2 : [intptr] 
 param3 : [intptr] 
 %inst
-The ImmIsUIMessageW (Unicode) function (immdev.h) checks for messages
-intended for the IME window and sends those messages to the window.
+ImmIsUIMessageW (Unicode) 関数 (immdev.h) は、IME
+ウィンドウ向けのメッセージをチェックし、それらをウィンドウに送信する。
 
 [戻り値]
-Returns a nonzero value if the message is processed by the IME
-window, or 0 otherwise.
+メッセージが IME ウィンドウで処理された場合は 0 以外の値を、そうでない場合は 0 を返す。
 
 [備考]
-An application typically uses this function to display a composition
-string or candidate list specified by the IME. If hWndIME is NULL,
-the function determines if the message is a user interface message.
-Windows Me/98: This function has only an ANSI version. To receive
-Unicode characters from a Unicode-based IME, the application should
-use ImmGetCompositionString.
-> [!NOTE] > The immdev.h header defines ImmIsUIMessage as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+アプリケーションは通常、IME が指定する組み立て文字列や候補リストを表示するためにこの関数を使う。hWndIME が NULL
+の場合、関数はメッセージがユーザーインターフェイスメッセージかどうかを判定する。Windows Me/98: この関数は ANSI
+版のみを持つ。Unicode ベースの IME から Unicode 文字を受け取るには、アプリケーションは
+ImmGetCompositionString を使うべきである。
+> [!NOTE] > immdev.h ヘッダーは ImmIsUIMessage をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
@@ -1056,7 +960,7 @@ param0 : [intptr]
 
 %index
 ImmNotifyIME
-The ImmNotifyIME function (immdev.h) notifies the IME about changes to the status of the input context.
+ImmNotifyIME 関数 (immdev.h) は、入力コンテキストの状態変更を IME に通知する。
 %group
 Win32 imm32
 %prm
@@ -1064,13 +968,12 @@ param0, dwAction, dwIndex, dwValue
 param0 : [intptr] 
 dwAction : [int] 
 dwIndex : [int] 
-dwValue : [int] Index of a candidate string. The application can set this parameter or ignore it, depending on the value of the dwAction parameter.
+dwValue : [int] 候補文字列のインデックス。dwAction パラメータの値に応じて、アプリケーションはこのパラメータを設定してもよいし、無視してもよい。
 %inst
-The ImmNotifyIME function (immdev.h) notifies the IME about changes
-to the status of the input context.
+ImmNotifyIME 関数 (immdev.h) は、入力コンテキストの状態変更を IME に通知する。
 
 [戻り値]
-Returns nonzero if successful, or 0 otherwise.
+成功した場合は 0 以外を、失敗した場合は 0 を返す。
 
 
 %index
@@ -1088,28 +991,26 @@ param1 : [int]
 
 %index
 ImmRegisterWordW
-The ImmRegisterWordW (Unicode) function (immdev.h) registers a string with the dictionary of the IME associated with the specified input locale.
+ImmRegisterWordW (Unicode) 関数 (immdev.h) は、指定した入力ロケールに関連付けられた IME の辞書に文字列を登録する。
 %group
 Win32 imm32
 %prm
 param0, lpszReading, param2, lpszRegister
 param0 : [intptr] 
-lpszReading : [wstr] Pointer to a null-terminated reading string associated with the string to register.
+lpszReading : [wstr] 登録する文字列に関連付けられた、null 終端の読み文字列へのポインタ。
 param2 : [int] 
-lpszRegister : [wstr] Pointer to the null-terminated string to register.
+lpszRegister : [wstr] 登録する null 終端文字列へのポインタ。
 %inst
-The ImmRegisterWordW (Unicode) function (immdev.h) registers a string
-with the dictionary of the IME associated with the specified input
-locale.
+ImmRegisterWordW (Unicode) 関数 (immdev.h) は、指定した入力ロケールに関連付けられた IME
+の辞書に文字列を登録する。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 [備考]
-An IME independent software vendor (ISV) can define private styles
-for an IME in the IME_REGWORD_STYLE_USER_FIRST and
-IME_REGWORD_STYLE_USER_LAST values. For example:
-This doc was truncated.
+IME の独立系ソフトウェアベンダー (ISV) は、IME_REGWORD_STYLE_USER_FIRST から
+IME_REGWORD_STYLE_USER_LAST の範囲で IME 用のプライベートスタイルを定義できる。例:
+（以下省略）
 
 
 %index
@@ -1130,7 +1031,7 @@ ImmReleaseContext 関数 (immdev.h) は入力コンテキストを解放し関連メモリのロックを
 
 %index
 ImmRequestMessageW
-Generates a WM_IME_REQUEST message. (Unicode)
+WM_IME_REQUEST メッセージを生成する。(Unicode)
 %group
 Win32 imm32
 %prm
@@ -1139,22 +1040,19 @@ param0 : [intptr]
 param1 : [intptr] 
 param2 : [intptr] 
 %inst
-Generates a WM_IME_REQUEST message. (Unicode)
+WM_IME_REQUEST メッセージを生成する。(Unicode)
 
 [戻り値]
-Returns an operation-specific value if successful, or 0 otherwise.
+成功した場合は操作固有の値を、失敗した場合は 0 を返す。
 
 [備考]
-IME must use this function instead of sending the WM_IME_REQUEST
-message to the application in a call to SendMessage.
-> [!NOTE] > The immdev.h header defines ImmRequestMessage as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+IME は、SendMessage で WM_IME_REQUEST メッセージをアプリケーションに送る代わりにこの関数を使う必要がある。
+> [!NOTE] > immdev.h ヘッダーは ImmRequestMessage をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
@@ -1178,75 +1076,65 @@ ImmSetCandidateWindow 関数 (immdev.h) は候補ウィンドウに関する情報を設定する。
 
 %index
 ImmSetCompositionFontW
-The ImmSetCompositionFontW (Unicode) function (immdev.h) sets the logical font to use to display characters in the composition window.
+ImmSetCompositionFontW (Unicode) 関数 (immdev.h) は、組み立てウィンドウで文字を表示するために使う論理フォントを設定する。
 %group
 Win32 imm32
 %prm
 param0, lplf
 param0 : [intptr] 
-lplf : [var] Pointer to a LOGFONT structure containing the font information to set.
+lplf : [var] 設定するフォント情報を含む LOGFONT 構造体へのポインタ。
 %inst
-The ImmSetCompositionFontW (Unicode) function (immdev.h) sets the
-logical font to use to display characters in the composition window.
+ImmSetCompositionFontW (Unicode) 関数 (immdev.h)
+は、組み立てウィンドウで文字を表示するために使う論理フォントを設定する。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 [備考]
-This function causes a IMN_SETCOMPOSITIONFONT command to be sent to
-an application. Even if the application never uses the composition
-window, it must set the appropriate font to ensure that characters
-are displayed properly. This is especially true for vertical writing.
-> [!NOTE] > The immdev.h header defines ImmSetCompositionFont as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+この関数はアプリケーションに IMN_SETCOMPOSITIONFONT
+コマンドを送信させる。アプリケーションが組み立てウィンドウを使わない場合でも、文字が適切に表示されるように適切なフォントを設定しなければならない。縦書きの場合は特に重要である。
+> [!NOTE] > immdev.h ヘッダーは ImmSetCompositionFont
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 ImmSetCompositionStringW
-The ImmSetCompositionStringW (Unicode) function (immdev.h) sets the characters, attributes, and clauses of the composition and reading strings.
+ImmSetCompositionStringW (Unicode) 関数 (immdev.h) は、組み立て文字列と読み文字列の文字、属性、文節を設定する。
 %group
 Win32 imm32
 %prm
 param0, dwIndex, lpComp, dwCompLen, lpRead, dwReadLen
 param0 : [intptr] 
 dwIndex : [int] 
-lpComp : [intptr] Pointer to a buffer containing the information to set for the composition string, as specified by the value of dwIndex.
-dwCompLen : [int] Size, in bytes, of the information buffer for the composition string, even if SCS_SETSTR is specified and the buffer contains a Unicode string.
-lpRead : [intptr] Pointer to a buffer containing the information to set for the reading string, as specified by the value of dwIndex. The application can set this parameter to NULL.
-dwReadLen : [int] Size, in bytes, of the information buffer for the reading string, even if SCS_SETSTR is specified and the buffer contains a Unicode string.
+lpComp : [intptr] dwIndex の値で指定される、組み立て文字列に設定する情報を格納したバッファへのポインタ。
+dwCompLen : [int] 組み立て文字列の情報バッファのサイズ (バイト単位)。SCS_SETSTR が指定されバッファに Unicode 文字列が含まれる場合でもバイト単位。
+lpRead : [intptr] dwIndex の値で指定される、読み文字列に設定する情報を格納したバッファへのポインタ。アプリケーションはこのパラメータに NULL を指定してもよい。
+dwReadLen : [int] 読み文字列の情報バッファのサイズ (バイト単位)。SCS_SETSTR が指定されバッファに Unicode 文字列が含まれる場合でもバイト単位。
 %inst
-The ImmSetCompositionStringW (Unicode) function (immdev.h) sets the
-characters, attributes, and clauses of the composition and reading
-strings.
+ImmSetCompositionStringW (Unicode) 関数 (immdev.h)
+は、組み立て文字列と読み文字列の文字、属性、文節を設定する。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 [備考]
-The application can set lpComp, lpRead, or both. If the application
-does not specify a value for lpComp, it must set this parameter to
-NULL and set dwCompLen to 0. When the application is changing
-attributes, all characters in a clause must have the same attribute.
-Converted characters must have the attribute ATTR_CONVERTED or
-ATTR_TARGET_CONVERTED. Unconverted characters must have the attribute
-ATTR_INPUT or ATTR_TARGET_NOTCONVERTED. When the application is
-changing clause information, it can change only the target clause,
-just affecting one boundary at a time. The target clause has the
-attribute ATTR_TARGET_CONVERTED or ATTR_TARGET_NOTCONVERTED. For
-additional information about attributes (ATTR_* values), see
-Composition String. When the IME completes the changes, it sends a
-WM_IME_COMPOSITION message to the application to notify it of the
-changes. Windows Me/98, Windows 2000, Windows XP: The
-SCS_*CONVERTSTRING values are used for reconversion. They can only be
-used for an IME that has the SCS_CAP_SETRECONVERTSTRING property. The
-application uses these values as follows:
-This doc was truncated.
+アプリケーションは lpComp、lpRead、またはその両方を設定できる。アプリケーションが lpComp
+に値を指定しない場合は、このパラメータを NULL に設定し、dwCompLen を 0
+にしなければならない。アプリケーションが属性を変更するとき、1 つの文節内のすべての文字は同じ属性でなければならない。変換済み文字は
+ATTR_CONVERTED または ATTR_TARGET_CONVERTED 属性を持たなければならない。未変換文字は
+ATTR_INPUT または ATTR_TARGET_NOTCONVERTED
+属性を持たなければならない。アプリケーションが文節情報を変更するときは、ターゲット文節のみを変更でき、一度に 1
+つの境界にしか影響を与えない。ターゲット文節は ATTR_TARGET_CONVERTED または
+ATTR_TARGET_NOTCONVERTED 属性を持つ。属性 (ATTR_* 値) の詳細については Composition
+String を参照。IME が変更を完了すると、アプリケーションに WM_IME_COMPOSITION
+メッセージを送信して変更を通知する。Windows Me/98、Windows 2000、Windows XP:
+SCS_*CONVERTSTRING の値は再変換のために使われる。これらは SCS_CAP_SETRECONVERTSTRING
+プロパティを持つ IME でのみ使用できる。アプリケーションはこれらの値を次のように使う:
+（以下省略）
 
 
 %index
@@ -1270,7 +1158,7 @@ ImmSetCompositionWindow 関数 (immdev.h) は組み立て中ウィンドウの位置を設定する。
 
 %index
 ImmSetConversionStatus
-The ImmSetConversionStatus function (immdev.h) sets the current conversion status.
+ImmSetConversionStatus 関数 (immdev.h) は、現在の変換状態を設定する。
 %group
 Win32 imm32
 %prm
@@ -1279,23 +1167,21 @@ param0 : [intptr]
 param1 : [int] 
 param2 : [int] 
 %inst
-The ImmSetConversionStatus function (immdev.h) sets the current
-conversion status.
+ImmSetConversionStatus 関数 (immdev.h) は、現在の変換状態を設定する。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 [備考]
-This function sends the IMN_SETCONVERSIONMODE and IMN_SETSENTENCEMODE
-commands to the application. Note Beginning with Windows 8: By
-default, the input switch is set per user instead of per thread. The
-Microsoft IME (Japanese) respects the mode globally, and therefore
-ImmSetConversionStatus fails when getting focus.
+この関数は IMN_SETCONVERSIONMODE および IMN_SETSENTENCEMODE
+コマンドをアプリケーションに送信する。注: Windows 8
+以降では、既定で入力スイッチはスレッド単位ではなくユーザー単位で設定される。Microsoft IME (日本語)
+はモードをグローバルに尊重するため、フォーカス取得時に ImmSetConversionStatus が失敗することがある。
 
 
 %index
 ImmSetOpenStatus
-The ImmSetOpenStatus function (immdev.h) opens or closes the IME.
+ImmSetOpenStatus 関数 (immdev.h) は、IME を開くか閉じる。
 %group
 Win32 imm32
 %prm
@@ -1303,35 +1189,32 @@ param0, param1
 param0 : [intptr] 
 param1 : [int] 
 %inst
-The ImmSetOpenStatus function (immdev.h) opens or closes the IME.
+ImmSetOpenStatus 関数 (immdev.h) は、IME を開くか閉じる。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 [備考]
-This function causes an IMN_SETOPENSTATUS command to be sent to the
-application.
+この関数は IMN_SETOPENSTATUS コマンドをアプリケーションに送信させる。
 
 
 %index
 ImmSetStatusWindowPos
-The ImmSetStatusWindowPos function (immdev.h) sets the position of the status window.
+ImmSetStatusWindowPos 関数 (immdev.h) は、ステータスウィンドウの位置を設定する。
 %group
 Win32 imm32
 %prm
 param0, lpptPos
 param0 : [intptr] 
-lpptPos : [var] Pointer to a POINT structure containing the new position of the status window, in screen coordinates relative to the upper left corner of the display screen.
+lpptPos : [var] ステータスウィンドウの新しい位置を、表示画面の左上隅を基準としたスクリーン座標で格納する POINT 構造体へのポインタ。
 %inst
-The ImmSetStatusWindowPos function (immdev.h) sets the position of
-the status window.
+ImmSetStatusWindowPos 関数 (immdev.h) は、ステータスウィンドウの位置を設定する。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 [備考]
-This function causes an IMN_SETSTATUSWINDOWPOS command to be sent to
-the application.
+この関数は IMN_SETSTATUSWINDOWPOS コマンドをアプリケーションに送信させる。
 
 
 %index
@@ -1349,7 +1232,7 @@ param1 : [int]
 
 %index
 ImmSimulateHotKey
-The ImmSimulateHotKey function (immdev.h) simulates the specified IME hot key, causing the same response as if the user presses the hot key in the specified window.
+ImmSimulateHotKey 関数 (immdev.h) は、指定した IME ホットキーをシミュレートし、ユーザーが指定したウィンドウでそのホットキーを押したのと同じ応答を発生させる。
 %group
 Win32 imm32
 %prm
@@ -1357,12 +1240,11 @@ param0, param1
 param0 : [intptr] 
 param1 : [int] 
 %inst
-The ImmSimulateHotKey function (immdev.h) simulates the specified IME
-hot key, causing the same response as if the user presses the hot key
-in the specified window.
+ImmSimulateHotKey 関数 (immdev.h) は、指定した IME
+ホットキーをシミュレートし、ユーザーが指定したウィンドウでそのホットキーを押したのと同じ応答を発生させる。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 
 %index
@@ -1391,30 +1273,27 @@ param0 : [intptr]
 
 %index
 ImmUnregisterWordW
-The ImmUnregisterWordW (Unicode) function (immdev.h) removes a register string from the dictionary of the IME associated with the specified input locale.
+ImmUnregisterWordW (Unicode) 関数 (immdev.h) は、指定した入力ロケールに関連付けられた IME の辞書から登録文字列を削除する。
 %group
 Win32 imm32
 %prm
 param0, lpszReading, param2, lpszUnregister
 param0 : [intptr] 
-lpszReading : [wstr] Pointer to a null-terminated reading string associated with the string to remove.
+lpszReading : [wstr] 削除する文字列に関連付けられた、null 終端の読み文字列へのポインタ。
 param2 : [int] 
-lpszUnregister : [wstr] Pointer to a null-terminated string specifying the register string to remove.
+lpszUnregister : [wstr] 削除する登録文字列を指定する、null 終端文字列へのポインタ。
 %inst
-The ImmUnregisterWordW (Unicode) function (immdev.h) removes a
-register string from the dictionary of the IME associated with the
-specified input locale.
+ImmUnregisterWordW (Unicode) 関数 (immdev.h) は、指定した入力ロケールに関連付けられた IME
+の辞書から登録文字列を削除する。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise.
+成功した場合は 0 以外の値を、失敗した場合は 0 を返す。
 
 [備考]
-> [!NOTE] > The immdev.h header defines ImmUnregisterWord as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > immdev.h ヘッダーは ImmUnregisterWord をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスと、エンコーディング非依存でないコードを混在して使うと、コンパイルエラーや実行時エラーの原因になる可能性がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 

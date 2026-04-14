@@ -32,37 +32,32 @@ ANSI/Unicode 版のエイリアスとして定義する。
 
 %index
 GetFileVersionInfoExW
-Retrieves version information for the specified file. (GetFileVersionInfoExW)
+指定されたファイルのバージョン情報を取得する。(GetFileVersionInfoExW)
 %group
 Win32 version
 %prm
 dwFlags, lpwstrFilename, dwHandle, dwLen, lpData
-dwFlags : [int] Type: DWORD Controls the MUI?DLLs (if any) from which the version resource is extracted. The value of this flag must match the flags passed to the corresponding GetFileVersionInfoSizeEx call, which was used to determine the buffer size that is passed in the dwLen parameter. Zero or more of the following flags.
-lpwstrFilename : [wstr] Type: LPCTSTR The name of the file. If a full path is not specified, the function uses the search sequence specified by the LoadLibrary function.
-dwHandle : [int] Type: DWORD This parameter is ignored.
-dwLen : [int] Type: DWORD The size, in bytes, of the buffer pointed to by the lpData parameter.
-lpData : [intptr] Type: LPVOID When this function returns, contains a pointer to a buffer that contains the file-version information. You can use this value in a subsequent call to the VerQueryValue function to retrieve data from the buffer.
+dwFlags : [int] 型: DWORD バージョンリソースを抽出する MUI DLL（存在する場合）を制御する。このフラグの値は、dwLen パラメータに渡すバッファサイズを決定するために使用した対応する GetFileVersionInfoSizeEx 呼び出しに渡したフラグと一致する必要がある。以下のフラグから 0 個以上を指定する。
+lpwstrFilename : [wstr] 型: LPCTSTR ファイル名。フルパスが指定されていない場合、関数は LoadLibrary 関数で指定された検索順序を使用する。
+dwHandle : [int] 型: DWORD このパラメータは無視される。
+dwLen : [int] 型: DWORD lpData パラメータが指すバッファのサイズ（バイト単位）。
+lpData : [intptr] 型: LPVOID 関数が戻ったとき、ファイルのバージョン情報を格納したバッファへのポインタを保持する。この値は、後続の VerQueryValue 関数の呼び出しでバッファからデータを取得するために使用できる。
 %inst
-Retrieves version information for the specified file.
-(GetFileVersionInfoExW)
+指定されたファイルのバージョン情報を取得する。(GetFileVersionInfoExW)
 
 [戻り値]
-Type: BOOL If the function succeeds, the return value is nonzero. If
-the function fails, the return value is zero. To get extended error
-information, call GetLastError.
+型: BOOL 関数が成功した場合、戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 [備考]
-Call the GetFileVersionInfoSizeEx function before calling the
-GetFileVersionInfoEx function. To retrieve information from the
-file-version information buffer, use the VerQueryValue function.
-> [!NOTE] > The winver.h header defines GetFileVersionInfoEx as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+GetFileVersionInfoEx 関数を呼び出す前に GetFileVersionInfoSizeEx
+関数を呼び出すこと。ファイルバージョン情報バッファから情報を取得するには、VerQueryValue 関数を使用する。
+> [!NOTE] > winver.h ヘッダは GetFileVersionInfoEx を、UNICODE
+プリプロセッサ定数の定義に基づいてこの関数の ANSI 版または Unicode
+版を自動的に選択するエイリアスとして定義している。エンコーディング中立なエイリアスとエンコーディング中立でないコードを混在させると、コンパイルや実行時のエラーにつながる不一致が発生する場合がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
@@ -90,138 +85,113 @@ ANSI/Unicode 版のエイリアスとして定義する。
 
 %index
 GetFileVersionInfoSizeExW
-Determines whether the operating system can retrieve version information for a specified file. If version information is available, GetFileVersionInfoSizeEx returns the size, in bytes, of that information. (Unicode)
+オペレーティングシステムが指定されたファイルのバージョン情報を取得できるかどうかを判定する。バージョン情報が利用可能な場合、GetFileVersionInfoSizeEx はその情報のサイズ（バイト単位）を返す。(Unicode)
 %group
 Win32 version
 %prm
 dwFlags, lpwstrFilename, lpdwHandle
-dwFlags : [int] Type: DWORD Controls which MUI?DLLs (if any) from which the version resource is extracted. Zero or more of the following flags.
-lpwstrFilename : [wstr] Type: LPCTSTR The name of the file of interest. The function uses the search sequence specified by the  LoadLibrary function.
-lpdwHandle : [var] Type: LPDWORD When this function returns, contains a pointer to a variable that is set to zero because this function sets it to zero. This parameter exists for historical reasons.
+dwFlags : [int] 型: DWORD バージョンリソースを抽出する MUI DLL（存在する場合）を制御する。以下のフラグから 0 個以上を指定する。
+lpwstrFilename : [wstr] 型: LPCTSTR 対象ファイルの名前。関数は LoadLibrary 関数で指定された検索順序を使用する。
+lpdwHandle : [var] 型: LPDWORD 関数が戻ったとき、変数へのポインタを保持する。この変数は本関数によって 0 に設定される。このパラメータは歴史的な理由で存在する。
 %inst
-Determines whether the operating system can retrieve version
-information for a specified file. If version information is
-available, GetFileVersionInfoSizeEx returns the size, in bytes, of
-that information. (Unicode)
+
+オペレーティングシステムが指定されたファイルのバージョン情報を取得できるかどうかを判定する。バージョン情報が利用可能な場合、GetFileVersionInfoSizeEx
+はその情報のサイズ（バイト単位）を返す。(Unicode)
 
 [戻り値]
-Type: DWORD If the function succeeds, the return value is the size,
-in bytes, of the file's version information.
-If the function fails, the return value is zero. To get extended
-error information, call GetLastError.
+型: DWORD 関数が成功した場合、戻り値はファイルのバージョン情報のサイズ（バイト単位）となる。
+関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには GetLastError を呼び出す。
 
 [備考]
-Call the GetFileVersionInfoSizeEx function before calling the
-GetFileVersionInfoEx function. The size returned by
-GetFileVersionInfoSizeEx indicates the buffer size required for the
-version information returned by GetFileVersionInfoEx.
-> [!NOTE] > The winver.h header defines GetFileVersionInfoSizeEx as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+GetFileVersionInfoEx 関数を呼び出す前に GetFileVersionInfoSizeEx
+関数を呼び出すこと。GetFileVersionInfoSizeEx が返すサイズは、GetFileVersionInfoEx
+が返すバージョン情報を格納するために必要なバッファサイズを示す。
+> [!NOTE] > winver.h ヘッダは GetFileVersionInfoSizeEx を、UNICODE
+プリプロセッサ定数の定義に基づいてこの関数の ANSI 版または Unicode
+版を自動的に選択するエイリアスとして定義している。エンコーディング中立なエイリアスとエンコーディング中立でないコードを混在させると、コンパイルや実行時のエラーにつながる不一致が発生する場合がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 VerFindFileW
-Determines where to install a file based on whether it locates another version of the file in the system. The values VerFindFile returns in the specified buffers are used in a subsequent call to the VerInstallFile function. (Unicode)
+システム内に該当ファイルの別バージョンがあるかどうかに基づいて、ファイルをインストールする場所を決定する。VerFindFile が指定バッファに返す値は、後続の VerInstallFile 関数呼び出しで使用される。(Unicode)
 %group
 Win32 version
 %prm
 uFlags, szFileName, szWinDir, szAppDir, szCurDir, puCurDirLen, szDestDir, puDestDirLen
-uFlags : [int] Type: DWORD This parameter can be the following value. All other bits are reserved.
-szFileName : [wstr] Type: LPCTSTR The name of the file to be installed. Include only the file name and extension, not a path.
-szWinDir : [wstr] Type: LPCTSTR The directory in which Windows is running or will be run. This string is returned by the  GetWindowsDirectory function.
-szAppDir : [wstr] Type: LPCTSTR The directory where the installation program is installing a set of related files. If the installation program is installing an application, this is the directory where the application will reside. This parameter also points to the application's current directory unless otherwise specified.
-szCurDir : [wstr] Type: LPWSTR A buffer that receives the path to a current version of the file being installed. The path is a zero-terminated string. If a current version is not installed, the buffer will contain a zero-length string. The buffer should be at least _MAX_PATH characters long, although this is not required.
-puCurDirLen : [var] Type: PUINT The length of the szCurDir  buffer. This pointer must not be NULL. When the function returns, lpuCurDirLen contains the size, in characters, of the data returned in szCurDir, including the terminating null character. If the buffer is too small to contain all the data, lpuCurDirLen will be the size of the buffer required to hold the path.
-szDestDir : [wstr] Type: LPTSTR A buffer that receives the path to the installation location recommended by VerFindFile. The path is a zero-terminated string. The buffer should be at least _MAX_PATH characters long, although this is not required.
-puDestDirLen : [var] Type: PUINT A pointer to a variable that specifies the length of the szDestDir buffer. This pointer must not be NULL. When the function returns, lpuDestDirLen contains the size, in characters, of the data returned in szDestDir, including the terminating null character. If the buffer is too small to contain all the data, lpuDestDirLen will be the size of the buffer needed to hold the path.
+uFlags : [int] 型: DWORD このパラメータには次の値を指定できる。その他のビットはすべて予約されている。
+szFileName : [wstr] 型: LPCTSTR インストールするファイルの名前。ファイル名と拡張子のみを指定し、パスを含めてはならない。
+szWinDir : [wstr] 型: LPCTSTR Windows が動作している、または動作する予定のディレクトリ。この文字列は GetWindowsDirectory 関数によって返される。
+szAppDir : [wstr] 型: LPCTSTR インストールプログラムが関連ファイル群をインストールするディレクトリ。インストールプログラムがアプリケーションをインストールする場合は、これがアプリケーションの配置先ディレクトリとなる。このパラメータは、特に指定しない限りアプリケーションのカレントディレクトリも指す。
+szCurDir : [wstr] 型: LPWSTR インストールするファイルの現行バージョンへのパスを受け取るバッファ。このパスは null 終端文字列である。現行バージョンがインストールされていない場合、バッファは長さ 0 の文字列を含む。バッファは少なくとも _MAX_PATH 文字以上の長さを持つことが望ましいが、必須ではない。
+puCurDirLen : [var] 型: PUINT szCurDir バッファの長さ。このポインタは NULL であってはならない。関数が戻ったとき、lpuCurDirLen は szCurDir に返されるデータのサイズ（終端の null 文字を含む文字数）を保持する。バッファがすべてのデータを格納するには小さすぎる場合、lpuCurDirLen にはパスを保持するために必要なバッファサイズが格納される。
+szDestDir : [wstr] 型: LPTSTR VerFindFile が推奨するインストール場所へのパスを受け取るバッファ。このパスは null 終端文字列である。バッファは少なくとも _MAX_PATH 文字以上の長さを持つことが望ましいが、必須ではない。
+puDestDirLen : [var] 型: PUINT szDestDir バッファの長さを指定する変数へのポインタ。このポインタは NULL であってはならない。関数が戻ったとき、lpuDestDirLen は szDestDir に返されるデータのサイズ（終端の null 文字を含む文字数）を保持する。バッファがすべてのデータを格納するには小さすぎる場合、lpuDestDirLen にはパスを保持するために必要なバッファサイズが格納される。
 %inst
-Determines where to install a file based on whether it locates
-another version of the file in the system. The values VerFindFile
-returns in the specified buffers are used in a subsequent call to the
-VerInstallFile function. (Unicode)
+システム内に該当ファイルの別バージョンがあるかどうかに基づいて、ファイルをインストールする場所を決定する。VerFindFile
+が指定バッファに返す値は、後続の VerInstallFile 関数呼び出しで使用される。(Unicode)
 
 [戻り値]
-Type: DWORD The return value is a bitmask that indicates the status
-of the file. It can be one or more of the following values. All other
-values are reserved.
-This doc was truncated.
+型: DWORD 戻り値はファイルの状態を示すビットマスクである。次の値の 1
+つ以上を含む可能性がある。その他の値はすべて予約されている。
+（以下省略）
 
 [備考]
-This function works on 16-, 32-, and 64-bit file images. VerFindFile
-searches for a copy of the specified file by using the OpenFile
-function. However, it determines the system directory from the
-specified Windows directory, or searches the path. If the dwFlags
-parameter indicates that the file is private to this application (not
-VFFF_ISSHAREDFILE), VerFindFile recommends installing the file in the
-application's directory. Otherwise, if the system is running a shared
-copy of the system, the function recommends installing the file in
-the Windows directory. If the system is running a private copy of the
-system, the function recommends installing the file in the system
-directory.
-> [!NOTE] > The winver.h header defines VerFindFile as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+この関数は 16 ビット、32 ビット、64 ビットのファイルイメージで動作する。VerFindFile は OpenFile
+関数を使用して指定されたファイルのコピーを検索する。ただし、システムディレクトリは指定された Windows
+ディレクトリから決定するか、パスを検索する。dwFlags
+パラメータがファイルがこのアプリケーション専用（VFFF_ISSHAREDFILE
+ではない）であることを示している場合、VerFindFile
+はアプリケーションのディレクトリにファイルをインストールすることを推奨する。それ以外の場合、システムが共有コピーで動作しているなら関数は
+Windows
+ディレクトリへのインストールを推奨し、システムがプライベートコピーで動作しているならシステムディレクトリへのインストールを推奨する。
+> [!NOTE] > winver.h ヘッダは VerFindFile を、UNICODE
+プリプロセッサ定数の定義に基づいてこの関数の ANSI 版または Unicode
+版を自動的に選択するエイリアスとして定義している。エンコーディング中立なエイリアスとエンコーディング中立でないコードを混在させると、コンパイルや実行時のエラーにつながる不一致が発生する場合がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 VerInstallFileW
-Installs the specified file based on information returned from the VerFindFile function. VerInstallFile decompresses the file, if necessary, assigns a unique filename, and checks for errors, such as outdated files. (Unicode)
+VerFindFile 関数から返された情報に基づいて、指定されたファイルをインストールする。VerInstallFile は必要に応じてファイルを展開し、一意のファイル名を割り当て、古いファイルなどのエラーをチェックする。(Unicode)
 %group
 Win32 version
 %prm
 uFlags, szSrcFileName, szDestFileName, szSrcDir, szDestDir, szCurDir, szTmpFile, puTmpFileLen
-uFlags : [int] Type: DWORD
-szSrcFileName : [wstr] Type: LPCTSTR The name of the file to be installed. This is the filename in the directory pointed to by the szSrcDir parameter; the filename can include only the filename and extension, not a path.
-szDestFileName : [wstr] Type: LPCTSTR The name VerInstallFile will give the new file upon installation. This file name may be different from the filename in the szSrcFileName directory. The new name should include only the file name and extension, not a path.
-szSrcDir : [wstr] Type: LPCTSTR The name of the directory where the file can be found.
-szDestDir : [wstr] Type: LPCTSTR The name of the directory where the file should be installed. VerFindFile returns this value in its szDestDir parameter.
-szCurDir : [wstr] Type: LPCTSTR The name of the directory where a preexisting version of this file can be found. VerFindFile returns this value in its szCurDir parameter.
-szTmpFile : [wstr] Type: LPTSTR The name of a temporary copy of the source file. The buffer should be at least _MAX_PATH characters long, although this is not required, and should be empty on input.
-puTmpFileLen : [var] Type: PUINT The length of the szTmpFile buffer. This pointer must not be NULL. When the function returns, lpuTmpFileLen receives the size, in characters, of the data returned in szTmpFile, including the terminating null character. If the buffer is too small to contain all the data, lpuTmpFileLen will be the size of the buffer required to hold the data.
+uFlags : [int] 型: DWORD
+szSrcFileName : [wstr] 型: LPCTSTR インストールするファイルの名前。これは szSrcDir パラメータが指すディレクトリ内のファイル名であり、ファイル名と拡張子のみを含めることができる（パスを含めてはならない）。
+szDestFileName : [wstr] 型: LPCTSTR インストール時に VerInstallFile が新しいファイルに付ける名前。このファイル名は szSrcFileName のディレクトリにあるファイル名と異なっていてもよい。新しい名前にはファイル名と拡張子のみを含め、パスを含めてはならない。
+szSrcDir : [wstr] 型: LPCTSTR ファイルが見つかるディレクトリの名前。
+szDestDir : [wstr] 型: LPCTSTR ファイルをインストールすべきディレクトリの名前。VerFindFile はこの値を szDestDir パラメータに返す。
+szCurDir : [wstr] 型: LPCTSTR このファイルの既存バージョンが見つかったディレクトリの名前。VerFindFile はこの値を szCurDir パラメータに返す。
+szTmpFile : [wstr] 型: LPTSTR ソースファイルの一時的なコピーの名前。バッファは少なくとも _MAX_PATH 文字以上の長さを持つことが望ましいが必須ではなく、入力時には空にしておく必要がある。
+puTmpFileLen : [var] 型: PUINT szTmpFile バッファの長さ。このポインタは NULL であってはならない。関数が戻ったとき、lpuTmpFileLen は szTmpFile に返されるデータのサイズ（終端の null 文字を含む文字数）を受け取る。バッファがすべてのデータを格納するには小さすぎる場合、lpuTmpFileLen にはデータを保持するために必要なバッファサイズが格納される。
 %inst
-Installs the specified file based on information returned from the
-VerFindFile function. VerInstallFile decompresses the file, if
-necessary, assigns a unique filename, and checks for errors, such as
-outdated files. (Unicode)
+VerFindFile 関数から返された情報に基づいて、指定されたファイルをインストールする。VerInstallFile
+は必要に応じてファイルを展開し、一意のファイル名を割り当て、古いファイルなどのエラーをチェックする。(Unicode)
 
 [戻り値]
-Type: DWORD The return value is a bitmask that indicates exceptions.
-It can be one or more of the following values. All other values are
-reserved.
-This doc was truncated.
+型: DWORD 戻り値は例外を示すビットマスクである。次の値の 1 つ以上を含む可能性がある。その他の値はすべて予約されている。
+（以下省略）
 
 [備考]
-This function works on 16-, 32-, and 64-bit file images.
-VerInstallFile copies the file from the source directory to the
-destination directory. If szCurDir indicates that a previous version
-of the file exists on the system, VerInstallFile compares the files'
-version stamp information. If the previously installed version of the
-file is more recent than the new version, or if the files' attributes
-are significantly different, for example, if they are in different
-languages, then VerInstallFile returns with one or more recoverable
-error codes. VerInstallFile leaves the temporary file in the
-destination directory. The application can either override the error
-or delete the temporary file. If the application overrides the error,
-VerInstallFile deletes the previously installed version and renames
-the temporary file with the original filename.
-> [!NOTE] > The winver.h header defines VerInstallFile as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+この関数は 16 ビット、32 ビット、64 ビットのファイルイメージで動作する。VerInstallFile
+はソースディレクトリから対象ディレクトリへファイルをコピーする。szCurDir
+がシステム上に以前のバージョンのファイルが存在することを示している場合、VerInstallFile
+はファイルのバージョンスタンプ情報を比較する。以前にインストールされたバージョンが新しいバージョンより新しい場合、または属性に大きな差がある場合（例えば異なる言語である場合）、VerInstallFile
+は 1 つ以上の回復可能なエラーコードを返す。VerInstallFile
+は対象ディレクトリに一時ファイルを残す。アプリケーションはエラーを上書きするか、一時ファイルを削除できる。アプリケーションがエラーを上書きする場合、VerInstallFile
+は以前にインストールされたバージョンを削除し、一時ファイルを元のファイル名に変更する。
+> [!NOTE] > winver.h ヘッダは VerInstallFile を、UNICODE
+プリプロセッサ定数の定義に基づいてこの関数の ANSI 版または Unicode
+版を自動的に選択するエイリアスとして定義している。エンコーディング中立なエイリアスとエンコーディング中立でないコードを混在させると、コンパイルや実行時のエラーにつながる不一致が発生する場合がある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index

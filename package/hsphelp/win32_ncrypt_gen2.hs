@@ -6,23 +6,21 @@
 
 %index
 NCryptFreeObject
-Frees a CNG key storage object.
+CNG キーストレージオブジェクトを解放する。
 %group
 Win32 ncrypt
 %prm
 hObject
-hObject : [int] The handle of the object to free. This can be either a provider handle (NCRYPT_PROV_HANDLE) or a key handle (NCRYPT_KEY_HANDLE).
+hObject : [int] 解放するオブジェクトのハンドル。プロバイダハンドル (NCRYPT_PROV_HANDLE) またはキーハンドル (NCRYPT_KEY_HANDLE) のいずれかを指定できる。
 %inst
-Frees a CNG key storage object.
+CNG キーストレージオブジェクトを解放する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成功または失敗を示すステータスコードを返す。
+返される可能性のあるコードには、次のものが含まれるが、これらに限定されない。
+このドキュメントは省略されている。
 
 [備考]
-A service must not call this function from its StartService Function.
-If a service calls this function from its StartService function, a
-deadlock can occur, and the service may stop responding.
+サービスは StartService 関数からこの関数を呼び出してはならない。サービスが StartService
+関数からこの関数を呼び出すと、デッドロックが発生し、サービスが応答しなくなる可能性がある。
 

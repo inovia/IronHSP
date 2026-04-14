@@ -6,118 +6,101 @@
 
 %index
 EmptyWorkingSet
-Removes as many pages as possible from the working set of the specified process.
+w’è‚³‚ê‚½ƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚©‚ç‚Å‚«‚éŒÀ‚è‘½‚­‚Ìƒy[ƒW‚ğíœ‚·‚éB
 %group
 Win32 psapi
 %prm
 hProcess
-hProcess : [intptr] A handle to the process. The handle must have the PROCESS_QUERY_INFORMATION or PROCESS_QUERY_LIMITED_INFORMATION access right and the PROCESS_SET_QUOTA access right. For more information, see Process Security and Access Rights.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ‚Ü‚½‚Í PROCESS_QUERY_LIMITED_INFORMATION ƒAƒNƒZƒXŒ A‚¨‚æ‚Ñ PROCESS_SET_QUOTA ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
 %inst
-Removes as many pages as possible from the working set of the
-specified process.
+w’è‚³‚ê‚½ƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚©‚ç‚Å‚«‚éŒÀ‚è‘½‚­‚Ìƒy[ƒW‚ğíœ‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í 0 ˆÈŠO‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0 ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-You can also empty the working set by calling the
-SetProcessWorkingSetSize or SetProcessWorkingSetSizeEx function with
-the dwMinimumWorkingSetSize and dwMaximumWorkingSetSize parameters
-set to the value (SIZE_T)(-1). Starting with Windows 7 and Windows
-Server 2008 R2, Psapi.h establishes version numbers for the PSAPI
-functions. The PSAPI version number affects the name used to call the
-function and the library that a program must load. If PSAPI_VERSION
-is 2 or greater, this function is defined as K32EmptyWorkingSet in
-Psapi.h and exported in Kernel32.lib and Kernel32.dll. If
-PSAPI_VERSION is 1, this function is defined as K32EmptyWorkingSet in
-Psapi.h and exported in Psapi.lib and Psapi.dll as a wrapper that
-calls K32EmptyWorkingSet. Programs that must run on earlier versions
-of Windows as well as Windows 7 and later versions should always call
-this function as K32EmptyWorkingSet. To ensure correct resolution of
-symbols, add Psapi.lib to the TARGETLIBS macro and compile the
-program with -DPSAPI_VERSION=1. To use run-time dynamic linking, load
-Psapi.dll.
+SetProcessWorkingSetSize ‚Ü‚½‚Í SetProcessWorkingSetSizeEx
+ŠÖ”‚ğAdwMinimumWorkingSetSize ‚Æ dwMaximumWorkingSetSize ‚Ì—¼ƒpƒ‰ƒ[ƒ^‚É
+(SIZE_T)(-1) ‚ğw’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚Å‚àƒ[ƒLƒ“ƒOƒZƒbƒg‚ğ‹ó‚É‚Å‚«‚éBWindows 7 ‚¨‚æ‚Ñ Windows Server
+2008 R2 ˆÈ~APsapi.h ‚Í PSAPI ŠÖ”ŒQ‚Éƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚µ‚Ä‚¢‚éBPSAPI
+ƒo[ƒWƒ‡ƒ“”Ô†‚ÍAŠÖ”‚ğŒÄ‚Ño‚·Û‚Ég—p‚·‚é–¼‘O‚ÆAƒvƒƒOƒ‰ƒ€‚ªƒ[ƒh‚·‚é•K—v‚Ì‚ ‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰e‹¿‚ğ—^‚¦‚éBPSAPI_VERSION
+‚ª 2 ˆÈã‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32EmptyWorkingSet ‚Æ‚µ‚Ä’è‹`‚³‚êAKernel32.lib ‚¨‚æ‚Ñ
+Kernel32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBPSAPI_VERSION ‚ª 1 ‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å
+K32EmptyWorkingSet ‚Æ‚µ‚Ä’è‹`‚³‚êAK32EmptyWorkingSet ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä Psapi.lib
+‚¨‚æ‚Ñ Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
+ˆÈ~‚Ì—¼•û‚Å“®ì‚·‚é•K—v‚ª‚ ‚éƒvƒƒOƒ‰ƒ€‚ÍAí‚É K32EmptyWorkingSet
+‚Æ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‰ğŒˆ‚ğ³‚µ‚­s‚¤‚É‚ÍATARGETLIBS ƒ}ƒNƒ‚É Psapi.lib
+‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1 ‚ğw’è‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğ—˜—p‚·‚é‚É‚ÍAPsapi.dll
+‚ğƒ[ƒh‚·‚éB
 
 
 %index
 EnumDeviceDrivers
-Retrieves the load address for each device driver in the system.
+ƒVƒXƒeƒ€“à‚ÌŠeƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ìƒ[ƒhƒAƒhƒŒƒX‚ğæ“¾‚·‚éB
 %group
 Win32 psapi
 %prm
 lpImageBase, cb, lpcbNeeded
-lpImageBase : [var] An array that receives the list of load addresses for the device drivers.
-cb : [int] The size of the lpImageBase array, in bytes. If the array is not large enough to store the load addresses, the lpcbNeeded parameter receives the required size of the array.
-lpcbNeeded : [var] The number of bytes returned in the lpImageBase array.
+lpImageBase : [var] ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ìƒ[ƒhƒAƒhƒŒƒX‚ÌƒŠƒXƒg‚ğó‚¯æ‚é”z—ñB
+cb : [int] lpImageBase ”z—ñ‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB”z—ñ‚ªƒ[ƒhƒAƒhƒŒƒX‚ğŠi”[‚·‚é‚Ì‚É\•ª‚Å‚È‚¢ê‡AlpcbNeeded ƒpƒ‰ƒ[ƒ^‚É‚Í•K—v‚È”z—ñƒTƒCƒY‚ª•Ô‚³‚ê‚éB
+lpcbNeeded : [var] lpImageBase ”z—ñ‚É•Ô‚³‚ê‚éƒoƒCƒg”B
 %inst
-Retrieves the load address for each device driver in the system.
+ƒVƒXƒeƒ€“à‚ÌŠeƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ìƒ[ƒhƒAƒhƒŒƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í 0 ˆÈŠO‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0 ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-To determine how many device drivers were enumerated by the call to
-EnumDeviceDrivers, divide the resulting value in the lpcbNeeded
-parameter by sizeof(LPVOID). Starting with Windows 7 and Windows
-Server 2008 R2, Psapi.h establishes version numbers for the PSAPI
-functions. The PSAPI version number affects the name used to call the
-function and the library that a program must load. If PSAPI_VERSION
-is 2 or greater, this function is defined as K32EnumDeviceDrivers in
-Psapi.h and exported in Kernel32.lib and Kernel32.dll. If
-PSAPI_VERSION is 1, this function is defined as EnumDeviceDrivers in
-Psapi.h and exported in Psapi.lib and Psapi.dll as a wrapper that
-calls K32EnumDeviceDrivers. Programs that must run on earlier
-versions of Windows as well as Windows 7 and later versions should
-always call this function as EnumDeviceDrivers. To ensure correct
-resolution of symbols, add Psapi.lib to the TARGETLIBS macro and
-compile the program with ?DPSAPI_VERSION=1. To use run-time dynamic
-linking, load Psapi.dll.
+EnumDeviceDrivers ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä—ñ‹“‚³‚ê‚½ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ì”‚ğ‹‚ß‚é‚É‚ÍAlpcbNeeded ƒpƒ‰ƒ[ƒ^‚Ì’l‚ğ
+sizeof(LPVOID) ‚ÅœZ‚·‚éBWindows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2 ˆÈ~APsapi.h
+‚Í PSAPI ŠÖ”ŒQ‚Éƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚µ‚Ä‚¢‚éBPSAPI
+ƒo[ƒWƒ‡ƒ“”Ô†‚ÍAŠÖ”‚ğŒÄ‚Ño‚·Û‚Ég—p‚·‚é–¼‘O‚ÆAƒvƒƒOƒ‰ƒ€‚ªƒ[ƒh‚·‚é•K—v‚Ì‚ ‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰e‹¿‚ğ—^‚¦‚éBPSAPI_VERSION
+‚ª 2 ˆÈã‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32EnumDeviceDrivers ‚Æ‚µ‚Ä’è‹`‚³‚êAKernel32.lib
+‚¨‚æ‚Ñ Kernel32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBPSAPI_VERSION ‚ª 1 ‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å
+EnumDeviceDrivers ‚Æ‚µ‚Ä’è‹`‚³‚êAK32EnumDeviceDrivers ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä Psapi.lib
+‚¨‚æ‚Ñ Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
+ˆÈ~‚Ì—¼•û‚Å“®ì‚·‚é•K—v‚ª‚ ‚éƒvƒƒOƒ‰ƒ€‚ÍAí‚É EnumDeviceDrivers
+‚Æ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‰ğŒˆ‚ğ³‚µ‚­s‚¤‚É‚ÍATARGETLIBS ƒ}ƒNƒ‚É Psapi.lib
+‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1 ‚ğw’è‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğ—˜—p‚·‚é‚É‚ÍAPsapi.dll
+‚ğƒ[ƒh‚·‚éB
 
 
 %index
 EnumPageFilesW
-Calls the callback routine for each installed pagefile in the system. (Unicode)
+ƒVƒXƒeƒ€‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚éŠeƒy[ƒWƒtƒ@ƒCƒ‹‚É‘Î‚µ‚ÄƒR[ƒ‹ƒoƒbƒNƒ‹[ƒ`ƒ“‚ğŒÄ‚Ño‚·B(Unicode)
 %group
 Win32 psapi
 %prm
 pCallBackRoutine, pContext
-pCallBackRoutine : [int] A pointer to the routine called for each pagefile. For more information, see EnumPageFilesProc.
-pContext : [intptr] The user-defined data passed to the callback routine.
+pCallBackRoutine : [int] Šeƒy[ƒWƒtƒ@ƒCƒ‹‚É‘Î‚µ‚ÄŒÄ‚Ño‚³‚ê‚éƒ‹[ƒ`ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í EnumPageFilesProc ‚ğQÆB
+pContext : [intptr] ƒR[ƒ‹ƒoƒbƒNƒ‹[ƒ`ƒ“‚É“n‚³‚ê‚éƒ†[ƒU[’è‹`ƒf[ƒ^B
 %inst
-Calls the callback routine for each installed pagefile in the system.
-(Unicode)
+ƒVƒXƒeƒ€‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚éŠeƒy[ƒWƒtƒ@ƒCƒ‹‚É‘Î‚µ‚ÄƒR[ƒ‹ƒoƒbƒNƒ‹[ƒ`ƒ“‚ğŒÄ‚Ño‚·B(Unicode)
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To get extended error information,
-call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Starting with Windows 7 and Windows Server 2008 R2, Psapi.h
-establishes version numbers for the PSAPI functions. The PSAPI
-version number affects the name used to call the function and the
-library that a program must load. If PSAPI_VERSION is 2 or greater,
-this function is defined as K32EnumPageFiles in Psapi.h and exported
-in Kernel32.lib and Kernel32.dll. If PSAPI_VERSION is 1, this
-function is defined as EnumPageFiles in Psapi.h and exported in
-Psapi.lib and Psapi.dll as a wrapper that calls K32EnumPageFiles.
-Programs that must run on earlier versions of Windows as well as
-Windows 7 and later versions should always call this function as
-EnumPageFiles. To ensure correct resolution of symbols, add Psapi.lib
-to the TARGETLIBS macro and compile the program with
-?DPSAPI_VERSION=1. To use run-time dynamic linking, load Psapi.dll.
-> [!NOTE] > The psapi.h header defines EnumPageFiles as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+Windows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2 ˆÈ~APsapi.h ‚Í PSAPI
+ŠÖ”ŒQ‚Éƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚µ‚Ä‚¢‚éBPSAPI
+ƒo[ƒWƒ‡ƒ“”Ô†‚ÍAŠÖ”‚ğŒÄ‚Ño‚·Û‚Ég—p‚·‚é–¼‘O‚ÆAƒvƒƒOƒ‰ƒ€‚ªƒ[ƒh‚·‚é•K—v‚Ì‚ ‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰e‹¿‚ğ—^‚¦‚éBPSAPI_VERSION
+‚ª 2 ˆÈã‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32EnumPageFiles ‚Æ‚µ‚Ä’è‹`‚³‚êAKernel32.lib ‚¨‚æ‚Ñ
+Kernel32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBPSAPI_VERSION ‚ª 1 ‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å
+EnumPageFiles ‚Æ‚µ‚Ä’è‹`‚³‚êAK32EnumPageFiles ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä Psapi.lib ‚¨‚æ‚Ñ
+Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
+ˆÈ~‚Ì—¼•û‚Å“®ì‚·‚é•K—v‚ª‚ ‚éƒvƒƒOƒ‰ƒ€‚ÍAí‚É EnumPageFiles
+‚Æ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‰ğŒˆ‚ğ³‚µ‚­s‚¤‚É‚ÍATARGETLIBS ƒ}ƒNƒ‚É Psapi.lib
+‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1 ‚ğw’è‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğ—˜—p‚·‚é‚É‚ÍAPsapi.dll
+‚ğƒ[ƒh‚·‚éB
+> [!NOTE] > psapi.h ƒwƒbƒ_‚Í EnumPageFiles ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
@@ -148,66 +131,50 @@ CloseHandle ‚ğŒÄ‚ñ‚Å‚Í‚È‚ç‚È‚¢BPSAPI_VERSION ‚É‚æ‚é“®ì‚Í EnumProcesses ‚Æ“¯—l
 
 %index
 EnumProcessModulesEx
-Retrieves a handle for each module in the specified process that meets the specified filter criteria.
+w’è‚µ‚½ƒtƒBƒ‹ƒ^ğŒ‚Éˆê’v‚·‚éAw’èƒvƒƒZƒX“à‚ÌŠeƒ‚ƒWƒ…[ƒ‹‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
 %group
 Win32 psapi
 %prm
 hProcess, lphModule, cb, lpcbNeeded, dwFilterFlag
-hProcess : [intptr] A handle to the process.
-lphModule : [intptr] An array that receives the list of module handles.
-cb : [int] The size of the lphModule array, in bytes.
-lpcbNeeded : [var] The number of bytes required to store all module handles in the lphModule array.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹B
+lphModule : [intptr] ƒ‚ƒWƒ…[ƒ‹ƒnƒ“ƒhƒ‹‚ÌƒŠƒXƒg‚ğó‚¯æ‚é”z—ñB
+cb : [int] lphModule ”z—ñ‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
+lpcbNeeded : [var] lphModule ”z—ñ‚É‚·‚×‚Ä‚Ìƒ‚ƒWƒ…[ƒ‹ƒnƒ“ƒhƒ‹‚ğŠi”[‚·‚é‚½‚ß‚É•K—v‚ÈƒoƒCƒg”B
 dwFilterFlag : [int] 
 %inst
-Retrieves a handle for each module in the specified process that
-meets the specified filter criteria.
+w’è‚µ‚½ƒtƒBƒ‹ƒ^ğŒ‚Éˆê’v‚·‚éAw’èƒvƒƒZƒX“à‚ÌŠeƒ‚ƒWƒ…[ƒ‹‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í 0 ˆÈŠO‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0 ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The EnumProcessModulesEx function is primarily designed for use by
-debuggers and similar applications that must extract module
-information from another process. If the module list in the target
-process is corrupted or not yet initialized, or if the module list
-changes during the function call as a result of DLLs being loaded or
-unloaded, EnumProcessModulesEx may fail or return incorrect
-information. This function is intended primarily for 64-bit
-applications. If the function is called by a 32-bit application
-running under WOW64, the dwFilterFlag option is ignored and the
-function provides the same results as the EnumProcessModules
-function. It is a good idea to specify a large array of HMODULE
-values, because it is hard to predict how many modules there will be
-in the process at the time you call EnumProcessModulesEx. To
-determine if the lphModule array is too small to hold all module
-handles for the process, compare the value returned in lpcbNeeded
-with the value specified in cb. If lpcbNeeded is greater than cb,
-increase the size of the array and call EnumProcessModulesEx again.
-To determine how many modules were enumerated by the call to
-EnumProcessModulesEx, divide the resulting value in the lpcbNeeded
-parameter by sizeof(HMODULE). The EnumProcessModulesEx function does
-not retrieve handles for modules that were loaded with the
-LOAD_LIBRARY_AS_DATAFILE flag. For more information, see
-LoadLibraryEx. Do not call CloseHandle on any of the handles returned
-by this function. The information comes from a snapshot, so there are
-no resources to be freed. To take a snapshot of specified processes
-and the heaps, modules, and threads used by these processes, use the
-CreateToolhelp32Snapshot function. Starting with Windows 7 and
-Windows Server 2008 R2, Psapi.h establishes version numbers for the
-PSAPI functions. The PSAPI version number affects the name used to
-call the function and the library that a program must load. If
-PSAPI_VERSION is 2 or greater, this function is defined as
-K32EnumProcessModulesEx in Psapi.h and exported in Kernel32.lib and
-Kernel32.dll. If PSAPI_VERSION is 1, this function is defined as
-EnumProcessModulesEx in Psapi.h and exported in Psapi.lib and
-Psapi.dll as a wrapper that calls K32EnumProcessModulesEx. Programs
-that must run on earlier versions of Windows as well as Windows 7 and
-later versions should always call this function as
-EnumProcessModulesEx. To ensure correct resolution of symbols, add
-Psapi.lib to the TARGETLIBS macro and compile the program with
-?DPSAPI_VERSION=1. To use run-time dynamic linking, load Psapi.dll.
+EnumProcessModulesEx
+ŠÖ”‚Íå‚ÉA•ÊƒvƒƒZƒX‚©‚çƒ‚ƒWƒ…[ƒ‹î•ñ‚ğæ‚èo‚·•K—v‚ª‚ ‚éƒfƒoƒbƒK‚È‚Ç‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“Œü‚¯‚ÉİŒv‚³‚ê‚Ä‚¢‚éB‘ÎÛƒvƒƒZƒX‚Ìƒ‚ƒWƒ…[ƒ‹ƒŠƒXƒg‚ª”j‘¹‚µ‚Ä‚¢‚½‚èA‚Ü‚¾‰Šú‰»‚³‚ê‚Ä‚¢‚È‚©‚Á‚½‚èAŠÖ”ŒÄ‚Ño‚µ’†‚É
+DLL ‚Ìƒ[ƒh‚âƒAƒ“ƒ[ƒh‚É‚æ‚Á‚Äƒ‚ƒWƒ…[ƒ‹ƒŠƒXƒg‚ª•Ï‰»‚µ‚½‚è‚·‚é‚ÆAEnumProcessModulesEx
+‚Í¸”s‚·‚é‚©•s³Šm‚Èî•ñ‚ğ•Ô‚·‰Â”\«‚ª‚ ‚éB‚±‚ÌŠÖ”‚Íå‚É 64 ƒrƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“Œü‚¯‚Å‚ ‚éBWOW64 ã‚Å“®ì‚·‚é 32
+ƒrƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚çŒÄ‚Ño‚³‚ê‚½ê‡AdwFilterFlag ƒIƒvƒVƒ‡ƒ“‚Í–³‹‚³‚êAEnumProcessModules
+ŠÖ”‚Æ“¯‚¶Œ‹‰Ê‚ğ•Ô‚·BEnumProcessModulesEx
+‚ğŒÄ‚Ño‚µ‚½“_‚ÅƒvƒƒZƒX“à‚É‚¢‚­‚Â‚Ìƒ‚ƒWƒ…[ƒ‹‚ª‘¶İ‚·‚é‚©‚Í—\‘ª‚µ‚É‚­‚¢‚½‚ßAHMODULE
+’l‚Ì‘å‚«‚È”z—ñ‚ğw’è‚·‚é‚Ì‚ª–]‚Ü‚µ‚¢BlphModule
+”z—ñ‚ªƒvƒƒZƒX‚Ì‚·‚×‚Ä‚Ìƒ‚ƒWƒ…[ƒ‹ƒnƒ“ƒhƒ‹‚ğ•Û‚·‚é‚É‚Í¬‚³‚·‚¬‚é‚©‚Ç‚¤‚©‚ğ”»’f‚·‚é‚É‚ÍAlpcbNeeded ‚É•Ô‚³‚ê‚½’l‚Æ cb
+‚Éw’è‚µ‚½’l‚ğ”äŠr‚·‚éBlpcbNeeded ‚ª cb ‚æ‚è‘å‚«‚¢ê‡A”z—ñ‚ÌƒTƒCƒY‚ğ‘å‚«‚­‚µ‚Ä EnumProcessModulesEx
+‚ğÄ“xŒÄ‚Ño‚·BEnumProcessModulesEx ŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä—ñ‹“‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹”‚ğ‹‚ß‚é‚É‚ÍAlpcbNeeded
+ƒpƒ‰ƒ[ƒ^‚Ì’l‚ğ sizeof(HMODULE) ‚ÅœZ‚·‚éBEnumProcessModulesEx ŠÖ”‚Í
+LOAD_LIBRARY_AS_DATAFILE ƒtƒ‰ƒO‚Åƒ[ƒh‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚µ‚È‚¢BÚ×‚Í LoadLibraryEx
+‚ğQÆB‚±‚ÌŠÖ”‚Å•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚É‘Î‚µ‚Ä CloseHandle
+‚ğŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢Bî•ñ‚ÍƒXƒiƒbƒvƒVƒ‡ƒbƒg‚©‚ç“¾‚ç‚ê‚é‚½‚ßA‰ğ•ú‚·‚×‚«ƒŠƒ\[ƒX‚Í‘¶İ‚µ‚È‚¢Bw’èƒvƒƒZƒX‚Æ‚»‚ê‚ç‚ªg—p‚·‚éƒq[ƒvAƒ‚ƒWƒ…[ƒ‹AƒXƒŒƒbƒh‚ÌƒXƒiƒbƒvƒVƒ‡ƒbƒg‚ğæ“¾‚·‚é‚É‚ÍACreateToolhelp32Snapshot
+ŠÖ”‚ğg—p‚·‚éBWindows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2 ˆÈ~APsapi.h ‚Í PSAPI
+ŠÖ”ŒQ‚Éƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚µ‚Ä‚¢‚éBPSAPI
+ƒo[ƒWƒ‡ƒ“”Ô†‚ÍAŠÖ”‚ğŒÄ‚Ño‚·Û‚Ég—p‚·‚é–¼‘O‚ÆAƒvƒƒOƒ‰ƒ€‚ªƒ[ƒh‚·‚é•K—v‚Ì‚ ‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰e‹¿‚ğ—^‚¦‚éBPSAPI_VERSION
+‚ª 2 ˆÈã‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32EnumProcessModulesEx
+‚Æ‚µ‚Ä’è‹`‚³‚êAKernel32.lib ‚¨‚æ‚Ñ Kernel32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBPSAPI_VERSION ‚ª 1
+‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å EnumProcessModulesEx
+‚Æ‚µ‚Ä’è‹`‚³‚êAK32EnumProcessModulesEx ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä Psapi.lib ‚¨‚æ‚Ñ Psapi.dll
+‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7 ˆÈ~‚Ì—¼•û‚Å“®ì‚·‚é•K—v‚ª‚ ‚éƒvƒƒOƒ‰ƒ€‚ÍAí‚É
+EnumProcessModulesEx ‚Æ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‰ğŒˆ‚ğ³‚µ‚­s‚¤‚É‚ÍATARGETLIBS ƒ}ƒNƒ‚É
+Psapi.lib ‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1
+‚ğw’è‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğ—˜—p‚·‚é‚É‚ÍAPsapi.dll ‚ğƒ[ƒh‚·‚éB
 
 
 %index
@@ -240,124 +207,106 @@ Kernel32 ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éB1 ‚Ìê‡‚Í]—ˆ’Ê‚è Psapi.dll ‚Ì EnumProcesses
 
 %index
 GetDeviceDriverBaseNameW
-Retrieves the base name of the specified device driver. (Unicode)
+w’è‚³‚ê‚½ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ìƒx[ƒX–¼‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 psapi
 %prm
 ImageBase, lpBaseName, nSize
-ImageBase : [intptr] The load address of the device driver. This value can be retrieved using the EnumDeviceDrivers function.
-lpBaseName : [wstr] A pointer to the buffer that receives the base name of the device driver.
-nSize : [int] The size of the lpBaseName buffer, in characters. If the buffer is not large enough to store the base name plus the terminating null character, the string is truncated.
+ImageBase : [intptr] ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ìƒ[ƒhƒAƒhƒŒƒXB‚±‚Ì’l‚Í EnumDeviceDrivers ŠÖ”‚Åæ“¾‚Å‚«‚éB
+lpBaseName : [wstr] ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ìƒx[ƒX–¼‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+nSize : [int] lpBaseName ƒoƒbƒtƒ@‚ÌƒTƒCƒYi•¶š”jBƒoƒbƒtƒ@‚ªƒx[ƒX–¼‚ÆI’[‚Ì null •¶š‚ğŠi”[‚·‚é‚Ì‚É\•ª‚Å‚È‚¢ê‡A•¶š—ñ‚ÍØ‚è‹l‚ß‚ç‚ê‚éB
 %inst
-Retrieves the base name of the specified device driver. (Unicode)
+w’è‚³‚ê‚½ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ìƒx[ƒX–¼‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-If the function succeeds, the return value specifies the length of
-the string copied to the buffer, not including any terminating null
-character. If the function fails, the return value is zero. To get
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Íƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½•¶š—ñ‚Ì’·‚³iI’[‚Ì null •¶š‚ğŠÜ‚Ü‚È‚¢j‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0
+‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Starting with Windows 7 and Windows Server 2008 R2, Psapi.h
-establishes version numbers for the PSAPI functions. The PSAPI
-version number affects the name used to call the function and the
-library that a program must load. If PSAPI_VERSION is 2 or greater,
-this function is defined as K32GetDeviceDriverBaseName in Psapi.h and
-exported in Kernel32.lib and Kernel32.dll. If PSAPI_VERSION is 1,
-this function is defined as GetDeviceDriverBaseName in Psapi.h and
-exported in Psapi.lib and Psapi.dll as a wrapper that calls
-K32GetDeviceDriverBaseName. Programs that must run on earlier
-versions of Windows as well as Windows 7 and later versions should
-always call this function as GetDeviceDriverBaseName. To ensure
-correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro
-and compile the program with ?DPSAPI_VERSION=1. To use run-time
-dynamic linking, load Psapi.dll.
+Windows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2 ˆÈ~APsapi.h ‚Í PSAPI
+ŠÖ”ŒQ‚Éƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚µ‚Ä‚¢‚éBPSAPI
+ƒo[ƒWƒ‡ƒ“”Ô†‚ÍAŠÖ”‚ğŒÄ‚Ño‚·Û‚Ég—p‚·‚é–¼‘O‚ÆAƒvƒƒOƒ‰ƒ€‚ªƒ[ƒh‚·‚é•K—v‚Ì‚ ‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰e‹¿‚ğ—^‚¦‚éBPSAPI_VERSION
+‚ª 2 ˆÈã‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32GetDeviceDriverBaseName
+‚Æ‚µ‚Ä’è‹`‚³‚êAKernel32.lib ‚¨‚æ‚Ñ Kernel32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBPSAPI_VERSION ‚ª 1
+‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å GetDeviceDriverBaseName
+‚Æ‚µ‚Ä’è‹`‚³‚êAK32GetDeviceDriverBaseName ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä Psapi.lib ‚¨‚æ‚Ñ
+Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
+ˆÈ~‚Ì—¼•û‚Å“®ì‚·‚é•K—v‚ª‚ ‚éƒvƒƒOƒ‰ƒ€‚ÍAí‚É GetDeviceDriverBaseName
+‚Æ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‰ğŒˆ‚ğ³‚µ‚­s‚¤‚É‚ÍATARGETLIBS ƒ}ƒNƒ‚É Psapi.lib
+‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1 ‚ğw’è‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğ—˜—p‚·‚é‚É‚ÍAPsapi.dll
+‚ğƒ[ƒh‚·‚éB
 
 
 %index
 GetDeviceDriverFileNameW
-Retrieves the path available for the specified device driver. (Unicode)
+w’è‚³‚ê‚½ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Å—˜—p‰Â”\‚ÈƒpƒX‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 psapi
 %prm
 ImageBase, lpFilename, nSize
-ImageBase : [intptr] The load address of the device driver.
-lpFilename : [wstr] A pointer to the buffer that receives the path to the device driver.
-nSize : [int] The size of the lpFilename buffer, in characters. If the buffer is not large enough to store the path plus the terminating null character, the string is truncated.
+ImageBase : [intptr] ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ìƒ[ƒhƒAƒhƒŒƒXB
+lpFilename : [wstr] ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Ö‚ÌƒpƒX‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+nSize : [int] lpFilename ƒoƒbƒtƒ@‚ÌƒTƒCƒYi•¶š”jBƒoƒbƒtƒ@‚ªƒpƒX‚ÆI’[‚Ì null •¶š‚ğŠi”[‚·‚é‚Ì‚É\•ª‚Å‚È‚¢ê‡A•¶š—ñ‚ÍØ‚è‹l‚ß‚ç‚ê‚éB
 %inst
-Retrieves the path available for the specified device driver.
-(Unicode)
+w’è‚³‚ê‚½ƒfƒoƒCƒXƒhƒ‰ƒCƒo[‚Å—˜—p‰Â”\‚ÈƒpƒX‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-If the function succeeds, the return value specifies the length of
-the string copied to the buffer, not including any terminating null
-character. If the function fails, the return value is zero. To get
-extended error information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Íƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½•¶š—ñ‚Ì’·‚³iI’[‚Ì null •¶š‚ğŠÜ‚Ü‚È‚¢j‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0
+‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Starting with Windows 7 and Windows Server 2008 R2, Psapi.h
-establishes version numbers for the PSAPI functions. The PSAPI
-version number affects the name used to call the function and the
-library that a program must load. If PSAPI_VERSION is 2 or greater,
-this function is defined as K32GetDeviceDriverFileName in Psapi.h and
-exported in Kernel32.lib and Kernel32.dll. If PSAPI_VERSION is 1,
-this function is defined as GetDeviceDriverFileName in Psapi.h and
-exported in Psapi.lib and Psapi.dll as a wrapper that calls
-K32GetDeviceDriverFileName. Programs that must run on earlier
-versions of Windows as well as Windows 7 and later versions should
-always call this function as GetDeviceDriverFileName. To ensure
-correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro
-and compile the program with ?DPSAPI_VERSION=1. To use run-time
-dynamic linking, load Psapi.dll.
-> [!NOTE] > The psapi.h header defines GetDeviceDriverFileName as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+Windows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2 ˆÈ~APsapi.h ‚Í PSAPI
+ŠÖ”ŒQ‚Éƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚µ‚Ä‚¢‚éBPSAPI
+ƒo[ƒWƒ‡ƒ“”Ô†‚ÍAŠÖ”‚ğŒÄ‚Ño‚·Û‚Ég—p‚·‚é–¼‘O‚ÆAƒvƒƒOƒ‰ƒ€‚ªƒ[ƒh‚·‚é•K—v‚Ì‚ ‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰e‹¿‚ğ—^‚¦‚éBPSAPI_VERSION
+‚ª 2 ˆÈã‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32GetDeviceDriverFileName
+‚Æ‚µ‚Ä’è‹`‚³‚êAKernel32.lib ‚¨‚æ‚Ñ Kernel32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBPSAPI_VERSION ‚ª 1
+‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å GetDeviceDriverFileName
+‚Æ‚µ‚Ä’è‹`‚³‚êAK32GetDeviceDriverFileName ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä Psapi.lib ‚¨‚æ‚Ñ
+Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
+ˆÈ~‚Ì—¼•û‚Å“®ì‚·‚é•K—v‚ª‚ ‚éƒvƒƒOƒ‰ƒ€‚ÍAí‚É GetDeviceDriverFileName
+‚Æ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‰ğŒˆ‚ğ³‚µ‚­s‚¤‚É‚ÍATARGETLIBS ƒ}ƒNƒ‚É Psapi.lib
+‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1 ‚ğw’è‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğ—˜—p‚·‚é‚É‚ÍAPsapi.dll
+‚ğƒ[ƒh‚·‚éB
+> [!NOTE] > psapi.h ƒwƒbƒ_‚Í GetDeviceDriverFileName ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚³‚¹‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 GetMappedFileNameW
-Checks whether the specified address is within a memory-mapped file in the address space of the specified process. If so, the function returns the name of the memory-mapped file. (Unicode)
+w’è‚³‚ê‚½ƒAƒhƒŒƒX‚ªAw’èƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ“à‚Ìƒƒ‚ƒŠƒ}ƒbƒvƒgƒtƒ@ƒCƒ‹‚Ì’†‚É‚ ‚é‚©‚ğŠm”F‚·‚éBŠY“–‚·‚éê‡AŠÖ”‚Í‚»‚Ìƒƒ‚ƒŠƒ}ƒbƒvƒgƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ•Ô‚·B(Unicode)
 %group
 Win32 psapi
 %prm
 hProcess, lpv, lpFilename, nSize
-hProcess : [intptr] A handle to the process. The handle must have the PROCESS_QUERY_INFORMATION access rightF. For more information, see Process Security and Access Rights.
-lpv : [intptr] The address to be verified.
-lpFilename : [wstr] A pointer to the buffer that receives the name of the memory-mapped file to which the address specified by lpv belongs.
-nSize : [int] The size of the lpFilename buffer, in characters.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
+lpv : [intptr] ŒŸØ‚·‚éƒAƒhƒŒƒXB
+lpFilename : [wstr] lpv ‚Åw’è‚µ‚½ƒAƒhƒŒƒX‚ª‘®‚·‚éƒƒ‚ƒŠƒ}ƒbƒvƒgƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+nSize : [int] lpFilename ƒoƒbƒtƒ@‚ÌƒTƒCƒYi•¶š”jB
 %inst
-Checks whether the specified address is within a memory-mapped file
-in the address space of the specified process. If so, the function
-returns the name of the memory-mapped file. (Unicode)
+
+w’è‚³‚ê‚½ƒAƒhƒŒƒX‚ªAw’èƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ“à‚Ìƒƒ‚ƒŠƒ}ƒbƒvƒgƒtƒ@ƒCƒ‹‚Ì’†‚É‚ ‚é‚©‚ğŠm”F‚·‚éBŠY“–‚·‚éê‡AŠÖ”‚Í‚»‚Ìƒƒ‚ƒŠƒ}ƒbƒvƒgƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ•Ô‚·B(Unicode)
 
 [–ß‚è’l]
-If the function succeeds, the return value specifies the length of
-the string copied to the buffer, in characters. If the function
-fails, the return value is zero. To get extended error information,
-call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Íƒoƒbƒtƒ@‚ÉƒRƒs[‚³‚ê‚½•¶š—ñ‚Ì’·‚³i•¶š”j‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0
+‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Starting with Windows 7 and Windows Server 2008 R2, Psapi.h
-establishes version numbers for the PSAPI functions. The PSAPI
-version number affects the name used to call the function and the
-library that a program must load. If PSAPI_VERSION is 2 or greater,
-this function is defined as K32GetMappedFileName in Psapi.h and
-exported in Kernel32.lib and Kernel32.dll. If PSAPI_VERSION is 1,
-this function is defined as GetMappedFileName in Psapi.h and exported
-in Psapi.lib and Psapi.dll as a wrapper that calls
-K32GetMappedFileName. Programs that must run on earlier versions of
-Windows as well as Windows 7 and later versions should always call
-this function as GetMappedFileName. To ensure correct resolution of
-symbols, add Psapi.lib to the TARGETLIBS macro and compile the
-program with -DPSAPI_VERSION=1. To use run-time dynamic linking, load
-Psapi.dll. In Windows Server 2012, this function is supported by the
-following technologies.
-This doc was truncated.
+Windows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2 ˆÈ~APsapi.h ‚Í PSAPI
+ŠÖ”ŒQ‚Éƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚µ‚Ä‚¢‚éBPSAPI
+ƒo[ƒWƒ‡ƒ“”Ô†‚ÍAŠÖ”‚ğŒÄ‚Ño‚·Û‚Ég—p‚·‚é–¼‘O‚ÆAƒvƒƒOƒ‰ƒ€‚ªƒ[ƒh‚·‚é•K—v‚Ì‚ ‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰e‹¿‚ğ—^‚¦‚éBPSAPI_VERSION
+‚ª 2 ˆÈã‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32GetMappedFileName ‚Æ‚µ‚Ä’è‹`‚³‚êAKernel32.lib
+‚¨‚æ‚Ñ Kernel32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBPSAPI_VERSION ‚ª 1 ‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å
+GetMappedFileName ‚Æ‚µ‚Ä’è‹`‚³‚êAK32GetMappedFileName ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä Psapi.lib
+‚¨‚æ‚Ñ Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
+ˆÈ~‚Ì—¼•û‚Å“®ì‚·‚é•K—v‚ª‚ ‚éƒvƒƒOƒ‰ƒ€‚ÍAí‚É GetMappedFileName
+‚Æ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‰ğŒˆ‚ğ³‚µ‚­s‚¤‚É‚ÍATARGETLIBS ƒ}ƒNƒ‚É Psapi.lib
+‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1 ‚ğw’è‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğ—˜—p‚·‚é‚É‚ÍAPsapi.dll
+‚ğƒ[ƒh‚·‚éBWindows Server 2012 ‚Å‚ÍA‚±‚ÌŠÖ”‚ÍŸ‚ÌƒeƒNƒmƒƒW[‚ÅƒTƒ|[ƒg‚³‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
@@ -410,78 +359,66 @@ QueryFullProcessImageName ‚ğg‚¤•û‚ª‚æ‚¢BPSAPI_VERSION ŠÖ˜A‚Í‘¼‚Ì psapi ŠÖ”‚Æ“
 
 %index
 GetModuleInformation
-Retrieves information about the specified module in the MODULEINFO structure.
+w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğ MODULEINFO \‘¢‘Ì‚Éæ“¾‚·‚éB
 %group
 Win32 psapi
 %prm
 hProcess, hModule, lpmodinfo, cb
-hProcess : [intptr] A handle to the process that contains the module. The handle must have the PROCESS_QUERY_INFORMATION and PROCESS_VM_READ access rights. For more information, see Process Security and Access Rights.
-hModule : [intptr] A handle to the module.
-lpmodinfo : [var] A pointer to the MODULEINFO structure that receives information about the module.
-cb : [int] The size of the MODULEINFO structure, in bytes.
+hProcess : [intptr] ƒ‚ƒWƒ…[ƒ‹‚ğŠÜ‚ŞƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ‚¨‚æ‚Ñ PROCESS_VM_READ ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
+hModule : [intptr] ƒ‚ƒWƒ…[ƒ‹‚Ìƒnƒ“ƒhƒ‹B
+lpmodinfo : [var] ƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğó‚¯æ‚é MODULEINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cb : [int] MODULEINFO \‘¢‘Ì‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
 %inst
-Retrieves information about the specified module in the MODULEINFO
-structure.
+w’è‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚ÉŠÖ‚·‚éî•ñ‚ğ MODULEINFO \‘¢‘Ì‚Éæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í 0 ˆÈŠO‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0 ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-To get information for the calling process, pass the handle returned
-by GetCurrentProcess. The GetModuleInformation function does not
-retrieve information for modules that were loaded with the
-LOAD_LIBRARY_AS_DATAFILE flag. For more information, see
-LoadLibraryEx. Starting with Windows 7 and Windows Server 2008 R2,
-Psapi.h establishes version numbers for the PSAPI functions. The
-PSAPI version number affects the name used to call the function and
-the library that a program must load. If PSAPI_VERSION is 2 or
-greater, this function is defined as K32GetModuleInformation in
-Psapi.h and exported in Kernel32.lib and Kernel32.dll. If
-PSAPI_VERSION is 1, this function is defined as
-K32GetModuleInformation in Psapi.h and exported in Psapi.lib and
-Psapi.dll as a wrapper that calls K32GetModuleInformation. Programs
-that must run on earlier versions of Windows as well as Windows 7 and
-later versions should always call this function as
-K32GetModuleInformation. To ensure correct resolution of symbols, add
-Psapi.lib to the TARGETLIBS macro and compile the program with
--DPSAPI_VERSION=1. To use run-time dynamic linking, load Psapi.dll.
+ŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚Ìî•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetCurrentProcess ‚ª•Ô‚·ƒnƒ“ƒhƒ‹‚ğ“n‚·BGetModuleInformation
+ŠÖ”‚Í LOAD_LIBRARY_AS_DATAFILE ƒtƒ‰ƒO‚Åƒ[ƒh‚³‚ê‚½ƒ‚ƒWƒ…[ƒ‹‚Ìî•ñ‚ğæ“¾‚µ‚È‚¢BÚ×‚Í
+LoadLibraryEx ‚ğQÆBWindows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2 ˆÈ~APsapi.h ‚Í
+PSAPI ŠÖ”ŒQ‚Éƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚µ‚Ä‚¢‚éBPSAPI
+ƒo[ƒWƒ‡ƒ“”Ô†‚ÍAŠÖ”‚ğŒÄ‚Ño‚·Û‚Ég—p‚·‚é–¼‘O‚ÆAƒvƒƒOƒ‰ƒ€‚ªƒ[ƒh‚·‚é•K—v‚Ì‚ ‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰e‹¿‚ğ—^‚¦‚éBPSAPI_VERSION
+‚ª 2 ˆÈã‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32GetModuleInformation
+‚Æ‚µ‚Ä’è‹`‚³‚êAKernel32.lib ‚¨‚æ‚Ñ Kernel32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBPSAPI_VERSION ‚ª 1
+‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32GetModuleInformation
+‚Æ‚µ‚Ä’è‹`‚³‚êAK32GetModuleInformation ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä Psapi.lib ‚¨‚æ‚Ñ Psapi.dll
+‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7 ˆÈ~‚Ì—¼•û‚Å“®ì‚·‚é•K—v‚ª‚ ‚éƒvƒƒOƒ‰ƒ€‚ÍAí‚É
+K32GetModuleInformation ‚Æ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‰ğŒˆ‚ğ³‚µ‚­s‚¤‚É‚ÍATARGETLIBS ƒ}ƒNƒ‚É
+Psapi.lib ‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1
+‚ğw’è‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğ—˜—p‚·‚é‚É‚ÍAPsapi.dll ‚ğƒ[ƒh‚·‚éB
 
 
 %index
 GetPerformanceInfo
-Retrieves the performance values contained in the PERFORMANCE_INFORMATION structure.
+PERFORMANCE_INFORMATION \‘¢‘Ì‚ÉŠi”[‚³‚ê‚½ƒpƒtƒH[ƒ}ƒ“ƒX’l‚ğæ“¾‚·‚éB
 %group
 Win32 psapi
 %prm
 pPerformanceInformation, cb
-pPerformanceInformation : [var] A pointer to a PERFORMANCE_INFORMATION structure that receives the performance information.
-cb : [int] The size of the PERFORMANCE_INFORMATION structure, in bytes.
+pPerformanceInformation : [var] ƒpƒtƒH[ƒ}ƒ“ƒXî•ñ‚ğó‚¯æ‚é PERFORMANCE_INFORMATION \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cb : [int] PERFORMANCE_INFORMATION \‘¢‘Ì‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
 %inst
-Retrieves the performance values contained in the
-PERFORMANCE_INFORMATION structure.
+PERFORMANCE_INFORMATION \‘¢‘Ì‚ÉŠi”[‚³‚ê‚½ƒpƒtƒH[ƒ}ƒ“ƒX’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To get extended error information,
-call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í FALSE ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Starting with Windows 7 and Windows Server 2008 R2, Psapi.h
-establishes version numbers for the PSAPI functions. The PSAPI
-version number affects the name used to call the function and the
-library that a program must load. If PSAPI_VERSION is 2 or greater,
-this function is defined as K32GetPerformanceInfo in Psapi.h and
-exported in Kernel32.lib and Kernel32.dll. If PSAPI_VERSION is 1,
-this function is defined as GetPerformanceInfo in Psapi.h and
-exported in Psapi.lib and Psapi.dll as a wrapper that calls
-K32GetPerformanceInfo. Programs that must run on earlier versions of
-Windows as well as Windows 7 and later versions should always call
-this function as GetPerformanceInfo. To ensure correct resolution of
-symbols, add Psapi.lib to the TARGETLIBS macro and compile the
-program with ?DPSAPI_VERSION=1. To use run-time dynamic linking, load
-Psapi.dll.
+Windows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2 ˆÈ~APsapi.h ‚Í PSAPI
+ŠÖ”ŒQ‚Éƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚µ‚Ä‚¢‚éBPSAPI
+ƒo[ƒWƒ‡ƒ“”Ô†‚ÍAŠÖ”‚ğŒÄ‚Ño‚·Û‚Ég—p‚·‚é–¼‘O‚ÆAƒvƒƒOƒ‰ƒ€‚ªƒ[ƒh‚·‚é•K—v‚Ì‚ ‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰e‹¿‚ğ—^‚¦‚éBPSAPI_VERSION
+‚ª 2 ˆÈã‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32GetPerformanceInfo ‚Æ‚µ‚Ä’è‹`‚³‚êAKernel32.lib
+‚¨‚æ‚Ñ Kernel32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBPSAPI_VERSION ‚ª 1 ‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å
+GetPerformanceInfo ‚Æ‚µ‚Ä’è‹`‚³‚êAK32GetPerformanceInfo ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä
+Psapi.lib ‚¨‚æ‚Ñ Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
+ˆÈ~‚Ì—¼•û‚Å“®ì‚·‚é•K—v‚ª‚ ‚éƒvƒƒOƒ‰ƒ€‚ÍAí‚É GetPerformanceInfo
+‚Æ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‰ğŒˆ‚ğ³‚µ‚­s‚¤‚É‚ÍATARGETLIBS ƒ}ƒNƒ‚É Psapi.lib
+‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1 ‚ğw’è‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğ—˜—p‚·‚é‚É‚ÍAPsapi.dll
+‚ğƒ[ƒh‚·‚éB
 
 
 %index
@@ -536,220 +473,177 @@ Psapi.dll Œo—R‚Æ‚È‚éBŒİŠ·‚ª•K—v‚È‚ç **GetProcessMemoryInfo**
 
 %index
 GetWsChanges
-Retrieves information about the pages that have been added to the working set of the specified process since the last time this function or the InitializeProcessForWsWatch function was called.
+‚±‚ÌŠÖ”‚Ü‚½‚Í InitializeProcessForWsWatch ŠÖ”‚ª‘O‰ñŒÄ‚Ño‚³‚ê‚Ä‚©‚çAw’èƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚É’Ç‰Á‚³‚ê‚½ƒy[ƒW‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 psapi
 %prm
 hProcess, lpWatchInfo, cb
-hProcess : [intptr] A handle to the process. The handle must have the PROCESS_QUERY_INFORMATION access right. For more information, see Process Security and Access Rights.
-lpWatchInfo : [var] A pointer to a user-allocated buffer that receives an array of PSAPI_WS_WATCH_INFORMATION structures. The array is terminated with a structure whose FaultingPc member is NULL.
-cb : [int] The size of the lpWatchInfo buffer, in bytes.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
+lpWatchInfo : [var] PSAPI_WS_WATCH_INFORMATION \‘¢‘Ì‚Ì”z—ñ‚ğó‚¯æ‚éAƒ†[ƒU[‚ªŠ„‚è“–‚Ä‚½ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B”z—ñ‚Í FaultingPc ƒƒ“ƒo[‚ª NULL ‚Ì\‘¢‘Ì‚ÅI’[‚³‚ê‚éB
+cb : [int] lpWatchInfo ƒoƒbƒtƒ@‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
 %inst
-Retrieves information about the pages that have been added to the
-working set of the specified process since the last time this
-function or the InitializeProcessForWsWatch function was called.
+‚±‚ÌŠÖ”‚Ü‚½‚Í InitializeProcessForWsWatch
+ŠÖ”‚ª‘O‰ñŒÄ‚Ño‚³‚ê‚Ä‚©‚çAw’èƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚É’Ç‰Á‚³‚ê‚½ƒy[ƒW‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
-GetLastError returns ERROR_INSUFFICIENT_BUFFER if the lpWatchInfo
-buffer is not large enough to contain all the working set change
-records; the buffer is returned empty. Reallocate a larger block of
-memory for the buffer and call again.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í 0 ˆÈŠO‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0 ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
+lpWatchInfo ƒoƒbƒtƒ@‚ª‚·‚×‚Ä‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg•ÏXƒŒƒR[ƒh‚ğŠi”[‚·‚é‚Ì‚É\•ª‚Å‚È‚¢ê‡AGetLastError ‚Í
+ERROR_INSUFFICIENT_BUFFER
+‚ğ•Ô‚µAƒoƒbƒtƒ@‚Í‹ó‚Ì‚Ü‚Ü•Ô‚³‚ê‚éBƒoƒbƒtƒ@—p‚É‚à‚Á‚Æ‘å‚«‚Èƒƒ‚ƒŠƒuƒƒbƒN‚ğÄŠ„‚è“–‚Ä‚µ‚ÄÄ“xŒÄ‚Ño‚·‚±‚ÆB
 
 [”õl]
-The operating system uses one buffer per process to maintain working
-set change records. If more than one application (or multiple threads
-in the same application) calls this function with the same process
-handle, neither application will have a complete accounting of the
-working set changes because each call empties the buffer. The
-operating system does not record new change records while it is
-processing the query (and emptying the buffer). The function sets the
-error code to NO_MORE_ENTRIES if a concurrent query is received while
-it is processing another query. If the buffer becomes full, no new
-records are added to the buffer until this function or the
-InitializeProcessForWsWatch function is called. You should call this
-method with enough frequency to prevent possible data loss. If
-records are lost, the array is terminated with a structure whose
-FaultingPc member is NULL and whose FaultingVa member is set to the
-number of records that were lost. Windows Server 2003 and Windows XP:
-If records are lost, the array is terminated with a structure whose
-FaultingPc member is NULL and whose FaultingVa member is 1. Starting
-with Windows 7 and Windows Server 2008 R2, Psapi.h establishes
-version numbers for the PSAPI functions. The PSAPI version number
-affects the name used to call the function and the library that a
-program must load. If PSAPI_VERSION is 2 or greater, this function is
-defined as K32GetWsChanges in Psapi.h and exported in Kernel32.lib
-and Kernel32.dll. If PSAPI_VERSION is 1, this function is defined as
-GetWsChanges in Psapi.h and exported in Psapi.lib and Psapi.dll as a
-wrapper that calls K32GetWsChanges. Programs that must run on earlier
-versions of Windows as well as Windows 7 and later versions should
-always call this function as GetWsChanges. To ensure correct
-resolution of symbols, add Psapi.lib to the TARGETLIBS macro and
-compile the program with -DPSAPI_VERSION=1. To use run-time dynamic
-linking, load Psapi.dll.
+ƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ÍAƒ[ƒLƒ“ƒOƒZƒbƒg‚Ì•ÏXƒŒƒR[ƒh‚ğ•Û‚·‚é‚½‚ß‚ÉƒvƒƒZƒX‚²‚Æ‚É 1
+‚Â‚Ìƒoƒbƒtƒ@‚ğg—p‚·‚éB•¡”‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“i‚Ü‚½‚Í“¯ˆêƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì•¡”ƒXƒŒƒbƒhj‚ª“¯‚¶ƒvƒƒZƒXƒnƒ“ƒhƒ‹‚Å‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚½ê‡AŠeŒÄ‚Ño‚µ‚ªƒoƒbƒtƒ@‚ğ‹ó‚É‚·‚é‚½‚ßA‚¢‚¸‚ê‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚àƒ[ƒLƒ“ƒOƒZƒbƒg‚Ì•ÏX‚ğŠ®‘S‚É”cˆ¬‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ÍƒNƒGƒŠ‚Ìˆ—’†i‚¨‚æ‚Ñƒoƒbƒtƒ@‚ÌƒNƒŠƒA’†j‚ÉV‚µ‚¢•ÏXƒŒƒR[ƒh‚ğ‹L˜^‚µ‚È‚¢B•Ê‚ÌƒNƒGƒŠ‚Ìˆ—’†‚É‚à‚¤ˆê‚Â‚ÌƒNƒGƒŠ‚ğóM‚µ‚½ê‡AŠÖ”‚ÍƒGƒ‰[ƒR[ƒh‚ğ
+NO_MORE_ENTRIES ‚Éİ’è‚·‚éBƒoƒbƒtƒ@‚ª–”t‚É‚È‚é‚ÆA‚±‚ÌŠÖ”‚Ü‚½‚Í InitializeProcessForWsWatch
+ŠÖ”‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚ÅAV‚µ‚¢ƒŒƒR[ƒh‚Íƒoƒbƒtƒ@‚É’Ç‰Á‚³‚ê‚È‚¢Bƒf[ƒ^‘¹¸‚ğ–h‚®‚½‚ßA\•ª‚È•p“x‚Å‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éBƒŒƒR[ƒh‚ª¸‚í‚ê‚½ê‡A”z—ñ‚Í
+FaultingPc ƒƒ“ƒo[‚ª NULL ‚Å FaultingVa
+ƒƒ“ƒo[‚ª¸‚í‚ê‚½ƒŒƒR[ƒh”‚Éİ’è‚³‚ê‚½\‘¢‘Ì‚ÅI’[‚³‚ê‚éBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP:
+ƒŒƒR[ƒh‚ª¸‚í‚ê‚½ê‡A”z—ñ‚Í FaultingPc ƒƒ“ƒo[‚ª NULL ‚Å FaultingVa ƒƒ“ƒo[‚ª 1
+‚Ì\‘¢‘Ì‚ÅI’[‚³‚ê‚éBWindows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2 ˆÈ~APsapi.h ‚Í PSAPI
+ŠÖ”ŒQ‚Éƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚µ‚Ä‚¢‚éBPSAPI
+ƒo[ƒWƒ‡ƒ“”Ô†‚ÍAŠÖ”‚ğŒÄ‚Ño‚·Û‚Ég—p‚·‚é–¼‘O‚ÆAƒvƒƒOƒ‰ƒ€‚ªƒ[ƒh‚·‚é•K—v‚Ì‚ ‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰e‹¿‚ğ—^‚¦‚éBPSAPI_VERSION
+‚ª 2 ˆÈã‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32GetWsChanges ‚Æ‚µ‚Ä’è‹`‚³‚êAKernel32.lib ‚¨‚æ‚Ñ
+Kernel32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBPSAPI_VERSION ‚ª 1 ‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å
+GetWsChanges ‚Æ‚µ‚Ä’è‹`‚³‚êAK32GetWsChanges ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä Psapi.lib ‚¨‚æ‚Ñ
+Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
+ˆÈ~‚Ì—¼•û‚Å“®ì‚·‚é•K—v‚ª‚ ‚éƒvƒƒOƒ‰ƒ€‚ÍAí‚É GetWsChanges
+‚Æ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‰ğŒˆ‚ğ³‚µ‚­s‚¤‚É‚ÍATARGETLIBS ƒ}ƒNƒ‚É Psapi.lib
+‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1 ‚ğw’è‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğ—˜—p‚·‚é‚É‚ÍAPsapi.dll
+‚ğƒ[ƒh‚·‚éB
 
 
 %index
 GetWsChangesEx
-Retrieves extended information about the pages that have been added to the working set of the specified process since the last time this function or the InitializeProcessForWsWatch function was called.
+‚±‚ÌŠÖ”‚Ü‚½‚Í InitializeProcessForWsWatch ŠÖ”‚ª‘O‰ñŒÄ‚Ño‚³‚ê‚Ä‚©‚çAw’èƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚É’Ç‰Á‚³‚ê‚½ƒy[ƒW‚ÉŠÖ‚·‚éŠg’£î•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 psapi
 %prm
 hProcess, lpWatchInfoEx, cb
-hProcess : [intptr] A handle to the process. The handle must have the PROCESS_QUERY_INFORMATION access right. For more information, see Process Security and Access Rights.
-lpWatchInfoEx : [var] A pointer to a user-allocated buffer that receives an array of PSAPI_WS_WATCH_INFORMATION_EX structures. The array is terminated with a structure whose FaultingPc member is NULL.
-cb : [var] The size of the lpWatchInfoEx buffer, in bytes.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
+lpWatchInfoEx : [var] PSAPI_WS_WATCH_INFORMATION_EX \‘¢‘Ì‚Ì”z—ñ‚ğó‚¯æ‚éAƒ†[ƒU[‚ªŠ„‚è“–‚Ä‚½ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B”z—ñ‚Í FaultingPc ƒƒ“ƒo[‚ª NULL ‚Ì\‘¢‘Ì‚ÅI’[‚³‚ê‚éB
+cb : [var] lpWatchInfoEx ƒoƒbƒtƒ@‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
 %inst
-Retrieves extended information about the pages that have been added
-to the working set of the specified process since the last time this
-function or the InitializeProcessForWsWatch function was called.
+‚±‚ÌŠÖ”‚Ü‚½‚Í InitializeProcessForWsWatch
+ŠÖ”‚ª‘O‰ñŒÄ‚Ño‚³‚ê‚Ä‚©‚çAw’èƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚É’Ç‰Á‚³‚ê‚½ƒy[ƒW‚ÉŠÖ‚·‚éŠg’£î•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is nonzero.
-If the function fails, the return value is zero. To get extended
-error information, call the GetLastError function. The GetLastError
-function returns ERROR_INSUFFICIENT_BUFFER if the lpWatchInfoEx
-buffer is not large enough to contain all the working set change
-records; the buffer is returned empty. Reallocate a larger block of
-memory for the buffer and call again.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í 0 ˆÈŠO‚Æ‚È‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0 ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError
+ŠÖ”‚ğŒÄ‚Ño‚·BlpWatchInfoEx
+ƒoƒbƒtƒ@‚ª‚·‚×‚Ä‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg•ÏXƒŒƒR[ƒh‚ğŠi”[‚·‚é‚Ì‚É\•ª‚Å‚È‚¢ê‡AGetLastError ŠÖ”‚Í
+ERROR_INSUFFICIENT_BUFFER
+‚ğ•Ô‚µAƒoƒbƒtƒ@‚Í‹ó‚Ì‚Ü‚Ü•Ô‚³‚ê‚éBƒoƒbƒtƒ@—p‚É‚à‚Á‚Æ‘å‚«‚Èƒƒ‚ƒŠƒuƒƒbƒN‚ğÄŠ„‚è“–‚Ä‚µ‚ÄÄ“xŒÄ‚Ño‚·‚±‚ÆB
 
 [”õl]
-The operating system uses one buffer per process to maintain working
-set change records. If more than one application (or multiple threads
-in the same application) calls this function with the same process
-handle, neither application will have a complete accounting of the
-working set changes because each call empties the buffer. The
-operating system does not record new change records while it is
-processing the query (and emptying the buffer). This function sets
-the error code to NO_MORE_ENTRIES if a concurrent query is received
-while it is processing another query. If the buffer becomes full, no
-new records are added to the buffer until this function or the
-InitializeProcessForWsWatch function is called. You should call
-GetWsChangesEx with enough frequency to prevent possible data loss.
-If records are lost, the array is terminated with a structure whose
-FaultingPc member is NULL and whose FaultingVa member is set to the
-number of records that were lost. Starting with Windows 7 and Windows
-Server 2008 R2, Psapi.h establishes version numbers for the PSAPI
-functions. The PSAPI version number affects the name used to call the
-function and the library that a program must load. If PSAPI_VERSION
-is 2 or greater, this function is defined as K32GetWsChangesEx in
-Psapi.h and exported in Kernel32.lib and Kernel32.dll. If
-PSAPI_VERSION is 1, this function is defined as GetWsChangesEx in
-Psapi.h and exported in Psapi.lib and Psapi.dll as a wrapper that
-calls K32GetWsChangesEx. Programs that must run on earlier versions
-of Windows as well as Windows 7 and later versions should always call
-this function as GetWsChangesEx. To ensure correct resolution of
-symbols, add Psapi.lib to the TARGETLIBS macro and compile the
-program with -DPSAPI_VERSION=1. To use run-time dynamic linking, load
-Psapi.dll.
+ƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ÍAƒ[ƒLƒ“ƒOƒZƒbƒg‚Ì•ÏXƒŒƒR[ƒh‚ğ•Û‚·‚é‚½‚ß‚ÉƒvƒƒZƒX‚²‚Æ‚É 1
+‚Â‚Ìƒoƒbƒtƒ@‚ğg—p‚·‚éB•¡”‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“i‚Ü‚½‚Í“¯ˆêƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì•¡”ƒXƒŒƒbƒhj‚ª“¯‚¶ƒvƒƒZƒXƒnƒ“ƒhƒ‹‚Å‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚½ê‡AŠeŒÄ‚Ño‚µ‚ªƒoƒbƒtƒ@‚ğ‹ó‚É‚·‚é‚½‚ßA‚¢‚¸‚ê‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚àƒ[ƒLƒ“ƒOƒZƒbƒg‚Ì•ÏX‚ğŠ®‘S‚É”cˆ¬‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ÍƒNƒGƒŠ‚Ìˆ—’†i‚¨‚æ‚Ñƒoƒbƒtƒ@‚ÌƒNƒŠƒA’†j‚ÉV‚µ‚¢•ÏXƒŒƒR[ƒh‚ğ‹L˜^‚µ‚È‚¢B•Ê‚ÌƒNƒGƒŠ‚Ìˆ—’†‚É‚à‚¤ˆê‚Â‚ÌƒNƒGƒŠ‚ğóM‚µ‚½ê‡A‚±‚ÌŠÖ”‚ÍƒGƒ‰[ƒR[ƒh‚ğ
+NO_MORE_ENTRIES ‚Éİ’è‚·‚éBƒoƒbƒtƒ@‚ª–”t‚É‚È‚é‚ÆA‚±‚ÌŠÖ”‚Ü‚½‚Í InitializeProcessForWsWatch
+ŠÖ”‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚ÅAV‚µ‚¢ƒŒƒR[ƒh‚Íƒoƒbƒtƒ@‚É’Ç‰Á‚³‚ê‚È‚¢Bƒf[ƒ^‘¹¸‚ğ–h‚®‚½‚ßA\•ª‚È•p“x‚Å GetWsChangesEx
+‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éBƒŒƒR[ƒh‚ª¸‚í‚ê‚½ê‡A”z—ñ‚Í FaultingPc ƒƒ“ƒo[‚ª NULL ‚Å FaultingVa
+ƒƒ“ƒo[‚ª¸‚í‚ê‚½ƒŒƒR[ƒh”‚Éİ’è‚³‚ê‚½\‘¢‘Ì‚ÅI’[‚³‚ê‚éBWindows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2
+ˆÈ~APsapi.h ‚Í PSAPI ŠÖ”ŒQ‚Éƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚µ‚Ä‚¢‚éBPSAPI
+ƒo[ƒWƒ‡ƒ“”Ô†‚ÍAŠÖ”‚ğŒÄ‚Ño‚·Û‚Ég—p‚·‚é–¼‘O‚ÆAƒvƒƒOƒ‰ƒ€‚ªƒ[ƒh‚·‚é•K—v‚Ì‚ ‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰e‹¿‚ğ—^‚¦‚éBPSAPI_VERSION
+‚ª 2 ˆÈã‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32GetWsChangesEx ‚Æ‚µ‚Ä’è‹`‚³‚êAKernel32.lib ‚¨‚æ‚Ñ
+Kernel32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBPSAPI_VERSION ‚ª 1 ‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å
+GetWsChangesEx ‚Æ‚µ‚Ä’è‹`‚³‚êAK32GetWsChangesEx ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä Psapi.lib ‚¨‚æ‚Ñ
+Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
+ˆÈ~‚Ì—¼•û‚Å“®ì‚·‚é•K—v‚ª‚ ‚éƒvƒƒOƒ‰ƒ€‚ÍAí‚É GetWsChangesEx
+‚Æ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‰ğŒˆ‚ğ³‚µ‚­s‚¤‚É‚ÍATARGETLIBS ƒ}ƒNƒ‚É Psapi.lib
+‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1 ‚ğw’è‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğ—˜—p‚·‚é‚É‚ÍAPsapi.dll
+‚ğƒ[ƒh‚·‚éB
 
 
 %index
 InitializeProcessForWsWatch
-Initiates monitoring of the working set of the specified process.
+w’èƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚ÌŠÄ‹‚ğŠJn‚·‚éB
 %group
 Win32 psapi
 %prm
 hProcess
-hProcess : [intptr] A handle to the process. The handle must have the PROCESS_QUERY_INFORMATION access right. For more information, see Process Security and Access Rights.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
 %inst
-Initiates monitoring of the working set of the specified process.
+w’èƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚ÌŠÄ‹‚ğŠJn‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í 0 ˆÈŠO‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0 ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Starting with Windows 7 and Windows Server 2008 R2, Psapi.h
-establishes version numbers for the PSAPI functions. The PSAPI
-version number affects the name used to call the function and the
-library that a program must load. If PSAPI_VERSION is 2 or greater,
-this function is defined as K32InitializeProcessForWsWatch in Psapi.h
-and exported in Kernel32.lib and Kernel32.dll. If PSAPI_VERSION is 1,
-this function is defined as InitializeProcessForWsWatch in Psapi.h
-and exported in Psapi.lib and Psapi.dll as a wrapper that calls
-K32InitializeProcessForWsWatch. Programs that must run on earlier
-versions of Windows as well as Windows 7 and later versions should
-always call this function as InitializeProcessForWsWatch. To ensure
-correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro
-and compile the program with -DPSAPI_VERSION=1. To use run-time
-dynamic linking, load Psapi.dll.
+Windows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2 ˆÈ~APsapi.h ‚Í PSAPI
+ŠÖ”ŒQ‚Éƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚µ‚Ä‚¢‚éBPSAPI
+ƒo[ƒWƒ‡ƒ“”Ô†‚ÍAŠÖ”‚ğŒÄ‚Ño‚·Û‚Ég—p‚·‚é–¼‘O‚ÆAƒvƒƒOƒ‰ƒ€‚ªƒ[ƒh‚·‚é•K—v‚Ì‚ ‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰e‹¿‚ğ—^‚¦‚éBPSAPI_VERSION
+‚ª 2 ˆÈã‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32InitializeProcessForWsWatch
+‚Æ‚µ‚Ä’è‹`‚³‚êAKernel32.lib ‚¨‚æ‚Ñ Kernel32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBPSAPI_VERSION ‚ª 1
+‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å InitializeProcessForWsWatch
+‚Æ‚µ‚Ä’è‹`‚³‚êAK32InitializeProcessForWsWatch ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä Psapi.lib ‚¨‚æ‚Ñ
+Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
+ˆÈ~‚Ì—¼•û‚Å“®ì‚·‚é•K—v‚ª‚ ‚éƒvƒƒOƒ‰ƒ€‚ÍAí‚É InitializeProcessForWsWatch
+‚Æ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‰ğŒˆ‚ğ³‚µ‚­s‚¤‚É‚ÍATARGETLIBS ƒ}ƒNƒ‚É Psapi.lib
+‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1 ‚ğw’è‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğ—˜—p‚·‚é‚É‚ÍAPsapi.dll
+‚ğƒ[ƒh‚·‚éB
 
 
 %index
 QueryWorkingSet
-Retrieves information about the pages currently added to the working set of the specified process.
+w’èƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚ÉŒ»İ’Ç‰Á‚³‚ê‚Ä‚¢‚éƒy[ƒW‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 psapi
 %prm
 hProcess, pv, cb
-hProcess : [intptr] A handle to the process. The handle must have the PROCESS_QUERY_INFORMATION and PROCESS_VM_READ access rights. For more information, see Process Security and Access Rights.
-pv : [intptr] A pointer to the buffer that receives the information. For more information, see PSAPI_WORKING_SET_INFORMATION. If the buffer pointed to by the pv parameter is not large enough to contain all working set entries for the target process, the function fails with ERROR_BAD_LENGTH. In this case, the NumberOfEntries member of the PSAPI_WORKING_SET_INFORMATION structure is set to the required number of entries, but the function does not return information about the working set entries.
-cb : [int] The size of the pv buffer, in bytes.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ‚¨‚æ‚Ñ PROCESS_VM_READ ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
+pv : [intptr] î•ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BÚ×‚Í PSAPI_WORKING_SET_INFORMATION ‚ğQÆBpv ƒpƒ‰ƒ[ƒ^‚ªw‚·ƒoƒbƒtƒ@‚ª‘ÎÛƒvƒƒZƒX‚Ì‚·‚×‚Ä‚Ìƒ[ƒLƒ“ƒOƒZƒbƒgƒGƒ“ƒgƒŠ‚ğŠi”[‚·‚é‚Ì‚É\•ª‚Å‚È‚¢ê‡AŠÖ”‚Í ERROR_BAD_LENGTH ‚Å¸”s‚·‚éB‚±‚Ìê‡APSAPI_WORKING_SET_INFORMATION \‘¢‘Ì‚Ì NumberOfEntries ƒƒ“ƒo[‚É‚Í•K—v‚ÈƒGƒ“ƒgƒŠ”‚ªİ’è‚³‚ê‚é‚ªAŠÖ”‚Íƒ[ƒLƒ“ƒOƒZƒbƒgƒGƒ“ƒgƒŠ‚Ìî•ñ‚ğ•Ô‚³‚È‚¢B
+cb : [int] pv ƒoƒbƒtƒ@‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
 %inst
-Retrieves information about the pages currently added to the working
-set of the specified process.
+w’èƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚ÉŒ»İ’Ç‰Á‚³‚ê‚Ä‚¢‚éƒy[ƒW‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í 0 ˆÈŠO‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0 ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Starting with Windows 7 and Windows Server 2008 R2, Psapi.h
-establishes version numbers for the PSAPI functions. The PSAPI
-version number affects the name used to call the function and the
-library that a program must load. If PSAPI_VERSION is 2 or greater,
-this function is defined as K32QueryWorkingSet in Psapi.h and
-exported in Kernel32.lib and Kernel32.dll. If PSAPI_VERSION is 1,
-this function is defined as QueryWorkingSet in Psapi.h and exported
-in Psapi.lib and Psapi.dll as a wrapper that calls
-K32QueryWorkingSet. Programs that must run on earlier versions of
-Windows as well as Windows 7 and later versions should always call
-this function as QueryWorkingSet. To ensure correct resolution of
-symbols, add Psapi.lib to the TARGETLIBS macro and compile the
-program with -DPSAPI_VERSION=1. To use run-time dynamic linking, load
-Psapi.dll.
+Windows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2 ˆÈ~APsapi.h ‚Í PSAPI
+ŠÖ”ŒQ‚Éƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚µ‚Ä‚¢‚éBPSAPI
+ƒo[ƒWƒ‡ƒ“”Ô†‚ÍAŠÖ”‚ğŒÄ‚Ño‚·Û‚Ég—p‚·‚é–¼‘O‚ÆAƒvƒƒOƒ‰ƒ€‚ªƒ[ƒh‚·‚é•K—v‚Ì‚ ‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰e‹¿‚ğ—^‚¦‚éBPSAPI_VERSION
+‚ª 2 ˆÈã‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32QueryWorkingSet ‚Æ‚µ‚Ä’è‹`‚³‚êAKernel32.lib ‚¨‚æ‚Ñ
+Kernel32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBPSAPI_VERSION ‚ª 1 ‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å
+QueryWorkingSet ‚Æ‚µ‚Ä’è‹`‚³‚êAK32QueryWorkingSet ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä Psapi.lib ‚¨‚æ‚Ñ
+Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
+ˆÈ~‚Ì—¼•û‚Å“®ì‚·‚é•K—v‚ª‚ ‚éƒvƒƒOƒ‰ƒ€‚ÍAí‚É QueryWorkingSet
+‚Æ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‰ğŒˆ‚ğ³‚µ‚­s‚¤‚É‚ÍATARGETLIBS ƒ}ƒNƒ‚É Psapi.lib
+‚ğ’Ç‰Á‚µA-DPSAPI_VERSION=1 ‚ğw’è‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğ—˜—p‚·‚é‚É‚ÍAPsapi.dll
+‚ğƒ[ƒh‚·‚éB
 
 
 %index
 QueryWorkingSetEx
-Retrieves extended information about the pages at specific virtual addresses in the address space of the specified process.
+w’èƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ“à‚Ì“Á’è‚Ì‰¼‘zƒAƒhƒŒƒX‚É‚ ‚éƒy[ƒW‚ÉŠÖ‚·‚éŠg’£î•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 psapi
 %prm
 hProcess, pv, cb
-hProcess : [intptr] A handle to the process. The handle must have the PROCESS_QUERY_INFORMATION access right. For more information, see Process Security and Access Rights.
-pv : [intptr] A pointer to an array of PSAPI_WORKING_SET_EX_INFORMATION structures. On input, each item in the array specifies a virtual address of interest. On output, each item in the array receives information about the corresponding virtual page.
-cb : [int] The size of the pv buffer, in bytes.
+hProcess : [intptr] ƒvƒƒZƒX‚Ìƒnƒ“ƒhƒ‹Bƒnƒ“ƒhƒ‹‚É‚Í PROCESS_QUERY_INFORMATION ƒAƒNƒZƒXŒ ‚ª•K—v‚Å‚ ‚éBÚ×‚ÍuProcess Security and Access Rightsv‚ğQÆB
+pv : [intptr] PSAPI_WORKING_SET_EX_INFORMATION \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B“ü—Í‚É‚ÍA”z—ñ‚ÌŠe€–Ú‚É–â‚¢‡‚í‚¹‘ÎÛ‚Ì‰¼‘zƒAƒhƒŒƒX‚ğw’è‚·‚éBo—Í‚É‚ÍA”z—ñ‚ÌŠe€–Ú‚É‘Î‰‚·‚é‰¼‘zƒy[ƒW‚ÉŠÖ‚·‚éî•ñ‚ª•Ô‚³‚ê‚éB
+cb : [int] pv ƒoƒbƒtƒ@‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
 %inst
-Retrieves extended information about the pages at specific virtual
-addresses in the address space of the specified process.
+w’èƒvƒƒZƒX‚ÌƒAƒhƒŒƒX‹óŠÔ“à‚Ì“Á’è‚Ì‰¼‘zƒAƒhƒŒƒX‚É‚ ‚éƒy[ƒW‚ÉŠÖ‚·‚éŠg’£î•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. To get extended error
-information, call GetLastError.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Í 0 ˆÈŠO‚Æ‚È‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í 0 ‚Æ‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í
+GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-Unlike the QueryWorkingSet function, which is limited to the working
-set of the target process, the QueryWorkingSetEx function can be used
-to query addresses that are not in the process working set but are
-still part of the process, such as AWE and large pages. Starting with
-Windows 7 and Windows Server 2008 R2, Psapi.h establishes version
-numbers for the PSAPI functions. The PSAPI version number affects the
-name used to call the function and the library that a program must
-load. If PSAPI_VERSION is 2 or greater, this function is defined as
-K32QueryWorkingSetEx in Psapi.h and exported in Kernel32.lib and
-Kernel32.dll. If PSAPI_VERSION is 1, this function is defined as
-QueryWorkingSetEx in Psapi.h and exported in Psapi.lib and Psapi.dll
-as a wrapper that calls K32QueryWorkingSetEx. Programs that must run
-on earlier versions of Windows as well as Windows 7 and later
-versions should always call this function as QueryWorkingSetEx. To
-ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS
-macro and compile the program with "?DPSAPI_VERSION=1". To use
-run-time dynamic linking, load Psapi.dll.
+‘ÎÛƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚ÉŒÀ’è‚³‚ê‚é QueryWorkingSet ŠÖ”‚Æ‚ÍˆÙ‚È‚èAQueryWorkingSetEx
+ŠÖ”‚ÍƒvƒƒZƒX‚Ìƒ[ƒLƒ“ƒOƒZƒbƒg‚É‚ÍŠÜ‚Ü‚ê‚È‚¢‚ªƒvƒƒZƒX‚Ìˆê•”‚Å‚ ‚éƒAƒhƒŒƒXiAWE
+‚âƒ‰[ƒWƒy[ƒW‚È‚Çj‚ğ–â‚¢‡‚í‚¹‚é‚½‚ß‚Ég—p‚Å‚«‚éBWindows 7 ‚¨‚æ‚Ñ Windows Server 2008 R2
+ˆÈ~APsapi.h ‚Í PSAPI ŠÖ”ŒQ‚Éƒo[ƒWƒ‡ƒ“”Ô†‚ğİ’è‚µ‚Ä‚¢‚éBPSAPI
+ƒo[ƒWƒ‡ƒ“”Ô†‚ÍAŠÖ”‚ğŒÄ‚Ño‚·Û‚Ég—p‚·‚é–¼‘O‚ÆAƒvƒƒOƒ‰ƒ€‚ªƒ[ƒh‚·‚é•K—v‚Ì‚ ‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‰e‹¿‚ğ—^‚¦‚éBPSAPI_VERSION
+‚ª 2 ˆÈã‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å K32QueryWorkingSetEx ‚Æ‚µ‚Ä’è‹`‚³‚êAKernel32.lib
+‚¨‚æ‚Ñ Kernel32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBPSAPI_VERSION ‚ª 1 ‚Ìê‡A‚±‚ÌŠÖ”‚Í Psapi.h ‚Å
+QueryWorkingSetEx ‚Æ‚µ‚Ä’è‹`‚³‚êAK32QueryWorkingSetEx ‚ğŒÄ‚Ño‚·ƒ‰ƒbƒp[‚Æ‚µ‚Ä Psapi.lib
+‚¨‚æ‚Ñ Psapi.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows ‚Ì‹Œƒo[ƒWƒ‡ƒ“‚Æ Windows 7
+ˆÈ~‚Ì—¼•û‚Å“®ì‚·‚é•K—v‚ª‚ ‚éƒvƒƒOƒ‰ƒ€‚ÍAí‚É QueryWorkingSetEx
+‚Æ‚µ‚ÄŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒVƒ“ƒ{ƒ‹‰ğŒˆ‚ğ³‚µ‚­s‚¤‚É‚ÍATARGETLIBS ƒ}ƒNƒ‚É Psapi.lib
+‚ğ’Ç‰Á‚µA"-DPSAPI_VERSION=1" ‚ğw’è‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ğƒRƒ“ƒpƒCƒ‹‚·‚éBÀs“®“IƒŠƒ“ƒN‚ğ—˜—p‚·‚é‚É‚ÍAPsapi.dll
+‚ğƒ[ƒh‚·‚éB
 

@@ -6,62 +6,57 @@
 
 %index
 DwmAttachMilContent
-This function is not implemented. (DwmAttachMilContent)
+この関数は実装されていない。(DwmAttachMilContent)
 %group
 Win32 dwmapi
 %prm
 hwnd
 hwnd : [intptr] 
 %inst
-This function is not implemented. (DwmAttachMilContent)
+この関数は実装されていない。(DwmAttachMilContent)
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 
 %index
 DwmDefWindowProc
-Default window procedure for Desktop Window Manager (DWM) hit testing within the non-client area.
+非クライアント領域内での Desktop Window Manager (DWM) ヒットテスト用の既定ウィンドウプロシージャ。
 %group
 Win32 dwmapi
 %prm
 hWnd, msg, wParam, lParam, plResult
-hWnd : [intptr] A handle to the window procedure that received the message.
-msg : [int] The message.
-wParam : [intptr] Specifies additional message information. The content of this parameter depends on the value of the msg parameter.
-lParam : [intptr] Specifies additional message information. The content of this parameter depends on the value of the msg parameter.
-plResult : [intptr] A pointer to an LRESULT value that, when this method returns successfully,receives the result of the hit test.
+hWnd : [intptr] メッセージを受け取ったウィンドウプロシージャのハンドル。
+msg : [int] メッセージ。
+wParam : [intptr] 追加のメッセージ情報を指定する。このパラメータの内容は msg パラメータの値に依存する。
+lParam : [intptr] 追加のメッセージ情報を指定する。このパラメータの内容は msg パラメータの値に依存する。
+plResult : [intptr] このメソッドが正常に戻ったとき、ヒットテストの結果を受け取る LRESULT 値へのポインタ。
 %inst
-Default window procedure for Desktop Window Manager (DWM) hit testing
-within the non-client area.
+非クライアント領域内での Desktop Window Manager (DWM) ヒットテスト用の既定ウィンドウプロシージャ。
 
 [戻り値]
-TRUE if DwmDefWindowProc handled the message; otherwise, FALSE.
+DwmDefWindowProc がメッセージを処理した場合は TRUE、そうでない場合は FALSE を返す。
 
 [備考]
-When creating custom frames that include the standard caption
-buttons, WM_NCHITTEST and other non-client hit test messages should
-first be passed to the DwmDefWindowProc function. This enables the
-DWM to provide hit testing for the captions buttons. If
-DwmDefWindowProc does not handle the non-client hit test messages,
-further processing of these messages might be necessary.
+標準のキャプションボタンを含むカスタムフレームを作成する場合、WM_NCHITTEST
+およびその他の非クライアントヒットテストメッセージはまず DwmDefWindowProc 関数に渡す必要がある。これにより DWM
+がキャプションボタンに対するヒットテストを提供できるようになる。DwmDefWindowProc
+が非クライアントヒットテストメッセージを処理しない場合、これらのメッセージのさらなる処理が必要になることがある。
 
 
 %index
 DwmDetachMilContent
-This function is not implemented. (DwmDetachMilContent)
+この関数は実装されていない。(DwmDetachMilContent)
 %group
 Win32 dwmapi
 %prm
 hwnd
 hwnd : [intptr] 
 %inst
-This function is not implemented. (DwmDetachMilContent)
+この関数は実装されていない。(DwmDetachMilContent)
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 
 %index
@@ -90,48 +85,42 @@ Windows 8 以降ではレンダリング方式の変更により、この関数を呼び出してもブラー効果
 
 %index
 DwmEnableComposition
-Enables or disables Desktop Window Manager (DWM) composition.
+Desktop Window Manager (DWM) のコンポジションを有効または無効にする。
 %group
 Win32 dwmapi
 %prm
 uCompositionAction
-uCompositionAction : [int] DWM_EC_ENABLECOMPOSITION to enable DWM composition; DWM_EC_DISABLECOMPOSITION to disable composition.
+uCompositionAction : [int] DWM コンポジションを有効にするには DWM_EC_ENABLECOMPOSITION、無効にするには DWM_EC_DISABLECOMPOSITION を指定する。
 %inst
-Enables or disables Desktop Window Manager (DWM) composition.
+Desktop Window Manager (DWM) のコンポジションを有効または無効にする。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 [備考]
-Disabling DWM composition disables it for the entire desktop. DWM
-composition will be automatically enabled when all processes that
-have disabled composition have called DwmEnableComposition to enable
-it or have been terminated. The WM_DWMCOMPOSITIONCHANGED notification
-is sent whenever DWM composition is enabled or disabled.
+DWM コンポジションを無効にすると、デスクトップ全体で無効になる。コンポジションを無効にしていたすべてのプロセスが
+DwmEnableComposition で再度有効化するか終了すると、DWM コンポジションは自動的に再有効化される。DWM
+コンポジションが有効または無効になるたびに WM_DWMCOMPOSITIONCHANGED 通知が送信される。
 
 
 %index
 DwmEnableMMCSS
-Notifies the Desktop Window Manager (DWM) to opt in to or out of Multimedia Class Schedule Service (MMCSS) scheduling while the calling process is alive.
+呼び出し元プロセスが生存している間、Desktop Window Manager (DWM) に Multimedia Class Schedule Service (MMCSS) スケジューリングへの参加または辞退を通知する。
 %group
 Win32 dwmapi
 %prm
 fEnableMMCSS
-fEnableMMCSS : [int] TRUE to instruct DWM to participate in MMCSS scheduling; FALSE to opt out or end participation in MMCSS scheduling.
+fEnableMMCSS : [int] DWM に MMCSS スケジューリングへの参加を指示する場合は TRUE、参加を辞退または終了する場合は FALSE を指定する。
 %inst
-Notifies the Desktop Window Manager (DWM) to opt in to or out of
-Multimedia Class Schedule Service (MMCSS) scheduling while the
-calling process is alive.
+呼び出し元プロセスが生存している間、Desktop Window Manager (DWM) に Multimedia Class
+Schedule Service (MMCSS) スケジューリングへの参加または辞退を通知する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 [備考]
-DWM will be scheduled by the MMCSS as long as any process that called
-DwmEnableMMCSS to enable MMCSS is active and has not previously
-called DwmEnableMMCSS to disable MMCSS.
+DwmEnableMMCSS で MMCSS を有効にしたいずれかのプロセスがアクティブで、MMCSS を無効化するために以前に
+DwmEnableMMCSS を呼び出していない限り、DWM は MMCSS によってスケジューリングされる。
 
 
 %index
@@ -156,71 +145,62 @@ DWM コンポジションが切り替わるたびにこの関数を呼ぶ必要がある(WM_DWMCOMPOSITIONCH
 
 %index
 DwmFlush
-Issues a flush call that blocks the caller until the next present, when all of the Microsoft DirectX surface updates that are currently outstanding have been made. This compensates for very complex scenes or calling processes with very low priority.
+現在保留中のすべての Microsoft DirectX サーフェス更新が完了する次の present まで呼び出し元をブロックする flush 呼び出しを発行する。これにより、非常に複雑なシーンや優先度の極めて低い呼び出しプロセスを補正する。
 %group
 Win32 dwmapi
 %prm
 
 %inst
-Issues a flush call that blocks the caller until the next present,
-when all of the Microsoft DirectX surface updates that are currently
-outstanding have been made. This compensates for very complex scenes
-or calling processes with very low priority.
+現在保留中のすべての Microsoft DirectX サーフェス更新が完了する次の present まで呼び出し元をブロックする
+flush 呼び出しを発行する。これにより、非常に複雑なシーンや優先度の極めて低い呼び出しプロセスを補正する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 [備考]
-DwmFlush waits for any queued DirectX changes that were queued by the
-calling application to be drawn to the screen before returning. It
-does not flush the entire session rendering batch.
+DwmFlush は、呼び出し元アプリケーションがキューに入れた DirectX
+の変更が画面に描画されるまで待機してから戻る。セッション全体のレンダリングバッチをフラッシュするわけではない。
 
 
 %index
 DwmGetColorizationColor
-Retrieves the current color used for Desktop Window Manager (DWM) glass composition.
+Desktop Window Manager (DWM) のガラスコンポジションに使用されている現在の色を取得する。
 %group
 Win32 dwmapi
 %prm
 pcrColorization, pfOpaqueBlend
-pcrColorization : [var] A pointer to a value that, when this function returns successfully, receives the current color used for glass composition. The color format of the value is 0xAARRGGBB.
-pfOpaqueBlend : [var] A pointer to a value that, when this function returns successfully, indicates whether the color is an opaque blend. TRUE if the color is an opaque blend; otherwise, FALSE.
+pcrColorization : [var] 関数が正常に戻ったとき、ガラスコンポジションに使用されている現在の色を受け取る値へのポインタ。色のフォーマットは 0xAARRGGBB 形式である。
+pfOpaqueBlend : [var] 関数が正常に戻ったとき、色が不透明ブレンドであるかどうかを示す値へのポインタ。不透明ブレンドの場合は TRUE、そうでない場合は FALSE。
 %inst
-Retrieves the current color used for Desktop Window Manager (DWM)
-glass composition.
+Desktop Window Manager (DWM) のガラスコンポジションに使用されている現在の色を取得する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 [備考]
-The value pointed to by pcrColorization is in an 0xAARRGGBB format.
-Many Microsoft Win32 APIs, such as COLORREF, use a 0x00BBGGRR format.
-Be careful to assure that the intended colors are used.
+pcrColorization が指す値は 0xAARRGGBB 形式である。COLORREF をはじめとする多くの Microsoft
+Win32 API は 0x00BBGGRR 形式を使用する。意図した色が使用されるよう注意すること。
 
 
 %index
 DwmGetCompositionTimingInfo
-Retrieves the current composition timing information for a specified window.
+指定されたウィンドウの現在のコンポジションタイミング情報を取得する。
 %group
 Win32 dwmapi
 %prm
 hwnd, pTimingInfo
-hwnd : [intptr] The handle to the window for which the composition timing information should be retrieved.
-pTimingInfo : [var] A pointer to a DWM_TIMING_INFO structure that, when this function returns successfully, receives the current composition timing information for the window. The cbSize member of this structure must be set before this function is called.
+hwnd : [intptr] コンポジションタイミング情報を取得するウィンドウのハンドル。
+pTimingInfo : [var] 関数が正常に戻ったとき、ウィンドウの現在のコンポジションタイミング情報を受け取る DWM_TIMING_INFO 構造体へのポインタ。この関数を呼び出す前に構造体の cbSize メンバーを設定しておく必要がある。
 %inst
-Retrieves the current composition timing information for a specified
-window.
+指定されたウィンドウの現在のコンポジションタイミング情報を取得する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 
 %index
 DwmGetGraphicsStreamClient
-This function is not implemented. (DwmGetGraphicsStreamClient)
+この関数は実装されていない。(DwmGetGraphicsStreamClient)
 %group
 Win32 dwmapi
 %prm
@@ -228,16 +208,15 @@ uIndex, pClientUuid
 uIndex : [int] 
 pClientUuid : [var] 
 %inst
-This function is not implemented. (DwmGetGraphicsStreamClient)
+この関数は実装されていない。(DwmGetGraphicsStreamClient)
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 
 %index
 DwmGetGraphicsStreamTransformHint
-This function is not implemented. (DwmGetGraphicsStreamTransformHint)
+この関数は実装されていない。(DwmGetGraphicsStreamTransformHint)
 %group
 Win32 dwmapi
 %prm
@@ -245,43 +224,40 @@ uIndex, pTransform
 uIndex : [int] 
 pTransform : [var] 
 %inst
-This function is not implemented. (DwmGetGraphicsStreamTransformHint)
+この関数は実装されていない。(DwmGetGraphicsStreamTransformHint)
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 
 %index
 DwmGetTransportAttributes
-Retrieves transport attributes.
+トランスポートの属性を取得する。
 %group
 Win32 dwmapi
 %prm
 pfIsRemoting, pfIsConnected, pDwGeneration
-pfIsRemoting : [var] A pointer to a BOOL value that indicates whether the transport supports remoting. TRUE if the transport supports remoting; otherwise, FALSE.
-pfIsConnected : [var] A pointer to a BOOL value that indicates whether the transport is connected. TRUE if the transport is connected; otherwise, FALSE.
-pDwGeneration : [var] A pointer to a DWORD that receives a generation value for the transport.
+pfIsRemoting : [var] トランスポートがリモーティングをサポートしているかどうかを示す BOOL 値へのポインタ。サポートしている場合は TRUE、そうでない場合は FALSE。
+pfIsConnected : [var] トランスポートが接続されているかどうかを示す BOOL 値へのポインタ。接続されている場合は TRUE、そうでない場合は FALSE。
+pDwGeneration : [var] トランスポートの世代値を受け取る DWORD へのポインタ。
 %inst
-Retrieves transport attributes.
+トランスポートの属性を取得する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 
 %index
 DwmGetUnmetTabRequirements
-This function was part of an experimental feature that was never implemented in Windows. It has no effect and should not be used.
+この関数は Windows で実装されることのなかった実験的機能の一部であった。効果はなく、使用すべきではない。
 %group
 Win32 dwmapi
 %prm
 appWindow, value
-appWindow : [intptr] This parameter is not used.
+appWindow : [intptr] このパラメータは使用されない。
 value : [var] 
 %inst
-This function was part of an experimental feature that was never
-implemented in Windows. It has no effect and should not be used.
+この関数は Windows で実装されることのなかった実験的機能の一部であった。効果はなく、使用すべきではない。
 
 
 %index
@@ -304,256 +280,218 @@ cbAttribute : [int] pvAttribute で受け取る属性値のサイズ(バイト単位)。取得される
 
 %index
 DwmInvalidateIconicBitmaps
-Called by an application to indicate that all previously provided iconic bitmaps from a window, both thumbnails and peek representations, should be refreshed.
+アプリケーションがウィンドウから以前に提供したアイコン形式のビットマップ（サムネイルおよびピーク表示の両方）をすべてリフレッシュすべきであることを示すために呼び出す。
 %group
 Win32 dwmapi
 %prm
 hwnd
-hwnd : [intptr] A handle to the window or tab whose bitmaps are being invalidated through this call. This window must belong to the calling process.
+hwnd : [intptr] この呼び出しによってビットマップが無効化されるウィンドウまたはタブのハンドル。このウィンドウは呼び出し元プロセスに属している必要がある。
 %inst
-Called by an application to indicate that all previously provided
-iconic bitmaps from a window, both thumbnails and peek
-representations, should be refreshed.
+
+アプリケーションがウィンドウから以前に提供したアイコン形式のビットマップ（サムネイルおよびピーク表示の両方）をすべてリフレッシュすべきであることを示すために呼び出す。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 [備考]
-Calling this function causes the Desktop Window Manager (DWM) to
-invalidate its current bitmaps for the window and request new bitmaps
-from the window when they are next needed. DwmInvalidateIconicBitmaps
-should not be called frequently. Doing so can lead to poor
-performance as new bitmaps are created and retrieved.
+この関数を呼び出すと、Desktop Window Manager (DWM)
+は対象ウィンドウの現在のビットマップを無効化し、次に必要となったときに新しいビットマップをそのウィンドウに要求するようになる。DwmInvalidateIconicBitmaps
+は頻繁に呼び出すべきではない。頻繁に呼び出すと、新しいビットマップの作成と取得が発生し、性能低下を招く可能性がある。
 
 
 %index
 DwmIsCompositionEnabled
-Obtains a value that indicates whether Desktop Window Manager (DWM) composition is enabled. Applications on machines running Windows?7 or earlier can listen for composition state changes by handling the WM_DWMCOMPOSITIONCHANGED notification.
+Desktop Window Manager (DWM) のコンポジションが有効かどうかを示す値を取得する。Windows 7 以前のマシン上のアプリケーションは、WM_DWMCOMPOSITIONCHANGED 通知を処理することでコンポジション状態の変化を監視できる。
 %group
 Win32 dwmapi
 %prm
 pfEnabled
-pfEnabled : [var] A pointer to a value that, when this function returns successfully, receives TRUE if DWM composition is enabled; otherwise, FALSE.
+pfEnabled : [var] 関数が正常に戻ったとき、DWM コンポジションが有効である場合は TRUE、そうでない場合は FALSE を受け取る値へのポインタ。
 %inst
-Obtains a value that indicates whether Desktop Window Manager (DWM)
-composition is enabled. Applications on machines running Windows 7 or
-earlier can listen for composition state changes by handling the
-WM_DWMCOMPOSITIONCHANGED notification.
+Desktop Window Manager (DWM) のコンポジションが有効かどうかを示す値を取得する。Windows 7
+以前のマシン上のアプリケーションは、WM_DWMCOMPOSITIONCHANGED
+通知を処理することでコンポジション状態の変化を監視できる。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 
 %index
 DwmModifyPreviousDxFrameDuration
-Changes the number of monitor refreshes through which the previous frame will be displayed. DwmModifyPreviousDxFrameDuration is no longer supported. Starting with Windows?8.1, calls to DwmModifyPreviousDxFrameDuration always return E_NOTIMPL.
+前のフレームを表示するモニターのリフレッシュ回数を変更する。DwmModifyPreviousDxFrameDuration はサポートされなくなった。Windows 8.1 以降、DwmModifyPreviousDxFrameDuration の呼び出しは常に E_NOTIMPL を返す。
 %group
 Win32 dwmapi
 %prm
 hwnd, cRefreshes, fRelative
-hwnd : [intptr] The handle to the window for which the new duration is applied to the previous frame.
-cRefreshes : [int] The number of refreshes to apply to the previous frame.
-fRelative : [int] TRUE if the value given in cRefreshes is relative to the current value (added to or subtracted from it); FALSE if the value replaces the current value.
+hwnd : [intptr] 前のフレームに新しい持続時間を適用するウィンドウのハンドル。
+cRefreshes : [int] 前のフレームに適用するリフレッシュ回数。
+fRelative : [int] cRefreshes に与えた値が現在の値に対する相対値（加算または減算される）の場合は TRUE、現在の値を置き換える場合は FALSE。
 %inst
-Changes the number of monitor refreshes through which the previous
-frame will be displayed. DwmModifyPreviousDxFrameDuration is no
-longer supported. Starting with Windows 8.1, calls to
-DwmModifyPreviousDxFrameDuration always return E_NOTIMPL.
+前のフレームを表示するモニターのリフレッシュ回数を変更する。DwmModifyPreviousDxFrameDuration
+はサポートされなくなった。Windows 8.1 以降、DwmModifyPreviousDxFrameDuration の呼び出しは常に
+E_NOTIMPL を返す。
 
 [戻り値]
-This function always returns S_OK, even when DWM is not running.
+この関数は DWM が動作していない場合でも常に S_OK を返す。
 
 
 %index
 DwmQueryThumbnailSourceSize
-Retrieves the source size of the Desktop Window Manager (DWM) thumbnail.
+Desktop Window Manager (DWM) サムネイルのソースサイズを取得する。
 %group
 Win32 dwmapi
 %prm
 hThumbnail, pSize
-hThumbnail : [int] A handle to the thumbnail to retrieve the source window size from.
-pSize : [var] A pointer to a SIZE structure that, when this function returns successfully, receives the size of the source thumbnail.
+hThumbnail : [int] ソースウィンドウのサイズを取得する対象のサムネイルのハンドル。
+pSize : [var] 関数が正常に戻ったとき、ソースサムネイルのサイズを受け取る SIZE 構造体へのポインタ。
 %inst
-Retrieves the source size of the Desktop Window Manager (DWM)
-thumbnail.
+Desktop Window Manager (DWM) サムネイルのソースサイズを取得する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 
 %index
 DwmRegisterThumbnail
-Creates a Desktop Window Manager (DWM) thumbnail relationship between the destination and source windows.
+送信先ウィンドウとソースウィンドウの間に Desktop Window Manager (DWM) サムネイル関係を作成する。
 %group
 Win32 dwmapi
 %prm
 hwndDestination, hwndSource, phThumbnailId
-hwndDestination : [intptr] The handle to the window that will use the DWM thumbnail. Setting the destination window handle to anything other than a top-level window type will result in a return value of E_INVALIDARG.
-hwndSource : [intptr] The handle to the window to use as the thumbnail source. Setting the source window handle to anything other than a top-level window type will result in a return value of E_INVALIDARG.
-phThumbnailId : [var] A pointer to a handle that, when this function returns successfully, represents the registration of the DWM thumbnail.
+hwndDestination : [intptr] DWM サムネイルを使用するウィンドウのハンドル。送信先ウィンドウハンドルにトップレベルウィンドウ以外のものを設定すると、戻り値は E_INVALIDARG となる。
+hwndSource : [intptr] サムネイルソースとして使用するウィンドウのハンドル。ソースウィンドウハンドルにトップレベルウィンドウ以外のものを設定すると、戻り値は E_INVALIDARG となる。
+phThumbnailId : [var] 関数が正常に戻ったとき、DWM サムネイルの登録を表すハンドルへのポインタ。
 %inst
-Creates a Desktop Window Manager (DWM) thumbnail relationship between
-the destination and source windows.
+送信先ウィンドウとソースウィンドウの間に Desktop Window Manager (DWM) サムネイル関係を作成する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 [備考]
-Registering a DWM thumbnail relationship will not modify desktop
-composition; for information about thumbnail positioning, see the
-documentation for the DwmUpdateThumbnailProperties function. The
-window designated by hwndDestination must either be the desktop
-window itself or be owned by the process that is calling
-DwmRegisterThumbnail. This is required to prevent applications from
-affecting the content of other applications. The thumbnail
-registration handle obtained by this function is not globally unique
-but is unique to the process. Call the DwmUnregisterThumbnail
-function to unregister the thumbnail. This must be done within the
-process that the relationship was registered in.
+DWM サムネイル関係を登録してもデスクトップコンポジションは変更されない。サムネイルの位置決めについては
+DwmUpdateThumbnailProperties 関数のドキュメントを参照。hwndDestination
+で指定するウィンドウは、デスクトップウィンドウそのものか、DwmRegisterThumbnail
+を呼び出しているプロセスが所有するものである必要がある。これは、アプリケーションが他のアプリケーションのコンテンツに影響を与えるのを防ぐためである。この関数で取得したサムネイル登録ハンドルはグローバルに一意ではないが、プロセス内では一意である。サムネイルの登録解除には
+DwmUnregisterThumbnail 関数を呼び出す。これは関係を登録したプロセス内で行う必要がある。
 
 
 %index
 DwmRenderGesture
-Notifies Desktop Window Manager (DWM) that a touch contact has been recognized as a gesture, and that DWM should draw feedback for that gesture.
+タッチ接触がジェスチャーとして認識されたこと、および DWM がそのジェスチャーに対するフィードバックを描画すべきであることを Desktop Window Manager (DWM) に通知する。
 %group
 Win32 dwmapi
 %prm
 gt, cContacts, pdwPointerID, pPoints
 gt : [int] 
-cContacts : [int] The number of contact points.
-pdwPointerID : [var] The pointer ID.
-pPoints : [var] The points.
+cContacts : [int] 接触点の数。
+pdwPointerID : [var] ポインタ ID。
+pPoints : [var] 接触点。
 %inst
-Notifies Desktop Window Manager (DWM) that a touch contact has been
-recognized as a gesture, and that DWM should draw feedback for that
-gesture.
+タッチ接触がジェスチャーとして認識されたこと、および DWM がそのジェスチャーに対するフィードバックを描画すべきであることを
+Desktop Window Manager (DWM) に通知する。
 
 
 %index
 DwmSetDxFrameDuration
-Sets the number of monitor refreshes through which to display the presented frame. DwmSetDxFrameDuration is no longer supported. Starting with Windows?8.1, calls to DwmSetDxFrameDuration always return E_NOTIMPL.
+提示されたフレームを表示するモニターのリフレッシュ回数を設定する。DwmSetDxFrameDuration はサポートされなくなった。Windows 8.1 以降、DwmSetDxFrameDuration の呼び出しは常に E_NOTIMPL を返す。
 %group
 Win32 dwmapi
 %prm
 hwnd, cRefreshes
-hwnd : [intptr] The handle to the window that displays the presented frame.
-cRefreshes : [int] The number of refreshes through which to display the presented frame.
+hwnd : [intptr] 提示されたフレームを表示するウィンドウのハンドル。
+cRefreshes : [int] 提示されたフレームを表示するリフレッシュ回数。
 %inst
-Sets the number of monitor refreshes through which to display the
-presented frame. DwmSetDxFrameDuration is no longer supported.
-Starting with Windows 8.1, calls to DwmSetDxFrameDuration always
-return E_NOTIMPL.
+提示されたフレームを表示するモニターのリフレッシュ回数を設定する。DwmSetDxFrameDuration
+はサポートされなくなった。Windows 8.1 以降、DwmSetDxFrameDuration の呼び出しは常に E_NOTIMPL
+を返す。
 
 [戻り値]
-This function always returns S_OK, even when the frame duration is
-not changed or DWM is not running.
+この関数はフレーム持続時間が変更されない場合や DWM が動作していない場合でも、常に S_OK を返す。
 
 [備考]
-The DWM will attempt to display the presented frame for at least the
-number of monitor refreshes specified. It might be impossible to
-display the frame for the precise number of refreshes due to the
-current composition rate. If the frame is presented late to the DWM
-or the DWM is late in composing, a frame could be displayed for fewer
-than the number of refreshes requested or even skipped completely.
+DWM
+は提示されたフレームを少なくとも指定されたモニターリフレッシュ回数の間表示しようとする。現在のコンポジションレートによっては、ちょうど指定回数だけ表示することは不可能な場合がある。フレームが
+DWM に遅れて提示されたり、DWM
+のコンポジションが遅れたりすると、フレームが要求された回数より少ない回数しか表示されない、あるいは完全にスキップされる可能性がある。
 
 
 %index
 DwmSetIconicLivePreviewBitmap
-Sets a static, iconic bitmap to display a live preview (also known as a Peek preview) of a window or tab. The taskbar can use this bitmap to show a full-sized preview of a window or tab.
+ウィンドウまたはタブのライブプレビュー（Peek プレビューとも呼ばれる）を表示するための静的なアイコン形式ビットマップを設定する。タスクバーはこのビットマップを使用してウィンドウまたはタブのフルサイズプレビューを表示できる。
 %group
 Win32 dwmapi
 %prm
 hwnd, hbmp, pptClient, dwSITFlags
-hwnd : [intptr] A handle to the window. This window must belong to the calling process.
-hbmp : [intptr] A handle to the bitmap to represent the window that hwnd specifies.
-pptClient : [var] The offset of a tab window's client region (the content area inside the client window frame) from the host window's frame. This offset enables the tab window's contents to be drawn correctly in a live preview  when it is drawn without its frame.
-dwSITFlags : [int] The display options for the live preview. This parameter can be 0 or the following value.
+hwnd : [intptr] ウィンドウのハンドル。このウィンドウは呼び出し元プロセスに属している必要がある。
+hbmp : [intptr] hwnd で指定されたウィンドウを表すビットマップのハンドル。
+pptClient : [var] ホストウィンドウのフレームから見た、タブウィンドウのクライアント領域（クライアントウィンドウのフレーム内のコンテンツ領域）のオフセット。このオフセットにより、フレームなしで描画される際にもタブウィンドウの内容をライブプレビュー内で正しく描画できる。
+dwSITFlags : [int] ライブプレビューの表示オプション。このパラメータは 0 または次の値を指定できる。
 %inst
-Sets a static, iconic bitmap to display a live preview (also known as
-a Peek preview) of a window or tab. The taskbar can use this bitmap
-to show a full-sized preview of a window or tab.
+ウィンドウまたはタブのライブプレビュー（Peek
+プレビューとも呼ばれる）を表示するための静的なアイコン形式ビットマップを設定する。タスクバーはこのビットマップを使用してウィンドウまたはタブのフルサイズプレビューを表示できる。
 
 [戻り値]
-Returns S_OK if the function succeeds, or an error value otherwise.
-Note that because this bitmap is not cached, if the window is not
-being previewed when an application calls this function, the function
-returns a success code but the bitmap is discarded and not used.
+関数が成功した場合は S_OK
+を返し、それ以外の場合はエラー値を返す。なお、このビットマップはキャッシュされないため、アプリケーションがこの関数を呼び出した時点でウィンドウがプレビュー表示されていない場合、関数は成功コードを返すがビットマップは破棄され使用されない。
 
 [備考]
-A live preview (also known as a Peek preview) of a window appears
-when a user moves the mouse pointer over the window's thumbnail in
-the taskbar or gives the thumbnail focus in the ALT+TAB window. This
-view is a full-sized view of the window and can be a snapshot or an
-iconic representation. A window typically calls the
-DwmSetIconicLivePreviewBitmap function in response to a
-WM_DWMSENDICONICLIVEPREVIEWBITMAP message. The returned bitmap must
-not be larger than the client area of the window or frame and must
-have 32-bit color depth. The Desktop Window Manager (DWM) uses a copy
-of the bitmap, but the caller retains ownership of the original
-bitmap and is responsible for freeing the resources that it uses when
-it is no longer needed. The DWM does not keep its copy of the bitmap
-when the DWM stops displaying the live preview representation.
+ウィンドウのライブプレビュー（Peek
+プレビューとも呼ばれる）は、ユーザーがタスクバー上のウィンドウのサムネイルにマウスポインタを重ねたり、ALT+TAB
+ウィンドウでサムネイルにフォーカスを与えたりすると表示される。このビューはウィンドウのフルサイズビューであり、スナップショットでもアイコン形式の表現でもよい。ウィンドウは通常
+WM_DWMSENDICONICLIVEPREVIEWBITMAP メッセージへの応答として
+DwmSetIconicLivePreviewBitmap
+関数を呼び出す。返されるビットマップはウィンドウまたはフレームのクライアント領域より大きくてはならず、32
+ビットの色深度を持つ必要がある。Desktop Window Manager (DWM)
+はビットマップのコピーを使用するが、呼び出し元は元のビットマップの所有権を保持し、不要になった時点でリソースを解放する責任を負う。DWM
+はライブプレビュー表現の表示を停止すると、ビットマップのコピーを保持しなくなる。
 
 
 %index
 DwmSetIconicThumbnail
-Sets a static, iconic bitmap on a window or tab to use as a thumbnail representation. The taskbar can use this bitmap as a thumbnail switch target for the window or tab.
+ウィンドウまたはタブにサムネイル表現として使用する静的なアイコン形式ビットマップを設定する。タスクバーはこのビットマップを当該ウィンドウまたはタブのサムネイル切り替え対象として使用できる。
 %group
 Win32 dwmapi
 %prm
 hwnd, hbmp, dwSITFlags
-hwnd : [intptr] A handle to the window or tab. This window must belong to the calling process.
-hbmp : [intptr] A handle to the bitmap to represent the window that hwnd specifies.
+hwnd : [intptr] ウィンドウまたはタブのハンドル。このウィンドウは呼び出し元プロセスに属している必要がある。
+hbmp : [intptr] hwnd で指定されたウィンドウを表すビットマップのハンドル。
 dwSITFlags : [int] 
 %inst
-Sets a static, iconic bitmap on a window or tab to use as a thumbnail
-representation. The taskbar can use this bitmap as a thumbnail switch
-target for the window or tab.
+
+ウィンドウまたはタブにサムネイル表現として使用する静的なアイコン形式ビットマップを設定する。タスクバーはこのビットマップを当該ウィンドウまたはタブのサムネイル切り替え対象として使用できる。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 [備考]
-An application typically calls the DwmSetIconicThumbnail function
-after it receives a WM_DWMSENDICONICTHUMBNAIL message for its window.
-The thumbnail should not exceed the maximum x-coordinate and
-y-coordinate that are specified in that message. The thumbnail must
-also have a 32-bit color depth. The application calls
-DwmInvalidateIconicBitmaps to indicate to the Desktop Window Manager
-(DWM) that the iconic thumbnail and live preview bitmaps are
-out-of-date and should be refreshed. The DWM then requests new
-versions from the window when they are needed. However, if the DWM
-bitmap cache is full, DWM will not request updated versions. The DWM
-uses a copy of the bitmap, but the application can release this copy
-at any time because of memory constraints. If the copy is released,
-the window is not notified, but it might receive a subsequent
-WM_DWMSENDICONICTHUMBNAIL request when its thumbnail is needed again.
-The caller retains ownership of the original bitmap and is
-responsible for freeing the resources that it uses when it is no
-longer needed.
+アプリケーションは通常、ウィンドウに対する WM_DWMSENDICONICTHUMBNAIL メッセージを受信した後に
+DwmSetIconicThumbnail 関数を呼び出す。サムネイルはそのメッセージで指定された最大の x 座標および y
+座標を超えてはならない。サムネイルは 32 ビットの色深度を持つ必要もある。アプリケーションは
+DwmInvalidateIconicBitmaps
+を呼び出すことで、アイコン形式のサムネイルおよびライブプレビュービットマップが古くなっておりリフレッシュすべきであることを Desktop
+Window Manager (DWM) に示す。その後 DWM は必要なときにウィンドウから新しいバージョンを要求する。ただし、DWM
+のビットマップキャッシュが満杯の場合、DWM は更新版を要求しない。DWM
+はビットマップのコピーを使用するが、メモリ制約のためアプリケーションはいつでもこのコピーを解放できる。コピーが解放されてもウィンドウには通知されないが、サムネイルが再度必要になったときに後続の
+WM_DWMSENDICONICTHUMBNAIL
+リクエストを受け取る場合がある。呼び出し元は元のビットマップの所有権を保持し、不要になった時点でリソースを解放する責任を負う。
 
 
 %index
 DwmSetPresentParameters
-Sets the present parameters for frame composition. DwmSetPresentParameters is no longer supported. Starting with Windows?8.1, calls to DwmSetPresentParameters always return E_NOTIMPL.
+フレームコンポジション用のプレゼントパラメータを設定する。DwmSetPresentParameters はサポートされなくなった。Windows 8.1 以降、DwmSetPresentParameters の呼び出しは常に E_NOTIMPL を返す。
 %group
 Win32 dwmapi
 %prm
 hwnd, pPresentParams
-hwnd : [intptr] The handle to the window where the present parameters are applied.
-pPresentParams : [var] A pointer to a DWM_PRESENT_PARAMETERS structure that contains DWM video frame parameters for frame composition.
+hwnd : [intptr] プレゼントパラメータを適用するウィンドウのハンドル。
+pPresentParams : [var] フレームコンポジション用の DWM ビデオフレームパラメータを含む DWM_PRESENT_PARAMETERS 構造体へのポインタ。
 %inst
-Sets the present parameters for frame composition.
-DwmSetPresentParameters is no longer supported. Starting with Windows
-8.1, calls to DwmSetPresentParameters always return E_NOTIMPL.
+フレームコンポジション用のプレゼントパラメータを設定する。DwmSetPresentParameters
+はサポートされなくなった。Windows 8.1 以降、DwmSetPresentParameters の呼び出しは常に
+E_NOTIMPL を返す。
 
 [戻り値]
-This function always returns S_OK.
+この関数は常に S_OK を返す。
 
 
 %index
@@ -582,95 +520,86 @@ DWMWA_NCRENDERING_POLICY 属性に対して設定する。
 
 %index
 DwmShowContact
-Called by an app or framework to specify the visual feedback type to draw in response to a particular touch or pen contact.
+特定のタッチまたはペンの接触に応じて描画する視覚フィードバックの種類を指定するために、アプリやフレームワークから呼び出される。
 %group
 Win32 dwmapi
 %prm
 dwPointerID, eShowContact
-dwPointerID : [int] The pointer ID of the contact. Each touch or pen contact is given a unique ID when it is detected.
+dwPointerID : [int] 接触のポインタ ID。タッチまたはペンの接触はそれぞれ検出時に一意の ID が付与される。
 eShowContact : [int] 
 %inst
-Called by an app or framework to specify the visual feedback type to
-draw in response to a particular touch or pen contact.
+特定のタッチまたはペンの接触に応じて描画する視覚フィードバックの種類を指定するために、アプリやフレームワークから呼び出される。
 
 [戻り値]
-If dwPointerID does not match that of a contact currently present on
-the screen, this function returns E_INVALIDARG; otherwise, it returns
-S_OK.
+dwPointerID が画面上に現在存在する接触のものと一致しない場合、この関数は E_INVALIDARG を返す。それ以外の場合は
+S_OK を返す。
 
 [備考]
-It is safe to call this function on the UI thread.
+この関数は UI スレッドから呼び出しても安全である。
 
 
 %index
 DwmTetherContact
-Enables the graphical feedback of touch and drag interactions to the user.
+ユーザーへのタッチおよびドラッグ操作のグラフィカルフィードバックを有効にする。
 %group
 Win32 dwmapi
 %prm
 dwPointerID, fEnable, ptTether
-dwPointerID : [int] The pointer ID.
-fEnable : [int] Indicates whether the contact is enabled.
-ptTether : [int] The tether.
+dwPointerID : [int] ポインタ ID。
+fEnable : [int] 接触が有効かどうかを示す。
+ptTether : [int] テザー。
 %inst
-Enables the graphical feedback of touch and drag interactions to the
-user.
+ユーザーへのタッチおよびドラッグ操作のグラフィカルフィードバックを有効にする。
 
 
 %index
 DwmTransitionOwnedWindow
-Coordinates the animations of tool windows with the Desktop Window Manager (DWM).
+ツールウィンドウのアニメーションを Desktop Window Manager (DWM) と協調させる。
 %group
 Win32 dwmapi
 %prm
 hwnd, target
-hwnd : [intptr] Handle to the window.
+hwnd : [intptr] ウィンドウのハンドル。
 target : [int] 
 %inst
-Coordinates the animations of tool windows with the Desktop Window
-Manager (DWM).
+ツールウィンドウのアニメーションを Desktop Window Manager (DWM) と協調させる。
 
 
 %index
 DwmUnregisterThumbnail
-Removes a Desktop Window Manager (DWM) thumbnail relationship created by the DwmRegisterThumbnail function.
+DwmRegisterThumbnail 関数によって作成された Desktop Window Manager (DWM) サムネイル関係を削除する。
 %group
 Win32 dwmapi
 %prm
 hThumbnailId
-hThumbnailId : [int] The handle to the thumbnail relationship to be removed. Null or non-existent handles will result in a return value of E_INVALIDARG.
+hThumbnailId : [int] 削除するサムネイル関係のハンドル。NULL や存在しないハンドルを指定すると戻り値は E_INVALIDARG となる。
 %inst
-Removes a Desktop Window Manager (DWM) thumbnail relationship created
-by the DwmRegisterThumbnail function.
+DwmRegisterThumbnail 関数によって作成された Desktop Window Manager (DWM)
+サムネイル関係を削除する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 [備考]
-Unregistering DWM thumbnail relationships must be done within the
-process that registered the relationships.
+DWM サムネイル関係の登録解除は、関係を登録したプロセス内で行う必要がある。
 
 
 %index
 DwmUpdateThumbnailProperties
-Updates the properties for a Desktop Window Manager (DWM) thumbnail.
+Desktop Window Manager (DWM) サムネイルのプロパティを更新する。
 %group
 Win32 dwmapi
 %prm
 hThumbnailId, ptnProperties
-hThumbnailId : [int] The handle to the DWM thumbnail to be updated. Null or invalid thumbnails, as well as thumbnails owned by other processes will result in a return value of E_INVALIDARG.
-ptnProperties : [var] A pointer to a DWM_THUMBNAIL_PROPERTIES structure that contains the new thumbnail properties.
+hThumbnailId : [int] 更新する DWM サムネイルのハンドル。NULL や無効なサムネイル、他のプロセスが所有するサムネイルを指定すると戻り値は E_INVALIDARG となる。
+ptnProperties : [var] 新しいサムネイルプロパティを含む DWM_THUMBNAIL_PROPERTIES 構造体へのポインタ。
 %inst
-Updates the properties for a Desktop Window Manager (DWM) thumbnail.
+Desktop Window Manager (DWM) サムネイルのプロパティを更新する。
 
 [戻り値]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+関数が成功した場合は S_OK を返す。それ以外の場合は HRESULT エラーコードを返す。
 
 [備考]
-Thumbnail relationships created by the DwmRegisterThumbnail function
-will not be rendered to the destination window until this function is
-called. Subsequent calls will update the thumbnail according to the
-provided properties.
+DwmRegisterThumbnail
+関数で作成されたサムネイル関係は、この関数が呼び出されるまで送信先ウィンドウに描画されない。後続の呼び出しは指定されたプロパティに従ってサムネイルを更新する。
 

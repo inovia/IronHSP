@@ -6,450 +6,387 @@
 
 %index
 StrChrW
-Searches a string for the first occurrence of a character that matches the specified character. The comparison is case-sensitive. (Unicode)
+文字列から、指定した文字と一致する最初の文字を検索する。比較では大文字と小文字を区別する。(Unicode)
 %group
 Win32 shlwapi
 %prm
 pszStart, wMatch
-pszStart : [wstr] Type: PTSTR The address of the string to be searched.
-wMatch : [int] Type: TCHAR The character to be used for comparison.
+pszStart : [wstr] 型: PTSTR 検索対象となる文字列のアドレス。
+wMatch : [int] 型: TCHAR 比較に使用する文字。
 %inst
-Searches a string for the first occurrence of a character that
-matches the specified character. The comparison is case-sensitive.
-(Unicode)
+文字列から、指定した文字と一致する最初の文字を検索する。比較では大文字と小文字を区別する。(Unicode)
 
 [戻り値]
-Type: PTSTR Returns the address of the first occurrence of the
-character in the string if successful, or NULL otherwise.
+型: PTSTR 成功した場合は、文字列中で最初に見つかった該当文字のアドレスを返す。見つからなかった場合は NULL を返す。
 
 [備考]
-The comparison assumes pszStart points to the start of a
-null-terminated string.
-> [!NOTE] > The shlwapi.h header defines StrChr as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+比較では、pszStart が NULL 終端文字列の先頭を指しているものとみなされる。
+> [!NOTE] > shlwapi.h ヘッダーは StrChr をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 StrChrIA
-Searches a string for the first occurrence of a character that matches the specified character. The comparison is not case-sensitive. (ANSI)
+文字列から、指定した文字と一致する最初の文字を検索する。比較では大文字と小文字を区別しない。(ANSI)
 %group
 Win32 shlwapi
 %prm
 pszStart, wMatch
-pszStart : [str] Type: PTSTR A pointer to the string to be searched.
-wMatch : [int] Type: TCHAR The character to be used for comparison.
+pszStart : [str] 型: PTSTR 検索対象となる文字列へのポインタ。
+wMatch : [int] 型: TCHAR 比較に使用する文字。
 %inst
-Searches a string for the first occurrence of a character that
-matches the specified character. The comparison is not
-case-sensitive. (ANSI)
+文字列から、指定した文字と一致する最初の文字を検索する。比較では大文字と小文字を区別しない。(ANSI)
 
 [戻り値]
-Type: PTSTR Returns the address of the first occurrence of the
-character in the string if successful, or NULL otherwise.
+型: PTSTR 成功した場合は、文字列中で最初に見つかった該当文字のアドレスを返す。見つからなかった場合は NULL を返す。
 
 [備考]
-The comparison assumes pszStart points to the start of a
-null-terminated string.
-> [!NOTE] > The shlwapi.h header defines StrChrI as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+比較では、pszStart が NULL 終端文字列の先頭を指しているものとみなされる。
+> [!NOTE] > shlwapi.h ヘッダーは StrChrI をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 StrChrIW
-Searches a string for the first occurrence of a character that matches the specified character. The comparison is not case-sensitive. (Unicode)
+文字列から、指定した文字と一致する最初の文字を検索する。比較では大文字と小文字を区別しない。(Unicode)
 %group
 Win32 shlwapi
 %prm
 pszStart, wMatch
-pszStart : [wstr] Type: PTSTR A pointer to the string to be searched.
-wMatch : [int] Type: TCHAR The character to be used for comparison.
+pszStart : [wstr] 型: PTSTR 検索対象となる文字列へのポインタ。
+wMatch : [int] 型: TCHAR 比較に使用する文字。
 %inst
-Searches a string for the first occurrence of a character that
-matches the specified character. The comparison is not
-case-sensitive. (Unicode)
+文字列から、指定した文字と一致する最初の文字を検索する。比較では大文字と小文字を区別しない。(Unicode)
 
 [戻り値]
-Type: PTSTR Returns the address of the first occurrence of the
-character in the string if successful, or NULL otherwise.
+型: PTSTR 成功した場合は、文字列中で最初に見つかった該当文字のアドレスを返す。見つからなかった場合は NULL を返す。
 
 [備考]
-The comparison assumes pszStart points to the start of a
-null-terminated string.
-> [!NOTE] > The shlwapi.h header defines StrChrI as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+比較では、pszStart が NULL 終端文字列の先頭を指しているものとみなされる。
+> [!NOTE] > shlwapi.h ヘッダーは StrChrI をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 StrCmpNA
-Compares a specified number of characters from the beginning of two strings to determine if they are the same. The comparison is case-sensitive. The StrNCmp macro differs from this function in name only. (ANSI)
+2 つの文字列の先頭から指定した文字数を比較し、同一であるかどうかを判定する。比較では大文字と小文字を区別する。StrNCmp マクロはこの関数と名称が異なるだけである。(ANSI)
 %group
 Win32 shlwapi
 %prm
 psz1, psz2, nChar
-psz1 : [str] Type: PCTSTR A pointer to the first null-terminated string to be compared.
-psz2 : [str] Type: PCTSTR A pointer to the second null-terminated string to be compared.
-nChar : [int] Type: int The number of characters from the beginning of each string to be compared.
+psz1 : [str] 型: PCTSTR 比較する 1 つ目の NULL 終端文字列へのポインタ。
+psz2 : [str] 型: PCTSTR 比較する 2 つ目の NULL 終端文字列へのポインタ。
+nChar : [int] 型: int 各文字列の先頭から比較する文字数。
 %inst
-Compares a specified number of characters from the beginning of two
-strings to determine if they are the same. The comparison is
-case-sensitive. The StrNCmp macro differs from this function in name
-only. (ANSI)
+2 つの文字列の先頭から指定した文字数を比較し、同一であるかどうかを判定する。比較では大文字と小文字を区別する。StrNCmp
+マクロはこの関数と名称が異なるだけである。(ANSI)
 
 [戻り値]
-Type: int Returns zero if the strings are identical. Returns a
-positive value if the first nChar characters of the string pointed to
-by psz1 are greater than those from the string pointed to by psz2. It
-returns a negative value if the first nChar characters of the string
-pointed to by psz1 are less than those from the string pointed to by
-psz2.
+型: int 文字列が等しい場合はゼロを返す。psz1 が指す文字列の先頭 nChar 文字が psz2
+が指す文字列のそれより大きい場合は正の値を返す。psz1 が指す文字列の先頭 nChar 文字が psz2
+が指す文字列のそれより小さい場合は負の値を返す。
 
 [備考]
-> [!NOTE] > The shlwapi.h header defines StrCmpN as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > shlwapi.h ヘッダーは StrCmpN をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 StrCmpNIA
-Compares a specified number of characters from the beginning of two strings to determine if they are the same. The comparison is not case-sensitive. The StrNCmpI macro differs from this function in name only. (ANSI)
+2 つの文字列の先頭から指定した文字数を比較し、同一であるかどうかを判定する。比較では大文字と小文字を区別しない。StrNCmpI マクロはこの関数と名称が異なるだけである。(ANSI)
 %group
 Win32 shlwapi
 %prm
 psz1, psz2, nChar
-psz1 : [str] Type: PCTSTR A pointer to the first null-terminated string to be compared.
-psz2 : [str] Type: PCTSTR A pointer to the second null-terminated string to be compared.
-nChar : [int] Type: int The number of characters from the beginning of each string to be compared.
+psz1 : [str] 型: PCTSTR 比較する 1 つ目の NULL 終端文字列へのポインタ。
+psz2 : [str] 型: PCTSTR 比較する 2 つ目の NULL 終端文字列へのポインタ。
+nChar : [int] 型: int 各文字列の先頭から比較する文字数。
 %inst
-Compares a specified number of characters from the beginning of two
-strings to determine if they are the same. The comparison is not
-case-sensitive. The StrNCmpI macro differs from this function in name
-only. (ANSI)
+2 つの文字列の先頭から指定した文字数を比較し、同一であるかどうかを判定する。比較では大文字と小文字を区別しない。StrNCmpI
+マクロはこの関数と名称が異なるだけである。(ANSI)
 
 [戻り値]
-Type: int Returns zero if the strings are identical. Returns a
-positive value if the first nChar characters of the string pointed to
-by psz1 are greater than those from the string pointed to by psz2. It
-returns a negative value if the first nChar characters of the string
-pointed to by psz1 are less than those from the string pointed to by
-psz2.
+型: int 文字列が等しい場合はゼロを返す。psz1 が指す文字列の先頭 nChar 文字が psz2
+が指す文字列のそれより大きい場合は正の値を返す。psz1 が指す文字列の先頭 nChar 文字が psz2
+が指す文字列のそれより小さい場合は負の値を返す。
 
 [備考]
-> [!NOTE] > The shlwapi.h header defines StrCmpNI as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > shlwapi.h ヘッダーは StrCmpNI をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 StrCmpNIW
-Compares a specified number of characters from the beginning of two strings to determine if they are the same. The comparison is not case-sensitive. The StrNCmpI macro differs from this function in name only. (Unicode)
+2 つの文字列の先頭から指定した文字数を比較し、同一であるかどうかを判定する。比較では大文字と小文字を区別しない。StrNCmpI マクロはこの関数と名称が異なるだけである。(Unicode)
 %group
 Win32 shlwapi
 %prm
 psz1, psz2, nChar
-psz1 : [wstr] Type: PCTSTR A pointer to the first null-terminated string to be compared.
-psz2 : [wstr] Type: PCTSTR A pointer to the second null-terminated string to be compared.
-nChar : [int] Type: int The number of characters from the beginning of each string to be compared.
+psz1 : [wstr] 型: PCTSTR 比較する 1 つ目の NULL 終端文字列へのポインタ。
+psz2 : [wstr] 型: PCTSTR 比較する 2 つ目の NULL 終端文字列へのポインタ。
+nChar : [int] 型: int 各文字列の先頭から比較する文字数。
 %inst
-Compares a specified number of characters from the beginning of two
-strings to determine if they are the same. The comparison is not
-case-sensitive. The StrNCmpI macro differs from this function in name
-only. (Unicode)
+2 つの文字列の先頭から指定した文字数を比較し、同一であるかどうかを判定する。比較では大文字と小文字を区別しない。StrNCmpI
+マクロはこの関数と名称が異なるだけである。(Unicode)
 
 [戻り値]
-Type: int Returns zero if the strings are identical. Returns a
-positive value if the first nChar characters of the string pointed to
-by psz1 are greater than those from the string pointed to by psz2. It
-returns a negative value if the first nChar characters of the string
-pointed to by psz1 are less than those from the string pointed to by
-psz2.
+型: int 文字列が等しい場合はゼロを返す。psz1 が指す文字列の先頭 nChar 文字が psz2
+が指す文字列のそれより大きい場合は正の値を返す。psz1 が指す文字列の先頭 nChar 文字が psz2
+が指す文字列のそれより小さい場合は負の値を返す。
 
 [備考]
-> [!NOTE] > The shlwapi.h header defines StrCmpNI as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > shlwapi.h ヘッダーは StrCmpNI をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 StrCmpNW
-Compares a specified number of characters from the beginning of two strings to determine if they are the same. The comparison is case-sensitive. The StrNCmp macro differs from this function in name only. (Unicode)
+2 つの文字列の先頭から指定した文字数を比較し、同一であるかどうかを判定する。比較では大文字と小文字を区別する。StrNCmp マクロはこの関数と名称が異なるだけである。(Unicode)
 %group
 Win32 shlwapi
 %prm
 psz1, psz2, nChar
-psz1 : [wstr] Type: PCTSTR A pointer to the first null-terminated string to be compared.
-psz2 : [wstr] Type: PCTSTR A pointer to the second null-terminated string to be compared.
-nChar : [int] Type: int The number of characters from the beginning of each string to be compared.
+psz1 : [wstr] 型: PCTSTR 比較する 1 つ目の NULL 終端文字列へのポインタ。
+psz2 : [wstr] 型: PCTSTR 比較する 2 つ目の NULL 終端文字列へのポインタ。
+nChar : [int] 型: int 各文字列の先頭から比較する文字数。
 %inst
-Compares a specified number of characters from the beginning of two
-strings to determine if they are the same. The comparison is
-case-sensitive. The StrNCmp macro differs from this function in name
-only. (Unicode)
+2 つの文字列の先頭から指定した文字数を比較し、同一であるかどうかを判定する。比較では大文字と小文字を区別する。StrNCmp
+マクロはこの関数と名称が異なるだけである。(Unicode)
 
 [戻り値]
-Type: int Returns zero if the strings are identical. Returns a
-positive value if the first nChar characters of the string pointed to
-by psz1 are greater than those from the string pointed to by psz2. It
-returns a negative value if the first nChar characters of the string
-pointed to by psz1 are less than those from the string pointed to by
-psz2.
+型: int 文字列が等しい場合はゼロを返す。psz1 が指す文字列の先頭 nChar 文字が psz2
+が指す文字列のそれより大きい場合は正の値を返す。psz1 が指す文字列の先頭 nChar 文字が psz2
+が指す文字列のそれより小さい場合は負の値を返す。
 
 [備考]
-> [!NOTE] > The shlwapi.h header defines StrCmpN as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > shlwapi.h ヘッダーは StrCmpN をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 StrRChrW
-Searches a string for the last occurrence of a specified character. The comparison is case-sensitive. (Unicode)
+文字列から、指定した文字が最後に出現する位置を検索する。比較では大文字と小文字を区別する。(Unicode)
 %group
 Win32 shlwapi
 %prm
 pszStart, pszEnd, wMatch
-pszStart : [wstr] Type: PTSTR A pointer to the null-terminated string to be searched.
-pszEnd : [wstr] Type: PCTSTR A pointer into the source string that defines the range of the search. Set pszEnd to point to a character in the string and the search will stop with the preceding character. Set pszEnd to NULL to search the entire string.
-wMatch : [int] Type: TCHAR The character to search for.
+pszStart : [wstr] 型: PTSTR 検索対象の NULL 終端文字列へのポインタ。
+pszEnd : [wstr] 型: PCTSTR 検索範囲を定義する、元文字列内へのポインタ。pszEnd を文字列中のある文字を指すように設定すると、検索はその直前の文字で停止する。pszEnd を NULL に設定すると、文字列全体を検索する。
+wMatch : [int] 型: TCHAR 検索する文字。
 %inst
-Searches a string for the last occurrence of a specified character.
-The comparison is case-sensitive. (Unicode)
+文字列から、指定した文字が最後に出現する位置を検索する。比較では大文字と小文字を区別する。(Unicode)
 
 [戻り値]
-Type: PTSTR Returns a pointer to the last occurrence of the character
-in the string, if successful, or NULL if not.
+型: PTSTR 成功した場合は、文字列中で最後に見つかった該当文字へのポインタを返す。見つからなかった場合は NULL を返す。
 
 [備考]
-The comparison assumes that pszEnd points to the end of the string.
-> [!NOTE] > The shlwapi.h header defines StrRChr as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+比較では、pszEnd が文字列の末尾を指しているものとみなされる。
+> [!NOTE] > shlwapi.h ヘッダーは StrRChr をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 StrRChrIA
-Searches a string for the last occurrence of a specified character. The comparison is not case-sensitive. (ANSI)
+文字列から、指定した文字が最後に出現する位置を検索する。比較では大文字と小文字を区別しない。(ANSI)
 %group
 Win32 shlwapi
 %prm
 pszStart, pszEnd, wMatch
-pszStart : [str] Type: PTSTR A pointer to the null-terminated string to be searched.
-pszEnd : [str] Type: PCTSTR A pointer into the source string that defines the range of the search. Set pszEnd to point to a character in the string and the search will stop with the preceding character. Set pszEnd to NULL to search the entire string.
-wMatch : [int] Type: TCHAR The character to search for.
+pszStart : [str] 型: PTSTR 検索対象の NULL 終端文字列へのポインタ。
+pszEnd : [str] 型: PCTSTR 検索範囲を定義する、元文字列内へのポインタ。pszEnd を文字列中のある文字を指すように設定すると、検索はその直前の文字で停止する。pszEnd を NULL に設定すると、文字列全体を検索する。
+wMatch : [int] 型: TCHAR 検索する文字。
 %inst
-Searches a string for the last occurrence of a specified character.
-The comparison is not case-sensitive. (ANSI)
+文字列から、指定した文字が最後に出現する位置を検索する。比較では大文字と小文字を区別しない。(ANSI)
 
 [戻り値]
-Type: PTSTR Returns a pointer to the last occurrence of the character
-in the string, if successful, or NULL if not.
+型: PTSTR 成功した場合は、文字列中で最後に見つかった該当文字へのポインタを返す。見つからなかった場合は NULL を返す。
 
 [備考]
-The comparison assumes that pszEnd points to the end of the string.
-> [!NOTE] > The shlwapi.h header defines StrRChrI as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+比較では、pszEnd が文字列の末尾を指しているものとみなされる。
+> [!NOTE] > shlwapi.h ヘッダーは StrRChrI をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 StrRChrIW
-Searches a string for the last occurrence of a specified character. The comparison is not case-sensitive. (Unicode)
+文字列から、指定した文字が最後に出現する位置を検索する。比較では大文字と小文字を区別しない。(Unicode)
 %group
 Win32 shlwapi
 %prm
 pszStart, pszEnd, wMatch
-pszStart : [wstr] Type: PTSTR A pointer to the null-terminated string to be searched.
-pszEnd : [wstr] Type: PCTSTR A pointer into the source string that defines the range of the search. Set pszEnd to point to a character in the string and the search will stop with the preceding character. Set pszEnd to NULL to search the entire string.
-wMatch : [int] Type: TCHAR The character to search for.
+pszStart : [wstr] 型: PTSTR 検索対象の NULL 終端文字列へのポインタ。
+pszEnd : [wstr] 型: PCTSTR 検索範囲を定義する、元文字列内へのポインタ。pszEnd を文字列中のある文字を指すように設定すると、検索はその直前の文字で停止する。pszEnd を NULL に設定すると、文字列全体を検索する。
+wMatch : [int] 型: TCHAR 検索する文字。
 %inst
-Searches a string for the last occurrence of a specified character.
-The comparison is not case-sensitive. (Unicode)
+文字列から、指定した文字が最後に出現する位置を検索する。比較では大文字と小文字を区別しない。(Unicode)
 
 [戻り値]
-Type: PTSTR Returns a pointer to the last occurrence of the character
-in the string, if successful, or NULL if not.
+型: PTSTR 成功した場合は、文字列中で最後に見つかった該当文字へのポインタを返す。見つからなかった場合は NULL を返す。
 
 [備考]
-The comparison assumes that pszEnd points to the end of the string.
-> [!NOTE] > The shlwapi.h header defines StrRChrI as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+比較では、pszEnd が文字列の末尾を指しているものとみなされる。
+> [!NOTE] > shlwapi.h ヘッダーは StrRChrI をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 StrRStrIA
-Searches for the last occurrence of a specified substring within a string. The comparison is not case-sensitive. (ANSI)
+文字列の中から、指定した部分文字列が最後に出現する位置を検索する。比較では大文字と小文字を区別しない。(ANSI)
 %group
 Win32 shlwapi
 %prm
 pszSource, pszLast, pszSrch
-pszSource : [str] Type: PTSTR A pointer to a null-terminated source string.
-pszLast : [str] Type: PCTSTR A pointer into the source string that defines the range of the search. Set pszLast to point to a character in the source string, and the search will stop with the preceding character. Set pszLast to NULL to search the entire source string.
-pszSrch : [str] Type: PCTSTR A pointer to the substring to search for.
+pszSource : [str] 型: PTSTR NULL 終端された元文字列へのポインタ。
+pszLast : [str] 型: PCTSTR 検索範囲を定義する、元文字列内へのポインタ。pszLast を元文字列中のある文字を指すように設定すると、検索はその直前の文字で停止する。pszLast を NULL に設定すると、元文字列全体を検索する。
+pszSrch : [str] 型: PCTSTR 検索する部分文字列へのポインタ。
 %inst
-Searches for the last occurrence of a specified substring within a
-string. The comparison is not case-sensitive. (ANSI)
+文字列の中から、指定した部分文字列が最後に出現する位置を検索する。比較では大文字と小文字を区別しない。(ANSI)
 
 [戻り値]
-Type: PTSTR Returns the address of the last occurrence of the
-substring if successful, or NULL otherwise.
+型: PTSTR 成功した場合は、部分文字列が最後に出現した位置のアドレスを返す。見つからなかった場合は NULL を返す。
 
 [備考]
-> [!NOTE] > The shlwapi.h header defines StrRStrI as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > shlwapi.h ヘッダーは StrRStrI をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 StrRStrIW
-Searches for the last occurrence of a specified substring within a string. The comparison is not case-sensitive. (Unicode)
+文字列の中から、指定した部分文字列が最後に出現する位置を検索する。比較では大文字と小文字を区別しない。(Unicode)
 %group
 Win32 shlwapi
 %prm
 pszSource, pszLast, pszSrch
-pszSource : [wstr] Type: PTSTR A pointer to a null-terminated source string.
-pszLast : [wstr] Type: PCTSTR A pointer into the source string that defines the range of the search. Set pszLast to point to a character in the source string, and the search will stop with the preceding character. Set pszLast to NULL to search the entire source string.
-pszSrch : [wstr] Type: PCTSTR A pointer to the substring to search for.
+pszSource : [wstr] 型: PTSTR NULL 終端された元文字列へのポインタ。
+pszLast : [wstr] 型: PCTSTR 検索範囲を定義する、元文字列内へのポインタ。pszLast を元文字列中のある文字を指すように設定すると、検索はその直前の文字で停止する。pszLast を NULL に設定すると、元文字列全体を検索する。
+pszSrch : [wstr] 型: PCTSTR 検索する部分文字列へのポインタ。
 %inst
-Searches for the last occurrence of a specified substring within a
-string. The comparison is not case-sensitive. (Unicode)
+文字列の中から、指定した部分文字列が最後に出現する位置を検索する。比較では大文字と小文字を区別しない。(Unicode)
 
 [戻り値]
-Type: PTSTR Returns the address of the last occurrence of the
-substring if successful, or NULL otherwise.
+型: PTSTR 成功した場合は、部分文字列が最後に出現した位置のアドレスを返す。見つからなかった場合は NULL を返す。
 
 [備考]
-> [!NOTE] > The shlwapi.h header defines StrRStrI as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > shlwapi.h ヘッダーは StrRStrI をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 StrStrW
-Finds the first occurrence of a substring within a string. The comparison is case-sensitive. (StrStrW)
+文字列の中から、部分文字列が最初に出現する位置を検索する。比較では大文字と小文字を区別する。(StrStrW)
 %group
 Win32 shlwapi
 %prm
 pszFirst, pszSrch
-pszFirst : [wstr] Type: PTSTR A pointer to the null-terminated string to search.
-pszSrch : [wstr] Type: PCTSTR A pointer to the substring to search for.
+pszFirst : [wstr] 型: PTSTR 検索対象となる NULL 終端文字列へのポインタ。
+pszSrch : [wstr] 型: PCTSTR 検索する部分文字列へのポインタ。
 %inst
-Finds the first occurrence of a substring within a string. The
-comparison is case-sensitive. (StrStrW)
+文字列の中から、部分文字列が最初に出現する位置を検索する。比較では大文字と小文字を区別する。(StrStrW)
 
 [戻り値]
-Type: PTSTR Returns the address of the first occurrence of the
-matching substring if successful, or NULL otherwise.
+型: PTSTR 成功した場合は、一致する部分文字列が最初に出現した位置のアドレスを返す。見つからなかった場合は NULL を返す。
 
 [備考]
-> [!NOTE] > The shlwapi.h header defines StrStr as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > shlwapi.h ヘッダーは StrStr をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 StrStrIA
-Finds the first occurrence of a substring within a string. The comparison is not case-sensitive. (ANSI)
+文字列の中から、部分文字列が最初に出現する位置を検索する。比較では大文字と小文字を区別しない。(ANSI)
 %group
 Win32 shlwapi
 %prm
 pszFirst, pszSrch
-pszFirst : [str] Type: PTSTR A pointer to the null-terminated string being searched.
-pszSrch : [str] Type: PCTSTR A pointer to the substring to search for.
+pszFirst : [str] 型: PTSTR 検索対象となる NULL 終端文字列へのポインタ。
+pszSrch : [str] 型: PCTSTR 検索する部分文字列へのポインタ。
 %inst
-Finds the first occurrence of a substring within a string. The
-comparison is not case-sensitive. (ANSI)
+文字列の中から、部分文字列が最初に出現する位置を検索する。比較では大文字と小文字を区別しない。(ANSI)
 
 [戻り値]
-Type: PTSTR Returns the address of the first occurrence of the
-matching substring if successful, or NULL otherwise.
+型: PTSTR 成功した場合は、一致する部分文字列が最初に出現した位置のアドレスを返す。見つからなかった場合は NULL を返す。
 
 [備考]
-> [!NOTE] > The shlwapi.h header defines StrStrI as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > shlwapi.h ヘッダーは StrStrI をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 
 
 %index
 StrStrIW
-Finds the first occurrence of a substring within a string. The comparison is not case-sensitive. (Unicode)
+文字列の中から、部分文字列が最初に出現する位置を検索する。比較では大文字と小文字を区別しない。(Unicode)
 %group
 Win32 shlwapi
 %prm
 pszFirst, pszSrch
-pszFirst : [wstr] Type: PTSTR A pointer to the null-terminated string being searched.
-pszSrch : [wstr] Type: PCTSTR A pointer to the substring to search for.
+pszFirst : [wstr] 型: PTSTR 検索対象となる NULL 終端文字列へのポインタ。
+pszSrch : [wstr] 型: PCTSTR 検索する部分文字列へのポインタ。
 %inst
-Finds the first occurrence of a substring within a string. The
-comparison is not case-sensitive. (Unicode)
+文字列の中から、部分文字列が最初に出現する位置を検索する。比較では大文字と小文字を区別しない。(Unicode)
 
 [戻り値]
-Type: PTSTR Returns the address of the first occurrence of the
-matching substring if successful, or NULL otherwise.
+型: PTSTR 成功した場合は、一致する部分文字列が最初に出現した位置のアドレスを返す。見つからなかった場合は NULL を返す。
 
 [備考]
-> [!NOTE] > The shlwapi.h header defines StrStrI as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > shlwapi.h ヘッダーは StrStrI をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の定義に応じて、この関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立のエイリアスと、エンコーディング中立でないコードを混在させると、コンパイルエラーや実行時エラーを引き起こす不整合が生じることがある。詳細については
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照のこと。
 

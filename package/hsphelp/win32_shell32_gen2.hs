@@ -6,297 +6,254 @@
 
 %index
 AssocGetDetailsOfPropKey
-Retrieves the value for a given property key using the file association information provided by the Namespace Extensions.
+–¼‘O‹óŠÔŠg’£‚ª’ñ‹Ÿ‚·‚éƒtƒ@ƒCƒ‹ŠÖ˜A•t‚¯î•ñ‚ğg‚Á‚ÄAw’è‚µ‚½ƒvƒƒpƒeƒBƒL[‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 psf, pidl, pkey, pv, pfFoundPropKey
-psf : [var] Type: IShellFolder* A pointer to the shell folder for which the details of the property key of the file association are being retrieved.
-pidl : [var] Type: PCUITEMID_CHILD The PIDL of the child item for which the file associations are being requested.
-pkey : [var] Type: PROPERTYKEY* A pointer to the property key that is being retrieved.
-pv : [var] Type: VARIANT* When this function returns, contains the details of the given property key.
-pfFoundPropKey : [var] Type: BOOL* When this function returns, contains a flag that is TRUE if the property key was found, otherwise FALSE.
+psf : [var] Œ^: IShellFolder* ƒtƒ@ƒCƒ‹ŠÖ˜A•t‚¯‚ÌƒvƒƒpƒeƒBƒL[‚ÌÚ×‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒVƒFƒ‹ƒtƒHƒ‹ƒ_‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pidl : [var] Œ^: PCUITEMID_CHILD ƒtƒ@ƒCƒ‹ŠÖ˜A•t‚¯‚Ìæ“¾‘ÎÛ‚Æ‚È‚éqƒAƒCƒeƒ€‚Ì PIDLB
+pkey : [var] Œ^: PROPERTYKEY* æ“¾‚·‚éƒvƒƒpƒeƒBƒL[‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pv : [var] Œ^: VARIANT* ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAw’è‚³‚ê‚½ƒvƒƒpƒeƒBƒL[‚ÌÚ×‚ğŠi”[‚·‚éB
+pfFoundPropKey : [var] Œ^: BOOL* ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAƒvƒƒpƒeƒBƒL[‚ªŒ©‚Â‚©‚Á‚½ê‡‚Í TRUEAŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚Í FALSE ‚Æ‚È‚éƒtƒ‰ƒO‚ğŠi”[‚·‚éB
 %inst
-Retrieves the value for a given property key using the file
-association information provided by the Namespace Extensions.
+–¼‘O‹óŠÔŠg’£‚ª’ñ‹Ÿ‚·‚éƒtƒ@ƒCƒ‹ŠÖ˜A•t‚¯î•ñ‚ğg‚Á‚ÄAw’è‚µ‚½ƒvƒƒpƒeƒBƒL[‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function is to be used only by implementers of IShellFolder
-Namespace Extensions. Other calling applications should use
-IShellFolder2::GetDetailsEx to get a value for a PROPERTYKEY. This
-function is to be used by implementers of IShellFolder Namespace
-Extensions. The provided namespace extension must support the use of
-this API in one of the following three ways.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í IShellFolder –¼‘O‹óŠÔŠg’£‚ÌÀ‘•Òê—p‚Å‚ ‚éB‚»‚êˆÈŠO‚ÌŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAPROPERTYKEY
+‚Ì’l‚ğæ“¾‚·‚é‚½‚ß‚É IShellFolder2::GetDetailsEx ‚ğg—p‚·‚é‚±‚ÆB‚±‚ÌŠÖ”‚Í IShellFolder
+–¼‘O‹óŠÔŠg’£‚ÌÀ‘•Ò‚É‚æ‚Á‚Äg—p‚³‚ê‚éB’ñ‹Ÿ‚·‚é–¼‘O‹óŠÔŠg’£‚ÍAŸ‚Ì 3 ‚Â‚Ì‚¢‚¸‚ê‚©‚Ì•û–@‚Å‚±‚Ì API
+‚Ìg—p‚ğƒTƒ|[ƒg‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 CDefFolderMenu_Create2
-Creates a context menu for a selected group of file folder objects.
+‘I‘ğ‚³‚ê‚½ˆêŒQ‚Ìƒtƒ@ƒCƒ‹ƒtƒHƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[‚ğì¬‚·‚éB
 %group
 Win32 shell32
 %prm
 pidlFolder, hwnd, cidl, apidl, psf, pfn, nKeys, ahkeys, ppcm
-pidlFolder : [var] Type: PCIDLIST_ABSOLUTE An ITEMIDLIST structure for the parent folder. This value can be NULL.
-hwnd : [intptr] Type: HWND A handle to the parent window. This value can be NULL.
-cidl : [int] Type: UINT The number of ITEMIDLIST structures in the array pointed to by apidl.
-apidl : [var] Type: PCUITEMID_CHILD_ARRAY* A pointer to an array of ITEMIDLIST structures, one for each item that is selected.
-psf : [var] Type: IShellFolder* A pointer to the parent folder's IShellFolder interface. This IShellFolder must support the IDataObject interface. If it does not, CDefFolderMenu_Create2 fails and returns E_NOINTERFACE. This value can be NULL.
-pfn : [int] Type: LPFNDFMCALLBACK The LPFNDFMCALLBACK callback object. This value can be NULL if the callback object is not needed.
-nKeys : [int] Type: UINT The number of registry keys in the array pointed to by ahkeys.
-ahkeys : [intptr] Type: const HKEY* A pointer to an array of registry keys that specify the context menu handlers used with the menu's entries. For more information on context menu handlers, see Creating Context Menu Handlers. This array can contain a maximum of 16 registry keys.
-ppcm : [var] Type: IContextMenu** The address of an IContextMenu interface pointer that, when this function returns successfully, points to the IContextMenu object that represents the context menu.
+pidlFolder : [var] Œ^: PCIDLIST_ABSOLUTE eƒtƒHƒ‹ƒ_‚Ì ITEMIDLIST \‘¢‘ÌB‚±‚Ì’l‚Í NULL ‚Å‚à\‚í‚È‚¢B
+hwnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à\‚í‚È‚¢B
+cidl : [int] Œ^: UINT apidl ‚ªw‚·”z—ñ“à‚Ì ITEMIDLIST \‘¢‘Ì‚Ì”B
+apidl : [var] Œ^: PCUITEMID_CHILD_ARRAY* ‘I‘ğ‚³‚ê‚½ŠeƒAƒCƒeƒ€‚É‘Î‰‚·‚é ITEMIDLIST \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+psf : [var] Œ^: IShellFolder* eƒtƒHƒ‹ƒ_‚Ì IShellFolder ƒCƒ“ƒ^ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì IShellFolder ‚Í IDataObject ƒCƒ“ƒ^ƒtƒF[ƒX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚èAƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡ CDefFolderMenu_Create2 ‚Í¸”s‚µ‚Ä E_NOINTERFACE ‚ğ•Ô‚·B‚±‚Ì’l‚Í NULL ‚Å‚à\‚í‚È‚¢B
+pfn : [int] Œ^: LPFNDFMCALLBACK LPFNDFMCALLBACK ƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒgBƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚ª•s—v‚Èê‡‚Í NULL ‚ğw’è‚Å‚«‚éB
+nKeys : [int] Œ^: UINT ahkeys ‚ªw‚·”z—ñ“à‚ÌƒŒƒWƒXƒgƒŠƒL[‚Ì”B
+ahkeys : [intptr] Œ^: const HKEY* ƒƒjƒ…[€–Ú‚Ég—p‚·‚éƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[ƒnƒ“ƒhƒ‰‚ğw’è‚·‚éƒŒƒWƒXƒgƒŠƒL[‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[ƒnƒ“ƒhƒ‰‚ÌÚ×‚É‚Â‚¢‚Ä‚ÍuƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[ƒnƒ“ƒhƒ‰‚Ìì¬v‚ğQÆB‚±‚Ì”z—ñ‚É‚ÍÅ‘å 16 ŒÂ‚ÌƒŒƒWƒXƒgƒŠƒL[‚ğŠi”[‚Å‚«‚éB
+ppcm : [var] Œ^: IContextMenu** ŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚ÉAƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[‚ğ•\‚· IContextMenu ƒIƒuƒWƒFƒNƒg‚ğw‚· IContextMenu ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
-Creates a context menu for a selected group of file folder objects.
+‘I‘ğ‚³‚ê‚½ˆêŒQ‚Ìƒtƒ@ƒCƒ‹ƒtƒHƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 CIDLData_CreateFromIDArray
-CIDLData_CreateFromIDArray may be altered or unavailable.
+CIDLData_CreateFromIDArray ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pidlFolder, cidl, apidl, ppdtobj
-pidlFolder : [var] Type: PCIDLIST_ABSOLUTE A fully qualified IDLIST for the root of the items specified in apidl.
-cidl : [int] Type: UINT The number of entries in the apidl array.
-apidl : [var] Type: PCUIDLIST_RELATIVE_ARRAY The array of item IDs relative to pidlFolder. Typically, apidl is an array of child IDs and pidlFolder is a full PIDL for those items. However, pidlFolder can be a null PIDL (desktop IDLISTs). In that case, apidl can contain fully qualified ID lists.
-ppdtobj : [var] Type: IDataObject** The address to a pointer to the object that implements IDataObject.
+pidlFolder : [var] Œ^: PCIDLIST_ABSOLUTE apidl ‚Åw’è‚³‚ê‚½ƒAƒCƒeƒ€‚Ìƒ‹[ƒg‚ğ•\‚·Š®‘SCü IDLISTB
+cidl : [int] Œ^: UINT apidl ”z—ñ‚ÌƒGƒ“ƒgƒŠ”B
+apidl : [var] Œ^: PCUIDLIST_RELATIVE_ARRAY pidlFolder ‚©‚ç‚Ì‘Š‘ÎƒAƒCƒeƒ€ ID ‚Ì”z—ñB’Êí apidl ‚Íq ID ‚Ì”z—ñ‚ÅApidlFolder ‚Í‚»‚ê‚çƒAƒCƒeƒ€‚ÌŠ®‘S‚È PIDL ‚Å‚ ‚éB‚½‚¾‚µ pidlFolder ‚É‚Í NULL PIDLiƒfƒXƒNƒgƒbƒv‚Ì IDLISTj‚ğw’è‚·‚é‚±‚Æ‚à‚Å‚«A‚»‚Ìê‡ apidl ‚ÍŠ®‘SCü ID ƒŠƒXƒg‚ğŠi”[‚Å‚«‚éB
+ppdtobj : [var] Œ^: IDataObject** IDataObject ‚ğÀ‘•‚·‚éƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒAƒhƒŒƒXB
 %inst
-CIDLData_CreateFromIDArray may be altered or unavailable.
+CIDLData_CreateFromIDArray ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The data object created by this function offers the Shell clipboard
-format identifier CFSTR_SHELLIDLIST. This data object also supports
-IDataObject::SetData calls to pick up other clipboard formats.
+‚±‚ÌŠÖ”‚Åì¬‚³‚ê‚éƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ÍAƒVƒFƒ‹ƒNƒŠƒbƒvƒ{[ƒhŒ`®¯•Êq CFSTR_SHELLIDLIST
+‚ğ’ñ‹Ÿ‚·‚éB‚³‚ç‚ÉA‘¼‚ÌƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ğæ‚è‚Ş‚½‚ß IDataObject::SetData ŒÄ‚Ño‚µ‚àƒTƒ|[ƒg‚·‚éB
 
 
 %index
 CommandLineToArgvW
-Parses a Unicode command line string and returns an array of pointers to the command line arguments, along with a count of such arguments, in a way that is similar to the standard C run-time argv and argc values.
+Unicode ‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“•¶š—ñ‚ğ‰ğÍ‚µA•W€ C ƒ‰ƒ“ƒ^ƒCƒ€‚Ì argv ‚¨‚æ‚Ñ argc ‚Ì’l‚Æ“¯—l‚ÉAƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñ‚Æ‚»‚Ìˆø”‚Ì”‚ğ•Ô‚·B
 %group
 Win32 shell32
 %prm
 lpCmdLine, pNumArgs
-lpCmdLine : [wstr] Type: LPCWSTR Pointer to a null-terminated Unicode string that contains the full command line. If this parameter is an empty string the function returns the path to the current executable file.
-pNumArgs : [var] Type: int* Pointer to an int that receives the number of array elements returned, similar to argc.
+lpCmdLine : [wstr] Œ^: LPCWSTR ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‘S‘Ì‚ğŠi”[‚µ‚½ƒkƒ‹I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª‹ó•¶š—ñ‚Ìê‡AŠÖ”‚ÍŒ»İ‚ÌÀsƒtƒ@ƒCƒ‹‚Ö‚ÌƒpƒX‚ğ•Ô‚·B
+pNumArgs : [var] Œ^: int* argc ‚Æ“¯—l‚ÉA•Ô‚³‚ê‚é”z—ñ—v‘f”‚ğó‚¯æ‚é int ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Parses a Unicode command line string and returns an array of pointers
-to the command line arguments, along with a count of such arguments,
-in a way that is similar to the standard C run-time argv and argc
-values.
+Unicode ‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“•¶š—ñ‚ğ‰ğÍ‚µA•W€ C ƒ‰ƒ“ƒ^ƒCƒ€‚Ì argv ‚¨‚æ‚Ñ argc
+‚Ì’l‚Æ“¯—l‚ÉAƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñ‚Æ‚»‚Ìˆø”‚Ì”‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: LPWSTR* A pointer to an array of LPWSTR values, similar to
-argv.
-If the function fails, the return value is NULL. To get extended
-error information, call GetLastError.
+Œ^: LPWSTR* argv ‚Æ“¯—l‚Ì LPWSTR ’l‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL ‚Å‚ ‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B
 
 [”õl]
-The address returned by CommandLineToArgvW is the address of the
-first element in an array of LPWSTR values; the number of pointers in
-this array is indicated by pNumArgs. Each pointer to a
-null-terminated Unicode string represents an individual argument
-found on the command line. CommandLineToArgvW allocates a block of
-contiguous memory for pointers to the argument strings, and for the
-argument strings themselves; the calling application must free the
-memory used by the argument list when it is no longer needed. To free
-the memory, use a single call to the LocalFree function. For more
-information about the argv and argc argument convention, see Argument
-Definitions and Parsing C Command-Line Arguments. The GetCommandLineW
-function can be used to get a command line string that is suitable
-for use as the lpCmdLine parameter. This function accepts command
-lines that contain a program name; the program name can be enclosed
-in quotation marks or not. CommandLineToArgvW has a special
-interpretation of backslash characters when they are followed by a
-quotation mark character ("). This interpretation assumes that any
-preceding argument is a valid file system path, or else it may behave
-unpredictably. This special interpretation controls the "in quotes"
-mode tracked by the parser. When this mode is off, whitespace
-terminates the current argument. When on, whitespace is added to the
-argument like all other characters.
-This doc was truncated.
+CommandLineToArgvW ‚ª•Ô‚·ƒAƒhƒŒƒX‚ÍALPWSTR ’l‚Ì”z—ñ‚Ìæ“ª—v‘f‚ÌƒAƒhƒŒƒX‚Å‚ ‚èA‚±‚Ì”z—ñ“à‚Ìƒ|ƒCƒ“ƒ^”‚Í
+pNumArgs ‚É‚æ‚Á‚Ä¦‚³‚ê‚éBŠeƒkƒ‹I’[ Unicode
+•¶š—ñƒ|ƒCƒ“ƒ^‚ÍAƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ã‚ÅŒ©‚Â‚©‚Á‚½ŒÂX‚Ìˆø”‚ğ•\‚·BCommandLineToArgvW
+‚Íˆø”•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚¨‚æ‚Ñˆø”•¶š—ñ©‘Ì‚Ì‚½‚ß‚É˜A‘±‚µ‚½ƒƒ‚ƒŠƒuƒƒbƒN‚ğŠm•Û‚·‚é‚Ì‚ÅAŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í•s—v‚É‚È‚Á‚½“_‚Å‚»‚Ìˆø”ƒŠƒXƒg‚Ìƒƒ‚ƒŠ‚ğ‰ğ•ú‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bƒƒ‚ƒŠ‚Ì‰ğ•ú‚É‚Í
+LocalFree ŠÖ”‚ğ 1 “xŒÄ‚Ño‚¹‚Î‚æ‚¢Bargv ‚Æ argc ‚Ìˆø”‹K–ñ‚ÌÚ×‚ÍuArgument
+Definitionsv‚¨‚æ‚ÑuParsing C Command-Line Argumentsv‚ğQÆBlpCmdLine
+ƒpƒ‰ƒ[ƒ^‚É“n‚·‚Ì‚É“K‚µ‚½ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“•¶š—ñ‚Í GetCommandLineW
+ŠÖ”‚Åæ“¾‚Å‚«‚éB‚±‚ÌŠÖ”‚ÍƒvƒƒOƒ‰ƒ€–¼‚ğŠÜ‚ŞƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚ğó‚¯•t‚¯AƒvƒƒOƒ‰ƒ€–¼‚Íˆø—p•„‚ÅˆÍ‚Ü‚ê‚Ä‚¢‚Ä‚à‚¢‚È‚­‚Ä‚à‚æ‚¢BCommandLineToArgvW
+‚ÍAƒoƒbƒNƒXƒ‰ƒbƒVƒ…•¶š‚Ì’¼Œã‚Éˆø—p•„i"j‚ª‘±‚­ê‡‚É“Á•Ê‚È‰ğß‚ğs‚¤B‚±‚Ì‰ğß‚Å‚ÍAæs‚·‚éˆø”‚Í—LŒø‚Èƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒpƒX‚Å‚ ‚é‚±‚Æ‚ğ‘O’ñ‚Æ‚µ‚Ä‚¨‚èA‚»‚¤‚Å‚È‚¢‚Æ—\‘ª•s”\‚È“®ì‚Æ‚È‚é‰Â”\«‚ª‚ ‚éB‚±‚Ì“Á•Ê‚È‰ğß‚Íƒp[ƒT‚ª’ÇÕ‚·‚éuˆø—p•„“àvƒ‚[ƒh‚ğ§Œä‚·‚éB‚±‚Ìƒ‚[ƒh‚ªƒIƒt‚Ì‚Æ‚«A‹ó”’‚ÅŒ»İ‚Ìˆø”‚ªI’[‚³‚ê‚éBƒIƒ“‚Ì‚Æ‚«A‹ó”’‚Í‘¼‚Ì•¶š‚Æ“¯—l‚Éˆø”‚É’Ç‰Á‚³‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 DAD_AutoScroll
-Scrolls the window while an image is being dragged.
+ƒCƒ[ƒW‚Ìƒhƒ‰ƒbƒO’†‚ÉƒEƒBƒ“ƒhƒE‚ğƒXƒNƒ[ƒ‹‚·‚éB
 %group
 Win32 shell32
 %prm
 hwnd, pad, pptNow
-hwnd : [intptr] Type: HWND A handle to the window being scrolled.
-pad : [var] Type: AUTO_SCROLL_DATA* A pointer to the AUTO_SCROLL_DATA structure.
-pptNow : [var] Type: const POINT* A pointer to the current scroll coordinates.
+hwnd : [intptr] Œ^: HWND ƒXƒNƒ[ƒ‹‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pad : [var] Œ^: AUTO_SCROLL_DATA* AUTO_SCROLL_DATA \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pptNow : [var] Œ^: const POINT* Œ»İ‚ÌƒXƒNƒ[ƒ‹À•W‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Scrolls the window while an image is being dragged.
+ƒCƒ[ƒW‚Ìƒhƒ‰ƒbƒO’†‚ÉƒEƒBƒ“ƒhƒE‚ğƒXƒNƒ[ƒ‹‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠOA‚»‚êˆÈŠO‚Ìê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-The function is successful and the window scrolls only when the bFull
-parameter of the AUTO_SCROLL_DATA structure is TRUE. Each time this
-function is called, as long as bFull is FALSE, the iNextSample
-parameter is incremented by 1 and the current scroll coordinates and
-time are returned in the AUTO_SCROLL_DATA structure. When iNextSample
-is equal to NUM_POINTS, bFull is set to TRUE, the function succeeds,
-and the window scrolls.
+‚±‚ÌŠÖ”‚Í AUTO_SCROLL_DATA \‘¢‘Ì‚Ì bFull ƒpƒ‰ƒ[ƒ^‚ª TRUE
+‚Ìê‡‚É‚Ì‚İ¬Œ÷‚µAƒEƒBƒ“ƒhƒE‚ªƒXƒNƒ[ƒ‹‚·‚éBbFull ‚ª FALSE ‚ÌŠÔ‚ÍA‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚½‚Ñ‚É iNextSample
+ƒpƒ‰ƒ[ƒ^‚ª 1 ‚¸‚Â‘‰Á‚µAŒ»İ‚ÌƒXƒNƒ[ƒ‹À•W‚Æ‚ª AUTO_SCROLL_DATA \‘¢‘Ì‚É•Ô‚³‚ê‚éBiNextSample ‚ª
+NUM_POINTS ‚Æ“™‚µ‚­‚È‚é‚Æ bFull ‚ª TRUE ‚Éİ’è‚³‚êAŠÖ”‚ª¬Œ÷‚µ‚ÄƒEƒBƒ“ƒhƒE‚ªƒXƒNƒ[ƒ‹‚·‚éB
 
 
 %index
 DAD_DragEnterEx
-Locks updates to the specified window during a drag operation and displays the drag image at the specified position within the window. (DAD_DragEnterEx)
+ƒhƒ‰ƒbƒO‘€ì’†‚Éw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ö‚ÌXV‚ğƒƒbƒN‚µAƒEƒBƒ“ƒhƒE“à‚Ìw’èˆÊ’u‚Éƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğ•\¦‚·‚éB(DAD_DragEnterEx)
 %group
 Win32 shell32
 %prm
 hwndTarget, ptStart
-hwndTarget : [intptr] Type: HWND A handle to the window that owns the drag image.
-ptStart : [int] Type: const POINT The coordinates at which to begin displaying the drag image. The coordinates are relative to the upper-left corner of the window, not the client area.
+hwndTarget : [intptr] Œ^: HWND ƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+ptStart : [int] Œ^: const POINT ƒhƒ‰ƒbƒOƒCƒ[ƒW‚Ì•\¦‚ğŠJn‚·‚éÀ•WBÀ•W‚ÍƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Å‚Í‚È‚­AƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚ğŠî€‚Æ‚·‚éB
 %inst
-Locks updates to the specified window during a drag operation and
-displays the drag image at the specified position within the window.
-(DAD_DragEnterEx)
+
+ƒhƒ‰ƒbƒO‘€ì’†‚Éw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ö‚ÌXV‚ğƒƒbƒN‚µAƒEƒBƒ“ƒhƒE“à‚Ìw’èˆÊ’u‚Éƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğ•\¦‚·‚éB(DAD_DragEnterEx)
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if successful, or FALSE otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 DAD_DragEnterEx2
-Locks updates to the specified window during a drag-and-drop operation and displays the drag image at the specified position within the window.
+ƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì‚ÌŠÔAw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ö‚ÌXV‚ğƒƒbƒN‚µAƒEƒBƒ“ƒhƒE“à‚Ìw’èˆÊ’u‚Éƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğ•\¦‚·‚éB
 %group
 Win32 shell32
 %prm
 hwndTarget, ptStart, pdtObject
-hwndTarget : [intptr] Type: HWND A handle to the window that owns the drag image.
-ptStart : [int] Type: const POINT Specifies the coordinates at which to begin displaying the drag image. The coordinates are relative to the upper-left corner of the window, not the client area.
-pdtObject : [var] Type: IDataObject* A pointer to the IDataObject interface on the data object. This data object contains the data being transferred in the drag-and-drop operation. If the drop occurs, this data object will be incorporated into the target. This parameter may be NULL.
+hwndTarget : [intptr] Œ^: HWND ƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+ptStart : [int] Œ^: const POINT ƒhƒ‰ƒbƒOƒCƒ[ƒW‚Ì•\¦‚ğŠJn‚·‚éÀ•W‚ğw’è‚·‚éBÀ•W‚ÍƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Å‚Í‚È‚­AƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚ğŠî€‚Æ‚·‚éB
+pdtObject : [var] Œ^: IDataObject* ƒf[ƒ^ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Íƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì‚Å“]‘—‚³‚ê‚éƒf[ƒ^‚ğ•Û‚µ‚Ä‚¨‚èAƒhƒƒbƒv‚ª”­¶‚·‚é‚Æƒ^[ƒQƒbƒg‚Éæ‚è‚Ü‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢B
 %inst
-Locks updates to the specified window during a drag-and-drop
-operation and displays the drag image at the specified position
-within the window.
+ƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì‚ÌŠÔAw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚Ö‚ÌXV‚ğƒƒbƒN‚µAƒEƒBƒ“ƒhƒE“à‚Ìw’èˆÊ’u‚Éƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğ•\¦‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if successful, FALSE otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 DAD_DragLeave
-Unlocks the window locked by the DAD_DragEnterEx function.
+DAD_DragEnterEx ŠÖ”‚É‚æ‚Á‚ÄƒƒbƒN‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
 %group
 Win32 shell32
 %prm
 
 %inst
-Unlocks the window locked by the DAD_DragEnterEx function.
+DAD_DragEnterEx ŠÖ”‚É‚æ‚Á‚ÄƒƒbƒN‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns SUCCEEDED if successful, or FALSE otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í SUCCEEDEDA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 DAD_DragMove
-Moves the image that is being dragged during a drag-and-drop operation.
+ƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì’†‚Éƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚éƒCƒ[ƒW‚ğˆÚ“®‚·‚éB
 %group
 Win32 shell32
 %prm
 pt
-pt : [int] Type: POINT The coordinates at which to display the drag image. The coordinates are relative to the upper-left corner of the window, not the client area.
+pt : [int] Œ^: POINT ƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğ•\¦‚·‚éÀ•WBÀ•W‚ÍƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Å‚Í‚È‚­AƒEƒBƒ“ƒhƒE‚Ì¶ã‹÷‚ğŠî€‚Æ‚·‚éB
 %inst
-Moves the image that is being dragged during a drag-and-drop
-operation.
+ƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì’†‚Éƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚éƒCƒ[ƒW‚ğˆÚ“®‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠOA‚»‚êˆÈŠO‚Ìê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 DAD_SetDragImage
-Sets the drag image.
+ƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğİ’è‚·‚éB
 %group
 Win32 shell32
 %prm
 him, pptOffset
-him : [intptr] Type: HIMAGELIST A handle to an image list. This parameter uses the zero index in the ImageList.
-pptOffset : [var] Type: POINT* A pointer to the coordinates used as the hot spot for dragging the image. The coordinates are relative to upper-left corner of the image.
+him : [intptr] Œ^: HIMAGELIST ƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Å‚Í ImageList ‚ÌƒCƒ“ƒfƒbƒNƒX 0 ‚ğg—p‚·‚éB
+pptOffset : [var] Œ^: POINT* ƒCƒ[ƒW‚Ìƒhƒ‰ƒbƒO‚ÉƒzƒbƒgƒXƒ|ƒbƒg‚Æ‚µ‚Äg—p‚·‚éÀ•W‚Ö‚Ìƒ|ƒCƒ“ƒ^BÀ•W‚ÍƒCƒ[ƒW‚Ì¶ã‹÷‚ğŠî€‚Æ‚·‚éB
 %inst
-Sets the drag image.
+ƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠOA‚»‚êˆÈŠO‚Ìê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-You can clear the drag image by setting the him parameter to -1 and
-the pptOffset parameter to NULL. The image must have been set within
-the same thread.
+him ƒpƒ‰ƒ[ƒ^‚É -1ApptOffset ƒpƒ‰ƒ[ƒ^‚É NULL
+‚ğİ’è‚·‚é‚Æƒhƒ‰ƒbƒOƒCƒ[ƒW‚ğÁ‹‚Å‚«‚éBƒCƒ[ƒW‚Í“¯‚¶ƒXƒŒƒbƒh“à‚Åİ’è‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 
 
 %index
 DAD_ShowDragImage
-Shows or hides the image being dragged. (DAD_ShowDragImage)
+ƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚éƒCƒ[ƒW‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éB(DAD_ShowDragImage)
 %group
 Win32 shell32
 %prm
 fShow
-fShow : [int] Type: BOOL A value that specifies whether to show or hide the image being dragged.
+fShow : [int] Œ^: BOOL ƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚éƒCƒ[ƒW‚ğ•\¦‚·‚é‚©”ñ•\¦‚É‚·‚é‚©‚ğw’è‚·‚é’lB
 %inst
-Shows or hides the image being dragged. (DAD_ShowDragImage)
+ƒhƒ‰ƒbƒO‚³‚ê‚Ä‚¢‚éƒCƒ[ƒW‚ğ•\¦‚Ü‚½‚Í”ñ•\¦‚É‚·‚éB(DAD_ShowDragImage)
 
 [–ß‚è’l]
-Type: BOOL Returns nonzero if successful, or zero otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í 0 ˆÈŠOA‚»‚êˆÈŠO‚Ìê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-This function works on locked windows. It does not work on layered
-windows.
+‚±‚ÌŠÖ”‚ÍƒƒbƒN‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Ä‹@”\‚·‚éBƒŒƒCƒ„[ƒhƒEƒBƒ“ƒhƒE‚Å‚Í‹@”\‚µ‚È‚¢B
 
 
 %index
 DoEnvironmentSubstW
-Parses an input string that contains references to one or more environment variables and replaces them with their fully expanded values. (Unicode)
+1 ‚ÂˆÈã‚ÌŠÂ‹«•Ï”‚Ö‚ÌQÆ‚ğŠÜ‚Ş“ü—Í•¶š—ñ‚ğ‰ğÍ‚µA‚»‚ê‚ç‚ğŠ®‘S‚É“WŠJ‚µ‚½’l‚É’u‚«Š·‚¦‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 pszSrc, cchSrc
-pszSrc : [wstr] Type: LPTSTR A pointer to a null-terminated string that contains references to one or more environment variables, each in the following form. Case is ignored.
-cchSrc : [int] Type: UINT The size, in characters, of the buffer pointed to by pszSrc. Note that the buffer must be large enough to hold the returned string.
+pszSrc : [wstr] Œ^: LPTSTR 1 ‚ÂˆÈã‚ÌŠÂ‹«•Ï”‚Ö‚ÌQÆ‚ğŸ‚ÌŒ`®‚ÅŠÜ‚Şƒkƒ‹I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‘å•¶š¬•¶š‚Í‹æ•Ê‚³‚ê‚È‚¢B
+cchSrc : [int] Œ^: UINT pszSrc ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒYi•¶š”jBƒoƒbƒtƒ@‚Í•Ô‚³‚ê‚é•¶š—ñ‚ğŠi”[‚·‚é‚Ì‚É\•ª‚È‘å‚«‚³‚ª•K—v‚Å‚ ‚é‚±‚Æ‚É’ˆÓB
 %inst
-Parses an input string that contains references to one or more
-environment variables and replaces them with their fully expanded
-values. (Unicode)
+1 ‚ÂˆÈã‚ÌŠÂ‹«•Ï”‚Ö‚ÌQÆ‚ğŠÜ‚Ş“ü—Í•¶š—ñ‚ğ‰ğÍ‚µA‚»‚ê‚ç‚ğŠ®‘S‚É“WŠJ‚µ‚½’l‚É’u‚«Š·‚¦‚éB(Unicode)
 
 [–ß‚è’l]
-Type: DWORD If the expanded string fits in the buffer, TRUE is
-returned in the HIWORD and the length, in characters, of the new
-pszSrc is returned in the LOWORD.
-If the expanded string is too large for the buffer, FALSE is returned
-in the HIWORD and cchSrc in the LOWORD.
+Œ^: DWORD “WŠJ‚³‚ê‚½•¶š—ñ‚ªƒoƒbƒtƒ@‚Éû‚Ü‚éê‡AHIWORD ‚É TRUE ‚ª•Ô‚èAV‚µ‚¢ pszSrc ‚Ì’·‚³i•¶š”j‚ª
+LOWORD ‚É•Ô‚éB
+“WŠJ‚³‚ê‚½•¶š—ñ‚ªƒoƒbƒtƒ@‚É‘Î‚µ‚Ä‘å‚«‚·‚¬‚éê‡AHIWORD ‚É FALSE ‚ª•Ô‚èALOWORD ‚É cchSrc ‚ª•Ô‚éB
 
 [”õl]
-Parameters must contain valid, non-NULL values. You must validate
-these values. Failure to do so can provide unexpected results.
-Because the string that is returned in pszSrc will typically be
-longer than the input string, make sure that the buffer is large
-enough to hold the expanded version of the string. The allotted size
-of the cchSrc buffer for ANSI strings must be one larger than the
-buffer for a Unicode string. When dealing with ANSI strings, use the
-formula buffer size = string length + terminating null character + 1
-to determine the minimum correct buffer size. Because environment
-variables can be added by the user or applications, the complete list
-is system-dependent. The following environment variables are standard
-and are available to both interactive applications and services.
-This doc was truncated.
+ƒpƒ‰ƒ[ƒ^‚É‚Í—LŒø‚Å NULL
+ˆÈŠO‚Ì’l‚ªŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚ê‚ç‚Ì’l‚ÍŒÄ‚Ño‚µ‘¤‚ÅŒŸØ‚·‚é•K—v‚ª‚ ‚éBŒŸØ‚ğ‘Ó‚é‚Æ—\Šú‚µ‚È‚¢Œ‹‰Ê‚É‚È‚é‰Â”\«‚ª‚ ‚éBpszSrc
+‚É•Ô‚³‚ê‚é•¶š—ñ‚Í’Êí“ü—Í•¶š—ñ‚æ‚è’·‚­‚È‚é‚½‚ßA“WŠJŒã‚Ì•¶š—ñ‚ğŠi”[‚·‚é‚Ì‚É\•ª‚È‘å‚«‚³‚Ìƒoƒbƒtƒ@‚ğ—pˆÓ‚·‚é‚±‚ÆBANSI •¶š—ñ‚Ìê‡
+cchSrc ƒoƒbƒtƒ@‚ÉŠ„‚è“–‚Ä‚éƒTƒCƒY‚Í Unicode •¶š—ñ‚Ìƒoƒbƒtƒ@‚æ‚è 1 ‘å‚«‚­‚·‚é•K—v‚ª‚ ‚éBANSI
+•¶š—ñ‚ğˆµ‚¤Û‚Íuƒoƒbƒtƒ@ƒTƒCƒY = •¶š—ñ’· + I’[ƒkƒ‹•¶š +
+1v‚Æ‚¢‚¤®‚Å•K—v‚ÈÅ¬ƒoƒbƒtƒ@ƒTƒCƒY‚ğ‹‚ß‚éBŠÂ‹«•Ï”‚Íƒ†[ƒU‚âƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª’Ç‰Á‚Å‚«‚é‚½‚ßA‚»‚ÌŠ®‘S‚ÈƒŠƒXƒg‚ÍƒVƒXƒeƒ€ˆË‘¶‚Å‚ ‚éBŸ‚ÌŠÂ‹«•Ï”‚Í•W€‚Å‚ ‚èA‘Î˜bŒ^ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚¨‚æ‚ÑƒT[ƒrƒX‚Ì—¼•û‚Å—˜—p‚Å‚«‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
@@ -374,116 +331,100 @@ ppt : [var] Œ^: POINT* ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Éƒtƒ@ƒCƒ‹‚ªƒhƒƒbƒv‚³‚ê‚½‚Ìƒ}ƒEƒXƒ|ƒ
 
 %index
 DriveType
-The DriveType function determines the drive type based on the drive number. (DriveType function)
+DriveType ŠÖ”‚Íƒhƒ‰ƒCƒu”Ô†‚©‚çƒhƒ‰ƒCƒu‚Ìí—Ş‚ğ”»•Ê‚·‚éB(DriveType function)
 %group
 Win32 shell32
 %prm
 iDrive
-iDrive : [int] Type: int The number of the drive that you want to test. "A:" corresponds to 0, "B:" to 1, and so on.
+iDrive : [int] Œ^: int ’²‚×‚½‚¢ƒhƒ‰ƒCƒu‚Ì”Ô†B"A:" ‚Í 0A"B:" ‚Í 1A‚Æ‚¢‚¤‚æ‚¤‚É‘Î‰‚·‚éB
 %inst
-The DriveType function determines the drive type based on the drive
-number. (DriveType function)
+DriveType ŠÖ”‚Íƒhƒ‰ƒCƒu”Ô†‚©‚çƒhƒ‰ƒCƒu‚Ìí—Ş‚ğ”»•Ê‚·‚éB(DriveType function)
 
 [–ß‚è’l]
-Type: int Returns one of the following values.
-This doc was truncated.
+Œ^: int Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-DriveType is equivalent to calling RealDriveType. RealDriveType is
-the preferred function.
+DriveType ‚Í RealDriveType ‚ğŒÄ‚Ño‚·‚Ì‚Æ“™‰¿‚Å‚ ‚éBRealDriveType ‚Ì•û‚ª„§‚³‚ê‚éŠÖ”‚Å‚ ‚éB
 
 
 %index
 DuplicateIcon
-Creates a duplicate of a specified icon.
+w’è‚µ‚½ƒAƒCƒRƒ“‚Ì•¡»‚ğì¬‚·‚éB
 %group
 Win32 shell32
 %prm
 hInst, hIcon
-hInst : [intptr] Type: HINSTANCE
-hIcon : [intptr] Type: HICON Handle to the icon to be duplicated.
+hInst : [intptr] Œ^: HINSTANCE
+hIcon : [intptr] Œ^: HICON •¡»‘ÎÛ‚Æ‚È‚éƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Creates a duplicate of a specified icon.
+w’è‚µ‚½ƒAƒCƒRƒ“‚Ì•¡»‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HICON If successful, the function returns the handle to the new
-icon that was created; otherwise, NULL.
+Œ^: HICON ¬Œ÷‚µ‚½ê‡AŠÖ”‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í NULL ‚ğ•Ô‚·B
 
 [”õl]
-When it is no longer needed, the caller is responsible for freeing
-the icon handle returned by DuplicateIcon by calling the DestroyIcon
-function.
+DuplicateIcon ‚ª•Ô‚µ‚½ƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹‚ÍA•s—v‚É‚È‚Á‚½“_‚ÅŒÄ‚Ño‚µ‘¤‚ª DestroyIcon
+ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚éÓ”C‚ª‚ ‚éB
 
 
 %index
 ExtractAssociatedIconW
-Gets a handle to an icon stored as a resource in a file or an icon stored in a file's associated executable file. (Unicode)
+ƒtƒ@ƒCƒ‹“à‚ÉƒŠƒ\[ƒX‚Æ‚µ‚ÄŠi”[‚³‚ê‚½ƒAƒCƒRƒ“A‚Ü‚½‚Íƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Àsƒtƒ@ƒCƒ‹“à‚ÉŠi”[‚³‚ê‚½ƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 hInst, pszIconPath, piIcon
-hInst : [intptr] Type: HINSTANCE A handle to the instance of the calling application.
-pszIconPath : [wstr] Type: LPTSTR Pointer to a string that, on entry, specifies the full path and file name of the file that contains the icon. The function extracts the icon handle from that file, or from an executable file associated with that file.
-piIcon : [var] Type: LPWORD Pointer to a WORD value that, on entry, specifies the index of the icon whose handle is to be obtained.
+hInst : [intptr] Œ^: HINSTANCE ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pszIconPath : [wstr] Œ^: LPTSTR •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B“ü—Í‚É‚ÍƒAƒCƒRƒ“‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚ÌŠ®‘S‚ÈƒpƒX‚Æƒtƒ@ƒCƒ‹–¼‚ğw’è‚·‚éBŠÖ”‚Í‚»‚Ìƒtƒ@ƒCƒ‹A‚Ü‚½‚Í‚»‚Ìƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Àsƒtƒ@ƒCƒ‹‚©‚çƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹‚ğ’Šo‚·‚éB
+piIcon : [var] Œ^: LPWORD WORD ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B“ü—Í‚É‚Íƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éƒAƒCƒRƒ“‚ÌƒCƒ“ƒfƒbƒNƒX‚ğw’è‚·‚éB
 %inst
-Gets a handle to an icon stored as a resource in a file or an icon
-stored in a file's associated executable file. (Unicode)
+
+ƒtƒ@ƒCƒ‹“à‚ÉƒŠƒ\[ƒX‚Æ‚µ‚ÄŠi”[‚³‚ê‚½ƒAƒCƒRƒ“A‚Ü‚½‚Íƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Àsƒtƒ@ƒCƒ‹“à‚ÉŠi”[‚³‚ê‚½ƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HICON If the function succeeds, the return value is an icon
-handle. If the icon is extracted from an associated executable file,
-the function stores the full path and file name of the executable
-file in the string pointed to by lpIconPath, and stores the icon's
-identifier in the WORD pointed to by lpiIcon.
-If the function fails, the return value is NULL.
+Œ^: HICON
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚ÍƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹‚Å‚ ‚éBƒAƒCƒRƒ“‚ªŠÖ˜A•t‚¯‚ç‚ê‚½Àsƒtƒ@ƒCƒ‹‚©‚ç’Šo‚³‚ê‚½ê‡AŠÖ”‚ÍÀsƒtƒ@ƒCƒ‹‚ÌŠ®‘S‚ÈƒpƒX‚Æƒtƒ@ƒCƒ‹–¼‚ğ
+lpIconPath ‚ªw‚·•¶š—ñ‚ÉŠi”[‚µAƒAƒCƒRƒ“¯•Êq‚ğ lpiIcon ‚ªw‚· WORD ‚ÉŠi”[‚·‚éB
+ŠÖ”‚ª¸”s‚µ‚½ê‡A–ß‚è’l‚Í NULL ‚Å‚ ‚éB
 
 [”õl]
-When it is no longer needed, the caller is responsible for freeing
-the icon handle returned by ExtractAssociatedIcon by calling the
-DestroyIcon function. The ExtractAssociatedIcon function first looks
-for the indexed icon in the file specified by lpIconPath. If the
-function cannot obtain the icon handle from that file, and the file
-has an associated executable file, it looks in that executable file
-for an icon. Associations with executable files are based on file
-name extensions and are stored in the per-user part of the registry.
-> [!NOTE] > The shellapi.h header defines ExtractAssociatedIcon as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ExtractAssociatedIcon ‚ª•Ô‚µ‚½ƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹‚ÍA•s—v‚É‚È‚Á‚½“_‚ÅŒÄ‚Ño‚µ‘¤‚ª DestroyIcon
+ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚éÓ”C‚ª‚ ‚éBExtractAssociatedIcon ŠÖ”‚Í‚Ü‚¸ lpIconPath
+‚Åw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹“à‚ÅƒCƒ“ƒfƒbƒNƒXw’è‚³‚ê‚½ƒAƒCƒRƒ“‚ğ’T‚·B‚»‚Ìƒtƒ@ƒCƒ‹‚©‚çƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹‚ğæ“¾‚Å‚«‚¸A‚©‚Â‚»‚Ìƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Àsƒtƒ@ƒCƒ‹‚ª‚ ‚éê‡A‚»‚ÌÀsƒtƒ@ƒCƒ‹“à‚ÅƒAƒCƒRƒ“‚ğ’T‚·BÀsƒtƒ@ƒCƒ‹‚Æ‚ÌŠÖ˜A•t‚¯‚Íƒtƒ@ƒCƒ‹–¼‚ÌŠg’£q‚ÉŠî‚Ã‚¢‚Ä‚¨‚èAƒŒƒWƒXƒgƒŠ‚Ìƒ†[ƒU’PˆÊ•”•ª‚ÉŠi”[‚³‚ê‚Ä‚¢‚éB
+> [!NOTE] > shellapi.h ƒwƒbƒ_‚Í UNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í
+Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä ExtractAssociatedIcon
+‚ğ’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO”ñˆË‘¶‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒOˆË‘¶‚ÌƒR[ƒh‚ğ¬İ‚³‚¹‚é‚Æƒ~ƒXƒ}ƒbƒ`‚ª¶‚¶AƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 ExtractAssociatedIconExW
-ExtractAssociatedIconEx may be altered or unavailable. (Unicode)
+ExtractAssociatedIconEx ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 hInst, pszIconPath, piIconIndex, piIconId
-hInst : [intptr] Type: HINSTANCE The handle of the module from which to extract the icon.
-pszIconPath : [wstr] Type: LPTSTR Pointer to a string that, on entry, specifies the full path and file name of the file that contains the icon. The function extracts the icon handle from that file, or from an executable file associated with that file.
-piIconIndex : [var] Type: LPWORD Pointer to a WORD value that, on entry, specifies the index of the icon whose handle is to be obtained.
-piIconId : [var] Type: LPWORD Pointer to a WORD value that, on entry, specifies the ID of the icon whose handle is to be obtained.
+hInst : [intptr] Œ^: HINSTANCE ƒAƒCƒRƒ“‚ğ’Šo‚·‚éƒ‚ƒWƒ…[ƒ‹‚Ìƒnƒ“ƒhƒ‹B
+pszIconPath : [wstr] Œ^: LPTSTR •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B“ü—Í‚É‚ÍƒAƒCƒRƒ“‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚ÌŠ®‘S‚ÈƒpƒX‚Æƒtƒ@ƒCƒ‹–¼‚ğw’è‚·‚éBŠÖ”‚Í‚»‚Ìƒtƒ@ƒCƒ‹A‚Ü‚½‚Í‚»‚Ìƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Àsƒtƒ@ƒCƒ‹‚©‚çƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹‚ğ’Šo‚·‚éB
+piIconIndex : [var] Œ^: LPWORD WORD ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B“ü—Í‚É‚Íƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éƒAƒCƒRƒ“‚ÌƒCƒ“ƒfƒbƒNƒX‚ğw’è‚·‚éB
+piIconId : [var] Œ^: LPWORD WORD ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B“ü—Í‚É‚Íƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éƒAƒCƒRƒ“‚Ì ID ‚ğw’è‚·‚éB
 %inst
-ExtractAssociatedIconEx may be altered or unavailable. (Unicode)
+ExtractAssociatedIconEx ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HICON Returns the icon's handle if successful, otherwise NULL.
+Œ^: HICON ¬Œ÷‚µ‚½ê‡‚ÍƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í NULL ‚ğ•Ô‚·B
 
 [”õl]
-The icon handle returned by this function must be released by calling
-DestroyIcon when it is no longer needed.
-> [!NOTE] > The shellapi.h header defines ExtractAssociatedIconEx as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+‚±‚ÌŠÖ”‚ª•Ô‚µ‚½ƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹‚ÍA•s—v‚É‚È‚Á‚½“_‚Å DestroyIcon ‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+> [!NOTE] > shellapi.h ƒwƒbƒ_‚Í UNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í
+Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä ExtractAssociatedIconEx
+‚ğ’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO”ñˆË‘¶‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒOˆË‘¶‚ÌƒR[ƒh‚ğ¬İ‚³‚¹‚é‚Æƒ~ƒXƒ}ƒbƒ`‚ª¶‚¶AƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
@@ -511,451 +452,405 @@ ExtractIconEx ‚ğg‚¤B(Unicode)
 
 %index
 ExtractIconExW
-The ExtractIconEx function creates an array of handles to large or small icons extracted from the specified executable file, DLL, or icon file. (Unicode)
+ExtractIconEx ŠÖ”‚ÍAw’è‚³‚ê‚½Àsƒtƒ@ƒCƒ‹ADLLA‚Ü‚½‚ÍƒAƒCƒRƒ“ƒtƒ@ƒCƒ‹‚©‚ç’Šo‚³‚ê‚½‘å‚Ü‚½‚Í¬ƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚Ì”z—ñ‚ğì¬‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 lpszFile, nIconIndex, phiconLarge, phiconSmall, nIcons
-lpszFile : [wstr] Type: LPCTSTR Pointer to a null-terminated string that specifies the name of an executable file, DLL, or icon file from which icons will be extracted.
-nIconIndex : [int] Type: int Specifies the zero-based index of the first icon to extract. For example, if this value is zero, the function extracts the first icon in the specified file.
-phiconLarge : [intptr] Type: HICON* Pointer to an array of icon handles that receives handles to the large icons extracted from the file. If this parameter is NULL, no large icons are extracted from the file.
-phiconSmall : [intptr] Type: HICON* Pointer to an array of icon handles that receives handles to the small icons extracted from the file. If this parameter is NULL, no small icons are extracted from the file.
-nIcons : [int] Type: UINT The number of icons to extract from the file.
+lpszFile : [wstr] Œ^: LPCTSTR ƒAƒCƒRƒ“‚ğ’Šo‚·‚éÀsƒtƒ@ƒCƒ‹ADLLA‚Ü‚½‚ÍƒAƒCƒRƒ“ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğw’è‚·‚éƒkƒ‹I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+nIconIndex : [int] Œ^: int ’Šo‚·‚éÅ‰‚ÌƒAƒCƒRƒ“‚Ì 0 ‹N“_ƒCƒ“ƒfƒbƒNƒX‚ğw’è‚·‚éB‚½‚Æ‚¦‚Î‚±‚Ì’l‚ª 0 ‚Å‚ ‚ê‚ÎAŠÖ”‚Íw’èƒtƒ@ƒCƒ‹“à‚ÌÅ‰‚ÌƒAƒCƒRƒ“‚ğ’Šo‚·‚éB
+phiconLarge : [intptr] Œ^: HICON* ƒtƒ@ƒCƒ‹‚©‚ç’Šo‚µ‚½‘åƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğó‚¯æ‚éƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡Aƒtƒ@ƒCƒ‹‚©‚ç‘åƒAƒCƒRƒ“‚Í’Šo‚³‚ê‚È‚¢B
+phiconSmall : [intptr] Œ^: HICON* ƒtƒ@ƒCƒ‹‚©‚ç’Šo‚µ‚½¬ƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğó‚¯æ‚éƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡Aƒtƒ@ƒCƒ‹‚©‚ç¬ƒAƒCƒRƒ“‚Í’Šo‚³‚ê‚È‚¢B
+nIcons : [int] Œ^: UINT ƒtƒ@ƒCƒ‹‚©‚ç’Šo‚·‚éƒAƒCƒRƒ“‚Ì”B
 %inst
-The ExtractIconEx function creates an array of handles to large or
-small icons extracted from the specified executable file, DLL, or
-icon file. (Unicode)
+ExtractIconEx
+ŠÖ”‚ÍAw’è‚³‚ê‚½Àsƒtƒ@ƒCƒ‹ADLLA‚Ü‚½‚ÍƒAƒCƒRƒ“ƒtƒ@ƒCƒ‹‚©‚ç’Šo‚³‚ê‚½‘å‚Ü‚½‚Í¬ƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚Ì”z—ñ‚ğì¬‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: **UINT** If the *nIconIndex* parameter is -1 and both the
-*phiconLarge* and *phiconSmall* parameters are **NULL**, then the
-return value is the number of icons contained in the specified file.
-If the *nIconIndex* parameter is any value other than -1 and either
-*phiconLarge* or *phiconSmall* is not **NULL**, the return value is
-the number of icons successfully extracted from the file. > [!NOTE] >
-If the function encounters an error, it returns **UINT_MAX**. In this
-case, you can call
-[GetLastError](../errhandlingapi/nf-errhandlingapi-getlasterror.md)
-to retrieve the error code. For example, this function returns
-**UINT_MAX** if the file specified by *lpszFile* cannot be found
-while the *nIconIndex* parameter is any value other than -1 and
-either *phiconLarge* or *phiconSmall* is not **NULL**. In this case,
-**GetLastError** returns **ERROR_FILE_NOT_FOUND** (2).
+Œ^: **UINT** *nIconIndex* ƒpƒ‰ƒ[ƒ^‚ª -1 ‚ÅA*phiconLarge* ‚Æ *phiconSmall*
+‚Ì—¼•û‚ª **NULL** ‚Ìê‡A–ß‚è’l‚Íw’èƒtƒ@ƒCƒ‹“à‚ÌƒAƒCƒRƒ“”‚Æ‚È‚éB*nIconIndex* ƒpƒ‰ƒ[ƒ^‚ª -1
+ˆÈŠO‚Ì’l‚ÅA*phiconLarge* ‚Ü‚½‚Í *phiconSmall* ‚Ì‚¢‚¸‚ê‚©‚ª **NULL**
+‚Å‚È‚¢ê‡A–ß‚è’l‚Íƒtƒ@ƒCƒ‹‚©‚ç³í‚É’Šo‚³‚ê‚½ƒAƒCƒRƒ“‚Ì”‚Æ‚È‚éB> [!NOTE] > ŠÖ”‚ªƒGƒ‰[‚É‘˜‹ö‚µ‚½ê‡‚Í
+**UINT_MAX**
+‚ğ•Ô‚·B‚±‚Ìê‡A[GetLastError](../errhandlingapi/nf-errhandlingapi-getlasterror.md)
+‚ğŒÄ‚Ño‚µ‚ÄƒGƒ‰[ƒR[ƒh‚ğæ“¾‚Å‚«‚éB‚½‚Æ‚¦‚Î *lpszFile* ‚Åw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚É *nIconIndex*
+‚ª -1 ˆÈŠO‚Å *phiconLarge* ‚Ü‚½‚Í *phiconSmall* ‚Ì‚¢‚¸‚ê‚©‚ª **NULL** ‚Å‚È‚¢‚Æ‚«A‚±‚ÌŠÖ”‚Í
+**UINT_MAX** ‚ğ•Ô‚·B‚±‚Ìê‡ **GetLastError** ‚Í
+**ERROR_FILE_NOT_FOUND**i2j‚ğ•Ô‚·B
 
 [”õl]
-When they are no longer needed, you must destroy all icons extracted
-by ExtractIconEx by calling the DestroyIcon function. To retrieve the
-dimensions of the large and small icons, use this function with the
-SM_CXICON, SM_CYICON, SM_CXSMICON, and SM_CYSMICON flags.
-> [!NOTE] > The shellapi.h header defines ExtractIconEx as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ExtractIconEx ‚Å’Šo‚µ‚½ƒAƒCƒRƒ“‚ÍA•s—v‚É‚È‚Á‚½“_‚Å‚·‚×‚Ä DestroyIcon
+ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä”jŠü‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‘åƒAƒCƒRƒ“‚Æ¬ƒAƒCƒRƒ“‚Ì¡–@‚ğæ“¾‚·‚é‚É‚ÍASM_CXICONASM_CYICONASM_CXSMICONASM_CYSMICON
+ƒtƒ‰ƒO‚Æ‚Æ‚à‚É‚±‚ÌŠÖ”‚ğg—p‚·‚éB
+> [!NOTE] > shellapi.h ƒwƒbƒ_‚Í UNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í
+Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä ExtractIconEx
+‚ğ’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO”ñˆË‘¶‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒOˆË‘¶‚ÌƒR[ƒh‚ğ¬İ‚³‚¹‚é‚Æƒ~ƒXƒ}ƒbƒ`‚ª¶‚¶AƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 FindExecutableW
-Retrieves the name of and handle to the executable (.exe) file associated with a specific document file. (Unicode)
+“Á’è‚ÌƒhƒLƒ…ƒƒ“ƒgƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Às‰Â”\i.exejƒtƒ@ƒCƒ‹‚Ì–¼‘O‚¨‚æ‚Ñƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 lpFile, lpDirectory, lpResult
-lpFile : [wstr] Type: LPCTSTR The address of a null-terminated string that specifies a file name. This file should be a document.
-lpDirectory : [wstr] Type: LPCTSTR The address of a null-terminated string that specifies the default directory. This value can be NULL.
-lpResult : [wstr] Type: LPTSTR The address of a buffer that receives the file name of the associated executable file. This file name is a null-terminated string that specifies the executable file started when an "open" by association is run on the file specified in the lpFile parameter. Put simply, this is the application that is launched when the document file is directly double-clicked or when Open is chosen from the file's shortcut menu. This parameter must contain a valid non-null value and is assumed to be of length MAX_PATH. Responsibility for validating the value is left to the programmer.
+lpFile : [wstr] Œ^: LPCTSTR ƒtƒ@ƒCƒ‹–¼‚ğw’è‚·‚éƒkƒ‹I’[•¶š—ñ‚ÌƒAƒhƒŒƒXB‚±‚Ìƒtƒ@ƒCƒ‹‚ÍƒhƒLƒ…ƒƒ“ƒg‚Å‚ ‚é•K—v‚ª‚ ‚éB
+lpDirectory : [wstr] Œ^: LPCTSTR Šù’è‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğw’è‚·‚éƒkƒ‹I’[•¶š—ñ‚ÌƒAƒhƒŒƒXB‚±‚Ì’l‚Í NULL ‚Å‚à\‚í‚È‚¢B
+lpResult : [wstr] Œ^: LPTSTR ŠÖ˜A•t‚¯‚ç‚ê‚½Àsƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹–¼‚ğó‚¯æ‚éƒoƒbƒtƒ@‚ÌƒAƒhƒŒƒXB‚±‚Ìƒtƒ@ƒCƒ‹–¼‚Íƒkƒ‹I’[•¶š—ñ‚Å‚ ‚èAlpFile ‚Åw’è‚µ‚½ƒtƒ@ƒCƒ‹‚É‘Î‚µ‚ÄŠÖ˜A•t‚¯‚É‚æ‚éuopenv‚ğÀs‚µ‚½‚Æ‚«‚É‹N“®‚³‚ê‚éÀsƒtƒ@ƒCƒ‹‚ğ¦‚·BŠÈ’P‚ÉŒ¾‚¦‚ÎAƒhƒLƒ…ƒƒ“ƒgƒtƒ@ƒCƒ‹‚ğ’¼Úƒ_ƒuƒ‹ƒNƒŠƒbƒN‚µ‚½‚Æ‚«‚âAƒtƒ@ƒCƒ‹‚ÌƒVƒ‡[ƒgƒJƒbƒgƒƒjƒ…[‚©‚çuŠJ‚­v‚ğ‘I‘ğ‚µ‚½‚Æ‚«‚É‹N“®‚³‚ê‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í—LŒø‚Å”ñ NULL ‚Ì’l‚ª•K—v‚Å‚ ‚èA’·‚³‚Í MAX_PATH ‚Æ‰¼’è‚³‚ê‚éB’l‚ÌŒŸØ‚ÍƒvƒƒOƒ‰ƒ}‚ÌÓ”C‚Å‚ ‚éB
 %inst
-Retrieves the name of and handle to the executable (.exe) file
-associated with a specific document file. (Unicode)
+“Á’è‚ÌƒhƒLƒ…ƒƒ“ƒgƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½Às‰Â”\i.exejƒtƒ@ƒCƒ‹‚Ì–¼‘O‚¨‚æ‚Ñƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HINSTANCE Returns a value greater than 32 if successful, or a
-value less than or equal to 32 representing an error.
-The following table lists possible error values.
-This doc was truncated.
+Œ^: HINSTANCE ¬Œ÷‚µ‚½ê‡‚Í 32 ‚æ‚è‘å‚«‚¢’lA¸”s‚µ‚½ê‡‚ÍƒGƒ‰[‚ğ•\‚· 32 ˆÈ‰º‚Ì’l‚ğ•Ô‚·B
+Ÿ‚Ì•\‚ÉA‚ ‚è‚¤‚éƒGƒ‰[’l‚ğ¦‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Use FindExecutable for documents. If you want to retrieve the path of
-an executable file, use the following:
-This doc was truncated.
+ƒhƒLƒ…ƒƒ“ƒg‚É‚Í FindExecutable ‚ğg—p‚·‚é‚±‚ÆBÀsƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğæ“¾‚µ‚½‚¢ê‡‚ÍAŸ‚ğg—p‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 GetCurrentProcessExplicitAppUserModelID
-Retrieves the application-defined, explicit Application User Model ID (AppUserModelID) for the current process.
+Œ»İ‚ÌƒvƒƒZƒX‚É‘Î‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì–¾¦“I‚È Application User Model IDiAppUserModelIDj‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 AppID
-AppID : [var] Type: PWSTR* A pointer that receives the address of the AppUserModelID assigned to the process. The caller is responsible for freeing this string with CoTaskMemFree when it is no longer needed.
+AppID : [var] Œ^: PWSTR* ƒvƒƒZƒX‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½ AppUserModelID ‚ÌƒAƒhƒŒƒX‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µ‘¤‚ÍA•s—v‚É‚È‚Á‚½“_‚Å‚±‚Ì•¶š—ñ‚ğ CoTaskMemFree ‚Å‰ğ•ú‚·‚éÓ”C‚ª‚ ‚éB
 %inst
-Retrieves the application-defined, explicit Application User Model ID
-(AppUserModelID) for the current process.
+Œ»İ‚ÌƒvƒƒZƒX‚É‘Î‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì–¾¦“I‚È Application User Model
+IDiAppUserModelIDj‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The AppUserModelID retrieved by this function was set earlier through
-SetCurrentProcessExplicitAppUserModelID. An application can only
-retrieve an AppUserModelID that has been explicitly set.
-System-assigned default AppUserModelIDs cannot be retrieved. If the
-application requires knowledge of its AppUserModelID it should set
-one explicitly.
+‚±‚ÌŠÖ”‚Åæ“¾‚³‚ê‚é AppUserModelID ‚ÍA–‘O‚É
+SetCurrentProcessExplicitAppUserModelID
+‚Åİ’è‚³‚ê‚½‚à‚Ì‚Å‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í–¾¦“I‚Éİ’è‚³‚ê‚½ AppUserModelID ‚µ‚©æ“¾‚Å‚«‚¸AƒVƒXƒeƒ€‚ªŠù’è‚ÅŠ„‚è“–‚Ä‚½
+AppUserModelID ‚Íæ“¾‚Å‚«‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª©g‚Ì AppUserModelID
+‚ğ•K—v‚Æ‚·‚éê‡‚ÍA–¾¦“I‚Éİ’è‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 GetFileNameFromBrowse
-The GetFileNameFromBrowse function creates an Open dialog box so that the user can specify the drive, directory, and name of a file to open.
+GetFileNameFromBrowse ŠÖ”‚ÍAƒ†[ƒU‚ªŠJ‚­ƒtƒ@ƒCƒ‹‚Ìƒhƒ‰ƒCƒuAƒfƒBƒŒƒNƒgƒŠA–¼‘O‚ğw’è‚Å‚«‚éuŠJ‚­vƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğì¬‚·‚éB
 %group
 Win32 shell32
 %prm
 hwnd, pszFilePath, cchFilePath, pszWorkingDir, pszDefExt, pszFilters, pszTitle
-hwnd : [intptr] Type: HWND A handle to the window that owns the dialog box. This member can be any valid window handle, or it can be NULL if the dialog box has no owner.
-pszFilePath : [wstr] Type: PWSTR A null-terminated Unicode string that contains a file name used to initialize the File Name edit control. This string corresponds to the OPENFILENAME structure's lpstrFile member and is used in exactly the same way.
-cchFilePath : [int] Type: UINT The number of characters in pszFilePath, including the terminating null character.
-pszWorkingDir : [wstr] Type: PCWSTR The fully qualified file path of the initial directory. This string corresponds to the OPENFILENAME structure's lpstrInitialDir member and is used in exactly the same way.
-pszDefExt : [wstr] Type: PCWSTR A null-terminated Unicode string that contains the default file name extension. This extension is added to pszFilePath if the user does not specify an extension. The string should not contain any '.' characters. If this string is NULL and the user fails to type an extension, no extension is appended.
-pszFilters : [wstr] Type: PCWSTR A null-terminated Unicode string that defines the filter. This string corresponds to the OPENFILENAME structure's lpstrFilter member and is used in exactly the same way.
-pszTitle : [wstr] Type: PCWSTR A null-terminated Unicode string that is placed in the title bar of the dialog box. If this value is NULL, the system uses the default title.
+hwnd : [intptr] Œ^: HWND ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğŠ—L‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒƒ“ƒo‚É‚Í—LŒø‚ÈƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğw’è‚Å‚«Aƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÉƒI[ƒi[‚ª‚È‚¢ê‡‚Í NULL ‚ğw’è‚Å‚«‚éB
+pszFilePath : [wstr] Œ^: PWSTR ƒtƒ@ƒCƒ‹–¼•ÒWƒRƒ“ƒgƒ[ƒ‹‚ğ‰Šú‰»‚·‚é‚½‚ß‚Ég‚¤ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñB‚±‚Ì•¶š—ñ‚Í OPENFILENAME \‘¢‘Ì‚Ì lpstrFile ƒƒ“ƒo‚É‘Î‰‚µA‚Ü‚Á‚½‚­“¯‚¶‚æ‚¤‚Ég‚í‚ê‚éB
+cchFilePath : [int] Œ^: UINT pszFilePath ‚Ì•¶š”iI’[ƒkƒ‹•¶š‚ğŠÜ‚ŞjB
+pszWorkingDir : [wstr] Œ^: PCWSTR ‰ŠúƒfƒBƒŒƒNƒgƒŠ‚ÌŠ®‘SCüƒpƒXB‚±‚Ì•¶š—ñ‚Í OPENFILENAME \‘¢‘Ì‚Ì lpstrInitialDir ƒƒ“ƒo‚É‘Î‰‚µA‚Ü‚Á‚½‚­“¯‚¶‚æ‚¤‚Ég‚í‚ê‚éB
+pszDefExt : [wstr] Œ^: PCWSTR Šù’è‚Ìƒtƒ@ƒCƒ‹–¼Šg’£q‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñBƒ†[ƒU‚ªŠg’£q‚ğw’è‚µ‚È‚¢ê‡A‚±‚ÌŠg’£q‚ª pszFilePath ‚É’Ç‰Á‚³‚ê‚éB•¶š—ñ‚É '.' ‚ğŠÜ‚ß‚Ä‚Í‚È‚ç‚È‚¢B‚±‚Ì•¶š—ñ‚ª NULL ‚Åƒ†[ƒU‚ªŠg’£q‚ğ“ü—Í‚µ‚È‚©‚Á‚½ê‡AŠg’£q‚Í•t‰Á‚³‚ê‚È‚¢B
+pszFilters : [wstr] Œ^: PCWSTR ƒtƒBƒ‹ƒ^‚ğ’è‹`‚·‚éƒkƒ‹I’[ Unicode •¶š—ñB‚±‚Ì•¶š—ñ‚Í OPENFILENAME \‘¢‘Ì‚Ì lpstrFilter ƒƒ“ƒo‚É‘Î‰‚µA‚Ü‚Á‚½‚­“¯‚¶‚æ‚¤‚Ég‚í‚ê‚éB
+pszTitle : [wstr] Œ^: PCWSTR ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ìƒ^ƒCƒgƒ‹ƒo[‚É•\¦‚³‚ê‚éƒkƒ‹I’[ Unicode •¶š—ñB‚±‚Ì’l‚ª NULL ‚Ìê‡AƒVƒXƒeƒ€‚ÍŠù’è‚Ìƒ^ƒCƒgƒ‹‚ğg—p‚·‚éB
 %inst
-The GetFileNameFromBrowse function creates an Open dialog box so that
-the user can specify the drive, directory, and name of a file to
-open.
+GetFileNameFromBrowse
+ŠÖ”‚ÍAƒ†[ƒU‚ªŠJ‚­ƒtƒ@ƒCƒ‹‚Ìƒhƒ‰ƒCƒuAƒfƒBƒŒƒNƒgƒŠA–¼‘O‚ğw’è‚Å‚«‚éuŠJ‚­vƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL If the user specifies a file name and clicks OK, the
-return value is TRUE. The buffer that pszFilePath points to contains
-the full path and file name that the user specifies. If the user
-cancels or closes the Open dialog box or an error occurs, the return
-value is FALSE.
+Œ^: BOOL ƒ†[ƒU‚ªƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚Ä OK ‚ğƒNƒŠƒbƒN‚µ‚½ê‡A–ß‚è’l‚Í TRUE ‚Æ‚È‚éBpszFilePath
+‚ªw‚·ƒoƒbƒtƒ@‚É‚ÍAƒ†[ƒU‚ªw’è‚µ‚½Š®‘S‚ÈƒpƒX‚Æƒtƒ@ƒCƒ‹–¼‚ªŠi”[‚³‚ê‚éBƒ†[ƒU‚ªuŠJ‚­vƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğƒLƒƒƒ“ƒZƒ‹/•Â‚¶‚½ê‡A‚Ü‚½‚ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡‚Í
+FALSE ‚ğ•Ô‚·B
 
 
 %index
 ILAppendID
-Appends or prepends an SHITEMID structure to an ITEMIDLIST structure.
+SHITEMID \‘¢‘Ì‚ğ ITEMIDLIST \‘¢‘Ì‚Ì––”ö‚Ü‚½‚Íæ“ª‚É’Ç‰Á‚·‚éB
 %group
 Win32 shell32
 %prm
 pidl, pmkid, fAppend
-pidl : [var] Type: PIDLIST_RELATIVE A pointer to an ITEMIDLIST structure. When the function returns, the SHITEMID structure specified by pmkid is appended or prepended.
-pmkid : [var] Type: LPSHITEMID A pointer to a SHITEMID structure to be appended or prepended to pidl.
-fAppend : [int] Type: BOOL Value that is set to TRUE to append pmkid to pidl. Set this value to FALSE to prepend pmkid to pidl.
+pidl : [var] Œ^: PIDLIST_RELATIVE ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚©‚ç–ß‚Á‚½“_‚ÅApmkid ‚Åw’è‚³‚ê‚½ SHITEMID \‘¢‘Ì‚ª––”ö‚Ü‚½‚Íæ“ª‚É’Ç‰Á‚³‚ê‚Ä‚¢‚éB
+pmkid : [var] Œ^: LPSHITEMID pidl ‚É’Ç‰Á‚Ü‚½‚Íæ“ª‘}“ü‚·‚é SHITEMID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fAppend : [int] Œ^: BOOL pmkid ‚ğ pidl ‚Ì––”ö‚É’Ç‰Á‚·‚é‚É‚Í TRUE ‚ğw’è‚·‚éBæ“ª‚É‘}“ü‚·‚é‚É‚Í FALSE ‚ğw’è‚·‚éB
 %inst
-Appends or prepends an SHITEMID structure to an ITEMIDLIST structure.
+SHITEMID \‘¢‘Ì‚ğ ITEMIDLIST \‘¢‘Ì‚Ì––”ö‚Ü‚½‚Íæ“ª‚É’Ç‰Á‚·‚éB
 
 [–ß‚è’l]
-Type: PIDLIST_RELATIVE Returns the ITEMIDLIST structure specified by
-pidl, with pmkid appended or prepended. Returns NULL on failure.
+Œ^: PIDLIST_RELATIVE pmkid ‚ª––”ö‚Ü‚½‚Íæ“ª‚É’Ç‰Á‚³‚ê‚½ pidl ‚Ì ITEMIDLIST
+\‘¢‘Ì‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 ILClone
-Clones an ITEMIDLIST structure.
+ITEMIDLIST \‘¢‘Ì‚ğƒNƒ[ƒ“‚·‚éB
 %group
 Win32 shell32
 %prm
 pidl
-pidl : [var] Type: PCUIDLIST_RELATIVE A pointer to the ITEMIDLIST structure to be cloned.
+pidl : [var] Œ^: PCUIDLIST_RELATIVE ƒNƒ[ƒ“‚·‚é ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Clones an ITEMIDLIST structure.
+ITEMIDLIST \‘¢‘Ì‚ğƒNƒ[ƒ“‚·‚éB
 
 [–ß‚è’l]
-Type: PIDLIST_RELATIVE Returns a pointer to a copy of the ITEMIDLIST
-structure pointed to by pidl.
+Œ^: PIDLIST_RELATIVE pidl ‚ªw‚· ITEMIDLIST \‘¢‘Ì‚ÌƒRƒs[‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 
 [”õl]
-When you are finished with the cloned ITEMIDLIST structure, release
-it with ILFree to avoid memory leaks.
+ƒNƒ[ƒ“‚µ‚½ ITEMIDLIST \‘¢‘Ì‚Ìg—p‚ªI‚í‚Á‚½‚çAƒƒ‚ƒŠƒŠ[ƒN‚ğ–h‚®‚½‚ß‚É ILFree ‚Å‰ğ•ú‚·‚é‚±‚ÆB
 
 
 %index
 ILCloneFirst
-Clones the first SHITEMID structure in an ITEMIDLIST structure.
+ITEMIDLIST \‘¢‘Ì“à‚ÌÅ‰‚Ì SHITEMID \‘¢‘Ì‚ğƒNƒ[ƒ“‚·‚éB
 %group
 Win32 shell32
 %prm
 pidl
-pidl : [var] Type: PCUIDLIST_RELATIVE A pointer to the ITEMIDLIST structure that you want to clone.
+pidl : [var] Œ^: PCUIDLIST_RELATIVE ƒNƒ[ƒ“‚µ‚½‚¢ ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Clones the first SHITEMID structure in an ITEMIDLIST structure.
+ITEMIDLIST \‘¢‘Ì“à‚ÌÅ‰‚Ì SHITEMID \‘¢‘Ì‚ğƒNƒ[ƒ“‚·‚éB
 
 [–ß‚è’l]
-Type: PITEMID_CHILD A pointer to an ITEMIDLIST structure that
-contains the first SHITEMID structure from the ITEMIDLIST structure
-specified by pidl. Returns NULL on failure.
+Œ^: PITEMID_CHILD pidl ‚ªw‚· ITEMIDLIST \‘¢‘Ì‚ÌÅ‰‚Ì SHITEMID \‘¢‘Ì‚ğŠÜ‚Ş
+ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 ILCombine
-Combines two ITEMIDLIST structures.
+2 ‚Â‚Ì ITEMIDLIST \‘¢‘Ì‚ğŒ‹‡‚·‚éB
 %group
 Win32 shell32
 %prm
 pidl1, pidl2
-pidl1 : [var] Type: PCIDLIST_ABSOLUTE A pointer to the first ITEMIDLIST structure.
-pidl2 : [var] Type: PCUIDLIST_RELATIVE A pointer to the second ITEMIDLIST structure. This structure is appended to the structure pointed to by pidl1.
+pidl1 : [var] Œ^: PCIDLIST_ABSOLUTE 1 ‚Â–Ú‚Ì ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pidl2 : [var] Œ^: PCUIDLIST_RELATIVE 2 ‚Â–Ú‚Ì ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚Í pidl1 ‚ªw‚·\‘¢‘Ì‚Ì––”ö‚É’Ç‰Á‚³‚ê‚éB
 %inst
-Combines two ITEMIDLIST structures.
+2 ‚Â‚Ì ITEMIDLIST \‘¢‘Ì‚ğŒ‹‡‚·‚éB
 
 [–ß‚è’l]
-Type: PIDLIST_ABSOLUTE Returns an ITEMIDLIST containing the combined
-structures. If you set either pidl1 or pidl2 to NULL, the returned
-ITEMIDLIST structure is a clone of the non-NULL parameter. Returns
-NULL if pidl1 and pidl2 are both set to NULL.
+Œ^: PIDLIST_ABSOLUTE Œ‹‡‚³‚ê‚½\‘¢‘Ì‚ğŠÜ‚Ş ITEMIDLIST ‚ğ•Ô‚·Bpidl1 ‚Ü‚½‚Í pidl2 ‚Ì‚¢‚¸‚ê‚©‚ğ
+NULL ‚É‚µ‚½ê‡A–ß‚è’l‚Ì ITEMIDLIST \‘¢‘Ì‚Í NULL ‚Å‚È‚¢•û‚ÌƒNƒ[ƒ“‚É‚È‚éBpidl1 ‚Æ pidl2 ‚Ì—¼•û‚ª
+NULL ‚Ìê‡‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 ILCreateFromPathW
-The ILCreateFromPathW (Unicode) function returns the ITEMIDLIST structure associated with a specified file path.
+ILCreateFromPathW (Unicode) ŠÖ”‚ÍAw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒpƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ ITEMIDLIST \‘¢‘Ì‚ğ•Ô‚·B
 %group
 Win32 shell32
 %prm
 pszPath
-pszPath : [wstr] Type: PCTSTR A pointer to a null-terminated Unicode string that contains the path. This string should be no more than MAX_PATH characters in length, including the terminating null character.
+pszPath : [wstr] Œ^: PCTSTR ƒpƒX‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÍI’[ƒkƒ‹•¶š‚ğŠÜ‚ß‚Ä MAX_PATH •¶šˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The ILCreateFromPathW (Unicode) function returns the ITEMIDLIST
-structure associated with a specified file path.
+ILCreateFromPathW (Unicode) ŠÖ”‚ÍAw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒpƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ ITEMIDLIST
+\‘¢‘Ì‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: PIDLIST_ABSOLUTE Returns a pointer to an ITEMIDLIST structure
-that corresponds to the path.
+Œ^: PIDLIST_ABSOLUTE w’èƒpƒX‚É‘Î‰‚·‚é ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 
 [”õl]
-Call ILFree to release the ITEMIDLIST when you are finished with it.
-> [!NOTE] > The shlobj_core.h header defines ILCreateFromPath as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ITEMIDLIST ‚Ìg—p‚ªI‚í‚Á‚½‚ç ILFree ‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚é‚±‚ÆB
+> [!NOTE] > shlobj_core.h ƒwƒbƒ_‚Í UNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI
+”Å‚Ü‚½‚Í Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä ILCreateFromPath
+‚ğ’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO”ñˆË‘¶‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒOˆË‘¶‚ÌƒR[ƒh‚ğ¬İ‚³‚¹‚é‚Æƒ~ƒXƒ}ƒbƒ`‚ª¶‚¶AƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 ILFindChild
-Determines whether a specified ITEMIDLIST structure is the child of another ITEMIDLIST structure.
+w’è‚µ‚½ ITEMIDLIST \‘¢‘Ì‚ª•Ê‚Ì ITEMIDLIST \‘¢‘Ì‚Ìq‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 Win32 shell32
 %prm
 pidlParent, pidlChild
-pidlParent : [var] Type: PCIDLIST_ABSOLUTE A pointer to the parent ITEMIDLIST structure.
-pidlChild : [var] Type: PCIDLIST_ABSOLUTE A pointer to the child ITEMIDLIST structure.
+pidlParent : [var] Œ^: PCIDLIST_ABSOLUTE e‘¤‚Ì ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pidlChild : [var] Œ^: PCIDLIST_ABSOLUTE q‘¤‚Ì ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Determines whether a specified ITEMIDLIST structure is the child of
-another ITEMIDLIST structure.
+w’è‚µ‚½ ITEMIDLIST \‘¢‘Ì‚ª•Ê‚Ì ITEMIDLIST \‘¢‘Ì‚Ìq‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-Type: PUIDLIST_RELATIVE Returns a pointer to the child's simple
-ITEMIDLIST structure if pidlChild is a child of pidlParent. The
-returned structure consists of pidlChild, minus the SHITEMID
-structures that make up pidlParent. Returns NULL if pidlChild is not
-a child of pidlParent. Note The returned pointer is a pointer into
-the existing parent structure. It is an alias for pidlChild. No new
-memory is allocated in association with the returned pointer. It is
-not the caller's responsibility to free the returned value.
+Œ^: PUIDLIST_RELATIVE pidlChild ‚ª pidlParent ‚Ìq‚Å‚ ‚éê‡A‚»‚Ìq‚Ì’Pƒ‚È
+ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B•Ô‚³‚ê‚é\‘¢‘Ì‚Í pidlChild ‚©‚ç pidlParent ‚ğ\¬‚·‚é
+SHITEMID \‘¢‘Ì‚ğæ‚èœ‚¢‚½‚à‚Ì‚Å‚ ‚éBpidlChild ‚ª pidlParent ‚Ìq‚Å‚È‚¢ê‡‚Í NULL ‚ğ•Ô‚·BNote
+•Ô‚³‚ê‚éƒ|ƒCƒ“ƒ^‚ÍŠù‘¶‚Ìe\‘¢‘Ì“à‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚èApidlChild
+‚ÌƒGƒCƒŠƒAƒX‚Å‚ ‚éB•Ô‚³‚ê‚½ƒ|ƒCƒ“ƒ^‚ÉŠÖ˜A‚µ‚ÄV‚µ‚¢ƒƒ‚ƒŠ‚ÍŠm•Û‚³‚ê‚È‚¢‚½‚ßAŒÄ‚Ño‚µ‘¤‚Å‰ğ•ú‚·‚é•K—v‚Í‚È‚¢B
 
 
 %index
 ILFindLastID
-Returns a pointer to the last SHITEMID structure in an ITEMIDLIST structure.
+ITEMIDLIST \‘¢‘Ì“à‚ÌÅŒã‚Ì SHITEMID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 %group
 Win32 shell32
 %prm
 pidl
-pidl : [var] Type: PCUIDLIST_RELATIVE A pointer to an ITEMIDLIST structure.
+pidl : [var] Œ^: PCUIDLIST_RELATIVE ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Returns a pointer to the last SHITEMID structure in an ITEMIDLIST
-structure.
+ITEMIDLIST \‘¢‘Ì“à‚ÌÅŒã‚Ì SHITEMID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: PUITEMID_CHILD A pointer to the last SHITEMID structure in
-pidl.
+Œ^: PUITEMID_CHILD pidl “à‚ÌÅŒã‚Ì SHITEMID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 
 [”õl]
-This function does not clone the last item, so you do not have to
-call ILFree to release the returned pointer.
+‚±‚ÌŠÖ”‚ÍÅŒã‚ÌƒAƒCƒeƒ€‚ğƒNƒ[ƒ“‚µ‚È‚¢‚½‚ßA•Ô‚³‚ê‚½ƒ|ƒCƒ“ƒ^‚ğ ILFree ‚Å‰ğ•ú‚·‚é•K—v‚Í‚È‚¢B
 
 
 %index
 ILFree
-Frees an ITEMIDLIST structure allocated by the Shell.
+ƒVƒFƒ‹‚É‚æ‚Á‚ÄŠm•Û‚³‚ê‚½ ITEMIDLIST \‘¢‘Ì‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 shell32
 %prm
 pidl
-pidl : [var] Type: PIDLIST_RELATIVE A pointer to the ITEMIDLIST structure to be freed. This parameter can be NULL.
+pidl : [var] Œ^: PIDLIST_RELATIVE ‰ğ•ú‚·‚é ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢B
 %inst
-Frees an ITEMIDLIST structure allocated by the Shell.
+ƒVƒFƒ‹‚É‚æ‚Á‚ÄŠm•Û‚³‚ê‚½ ITEMIDLIST \‘¢‘Ì‚ğ‰ğ•ú‚·‚éB
 
 [”õl]
-ILFree is often used with ITEMIDLIST structures allocated by one of
-the other IL functions, but it can be used to free any such structure
-returned by the Shell?for example, the ITEMIDLIST structure returned
-by SHBrowseForFolder or used in a call to SHGetFolderLocation. Note
-When using Windows 2000 or later, use CoTaskMemFree rather than
-ILFree. ITEMIDLIST structures are always allocated with the Component
-Object Model (COM) task allocator on those platforms.
+ILFree ‚Í‘¼‚Ì IL ŒnŠÖ”‚ÅŠm•Û‚³‚ê‚½ ITEMIDLIST \‘¢‘Ì‚É‘Î‚µ‚Ä‚æ‚­g‚í‚ê‚é‚ªAƒVƒFƒ‹‚ª•Ô‚µ‚½‚»‚¤‚µ‚½\‘¢‘Ìi‚½‚Æ‚¦‚Î
+SHBrowseForFolder ‚Ì–ß‚è’l‚â SHGetFolderLocation
+‚ÌŒÄ‚Ño‚µ‚Åg‚¤‚à‚Ìj‚ğ‰ğ•ú‚·‚é‚Ì‚É‚àg‚¦‚éBNote Windows 2000 ˆÈ~‚Å‚Í ILFree ‚Å‚Í‚È‚­
+CoTaskMemFree ‚ğg‚¤‚±‚ÆB‚±‚ê‚ç‚Ìƒvƒ‰ƒbƒgƒtƒH[ƒ€‚Å‚Í ITEMIDLIST \‘¢‘Ì‚Íí‚É Component Object
+Model (COM) ‚Ìƒ^ƒXƒNƒAƒƒP[ƒ^‚ÅŠm•Û‚³‚ê‚éB
 
 
 %index
 ILGetNext
-Retrieves the next SHITEMID structure in an ITEMIDLIST structure. (ILGetNext)
+ITEMIDLIST \‘¢‘Ì“à‚ÌŸ‚Ì SHITEMID \‘¢‘Ì‚ğæ“¾‚·‚éB(ILGetNext)
 %group
 Win32 shell32
 %prm
 pidl
-pidl : [var] Type: PCUIDLIST_RELATIVE A pointer to a particular SHITEMID structure in a larger ITEMIDLIST structure.
+pidl : [var] Œ^: PCUIDLIST_RELATIVE ‘å‚«‚È ITEMIDLIST \‘¢‘Ì“à‚Ì“Á’è‚Ì SHITEMID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the next SHITEMID structure in an ITEMIDLIST structure.
-(ILGetNext)
+ITEMIDLIST \‘¢‘Ì“à‚ÌŸ‚Ì SHITEMID \‘¢‘Ì‚ğæ“¾‚·‚éB(ILGetNext)
 
 [–ß‚è’l]
-Type: PUIDLIST_RELATIVE Returns a pointer to the SHITEMID structure
-that follows the one specified by pidl. Returns NULL if pidl points
-to the last SHITEMID structure.
+Œ^: PUIDLIST_RELATIVE pidl ‚Åw’è‚³‚ê‚½‚à‚Ì‚ÌŸ‚É‚ ‚é SHITEMID \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·Bpidl
+‚ªÅŒã‚Ì SHITEMID \‘¢‘Ì‚ğw‚µ‚Ä‚¢‚éê‡‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 ILGetSize
-Returns the size, in bytes, of an ITEMIDLIST structure.
+ITEMIDLIST \‘¢‘Ì‚ÌƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Å•Ô‚·B
 %group
 Win32 shell32
 %prm
 pidl
-pidl : [var] Type: PCUIDLIST_RELATIVE A pointer to an ITEMIDLIST structure.
+pidl : [var] Œ^: PCUIDLIST_RELATIVE ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Returns the size, in bytes, of an ITEMIDLIST structure.
+ITEMIDLIST \‘¢‘Ì‚ÌƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚Å•Ô‚·B
 
 [–ß‚è’l]
-Type: UINT The size of the ITEMIDLIST structure specified by pidl, in
-bytes.
+Œ^: UINT pidl ‚Åw’è‚³‚ê‚½ ITEMIDLIST \‘¢‘Ì‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
 
 
 %index
 ILIsEqual
-Tests whether two ITEMIDLIST structures are equal in a binary comparison.
+2 ‚Â‚Ì ITEMIDLIST \‘¢‘Ì‚ªƒoƒCƒiƒŠ”äŠr‚Å“™‚µ‚¢‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 Win32 shell32
 %prm
 pidl1, pidl2
-pidl1 : [var] Type: PCIDLIST_ABSOLUTE The first ITEMIDLIST structure.
-pidl2 : [var] Type: PCIDLIST_ABSOLUTE The second ITEMIDLIST structure.
+pidl1 : [var] Œ^: PCIDLIST_ABSOLUTE 1 ‚Â–Ú‚Ì ITEMIDLIST \‘¢‘ÌB
+pidl2 : [var] Œ^: PCIDLIST_ABSOLUTE 2 ‚Â–Ú‚Ì ITEMIDLIST \‘¢‘ÌB
 %inst
-Tests whether two ITEMIDLIST structures are equal in a binary
-comparison.
+2 ‚Â‚Ì ITEMIDLIST \‘¢‘Ì‚ªƒoƒCƒiƒŠ”äŠr‚Å“™‚µ‚¢‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if the two structures are equal, FALSE
-otherwise.
+Œ^: BOOL 2 ‚Â‚Ì\‘¢‘Ì‚ª“™‚µ‚¢ê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-ILIsEqual performs a binary comparison of the item data. It is
-possible for two ITEMIDLIST structures to differ at the binary level
-while referring to the same item. IShellFolder::CompareIDs should be
-used to perform a non-binary comparison.
+ILIsEqual ‚ÍƒAƒCƒeƒ€ƒf[ƒ^‚ÌƒoƒCƒiƒŠ”äŠr‚ğs‚¤B“¯‚¶ƒAƒCƒeƒ€‚ğQÆ‚µ‚Ä‚¢‚Ä‚àƒoƒCƒiƒŠƒŒƒxƒ‹‚Å 2 ‚Â‚Ì ITEMIDLIST
+\‘¢‘Ì‚ªˆÙ‚È‚é‚±‚Æ‚Í‚ ‚è‚¤‚éBƒoƒCƒiƒŠ‚Å‚È‚¢”äŠr‚ğs‚¤‚É‚Í IShellFolder::CompareIDs ‚ğg‚¤‚±‚ÆB
 
 
 %index
 ILIsParent
-Tests whether an ITEMIDLIST structure is the parent of another ITEMIDLIST structure.
+‚ ‚é ITEMIDLIST \‘¢‘Ì‚ª•Ê‚Ì ITEMIDLIST \‘¢‘Ì‚Ìe‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 Win32 shell32
 %prm
 pidl1, pidl2, fImmediate
-pidl1 : [var] Type: PCIDLIST_ABSOLUTE A pointer to an ITEMIDLIST (PIDL) structure that specifies the parent. This must be an absolute PIDL.
-pidl2 : [var] Type: PCIDLIST_ABSOLUTE A pointer to an ITEMIDLIST (PIDL) structure that specifies the child. This must be an absolute PIDL.
-fImmediate : [int] Type: BOOL A Boolean value that is set to TRUE to test for immediate parents of pidl2, or FALSE to test for any parents of pidl2.
+pidl1 : [var] Œ^: PCIDLIST_ABSOLUTE e‚ğ•\‚· ITEMIDLIST (PIDL) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Íâ‘Î PIDL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pidl2 : [var] Œ^: PCIDLIST_ABSOLUTE q‚ğ•\‚· ITEMIDLIST (PIDL) \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Íâ‘Î PIDL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+fImmediate : [int] Œ^: BOOL pidl2 ‚Ì’¼Ú‚Ìe‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚Í TRUEA”CˆÓ‚Ì‘cæ‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚Í FALSE ‚ğw’è‚·‚éƒu[ƒ‹’lB
 %inst
-Tests whether an ITEMIDLIST structure is the parent of another
-ITEMIDLIST structure.
+‚ ‚é ITEMIDLIST \‘¢‘Ì‚ª•Ê‚Ì ITEMIDLIST \‘¢‘Ì‚Ìe‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if pidl1 is a parent of pidl2. If fImmediate
-is set to TRUE, the function only returns TRUE if pidl1 is the
-immediate parent of pidl2. Otherwise, the function returns FALSE.
+Œ^: BOOL pidl1 ‚ª pidl2 ‚Ìe‚Å‚ ‚éê‡‚Í TRUE ‚ğ•Ô‚·BfImmediate ‚ª TRUE ‚Ìê‡AŠÖ”‚Í
+pidl1 ‚ª pidl2 ‚Ì’¼Ú‚Ìe‚Å‚ ‚éê‡‚É‚Ì‚İ TRUE ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 ILLoadFromStreamEx
-This function may be altered or unavailable.
+‚±‚ÌŠÖ”‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pstm, pidl
-pstm : [var] Type: IStream* A pointer to the IStream interface from which the absolute ITEMIDLIST loads.
-pidl : [var] Type: PIDLIST_ABSOLUTE* When this method returns and succeeds, contains the resulting absolute ITEMIDLIST. If it fails, contains NULL.
+pstm : [var] Œ^: IStream* â‘Î ITEMIDLIST ‚ğƒ[ƒh‚·‚éŒ³‚Ì IStream ƒCƒ“ƒ^ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pidl : [var] Œ^: PIDLIST_ABSOLUTE* ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚ÉAŒ‹‰Ê‚Æ‚µ‚Ä“¾‚ç‚ê‚½â‘Î ITEMIDLIST ‚ğŠi”[‚·‚éB¸”s‚µ‚½ê‡‚Í NULL ‚ªŠi”[‚³‚ê‚éB
 %inst
-This function may be altered or unavailable.
+‚±‚ÌŠÖ”‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-For use where STRICT_TYPED_ITEMIDS is defined.
+STRICT_TYPED_ITEMIDS ‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡‚Ég—p‚·‚éB
 
 
 %index
 ILRemoveLastID
-Removes the last SHITEMID structure from an ITEMIDLIST structure.
+ITEMIDLIST \‘¢‘Ì‚©‚çÅŒã‚Ì SHITEMID \‘¢‘Ì‚ğæ‚èœ‚­B
 %group
 Win32 shell32
 %prm
 pidl
-pidl : [var] Type: PUIDLIST_RELATIVE A pointer to the ITEMIDLIST structure to be shortened. When the function returns, this variable points to the shortened structure.
+pidl : [var] Œ^: PUIDLIST_RELATIVE ’Zk‚·‚é ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚©‚ç–ß‚é‚ÆA‚±‚Ì•Ï”‚Í’Zk‚³‚ê‚½\‘¢‘Ì‚ğw‚·B
 %inst
-Removes the last SHITEMID structure from an ITEMIDLIST structure.
+ITEMIDLIST \‘¢‘Ì‚©‚çÅŒã‚Ì SHITEMID \‘¢‘Ì‚ğæ‚èœ‚­B
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if successful, FALSE otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 ILSaveToStream
-Saves an ITEMIDLIST structure to a stream.
+ITEMIDLIST \‘¢‘Ì‚ğƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB
 %group
 Win32 shell32
 %prm
 pstm, pidl
-pstm : [var] Type: IStream * A pointer to the IStream interface where the ITEMIDLIST is saved.
-pidl : [var] Type: PCUIDLIST_RELATIVE A pointer to the ITEMIDLIST structure to be saved.
+pstm : [var] Œ^: IStream * ITEMIDLIST ‚ğ•Û‘¶‚·‚éæ‚Ì IStream ƒCƒ“ƒ^ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pidl : [var] Œ^: PCUIDLIST_RELATIVE •Û‘¶‚·‚é ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Saves an ITEMIDLIST structure to a stream.
+ITEMIDLIST \‘¢‘Ì‚ğƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or a COM error value
-otherwise.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚Ìê‡‚Í COM ‚ÌƒGƒ‰[’l‚ğ•Ô‚·B
 
 [”õl]
-The stream must be opened for writing, or ILSaveToStream returns an
-error.
+ƒXƒgƒŠ[ƒ€‚Í‘‚«‚İ—p‚ÉƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚¸A‚»‚¤‚Å‚È‚¢‚Æ ILSaveToStream ‚ÍƒGƒ‰[‚ğ•Ô‚·B
 
 
 %index
 InitNetworkAddressControl
-Initializes the network address control window class.
+ƒlƒbƒgƒ[ƒNƒAƒhƒŒƒXƒRƒ“ƒgƒ[ƒ‹‚ÌƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğ‰Šú‰»‚·‚éB
 %group
 Win32 shell32
 %prm
 
 %inst
-Initializes the network address control window class.
+ƒlƒbƒgƒ[ƒNƒAƒhƒŒƒXƒRƒ“ƒgƒ[ƒ‹‚ÌƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL TRUE if the initialization succeeded; or FALSE otherwise.
+Œ^: BOOL ‰Šú‰»‚É¬Œ÷‚µ‚½ê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-The network address control looks like an edit control and offers the
-additional functionality of network address verification. The control
-uses a balloon tip to display error messages. This function
-initializes class WC_NETADDRESS. If this function returns TRUE, the
-control can be created.
+
+ƒlƒbƒgƒ[ƒNƒAƒhƒŒƒXƒRƒ“ƒgƒ[ƒ‹‚ÍƒGƒfƒBƒbƒgƒRƒ“ƒgƒ[ƒ‹‚É—‚½ŠOŠÏ‚ğ‚¿Aƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚ÌŒŸØ‹@”\‚ğ’Ç‰Á‚Å’ñ‹Ÿ‚·‚éBƒGƒ‰[ƒƒbƒZ[ƒW‚Ì•\¦‚É‚Íƒoƒ‹[ƒ“ƒ`ƒbƒv‚ğg—p‚·‚éB‚±‚ÌŠÖ”‚ÍƒNƒ‰ƒX
+WC_NETADDRESS ‚ğ‰Šú‰»‚·‚éB‚±‚ÌŠÖ”‚ª TRUE ‚ğ•Ô‚µ‚½ê‡AƒRƒ“ƒgƒ[ƒ‹‚ğ¶¬‚Å‚«‚éB
 
 
 %index
@@ -972,166 +867,157 @@ pszPath : [wstr]
 
 %index
 IsNetDrive
-Tests whether a drive is a network drive.
+ƒhƒ‰ƒCƒu‚ªƒlƒbƒgƒ[ƒNƒhƒ‰ƒCƒu‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 Win32 shell32
 %prm
 iDrive
-iDrive : [int] Type: int An integer that indicates which drive letter you want to test. Set it to 0 for  A:, 1 for B:, and so on.
+iDrive : [int] Œ^: int ’²‚×‚½‚¢ƒhƒ‰ƒCƒu•¶š‚ğ¦‚·®”BA: ‚É‚Í 0AB: ‚É‚Í 1 ‚Æ‚¢‚¤‚æ‚¤‚Éİ’è‚·‚éB
 %inst
-Tests whether a drive is a network drive.
+ƒhƒ‰ƒCƒu‚ªƒlƒbƒgƒ[ƒNƒhƒ‰ƒCƒu‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-Type: int This function returns one of the following values.
-This doc was truncated.
+Œ^: int ‚±‚ÌŠÖ”‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IsUserAnAdmin
-IsUserAnAdmin may be altered or unavailable.
+IsUserAnAdmin ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 
 %inst
-IsUserAnAdmin may be altered or unavailable.
+IsUserAnAdmin ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if the user is a member of the
-Administrator's group; otherwise, FALSE.
+Œ^: BOOL ƒ†[ƒU‚ª Administrators ƒOƒ‹[ƒv‚Ìƒƒ“ƒo‚Å‚ ‚éê‡‚Í TRUEA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-This function is a wrapper for CheckTokenMembership. It is
-recommended to call that function directly to determine Administrator
-group status rather than calling IsUserAnAdmin.
+‚±‚ÌŠÖ”‚Í CheckTokenMembership ‚Ìƒ‰ƒbƒp‚Å‚ ‚éBAdministrator
+ƒOƒ‹[ƒv‚Ìó‘Ô‚ğ”»’è‚·‚é‚É‚ÍAIsUserAnAdmin ‚Å‚Í‚È‚­‚»‚ÌŠÖ”‚ğ’¼ÚŒÄ‚Ño‚·‚±‚Æ‚ª„§‚³‚ê‚éB
 
 
 %index
 OpenRegStream
-OpenRegStream may be altered or unavailable. Instead, use SHOpenRegStream2 or SHOpenRegStream.
+OpenRegStream ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É SHOpenRegStream2 ‚© SHOpenRegStream ‚ğg‚¤‚±‚ÆB
 %group
 Win32 shell32
 %prm
 hkey, pszSubkey, pszValue, grfMode
-hkey : [intptr] Type: HKEY A handle to the key that is currently open.
-pszSubkey : [wstr] Type: PCWSTR A null-terminated Unicode string that specifies the name of the subkey.
-pszValue : [wstr] Type: PCWSTR A null-terminated Unicode string that specifies the value to be accessed.
-grfMode : [int] Type: DWORD
+hkey : [intptr] Œ^: HKEY Œ»İŠJ‚¢‚Ä‚¢‚éƒL[‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pszSubkey : [wstr] Œ^: PCWSTR ƒTƒuƒL[‚Ì–¼‘O‚ğw’è‚·‚éƒkƒ‹I’[ Unicode •¶š—ñB
+pszValue : [wstr] Œ^: PCWSTR ƒAƒNƒZƒX‚·‚é’l‚ğw’è‚·‚éƒkƒ‹I’[ Unicode •¶š—ñB
+grfMode : [int] Œ^: DWORD
 %inst
-OpenRegStream may be altered or unavailable. Instead, use
-SHOpenRegStream2 or SHOpenRegStream.
+OpenRegStream ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É SHOpenRegStream2 ‚©
+SHOpenRegStream ‚ğg‚¤‚±‚ÆB
 
 [–ß‚è’l]
-Type: IStream* Returns the address of an IStream interface if
-successful, or NULL otherwise.
+Œ^: IStream* ¬Œ÷‚µ‚½ê‡‚Í IStream ƒCƒ“ƒ^ƒtƒF[ƒX‚ÌƒAƒhƒŒƒX‚ğ•Ô‚µA‚»‚¤‚Å‚È‚¢ê‡‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 PathCleanupSpec
-PathCleanupSpec may be altered or unavailable.
+PathCleanupSpec ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pszDir, pszSpec
-pszDir : [wstr] Type: PCWSTR A pointer to a null-terminated buffer that contains the fully qualified path of the directory that will contain the file or directory named at pszSpec. The path must not exceed MAX_PATH characters in length, including the terminating null character. This path is not altered.
-pszSpec : [wstr] Type: PWSTR A pointer to a null-terminated buffer that contains the file or directory name to be cleaned. In the case of a file, include the file's extension. Note that because '\' is considered an invalid character and will be removed, this buffer cannot contain a path more than one directory deep.
+pszDir : [wstr] Œ^: PCWSTR pszSpec ‚Åw’è‚³‚ê‚éƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ğŠi”[‚·‚éƒfƒBƒŒƒNƒgƒŠ‚ÌŠ®‘SCüƒpƒX‚ğŠÜ‚Şƒkƒ‹I’[ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒpƒX‚ÍI’[ƒkƒ‹•¶š‚ğŠÜ‚ß‚Ä MAX_PATH •¶š‚ğ’´‚¦‚Ä‚Í‚È‚ç‚È‚¢B‚±‚ÌƒpƒX‚Í•ÏX‚³‚ê‚È‚¢B
+pszSpec : [wstr] Œ^: PWSTR ƒNƒŠ[ƒ“ƒAƒbƒv‚·‚éƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ–¼‚ğŠÜ‚Şƒkƒ‹I’[ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒtƒ@ƒCƒ‹‚Ìê‡‚ÍŠg’£q‚àŠÜ‚ß‚é‚±‚ÆB'\' ‚Í–³Œø•¶š‚Æ‚İ‚È‚³‚êíœ‚³‚ê‚é‚½‚ßA‚±‚Ìƒoƒbƒtƒ@‚É 1 ŠK‘w‚ğ’´‚¦‚éƒpƒX‚ğŠÜ‚ß‚é‚±‚Æ‚Í‚Å‚«‚È‚¢‚±‚Æ‚É’ˆÓB
 %inst
-PathCleanupSpec may be altered or unavailable.
+PathCleanupSpec ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: int Returns one or more of the following values.
-This doc was truncated.
+Œ^: int Ÿ‚Ì‚¤‚¿ 1 ‚ÂˆÈã‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The following are considered invalid characters in all names.
-This doc was truncated.
+Ÿ‚Ì•¶š‚Í‚·‚×‚Ä‚Ì–¼‘O‚Å–³Œø‚Æ‚İ‚È‚³‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 PathGetShortPath
-PathGetShortPath may be altered or unavailable.
+PathGetShortPath ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pszLongPath
-pszLongPath : [wstr] Type: PWSTR A pointer to a null-terminated, Unicode string that contains the long path. When the function returns, it contains the equivalent short path.
+pszLongPath : [wstr] Œ^: PWSTR ’·‚¢ƒpƒX‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚©‚ç–ß‚é‚ÆA‘Î‰‚·‚é’Z‚¢ƒpƒX‚ªŠi”[‚³‚ê‚éB
 %inst
-PathGetShortPath may be altered or unavailable.
+PathGetShortPath ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 
 
 %index
 PathIsExe
-PathIsExe may be altered or unavailable.
+PathIsExe ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pszPath
-pszPath : [wstr] Type: PCWSTR A pointer to a null-terminated, Unicode string that contains the file path, which includes the name of the file.
+pszPath : [wstr] Œ^: PCWSTR ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Şƒtƒ@ƒCƒ‹ƒpƒX‚ğŠi”[‚µ‚½ƒkƒ‹I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-PathIsExe may be altered or unavailable.
+PathIsExe ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if the file name extension is .cmd, .bat,
-.pif, .scf, .exe, .com, or .scr; otherwise, FALSE.
+Œ^: BOOL ƒtƒ@ƒCƒ‹–¼‚ÌŠg’£q‚ª .cmdA.batA.pifA.scfA.exeA.comA.scr ‚Ì‚¢‚¸‚ê‚©‚Ìê‡‚Í
+TRUEA‚»‚êˆÈŠO‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 PathIsSlowW
-PathIsSlow may be altered or unavailable. (Unicode)
+PathIsSlow ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 pszFile, dwAttr
-pszFile : [wstr] Type: LPCTSTR A pointer to a null-terminated string that contains the fully qualified path of the file.
-dwAttr : [int] Type: DWORD The file attributes, if known; otherwise, pass ?1 and this function gets the attributes by calling GetFileAttributes. See GetFileAttributes for a list of file attributes.
+pszFile : [wstr] Œ^: LPCTSTR ƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğŠÜ‚Şƒkƒ‹I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwAttr : [int] Œ^: DWORD ƒtƒ@ƒCƒ‹‘®«‚ª•ª‚©‚Á‚Ä‚¢‚éê‡‚Í‚»‚ê‚ğw’è‚·‚éB•ª‚©‚ç‚È‚¢ê‡‚Í ?1 ‚ğ“n‚·‚ÆAŠÖ”‚ª GetFileAttributes ‚ğŒÄ‚Ño‚µ‚Ä‘®«‚ğæ“¾‚·‚éBƒtƒ@ƒCƒ‹‘®«‚Ìˆê——‚Í GetFileAttributes ‚ğQÆB
 %inst
-PathIsSlow may be altered or unavailable. (Unicode)
+PathIsSlow ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB(Unicode)
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if the connection is high-latency; otherwise,
-FALSE.
+Œ^: BOOL Ú‘±‚ª‚’x‰„‚Ìê‡‚Í TRUEA‚»‚êˆÈŠO‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-A path is considered slow if the MultinetGetConnectionPerformance
-function returns a dwSpeed of 400 or less in its NETCONNECTINFOSTRUCT
-structure?this is the speed of the media to the network resource, in
-100 bits-per-second (bps)?or if FILE_ATTRIBUTE_OFFLINE is set on the
-file. Note that network conditions can impact function performance
-time.
-> [!NOTE] > The shlobj.h header defines PathIsSlow as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+MultinetGetConnectionPerformance ŠÖ”‚Ì NETCONNECTINFOSTRUCT \‘¢‘Ì“à
+dwSpeed ‚ª 400 ˆÈ‰º‚ğ•Ô‚µ‚½ê‡i‚±‚ê‚Íƒlƒbƒgƒ[ƒNƒŠƒ\[ƒX‚Ü‚Å‚ÌƒƒfƒBƒA‚Ì‘¬“x‚ÅA100 bps
+’PˆÊjA‚Ü‚½‚Í‘ÎÛƒtƒ@ƒCƒ‹‚É FILE_ATTRIBUTE_OFFLINE
+‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡A‚»‚ÌƒpƒX‚Íu’x‚¢v‚Æ‚İ‚È‚³‚ê‚éB‚È‚¨ƒlƒbƒgƒ[ƒNó‹µ‚ÍŠÖ”‚ÌƒpƒtƒH[ƒ}ƒ“ƒX‚É‰e‹¿‚·‚é‚±‚Æ‚É’ˆÓB
+> [!NOTE] > shlobj.h ƒwƒbƒ_‚Í UNICODE ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í
+Unicode ”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä PathIsSlow
+‚ğ’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO”ñˆË‘¶‚ÌƒGƒCƒŠƒAƒX‚ÆƒGƒ“ƒR[ƒfƒBƒ“ƒOˆË‘¶‚ÌƒR[ƒh‚ğ¬İ‚³‚¹‚é‚Æƒ~ƒXƒ}ƒbƒ`‚ª¶‚¶AƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚âÀsƒGƒ‰[‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 PathMakeUniqueName
-Creates a unique path name from a template.
+ƒeƒ“ƒvƒŒ[ƒg‚©‚çˆêˆÓ‚ÈƒpƒX–¼‚ğ¶¬‚·‚éB
 %group
 Win32 shell32
 %prm
 pszUniqueName, cchMax, pszTemplate, pszLongPlate, pszDir
-pszUniqueName : [wstr] Type: PWSTR A buffer that receives a null-terminated Unicode string that contains the unique path name. It should be at least MAX_PATH characters in length.
-cchMax : [int] Type: UINT The number of characters in the buffer pointed to by pszUniqueName.
-pszTemplate : [wstr] Type: PCWSTR A null-terminated Unicode string that contains a template that is used to construct the unique name. This template is used for drives that require file names with the 8.3 format. This string should be no more than MAX_PATH characters in length, including the terminating null character.
-pszLongPlate : [wstr] Type: PCWSTR A null-terminated Unicode string that contains a template that is used to construct the unique name. This template is used for drives that support long file names. This string should be no more than MAX_PATH characters in length, including the terminating null character.
-pszDir : [wstr] Type: PCWSTR A null-terminated string that contains the directory in which the new file resides. This string should be no more than MAX_PATH characters in length, including the terminating null character.
+pszUniqueName : [wstr] Œ^: PWSTR ˆêˆÓ‚ÈƒpƒX–¼‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñ‚ğó‚¯æ‚éƒoƒbƒtƒ@B­‚È‚­‚Æ‚à MAX_PATH •¶š‚Ì’·‚³‚ª•K—v‚Å‚ ‚éB
+cchMax : [int] Œ^: UINT pszUniqueName ‚ªw‚·ƒoƒbƒtƒ@‚Ì•¶š”B
+pszTemplate : [wstr] Œ^: PCWSTR ˆêˆÓ‚È–¼‘O‚Ì\’z‚Ég‚¤ƒeƒ“ƒvƒŒ[ƒg‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñB8.3 Œ`®‚Ìƒtƒ@ƒCƒ‹–¼‚ğ—v‹‚·‚éƒhƒ‰ƒCƒu‚Åg—p‚³‚ê‚éBI’[ƒkƒ‹•¶š‚ğŠÜ‚ß‚Ä MAX_PATH •¶šˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pszLongPlate : [wstr] Œ^: PCWSTR ˆêˆÓ‚È–¼‘O‚Ì\’z‚Ég‚¤ƒeƒ“ƒvƒŒ[ƒg‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñB’·‚¢ƒtƒ@ƒCƒ‹–¼‚ğƒTƒ|[ƒg‚·‚éƒhƒ‰ƒCƒu‚Åg—p‚³‚ê‚éBI’[ƒkƒ‹•¶š‚ğŠÜ‚ß‚Ä MAX_PATH •¶šˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pszDir : [wstr] Œ^: PCWSTR V‹Kƒtƒ@ƒCƒ‹‚ª’u‚©‚ê‚éƒfƒBƒŒƒNƒgƒŠ‚ğŠÜ‚Şƒkƒ‹I’[•¶š—ñBI’[ƒkƒ‹•¶š‚ğŠÜ‚ß‚Ä MAX_PATH •¶šˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Creates a unique path name from a template.
+ƒeƒ“ƒvƒŒ[ƒg‚©‚çˆêˆÓ‚ÈƒpƒX–¼‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if successful; otherwise, FALSE.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-This function generates a new unique file name based on the templates
-specified by pszTemplate, for drives that require the 8.3 format, and
-pszLongPlate for drives that support long file names. For example, if
-you specify "My New Filename" for pszLongPlate, PathMakeUniqueName
-returns names such as "My New Filename (1)", "My New Filename (2)",
-and so on.
+‚±‚ÌŠÖ”‚ÍA8.3 Œ`®‚ğ—v‹‚·‚éƒhƒ‰ƒCƒu‚É‚Í pszTemplateA’·‚¢ƒtƒ@ƒCƒ‹–¼‚ğƒTƒ|[ƒg‚·‚éƒhƒ‰ƒCƒu‚É‚Í pszLongPlate
+‚Åw’è‚µ‚½ƒeƒ“ƒvƒŒ[ƒg‚ğŠî‚ÉV‚µ‚¢ˆêˆÓ‚Èƒtƒ@ƒCƒ‹–¼‚ğ¶¬‚·‚éB‚½‚Æ‚¦‚Î pszLongPlate ‚É "My New Filename"
+‚ğw’è‚·‚é‚ÆAPathMakeUniqueName ‚Í "My New Filename (1)"A"My New Filename
+(2)" ‚Ì‚æ‚¤‚È–¼‘O‚ğ•Ô‚·B
 
 
 %index
@@ -1148,519 +1034,458 @@ psz : [wstr]
 
 %index
 PathResolve
-PathResolve may be altered or unavailable.
+PathResolve ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pszPath, dirs, fFlags
-pszPath : [wstr] Type: PWSTR A null-terminated Unicode string that contains the path to resolve. When the function returns, the string contains the corresponding fully qualified path. This buffer should be at least MAX_PATH characters long.
-dirs : [var] Type: PZPCWSTR A pointer to an optional null-terminated array of directories to be searched first in the case that the path cannot be resolved from pszPath. This value can be NULL.
-fFlags : [int] Type: UINT Flags that specify how the function operates.
+pszPath : [wstr] Œ^: PWSTR ‰ğŒˆ‘ÎÛ‚ÌƒpƒX‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñBŠÖ”‚©‚ç–ß‚é‚ÆA‘Î‰‚·‚éŠ®‘SCüƒpƒX‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒoƒbƒtƒ@‚Í­‚È‚­‚Æ‚à MAX_PATH •¶š‚Ì’·‚³‚ª•K—v‚Å‚ ‚éB
+dirs : [var] Œ^: PZPCWSTR pszPath ‚©‚çƒpƒX‚ğ‰ğŒˆ‚Å‚«‚È‚©‚Á‚½ê‡‚ÉÅ‰‚ÉŒŸõ‚·‚éƒfƒBƒŒƒNƒgƒŠ‚ÌAÈ—ª‰Â”\‚Èƒkƒ‹I’[”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì’l‚Í NULL ‚Å‚à\‚í‚È‚¢B
+fFlags : [int] Œ^: UINT ŠÖ”‚Ì“®ì‚ğw’è‚·‚éƒtƒ‰ƒOB
 %inst
-PathResolve may be altered or unavailable.
+PathResolve ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: int Returns TRUE, unless PRF_VERIFYEXISTS is set. If that flag
-is set, the function returns TRUE if the file is verified to exist
-and FALSE otherwise. It also sets an ERROR_FILE_NOT_FOUND error code
-that you can retrieve by calling GetLastError.
+Œ^: int PRF_VERIFYEXISTS ‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ŒÀ‚è TRUE
+‚ğ•Ô‚·B‚»‚Ìƒtƒ‰ƒO‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡Aƒtƒ@ƒCƒ‹‚Ì‘¶İ‚ªŠm”F‚Å‚«‚ê‚Î TRUEAŠm”F‚Å‚«‚È‚¯‚ê‚Î FALSE ‚ğ•Ô‚·B“¯‚É
+GetLastError ‚Åæ“¾‚Å‚«‚é ERROR_FILE_NOT_FOUND ƒGƒ‰[ƒR[ƒh‚ğİ’è‚·‚éB
 
 [”õl]
-A FALSE return value does not necessarily mean that the file does not
-exist. It might mean that the function is simply unable to find the
-file from the supplied information. If PathResolve cannot resolve the
-path specified in pszPath, it calls PathFindOnPath using pszPath and
-dirs as the parameters.
+FALSE
+‚ª•Ô‚Á‚Ä‚«‚½‚Æ‚µ‚Ä‚àA•K‚¸‚µ‚àƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢‚±‚Æ‚ğˆÓ–¡‚·‚é‚í‚¯‚Å‚Í‚È‚¢B—^‚¦‚ç‚ê‚½î•ñ‚©‚ç‚Íƒtƒ@ƒCƒ‹‚ğ’P‚ÉŒ©‚Â‚¯‚ç‚ê‚È‚©‚Á‚½‚¾‚¯‚©‚à‚µ‚ê‚È‚¢BPathResolve
+‚ª pszPath ‚Åw’è‚³‚ê‚½ƒpƒX‚ğ‰ğŒˆ‚Å‚«‚È‚¢ê‡ApszPath ‚Æ dirs ‚ğƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä PathFindOnPath
+‚ğŒÄ‚Ño‚·B
 
 
 %index
 PathYetAnotherMakeUniqueName
-Creates a unique filename based on an existing filename.
+Šù‘¶‚Ìƒtƒ@ƒCƒ‹–¼‚ğŠî‚ÉˆêˆÓ‚Èƒtƒ@ƒCƒ‹–¼‚ğ¶¬‚·‚éB
 %group
 Win32 shell32
 %prm
 pszUniqueName, pszPath, pszShort, pszFileSpec
-pszUniqueName : [wstr] Type: PWSTR A string buffer that receives a null-terminated Unicode string that contains the fully qualified path of the unique file name. This buffer should be at least MAX_PATH characters long to avoid causing a buffer overrun.
-pszPath : [wstr] Type: PCWSTR A null-terminated Unicode string that contains the fully qualified path of folder that will contain the new file. If pszShort is set to NULL, this string must contain a full destination path, ending with the long file name that the new file name will be base on.
-pszShort : [wstr] Type: PCWSTR A null-terminated Unicode string that contains the short file name that the unique name will be based on. Set this value to NULL to create a name based on the long file name.
-pszFileSpec : [wstr] Type: PCWSTR A null-terminated Unicode string that contains the long file name that the unique name will be based on.
+pszUniqueName : [wstr] Œ^: PWSTR ˆêˆÓ‚Èƒtƒ@ƒCƒ‹–¼‚ÌŠ®‘SCüƒpƒX‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñ‚ğó‚¯æ‚é•¶š—ñƒoƒbƒtƒ@Bƒoƒbƒtƒ@ƒI[ƒo[ƒ‰ƒ“‚ğ”ğ‚¯‚é‚½‚ßA­‚È‚­‚Æ‚à MAX_PATH •¶š‚Ì’·‚³‚ª•K—v‚Å‚ ‚éB
+pszPath : [wstr] Œ^: PCWSTR V‹Kƒtƒ@ƒCƒ‹‚ğŠi”[‚·‚éƒtƒHƒ‹ƒ_‚ÌŠ®‘SCüƒpƒX‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñBpszShort ‚ª NULL ‚Ìê‡A‚±‚Ì•¶š—ñ‚É‚ÍVƒtƒ@ƒCƒ‹–¼‚ÌŒ³‚Æ‚È‚é’·‚¢ƒtƒ@ƒCƒ‹–¼‚ÅI‚í‚éŠ®‘S‚Èˆ¶æƒpƒX‚ğŠÜ‚ß‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pszShort : [wstr] Œ^: PCWSTR ˆêˆÓ‚È–¼‘O‚ÌŒ³‚É‚È‚é’Z‚¢ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñB’·‚¢ƒtƒ@ƒCƒ‹–¼‚ğŠî‚É–¼‘O‚ğì¬‚·‚éê‡‚Í‚±‚Ì’l‚ğ NULL ‚Éİ’è‚·‚éB
+pszFileSpec : [wstr] Œ^: PCWSTR ˆêˆÓ‚È–¼‘O‚ÌŒ³‚É‚È‚é’·‚¢ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñB
 %inst
-Creates a unique filename based on an existing filename.
+Šù‘¶‚Ìƒtƒ@ƒCƒ‹–¼‚ğŠî‚ÉˆêˆÓ‚Èƒtƒ@ƒCƒ‹–¼‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if a unique name was successfully created;
-otherwise FALSE.
+Œ^: BOOL ˆêˆÓ‚È–¼‘O‚Ìì¬‚É¬Œ÷‚µ‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-If the generated path exceeds MAX_PATH characters, this function may
-return a truncated string in PathYetAnotherMakeUniqueName. In that
-case, the function returns FALSE.
+¶¬‚³‚ê‚½ƒpƒX‚ª MAX_PATH •¶š‚ğ’´‚¦‚éê‡APathYetAnotherMakeUniqueName
+‚ÍØ‚è‹l‚ß‚ç‚ê‚½•¶š—ñ‚ğ•Ô‚·‰Â”\«‚ª‚ ‚éB‚»‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 PickIconDlg
-PickIconDlg may be altered or unavailable.
+PickIconDlg ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 hwnd, pszIconPath, cchIconPath, piIconIndex
-hwnd : [intptr] Type: HWND The handle of the parent window. This value can be NULL.
-pszIconPath : [wstr] Type: PWSTR A pointer to a string that contains the null-terminated, fully qualified path of the default resource that contains the icons. If the user chooses a different resource in the dialog, this buffer contains the path of that file when the function returns. This buffer should be at least MAX_PATH characters in length, or the returned path may be truncated. You should verify that the path is valid before using it.
-cchIconPath : [int] Type: UINT The number of characters in pszIconPath, including the terminating NULL character.
-piIconIndex : [var] Type: int* A pointer to an integer that on entry specifies the index of the initial selection and, when this function returns successfully, receives the index of the icon that was selected.
+hwnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à\‚í‚È‚¢B
+pszIconPath : [wstr] Œ^: PWSTR ƒAƒCƒRƒ“‚ğŠÜ‚ŞŠù’èƒŠƒ\[ƒX‚ÌŠ®‘SCüƒpƒX‚ğŠi”[‚µ‚½ƒkƒ‹I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒ†[ƒU‚ªƒ_ƒCƒAƒƒO‚Å•Ê‚ÌƒŠƒ\[ƒX‚ğ‘I‘ğ‚µ‚½ê‡AŠÖ”‚©‚ç–ß‚Á‚½“_‚Å‚±‚Ìƒoƒbƒtƒ@‚É‚»‚Ìƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ªŠi”[‚³‚ê‚éB•Ô‚³‚ê‚éƒpƒX‚ªØ‚è‹l‚ß‚ç‚ê‚È‚¢‚æ‚¤A­‚È‚­‚Æ‚à MAX_PATH •¶š‚Ì’·‚³‚ª•K—v‚Å‚ ‚éBg—p‘O‚ÉƒpƒX‚ª—LŒø‚Å‚ ‚é‚±‚Æ‚ğŠm”F‚·‚é‚±‚ÆB
+cchIconPath : [int] Œ^: UINT pszIconPath ‚Ì•¶š”iI’[ NULL •¶š‚ğŠÜ‚ŞjB
+piIconIndex : [var] Œ^: int* ®”‚Ö‚Ìƒ|ƒCƒ“ƒ^B“ü—Í‚Í‰Šú‘I‘ğ‚ÌƒCƒ“ƒfƒbƒNƒX‚ğw’è‚µAŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚É‚Í‘I‘ğ‚³‚ê‚½ƒAƒCƒRƒ“‚ÌƒCƒ“ƒfƒbƒNƒX‚ğó‚¯æ‚éB
 %inst
-PickIconDlg may be altered or unavailable.
+PickIconDlg ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: int Returns 1 if successful; otherwise, 0.
+Œ^: int ¬Œ÷‚µ‚½ê‡‚Í 1A‚»‚êˆÈŠO‚Ìê‡‚Í 0 ‚ğ•Ô‚·B
 
 
 %index
 PifMgr_CloseProperties
-Closes application properties that were opened with PifMgr_OpenProperties.
+PifMgr_OpenProperties ‚ÅŠJ‚¢‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒvƒƒpƒeƒB‚ğ•Â‚¶‚éB
 %group
 Win32 shell32
 %prm
 hProps, flOpt
-hProps : [intptr] Type: HANDLE A handle to the application's properties. This parameter should be set to the value that is returned by PifMgr_OpenProperties.
-flOpt : [int] Type: UINT A flag that specifies how the function operates.
+hProps : [intptr] Œ^: HANDLE ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒvƒƒpƒeƒB‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í PifMgr_OpenProperties ‚ª•Ô‚µ‚½’l‚ğİ’è‚·‚éB
+flOpt : [int] Œ^: UINT ŠÖ”‚Ì“®ì‚ğw’è‚·‚éƒtƒ‰ƒOB
 %inst
-Closes application properties that were opened with
-PifMgr_OpenProperties.
+PifMgr_OpenProperties ‚ÅŠJ‚¢‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒvƒƒpƒeƒB‚ğ•Â‚¶‚éB
 
 [–ß‚è’l]
-Type: int Returns NULL if successful. If unsuccessful, the functions
-returns the handle to the application properties that was passed as
-hProps.
+Œ^: int ¬Œ÷‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚ÍAhProps ‚Æ‚µ‚Ä“n‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒvƒƒpƒeƒB‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
 
 
 %index
 PifMgr_GetProperties
-Returns a specified block of data from a .pif file.
+w’è‚³‚ê‚½ .pif ƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^ƒuƒƒbƒN‚ğ•Ô‚·B
 %group
 Win32 shell32
 %prm
 hProps, pszGroup, lpProps, cbProps, flOpt
-hProps : [intptr] Type: HANDLE A handle to an application's properties. This parameter should be set to the value that is returned by PifMgr_OpenProperties.
-pszGroup : [str] Type: PCSTR A null-terminated string that contains the property group name. It can be one of the following, or any other name that corresponds to a valid .pif extension.
-lpProps : [intptr] Type: void* When this function returns, contains a pointer to a PROPPRG structure.
-cbProps : [int] Type: int The size of the buffer, in bytes, pointed to by lpProps.
-flOpt : [int] Type: UINT Set this parameter to GETPROPS_NONE.
+hProps : [intptr] Œ^: HANDLE ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒvƒƒpƒeƒB‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í PifMgr_OpenProperties ‚ª•Ô‚µ‚½’l‚ğİ’è‚·‚éB
+pszGroup : [str] Œ^: PCSTR ƒvƒƒpƒeƒBƒOƒ‹[ƒv–¼‚ğŠÜ‚Şƒkƒ‹I’[•¶š—ñBŸ‚Ì‚¢‚¸‚ê‚©A‚Ü‚½‚Í—LŒø‚È .pif Šg’£q‚É‘Î‰‚·‚é”CˆÓ‚Ì–¼‘O‚ğw’è‚Å‚«‚éB
+lpProps : [intptr] Œ^: void* ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAPROPPRG \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
+cbProps : [int] Œ^: int lpProps ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
+flOpt : [int] Œ^: UINT ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í GETPROPS_NONE ‚Éİ’è‚·‚éB
 %inst
-Returns a specified block of data from a .pif file.
+w’è‚³‚ê‚½ .pif ƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^ƒuƒƒbƒN‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: int Returns NULL if successful. If unsuccessful, the function
-returns the handle to the application properties that were passed as
-hProps.
+Œ^: int ¬Œ÷‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚ÍAhProps ‚Æ‚µ‚Ä“n‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒvƒƒpƒeƒB‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
 
 [”õl]
-If the block is a "named" block, it must be the name of a linked
-extension inside the .pif file. This can be any predefined name (such
-as, "WINDOWS 386 3.0") or the name of your own block. You can create
-your own named data blocks using PifMgr_SetProperties. Named data can
-also be thought of as raw data, because it is returned to the calling
-application as it is, without translation. The size of a named block
-can be determined by calling PifMgr_GetProperties with cbProps set to
-0. No data is copied, but the size of the requested block is
-returned. All named blocks can be enumerated by setting pszGroup to
-NULL. lpProps must be a pointer to a 16-byte buffer to contain the
-requested block name, and cbProps must be set to the zero-based block
-index. The return value is the size of the block, or zero if the
-block is not found. If you request an unnamed property block by
-setting the selector of the name parameter to NULL, and the offset is
-a property group ordinal, then the associated structure is returned.
-For example, PifMgr_GetProperties(GROUP_TSK) returns a predefined
-structure that contains all the task-related information in a format
-that is independent of the .pif file. This is a valuable service
-because it relieves calling applications from dealing with .pif files
-that contain a wide variety of sections (known as .pif extensions),
-when only one is required.
+ƒuƒƒbƒN‚ªu–¼‘O•t‚«vƒuƒƒbƒN‚Ìê‡A‚»‚ê‚Í .pif
+ƒtƒ@ƒCƒ‹“à‚ÌƒŠƒ“ƒN‚³‚ê‚½Šg’£q‚Ì–¼‘O‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚ê‚Í–‘O’è‹`‚³‚ê‚½–¼‘Oi—áF"WINDOWS 386
+3.0"j‚Å‚àA“Æ©‚ÌƒuƒƒbƒN–¼‚Å‚à\‚í‚È‚¢B“Æ©‚Ì–¼‘O•t‚«ƒf[ƒ^ƒuƒƒbƒN‚Í PifMgr_SetProperties
+‚Åì¬‚Å‚«‚éB–¼‘O•t‚«ƒf[ƒ^‚Í¶ƒf[ƒ^‚Æ‚àl‚¦‚ç‚êA•ÏŠ·‚³‚ê‚¸‚É‚»‚Ì‚Ü‚ÜŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö•Ô‚³‚ê‚éB–¼‘O•t‚«ƒuƒƒbƒN‚ÌƒTƒCƒY‚Í
+cbProps ‚ğ 0 ‚É‚µ‚Ä PifMgr_GetProperties
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Åæ“¾‚Å‚«‚éBƒf[ƒ^‚ÍƒRƒs[‚³‚ê‚¸A—v‹‚³‚ê‚½ƒuƒƒbƒN‚ÌƒTƒCƒY‚¾‚¯‚ª•Ô‚³‚ê‚éB‚·‚×‚Ä‚Ì–¼‘O•t‚«ƒuƒƒbƒN‚Í pszGroup
+‚ğ NULL ‚É‚·‚é‚±‚Æ‚Å—ñ‹“‚Å‚«‚éBlpProps ‚Í—v‹‚·‚éƒuƒƒbƒN–¼‚ğŠi”[‚·‚é 16
+ƒoƒCƒg‚Ìƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚È‚¯‚ê‚Î‚È‚ç‚¸AcbProps ‚É‚Í 0
+‹N“_‚ÌƒuƒƒbƒNƒCƒ“ƒfƒbƒNƒX‚ğİ’è‚·‚é•K—v‚ª‚ ‚éB–ß‚è’l‚ÍƒuƒƒbƒN‚ÌƒTƒCƒY‚ÅAƒuƒƒbƒN‚ªŒ©‚Â‚©‚ç‚È‚¯‚ê‚Î 0
+‚Æ‚È‚éB–¼‘Oƒpƒ‰ƒ[ƒ^‚ÌƒZƒŒƒNƒ^‚ğ NULL
+‚Éİ’è‚µ‚Ä–¼‘O‚È‚µƒvƒƒpƒeƒBƒuƒƒbƒN‚ğ—v‹‚µAƒIƒtƒZƒbƒg‚ªƒvƒƒpƒeƒBƒOƒ‹[ƒv‚Ì˜”‚Å‚ ‚éê‡AŠÖ˜A•t‚¯‚ç‚ê‚½\‘¢‘Ì‚ª•Ô‚³‚ê‚éB‚½‚Æ‚¦‚Î
+PifMgr_GetProperties(GROUP_TSK) ‚ÍA‚·‚×‚Ä‚Ìƒ^ƒXƒNŠÖ˜Aî•ñ‚ğ .pif
+ƒtƒ@ƒCƒ‹‚©‚ç“Æ—§‚µ‚½Œ`®‚ÅŠÜ‚Ş–‘O’è‹`‚³‚ê‚½\‘¢‘Ì‚ğ•Ô‚·B‚±‚ê‚ÍA•K—v‚È‚Ì‚Í 1 ‚Â‚ÌƒZƒNƒVƒ‡ƒ“‚¾‚¯‚È‚Ì‚É‘½í‘½—l‚ÈƒZƒNƒVƒ‡ƒ“i.pif
+Šg’£q‚ÆŒÄ‚Î‚ê‚éj‚ğŠÜ‚Ş .pif ƒtƒ@ƒCƒ‹‚ğŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª’¼Úˆµ‚í‚¸‚ÉÏ‚Ş‚æ‚¤‚É‚·‚é‚½‚ß‚Ì•Ö—˜‚ÈƒT[ƒrƒX‚Å‚ ‚éB
 
 
 %index
 PifMgr_OpenProperties
-Opens the .pif file associated with a Microsoft MS-DOS application, and returns a handle to the application's properties.
+Microsoft MS-DOS ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ .pif ƒtƒ@ƒCƒ‹‚ğŠJ‚«A‚»‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒvƒƒpƒeƒB‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
 %group
 Win32 shell32
 %prm
 pszApp, pszPIF, hInf, flOpt
-pszApp : [wstr] Type: PCWSTR A null-terminated Unicode string that contains the application's name.
-pszPIF : [wstr] Type: PCWSTR A null-terminated Unicode string that contains the name of the .pif file.
-hInf : [int] Type: UINT A handle to the application's .inf file. Set this value to zero if there is no .inf file. Set this value to -1 to prevent the .inf file from being processed.
-flOpt : [int] Type: UINT A flag that controls how the function operates.
+pszApp : [wstr] Œ^: PCWSTR ƒAƒvƒŠƒP[ƒVƒ‡ƒ“–¼‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñB
+pszPIF : [wstr] Œ^: PCWSTR .pif ƒtƒ@ƒCƒ‹–¼‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñB
+hInf : [int] Œ^: UINT ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì .inf ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B.inf ƒtƒ@ƒCƒ‹‚ª‚È‚¢ê‡‚Íƒ[ƒ‚ğİ’è‚·‚éB.inf ƒtƒ@ƒCƒ‹‚ğˆ—‚µ‚È‚¢‚æ‚¤‚É‚·‚é‚É‚Í -1 ‚ğİ’è‚·‚éB
+flOpt : [int] Œ^: UINT ŠÖ”‚Ì“®ì‚ğ§Œä‚·‚éƒtƒ‰ƒOB
 %inst
-Opens the .pif file associated with a Microsoft MS-DOS application,
-and returns a handle to the application's properties.
+Microsoft MS-DOS ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ .pif
+ƒtƒ@ƒCƒ‹‚ğŠJ‚«A‚»‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒvƒƒpƒeƒB‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: HANDLE Returns a handle to the application's properties. Use
-this handle when you call the related .pif functions.
+Œ^: HANDLE ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒvƒƒpƒeƒB‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·BŠÖ˜A‚·‚é .pif ŠÖ”‚ğŒÄ‚Ño‚·‚Æ‚«‚É‚±‚Ìƒnƒ“ƒhƒ‹‚ğg—p‚·‚éB
 
 [”õl]
-You should not think of PifMgr_OpenProperties as a function that
-opens a file somewhere. The .pif file does not remain open after this
-call. It is more useful to think of the function as a property
-structure allocator that you can initialize using disk data. The
-primary reason why this function fails is because of low memory or
-inability to open the specified .pif file. If no .pif file exists,
-the function still allocates a data block in memory and initializes
-it with data from _Default.pif or its internal defaults. If the
-function looks for a .pif file name but does not find it, it
-constructs a name and saves it in its internal .pif data structure.
-This guarantees that if PifMgr_SetProperties is called, the data is
-saved to disk. If the function does not find the .pif file, it
-searches for it in the following order.
-This doc was truncated.
+PifMgr_OpenProperties ‚Í‚Ç‚±‚©‚Ìƒtƒ@ƒCƒ‹‚ğŠJ‚­ŠÖ”‚¾‚Æl‚¦‚é‚×‚«‚Å‚Í‚È‚¢B.pif
+ƒtƒ@ƒCƒ‹‚Í‚±‚ÌŒÄ‚Ño‚µ‚ÌŒã‚àŠJ‚©‚ê‚½‚Ü‚Ü‚É‚Í‚È‚ç‚È‚¢B‚Ş‚µ‚ëAƒfƒBƒXƒNã‚Ìƒf[ƒ^‚Å‰Šú‰»‚Å‚«‚éƒvƒƒpƒeƒB\‘¢‘Ì‚ÌƒAƒƒP[ƒ^‚Æl‚¦‚é•û‚ª–ğ‚É—§‚ÂB‚±‚ÌŠÖ”‚ª¸”s‚·‚éå‚È——R‚ÍAƒƒ‚ƒŠ•s‘«‚©Aw’è‚³‚ê‚½
+.pif ƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚È‚¢‚±‚Æ‚Å‚ ‚éB.pif
+ƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢ê‡‚Å‚àAŠÖ”‚Íƒƒ‚ƒŠã‚Éƒf[ƒ^ƒuƒƒbƒN‚ğŠm•Û‚µA_Default.pif
+‚Ü‚½‚Í“à•”Šù’è’l‚©‚ç‚Ìƒf[ƒ^‚Å‚»‚ê‚ğ‰Šú‰»‚·‚éBŠÖ”‚ª .pif ƒtƒ@ƒCƒ‹–¼‚ğ’T‚µ‚Ä‚àŒ©‚Â‚©‚ç‚È‚¢ê‡‚Í–¼‘O‚ğ\’z‚µA“à•”‚Ì .pif
+ƒf[ƒ^\‘¢‘Ì‚É•Û‘¶‚·‚éB‚±‚ê‚É‚æ‚èAPifMgr_SetProperties
+‚ªŒÄ‚Î‚ê‚½Û‚Éƒf[ƒ^‚ªƒfƒBƒXƒN‚É•Û‘¶‚³‚ê‚é‚±‚Æ‚ª•ÛØ‚³‚ê‚éB.pif ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡AŠÖ”‚ÍŸ‚Ì‡˜‚ÅŒŸõ‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 PifMgr_SetProperties
-Assigns values to a block of data from a .pif file.
+’l‚ğ .pif ƒtƒ@ƒCƒ‹“à‚Ìƒf[ƒ^ƒuƒƒbƒN‚ÉŠ„‚è“–‚Ä‚éB
 %group
 Win32 shell32
 %prm
 hProps, pszGroup, lpProps, cbProps, flOpt
-hProps : [intptr] Type: HANDLE A handle to the application's properties. This parameter should be set to the value that is returned by PifMgr_OpenProperties.
-pszGroup : [str] Type: PCSTR A null-terminated ANSI string containing the property group name. It can be one of the following, or any other name that corresponds to a valid .pif extension.
-lpProps : [intptr] Type: const void* A property group record buffer that holds the data.
-cbProps : [int] Type: int The size of the buffer, in bytes, pointed to by lpProps.
-flOpt : [int] Type: UINT Always SETPROPS_NONE.
+hProps : [intptr] Œ^: HANDLE ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒvƒƒpƒeƒB‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í PifMgr_OpenProperties ‚ª•Ô‚µ‚½’l‚ğİ’è‚·‚éB
+pszGroup : [str] Œ^: PCSTR ƒvƒƒpƒeƒBƒOƒ‹[ƒv–¼‚ğŠÜ‚Şƒkƒ‹I’[ ANSI •¶š—ñBŸ‚Ì‚¢‚¸‚ê‚©A‚Ü‚½‚Í—LŒø‚È .pif Šg’£q‚É‘Î‰‚·‚é”CˆÓ‚Ì–¼‘O‚ğw’è‚Å‚«‚éB
+lpProps : [intptr] Œ^: const void* ƒf[ƒ^‚ğ•Û‚·‚éƒvƒƒpƒeƒBƒOƒ‹[ƒvƒŒƒR[ƒhƒoƒbƒtƒ@B
+cbProps : [int] Œ^: int lpProps ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
+flOpt : [int] Œ^: UINT í‚É SETPROPS_NONEB
 %inst
-Assigns values to a block of data from a .pif file.
+’l‚ğ .pif ƒtƒ@ƒCƒ‹“à‚Ìƒf[ƒ^ƒuƒƒbƒN‚ÉŠ„‚è“–‚Ä‚éB
 
 [–ß‚è’l]
-Type: int Returns the amount of information transferred, in bytes.
-Returns zero if the group cannot be found or an error occurs.
+Œ^: int “]‘—‚³‚ê‚½î•ñ—Ê‚ğƒoƒCƒg’PˆÊ‚Å•Ô‚·BƒOƒ‹[ƒv‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚âƒGƒ‰[‚ª”­¶‚µ‚½ê‡‚Íƒ[ƒ‚ğ•Ô‚·B
 
 
 %index
 ReadCabinetState
-ReadCabinetState may be altered or unavailable.
+ReadCabinetState ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pcs, cLength
-pcs : [var] Type: CABINETSTATE* When this function returns, contains a pointer to a CABINETSTATE structure that contains either information pulled from the registry or default information.
-cLength : [int] Type: int The size of the structure pointed to by pcs, in bytes.
+pcs : [var] Œ^: CABINETSTATE* ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAƒŒƒWƒXƒgƒŠ‚©‚çæ“¾‚µ‚½î•ñ‚Ü‚½‚ÍŠù’èî•ñ‚Ì‚¢‚¸‚ê‚©‚ğŠÜ‚Ş CABINETSTATE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cLength : [int] Œ^: int pcs ‚ªw‚·\‘¢‘Ì‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
 %inst
-ReadCabinetState may be altered or unavailable.
+ReadCabinetState ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if the returned structure contains
-information from the registry. Returns FALSE if the structure
-contains default information.
+Œ^: BOOL •Ô‚³‚ê‚½\‘¢‘Ì‚ÉƒŒƒWƒXƒgƒŠ‚Ìî•ñ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡‚Í TRUE ‚ğ•Ô‚·BŠù’èî•ñ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 RealDriveType
-RealDriveType may be altered or unavailable.
+RealDriveType ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 iDrive, fOKToHitNet
-iDrive : [int] Type: int The number of the drive that you want to test. "A:" corresponds to 0, "B:" to 1, and so on.
-fOKToHitNet : [int] Type: BOOL Reserved. Must be set to 0.
+iDrive : [int] Œ^: int ’²‚×‚½‚¢ƒhƒ‰ƒCƒu‚Ì”Ô†B"A:" ‚Í 0A"B:" ‚Í 1A‚Æ‚¢‚¤‚æ‚¤‚É‘Î‰‚·‚éB
+fOKToHitNet : [int] Œ^: BOOL —\–ñB0 ‚ğİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-RealDriveType may be altered or unavailable.
+RealDriveType ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: int Returns one of the following values.
-This doc was truncated.
+Œ^: int Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 RestartDialog
-Displays a dialog box that prompts the user to restart Windows. When the user clicks the button, the function calls ExitWindowsEx to attempt to restart Windows.
+ƒ†[ƒU‚É Windows ‚ÌÄ‹N“®‚ğ‘£‚·ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éBƒ†[ƒU‚ªƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŠÖ”‚Í ExitWindowsEx ‚ğŒÄ‚Ño‚µ‚Ä Windows ‚ÌÄ‹N“®‚ğ‚İ‚éB
 %group
 Win32 shell32
 %prm
 hwnd, pszPrompt, dwReturn
-hwnd : [intptr] Type: HWND A handle to the parent window.
-pszPrompt : [wstr] Type: PCWSTR A null-terminated Unicode string that contains the text that displays in the dialog box which prompts the user.
-dwReturn : [int] Type: DWORD The flags that specify the type of shutdown.
+hwnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pszPrompt : [wstr] Œ^: PCWSTR ƒ†[ƒU‚É•\¦‚·‚éƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX“à‚ÌƒeƒLƒXƒg‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñB
+dwReturn : [int] Œ^: DWORD ƒVƒƒƒbƒgƒ_ƒEƒ“‚Ìí—Ş‚ğw’è‚·‚éƒtƒ‰ƒOB
 %inst
-Displays a dialog box that prompts the user to restart Windows. When
-the user clicks the button, the function calls ExitWindowsEx to
-attempt to restart Windows.
+ƒ†[ƒU‚É Windows ‚ÌÄ‹N“®‚ğ‘£‚·ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éBƒ†[ƒU‚ªƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŠÖ”‚Í ExitWindowsEx
+‚ğŒÄ‚Ño‚µ‚Ä Windows ‚ÌÄ‹N“®‚ğ‚İ‚éB
 
 [–ß‚è’l]
-Type: int Returns the identifier of the button that was pressed to
-close the dialog box.
+Œ^: int ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•Â‚¶‚é‚½‚ß‚É‰Ÿ‚³‚ê‚½ƒ{ƒ^ƒ“‚Ì¯•Êq‚ğ•Ô‚·B
 
 
 %index
 RestartDialogEx
-Displays a dialog box that asks the user to restart Windows. When the user clicks the button, the function calls ExitWindowsEx to attempt to restart Windows.
+ƒ†[ƒU‚É Windows ‚ÌÄ‹N“®‚ğ‹‚ß‚éƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éBƒ†[ƒU‚ªƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŠÖ”‚Í ExitWindowsEx ‚ğŒÄ‚Ño‚µ‚Ä Windows ‚ÌÄ‹N“®‚ğ‚İ‚éB
 %group
 Win32 shell32
 %prm
 hwnd, pszPrompt, dwReturn, dwReasonCode
-hwnd : [intptr] Type: HWND A handle to the parent window.
-pszPrompt : [wstr] Type: PCWSTR A null-terminated string that contains the text that displays in the dialog box to prompt the user.
-dwReturn : [int] Type: DWORD The flags that specify the type of shutdown.
-dwReasonCode : [int] Type: DWORD Windows XP:Specifies the reason for initiating the shutdown. For more information, see System Shutdown Reason Codes.
+hwnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pszPrompt : [wstr] Œ^: PCWSTR ƒ†[ƒU‚É•\¦‚·‚éƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX“à‚ÌƒeƒLƒXƒg‚ğŠÜ‚Şƒkƒ‹I’[•¶š—ñB
+dwReturn : [int] Œ^: DWORD ƒVƒƒƒbƒgƒ_ƒEƒ“‚Ìí—Ş‚ğw’è‚·‚éƒtƒ‰ƒOB
+dwReasonCode : [int] Œ^: DWORD Windows XP: ƒVƒƒƒbƒgƒ_ƒEƒ“‚ğŠJn‚·‚é——R‚ğw’è‚·‚éBÚ×‚ÍuSystem Shutdown Reason Codesv‚ğQÆB
 %inst
-Displays a dialog box that asks the user to restart Windows. When the
-user clicks the button, the function calls ExitWindowsEx to attempt
-to restart Windows.
+ƒ†[ƒU‚É Windows ‚ÌÄ‹N“®‚ğ‹‚ß‚éƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éBƒ†[ƒU‚ªƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŠÖ”‚Í ExitWindowsEx
+‚ğŒÄ‚Ño‚µ‚Ä Windows ‚ÌÄ‹N“®‚ğ‚İ‚éB
 
 [–ß‚è’l]
-Type: int Returns the identifier of the button that was pressed to
-close the dialog box.
+Œ^: int ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•Â‚¶‚é‚½‚ß‚É‰Ÿ‚³‚ê‚½ƒ{ƒ^ƒ“‚Ì¯•Êq‚ğ•Ô‚·B
 
 
 %index
 SHAddDefaultPropertiesByExt
-Adds default properties to the property store as registered for the specified file extension.
+w’è‚µ‚½ƒtƒ@ƒCƒ‹Šg’£q‚É‘Î‚µ‚Ä“o˜^‚³‚ê‚Ä‚¢‚éŠù’èƒvƒƒpƒeƒB‚ğƒvƒƒpƒeƒBƒXƒgƒA‚É’Ç‰Á‚·‚éB
 %group
 Win32 shell32
 %prm
 pszExt, pPropStore
-pszExt : [wstr] Type: PCWSTR A pointer to a null-terminated, Unicode string that specifies the extension.
-pPropStore : [var] Type: IPropertyStore* A pointer to the IPropertyStore interface that defines the default properties to add.
+pszExt : [wstr] Œ^: PCWSTR Šg’£q‚ğw’è‚·‚éƒkƒ‹I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pPropStore : [var] Œ^: IPropertyStore* ’Ç‰Á‚·‚éŠù’èƒvƒƒpƒeƒB‚ğ’è‹`‚·‚é IPropertyStore ƒCƒ“ƒ^ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Adds default properties to the property store as registered for the
-specified file extension.
+w’è‚µ‚½ƒtƒ@ƒCƒ‹Šg’£q‚É‘Î‚µ‚Ä“o˜^‚³‚ê‚Ä‚¢‚éŠù’èƒvƒƒpƒeƒB‚ğƒvƒƒpƒeƒBƒXƒgƒA‚É’Ç‰Á‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The list of properties used to set a default value comes from the
-SetDefaultsFor registry value of the ProgID for the file association
-of the specified file extension. The list is prefixed by "prop:" and
-contains the canonical names of the properties to set the default
-value, such as: "prop:System.Author;System.Document.DateCreated". The
-possible properties for this list are System.Author,
-System.Document.DateCreated, and System.Photo.DateTaken. If the
-SetDefaultsFor value does not exist on the ProgID, this function uses
-the default found on the SetDefaultsFor value of HKEY_CLASSES_ROOT\*.
-System.Author has the value of the user that performed the action.
-System.Document.DateCreated and System.Photo.DateTaken use the
-current date. These three properties are the only ones for which the
-system provides special defaults. Note that there are several types
-of properties:
-This doc was truncated.
+Šù’è’l‚Ìİ’è‚Ég—p‚·‚éƒvƒƒpƒeƒB‚ÌƒŠƒXƒg‚ÍAw’è‚µ‚½ƒtƒ@ƒCƒ‹Šg’£q‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ ProgID ‚Ì SetDefaultsFor
+ƒŒƒWƒXƒgƒŠ’l‚©‚çæ“¾‚³‚ê‚éBƒŠƒXƒg‚Í "prop:" ‚Ån‚Ü‚èAŠù’è’l‚ğİ’è‚·‚éƒvƒƒpƒeƒB‚Ì³‹K–¼i‚½‚Æ‚¦‚Î
+"prop:System.Author;System.Document.DateCreated"j‚ğŠÜ‚ŞB‚±‚ÌƒŠƒXƒg‚Éw’è‰Â”\‚ÈƒvƒƒpƒeƒB‚Í
+System.AuthorASystem.Document.DateCreatedASystem.Photo.DateTaken
+‚Å‚ ‚éBSetDefaultsFor ’l‚ª ProgID ã‚É‘¶İ‚µ‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í HKEY_CLASSES_ROOT\* ‚Ì
+SetDefaultsFor ’l‚ÅŒ©‚Â‚©‚Á‚½Šù’è’l‚ğg‚¤BSystem.Author
+‚É‚ÍƒAƒNƒVƒ‡ƒ“‚ğÀs‚µ‚½ƒ†[ƒU‚Ì’l‚ªASystem.Document.DateCreated ‚Æ
+System.Photo.DateTaken ‚É‚ÍŒ»İ‚Ì“ú•t‚ª“ü‚éB‚±‚ê‚ç 3
+‚Â‚ÍƒVƒXƒeƒ€‚ª“Á•Ê‚ÈŠù’è’l‚ğ’ñ‹Ÿ‚·‚é—Bˆê‚ÌƒvƒƒpƒeƒB‚Å‚ ‚éBƒvƒƒpƒeƒB‚É‚Í‚¢‚­‚Â‚©‚Ìí—Ş‚ª‚ ‚é‚±‚Æ‚É’ˆÓB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SHDestroyPropSheetExtArray
-Frees property sheet handlers that are pointed to an array created by SHCreatePropSheetExtArray.
+SHCreatePropSheetExtArray ‚É‚æ‚Á‚Äì¬‚³‚ê‚½”z—ñ‚ªw‚·ƒvƒƒpƒeƒBƒV[ƒgƒnƒ“ƒhƒ‰[‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 shell32
 %prm
 hpsxa
-hpsxa : [intptr] Type: HPSXA The handle of the array that contains pointers to the property sheet handlers to destroy.
+hpsxa : [intptr] Œ^: HPSXA ”jŠü‚·‚éƒvƒƒpƒeƒBƒV[ƒgƒnƒ“ƒhƒ‰[‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğŠi”[‚µ‚Ä‚¢‚é”z—ñ‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Frees property sheet handlers that are pointed to an array created by
-SHCreatePropSheetExtArray.
+SHCreatePropSheetExtArray ‚É‚æ‚Á‚Äì¬‚³‚ê‚½”z—ñ‚ªw‚·ƒvƒƒpƒeƒBƒV[ƒgƒnƒ“ƒhƒ‰[‚ğ‰ğ•ú‚·‚éB
 
 
 %index
 SHAddFromPropSheetExtArray
-Adds pages to a property sheet extension array created by SHCreatePropSheetExtArray.
+SHCreatePropSheetExtArray ‚Åì¬‚³‚ê‚½ƒvƒƒpƒeƒBƒV[ƒgŠg’£”z—ñ‚Éƒy[ƒW‚ğ’Ç‰Á‚·‚éB
 %group
 Win32 shell32
 %prm
 hpsxa, lpfnAddPage, lParam
-hpsxa : [intptr] Type: HPSXA The array of property sheet handlers returned by SHCreatePropSheetExtArray.
-lpfnAddPage : [int] Type: LPFNADDPROPSHEETPAGE A pointer to an AddPropSheetPageProc callback function. It is called once for each property sheet handler. The callback function then returns the information needed to add a page to the handler's property sheet.
-lParam : [intptr] Type: LPARAM A pointer to application-defined data. This data is passed to the callback function specified by lpfnAddPage.
+hpsxa : [intptr] Œ^: HPSXA SHCreatePropSheetExtArray ‚ª•Ô‚µ‚½ƒvƒƒpƒeƒBƒV[ƒgƒnƒ“ƒhƒ‰‚Ì”z—ñB
+lpfnAddPage : [int] Œ^: LPFNADDPROPSHEETPAGE AddPropSheetPageProc ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠeƒvƒƒpƒeƒBƒV[ƒgƒnƒ“ƒhƒ‰‚²‚Æ‚É 1 “x‚¸‚ÂŒÄ‚Ño‚³‚ê‚éBƒR[ƒ‹ƒoƒbƒNŠÖ”‚Í‚»‚ÌŒãAƒnƒ“ƒhƒ‰‚ÌƒvƒƒpƒeƒBƒV[ƒg‚Éƒy[ƒW‚ğ’Ç‰Á‚·‚é‚Ì‚É•K—v‚Èî•ñ‚ğ•Ô‚·B
+lParam : [intptr] Œ^: LPARAM ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒf[ƒ^‚Í lpfnAddPage ‚Åw’è‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNŠÖ”‚É“n‚³‚ê‚éB
 %inst
-Adds pages to a property sheet extension array created by
-SHCreatePropSheetExtArray.
+SHCreatePropSheetExtArray ‚Åì¬‚³‚ê‚½ƒvƒƒpƒeƒBƒV[ƒgŠg’£”z—ñ‚Éƒy[ƒW‚ğ’Ç‰Á‚·‚éB
 
 [–ß‚è’l]
-Type: UINT Returns the number of pages actually added.
+Œ^: UINT ÀÛ‚É’Ç‰Á‚³‚ê‚½ƒy[ƒW”‚ğ•Ô‚·B
 
 [”õl]
-This function should be called only once for the property sheet
-extension array named in hpsxa. This function calls each extension's
-IShellPropSheetExt::AddPages method. See that page for further
-details.
+‚±‚ÌŠÖ”‚Í hpsxa ‚Åw’è‚³‚ê‚½ƒvƒƒpƒeƒBƒV[ƒgŠg’£”z—ñ‚É‘Î‚µ‚Ä 1 “x‚¾‚¯ŒÄ‚Ño‚·‚±‚ÆB‚±‚ÌŠÖ”‚ÍŠeŠg’£‚Ì
+IShellPropSheetExt::AddPages ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·BÚ×‚Í‚»‚Ìƒy[ƒW‚ğQÆB
 
 
 %index
 SHAddToRecentDocs
-Notifies the system that an item has been accessed, for the purposes of tracking those items used most recently and most frequently. This function can also be used to clear all usage data.
+Å‹ßg—p‚µ‚½ƒAƒCƒeƒ€‚âÅ‚à•p”É‚Ég—p‚µ‚½ƒAƒCƒeƒ€‚ğ’ÇÕ‚·‚é–Ú“I‚ÅAƒAƒCƒeƒ€‚ªƒAƒNƒZƒX‚³‚ê‚½‚±‚Æ‚ğƒVƒXƒeƒ€‚É’Ê’m‚·‚éB‚±‚ÌŠÖ”‚Í‚·‚×‚Ä‚Ìg—pó‹µƒf[ƒ^‚ğÁ‹‚·‚é‚½‚ß‚É‚àg—p‚Å‚«‚éB
 %group
 Win32 shell32
 %prm
 uFlags, pv
-uFlags : [int] Type: UINT A value from the SHARD enumeration that indicates the form of the information pointed to by the pv parameter.
-pv : [intptr] Type: LPCVOID A pointer to data that identifies the item that has been accessed. The item can be specified in this parameter in one of the following forms:
+uFlags : [int] Œ^: UINT pv ƒpƒ‰ƒ[ƒ^‚ªw‚·î•ñ‚ÌŒ`®‚ğ¦‚· SHARD —ñ‹“‘Ì‚Ì’lB
+pv : [intptr] Œ^: LPCVOID ƒAƒNƒZƒX‚³‚ê‚½ƒAƒCƒeƒ€‚ğ¯•Ê‚·‚éƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒAƒCƒeƒ€‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ÌŒ`®‚Å‚±‚Ìƒpƒ‰ƒ[ƒ^‚Éw’è‚Å‚«‚éB
 %inst
-Notifies the system that an item has been accessed, for the purposes
-of tracking those items used most recently and most frequently. This
-function can also be used to clear all usage data.
+
+Å‹ßg—p‚µ‚½ƒAƒCƒeƒ€‚âÅ‚à•p”É‚Ég—p‚µ‚½ƒAƒCƒeƒ€‚ğ’ÇÕ‚·‚é–Ú“I‚ÅAƒAƒCƒeƒ€‚ªƒAƒNƒZƒX‚³‚ê‚½‚±‚Æ‚ğƒVƒXƒeƒ€‚É’Ê’m‚·‚éB‚±‚ÌŠÖ”‚Í‚·‚×‚Ä‚Ìg—pó‹µƒf[ƒ^‚ğÁ‹‚·‚é‚½‚ß‚É‚àg—p‚Å‚«‚éB
 
 [”õl]
-The usage statistics gathered through calls to this method are used
-to determine lists of items accessed most recently and most
-frequently. These lists are seen in the Start menu and, in Windows 7
-and later, in an application's Jump List. When this method is called,
-it affects the following areas:
-This doc was truncated.
+
+‚±‚Ìƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ‚ğ’Ê‚¶‚ÄûW‚³‚ê‚½g—pó‹µ“Œv‚ÍAÅ‹ßg—p‚µ‚½ƒAƒCƒeƒ€‚âÅ‚à•p”É‚Ég—p‚µ‚½ƒAƒCƒeƒ€‚Ìˆê——‚ğŒˆ’è‚·‚é‚½‚ß‚Ég‚í‚ê‚éB‚±‚ê‚ç‚Ìˆê——‚ÍƒXƒ^[ƒgƒƒjƒ…[‚âAWindows
+7 ˆÈ~‚Å‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒWƒƒƒ“ƒvƒŠƒXƒg‚É•\¦‚³‚ê‚éB‚±‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Î‚ê‚é‚ÆAŸ‚Ì—Ìˆæ‚É‰e‹¿‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SHAlloc
-Allocates memory from the Shell's heap.
+ƒVƒFƒ‹‚Ìƒq[ƒv‚©‚çƒƒ‚ƒŠ‚ğŠm•Û‚·‚éB
 %group
 Win32 shell32
 %prm
 cb
-cb : [int] Type: SIZE_T The number of bytes of memory to allocate.
+cb : [int] Œ^: SIZE_T Šm•Û‚·‚éƒƒ‚ƒŠ‚ÌƒoƒCƒg”B
 %inst
-Allocates memory from the Shell's heap.
+ƒVƒFƒ‹‚Ìƒq[ƒv‚©‚çƒƒ‚ƒŠ‚ğŠm•Û‚·‚éB
 
 [–ß‚è’l]
-Type: LPVOID A pointer to the allocated memory.
+Œ^: LPVOID Šm•Û‚µ‚½ƒƒ‚ƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 
 [”õl]
-You can free this memory by calling SHFree.
+‚±‚Ìƒƒ‚ƒŠ‚Í SHFree ‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚Å‚«‚éB
 
 
 %index
 SHAssocEnumHandlers
-Returns an enumeration object for a specified set of file name extension handlers.
+w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼Šg’£qƒnƒ“ƒhƒ‰‚ÌW‡‚É‘Î‚·‚é—ñ‹“ƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·B
 %group
 Win32 shell32
 %prm
 pszExtra, afFilter, ppEnumHandler
-pszExtra : [wstr] Type: PCWSTR A pointer to a null-terminated buffer that contains a single file type extension, for instance ".jpg". Only handlers associated with the given extension are enumerated. This parameter may not be **NULL**.
-afFilter : [int] Type: ASSOC_FILTER
-ppEnumHandler : [var] Type: IEnumAssocHandlers** When this method returns, contains the address of a pointer to an IEnumAssocHandlers object.
+pszExtra : [wstr] Œ^: PCWSTR ’Pˆê‚Ìƒtƒ@ƒCƒ‹í•ÊŠg’£qi‚½‚Æ‚¦‚Î ".jpg"j‚ğŠÜ‚Şƒkƒ‹I’[ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bw’è‚³‚ê‚½Šg’£q‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒnƒ“ƒhƒ‰‚Ì‚İ‚ª—ñ‹“‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ **NULL** ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+afFilter : [int] Œ^: ASSOC_FILTER
+ppEnumHandler : [var] Œ^: IEnumAssocHandlers** ‚±‚Ìƒƒ\ƒbƒh‚©‚ç–ß‚éÛ‚ÉAIEnumAssocHandlers ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Returns an enumeration object for a specified set of file name
-extension handlers.
+w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼Šg’£qƒnƒ“ƒhƒ‰‚ÌW‡‚É‘Î‚·‚é—ñ‹“ƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHAssocEnumHandlersForProtocolByApplication
-Gets an enumeration interface that provides access to handlers associated with a given protocol.
+w’è‚³‚ê‚½ƒvƒƒgƒRƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒnƒ“ƒhƒ‰‚ÖƒAƒNƒZƒX‚·‚é‚½‚ß‚Ì—ñ‹“ƒCƒ“ƒ^ƒtƒF[ƒX‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 protocol, riid, enumHandlers
-protocol : [wstr] Type: PCWSTR Pointer to a string that specifies the protocol.
-riid : [var] Type: REFIID A reference to the IID of the interface to retrieve through enumHandlers, typically IID_IEnumAssocHandlers.
-enumHandlers : [var] Type: void** When this method returns, contains the interface pointer requested in riid. This is typically IEnumAssocHandlers.
+protocol : [wstr] Œ^: PCWSTR ƒvƒƒgƒRƒ‹‚ğw’è‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+riid : [var] Œ^: REFIID enumHandlers ‚ğ’Ê‚¶‚Äæ“¾‚·‚éƒCƒ“ƒ^ƒtƒF[ƒX‚Ì IID ‚Ö‚ÌQÆB’Êí‚Í IID_IEnumAssocHandlers ‚Å‚ ‚éB
+enumHandlers : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚©‚ç–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB’Êí‚Í IEnumAssocHandlers ‚Å‚ ‚éB
 %inst
-Gets an enumeration interface that provides access to handlers
-associated with a given protocol.
+w’è‚³‚ê‚½ƒvƒƒgƒRƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒnƒ“ƒhƒ‰‚ÖƒAƒNƒZƒX‚·‚é‚½‚ß‚Ì—ñ‹“ƒCƒ“ƒ^ƒtƒF[ƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-It is recommended that you use the IID_PPV_ARGS macro, defined in
-Objbase.h, to package the riid and enumHandlers parameters. This
-macro provides the correct IID based on the interface pointed to by
-the value in enumHandlers, which eliminates the possibility of a
-coding error.
+Objbase.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é IID_PPV_ARGS ƒ}ƒNƒ‚ğg‚Á‚Ä riid ‚Æ enumHandlers
+‚Ìƒpƒ‰ƒ[ƒ^‚ğ‚Ü‚Æ‚ß‚é‚±‚Æ‚ª„§‚³‚ê‚éB‚±‚Ìƒ}ƒNƒ‚Í enumHandlers ‚Ì’l‚ªw‚·ƒCƒ“ƒ^ƒtƒF[ƒX‚ÉŠî‚Ã‚¢‚Ä³‚µ‚¢ IID
+‚ğ’ñ‹Ÿ‚·‚é‚½‚ßAƒR[ƒfƒBƒ“ƒOƒ~ƒX‚Ì‰Â”\«‚ğ”rœ‚Å‚«‚éB
 
 
 %index
 SHBindToFolderIDListParent
-Given a Shell namespace item specified in the form of a folder, and an item identifier list relative to that folder, this function binds to the parent of the namespace item and optionally returns a pointer to the final component of the item identifier list.
+ƒtƒHƒ‹ƒ_Œ`®‚Åw’è‚³‚ê‚½ƒVƒFƒ‹–¼‘O‹óŠÔƒAƒCƒeƒ€‚ÆA‚»‚ÌƒtƒHƒ‹ƒ_‚ğŠî€‚Æ‚µ‚½ƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚ğ—^‚¦‚é‚ÆA‚±‚ÌŠÖ”‚Í–¼‘O‹óŠÔƒAƒCƒeƒ€‚Ìe‚ÉƒoƒCƒ“ƒh‚µA•K—v‚É‰‚¶‚ÄƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚ÌÅI—v‘f‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 %group
 Win32 shell32
 %prm
 psfRoot, pidl, riid, ppv, ppidlLast
-psfRoot : [var] Type: IShellFolder* A pointer to a Shell folder object. If psfRoot is NULL, indicates that the IDList passed is relative to the desktop.
-pidl : [var] Type: PCUIDLIST_RELATIVE A PIDL to bind to, relative to psfRoot. If psfRoot is NULL, this is an absolute IDList relative to the desktop folder.
-riid : [var] Type: REFIID Reference to the desired interface ID. This is typically IID_IShellFolder or IID_IShellFolder2, but can be anything supported by the target folder.
-ppv : [var] Type: void** When this function returns, contains the interface pointer requested in riid. This is typically IShellFolder or IShellFolder2, but can be anything supported by the target folder.
-ppidlLast : [var] Type: PCUITEMID_CHILD* A pointer to the last ID of the pidl parameter, and is a child ID relative to the parent folder returned in ppv. This value can be NULL.
+psfRoot : [var] Œ^: IShellFolder* ƒVƒFƒ‹ƒtƒHƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^BpsfRoot ‚ª NULL ‚Ìê‡A“n‚³‚ê‚½ IDList ‚ÍƒfƒXƒNƒgƒbƒv‚ğŠî€‚Æ‚·‚é‚±‚Æ‚ğ¦‚·B
+pidl : [var] Œ^: PCUIDLIST_RELATIVE psfRoot ‚ğŠî€‚Æ‚µ‚ÄƒoƒCƒ“ƒh‘ÎÛ‚Æ‚·‚é PIDLBpsfRoot ‚ª NULL ‚Ìê‡A‚±‚ê‚ÍƒfƒXƒNƒgƒbƒvƒtƒHƒ‹ƒ_‚ğŠî€‚Æ‚·‚éâ‘Î IDList ‚Å‚ ‚éB
+riid : [var] Œ^: REFIID –Ú“I‚ÌƒCƒ“ƒ^ƒtƒF[ƒX ID ‚Ö‚ÌQÆB’Êí‚Í IID_IShellFolder ‚Ü‚½‚Í IID_IShellFolder2 ‚¾‚ªA‘ÎÛƒtƒHƒ‹ƒ_‚ªƒTƒ|[ƒg‚·‚é”CˆÓ‚Ì‚à‚Ì‚Å‚æ‚¢B
+ppv : [var] Œ^: void** ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB’Êí‚Í IShellFolder ‚Ü‚½‚Í IShellFolder2 ‚¾‚ªA‘ÎÛƒtƒHƒ‹ƒ_‚ªƒTƒ|[ƒg‚·‚é”CˆÓ‚Ì‚à‚Ì‚Å‚æ‚¢B
+ppidlLast : [var] Œ^: PCUITEMID_CHILD* pidl ƒpƒ‰ƒ[ƒ^‚ÌÅŒã‚Ì ID ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÅAppv ‚É•Ô‚³‚ê‚éeƒtƒHƒ‹ƒ_‚ğŠî€‚Æ‚µ‚½q ID ‚Å‚ ‚éB‚±‚Ì’l‚Í NULL ‚Å‚à\‚í‚È‚¢B
 %inst
-Given a Shell namespace item specified in the form of a folder, and
-an item identifier list relative to that folder, this function binds
-to the parent of the namespace item and optionally returns a pointer
-to the final component of the item identifier list.
+
+ƒtƒHƒ‹ƒ_Œ`®‚Åw’è‚³‚ê‚½ƒVƒFƒ‹–¼‘O‹óŠÔƒAƒCƒeƒ€‚ÆA‚»‚ÌƒtƒHƒ‹ƒ_‚ğŠî€‚Æ‚µ‚½ƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚ğ—^‚¦‚é‚ÆA‚±‚ÌŠÖ”‚Í–¼‘O‹óŠÔƒAƒCƒeƒ€‚Ìe‚ÉƒoƒCƒ“ƒh‚µA•K—v‚É‰‚¶‚ÄƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚ÌÅI—v‘f‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Note Calling the SHBindToFolderIDListParent function is equivalent to
-calling the SHBindToFolderIDListParentEx function with NULL as the
-bind context.
+Note SHBindToFolderIDListParent ŠÖ”‚ÌŒÄ‚Ño‚µ‚ÍAƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Æ‚µ‚Ä NULL ‚ğw’è‚µ‚Ä
+SHBindToFolderIDListParentEx ŠÖ”‚ğŒÄ‚Ño‚·‚Ì‚Æ“™‰¿‚Å‚ ‚éB
 
 
 %index
 SHBindToFolderIDListParentEx
-Extends the SHBindToFolderIDListParent function by allowing the caller to specify a bind context.
+ŒÄ‚Ño‚µ‘¤‚ªƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ğw’è‚Å‚«‚é‚æ‚¤‚É‚·‚é‚±‚Æ‚Å SHBindToFolderIDListParent ŠÖ”‚ğŠg’£‚·‚éB
 %group
 Win32 shell32
 %prm
 psfRoot, pidl, ppbc, riid, ppv, ppidlLast
-psfRoot : [var] Type: IShellFolder* A pointer to a Shell folder object. If psfRoot is NULL, indicates that the IDList passed is relative to the desktop.
-pidl : [var] Type: PCUIDLIST_RELATIVE A PIDL to bind to, relative to psfRoot. If psfRoot is NULL, this is an absolute IDList relative to the desktop folder.
-ppbc : [var] Type: IBindCtx* A pointer to IBindCtx interface on a bind context object to be used during this operation. If this parameter is not used, set it to NULL, which is equivalent to calling the SHBindToFolderIDListParent function. Because support for pbc is optional for folder object implementations, some folders may not support the use of bind contexts.
-riid : [var] Type: REFIID Reference to the desired interface ID. This is typically IID_IShellFolder or IID_IShellFolder2, but can be anything supported by the target folder.
-ppv : [var] Type: void** When this function returns, contains the interface pointer requested in riid. This is typically IShellFolder or IShellFolder2, but can be anything supported by the target folder.
-ppidlLast : [var] Type: PCUITEMID_CHILD* A pointer to the last ID of the pidl parameter, and is a child ID relative to the parent folder returned in ppv. This value can be NULL.
+psfRoot : [var] Œ^: IShellFolder* ƒVƒFƒ‹ƒtƒHƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^BpsfRoot ‚ª NULL ‚Ìê‡A“n‚³‚ê‚½ IDList ‚ÍƒfƒXƒNƒgƒbƒv‚ğŠî€‚Æ‚·‚é‚±‚Æ‚ğ¦‚·B
+pidl : [var] Œ^: PCUIDLIST_RELATIVE psfRoot ‚ğŠî€‚Æ‚µ‚ÄƒoƒCƒ“ƒh‘ÎÛ‚Æ‚·‚é PIDLBpsfRoot ‚ª NULL ‚Ìê‡A‚±‚ê‚ÍƒfƒXƒNƒgƒbƒvƒtƒHƒ‹ƒ_‚ğŠî€‚Æ‚·‚éâ‘Î IDList ‚Å‚ ‚éB
+ppbc : [var] Œ^: IBindCtx* ‚±‚Ì‘€ì’†‚Ég—p‚·‚éƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒgƒIƒuƒWƒFƒNƒg‚Ì IBindCtx ƒCƒ“ƒ^ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğg—p‚µ‚È‚¢ê‡‚Í NULL ‚Éİ’è‚µA‚»‚ê‚Í SHBindToFolderIDListParent ŠÖ”‚ğŒÄ‚Ño‚·‚Ì‚Æ“™‰¿‚Å‚ ‚éBpbc ‚ÌƒTƒ|[ƒg‚ÍƒtƒHƒ‹ƒ_ƒIƒuƒWƒFƒNƒgÀ‘•‚Å‚ÍƒIƒvƒVƒ‡ƒ“‚Ì‚½‚ßAƒtƒHƒ‹ƒ_‚É‚æ‚Á‚Ä‚ÍƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ìg—p‚ğƒTƒ|[ƒg‚µ‚È‚¢‚±‚Æ‚ª‚ ‚éB
+riid : [var] Œ^: REFIID –Ú“I‚ÌƒCƒ“ƒ^ƒtƒF[ƒX ID ‚Ö‚ÌQÆB’Êí‚Í IID_IShellFolder ‚Ü‚½‚Í IID_IShellFolder2 ‚¾‚ªA‘ÎÛƒtƒHƒ‹ƒ_‚ªƒTƒ|[ƒg‚·‚é”CˆÓ‚Ì‚à‚Ì‚Å‚æ‚¢B
+ppv : [var] Œ^: void** ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB’Êí‚Í IShellFolder ‚Ü‚½‚Í IShellFolder2 ‚¾‚ªA‘ÎÛƒtƒHƒ‹ƒ_‚ªƒTƒ|[ƒg‚·‚é”CˆÓ‚Ì‚à‚Ì‚Å‚æ‚¢B
+ppidlLast : [var] Œ^: PCUITEMID_CHILD* pidl ƒpƒ‰ƒ[ƒ^‚ÌÅŒã‚Ì ID ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÅAppv ‚É•Ô‚³‚ê‚éeƒtƒHƒ‹ƒ_‚ğŠî€‚Æ‚µ‚½q ID ‚Å‚ ‚éB‚±‚Ì’l‚Í NULL ‚Å‚à\‚í‚È‚¢B
 %inst
-Extends the SHBindToFolderIDListParent function by allowing the
-caller to specify a bind context.
+ŒÄ‚Ño‚µ‘¤‚ªƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ğw’è‚Å‚«‚é‚æ‚¤‚É‚·‚é‚±‚Æ‚Å SHBindToFolderIDListParent ŠÖ”‚ğŠg’£‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHBindToObject
-Retrieves and binds to a specified object by using the Shell namespace IShellFolder::BindToObject method.
+ƒVƒFƒ‹–¼‘O‹óŠÔ‚Ì IShellFolder::BindToObject ƒƒ\ƒbƒh‚ğg‚Á‚ÄAw’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚ÄƒoƒCƒ“ƒh‚·‚éB
 %group
 Win32 shell32
 %prm
 psf, pidl, pbc, riid, ppv
-psf : [var] Type: IShellFolder* A pointer to IShellFolder. This parameter can be NULL.   If psf is NULL,  this indicates parameter pidl is relative to the desktop. In this case, pidl must specify an absolute ITEMIDLIST.
-pidl : [var] Type: PCUIDLIST_RELATIVE A pointer to a constant ITEMIDLIST to bind to that is relative to psf. If psf is NULL, this is an absolute ITEMIDLIST relative to the desktop folder.
-pbc : [var] Type: IBindCtx* A pointer to IBindCtx interface on a bind context object to be used during this operation. If this parameter is not used, set it to NULL. Because support for pbc is optional for folder object implementations, some folders may not support the use of bind contexts.
-riid : [var] Type: REFIID Identifier of the interface to return.
-ppv : [var] Type: void** When this method returns, contains the interface pointer as specified in riid to the bound object. If an error occurs, contains a NULL pointer.
+psf : [var] Œ^: IShellFolder* IShellFolder ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢Bpsf ‚ª NULL ‚Ìê‡A‚±‚ê‚Í pidl ‚ªƒfƒXƒNƒgƒbƒv‚ğŠî€‚Æ‚·‚é‚±‚Æ‚ğ¦‚·B‚±‚Ìê‡Apidl ‚Íâ‘Î ITEMIDLIST ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pidl : [var] Œ^: PCUIDLIST_RELATIVE psf ‚ğŠî€‚Æ‚µ‚ÄƒoƒCƒ“ƒh‚·‚é’è” ITEMIDLIST ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bpsf ‚ª NULL ‚Ìê‡A‚±‚ê‚ÍƒfƒXƒNƒgƒbƒvƒtƒHƒ‹ƒ_‚ğŠî€‚Æ‚·‚éâ‘Î ITEMIDLIST ‚Å‚ ‚éB
+pbc : [var] Œ^: IBindCtx* ‚±‚Ì‘€ì’†‚Ég—p‚·‚éƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒgƒIƒuƒWƒFƒNƒg‚Ì IBindCtx ƒCƒ“ƒ^ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğg—p‚µ‚È‚¢ê‡‚Í NULL ‚Éİ’è‚·‚éBpbc ‚ÌƒTƒ|[ƒg‚ÍƒtƒHƒ‹ƒ_ƒIƒuƒWƒFƒNƒgÀ‘•‚Å‚ÍƒIƒvƒVƒ‡ƒ“‚Ì‚½‚ßAƒtƒHƒ‹ƒ_‚É‚æ‚Á‚Ä‚ÍƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ìg—p‚ğƒTƒ|[ƒg‚µ‚È‚¢‚±‚Æ‚ª‚ ‚éB
+riid : [var] Œ^: REFIID •Ô‚·ƒCƒ“ƒ^ƒtƒF[ƒX‚Ì¯•ÊqB
+ppv : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚©‚ç–ß‚éÛ‚ÉAƒoƒCƒ“ƒhæƒIƒuƒWƒFƒNƒg‚ÌAriid ‚Åw’è‚µ‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éBƒGƒ‰[‚ª”­¶‚µ‚½ê‡‚Í NULL ƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Retrieves and binds to a specified object by using the Shell
-namespace IShellFolder::BindToObject method.
+ƒVƒFƒ‹–¼‘O‹óŠÔ‚Ì IShellFolder::BindToObject ƒƒ\ƒbƒh‚ğg‚Á‚ÄAw’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚ÄƒoƒCƒ“ƒh‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Note This is a helper function that gets the desktop object by
-calling SHGetDesktopFolder.
+Note ‚±‚ê‚Í SHGetDesktopFolder ‚ğŒÄ‚Ño‚µ‚ÄƒfƒXƒNƒgƒbƒvƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éƒwƒ‹ƒpŠÖ”‚Å‚ ‚éB
 
 
 %index
 SHBindToParent
-Takes a pointer to a fully qualified item identifier list (PIDL), and returns a specified interface pointer on the parent object.
+Š®‘SCüƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚èAeƒIƒuƒWƒFƒNƒgã‚Ìw’è‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 %group
 Win32 shell32
 %prm
 pidl, riid, ppv, ppidlLast
-pidl : [var] Type: PCIDLIST_ABSOLUTE The item's PIDL.
-riid : [var] Type: REFIID The REFIID of one of the interfaces exposed by the item's parent object.
-ppv : [var] Type: VOID** A pointer to the interface specified by riid. You must release the object when you are finished.
-ppidlLast : [var] Type: PCUITEMID_CHILD* The item's PIDL relative to the parent folder. This PIDL can be used with many of the methods supported by the parent folder's interfaces. If you set ppidlLast to NULL, the PIDL is not returned.
+pidl : [var] Œ^: PCIDLIST_ABSOLUTE ƒAƒCƒeƒ€‚Ì PIDLB
+riid : [var] Œ^: REFIID ƒAƒCƒeƒ€‚ÌeƒIƒuƒWƒFƒNƒg‚ªŒöŠJ‚·‚éƒCƒ“ƒ^ƒtƒF[ƒX‚Ì‚¢‚¸‚ê‚©‚Ì REFIIDB
+ppv : [var] Œ^: VOID** riid ‚Åw’è‚µ‚½ƒCƒ“ƒ^ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^Bg‚¢I‚í‚Á‚½‚çƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppidlLast : [var] Œ^: PCUITEMID_CHILD* eƒtƒHƒ‹ƒ_‚ğŠî€‚Æ‚µ‚½ƒAƒCƒeƒ€‚Ì PIDLB‚±‚Ì PIDL ‚ÍeƒtƒHƒ‹ƒ_‚ÌƒCƒ“ƒ^ƒtƒF[ƒX‚ªƒTƒ|[ƒg‚·‚é‘½‚­‚Ìƒƒ\ƒbƒh‚Å—˜—p‚Å‚«‚éBppidlLast ‚ğ NULL ‚Éİ’è‚·‚é‚Æ PIDL ‚Í•Ô‚³‚ê‚È‚¢B
 %inst
-Takes a pointer to a fully qualified item identifier list (PIDL), and
-returns a specified interface pointer on the parent object.
+Š®‘SCüƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚èAeƒIƒuƒWƒFƒNƒgã‚Ìw’è‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -1691,55 +1516,52 @@ CoTaskMemFree ‚Å‰ğ•ú‚·‚éB
 
 %index
 SHCLSIDFromString
-Takes the string form of a class identifier (CLSID) and creates the corresponding CLSID.
+ƒNƒ‰ƒX¯•Êq (CLSID) ‚Ì•¶š—ñŒ`®‚ğó‚¯æ‚èA‘Î‰‚·‚é CLSID ‚ğ¶¬‚·‚éB
 %group
 Win32 shell32
 %prm
 psz, pclsid
-psz : [wstr] Type: PCWSTR A Unicode string that contains the CLSID in the format, {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}.
-pclsid : [var] Type: CLSID* A pointer to a CLSID value that, when this function returns successfully, receives the converted string as a CLSID.
+psz : [wstr] Œ^: PCWSTR {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx} ‚ÌŒ`®‚Å CLSID ‚ğŠÜ‚Ş Unicode •¶š—ñB
+pclsid : [var] Œ^: CLSID* ŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚ÉA•ÏŠ·‚³‚ê‚½•¶š—ñ‚ğ CLSID ‚Æ‚µ‚Äó‚¯æ‚é CLSID ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Takes the string form of a class identifier (CLSID) and creates the
-corresponding CLSID.
+ƒNƒ‰ƒX¯•Êq (CLSID) ‚Ì•¶š—ñŒ`®‚ğó‚¯æ‚èA‘Î‰‚·‚é CLSID ‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHChangeNotification_Lock
-Locks the shared memory associated with a Shell change notification event.
+ƒVƒFƒ‹•ÏX’Ê’mƒCƒxƒ“ƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‹¤—Lƒƒ‚ƒŠ‚ğƒƒbƒN‚·‚éB
 %group
 Win32 shell32
 %prm
 hChange, dwProcId, pppidl, plEvent
-hChange : [intptr] Type: HANDLE A handle to a window received as a wParam in the specified Shell change notification message.
-dwProcId : [int] Type: DWORD The process ID (lParam in the message callback).
-pppidl : [var] Type: PIDLIST_ABSOLUTE** The address of a pointer to a PIDLIST_ABSOLUTE that, when this function returns successfully, receives the list of affected PIDLs.
-plEvent : [var] Type: LONG* A pointer to a LONG value that, when this function returns successfully, receives the Shell change notification ID of the event that took place.
+hChange : [intptr] Œ^: HANDLE w’è‚³‚ê‚½ƒVƒFƒ‹•ÏX’Ê’mƒƒbƒZ[ƒW“à‚É wParam ‚Æ‚µ‚Äó‚¯æ‚Á‚½ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+dwProcId : [int] Œ^: DWORD ƒvƒƒZƒX IDiƒƒbƒZ[ƒWƒR[ƒ‹ƒoƒbƒN‚Ì lParamjB
+pppidl : [var] Œ^: PIDLIST_ABSOLUTE** ŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚ÉA‰e‹¿‚ğó‚¯‚½ PIDL ‚ÌƒŠƒXƒg‚ğó‚¯æ‚é PIDLIST_ABSOLUTE ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
+plEvent : [var] Œ^: LONG* ŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚ÉA”­¶‚µ‚½ƒCƒxƒ“ƒg‚ÌƒVƒFƒ‹•ÏX’Ê’m ID ‚ğó‚¯æ‚é LONG ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Locks the shared memory associated with a Shell change notification
-event.
+ƒVƒFƒ‹•ÏX’Ê’mƒCƒxƒ“ƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‹¤—Lƒƒ‚ƒŠ‚ğƒƒbƒN‚·‚éB
 
 [–ß‚è’l]
-Type: HANDLE Returns a handle (HLOCK) to the locked memory. Pass this
-value to SHChangeNotification_Unlock when finished.
+Œ^: HANDLE ƒƒbƒN‚³‚ê‚½ƒƒ‚ƒŠ‚Ö‚Ìƒnƒ“ƒhƒ‹ (HLOCK) ‚ğ•Ô‚·BŠ®—¹‚É‚±‚Ì’l‚ğ
+SHChangeNotification_Unlock ‚É“n‚·B
 
 
 %index
 SHChangeNotification_Unlock
-Unlocks shared memory for a change notification.
+•ÏX’Ê’m‚Ì‚½‚ß‚Ì‹¤—Lƒƒ‚ƒŠ‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
 %group
 Win32 shell32
 %prm
 hLock
-hLock : [intptr] Type: HANDLE A handle to the memory lock. This is the handle returned by SHChangeNotification_Lock when it locked the memory.
+hLock : [intptr] Œ^: HANDLE ƒƒ‚ƒŠƒƒbƒN‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚Í SHChangeNotification_Lock ‚ªƒƒ‚ƒŠ‚ğƒƒbƒN‚µ‚½Û‚É•Ô‚µ‚½ƒnƒ“ƒhƒ‹‚Å‚ ‚éB
 %inst
-Unlocks shared memory for a change notification.
+•ÏX’Ê’m‚Ì‚½‚ß‚Ì‹¤—Lƒƒ‚ƒŠ‚ÌƒƒbƒN‚ğ‰ğœ‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE on success; otherwise, FALSE.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
@@ -1765,1056 +1587,936 @@ dwItem2 ‚ªw‚·•¶š—ñ‚Í ANSI ‚Ü‚½‚Í Unicode ‚Ì‚¢‚¸‚ê‚©B
 
 %index
 SHChangeNotifyDeregister
-Unregisters the client's window process from receiving SHChangeNotify messages.
+ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒEƒBƒ“ƒhƒEƒvƒƒZƒX‚ğ SHChangeNotify ƒƒbƒZ[ƒW‚ÌóM‚©‚ç“o˜^‰ğœ‚·‚éB
 %group
 Win32 shell32
 %prm
 ulID
-ulID : [int] Type: ULONG A value of type ULONG that specifies the registration ID returned by SHChangeNotifyRegister.
+ulID : [int] Œ^: ULONG SHChangeNotifyRegister ‚ª•Ô‚µ‚½“o˜^ ID ‚ğw’è‚·‚é ULONG Œ^‚Ì’lB
 %inst
-Unregisters the client's window process from receiving SHChangeNotify
-messages.
+ƒNƒ‰ƒCƒAƒ“ƒg‚ÌƒEƒBƒ“ƒhƒEƒvƒƒZƒX‚ğ SHChangeNotify ƒƒbƒZ[ƒW‚ÌóM‚©‚ç“o˜^‰ğœ‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if the specified client was found and
-removed; otherwise FALSE.
+Œ^: BOOL w’è‚³‚ê‚½ƒNƒ‰ƒCƒAƒ“ƒg‚ªŒ©‚Â‚©‚Á‚Äœ‹‚³‚ê‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-See the Change Notify Watcher Sample in the Windows Software
-Development Kit (SDK) for a full example that demonstrates the use of
-this function. The NTSHChangeNotifyDeregister function, which is no
-longer available for use as of Windows Vista, was equivalent to
-SHChangeNotifyDeregister.
+‚±‚ÌŠÖ”‚Ìg‚¢•û‚ÌŠ®‘S‚È—á‚É‚Â‚¢‚Ä‚ÍAWindows Software Development Kit (SDK) ‚Ì Change
+Notify Watcher Sample ‚ğQÆBWindows Vista ˆÈ~‚Å‚Íg—p‚Å‚«‚È‚¢
+NTSHChangeNotifyDeregister ŠÖ”‚Í SHChangeNotifyDeregister ‚Æ“™‰¿‚Å‚ ‚Á‚½B
 
 
 %index
 SHChangeNotifyRegister
-Registers a window to receive notifications from the file system or Shell, if the file system supports notifications.
+ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ª’Ê’m‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚éê‡Aƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚âƒVƒFƒ‹‚©‚ç’Ê’m‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚ğ“o˜^‚·‚éB
 %group
 Win32 shell32
 %prm
 hwnd, fSources, fEvents, wMsg, cEntries, pshcne
-hwnd : [intptr] Type: HWND A handle to the window that receives the change or notification messages.
-fSources : [int] Type: int
-fEvents : [int] Type: LONG Change notification events for which to receive notification. See the SHCNE flags listed in SHChangeNotify for possible values.
-wMsg : [int] Type: UINT Message to be posted to the window procedure.
-cEntries : [int] Type: int Number of entries in the pshcne array.
-pshcne : [var] Type: const SHChangeNotifyEntry* Array of SHChangeNotifyEntry structures that contain the notifications. This array should always be set to one when calling SHChangeNotifyRegister or SHChangeNotifyDeregister will not work properly.
+hwnd : [intptr] Œ^: HWND •ÏX‚â’Ê’mƒƒbƒZ[ƒW‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+fSources : [int] Œ^: int
+fEvents : [int] Œ^: LONG ’Ê’m‚ğó‚¯æ‚é•ÏX’Ê’mƒCƒxƒ“ƒgBw’è‰Â”\‚È’l‚Í SHChangeNotify ‚É—ñ‹“‚³‚ê‚Ä‚¢‚é SHCNE ƒtƒ‰ƒO‚ğQÆB
+wMsg : [int] Œ^: UINT ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚É’Ê’m‚·‚éƒƒbƒZ[ƒWB
+cEntries : [int] Œ^: int pshcne ”z—ñ“à‚ÌƒGƒ“ƒgƒŠ”B
+pshcne : [var] Œ^: const SHChangeNotifyEntry* ’Ê’m‚ğŠÜ‚Ş SHChangeNotifyEntry \‘¢‘Ì‚Ì”z—ñBSHChangeNotifyRegister ‚â SHChangeNotifyDeregister ‚ğŒÄ‚Ño‚·ÛA‚±‚Ì”z—ñ‚Íí‚É 1 ‚Éİ’è‚·‚é•K—v‚ª‚ ‚èA‚»‚¤‚µ‚È‚¢‚Æ³‚µ‚­“®ì‚µ‚È‚¢B
 %inst
-Registers a window to receive notifications from the file system or
-Shell, if the file system supports notifications.
+ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ª’Ê’m‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚éê‡Aƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚âƒVƒFƒ‹‚©‚ç’Ê’m‚ğó‚¯æ‚éƒEƒBƒ“ƒhƒE‚ğ“o˜^‚·‚éB
 
 [–ß‚è’l]
-Type: ULONG Returns a positive integer registration ID. Returns 0 if
-out of memory or in response to invalid parameters.
+Œ^: ULONG ³‚Ì®”‚Ì“o˜^ ID ‚ğ•Ô‚·Bƒƒ‚ƒŠ•s‘«‚â–³Œø‚Èƒpƒ‰ƒ[ƒ^‚Ìê‡‚Í 0 ‚ğ•Ô‚·B
 
 [”õl]
-See the Change Notify Watcher Sample in the Windows Software
-Development Kit (SDK) for a full example that demonstrates the use of
-this function. When a change notification event is raised, the
-message indicated by wMsg is delivered to the window specified by the
-hwnd parameter.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Ìg‚¢•û‚ÌŠ®‘S‚È—á‚É‚Â‚¢‚Ä‚ÍAWindows Software Development Kit (SDK) ‚Ì Change
+Notify Watcher Sample ‚ğQÆB•ÏX’Ê’mƒCƒxƒ“ƒg‚ª”­¶‚·‚é‚ÆAwMsg ‚Åw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ª hwnd
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚É”zM‚³‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SHChangeNotifyRegisterThread
-Enables asynchronous register and deregister of a thread.
+ƒXƒŒƒbƒh‚Ì”ñ“¯Šú“o˜^‚¨‚æ‚Ñ“o˜^‰ğœ‚ğ—LŒø‚É‚·‚éB
 %group
 Win32 shell32
 %prm
 status
-status : [int] Type: SCNRT_STATUS Indicates whether the function is being used to register or deregister the thread. One of the values of SCNRT_STATUS.
+status : [int] Œ^: SCNRT_STATUS ƒXƒŒƒbƒh‚ğ“o˜^‚·‚é‚½‚ß‚ÉŠÖ”‚ğg‚¤‚Ì‚©“o˜^‰ğœ‚·‚é‚½‚ß‚Ég‚¤‚Ì‚©‚ğ¦‚·BSCNRT_STATUS ‚Ì‚¢‚¸‚ê‚©‚Ì’lB
 %inst
-Enables asynchronous register and deregister of a thread.
+ƒXƒŒƒbƒh‚Ì”ñ“¯Šú“o˜^‚¨‚æ‚Ñ“o˜^‰ğœ‚ğ—LŒø‚É‚·‚éB
 
 
 %index
 SHCloneSpecialIDList
-SHCloneSpecialIDList may be altered or unavailable. Instead, use SHGetSpecialFolderLocation.
+SHCloneSpecialIDList ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É SHGetSpecialFolderLocation ‚ğg‚¤‚±‚ÆB
 %group
 Win32 shell32
 %prm
 hwnd, csidl, fCreate
-hwnd : [intptr] Type: HWND Reserved.
-csidl : [int] Type: int A CSIDL value that identifies the folder of interest.
-fCreate : [int] Type: BOOL A value of type BOOL that indicates if the folder should be created if it does not already exist. If  fCreate is TRUE, the folder is created. If it is FALSE, the folder is not created.
+hwnd : [intptr] Œ^: HWND —\–ñB
+csidl : [int] Œ^: int ‘ÎÛ‚Æ‚È‚éƒtƒHƒ‹ƒ_‚ğ¦‚· CSIDL ’lB
+fCreate : [int] Œ^: BOOL ƒtƒHƒ‹ƒ_‚ª‚Ü‚¾‘¶İ‚µ‚È‚¢ê‡‚Éì¬‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚· BOOL Œ^‚Ì’lBfCreate ‚ª TRUE ‚Ìê‡ƒtƒHƒ‹ƒ_‚ªì¬‚³‚êAFALSE ‚Ìê‡‚Íì¬‚³‚ê‚È‚¢B
 %inst
-SHCloneSpecialIDList may be altered or unavailable. Instead, use
-SHGetSpecialFolderLocation.
+SHCloneSpecialIDList ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É
+SHGetSpecialFolderLocation ‚ğg‚¤‚±‚ÆB
 
 [–ß‚è’l]
-Type: PIDLIST_ABSOLUTE Returns a pointer to the ITEMIDLIST structure
-of a special folder specified by csidl. The function creates the
-folder if fCreate is TRUE.
+Œ^: PIDLIST_ABSOLUTE csidl ‚Åw’è‚³‚ê‚½“ÁêƒtƒHƒ‹ƒ_‚Ì ITEMIDLIST
+\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·BfCreate ‚ª TRUE ‚Ìê‡AŠÖ”‚ÍƒtƒHƒ‹ƒ_‚ğì¬‚·‚éB
 
 [”õl]
-When finished, you should free the pointer to the cloned folder with
-ILFree.
+ƒNƒ[ƒ“‚µ‚½ƒtƒHƒ‹ƒ_‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÍAg‚¢I‚í‚Á‚½‚ç ILFree ‚Å‰ğ•ú‚·‚é‚±‚ÆB
 
 
 %index
 SHCoCreateInstance
-SHCoCreateInstance may be altered or unavailable. Instead, use CoCreateInstance.
+SHCoCreateInstance ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É CoCreateInstance ‚ğg‚¤‚±‚ÆB
 %group
 Win32 shell32
 %prm
 pszCLSID, pclsid, pUnkOuter, riid, ppv
-pszCLSID : [wstr] Type: PCWSTR A pointer to a string to convert to a CLSID. If NULL, pclsid is used as the CLSID.
-pclsid : [var] Type: const CLSID* The CLSID to create.
-pUnkOuter : [var] Type: IUnknown* A pointer to outer IUnknown. Used for aggregation.
-riid : [var] Type: REFIID A reference to the IID of the interface to retrieve through ppv.
-ppv : [var] Type: void** When this function returns successfully, receives the interface pointer requested in riid.
+pszCLSID : [wstr] Œ^: PCWSTR CLSID ‚É•ÏŠ·‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Ìê‡‚Í pclsid ‚ª CLSID ‚Æ‚µ‚Äg—p‚³‚ê‚éB
+pclsid : [var] Œ^: const CLSID* ¶¬‚·‚é CLSIDB
+pUnkOuter : [var] Œ^: IUnknown* ŠO‘¤‚Ì IUnknown ‚Ö‚Ìƒ|ƒCƒ“ƒ^BW–ñ‚Ég—p‚·‚éB
+riid : [var] Œ^: REFIID ppv ‚ğ’Ê‚¶‚Äæ“¾‚·‚éƒCƒ“ƒ^ƒtƒF[ƒX‚Ì IID ‚Ö‚ÌQÆB
+ppv : [var] Œ^: void** ŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éB
 %inst
-SHCoCreateInstance may be altered or unavailable. Instead, use
-CoCreateInstance.
+SHCoCreateInstance ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É CoCreateInstance
+‚ğg‚¤‚±‚ÆB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-We recommend that you use the IID_PPV_ARGS macro, defined in
-Objbase.h, to package the riid and ppv parameters. This macro
-provides the correct IID based on the interface pointed to by the
-value in ppv, which eliminates the possibility of a coding error in
-riid that could lead to unexpected results.
+Objbase.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é IID_PPV_ARGS ƒ}ƒNƒ‚ğg‚Á‚Ä riid ‚Æ ppv
+‚Ìƒpƒ‰ƒ[ƒ^‚ğ‚Ü‚Æ‚ß‚é‚±‚Æ‚ª„§‚³‚ê‚éB‚±‚Ìƒ}ƒNƒ‚Í ppv ‚Ì’l‚ªw‚·ƒCƒ“ƒ^ƒtƒF[ƒX‚ÉŠî‚Ã‚¢‚Ä³‚µ‚¢ IID ‚ğ’ñ‹Ÿ‚·‚é‚½‚ßAriid
+‚ÌƒR[ƒfƒBƒ“ƒOƒ~ƒX‚É‚æ‚é—\Šú‚µ‚È‚¢Œ‹‰Ê‚Ì‰Â”\«‚ğ”rœ‚Å‚«‚éB
 
 
 %index
 SHCreateAssociationRegistration
-Creates an IApplicationAssociationRegistration object based on the stock implementation of the interface provided by Windows.
+Windows ‚ª’ñ‹Ÿ‚·‚éƒCƒ“ƒ^ƒtƒF[ƒX‚Ì•W€À‘•‚ÉŠî‚Ã‚­ IApplicationAssociationRegistration ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 %group
 Win32 shell32
 %prm
 riid, ppv
-riid : [var] Type: REFIID A reference to the IID of the requested interface.
-ppv : [var] Type: void** When this function returns, contains the address of a pointer to the IApplicationAssociationRegistration object.
+riid : [var] Œ^: REFIID —v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒX‚Ì IID ‚Ö‚ÌQÆB
+ppv : [var] Œ^: void** ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAIApplicationAssociationRegistration ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Creates an IApplicationAssociationRegistration object based on the
-stock implementation of the interface provided by Windows.
+Windows ‚ª’ñ‹Ÿ‚·‚éƒCƒ“ƒ^ƒtƒF[ƒX‚Ì•W€À‘•‚ÉŠî‚Ã‚­ IApplicationAssociationRegistration
+ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHCreateDataObject
-Creates a data object in a parent folder.
+eƒtƒHƒ‹ƒ_“à‚Éƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 %group
 Win32 shell32
 %prm
 pidlFolder, cidl, apidl, pdtInner, riid, ppv
-pidlFolder : [var] Type: PCIDLIST_ABSOLUTE A pointer to an ITEMIDLIST (PIDL) of the parent folder that contains the data object.
-cidl : [int] Type: UINT The number of file objects or subfolders specified in the apidl parameter.
-apidl : [var] Type: PCUITEMID_CHILD_ARRAY An array of pointers to constant ITEMIDLIST structures, each of which uniquely identifies a file object or subfolder relative to the parent folder. Each item identifier list must contain exactly one SHITEMID structure followed by a terminating zero.
-pdtInner : [var] Type: IDataObject* A pointer to interface IDataObject. This parameter can be NULL. Specify pdtInner only if the data object created needs to support additional FORMATETC  clipboard formats beyond the default formats it is assigned at creation.  Alternatively, provide support for populating the created data object using non-default clipboard formats by calling method IDataObject::SetData and specifying the format in the FORMATETC structure passed in parameter pFormatetc.
-riid : [var] Type: REFIID A reference to the IID of the interface to retrieve through ppv. This must be IID_IDataObject.
-ppv : [var] Type: void** When this method returns successfully, contains the IDataObject interface pointer requested in riid.
+pidlFolder : [var] Œ^: PCIDLIST_ABSOLUTE ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ğŠi”[‚·‚éeƒtƒHƒ‹ƒ_‚Ì ITEMIDLIST (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cidl : [int] Œ^: UINT apidl ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚Ü‚½‚ÍƒTƒuƒtƒHƒ‹ƒ_‚Ì”B
+apidl : [var] Œ^: PCUITEMID_CHILD_ARRAY eƒtƒHƒ‹ƒ_‚ğŠî€‚Æ‚µ‚Äƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚Ü‚½‚ÍƒTƒuƒtƒHƒ‹ƒ_‚ğˆêˆÓ‚É¯•Ê‚·‚é’è” ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñBŠeƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚ÍI’[ƒ[ƒ‚ª‘±‚­ SHITEMID \‘¢‘Ì‚ğ 1 ‚Â‚¾‚¯ŠÜ‚Ü‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pdtInner : [var] Œ^: IDataObject* IDataObject ƒCƒ“ƒ^ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢BpdtInner ‚ÍA¶¬‚·‚éƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ªA¶¬‚ÉŠ„‚è“–‚Ä‚ç‚ê‚éŠù’èŒ`®ˆÈŠO‚Ì’Ç‰Á FORMATETC ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ğƒTƒ|[ƒg‚·‚é•K—v‚ª‚ ‚éê‡‚É‚Ì‚İw’è‚·‚éB‚ ‚é‚¢‚Í IDataObject::SetData ‚ğŒÄ‚Ño‚µ‚Ä FORMATETC \‘¢‘Ì‚ÉŒ`®‚ğw’è‚·‚é‚±‚Æ‚ÅAŠù’èˆÈŠO‚ÌƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ğg‚Á‚Äƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚É’l‚ğİ’è‚·‚é‚½‚ß‚ÌƒTƒ|[ƒg‚à’ñ‹Ÿ‚Å‚«‚éB
+riid : [var] Œ^: REFIID ppv ‚ğ’Ê‚¶‚Äæ“¾‚·‚éƒCƒ“ƒ^ƒtƒF[ƒX‚Ì IID ‚Ö‚ÌQÆB‚±‚ê‚Í IID_IDataObject ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppv : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ IDataObject ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Creates a data object in a parent folder.
+eƒtƒHƒ‹ƒ_“à‚Éƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function is typically called when implementing method
-IShellFolder::GetUIObjectOf. When an interface pointer of interface
-ID IID_IDataObject is requested (using parameter riid), the
-implementer can return the interface pointer on the object created
-with SHCreateDataObject in response. This function supports the
-CFSTR_SHELLIDLIST (also known as HIDA) clipboard format and also has
-generic support for arbitrary clipboard formats through
-IDataObject::SetData. For more information on clipboard formats, see
-Shell Clipboard Formats. The new data object is intended to be used
-in operations such as drag-and-drop, in which the data is stored in
-the clipboard with a given format. We recommend that you use the
-IID_PPV_ARGS macro, defined in Objbase.h, to package the riid and ppv
-parameters. This macro provides the correct IID based on the
-interface pointed to by the value in ppv, which eliminates the
-possibility of a coding error in riid that could lead to unexpected
-results.
+‚±‚ÌŠÖ”‚Í’Êí IShellFolder::GetUIObjectOf ƒƒ\ƒbƒh‚ÌÀ‘•‚ÉŒÄ‚Î‚ê‚éBƒCƒ“ƒ^ƒtƒF[ƒX ID
+IID_IDataObject ‚ÌƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ª—v‹‚³‚ê‚é‚Æiriid ƒpƒ‰ƒ[ƒ^‚ğg—pjAÀ‘•Ò‚Í‰“š‚Æ‚µ‚Ä
+SHCreateDataObject ‚Å¶¬‚µ‚½ƒIƒuƒWƒFƒNƒgã‚ÌƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB‚±‚ÌŠÖ”‚Í
+CFSTR_SHELLIDLISTiHIDA ‚Æ‚àŒÄ‚Î‚ê‚éjƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ğƒTƒ|[ƒg‚µAIDataObject::SetData
+‚ğ‰î‚µ‚Ä”CˆÓ‚ÌƒNƒŠƒbƒvƒ{[ƒhŒ`®‚É‘Î‚·‚é”Ä—pƒTƒ|[ƒg‚à’ñ‹Ÿ‚·‚éBƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ÌÚ×‚ÍuShell Clipboard
+Formatsv‚ğQÆBV‚µ‚¢ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Íƒhƒ‰ƒbƒO&ƒhƒƒbƒv‚È‚ÇAƒf[ƒ^‚ªw’è‚³‚ê‚½Œ`®‚ÅƒNƒŠƒbƒvƒ{[ƒh‚É•Û‘¶‚³‚ê‚é‘€ì‚Åg—p‚·‚é‚±‚Æ‚ğ‘z’è‚µ‚Ä‚¢‚éBObjbase.h
+‚Å’è‹`‚³‚ê‚Ä‚¢‚é IID_PPV_ARGS ƒ}ƒNƒ‚ğg‚Á‚Ä riid ‚Æ ppv ‚Ìƒpƒ‰ƒ[ƒ^‚ğ‚Ü‚Æ‚ß‚é‚±‚Æ‚ª„§‚³‚ê‚éB‚±‚Ìƒ}ƒNƒ‚Í
+ppv ‚Ì’l‚ªw‚·ƒCƒ“ƒ^ƒtƒF[ƒX‚ÉŠî‚Ã‚¢‚Ä³‚µ‚¢ IID ‚ğ’ñ‹Ÿ‚·‚é‚½‚ßAriid
+‚ÌƒR[ƒfƒBƒ“ƒOƒ~ƒX‚É‚æ‚é—\Šú‚µ‚È‚¢Œ‹‰Ê‚Ì‰Â”\«‚ğ”rœ‚Å‚«‚éB
 
 
 %index
 SHCreateDefaultContextMenu
-Creates an object that represents the Shell's default context menu implementation.
+ƒVƒFƒ‹‚ÌŠù’èƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[À‘•‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 %group
 Win32 shell32
 %prm
 pdcm, riid, ppv
-pdcm : [var] Type: const DEFCONTEXTMENU* A pointer to a constant DEFCONTEXTMENU structure.
-riid : [var] Type: REFIID Reference to the interface ID of the interface on which to base the object. This is typically the IID of IContextMenu, IContextMenu2, or IContextMenu3.
-ppv : [var] Type: void** When this method returns, contains the interface pointer requested in riid.
+pdcm : [var] Œ^: const DEFCONTEXTMENU* ’è” DEFCONTEXTMENU \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+riid : [var] Œ^: REFIID Šî‚É‚·‚éƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒ^ƒtƒF[ƒX ID ‚Ö‚ÌQÆB’Êí‚Í IContextMenuAIContextMenu2A‚Ü‚½‚Í IContextMenu3 ‚Ì IID ‚Å‚ ‚éB
+ppv : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚©‚ç–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Creates an object that represents the Shell's default context menu
-implementation.
+ƒVƒFƒ‹‚ÌŠù’èƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[À‘•‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function is typically used in the implementation of
-IShellFolder::GetUIObjectOf. GetUIObjectOf creates a context menu
-that merges IContextMenu handlers specified by the DEFCONTEXTMENU
-structure, and can optionally provide default context menu verb
-implementations such as open, explore, delete, and copy. The
-operation of this function is controlled by the input specified in
-the DEFCONTEXTMENU structure.The APICDefFolderMenu_Create2 is another
-way to construct the default context menu implementation. It is less
-expressive than SHCreateDefaultContextMenu but it exists in platforms
-prior to Windows Vista.
+‚±‚ÌŠÖ”‚Í’Êí IShellFolder::GetUIObjectOf ‚ÌÀ‘•‚Åg—p‚·‚éBGetUIObjectOf ‚Í
+DEFCONTEXTMENU \‘¢‘Ì‚Åw’è‚³‚ê‚½ IContextMenu
+ƒnƒ“ƒhƒ‰‚ğ“‡‚µ‚½ƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[‚ğ¶¬‚µAopenAexploreAdeleteAcopy
+‚È‚Ç‚ÌŠù’è‚ÌƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[“®ŒÀ‘•‚ğƒIƒvƒVƒ‡ƒ“‚Å’ñ‹Ÿ‚Å‚«‚éB‚±‚ÌŠÖ”‚Ì“®ì‚Í DEFCONTEXTMENU
+\‘¢‘Ì‚Éw’è‚³‚ê‚½“ü—Í‚Å§Œä‚³‚ê‚éBCDefFolderMenu_Create2 API
+‚ÍŠù’è‚ÌƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[À‘•‚ğ\’z‚·‚é•Ê‚Ì•û–@‚Å‚ ‚éBSHCreateDefaultContextMenu
+‚æ‚è•\Œ»—Í‚Í—ò‚é‚ªAWindows Vista ˆÈ‘O‚Ìƒvƒ‰ƒbƒgƒtƒH[ƒ€‚Å‚à—˜—p‚Å‚«‚éB
 
 
 %index
 SHCreateDefaultExtractIcon
-Creates a standard icon extractor, whose defaults can be further configured via the IDefaultExtractIconInit interface.
+•W€‚ÌƒAƒCƒRƒ“’ŠoŠí‚ğ¶¬‚·‚éB‚»‚ÌŠù’è“®ì‚Í IDefaultExtractIconInit ƒCƒ“ƒ^ƒtƒF[ƒX‚ğ’Ê‚¶‚Ä‚³‚ç‚Éİ’è‚Å‚«‚éB
 %group
 Win32 shell32
 %prm
 riid, ppv
-riid : [var] Type: REFIID A reference to interface ID.
-ppv : [var] Type: void** The address of IDefaultExtractIconInit interface pointer.
+riid : [var] Œ^: REFIID ƒCƒ“ƒ^ƒtƒF[ƒX ID ‚Ö‚ÌQÆB
+ppv : [var] Œ^: void** IDefaultExtractIconInit ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
-Creates a standard icon extractor, whose defaults can be further
-configured via the IDefaultExtractIconInit interface.
+•W€‚ÌƒAƒCƒRƒ“’ŠoŠí‚ğ¶¬‚·‚éB‚»‚ÌŠù’è“®ì‚Í IDefaultExtractIconInit ƒCƒ“ƒ^ƒtƒF[ƒX‚ğ’Ê‚¶‚Ä‚³‚ç‚Éİ’è‚Å‚«‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The intended usage for this function is as follows:
-This doc was truncated.
+‚±‚ÌŠÖ”‚Ì‘z’è‚³‚ê‚ég‚¢•û‚ÍŸ‚Ì‚Æ‚¨‚è‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SHCreateDefaultPropertiesOp
-Creates a file operation that sets the default properties on the Shell item that have not already been set.
+ƒVƒFƒ‹ƒAƒCƒeƒ€ã‚ÅA‚Ü‚¾İ’è‚³‚ê‚Ä‚¢‚È‚¢Šù’èƒvƒƒpƒeƒB‚ğİ’è‚·‚éƒtƒ@ƒCƒ‹‘€ì‚ğ¶¬‚·‚éB
 %group
 Win32 shell32
 %prm
 psi, ppFileOp
-psi : [var] Type: IShellItem* A pointer to the source shell item. See IShellItem.
-ppFileOp : [var] Type: IFileOperation** The address of the IFileOperation interface pointer.
+psi : [var] Œ^: IShellItem* ƒ\[ƒXƒVƒFƒ‹ƒAƒCƒeƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^BIShellItem ‚ğQÆB
+ppFileOp : [var] Œ^: IFileOperation** IFileOperation ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
-Creates a file operation that sets the default properties on the
-Shell item that have not already been set.
+ƒVƒFƒ‹ƒAƒCƒeƒ€ã‚ÅA‚Ü‚¾İ’è‚³‚ê‚Ä‚¢‚È‚¢Šù’èƒvƒƒpƒeƒB‚ğİ’è‚·‚éƒtƒ@ƒCƒ‹‘€ì‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The list of properties to set a default value comes from the
-SetDefaultsFor registry entry under the ProgID for the file
-association of the item. The list is prefixed by prop: and contains
-the canonical names of the properties to set the default value, for
-example, prop:System.Author;System.Document.DateCreated. The possible
-properties for this list are System.Author,
-System.Document.DateCreated, and System.Photo.DateTaken. If the
-SetDefaultsFor entry does not exist on the ProgID, this function uses
-the default found on the SetDefaultsFor entry of HKEY_CLASSES_ROOT\*.
+Šù’è’l‚ğİ’è‚·‚éƒvƒƒpƒeƒB‚ÌƒŠƒXƒg‚ÍAƒAƒCƒeƒ€‚Ìƒtƒ@ƒCƒ‹ŠÖ˜A•t‚¯‚É‚ ‚é ProgID ”z‰º‚Ì SetDefaultsFor
+ƒŒƒWƒXƒgƒŠƒGƒ“ƒgƒŠ‚©‚çæ“¾‚³‚ê‚éBƒŠƒXƒg‚Í prop: ‚Ån‚Ü‚èAŠù’è’l‚ğİ’è‚·‚éƒvƒƒpƒeƒB‚Ì³‹K–¼i‚½‚Æ‚¦‚Î
+prop:System.Author;System.Document.DateCreatedj‚ğŠÜ‚ŞB‚±‚ÌƒŠƒXƒg‚Éw’è‰Â”\‚ÈƒvƒƒpƒeƒB‚Í
+System.AuthorASystem.Document.DateCreatedASystem.Photo.DateTaken
+‚Å‚ ‚éBSetDefaultsFor ƒGƒ“ƒgƒŠ‚ª ProgID ã‚É‘¶İ‚µ‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í HKEY_CLASSES_ROOT\* ‚Ì
+SetDefaultsFor ƒGƒ“ƒgƒŠ‚ÅŒ©‚Â‚©‚Á‚½Šù’è’l‚ğg‚¤B
 
 
 %index
 SHCreateDirectory
-Creates a new file system folder.
+V‚µ‚¢ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒtƒHƒ‹ƒ_‚ğì¬‚·‚éB
 %group
 Win32 shell32
 %prm
 hwnd, pszPath
-hwnd : [intptr] Type: HWND A handle to a parent window. This parameter can be set to NULL if no user interface is displayed.
-pszPath : [wstr] Type: PCWSTR A pointer to a null-terminated Unicode string that contains the fully qualified path of the directory. This string should have no more than MAX_PATH characters, including the terminating null character.
+hwnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒ†[ƒUƒCƒ“ƒ^ƒtƒF[ƒX‚ğ•\¦‚µ‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Éİ’è‚Å‚«‚éB
+pszPath : [wstr] Œ^: PCWSTR ƒfƒBƒŒƒNƒgƒŠ‚ÌŠ®‘SCüƒpƒX‚ğŠÜ‚Şƒkƒ‹I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÍI’[ƒkƒ‹•¶š‚ğŠÜ‚ß‚Ä MAX_PATH •¶šˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Creates a new file system folder.
+V‚µ‚¢ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒtƒHƒ‹ƒ_‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: int Returns ERROR_SUCCESS if successful. If the operation
-fails, other error codes can be returned, including those listed
-here. For values not specifically listed, see System Error Codes.
-This doc was truncated.
+Œ^: int ¬Œ÷‚µ‚½ê‡‚Í ERROR_SUCCESS
+‚ğ•Ô‚·B‘€ì‚ª¸”s‚µ‚½ê‡A‚±‚±‚É‹“‚°‚½‚à‚Ì‚ğŠÜ‚Ş‚»‚Ì‘¼‚ÌƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB–¾¦‚³‚ê‚Ä‚¢‚È‚¢’l‚ÍuSystem Error
+Codesv‚ğQÆB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function creates a file system folder whose fully qualified path
-is given by pszPath. If one or more of the intermediate folders do
-not exist, it creates them. To set security attributes on a new
-folder, use SHCreateDirectoryEx.
+‚±‚ÌŠÖ”‚Í pszPath
+‚Å—^‚¦‚ç‚ê‚½Š®‘SCüƒpƒX‚Ìƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒtƒHƒ‹ƒ_‚ğì¬‚·‚éB“r’†‚ÌƒtƒHƒ‹ƒ_‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍA‚»‚ê‚ç‚àì¬‚·‚éBV‚µ‚¢ƒtƒHƒ‹ƒ_‚ÉƒZƒLƒ…ƒŠƒeƒB‘®«‚ğİ’è‚·‚é‚É‚Í
+SHCreateDirectoryEx ‚ğg‚¤‚±‚ÆB
 
 
 %index
 SHCreateDirectoryExW
-Creates a new file system folder, with optional security attributes. (Unicode)
+ƒIƒvƒVƒ‡ƒ“‚ÅƒZƒLƒ…ƒŠƒeƒB‘®«‚ğw’è‚µ‚ÄV‚µ‚¢ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒtƒHƒ‹ƒ_‚ğì¬‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 hwnd, pszPath, psa
-hwnd : [intptr] Type: HWND A handle to a parent window. This parameter can be set to NULL if no user interface will be displayed.
-pszPath : [wstr] Type: LPCTSTR A pointer to a null-terminated string specifying the fully qualified path of the directory. This string is of maximum length of 248 characters, including the terminating null character.
-psa : [var] Type: const SECURITY_ATTRIBUTES* A pointer to a SECURITY_ATTRIBUTES structure with the directory's security attribute. Set this parameter to NULL if no security attributes need to be set.
+hwnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹Bƒ†[ƒUƒCƒ“ƒ^ƒtƒF[ƒX‚ğ•\¦‚µ‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Éİ’è‚Å‚«‚éB
+pszPath : [wstr] Œ^: LPCTSTR ƒfƒBƒŒƒNƒgƒŠ‚ÌŠ®‘SCüƒpƒX‚ğw’è‚·‚éƒkƒ‹I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÍI’[ƒkƒ‹•¶š‚ğŠÜ‚ß‚ÄÅ‘å 248 •¶š‚Ü‚Å‚Å‚ ‚éB
+psa : [var] Œ^: const SECURITY_ATTRIBUTES* ƒfƒBƒŒƒNƒgƒŠ‚ÌƒZƒLƒ…ƒŠƒeƒB‘®«‚ğ‚Â SECURITY_ATTRIBUTES \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒZƒLƒ…ƒŠƒeƒB‘®«‚ğİ’è‚·‚é•K—v‚ª‚È‚¢ê‡‚Í NULL ‚Éİ’è‚·‚éB
 %inst
-Creates a new file system folder, with optional security attributes.
-(Unicode)
+ƒIƒvƒVƒ‡ƒ“‚ÅƒZƒLƒ…ƒŠƒeƒB‘®«‚ğw’è‚µ‚ÄV‚µ‚¢ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒtƒHƒ‹ƒ_‚ğì¬‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: int Returns ERROR_SUCCESS if successful. If the operation
-fails, other error codes can be returned, including those listed
-here. For values not specifically listed, see System Error Codes.
-This doc was truncated.
+Œ^: int ¬Œ÷‚µ‚½ê‡‚Í ERROR_SUCCESS
+‚ğ•Ô‚·B‘€ì‚ª¸”s‚µ‚½ê‡A‚±‚±‚É‹“‚°‚½‚à‚Ì‚ğŠÜ‚Ş‚»‚Ì‘¼‚ÌƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB–¾¦‚³‚ê‚Ä‚¢‚È‚¢’l‚ÍuSystem Error
+Codesv‚ğQÆB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function creates a file system folder whose fully qualified path
-is given by pszPath. If one or more of the intermediate folders do
-not exist, they are created as well. SHCreateDirectoryEx also
-verifies that the files are visible. If they are not visible, expect
-one of the following:
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í pszPath
+‚Å—^‚¦‚ç‚ê‚½Š®‘SCüƒpƒX‚Ìƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒtƒHƒ‹ƒ_‚ğì¬‚·‚éB“r’†‚ÌƒtƒHƒ‹ƒ_‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍA‚»‚ê‚ç‚àì¬‚·‚éBSHCreateDirectoryEx
+‚Íì¬‚µ‚½ƒtƒ@ƒCƒ‹‚ª‰Â‹‚Å‚ ‚é‚±‚Æ‚àŒŸØ‚·‚éB‰Â‹‚Å‚È‚¢ê‡‚ÍAŸ‚Ì‚¢‚¸‚ê‚©‚ª‹N‚±‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SHCreateFileExtractIconW
-SHCreateFileExtractIcon may be altered or unavailable. (Unicode)
+SHCreateFileExtractIcon ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 pszFile, dwFileAttributes, riid, ppv
-pszFile : [wstr] Type: LPCTSTR A pointer to a null-terminated string that specifies the file system object. The buffer must not exceed MAX_PATH characters in length.
-dwFileAttributes : [int] Type: DWORD A combination of one or more file attribute flags (FILE_ATTRIBUTE_* values as defined in Winnt.h) that specify the type of object.
-riid : [var] Type: REFIID Reference to the desired interface ID of the icon extractor interface to create. This must be either IID_IExtractIconA or IID_IExtractIconW.
-ppv : [var] Type: void** When this function returns, contains the interface pointer requested in riid. This is typically IExtractIcon.
+pszFile : [wstr] Œ^: LPCTSTR ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚éƒkƒ‹I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒoƒbƒtƒ@‚Í MAX_PATH •¶š‚ğ’´‚¦‚Ä‚Í‚È‚ç‚È‚¢B
+dwFileAttributes : [int] Œ^: DWORD ƒIƒuƒWƒFƒNƒg‚Ìí—Ş‚ğw’è‚·‚é 1 ‚ÂˆÈã‚Ìƒtƒ@ƒCƒ‹‘®«ƒtƒ‰ƒOiWinnt.h ‚Å’è‹`‚³‚ê‚½ FILE_ATTRIBUTE_* ‚Ì’lj‚Ì‘g‚İ‡‚í‚¹B
+riid : [var] Œ^: REFIID ¶¬‚·‚éƒAƒCƒRƒ“’ŠoŠíƒCƒ“ƒ^ƒtƒF[ƒX‚Ì–Ú“I‚ÌƒCƒ“ƒ^ƒtƒF[ƒX ID ‚Ö‚ÌQÆB‚±‚ê‚Í IID_IExtractIconA ‚© IID_IExtractIconW ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppv : [var] Œ^: void** ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB’Êí‚Í IExtractIcon ‚Å‚ ‚éB
 %inst
-SHCreateFileExtractIcon may be altered or unavailable. (Unicode)
+SHCreateFileExtractIcon ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHCreateItemFromIDList
-Creates and initializes a Shell item object from a pointer to an item identifier list (PIDL). The resulting shell item object supports the IShellItem interface.
+ƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‰Šú‰»‚·‚éB¶¬‚³‚ê‚éƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚Í IShellItem ƒCƒ“ƒ^ƒtƒF[ƒX‚ğƒTƒ|[ƒg‚·‚éB
 %group
 Win32 shell32
 %prm
 pidl, riid, ppv
-pidl : [var] Type: PCIDLIST_ABSOLUTE The source PIDL.
-riid : [var] Type: REFIID A reference to the IID of the requested interface.
-ppv : [var] Type: void** When this function returns, contains the interface pointer requested in riid.  This will typically be IShellItem or IShellItem2.
+pidl : [var] Œ^: PCIDLIST_ABSOLUTE ƒ\[ƒX PIDLB
+riid : [var] Œ^: REFIID —v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒX‚Ì IID ‚Ö‚ÌQÆB
+ppv : [var] Œ^: void** ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB’Êí‚Í IShellItem ‚Ü‚½‚Í IShellItem2 ‚Å‚ ‚éB
 %inst
-Creates and initializes a Shell item object from a pointer to an item
-identifier list (PIDL). The resulting shell item object supports the
-IShellItem interface.
+ƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‰Šú‰»‚·‚éB¶¬‚³‚ê‚éƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚Í
+IShellItem ƒCƒ“ƒ^ƒtƒF[ƒX‚ğƒTƒ|[ƒg‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHCreateItemFromParsingName
-Creates and initializes a Shell item object from a parsing name.
+‰ğÍ–¼‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‰Šú‰»‚·‚éB
 %group
 Win32 shell32
 %prm
 pszPath, pbc, riid, ppv
-pszPath : [wstr] Type: PCWSTR A pointer to a display name.
-pbc : [var] Type: IBindCtx* Optional. A pointer to a bind context used to pass parameters as inputs and outputs to the parsing function. These passed parameters are often specific to the data source and are documented by the data source owners. For example, the file system data source accepts the name being parsed (as a WIN32_FIND_DATA structure), using the STR_FILE_SYS_BIND_DATA bind context parameter.
-riid : [var] Type: REFIID A reference to the IID of the interface to retrieve through ppv, typically IID_IShellItem or IID_IShellItem2.
-ppv : [var] Type: void** When this method returns successfully, contains the interface pointer requested in riid. This is typically IShellItem or IShellItem2.
+pszPath : [wstr] Œ^: PCWSTR •\¦–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pbc : [var] Œ^: IBindCtx* È—ª‰Â”\B‰ğÍŠÖ”‚Ö‚Ì“ü—Í‚¨‚æ‚Ño—Í‚Æ‚µ‚Äƒpƒ‰ƒ[ƒ^‚ğ“n‚·‚½‚ß‚Ég‚¤ƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚ç‚Ìƒpƒ‰ƒ[ƒ^‚Í‘½‚­‚Ìê‡ƒf[ƒ^ƒ\[ƒXŒÅ—L‚Å‚ ‚èAƒf[ƒ^ƒ\[ƒXŠ—LÒ‚É‚æ‚Á‚Ä•¶‘‰»‚³‚ê‚Ä‚¢‚éB‚½‚Æ‚¦‚Îƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒf[ƒ^ƒ\[ƒX‚ÍA‰ğÍ‘ÎÛ‚Ì–¼‘OiWIN32_FIND_DATA \‘¢‘Ì‚Æ‚µ‚Äj‚ğ STR_FILE_SYS_BIND_DATA ƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒgƒpƒ‰ƒ[ƒ^‚ğg‚Á‚Äó‚¯•t‚¯‚éB
+riid : [var] Œ^: REFIID ppv ‚ğ’Ê‚¶‚Äæ“¾‚·‚éƒCƒ“ƒ^ƒtƒF[ƒX‚Ì IID ‚Ö‚ÌQÆB’Êí‚Í IID_IShellItem ‚Ü‚½‚Í IID_IShellItem2 ‚Å‚ ‚éB
+ppv : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB’Êí‚Í IShellItem ‚Ü‚½‚Í IShellItem2 ‚Å‚ ‚éB
 %inst
-Creates and initializes a Shell item object from a parsing name.
+‰ğÍ–¼‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-We recommend that you use the IID_PPV_ARGS macro, defined in
-Objbase.h, to package the riid and ppv parameters. This macro
-provides the correct IID based on the interface pointed to by the
-value in ppv, which eliminates the possibility of a coding error in
-riid that could lead to unexpected results.
+Objbase.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é IID_PPV_ARGS ƒ}ƒNƒ‚ğg‚Á‚Ä riid ‚Æ ppv
+‚Ìƒpƒ‰ƒ[ƒ^‚ğ‚Ü‚Æ‚ß‚é‚±‚Æ‚ª„§‚³‚ê‚éB‚±‚Ìƒ}ƒNƒ‚Í ppv ‚Ì’l‚ªw‚·ƒCƒ“ƒ^ƒtƒF[ƒX‚ÉŠî‚Ã‚¢‚Ä³‚µ‚¢ IID ‚ğ’ñ‹Ÿ‚·‚é‚½‚ßAriid
+‚ÌƒR[ƒfƒBƒ“ƒOƒ~ƒX‚É‚æ‚é—\Šú‚µ‚È‚¢Œ‹‰Ê‚Ì‰Â”\«‚ğ”rœ‚Å‚«‚éB
 
 
 %index
 SHCreateItemFromRelativeName
-Creates and initializes a Shell item object from a relative parsing name.
+‘Š‘Î‰ğÍ–¼‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‰Šú‰»‚·‚éB
 %group
 Win32 shell32
 %prm
 psiParent, pszName, pbc, riid, ppv
-psiParent : [var] Type: IShellItem* A pointer to the parent Shell item.
-pszName : [wstr] Type: PCWSTR A pointer to a null-terminated, Unicode string that specifies a display name that is relative to the psiParent.
-pbc : [var] Type: IBindCtx* A pointer to a bind context that controls the parsing operation. This parameter can be NULL.
-riid : [var] Type: REFIID A reference to an interface ID.
-ppv : [var] Type: void** When this function returns, contains the interface pointer requested in riid.  This will usually be IShellItem or IShellItem2.
+psiParent : [var] Œ^: IShellItem* eƒVƒFƒ‹ƒAƒCƒeƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pszName : [wstr] Œ^: PCWSTR psiParent ‚©‚ç‚Ì‘Š‘Î•\¦–¼‚ğw’è‚·‚éƒkƒ‹I’[ Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pbc : [var] Œ^: IBindCtx* ‰ğÍ‘€ì‚ğ§Œä‚·‚éƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢B
+riid : [var] Œ^: REFIID ƒCƒ“ƒ^ƒtƒF[ƒX ID ‚Ö‚ÌQÆB
+ppv : [var] Œ^: void** ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB’Êí‚Í IShellItem ‚Ü‚½‚Í IShellItem2 ‚Å‚ ‚éB
 %inst
-Creates and initializes a Shell item object from a relative parsing
-name.
+‘Š‘Î‰ğÍ–¼‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHCreateItemInKnownFolder
-Creates a Shell item object for a single file that exists inside a known folder.
+Šù’mƒtƒHƒ‹ƒ_“à‚É‘¶İ‚·‚é’Pˆêƒtƒ@ƒCƒ‹‚É‘Î‚·‚éƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 %group
 Win32 shell32
 %prm
 kfid, dwKFFlags, pszItem, riid, ppv
-kfid : [var] Type: REFKNOWNFOLDERID A reference to the KNOWNFOLDERID, a GUID that identifies the folder that contains the item.
-dwKFFlags : [int] Type: DWORD Flags that specify special options in the object retrieval. This value can be 0; otherwise, one or more of the KNOWN_FOLDER_FLAG values.
-pszItem : [wstr] Type: PCWSTR A pointer to a null-terminated buffer that contains the file name of the new item as a Unicode string. This parameter can also be NULL. In this case, an IShellItem that represents the known folder itself is created.
-riid : [var] Type: REFIID A reference to the IID of the interface that represents the item, retrieved through ppv. This value is typically IID_IShellItem or IID_IShellItem2.
-ppv : [var] Type: void** When this function returns successfully, contains the interface pointer requested in riid. This is typically IShellItem or IShellItem2.
+kfid : [var] Œ^: REFKNOWNFOLDERID ƒAƒCƒeƒ€‚ğŠi”[‚·‚éƒtƒHƒ‹ƒ_‚ğ¦‚· KNOWNFOLDERIDiGUIDj‚Ö‚ÌQÆB
+dwKFFlags : [int] Œ^: DWORD ƒIƒuƒWƒFƒNƒgæ“¾‚Ì“Á•Ê‚ÈƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éƒtƒ‰ƒOB‚±‚Ì’l‚Í 0 ‚Å‚àAKNOWN_FOLDER_FLAG ‚Ì’l‚Ì 1 ‚ÂˆÈã‚Å‚à\‚í‚È‚¢B
+pszItem : [wstr] Œ^: PCWSTR V‚µ‚¢ƒAƒCƒeƒ€‚Ìƒtƒ@ƒCƒ‹–¼‚ğ Unicode •¶š—ñ‚Æ‚µ‚ÄŠÜ‚Şƒkƒ‹I’[ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢BNULL ‚Ìê‡AŠù’mƒtƒHƒ‹ƒ_©‘Ì‚ğ•\‚· IShellItem ‚ª¶¬‚³‚ê‚éB
+riid : [var] Œ^: REFIID ppv ‚ğ’Ê‚¶‚Äæ“¾‚·‚éAƒAƒCƒeƒ€‚ğ•\‚·ƒCƒ“ƒ^ƒtƒF[ƒX‚Ì IID ‚Ö‚ÌQÆB’Êí‚Í IID_IShellItem ‚Ü‚½‚Í IID_IShellItem2 ‚Å‚ ‚éB
+ppv : [var] Œ^: void** ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB’Êí‚Í IShellItem ‚Ü‚½‚Í IShellItem2 ‚Å‚ ‚éB
 %inst
-Creates a Shell item object for a single file that exists inside a
-known folder.
+Šù’mƒtƒHƒ‹ƒ_“à‚É‘¶İ‚·‚é’Pˆêƒtƒ@ƒCƒ‹‚É‘Î‚·‚éƒVƒFƒ‹ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHCreateItemWithParent
-Create a Shell item, given a parent folder and a child item ID.
+eƒtƒHƒ‹ƒ_‚ÆqƒAƒCƒeƒ€ ID ‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€‚ğ¶¬‚·‚éB
 %group
 Win32 shell32
 %prm
 pidlParent, psfParent, pidl, riid, ppvItem
-pidlParent : [var] Type: PCIDLIST_ABSOLUTE The IDList of the parent folder of the item being created; the IDList of psfParent. This parameter can be NULL, if psfParent is specified.
-psfParent : [var] Type: IShellFolder* A pointer to IShellFolder interface that specifies the shell data source of the child item specified by the pidl.This parameter can be NULL, if pidlParent is specified.
-pidl : [var] Type: PCUITEMID_CHILD A child item ID relative to its parent folder specified by psfParent or pidlParent.
-riid : [var] Type: REFIID A reference to an interface ID.
-ppvItem : [var] Type: void** When this function returns, contains the interface pointer requested in riid.  This will typically be IShellItem or IShellItem2.
+pidlParent : [var] Œ^: PCIDLIST_ABSOLUTE ¶¬‘ÎÛƒAƒCƒeƒ€‚ÌeƒtƒHƒ‹ƒ_‚Ì IDListA‚·‚È‚í‚¿ psfParent ‚Ì IDListBpsfParent ‚ªw’è‚³‚ê‚Ä‚¢‚ê‚ÎA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢B
+psfParent : [var] Œ^: IShellFolder* pidl ‚Åw’è‚³‚ê‚½qƒAƒCƒeƒ€‚ÌƒVƒFƒ‹ƒf[ƒ^ƒ\[ƒX‚ğw’è‚·‚é IShellFolder ƒCƒ“ƒ^ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BpidlParent ‚ªw’è‚³‚ê‚Ä‚¢‚ê‚ÎA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢B
+pidl : [var] Œ^: PCUITEMID_CHILD psfParent ‚Ü‚½‚Í pidlParent ‚Åw’è‚³‚ê‚½eƒtƒHƒ‹ƒ_‚ğŠî€‚Æ‚·‚éqƒAƒCƒeƒ€ IDB
+riid : [var] Œ^: REFIID ƒCƒ“ƒ^ƒtƒF[ƒX ID ‚Ö‚ÌQÆB
+ppvItem : [var] Œ^: void** ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB’Êí‚Í IShellItem ‚Ü‚½‚Í IShellItem2 ‚Å‚ ‚éB
 %inst
-Create a Shell item, given a parent folder and a child item ID.
+eƒtƒHƒ‹ƒ_‚ÆqƒAƒCƒeƒ€ ID ‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHCreatePropSheetExtArray
-SHCreatePropSheetExtArray may be altered or unavailable.
+SHCreatePropSheetExtArray ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 hKey, pszSubKey, max_iface
-hKey : [intptr] Type: HKEY The registry root key that contains the subkey with the property sheet extension handlers. For instance, HKEY_LOCAL_MACHINE.
-pszSubKey : [wstr] Type: PCWSTR A pointer to a null-terminated string specifying the name of the subkey that contains shellex\PropertySheetHandlers. For example, if  hkey specifies HKEY_LOCAL_MACHINE and pszSubkey specifies "Software\Microsoft\Windows\CurrentVersion\Controls Folder\Display", this function returns property sheet extension handlers using the following subkey:
-max_iface : [int] Type: UINT The maximum number of property sheet handlers to be returned.
+hKey : [intptr] Œ^: HKEY ƒvƒƒpƒeƒBƒV[ƒgŠg’£ƒnƒ“ƒhƒ‰‚ğŠÜ‚ŞƒTƒuƒL[‚ª‚ ‚éƒŒƒWƒXƒgƒŠ‚Ìƒ‹[ƒgƒL[B‚½‚Æ‚¦‚Î HKEY_LOCAL_MACHINEB
+pszSubKey : [wstr] Œ^: PCWSTR shellex\PropertySheetHandlers ‚ğŠÜ‚ŞƒTƒuƒL[‚Ì–¼‘O‚ğw’è‚·‚éƒkƒ‹I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚½‚Æ‚¦‚Î hkey ‚ª HKEY_LOCAL_MACHINE ‚Å pszSubkey ‚ª "Software\Microsoft\Windows\CurrentVersion\Controls Folder\Display" ‚Ìê‡A‚±‚ÌŠÖ”‚ÍŸ‚ÌƒTƒuƒL[‚ğg‚Á‚ÄƒvƒƒpƒeƒBƒV[ƒgŠg’£ƒnƒ“ƒhƒ‰‚ğ•Ô‚·B
+max_iface : [int] Œ^: UINT •Ô‚³‚ê‚éƒvƒƒpƒeƒBƒV[ƒgƒnƒ“ƒhƒ‰‚ÌÅ‘å”B
 %inst
-SHCreatePropSheetExtArray may be altered or unavailable.
+SHCreatePropSheetExtArray ‚Í•ÏX‚³‚ê‚½‚è—˜—p‚Å‚«‚È‚­‚È‚Á‚½‚è‚·‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: HPSXA Returns a handle to an array of property sheet handlers.
-Pass this value to SHAddFromPropSheetExtArray. You do not access this
-value directly.
+Œ^: HPSXA ƒvƒƒpƒeƒBƒV[ƒgƒnƒ“ƒhƒ‰‚Ì”z—ñ‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B‚±‚Ì’l‚Í SHAddFromPropSheetExtArray
+‚É“n‚·B’¼ÚƒAƒNƒZƒX‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 
 [”õl]
-When you are finished with the returned HPSXA handle, destroy it by
-calling SHDestroyPropSheetExtArray. This function loads up to
-max_iface property sheet extensions into an array that is then passed
-to SHAddFromPropSheetExtArray.
+•Ô‚³‚ê‚½ HPSXA ƒnƒ“ƒhƒ‹‚ğg‚¢I‚í‚Á‚½‚çASHDestroyPropSheetExtArray
+‚ğŒÄ‚Ño‚µ‚Ä”jŠü‚·‚é‚±‚ÆB‚±‚ÌŠÖ”‚ÍÅ‘å max_iface ŒÂ‚ÌƒvƒƒpƒeƒBƒV[ƒgŠg’£‚ğ”z—ñ‚É“Ç‚İ‚İA‚»‚Ì”z—ñ‚ª
+SHAddFromPropSheetExtArray ‚É“n‚³‚ê‚éB
 
 
 %index
 SHCreateQueryCancelAutoPlayMoniker
-Deprecated. Creates a QueryCancelAutoPlay class moniker, which can then be used to register the IQueryCancelAutoPlay handler in the running object table (ROT).
+”ñ„§BÀs’†ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚É IQueryCancelAutoPlay ƒnƒ“ƒhƒ‰‚ğ“o˜^‚·‚é‚Ì‚É—˜—p‚Å‚«‚é QueryCancelAutoPlay ƒNƒ‰ƒXƒ‚ƒjƒJ‚ğ¶¬‚·‚éB
 %group
 Win32 shell32
 %prm
 ppmoniker
-ppmoniker : [var] Type: IMoniker** The address of a IMoniker interface pointer that, when this function returns successfully, receives the QueryCancelAutoPlay class moniker. If this function call fails, this value is NULL.
+ppmoniker : [var] Œ^: IMoniker** ŠÖ”‚ª¬Œ÷‚µ‚Ä–ß‚éÛ‚ÉAQueryCancelAutoPlay ƒNƒ‰ƒXƒ‚ƒjƒJ‚ğó‚¯æ‚é IMoniker ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB‚±‚ÌŠÖ”ŒÄ‚Ño‚µ‚ª¸”s‚µ‚½ê‡A‚±‚Ì’l‚Í NULL ‚É‚È‚éB
 %inst
-Deprecated. Creates a QueryCancelAutoPlay class moniker, which can
-then be used to register the IQueryCancelAutoPlay handler in the
-running object table (ROT).
+”ñ„§BÀs’†ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚É IQueryCancelAutoPlay ƒnƒ“ƒhƒ‰‚ğ“o˜^‚·‚é‚Ì‚É—˜—p‚Å‚«‚é
+QueryCancelAutoPlay ƒNƒ‰ƒXƒ‚ƒjƒJ‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If successful, SHCreateQueryCancelAutoPlayMoniker calls the
-interface's AddRef method and increments the reference count. When
-you are finished, call the interface's Release method to release.
+¬Œ÷‚µ‚½ê‡ASHCreateQueryCancelAutoPlayMoniker ‚ÍƒCƒ“ƒ^ƒtƒF[ƒX‚Ì AddRef
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚ÄQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚éBg‚¢I‚í‚Á‚½‚çAƒCƒ“ƒ^ƒtƒF[ƒX‚Ì Release ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚é‚±‚ÆB
 
 
 %index
 SHCreateShellItem
-Creates an IShellItem object.
+IShellItem ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 %group
 Win32 shell32
 %prm
 pidlParent, psfParent, pidl, ppsi
-pidlParent : [var] Type: PCIDLIST_ABSOLUTE A PIDL to the parent. This value can be NULL.
-psfParent : [var] Type: IShellFolder* A pointer to the parent IShellFolder. This value can be NULL.
-pidl : [var] Type: PCUITEMID_CHILD A PIDL to the requested item. If parent information is not included in pidlParent or psfParent, this must be an absolute PIDL.
-ppsi : [var] Type: IShellItem** When this method returns, contains the interface pointer to the new IShellItem.
+pidlParent : [var] Œ^: PCIDLIST_ABSOLUTE e‚Ö‚Ì PIDLB‚±‚Ì’l‚Í NULL ‚Å‚à\‚í‚È‚¢B
+psfParent : [var] Œ^: IShellFolder* e IShellFolder ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì’l‚Í NULL ‚Å‚à\‚í‚È‚¢B
+pidl : [var] Œ^: PCUITEMID_CHILD —v‹ƒAƒCƒeƒ€‚Ì PIDLBpidlParent ‚Ü‚½‚Í psfParent ‚Éeî•ñ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚ê‚Íâ‘Î PIDL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppsi : [var] Œ^: IShellItem** ‚±‚Ìƒƒ\ƒbƒh‚©‚ç–ß‚éÛ‚ÉAV‚µ‚¢ IShellItem ‚Ö‚ÌƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Creates an IShellItem object.
+IShellItem ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-SHCreateShellItem creates an object that represents a Shell namespace
-item. The caller must provide parent information in pidlParent or
-psfParent; alternatively, the caller can provide an absolute IDList
-in the pidl parameter. There are three valid calling patterns for
-this function:
-This doc was truncated.
+SHCreateShellItem ‚ÍƒVƒFƒ‹–¼‘O‹óŠÔƒAƒCƒeƒ€‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éBŒÄ‚Ño‚µ‘¤‚Í pidlParent ‚Ü‚½‚Í
+psfParent ‚Éeî•ñ‚ğ’ñ‹Ÿ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‘ã‚í‚è‚É pidl ƒpƒ‰ƒ[ƒ^‚Éâ‘Î IDList
+‚ğw’è‚·‚é‚±‚Æ‚à‚Å‚«‚éB‚±‚ÌŠÖ”‚Ì—LŒø‚ÈŒÄ‚Ño‚µƒpƒ^[ƒ“‚Í 3 ’Ê‚è‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SHCreateShellItemArray
-Creates a Shell item array object.
+ƒVƒFƒ‹ƒAƒCƒeƒ€”z—ñƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 %group
 Win32 shell32
 %prm
 pidlParent, psf, cidl, ppidl, ppsiItemArray
-pidlParent : [var] Type: PCIDLIST_ABSOLUTE The ID list of the parent folder of the items specified in ppidl. If psf is specified, this parameter can be NULL. If this pidlParent is not specified, it is computed from the psf parameter using IPersistFolder2.
-psf : [var] Type: IShellFolder* The Shell data source object that is the parent of the child items specified in ppidl. If pidlParent is specified, this parameter can be NULL.
-cidl : [int] Type: UINT The number of elements in the array specified by ppidl.
-ppidl : [var] Type: PCUITEMID_CHILD_ARRAY The list of child item IDs for which the array is being created. This value can be NULL.
-ppsiItemArray : [var] Type: IShellItemArray** When this function returns, contains the address of an IShellItemArray interface pointer.
+pidlParent : [var] Œ^: PCIDLIST_ABSOLUTE ppidl ‚Åw’è‚³‚ê‚½ƒAƒCƒeƒ€‚ÌeƒtƒHƒ‹ƒ_‚Ì ID ƒŠƒXƒgBpsf ‚ªw’è‚³‚ê‚Ä‚¢‚ê‚ÎA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢BpidlParent ‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AIPersistFolder2 ‚ğg‚Á‚Ä psf ƒpƒ‰ƒ[ƒ^‚©‚çŒvZ‚³‚ê‚éB
+psf : [var] Œ^: IShellFolder* ppidl ‚Åw’è‚³‚ê‚½qƒAƒCƒeƒ€‚Ìe‚Å‚ ‚éƒVƒFƒ‹ƒf[ƒ^ƒ\[ƒXƒIƒuƒWƒFƒNƒgBpidlParent ‚ªw’è‚³‚ê‚Ä‚¢‚ê‚ÎA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à\‚í‚È‚¢B
+cidl : [int] Œ^: UINT ppidl ‚Åw’è‚³‚ê‚½”z—ñ‚Ì—v‘f”B
+ppidl : [var] Œ^: PCUITEMID_CHILD_ARRAY ”z—ñ‚ğì¬‚·‚é‘ÎÛ‚ÌqƒAƒCƒeƒ€ ID ‚ÌƒŠƒXƒgB‚±‚Ì’l‚Í NULL ‚Å‚à\‚í‚È‚¢B
+ppsiItemArray : [var] Œ^: IShellItemArray** ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAIShellItemArray ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Creates a Shell item array object.
+ƒVƒFƒ‹ƒAƒCƒeƒ€”z—ñƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHCreateShellItemArrayFromDataObject
-Creates a Shell item array object from a data object.
+ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€”z—ñƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 %group
 Win32 shell32
 %prm
 pdo, riid, ppv
-pdo : [var] Type: IDataObject* A pointer to IDataObject interface.
-riid : [var] Type: REFIID A reference to the desired interface ID.
-ppv : [var] Type: void** When this method returns, contains the interface pointer requested in riid. This is typically IShellItemArray.
+pdo : [var] Œ^: IDataObject* IDataObject ƒCƒ“ƒ^ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+riid : [var] Œ^: REFIID –Ú“I‚ÌƒCƒ“ƒ^ƒtƒF[ƒX ID ‚Ö‚ÌQÆB
+ppv : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚©‚ç–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB’Êí‚Í IShellItemArray ‚Å‚ ‚éB
 %inst
-Creates a Shell item array object from a data object.
+ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€”z—ñƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function is useful for Shell extensions that implement
-IShellExtInit and are passed a data object to the
-IShellExtInit::Initialize method; for example, context menu handlers.
-This API lets you convert the data object into a Shell item that the
-handler can consume. It is recommend that handlers use a Shell item
-array rather than clipboard formats like CF_HDROP and
-CFSTR_SHELLIDLIST (also known as HIDA) as it leads to simpler code
-and allows some performance improvements. The resulting shell item
-array holds a reference to the source data object. Therefore, that
-data object must remain valid for the lifetime of the shell item
-array. Notably, the data objects passed to IDropTarget methods are no
-longer valid after the drop operation completes.
+‚±‚ÌŠÖ”‚Í IShellExtInit ‚ğÀ‘•‚µ IShellExtInit::Initialize
+ƒƒ\ƒbƒh‚Éƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ª“n‚³‚ê‚éƒVƒFƒ‹Šg’£i‚½‚Æ‚¦‚ÎƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[ƒnƒ“ƒhƒ‰j‚É‚Æ‚Á‚Ä—L—p‚Å‚ ‚éB‚±‚Ì API
+‚ğg‚¤‚Æƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ğƒVƒFƒ‹ƒAƒCƒeƒ€‚É•ÏŠ·‚Å‚«Aƒnƒ“ƒhƒ‰‚ª‚»‚ê‚ğ—˜—p‚Å‚«‚éBCF_HDROP ‚â
+CFSTR_SHELLIDLISTiHIDA
+‚Æ‚àŒÄ‚Î‚ê‚éj‚Ì‚æ‚¤‚ÈƒNƒŠƒbƒvƒ{[ƒhŒ`®‚æ‚è‚àƒVƒFƒ‹ƒAƒCƒeƒ€”z—ñ‚ğg‚¤‚±‚Æ‚ª„§‚³‚ê‚éBƒR[ƒh‚ªƒVƒ“ƒvƒ‹‚É‚È‚èA«”\Œüã‚Ì—]’n‚à‚ ‚é‚½‚ß‚Å‚ ‚éB¶¬‚³‚ê‚½ƒVƒFƒ‹ƒAƒCƒeƒ€”z—ñ‚Íƒ\[ƒXƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚ÌQÆ‚ğ•Û‚·‚é‚½‚ßAƒVƒFƒ‹ƒAƒCƒeƒ€”z—ñ‚Ìõ–½‚ÌŠÔ‚»‚Ìƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Í—LŒø‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B“Á‚É
+IDropTarget ƒƒ\ƒbƒh‚É“n‚³‚ê‚½ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Íƒhƒƒbƒv‘€ìŠ®—¹Œã‚Í–³Œø‚Æ‚È‚é‚±‚Æ‚É’ˆÓB
 
 
 %index
 SHCreateShellItemArrayFromIDLists
-Creates a Shell item array object from a list of ITEMIDLIST structures.
+ITEMIDLIST \‘¢‘Ì‚ÌƒŠƒXƒg‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€”z—ñƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 %group
 Win32 shell32
 %prm
 cidl, rgpidl, ppsiItemArray
-cidl : [int] Type: UINT The number of elements in the array.
-rgpidl : [var] Type: PCIDLIST_ABSOLUTE_ARRAY A list of cidl constant pointers to ITEMIDLIST structures.
-ppsiItemArray : [var] Type: IShellItemArray** When this function returns, contains an IShellItemArray interface pointer.
+cidl : [int] Œ^: UINT ”z—ñ‚Ì—v‘f”B
+rgpidl : [var] Œ^: PCIDLIST_ABSOLUTE_ARRAY ITEMIDLIST \‘¢‘Ì‚Ö‚Ì’è”ƒ|ƒCƒ“ƒ^‚ğ cidl ŒÂŠÜ‚ŞƒŠƒXƒgB
+ppsiItemArray : [var] Œ^: IShellItemArray** ‚±‚ÌŠÖ”‚©‚ç–ß‚éÛ‚ÉAIShellItemArray ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Creates a Shell item array object from a list of ITEMIDLIST
-structures.
+ITEMIDLIST \‘¢‘Ì‚ÌƒŠƒXƒg‚©‚çƒVƒFƒ‹ƒAƒCƒeƒ€”z—ñƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHCreateShellItemArrayFromShellItem
-Creates an array of one element from a single Shell item.
+’Pˆê‚ÌƒVƒFƒ‹ƒAƒCƒeƒ€‚©‚ç 1 —v‘f‚Ì”z—ñ‚ğì¬‚·‚éB
 %group
 Win32 shell32
 %prm
 psi, riid, ppv
-psi : [var] Type: IShellItem* Pointer to IShellItem object that represents the item.
-riid : [var] Type: REFIID A reference to the IID of the interface to retrieve through ppv, typically IID_IShellItemArray.
-ppv : [var] Type: void** When this method returns, contains the interface pointer requested in riid. This is typically a pointer to an IShellItemArray.
+psi : [var] Œ^: IShellItem* ƒAƒCƒeƒ€‚ğ•\‚· IShellItem ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+riid : [var] Œ^: REFIID ppv ‚ğ’Ê‚¶‚Äæ“¾‚·‚éƒCƒ“ƒ^ƒtƒF[ƒX‚Ì IID ‚Ö‚ÌQÆB
+ppv : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚©‚ç–ß‚éÛ‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB’Êí‚Í IShellItemArray ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚éB
 %inst
-Creates an array of one element from a single Shell item.
+’Pˆê‚ÌƒVƒFƒ‹ƒAƒCƒeƒ€‚©‚ç 1 —v‘f‚Ì”z—ñ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function creates a one-element array from a single item. To
-create an array from the contents of a folder, use
-SHCreateShellItemArray.
+‚±‚ÌŠÖ”‚Í’Pˆê‚ÌƒAƒCƒeƒ€‚©‚ç 1 —v‘f‚Ì”z—ñ‚ğì¬‚·‚éBƒtƒHƒ‹ƒ_‚Ì“à—e‚©‚ç”z—ñ‚ğì¬‚·‚é‚É‚Í SHCreateShellItemArray
+‚ğg—p‚·‚éB
 
 
 %index
 SHCreateStdEnumFmtEtc
-SHCreateStdEnumFmtEtc may be altered or unavailable.
+SHCreateStdEnumFmtEtc ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 cfmt, afmt, ppenumFormatEtc
-cfmt : [int] Type: UINT The number of entries in the afmt array.
-afmt : [var] Type: const FORMATETC[] An array of FORMATETC structures that specifies the clipboard formats of interest.
-ppenumFormatEtc : [var] Type: IEnumFORMATETC** When this function returns successfully, receives an IEnumFORMATETC interface pointer. Receives NULL on failure.
+cfmt : [int] Œ^: UINT afmt ”z—ñ‚ÌƒGƒ“ƒgƒŠ”B
+afmt : [var] Œ^: const FORMATETC[] ‘ÎÛ‚Æ‚·‚éƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ğw’è‚·‚é FORMATETC \‘¢‘Ì‚Ì”z—ñB
+ppenumFormatEtc : [var] Œ^: IEnumFORMATETC** ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡AIEnumFORMATETC ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğó‚¯æ‚éB¸”s‚µ‚½ê‡‚Í NULL ‚ğó‚¯æ‚éB
 %inst
-SHCreateStdEnumFmtEtc may be altered or unavailable.
+SHCreateStdEnumFmtEtc ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHDefExtractIconW
-Provides a default handler to extract an icon from a file. (Unicode)
+ƒtƒ@ƒCƒ‹‚©‚çƒAƒCƒRƒ“‚ğ’Šo‚·‚é‚½‚ß‚ÌŠù’è‚Ìƒnƒ“ƒhƒ‰[‚ğ’ñ‹Ÿ‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 pszIconFile, iIndex, uFlags, phiconLarge, phiconSmall, nIconSize
-pszIconFile : [wstr] Type: LPCTSTR A pointer to a null-terminated buffer that contains the path and name of the file from which the icon is extracted.
-iIndex : [int] Type: int The location of the icon within the file named in pszIconFile. If this is a positive number, it refers to the zero-based position of the icon in the file. For instance, 0 refers to the 1st icon in the resource file and 2 refers to the 3rd. If this is a negative number, it refers to the icon's resource ID.
-uFlags : [int] Type: UINT A flag that controls the icon extraction.
-phiconLarge : [intptr] Type: HICON* A pointer to an HICON that, when this function returns successfully, receives the handle of the large version of the icon specified in the LOWORD of nIconSize. This value can be NULL.
-phiconSmall : [intptr] Type: HICON* A pointer to an HICON that, when this function returns successfully, receives the handle of the small version of the icon specified in the HIWORD of nIconSize.
-nIconSize : [int] Type: UINT A value that contains the large icon size in its LOWORD and the small icon size in its HIWORD. Size is measured in pixels. Pass 0 to specify default large and small sizes.
+pszIconFile : [wstr] Œ^: LPCTSTR ƒAƒCƒRƒ“‚ğ’Šo‚·‚éƒtƒ@ƒCƒ‹‚ÌƒpƒX‚Æ–¼‘O‚ğŠÜ‚ŞAnull I’[ƒoƒbƒtƒ@[‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+iIndex : [int] Œ^: int pszIconFile ‚Åw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹“à‚ÌƒAƒCƒRƒ“‚ÌˆÊ’uB³‚Ì”‚Ìê‡‚ÍAƒtƒ@ƒCƒ‹“à‚ÌƒAƒCƒRƒ“‚Ì 0 ‚©‚çn‚Ü‚éˆÊ’u‚ğ•\‚·B‚½‚Æ‚¦‚Î 0 ‚ÍƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚Ì 1 ”Ô–Ú‚ÌƒAƒCƒRƒ“‚ğA2 ‚Í 3 ”Ô–Ú‚ÌƒAƒCƒRƒ“‚ğw‚·B•‰‚Ì”‚Ìê‡‚ÍAƒAƒCƒRƒ“‚ÌƒŠƒ\[ƒX ID ‚ğ•\‚·B
+uFlags : [int] Œ^: UINT ƒAƒCƒRƒ“‚Ì’Šo‚ğ§Œä‚·‚éƒtƒ‰ƒOB
+phiconLarge : [intptr] Œ^: HICON* ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡AnIconSize ‚Ì‰ºˆÊƒ[ƒh‚Åw’è‚³‚ê‚½‘å‚«‚¢•û‚ÌƒAƒCƒRƒ“‚Ìƒnƒ“ƒhƒ‹‚ğó‚¯æ‚é HICON ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
+phiconSmall : [intptr] Œ^: HICON* ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡AnIconSize ‚ÌãˆÊƒ[ƒh‚Åw’è‚³‚ê‚½¬‚³‚¢•û‚ÌƒAƒCƒRƒ“‚Ìƒnƒ“ƒhƒ‹‚ğó‚¯æ‚é HICON ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+nIconSize : [int] Œ^: UINT ‰ºˆÊƒ[ƒh‚É‘åƒAƒCƒRƒ“‚ÌƒTƒCƒYAãˆÊƒ[ƒh‚É¬ƒAƒCƒRƒ“‚ÌƒTƒCƒY‚ğŠi”[‚µ‚½’lBƒTƒCƒY‚ÍƒsƒNƒZƒ‹’PˆÊ‚Å‘ª’è‚·‚éBŠù’è‚Ì‘å¬ƒTƒCƒY‚ğw’è‚·‚é‚É‚Í 0 ‚ğ“n‚·B
 %inst
-Provides a default handler to extract an icon from a file. (Unicode)
+ƒtƒ@ƒCƒ‹‚©‚çƒAƒCƒRƒ“‚ğ’Šo‚·‚é‚½‚ß‚ÌŠù’è‚Ìƒnƒ“ƒhƒ‰[‚ğ’ñ‹Ÿ‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HRESULT This function can return one of these values.
-This doc was truncated.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-It is the responsibility of the caller to free the icon resources
-created through this function when they are no longer needed. This
-can be done through the DestroyIcon function.
-> [!NOTE] > The shlobj_core.h header defines SHDefExtractIcon as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+‚±‚ÌŠÖ”‚Åì¬‚µ‚½ƒAƒCƒRƒ“ƒŠƒ\[ƒX‚ğ•s—v‚É‚È‚Á‚½“_‚Å‰ğ•ú‚·‚é‚Ì‚ÍŒÄ‚Ño‚µ‘¤‚ÌÓ”C‚Å‚ ‚éB‚±‚ê‚Í DestroyIcon ŠÖ”‚Ås‚¦‚éB
+> [!NOTE] > shlobj_core.h ƒwƒbƒ_[‚Í SHDefExtractIcon ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚µ‚Äg—p‚·‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 SHDoDragDrop
-Executes a drag-and-drop operation. Supports drag source creation on demand, as well as drag images.
+ƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì‚ğÀs‚·‚éB•K—v‚É‰‚¶‚Äƒhƒ‰ƒbƒOƒ\[ƒX‚Ì¶¬‚¨‚æ‚Ñƒhƒ‰ƒbƒO‰æ‘œ‚ğƒTƒ|[ƒg‚·‚éB
 %group
 Win32 shell32
 %prm
 hwnd, pdata, pdsrc, dwEffect, pdwEffect
-hwnd : [intptr] Type: HWND The handle of the window used to obtain the drag image. This value can be NULL. See Remarks for more details.
-pdata : [var] Type: IDataObject* A pointer to the IDataObject interface on a data object that contains the data being dragged.
-pdsrc : [var] Type: IDropSource* A pointer to an implementation of the IDropSource interface, which is used to communicate with the source during the drag operation.
-dwEffect : [int] Type: DWORD The effects that the source allows in the drag-and-drop operation. The most significant effect is whether the drag-and-drop operation permits a move. For a list of possible values, see DROPEFFECT.
-pdwEffect : [var] Type: DWORD* A pointer to a value that indicates how the drag-and-drop operation affected the source data. The pdwEffect parameter is set only if the operation is not canceled. For a list of possible values, see DROPEFFECT.
+hwnd : [intptr] Œ^: HWND ƒhƒ‰ƒbƒO‰æ‘œ‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢BÚ×‚Í”õl‚ğQÆB
+pdata : [var] Œ^: IDataObject* ƒhƒ‰ƒbƒO‚³‚ê‚éƒf[ƒ^‚ğ•Û‚·‚éƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pdsrc : [var] Œ^: IDropSource* ƒhƒ‰ƒbƒO‘€ì’†‚Éƒ\[ƒX‚Æ’ÊM‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é IDropSource ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌÀ‘•‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+dwEffect : [int] Œ^: DWORD ƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì‚É‚¨‚¢‚Äƒ\[ƒX‚ª‹–‰Â‚·‚éŒø‰ÊBÅ‚àd—v‚ÈŒø‰Ê‚ÍAƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì‚ÅˆÚ“®‚ğ‹–‰Â‚·‚é‚©‚Ç‚¤‚©‚Å‚ ‚éBw’è‰Â”\‚È’l‚Ìˆê——‚Í DROPEFFECT ‚ğQÆB
+pdwEffect : [var] Œ^: DWORD* ƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì‚ªƒ\[ƒXƒf[ƒ^‚É‚Ç‚¤‰e‹¿‚µ‚½‚©‚ğ¦‚·’l‚Ö‚Ìƒ|ƒCƒ“ƒ^[BpdwEffect ƒpƒ‰ƒ[ƒ^[‚Í‘€ì‚ªƒLƒƒƒ“ƒZƒ‹‚³‚ê‚È‚©‚Á‚½ê‡‚É‚Ì‚İİ’è‚³‚ê‚éBw’è‰Â”\‚È’l‚Ìˆê——‚Í DROPEFFECT ‚ğQÆB
 %inst
-Executes a drag-and-drop operation. Supports drag source creation on
-demand, as well as drag images.
+ƒhƒ‰ƒbƒO&ƒhƒƒbƒv‘€ì‚ğÀs‚·‚éB•K—v‚É‰‚¶‚Äƒhƒ‰ƒbƒOƒ\[ƒX‚Ì¶¬‚¨‚æ‚Ñƒhƒ‰ƒbƒO‰æ‘œ‚ğƒTƒ|[ƒg‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT This function supports the standard return value
-E_OUTOFMEMORY, as well as the following values:
-This doc was truncated.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚É‰Á‚¦AŸ‚Ì’l‚àƒTƒ|[ƒg‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-As of Windows Vista, if a drag image is not already stored in the
-data object pdtobj and a drag image cannot be obtained from the
-window specified by hwnd, the Shell provides a generic drag image. A
-drag image can fail to be obtained from the specified window either
-because hwnd is NULL or the specified window does not support the
-DI_GETDRAGIMAGE message.
+Windows Vista ˆÈ~‚Å‚ÍAƒf[ƒ^ƒIƒuƒWƒFƒNƒg pdtobj ‚Éƒhƒ‰ƒbƒO‰æ‘œ‚ªŠi”[‚³‚ê‚Ä‚¨‚ç‚¸A‚©‚Â hwnd
+‚Åw’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚©‚çƒhƒ‰ƒbƒO‰æ‘œ‚ªæ“¾‚Å‚«‚È‚¢ê‡AƒVƒFƒ‹‚ª”Ä—p‚Ìƒhƒ‰ƒbƒO‰æ‘œ‚ğ’ñ‹Ÿ‚·‚éBw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚©‚çƒhƒ‰ƒbƒO‰æ‘œ‚ğæ“¾‚Å‚«‚È‚¢‚Ì‚ÍAhwnd
+‚ª NULL ‚Å‚ ‚é‚©Aw’è‚µ‚½ƒEƒBƒ“ƒhƒE‚ª DI_GETDRAGIMAGE ƒƒbƒZ[ƒW‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢‚©‚Ì‚¢‚¸‚ê‚©‚Ìê‡‚Å‚ ‚éB
 
 
 %index
 SHEmptyRecycleBinW
-Empties the Recycle Bin on the specified drive. (Unicode)
+w’è‚µ‚½ƒhƒ‰ƒCƒu‚Ì‚²‚İ” ‚ğ‹ó‚É‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 hwnd, pszRootPath, dwFlags
-hwnd : [intptr] Type: HWND A handle to the parent window of any dialog boxes that might be displayed during the operation. This parameter can be NULL.
-pszRootPath : [wstr] Type: LPCTSTR The address of a null-terminated string of maximum length MAX_PATH that contains the path of the root drive on which the Recycle Bin is located. This parameter can contain the address of a string formatted with the drive, folder, and subfolder names, for example c:\windows\system\. It can also contain an empty string or NULL. If this value is an empty string or NULL, all Recycle Bins on all drives will be emptied.
-dwFlags : [int] Type: DWORD
+hwnd : [intptr] Œ^: HWND ‘€ì’†‚É•\¦‚³‚ê‚é‰Â”\«‚Ì‚ ‚éƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Å‚à‚æ‚¢B
+pszRootPath : [wstr] Œ^: LPCTSTR ‚²‚İ” ‚ª‘¶İ‚·‚éƒ‹[ƒgƒhƒ‰ƒCƒu‚ÌƒpƒX‚ğŠi”[‚·‚éAÅ‘å’· MAX_PATH ‚Ì null I’[•¶š—ñ‚ÌƒAƒhƒŒƒXB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚É‚Í c:\windows\system\ ‚Ì‚æ‚¤‚ÉAƒhƒ‰ƒCƒuEƒtƒHƒ‹ƒ_EƒTƒuƒtƒHƒ‹ƒ_–¼‚Å‘®‰»‚³‚ê‚½•¶š—ñ‚ÌƒAƒhƒŒƒX‚ğw’è‚·‚é‚±‚Æ‚à‚Å‚«‚éB‹ó•¶š—ñ‚Ü‚½‚Í NULL ‚Å‚à‚æ‚¢B‹ó•¶š—ñ‚Ü‚½‚Í NULL ‚ğw’è‚·‚é‚ÆA‚·‚×‚Ä‚Ìƒhƒ‰ƒCƒuã‚Ì‚·‚×‚Ä‚Ì‚²‚İ” ‚ª‹ó‚É‚³‚ê‚éB
+dwFlags : [int] Œ^: DWORD
 %inst
-Empties the Recycle Bin on the specified drive. (Unicode)
+w’è‚µ‚½ƒhƒ‰ƒCƒu‚Ì‚²‚İ” ‚ğ‹ó‚É‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-> [!NOTE] > The shellapi.h header defines SHEmptyRecycleBin as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > shellapi.h ƒwƒbƒ_[‚Í SHEmptyRecycleBin ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚µ‚Äg—p‚·‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 SHEnumerateUnreadMailAccountsW
-Enumerates the user accounts that have unread email. (Unicode)
+–¢“Çƒ[ƒ‹‚ª‘¶İ‚·‚éƒ†[ƒU[ƒAƒJƒEƒ“ƒg‚ğ—ñ‹“‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 hKeyUser, dwIndex, pszMailAddress, cchMailAddress
-hKeyUser : [intptr] Type: HKEY A valid HKEY for a given user.
-dwIndex : [int] Type: DWORD The index of the user account.
-pszMailAddress : [wstr] Type: LPTSTR A pointer to a Unicode string that specifies the email address of an account belonging to the specified user.
-cchMailAddress : [int] Type: int The number of characters in the email address.
+hKeyUser : [intptr] Œ^: HKEY w’è‚µ‚½ƒ†[ƒU[‚É‘Î‚·‚é—LŒø‚È HKEYB
+dwIndex : [int] Œ^: DWORD ƒ†[ƒU[ƒAƒJƒEƒ“ƒg‚ÌƒCƒ“ƒfƒbƒNƒXB
+pszMailAddress : [wstr] Œ^: LPTSTR w’è‚µ‚½ƒ†[ƒU[‚É‘®‚·‚éƒAƒJƒEƒ“ƒg‚Ìƒ[ƒ‹ƒAƒhƒŒƒX‚ğw’è‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+cchMailAddress : [int] Œ^: int ƒ[ƒ‹ƒAƒhƒŒƒX‚Ì•¶š”B
 %inst
-Enumerates the user accounts that have unread email. (Unicode)
+–¢“Çƒ[ƒ‹‚ª‘¶İ‚·‚éƒ†[ƒU[ƒAƒJƒEƒ“ƒg‚ğ—ñ‹“‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The hKeyUser parameter is the HKEY for the root of the user's
-information, for example HKEY_CURRENT_USER, or any key enumerated
-under HKEY_USERS.
-> [!NOTE] > The shellapi.h header defines
-SHEnumerateUnreadMailAccounts as an alias which automatically selects
-the ANSI or Unicode version of this function based on the definition
-of the UNICODE preprocessor constant. Mixing usage of the
-encoding-neutral alias with code that not encoding-neutral can lead
-to mismatches that result in compilation or runtime errors. For more
-information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+hKeyUser ƒpƒ‰ƒ[ƒ^[‚ÍAHKEY_CURRENT_USER ‚Ì‚æ‚¤‚Èƒ†[ƒU[î•ñ‚Ìƒ‹[ƒgA‚Ü‚½‚Í HKEY_USERS
+‚Ì‰º‚É—ñ‹“‚³‚ê‚é”CˆÓ‚ÌƒL[‚É‘Î‚·‚é HKEY ‚Å‚ ‚éB
+> [!NOTE] > shellapi.h ƒwƒbƒ_[‚Í SHEnumerateUnreadMailAccounts ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚µ‚Äg—p‚·‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 SHEvaluateSystemCommandTemplate
-Enforces strict validation of parameters used in a call to CreateProcess or ShellExecute.
+CreateProcess ‚Ü‚½‚Í ShellExecute ‚ÌŒÄ‚Ño‚µ‚Åg—p‚³‚ê‚éƒpƒ‰ƒ[ƒ^[‚ÌŒµ–§‚ÈŒŸØ‚ğs‚¤B
 %group
 Win32 shell32
 %prm
 pszCmdTemplate, ppszApplication, ppszCommandLine, ppszParameters
-pszCmdTemplate : [wstr] Type: PCWSTR A command line, which may or may not include parameters. If the parameters are substitution parameters, then SHEvaluateSystemCommandTemplate should be called before parameters have been replaced.
-ppszApplication : [var] Type: PWSTR* A pointer to the verified path to the application. This value should be passed as the lpApplication parameter in a call to CreateProcess or as the lpFile parameter in a call to ShellExecute. This resource is allocated using CoTaskMemAlloc, and it is the responsibility of the caller to free the resource when it is no longer needed by calling CoTaskMemFree.
-ppszCommandLine : [var] Type: PWSTR* A pointer to a command-line string template to be used in a call to CreateProcess. Command-line parameters should be specified based on this template, and then passed as the lpCommandLine parameter to CreateProcess. It is guaranteed to be of a form that PathGetArgs can always read correctly. This resource is allocated using CoTaskMemAlloc, and it is the responsibility of the caller to free the resource when it is no longer needed by calling CoTaskMemFree.
-ppszParameters : [var] Type: PWSTR* A pointer to a command-line string template to be used in a call to ShellExecute. Command-line parameters should be specified based on this template, and then passed as the lpParameters parameter to ShellExecute. This parameter is identical to calling PathGetArgs. This resource is allocated using CoTaskMemAlloc, and it is the responsibility of the caller to free the resource when it is no longer needed by calling CoTaskMemFree.
+pszCmdTemplate : [wstr] Œ^: PCWSTR ƒpƒ‰ƒ[ƒ^[‚ğŠÜ‚Şê‡‚ÆŠÜ‚Ü‚È‚¢ê‡‚ª‚ ‚éAƒRƒ}ƒ“ƒhƒ‰ƒCƒ“Bƒpƒ‰ƒ[ƒ^[‚ª’uŠ·ƒpƒ‰ƒ[ƒ^[‚Å‚ ‚éê‡‚ÍAƒpƒ‰ƒ[ƒ^[‚ª’uŠ·‚³‚ê‚é‘O‚É SHEvaluateSystemCommandTemplate ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
+ppszApplication : [var] Œ^: PWSTR* ŒŸØÏ‚İ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ö‚ÌƒpƒX‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ì’l‚Í CreateProcess ‚Ì lpApplication ƒpƒ‰ƒ[ƒ^[A‚Ü‚½‚Í ShellExecute ‚Ì lpFile ƒpƒ‰ƒ[ƒ^[‚Æ‚µ‚Ä“n‚·B‚±‚ÌƒŠƒ\[ƒX‚Í CoTaskMemAlloc ‚ÅŠ„‚è“–‚Ä‚ç‚ê‚é‚½‚ßA•s—v‚É‚È‚Á‚½“_‚Å CoTaskMemFree ‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚é‚Ì‚ÍŒÄ‚Ño‚µ‘¤‚ÌÓ”C‚Å‚ ‚éB
+ppszCommandLine : [var] Œ^: PWSTR* CreateProcess ‚ÌŒÄ‚Ño‚µ‚Åg—p‚³‚ê‚éƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ƒeƒ“ƒvƒŒ[ƒg•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ƒpƒ‰ƒ[ƒ^[‚Í‚±‚Ìƒeƒ“ƒvƒŒ[ƒg‚ÉŠî‚Ã‚¢‚Äw’è‚µACreateProcess ‚É lpCommandLine ƒpƒ‰ƒ[ƒ^[‚Æ‚µ‚Ä“n‚·•K—v‚ª‚ ‚éBPathGetArgs ‚ªí‚É³‚µ‚­“Ç‚İæ‚ê‚éŒ`®‚Å‚ ‚é‚±‚Æ‚ª•ÛØ‚³‚ê‚Ä‚¢‚éB‚±‚ÌƒŠƒ\[ƒX‚Í CoTaskMemAlloc ‚ÅŠ„‚è“–‚Ä‚ç‚ê‚é‚½‚ßA•s—v‚É‚È‚Á‚½“_‚Å CoTaskMemFree ‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚é‚Ì‚ÍŒÄ‚Ño‚µ‘¤‚ÌÓ”C‚Å‚ ‚éB
+ppszParameters : [var] Œ^: PWSTR* ShellExecute ‚ÌŒÄ‚Ño‚µ‚Åg—p‚³‚ê‚éƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ƒeƒ“ƒvƒŒ[ƒg•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ƒpƒ‰ƒ[ƒ^[‚Í‚±‚Ìƒeƒ“ƒvƒŒ[ƒg‚ÉŠî‚Ã‚¢‚Äw’è‚µAShellExecute ‚É lpParameters ƒpƒ‰ƒ[ƒ^[‚Æ‚µ‚Ä“n‚·•K—v‚ª‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í PathGetArgs ‚ğŒÄ‚Ño‚·‚Ì‚Æ“¯“™‚Å‚ ‚éB‚±‚ÌƒŠƒ\[ƒX‚Í CoTaskMemAlloc ‚ÅŠ„‚è“–‚Ä‚ç‚ê‚é‚½‚ßA•s—v‚É‚È‚Á‚½“_‚Å CoTaskMemFree ‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚é‚Ì‚ÍŒÄ‚Ño‚µ‘¤‚ÌÓ”C‚Å‚ ‚éB
 %inst
-Enforces strict validation of parameters used in a call to
-CreateProcess or ShellExecute.
+CreateProcess ‚Ü‚½‚Í ShellExecute ‚ÌŒÄ‚Ño‚µ‚Åg—p‚³‚ê‚éƒpƒ‰ƒ[ƒ^[‚ÌŒµ–§‚ÈŒŸØ‚ğs‚¤B
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function is used when a calling process needs the deterministic
-behavior from a command template, regardless of execution context. It
-ignores the current process state, such as the %PATH%,
-GetCurrentDirectory, and parent process directory. This function is
-used when the command is hard-coded. This function is used by
-ShellExecute when handling file associations from HKEY_CLASSES_ROOT.
-The purpose of this function is to reduce CreateProcess command-line
-exploits. It is not designed for processing user input and if used
-for that purpose can generate unexpected failures.
+
+‚±‚ÌŠÖ”‚ÍAŒÄ‚Ño‚µŒ³ƒvƒƒZƒX‚ªÀsƒRƒ“ƒeƒLƒXƒg‚ÉŠÖŒW‚È‚­ƒRƒ}ƒ“ƒhƒeƒ“ƒvƒŒ[ƒg‚©‚ç‚ÌŒˆ’è˜_“I‚È“®ì‚ğ•K—v‚Æ‚·‚éê‡‚Ég—p‚·‚éB%PATH%AGetCurrentDirectoryAeƒvƒƒZƒX‚ÌƒfƒBƒŒƒNƒgƒŠ‚Æ‚¢‚Á‚½Œ»İ‚ÌƒvƒƒZƒXó‘Ô‚ğ–³‹‚·‚éB‚±‚ÌŠÖ”‚ÍAƒRƒ}ƒ“ƒh‚ªƒn[ƒhƒR[ƒh‚³‚ê‚Ä‚¢‚éê‡‚Ég—p‚·‚éBHKEY_CLASSES_ROOT
+‚©‚çƒtƒ@ƒCƒ‹ŠÖ˜A•t‚¯‚ğˆ—‚·‚éÛ‚É ShellExecute ‚É‚æ‚Á‚Äg—p‚³‚ê‚éB‚±‚ÌŠÖ”‚Ì–Ú“I‚ÍACreateProcess
+‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆ«—p‚ğ’áŒ¸‚·‚é‚±‚Æ‚Å‚ ‚éBƒ†[ƒU[“ü—Í‚Ìˆ——p‚ÉİŒv‚³‚ê‚Ä‚¨‚ç‚¸A‚»‚Ì–Ú“I‚Åg—p‚·‚é‚Æ—\Šú‚µ‚È‚¢¸”s‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éB
 
 
 %index
 SHFindFiles
-SHFindFiles may be altered or unavailable.
+SHFindFiles ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pidlFolder, pidlSaveFile
-pidlFolder : [var] Type: PCIDLIST_ABSOLUTE The folder from which to start the search. This folder appears in the Look in: box in the Search window. This folder and all of its subfolders are searched unless users choose other options in the Search window's More Advanced Options. This value can be NULL.
-pidlSaveFile : [var] Type: PCIDLIST_ABSOLUTE This parameter is not used and must be set to NULL. Windows Server?2003 and Windows?XP:??A saved search file (.fnd) to load. You can save search parameters to a .fnd file after the search is begun. This value can be NULL.
+pidlFolder : [var] Œ^: PCIDLIST_ABSOLUTE ŒŸõ‚ğŠJn‚·‚éƒtƒHƒ‹ƒ_B‚±‚ÌƒtƒHƒ‹ƒ_‚ÍŒŸõƒEƒBƒ“ƒhƒE‚Ìu’T‚·êŠ:vƒ{ƒbƒNƒX‚É•\¦‚³‚ê‚éBŒŸõƒEƒBƒ“ƒhƒE‚ÌuÚ×ƒIƒvƒVƒ‡ƒ“v‚Åƒ†[ƒU[‚ª‘¼‚ÌƒIƒvƒVƒ‡ƒ“‚ğ‘I‘ğ‚µ‚È‚¢ŒÀ‚èA‚±‚ÌƒtƒHƒ‹ƒ_‚Æ‚»‚Ì‚·‚×‚Ä‚ÌƒTƒuƒtƒHƒ‹ƒ_‚ªŒŸõ‚³‚ê‚éB‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
+pidlSaveFile : [var] Œ^: PCIDLIST_ABSOLUTE ‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Íg—p‚³‚ê‚¸ANULL ‚Éİ’è‚·‚é•K—v‚ª‚ ‚éBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP: “Ç‚İ‚Ş•Û‘¶Ï‚İŒŸõƒtƒ@ƒCƒ‹ (.fnd)BŒŸõ‚ğŠJn‚µ‚½ŒãAŒŸõƒpƒ‰ƒ[ƒ^[‚ğ .fnd ƒtƒ@ƒCƒ‹‚É•Û‘¶‚Å‚«‚éB‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
 %inst
-SHFindFiles may be altered or unavailable.
+SHFindFiles ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if successful in displaying the Search
-window; otherwise FALSE.
+Œ^: BOOL ŒŸõƒEƒBƒ“ƒhƒE‚Ì•\¦‚É¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 SHFind_InitMenuPopup
-SHFind_InitMenuPopup may be altered or unavailable.
+SHFind_InitMenuPopup ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 hmenu, hwndOwner, idCmdFirst, idCmdLast
-hmenu : [intptr] Type: HMENU The handle of the popup menu.
-hwndOwner : [intptr] Type: HWND The handle of the popup menu's owner window. This value can be NULL.
-idCmdFirst : [int] Type: UINT The ID of the first menu item.
-idCmdLast : [int] Type: UINT The ID of the last menu item.
+hmenu : [intptr] Œ^: HMENU ƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚Ìƒnƒ“ƒhƒ‹B
+hwndOwner : [intptr] Œ^: HWND ƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚ÌƒI[ƒi[ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
+idCmdFirst : [int] Œ^: UINT Å‰‚Ìƒƒjƒ…[€–Ú‚Ì IDB
+idCmdLast : [int] Œ^: UINT ÅŒã‚Ìƒƒjƒ…[€–Ú‚Ì IDB
 %inst
-SHFind_InitMenuPopup may be altered or unavailable.
+SHFind_InitMenuPopup ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: IContextMenu* If successful, returns an IContextMenu pointer.
-On failure, returns NULL.
+Œ^: IContextMenu* ¬Œ÷‚µ‚½ê‡‚Í IContextMenu ƒ|ƒCƒ“ƒ^[‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 SHFlushSFCache
-SHFlushSFCache may be altered or unavailable.
+SHFlushSFCache ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 
 %inst
-SHFlushSFCache may be altered or unavailable.
+SHFlushSFCache ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [”õl]
-SHFlushSFCache is called when the path to a special folder is
-changed. This ensures that the updated path stored in the registry is
-used rather than the cached value. For more information on special
-folders, see the Special Folders and CSIDLs section of Getting a
-Folder's ID.
+SHFlushSFCache
+‚Í“ÁêƒtƒHƒ‹ƒ_‚Ö‚ÌƒpƒX‚ª•ÏX‚³‚ê‚½‚Æ‚«‚ÉŒÄ‚Ño‚·B‚±‚ê‚É‚æ‚èAƒLƒƒƒbƒVƒ…‚³‚ê‚½’l‚Å‚Í‚È‚­AƒŒƒWƒXƒgƒŠ‚ÉŠi”[‚³‚ê‚½XVŒã‚ÌƒpƒX‚ªg—p‚³‚ê‚é‚æ‚¤‚É‚È‚éB“ÁêƒtƒHƒ‹ƒ_‚ÌÚ×‚É‚Â‚¢‚Ä‚ÍAGetting
+a Folder's ID ‚Ì Special Folders and CSIDLs ƒZƒNƒVƒ‡ƒ“‚ğQÆB
 
 
 %index
 SHFormatDrive
-SHFormatDrive may be altered or unavailable.
+SHFormatDrive ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 hwnd, drive, fmtID, options
-hwnd : [intptr] Type: HWND The handle of the parent window of the dialog box. The Format dialog box must have a parent window; therefore, this parameter cannot be NULL.
-drive : [int] Type: UINT The drive to format. The value of this parameter represents a letter drive starting at 0 for the A: drive. For example, a value of 2 stands for the C: drive.
-fmtID : [int] Type: UINT The ID of the physical format. Only the following flag is currently defined.
-options : [int] Type: UINT
+hwnd : [intptr] Œ^: HWND ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌeƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹BƒtƒH[ƒ}ƒbƒgƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚É‚ÍeƒEƒBƒ“ƒhƒE‚ª•K—v‚Å‚ ‚é‚½‚ßA‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğ NULL ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+drive : [int] Œ^: UINT ƒtƒH[ƒ}ƒbƒg‚·‚éƒhƒ‰ƒCƒuB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Ì’l‚ÍAA: ƒhƒ‰ƒCƒu‚ğ 0 ‚Æ‚·‚é•¶šƒhƒ‰ƒCƒu‚ğ•\‚·B‚½‚Æ‚¦‚Î 2 ‚Í C: ƒhƒ‰ƒCƒu‚ğ•\‚·B
+fmtID : [int] Œ^: UINT •¨—ƒtƒH[ƒ}ƒbƒg‚Ì IDBŒ»İ‚ÍŸ‚Ìƒtƒ‰ƒO‚Ì‚İ’è‹`‚³‚ê‚Ä‚¢‚éB
+options : [int] Œ^: UINT
 %inst
-SHFormatDrive may be altered or unavailable.
+SHFormatDrive ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: DWORD Returns the format ID of the last successful format or
-one of the following values. The LOWORD of this value can be passed
-on subsequent calls as the fmtID parameter to repeat the last format.
-This doc was truncated.
+Œ^: DWORD ’¼‘O‚É¬Œ÷‚µ‚½ƒtƒH[ƒ}ƒbƒg‚Ì ƒtƒH[ƒ}ƒbƒg ID
+‚Ü‚½‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B‚±‚Ì’l‚Ì‰ºˆÊƒ[ƒh‚ÍAÅŒã‚ÌƒtƒH[ƒ}ƒbƒg‚ğŒJ‚è•Ô‚·‚½‚ß‚ÉˆÈ~‚ÌŒÄ‚Ño‚µ‚Å fmtID
+ƒpƒ‰ƒ[ƒ^[‚Æ‚µ‚Ä“n‚·‚±‚Æ‚ª‚Å‚«‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The format is controlled by the dialog box interface. That is, the
-user must click the OK button to actually begin the format?the format
-cannot be started programmatically.
+ƒtƒH[ƒ}ƒbƒg‚Íƒ_ƒCƒAƒƒOƒ{ƒbƒNƒXƒCƒ“ƒ^[ƒtƒFƒCƒX‚É‚æ‚Á‚Ä§Œä‚³‚ê‚éB‚Â‚Ü‚èAÀÛ‚ÉƒtƒH[ƒ}ƒbƒg‚ğŠJn‚·‚é‚É‚Íƒ†[ƒU[‚ª OK
+ƒ{ƒ^ƒ“‚ğƒNƒŠƒbƒN‚·‚é•K—v‚ª‚ ‚èAƒvƒƒOƒ‰ƒ€‚©‚çƒtƒH[ƒ}ƒbƒg‚ğŠJn‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
 
 
 %index
 SHFree
-Frees the memory allocated by SHAlloc.
+SHAlloc ‚É‚æ‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 shell32
 %prm
 pv
-pv : [intptr] Type: void* A pointer to the memory allocated by SHAlloc.
+pv : [intptr] Œ^: void* SHAlloc ‚É‚æ‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Frees the memory allocated by SHAlloc.
+SHAlloc ‚É‚æ‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
 
 
 %index
 SHFreeNameMappings
-Frees a file name mapping object that was retrieved by the SHFileOperation function.
+SHFileOperation ŠÖ”‚É‚æ‚Á‚Äæ“¾‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 shell32
 %prm
 hNameMappings
-hNameMappings : [intptr] Type: HANDLE A handle to the file name mapping object to be freed.
+hNameMappings : [intptr] Œ^: HANDLE ‰ğ•ú‚·‚éƒtƒ@ƒCƒ‹–¼ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Frees a file name mapping object that was retrieved by the
-SHFileOperation function.
+SHFileOperation ŠÖ”‚É‚æ‚Á‚Äæ“¾‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼ƒ}ƒbƒsƒ“ƒOƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚éB
 
 
 %index
 SHGetAttributesFromDataObject
-SHGetAttributesFromDataObject may be altered or unavailable.
+SHGetAttributesFromDataObject ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pdo, dwAttributeMask, pdwAttributes, pcItems
-pdo : [var] Type: IDataObject* The data object from which to retrieve the information.
-dwAttributeMask : [int] Type: DWORD One or more of the SFGAO flags that indicate which pieces of information the calling application wants to retrieve.
-pdwAttributes : [var] Type: DWORD* A pointer to a DWORD value that, when this function returns successfully, receives one or more SFGAO flags that indicate the attributes, among those requested, that are common to all items in pdo. This pointer can be NULL if this information is not needed.
-pcItems : [var] Type: UINT* A pointer to a UINT that, when this function returns successfully, receives the number of PIDLs in the data object pointed to by pdo. This pointer can be NULL if this information is not needed.
+pdo : [var] Œ^: IDataObject* î•ñ‚ğæ“¾‚·‚éƒf[ƒ^ƒIƒuƒWƒFƒNƒgB
+dwAttributeMask : [int] Œ^: DWORD ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªæ“¾‚µ‚½‚¢î•ñ‚ğ¦‚· 1 ‚ÂˆÈã‚Ì SFGAO ƒtƒ‰ƒOB
+pdwAttributes : [var] Œ^: DWORD* ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡A—v‹‚³‚ê‚½‘®«‚Ì‚¤‚¿ pdo “à‚Ì‚·‚×‚Ä‚Ì€–Ú‚É‹¤’Ê‚·‚é‘®«‚ğ¦‚· 1 ‚ÂˆÈã‚Ì SFGAO ƒtƒ‰ƒO‚ğó‚¯æ‚é DWORD ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìî•ñ‚ª•s—v‚Èê‡‚Í NULL ‚Å‚à‚æ‚¢B
+pcItems : [var] Œ^: UINT* ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡Apdo ‚ªw‚·ƒf[ƒ^ƒIƒuƒWƒFƒNƒg“à‚Ì PIDL ‚Ì”‚ğó‚¯æ‚é UINT ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìî•ñ‚ª•s—v‚Èê‡‚Í NULL ‚Å‚à‚æ‚¢B
 %inst
-SHGetAttributesFromDataObject may be altered or unavailable.
+SHGetAttributesFromDataObject ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT This function can return one of these values.
-This doc was truncated.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SHGetDataFromIDListW
-Retrieves extended property data from a relative identifier list. (Unicode)
+‘Š‘ÎƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚©‚çŠg’£ƒvƒƒpƒeƒBƒf[ƒ^‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 psf, pidl, nFormat, pv, cb
-psf : [var] Type: IShellFolder* The address of the parent IShellFolder interface. This must be the immediate parent of the ITEMIDLIST structure referenced by the pidl parameter.
-pidl : [var] Type: PCUITEMID_CHILD A pointer to an ITEMIDLIST structure that identifies the object relative to the folder specified in psf.
-nFormat : [int] Type: int
-pv : [intptr] Type: void* A pointer to a buffer that, when this function returns successfully, receives the requested data. The format of this buffer is determined by nFormat. If nFormat is SHGDFIL_NETRESOURCE, there are two possible cases. If the buffer is large enough, the net resource's string information (fields for the network name, local name, provider, and comments) will be placed into the buffer. If the buffer is not large enough, only the net resource structure will be placed into the buffer and the string information pointers will be NULL.
-cb : [int] Type: int Size of the buffer at pv, in bytes.
+psf : [var] Œ^: IShellFolder* e IShellFolder ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒAƒhƒŒƒXB‚±‚ê‚ÍApidl ƒpƒ‰ƒ[ƒ^[‚ªQÆ‚·‚é ITEMIDLIST \‘¢‘Ì‚Ì’¼Ú‚Ìe‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pidl : [var] Œ^: PCUITEMID_CHILD psf ‚Åw’è‚³‚ê‚½ƒtƒHƒ‹ƒ_‚ğŠî€‚Æ‚µ‚ÄƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚é ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+nFormat : [int] Œ^: int
+pv : [intptr] Œ^: void* ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚ÉA—v‹‚³‚ê‚½ƒf[ƒ^‚ğó‚¯æ‚éƒoƒbƒtƒ@[‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒoƒbƒtƒ@[‚ÌŒ`®‚Í nFormat ‚É‚æ‚Á‚ÄŒˆ‚Ü‚éBnFormat ‚ª SHGDFIL_NETRESOURCE ‚Ìê‡A2 ‚Â‚ÌƒP[ƒX‚ª‚ ‚éBƒoƒbƒtƒ@[‚ª\•ª‚É‘å‚«‚¢ê‡‚ÍAƒlƒbƒgƒ[ƒNƒŠƒ\[ƒX‚Ì•¶š—ñî•ñ (ƒlƒbƒgƒ[ƒN–¼Aƒ[ƒJƒ‹–¼AƒvƒƒoƒCƒ_[AƒRƒƒ“ƒg‚ÌŠeƒtƒB[ƒ‹ƒh) ‚ªƒoƒbƒtƒ@[‚ÉŠi”[‚³‚ê‚éBƒoƒbƒtƒ@[‚ª\•ª‚Å‚È‚¢ê‡‚ÍAƒlƒbƒgƒ[ƒNƒŠƒ\[ƒX\‘¢‘Ì‚Ì‚İ‚ªƒoƒbƒtƒ@[‚ÉŠi”[‚³‚êA•¶š—ñî•ñ‚Ìƒ|ƒCƒ“ƒ^[‚Í NULL ‚É‚È‚éB
+cb : [int] Œ^: int pv ‚Ìƒoƒbƒtƒ@[‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
 %inst
-Retrieves extended property data from a relative identifier list.
-(Unicode)
+‘Š‘ÎƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚©‚çŠg’£ƒvƒƒpƒeƒBƒf[ƒ^‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or E_INVALIDARG otherwise.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğA‚»‚êˆÈŠO‚Ìê‡‚Í E_INVALIDARG ‚ğ•Ô‚·B
 
 [”õl]
-This function extracts only information that is present in the
-pointer to an item identifier list (PIDL). Since the content of a
-PIDL depends on the folder object that created the PIDL, there is no
-guarantee that all requested information will be available. In
-addition, the information that is returned reflects the state of the
-object at the time the PIDL was created. The current state of the
-object could be different. For example, if you set nFormat to
-SHGDFIL_FINDDATA, the function might assign meaningful values to only
-some of the members of the WIN32_FIND_DATA structure. The remaining
-members will be set to zero. To retrieve complete current information
-on a file system file or folder, use standard file system functions
-such as GetFileTime or FindFirstFile. E_INVALIDARG is returned if the
-psf, pidl, pv, or cb parameter does not match the nFormat parameter,
-or if nFormat is not one of the specific SHGDFIL_ values shown above.
-> [!NOTE] > The shlobj_core.h header defines SHGetDataFromIDList as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+‚±‚ÌŠÖ”‚ÍAƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚É‘¶İ‚·‚éî•ñ‚Ì‚İ‚ğ’Šo‚·‚éBPIDL ‚Ì“à—e‚Í PIDL
+‚ğì¬‚µ‚½ƒtƒHƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚ÉˆË‘¶‚·‚é‚½‚ßA—v‹‚µ‚½î•ñ‚ª‚·‚×‚Ä—˜—p‚Å‚«‚é•ÛØ‚Í‚È‚¢B‚³‚ç‚ÉA•Ô‚³‚ê‚éî•ñ‚Í PIDL
+‚ªì¬‚³‚ê‚½“_‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğ”½‰f‚·‚éBƒIƒuƒWƒFƒNƒg‚ÌŒ»İ‚Ìó‘Ô‚ÍˆÙ‚È‚é‰Â”\«‚ª‚ ‚éB‚½‚Æ‚¦‚ÎAnFormat ‚É
+SHGDFIL_FINDDATA ‚ğİ’è‚·‚é‚ÆAŠÖ”‚Í WIN32_FIND_DATA
+\‘¢‘Ì‚Ìƒƒ“ƒo[‚Ìˆê•”‚É‚Ì‚İˆÓ–¡‚Ì‚ ‚é’l‚ğŠ„‚è“–‚Ä‚éê‡‚ª‚ ‚éBc‚è‚Ìƒƒ“ƒo[‚Íƒ[ƒ‚Éİ’è‚³‚ê‚éBƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ìƒtƒ@ƒCƒ‹‚âƒtƒHƒ‹ƒ_‚ÉŠÖ‚·‚éŠ®‘S‚ÈŒ»İ‚Ìî•ñ‚ğæ“¾‚·‚é‚É‚ÍAGetFileTime
+‚â FindFirstFile ‚È‚Ç‚Ì•W€ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ŠÖ”‚ğg—p‚·‚éBpsfApidlApvA‚Ü‚½‚Í cb ƒpƒ‰ƒ[ƒ^[‚ª
+nFormat ƒpƒ‰ƒ[ƒ^[‚Æˆê’v‚µ‚È‚¢ê‡A‚Ü‚½‚Í nFormat ‚ªã‹L‚Ì“Á’è‚Ì SHGDFIL_ ’l‚Ì‚¢‚¸‚ê‚Å‚à‚È‚¢ê‡‚Í
+E_INVALIDARG ‚ª•Ô‚³‚ê‚éB
+> [!NOTE] > shlobj_core.h ƒwƒbƒ_[‚Í SHGetDataFromIDList ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚µ‚Äg—p‚·‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 SHGetDesktopFolder
-Retrieves the IShellFolder interface for the desktop folder, which is the root of the Shell's namespace.
+ƒVƒFƒ‹‚Ì–¼‘O‹óŠÔ‚Ìƒ‹[ƒg‚Å‚ ‚éƒfƒXƒNƒgƒbƒvƒtƒHƒ‹ƒ_‚Ì IShellFolder ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 ppshf
-ppshf : [var] Type: IShellFolder** When this method returns, receives an IShellFolder interface pointer for the desktop folder. The calling application is responsible for eventually freeing the interface by calling its IUnknown::Release method.
+ppshf : [var] Œ^: IShellFolder** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒfƒXƒNƒgƒbƒvƒtƒHƒ‹ƒ_‚Ì IShellFolder ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğó‚¯æ‚éBŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAÅI“I‚É IUnknown::Release ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚ÄƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‰ğ•ú‚·‚éÓ”C‚ª‚ ‚éB
 %inst
-Retrieves the IShellFolder interface for the desktop folder, which is
-the root of the Shell's namespace.
+ƒVƒFƒ‹‚Ì–¼‘O‹óŠÔ‚Ìƒ‹[ƒg‚Å‚ ‚éƒfƒXƒNƒgƒbƒvƒtƒHƒ‹ƒ_‚Ì IShellFolder ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHGetDiskFreeSpaceExW
-Retrieves disk space information for a disk volume. (Unicode)
+ƒfƒBƒXƒNƒ{ƒŠƒ…[ƒ€‚ÌƒfƒBƒXƒN—Ìˆæî•ñ‚ğæ“¾‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 pszDirectoryName, pulFreeBytesAvailableToCaller, pulTotalNumberOfBytes, pulTotalNumberOfFreeBytes
-pszDirectoryName : [wstr] Type: LPCTSTR A null-terminated string that specifies the volume for which size information is retrieved. This can be a drive letter, UNC name, or the path of a folder. You cannot use NULL to represent the current drive.
-pulFreeBytesAvailableToCaller : [var] Type: ULARGE_INTEGER* Pointer to a value that receives the number of bytes on the volume available to the calling application. If the operating system implements per-user quotas, this value may be less than the total number of free bytes on the volume.
-pulTotalNumberOfBytes : [var] Type: ULARGE_INTEGER* Pointer to a value that receives the total size of the volume, in bytes.
-pulTotalNumberOfFreeBytes : [var] Type: ULARGE_INTEGER* Pointer to a value that receives the number of bytes of free space on the volume.
+pszDirectoryName : [wstr] Œ^: LPCTSTR ƒTƒCƒYî•ñ‚ğæ“¾‚·‚éƒ{ƒŠƒ…[ƒ€‚ğw’è‚·‚é null I’[•¶š—ñBƒhƒ‰ƒCƒu•¶šAUNC –¼A‚Ü‚½‚ÍƒtƒHƒ‹ƒ_‚ÌƒpƒX‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éBŒ»İ‚Ìƒhƒ‰ƒCƒu‚ğ•\‚·‚½‚ß‚É NULL ‚ğg—p‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+pulFreeBytesAvailableToCaller : [var] Œ^: ULARGE_INTEGER* ŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª—˜—p‰Â”\‚Èƒ{ƒŠƒ…[ƒ€ã‚ÌƒoƒCƒg”‚ğó‚¯æ‚é’l‚Ö‚Ìƒ|ƒCƒ“ƒ^[BƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ªƒ†[ƒU[‚²‚Æ‚ÌƒNƒH[ƒ^‚ğÀ‘•‚µ‚Ä‚¢‚éê‡A‚±‚Ì’l‚Íƒ{ƒŠƒ…[ƒ€ã‚Ì‹ó‚«ƒoƒCƒg‚Ì‘”‚æ‚è­‚È‚¢ê‡‚ª‚ ‚éB
+pulTotalNumberOfBytes : [var] Œ^: ULARGE_INTEGER* ƒ{ƒŠƒ…[ƒ€‚Ì‘ƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğó‚¯æ‚é’l‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pulTotalNumberOfFreeBytes : [var] Œ^: ULARGE_INTEGER* ƒ{ƒŠƒ…[ƒ€ã‚Ì‹ó‚«—Ìˆæ‚ÌƒoƒCƒg”‚ğó‚¯æ‚é’l‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves disk space information for a disk volume. (Unicode)
+ƒfƒBƒXƒNƒ{ƒŠƒ…[ƒ€‚ÌƒfƒBƒXƒN—Ìˆæî•ñ‚ğæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if successful, FALSE otherwise.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-The similarly named function SHGetDiskFreeSpace is merely an alias
-for SHGetDiskFreeSpaceEx. When you call SHGetDiskFreeSpace you
-actually call this function. This function calls the
-GetDiskFreeSpaceEx function if it is available on the operating
-system. If GetDiskFreeSpaceEx is not available, it is emulated by
-calling the GetDiskFreeSpace function and manipulating the return
-values. For additional information, see the documentation for
-GetDiskFreeSpaceEx.
-> [!NOTE] > The shellapi.h header defines SHGetDiskFreeSpaceEx as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+—Ş—–¼‚ÌŠÖ” SHGetDiskFreeSpace ‚Í’P‚É SHGetDiskFreeSpaceEx
+‚ÌƒGƒCƒŠƒAƒX‚Å‚ ‚éBSHGetDiskFreeSpace
+‚ğŒÄ‚Ño‚·‚ÆÀÛ‚É‚Í‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚éB‚±‚ÌŠÖ”‚ÍAƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚Å—˜—p‰Â”\‚Å‚ ‚ê‚Î GetDiskFreeSpaceEx
+ŠÖ”‚ğŒÄ‚Ño‚·BGetDiskFreeSpaceEx ‚ª—˜—p‚Å‚«‚È‚¢ê‡‚ÍAGetDiskFreeSpace
+ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä–ß‚è’l‚ğ‰ÁH‚·‚é‚±‚Æ‚ÅƒGƒ~ƒ…ƒŒ[ƒg‚·‚éBÚ×‚Í GetDiskFreeSpaceEx ‚ÌƒhƒLƒ…ƒƒ“ƒg‚ğQÆB
+> [!NOTE] > shellapi.h ƒwƒbƒ_[‚Í SHGetDiskFreeSpaceEx ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚µ‚Äg—p‚·‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 SHGetDriveMedia
-Returns the type of media that is in the given drive.
+w’è‚µ‚½ƒhƒ‰ƒCƒu‚É“ü‚Á‚Ä‚¢‚éƒƒfƒBƒA‚Ìí—Ş‚ğ•Ô‚·B
 %group
 Win32 shell32
 %prm
 pszDrive, pdwMediaContent
-pszDrive : [wstr] Type: PCWSTR The drive in which to check the media type.
-pdwMediaContent : [var] Type: DWORD* A pointer to the type of media in the given drive. A combination of ARCONTENT flags.
+pszDrive : [wstr] Œ^: PCWSTR ƒƒfƒBƒA‚Ìí—Ş‚ğƒ`ƒFƒbƒN‚·‚éƒhƒ‰ƒCƒuB
+pdwMediaContent : [var] Œ^: DWORD* w’è‚µ‚½ƒhƒ‰ƒCƒu“à‚ÌƒƒfƒBƒA‚Ìí—Ş‚Ö‚Ìƒ|ƒCƒ“ƒ^[BARCONTENT ƒtƒ‰ƒO‚Ì‘g‚İ‡‚í‚¹B
 %inst
-Returns the type of media that is in the given drive.
+w’è‚µ‚½ƒhƒ‰ƒCƒu‚É“ü‚Á‚Ä‚¢‚éƒƒfƒBƒA‚Ìí—Ş‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHGetFolderLocation
-Deprecated. Retrieves the path of a folder as an ITEMIDLIST structure.
+”ñ„§BƒtƒHƒ‹ƒ_‚ÌƒpƒX‚ğ ITEMIDLIST \‘¢‘Ì‚Æ‚µ‚Äæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 hwnd, csidl, hToken, dwFlags, ppidl
-hwnd : [intptr] Type: HWND Reserved.
-csidl : [int] Type: int A CSIDL value that identifies the folder to be located. The folders associated with the CSIDLs might not exist on a particular system.
-hToken : [intptr] Type: HANDLE An access token that can be used to represent a particular user. It is usually set to NULL, but it may be needed when there are multiple users for those folders that are treated as belonging to a single user. The most commonly used folder of this type is My Documents. The calling application is responsible for correct impersonation when hToken is non-NULL. It must have appropriate security privileges for the particular user, and the user's registry hive must be currently mounted. See Access Control for further discussion of access control issues.
-dwFlags : [int] Type: DWORD
-ppidl : [var] Type: PIDLIST_ABSOLUTE* The address of a pointer to an item identifier list structure that specifies the folder's location relative to the root of the namespace (the desktop). The ppidl parameter is set to NULL on failure. The calling application is responsible for freeing this resource by calling ILFree.
+hwnd : [intptr] Œ^: HWND —\–ñÏ‚İB
+csidl : [int] Œ^: int æ“¾‚·‚éƒtƒHƒ‹ƒ_‚ğ¯•Ê‚·‚é CSIDL ’lBCSIDL ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒHƒ‹ƒ_‚ÍA“Á’è‚ÌƒVƒXƒeƒ€‚É‚Í‘¶İ‚µ‚È‚¢ê‡‚ª‚ ‚éB
+hToken : [intptr] Œ^: HANDLE “Á’è‚Ìƒ†[ƒU[‚ğ•\‚·‚½‚ß‚Ég—p‚Å‚«‚éƒAƒNƒZƒXƒg[ƒNƒ“B’Êí‚Í NULL ‚Éİ’è‚·‚é‚ªA’Pˆêƒ†[ƒU[‚É‘®‚·‚é‚à‚Ì‚Æ‚µ‚Äˆµ‚í‚ê‚éA•¡”ƒ†[ƒU[‚ğ‚ÂƒtƒHƒ‹ƒ_‚Ìê‡‚É•K—v‚Æ‚È‚é‚±‚Æ‚ª‚ ‚éB‚±‚Ìí—Ş‚ÌÅ‚àˆê”Ê“I‚Ég—p‚³‚ê‚éƒtƒHƒ‹ƒ_‚Íƒ}ƒC ƒhƒLƒ…ƒƒ“ƒg‚Å‚ ‚éBhToken ‚ª”ñ NULL ‚Ìê‡AŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í³‚µ‚¢‹U‘•‚ğs‚¤Ó”C‚ª‚ ‚éB“Á’è‚Ìƒ†[ƒU[‚É‘Î‚·‚é“KØ‚ÈƒZƒLƒ…ƒŠƒeƒB“ÁŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚èAƒ†[ƒU[‚ÌƒŒƒWƒXƒgƒŠƒnƒCƒu‚ªŒ»İƒ}ƒEƒ“ƒg‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBƒAƒNƒZƒX§Œä‚ÌÚ×‚É‚Â‚¢‚Ä‚ÍAAccess Control ‚ğQÆB
+dwFlags : [int] Œ^: DWORD
+ppidl : [var] Œ^: PIDLIST_ABSOLUTE* –¼‘O‹óŠÔ‚Ìƒ‹[ƒg (ƒfƒXƒNƒgƒbƒv) ‚ğŠî€‚Æ‚µ‚½ƒtƒHƒ‹ƒ_‚ÌêŠ‚ğw’è‚·‚éƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒXB¸”s‚µ‚½ê‡Appidl ƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚³‚ê‚éBŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAILFree ‚ğŒÄ‚Ño‚µ‚Ä‚±‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éÓ”C‚ª‚ ‚éB
 %inst
-Deprecated. Retrieves the path of a folder as an ITEMIDLIST
-structure.
+”ñ„§BƒtƒHƒ‹ƒ_‚ÌƒpƒX‚ğ ITEMIDLIST \‘¢‘Ì‚Æ‚µ‚Äæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise, including the following:
-This doc was truncated.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ğŠÜ‚ŞƒGƒ‰[’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Note As of Windows Vista, this function is merely a wrapper for
-SHGetKnownFolderIDList. The CSIDL value is translated to its
-associated KNOWNFOLDERID and SHGetKnownFolderIDList is called. New
-applications should use the known folder system rather than the older
-CSIDL system, which is supported only for backward compatibility. The
-SHGetFolderLocation, SHGetFolderPath, SHGetSpecialFolderLocation, and
-SHGetSpecialFolderPath functions are the preferred ways to obtain
-handles to folders on systems earlier than Windows Vista. Functions
-such as ExpandEnvironmentStrings that use the environment variable
-names directly, in the form %VariableName%, may not be reliable. This
-function is a superset of SHGetSpecialFolderLocation, included with
-earlier versions of the Shell.
+’ Windows Vista ˆÈ~A‚±‚ÌŠÖ”‚Í’P‚É SHGetKnownFolderIDList ‚Ìƒ‰ƒbƒp[‚Æ‚È‚Á‚½BCSIDL
+’l‚Í‘Î‰‚·‚é KNOWNFOLDERID ‚É•ÏŠ·‚³‚êASHGetKnownFolderIDList
+‚ªŒÄ‚Ño‚³‚ê‚éBV‚µ‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAŒã•ûŒİŠ·«‚Ì‚½‚ß‚É‚Ì‚İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒÃ‚¢ CSIDL ƒVƒXƒeƒ€‚Å‚Í‚È‚­Aknown
+folder
+ƒVƒXƒeƒ€‚ğg—p‚·‚×‚«‚Å‚ ‚éBSHGetFolderLocationASHGetFolderPathASHGetSpecialFolderLocationA‚¨‚æ‚Ñ
+SHGetSpecialFolderPath ŠÖ”‚ÍAWindows Vista
+‚æ‚è‘O‚ÌƒVƒXƒeƒ€‚ÅƒtƒHƒ‹ƒ_‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é‚Ì‚É„§‚³‚ê‚é•û–@‚Å‚ ‚éBExpandEnvironmentStrings
+‚Ì‚æ‚¤‚ÉŠÂ‹«•Ï”–¼‚ğ %VariableName%
+‚ÌŒ`®‚Å’¼Úg‚¤ŠÖ”‚ÍAM—Š‚Å‚«‚È‚¢ê‡‚ª‚ ‚éB‚±‚ÌŠÖ”‚ÍAƒVƒFƒ‹‚Ì‹Œƒo[ƒWƒ‡ƒ“‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚½
+SHGetSpecialFolderLocation ‚ÌãˆÊW‡‚Å‚ ‚éB
 
 
 %index
@@ -2842,280 +2544,235 @@ pszPath : [wstr] Œ^: LPWSTR ƒpƒX‚ğó‚¯æ‚é’·‚³ MAX_PATH ‚Ì NULL I’[•¶š—ñ‚Ö‚Ìƒ|
 
 %index
 SHGetFolderPathAndSubDirW
-Gets the path of a folder and appends a user-provided subfolder path. (Unicode)
+ƒtƒHƒ‹ƒ_‚ÌƒpƒX‚ğæ“¾‚µAƒ†[ƒU[w’è‚ÌƒTƒuƒtƒHƒ‹ƒ_ƒpƒX‚ğ’Ç‰Á‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 hwnd, csidl, hToken, dwFlags, pszSubDir, pszPath
-hwnd : [intptr] Type: HWND Reserved.
-csidl : [int] Type: int A CSIDL value that identifies the folder whose path is to be retrieved. Only real folders are valid. If a virtual folder is specified, this function fails. You can force creation of a folder with SHGetFolderPathAndSubDir by combining the folder's CSIDL with CSIDL_FLAG_CREATE.
-hToken : [intptr] Type: HANDLE An access token that represents a particular user. For systems earlier than Windows?2000, set this value to NULL. For later systems, hToken is usually, but not always, set to NULL. You might need to assign a value to hToken for those folders that can have multiple users but are treated as belonging to a single user. The most commonly used folder of this type is My Documents.
-dwFlags : [int] Type: DWORD Specifies whether the path to be returned is the actual path of the folder or the default path. This value is used in cases where the folder associated with a CSIDL value may be moved or renamed by the user.
-pszSubDir : [wstr] Type: LPCTSTR A pointer to the subpath to be appended to the folder's path. This is a null-terminated string of length MAX_PATH. If you are not creating a new directory, this must be an existing subdirectory or the function returns an error. This value can be NULL if no subpath is to be appended.
-pszPath : [wstr] Type: LPTSTR When this function returns, this value points to the directory path and appended subpath. This is a null-terminated string of length MAX_PATH. This string is empty when the function returns an error code.
+hwnd : [intptr] Œ^: HWND —\–ñÏ‚İB
+csidl : [int] Œ^: int ƒpƒX‚ğæ“¾‚·‚éƒtƒHƒ‹ƒ_‚ğ¯•Ê‚·‚é CSIDL ’lBÀƒtƒHƒ‹ƒ_‚Ì‚İ‚ª—LŒø‚Å‚ ‚éB‰¼‘zƒtƒHƒ‹ƒ_‚ğw’è‚·‚é‚Æ‚±‚ÌŠÖ”‚Í¸”s‚·‚éBƒtƒHƒ‹ƒ_‚Ì CSIDL ‚ğ CSIDL_FLAG_CREATE ‚Æ‘g‚İ‡‚í‚¹‚é‚ÆASHGetFolderPathAndSubDir ‚ÅƒtƒHƒ‹ƒ_‚Ìì¬‚ğ‹­§‚Å‚«‚éB
+hToken : [intptr] Œ^: HANDLE “Á’è‚Ìƒ†[ƒU[‚ğ•\‚·ƒAƒNƒZƒXƒg[ƒNƒ“BWindows 2000 ‚æ‚è‘O‚ÌƒVƒXƒeƒ€‚Å‚Í‚±‚Ì’l‚ğ NULL ‚Éİ’è‚·‚éB‚»‚êˆÈ~‚ÌƒVƒXƒeƒ€‚Å‚ÍAhToken ‚Í’Êí (í‚É‚Å‚Í‚È‚¢) NULL ‚Éİ’è‚·‚éB•¡”ƒ†[ƒU[‚ğ‚¿“¾‚é‚ª’Pˆêƒ†[ƒU[‚É‘®‚·‚é‚à‚Ì‚Æ‚µ‚Äˆµ‚í‚ê‚éƒtƒHƒ‹ƒ_‚Ìê‡‚É hToken ‚É’l‚ğŠ„‚è“–‚Ä‚é•K—v‚ª‚ ‚é‚©‚à‚µ‚ê‚È‚¢B‚±‚Ìí—Ş‚ÌÅ‚àˆê”Ê“I‚Ég—p‚³‚ê‚éƒtƒHƒ‹ƒ_‚Íƒ}ƒC ƒhƒLƒ…ƒƒ“ƒg‚Å‚ ‚éB
+dwFlags : [int] Œ^: DWORD •Ô‚³‚ê‚éƒpƒX‚ªƒtƒHƒ‹ƒ_‚ÌÀÛ‚ÌƒpƒX‚©Šù’è‚ÌƒpƒX‚©‚ğw’è‚·‚éB‚±‚Ì’l‚ÍACSIDL ’l‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒHƒ‹ƒ_‚ªƒ†[ƒU[‚É‚æ‚Á‚ÄˆÚ“®‚Ü‚½‚Í–¼‘O•ÏX‚³‚ê‚é‰Â”\«‚ª‚ ‚éê‡‚Ég—p‚·‚éB
+pszSubDir : [wstr] Œ^: LPCTSTR ƒtƒHƒ‹ƒ_‚ÌƒpƒX‚É’Ç‰Á‚·‚éƒTƒuƒpƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚ê‚Í’·‚³ MAX_PATH ‚Ì null I’[•¶š—ñ‚Å‚ ‚éBV‚µ‚¢ƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚µ‚È‚¢ê‡A‚±‚ê‚ÍŠù‘¶‚ÌƒTƒuƒfƒBƒŒƒNƒgƒŠ‚Å‚È‚¯‚ê‚Î‚È‚ç‚¸A‚»‚¤‚Å‚È‚¢ê‡‚ÍŠÖ”‚ªƒGƒ‰[‚ğ•Ô‚·BƒTƒuƒpƒX‚ğ’Ç‰Á‚µ‚È‚¢ê‡A‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
+pszPath : [wstr] Œ^: LPTSTR ‚±‚ÌŠÖ”‚ª•Ô‚é‚Æ‚«‚ÉAƒfƒBƒŒƒNƒgƒŠƒpƒX‚Æ’Ç‰Á‚³‚ê‚½ƒTƒuƒpƒX‚ğw‚·B‚±‚ê‚Í’·‚³ MAX_PATH ‚Ì null I’[•¶š—ñ‚Å‚ ‚éBŠÖ”‚ªƒGƒ‰[ƒR[ƒh‚ğ•Ô‚µ‚½ê‡A‚±‚Ì•¶š—ñ‚Í‹ó‚Å‚ ‚éB
 %inst
-Gets the path of a folder and appends a user-provided subfolder path.
-(Unicode)
+ƒtƒHƒ‹ƒ_‚ÌƒpƒX‚ğæ“¾‚µAƒ†[ƒU[w’è‚ÌƒTƒuƒtƒHƒ‹ƒ_ƒpƒX‚ğ’Ç‰Á‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-> [!NOTE] > The shlobj_core.h header defines SHGetFolderPathAndSubDir
-as an alias which automatically selects the ANSI or Unicode version
-of this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > shlobj_core.h ƒwƒbƒ_[‚Í SHGetFolderPathAndSubDir ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚µ‚Äg—p‚·‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 SHGetIDListFromObject
-Retrieves the pointer to an item identifier list (PIDL) of an object.
+ƒIƒuƒWƒFƒNƒg‚ÌƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 punk, ppidl
-punk : [var] Type: IUnknown* A pointer to the IUnknown of the object from which to get the PIDL.
-ppidl : [var] Type: PIDLIST_ABSOLUTE* When this function returns, contains a pointer to the PIDL of the given object.
+punk : [var] Œ^: IUnknown* PIDL ‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚Ì IUnknown ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+ppidl : [var] Œ^: PIDLIST_ABSOLUTE* ‚±‚ÌŠÖ”‚ª•Ô‚é‚Æ‚«‚ÉAw’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚Ì PIDL ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB
 %inst
-Retrieves the pointer to an item identifier list (PIDL) of an object.
+ƒIƒuƒWƒFƒNƒg‚ÌƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHGetIconOverlayIndexW
-Returns the index of the overlay icon in the system image list. (Unicode)
+ƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg“à‚ÌƒI[ƒo[ƒŒƒCƒAƒCƒRƒ“‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚·B(Unicode)
 %group
 Win32 shell32
 %prm
 pszIconPath, iIconIndex
-pszIconPath : [wstr] Type: LPCTSTR A pointer to a null-terminated string of maximum length MAX_PATH that contains the fully qualified path of the file that contains the icon.
-iIconIndex : [int] Type: int The icon's index in the file pointed to by pszIconPath. To request a standard overlay icon, set pszIconPath to NULL, and iIconIndex to one of the following:
+pszIconPath : [wstr] Œ^: LPCTSTR ƒAƒCƒRƒ“‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğŠi”[‚·‚éAÅ‘å’· MAX_PATH ‚Ì null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+iIconIndex : [int] Œ^: int pszIconPath ‚ªw‚·ƒtƒ@ƒCƒ‹“à‚ÌƒAƒCƒRƒ“‚ÌƒCƒ“ƒfƒbƒNƒXB•W€ƒI[ƒo[ƒŒƒCƒAƒCƒRƒ“‚ğ—v‹‚·‚é‚É‚ÍApszIconPath ‚ğ NULL ‚Éİ’è‚µAiIconIndex ‚ğŸ‚Ì‚¢‚¸‚ê‚©‚Éİ’è‚·‚éB
 %inst
-Returns the index of the overlay icon in the system image list.
-(Unicode)
+ƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg“à‚ÌƒI[ƒo[ƒŒƒCƒAƒCƒRƒ“‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚·B(Unicode)
 
 [–ß‚è’l]
-Type: int Returns the index of the overlay icon in the system image
-list if successful, or -1 otherwise.
+Œ^: int ¬Œ÷‚µ‚½ê‡‚ÍƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg“à‚ÌƒI[ƒo[ƒŒƒCƒAƒCƒRƒ“‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í -1 ‚ğ•Ô‚·B
 
 [”õl]
-Icon overlays are part of the system image list. They have two
-identifiers. The first is a one-based overlay index that identifies
-the overlay relative to other overlays in the image list. The other
-is an image index that identifies the actual image. These two indexes
-are equivalent to the values that you assign to the iOverlay and
-iImage parameters, respectively, when you add an icon overlay to a
-private image list with ImageList_SetOverlayImage.
-SHGetIconOverlayIndex returns the overlay index. To convert an
-overlay index to its equivalent image index, call INDEXTOOVERLAYMASK.
-Note After the image has been loaded into the system image list
-during initialization, it cannot be changed. The file name and index
-specified by pszIconPath and iIconIndex are used only to identify the
-icon overlay. SHGetIconOverlayIndex cannot be used to modify the
-system image list.
-> [!NOTE] > The shlobj_core.h header defines SHGetIconOverlayIndex as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ƒAƒCƒRƒ“ƒI[ƒo[ƒŒƒC‚ÍƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg‚Ìˆê•”‚Å‚ ‚éB‚±‚ê‚ç‚É‚Í 2 ‚Â‚Ì¯•Êq‚ª‚ ‚éB1
+‚Â–Ú‚ÍAƒCƒ[ƒWƒŠƒXƒg“à‚Ì‘¼‚ÌƒI[ƒo[ƒŒƒC‚É‘Î‚·‚éƒI[ƒo[ƒŒƒC‚ğ¯•Ê‚·‚é 1 ‚©‚çn‚Ü‚éƒI[ƒo[ƒŒƒCƒCƒ“ƒfƒbƒNƒX‚Å‚ ‚éB‚à‚¤ 1
+‚Â‚ÍAÀÛ‚ÌƒCƒ[ƒW‚ğ¯•Ê‚·‚éƒCƒ[ƒWƒCƒ“ƒfƒbƒNƒX‚Å‚ ‚éB‚±‚ê‚ç 2
+‚Â‚ÌƒCƒ“ƒfƒbƒNƒX‚ÍAImageList_SetOverlayImage ‚Åƒvƒ‰ƒCƒx[ƒgƒCƒ[ƒWƒŠƒXƒg‚ÉƒAƒCƒRƒ“ƒI[ƒo[ƒŒƒC‚ğ’Ç‰Á‚·‚éÛ‚É
+iOverlay ‚¨‚æ‚Ñ iImage ƒpƒ‰ƒ[ƒ^[‚É‚»‚ê‚¼‚êŠ„‚è“–‚Ä‚é’l‚Æ“¯“™‚Å‚ ‚éBSHGetIconOverlayIndex
+‚ÍƒI[ƒo[ƒŒƒCƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚·BƒI[ƒo[ƒŒƒCƒCƒ“ƒfƒbƒNƒX‚ğ‘Î‰‚·‚éƒCƒ[ƒWƒCƒ“ƒfƒbƒNƒX‚É•ÏŠ·‚·‚é‚É‚ÍAINDEXTOOVERLAYMASK
+‚ğŒÄ‚Ño‚·B’ ‰Šú‰»’†‚ÉƒCƒ[ƒW‚ªƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg‚É“Ç‚İ‚Ü‚ê‚½Œã‚ÍA•ÏX‚Å‚«‚È‚¢BpszIconPath ‚Æ
+iIconIndex
+‚Åw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼‚ÆƒCƒ“ƒfƒbƒNƒX‚ÍƒAƒCƒRƒ“ƒI[ƒo[ƒŒƒC‚ğ¯•Ê‚·‚é‚½‚ß‚É‚Ì‚İg—p‚³‚ê‚éBSHGetIconOverlayIndex
+‚ÍƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg‚Ì•ÏX‚É‚Íg—p‚Å‚«‚È‚¢B
+> [!NOTE] > shlobj_core.h ƒwƒbƒ_[‚Í SHGetIconOverlayIndex ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚µ‚Äg—p‚·‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 SHGetImageList
-Retrieves an image list.
+ƒCƒ[ƒWƒŠƒXƒg‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 iImageList, riid, ppvObj
-iImageList : [int] Type: int
-riid : [var] Type: REFIID Reference to the image list interface identifier, normally IID_IImageList.
-ppvObj : [var] Type: void** When this method returns, contains the interface pointer requested in riid. This is typically IImageList.
+iImageList : [int] Œ^: int
+riid : [var] Œ^: REFIID ƒCƒ[ƒWƒŠƒXƒgƒCƒ“ƒ^[ƒtƒFƒCƒX¯•Êq‚Ö‚ÌQÆB’Êí‚Í IID_IImageListB
+ppvObj : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB‚±‚ê‚Í’Êí IImageList ‚Å‚ ‚éB
 %inst
-Retrieves an image list.
+ƒCƒ[ƒWƒŠƒXƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The IImageList pointer type, such as that returned in the ppv
-parameter, can be cast as an HIMAGELIST as needed; for example, for
-use in a list view. Conversely, an HIMAGELIST can be cast as a
-pointer to an IImageList. As of Windows Vista, SHIL_SMALL,
-SHIL_LARGE, and SHIL_EXTRALARGE scale with dots per inch (dpi) if the
-process is marked as dpi-aware. To set these types to be dpi-aware,
-call SetProcessDPIAware. SHIL_JUMBO is fixed at 256 pixels regardless
-of the dpi-aware setting.
+ppv ƒpƒ‰ƒ[ƒ^[‚Å•Ô‚³‚ê‚é IImageList ƒ|ƒCƒ“ƒ^[Œ^‚ÍA•K—v‚É‰‚¶‚Ä (‚½‚Æ‚¦‚ÎƒŠƒXƒgƒrƒ…[‚Å‚Ìg—p‚Ì‚½‚ß‚É)
+HIMAGELIST ‚ÉƒLƒƒƒXƒg‚Å‚«‚éB‹t‚ÉAHIMAGELIST ‚ğ IImageList
+‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÉƒLƒƒƒXƒg‚·‚é‚±‚Æ‚à‚Å‚«‚éBWindows Vista ˆÈ~AƒvƒƒZƒX‚ª dpi-aware
+‚Æ‚µ‚Äƒ}[ƒN‚³‚ê‚Ä‚¢‚éê‡ASHIL_SMALLASHIL_LARGEA‚¨‚æ‚Ñ SHIL_EXTRALARGE ‚Í dpi
+‚É‰‚¶‚ÄƒXƒP[ƒ‹‚³‚ê‚éB‚±‚ê‚ç‚Ìí—Ş‚ğ dpi-aware ‚É‚·‚é‚É‚ÍASetProcessDPIAware
+‚ğŒÄ‚Ño‚·BSHIL_JUMBO ‚Í dpi-aware ‚Ìİ’è‚ÉŠÖŒW‚È‚­ 256 ƒsƒNƒZƒ‹‚ÉŒÅ’è‚³‚ê‚éB
 
 
 %index
 SHGetInstanceExplorer
-Retrieves an interface that allows hosted Shell extensions and other components to prevent their host process from closing prematurely.
+ƒzƒXƒg‚³‚ê‚½ƒVƒFƒ‹Šg’£‚â‚»‚Ì‘¼‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ªA‚»‚ê‚ç‚ÌƒzƒXƒgƒvƒƒZƒX‚Ì‘ŠúI—¹‚ğ–h‚®‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 ppunk
-ppunk : [var] Type: IUnknown** When this function returns successfully, contains the address of the host process' IUnknown interface pointer. This is a free-threaded interface used to prevent the host process from terminating. If the function call fails, this value is set to NULL.
+ppunk : [var] Œ^: IUnknown** ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡AƒzƒXƒgƒvƒƒZƒX‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB‚±‚ê‚ÍƒzƒXƒgƒvƒƒZƒX‚ÌI—¹‚ğ–h‚®‚½‚ß‚Ég—p‚³‚ê‚éƒtƒŠ[ƒXƒŒƒbƒhƒCƒ“ƒ^[ƒtƒFƒCƒX‚Å‚ ‚éBŠÖ”ŒÄ‚Ño‚µ‚ª¸”s‚µ‚½ê‡A‚±‚Ì’l‚Í NULL ‚Éİ’è‚³‚ê‚éB
 %inst
-Retrieves an interface that allows hosted Shell extensions and other
-components to prevent their host process from closing prematurely.
+ƒzƒXƒg‚³‚ê‚½ƒVƒFƒ‹Šg’£‚â‚»‚Ì‘¼‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ªA‚»‚ê‚ç‚ÌƒzƒXƒgƒvƒƒZƒX‚Ì‘ŠúI—¹‚ğ–h‚®‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-There are a number of components, such as Shell extension handlers,
-that are implemented as DLLs and run in a host process such as
-Windows Explorer (Explorer.exe) or Internet Explorer (Iexplore.exe).
-Typically, when the user closes the host process, the component is
-shut down immediately as well. Such an abrupt termination can create
-problems for some components. For example, if a component is using a
-background thread to download data or run user-interface functions,
-it might need additional time to safely shut itself down.
-SHGetInstanceExplorer allows components that run in a host process to
-hold a reference on the host process. SHGetInstanceExplorer
-increments the host's reference count and returns a pointer to the
-host's IUnknown interface. By holding that reference, a component can
-prevent the host process from closing prematurely. After the
-component has completed its necessary processing, it should call
-(*ppunk)->Release to release the host's reference and allow the
-process to terminate. Note If SHGetInstanceExplorer is successful,
-the component must release the host's reference when it is no longer
-needed. Otherwise, all resources associated with the process will
-remain in memory. The IUnknown interface pointed to by *ppunk can
-only be used to release this reference. Components cannot use
-(*ppunk)->QueryInterface to request other interface pointers.
-SHGetInstanceExplorer succeeds only if it is called from from an
-application which had previously called SHSetInstanceExplorer to set
-a process reference.
+ƒVƒFƒ‹Šg’£ƒnƒ“ƒhƒ‰[‚È‚ÇADLL ‚Æ‚µ‚ÄÀ‘•‚³‚ê Windows Explorer (Explorer.exe) ‚â Internet
+Explorer (Iexplore.exe)
+‚È‚Ç‚ÌƒzƒXƒgƒvƒƒZƒX“à‚ÅÀs‚³‚ê‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‘½”‘¶İ‚·‚éB’ÊíAƒ†[ƒU[‚ªƒzƒXƒgƒvƒƒZƒX‚ğ•Â‚¶‚é‚ÆAƒRƒ“ƒ|[ƒlƒ“ƒg‚à‚½‚¾‚¿‚ÉƒVƒƒƒbƒgƒ_ƒEƒ“‚³‚ê‚éB‚±‚Ì‚æ‚¤‚È“Ë‘R‚ÌI—¹‚ÍA‚¢‚­‚Â‚©‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚Æ‚Á‚Ä–â‘è‚ğˆø‚«‹N‚±‚·‰Â”\«‚ª‚ ‚éB‚½‚Æ‚¦‚ÎAƒRƒ“ƒ|[ƒlƒ“ƒg‚ªƒoƒbƒNƒOƒ‰ƒEƒ“ƒhƒXƒŒƒbƒh‚ğg—p‚µ‚Äƒf[ƒ^‚ğƒ_ƒEƒ“ƒ[ƒh‚µ‚½‚èƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒX‹@”\‚ğÀs‚µ‚½‚è‚µ‚Ä‚¢‚éê‡AˆÀ‘S‚ÉƒVƒƒƒbƒgƒ_ƒEƒ“‚·‚é‚½‚ß‚Ì’Ç‰ÁŠÔ‚ª•K—v‚Æ‚È‚éê‡‚ª‚ ‚éBSHGetInstanceExplorer
+‚É‚æ‚èAƒzƒXƒgƒvƒƒZƒX“à‚ÅÀs‚³‚ê‚Ä‚¢‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ªƒzƒXƒgƒvƒƒZƒX‚Ö‚ÌQÆ‚ğ•Û‚Å‚«‚é‚æ‚¤‚É‚È‚éBSHGetInstanceExplorer
+‚ÍƒzƒXƒg‚ÌQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚µAƒzƒXƒg‚Ì IUnknown
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ•Ô‚·B‚»‚ÌQÆ‚ğ•Û‚·‚é‚±‚Æ‚ÅAƒRƒ“ƒ|[ƒlƒ“ƒg‚ÍƒzƒXƒgƒvƒƒZƒX‚ª‘Šú‚ÉI—¹‚·‚é‚Ì‚ğ–h‚°‚éBƒRƒ“ƒ|[ƒlƒ“ƒg‚ª•K—v‚Èˆ—‚ğŠ®—¹‚µ‚½Œã‚ÍA(*ppunk)->Release
+‚ğŒÄ‚Ño‚µ‚ÄƒzƒXƒg‚ÌQÆ‚ğ‰ğ•ú‚µAƒvƒƒZƒX‚ªI—¹‚Å‚«‚é‚æ‚¤‚É‚·‚é•K—v‚ª‚ ‚éB’ SHGetInstanceExplorer
+‚ª¬Œ÷‚µ‚½ê‡AƒRƒ“ƒ|[ƒlƒ“ƒg‚Í•s—v‚É‚È‚Á‚½“_‚ÅƒzƒXƒg‚ÌQÆ‚ğ‰ğ•ú‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚µ‚È‚¯‚ê‚ÎAƒvƒƒZƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚ÌƒŠƒ\[ƒX‚ªƒƒ‚ƒŠ‚Éc‚Á‚½‚Ü‚Ü‚É‚È‚éB*ppunk
+‚ªw‚· IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÍA‚±‚ÌQÆ‚ğ‰ğ•ú‚·‚é‚½‚ß‚É‚Ì‚İg—p‚Å‚«‚éBƒRƒ“ƒ|[ƒlƒ“ƒg‚Í
+(*ppunk)->QueryInterface
+‚ğg—p‚µ‚Ä‘¼‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğ—v‹‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BSHGetInstanceExplorer ‚ÍAˆÈ‘O‚É
+SHSetInstanceExplorer ‚ğŒÄ‚Ño‚µ‚ÄƒvƒƒZƒXQÆ‚ğİ’è‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚çŒÄ‚Ño‚³‚ê‚½ê‡‚É‚Ì‚İ¬Œ÷‚·‚éB
 
 
 %index
 SHGetItemFromDataObject
-Creates an IShellItem or related object based on an item specified by an IDataObject.
+IDataObject ‚É‚æ‚Á‚Äw’è‚³‚ê‚½€–Ú‚ÉŠî‚Ã‚¢‚ÄAIShellItem ‚Ü‚½‚ÍŠÖ˜AƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 Win32 shell32
 %prm
 pdtobj, dwFlags, riid, ppv
-pdtobj : [var] Type: IDataObject* A pointer to the source IDataObject instance.
-dwFlags : [int] Type: DATAOBJ_GET_ITEM_FLAGS One or more values from the DATAOBJ_GET_ITEM_FLAGS enumeration to specify options regarding the target object. This value can be 0.
-riid : [var] Type: REFIID A reference to the IID of the interface to retrieve through ppv, typically IID_IShellItem.
-ppv : [var] Type: void** When this method returns, contains the interface pointer requested in riid. This is typically IShellItem.
+pdtobj : [var] Œ^: IDataObject* ƒ\[ƒX IDataObject ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+dwFlags : [int] Œ^: DATAOBJ_GET_ITEM_FLAGS ƒ^[ƒQƒbƒgƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚é DATAOBJ_GET_ITEM_FLAGS —ñ‹“‘Ì‚Ì 1 ‚ÂˆÈã‚Ì’lB‚±‚Ì’l‚Í 0 ‚Å‚à‚æ‚¢B
+riid : [var] Œ^: REFIID ppv Œo—R‚Åæ“¾‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì IID ‚Ö‚ÌQÆB’Êí‚Í IID_IShellItemB
+ppv : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB‚±‚ê‚Í’Êí IShellItem ‚Å‚ ‚éB
 %inst
-Creates an IShellItem or related object based on an item specified by
-an IDataObject.
+IDataObject ‚É‚æ‚Á‚Äw’è‚³‚ê‚½€–Ú‚ÉŠî‚Ã‚¢‚ÄAIShellItem ‚Ü‚½‚ÍŠÖ˜AƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-It is recommended that you use the IID_PPV_ARGS macro, defined in
-Objbase.h, to package the riid and ppv parameters. This macro
-provides the correct IID based on the interface pointed to by the
-value in ppv, which eliminates the possibility of a coding error.
+Objbase.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é IID_PPV_ARGS ƒ}ƒNƒ‚ğg—p‚µ‚Ä riid ‚Æ ppv
+ƒpƒ‰ƒ[ƒ^[‚ğƒpƒbƒP[ƒW‰»‚·‚é‚±‚Æ‚ğ„§‚·‚éB‚±‚Ìƒ}ƒNƒ‚Í ppv ‚Ì’l‚ªw‚·ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÉŠî‚Ã‚¢‚Ä³‚µ‚¢ IID
+‚ğ’ñ‹Ÿ‚·‚é‚½‚ßAƒR[ƒfƒBƒ“ƒOƒGƒ‰[‚Ì‰Â”\«‚ğ‚È‚­‚¹‚éB
 
 
 %index
 SHGetItemFromObject
-Retrieves an IShellItem for an object.
+ƒIƒuƒWƒFƒNƒg‚Ì IShellItem ‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 punk, riid, ppv
-punk : [var] Type: IUnknown* A pointer to the IUnknown of the object.
-riid : [var] Type: REFIID Reference to the desired IID.
-ppv : [var] Type: void** When this method returns, contains the interface pointer requested in riid. This is typically IShellItem or a related interface.
+punk : [var] Œ^: IUnknown* ƒIƒuƒWƒFƒNƒg‚Ì IUnknown ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+riid : [var] Œ^: REFIID –Ú“I‚Ì IID ‚Ö‚ÌQÆB
+ppv : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB‚±‚ê‚Í’Êí IShellItem ‚Ü‚½‚ÍŠÖ˜AƒCƒ“ƒ^[ƒtƒFƒCƒX‚Å‚ ‚éB
 %inst
-Retrieves an IShellItem for an object.
+ƒIƒuƒWƒFƒNƒg‚Ì IShellItem ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-From the standpoint of performance, this method is preferred to
-SHGetIDListFromObject in those cases where the IDList is already
-bound to a folder.
+ƒpƒtƒH[ƒ}ƒ“ƒXã‚ÌŠÏ“_‚©‚çAIDList ‚ªŠù‚ÉƒtƒHƒ‹ƒ_‚ÉƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚éê‡‚Í‚±‚Ìƒƒ\ƒbƒh‚Ì•û‚ª
+SHGetIDListFromObject ‚æ‚è‚àD‚Ü‚µ‚¢B
 
 
 %index
 SHGetKnownFolderIDList
-Retrieves the path of a known folder as an ITEMIDLIST structure.
+known folder ‚ÌƒpƒX‚ğ ITEMIDLIST \‘¢‘Ì‚Æ‚µ‚Äæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 rfid, dwFlags, hToken, ppidl
-rfid : [var] Type: REFKNOWNFOLDERID A reference to the KNOWNFOLDERID that identifies the folder. The folders associated with the known folder IDs might not exist on a particular system.
-dwFlags : [int] Type: DWORD Flags that specify special retrieval options. This value can be 0; otherwise, it is one or more of the KNOWN_FOLDER_FLAG values.
-hToken : [intptr] Type: HANDLE An access token used to represent a particular user. This parameter is usually set to NULL, in which case the function tries to access the current user's instance of the folder. However, you may need to assign a value to hToken for those folders that can have multiple users but are treated as belonging to a single user. The most commonly used folder of this type is Documents. The calling application is responsible for correct impersonation when hToken is non-null. It must have appropriate security privileges for the particular user, including TOKEN_QUERY and TOKEN_IMPERSONATE, and the user's registry hive must be currently mounted. See Access Control for further discussion of access control issues. Assigning the hToken parameter a value of -1 indicates the Default User. This allows clients of SHGetKnownFolderIDList to find folder locations (such as the Desktop folder) for the Default User. The Default User user profile is duplicated when any new user account is created, and includes special folders such as Documents and Desktop. Any items added to the Default User folder also appear in any new user account. Note that access to the Default User folders requires administrator privileges.
-ppidl : [var] Type: PIDLIST_ABSOLUTE* When this method returns, contains a pointer to the PIDL of the folder. This parameter is passed uninitialized. The caller is responsible for freeing the returned PIDL when it is no longer needed by calling ILFree.
+rfid : [var] Œ^: REFKNOWNFOLDERID ƒtƒHƒ‹ƒ_‚ğ¯•Ê‚·‚é KNOWNFOLDERID ‚Ö‚ÌQÆBknown folder ID ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒHƒ‹ƒ_‚ÍA“Á’è‚ÌƒVƒXƒeƒ€‚É‚Í‘¶İ‚µ‚È‚¢ê‡‚ª‚ ‚éB
+dwFlags : [int] Œ^: DWORD “Áê‚Èæ“¾ƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éƒtƒ‰ƒOB‚±‚Ì’l‚Í 0 ‚Å‚à‚æ‚­A‚»‚êˆÈŠO‚Ìê‡‚Í 1 ‚ÂˆÈã‚Ì KNOWN_FOLDER_FLAG ’l‚Å‚ ‚éB
+hToken : [intptr] Œ^: HANDLE “Á’è‚Ìƒ†[ƒU[‚ğ•\‚·‚½‚ß‚Ég—p‚·‚éƒAƒNƒZƒXƒg[ƒNƒ“B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’Êí NULL ‚Éİ’è‚µA‚»‚Ìê‡AŠÖ”‚ÍŒ»İ‚Ìƒ†[ƒU[‚ÌƒtƒHƒ‹ƒ_ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌƒAƒNƒZƒX‚ğ‚İ‚éB‚½‚¾‚µA•¡”ƒ†[ƒU[‚ğ‚¿“¾‚é‚ª’Pˆêƒ†[ƒU[‚É‘®‚·‚é‚à‚Ì‚Æ‚µ‚Äˆµ‚í‚ê‚éƒtƒHƒ‹ƒ_‚Ìê‡‚ÍAhToken ‚É’l‚ğŠ„‚è“–‚Ä‚é•K—v‚ª‚ ‚é‚©‚à‚µ‚ê‚È‚¢B‚±‚Ìí—Ş‚ÌÅ‚àˆê”Ê“I‚Ég—p‚³‚ê‚éƒtƒHƒ‹ƒ_‚Í Documents ‚Å‚ ‚éBhToken ‚ª”ñ null ‚Ìê‡AŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í³‚µ‚¢‹U‘•‚ğs‚¤Ó”C‚ª‚ ‚éBTOKEN_QUERY ‚¨‚æ‚Ñ TOKEN_IMPERSONATE ‚ğŠÜ‚ŞA“Á’è‚Ìƒ†[ƒU[‚É‘Î‚·‚é“KØ‚ÈƒZƒLƒ…ƒŠƒeƒB“ÁŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚èAƒ†[ƒU[‚ÌƒŒƒWƒXƒgƒŠƒnƒCƒu‚ªŒ»İƒ}ƒEƒ“ƒg‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBƒAƒNƒZƒX§Œä‚ÌÚ×‚É‚Â‚¢‚Ä‚ÍAAccess Control ‚ğQÆBhToken ƒpƒ‰ƒ[ƒ^[‚É -1 ‚ğw’è‚·‚é‚ÆADefault User ‚ğ•\‚·B‚±‚ê‚É‚æ‚è SHGetKnownFolderIDList ‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚ª Default User ‚Ì Desktop ƒtƒHƒ‹ƒ_‚È‚Ç‚ÌƒtƒHƒ‹ƒ_‚ÌêŠ‚ğŒ©‚Â‚¯‚ç‚ê‚é‚æ‚¤‚É‚È‚éBDefault User ‚Ìƒ†[ƒU[ƒvƒƒtƒ@ƒCƒ‹‚ÍAV‚µ‚¢ƒ†[ƒU[ƒAƒJƒEƒ“ƒg‚ªì¬‚³‚ê‚é‚½‚Ñ‚É•¡»‚³‚êADocuments ‚â Desktop ‚È‚Ç‚Ì“ÁêƒtƒHƒ‹ƒ_‚ğŠÜ‚ŞBDefault User ƒtƒHƒ‹ƒ_‚É’Ç‰Á‚µ‚½€–Ú‚ÍAV‚µ‚¢ƒ†[ƒU[ƒAƒJƒEƒ“ƒg‚·‚×‚Ä‚É‚à•\¦‚³‚ê‚éBDefault User ƒtƒHƒ‹ƒ_‚Ö‚ÌƒAƒNƒZƒX‚É‚ÍŠÇ—Ò“ÁŒ ‚ª•K—v‚Å‚ ‚é‚±‚Æ‚É’ˆÓB
+ppidl : [var] Œ^: PIDLIST_ABSOLUTE* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒtƒHƒ‹ƒ_‚Ì PIDL ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ó‘Ô‚Å“n‚³‚ê‚éBŒÄ‚Ño‚µ‘¤‚ÍA•s—v‚É‚È‚Á‚½“_‚Å ILFree ‚ğŒÄ‚Ño‚µ‚Ä•Ô‚³‚ê‚½ PIDL ‚ğ‰ğ•ú‚·‚éÓ”C‚ª‚ ‚éB
 %inst
-Retrieves the path of a known folder as an ITEMIDLIST structure.
+known folder ‚ÌƒpƒX‚ğ ITEMIDLIST \‘¢‘Ì‚Æ‚µ‚Äæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise, including the following:
-This doc was truncated.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ğŠÜ‚ŞƒGƒ‰[’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function replaces SHGetFolderLocation. That older function is
-now simply a wrapper for SHGetKnownFolderIDList. Callers using this
-function must have at least User privileges. Some known folders, for
-example, the Documents folder, are per-user. Each user has a
-different path for the Documents folder. If hToken is NULL, the API
-tries to access the current user's instance of the folder. If hToken
-is a valid user token, the API tries to impersonate the user using
-this token, and attempts to access that user's instance of the
-folder.
+‚±‚ÌŠÖ”‚Í SHGetFolderLocation ‚ğ’u‚«Š·‚¦‚éBŒÃ‚¢ŠÖ”‚Í¡‚â’P‚É SHGetKnownFolderIDList
+‚Ìƒ‰ƒbƒp[‚Å‚ ‚éB‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‘¤‚Í­‚È‚­‚Æ‚à User “ÁŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBDocuments ƒtƒHƒ‹ƒ_‚È‚ÇA‚¢‚­‚Â‚©‚Ì
+known folder ‚Íƒ†[ƒU[‚²‚Æ‚Å‚ ‚éBŠeƒ†[ƒU[‚Í Documents ƒtƒHƒ‹ƒ_‚É‘Î‚µ‚ÄˆÙ‚È‚éƒpƒX‚ğ‚ÂBhToken ‚ª
+NULL ‚Ìê‡AAPI ‚ÍŒ»İ‚Ìƒ†[ƒU[‚ÌƒtƒHƒ‹ƒ_ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌƒAƒNƒZƒX‚ğ‚İ‚éBhToken ‚ª—LŒø‚Èƒ†[ƒU[ƒg[ƒNƒ“‚Ìê‡AAPI
+‚Í‚»‚Ìƒg[ƒNƒ“‚ğg‚Á‚Äƒ†[ƒU[‚ğ‹U‘•‚µA‚»‚Ìƒ†[ƒU[‚ÌƒtƒHƒ‹ƒ_ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌƒAƒNƒZƒX‚ğ‚İ‚éB
 
 
 %index
 SHGetKnownFolderItem
-Retrieves an IShellItem object that represents a known folder.
+known folder ‚ğ•\‚· IShellItem ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 rfid, flags, hToken, riid, ppv
-rfid : [var] Type: REFKNOWNFOLDERID A reference to the KNOWNFOLDERID, a GUID that identifies the folder that contains the item.
-flags : [int] Type: KNOWN_FOLDER_FLAG Flags that specify special options used in the retrieval of the known folder IShellItem. This value can be KF_FLAG_DEFAULT; otherwise, one or more of the KNOWN_FOLDER_FLAG values.
-hToken : [intptr] Type: HANDLE An access token used to represent a particular user. This parameter is usually set to NULL, in which case the function tries to access the current user's instance of the folder. However, you may need to assign a value to hToken for those folders that can have multiple users but are treated as belonging to a single user. The most commonly used folder of this type is Documents.
-riid : [var] Type: REFIID A reference to the IID of the interface that represents the item, usually IID_IShellItem or IID_IShellItem2.
-ppv : [var] Type: void** When this method returns, contains the interface pointer requested in riid.
+rfid : [var] Œ^: REFKNOWNFOLDERID €–Ú‚ğŠÜ‚ŞƒtƒHƒ‹ƒ_‚ğ¯•Ê‚·‚é GUID ‚Å‚ ‚é KNOWNFOLDERID ‚Ö‚ÌQÆB
+flags : [int] Œ^: KNOWN_FOLDER_FLAG known folder ‚Ì IShellItem ‚Ìæ“¾‚Ég—p‚³‚ê‚é“Áê‚ÈƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éƒtƒ‰ƒOB‚±‚Ì’l‚Í KF_FLAG_DEFAULT ‚Å‚à‚æ‚­A‚»‚êˆÈŠO‚Ìê‡‚Í 1 ‚ÂˆÈã‚Ì KNOWN_FOLDER_FLAG ’l‚Å‚ ‚éB
+hToken : [intptr] Œ^: HANDLE “Á’è‚Ìƒ†[ƒU[‚ğ•\‚·‚½‚ß‚Ég—p‚·‚éƒAƒNƒZƒXƒg[ƒNƒ“B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’Êí NULL ‚Éİ’è‚µA‚»‚Ìê‡AŠÖ”‚ÍŒ»İ‚Ìƒ†[ƒU[‚ÌƒtƒHƒ‹ƒ_ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌƒAƒNƒZƒX‚ğ‚İ‚éB‚½‚¾‚µA•¡”ƒ†[ƒU[‚ğ‚¿“¾‚é‚ª’Pˆêƒ†[ƒU[‚É‘®‚·‚é‚à‚Ì‚Æ‚µ‚Äˆµ‚í‚ê‚éƒtƒHƒ‹ƒ_‚Ìê‡‚ÍAhToken ‚É’l‚ğŠ„‚è“–‚Ä‚é•K—v‚ª‚ ‚é‚©‚à‚µ‚ê‚È‚¢B‚±‚Ìí—Ş‚ÌÅ‚àˆê”Ê“I‚Ég—p‚³‚ê‚éƒtƒHƒ‹ƒ_‚Í Documents ‚Å‚ ‚éB
+riid : [var] Œ^: REFIID €–Ú‚ğ•\‚·ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì IID ‚Ö‚ÌQÆB’Êí‚Í IID_IShellItem ‚Ü‚½‚Í IID_IShellItem2B
+ppv : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB
 %inst
-Retrieves an IShellItem object that represents a known folder.
+known folder ‚ğ•\‚· IShellItem ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise, including the following:
-This doc was truncated.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ğŠÜ‚ŞƒGƒ‰[’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The caller of this function must have Administrator privileges. To
-call this function on public known folders, the caller must have
-Administrator privileges. For per-user known folders the caller only
-requires User privileges. Some of the known folders, for example, the
-Documents folder, are per-user. Every user has a different path for
-their Documents folder. If hToken is NULL, the API tries to access
-the calling application's instance of the folder, which is that of
-the current user. If hToken is a valid user token, the API tries to
-impersonate the user using this token and tries to access that user's
-instance. This function cannot be called on folders of type
-KF_CATEGORY_FIXED and KF_CATEGORY_VIRTUAL. To call this function on a
-folder of type KF_CATEGORY_COMMON, the calling application must be
-running with elevated privileges.
+‚±‚ÌŠÖ”‚ÌŒÄ‚Ño‚µ‘¤‚ÍŠÇ—Ò“ÁŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBpublic ‚È known folder
+‚É‘Î‚µ‚Ä‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚É‚ÍAŒÄ‚Ño‚µ‘¤‚ÍŠÇ—Ò“ÁŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBƒ†[ƒU[‚²‚Æ‚Ì known folder ‚É‘Î‚µ‚Ä‚Í
+User “ÁŒ ‚¾‚¯‚ª•K—v‚Å‚ ‚éBDocuments ƒtƒHƒ‹ƒ_‚È‚ÇAknown folder ‚Ì‚¢‚­‚Â‚©‚Íƒ†[ƒU[‚²‚Æ‚Å‚ ‚éBŠeƒ†[ƒU[‚Í
+Documents ƒtƒHƒ‹ƒ_‚É‘Î‚µ‚ÄˆÙ‚È‚éƒpƒX‚ğ‚ÂBhToken ‚ª NULL ‚Ìê‡AAPI
+‚ÍŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒtƒHƒ‹ƒ_ƒCƒ“ƒXƒ^ƒ“ƒX (Œ»İ‚Ìƒ†[ƒU[‚Ì‚à‚Ì) ‚Ö‚ÌƒAƒNƒZƒX‚ğ‚İ‚éBhToken
+‚ª—LŒø‚Èƒ†[ƒU[ƒg[ƒNƒ“‚Ìê‡AAPI ‚Í‚»‚Ìƒg[ƒNƒ“‚ğg‚Á‚Äƒ†[ƒU[‚ğ‹U‘•‚µA‚»‚Ìƒ†[ƒU[‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌƒAƒNƒZƒX‚ğ‚İ‚éB‚±‚ÌŠÖ”‚Í
+KF_CATEGORY_FIXED ‚¨‚æ‚Ñ KF_CATEGORY_VIRTUAL
+Œ^‚ÌƒtƒHƒ‹ƒ_‚É‘Î‚µ‚Ä‚ÍŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚È‚¢BKF_CATEGORY_COMMON
+Œ^‚ÌƒtƒHƒ‹ƒ_‚É‘Î‚µ‚Ä‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚É‚ÍAŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª¸Ši‚³‚ê‚½“ÁŒ ‚ÅÀs‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 
 
 %index
@@ -3143,103 +2800,94 @@ ppszPath : [var] Œ^: PWSTR* ƒƒ\ƒbƒh‚©‚ç–ß‚é‚Æ‚«AŠù’mƒtƒHƒ‹ƒ_‚ÌƒpƒX‚ğw’è‚·‚é N
 
 %index
 SHGetLocalizedName
-Retrieves the localized name of a file in a Shell folder.
+ƒVƒFƒ‹ƒtƒHƒ‹ƒ_“à‚Ìƒtƒ@ƒCƒ‹‚Ìƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½–¼‘O‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 pszPath, pszResModule, cch, pidsRes
-pszPath : [wstr] Type: PCWSTR A pointer to a string that specifies the fully qualified path of the file.
-pszResModule : [wstr] Type: PWSTR When this function returns, contains a pointer to a string resource that specifies the localized version of the file name.
-cch : [int] Type: UINT When this function returns, contains the size of the string, in WCHARs, at pszResModule.
-pidsRes : [var] Type: int* When this function returns, contains a pointer to the ID of the localized file name in the resource file.
+pszPath : [wstr] Œ^: PCWSTR ƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğw’è‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pszResModule : [wstr] Œ^: PWSTR ‚±‚ÌŠÖ”‚ª•Ô‚é‚Æ‚«‚ÉAƒtƒ@ƒCƒ‹–¼‚Ìƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½ƒo[ƒWƒ‡ƒ“‚ğw’è‚·‚é•¶š—ñƒŠƒ\[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB
+cch : [int] Œ^: UINT ‚±‚ÌŠÖ”‚ª•Ô‚é‚Æ‚«‚ÉApszResModule ‚Ì•¶š—ñ‚ÌƒTƒCƒY (WCHAR ’PˆÊ) ‚ğŠi”[‚·‚éB
+pidsRes : [var] Œ^: int* ‚±‚ÌŠÖ”‚ª•Ô‚é‚Æ‚«‚ÉAƒŠƒ\[ƒXƒtƒ@ƒCƒ‹“à‚Ìƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼‚Ì ID ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB
 %inst
-Retrieves the localized name of a file in a Shell folder.
+ƒVƒFƒ‹ƒtƒHƒ‹ƒ_“à‚Ìƒtƒ@ƒCƒ‹‚Ìƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½–¼‘O‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHGetMalloc
-Retrieves a pointer to the Shell's IMalloc interface.
+ƒVƒFƒ‹‚Ì IMalloc ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 ppMalloc
-ppMalloc : [var] Type: LPMALLOC* The address of a pointer that receives the Shell's IMalloc interface pointer.
+ppMalloc : [var] Œ^: LPMALLOC* ƒVƒFƒ‹‚Ì IMalloc ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒXB
 %inst
-Retrieves a pointer to the Shell's IMalloc interface.
+ƒVƒFƒ‹‚Ì IMalloc ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-SHGetMalloc was introduced in Windows 95 and Microsoft Windows NT
-4.0, but as of Windows 2000 it is no longer necessary. In its place,
-programs can call the equivalent (and easier to use) CoTaskMemAlloc
-and CoTaskMemFree. If you find an older reference document that
-suggests or even requires the use of SHGetMalloc, it is acceptable
-and encouraged to use CoTaskMemAlloc and CoTaskMemFree instead.
+SHGetMalloc ‚Í Windows 95 ‚¨‚æ‚Ñ Microsoft Windows NT 4.0 ‚Å“±“ü‚³‚ê‚½‚ªAWindows
+2000 ˆÈ~‚Í•s—v‚É‚È‚Á‚Ä‚¢‚éB‘ã‚í‚è‚ÉƒvƒƒOƒ‰ƒ€‚ÍA“¯“™‚Å (‚æ‚èg‚¢‚â‚·‚¢) CoTaskMemAlloc ‚¨‚æ‚Ñ
+CoTaskMemFree ‚ğŒÄ‚Ño‚¹‚éBSHGetMalloc
+‚Ìg—p‚ğ’ñˆÄ‚Ü‚½‚Í—v‹‚·‚éŒÃ‚¢ƒŠƒtƒ@ƒŒƒ“ƒXƒhƒLƒ…ƒƒ“ƒg‚ğŒ©‚Â‚¯‚½ê‡‚ÍA‘ã‚í‚è‚É CoTaskMemAlloc ‚Æ
+CoTaskMemFree ‚ğg—p‚µ‚Ä‚à\‚í‚È‚¢‚µA„§‚³‚ê‚éB
 
 
 %index
 SHGetNameFromIDList
-Retrieves the display name of an item identified by its IDList.
+IDList ‚Å¯•Ê‚³‚ê‚é€–Ú‚Ì•\¦–¼‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 pidl, sigdnName, ppszName
-pidl : [var] Type: PCIDLIST_ABSOLUTE A PIDL that identifies the item.
-sigdnName : [int] Type: SIGDN A value from the SIGDN enumeration that specifies the type of display name to retrieve.
-ppszName : [var] Type: PWSTR* A value that, when this function returns successfully, receives the address of a pointer to the retrieved display name.
+pidl : [var] Œ^: PCIDLIST_ABSOLUTE €–Ú‚ğ¯•Ê‚·‚é PIDLB
+sigdnName : [int] Œ^: SIGDN æ“¾‚·‚é•\¦–¼‚Ìí—Ş‚ğw’è‚·‚é SIGDN —ñ‹“‘Ì‚Ì’lB
+ppszName : [var] Œ^: PWSTR* ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚ÉAæ“¾‚µ‚½•\¦–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒX‚ğó‚¯æ‚é’lB
 %inst
-Retrieves the display name of an item identified by its IDList.
+IDList ‚Å¯•Ê‚³‚ê‚é€–Ú‚Ì•\¦–¼‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-It is the responsibility of the caller to free the string pointed to
-by ppszName when it is no longer needed. Call CoTaskMemFree on
-*ppszName to free the memory.
+ppszName ‚ªw‚·•¶š—ñ‚ğ•s—v‚É‚È‚Á‚½“_‚Å‰ğ•ú‚·‚é‚Ì‚ÍŒÄ‚Ño‚µ‘¤‚ÌÓ”C‚Å‚ ‚éBƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚é‚É‚Í *ppszName ‚É‘Î‚µ‚Ä
+CoTaskMemFree ‚ğŒÄ‚Ño‚·B
 
 
 %index
 SHGetNewLinkInfoW
-Creates a name for a new shortcut based on the shortcut's proposed target. This function does not create the shortcut, just the name. (Unicode)
+ƒVƒ‡[ƒgƒJƒbƒg‚Ì’ñˆÄ‚³‚ê‚½ƒ^[ƒQƒbƒg‚ÉŠî‚Ã‚¢‚ÄV‚µ‚¢ƒVƒ‡[ƒgƒJƒbƒg‚Ì–¼‘O‚ğì¬‚·‚éB‚±‚ÌŠÖ”‚ÍƒVƒ‡[ƒgƒJƒbƒg©‘Ì‚Íì¬‚¹‚¸A–¼‘O‚Ì‚İ‚ğì¬‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 pszLinkTo, pszDir, pszName, pfMustCopy, uFlags
-pszLinkTo : [wstr] Type: LPCTSTR A pointer to the path and file name of the shortcut's target. If uFlags does not contain the SHGNLI_PIDL value, this parameter is the address of a null-terminated string that contains the target. If uFlags contains the SHGNLI_PIDL value, this parameter is a PIDL that represents the target.
-pszDir : [wstr] Type: LPCTSTR A pointer to a null-terminated string that contains the path of the folder in which the shortcut would be created.
-pszName : [wstr] Type: LPTSTR A pointer to a string that receives the null-terminated path and file name for the shortcut. This buffer is assumed to be at least MAX_PATH characters in size.
-pfMustCopy : [var] Type: BOOL* The address of a BOOL value that receives a flag indicating whether the shortcut would be copied. When a shortcut to another shortcut is created, the Shell simply copies the target shortcut and modifies that copied shortcut appropriately. This parameter receives a nonzero value if the target specified in pszLinkTo specifies a shortcut that will cause the target shortcut to be copied. This parameter receives zero if the target does not specify a shortcut that would be copied.
-uFlags : [int] Type: UINT
+pszLinkTo : [wstr] Œ^: LPCTSTR ƒVƒ‡[ƒgƒJƒbƒg‚Ìƒ^[ƒQƒbƒg‚ÌƒpƒX‚Æƒtƒ@ƒCƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^[BuFlags ‚É SHGNLI_PIDL ’l‚ªŠÜ‚Ü‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Íƒ^[ƒQƒbƒg‚ğŠi”[‚·‚é null I’[•¶š—ñ‚ÌƒAƒhƒŒƒX‚Å‚ ‚éBuFlags ‚É SHGNLI_PIDL ’l‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Íƒ^[ƒQƒbƒg‚ğ•\‚· PIDL ‚Å‚ ‚éB
+pszDir : [wstr] Œ^: LPCTSTR ƒVƒ‡[ƒgƒJƒbƒg‚ªì¬‚³‚ê‚éƒtƒHƒ‹ƒ_‚ÌƒpƒX‚ğŠi”[‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pszName : [wstr] Œ^: LPTSTR ƒVƒ‡[ƒgƒJƒbƒg‚Ì null I’[‚ÌƒpƒX‚Æƒtƒ@ƒCƒ‹–¼‚ğó‚¯æ‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒoƒbƒtƒ@[‚Í­‚È‚­‚Æ‚à MAX_PATH •¶š‚ÌƒTƒCƒY‚ª‘z’è‚³‚ê‚éB
+pfMustCopy : [var] Œ^: BOOL* ƒVƒ‡[ƒgƒJƒbƒg‚ªƒRƒs[‚³‚ê‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO‚ğó‚¯æ‚é BOOL ’l‚ÌƒAƒhƒŒƒXB•Ê‚ÌƒVƒ‡[ƒgƒJƒbƒg‚Ö‚ÌƒVƒ‡[ƒgƒJƒbƒg‚ğì¬‚·‚é‚Æ‚«AƒVƒFƒ‹‚Í’P‚Éƒ^[ƒQƒbƒgƒVƒ‡[ƒgƒJƒbƒg‚ğƒRƒs[‚µAƒRƒs[‚³‚ê‚½ƒVƒ‡[ƒgƒJƒbƒg‚ğ“KØ‚É•ÏX‚·‚éBpszLinkTo ‚Åw’è‚³‚ê‚½ƒ^[ƒQƒbƒg‚ªƒ^[ƒQƒbƒgƒVƒ‡[ƒgƒJƒbƒg‚ÌƒRƒs[‚ğˆø‚«‹N‚±‚·ƒVƒ‡[ƒgƒJƒbƒg‚ğw’è‚µ‚Ä‚¢‚éê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í”ñƒ[ƒ’l‚ğó‚¯æ‚éBƒ^[ƒQƒbƒg‚ªƒRƒs[‚³‚ê‚éƒVƒ‡[ƒgƒJƒbƒg‚ğw’è‚µ‚Ä‚¢‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Íƒ[ƒ‚ğó‚¯æ‚éB
+uFlags : [int] Œ^: UINT
 %inst
-Creates a name for a new shortcut based on the shortcut's proposed
-target. This function does not create the shortcut, just the name.
-(Unicode)
+
+ƒVƒ‡[ƒgƒJƒbƒg‚Ì’ñˆÄ‚³‚ê‚½ƒ^[ƒQƒbƒg‚ÉŠî‚Ã‚¢‚ÄV‚µ‚¢ƒVƒ‡[ƒgƒJƒbƒg‚Ì–¼‘O‚ğì¬‚·‚éB‚±‚ÌŠÖ”‚ÍƒVƒ‡[ƒgƒJƒbƒg©‘Ì‚Íì¬‚¹‚¸A–¼‘O‚Ì‚İ‚ğì¬‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if successful; otherwise, FALSE.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-SHGetNewLinkInfo determines whether the destination file system
-supports long file names. If it does, a long file name is used for
-the shortcut name. If the destination file system does not support
-long file names, the shortcut name is returned in an 8.3 format.
-> [!NOTE] > The shellapi.h header defines SHGetNewLinkInfo as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+SHGetNewLinkInfo
+‚ÍAˆ¶æ‚Ìƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ª’·‚¢ƒtƒ@ƒCƒ‹–¼‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éBƒTƒ|[ƒg‚µ‚Ä‚¢‚éê‡‚ÍAƒVƒ‡[ƒgƒJƒbƒg–¼‚É’·‚¢ƒtƒ@ƒCƒ‹–¼‚ªg—p‚³‚ê‚éBˆ¶æ‚Ìƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ª’·‚¢ƒtƒ@ƒCƒ‹–¼‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡‚ÍAƒVƒ‡[ƒgƒJƒbƒg–¼‚Í
+8.3 Œ`®‚Å•Ô‚³‚ê‚éB
+> [!NOTE] > shellapi.h ƒwƒbƒ_[‚Í SHGetNewLinkInfo ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚µ‚Äg—p‚·‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
@@ -3264,193 +2912,176 @@ pidl ‚ªw’è‚·‚éˆÊ’u‚ªƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ìˆê•”‚Å‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í¸”s‚·‚éBpidl 
 
 %index
 SHGetPathFromIDListEx
-Converts an item identifier list to a file system path. This function extends SHGetPathFromIDList by allowing you to set the initial size of the string buffer and declare the options below.
+ƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚ğƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒpƒX‚É•ÏŠ·‚·‚éB‚±‚ÌŠÖ”‚ÍA•¶š—ñƒoƒbƒtƒ@[‚Ì‰ŠúƒTƒCƒY‚ğİ’è‚µAˆÈ‰º‚ÌƒIƒvƒVƒ‡ƒ“‚ğéŒ¾‚Å‚«‚é‚æ‚¤‚É‚·‚é‚±‚Æ‚Å SHGetPathFromIDList ‚ğŠg’£‚·‚éB
 %group
 Win32 shell32
 %prm
 pidl, pszPath, cchPath, uOpts
-pidl : [var] Type: PCIDLIST_ABSOLUTE A pointer to an item identifier list that specifies a file or directory location relative to the root of the namespace (the desktop).
-pszPath : [wstr] Type: PWSTR When this function is called it is passed a null-terminated, Unicode buffer to receive the file system path. This buffer is of size cchPath.
-cchPath : [int] Type: DWORD The size of the buffer pointed to by pszPath, in characters.
-uOpts : [int] Type: GPFIDL_FLAGS These flags determine the type of path returned.
+pidl : [var] Œ^: PCIDLIST_ABSOLUTE –¼‘O‹óŠÔ‚Ìƒ‹[ƒg (ƒfƒXƒNƒgƒbƒv) ‚ğŠî€‚Æ‚µ‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚ÌêŠ‚ğw’è‚·‚éƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pszPath : [wstr] Œ^: PWSTR ‚±‚ÌŠÖ”‚ªŒÄ‚Ño‚³‚ê‚é‚Æ‚«Aƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒpƒX‚ğó‚¯æ‚é null I’[‚Ì Unicode ƒoƒbƒtƒ@[‚ª“n‚³‚ê‚éB‚±‚Ìƒoƒbƒtƒ@[‚ÌƒTƒCƒY‚Í cchPath ‚Å‚ ‚éB
+cchPath : [int] Œ^: DWORD pszPath ‚ªw‚·ƒoƒbƒtƒ@[‚ÌƒTƒCƒY (•¶š’PˆÊ)B
+uOpts : [int] Œ^: GPFIDL_FLAGS ‚±‚ê‚ç‚Ìƒtƒ‰ƒO‚Í•Ô‚³‚ê‚éƒpƒX‚Ìí—Ş‚ğŒˆ’è‚·‚éB
 %inst
-Converts an item identifier list to a file system path. This function
-extends SHGetPathFromIDList by allowing you to set the initial size
-of the string buffer and declare the options below.
+
+ƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚ğƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒpƒX‚É•ÏŠ·‚·‚éB‚±‚ÌŠÖ”‚ÍA•¶š—ñƒoƒbƒtƒ@[‚Ì‰ŠúƒTƒCƒY‚ğİ’è‚µAˆÈ‰º‚ÌƒIƒvƒVƒ‡ƒ“‚ğéŒ¾‚Å‚«‚é‚æ‚¤‚É‚·‚é‚±‚Æ‚Å
+SHGetPathFromIDList ‚ğŠg’£‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if successful; otherwise, FALSE.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-Except for UNC printer names, if the location specified by the pidl
-parameter is not part of the file system, this function fails. If the
-pidl parameter specifies a shortcut, the pszPath contains the path to
-the shortcut, not to the shortcut's target.
+UNC ƒvƒŠƒ“ƒ^[–¼‚ğœ‚«Apidl ƒpƒ‰ƒ[ƒ^[‚Åw’è‚³‚ê‚½êŠ‚ªƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ìˆê•”‚Å‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í¸”s‚·‚éBpidl
+ƒpƒ‰ƒ[ƒ^[‚ªƒVƒ‡[ƒgƒJƒbƒg‚ğw’è‚·‚éê‡ApszPath
+‚É‚ÍƒVƒ‡[ƒgƒJƒbƒg‚Ìƒ^[ƒQƒbƒg‚Å‚Í‚È‚­AƒVƒ‡[ƒgƒJƒbƒg©‘Ì‚Ö‚ÌƒpƒX‚ªŠi”[‚³‚ê‚éB
 
 
 %index
 SHGetPropertyStoreForWindow
-Retrieves an object that represents a specific window's collection of properties, which allows those properties to be queried or set.
+“Á’è‚ÌƒEƒBƒ“ƒhƒE‚ÌƒvƒƒpƒeƒB‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µA‚»‚ê‚ç‚ÌƒvƒƒpƒeƒB‚ğƒNƒGƒŠ‚µ‚½‚èİ’è‚µ‚½‚è‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 %group
 Win32 shell32
 %prm
 hwnd, riid, ppv
-hwnd : [intptr] Type: HWND A handle to the window whose properties are being retrieved.
-riid : [var] Type: REFIID A reference to the IID of the property store object to retrieve through ppv. This is typically IID_IPropertyStore.
-ppv : [var] Type: void** When this function returns, contains the interface pointer requested in riid. This is typically IPropertyStore.
+hwnd : [intptr] Œ^: HWND ƒvƒƒpƒeƒB‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+riid : [var] Œ^: REFIID ppv Œo—R‚Åæ“¾‚·‚éƒvƒƒpƒeƒBƒXƒgƒAƒIƒuƒWƒFƒNƒg‚Ì IID ‚Ö‚ÌQÆB‚±‚ê‚Í’Êí IID_IPropertyStore ‚Å‚ ‚éB
+ppv : [var] Œ^: void** ‚±‚ÌŠÖ”‚ª•Ô‚é‚Æ‚«‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB‚±‚ê‚Í’Êí IPropertyStore ‚Å‚ ‚éB
 %inst
-Retrieves an object that represents a specific window's collection of
-properties, which allows those properties to be queried or set.
+“Á’è‚ÌƒEƒBƒ“ƒhƒE‚ÌƒvƒƒpƒeƒB‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µA‚»‚ê‚ç‚ÌƒvƒƒpƒeƒB‚ğƒNƒGƒŠ‚µ‚½‚èİ’è‚µ‚½‚è‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-An application can use this function to obtain access to a window's
-property store so that it can set an explicit Application User Model
-ID (AppUserModelID) in the System.AppUserModel.ID property. A
-window's properties must be removed before the window is closed. If
-this is not done, the resources used by those properties are not
-returned to the system. A property is removed by setting it to the
-PROPVARIANT type VT_EMPTY. When a call is made to
-IPropertyStore::SetValue on the object retrieved through ppv, the
-properties and values are immediately stored on the window.
-Therefore, no call to IPropertyStore::Commit is needed. No error
-occurs if it is called, but it has no effect. An application sets
-AppUserModelIDs on individual windows to control the application's
-taskbar grouping and Jump List contents. For instance, a suite
-application might want to provide a different taskbar button for each
-of its subfeatures, with the windows relating to that subfeature
-grouped under that button. Without window-level AppUserModelIDs,
-those windows would all be grouped together under the main process.
-Applications should also use this property store to set these
-relaunch properties so that the system can return the application to
-that state.
-This doc was truncated.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍASystem.AppUserModel.ID ƒvƒƒpƒeƒB‚É–¾¦“I‚È Application User Model ID
+(AppUserModelID)
+‚ğİ’è‚·‚é‚½‚ß‚ÉA‚±‚ÌŠÖ”‚ğg—p‚µ‚ÄƒEƒBƒ“ƒhƒE‚ÌƒvƒƒpƒeƒBƒXƒgƒA‚ÉƒAƒNƒZƒX‚Å‚«‚éBƒEƒBƒ“ƒhƒE‚ÌƒvƒƒpƒeƒB‚ÍƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚é‘O‚Éíœ‚·‚é•K—v‚ª‚ ‚éB‚±‚ê‚ğs‚í‚È‚¢‚ÆA‚»‚ê‚ç‚ÌƒvƒƒpƒeƒB‚ªg—p‚µ‚Ä‚¢‚éƒŠƒ\[ƒX‚ªƒVƒXƒeƒ€‚É•Ô‹p‚³‚ê‚È‚¢BƒvƒƒpƒeƒB‚ğíœ‚·‚é‚É‚Í
+PROPVARIANT Œ^‚Ì VT_EMPTY ‚Éİ’è‚·‚éBppv Œo—R‚Åæ“¾‚µ‚½ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä
+IPropertyStore::SetValue ‚ğŒÄ‚Ño‚·‚ÆAƒvƒƒpƒeƒB‚Æ’l‚Í‚½‚¾‚¿‚ÉƒEƒBƒ“ƒhƒE‚ÉŠi”[‚³‚ê‚éB‚µ‚½‚ª‚Á‚Ä
+IPropertyStore::Commit
+‚ğŒÄ‚Ño‚·•K—v‚Í‚È‚¢BŒÄ‚Ño‚µ‚Ä‚àƒGƒ‰[‚Í”­¶‚µ‚È‚¢‚ªŒø‰Ê‚Í‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒ^ƒXƒNƒo[ƒOƒ‹[ƒv‰»‚âƒWƒƒƒ“ƒvƒŠƒXƒg‚Ì“à—e‚ğ§Œä‚·‚é‚½‚ß‚ÉAŒÂX‚ÌƒEƒBƒ“ƒhƒE‚É
+AppUserModelID
+‚ğİ’è‚·‚éB‚½‚Æ‚¦‚ÎƒXƒC[ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒTƒu‹@”\‚²‚Æ‚ÉˆÙ‚È‚éƒ^ƒXƒNƒo[ƒ{ƒ^ƒ“‚ğ’ñ‹Ÿ‚µA‚»‚ÌƒTƒu‹@”\‚ÉŠÖ˜A‚·‚éƒEƒBƒ“ƒhƒE‚ğ‚»‚Ìƒ{ƒ^ƒ“‚Ì‰º‚ÉƒOƒ‹[ƒv‰»‚µ‚½‚¢ê‡‚ª‚ ‚éBƒEƒBƒ“ƒhƒEƒŒƒxƒ‹‚Ì
+AppUserModelID
+‚ª‚È‚¢ê‡A‚»‚ê‚ç‚ÌƒEƒBƒ“ƒhƒE‚Í‚·‚×‚ÄƒƒCƒ“ƒvƒƒZƒX‚Ì‰º‚ÉƒOƒ‹[ƒv‰»‚³‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒVƒXƒeƒ€‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‚»‚Ìó‘Ô‚É–ß‚¹‚é‚æ‚¤‚É‚·‚é‚½‚ß‚É‚àA‚±‚ÌƒvƒƒpƒeƒBƒXƒgƒA‚ğg—p‚µ‚Ä‚±‚ê‚ç‚ÌÄ‹N“®ƒvƒƒpƒeƒB‚ğİ’è‚·‚×‚«‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SHGetPropertyStoreFromIDList
-Retrieves an object that supports IPropertyStore or related interfaces from a pointer to an item identifier list (PIDL).
+ƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚©‚çAIPropertyStore ‚Ü‚½‚ÍŠÖ˜AƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğƒTƒ|[ƒg‚·‚éƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 pidl, flags, riid, ppv
-pidl : [var] Type: PCIDLIST_ABSOLUTE A pointer to an item ID list.
-flags : [int] Type: GETPROPERTYSTOREFLAGS One or more values from the GETPROPERTYSTOREFLAGS constants. This parameter can also be NULL.
-riid : [var] Type: REFIID A reference to the desired interface ID.
-ppv : [var] Type: void** When this function returns, contains the interface pointer requested in riid. This is typically IPropertyStore or a related interface.
+pidl : [var] Œ^: PCIDLIST_ABSOLUTE ƒAƒCƒeƒ€ ID ƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+flags : [int] Œ^: GETPROPERTYSTOREFLAGS GETPROPERTYSTOREFLAGS ’è”‚Ì 1 ‚ÂˆÈã‚Ì’lB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Å‚à‚æ‚¢B
+riid : [var] Œ^: REFIID –Ú“I‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX ID ‚Ö‚ÌQÆB
+ppv : [var] Œ^: void** ‚±‚ÌŠÖ”‚ª•Ô‚é‚Æ‚«‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB‚±‚ê‚Í’Êí IPropertyStore ‚Ü‚½‚ÍŠÖ˜AƒCƒ“ƒ^[ƒtƒFƒCƒX‚Å‚ ‚éB
 %inst
-Retrieves an object that supports IPropertyStore or related
-interfaces from a pointer to an item identifier list (PIDL).
+ƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚©‚çAIPropertyStore
+‚Ü‚½‚ÍŠÖ˜AƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğƒTƒ|[ƒg‚·‚éƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
 
 
 %index
 SHGetPropertyStoreFromParsingName
-Returns a property store for an item, given a path or parsing name.
+ƒpƒX‚Ü‚½‚Í‰ğÍ–¼‚©‚çA€–Ú‚ÌƒvƒƒpƒeƒBƒXƒgƒA‚ğ•Ô‚·B
 %group
 Win32 shell32
 %prm
 pszPath, pbc, flags, riid, ppv
-pszPath : [wstr] Type: PCWSTR A pointer to a null-terminated Unicode string that specifies the item path.
-pbc : [var] Type: IBindCtx* A pointer to a IBindCtx object, which provides access to a bind context. This value can be NULL.
-flags : [int] Type: GETPROPERTYSTOREFLAGS One or more values from the GETPROPERTYSTOREFLAGS constants. This parameter can also be NULL.
-riid : [var] Type: REFIID A reference to the desired interface ID.
-ppv : [var] Type: void** When this function returns, contains the interface pointer requested in riid. This is typically IPropertyStore or a related interface.
+pszPath : [wstr] Œ^: PCWSTR €–Ú‚ÌƒpƒX‚ğw’è‚·‚é null I’[‚Ì Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pbc : [var] Œ^: IBindCtx* ƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ö‚ÌƒAƒNƒZƒX‚ğ’ñ‹Ÿ‚·‚é IBindCtx ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
+flags : [int] Œ^: GETPROPERTYSTOREFLAGS GETPROPERTYSTOREFLAGS ’è”‚Ì 1 ‚ÂˆÈã‚Ì’lB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Å‚à‚æ‚¢B
+riid : [var] Œ^: REFIID –Ú“I‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX ID ‚Ö‚ÌQÆB
+ppv : [var] Œ^: void** ‚±‚ÌŠÖ”‚ª•Ô‚é‚Æ‚«‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB‚±‚ê‚Í’Êí IPropertyStore ‚Ü‚½‚ÍŠÖ˜AƒCƒ“ƒ^[ƒtƒFƒCƒX‚Å‚ ‚éB
 %inst
-Returns a property store for an item, given a path or parsing name.
+ƒpƒX‚Ü‚½‚Í‰ğÍ–¼‚©‚çA€–Ú‚ÌƒvƒƒpƒeƒBƒXƒgƒA‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHGetRealIDL
-SHGetRealIDL may be altered or unavailable.
+SHGetRealIDL ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 psf, pidlSimple, ppidlReal
-psf : [var] Type: IShellFolder* A pointer to an instance of IShellFolder whose simple PIDL is to be converted.
-pidlSimple : [var] Type: PCUITEMID_CHILD The simple PIDL to be converted.
-ppidlReal : [var] Type: PITEMID_CHILD* When this method returns, contains a pointer to the full converted PIDL. If the function fails, this parameter is set to NULL.
+psf : [var] Œ^: IShellFolder* ƒVƒ“ƒvƒ‹ PIDL ‚ğ•ÏŠ·‚·‚é‘ÎÛ‚Ì IShellFolder ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pidlSimple : [var] Œ^: PCUITEMID_CHILD •ÏŠ·‚·‚éƒVƒ“ƒvƒ‹ PIDLB
+ppidlReal : [var] Œ^: PITEMID_CHILD* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA•ÏŠ·‚³‚ê‚½Š®‘S‚È PIDL ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éBŠÖ”‚ª¸”s‚µ‚½ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚³‚ê‚éB
 %inst
-SHGetRealIDL may be altered or unavailable.
+SHGetRealIDL ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHGetSetFolderCustomSettings
-SHGetSetFolderCustomSettings may be altered or unavailable.
+SHGetSetFolderCustomSettings ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pfcs, pszPath, dwReadWrite
-pfcs : [var] Type: LPSHFOLDERCUSTOMSETTINGS A pointer to a SHFOLDERCUSTOMSETTINGS structure that provides or receives the custom folder settings.
-pszPath : [wstr] Type: PCTSTR A pointer to a null-terminated Unicode string that contains the path to the folder. The length of  pszPath must be MAX_PATH or less, including the terminating null character.
-dwReadWrite : [int] Type: DWORD
+pfcs : [var] Œ^: LPSHFOLDERCUSTOMSETTINGS ƒJƒXƒ^ƒ€ƒtƒHƒ‹ƒ_İ’è‚ğ’ñ‹Ÿ‚Ü‚½‚Íó‚¯æ‚é SHFOLDERCUSTOMSETTINGS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pszPath : [wstr] Œ^: PCTSTR ƒtƒHƒ‹ƒ_‚Ö‚ÌƒpƒX‚ğŠi”[‚·‚é null I’[‚Ì Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BpszPath ‚Ì’·‚³‚ÍAI’[‚Ì null •¶š‚ğŠÜ‚ß‚Ä MAX_PATH ˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwReadWrite : [int] Œ^: DWORD
 %inst
-SHGetSetFolderCustomSettings may be altered or unavailable.
+SHGetSetFolderCustomSettings ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Only Unicode strings are supported. Windows Server 2003 and Windows
-XP: SHGetSetFolderCustomSettings supports both ANSI and Unicode
-strings.
+Unicode •¶š—ñ‚Ì‚İ‚ªƒTƒ|[ƒg‚³‚ê‚éBWindows Server 2003 ‚¨‚æ‚Ñ Windows XP:
+SHGetSetFolderCustomSettings ‚Í ANSI •¶š—ñ‚Æ Unicode •¶š—ñ‚Ì—¼•û‚ğƒTƒ|[ƒg‚·‚éB
 
 
 %index
 SHGetSetSettings
-SHGetSetSettings may be altered or unavailable.
+SHGetSetSettings ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 lpss, dwMask, bSet
-lpss : [var] Type: LPSHELLSTATE A pointer to a SHELLSTATE structure that provides or receives the Shell state settings.
-dwMask : [int] Type: DWORD One or more of the SSF flags that indicate which settings should be set or retrieved.
-bSet : [int] Type: BOOL TRUE to indicate that the contents of lpss should be used to set the Shell settings, FALSE to indicate that the Shell settings should be retrieved to lpss.
+lpss : [var] Œ^: LPSHELLSTATE ƒVƒFƒ‹ó‘Ôİ’è‚ğ’ñ‹Ÿ‚Ü‚½‚Íó‚¯æ‚é SHELLSTATE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+dwMask : [int] Œ^: DWORD İ’è‚Ü‚½‚Íæ“¾‚·‚éİ’è‚ğ¦‚· 1 ‚ÂˆÈã‚Ì SSF ƒtƒ‰ƒOB
+bSet : [int] Œ^: BOOL lpss ‚Ì“à—e‚ğƒVƒFƒ‹İ’è‚Ìİ’è‚Ég—p‚·‚é‚±‚Æ‚ğ¦‚·‚É‚Í TRUEAƒVƒFƒ‹İ’è‚ğ lpss ‚Éæ“¾‚·‚é‚±‚Æ‚ğ¦‚·‚É‚Í FALSE ‚ğw’è‚·‚éB
 %inst
-SHGetSetSettings may be altered or unavailable.
+SHGetSetSettings ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 
 %index
 SHGetSettings
-Retrieves the current Shell option settings.
+Œ»İ‚ÌƒVƒFƒ‹ƒIƒvƒVƒ‡ƒ“İ’è‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 psfs, dwMask
-psfs : [var] Type: LPSHELLFLAGSTATE The address of a SHELLFLAGSTATE structure that receives the Shell option settings.
-dwMask : [int] Type: DWORD
+psfs : [var] Œ^: LPSHELLFLAGSTATE ƒVƒFƒ‹ƒIƒvƒVƒ‡ƒ“İ’è‚ğó‚¯æ‚é SHELLFLAGSTATE \‘¢‘Ì‚ÌƒAƒhƒŒƒXB
+dwMask : [int] Œ^: DWORD
 %inst
-Retrieves the current Shell option settings.
+Œ»İ‚ÌƒVƒFƒ‹ƒIƒvƒVƒ‡ƒ“İ’è‚ğæ“¾‚·‚éB
 
 
 %index
 SHGetSpecialFolderLocation
-SHGetSpecialFolderLocation is not supported and may be altered or unavailable in the future. Instead, use SHGetFolderLocation.
+SHGetSpecialFolderLocation ‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¨‚ç‚¸A«—ˆ•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É SHGetFolderLocation ‚ğg—p‚·‚éB
 %group
 Win32 shell32
 %prm
 hwnd, csidl, ppidl
-hwnd : [intptr] Type: HWND Reserved.
-csidl : [int] Type: int A CSIDL value that identifies the folder of interest.
-ppidl : [var] Type: PIDLIST_ABSOLUTE* A PIDL specifying the folder's location relative to the root of the namespace (the desktop). It is the responsibility of the calling application to free the returned IDList by using CoTaskMemFree.
+hwnd : [intptr] Œ^: HWND —\–ñÏ‚İB
+csidl : [int] Œ^: int ‘ÎÛ‚ÌƒtƒHƒ‹ƒ_‚ğ¯•Ê‚·‚é CSIDL ’lB
+ppidl : [var] Œ^: PIDLIST_ABSOLUTE* –¼‘O‹óŠÔ‚Ìƒ‹[ƒg (ƒfƒXƒNƒgƒbƒv) ‚ğŠî€‚Æ‚µ‚½ƒtƒHƒ‹ƒ_‚ÌêŠ‚ğw’è‚·‚é PIDLB•Ô‚³‚ê‚½ IDList ‚ğ CoTaskMemFree ‚ğg‚Á‚Ä‰ğ•ú‚·‚é‚Ì‚ÍŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌÓ”C‚Å‚ ‚éB
 %inst
-SHGetSpecialFolderLocation is not supported and may be altered or
-unavailable in the future. Instead, use SHGetFolderLocation.
+SHGetSpecialFolderLocation ‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¨‚ç‚¸A«—ˆ•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB‘ã‚í‚è‚É
+SHGetFolderLocation ‚ğg—p‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -3478,1018 +3109,892 @@ SHGetSpecialFolderPath ‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B‘ã‚í‚è‚É SHGetFolderPath ‚ğg‚¤B
 
 %index
 SHGetTemporaryPropertyForItem
-Retrieves the temporary property for the given item. A temporary property is a read/write store that holds properties only for the lifetime of the IShellItem object, rather than being persisted back into the item.
+w’è‚µ‚½€–Ú‚ÌˆêƒvƒƒpƒeƒB‚ğæ“¾‚·‚éBˆêƒvƒƒpƒeƒB‚ÍA€–Ú‚É‰i‘±‰»‚³‚ê‚é‚Ì‚Å‚Í‚È‚­AIShellItem ƒIƒuƒWƒFƒNƒg‚Ì‘¶‘±ŠúŠÔ’†‚¾‚¯ƒvƒƒpƒeƒB‚ğ•Û‚·‚é“Ç‚İ‘‚«‰Â”\‚ÈƒXƒgƒA‚Å‚ ‚éB
 %group
 Win32 shell32
 %prm
 psi, propkey, ppropvar
-psi : [var] Type: IShellItem* A pointer to the item for which the temporary property is to be retrieved.
-propkey : [var] Type: REFPROPERTYKEY The property key.
-ppropvar : [var] Type: PROPVARIANT* A pointer to the temporary property for the item.
+psi : [var] Œ^: IShellItem* ˆêƒvƒƒpƒeƒB‚ğæ“¾‚·‚é‘ÎÛ‚Ì€–Ú‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+propkey : [var] Œ^: REFPROPERTYKEY ƒvƒƒpƒeƒBƒL[B
+ppropvar : [var] Œ^: PROPVARIANT* €–Ú‚ÌˆêƒvƒƒpƒeƒB‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves the temporary property for the given item. A temporary
-property is a read/write store that holds properties only for the
-lifetime of the IShellItem object, rather than being persisted back
-into the item.
+w’è‚µ‚½€–Ú‚ÌˆêƒvƒƒpƒeƒB‚ğæ“¾‚·‚éBˆêƒvƒƒpƒeƒB‚ÍA€–Ú‚É‰i‘±‰»‚³‚ê‚é‚Ì‚Å‚Í‚È‚­AIShellItem
+ƒIƒuƒWƒFƒNƒg‚Ì‘¶‘±ŠúŠÔ’†‚¾‚¯ƒvƒƒpƒeƒB‚ğ•Û‚·‚é“Ç‚İ‘‚«‰Â”\‚ÈƒXƒgƒA‚Å‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHGetUnreadMailCountW
-Retrieves a specified user's unread message count for any or all email accounts. (Unicode)
+w’è‚µ‚½ƒ†[ƒU[‚Ì–¢“ÇƒƒbƒZ[ƒW”‚ğA”CˆÓ‚Ü‚½‚Í‚·‚×‚Ä‚Ìƒ[ƒ‹ƒAƒJƒEƒ“ƒg‚É‚Â‚¢‚Äæ“¾‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 hKeyUser, pszMailAddress, pdwCount, pFileTime, pszShellExecuteCommand, cchShellExecuteCommand
-hKeyUser : [intptr] Type: HKEY A valid HKEY for a given user. This parameter should be NULL if the function is called in a user's environment, in which case HKEY_CURRENT_USER is used. This parameter should be NULL if the function is called from the SYSTEM context, in which case HKEY_USERS\{SID} is used.
-pszMailAddress : [wstr] Type: LPCTSTR A pointer to a string in Unicode that specifies the email address of an account belonging to the specified user. When this parameter is NULL, pdwCount returns the total count of unread messages for all accounts owned by the designated user.
-pdwCount : [var] Type: DWORD* Pointer to a DWORD value which receives the unread message count.
-pFileTime : [var] Type: FILETIME* A pointer to a FILETIME structure.  The use of this parameter is determined by whether pszMailAddress is NULL. If pszMailAddress is NULL, then this parameter is treated as an [in] parameter, which specifies a filter, so that only unread mail newer than the specified time appears. If pszMailAddress is not NULL, then this parameter is treated as an [out] parameter, which points to a FILETIME structure into which the function places the timestamp of the last SHSetUnreadMailCount call for the specified user and email account.
-pszShellExecuteCommand : [wstr] Type: LPCTSTR A pointer to a string that returns the ShellExecute command statement passed into the last SHSetUnreadMailCount call for the specified user and email account. This command string starts the email application that owns the account referenced by pszMailAddress. If the ShellExecute command is not required, this parameter can be NULL. If pszMailAddress is NULL, this parameter is ignored and must be NULL.
-cchShellExecuteCommand : [int] Type: int The maximum size, in characters, of the ShellExecute command buffer pointed to by pszShellExecuteCommand. This parameter must be zero for total counts when pszMailAddress is NULL. It can also be NULL whenever the ShellExecute command string is not required.
+hKeyUser : [intptr] Œ^: HKEY w’è‚µ‚½ƒ†[ƒU[‚É‘Î‚·‚é—LŒø‚È HKEYBŠÖ”‚ªƒ†[ƒU[‚ÌŠÂ‹«‚ÅŒÄ‚Ño‚³‚ê‚éê‡‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğ NULL ‚É‚·‚×‚«‚ÅA‚»‚Ìê‡‚Í HKEY_CURRENT_USER ‚ªg—p‚³‚ê‚éBŠÖ”‚ª SYSTEM ƒRƒ“ƒeƒLƒXƒg‚©‚çŒÄ‚Ño‚³‚ê‚éê‡‚à‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğ NULL ‚É‚·‚×‚«‚ÅA‚»‚Ìê‡‚Í HKEY_USERS\{SID} ‚ªg—p‚³‚ê‚éB
+pszMailAddress : [wstr] Œ^: LPCTSTR w’è‚µ‚½ƒ†[ƒU[‚É‘®‚·‚éƒAƒJƒEƒ“ƒg‚Ìƒ[ƒ‹ƒAƒhƒŒƒX‚ğw’è‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Ìê‡ApdwCount ‚Íw’è‚µ‚½ƒ†[ƒU[‚ªŠ—L‚·‚é‚·‚×‚Ä‚ÌƒAƒJƒEƒ“ƒg‚Ì–¢“ÇƒƒbƒZ[ƒW‚Ì‡Œv”‚ğ•Ô‚·B
+pdwCount : [var] Œ^: DWORD* –¢“ÇƒƒbƒZ[ƒW”‚ğó‚¯æ‚é DWORD ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pFileTime : [var] Œ^: FILETIME* FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Ìg—p•û–@‚Í pszMailAddress ‚ª NULL ‚©‚Ç‚¤‚©‚ÅŒˆ‚Ü‚éBpszMailAddress ‚ª NULL ‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í [in] ƒpƒ‰ƒ[ƒ^[‚Æ‚µ‚Äˆµ‚í‚êAƒtƒBƒ‹ƒ^[‚ğw’è‚·‚é‚½‚ßAw’è‚µ‚½‚æ‚èV‚µ‚¢–¢“Çƒ[ƒ‹‚Ì‚İ‚ª•\¦‚³‚ê‚é‚æ‚¤‚É‚È‚éBpszMailAddress ‚ª NULL ‚Å‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í [out] ƒpƒ‰ƒ[ƒ^[‚Æ‚µ‚Äˆµ‚í‚êAw’è‚µ‚½ƒ†[ƒU[‚¨‚æ‚Ñƒ[ƒ‹ƒAƒJƒEƒ“ƒg‚É‘Î‚·‚é’¼‹ß‚Ì SHSetUnreadMailCount ŒÄ‚Ño‚µ‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğŠÖ”‚ªŠi”[‚·‚é FILETIME \‘¢‘Ì‚ğw‚·B
+pszShellExecuteCommand : [wstr] Œ^: LPCTSTR w’è‚µ‚½ƒ†[ƒU[‚¨‚æ‚Ñƒ[ƒ‹ƒAƒJƒEƒ“ƒg‚É‘Î‚·‚é’¼‹ß‚Ì SHSetUnreadMailCount ŒÄ‚Ño‚µ‚É“n‚³‚ê‚½ ShellExecute ƒRƒ}ƒ“ƒh•¶‚ğ•Ô‚·•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚ÌƒRƒ}ƒ“ƒh•¶š—ñ‚Í pszMailAddress ‚ÅQÆ‚³‚ê‚éƒAƒJƒEƒ“ƒg‚ğŠ—L‚·‚éƒ[ƒ‹ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‹N“®‚·‚éBShellExecute ƒRƒ}ƒ“ƒh‚ª•K—v‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Å‚à‚æ‚¢BpszMailAddress ‚ª NULL ‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–³‹‚³‚êANULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+cchShellExecuteCommand : [int] Œ^: int pszShellExecuteCommand ‚ªw‚· ShellExecute ƒRƒ}ƒ“ƒhƒoƒbƒtƒ@[‚ÌÅ‘åƒTƒCƒY (•¶š’PˆÊ)BpszMailAddress ‚ª NULL ‚Ì‡ŒvƒJƒEƒ“ƒgæ“¾‚É‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Íƒ[ƒ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BShellExecute ƒRƒ}ƒ“ƒh•¶š—ñ‚ª•K—v‚È‚¢ê‡‚Í NULL ‚Å‚à‚æ‚¢B
 %inst
-Retrieves a specified user's unread message count for any or all
-email accounts. (Unicode)
+w’è‚µ‚½ƒ†[ƒU[‚Ì–¢“ÇƒƒbƒZ[ƒW”‚ğA”CˆÓ‚Ü‚½‚Í‚·‚×‚Ä‚Ìƒ[ƒ‹ƒAƒJƒEƒ“ƒg‚É‚Â‚¢‚Äæ“¾‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHHandleUpdateImage
-SHHandleUpdateImage may be altered or unavailable.
+SHHandleUpdateImage ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pidlExtra
-pidlExtra : [var] Type: PCIDLIST_ABSOLUTE The index in the system image list that has changed, specified in the pidl2 parameter of IShellChangeNotify::OnChange.
+pidlExtra : [var] Œ^: PCIDLIST_ABSOLUTE IShellChangeNotify::OnChange ‚Ì pidl2 ƒpƒ‰ƒ[ƒ^[‚Åw’è‚³‚ê‚½A•ÏX‚³‚ê‚½ƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg“à‚ÌƒCƒ“ƒfƒbƒNƒXB
 %inst
-SHHandleUpdateImage may be altered or unavailable.
+SHHandleUpdateImage ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: int Returns -1 on failure or the index of the changed image
-list entry on success.
+Œ^: int ¸”s‚µ‚½ê‡‚Í -1 ‚ğA¬Œ÷‚µ‚½ê‡‚Í•ÏX‚³‚ê‚½ƒCƒ[ƒWƒŠƒXƒgƒGƒ“ƒgƒŠ‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚·B
 
 [”õl]
-Use SHHandleUpdateImage only when the pidl2 parameter received by
-your change notification callback is non-NULL.
+SHHandleUpdateImage ‚ÍA•ÏX’Ê’mƒR[ƒ‹ƒoƒbƒN‚ªó‚¯æ‚Á‚½ pidl2 ƒpƒ‰ƒ[ƒ^[‚ª”ñ NULL
+‚Ìê‡‚É‚Ì‚İg—p‚·‚éB
 
 
 %index
 SHILCreateFromPath
-SHILCreateFromPath may be altered or unavailable.
+SHILCreateFromPath ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pszPath, ppidl, rgfInOut
-pszPath : [wstr] Type: PCWSTR A pointer to a null-terminated string of maximum length MAX_PATH containing the path to be converted.
-ppidl : [var] Type: PIDLIST_ABSOLUTE* The path in pszPath expressed as a PIDL.
-rgfInOut : [var] Type: DWORD* A pointer to a DWORD value that, on entry, indicates any attributes of the folder named in pszPath that the calling application would like to retrieve along with the PIDL. On exit, this value contains those requested attributes. For a list of possible attribute flags for this parameter, see IShellFolder::GetAttributesOf.
+pszPath : [wstr] Œ^: PCWSTR •ÏŠ·‚·‚éƒpƒX‚ğŠÜ‚ŞAÅ‘å’· MAX_PATH ‚Ì null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+ppidl : [var] Œ^: PIDLIST_ABSOLUTE* PIDL ‚Æ‚µ‚Ä•\Œ»‚³‚ê‚½ pszPath ‚ÌƒpƒXB
+rgfInOut : [var] Œ^: DWORD* ƒGƒ“ƒgƒŠ‚ÉAŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª PIDL ‚Æ‚Æ‚à‚Éæ“¾‚µ‚½‚¢ pszPath ‚Åw’è‚³‚ê‚½ƒtƒHƒ‹ƒ_‚Ì‘®«‚ğ¦‚· DWORD ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^[BI—¹‚ÉA‚±‚Ì’l‚Í—v‹‚³‚ê‚½‘®«‚ğŠÜ‚ŞB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Éw’è‰Â”\‚È‘®«ƒtƒ‰ƒO‚Ìˆê——‚Í IShellFolder::GetAttributesOf ‚ğQÆB
 %inst
-SHILCreateFromPath may be altered or unavailable.
+SHILCreateFromPath ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHInvokePrinterCommandW
-Executes a command on a printer object. (Unicode)
+ƒvƒŠƒ“ƒ^[ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄƒRƒ}ƒ“ƒh‚ğÀs‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 hwnd, uAction, lpBuf1, lpBuf2, fModal
-hwnd : [intptr] Type: HWND The handle of the parent window of any windows or dialog boxes that are created during the operation.
-uAction : [int] Type: UINT
-lpBuf1 : [wstr] Type: LPCTSTR Pointer to a null-terminated string that contains additional information for the printer command. The information contained in this parameter depends upon the value of uAction.
-lpBuf2 : [wstr] Type: LPCTSTR Pointer to a null-terminated string that contains additional information for the printer command. The information contained in this parameter depends upon the value of uAction.
-fModal : [int] Type: BOOL TRUE to specify that SHInvokePrinterCommand should not return until the command is completed; FALSE if the function should return as soon as the command is initialized.
+hwnd : [intptr] Œ^: HWND ‘€ì’†‚Éì¬‚³‚ê‚éƒEƒBƒ“ƒhƒE‚âƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌeƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
+uAction : [int] Œ^: UINT
+lpBuf1 : [wstr] Œ^: LPCTSTR ƒvƒŠƒ“ƒ^[ƒRƒ}ƒ“ƒh‚Ì’Ç‰Áî•ñ‚ğŠÜ‚Ş null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ÉŠÜ‚Ü‚ê‚éî•ñ‚Í uAction ‚Ì’l‚É‚æ‚Á‚ÄŒˆ‚Ü‚éB
+lpBuf2 : [wstr] Œ^: LPCTSTR ƒvƒŠƒ“ƒ^[ƒRƒ}ƒ“ƒh‚Ì’Ç‰Áî•ñ‚ğŠÜ‚Ş null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ÉŠÜ‚Ü‚ê‚éî•ñ‚Í uAction ‚Ì’l‚É‚æ‚Á‚ÄŒˆ‚Ü‚éB
+fModal : [int] Œ^: BOOL ƒRƒ}ƒ“ƒh‚ªŠ®—¹‚·‚é‚Ü‚Å SHInvokePrinterCommand ‚ª–ß‚ç‚È‚¢‚æ‚¤‚Éw’è‚·‚é‚É‚Í TRUEAƒRƒ}ƒ“ƒh‚ª‰Šú‰»‚³‚ê‚½‚ç‚·‚®‚ÉŠÖ”‚ª–ß‚é‚æ‚¤‚É‚·‚é‚É‚Í FALSE ‚ğw’è‚·‚éB
 %inst
-Executes a command on a printer object. (Unicode)
+ƒvƒŠƒ“ƒ^[ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄƒRƒ}ƒ“ƒh‚ğÀs‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if successful; otherwise, FALSE.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-When a printer name is specified by lpBuf1, the name can either be
-the name of a local printer or the server and share name of a network
-printer. When specifying a network printer name, the name must be
-specified in this format:
-This doc was truncated.
+lpBuf1
+‚ÅƒvƒŠƒ“ƒ^[–¼‚ğw’è‚·‚éê‡A‚»‚Ì–¼‘O‚Íƒ[ƒJƒ‹ƒvƒŠƒ“ƒ^[‚Ì–¼‘O‚©Aƒlƒbƒgƒ[ƒNƒvƒŠƒ“ƒ^[‚ÌƒT[ƒo[‚Æ‹¤—L–¼‚Ì‚¢‚¸‚ê‚©‚Å‚ ‚éBƒlƒbƒgƒ[ƒNƒvƒŠƒ“ƒ^[–¼‚ğw’è‚·‚éê‡‚ÍAŸ‚ÌŒ`®‚Åw’è‚·‚é•K—v‚ª‚ ‚é:
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SHIsFileAvailableOffline
-Determines whether a file or folder is available for offline use. This function also determines whether the file would be opened from the network, from the local Offline Files cache, or from both locations.
+ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒtƒHƒ‹ƒ_‚ªƒIƒtƒ‰ƒCƒ“‚Åg—p‰Â”\‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB‚±‚ÌŠÖ”‚Í‚Ü‚½Aƒtƒ@ƒCƒ‹‚ªƒlƒbƒgƒ[ƒNEƒ[ƒJƒ‹‚ÌƒIƒtƒ‰ƒCƒ“ƒtƒ@ƒCƒ‹ƒLƒƒƒbƒVƒ…E—¼•û‚ÌêŠ‚Ì‚¤‚¿‚Ç‚±‚©‚çŠJ‚©‚ê‚é‚©‚à”»’è‚·‚éB
 %group
 Win32 shell32
 %prm
 pwszPath, pdwStatus
-pwszPath : [wstr] Type: PCWSTR A pointer to a string value that specifies the full path to a network file or directory. This path does not need to be in UNC form. If pszPath is not a network path, the function returns E_INVALIDARG.
-pdwStatus : [var] Type: LPDWORD A pointer to a variable of type DWORD that receives one or more of the following flags if the function succeeds.
+pwszPath : [wstr] Œ^: PCWSTR ƒlƒbƒgƒ[ƒNƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ìƒtƒ‹ƒpƒX‚ğw’è‚·‚é•¶š—ñ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚ÌƒpƒX‚Í UNC Œ`®‚Å‚ ‚é•K—v‚Í‚È‚¢BpszPath ‚ªƒlƒbƒgƒ[ƒNƒpƒX‚Å‚È‚¢ê‡AŠÖ”‚Í E_INVALIDARG ‚ğ•Ô‚·B
+pdwStatus : [var] Œ^: LPDWORD ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚ÉAŸ‚Ìƒtƒ‰ƒO‚Ì 1 ‚ÂˆÈã‚ğó‚¯æ‚é DWORD Œ^‚Ì•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Determines whether a file or folder is available for offline use.
-This function also determines whether the file would be opened from
-the network, from the local Offline Files cache, or from both
-locations.
+
+ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒtƒHƒ‹ƒ_‚ªƒIƒtƒ‰ƒCƒ“‚Åg—p‰Â”\‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB‚±‚ÌŠÖ”‚Í‚Ü‚½Aƒtƒ@ƒCƒ‹‚ªƒlƒbƒgƒ[ƒNEƒ[ƒJƒ‹‚ÌƒIƒtƒ‰ƒCƒ“ƒtƒ@ƒCƒ‹ƒLƒƒƒbƒVƒ…E—¼•û‚ÌêŠ‚Ì‚¤‚¿‚Ç‚±‚©‚çŠJ‚©‚ê‚é‚©‚à”»’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT This function can return one of these values.
-This doc was truncated.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If pszPath is a directory, SHIsFileAvailableOffline will not return
-the OFFLINE_STATUS_INCOMPLETE flag. If SHIsFileAvailableOffline
-returns both OFFLINE_STATUS_LOCAL and OFFLINE_STATUS_REMOTE, the file
-or directory is open in both places. This is common when the server
-is online.
+pszPath ‚ªƒfƒBƒŒƒNƒgƒŠ‚Ìê‡ASHIsFileAvailableOffline ‚Í
+OFFLINE_STATUS_INCOMPLETE ƒtƒ‰ƒO‚ğ•Ô‚³‚È‚¢BSHIsFileAvailableOffline ‚ª
+OFFLINE_STATUS_LOCAL ‚Æ OFFLINE_STATUS_REMOTE
+‚Ì—¼•û‚ğ•Ô‚µ‚½ê‡Aƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒfƒBƒŒƒNƒgƒŠ‚Í—¼•û‚ÌêŠ‚ÅŠJ‚©‚ê‚Ä‚¢‚éB‚±‚ê‚ÍƒT[ƒo[‚ªƒIƒ“ƒ‰ƒCƒ“‚Ì‚Æ‚«‚É‚æ‚­Œ©‚ç‚ê‚éB
 
 
 %index
 SHLimitInputEdit
-Sets limits on valid characters for an edit control.
+ƒGƒfƒBƒbƒgƒRƒ“ƒgƒ[ƒ‹‚É—LŒø‚È•¶š‚Ì§ŒÀ‚ğİ’è‚·‚éB
 %group
 Win32 shell32
 %prm
 hwndEdit, psf
-hwndEdit : [intptr] Type: HWND The handle of the edit control.
-psf : [var] Type: IShellFolder* An IShellFolder interface pointer. This object must also implement IItemNameLimits, which supplies a list of invalid characters and a maximum name length.
+hwndEdit : [intptr] Œ^: HWND ƒGƒfƒBƒbƒgƒRƒ“ƒgƒ[ƒ‹‚Ìƒnƒ“ƒhƒ‹B
+psf : [var] Œ^: IShellFolder* IShellFolder ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[B‚±‚ÌƒIƒuƒWƒFƒNƒg‚ÍA–³Œø‚È•¶š‚ÌƒŠƒXƒg‚ÆÅ‘å–¼’·‚ğ’ñ‹Ÿ‚·‚é IItemNameLimits ‚àÀ‘•‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 %inst
-Sets limits on valid characters for an edit control.
+ƒGƒfƒBƒbƒgƒRƒ“ƒgƒ[ƒ‹‚É—LŒø‚È•¶š‚Ì§ŒÀ‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHLoadInProc
-Creates an instance of the specified object class from within the context of the Shell's process. Windows?Vista and later:\_This function has been disabled and returns E_NOTIMPL.
+ƒVƒFƒ‹‚ÌƒvƒƒZƒX‚ÌƒRƒ“ƒeƒLƒXƒg“à‚©‚çw’è‚µ‚½ƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éBWindows Vista ˆÈ~:\_‚±‚ÌŠÖ”‚Í–³Œø‰»‚³‚ê‚Ä‚¨‚èAE_NOTIMPL ‚ğ•Ô‚·B
 %group
 Win32 shell32
 %prm
 rclsid
-rclsid : [var] Type: REFCLSID The CLSID of the object class to be created.
+rclsid : [var] Œ^: REFCLSID ì¬‚·‚éƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚Ì CLSIDB
 %inst
-Creates an instance of the specified object class from within the
-context of the Shell's process. Windows Vista and later:\_This
-function has been disabled and returns E_NOTIMPL.
+ƒVƒFƒ‹‚ÌƒvƒƒZƒX‚ÌƒRƒ“ƒeƒLƒXƒg“à‚©‚çw’è‚µ‚½ƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éBWindows Vista
+ˆÈ~:\_‚±‚ÌŠÖ”‚Í–³Œø‰»‚³‚ê‚Ä‚¨‚èAE_NOTIMPL ‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise. In Windows Vista and later versions, always returns
-E_NOTIMPL.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[’l‚ğ•Ô‚·BWindows Vista ˆÈ~‚Ìƒo[ƒWƒ‡ƒ“‚Å‚Íí‚É
+E_NOTIMPL ‚ğ•Ô‚·B
 
 [”õl]
-Note This function is available through Windows XP Service Pack 2
-(SP2) and Windows Server 2003. It is not available in later versions
-of Windows, including Windows Vista. This function creates the
-requested object instance by calling the CoCreateInstance function
-and immediately releasing the returned object. The associated DLL is
-unloaded according to standard Component Object Model (COM) rules
-when it returns S_OK from its DllCanUnloadNow function.
+’ ‚±‚ÌŠÖ”‚Í Windows XP Service Pack 2 (SP2) ‚¨‚æ‚Ñ Windows Server 2003
+‚Ü‚Å—˜—p‰Â”\‚Å‚ ‚éBWindows Vista ‚ğŠÜ‚ŞA‚»‚êˆÈ~‚Ì Windows ‚Ìƒo[ƒWƒ‡ƒ“‚Å‚Í—˜—p‚Å‚«‚È‚¢B‚±‚ÌŠÖ”‚Í
+CoCreateInstance
+ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä—v‹‚³‚ê‚½ƒIƒuƒWƒFƒNƒgƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚µA•Ô‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ‚½‚¾‚¿‚É‰ğ•ú‚·‚éBŠÖ˜A•t‚¯‚ç‚ê‚½ DLL ‚ÍA‚»‚Ì
+DllCanUnloadNow ŠÖ”‚©‚ç S_OK ‚ğ•Ô‚µ‚½‚Æ‚«‚ÉA•W€‚Ì Component Object Model (COM)
+‚Ìƒ‹[ƒ‹‚É]‚Á‚ÄƒAƒ“ƒ[ƒh‚³‚ê‚éB
 
 
 %index
 SHLoadNonloadedIconOverlayIdentifiers
-Signals the Shell that during the next operation requiring overlay information, it should load icon overlay identifiers that either failed creation or were not present for creation at startup. Identifiers that have already been loaded are not affected.
+Ÿ‚ÉƒI[ƒo[ƒŒƒCî•ñ‚ğ•K—v‚Æ‚·‚é‘€ì‚ÌÛ‚ÉA‹N“®‚Éì¬‚É¸”s‚µ‚½‚©ì¬‚Ì‚½‚ß‚É‘¶İ‚µ‚È‚©‚Á‚½ƒAƒCƒRƒ“ƒI[ƒo[ƒŒƒC¯•Êq‚ğƒ[ƒh‚·‚×‚«‚Å‚ ‚é‚±‚Æ‚ğƒVƒFƒ‹‚É’Ê’m‚·‚éBŠù‚Éƒ[ƒhÏ‚İ‚Ì¯•Êq‚Í‰e‹¿‚ğó‚¯‚È‚¢B
 %group
 Win32 shell32
 %prm
 
 %inst
-Signals the Shell that during the next operation requiring overlay
-information, it should load icon overlay identifiers that either
-failed creation or were not present for creation at startup.
-Identifiers that have already been loaded are not affected.
+
+Ÿ‚ÉƒI[ƒo[ƒŒƒCî•ñ‚ğ•K—v‚Æ‚·‚é‘€ì‚ÌÛ‚ÉA‹N“®‚Éì¬‚É¸”s‚µ‚½‚©ì¬‚Ì‚½‚ß‚É‘¶İ‚µ‚È‚©‚Á‚½ƒAƒCƒRƒ“ƒI[ƒo[ƒŒƒC¯•Êq‚ğƒ[ƒh‚·‚×‚«‚Å‚ ‚é‚±‚Æ‚ğƒVƒFƒ‹‚É’Ê’m‚·‚éBŠù‚Éƒ[ƒhÏ‚İ‚Ì¯•Êq‚Í‰e‹¿‚ğó‚¯‚È‚¢B
 
 [–ß‚è’l]
-Type: HRESULT Always returns S_OK.
+Œ^: HRESULT í‚É S_OK ‚ğ•Ô‚·B
 
 [”õl]
-A call to SHLoadNonloadedIconOverlayIdentifiers does not result in
-the immediate loading of a Shell extension, nor does it cause an icon
-overlay handler to be loaded. A call to
-SHLoadNonloadedIconOverlayIdentifiers results in a situation such
-that the next code to ask for icon overlay information triggers a
-comparison of icon overlays in the registry to those that are already
-loaded. If an icon overlay is newly registered and the system has not
-already reached its upper limit of fifteen icon overlays, the new
-overlay is loaded. SHLoadNonloadedIconOverlayIdentifiers alone does
-not load a new icon overlay; you also need to trigger an action that
-uses the overlay, such as a refresh of a Windows Explorer view. For
-more information, see How to Implement Icon Overlay Handlers.
+SHLoadNonloadedIconOverlayIdentifiers
+‚ÌŒÄ‚Ño‚µ‚ÍAƒVƒFƒ‹Šg’£‚Ì‚·‚®‚Éƒ[ƒh‚³‚ê‚é‚±‚Æ‚É‚Í‚Â‚È‚ª‚ç‚¸AƒAƒCƒRƒ“ƒI[ƒo[ƒŒƒCƒnƒ“ƒhƒ‰[‚ªƒ[ƒh‚³‚ê‚é‚±‚Æ‚É‚à‚Â‚È‚ª‚ç‚È‚¢BSHLoadNonloadedIconOverlayIdentifiers
+‚ÌŒÄ‚Ño‚µ‚ÍAŸ‚ÉƒAƒCƒRƒ“ƒI[ƒo[ƒŒƒCî•ñ‚ğ—v‹‚·‚éƒR[ƒh‚ªAƒŒƒWƒXƒgƒŠ“à‚ÌƒAƒCƒRƒ“ƒI[ƒo[ƒŒƒC‚ÆŠù‚Éƒ[ƒh‚³‚ê‚Ä‚¢‚é‚à‚Ì‚Ì”äŠr‚ğˆø‚«‹N‚±‚·‚æ‚¤‚Èó‹µ‚ğ‚à‚½‚ç‚·BƒAƒCƒRƒ“ƒI[ƒo[ƒŒƒC‚ªV‚½‚É“o˜^‚³‚ê‚Ä‚¨‚èAƒVƒXƒeƒ€‚ª
+15
+ŒÂ‚ÌƒAƒCƒRƒ“ƒI[ƒo[ƒŒƒC‚ÌãŒÀ‚É‚Ü‚¾’B‚µ‚Ä‚¢‚È‚¢ê‡‚ÍAV‚µ‚¢ƒI[ƒo[ƒŒƒC‚ªƒ[ƒh‚³‚ê‚éBSHLoadNonloadedIconOverlayIdentifiers
+‚¾‚¯‚Å‚ÍV‚µ‚¢ƒAƒCƒRƒ“ƒI[ƒo[ƒŒƒC‚Íƒ[ƒh‚³‚ê‚È‚¢BWindows Explorer
+‚Ìƒrƒ…[‚ÌXV‚È‚ÇAƒI[ƒo[ƒŒƒC‚ğg—p‚·‚éƒAƒNƒVƒ‡ƒ“‚àˆø‚«‹N‚±‚·•K—v‚ª‚ ‚éBÚ×‚Í How to Implement Icon
+Overlay Handlers ‚ğQÆB
 
 
 %index
 SHMapPIDLToSystemImageListIndex
-SHMapPIDLToSystemImageListIndex may be altered or unavailable.
+SHMapPIDLToSystemImageListIndex ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pshf, pidl, piIndexSel
-pshf : [var] Type: IShellFolder* An IShellFolder interface pointer for the folder that contains the item.
-pidl : [var] Type: PCUITEMID_CHILD A pointer to the item's ITEMIDLIST structure.
-piIndexSel : [var] Type: int* A pointer to an int that, when this function returns successfully, receives the index of the item's open icon in the system image list. If the item does not have a special open icon then the index of its normal icon is returned. If the open icon exists and cannot be obtained, then the value pointed to by piIndex is set to -1. This parameter can be NULL if the calling application is not interested in the open icon.
+pshf : [var] Œ^: IShellFolder* €–Ú‚ğŠÜ‚ŞƒtƒHƒ‹ƒ_‚Ì IShellFolder ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[B
+pidl : [var] Œ^: PCUITEMID_CHILD €–Ú‚Ì ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+piIndexSel : [var] Œ^: int* ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚ÉAƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg“à‚Ì€–Ú‚ÌƒI[ƒvƒ“ƒAƒCƒRƒ“‚ÌƒCƒ“ƒfƒbƒNƒX‚ğó‚¯æ‚é int ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B€–Ú‚É“Á•Ê‚ÈƒI[ƒvƒ“ƒAƒCƒRƒ“‚ª‚È‚¢ê‡‚ÍA‚»‚Ì’ÊíƒAƒCƒRƒ“‚ÌƒCƒ“ƒfƒbƒNƒX‚ª•Ô‚³‚ê‚éBƒI[ƒvƒ“ƒAƒCƒRƒ“‚ª‘¶İ‚·‚é‚ªæ“¾‚Å‚«‚È‚¢ê‡ApiIndex ‚ªw‚·’l‚Í -1 ‚Éİ’è‚³‚ê‚éBŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒI[ƒvƒ“ƒAƒCƒRƒ“‚ÉŠÖS‚ª‚È‚¢ê‡‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Å‚à‚æ‚¢B
 %inst
-SHMapPIDLToSystemImageListIndex may be altered or unavailable.
+SHMapPIDLToSystemImageListIndex ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: int Returns the index of the item's normal icon in the system
-image list if successful, or -1 otherwise.
+Œ^: int ¬Œ÷‚µ‚½ê‡‚ÍƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg“à‚Ì€–Ú‚Ì’ÊíƒAƒCƒRƒ“‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚µA‚»‚êˆÈŠO‚Ìê‡‚Í -1 ‚ğ•Ô‚·B
 
 
 %index
 SHMultiFileProperties
-Displays a merged property sheet for a set of files. Property values common to all the files are shown while those that differ display the string (multiple values).
+ƒtƒ@ƒCƒ‹ƒZƒbƒg‚É‘Î‚µ‚Äƒ}[ƒW‚³‚ê‚½ƒvƒƒpƒeƒBƒV[ƒg‚ğ•\¦‚·‚éB‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹‚É‹¤’Ê‚·‚éƒvƒƒpƒeƒB’l‚ª•\¦‚³‚êAˆÙ‚È‚é‚à‚Ì‚É‚Â‚¢‚Ä‚Í•¶š—ñu(•¡”‚Ì’l)v‚ª•\¦‚³‚ê‚éB
 %group
 Win32 shell32
 %prm
 pdtobj, dwFlags
-pdtobj : [var] Type: IDataObject* A pointer to a data object that supplies the PIDLs of all of the files for which to display the merged property sheet. The data object must use the CFSTR_SHELLIDLIST clipboard format. The parent folder's implementation of IShellFolder::GetDisplayNameOf must return a fully qualified file system path for each item in response to the SHGDN_FORPARSING flag.
-dwFlags : [int] Type: DWORD Reserved. Must be set to 0.
+pdtobj : [var] Œ^: IDataObject* ƒ}[ƒW‚³‚ê‚½ƒvƒƒpƒeƒBƒV[ƒg‚ğ•\¦‚·‚é‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹‚Ì PIDL ‚ğ’ñ‹Ÿ‚·‚éƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[Bƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Í CFSTR_SHELLIDLIST ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ğg—p‚·‚é•K—v‚ª‚ ‚éBeƒtƒHƒ‹ƒ_‚Ì IShellFolder::GetDisplayNameOf ‚ÌÀ‘•‚ÍASHGDN_FORPARSING ƒtƒ‰ƒO‚É‰“š‚µ‚ÄŠe€–Ú‚ÌŠ®‘SCüƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒpƒX‚ğ•Ô‚·•K—v‚ª‚ ‚éB
+dwFlags : [int] Œ^: DWORD —\–ñÏ‚İB0 ‚Éİ’è‚·‚é•K—v‚ª‚ ‚éB
 %inst
-Displays a merged property sheet for a set of files. Property values
-common to all the files are shown while those that differ display the
-string (multiple values).
+
+ƒtƒ@ƒCƒ‹ƒZƒbƒg‚É‘Î‚µ‚Äƒ}[ƒW‚³‚ê‚½ƒvƒƒpƒeƒBƒV[ƒg‚ğ•\¦‚·‚éB‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹‚É‹¤’Ê‚·‚éƒvƒƒpƒeƒB’l‚ª•\¦‚³‚êAˆÙ‚È‚é‚à‚Ì‚É‚Â‚¢‚Ä‚Í•¶š—ñu(•¡”‚Ì’l)v‚ª•\¦‚³‚ê‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHObjectProperties
-SHObjectProperties may be altered or unavailable.
+SHObjectProperties ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 hwnd, shopObjectType, pszObjectName, pszPropertyPage
-hwnd : [intptr] Type: HWND The handle of the parent window of the dialog box. This value can be NULL.
-shopObjectType : [int] Type: DWORD A flag value that specifies the type of object.
-pszObjectName : [wstr] Type: PCWSTR A null-terminated Unicode string that contains the object name. The contents of the string are determined by the flag set in shopObjectType.
-pszPropertyPage : [wstr] Type: PCWSTR A null-terminated Unicode string that contains the name of the property sheet page to be opened initially. Set this parameter to NULL to specify the default page.
+hwnd : [intptr] Œ^: HWND ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌeƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
+shopObjectType : [int] Œ^: DWORD ƒIƒuƒWƒFƒNƒg‚Ìí—Ş‚ğw’è‚·‚éƒtƒ‰ƒO’lB
+pszObjectName : [wstr] Œ^: PCWSTR ƒIƒuƒWƒFƒNƒg–¼‚ğŠÜ‚Ş null I’[‚Ì Unicode •¶š—ñB•¶š—ñ‚Ì“à—e‚Í shopObjectType ‚Éİ’è‚³‚ê‚½ƒtƒ‰ƒO‚É‚æ‚Á‚ÄŒˆ‚Ü‚éB
+pszPropertyPage : [wstr] Œ^: PCWSTR Å‰‚ÉŠJ‚­ƒvƒƒpƒeƒBƒV[ƒgƒy[ƒW‚Ì–¼‘O‚ğŠÜ‚Ş null I’[‚Ì Unicode •¶š—ñBŠù’è‚Ìƒy[ƒW‚ğw’è‚·‚é‚É‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğ NULL ‚Éİ’è‚·‚éB
 %inst
-SHObjectProperties may be altered or unavailable.
+SHObjectProperties ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: BOOL TRUE if the command is successfully invoked; otherwise,
-FALSE.
+Œ^: BOOL ƒRƒ}ƒ“ƒh‚ª³í‚ÉŒÄ‚Ño‚³‚ê‚½ê‡‚Í TRUEA‚»‚êˆÈŠO‚Ìê‡‚Í FALSEB
 
 
 %index
 SHOpenFolderAndSelectItems
-Opens a Windows Explorer window with specified items in a particular folder selected.
+“Á’è‚ÌƒtƒHƒ‹ƒ_“à‚Ìw’è‚µ‚½€–Ú‚ª‘I‘ğ‚³‚ê‚½ó‘Ô‚Å Windows Explorer ƒEƒBƒ“ƒhƒE‚ğŠJ‚­B
 %group
 Win32 shell32
 %prm
 pidlFolder, cidl, apidl, dwFlags
-pidlFolder : [var] Type: PCIDLIST_ABSOLUTE A pointer to a fully qualified item ID list that specifies the folder.
-cidl : [int] Type: UINT A count of items in the selection array, apidl. If cidl is zero, then pidlFolder must point to a fully specified ITEMIDLIST describing a single item to select. This function opens the parent folder and selects that item.
-apidl : [var] Type: PCUITEMID_CHILD_ARRAY A pointer to an array of PIDL structures, each of which is an item to select in the target folder referenced by pidlFolder.
-dwFlags : [int] Type: DWORD The optional flags. Under Windows?XP this parameter is ignored. In Windows?Vista, the following flags are defined.
+pidlFolder : [var] Œ^: PCIDLIST_ABSOLUTE ƒtƒHƒ‹ƒ_‚ğw’è‚·‚éŠ®‘SCüƒAƒCƒeƒ€ ID ƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+cidl : [int] Œ^: UINT ‘I‘ğ”z—ñ apidl “à‚Ì€–Ú”Bcidl ‚ªƒ[ƒ‚Ìê‡ApidlFolder ‚Í‘I‘ğ‚·‚é’Pˆê€–Ú‚ğ‹Lq‚·‚éŠ®‘S‚Éw’è‚³‚ê‚½ ITEMIDLIST ‚ğw‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚ÍeƒtƒHƒ‹ƒ_‚ğŠJ‚«A‚»‚Ì€–Ú‚ğ‘I‘ğ‚·‚éB
+apidl : [var] Œ^: PCUITEMID_CHILD_ARRAY pidlFolder ‚ÅQÆ‚³‚ê‚éƒ^[ƒQƒbƒgƒtƒHƒ‹ƒ_“à‚Å‘I‘ğ‚·‚é€–Ú‚»‚ê‚¼‚ê‚ğ•\‚· PIDL \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+dwFlags : [int] Œ^: DWORD ”CˆÓ‚Ìƒtƒ‰ƒOBWindows XP ‚Å‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í–³‹‚³‚ê‚éBWindows Vista ‚Å‚ÍŸ‚Ìƒtƒ‰ƒO‚ª’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-Opens a Windows Explorer window with specified items in a particular
-folder selected.
+“Á’è‚ÌƒtƒHƒ‹ƒ_“à‚Ìw’è‚µ‚½€–Ú‚ª‘I‘ğ‚³‚ê‚½ó‘Ô‚Å Windows Explorer ƒEƒBƒ“ƒhƒE‚ğŠJ‚­B
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-CoInitialize or CoInitializeEx must be called before using
-SHOpenFolderAndSelectItems. Not doing so causes
-SHOpenFolderAndSelectItems to fail.
+SHOpenFolderAndSelectItems ‚ğg—p‚·‚é‘O‚É CoInitialize ‚Ü‚½‚Í CoInitializeEx
+‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB‚±‚ê‚ğs‚í‚È‚¢‚Æ SHOpenFolderAndSelectItems ‚Í¸”s‚·‚éB
 
 
 %index
 SHOpenWithDialog
-Displays the Open With dialog box.
+uƒtƒ@ƒCƒ‹‚ğŠJ‚­ƒvƒƒOƒ‰ƒ€‚Ì‘I‘ğvƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB
 %group
 Win32 shell32
 %prm
 hwndParent, poainfo
-hwndParent : [intptr] Type: HWND The handle of the parent window. This value can be NULL.
-poainfo : [var] Type: const OPENASINFO* A pointer to an OPENASINFO structure, which specifies the contents of the resulting dialog.
+hwndParent : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
+poainfo : [var] Œ^: const OPENASINFO* Œ‹‰Ê‚Ìƒ_ƒCƒAƒƒO‚Ì“à—e‚ğw’è‚·‚é OPENASINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Displays the Open With dialog box.
+uƒtƒ@ƒCƒ‹‚ğŠJ‚­ƒvƒƒOƒ‰ƒ€‚Ì‘I‘ğvƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Starting in Windows 10, the OAIF_ALLOW_REGISTRATION,
-OAIF_FORCE_REGISTRATION, and OAIF_HIDE_REGISTRATION flags will be
-ignored by SHOpenWithDialog. The Open With dialog box can no longer
-be used to change the default program used to open a file extension.
-You can only use SHOpenWithDialog to open a single file. If
-SHOpenWithDialog is called without passing OAIF_EXEC, the user will
-receive a dialog that informs them that they can change the default
-programs used to open file extensions in their Settings.
+Windows 10
+ˆÈ~AOAIF_ALLOW_REGISTRATIONAOAIF_FORCE_REGISTRATIONAOAIF_HIDE_REGISTRATION
+ƒtƒ‰ƒO‚Í SHOpenWithDialog
+‚É‚æ‚Á‚Ä–³‹‚³‚ê‚éBuƒtƒ@ƒCƒ‹‚ğŠJ‚­ƒvƒƒOƒ‰ƒ€‚Ì‘I‘ğvƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÍAƒtƒ@ƒCƒ‹Šg’£q‚ğŠJ‚­Šù’è‚ÌƒvƒƒOƒ‰ƒ€‚ğ•ÏX‚·‚é‚½‚ß‚É‚Íg—p‚Å‚«‚È‚­‚È‚Á‚½BSHOpenWithDialog
+‚Í’Pˆê‚Ìƒtƒ@ƒCƒ‹‚ğŠJ‚­‚½‚ß‚É‚Ì‚İg—p‚Å‚«‚éBSHOpenWithDialog ‚ğ OAIF_EXEC
+‚ğ“n‚³‚¸‚ÉŒÄ‚Ño‚µ‚½ê‡Aƒ†[ƒU[‚Íuİ’èv‚Åƒtƒ@ƒCƒ‹Šg’£q‚ğŠJ‚­Šù’è‚ÌƒvƒƒOƒ‰ƒ€‚ğ•ÏX‚Å‚«‚é‚±‚Æ‚ğ’m‚ç‚¹‚éƒ_ƒCƒAƒƒO‚ğó‚¯æ‚éB
 
 
 %index
 SHParseDisplayName
-Translates a Shell namespace object's display name into an item identifier list and returns the attributes of the object. This function is the preferred method to convert a string to a pointer to an item identifier list (PIDL).
+ƒVƒFƒ‹–¼‘O‹óŠÔƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼‚ğƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚É•ÏŠ·‚µAƒIƒuƒWƒFƒNƒg‚Ì‘®«‚ğ•Ô‚·B‚±‚ÌŠÖ”‚Í•¶š—ñ‚ğƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg (PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚É•ÏŠ·‚·‚é‚½‚ß‚Ì„§•û–@‚Å‚ ‚éB
 %group
 Win32 shell32
 %prm
 pszName, pbc, ppidl, sfgaoIn, psfgaoOut
-pszName : [wstr] Type: LPCWSTR A pointer to a zero-terminated wide string that contains the display name to parse.
-pbc : [var] Type: IBindCtx* A bind context that controls the parsing operation. This parameter is normally set to NULL.
-ppidl : [var] Type: PIDLIST_ABSOLUTE* The address of a pointer to a variable of type ITEMIDLIST that receives the item identifier list for the object. If an error occurs, then this parameter is set to NULL.
-sfgaoIn : [int] Type: SFGAOF A ULONG value that specifies the attributes to query. To query for one or more attributes, initialize this parameter with the flags that represent the attributes of interest. For a list of available SFGAO flags, see IShellFolder::GetAttributesOf.
-psfgaoOut : [var] Type: SFGAOF* A pointer to a ULONG. On return, those attributes that are true for the object and were requested in sfgaoIn are set. An object's attribute flags can be zero or a combination of SFGAO flags. For a list of available SFGAO flags, see IShellFolder::GetAttributesOf.
+pszName : [wstr] Œ^: LPCWSTR ‰ğÍ‚·‚é•\¦–¼‚ğŠÜ‚Şƒ[ƒI’[‚ÌƒƒCƒh•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pbc : [var] Œ^: IBindCtx* ‰ğÍ‘€ì‚ğ§Œä‚·‚éƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒgB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’Êí NULL ‚Éİ’è‚·‚éB
+ppidl : [var] Œ^: PIDLIST_ABSOLUTE* ƒIƒuƒWƒFƒNƒg‚ÌƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚ğó‚¯æ‚é ITEMIDLIST Œ^‚Ì•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒXBƒGƒ‰[‚ª”­¶‚µ‚½ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚³‚ê‚éB
+sfgaoIn : [int] Œ^: SFGAOF ƒNƒGƒŠ‚·‚é‘®«‚ğw’è‚·‚é ULONG ’lB1 ‚ÂˆÈã‚Ì‘®«‚ğƒNƒGƒŠ‚·‚é‚É‚ÍAŠÖS‚Ì‚ ‚é‘®«‚ğ•\‚·ƒtƒ‰ƒO‚Å‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğ‰Šú‰»‚·‚éB—˜—p‰Â”\‚È SFGAO ƒtƒ‰ƒO‚Ìˆê——‚Í IShellFolder::GetAttributesOf ‚ğQÆB
+psfgaoOut : [var] Œ^: SFGAOF* ULONG ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B–ß‚è‚ÉAsfgaoIn ‚Å—v‹‚³‚ê‚½‚¤‚¿ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä true ‚Å‚ ‚é‘®«‚ªİ’è‚³‚ê‚éBƒIƒuƒWƒFƒNƒg‚Ì‘®«ƒtƒ‰ƒO‚Í 0 ‚Ü‚½‚Í SFGAO ƒtƒ‰ƒO‚Ì‘g‚İ‡‚í‚¹‚Æ‚È‚éB—˜—p‰Â”\‚È SFGAO ƒtƒ‰ƒO‚Ìˆê——‚Í IShellFolder::GetAttributesOf ‚ğQÆB
 %inst
-Translates a Shell namespace object's display name into an item
-identifier list and returns the attributes of the object. This
-function is the preferred method to convert a string to a pointer to
-an item identifier list (PIDL).
+ƒVƒFƒ‹–¼‘O‹óŠÔƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼‚ğƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg‚É•ÏŠ·‚µAƒIƒuƒWƒFƒNƒg‚Ì‘®«‚ğ•Ô‚·B‚±‚ÌŠÖ”‚Í•¶š—ñ‚ğƒAƒCƒeƒ€¯•ÊqƒŠƒXƒg
+(PIDL) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚É•ÏŠ·‚·‚é‚½‚ß‚Ì„§•û–@‚Å‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-You should call this function from a background thread. Failure to do
-so could cause the UI to stop responding.
+‚±‚ÌŠÖ”‚ÍƒoƒbƒNƒOƒ‰ƒEƒ“ƒhƒXƒŒƒbƒh‚©‚çŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB‚»‚¤‚µ‚È‚¢‚Æ UI ‚ª‰“š‚µ‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 
 %index
 SHPathPrepareForWriteW
-Checks to see if the path exists. (Unicode)
+ƒpƒX‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 hwnd, punkEnableModless, pszPath, dwFlags
-hwnd : [intptr] Type: HWND A handle to a window that specifies the parent window to be used for any user interface windows that must be created. If set to NULL, user interface windows are not created.
-punkEnableModless : [var] Type: IUnknown* A pointer to an IUnknown interface that specifies the IOleInPlaceActiveObject object that implements the EnableModeless method.
-pszPath : [wstr] Type: LPCTSTR A pointer to a null-terminated string of maximum length MAX_PATH that specifies the path to be verified as valid for writing. This can be a UNC or file drive path.
-dwFlags : [int] Type: DWORD
+hwnd : [intptr] Œ^: HWND ì¬‚·‚é•K—v‚Ì‚ ‚éƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒXƒEƒBƒ“ƒhƒE‚Ég—p‚³‚ê‚éeƒEƒBƒ“ƒhƒE‚ğw’è‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Éİ’è‚·‚é‚ÆAƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒXƒEƒBƒ“ƒhƒE‚Íì¬‚³‚ê‚È‚¢B
+punkEnableModless : [var] Œ^: IUnknown* EnableModeless ƒƒ\ƒbƒh‚ğÀ‘•‚·‚é IOleInPlaceActiveObject ƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚é IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pszPath : [wstr] Œ^: LPCTSTR ‘‚«‚İ‚É—LŒø‚©‚ğŒŸØ‚·‚éƒpƒX‚ğw’è‚·‚éAÅ‘å’· MAX_PATH ‚Ì null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚ê‚Í UNC ‚Ü‚½‚Íƒtƒ@ƒCƒ‹ƒhƒ‰ƒCƒu‚ÌƒpƒX‚Å‚à‚æ‚¢B
+dwFlags : [int] Œ^: DWORD
 %inst
-Checks to see if the path exists. (Unicode)
+ƒpƒX‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if the path is available, or an error code
-otherwise. Note that a return value of S_OK does not mean that the
-medium is writable; it simply means that the path is available.
+Œ^: HRESULT ƒpƒX‚ª—˜—p‰Â”\‚Èê‡‚Í S_OK ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·BS_OK
+‚Ì–ß‚è’l‚ÍƒƒfƒBƒA‚ª‘‚«‚İ‰Â”\‚Å‚ ‚é‚±‚Æ‚ğˆÓ–¡‚·‚é‚í‚¯‚Å‚Í‚È‚­A’P‚ÉƒpƒX‚ª—˜—p‰Â”\‚Å‚ ‚é‚±‚Æ‚ğˆÓ–¡‚·‚é‚±‚Æ‚É’ˆÓB
 
 [”õl]
-The primary use of this function is for a program to check a path
-before using it and display the necessary user interface to prompt
-the user. For example, if the disk in drive A: were missing, a window
-that prompts the user to insert the disk would appear.
-> [!NOTE] > The shlobj_core.h header defines SHPathPrepareForWrite as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+‚±‚ÌŠÖ”‚Ìå‚È—p“r‚ÍAƒvƒƒOƒ‰ƒ€‚ªƒpƒX‚ğg—p‚·‚é‘O‚Éƒ`ƒFƒbƒN‚µAƒ†[ƒU[‚É‘£‚·•K—v‚Èƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ•\¦‚·‚é‚±‚Æ‚Å‚ ‚éB‚½‚Æ‚¦‚Î
+A: ƒhƒ‰ƒCƒu‚ÌƒfƒBƒXƒN‚ª“ü‚Á‚Ä‚¢‚È‚¢ê‡Aƒ†[ƒU[‚ÉƒfƒBƒXƒN‚ğ‘}“ü‚·‚é‚æ‚¤‘£‚·ƒEƒBƒ“ƒhƒE‚ª•\¦‚³‚ê‚éB
+> [!NOTE] > shlobj_core.h ƒwƒbƒ_[‚Í SHPathPrepareForWrite ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚µ‚Äg—p‚·‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 SHPropStgCreate
-Ensures proper handling of code page retrieval or assignment for the requested property set operation.
+—v‹‚³‚ê‚½ƒvƒƒpƒeƒBƒZƒbƒg‘€ì‚É‘Î‚·‚éƒR[ƒhƒy[ƒW‚Ìæ“¾‚âŠ„‚è“–‚Ä‚ğ“KØ‚Éˆ—‚·‚éB
 %group
 Win32 shell32
 %prm
 psstg, fmtid, pclsid, grfFlags, grfMode, dwDisposition, ppstg, puCodePage
-psstg : [var] Type: IPropertySetStorage* A pointer to an IPropertySetStorage interface.
-fmtid : [var] Type: REFFMTID A property set ID to open. The values for this parameter can be either one of those defined in Predefined Property Set Format Identifiers or any other FMTID that you register.
-pclsid : [var] Type: const CLSID* A pointer to the CLSID associated with the set. This parameter can be NULL.
-grfFlags : [int] Type: DWORD One or more members of the PROPSETFLAG enumeration that determine how the property set is created and opened. All sets containing ANSI bytes should be created with PROPSETFLAG_ANSI, otherwise PROPSETFLAG_DEFAULT.
-grfMode : [int] Type: DWORD The flags from the STGM enumeration that indicate conditions for creating and deleting the object and access modes for the object. Must contain STGM_DIRECT | STGM_SHARE_EXCLUSIVE.
-dwDisposition : [int] Type: DWORD
-ppstg : [var] Type: IPropertyStorage** When this method returns, contains an IPropertyStorage interface pointer.
-puCodePage : [var] Type: UINT* When this method returns, contains the address of the code page ID for the set.
+psstg : [var] Œ^: IPropertySetStorage* IPropertySetStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+fmtid : [var] Œ^: REFFMTID ŠJ‚­ƒvƒƒpƒeƒBƒZƒbƒg IDB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Ì’l‚ÍAPredefined Property Set Format Identifiers ‚Å’è‹`‚³‚ê‚Ä‚¢‚é‚à‚Ì‚©A“o˜^‚µ‚½‘¼‚Ì”CˆÓ‚Ì FMTID ‚Ì‚¢‚¸‚ê‚©‚Å‚ ‚éB
+pclsid : [var] Œ^: const CLSID* ƒZƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ CLSID ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Å‚à‚æ‚¢B
+grfFlags : [int] Œ^: DWORD ƒvƒƒpƒeƒBƒZƒbƒg‚Ìì¬‚ÆŠJ‚«•û‚ğŒˆ’è‚·‚é PROPSETFLAG —ñ‹“‘Ì‚Ì 1 ‚ÂˆÈã‚Ìƒƒ“ƒo[BANSI ƒoƒCƒg‚ğŠÜ‚ŞƒZƒbƒg‚Í‚·‚×‚Ä PROPSETFLAG_ANSI ‚Åì¬‚·‚×‚«‚ÅA‚»‚êˆÈŠO‚Í PROPSETFLAG_DEFAULT ‚ğg—p‚·‚éB
+grfMode : [int] Œ^: DWORD ƒIƒuƒWƒFƒNƒg‚Ìì¬‚Æíœ‚ÌğŒA‚¨‚æ‚ÑƒIƒuƒWƒFƒNƒg‚ÌƒAƒNƒZƒXƒ‚[ƒh‚ğ¦‚· STGM —ñ‹“‘Ì‚Ìƒtƒ‰ƒOBSTGM_DIRECT | STGM_SHARE_EXCLUSIVE ‚ğŠÜ‚Ş•K—v‚ª‚ ‚éB
+dwDisposition : [int] Œ^: DWORD
+ppstg : [var] Œ^: IPropertyStorage** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAIPropertyStorage ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB
+puCodePage : [var] Œ^: UINT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒZƒbƒg‚ÌƒR[ƒhƒy[ƒW ID ‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Ensures proper handling of code page retrieval or assignment for the
-requested property set operation.
+—v‹‚³‚ê‚½ƒvƒƒpƒeƒBƒZƒbƒg‘€ì‚É‘Î‚·‚éƒR[ƒhƒy[ƒW‚Ìæ“¾‚âŠ„‚è“–‚Ä‚ğ“KØ‚Éˆ—‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHPropStgReadMultiple
-Wraps the IPropertyStorage::ReadMultiple function to ensure that ANSI and Unicode translations are handled properly for deprecated property sets.
+”ñ„§‚ÌƒvƒƒpƒeƒBƒZƒbƒg‚É‘Î‚µ‚Ä ANSI ‚Æ Unicode ‚Ì•ÏŠ·‚ª“KØ‚Éˆ—‚³‚ê‚é‚æ‚¤AIPropertyStorage::ReadMultiple ŠÖ”‚ğƒ‰ƒbƒv‚·‚éB
 %group
 Win32 shell32
 %prm
 pps, uCodePage, cpspec, rgpspec, rgvar
-pps : [var] Type: IPropertyStorage* An IPropertyStorage interface pointer that identifies the property store.
-uCodePage : [int] Type: UINT A code page value for ANSI string properties.
-cpspec : [int] Type: ULONG A count of properties being read.
-rgpspec : [var] Type: PROPSPEC const[] An array of properties to be read.
-rgvar : [var] Type: PROPVARIANT[] An array of PROPVARIANT types that, when this function returns successfully, receives the property values.
+pps : [var] Œ^: IPropertyStorage* ƒvƒƒpƒeƒBƒXƒgƒA‚ğ¯•Ê‚·‚é IPropertyStorage ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[B
+uCodePage : [int] Œ^: UINT ANSI •¶š—ñƒvƒƒpƒeƒB—p‚ÌƒR[ƒhƒy[ƒW’lB
+cpspec : [int] Œ^: ULONG “Ç‚İæ‚éƒvƒƒpƒeƒB‚Ì”B
+rgpspec : [var] Œ^: PROPSPEC const[] “Ç‚İæ‚éƒvƒƒpƒeƒB‚Ì”z—ñB
+rgvar : [var] Œ^: PROPVARIANT[] ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚ÉAƒvƒƒpƒeƒB’l‚ğó‚¯æ‚é PROPVARIANT Œ^‚Ì”z—ñB
 %inst
-Wraps the IPropertyStorage::ReadMultiple function to ensure that ANSI
-and Unicode translations are handled properly for deprecated property
-sets.
+”ñ„§‚ÌƒvƒƒpƒeƒBƒZƒbƒg‚É‘Î‚µ‚Ä ANSI ‚Æ Unicode
+‚Ì•ÏŠ·‚ª“KØ‚Éˆ—‚³‚ê‚é‚æ‚¤AIPropertyStorage::ReadMultiple ŠÖ”‚ğƒ‰ƒbƒv‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHPropStgWriteMultiple
-Wraps the IPropertyStorage::WriteMultiple function to ensure that ANSI and Unicode translations are handled properly for deprecated property sets.
+”ñ„§‚ÌƒvƒƒpƒeƒBƒZƒbƒg‚É‘Î‚µ‚Ä ANSI ‚Æ Unicode ‚Ì•ÏŠ·‚ª“KØ‚Éˆ—‚³‚ê‚é‚æ‚¤AIPropertyStorage::WriteMultiple ŠÖ”‚ğƒ‰ƒbƒv‚·‚éB
 %group
 Win32 shell32
 %prm
 pps, puCodePage, cpspec, rgpspec, rgvar, propidNameFirst
-pps : [var] Type: IPropertyStorage* An IPropertyStorage interface pointer that identifies the property store.
-puCodePage : [var] Type: UINT* A pointer to the code page value for ANSI string properties.
-cpspec : [int] Type: ULONG A count of properties being set.
-rgpspec : [var] Type: PROPSPEC const[] An array of PROPSPEC structures that contain the property information to be set.
-rgvar : [var] Type: PROPVARIANT[] An array of PROPVARIANT types to set the property values.
-propidNameFirst : [int] Type: PROPID The minimum value for property identifiers when they must be allocated. The value should be greater than or equal to PID_FIRST_USABLE.
+pps : [var] Œ^: IPropertyStorage* ƒvƒƒpƒeƒBƒXƒgƒA‚ğ¯•Ê‚·‚é IPropertyStorage ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[B
+puCodePage : [var] Œ^: UINT* ANSI •¶š—ñƒvƒƒpƒeƒB—p‚ÌƒR[ƒhƒy[ƒW’l‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+cpspec : [int] Œ^: ULONG İ’è‚·‚éƒvƒƒpƒeƒB‚Ì”B
+rgpspec : [var] Œ^: PROPSPEC const[] İ’è‚·‚éƒvƒƒpƒeƒBî•ñ‚ğŠÜ‚Ş PROPSPEC \‘¢‘Ì‚Ì”z—ñB
+rgvar : [var] Œ^: PROPVARIANT[] ƒvƒƒpƒeƒB’l‚ğİ’è‚·‚é PROPVARIANT Œ^‚Ì”z—ñB
+propidNameFirst : [int] Œ^: PROPID ƒvƒƒpƒeƒB¯•Êq‚ğŠ„‚è“–‚Ä‚é•K—v‚ª‚ ‚éê‡‚ÌÅ¬’lB’l‚Í PID_FIRST_USABLE ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Wraps the IPropertyStorage::WriteMultiple function to ensure that
-ANSI and Unicode translations are handled properly for deprecated
-property sets.
+”ñ„§‚ÌƒvƒƒpƒeƒBƒZƒbƒg‚É‘Î‚µ‚Ä ANSI ‚Æ Unicode
+‚Ì•ÏŠ·‚ª“KØ‚Éˆ—‚³‚ê‚é‚æ‚¤AIPropertyStorage::WriteMultiple ŠÖ”‚ğƒ‰ƒbƒv‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHQueryUserNotificationState
-Checks the state of the computer for the current user to determine whether sending a notification is appropriate.
+Œ»İ‚Ìƒ†[ƒU[‚É‘Î‚µ‚Ä’Ê’m‚ğ‘—M‚·‚é‚Ì‚ª“KØ‚©‚ğ”»’è‚·‚é‚½‚ßAƒRƒ“ƒsƒ…[ƒ^[‚Ìó‘Ô‚ğƒ`ƒFƒbƒN‚·‚éB
 %group
 Win32 shell32
 %prm
 pquns
-pquns : [var] Type: QUERY_USER_NOTIFICATION_STATE* When this function returns, contains a pointer to one of the values of the QUERY_USER_NOTIFICATION_STATE enumeration.
+pquns : [var] Œ^: QUERY_USER_NOTIFICATION_STATE* ‚±‚ÌŠÖ”‚ª•Ô‚é‚Æ‚«‚ÉAQUERY_USER_NOTIFICATION_STATE —ñ‹“‘Ì‚Ì’l‚Ì 1 ‚Â‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB
 %inst
-Checks the state of the computer for the current user to determine
-whether sending a notification is appropriate.
+Œ»İ‚Ìƒ†[ƒU[‚É‘Î‚µ‚Ä’Ê’m‚ğ‘—M‚·‚é‚Ì‚ª“KØ‚©‚ğ”»’è‚·‚é‚½‚ßAƒRƒ“ƒsƒ…[ƒ^[‚Ìó‘Ô‚ğƒ`ƒFƒbƒN‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Applications should call SHQueryUserNotificationState and test the
-return value before displaying any notification UI that is similar to
-the balloon notifications generated by Shell_NotifyIcon.
-Notifications should only be displayed if this API returns
-QNS_ACCEPTS_NOTIFICATIONS. This informs the application whether the
-user is running processes that should not be interrupted. Top-level
-windows receive a WM_SETTINGCHANGE message when the user turns
-presentation settings on or off, and also when the user's session is
-locked or unlocked. Note that there are no notifications sent when
-the user starts or stops a full-screen application. If this function
-returns QUNS_QUIET_TIME, notifications should be displayed only if
-critical.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAShell_NotifyIcon ‚ª¶¬‚·‚éƒoƒ‹[ƒ“’Ê’m‚É—Ş—‚·‚é’Ê’m UI
+‚ğ•\¦‚·‚é‘O‚ÉASHQueryUserNotificationState ‚ğŒÄ‚Ño‚µ‚Ä–ß‚è’l‚ğƒeƒXƒg‚·‚×‚«‚Å‚ ‚éB’Ê’m‚ÍA‚±‚Ì API ‚ª
+QNS_ACCEPTS_NOTIFICATIONS
+‚ğ•Ô‚µ‚½‚Æ‚«‚É‚Ì‚İ•\¦‚·‚×‚«‚Å‚ ‚éB‚±‚ê‚É‚æ‚èAƒ†[ƒU[‚ª’†’f‚³‚ê‚Ä‚Í‚È‚ç‚È‚¢ƒvƒƒZƒX‚ğÀs‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É’Ê’m‚·‚éBƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚ÍAƒ†[ƒU[‚ªƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“İ’è‚ğƒIƒ“/ƒIƒt‚µ‚½‚Æ‚«‚âAƒ†[ƒU[ƒZƒbƒVƒ‡ƒ“‚ªƒƒbƒN/ƒƒbƒN‰ğœ‚³‚ê‚½‚Æ‚«‚É
+WM_SETTINGCHANGE
+ƒƒbƒZ[ƒW‚ğóM‚·‚éBƒ†[ƒU[‚ªƒtƒ‹ƒXƒNƒŠ[ƒ“ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğŠJn‚Ü‚½‚Í’â~‚µ‚½‚Æ‚«‚É‚Í’Ê’m‚ª‘—M‚³‚ê‚È‚¢‚±‚Æ‚É’ˆÓB‚±‚ÌŠÖ”‚ª
+QUNS_QUIET_TIME ‚ğ•Ô‚µ‚½ê‡A’Ê’m‚Íd—v‚È‚à‚Ì‚ÉŒÀ‚è•\¦‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 SHRemoveLocalizedName
-Removes the localized name of a file in a Shell folder.
+ƒVƒFƒ‹ƒtƒHƒ‹ƒ_“à‚Ìƒtƒ@ƒCƒ‹‚Ìƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½–¼‘O‚ğíœ‚·‚éB
 %group
 Win32 shell32
 %prm
 pszPath
-pszPath : [wstr] Type: PCWSTR A pointer to a null-terminated, Unicode string that specifies the fully qualified path of the target file.
+pszPath : [wstr] Œ^: PCWSTR ƒ^[ƒQƒbƒgƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğw’è‚·‚é null I’[‚Ì Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Removes the localized name of a file in a Shell folder.
+ƒVƒFƒ‹ƒtƒHƒ‹ƒ_“à‚Ìƒtƒ@ƒCƒ‹‚Ìƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½–¼‘O‚ğíœ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-When a display name string is set by SHSetLocalizedName, Windows
-Explorer uses that string for display instead of the file name. The
-path to the file is unchanged. Applications can use the
-IShellFolder::GetDisplayNameOf method to get the display (localized)
-name through with the SIGDN_NORMALDISPLAY flag and the parsing
-(non-localized) name with SIGDN_DESKTOPABSOLUTEPARSING. Calling
-SHRemoveLocalizedName makes the display name identical to the parsing
-name.
+SHSetLocalizedName ‚Å•\¦–¼•¶š—ñ‚ªİ’è‚³‚ê‚é‚ÆAWindows Explorer
+‚Íƒtƒ@ƒCƒ‹–¼‚Ì‘ã‚í‚è‚É‚»‚Ì•¶š—ñ‚ğ•\¦—p‚Ég—p‚·‚éBƒtƒ@ƒCƒ‹‚Ö‚ÌƒpƒX‚Í•ÏX‚³‚ê‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+IShellFolder::GetDisplayNameOf ƒƒ\ƒbƒh‚ğg‚¢ASIGDN_NORMALDISPLAY ƒtƒ‰ƒO‚Å•\¦
+(ƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½) –¼‚ğASIGDN_DESKTOPABSOLUTEPARSING ‚Å‰ğÍ (ƒ[ƒJƒ‰ƒCƒY‚³‚ê‚Ä‚¢‚È‚¢)
+–¼‚ğæ“¾‚Å‚«‚éBSHRemoveLocalizedName ‚ğŒÄ‚Ño‚·‚ÆA•\¦–¼‚Í‰ğÍ–¼‚Æ“¯ˆê‚É‚È‚éB
 
 
 %index
 SHReplaceFromPropSheetExtArray
-Requests each property sheet in a property sheet extension array to replace pages. Each page is allowed up to one replacement.
+ƒvƒƒpƒeƒBƒV[ƒgŠg’£”z—ñ“à‚ÌŠeƒvƒƒpƒeƒBƒV[ƒg‚Éƒy[ƒW‚ğ’u‚«Š·‚¦‚é‚æ‚¤—v‹‚·‚éBŠeƒy[ƒW‚ÍÅ‘å 1 ‰ñ‚Ì’uŠ·‚ª‹–‰Â‚³‚ê‚éB
 %group
 Win32 shell32
 %prm
 hpsxa, uPageID, lpfnReplaceWith, lParam
-hpsxa : [intptr] Type: HPSXA A property sheet array handle (HPSXA) returned from a call to SHCreatePropSheetExtArray.
-uPageID : [int] Type: UINT The ID of the page to replace.
-lpfnReplaceWith : [int] Type: LPFNADDPROPSHEETPAGE A pointer to an AddPropSheetPageProc function used by the property sheet extension to add a page to a property sheet.
-lParam : [intptr] Type: LPARAM An application-defined value.
+hpsxa : [intptr] Œ^: HPSXA SHCreatePropSheetExtArray ‚ÌŒÄ‚Ño‚µ‚©‚ç•Ô‚³‚ê‚½ƒvƒƒpƒeƒBƒV[ƒg”z—ñƒnƒ“ƒhƒ‹ (HPSXA)B
+uPageID : [int] Œ^: UINT ’u‚«Š·‚¦‚éƒy[ƒW‚Ì IDB
+lpfnReplaceWith : [int] Œ^: LPFNADDPROPSHEETPAGE ƒvƒƒpƒeƒBƒV[ƒg‚Éƒy[ƒW‚ğ’Ç‰Á‚·‚é‚½‚ß‚ÉƒvƒƒpƒeƒBƒV[ƒgŠg’£‚ªg—p‚·‚é AddPropSheetPageProc ŠÖ”‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+lParam : [intptr] Œ^: LPARAM ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì’lB
 %inst
-Requests each property sheet in a property sheet extension array to
-replace pages. Each page is allowed up to one replacement.
+ƒvƒƒpƒeƒBƒV[ƒgŠg’£”z—ñ“à‚ÌŠeƒvƒƒpƒeƒBƒV[ƒg‚Éƒy[ƒW‚ğ’u‚«Š·‚¦‚é‚æ‚¤—v‹‚·‚éBŠeƒy[ƒW‚ÍÅ‘å 1 ‰ñ‚Ì’uŠ·‚ª‹–‰Â‚³‚ê‚éB
 
 [–ß‚è’l]
-Type: UINT The number of replacements actually performed.
+Œ^: UINT ÀÛ‚És‚í‚ê‚½’uŠ·‚Ì”B
 
 
 %index
 SHResolveLibrary
-Resolves all locations in a library, even those locations that have been moved or renamed.
+ƒ‰ƒCƒuƒ‰ƒŠ“à‚Ì‚·‚×‚Ä‚ÌêŠ‚ğAˆÚ“®‚Ü‚½‚Í–¼‘O•ÏX‚³‚ê‚½‚à‚Ì‚àŠÜ‚ß‚Ä‰ğŒˆ‚·‚éB
 %group
 Win32 shell32
 %prm
 psiLibrary
-psiLibrary : [var] Type: IShellItem* A pointer to an IShellItem object that represents the library.
+psiLibrary : [var] Œ^: IShellItem* ƒ‰ƒCƒuƒ‰ƒŠ‚ğ•\‚· IShellItem ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Resolves all locations in a library, even those locations that have
-been moved or renamed.
+ƒ‰ƒCƒuƒ‰ƒŠ“à‚Ì‚·‚×‚Ä‚ÌêŠ‚ğAˆÚ“®‚Ü‚½‚Í–¼‘O•ÏX‚³‚ê‚½‚à‚Ì‚àŠÜ‚ß‚Ä‰ğŒˆ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function can block the calling thread for as long as it takes to
-resolve all the locations in the specified library. Because it blocks
-the thread from which it is called, it should not be called from a
-thread that also handles user interface interactions. This function
-resolves all locations in the specified library in a single call. To
-resolve an individual location in a library, see the
-IShellLibrary::ResolveFolder method or the
-SHResolveFolderPathInLibrary function.
+
+‚±‚ÌŠÖ”‚ÍAw’è‚µ‚½ƒ‰ƒCƒuƒ‰ƒŠ“à‚Ì‚·‚×‚Ä‚ÌêŠ‚ğ‰ğŒˆ‚·‚é‚Ì‚É‚©‚©‚éŠÔ‚¾‚¯ŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚ğƒuƒƒbƒN‚·‚é‰Â”\«‚ª‚ ‚éBŒÄ‚Ño‚µŒ³‚ÌƒXƒŒƒbƒh‚ğƒuƒƒbƒN‚·‚é‚½‚ßAƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Æ‚Ì‚â‚èæ‚è‚àˆ—‚·‚éƒXƒŒƒbƒh‚©‚ç‚ÍŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢B‚±‚ÌŠÖ”‚ÍAw’è‚µ‚½ƒ‰ƒCƒuƒ‰ƒŠ“à‚Ì‚·‚×‚Ä‚ÌêŠ‚ğ
+1 ‰ñ‚ÌŒÄ‚Ño‚µ‚Å‰ğŒˆ‚·‚éBƒ‰ƒCƒuƒ‰ƒŠ“à‚ÌŒÂX‚ÌêŠ‚ğ‰ğŒˆ‚·‚é‚É‚ÍAIShellLibrary::ResolveFolder
+ƒƒ\ƒbƒh‚Ü‚½‚Í SHResolveFolderPathInLibrary ŠÖ”‚ğQÆB
 
 
 %index
 SHRestricted
-SHRestricted may be altered or unavailable.
+SHRestricted ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 rest
-rest : [int] Type: RESTRICTIONS Specifies one of the flags described in the RESTRICTIONS enumerated type.
+rest : [int] Œ^: RESTRICTIONS RESTRICTIONS —ñ‹“Œ^‚É‹Lq‚³‚ê‚½ƒtƒ‰ƒO‚Ì 1 ‚Â‚ğw’è‚·‚éB
 %inst
-SHRestricted may be altered or unavailable.
+SHRestricted ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: DWORD Returns nonzero if the specified restriction is in
-effect, or zero otherwise.
+Œ^: DWORD w’è‚µ‚½§ŒÀ‚ª—LŒø‚Èê‡‚Í”ñƒ[ƒ‚ğA‚»‚êˆÈŠO‚Ìê‡‚Íƒ[ƒ‚ğ•Ô‚·B
 
 
 %index
 SHSetDefaultProperties
-Applies the default set of properties on a Shell item.
+ƒVƒFƒ‹€–Ú‚ÉŠù’è‚ÌƒvƒƒpƒeƒBƒZƒbƒg‚ğ“K—p‚·‚éB
 %group
 Win32 shell32
 %prm
 hwnd, psi, dwFileOpFlags, pfops
-hwnd : [intptr] Type: HWND A handle to the item's parent window, which receives error notifications. This value can be NULL.
-psi : [var] Type: IShellItem* A pointer to the IShellItem object that represents the item.
-dwFileOpFlags : [int] Type: DWORD Flags that customize the operation. See IFileOperation::SetOperationFlags for flag values.
-pfops : [var] Type: IFileOperationProgressSink* A pointer to an IFileOperationProgressSink object used to follow the progress of the operation. See IFileOperation::Advise for details. This value can be NULL.
+hwnd : [intptr] Œ^: HWND ƒGƒ‰[’Ê’m‚ğóM‚·‚é€–Ú‚ÌeƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
+psi : [var] Œ^: IShellItem* €–Ú‚ğ•\‚· IShellItem ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+dwFileOpFlags : [int] Œ^: DWORD ‘€ì‚ğƒJƒXƒ^ƒ}ƒCƒY‚·‚éƒtƒ‰ƒOBƒtƒ‰ƒO’l‚É‚Â‚¢‚Ä‚Í IFileOperation::SetOperationFlags ‚ğQÆB
+pfops : [var] Œ^: IFileOperationProgressSink* ‘€ì‚Ìisó‹µ‚ğ’ÇÕ‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é IFileOperationProgressSink ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[BÚ×‚Í IFileOperation::Advise ‚ğQÆB‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
 %inst
-Applies the default set of properties on a Shell item.
+ƒVƒFƒ‹€–Ú‚ÉŠù’è‚ÌƒvƒƒpƒeƒBƒZƒbƒg‚ğ“K—p‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The list of properties to set a default value comes from the
-SetDefaultsFor registry entry under the ProgID for the file
-association of the item. The list is prefixed by "prop:" and contains
-the canonical names of the properties to set the default value, for
-example, "prop:System.Author;System.Document.DateCreated". The
-possible properties for this list are System.Author,
-System.Document.DateCreated, and System.Photo.DateTaken. If the
-SetDefaultsFor entry does not exist on the ProgID, this function uses
-the default found on the SetDefaultsFor entry of HKEY_CLASSES_ROOT\*.
+Šù’è’l‚ğİ’è‚·‚éƒvƒƒpƒeƒB‚ÌƒŠƒXƒg‚ÍA€–Ú‚Ìƒtƒ@ƒCƒ‹ŠÖ˜A•t‚¯‚É‘Î‰‚·‚é ProgID ”z‰º‚Ì SetDefaultsFor
+ƒŒƒWƒXƒgƒŠƒGƒ“ƒgƒŠ‚É—R—ˆ‚·‚éBƒŠƒXƒg‚É‚Íuprop:v‚Æ‚¢‚¤ƒvƒŒƒtƒBƒbƒNƒX‚ª•t‚«A‚½‚Æ‚¦‚Îuprop:System.Author;System.Document.DateCreatedv‚Ì‚æ‚¤‚ÉAŠù’è’l‚ğİ’è‚·‚éƒvƒƒpƒeƒB‚Ì³‹K–¼‚ªŠÜ‚Ü‚ê‚éB‚±‚ÌƒŠƒXƒg‚Éw’è‰Â”\‚ÈƒvƒƒpƒeƒB‚Í
+System.AuthorASystem.Document.DateCreatedASystem.Photo.DateTaken
+‚Å‚ ‚éBSetDefaultsFor ƒGƒ“ƒgƒŠ‚ª ProgID ‚É‘¶İ‚µ‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í HKEY_CLASSES_ROOT\* ‚Ì
+SetDefaultsFor ƒGƒ“ƒgƒŠ‚É‚ ‚éŠù’è’l‚ğg—p‚·‚éB
 
 
 %index
 SHSetFolderPathW
-Deprecated. Assigns a new path to a system folder identified by its CSIDL. (Unicode)
+”ñ„§BCSIDL ‚É‚æ‚Á‚Ä¯•Ê‚³‚ê‚éƒVƒXƒeƒ€ƒtƒHƒ‹ƒ_‚ÉV‚µ‚¢ƒpƒX‚ğŠ„‚è“–‚Ä‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 csidl, hToken, dwFlags, pszPath
-csidl : [int] Type: int A CSIDL value that identifies the folder whose path is to be set. Only physical folders are valid. If a virtual folder is specified, this function fails. Add the CSIDL_FLAG_DONT_UNEXPAND value to the CSIDL to ensure that the string is written to the registry exactly as provided. If the CSIDL_FLAG_DONT_UNEXPAND flag is not included, portions of the path may be replaced by environment strings, such as %USERPROFILE%.
-hToken : [intptr] Type: HANDLE An access token that can be used to represent a particular user. This parameter is usually set to NULL, in which case the function tries to access the current user's instance of the folder. However, you may need to assign a value to hToken for those folders that can have multiple users but are treated as belonging to a single user. The most commonly used folder of this type is Documents. The calling application is responsible for correct impersonation when hToken is non-null. It must have appropriate security privileges for the particular user, including TOKEN_QUERY and TOKEN_IMPERSONATE, and the user's registry hive must be currently mounted. See Access Control for further discussion of access control issues.
-dwFlags : [int] Type: DWORD Reserved. Must be set to 0.
-pszPath : [wstr] Type: LPCTSTR A pointer to a null-terminated string of length MAX_PATH that contains the folder's new path. This value cannot be NULL, and the string cannot be of zero length.
+csidl : [int] Œ^: int ƒpƒX‚ğİ’è‚·‚éƒtƒHƒ‹ƒ_‚ğ¯•Ê‚·‚é CSIDL ’lB•¨—ƒtƒHƒ‹ƒ_‚Ì‚İ‚ª—LŒø‚Å‚ ‚éB‰¼‘zƒtƒHƒ‹ƒ_‚ğw’è‚·‚é‚Æ‚±‚ÌŠÖ”‚Í¸”s‚·‚éB•¶š—ñ‚ª’ñ‹Ÿ‚³‚ê‚½‚Æ‚¨‚è‚ÉƒŒƒWƒXƒgƒŠ‚É‘‚«‚Ü‚ê‚é‚±‚Æ‚ğ•ÛØ‚·‚é‚É‚ÍACSIDL ‚É CSIDL_FLAG_DONT_UNEXPAND ’l‚ğ‰Á‚¦‚éBCSIDL_FLAG_DONT_UNEXPAND ƒtƒ‰ƒO‚ğŠÜ‚ß‚È‚¢ê‡AƒpƒX‚Ìˆê•”‚ª %USERPROFILE% ‚È‚Ç‚ÌŠÂ‹«•¶š—ñ‚É’u‚«Š·‚¦‚ç‚ê‚éê‡‚ª‚ ‚éB
+hToken : [intptr] Œ^: HANDLE “Á’è‚Ìƒ†[ƒU[‚ğ•\‚·‚½‚ß‚Ég—p‚Å‚«‚éƒAƒNƒZƒXƒg[ƒNƒ“B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’Êí NULL ‚Éİ’è‚µA‚»‚Ìê‡AŠÖ”‚ÍŒ»İ‚Ìƒ†[ƒU[‚ÌƒtƒHƒ‹ƒ_ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌƒAƒNƒZƒX‚ğ‚İ‚éB‚½‚¾‚µA•¡”ƒ†[ƒU[‚ğ‚¿“¾‚é‚ª’Pˆêƒ†[ƒU[‚É‘®‚·‚é‚à‚Ì‚Æ‚µ‚Äˆµ‚í‚ê‚éƒtƒHƒ‹ƒ_‚Ìê‡‚ÍAhToken ‚É’l‚ğŠ„‚è“–‚Ä‚é•K—v‚ª‚ ‚é‚©‚à‚µ‚ê‚È‚¢B‚±‚Ìí—Ş‚ÌÅ‚àˆê”Ê“I‚Ég—p‚³‚ê‚éƒtƒHƒ‹ƒ_‚Í Documents ‚Å‚ ‚éBhToken ‚ª”ñ null ‚Ìê‡AŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í³‚µ‚¢‹U‘•‚ğs‚¤Ó”C‚ª‚ ‚éBTOKEN_QUERY ‚¨‚æ‚Ñ TOKEN_IMPERSONATE ‚ğŠÜ‚ŞA“Á’è‚Ìƒ†[ƒU[‚É‘Î‚·‚é“KØ‚ÈƒZƒLƒ…ƒŠƒeƒB“ÁŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚èAƒ†[ƒU[‚ÌƒŒƒWƒXƒgƒŠƒnƒCƒu‚ªŒ»İƒ}ƒEƒ“ƒg‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBƒAƒNƒZƒX§Œä‚ÌÚ×‚É‚Â‚¢‚Ä‚ÍAAccess Control ‚ğQÆB
+dwFlags : [int] Œ^: DWORD —\–ñÏ‚İB0 ‚Éİ’è‚·‚é•K—v‚ª‚ ‚éB
+pszPath : [wstr] Œ^: LPCTSTR ƒtƒHƒ‹ƒ_‚ÌV‚µ‚¢ƒpƒX‚ğŠi”[‚·‚éA’·‚³ MAX_PATH ‚Ì null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ì’l‚ğ NULL ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚¸A•¶š—ñ‚Ì’·‚³‚ªƒ[ƒ‚Å‚ ‚Á‚Ä‚à‚È‚ç‚È‚¢B
 %inst
-Deprecated. Assigns a new path to a system folder identified by its
-CSIDL. (Unicode)
+”ñ„§BCSIDL ‚É‚æ‚Á‚Ä¯•Ê‚³‚ê‚éƒVƒXƒeƒ€ƒtƒHƒ‹ƒ_‚ÉV‚µ‚¢ƒpƒX‚ğŠ„‚è“–‚Ä‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HRESULT Returns standard HRESULT codes, including the
-following:
-This doc was truncated.
+Œ^: HRESULT •W€‚Ì HRESULT ƒR[ƒh‚ğ•Ô‚·BŸ‚Ì‚à‚Ì‚ğŠÜ‚Ş:
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Note As of Windows Vista, this function is merely a wrapper for
-SHSetKnownFolderPath. The CSIDL value is translated to its associated
-KNOWNFOLDERID and SHSetKnownFolderPath is called. New applications
-should use the known folder system rather than the older CSIDL
-system, which is supported only for backward compatibility.
-SHSetFolderPath is not exported by name from Shell32.dll. To use the
-function, you must call GetProcAddress with ordinal 231 for
-SHSetFolderPathA (for ANSI strings) or ordinal 232 for
-SHSetFolderPathW (for Unicode strings) to obtain a function pointer.
-It is recommended that the paths be expressed as Unicode strings
-because folder names might contain Unicode characters not expressible
-in ANSI.
-> [!NOTE] > The shlobj_core.h header defines SHSetFolderPath as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+’ Windows Vista ˆÈ~A‚±‚ÌŠÖ”‚Í’P‚É SHSetKnownFolderPath ‚Ìƒ‰ƒbƒp[‚Æ‚È‚Á‚½BCSIDL
+’l‚Í‘Î‰‚·‚é KNOWNFOLDERID ‚É•ÏŠ·‚³‚êASHSetKnownFolderPath
+‚ªŒÄ‚Ño‚³‚ê‚éBV‚µ‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAŒã•ûŒİŠ·«‚Ì‚½‚ß‚É‚Ì‚İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒÃ‚¢ CSIDL ƒVƒXƒeƒ€‚Å‚Í‚È‚­Aknown
+folder ƒVƒXƒeƒ€‚ğg—p‚·‚×‚«‚Å‚ ‚éBSHSetFolderPath ‚Í Shell32.dll
+‚©‚ç–¼‘O‚Å‚ÍƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B‚±‚ÌŠÖ”‚ğg‚¤‚É‚ÍASHSetFolderPathA (ANSI •¶š—ñ—p) ‚Í˜” 231
+‚ÅASHSetFolderPathW (Unicode •¶š—ñ—p) ‚Í˜” 232 ‚Å GetProcAddress
+‚ğŒÄ‚Ño‚µ‚ÄŠÖ”ƒ|ƒCƒ“ƒ^[‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éBƒtƒHƒ‹ƒ_–¼‚É‚Í ANSI ‚Å•\Œ»‚Å‚«‚È‚¢ Unicode
+•¶š‚ªŠÜ‚Ü‚ê‚é‰Â”\«‚ª‚ ‚é‚½‚ßAƒpƒX‚Í Unicode •¶š—ñ‚Å•\Œ»‚·‚é‚±‚Æ‚ğ„§‚·‚éB
+> [!NOTE] > shlobj_core.h ƒwƒbƒ_[‚Í SHSetFolderPath ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚µ‚Äg—p‚·‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 SHSetInstanceExplorer
-Provides an interface that allows hosted Shell extensions and other components to prevent their host process from closing prematurely.
+ƒzƒXƒg‚³‚ê‚½ƒVƒFƒ‹Šg’£‚â‚»‚Ì‘¼‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ªA‚»‚ê‚ç‚ÌƒzƒXƒgƒvƒƒZƒX‚Ì‘ŠúI—¹‚ğ–h‚®‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ’ñ‹Ÿ‚·‚éB
 %group
 Win32 shell32
 %prm
 punk
-punk : [var] Type: IUnknown* A pointer to a free-threaded IUnknown. Components can use this interface (through SHGetInstanceExplorer) to prevent the host process from terminating. This value can be NULL, in which case the process reference is no longer made available to components.
+punk : [var] Œ^: IUnknown* ƒtƒŠ[ƒXƒŒƒbƒh‚Ì IUnknown ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BƒRƒ“ƒ|[ƒlƒ“ƒg‚Í (SHGetInstanceExplorer ‚ğ‰î‚µ‚Ä) ‚±‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğg‚Á‚ÄƒzƒXƒgƒvƒƒZƒX‚ÌI—¹‚ğ–h‚®‚±‚Æ‚ª‚Å‚«‚éB‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚­A‚»‚Ìê‡AƒvƒƒZƒXQÆ‚ÍƒRƒ“ƒ|[ƒlƒ“ƒg‚©‚ç—˜—p‚Å‚«‚È‚­‚È‚éB
 %inst
-Provides an interface that allows hosted Shell extensions and other
-components to prevent their host process from closing prematurely.
+ƒzƒXƒg‚³‚ê‚½ƒVƒFƒ‹Šg’£‚â‚»‚Ì‘¼‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ªA‚»‚ê‚ç‚ÌƒzƒXƒgƒvƒƒZƒX‚Ì‘ŠúI—¹‚ğ–h‚®‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ’ñ‹Ÿ‚·‚éB
 
 [”õl]
-Windows Explorer and Internet Explorer can use SHSetInstanceExplorer
-to allow components such as Shell extensions to extend the lifetime
-of the process. Other applications can also use SHSetInstanceExplorer
-to allow for the same capability. For instance, the browser message
-loop and the proxy desktop use SHSetInstanceExplorer to let other
-threads extend their lifetime. Applications other than Windows
-Explorer and Internet Explorer that call this function might
-encounter compatibility problems because some components use
-SHGetInstanceExplorer to detect whether they are being hosted from
-within Windows Explorer or Internet Explorer. The interface pointer
-passed to SHSetInstanceExplorer must reference a free-threaded
-object. Each time a component calls SHGetInstanceExplorer, the system
-calls the AddRef method before returning the interface pointer to the
-calling component. The component then calls the IUnknown::Release
-method when processing is complete. The process that calls
-SHSetInstanceExplorer must not terminate while the reference count of
-the provided interface pointer is nonzero. For further information on
-how components use the process references, see SHGetInstanceExplorer.
+Windows Explorer ‚Æ Internet Explorer
+‚ÍAƒVƒFƒ‹Šg’£‚È‚Ç‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ªƒvƒƒZƒX‚Ì‘¶‘±ŠúŠÔ‚ğ‰„’·‚Å‚«‚é‚æ‚¤‚É‚·‚é‚½‚ß‚É SHSetInstanceExplorer
+‚ğg—p‚Å‚«‚éB‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚à“¯‚¶‹@”\‚ğ’ñ‹Ÿ‚·‚é‚½‚ß‚É SHSetInstanceExplorer
+‚ğg—p‚Å‚«‚éB‚½‚Æ‚¦‚ÎAƒuƒ‰ƒEƒU‚ÌƒƒbƒZ[ƒWƒ‹[ƒv‚ÆƒvƒƒLƒVƒfƒXƒNƒgƒbƒv‚ÍA‘¼‚ÌƒXƒŒƒbƒh‚ª©•ª‚½‚¿‚Ì‘¶‘±ŠúŠÔ‚ğ‰„’·‚Å‚«‚é‚æ‚¤‚É‚·‚é‚½‚ß‚É
+SHSetInstanceExplorer ‚ğg—p‚·‚éBWindows Explorer ‚Æ Internet Explorer
+ˆÈŠO‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚ÆAŒİŠ·«‚Ì–â‘è‚É‘˜‹ö‚·‚é‰Â”\«‚ª‚ ‚éB‚È‚º‚È‚çA‚¢‚­‚Â‚©‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Í Windows
+Explorer ‚â Internet Explorer “à‚ÅƒzƒXƒg‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğŒŸo‚·‚é‚½‚ß‚É
+SHGetInstanceExplorer ‚ğg—p‚·‚é‚©‚ç‚Å‚ ‚éBSHSetInstanceExplorer
+‚É“n‚³‚ê‚éƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ÍƒtƒŠ[ƒXƒŒƒbƒhƒIƒuƒWƒFƒNƒg‚ğQÆ‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒRƒ“ƒ|[ƒlƒ“ƒg‚ª
+SHGetInstanceExplorer ‚ğŒÄ‚Ño‚·‚½‚Ñ‚ÉAƒVƒXƒeƒ€‚ÍƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğŒÄ‚Ño‚µ‘¤ƒRƒ“ƒ|[ƒlƒ“ƒg‚É•Ô‚·‘O‚É
+AddRef ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·BƒRƒ“ƒ|[ƒlƒ“ƒg‚Íˆ—‚ªŠ®—¹‚µ‚½‚Æ‚«‚É IUnknown::Release
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·BSHSetInstanceExplorer
+‚ğŒÄ‚Ño‚µ‚½ƒvƒƒZƒX‚ÍA’ñ‹Ÿ‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ÌQÆƒJƒEƒ“ƒg‚ª”ñƒ[ƒ‚ÌŠÔ‚ÍI—¹‚µ‚Ä‚Í‚È‚ç‚È‚¢BƒRƒ“ƒ|[ƒlƒ“ƒg‚ªƒvƒƒZƒXQÆ‚ğ‚Ç‚Ì‚æ‚¤‚Ég—p‚·‚é‚©‚ÌÚ×‚ÍASHGetInstanceExplorer
+‚ğQÆB
 
 
 %index
 SHSetKnownFolderPath
-Redirects a known folder to a new location.
+known folder ‚ğV‚µ‚¢êŠ‚ÉƒŠƒ_ƒCƒŒƒNƒg‚·‚éB
 %group
 Win32 shell32
 %prm
 rfid, dwFlags, hToken, pszPath
-rfid : [var] Type: REFKNOWNFOLDERID A GUID that identifies the known folder.
-dwFlags : [int] Type: DWORD Either 0 or the following value.
-hToken : [intptr] Type: HANDLE An access token used to represent a particular user. This parameter is usually set to NULL, in which case the function tries to access the current user's instance of the folder. However, you may need to assign a value to hToken for those folders that can have multiple users but are treated as belonging to a single user. The most commonly used folder of this type is Documents.
-pszPath : [wstr] Type: PCWSTR A pointer to the folder's new path. This is a null-terminated Unicode string of length MAX_PATH. This path cannot be of zero length.
+rfid : [var] Œ^: REFKNOWNFOLDERID known folder ‚ğ¯•Ê‚·‚é GUIDB
+dwFlags : [int] Œ^: DWORD 0 ‚Ü‚½‚ÍŸ‚Ì’lB
+hToken : [intptr] Œ^: HANDLE “Á’è‚Ìƒ†[ƒU[‚ğ•\‚·‚½‚ß‚Ég—p‚·‚éƒAƒNƒZƒXƒg[ƒNƒ“B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í’Êí NULL ‚Éİ’è‚µA‚»‚Ìê‡AŠÖ”‚ÍŒ»İ‚Ìƒ†[ƒU[‚ÌƒtƒHƒ‹ƒ_ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌƒAƒNƒZƒX‚ğ‚İ‚éB‚½‚¾‚µA•¡”ƒ†[ƒU[‚ğ‚¿“¾‚é‚ª’Pˆêƒ†[ƒU[‚É‘®‚·‚é‚à‚Ì‚Æ‚µ‚Äˆµ‚í‚ê‚éƒtƒHƒ‹ƒ_‚Ìê‡‚ÍAhToken ‚É’l‚ğŠ„‚è“–‚Ä‚é•K—v‚ª‚ ‚é‚©‚à‚µ‚ê‚È‚¢B‚±‚Ìí—Ş‚ÌÅ‚àˆê”Ê“I‚Ég—p‚³‚ê‚éƒtƒHƒ‹ƒ_‚Í Documents ‚Å‚ ‚éB
+pszPath : [wstr] Œ^: PCWSTR ƒtƒHƒ‹ƒ_‚ÌV‚µ‚¢ƒpƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚ê‚Í’·‚³ MAX_PATH ‚Ì null I’[ Unicode •¶š—ñ‚Å‚ ‚éB‚±‚ÌƒpƒX‚Ì’·‚³‚Íƒ[ƒ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
 %inst
-Redirects a known folder to a new location.
+known folder ‚ğV‚µ‚¢êŠ‚ÉƒŠƒ_ƒCƒŒƒNƒg‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise, including the following:
-This doc was truncated.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚ğŠÜ‚ŞƒGƒ‰[’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function replaces SHSetFolderPath. That older function is now
-simply a wrapper for SHSetKnownFolderPath. The caller of this
-function must have Administrator privileges. To call this function on
-public known folders, the caller must have Administrator privileges.
-For per-user known folders the caller only requires User privileges.
-Some of the known folders, for example, the Documents folder, are
-per-user. Every user has a different path for their Documents folder.
-If hToken is NULL, the API tries to access the calling application's
-instance of the folder, which is that of the current user. If hToken
-is a valid user token, the API tries to impersonate the user using
-this token and tries to access that user's instance. This function
-cannot be called on folders of type KF_CATEGORY_FIXED and
-KF_CATEGORY_VIRTUAL. To call this function on a folder of type
-KF_CATEGORY_COMMON, the calling application must be running with
-elevated privileges.
+‚±‚ÌŠÖ”‚Í SHSetFolderPath ‚ğ’u‚«Š·‚¦‚éBŒÃ‚¢ŠÖ”‚Í¡‚â’P‚É SHSetKnownFolderPath
+‚Ìƒ‰ƒbƒp[‚Å‚ ‚éB‚±‚ÌŠÖ”‚ÌŒÄ‚Ño‚µ‘¤‚ÍŠÇ—Ò“ÁŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBpublic ‚È known folder
+‚É‘Î‚µ‚Ä‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚É‚ÍAŒÄ‚Ño‚µ‘¤‚ÍŠÇ—Ò“ÁŒ ‚ğ‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBƒ†[ƒU[‚²‚Æ‚Ì known folder ‚É‘Î‚µ‚Ä‚Í
+User “ÁŒ ‚¾‚¯‚ª•K—v‚Å‚ ‚éBDocuments ƒtƒHƒ‹ƒ_‚È‚ÇAknown folder ‚Ì‚¢‚­‚Â‚©‚Íƒ†[ƒU[‚²‚Æ‚Å‚ ‚éBŠeƒ†[ƒU[‚Í
+Documents ƒtƒHƒ‹ƒ_‚É‘Î‚µ‚ÄˆÙ‚È‚éƒpƒX‚ğ‚ÂBhToken ‚ª NULL ‚Ìê‡AAPI
+‚ÍŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒtƒHƒ‹ƒ_ƒCƒ“ƒXƒ^ƒ“ƒX (Œ»İ‚Ìƒ†[ƒU[‚Ì‚à‚Ì) ‚Ö‚ÌƒAƒNƒZƒX‚ğ‚İ‚éBhToken
+‚ª—LŒø‚Èƒ†[ƒU[ƒg[ƒNƒ“‚Ìê‡AAPI ‚Í‚»‚Ìƒg[ƒNƒ“‚ğg‚Á‚Äƒ†[ƒU[‚ğ‹U‘•‚µA‚»‚Ìƒ†[ƒU[‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌƒAƒNƒZƒX‚ğ‚İ‚éB‚±‚ÌŠÖ”‚Í
+KF_CATEGORY_FIXED ‚¨‚æ‚Ñ KF_CATEGORY_VIRTUAL
+Œ^‚ÌƒtƒHƒ‹ƒ_‚É‘Î‚µ‚Ä‚ÍŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚È‚¢BKF_CATEGORY_COMMON
+Œ^‚ÌƒtƒHƒ‹ƒ_‚É‘Î‚µ‚Ä‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚É‚ÍAŒÄ‚Ño‚µ‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª¸Ši‚³‚ê‚½“ÁŒ ‚ÅÀs‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 
 
 %index
 SHSetLocalizedName
-Sets the localized name of a file in a Shell folder.
+ƒVƒFƒ‹ƒtƒHƒ‹ƒ_“à‚Ìƒtƒ@ƒCƒ‹‚Ìƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½–¼‘O‚ğİ’è‚·‚éB
 %group
 Win32 shell32
 %prm
 pszPath, pszResModule, idsRes
-pszPath : [wstr] Type: PCWSTR A pointer to a string that specifies the fully qualified path of the target file.
-pszResModule : [wstr] Type: PCWSTR A pointer to a string resource that specifies the localized version of the file name.
-idsRes : [int] Type: int An integer ID that specifies the localized file name in the string resource.
+pszPath : [wstr] Œ^: PCWSTR ƒ^[ƒQƒbƒgƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğw’è‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pszResModule : [wstr] Œ^: PCWSTR ƒtƒ@ƒCƒ‹–¼‚Ìƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½ƒo[ƒWƒ‡ƒ“‚ğw’è‚·‚é•¶š—ñƒŠƒ\[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+idsRes : [int] Œ^: int •¶š—ñƒŠƒ\[ƒX“à‚Ìƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼‚ğw’è‚·‚é®” IDB
 %inst
-Sets the localized name of a file in a Shell folder.
+ƒVƒFƒ‹ƒtƒHƒ‹ƒ_“à‚Ìƒtƒ@ƒCƒ‹‚Ìƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½–¼‘O‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-When this string is set, Explorer displays this string instead of the
-file name. The path to the file is unchanged.
-Applications can get the display (localized) name with
-IShellFolder::GetDisplayNameOf with the SIGDN_NORMALDISPLAY flag and
-the parsing (non-localized) name with IShellItem::GetDisplayName
-using the SIGDN_DESKTOPABSOLUTEPARSING flag. Calling
-SHRemoveLocalizedName makes the display name identical to the parsing
-name.
+‚±‚Ì•¶š—ñ‚ªİ’è‚³‚ê‚Ä‚¢‚é‚ÆAExplorer ‚Íƒtƒ@ƒCƒ‹–¼‚Ì‘ã‚í‚è‚É‚±‚Ì•¶š—ñ‚ğ•\¦‚·‚éBƒtƒ@ƒCƒ‹‚Ö‚ÌƒpƒX‚Í•ÏX‚³‚ê‚È‚¢B
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAIShellFolder::GetDisplayNameOf ‚É SIGDN_NORMALDISPLAY
+ƒtƒ‰ƒO‚ğw’è‚µ‚Ä•\¦ (ƒ[ƒJƒ‰ƒCƒY‚³‚ê‚½) –¼‚ğAIShellItem::GetDisplayName ‚É
+SIGDN_DESKTOPABSOLUTEPARSING ƒtƒ‰ƒO‚ğw’è‚µ‚Ä‰ğÍ (ƒ[ƒJƒ‰ƒCƒY‚³‚ê‚Ä‚¢‚È‚¢)
+–¼‚ğæ“¾‚Å‚«‚éBSHRemoveLocalizedName ‚ğŒÄ‚Ño‚·‚ÆA•\¦–¼‚Í‰ğÍ–¼‚Æ“¯ˆê‚É‚È‚éB
 
 
 %index
 SHSetTemporaryPropertyForItem
-Sets a temporary property for the specified item. A temporary property is kept in a read/write store that holds properties only for the lifetime of the IShellItem object, instead of writing them back into the item.
+w’è‚µ‚½€–Ú‚ÉˆêƒvƒƒpƒeƒB‚ğİ’è‚·‚éBˆêƒvƒƒpƒeƒB‚ÍA€–Ú‚É‘‚«–ß‚³‚ê‚é‚Ì‚Å‚Í‚È‚­AIShellItem ƒIƒuƒWƒFƒNƒg‚Ì‘¶‘±ŠúŠÔ’†‚¾‚¯ƒvƒƒpƒeƒB‚ğ•Û‚·‚é“Ç‚İ‘‚«‰Â”\‚ÈƒXƒgƒA‚É•Û‚³‚ê‚éB
 %group
 Win32 shell32
 %prm
 psi, propkey, propvar
-psi : [var] Type: IShellItem* A pointer to the item on which the temporary property is to be set.
-propkey : [var] Type: REFPROPERTYKEY Reference to the PROPERTYKEY that identifies the temporary property that is being set.
-propvar : [var] Type: REFPROPVARIANT Reference to a PROPVARIANT that contains the value of the temporary property.
+psi : [var] Œ^: IShellItem* ˆêƒvƒƒpƒeƒB‚ğİ’è‚·‚é‘ÎÛ‚Ì€–Ú‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+propkey : [var] Œ^: REFPROPERTYKEY İ’è‚·‚éˆêƒvƒƒpƒeƒB‚ğ¯•Ê‚·‚é PROPERTYKEY ‚Ö‚ÌQÆB
+propvar : [var] Œ^: REFPROPVARIANT ˆêƒvƒƒpƒeƒB‚Ì’l‚ğŠi”[‚·‚é PROPVARIANT ‚Ö‚ÌQÆB
 %inst
-Sets a temporary property for the specified item. A temporary
-property is kept in a read/write store that holds properties only for
-the lifetime of the IShellItem object, instead of writing them back
-into the item.
+w’è‚µ‚½€–Ú‚ÉˆêƒvƒƒpƒeƒB‚ğİ’è‚·‚éBˆêƒvƒƒpƒeƒB‚ÍA€–Ú‚É‘‚«–ß‚³‚ê‚é‚Ì‚Å‚Í‚È‚­AIShellItem
+ƒIƒuƒWƒFƒNƒg‚Ì‘¶‘±ŠúŠÔ’†‚¾‚¯ƒvƒƒpƒeƒB‚ğ•Û‚·‚é“Ç‚İ‘‚«‰Â”\‚ÈƒXƒgƒA‚É•Û‚³‚ê‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-A temporary value can only be read with SHGetTemporaryPropertyForItem
-or by passing GPS_TEMPORARY to IShellItem2::GetPropertyStore.
+ˆê’l‚ÍASHGetTemporaryPropertyForItem ‚Ü‚½‚Í IShellItem2::GetPropertyStore
+‚É GPS_TEMPORARY ‚ğ“n‚·‚±‚Æ‚Å‚Ì‚İ“Ç‚İæ‚é‚±‚Æ‚ª‚Å‚«‚éB
 
 
 %index
 SHSetUnreadMailCountW
-Stores the current user's unread message count for a specified email account in the registry. (Unicode)
+Œ»İ‚Ìƒ†[ƒU[‚Ìw’è‚µ‚½ƒ[ƒ‹ƒAƒJƒEƒ“ƒg‚Ì–¢“ÇƒƒbƒZ[ƒW”‚ğƒŒƒWƒXƒgƒŠ‚ÉŠi”[‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 pszMailAddress, dwCount, pszShellExecuteCommand
-pszMailAddress : [wstr] Type: LPCTSTR A pointer to a string in Unicode that contains the current user's full email address.
-dwCount : [int] Type: DWORD The number of unread messages.
-pszShellExecuteCommand : [wstr] Type: LPCTSTR A pointer to a string in Unicode that contains the full text of a command that can be passed to ShellExecute. This command should start the email application that owns the account referenced by pszMailAddress.
+pszMailAddress : [wstr] Œ^: LPCTSTR Œ»İ‚Ìƒ†[ƒU[‚ÌŠ®‘S‚Èƒ[ƒ‹ƒAƒhƒŒƒX‚ğŠi”[‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+dwCount : [int] Œ^: DWORD –¢“ÇƒƒbƒZ[ƒW‚Ì”B
+pszShellExecuteCommand : [wstr] Œ^: LPCTSTR ShellExecute ‚É“n‚¹‚éƒRƒ}ƒ“ƒh‚Ìƒtƒ‹ƒeƒLƒXƒg‚ğŠi”[‚·‚é Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚ÌƒRƒ}ƒ“ƒh‚Í pszMailAddress ‚ÅQÆ‚³‚ê‚éƒAƒJƒEƒ“ƒg‚ğŠ—L‚·‚éƒ[ƒ‹ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‹N“®‚·‚éB
 %inst
-Stores the current user's unread message count for a specified email
-account in the registry. (Unicode)
+Œ»İ‚Ìƒ†[ƒU[‚Ìw’è‚µ‚½ƒ[ƒ‹ƒAƒJƒEƒ“ƒg‚Ì–¢“ÇƒƒbƒZ[ƒW”‚ğƒŒƒWƒXƒgƒŠ‚ÉŠi”[‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HRESULT HRESULT, which includes the following possible values.
-This doc was truncated.
+Œ^: HRESULT Ÿ‚Ì’l‚ğŠÜ‚İ“¾‚é HRESULTB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-When this function updates the registry, the new registry entry is
-automatically stamped with the current time and date. If this
-function is called by different independent software vendors (ISVs)
-that specify the same email name, only the last call is saved. That
-is, calls to this function overwrite any previously saved value for
-the same email address, even if the calls are made by different ISVs.
-It is recommended that the count of unread messages be set only for
-the main Inbox of the users account. Mail in sub-folders such as
-Drafts or Deleted Items should be ignored. It is important that email
-clients do not set the number of unread messages to 0 when the
-application exits, because this causes the number of unread messages
-to be erroneously reported as 0. Because this function uses
-HKEY_CURRENT_USER, it should not be called by a system process
-impersonating a user.
+
+‚±‚ÌŠÖ”‚ªƒŒƒWƒXƒgƒŠ‚ğXV‚·‚é‚ÆAV‚µ‚¢ƒŒƒWƒXƒgƒŠƒGƒ“ƒgƒŠ‚É‚ÍŒ»İ‚Ì‚Æ“ú•t‚ª©“®“I‚ÉƒXƒ^ƒ“ƒv‚³‚ê‚éB“¯‚¶ƒ[ƒ‹–¼‚ğw’è‚·‚éˆÙ‚È‚é“Æ—§Œnƒ\ƒtƒgƒEƒFƒAƒxƒ“ƒ_[
+(ISV) ‚©‚ç‚±‚ÌŠÖ”‚ªŒÄ‚Ño‚³‚ê‚½ê‡AÅŒã‚ÌŒÄ‚Ño‚µ‚Ì‚İ‚ª•Û‘¶‚³‚ê‚éB‚Â‚Ü‚èA‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚ÆAˆÙ‚È‚é ISV
+‚É‚æ‚éŒÄ‚Ño‚µ‚Å‚ ‚Á‚Ä‚àA“¯‚¶ƒ[ƒ‹ƒAƒhƒŒƒX‚É‘Î‚µ‚ÄˆÈ‘O‚É•Û‘¶‚³‚ê‚½’l‚ªã‘‚«‚³‚ê‚éB–¢“ÇƒƒbƒZ[ƒW”‚ÍAƒ†[ƒU[ƒAƒJƒEƒ“ƒg‚ÌåóMƒgƒŒƒC‚É‘Î‚µ‚Ä‚Ì‚İİ’è‚·‚é‚±‚Æ‚ğ„§‚·‚éB‰º‘‚«‚âíœÏ‚İƒAƒCƒeƒ€‚È‚Ç‚ÌƒTƒuƒtƒHƒ‹ƒ_“à‚Ìƒ[ƒ‹‚Í–³‹‚·‚×‚«‚Å‚ ‚éBƒ[ƒ‹ƒNƒ‰ƒCƒAƒ“ƒg‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌI—¹‚É–¢“ÇƒƒbƒZ[ƒW”‚ğ
+0 ‚Éİ’è‚µ‚Ä‚Í‚È‚ç‚È‚¢B‚È‚º‚È‚çA‚±‚ê‚Í–¢“ÇƒƒbƒZ[ƒW”‚ğ 0 ‚ÆŒë‚Á‚Ä•ñ‚·‚é‚±‚Æ‚É‚Â‚È‚ª‚é‚©‚ç‚Å‚ ‚éB‚±‚ÌŠÖ”‚Í
+HKEY_CURRENT_USER ‚ğg—p‚·‚é‚½‚ßAƒ†[ƒU[‚ğ‹U‘•‚·‚éƒVƒXƒeƒ€ƒvƒƒZƒX‚©‚çŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢B
 
 
 %index
 SHShellFolderView_Message
-SHShellFolderView_Message may be altered or unavailable.
+SHShellFolderView_Message ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 hwndMain, uMsg, lParam
-hwndMain : [intptr] Type: HWND A handle to the window that receives the message.
-uMsg : [int] Type: UINT The message to send. The following is a list of possible messages.
-lParam : [intptr] Type: LPARAM Contents of this value depend on the message passed in uMsg. See individual message topics for more information.
+hwndMain : [intptr] Œ^: HWND ƒƒbƒZ[ƒW‚ğóM‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+uMsg : [int] Œ^: UINT ‘—M‚·‚éƒƒbƒZ[ƒWBw’è‰Â”\‚ÈƒƒbƒZ[ƒW‚Ìˆê——‚ÍŸ‚Ì‚Æ‚¨‚èB
+lParam : [intptr] Œ^: LPARAM ‚±‚Ì’l‚Ì“à—e‚Í uMsg ‚Å“n‚³‚ê‚éƒƒbƒZ[ƒW‚É‚æ‚Á‚ÄŒˆ‚Ü‚éBÚ×‚ÍŒÂX‚ÌƒƒbƒZ[ƒW‚ÌƒgƒsƒbƒN‚ğQÆB
 %inst
-SHShellFolderView_Message may be altered or unavailable.
+SHShellFolderView_Message ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: LRESULT The return value depends on the message passed in uMsg.
-See individual message topics for more information.
+Œ^: LRESULT –ß‚è’l‚Í uMsg ‚Å“n‚³‚ê‚éƒƒbƒZ[ƒW‚É‚æ‚Á‚ÄŒˆ‚Ü‚éBÚ×‚ÍŒÂX‚ÌƒƒbƒZ[ƒW‚ÌƒgƒsƒbƒN‚ğQÆB
 
 
 %index
 SHShowManageLibraryUI
-Shows the library management dialog box, which enables users to manage the library folders and default save location.
+ƒ†[ƒU[‚ªƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒtƒHƒ‹ƒ_‚ÆŠù’è‚Ì•Û‘¶êŠ‚ğŠÇ—‚Å‚«‚éƒ‰ƒCƒuƒ‰ƒŠŠÇ—ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB
 %group
 Win32 shell32
 %prm
 psiLibrary, hwndOwner, pszTitle, pszInstruction, lmdOptions
-psiLibrary : [var] Type: IShellItem* A pointer to an IShellItem object that represents the library that is to be managed.
-hwndOwner : [intptr] Type: HWND The handle for the window that owns the library management dialog box. The value of this parameter can be NULL.
-pszTitle : [wstr] Type: LPCWSTR A pointer to the title for the library management dialog. To display the generic title string, set the value of this parameter to NULL.
-pszInstruction : [wstr] Type: LPCWSTR A pointer to a help string to display below the title string in the library management dialog box. To display the generic help string, set the value of this parameter to NULL.
-lmdOptions : [int] Type: LIBRARYMANAGEDIALOGOPTIONS A value from the LIBRARYMANAGEDIALOGOPTIONS enumeration that specifies the behavior of the management dialog box.
+psiLibrary : [var] Œ^: IShellItem* ŠÇ—‘ÎÛ‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚ğ•\‚· IShellItem ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+hwndOwner : [intptr] Œ^: HWND ƒ‰ƒCƒuƒ‰ƒŠŠÇ—ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌƒI[ƒi[ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
+pszTitle : [wstr] Œ^: LPCWSTR ƒ‰ƒCƒuƒ‰ƒŠŠÇ—ƒ_ƒCƒAƒƒO‚Ìƒ^ƒCƒgƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^[B”Ä—pƒ^ƒCƒgƒ‹•¶š—ñ‚ğ•\¦‚·‚é‚É‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Ì’l‚ğ NULL ‚Éİ’è‚·‚éB
+pszInstruction : [wstr] Œ^: LPCWSTR ƒ‰ƒCƒuƒ‰ƒŠŠÇ—ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ìƒ^ƒCƒgƒ‹•¶š—ñ‚Ì‰º‚É•\¦‚·‚éƒwƒ‹ƒv•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B”Ä—pƒwƒ‹ƒv•¶š—ñ‚ğ•\¦‚·‚é‚É‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Ì’l‚ğ NULL ‚Éİ’è‚·‚éB
+lmdOptions : [int] Œ^: LIBRARYMANAGEDIALOGOPTIONS ŠÇ—ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ì“®ì‚ğw’è‚·‚é LIBRARYMANAGEDIALOGOPTIONS —ñ‹“‘Ì‚Ì’lB
 %inst
-Shows the library management dialog box, which enables users to
-manage the library folders and default save location.
+ƒ†[ƒU[‚ªƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒtƒHƒ‹ƒ_‚ÆŠù’è‚Ì•Û‘¶êŠ‚ğŠÇ—‚Å‚«‚éƒ‰ƒCƒuƒ‰ƒŠŠÇ—ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 SHSimpleIDListFromPath
-Deprecated. Returns a pointer to an ITEMIDLIST structure when passed a path.
+”ñ„§BƒpƒX‚ğ“n‚³‚ê‚é‚Æ ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ•Ô‚·B
 %group
 Win32 shell32
 %prm
 pszPath
-pszPath : [wstr] Type: PCWSTR A pointer to a null-terminated string that contains the path to be converted to a PIDL.
+pszPath : [wstr] Œ^: PCWSTR PIDL ‚É•ÏŠ·‚·‚éƒpƒX‚ğŠÜ‚Ş null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Deprecated. Returns a pointer to an ITEMIDLIST structure when passed
-a path.
+”ñ„§BƒpƒX‚ğ“n‚³‚ê‚é‚Æ ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: PIDLIST_ABSOLUTE Returns a pointer to an ITEMIDLIST structure
-if successful, or NULL otherwise.
+Œ^: PIDLIST_ABSOLUTE ¬Œ÷‚µ‚½ê‡‚Í ITEMIDLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ•Ô‚µA‚»‚êˆÈŠO‚Ìê‡‚Í NULL
+‚ğ•Ô‚·B
 
 [”õl]
-Prior to Windows 7, this function was declared in Shlobj.h. In
-Windows 7 and later versions, it is declared in Shobjidl.h. Note This
-function is available through Windows 7 and Windows Server 2003. It
-is possible that it will not be present in future versions of
-Windows. An alternative to this function is as follows:
-This doc was truncated.
+Windows 7 ‚æ‚è‘O‚Å‚ÍA‚±‚ÌŠÖ”‚Í Shlobj.h ‚ÅéŒ¾‚³‚ê‚Ä‚¢‚½BWindows 7 ˆÈ~‚Å‚Í Shobjidl.h
+‚ÅéŒ¾‚³‚ê‚éB’ ‚±‚ÌŠÖ”‚Í Windows 7 ‚¨‚æ‚Ñ Windows Server 2003 ‚Ü‚Å—˜—p‰Â”\‚Å‚ ‚éB«—ˆ‚Ì
+Windows ‚Ìƒo[ƒWƒ‡ƒ“‚Å‚Í‘¶İ‚µ‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB‚±‚ÌŠÖ”‚Ì‘ã‘ÖˆÄ‚ÍŸ‚Ì‚Æ‚¨‚è‚Å‚ ‚é:
+iˆÈ‰ºÈ—ªj
 
 
 %index
 SHStartNetConnectionDialogW
-SHStartNetConnectionDialog may be altered or unavailable. (Unicode)
+SHStartNetConnectionDialog ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 hwnd, pszRemoteName, dwType
-hwnd : [intptr] Type: HWND A handle to the parent window.
-pszRemoteName : [wstr] Type: LPCTSTR A pointer to a null-terminated character string that specifies the remote network name. This value can be set to NULL.
-dwType : [int] Type: DWORD
+hwnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pszRemoteName : [wstr] Œ^: LPCTSTR ƒŠƒ‚[ƒgƒlƒbƒgƒ[ƒN–¼‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ì’l‚Í NULL ‚Éİ’è‚µ‚Ä‚à‚æ‚¢B
+dwType : [int] Œ^: DWORD
 %inst
-SHStartNetConnectionDialog may be altered or unavailable. (Unicode)
+SHStartNetConnectionDialog ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB(Unicode)
 
 [–ß‚è’l]
-Type: HRESULT Always returns S_OK.
+Œ^: HRESULT í‚É S_OK ‚ğ•Ô‚·B
 
 [”õl]
-> [!NOTE] > The shlobj_core.h header defines
-SHStartNetConnectionDialog as an alias which automatically selects
-the ANSI or Unicode version of this function based on the definition
-of the UNICODE preprocessor constant. Mixing usage of the
-encoding-neutral alias with code that not encoding-neutral can lead
-to mismatches that result in compilation or runtime errors. For more
-information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > shlobj_core.h ƒwƒbƒ_[‚Í SHStartNetConnectionDialog ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚µ‚Äg—p‚·‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 SHTestTokenMembership
-Uses CheckTokenMembership to test whether the given token is a member of the local group with the specified RID.
+CheckTokenMembership ‚ğg—p‚µ‚ÄAw’è‚µ‚½ƒg[ƒNƒ“‚ªw’è‚³‚ê‚½ RID ‚ğ‚Âƒ[ƒJƒ‹ƒOƒ‹[ƒv‚Ìƒƒ“ƒo[‚©‚Ç‚¤‚©‚ğƒeƒXƒg‚·‚éB
 %group
 Win32 shell32
 %prm
 hToken, ulRID
-hToken : [intptr] Type: HANDLE A handle to the token. This value can be NULL.
-ulRID : [int] Type: ULONG The RID of the local group for which membership is tested.
+hToken : [intptr] Œ^: HANDLE ƒg[ƒNƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢B
+ulRID : [int] Œ^: ULONG ƒƒ“ƒo[ƒVƒbƒv‚ğƒeƒXƒg‚·‚é‘ÎÛ‚Ìƒ[ƒJƒ‹ƒOƒ‹[ƒv‚Ì RIDB
 %inst
-Uses CheckTokenMembership to test whether the given token is a member
-of the local group with the specified RID.
+CheckTokenMembership ‚ğg—p‚µ‚ÄAw’è‚µ‚½ƒg[ƒNƒ“‚ªw’è‚³‚ê‚½ RID
+‚ğ‚Âƒ[ƒJƒ‹ƒOƒ‹[ƒv‚Ìƒƒ“ƒo[‚©‚Ç‚¤‚©‚ğƒeƒXƒg‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE on success, FALSE on failure.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-This function wraps CheckTokenMembership and only checks local
-groups.
+‚±‚ÌŠÖ”‚Í CheckTokenMembership ‚ğƒ‰ƒbƒv‚µAƒ[ƒJƒ‹ƒOƒ‹[ƒv‚Ì‚İ‚ğƒ`ƒFƒbƒN‚·‚éB
 
 
 %index
 SHUpdateImageW
-Notifies the Shell that an image in the system image list has changed. (Unicode)
+ƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg“à‚ÌƒCƒ[ƒW‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğƒVƒFƒ‹‚É’Ê’m‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 pszHashItem, iIndex, uFlags, iImageIndex
-pszHashItem : [wstr] Type: LPCTSTR A pointer to a string value that specifies the fully qualified path of the file that contains the icon. Use the path that is returned in the buffer pointed to by the szIconFile parameter of IExtractIcon::GetIconLocation.
-iIndex : [int] Type: int An integer that specifies the zero-based index of the icon in the file specified by pszHashItem. Use the value that is pointed to by the piIndex parameter of IExtractIcon::GetIconLocation.
-uFlags : [int] Type: UINT An unsigned integer that specifies the flags that determine the icon attributes. Set uFlags to the value that is pointed to by the pwFlags parameter of IExtractIcon::GetIconLocation. The flags that are relevant to SHUpdateImage are GIL_NOTFILENAME and GIL_SIMULATEDOC.
-iImageIndex : [int] Type: int An integer that specifies the index in the system image list of the icon that is being updated.
+pszHashItem : [wstr] Œ^: LPCTSTR ƒAƒCƒRƒ“‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚ÌŠ®‘SCüƒpƒX‚ğw’è‚·‚é•¶š—ñ’l‚Ö‚Ìƒ|ƒCƒ“ƒ^[BIExtractIcon::GetIconLocation ‚Ì szIconFile ƒpƒ‰ƒ[ƒ^[‚ªw‚·ƒoƒbƒtƒ@[‚Å•Ô‚³‚ê‚½ƒpƒX‚ğg—p‚·‚éB
+iIndex : [int] Œ^: int pszHashItem ‚Åw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹“à‚ÌƒAƒCƒRƒ“‚Ìƒ[ƒ‚©‚çn‚Ü‚éƒCƒ“ƒfƒbƒNƒX‚ğw’è‚·‚é®”BIExtractIcon::GetIconLocation ‚Ì piIndex ƒpƒ‰ƒ[ƒ^[‚ªw‚·’l‚ğg—p‚·‚éB
+uFlags : [int] Œ^: UINT ƒAƒCƒRƒ“‚Ì‘®«‚ğŒˆ’è‚·‚éƒtƒ‰ƒO‚ğw’è‚·‚é•„†‚È‚µ®”BuFlags ‚Í IExtractIcon::GetIconLocation ‚Ì pwFlags ƒpƒ‰ƒ[ƒ^[‚ªw‚·’l‚Éİ’è‚·‚éBSHUpdateImage ‚ÉŠÖ˜A‚·‚éƒtƒ‰ƒO‚Í GIL_NOTFILENAME ‚Æ GIL_SIMULATEDOC ‚Å‚ ‚éB
+iImageIndex : [int] Œ^: int XV‚³‚ê‚éƒAƒCƒRƒ“‚ÌƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg“à‚ÌƒCƒ“ƒfƒbƒNƒX‚ğw’è‚·‚é®”B
 %inst
-Notifies the Shell that an image in the system image list has
-changed. (Unicode)
+ƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg“à‚ÌƒCƒ[ƒW‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğƒVƒFƒ‹‚É’Ê’m‚·‚éB(Unicode)
 
 [”õl]
-If you do not know the index in the system image list of the icon
-that you want to update, use SHGetFileInfo with the uFlags parameter
-set to SHGFI_SYSICONINDEX. You must use IExtractIcon::GetIconLocation
-with the parameters of the old icon that needs to be updated, not
-those of the new icon you want to replace it with.
-> [!NOTE] > The shlobj_core.h header defines SHUpdateImage as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+XV‚µ‚½‚¢ƒAƒCƒRƒ“‚ÌƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg“à‚ÌƒCƒ“ƒfƒbƒNƒX‚ª‚í‚©‚ç‚È‚¢ê‡‚ÍAuFlags ƒpƒ‰ƒ[ƒ^[‚ğ
+SHGFI_SYSICONINDEX ‚Éİ’è‚µ‚Ä SHGetFileInfo
+‚ğg—p‚·‚éBIExtractIcon::GetIconLocation
+‚ÍA’u‚«Š·‚¦‚½‚¢V‚µ‚¢ƒAƒCƒRƒ“‚Å‚Í‚È‚­AXV‚ª•K—v‚ÈŒÃ‚¢ƒAƒCƒRƒ“‚Ìƒpƒ‰ƒ[ƒ^[‚Åg—p‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+> [!NOTE] > shlobj_core.h ƒwƒbƒ_[‚Í SHUpdateImage ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚µ‚Äg—p‚·‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
 SHValidateUNC
-SHValidateUNC may be altered or unavailable.
+SHValidateUNC ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 hwndOwner, pszFile, fConnect
-hwndOwner : [intptr] Type: HWND Handle of the parent window, used to display UI. If this is not needed, this value can be set to NULL.
-pszFile : [wstr] Type: PWSTR A pointer to a null-terminated Unicode string that specifies the UNC path to validate. Note: This string must not be a constant string.
-fConnect : [int] Type: UINT
+hwndOwner : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹BUI ‚ğ•\¦‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB‚±‚ê‚ª•K—v‚È‚¢ê‡A‚±‚Ì’l‚Í NULL ‚Éİ’è‚Å‚«‚éB
+pszFile : [wstr] Œ^: PWSTR ŒŸØ‚·‚é UNC ƒpƒX‚ğw’è‚·‚é null I’[‚Ì Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B’: ‚±‚Ì•¶š—ñ‚Í’è”•¶š—ñ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
+fConnect : [int] Œ^: UINT
 %inst
-SHValidateUNC may be altered or unavailable.
+SHValidateUNC ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if the UNC path exists; FALSE if the UNC path
-does not exist or if some other failure occurred.
+Œ^: BOOL UNC ƒpƒX‚ª‘¶İ‚·‚éê‡‚Í TRUE ‚ğ•Ô‚·BUNC ƒpƒX‚ª‘¶İ‚µ‚È‚¢ê‡‚âA‚»‚Ì‘¼‚Ì¸”s‚ª”­¶‚µ‚½ê‡‚Í FALSE
+‚ğ•Ô‚·B
 
 
 %index
 SetCurrentProcessExplicitAppUserModelID
-Specifies a unique application-defined Application User Model ID (AppUserModelID) that identifies the current process to the taskbar. This identifier allows an application to group its associated processes and windows under a single taskbar button.
+Œ»İ‚ÌƒvƒƒZƒX‚ğƒ^ƒXƒNƒo[‚É‘Î‚µ‚Ä¯•Ê‚·‚éAƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌˆêˆÓ‚È Application User Model ID (AppUserModelID) ‚ğw’è‚·‚éB‚±‚Ì¯•Êq‚É‚æ‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍŠÖ˜A‚·‚éƒvƒƒZƒX‚ÆƒEƒBƒ“ƒhƒE‚ğ’Pˆê‚Ìƒ^ƒXƒNƒo[ƒ{ƒ^ƒ“‚Ì‰º‚ÉƒOƒ‹[ƒv‰»‚Å‚«‚éB
 %group
 Win32 shell32
 %prm
 AppID
-AppID : [wstr] Type: PCWSTR Pointer to the AppUserModelID to assign to the current process.
+AppID : [wstr] Œ^: PCWSTR Œ»İ‚ÌƒvƒƒZƒX‚ÉŠ„‚è“–‚Ä‚é AppUserModelID ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Specifies a unique application-defined Application User Model ID
-(AppUserModelID) that identifies the current process to the taskbar.
-This identifier allows an application to group its associated
-processes and windows under a single taskbar button.
+Œ»İ‚ÌƒvƒƒZƒX‚ğƒ^ƒXƒNƒo[‚É‘Î‚µ‚Ä¯•Ê‚·‚éAƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌˆêˆÓ‚È Application User Model ID
+(AppUserModelID)
+‚ğw’è‚·‚éB‚±‚Ì¯•Êq‚É‚æ‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍŠÖ˜A‚·‚éƒvƒƒZƒX‚ÆƒEƒBƒ“ƒhƒE‚ğ’Pˆê‚Ìƒ^ƒXƒNƒo[ƒ{ƒ^ƒ“‚Ì‰º‚ÉƒOƒ‹[ƒv‰»‚Å‚«‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This method must be called during an application's initial startup
-routine before the application presents any UI or makes any
-manipulation of its Jump Lists. This includes any call to
-SHAddToRecentDocs.
+‚±‚Ìƒƒ\ƒbƒh‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‰Šú‹N“®ƒ‹[ƒ`ƒ“’†AUI ‚ğ•\¦‚µ‚½‚èƒWƒƒƒ“ƒvƒŠƒXƒg‚ğ‘€ì‚µ‚½‚è‚·‚é‘O‚ÉŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚ê‚É‚Í
+SHAddToRecentDocs ‚ÌŒÄ‚Ño‚µ‚àŠÜ‚Ü‚ê‚éB
 
 
 %index
 ShellAboutW
-Displays a ShellAbout dialog box. (Unicode)
+ShellAbout ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB(Unicode)
 %group
 Win32 shell32
 %prm
 hWnd, szApp, szOtherStuff, hIcon
-hWnd : [intptr] Type: HWND A window handle to a parent window. This parameter can be NULL.
-szApp : [wstr] Type: LPCTSTR A pointer to a null-terminated string that contains text to be displayed in the title bar of the ShellAbout dialog box and on the first line of the dialog box after the text "Microsoft". If the text contains a separator (#) that divides it into two parts, the function displays the first part in the title bar and the second part on the first line after the text "Microsoft".
-szOtherStuff : [wstr] Type: LPCTSTR A pointer to a null-terminated string that contains text to be displayed in the dialog box after the version and copyright information. This parameter can be NULL.
-hIcon : [intptr] Type: HICON The handle of an icon that the function displays in the dialog box. This parameter can be NULL, in which case the function displays the Windows icon.
+hWnd : [intptr] Œ^: HWND eƒEƒBƒ“ƒhƒE‚Ö‚ÌƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Å‚à‚æ‚¢B
+szApp : [wstr] Œ^: LPCTSTR ShellAbout ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ìƒ^ƒCƒgƒ‹ƒo[‚ÆAƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌÅ‰‚Ìs‚ÌuMicrosoftvƒeƒLƒXƒg‚ÌŒã‚É•\¦‚³‚ê‚éƒeƒLƒXƒg‚ğŠi”[‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[BƒeƒLƒXƒg‚É‹æØ‚è•¶š (#) ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚Ä‚»‚ê‚É‚æ‚Á‚Ä 2 ‚Â‚Ì•”•ª‚É•ª‚¯‚ç‚ê‚éê‡AŠÖ”‚ÍÅ‰‚Ì•”•ª‚ğƒ^ƒCƒgƒ‹ƒo[‚ÉA2 ”Ô–Ú‚Ì•”•ª‚ğuMicrosoftvƒeƒLƒXƒg‚ÌŒã‚ÌÅ‰‚Ìs‚É•\¦‚·‚éB
+szOtherStuff : [wstr] Œ^: LPCTSTR ƒo[ƒWƒ‡ƒ“‚Æ’˜ìŒ î•ñ‚ÌŒã‚Éƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚É•\¦‚·‚éƒeƒLƒXƒg‚ğŠi”[‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Å‚à‚æ‚¢B
+hIcon : [intptr] Œ^: HICON ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚É•\¦‚·‚éƒAƒCƒRƒ“‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Å‚à‚æ‚­A‚»‚Ìê‡‚Í Windows ‚ÌƒAƒCƒRƒ“‚ª•\¦‚³‚ê‚éB
 %inst
-Displays a ShellAbout dialog box. (Unicode)
+ShellAbout ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ•\¦‚·‚éB(Unicode)
 
 [–ß‚è’l]
-Type: int TRUE if successful; otherwise, FALSE.
+Œ^: int ¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-Note that the ShellAbout function dialog box uses text and a default
-icon that are specific to Windows. To see an example of a ShellAbout
-dialog box, choose About Windows from the Help menu drop-down list in
-Windows Explorer.
-> [!NOTE] > The shellapi.h header defines ShellAbout as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+ShellAbout ŠÖ”‚Ìƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Í Windows ŒÅ—L‚ÌƒeƒLƒXƒg‚ÆŠù’è‚ÌƒAƒCƒRƒ“‚ğg—p‚·‚é‚±‚Æ‚É’ˆÓBShellAbout
+ƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Ì—á‚ğŒ©‚é‚É‚ÍAWindows Explorer ‚Ìƒwƒ‹ƒvƒƒjƒ…[‚Ìƒhƒƒbƒvƒ_ƒEƒ“ƒŠƒXƒg‚©‚çuWindows
+‚Ìƒo[ƒWƒ‡ƒ“î•ñv‚ğ‘I‘ğ‚·‚éB
+> [!NOTE] > shellapi.h ƒwƒbƒ_[‚Í ShellAbout ‚ğAUNICODE
+ƒvƒŠƒvƒƒZƒbƒT’è”‚Ì’è‹`‚ÉŠî‚Ã‚¢‚Ä‚±‚ÌŠÖ”‚Ì ANSI ”Å‚Ü‚½‚Í Unicode
+”Å‚ğ©“®“I‚É‘I‘ğ‚·‚éƒGƒCƒŠƒAƒX‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚¢‚éBƒGƒ“ƒR[ƒfƒBƒ“ƒO’†—§‚ÈƒGƒCƒŠƒAƒX‚Æ‚»‚¤‚Å‚È‚¢ƒR[ƒh‚ğ¬İ‚µ‚Äg—p‚·‚é‚ÆAƒRƒ“ƒpƒCƒ‹‚âÀs‚ÌƒGƒ‰[‚É‚Â‚È‚ª‚é•sˆê’v‚ª”­¶‚·‚éê‡‚ª‚ ‚éBÚ×‚Í
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+‚ğQÆB
 
 
 %index
@@ -4523,140 +4028,135 @@ ShellExecute ‚Í Shell Šg’£(ƒf[ƒ^ƒ\[ƒXAƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[ƒnƒ“ƒhƒ‰Averb
 
 %index
 Shell_GetCachedImageIndex
-Shell_GetCachedImageIndex may be altered or unavailable.
+Shell_GetCachedImageIndex ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pwszIconPath, iIconIndex, uIconFlags
-pwszIconPath : [wstr] Type: PCWSTR A pointer to a buffer that contains the path to the image file.
-iIconIndex : [int] Type: int The index of the image within the file named at pwszIconPath.
-uIconFlags : [int] Type: UINT Not used.
+pwszIconPath : [wstr] Œ^: PCWSTR ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚Ö‚ÌƒpƒX‚ğŠi”[‚·‚éƒoƒbƒtƒ@[‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+iIconIndex : [int] Œ^: int pwszIconPath ‚Åw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹“à‚ÌƒCƒ[ƒW‚ÌƒCƒ“ƒfƒbƒNƒXB
+uIconFlags : [int] Œ^: UINT g—p‚µ‚È‚¢B
 %inst
-Shell_GetCachedImageIndex may be altered or unavailable.
+Shell_GetCachedImageIndex ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: int Returns the index of the image, or ?1 on failure.
+Œ^: int ƒCƒ[ƒW‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í ?1 ‚ğ•Ô‚·B
 
 [”õl]
-The Shell_GetCachedImageIndexA and Shell_GetCachedImageIndexW
-versions of this function were added in Windows Vista. For Unicode
-strings, call either Shell_GetCachedImageIndexW or
-Shell_GetCachedImageIndex. For ANSI strings, you must call
-Shell_GetCachedImageIndexA explicitly. Windows Server 2003 and
-Windows XP: Only Shell_GetCachedImageIndex is supported.
-Shell_GetCachedImageIndex requires a Unicode string.
+‚±‚ÌŠÖ”‚Ì Shell_GetCachedImageIndexA ”Å‚¨‚æ‚Ñ Shell_GetCachedImageIndexW ”Å‚Í
+Windows Vista ‚Å’Ç‰Á‚³‚ê‚½BUnicode •¶š—ñ‚Ìê‡‚Í Shell_GetCachedImageIndexW ‚Ü‚½‚Í
+Shell_GetCachedImageIndex ‚Ì‚¢‚¸‚ê‚©‚ğŒÄ‚Ño‚·BANSI •¶š—ñ‚Ìê‡‚Í
+Shell_GetCachedImageIndexA ‚ğ–¾¦“I‚ÉŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BWindows Server 2003 ‚¨‚æ‚Ñ
+Windows XP: Shell_GetCachedImageIndex
+‚Ì‚İ‚ªƒTƒ|[ƒg‚³‚ê‚éBShell_GetCachedImageIndex ‚Í Unicode •¶š—ñ‚ğ•K—v‚Æ‚·‚éB
 
 
 %index
 Shell_GetImageLists
-Retrieves system image lists for large and small icons.
+‘åƒAƒCƒRƒ“‚Æ¬ƒAƒCƒRƒ“—p‚ÌƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg‚ğæ“¾‚·‚éB
 %group
 Win32 shell32
 %prm
 phiml, phimlSmall
-phiml : [intptr] Type: HIMAGELIST* A pointer to the handle of an image list which, on success, receives the system image list for large (32 x 32) icons.
-phimlSmall : [intptr] Type: HIMAGELIST* A pointer to the handle of an image list which, on success, receives the system image list for small (16 x 16) icons.
+phiml : [intptr] Œ^: HIMAGELIST* ¬Œ÷‚É‘å (32 x 32) ƒAƒCƒRƒ“—p‚ÌƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg‚ğó‚¯æ‚éƒCƒ[ƒWƒŠƒXƒg‚Ìƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+phimlSmall : [intptr] Œ^: HIMAGELIST* ¬Œ÷‚É¬ (16 x 16) ƒAƒCƒRƒ“—p‚ÌƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg‚ğó‚¯æ‚éƒCƒ[ƒWƒŠƒXƒg‚Ìƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves system image lists for large and small icons.
+‘åƒAƒCƒRƒ“‚Æ¬ƒAƒCƒRƒ“—p‚ÌƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE on success. On failure, returns FALSE and the
-image lists pointed to by phiml and phimlSmall are unchanged.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚µAphiml ‚Æ phimlSmall
+‚ªw‚·ƒCƒ[ƒWƒŠƒXƒg‚Í•ÏX‚³‚ê‚È‚¢B
 
 [”õl]
-Important The image lists retrieved through this function are global
-system image lists; do not call ImageList_Destroy using them.
+d—v ‚±‚ÌŠÖ”‚Åæ“¾‚³‚ê‚éƒCƒ[ƒWƒŠƒXƒg‚ÍƒOƒ[ƒoƒ‹‚ÈƒVƒXƒeƒ€ƒCƒ[ƒWƒŠƒXƒg‚Å‚ ‚éB‚±‚ê‚ç‚É‘Î‚µ‚Ä ImageList_Destroy
+‚ğŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 
 
 %index
 Shell_MergeMenus
-Shell_MergeMenus may be altered or unavailable.
+Shell_MergeMenus ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 hmDst, hmSrc, uInsert, uIDAdjust, uIDAdjustMax, uFlags
-hmDst : [intptr] Type: HMENU The destination menu to which hmSrc is added.
-hmSrc : [intptr] Type: HMENU The source menu which is added to hmDst.
-uInsert : [int] Type: UINT The point in hmDst after which the entries in hmSrc are inserted.
-uIDAdjust : [int] Type: UINT This number is added to each menu's ID to give an adjusted ID. Set to 0 for no adjustment. The value for uIDAdjust would typically be the number of items in hmDst. This number can be obtained using the GetMenuItemCount.
-uIDAdjustMax : [int] Type: UINT The maximum adjusted ID to add to the menu. Any adjusted ID greater than this value is not added. To allow all IDs, set this parameter to 0xFFFF.
-uFlags : [int] Type: ULONG One or more of the following flags.
+hmDst : [intptr] Œ^: HMENU hmSrc ‚ª’Ç‰Á‚³‚ê‚éˆ¶æƒƒjƒ…[B
+hmSrc : [intptr] Œ^: HMENU hmDst ‚É’Ç‰Á‚³‚ê‚éƒ\[ƒXƒƒjƒ…[B
+uInsert : [int] Œ^: UINT hmSrc ‚ÌƒGƒ“ƒgƒŠ‚ª‘}“ü‚³‚ê‚é hmDst “à‚ÌˆÊ’uB
+uIDAdjust : [int] Œ^: UINT ‚±‚Ì”‚ÍŠeƒƒjƒ…[‚Ì ID ‚É‰ÁZ‚³‚êA’²®‚³‚ê‚½ ID ‚ğ—^‚¦‚éB’²®‚µ‚È‚¢ê‡‚Í 0 ‚ğİ’è‚·‚éBuIDAdjust ‚Ì’l‚Í’Êí hmDst ‚Ì€–Ú”‚Æ‚È‚éB‚±‚Ì”‚Í GetMenuItemCount ‚ğg—p‚µ‚Äæ“¾‚Å‚«‚éB
+uIDAdjustMax : [int] Œ^: UINT ƒƒjƒ…[‚É’Ç‰Á‚·‚é’²®Ï‚İ ID ‚ÌÅ‘å’lB‚±‚Ì’l‚æ‚è‘å‚«‚¢’²®Ï‚İ ID ‚Í’Ç‰Á‚³‚ê‚È‚¢B‚·‚×‚Ä‚Ì ID ‚ğ‹–‰Â‚·‚é‚É‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğ 0xFFFF ‚Éİ’è‚·‚éB
+uFlags : [int] Œ^: ULONG Ÿ‚Ìƒtƒ‰ƒO‚Ì 1 ‚ÂˆÈãB
 %inst
-Shell_MergeMenus may be altered or unavailable.
+Shell_MergeMenus ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: UINT Returns the next open ID at the end of the menu (the
-maximum adjusted ID + 1).
+Œ^: UINT ƒƒjƒ…[‚Ì––”ö‚ÌŸ‚Ì‹ó‚« ID (’²®Ï‚İ ID ‚ÌÅ‘å’l + 1) ‚ğ•Ô‚·B
 
 
 %index
 SignalFileOpen
-SignalFileOpen may be altered or unavailable.
+SignalFileOpen ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pidl
-pidl : [var] Type: PCIDLIST_ABSOLUTE A PIDL that specifies the file.
+pidl : [var] Œ^: PCIDLIST_ABSOLUTE ƒtƒ@ƒCƒ‹‚ğw’è‚·‚é PIDLB
 %inst
-SignalFileOpen may be altered or unavailable.
+SignalFileOpen ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if successful; otherwise FALSE.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 StgMakeUniqueName
-Creates a unique name for a stream or storage object from a template.
+ƒeƒ“ƒvƒŒ[ƒg‚©‚çƒXƒgƒŠ[ƒ€‚Ü‚½‚ÍƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÌˆêˆÓ‚È–¼‘O‚ğì¬‚·‚éB
 %group
 Win32 shell32
 %prm
 pstgParent, pszFileSpec, grfMode, riid, ppv
-pstgParent : [var] Type: IStorage* A pointer to an IStorage object.
-pszFileSpec : [wstr] Type: PCWSTR The format or template for the name of the stream or storage object.
-grfMode : [int] Type: DWORD The access mode to use when opening the stream or storage object. For more information and descriptions of the possible values, see STGM Constants.
-riid : [var] Type: REFIID A reference to the IID of the interface to retrieve through ppv, typically IID_IStorage or IID_IStream.
-ppv : [var] Type: void** When this method returns, contains the interface pointer requested in riid. This is typically IStorage or IStream.
+pstgParent : [var] Œ^: IStorage* IStorage ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pszFileSpec : [wstr] Œ^: PCWSTR ƒXƒgƒŠ[ƒ€‚Ü‚½‚ÍƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ì–¼‘O‚Ì‘®‚Ü‚½‚Íƒeƒ“ƒvƒŒ[ƒgB
+grfMode : [int] Œ^: DWORD ƒXƒgƒŠ[ƒ€‚Ü‚½‚ÍƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­Û‚Ég—p‚·‚éƒAƒNƒZƒXƒ‚[ƒhBÚ×‚Æw’è‰Â”\‚È’l‚É‚Â‚¢‚Ä‚Í STGM Constants ‚ğQÆB
+riid : [var] Œ^: REFIID ppv Œo—R‚Åæ“¾‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì IID ‚Ö‚ÌQÆB’Êí‚Í IID_IStorage ‚Ü‚½‚Í IID_IStreamB
+ppv : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAriid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^[‚ğŠi”[‚·‚éB‚±‚ê‚Í’Êí IStorage ‚Ü‚½‚Í IStream ‚Å‚ ‚éB
 %inst
-Creates a unique name for a stream or storage object from a template.
+ƒeƒ“ƒvƒŒ[ƒg‚©‚çƒXƒgƒŠ[ƒ€‚Ü‚½‚ÍƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÌˆêˆÓ‚È–¼‘O‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-It is recommended that you use the IID_PPV_ARGS macro, defined in
-Objbase.h, to package the riid and ppv parameters. This macro
-provides the correct IID based on the interface pointed to by the
-value in ppv, which eliminates the possibility of a coding error.
+Objbase.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é IID_PPV_ARGS ƒ}ƒNƒ‚ğg—p‚µ‚Ä riid ‚Æ ppv
+ƒpƒ‰ƒ[ƒ^[‚ğƒpƒbƒP[ƒW‰»‚·‚é‚±‚Æ‚ğ„§‚·‚éB‚±‚Ìƒ}ƒNƒ‚Í ppv ‚Ì’l‚ªw‚·ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÉŠî‚Ã‚¢‚Ä³‚µ‚¢ IID
+‚ğ’ñ‹Ÿ‚·‚é‚½‚ßAƒR[ƒfƒBƒ“ƒOƒGƒ‰[‚Ì‰Â”\«‚ğ‚È‚­‚¹‚éB
 
 
 %index
 Win32DeleteFile
-Win32DeleteFile may be altered or unavailable.
+Win32DeleteFile ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pszPath
-pszPath : [wstr] Type: PCWSTR A pointer to a buffer that contains the full name of the file to delete.
+pszPath : [wstr] Œ^: PCWSTR íœ‚·‚éƒtƒ@ƒCƒ‹‚Ìƒtƒ‹ƒl[ƒ€‚ğŠi”[‚·‚éƒoƒbƒtƒ@[‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Win32DeleteFile may be altered or unavailable.
+Win32DeleteFile ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: BOOL TRUE if the file was successfully deleted; otherwise
-FALSE.
+Œ^: BOOL ƒtƒ@ƒCƒ‹‚ª³í‚Éíœ‚³‚ê‚½ê‡‚Í TRUE ‚ğA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 WriteCabinetState
-WriteCabinetState may be altered or unavailable.
+WriteCabinetState ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 %group
 Win32 shell32
 %prm
 pcs
-pcs : [var] Type: CABINETSTATE* A pointer to a CABINETSTATE structure that holds the values to be set.
+pcs : [var] Œ^: CABINETSTATE* İ’è‚·‚é’l‚ğ•Û‚·‚é CABINETSTATE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-WriteCabinetState may be altered or unavailable.
+WriteCabinetState ‚Í•ÏX‚³‚ê‚é‚©—˜—p‚Å‚«‚È‚­‚È‚é‰Â”\«‚ª‚ ‚éB
 
 [–ß‚è’l]
-Type: BOOL TRUE if successful; otherwise, FALSE.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğA‚»‚êˆÈŠO‚Ìê‡‚Í FALSE ‚ğ•Ô‚·B
 

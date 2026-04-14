@@ -6,70 +6,58 @@
 
 %index
 BindMoniker
-Locates an object by means of its moniker, activates the object if it is inactive, and retrieves a pointer to the specified interface on that object.
+ƒ‚ƒjƒJ‚ğg‚Á‚ÄƒIƒuƒWƒFƒNƒg‚ğ“Á’è‚µA”ñƒAƒNƒeƒBƒu‚Å‚ ‚ê‚ÎƒAƒNƒeƒBƒu‰»‚µAw’è‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 %group
 Win32 ole32
 %prm
 pmk, grfOpt, iidResult, ppvResult
-pmk : [var] A pointer to the object's moniker. See IMoniker.
-grfOpt : [int] This parameter is reserved for future use and must be 0.
-iidResult : [var] The interface identifier to be used to communicate with the object.
-ppvResult : [var] The address of pointer variable that receives the interface pointer requested in iidResult. Upon successful return, *ppvResult contains the requested interface pointer. If an error occurs, *ppvResult is NULL. If the call is successful, the caller is responsible for releasing the pointer with a call to the object's IUnknown::Release method.
+pmk : [var] ƒIƒuƒWƒFƒNƒg‚Ìƒ‚ƒjƒJ‚Ö‚Ìƒ|ƒCƒ“ƒ^BIMoniker ‚ğQÆB
+grfOpt : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í«—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¨‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+iidResult : [var] ƒIƒuƒWƒFƒNƒg‚Æ’ÊM‚·‚é‚½‚ß‚Ég—p‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX¯•ÊqB
+ppvResult : [var] iidResult ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvResult ‚É‚Í—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éBƒGƒ‰[‚ª”­¶‚µ‚½ê‡A*ppvResult ‚Í NULL ‚Æ‚È‚éBŒÄ‚Ño‚µ‚ª¬Œ÷‚µ‚½ê‡AŒÄ‚Ño‚µ‘¤‚Í‚»‚ÌƒIƒuƒWƒFƒNƒg‚Ì IUnknown::Release ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Äƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚·‚éÓ”C‚ğ•‰‚¤B
 %inst
-Locates an object by means of its moniker, activates the object if it
-is inactive, and retrieves a pointer to the specified interface on
-that object.
+ƒ‚ƒjƒJ‚ğg‚Á‚ÄƒIƒuƒWƒFƒNƒg‚ğ“Á’è‚µA”ñƒAƒNƒeƒBƒu‚Å‚ ‚ê‚ÎƒAƒNƒeƒBƒu‰»‚µAw’è‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-This function can return the following error codes, or any of the
-error values returned by the IMoniker::BindToObject method.
-This doc was truncated.
+‚±‚ÌŠÖ”‚ÍˆÈ‰º‚ÌƒGƒ‰[ƒR[ƒhA‚Ü‚½‚Í IMoniker::BindToObject ƒƒ\ƒbƒh‚ª•Ô‚·‚¢‚¸‚ê‚©‚ÌƒGƒ‰[’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-BindMoniker is a helper function supplied as a convenient way for a
-client that has the moniker of an object to obtain a pointer to one
-of that object's interfaces. BindMoniker packages the following
-calls:
-This doc was truncated.
+BindMoniker
+‚ÍAƒIƒuƒWƒFƒNƒg‚Ìƒ‚ƒjƒJ‚ğ•Û‚·‚éƒNƒ‰ƒCƒAƒ“ƒg‚ª‚»‚ÌƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é‚½‚ß‚Ì•Ö—˜‚È•â•ŠÖ”‚Å‚ ‚éBBindMoniker
+‚ÍˆÈ‰º‚ÌŒÄ‚Ño‚µ‚ğ‚Ü‚Æ‚ß‚Äs‚¤B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 CoAllowSetForegroundWindow
-This function passes the foreground privilege (the privilege to set the foreground window) from one process to another. The process that has the foreground privilege can call this function to pass that privilege on to a local COM server process.
+ƒtƒHƒAƒOƒ‰ƒEƒ“ƒhŒ ŒÀiƒtƒHƒAƒOƒ‰ƒEƒ“ƒhƒEƒBƒ“ƒhƒE‚ğİ’è‚·‚éŒ ŒÀj‚ğA‚ ‚éƒvƒƒZƒX‚©‚ç•Ê‚ÌƒvƒƒZƒX‚Öˆø‚«“n‚·BƒtƒHƒAƒOƒ‰ƒEƒ“ƒhŒ ŒÀ‚ğ‚ÂƒvƒƒZƒX‚ª‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅAƒ[ƒJƒ‹ COM ƒT[ƒo[ƒvƒƒZƒX‚É‚»‚ÌŒ ŒÀ‚ğˆø‚«“n‚·‚±‚Æ‚ª‚Å‚«‚éB
 %group
 Win32 ole32
 %prm
 pUnk, lpvReserved
-pUnk : [var] A pointer to the IUnknown interface on the proxy of the target COM server.
-lpvReserved : [intptr] This parameter is reserved and must be NULL.
+pUnk : [var] ‘ÎÛ COM ƒT[ƒo[‚ÌƒvƒƒLƒVã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpvReserved : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñÏ‚İ‚Å‚ ‚èANULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-This function passes the foreground privilege (the privilege to set
-the foreground window) from one process to another. The process that
-has the foreground privilege can call this function to pass that
-privilege on to a local COM server process.
+
+ƒtƒHƒAƒOƒ‰ƒEƒ“ƒhŒ ŒÀiƒtƒHƒAƒOƒ‰ƒEƒ“ƒhƒEƒBƒ“ƒhƒE‚ğİ’è‚·‚éŒ ŒÀj‚ğA‚ ‚éƒvƒƒZƒX‚©‚ç•Ê‚ÌƒvƒƒZƒX‚Öˆø‚«“n‚·BƒtƒHƒAƒOƒ‰ƒEƒ“ƒhŒ ŒÀ‚ğ‚ÂƒvƒƒZƒX‚ª‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅAƒ[ƒJƒ‹
+COM ƒT[ƒo[ƒvƒƒZƒX‚É‚»‚ÌŒ ŒÀ‚ğˆø‚«“n‚·‚±‚Æ‚ª‚Å‚«‚éB
 
 [–ß‚è’l]
-This function can return the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚ÍˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The system restricts which processes can call the SetForegroundWindow
-and AllowSetForegroundWindow functions to set the foreground window.
-As a result, an application is blocked from stealing the focus from
-another application even when the user is interacting with it. Use
-CoAllowSetForegroundWindow to pass on the foreground privilege from a
-process that has it to a process that does not yet have it. This can
-be done transitively: passing the privilege from one process to
-another, and then to another, and so on. CoAllowSetForegroundWindow
-enables a user that has a custom interface to get the same behavior
-that happens for OLE interfaces where a change of window is expected
-(primarily associated with linking and embedding). Behind the scenes,
-the IForegroundTransfer interface is used to yield the foreground
-window between processes. A standard COM-provided proxy already
-implements IForegroundTransfer, so you don't have to do any extra
-work if you're using a standard proxy. Just call
-CoAllowSetForegroundWindow to transfer the foreground privilege to
-any out-of-process COM object.
+ƒVƒXƒeƒ€‚ÍAƒtƒHƒAƒOƒ‰ƒEƒ“ƒhƒEƒBƒ“ƒhƒE‚ğİ’è‚·‚é‚½‚ß‚É SetForegroundWindow ‚¨‚æ‚Ñ
+AllowSetForegroundWindow
+ŠÖ”‚ğŒÄ‚Ño‚¹‚éƒvƒƒZƒX‚ğ§ŒÀ‚µ‚Ä‚¢‚éB‚»‚ÌŒ‹‰ÊAƒ†[ƒU[‚ª‘€ì’†‚Å‚ ‚Á‚Ä‚àAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚çƒtƒH[ƒJƒX‚ğ’D‚¤‚±‚Æ‚ÍƒuƒƒbƒN‚³‚ê‚éBCoAllowSetForegroundWindow
+‚ğg—p‚·‚é‚ÆAƒtƒHƒAƒOƒ‰ƒEƒ“ƒhŒ ŒÀ‚ğ‚Á‚Ä‚¢‚éƒvƒƒZƒX‚©‚çA‚Ü‚¾Œ ŒÀ‚ğ‚Á‚Ä‚¢‚È‚¢ƒvƒƒZƒX‚ÖŒ ŒÀ‚ğˆø‚«“n‚·‚±‚Æ‚ª‚Å‚«‚éB‚±‚ê‚Í„ˆÚ“I‚És‚¤‚±‚Æ‚ª‚Å‚«A‚ ‚éƒvƒƒZƒX‚©‚ç•Ê‚ÌƒvƒƒZƒX‚ÖA‚³‚ç‚É•Ê‚ÌƒvƒƒZƒX‚Ö‚ÆŒ ŒÀ‚ğ“n‚µ‚Ä‚¢‚­‚±‚Æ‚ª‚Å‚«‚éBCoAllowSetForegroundWindow
+‚É‚æ‚èA“Æ©ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‚Âƒ†[ƒU[‚Å‚àAƒEƒBƒ“ƒhƒE‚ÌØ‚è‘Ö‚¦‚ª‘z’è‚³‚ê‚é OLE
+ƒCƒ“ƒ^[ƒtƒFƒCƒXiå‚ÉƒŠƒ“ƒN‚â–„‚ß‚İ‚ÉŠÖ˜A‚·‚é‚à‚Ìj‚Æ“¯‚¶‹““®‚ğ“¾‚é‚±‚Æ‚ª‚Å‚«‚éB“à•”“I‚É‚ÍAƒvƒƒZƒXŠÔ‚ÅƒtƒHƒAƒOƒ‰ƒEƒ“ƒhƒEƒBƒ“ƒhƒE‚ğ÷‚è“n‚·‚½‚ß‚É
+IForegroundTransfer ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ªg—p‚³‚ê‚Ä‚¢‚éB•W€‚Ì COM ’ñ‹ŸƒvƒƒLƒV‚ÍŠù‚É
+IForegroundTransfer
+‚ğÀ‘•‚µ‚Ä‚¢‚é‚½‚ßA•W€ƒvƒƒLƒV‚ğg—p‚µ‚Ä‚¢‚éŒÀ‚è’Ç‰Á‚Ìì‹Æ‚Í•s—v‚Å‚ ‚éBCoAllowSetForegroundWindow
+‚ğŒÄ‚Ño‚·‚¾‚¯‚ÅA”CˆÓ‚ÌƒAƒEƒgƒIƒuƒvƒƒZƒX COM ƒIƒuƒWƒFƒNƒg‚ÉƒtƒHƒAƒOƒ‰ƒEƒ“ƒhŒ ŒÀ‚ğˆø‚«“n‚·‚±‚Æ‚ª‚Å‚«‚éB
 
 
 %index
@@ -85,103 +73,93 @@ Win32 ole32
 
 %index
 CoDosDateTimeToFileTime
-Converts the MS-DOS representation of the time and date to a FILETIME structure used by Windows.
+MS-DOS Œ`®‚Ì“ú•t‚Æ‚ğAWindows ‚Åg—p‚³‚ê‚é FILETIME \‘¢‘Ì‚É•ÏŠ·‚·‚éB
 %group
 Win32 ole32
 %prm
 nDosDate, nDosTime, lpFileTime
-nDosDate : [int] The MS-DOS date.
-nDosTime : [int] The MS-DOS time.
-lpFileTime : [var] A pointer to the FILETIME structure.
+nDosDate : [int] MS-DOS Œ`®‚Ì“ú•tB
+nDosTime : [int] MS-DOS Œ`®‚ÌB
+lpFileTime : [var] FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Converts the MS-DOS representation of the time and date to a FILETIME
-structure used by Windows.
+MS-DOS Œ`®‚Ì“ú•t‚Æ‚ğAWindows ‚Åg—p‚³‚ê‚é FILETIME \‘¢‘Ì‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE; otherwise, it is
-FALSE, probably because of invalid arguments.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B¸”s‚ÌŒ´ˆö‚Í’ÊíAˆø”‚ª•s³‚Å‚ ‚é‚±‚Æ‚É‚æ‚éB
 
 [”õl]
-An MS-DOS date has the following format.
-This doc was truncated.
+MS-DOS Œ`®‚Ì“ú•t‚ÍˆÈ‰º‚ÌŒ`®‚ğ‚ÂB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 CoFileTimeToDosDateTime
-Converts a FILETIME into MS-DOS date and time values.
+FILETIME ‚ğ MS-DOS Œ`®‚Ì“ú•t‚Æ‚Ì’l‚É•ÏŠ·‚·‚éB
 %group
 Win32 ole32
 %prm
 lpFileTime, lpDosDate, lpDosTime
-lpFileTime : [var] A pointer to the FILETIME structure.
-lpDosDate : [var] Receives the MS-DOS date.
-lpDosTime : [var] Receives the MS-DOS time.
+lpFileTime : [var] FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpDosDate : [var] MS-DOS Œ`®‚Ì“ú•t‚ğó‚¯æ‚éB
+lpDosTime : [var] MS-DOS Œ`®‚Ì‚ğó‚¯æ‚éB
 %inst
-Converts a FILETIME into MS-DOS date and time values.
+FILETIME ‚ğ MS-DOS Œ`®‚Ì“ú•t‚Æ‚Ì’l‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is TRUE; otherwise, it is
-FALSE.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í TRUE ‚ğ•Ô‚µA¸”s‚µ‚½ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 CoFreeAllLibraries
-Frees all the DLLs that have been loaded with the CoLoadLibrary function (called internally by CoGetClassObject), regardless of whether they are currently in use.
+CoLoadLibrary ŠÖ”‚É‚æ‚Á‚Äƒ[ƒh‚³‚ê‚½‚·‚×‚Ä‚Ì DLLiCoGetClassObject ‚©‚ç“à•”“I‚ÉŒÄ‚Ño‚³‚ê‚½‚à‚Ì‚ğŠÜ‚Şj‚ğAŒ»İg—p’†‚©‚Ç‚¤‚©‚É‚©‚©‚í‚ç‚¸‰ğ•ú‚·‚éB
 %group
 Win32 ole32
 %prm
 
 %inst
-Frees all the DLLs that have been loaded with the CoLoadLibrary
-function (called internally by CoGetClassObject), regardless of
-whether they are currently in use.
+CoLoadLibrary ŠÖ”‚É‚æ‚Á‚Äƒ[ƒh‚³‚ê‚½‚·‚×‚Ä‚Ì DLLiCoGetClassObject
+‚©‚ç“à•”“I‚ÉŒÄ‚Ño‚³‚ê‚½‚à‚Ì‚ğŠÜ‚Şj‚ğAŒ»İg—p’†‚©‚Ç‚¤‚©‚É‚©‚©‚í‚ç‚¸‰ğ•ú‚·‚éB
 
 [”õl]
-To unload libraries, CoFreeAllLibraries uses a list of loaded DLLs
-for each process that the COM library maintains. The CoUninitialize
-and OleUninitialize functions call CoFreeAllLibraries internally, so
-applications usually have no need to call this function directly.
+CoFreeAllLibraries ‚Í DLL ‚ğƒAƒ“ƒ[ƒh‚·‚é‚½‚ß‚ÉACOM ƒ‰ƒCƒuƒ‰ƒŠ‚ªƒvƒƒZƒX‚²‚Æ‚ÉŠÇ—‚µ‚Ä‚¢‚éƒ[ƒhÏ‚İ DLL
+‚Ìˆê——‚ğg—p‚·‚éBCoUninitialize ‚¨‚æ‚Ñ OleUninitialize ŠÖ”‚Í“à•”‚Å CoFreeAllLibraries
+‚ğŒÄ‚Ño‚·‚½‚ßA’ÊíAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç’¼Ú‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·•K—v‚Í‚È‚¢B
 
 
 %index
 CoFreeLibrary
-Frees a library that, when loaded, was specified to be freed explicitly.
+ƒ[ƒh‚É–¾¦“I‰ğ•ú‚ªw’è‚³‚ê‚½ƒ‰ƒCƒuƒ‰ƒŠ‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 ole32
 %prm
 hInst
-hInst : [intptr] A handle to the library module to be freed, as returned by the CoLoadLibrary function.
+hInst : [intptr] ‰ğ•ú‚·‚éƒ‰ƒCƒuƒ‰ƒŠƒ‚ƒWƒ…[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹BCoLoadLibrary ŠÖ”‚©‚ç•Ô‚³‚ê‚½‚à‚ÌB
 %inst
-Frees a library that, when loaded, was specified to be freed
-explicitly.
+ƒ[ƒh‚É–¾¦“I‰ğ•ú‚ªw’è‚³‚ê‚½ƒ‰ƒCƒuƒ‰ƒŠ‚ğ‰ğ•ú‚·‚éB
 
 [”õl]
-The CoFreeLibrary function should be called to free a library that is
-to be freed explicitly. This is established when the library is
-loaded with the bAutoFree parameter of CoLoadLibrary set to FALSE. It
-is illegal to free a library explicitly when the corresponding
-CoLoadLibrary call specifies that it be freed automatically (the
-bAutoFree parameter is set to TRUE).
+CoFreeLibrary ŠÖ”‚ÍA–¾¦“I‚É‰ğ•ú‚·‚éƒ‰ƒCƒuƒ‰ƒŠ‚ğ‰ğ•ú‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚·B‚±‚ê‚Í CoLoadLibrary ‚Ì
+bAutoFree ƒpƒ‰ƒ[ƒ^‚ğ FALSE ‚Éİ’è‚µ‚Äƒ‰ƒCƒuƒ‰ƒŠ‚ğƒ[ƒh‚µ‚½‚Æ‚«‚ÉŒˆ’è‚³‚ê‚éB‘Î‰‚·‚é CoLoadLibrary
+‚ÌŒÄ‚Ño‚µ‚Å©“®‰ğ•úibAutoFree ƒpƒ‰ƒ[ƒ^‚ª TRUEj‚ªw’è‚³‚ê‚Ä‚¢‚éƒ‰ƒCƒuƒ‰ƒŠ‚ğ–¾¦“I‚É‰ğ•ú‚·‚é‚±‚Æ‚Í‹–‚³‚ê‚È‚¢B
 
 
 %index
 CoGetInterceptor
-Instantiates the appropriate interceptor for the specified interface to be intercepted and returns the newly created interceptor.
+ƒCƒ“ƒ^[ƒZƒvƒg‚µ‚½‚¢ƒCƒ“ƒ^[ƒtƒFƒCƒX‚É‘Î‰‚·‚éƒCƒ“ƒ^[ƒZƒvƒ^‚ğƒCƒ“ƒXƒ^ƒ“ƒX‰»‚µAV‚µ‚­ì¬‚µ‚½ƒCƒ“ƒ^[ƒZƒvƒ^‚ğ•Ô‚·B
 %group
 Win32 ole32
 %prm
 iidIntercepted, punkOuter, iid, ppv
-iidIntercepted : [var] A reference to the identifier of the interface for which an interceptor is to be returned.
-punkOuter : [var] If this parameter is NULL, the object is not being created as part of an aggregate. Otherwise, this parameter is a pointer to the aggregate object's IUnknown interface (the controlling IUnknown).
-iid : [var] A reference to the identifier of the interface desired on the interceptor.
-ppv : [var] The address of a pointer variable that receives the interface pointer requested in iid. Upon successful return, **ppv contains the requested interceptor pointer.
+iidIntercepted : [var] ƒCƒ“ƒ^[ƒZƒvƒ^‚ğ•Ô‚·‘ÎÛ‚Æ‚È‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB
+punkOuter : [var] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AƒIƒuƒWƒFƒNƒg‚ÍW–ñ‚Ìˆê•”‚Æ‚µ‚Äì¬‚³‚ê‚È‚¢BNULL ˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍW–ñƒIƒuƒWƒFƒNƒg‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒXi§Œä—p IUnknownj‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚éB
+iid : [var] ƒCƒ“ƒ^[ƒZƒvƒ^ã‚Åæ“¾‚µ‚½‚¢ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB
+ppv : [var] iid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A**ppv ‚É‚Í—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒZƒvƒ^‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Instantiates the appropriate interceptor for the specified interface
-to be intercepted and returns the newly created interceptor.
+ƒCƒ“ƒ^[ƒZƒvƒg‚µ‚½‚¢ƒCƒ“ƒ^[ƒtƒFƒCƒX‚É‘Î‰‚·‚éƒCƒ“ƒ^[ƒZƒvƒ^‚ğƒCƒ“ƒXƒ^ƒ“ƒX‰»‚µAV‚µ‚­ì¬‚µ‚½ƒCƒ“ƒ^[ƒZƒvƒ^‚ğ•Ô‚·B
 
 [–ß‚è’l]
-This function can return the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚ÍˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
@@ -202,27 +180,25 @@ ppv : [var]
 
 %index
 CoGetObject
-Converts a display name into a moniker that identifies the object named, and then binds to the object identified by the moniker.
+•\¦–¼‚ğAw’è‚³‚ê‚½–¼‘O‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ‚É•ÏŠ·‚µA‚»‚Ìƒ‚ƒjƒJ‚É‚æ‚Á‚Ä¯•Ê‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ÉƒoƒCƒ“ƒh‚·‚éB
 %group
 Win32 ole32
 %prm
 pszName, pBindOptions, riid, ppv
-pszName : [wstr] The display name of the object to be created.
-pBindOptions : [var] The binding options used to create a moniker that creates the actual object. For details, see BIND_OPTS. This parameter can be NULL.
-riid : [var] A reference to the identifier of an interface that is implemented on the object to be created.
-ppv : [var] The address of a pointer to the interface specified by riid on the object that is created.
+pszName : [wstr] ì¬‚·‚éƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼B
+pBindOptions : [var] ÀÛ‚ÌƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éƒ‚ƒjƒJ‚ğì¬‚·‚é‚½‚ß‚Ég—p‚·‚éƒoƒCƒ“ƒhƒIƒvƒVƒ‡ƒ“BÚ×‚Í BIND_OPTS ‚ğQÆB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚ğw’è‚Å‚«‚éB
+riid : [var] ì¬‚·‚éƒIƒuƒWƒFƒNƒg‚ÉÀ‘•‚³‚ê‚Ä‚¢‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB
+ppv : [var] ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Å riid ‚ªw’è‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
-Converts a display name into a moniker that identifies the object
-named, and then binds to the object identified by the moniker.
+•\¦–¼‚ğAw’è‚³‚ê‚½–¼‘O‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ‚É•ÏŠ·‚µA‚»‚Ìƒ‚ƒjƒJ‚É‚æ‚Á‚Ä¯•Ê‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ÉƒoƒCƒ“ƒh‚·‚éB
 
 [–ß‚è’l]
-This function can return the standard return values E_FAIL,
-E_OUTOFMEMORY, and E_UNEXPECTED, as well as the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_FAILAE_OUTOFMEMORYAE_UNEXPECTED ‚É‰Á‚¦‚ÄˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-CoGetObject encapsulates calls to the COM library functions
-CreateBindCtx, MkParseDisplayName, and IMoniker::BindToObject.
+CoGetObject ‚Í COM ƒ‰ƒCƒuƒ‰ƒŠŠÖ” CreateBindCtxAMkParseDisplayNameA‚¨‚æ‚Ñ
+IMoniker::BindToObject ‚ÌŒÄ‚Ño‚µ‚ğƒJƒvƒZƒ‹‰»‚·‚éB
 
 
 %index
@@ -252,559 +228,440 @@ CoUninitialize ŒÄ‚Ño‚µ‚Æ‘Î‰‚³‚¹‚éBDllMain ‚©‚ç‚±‚ê‚ç‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚
 
 %index
 CoInstall
-Installs the requested COM server application.
+—v‹‚³‚ê‚½ COM ƒT[ƒo[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éB
 %group
 Win32 ole32
 %prm
 pbc, dwFlags, pClassSpec, pQuery, pszCodeBase
-pbc : [var] Reserved for future use; this value must be NULL.
-dwFlags : [int] Reserved for future use; this value must be 0.
-pClassSpec : [var] A pointer to a uCLSSPEC union. The tyspec member must be set to TYSPEC_CLSID and the clsid member must be set to the CLSID to be installed. For more information, see TYSPEC.
-pQuery : [var] A pointer to a QUERYCONTEXT structure. The dwContext field must be set to the desired CLSCTX value. For more information, see QUERYCONTEXT.
-pszCodeBase : [wstr] Reserved for future use; this value must be NULL.
+pbc : [var] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB‚±‚Ì’l‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+dwFlags : [int] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB‚±‚Ì’l‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pClassSpec : [var] uCLSSPEC ‹¤—p‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^Btyspec ƒƒ“ƒo‚Í TYSPEC_CLSID ‚Éİ’è‚µAclsid ƒƒ“ƒo‚É‚ÍƒCƒ“ƒXƒg[ƒ‹‘ÎÛ‚Ì CLSID ‚ğİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í TYSPEC ‚ğQÆB
+pQuery : [var] QUERYCONTEXT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BdwContext ƒtƒB[ƒ‹ƒh‚É‚ÍA–Ú“I‚Ì CLSCTX ’l‚ğİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í QUERYCONTEXT ‚ğQÆB
+pszCodeBase : [wstr] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚éB‚±‚Ì’l‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Installs the requested COM server application.
+—v‹‚³‚ê‚½ COM ƒT[ƒo[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éB
 
 [–ß‚è’l]
-This function supports the standard return value E_INVALIDARG, as
-well as the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARG ‚É‰Á‚¦‚ÄˆÈ‰º‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 CoIsOle1Class
-Determines whether the specified CLSID represents an OLE 1 object.
+w’è‚³‚ê‚½ CLSID ‚ª OLE 1 ƒIƒuƒWƒFƒNƒg‚ğ•\‚·‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 Win32 ole32
 %prm
 rclsid
-rclsid : [var] The CLSID to be checked.
+rclsid : [var] Šm”F‘ÎÛ‚Ì CLSIDB
 %inst
-Determines whether the specified CLSID represents an OLE 1 object.
+w’è‚³‚ê‚½ CLSID ‚ª OLE 1 ƒIƒuƒWƒFƒNƒg‚ğ•\‚·‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-If the CLSID refers to an OLE 1 object, the return value is TRUE;
-otherwise, it is FALSE.
+CLSID ‚ª OLE 1 ƒIƒuƒWƒFƒNƒg‚ğw‚·ê‡A–ß‚è’l‚Í TRUE ‚Å‚ ‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚Å‚ ‚éB
 
 [”õl]
-The CoIsOle1Class function determines whether an object class is from
-OLE 1. You can use it to prevent linking to embedded OLE 1 objects
-within a container, which OLE 1 objects do not support. After a
-container has determined that copied data represents an embedded
-object, the container code can call CoIsOle1Class to determine
-whether the embedded object is an OLE 1 object. If CoIsOle1Class
-returns TRUE, the container does not offer CF_LINKSOURCE as one of
-its clipboard formats. This is one of several OLE compatibility
-functions. The following compatibility functions, listed below, can
-be used to convert the storage formats of objects between OLE 1 and
-OLE.
-This doc was truncated.
+CoIsOle1Class ŠÖ”‚ÍA‚ ‚éƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚ª OLE 1 —R—ˆ‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éBƒRƒ“ƒeƒi“à‚Å OLE 1
+ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒŠƒ“ƒN‚ğ–h~‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éBOLE 1
+ƒIƒuƒWƒFƒNƒg‚ÍƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢‚½‚ß‚Å‚ ‚éBƒRƒ“ƒeƒi‚ªƒRƒs[‚³‚ê‚½ƒf[ƒ^‚ª–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğ•\‚·‚Æ”»’f‚µ‚½ê‡A‚»‚ÌƒRƒ“ƒeƒi‚Í
+CoIsOle1Class ‚ğŒÄ‚Ño‚µ‚ÄA‚»‚Ì–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ª OLE 1
+ƒIƒuƒWƒFƒNƒg‚©‚Ç‚¤‚©‚ğ”»’è‚Å‚«‚éBCoIsOle1Class ‚ª TRUE ‚ğ•Ô‚µ‚½ê‡AƒRƒ“ƒeƒi‚ÍƒNƒŠƒbƒvƒ{[ƒhƒtƒH[ƒ}ƒbƒg‚Ìˆê‚Â‚Æ‚µ‚Ä
+CF_LINKSOURCE ‚ğ’ñ‹Ÿ‚µ‚È‚¢B‚±‚ÌŠÖ”‚Í•¡”‚Ì OLE ŒİŠ·ŠÖ”‚Ì‚¤‚¿‚Ìˆê‚Â‚Å‚ ‚éBˆÈ‰º‚É¦‚·ŒİŠ·ŠÖ”‚ÍAOLE 1 ‚Æ
+OLE ‚ÌŠÔ‚ÅƒIƒuƒWƒFƒNƒg‚ÌƒXƒgƒŒ[ƒWŒ`®‚ğ•ÏŠ·‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 CoLoadLibrary
-Loads a specific DLL into the caller's process.
+w’è‚³‚ê‚½ DLL ‚ğŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Éƒ[ƒh‚·‚éB
 %group
 Win32 ole32
 %prm
 lpszLibName, bAutoFree
-lpszLibName : [wstr] The name of the library to be loaded.
-bAutoFree : [int] This parameter is maintained for compatibility with 16-bit applications, but is ignored.
+lpszLibName : [wstr] ƒ[ƒh‚·‚éƒ‰ƒCƒuƒ‰ƒŠ‚Ì–¼‘OB
+bAutoFree : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 16 ƒrƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ‚ÌŒİŠ·«‚Ì‚½‚ß‚ÉˆÛ‚³‚ê‚Ä‚¢‚é‚ªA–³‹‚³‚ê‚éB
 %inst
-Loads a specific DLL into the caller's process.
+w’è‚³‚ê‚½ DLL ‚ğŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Éƒ[ƒh‚·‚éB
 
 [–ß‚è’l]
-If the function succeeds, the return value is a handle to the loaded
-library; otherwise, it is NULL.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Íƒ[ƒh‚³‚ê‚½ƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒnƒ“ƒhƒ‹‚Å‚ ‚éB¸”s‚µ‚½ê‡‚Í NULL ‚ğ•Ô‚·B
 
 [”õl]
-The CoGetClassObject function does not call CoLoadLibrary.
-CoLoadLibrary loads a DLL specified by the lpszLibName parameter into
-the process that called CoGetClassObject. Containers should not call
-CoLoadLibrary directly. Internally, a reference count is kept on the
-loaded DLL by using CoLoadLibrary to increment the count and the
-CoFreeLibrary function to decrement it.
+CoGetClassObject ŠÖ”‚Í CoLoadLibrary ‚ğŒÄ‚Ño‚³‚È‚¢BCoLoadLibrary ‚Í
+lpszLibName ‚Åw’è‚³‚ê‚½ DLL ‚ğ CoGetClassObject ‚ğŒÄ‚Ño‚µ‚½ƒvƒƒZƒX‚Éƒ[ƒh‚·‚éBƒRƒ“ƒeƒi‚Í
+CoLoadLibrary ‚ğ’¼ÚŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢B“à•”“I‚É‚ÍACoLoadLibrary
+‚ğg—p‚µ‚ÄQÆƒJƒEƒ“ƒg‚ğ‘‚â‚µACoFreeLibrary ŠÖ”‚Å‚»‚ê‚ğŒ¸‚ç‚·‚±‚Æ‚É‚æ‚èAƒ[ƒh‚³‚ê‚½ DLL
+‚ÌQÆƒJƒEƒ“ƒg‚ªŠÇ—‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 CoRegisterMessageFilter
-Registers with OLE the instance of an IMessageFilter interface, which is to be used for handling concurrency issues on the current thread.
+Œ»İ‚ÌƒXƒŒƒbƒh‚Å‚Ì•Às«–â‘è‚ğˆ—‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é IMessageFilter ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ OLE ‚É“o˜^‚·‚éB
 %group
 Win32 ole32
 %prm
 lpMessageFilter, lplpMessageFilter
-lpMessageFilter : [var] A pointer to the IMessageFilter interface on the message filter. This message filter should be registered on the current thread, replacing the previous message filter (if any). This parameter can be NULL, indicating that no message filter should be registered on the current thread. Note that this function calls AddRef on the interface pointer to the message filter.
-lplpMessageFilter : [var] Address of the IMessageFilter* pointer variable that receives the interface pointer to the previously registered message filter. If there was no previously registered message filter for the current thread, the value of *lplpMessageFilter is NULL.
+lpMessageFilter : [var] ƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^ã‚Ì IMessageFilter ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚ÍŒ»İ‚ÌƒXƒŒƒbƒh‚É“o˜^‚³‚êAi‘¶İ‚·‚éê‡‚ÍjˆÈ‘O‚ÌƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚ğ’u‚«Š·‚¦‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚ğw’è‚Å‚«A‚»‚Ìê‡‚ÍŒ»İ‚ÌƒXƒŒƒbƒh‚ÉƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚ğ“o˜^‚µ‚È‚¢‚±‚Æ‚ğˆÓ–¡‚·‚éB‚È‚¨A‚±‚ÌŠÖ”‚ÍƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚·“_‚É’ˆÓ‚·‚é‚±‚ÆB
+lplpMessageFilter : [var] ˆÈ‘O‚É“o˜^‚³‚ê‚Ä‚¢‚½ƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMessageFilter* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXBŒ»İ‚ÌƒXƒŒƒbƒh‚ÉˆÈ‘O“o˜^‚³‚ê‚½ƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚ª‘¶İ‚µ‚È‚©‚Á‚½ê‡A*lplpMessageFilter ‚Ì’l‚Í NULL ‚Æ‚È‚éB
 %inst
-Registers with OLE the instance of an IMessageFilter interface, which
-is to be used for handling concurrency issues on the current thread.
+Œ»İ‚ÌƒXƒŒƒbƒh‚Å‚Ì•Às«–â‘è‚ğˆ—‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é IMessageFilter ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ OLE
+‚É“o˜^‚·‚éB
 
 [–ß‚è’l]
-If the instance was registered or revoked successfully, the return
-value is S_OK; otherwise, it is S_FALSE.
+ƒCƒ“ƒXƒ^ƒ“ƒX‚ª³í‚É“o˜^‚Ü‚½‚Íæ‚èÁ‚³‚ê‚½ê‡A–ß‚è’l‚Í S_OK ‚Å‚ ‚éB‚»‚¤‚Å‚È‚¢ê‡‚Í S_FALSE ‚Å‚ ‚éB
 
 [”õl]
-To revoke the registered message filter, pass the previous message
-filter (possibly NULL) as the lpMessageFilter parameter to
-CoRegisterMessageFilter.
+“o˜^Ï‚İ‚ÌƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚ğæ‚èÁ‚·‚É‚ÍAˆÈ‘O‚ÌƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^iê‡‚É‚æ‚Á‚Ä‚Í NULLj‚ğ lpMessageFilter
+ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä CoRegisterMessageFilter ‚É“n‚·B
 
 
 %index
 CoTreatAsClass
-Establishes or removes an emulation, in which objects of one class are treated as objects of a different class.
+‚ ‚éƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚ğ•ÊƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Äˆµ‚¤ƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ğİ’è‚Ü‚½‚Í‰ğœ‚·‚éB
 %group
 Win32 ole32
 %prm
 clsidOld, clsidNew
-clsidOld : [var] The CLSID of the object to be emulated.
-clsidNew : [var] The CLSID of the object that should emulate the original object. This replaces any existing emulation for clsidOld. This parameter can be CLSID_NULL, in which case any existing emulation for clsidOld is removed.
+clsidOld : [var] ƒGƒ~ƒ…ƒŒ[ƒg‚³‚ê‚é‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚Ì CLSIDB
+clsidNew : [var] Œ³‚ÌƒIƒuƒWƒFƒNƒg‚ğƒGƒ~ƒ…ƒŒ[ƒg‚·‚×‚«ƒIƒuƒWƒFƒNƒg‚Ì CLSIDB‚±‚ê‚Í clsidOld ‚É‘Î‚·‚éŠù‘¶‚ÌƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“İ’è‚ğ’u‚«Š·‚¦‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É CLSID_NULL ‚ğw’è‚·‚é‚ÆAclsidOld ‚É‘Î‚·‚éŠù‘¶‚ÌƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“İ’è‚ªíœ‚³‚ê‚éB
 %inst
-Establishes or removes an emulation, in which objects of one class
-are treated as objects of a different class.
+‚ ‚éƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚ğ•ÊƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Äˆµ‚¤ƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ğİ’è‚Ü‚½‚Í‰ğœ‚·‚éB
 
 [–ß‚è’l]
-This function can return the standard return values E_INVALIDARG, as
-well as the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARG ‚É‰Á‚¦‚ÄˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function sets the TreatAs entry in the registry for the
-specified object, allowing the object to be emulated by another
-application. Emulation allows an application to open and edit an
-object of a different format, while retaining the original format of
-the object. After this entry is set, whenever any function such as
-CoGetClassObject specifies the object's original CLSID (clsidOld), it
-is transparently forwarded to the new CLSID (clsidNew), thus
-launching the application associated with the TreatAs CLSID. When the
-object is saved, it can be saved in its native format, which may
-result in loss of edits not supported by the original format. If your
-application supports emulation, call CoTreatAsClass in the following
-situations:
-This doc was truncated.
+‚±‚ÌŠÖ”‚ÍAw’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄƒŒƒWƒXƒgƒŠ“à‚Ì TreatAs
+ƒGƒ“ƒgƒŠ‚ğİ’è‚µA•Ê‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚æ‚éƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ğ‰Â”\‚É‚·‚éBƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚É‚æ‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍˆÙ‚È‚éŒ`®‚ÌƒIƒuƒWƒFƒNƒg‚ğŠJ‚¢‚Ä•ÒW‚·‚é‚±‚Æ‚ª‚Å‚«A‚©‚ÂŒ³‚ÌŒ`®‚ğ•Û‚·‚é‚±‚Æ‚ª‚Å‚«‚éB‚±‚ÌƒGƒ“ƒgƒŠ‚ªİ’è‚³‚ê‚é‚ÆACoGetClassObject
+‚È‚Ç‚ÌŠÖ”‚ªƒIƒuƒWƒFƒNƒg‚ÌŒ³‚Ì CLSIDiclsidOldj‚ğw’è‚·‚é‚½‚Ñ‚ÉA‚»‚ê‚Í“§‰ß“I‚ÉV‚µ‚¢
+CLSIDiclsidNewj‚É“]‘—‚³‚êATreatAs CLSID
+‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‹N“®‚³‚ê‚éBƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚é‚Æ‚«‚É‚ÍA‚»‚ÌƒlƒCƒeƒBƒuŒ`®‚Å•Û‘¶‚·‚é‚±‚Æ‚ª‚Å‚«‚é‚ªAŒ³‚ÌŒ`®‚Å‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢•ÒW“à—e‚ª¸‚í‚ê‚é‰Â”\«‚ª‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚éê‡AˆÈ‰º‚Ìó‹µ‚Å
+CoTreatAsClass ‚ğŒÄ‚Ño‚·B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 CreateAntiMoniker
-Creates and returns a new anti-moniker.
+V‚µ‚¢ƒAƒ“ƒ`ƒ‚ƒjƒJ‚ğì¬‚µ‚Ä•Ô‚·B
 %group
 Win32 ole32
 %prm
 ppmk
-ppmk : [var] The address of an IMoniker* pointer variable that receives the interface pointer to the new anti-moniker. When successful, the function has called AddRef on the anti-moniker and the caller is responsible for calling Release. When an error occurs, the anti-moniker pointer is NULL.
+ppmk : [var] V‚µ‚¢ƒAƒ“ƒ`ƒ‚ƒjƒJ‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB¬Œ÷AŠÖ”‚ÍƒAƒ“ƒ`ƒ‚ƒjƒJ‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚µ‚Ä‚¨‚èAŒÄ‚Ño‚µ‘¤‚ª Release ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¤BƒGƒ‰[”­¶AƒAƒ“ƒ`ƒ‚ƒjƒJ‚Ìƒ|ƒCƒ“ƒ^‚Í NULL ‚Æ‚È‚éB
 %inst
-Creates and returns a new anti-moniker.
+V‚µ‚¢ƒAƒ“ƒ`ƒ‚ƒjƒJ‚ğì¬‚µ‚Ä•Ô‚·B
 
 [–ß‚è’l]
-This function can return the standard return values E_OUTOFMEMORY and
-S_OK.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚¨‚æ‚Ñ S_OK ‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
 
 [”õl]
-You would call this function only if you are writing your own moniker
-class (implementing the IMoniker interface). If you are writing a new
-moniker class that has no internal structure, you can use
-CreateAntiMoniker in your implementation of the IMoniker::Inverse
-method, and then check for an anti-moniker in your implementation of
-IMoniker::ComposeWith. Like the ".." directory, which acts as the
-inverse to any directory name just preceding it in a path, an
-anti-moniker acts as the inverse of a simple moniker that precedes it
-in a composite moniker. An anti-moniker is used as the inverse of
-simple monikers with no internal structure. For example, the
-system-provided implementations of file monikers, item monikers, and
-pointer monikers all use anti-monikers as their inverse;
-consequently, an anti-moniker composed to the right of one of these
-monikers composes to nothing. A moniker client (an object that is
-using a moniker to bind to another object) typically does not know
-the class of a given moniker, so the client cannot be sure that an
-anti-moniker is the inverse. Therefore, to get the inverse of a
-moniker, you would call IMoniker::Inverse rather than
-CreateAntiMoniker. To remove the last piece of a composite moniker,
-you would do the following:
-This doc was truncated.
+‚±‚ÌŠÖ”‚ÍA“Æ©‚Ìƒ‚ƒjƒJƒNƒ‰ƒX‚ğ‹Lq‚µ‚Ä‚¢‚éê‡iIMoniker
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğÀ‘•‚µ‚Ä‚¢‚éê‡j‚É‚Ì‚İŒÄ‚Ño‚·B“à•”\‘¢‚ğ‚½‚È‚¢V‚µ‚¢ƒ‚ƒjƒJƒNƒ‰ƒX‚ğ‹Lq‚µ‚Ä‚¢‚éê‡AIMoniker::Inverse
+‚ÌÀ‘•“à‚Å CreateAntiMoniker ‚ğg—p‚µAIMoniker::ComposeWith
+‚ÌÀ‘•“à‚ÅƒAƒ“ƒ`ƒ‚ƒjƒJ‚ğƒ`ƒFƒbƒN‚·‚é‚±‚Æ‚ª‚Å‚«‚éBƒpƒX“à‚Å’¼‘O‚ÌƒfƒBƒŒƒNƒgƒŠ–¼‚Ì‹t‚Æ‚È‚é ".."
+ƒfƒBƒŒƒNƒgƒŠ‚Ì‚æ‚¤‚ÉAƒAƒ“ƒ`ƒ‚ƒjƒJ‚Í‡¬ƒ‚ƒjƒJ“à‚Å’¼‘O‚É’u‚©‚ê‚½’Pƒƒ‚ƒjƒJ‚Ì‹t‚Æ‚µ‚Ä‹@”\‚·‚éBƒAƒ“ƒ`ƒ‚ƒjƒJ‚ÍA“à•”\‘¢‚ğ‚½‚È‚¢’Pƒƒ‚ƒjƒJ‚Ì‹t‚Æ‚µ‚Äg—p‚³‚ê‚éB‚½‚Æ‚¦‚ÎAƒVƒXƒeƒ€’ñ‹Ÿ‚Ìƒtƒ@ƒCƒ‹ƒ‚ƒjƒJAƒAƒCƒeƒ€ƒ‚ƒjƒJAƒ|ƒCƒ“ƒ^ƒ‚ƒjƒJ‚ÌÀ‘•‚Í‚·‚×‚ÄA‹t‚Æ‚µ‚ÄƒAƒ“ƒ`ƒ‚ƒjƒJ‚ğg—p‚·‚éB‚»‚ÌŒ‹‰ÊA‚±‚ê‚ç‚Ìƒ‚ƒjƒJ‚Ì‚¢‚¸‚ê‚©‚Ì‰E‚É‡¬‚³‚ê‚½ƒAƒ“ƒ`ƒ‚ƒjƒJ‚Í‰½‚àc‚ç‚È‚¢‚æ‚¤‚É‡¬‚³‚ê‚éBƒ‚ƒjƒJƒNƒ‰ƒCƒAƒ“ƒgiƒ‚ƒjƒJ‚ğg‚Á‚Ä•Ê‚ÌƒIƒuƒWƒFƒNƒg‚ÉƒoƒCƒ“ƒh‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒgj‚ÍA’ÊíA“Á’è‚Ìƒ‚ƒjƒJ‚ÌƒNƒ‰ƒX‚ğ’m‚ç‚È‚¢‚½‚ßAƒAƒ“ƒ`ƒ‚ƒjƒJ‚ª‹t‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğŠmM‚Å‚«‚È‚¢B‚µ‚½‚ª‚Á‚ÄAƒ‚ƒjƒJ‚Ì‹t‚ğæ“¾‚·‚é‚É‚ÍACreateAntiMoniker
+‚Å‚Í‚È‚­ IMoniker::Inverse ‚ğŒÄ‚Ño‚·‚±‚ÆB‡¬ƒ‚ƒjƒJ‚ÌÅŒã‚Ì•”•ª‚ğíœ‚·‚é‚É‚ÍAˆÈ‰º‚ğs‚¤B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 CreateBindCtx
-Returns a pointer to an implementation of IBindCtx (a bind context object). This object stores information about a particular moniker-binding operation.
+IBindCtxiƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒgƒIƒuƒWƒFƒNƒgj‚ÌÀ‘•‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B‚±‚ÌƒIƒuƒWƒFƒNƒg‚Í“Á’è‚Ìƒ‚ƒjƒJƒoƒCƒ“ƒh‘€ì‚ÉŠÖ‚·‚éî•ñ‚ğ•Û‚·‚éB
 %group
 Win32 ole32
 %prm
 reserved, ppbc
-reserved : [int] This parameter is reserved and must be 0.
-ppbc : [var] Address of an IBindCtx* pointer variable that receives the interface pointer to the new bind context object. When the function is successful, the caller is responsible for calling Release on the bind context. A NULL value for the bind context indicates that an error occurred.
+reserved : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñÏ‚İ‚Å‚ ‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppbc : [var] V‚µ‚¢ƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒgƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IBindCtx* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXBŠÖ”‚ª¬Œ÷‚µ‚½ê‡AŒÄ‚Ño‚µ‘¤‚ÍƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚É‘Î‚µ‚Ä Release ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¤BƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ì’l‚ª NULL ‚Ìê‡‚ÍƒGƒ‰[‚ª”­¶‚µ‚½‚±‚Æ‚ğ¦‚·B
 %inst
-Returns a pointer to an implementation of IBindCtx (a bind context
-object). This object stores information about a particular
-moniker-binding operation.
+
+IBindCtxiƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒgƒIƒuƒWƒFƒNƒgj‚ÌÀ‘•‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B‚±‚ÌƒIƒuƒWƒFƒNƒg‚Í“Á’è‚Ìƒ‚ƒjƒJƒoƒCƒ“ƒh‘€ì‚ÉŠÖ‚·‚éî•ñ‚ğ•Û‚·‚éB
 
 [–ß‚è’l]
-This function can return the standard return values E_OUTOFMEMORY and
-S_OK.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚¨‚æ‚Ñ S_OK ‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
 
 [”õl]
-CreateBindCtx is most commonly used in the process of binding a
-moniker (locating and getting a pointer to an interface by
-identifying it through a moniker), as in the following steps:
-This doc was truncated.
+CreateBindCtx
+‚ÍAƒ‚ƒjƒJ‚ğƒoƒCƒ“ƒh‚·‚éˆ—iƒ‚ƒjƒJ‚É‚æ‚Á‚ÄƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ“Á’è‚µA‚»‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éˆ—j‚É‚¨‚¢‚ÄAˆÈ‰º‚Ìè‡‚Ì‚æ‚¤‚É‚à‚Á‚Æ‚àˆê”Ê“I‚Ég—p‚³‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 CreateClassMoniker
-Creates a class moniker that refers to the specified class.
+w’è‚³‚ê‚½ƒNƒ‰ƒX‚ğQÆ‚·‚éƒNƒ‰ƒXƒ‚ƒjƒJ‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 rclsid, ppmk
-rclsid : [var] A reference to the CLSID of the object type to which this moniker binds.
-ppmk : [var] The address of an IMoniker* pointer variable that receives the interface pointer to the new class moniker. On successful return, the function has called AddRef on the moniker and the caller is responsible for calling Release. When an error occurs, the value of the moniker pointer is NULL.
+rclsid : [var] ‚±‚Ìƒ‚ƒjƒJ‚ªƒoƒCƒ“ƒh‚·‚éƒIƒuƒWƒFƒNƒgŒ^‚Ì CLSID ‚Ö‚ÌQÆB
+ppmk : [var] V‚µ‚¢ƒNƒ‰ƒXƒ‚ƒjƒJ‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹AŠÖ”‚Íƒ‚ƒjƒJ‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚µ‚Ä‚¨‚èAŒÄ‚Ño‚µ‘¤‚ª Release ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¤BƒGƒ‰[”­¶Aƒ‚ƒjƒJƒ|ƒCƒ“ƒ^‚Ì’l‚Í NULL ‚Æ‚È‚éB
 %inst
-Creates a class moniker that refers to the specified class.
+w’è‚³‚ê‚½ƒNƒ‰ƒX‚ğQÆ‚·‚éƒNƒ‰ƒXƒ‚ƒjƒJ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function can return the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚ÍˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The class moniker will support the binding to a fresh instance of the
-class identified by the CLSID in rclsid.
+ƒNƒ‰ƒXƒ‚ƒjƒJ‚ÍArclsid ‚Å¯•Ê‚³‚ê‚éƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌƒoƒCƒ“ƒh‚ğƒTƒ|[ƒg‚·‚éB
 
 
 %index
 CreateDataAdviseHolder
-The CreateDataAdviseHolder function (ole2.h) retrieves a pointer to the OLE implementation of IDataAdviseHolder on the data advise holder object.
+CreateDataAdviseHolder ŠÖ”iole2.hj‚ÍAƒf[ƒ^ƒAƒhƒoƒCƒXƒzƒ‹ƒ_ƒIƒuƒWƒFƒNƒgã‚Ì IDataAdviseHolder ‚Ì OLE À‘•‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 %group
 Win32 ole32
 %prm
 ppDAHolder
-ppDAHolder : [var] Address of an IDataAdviseHolder pointer variable that receives the interface pointer to the new advise holder object.
+ppDAHolder : [var] V‚µ‚¢ƒAƒhƒoƒCƒXƒzƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IDataAdviseHolder ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB
 %inst
-The CreateDataAdviseHolder function (ole2.h) retrieves a pointer to
-the OLE implementation of IDataAdviseHolder on the data advise holder
-object.
+CreateDataAdviseHolder ŠÖ”iole2.hj‚ÍAƒf[ƒ^ƒAƒhƒoƒCƒXƒzƒ‹ƒ_ƒIƒuƒWƒFƒNƒgã‚Ì
+IDataAdviseHolder ‚Ì OLE À‘•‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì–ß‚è’l‚É‚ÍˆÈ‰º‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Call CreateDataAdviseHolder in your implementation of
-IDataObject::DAdvise to get a pointer to the OLE implementation of
-IDataAdviseHolder interface. With this pointer, you can then complete
-the implementation of IDataObject::DAdvise by calling the
-IDataAdviseHolder::Advise method, which creates an advisory
-connection between the calling object and the data object.
+IDataObject::DAdvise ‚ÌÀ‘•“à‚Å CreateDataAdviseHolder
+‚ğŒÄ‚Ño‚µ‚ÄAIDataAdviseHolder ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì OLE À‘•‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB‚±‚Ìƒ|ƒCƒ“ƒ^‚ğg‚Á‚Ä
+IDataAdviseHolder::Advise ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ‚Å IDataObject::DAdvise
+‚ÌÀ‘•‚ğŠ®¬‚³‚¹‚é‚±‚Æ‚ª‚Å‚«‚éB‚±‚Ìƒƒ\ƒbƒh‚ÍŒÄ‚Ño‚µ‘¤ƒIƒuƒWƒFƒNƒg‚Æƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Æ‚ÌŠÔ‚ÉƒAƒhƒoƒCƒUƒŠÚ‘±‚ğŠm—§‚·‚éB
 
 
 %index
 CreateDataCache
-Retrieves a pointer to a new instance of an OLE-provided implementation of a data cache.
+OLE ’ñ‹Ÿ‚Ìƒf[ƒ^ƒLƒƒƒbƒVƒ…À‘•‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 %group
 Win32 ole32
 %prm
 pUnkOuter, rclsid, iid, ppv
-pUnkOuter : [var] If the cache is to be created as part of an aggregate, pointer to the controlling IUnknown of the aggregate. If not, the parameter should be NULL.
-rclsid : [var] CLSID used to generate icon labels. This value is typically CLSID_NULL.
-iid : [var] Reference to the identifier of the interface the caller wants to use to communicate with the cache. This value is typically IID_IOleCache (defined in the OLE headers to equal the interface identifier for IOleCache).
-ppv : [var] Address of pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer to the supplied cache object.
+pUnkOuter : [var] ƒLƒƒƒbƒVƒ…‚ğW–ñ‚Ìˆê•”‚Æ‚µ‚Äì¬‚·‚éê‡AW–ñ‚Ì§Œä—p IUnknown ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚»‚¤‚Å‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚·‚éB
+rclsid : [var] ƒAƒCƒRƒ“ƒ‰ƒxƒ‹¶¬‚Ég—p‚·‚é CLSIDB’Êí‚Í CLSID_NULL ‚ğw’è‚·‚éB
+iid : [var] ŒÄ‚Ño‚µ‘¤‚ªƒLƒƒƒbƒVƒ…‚Æ’ÊM‚·‚é‚½‚ß‚Ég—p‚µ‚½‚¢ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB’Êí‚Í IID_IOleCache ‚Å‚ ‚éiOLE ƒwƒbƒ_‚Å IOleCache ‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX¯•Êq‚Æ“™‚µ‚­’è‹`‚³‚ê‚Ä‚¢‚éjB
+ppv : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvObj ‚É‚Í—v‹‚³‚ê‚½ƒLƒƒƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Retrieves a pointer to a new instance of an OLE-provided
-implementation of a data cache.
+OLE ’ñ‹Ÿ‚Ìƒf[ƒ^ƒLƒƒƒbƒVƒ…À‘•‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì–ß‚è’l‚É‚ÍˆÈ‰º‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The cache object created by CreateDataCache supports the IOleCache,
-IOleCache2, and IOleCacheControl interfaces for controlling the
-cache. It also supports the IPersistStorage, IDataObject (without
-advise sinks), IViewObject, and IViewObject2 interfaces.
+CreateDataCache ‚É‚æ‚Á‚Äì¬‚³‚ê‚½ƒLƒƒƒbƒVƒ…ƒIƒuƒWƒFƒNƒg‚ÍAƒLƒƒƒbƒVƒ…‚ğ§Œä‚·‚é‚½‚ß‚Ì
+IOleCacheAIOleCache2A‚¨‚æ‚Ñ IOleCacheControl
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğƒTƒ|[ƒg‚·‚éB‚Ü‚½AIPersistStorageAIDataObjectiƒAƒhƒoƒCƒXƒVƒ“ƒN‚È‚µjAIViewObjectA‚¨‚æ‚Ñ
+IViewObject2 ƒCƒ“ƒ^[ƒtƒFƒCƒX‚àƒTƒ|[ƒg‚·‚éB
 
 
 %index
 CreateFileMoniker
-Creates a file moniker based on the specified path.
+w’è‚³‚ê‚½ƒpƒX‚ÉŠî‚Ã‚­ƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 lpszPathName, ppmk
-lpszPathName : [wstr] The path on which this moniker is to be based. This parameter can specify a relative path, a UNC path, or a drive-letter-based path. If based on a relative path, the resulting moniker must be composed onto another file moniker before it can be bound.
-ppmk : [var] The address of an IMoniker* pointer variable that receives the interface pointer to the new file moniker. When successful, the function has called AddRef on the file moniker and the caller is responsible for calling Release. When an error occurs, the value of the interface pointer is NULL.
+lpszPathName : [wstr] ‚±‚Ìƒ‚ƒjƒJ‚ÌŠî‚Æ‚È‚éƒpƒXB‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í‘Š‘ÎƒpƒXAUNC ƒpƒXA‚Ü‚½‚Íƒhƒ‰ƒCƒuƒŒƒ^[•t‚«ƒpƒX‚ğw’è‚Å‚«‚éB‘Š‘ÎƒpƒX‚ğŠî‚É‚µ‚Ä‚¢‚éê‡AŒ‹‰Ê‚Æ‚µ‚Ä“¾‚ç‚ê‚éƒ‚ƒjƒJ‚ÍAƒoƒCƒ“ƒh‚·‚é‘O‚É•Ê‚Ìƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚Æ‡¬‚·‚é•K—v‚ª‚ ‚éB
+ppmk : [var] V‚µ‚¢ƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB¬Œ÷AŠÖ”‚Íƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚µ‚Ä‚¨‚èAŒÄ‚Ño‚µ‘¤‚ª Release ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¤BƒGƒ‰[”­¶AƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚Ì’l‚Í NULL ‚Æ‚È‚éB
 %inst
-Creates a file moniker based on the specified path.
+w’è‚³‚ê‚½ƒpƒX‚ÉŠî‚Ã‚­ƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function can return the standard return value E_OUTOFMEMORY, as
-well as the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚É‰Á‚¦‚ÄˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-CreateFileMoniker creates a moniker for an object that is stored in a
-file. A moniker provider (an object that provides monikers to other
-objects) can call this function to create a moniker to identify a
-file-based object that it controls, and can then make the pointer to
-this moniker available to other objects. An object identified by a
-file moniker must also implement the IPersistFile interface so it can
-be loaded when a file moniker is bound. When each object resides in
-its own file, as in an OLE server application that supports linking
-only to file-based documents in their entirety, file monikers are the
-only type of moniker necessary. To identify objects smaller than a
-file, the moniker provider must use another type of moniker (such as
-an item moniker) in addition to file monikers, creating a composite
-moniker. Composite monikers would be needed in an OLE server
-application that supports linking to objects smaller than a document
-(such as sections of a document or embedded objects). A file moniker
-can be composed to the right only of another file moniker when the
-first moniker is based on an absolute path and the other is a
-relative path, resulting in a single file moniker based on the
-combination of the two paths. A moniker composed to the right of
-another moniker must be a refinement of that moniker, and the file
-moniker represents the largest unit of storage. To identify objects
-stored within a file, you would compose other types of monikers
-(usually item monikers) to the right of a file moniker.
+CreateFileMoniker
+‚ÍAƒtƒ@ƒCƒ‹‚ÉŠi”[‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éƒ‚ƒjƒJ‚ğì¬‚·‚éBƒ‚ƒjƒJƒvƒƒoƒCƒ_i‘¼‚ÌƒIƒuƒWƒFƒNƒg‚Éƒ‚ƒjƒJ‚ğ’ñ‹Ÿ‚·‚éƒIƒuƒWƒFƒNƒgj‚Í‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚ÄA©g‚ª§Œä‚·‚éƒtƒ@ƒCƒ‹ƒx[ƒX‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ‚ğì¬‚µA‚»‚Ìƒ‚ƒjƒJ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ‘¼‚ÌƒIƒuƒWƒFƒNƒg‚É’ñ‹Ÿ‚Å‚«‚éBƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚Å¯•Ê‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ÍAƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚ªƒoƒCƒ“ƒh‚³‚ê‚½‚Æ‚«‚Éƒ[ƒh‚Å‚«‚é‚æ‚¤‚ÉAIPersistFile
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚àÀ‘•‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŠeƒIƒuƒWƒFƒNƒg‚ª‚»‚ê‚¼‚ê“Æ©‚Ìƒtƒ@ƒCƒ‹‚É‘¶İ‚·‚éê‡i‚½‚Æ‚¦‚ÎAƒtƒ@ƒCƒ‹ƒx[ƒX‚ÌƒhƒLƒ…ƒƒ“ƒg‘S‘Ì‚É‘Î‚·‚éƒŠƒ“ƒN‚Ì‚İ‚ğƒTƒ|[ƒg‚·‚é
+OLE
+ƒT[ƒo[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“jA•K—v‚Èƒ‚ƒjƒJ‚Ìí—Ş‚Íƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚Ì‚İ‚Å‚ ‚éBƒtƒ@ƒCƒ‹‚æ‚è¬‚³‚¢’PˆÊ‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚é‚É‚ÍAƒ‚ƒjƒJƒvƒƒoƒCƒ_‚Íƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚É‰Á‚¦‚Ä•Ê‚Ìí—Ş‚Ìƒ‚ƒjƒJiƒAƒCƒeƒ€ƒ‚ƒjƒJ‚È‚Çj‚ğg—p‚µA‡¬ƒ‚ƒjƒJ‚ğì¬‚·‚é•K—v‚ª‚ ‚éBƒhƒLƒ…ƒƒ“ƒg‚ÌƒZƒNƒVƒ‡ƒ“‚â–„‚ß‚İƒIƒuƒWƒFƒNƒg‚È‚ÇAƒhƒLƒ…ƒƒ“ƒg‚æ‚è¬‚³‚¢’PˆÊ‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚é
+OLE
+ƒT[ƒo[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚Í‡¬ƒ‚ƒjƒJ‚ª•K—v‚Æ‚È‚éBƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚ÍA‚à‚¤ˆê•û‚Ìƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚ªâ‘ÎƒpƒX‚ÉŠî‚Ã‚«A‚©‚Â‚±‚Ìƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚ª‘Š‘ÎƒpƒX‚Å‚ ‚éê‡‚ÉŒÀ‚èA‘¼‚Ìƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚Ì‰E‚É‡¬‚·‚é‚±‚Æ‚ª‚Å‚«‚éB‚»‚ÌŒ‹‰ÊA2
+‚Â‚ÌƒpƒX‚Ì‘g‚İ‡‚í‚¹‚ÉŠî‚Ã‚­’Pˆê‚Ìƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚ª“¾‚ç‚ê‚éB•Ê‚Ìƒ‚ƒjƒJ‚Ì‰E‚É‡¬‚³‚ê‚éƒ‚ƒjƒJ‚ÍA‚»‚Ìƒ‚ƒjƒJ‚Ì×•ª‰»‚Å‚È‚¯‚ê‚Î‚È‚ç‚¸Aƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚ÍƒXƒgƒŒ[ƒW‚ÌÅ‘å’PˆÊ‚ğ•\‚·Bƒtƒ@ƒCƒ‹“à‚ÉŠi”[‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚é‚É‚ÍAƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚Ì‰E‚É‘¼‚Ìí—Ş‚Ìƒ‚ƒjƒJi’Êí‚ÍƒAƒCƒeƒ€ƒ‚ƒjƒJj‚ğ‡¬‚·‚éB
 
 
 %index
 CreateGenericComposite
-Performs a generic composition of two monikers and supplies a pointer to the resulting composite moniker.
+2 ‚Â‚Ìƒ‚ƒjƒJ‚ğ”Ä—p‡¬‚µAŒ‹‰Ê‚Æ‚µ‚Ä“¾‚ç‚ê‚é‡¬ƒ‚ƒjƒJ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 %group
 Win32 ole32
 %prm
 pmkFirst, pmkRest, ppmkComposite
-pmkFirst : [var] A pointer to the moniker to be composed to the left of the moniker that pmkRest points to. Can point to any kind of moniker, including a generic composite.
-pmkRest : [var] A pointer to the moniker to be composed to the right of the moniker to which pmkFirst points. Can point to any kind of moniker compatible with the type of the pmkRest moniker, including a generic composite.
-ppmkComposite : [var] The address of an IMoniker* pointer variable that receives the interface pointer to the composite moniker object that is the result of composing pmkFirst and pmkRest. This object supports the OLE composite moniker implementation of IMoniker. When successful, the function has called AddRef on the moniker and the caller is responsible for calling Release. If either pmkFirst or pmkRest are NULL, the supplied pointer is the one that is non-NULL. If both pmkFirst and pmkRest are NULL, or if an error occurs, the returned pointer is NULL.
+pmkFirst : [var] pmkRest ‚ªw‚·ƒ‚ƒjƒJ‚Ì¶‚É‡¬‚³‚ê‚éƒ‚ƒjƒJ‚Ö‚Ìƒ|ƒCƒ“ƒ^B”Ä—p‡¬ƒ‚ƒjƒJ‚ğŠÜ‚ßA”CˆÓ‚Ìí—Ş‚Ìƒ‚ƒjƒJ‚ğw‚·‚±‚Æ‚ª‚Å‚«‚éB
+pmkRest : [var] pmkFirst ‚ªw‚·ƒ‚ƒjƒJ‚Ì‰E‚É‡¬‚³‚ê‚éƒ‚ƒjƒJ‚Ö‚Ìƒ|ƒCƒ“ƒ^B”Ä—p‡¬ƒ‚ƒjƒJ‚ğŠÜ‚ßApmkRest ƒ‚ƒjƒJ‚ÌŒ^‚ÆŒİŠ·«‚Ì‚ ‚é”CˆÓ‚Ìí—Ş‚Ìƒ‚ƒjƒJ‚ğw‚·‚±‚Æ‚ª‚Å‚«‚éB
+ppmkComposite : [var] pmkFirst ‚Æ pmkRest ‚ğ‡¬‚µ‚½Œ‹‰Ê‚Å‚ ‚é‡¬ƒ‚ƒjƒJƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB‚±‚ÌƒIƒuƒWƒFƒNƒg‚Í OLE ‚Ì‡¬ƒ‚ƒjƒJÀ‘•‚Ì IMoniker ‚ğƒTƒ|[ƒg‚·‚éB¬Œ÷AŠÖ”‚Íƒ‚ƒjƒJ‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚µ‚Ä‚¨‚èAŒÄ‚Ño‚µ‘¤‚ª Release ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¤BpmkFirst ‚Ü‚½‚Í pmkRest ‚Ì‚¢‚¸‚ê‚©‚ª NULL ‚Ìê‡A•Ô‚³‚ê‚éƒ|ƒCƒ“ƒ^‚Í NULL ‚Å‚È‚¢‚Ù‚¤‚Æ‚È‚éBpmkFirst ‚Æ pmkRest ‚Ì—¼•û‚ª NULL ‚Ìê‡A‚Ü‚½‚ÍƒGƒ‰[‚ª”­¶‚µ‚½ê‡A•Ô‚³‚ê‚éƒ|ƒCƒ“ƒ^‚Í NULL ‚Æ‚È‚éB
 %inst
-Performs a generic composition of two monikers and supplies a pointer
-to the resulting composite moniker.
+2 ‚Â‚Ìƒ‚ƒjƒJ‚ğ”Ä—p‡¬‚µAŒ‹‰Ê‚Æ‚µ‚Ä“¾‚ç‚ê‚é‡¬ƒ‚ƒjƒJ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 
 [–ß‚è’l]
-This function can return the standard return value E_OUTOFMEMORY, as
-well as the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚É‰Á‚¦‚ÄˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-CreateGenericComposite joins two monikers into one. The moniker
-classes being joined can be different, subject only to the rules of
-composition. Call this function only if you are writing a new moniker
-class by implementing the IMoniker interface, within an
-implementation of IMoniker::ComposeWith that includes generic
-composition capability. Moniker providers should call ComposeWith to
-compose two monikers together. Implementations of ComposeWith should
-(as do OLE implementations) attempt, when reasonable for the class,
-to perform non-generic compositions first, in which two monikers of
-the same class are combined. If this is not possible, the
-implementation can call CreateGenericComposite to do a generic
-composition, which combines two monikers of different classes, within
-the rules of composition. You can define new types of non-generic
-compositions if you write a new moniker class. During the process of
-composing the two monikers, CreateGenericComposite makes all possible
-simplifications. Consider the example where pmkFirst is the generic
-composite moniker, A + B + C, and pmkRest is the generic composite
-moniker, C -1 + B -1 + Z (where C -1 is the inverse of C). The
-function first composes C to C -1, which composes to nothing. Then it
-composes B and B -1 to nothing. Finally, it composes A to Z, and
-supplies a pointer to the generic composite moniker, A + Z.
+CreateGenericComposite ‚Í 2 ‚Â‚Ìƒ‚ƒjƒJ‚ğ 1
+‚Â‚ÉŒ‹‡‚·‚éBŒ‹‡‚³‚ê‚éƒ‚ƒjƒJƒNƒ‰ƒX‚ÍA‡¬‹K‘¥‚É]‚¤ŒÀ‚èˆÙ‚È‚Á‚Ä‚¢‚Ä‚à‚æ‚¢B‚±‚ÌŠÖ”‚ÍA”Ä—p‡¬‹@”\‚ğŠÜ‚Ş
+IMoniker::ComposeWith ‚ÌÀ‘•“à‚ÅAIMoniker
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğÀ‘•‚µ‚ÄV‚µ‚¢ƒ‚ƒjƒJƒNƒ‰ƒX‚ğ‹Lq‚·‚éê‡‚É‚Ì‚İŒÄ‚Ño‚·Bƒ‚ƒjƒJƒvƒƒoƒCƒ_‚ÍA2 ‚Â‚Ìƒ‚ƒjƒJ‚ğ‡¬‚·‚é‚½‚ß‚É
+ComposeWith ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éBComposeWith ‚ÌÀ‘•‚ÍiOLE
+‚ÌÀ‘•‚ª‚»‚¤‚Å‚ ‚é‚æ‚¤‚ÉjAƒNƒ‰ƒX‚É‚Æ‚Á‚Ä‘Ã“–‚Èê‡A‚Ü‚¸“¯‚¶ƒNƒ‰ƒX‚Ì 2
+‚Â‚Ìƒ‚ƒjƒJ‚ğŒ‹‡‚·‚é”ñ”Ä—p‡¬‚ğ‚İ‚é‚×‚«‚Å‚ ‚éB‚»‚ê‚ª•s‰Â”\‚Èê‡AÀ‘•‚Í CreateGenericComposite
+‚ğŒÄ‚Ño‚µ‚ÄA‡¬‹K‘¥‚Ì”ÍˆÍ“à‚ÅˆÙ‚È‚éƒNƒ‰ƒX‚Ì 2
+‚Â‚Ìƒ‚ƒjƒJ‚ğŒ‹‡‚·‚é”Ä—p‡¬‚ğs‚¤‚±‚Æ‚ª‚Å‚«‚éBV‚µ‚¢ƒ‚ƒjƒJƒNƒ‰ƒX‚ğ‹Lq‚·‚éÛ‚É‚ÍAV‚µ‚¢í—Ş‚Ì”ñ”Ä—p‡¬‚ğ’è‹`‚·‚é‚±‚Æ‚à‚Å‚«‚éB2
+‚Â‚Ìƒ‚ƒjƒJ‚ğ‡¬‚·‚é‰ß’ö‚ÅACreateGenericComposite ‚Í‰Â”\‚ÈŒÀ‚è‚ÌŠÈ—ª‰»‚ğs‚¤B‚½‚Æ‚¦‚ÎApmkFirst
+‚ª”Ä—p‡¬ƒ‚ƒjƒJ A + B + C ‚ÅApmkRest ‚ª”Ä—p‡¬ƒ‚ƒjƒJ C -1 + B -1 + ZiC -1 ‚Í C
+‚Ì‹tj‚Å‚ ‚é‚Æ‚·‚éB‚±‚ÌŠÖ”‚Í‚Ü‚¸ C ‚Æ C -1 ‚ğ‡¬‚µ‚Ä‰½‚àc‚ç‚È‚¢‚æ‚¤‚É‚µAŸ‚É B ‚Æ B -1
+‚ğ‡¬‚µ‚Ä‰½‚àc‚ç‚È‚¢‚æ‚¤‚É‚·‚éBÅŒã‚É A ‚Æ Z ‚ğ‡¬‚µA”Ä—p‡¬ƒ‚ƒjƒJ A + Z ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 
 
 %index
 CreateILockBytesOnHGlobal
-Creates a byte array object that uses an HGLOBAL memory handle to store the bytes intended for in-memory storage of a compound file.
+•¡‡ƒtƒ@ƒCƒ‹‚Ìƒƒ‚ƒŠ“àƒXƒgƒŒ[ƒW‚Ég—p‚·‚éƒoƒCƒg‚ğŠi”[‚·‚é‚½‚ß‚Ì HGLOBAL ƒƒ‚ƒŠƒnƒ“ƒhƒ‹‚ğ—p‚¢‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 hGlobal, fDeleteOnRelease, pplkbyt
-hGlobal : [int] A memory handle allocated by the GlobalAlloc function, or if NULL a new handle is to be allocated instead. The handle must be allocated as moveable and nondiscardable.
-fDeleteOnRelease : [int] A flag  that specifies whether the underlying handle for this byte array object should be automatically freed when the object is released. If set to FALSE, the caller must free the hGlobal after the final release. If set to TRUE, the final release will automatically free the hGlobal parameter.
-pplkbyt : [var] The address of ILockBytes pointer variable that receives the interface pointer to the new byte array object.
+hGlobal : [int] GlobalAlloc ŠÖ”‚É‚æ‚Á‚ÄŠ„‚è“–‚Ä‚ç‚ê‚½ƒƒ‚ƒŠƒnƒ“ƒhƒ‹BNULL ‚Ìê‡‚ÍV‚µ‚¢ƒnƒ“ƒhƒ‹‚ªŠ„‚è“–‚Ä‚ç‚ê‚éBƒnƒ“ƒhƒ‹‚ÍˆÚ“®‰Â”\‚©‚Â”jŠü•s‰Â‚Æ‚µ‚ÄŠ„‚è“–‚Ä‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+fDeleteOnRelease : [int] ‚±‚ÌƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚ÌŠî‚Æ‚È‚éƒnƒ“ƒhƒ‹‚ğAƒIƒuƒWƒFƒNƒg‚ª‰ğ•ú‚³‚ê‚½‚Æ‚«‚É©“®“I‚É‰ğ•ú‚·‚é‚©‚Ç‚¤‚©‚ğw’è‚·‚éƒtƒ‰ƒOBFALSE ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡AŒÄ‚Ño‚µ‘¤‚ÍÅI‰ğ•úŒã‚É hGlobal ‚ğ‰ğ•ú‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BTRUE ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡AÅI‰ğ•ú‚É hGlobal ƒpƒ‰ƒ[ƒ^‚ª©“®“I‚É‰ğ•ú‚³‚ê‚éB
+pplkbyt : [var] V‚µ‚¢ƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é ILockBytes ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB
 %inst
-Creates a byte array object that uses an HGLOBAL memory handle to
-store the bytes intended for in-memory storage of a compound file.
+•¡‡ƒtƒ@ƒCƒ‹‚Ìƒƒ‚ƒŠ“àƒXƒgƒŒ[ƒW‚Ég—p‚·‚éƒoƒCƒg‚ğŠi”[‚·‚é‚½‚ß‚Ì HGLOBAL ƒƒ‚ƒŠƒnƒ“ƒhƒ‹‚ğ—p‚¢‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function supports the standard return values E_INVALIDARG and
-E_OUTOFMEMORY, as well as the following:
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARG ‚¨‚æ‚Ñ E_OUTOFMEMORY ‚É‰Á‚¦‚ÄˆÈ‰º‚ğƒTƒ|[ƒg‚·‚éB
 
 [”õl]
-If hGlobal is NULL, the CreateILockBytesOnHGlobal allocates a new
-memory handle and the byte array is empty initially. If hGlobal is
-not NULL, the initial contents of the byte array object are the
-current contents of the memory block. Thus, this function can be used
-to open an existing byte array in memory, for example to reload a
-storage object previously created by the StgCreateDocfileOnILockBytes
-function. The memory handle and its contents are undisturbed by the
-creation of the new byte array object. The initial size of the byte
-array is the size of hGlobal as returned by the GlobalSize function.
-This is not necessarily the same size that was originally allocated
-for the handle because of rounding. If the logical size of the byte
-array is important, follow the call to CreateILockBytesOnHGlobal with
-a call to ILockBytes::SetSize. After creating the byte array object
-with CreateStreamOnHGlobal, StgCreateDocfileOnILockBytes can be used
-to create a new storage object in memory, or
-StgOpenStorageOnILockBytes can be used to reopen a previously
-existing storage object that is already contained in the memory
-block. GetHGlobalFromILockBytes can be called to retrieve the memory
-handle associated with the byte array object. If a memory handle is
-passed to CreateILockBytesOnHGlobal or if GetHGlobalFromILockBytes is
-called, the memory handle of this function can be directly accessed
-by the caller while it is still in use by the byte array object.
-Appropriate caution should be exercised in the use of this capability
-and its implications:
-This doc was truncated.
+hGlobal ‚ª NULL ‚Ìê‡ACreateILockBytesOnHGlobal
+‚ÍV‚µ‚¢ƒƒ‚ƒŠƒnƒ“ƒhƒ‹‚ğŠ„‚è“–‚ÄAƒoƒCƒg”z—ñ‚Í‰Šúó‘Ô‚Å‚Í‹ó‚Æ‚È‚éBhGlobal ‚ª NULL
+‚Å‚È‚¢ê‡AƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚Ì‰Šú“à—e‚Í‚»‚Ìƒƒ‚ƒŠƒuƒƒbƒN‚ÌŒ»İ‚Ì“à—e‚Æ‚È‚éB‚µ‚½‚ª‚Á‚ÄA‚±‚ÌŠÖ”‚ÍA‚½‚Æ‚¦‚Î
+StgCreateDocfileOnILockBytes
+ŠÖ”‚É‚æ‚Á‚ÄˆÈ‘O‚Éì¬‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğÄƒ[ƒh‚·‚é‚½‚ß‚ÉAƒƒ‚ƒŠã‚ÌŠù‘¶‚ÌƒoƒCƒg”z—ñ‚ğŠJ‚­–Ú“I‚É‚àg—p‚Å‚«‚éBV‚µ‚¢ƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚Ìì¬‚É‚æ‚Á‚ÄAƒƒ‚ƒŠƒnƒ“ƒhƒ‹‚Æ‚»‚Ì“à—e‚ª•ÏX‚³‚ê‚é‚±‚Æ‚Í‚È‚¢BƒoƒCƒg”z—ñ‚Ì‰ŠúƒTƒCƒY‚ÍAGlobalSize
+ŠÖ”‚ª•Ô‚· hGlobal
+‚ÌƒTƒCƒY‚Æ‚È‚éB‚±‚ê‚ÍŠÛ‚ß‚ÌŠÖŒW‚ÅAƒnƒ“ƒhƒ‹‚É‘Î‚µ‚ÄÅ‰‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½ƒTƒCƒY‚Æ“¯‚¶‚Æ‚ÍŒÀ‚ç‚È‚¢BƒoƒCƒg”z—ñ‚Ì˜_—ƒTƒCƒY‚ªd—v‚Èê‡‚ÍACreateILockBytesOnHGlobal
+‚ÌŒÄ‚Ño‚µ‚ÌŒã‚É ILockBytes::SetSize ‚ÌŒÄ‚Ño‚µ‚ğ‘±‚¯‚éBCreateStreamOnHGlobal
+‚ÅƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚ğì¬‚µ‚½Œã‚ÍAStgCreateDocfileOnILockBytes
+‚ğg—p‚µ‚Äƒƒ‚ƒŠã‚ÉV‚µ‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚µ‚½‚èAStgOpenStorageOnILockBytes
+‚ğg—p‚µ‚ÄAƒƒ‚ƒŠƒuƒƒbƒN“à‚É‚·‚Å‚É‘¶İ‚·‚éŠù‘¶‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğÄ“xŠJ‚¢‚½‚è‚Å‚«‚éBGetHGlobalFromILockBytes
+‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅAƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒƒ‚ƒŠƒnƒ“ƒhƒ‹‚ğæ“¾‚Å‚«‚éBƒƒ‚ƒŠƒnƒ“ƒhƒ‹‚ğ
+CreateILockBytesOnHGlobal ‚É“n‚µ‚½ê‡A‚Ü‚½‚Í GetHGlobalFromILockBytes
+‚ğŒÄ‚Ño‚µ‚½ê‡A‚±‚ÌŠÖ”‚Ìƒƒ‚ƒŠƒnƒ“ƒhƒ‹‚ÍAƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚ª‚»‚ê‚ğg—p‚µ‚Ä‚¢‚éŠÔ‚àŒÄ‚Ño‚µ‘¤‚©‚ç’¼ÚƒAƒNƒZƒX‚Å‚«‚éB‚±‚Ì‹@”\‚ğg—p‚·‚éÛ‚É‚ÍA“KØ‚È’ˆÓ‚ğ•¥‚¢A‚»‚Ì‰e‹¿‚ğ—‰ğ‚µ‚Ä‚¨‚­‚±‚ÆB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 CreateItemMoniker
-Creates an item moniker that identifies an object within a containing object (typically a compound document).
+e‚Æ‚È‚éƒIƒuƒWƒFƒNƒgi’Êí‚Í•¡‡ƒhƒLƒ…ƒƒ“ƒgj“à‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒAƒCƒeƒ€ƒ‚ƒjƒJ‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 lpszDelim, lpszItem, ppmk
-lpszDelim : [wstr] A pointer to a wide character string (two bytes per character) zero-terminated string containing the delimiter (typically "!") used to separate this item's display name from the display name of its containing object.
-lpszItem : [wstr] A pointer to a zero-terminated string indicating the containing object's name for the object being identified. This name can later be used to retrieve a pointer to the object in a call to IOleItemContainer::GetObject.
-ppmk : [var] The address of an IMoniker* pointer variable that receives the interface pointer to the item moniker. When successful, the function has called AddRef on the item moniker and the caller is responsible for calling Release. If an error occurs, the supplied interface pointer has a NULL value.
+lpszDelim : [wstr] ‚±‚ÌƒAƒCƒeƒ€‚Ì•\¦–¼‚ğA‚»‚ê‚ğŠÜ‚ŞƒIƒuƒWƒFƒNƒg‚Ì•\¦–¼‚©‚ç‹æØ‚é‚½‚ß‚Ég—p‚·‚é‹æØ‚è•¶ši’Êí‚Í "!"j‚ğŠÜ‚ŞAƒ[ƒI’[‚ÌƒƒCƒh•¶š—ñi1 •¶š‚É‚Â‚« 2 ƒoƒCƒgj‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpszItem : [wstr] ¯•Ê‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éA‚»‚ê‚ğŠÜ‚ŞƒIƒuƒWƒFƒNƒg‚Å‚Ì–¼‘O‚ğ¦‚·ƒ[ƒI’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì–¼‘O‚ÍŒã‚Å IOleItemContainer::GetObject ‚ÌŒÄ‚Ño‚µ‚É‚¨‚¢‚ÄƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB
+ppmk : [var] ƒAƒCƒeƒ€ƒ‚ƒjƒJ‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB¬Œ÷AŠÖ”‚ÍƒAƒCƒeƒ€ƒ‚ƒjƒJ‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚µ‚Ä‚¨‚èAŒÄ‚Ño‚µ‘¤‚ª Release ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¤BƒGƒ‰[‚ª”­¶‚µ‚½ê‡A•Ô‚³‚ê‚éƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚Ì’l‚Í NULL ‚Æ‚È‚éB
 %inst
-Creates an item moniker that identifies an object within a containing
-object (typically a compound document).
+e‚Æ‚È‚éƒIƒuƒWƒFƒNƒgi’Êí‚Í•¡‡ƒhƒLƒ…ƒƒ“ƒgj“à‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒAƒCƒeƒ€ƒ‚ƒjƒJ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function can return the standard return values E_OUTOFMEMORY and
-S_OK.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚¨‚æ‚Ñ S_OK ‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
 
 [”õl]
-A moniker provider, which hands out monikers to identify its objects
-so they are accessible to other parties, would call CreateItemMoniker
-to identify its objects with item monikers. Item monikers are based
-on a string, and identify objects that are contained within another
-object and can be individually identified using a string. The
-containing object must also implement the IOleContainer interface.
-Most moniker providers are OLE applications that support linking.
-Applications that support linking to objects smaller than file-based
-documents, such as a server application that allows linking to a
-selection within a document, should use item monikers to identify the
-objects. Container applications that allow linking to embedded
-objects use item monikers to identify the embedded objects.
-The lpszItem parameter is the name used by the document to uniquely
-identify the object. For example, if the object being identified is a
-cell range in a spreadsheet, an appropriate name might be something
-like "A1:E7." An appropriate name when the object being identified is
-an embedded object might be something like "embedobj1." The
-containing object must provide an implementation of the
-IOleItemContainer interface that can interpret this name and locate
-the corresponding object. This allows the item moniker to be bound to
-the object it identifies. Item monikers are not used in isolation.
-They must be composed with a moniker that identifies the containing
-object as well. For example, if the object being identified is a cell
-range contained in a file-based document, the item moniker
-identifying that object must be composed with the file moniker
-identifying that document, resulting in a composite moniker that is
-the equivalent of "C:\work\sales.xls!A1:E7." Nested containers are
-allowed also, as in the case where an object is contained within an
-embedded object inside another document. The complete moniker of such
-an object would be the equivalent of
-"C:\work\report.doc!embedobj1!A1:E7." In this case, each containing
-object must call CreateItemMoniker and provide its own implementation
-of the IOleItemContainer interface.
+
+ƒ‚ƒjƒJƒvƒƒoƒCƒ_i‘¼Ò‚©‚çƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤A©g‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ‚ğ”z•z‚·‚éƒIƒuƒWƒFƒNƒgj‚ÍA©g‚ÌƒIƒuƒWƒFƒNƒg‚ğƒAƒCƒeƒ€ƒ‚ƒjƒJ‚Å¯•Ê‚·‚é‚½‚ß‚É
+CreateItemMoniker
+‚ğŒÄ‚Ño‚·BƒAƒCƒeƒ€ƒ‚ƒjƒJ‚Í•¶š—ñ‚ÉŠî‚Ã‚«A•Ê‚ÌƒIƒuƒWƒFƒNƒg“à‚ÉŠÜ‚Ü‚ê‚éƒIƒuƒWƒFƒNƒg‚ÅA•¶š—ñ‚É‚æ‚Á‚ÄŒÂ•Ê‚É¯•Ê‰Â”\‚È‚à‚Ì‚ğ¯•Ê‚·‚éBe‚Æ‚È‚éƒIƒuƒWƒFƒNƒg‚Í
+IOleContainer ƒCƒ“ƒ^[ƒtƒFƒCƒX‚àÀ‘•‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚Ù‚Æ‚ñ‚Ç‚Ìƒ‚ƒjƒJƒvƒƒoƒCƒ_‚ÍAƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚é OLE
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚ ‚éBƒhƒLƒ…ƒƒ“ƒg“à‚Ì‘I‘ğ”ÍˆÍ‚Ö‚ÌƒŠƒ“ƒN‚ğ‹–‰Â‚·‚éƒT[ƒo[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‚æ‚¤‚ÉAƒtƒ@ƒCƒ‹ƒx[ƒX‚ÌƒhƒLƒ…ƒƒ“ƒg‚æ‚è¬‚³‚¢’PˆÊ‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA‚»‚ê‚ç‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚é‚½‚ß‚ÉƒAƒCƒeƒ€ƒ‚ƒjƒJ‚ğg—p‚·‚×‚«‚Å‚ ‚éB–„‚ß‚İƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒŠƒ“ƒN‚ğ‹–‰Â‚·‚éƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚é‚½‚ß‚ÉƒAƒCƒeƒ€ƒ‚ƒjƒJ‚ğg—p‚·‚éB
+lpszItem
+ƒpƒ‰ƒ[ƒ^‚ÍAƒhƒLƒ…ƒƒ“ƒg‚ª‚»‚ÌƒIƒuƒWƒFƒNƒg‚ğˆêˆÓ‚É¯•Ê‚·‚é‚½‚ß‚Ég—p‚·‚é–¼‘O‚Å‚ ‚éB‚½‚Æ‚¦‚ÎA¯•Ê‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚ªƒXƒvƒŒƒbƒhƒV[ƒg“à‚ÌƒZƒ‹”ÍˆÍ‚Å‚ ‚éê‡A“KØ‚È–¼‘O‚Í
+"A1:E7" ‚Ì‚æ‚¤‚È‚à‚Ì‚Æ‚È‚éB–„‚ß‚İƒIƒuƒWƒFƒNƒg‚Ìê‡‚Í "embedobj1"
+‚Ì‚æ‚¤‚È‚à‚Ì‚ª“KØ‚Å‚ ‚éBeƒIƒuƒWƒFƒNƒg‚ÍA‚±‚Ì–¼‘O‚ğ‰ğß‚µ‚Ä‘Î‰‚·‚éƒIƒuƒWƒFƒNƒg‚ğŒ©‚Â‚¯‚é‚±‚Æ‚ª‚Å‚«‚é
+IOleItemContainer
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌÀ‘•‚ğ’ñ‹Ÿ‚·‚é•K—v‚ª‚ ‚éB‚±‚ê‚É‚æ‚èAƒAƒCƒeƒ€ƒ‚ƒjƒJ‚ğA‚»‚ê‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ÉƒoƒCƒ“ƒh‚·‚é‚±‚Æ‚ª‚Å‚«‚éBƒAƒCƒeƒ€ƒ‚ƒjƒJ‚Í’P“Æ‚Å‚Íg—p‚³‚ê‚È‚¢B‚»‚ê‚ğŠÜ‚ŞƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ‚Æ‡¬‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚½‚Æ‚¦‚ÎA¯•Ê‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚ªƒtƒ@ƒCƒ‹ƒx[ƒX‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÉŠÜ‚Ü‚ê‚éƒZƒ‹”ÍˆÍ‚Å‚ ‚éê‡A‚»‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒAƒCƒeƒ€ƒ‚ƒjƒJ‚ÍA‚»‚ÌƒhƒLƒ…ƒƒ“ƒg‚ğ¯•Ê‚·‚éƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚Æ‡¬‚·‚é•K—v‚ª‚ ‚èAŒ‹‰Ê‚Í
+"C:\work\sales.xls!A1:E7"
+‚É‘Š“–‚·‚é‡¬ƒ‚ƒjƒJ‚Æ‚È‚éB•Ê‚ÌƒhƒLƒ…ƒƒ“ƒg“à‚Ì–„‚ß‚İƒIƒuƒWƒFƒNƒg‚É‚³‚ç‚É•Ê‚ÌƒIƒuƒWƒFƒNƒg‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡‚Ì‚æ‚¤‚ÉA“ü‚êq‚ÌƒRƒ“ƒeƒi‚à‹–‚³‚ê‚éB‚»‚Ì‚æ‚¤‚ÈƒIƒuƒWƒFƒNƒg‚ÌŠ®‘S‚Èƒ‚ƒjƒJ‚Í
+"C:\work\report.doc!embedobj1!A1:E7" ‚É‘Š“–‚·‚é‚à‚Ì‚Æ‚È‚éB‚±‚Ìê‡Ae‚Æ‚È‚éŠeƒIƒuƒWƒFƒNƒg‚ª
+CreateItemMoniker ‚ğŒÄ‚Ño‚µA‚»‚ê‚¼‚ê‚ª“Æ©‚Ì IOleItemContainer
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌÀ‘•‚ğ’ñ‹Ÿ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 CreateObjrefMoniker
-Creates an OBJREF moniker based on a pointer to an object.
+ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÉŠî‚Ã‚­ OBJREF ƒ‚ƒjƒJ‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 punk, ppmk
-punk : [var] A pointer to the IUnknown interface on the object that the moniker is to represent.
-ppmk : [var] Address of a pointer to the IMoniker interface on the OBJREF moniker that was created.
+punk : [var] ƒ‚ƒjƒJ‚ª•\‚·ƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppmk : [var] ì¬‚³‚ê‚½ OBJREF ƒ‚ƒjƒJã‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
-Creates an OBJREF moniker based on a pointer to an object.
+ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÉŠî‚Ã‚­ OBJREF ƒ‚ƒjƒJ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function can return the standard return values E_OUTOFMEMORY,
-E_UNEXPECTED, and S_OK.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORYAE_UNEXPECTEDA‚¨‚æ‚Ñ S_OK ‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
 
 [”õl]
-Clients use OBJREF monikers to obtain a marshaled pointer to a
-running object in the servers address space. The server typically
-calls CreateObjrefMoniker to create an OBJREF moniker and then calls
-IMoniker::GetDisplayName, and finally releases the moniker. The
-display name for an OBJREF moniker is of the form:
-OBJREF:nnnnnnnn Where nnnnnnnn is an arbitrarily long base-64
-encoding that encapsulates the computer location, process endpoint,
-and interface pointer ID (IPID) of the running object The display
-name can then be transferred to the client as text. For example, the
-display name can reside on an HTML page that the client downloads.
-The client can pass the display name to MkParseDisplayName, which
-creates an OBJREF moniker based on the display name. A call to the
-monikers IMoniker::BindToObject method then obtains a marshaled
-pointer to the running instance on the server. For example, a
-server-side COM component contained in an Active Server Page can
-create an OBJREF moniker, obtain its display name, and write the
-display name to the HTML output that is sent to the client browser. A
-script that runs on the client side can use the display name to get
-access to the running object itself. A client-side Visual Basic
-script, for instance, could store the display name in a variable
-called strMyName and include this line: objMyInstance =
-GetObject(strMyName) The script engine internally makes the calls to
-MkParseDisplayName and IMoniker::BindToObject, and the script can
-then use objMyInstance to refer directly to the running object.
+ƒNƒ‰ƒCƒAƒ“ƒg‚ÍAƒT[ƒo[‚ÌƒAƒhƒŒƒX‹óŠÔ‚Å“®ì‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ}[ƒVƒƒƒ‹‚³‚ê‚½ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é‚½‚ß‚É OBJREF
+ƒ‚ƒjƒJ‚ğg—p‚·‚éBƒT[ƒo[‚Í’ÊíACreateObjrefMoniker ‚ğŒÄ‚Ño‚µ‚Ä OBJREF ƒ‚ƒjƒJ‚ğì¬‚µA‘±‚¢‚Ä
+IMoniker::GetDisplayName ‚ğŒÄ‚Ño‚µAÅŒã‚Éƒ‚ƒjƒJ‚ğ‰ğ•ú‚·‚éBOBJREF ƒ‚ƒjƒJ‚Ì•\¦–¼‚ÍŸ‚ÌŒ`®‚Æ‚È‚éB
+OBJREF:nnnnnnnn ‚±‚±‚Å nnnnnnnn ‚Í”CˆÓ‚Ì’·‚³‚Ì base-64
+ƒGƒ“ƒR[ƒh‚ÅAÀs’†‚ÌƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒVƒ“ˆÊ’uAƒvƒƒZƒXƒGƒ“ƒhƒ|ƒCƒ“ƒgA‚¨‚æ‚ÑƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^
+IDiIPIDj‚ğƒJƒvƒZƒ‹‰»‚µ‚½‚à‚Ì‚Å‚ ‚éB•\¦–¼‚ÍƒeƒLƒXƒg‚Æ‚µ‚ÄƒNƒ‰ƒCƒAƒ“ƒg‚É“]‘—‚Å‚«‚éB‚½‚Æ‚¦‚ÎA•\¦–¼‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ªƒ_ƒEƒ“ƒ[ƒh‚·‚é
+HTML ƒy[ƒW‚É”z’u‚Å‚«‚éBƒNƒ‰ƒCƒAƒ“ƒg‚Í•\¦–¼‚ğ MkParseDisplayName ‚É“n‚·‚±‚Æ‚ª‚Å‚«A‚±‚ê‚Í•\¦–¼‚ÉŠî‚Ã‚¢‚Ä
+OBJREF ƒ‚ƒjƒJ‚ğì¬‚·‚éB‘±‚¢‚Äƒ‚ƒjƒJ‚Ì IMoniker::BindToObject
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅAƒT[ƒo[ã‚ÅÀs’†‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ}[ƒVƒƒƒ‹‚³‚ê‚½ƒ|ƒCƒ“ƒ^‚ª“¾‚ç‚ê‚éB‚½‚Æ‚¦‚ÎAActive Server
+Page ‚ÉŠÜ‚Ü‚ê‚éƒT[ƒo[‘¤ COM ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÍAOBJREF
+ƒ‚ƒjƒJ‚ğì¬‚µA‚»‚Ì•\¦–¼‚ğæ“¾‚µ‚ÄAƒNƒ‰ƒCƒAƒ“ƒg‚Ìƒuƒ‰ƒEƒU‚É‘—M‚³‚ê‚é HTML
+o—Í‚É‘‚«‚Ş‚±‚Æ‚ª‚Å‚«‚éBƒNƒ‰ƒCƒAƒ“ƒg‘¤‚ÅÀs‚³‚ê‚éƒXƒNƒŠƒvƒg‚ÍA‚±‚Ì•\¦–¼‚ğg—p‚µ‚ÄAÀs’†‚ÌƒIƒuƒWƒFƒNƒg©‘Ì‚ÉƒAƒNƒZƒX‚Å‚«‚éB‚½‚Æ‚¦‚ÎAƒNƒ‰ƒCƒAƒ“ƒg‘¤‚Ì
+Visual Basic ƒXƒNƒŠƒvƒg‚ÍA•\¦–¼‚ğ strMyName ‚Æ‚¢‚¤•Ï”‚ÉŠi”[‚µAobjMyInstance =
+GetObject(strMyName) ‚Æ‚¢‚¤s‚ğŠÜ‚ß‚é‚±‚Æ‚ª‚Å‚«‚éBƒXƒNƒŠƒvƒgƒGƒ“ƒWƒ“‚Í“à•”‚Å MkParseDisplayName
+‚¨‚æ‚Ñ IMoniker::BindToObject ‚ÌŒÄ‚Ño‚µ‚ğs‚¢AˆÈ~ƒXƒNƒŠƒvƒg‚Í objMyInstance
+‚ğg—p‚µ‚ÄÀs’†‚ÌƒIƒuƒWƒFƒNƒg‚ğ’¼ÚQÆ‚Å‚«‚éB
 
 
 %index
 CreateOleAdviseHolder
-Creates an advise holder object for managing compound document notifications. It returns a pointer to the object's OLE implementation of the IOleAdviseHolder interface.
+•¡‡ƒhƒLƒ…ƒƒ“ƒg’Ê’m‚ğŠÇ—‚·‚é‚½‚ß‚ÌƒAƒhƒoƒCƒXƒzƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‚±‚ÌƒIƒuƒWƒFƒNƒg‚Ì IOleAdviseHolder ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì OLE À‘•‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 %group
 Win32 ole32
 %prm
 ppOAHolder
-ppOAHolder : [var] Address of IOleAdviseHolder pointer variable that receives the interface pointer to the new advise holder object.
+ppOAHolder : [var] V‚µ‚¢ƒAƒhƒoƒCƒXƒzƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IOleAdviseHolder ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB
 %inst
-Creates an advise holder object for managing compound document
-notifications. It returns a pointer to the object's OLE
-implementation of the IOleAdviseHolder interface.
+•¡‡ƒhƒLƒ…ƒƒ“ƒg’Ê’m‚ğŠÇ—‚·‚é‚½‚ß‚ÌƒAƒhƒoƒCƒXƒzƒ‹ƒ_ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‚±‚ÌƒIƒuƒWƒFƒNƒg‚Ì IOleAdviseHolder
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì OLE À‘•‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 
 [–ß‚è’l]
-This function returns S_OK on success and supports the standard
-return value E_OUTOFMEMORY.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚µA•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚ğƒTƒ|[ƒg‚·‚éB
 
 [”õl]
-The function CreateOleAdviseHolder creates an instance of an advise
-holder, which supports the OLE implementation of the IOleAdviseHolder
-interface. The methods of this interface are intended to be used to
-implement the advisory methods of IOleObject, and, when advisory
-connections have been set up with objects supporting an advisory
-sink, to send notifications of changes in the object to the advisory
-sink. The advise holder returned by CreateOleAdviseHolder will
-suffice for the great majority of applications. The OLE-provided
-implementation does not, however, support
-IOleAdviseHolder::EnumAdvise, so if you need to use this method, you
-will need to implement your own advise holder.
+CreateOleAdviseHolder ŠÖ”‚ÍAIOleAdviseHolder ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì OLE
+À‘•‚ğƒTƒ|[ƒg‚·‚éƒAƒhƒoƒCƒXƒzƒ‹ƒ_‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB‚±‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ìƒƒ\ƒbƒh‚ÍAIOleObject
+‚ÌƒAƒhƒoƒCƒUƒŠƒƒ\ƒbƒh‚ğÀ‘•‚·‚é‚½‚ßA‚Ü‚½ƒAƒhƒoƒCƒUƒŠƒVƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒIƒuƒWƒFƒNƒg‚Æ‚ÌŠÔ‚ÉƒAƒhƒoƒCƒUƒŠÚ‘±‚ªŠm—§‚³‚ê‚½‚Æ‚«‚ÉAƒIƒuƒWƒFƒNƒg‚Ì•ÏX’Ê’m‚ğƒAƒhƒoƒCƒUƒŠƒVƒ“ƒN‚É‘—M‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBCreateOleAdviseHolder
+‚ª•Ô‚·ƒAƒhƒoƒCƒXƒzƒ‹ƒ_‚Í‘å‘½”‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å\•ª‚È‹@”\‚ğ’ñ‹Ÿ‚·‚éB‚½‚¾‚µAOLE ’ñ‹Ÿ‚ÌÀ‘•‚Í
+IOleAdviseHolder::EnumAdvise
+‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢‚½‚ßA‚±‚Ìƒƒ\ƒbƒh‚ğg—p‚·‚é•K—v‚ª‚ ‚éê‡‚ÍA“Æ©‚ÌƒAƒhƒoƒCƒXƒzƒ‹ƒ_‚ğÀ‘•‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 CreatePointerMoniker
-Creates a pointer moniker based on a pointer to an object.
+ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÉŠî‚Ã‚­ƒ|ƒCƒ“ƒ^ƒ‚ƒjƒJ‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 punk, ppmk
-punk : [var] A pointer to an IUnknown interface on the object to be identified by the resulting moniker.
-ppmk : [var] The address of an IMoniker* pointer variable that receives the interface pointer to the new pointer moniker. When successful, the function has called AddRef on the moniker and the caller is responsible for calling Release. When an error occurs, the returned interface pointer has a NULL value.
+punk : [var] Œ‹‰Ê‚Ìƒ‚ƒjƒJ‚Å¯•Ê‚·‚éƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppmk : [var] V‚µ‚¢ƒ|ƒCƒ“ƒ^ƒ‚ƒjƒJ‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB¬Œ÷AŠÖ”‚Íƒ‚ƒjƒJ‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚µ‚Ä‚¨‚èAŒÄ‚Ño‚µ‘¤‚ª Release ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¤BƒGƒ‰[”­¶A•Ô‚³‚ê‚éƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚Ì’l‚Í NULL ‚Æ‚È‚éB
 %inst
-Creates a pointer moniker based on a pointer to an object.
+ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÉŠî‚Ã‚­ƒ|ƒCƒ“ƒ^ƒ‚ƒjƒJ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function can return the standard return values E_OUTOFMEMORY,
-E_UNEXPECTED, and S_OK.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORYAE_UNEXPECTEDA‚¨‚æ‚Ñ S_OK ‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
 
 [”õl]
-A pointer moniker wraps an existing interface pointer in a moniker
-that can be passed to those interfaces that require monikers. Pointer
-monikers allow an object that has no persistent representation to
-participate in a moniker-binding operation.
-Pointer monikers are not commonly used, so this function is not often
-called.
+
+ƒ|ƒCƒ“ƒ^ƒ‚ƒjƒJ‚ÍAŠù‘¶‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğAƒ‚ƒjƒJ‚ğ•K—v‚Æ‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚É“n‚¹‚é‚æ‚¤‚Éƒ‚ƒjƒJ‚Åƒ‰ƒbƒv‚·‚éBƒ|ƒCƒ“ƒ^ƒ‚ƒjƒJ‚ğg—p‚·‚é‚ÆA‰i‘±“I‚È•\Œ»‚ğ‚½‚È‚¢ƒIƒuƒWƒFƒNƒg‚Å‚ ‚Á‚Ä‚àAƒ‚ƒjƒJƒoƒCƒ“ƒh‘€ì‚ÉQ‰Á‚Å‚«‚éB
+ƒ|ƒCƒ“ƒ^ƒ‚ƒjƒJ‚Í‚ ‚Ü‚èg—p‚³‚ê‚È‚¢‚½‚ßA‚±‚ÌŠÖ”‚ªŒÄ‚Ño‚³‚ê‚é‚±‚Æ‚Í‚Ü‚ê‚Å‚ ‚éB
 
 
 %index
@@ -824,512 +681,411 @@ ppIbsc : [var]
 
 %index
 DoDragDrop
-Carries out an OLE drag and drop operation.
+OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚ğÀs‚·‚éB
 %group
 Win32 ole32
 %prm
 pDataObj, pDropSource, dwOKEffects, pdwEffect
-pDataObj : [var] Pointer to the IDataObject interface on a data object that contains the data being dragged.
-pDropSource : [var] Pointer to an implementation of the IDropSource interface, which is used to communicate with the source during the drag operation.
-dwOKEffects : [int] Effects the source allows in the OLE drag-and-drop operation. Most significant is whether it permits a move. The dwOKEffect and pdwEffect parameters obtain values from the DROPEFFECT enumeration. For a list of values, see DROPEFFECT.
-pdwEffect : [var] Pointer to a value that indicates how the OLE drag-and-drop operation affected the source data. The pdwEffect parameter is set only if the operation is not canceled.
+pDataObj : [var] ƒhƒ‰ƒbƒO‚³‚ê‚éƒf[ƒ^‚ğŠÜ‚Şƒf[ƒ^ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pDropSource : [var] ƒhƒ‰ƒbƒO‘€ì’†‚Éƒhƒ‰ƒbƒOŒ³‚Æ’ÊM‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é IDropSource ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌÀ‘•‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwOKEffects : [int] OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Åƒhƒ‰ƒbƒOŒ³‚ª‹–‰Â‚·‚éŒø‰ÊB‚à‚Á‚Æ‚àd—v‚È‚Ì‚ÍAˆÚ“®‚ğ‹–‰Â‚·‚é‚©‚Ç‚¤‚©‚Å‚ ‚éBdwOKEffect ‚¨‚æ‚Ñ pdwEffect ƒpƒ‰ƒ[ƒ^‚Í DROPEFFECT —ñ‹“‚Ì’l‚ğæ‚éB’l‚Ìˆê——‚Í DROPEFFECT ‚ğQÆB
+pdwEffect : [var] OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚ªƒhƒ‰ƒbƒOŒ³ƒf[ƒ^‚É‚Ç‚¤‰e‹¿‚µ‚½‚©‚ğ¦‚·’l‚Ö‚Ìƒ|ƒCƒ“ƒ^BpdwEffect ƒpƒ‰ƒ[ƒ^‚Í‘€ì‚ªƒLƒƒƒ“ƒZƒ‹‚³‚ê‚È‚©‚Á‚½ê‡‚É‚Ì‚İİ’è‚³‚ê‚éB
 %inst
-Carries out an OLE drag and drop operation.
+OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚ğÀs‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì–ß‚è’l‚É‚ÍˆÈ‰º‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If you are developing an application that can act as a data source
-for an OLE drag-and-drop operation, you must call DoDragDrop when you
-detect that the user has started an OLE drag-and-drop operation.
-The DoDragDrop function enters a loop in which it calls various
-methods in the IDropSource and IDropTarget interfaces. (For a
-successful drag-and-drop operation, the application acting as the
-data source must also implement IDropSource, while the target
-application must implement IDropTarget.)
-This doc was truncated.
+OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìƒf[ƒ^ƒ\[ƒX‚Æ‚µ‚Ä‹@”\‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğŠJ”­‚µ‚Ä‚¢‚éê‡Aƒ†[ƒU[‚ª OLE
+ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚ğŠJn‚µ‚½‚±‚Æ‚ğŒŸo‚µ‚½‚ç DoDragDrop ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+DoDragDrop ŠÖ”‚Íƒ‹[ƒv‚É“ü‚èAIDropSource ‚¨‚æ‚Ñ IDropTarget
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì‚³‚Ü‚´‚Ü‚Èƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·Biƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚ğ¬Œ÷‚³‚¹‚é‚É‚ÍAƒf[ƒ^ƒ\[ƒX‚Æ‚µ‚Ä‹@”\‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+IDropSource ‚ğÀ‘•‚µAƒ^[ƒQƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í IDropTarget ‚ğÀ‘•‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bj
+iˆÈ‰ºÈ—ªj
 
 
 %index
 FmtIdToPropStgName
-Converts a property set format identifier (FMTID) to its storage or stream name.
+ƒvƒƒpƒeƒBƒZƒbƒgŒ`®¯•ÊqiFMTIDj‚ğ‚»‚ÌƒXƒgƒŒ[ƒW–¼‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€–¼‚É•ÏŠ·‚·‚éB
 %group
 Win32 ole32
 %prm
 pfmtid, oszName
-pfmtid : [var] A pointer to the FMTID of the property set.
-oszName : [wstr] A pointer to a null-terminated string that receives the storage or stream name of the property set identified by pfmtid. The array allocated for this string must be at least CCH_MAX_PROPSTG_NAME (32) characters in length.
+pfmtid : [var] ƒvƒƒpƒeƒBƒZƒbƒg‚Ì FMTID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+oszName : [wstr] pfmtid ‚Å¯•Ê‚³‚ê‚éƒvƒƒpƒeƒBƒZƒbƒg‚ÌƒXƒgƒŒ[ƒW–¼‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€–¼‚ğó‚¯æ‚éƒkƒ‹I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ—p‚ÉŠm•Û‚·‚é”z—ñ‚ÍA­‚È‚­‚Æ‚à CCH_MAX_PROPSTG_NAMEi32j•¶š‚Ì’·‚³‚ğ‚½‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Converts a property set format identifier (FMTID) to its storage or
-stream name.
+ƒvƒƒpƒeƒBƒZƒbƒgŒ`®¯•ÊqiFMTIDj‚ğ‚»‚ÌƒXƒgƒŒ[ƒW–¼‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€–¼‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-This function supports the standard return value E_INVALIDARG as well
-as the following:
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARG ‚É‰Á‚¦‚ÄˆÈ‰º‚ğƒTƒ|[ƒg‚·‚éB
 
 [”õl]
-FmtIdToPropStgName maps a property set FMTID to its stream name for a
-simple property set or to its storage name for a nonsimple property
-set. This function is useful in creating or opening a property set
-using the PROPSETFLAG_UNBUFFERED value with the StgCreatePropStg and
-StgOpenPropStg functions. For more information about
-PROPSETFLAG_UNBUFFERED, see PROPSETFLAG Constants.
+FmtIdToPropStgName ‚ÍAƒvƒƒpƒeƒBƒZƒbƒg‚Ì FMTID
+‚ğA’PƒƒvƒƒpƒeƒBƒZƒbƒg‚Ìê‡‚Í‚»‚ÌƒXƒgƒŠ[ƒ€–¼‚ÉA”ñ’PƒƒvƒƒpƒeƒBƒZƒbƒg‚Ìê‡‚Í‚»‚ÌƒXƒgƒŒ[ƒW–¼‚Éƒ}ƒbƒv‚·‚éB‚±‚ÌŠÖ”‚ÍAStgCreatePropStg
+‚¨‚æ‚Ñ StgOpenPropStg ŠÖ”‚Å PROPSETFLAG_UNBUFFERED
+’l‚ğg—p‚µ‚ÄƒvƒƒpƒeƒBƒZƒbƒg‚ğì¬‚Ü‚½‚ÍŠJ‚­Û‚É•Ö—˜‚Å‚ ‚éBPROPSETFLAG_UNBUFFERED ‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+PROPSETFLAG Constants ‚ğQÆB
 
 
 %index
 FreePropVariantArray
-The FreePropVariantArray function calls PropVariantClear on each of the PROPVARIANT structures in the rgvars array to make the value zero for each of the members of the array.
+FreePropVariantArray ŠÖ”‚ÍArgvars ”z—ñ“à‚ÌŠe PROPVARIANT \‘¢‘Ì‚É‘Î‚µ‚Ä PropVariantClear ‚ğŒÄ‚Ño‚µA”z—ñ‚ÌŠeƒƒ“ƒo‚Ì’l‚ğƒ[ƒ‚É‚·‚éB
 %group
 Win32 ole32
 %prm
 cVariants, rgvars
-cVariants : [int] Count of elements in the PROPVARIANT array (rgvars).
-rgvars : [var] Pointer to an initialized array of PROPVARIANT structures for which any deallocatable elements are to be freed. On exit, all zeroes are written to the PROPVARIANT structure (thus tagging them as VT_EMPTY).
+cVariants : [int] PROPVARIANT ”z—ñirgvarsj‚Ì—v‘f”B
+rgvars : [var] ‰ğ•ú‰Â”\‚È—v‘f‚ğ‰ğ•ú‚·‚é‘ÎÛ‚Æ‚È‚éA‰Šú‰»Ï‚İ‚Ì PROPVARIANT \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”I—¹APROPVARIANT \‘¢‘Ì‚É‚Í‚·‚×‚Ä 0 ‚ª‘‚«‚Ü‚ê‚éi‚±‚ê‚É‚æ‚è VT_EMPTY ‚Æ‚µ‚Äƒ^ƒO•t‚¯‚³‚ê‚éjB
 %inst
-The FreePropVariantArray function calls PropVariantClear on each of
-the PROPVARIANT structures in the rgvars array to make the value zero
-for each of the members of the array.
+FreePropVariantArray ŠÖ”‚ÍArgvars ”z—ñ“à‚ÌŠe PROPVARIANT \‘¢‘Ì‚É‘Î‚µ‚Ä
+PropVariantClear ‚ğŒÄ‚Ño‚µA”z—ñ‚ÌŠeƒƒ“ƒo‚Ì’l‚ğƒ[ƒ‚É‚·‚éB
 
 [–ß‚è’l]
-This function returns HRESULT.
+‚±‚ÌŠÖ”‚Í HRESULT ‚ğ•Ô‚·B
 
 [”õl]
-FreePropVariantArray calls PropVariantClear on an array of
-PROPVARIANT structures to clear all the valid members. All valid
-PROPVARIANT structures are freed. If any of the PROPVARIANT
-structures contain illegal VT types, valid members are freed and the
-function returns STG_E_INVALIDPARAMETER. Passing NULL for rgvars is
-legal, and produces a return code of S_OK.
+FreePropVariantArray ‚Í PROPVARIANT \‘¢‘Ì‚Ì”z—ñ‚É‘Î‚µ‚Ä PropVariantClear
+‚ğŒÄ‚Ño‚µA‚·‚×‚Ä‚Ì—LŒø‚Èƒƒ“ƒo‚ğƒNƒŠƒA‚·‚éB—LŒø‚È PROPVARIANT \‘¢‘Ì‚Í‚·‚×‚Ä‰ğ•ú‚³‚ê‚éB”z—ñ“à‚Ì‚¢‚¸‚ê‚©‚Ì
+PROPVARIANT \‘¢‘Ì‚ª•s³‚È VT Œ^‚ğŠÜ‚Şê‡A—LŒø‚Èƒƒ“ƒo‚Í‰ğ•ú‚³‚êAŠÖ”‚Í STG_E_INVALIDPARAMETER
+‚ğ•Ô‚·Brgvars ‚É NULL ‚ğ“n‚·‚±‚Æ‚Í‡–@‚Å‚ ‚èA–ß‚è’l S_OK ‚ª•Ô‚³‚ê‚éB
 
 
 %index
 GetClassFile
-Returns the CLSID associated with the specified file name.
+w’è‚µ‚½ƒtƒ@ƒCƒ‹–¼‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ CLSID ‚ğ•Ô‚·B
 %group
 Win32 ole32
 %prm
 szFilename, pclsid
-szFilename : [wstr] A pointer to the filename for which you are requesting the associated CLSID.
-pclsid : [var] A pointer to the location where the associated CLSID is written on return.
+szFilename : [wstr] ŠÖ˜A•t‚¯‚ç‚ê‚½ CLSID ‚ğ—v‹‚·‚é‘ÎÛ‚Ìƒtƒ@ƒCƒ‹–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pclsid : [var] ŠÖ˜A•t‚¯‚ç‚ê‚½ CLSID ‚ª‘‚«‚Ü‚ê‚éêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Returns the CLSID associated with the specified file name.
+w’è‚µ‚½ƒtƒ@ƒCƒ‹–¼‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ CLSID ‚ğ•Ô‚·B
 
 [–ß‚è’l]
-This function can return any of the file system errors, as well as
-the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚ÍA”CˆÓ‚Ìƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒGƒ‰[A‚¨‚æ‚ÑˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-When given a file name, GetClassFile finds the CLSID associated with
-that file. Examples of its use are in the OleCreateFromFile function,
-which is passed a file name and requires an associated CLSID, and in
-the OLE implementation of IMoniker::BindToObject, which, when a link
-to a file-based document is activated, calls GetClassFile to locate
-the object application that can open the file.
-GetClassFile uses the following strategies to determine an
-appropriate CLSID:
-This doc was truncated.
+ƒtƒ@ƒCƒ‹–¼‚ğ—^‚¦‚ç‚ê‚é‚ÆAGetClassFile ‚Í‚»‚Ìƒtƒ@ƒCƒ‹‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ CLSID
+‚ğŒ©‚Â‚¯‚éBg—p—á‚Æ‚µ‚Ä‚ÍAƒtƒ@ƒCƒ‹–¼‚ª“n‚³‚ê‚ÄŠÖ˜A CLSID ‚ª•K—v‚Æ‚È‚é OleCreateFromFile
+ŠÖ”A‚¨‚æ‚Ñƒtƒ@ƒCƒ‹ƒx[ƒX‚ÌƒhƒLƒ…ƒƒ“ƒg‚Ö‚ÌƒŠƒ“ƒN‚ªƒAƒNƒeƒBƒu‰»‚³‚ê‚½‚Æ‚«‚Éƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚é‘ÎÛƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ“Á’è‚·‚é‚½‚ß‚É
+GetClassFile ‚ğŒÄ‚Ño‚· IMoniker::BindToObject ‚Ì OLE À‘•‚ª‹“‚°‚ç‚ê‚éB
+GetClassFile ‚ÍA“KØ‚È CLSID ‚ğŒˆ’è‚·‚é‚½‚ß‚ÉŸ‚Ì•û–@‚ğg—p‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 GetConvertStg
-The GetConvertStg function returns the current value of the convert bit for the specified storage object.
+GetConvertStg ŠÖ”‚ÍAw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ì•ÏŠ·ƒrƒbƒg‚ÌŒ»İ‚Ì’l‚ğ•Ô‚·B
 %group
 Win32 ole32
 %prm
 pStg
-pStg : [var] IStorage pointer to the storage object from which the convert bit is to be retrieved.
+pStg : [var] •ÏŠ·ƒrƒbƒg‚ğæ“¾‚·‚é‘ÎÛ‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚Ì IStorage ƒ|ƒCƒ“ƒ^B
 %inst
-The GetConvertStg function returns the current value of the convert
-bit for the specified storage object.
+GetConvertStg ŠÖ”‚ÍAw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ì•ÏŠ·ƒrƒbƒg‚ÌŒ»İ‚Ì’l‚ğ•Ô‚·B
 
 [–ß‚è’l]
-IStorage::OpenStream, IStorage::OpenStorage, and
-ISequentialStream::Read storage and stream access errors.
+IStorage::OpenStreamAIStorage::OpenStorageA‚¨‚æ‚Ñ
+ISequentialStream::Read ‚ÌƒXƒgƒŒ[ƒW‚¨‚æ‚ÑƒXƒgƒŠ[ƒ€ƒAƒNƒZƒXƒGƒ‰[B
 
 [”õl]
-The GetConvertStg function is called by object servers that support
-the conversion of an object from one format to another. The server
-must be able to read the storage object using the format of its
-previous class identifier (CLSID) and write the object using the
-format of its new CLSID to support the object's conversion. For
-example, a spreadsheet created by one application can be converted to
-the format used by a different application. The convert bit is set by
-a call to the SetConvertStg function. A container application can
-call this function on the request of an end user, or a setup program
-can call it when installing a new version of an application. An end
-user requests converting an object through the Convert To dialog box.
-When an object is converted, the new CLSID is permanently assigned to
-the object, so the object is subsequently associated with the new
-CLSID. Then, when the object is activated, its server calls the
-GetConvertStg function to retrieve the value of the convert bit from
-the storage object. If the bit is set, the object's CLSID has been
-changed, and the server must read the old format and write the new
-format for the storage object. After retrieving the bit value, the
-object application should clear the convert bit by calling the
-SetConvertStg function with its fConvert parameter set to FALSE.
+GetConvertStg
+ŠÖ”‚ÍA‚ ‚éŒ`®‚©‚ç•Ê‚ÌŒ`®‚Ö‚ÌƒIƒuƒWƒFƒNƒg•ÏŠ·‚ğƒTƒ|[ƒg‚·‚éƒIƒuƒWƒFƒNƒgƒT[ƒo[‚©‚çŒÄ‚Ño‚³‚ê‚éBƒT[ƒo[‚ÍAƒIƒuƒWƒFƒNƒg‚Ì•ÏŠ·‚ğƒTƒ|[ƒg‚·‚é‚½‚ß‚ÉAˆÈ‘O‚ÌƒNƒ‰ƒX¯•ÊqiCLSIDj‚ÌŒ`®‚ÅƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ“Ç‚İæ‚èAV‚µ‚¢
+CLSID
+‚ÌŒ`®‚ÅƒIƒuƒWƒFƒNƒg‚ğ‘‚«‚Ş‚±‚Æ‚ª‚Å‚«‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚½‚Æ‚¦‚ÎA‚ ‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åì¬‚³‚ê‚½ƒXƒvƒŒƒbƒhƒV[ƒg‚ğA•Ê‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åg—p‚³‚ê‚éŒ`®‚É•ÏŠ·‚·‚é‚±‚Æ‚ª‚Å‚«‚éB•ÏŠ·ƒrƒbƒg‚Í
+SetConvertStg
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Äİ’è‚³‚ê‚éBƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒGƒ“ƒhƒ†[ƒU[‚Ì—v‹‚É‰‚¶‚Ä‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚à‚ ‚ê‚ÎAƒZƒbƒgƒAƒbƒvƒvƒƒOƒ‰ƒ€‚ªV‚µ‚¢ƒo[ƒWƒ‡ƒ“‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éÛ‚ÉŒÄ‚Ño‚·‚±‚Æ‚à‚ ‚éBƒGƒ“ƒhƒ†[ƒU[‚Íu•ÏŠ·ævƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ğ’Ê‚¶‚ÄƒIƒuƒWƒFƒNƒg‚Ì•ÏŠ·‚ğ—v‹‚·‚éBƒIƒuƒWƒFƒNƒg‚ª•ÏŠ·‚³‚ê‚é‚ÆAV‚µ‚¢
+CLSID ‚ª‚»‚ÌƒIƒuƒWƒFƒNƒg‚ÉP‹v“I‚ÉŠ„‚è“–‚Ä‚ç‚êAƒIƒuƒWƒFƒNƒg‚ÍˆÈ~V‚µ‚¢ CLSID
+‚ÆŠÖ˜A•t‚¯‚ç‚ê‚éB‚»‚ÌŒãAƒIƒuƒWƒFƒNƒg‚ªƒAƒNƒeƒBƒu‰»‚³‚ê‚é‚ÆA‚»‚ÌƒT[ƒo[‚Í GetConvertStg
+ŠÖ”‚ğŒÄ‚Ño‚µ‚ÄƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚©‚ç•ÏŠ·ƒrƒbƒg‚Ì’l‚ğæ“¾‚·‚éBƒrƒbƒg‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡AƒIƒuƒWƒFƒNƒg‚Ì CLSID
+‚Í•ÏX‚³‚ê‚Ä‚¨‚èAƒT[ƒo[‚ÍƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÌŒÃ‚¢Œ`®‚ğ“Ç‚İæ‚Á‚ÄV‚µ‚¢Œ`®‚Å‘‚«‚Ü‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bƒrƒbƒg’l‚ğæ“¾‚µ‚½ŒãAƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+SetConvertStg ŠÖ”‚ğ fConvert ƒpƒ‰ƒ[ƒ^‚ğ FALSE ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚µA•ÏŠ·ƒrƒbƒg‚ğƒNƒŠƒA‚·‚é‚±‚ÆB
 
 
 %index
 GetHGlobalFromILockBytes
-The GetHGlobalFromILockBytes function retrieves a global memory handle to a byte array object created using the CreateILockBytesOnHGlobal function.
+GetHGlobalFromILockBytes ŠÖ”‚ÍACreateILockBytesOnHGlobal ŠÖ”‚ğg—p‚µ‚Äì¬‚³‚ê‚½ƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
 %group
 Win32 ole32
 %prm
 plkbyt, phglobal
-plkbyt : [var] Pointer to the ILockBytes interface on the byte-array object previously created by a call to the CreateILockBytesOnHGlobal function.
-phglobal : [var] Pointer to the current memory handle used by the specified byte-array object.
+plkbyt : [var] ˆÈ‘O‚É CreateILockBytesOnHGlobal ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Äì¬‚³‚ê‚½ƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒgã‚Ì ILockBytes ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+phglobal : [var] w’è‚³‚ê‚½ƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚ªg—p‚µ‚Ä‚¢‚éŒ»İ‚Ìƒƒ‚ƒŠƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The GetHGlobalFromILockBytes function retrieves a global memory
-handle to a byte array object created using the
-CreateILockBytesOnHGlobal function.
+GetHGlobalFromILockBytes ŠÖ”‚ÍACreateILockBytesOnHGlobal
+ŠÖ”‚ğg—p‚µ‚Äì¬‚³‚ê‚½ƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-This function returns HRESULT.
+‚±‚ÌŠÖ”‚Í HRESULT ‚ğ•Ô‚·B
 
 [”õl]
-After a call to CreateILockBytesOnHGlobal, which creates a byte array
-object on global memory, GetHGlobalFromILockBytes retrieves a pointer
-to the handle of the global memory underlying the byte array object.
-The handle this function returns might be different from the original
-handle due to intervening calls to the GlobalReAlloc function. The
-contents of the returned memory handle can be written to a clean disk
-file, and then opened as a storage object using the StgOpenStorage
-function. This function only works within the same process from which
-the byte array was created.
+ƒOƒ[ƒoƒ‹ƒƒ‚ƒŠã‚ÉƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é CreateILockBytesOnHGlobal
+‚ÌŒÄ‚Ño‚µŒãAGetHGlobalFromILockBytes
+‚ÍƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚ÌŠî‚Æ‚È‚éƒOƒ[ƒoƒ‹ƒƒ‚ƒŠ‚Ìƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB‚±‚ÌŠÖ”‚ª•Ô‚·ƒnƒ“ƒhƒ‹‚ÍA“r’†‚Ì
+GlobalReAlloc
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚èAŒ³‚Ìƒnƒ“ƒhƒ‹‚ÆˆÙ‚È‚éê‡‚ª‚ ‚éB•Ô‚³‚ê‚½ƒƒ‚ƒŠƒnƒ“ƒhƒ‹‚Ì“à—e‚ÍAƒNƒŠ[ƒ“‚ÈƒfƒBƒXƒNƒtƒ@ƒCƒ‹‚É‘‚«‚ñ‚ÅAStgOpenStorage
+ŠÖ”‚ğg‚Á‚ÄƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Æ‚µ‚ÄŠJ‚­‚±‚Æ‚ª‚Å‚«‚éB‚±‚ÌŠÖ”‚ÍAƒoƒCƒg”z—ñ‚ğì¬‚µ‚½ƒvƒƒZƒX‚Æ“¯‚¶ƒvƒƒZƒX“à‚Å‚Ì‚İ“®ì‚·‚éB
 
 
 %index
 GetRunningObjectTable
-Returns a pointer to the IRunningObjectTable interface on the local running object table (ROT).
+ƒ[ƒJƒ‹‚ÌÀs’†ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹iROTjã‚Ì IRunningObjectTable ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 %group
 Win32 ole32
 %prm
 reserved, pprot
-reserved : [int] This parameter is reserved and must be 0.
-pprot : [var] The address of an IRunningObjectTable* pointer variable that receives the interface pointer to the local ROT. When the function is successful, the caller is responsible for calling Release on the interface pointer. If an error occurs, *pprot is undefined.
+reserved : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñÏ‚İ‚Å‚ ‚èA0 ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pprot : [var] ƒ[ƒJƒ‹ ROT ‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IRunningObjectTable* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXBŠÖ”‚ª¬Œ÷‚µ‚½ê‡AŒÄ‚Ño‚µ‘¤‚ÍƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚É‘Î‚µ‚Ä Release ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¤BƒGƒ‰[‚ª”­¶‚µ‚½ê‡A*pprot ‚Ì’l‚Í–¢’è‹`‚Æ‚È‚éB
 %inst
-Returns a pointer to the IRunningObjectTable interface on the local
-running object table (ROT).
+ƒ[ƒJƒ‹‚ÌÀs’†ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹iROTjã‚Ì IRunningObjectTable ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 
 [–ß‚è’l]
-This function can return the standard return values E_UNEXPECTED and
-S_OK.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_UNEXPECTED ‚¨‚æ‚Ñ S_OK ‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
 
 [”õl]
-Each workstation has a local ROT that maintains a table of the
-objects that have been registered as running on that computer. This
-function returns an IRunningObjectTable interface pointer, which
-provides access to that table. Moniker providers, which hand out
-monikers that identify objects so they are accessible to others,
-should call GetRunningObjectTable. Use the interface pointer returned
-by this function to register your objects when they begin running, to
-record the times that those objects are modified, and to revoke their
-registrations when they stop running. See the IRunningObjectTable
-interface for more information.
-Compound-document link sources are the most common example of moniker
-providers. These include server applications that support linking to
-their documents (or portions of a document) and container
-applications that support linking to embeddings within their
-documents. Server applications that do not support linking can also
-use the ROT to cooperate with container applications that support
-linking to embeddings. If you are implementing the IMoniker interface
-to write a new moniker class, and you need an interface pointer to
-the ROT, call IBindCtx::GetRunningObjectTable rather than the
-GetRunningObjectTable function. This allows future implementations of
-the IBindCtx interface to modify binding behavior.
+Šeƒ[ƒNƒXƒe[ƒVƒ‡ƒ“‚É‚Íƒ[ƒJƒ‹ ROT
+‚ª‚ ‚èA‚»‚ÌƒRƒ“ƒsƒ…[ƒ^ã‚ÅÀs’†‚Æ‚µ‚Ä“o˜^‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚Ìƒe[ƒuƒ‹‚ğŠÇ—‚µ‚Ä‚¢‚éB‚±‚ÌŠÖ”‚Í IRunningObjectTable
+ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğ•Ô‚µA‚»‚ê‚É‚æ‚èƒe[ƒuƒ‹‚Ö‚ÌƒAƒNƒZƒX‚ª‰Â”\‚Æ‚È‚éB‘¼Ò‚©‚çƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤ƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ‚ğ”z•z‚·‚éƒ‚ƒjƒJƒvƒƒoƒCƒ_‚ÍAGetRunningObjectTable
+‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB‚±‚ÌŠÖ”‚ª•Ô‚·ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğg—p‚µ‚ÄAƒIƒuƒWƒFƒNƒg‚ÌÀsŠJn‚É“o˜^‚ğs‚¢AƒIƒuƒWƒFƒNƒg‚ª•ÏX‚³‚ê‚½‚ğ‹L˜^‚µAÀsI—¹‚É“o˜^‚ğæ‚èÁ‚·‚±‚ÆBÚ×‚Í
+IRunningObjectTable ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğQÆB
+
+•¡‡ƒhƒLƒ…ƒƒ“ƒg‚ÌƒŠƒ“ƒNŒ³‚ÍAƒ‚ƒjƒJƒvƒƒoƒCƒ_‚Ì‚à‚Á‚Æ‚àˆê”Ê“I‚È—á‚Å‚ ‚éB‚±‚ê‚É‚ÍAƒhƒLƒ…ƒƒ“ƒgi‚Ü‚½‚ÍƒhƒLƒ…ƒƒ“ƒg‚Ìˆê•”j‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒT[ƒo[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“A‚¨‚æ‚ÑƒhƒLƒ…ƒƒ“ƒg“à‚Ì–„‚ß‚İƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŠÜ‚Ü‚ê‚éBƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚µ‚È‚¢ƒT[ƒo[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚àA–„‚ß‚İ‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ‹¦’²‚·‚é‚½‚ß‚É
+ROT ‚ğg—p‚Å‚«‚éBV‚µ‚¢ƒ‚ƒjƒJƒNƒ‰ƒX‚ğ‹Lq‚·‚é‚½‚ß‚É IMoniker ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğÀ‘•‚µ‚Ä‚¨‚èAROT
+‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ª•K—v‚Èê‡AGetRunningObjectTable ŠÖ”‚Å‚Í‚È‚­
+IBindCtx::GetRunningObjectTable ‚ğŒÄ‚Ño‚·‚±‚ÆB‚±‚ê‚É‚æ‚èAIBindCtx
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì«—ˆ‚ÌÀ‘•‚ÅƒoƒCƒ“ƒh“®ì‚ğ•ÏX‚Å‚«‚é‚æ‚¤‚É‚È‚éB
 
 
 %index
 IsAccelerator
-Determines whether the specified keystroke maps to an accelerator in the specified accelerator table.
+w’è‚³‚ê‚½ƒL[ƒXƒgƒ[ƒN‚ªAw’è‚³‚ê‚½ƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹“à‚ÌƒAƒNƒZƒ‰ƒŒ[ƒ^‚É‘Î‰‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 Win32 ole32
 %prm
 hAccel, cAccelEntries, lpMsg, lpwCmd
-hAccel : [intptr] A handle to the accelerator table.
-cAccelEntries : [int] The number of entries in the accelerator table.
-lpMsg : [var] A pointer to the keystroke message to be translated.
-lpwCmd : [var] A pointer to a variable  to receive the corresponding command identifier if there is an accelerator for the keystroke. This parameter may be NULL.
+hAccel : [intptr] ƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
+cAccelEntries : [int] ƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹“à‚ÌƒGƒ“ƒgƒŠ”B
+lpMsg : [var] •ÏŠ·‘ÎÛ‚ÌƒL[ƒXƒgƒ[ƒNƒƒbƒZ[ƒW‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpwCmd : [var] ƒL[ƒXƒgƒ[ƒN‚É‘Î‰‚·‚éƒAƒNƒZƒ‰ƒŒ[ƒ^‚ª‚ ‚éê‡A‘Î‰‚·‚éƒRƒ}ƒ“ƒh¯•Êq‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚¢B
 %inst
-Determines whether the specified keystroke maps to an accelerator in
-the specified accelerator table.
+w’è‚³‚ê‚½ƒL[ƒXƒgƒ[ƒN‚ªAw’è‚³‚ê‚½ƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹“à‚ÌƒAƒNƒZƒ‰ƒŒ[ƒ^‚É‘Î‰‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-If the message is for the object application, the return value is
-TRUE. If the message is not for the object and should be forwarded to
-the container, the return value is FALSE.
+ƒƒbƒZ[ƒW‚ªƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‚à‚Ì‚Å‚ ‚éê‡A–ß‚è’l‚Í TRUE
+‚Å‚ ‚éBƒƒbƒZ[ƒW‚ªƒIƒuƒWƒFƒNƒg‚Ì‚à‚Ì‚Å‚Í‚È‚­ƒRƒ“ƒeƒi‚É“]‘—‚·‚×‚«ê‡A–ß‚è’l‚Í FALSE ‚Å‚ ‚éB
 
 [”õl]
-While an object is active in-place, the object always has first
-chance to translate the keystrokes into accelerators. If the
-keystroke corresponds to one of its accelerators, the object must not
-call the OleTranslateAccelerator function - even if its call to the
-TranslateAccelerator function fails. Failure to process keystrokes in
-this manner can lead to inconsistent behavior. If the keystroke is
-not one of the object's accelerators, then the object must call
-OleTranslateAccelerator to let the container try its accelerator
-translation. The object's server can call IsAccelerator to determine
-if the accelerator message belongs to it. Some servers do accelerator
-translation on their own and do not call TranslateAccelerator. Those
-applications will not call IsAccelerator, because they already have
-the information.
+
+ƒIƒuƒWƒFƒNƒg‚ªƒCƒ“ƒvƒŒ[ƒX‚ÅƒAƒNƒeƒBƒu‚ÈŠÔA‚»‚ÌƒIƒuƒWƒFƒNƒg‚Íí‚ÉÅ‰‚ÉƒL[ƒXƒgƒ[ƒN‚ğƒAƒNƒZƒ‰ƒŒ[ƒ^‚É•ÏŠ·‚·‚é‹@‰ï‚ğ‚ÂBƒL[ƒXƒgƒ[ƒN‚ª‚»‚ÌƒAƒNƒZƒ‰ƒŒ[ƒ^‚Ìˆê‚Â‚É‘Î‰‚·‚éê‡AƒIƒuƒWƒFƒNƒg‚Í
+TranslateAccelerator ŠÖ”‚ÌŒÄ‚Ño‚µ‚ª¸”s‚µ‚½ê‡‚Å‚àAOleTranslateAccelerator
+ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B‚±‚Ì•û–@‚ÅƒL[ƒXƒgƒ[ƒN‚ğˆ—‚µ‚È‚©‚Á‚½ê‡AˆêŠÑ«‚Ì‚È‚¢“®ì‚ğµ‚­‹°‚ê‚ª‚ ‚éBƒL[ƒXƒgƒ[ƒN‚ªƒIƒuƒWƒFƒNƒg‚ÌƒAƒNƒZƒ‰ƒŒ[ƒ^‚Ìˆê‚Â‚Å‚È‚¢ê‡AƒIƒuƒWƒFƒNƒg‚Í
+OleTranslateAccelerator
+‚ğŒÄ‚Ño‚µ‚ÄAƒRƒ“ƒeƒi‘¤‚ÅƒAƒNƒZƒ‰ƒŒ[ƒ^•ÏŠ·‚ğ‚İ‚é‚æ‚¤‚É‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒIƒuƒWƒFƒNƒg‚ÌƒT[ƒo[‚Í IsAccelerator
+‚ğŒÄ‚Ño‚µ‚ÄAƒAƒNƒZƒ‰ƒŒ[ƒ^ƒƒbƒZ[ƒW‚ª©g‚Ì‚à‚Ì‚©‚Ç‚¤‚©‚ğ”»’f‚Å‚«‚éBˆê•”‚ÌƒT[ƒo[‚Í“Æ©‚ÉƒAƒNƒZƒ‰ƒŒ[ƒ^•ÏŠ·‚ğs‚¢ATranslateAccelerator
+‚ğŒÄ‚Ño‚³‚È‚¢B‚»‚Ì‚æ‚¤‚ÈƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA‚·‚Å‚Éî•ñ‚ğ‚Á‚Ä‚¢‚é‚½‚ß IsAccelerator ‚ğŒÄ‚Ño‚³‚È‚¢B
 
 
 %index
 MkParseDisplayName
-Converts a string into a moniker that identifies the object named by the string.
+•¶š—ñ‚ğA‚»‚Ì•¶š—ñ‚Åw’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ‚É•ÏŠ·‚·‚éB
 %group
 Win32 ole32
 %prm
 pbc, szUserName, pchEaten, ppmk
-pbc : [var] A pointer to the IBindCtx interface on the bind context object to be used in this binding operation.
-szUserName : [wstr] A pointer to the display name to be parsed.
-pchEaten : [var] A pointer to the number of characters of szUserName that were consumed. If the function is successful, *pchEaten is the length of szUserName; otherwise, it is the number of characters successfully parsed.
-ppmk : [var] The address of the IMoniker* pointer variable that receives the interface pointer to the moniker that was built from szUserName. When successful, the function has called AddRef on the moniker and the caller is responsible for calling Release. If an error occurs, the specified interface pointer will contain as much of the moniker that the method was able to create before the error occurred.
+pbc : [var] ‚±‚ÌƒoƒCƒ“ƒh‘€ì‚Åg—p‚·‚éƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒgƒIƒuƒWƒFƒNƒgã‚Ì IBindCtx ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+szUserName : [wstr] ‰ğÍ‘ÎÛ‚Ì•\¦–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pchEaten : [var] Á”ï‚³‚ê‚½ szUserName ‚Ì•¶š”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚ª¬Œ÷‚µ‚½ê‡A*pchEaten ‚Í szUserName ‚Ì’·‚³‚Æ‚È‚éB‚»‚¤‚Å‚È‚¢ê‡‚ÍA³í‚É‰ğÍ‚³‚ê‚½•¶š”‚Æ‚È‚éB
+ppmk : [var] szUserName ‚©‚ç\’z‚³‚ê‚½ƒ‚ƒjƒJ‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB¬Œ÷AŠÖ”‚Íƒ‚ƒjƒJ‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚µ‚Ä‚¨‚èAŒÄ‚Ño‚µ‘¤‚ª Release ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¤BƒGƒ‰[‚ª”­¶‚µ‚½ê‡Aw’è‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚É‚ÍAƒGƒ‰[”­¶‘O‚Éì¬‚Å‚«‚½”ÍˆÍ‚Ü‚Å‚Ìƒ‚ƒjƒJ‚ªŠi”[‚³‚ê‚éB
 %inst
-Converts a string into a moniker that identifies the object named by
-the string.
+•¶š—ñ‚ğA‚»‚Ì•¶š—ñ‚Åw’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-This function can return the standard return value E_OUTOFMEMORY, as
-well as the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚É‰Á‚¦‚ÄˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The MkParseDisplayName function parses a human-readable name into a
-moniker that can be used to identify a link source. The resulting
-moniker can be a simple moniker (such as a file moniker), or it can
-be a generic composite made up of the component moniker pieces. For
-example, the display name "c:\mydir\somefile!item 1" could be parsed
-into the following generic composite moniker: FileMoniker based on
-"c:\mydir\somefile") + (ItemMoniker based on "item 1"). The most
-common use of MkParseDisplayName is in the implementation of the
-standard Links dialog box, which allows an end user to specify the
-source of a linked object by typing in a string. You may also need to
-call MkParseDisplayName if your application supports a macro language
-that permits remote references (reference to elements outside of the
-document).
-Parsing a display name often requires activating the same objects
-that would be activated during a binding operation, so it can be just
-as expensive (in terms of performance) as binding. Objects that are
-bound during the parsing operation are cached in the bind context
-passed to the function. If you plan to bind the moniker returned by
-MkParseDisplayName, it is best to do so immediately after the
-function returns, using the same bind context, which removes the need
-to activate objects a second time. MkParseDisplayName parses as much
-of the display name as it understands into a moniker. The function
-then calls IMoniker::ParseDisplayName on the newly created moniker,
-passing the remainder of the display name. The moniker returned by
-ParseDisplayName is composed onto the end of the existing moniker
-and, if any of the display name remains unparsed, ParseDisplayName is
-called on the result of the composition. This process is repeated
-until the entire display name has been parsed. MkParseDisplayName
-attempts the following strategies to parse the beginning of the
-display name, using the first one that succeeds:
-This doc was truncated.
+MkParseDisplayName
+ŠÖ”‚ÍAlŠÔ‚ª“Ç‚ß‚é–¼‘O‚ğAƒŠƒ“ƒNŒ³‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éƒ‚ƒjƒJ‚É‰ğÍ‚·‚éBŒ‹‰Ê‚Ìƒ‚ƒjƒJ‚ÍA’Pƒƒ‚ƒjƒJiƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚È‚Çj‚Å‚àA\¬—v‘f‚Ìƒ‚ƒjƒJ‚©‚ç¬‚é”Ä—p‡¬ƒ‚ƒjƒJ‚Å‚à‚©‚Ü‚í‚È‚¢B‚½‚Æ‚¦‚ÎA•\¦–¼
+"c:\mydir\somefile!item 1" ‚ÍA"c:\mydir\somefile" ‚ÉŠî‚Ã‚­ FileMoniker ‚Æ
+"item 1" ‚ÉŠî‚Ã‚­ ItemMoniker ‚Ì”Ä—p‡¬ƒ‚ƒjƒJ‚É‰ğÍ‚Å‚«‚éBMkParseDisplayName
+‚Ì‚à‚Á‚Æ‚àˆê”Ê“I‚È—p“r‚ÍA•W€‚ÌuƒŠƒ“ƒNvƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌÀ‘•‚Å‚ ‚èA‚±‚ê‚É‚æ‚èAƒGƒ“ƒhƒ†[ƒU[‚Í•¶š—ñ‚ğ“ü—Í‚µ‚ÄƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Ìƒ\[ƒX‚ğw’è‚Å‚«‚éBƒhƒLƒ…ƒƒ“ƒgŠO‚Ì—v‘f‚Ö‚ÌQÆ‚ğ‹–‰Â‚·‚éƒ}ƒNƒŒ¾Œê‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒTƒ|[ƒg‚·‚éê‡‚É‚àAMkParseDisplayName
+‚ÌŒÄ‚Ño‚µ‚ª•K—v‚É‚È‚éê‡‚ª‚ ‚éB
+
+•\¦–¼‚Ì‰ğÍ‚ÍAƒoƒCƒ“ƒh‘€ì’†‚ÉƒAƒNƒeƒBƒu‰»‚·‚é‚Ì‚Æ“¯‚¶ƒIƒuƒWƒFƒNƒg‚ÌƒAƒNƒeƒBƒu‰»‚ğ•K—v‚Æ‚·‚é‚±‚Æ‚ª‘½‚¢‚½‚ßAi«”\–Ê‚Å‚ÍjƒoƒCƒ“ƒh‚Æ“¯’ö“x‚ÉƒRƒXƒg‚ª‚©‚©‚é‰Â”\«‚ª‚ ‚éB‰ğÍ‘€ì’†‚ÉƒoƒCƒ“ƒh‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ÍAŠÖ”‚É“n‚³‚ê‚éƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ÉƒLƒƒƒbƒVƒ…‚³‚ê‚éBMkParseDisplayName
+‚ª•Ô‚µ‚½ƒ‚ƒjƒJ‚ğƒoƒCƒ“ƒh‚·‚é—\’è‚ª‚ ‚éê‡‚ÍAŠÖ”‚ª–ß‚Á‚½’¼Œã‚É“¯‚¶ƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ğg—p‚µ‚ÄƒoƒCƒ“ƒh‚·‚é‚Ì‚ª–]‚Ü‚µ‚¢B‚»‚¤‚·‚é‚±‚Æ‚ÅAƒIƒuƒWƒFƒNƒg‚ğ
+2 ‰ñƒAƒNƒeƒBƒu‰»‚·‚é•K—v‚ª‚È‚­‚È‚éBMkParseDisplayName
+‚ÍA—‰ğ‚Å‚«‚é”ÍˆÍ‚Ì•\¦–¼‚ğƒ‚ƒjƒJ‚É‰ğÍ‚·‚éB‘±‚¢‚ÄA‚±‚ÌŠÖ”‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒ‚ƒjƒJã‚Å
+IMoniker::ParseDisplayName ‚ğŒÄ‚Ño‚µA•\¦–¼‚Ìc‚è‚ğ“n‚·BParseDisplayName
+‚ª•Ô‚·ƒ‚ƒjƒJ‚ÍŠù‘¶‚Ìƒ‚ƒjƒJ‚Ì––”ö‚É‡¬‚³‚êA•\¦–¼‚ª–¢‰ğÍ‚Ì‚Ü‚Üc‚Á‚Ä‚¢‚éê‡‚ÍA‡¬Œ‹‰Ê‚É‘Î‚µ‚ÄÄ‚Ñ ParseDisplayName
+‚ªŒÄ‚Ño‚³‚ê‚éB‚±‚Ìˆ—‚Í•\¦–¼‘S‘Ì‚ª‰ğÍ‚³‚ê‚é‚Ü‚ÅŒJ‚è•Ô‚³‚ê‚éBMkParseDisplayName
+‚ÍA•\¦–¼‚Ìæ“ª‚ğ‰ğÍ‚·‚é‚½‚ß‚ÉAŸ‚Ì•û–@‚ğ‡‚É‚µAÅ‰‚É¬Œ÷‚µ‚½‚à‚Ì‚ğg—p‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 MonikerCommonPrefixWith
-Creates a new moniker based on the common prefix that this moniker (the one comprising the data of this moniker object) shares with another moniker.
+‚±‚Ìƒ‚ƒjƒJi‚±‚Ìƒ‚ƒjƒJƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚ğ\¬‚·‚éƒ‚ƒjƒJj‚Æ•Ê‚Ìƒ‚ƒjƒJ‚ª‹¤—L‚·‚é‹¤’ÊƒvƒŒƒtƒBƒbƒNƒX‚ÉŠî‚Ã‚«AV‚µ‚¢ƒ‚ƒjƒJ‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 pmkThis, pmkOther, ppmkCommon
-pmkThis : [var] A pointer to the IMoniker interface on one of the monikers for which a common prefix is sought; usually the moniker in which this call is used to implement IMoniker::CommonPrefixWith.
-pmkOther : [var] A pointer to the IMoniker interface on the moniker to be compared with the first moniker.
-ppmkCommon : [var] The address of an IMoniker* pointer variable that receives the interface pointer to the moniker based on the common prefix of pmkThis and pmkOther. When successful, the function has called AddRef on the moniker and the caller is responsible for calling Release. If an error occurs, the supplied interface pointer value is NULL.
+pmkThis : [var] ‹¤’ÊƒvƒŒƒtƒBƒbƒNƒX‚ğ‹‚ß‚é‘ÎÛ‚Ìˆê•û‚Ìƒ‚ƒjƒJã‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B’ÊíA‚±‚ÌŒÄ‚Ño‚µ‚ğ IMoniker::CommonPrefixWith ‚ÌÀ‘•‚Ég—p‚µ‚Ä‚¢‚éƒ‚ƒjƒJ©g‚ğw‚·B
+pmkOther : [var] Å‰‚Ìƒ‚ƒjƒJ‚Æ”äŠr‚³‚ê‚éA‚à‚¤ˆê•û‚Ìƒ‚ƒjƒJã‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppmkCommon : [var] pmkThis ‚Æ pmkOther ‚Ì‹¤’ÊƒvƒŒƒtƒBƒbƒNƒX‚ÉŠî‚Ã‚­ƒ‚ƒjƒJ‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB¬Œ÷AŠÖ”‚Íƒ‚ƒjƒJ‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚µ‚Ä‚¨‚èAŒÄ‚Ño‚µ‘¤‚ª Release ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¤BƒGƒ‰[”­¶Aw’è‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚Ì’l‚Í NULL ‚Æ‚È‚éB
 %inst
-Creates a new moniker based on the common prefix that this moniker
-(the one comprising the data of this moniker object) shares with
-another moniker.
+‚±‚Ìƒ‚ƒjƒJi‚±‚Ìƒ‚ƒjƒJƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚ğ\¬‚·‚éƒ‚ƒjƒJj‚Æ•Ê‚Ìƒ‚ƒjƒJ‚ª‹¤—L‚·‚é‹¤’ÊƒvƒŒƒtƒBƒbƒNƒX‚ÉŠî‚Ã‚«AV‚µ‚¢ƒ‚ƒjƒJ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function can return the standard return values E_OUTOFMEMORY and
-E_UNEXPECTED, as well as the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚¨‚æ‚Ñ E_UNEXPECTED ‚É‰Á‚¦‚ÄˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Your implementation of IMoniker::CommonPrefixWith should first check
-whether the other moniker is of a type that you recognize and handle
-in a special way. If not, you should call MonikerCommonPrefixWith,
-passing itself as pmkThis and the other moniker as pmkOther.
-MonikerCommonPrefixWith correctly handles the cases where either
-moniker is a generic composite.
-You should call this function only if pmkThis and pmkOther are both
-absolute monikers (where an absolute moniker is either a file moniker
-or a generic composite whose leftmost component is a file moniker,
-and where the file moniker represents an absolute path). Do not call
-this function on relative monikers.
+IMoniker::CommonPrefixWith
+‚ÌÀ‘•‚Å‚ÍA‚Ü‚¸‘Šè‚Ìƒ‚ƒjƒJ‚ª©•ª‚ª”F¯‚µ‚Ä“Á•Ê‚È•û–@‚Åˆµ‚¦‚éŒ^‚©‚Ç‚¤‚©‚ğŠm”F‚·‚×‚«‚Å‚ ‚éB‚»‚¤‚Å‚È‚¢ê‡A©g‚ğ
+pmkThisA‘Šè‚Ìƒ‚ƒjƒJ‚ğ pmkOther ‚Æ‚µ‚Ä MonikerCommonPrefixWith
+‚ğŒÄ‚Ño‚·‚±‚ÆBMonikerCommonPrefixWith ‚ÍA‚Ç‚¿‚ç‚©‚Ìƒ‚ƒjƒJ‚ª”Ä—p‡¬‚Å‚ ‚éê‡‚à³‚µ‚­ˆ—‚·‚éB
+‚±‚ÌŠÖ”‚ÍApmkThis ‚Æ pmkOther
+‚Ì—¼•û‚ªâ‘Îƒ‚ƒjƒJ‚Å‚ ‚éê‡‚É‚Ì‚İŒÄ‚Ño‚·‚±‚ÆB‚±‚±‚Åâ‘Îƒ‚ƒjƒJ‚Æ‚ÍAƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚Ü‚½‚ÍÅ¶¬•ª‚ªƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚Å‚ ‚é”Ä—p‡¬ƒ‚ƒjƒJ‚ÅA‚©‚Â‚»‚Ìƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚ªâ‘ÎƒpƒX‚ğ•\‚·‚à‚Ì‚ğ‚¢‚¤B‘Š‘Îƒ‚ƒjƒJ‚É‘Î‚µ‚Ä‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 
 
 %index
 MonikerRelativePathTo
-Provides a moniker that, when composed onto the end of the first specified moniker (or one with a similar structure), yields the second specified moniker.
+Å‰‚Éw’è‚³‚ê‚½ƒ‚ƒjƒJi‚Ü‚½‚Í—Ş—‚Ì\‘¢‚ğ‚Âƒ‚ƒjƒJj‚Ì––”ö‚É‡¬‚·‚é‚±‚Æ‚ÅA2 ‚Â–Ú‚Éw’è‚³‚ê‚½ƒ‚ƒjƒJ‚ª“¾‚ç‚ê‚é‚æ‚¤‚Èƒ‚ƒjƒJ‚ğ’ñ‹Ÿ‚·‚éB
 %group
 Win32 ole32
 %prm
 pmkSrc, pmkDest, ppmkRelPath, dwReserved
-pmkSrc : [var] A pointer to the IMoniker interface on the moniker that, when composed with the relative moniker to be created, produces pmkDest. This moniker identifies the "source" of the relative moniker to be created.
-pmkDest : [var] A pointer to the IMoniker interface on the moniker to be expressed relative to pmkSrc. This moniker identifies the destination of the relative moniker to be created.
-ppmkRelPath : [var] The address of an IMoniker* pointer variable that receives the interface pointer to the new relative moniker. When successful, the function has called AddRef on the moniker and the caller is responsible for calling Release. If an error occurs, the interface pointer value is NULL.
-dwReserved : [int] This parameter is reserved and must be nonzero.
+pmkSrc : [var] ì¬‚·‚é‘Š‘Îƒ‚ƒjƒJ‚Æ‡¬‚·‚é‚±‚Æ‚Å pmkDest ‚ª“¾‚ç‚ê‚éƒ‚ƒjƒJã‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ‚ƒjƒJ‚ÍAì¬‚·‚é‘Š‘Îƒ‚ƒjƒJ‚Ìuƒ\[ƒXv‚ğ¯•Ê‚·‚éB
+pmkDest : [var] pmkSrc ‚©‚ç‚Ì‘Š‘Î‚Æ‚µ‚Ä•\‚·ƒ‚ƒjƒJã‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ‚ƒjƒJ‚ÍAì¬‚·‚é‘Š‘Îƒ‚ƒjƒJ‚Ìˆ¶æ‚ğ¯•Ê‚·‚éB
+ppmkRelPath : [var] V‚µ‚¢‘Š‘Îƒ‚ƒjƒJ‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB¬Œ÷AŠÖ”‚Íƒ‚ƒjƒJ‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚µ‚Ä‚¨‚èAŒÄ‚Ño‚µ‘¤‚ª Release ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¤BƒGƒ‰[”­¶AƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚Ì’l‚Í NULL ‚Æ‚È‚éB
+dwReserved : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñÏ‚İ‚Å‚ ‚èA0 ˆÈŠO‚Ì’l‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Provides a moniker that, when composed onto the end of the first
-specified moniker (or one with a similar structure), yields the
-second specified moniker.
+Å‰‚Éw’è‚³‚ê‚½ƒ‚ƒjƒJi‚Ü‚½‚Í—Ş—‚Ì\‘¢‚ğ‚Âƒ‚ƒjƒJj‚Ì––”ö‚É‡¬‚·‚é‚±‚Æ‚ÅA2 ‚Â–Ú‚Éw’è‚³‚ê‚½ƒ‚ƒjƒJ‚ª“¾‚ç‚ê‚é‚æ‚¤‚Èƒ‚ƒjƒJ‚ğ’ñ‹Ÿ‚·‚éB
 
 [–ß‚è’l]
-This function can return the standard return values E_INVALIDARG,
-E_OUTOFMEMORY, and E_UNEXPECTED, as well as the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARGAE_OUTOFMEMORYA‚¨‚æ‚Ñ E_UNEXPECTED
+‚É‰Á‚¦‚ÄˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Your implementation of IMoniker::RelativePathTo should first check
-whether the other moniker is of a type you recognize and handle in a
-special way. If not, you should call MonikerRelativePathTo, passing
-itself as pmkThis and the other moniker as pmkOther.
-MonikerRelativePathTo correctly handles the cases where either
-moniker is a generic composite.
-You should call this function only if pmkSrc and pmkDest are both
-absolute monikers, where an absolute moniker is either a file moniker
-or a generic composite whose leftmost component is a file moniker,
-and where the file moniker represents an absolute path. Do not call
-this function on relative monikers.
+IMoniker::RelativePathTo
+‚ÌÀ‘•‚Å‚ÍA‚Ü‚¸‘Šè‚Ìƒ‚ƒjƒJ‚ª©•ª‚ª”F¯‚µ‚Ä“Á•Ê‚È•û–@‚Åˆµ‚¦‚éŒ^‚©‚Ç‚¤‚©‚ğŠm”F‚·‚×‚«‚Å‚ ‚éB‚»‚¤‚Å‚È‚¢ê‡A©g‚ğ
+pmkThisA‘Šè‚Ìƒ‚ƒjƒJ‚ğ pmkOther ‚Æ‚µ‚Ä MonikerRelativePathTo
+‚ğŒÄ‚Ño‚·‚±‚ÆBMonikerRelativePathTo ‚ÍA‚Ç‚¿‚ç‚©‚Ìƒ‚ƒjƒJ‚ª”Ä—p‡¬‚Å‚ ‚éê‡‚à³‚µ‚­ˆ—‚·‚éB
+‚±‚ÌŠÖ”‚ÍApmkSrc ‚Æ pmkDest
+‚Ì—¼•û‚ªâ‘Îƒ‚ƒjƒJ‚Å‚ ‚éê‡‚É‚Ì‚İŒÄ‚Ño‚·‚±‚ÆB‚±‚±‚Åâ‘Îƒ‚ƒjƒJ‚Æ‚ÍAƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚Ü‚½‚ÍÅ¶¬•ª‚ªƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚Å‚ ‚é”Ä—p‡¬ƒ‚ƒjƒJ‚ÅA‚©‚Â‚»‚Ìƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ‚ªâ‘ÎƒpƒX‚ğ•\‚·‚à‚Ì‚ğ‚¢‚¤B‘Š‘Îƒ‚ƒjƒJ‚É‘Î‚µ‚Ä‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 
 
 %index
 OleBuildVersion
-This function is obsolete.
+‚±‚ÌŠÖ”‚Í”p~‚³‚ê‚Ä‚¢‚éB
 %group
 Win32 ole32
 %prm
 
 %inst
-This function is obsolete.
+‚±‚ÌŠÖ”‚Í”p~‚³‚ê‚Ä‚¢‚éB
 
 [–ß‚è’l]
-Obsolete.
+”p~B
 
 
 %index
 OleConvertIStorageToOLESTREAM
-The OleConvertIStorageToOLESTREAM function converts the specified storage object from OLE 2 structured storage to the OLE 1 storage object model but does not include the presentation data. This is one of several compatibility functions.
+OleConvertIStorageToOLESTREAM ŠÖ”‚ÍAw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ OLE 2 \‘¢‰»ƒXƒgƒŒ[ƒW‚©‚ç OLE 1 ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgƒ‚ƒfƒ‹‚É•ÏŠ·‚·‚é‚ªA•\¦ƒf[ƒ^‚ÍŠÜ‚ß‚È‚¢B‚±‚ê‚Í•¡”‚ÌŒİŠ·ŠÖ”‚Ìˆê‚Â‚Å‚ ‚éB
 %group
 Win32 ole32
 %prm
 pstg, lpolestream
-pstg : [var] Pointer to the IStorage interface on the storage object to be converted to an OLE 1 storage.
-lpolestream : [var] Pointer to an OLE 1 stream structure where the persistent representation of the object is saved using the OLE 1 storage model.
+pstg : [var] OLE 1 ƒXƒgƒŒ[ƒW‚É•ÏŠ·‚·‚é‘ÎÛ‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpolestream : [var] OLE 1 ƒXƒgƒŒ[ƒWƒ‚ƒfƒ‹‚ğg—p‚µ‚ÄƒIƒuƒWƒFƒNƒg‚Ì‰i‘±“I•\Œ»‚ğ•Û‘¶‚·‚é OLE 1 ƒXƒgƒŠ[ƒ€\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The OleConvertIStorageToOLESTREAM function converts the specified
-storage object from OLE 2 structured storage to the OLE 1 storage
-object model but does not include the presentation data. This is one
-of several compatibility functions.
+OleConvertIStorageToOLESTREAM ŠÖ”‚ÍAw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ OLE 2 \‘¢‰»ƒXƒgƒŒ[ƒW‚©‚ç
+OLE 1 ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgƒ‚ƒfƒ‹‚É•ÏŠ·‚·‚é‚ªA•\¦ƒf[ƒ^‚ÍŠÜ‚ß‚È‚¢B‚±‚ê‚Í•¡”‚ÌŒİŠ·ŠÖ”‚Ìˆê‚Â‚Å‚ ‚éB
 
 [–ß‚è’l]
-This function supports the standard return value E_INVALIDARG, in
-addition to the following:
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARG ‚É‰Á‚¦‚ÄˆÈ‰º‚ğƒTƒ|[ƒg‚·‚éB
 
 [”õl]
-This function converts an OLE 2 storage object to OLE 1 format. The
-OLESTREAM structure code implemented for OLE 1 must be available. On
-entry, the stream to which lpolestm points should be created and
-positioned just as it would be for an OleSaveToStream call. On exit,
-the stream contains the persistent representation of the object using
-OLE 1 storage. Note Paintbrush objects are dealt with differently
-from other objects because their native data is in device-independent
-bitmap (DIB) format. When Paintbrush objects are converted using
-OleConvertIStorageToOLESTREAM, no presentation data is added to the
-OLESTREAM structure. To include presentation data, use the
-OleConvertIStorageToOLESTREAMEx function instead.
+‚±‚ÌŠÖ”‚Í OLE 2 ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ OLE 1 Œ`®‚É•ÏŠ·‚·‚éBOLE 1 —p‚ÉÀ‘•‚³‚ê‚½ OLESTREAM
+\‘¢‘Ì‚ÌƒR[ƒh‚ª—˜—p‰Â”\‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŠÖ”ŠJnAlpolestm ‚ªw‚·ƒXƒgƒŠ[ƒ€‚Í OleSaveToStream
+ŒÄ‚Ño‚µ—p‚Éì¬‚³‚êAˆÊ’uŒˆ‚ß‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBŠÖ”I—¹AƒXƒgƒŠ[ƒ€‚É‚Í OLE 1
+ƒXƒgƒŒ[ƒW‚ğg—p‚µ‚½ƒIƒuƒWƒFƒNƒg‚Ì‰i‘±“I•\Œ»‚ªŠi”[‚³‚ê‚Ä‚¢‚éB’:
+ƒyƒCƒ“ƒgƒuƒ‰ƒVƒIƒuƒWƒFƒNƒg‚ÍAƒlƒCƒeƒBƒuƒf[ƒ^‚ªƒfƒoƒCƒX”ñˆË‘¶ƒrƒbƒgƒ}ƒbƒviDIBjŒ`®‚Å‚ ‚é‚½‚ßA‘¼‚ÌƒIƒuƒWƒFƒNƒg‚Æ‚ÍˆÙ‚È‚éˆµ‚¢‚ğó‚¯‚éBƒyƒCƒ“ƒgƒuƒ‰ƒVƒIƒuƒWƒFƒNƒg‚ğ
+OleConvertIStorageToOLESTREAM ‚Å•ÏŠ·‚·‚éê‡AOLESTREAM
+\‘¢‘Ì‚É•\¦ƒf[ƒ^‚Í’Ç‰Á‚³‚ê‚È‚¢B•\¦ƒf[ƒ^‚ğŠÜ‚ß‚é‚É‚ÍA‘ã‚í‚è‚É OleConvertIStorageToOLESTREAMEx
+ŠÖ”‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 OleConvertIStorageToOLESTREAMEx
-The OleConvertIStorageToOLESTREAMEx function converts the specified storage object from OLE 2 structured storage to the OLE 1 storage object model, including the presentation data.
+OleConvertIStorageToOLESTREAMEx ŠÖ”‚ÍAw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ OLE 2 \‘¢‰»ƒXƒgƒŒ[ƒW‚©‚ç OLE 1 ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgƒ‚ƒfƒ‹‚ÉA•\¦ƒf[ƒ^‚ğŠÜ‚ß‚Ä•ÏŠ·‚·‚éB
 %group
 Win32 ole32
 %prm
 pstg, cfFormat, lWidth, lHeight, dwSize, pmedium, polestm
-pstg : [var] Pointer to the IStorage interface on the storage object to be converted to an OLE 1 storage.
-cfFormat : [int] Format of the presentation data. May be NULL, in which case the lWidth, lHeight, dwSize, and pmedium parameters are ignored.
-lWidth : [int] Width of the object presentation data in HIMETRIC units.
-lHeight : [int] Height of the object presentation data in HIMETRIC units.
-dwSize : [int] Size of the data, in bytes, to be converted.
-pmedium : [var] Pointer to the STGMEDIUM structure for the serialized data to be converted.
-polestm : [var] Pointer to a stream where the persistent representation of the object is saved using the OLE 1 storage model.
+pstg : [var] OLE 1 ƒXƒgƒŒ[ƒW‚É•ÏŠ·‚·‚é‘ÎÛ‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cfFormat : [int] •\¦ƒf[ƒ^‚ÌŒ`®BNULL ‚ğw’è‚·‚é‚±‚Æ‚à‚Å‚«A‚»‚Ìê‡AlWidthAlHeightAdwSizeA‚¨‚æ‚Ñ pmedium ‚ÌŠeƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
+lWidth : [int] ƒIƒuƒWƒFƒNƒg•\¦ƒf[ƒ^‚Ì•iHIMETRIC ’PˆÊjB
+lHeight : [int] ƒIƒuƒWƒFƒNƒg•\¦ƒf[ƒ^‚Ì‚‚³iHIMETRIC ’PˆÊjB
+dwSize : [int] •ÏŠ·‚·‚éƒf[ƒ^‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
+pmedium : [var] •ÏŠ·‘ÎÛ‚ÌƒVƒŠƒAƒ‹‰»ƒf[ƒ^‚É‘Î‚·‚é STGMEDIUM \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+polestm : [var] OLE 1 ƒXƒgƒŒ[ƒWƒ‚ƒfƒ‹‚ğg—p‚µ‚ÄƒIƒuƒWƒFƒNƒg‚Ì‰i‘±“I•\Œ»‚ğ•Û‘¶‚·‚éƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The OleConvertIStorageToOLESTREAMEx function converts the specified
-storage object from OLE 2 structured storage to the OLE 1 storage
-object model, including the presentation data.
+OleConvertIStorageToOLESTREAMEx ŠÖ”‚ÍAw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ OLE 2
+\‘¢‰»ƒXƒgƒŒ[ƒW‚©‚ç OLE 1 ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgƒ‚ƒfƒ‹‚ÉA•\¦ƒf[ƒ^‚ğŠÜ‚ß‚Ä•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-This function supports the standard return value E_INVALIDARG, in
-addition to the following:
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARG ‚É‰Á‚¦‚ÄˆÈ‰º‚ğƒTƒ|[ƒg‚·‚éB
 
 [”õl]
-The OleConvertIStorageToOLESTREAMEx function converts an OLE 2
-storage object to OLE 1 format. It differs from the
-OleConvertIStorageToOLESTREAM function in that the
-OleConvertIStorageToOLESTREAMEx function also passes the presentation
-data to the OLE 1 storage object, whereas the
-OleConvertIStorageToOLESTREAM function does not. Because
-OleConvertIStorageToOLESTREAMEx can specify which presentation data
-to convert, it can be used by applications that do not use OLE
-default caching resources but do use OLE's conversion resources. The
-value of the tymed member of STGMEDIUM must be either TYMED_HGLOBAL
-or TYMED_ISTREAM; refer to the TYMED enumeration for more
-information. The medium is not released by the
-OleConvertIStorageToOLESTREAMEx function.
+OleConvertIStorageToOLESTREAMEx ŠÖ”‚Í OLE 2 ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ OLE 1
+Œ`®‚É•ÏŠ·‚·‚éBOleConvertIStorageToOLESTREAM
+ŠÖ”‚Æ‚Ìˆá‚¢‚ÍAOleConvertIStorageToOLESTREAMEx ‚Å‚Í•\¦ƒf[ƒ^‚à OLE 1
+ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É“n‚³‚ê‚é“_‚Å‚ ‚éiOleConvertIStorageToOLESTREAM
+‚Å‚Í“n‚³‚ê‚È‚¢jBOleConvertIStorageToOLESTREAMEx ‚Å‚Í‚Ç‚Ì•\¦ƒf[ƒ^‚ğ•ÏŠ·‚·‚é‚©‚ğw’è‚Å‚«‚é‚½‚ßAOLE
+‚ÌƒfƒtƒHƒ‹ƒg‚ÌƒLƒƒƒbƒVƒ…‹@”\‚Íg—p‚µ‚È‚¢‚ªAOLE ‚Ì•ÏŠ·‹@”\‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚à—˜—p‚Å‚«‚éBSTGMEDIUM ‚Ì tymed
+ƒƒ“ƒo‚Ì’l‚Í TYMED_HGLOBAL ‚Ü‚½‚Í TYMED_ISTREAM ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚Í TYMED
+—ñ‹“‚ğQÆBƒƒfƒBƒA‚Í OleConvertIStorageToOLESTREAMEx ŠÖ”‚É‚æ‚Á‚Ä‚Í‰ğ•ú‚³‚ê‚È‚¢B
 
 
 %index
 OleConvertOLESTREAMToIStorage
-Converts the specified object from the OLE 1 storage model to an OLE 2 structured storage object without specifying presentation data.
+w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğA•\¦ƒf[ƒ^‚ğw’è‚¹‚¸‚É OLE 1 ƒXƒgƒŒ[ƒWƒ‚ƒfƒ‹‚©‚ç OLE 2 \‘¢‰»ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚·‚éB
 %group
 Win32 ole32
 %prm
 lpolestream, pstg, ptd
-lpolestream : [var] A pointer to a stream that contains the persistent representation of the object in the OLE 1 storage format.
-pstg : [var] A pointer to the IStorage interface on the OLE 2 structured storage object.
-ptd : [var] A pointer to the DVTARGETDEVICE structure that specifies the target device for which the OLE 1 object is rendered.
+lpolestream : [var] OLE 1 ƒXƒgƒŒ[ƒWŒ`®‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‰i‘±“I•\Œ»‚ğŠÜ‚ŞƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pstg : [var] OLE 2 \‘¢‰»ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ptd : [var] OLE 1 ƒIƒuƒWƒFƒNƒg‚ªƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚é‘ÎÛƒfƒoƒCƒX‚ğw’è‚·‚é DVTARGETDEVICE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Converts the specified object from the OLE 1 storage model to an OLE
-2 structured storage object without specifying presentation data.
+w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğA•\¦ƒf[ƒ^‚ğw’è‚¹‚¸‚É OLE 1 ƒXƒgƒŒ[ƒWƒ‚ƒfƒ‹‚©‚ç OLE 2 \‘¢‰»ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-This function supports the standard return value E_INVALIDARG, in
-addition to the following:
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARG ‚É‰Á‚¦‚ÄˆÈ‰º‚ğƒTƒ|[ƒg‚·‚éB
 
 [”õl]
-This function converts an OLE 1 object to an OLE 2 structured storage
-object. Use this function to update OLE 1 objects to OLE 2 objects
-when a new version of the object application supports OLE 2. On
-entry, the lpolestm parameter should be created and positioned just
-as it would be for an OleLoadFromStream function call. On exit, the
-lpolestm parameter is positioned just as it would be on exit from an
-OleLoadFromStream function, and the pstg parameter contains the
-uncommitted persistent representation of the OLE 2 storage object.
-For OLE 1 objects that use native data for their presentation, the
-OleConvertOLESTREAMToIStorage function returns
-CONVERT10_S_NO_PRESENTATION. On receiving this return value, callers
-should call IOleObject::Update to get the presentation data so it can
-be written to storage. Applications that do not use the OLE default
-caching resources, but use the conversion resources, can use an
-alternate function, OleConvertOLESTREAMToIStorageEx, which can
-specify the presentation data to convert. In the
-OleConvertOLESTREAMToIStorageEx function, the presentation data read
-from the OLESTREAM structure is passed out and the newly created OLE
-2 storage object does not contain a presentation stream. The
-following procedure describes the conversion process using
-OleConvertOLESTREAMToIStorage. Converting an OLE 1 object to an OLE 2
-storage object
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í OLE 1 ƒIƒuƒWƒFƒNƒg‚ğ OLE 2
+\‘¢‰»ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚·‚éBƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌV‚µ‚¢ƒo[ƒWƒ‡ƒ“‚ª OLE 2 ‚ğƒTƒ|[ƒg‚·‚éê‡‚ÉAOLE 1
+ƒIƒuƒWƒFƒNƒg‚ğ OLE 2 ƒIƒuƒWƒFƒNƒg‚ÉXV‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğg—p‚·‚éBŠÖ”ŠJnAlpolestm ƒpƒ‰ƒ[ƒ^‚Í
+OleLoadFromStream ŠÖ”ŒÄ‚Ño‚µ—p‚Éì¬‚³‚êAˆÊ’uŒˆ‚ß‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éBŠÖ”I—¹Alpolestm ƒpƒ‰ƒ[ƒ^‚Í
+OleLoadFromStream I—¹‚Æ“¯‚¶‚æ‚¤‚ÉˆÊ’uŒˆ‚ß‚³‚êApstg ƒpƒ‰ƒ[ƒ^‚É‚Í OLE 2
+ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÌƒRƒ~ƒbƒg‚³‚ê‚Ä‚¢‚È‚¢‰i‘±“I•\Œ»‚ªŠi”[‚³‚ê‚éB•\¦‚ÉƒlƒCƒeƒBƒuƒf[ƒ^‚ğg—p‚·‚é OLE 1
+ƒIƒuƒWƒFƒNƒg‚Ìê‡AOleConvertOLESTREAMToIStorage ŠÖ”‚Í
+CONVERT10_S_NO_PRESENTATION ‚ğ•Ô‚·B‚±‚Ì–ß‚è’l‚ğó‚¯æ‚Á‚½ŒÄ‚Ño‚µ‘¤‚Í IOleObject::Update
+‚ğŒÄ‚Ño‚µ‚Ä•\¦ƒf[ƒ^‚ğæ“¾‚µA‚»‚ê‚ğƒXƒgƒŒ[ƒW‚É‘‚«‚Ş‚æ‚¤‚É‚·‚×‚«‚Å‚ ‚éBOLE
+‚ÌƒfƒtƒHƒ‹ƒg‚ÌƒLƒƒƒbƒVƒ…‹@”\‚ğg—p‚¹‚¸A•ÏŠ·‹@”\‚¾‚¯‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA‘ã‘ÖŠÖ”
+OleConvertOLESTREAMToIStorageEx
+‚ğg—p‚·‚é‚±‚Æ‚ª‚Å‚«A‚±‚¿‚ç‚Å‚Í•ÏŠ·‚·‚é•\¦ƒf[ƒ^‚ğw’è‚Å‚«‚éBOleConvertOLESTREAMToIStorageEx
+ŠÖ”‚Å‚ÍAOLESTREAM \‘¢‘Ì‚©‚ç“Ç‚İæ‚ç‚ê‚½•\¦ƒf[ƒ^‚ª“n‚³‚êAV‚µ‚­ì¬‚³‚ê‚½ OLE 2
+ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É‚Í•\¦ƒXƒgƒŠ[ƒ€‚ªŠÜ‚Ü‚ê‚È‚¢BŸ‚Ìè‡‚ÍAOleConvertOLESTREAMToIStorage
+‚ğg—p‚µ‚½•ÏŠ·ˆ—‚ğ¦‚µ‚Ä‚¢‚éBOLE 1 ƒIƒuƒWƒFƒNƒg‚ğ OLE 2 ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚·‚é
+iˆÈ‰ºÈ—ªj
 
 
 %index
@@ -1351,41 +1107,35 @@ pQueryConvertOLELinkCallback : [int]
 
 %index
 OleConvertOLESTREAMToIStorageEx
-The OleConvertOLESTREAMToIStorageEx function converts the specified object from the OLE 1 storage model to an OLE 2 structured storage object including presentation data. This is one of several compatibility functions.
+OleConvertOLESTREAMToIStorageEx ŠÖ”‚ÍAw’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ•\¦ƒf[ƒ^‚ğŠÜ‚ß‚Ä OLE 1 ƒXƒgƒŒ[ƒWƒ‚ƒfƒ‹‚©‚ç OLE 2 \‘¢‰»ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚·‚éB‚±‚ê‚Í•¡”‚ÌŒİŠ·ŠÖ”‚Ìˆê‚Â‚Å‚ ‚éB
 %group
 Win32 ole32
 %prm
 polestm, pstg, pcfFormat, plwWidth, plHeight, pdwSize, pmedium
-polestm : [var] Pointer to the stream that contains the persistent representation of the object in the OLE 1 storage format.
-pstg : [var] Pointer to the OLE 2 structured storage object.
-pcfFormat : [var] Pointer to where the format of the presentation data is returned. May be NULL, indicating the absence of presentation data.
-plwWidth : [var] Pointer to where the width value (in HIMETRIC) of the presentation data is returned.
-plHeight : [var] Pointer to where the height value (in HIMETRIC) of the presentation data is returned.
-pdwSize : [var] Pointer to where the size in bytes of the converted data is returned.
-pmedium : [var] Pointer to where the STGMEDIUM structure for the converted serialized data is returned.
+polestm : [var] OLE 1 ƒXƒgƒŒ[ƒWŒ`®‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‰i‘±“I•\Œ»‚ğŠÜ‚ŞƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pstg : [var] OLE 2 \‘¢‰»ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pcfFormat : [var] •\¦ƒf[ƒ^‚ÌŒ`®‚ª•Ô‚³‚ê‚éêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚ğw’è‚·‚é‚±‚Æ‚à‚Å‚«A‚»‚Ìê‡‚Í•\¦ƒf[ƒ^‚ª‚È‚¢‚±‚Æ‚ğ¦‚·B
+plwWidth : [var] •\¦ƒf[ƒ^‚Ì•‚Ì’liHIMETRIC ’PˆÊj‚ª•Ô‚³‚ê‚éêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+plHeight : [var] •\¦ƒf[ƒ^‚Ì‚‚³‚Ì’liHIMETRIC ’PˆÊj‚ª•Ô‚³‚ê‚éêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pdwSize : [var] •ÏŠ·‚³‚ê‚½ƒf[ƒ^‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊj‚ª•Ô‚³‚ê‚éêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pmedium : [var] •ÏŠ·‚³‚ê‚½ƒVƒŠƒAƒ‹‰»ƒf[ƒ^‚É‘Î‚·‚é STGMEDIUM \‘¢‘Ì‚ª•Ô‚³‚ê‚éêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The OleConvertOLESTREAMToIStorageEx function converts the specified
-object from the OLE 1 storage model to an OLE 2 structured storage
-object including presentation data. This is one of several
-compatibility functions.
+OleConvertOLESTREAMToIStorageEx ŠÖ”‚ÍAw’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ•\¦ƒf[ƒ^‚ğŠÜ‚ß‚Ä OLE 1
+ƒXƒgƒŒ[ƒWƒ‚ƒfƒ‹‚©‚ç OLE 2 \‘¢‰»ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚·‚éB‚±‚ê‚Í•¡”‚ÌŒİŠ·ŠÖ”‚Ìˆê‚Â‚Å‚ ‚éB
 
 [–ß‚è’l]
-This function returns HRESULT.
+‚±‚ÌŠÖ”‚Í HRESULT ‚ğ•Ô‚·B
 
 [”õl]
-This function converts an OLE 1 object to an OLE 2 structured storage
-object. You can use this function to update OLE 1 objects to OLE 2
-objects when a new version of the object application supports OLE 2.
-This function differs from the OleConvertOLESTREAMToIStorage function
-in that the presentation data read from the OLESTREAM structure is
-passed out and the newly created OLE 2 storage object does not
-contain a presentation stream. Since this function can specify which
-presentation data to convert, it can be used by applications that do
-not use OLE's default caching resources but do use the conversion
-resources. The tymed member of STGMEDIUM can only be TYMED_NULL or
-TYMED_ISTREAM. If it is TYMED_NULL, the data will be returned in a
-global handle through the hGlobal member of STGMEDIUM, otherwise data
-will be written into the pstm member of this structure.
+‚±‚ÌŠÖ”‚Í OLE 1 ƒIƒuƒWƒFƒNƒg‚ğ OLE 2
+\‘¢‰»ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚·‚éBƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌV‚µ‚¢ƒo[ƒWƒ‡ƒ“‚ª OLE 2 ‚ğƒTƒ|[ƒg‚·‚éê‡‚ÉAOLE 1
+ƒIƒuƒWƒFƒNƒg‚ğ OLE 2 ƒIƒuƒWƒFƒNƒg‚ÉXV‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğg—p‚Å‚«‚éB‚±‚ÌŠÖ”‚Æ
+OleConvertOLESTREAMToIStorage ŠÖ”‚Ìˆá‚¢‚ÍAOLESTREAM
+\‘¢‘Ì‚©‚ç“Ç‚İæ‚ç‚ê‚½•\¦ƒf[ƒ^‚ª“n‚³‚êAV‚µ‚­ì¬‚³‚ê‚é OLE 2
+ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É‚Í•\¦ƒXƒgƒŠ[ƒ€‚ªŠÜ‚Ü‚ê‚È‚¢“_‚Å‚ ‚éB‚±‚ÌŠÖ”‚Å‚Í‚Ç‚Ì•\¦ƒf[ƒ^‚ğ•ÏŠ·‚·‚é‚©‚ğw’è‚Å‚«‚é‚½‚ßAOLE
+‚ÌƒfƒtƒHƒ‹ƒg‚ÌƒLƒƒƒbƒVƒ…‹@”\‚Íg—p‚µ‚È‚¢‚ªA•ÏŠ·‹@”\‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚à—˜—p‚Å‚«‚éBSTGMEDIUM ‚Ì tymed ƒƒ“ƒo‚Í
+TYMED_NULL ‚Ü‚½‚Í TYMED_ISTREAM ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BTYMED_NULL ‚Ìê‡Aƒf[ƒ^‚Í STGMEDIUM
+‚Ì hGlobal ƒƒ“ƒo‚ğ’Ê‚¶‚ÄƒOƒ[ƒoƒ‹ƒnƒ“ƒhƒ‹‚Æ‚µ‚Ä•Ô‚³‚ê‚éB‚»‚¤‚Å‚È‚¢ê‡Aƒf[ƒ^‚Í‚±‚Ì\‘¢‘Ì‚Ì pstm ƒƒ“ƒo‚É‘‚«‚Ü‚ê‚éB
 
 
 %index
@@ -1411,1887 +1161,1604 @@ pQueryConvertOLELinkCallback : [int]
 
 %index
 OleCreate
-The OleCreate function (ole2.h) creates an embedded object identified by a CLSID. It can implement the menu item that allows the end user to insert an object.
+OleCreate ŠÖ”iole2.hj‚ÍACLSID ‚Å¯•Ê‚³‚ê‚é–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‚±‚ê‚ÍƒGƒ“ƒhƒ†[ƒU[‚ªƒIƒuƒWƒFƒNƒg‚ğ‘}“ü‚Å‚«‚éƒƒjƒ…[€–Ú‚ÌÀ‘•‚Ég—p‚Å‚«‚éB
 %group
 Win32 ole32
 %prm
 rclsid, riid, renderopt, pFormatEtc, pClientSite, pStg, ppvObj
-rclsid : [var] CLSID of the embedded object that is to be created.
-riid : [var] Reference to the identifier of the interface, usually IID_IOleObject (defined in the OLE headers as the interface identifier for IOleObject), through which the caller will communicate with the new object.
-renderopt : [int] A value from the enumeration OLERENDER, indicating the locally cached drawing capabilities the newly created object is to have. The OLERENDER value chosen affects the possible values for the pFormatEtc parameter.
-pFormatEtc : [var] Depending on which of the OLERENDER flags is used as the value of renderopt, pointer to one of the FORMATETC enumeration values. Refer to the OLERENDER enumeration for restrictions. This parameter, along with the renderopt parameter, specifies what the new object can cache initially.
-pClientSite : [var] If you want OleCreate to call IOleObject::SetClientSite, pointer to the IOleClientSite interface on the container. The value may be NULL, in which case you must specifically call IOleObject::SetClientSite before attempting operations.
-pStg : [var] Pointer to an instance of the IStorage interface on the storage object. This parameter may not be NULL.
-ppvObj : [var] Address of pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObject contains the requested interface pointer.
+rclsid : [var] ì¬‘ÎÛ‚Ì–„‚ß‚İƒIƒuƒWƒFƒNƒg‚Ì CLSIDB
+riid : [var] ŒÄ‚Ño‚µ‘¤‚ªV‚µ‚¢ƒIƒuƒWƒFƒNƒg‚Æ’ÊM‚·‚é‚½‚ß‚Ég—p‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB’Êí‚Í IID_IOleObjectiOLE ƒwƒbƒ_‚Å IOleObject ‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX¯•Êq‚Æ‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éj‚ğw’è‚·‚éB
+renderopt : [int] V‚µ‚­ì¬‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ª‚Âƒ[ƒJƒ‹ƒLƒƒƒbƒVƒ…‚É‚æ‚é•`‰æ‹@”\‚ğ¦‚· OLERENDER —ñ‹“‚Ì’lB‘I‘ğ‚³‚ê‚½ OLERENDER ’l‚ÍApFormatEtc ƒpƒ‰ƒ[ƒ^‚Ìæ‚è“¾‚é’l‚É‰e‹¿‚·‚éB
+pFormatEtc : [var] renderopt ‚Ì’l‚Æ‚µ‚Äg—p‚³‚ê‚é OLERENDER ƒtƒ‰ƒO‚É‰‚¶‚ÄAFORMATETC —ñ‹“’l‚Ìˆê‚Â‚Ö‚Ìƒ|ƒCƒ“ƒ^B§ŒÀ‚É‚Â‚¢‚Ä‚Í OLERENDER —ñ‹“‚ğQÆB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í renderopt ƒpƒ‰ƒ[ƒ^‚Æ‡‚í‚¹‚ÄAV‚µ‚¢ƒIƒuƒWƒFƒNƒg‚ª‰Šú‚ÉƒLƒƒƒbƒVƒ…‚Å‚«‚é‚à‚Ì‚ğw’è‚·‚éB
+pClientSite : [var] OleCreate ‚É IOleObject::SetClientSite ‚ğŒÄ‚Ño‚³‚¹‚½‚¢ê‡AƒRƒ“ƒeƒiã‚Ì IOleClientSite ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚ğw’è‚µ‚Ä‚à‚æ‚­A‚»‚Ìê‡‚Í‘€ì‚ğ‚İ‚é‘O‚É–¾¦“I‚É IOleObject::SetClientSite ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
+pStg : [var] ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É NULL ‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+ppvObj : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvObject ‚É‚Í—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-The OleCreate function (ole2.h) creates an embedded object identified
-by a CLSID. It can implement the menu item that allows the end user
-to insert an object.
+OleCreate ŠÖ”iole2.hj‚ÍACLSID
+‚Å¯•Ê‚³‚ê‚é–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‚±‚ê‚ÍƒGƒ“ƒhƒ†[ƒU[‚ªƒIƒuƒWƒFƒNƒg‚ğ‘}“ü‚Å‚«‚éƒƒjƒ…[€–Ú‚ÌÀ‘•‚Ég—p‚Å‚«‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success and supports the standard
-return value E_OUTOFMEMORY.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚µA•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚ğƒTƒ|[ƒg‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The OleCreate function creates a new embedded object, and is
-typically called to implement the menu item Insert New Object. When
-OleCreate returns, the object it has created is blank (contains no
-data), unless renderopt is OLERENDER_DRAW or OLERENDER_FORMAT, and is
-loaded. Containers typically then call the OleRun function or
-IOleObject::DoVerb to show the object for initial editing.
-The rclsid parameter specifies the CLSID of the requested object.
-CLSIDs of registered objects are stored in the system registry. When
-an application user selects Insert Object, a selection box allows the
-user to select the type of object desired from those in the registry.
-When OleCreate is used to implement the Insert Object menu item, the
-CLSID associated with the selected item is assigned to the rclsid
-parameter of OleCreate.
-The riid parameter specifies the interface the client will use to
-communicate with the new object. Upon successful return, the
-ppvObject parameter holds a pointer to the requested interface.
-The created object's cache contains information that allows a
-presentation of a contained object when the container is opened.
-Information about what should be cached is passed in the renderopt
-and pFormatetc values. When OleCreate returns, the created object's
-cache is not necessarily filled. Instead, the cache is filled the
-first time the object enters the running state. The caller can add
-additional cache control with a call to IOleCache::Cache after the
-return of OleCreate and before the object is run. If renderopt is
-OLERENDER_DRAW or OLERENDER_FORMAT, OleCreate requires that the
-object support the IOleCache interface. There is no such requirement
-for any other value of renderopt. If pClientSite is non-NULL,
-OleCreate calls IOleObject::SetClientSite through the pClientSite
-pointer. IOleClientSite is the primary interface by which an object
-requests services from its container. If pClientSite is NULL, you
-must make a specific call to IOleObject::SetClientSite before
-attempting any operations.
+OleCreate
+ŠÖ”‚ÍV‚µ‚¢–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB’Êí‚Íƒƒjƒ…[€–ÚuV‹KƒIƒuƒWƒFƒNƒg‚Ì‘}“üv‚ğÀ‘•‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚³‚ê‚éBOleCreate
+‚ª–ß‚Á‚½‚Æ‚«Arenderopt ‚ª OLERENDER_DRAW ‚Ü‚½‚Í OLERENDER_FORMAT
+‚Å‚È‚¢ŒÀ‚èAì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚Í‹óiƒf[ƒ^‚È‚µj‚Ìó‘Ô‚Åƒ[ƒh‚³‚ê‚Ä‚¢‚éB’ÊíAƒRƒ“ƒeƒi‚Í‚»‚ÌŒã OleRun ŠÖ”‚Ü‚½‚Í
+IOleObject::DoVerb ‚ğŒÄ‚Ño‚µ‚ÄA‰Šú•ÒW‚Ì‚½‚ß‚ÉƒIƒuƒWƒFƒNƒg‚ğ•\¦‚·‚éB
+rclsid ƒpƒ‰ƒ[ƒ^‚Í—v‹‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚Ì CLSID ‚ğw’è‚·‚éB“o˜^Ï‚İƒIƒuƒWƒFƒNƒg‚Ì CLSID
+‚ÍƒVƒXƒeƒ€ƒŒƒWƒXƒgƒŠ‚ÉŠi”[‚³‚ê‚Ä‚¢‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒ†[ƒU[‚ªuƒIƒuƒWƒFƒNƒg‚Ì‘}“üv‚ğ‘I‘ğ‚·‚é‚ÆAƒŒƒWƒXƒgƒŠ“à‚©‚çŠó–]‚ÌƒIƒuƒWƒFƒNƒgŒ^‚ğƒ†[ƒU[‚ª‘I‘ğ‚Å‚«‚é‘I‘ğƒ{ƒbƒNƒX‚ª•\¦‚³‚ê‚éBOleCreate
+‚ğuƒIƒuƒWƒFƒNƒg‚Ì‘}“üvƒƒjƒ…[€–Ú‚ÌÀ‘•‚Ég—p‚·‚éê‡A‘I‘ğ‚³‚ê‚½€–Ú‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ CLSID ‚ª OleCreate ‚Ì
+rclsid ƒpƒ‰ƒ[ƒ^‚ÉŠ„‚è“–‚Ä‚ç‚ê‚éB
+riid ƒpƒ‰ƒ[ƒ^‚ÍAƒNƒ‰ƒCƒAƒ“ƒg‚ªV‚µ‚¢ƒIƒuƒWƒFƒNƒg‚Æ’ÊM‚·‚é‚½‚ß‚Ég—p‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğw’è‚·‚éB³íI—¹AppvObject
+ƒpƒ‰ƒ[ƒ^‚Í—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Û‚·‚éB
+
+ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ÌƒLƒƒƒbƒVƒ…‚É‚ÍAƒRƒ“ƒeƒi‚ªŠJ‚©‚ê‚½‚Æ‚«‚ÉƒIƒuƒWƒFƒNƒg‚Ì•\¦‚ğ‰Â”\‚É‚·‚éî•ñ‚ªŠÜ‚Ü‚ê‚éB‰½‚ğƒLƒƒƒbƒVƒ…‚·‚×‚«‚©‚ÉŠÖ‚·‚éî•ñ‚Í
+renderopt ‚¨‚æ‚Ñ pFormatetc ‚Ì’l‚Å“n‚³‚ê‚éBOleCreate
+‚ª–ß‚Á‚½‚Æ‚«Aì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ÌƒLƒƒƒbƒVƒ…‚Í•K‚¸‚µ‚à–‚½‚³‚ê‚Ä‚¢‚È‚¢B‘ã‚í‚è‚ÉAƒLƒƒƒbƒVƒ…‚ÍƒIƒuƒWƒFƒNƒg‚ª‰‚ß‚ÄÀsó‘Ô‚É“ü‚Á‚½‚Æ‚«‚É–‚½‚³‚ê‚éBŒÄ‚Ño‚µ‘¤‚Í
+OleCreate ‚ª–ß‚Á‚½ŒãAƒIƒuƒWƒFƒNƒg‚ªÀs‚³‚ê‚é‘O‚É IOleCache::Cache
+‚ğŒÄ‚Ño‚µ‚ÄƒLƒƒƒbƒVƒ…§Œä‚ğ’Ç‰Á‚·‚é‚±‚Æ‚ª‚Å‚«‚éBrenderopt ‚ª OLERENDER_DRAW ‚Ü‚½‚Í
+OLERENDER_FORMAT ‚Ìê‡AOleCreate ‚ÍƒIƒuƒWƒFƒNƒg‚ª IOleCache
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚±‚Æ‚ğ—v‹‚·‚éB‚»‚Ì‘¼‚Ì renderopt ’l‚Ìê‡‚Í‚»‚Ì‚æ‚¤‚È—vŒ‚Í‚È‚¢BpClientSite ‚ª
+NULL ‚Å‚È‚¢ê‡AOleCreate ‚Í pClientSite ƒ|ƒCƒ“ƒ^‚ğ’Ê‚¶‚Ä IOleObject::SetClientSite
+‚ğŒÄ‚Ño‚·BIOleClientSite
+‚ÍAƒIƒuƒWƒFƒNƒg‚ªƒRƒ“ƒeƒi‚©‚çƒT[ƒrƒX‚ğ—v‹‚·‚éå—v‚ÈƒCƒ“ƒ^[ƒtƒFƒCƒX‚Å‚ ‚éBpClientSite ‚ª NULL
+‚Ìê‡‚ÍA‘€ì‚ğ‚İ‚é‘O‚É–¾¦“I‚É IOleObject::SetClientSite ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
 
 
 %index
 OleCreateDefaultHandler
-Creates a new instance of the default embedding handler. This instance is initialized so it creates a local server when the embedded object enters the running state.
+ƒfƒtƒHƒ‹ƒg‚Ì–„‚ß‚İƒnƒ“ƒhƒ‰‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ÍA–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ªÀsó‘Ô‚É“ü‚Á‚½‚Æ‚«‚Éƒ[ƒJƒ‹ƒT[ƒo[‚ğì¬‚·‚é‚æ‚¤‚É‰Šú‰»‚³‚ê‚éB
 %group
 Win32 ole32
 %prm
 clsid, pUnkOuter, riid, lplpObj
-clsid : [var] CLSID identifying the OLE server to be loaded when the embedded object enters the running state.
-pUnkOuter : [var] Pointer to the controlling IUnknown interface if the handler is to be aggregated; NULL if it is not to be aggregated.
-riid : [var] Reference to the identifier of the interface, usually IID_IOleObject, through which the caller will communicate with the handler.
-lplpObj : [var] Address of pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly created handler.
+clsid : [var] –„‚ß‚İƒIƒuƒWƒFƒNƒg‚ªÀsó‘Ô‚É“ü‚Á‚½‚Æ‚«‚Éƒ[ƒh‚³‚ê‚é OLE ƒT[ƒo[‚ğ¯•Ê‚·‚é CLSIDB
+pUnkOuter : [var] ƒnƒ“ƒhƒ‰‚ğW–ñ‚·‚éê‡‚Í§Œä—p IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BW–ñ‚µ‚È‚¢ê‡‚Í NULLB
+riid : [var] ŒÄ‚Ño‚µ‘¤‚ªƒnƒ“ƒhƒ‰‚Æ’ÊM‚·‚é‚½‚ß‚Ég—p‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB’Êí‚Í IID_IOleObject ‚ğw’è‚·‚éB
+lplpObj : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvObj ‚É‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒnƒ“ƒhƒ‰ã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Creates a new instance of the default embedding handler. This
-instance is initialized so it creates a local server when the
-embedded object enters the running state.
+
+ƒfƒtƒHƒ‹ƒg‚Ì–„‚ß‚İƒnƒ“ƒhƒ‰‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ÍA–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ªÀsó‘Ô‚É“ü‚Á‚½‚Æ‚«‚Éƒ[ƒJƒ‹ƒT[ƒo[‚ğì¬‚·‚é‚æ‚¤‚É‰Šú‰»‚³‚ê‚éB
 
 [–ß‚è’l]
-This function returns NOERROR on success and supports the standard
-return value E_OUTOFMEMORY.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É NOERROR ‚ğ•Ô‚µA•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚ğƒTƒ|[ƒg‚·‚éB
 
 [”õl]
-OleCreateDefaultHandler creates a new instance of the default
-embedding handler, initialized so it creates a local server
-identified by the clsid parameter when the embedded object enters the
-running state. If you are writing a handler and want to use the
-services of the default handler, call OleCreateDefaultHandler. OLE
-also calls it internally when the CLSID specified in an object
-creation call is not registered.
-If the given class does not have a special handler, a call to
-OleCreateDefaultHandler produces the same results as a call to the
-CoCreateInstance function with the class context parameter assigned
-the value CLSCTX_INPROC_HANDLER.
+OleCreateDefaultHandler
+‚ÍƒfƒtƒHƒ‹ƒg‚Ì–„‚ß‚İƒnƒ“ƒhƒ‰‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚µA–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ªÀsó‘Ô‚É“ü‚Á‚½‚Æ‚«‚É clsid
+ƒpƒ‰ƒ[ƒ^‚Å¯•Ê‚³‚ê‚éƒ[ƒJƒ‹ƒT[ƒo[‚ğì¬‚·‚é‚æ‚¤‚É‰Šú‰»‚·‚éBƒnƒ“ƒhƒ‰‚ğì¬‚µ‚Ä‚¢‚ÄAƒfƒtƒHƒ‹ƒgƒnƒ“ƒhƒ‰‚ÌƒT[ƒrƒX‚ğ—˜—p‚µ‚½‚¢ê‡‚Í
+OleCreateDefaultHandler ‚ğŒÄ‚Ño‚·‚±‚ÆBOLE ‚ÍAƒIƒuƒWƒFƒNƒgì¬ŒÄ‚Ño‚µ‚Åw’è‚³‚ê‚½ CLSID
+‚ª“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡‚É‚àA“à•”‚Å‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·B
+w’è‚³‚ê‚½ƒNƒ‰ƒX‚É“Á•Ê‚Èƒnƒ“ƒhƒ‰‚ª‘¶İ‚µ‚È‚¢ê‡AOleCreateDefaultHandler
+‚ÌŒÄ‚Ño‚µ‚ÍAƒNƒ‰ƒXƒRƒ“ƒeƒLƒXƒgƒpƒ‰ƒ[ƒ^‚É CLSCTX_INPROC_HANDLER ‚ğw’è‚µ‚½ CoCreateInstance
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚Æ“¯‚¶Œ‹‰Ê‚ğ¶‚¶‚éB
 
 
 %index
 OleCreateEmbeddingHelper
-Creates an OLE embedding helper object using application-supplied code aggregated with pieces of the OLE default object handler. This helper object can be created and used in a specific context and role, as determined by the caller.
+OLE ƒfƒtƒHƒ‹ƒgƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚ÌŠe•”•ª‚ÆW–ñ‚³‚ê‚½AƒAƒvƒŠƒP[ƒVƒ‡ƒ“’ñ‹Ÿ‚ÌƒR[ƒh‚ğ—p‚¢‚Ä OLE –„‚ß‚İƒwƒ‹ƒp[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‚±‚Ìƒwƒ‹ƒp[ƒIƒuƒWƒFƒNƒg‚ÍAŒÄ‚Ño‚µ‘¤‚ªw’è‚·‚é“Á’è‚ÌƒRƒ“ƒeƒLƒXƒg‚¨‚æ‚Ñ–ğŠ„‚Åì¬‚µg—p‚Å‚«‚éB
 %group
 Win32 ole32
 %prm
 clsid, pUnkOuter, flags, pCF, riid, lplpObj
-clsid : [var] CLSID of the class to be helped.
-pUnkOuter : [var] If the embedding helper is to be aggregated, pointer to the outer object's controlling IUnknown interface. If it is not to be aggregated, although this is rare, the value should be NULL.
-flags : [int] DWORD containing flags that specify the role and creation context for the embedding helper. For legal values, see the following Remarks section.
-pCF : [var] Pointer to the IClassFactory interface on the class object the function uses to create the secondary object. In some situations, this value may be NULL. For more information, see the following Remarks section.
-riid : [var] Reference to the identifier of the interface desired by the caller.
-lplpObj : [var] Address of pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly created embedding helper.
+clsid : [var] •â•‘ÎÛ‚Æ‚È‚éƒNƒ‰ƒX‚Ì CLSIDB
+pUnkOuter : [var] –„‚ß‚İƒwƒ‹ƒp[‚ğW–ñ‚·‚éê‡AŠO‘¤‚ÌƒIƒuƒWƒFƒNƒg‚Ì§Œä—p IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BW–ñ‚µ‚È‚¢ê‡‚Íi‚Ü‚ê‚Å‚Í‚ ‚é‚ªjNULL ‚ğw’è‚·‚éB
+flags : [int] –„‚ß‚İƒwƒ‹ƒp[‚Ì–ğŠ„‚Æì¬ƒRƒ“ƒeƒLƒXƒg‚ğw’è‚·‚éƒtƒ‰ƒO‚ğŠÜ‚Ş DWORDB—LŒø‚È’l‚É‚Â‚¢‚Ä‚ÍŒãq‚Ìu”õlv‚ğQÆB
+pCF : [var] ŠÖ”‚ª“ñŸƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‚½‚ß‚Ég—p‚·‚éƒNƒ‰ƒXƒIƒuƒWƒFƒNƒgã‚Ì IClassFactory ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^Bó‹µ‚É‚æ‚Á‚Ä‚Í‚±‚Ì’l‚Í NULL ‚Å‚à‚æ‚¢BÚ×‚ÍŒãq‚Ìu”õlv‚ğQÆB
+riid : [var] ŒÄ‚Ño‚µ‘¤‚ª—v‹‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB
+lplpObj : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvObj ‚É‚ÍV‚µ‚­ì¬‚³‚ê‚½–„‚ß‚İƒwƒ‹ƒp[ã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Creates an OLE embedding helper object using application-supplied
-code aggregated with pieces of the OLE default object handler. This
-helper object can be created and used in a specific context and role,
-as determined by the caller.
+OLE ƒfƒtƒHƒ‹ƒgƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚ÌŠe•”•ª‚ÆW–ñ‚³‚ê‚½AƒAƒvƒŠƒP[ƒVƒ‡ƒ“’ñ‹Ÿ‚ÌƒR[ƒh‚ğ—p‚¢‚Ä OLE
+–„‚ß‚İƒwƒ‹ƒp[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‚±‚Ìƒwƒ‹ƒp[ƒIƒuƒWƒFƒNƒg‚ÍAŒÄ‚Ño‚µ‘¤‚ªw’è‚·‚é“Á’è‚ÌƒRƒ“ƒeƒLƒXƒg‚¨‚æ‚Ñ–ğŠ„‚Åì¬‚µg—p‚Å‚«‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì–ß‚è’l‚É‚ÍˆÈ‰º‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The OleCreateEmbeddingHelper function creates an object that supports
-the same interface implementations found in the default handler, but
-which has additional hooks that allow it to be used more generally
-than just as a handler object. The following two calls produce the
-same result:
-This doc was truncated.
+OleCreateEmbeddingHelper
+ŠÖ”‚ÍAƒfƒtƒHƒ‹ƒgƒnƒ“ƒhƒ‰‚É‚ ‚éƒCƒ“ƒ^[ƒtƒFƒCƒXÀ‘•‚Æ“¯‚¶‚à‚Ì‚ğƒTƒ|[ƒg‚·‚éƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‚ªA’P‚È‚éƒnƒ“ƒhƒ‰ƒIƒuƒWƒFƒNƒgˆÈã‚ÉL‚­g—p‚Å‚«‚é’Ç‰Á‚ÌƒtƒbƒN‚ğ‚Á‚Ä‚¢‚éBŸ‚Ì
+2 ‚Â‚ÌŒÄ‚Ño‚µ‚Í“¯‚¶Œ‹‰Ê‚ğ¶‚¶‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleCreateEx
-Extends OleCreate functionality by supporting more efficient instantiation of objects in containers requiring caching of multiple presentation formats or data, instead of the single format supported by OleCreate.
+OleCreate ‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreate ‚Ì‹@”\‚ğŠg’£‚·‚éB
 %group
 Win32 ole32
 %prm
 rclsid, riid, dwFlags, renderopt, cFormats, rgAdvf, rgFormatEtc, lpAdviseSink, rgdwConnection, pClientSite, pStg, ppvObj
-rclsid : [var] Identifies the class of the object to create.
-riid : [var] Reference to the identifier of the interface of the object to return.
-dwFlags : [int] This value can be 0 or OLECREATE_LEAVERUNNING    (0x00000001).
-renderopt : [int] Value taken from the OLERENDER enumeration.
-cFormats : [int] When renderopt is OLERENDER_FORMAT, indicates the number of FORMATETC structures in the rgFormatEtc array, which must be at least one. In all other cases, this parameter must be zero.
-rgAdvf : [var] When renderopt is OLERENDER_FORMAT, points to an array of cFormats DWORD elements, each of which is a combination of values from the ADVF enumeration. Each element of this array is passed in as the advf parameter to a call to either IOleCache::Cache or IDataObject::DAdvise, depending on whether pAdviseSink is NULL or non-NULL (see below). In all other cases, this parameter must be NULL.
-rgFormatEtc : [var] When renderopt is OLERENDER_FORMAT, points to an array of cFormats FORMATETC structures. When pAdviseSink is NULL, each element of this array is passed as the pFormatEtc parameter to a call to the object's IOleCache::Cache. This populates the data and presentation cache managed by the objects in-process handler (typically the default handler) with presentation or other cacheable data. When pAdviseSink is non-NULL, each element of this array is passed as the pFormatEtc parameter to a call to IDataObject::DAdvise. This allows the caller (typically an OLE Container) to do its own caching or processing of data received from the object. In all other cases, this parameter must be NULL.
-lpAdviseSink : [var] When renderopt is OLERENDER_FORMAT, may be either a valid IAdviseSink pointer, indicating custom caching or processing of data advises, or NULL, indicating default caching of data formats. In all other cases, this parameter must be NULL.
-rgdwConnection : [var] Location to return the array of dwConnection values returned when the pAdviseSink interface is registered for each advisory connection using IDataObject::DAdvise, or NULL if the returned advisory connections are not needed. Must be NULL, if pAdviseSink is NULL.
-pClientSite : [var] Pointer to the primary interface through which the object will request services from its container. This parameter may be NULL, in which case it is the caller's responsibility to establish the client site as soon as possible using IOleObject::SetClientSite.
-pStg : [var] Pointer to the storage to use for the object and any default data or presentation caching established for it. This parameter may not be NULL.
-ppvObj : [var] Address of output pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly created object.
+rclsid : [var] ì¬‚·‚éƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX‚ğ¯•Ê‚·‚éB
+riid : [var] •Ô‚·ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB
+dwFlags : [int] ‚±‚Ì’l‚Í 0 ‚Ü‚½‚Í OLECREATE_LEAVERUNNINGi0x00000001j‚Å‚ ‚éB
+renderopt : [int] OLERENDER —ñ‹“‚©‚çæ‚é’lB
+cFormats : [int] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡ArgFormatEtc ”z—ñ“à‚Ì FORMATETC \‘¢‘Ì‚Ì”‚ğ¦‚·B1 ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+rgAdvf : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡AcFormats ŒÂ‚Ì DWORD —v‘f‚Ì”z—ñ‚ğw‚·BŠe—v‘f‚Í ADVF —ñ‹“‚Ì’l‚Ì‘g‚İ‡‚í‚¹‚Å‚ ‚éB‚±‚Ì”z—ñ‚ÌŠe—v‘f‚ÍApAdviseSink ‚ª NULL ‚©‚Ç‚¤‚©‚É‰‚¶‚ÄAIOleCache::Cache ‚Ü‚½‚Í IDataObject::DAdvise ‚ÌŒÄ‚Ño‚µ‚É advf ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éiŒãqjB‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+rgFormatEtc : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡AcFormats ŒÂ‚Ì FORMATETC \‘¢‘Ì‚Ì”z—ñ‚ğw‚·BpAdviseSink ‚ª NULL ‚Ìê‡A‚±‚Ì”z—ñ‚ÌŠe—v‘f‚ÍƒIƒuƒWƒFƒNƒg‚Ì IOleCache::Cache ‚ÌŒÄ‚Ño‚µ‚É pFormatEtc ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB‚±‚ê‚É‚æ‚èAƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒvƒƒZƒXƒnƒ“ƒhƒ‰i’Êí‚ÍƒfƒtƒHƒ‹ƒgƒnƒ“ƒhƒ‰j‚ªŠÇ—‚·‚éƒf[ƒ^‚¨‚æ‚Ñ•\¦ƒLƒƒƒbƒVƒ…‚ªA•\¦ƒf[ƒ^‚â‚»‚Ì‘¼‚ÌƒLƒƒƒbƒVƒ…‰Â”\‚Èƒf[ƒ^‚Å–‚½‚³‚ê‚éBpAdviseSink ‚ª NULL ‚Å‚È‚¢ê‡A‚±‚Ì”z—ñ‚ÌŠe—v‘f‚Í IDataObject::DAdvise ‚ÌŒÄ‚Ño‚µ‚É pFormatEtc ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB‚±‚ê‚É‚æ‚èŒÄ‚Ño‚µ‘¤i’Êí‚Í OLE ƒRƒ“ƒeƒij‚ÍAƒIƒuƒWƒFƒNƒg‚©‚çóM‚µ‚½ƒf[ƒ^‚ğ“Æ©‚ÉƒLƒƒƒbƒVƒ…‚Ü‚½‚Íˆ—‚Å‚«‚é‚æ‚¤‚É‚È‚éB‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpAdviseSink : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡A—LŒø‚È IAdviseSink ƒ|ƒCƒ“ƒ^iƒf[ƒ^ƒAƒhƒoƒCƒX‚ÌƒJƒXƒ^ƒ€ƒLƒƒƒbƒVƒ…‚Ü‚½‚Íˆ—‚ğ¦‚·j‚Ü‚½‚Í NULLiƒf[ƒ^Œ`®‚ÌƒfƒtƒHƒ‹ƒgƒLƒƒƒbƒVƒ…‚ğ¦‚·j‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+rgdwConnection : [var] IDataObject::DAdvise ‚ğg—p‚µ‚ÄŠeƒAƒhƒoƒCƒUƒŠÚ‘±‚É‘Î‚µ‚Ä pAdviseSink ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª“o˜^‚³‚ê‚½‚Æ‚«‚É•Ô‚³‚ê‚é dwConnection ’l‚Ì”z—ñ‚ğ•Ô‚·êŠB•Ô‚³‚ê‚½ƒAƒhƒoƒCƒUƒŠÚ‘±‚ª•s—v‚Èê‡‚Í NULLBpAdviseSink ‚ª NULL ‚Ìê‡‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pClientSite : [var] ƒIƒuƒWƒFƒNƒg‚ªƒRƒ“ƒeƒi‚©‚çƒT[ƒrƒX‚ğ—v‹‚·‚é‚½‚ß‚Ìå—vƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB‚»‚Ìê‡AŒÄ‚Ño‚µ‘¤‚Í‰Â”\‚ÈŒÀ‚è‘‚­ IOleObject::SetClientSite ‚ğg—p‚µ‚ÄƒNƒ‰ƒCƒAƒ“ƒgƒTƒCƒg‚ğŠm—§‚·‚éÓ”C‚ğ•‰‚¤B
+pStg : [var] ƒIƒuƒWƒFƒNƒg‚¨‚æ‚Ñ‚»‚ê‚É‘Î‚µ‚ÄŠm—§‚³‚ê‚éƒfƒtƒHƒ‹ƒg‚Ìƒf[ƒ^‚Ü‚½‚Í•\¦ƒLƒƒƒbƒVƒ…‚Ég—p‚·‚éƒXƒgƒŒ[ƒW‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É NULL ‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+ppvObj : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éo—Íƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvObj ‚É‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Extends OleCreate functionality by supporting more efficient
-instantiation of objects in containers requiring caching of multiple
-presentation formats or data, instead of the single format supported
-by OleCreate.
+OleCreate
+‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreate
+‚Ì‹@”\‚ğŠg’£‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì–ß‚è’l‚É‚ÍˆÈ‰º‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The following call to OleCreate:
-This doc was truncated.
+ˆÈ‰º‚Ì OleCreate ‚ÌŒÄ‚Ño‚µB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleCreateFromData
-Creates an embedded object from a data transfer object retrieved either from the clipboard or as part of an OLE drag-and-drop operation. It is intended to be used to implement a paste from an OLE drag-and-drop operation.
+ƒNƒŠƒbƒvƒ{[ƒh‚©‚çæ“¾‚µ‚½‚à‚ÌA‚Ü‚½‚Í OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìˆê•”‚Æ‚µ‚Äæ“¾‚µ‚½ƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚©‚ç–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBOLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚©‚ç‚Ì“\‚è•t‚¯À‘•‚Ég—p‚·‚é‚±‚Æ‚ğ‘z’è‚µ‚Ä‚¢‚éB
 %group
 Win32 ole32
 %prm
 pSrcDataObj, riid, renderopt, pFormatEtc, pClientSite, pStg, ppvObj
-pSrcDataObj : [var] Pointer to the IDataObject interface on the data transfer object that holds the data from which the object is created.
-riid : [var] Reference to the identifier of the interface the caller later uses to communicate with the new object (usually IID_IOleObject, defined in the OLE headers as the interface identifier for IOleObject).
-renderopt : [int] Value from the enumeration OLERENDER that indicates the locally cached drawing or data-retrieval capabilities the newly created object is to have. Additional considerations are described in the following Remarks section.
-pFormatEtc : [var] Pointer to a value from the enumeration OLERENDER that indicates the locally cached drawing or data-retrieval capabilities the newly created object is to have. The OLERENDER value chosen affects the possible values for the pFormatEtc parameter.
-pClientSite : [var] Pointer to an instance of IOleClientSite, the primary interface through which the object will request services from its container. This parameter can be NULL.
-pStg : [var] Pointer to the IStorage interface on the storage object. This parameter may not be NULL.
-ppvObj : [var] Address of pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly created object.
+pSrcDataObj : [var] ƒIƒuƒWƒFƒNƒgì¬‚ÌŒ³‚Æ‚È‚éƒf[ƒ^‚ğ•Û‚·‚éƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+riid : [var] ŒÄ‚Ño‚µ‘¤‚ªŒã‚ÉV‚µ‚¢ƒIƒuƒWƒFƒNƒg‚Æ’ÊM‚·‚é‚½‚ß‚Ég—p‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆi’Êí‚Í IID_IOleObject ‚ÅA‚±‚ê‚Í OLE ƒwƒbƒ_‚Å IOleObject ‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX¯•Êq‚Æ‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éjB
+renderopt : [int] V‚µ‚­ì¬‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ª‚Âƒ[ƒJƒ‹ƒLƒƒƒbƒVƒ…‚É‚æ‚é•`‰æ‚Ü‚½‚Íƒf[ƒ^æ“¾‹@”\‚ğ¦‚· OLERENDER —ñ‹“‚Ì’lB’Ç‰Á‚Ìl—¶–€‚É‚Â‚¢‚Ä‚ÍŒãq‚Ìu”õlv‚ğQÆB
+pFormatEtc : [var] V‚µ‚­ì¬‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ª‚Âƒ[ƒJƒ‹ƒLƒƒƒbƒVƒ…‚É‚æ‚é•`‰æ‚Ü‚½‚Íƒf[ƒ^æ“¾‹@”\‚ğ¦‚· OLERENDER —ñ‹“’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B‘I‘ğ‚³‚ê‚½ OLERENDER ’l‚Í pFormatEtc ƒpƒ‰ƒ[ƒ^‚Ìæ‚è“¾‚é’l‚É‰e‹¿‚·‚éB
+pClientSite : [var] ƒIƒuƒWƒFƒNƒg‚ªƒRƒ“ƒeƒi‚©‚çƒT[ƒrƒX‚ğ—v‹‚·‚é‚½‚ß‚Ìå—vƒCƒ“ƒ^[ƒtƒFƒCƒX‚Å‚ ‚é IOleClientSite ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB
+pStg : [var] ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É NULL ‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+ppvObj : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvObj ‚É‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Creates an embedded object from a data transfer object retrieved
-either from the clipboard or as part of an OLE drag-and-drop
-operation. It is intended to be used to implement a paste from an OLE
-drag-and-drop operation.
+ƒNƒŠƒbƒvƒ{[ƒh‚©‚çæ“¾‚µ‚½‚à‚ÌA‚Ü‚½‚Í OLE
+ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìˆê•”‚Æ‚µ‚Äæ“¾‚µ‚½ƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚©‚ç–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBOLE
+ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚©‚ç‚Ì“\‚è•t‚¯À‘•‚Ég—p‚·‚é‚±‚Æ‚ğ‘z’è‚µ‚Ä‚¢‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì–ß‚è’l‚É‚ÍˆÈ‰º‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The OleCreateFromData function creates an embedded object from a data
-transfer object supporting the IDataObject interface. The data object
-in this case is either the type retrieved from the clipboard with a
-call to the OleGetClipboard function or is part of an OLE
-drag-and-drop operation (the data object is passed to a call to
-IDropTarget::Drop). If either the FileName or FileNameW clipboard
-format (CF_FILENAME) is present in the data transfer object, and
-CF_EMBEDDEDOBJECT or CF_EMBEDSOURCE do not exist, OleCreateFromData
-first attempts to create a package containing the indicated file.
-Generally, it takes the first available format. If OleCreateFromData
-cannot create a package, it tries to create an object using the
-CF_EMBEDDEDOBJECT format. If that format is not available,
-OleCreateFromData tries to create it with the CF_EMBEDSOURCE format.
-If neither of these formats is available and the data transfer object
-supports the IPersistStorage interface, OleCreateFromData calls the
-object's IPersistStorage::Save to have the object save itself.
-If an existing linked object is selected, then copied, it appears on
-the clipboard as just another embeddable object. Consequently, a
-paste operation that invokes OleCreateFromData may create a linked
-object. After the paste operation, the container should call the
-QueryInterface function, requesting IID_IOleLink (defined in the OLE
-headers as the interface identifier for IOleLink), to determine if a
-linked object was created.
-Use the renderopt and pFormatetc parameters to control the caching
-capability of the newly created object. For general information about
-using the interaction of these parameters to determine what is to be
-cached, refer to the OLERENDER enumeration. There are, however, some
-additional specific effects of these parameters on the way
-OleCreateFromData initializes the cache.
-When OleCreateFromData uses either the CF_EMBEDDEDOBJECT or the
-CF_EMBEDSOURCE clipboard format to create the embedded object, the
-main difference between the two is where the cache-initialization
-data is stored:
-This doc was truncated.
+OleCreateFromData ŠÖ”‚ÍAIDataObject
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğƒTƒ|[ƒg‚·‚éƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚©‚ç–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‚±‚Ìê‡‚Ìƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ÍAOleGetClipboard
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚ÅƒNƒŠƒbƒvƒ{[ƒh‚©‚çæ“¾‚µ‚½‚à‚Ì‚©A‚Ü‚½‚Í OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìˆê•”‚Æ‚µ‚Ä“n‚³‚ê‚½‚à‚Ìiƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Í
+IDropTarget::Drop ‚ÌŒÄ‚Ño‚µ‚É“n‚³‚ê‚éj‚Å‚ ‚éBFileName ‚Ü‚½‚Í FileNameW
+ƒNƒŠƒbƒvƒ{[ƒhŒ`®iCF_FILENAMEj‚ªƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg“à‚É‘¶İ‚µACF_EMBEDDEDOBJECT ‚Ü‚½‚Í
+CF_EMBEDSOURCE ‚ª‘¶İ‚µ‚È‚¢ê‡AOleCreateFromData
+‚Í‚Ü‚¸w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğŠÜ‚ŞƒpƒbƒP[ƒW‚ğì¬‚µ‚æ‚¤‚Æ‚·‚éBˆê”Ê‚ÉAÅ‰‚É—˜—p‰Â”\‚ÈŒ`®‚ğg—p‚·‚éBƒpƒbƒP[ƒW‚ğì¬‚Å‚«‚È‚¢ê‡AOleCreateFromData
+‚Í CF_EMBEDDEDOBJECT Œ`®‚ğg‚Á‚ÄƒIƒuƒWƒFƒNƒg‚Ìì¬‚ğ‚İ‚éB‚±‚ÌŒ`®‚ª—˜—p‚Å‚«‚È‚¢ê‡‚ÍACF_EMBEDSOURCE
+Œ`®‚Å‚Ìì¬‚ğ‚İ‚éB‚¢‚¸‚ê‚ÌŒ`®‚à—˜—p‚Å‚«‚¸Aƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚ª IPersistStorage
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚éê‡AOleCreateFromData ‚ÍƒIƒuƒWƒFƒNƒg‚Ì IPersistStorage::Save
+‚ğŒÄ‚Ño‚µ‚ÄƒIƒuƒWƒFƒNƒg©g‚É•Û‘¶‚³‚¹‚éB
+
+Šù‘¶‚ÌƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ª‘I‘ğ‚³‚ê‚½‚¤‚¦‚ÅƒRƒs[‚³‚ê‚½ê‡A‚»‚ê‚ÍƒNƒŠƒbƒvƒ{[ƒhã‚Å‚Í’Êí‚Ì–„‚ß‚İ‰Â”\ƒIƒuƒWƒFƒNƒg‚Æ‚µ‚ÄŒ»‚ê‚éB‚µ‚½‚ª‚Á‚ÄAOleCreateFromData
+‚ğŒÄ‚Ño‚·“\‚è•t‚¯‘€ì‚ÍƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‰Â”\«‚ª‚ ‚éB“\‚è•t‚¯‘€ì‚ÌŒãAƒRƒ“ƒeƒi‚Í QueryInterface
+ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä IID_IOleLinkiOLE ƒwƒbƒ_‚Å IOleLink
+‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX¯•Êq‚Æ‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éj‚ğ—v‹‚µAƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ªì¬‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚×‚«‚Å‚ ‚éB
+renderopt ‚¨‚æ‚Ñ pFormatetc
+ƒpƒ‰ƒ[ƒ^‚ğg—p‚µ‚ÄAV‚µ‚­ì¬‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ÌƒLƒƒƒbƒVƒ…‹@”\‚ğ§Œä‚·‚éB‚±‚ê‚ç‚Ìƒpƒ‰ƒ[ƒ^‚Ì‘ŠŒİì—p‚ğg‚Á‚Ä‰½‚ğƒLƒƒƒbƒVƒ…‚·‚é‚©‚ğ”»’f‚·‚é•û–@‚ÉŠÖ‚·‚éˆê”Ê“I‚Èî•ñ‚É‚Â‚¢‚Ä‚Í
+OLERENDER —ñ‹“‚ğQÆB‚½‚¾‚µA‚±‚ê‚ç‚Ìƒpƒ‰ƒ[ƒ^‚ª OleCreateFromData
+‚ÌƒLƒƒƒbƒVƒ…‰Šú‰»•û–@‚É‹y‚Ú‚·‹ï‘Ì“I‚È‰e‹¿‚ª‚¢‚­‚Â‚©‚ ‚éB
+OleCreateFromData ‚ª CF_EMBEDDEDOBJECT ‚Ü‚½‚Í CF_EMBEDSOURCE
+‚Ì‚Ç‚¿‚ç‚©‚ÌƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ğg—p‚µ‚Ä–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éê‡A—¼Ò‚Ìå‚Èˆá‚¢‚ÍƒLƒƒƒbƒVƒ…‰Šú‰»ƒf[ƒ^‚ÌŠi”[êŠ‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleCreateFromDataEx
-Extends OleCreateFromData functionality by supporting more efficient instantiation of objects in containers requiring caching of multiple formats of presentation or data, instead of the single format supported by OleCreateFromData.
+OleCreateFromData ‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreateFromData ‚Ì‹@”\‚ğŠg’£‚·‚éB
 %group
 Win32 ole32
 %prm
 pSrcDataObj, riid, dwFlags, renderopt, cFormats, rgAdvf, rgFormatEtc, lpAdviseSink, rgdwConnection, pClientSite, pStg, ppvObj
-pSrcDataObj : [var] Pointer to the data transfer object holding the new data used to create the new object. (see OleCreateFromData).
-riid : [var] Reference to the identifier of the interface of the object to return.
-dwFlags : [int] This parameter can be 0 or OLECREATE_LEAVERUNNING (0x00000001).
-renderopt : [int] Value taken from the OLERENDER enumeration.
-cFormats : [int] When renderopt is OLERENDER_FORMAT, indicates the number of FORMATETC structures in the rgFormatEtc array, which must be at least one. In all other cases, this parameter must be zero.
-rgAdvf : [var] When renderopt is OLERENDER_FORMAT, points to an array of DWORD elements, each of which is a combination of values from the ADVF enumeration. Each element of this array is passed in as the advf parameter to a call to either IOleCache::Cache or IDataObject::DAdvise, depending on whether pAdviseSink is NULL or non-NULL (see below). In all other cases, this parameter must be NULL.
-rgFormatEtc : [var] When renderopt is OLERENDER_FORMAT, points to an array of FORMATETC structures. When pAdviseSink is NULL, each element of this array is passed as the pFormatEtc parameter to a call to the object's IOleCache::Cache. This populates the data and presentation cache managed by the object's in-process handler (typically the default handler) with presentation or other cacheable data. When pAdviseSink is non-NULL, each element of this array is passed as the pFormatEtc parameter to a call to IDataObject::DAdvise. This allows the caller (typically an OLE Container) to do its own caching or processing of data received from the object.
-lpAdviseSink : [var] When renderopt is OLERENDER_FORMAT, may be either a valid IAdviseSink pointer, indicating custom caching or processing of data advises, or NULL, indicating default caching of data formats.
-rgdwConnection : [var] Location to return the array of dwConnection values returned when the IAdviseSink interface is registered for each advisory connection using IDataObject::DAdvise, or NULL if the returned advisory connections are not needed. This parameter must be NULL if pAdviseSink is NULL.
-pClientSite : [var] Pointer to the primary interface through which the object will request services from its container. This parameter may be NULL, in which case it is the caller's responsibility to establish the client site as soon as possible using IOleObject::SetClientSite.
-pStg : [var] Pointer to the storage to use for the object and any default data or presentation caching established for it.
-ppvObj : [var] Address of output pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly created object.
+pSrcDataObj : [var] V‚µ‚¢ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‚½‚ß‚Ég—p‚·‚éV‚µ‚¢ƒf[ƒ^‚ğ•Û‚·‚éƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^iOleCreateFromData ‚ğQÆjB
+riid : [var] •Ô‚·ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB
+dwFlags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Ü‚½‚Í OLECREATE_LEAVERUNNINGi0x00000001j‚Å‚ ‚éB
+renderopt : [int] OLERENDER —ñ‹“‚©‚çæ‚é’lB
+cFormats : [int] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡ArgFormatEtc ”z—ñ“à‚Ì FORMATETC \‘¢‘Ì‚Ì”‚ğ¦‚·B1 ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+rgAdvf : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡ADWORD —v‘f‚Ì”z—ñ‚ğw‚·BŠe—v‘f‚Í ADVF —ñ‹“‚Ì’l‚Ì‘g‚İ‡‚í‚¹‚Å‚ ‚éB‚±‚Ì”z—ñ‚ÌŠe—v‘f‚ÍApAdviseSink ‚ª NULL ‚©‚Ç‚¤‚©‚É‰‚¶‚ÄAIOleCache::Cache ‚Ü‚½‚Í IDataObject::DAdvise ‚ÌŒÄ‚Ño‚µ‚É advf ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éiŒãqjB‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+rgFormatEtc : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡AFORMATETC \‘¢‘Ì‚Ì”z—ñ‚ğw‚·BpAdviseSink ‚ª NULL ‚Ìê‡A‚±‚Ì”z—ñ‚ÌŠe—v‘f‚ÍƒIƒuƒWƒFƒNƒg‚Ì IOleCache::Cache ‚ÌŒÄ‚Ño‚µ‚É pFormatEtc ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB‚±‚ê‚É‚æ‚èAƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒvƒƒZƒXƒnƒ“ƒhƒ‰i’Êí‚ÍƒfƒtƒHƒ‹ƒgƒnƒ“ƒhƒ‰j‚ªŠÇ—‚·‚éƒf[ƒ^‚¨‚æ‚Ñ•\¦ƒLƒƒƒbƒVƒ…‚ªA•\¦ƒf[ƒ^‚â‚»‚Ì‘¼‚ÌƒLƒƒƒbƒVƒ…‰Â”\‚Èƒf[ƒ^‚Å–‚½‚³‚ê‚éBpAdviseSink ‚ª NULL ‚Å‚È‚¢ê‡A‚±‚Ì”z—ñ‚ÌŠe—v‘f‚Í IDataObject::DAdvise ‚ÌŒÄ‚Ño‚µ‚É pFormatEtc ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB‚±‚ê‚É‚æ‚èŒÄ‚Ño‚µ‘¤i’Êí‚Í OLE ƒRƒ“ƒeƒij‚ÍAƒIƒuƒWƒFƒNƒg‚©‚çóM‚µ‚½ƒf[ƒ^‚ğ“Æ©‚ÉƒLƒƒƒbƒVƒ…‚Ü‚½‚Íˆ—‚Å‚«‚é‚æ‚¤‚É‚È‚éB
+lpAdviseSink : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡A—LŒø‚È IAdviseSink ƒ|ƒCƒ“ƒ^iƒf[ƒ^ƒAƒhƒoƒCƒX‚ÌƒJƒXƒ^ƒ€ƒLƒƒƒbƒVƒ…‚Ü‚½‚Íˆ—‚ğ¦‚·j‚Ü‚½‚Í NULLiƒf[ƒ^Œ`®‚ÌƒfƒtƒHƒ‹ƒgƒLƒƒƒbƒVƒ…‚ğ¦‚·j‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
+rgdwConnection : [var] IDataObject::DAdvise ‚ğg—p‚µ‚ÄŠeƒAƒhƒoƒCƒUƒŠÚ‘±‚É‘Î‚µ‚Ä IAdviseSink ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª“o˜^‚³‚ê‚½‚Æ‚«‚É•Ô‚³‚ê‚é dwConnection ’l‚Ì”z—ñ‚ğ•Ô‚·êŠB•Ô‚³‚ê‚½ƒAƒhƒoƒCƒUƒŠÚ‘±‚ª•s—v‚Èê‡‚Í NULLBpAdviseSink ‚ª NULL ‚Ìê‡‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pClientSite : [var] ƒIƒuƒWƒFƒNƒg‚ªƒRƒ“ƒeƒi‚©‚çƒT[ƒrƒX‚ğ—v‹‚·‚é‚½‚ß‚Ìå—vƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB‚»‚Ìê‡AŒÄ‚Ño‚µ‘¤‚Í‰Â”\‚ÈŒÀ‚è‘‚­ IOleObject::SetClientSite ‚ğg—p‚µ‚ÄƒNƒ‰ƒCƒAƒ“ƒgƒTƒCƒg‚ğŠm—§‚·‚éÓ”C‚ğ•‰‚¤B
+pStg : [var] ƒIƒuƒWƒFƒNƒg‚¨‚æ‚Ñ‚»‚ê‚É‘Î‚µ‚ÄŠm—§‚³‚ê‚éƒfƒtƒHƒ‹ƒg‚Ìƒf[ƒ^‚Ü‚½‚Í•\¦ƒLƒƒƒbƒVƒ…‚Ég—p‚·‚éƒXƒgƒŒ[ƒW‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppvObj : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éo—Íƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvObj ‚É‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Extends OleCreateFromData functionality by supporting more efficient
-instantiation of objects in containers requiring caching of multiple
-formats of presentation or data, instead of the single format
-supported by OleCreateFromData.
+OleCreateFromData
+‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreateFromData
+‚Ì‹@”\‚ğŠg’£‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì–ß‚è’l‚É‚ÍˆÈ‰º‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The following call to OleCreateFromData:
-This doc was truncated.
+ˆÈ‰º‚Ì OleCreateFromData ‚ÌŒÄ‚Ño‚µB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleCreateFromFile
-The OleCreateFromFile function (ole2.h) creates an embedded object from the contents of a named file.
+OleCreateFromFile ŠÖ”iole2.hj‚ÍAw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ì“à—e‚©‚ç–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 rclsid, lpszFileName, riid, renderopt, lpFormatEtc, pClientSite, pStg, ppvObj
-rclsid : [var] This parameter is reserved and must be CLSID_NULL.
-lpszFileName : [wstr] Pointer to a string specifying the full path of the file from which the object should be initialized.
-riid : [var] Reference to the identifier of the interface the caller later uses to communicate with the new object (usually IID_IOleObject, defined in the OLE headers as the interface ID of IOleObject).
-renderopt : [int] Value from the enumeration OLERENDER that indicates the locally cached drawing or data-retrieval capabilities the newly created object is to have. The OLERENDER value chosen affects the possible values for the lpFormatEtc parameter.
-lpFormatEtc : [var] Depending on which of the OLERENDER flags is used as the value of renderopt, pointer to one of the FORMATETC enumeration values. Refer also to the OLERENDER enumeration for restrictions.
-pClientSite : [var] Pointer to an instance of IOleClientSite, the primary interface through which the object will request services from its container. This parameter can be NULL.
-pStg : [var] Pointer to the IStorage interface on the storage object. This parameter cannot be NULL.
-ppvObj : [var] Address of pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly created object.
+rclsid : [var] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñÏ‚İ‚Å‚ ‚èACLSID_NULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpszFileName : [wstr] ƒIƒuƒWƒFƒNƒg‚ğ‰Šú‰»‚·‚é‚½‚ß‚Ìƒtƒ@ƒCƒ‹‚ÌŠ®‘S‚ÈƒpƒX‚ğw’è‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+riid : [var] ŒÄ‚Ño‚µ‘¤‚ªŒã‚ÉV‚µ‚¢ƒIƒuƒWƒFƒNƒg‚Æ’ÊM‚·‚é‚½‚ß‚Ég—p‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆi’Êí‚Í IID_IOleObject ‚ÅA‚±‚ê‚Í OLE ƒwƒbƒ_‚Å IOleObject ‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX ID ‚Æ‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éjB
+renderopt : [int] V‚µ‚­ì¬‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ª‚Âƒ[ƒJƒ‹ƒLƒƒƒbƒVƒ…‚É‚æ‚é•`‰æ‚Ü‚½‚Íƒf[ƒ^æ“¾‹@”\‚ğ¦‚· OLERENDER —ñ‹“‚Ì’lB‘I‘ğ‚³‚ê‚½ OLERENDER ’l‚Í lpFormatEtc ƒpƒ‰ƒ[ƒ^‚Ìæ‚è“¾‚é’l‚É‰e‹¿‚·‚éB
+lpFormatEtc : [var] renderopt ‚Ì’l‚Æ‚µ‚Äg—p‚³‚ê‚é OLERENDER ƒtƒ‰ƒO‚É‰‚¶‚ÄAFORMATETC —ñ‹“’l‚Ìˆê‚Â‚Ö‚Ìƒ|ƒCƒ“ƒ^B§ŒÀ‚É‚Â‚¢‚Ä‚Í OLERENDER —ñ‹“‚àQÆB
+pClientSite : [var] ƒIƒuƒWƒFƒNƒg‚ªƒRƒ“ƒeƒi‚©‚çƒT[ƒrƒX‚ğ—v‹‚·‚é‚½‚ß‚Ìå—vƒCƒ“ƒ^[ƒtƒFƒCƒX‚Å‚ ‚é IOleClientSite ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB
+pStg : [var] ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É NULL ‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+ppvObj : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvObj ‚É‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-The OleCreateFromFile function (ole2.h) creates an embedded object
-from the contents of a named file.
+OleCreateFromFile ŠÖ”iole2.hj‚ÍAw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ì“à—e‚©‚ç–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì–ß‚è’l‚É‚ÍˆÈ‰º‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The OleCreateFromFile function creates a new embedded object from the
-contents of a named file. If the ProgID in the registration database
-contains the PackageOnFileDrop key, it creates a package. If not, the
-function calls the GetClassFile function to get the CLSID associated
-with the lpszFileName parameter, and then creates an OLE 2-embedded
-object associated with that CLSID. The rclsid parameter of
-OleCreateFromFile will always be ignored, and should be set to
-CLSID_NULL. As for other OleCreateXxx functions, the newly created
-object is not shown to the user for editing, which requires a DoVerb
-operation. It is used to implement insert file operations.
+OleCreateFromFile ŠÖ”‚ÍAw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ì“à—e‚©‚çV‚µ‚¢–„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB“o˜^ƒf[ƒ^ƒx[ƒX“à‚Ì
+ProgID ‚É PackageOnFileDrop ƒL[‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡AƒpƒbƒP[ƒW‚ğì¬‚·‚éB‚»‚¤‚Å‚È‚¢ê‡AŠÖ”‚Í
+GetClassFile ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä lpszFileName ƒpƒ‰ƒ[ƒ^‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ CLSID ‚ğæ“¾‚µA‚»‚Ì CLSID
+‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ OLE 2 –„‚ß‚İƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBOleCreateFromFile ‚Ì rclsid
+ƒpƒ‰ƒ[ƒ^‚Íí‚É–³‹‚³‚ê‚é‚Ì‚ÅACLSID_NULL ‚ğİ’è‚·‚×‚«‚Å‚ ‚éB‘¼‚Ì OleCreateXxx
+ŠÖ”‚Æ“¯—lAV‚µ‚­ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚Íƒ†[ƒU[‚É•ÒW—p‚É‚Í•\¦‚³‚ê‚¸A•ÒW‚É‚Í DoVerb
+‘€ì‚ª•K—v‚Å‚ ‚éB‚±‚ÌŠÖ”‚Íƒtƒ@ƒCƒ‹‘}“ü‘€ì‚ÌÀ‘•‚Ég—p‚³‚ê‚éB
 
 
 %index
 OleCreateFromFileEx
-Extends OleCreateFromFile functionality by supporting more efficient instantiation of objects in containers requiring caching of multiple presentation formats or data, instead of the single format supported by OleCreateFromFile.
+OleCreateFromFile ‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreateFromFile ‚Ì‹@”\‚ğŠg’£‚·‚éB
 %group
 Win32 ole32
 %prm
 rclsid, lpszFileName, riid, dwFlags, renderopt, cFormats, rgAdvf, rgFormatEtc, lpAdviseSink, rgdwConnection, pClientSite, pStg, ppvObj
-rclsid : [var] This parameter is reserved and must be CLSID_NULL.
-lpszFileName : [wstr] Pointer to the name of the file from which the new object should be initialized.
-riid : [var] Reference to the identifier of the interface of the object to return.
-dwFlags : [int] This parameter can be 0 or OLECREATE_LEAVERUNNING (0x00000001).
-renderopt : [int] Value taken from the OLERENDER enumeration.
-cFormats : [int] When renderopt is OLERENDER_FORMAT, indicates the number of FORMATETC structures in the rgFormatEtc array, which must be at least one. In all other cases, this parameter must be zero.
-rgAdvf : [var] When renderopt is OLERENDER_FORMAT, points to an array of DWORD elements, each of which is a combination of values from the ADVF enumeration. Each element of this array is passed in as the advf parameter to a call to either IOleCache::Cache or IDataObject::DAdvise, depending on whether pAdviseSink is NULL or non-NULL (see below). In all other cases, this parameter must be NULL.
-rgFormatEtc : [var] When renderopt is OLERENDER_FORMAT, points to an array of FORMATETC structures. When pAdviseSink is NULL, each element of this array is passed as the pFormatEtc parameter to a call to the object's IOleCache::Cache. This populates the data and presentation cache managed by the objects in-process handler (typically the default handler) with presentation or other cacheable data. When pAdviseSink is non-NULL, each element of this array is passed as the pFormatEtc parameter to a call to IDataObject::DAdvise. This allows the caller (typically an OLE Container) to do its own caching or processing of data received from the object.
-lpAdviseSink : [var] When renderopt is OLERENDER_FORMAT, may be either a valid IAdviseSink pointer, indicating custom caching or processing of data advises, or NULL, indicating default caching of data formats.
-rgdwConnection : [var] Location to return the array of dwConnection values returned when the pAdviseSink interface is registered for each advisory connection using IDataObject::DAdvise, or NULL if the returned advisory connections are not needed. This parameter must be NULL if pAdviseSink is NULL.
-pClientSite : [var] Pointer to the primary interface through which the object will request services from its container. This parameter may be NULL, in which case it is the caller's responsibility to establish the client site as soon as possible using IOleObject::SetClientSite.
-pStg : [var] Pointer to the storage to use for the object and any default data or presentation caching established for it.
-ppvObj : [var] Address of output pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly created object.
+rclsid : [var] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñÏ‚İ‚Å‚ ‚èACLSID_NULL ‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+lpszFileName : [wstr] V‚µ‚¢ƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»‚É—p‚¢‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+riid : [var] •Ô‚·ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB
+dwFlags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Ü‚½‚Í OLECREATE_LEAVERUNNINGi0x00000001j‚Å‚ ‚éB
+renderopt : [int] OLERENDER —ñ‹“‚©‚çæ‚é’lB
+cFormats : [int] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡ArgFormatEtc ”z—ñ“à‚Ì FORMATETC \‘¢‘Ì‚Ì”‚ğ¦‚·B1 ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+rgAdvf : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡ADWORD —v‘f‚Ì”z—ñ‚ğw‚·BŠe—v‘f‚Í ADVF —ñ‹“‚Ì’l‚Ì‘g‚İ‡‚í‚¹‚Å‚ ‚éB‚±‚Ì”z—ñ‚ÌŠe—v‘f‚ÍApAdviseSink ‚ª NULL ‚©‚Ç‚¤‚©‚É‰‚¶‚ÄAIOleCache::Cache ‚Ü‚½‚Í IDataObject::DAdvise ‚ÌŒÄ‚Ño‚µ‚É advf ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éiŒãqjB‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+rgFormatEtc : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡AFORMATETC \‘¢‘Ì‚Ì”z—ñ‚ğw‚·BpAdviseSink ‚ª NULL ‚Ìê‡A‚±‚Ì”z—ñ‚ÌŠe—v‘f‚ÍƒIƒuƒWƒFƒNƒg‚Ì IOleCache::Cache ‚ÌŒÄ‚Ño‚µ‚É pFormatEtc ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB‚±‚ê‚É‚æ‚èAƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒvƒƒZƒXƒnƒ“ƒhƒ‰i’Êí‚ÍƒfƒtƒHƒ‹ƒgƒnƒ“ƒhƒ‰j‚ªŠÇ—‚·‚éƒf[ƒ^‚¨‚æ‚Ñ•\¦ƒLƒƒƒbƒVƒ…‚ªA•\¦ƒf[ƒ^‚â‚»‚Ì‘¼‚ÌƒLƒƒƒbƒVƒ…‰Â”\‚Èƒf[ƒ^‚Å–‚½‚³‚ê‚éBpAdviseSink ‚ª NULL ‚Å‚È‚¢ê‡A‚±‚Ì”z—ñ‚ÌŠe—v‘f‚Í IDataObject::DAdvise ‚ÌŒÄ‚Ño‚µ‚É pFormatEtc ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB‚±‚ê‚É‚æ‚èŒÄ‚Ño‚µ‘¤i’Êí‚Í OLE ƒRƒ“ƒeƒij‚ÍAƒIƒuƒWƒFƒNƒg‚©‚çóM‚µ‚½ƒf[ƒ^‚ğ“Æ©‚ÉƒLƒƒƒbƒVƒ…‚Ü‚½‚Íˆ—‚Å‚«‚é‚æ‚¤‚É‚È‚éB
+lpAdviseSink : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡A—LŒø‚È IAdviseSink ƒ|ƒCƒ“ƒ^iƒf[ƒ^ƒAƒhƒoƒCƒX‚ÌƒJƒXƒ^ƒ€ƒLƒƒƒbƒVƒ…‚Ü‚½‚Íˆ—‚ğ¦‚·j‚Ü‚½‚Í NULLiƒf[ƒ^Œ`®‚ÌƒfƒtƒHƒ‹ƒgƒLƒƒƒbƒVƒ…‚ğ¦‚·j‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
+rgdwConnection : [var] IDataObject::DAdvise ‚ğg—p‚µ‚ÄŠeƒAƒhƒoƒCƒUƒŠÚ‘±‚É‘Î‚µ‚Ä pAdviseSink ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª“o˜^‚³‚ê‚½‚Æ‚«‚É•Ô‚³‚ê‚é dwConnection ’l‚Ì”z—ñ‚ğ•Ô‚·êŠB•Ô‚³‚ê‚½ƒAƒhƒoƒCƒUƒŠÚ‘±‚ª•s—v‚Èê‡‚Í NULLBpAdviseSink ‚ª NULL ‚Ìê‡‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pClientSite : [var] ƒIƒuƒWƒFƒNƒg‚ªƒRƒ“ƒeƒi‚©‚çƒT[ƒrƒX‚ğ—v‹‚·‚é‚½‚ß‚Ìå—vƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB‚»‚Ìê‡AŒÄ‚Ño‚µ‘¤‚Í‰Â”\‚ÈŒÀ‚è‘‚­ IOleObject::SetClientSite ‚ğg—p‚µ‚ÄƒNƒ‰ƒCƒAƒ“ƒgƒTƒCƒg‚ğŠm—§‚·‚éÓ”C‚ğ•‰‚¤B
+pStg : [var] ƒIƒuƒWƒFƒNƒg‚¨‚æ‚Ñ‚»‚ê‚É‘Î‚µ‚ÄŠm—§‚³‚ê‚éƒfƒtƒHƒ‹ƒg‚Ìƒf[ƒ^‚Ü‚½‚Í•\¦ƒLƒƒƒbƒVƒ…‚Ég—p‚·‚éƒXƒgƒŒ[ƒW‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppvObj : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éo—Íƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvObj ‚É‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Extends OleCreateFromFile functionality by supporting more efficient
-instantiation of objects in containers requiring caching of multiple
-presentation formats or data, instead of the single format supported
-by OleCreateFromFile.
+OleCreateFromFile
+‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreateFromFile
+‚Ì‹@”\‚ğŠg’£‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì–ß‚è’l‚É‚ÍˆÈ‰º‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The following call to OleCreateFromFile:
-This doc was truncated.
+ˆÈ‰º‚Ì OleCreateFromFile ‚ÌŒÄ‚Ño‚µB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleCreateLink
-Creates an OLE compound-document linked object.
+OLE •¡‡ƒhƒLƒ…ƒƒ“ƒg‚ÌƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 pmkLinkSrc, riid, renderopt, lpFormatEtc, pClientSite, pStg, ppvObj
-pmkLinkSrc : [var] Pointer to the IMoniker interface on the moniker that can be used to locate the source of the linked object.
-riid : [var] Reference to the identifier of the interface the caller later uses to communicate with the new object (usually IID_IOleObject, defined in the OLE headers as the interface identifier for IOleObject).
-renderopt : [int] Specifies a value from the enumeration OLERENDER that indicates the locally cached drawing or data-retrieval capabilities the newly created object is to have. Additional considerations are described in the Remarks section below.
-lpFormatEtc : [var] Pointer to a value from the enumeration OLERENDER that indicates the locally cached drawing or data-retrieval capabilities the newly created object is to have. The OLERENDER value chosen affects the possible values for the lpFormatEtc parameter.
-pClientSite : [var] Pointer to an instance of IOleClientSite, the primary interface through which the object will request services from its container. This parameter can be NULL.
-pStg : [var] Pointer to the IStorage interface on the storage object. This parameter cannot be NULL.
-ppvObj : [var] Address of pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly created object.
+pmkLinkSrc : [var] ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÌŒ³‚ğ“Á’è‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éƒ‚ƒjƒJã‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+riid : [var] ŒÄ‚Ño‚µ‘¤‚ªŒã‚ÉV‚µ‚¢ƒIƒuƒWƒFƒNƒg‚Æ’ÊM‚·‚é‚½‚ß‚Ég—p‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆi’Êí‚Í IID_IOleObject ‚ÅA‚±‚ê‚Í OLE ƒwƒbƒ_‚Å IOleObject ‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX¯•Êq‚Æ‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éjB
+renderopt : [int] V‚µ‚­ì¬‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ª‚Âƒ[ƒJƒ‹ƒLƒƒƒbƒVƒ…‚É‚æ‚é•`‰æ‚Ü‚½‚Íƒf[ƒ^æ“¾‹@”\‚ğ¦‚· OLERENDER —ñ‹“‚Ì’l‚ğw’è‚·‚éB’Ç‰Á‚Ìl—¶–€‚É‚Â‚¢‚Ä‚ÍŒãq‚Ìu”õlv‚ğQÆB
+lpFormatEtc : [var] V‚µ‚­ì¬‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ª‚Âƒ[ƒJƒ‹ƒLƒƒƒbƒVƒ…‚É‚æ‚é•`‰æ‚Ü‚½‚Íƒf[ƒ^æ“¾‹@”\‚ğ¦‚· OLERENDER —ñ‹“’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B‘I‘ğ‚³‚ê‚½ OLERENDER ’l‚Í lpFormatEtc ƒpƒ‰ƒ[ƒ^‚Ìæ‚è“¾‚é’l‚É‰e‹¿‚·‚éB
+pClientSite : [var] ƒIƒuƒWƒFƒNƒg‚ªƒRƒ“ƒeƒi‚©‚çƒT[ƒrƒX‚ğ—v‹‚·‚é‚½‚ß‚Ìå—vƒCƒ“ƒ^[ƒtƒFƒCƒX‚Å‚ ‚é IOleClientSite ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB
+pStg : [var] ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É NULL ‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+ppvObj : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvObj ‚É‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Creates an OLE compound-document linked object.
+OLE •¡‡ƒhƒLƒ…ƒƒ“ƒg‚ÌƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì–ß‚è’l‚É‚ÍˆÈ‰º‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Call OleCreateLink to allow a container to create a link to an
-object.
+ƒRƒ“ƒeƒi‚ªƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒŠƒ“ƒN‚ğì¬‚Å‚«‚é‚æ‚¤‚É‚·‚é‚½‚ß‚É OleCreateLink ‚ğŒÄ‚Ño‚·B
 
 
 %index
 OleCreateLinkEx
-Extends OleCreateLink functionality by supporting more efficient instantiation of objects in containers requiring caching of multiple formats of presentations or data, instead of the single format supported by OleCreateLink.
+OleCreateLink ‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreateLink ‚Ì‹@”\‚ğŠg’£‚·‚éB
 %group
 Win32 ole32
 %prm
 pmkLinkSrc, riid, dwFlags, renderopt, cFormats, rgAdvf, rgFormatEtc, lpAdviseSink, rgdwConnection, pClientSite, pStg, ppvObj
-pmkLinkSrc : [var] Pointer to a moniker to the object to create a link to.
-riid : [var] Reference to the identifier of the interface of the object to return.
-dwFlags : [int] This parameter can be 0 or OLECREATE_LEAVERUNNING (0x00000001).
-renderopt : [int] Value taken from the OLERENDER enumeration.
-cFormats : [int] When renderopt is OLERENDER_FORMAT, indicates the number of FORMATETC structures in the rgFormatEtc array, which must be at least one. In all other cases, this parameter must be zero.
-rgAdvf : [var] When renderopt is OLERENDER_FORMAT, points to an array of DWORD elements, each of which is a combination of values from the ADVF enumeration. Each element of this array is passed in as the advf parameter to a call to either IOleCache::Cache or IDataObject::DAdvise, depending on whether pAdviseSink is NULL or non-NULL (see below). In all other cases, this parameter must be NULL.
-rgFormatEtc : [var] When renderopt is OLERENDER_FORMAT, points to an array of FORMATETC structures. When pAdviseSink is NULL, each element of this array is passed as the pFormatEtc parameter to a call to the object's IOleCache::Cache. This populates the data and presentation cache managed by the objects in-process handler (typically the default handler) with presentation or other cacheable data. When pAdviseSink is non-NULL, each element of this array is passed as the pFormatEtc parameter to a call to IDataObject::DAdvise. This allows the caller (typically an OLE Container) to do its own caching or processing of data received from the object.
-lpAdviseSink : [var] When renderopt is OLERENDER_FORMAT, may be either a valid IAdviseSink pointer, indicating custom caching or processing of data advises, or NULL, indicating default caching of data formats.
-rgdwConnection : [var] Location to return the array of dwConnection values returned when the IAdviseSink interface is registered for each advisory connection using IDataObject::DAdvise, or NULL if the returned advisory connections are not needed. This parameter must be NULL if pAdviseSink is NULL.
-pClientSite : [var] Pointer to the primary interface through which the object will request services from its container. This parameter can be NULL, in which case it is the caller's responsibility to establish the client site as soon as possible using IOleObject::SetClientSite.
-pStg : [var] Pointer to the storage to use for the object and any default data or presentation caching established for it.
-ppvObj : [var] Address of output pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly created object.
+pmkLinkSrc : [var] ƒŠƒ“ƒN‚ğì¬‚·‚é‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ‚ƒjƒJ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+riid : [var] •Ô‚·ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB
+dwFlags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Ü‚½‚Í OLECREATE_LEAVERUNNINGi0x00000001j‚Å‚ ‚éB
+renderopt : [int] OLERENDER —ñ‹“‚©‚çæ‚é’lB
+cFormats : [int] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡ArgFormatEtc ”z—ñ“à‚Ì FORMATETC \‘¢‘Ì‚Ì”‚ğ¦‚·B1 ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+rgAdvf : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡ADWORD —v‘f‚Ì”z—ñ‚ğw‚·BŠe—v‘f‚Í ADVF —ñ‹“‚Ì’l‚Ì‘g‚İ‡‚í‚¹‚Å‚ ‚éB‚±‚Ì”z—ñ‚ÌŠe—v‘f‚ÍApAdviseSink ‚ª NULL ‚©‚Ç‚¤‚©‚É‰‚¶‚ÄAIOleCache::Cache ‚Ü‚½‚Í IDataObject::DAdvise ‚ÌŒÄ‚Ño‚µ‚É advf ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éiŒãqjB‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+rgFormatEtc : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡AFORMATETC \‘¢‘Ì‚Ì”z—ñ‚ğw‚·BpAdviseSink ‚ª NULL ‚Ìê‡A‚±‚Ì”z—ñ‚ÌŠe—v‘f‚ÍƒIƒuƒWƒFƒNƒg‚Ì IOleCache::Cache ‚ÌŒÄ‚Ño‚µ‚É pFormatEtc ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB‚±‚ê‚É‚æ‚èAƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒvƒƒZƒXƒnƒ“ƒhƒ‰i’Êí‚ÍƒfƒtƒHƒ‹ƒgƒnƒ“ƒhƒ‰j‚ªŠÇ—‚·‚éƒf[ƒ^‚¨‚æ‚Ñ•\¦ƒLƒƒƒbƒVƒ…‚ªA•\¦ƒf[ƒ^‚â‚»‚Ì‘¼‚ÌƒLƒƒƒbƒVƒ…‰Â”\‚Èƒf[ƒ^‚Å–‚½‚³‚ê‚éBpAdviseSink ‚ª NULL ‚Å‚È‚¢ê‡A‚±‚Ì”z—ñ‚ÌŠe—v‘f‚Í IDataObject::DAdvise ‚ÌŒÄ‚Ño‚µ‚É pFormatEtc ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB‚±‚ê‚É‚æ‚èŒÄ‚Ño‚µ‘¤i’Êí‚Í OLE ƒRƒ“ƒeƒij‚ÍAƒIƒuƒWƒFƒNƒg‚©‚çóM‚µ‚½ƒf[ƒ^‚ğ“Æ©‚ÉƒLƒƒƒbƒVƒ…‚Ü‚½‚Íˆ—‚Å‚«‚é‚æ‚¤‚É‚È‚éB
+lpAdviseSink : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡A—LŒø‚È IAdviseSink ƒ|ƒCƒ“ƒ^iƒf[ƒ^ƒAƒhƒoƒCƒX‚ÌƒJƒXƒ^ƒ€ƒLƒƒƒbƒVƒ…‚Ü‚½‚Íˆ—‚ğ¦‚·j‚Ü‚½‚Í NULLiƒf[ƒ^Œ`®‚ÌƒfƒtƒHƒ‹ƒgƒLƒƒƒbƒVƒ…‚ğ¦‚·j‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
+rgdwConnection : [var] IDataObject::DAdvise ‚ğg—p‚µ‚ÄŠeƒAƒhƒoƒCƒUƒŠÚ‘±‚É‘Î‚µ‚Ä IAdviseSink ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª“o˜^‚³‚ê‚½‚Æ‚«‚É•Ô‚³‚ê‚é dwConnection ’l‚Ì”z—ñ‚ğ•Ô‚·êŠB•Ô‚³‚ê‚½ƒAƒhƒoƒCƒUƒŠÚ‘±‚ª•s—v‚Èê‡‚Í NULLBpAdviseSink ‚ª NULL ‚Ìê‡‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pClientSite : [var] ƒIƒuƒWƒFƒNƒg‚ªƒRƒ“ƒeƒi‚©‚çƒT[ƒrƒX‚ğ—v‹‚·‚é‚½‚ß‚Ìå—vƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB‚»‚Ìê‡AŒÄ‚Ño‚µ‘¤‚Í‰Â”\‚ÈŒÀ‚è‘‚­ IOleObject::SetClientSite ‚ğg—p‚µ‚ÄƒNƒ‰ƒCƒAƒ“ƒgƒTƒCƒg‚ğŠm—§‚·‚éÓ”C‚ğ•‰‚¤B
+pStg : [var] ƒIƒuƒWƒFƒNƒg‚¨‚æ‚Ñ‚»‚ê‚É‘Î‚µ‚ÄŠm—§‚³‚ê‚éƒfƒtƒHƒ‹ƒg‚Ìƒf[ƒ^‚Ü‚½‚Í•\¦ƒLƒƒƒbƒVƒ…‚Ég—p‚·‚éƒXƒgƒŒ[ƒW‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppvObj : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éo—Íƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvObj ‚É‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Extends OleCreateLink functionality by supporting more efficient
-instantiation of objects in containers requiring caching of multiple
-formats of presentations or data, instead of the single format
-supported by OleCreateLink.
+OleCreateLink
+‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreateLink
+‚Ì‹@”\‚ğŠg’£‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì–ß‚è’l‚É‚ÍˆÈ‰º‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The following call to OleCreateLink:
-This doc was truncated.
+ˆÈ‰º‚Ì OleCreateLink ‚ÌŒÄ‚Ño‚µB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleCreateLinkFromData
-Creates a linked object from a data transfer object retrieved either from the clipboard or as part of an OLE drag-and-drop operation.
+ƒNƒŠƒbƒvƒ{[ƒh‚©‚çæ“¾‚µ‚½‚à‚ÌA‚Ü‚½‚Í OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìˆê•”‚Æ‚µ‚Äæ“¾‚µ‚½ƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚©‚çƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 pSrcDataObj, riid, renderopt, pFormatEtc, pClientSite, pStg, ppvObj
-pSrcDataObj : [var] Pointer to the IDataObject interface on the data transfer object from which the linked object is to be created.
-riid : [var] Reference to the identifier of interface the caller later uses to communicate with the new object (usually IID_IOleObject, defined in the OLE headers as the interface identifier for IOleObject).
-renderopt : [int] Value from the enumeration OLERENDER that indicates the locally cached drawing or data-retrieval capabilities the newly created object is to have. Additional considerations are described in the following Remarks section.
-pFormatEtc : [var] Pointer to a value from the enumeration OLERENDER that indicates the locally cached drawing or data-retrieval capabilities the newly created object is to have. The OLERENDER value chosen affects the possible values for the pFormatEtc parameter.
-pClientSite : [var] Pointer to an instance of IOleClientSite, the primary interface through which the object will request services from its container. This parameter can be NULL.
-pStg : [var] Pointer to the IStorage interface on the storage object. This parameter cannot be NULL.
-ppvObj : [var] Address of pointer variable that receives the interface pointer requested in riid. Upon successful return,   ppvObj contains the requested interface pointer on the newly created object.
+pSrcDataObj : [var] ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éŒ³‚Æ‚È‚éƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+riid : [var] ŒÄ‚Ño‚µ‘¤‚ªŒã‚ÉV‚µ‚¢ƒIƒuƒWƒFƒNƒg‚Æ’ÊM‚·‚é‚½‚ß‚Ég—p‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆi’Êí‚Í IID_IOleObject ‚ÅA‚±‚ê‚Í OLE ƒwƒbƒ_‚Å IOleObject ‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX¯•Êq‚Æ‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éjB
+renderopt : [int] V‚µ‚­ì¬‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ª‚Âƒ[ƒJƒ‹ƒLƒƒƒbƒVƒ…‚É‚æ‚é•`‰æ‚Ü‚½‚Íƒf[ƒ^æ“¾‹@”\‚ğ¦‚· OLERENDER —ñ‹“‚Ì’lB’Ç‰Á‚Ìl—¶–€‚É‚Â‚¢‚Ä‚ÍŒãq‚Ìu”õlv‚ğQÆB
+pFormatEtc : [var] V‚µ‚­ì¬‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ª‚Âƒ[ƒJƒ‹ƒLƒƒƒbƒVƒ…‚É‚æ‚é•`‰æ‚Ü‚½‚Íƒf[ƒ^æ“¾‹@”\‚ğ¦‚· OLERENDER —ñ‹“’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B‘I‘ğ‚³‚ê‚½ OLERENDER ’l‚Í pFormatEtc ƒpƒ‰ƒ[ƒ^‚Ìæ‚è“¾‚é’l‚É‰e‹¿‚·‚éB
+pClientSite : [var] ƒIƒuƒWƒFƒNƒg‚ªƒRƒ“ƒeƒi‚©‚çƒT[ƒrƒX‚ğ—v‹‚·‚é‚½‚ß‚Ìå—vƒCƒ“ƒ^[ƒtƒFƒCƒX‚Å‚ ‚é IOleClientSite ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB
+pStg : [var] ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É NULL ‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+ppvObj : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡AppvObj ‚É‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Creates a linked object from a data transfer object retrieved either
-from the clipboard or as part of an OLE drag-and-drop operation.
+ƒNƒŠƒbƒvƒ{[ƒh‚©‚çæ“¾‚µ‚½‚à‚ÌA‚Ü‚½‚Í OLE
+ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìˆê•”‚Æ‚µ‚Äæ“¾‚µ‚½ƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚©‚çƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì–ß‚è’l‚É‚ÍˆÈ‰º‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The OleCreateLinkFromData function is used to implement either a
-paste-link or a drag-link operation. Its operation is similar to that
-of the OleCreateFromData function, except that it creates a link, and
-looks for different data formats. If the CF_LINKSOURCE format is not
-present, and either the FileName or FileNameW clipboard format is
-present in the data transfer object, OleCreateLinkFromData creates a
-package containing the link to the indicated file.
-You use the renderopt and pFormatetc parameters to control the
-caching capability of the newly created object. For general
-information on how to determine what is to be cached, refer to the
-OLERENDER enumeration for a description of the interaction between
-renderopt and pFormatetc. There are, however, some additional
-specific effects of these parameters on the way OleCreateLinkFromData
-initializes the cache, as follows.
-This doc was truncated.
+OleCreateLinkFromData ŠÖ”‚ÍAƒy[ƒXƒgƒŠƒ“ƒN‚Ü‚½‚Íƒhƒ‰ƒbƒOƒŠƒ“ƒN‘€ì‚ÌÀ‘•‚Ég—p‚³‚ê‚éB‚»‚Ì“®ì‚Í
+OleCreateFromData
+ŠÖ”‚Æ‚æ‚­—‚Ä‚¢‚é‚ªAƒŠƒ“ƒN‚ğì¬‚·‚é“_‚ÆAˆÙ‚È‚éƒf[ƒ^Œ`®‚ğ’T‚·“_‚ªˆÙ‚È‚éBCF_LINKSOURCE
+Œ`®‚ª‘¶İ‚¹‚¸A‚©‚Âƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚É FileName ‚Ü‚½‚Í FileNameW
+ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Ì‚¢‚¸‚ê‚©‚ª‘¶İ‚·‚éê‡AOleCreateLinkFromData
+‚Íw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ö‚ÌƒŠƒ“ƒN‚ğŠÜ‚ŞƒpƒbƒP[ƒW‚ğì¬‚·‚éB
+renderopt ‚¨‚æ‚Ñ pFormatetc
+ƒpƒ‰ƒ[ƒ^‚ğg—p‚µ‚ÄAV‚µ‚­ì¬‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ÌƒLƒƒƒbƒVƒ…‹@”\‚ğ§Œä‚·‚éB‰½‚ğƒLƒƒƒbƒVƒ…‚·‚é‚©‚ğŒˆ’è‚·‚é•û–@‚ÉŠÖ‚·‚éˆê”Ê“I‚Èî•ñ‚ÍArenderopt
+‚Æ pFormatetc ‚Ì‘ŠŒİì—p‚Ìà–¾‚É‚Â‚¢‚Ä‚Í OLERENDER —ñ‹“‚ğQÆB‚½‚¾‚µA‚±‚ê‚ç‚Ìƒpƒ‰ƒ[ƒ^‚ª
+OleCreateLinkFromData ‚ÌƒLƒƒƒbƒVƒ…‰Šú‰»•û–@‚É‹y‚Ú‚·‹ï‘Ì“I‚È‰e‹¿‚ª‚¢‚­‚Â‚©‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleCreateLinkFromDataEx
-Extends OleCreateLinkFromData functionality by supporting more efficient instantiation of objects in containers requiring caching of multiple formats of presentations or data, instead of the single format supported by OleCreateLinkFromData.
+OleCreateLinkFromData ‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreateLinkFromData ‚Ì‹@”\‚ğŠg’£‚·‚éB
 %group
 Win32 ole32
 %prm
 pSrcDataObj, riid, dwFlags, renderopt, cFormats, rgAdvf, rgFormatEtc, lpAdviseSink, rgdwConnection, pClientSite, pStg, ppvObj
-pSrcDataObj : [var] Pointer to the data object to create a link object from.
-riid : [var] Reference to the identifier of the interface of the object to return.
-dwFlags : [int] This parameter can be 0 or OLECREATE_LEAVERUNNING (0x00000001).
-renderopt : [int] Value taken from the OLERENDER enumeration.
-cFormats : [int] When renderopt is OLERENDER_FORMAT, indicates the number of FORMATETC structures in the rgFormatEtc array, which must be at least one. In all other cases, this parameter must be zero.
-rgAdvf : [var] When renderopt is OLERENDER_FORMAT, points to an array of DWORD elements, each of which is a combination of values from the ADVF enumeration. Each element of this array is passed in as the advf parameter to a call to either IOleCache::Cache or IDataObject::DAdvise, depending on whether pAdviseSink is NULL or non-NULL (see below). In all other cases, this parameter must be NULL.
-rgFormatEtc : [var] When renderopt is OLERENDER_FORMAT, points to an array of FORMATETC structures. When pAdviseSink is NULL, each element of this array is passed as the pFormatEtc parameter to a call to the object's IOleCache::Cache. This populates the data and presentation cache managed by the objects in-process handler (typically the default handler) with presentation or other cacheable data. When pAdviseSink is non-NULL, each element of this array is passed as the pFormatEtc parameter to a call to IDataObject::DAdvise. This allows the caller (typically an OLE Container) to do its own caching or processing of data received from the object.
-lpAdviseSink : [var] When renderopt is OLERENDER_FORMAT, may be either a valid IAdviseSink pointer, indicating custom caching or processing of data advises, or NULL, indicating default caching of data formats.
-rgdwConnection : [var] Location to return the array of dwConnection values returned when the pAdviseSink interface is registered for each advisory connection using IDataObject::DAdvise, or NULL if the returned advisory connections are not needed. This parameter must be NULL if pAdviseSink is NULL.
-pClientSite : [var] Pointer to the primary interface through which the object will request services from its container. This parameter can be NULL, in which case it is the caller's responsibility to establish the client site as soon as possible using IOleObject::SetClientSite.
-pStg : [var] Pointer to the storage to use for the object and any default data or presentation caching established for it.
-ppvObj : [var] Address of output pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly created object.
+pSrcDataObj : [var] ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‘ÎÛ‚Ìƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+riid : [var] •Ô‚·ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB
+dwFlags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Ü‚½‚Í OLECREATE_LEAVERUNNINGi0x00000001j‚Å‚ ‚éB
+renderopt : [int] OLERENDER —ñ‹“‚©‚çæ‚é’lB
+cFormats : [int] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡ArgFormatEtc ”z—ñ“à‚Ì FORMATETC \‘¢‘Ì‚Ì”‚ğ¦‚·B1 ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+rgAdvf : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡ADWORD —v‘f‚Ì”z—ñ‚ğw‚·BŠe—v‘f‚Í ADVF —ñ‹“‚Ì’l‚Ì‘g‚İ‡‚í‚¹‚Å‚ ‚éB‚±‚Ì”z—ñ‚ÌŠe—v‘f‚ÍApAdviseSink ‚ª NULL ‚©‚Ç‚¤‚©‚É‰‚¶‚ÄAIOleCache::Cache ‚Ü‚½‚Í IDataObject::DAdvise ‚ÌŒÄ‚Ño‚µ‚É advf ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éiŒãqjB‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+rgFormatEtc : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡AFORMATETC \‘¢‘Ì‚Ì”z—ñ‚ğw‚·BpAdviseSink ‚ª NULL ‚Ìê‡A‚±‚Ì”z—ñ‚ÌŠe—v‘f‚ÍƒIƒuƒWƒFƒNƒg‚Ì IOleCache::Cache ‚ÌŒÄ‚Ño‚µ‚É pFormatEtc ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB‚±‚ê‚É‚æ‚èAƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒvƒƒZƒXƒnƒ“ƒhƒ‰i’Êí‚ÍƒfƒtƒHƒ‹ƒgƒnƒ“ƒhƒ‰j‚ªŠÇ—‚·‚éƒf[ƒ^‚¨‚æ‚Ñ•\¦ƒLƒƒƒbƒVƒ…‚ªA•\¦ƒf[ƒ^‚â‚»‚Ì‘¼‚ÌƒLƒƒƒbƒVƒ…‰Â”\‚Èƒf[ƒ^‚Å–‚½‚³‚ê‚éBpAdviseSink ‚ª NULL ‚Å‚È‚¢ê‡A‚±‚Ì”z—ñ‚ÌŠe—v‘f‚Í IDataObject::DAdvise ‚ÌŒÄ‚Ño‚µ‚É pFormatEtc ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB‚±‚ê‚É‚æ‚èŒÄ‚Ño‚µ‘¤i’Êí‚Í OLE ƒRƒ“ƒeƒij‚ÍAƒIƒuƒWƒFƒNƒg‚©‚çóM‚µ‚½ƒf[ƒ^‚ğ“Æ©‚ÉƒLƒƒƒbƒVƒ…‚Ü‚½‚Íˆ—‚Å‚«‚é‚æ‚¤‚É‚È‚éB
+lpAdviseSink : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡A—LŒø‚È IAdviseSink ƒ|ƒCƒ“ƒ^iƒf[ƒ^ƒAƒhƒoƒCƒX‚ÌƒJƒXƒ^ƒ€ƒLƒƒƒbƒVƒ…‚Ü‚½‚Íˆ—‚ğ¦‚·j‚Ü‚½‚Í NULLiƒf[ƒ^Œ`®‚ÌƒfƒtƒHƒ‹ƒgƒLƒƒƒbƒVƒ…‚ğ¦‚·j‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
+rgdwConnection : [var] IDataObject::DAdvise ‚ğg—p‚µ‚ÄŠeƒAƒhƒoƒCƒUƒŠÚ‘±‚É‘Î‚µ‚Ä pAdviseSink ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª“o˜^‚³‚ê‚½‚Æ‚«‚É•Ô‚³‚ê‚é dwConnection ’l‚Ì”z—ñ‚ğ•Ô‚·êŠB•Ô‚³‚ê‚½ƒAƒhƒoƒCƒUƒŠÚ‘±‚ª•s—v‚Èê‡‚Í NULLBpAdviseSink ‚ª NULL ‚Ìê‡‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pClientSite : [var] ƒIƒuƒWƒFƒNƒg‚ªƒRƒ“ƒeƒi‚©‚çƒT[ƒrƒX‚ğ—v‹‚·‚é‚½‚ß‚Ìå—vƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB‚»‚Ìê‡AŒÄ‚Ño‚µ‘¤‚Í‰Â”\‚ÈŒÀ‚è‘‚­ IOleObject::SetClientSite ‚ğg—p‚µ‚ÄƒNƒ‰ƒCƒAƒ“ƒgƒTƒCƒg‚ğŠm—§‚·‚éÓ”C‚ğ•‰‚¤B
+pStg : [var] ƒIƒuƒWƒFƒNƒg‚¨‚æ‚Ñ‚»‚ê‚É‘Î‚µ‚ÄŠm—§‚³‚ê‚éƒfƒtƒHƒ‹ƒg‚Ìƒf[ƒ^‚Ü‚½‚Í•\¦ƒLƒƒƒbƒVƒ…‚Ég—p‚·‚éƒXƒgƒŒ[ƒW‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppvObj : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éo—Íƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvObj ‚É‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Extends OleCreateLinkFromData functionality by supporting more
-efficient instantiation of objects in containers requiring caching of
-multiple formats of presentations or data, instead of the single
-format supported by OleCreateLinkFromData.
+OleCreateLinkFromData
+‚ª’Pˆê‚ÌŒ`®‚µ‚©ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚É‘Î‚µA•¡”‚Ì•\¦Œ`®‚Ü‚½‚Íƒf[ƒ^‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi“à‚Å‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚æ‚èŒø—¦“I‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅAOleCreateLinkFromData
+‚Ì‹@”\‚ğŠg’£‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì–ß‚è’l‚É‚ÍˆÈ‰º‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The following call to OleCreateLinkFromData:
-This doc was truncated.
+ˆÈ‰º‚Ì OleCreateLinkFromData ‚ÌŒÄ‚Ño‚µB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleCreateLinkToFile
-Creates an object that is linked to a file.
+ƒtƒ@ƒCƒ‹‚ÉƒŠƒ“ƒN‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 lpszFileName, riid, renderopt, lpFormatEtc, pClientSite, pStg, ppvObj
-lpszFileName : [wstr] Pointer to a string naming the source file to be linked to.
-riid : [var] Reference to the identifier of the interface the caller later uses to communicate with the new object (usually IID_IOleObject, defined in the OLE headers as the interface identifier for IOleObject).
-renderopt : [int] Value from the enumeration OLERENDER that indicates the locally cached drawing or data-retrieval capabilities the newly created object is to have. Additional considerations are described in the following Remarks section.
-lpFormatEtc : [var] Pointer to a value from the enumeration OLERENDER that indicates the locally cached drawing or data-retrieval capabilities the newly created object is to have. The OLERENDER value chosen affects the possible values for the pFormatEtc parameter.
-pClientSite : [var] Pointer to an instance of IOleClientSite, the primary interface through which the object will request services from its container. This parameter can be NULL.
-pStg : [var] Pointer to the IStorage interface on the storage object. This parameter cannot be NULL.
-ppvObj : [var] Address of pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly created object.
+lpszFileName : [wstr] ƒŠƒ“ƒNæ‚Æ‚È‚éƒ\[ƒXƒtƒ@ƒCƒ‹‚ğw’è‚·‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+riid : [var] ŒÄ‚Ño‚µ‘¤‚ªŒã‚ÉV‚µ‚¢ƒIƒuƒWƒFƒNƒg‚Æ’ÊM‚·‚é‚½‚ß‚Ég—p‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆi’Êí‚Í IID_IOleObject ‚ÅA‚±‚ê‚Í OLE ƒwƒbƒ_‚Å IOleObject ‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX¯•Êq‚Æ‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éjB
+renderopt : [int] V‚µ‚­ì¬‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ª‚Âƒ[ƒJƒ‹ƒLƒƒƒbƒVƒ…‚É‚æ‚é•`‰æ‚Ü‚½‚Íƒf[ƒ^æ“¾‹@”\‚ğ¦‚· OLERENDER —ñ‹“‚Ì’lB’Ç‰Á‚Ìl—¶–€‚É‚Â‚¢‚Ä‚ÍŒãq‚Ìu”õlv‚ğQÆB
+lpFormatEtc : [var] V‚µ‚­ì¬‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ª‚Âƒ[ƒJƒ‹ƒLƒƒƒbƒVƒ…‚É‚æ‚é•`‰æ‚Ü‚½‚Íƒf[ƒ^æ“¾‹@”\‚ğ¦‚· OLERENDER —ñ‹“’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B‘I‘ğ‚³‚ê‚½ OLERENDER ’l‚Í pFormatEtc ƒpƒ‰ƒ[ƒ^‚Ìæ‚è“¾‚é’l‚É‰e‹¿‚·‚éB
+pClientSite : [var] ƒIƒuƒWƒFƒNƒg‚ªƒRƒ“ƒeƒi‚©‚çƒT[ƒrƒX‚ğ—v‹‚·‚é‚½‚ß‚Ìå—vƒCƒ“ƒ^[ƒtƒFƒCƒX‚Å‚ ‚é IOleClientSite ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB
+pStg : [var] ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É NULL ‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+ppvObj : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvObj ‚É‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Creates an object that is linked to a file.
+ƒtƒ@ƒCƒ‹‚ÉƒŠƒ“ƒN‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í¬Œ÷‚É S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì–ß‚è’l‚É‚ÍˆÈ‰º‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The OleCreateLinkToFile function differs from the OleCreateLink
-function because it can create links both to files that are not aware
-of OLE, as well as to those that are using the Windows Packager.
+OleCreateLinkToFile ŠÖ”‚Í OleCreateLink ŠÖ”‚ÆˆÙ‚È‚èAOLE
+‚ğ”F¯‚µ‚Ä‚¢‚È‚¢ƒtƒ@ƒCƒ‹‚Ö‚ÌƒŠƒ“ƒN‚àAWindows Packager ‚ğg—p‚µ‚Ä‚¢‚éƒtƒ@ƒCƒ‹‚Ö‚ÌƒŠƒ“ƒN‚àì¬‚Å‚«‚éB
 
 
 %index
 OleCreateLinkToFileEx
-Extends OleCreateLinkToFile functionality by supporting more efficient instantiation of objects in containers requiring caching of multiple formats of presentations or data, instead of the single format supported by OleCreateLinkToFile.
+OleCreateLinkToFile ‚Ì‹@”\‚ğŠg’£‚µAOleCreateLinkToFile ‚ªƒTƒ|[ƒg‚·‚é’PˆêŒ`®‚Å‚Í‚È‚­A•¡”‚ÌƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚âƒf[ƒ^Œ`®‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi‚É‚¨‚¯‚éƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‚æ‚èŒø—¦“I‚És‚¦‚é‚æ‚¤‚É‚·‚éB
 %group
 Win32 ole32
 %prm
 lpszFileName, riid, dwFlags, renderopt, cFormats, rgAdvf, rgFormatEtc, lpAdviseSink, rgdwConnection, pClientSite, pStg, ppvObj
-lpszFileName : [wstr] Pointer to the name of the file to create a link to.
-riid : [var] Reference to the identifier of the interface of the object to return.
-dwFlags : [int] This parameter can be 0 or OLECREATE_LEAVERUNNING (0x00000001).
-renderopt : [int] Value taken from the OLERENDER enumeration.
-cFormats : [int] When renderopt is OLERENDER_FORMAT, indicates the number of FORMATETC structures in the rgFormatEtc array, which must be at least one. In all other cases, this parameter must be zero.
-rgAdvf : [var] When renderopt is OLERENDER_FORMAT, points to an array of DWORD elements, each of which is a combination of values from the ADVF enumeration. Each element of this array is passed in as the advf parameter to a call to either IOleCache::Cache or IDataObject::DAdvise, depending on whether pAdviseSink is NULL or non-NULL (see below). In all other cases, this parameter must be NULL.
-rgFormatEtc : [var] When renderopt is OLERENDER_FORMAT, points to an array of FORMATETC structures. When pAdviseSink is NULL, each element of this array is passed as the pFormatEtc parameter to a call to the object's IOleCache::Cache. This populates the data and presentation cache managed by the objects in-process handler (typically the default handler) with presentation or other cacheable data. When pAdviseSink is non-NULL, each element of this array is passed as the pFormatEtc parameter to a call to IDataObject::DAdvise. This allows the caller (typically an OLE Container) to do its own caching or processing of data received from the object.
-lpAdviseSink : [var] When renderopt is OLERENDER_FORMAT, may be either a valid IAdviseSink pointer, indicating custom caching or processing of data advises, or NULL, indicating default caching of data formats.
-rgdwConnection : [var] Location to return the array of dwConnection values returned when the IAdviseSink interface is registered for each advisory connection using IDataObject::DAdvise, or NULL if the returned advisory connections are not needed. This parameter must be NULL if pAdviseSink is NULL.
-pClientSite : [var] Pointer to the primary interface through which the object will request services from its container. This parameter may be NULL, in which case it is the caller's responsibility to establish the client site as soon as possible using IOleObject::SetClientSite.
-pStg : [var] Pointer to the storage to use for the object and any default data or presentation caching established for it.
-ppvObj : [var] Address of output pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly created object.
+lpszFileName : [wstr] ƒŠƒ“ƒNæ‚Æ‚È‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+riid : [var] •Ô‚·ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB
+dwFlags : [int] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Ü‚½‚Í OLECREATE_LEAVERUNNINGi0x00000001j‚Å‚ ‚éB
+renderopt : [int] OLERENDER —ñ‹“‚©‚çæ‚é’lB
+cFormats : [int] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡ArgFormatEtc ”z—ñ“à‚Ì FORMATETC \‘¢‘Ì‚Ì”‚ğ¦‚·B1 ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+rgAdvf : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡ADWORD —v‘f‚Ì”z—ñ‚ğw‚·BŠe—v‘f‚Í ADVF —ñ‹“‚Ì’l‚Ì‘g‚İ‡‚í‚¹‚Å‚ ‚éB‚±‚Ì”z—ñ‚ÌŠe—v‘f‚ÍApAdviseSink ‚ª NULL ‚©‚Ç‚¤‚©‚É‰‚¶‚ÄAIOleCache::Cache ‚Ü‚½‚Í IDataObject::DAdvise ‚ÌŒÄ‚Ño‚µ‚É advf ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éiŒãqjB‚»‚êˆÈŠO‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+rgFormatEtc : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡AFORMATETC \‘¢‘Ì‚Ì”z—ñ‚ğw‚·BpAdviseSink ‚ª NULL ‚Ìê‡A‚±‚Ì”z—ñ‚ÌŠe—v‘f‚ÍƒIƒuƒWƒFƒNƒg‚Ì IOleCache::Cache ‚ÌŒÄ‚Ño‚µ‚É pFormatEtc ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB‚±‚ê‚É‚æ‚èAƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒvƒƒZƒXƒnƒ“ƒhƒ‰i’Êí‚ÍƒfƒtƒHƒ‹ƒgƒnƒ“ƒhƒ‰j‚ªŠÇ—‚·‚éƒf[ƒ^‚¨‚æ‚Ñ•\¦ƒLƒƒƒbƒVƒ…‚ªA•\¦ƒf[ƒ^‚â‚»‚Ì‘¼‚ÌƒLƒƒƒbƒVƒ…‰Â”\‚Èƒf[ƒ^‚Å–‚½‚³‚ê‚éBpAdviseSink ‚ª NULL ‚Å‚È‚¢ê‡A‚±‚Ì”z—ñ‚ÌŠe—v‘f‚Í IDataObject::DAdvise ‚ÌŒÄ‚Ño‚µ‚É pFormatEtc ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚³‚ê‚éB‚±‚ê‚É‚æ‚èŒÄ‚Ño‚µ‘¤i’Êí‚Í OLE ƒRƒ“ƒeƒij‚ÍAƒIƒuƒWƒFƒNƒg‚©‚çóM‚µ‚½ƒf[ƒ^‚ğ“Æ©‚ÉƒLƒƒƒbƒVƒ…‚Ü‚½‚Íˆ—‚Å‚«‚é‚æ‚¤‚É‚È‚éB
+lpAdviseSink : [var] renderopt ‚ª OLERENDER_FORMAT ‚Ìê‡A—LŒø‚È IAdviseSink ƒ|ƒCƒ“ƒ^iƒf[ƒ^ƒAƒhƒoƒCƒX‚ÌƒJƒXƒ^ƒ€ƒLƒƒƒbƒVƒ…‚Ü‚½‚Íˆ—‚ğ¦‚·j‚Ü‚½‚Í NULLiƒf[ƒ^Œ`®‚ÌƒfƒtƒHƒ‹ƒgƒLƒƒƒbƒVƒ…‚ğ¦‚·j‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
+rgdwConnection : [var] IDataObject::DAdvise ‚ğg—p‚µ‚ÄŠeƒAƒhƒoƒCƒUƒŠÚ‘±‚É‘Î‚µ‚Ä IAdviseSink ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª“o˜^‚³‚ê‚½‚Æ‚«‚É•Ô‚³‚ê‚é dwConnection ’l‚Ì”z—ñ‚ğ•Ô‚·êŠB•Ô‚³‚ê‚½ƒAƒhƒoƒCƒUƒŠÚ‘±‚ª•s—v‚Èê‡‚Í NULLBpAdviseSink ‚ª NULL ‚Ìê‡‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pClientSite : [var] ƒIƒuƒWƒFƒNƒg‚ªƒRƒ“ƒeƒi‚©‚çƒT[ƒrƒX‚ğ—v‹‚·‚é‚½‚ß‚Ìå—vƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚Å‚«‚éB‚»‚Ìê‡AŒÄ‚Ño‚µ‘¤‚Í‰Â”\‚ÈŒÀ‚è‘‚­ IOleObject::SetClientSite ‚ğg—p‚µ‚ÄƒNƒ‰ƒCƒAƒ“ƒgƒTƒCƒg‚ğŠm—§‚·‚éÓ”C‚ğ•‰‚¤B
+pStg : [var] ƒIƒuƒWƒFƒNƒg‚¨‚æ‚Ñ‚»‚ê‚É‘Î‚µ‚ÄŠm—§‚³‚ê‚éƒfƒtƒHƒ‹ƒg‚Ìƒf[ƒ^‚Ü‚½‚Í•\¦ƒLƒƒƒbƒVƒ…‚Ég—p‚·‚éƒXƒgƒŒ[ƒW‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppvObj : [var] riid ‚Å—v‹‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éo—Íƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹‚µ‚½ê‡A*ppvObj ‚É‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Extends OleCreateLinkToFile functionality by supporting more
-efficient instantiation of objects in containers requiring caching of
-multiple formats of presentations or data, instead of the single
-format supported by OleCreateLinkToFile.
+OleCreateLinkToFile ‚Ì‹@”\‚ğŠg’£‚µAOleCreateLinkToFile
+‚ªƒTƒ|[ƒg‚·‚é’PˆêŒ`®‚Å‚Í‚È‚­A•¡”‚ÌƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚âƒf[ƒ^Œ`®‚ÌƒLƒƒƒbƒVƒ…‚ğ•K—v‚Æ‚·‚éƒRƒ“ƒeƒi‚É‚¨‚¯‚éƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ğ‚æ‚èŒø—¦“I‚És‚¦‚é‚æ‚¤‚É‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The following call to OleCreateLinkToFile:
-This doc was truncated.
+OleCreateLinkToFile ‚Ö‚ÌˆÈ‰º‚ÌŒÄ‚Ño‚µF
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleCreateMenuDescriptor
-Creates and returns an OLE menu descriptor (that is, an OLE-provided data structure that describes the menus) for OLE to use when dispatching menu messages and commands.
+ƒƒjƒ…[ƒƒbƒZ[ƒW‚ÆƒRƒ}ƒ“ƒh‚ğƒfƒBƒXƒpƒbƒ`‚·‚éÛ‚É OLE ‚ªg—p‚·‚é‚½‚ß‚Ì OLE ƒƒjƒ…[‹Lqqiƒƒjƒ…[‚ğ‹Lq‚·‚é OLE ‚ª’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢j‚ğì¬‚µ‚Ä•Ô‚·B
 %group
 Win32 ole32
 %prm
 hmenuCombined, lpMenuWidths
-hmenuCombined : [intptr] Handle to the combined menu created by the object.
-lpMenuWidths : [var] Pointer to an array of six LONG values giving the number of menus in each group.
+hmenuCombined : [intptr] ƒIƒuƒWƒFƒNƒg‚ªì¬‚µ‚½Œ‹‡ƒƒjƒ…[‚Ö‚Ìƒnƒ“ƒhƒ‹B
+lpMenuWidths : [var] ŠeƒOƒ‹[ƒv“à‚Ìƒƒjƒ…[”‚ğ¦‚· 6 ŒÂ‚Ì LONG ’l‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Creates and returns an OLE menu descriptor (that is, an OLE-provided
-data structure that describes the menus) for OLE to use when
-dispatching menu messages and commands.
+ƒƒjƒ…[ƒƒbƒZ[ƒW‚ÆƒRƒ}ƒ“ƒh‚ğƒfƒBƒXƒpƒbƒ`‚·‚éÛ‚É OLE ‚ªg—p‚·‚é‚½‚ß‚Ì OLE ƒƒjƒ…[‹Lqqiƒƒjƒ…[‚ğ‹Lq‚·‚é OLE
+‚ª’ñ‹Ÿ‚·‚éƒf[ƒ^\‘¢j‚ğì¬‚µ‚Ä•Ô‚·B
 
 [–ß‚è’l]
-Returns the handle to the descriptor, or NULL if insufficient memory
-is available.
+‹Lqq‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B\•ª‚Èƒƒ‚ƒŠ‚ª‚È‚¢ê‡‚Í NULL ‚ğ•Ô‚·B
 
 [”õl]
-The OleCreateMenuDescriptor function can be called by the object to
-create a descriptor for the composite menu. OLE then uses this
-descriptor to dispatch menu messages and commands. To free the shared
-menu descriptor when it is no longer needed, the container should
-call the companion helper function, OleDestroyMenuDescriptor.
+OleCreateMenuDescriptor ŠÖ”‚ÍAƒIƒuƒWƒFƒNƒg‚ª•¡‡ƒƒjƒ…[‚Ì‹Lqq‚ğì¬‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éBOLE
+‚Í‚±‚Ì‹Lqq‚ğg—p‚µ‚Äƒƒjƒ…[ƒƒbƒZ[ƒW‚ÆƒRƒ}ƒ“ƒh‚ğƒfƒBƒXƒpƒbƒ`‚·‚éB‹¤—Lƒƒjƒ…[‹Lqq‚ª•s—v‚É‚È‚Á‚½ê‡AƒRƒ“ƒeƒi‚Í‘Î‰‚·‚éƒwƒ‹ƒp[ŠÖ”
+OleDestroyMenuDescriptor ‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 OleCreateStaticFromData
-Creates a static object, that contains only a representation, with no native data, from a data transfer object.
+ƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚©‚çAƒlƒCƒeƒBƒuƒf[ƒ^‚ğ‚½‚¸•\Œ»‚Ì‚İ‚ğŠÜ‚ŞÃ“IƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 pSrcDataObj, iid, renderopt, pFormatEtc, pClientSite, pStg, ppvObj
-pSrcDataObj : [var] Pointer to the IDataObject interface on the data transfer object that holds the data from which the object will be created.
-iid : [var] Reference to the identifier of the interface with which the caller is to communicate with the new object (usually IID_IOleObject, defined in the OLE headers as the interface identifier for IOleObject).
-renderopt : [int] Value from the enumeration OLERENDER indicating the locally cached drawing or data-retrieval capabilities that the container wants in the newly created component. It is an error to pass the render options OLERENDER_NONE or OLERENDER_ASIS to this function.
-pFormatEtc : [var] Depending on which of the OLERENDER flags is used as the value of renderopt, may be a pointer to one of the FORMATETC enumeration values. Refer to the OLERENDER enumeration for restrictions.
-pClientSite : [var] Pointer to an instance of IOleClientSite, the primary interface through which the object will request services from its container. This parameter can be NULL.
-pStg : [var] Pointer to the IStorage interface for storage for the object. This parameter cannot be NULL.
-ppvObj : [var] Address of pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly created object.
+pSrcDataObj : [var] ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‚½‚ß‚Ìƒf[ƒ^‚ğ•Û‚·‚éƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+iid : [var] ŒÄ‚Ño‚µŒ³‚ªV‚µ‚¢ƒIƒuƒWƒFƒNƒg‚Æ’ÊM‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆi’Êí‚Í IID_IOleObjectBOLE ƒwƒbƒ_[‚Å IOleObject ‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX¯•Êq‚Æ‚µ‚Ä’è‹`‚³‚ê‚Ä‚¢‚éjB
+renderopt : [int] V‚µ‚­ì¬‚³‚ê‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚¨‚¢‚ÄAƒRƒ“ƒeƒi‚ªƒ[ƒJƒ‹‚ÉƒLƒƒƒbƒVƒ…‚µ‚½‚¢•`‰æ‚Ü‚½‚Íƒf[ƒ^æ“¾‹@”\‚ğ¦‚· OLERENDER —ñ‹“‚Ì’lB‚±‚ÌŠÖ”‚É OLERENDER_NONE ‚Ü‚½‚Í OLERENDER_ASIS ‚ğ“n‚·‚Ì‚ÍƒGƒ‰[‚Æ‚È‚éB
+pFormatEtc : [var] renderopt ‚Ì’l‚Æ‚µ‚Äg—p‚³‚ê‚é OLERENDER ƒtƒ‰ƒO‚É‰‚¶‚ÄAFORMATETC —ñ‹“’l‚Ì 1 ‚Â‚Ö‚Ìƒ|ƒCƒ“ƒ^‚É‚È‚é‚±‚Æ‚ª‚ ‚éB§–ñ‚É‚Â‚¢‚Ä‚Í OLERENDER —ñ‹“‚ğQÆ‚Ì‚±‚ÆB
+pClientSite : [var] IOleClientSite ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚ÍƒIƒuƒWƒFƒNƒg‚ªƒRƒ“ƒeƒi‚©‚çƒT[ƒrƒX‚ğ—v‹‚·‚é‚½‚ß‚Ìå—v‚ÈƒCƒ“ƒ^[ƒtƒFƒCƒX‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚¢B
+pStg : [var] ƒIƒuƒWƒFƒNƒg‚ÌƒXƒgƒŒ[ƒW‚Ì‚½‚ß‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«‚È‚¢B
+ppvObj : [var] riid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹A*ppvObj ‚É‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Creates a static object, that contains only a representation, with no
-native data, from a data transfer object.
+ƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚©‚çAƒlƒCƒeƒBƒuƒf[ƒ^‚ğ‚½‚¸•\Œ»‚Ì‚İ‚ğŠÜ‚ŞÃ“IƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B
 
 [”õl]
-The OleCreateStaticFromData function can convert any object, as long
-as it provides an IDataObject interface, to a static object. It is
-useful in implementing the Convert To Picture option for OLE linking
-or embedding.
-Static objects can be created only if the source supports one of the
-OLE-rendered clipboard formats: CF_METAFILEPICT, CF_DIB, or CF_
-BITMAP, and CF_ENHMETAFILE.
-You can also call OleCreateStaticFromData to paste a static object
-from the clipboard. To determine whether an object is static, call
-the OleQueryCreateFromData function, which returns OLE_S_STATIC if
-one of CF_METAFILEPICT, CF_DIB, CF_BITMAP, or CF_ENHMETAFILE is
-present and an OLE format is not present. This indicates that you
-should call OleCreateStaticFromData rather than the OleCreateFromData
-function to create the object.
-The new static object is of class CLSID_StaticMetafile in the case of
-CF_METAFILEPICT, CLSID_StaticDib in the case of CF_DIB or CF_BITMAP,
-or CLSID_Picture_EnhMetafile in the case of CF_ENHMETAFILE. The
-static object sets the OLEMISC_STATIC and OLE_CANTLINKINSIDE bits
-returned from IOleObject::GetMiscStatus. The static object will have
-the aspect DVASPECT_CONTENT and a LINDEX of -1. The pSrcDataObject is
-still valid after OleCreateStaticFromData returns. It is the caller's
-responsibility to free pSrcDataObject - OLE does not release it.
-There cannot be more than one presentation stream in a static object.
+OleCreateStaticFromData ŠÖ”‚ÍAIDataObject
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ’ñ‹Ÿ‚µ‚Ä‚¢‚éŒÀ‚èA”CˆÓ‚ÌƒIƒuƒWƒFƒNƒg‚ğÃ“IƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚Å‚«‚éBOLE ‚ÌƒŠƒ“ƒN‚â–„‚ß‚İ‚É‚¨‚¯‚éuConvert
+To PicturevƒIƒvƒVƒ‡ƒ“‚ÌÀ‘•‚É—L—p‚Å‚ ‚éB
+Ã“IƒIƒuƒWƒFƒNƒg‚Íƒ\[ƒX‚ª OLE
+‚ªƒŒƒ“ƒ_ƒŠƒ“ƒO‚·‚éƒNƒŠƒbƒvƒ{[ƒhŒ`®iCF_METAFILEPICTACF_DIBACF_BITMAPACF_ENHMETAFILEj‚Ì‚¢‚¸‚ê‚©‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚éê‡‚É‚Ì‚İì¬‚Å‚«‚éB
+OleCreateStaticFromData
+‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅƒNƒŠƒbƒvƒ{[ƒh‚©‚çÃ“IƒIƒuƒWƒFƒNƒg‚ğ“\‚è•t‚¯‚é‚±‚Æ‚à‚Å‚«‚éBƒIƒuƒWƒFƒNƒg‚ªÃ“I‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚É‚Í
+OleQueryCreateFromData ŠÖ”‚ğŒÄ‚Ño‚·B‚±‚ê‚Í
+CF_METAFILEPICTACF_DIBACF_BITMAPACF_ENHMETAFILE ‚Ì‚¢‚¸‚ê‚©‚ª‘¶İ‚µAOLE
+Œ`®‚ª‘¶İ‚µ‚È‚¢ê‡‚É OLE_S_STATIC ‚ğ•Ô‚·B‚±‚ê‚ÍAƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‚½‚ß‚É OleCreateFromData
+‚Å‚Í‚È‚­ OleCreateStaticFromData ‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚é‚±‚Æ‚ğ¦‚·B
+V‚µ‚¢Ã“IƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX‚ÍACF_METAFILEPICT ‚Ìê‡‚Í CLSID_StaticMetafileACF_DIB ‚Ü‚½‚Í
+CF_BITMAP ‚Ìê‡‚Í CLSID_StaticDibACF_ENHMETAFILE ‚Ìê‡‚Í
+CLSID_Picture_EnhMetafile ‚Æ‚È‚éBÃ“IƒIƒuƒWƒFƒNƒg‚Í IOleObject::GetMiscStatus ‚ª•Ô‚·
+OLEMISC_STATIC ƒrƒbƒg‚Æ OLE_CANTLINKINSIDE ƒrƒbƒg‚ğİ’è‚·‚éBÃ“IƒIƒuƒWƒFƒNƒg‚ÍƒAƒXƒyƒNƒg
+DVASPECT_CONTENT ‚Æ LINDEX -1 ‚ğ‚ÂBpSrcDataObject ‚Í
+OleCreateStaticFromData ‚ª–ß‚Á‚½‚ ‚Æ‚à—LŒø‚Å‚ ‚éBpSrcDataObject
+‚Ì‰ğ•ú‚ÍŒÄ‚Ño‚µŒ³‚ÌÓ”C‚Å‚ ‚èAOLE ‚Í‚±‚ê‚ğ‰ğ•ú‚µ‚È‚¢B
+Ã“IƒIƒuƒWƒFƒNƒg“à‚ÌƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒXƒgƒŠ[ƒ€‚Í 1 ‚Â‚¾‚¯‚µ‚©‚Ä‚È‚¢B
 
 
 %index
 OleDestroyMenuDescriptor
-Called by the container to free the shared menu descriptor allocated by the OleCreateMenuDescriptor function.
+ƒRƒ“ƒeƒi‚É‚æ‚Á‚ÄŒÄ‚Ño‚³‚êAOleCreateMenuDescriptor ŠÖ”‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½‹¤—Lƒƒjƒ…[‹Lqq‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 ole32
 %prm
 holemenu
-holemenu : [int] Handle to the shared menu descriptor that was returned by the OleCreateMenuDescriptor function.
+holemenu : [int] OleCreateMenuDescriptor ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½‹¤—Lƒƒjƒ…[‹Lqq‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Called by the container to free the shared menu descriptor allocated
-by the OleCreateMenuDescriptor function.
+ƒRƒ“ƒeƒi‚É‚æ‚Á‚ÄŒÄ‚Ño‚³‚êAOleCreateMenuDescriptor ŠÖ”‚ÅŠ„‚è“–‚Ä‚ç‚ê‚½‹¤—Lƒƒjƒ…[‹Lqq‚ğ‰ğ•ú‚·‚éB
 
 [–ß‚è’l]
-This function does not return a value.
+‚±‚ÌŠÖ”‚Í’l‚ğ•Ô‚³‚È‚¢B
 
 
 %index
 OleDoAutoConvert
-Automatically converts an object to a new class if automatic conversion for that object class is set in the registry.
+‚»‚ÌƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚Ì©“®•ÏŠ·‚ªƒŒƒWƒXƒgƒŠ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡AƒIƒuƒWƒFƒNƒg‚ğV‚µ‚¢ƒNƒ‰ƒX‚É©“®“I‚É•ÏŠ·‚·‚éB
 %group
 Win32 ole32
 %prm
 pStg, pClsidNew
-pStg : [var] A pointer to the IStorage interface on the storage object to be converted.
-pClsidNew : [var] A pointer to the new CLSID for the object being converted. If there was no automatic conversion, this may be the same as the original class.
+pStg : [var] •ÏŠ·‘ÎÛ‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pClsidNew : [var] •ÏŠ·’†‚ÌƒIƒuƒWƒFƒNƒg‚ÌV‚µ‚¢ CLSID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B©“®•ÏŠ·‚ªs‚í‚ê‚È‚©‚Á‚½ê‡AŒ³‚ÌƒNƒ‰ƒX‚Æ“¯‚¶‚É‚È‚é‚±‚Æ‚ª‚ ‚éB
 %inst
-Automatically converts an object to a new class if automatic
-conversion for that object class is set in the registry.
+‚»‚ÌƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚Ì©“®•ÏŠ·‚ªƒŒƒWƒXƒgƒŠ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡AƒIƒuƒWƒFƒNƒg‚ğV‚µ‚¢ƒNƒ‰ƒX‚É©“®“I‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-This function can return the standard return values E_INVALIDARG,
-E_OUTOFMEMORY, and E_UNEXPECTED, as well as the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARGAE_OUTOFMEMORYAE_UNEXPECTED
+‚É‰Á‚¦‚ÄAˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-OleDoAutoConvert automatically converts an object if automatic
-conversion has previously been specified in the registry by the
-OleSetAutoConvert function. Object conversion means that the object
-is permanently associated with a new CLSID. Automatic conversion is
-typically specified by the setup program for a new version of an
-object application, so that objects created by its older versions can
-be automatically updated. The storage object must be in the unloaded
-state when OleDoAutoConvert is called. A container application that
-supports object conversion should call OleDoAutoConvert each time it
-loads an object. If the container uses the OleLoad helper function,
-it need not call OleDoAutoConvert explicitly because OleLoad calls it
-internally. OleDoAutoConvert first determines whether any conversion
-is required by calling the OleGetAutoConvert function, which, if no
-conversion is required, returns S_OK. If the object requires
-conversion, OleDoAutoConvert modifies and converts the storage object
-by activating the new object application. The new object application
-reads the existing data format, but saves the object in the new
-native format for the object application. If the object to be
-automatically converted is an OLE 1 object, the ItemName string is
-stored in a stream called "\1Ole10ItemName." If this stream does not
-exist, the object's item name is NULL.
+OleDoAutoConvert ‚ÍAOleSetAutoConvert
+ŠÖ”‚É‚æ‚èƒŒƒWƒXƒgƒŠ‚Å©“®•ÏŠ·‚ª–‘O‚Éw’è‚³‚ê‚Ä‚¢‚éê‡AƒIƒuƒWƒFƒNƒg‚ğ©“®“I‚É•ÏŠ·‚·‚éBƒIƒuƒWƒFƒNƒg‚Ì•ÏŠ·‚Æ‚ÍAƒIƒuƒWƒFƒNƒg‚ªV‚µ‚¢
+CLSID
+‚ÆP‹v“I‚ÉŠÖ˜A•t‚¯‚ç‚ê‚é‚±‚Æ‚ğˆÓ–¡‚·‚éB©“®•ÏŠ·‚Í’ÊíAƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌVƒo[ƒWƒ‡ƒ“‚ÌƒZƒbƒgƒAƒbƒvƒvƒƒOƒ‰ƒ€‚É‚æ‚Á‚Äw’è‚³‚êAŒÃ‚¢ƒo[ƒWƒ‡ƒ“‚Åì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ©“®“I‚ÉXV‚Å‚«‚é‚æ‚¤‚É‚·‚éBOleDoAutoConvert
+‚ğŒÄ‚Ño‚·‚Æ‚«AƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÍƒAƒ“ƒ[ƒhó‘Ô‚É‚È‚Á‚Ä‚¢‚é•K—v‚ª‚ ‚éBƒIƒuƒWƒFƒNƒg•ÏŠ·‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚é‚½‚Ñ‚É
+OleDoAutoConvert ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éBƒRƒ“ƒeƒi‚ª OleLoad ƒwƒ‹ƒp[ŠÖ”‚ğg—p‚·‚éê‡‚ÍAOleLoad
+‚ª“à•”‚ÅŒÄ‚Ño‚·‚½‚ß–¾¦“I‚É OleDoAutoConvert ‚ğŒÄ‚Ño‚·•K—v‚Í‚È‚¢BOleDoAutoConvert ‚Í‚Ü‚¸
+OleGetAutoConvert ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä•ÏŠ·‚ª•K—v‚©‚Ç‚¤‚©‚ğ”»’è‚µA•s—v‚Èê‡‚Í S_OK
+‚ğ•Ô‚·BƒIƒuƒWƒFƒNƒg‚É•ÏŠ·‚ª•K—v‚Èê‡AOleDoAutoConvert
+‚ÍV‚µ‚¢ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‹N“®‚µ‚ÄƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ•ÏXE•ÏŠ·‚·‚éBV‚µ‚¢ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍŠù‘¶‚Ìƒf[ƒ^Œ`®‚ğ“Ç‚İæ‚èAV‚µ‚¢ƒlƒCƒeƒBƒuŒ`®‚ÅƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚éB©“®•ÏŠ·‘ÎÛ‚ÌƒIƒuƒWƒFƒNƒg‚ª
+OLE 1 ƒIƒuƒWƒFƒNƒg‚Ìê‡AItemName •¶š—ñ‚Í "\1Ole10ItemName"
+‚Æ‚¢‚¤ƒXƒgƒŠ[ƒ€‚ÉŠi”[‚³‚ê‚éB‚±‚ÌƒXƒgƒŠ[ƒ€‚ª‘¶İ‚µ‚È‚¢ê‡AƒIƒuƒWƒFƒNƒg‚Ì€–Ú–¼‚Í NULL ‚Æ‚È‚éB
 
 
 %index
 OleDraw
-The OleDraw function (ole2.h) enables drawing objects more easily. You can use it instead of calling IViewObject::Draw directly.
+OleDraw ŠÖ”iole2.hj‚ÍƒIƒuƒWƒFƒNƒg‚Ì•`‰æ‚ğ—eˆÕ‚É‚·‚éBIViewObject::Draw ‚ğ’¼ÚŒÄ‚Ño‚·‘ã‚í‚è‚Ég—p‚Å‚«‚éB
 %group
 Win32 ole32
 %prm
 pUnknown, dwAspect, hdcDraw, lprcBounds
-pUnknown : [var] Pointer to the IUnknown interface on the view object that is to be drawn.
-dwAspect : [int] How the object is to be represented. Representations include content, an icon, a thumbnail, or a printed document. Possible values are taken from the DVASPECT enumeration.
-hdcDraw : [intptr] Device context on which to draw. Cannot be a metafile device context.
-lprcBounds : [var] Pointer to a RECT structure specifying the rectangle in which the object should be drawn. This parameter is converted to a RECTL structure and passed to IViewObject::Draw.
+pUnknown : [var] •`‰æ‘ÎÛ‚Ìƒrƒ…[ƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwAspect : [int] ƒIƒuƒWƒFƒNƒg‚ğ‚Ç‚Ì‚æ‚¤‚É•\Œ»‚·‚é‚©B•\Œ»‚É‚ÍƒRƒ“ƒeƒ“ƒcAƒAƒCƒRƒ“AƒTƒ€ƒlƒCƒ‹AˆóüƒhƒLƒ…ƒƒ“ƒg‚È‚Ç‚ª‚ ‚éBw’è‰Â”\‚È’l‚Í DVASPECT —ñ‹“‚©‚çæ“¾‚·‚éB
+hdcDraw : [intptr] •`‰ææ‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒgBƒƒ^ƒtƒ@ƒCƒ‹ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Íw’è‚Å‚«‚È‚¢B
+lprcBounds : [var] ƒIƒuƒWƒFƒNƒg‚ğ•`‰æ‚·‚é‹éŒ`‚ğw’è‚·‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í RECTL \‘¢‘Ì‚É•ÏŠ·‚³‚êAIViewObject::Draw ‚É“n‚³‚ê‚éB
 %inst
-The OleDraw function (ole2.h) enables drawing objects more easily.
-You can use it instead of calling IViewObject::Draw directly.
+OleDraw ŠÖ”iole2.hj‚ÍƒIƒuƒWƒFƒNƒg‚Ì•`‰æ‚ğ—eˆÕ‚É‚·‚éBIViewObject::Draw
+‚ğ’¼ÚŒÄ‚Ño‚·‘ã‚í‚è‚Ég—p‚Å‚«‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The OleDraw helper function calls the QueryInterface method for the
-object specified (pUnk), asking for an IViewObject interface on that
-object. Then, OleDraw converts the RECT structure to a RECTL
-structure, and calls IViewObject::Draw as follows:
-This doc was truncated.
+OleDraw ƒwƒ‹ƒp[ŠÖ”‚ÍAw’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒgipUnkj‚É‘Î‚µ‚Ä QueryInterface ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä
+IViewObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğæ“¾‚·‚éBŸ‚É OleDraw ‚Í RECT \‘¢‘Ì‚ğ RECTL \‘¢‘Ì‚É•ÏŠ·‚µAˆÈ‰º‚Ì‚æ‚¤‚É
+IViewObject::Draw ‚ğŒÄ‚Ño‚·F
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleDuplicateData
-Duplicates the data found in the specified handle and returns a handle to the duplicated data. The source data is in a clipboard format. Use this function to help implement some of the data transfer interfaces such as IDataObject.
+w’è‚³‚ê‚½ƒnƒ“ƒhƒ‹“à‚Ìƒf[ƒ^‚ğ•¡»‚µA•¡»‚³‚ê‚½ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·Bƒ\[ƒXƒf[ƒ^‚ÍƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Å‚ ‚éBIDataObject ‚È‚Ç‚Ìƒf[ƒ^“]‘—ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌÀ‘•‚ğx‰‡‚·‚é‚½‚ß‚Ég—p‚·‚éB
 %group
 Win32 ole32
 %prm
 hSrc, cfFormat, uiFlags
-hSrc : [intptr] Handle of the source data.
-cfFormat : [int] Clipboard format of the source data.
-uiFlags : [int] Flags to be used to allocate global memory for the copied data. These flags are passed to GlobalAlloc. If the value of uiFlags is NULL, GMEM_MOVEABLE is used as a default flag.
+hSrc : [intptr] ƒ\[ƒXƒf[ƒ^‚Ìƒnƒ“ƒhƒ‹B
+cfFormat : [int] ƒ\[ƒXƒf[ƒ^‚ÌƒNƒŠƒbƒvƒ{[ƒhŒ`®B
+uiFlags : [int] ƒRƒs[‚³‚ê‚½ƒf[ƒ^‚Ì‚½‚ß‚ÌƒOƒ[ƒoƒ‹ƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚é‚½‚ß‚Ég—p‚·‚éƒtƒ‰ƒOB‚±‚ê‚ç‚Ìƒtƒ‰ƒO‚Í GlobalAlloc ‚É“n‚³‚ê‚éBuiFlags ‚Ì’l‚ª NULL ‚Ìê‡AŠù’è‚Å GMEM_MOVEABLE ‚ªg—p‚³‚ê‚éB
 %inst
-Duplicates the data found in the specified handle and returns a
-handle to the duplicated data. The source data is in a clipboard
-format. Use this function to help implement some of the data transfer
-interfaces such as IDataObject.
+w’è‚³‚ê‚½ƒnƒ“ƒhƒ‹“à‚Ìƒf[ƒ^‚ğ•¡»‚µA•¡»‚³‚ê‚½ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·Bƒ\[ƒXƒf[ƒ^‚ÍƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Å‚ ‚éBIDataObject
+‚È‚Ç‚Ìƒf[ƒ^“]‘—ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌÀ‘•‚ğx‰‡‚·‚é‚½‚ß‚Ég—p‚·‚éB
 
 [–ß‚è’l]
-On success the HANDLE to the source data is returned; on failure a
-NULL value is returned.
+¬Œ÷‚Íƒ\[ƒXƒf[ƒ^‚Ì HANDLE ‚ğ•Ô‚µA¸”s‚Í NULL ‚ğ•Ô‚·B
 
 [”õl]
-The CF_METAFILEPICT, CF_PALETTE, or CF_BITMAP formats receive special
-handling. They are GDI handles and a new GDI object must be created
-instead of just copying the bytes. All other formats are duplicated
-byte-wise.
+CF_METAFILEPICTACF_PALETTEACF_BITMAP ‚ÌŠeŒ`®‚Í“Á•Ê‚Èˆµ‚¢‚ğó‚¯‚éB‚±‚ê‚ç‚Í GDI
+ƒnƒ“ƒhƒ‹‚Å‚ ‚èA’P‚ÉƒoƒCƒg‚ğƒRƒs[‚·‚é‚Ì‚Å‚Í‚È‚­V‚µ‚¢ GDI
+ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é•K—v‚ª‚ ‚éB‚»‚Ì‘¼‚ÌŒ`®‚Í‚·‚×‚ÄƒoƒCƒg’PˆÊ‚Å•¡»‚³‚ê‚éB
 
 
 %index
 OleFlushClipboard
-Carries out the clipboard shutdown sequence. It also releases the IDataObject pointer that was placed on the clipboard by the OleSetClipboard function.
+ƒNƒŠƒbƒvƒ{[ƒh‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“ƒV[ƒPƒ“ƒX‚ğÀs‚·‚éB‚Ü‚½AOleSetClipboard ŠÖ”‚É‚æ‚Á‚ÄƒNƒŠƒbƒvƒ{[ƒh‚É’u‚©‚ê‚½ IDataObject ƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 ole32
 %prm
 
 %inst
-Carries out the clipboard shutdown sequence. It also releases the
-IDataObject pointer that was placed on the clipboard by the
-OleSetClipboard function.
+ƒNƒŠƒbƒvƒ{[ƒh‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“ƒV[ƒPƒ“ƒX‚ğÀs‚·‚éB‚Ü‚½AOleSetClipboard ŠÖ”‚É‚æ‚Á‚ÄƒNƒŠƒbƒvƒ{[ƒh‚É’u‚©‚ê‚½
+IDataObject ƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-OleFlushClipboard renders the data from a data object onto the
-clipboard and releases the IDataObject pointer to the data object.
-While the application that put the data object on the clipboard is
-running, the clipboard holds only a pointer to the data object, thus
-saving memory. If you are writing an application that acts as the
-source of a clipboard operation, you can call the OleFlushClipboard
-function when your application is closed, such as when the user exits
-from your application. Calling OleFlushClipboard enables pasting and
-paste-linking of OLE objects after application shutdown. Before
-calling OleFlushClipboard, you can easily determine if your data is
-still on the clipboard with a call to the OleIsCurrentClipboard
-function. OleFlushClipboard leaves all formats offered by the data
-transfer object, including the OLE 1 compatibility formats, on the
-clipboard so they are available after application shutdown. In
-addition to OLE 1 compatibility formats, these include all formats
-offered on a global handle medium (all except for TYMED_FILE) and
-formatted with a NULL target device. For example, if a data-source
-application offers a particular clipboard format (say cfFOO) on an
-IStorage object, and calls the OleFlushClipboard function, the
-storage object is copied into memory and the hglobal memory handle is
-put on the clipboard. To retrieve the information on the clipboard,
-you can call the OleGetClipboard function from another application,
-which creates a default data object, and the hglobal from the
-clipboard again becomes a storage object. Furthermore, the FORMATETC
-enumerator and the IDataObject::QueryGetData method would all
-correctly indicate that the original clipboard format (cfFOO) is
-again available on a TYMED_ISTORAGE. To empty the clipboard, call the
-OleSetClipboard function specifying a NULL value for its parameter.
-The application should call this when it closes if there is no need
-to leave data on the clipboard after shutdown, or if data will be
-placed on the clipboard using the standard Windows clipboard
-functions.
+OleFlushClipboard ‚Íƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚ğƒNƒŠƒbƒvƒ{[ƒh‚ÉƒŒƒ“ƒ_ƒŠƒ“ƒO‚µAƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚Ì
+IDataObject
+ƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚·‚éBƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ğƒNƒŠƒbƒvƒ{[ƒh‚É’u‚¢‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªÀs’†‚ÌŠÔAƒNƒŠƒbƒvƒ{[ƒh‚Íƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì‚İ‚ğ•Û‚µ‚Äƒƒ‚ƒŠ‚ğß–ñ‚·‚éBƒNƒŠƒbƒvƒ{[ƒh‘€ì‚Ìƒ\[ƒX‚Æ‚µ‚Ä“®ì‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‘‚¢‚Ä‚¢‚éê‡Aƒ†[ƒU‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğI—¹‚·‚é‚Æ‚«‚È‚Ç‚É
+OleFlushClipboard ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éBOleFlushClipboard
+‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅAƒAƒvƒŠƒP[ƒVƒ‡ƒ“I—¹Œã‚à OLE ƒIƒuƒWƒFƒNƒg‚Ì“\‚è•t‚¯‚â“\‚è•t‚¯ƒŠƒ“ƒN‚ª‰Â”\‚É‚È‚éBOleFlushClipboard
+‚ğŒÄ‚Ño‚·‘O‚ÉAOleIsCurrentClipboard
+ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚Å©•ª‚Ìƒf[ƒ^‚ª‚Ü‚¾ƒNƒŠƒbƒvƒ{[ƒhã‚É‚ ‚é‚©‚ğŠÈ’P‚É”»’è‚Å‚«‚éBOleFlushClipboard
+‚Íƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚ª’ñ‹Ÿ‚·‚é‚·‚×‚Ä‚ÌŒ`®iOLE 1
+ŒİŠ·Œ`®‚ğŠÜ‚Şj‚ğƒNƒŠƒbƒvƒ{[ƒhã‚Éc‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“I—¹Œã‚àg—p‚Å‚«‚é‚æ‚¤‚É‚·‚éBOLE 1
+ŒİŠ·Œ`®‚É‰Á‚¦‚ÄA‚±‚ê‚ç‚É‚ÍƒOƒ[ƒoƒ‹ƒnƒ“ƒhƒ‹ƒƒfƒBƒAiTYMED_FILE ‚ğœ‚­‚·‚×‚Äj‚Å’ñ‹Ÿ‚³‚ê‚é‚·‚×‚Ä‚ÌŒ`®A‚¨‚æ‚Ñ NULL
+ƒ^[ƒQƒbƒgƒfƒoƒCƒX‚ÅŒ`®‰»‚³‚ê‚½‚à‚Ì‚ªŠÜ‚Ü‚ê‚éB‚½‚Æ‚¦‚ÎAƒf[ƒ^ƒ\[ƒXƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª“Á’è‚ÌƒNƒŠƒbƒvƒ{[ƒhŒ`®icfFOOj‚ğ
+IStorage ƒIƒuƒWƒFƒNƒgã‚Å’ñ‹Ÿ‚µAOleFlushClipboard
+ŠÖ”‚ğŒÄ‚Ño‚·‚ÆAƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Íƒƒ‚ƒŠ‚ÉƒRƒs[‚³‚êAhglobal
+ƒƒ‚ƒŠƒnƒ“ƒhƒ‹‚ªƒNƒŠƒbƒvƒ{[ƒh‚É’u‚©‚ê‚éBƒNƒŠƒbƒvƒ{[ƒhã‚Ìî•ñ‚ğæ“¾‚·‚é‚É‚ÍA•Ê‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç OleGetClipboard
+ŠÖ”‚ğŒÄ‚Ño‚·‚ÆAŠù’è‚Ìƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ªì¬‚³‚êAƒNƒŠƒbƒvƒ{[ƒh‚©‚ç‚Ì hglobal
+‚ÍÄ‚ÑƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Æ‚È‚éB‚³‚ç‚ÉAFORMATETC —ñ‹“q‚Æ IDataObject::QueryGetData
+ƒƒ\ƒbƒh‚ÍŒ³‚ÌƒNƒŠƒbƒvƒ{[ƒhŒ`®icfFOOj‚ªÄ‚Ñ TYMED_ISTORAGE
+‚Å—˜—p‰Â”\‚Å‚ ‚é‚±‚Æ‚ğ³‚µ‚­¦‚·BƒNƒŠƒbƒvƒ{[ƒh‚ğ‹ó‚É‚·‚é‚É‚ÍAƒpƒ‰ƒ[ƒ^‚É NULL ‚ğw’è‚µ‚Ä OleSetClipboard
+ŠÖ”‚ğŒÄ‚Ño‚·BI—¹Œã‚ÉƒNƒŠƒbƒvƒ{[ƒh‚Éƒf[ƒ^‚ğc‚·•K—v‚ª‚È‚¢ê‡A‚Ü‚½‚Í•W€‚Ì Windows
+ƒNƒŠƒbƒvƒ{[ƒhŠÖ”‚ğg—p‚µ‚ÄƒNƒŠƒbƒvƒ{[ƒh‚Éƒf[ƒ^‚ª’u‚©‚ê‚éê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍI—¹‚É‚±‚ê‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 OleGetAutoConvert
-Determines whether the registry is set for objects of a specified CLSID to be automatically converted to another CLSID, and if so, retrieves the new CLSID.
+w’è‚³‚ê‚½ CLSID ‚ÌƒIƒuƒWƒFƒNƒg‚ª•Ê‚Ì CLSID ‚É©“®•ÏŠ·‚³‚ê‚é‚æ‚¤‚ÉƒŒƒWƒXƒgƒŠ‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚µAİ’è‚³‚ê‚Ä‚¢‚éê‡‚ÍV‚µ‚¢ CLSID ‚ğæ“¾‚·‚éB
 %group
 Win32 ole32
 %prm
 clsidOld, pClsidNew
-clsidOld : [var] The CLSID for the object.
-pClsidNew : [var] A pointer to a variable to receive the new CLSID, if any. If auto-conversion for clsidOld is not set in the registry, clsidOld is returned. The pClsidNew parameter is never NULL.
+clsidOld : [var] ƒIƒuƒWƒFƒNƒg‚Ì CLSIDB
+pClsidNew : [var] V‚µ‚¢ CLSID ‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BclsidOld ‚É‘Î‚·‚é©“®•ÏŠ·‚ªƒŒƒWƒXƒgƒŠ‚Éİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AclsidOld ‚ª•Ô‚³‚ê‚éBpClsidNew ƒpƒ‰ƒ[ƒ^‚ª NULL ‚É‚È‚é‚±‚Æ‚Í‚È‚¢B
 %inst
-Determines whether the registry is set for objects of a specified
-CLSID to be automatically converted to another CLSID, and if so,
-retrieves the new CLSID.
+w’è‚³‚ê‚½ CLSID ‚ÌƒIƒuƒWƒFƒNƒg‚ª•Ê‚Ì CLSID
+‚É©“®•ÏŠ·‚³‚ê‚é‚æ‚¤‚ÉƒŒƒWƒXƒgƒŠ‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’è‚µAİ’è‚³‚ê‚Ä‚¢‚éê‡‚ÍV‚µ‚¢ CLSID ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-This function can return the standard return values E_INVALIDARG,
-E_OUTOFMEMORY, and E_UNEXPECTED, as well as the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARGAE_OUTOFMEMORYAE_UNEXPECTED
+‚É‰Á‚¦‚ÄAˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-OleGetAutoConvert returns the AutoConvertTo entry in the registry for
-the specified object. The AutoConvertTo subkey specifies whether
-objects of a given CLSID are to be automatically converted to a new
-CLSID. This is usually used to convert files created by older
-versions of an application to the current version. If there is no
-AutoConvertTo entry, this function returns the value of clsidOld. The
-OleDoAutoConvert function calls OleGetAutoConvert to determine
-whether the object specified is to be converted. A container
-application that supports object conversion should call
-OleDoAutoConvert each time it loads an object. If the container uses
-the OleLoad helper function, it need not call OleDoAutoConvert
-explicitly because OleLoad calls it internally. To set up automatic
-conversion of a given class, you can call the OleSetAutoConvert
-function (typically in the setup program of an application
-installation). This function uses the AutoConvertTo subkey to tag a
-class of objects for automatic conversion to a different class of
-objects. This is a subkey of the CLSID key.
+OleGetAutoConvert ‚ÍAw’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éƒŒƒWƒXƒgƒŠ“à‚Ì AutoConvertTo
+ƒGƒ“ƒgƒŠ‚ğ•Ô‚·BAutoConvertTo ƒTƒuƒL[‚ÍAw’è‚³‚ê‚½ CLSID ‚ÌƒIƒuƒWƒFƒNƒg‚ğV‚µ‚¢ CLSID
+‚É©“®•ÏŠ·‚·‚é‚©‚Ç‚¤‚©‚ğw’è‚·‚éB‚±‚ê‚Í’ÊíAŒÃ‚¢ƒo[ƒWƒ‡ƒ“‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åì¬‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚É•ÏŠ·‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBAutoConvertTo
+ƒGƒ“ƒgƒŠ‚ª‚È‚¢ê‡A‚±‚ÌŠÖ”‚Í clsidOld ‚Ì’l‚ğ•Ô‚·BOleDoAutoConvert ŠÖ”‚Í OleGetAutoConvert
+‚ğŒÄ‚Ño‚µ‚Äw’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğ•ÏŠ·‚·‚×‚«‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éBƒIƒuƒWƒFƒNƒg•ÏŠ·‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚é‚½‚Ñ‚É
+OleDoAutoConvert ‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBƒRƒ“ƒeƒi‚ª OleLoad ƒwƒ‹ƒp[ŠÖ”‚ğg—p‚·‚éê‡‚ÍAOleLoad
+‚ª“à•”‚ÅŒÄ‚Ño‚·‚½‚ß–¾¦“I‚É OleDoAutoConvert
+‚ğŒÄ‚Ño‚·•K—v‚Í‚È‚¢Bw’è‚µ‚½ƒNƒ‰ƒX‚Ì©“®•ÏŠ·‚ğİ’è‚·‚é‚É‚ÍAOleSetAutoConvert
+ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éi’Êí‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒg[ƒ‹‚ÌƒZƒbƒgƒAƒbƒvƒvƒƒOƒ‰ƒ€“à‚ÅjB‚±‚ÌŠÖ”‚Í AutoConvertTo
+ƒTƒuƒL[‚ğg—p‚µ‚ÄƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚ğ•Ê‚ÌƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚Ö‚Ì©“®•ÏŠ·‚Ì‚½‚ß‚Éƒ^ƒO•t‚¯‚·‚éB‚±‚ê‚Í CLSID ƒL[‚ÌƒTƒuƒL[‚Å‚ ‚éB
 
 
 %index
 OleGetClipboard
-Retrieves a data object that you can use to access the contents of the clipboard.
+ƒNƒŠƒbƒvƒ{[ƒh‚Ì“à—e‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
 %group
 Win32 ole32
 %prm
 ppDataObj
-ppDataObj : [var] Address of IDataObject pointer variable that receives the interface pointer to the clipboard data object.
+ppDataObj : [var] ƒNƒŠƒbƒvƒ{[ƒhƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IDataObject ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB
 %inst
-Retrieves a data object that you can use to access the contents of
-the clipboard.
+ƒNƒŠƒbƒvƒ{[ƒh‚Ì“à—e‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Caution Clipboard data is not trusted. Parse the data carefully
-before using it in your application. If you are writing an
-application that can accept data from the clipboard, call the
-OleGetClipboard function to get a pointer to the IDataObject
-interface that you can use to retrieve the contents of the clipboard.
-OleGetClipboard handles three cases:
-This doc was truncated.
+
+’ˆÓFƒNƒŠƒbƒvƒ{[ƒh‚Ìƒf[ƒ^‚ÍM—Š‚³‚ê‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åg—p‚·‚é‘O‚Éƒf[ƒ^‚ğTd‚É‰ğÍ‚·‚é‚±‚ÆBƒNƒŠƒbƒvƒ{[ƒh‚©‚çƒf[ƒ^‚ğó‚¯æ‚ê‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‘‚¢‚Ä‚¢‚éê‡AOleGetClipboard
+ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä IDataObject
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚µAƒNƒŠƒbƒvƒ{[ƒh‚Ì“à—e‚ğæ“¾‚·‚é‚±‚Æ‚ª‚Å‚«‚éBOleGetClipboard ‚ÍŸ‚Ì 3
+‚Â‚ÌƒP[ƒX‚ğˆ—‚·‚éF
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleGetClipboardWithEnterpriseInfo
-Enables Windows Information Protection enlightened applications to retrieve an IDataObject from the OLE Clipboard accompanied by Windows Information Protection information about the data and the source application.
+Windows Information Protection ‚É‘Î‰‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªAƒf[ƒ^‚Æƒ\[ƒXƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÉŠÖ‚·‚é Windows Information Protection î•ñ‚ğ”º‚Á‚Ä OLE ƒNƒŠƒbƒvƒ{[ƒh‚©‚ç IDataObject ‚ğæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 %group
 Win32 ole32
 %prm
 dataObject, dataEnterpriseId, sourceDescription, targetDescription, dataDescription
-dataObject : [var] Address of IDataObject pointer variable that receives the interface pointer to the clipboard data object.
-dataEnterpriseId : [var] The enterprise id of the application that set the clipboard data. If the data is personal, this will be an empty string.
-sourceDescription : [var] The description of the application that set the clipboard.
-targetDescription : [var] The         description of the caller's application to be used in auditing.
-dataDescription : [var] The description of the data object to be used in auditing.
+dataObject : [var] ƒNƒŠƒbƒvƒ{[ƒhƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IDataObject ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB
+dataEnterpriseId : [var] ƒNƒŠƒbƒvƒ{[ƒhƒf[ƒ^‚ğİ’è‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒGƒ“ƒ^[ƒvƒ‰ƒCƒY IDBƒf[ƒ^‚ªŒÂl—p‚Å‚ ‚éê‡A‹ó•¶š—ñ‚Æ‚È‚éB
+sourceDescription : [var] ƒNƒŠƒbƒvƒ{[ƒh‚ğİ’è‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìà–¾B
+targetDescription : [var] ŠÄ¸‚Ég—p‚³‚ê‚éŒÄ‚Ño‚µŒ³ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìà–¾B
+dataDescription : [var] ŠÄ¸‚Ég—p‚³‚ê‚éƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ìà–¾B
 %inst
-Enables Windows Information Protection enlightened applications to
-retrieve an IDataObject from the OLE Clipboard accompanied by Windows
-Information Protection information about the data and the source
-application.
+Windows Information Protection ‚É‘Î‰‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªAƒf[ƒ^‚Æƒ\[ƒXƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÉŠÖ‚·‚é
+Windows Information Protection î•ñ‚ğ”º‚Á‚Ä OLE ƒNƒŠƒbƒvƒ{[ƒh‚©‚ç IDataObject
+‚ğæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Caution Clipboard data is not trusted. Parse the data carefully
-before using it in your application. If you are writing an
-application that can accept data from the clipboard, call the
-OleGetClipboardWithEnterpriseInfo function to get a pointer to the
-IDataObject interface that you can use to retrieve the contents of
-the clipboard. OleGetClipboardWithEnterpriseInfo handles three cases:
-This doc was truncated.
+
+’ˆÓFƒNƒŠƒbƒvƒ{[ƒh‚Ìƒf[ƒ^‚ÍM—Š‚³‚ê‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åg—p‚·‚é‘O‚Éƒf[ƒ^‚ğTd‚É‰ğÍ‚·‚é‚±‚ÆBƒNƒŠƒbƒvƒ{[ƒh‚©‚çƒf[ƒ^‚ğó‚¯æ‚ê‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‘‚¢‚Ä‚¢‚éê‡AOleGetClipboardWithEnterpriseInfo
+ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä IDataObject
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚µAƒNƒŠƒbƒvƒ{[ƒh‚Ì“à—e‚ğæ“¾‚·‚é‚±‚Æ‚ª‚Å‚«‚éBOleGetClipboardWithEnterpriseInfo
+‚ÍŸ‚Ì 3 ‚Â‚ÌƒP[ƒX‚ğˆ—‚·‚éF
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleGetIconOfClass
-Returns a handle to a metafile containing an icon and a string label for the specified CLSID.
+w’è‚³‚ê‚½ CLSID ‚ÌƒAƒCƒRƒ“‚Æ•¶š—ñƒ‰ƒxƒ‹‚ğŠÜ‚Şƒƒ^ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
 %group
 Win32 ole32
 %prm
 rclsid, lpszLabel, fUseTypeAsLabel
-rclsid : [var] The CLSID for which the icon and string are to be requested.
-lpszLabel : [wstr] A pointer to the label for the icon.
-fUseTypeAsLabel : [int] Indicates whether to use the user type string in the CLSID as the icon label.
+rclsid : [var] ƒAƒCƒRƒ“‚Æ•¶š—ñ‚ª—v‹‚³‚ê‚é CLSIDB
+lpszLabel : [wstr] ƒAƒCƒRƒ“‚Ìƒ‰ƒxƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fUseTypeAsLabel : [int] ƒAƒCƒRƒ“ƒ‰ƒxƒ‹‚Æ‚µ‚Ä CLSID “à‚Ìƒ†[ƒUƒ^ƒCƒv•¶š—ñ‚ğg—p‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·B
 %inst
-Returns a handle to a metafile containing an icon and a string label
-for the specified CLSID.
+w’è‚³‚ê‚½ CLSID ‚ÌƒAƒCƒRƒ“‚Æ•¶š—ñƒ‰ƒxƒ‹‚ğŠÜ‚Şƒƒ^ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
 
 [–ß‚è’l]
-If the function succeeds, the return value is a handle to a metafile
-that contains and icon and label for the specified CLSID. Otherwise,
-the function returns NULL.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Íw’è‚³‚ê‚½ CLSID ‚ÌƒAƒCƒRƒ“‚Æƒ‰ƒxƒ‹‚ğŠÜ‚Şƒƒ^ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚Å‚ ‚éB¸”s‚µ‚½ê‡‚Í NULL
+‚ğ•Ô‚·B
 
 
 %index
 OleGetIconOfFile
-Returns a handle to a metafile containing an icon and string label for the specified file name.
+w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼‚ÌƒAƒCƒRƒ“‚Æ•¶š—ñƒ‰ƒxƒ‹‚ğŠÜ‚Şƒƒ^ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
 %group
 Win32 ole32
 %prm
 lpszPath, fUseFileAsLabel
-lpszPath : [wstr] A pointer to a file for which the icon and string are to be requested.
-fUseFileAsLabel : [int] Indicates whether to use the file name as the icon label.
+lpszPath : [wstr] ƒAƒCƒRƒ“‚Æ•¶š—ñ‚ª—v‹‚³‚ê‚éƒtƒ@ƒCƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fUseFileAsLabel : [int] ƒAƒCƒRƒ“ƒ‰ƒxƒ‹‚Æ‚µ‚Äƒtƒ@ƒCƒ‹–¼‚ğg—p‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·B
 %inst
-Returns a handle to a metafile containing an icon and string label
-for the specified file name.
+w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹–¼‚ÌƒAƒCƒRƒ“‚Æ•¶š—ñƒ‰ƒxƒ‹‚ğŠÜ‚Şƒƒ^ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
 
 [–ß‚è’l]
-If the function succeeds, the return value is a handle to a metafile
-that contains and icon and label for the specified file. If there is
-no CLSID in the registration database for the file, then the function
-returns the string "Document". If lpszPath is NULL, the function
-returns NULL.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡A–ß‚è’l‚Íw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌƒAƒCƒRƒ“‚Æƒ‰ƒxƒ‹‚ğŠÜ‚Şƒƒ^ƒtƒ@ƒCƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹‚Å‚ ‚éBƒŒƒWƒXƒgƒŠ“à‚É‚»‚Ìƒtƒ@ƒCƒ‹‚Ì
+CLSID ‚ª‚È‚¢ê‡AŠÖ”‚Í•¶š—ñ "Document" ‚ğ•Ô‚·BlpszPath ‚ª NULL ‚Ìê‡AŠÖ”‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 OleInitialize
-Initializes the COM library on the current apartment, identifies the concurrency model as single-thread apartment (STA), and enables additional functionality described in the Remarks section below.
+Œ»İ‚ÌƒAƒp[ƒgƒƒ“ƒg‚Å COM ƒ‰ƒCƒuƒ‰ƒŠ‚ğ‰Šú‰»‚µA•Às«ƒ‚ƒfƒ‹‚ğƒVƒ“ƒOƒ‹ƒXƒŒƒbƒhƒAƒp[ƒgƒƒ“ƒgiSTAj‚Æ‚µ‚Ä¯•Ê‚µAŒãq‚Ì Remarks ‚É‹LÚ‚³‚ê‚é’Ç‰Á‹@”\‚ğ—LŒø‚É‚·‚éB
 %group
 Win32 ole32
 %prm
 pvReserved
-pvReserved : [intptr] This parameter is reserved and must be NULL.
+pvReserved : [intptr] ‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í—\–ñ‚³‚ê‚Ä‚¨‚èANULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Initializes the COM library on the current apartment, identifies the
-concurrency model as single-thread apartment (STA), and enables
-additional functionality described in the Remarks section below.
+Œ»İ‚ÌƒAƒp[ƒgƒƒ“ƒg‚Å COM ƒ‰ƒCƒuƒ‰ƒŠ‚ğ‰Šú‰»‚µA•Às«ƒ‚ƒfƒ‹‚ğƒVƒ“ƒOƒ‹ƒXƒŒƒbƒhƒAƒp[ƒgƒƒ“ƒgiSTAj‚Æ‚µ‚Ä¯•Ê‚µAŒãq‚Ì
+Remarks ‚É‹LÚ‚³‚ê‚é’Ç‰Á‹@”\‚ğ—LŒø‚É‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Applications that use the following functionality must call
-OleInitialize before calling any other function in the COM library:
-This doc was truncated.
+Ÿ‚Ì‹@”\‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍACOM ƒ‰ƒCƒuƒ‰ƒŠ“à‚Ì‘¼‚ÌŠÖ”‚ğŒÄ‚Ño‚·‘O‚É OleInitialize
+‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢F
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleIsCurrentClipboard
-Determines whether the data object pointer previously placed on the clipboard by the OleSetClipboard function is still on the clipboard.
+OleSetClipboard ŠÖ”‚É‚æ‚Á‚ÄˆÈ‘O‚ÉƒNƒŠƒbƒvƒ{[ƒh‚É’u‚©‚ê‚½ƒf[ƒ^ƒIƒuƒWƒFƒNƒgƒ|ƒCƒ“ƒ^‚ªA‚Ü‚¾ƒNƒŠƒbƒvƒ{[ƒhã‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 Win32 ole32
 %prm
 pDataObj
-pDataObj : [var] Pointer to the IDataObject interface on the data object containing clipboard data of interest, which the caller previously placed on the clipboard.
+pDataObj : [var] ŒÄ‚Ño‚µŒ³‚ªˆÈ‘O‚ÉƒNƒŠƒbƒvƒ{[ƒh‚É’u‚¢‚½ƒNƒŠƒbƒvƒ{[ƒhƒf[ƒ^‚ğŠÜ‚Şƒf[ƒ^ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Determines whether the data object pointer previously placed on the
-clipboard by the OleSetClipboard function is still on the clipboard.
+OleSetClipboard
+ŠÖ”‚É‚æ‚Á‚ÄˆÈ‘O‚ÉƒNƒŠƒbƒvƒ{[ƒh‚É’u‚©‚ê‚½ƒf[ƒ^ƒIƒuƒWƒFƒNƒgƒ|ƒCƒ“ƒ^‚ªA‚Ü‚¾ƒNƒŠƒbƒvƒ{[ƒhã‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-OleIsCurrentClipboard only works for the data object used in the
-OleSetClipboard function. It cannot be called by the consumer of the
-data object to determine if the object that was on the clipboard at
-the previous OleGetClipboard call is still on the clipboard.
+OleIsCurrentClipboard ‚Í OleSetClipboard
+ŠÖ”‚Åg—p‚³‚ê‚½ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä‚Ì‚İ‹@”\‚·‚éBƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ì—˜—pÒ‚ªA‘O‰ñ‚Ì OleGetClipboard
+ŒÄ‚Ño‚µ‚ÉƒNƒŠƒbƒvƒ{[ƒhã‚É‚ ‚Á‚½ƒIƒuƒWƒFƒNƒg‚ª‚Ü‚¾ƒNƒŠƒbƒvƒ{[ƒhã‚É‚ ‚é‚©‚ğ”»’è‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B
 
 
 %index
 OleIsRunning
-Determines whether a compound document object is currently in the running state.
+•¡‡ƒhƒLƒ…ƒƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªŒ»İÀsó‘Ô‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 Win32 ole32
 %prm
 pObject
-pObject : [var] Pointer to the IOleObject interface on the object of interest.
+pObject : [var] ‘ÎÛƒIƒuƒWƒFƒNƒgã‚Ì IOleObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Determines whether a compound document object is currently in the
-running state.
+•¡‡ƒhƒLƒ…ƒƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªŒ»İÀsó‘Ô‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-The return value is TRUE if the object is running; otherwise, it is
-FALSE.
+ƒIƒuƒWƒFƒNƒg‚ªÀs’†‚Ìê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-You can use OleIsRunning and IRunnableObject::IsRunning
-interchangeably. OleIsRunning queries the object for a pointer to the
-IRunnableObject interface and calls its IRunnableObject::IsRunning
-method. If successful, the function returns the results of the call
-to IRunnableObject::IsRunning.
+OleIsRunning ‚Æ IRunnableObject::IsRunning ‚Í‘ŠŒİ‚É’u‚«Š·‚¦‰Â”\‚Å‚ ‚éBOleIsRunning
+‚ÍƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä IRunnableObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğƒNƒGƒŠ‚µA‚»‚Ì
+IRunnableObject::IsRunning ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·B¬Œ÷‚µ‚½ê‡AŠÖ”‚Í
+IRunnableObject::IsRunning ŒÄ‚Ño‚µ‚ÌŒ‹‰Ê‚ğ•Ô‚·B
 
 
 %index
 OleLoad
-Loads into memory an object nested within a specified storage object.
+w’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg“à‚ÉƒlƒXƒg‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğƒƒ‚ƒŠ‚Éƒ[ƒh‚·‚éB
 %group
 Win32 ole32
 %prm
 pStg, riid, pClientSite, ppvObj
-pStg : [var] Pointer to the IStorage interface on the storage object from which to load the specified object.
-riid : [var] Reference to the identifier of the interface that the caller wants to use to communicate with the object after it is loaded.
-pClientSite : [var] Pointer to the IOleClientSite interface on the client site object being loaded.
-ppvObj : [var] Address of pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly loaded object.
+pStg : [var] w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+riid : [var] ƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚µ‚½Œã‚ÉŒÄ‚Ño‚µŒ³‚ªƒIƒuƒWƒFƒNƒg‚Æ’ÊM‚·‚é‚½‚ß‚Ég—p‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì¯•Êq‚Ö‚ÌQÆB
+pClientSite : [var] ƒ[ƒh‚³‚ê‚éƒNƒ‰ƒCƒAƒ“ƒgƒTƒCƒgƒIƒuƒWƒFƒNƒgã‚Ì IOleClientSite ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppvObj : [var] riid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹A*ppvObj ‚É‚ÍV‚µ‚­ƒ[ƒh‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-Loads into memory an object nested within a specified storage object.
+w’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg“à‚ÉƒlƒXƒg‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğƒƒ‚ƒŠ‚Éƒ[ƒh‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-OLE containers load objects into memory by calling this function.
-When calling the OleLoad function, the container application passes
-in a pointer to the open storage object in which the nested object is
-stored. Typically, the nested object to be loaded is a child storage
-object to the container's root storage object. Using the OLE
-information stored with the object, the object handler (usually, the
-default handler) attempts to load the object. On completion of the
-OleLoad function, the object is said to be in the loaded state with
-its object application not running. Some applications load all of the
-object's native data. Containers often defer loading the contained
-objects until required to do so. For example, until an object is
-scrolled into view and needs to be drawn, it does not need to be
-loaded. The OleLoad function performs the following steps:
-This doc was truncated.
+OLE ƒRƒ“ƒeƒi‚Í‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚ÄƒIƒuƒWƒFƒNƒg‚ğƒƒ‚ƒŠ‚Éƒ[ƒh‚·‚éBOleLoad
+ŠÖ”‚ğŒÄ‚Ño‚·‚Æ‚«AƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒlƒXƒg‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ªŠi”[‚³‚ê‚Ä‚¢‚éŠJ‚¢‚Ä‚¢‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·B’ÊíAƒ[ƒh‚·‚éƒlƒXƒg‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ÍƒRƒ“ƒeƒi‚Ìƒ‹[ƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÌqƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Å‚ ‚éBƒIƒuƒWƒFƒNƒg‚Æ‚Æ‚à‚ÉŠi”[‚³‚ê‚½
+OLE î•ñ‚ğg—p‚µ‚ÄAƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰i’Êí‚ÍŠù’è‚Ìƒnƒ“ƒhƒ‰j‚ªƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚µ‚æ‚¤‚Æ‚·‚éBOleLoad
+ŠÖ”‚ÌŠ®—¹ŒãAƒIƒuƒWƒFƒNƒg‚ÍƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªÀs‚³‚ê‚Ä‚¢‚È‚¢uƒ[ƒhÏ‚İvó‘Ô‚É‚ ‚é‚ÆŒ¾‚í‚ê‚éBˆê•”‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒIƒuƒWƒFƒNƒg‚ÌƒlƒCƒeƒBƒuƒf[ƒ^‚ğ‚·‚×‚Äƒ[ƒh‚·‚éBƒRƒ“ƒeƒi‚Í‚µ‚Î‚µ‚Î•K—v‚É‚È‚é‚Ü‚ÅƒIƒuƒWƒFƒNƒg‚Ìƒ[ƒh‚ğ’x‰„‚³‚¹‚éB‚½‚Æ‚¦‚ÎAƒIƒuƒWƒFƒNƒg‚ªƒrƒ…[‚ÉƒXƒNƒ[ƒ‹‚³‚ê‚Ä•`‰æ‚·‚é•K—v‚ª‚ ‚é‚Ü‚Åƒ[ƒh‚·‚é•K—v‚Í‚È‚¢BOleLoad
+ŠÖ”‚ÍŸ‚ÌƒXƒeƒbƒv‚ğÀs‚·‚éF
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleLoadFromStream
-The OleLoadFromStream function (ole2.h) loads an object from the stream.
+OleLoadFromStream ŠÖ”iole2.hj‚ÍƒXƒgƒŠ[ƒ€‚©‚çƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚éB
 %group
 Win32 ole32
 %prm
 pStm, iidInterface, ppvObj
-pStm : [var] Pointer to the IStream interface on the stream from which the object is to be loaded.
-iidInterface : [var] Interface identifier (IID) the caller wants to use to communicate with the object after it is loaded.
-ppvObj : [var] Address of pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer on the newly loaded object.
+pStm : [var] ƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚éŒ³‚ÌƒXƒgƒŠ[ƒ€ã‚Ì IStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+iidInterface : [var] ƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚µ‚½Œã‚ÉŒÄ‚Ño‚µŒ³‚ªƒIƒuƒWƒFƒNƒg‚Æ’ÊM‚·‚é‚½‚ß‚Ég—p‚·‚éƒCƒ“ƒ^[ƒtƒFƒCƒX¯•ÊqiIIDjB
+ppvObj : [var] riid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB³íI—¹A*ppvObj ‚É‚ÍV‚µ‚­ƒ[ƒh‚³‚ê‚½ƒIƒuƒWƒFƒNƒgã‚Ì—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
 %inst
-The OleLoadFromStream function (ole2.h) loads an object from the
-stream.
+OleLoadFromStream ŠÖ”iole2.hj‚ÍƒXƒgƒŠ[ƒ€‚©‚çƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Important Security Note: Calling this method with untrusted data is a
-security risk. Call this method only with trusted data. This function
-can be used to load an object that supports the IPersistStream
-interface. The CLSID of the object must immediately precede the
-object's data in the stream, which is accomplished by the companion
-function OleSaveToStream (or the operations it wraps, which are
-described under that topic).
-If the CLSID for the stream is CLSID_NULL, the ppvObj parameter is
-set to NULL.
+d—v
+ƒZƒLƒ…ƒŠƒeƒBã‚Ì’ˆÓF‚±‚Ìƒƒ\ƒbƒh‚ğM—Š‚³‚ê‚È‚¢ƒf[ƒ^‚ÅŒÄ‚Ño‚·‚±‚Æ‚ÍƒZƒLƒ…ƒŠƒeƒBƒŠƒXƒN‚Å‚ ‚éBM—Š‚³‚ê‚½ƒf[ƒ^‚Å‚Ì‚İŒÄ‚Ño‚·‚±‚ÆB‚±‚ÌŠÖ”‚Í
+IPersistStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğƒTƒ|[ƒg‚·‚éƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éBƒIƒuƒWƒFƒNƒg‚Ì CLSID
+‚ÍƒXƒgƒŠ[ƒ€“à‚ÌƒIƒuƒWƒFƒNƒgƒf[ƒ^‚Ì’¼‘O‚É‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚ê‚Í‘Î‰‚·‚éŠÖ”
+OleSaveToStreami‚Ü‚½‚Í‚»‚ÌƒgƒsƒbƒN‚Åà–¾‚³‚ê‚éAƒ‰ƒbƒv‚·‚é‘€ìj‚É‚æ‚Á‚Ä’B¬‚³‚ê‚éB
+ƒXƒgƒŠ[ƒ€‚Ì CLSID ‚ª CLSID_NULL ‚Ìê‡AppvObj ƒpƒ‰ƒ[ƒ^‚Í NULL ‚Éİ’è‚³‚ê‚éB
 
 
 %index
 OleLockRunning
-Locks an already running object into its running state or unlocks it from its running state. (OleLockRunning)
+Šù‚ÉÀs’†‚ÌƒIƒuƒWƒFƒNƒg‚ğÀsó‘Ô‚ÉƒƒbƒN‚·‚é‚©AÀsó‘Ô‚©‚çƒAƒ“ƒƒbƒN‚·‚éBiOleLockRunningj
 %group
 Win32 ole32
 %prm
 pUnknown, fLock, fLastUnlockCloses
-pUnknown : [var] Pointer to the IUnknown interface on the object, which the function uses to query for a pointer to IRunnableObject.
-fLock : [int] TRUE locks the object into its running state. FALSE unlocks the object from its running state.
-fLastUnlockCloses : [int] TRUE specifies that if the connection being released is the last external lock on the object, the object should close. FALSE specifies that the object should remain open until closed by the user or another process.
+pUnknown : [var] ƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BŠÖ”‚Í‚±‚ê‚ğg—p‚µ‚Ä IRunnableObject ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğƒNƒGƒŠ‚·‚éB
+fLock : [int] TRUE ‚ÍƒIƒuƒWƒFƒNƒg‚ğÀsó‘Ô‚ÉƒƒbƒN‚·‚éBFALSE ‚ÍƒIƒuƒWƒFƒNƒg‚ğÀsó‘Ô‚©‚çƒAƒ“ƒƒbƒN‚·‚éB
+fLastUnlockCloses : [int] TRUE ‚ÍA‰ğ•ú‚³‚ê‚éÚ‘±‚ªƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éÅŒã‚ÌŠO•”ƒƒbƒN‚Å‚ ‚éê‡AƒIƒuƒWƒFƒNƒg‚ğ•Â‚¶‚é‚±‚Æ‚ğw’è‚·‚éBFALSE ‚ÍAƒ†[ƒU‚Ü‚½‚Í•Ê‚ÌƒvƒƒZƒX‚ª•Â‚¶‚é‚Ü‚ÅƒIƒuƒWƒFƒNƒg‚ğŠJ‚¢‚½‚Ü‚Ü‚É‚·‚é‚±‚Æ‚ğw’è‚·‚éB
 %inst
-Locks an already running object into its running state or unlocks it
-from its running state. (OleLockRunning)
+Šù‚ÉÀs’†‚ÌƒIƒuƒWƒFƒNƒg‚ğÀsó‘Ô‚ÉƒƒbƒN‚·‚é‚©AÀsó‘Ô‚©‚çƒAƒ“ƒƒbƒN‚·‚éBiOleLockRunningj
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The OleLockRunning function saves you the trouble of calling the
-IRunnableObject::LockRunning method. You can use OleLockRunning and
-IRunnableObject::LockRunning interchangeably. With the IUnknown
-pointer passed in with the pUnknown parameter, OleLockRunning queries
-for an IRunnableObject pointer. If successful, it calls
-IRunnableObject::LockRunning and returns the results of the call.
-For more information on using this function, see
-IRunnableObject::LockRunning.
+OleLockRunning ŠÖ”‚ğg—p‚·‚ê‚ÎAIRunnableObject::LockRunning
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·èŠÔ‚ğÈ‚­‚±‚Æ‚ª‚Å‚«‚éBOleLockRunning ‚Æ IRunnableObject::LockRunning
+‚Í‘ŠŒİ‚É’u‚«Š·‚¦‰Â”\‚Å‚ ‚éBpUnknown ƒpƒ‰ƒ[ƒ^‚Å“n‚³‚ê‚½ IUnknown ƒ|ƒCƒ“ƒ^‚ğg‚Á‚ÄAOleLockRunning ‚Í
+IRunnableObject ƒ|ƒCƒ“ƒ^‚ğƒNƒGƒŠ‚·‚éB¬Œ÷‚µ‚½ê‡AIRunnableObject::LockRunning
+‚ğŒÄ‚Ño‚µ‚Ä‚»‚ÌŒ‹‰Ê‚ğ•Ô‚·B
+‚±‚ÌŠÖ”‚Ìg—p•û–@‚ÌÚ×‚É‚Â‚¢‚Ä‚Í IRunnableObject::LockRunning ‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 OleMetafilePictFromIconAndLabel
-Creates a metafile in which the specified icon and label are drawn.
+w’è‚³‚ê‚½ƒAƒCƒRƒ“‚Æƒ‰ƒxƒ‹‚ª•`‰æ‚³‚ê‚½ƒƒ^ƒtƒ@ƒCƒ‹‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 hIcon, lpszLabel, lpszSourceFile, iIconIndex
-hIcon : [intptr] Handle to the icon that is to be drawn into the metafile. This parameter can be NULL. If hIcon is NULL, this function returns NULL without creating a metafile.
-lpszLabel : [wstr] The icon label. This parameter can be NULL. If lpszLabel is NULL, the resulting metafile will not include a label.
-lpszSourceFile : [wstr] The path and file name of the icon file. This string can be obtained through the user interface or from the registration database. This parameter can be NULL.
-iIconIndex : [int] The location of the icon within the file named by lpszSourceFile, expressed as an offset in bytes from the beginning of file.
+hIcon : [intptr] ƒƒ^ƒtƒ@ƒCƒ‹‚É•`‰æ‚³‚ê‚éƒAƒCƒRƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚¢BhIcon ‚ª NULL ‚Ìê‡A‚±‚ÌŠÖ”‚Íƒƒ^ƒtƒ@ƒCƒ‹‚ğì¬‚¹‚¸‚É NULL ‚ğ•Ô‚·B
+lpszLabel : [wstr] ƒAƒCƒRƒ“ƒ‰ƒxƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚¢BlpszLabel ‚ª NULL ‚Ìê‡AŒ‹‰Ê‚Ìƒƒ^ƒtƒ@ƒCƒ‹‚É‚Íƒ‰ƒxƒ‹‚ªŠÜ‚Ü‚ê‚È‚¢B
+lpszSourceFile : [wstr] ƒAƒCƒRƒ“ƒtƒ@ƒCƒ‹‚ÌƒpƒX‚Æƒtƒ@ƒCƒ‹–¼B‚±‚Ì•¶š—ñ‚Íƒ†[ƒUƒCƒ“ƒ^[ƒtƒFƒCƒX‚©‚çA‚Ü‚½‚ÍƒŒƒWƒXƒgƒŠ‚©‚çæ“¾‚Å‚«‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚¢B
+iIconIndex : [int] lpszSourceFile ‚Åw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹“à‚ÌƒAƒCƒRƒ“‚ÌˆÊ’uBƒtƒ@ƒCƒ‹æ“ª‚©‚ç‚ÌƒoƒCƒgƒIƒtƒZƒbƒg‚Å•\‚³‚ê‚éB
 %inst
-Creates a metafile in which the specified icon and label are drawn.
+w’è‚³‚ê‚½ƒAƒCƒRƒ“‚Æƒ‰ƒxƒ‹‚ª•`‰æ‚³‚ê‚½ƒƒ^ƒtƒ@ƒCƒ‹‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-A global handle to a METAFILEPICT structure containing the icon and
-label. The metafile uses the MM_ANISOTROPIC mapping mode. If an error
-occurs, the returned handle is NULL. In this case, the caller can
-call GetLastError to obtain further information.
+ƒAƒCƒRƒ“‚Æƒ‰ƒxƒ‹‚ğŠÜ‚Ş METAFILEPICT \‘¢‘Ì‚Ö‚ÌƒOƒ[ƒoƒ‹ƒnƒ“ƒhƒ‹Bƒƒ^ƒtƒ@ƒCƒ‹‚Í MM_ANISOTROPIC
+ƒ}ƒbƒsƒ“ƒOƒ‚[ƒh‚ğg—p‚·‚éBƒGƒ‰[‚ª”­¶‚µ‚½ê‡A•Ô‚³‚ê‚éƒnƒ“ƒhƒ‹‚Í NULL ‚Å‚ ‚éB‚±‚Ìê‡AŒÄ‚Ño‚µŒ³‚Í GetLastError
+‚ğŒÄ‚Ño‚µ‚ÄÚ×î•ñ‚ğæ“¾‚Å‚«‚éB
 
 [”õl]
-This function is called by OleGetIconOfFile and OleGetIconOfClass. If
-lpszSourceFile is not NULL and iIconIndex is not 0, the name of the
-source file passed in lpszSourceFile and the index passed by
-iIconIndex are added to the created metafile as a comment record.
+‚±‚ÌŠÖ”‚Í OleGetIconOfFile ‚¨‚æ‚Ñ OleGetIconOfClass ‚©‚çŒÄ‚Ño‚³‚ê‚éBlpszSourceFile
+‚ª NULL ‚Å‚È‚­ iIconIndex ‚ª 0 ‚Å‚È‚¢ê‡AlpszSourceFile ‚Å“n‚³‚ê‚½ƒ\[ƒXƒtƒ@ƒCƒ‹–¼‚Æ
+iIconIndex ‚Å“n‚³‚ê‚½ƒCƒ“ƒfƒbƒNƒX‚ªƒRƒƒ“ƒgƒŒƒR[ƒh‚Æ‚µ‚Äì¬‚³‚ê‚éƒƒ^ƒtƒ@ƒCƒ‹‚É’Ç‰Á‚³‚ê‚éB
 
 
 %index
 OleNoteObjectVisible
-Increments or decrements an external reference that keeps an object in the running state.
+ƒIƒuƒWƒFƒNƒg‚ğÀsó‘Ô‚É•Û‚ÂŠO•”QÆ‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚Ü‚½‚ÍƒfƒNƒŠƒƒ“ƒg‚·‚éB
 %group
 Win32 ole32
 %prm
 pUnknown, fVisible
-pUnknown : [var] Pointer to the IUnknown interface on the object that is to be locked or unlocked.
-fVisible : [int] Whether the object is visible. If TRUE, OLE increments the reference count to hold the object visible and alive regardless of external or internal IUnknown::AddRef and IUnknown::Release operations, registrations, or revocation. If FALSE, OLE releases its hold (decrements the reference count) and the object can be closed.
+pUnknown : [var] ƒƒbƒN‚Ü‚½‚ÍƒAƒ“ƒƒbƒN‚·‚éƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fVisible : [int] ƒIƒuƒWƒFƒNƒg‚ª‰Â‹‚©‚Ç‚¤‚©BTRUE ‚Ìê‡AŠO•”‚Ü‚½‚Í“à•”‚Ì IUnknown::AddRef ‚â IUnknown::Release ‘€ìA“o˜^Aæ‚èÁ‚µ‚ÉŠÖŒW‚È‚­AƒIƒuƒWƒFƒNƒg‚ğ‰Â‹‚Å¶‚©‚µ‚Ä‚¨‚­‚½‚ßAOLE ‚ÍQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚éBFALSE ‚Ìê‡AOLE ‚Í‚»‚Ì•Û‚ğ‰ğ•úiQÆƒJƒEƒ“ƒg‚ğƒfƒNƒŠƒƒ“ƒgj‚µAƒIƒuƒWƒFƒNƒg‚ğ•Â‚¶‚é‚±‚Æ‚ª‚Å‚«‚éB
 %inst
-Increments or decrements an external reference that keeps an object
-in the running state.
+ƒIƒuƒWƒFƒNƒg‚ğÀsó‘Ô‚É•Û‚ÂŠO•”QÆ‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚Ü‚½‚ÍƒfƒNƒŠƒƒ“ƒg‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The OleNoteObjectVisible function calls the CoLockObjectExternal
-function. It is provided as a separate function to reinforce the need
-to lock an object when it becomes visible to the user and to release
-the object when it becomes invisible. This creates a strong lock on
-behalf of the user to ensure that the object cannot be closed by its
-container while it is visible.
+OleNoteObjectVisible ŠÖ”‚Í CoLockObjectExternal
+ŠÖ”‚ğŒÄ‚Ño‚·B‚±‚ê‚ÍAƒIƒuƒWƒFƒNƒg‚ªƒ†[ƒU‚ÉŒ©‚¦‚é‚æ‚¤‚É‚È‚Á‚½‚Æ‚«‚ÉƒƒbƒN‚·‚é•K—v«‚ÆAŒ©‚¦‚È‚­‚È‚Á‚½‚Æ‚«‚É‰ğ•ú‚·‚é•K—v«‚ğ‹­’²‚·‚é‚½‚ß‚É“Æ—§‚µ‚½ŠÖ”‚Æ‚µ‚Ä’ñ‹Ÿ‚³‚ê‚Ä‚¢‚éB‚±‚ê‚É‚æ‚èA‰Â‹‚Å‚ ‚éŠÔ‚ÉƒRƒ“ƒeƒi‚É‚æ‚Á‚ÄƒIƒuƒWƒFƒNƒg‚ª•Â‚¶‚ç‚ê‚È‚¢‚æ‚¤‚Éƒ†[ƒU‚É‘ã‚í‚Á‚Ä‹­‚¢ƒƒbƒN‚ğì¬‚·‚éB
 
 
 %index
 OleQueryCreateFromData
-Checks whether a data object has one of the formats that would allow it to become an embedded object through a call to either the OleCreateFromData or OleCreateStaticFromData function.
+ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ÉAOleCreateFromData ‚Ü‚½‚Í OleCreateStaticFromData ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä–„‚ß‚İƒIƒuƒWƒFƒNƒg‚É‚È‚é‚±‚Æ‚ğ‰Â”\‚É‚·‚éŒ`®‚Ì‚¢‚¸‚ê‚©‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚ğƒ`ƒFƒbƒN‚·‚éB
 %group
 Win32 ole32
 %prm
 pSrcDataObject
-pSrcDataObject : [var] Pointer to the IDataObject interface on the data transfer object to be queried.
+pSrcDataObject : [var] ƒNƒGƒŠ‚³‚ê‚éƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Checks whether a data object has one of the formats that would allow
-it to become an embedded object through a call to either the
-OleCreateFromData or OleCreateStaticFromData function.
+ƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ÉAOleCreateFromData ‚Ü‚½‚Í OleCreateStaticFromData
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä–„‚ß‚İƒIƒuƒWƒFƒNƒg‚É‚È‚é‚±‚Æ‚ğ‰Â”\‚É‚·‚éŒ`®‚Ì‚¢‚¸‚ê‚©‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚ğƒ`ƒFƒbƒN‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-When an application retrieves a data transfer object through a call
-to the OleGetClipboard function, the application should call
-OleQueryCreateFromData as part of the process of deciding to enable
-or disable the Edit/Paste or Edit/Paste Special... commands. It tests
-for the presence of the following formats in the data object:
-This doc was truncated.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª OleGetClipboard ŠÖ”‚ğŒÄ‚Ño‚µ‚Äƒf[ƒ^“]‘—ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éê‡AEdit/Paste ‚Ü‚½‚Í
+Edit/Paste Special... ƒRƒ}ƒ“ƒh‚ğ—LŒø‚É‚·‚é‚©–³Œø‚É‚·‚é‚©‚ğŒˆ’è‚·‚é‰ß’ö‚Ìˆê•”‚Æ‚µ‚Ä
+OleQueryCreateFromData ‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB‚±‚ê‚Íƒf[ƒ^ƒIƒuƒWƒFƒNƒg“à‚ÉˆÈ‰º‚ÌŒ`®‚ª‘¶İ‚·‚é‚©‚ğƒeƒXƒg‚·‚éF
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleQueryLinkFromData
-Determines whether an OLE linked object (rather than an OLE embedded object) can be created from a clipboard data object.
+ƒNƒŠƒbƒvƒ{[ƒhƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚©‚ç OLE –„‚ß‚İƒIƒuƒWƒFƒNƒg‚Å‚Í‚È‚­ OLE ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚Å‚«‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 Win32 ole32
 %prm
 pSrcDataObject
-pSrcDataObject : [var] Pointer to the IDataObject interface on the clipboard data object from which the object is to be created.
+pSrcDataObject : [var] ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éŒ³‚Æ‚È‚éƒNƒŠƒbƒvƒ{[ƒhƒf[ƒ^ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Determines whether an OLE linked object (rather than an OLE embedded
-object) can be created from a clipboard data object.
+ƒNƒŠƒbƒvƒ{[ƒhƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚©‚ç OLE –„‚ß‚İƒIƒuƒWƒFƒNƒg‚Å‚Í‚È‚­ OLE ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚Å‚«‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-Returns S_OK if the OleCreateLinkFromData function can be used to
-create the linked object; otherwise S_FALSE.
+OleCreateLinkFromData ŠÖ”‚ğg‚Á‚ÄƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚Å‚«‚éê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚¤‚Å‚È‚¢ê‡‚Í
+S_FALSE ‚ğ•Ô‚·B
 
 [”õl]
-The OleQueryLinkFromData function is similar to the
-OleQueryCreateFromData function, but determines whether an OLE linked
-object (rather than an OLE embedded object) can be created from the
-clipboard data object. If the return value is S_OK, the application
-can then attempt to create the object with a call to
-OleCreateLinkFromData. A successful return from OleQueryLinkFromData
-does not, however, guarantee the successful creation of a link.
+OleQueryLinkFromData ŠÖ”‚Í OleQueryCreateFromData
+ŠÖ”‚É—‚Ä‚¢‚é‚ªAƒNƒŠƒbƒvƒ{[ƒhƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚©‚ç OLE –„‚ß‚İƒIƒuƒWƒFƒNƒg‚Å‚Í‚È‚­ OLE
+ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğì¬‚Å‚«‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB–ß‚è’l‚ª S_OK ‚Ìê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+OleCreateLinkFromData
+‚ğŒÄ‚Ño‚µ‚ÄƒIƒuƒWƒFƒNƒg‚ğì¬‚µ‚æ‚¤‚Æ‚·‚é‚±‚Æ‚ª‚Å‚«‚éB‚½‚¾‚µAOleQueryLinkFromData
+‚ª¬Œ÷‚µ‚Ä–ß‚Á‚½‚©‚ç‚Æ‚¢‚Á‚ÄAƒŠƒ“ƒN‚Ìì¬‚ª¬Œ÷‚·‚é‚Æ‚ÍŒÀ‚ç‚È‚¢B
 
 
 %index
 OleRegEnumFormatEtc
-Creates an enumeration object that can be used to enumerate data formats that an OLE object server has registered in the system registry.
+OLE ƒIƒuƒWƒFƒNƒgƒT[ƒo‚ªƒVƒXƒeƒ€ƒŒƒWƒXƒgƒŠ‚É“o˜^‚µ‚½ƒf[ƒ^Œ`®‚ğ—ñ‹“‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é—ñ‹“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 clsid, dwDirection, ppenum
-clsid : [var] CLSID of the class whose formats are being requested.
-dwDirection : [int] Indicates whether to enumerate formats that can be passed to IDataObject::GetData or formats that can be passed to IDataObject::SetData. Possible values are taken from the enumeration DATADIR.
-ppenum : [var] Address of IEnumFORMATETC pointer variable that receives the interface pointer to the enumeration object.
+clsid : [var] Œ`®‚ª—v‹‚³‚ê‚éƒNƒ‰ƒX‚Ì CLSIDB
+dwDirection : [int] IDataObject::GetData ‚É“n‚¹‚éŒ`®‚ğ—ñ‹“‚·‚é‚©AIDataObject::SetData ‚É“n‚¹‚éŒ`®‚ğ—ñ‹“‚·‚é‚©‚ğ¦‚·Bw’è‰Â”\‚È’l‚Í DATADIR —ñ‹“‚©‚çæ“¾‚·‚éB
+ppenum : [var] —ñ‹“ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IEnumFORMATETC ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB
 %inst
-Creates an enumeration object that can be used to enumerate data
-formats that an OLE object server has registered in the system
-registry.
+OLE ƒIƒuƒWƒFƒNƒgƒT[ƒo‚ªƒVƒXƒeƒ€ƒŒƒWƒXƒgƒŠ‚É“o˜^‚µ‚½ƒf[ƒ^Œ`®‚ğ—ñ‹“‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é—ñ‹“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Object applications can ask OLE to create an enumeration object for
-FORMATETC structures to enumerate supported data formats in one of
-two ways. One way is to call OleRegEnumFormatEtc. The other is to
-return OLE_S_USEREG in response to calls by the default object
-handler to IDataObject::EnumFormatEtc. OLE_S_USEREG instructs the
-default handler to call OleRegEnumFormatEtc. Because DLL object
-applications cannot return OLE_S_USEREG, they must call
-OleRegEnumFormatEtc rather than delegating the job to the object
-handler. With the supplied IEnumFORMATETC pointer to the object, you
-can call the standard enumeration object methods to do the
-enumeration.
-The OleRegEnumFormatEtc function and its sibling functions,
-OleRegGetUserType, OleRegGetMiscStatus, and OleRegEnumVerbs, provide
-a way for developers of custom DLL object applications to emulate the
-behavior of OLE's default object handler in getting information about
-objects from the registry. By using these functions, you avoid the
-considerable work of writing your own, and the pitfalls inherent in
-working directly in the registry. In addition, you get future
-enhancements and optimizations of these functions without having to
-code them yourself.
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒTƒ|[ƒg‚³‚ê‚éƒf[ƒ^Œ`®‚ğ—ñ‹“‚·‚é FORMATETC \‘¢‘Ì‚Ì—ñ‹“ƒIƒuƒWƒFƒNƒg‚ğ OLE
+‚Éì¬‚³‚¹‚é‚½‚ß‚ÉA2 ‚Â‚Ì•û–@‚Ì‚¢‚¸‚ê‚©‚ğg—p‚Å‚«‚éB1 ‚Â‚Í OleRegEnumFormatEtc ‚ğŒÄ‚Ño‚·•û–@‚Å‚ ‚éB‚à‚¤ 1
+‚Â‚ÍAŠù’è‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚©‚ç IDataObject::EnumFormatEtc ‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚É OLE_S_USEREG
+‚ğ•Ô‚·•û–@‚Å‚ ‚éBOLE_S_USEREG ‚ÍŠù’è‚Ìƒnƒ“ƒhƒ‰‚É OleRegEnumFormatEtc ‚ğŒÄ‚Ño‚·‚æ‚¤w¦‚·‚éBDLL
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í OLE_S_USEREG ‚ğ•Ô‚¹‚È‚¢‚½‚ßAƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚Éì‹Æ‚ğˆÏ÷‚·‚é‚Ì‚Å‚Í‚È‚­
+OleRegEnumFormatEtc ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B’ñ‹Ÿ‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚Ö‚Ì IEnumFORMATETC
+ƒ|ƒCƒ“ƒ^‚ğg—p‚µ‚ÄA•W€‚Ì—ñ‹“ƒIƒuƒWƒFƒNƒgƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä—ñ‹“‚ğs‚¤‚±‚Æ‚ª‚Å‚«‚éB
+OleRegEnumFormatEtc ŠÖ”‚Æ‚»‚ÌŒZ’íŠÖ”‚Å‚ ‚é
+OleRegGetUserTypeAOleRegGetMiscStatusAOleRegEnumVerbs ‚ÍAƒJƒXƒ^ƒ€ DLL
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌŠJ”­Ò‚ªAƒŒƒWƒXƒgƒŠ‚©‚çƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éÛ‚Ì OLE
+‚ÌŠù’è‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚Ì“®ì‚ğƒGƒ~ƒ…ƒŒ[ƒg‚·‚é•û–@‚ğ’ñ‹Ÿ‚·‚éB‚±‚ê‚ç‚ÌŠÖ”‚ğg—p‚·‚é‚±‚Æ‚ÅA“Æ©‚É‘‚­‘Š“–‚È˜J—Í‚ÆAƒŒƒWƒXƒgƒŠ‚Å’¼Úì‹Æ‚·‚é‚±‚Æ‚Ì—‚Æ‚µŒŠ‚ğ”ğ‚¯‚é‚±‚Æ‚ª‚Å‚«‚éB‚³‚ç‚ÉA‚±‚ê‚ç‚ÌŠÖ”‚Ì¡Œã‚ÌŠg’£‚âÅ“K‰»‚ğA©•ª‚ÅƒR[ƒfƒBƒ“ƒO‚·‚é‚±‚Æ‚È‚­“¾‚ç‚ê‚éB
 
 
 %index
 OleRegEnumVerbs
-Supplies an enumeration of the registered verbs for the specified class. Developers of custom DLL object applications use this function to emulate the behavior of the default object handler.
+w’è‚³‚ê‚½ƒNƒ‰ƒX‚É“o˜^‚³‚ê‚½“®Œ‚Ì—ñ‹“‚ğ’ñ‹Ÿ‚·‚éBƒJƒXƒ^ƒ€ DLL ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌŠJ”­Ò‚ÍA‚±‚ÌŠÖ”‚ğg—p‚µ‚ÄŠù’è‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚Ì“®ì‚ğƒGƒ~ƒ…ƒŒ[ƒg‚·‚éB
 %group
 Win32 ole32
 %prm
 clsid, ppenum
-clsid : [var] Class identifier whose verbs are being requested.
-ppenum : [var] Address of IEnumOLEVERB* pointer variable that receives the interface pointer to the new enumeration object.
+clsid : [var] “®Œ‚ª—v‹‚³‚ê‚éƒNƒ‰ƒX¯•ÊqB
+ppenum : [var] V‚µ‚¢—ñ‹“ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IEnumOLEVERB* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB
 %inst
-Supplies an enumeration of the registered verbs for the specified
-class. Developers of custom DLL object applications use this function
-to emulate the behavior of the default object handler.
+w’è‚³‚ê‚½ƒNƒ‰ƒX‚É“o˜^‚³‚ê‚½“®Œ‚Ì—ñ‹“‚ğ’ñ‹Ÿ‚·‚éBƒJƒXƒ^ƒ€ DLL
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌŠJ”­Ò‚ÍA‚±‚ÌŠÖ”‚ğg—p‚µ‚ÄŠù’è‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚Ì“®ì‚ğƒGƒ~ƒ…ƒŒ[ƒg‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Object applications can ask OLE to create an enumeration object for
-OLEVERB structures to enumerate supported verbs in one of two ways.
-One way is to call OleRegEnumVerbs. The other way is to return
-OLE_S_USEREG in response to calls by the default object handler to
-IOleObject::EnumVerbs. OLE_S_USEREG instructs the default handler to
-call OleRegEnumVerbs. Because DLL object applications cannot return
-OLE_S_USEREG, they must call OleRegEnumVerbs rather than delegating
-the job to the object handler. With the supplied IEnumOLEVERB pointer
-to the object, you can call the standard enumeration object methods
-to do the enumeration. The OleRegEnumVerbs function and its sibling
-functions, OleRegGetUserType, OleRegGetMiscStatus, and
-OleRegEnumFormatEtc, provide a way for developers of custom DLL
-object applications to emulate the behavior of OLE's default object
-handler in getting information about objects from the registry. By
-using these functions, you avoid the considerable work of writing
-your own, and the pitfalls inherent in working directly in the
-registry. In addition, you get future enhancements and optimizations
-of these functions without having to code them yourself.
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒTƒ|[ƒg‚³‚ê‚é“®Œ‚ğ—ñ‹“‚·‚é OLEVERB \‘¢‘Ì‚Ì—ñ‹“ƒIƒuƒWƒFƒNƒg‚ğ OLE ‚Éì¬‚³‚¹‚é‚½‚ß‚ÉA2
+‚Â‚Ì•û–@‚Ì‚¢‚¸‚ê‚©‚ğg—p‚Å‚«‚éB1 ‚Â‚Í OleRegEnumVerbs ‚ğŒÄ‚Ño‚·•û–@‚Å‚ ‚éB‚à‚¤ 1
+‚Â‚ÍAŠù’è‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚©‚ç IOleObject::EnumVerbs ‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚É OLE_S_USEREG
+‚ğ•Ô‚·•û–@‚Å‚ ‚éBOLE_S_USEREG ‚ÍŠù’è‚Ìƒnƒ“ƒhƒ‰‚É OleRegEnumVerbs ‚ğŒÄ‚Ño‚·‚æ‚¤w¦‚·‚éBDLL
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í OLE_S_USEREG ‚ğ•Ô‚¹‚È‚¢‚½‚ßAƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚Éì‹Æ‚ğˆÏ÷‚·‚é‚Ì‚Å‚Í‚È‚­
+OleRegEnumVerbs ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B’ñ‹Ÿ‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚Ö‚Ì IEnumOLEVERB
+ƒ|ƒCƒ“ƒ^‚ğg—p‚µ‚ÄA•W€‚Ì—ñ‹“ƒIƒuƒWƒFƒNƒgƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä—ñ‹“‚ğs‚¤‚±‚Æ‚ª‚Å‚«‚éBOleRegEnumVerbs
+ŠÖ”‚Æ‚»‚ÌŒZ’íŠÖ”‚Å‚ ‚é
+OleRegGetUserTypeAOleRegGetMiscStatusAOleRegEnumFormatEtc ‚ÍAƒJƒXƒ^ƒ€ DLL
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌŠJ”­Ò‚ªAƒŒƒWƒXƒgƒŠ‚©‚çƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éÛ‚Ì OLE
+‚ÌŠù’è‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚Ì“®ì‚ğƒGƒ~ƒ…ƒŒ[ƒg‚·‚é•û–@‚ğ’ñ‹Ÿ‚·‚éB‚±‚ê‚ç‚ÌŠÖ”‚ğg—p‚·‚é‚±‚Æ‚ÅA“Æ©‚É‘‚­‘Š“–‚È˜J—Í‚ÆAƒŒƒWƒXƒgƒŠ‚Å’¼Úì‹Æ‚·‚é‚±‚Æ‚Ì—‚Æ‚µŒŠ‚ğ”ğ‚¯‚é‚±‚Æ‚ª‚Å‚«‚éB‚³‚ç‚ÉA‚±‚ê‚ç‚ÌŠÖ”‚Ì¡Œã‚ÌŠg’£‚âÅ“K‰»‚ğA©•ª‚ÅƒR[ƒfƒBƒ“ƒO‚·‚é‚±‚Æ‚È‚­“¾‚ç‚ê‚éB
 
 
 %index
 OleRegGetMiscStatus
-Returns miscellaneous information about the presentation and behaviors supported by the specified CLSID from the registry.
+w’è‚³‚ê‚½ CLSID ‚ªƒTƒ|[ƒg‚·‚é•\Œ»‚Æ“®ì‚ÉŠÖ‚·‚éG‘½‚Èî•ñ‚ğƒŒƒWƒXƒgƒŠ‚©‚ç•Ô‚·B
 %group
 Win32 ole32
 %prm
 clsid, dwAspect, pdwStatus
-clsid : [var] The CLSID of the class for which status information is to be requested.
-dwAspect : [int] The presentation aspect of the class for which information is requested. Possible values are taken from the DVASPECT enumeration.
-pdwStatus : [var] A pointer to the variable that receives the status information.
+clsid : [var] ó‘Ôî•ñ‚ª—v‹‚³‚ê‚éƒNƒ‰ƒX‚Ì CLSIDB
+dwAspect : [int] î•ñ‚ª—v‹‚³‚ê‚éƒNƒ‰ƒX‚Ì•\¦ƒAƒXƒyƒNƒgBw’è‰Â”\‚È’l‚Í DVASPECT —ñ‹“‚©‚çæ“¾‚·‚éB
+pdwStatus : [var] ó‘Ôî•ñ‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Returns miscellaneous information about the presentation and
-behaviors supported by the specified CLSID from the registry.
+w’è‚³‚ê‚½ CLSID ‚ªƒTƒ|[ƒg‚·‚é•\Œ»‚Æ“®ì‚ÉŠÖ‚·‚éG‘½‚Èî•ñ‚ğƒŒƒWƒXƒgƒŠ‚©‚ç•Ô‚·B
 
 [–ß‚è’l]
-This function can return the standard return value E_OUTOFMEMORY, as
-well as the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚É‰Á‚¦‚ÄAˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Object applications can ask OLE to get miscellaneous status
-information in one of two ways. One way is to call
-OleRegGetMiscStatus. The other is to return OLE_S_USEREG in response
-to calls by the default object handler to IOleObject::GetMiscStatus.
-OLE_S_USEREG instructs the default handler to call
-OleRegGetMiscStatus. Because DLL object applications cannot return
-OLE_S_USEREG, they must call OleRegGetMiscStatus rather than
-delegating the job to the object handler.
-OleRegGetMiscStatus and its sibling functions, OleRegGetUserType,
-OleRegEnumFormatEtc, and OleRegEnumVerbs, provide a way for
-developers of custom DLL object applications to emulate the behavior
-of OLE's default object handler in getting information about objects
-from the registry. By using these functions, you avoid the
-considerable work of writing your own, and the pitfalls inherent in
-working directly in the registry. In addition, you get future
-enhancements and optimizations of these functions without having to
-code them yourself.
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAG‘½‚Èó‘Ôî•ñ‚ğæ“¾‚·‚é‚½‚ß‚É OLE ‚ÉˆË—Š‚·‚é 2 ‚Â‚Ì•û–@‚Ì‚¢‚¸‚ê‚©‚ğg—p‚Å‚«‚éB1 ‚Â‚Í
+OleRegGetMiscStatus ‚ğŒÄ‚Ño‚·•û–@‚Å‚ ‚éB‚à‚¤ 1 ‚Â‚ÍAŠù’è‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚©‚ç
+IOleObject::GetMiscStatus ‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚É OLE_S_USEREG
+‚ğ•Ô‚·•û–@‚Å‚ ‚éBOLE_S_USEREG ‚ÍŠù’è‚Ìƒnƒ“ƒhƒ‰‚É OleRegGetMiscStatus ‚ğŒÄ‚Ño‚·‚æ‚¤w¦‚·‚éBDLL
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í OLE_S_USEREG ‚ğ•Ô‚¹‚È‚¢‚½‚ßAƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚Éì‹Æ‚ğˆÏ÷‚·‚é‚Ì‚Å‚Í‚È‚­
+OleRegGetMiscStatus ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+OleRegGetMiscStatus ‚Æ‚»‚ÌŒZ’íŠÖ”‚Å‚ ‚é
+OleRegGetUserTypeAOleRegEnumFormatEtcAOleRegEnumVerbs ‚ÍAƒJƒXƒ^ƒ€ DLL
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌŠJ”­Ò‚ªAƒŒƒWƒXƒgƒŠ‚©‚çƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éÛ‚Ì OLE
+‚ÌŠù’è‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚Ì“®ì‚ğƒGƒ~ƒ…ƒŒ[ƒg‚·‚é•û–@‚ğ’ñ‹Ÿ‚·‚éB‚±‚ê‚ç‚ÌŠÖ”‚ğg—p‚·‚é‚±‚Æ‚ÅA“Æ©‚É‘‚­‘Š“–‚È˜J—Í‚ÆAƒŒƒWƒXƒgƒŠ‚Å’¼Úì‹Æ‚·‚é‚±‚Æ‚Ì—‚Æ‚µŒŠ‚ğ”ğ‚¯‚é‚±‚Æ‚ª‚Å‚«‚éB‚³‚ç‚ÉA‚±‚ê‚ç‚ÌŠÖ”‚Ì¡Œã‚ÌŠg’£‚âÅ“K‰»‚ğA©•ª‚ÅƒR[ƒfƒBƒ“ƒO‚·‚é‚±‚Æ‚È‚­“¾‚ç‚ê‚éB
 
 
 %index
 OleRegGetUserType
-Gets the user type of the specified class from the registry.
+w’è‚³‚ê‚½ƒNƒ‰ƒX‚Ìƒ†[ƒUƒ^ƒCƒv‚ğƒŒƒWƒXƒgƒŠ‚©‚çæ“¾‚·‚éB
 %group
 Win32 ole32
 %prm
 clsid, dwFormOfType, pszUserType
-clsid : [var] The CLSID of the class for which the user type is to be requested.
-dwFormOfType : [int] The form of the user-presentable string. Possible values are taken from the enumeration USERCLASSTYPE.
-pszUserType : [var] A pointer to a string that receives the user type.
+clsid : [var] ƒ†[ƒUƒ^ƒCƒv‚ª—v‹‚³‚ê‚éƒNƒ‰ƒX‚Ì CLSIDB
+dwFormOfType : [int] ƒ†[ƒU‚É’ñ¦‚·‚é•¶š—ñ‚ÌŒ`®Bw’è‰Â”\‚È’l‚Í USERCLASSTYPE —ñ‹“‚©‚çæ“¾‚·‚éB
+pszUserType : [var] ƒ†[ƒUƒ^ƒCƒv‚ğó‚¯æ‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Gets the user type of the specified class from the registry.
+w’è‚³‚ê‚½ƒNƒ‰ƒX‚Ìƒ†[ƒUƒ^ƒCƒv‚ğƒŒƒWƒXƒgƒŠ‚©‚çæ“¾‚·‚éB
 
 [–ß‚è’l]
-This function can return the standard return value E_OUTOFMEMORY, as
-well as the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚É‰Á‚¦‚ÄAˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Object applications can ask OLE to get the user type name of a
-specified class in one of two ways. One way is to call
-OleRegGetUserType. The other is to return OLE_S_USEREG in response to
-calls by the default object handler to IOleObject::GetUserType.
-OLE_S_USEREG instructs the default handler to call OleRegGetUserType.
-Because DLL object applications cannot return OLE_S_USEREG, they must
-call OleRegGetUserType, rather than delegating the job to the object
-handler.
-The OleRegGetUserType function and its sibling functions,
-OleRegGetMiscStatus, OleRegEnumFormatEtc, and OleRegEnumVerbs,
-provide a way for developers of custom DLL object applications to
-emulate the behavior of OLE's default object handler in getting
-information about objects from the registry. By using these
-functions, you avoid the considerable work of writing your own, and
-the pitfalls inherent in working directly in the registry. In
-addition, you get future enhancements and optimizations of these
-functions without having to code them yourself.
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAw’è‚³‚ê‚½ƒNƒ‰ƒX‚Ìƒ†[ƒUƒ^ƒCƒv–¼‚ğæ“¾‚·‚é‚½‚ß‚É OLE ‚ÉˆË—Š‚·‚é 2
+‚Â‚Ì•û–@‚Ì‚¢‚¸‚ê‚©‚ğg—p‚Å‚«‚éB1 ‚Â‚Í OleRegGetUserType ‚ğŒÄ‚Ño‚·•û–@‚Å‚ ‚éB‚à‚¤ 1
+‚Â‚ÍAŠù’è‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚©‚ç IOleObject::GetUserType ‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚É OLE_S_USEREG
+‚ğ•Ô‚·•û–@‚Å‚ ‚éBOLE_S_USEREG ‚ÍŠù’è‚Ìƒnƒ“ƒhƒ‰‚É OleRegGetUserType ‚ğŒÄ‚Ño‚·‚æ‚¤w¦‚·‚éBDLL
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í OLE_S_USEREG ‚ğ•Ô‚¹‚È‚¢‚½‚ßAƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚Éì‹Æ‚ğˆÏ÷‚·‚é‚Ì‚Å‚Í‚È‚­
+OleRegGetUserType ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+OleRegGetUserType ŠÖ”‚Æ‚»‚ÌŒZ’íŠÖ”‚Å‚ ‚é
+OleRegGetMiscStatusAOleRegEnumFormatEtcAOleRegEnumVerbs ‚ÍAƒJƒXƒ^ƒ€ DLL
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌŠJ”­Ò‚ªAƒŒƒWƒXƒgƒŠ‚©‚çƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éÛ‚Ì OLE
+‚ÌŠù’è‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚Ì“®ì‚ğƒGƒ~ƒ…ƒŒ[ƒg‚·‚é•û–@‚ğ’ñ‹Ÿ‚·‚éB‚±‚ê‚ç‚ÌŠÖ”‚ğg—p‚·‚é‚±‚Æ‚ÅA“Æ©‚É‘‚­‘Š“–‚È˜J—Í‚ÆAƒŒƒWƒXƒgƒŠ‚Å’¼Úì‹Æ‚·‚é‚±‚Æ‚Ì—‚Æ‚µŒŠ‚ğ”ğ‚¯‚é‚±‚Æ‚ª‚Å‚«‚éB‚³‚ç‚ÉA‚±‚ê‚ç‚ÌŠÖ”‚Ì¡Œã‚ÌŠg’£‚âÅ“K‰»‚ğA©•ª‚ÅƒR[ƒfƒBƒ“ƒO‚·‚é‚±‚Æ‚È‚­“¾‚ç‚ê‚éB
 
 
 %index
 OleRun
-Puts an OLE compound document object into the running state.
+OLE •¡‡ƒhƒLƒ…ƒƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğÀsó‘Ô‚É‚·‚éB
 %group
 Win32 ole32
 %prm
 pUnknown
-pUnknown : [var] Pointer to the IUnknown interface on the object, with which it will query for a pointer to the IRunnableObject interface, and then call its Run method.
+pUnknown : [var] ƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚ğg—p‚µ‚Ä IRunnableObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğƒNƒGƒŠ‚µA‚»‚Ì Run ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·B
 %inst
-Puts an OLE compound document object into the running state.
+OLE •¡‡ƒhƒLƒ…ƒƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğÀsó‘Ô‚É‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The OleRun function puts an object in the running state. The
-implementation of OleRun was changed in OLE 2.01 to coincide with the
-publication of the IRunnableObject interface. You can use OleRun and
-IRunnableObject::Run interchangeably. OleRun queries the object for a
-pointer to IRunnableObject. If successful, the function returns the
-results of calling the IRunnableObject::Run method. For more
-information on using this function, see IRunnableObject::Run.
+OleRun ŠÖ”‚ÍƒIƒuƒWƒFƒNƒg‚ğÀsó‘Ô‚É‚·‚éBOleRun ‚ÌÀ‘•‚Í IRunnableObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌŒöŠJ‚Æ“¯‚É
+OLE 2.01 ‚Å•ÏX‚³‚ê‚½BOleRun ‚Æ IRunnableObject::Run ‚Í‘ŠŒİ‚É’u‚«Š·‚¦‰Â”\‚Å‚ ‚éBOleRun
+‚ÍƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä IRunnableObject ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğƒNƒGƒŠ‚·‚éB¬Œ÷‚µ‚½ê‡AŠÖ”‚Í
+IRunnableObject::Run ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½Œ‹‰Ê‚ğ•Ô‚·B‚±‚ÌŠÖ”‚Ìg—p•û–@‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+IRunnableObject::Run ‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 OleSave
-Saves an object opened in transacted mode into the specified storage object.
+ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•Û‘¶‚·‚éB
 %group
 Win32 ole32
 %prm
 pPS, pStg, fSameAsLoad
-pPS : [var] Pointer to the IPersistStorage interface on the object to be saved.
-pStg : [var] Pointer to the IStorage interface on the destination storage object to which the object indicated in pPS is to be saved.
-fSameAsLoad : [int] TRUE indicates that pStg is the same storage object from which the object was loaded or created; FALSE indicates that pStg was loaded or created from a different storage object.
+pPS : [var] •Û‘¶‚·‚éƒIƒuƒWƒFƒNƒgã‚Ì IPersistStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pStg : [var] pPS ‚Å¦‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ª•Û‘¶‚³‚ê‚éˆ¶æƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fSameAsLoad : [int] TRUE ‚Í pStg ‚ªƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚Ü‚½‚Íì¬‚µ‚½Œ³‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Æ“¯‚¶‚Å‚ ‚é‚±‚Æ‚ğ¦‚·BFALSE ‚Í pStg ‚ª•Ê‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚©‚çƒ[ƒh‚Ü‚½‚Íì¬‚³‚ê‚½‚±‚Æ‚ğ¦‚·B
 %inst
-Saves an object opened in transacted mode into the specified storage
-object.
+ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•Û‘¶‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The OleSave helper function handles the common situation in which an
-object is open in transacted mode and is then to be saved into the
-specified storage object which uses the OLE-provided compound file
-implementation. Transacted mode means that changes to the object are
-buffered until either of the IStorage::Commit or IStorage::Revert is
-called. Callers can handle other situations by calling the
-IPersistStorage and IStorage interfaces directly.
-OleSave does the following:
-This doc was truncated.
+OleSave ƒwƒ‹ƒp[ŠÖ”‚ÍAƒIƒuƒWƒFƒNƒg‚ªƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚ÅŠJ‚©‚ê‚Ä‚¨‚èAOLE
+‚ª’ñ‹Ÿ‚·‚é•¡‡ƒtƒ@ƒCƒ‹À‘•‚ğg‚¤w’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•Û‘¶‚³‚ê‚éˆê”Ê“I‚Èó‹µ‚ğˆ—‚·‚éBƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚Æ‚ÍAIStorage::Commit
+‚Ü‚½‚Í IStorage::Revert ‚ªŒÄ‚Ño‚³‚ê‚é‚Ü‚ÅƒIƒuƒWƒFƒNƒg‚Ö‚Ì•ÏX‚ªƒoƒbƒtƒ@ƒŠƒ“ƒO‚³‚ê‚é‚±‚Æ‚ğˆÓ–¡‚·‚éBŒÄ‚Ño‚µŒ³‚Í
+IPersistStorage ‚Æ IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ’¼ÚŒÄ‚Ño‚·‚±‚Æ‚Å‘¼‚Ìó‹µ‚ğˆ—‚Å‚«‚éB
+OleSave ‚ÍŸ‚Ìˆ—‚ğs‚¤F
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleSaveToStream
-The OleSaveToStream function (ole2.h) saves an object with the IPersistStream interface on it to the specified stream.
+OleSaveToStream ŠÖ”iole2.hj‚ÍAIPersistStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‚ÂƒIƒuƒWƒFƒNƒg‚ğw’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB
 %group
 Win32 ole32
 %prm
 pPStm, pStm
-pPStm : [var] Pointer to the IPersistStream interface on the object to be saved to the stream. The pPStm parameter cannot be NULL.
-pStm : [var] Pointer to the IStream interface on the stream in which the object is to be saved.
+pPStm : [var] ƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éƒIƒuƒWƒFƒNƒgã‚Ì IPersistStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BpPStm ƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«‚È‚¢B
+pStm : [var] ƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚éƒXƒgƒŠ[ƒ€ã‚Ì IStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The OleSaveToStream function (ole2.h) saves an object with the
-IPersistStream interface on it to the specified stream.
+OleSaveToStream ŠÖ”iole2.hj‚ÍAIPersistStream
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ‚ÂƒIƒuƒWƒFƒNƒg‚ğw’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This function simplifies saving an object that implements the
-IPersistStream interface to a stream. In this stream, the object's
-CLSID precedes its data. When the stream is retrieved, the CLSID
-permits the proper code to be associated with the data. The
-OleSaveToStream function does the following:
-This doc was truncated.
+‚±‚ÌŠÖ”‚ÍAIPersistStream
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğÀ‘•‚·‚éƒIƒuƒWƒFƒNƒg‚ğƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚é‚±‚Æ‚ğŠÈ’P‚É‚·‚éB‚±‚ÌƒXƒgƒŠ[ƒ€‚Å‚ÍAƒIƒuƒWƒFƒNƒg‚Ì CLSID
+‚ª‚»‚Ìƒf[ƒ^‚Ì‘O‚É’u‚©‚ê‚éBƒXƒgƒŠ[ƒ€‚ªæ“¾‚³‚ê‚½‚Æ‚«ACLSID
+‚É‚æ‚è“KØ‚ÈƒR[ƒh‚ğƒf[ƒ^‚ÆŠÖ˜A•t‚¯‚é‚±‚Æ‚ª‚Å‚«‚éBOleSaveToStream ŠÖ”‚ÍŸ‚Ìˆ—‚ğs‚¤F
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleSetAutoConvert
-Specifies a CLSID for automatic conversion to a different class when an object of that class is loaded.
+‚ ‚éƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚ªƒ[ƒh‚³‚ê‚½‚Æ‚«‚É•Ê‚ÌƒNƒ‰ƒX‚Ö©“®•ÏŠ·‚·‚é‚½‚ß‚Ì CLSID ‚ğw’è‚·‚éB
 %group
 Win32 ole32
 %prm
 clsidOld, clsidNew
-clsidOld : [var] The CLSID of the object class to be converted.
-clsidNew : [var] The CLSID of the object class that should replace clsidOld. This new CLSID replaces any existing auto-conversion information in the registry for clsidOld. If this value is CLSID_NULL, any existing auto-conversion information for clsidOld is removed from the registry.
+clsidOld : [var] •ÏŠ·‚³‚ê‚éƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚Ì CLSIDB
+clsidNew : [var] clsidOld ‚ğ’u‚«Š·‚¦‚éƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚Ì CLSIDB‚±‚ÌV‚µ‚¢ CLSID ‚ÍAclsidOld ‚É‘Î‚·‚éŠù‘¶‚Ì©“®•ÏŠ·î•ñ‚ğƒŒƒWƒXƒgƒŠ“à‚Å’u‚«Š·‚¦‚éB‚±‚Ì’l‚ª CLSID_NULL ‚Ìê‡AclsidOld ‚É‘Î‚·‚éŠù‘¶‚Ì©“®•ÏŠ·î•ñ‚ÍƒŒƒWƒXƒgƒŠ‚©‚çíœ‚³‚ê‚éB
 %inst
-Specifies a CLSID for automatic conversion to a different class when
-an object of that class is loaded.
+‚ ‚éƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚ªƒ[ƒh‚³‚ê‚½‚Æ‚«‚É•Ê‚ÌƒNƒ‰ƒX‚Ö©“®•ÏŠ·‚·‚é‚½‚ß‚Ì CLSID ‚ğw’è‚·‚éB
 
 [–ß‚è’l]
-This function can return the standard return values E_INVALIDARG,
-E_OUTOFMEMORY, and E_UNEXPECTED, as well as the following values.
-This doc was truncated.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARGAE_OUTOFMEMORYAE_UNEXPECTED
+‚É‰Á‚¦‚ÄAˆÈ‰º‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-OleSetAutoConvert goes to the system registry, finds the
-AutoConvertTo subkey under the CLSID specified by clsidOld, and sets
-it to clsidNew. This function does not validate whether an
-appropriate registry entry for clsidNew currently exists. These
-entries appear in the registry as subkeys of the CLSID key. Object
-conversion means that the object's data is permanently associated
-with a new CLSID. Automatic conversion is typically specified in the
-setup program of a new version of an object application, so objects
-created by its older versions can be automatically updated to the new
-version.
-For example, it may be necessary to convert spreadsheets that were
-created with earlier versions of a spreadsheet application to the new
-version. The spreadsheet objects from earlier versions have different
-CLSIDs than the new version. For each earlier version that you want
-automatically updated, you would call OleSetAutoConvert in the setup
-program, specifying the CLSID of the old version, and that of the new
-one. Then, whenever a user loads an object from a previous version,
-it would be automatically updated. To support automatic conversion of
-objects, a server that supports conversion must be prepared to
-manually convert objects that have the format of an earlier version
-of the server. Automatic conversion relies internally on this
-manual-conversion support. Before setting the desired AutoConvertTo
-value, setup programs should also call OleSetAutoConvert to remove
-any existing conversion for the new class, by specifying the new
-class as the clsidOld parameter, and setting the clsidNew parameter
-to CLSID_NULL.
+OleSetAutoConvert ‚ÍƒVƒXƒeƒ€ƒŒƒWƒXƒgƒŠ‚És‚«AclsidOld ‚Åw’è‚³‚ê‚½ CLSID ‚Ì‰º‚É‚ ‚é
+AutoConvertTo ƒTƒuƒL[‚ğŒ©‚Â‚¯A‚»‚ê‚ğ clsidNew ‚Éİ’è‚·‚éB‚±‚ÌŠÖ”‚Í clsidNew
+‚É“KØ‚ÈƒŒƒWƒXƒgƒŠƒGƒ“ƒgƒŠ‚ªŒ»İ‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğŒŸØ‚µ‚È‚¢B‚±‚ê‚ç‚ÌƒGƒ“ƒgƒŠ‚ÍƒŒƒWƒXƒgƒŠ“à‚Å‚Í CLSID
+ƒL[‚ÌƒTƒuƒL[‚Æ‚µ‚Ä•\¦‚³‚ê‚éBƒIƒuƒWƒFƒNƒg•ÏŠ·‚Æ‚ÍAƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚ªV‚µ‚¢ CLSID
+‚ÆP‹v“I‚ÉŠÖ˜A•t‚¯‚ç‚ê‚é‚±‚Æ‚ğˆÓ–¡‚·‚éB©“®•ÏŠ·‚Í’ÊíAƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌVƒo[ƒWƒ‡ƒ“‚ÌƒZƒbƒgƒAƒbƒvƒvƒƒOƒ‰ƒ€‚Åw’è‚³‚êAŒÃ‚¢ƒo[ƒWƒ‡ƒ“‚Åì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğVƒo[ƒWƒ‡ƒ“‚É©“®“I‚ÉXV‚Å‚«‚é‚æ‚¤‚É‚·‚éB
+
+‚½‚Æ‚¦‚ÎAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚ÌƒXƒvƒŒƒbƒhƒV[ƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åì¬‚³‚ê‚½ƒXƒvƒŒƒbƒhƒV[ƒg‚ğVƒo[ƒWƒ‡ƒ“‚É•ÏŠ·‚·‚é•K—v‚ª‚ ‚é‚©‚à‚µ‚ê‚È‚¢BˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚ÌƒXƒvƒŒƒbƒhƒV[ƒgƒIƒuƒWƒFƒNƒg‚ÍVƒo[ƒWƒ‡ƒ“‚Æ‚ÍˆÙ‚È‚é
+CLSID ‚ğ‚ÂB©“®“I‚ÉXV‚µ‚½‚¢ˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚²‚Æ‚ÉAƒZƒbƒgƒAƒbƒvƒvƒƒOƒ‰ƒ€‚Å OleSetAutoConvert
+‚ğŒÄ‚Ño‚µAŒÃ‚¢ƒo[ƒWƒ‡ƒ“‚ÆVƒo[ƒWƒ‡ƒ“‚Ì CLSID
+‚ğw’è‚·‚éB‚·‚é‚ÆAƒ†[ƒU‚ªˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚©‚çƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚é‚½‚Ñ‚É©“®“I‚ÉXV‚³‚ê‚éBƒIƒuƒWƒFƒNƒg‚Ì©“®•ÏŠ·‚ğƒTƒ|[ƒg‚·‚é‚É‚ÍA•ÏŠ·‚ğƒTƒ|[ƒg‚·‚éƒT[ƒo‚ªAƒT[ƒo‚ÌˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚ÌŒ`®‚ğ‚ÂƒIƒuƒWƒFƒNƒg‚ğè“®‚Å•ÏŠ·‚·‚é€”õ‚ª‚Å‚«‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B©“®•ÏŠ·‚Í“à•”“I‚É‚±‚Ìè“®•ÏŠ·ƒTƒ|[ƒg‚ÉˆË‘¶‚µ‚Ä‚¢‚éB–Ú“I‚Ì
+AutoConvertTo ’l‚ğİ’è‚·‚é‘O‚ÉAƒZƒbƒgƒAƒbƒvƒvƒƒOƒ‰ƒ€‚ÍVƒNƒ‰ƒX‚ğ clsidOld
+ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Äw’è‚µAclsidNew ƒpƒ‰ƒ[ƒ^‚ğ CLSID_NULL ‚Éİ’è‚µ‚Ä OleSetAutoConvert
+‚ğŒÄ‚Ño‚µAVƒNƒ‰ƒX‚É‘Î‚·‚éŠù‘¶‚Ì•ÏŠ·‚ğíœ‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 OleSetClipboard
-Places a pointer to a specific data object onto the clipboard. This makes the data object accessible to the OleGetClipboard function.
+“Á’è‚Ìƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğƒNƒŠƒbƒvƒ{[ƒh‚É’u‚­B‚±‚ê‚É‚æ‚èAƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ª OleGetClipboard ŠÖ”‚©‚çƒAƒNƒZƒX‰Â”\‚É‚È‚éB
 %group
 Win32 ole32
 %prm
 pDataObj
-pDataObj : [var] Pointer to the IDataObject interface on the data object from which the data to be placed on the clipboard can be obtained. This parameter can be NULL; in which case the clipboard is emptied.
+pDataObj : [var] ƒNƒŠƒbƒvƒ{[ƒh‚É’u‚­ƒf[ƒ^‚ğæ“¾‚Å‚«‚éƒf[ƒ^ƒIƒuƒWƒFƒNƒgã‚Ì IDataObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚­A‚»‚Ìê‡‚ÍƒNƒŠƒbƒvƒ{[ƒh‚ª‹ó‚É‚³‚ê‚éB
 %inst
-Places a pointer to a specific data object onto the clipboard. This
-makes the data object accessible to the OleGetClipboard function.
+“Á’è‚Ìƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğƒNƒŠƒbƒvƒ{[ƒh‚É’u‚­B‚±‚ê‚É‚æ‚èAƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ª OleGetClipboard
+ŠÖ”‚©‚çƒAƒNƒZƒX‰Â”\‚É‚È‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If you are writing an application that can act as the source of a
-clipboard operation, you must do the following:
-This doc was truncated.
+ƒNƒŠƒbƒvƒ{[ƒh‘€ì‚Ìƒ\[ƒX‚Æ‚µ‚Ä“®ì‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‘‚¢‚Ä‚¢‚éê‡AŸ‚Ì‚±‚Æ‚ğs‚¤•K—v‚ª‚ ‚éF
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleSetContainedObject
-Notifies an object that it is embedded in an OLE container, which ensures that reference counting is done correctly for containers that support links to embedded objects. (OleSetContainedObject)
+ƒIƒuƒWƒFƒNƒg‚ª OLE ƒRƒ“ƒeƒi‚É–„‚ß‚Ü‚ê‚Ä‚¢‚é‚±‚Æ‚ğ’Ê’m‚µA–„‚ß‚İƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒi‚ÅQÆƒJƒEƒ“ƒg‚ª³‚µ‚­s‚í‚ê‚é‚æ‚¤‚É‚·‚éBiOleSetContainedObjectj
 %group
 Win32 ole32
 %prm
 pUnknown, fContained
-pUnknown : [var] Pointer to the IUnknown interface of the object.
-fContained : [int] TRUE if the object is an embedded object; FALSE otherwise.
+pUnknown : [var] ƒIƒuƒWƒFƒNƒg‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fContained : [int] ƒIƒuƒWƒFƒNƒg‚ª–„‚ß‚İƒIƒuƒWƒFƒNƒg‚Ìê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSEB
 %inst
-Notifies an object that it is embedded in an OLE container, which
-ensures that reference counting is done correctly for containers that
-support links to embedded objects. (OleSetContainedObject)
+ƒIƒuƒWƒFƒNƒg‚ª OLE
+ƒRƒ“ƒeƒi‚É–„‚ß‚Ü‚ê‚Ä‚¢‚é‚±‚Æ‚ğ’Ê’m‚µA–„‚ß‚İƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒi‚ÅQÆƒJƒEƒ“ƒg‚ª³‚µ‚­s‚í‚ê‚é‚æ‚¤‚É‚·‚éBiOleSetContainedObjectj
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The OleSetContainedObject function notifies an object that it is
-embedded in an OLE container. The implementation of
-OleSetContainedObject was changed in OLE 2.01 to coincide with the
-publication of the IRunnableObject interface. You can use
-OleSetContainedObject and the IRunnableObject::SetContainedObject
-method interchangeably. The OleSetContainedObject function queries
-the object for a pointer to the IRunnableObject interface. If
-successful, the function returns the results of calling
-IRunnableObject::SetContainedObject.
+OleSetContainedObject ŠÖ”‚ÍAƒIƒuƒWƒFƒNƒg‚ª OLE
+ƒRƒ“ƒeƒi‚É–„‚ß‚Ü‚ê‚Ä‚¢‚é‚±‚Æ‚ğ’Ê’m‚·‚éBOleSetContainedObject ‚ÌÀ‘•‚Í IRunnableObject
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌŒöŠJ‚Æ“¯‚É OLE 2.01 ‚Å•ÏX‚³‚ê‚½BOleSetContainedObject ‚Æ
+IRunnableObject::SetContainedObject
+ƒƒ\ƒbƒh‚Í‘ŠŒİ‚É’u‚«Š·‚¦‰Â”\‚Å‚ ‚éBOleSetContainedObject ŠÖ”‚ÍƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä IRunnableObject
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğƒNƒGƒŠ‚·‚éB¬Œ÷‚µ‚½ê‡AŠÖ”‚Í IRunnableObject::SetContainedObject
+‚ğŒÄ‚Ño‚µ‚½Œ‹‰Ê‚ğ•Ô‚·B
 
 
 %index
 OleSetMenuDescriptor
-Installs or removes OLE dispatching code from the container's frame window.
+ƒRƒ“ƒeƒi‚ÌƒtƒŒ[ƒ€ƒEƒBƒ“ƒhƒE‚©‚ç OLE ƒfƒBƒXƒpƒbƒ`ƒR[ƒh‚ğƒCƒ“ƒXƒg[ƒ‹‚Ü‚½‚Ííœ‚·‚éB
 %group
 Win32 ole32
 %prm
 holemenu, hwndFrame, hwndActiveObject, lpFrame, lpActiveObj
-holemenu : [int] Handle to the composite menu descriptor returned by the OleCreateMenuDescriptor function. If NULL, the dispatching code is unhooked.
-hwndFrame : [intptr] Handle to the container's frame window where the in-place composite menu is to be installed.
-hwndActiveObject : [intptr] Handle to the object's in-place activation window. OLE dispatches menu messages and commands to this window.
-lpFrame : [var] Pointer to the IOleInPlaceFrame interface on the container's frame window.
-lpActiveObj : [var] Pointer to the IOleInPlaceActiveObject interface on the active in-place object.
+holemenu : [int] OleCreateMenuDescriptor ŠÖ”‚É‚æ‚Á‚Ä•Ô‚³‚ê‚½•¡‡ƒƒjƒ…[‹Lqq‚Ö‚Ìƒnƒ“ƒhƒ‹BNULL ‚Ìê‡AƒfƒBƒXƒpƒbƒ`ƒR[ƒh‚ªæ‚èŠO‚³‚ê‚éB
+hwndFrame : [intptr] ƒCƒ“ƒvƒŒ[ƒX•¡‡ƒƒjƒ…[‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚éƒRƒ“ƒeƒi‚ÌƒtƒŒ[ƒ€ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+hwndActiveObject : [intptr] ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒvƒŒ[ƒXƒAƒNƒeƒBƒu‰»ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹BOLE ‚Íƒƒjƒ…[ƒƒbƒZ[ƒW‚ÆƒRƒ}ƒ“ƒh‚ğ‚±‚ÌƒEƒBƒ“ƒhƒE‚ÉƒfƒBƒXƒpƒbƒ`‚·‚éB
+lpFrame : [var] ƒRƒ“ƒeƒi‚ÌƒtƒŒ[ƒ€ƒEƒBƒ“ƒhƒEã‚Ì IOleInPlaceFrame ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpActiveObj : [var] ƒAƒNƒeƒBƒu‚ÈƒCƒ“ƒvƒŒ[ƒXƒIƒuƒWƒFƒNƒgã‚Ì IOleInPlaceActiveObject ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Installs or removes OLE dispatching code from the container's frame
-window.
+ƒRƒ“ƒeƒi‚ÌƒtƒŒ[ƒ€ƒEƒBƒ“ƒhƒE‚©‚ç OLE ƒfƒBƒXƒpƒbƒ`ƒR[ƒh‚ğƒCƒ“ƒXƒg[ƒ‹‚Ü‚½‚Ííœ‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B
 
 [”õl]
-The container should call OleSetMenuDescriptor to install the
-dispatching code on hwndFrame when the object calls the
-IOleInPlaceFrame::SetMenu method, or to remove the dispatching code
-by passing NULL as the value for holemenu to OleSetMenuDescriptor. If
-both the lpFrame and lpActiveObj parameters are non-NULL, OLE
-installs the context-sensitive help F1 message filter for the
-application. Otherwise, the application must supply its own message
-filter.
+ƒIƒuƒWƒFƒNƒg‚ª IOleInPlaceFrame::SetMenu ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½‚Æ‚«AƒRƒ“ƒeƒi‚Í hwndFrame
+‚ÉƒfƒBƒXƒpƒbƒ`ƒR[ƒh‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚é‚½‚ß‚É OleSetMenuDescriptor ‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB‚ ‚é‚¢‚ÍAholemenu
+‚Ì’l‚Æ‚µ‚Ä NULL ‚ğ“n‚µ‚ÄƒfƒBƒXƒpƒbƒ`ƒR[ƒh‚ğæ‚èŠO‚·‚½‚ß‚ÉŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBlpFrame ‚Æ lpActiveObj
+‚Ì—¼•û‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Å‚È‚¢ê‡AOLE ‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒRƒ“ƒeƒLƒXƒgˆË‘¶ƒwƒ‹ƒv F1
+ƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éB‚»‚êˆÈŠO‚Ìê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í“Æ©‚ÌƒƒbƒZ[ƒWƒtƒBƒ‹ƒ^‚ğ’ñ‹Ÿ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 OleTranslateAccelerator
-Called by the object application, allows an object's container to translate accelerators according to the container's accelerator table.
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚æ‚Á‚ÄŒÄ‚Ño‚³‚êAƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒeƒi‚ªƒRƒ“ƒeƒi‚ÌƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚É]‚Á‚ÄƒAƒNƒZƒ‰ƒŒ[ƒ^‚ğ•ÏŠ·‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 %group
 Win32 ole32
 %prm
 lpFrame, lpFrameInfo, lpmsg
-lpFrame : [var] Pointer to the IOleInPlaceFrame interface to which the keystroke might be sent.
-lpFrameInfo : [var] Pointer to an OLEINPLACEFRAMEINFO structure containing the accelerator table obtained from the container.
-lpmsg : [var] Pointer to an MSG structure containing the keystroke.
+lpFrame : [var] ƒL[ƒXƒgƒ[ƒN‚ğ‘—M‚Å‚«‚é IOleInPlaceFrame ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpFrameInfo : [var] ƒRƒ“ƒeƒi‚©‚çæ“¾‚µ‚½ƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚ğŠÜ‚Ş OLEINPLACEFRAMEINFO \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+lpmsg : [var] ƒL[ƒXƒgƒ[ƒN‚ğŠÜ‚Ş MSG \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Called by the object application, allows an object's container to
-translate accelerators according to the container's accelerator
-table.
+
+ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚æ‚Á‚ÄŒÄ‚Ño‚³‚êAƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒeƒi‚ªƒRƒ“ƒeƒi‚ÌƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚É]‚Á‚ÄƒAƒNƒZƒ‰ƒŒ[ƒ^‚ğ•ÏŠ·‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Object servers call OleTranslateAccelerator to allow the object's
-container to translate accelerator keystrokes according to the
-container's accelerator table, pointed to by lpFrameInfo. While a
-contained object is the active object, the object's server always has
-first chance at translating any messages received. If this is not
-desired, the server calls OleTranslateAccelerator to give the
-object's container a chance. If the keyboard input matches an
-accelerator found in the container-provided accelerator table,
-OleTranslateAccelerator passes the message and its command identifier
-on to the container through the
-IOleInPlaceFrame::TranslateAccelerator method. This method returns
-S_OK if the keystroke is consumed; otherwise it returns S_FALSE.
-Accelerator tables for containers should be defined so they will work
-properly with object applications that do their own accelerator
-keystroke translations. These tables should take the form:
-This doc was truncated.
+ƒIƒuƒWƒFƒNƒgƒT[ƒo‚Í OleTranslateAccelerator
+‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅAƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒeƒi‚ªƒRƒ“ƒeƒi‚ÌƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹ilpFrameInfo
+‚É‚æ‚Á‚Äw‚³‚ê‚éj‚É]‚Á‚ÄƒAƒNƒZƒ‰ƒŒ[ƒ^ƒL[ƒXƒgƒ[ƒN‚ğ•ÏŠ·‚Å‚«‚é‚æ‚¤‚É‚·‚éBƒRƒ“ƒeƒi‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ªƒAƒNƒeƒBƒuƒIƒuƒWƒFƒNƒg‚Å‚ ‚éŠÔAƒIƒuƒWƒFƒNƒg‚ÌƒT[ƒo‚Íí‚ÉóM‚µ‚½ƒƒbƒZ[ƒW‚ğÅ‰‚É•ÏŠ·‚·‚é‹@‰ï‚ğ‚ÂB‚±‚ê‚ª–]‚Ü‚µ‚­‚È‚¢ê‡AƒT[ƒo‚Í
+OleTranslateAccelerator
+‚ğŒÄ‚Ño‚µ‚ÄƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒeƒi‚É‹@‰ï‚ğ—^‚¦‚éBƒL[ƒ{[ƒh“ü—Í‚ªƒRƒ“ƒeƒi‚ª’ñ‹Ÿ‚·‚éƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹“à‚ÌƒAƒNƒZƒ‰ƒŒ[ƒ^‚Æˆê’v‚·‚éê‡AOleTranslateAccelerator
+‚Í IOleInPlaceFrame::TranslateAccelerator
+ƒƒ\ƒbƒh‚ğ‰î‚µ‚ÄƒƒbƒZ[ƒW‚Æ‚»‚ÌƒRƒ}ƒ“ƒh¯•Êq‚ğƒRƒ“ƒeƒi‚É“n‚·B‚±‚Ìƒƒ\ƒbƒh‚ÍƒL[ƒXƒgƒ[ƒN‚ªÁ”ï‚³‚ê‚½ê‡‚Í S_OK
+‚ğ•Ô‚µA‚»‚¤‚Å‚È‚¢ê‡‚Í S_FALSE ‚ğ•Ô‚·B
+
+ƒRƒ“ƒeƒi‚ÌƒAƒNƒZƒ‰ƒŒ[ƒ^ƒe[ƒuƒ‹‚ÍA“Æ©‚ÌƒAƒNƒZƒ‰ƒŒ[ƒ^ƒL[ƒXƒgƒ[ƒN•ÏŠ·‚ğs‚¤ƒIƒuƒWƒFƒNƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ“KØ‚É“®ì‚·‚é‚æ‚¤‚É’è‹`‚·‚é•K—v‚ª‚ ‚éB‚±‚ê‚ç‚Ìƒe[ƒuƒ‹‚ÍŸ‚ÌŒ`®‚ğæ‚é‚×‚«‚Å‚ ‚éF
+iˆÈ‰ºÈ—ªj
 
 
 %index
 OleUninitialize
-Closes the COM library on the apartment, releases any class factories, other COM objects, or servers held by the apartment, disables RPC on the apartment, and frees any resources the apartment maintains.
+ƒAƒp[ƒgƒƒ“ƒgã‚Ì COM ƒ‰ƒCƒuƒ‰ƒŠ‚ğ•Â‚¶AƒAƒp[ƒgƒƒ“ƒg‚ª•Û‚·‚éƒNƒ‰ƒXƒtƒ@ƒNƒgƒŠA‚»‚Ì‘¼‚Ì COM ƒIƒuƒWƒFƒNƒgAƒT[ƒo‚ğ‰ğ•ú‚µAƒAƒp[ƒgƒƒ“ƒgã‚Ì RPC ‚ğ–³Œø‰»‚µAƒAƒp[ƒgƒƒ“ƒg‚ª•Û‚·‚éƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 ole32
 %prm
 
 %inst
-Closes the COM library on the apartment, releases any class
-factories, other COM objects, or servers held by the apartment,
-disables RPC on the apartment, and frees any resources the apartment
-maintains.
+ƒAƒp[ƒgƒƒ“ƒgã‚Ì COM ƒ‰ƒCƒuƒ‰ƒŠ‚ğ•Â‚¶AƒAƒp[ƒgƒƒ“ƒg‚ª•Û‚·‚éƒNƒ‰ƒXƒtƒ@ƒNƒgƒŠA‚»‚Ì‘¼‚Ì COM
+ƒIƒuƒWƒFƒNƒgAƒT[ƒo‚ğ‰ğ•ú‚µAƒAƒp[ƒgƒƒ“ƒgã‚Ì RPC ‚ğ–³Œø‰»‚µAƒAƒp[ƒgƒƒ“ƒg‚ª•Û‚·‚éƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
 
 [”õl]
-Call OleUninitialize on application shutdown, as the last COM library
-call, if the apartment was initialized with a call to OleInitialize.
-OleUninitialize calls the CoUninitialize function internally to shut
-down the OLE Component Object(COM) Library. If the COM library was
-initialized on the apartment with a call to CoInitialize or
-CoInitializeEx, it must be closed with a call to CoUninitialize. The
-OleInitialize and OleUninitialize calls must be balanced. If there
-are multiple calls to the OleInitialize function, there must be the
-same number of calls to OleUninitialize; only the OleUninitialize
-call corresponding to the OleInitialize call that actually
-initialized the library can close it. Because there is no way to
-control the order in which in-process servers are loaded or unloaded,
-do not call OleInitialize or OleUninitialize from the DllMain
-function.
+ƒAƒp[ƒgƒƒ“ƒg‚ª OleInitialize ‚ÌŒÄ‚Ño‚µ‚Å‰Šú‰»‚³‚ê‚½ê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“I—¹‚ÉÅŒã‚Ì COM
+ƒ‰ƒCƒuƒ‰ƒŠŒÄ‚Ño‚µ‚Æ‚µ‚Ä OleUninitialize ‚ğŒÄ‚Ño‚·BOleUninitialize ‚Í“à•”‚Å
+CoUninitialize ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä OLE Component ObjectiCOMjƒ‰ƒCƒuƒ‰ƒŠ‚ğƒVƒƒƒbƒgƒ_ƒEƒ“‚·‚éBCOM
+ƒ‰ƒCƒuƒ‰ƒŠ‚ªƒAƒp[ƒgƒƒ“ƒgã‚Å CoInitialize ‚Ü‚½‚Í CoInitializeEx
+‚ÌŒÄ‚Ño‚µ‚Å‰Šú‰»‚³‚ê‚½ê‡ACoUninitialize ‚ÌŒÄ‚Ño‚µ‚Å•Â‚¶‚é•K—v‚ª‚ ‚éBOleInitialize ‚Æ
+OleUninitialize ‚ÌŒÄ‚Ño‚µ‚Í‹Ït‚ğæ‚ç‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BOleInitialize
+ŠÖ”‚Ì•¡”‰ñ‚ÌŒÄ‚Ño‚µ‚ª‚ ‚éê‡A“¯‚¶‰ñ”‚Ì OleUninitialize ŒÄ‚Ño‚µ‚ª•K—v‚Å‚ ‚èAƒ‰ƒCƒuƒ‰ƒŠ‚ğÀÛ‚É‰Šú‰»‚µ‚½
+OleInitialize ŒÄ‚Ño‚µ‚É‘Î‰‚·‚é OleUninitialize
+ŒÄ‚Ño‚µ‚Ì‚İ‚ª‚»‚ê‚ğ•Â‚¶‚é‚±‚Æ‚ª‚Å‚«‚éBƒCƒ“ƒvƒƒZƒXƒT[ƒo‚ªƒ[ƒh‚Ü‚½‚ÍƒAƒ“ƒ[ƒh‚³‚ê‚é‡˜‚ğ§Œä‚·‚é•û–@‚ª‚È‚¢‚½‚ßADllMain
+ŠÖ”‚©‚ç OleInitialize ‚â OleUninitialize ‚ğŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 
 
 %index
 PropStgNameToFmtId
-Converts a property set storage or stream name to its format identifier.
+ƒvƒƒpƒeƒBƒZƒbƒg‚ÌƒXƒgƒŒ[ƒW–¼‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€–¼‚ğA‚»‚ÌŒ`®¯•Êq‚É•ÏŠ·‚·‚éB
 %group
 Win32 ole32
 %prm
 oszName, pfmtid
-oszName : [wstr] A pointer to a null-terminated Unicode string that contains the stream name of a simple property set or the storage name of a nonsimple property set.
-pfmtid : [var] A pointer to a FMTID variable that receives the format identifier of the property set specified by oszName.
+oszName : [wstr] ƒVƒ“ƒvƒ‹‚ÈƒvƒƒpƒeƒBƒZƒbƒg‚ÌƒXƒgƒŠ[ƒ€–¼A‚Ü‚½‚Í”ñƒVƒ“ƒvƒ‹‚ÈƒvƒƒpƒeƒBƒZƒbƒg‚ÌƒXƒgƒŒ[ƒW–¼‚ğŠÜ‚ŞAnull I’[‚Ì Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pfmtid : [var] oszName ‚Åw’è‚³‚ê‚½ƒvƒƒpƒeƒBƒZƒbƒg‚ÌŒ`®¯•Êq‚ğó‚¯æ‚é FMTID •Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Converts a property set storage or stream name to its format
-identifier.
+ƒvƒƒpƒeƒBƒZƒbƒg‚ÌƒXƒgƒŒ[ƒW–¼‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€–¼‚ğA‚»‚ÌŒ`®¯•Êq‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-This function supports the standard return value E_INVALIDARG as well
-as the following:
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARG ‚É‰Á‚¦‚ÄAˆÈ‰º‚ğƒTƒ|[ƒg‚·‚éF
 
 [”õl]
-The PropStgNameToFmtId function maps the stream name of a simple
-property set or the storage name of a nonsimple property set to its
-format identifier. This function is useful in creating or opening a
-property set using the PROPSETFLAG_UNBUFFERED value with the
-StgCreatePropStg and StgOpenPropStg functions. For more information
-about PROPSETFLAG_UNBUFFERED, see PROPSETFLAG Constants.
+PropStgNameToFmtId
+ŠÖ”‚ÍAƒVƒ“ƒvƒ‹‚ÈƒvƒƒpƒeƒBƒZƒbƒg‚ÌƒXƒgƒŠ[ƒ€–¼‚Ü‚½‚Í”ñƒVƒ“ƒvƒ‹‚ÈƒvƒƒpƒeƒBƒZƒbƒg‚ÌƒXƒgƒŒ[ƒW–¼‚ğA‚»‚ÌŒ`®¯•Êq‚Éƒ}ƒbƒsƒ“ƒO‚·‚éB‚±‚ÌŠÖ”‚ÍAStgCreatePropStg
+‚Æ StgOpenPropStg ŠÖ”‚Å PROPSETFLAG_UNBUFFERED
+’l‚ğg—p‚µ‚ÄƒvƒƒpƒeƒBƒZƒbƒg‚ğì¬‚Ü‚½‚ÍŠJ‚­‚Æ‚«‚É—L—p‚Å‚ ‚éBPROPSETFLAG_UNBUFFERED ‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+PROPSETFLAG Constants ‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 PropVariantClear
-Frees all elements that can be freed in a given PROPVARIANT structure.
+w’è‚³‚ê‚½ PROPVARIANT \‘¢‘Ì“à‚Å‰ğ•ú‰Â”\‚È—v‘f‚ğ‚·‚×‚Ä‰ğ•ú‚·‚éB
 %group
 Win32 ole32
 %prm
 pvar
-pvar : [var] A pointer to an initialized PROPVARIANT structure for which any deallocatable elements are to be freed. On return, all zeroes are written to the PROPVARIANT structure.
+pvar : [var] ‰ğ•ú‰Â”\‚È—v‘f‚ğ‰ğ•ú‚·‚é‰Šú‰»Ï‚İ‚Ì PROPVARIANT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B–ß‚è‚É‚Í PROPVARIANT \‘¢‘Ì‚É‚·‚×‚Ä 0 ‚ª‘‚«‚Ü‚ê‚éB
 %inst
-Frees all elements that can be freed in a given PROPVARIANT
-structure.
+w’è‚³‚ê‚½ PROPVARIANT \‘¢‘Ì“à‚Å‰ğ•ú‰Â”\‚È—v‘f‚ğ‚·‚×‚Ä‰ğ•ú‚·‚éB
 
 [–ß‚è’l]
-This function returns HRESULT.
+‚±‚ÌŠÖ”‚Í HRESULT ‚ğ•Ô‚·B
 
 [”õl]
-At any level of indirection, NULL pointers are ignored. For example,
-the pvar parameter points to a PROPVARIANT structure of type VT_CF.
-The pclipdata member of the PROPVARIANT structure points to a
-CLIPDATA structure. The pClipData pointer in the CLIPDATA structure
-is NULL. In this example, the pClipData pointer is ignored. However,
-the CLIPDATA structure pointed to by the pclipdata member of the
-PROPVARIANT structure is freed. On return, this function writes
-zeroes to the specified PROPVARIANT structure, so the VT-type is
-VT_EMPTY. Passing NULL as the pvar parameter produces a return code
-of S_OK. Note Do not use this function to initialize PROPVARIANT
-structures. Instead, initialize these structures using the
-PropVariantInit macro (defined in Propidl.h).
+‚ ‚ç‚ä‚éƒŒƒxƒ‹‚ÌŠÔÚQÆ‚É‚¨‚¢‚ÄANULL ƒ|ƒCƒ“ƒ^‚Í–³‹‚³‚ê‚éB‚½‚Æ‚¦‚ÎApvar ƒpƒ‰ƒ[ƒ^‚ª VT_CF Œ^‚Ì
+PROPVARIANT \‘¢‘Ì‚ğw‚µ‚Ä‚¢‚é‚Æ‚·‚éBPROPVARIANT \‘¢‘Ì‚Ì pclipdata ƒƒ“ƒo[‚Í CLIPDATA
+\‘¢‘Ì‚ğw‚µ‚Ä‚¢‚éBCLIPDATA \‘¢‘Ì“à‚Ì pClipData ƒ|ƒCƒ“ƒ^‚Í NULL ‚Å‚ ‚éB‚±‚Ì—á‚Å‚ÍApClipData
+ƒ|ƒCƒ“ƒ^‚Í–³‹‚³‚ê‚éB‚µ‚©‚µAPROPVARIANT \‘¢‘Ì‚Ì pclipdata ƒƒ“ƒo[‚ªw‚· CLIPDATA
+\‘¢‘Ì‚Í‰ğ•ú‚³‚ê‚éB–ß‚è‚ÉA‚±‚ÌŠÖ”‚Íw’è‚³‚ê‚½ PROPVARIANT \‘¢‘Ì‚É 0 ‚ğ‘‚«‚Ş‚½‚ßAVT Œ^‚Í VT_EMPTY
+‚Æ‚È‚éBpvar ƒpƒ‰ƒ[ƒ^‚É NULL ‚ğ“n‚·‚Æ S_OK ‚Ì–ß‚èƒR[ƒh‚ª•Ô‚³‚ê‚éB’ˆÓFPROPVARIANT
+\‘¢‘Ì‚Ì‰Šú‰»‚É‚Í‚±‚ÌŠÖ”‚ğg—p‚µ‚È‚¢‚±‚ÆB‘ã‚í‚è‚É PropVariantInit ƒ}ƒNƒiPropidl.h
+‚Å’è‹`j‚ğg—p‚µ‚Ä‰Šú‰»‚·‚éB
 
 
 %index
 PropVariantCopy
-The PropVariantCopy function copies the contents of one PROPVARIANT structure to another.
+PropVariantCopy ŠÖ”‚ÍA‚ ‚é PROPVARIANT \‘¢‘Ì‚Ì“à—e‚ğ•Ê‚Ì PROPVARIANT \‘¢‘Ì‚ÉƒRƒs[‚·‚éB
 %group
 Win32 ole32
 %prm
 pvarDest, pvarSrc
-pvarDest : [var] Pointer to an uninitialized PROPVARIANT structure that receives the copy.
-pvarSrc : [var] Pointer to the PROPVARIANT structure to be copied.
+pvarDest : [var] ƒRƒs[‚ğó‚¯æ‚é‰Šú‰»‚³‚ê‚Ä‚¢‚È‚¢ PROPVARIANT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pvarSrc : [var] ƒRƒs[‚³‚ê‚é PROPVARIANT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The PropVariantCopy function copies the contents of one PROPVARIANT
-structure to another.
+PropVariantCopy ŠÖ”‚ÍA‚ ‚é PROPVARIANT \‘¢‘Ì‚Ì“à—e‚ğ•Ê‚Ì PROPVARIANT \‘¢‘Ì‚ÉƒRƒs[‚·‚éB
 
 [–ß‚è’l]
-This function returns HRESULT.
+‚±‚ÌŠÖ”‚Í HRESULT ‚ğ•Ô‚·B
 
 [”õl]
-Copies a PROPVARIANT structure by value so the original pvarSrc and
-new pvarDest parameters may be freed independently with calls to
-PropVariantClear. PropVariantCopy does not free the destination as
-the VariantCopy function does. For nonsimple PROPVARIANT types such
-as VT_STREAM, VT_STORAGE, and so forth, which require a subobject,
-the copy is made by reference. The pointer is copied, and
-[IUnknown::AddRef](../unknwn/nf-unknwn-iunknown-addref.md) is called
-on it. It is illegal to pass NULL for either pvarDest or pvarSrc.
+PROPVARIANT \‘¢‘Ì‚ğ’l‚ÅƒRƒs[‚·‚é‚Ì‚ÅAŒ³‚Ì pvarSrc ‚ÆV‚µ‚¢ pvarDest ƒpƒ‰ƒ[ƒ^‚Í
+PropVariantClear ‚ÌŒÄ‚Ño‚µ‚Å“Æ—§‚É‰ğ•ú‚Å‚«‚éBPropVariantCopy ‚Í VariantCopy
+ŠÖ”‚Ì‚æ‚¤‚Éˆ¶æ‚ğ‰ğ•ú‚µ‚È‚¢BVT_STREAMAVT_STORAGE ‚È‚Ç‚ÌƒTƒuƒIƒuƒWƒFƒNƒg‚ª•K—v‚È”ñƒVƒ“ƒvƒ‹‚È PROPVARIANT
+Œ^‚É‚Â‚¢‚Ä‚ÍAƒRƒs[‚ÍQÆ‚É‚æ‚Á‚Äs‚í‚ê‚éBƒ|ƒCƒ“ƒ^‚ªƒRƒs[‚³‚êA‚»‚ê‚É‘Î‚µ‚Ä
+[IUnknown::AddRef](../unknwn/nf-unknwn-iunknown-addref.md)
+‚ªŒÄ‚Ño‚³‚ê‚éBpvarDest ‚Ü‚½‚Í pvarSrc ‚Ì‚¢‚¸‚ê‚©‚É NULL ‚ğ“n‚·‚±‚Æ‚Íˆá–@‚Å‚ ‚éB
 
 
 %index
 ReadClassStg
-The ReadClassStg function reads the CLSID previously written to a storage object with the WriteClassStg function.
+ReadClassStg ŠÖ”‚ÍAWriteClassStg ŠÖ”‚ÅƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÉˆÈ‘O‘‚«‚Ü‚ê‚½ CLSID ‚ğ“Ç‚İæ‚éB
 %group
 Win32 ole32
 %prm
 pStg, pclsid
-pStg : [var] Pointer to the IStorage interface on the storage object containing the CLSID to be retrieved.
-pclsid : [var] Pointer to where the CLSID is written. May return CLSID_NULL.
+pStg : [var] æ“¾‚·‚é CLSID ‚ğŠÜ‚ŞƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pclsid : [var] CLSID ‚ª‘‚«‚Ü‚ê‚éêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^BCLSID_NULL ‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
 %inst
-The ReadClassStg function reads the CLSID previously written to a
-storage object with the WriteClassStg function.
+ReadClassStg ŠÖ”‚ÍAWriteClassStg ŠÖ”‚ÅƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÉˆÈ‘O‘‚«‚Ü‚ê‚½ CLSID ‚ğ“Ç‚İæ‚éB
 
 [–ß‚è’l]
-This function supports the standard return value E_OUTOFMEMORY, in
-addition to the following: This function also returns any of the
-error values returned by the IStorage::Stat method.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚É‰Á‚¦‚ÄAˆÈ‰º‚ğƒTƒ|[ƒg‚·‚éB‚±‚ÌŠÖ”‚Í IStorage::Stat
+ƒƒ\ƒbƒh‚ª•Ô‚·ƒGƒ‰[’l‚à•Ô‚·B
 
 [”õl]
-ReadClassStg is a helper function that calls the IStorage::Stat
-method and retrieves the CLSID previously written to the storage
-object with a call to WriteClassStg from the STATSTG structure.
+ReadClassStg ‚Í IStorage::Stat ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µAWriteClassStg
+‚ÌŒÄ‚Ño‚µ‚ÅƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÉˆÈ‘O‘‚«‚Ü‚ê‚½ CLSID ‚ğ STATSTG \‘¢‘Ì‚©‚çæ“¾‚·‚éƒwƒ‹ƒp[ŠÖ”‚Å‚ ‚éB
 
 
 %index
 ReadClassStm
-Reads the CLSID previously written to a stream object with the WriteClassStm function.
+WriteClassStm ŠÖ”‚ÅƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÉˆÈ‘O‘‚«‚Ü‚ê‚½ CLSID ‚ğ“Ç‚İæ‚éB
 %group
 Win32 ole32
 %prm
 pStm, pclsid
-pStm : [var] A pointer to the IStream interface on the stream object that contains the CLSID to be read. This CLSID must have been previously written to the stream object using WriteClassStm.
-pclsid : [var] A pointer to where the CLSID is to be written.
+pStm : [var] “Ç‚İæ‚é CLSID ‚ğŠÜ‚ŞƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒgã‚Ì IStream ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì CLSID ‚Í WriteClassStm ‚ğg‚Á‚Ä–‘O‚ÉƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚É‘‚«‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pclsid : [var] CLSID ‚ª‘‚«‚Ü‚ê‚éêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Reads the CLSID previously written to a stream object with the
-WriteClassStm function.
+WriteClassStm ŠÖ”‚ÅƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÉˆÈ‘O‘‚«‚Ü‚ê‚½ CLSID ‚ğ“Ç‚İæ‚éB
 
 [–ß‚è’l]
-This function also returns any of the error values returned by the
-ISequentialStream::Read method.
+‚±‚ÌŠÖ”‚Í ISequentialStream::Read ƒƒ\ƒbƒh‚ª•Ô‚·ƒGƒ‰[’l‚à•Ô‚·B
 
 [”õl]
-Most applications do not call the ReadClassStm function directly. COM
-calls it before making a call to an object's IPersistStream::Load
-implementation.
+‚Ù‚Æ‚ñ‚Ç‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í ReadClassStm ŠÖ”‚ğ’¼ÚŒÄ‚Ño‚³‚È‚¢BCOM ‚ÍƒIƒuƒWƒFƒNƒg‚Ì
+IPersistStream::Load À‘•‚ğŒÄ‚Ño‚·‘O‚É‚±‚ê‚ğŒÄ‚Ño‚·B
 
 
 %index
 ReadFmtUserTypeStg
-The ReadFmtUserTypeStg function returns the clipboard format and user type previously saved with the WriteFmtUserTypeStg function.
+ReadFmtUserTypeStg ŠÖ”‚ÍAWriteFmtUserTypeStg ŠÖ”‚ÅˆÈ‘O•Û‘¶‚³‚ê‚½ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Æƒ†[ƒUƒ^ƒCƒv‚ğ•Ô‚·B
 %group
 Win32 ole32
 %prm
 pstg, pcf, lplpszUserType
-pstg : [var] Pointer to the IStorage interface on the storage object from which the information is to be read.
-pcf : [var] Pointer to where the clipboard format is to be written on return. It can be NULL, indicating the format is of no interest to the caller.
-lplpszUserType : [var] Address of LPWSTR pointer variable that receives a pointer to the null-terminated Unicode user-type string. The caller can specify NULL for this parameter, which indicates that the user type is of no interest. This function allocates memory for the string. The caller is responsible for freeing the memory with CoTaskMemFree.
+pstg : [var] î•ñ‚ğ“Ç‚İæ‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pcf : [var] ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ª–ß‚è‚É‘‚«‚Ü‚ê‚éêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Å‚à‚æ‚­A‚±‚ê‚ÍŒ`®‚ÉŒÄ‚Ño‚µŒ³‚ªŠÖS‚ª‚È‚¢‚±‚Æ‚ğ¦‚·B
+lplpszUserType : [var] null I’[‚Ì Unicode ƒ†[ƒUƒ^ƒCƒv•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é LPWSTR ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXBŒÄ‚Ño‚µŒ³‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^‚É NULL ‚ğw’è‚Å‚«A‚±‚ê‚Íƒ†[ƒUƒ^ƒCƒv‚ÉŠÖS‚ª‚È‚¢‚±‚Æ‚ğ¦‚·B‚±‚ÌŠÖ”‚Í•¶š—ñ‚Ì‚½‚ß‚Ìƒƒ‚ƒŠ‚ğŠ„‚è“–‚Ä‚éBŒÄ‚Ño‚µŒ³‚Í CoTaskMemFree ‚Åƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éÓ”C‚ª‚ ‚éB
 %inst
-The ReadFmtUserTypeStg function returns the clipboard format and user
-type previously saved with the WriteFmtUserTypeStg function.
+ReadFmtUserTypeStg ŠÖ”‚ÍAWriteFmtUserTypeStg
+ŠÖ”‚ÅˆÈ‘O•Û‘¶‚³‚ê‚½ƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Æƒ†[ƒUƒ^ƒCƒv‚ğ•Ô‚·B
 
 [–ß‚è’l]
-This function supports the standard return values E_FAIL,
-E_INVALIDARG, and E_OUTOFMEMORY, in addition to the following: This
-function also returns any of the error values returned by the
-ISequentialStream::Read method.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_FAILAE_INVALIDARGAE_OUTOFMEMORY ‚É‰Á‚¦‚ÄAˆÈ‰º‚ğƒTƒ|[ƒg‚·‚éB‚±‚ÌŠÖ”‚Í
+ISequentialStream::Read ƒƒ\ƒbƒh‚ª•Ô‚·ƒGƒ‰[’l‚à•Ô‚·B
 
 [”õl]
-ReadFmtUserTypeStg returns the clipboard format and the user type
-string from the specified storage object. The WriteClassStg function
-must have been called before calling the ReadFmtUserTypeStg function.
+ReadFmtUserTypeStg
+‚Íw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚©‚çƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Æƒ†[ƒUƒ^ƒCƒv•¶š—ñ‚ğ•Ô‚·BReadFmtUserTypeStg
+ŠÖ”‚ğŒÄ‚Ño‚·‘O‚É WriteClassStg ŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 RegisterDragDrop
-Registers the specified window as one that can be the target of an OLE drag-and-drop operation and specifies the IDropTarget instance to use for drop operations.
+w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ğ OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìƒ^[ƒQƒbƒg‚Æ‚È‚è“¾‚é‚à‚Ì‚Æ‚µ‚Ä“o˜^‚µAƒhƒƒbƒv‘€ì‚Ég—p‚·‚é IDropTarget ƒCƒ“ƒXƒ^ƒ“ƒX‚ğw’è‚·‚éB
 %group
 Win32 ole32
 %prm
 hwnd, pDropTarget
-hwnd : [intptr] Handle to a window that can be a target for an OLE drag-and-drop operation.
-pDropTarget : [var] Pointer to the IDropTarget interface on the object that is to be the target of a drag-and-drop operation in a specified window. This interface is used to communicate OLE drag-and-drop information for that window.
+hwnd : [intptr] OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìƒ^[ƒQƒbƒg‚Æ‚È‚è“¾‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pDropTarget : [var] w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Åƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìƒ^[ƒQƒbƒg‚Æ‚È‚éƒIƒuƒWƒFƒNƒgã‚Ì IDropTarget ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÍA‚»‚ÌƒEƒBƒ“ƒhƒE‚Ì OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒvî•ñ‚ğ“`’B‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB
 %inst
-Registers the specified window as one that can be the target of an
-OLE drag-and-drop operation and specifies the IDropTarget instance to
-use for drop operations.
+w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ğ OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìƒ^[ƒQƒbƒg‚Æ‚È‚è“¾‚é‚à‚Ì‚Æ‚µ‚Ä“o˜^‚µAƒhƒƒbƒv‘€ì‚Ég—p‚·‚é
+IDropTarget ƒCƒ“ƒXƒ^ƒ“ƒX‚ğw’è‚·‚éB
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If your application can accept dropped objects during OLE
-drag-and-drop operations, you must call the RegisterDragDrop
-function. Do this whenever one of your application windows is
-available as a potential drop target, i.e., when the window appears
-unobscured on the screen. The application thread that calls the
-RegisterDragDrop function must be pumping messages, presumably by
-calling the GetMessage function with a NULLhWnd parameter, because
-OLE creates windows on the thread that need messages processed. If
-this requirement is not met, any application that drags an object
-over the window that is registered as a drop target will hang until
-the target application closes. The RegisterDragDrop function only
-registers one window at a time, so you must call it for each
-application window capable of accepting dropped objects. As the mouse
-passes over unobscured portions of the target window during an OLE
-drag-and-drop operation, the DoDragDrop function calls the specified
-IDropTarget::DragOver method for the current window. When a drop
-operation actually occurs in a given window, the DoDragDrop function
-calls IDropTarget::Drop. The RegisterDragDrop function also calls the
-IUnknown::AddRef method on the IDropTarget pointer.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª OLE
+ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì’†‚Éƒhƒƒbƒv‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğó‚¯“ü‚ê‚é‚±‚Æ‚ª‚Å‚«‚éê‡ARegisterDragDrop
+ŠÖ”‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒEƒBƒ“ƒhƒE‚ªöİ“I‚Èƒhƒƒbƒvƒ^[ƒQƒbƒg‚Æ‚µ‚Ä—˜—p‰Â”\‚É‚È‚é‚Æ‚«i‚Â‚Ü‚èAƒEƒBƒ“ƒhƒE‚ª‰æ–Êã‚ÉÕ‚ç‚ê‚¸‚É•\¦‚³‚ê‚Ä‚¢‚é‚Æ‚«jA‚±‚ê‚ğs‚¤BRegisterDragDrop
+ŠÖ”‚ğŒÄ‚Ño‚·ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒXƒŒƒbƒh‚ÍAƒƒbƒZ[ƒW‚ğƒ|ƒ“ƒv‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BOLE
+‚ªƒƒbƒZ[ƒWˆ—‚ğ•K—v‚Æ‚·‚éƒXƒŒƒbƒhã‚ÉƒEƒBƒ“ƒhƒE‚ğì¬‚·‚é‚½‚ßA‚¨‚»‚ç‚­ NULL ‚Ì hWnd ƒpƒ‰ƒ[ƒ^‚Å GetMessage
+ŠÖ”‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB‚±‚Ì—vŒ‚ª–‚½‚³‚ê‚È‚¢ê‡Aƒhƒƒbƒvƒ^[ƒQƒbƒg‚Æ‚µ‚Ä“o˜^‚³‚ê‚½ƒEƒBƒ“ƒhƒEã‚ÉƒIƒuƒWƒFƒNƒg‚ğƒhƒ‰ƒbƒO‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒ^[ƒQƒbƒgƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª•Â‚¶‚é‚Ü‚Åƒnƒ“ƒO‚·‚éBRegisterDragDrop
+ŠÖ”‚Íˆê“x‚É 1
+‚Â‚ÌƒEƒBƒ“ƒhƒE‚µ‚©“o˜^‚µ‚È‚¢‚Ì‚ÅAƒhƒƒbƒv‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğó‚¯“ü‚ê‚é‚±‚Æ‚ª‚Å‚«‚éŠeƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚É‚Â‚¢‚ÄŒÄ‚Ño‚·•K—v‚ª‚ ‚éBOLE
+ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì’†‚Éƒ}ƒEƒX‚ªƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚ÌÕ‚ç‚ê‚Ä‚¢‚È‚¢•”•ª‚ğ’Ê‰ß‚·‚é‚Æ‚«ADoDragDrop
+ŠÖ”‚ÍŒ»İ‚ÌƒEƒBƒ“ƒhƒE‚É‘Î‚µ‚Äw’è‚³‚ê‚½ IDropTarget::DragOver
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·B‚ ‚éƒEƒBƒ“ƒhƒE‚ÅÀÛ‚Éƒhƒƒbƒv‘€ì‚ªs‚í‚ê‚½‚Æ‚«ADoDragDrop ŠÖ”‚Í IDropTarget::Drop
+‚ğŒÄ‚Ño‚·BRegisterDragDrop ŠÖ”‚Í‚Ü‚½ IDropTarget ƒ|ƒCƒ“ƒ^‚É‘Î‚µ‚Ä IUnknown::AddRef
+ƒƒ\ƒbƒh‚àŒÄ‚Ño‚·B
 
 
 %index
 ReleaseStgMedium
-Frees the specified storage medium.
+w’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒƒfƒBƒA‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 ole32
 %prm
 param0
 param0 : [var] 
 %inst
-Frees the specified storage medium.
+w’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒƒfƒBƒA‚ğ‰ğ•ú‚·‚éB
 
 [”õl]
-The ReleaseStgMedium function calls the appropriate method or
-function to release the specified storage medium. Use this function
-during data transfer operations where storage medium structures are
-parameters, such as IDataObject::GetData or IDataObject::SetData. In
-addition to identifying the type of the storage medium, this
-structure specifies the appropriate Release method for releasing the
-storage medium when it is no longer needed. It is common to pass a
-STGMEDIUM from one body of code to another, such as in
-IDataObject::GetData, in which the one called can allocate a medium
-and return it to the caller. ReleaseStgMedium permits flexibility in
-whether the receiving body of code owns the medium, or whether the
-original provider of the medium still owns it, in which case the
-receiving code needs to inform the provider that it can free the
-medium. When the original provider of the medium is responsible for
-freeing the medium, the provider calls ReleaseStgMedium, specifying
-the medium and the appropriate IUnknown pointer as the punkForRelease
-structure member. Depending on the type of storage medium being
-freed, one of the following actions is taken, followed by a call to
-the IUnknown::Release method on the specified IUnknown pointer.
-This doc was truncated.
+ReleaseStgMedium
+ŠÖ”‚Í“KØ‚Èƒƒ\ƒbƒh‚Ü‚½‚ÍŠÖ”‚ğŒÄ‚Ño‚µ‚Äw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒƒfƒBƒA‚ğ‰ğ•ú‚·‚éBƒXƒgƒŒ[ƒWƒƒfƒBƒA\‘¢‘Ì‚ªƒpƒ‰ƒ[ƒ^‚Æ‚È‚é
+IDataObject::GetData ‚â IDataObject::SetData
+‚È‚Ç‚Ìƒf[ƒ^“]‘—‘€ì’†‚É‚±‚ÌŠÖ”‚ğg—p‚·‚éB‚±‚Ì\‘¢‘Ì‚ÍƒXƒgƒŒ[ƒWƒƒfƒBƒA‚Ìí—Ş‚ğ¯•Ê‚·‚é‚¾‚¯‚Å‚È‚­A•s—v‚É‚È‚Á‚½‚Æ‚«‚ÉƒXƒgƒŒ[ƒWƒƒfƒBƒA‚ğ‰ğ•ú‚·‚é‚½‚ß‚Ì“KØ‚È
+Release ƒƒ\ƒbƒh‚àw’è‚·‚éBSTGMEDIUM
+‚ğ‚ ‚éƒR[ƒh–{‘Ì‚©‚ç•Ê‚ÌƒR[ƒh–{‘Ì‚É“n‚·‚±‚Æ‚Íˆê”Ê“I‚Å‚ ‚èAIDataObject::GetData
+‚È‚Ç‚Å‚ÍŒÄ‚Ño‚³‚ê‚½ƒR[ƒh‚ªƒƒfƒBƒA‚ğŠ„‚è“–‚Ä‚ÄŒÄ‚Ño‚µŒ³‚É•Ô‚·‚±‚Æ‚ª‚Å‚«‚éBReleaseStgMedium
+‚ÍAóM‘¤‚ÌƒR[ƒh‚ªƒƒfƒBƒA‚ğŠ—L‚·‚é‚©AŒ³‚ÌƒƒfƒBƒA’ñ‹ŸÒ‚ª‚Ü‚¾Š—L‚µ‚Ä‚¢‚ÄA‚»‚Ìê‡‚ÍóM‘¤ƒR[ƒh‚ª’ñ‹ŸÒ‚ÉƒƒfƒBƒA‚ğ‰ğ•ú‚Å‚«‚é‚±‚Æ‚ğ’Ê’m‚·‚é•K—v‚ª‚ ‚é‚©‚É‚Â‚¢‚Ä‚Ì_“î«‚ğ‰Â”\‚É‚·‚éBŒ³‚ÌƒƒfƒBƒA’ñ‹ŸÒ‚ªƒƒfƒBƒA‚Ì‰ğ•ú‚ÉÓ”C‚ª‚ ‚éê‡A’ñ‹ŸÒ‚Í
+ReleaseStgMedium ‚ğŒÄ‚Ño‚µAƒƒfƒBƒA‚Æ“KØ‚È IUnknown ƒ|ƒCƒ“ƒ^‚ğ punkForRelease
+\‘¢‘Ìƒƒ“ƒo[‚Æ‚µ‚Äw’è‚·‚éB‰ğ•ú‚³‚ê‚éƒXƒgƒŒ[ƒWƒƒfƒBƒA‚Ìí—Ş‚É‰‚¶‚ÄAŸ‚Ì‚¢‚¸‚ê‚©‚ÌƒAƒNƒVƒ‡ƒ“‚ªæ‚ç‚êA‚»‚ÌŒãw’è‚³‚ê‚½
+IUnknown ƒ|ƒCƒ“ƒ^‚É‘Î‚µ‚Ä IUnknown::Release ƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 RevokeDragDrop
-Revokes the registration of the specified application window as a potential target for OLE drag-and-drop operations.
+w’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ğ OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìöİ“I‚Èƒ^[ƒQƒbƒg‚Æ‚µ‚Ä‚Ì“o˜^‚ğæ‚èÁ‚·B
 %group
 Win32 ole32
 %prm
 hwnd
-hwnd : [intptr] Handle to a window previously registered as a target for an OLE drag-and-drop operation.
+hwnd : [intptr] OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìƒ^[ƒQƒbƒg‚Æ‚µ‚ÄˆÈ‘O‚É“o˜^‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Revokes the registration of the specified application window as a
-potential target for OLE drag-and-drop operations.
+w’è‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ğ OLE ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìöİ“I‚Èƒ^[ƒQƒbƒg‚Æ‚µ‚Ä‚Ì“o˜^‚ğæ‚èÁ‚·B
 
 [–ß‚è’l]
-This function returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚É•Ô‚³‚ê‚é’l‚ÍˆÈ‰º‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-When your application window is no longer available as a potential
-target for an OLE drag-and-drop operation, you must call
-RevokeDragDrop. This function calls the IUnknown::Release method for
-your drop target interface.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ª OLE
+ƒhƒ‰ƒbƒOƒAƒ“ƒhƒhƒƒbƒv‘€ì‚Ìöİ“I‚Èƒ^[ƒQƒbƒg‚Æ‚µ‚Ä‚à‚Í‚â—˜—p‰Â”\‚Å‚È‚­‚È‚Á‚½‚Æ‚«‚É‚ÍARevokeDragDrop
+‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚ÌŠÖ”‚Íƒhƒƒbƒvƒ^[ƒQƒbƒgƒCƒ“ƒ^[ƒtƒFƒCƒX‚É‘Î‚µ‚Ä IUnknown::Release ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·B
 
 
 %index
@@ -3406,7 +2873,7 @@ param2 : [var]
 
 %index
 STGMEDIUM_UserFree
-The STGMEDIUM_UserFree function (oleidl.h) frees resources on the server side when called by RPC stub files.
+STGMEDIUM_UserFree ŠÖ”ioleidl.hj‚ÍARPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚ÉƒT[ƒo‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 ole32
 %prm
@@ -3414,13 +2881,13 @@ param0, param1
 param0 : [var] 
 param1 : [var] 
 %inst
-The STGMEDIUM_UserFree function (oleidl.h) frees resources on the
-server side when called by RPC stub files.
+STGMEDIUM_UserFree ŠÖ”ioleidl.hj‚ÍARPC
+ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚ÉƒT[ƒo‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
 
 
 %index
 STGMEDIUM_UserFree64
-The STGMEDIUM_UserFree64 function (oleidl.h) frees resources on the server side when called by RPC stub files.
+STGMEDIUM_UserFree64 ŠÖ”ioleidl.hj‚ÍARPC ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚ÉƒT[ƒo‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 ole32
 %prm
@@ -3428,13 +2895,13 @@ param0, param1
 param0 : [var] 
 param1 : [var] 
 %inst
-The STGMEDIUM_UserFree64 function (oleidl.h) frees resources on the
-server side when called by RPC stub files.
+STGMEDIUM_UserFree64 ŠÖ”ioleidl.hj‚ÍARPC
+ƒXƒ^ƒuƒtƒ@ƒCƒ‹‚©‚çŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚ÉƒT[ƒo‘¤‚ÌƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚éB
 
 
 %index
 STGMEDIUM_UserMarshal
-The STGMEDIUM_UserMarshal function (oleidl.h) marshals a STGMEDIUM object into the RPC buffer.
+STGMEDIUM_UserMarshal ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚Éƒ}[ƒVƒƒƒ‹‚·‚éB
 %group
 Win32 ole32
 %prm
@@ -3443,13 +2910,13 @@ param0 : [var]
 param1 : [var] 
 param2 : [var] 
 %inst
-The STGMEDIUM_UserMarshal function (oleidl.h) marshals a STGMEDIUM
-object into the RPC buffer.
+STGMEDIUM_UserMarshal ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC
+ƒoƒbƒtƒ@‚Éƒ}[ƒVƒƒƒ‹‚·‚éB
 
 
 %index
 STGMEDIUM_UserMarshal64
-The STGMEDIUM_UserMarshal64 function (oleidl.h) marshals a STGMEDIUM object into the RPC buffer.
+STGMEDIUM_UserMarshal64 ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚Éƒ}[ƒVƒƒƒ‹‚·‚éB
 %group
 Win32 ole32
 %prm
@@ -3458,13 +2925,13 @@ param0 : [var]
 param1 : [var] 
 param2 : [var] 
 %inst
-The STGMEDIUM_UserMarshal64 function (oleidl.h) marshals a STGMEDIUM
-object into the RPC buffer.
+STGMEDIUM_UserMarshal64 ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC
+ƒoƒbƒtƒ@‚Éƒ}[ƒVƒƒƒ‹‚·‚éB
 
 
 %index
 STGMEDIUM_UserSize
-The STGMEDIUM_UserSize function (oleidl.h) calculates the wire size of the STGMEDIUM object and gets its handle and data.
+STGMEDIUM_UserSize ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚Ì“]‘—ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB
 %group
 Win32 ole32
 %prm
@@ -3473,13 +2940,13 @@ param0 : [var]
 param1 : [int] 
 param2 : [var] 
 %inst
-The STGMEDIUM_UserSize function (oleidl.h) calculates the wire size
-of the STGMEDIUM object and gets its handle and data.
+STGMEDIUM_UserSize ŠÖ”ioleidl.hj‚ÍASTGMEDIUM
+ƒIƒuƒWƒFƒNƒg‚Ì“]‘—ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB
 
 
 %index
 STGMEDIUM_UserSize64
-The STGMEDIUM_UserSize64 function (oleidl.h) calculates the wire size of the STGMEDIUM object and gets its handle and data.
+STGMEDIUM_UserSize64 ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚Ì“]‘—ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB
 %group
 Win32 ole32
 %prm
@@ -3488,13 +2955,13 @@ param0 : [var]
 param1 : [int] 
 param2 : [var] 
 %inst
-The STGMEDIUM_UserSize64 function (oleidl.h) calculates the wire size
-of the STGMEDIUM object and gets its handle and data.
+STGMEDIUM_UserSize64 ŠÖ”ioleidl.hj‚ÍASTGMEDIUM
+ƒIƒuƒWƒFƒNƒg‚Ì“]‘—ƒTƒCƒY‚ğŒvZ‚µA‚»‚Ìƒnƒ“ƒhƒ‹‚Æƒf[ƒ^‚ğæ“¾‚·‚éB
 
 
 %index
 STGMEDIUM_UserUnmarshal
-The STGMEDIUM_UserUnmarshal function (oleidl.h) unmarshals a STGMEDIUM object from the RPC buffer.
+STGMEDIUM_UserUnmarshal ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚©‚çƒAƒ“ƒ}[ƒVƒƒƒ‹‚·‚éB
 %group
 Win32 ole32
 %prm
@@ -3503,13 +2970,13 @@ param0 : [var]
 param1 : [var] 
 param2 : [var] 
 %inst
-The STGMEDIUM_UserUnmarshal function (oleidl.h) unmarshals a
-STGMEDIUM object from the RPC buffer.
+STGMEDIUM_UserUnmarshal ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC
+ƒoƒbƒtƒ@‚©‚çƒAƒ“ƒ}[ƒVƒƒƒ‹‚·‚éB
 
 
 %index
 STGMEDIUM_UserUnmarshal64
-The STGMEDIUM_UserUnmarshal64 function (oleidl.h) unmarshals a STGMEDIUM object from the RPC buffer.
+STGMEDIUM_UserUnmarshal64 ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC ƒoƒbƒtƒ@‚©‚çƒAƒ“ƒ}[ƒVƒƒƒ‹‚·‚éB
 %group
 Win32 ole32
 %prm
@@ -3518,851 +2985,685 @@ param0 : [var]
 param1 : [var] 
 param2 : [var] 
 %inst
-The STGMEDIUM_UserUnmarshal64 function (oleidl.h) unmarshals a
-STGMEDIUM object from the RPC buffer.
+STGMEDIUM_UserUnmarshal64 ŠÖ”ioleidl.hj‚ÍASTGMEDIUM ƒIƒuƒWƒFƒNƒg‚ğ RPC
+ƒoƒbƒtƒ@‚©‚çƒAƒ“ƒ}[ƒVƒƒƒ‹‚·‚éB
 
 
 %index
 SetConvertStg
-The SetConvertStg function sets the convert bit in a storage object to indicate that the object is to be converted to a new class when it is opened. The setting can be retrieved with a call to the GetConvertStg function.
+SetConvertStg ŠÖ”‚ÍAƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•ÏŠ·ƒrƒbƒg‚ğİ’è‚µAŠJ‚©‚ê‚½‚Æ‚«‚ÉƒIƒuƒWƒFƒNƒg‚ªV‚µ‚¢ƒNƒ‰ƒX‚É•ÏŠ·‚³‚ê‚é‚±‚Æ‚ğ¦‚·Bİ’è‚Í GetConvertStg ŠÖ”‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚Å‚«‚éB
 %group
 Win32 ole32
 %prm
 pStg, fConvert
-pStg : [var] IStorage pointer to the storage object in which to set the conversion bit.
-fConvert : [int] If TRUE, sets the conversion bit for the object to indicate the object is to be converted when opened. If FALSE, clears the conversion bit.
+pStg : [var] •ÏŠ·ƒrƒbƒg‚ğİ’è‚·‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚Ì IStorage ƒ|ƒCƒ“ƒ^B
+fConvert : [int] TRUE ‚Ìê‡AƒIƒuƒWƒFƒNƒg‚Ì•ÏŠ·ƒrƒbƒg‚ğİ’è‚µ‚ÄAŠJ‚©‚ê‚½‚Æ‚«‚ÉƒIƒuƒWƒFƒNƒg‚ª•ÏŠ·‚³‚ê‚é‚±‚Æ‚ğ¦‚·BFALSE ‚Ìê‡A•ÏŠ·ƒrƒbƒg‚ğƒNƒŠƒA‚·‚éB
 %inst
-The SetConvertStg function sets the convert bit in a storage object
-to indicate that the object is to be converted to a new class when it
-is opened. The setting can be retrieved with a call to the
-GetConvertStg function.
+SetConvertStg
+ŠÖ”‚ÍAƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•ÏŠ·ƒrƒbƒg‚ğİ’è‚µAŠJ‚©‚ê‚½‚Æ‚«‚ÉƒIƒuƒWƒFƒNƒg‚ªV‚µ‚¢ƒNƒ‰ƒX‚É•ÏŠ·‚³‚ê‚é‚±‚Æ‚ğ¦‚·Bİ’è‚Í
+GetConvertStg ŠÖ”‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚Å‚«‚éB
 
 [–ß‚è’l]
-See the IStorage::CreateStream, IStorage::OpenStream,
-ISequentialStream::Read, and ISequentialStream::Write methods for
-possible storage and stream access errors.
+
+ƒXƒgƒŒ[ƒW‚ÆƒXƒgƒŠ[ƒ€‚Ö‚ÌƒAƒNƒZƒXƒGƒ‰[‚Ì‰Â”\«‚É‚Â‚¢‚Ä‚ÍAIStorage::CreateStreamAIStorage::OpenStreamAISequentialStream::ReadAISequentialStream::Write
+ƒƒ\ƒbƒh‚ğQÆ‚Ì‚±‚ÆB
 
 [”õl]
-The SetConvertStg function determines the status of the convert bit
-in a contained object. It is called by both the container application
-and the server in the process of converting an object from one class
-to another. When a user specifies through a Convert To dialog (which
-the container produces with a call to the OleUIConvert function) that
-an object is to be converted, the container must take the following
-steps:
-This doc was truncated.
+SetConvertStg
+ŠÖ”‚ÍAƒRƒ“ƒeƒiƒIƒuƒWƒFƒNƒg“à‚Ì•ÏŠ·ƒrƒbƒg‚Ìó‘Ô‚ğŒˆ’è‚·‚éB‚±‚ê‚ÍAƒIƒuƒWƒFƒNƒg‚ğ‚ ‚éƒNƒ‰ƒX‚©‚ç•Ê‚ÌƒNƒ‰ƒX‚É•ÏŠ·‚·‚é‰ß’ö‚ÅAƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÆƒT[ƒo‚Ì—¼•û‚©‚çŒÄ‚Ño‚³‚ê‚éBƒ†[ƒU‚ªiƒRƒ“ƒeƒi‚ª
+OleUIConvert
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚Å¶¬‚·‚éju•ÏŠ·vƒ_ƒCƒAƒƒO‚ğ’Ê‚¶‚ÄƒIƒuƒWƒFƒNƒg‚ğ•ÏŠ·‚·‚é‚±‚Æ‚ğw’è‚·‚é‚ÆAƒRƒ“ƒeƒi‚ÍŸ‚ÌƒXƒeƒbƒv‚ğÀs‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢F
+iˆÈ‰ºÈ—ªj
 
 
 %index
 StgConvertPropertyToVariant
-Converts a SERIALIZEDPROPERTYVALUE data type to a PROPVARIANT data type.
+SERIALIZEDPROPERTYVALUE ƒf[ƒ^Œ^‚ğ PROPVARIANT ƒf[ƒ^Œ^‚É•ÏŠ·‚·‚éB
 %group
 Win32 ole32
 %prm
 pprop, CodePage, pvar, pma
-pprop : [var] A pointer to SERIALIZEDPROPERTYVALUE.
-CodePage : [int] A property set codepage.
-pvar : [var] A pointer to PROPVARIANT.
-pma : [var] A pointer to a class that implements the IMemoryAllocator abstract class.
+pprop : [var] SERIALIZEDPROPERTYVALUE ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+CodePage : [int] ƒvƒƒpƒeƒBƒZƒbƒg‚ÌƒR[ƒhƒy[ƒWB
+pvar : [var] PROPVARIANT ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pma : [var] IMemoryAllocator ’ŠÛƒNƒ‰ƒX‚ğÀ‘•‚·‚éƒNƒ‰ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Converts a SERIALIZEDPROPERTYVALUE data type to a PROPVARIANT data
-type.
+SERIALIZEDPROPERTYVALUE ƒf[ƒ^Œ^‚ğ PROPVARIANT ƒf[ƒ^Œ^‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-Returns TRUE is the property converted was an indirect type
-(VT_STREAM or VT_STREAMED_OBJECT); otherwise FALSE.
+•ÏŠ·‚³‚ê‚½ƒvƒƒpƒeƒB‚ªŠÔÚŒ^iVT_STREAM ‚Ü‚½‚Í VT_STREAMED_OBJECTj‚Å‚ ‚Á‚½ê‡‚Í TRUE
+‚ğ•Ô‚µA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-This function converts a property to a PROPVARIANT data type. If the
-function fails, it throws an exception that represents an NT_STATUS
-such as STATUS_INVALID_PARAMETER.
+‚±‚ÌŠÖ”‚ÍƒvƒƒpƒeƒB‚ğ PROPVARIANT ƒf[ƒ^Œ^‚É•ÏŠ·‚·‚éBŠÖ”‚ª¸”s‚µ‚½ê‡‚Í STATUS_INVALID_PARAMETER
+‚È‚Ç‚Ì NT_STATUS ‚ğ•\‚·—áŠO‚ğƒXƒ[‚·‚éB
 
 
 %index
 StgConvertVariantToProperty
-Converts a PROPVARIANT data type to a SERIALIZEDPROPERTYVALUE data type.
+PROPVARIANT ƒf[ƒ^Œ^‚ğ SERIALIZEDPROPERTYVALUE ƒf[ƒ^Œ^‚É•ÏŠ·‚·‚éB
 %group
 Win32 ole32
 %prm
 pvar, CodePage, pprop, pcb, pid, fReserved, pcIndirect
-pvar : [var] A  pointer to PROPVARIANT.
-CodePage : [int] A property set codepage.
-pprop : [var] Optional. A pointer to SERIALIZEDPROPERTYVALUE.
-pcb : [var] A pointer to the remaining stream length, updated to the actual property size on return.
-pid : [int] The propid (used if indirect).
-fReserved : [int] Reserver. The value must be FALSE.
-pcIndirect : [var] Optional. A pointer to the indirect property count.
+pvar : [var] PROPVARIANT ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+CodePage : [int] ƒvƒƒpƒeƒBƒZƒbƒg‚ÌƒR[ƒhƒy[ƒWB
+pprop : [var] ƒIƒvƒVƒ‡ƒ“BSERIALIZEDPROPERTYVALUE ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pcb : [var] c‚è‚ÌƒXƒgƒŠ[ƒ€’·‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÅA–ß‚è‚ÉÀÛ‚ÌƒvƒƒpƒeƒBƒTƒCƒY‚ÉXV‚³‚ê‚éB
+pid : [int] propidiŠÔÚ‚Ìê‡‚Ég—p‚³‚ê‚éjB
+fReserved : [int] —\–ñB’l‚Í FALSE ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pcIndirect : [var] ƒIƒvƒVƒ‡ƒ“BŠÔÚƒvƒƒpƒeƒBƒJƒEƒ“ƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Converts a PROPVARIANT data type to a SERIALIZEDPROPERTYVALUE data
-type.
+PROPVARIANT ƒf[ƒ^Œ^‚ğ SERIALIZEDPROPERTYVALUE ƒf[ƒ^Œ^‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-Returns a pointer to SERIALIZEDPROPERTYVALUE.
+SERIALIZEDPROPERTYVALUE ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B
 
 [”õl]
-This function converts a PROPVARIANT to a property. If the function
-fails it throws an exception that represents STATUS_INVALID_PARAMETER
-NT_STATUS.
+‚±‚ÌŠÖ”‚Í PROPVARIANT ‚ğƒvƒƒpƒeƒB‚É•ÏŠ·‚·‚éBŠÖ”‚ª¸”s‚µ‚½ê‡‚Í STATUS_INVALID_PARAMETER
+NT_STATUS ‚ğ•\‚·—áŠO‚ğƒXƒ[‚·‚éB
 
 
 %index
 StgCreateDocfile
-Creates a new compound file storage object using the COM-provided compound file implementation for the IStorage interface.
+IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì COM ‚ª’ñ‹Ÿ‚·‚é•¡‡ƒtƒ@ƒCƒ‹À‘•‚ğg—p‚µ‚ÄAV‚µ‚¢•¡‡ƒtƒ@ƒCƒ‹ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 pwcsName, grfMode, reserved, ppstgOpen
-pwcsName : [wstr] A pointer to a null-terminated Unicode string name for the compound file being created. It is passed uninterpreted to the file system. This can be a relative name or NULL. If NULL, a temporary compound file is allocated with a unique name.
-grfMode : [int] Specifies the access mode to use when opening the new storage object. For more information, see STGM Constants. If the caller specifies transacted mode together with STGM_CREATE or STGM_CONVERT, the overwrite or conversion takes place when the commit operation is called for the root storage. If IStorage::Commit is not called for the root storage object, previous contents of the file will be restored. STGM_CREATE and STGM_CONVERT cannot be combined with the STGM_NOSNAPSHOT flag, because a snapshot copy is required when a file is overwritten or converted in the transacted mode.
-reserved : [int] Reserved for future use; must be zero.
-ppstgOpen : [var] A pointer to the location of the IStorage pointer to the new storage object.
+pwcsName : [wstr] ì¬‚³‚ê‚é•¡‡ƒtƒ@ƒCƒ‹‚Ì null I’[‚Ì Unicode •¶š—ñ–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í‰ğß‚³‚ê‚¸‚Éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚É“n‚³‚ê‚éB‚±‚ê‚Í‘Š‘Î–¼‚Ü‚½‚Í NULL ‚Å‚à‚æ‚¢BNULL ‚Ìê‡AˆêˆÓ‚Ì–¼‘O‚Åˆê“I‚È•¡‡ƒtƒ@ƒCƒ‹‚ªŠ„‚è“–‚Ä‚ç‚ê‚éB
+grfMode : [int] V‚µ‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­‚Æ‚«‚Ég—p‚·‚éƒAƒNƒZƒXƒ‚[ƒh‚ğw’è‚·‚éBÚ×‚É‚Â‚¢‚Ä‚Í STGM Constants ‚ğQÆ‚Ì‚±‚ÆBŒÄ‚Ño‚µŒ³‚ªƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚Æ STGM_CREATE ‚Ü‚½‚Í STGM_CONVERT ‚ğˆê‚Éw’è‚µ‚½ê‡Aã‘‚«‚Ü‚½‚Í•ÏŠ·‚Íƒ‹[ƒgƒXƒgƒŒ[ƒW‚É‘Î‚µ‚Ä commit ‘€ì‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚É”­¶‚·‚éBƒ‹[ƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä IStorage::Commit ‚ªŒÄ‚Ño‚³‚ê‚È‚©‚Á‚½ê‡Aƒtƒ@ƒCƒ‹‚ÌˆÈ‘O‚Ì“à—e‚ª•œŒ³‚³‚ê‚éBSTGM_CREATE ‚¨‚æ‚Ñ STGM_CONVERT ‚Í STGM_NOSNAPSHOT ƒtƒ‰ƒO‚Æ‘g‚İ‡‚í‚¹‚é‚±‚Æ‚ª‚Å‚«‚È‚¢B‚±‚ê‚ÍAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚Åƒtƒ@ƒCƒ‹‚ğã‘‚«‚Ü‚½‚Í•ÏŠ·‚·‚éÛ‚ÉƒXƒiƒbƒvƒVƒ‡ƒbƒgƒRƒs[‚ª•K—v‚Æ‚È‚é‚½‚ß‚Å‚ ‚éB
+reserved : [int] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¨‚èAƒ[ƒ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppstgOpen : [var] V‚µ‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚Ì IStorage ƒ|ƒCƒ“ƒ^‚ÌêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Creates a new compound file storage object using the COM-provided
-compound file implementation for the IStorage interface.
+IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì COM ‚ª’ñ‹Ÿ‚·‚é•¡‡ƒtƒ@ƒCƒ‹À‘•‚ğg—p‚µ‚ÄAV‚µ‚¢•¡‡ƒtƒ@ƒCƒ‹ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-StgCreateDocfile can also return any file system errors or system
-errors wrapped in an HRESULT. For more information, see Error
-Handling Strategies and Handling Unknown Errors.
+StgCreateDocfile ‚Í HRESULT ‚Éƒ‰ƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒGƒ‰[‚âƒVƒXƒeƒ€ƒGƒ‰[‚à•Ô‚·‚±‚Æ‚ª‚ ‚éBÚ×‚É‚Â‚¢‚Ä‚Í
+Error Handling Strategies ‚Æ Handling Unknown Errors ‚ğQÆ‚Ì‚±‚ÆB
 
 [”õl]
-The StgCreateDocfile function creates a new storage object using the
-COM-provided, compound-file implementation for the IStorage
-interface. The name of the open compound file can be retrieved by
-calling the IStorage::Stat method. StgCreateDocfile creates the file
-if it does not exist. If it does exist, the use of the STGM_CREATE,
-STGM_CONVERT, and STGM_FAILIFTHERE flags in the grfMode parameter
-indicate how to proceed. For more information, see STGM Constants. If
-the compound file is opened in transacted mode (the grfMode parameter
-specifies STGM_TRANSACTED) and a file with this name already exists,
-the existing file is not altered until all outstanding changes are
-committed. If the calling process lacks write access to the existing
-file (because of access control in the file system), the grfMode
-parameter can only specify STGM_READ and not STGM_WRITE or
-STGM_READWRITE. The resulting new open compound file can still be
-written to, but a subsequent commit operation will fail (in
-transacted mode, write permissions are enforced at commit time).
-Specifying STGM_SIMPLE provides a much faster implementation of a
-compound file object in a limited, but frequently used case. This can
-be used by applications that require a compound-file implementation
-with multiple streams and no storages. The simple mode does not
-support all of the methods on IStorage. For more information, see
-STGM Constants. If the grfMode parameter specifies STGM_TRANSACTED
-and no file yet exists with the name specified by the pwcsName
-parameter, the file is created immediately. In an access-controlled
-file system, the caller must have write permissions in the file
-system directory in which the compound file is created. If
-STGM_TRANSACTED is not specified, and STGM_CREATE is specified, an
-existing file with the same name is destroyed before the new file is
-created. StgCreateDocfile can be used to create a temporary compound
-file by passing a NULL value for the pwcsName parameter. However,
-these files are temporary only in the sense that they have a
-system-provided unique name ? likely one that is meaningless to the
-user. The caller is responsible for deleting the temporary file when
-finished with it, unless STGM_DELETEONRELEASE was specified for the
-grfMode parameter.
+StgCreateDocfile ŠÖ”‚ÍAIStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì COM
+‚ª’ñ‹Ÿ‚·‚é•¡‡ƒtƒ@ƒCƒ‹À‘•‚ğg—p‚µ‚ÄV‚µ‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBŠJ‚©‚ê‚½•¡‡ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚Í IStorage::Stat
+ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ‚Åæ“¾‚Å‚«‚éBStgCreateDocfile ‚Íƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢ê‡‚Éì¬‚·‚éB‘¶İ‚·‚éê‡AgrfMode
+ƒpƒ‰ƒ[ƒ^‚Å‚Ì STGM_CREATEASTGM_CONVERTASTGM_FAILIFTHERE
+ƒtƒ‰ƒO‚Ìg—p•û–@‚ªˆ—•û–@‚ğ¦‚·BÚ×‚É‚Â‚¢‚Ä‚Í STGM Constants
+‚ğQÆ‚Ì‚±‚ÆB•¡‡ƒtƒ@ƒCƒ‹‚ªƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒhigrfMode ƒpƒ‰ƒ[ƒ^‚ª STGM_TRANSACTED
+‚ğw’èj‚ÅŠJ‚©‚ê‚Ä‚¨‚èA‚±‚Ì–¼‘O‚Ìƒtƒ@ƒCƒ‹‚ª‚·‚Å‚É‘¶İ‚·‚éê‡A–¢ˆ—‚Ì•ÏX‚ª‚·‚×‚ÄƒRƒ~ƒbƒg‚³‚ê‚é‚Ü‚ÅŠù‘¶‚Ìƒtƒ@ƒCƒ‹‚Í•ÏX‚³‚ê‚È‚¢BŒÄ‚Ño‚µƒvƒƒZƒX‚ªŠù‘¶‚Ìƒtƒ@ƒCƒ‹‚Ö‚Ì‘‚«‚İƒAƒNƒZƒX‚ğŒ‡‚¢‚Ä‚¢‚éê‡iƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÌƒAƒNƒZƒX§Œä‚É‚æ‚éjAgrfMode
+ƒpƒ‰ƒ[ƒ^‚Í STGM_READ ‚Ì‚İ‚ğw’è‚Å‚«ASTGM_WRITE ‚â STGM_READWRITE
+‚Íw’è‚Å‚«‚È‚¢BŒ‹‰Ê‚Æ‚µ‚ÄV‚µ‚­ŠJ‚©‚ê‚½•¡‡ƒtƒ@ƒCƒ‹‚É‚Í‘‚«‚İ‰Â”\‚¾‚ªA‚»‚ÌŒã‚Ì commit
+‘€ì‚Í¸”s‚·‚éiƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚Å‚ÍA‘‚«‚İŒ ŒÀ‚ÍƒRƒ~ƒbƒg‚É‹­§‚³‚ê‚éjBSTGM_SIMPLE
+‚ğw’è‚·‚é‚ÆA•¡”‚ÌƒXƒgƒŠ[ƒ€‚Æ no storages
+‚ğ•K—v‚Æ‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å•p”É‚Ég—p‚³‚ê‚éŒÀ’è“I‚ÈƒP[ƒX‚Å•¡‡ƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚Ì‚Í‚é‚©‚É‚‘¬‚ÈÀ‘•‚ğ’ñ‹Ÿ‚·‚éBƒVƒ“ƒvƒ‹ƒ‚[ƒh‚Í
+IStorage ã‚Ì‚·‚×‚Ä‚Ìƒƒ\ƒbƒh‚ğƒTƒ|[ƒg‚µ‚È‚¢BÚ×‚É‚Â‚¢‚Ä‚Í STGM Constants ‚ğQÆ‚Ì‚±‚ÆBgrfMode
+ƒpƒ‰ƒ[ƒ^‚ª STGM_TRANSACTED ‚ğw’è‚µ‚Ä‚¨‚èApwcsName
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½–¼‘O‚Ìƒtƒ@ƒCƒ‹‚ª‚Ü‚¾‘¶İ‚µ‚È‚¢ê‡Aƒtƒ@ƒCƒ‹‚Í‘¦À‚Éì¬‚³‚ê‚éBƒAƒNƒZƒX§Œä‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Å‚ÍAŒÄ‚Ño‚µŒ³‚Í•¡‡ƒtƒ@ƒCƒ‹‚ªì¬‚³‚ê‚éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ì‘‚«‚İŒ ŒÀ‚ğ‚½‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BSTGM_TRANSACTED
+‚ªw’è‚³‚ê‚Ä‚¨‚ç‚¸ STGM_CREATE
+‚ªw’è‚³‚ê‚Ä‚¢‚éê‡AV‚µ‚¢ƒtƒ@ƒCƒ‹‚ªì¬‚³‚ê‚é‘O‚É“¯‚¶–¼‘O‚ÌŠù‘¶ƒtƒ@ƒCƒ‹‚ª”jŠü‚³‚ê‚éBStgCreateDocfile ‚Í
+pwcsName ƒpƒ‰ƒ[ƒ^‚É NULL
+’l‚ğ“n‚·‚±‚Æ‚Åˆê“I‚È•¡‡ƒtƒ@ƒCƒ‹‚ğì¬‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB‚½‚¾‚µA‚±‚ê‚ç‚Ìƒtƒ@ƒCƒ‹‚ÍAƒVƒXƒeƒ€‚ª’ñ‹Ÿ‚·‚éˆêˆÓ‚Ì–¼‘Oi‚¨‚»‚ç‚­ƒ†[ƒU‚É‚Æ‚Á‚ÄˆÓ–¡‚Ì‚È‚¢–¼‘Oj‚ğ‚Â‚Æ‚¢‚¤ˆÓ–¡‚Å‚Ì‚İˆê“I‚Å‚ ‚éBSTGM_DELETEONRELEASE
+‚ª grfMode ƒpƒ‰ƒ[ƒ^‚Éw’è‚³‚ê‚Ä‚¢‚È‚¢ŒÀ‚èAI—¹‚Éˆêƒtƒ@ƒCƒ‹‚ğíœ‚·‚éÓ”C‚ÍŒÄ‚Ño‚µŒ³‚É‚ ‚éB
 
 
 %index
 StgCreateDocfileOnILockBytes
-Creates and opens a new compound file storage object on top of a byte-array object provided by the caller.
+ŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚Ìã‚ÉV‚µ‚¢•¡‡ƒtƒ@ƒCƒ‹ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚µ‚ÄŠJ‚­B
 %group
 Win32 ole32
 %prm
 plkbyt, grfMode, reserved, ppstgOpen
-plkbyt : [var] A pointer to the ILockBytes interface on the underlying byte-array object on which to create a compound file.
-grfMode : [int] Specifies the access mode to use when opening the new compound file. For more information, see STGM Constants and the Remarks section below.
-reserved : [int] Reserved for future use; must be zero.
-ppstgOpen : [var] A pointer to the location of the IStorage pointer on the new storage object.
+plkbyt : [var] •¡‡ƒtƒ@ƒCƒ‹‚ğì¬‚·‚éŠî‘b‚Æ‚È‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒgã‚Ì ILockBytes ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+grfMode : [int] V‚µ‚¢•¡‡ƒtƒ@ƒCƒ‹‚ğŠJ‚­‚Æ‚«‚Ég—p‚·‚éƒAƒNƒZƒXƒ‚[ƒh‚ğw’è‚·‚éBÚ×‚É‚Â‚¢‚Ä‚Í STGM Constants ‚ÆŒãq‚Ì Remarks ‚ğQÆ‚Ì‚±‚ÆB
+reserved : [int] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¨‚èAƒ[ƒ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppstgOpen : [var] V‚µ‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒ|ƒCƒ“ƒ^‚ÌêŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Creates and opens a new compound file storage object on top of a
-byte-array object provided by the caller.
+ŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚Ìã‚ÉV‚µ‚¢•¡‡ƒtƒ@ƒCƒ‹ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚µ‚ÄŠJ‚­B
 
 [–ß‚è’l]
-The StgCreateDocfileOnILockBytes function can also return any file
-system errors, or system errors wrapped in an HRESULT, or ILockBytes
-interface error return values. For more information, see Error
-Handling Strategies and Handling Unknown Errors.
+StgCreateDocfileOnILockBytes ŠÖ”‚Í HRESULT
+‚Éƒ‰ƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒGƒ‰[‚âƒVƒXƒeƒ€ƒGƒ‰[A‚Ü‚½‚Í ILockBytes
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒGƒ‰[–ß‚è’l‚à•Ô‚·‚±‚Æ‚ª‚ ‚éBÚ×‚É‚Â‚¢‚Ä‚Í Error Handling Strategies ‚Æ Handling
+Unknown Errors ‚ğQÆ‚Ì‚±‚ÆB
 
 [”õl]
-The StgCreateDocfileOnILockBytes function creates a storage object on
-top of a byte array object using the COM-provided, compound-file
-implementation of the IStorage interface.
-StgCreateDocfileOnILockBytes can be used to store a document in an
-arbitrary data store, such as memory or a relational database. The
-byte array (indicated by the pLkbyt parameter, which points to the
-ILockBytes interface on the object) is used for the underlying
-storage in place of a disk file. Except for specifying a
-programmer-provided byte-array object, StgCreateDocfileOnILockBytes
-is similar to the StgCreateDocfile function. The newly created
-compound file is opened according to the access modes in the grfMode
-parameter, subject to the following restrictions: Sharing mode
-behavior and transactional isolation depend on the ILockBytes
-implementation supporting LockRegion and UnlockRegion with
-LOCK_ONLYONCE semantics. Implementations can indicate to structured
-storage they support this functionality by setting the LOCK_ONLYONCE
-bit in the grfLocksSupported member of STATSTG. If an ILockBytes
-implementation does not support this functionality, sharing modes
-will not be enforced, and root-level transactional commits will not
-coordinate properly with other transactional instances opened on the
-same byte array. Applications that use an ILockBytes implementation
-that does not support region locking, such as the
-CreateStreamOnHGlobal implementation, should avoid opening multiple
-concurrent instances on the same byte array.
-StgCreateDocfileOnILockBytes does not support simple mode. The
-STGM_SIMPLE flag, if present, is ignored. For conversion purposes,
-the file is considered to already exist. As a result, it is not
-useful to use the STGM_FAILIFTHERE value, because it causes an error
-to be returned. However, both STGM_CREATE and STGM_CONVERT remain
-useful. The ability to build a compound file on top of a byte-array
-object is provided to support having the data (underneath an IStorage
-and IStream tree structure) live in a nonpersistent space. Given this
-capability, there is nothing preventing a document that is stored in
-a file from using this facility. For example, a container might do
-this to minimize the impact on its file format caused by adopting
-COM. However, it is recommended that COM documents adopt the IStorage
-interface for their own outer-level storage. This has the following
-advantages:
-This doc was truncated.
+StgCreateDocfileOnILockBytes ŠÖ”‚ÍAIStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì COM
+‚ª’ñ‹Ÿ‚·‚é•¡‡ƒtƒ@ƒCƒ‹À‘•‚ğg—p‚µ‚ÄAƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚Ìã‚ÉƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBStgCreateDocfileOnILockBytes
+‚ÍAƒƒ‚ƒŠ‚âƒŠƒŒ[ƒVƒ‡ƒiƒ‹ƒf[ƒ^ƒx[ƒX‚È‚Ç‚Ì”CˆÓ‚Ìƒf[ƒ^ƒXƒgƒA‚ÉƒhƒLƒ…ƒƒ“ƒg‚ğŠi”[‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éBƒoƒCƒg”z—ñipLkbyt
+ƒpƒ‰ƒ[ƒ^‚ªw‚·B‚±‚ê‚ÍƒIƒuƒWƒFƒNƒgã‚Ì ILockBytes
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğw‚·j‚ÍAƒfƒBƒXƒNƒtƒ@ƒCƒ‹‚Ì‘ã‚í‚è‚ÉŠî‘b‚Æ‚È‚éƒXƒgƒŒ[ƒW‚Æ‚µ‚Äg—p‚³‚ê‚éBƒvƒƒOƒ‰ƒ}‚ª’ñ‹Ÿ‚·‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚é‚±‚Æ‚ğœ‚¯‚ÎAStgCreateDocfileOnILockBytes
+‚Í StgCreateDocfile ŠÖ”‚É—‚Ä‚¢‚éBV‚µ‚­ì¬‚³‚ê‚½•¡‡ƒtƒ@ƒCƒ‹‚Í grfMode
+ƒpƒ‰ƒ[ƒ^‚ÌƒAƒNƒZƒXƒ‚[ƒh‚É]‚Á‚ÄŠJ‚©‚ê‚é‚ªAŸ‚Ì§–ñ‚É]‚¤F‹¤—Lƒ‚[ƒh‚Ì“®ì‚Æƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“•ª—£‚ÍALOCK_ONLYONCE
+ƒZƒ}ƒ“ƒeƒBƒNƒX‚Å‚Ì LockRegion ‚Æ UnlockRegion ‚ğƒTƒ|[ƒg‚·‚é ILockBytes À‘•‚ÉˆË‘¶‚·‚éBÀ‘•‚Í
+STATSTG ‚Ì grfLocksSupported ƒƒ“ƒo[‚É LOCK_ONLYONCE
+ƒrƒbƒg‚ğİ’è‚·‚é‚±‚Æ‚ÅA\‘¢‰»ƒXƒgƒŒ[ƒW‚É‚±‚Ì‹@”\‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚±‚Æ‚ğ¦‚·‚±‚Æ‚ª‚Å‚«‚éBILockBytes
+À‘•‚ª‚±‚Ì‹@”\‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡A‹¤—Lƒ‚[ƒh‚Í‹­§‚³‚ê‚¸Aƒ‹[ƒgƒŒƒxƒ‹‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒRƒ~ƒbƒg‚Í“¯‚¶ƒoƒCƒg”z—ñã‚ÅŠJ‚©‚ê‚½‘¼‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚Æ“KØ‚É‹¦’²‚µ‚È‚¢BCreateStreamOnHGlobal
+À‘•‚Ì‚æ‚¤‚È—ÌˆæƒƒbƒN‚ğƒTƒ|[ƒg‚µ‚È‚¢ ILockBytes
+À‘•‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA“¯‚¶ƒoƒCƒg”z—ñã‚Å•¡”‚Ì“¯ƒCƒ“ƒXƒ^ƒ“ƒX‚ğŠJ‚­‚±‚Æ‚ğ”ğ‚¯‚é‚×‚«‚Å‚ ‚éBStgCreateDocfileOnILockBytes
+‚ÍƒVƒ“ƒvƒ‹ƒ‚[ƒh‚ğƒTƒ|[ƒg‚µ‚È‚¢BSTGM_SIMPLE
+ƒtƒ‰ƒO‚ª‘¶İ‚·‚éê‡‚Í–³‹‚³‚ê‚éB•ÏŠ·–Ú“I‚Å‚ÍAƒtƒ@ƒCƒ‹‚Í‚·‚Å‚É‘¶İ‚·‚é‚Æ‚İ‚È‚³‚ê‚éB‚»‚ÌŒ‹‰ÊAƒGƒ‰[‚ª•Ô‚³‚ê‚é‚½‚ß
+STGM_FAILIFTHERE ’l‚ğg—p‚·‚é‚±‚Æ‚Í—L—p‚Å‚Í‚È‚¢B‚µ‚©‚µASTGM_CREATE ‚Æ STGM_CONVERT
+‚ÍˆË‘R‚Æ‚µ‚Ä—L—p‚Å‚ ‚éBƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚Ìã‚É•¡‡ƒtƒ@ƒCƒ‹‚ğ\’z‚Å‚«‚é‹@”\‚ÍAƒf[ƒ^iIStorage ‚Æ IStream
+ƒcƒŠ[\‘¢‚Ì‰ºj‚ğ”ñ‰i‘±“I‚È‹óŠÔ‚É’u‚­‹@”\‚ğƒTƒ|[ƒg‚·‚é‚½‚ß‚É’ñ‹Ÿ‚³‚ê‚Ä‚¢‚éB‚±‚Ì‹@”\‚ğl‚¦‚é‚ÆAƒtƒ@ƒCƒ‹‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒhƒLƒ…ƒƒ“ƒg‚ª‚±‚Ì‹@”\‚ğg—p‚·‚é‚±‚Æ‚ğ–W‚°‚é‚à‚Ì‚Í‚È‚¢B‚½‚Æ‚¦‚ÎAƒRƒ“ƒeƒi‚Í
+COM ‚ÌÌ—p‚É‚æ‚Á‚Ä©•ª‚Ìƒtƒ@ƒCƒ‹Œ`®‚É—^‚¦‚é‰e‹¿‚ğÅ¬‰»‚·‚é‚½‚ß‚É‚±‚ê‚ğs‚¤‚©‚à‚µ‚ê‚È‚¢B‚µ‚©‚µACOM
+ƒhƒLƒ…ƒƒ“ƒg‚Í“Æ©‚ÌÅŠOŠkƒXƒgƒŒ[ƒW‚Ì‚½‚ß‚É IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğÌ—p‚·‚é‚±‚Æ‚ª„§‚³‚ê‚éB‚±‚ê‚É‚ÍŸ‚Ì—˜“_‚ª‚ ‚éF
+iˆÈ‰ºÈ—ªj
 
 
 %index
 StgCreatePropSetStg
-Creates a property set storage object from a specified storage object.
+w’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚©‚çƒvƒƒpƒeƒBƒZƒbƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 pStorage, dwReserved, ppPropSetStg
-pStorage : [var] A pointer to the storage object that contains or will contain one or more property sets.
-dwReserved : [int] Reserved for future use; must be zero.
-ppPropSetStg : [var] A pointer to IPropertySetStorage* pointer variable that receives the interface pointer to the property-set storage object.
+pStorage : [var] 1 ‚ÂˆÈã‚ÌƒvƒƒpƒeƒBƒZƒbƒg‚ğŠÜ‚ŞA‚Ü‚½‚ÍŠÜ‚Ş‚±‚Æ‚É‚È‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+dwReserved : [int] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¨‚èAƒ[ƒ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppPropSetStg : [var] ƒvƒƒpƒeƒBƒZƒbƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IPropertySetStorage* ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Creates a property set storage object from a specified storage
-object.
+w’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚©‚çƒvƒƒpƒeƒBƒZƒbƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function supports the standard return value E_INVALIDARG as well
-as the following:
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARG ‚É‰Á‚¦‚ÄAˆÈ‰º‚ğƒTƒ|[ƒg‚·‚éF
 
 [”õl]
-The StgCreatePropSetStg function creates an IPropertySetStorage
-interface that will act on the given IStorage interface specified by
-the pStorage parameter. This function does not modify this IStorage
-by itself, although subsequent calls to the IPropertySetStorage
-interface might. StgCreatePropSetStg calls IUnknown::AddRef on the
-storage object specified by pStorage. The caller must release the
-object when it is no longer required by calling Release.
+StgCreatePropSetStg ŠÖ”‚ÍApStorage ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒXã‚Å“®ì‚·‚é
+IPropertySetStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğì¬‚·‚éB‚±‚ÌŠÖ”‚Í‚»‚ê©‘Ì‚Å‚Í‚±‚Ì IStorage ‚ğ•ÏX‚µ‚È‚¢‚ªA‚»‚ÌŒã‚Ì
+IPropertySetStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚ÌŒÄ‚Ño‚µ‚Í•ÏX‚·‚é‰Â”\«‚ª‚ ‚éBStgCreatePropSetStg ‚Í
+pStorage ‚Åw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä IUnknown::AddRef
+‚ğŒÄ‚Ño‚·BŒÄ‚Ño‚µŒ³‚ÍƒIƒuƒWƒFƒNƒg‚ª•s—v‚É‚È‚Á‚½‚ç Release ‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 StgCreatePropStg
-Creates and opens a property set in a specified storage or stream object.
+w’è‚³‚ê‚½ƒXƒgƒŒ[ƒW‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg“à‚ÉƒvƒƒpƒeƒBƒZƒbƒg‚ğì¬‚µ‚ÄŠJ‚­B
 %group
 Win32 ole32
 %prm
 pUnk, fmtid, pclsid, grfFlags, dwReserved, ppPropStg
-pUnk : [var] A pointer to the IUnknown interface on the storage or stream object that stores the new property set.
-fmtid : [var] The FMTID of the property set to be created.
-pclsid : [var] A Pointer to the initial CLSID for this property set. May be NULL, in which case pclsid is set to all zeroes.
-grfFlags : [int] The values from PROPSETFLAG Constants that determine how the property set is created and opened.
-dwReserved : [int] Reserved; must be zero.
-ppPropStg : [var] The address of an IPropertyStorage* pointer variable that receives the interface pointer to the new property set.
+pUnk : [var] V‚µ‚¢ƒvƒƒpƒeƒBƒZƒbƒg‚ğŠi”[‚·‚éƒXƒgƒŒ[ƒW‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fmtid : [var] ì¬‚³‚ê‚éƒvƒƒpƒeƒBƒZƒbƒg‚Ì FMTIDB
+pclsid : [var] ‚±‚ÌƒvƒƒpƒeƒBƒZƒbƒg‚Ì‰Šú CLSID ‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Å‚à‚æ‚­A‚»‚Ìê‡ pclsid ‚Í‚·‚×‚Äƒ[ƒ‚Éİ’è‚³‚ê‚éB
+grfFlags : [int] ƒvƒƒpƒeƒBƒZƒbƒg‚ª‚Ç‚Ì‚æ‚¤‚Éì¬‚³‚êŠJ‚©‚ê‚é‚©‚ğŒˆ’è‚·‚éAPROPSETFLAG Constants ‚©‚ç‚Ì’lB
+dwReserved : [int] —\–ñBƒ[ƒ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppPropStg : [var] V‚µ‚¢ƒvƒƒpƒeƒBƒZƒbƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IPropertyStorage* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB
 %inst
-Creates and opens a property set in a specified storage or stream
-object.
+w’è‚³‚ê‚½ƒXƒgƒŒ[ƒW‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg“à‚ÉƒvƒƒpƒeƒBƒZƒbƒg‚ğì¬‚µ‚ÄŠJ‚­B
 
 [–ß‚è’l]
-This function supports the standard return values E_INVALIDARG and
-E_UNEXPECTED, in addition to the following:
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARG ‚Æ E_UNEXPECTED ‚É‰Á‚¦‚ÄAˆÈ‰º‚ğƒTƒ|[ƒg‚·‚éF
 
 [”õl]
-StgCreatePropStg creates and opens a new property set which supplies
-the system-provided, stand-alone implementation of the
-IPropertyStorage interface. The new property set is contained in the
-storage or stream object specified by pUnk. The value of the grfFlags
-parameter indicates whether pUnk specifies a storage or stream
-object. For example, if PROPSETFLAG_NONSIMPLE is set, then pUnk can
-be queried for an IStorage interface on a storage object. In either
-case, this function calls pUnk->AddRef for the storage or stream
-object containing the property set. It is the responsibility of the
-caller to release the object when it is no longer needed. This
-function is similar to the IPropertySetStorage::Create method.
-However, StgCreatePropStg adds the pUnk parameter and supports the
-PROPSETFLAG_UNBUFFERED value for the grfFlags parameter. Use this
-function instead of the Create method if you have an IStorage
-interface that does not support the IPropertySetStorage interface, or
-if you want to use the PROPSETFLAG_UNBUFFERED value. For more
-information about using this PROPSETFLAG_UNBUFFERED enumeration
-value, see PROPSETFLAG Constants. The property set automatically
-contains code page and locale identifier (ID) properties. These are
-set to the current system default and the current user default,
-respectively. The grfFlags parameter is a combination of values taken
-from PROPSETFLAG Constants. The new enumeration value
-PROPSETFLAG_UNBUFFERED is supported. For more information, see
-PROPSETFLAG Constants. This function is exported out of the
-redistributable Iprop.dll, which is included in Windows NT 4.0 with
-Service Pack 2 (SP2) and later and available as a redistributable in
-Windows 95, Windows 98 and later. In Windows 2000 and Windows XP, it
-is exported out of ole32.dll. It can also be exported out of
-iprop.dll in Windows 2000 and Windows XP, but the call gets forwarded
-to ole32.dll.
+StgCreatePropStg ‚ÍV‚µ‚¢ƒvƒƒpƒeƒBƒZƒbƒg‚ğì¬‚µ‚ÄŠJ‚«AIPropertyStorage
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒVƒXƒeƒ€’ñ‹Ÿ‚ÌƒXƒ^ƒ“ƒhƒAƒƒ“À‘•‚ğ’ñ‹Ÿ‚·‚éBV‚µ‚¢ƒvƒƒpƒeƒBƒZƒbƒg‚Í pUnk
+‚Åw’è‚³‚ê‚½ƒXƒgƒŒ[ƒW‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÉŠÜ‚Ü‚ê‚éBgrfFlags ƒpƒ‰ƒ[ƒ^‚Ì’l‚ÍApUnk
+‚ªƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚é‚©ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚é‚©‚ğ¦‚·B‚½‚Æ‚¦‚ÎAPROPSETFLAG_NONSIMPLE
+‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡ApUnk ‚ÍƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚É‚Â‚¢‚ÄƒNƒGƒŠ‚Å‚«‚éB‚¢‚¸‚ê‚Ìê‡‚àA‚±‚ÌŠÖ”‚ÍƒvƒƒpƒeƒBƒZƒbƒg‚ğŠÜ‚ŞƒXƒgƒŒ[ƒW‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä
+pUnk->AddRef ‚ğŒÄ‚Ño‚·BƒIƒuƒWƒFƒNƒg‚ª•s—v‚É‚È‚Á‚½‚ç‰ğ•ú‚·‚é‚Ì‚ÍŒÄ‚Ño‚µŒ³‚ÌÓ”C‚Å‚ ‚éB‚±‚ÌŠÖ”‚Í
+IPropertySetStorage::Create ƒƒ\ƒbƒh‚É—‚Ä‚¢‚éB‚½‚¾‚µAStgCreatePropStg ‚Í pUnk
+ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á‚µAgrfFlags ƒpƒ‰ƒ[ƒ^‚Ì PROPSETFLAG_UNBUFFERED
+’l‚ğƒTƒ|[ƒg‚·‚éBIPropertySetStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğƒTƒ|[ƒg‚µ‚È‚¢ IStorage
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª‚ ‚éê‡A‚Ü‚½‚Í PROPSETFLAG_UNBUFFERED ’l‚ğg—p‚µ‚½‚¢ê‡‚ÍACreate
+ƒƒ\ƒbƒh‚Ì‘ã‚í‚è‚É‚±‚ÌŠÖ”‚ğg—p‚·‚éBPROPSETFLAG_UNBUFFERED —ñ‹“’l‚Ìg—p•û–@‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+PROPSETFLAG Constants
+‚ğQÆ‚Ì‚±‚ÆBƒvƒƒpƒeƒBƒZƒbƒg‚Í©“®“I‚ÉƒR[ƒhƒy[ƒW‚ÆƒƒP[ƒ‹¯•ÊqiIDjƒvƒƒpƒeƒB‚ğŠÜ‚ŞB‚±‚ê‚ç‚Í‚»‚ê‚¼‚êŒ»İ‚ÌƒVƒXƒeƒ€‚ÌŠù’è’l‚ÆŒ»İ‚Ìƒ†[ƒU‚ÌŠù’è’l‚Éİ’è‚³‚ê‚éBgrfFlags
+ƒpƒ‰ƒ[ƒ^‚Í PROPSETFLAG Constants ‚©‚ç‚Ì’l‚Ì‘g‚İ‡‚í‚¹‚Å‚ ‚éBV‚µ‚¢—ñ‹“’l
+PROPSETFLAG_UNBUFFERED ‚ªƒTƒ|[ƒg‚³‚ê‚éBÚ×‚É‚Â‚¢‚Ä‚Í PROPSETFLAG Constants
+‚ğQÆ‚Ì‚±‚ÆB‚±‚ÌŠÖ”‚ÍÄ”Ğ•z‰Â”\‚È Iprop.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¨‚èA‚±‚ê‚Í Windows NT 4.0 with
+Service Pack 2 (SP2) ˆÈ~‚ÉŠÜ‚Ü‚ê‚Ä‚¨‚èAWindows 95AWindows 98
+ˆÈ~‚Å‚ÍÄ”Ğ•z‰Â”\‚Æ‚µ‚Ä—˜—p‚Å‚«‚éBWindows 2000 ‚Æ Windows XP ‚Å‚Í ole32.dll
+‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows 2000 ‚Æ Windows XP ‚Å‚Í iprop.dll
+‚©‚ç‚àƒGƒNƒXƒ|[ƒg‚Å‚«‚é‚ªAŒÄ‚Ño‚µ‚Í ole32.dll ‚É“]‘—‚³‚ê‚éB
 
 
 %index
 StgCreateStorageEx
-Creates a new storage object using a provided implementation for the IStorage or IPropertySetStorage interfaces.
+IStorage ‚Ü‚½‚Í IPropertySetStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì’ñ‹Ÿ‚³‚ê‚½À‘•‚ğg—p‚µ‚ÄV‚µ‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 pwcsName, grfMode, stgfmt, grfAttrs, pStgOptions, pSecurityDescriptor, riid, ppObjectOpen
-pwcsName : [wstr] A pointer to the path of the file to create. It is passed uninterpreted to the file system. This can be a relative name or NULL. If NULL, a temporary file is allocated with a unique name. If non-NULL, the string size must not exceed MAX_PATH characters.
-grfMode : [int] A value that specifies the access mode to use when opening the new storage object. For more information, see STGM Constants. If the caller specifies transacted mode together with STGM_CREATE or STGM_CONVERT, the overwrite or conversion takes place when the commit operation is called for the root storage. If IStorage::Commit is not called for the root storage object, previous contents of the file will be restored. STGM_CREATE and STGM_CONVERT cannot be combined with the STGM_NOSNAPSHOT flag, because a snapshot copy is required when a file is overwritten or converted in the transacted mode.
-stgfmt : [int] A value that specifies the storage file format. For more information, see the STGFMT enumeration.
-grfAttrs : [int] A value that depends on the value of the stgfmt parameter.
-pStgOptions : [var] The pStgOptions parameter is valid only if the stgfmt parameter is set to STGFMT_DOCFILE. If the stgfmt parameter is set to STGFMT_DOCFILE, pStgOptions points to the STGOPTIONS structure, which specifies features of the storage object, such as the sector size. This parameter may be NULL, which creates a storage object with a default sector size of 512 bytes. If non-NULL, the ulSectorSize member must be set to either 512 or 4096. If set to 4096, STGM_SIMPLE may not be specified in the grfMode parameter. The usVersion member must be set before calling StgCreateStorageEx. For more information, see STGOPTIONS.
-pSecurityDescriptor : [int] Enables the ACLs to be set when the file is created. If not NULL, needs to be a pointer to the  SECURITY_ATTRIBUTES structure. See CreateFile for information on how to set ACLs on files. Windows Server?2003, Windows?2000 Server, Windows?XP and Windows?2000 Professional:??Value must be NULL.
-riid : [var] A value that specifies the interface identifier (IID) of the interface pointer to return. This IID may be for the IStorage interface or the IPropertySetStorage interface.
-ppObjectOpen : [var] A pointer to an interface pointer variable that receives a pointer for an interface on the new storage object; contains NULL if operation failed.
+pwcsName : [wstr] ì¬‚·‚éƒtƒ@ƒCƒ‹‚ÌƒpƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í‰ğß‚³‚ê‚¸‚Éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚É“n‚³‚ê‚éB‚±‚ê‚Í‘Š‘Î–¼‚Ü‚½‚Í NULL ‚Å‚à‚æ‚¢BNULL ‚Ìê‡AˆêˆÓ‚Ì–¼‘O‚Åˆêƒtƒ@ƒCƒ‹‚ªŠ„‚è“–‚Ä‚ç‚ê‚éBNULL ‚Å‚È‚¢ê‡A•¶š—ñ‚ÌƒTƒCƒY‚Í MAX_PATH •¶š‚ğ’´‚¦‚Ä‚Í‚È‚ç‚È‚¢B
+grfMode : [int] V‚µ‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­‚Æ‚«‚Ég—p‚·‚éƒAƒNƒZƒXƒ‚[ƒh‚ğw’è‚·‚é’lBÚ×‚É‚Â‚¢‚Ä‚Í STGM Constants ‚ğQÆ‚Ì‚±‚ÆBŒÄ‚Ño‚µŒ³‚ªƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚Æ STGM_CREATE ‚Ü‚½‚Í STGM_CONVERT ‚ğˆê‚Éw’è‚µ‚½ê‡Aã‘‚«‚Ü‚½‚Í•ÏŠ·‚Íƒ‹[ƒgƒXƒgƒŒ[ƒW‚É‘Î‚µ‚Ä commit ‘€ì‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚É”­¶‚·‚éBƒ‹[ƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä IStorage::Commit ‚ªŒÄ‚Ño‚³‚ê‚È‚©‚Á‚½ê‡Aƒtƒ@ƒCƒ‹‚ÌˆÈ‘O‚Ì“à—e‚ª•œŒ³‚³‚ê‚éBSTGM_CREATE ‚¨‚æ‚Ñ STGM_CONVERT ‚Í STGM_NOSNAPSHOT ƒtƒ‰ƒO‚Æ‘g‚İ‡‚í‚¹‚é‚±‚Æ‚ª‚Å‚«‚È‚¢B‚±‚ê‚ÍAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚Åƒtƒ@ƒCƒ‹‚ğã‘‚«‚Ü‚½‚Í•ÏŠ·‚·‚éÛ‚ÉƒXƒiƒbƒvƒVƒ‡ƒbƒgƒRƒs[‚ª•K—v‚Æ‚È‚é‚½‚ß‚Å‚ ‚éB
+stgfmt : [int] ƒXƒgƒŒ[ƒWƒtƒ@ƒCƒ‹Œ`®‚ğw’è‚·‚é’lBÚ×‚É‚Â‚¢‚Ä‚Í STGFMT —ñ‹“‚ğQÆ‚Ì‚±‚ÆB
+grfAttrs : [int] stgfmt ƒpƒ‰ƒ[ƒ^‚Ì’l‚ÉˆË‘¶‚·‚é’lB
+pStgOptions : [var] pStgOptions ƒpƒ‰ƒ[ƒ^‚Í stgfmt ƒpƒ‰ƒ[ƒ^‚ª STGFMT_DOCFILE ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡‚Ì‚İ—LŒø‚Å‚ ‚éBstgfmt ƒpƒ‰ƒ[ƒ^‚ª STGFMT_DOCFILE ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡ApStgOptions ‚Í STGOPTIONS \‘¢‘Ì‚ğw‚·B‚±‚ê‚ÍƒZƒNƒ^ƒTƒCƒY‚È‚Ç‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ì‹@”\‚ğw’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚­A‚»‚Ìê‡‚ÍŠù’è‚Ì 512 ƒoƒCƒg‚ÌƒZƒNƒ^ƒTƒCƒY‚ÅƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ªì¬‚³‚ê‚éBNULL ‚Å‚È‚¢ê‡AulSectorSize ƒƒ“ƒo[‚Í 512 ‚Ü‚½‚Í 4096 ‚Ì‚¢‚¸‚ê‚©‚Éİ’è‚·‚é•K—v‚ª‚ ‚éB4096 ‚Éİ’è‚³‚ê‚½ê‡AgrfMode ƒpƒ‰ƒ[ƒ^‚É STGM_SIMPLE ‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BusVersion ƒƒ“ƒo[‚Í StgCreateStorageEx ‚ğŒÄ‚Ño‚·‘O‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚É‚Â‚¢‚Ä‚Í STGOPTIONS ‚ğQÆ‚Ì‚±‚ÆB
+pSecurityDescriptor : [int] ƒtƒ@ƒCƒ‹‚ªì¬‚³‚ê‚é‚Æ‚«‚É ACL ‚ğİ’è‚Å‚«‚é‚æ‚¤‚É‚·‚éBNULL ‚Å‚È‚¢ê‡ASECURITY_ATTRIBUTES \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚é•K—v‚ª‚ ‚éBƒtƒ@ƒCƒ‹‚É ACL ‚ğİ’è‚·‚é•û–@‚É‚Â‚¢‚Ä‚Í CreateFile ‚ğQÆ‚Ì‚±‚ÆBWindows Server 2003AWindows 2000 ServerAWindows XPAWindows 2000 ProfessionalF’l‚Í NULL ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+riid : [var] •Ô‚³‚ê‚éƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX¯•ÊqiIIDj‚ğw’è‚·‚é’lB‚±‚Ì IID ‚Í IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ü‚½‚Í IPropertySetStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì‚à‚Ì‚Å‚æ‚¢B
+ppObjectOpen : [var] V‚µ‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‘€ì‚ª¸”s‚µ‚½ê‡‚Í NULL ‚ğŠÜ‚ŞB
 %inst
-Creates a new storage object using a provided implementation for the
-IStorage or IPropertySetStorage interfaces.
+IStorage ‚Ü‚½‚Í IPropertySetStorage
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ì’ñ‹Ÿ‚³‚ê‚½À‘•‚ğg—p‚µ‚ÄV‚µ‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function can also return any file system errors or system errors
-wrapped in an HRESULT. For more information, see Error Handling
-Strategies and Handling Unknown Errors.
+‚±‚ÌŠÖ”‚Í HRESULT ‚Éƒ‰ƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒGƒ‰[‚âƒVƒXƒeƒ€ƒGƒ‰[‚à•Ô‚·‚±‚Æ‚ª‚ ‚éBÚ×‚É‚Â‚¢‚Ä‚Í Error
+Handling Strategies ‚Æ Handling Unknown Errors ‚ğQÆ‚Ì‚±‚ÆB
 
 [”õl]
-When an application modifies its file, it usually creates a copy of
-the original. The StgCreateStorageEx function is one way for creating
-a copy. This function works indirectly with the Encrypting File
-System (EFS) duplication API. When you use this function, you will
-need to set the options for the file storage in the STGOPTIONS
-structure. StgCreateStorageEx is a superset of the StgCreateDocfile
-function, and should be used by new code. Future enhancements to
-Structured Storage will be exposed through the StgCreateStorageEx
-function. See the following Requirements section for information on
-supported platforms. The StgCreateStorageEx function creates a new
-storage object using one of the system-provided, structured-storage
-implementations. This function can be used to obtain an IStorage
-compound file implementation, an IPropertySetStorage compound file
-implementation, or to obtain an IPropertySetStorage NTFS
-implementation. When a new file is created, the storage
-implementation used depends on the flag that you specify and on the
-type of drive on which the file is stored. For more information, see
-the STGFMT enumeration. StgCreateStorageEx creates the file if it
-does not exist. If it does exist, the use of the STGM_CREATE,
-STGM_CONVERT, and STGM_FAILIFTHERE flags in the grfMode parameter
-indicate how to proceed. For more information on these values, see
-STGM Constants. It is not valid, in direct mode, to specify the
-STGM_READ mode in the grfMode parameter (direct mode is indicated by
-not specifying the STGM_TRANSACTED flag). This function cannot be
-used to open an existing file; use the StgOpenStorageEx function
-instead. You can use the StgCreateStorageEx function to get access to
-the root storage of a structured-storage document or the property set
-storage of any file that supports property sets. See the STGFMT
-documentation for information about which IIDs are supported for
-different STGFMT values. When a file is created with this function to
-access the NTFS property set implementation, special sharing rules
-apply. For more information, see IPropertySetStorage-NTFS
-Implementation. If a compound file is created in transacted mode (by
-specifying STGM_TRANSACTED) and read-only mode (by specifying
-STGM_READ), it is possible to make changes to the returned storage
-object. For example, it is possible to call IStorage::CreateStream.
-However, it is not possible to commit those changes by calling
-IStorage::Commit. Therefore, such changes will be lost. Specifying
-STGM_SIMPLE provides a much faster implementation of a compound file
-object in a limited, but frequently used case involving applications
-that require a compound file implementation with multiple streams and
-no storages. For more information, see STGM Constants. It is not
-valid to specify that STGM_TRANSACTED if STGM_SIMPLE is specified.
-The simple mode does not support all the methods on IStorage.
-Specifically, in simple mode, supported IStorage methods are
-CreateStream, Commit, and SetClass as well as the COM IUnknown
-methods of QueryInterface, AddRef and Release. In addition,
-SetElementTimes is supported with a NULL name, allowing applications
-to set times on a root storage. All the other methods of IStorage
-return STG_E_INVALIDFUNCTION. If the grfMode parameter specifies
-STGM_TRANSACTED and no file yet exists with the name specified by the
-pwcsName parameter, the file is created immediately. In an
-access-controlled file system, the caller must have write permissions
-for the file system directory in which the compound file is created.
-If STGM_TRANSACTED is not specified, and STGM_CREATE is specified, an
-existing file with the same name is destroyed before creating the new
-file. You can also use StgCreateStorageEx to create a temporary
-compound file by passing a NULL value for the pwcsName parameter.
-However, these files are temporary only in the sense that they have a
-unique system-provided name ? one that is probably meaningless to the
-user. The caller is responsible for deleting the temporary file when
-finished with it, unless STGM_DELETEONRELEASE was specified for the
-grfMode parameter. For more information on these flags, see STGM
-Constants.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‚»‚Ìƒtƒ@ƒCƒ‹‚ğ•ÏX‚·‚é‚Æ‚«A’Êí‚ÍŒ³‚ÌƒRƒs[‚ğì¬‚·‚éBStgCreateStorageEx ŠÖ”‚ÍƒRƒs[‚ğì¬‚·‚é 1
+‚Â‚Ì•û–@‚Å‚ ‚éB‚±‚ÌŠÖ”‚ÍˆÃ†‰»ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€iEFSj‚Ì•¡» API
+‚ÆŠÔÚ“I‚É“®ì‚·‚éB‚±‚ÌŠÖ”‚ğg—p‚·‚é‚Æ‚«‚ÍASTGOPTIONS
+\‘¢‘Ì‚Åƒtƒ@ƒCƒ‹ƒXƒgƒŒ[ƒW‚ÌƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚é•K—v‚ª‚ ‚éBStgCreateStorageEx ‚Í StgCreateDocfile
+ŠÖ”‚ÌƒX[ƒp[ƒZƒbƒg‚Å‚ ‚èAV‚µ‚¢ƒR[ƒh‚Å‚Íg—p‚·‚×‚«‚Å‚ ‚éB\‘¢‰»ƒXƒgƒŒ[ƒW‚Ö‚Ì¡Œã‚ÌŠg’£‚Í StgCreateStorageEx
+ŠÖ”‚ğ’Ê‚¶‚ÄŒöŠJ‚³‚ê‚éBƒTƒ|[ƒg‚³‚ê‚éƒvƒ‰ƒbƒgƒtƒH[ƒ€‚É‚Â‚¢‚Ä‚ÍŸ‚Ì Requirements
+ƒZƒNƒVƒ‡ƒ“‚ğQÆ‚Ì‚±‚ÆBStgCreateStorageEx ŠÖ”‚ÍƒVƒXƒeƒ€‚ª’ñ‹Ÿ‚·‚é\‘¢‰»ƒXƒgƒŒ[ƒWÀ‘•‚Ì 1
+‚Â‚ğg—p‚µ‚ÄV‚µ‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‚±‚ÌŠÖ”‚Í IStorage •¡‡ƒtƒ@ƒCƒ‹À‘•AIPropertySetStorage
+•¡‡ƒtƒ@ƒCƒ‹À‘•A‚Ü‚½‚Í IPropertySetStorage NTFS
+À‘•‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éBV‚µ‚¢ƒtƒ@ƒCƒ‹‚ªì¬‚³‚ê‚é‚Æ‚«Ag—p‚³‚ê‚éƒXƒgƒŒ[ƒWÀ‘•‚Íw’è‚·‚éƒtƒ‰ƒO‚Æƒtƒ@ƒCƒ‹‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒhƒ‰ƒCƒu‚Ìí—Ş‚ÉˆË‘¶‚·‚éBÚ×‚É‚Â‚¢‚Ä‚Í
+STGFMT —ñ‹“‚ğQÆ‚Ì‚±‚ÆBStgCreateStorageEx ‚Íƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢ê‡‚Éì¬‚·‚éB‘¶İ‚·‚éê‡AgrfMode
+ƒpƒ‰ƒ[ƒ^‚Å‚Ì STGM_CREATEASTGM_CONVERTASTGM_FAILIFTHERE
+ƒtƒ‰ƒO‚Ìg—p•û–@‚ªˆ—•û–@‚ğ¦‚·B‚±‚ê‚ç‚Ì’l‚ÌÚ×‚É‚Â‚¢‚Ä‚Í STGM Constants
+‚ğQÆ‚Ì‚±‚ÆB’¼Úƒ‚[ƒhiSTGM_TRANSACTED ƒtƒ‰ƒO‚ğw’è‚µ‚È‚¢‚±‚Æ‚Å¦‚³‚ê‚éj‚Å grfMode ƒpƒ‰ƒ[ƒ^‚É
+STGM_READ ƒ‚[ƒh‚ğw’è‚·‚é‚±‚Æ‚Í–³Œø‚Å‚ ‚éB‚±‚ÌŠÖ”‚ÍŠù‘¶‚Ìƒtƒ@ƒCƒ‹‚ğŠJ‚­‚½‚ß‚Ég—p‚Å‚«‚È‚¢B‘ã‚í‚è‚É
+StgOpenStorageEx ŠÖ”‚ğg—p‚·‚éBStgCreateStorageEx
+ŠÖ”‚ğg—p‚µ‚ÄA\‘¢‰»ƒXƒgƒŒ[ƒWƒhƒLƒ…ƒƒ“ƒg‚Ìƒ‹[ƒgƒXƒgƒŒ[ƒW‚âAƒvƒƒpƒeƒBƒZƒbƒg‚ğƒTƒ|[ƒg‚·‚é”CˆÓ‚Ìƒtƒ@ƒCƒ‹‚ÌƒvƒƒpƒeƒBƒZƒbƒgƒXƒgƒŒ[ƒW‚ÉƒAƒNƒZƒX‚Å‚«‚éB‚³‚Ü‚´‚Ü‚È
+STGFMT ’l‚É‘Î‚µ‚Ä‚Ç‚Ì IID ‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚É‚Â‚¢‚Ä‚Í STGFMT ‚ÌƒhƒLƒ…ƒƒ“ƒg‚ğQÆ‚Ì‚±‚ÆBNTFS
+ƒvƒƒpƒeƒBƒZƒbƒgÀ‘•‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚Åƒtƒ@ƒCƒ‹‚ªì¬‚³‚ê‚éê‡A“Á•Ê‚È‹¤—Lƒ‹[ƒ‹‚ª“K—p‚³‚ê‚éBÚ×‚É‚Â‚¢‚Ä‚Í
+IPropertySetStorage-NTFS Implementation
+‚ğQÆ‚Ì‚±‚ÆB•¡‡ƒtƒ@ƒCƒ‹‚ªƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒhiSTGM_TRANSACTED ‚ğw’èj‚Æ“Ç‚İæ‚èê—pƒ‚[ƒhiSTGM_READ
+‚ğw’èj‚Åì¬‚³‚ê‚éê‡A•Ô‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É•ÏX‚ğ‰Á‚¦‚é‚±‚Æ‚ª‰Â”\‚Å‚ ‚éB‚½‚Æ‚¦‚Î
+IStorage::CreateStream ‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB‚µ‚©‚µAIStorage::Commit
+‚ğŒÄ‚Ño‚µ‚Ä‚»‚ê‚ç‚Ì•ÏX‚ğƒRƒ~ƒbƒg‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B‚µ‚½‚ª‚Á‚ÄA‚»‚Ì‚æ‚¤‚È•ÏX‚Í¸‚í‚ê‚éBSTGM_SIMPLE
+‚ğw’è‚·‚é‚ÆA•¡”‚ÌƒXƒgƒŠ[ƒ€‚Æ no storages
+‚ğ•K—v‚Æ‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ”º‚¤ŒÀ’è“I‚¾‚ª•p”É‚Ég—p‚³‚ê‚éƒP[ƒX‚Å•¡‡ƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚Ì‚Í‚é‚©‚É‚‘¬‚ÈÀ‘•‚ğ’ñ‹Ÿ‚·‚éBÚ×‚É‚Â‚¢‚Ä‚Í
+STGM Constants ‚ğQÆ‚Ì‚±‚ÆBSTGM_SIMPLE ‚ªw’è‚³‚ê‚Ä‚¢‚éê‡‚É STGM_TRANSACTED
+‚ğw’è‚·‚é‚±‚Æ‚Í–³Œø‚Å‚ ‚éBƒVƒ“ƒvƒ‹ƒ‚[ƒh‚Í IStorage
+ã‚Ì‚·‚×‚Ä‚Ìƒƒ\ƒbƒh‚ğƒTƒ|[ƒg‚µ‚È‚¢B‹ï‘Ì“I‚É‚ÍƒVƒ“ƒvƒ‹ƒ‚[ƒh‚ÅƒTƒ|[ƒg‚³‚ê‚é IStorage ƒƒ\ƒbƒh‚Í
+CreateStreamACommitASetClassA‚¨‚æ‚Ñ COM IUnknown ƒƒ\ƒbƒh‚Ì
+QueryInterfaceAAddRefARelease ‚Å‚ ‚éB‚³‚ç‚É SetElementTimes ‚Í NULL
+–¼‚Å‘Î‰‚³‚ê‚Ä‚¨‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒ‹[ƒgƒXƒgƒŒ[ƒW‚É‚ğİ’è‚Å‚«‚éBIStorage ‚Ì‘¼‚Ì‚·‚×‚Ä‚Ìƒƒ\ƒbƒh‚Í
+STG_E_INVALIDFUNCTION ‚ğ•Ô‚·BgrfMode ƒpƒ‰ƒ[ƒ^‚ª STGM_TRANSACTED
+‚ğw’è‚µ‚Ä‚¨‚èApwcsName
+ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½–¼‘O‚Ìƒtƒ@ƒCƒ‹‚ª‚Ü‚¾‘¶İ‚µ‚È‚¢ê‡Aƒtƒ@ƒCƒ‹‚Í‘¦À‚Éì¬‚³‚ê‚éBƒAƒNƒZƒX§Œä‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Å‚ÍAŒÄ‚Ño‚µŒ³‚Í•¡‡ƒtƒ@ƒCƒ‹‚ªì¬‚³‚ê‚éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ì‘‚«‚İŒ ŒÀ‚ğ‚½‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BSTGM_TRANSACTED
+‚ªw’è‚³‚ê‚Ä‚¨‚ç‚¸ STGM_CREATE
+‚ªw’è‚³‚ê‚Ä‚¢‚éê‡AV‚µ‚¢ƒtƒ@ƒCƒ‹‚ğì¬‚·‚é‘O‚É“¯‚¶–¼‘O‚ÌŠù‘¶ƒtƒ@ƒCƒ‹‚ª”jŠü‚³‚ê‚éBpwcsName ƒpƒ‰ƒ[ƒ^‚É NULL
+’l‚ğ“n‚·‚±‚Æ‚ÅAStgCreateStorageEx
+‚ğg—p‚µ‚Äˆê“I‚È•¡‡ƒtƒ@ƒCƒ‹‚ğì¬‚·‚é‚±‚Æ‚à‚Å‚«‚éB‚½‚¾‚µA‚±‚ê‚ç‚Ìƒtƒ@ƒCƒ‹‚ÍAƒVƒXƒeƒ€‚ª’ñ‹Ÿ‚·‚éˆêˆÓ‚Ì–¼‘Oi‚¨‚»‚ç‚­ƒ†[ƒU‚É‚Æ‚Á‚ÄˆÓ–¡‚Ì‚È‚¢–¼‘Oj‚ğ‚Â‚Æ‚¢‚¤ˆÓ–¡‚Å‚Ì‚İˆê“I‚Å‚ ‚éBSTGM_DELETEONRELEASE
+‚ª grfMode ƒpƒ‰ƒ[ƒ^‚Éw’è‚³‚ê‚Ä‚¢‚È‚¢ŒÀ‚èAI—¹‚Éˆêƒtƒ@ƒCƒ‹‚ğíœ‚·‚éÓ”C‚ÍŒÄ‚Ño‚µŒ³‚É‚ ‚éB‚±‚ê‚ç‚Ìƒtƒ‰ƒO‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+STGM Constants ‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 StgGetIFillLockBytesOnFile
-Opens a wrapper object on a temporary file.
+ˆêƒtƒ@ƒCƒ‹ã‚Éƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
 %group
 Win32 ole32
 %prm
 pwcsName, ppflb
-pwcsName : [wstr] A pointer to the null-terminated unicode string name of the file for which a wrapper object is created.
-ppflb : [var] A pointer to IFillLockBytes* pointer variable that receives the interface pointer to the new byte array wrapper object.
+pwcsName : [wstr] ƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚ªì¬‚³‚ê‚éƒtƒ@ƒCƒ‹‚Ì null I’[‚Ì Unicode •¶š—ñ–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppflb : [var] V‚µ‚¢ƒoƒCƒg”z—ñƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IFillLockBytes* ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Opens a wrapper object on a temporary file.
+ˆêƒtƒ@ƒCƒ‹ã‚Éƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
 
 [–ß‚è’l]
-This function supports the standard return values E_OUTOFMEMORY,
-E_UNEXPECTED, E_INVALIDARG, and E_FAIL, in addition to the following:
-The StgGetIFillLockBytesOnFile function can also return any file
-system errors.
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORYAE_UNEXPECTEDAE_INVALIDARGAE_FAIL
+‚É‰Á‚¦‚ÄAˆÈ‰º‚ğƒTƒ|[ƒg‚·‚éBStgGetIFillLockBytesOnFile ŠÖ”‚Íƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒGƒ‰[‚à•Ô‚·‚±‚Æ‚ª‚ ‚éB
 
 [”õl]
-The moniker that manages the downloading of the file specified in
-pwcsName calls this function in the course of creating the
-asynchronous storage necessary to manage the asynchronous downloading
-of data. The moniker first creates a temporary file, then calls this
-function to create the wrapper object on that file. Finally, the
-moniker calls StgOpenAsyncDocfileOnIFillLockBytes to open the root
-storage of the compound file to be downloaded into the temporary
-file.
+pwcsName
+‚Åw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ìƒ_ƒEƒ“ƒ[ƒh‚ğŠÇ—‚·‚éƒ‚ƒjƒJ‚ÍAƒf[ƒ^‚Ì”ñ“¯Šúƒ_ƒEƒ“ƒ[ƒh‚ğŠÇ—‚·‚é‚½‚ß‚É•K—v‚È”ñ“¯ŠúƒXƒgƒŒ[ƒW‚ğì¬‚·‚é‰ß’ö‚Å‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·Bƒ‚ƒjƒJ‚Í‚Ü‚¸ˆêƒtƒ@ƒCƒ‹‚ğì¬‚µAŸ‚É‚»‚Ìƒtƒ@ƒCƒ‹ã‚Éƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·BÅŒã‚ÉAƒ‚ƒjƒJ‚Í
+StgOpenAsyncDocfileOnIFillLockBytes
+‚ğŒÄ‚Ño‚µ‚ÄAˆêƒtƒ@ƒCƒ‹‚Éƒ_ƒEƒ“ƒ[ƒh‚³‚ê‚é•¡‡ƒtƒ@ƒCƒ‹‚Ìƒ‹[ƒgƒXƒgƒŒ[ƒW‚ğŠJ‚­B
 
 
 %index
 StgGetIFillLockBytesOnILockBytes
-Creates a new wrapper object on a byte array object provided by the caller.
+ŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒgã‚ÉV‚µ‚¢ƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 Win32 ole32
 %prm
 pilb, ppflb
-pilb : [var] Pointer to an existing byte array object.
-ppflb : [var] Pointer to IFillLockBytes pointer variable that receives the interface pointer to the new byte array wrapper object.
+pilb : [var] Šù‘¶‚ÌƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppflb : [var] V‚µ‚¢ƒoƒCƒg”z—ñƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IFillLockBytes ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Creates a new wrapper object on a byte array object provided by the
-caller.
+ŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒgã‚ÉV‚µ‚¢ƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This function supports the standard return values E_UNEXPECTED and
-E_FAIL, as well as the following:
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_UNEXPECTED ‚Æ E_FAIL ‚É‰Á‚¦‚ÄAˆÈ‰º‚ğƒTƒ|[ƒg‚·‚éF
 
 [”õl]
-The StgGetIFillLockBytesOnILockBytes function makes it possible to
-create an asynchronous storage wrapper object on a custom byte-array
-object. For example, if you wanted to implement asynchronous storage
-on a database for which you have already created a byte-array object,
-you would call this function to create the wrapper object for the
-byte array. To do so, the function creates a new wrapper object and
-then initializes it by passing it a pointer to the existing
-byte-array object.
+StgGetIFillLockBytesOnILockBytes
+ŠÖ”‚ÍAƒJƒXƒ^ƒ€ƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒgã‚É”ñ“¯ŠúƒXƒgƒŒ[ƒWƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‚±‚Æ‚ğ‰Â”\‚É‚·‚éB‚½‚Æ‚¦‚ÎA‚·‚Å‚ÉƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚ğì¬‚µ‚Ä‚¢‚éƒf[ƒ^ƒx[ƒXã‚É”ñ“¯ŠúƒXƒgƒŒ[ƒW‚ğÀ‘•‚µ‚½‚¢ê‡AƒoƒCƒg”z—ñ‚Ìƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·B‚»‚Ì‚½‚ß‚ÉAŠÖ”‚ÍV‚µ‚¢ƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚ğì¬‚µA‚»‚ê‚ğŠù‘¶‚ÌƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·‚±‚Æ‚Å‰Šú‰»‚·‚éB
 
 
 %index
 StgIsStorageFile
-The StgIsStorageFile function indicates whether a particular disk file contains a storage object.
+StgIsStorageFile ŠÖ”‚ÍA“Á’è‚ÌƒfƒBƒXƒNƒtƒ@ƒCƒ‹‚ªƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
 %group
 Win32 ole32
 %prm
 pwcsName
-pwcsName : [wstr] Pointer to the null-terminated Unicode string name of the disk file to be examined. The pwcsName parameter is passed uninterpreted to the underlying file system.
+pwcsName : [wstr] ’²¸‚³‚ê‚éƒfƒBƒXƒNƒtƒ@ƒCƒ‹‚Ì null I’[‚Ì Unicode •¶š—ñ–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^BpwcsName ƒpƒ‰ƒ[ƒ^‚Í‰ğß‚³‚ê‚¸‚ÉŠî‘b‚Æ‚È‚éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚É“n‚³‚ê‚éB
 %inst
-The StgIsStorageFile function indicates whether a particular disk
-file contains a storage object.
+StgIsStorageFile ŠÖ”‚ÍA“Á’è‚ÌƒfƒBƒXƒNƒtƒ@ƒCƒ‹‚ªƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
 
 [–ß‚è’l]
-StgIsStorageFile function can also return any file system errors or
-system errors wrapped in an HRESULT. See Error Handling Strategies
-and Handling Unknown Errors
+StgIsStorageFile ŠÖ”‚Í HRESULT ‚Éƒ‰ƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒGƒ‰[‚âƒVƒXƒeƒ€ƒGƒ‰[‚à•Ô‚·‚±‚Æ‚ª‚ ‚éBError
+Handling Strategies ‚Æ Handling Unknown Errors ‚ğQÆ‚Ì‚±‚ÆB
 
 [”õl]
-At the beginning of the disk file underlying a storage object is a
-signature distinguishing a storage object from other file formats.
-The StgIsStorageFile function is useful to applications whose
-documents use a disk file format that might or might not use storage
-objects. If a root compound file has been created in transacted mode
-but not yet committed, this method still return S_OK.
+
+ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÌŠî‘b‚Æ‚È‚éƒfƒBƒXƒNƒtƒ@ƒCƒ‹‚Ìæ“ª‚É‚ÍAƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ‘¼‚Ìƒtƒ@ƒCƒ‹Œ`®‚Æ‹æ•Ê‚·‚é–¼‚ª‚ ‚éBStgIsStorageFile
+ŠÖ”‚ÍAƒhƒLƒ…ƒƒ“ƒg‚ªƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğg—p‚·‚éê‡‚Æg—p‚µ‚È‚¢ê‡‚ª‚ ‚éƒfƒBƒXƒNƒtƒ@ƒCƒ‹Œ`®‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É—L—p‚Å‚ ‚éBƒ‹[ƒg•¡‡ƒtƒ@ƒCƒ‹‚ªƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚Åì¬‚³‚ê‚Ä‚¢‚é‚ª‚Ü‚¾ƒRƒ~ƒbƒg‚³‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍˆË‘R‚Æ‚µ‚Ä
+S_OK ‚ğ•Ô‚·B
 
 
 %index
 StgIsStorageILockBytes
-The StgIsStorageILockBytes function indicates whether the specified byte array contains a storage object.
+StgIsStorageILockBytes ŠÖ”‚ÍAw’è‚³‚ê‚½ƒoƒCƒg”z—ñ‚ªƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
 %group
 Win32 ole32
 %prm
 plkbyt
-plkbyt : [var] ILockBytes pointer to the byte array to be examined.
+plkbyt : [var] ’²¸‚³‚ê‚éƒoƒCƒg”z—ñ‚Ö‚Ì ILockBytes ƒ|ƒCƒ“ƒ^B
 %inst
-The StgIsStorageILockBytes function indicates whether the specified
-byte array contains a storage object.
+StgIsStorageILockBytes ŠÖ”‚ÍAw’è‚³‚ê‚½ƒoƒCƒg”z—ñ‚ªƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
 
 [–ß‚è’l]
-This function can also return any file system errors, or system
-errors wrapped in an HRESULT, or ILockBytes interface error return
-values. See Error Handling Strategies and Handling Unknown Errors
+‚±‚ÌŠÖ”‚Í HRESULT ‚Éƒ‰ƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒGƒ‰[‚âƒVƒXƒeƒ€ƒGƒ‰[A‚Ü‚½‚Í ILockBytes
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒGƒ‰[–ß‚è’l‚à•Ô‚·‚±‚Æ‚ª‚ ‚éBError Handling Strategies ‚Æ Handling Unknown
+Errors ‚ğQÆ‚Ì‚±‚ÆB
 
 [”õl]
-At the beginning of the byte array underlying a storage object is a
-signature distinguishing a storage object (supporting the IStorage
-interface) from other file formats. The StgIsStorageILockBytes
-function is useful to applications whose documents use a byte array
-(a byte array object supports the ILockBytes interface) that might or
-might not use storage objects.
+ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÌŠî‘b‚Æ‚È‚éƒoƒCƒg”z—ñ‚Ìæ“ª‚É‚ÍAƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgiIStorage
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğƒTƒ|[ƒgj‚ğ‘¼‚Ìƒtƒ@ƒCƒ‹Œ`®‚Æ‹æ•Ê‚·‚é–¼‚ª‚ ‚éBStgIsStorageILockBytes
+ŠÖ”‚ÍAƒhƒLƒ…ƒƒ“ƒg‚ªƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğg—p‚·‚éê‡‚Æg—p‚µ‚È‚¢ê‡‚ª‚ ‚éƒoƒCƒg”z—ñiƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚Í ILockBytes
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğƒTƒ|[ƒg‚·‚éj‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É—L—p‚Å‚ ‚éB
 
 
 %index
 StgOpenAsyncDocfileOnIFillLockBytes
-Opens an existing root asynchronous storage object on a byte-array wrapper object provided by the caller.
+ŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éƒoƒCƒg”z—ñƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒgã‚ÌŠù‘¶‚Ìƒ‹[ƒg”ñ“¯ŠúƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
 %group
 Win32 ole32
 %prm
 pflb, grfMode, asyncFlags, ppstgOpen
-pflb : [var] A IFillLockBytes pointer to the byte-array wrapper object that contains the storage object to be opened.
-grfMode : [int] A value that specifies the access mode to use to open the storage object. The most common access mode, taken from STGM Constants, is STGM_READ.
-asyncFlags : [int] A value that indicates whether a connection point on a storage is inherited by its substorages and streams. ASYNC_MODE_COMPATIBILITY indicates that the connection point is inherited; ASYNC_MODE_DEFAULT indicates that the connection point is not inherited.
-ppstgOpen : [var] A pointer to IStorage* pointer variable that receives the interface pointer to the root asynchronous storage object.
+pflb : [var] ŠJ‚©‚ê‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠÜ‚ŞƒoƒCƒg”z—ñƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚Ö‚Ì IFillLockBytes ƒ|ƒCƒ“ƒ^B
+grfMode : [int] ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­‚½‚ß‚Ég—p‚·‚éƒAƒNƒZƒXƒ‚[ƒh‚ğw’è‚·‚é’lBSTGM Constants ‚©‚çæ‚ç‚ê‚éÅ‚àˆê”Ê“I‚ÈƒAƒNƒZƒXƒ‚[ƒh‚Í STGM_READ ‚Å‚ ‚éB
+asyncFlags : [int] ƒXƒgƒŒ[ƒWã‚ÌÚ‘±ƒ|ƒCƒ“ƒg‚ª‚»‚ÌƒTƒuƒXƒgƒŒ[ƒW‚ÆƒXƒgƒŠ[ƒ€‚É‚æ‚Á‚ÄŒp³‚³‚ê‚é‚©‚Ç‚¤‚©‚ğ¦‚·’lBASYNC_MODE_COMPATIBILITY ‚ÍÚ‘±ƒ|ƒCƒ“ƒg‚ªŒp³‚³‚ê‚é‚±‚Æ‚ğ¦‚·BASYNC_MODE_DEFAULT ‚ÍÚ‘±ƒ|ƒCƒ“ƒg‚ªŒp³‚³‚ê‚È‚¢‚±‚Æ‚ğ¦‚·B
+ppstgOpen : [var] ƒ‹[ƒg”ñ“¯ŠúƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IStorage* ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Opens an existing root asynchronous storage object on a byte-array
-wrapper object provided by the caller.
+ŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éƒoƒCƒg”z—ñƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒgã‚ÌŠù‘¶‚Ìƒ‹[ƒg”ñ“¯ŠúƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
 
 [–ß‚è’l]
-This function supports the standard return values E_OUTOFMEMORY,
-E_UNEXPECTED, E_INVALIDARG, and E_FAIL, as well as the following:
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORYAE_UNEXPECTEDAE_INVALIDARGAE_FAIL
+‚É‰Á‚¦‚ÄAˆÈ‰º‚ğƒTƒ|[ƒg‚·‚éF
 
 [”õl]
-The root storage of the asynchronous storage object is opened
-according to the access mode in the grfMode parameter. A pointer to
-the IStorage interface on the opened storage object is supplied
-through the ppstgOpen parameter. The byte array wrapper object must
-have been previously instantiated through a call to the
-StgGetIFillLockBytesOnFile function.
-StgOpenAsyncDocfileOnIFillLockBytes does not support priority access
-mode or exclusions. Otherwise, it works in much the same way as the
-StgOpenStorageOnILockBytes function. The returned storage object has
-a connection point for IProgressNotify.
+”ñ“¯ŠúƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ìƒ‹[ƒgƒXƒgƒŒ[ƒW‚Í grfMode
+ƒpƒ‰ƒ[ƒ^‚ÌƒAƒNƒZƒXƒ‚[ƒh‚É]‚Á‚ÄŠJ‚©‚ê‚éBŠJ‚©‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Í
+ppstgOpen ƒpƒ‰ƒ[ƒ^‚ğ’Ê‚¶‚Ä’ñ‹Ÿ‚³‚ê‚éBƒoƒCƒg”z—ñƒ‰ƒbƒp[ƒIƒuƒWƒFƒNƒg‚Í–‘O‚É
+StgGetIFillLockBytesOnFile
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚ÅƒCƒ“ƒXƒ^ƒ“ƒX‰»‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BStgOpenAsyncDocfileOnIFillLockBytes
+‚Í—DæƒAƒNƒZƒXƒ‚[ƒh‚â”r‘¼‚ğƒTƒ|[ƒg‚µ‚È‚¢B‚»‚êˆÈŠO‚Í StgOpenStorageOnILockBytes
+ŠÖ”‚Æ‚Ù‚Ú“¯‚¶‚æ‚¤‚É“®ì‚·‚éB•Ô‚³‚ê‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Í IProgressNotify ‚Ö‚ÌÚ‘±ƒ|ƒCƒ“ƒg‚ğ‚ÂB
 
 
 %index
 StgOpenPropStg
-Opens a specified property set in a specified storage or stream object.
+w’è‚³‚ê‚½ƒXƒgƒŒ[ƒW‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg“à‚Ìw’è‚³‚ê‚½ƒvƒƒpƒeƒBƒZƒbƒg‚ğŠJ‚­B
 %group
 Win32 ole32
 %prm
 pUnk, fmtid, grfFlags, dwReserved, ppPropStg
-pUnk : [var] The interface pointer for IUnknown interface on the storage or stream object that contains the requested property set object.
-fmtid : [var] The FMTID of the property set to be opened.
-grfFlags : [int] The values from PROPSETFLAG Constants.
-dwReserved : [int] Reserved for future use; must be zero.
-ppPropStg : [var] A pointer to an IPropertyStorage* pointer variable that receives the interface pointer to the requested property set.
+pUnk : [var] —v‹‚³‚ê‚½ƒvƒƒpƒeƒBƒZƒbƒgƒIƒuƒWƒFƒNƒg‚ğŠÜ‚ŞƒXƒgƒŒ[ƒW‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒgã‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^B
+fmtid : [var] ŠJ‚©‚ê‚éƒvƒƒpƒeƒBƒZƒbƒg‚Ì FMTIDB
+grfFlags : [int] PROPSETFLAG Constants ‚©‚ç‚Ì’lB
+dwReserved : [int] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¨‚èAƒ[ƒ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppPropStg : [var] —v‹‚³‚ê‚½ƒvƒƒpƒeƒBƒZƒbƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IPropertyStorage* ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Opens a specified property set in a specified storage or stream
-object.
+w’è‚³‚ê‚½ƒXƒgƒŒ[ƒW‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg“à‚Ìw’è‚³‚ê‚½ƒvƒƒpƒeƒBƒZƒbƒg‚ğŠJ‚­B
 
 [–ß‚è’l]
-This function supports the standard return values E_INVALIDARG and
-E_UNEXPECTED, in addition to the following:
+‚±‚ÌŠÖ”‚Í•W€‚Ì–ß‚è’l E_INVALIDARG ‚Æ E_UNEXPECTED ‚É‰Á‚¦‚ÄAˆÈ‰º‚ğƒTƒ|[ƒg‚·‚éF
 
 [”õl]
-StgOpenPropStg opens the requested property set and supplies the
-system-provided, stand-alone implementation of the IPropertyStorage
-interface. The requested property set is contained in the storage or
-stream object specified by pUnk. The value of the grfFlags parameter
-indicates whether pUnk specifies a storage or stream object. For
-example, if PROPSETFLAG_NONSIMPLE is set, then pUnk can be queried
-for an IStorage interface on a storage object. In either case, this
-function calls pUnk->AddRef for the storage or stream object
-containing the property set. The caller must release the object when
-no longer required. This function is similar to the
-IPropertySetStorage::Open method. However, StgOpenPropStg adds the
-pUnk and grfFlags parameters, including the PROPSETFLAG_UNBUFFERED
-value for the grfFlags parameter. Use this function instead of the
-Open method if you have an IStorage interface that does not support
-the IPropertySetStorage interface, or if you want to use the
-PROPSETFLAG_UNBUFFERED value. For more information about using
-PROPSETFLAG_UNBUFFERED, see PROPSETFLAG Constants. The grfFlags
-parameter is a combination of values taken from PROPSETFLAG
-Constants. The new enumeration value PROPSETFLAG_UNBUFFERED is
-supported. For more information, see PROPSETFLAG Constants. This
-function is exported out of the redistributable iprop.dll, which is
-included in Windows NT 4.0 with Service Pack 2 (SP2) and available as
-a redistributable in Windows 95 and later. In Windows 2000, it is
-exported out of Ole32.dll. It can also be exported out of iprop.dll
-in Windows 2000, but the call gets forwarded to ole32.dll.
+StgOpenPropStg ‚Í—v‹‚³‚ê‚½ƒvƒƒpƒeƒBƒZƒbƒg‚ğŠJ‚«AIPropertyStorage
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒVƒXƒeƒ€’ñ‹Ÿ‚ÌƒXƒ^ƒ“ƒhƒAƒƒ“À‘•‚ğ’ñ‹Ÿ‚·‚éB—v‹‚³‚ê‚½ƒvƒƒpƒeƒBƒZƒbƒg‚Í pUnk
+‚Åw’è‚³‚ê‚½ƒXƒgƒŒ[ƒW‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÉŠÜ‚Ü‚ê‚éBgrfFlags ƒpƒ‰ƒ[ƒ^‚Ì’l‚ÍApUnk
+‚ªƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚é‚©ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚é‚©‚ğ¦‚·B‚½‚Æ‚¦‚ÎAPROPSETFLAG_NONSIMPLE
+‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡ApUnk ‚ÍƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì IStorage
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚É‚Â‚¢‚ÄƒNƒGƒŠ‚Å‚«‚éB‚¢‚¸‚ê‚Ìê‡‚àA‚±‚ÌŠÖ”‚ÍƒvƒƒpƒeƒBƒZƒbƒg‚ğŠÜ‚ŞƒXƒgƒŒ[ƒW‚Ü‚½‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä
+pUnk->AddRef ‚ğŒÄ‚Ño‚·BŒÄ‚Ño‚µŒ³‚ÍƒIƒuƒWƒFƒNƒg‚ª•s—v‚É‚È‚Á‚½‚ç‰ğ•ú‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚ÌŠÖ”‚Í
+IPropertySetStorage::Open ƒƒ\ƒbƒh‚É—‚Ä‚¢‚éB‚½‚¾‚µAStgOpenPropStg ‚Í pUnk ‚Æ
+grfFlags ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á‚µAgrfFlags ƒpƒ‰ƒ[ƒ^‚Ì PROPSETFLAG_UNBUFFERED
+’l‚ğŠÜ‚ŞBIPropertySetStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğƒTƒ|[ƒg‚µ‚È‚¢ IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª‚ ‚éê‡A‚Ü‚½‚Í
+PROPSETFLAG_UNBUFFERED ’l‚ğg—p‚µ‚½‚¢ê‡‚ÍAOpen
+ƒƒ\ƒbƒh‚Ì‘ã‚í‚è‚É‚±‚ÌŠÖ”‚ğg—p‚·‚éBPROPSETFLAG_UNBUFFERED ‚Ìg—p•û–@‚ÌÚ×‚É‚Â‚¢‚Ä‚Í PROPSETFLAG
+Constants ‚ğQÆ‚Ì‚±‚ÆBgrfFlags ƒpƒ‰ƒ[ƒ^‚Í PROPSETFLAG Constants
+‚©‚ç‚Ì’l‚Ì‘g‚İ‡‚í‚¹‚Å‚ ‚éBV‚µ‚¢—ñ‹“’l PROPSETFLAG_UNBUFFERED ‚ªƒTƒ|[ƒg‚³‚ê‚éBÚ×‚É‚Â‚¢‚Ä‚Í
+PROPSETFLAG Constants ‚ğQÆ‚Ì‚±‚ÆB‚±‚ÌŠÖ”‚ÍÄ”Ğ•z‰Â”\‚È iprop.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚Ä‚¨‚èA‚±‚ê‚Í
+Windows NT 4.0 with Service Pack 2 (SP2) ‚ÉŠÜ‚Ü‚ê‚Ä‚¨‚èAWindows 95
+ˆÈ~‚Å‚ÍÄ”Ğ•z‰Â”\‚Æ‚µ‚Ä—˜—p‚Å‚«‚éBWindows 2000 ‚Å‚Í Ole32.dll ‚©‚çƒGƒNƒXƒ|[ƒg‚³‚ê‚éBWindows 2000
+‚Å‚Í iprop.dll ‚©‚ç‚àƒGƒNƒXƒ|[ƒg‚Å‚«‚é‚ªAŒÄ‚Ño‚µ‚Í ole32.dll ‚É“]‘—‚³‚ê‚éB
 
 
 %index
 StgOpenStorage
-Opens an existing root storage object in the file system.
+ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€“à‚ÌŠù‘¶‚Ìƒ‹[ƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
 %group
 Win32 ole32
 %prm
 pwcsName, pstgPriority, grfMode, snbExclude, reserved, ppstgOpen
-pwcsName : [wstr] A pointer to the path of the null-terminated Unicode string file that contains the storage object to open. This parameter is ignored if the pstgPriority parameter is not NULL.
-pstgPriority : [var] A pointer to the IStorage interface that should be NULL. If not NULL, this parameter is used as described below in the Remarks section. After StgOpenStorage returns, the storage object specified in pStgPriority may have been released and should no longer be used.
-grfMode : [int] Specifies the access mode to use to open the storage object.
-snbExclude : [var] If not NULL, pointer to a block of elements in the storage to be excluded as the storage object is opened. The exclusion occurs regardless of whether a snapshot copy happens on the open. Can be NULL.
-reserved : [int] Indicates reserved for future use; must be zero.
-ppstgOpen : [var] A pointer to a IStorage* pointer variable that receives the interface pointer to the opened storage.
+pwcsName : [wstr] ŠJ‚­ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚ÌƒpƒX‚Ö‚Ì null I’[‚Ì Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BpstgPriority ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Å‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–³‹‚³‚ê‚éB
+pstgPriority : [var] NULL ‚Å‚ ‚é‚×‚« IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Å‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒãq‚Ì Remarks ƒZƒNƒVƒ‡ƒ“‚Åà–¾‚³‚ê‚é‚æ‚¤‚Ég—p‚³‚ê‚éBStgOpenStorage ‚ª–ß‚Á‚½ŒãApStgPriority ‚Åw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Í‰ğ•ú‚³‚ê‚Ä‚¢‚é‰Â”\«‚ª‚ ‚èA‚à‚Í‚âg—p‚·‚×‚«‚Å‚Í‚È‚¢B
+grfMode : [int] ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­‚½‚ß‚Ég—p‚·‚éƒAƒNƒZƒXƒ‚[ƒh‚ğw’è‚·‚éB
+snbExclude : [var] NULL ‚Å‚È‚¢ê‡AƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ªŠJ‚©‚ê‚é‚Æ‚«‚ÉœŠO‚³‚ê‚éƒXƒgƒŒ[ƒW“à‚Ì—v‘fƒuƒƒbƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^BœŠO‚ÍAŠJ‚­Û‚ÉƒXƒiƒbƒvƒVƒ‡ƒbƒgƒRƒs[‚ª”­¶‚·‚é‚©‚Ç‚¤‚©‚ÉŠÖŒW‚È‚­s‚í‚ê‚éBNULL ‚Å‚à‚æ‚¢B
+reserved : [int] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ¦‚·Bƒ[ƒ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppstgOpen : [var] ŠJ‚©‚ê‚½ƒXƒgƒŒ[ƒW‚Ö‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IStorage* ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Opens an existing root storage object in the file system.
+ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€“à‚ÌŠù‘¶‚Ìƒ‹[ƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
 
 [–ß‚è’l]
-The StgOpenStorage function can also return any file system errors or
-system errors wrapped in an HRESULT. For more information, see Error
-Handling Strategies and Handling Unknown Errors.
+StgOpenStorage ŠÖ”‚Í HRESULT ‚Éƒ‰ƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒGƒ‰[‚âƒVƒXƒeƒ€ƒGƒ‰[‚à•Ô‚·‚±‚Æ‚ª‚ ‚éBÚ×‚É‚Â‚¢‚Ä‚Í
+Error Handling Strategies ‚Æ Handling Unknown Errors ‚ğQÆ‚Ì‚±‚ÆB
 
 [”õl]
-The StgOpenStorage function opens the specified root storage object
-according to the access mode in the grfMode parameter, and, if
-successful, supplies an IStorage pointer to the opened storage object
-in the ppstgOpen parameter. To support the simple mode for saving a
-storage object with no substorages, the StgOpenStorage function
-accepts one of the following two flag combinations as valid modes in
-the grfMode parameter.
-This doc was truncated.
+StgOpenStorage ŠÖ”‚Í grfMode
+ƒpƒ‰ƒ[ƒ^‚ÌƒAƒNƒZƒXƒ‚[ƒh‚É]‚Á‚Äw’è‚³‚ê‚½ƒ‹[ƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚«A¬Œ÷‚µ‚½ê‡‚Í ppstgOpen
+ƒpƒ‰ƒ[ƒ^‚ÅŠJ‚©‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚Ì IStorage
+ƒ|ƒCƒ“ƒ^‚ğ’ñ‹Ÿ‚·‚éBƒTƒuƒXƒgƒŒ[ƒW‚Ì‚È‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚éƒVƒ“ƒvƒ‹ƒ‚[ƒh‚ğƒTƒ|[ƒg‚·‚é‚½‚ß‚ÉAStgOpenStorage
+ŠÖ”‚Í grfMode ƒpƒ‰ƒ[ƒ^‚Ì—LŒø‚Èƒ‚[ƒh‚Æ‚µ‚ÄŸ‚Ì 2 ‚Â‚Ìƒtƒ‰ƒO‚Ì‘g‚İ‡‚í‚¹‚Ì‚¢‚¸‚ê‚©‚ğó‚¯“ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 StgOpenStorageEx
-Opens an existing root storage object in the file system. Use this function to open Compound Files and regular files.
+ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€“à‚ÌŠù‘¶‚Ìƒ‹[ƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B•¡‡ƒtƒ@ƒCƒ‹‚Æ’Êí‚Ìƒtƒ@ƒCƒ‹‚ğŠJ‚­‚É‚Í‚±‚ÌŠÖ”‚ğg—p‚·‚éB
 %group
 Win32 ole32
 %prm
 pwcsName, grfMode, stgfmt, grfAttrs, pStgOptions, pSecurityDescriptor, riid, ppObjectOpen
-pwcsName : [wstr] A pointer to the path of the null-terminated Unicode string file that contains the storage object. This string size cannot exceed MAX_PATH characters. Windows Server?2003 and Windows?XP/2000:??Unlike the CreateFile function, the MAX_PATH limit cannot be exceeded by using the "\\?\" prefix.
-grfMode : [int] A value that specifies the access mode to open the new storage object. For more information, see STGM Constants. If the caller specifies transacted mode together with STGM_CREATE or STGM_CONVERT, the overwrite or conversion occurs when the commit operation is called for the root storage. If IStorage::Commit is not called for the root storage object, previous contents of the file will be restored. STGM_CREATE and STGM_CONVERT cannot be combined with the STGM_NOSNAPSHOT flag, because a snapshot copy is required when a file is overwritten or converted in transacted mode. If the storage object is opened in direct mode (STGM_DIRECT) with access to either STGM_WRITE or STGM_READWRITE, the sharing mode must be STGM_SHARE_EXCLUSIVE unless the STGM_DIRECT_SWMR mode is specified. For more information, see the Remarks section. If the storage object is opened in direct mode with access to STGM_READ, the sharing mode must be either STGM_SHARE_EXCLUSIVE or STGM_SHARE_DENY_WRITE, unless STGM_PRIORITY or STGM_DIRECT_SWMR is specified. For more information, see the Remarks section. The mode in which a file is opened can affect implementation performance. For more information, see Compound File Implementation Limits.
-stgfmt : [int] A value that specifies the storage file format. For more information, see the STGFMT enumeration.
-grfAttrs : [int] A value that depends upon the value of the stgfmt parameter. STGFMT_DOCFILE must be zero (0) or FILE_FLAG_NO_BUFFERING. For more information about this value, see CreateFile. If the sector size of the file, specified in pStgOptions, is not an integer multiple of the physical sector size of the underlying disk, then this operation will fail. All other values of stgfmt must be zero.
-pStgOptions : [var] A pointer to an STGOPTIONS structure that contains data about the storage object opened. The pStgOptions parameter is valid only if the stgfmt parameter is set to STGFMT_DOCFILE. The usVersion member must be set before calling StgOpenStorageEx. For more information, see the STGOPTIONS structure.
-pSecurityDescriptor : [int] Reserved; must be zero.
-riid : [var] A value that specifies the GUID of the interface pointer to return. Can also be the header-specified value for IID_IStorage to obtain the IStorage interface or for IID_IPropertySetStorage to obtain the IPropertySetStorage interface.
-ppObjectOpen : [var] The address of an interface pointer variable that receives a pointer for an interface on the storage object opened; contains NULL if operation failed.
+pwcsName : [wstr] ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚ÌƒpƒX‚Ö‚Ì null I’[‚Ì Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì•¶š—ñ‚ÌƒTƒCƒY‚Í MAX_PATH •¶š‚ğ’´‚¦‚Ä‚Í‚È‚ç‚È‚¢BWindows Server 2003 ‚Æ Windows XP/2000FCreateFile ŠÖ”‚Æ‚ÍˆÙ‚È‚èA"\\?\" ƒvƒŒƒtƒBƒbƒNƒX‚ğg—p‚µ‚Ä MAX_PATH §ŒÀ‚ğ’´‚¦‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+grfMode : [int] V‚µ‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­ƒAƒNƒZƒXƒ‚[ƒh‚ğw’è‚·‚é’lBÚ×‚É‚Â‚¢‚Ä‚Í STGM Constants ‚ğQÆ‚Ì‚±‚ÆBŒÄ‚Ño‚µŒ³‚ªƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚Æ STGM_CREATE ‚Ü‚½‚Í STGM_CONVERT ‚ğˆê‚Éw’è‚µ‚½ê‡Aã‘‚«‚Ü‚½‚Í•ÏŠ·‚Íƒ‹[ƒgƒXƒgƒŒ[ƒW‚É‘Î‚µ‚Ä commit ‘€ì‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚É”­¶‚·‚éBƒ‹[ƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä IStorage::Commit ‚ªŒÄ‚Ño‚³‚ê‚È‚©‚Á‚½ê‡Aƒtƒ@ƒCƒ‹‚ÌˆÈ‘O‚Ì“à—e‚ª•œŒ³‚³‚ê‚éBSTGM_CREATE ‚¨‚æ‚Ñ STGM_CONVERT ‚Í STGM_NOSNAPSHOT ƒtƒ‰ƒO‚Æ‘g‚İ‡‚í‚¹‚é‚±‚Æ‚ª‚Å‚«‚È‚¢B‚±‚ê‚ÍAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚Åƒtƒ@ƒCƒ‹‚ğã‘‚«‚Ü‚½‚Í•ÏŠ·‚·‚éÛ‚ÉƒXƒiƒbƒvƒVƒ‡ƒbƒgƒRƒs[‚ª•K—v‚Æ‚È‚é‚½‚ß‚Å‚ ‚éBƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ª’¼Úƒ‚[ƒhiSTGM_DIRECTj‚Å STGM_WRITE ‚Ü‚½‚Í STGM_READWRITE ‚Ì‚¢‚¸‚ê‚©‚Ö‚ÌƒAƒNƒZƒX‚ÅŠJ‚©‚ê‚éê‡ASTGM_DIRECT_SWMR ƒ‚[ƒh‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ŒÀ‚èA‹¤—Lƒ‚[ƒh‚Í STGM_SHARE_EXCLUSIVE ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚É‚Â‚¢‚Ä‚Í Remarks ƒZƒNƒVƒ‡ƒ“‚ğQÆ‚Ì‚±‚ÆBƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ª’¼Úƒ‚[ƒh‚Å STGM_READ ‚Ö‚ÌƒAƒNƒZƒX‚ÅŠJ‚©‚ê‚éê‡ASTGM_PRIORITY ‚Ü‚½‚Í STGM_DIRECT_SWMR ‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ŒÀ‚èA‹¤—Lƒ‚[ƒh‚Í STGM_SHARE_EXCLUSIVE ‚Ü‚½‚Í STGM_SHARE_DENY_WRITE ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚É‚Â‚¢‚Ä‚Í Remarks ƒZƒNƒVƒ‡ƒ“‚ğQÆ‚Ì‚±‚ÆBƒtƒ@ƒCƒ‹‚ğŠJ‚­ƒ‚[ƒh‚ÍÀ‘•‚ÌƒpƒtƒH[ƒ}ƒ“ƒX‚É‰e‹¿‚ğ—^‚¦‚é‚±‚Æ‚ª‚ ‚éBÚ×‚É‚Â‚¢‚Ä‚Í Compound File Implementation Limits ‚ğQÆ‚Ì‚±‚ÆB
+stgfmt : [int] ƒXƒgƒŒ[ƒWƒtƒ@ƒCƒ‹Œ`®‚ğw’è‚·‚é’lBÚ×‚É‚Â‚¢‚Ä‚Í STGFMT —ñ‹“‚ğQÆ‚Ì‚±‚ÆB
+grfAttrs : [int] stgfmt ƒpƒ‰ƒ[ƒ^‚Ì’l‚ÉˆË‘¶‚·‚é’lBSTGFMT_DOCFILE ‚Íƒ[ƒi0j‚Ü‚½‚Í FILE_FLAG_NO_BUFFERING ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ì’l‚ÌÚ×‚É‚Â‚¢‚Ä‚Í CreateFile ‚ğQÆ‚Ì‚±‚ÆBpStgOptions ‚Åw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌƒZƒNƒ^ƒTƒCƒY‚ªŠî‘b‚Æ‚È‚éƒfƒBƒXƒN‚Ì•¨—ƒZƒNƒ^ƒTƒCƒY‚Ì®””{‚Å‚È‚¢ê‡A‚±‚Ì‘€ì‚Í¸”s‚·‚éBstgfmt ‚Ì‚»‚Ì‘¼‚·‚×‚Ä‚Ì’l‚Íƒ[ƒ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pStgOptions : [var] ŠJ‚©‚ê‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éƒf[ƒ^‚ğŠÜ‚Ş STGOPTIONS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BpStgOptions ƒpƒ‰ƒ[ƒ^‚Í stgfmt ƒpƒ‰ƒ[ƒ^‚ª STGFMT_DOCFILE ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡‚Ì‚İ—LŒø‚Å‚ ‚éBusVersion ƒƒ“ƒo[‚Í StgOpenStorageEx ‚ğŒÄ‚Ño‚·‘O‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÚ×‚É‚Â‚¢‚Ä‚Í STGOPTIONS \‘¢‘Ì‚ğQÆ‚Ì‚±‚ÆB
+pSecurityDescriptor : [int] —\–ñBƒ[ƒ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+riid : [var] •Ô‚³‚ê‚éƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚Ì GUID ‚ğw’è‚·‚é’lBIStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğæ“¾‚·‚é‚½‚ß‚Ì IID_IStorageA‚Ü‚½‚Í IPropertySetStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğæ“¾‚·‚é‚½‚ß‚Ì IID_IPropertySetStorage ‚Ìƒwƒbƒ_‚Åw’è‚³‚ê‚½’l‚àw’è‚Å‚«‚éB
+ppObjectOpen : [var] ŠJ‚©‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB‘€ì‚ª¸”s‚µ‚½ê‡‚Í NULL ‚ğŠÜ‚ŞB
 %inst
-Opens an existing root storage object in the file system. Use this
-function to open Compound Files and regular files.
+ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€“à‚ÌŠù‘¶‚Ìƒ‹[ƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B•¡‡ƒtƒ@ƒCƒ‹‚Æ’Êí‚Ìƒtƒ@ƒCƒ‹‚ğŠJ‚­‚É‚Í‚±‚ÌŠÖ”‚ğg—p‚·‚éB
 
 [–ß‚è’l]
-This function can also return any file system errors or system errors
-wrapped in an HRESULT. For more information, see Error Handling
-Strategies and Handling Unknown Errors.
+‚±‚ÌŠÖ”‚Í HRESULT ‚Éƒ‰ƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒGƒ‰[‚âƒVƒXƒeƒ€ƒGƒ‰[‚à•Ô‚·‚±‚Æ‚ª‚ ‚éBÚ×‚É‚Â‚¢‚Ä‚Í Error
+Handling Strategies ‚Æ Handling Unknown Errors ‚ğQÆ‚Ì‚±‚ÆB
 
 [”õl]
-StgOpenStorageEx is a superset of the StgOpenStorage function, and
-should be used by new code. Future enhancements to structured storage
-will be exposed through this function. For more information about
-supported platforms, see the Requirements section. The
-StgOpenStorageEx function opens the specified root storage object
-according to the access mode in the grfMode parameter, and, if
-successful, supplies an interface pointer for the opened storage
-object in the ppObjectOpen parameter. This function can be used to
-obtain an IStorage compound file implementation, an
-IPropertySetStorage compound file implementation, or an NTFS file
-system implementation of IPropertySetStorage. When you open a file,
-the system selects a structured storage implementation depending on
-which STGFMT flag you specify on the file type and on the type of
-drive where the file is stored. Use the StgOpenStorageEx function to
-access the root storage of a structured storage document or the
-property set storage of any file that supports property sets. For
-more information about which interface identifiers (IIDs) are
-supported for the different STGFMT values, see STGFMT. When a file is
-opened with this function to access the NTFS property set
-implementation, special sharing rules apply. For more information,
-see IPropertySetStorage-NTFS Implementation. If a compound file is
-opened in transacted mode, by specifying STGM_TRANSACTED, and
-read-only mode, by specifying STGM_READ, it is possible to change the
-returned storage object. For example, it is possible to call
-IStorage::CreateStream. However, it is not possible to commit those
-changes by calling IStorage::Commit. Therefore, such changes will be
-lost. It is not valid to use the STGM_CREATE, STGM_DELETEONRELEASE,
-or STGM_CONVERT flags in the grfMode parameter for this function. To
-support the simple mode for saving a storage object with no
-substorages, the StgOpenStorageEx function accepts one of the
-following two flag combinations as valid modes in the grfMode
-parameter:
-This doc was truncated.
+StgOpenStorageEx ‚Í StgOpenStorage
+ŠÖ”‚ÌƒX[ƒp[ƒZƒbƒg‚Å‚ ‚èAV‚µ‚¢ƒR[ƒh‚Å‚Íg—p‚·‚×‚«‚Å‚ ‚éB\‘¢‰»ƒXƒgƒŒ[ƒW‚Ö‚Ì¡Œã‚ÌŠg’£‚Í‚±‚ÌŠÖ”‚ğ’Ê‚¶‚ÄŒöŠJ‚³‚ê‚éBƒTƒ|[ƒg‚³‚ê‚éƒvƒ‰ƒbƒgƒtƒH[ƒ€‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+Requirements ƒZƒNƒVƒ‡ƒ“‚ğQÆ‚Ì‚±‚ÆBStgOpenStorageEx ŠÖ”‚Í grfMode
+ƒpƒ‰ƒ[ƒ^‚ÌƒAƒNƒZƒXƒ‚[ƒh‚É]‚Á‚Äw’è‚³‚ê‚½ƒ‹[ƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚«A¬Œ÷‚µ‚½ê‡‚Í ppObjectOpen
+ƒpƒ‰ƒ[ƒ^‚ÅŠJ‚©‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒXƒ|ƒCƒ“ƒ^‚ğ’ñ‹Ÿ‚·‚éB‚±‚ÌŠÖ”‚Í IStorage
+•¡‡ƒtƒ@ƒCƒ‹À‘•AIPropertySetStorage •¡‡ƒtƒ@ƒCƒ‹À‘•A‚Ü‚½‚Í IPropertySetStorage ‚Ì NTFS
+ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€À‘•‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éBƒtƒ@ƒCƒ‹‚ğŠJ‚­‚Æ‚«AƒVƒXƒeƒ€‚Íw’è‚·‚é STGFMT
+ƒtƒ‰ƒOAƒtƒ@ƒCƒ‹‚Ìí—ŞA‚¨‚æ‚Ñƒtƒ@ƒCƒ‹‚ªŠi”[‚³‚ê‚éƒhƒ‰ƒCƒu‚Ìí—Ş‚É‰‚¶‚Ä\‘¢‰»ƒXƒgƒŒ[ƒWÀ‘•‚ğ‘I‘ğ‚·‚éBStgOpenStorageEx
+ŠÖ”‚ğg—p‚µ‚ÄA\‘¢‰»ƒXƒgƒŒ[ƒWƒhƒLƒ…ƒƒ“ƒg‚Ìƒ‹[ƒgƒXƒgƒŒ[ƒW‚âAƒvƒƒpƒeƒBƒZƒbƒg‚ğƒTƒ|[ƒg‚·‚é”CˆÓ‚Ìƒtƒ@ƒCƒ‹‚ÌƒvƒƒpƒeƒBƒZƒbƒgƒXƒgƒŒ[ƒW‚ÉƒAƒNƒZƒX‚·‚éB‚³‚Ü‚´‚Ü‚È
+STGFMT ’l‚É‘Î‚µ‚Ä‚Ç‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX¯•ÊqiIIDj‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚É‚Â‚¢‚Ä‚ÌÚ×‚Í STGFMT ‚ğQÆ‚Ì‚±‚ÆBNTFS
+ƒvƒƒpƒeƒBƒZƒbƒgÀ‘•‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚Åƒtƒ@ƒCƒ‹‚ªŠJ‚©‚ê‚éê‡A“Á•Ê‚È‹¤—Lƒ‹[ƒ‹‚ª“K—p‚³‚ê‚éBÚ×‚É‚Â‚¢‚Ä‚Í
+IPropertySetStorage-NTFS Implementation ‚ğQÆ‚Ì‚±‚ÆB•¡‡ƒtƒ@ƒCƒ‹‚ª
+STGM_TRANSACTED ‚ğw’è‚µ‚½ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚Æ STGM_READ
+‚ğw’è‚µ‚½“Ç‚İæ‚èê—pƒ‚[ƒh‚ÅŠJ‚©‚ê‚éê‡A•Ô‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ•ÏX‚·‚é‚±‚Æ‚ª‰Â”\‚Å‚ ‚éB‚½‚Æ‚¦‚Î
+IStorage::CreateStream ‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB‚µ‚©‚µAIStorage::Commit
+‚ğŒÄ‚Ño‚µ‚Ä‚»‚ê‚ç‚Ì•ÏX‚ğƒRƒ~ƒbƒg‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B‚µ‚½‚ª‚Á‚ÄA‚»‚Ì‚æ‚¤‚È•ÏX‚Í¸‚í‚ê‚éBgrfMode ƒpƒ‰ƒ[ƒ^‚Å‚±‚ÌŠÖ”‚É
+STGM_CREATEASTGM_DELETEONRELEASEASTGM_CONVERT
+ƒtƒ‰ƒO‚ğg—p‚·‚é‚±‚Æ‚Í–³Œø‚Å‚ ‚éBƒTƒuƒXƒgƒŒ[ƒW‚Ì‚È‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚éƒVƒ“ƒvƒ‹ƒ‚[ƒh‚ğƒTƒ|[ƒg‚·‚é‚½‚ß‚ÉAStgOpenStorageEx
+ŠÖ”‚Í grfMode ƒpƒ‰ƒ[ƒ^‚Ì—LŒø‚Èƒ‚[ƒh‚Æ‚µ‚ÄŸ‚Ì 2 ‚Â‚Ìƒtƒ‰ƒO‚Ì‘g‚İ‡‚í‚¹‚Ì‚¢‚¸‚ê‚©‚ğó‚¯“ü‚ê‚éF
+iˆÈ‰ºÈ—ªj
 
 
 %index
 StgOpenStorageOnILockBytes
-The StgOpenStorageOnILockBytes function opens an existing storage object that does not reside in a disk file, but instead has an underlying byte array provided by the caller.
+StgOpenStorageOnILockBytes ŠÖ”‚ÍAƒfƒBƒXƒNƒtƒ@ƒCƒ‹“à‚É‚Í‘¶İ‚¹‚¸A‘ã‚í‚è‚ÉŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éŠî‘b‚Æ‚È‚éƒoƒCƒg”z—ñ‚ğ‚ÂŠù‘¶‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
 %group
 Win32 ole32
 %prm
 plkbyt, pstgPriority, grfMode, snbExclude, reserved, ppstgOpen
-plkbyt : [var] ILockBytes pointer to the underlying byte array object that contains the storage object to be opened.
-pstgPriority : [var] A pointer to the IStorage interface that should be NULL. If not NULL, this parameter is used as described below in the Remarks section. After StgOpenStorageOnILockBytes returns, the storage object specified in pStgPriority may have been released and should no longer be used.
-grfMode : [int] Specifies the access mode to use to open the storage object. For more information, see STGM Constants and the Remarks section below.
-snbExclude : [var] Can be NULL. If not NULL, this parameter points to a block of elements in this storage that are to be excluded as the storage object is opened. This exclusion occurs independently of whether a snapshot copy happens on the open.
-reserved : [int] Indicates reserved for future use; must be zero.
-ppstgOpen : [var] Points to the location of an IStorage pointer to the opened storage on successful return.
+plkbyt : [var] ŠJ‚©‚ê‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠÜ‚ŞŠî‘b‚Æ‚È‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚Ö‚Ì ILockBytes ƒ|ƒCƒ“ƒ^B
+pstgPriority : [var] NULL ‚Å‚ ‚é‚×‚« IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Å‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍŒãq‚Ì Remarks ƒZƒNƒVƒ‡ƒ“‚Åà–¾‚³‚ê‚é‚æ‚¤‚Ég—p‚³‚ê‚éBStgOpenStorageOnILockBytes ‚ª–ß‚Á‚½ŒãApStgPriority ‚Åw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Í‰ğ•ú‚³‚ê‚Ä‚¢‚é‰Â”\«‚ª‚ ‚èA‚à‚Í‚âg—p‚·‚×‚«‚Å‚Í‚È‚¢B
+grfMode : [int] ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­‚½‚ß‚Ég—p‚·‚éƒAƒNƒZƒXƒ‚[ƒh‚ğw’è‚·‚éBÚ×‚É‚Â‚¢‚Ä‚Í STGM Constants ‚ÆŒãq‚Ì Remarks ‚ğQÆ‚Ì‚±‚ÆB
+snbExclude : [var] NULL ‚Å‚à‚æ‚¢BNULL ‚Å‚È‚¢ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ªŠJ‚©‚ê‚é‚Æ‚«‚ÉœŠO‚³‚ê‚éƒXƒgƒŒ[ƒW“à‚Ì—v‘fƒuƒƒbƒN‚ğw‚·B‚±‚ÌœŠO‚ÍAŠJ‚­Û‚ÉƒXƒiƒbƒvƒVƒ‡ƒbƒgƒRƒs[‚ª”­¶‚·‚é‚©‚Ç‚¤‚©‚Æ‚Í“Æ—§‚µ‚Ä”­¶‚·‚éB
+reserved : [int] «—ˆ‚Ìg—p‚Ì‚½‚ß‚É—\–ñ‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ¦‚·Bƒ[ƒ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppstgOpen : [var] ¬Œ÷‚ÉŠJ‚©‚ê‚½ƒXƒgƒŒ[ƒW‚Ö‚Ì IStorage ƒ|ƒCƒ“ƒ^‚ÌêŠ‚ğw‚·B
 %inst
-The StgOpenStorageOnILockBytes function opens an existing storage
-object that does not reside in a disk file, but instead has an
-underlying byte array provided by the caller.
+StgOpenStorageOnILockBytes
+ŠÖ”‚ÍAƒfƒBƒXƒNƒtƒ@ƒCƒ‹“à‚É‚Í‘¶İ‚¹‚¸A‘ã‚í‚è‚ÉŒÄ‚Ño‚µŒ³‚ª’ñ‹Ÿ‚·‚éŠî‘b‚Æ‚È‚éƒoƒCƒg”z—ñ‚ğ‚ÂŠù‘¶‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­B
 
 [–ß‚è’l]
-The StgOpenStorageOnILockBytes function can also return any file
-system errors, or system errors wrapped in an HRESULT, or ILockBytes
-interface error return values. See Error Handling Strategies and
-Handling Unknown Errors.
+StgOpenStorageOnILockBytes ŠÖ”‚Í HRESULT ‚Éƒ‰ƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒGƒ‰[‚âƒVƒXƒeƒ€ƒGƒ‰[A‚Ü‚½‚Í
+ILockBytes ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌƒGƒ‰[–ß‚è’l‚à•Ô‚·‚±‚Æ‚ª‚ ‚éBError Handling Strategies ‚Æ
+Handling Unknown Errors ‚ğQÆ‚Ì‚±‚ÆB
 
 [”õl]
-StgOpenStorageOnILockBytes opens the specified root storage object. A
-pointer to the IStorage interface on the opened storage object is
-supplied through the ppstgOpen parameter. The storage object must
-have been previously created by the StgCreateDocfileOnILockBytes
-function. Except for specifying a programmer-provided byte-array
-object, StgOpenStorageOnILockBytes is similar to the StgOpenStorage
-function. The storage object is opened according to the access modes
-in the grfMode parameter, subject to the following restrictions:
-Sharing mode behavior and transactional isolation depend on the
-ILockBytes implementation supporting LockRegion and UnlockRegion with
-LOCK_ONLYONCE semantics. Implementations can indicate to structured
-storage they support this functionality by setting the LOCK_ONLYONCE
-bit in the grfLocksSupported member of STATSTG. If an ILockBytes
-implementation does not support this functionality, sharing modes
-will not be enforced, and root-level transactional commits will not
-coordinate properly with other transactional instances opened on the
-same byte array. Applications that use an ILockBytes implementation
-that does not support region locking, such as the
-CreateStreamOnHGlobal implementation, should avoid opening multiple
-concurrent instances on the same byte array.
-StgOpenStorageOnILockBytes does not support simple mode. The
-STGM_SIMPLE flag, if present, is ignored. The pStgPriority parameter
-is intended as a convenience for callers replacing an existing
-storage object, often one opened in priority mode, with a new storage
-object opened on the same byte array. Unlike the pStgPriority
-parameter of StgOpenStorage, this parameter does not affect the open
-operation performed by StgOpenStorageOnILockBytes and is simply an
-existing storage object the caller would like released. Callers
-should always pass NULL for this parameter because
-StgOpenStorageOnILockBytes releases the object under some
-circumstances, and does not release it under other circumstances. The
-use of the pStgPriority parameter can be duplicated by the caller in
-a safer manner by instead releasing the object before calling
-StgOpenStorageOnILockBytes, as shown in the following example:
-This doc was truncated.
+StgOpenStorageOnILockBytes ‚Íw’è‚³‚ê‚½ƒ‹[ƒgƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ğŠJ‚­BŠJ‚©‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgã‚Ì
+IStorage ƒCƒ“ƒ^[ƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Í ppstgOpen ƒpƒ‰ƒ[ƒ^‚ğ’Ê‚¶‚Ä’ñ‹Ÿ‚³‚ê‚éBƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Í–‘O‚É
+StgCreateDocfileOnILockBytes
+ŠÖ”‚Åì¬‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒvƒƒOƒ‰ƒ}‚ª’ñ‹Ÿ‚·‚éƒoƒCƒg”z—ñƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚é‚±‚Æ‚ğœ‚¯‚ÎAStgOpenStorageOnILockBytes
+‚Í StgOpenStorage ŠÖ”‚É—‚Ä‚¢‚éBƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Í grfMode
+ƒpƒ‰ƒ[ƒ^‚ÌƒAƒNƒZƒXƒ‚[ƒh‚É]‚Á‚ÄŠJ‚©‚ê‚é‚ªAŸ‚Ì§–ñ‚É]‚¤F‹¤—Lƒ‚[ƒh‚Ì“®ì‚Æƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“•ª—£‚ÍALOCK_ONLYONCE
+ƒZƒ}ƒ“ƒeƒBƒNƒX‚Å‚Ì LockRegion ‚Æ UnlockRegion ‚ğƒTƒ|[ƒg‚·‚é ILockBytes À‘•‚ÉˆË‘¶‚·‚éBÀ‘•‚Í
+STATSTG ‚Ì grfLocksSupported ƒƒ“ƒo[‚É LOCK_ONLYONCE
+ƒrƒbƒg‚ğİ’è‚·‚é‚±‚Æ‚ÅA\‘¢‰»ƒXƒgƒŒ[ƒW‚É‚±‚Ì‹@”\‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚±‚Æ‚ğ¦‚·‚±‚Æ‚ª‚Å‚«‚éBILockBytes
+À‘•‚ª‚±‚Ì‹@”\‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡A‹¤—Lƒ‚[ƒh‚Í‹­§‚³‚ê‚¸Aƒ‹[ƒgƒŒƒxƒ‹‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒRƒ~ƒbƒg‚Í“¯‚¶ƒoƒCƒg”z—ñã‚ÅŠJ‚©‚ê‚½‘¼‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚Æ“KØ‚É‹¦’²‚µ‚È‚¢BCreateStreamOnHGlobal
+À‘•‚Ì‚æ‚¤‚È—ÌˆæƒƒbƒN‚ğƒTƒ|[ƒg‚µ‚È‚¢ ILockBytes
+À‘•‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA“¯‚¶ƒoƒCƒg”z—ñã‚Å•¡”‚Ì“¯ƒCƒ“ƒXƒ^ƒ“ƒX‚ğŠJ‚­‚±‚Æ‚ğ”ğ‚¯‚é‚×‚«‚Å‚ ‚éBStgOpenStorageOnILockBytes
+‚ÍƒVƒ“ƒvƒ‹ƒ‚[ƒh‚ğƒTƒ|[ƒg‚µ‚È‚¢BSTGM_SIMPLE ƒtƒ‰ƒO‚ª‘¶İ‚·‚éê‡‚Í–³‹‚³‚ê‚éBpStgPriority
+ƒpƒ‰ƒ[ƒ^‚ÍAŠù‘¶‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgi‘½‚­‚Ìê‡A—Dæƒ‚[ƒh‚ÅŠJ‚©‚ê‚½‚à‚Ìj‚ğA“¯‚¶ƒoƒCƒg”z—ñ‚ÅŠJ‚©‚ê‚½V‚µ‚¢ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É’u‚«Š·‚¦‚éŒÄ‚Ño‚µŒ³‚Ì•Ö‹X‚Ì‚½‚ß‚Ì‚à‚Ì‚Å‚ ‚éBStgOpenStorage
+‚Ì pStgPriority ƒpƒ‰ƒ[ƒ^‚Æ‚ÍˆÙ‚È‚èA‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í StgOpenStorageOnILockBytes
+‚ªÀs‚·‚éŠJ‚­‘€ì‚É‚Í‰e‹¿‚¹‚¸A’P‚ÉŒÄ‚Ño‚µŒ³‚ª‰ğ•ú‚µ‚½‚¢Šù‘¶‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Å‚ ‚éBStgOpenStorageOnILockBytes
+‚Íó‹µ‚É‚æ‚Á‚Ä‚ÍƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚µA‘¼‚Ìó‹µ‚Å‚Í‰ğ•ú‚µ‚È‚¢‚½‚ßAŒÄ‚Ño‚µŒ³‚Íí‚É‚±‚Ìƒpƒ‰ƒ[ƒ^‚É NULL
+‚ğ“n‚·‚×‚«‚Å‚ ‚éBpStgPriority ƒpƒ‰ƒ[ƒ^‚Ìg—p‚ÍAŸ‚Ì—á‚É¦‚·‚æ‚¤‚ÉA‘ã‚í‚è‚É
+StgOpenStorageOnILockBytes ‚ğŒÄ‚Ño‚·‘O‚ÉƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚é‚±‚Æ‚ÅAŒÄ‚Ño‚µŒ³‚ª‚æ‚èˆÀ‘S‚È•û–@‚Å•¡»‚Å‚«‚éF
+iˆÈ‰ºÈ—ªj
 
 
 %index
 StgPropertyLengthAsVariant
-The StgPropertyLengthAsVariant function examines a SERIALIZEDPROPERTYVALUE and returns the amount of memory that this property would occupy as a PROPVARIANT.
+StgPropertyLengthAsVariant ŠÖ”‚ÍASERIALIZEDPROPERTYVALUE ‚ğ’²¸‚µA‚±‚ÌƒvƒƒpƒeƒB‚ª PROPVARIANT ‚Æ‚µ‚Äè—L‚·‚éƒƒ‚ƒŠ—Ê‚ğ•Ô‚·B
 %group
 Win32 ole32
 %prm
 pProp, cbProp, CodePage, bReserved
-pProp : [var] A pointer to a SERIALIZEDPROPERTYVALUE.
-cbProp : [int] The size of the pProp buffer in bytes.
-CodePage : [int] A property set code page.
-bReserved : [int] Reserved. Must be 0.
+pProp : [var] SERIALIZEDPROPERTYVALUE ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbProp : [int] pProp ƒoƒbƒtƒ@‚ÌƒTƒCƒYiƒoƒCƒg’PˆÊjB
+CodePage : [int] ƒvƒƒpƒeƒBƒZƒbƒg‚ÌƒR[ƒhƒy[ƒWB
+bReserved : [int] —\–ñB0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-The StgPropertyLengthAsVariant function examines a
-SERIALIZEDPROPERTYVALUE and returns the amount of memory that this
-property would occupy as a PROPVARIANT.
+StgPropertyLengthAsVariant ŠÖ”‚ÍASERIALIZEDPROPERTYVALUE ‚ğ’²¸‚µA‚±‚ÌƒvƒƒpƒeƒB‚ª
+PROPVARIANT ‚Æ‚µ‚Äè—L‚·‚éƒƒ‚ƒŠ—Ê‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Returns the amount of memory the property would occupy as a
-PROPVARIANT.
+ƒvƒƒpƒeƒB‚ª PROPVARIANT ‚Æ‚µ‚Äè—L‚·‚éƒƒ‚ƒŠ—Ê‚ğ•Ô‚·B
 
 [”õl]
-Use this function to decide whether or not to deserialize a property
-value in a low-memory scenario. Most applications will have no need
-to call this function.
+
+ƒƒ‚ƒŠ•s‘«‚ÌƒVƒiƒŠƒI‚ÅƒvƒƒpƒeƒB’l‚ğƒfƒVƒŠƒAƒ‰ƒCƒY‚·‚é‚©‚Ç‚¤‚©‚ğ”»’f‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğg—p‚·‚éB‚Ù‚Æ‚ñ‚Ç‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·•K—v‚Í‚È‚¢B
 
 
 %index
 StgSetTimes
-The StgSetTimes function sets the creation, access, and modification times of the indicated file, if supported by the underlying file system.
+StgSetTimes ŠÖ”‚ÍAŠî‘b‚Æ‚È‚éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éê‡Aw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ìì¬AƒAƒNƒZƒXAXV‚Ì‚ğİ’è‚·‚éB
 %group
 Win32 ole32
 %prm
 lpszName, pctime, patime, pmtime
-lpszName : [wstr] Pointer to the name of the file to be changed.
-pctime : [var] Pointer to the new value for the creation time.
-patime : [var] Pointer to the new value for the access time.
-pmtime : [var] Pointer to the new value for the modification time.
+lpszName : [wstr] •ÏX‚³‚ê‚éƒtƒ@ƒCƒ‹‚Ì–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pctime : [var] ì¬‚ÌV‚µ‚¢’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+patime : [var] ƒAƒNƒZƒX‚ÌV‚µ‚¢’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pmtime : [var] XV‚ÌV‚µ‚¢’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The StgSetTimes function sets the creation, access, and modification
-times of the indicated file, if supported by the underlying file
-system.
+StgSetTimes
+ŠÖ”‚ÍAŠî‘b‚Æ‚È‚éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éê‡Aw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ìì¬AƒAƒNƒZƒXAXV‚Ì‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-The StgSetTimes function can also return any file system errors or
-system errors wrapped in an HRESULT. See Error Handling Strategies
-and Handling Unknown Errors.
+StgSetTimes ŠÖ”‚Í HRESULT ‚Éƒ‰ƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒGƒ‰[‚âƒVƒXƒeƒ€ƒGƒ‰[‚à•Ô‚·‚±‚Æ‚ª‚ ‚éBError
+Handling Strategies ‚Æ Handling Unknown Errors ‚ğQÆ‚Ì‚±‚ÆB
 
 [”õl]
-The StgSetTimes function sets the time values for the specified file.
-Each of the time value parameters can be NULL, indicating that no
-modification should occur. It is possible that one or more of these
-time values are not supported by the underlying file system. This
-function sets the times that can be set and ignores the rest.
+StgSetTimes ŠÖ”‚Íw’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ì’l‚ğİ’è‚·‚éBŠe’lƒpƒ‰ƒ[ƒ^‚Í NULL
+‚Å‚à‚æ‚­A‚»‚Ìê‡‚Í•ÏX‚ªs‚í‚ê‚È‚¢‚±‚Æ‚ğ¦‚·B‚±‚ê‚ç‚Ì’l‚Ì 1
+‚ÂˆÈã‚ªŠî‘b‚Æ‚È‚éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢‰Â”\«‚ª‚ ‚éB‚±‚ÌŠÖ”‚Íİ’è‰Â”\‚È‚ğİ’è‚µA‚»‚êˆÈŠO‚Í–³‹‚·‚éB
 
 
 %index
 WriteClassStg
-The WriteClassStg function stores the specified class identifier (CLSID) in a storage object.
+WriteClassStg ŠÖ”‚ÍAw’è‚³‚ê‚½ƒNƒ‰ƒX¯•ÊqiCLSIDj‚ğƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÉŠi”[‚·‚éB
 %group
 Win32 ole32
 %prm
 pStg, rclsid
-pStg : [var] IStorage pointer to the storage object that gets a new CLSID.
-rclsid : [var] Pointer to the CLSID to be stored with the object.
+pStg : [var] V‚µ‚¢ CLSID ‚ğæ“¾‚·‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚Ì IStorage ƒ|ƒCƒ“ƒ^B
+rclsid : [var] ƒIƒuƒWƒFƒNƒg‚Æ‚Æ‚à‚ÉŠi”[‚³‚ê‚é CLSID ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The WriteClassStg function stores the specified class identifier
-(CLSID) in a storage object.
+WriteClassStg ŠÖ”‚ÍAw’è‚³‚ê‚½ƒNƒ‰ƒX¯•ÊqiCLSIDj‚ğƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÉŠi”[‚·‚éB
 
 [–ß‚è’l]
-This function returns HRESULT.
+‚±‚ÌŠÖ”‚Í HRESULT ‚ğ•Ô‚·B
 
 [”õl]
-The WriteClassStg function writes a CLSID to the specified storage
-object so that it can be read by the ReadClassStg function. Container
-applications typically call this function before calling the
-IPersistStorage::Save method.
+WriteClassStg ŠÖ”‚ÍAReadClassStg ŠÖ”‚Å“Ç‚İæ‚ê‚é‚æ‚¤‚ÉAw’è‚³‚ê‚½ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É CLSID
+‚ğ‘‚«‚ŞBƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í’ÊíAIPersistStorage::Save ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‘O‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·B
 
 
 %index
 WriteClassStm
-The WriteClassStm function stores the specified CLSID in the stream.
+WriteClassStm ŠÖ”‚ÍAw’è‚³‚ê‚½ CLSID ‚ğƒXƒgƒŠ[ƒ€‚ÉŠi”[‚·‚éB
 %group
 Win32 ole32
 %prm
 pStm, rclsid
-pStm : [var] IStream pointer to the stream into which the CLSID is to be written.
-rclsid : [var] Specifies the CLSID to write to the stream.
+pStm : [var] CLSID ‚ª‘‚«‚Ü‚ê‚éƒXƒgƒŠ[ƒ€‚Ö‚Ì IStream ƒ|ƒCƒ“ƒ^B
+rclsid : [var] ƒXƒgƒŠ[ƒ€‚É‘‚«‚Ş CLSID ‚ğw’è‚·‚éB
 %inst
-The WriteClassStm function stores the specified CLSID in the stream.
+WriteClassStm ŠÖ”‚ÍAw’è‚³‚ê‚½ CLSID ‚ğƒXƒgƒŠ[ƒ€‚ÉŠi”[‚·‚éB
 
 [–ß‚è’l]
-This function returns HRESULT.
+‚±‚ÌŠÖ”‚Í HRESULT ‚ğ•Ô‚·B
 
 [”õl]
-The WriteClassStm function writes a CLSID to the specified stream
-object so it can be read by the ReadClassStm function. Most
-applications do not call WriteClassStm directly. OLE calls it before
-making a call to an object's IPersistStream::Save method.
+WriteClassStm ŠÖ”‚ÍAReadClassStm ŠÖ”‚Å“Ç‚İæ‚ê‚é‚æ‚¤‚ÉAw’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚É CLSID
+‚ğ‘‚«‚ŞB‚Ù‚Æ‚ñ‚Ç‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í WriteClassStm ‚ğ’¼ÚŒÄ‚Ño‚³‚È‚¢BOLE ‚ÍƒIƒuƒWƒFƒNƒg‚Ì
+IPersistStream::Save ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‘O‚É‚±‚ê‚ğŒÄ‚Ño‚·B
 
 
 %index
 WriteFmtUserTypeStg
-The WriteFmtUserTypeStg function writes a clipboard format and user type to the storage object.
+WriteFmtUserTypeStg ŠÖ”‚ÍAƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÉƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Æƒ†[ƒUƒ^ƒCƒv‚ğ‘‚«‚ŞB
 %group
 Win32 ole32
 %prm
 pstg, cf, lpszUserType
-pstg : [var] IStorage pointer to the storage object where the information is to be written.
-cf : [int] Specifies the clipboard format that describes the structure of the native area of the storage object. The format tag includes the policy for the names of streams and substorages within this storage object and the rules for interpreting data within those streams.
-lpszUserType : [wstr] Pointer to a null-terminated Unicode string that specifies the object's current user type. The user type value, itself, cannot be NULL. This is the type returned by the IOleObject::GetUserType method. If this function is transported to a remote machine where the object class does not exist, this persistently stored user type can be shown to the user in dialog boxes.
+pstg : [var] î•ñ‚ª‘‚«‚Ü‚ê‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ö‚Ì IStorage ƒ|ƒCƒ“ƒ^B
+cf : [int] ƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÌƒlƒCƒeƒBƒu—Ìˆæ‚Ì\‘¢‚ğ‹Lq‚·‚éƒNƒŠƒbƒvƒ{[ƒhŒ`®‚ğw’è‚·‚éBŒ`®ƒ^ƒO‚É‚ÍA‚±‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg“à‚ÌƒXƒgƒŠ[ƒ€‚ÆƒTƒuƒXƒgƒŒ[ƒW‚Ì–¼‘O‚Ìƒ|ƒŠƒV[A‚¨‚æ‚Ñ‚»‚ê‚ç‚ÌƒXƒgƒŠ[ƒ€“à‚Ìƒf[ƒ^‚ğ‰ğß‚·‚é‚½‚ß‚Ìƒ‹[ƒ‹‚ªŠÜ‚Ü‚ê‚éB
+lpszUserType : [wstr] ƒIƒuƒWƒFƒNƒg‚ÌŒ»İ‚Ìƒ†[ƒUƒ^ƒCƒv‚ğw’è‚·‚é null I’[‚Ì Unicode •¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒ†[ƒUƒ^ƒCƒv’l©‘Ì‚Í NULL ‚É‚Å‚«‚È‚¢B‚±‚ê‚Í IOleObject::GetUserType ƒƒ\ƒbƒh‚ª•Ô‚·ƒ^ƒCƒv‚Å‚ ‚éB‚±‚ÌŠÖ”‚ªƒIƒuƒWƒFƒNƒgƒNƒ‰ƒX‚ª‘¶İ‚µ‚È‚¢ƒŠƒ‚[ƒgƒ}ƒVƒ“‚É“]‘—‚³‚ê‚½ê‡A‚±‚Ì‰i‘±“I‚ÉŠi”[‚³‚ê‚½ƒ†[ƒUƒ^ƒCƒv‚Íƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚Åƒ†[ƒU‚É•\¦‚Å‚«‚éB
 %inst
-The WriteFmtUserTypeStg function writes a clipboard format and user
-type to the storage object.
+WriteFmtUserTypeStg ŠÖ”‚ÍAƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÉƒNƒŠƒbƒvƒ{[ƒhŒ`®‚Æƒ†[ƒUƒ^ƒCƒv‚ğ‘‚«‚ŞB
 
 [–ß‚è’l]
-This function returns HRESULT.
+‚±‚ÌŠÖ”‚Í HRESULT ‚ğ•Ô‚·B
 
 [”õl]
-The WriteFmtUserTypeStg function must be called in an object's
-implementation of the IPersistStorage::Save method. It must also be
-called by document-level objects that use structured storage for
-their persistent representation in their save sequence. To read the
-information saved, applications call the ReadFmtUserTypeStg function.
+WriteFmtUserTypeStg ŠÖ”‚ÍƒIƒuƒWƒFƒNƒg‚Ì IPersistStorage::Save
+ƒƒ\ƒbƒh‚ÌÀ‘•“à‚ÅŒÄ‚Ño‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚Ü‚½A\‘¢‰»ƒXƒgƒŒ[ƒW‚ğ‰i‘±•\Œ»‚Ég—p‚·‚éƒhƒLƒ…ƒƒ“ƒgƒŒƒxƒ‹‚ÌƒIƒuƒWƒFƒNƒg‚Ì•Û‘¶ƒV[ƒPƒ“ƒX‚Å‚àŒÄ‚Ño‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B•Û‘¶‚³‚ê‚½î•ñ‚ğ“Ç‚İæ‚é‚É‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+ReadFmtUserTypeStg ŠÖ”‚ğŒÄ‚Ño‚·B
 

@@ -6,226 +6,198 @@
 
 %index
 BeginBufferedAnimation
-Begins a buffered animation operation. The animation consists of a cross-fade between the contents of two buffers over a specified period of time.
+ƒoƒbƒtƒ@•t‚«ƒAƒjƒ[ƒVƒ‡ƒ“‘€ì‚ğŠJn‚·‚éBƒAƒjƒ[ƒVƒ‡ƒ“‚ÍAw’è‚³‚ê‚½ŠúŠÔ‚É‚í‚½‚é 2 ‚Â‚Ìƒoƒbƒtƒ@“à—e‚ÌƒNƒƒXƒtƒF[ƒh‚©‚ç\¬‚³‚ê‚éB
 %group
 Win32 uxtheme
 %prm
 hwnd, hdcTarget, prcTarget, dwFormat, pPaintParams, pAnimationParams, phdcFrom, phdcTo
-hwnd : [intptr] Type: HWND A handle to the window in which the animations play.
-hdcTarget : [intptr] Type: HDC A handle of the target DC on which the buffer is animated.
-prcTarget : [var] Type: const RECT* A pointer to a structure that specifies the area of the target DC in which to draw.
-dwFormat : [int] Type: BP_BUFFERFORMAT The format of the buffer.
-pPaintParams : [var] Type: BP_PAINTPARAMS* A pointer to a structure that defines the paint operation parameters. This value can be NULL.
-pAnimationParams : [var] Type: BP_ANIMATIONPARAMS* A pointer to a structure that defines the animation operation parameters.
-phdcFrom : [intptr] Type: HDC* When this function returns, this value points to the handle of the DC where the application should paint the initial state of the animation, if not NULL.
-phdcTo : [intptr] Type: HDC* When this function returns, this value points to the handle of the DC where the application should paint the final state of the animation, if not NULL.
+hwnd : [intptr] Œ^: HWND ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
+hdcTarget : [intptr] Œ^: HDC ƒoƒbƒtƒ@‚ğƒAƒjƒ[ƒVƒ‡ƒ“•\¦‚·‚éƒ^[ƒQƒbƒg DC ‚Ìƒnƒ“ƒhƒ‹B
+prcTarget : [var] Œ^: const RECT* •`‰æ‘ÎÛ‚Æ‚È‚éƒ^[ƒQƒbƒg DC ã‚Ì—Ìˆæ‚ğw’è‚·‚é\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+dwFormat : [int] Œ^: BP_BUFFERFORMAT ƒoƒbƒtƒ@‚ÌƒtƒH[ƒ}ƒbƒgB
+pPaintParams : [var] Œ^: BP_PAINTPARAMS* •`‰æ‘€ì‚Ìƒpƒ‰ƒ[ƒ^[‚ğ’è‹`‚·‚é\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ì’l‚Í NULL ‚ğw’è‚Å‚«‚éB
+pAnimationParams : [var] Œ^: BP_ANIMATIONPARAMS* ƒAƒjƒ[ƒVƒ‡ƒ“‘€ì‚Ìƒpƒ‰ƒ[ƒ^[‚ğ’è‹`‚·‚é\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+phdcFrom : [intptr] Œ^: HDC* ‚±‚ÌŠÖ”‚©‚ç–ß‚Á‚½‚Æ‚«ANULL ‚Å‚È‚¯‚ê‚ÎƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‰Šúó‘Ô‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª•`‰æ‚·‚×‚« DC ‚Ìƒnƒ“ƒhƒ‹‚ğw‚·B
+phdcTo : [intptr] Œ^: HDC* ‚±‚ÌŠÖ”‚©‚ç–ß‚Á‚½‚Æ‚«ANULL ‚Å‚È‚¯‚ê‚ÎƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÅIó‘Ô‚ğƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª•`‰æ‚·‚×‚« DC ‚Ìƒnƒ“ƒhƒ‹‚ğw‚·B
 %inst
-Begins a buffered animation operation. The animation consists of a
-cross-fade between the contents of two buffers over a specified
-period of time.
+ƒoƒbƒtƒ@•t‚«ƒAƒjƒ[ƒVƒ‡ƒ“‘€ì‚ğŠJn‚·‚éBƒAƒjƒ[ƒVƒ‡ƒ“‚ÍAw’è‚³‚ê‚½ŠúŠÔ‚É‚í‚½‚é 2 ‚Â‚Ìƒoƒbƒtƒ@“à—e‚ÌƒNƒƒXƒtƒF[ƒh‚©‚ç\¬‚³‚ê‚éB
 
 [–ß‚è’l]
-Type: HANIMATIONBUFFER A handle to the buffered paint animation.
+Œ^: HANIMATIONBUFFER ƒoƒbƒtƒ@•t‚«•`‰æƒAƒjƒ[ƒVƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B
 
 [”õl]
-BeginBufferedAnimation will take care of drawing the intermediate
-frames between those two states by generating multiple WM_PAINT
-messages.
-BeginBufferedAnimation starts a timer that generates WM_PAINT
-messages on which BufferedPaintRenderAnimation should be called.
-During these messages, BufferedPaintRenderAnimation will return TRUE
-when it paints an intermediate frame, to signify that the application
-has no further painting to do. If the animation duration is zero,
-then only phdcTo is returned and phdcFrom is set to NULL. In this
-case, the application should paint the final state using phdcTo to
-get the behavior similar to BeginBufferedPaint.
+BeginBufferedAnimation ‚ÍA•¡”‚Ì WM_PAINT ƒƒbƒZ[ƒW‚ğ¶¬‚·‚é‚±‚Æ‚É‚æ‚èA‚±‚ê‚ç 2
+‚Â‚Ìó‘Ô‚ÌŠÔ‚Ì’†ŠÔƒtƒŒ[ƒ€‚Ì•`‰æ‚ğˆø‚«ó‚¯‚éB
+BeginBufferedAnimation ‚Íƒ^ƒCƒ}[‚ğŠJn‚µAWM_PAINT ƒƒbƒZ[ƒW‚ğ¶¬‚·‚éB‚±‚ê‚ç‚ÌƒƒbƒZ[ƒW“à‚Å
+BufferedPaintRenderAnimation
+‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB‚±‚ê‚ç‚ÌƒƒbƒZ[ƒW’†ABufferedPaintRenderAnimation ‚Í’†ŠÔƒtƒŒ[ƒ€‚ğ•`‰æ‚µ‚½‚Æ‚«‚É
+TRUE ‚ğ•Ô‚µAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‚±‚êˆÈã•`‰æ‚·‚é•K—v‚ª‚È‚¢‚±‚Æ‚ğ¦‚·BƒAƒjƒ[ƒVƒ‡ƒ“ŠúŠÔ‚ª 0 ‚Ìê‡AphdcTo
+‚Ì‚İ‚ª•Ô‚³‚êAphdcFrom ‚Í NULL ‚Éİ’è‚³‚ê‚éB‚±‚Ìê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í BeginBufferedPaint
+‚Æ“¯—l‚Ì“®ì‚ğ“¾‚é‚½‚ß‚É phdcTo ‚ğ—p‚¢‚ÄÅIó‘Ô‚ğ•`‰æ‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 BeginBufferedPaint
-Begins a buffered paint operation.
+ƒoƒbƒtƒ@•t‚«•`‰æ‘€ì‚ğŠJn‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hdcTarget, prcTarget, dwFormat, pPaintParams, phdc
-hdcTarget : [intptr] Type: HDC The handle of the target DC on which the buffer will be painted.
-prcTarget : [var] Type: const RECT* A pointer to a RECT structure that specifies the area of the target DC in which to paint.
-dwFormat : [int] Type: BP_BUFFERFORMAT A member of the BP_BUFFERFORMAT enumeration that specifies the format of the buffer.
-pPaintParams : [var] Type: BP_PAINTPARAMS* A pointer to a BP_PAINTPARAMS structure that defines the paint operation parameters. This value can be NULL.
-phdc : [intptr] Type: HDC* When this function returns, points to the handle of the new device context.
+hdcTarget : [intptr] Œ^: HDC ƒoƒbƒtƒ@‚ğ•`‰æ‚·‚éƒ^[ƒQƒbƒg DC ‚Ìƒnƒ“ƒhƒ‹B
+prcTarget : [var] Œ^: const RECT* •`‰æ‘ÎÛ‚Æ‚È‚éƒ^[ƒQƒbƒg DC ã‚Ì—Ìˆæ‚ğw’è‚·‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+dwFormat : [int] Œ^: BP_BUFFERFORMAT ƒoƒbƒtƒ@‚ÌƒtƒH[ƒ}ƒbƒg‚ğw’è‚·‚é BP_BUFFERFORMAT —ñ‹“‘Ì‚Ìƒƒ“ƒo[B
+pPaintParams : [var] Œ^: BP_PAINTPARAMS* •`‰æ‘€ì‚Ìƒpƒ‰ƒ[ƒ^[‚ğ’è‹`‚·‚é BP_PAINTPARAMS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ì’l‚Í NULL ‚ğw’è‚Å‚«‚éB
+phdc : [intptr] Œ^: HDC* ‚±‚ÌŠÖ”‚©‚ç–ß‚Á‚½‚Æ‚«AV‚µ‚¢ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹‚ğw‚·B
 %inst
-Begins a buffered paint operation.
+ƒoƒbƒtƒ@•t‚«•`‰æ‘€ì‚ğŠJn‚·‚éB
 
 [–ß‚è’l]
-Type: HPAINTBUFFER A handle to the buffered paint context. If this
-function fails, the return value is NULL, and phdc is NULL. To get
-extended error information, call GetLastError. The returned handle is
-freed when EndBufferedPaint is called. An application should call
-BufferedPaintInit on the calling thread before calling
-BeginBufferedPaint, and BufferedPaintUnInit before the thread is
-terminated. Failure to call BufferedPaintInit may result in degraded
-performance due to internal data being initialized and destroyed for
-each buffered paint operation.
+Œ^: HPAINTBUFFER ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BŠÖ”‚ª¸”s‚µ‚½ê‡‚Í–ß‚è’l‚ª NULL ‚Æ‚È‚èAphdc ‚à
+NULL ‚É‚È‚éBŠg’£ƒGƒ‰[î•ñ‚ğæ“¾‚·‚é‚É‚Í GetLastError ‚ğŒÄ‚Ño‚·B•Ô‚³‚ê‚½ƒnƒ“ƒhƒ‹‚Í EndBufferedPaint
+‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚É‰ğ•ú‚³‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í BeginBufferedPaint ‚ğŒÄ‚Ño‚·‘O‚ÉŒÄ‚Ño‚µŒ³ƒXƒŒƒbƒh‚Å
+BufferedPaintInit ‚ğŒÄ‚Ño‚µAƒXƒŒƒbƒhI—¹‘O‚É BufferedPaintUnInit
+‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éBBufferedPaintInit
+‚ğŒÄ‚Ño‚³‚È‚¢‚ÆAƒoƒbƒtƒ@•t‚«•`‰æ‘€ì‚²‚Æ‚É“à•”ƒf[ƒ^‚ª‰Šú‰»‚¨‚æ‚Ñ”jŠü‚³‚ê‚é‚½‚ßA«”\‚ª’á‰º‚·‚é‚±‚Æ‚ª‚ ‚éB
 
 
 %index
 BeginPanningFeedback
-Notifies the system to send feedback about a target window affected by panning gestures.
+ƒpƒ“ƒWƒFƒXƒ`ƒƒ[‚Ì‰e‹¿‚ğó‚¯‚éƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚É‚Â‚¢‚ÄƒtƒB[ƒhƒoƒbƒN‚ğ‘—‚é‚æ‚¤ƒVƒXƒeƒ€‚É’Ê’m‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hwnd
-hwnd : [intptr] Type: HWND The handle to the target window that will receive feedback.
+hwnd : [intptr] Œ^: HWND ƒtƒB[ƒhƒoƒbƒN‚ğó‚¯æ‚éƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Notifies the system to send feedback about a target window affected
-by panning gestures.
+ƒpƒ“ƒWƒFƒXƒ`ƒƒ[‚Ì‰e‹¿‚ğó‚¯‚éƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚É‚Â‚¢‚ÄƒtƒB[ƒhƒoƒbƒN‚ğ‘—‚é‚æ‚¤ƒVƒXƒeƒ€‚É’Ê’m‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL TRUE, if successful.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUEB
 
 [”õl]
-This function must be called before either the UpdatePanningFeedback
-or EndPanningFeedback functions can be called.
+‚±‚ÌŠÖ”‚Í UpdatePanningFeedback ‚Ü‚½‚Í EndPanningFeedback
+ŠÖ”‚ğŒÄ‚Ño‚·‘O‚ÉŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
 
 
 %index
 BufferedPaintClear
-Clears a specified rectangle in the buffer to ARGB = {0,0,0,0}.
+ƒoƒbƒtƒ@“à‚Ìw’è‚³‚ê‚½‹éŒ`‚ğ ARGB = {0,0,0,0} ‚ÉƒNƒŠƒA‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hBufferedPaint, prc
-hBufferedPaint : [int] Type: HPAINTBUFFER The handle of the buffered paint context, obtained through BeginBufferedPaint.
-prc : [var] Type: const RECT* A pointer to a RECT structure that specifies the rectangle to clear. Set this parameter to NULL to specify the entire buffer.
+hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
+prc : [var] Œ^: const RECT* ƒNƒŠƒA‚·‚é‹éŒ`‚ğw’è‚·‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[Bƒoƒbƒtƒ@‘S‘Ì‚ğw’è‚·‚é‚É‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğ NULL ‚Éİ’è‚·‚éB
 %inst
-Clears a specified rectangle in the buffer to ARGB = {0,0,0,0}.
+ƒoƒbƒtƒ@“à‚Ìw’è‚³‚ê‚½‹éŒ`‚ğ ARGB = {0,0,0,0} ‚ÉƒNƒŠƒA‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function accesses the buffer bits directly and is therefore
-faster than calling a GDI function to erase the buffer.
+‚±‚ÌŠÖ”‚Íƒoƒbƒtƒ@‚Ìƒrƒbƒg‚É’¼ÚƒAƒNƒZƒX‚·‚é‚½‚ßAGDI ŠÖ”‚ğŒÄ‚Ño‚µ‚Äƒoƒbƒtƒ@‚ğÁ‹‚·‚é‚æ‚è‚à‚‘¬‚Å‚ ‚éB
 
 
 %index
 BufferedPaintInit
-Initialize buffered painting for the current thread.
+Œ»İ‚ÌƒXƒŒƒbƒh‚Ìƒoƒbƒtƒ@•t‚«•`‰æ‚ğ‰Šú‰»‚·‚éB
 %group
 Win32 uxtheme
 %prm
 
 %inst
-Initialize buffered painting for the current thread.
+Œ»İ‚ÌƒXƒŒƒbƒh‚Ìƒoƒbƒtƒ@•t‚«•`‰æ‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-BufferedPaintInit is called before BeginBufferedPaint or
-BeginBufferedAnimation for each thread that uses these functions.
-Each call to BufferedPaintInit should be matched with a call to
-BufferedPaintUnInit when calls to buffered paint APIs are no longer
-needed. An application may call this API multiple times, as long as
-each call to BufferedPaintInit is balanced with a call to
-BufferedPaintUnInit.
-This function only needs to be called once in the lifetime of a
-thread. Typically, this function is called before creating the main
-application window, or during WM_CREATE. Call BufferedPaintUnInit
-after destroying the window, or during WM_NCDESTROY.
+BufferedPaintInit ‚ÍA‚±‚ê‚ç‚ÌŠÖ”‚ğg—p‚·‚éƒXƒŒƒbƒh‚²‚Æ‚É BeginBufferedPaint ‚Ü‚½‚Í
+BeginBufferedAnimation ‚Ì‘O‚ÉŒÄ‚Ño‚³‚ê‚éBBufferedPaintInit ‚ÌŠeŒÄ‚Ño‚µ‚ÍAƒoƒbƒtƒ@•t‚«•`‰æ
+API ‚ÌŒÄ‚Ño‚µ‚ª•s—v‚É‚È‚Á‚½“_‚Å BufferedPaintUnInit
+‚ÌŒÄ‚Ño‚µ‚Æ‘Î‰‚³‚¹‚é•K—v‚ª‚ ‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍABufferedPaintInit ‚ÌŠeŒÄ‚Ño‚µ‚ª
+BufferedPaintUnInit ‚ÌŒÄ‚Ño‚µ‚Æƒoƒ‰ƒ“ƒX‚·‚éŒÀ‚èA‚±‚Ì API ‚ğ•¡”‰ñŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
+‚±‚ÌŠÖ”‚ÍAƒXƒŒƒbƒh‚Ì‘¶‘±ŠúŠÔ’†‚É 1 ‰ñ‚¾‚¯ŒÄ‚Ño‚¹‚Î‚æ‚¢B’ÊíA‚±‚ÌŠÖ”‚ÍƒƒCƒ“ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ğì¬‚·‚é‘OA‚Ü‚½‚Í
+WM_CREATE “à‚ÅŒÄ‚Ño‚³‚ê‚éBBufferedPaintUnInit ‚ÍƒEƒBƒ“ƒhƒE”jŠüŒãA‚Ü‚½‚Í WM_NCDESTROY
+“à‚ÅŒÄ‚Ño‚·B
 
 
 %index
 BufferedPaintRenderAnimation
-Paints the next frame of a buffered paint animation.
+ƒoƒbƒtƒ@•t‚«•`‰æƒAƒjƒ[ƒVƒ‡ƒ“‚ÌŸ‚ÌƒtƒŒ[ƒ€‚ğ•`‰æ‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hwnd, hdcTarget
-hwnd : [intptr] Type: HWND Handle to the window in which the animations play.
-hdcTarget : [intptr] Type: HDC Handle of the target DC on which the buffer is animated.
+hwnd : [intptr] Œ^: HWND ƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
+hdcTarget : [intptr] Œ^: HDC ƒoƒbƒtƒ@‚ğƒAƒjƒ[ƒVƒ‡ƒ“•\¦‚·‚éƒ^[ƒQƒbƒg DC ‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Paints the next frame of a buffered paint animation.
+ƒoƒbƒtƒ@•t‚«•`‰æƒAƒjƒ[ƒVƒ‡ƒ“‚ÌŸ‚ÌƒtƒŒ[ƒ€‚ğ•`‰æ‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if the frame has been painted, or FALSE
-otherwise.
+Œ^: BOOL ƒtƒŒ[ƒ€‚ª•`‰æ‚³‚ê‚½ê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 [”õl]
-If this function returns TRUE, the application should do no further
-painting. If this function returns FALSE, the application should
-paint normally. An application calls this function within its
-WM_PAINT handler. After BufferedPaintRenderAnimation paints an
-animation frame, an application will typically continue without
-performing its usual painting operations. If appropriate, an
-application may choose to render additional user interface (UI) over
-the top of the animation. The following code example, to be included
-as part of a larger body of code, shows how to use the animation
-painting functions.
-This doc was truncated.
+‚±‚ÌŠÖ”‚ª TRUE ‚ğ•Ô‚µ‚½ê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚êˆÈã•`‰æ‚ğs‚¤‚×‚«‚Å‚Í‚È‚¢BFALSE
+‚ğ•Ô‚µ‚½ê‡‚Í’Êí’Ê‚è•`‰æ‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌŠÖ”‚ğ WM_PAINT
+ƒnƒ“ƒhƒ‰[“à‚ÅŒÄ‚Ño‚·BBufferedPaintRenderAnimation
+‚ªƒAƒjƒ[ƒVƒ‡ƒ“ƒtƒŒ[ƒ€‚ğ•`‰æ‚µ‚½ŒãAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í’ÊíA’Êí‚Ì•`‰æ‘€ì‚ğs‚í‚¸‚Éˆ—‚ğ‘±s‚·‚éB•K—v‚É‰‚¶‚ÄAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒAƒjƒ[ƒVƒ‡ƒ“‚Ìã‚É’Ç‰Á‚Ìƒ†[ƒU[ƒCƒ“ƒ^[ƒtƒFƒCƒX
+(UI) ‚ğ•`‰æ‚µ‚Ä‚à‚æ‚¢BŸ‚ÌƒR[ƒh—á‚ÍA‚æ‚è‘å‚«‚ÈƒR[ƒh–{‘Ì‚Ìˆê•”‚Æ‚µ‚ÄAƒAƒjƒ[ƒVƒ‡ƒ“•`‰æŠÖ”‚Ìg—p•û–@‚ğ¦‚µ‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 BufferedPaintSetAlpha
-Sets the alpha to a specified value in a given rectangle. The alpha controls the amount of transparency applied when blending with the buffer onto the destination target device context (DC).
+w’è‚³‚ê‚½‹éŒ`“à‚ÅƒAƒ‹ƒtƒ@‚ğw’è’l‚Éİ’è‚·‚éBƒAƒ‹ƒtƒ@‚ÍAƒoƒbƒtƒ@‚ğ•`‰ææƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ÉƒuƒŒƒ“ƒh‚·‚éÛ‚É“K—p‚³‚ê‚é“§–¾“x‚Ì—Ê‚ğ§Œä‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hBufferedPaint, prc, alpha
-hBufferedPaint : [int] Type: HPAINTBUFFER The handle of the buffered paint context, obtained through BeginBufferedPaint.
-prc : [var] Type: const RECT* A pointer to a RECT structure that specifies the rectangle in which to set the alpha. Set this parameter to NULL to specify the entire buffer.
-alpha : [int] Type: BYTE The alpha value to set. The alpha value can range from zero (fully transparent) to 255 (fully opaque).
+hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
+prc : [var] Œ^: const RECT* ƒAƒ‹ƒtƒ@‚ğİ’è‚·‚é‹éŒ`‚ğw’è‚·‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[Bƒoƒbƒtƒ@‘S‘Ì‚ğw’è‚·‚é‚É‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ğ NULL ‚Éİ’è‚·‚éB
+alpha : [int] Œ^: BYTE İ’è‚·‚éƒAƒ‹ƒtƒ@’lBƒAƒ‹ƒtƒ@’l‚Í 0 (Š®‘S‚É“§–¾) ‚©‚ç 255 (Š®‘S‚É•s“§–¾) ‚Ü‚Å‚Ì”ÍˆÍ‚Åw’è‚Å‚«‚éB
 %inst
-Sets the alpha to a specified value in a given rectangle. The alpha
-controls the amount of transparency applied when blending with the
-buffer onto the destination target device context (DC).
+w’è‚³‚ê‚½‹éŒ`“à‚ÅƒAƒ‹ƒtƒ@‚ğw’è’l‚Éİ’è‚·‚éBƒAƒ‹ƒtƒ@‚ÍAƒoƒbƒtƒ@‚ğ•`‰ææƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC)
+‚ÉƒuƒŒƒ“ƒh‚·‚éÛ‚É“K—p‚³‚ê‚é“§–¾“x‚Ì—Ê‚ğ§Œä‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function sets the alpha value for each pixel in the target
-rectangle. Passing an alpha value of 255 makes pixels fully opaque.
-The BufferedPaintMakeOpaque macro, which is defined in uxtheme.h,
-sets alpha values to 255. It is typically used to call GDI to draw
-into a memory buffer and then to make it opaque in order to draw it
-on glass.
+‚±‚ÌŠÖ”‚Í‘ÎÛ‹éŒ`“à‚ÌŠeƒsƒNƒZƒ‹‚É‘Î‚µ‚ÄƒAƒ‹ƒtƒ@’l‚ğİ’è‚·‚éBƒAƒ‹ƒtƒ@’l‚É 255
+‚ğ“n‚·‚ÆƒsƒNƒZƒ‹‚ÍŠ®‘S‚É•s“§–¾‚Æ‚È‚éBuxtheme.h ‚Å’è‹`‚³‚ê‚Ä‚¢‚é BufferedPaintMakeOpaque
+ƒ}ƒNƒ‚ÍAƒAƒ‹ƒtƒ@’l‚ğ 255 ‚Éİ’è‚·‚éB‚±‚ê‚Í’ÊíAGDI
+‚ğŒÄ‚Ño‚µ‚Äƒƒ‚ƒŠƒoƒbƒtƒ@‚É•`‰æ‚µ‚½ŒãAƒOƒ‰ƒXã‚É•`‰æ‚·‚é‚½‚ß‚É•s“§–¾‰»‚·‚é–Ú“I‚Åg—p‚³‚ê‚éB
 
 
 %index
 BufferedPaintStopAllAnimations
-Stops all buffered animations for the given window.
+w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ì‚·‚×‚Ä‚Ìƒoƒbƒtƒ@•t‚«ƒAƒjƒ[ƒVƒ‡ƒ“‚ğ’â~‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hwnd
-hwnd : [intptr] Type: HWND The handle of the window in which to stop all animations.
+hwnd : [intptr] Œ^: HWND ‚·‚×‚Ä‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğ’â~‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Stops all buffered animations for the given window.
+w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ì‚·‚×‚Ä‚Ìƒoƒbƒtƒ@•t‚«ƒAƒjƒ[ƒVƒ‡ƒ“‚ğ’â~‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 BufferedPaintUnInit
-Closes down buffered painting for the current thread. Called once for each call to BufferedPaintInit after calls to BeginBufferedPaint are no longer needed.
+Œ»İ‚ÌƒXƒŒƒbƒh‚Ìƒoƒbƒtƒ@•t‚«•`‰æ‚ğI—¹‚·‚éBBeginBufferedPaint ‚ÌŒÄ‚Ño‚µ‚ª•s—v‚É‚È‚Á‚½ŒãABufferedPaintInit ‚ÌŒÄ‚Ño‚µ‚²‚Æ‚É 1 ‰ñŒÄ‚Ño‚³‚ê‚éB
 %group
 Win32 uxtheme
 %prm
 
 %inst
-Closes down buffered painting for the current thread. Called once for
-each call to BufferedPaintInit after calls to BeginBufferedPaint are
-no longer needed.
+Œ»İ‚ÌƒXƒŒƒbƒh‚Ìƒoƒbƒtƒ@•t‚«•`‰æ‚ğI—¹‚·‚éBBeginBufferedPaint
+‚ÌŒÄ‚Ño‚µ‚ª•s—v‚É‚È‚Á‚½ŒãABufferedPaintInit ‚ÌŒÄ‚Ño‚µ‚²‚Æ‚É 1 ‰ñŒÄ‚Ño‚³‚ê‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -273,113 +245,105 @@ pClipRect : [var] Œ^: const RECT* ƒNƒŠƒbƒsƒ“ƒO‹éŒ`‚ğŠÜ‚Ş RECT ‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL
 
 %index
 DrawThemeBackgroundEx
-Draws the background image defined by the visual style for the specified control part.
+w’è‚³‚ê‚½ƒRƒ“ƒgƒ[ƒ‹ƒp[ƒg‚É‘Î‚µ‚ÄƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª’è‹`‚·‚é”wŒi‰æ‘œ‚ğ•`‰æ‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pRect, pOptions
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC used for drawing the theme-defined background image.
-iPartId : [int] Type: int Value of type int that specifies the part to draw. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part to draw. See Parts and States.
-pRect : [var] Type: const RECT* Pointer to a RECT structure that contains the rectangle, in logical coordinates, in which the background image is drawn.
-pOptions : [var] Type: const DTBGOPTS* Pointer to a DTBGOPTS structure that contains clipping information. This parameter may be set to NULL.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+hdc : [intptr] Œ^: HDC ƒe[ƒ}‚Å’è‹`‚³‚ê‚½”wŒi‰æ‘œ‚Ì•`‰æ‚Ég—p‚·‚é HDCB
+iPartId : [int] Œ^: int •`‰æ‚·‚éƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int •`‰æ‚·‚éƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+pRect : [var] Œ^: const RECT* ”wŒi‰æ‘œ‚ğ•`‰æ‚·‚é˜_—À•W‚Å‚Ì‹éŒ`‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pOptions : [var] Œ^: const DTBGOPTS* ƒNƒŠƒbƒsƒ“ƒOî•ñ‚ğŠÜ‚Ş DTBGOPTS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
 %inst
-Draws the background image defined by the visual style for the
-specified control part.
+w’è‚³‚ê‚½ƒRƒ“ƒgƒ[ƒ‹ƒp[ƒg‚É‘Î‚µ‚ÄƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª’è‹`‚·‚é”wŒi‰æ‘œ‚ğ•`‰æ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Drawing operations are scaled to fit and to not exceed the rectangle
-specified in pRect.
+•`‰æ‘€ì‚Í pRect ‚Åw’è‚³‚ê‚½‹éŒ`‚Éû‚Ü‚èA‚»‚ê‚ğ’´‚¦‚È‚¢‚æ‚¤‚ÉƒXƒP[ƒŠƒ“ƒO‚³‚ê‚éB
 
 
 %index
 DrawThemeEdge
-Draws one or more edges defined by the visual style of a rectangle.
+‹éŒ`‚ÌƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½ 1 ‚ÂˆÈã‚ÌƒGƒbƒW‚ğ•`‰æ‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pDestRect, uEdge, uFlags, pContentRect
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC.
-iPartId : [int] Type: int Value of type int that specifies the part that contains the rectangle. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-pDestRect : [var] Type: LPCRECT Pointer to a RECT structure that contains, in logical coordinates, the rectangle.
-uEdge : [int] Type: UINT UINT that specifies the type of inner and outer edges to draw. This parameter must be a combination of one inner-border flag and one outer-border flag, or one of the combination flags. The border flags are:
-uFlags : [int] Type: UINT
-pContentRect : [var] Type: LPRECT Pointer to a RECT structure that contains, in logical coordinates, the rectangle that receives the interior rectangle, if uFlags is set to BF_ADJUST. This parameter may be set to NULL.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+hdc : [intptr] Œ^: HDC HDCB
+iPartId : [int] Œ^: int ‹éŒ`‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+pDestRect : [var] Œ^: LPCRECT ˜_—À•W‚Å‚Ì‹éŒ`‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+uEdge : [int] Œ^: UINT •`‰æ‚·‚é“à‘¤‚¨‚æ‚ÑŠO‘¤ƒGƒbƒW‚Ìí—Ş‚ğw’è‚·‚é UINTB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ÍA“à‘¤ƒ{[ƒ_[ƒtƒ‰ƒO‚ÆŠO‘¤ƒ{[ƒ_[ƒtƒ‰ƒO‚Ì‘g‚İ‡‚í‚¹A‚Ü‚½‚Í‘g‚İ‡‚í‚¹ƒtƒ‰ƒO‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bƒ{[ƒ_[ƒtƒ‰ƒO‚ÍŸ‚Ì‚Æ‚¨‚è:
+uFlags : [int] Œ^: UINT
+pContentRect : [var] Œ^: LPRECT uFlags ‚ª BF_ADJUST ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡‚ÉA“à‘¤‚Ì‹éŒ`‚ğó‚¯æ‚é˜_—À•W‚Ì‹éŒ`‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
 %inst
-Draws one or more edges defined by the visual style of a rectangle.
+‹éŒ`‚ÌƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½ 1 ‚ÂˆÈã‚ÌƒGƒbƒW‚ğ•`‰æ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 DrawThemeIcon
-Draws an image from an image list with the icon effect defined by the visual style.
+ƒCƒ[ƒWƒŠƒXƒg‚©‚ç‰æ‘œ‚ğAƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª’è‹`‚·‚éƒAƒCƒRƒ“Œø‰Ê•t‚«‚Å•`‰æ‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pRect, himl, iImageIndex
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC.
-iPartId : [int] Type: int Value of type int that specifies the part in which the image is drawn. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-pRect : [var] Type: LPCRECT Pointer to a RECT structure that contains, in logical coordinates, the rectangle in which the image is drawn.
-himl : [intptr] Type: HIMAGELIST Handle to an image list that contains the image to draw.
-iImageIndex : [int] Type: int Value of type int that specifies the index of the image to draw.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+hdc : [intptr] Œ^: HDC HDCB
+iPartId : [int] Œ^: int ‰æ‘œ‚ğ•`‰æ‚·‚éƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+pRect : [var] Œ^: LPCRECT ‰æ‘œ‚ğ•`‰æ‚·‚é˜_—À•W‚Å‚Ì‹éŒ`‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+himl : [intptr] Œ^: HIMAGELIST •`‰æ‚·‚é‰æ‘œ‚ğŠÜ‚ŞƒCƒ[ƒWƒŠƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+iImageIndex : [int] Œ^: int •`‰æ‚·‚é‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒX‚ğw’è‚·‚é int Œ^‚Ì’lB
 %inst
-Draws an image from an image list with the icon effect defined by the
-visual style.
+ƒCƒ[ƒWƒŠƒXƒg‚©‚ç‰æ‘œ‚ğAƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª’è‹`‚·‚éƒAƒCƒRƒ“Œø‰Ê•t‚«‚Å•`‰æ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 DrawThemeParentBackground
-Draws the part of a parent control that is covered by a partially-transparent or alpha-blended child control.
+•”•ª“I‚É“§–¾‚Ü‚½‚ÍƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh‚³‚ê‚½qƒRƒ“ƒgƒ[ƒ‹‚ª•¢‚Á‚Ä‚¢‚éeƒRƒ“ƒgƒ[ƒ‹‚Ì•”•ª‚ğ•`‰æ‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hwnd, hdc, prc
-hwnd : [intptr] Type: HWND The child control.
-hdc : [intptr] Type: HDC The child control's DC.
-prc : [var] Type: const RECT* The area to be drawn. The rectangle is in the child window's coordinates. If this parameter is NULL, the area to be drawn includes the entire area occupied by the child control.
+hwnd : [intptr] Œ^: HWND qƒRƒ“ƒgƒ[ƒ‹B
+hdc : [intptr] Œ^: HDC qƒRƒ“ƒgƒ[ƒ‹‚Ì DCB
+prc : [var] Œ^: const RECT* •`‰æ‚·‚é—ÌˆæB‹éŒ`‚ÍqƒEƒBƒ“ƒhƒE‚ÌÀ•WŒn‚Åw’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Ìê‡A•`‰æ‚³‚ê‚é—Ìˆæ‚ÍqƒRƒ“ƒgƒ[ƒ‹‚ªè—L‚·‚é—Ìˆæ‘S‘Ì‚Æ‚È‚éB
 %inst
-Draws the part of a parent control that is covered by a
-partially-transparent or alpha-blended child control.
+•”•ª“I‚É“§–¾‚Ü‚½‚ÍƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh‚³‚ê‚½qƒRƒ“ƒgƒ[ƒ‹‚ª•¢‚Á‚Ä‚¢‚éeƒRƒ“ƒgƒ[ƒ‹‚Ì•”•ª‚ğ•`‰æ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 DrawThemeParentBackgroundEx
-Used by partially-transparent or alpha-blended child controls to draw the part of their parent in front of which they appear. Sends a WM_ERASEBKGND message followed by a WM_PRINTCLIENT.
+•”•ª“I‚É“§–¾‚Ü‚½‚ÍƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh‚³‚ê‚½qƒRƒ“ƒgƒ[ƒ‹‚ªA‚»‚Ì‘O–Ê‚É•\¦‚³‚ê‚ée‚Ì•”•ª‚ğ•`‰æ‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWM_ERASEBKGND ƒƒbƒZ[ƒW‚É‘±‚¢‚Ä WM_PRINTCLIENT ‚ğ‘—M‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hwnd, hdc, dwFlags, prc
-hwnd : [intptr] Type: HWND Handle of the child control.
-hdc : [intptr] Type: HDC HDC of the child control.
-dwFlags : [int] Type: DWORD
-prc : [var] Type: const RECT* Optional. The area to be drawn, in child coordinates. If this parameter is NULL, the area to be drawn includes the entire area occupied by the child control.
+hwnd : [intptr] Œ^: HWND qƒRƒ“ƒgƒ[ƒ‹‚Ìƒnƒ“ƒhƒ‹B
+hdc : [intptr] Œ^: HDC qƒRƒ“ƒgƒ[ƒ‹‚Ì HDCB
+dwFlags : [int] Œ^: DWORD
+prc : [var] Œ^: const RECT* ”CˆÓBqÀ•WŒn‚Å•`‰æ‚·‚é—ÌˆæB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚ª NULL ‚Ìê‡A•`‰æ‚³‚ê‚é—Ìˆæ‚ÍqƒRƒ“ƒgƒ[ƒ‹‚ªè—L‚·‚é—Ìˆæ‘S‘Ì‚Æ‚È‚éB
 %inst
-Used by partially-transparent or alpha-blended child controls to draw
-the part of their parent in front of which they appear. Sends a
-WM_ERASEBKGND message followed by a WM_PRINTCLIENT.
+
+•”•ª“I‚É“§–¾‚Ü‚½‚ÍƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh‚³‚ê‚½qƒRƒ“ƒgƒ[ƒ‹‚ªA‚»‚Ì‘O–Ê‚É•\¦‚³‚ê‚ée‚Ì•”•ª‚ğ•`‰æ‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éBWM_ERASEBKGND
+ƒƒbƒZ[ƒW‚É‘±‚¢‚Ä WM_PRINTCLIENT ‚ğ‘—M‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT S_OK if successful; otherwise, S_FALSE.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OKA‚»‚êˆÈŠO‚Ìê‡‚Í S_FALSEB
 
 
 %index
@@ -412,430 +376,389 @@ TMT_FONT ‚ÅŒÄ‚ñ‚ÅŠm”F‚Å‚«‚éB
 
 %index
 DrawThemeTextEx
-Draws text using the color and font defined by the visual style. Extends DrawThemeText by allowing additional text format options.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½F‚ÆƒtƒHƒ“ƒg‚ğ—p‚¢‚ÄƒeƒLƒXƒg‚ğ•`‰æ‚·‚éBDrawThemeText ‚ğŠg’£‚µA’Ç‰Á‚ÌƒeƒLƒXƒg‘®ƒIƒvƒVƒ‡ƒ“‚ğw’è‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pszText, cchText, dwTextFlags, pRect, pOptions
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC to use for drawing.
-iPartId : [int] Type: int The control part that has the desired text appearance. See Parts and States. If this value is 0, the text is drawn in the default font, or a font selected into the device context.
-iStateId : [int] Type: int The control state that has the desired text appearance. See Parts and States.
-pszText : [wstr] Type: LPCWSTR Pointer to a string that contains the text to draw.
-cchText : [int] Type: int Value of type int that contains the number of characters to draw. If the parameter is set to -1, all the characters in the string are drawn.
-dwTextFlags : [int] Type: DWORD DWORD that contains one or more values that specify the string's formatting. See Format Values for possible parameter values.
-pRect : [var] Type: LPRECT Pointer to a RECT structure that contains the rectangle, in logical coordinates, in which the text is to be drawn.
-pOptions : [var] Type: const DTTOPTS* A DTTOPTS structure that defines additional formatting options that will be applied to the text being drawn.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+hdc : [intptr] Œ^: HDC •`‰æ‚Ég—p‚·‚é HDCB
+iPartId : [int] Œ^: int –Ú“I‚ÌƒeƒLƒXƒgŠOŠÏ‚ğ‚ÂƒRƒ“ƒgƒ[ƒ‹ƒp[ƒgBParts and States ‚ğQÆB’l‚ª 0 ‚Ìê‡AƒeƒLƒXƒg‚ÍƒfƒtƒHƒ‹ƒg‚ÌƒtƒHƒ“ƒgA‚Ü‚½‚ÍƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ“ƒg‚Å•`‰æ‚³‚ê‚éB
+iStateId : [int] Œ^: int –Ú“I‚ÌƒeƒLƒXƒgŠOŠÏ‚ğ‚ÂƒRƒ“ƒgƒ[ƒ‹ó‘ÔBParts and States ‚ğQÆB
+pszText : [wstr] Œ^: LPCWSTR •`‰æ‚·‚éƒeƒLƒXƒg‚ğŠÜ‚Ş•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+cchText : [int] Œ^: int •`‰æ‚·‚é•¶š”‚ğŠÜ‚Ş int Œ^‚Ì’lB-1 ‚Éİ’è‚·‚é‚Æ•¶š—ñ“à‚Ì‚·‚×‚Ä‚Ì•¶š‚ª•`‰æ‚³‚ê‚éB
+dwTextFlags : [int] Œ^: DWORD •¶š—ñ‚Ì‘®İ’è‚ğw’è‚·‚é 1 ‚ÂˆÈã‚Ì’l‚ğŠÜ‚Ş DWORDBw’è‰Â”\‚Èƒpƒ‰ƒ[ƒ^[’l‚É‚Â‚¢‚Ä‚Í Format Values ‚ğQÆB
+pRect : [var] Œ^: LPRECT ƒeƒLƒXƒg‚ğ•`‰æ‚·‚é˜_—À•W‚Å‚Ì‹éŒ`‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pOptions : [var] Œ^: const DTTOPTS* •`‰æ‚³‚ê‚éƒeƒLƒXƒg‚É“K—p‚³‚ê‚é’Ç‰Á‚Ì‘®İ’èƒIƒvƒVƒ‡ƒ“‚ğ’è‹`‚·‚é DTTOPTS \‘¢‘ÌB
 %inst
-Draws text using the color and font defined by the visual style.
-Extends DrawThemeText by allowing additional text format options.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½F‚ÆƒtƒHƒ“ƒg‚ğ—p‚¢‚ÄƒeƒLƒXƒg‚ğ•`‰æ‚·‚éBDrawThemeText
+‚ğŠg’£‚µA’Ç‰Á‚ÌƒeƒLƒXƒg‘®ƒIƒvƒVƒ‡ƒ“‚ğw’è‚Å‚«‚é‚æ‚¤‚É‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The function always uses the themed font for the specified part and
-state if one is defined. Otherwise it uses the font currently
-selected into the device context. To find out if a themed font is
-defined, you can call GetThemeFont or GetThemePropertyOrigin with
-TMT_FONT as the property identifier.
+
+w’è‚³‚ê‚½ƒp[ƒg‚¨‚æ‚Ñó‘Ô‚É‘Î‚µ‚Äƒe[ƒ}ƒtƒHƒ“ƒg‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡AŠÖ”‚Íí‚É‚»‚ê‚ğg—p‚·‚éB‚»‚êˆÈŠO‚Ìê‡‚ÍAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ“ƒg‚ğg—p‚·‚éBƒe[ƒ}ƒtƒHƒ“ƒg‚ª’è‹`‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚é‚É‚ÍAƒvƒƒpƒeƒB¯•Êq‚Æ‚µ‚Ä
+TMT_FONT ‚ğw’è‚µ‚Ä GetThemeFont ‚Ü‚½‚Í GetThemePropertyOrigin ‚ğŒÄ‚Ño‚·B
 
 
 %index
 EnableThemeDialogTexture
-Enables or disables the visual style of the background of a dialog window.
+ƒ_ƒCƒAƒƒOƒEƒBƒ“ƒhƒE”wŒi‚ÌƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ğ—LŒø‚Ü‚½‚Í–³Œø‚É‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hwnd, dwFlags
-hwnd : [intptr] Type: HWND Window handle of the target dialog box.
-dwFlags : [int] Type: DWORD One of the following option flag values:
+hwnd : [intptr] Œ^: HWND ‘ÎÛƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹B
+dwFlags : [int] Œ^: DWORD Ÿ‚ÌƒIƒvƒVƒ‡ƒ“ƒtƒ‰ƒO’l‚Ì‚¢‚¸‚ê‚©:
 %inst
-Enables or disables the visual style of the background of a dialog
-window.
+ƒ_ƒCƒAƒƒOƒEƒBƒ“ƒhƒE”wŒi‚ÌƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ğ—LŒø‚Ü‚½‚Í–³Œø‚É‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-EnableThemeDialogTexture can be used to tailor dialog box
-compatibility with child windows and controls that may or may not
-coordinate rendering their client area backgrounds with that of their
-parent dialog box.
+EnableThemeDialogTexture
+‚ÍAeƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÆƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ”wŒi‚Ì•`‰æ‚ğ‹¦’²‚Å‚«‚é‚©‚Ç‚¤‚©‚ªˆÙ‚È‚éqƒEƒBƒ“ƒhƒE‚âƒRƒ“ƒgƒ[ƒ‹‚É‘Î‚·‚éAƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌŒİŠ·«‚ğ’²®‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB
 
 
 %index
 EnableTheming
-Windows?Vista through Windows?7:\_Enables or disables visual styles for the current user in the current and later sessions.Windows?8 and later:\_This function does nothing. Visual styles are always enabled in Windows?8 and later.
+Windows Vista ‚©‚ç Windows 7: Œ»İ‚Ìƒ†[ƒU[‚É‘Î‚µAŒ»İ‚¨‚æ‚ÑˆÈ~‚ÌƒZƒbƒVƒ‡ƒ“‚ÅƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ğ—LŒø‚Ü‚½‚Í–³Œø‚É‚·‚éBWindows 8 ˆÈ~: ‚±‚ÌŠÖ”‚Í‰½‚à‚µ‚È‚¢BWindows 8 ˆÈ~‚Å‚ÍƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Íí‚É—LŒø‚Å‚ ‚éB
 %group
 Win32 uxtheme
 %prm
 fEnable
-fEnable : [int] Type: BOOL
+fEnable : [int] Œ^: BOOL
 %inst
-Windows Vista through Windows 7:\_Enables or disables visual styles
-for the current user in the current and later sessions.Windows 8 and
-later:\_This function does nothing. Visual styles are always enabled
-in Windows 8 and later.
+Windows Vista ‚©‚ç Windows 7:
+Œ»İ‚Ìƒ†[ƒU[‚É‘Î‚µAŒ»İ‚¨‚æ‚ÑˆÈ~‚ÌƒZƒbƒVƒ‡ƒ“‚ÅƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ğ—LŒø‚Ü‚½‚Í–³Œø‚É‚·‚éBWindows 8 ˆÈ~:
+‚±‚ÌŠÖ”‚Í‰½‚à‚µ‚È‚¢BWindows 8 ˆÈ~‚Å‚ÍƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Íí‚É—LŒø‚Å‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 EndBufferedAnimation
-Renders the first frame of a buffered animation operation and starts the animation timer.
+ƒoƒbƒtƒ@•t‚«ƒAƒjƒ[ƒVƒ‡ƒ“‘€ì‚ÌÅ‰‚ÌƒtƒŒ[ƒ€‚ğ•`‰æ‚µAƒAƒjƒ[ƒVƒ‡ƒ“ƒ^ƒCƒ}[‚ğŠJn‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hbpAnimation, fUpdateTarget
-hbpAnimation : [int] Type: HANIMATIONBUFFER The handle to the buffered animation context that was returned by BeginBufferedAnimation.
-fUpdateTarget : [int] Type: BOOL If TRUE, updates the target DC with the animation.  If FALSE, the animation is not started, the target DC is not updated, and the hbpAnimation parameter is freed.
+hbpAnimation : [int] Œ^: HANIMATIONBUFFER BeginBufferedAnimation ‚ª•Ô‚µ‚½ƒoƒbƒtƒ@•t‚«ƒAƒjƒ[ƒVƒ‡ƒ“ƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
+fUpdateTarget : [int] Œ^: BOOL TRUE ‚Ìê‡Aƒ^[ƒQƒbƒg DC ‚ğƒAƒjƒ[ƒVƒ‡ƒ“‚ÅXV‚·‚éBFALSE ‚Ìê‡AƒAƒjƒ[ƒVƒ‡ƒ“‚ÍŠJn‚³‚ê‚¸Aƒ^[ƒQƒbƒg DC ‚ÍXV‚³‚ê‚¸AhbpAnimation ƒpƒ‰ƒ[ƒ^[‚Í‰ğ•ú‚³‚ê‚éB
 %inst
-Renders the first frame of a buffered animation operation and starts
-the animation timer.
+ƒoƒbƒtƒ@•t‚«ƒAƒjƒ[ƒVƒ‡ƒ“‘€ì‚ÌÅ‰‚ÌƒtƒŒ[ƒ€‚ğ•`‰æ‚µAƒAƒjƒ[ƒVƒ‡ƒ“ƒ^ƒCƒ}[‚ğŠJn‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 EndBufferedPaint
-Completes a buffered paint operation and frees the associated buffered paint handle.
+ƒoƒbƒtƒ@•t‚«•`‰æ‘€ì‚ğŠ®—¹‚µAŠÖ˜A‚·‚éƒoƒbƒtƒ@•t‚«•`‰æƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hBufferedPaint, fUpdateTarget
-hBufferedPaint : [int] Type: HPAINTBUFFER The handle of the buffered paint context, obtained through BeginBufferedPaint.
-fUpdateTarget : [int] Type: BOOL TRUE to copy the buffer to the target DC.
+hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
+fUpdateTarget : [int] Œ^: BOOL ƒoƒbƒtƒ@‚ğƒ^[ƒQƒbƒg DC ‚ÉƒRƒs[‚·‚éê‡‚Í TRUEB
 %inst
-Completes a buffered paint operation and frees the associated
-buffered paint handle.
+ƒoƒbƒtƒ@•t‚«•`‰æ‘€ì‚ğŠ®—¹‚µAŠÖ˜A‚·‚éƒoƒbƒtƒ@•t‚«•`‰æƒnƒ“ƒhƒ‹‚ğ‰ğ•ú‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 EndPanningFeedback
-Terminates any existing animation that was in process or set up by BeginPanningFeedback and UpdatePanningFeedback.
+BeginPanningFeedback ‚Æ UpdatePanningFeedback ‚É‚æ‚Á‚Äİ’è‚Ü‚½‚Íis’†‚Å‚ ‚Á‚½Šù‘¶‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğI—¹‚³‚¹‚éB
 %group
 Win32 uxtheme
 %prm
 hwnd, fAnimateBack
-hwnd : [intptr] Type: HWND The handle to the target window that will receive feedback.
-fAnimateBack : [int] Type: BOOL Flag that indicates whether the displaced window should return to the original position using animation. If FALSE, the method restore the moved window using a direct jump.
+hwnd : [intptr] Œ^: HWND ƒtƒB[ƒhƒoƒbƒN‚ğó‚¯æ‚éƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
+fAnimateBack : [int] Œ^: BOOL •ÏˆÊ‚µ‚½ƒEƒBƒ“ƒhƒE‚ğƒAƒjƒ[ƒVƒ‡ƒ“‚ğg—p‚µ‚ÄŒ³‚ÌˆÊ’u‚É–ß‚·‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒOBFALSE ‚Ìê‡Aƒƒ\ƒbƒh‚ÍˆÚ“®‚µ‚½ƒEƒBƒ“ƒhƒE‚ğ’¼ÚƒWƒƒƒ“ƒv‚³‚¹‚Ä•œŒ³‚·‚éB
 %inst
-Terminates any existing animation that was in process or set up by
-BeginPanningFeedback and UpdatePanningFeedback.
+BeginPanningFeedback ‚Æ UpdatePanningFeedback
+‚É‚æ‚Á‚Äİ’è‚Ü‚½‚Íis’†‚Å‚ ‚Á‚½Šù‘¶‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğI—¹‚³‚¹‚éB
 
 [–ß‚è’l]
-Type: BOOL TRUE if successful.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUEB
 
 [”õl]
-This function can only be called after a BeginPanningFeedback call.
+‚±‚ÌŠÖ”‚Í BeginPanningFeedback ‚ÌŒÄ‚Ño‚µŒã‚É‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 
 
 %index
 GetBufferedPaintBits
-Retrieves a pointer to the buffer bitmap if the buffer is a device-independent bitmap (DIB).
+ƒoƒbƒtƒ@‚ªƒfƒoƒCƒX“Æ—§ƒrƒbƒgƒ}ƒbƒv (DIB) ‚Å‚ ‚éê‡‚ÉAƒoƒbƒtƒ@ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hBufferedPaint, ppbBuffer, pcxRow
-hBufferedPaint : [int] Type: HPAINTBUFFER The handle of the buffered paint context, obtained through BeginBufferedPaint.
-ppbBuffer : [var] Type: RGBQUAD** When this function returns, contains a pointer to the address of the buffer bitmap pixels.
-pcxRow : [var] Type: int* When this function returns, contains a pointer to the width, in pixels, of the buffer bitmap. This value is not necessarily equal to the buffer width. It may be larger.
+hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
+ppbBuffer : [var] Œ^: RGBQUAD** ‚±‚ÌŠÖ”‚©‚ç–ß‚Á‚½‚Æ‚«Aƒoƒbƒtƒ@ƒrƒbƒgƒ}ƒbƒvƒsƒNƒZƒ‹‚ÌƒAƒhƒŒƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ•Û‚·‚éB
+pcxRow : [var] Œ^: int* ‚±‚ÌŠÖ”‚©‚ç–ß‚Á‚½‚Æ‚«Aƒoƒbƒtƒ@ƒrƒbƒgƒ}ƒbƒv‚Ì• (ƒsƒNƒZƒ‹’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğ•Û‚·‚éB‚±‚Ì’l‚Íƒoƒbƒtƒ@•‚Æ•K‚¸‚µ‚à“™‚µ‚­‚È‚­A‚æ‚è‘å‚«‚¢‚±‚Æ‚ª‚ ‚éB
 %inst
-Retrieves a pointer to the buffer bitmap if the buffer is a
-device-independent bitmap (DIB).
+ƒoƒbƒtƒ@‚ªƒfƒoƒCƒX“Æ—§ƒrƒbƒgƒ}ƒbƒv (DIB) ‚Å‚ ‚éê‡‚ÉAƒoƒbƒtƒ@ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise. If an error occurs, ppbBuffer is set to NULL and pcxRow is
-set to zero.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[’l‚ğ•Ô‚·BƒGƒ‰[‚ª”­¶‚µ‚½ê‡AppbBuffer ‚Í
+NULL ‚ÉApcxRow ‚Í 0 ‚Éİ’è‚³‚ê‚éB
 
 [”õl]
-The number of bits per pixel depends on the pixel format passed to
-BeginBufferedPaint.
+1 ƒsƒNƒZƒ‹‚ ‚½‚è‚Ìƒrƒbƒg”‚ÍABeginBufferedPaint ‚É“n‚³‚ê‚½ƒsƒNƒZƒ‹Œ`®‚ÉˆË‘¶‚·‚éB
 
 
 %index
 GetBufferedPaintDC
-Gets the paint device context (DC). This is the same value retrieved by BeginBufferedPaint.
+•`‰æƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ğæ“¾‚·‚éB‚±‚ê‚Í BeginBufferedPaint ‚ªæ“¾‚·‚é‚Ì‚Æ“¯‚¶’l‚Å‚ ‚éB
 %group
 Win32 uxtheme
 %prm
 hBufferedPaint
-hBufferedPaint : [int] Type: HPAINTBUFFER Handle of the buffered paint context, obtained through BeginBufferedPaint.
+hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Gets the paint device context (DC). This is the same value retrieved
-by BeginBufferedPaint.
+•`‰æƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ğæ“¾‚·‚éB‚±‚ê‚Í BeginBufferedPaint ‚ªæ“¾‚·‚é‚Ì‚Æ“¯‚¶’l‚Å‚ ‚éB
 
 [–ß‚è’l]
-Type: HDC Handle of the requested DC. This is the same DC that is
-returned by BeginBufferedPaint. Returns NULL upon failure.
+Œ^: HDC —v‹‚³‚ê‚½ DC ‚Ìƒnƒ“ƒhƒ‹B‚±‚ê‚Í BeginBufferedPaint ‚ª•Ô‚·‚Ì‚Æ“¯‚¶ DC ‚Å‚ ‚éB¸”s‚µ‚½ê‡‚Í
+NULL ‚ğ•Ô‚·B
 
 
 %index
 GetBufferedPaintTargetDC
-Retrieves the target device context (DC).
+ƒ^[ƒQƒbƒgƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hBufferedPaint
-hBufferedPaint : [int] Type: HPAINTBUFFER A handle to the buffered paint context obtained through BeginBufferedPaint.
+hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Retrieves the target device context (DC).
+ƒ^[ƒQƒbƒgƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HDC A handle to the requested DC, or NULL otherwise.
+Œ^: HDC —v‹‚³‚ê‚½ DC ‚Ö‚Ìƒnƒ“ƒhƒ‹B¸”s‚µ‚½ê‡‚Í NULLB
 
 [”õl]
-If successful, this function returns the target DC that was passed by
-the application to BeginBufferedPaint.
+¬Œ÷‚µ‚½ê‡A‚±‚ÌŠÖ”‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª BeginBufferedPaint ‚É“n‚µ‚½ƒ^[ƒQƒbƒg DC ‚ğ•Ô‚·B
 
 
 %index
 GetBufferedPaintTargetRect
-Retrieves the target rectangle specified by BeginBufferedPaint.
+BeginBufferedPaint ‚Åw’è‚³‚ê‚½ƒ^[ƒQƒbƒg‹éŒ`‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hBufferedPaint, prc
-hBufferedPaint : [int] Type: HPAINTBUFFER Handle to the buffered paint context obtained through BeginBufferedPaint.
-prc : [var] Type: RECT* When this function returns, contains the requested rectangle.
+hBufferedPaint : [int] Œ^: HPAINTBUFFER BeginBufferedPaint ‚Åæ“¾‚µ‚½ƒoƒbƒtƒ@•t‚«•`‰æƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+prc : [var] Œ^: RECT* ‚±‚ÌŠÖ”‚©‚ç–ß‚Á‚½‚Æ‚«A—v‹‚³‚ê‚½‹éŒ`‚ğ•Û‚·‚éB
 %inst
-Retrieves the target rectangle specified by BeginBufferedPaint.
+BeginBufferedPaint ‚Åw’è‚³‚ê‚½ƒ^[ƒQƒbƒg‹éŒ`‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If this function fails, the RECT structure at prc is set to empty.
+‚±‚ÌŠÖ”‚ª¸”s‚µ‚½ê‡Aprc ‚É‚ ‚é RECT \‘¢‘Ì‚Í‹ó‚Éİ’è‚³‚ê‚éB
 
 
 %index
 GetCurrentThemeName
-Retrieves the name of the current visual style, and optionally retrieves the color scheme name and size name.
+Œ»İ‚ÌƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Ì–¼‘O‚ğæ“¾‚µA•K—v‚É‰‚¶‚ÄƒJƒ‰[ƒXƒL[ƒ€–¼‚ÆƒTƒCƒY–¼‚àæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 pszThemeFileName, cchMaxNameChars, pszColorBuff, cchMaxColorChars, pszSizeBuff, cchMaxSizeChars
-pszThemeFileName : [wstr] Type: LPWSTR Pointer to a string that receives the theme path and file name.
-cchMaxNameChars : [int] Type: int Value of type int that contains the maximum number of characters allowed in the theme file name.
-pszColorBuff : [wstr] Type: LPWSTR Pointer to a string that receives the color scheme name. This parameter may be set to NULL.
-cchMaxColorChars : [int] Type: int Value of type int that contains the maximum number of characters allowed in the color scheme name.
-pszSizeBuff : [wstr] Type: LPWSTR Pointer to a string that receives the size name. This parameter may be set to NULL.
-cchMaxSizeChars : [int] Type: int Value of type int that contains the maximum number of characters allowed in the size name.
+pszThemeFileName : [wstr] Œ^: LPWSTR ƒe[ƒ}‚ÌƒpƒX‚Æƒtƒ@ƒCƒ‹–¼‚ğó‚¯æ‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+cchMaxNameChars : [int] Œ^: int ƒe[ƒ}ƒtƒ@ƒCƒ‹–¼‚É‹–‚³‚ê‚éÅ‘å•¶š”‚ğŠÜ‚Ş int Œ^‚Ì’lB
+pszColorBuff : [wstr] Œ^: LPWSTR ƒJƒ‰[ƒXƒL[ƒ€–¼‚ğó‚¯æ‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
+cchMaxColorChars : [int] Œ^: int ƒJƒ‰[ƒXƒL[ƒ€–¼‚É‹–‚³‚ê‚éÅ‘å•¶š”‚ğŠÜ‚Ş int Œ^‚Ì’lB
+pszSizeBuff : [wstr] Œ^: LPWSTR ƒTƒCƒY–¼‚ğó‚¯æ‚é•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
+cchMaxSizeChars : [int] Œ^: int ƒTƒCƒY–¼‚É‹–‚³‚ê‚éÅ‘å•¶š”‚ğŠÜ‚Ş int Œ^‚Ì’lB
 %inst
-Retrieves the name of the current visual style, and optionally
-retrieves the color scheme name and size name.
+Œ»İ‚ÌƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Ì–¼‘O‚ğæ“¾‚µA•K—v‚É‰‚¶‚ÄƒJƒ‰[ƒXƒL[ƒ€–¼‚ÆƒTƒCƒY–¼‚àæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, otherwise an error code.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeAnimationProperty
-Gets a theme animation property based on the storyboard id and the target id.
+ƒXƒg[ƒŠ[ƒ{[ƒh ID ‚Æƒ^[ƒQƒbƒg ID ‚ÉŠî‚Ã‚¢‚Äƒe[ƒ}ƒAƒjƒ[ƒVƒ‡ƒ“ƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iStoryboardId, iTargetId, eProperty, pvProperty, cbSize, pcbSizeOut
-hTheme : [intptr] An opened theme handle.
-iStoryboardId : [int] A predefined storyboard identifier.
-iTargetId : [int] A predefined target identifier.
-eProperty : [int] The property that is associated with the animation storyboard and target.
-pvProperty : [intptr] The buffer to receive the returned property value.
-cbSize : [int] The byte size of a buffer that is pointed by pvProperty.
-pcbSizeOut : [var] The                                    byte  size of the returned property.
+hTheme : [intptr] ƒI[ƒvƒ“‚³‚ê‚½ƒe[ƒ}ƒnƒ“ƒhƒ‹B
+iStoryboardId : [int] –‘O’è‹`‚³‚ê‚½ƒXƒg[ƒŠ[ƒ{[ƒh¯•ÊqB
+iTargetId : [int] –‘O’è‹`‚³‚ê‚½ƒ^[ƒQƒbƒg¯•ÊqB
+eProperty : [int] ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌƒXƒg[ƒŠ[ƒ{[ƒh‚¨‚æ‚Ñƒ^[ƒQƒbƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚éƒvƒƒpƒeƒBB
+pvProperty : [intptr] •Ô‚³‚ê‚éƒvƒƒpƒeƒB’l‚ğó‚¯æ‚éƒoƒbƒtƒ@B
+cbSize : [int] pvProperty ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒoƒCƒgƒTƒCƒYB
+pcbSizeOut : [var] •Ô‚³‚ê‚éƒvƒƒpƒeƒB‚ÌƒoƒCƒgƒTƒCƒYB
 %inst
-Gets a theme animation property based on the storyboard id and the
-target id.
+ƒXƒg[ƒŠ[ƒ{[ƒh ID ‚Æƒ^[ƒQƒbƒg ID ‚ÉŠî‚Ã‚¢‚Äƒe[ƒ}ƒAƒjƒ[ƒVƒ‡ƒ“ƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeAnimationTransform
-Gets an animation transform operation based on storyboard id, target id and transform index.
+ƒXƒg[ƒŠ[ƒ{[ƒh IDAƒ^[ƒQƒbƒg IDA‚¨‚æ‚Ñ•ÏŠ·ƒCƒ“ƒfƒbƒNƒX‚ÉŠî‚Ã‚¢‚ÄƒAƒjƒ[ƒVƒ‡ƒ“•ÏŠ·‘€ì‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iStoryboardId, iTargetId, dwTransformIndex, pTransform, cbSize, pcbSizeOut
-hTheme : [intptr] An opened theme handle.
-iStoryboardId : [int] A predefined storyboard identifier.
-iTargetId : [int] A predefined target identifier.
-dwTransformIndex : [int] The zero-based index of a transform operation.
-pTransform : [var] A pointer to a buffer to receive a transform structure.
-cbSize : [int] The byte size of the buffer pointed by pTransform.
-pcbSizeOut : [var] The                                    byte  size of a transform operation structure.
+hTheme : [intptr] ƒI[ƒvƒ“‚³‚ê‚½ƒe[ƒ}ƒnƒ“ƒhƒ‹B
+iStoryboardId : [int] –‘O’è‹`‚³‚ê‚½ƒXƒg[ƒŠ[ƒ{[ƒh¯•ÊqB
+iTargetId : [int] –‘O’è‹`‚³‚ê‚½ƒ^[ƒQƒbƒg¯•ÊqB
+dwTransformIndex : [int] •ÏŠ·‘€ì‚Ìƒ[ƒƒx[ƒX‚ÌƒCƒ“ƒfƒbƒNƒXB
+pTransform : [var] •ÏŠ·\‘¢‘Ì‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+cbSize : [int] pTransform ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒoƒCƒgƒTƒCƒYB
+pcbSizeOut : [var] •ÏŠ·‘€ì\‘¢‘Ì‚ÌƒoƒCƒgƒTƒCƒYB
 %inst
-Gets an animation transform operation based on storyboard id, target
-id and transform index.
+ƒXƒg[ƒŠ[ƒ{[ƒh IDAƒ^[ƒQƒbƒg IDA‚¨‚æ‚Ñ•ÏŠ·ƒCƒ“ƒfƒbƒNƒX‚ÉŠî‚Ã‚¢‚ÄƒAƒjƒ[ƒVƒ‡ƒ“•ÏŠ·‘€ì‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeAppProperties
-Retrieves the property flags that control how visual styles are applied in the current application.
+Œ»İ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÅƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª‚Ç‚Ì‚æ‚¤‚É“K—p‚³‚ê‚é‚©‚ğ§Œä‚·‚éƒvƒƒpƒeƒBƒtƒ‰ƒO‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 
 %inst
-Retrieves the property flags that control how visual styles are
-applied in the current application.
+Œ»İ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÅƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª‚Ç‚Ì‚æ‚¤‚É“K—p‚³‚ê‚é‚©‚ğ§Œä‚·‚éƒvƒƒpƒeƒBƒtƒ‰ƒO‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWORD The following return values are bit flags combined with a
-logical OR operator.
-This doc was truncated.
+Œ^: DWORD Ÿ‚Ì–ß‚è’l‚Í˜_— OR ‚ÅŒ‹‡‚³‚ê‚½ƒrƒbƒgƒtƒ‰ƒO‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Individual flags can be extracted from the result by combining the
-result with the logical AND of the desired flag. Do not call this
-function during DllMain or global objects constructors. This may
-cause invalid return values.
+Œ‹‰Ê‚©‚çŒÂ•Ê‚Ìƒtƒ‰ƒO‚ğæ‚èo‚·‚É‚ÍAŒ‹‰Ê‚Æ–Ú“I‚Ìƒtƒ‰ƒO‚Ì˜_— AND ‚ğæ‚éBDllMain
+‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^[‚Ì’†‚Å‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B–³Œø‚È–ß‚è’l‚ª•Ô‚é‚±‚Æ‚ª‚ ‚éB
 
 
 %index
 GetThemeBackgroundContentRect
-Retrieves the size of the content area for the background defined by the visual style.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½”wŒi‚ÌƒRƒ“ƒeƒ“ƒc—Ìˆæ‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pBoundingRect, pContentRect
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC to use when drawing. This parameter may be set to NULL.
-iPartId : [int] Type: int Value of type int that specifies the part that contains the content area. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part that contains the content area. See Parts and States.
-pBoundingRect : [var] Type: LPCRECT Pointer to a RECT structure that contains the total background rectangle, in logical coordinates. This is the area inside the borders or margins.
-pContentRect : [var] Type: LPRECT Pointer to a RECT structure that receives the content area background rectangle, in logical coordinates.  This rectangle is calculated to fit the content area.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+hdc : [intptr] Œ^: HDC •`‰æ‚Ég—p‚·‚é HDCB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
+iPartId : [int] Œ^: int ƒRƒ“ƒeƒ“ƒc—Ìˆæ‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒRƒ“ƒeƒ“ƒc—Ìˆæ‚ğŠÜ‚Şƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+pBoundingRect : [var] Œ^: LPCRECT ˜_—À•WŒn‚Å‚Ì”wŒi‘S‘Ì‚Ì‹éŒ`‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚ê‚Íƒ{[ƒ_[‚âƒ}[ƒWƒ“‚Ì“à‘¤‚Ì—Ìˆæ‚Å‚ ‚éB
+pContentRect : [var] Œ^: LPRECT ˜_—À•WŒn‚ÅƒRƒ“ƒeƒ“ƒc—Ìˆæ‚Ì”wŒi‹éŒ`‚ğó‚¯æ‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ì‹éŒ`‚ÍƒRƒ“ƒeƒ“ƒc—Ìˆæ‚Éû‚Ü‚é‚æ‚¤‚ÉŒvZ‚³‚ê‚éB
 %inst
-Retrieves the size of the content area for the background defined by
-the visual style.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½”wŒi‚ÌƒRƒ“ƒeƒ“ƒc—Ìˆæ‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-A visual style can define a content area within each background
-image. This is the area where content such as text and icons can be
-placed without overwriting background borders.
+
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ÍAŠe”wŒi‰æ‘œ‚Ì’†‚ÉƒRƒ“ƒeƒ“ƒc—Ìˆæ‚ğ’è‹`‚·‚é‚±‚Æ‚ª‚Å‚«‚éB‚±‚ê‚ÍAƒeƒLƒXƒg‚âƒAƒCƒRƒ“‚È‚Ç‚ÌƒRƒ“ƒeƒ“ƒc‚ğ”wŒi‚Ìƒ{[ƒ_[‚ğã‘‚«‚¹‚¸‚É”z’u‚Å‚«‚é—Ìˆæ‚Å‚ ‚éB
 
 
 %index
 GetThemeBackgroundExtent
-Calculates the size and location of the background, defined by the visual style, given the content area.
+ƒRƒ“ƒeƒ“ƒc—Ìˆæ‚©‚çƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½”wŒi‚ÌƒTƒCƒY‚ÆˆÊ’u‚ğŒvZ‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pContentRect, pExtentRect
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC to use when drawing. This parameter may be set to NULL.
-iPartId : [int] Type: int Value of type int that specifies the part that contains the content. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part that contains the content. See Parts and States.
-pContentRect : [var] Type: LPCRECT Pointer to a RECT structure that contains the content background rectangle, in logical coordinates. This rectangle is returned from GetThemeBackgroundContentRect.
-pExtentRect : [var] Type: LPRECT Pointer to a RECT structure that receives the background rectangle, in logical coordinates. This rectangle is based on the pContentRect.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+hdc : [intptr] Œ^: HDC •`‰æ‚Ég—p‚·‚é HDCB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
+iPartId : [int] Œ^: int ƒRƒ“ƒeƒ“ƒc‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒRƒ“ƒeƒ“ƒc‚ğŠÜ‚Şƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+pContentRect : [var] Œ^: LPCRECT ˜_—À•WŒn‚ÅƒRƒ“ƒeƒ“ƒc”wŒi‹éŒ`‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ì‹éŒ`‚Í GetThemeBackgroundContentRect ‚©‚ç•Ô‚³‚ê‚éB
+pExtentRect : [var] Œ^: LPRECT ˜_—À•WŒn‚Å”wŒi‹éŒ`‚ğó‚¯æ‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ì‹éŒ`‚Í pContentRect ‚ÉŠî‚Ã‚­B
 %inst
-Calculates the size and location of the background, defined by the
-visual style, given the content area.
+ƒRƒ“ƒeƒ“ƒc—Ìˆæ‚©‚çƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Å’è‹`‚³‚ê‚½”wŒi‚ÌƒTƒCƒY‚ÆˆÊ’u‚ğŒvZ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-A theme can define a content area within each background image. This
-is the area where content such as text and icons can be placed
-without overwriting background borders.
+
+ƒe[ƒ}‚ÍAŠe”wŒi‰æ‘œ‚Ì’†‚ÉƒRƒ“ƒeƒ“ƒc—Ìˆæ‚ğ’è‹`‚·‚é‚±‚Æ‚ª‚Å‚«‚éB‚±‚ê‚ÍAƒeƒLƒXƒg‚âƒAƒCƒRƒ“‚È‚Ç‚ÌƒRƒ“ƒeƒ“ƒc‚ğ”wŒi‚Ìƒ{[ƒ_[‚ğã‘‚«‚¹‚¸‚É”z’u‚Å‚«‚é—Ìˆæ‚Å‚ ‚éB
 
 
 %index
 GetThemeBackgroundRegion
-Computes the region for a regular or partially transparent background that is bounded by a specified rectangle.
+w’è‚³‚ê‚½‹éŒ`‚ÅˆÍ‚Ü‚ê‚½A’Êí‚Ü‚½‚Í•”•ª“I‚É“§–¾‚È”wŒi‚ÌƒŠ[ƒWƒ‡ƒ“‚ğŒvZ‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pRect, pRegion
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC to draw into. The DC uses dots per inch (DPI) scaling. This parameter may be set to NULL.
-iPartId : [int] Type: int Value of type int that specifies the part that contains the region. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-pRect : [var] Type: LPCRECT Pointer to a RECT structure that contains, in logical coordinates, the specified rectangle used to compute the region.
-pRegion : [intptr] Type: HRGN* Pointer to the handle to the computed region.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+hdc : [intptr] Œ^: HDC •`‰ææ‚Ì HDCBDC ‚Í dpi ƒXƒP[ƒŠƒ“ƒO‚ğg—p‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
+iPartId : [int] Œ^: int ƒŠ[ƒWƒ‡ƒ“‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+pRect : [var] Œ^: LPCRECT ƒŠ[ƒWƒ‡ƒ“‚ğŒvZ‚·‚é‚½‚ß‚Ég—p‚·‚é˜_—À•WŒn‚Å‚Ìw’è‹éŒ`‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pRegion : [intptr] Œ^: HRGN* ŒvZ‚³‚ê‚½ƒŠ[ƒWƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Computes the region for a regular or partially transparent background
-that is bounded by a specified rectangle.
+w’è‚³‚ê‚½‹éŒ`‚ÅˆÍ‚Ü‚ê‚½A’Êí‚Ü‚½‚Í•”•ª“I‚É“§–¾‚È”wŒi‚ÌƒŠ[ƒWƒ‡ƒ“‚ğŒvZ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The region handle that is returned by this function should be
-released when it is no longer needed, using DeleteObject.
+‚±‚ÌŠÖ”‚ª•Ô‚·ƒŠ[ƒWƒ‡ƒ“ƒnƒ“ƒhƒ‹‚ÍA•s—v‚É‚È‚Á‚½‚Æ‚«‚É DeleteObject ‚ğg—p‚µ‚Ä‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 GetThemeBitmap
-Retrieves the bitmap associated with a particular theme, part, state, and property.
+“Á’è‚Ìƒe[ƒ}Aƒp[ƒgAó‘ÔA‚¨‚æ‚ÑƒvƒƒpƒeƒB‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒrƒbƒgƒ}ƒbƒv‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, dwFlags, phBitmap
-hTheme : [intptr] Type: HTHEME A handle to theme data.
-iPartId : [int] Type: int The part that contains the bitmap. See Parts and States.
-iStateId : [int] Type: int The state of the part.
-iPropId : [int] Type: int The property to retrieve. Pass zero to automatically select the first available bitmap for this part and state,
-dwFlags : [int] Type: ULONG
-phBitmap : [intptr] Type: HBITMAP* A pointer that receives a handle to the requested bitmap.
+hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
+iPartId : [int] Œ^: int ƒrƒbƒgƒ}ƒbƒv‚ğŠÜ‚Şƒp[ƒgBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘ÔB
+iPropId : [int] Œ^: int æ“¾‚·‚éƒvƒƒpƒeƒBB‚±‚Ìƒp[ƒg‚Æó‘Ô‚É‘Î‚µ‚ÄÅ‰‚É—˜—p‰Â”\‚Èƒrƒbƒgƒ}ƒbƒv‚ğ©“®“I‚É‘I‘ğ‚·‚é‚É‚Í 0 ‚ğ“n‚·B
+dwFlags : [int] Œ^: ULONG
+phBitmap : [intptr] Œ^: HBITMAP* —v‹‚³‚ê‚½ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves the bitmap associated with a particular theme, part, state,
-and property.
+“Á’è‚Ìƒe[ƒ}Aƒp[ƒgAó‘ÔA‚¨‚æ‚ÑƒvƒƒpƒeƒB‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒrƒbƒgƒ}ƒbƒv‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If dwFlags is set to GBF_COPY, release the bitmap stored in phBitmap
-when no longer needed by calling DeleteObject.
+dwFlags ‚ª GBF_COPY ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡AphBitmap ‚ÉŠi”[‚³‚ê‚½ƒrƒbƒgƒ}ƒbƒv‚Í•s—v‚É‚È‚Á‚½‚Æ‚«‚É
+DeleteObject ‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚éB
 
 
 %index
 GetThemeBool
-Retrieves the value of a BOOL property from the SysMetrics section of theme data.
+ƒe[ƒ}ƒf[ƒ^‚Ì SysMetrics ƒZƒNƒVƒ‡ƒ“‚©‚ç BOOL ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pfVal
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-iPartId : [int] Type: int Value of type int that specifies the part containing the BOOL property. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-iPropId : [int] Type: int
-pfVal : [var] Type: BOOL* Pointer to a BOOL that receives the retrieved property value.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+iPartId : [int] Œ^: int BOOL ƒvƒƒpƒeƒB‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iPropId : [int] Œ^: int
+pfVal : [var] Œ^: BOOL* æ“¾‚µ‚½ƒvƒƒpƒeƒB’l‚ğó‚¯æ‚é BOOL ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves the value of a BOOL property from the SysMetrics section of
-theme data.
+ƒe[ƒ}ƒf[ƒ^‚Ì SysMetrics ƒZƒNƒVƒ‡ƒ“‚©‚ç BOOL ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -859,175 +782,166 @@ pColor : [var] Œ^: COLORREF* F’l‚ğó‚¯æ‚é COLORREF \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 
 %index
 GetThemeDocumentationProperty
-Retrieves the value for a theme property from the documentation section of the specified theme file.
+w’è‚³‚ê‚½ƒe[ƒ}ƒtƒ@ƒCƒ‹‚ÌƒhƒLƒ…ƒƒ“ƒe[ƒVƒ‡ƒ“ƒZƒNƒVƒ‡ƒ“‚©‚çƒe[ƒ}ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 pszThemeName, pszPropertyName, pszValueBuff, cchMaxValChars
-pszThemeName : [wstr] Type: LPCWSTR Pointer to a string that contains the name of the theme file that will be opened to query for the property.
-pszPropertyName : [wstr] Type: LPCWSTR
-pszValueBuff : [wstr] Type: LPWSTR Pointer to a string buffer that receives the property string value.
-cchMaxValChars : [int] Type: int Value of type int that specifies the maximum number of characters that pszValueBuff can contain.
+pszThemeName : [wstr] Œ^: LPCWSTR ƒvƒƒpƒeƒB‚ğ–â‚¢‡‚í‚¹‚é‚½‚ß‚ÉŠJ‚­ƒe[ƒ}ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğŠÜ‚Ş•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+pszPropertyName : [wstr] Œ^: LPCWSTR
+pszValueBuff : [wstr] Œ^: LPWSTR ƒvƒƒpƒeƒB‚Ì•¶š—ñ’l‚ğó‚¯æ‚é•¶š—ñƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+cchMaxValChars : [int] Œ^: int pszValueBuff ‚ÉŠi”[‚Å‚«‚éÅ‘å•¶š”‚ğw’è‚·‚é int Œ^‚Ì’lB
 %inst
-Retrieves the value for a theme property from the documentation
-section of the specified theme file.
+w’è‚³‚ê‚½ƒe[ƒ}ƒtƒ@ƒCƒ‹‚ÌƒhƒLƒ…ƒƒ“ƒe[ƒVƒ‡ƒ“ƒZƒNƒVƒ‡ƒ“‚©‚çƒe[ƒ}ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If the theme property has been localized in the theme files string
-table, this function returns the localized version.
+ƒe[ƒ}ƒtƒ@ƒCƒ‹‚Ì•¶š—ñƒe[ƒuƒ‹‚Åƒe[ƒ}ƒvƒƒpƒeƒB‚ªƒ[ƒJƒ‰ƒCƒY‚³‚ê‚Ä‚¢‚éê‡A‚±‚ÌŠÖ”‚Íƒ[ƒJƒ‰ƒCƒYÏ‚İ‚Ìƒo[ƒWƒ‡ƒ“‚ğ•Ô‚·B
 
 
 %index
 GetThemeEnumValue
-Retrieves the value of an enumerated type property.
+—ñ‹“Œ^ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, piVal
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-iPartId : [int] Type: int Value of type int that specifies the part that contains the enumerated type property. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-iPropId : [int] Type: int Value of type int that specifies the property to retrieve. For a list of possible values, see Property Identifiers.
-piVal : [var] Type: int* Pointer to an int that receives the enumerated type value.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+iPartId : [int] Œ^: int —ñ‹“Œ^ƒvƒƒpƒeƒB‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iPropId : [int] Œ^: int æ“¾‚·‚éƒvƒƒpƒeƒB‚ğw’è‚·‚é int Œ^‚Ì’lBw’è‰Â”\‚È’l‚Ìˆê——‚Í Property Identifiers ‚ğQÆB
+piVal : [var] Œ^: int* —ñ‹“Œ^‚Ì’l‚ğó‚¯æ‚é int ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves the value of an enumerated type property.
+—ñ‹“Œ^ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeFilename
-Retrieves the value of a filename property.
+ƒtƒ@ƒCƒ‹–¼ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pszThemeFileName, cchMaxBuffChars
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-iPartId : [int] Type: int Value of type int that specifies the part that contains the filename property. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-iPropId : [int] Type: int Value of type int that specifies the property to retrieve. For a list of possible values, see Property Identifiers.
-pszThemeFileName : [wstr] Type: LPWSTR Pointer to a buffer that receives the retrieved file name.
-cchMaxBuffChars : [int] Type: int Value of type int that receives the maximum number of characters in the file name
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+iPartId : [int] Œ^: int ƒtƒ@ƒCƒ‹–¼ƒvƒƒpƒeƒB‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iPropId : [int] Œ^: int æ“¾‚·‚éƒvƒƒpƒeƒB‚ğw’è‚·‚é int Œ^‚Ì’lBw’è‰Â”\‚È’l‚Ìˆê——‚Í Property Identifiers ‚ğQÆB
+pszThemeFileName : [wstr] Œ^: LPWSTR æ“¾‚µ‚½ƒtƒ@ƒCƒ‹–¼‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+cchMaxBuffChars : [int] Œ^: int ƒtƒ@ƒCƒ‹–¼‚ÌÅ‘å•¶š”‚ğó‚¯æ‚é int Œ^‚Ì’lB
 %inst
-Retrieves the value of a filename property.
+ƒtƒ@ƒCƒ‹–¼ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeFont
-Retrieves the value of a font property.
+ƒtƒHƒ“ƒgƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, iPropId, pFont
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC. This parameter may be set to NULL.
-iPartId : [int] Type: int Value of type int that specifies the part that contains the font property. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-iPropId : [int] Type: int Value of type int that specifies the property to retrieve. For a list of possible values, see Property Identifiers.
-pFont : [var] Type: LOGFONTW* Pointer to a LOGFONT structure that receives the font property value.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+hdc : [intptr] Œ^: HDC HDCB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
+iPartId : [int] Œ^: int ƒtƒHƒ“ƒgƒvƒƒpƒeƒB‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iPropId : [int] Œ^: int æ“¾‚·‚éƒvƒƒpƒeƒB‚ğw’è‚·‚é int Œ^‚Ì’lBw’è‰Â”\‚È’l‚Ìˆê——‚Í Property Identifiers ‚ğQÆB
+pFont : [var] Œ^: LOGFONTW* ƒtƒHƒ“ƒgƒvƒƒpƒeƒB’l‚ğó‚¯æ‚é LOGFONT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves the value of a font property.
+ƒtƒHƒ“ƒgƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The font is scaled in dots per inch (DPI) for the current logical
-screen. If the property is not supported for the specified part and
-state, E_PROP_ID_UNSUPPORTED may be returned.
+ƒtƒHƒ“ƒg‚ÍŒ»İ‚Ì˜_—‰æ–Ê‚É‘Î‚µ‚Ä dpi
+’PˆÊ‚ÅƒXƒP[ƒŠƒ“ƒO‚³‚ê‚éBw’è‚³‚ê‚½ƒp[ƒg‚¨‚æ‚Ñó‘Ô‚É‘Î‚µ‚ÄƒvƒƒpƒeƒB‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í
+E_PROP_ID_UNSUPPORTED ‚ª•Ô‚³‚ê‚é‚±‚Æ‚ª‚ ‚éB
 
 
 %index
 GetThemeInt
-Retrieves the value of an int property.
+int ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, piVal
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-iPartId : [int] Type: int Value of type int that specifies the part that contains the int property. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-iPropId : [int] Type: int Value of type int that specifies the property to retrieve. For a list of possible values, see Property Identifiers.
-piVal : [var] Type: int* Pointer to an int that receives the retrieved value.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+iPartId : [int] Œ^: int int ƒvƒƒpƒeƒB‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iPropId : [int] Œ^: int æ“¾‚·‚éƒvƒƒpƒeƒB‚ğw’è‚·‚é int Œ^‚Ì’lBw’è‰Â”\‚È’l‚Ìˆê——‚Í Property Identifiers ‚ğQÆB
+piVal : [var] Œ^: int* æ“¾‚µ‚½’l‚ğó‚¯æ‚é int ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves the value of an int property.
+int ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeIntList
-Retrieves a list of int data from a visual style.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚©‚ç int ƒf[ƒ^‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pIntList
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-iPartId : [int] Type: int Value of type int that specifies the part that contains the list of data to return. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-iPropId : [int] Type: int Value of type int that specifies the property to retrieve. See Property Identifiers.
-pIntList : [var] Type: INTLIST* Pointer to an INTLIST structure that receives the int data.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+iPartId : [int] Œ^: int •Ô‚³‚ê‚éƒf[ƒ^‚ÌƒŠƒXƒg‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iPropId : [int] Œ^: int æ“¾‚·‚éƒvƒƒpƒeƒB‚ğw’è‚·‚é int Œ^‚Ì’lBProperty Identifiers ‚ğQÆB
+pIntList : [var] Œ^: INTLIST* int ƒf[ƒ^‚ğó‚¯æ‚é INTLIST \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves a list of int data from a visual style.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚©‚ç int ƒf[ƒ^‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, otherwise an error code.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeMargins
-Retrieves the value of a MARGINS property.
+MARGINS ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, iPropId, prc, pMargins
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC to select fonts into. This parameter may be set to NULL.
-iPartId : [int] Type: int Value of type int that specifies the part that contains the MARGINS property. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-iPropId : [int] Type: int Value of type int that specifies the property to retrieve. For a list of possible values, see Property Identifiers.
-prc : [var] Type: LPRECT Pointer to a RECT structure that contains the rectangle that specifies the area to be drawn into. This parameter may be set to NULL.
-pMargins : [var] Type: MARGINS* Pointer to a MARGINS structure that receives the retrieved value.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+hdc : [intptr] Œ^: HDC ƒtƒHƒ“ƒg‚ğ‘I‘ğ‚·‚é HDCB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
+iPartId : [int] Œ^: int MARGINS ƒvƒƒpƒeƒB‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iPropId : [int] Œ^: int æ“¾‚·‚éƒvƒƒpƒeƒB‚ğw’è‚·‚é int Œ^‚Ì’lBw’è‰Â”\‚È’l‚Ìˆê——‚Í Property Identifiers ‚ğQÆB
+prc : [var] Œ^: LPRECT •`‰ææ‚Ì—Ìˆæ‚ğw’è‚·‚é‹éŒ`‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
+pMargins : [var] Œ^: MARGINS* æ“¾‚µ‚½’l‚ğó‚¯æ‚é MARGINS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves the value of a MARGINS property.
+MARGINS ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeMetric
-Retrieves the value of a metric property.
+ƒƒgƒŠƒbƒNƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, iPropId, piVal
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC. This parameter may be set to NULL.
-iPartId : [int] Type: int Value of type int that specifies the part that contains the metric property. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-iPropId : [int] Type: int
-piVal : [var] Type: int* Pointer to an int that receives the metric property value.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+hdc : [intptr] Œ^: HDC HDCB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
+iPartId : [int] Œ^: int ƒƒgƒŠƒbƒNƒvƒƒpƒeƒB‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iPropId : [int] Œ^: int
+piVal : [var] Œ^: int* ƒƒgƒŠƒbƒNƒvƒƒpƒeƒB’l‚ğó‚¯æ‚é int ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves the value of a metric property.
+ƒƒgƒŠƒbƒNƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -1053,419 +967,382 @@ psz : [var] Œ^: SIZE* w’èƒp[ƒg‚Ì¡–@‚ğó‚¯æ‚é SIZE \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 
 %index
 GetThemePosition
-Retrieves the value of a position property.
+ˆÊ’uƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pPoint
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-iPartId : [int] Type: int Value of type int that specifies the part that contains the position property. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-iPropId : [int] Type: int Value of type int that specifies the property to retrieve. For a list of possible values, see Property Identifiers.
-pPoint : [var] Type: POINT* Pointer to a POINT structure that receives the position value.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+iPartId : [int] Œ^: int ˆÊ’uƒvƒƒpƒeƒB‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iPropId : [int] Œ^: int æ“¾‚·‚éƒvƒƒpƒeƒB‚ğw’è‚·‚é int Œ^‚Ì’lBw’è‰Â”\‚È’l‚Ìˆê——‚Í Property Identifiers ‚ğQÆB
+pPoint : [var] Œ^: POINT* ˆÊ’u‚Ì’l‚ğó‚¯æ‚é POINT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves the value of a position property.
+ˆÊ’uƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The part in which the position is located determines the possible
-state values. For example, if the position is in a check box, the
-state could be checked or unchecked, but in a caption the possible
-states are active, inactive, or disabled.
+
+ˆÊ’u‚ªŠÜ‚Ü‚ê‚éƒp[ƒg‚É‚æ‚Á‚ÄAw’è‰Â”\‚Èó‘Ô’l‚ªŒˆ‚Ü‚éB‚½‚Æ‚¦‚ÎAˆÊ’u‚ªƒ`ƒFƒbƒNƒ{ƒbƒNƒX“à‚Å‚ ‚ê‚ÎAó‘Ô‚Íƒ`ƒFƒbƒNÏ‚İ‚Ü‚½‚Í–¢ƒ`ƒFƒbƒN‚Æ‚È‚é‚ªAƒLƒƒƒvƒVƒ‡ƒ““à‚Å‚ ‚ê‚ÎA‰Â”\‚Èó‘Ô‚ÍƒAƒNƒeƒBƒuA”ñƒAƒNƒeƒBƒuA‚Ü‚½‚Í–³Œø‚Å‚ ‚éB
 
 
 %index
 GetThemePropertyOrigin
-Retrieves the location of the theme property definition for a property.
+ƒvƒƒpƒeƒB‚É‘Î‚·‚éƒe[ƒ}ƒvƒƒpƒeƒB’è‹`‚ÌêŠ‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pOrigin
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-iPartId : [int] Type: int Value of type int that specifies the part that contains the theme. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-iPropId : [int] Type: int Value of type int that specifies the property to retrieve. You may use any of the property values from Vssym32.h. These values are described in the reference pages for the functions that use them. For instance, the GetThemeInt function uses the TMT_BORDERSIZE value. See the Visual Styles Reference for a list of functions.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+iPartId : [int] Œ^: int ƒe[ƒ}‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iPropId : [int] Œ^: int æ“¾‚·‚éƒvƒƒpƒeƒB‚ğw’è‚·‚é int Œ^‚Ì’lBVssym32.h ‚ÌƒvƒƒpƒeƒB’l‚ğg—p‚Å‚«‚éB‚±‚ê‚ç‚Ì’l‚ÍA‚»‚ê‚ğg—p‚·‚éŠÖ”‚ÌƒŠƒtƒ@ƒŒƒ“ƒXƒy[ƒW‚Åà–¾‚³‚ê‚Ä‚¢‚éB‚½‚Æ‚¦‚ÎAGetThemeInt ŠÖ”‚Í TMT_BORDERSIZE ‚Ì’l‚ğg—p‚·‚éBŠÖ”‚Ìˆê——‚Í Visual Styles Reference ‚ğQÆB
 pOrigin : [var] 
 %inst
-Retrieves the location of the theme property definition for a
-property.
+ƒvƒƒpƒeƒB‚É‘Î‚·‚éƒe[ƒ}ƒvƒƒpƒeƒB’è‹`‚ÌêŠ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeRect
-Retrieves the value of a RECT property.
+RECT ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pRect
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-iPartId : [int] Type: int Value of type int that specifies the part containing the RECT property. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-iPropId : [int] Type: int Value of type int that specifies the property to retrieve. For a list of possible values, see Property Identifiers.
-pRect : [var] Type: LPRECT Pointer to a RECT structure that receives a  rectangle.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+iPartId : [int] Œ^: int RECT ƒvƒƒpƒeƒB‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iPropId : [int] Œ^: int æ“¾‚·‚éƒvƒƒpƒeƒB‚ğw’è‚·‚é int Œ^‚Ì’lBw’è‰Â”\‚È’l‚Ìˆê——‚Í Property Identifiers ‚ğQÆB
+pRect : [var] Œ^: LPRECT ‹éŒ`‚ğó‚¯æ‚é RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves the value of a RECT property.
+RECT ƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeStream
-Retrieves a data stream corresponding to a specified theme, starting from a specified part, state, and property.
+w’è‚³‚ê‚½ƒe[ƒ}‚É‘Î‰‚·‚éƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ğAw’è‚³‚ê‚½ƒp[ƒgAó‘ÔA‚¨‚æ‚ÑƒvƒƒpƒeƒB‚©‚çæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, ppvStream, pcbStream, hInst
-hTheme : [intptr] Type: HTHEME Handle to the theme from which the stream will be retrieved.
-iPartId : [int] Type: int Specifies the part to retrieve a stream from. See Parts and States.
-iStateId : [int] Type: int Specifies the state of the part.
-iPropId : [int] Type: int Specifies the property to retrieve.
-ppvStream : [var] Type: VOID** Address of a pointer that receives the stream.
-pcbStream : [var] Type: DWORD* Pointer that receives the length, in bytes, of the stream received by ppvStream.
-hInst : [intptr] Type: HINSTANCE If iPropId is TMT_STREAM, this value is NULL. If iPropId is TMT_DISKSTREAM, this value is the HINSTANCE of a loaded styles file.
+hTheme : [intptr] Œ^: HTHEME ƒXƒgƒŠ[ƒ€‚ğæ“¾‚·‚éƒe[ƒ}‚Ö‚Ìƒnƒ“ƒhƒ‹B
+iPartId : [int] Œ^: int ƒXƒgƒŠ[ƒ€‚ğæ“¾‚·‚éƒp[ƒg‚ğw’è‚·‚éBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚éB
+iPropId : [int] Œ^: int æ“¾‚·‚éƒvƒƒpƒeƒB‚ğw’è‚·‚éB
+ppvStream : [var] Œ^: VOID** ƒXƒgƒŠ[ƒ€‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^[‚ÌƒAƒhƒŒƒXB
+pcbStream : [var] Œ^: DWORD* ppvStream ‚Åó‚¯æ‚éƒXƒgƒŠ[ƒ€‚ÌƒoƒCƒg’PˆÊ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^[B
+hInst : [intptr] Œ^: HINSTANCE iPropId ‚ª TMT_STREAM ‚Ìê‡A‚±‚Ì’l‚Í NULL ‚Å‚ ‚éBiPropId ‚ª TMT_DISKSTREAM ‚Ìê‡A‚±‚Ì’l‚Íƒ[ƒhÏ‚İƒXƒ^ƒCƒ‹ƒtƒ@ƒCƒ‹‚Ì HINSTANCE ‚Å‚ ‚éB
 %inst
-Retrieves a data stream corresponding to a specified theme, starting
-from a specified part, state, and property.
+w’è‚³‚ê‚½ƒe[ƒ}‚É‘Î‰‚·‚éƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ğAw’è‚³‚ê‚½ƒp[ƒgAó‘ÔA‚¨‚æ‚ÑƒvƒƒpƒeƒB‚©‚çæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Windows 8: In high contrast mode, the data stream retrieved by this
-function is not valid after the hTheme theme handle is closed.
-The data stream retrieved by this function is not a copy; do not
-delete or close the data stream after using it.
+Windows 8: ƒnƒCƒRƒ“ƒgƒ‰ƒXƒgƒ‚[ƒh‚Å‚ÍA‚±‚ÌŠÖ”‚Åæ“¾‚µ‚½ƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ÍAhTheme
+ƒe[ƒ}ƒnƒ“ƒhƒ‹‚ª•Â‚¶‚ç‚ê‚½Œã‚Å‚Í—LŒø‚Å‚È‚¢B
+‚±‚ÌŠÖ”‚Åæ“¾‚µ‚½ƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ÍƒRƒs[‚Å‚Í‚È‚¢Bg—pŒã‚Éƒf[ƒ^ƒXƒgƒŠ[ƒ€‚ğíœ‚Ü‚½‚ÍƒNƒ[ƒY‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 
 
 %index
 GetThemeString
-Retrieves the value of a string property.
+•¶š—ñƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pszBuff, cchMaxBuffChars
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-iPartId : [int] Type: int Value of type int that specifies the part containing the string property. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-iPropId : [int] Type: int Value of type int that specifies the property to retrieve. For a list of possible values, see Property Identifiers.
-pszBuff : [wstr] Type: LPWSTR Pointer to a buffer that receives the string value.
-cchMaxBuffChars : [int] Type: int Value of type int that specifies the maximum number of characters pszBuff can contain.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+iPartId : [int] Œ^: int •¶š—ñƒvƒƒpƒeƒB‚ğŠÜ‚Şƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iPropId : [int] Œ^: int æ“¾‚·‚éƒvƒƒpƒeƒB‚ğw’è‚·‚é int Œ^‚Ì’lBw’è‰Â”\‚È’l‚Ìˆê——‚Í Property Identifiers ‚ğQÆB
+pszBuff : [wstr] Œ^: LPWSTR •¶š—ñ’l‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+cchMaxBuffChars : [int] Œ^: int pszBuff ‚ÉŠi”[‚Å‚«‚éÅ‘å•¶š”‚ğw’è‚·‚é int Œ^‚Ì’lB
 %inst
-Retrieves the value of a string property.
+•¶š—ñƒvƒƒpƒeƒB‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeSysBool
-Retrieves the Boolean value of a system metric.
+ƒVƒXƒeƒ€ƒƒgƒŠƒbƒN‚Ìƒu[ƒ‹’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iBoolId
-hTheme : [intptr] Type: HTHEME Handle to theme data.
-iBoolId : [int] Type: int Value of type int that specifies the system Boolean metric desired. May be the following value.
+hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
+iBoolId : [int] Œ^: int æ“¾‚·‚éƒVƒXƒeƒ€ƒu[ƒ‹ƒƒgƒŠƒbƒN‚ğw’è‚·‚é int Œ^‚Ì’lBŸ‚Ì’l‚ğw’è‚Å‚«‚éB
 %inst
-Retrieves the Boolean value of a system metric.
+ƒVƒXƒeƒ€ƒƒgƒŠƒbƒN‚Ìƒu[ƒ‹’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Value of desired system metric.
+Œ^: BOOL –Ú“I‚ÌƒVƒXƒeƒ€ƒƒgƒŠƒbƒN‚Ì’lB
 
 [”õl]
-If the theme data handle is not a NULL handle, this function returns
-the desired BOOL from the SysMetrics section of the visual style. If
-the theme data handle is NULL, this function returns the value of the
-specified system Boolean.
+ƒe[ƒ}ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ª NULL ƒnƒ“ƒhƒ‹‚Å‚È‚¢ê‡A‚±‚ÌŠÖ”‚ÍƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Ì SysMetrics ƒZƒNƒVƒ‡ƒ“‚©‚ç–Ú“I‚Ì BOOL
+‚ğ•Ô‚·Bƒe[ƒ}ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ª NULL ‚Ìê‡A‚±‚ÌŠÖ”‚Íw’è‚³‚ê‚½ƒVƒXƒeƒ€ƒu[ƒ‹’l‚ğ•Ô‚·B
 
 
 %index
 GetThemeSysColor
-Retrieves the value of a system color.
+ƒVƒXƒeƒ€F‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iColorId
-hTheme : [intptr] Type: HTHEME Handle to theme data.
-iColorId : [int] Type: int Value of type int that specifies the color number. May be one of the values listed in GetSysColor for the nIndex parameter.
+hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
+iColorId : [int] Œ^: int F”Ô†‚ğw’è‚·‚é int Œ^‚Ì’lBGetSysColor ‚Ì nIndex ƒpƒ‰ƒ[ƒ^[‚É‹LÚ‚³‚ê‚Ä‚¢‚é’l‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
 %inst
-Retrieves the value of a system color.
+ƒVƒXƒeƒ€F‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: COLORREF The value of the specified system color.
+Œ^: COLORREF w’è‚³‚ê‚½ƒVƒXƒeƒ€F‚Ì’lB
 
 [”õl]
-If the theme data handle is not a NULL handle, this function returns
-the color from the SysMetrics section of the current visual style. If
-the theme data handle is NULL, this function returns the color
-matching the global system color.
+ƒe[ƒ}ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ª NULL ƒnƒ“ƒhƒ‹‚Å‚È‚¢ê‡A‚±‚ÌŠÖ”‚ÍŒ»İ‚ÌƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Ì SysMetrics
+ƒZƒNƒVƒ‡ƒ“‚©‚çF‚ğ•Ô‚·Bƒe[ƒ}ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ª NULL ‚Ìê‡A‚±‚ÌŠÖ”‚ÍƒOƒ[ƒoƒ‹ƒVƒXƒeƒ€F‚Éˆê’v‚·‚éF‚ğ•Ô‚·B
 
 
 %index
 GetThemeSysColorBrush
-Retrieves a system color brush.
+ƒVƒXƒeƒ€F‚Ìƒuƒ‰ƒV‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iColorId
-hTheme : [intptr] Type: HTHEME Handle to theme data.
-iColorId : [int] Type: int
+hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
+iColorId : [int] Œ^: int
 %inst
-Retrieves a system color brush.
+ƒVƒXƒeƒ€F‚Ìƒuƒ‰ƒV‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HBRUSH Handle to brush data.
+Œ^: HBRUSH ƒuƒ‰ƒVƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
 
 [”õl]
-If the theme data handle is not a NULL handle, GetThemeSysColorBrush
-returns the brush that matches the specified color from the
-SysMetrics section of the visual style. If the theme data handle is
-NULL, the function returns the brush matching the global system
-color.
-The brush handle that is returned by this function should be released
-when it is no longer needed using DeleteObject.
+ƒe[ƒ}ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ª NULL ƒnƒ“ƒhƒ‹‚Å‚È‚¢ê‡AGetThemeSysColorBrush ‚ÍƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Ì
+SysMetrics ƒZƒNƒVƒ‡ƒ“‚©‚çw’è‚³‚ê‚½F‚Éˆê’v‚·‚éƒuƒ‰ƒV‚ğ•Ô‚·Bƒe[ƒ}ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ª NULL
+‚Ìê‡AŠÖ”‚ÍƒOƒ[ƒoƒ‹ƒVƒXƒeƒ€F‚Éˆê’v‚·‚éƒuƒ‰ƒV‚ğ•Ô‚·B
+‚±‚ÌŠÖ”‚ª•Ô‚·ƒuƒ‰ƒVƒnƒ“ƒhƒ‹‚ÍA•s—v‚É‚È‚Á‚½‚Æ‚«‚É DeleteObject ‚ğg—p‚µ‚Ä‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 GetThemeSysFont
-Retrieves the LOGFONT of a system font.
+ƒVƒXƒeƒ€ƒtƒHƒ“ƒg‚Ì LOGFONT ‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iFontId, plf
-hTheme : [intptr] Type: HTHEME Handle to theme data.
-iFontId : [int] Type: int
-plf : [var] Type: LOGFONTW* Pointer to a LOGFONT structure that receives the font information from this function.
+hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
+iFontId : [int] Œ^: int
+plf : [var] Œ^: LOGFONTW* ‚±‚ÌŠÖ”‚©‚ç‚ÌƒtƒHƒ“ƒgî•ñ‚ğó‚¯æ‚é LOGFONT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves the LOGFONT of a system font.
+ƒVƒXƒeƒ€ƒtƒHƒ“ƒg‚Ì LOGFONT ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function requires vssym32.h and uxtheme.h. If the theme data
-handle is not a NULL handle, this function returns the desired
-LOGFONT from the SysMetrics section of the visual style. If the theme
-data handle is NULL, the function returns the value of the global
-system metric of the same type. The font is scaled in dots per inch
-for the current logical screen.
+‚±‚ÌŠÖ”‚É‚Í vssym32.h ‚Æ uxtheme.h ‚ª•K—v‚Å‚ ‚éBƒe[ƒ}ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ª NULL
+ƒnƒ“ƒhƒ‹‚Å‚È‚¢ê‡A‚±‚ÌŠÖ”‚ÍƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Ì SysMetrics ƒZƒNƒVƒ‡ƒ“‚©‚ç–Ú“I‚Ì LOGFONT
+‚ğ•Ô‚·Bƒe[ƒ}ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ª NULL ‚Ìê‡AŠÖ”‚Í“¯‚¶í—Ş‚ÌƒOƒ[ƒoƒ‹ƒVƒXƒeƒ€ƒƒgƒŠƒbƒN’l‚ğ•Ô‚·BƒtƒHƒ“ƒg‚ÍŒ»İ‚Ì˜_—‰æ–Ê‚É‘Î‚µ‚Ä
+dpi ’PˆÊ‚ÅƒXƒP[ƒŠƒ“ƒO‚³‚ê‚éB
 
 
 %index
 GetThemeSysInt
-Retrieves the value of a system int.
+ƒVƒXƒeƒ€ int ‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iIntId, piValue
-hTheme : [intptr] Type: HTHEME Handle to theme data.
-iIntId : [int] Type: int Value of type int that specifies the desired system int. May be the following value.
-piValue : [var] Type: int* Pointer to an int that receives the system integer value.
+hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
+iIntId : [int] Œ^: int æ“¾‚·‚éƒVƒXƒeƒ€ int ‚ğw’è‚·‚é int Œ^‚Ì’lBŸ‚Ì’l‚ğw’è‚Å‚«‚éB
+piValue : [var] Œ^: int* ƒVƒXƒeƒ€®”’l‚ğó‚¯æ‚é int ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Retrieves the value of a system int.
+ƒVƒXƒeƒ€ int ‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeSysSize
-Retrieves the value of a system size metric from theme data.
+ƒe[ƒ}ƒf[ƒ^‚©‚çƒVƒXƒeƒ€ƒTƒCƒYƒƒgƒŠƒbƒN‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iSizeId
-hTheme : [intptr] Type: HTHEME Handle to theme data.
-iSizeId : [int] Type: int Value of type int that specifies the system size metric desired. The following values are valid:
+hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
+iSizeId : [int] Œ^: int æ“¾‚·‚éƒVƒXƒeƒ€ƒTƒCƒYƒƒgƒŠƒbƒN‚ğw’è‚·‚é int Œ^‚Ì’lBŸ‚Ì’l‚ª—LŒø‚Å‚ ‚é:
 %inst
-Retrieves the value of a system size metric from theme data.
+ƒe[ƒ}ƒf[ƒ^‚©‚çƒVƒXƒeƒ€ƒTƒCƒYƒƒgƒŠƒbƒN‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: int Returns the size in pixels.
+Œ^: int ƒTƒCƒY‚ğƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
 
 [”õl]
-If hTheme is not NULL, this function returns the size stored in the
-current visual style (SysMetrics section of the visual style) scaled
-to the current screen dpi. If hTheme is NULL, this function returns
-the global system metric in pixels that is scaled to the current dpi
-only if the application is marked as dpi-aware; otherwise, the pixels
-returned are unscaled.
+hTheme ‚ª NULL ‚Å‚È‚¢ê‡A‚±‚ÌŠÖ”‚ÍŒ»İ‚ÌƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹ (ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Ì SysMetrics ƒZƒNƒVƒ‡ƒ“)
+‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒTƒCƒY‚ğAŒ»İ‚Ì‰æ–Ê dpi ‚ÉƒXƒP[ƒŠƒ“ƒO‚µ‚Ä•Ô‚·BhTheme ‚ª NULL
+‚Ìê‡A‚±‚ÌŠÖ”‚ÍƒsƒNƒZƒ‹’PˆÊ‚ÌƒOƒ[ƒoƒ‹ƒVƒXƒeƒ€ƒƒgƒŠƒbƒN‚ğ•Ô‚·BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª dpi ‘Î‰‚Æ‚µ‚Äƒ}[ƒN‚³‚ê‚Ä‚¢‚éê‡‚Ì‚İAŒ»İ‚Ì
+dpi ‚ÉƒXƒP[ƒŠƒ“ƒO‚³‚ê‚éB‚»‚êˆÈŠO‚Ìê‡‚ÍAƒXƒP[ƒŠƒ“ƒO‚³‚ê‚Ä‚¢‚È‚¢ƒsƒNƒZƒ‹’l‚ª•Ô‚³‚ê‚éB
 
 
 %index
 GetThemeSysString
-Retrieves the value of a system string.
+ƒVƒXƒeƒ€•¶š—ñ‚Ì’l‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iStringId, pszStringBuff, cchMaxStringChars
-hTheme : [intptr] Type: HTHEME Handle to theme data.
-iStringId : [int] Type: int
-pszStringBuff : [wstr] Type: LPWSTR Pointer to the buffer that receives the string value from this function.
-cchMaxStringChars : [int] Type: int Value of type int that specifies the maximum number of characters the string buffer can hold.
+hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹B
+iStringId : [int] Œ^: int
+pszStringBuff : [wstr] Œ^: LPWSTR ‚±‚ÌŠÖ”‚©‚ç•¶š—ñ’l‚ğó‚¯æ‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+cchMaxStringChars : [int] Œ^: int •¶š—ñƒoƒbƒtƒ@‚ÉŠi”[‚Å‚«‚éÅ‘å•¶š”‚ğw’è‚·‚é int Œ^‚Ì’lB
 %inst
-Retrieves the value of a system string.
+ƒVƒXƒeƒ€•¶š—ñ‚Ì’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If the theme data handle is not a NULL handle, this function returns
-the desired string from the SysMetrics section of the visual style.
-If the theme data handle is NULL, this function returns the value of
-the global system metric of the same type.
+ƒe[ƒ}ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ª NULL ƒnƒ“ƒhƒ‹‚Å‚È‚¢ê‡A‚±‚ÌŠÖ”‚ÍƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Ì SysMetrics
+ƒZƒNƒVƒ‡ƒ“‚©‚ç–Ú“I‚Ì•¶š—ñ‚ğ•Ô‚·Bƒe[ƒ}ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ª NULL ‚Ìê‡A‚±‚ÌŠÖ”‚Í“¯‚¶í—Ş‚ÌƒOƒ[ƒoƒ‹ƒVƒXƒeƒ€ƒƒgƒŠƒbƒN’l‚ğ•Ô‚·B
 
 
 %index
 GetThemeTextExtent
-Calculates the size and location of the specified text when rendered in the visual style font.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ÌƒtƒHƒ“ƒg‚ÅƒŒƒ“ƒ_ƒŠƒ“ƒO‚µ‚½‚Æ‚«‚ÌAw’è‚³‚ê‚½ƒeƒLƒXƒg‚ÌƒTƒCƒY‚ÆˆÊ’u‚ğŒvZ‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pszText, cchCharCount, dwTextFlags, pBoundingRect, pExtentRect
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC to select the font into.
-iPartId : [int] Type: int Value of type int that specifies the part in which the text will be drawn. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-pszText : [wstr] Type: LPCWSTR Pointer to a string that contains the text to draw.
-cchCharCount : [int] Type: int Value of type int that contains the number of characters to draw. If the parameter is set to -1, all the characters in the string are drawn.
-dwTextFlags : [int] Type: DWORD DWORD that contains one or more values that specify the string's formatting. See Format Values for possible parameter values.
-pBoundingRect : [var] Type: LPCRECT Pointer to a RECT structure that contains the rectangle used to control layout of the text. This parameter may be set to NULL.
-pExtentRect : [var] Type: LPRECT Pointer to a RECT structure that contains, in logical coordinates, the rectangle required to fit the rendered text.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+hdc : [intptr] Œ^: HDC ƒtƒHƒ“ƒg‚ğ‘I‘ğ‚·‚é HDCB
+iPartId : [int] Œ^: int ƒeƒLƒXƒg‚ğ•`‰æ‚·‚éƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+pszText : [wstr] Œ^: LPCWSTR •`‰æ‚·‚éƒeƒLƒXƒg‚ğŠÜ‚Ş•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+cchCharCount : [int] Œ^: int •`‰æ‚·‚é•¶š”‚ğŠÜ‚Ş int Œ^‚Ì’lB-1 ‚Éİ’è‚·‚é‚Æ•¶š—ñ“à‚Ì‚·‚×‚Ä‚Ì•¶š‚ª•`‰æ‚³‚ê‚éB
+dwTextFlags : [int] Œ^: DWORD •¶š—ñ‚Ì‘®İ’è‚ğw’è‚·‚é 1 ‚ÂˆÈã‚Ì’l‚ğŠÜ‚Ş DWORDBw’è‰Â”\‚Èƒpƒ‰ƒ[ƒ^[’l‚É‚Â‚¢‚Ä‚Í Format Values ‚ğQÆB
+pBoundingRect : [var] Œ^: LPCRECT ƒeƒLƒXƒg‚ÌƒŒƒCƒAƒEƒg‚ğ§Œä‚·‚é‚½‚ß‚Ég—p‚³‚ê‚é‹éŒ`‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
+pExtentRect : [var] Œ^: LPRECT ƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚½ƒeƒLƒXƒg‚ğû‚ß‚é‚½‚ß‚É•K—v‚È˜_—À•WŒn‚Å‚Ì‹éŒ`‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
 %inst
-Calculates the size and location of the specified text when rendered
-in the visual style font.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ÌƒtƒHƒ“ƒg‚ÅƒŒƒ“ƒ_ƒŠƒ“ƒO‚µ‚½‚Æ‚«‚ÌAw’è‚³‚ê‚½ƒeƒLƒXƒg‚ÌƒTƒCƒY‚ÆˆÊ’u‚ğŒvZ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeTextMetrics
-Retrieves information about the font specified by a visual style for a particular part.
+“Á’è‚Ìƒp[ƒg‚É‘Î‚µ‚ÄƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ªw’è‚·‚éƒtƒHƒ“ƒg‚É‚Â‚¢‚Ä‚Ìî•ñ‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, ptm
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC to use for screen context. This parameter may be set to NULL.
-iPartId : [int] Type: int Value of type int that specifies the part to retrieve font information about. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-ptm : [var] Type: TEXTMETRIC* Receives the font information.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+hdc : [intptr] Œ^: HDC ƒXƒNƒŠ[ƒ“ƒRƒ“ƒeƒLƒXƒg‚Ég—p‚·‚é HDCB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
+iPartId : [int] Œ^: int ƒtƒHƒ“ƒgî•ñ‚ğæ“¾‚·‚éƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+ptm : [var] Œ^: TEXTMETRIC* ƒtƒHƒ“ƒgî•ñ‚ğó‚¯æ‚éB
 %inst
-Retrieves information about the font specified by a visual style for
-a particular part.
+“Á’è‚Ìƒp[ƒg‚É‘Î‚µ‚ÄƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ªw’è‚·‚éƒtƒHƒ“ƒg‚É‚Â‚¢‚Ä‚Ìî•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeTimingFunction
-Gets a predefined timing function based on a timing function identifier.
+ƒ^ƒCƒ~ƒ“ƒOŠÖ”¯•Êq‚ÉŠî‚Ã‚¢‚Ä–‘O’è‹`‚³‚ê‚½ƒ^ƒCƒ~ƒ“ƒOŠÖ”‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iTimingFunctionId, pTimingFunction, cbSize, pcbSizeOut
-hTheme : [intptr] An opened theme handle.
-iTimingFunctionId : [int] A timing function identifier.
-pTimingFunction : [var] A buffer to receive a predefined timing function pointer.
-cbSize : [int] The byte size of the buffer pointed by pTimingFunction.
-pcbSizeOut : [var] The byte size of the timing function structure.
+hTheme : [intptr] ƒI[ƒvƒ“‚³‚ê‚½ƒe[ƒ}ƒnƒ“ƒhƒ‹B
+iTimingFunctionId : [int] ƒ^ƒCƒ~ƒ“ƒOŠÖ”¯•ÊqB
+pTimingFunction : [var] –‘O’è‹`‚³‚ê‚½ƒ^ƒCƒ~ƒ“ƒOŠÖ”ƒ|ƒCƒ“ƒ^[‚ğó‚¯æ‚éƒoƒbƒtƒ@B
+cbSize : [int] pTimingFunction ‚ªw‚·ƒoƒbƒtƒ@‚ÌƒoƒCƒgƒTƒCƒYB
+pcbSizeOut : [var] ƒ^ƒCƒ~ƒ“ƒOŠÖ”\‘¢‘Ì‚ÌƒoƒCƒgƒTƒCƒYB
 %inst
-Gets a predefined timing function based on a timing function
-identifier.
+ƒ^ƒCƒ~ƒ“ƒOŠÖ”¯•Êq‚ÉŠî‚Ã‚¢‚Ä–‘O’è‹`‚³‚ê‚½ƒ^ƒCƒ~ƒ“ƒOŠÖ”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If this function succeeds, it returns S_OK. Otherwise, it returns an
-HRESULT error code.
+ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetThemeTransitionDuration
-Gets the duration for the specified transition.
+w’è‚³‚ê‚½‘JˆÚ‚ÌŠúŠÔ‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateIdFrom, iStateIdTo, iPropId, pdwDuration
-hTheme : [intptr] Type: HTHEME Handle of the theme data.
-iPartId : [int] Type: int ID of the part.
-iStateIdFrom : [int] Type: int State ID of the part before the transition.
-iStateIdTo : [int] Type: int State ID of the part after the transition.
-iPropId : [int] Type: int Property ID.
-pdwDuration : [var] Type: DWORD* Address of a variable that receives the transition duration, in milliseconds.
+hTheme : [intptr] Œ^: HTHEME ƒe[ƒ}ƒf[ƒ^‚Ìƒnƒ“ƒhƒ‹B
+iPartId : [int] Œ^: int ƒp[ƒg‚Ì IDB
+iStateIdFrom : [int] Œ^: int ‘JˆÚ‘O‚Ìƒp[ƒg‚Ìó‘Ô IDB
+iStateIdTo : [int] Œ^: int ‘JˆÚŒã‚Ìƒp[ƒg‚Ìó‘Ô IDB
+iPropId : [int] Œ^: int ƒvƒƒpƒeƒB IDB
+pdwDuration : [var] Œ^: DWORD* ‘JˆÚŠúŠÔ (ƒ~ƒŠ•b’PˆÊ) ‚ğó‚¯æ‚é•Ï”‚ÌƒAƒhƒŒƒXB
 %inst
-Gets the duration for the specified transition.
+w’è‚³‚ê‚½‘JˆÚ‚ÌŠúŠÔ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 GetWindowTheme
-Retrieves a theme handle to a window that has visual styles applied.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª“K—p‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒe[ƒ}ƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hwnd
-hwnd : [intptr] Type: HWND Handle of the window.
+hwnd : [intptr] Œ^: HWND ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
 %inst
-Retrieves a theme handle to a window that has visual styles applied.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª“K—p‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚Ö‚Ìƒe[ƒ}ƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HTHEME The most recent theme handle from OpenThemeData.
+Œ^: HTHEME OpenThemeData ‚©‚ç•Ô‚³‚ê‚½ÅV‚Ìƒe[ƒ}ƒnƒ“ƒhƒ‹B
 
 [”õl]
-If a window has a visual style applied, the GetWindowTheme function
-returns the most recent theme handle from OpenThemeData. If no visual
-style is applied, GetWindowTheme returns NULL.
+ƒEƒBƒ“ƒhƒE‚ÉƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª“K—p‚³‚ê‚Ä‚¢‚éê‡AGetWindowTheme ŠÖ”‚Í OpenThemeData
+‚©‚ç•Ô‚³‚ê‚½ÅV‚Ìƒe[ƒ}ƒnƒ“ƒhƒ‹‚ğ•Ô‚·BƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª“K—p‚³‚ê‚Ä‚¢‚È‚¢ê‡AGetWindowTheme ‚Í NULL ‚ğ•Ô‚·B
 
 
 %index
 HitTestThemeBackground
-Retrieves a hit test code for a point in the background specified by a visual style.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Åw’è‚³‚ê‚½”wŒi“à‚Ìƒ|ƒCƒ“ƒg‚É‘Î‚µ‚ÄƒqƒbƒgƒeƒXƒgƒR[ƒh‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, dwOptions, pRect, hrgn, ptTest, pwHitTestCode
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC to use when drawing. This parameter may be set to NULL.
-iPartId : [int] Type: int Value of type int that specifies the part. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-dwOptions : [int] Type: DWORD DWORD that specifies the hit test options. See Hit Test Options for a list of options.
-pRect : [var] Type: LPCRECT Pointer to a RECT structure that contains, in logical coordinates, the rectangle that bounds the background.
-hrgn : [intptr] Type: HRGN Handle to a region that can be used to specify the bounds of a hit test area. This parameter may be set to NULL.
-ptTest : [int] Type: POINT
-pwHitTestCode : [var] Type: WORD* WORD that receives the hit test code that indicates whether the point in ptTest is in the background area bounded by pRect or hrgn. See Hit Test Return Values for a list of values returned.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+hdc : [intptr] Œ^: HDC •`‰æ‚Ég—p‚·‚é HDCB‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
+iPartId : [int] Œ^: int ƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+dwOptions : [int] Œ^: DWORD ƒqƒbƒgƒeƒXƒgƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚é DWORDBƒIƒvƒVƒ‡ƒ“‚Ìˆê——‚Í Hit Test Options ‚ğQÆB
+pRect : [var] Œ^: LPCRECT ”wŒi‚Ì‹«ŠE‚ğ•\‚·˜_—À•WŒn‚Å‚Ì‹éŒ`‚ğŠÜ‚Ş RECT \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+hrgn : [intptr] Œ^: HRGN ƒqƒbƒgƒeƒXƒg—Ìˆæ‚Ì‹«ŠE‚ğw’è‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éƒŠ[ƒWƒ‡ƒ“‚Ö‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^[‚Í NULL ‚Éİ’è‚Å‚«‚éB
+ptTest : [int] Œ^: POINT
+pwHitTestCode : [var] Œ^: WORD* ptTest ‚Ìƒ|ƒCƒ“ƒg‚ª pRect ‚Ü‚½‚Í hrgn ‚ÅˆÍ‚Ü‚ê‚½”wŒi—Ìˆæ“à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒqƒbƒgƒeƒXƒgƒR[ƒh‚ğó‚¯æ‚é WORDB•Ô‚³‚ê‚é’l‚Ìˆê——‚Í Hit Test Return Values ‚ğQÆB
 %inst
-Retrieves a hit test code for a point in the background specified by
-a visual style.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Åw’è‚³‚ê‚½”wŒi“à‚Ìƒ|ƒCƒ“ƒg‚É‘Î‚µ‚ÄƒqƒbƒgƒeƒXƒgƒR[ƒh‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The values in ptTest and pRect should be in the same coordinate
-system, such as client or screen. If the hrgn parameter is used, it
-must be specified in the same coordinates as pRect and ptTest.
+ptTest ‚Æ pRect ‚Ì’l‚ÍAƒNƒ‰ƒCƒAƒ“ƒg‚âƒXƒNƒŠ[ƒ“‚È‚Ç“¯‚¶À•WŒn‚Åw’è‚·‚é•K—v‚ª‚ ‚éBhrgn
+ƒpƒ‰ƒ[ƒ^[‚ğg—p‚·‚éê‡‚ÍApRect ‚¨‚æ‚Ñ ptTest ‚Æ“¯‚¶À•WŒn‚Åw’è‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
@@ -1491,23 +1368,20 @@ DllMain ‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^“à‚ÅŒÄ‚ñ‚Å‚Í‚È‚ç‚È‚¢B–ß‚è’l‚ª•s
 
 %index
 IsCompositionActive
-Determines whether Desktop Window Manager (DWM) composition effects are available to the theme.
+ƒfƒXƒNƒgƒbƒvƒEƒBƒ“ƒhƒEƒ}ƒl[ƒWƒƒ[ (DWM) ‚ÌƒRƒ“ƒ|ƒWƒVƒ‡ƒ“Œø‰Ê‚ªƒe[ƒ}‚Å—˜—p‰Â”\‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 Win32 uxtheme
 %prm
 
 %inst
-Determines whether Desktop Window Manager (DWM) composition effects
-are available to the theme.
+ƒfƒXƒNƒgƒbƒvƒEƒBƒ“ƒhƒEƒ}ƒl[ƒWƒƒ[ (DWM) ‚ÌƒRƒ“ƒ|ƒWƒVƒ‡ƒ“Œø‰Ê‚ªƒe[ƒ}‚Å—˜—p‰Â”\‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL TRUE if composition effects are available; otherwise,
-FALSE.
+Œ^: BOOL ƒRƒ“ƒ|ƒWƒVƒ‡ƒ“Œø‰Ê‚ª—˜—p‰Â”\‚Èê‡‚Í TRUEA‚»‚êˆÈŠO‚Ìê‡‚Í FALSEB
 
 [”õl]
-Composition effects are provided through the DWM. This function first
-determines whether DWM is active, then checks whether it has
-composition effects enabled.
+ƒRƒ“ƒ|ƒWƒVƒ‡ƒ“Œø‰Ê‚Í DWM ‚É‚æ‚Á‚Ä’ñ‹Ÿ‚³‚ê‚éB‚±‚ÌŠÖ”‚Í‚Ü‚¸ DWM
+‚ªƒAƒNƒeƒBƒu‚©‚Ç‚¤‚©‚ğ”»’è‚µAŸ‚ÉƒRƒ“ƒ|ƒWƒVƒ‡ƒ“Œø‰Ê‚ª—LŒø‚©‚Ç‚¤‚©‚ğŠm”F‚·‚éB
 
 
 %index
@@ -1530,57 +1404,54 @@ DllMain ‚âƒOƒ[ƒoƒ‹ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^“à‚ÅŒÄ‚ñ‚Å‚Í‚È‚ç‚È‚¢B–ß‚è’l‚ª•s
 
 %index
 IsThemeBackgroundPartiallyTransparent
-Retrieves whether the background specified by the visual style has transparent pieces or alpha-blended pieces.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Åw’è‚³‚ê‚½”wŒi‚É“§–¾•”•ª‚Ü‚½‚ÍƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh•”•ª‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-iPartId : [int] Type: int Value of type int that specifies the part. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+iPartId : [int] Œ^: int ƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int ƒp[ƒg‚Ìó‘Ô‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
 %inst
-Retrieves whether the background specified by the visual style has
-transparent pieces or alpha-blended pieces.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚Åw’è‚³‚ê‚½”wŒi‚É“§–¾•”•ª‚Ü‚½‚ÍƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh•”•ª‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns one of the following values.
-This doc was truncated.
+Œ^: BOOL Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IsThemeDialogTextureEnabled
-Reports whether a specified dialog window supports background texturing.
+w’è‚³‚ê‚½ƒ_ƒCƒAƒƒOƒEƒBƒ“ƒhƒE‚ª”wŒiƒeƒNƒXƒ`ƒƒƒŠƒ“ƒO‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ•ñ‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hwnd
-hwnd : [intptr] Type: HWND HWND value that specifies a dialog window.
+hwnd : [intptr] Œ^: HWND ƒ_ƒCƒAƒƒOƒEƒBƒ“ƒhƒE‚ğw’è‚·‚é HWND ’lB
 %inst
-Reports whether a specified dialog window supports background
-texturing.
+w’è‚³‚ê‚½ƒ_ƒCƒAƒƒOƒEƒBƒ“ƒhƒE‚ª”wŒiƒeƒNƒXƒ`ƒƒƒŠƒ“ƒO‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ•ñ‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns one of the following values.
-This doc was truncated.
+Œ^: BOOL Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IsThemePartDefined
-Retrieves whether a visual style has defined parameters for the specified part and state.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ªw’è‚³‚ê‚½ƒp[ƒg‚¨‚æ‚Ñó‘Ô‚É‘Î‚·‚éƒpƒ‰ƒ[ƒ^[‚ğ’è‹`‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-iPartId : [int] Type: int Value of type int that specifies the part. See Parts and States.
-iStateId : [int] Type: int Currently unused. The value should be 0.
+hTheme : [intptr] Œ^: HTHEME ƒEƒBƒ“ƒhƒE‚Ìw’è‚³‚ê‚½ƒe[ƒ}ƒf[ƒ^‚Ö‚Ìƒnƒ“ƒhƒ‹BHTHEME ‚ğì¬‚·‚é‚É‚Í OpenThemeData ‚ğg—p‚·‚éB
+iPartId : [int] Œ^: int ƒp[ƒg‚ğw’è‚·‚é int Œ^‚Ì’lBParts and States ‚ğQÆB
+iStateId : [int] Œ^: int Œ»İ‚Íg—p‚³‚ê‚È‚¢B’l‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Retrieves whether a visual style has defined parameters for the
-specified part and state.
+ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ªw’è‚³‚ê‚½ƒp[ƒg‚¨‚æ‚Ñó‘Ô‚É‘Î‚·‚éƒpƒ‰ƒ[ƒ^[‚ğ’è‹`‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: BOOL Returns one of the following values.
-This doc was truncated.
+Œ^: BOOL Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 
 %index
@@ -1607,78 +1478,66 @@ pszClassList ‚Í’Pˆê–¼‚Å‚Í‚È‚­ƒŠƒXƒg‚ÅAƒNƒ‰ƒX‚ÆŒ»İ‚ÌƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ÌÅ“Kƒ}ƒ
 
 %index
 OpenThemeDataEx
-Opens the theme data associated with a window for specified theme classes.
+w’è‚³‚ê‚½ƒe[ƒ}ƒNƒ‰ƒX‚É‘Î‚·‚éƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒe[ƒ}ƒf[ƒ^‚ğŠJ‚­B
 %group
 Win32 uxtheme
 %prm
 hwnd, pszClassList, dwFlags
-hwnd : [intptr] Type: HWND A handle to a window or control that the theme is to be retrieved from.
-pszClassList : [wstr] Type: LPCWSTR A semicolon-separated list of class names to match.
-dwFlags : [int] Type: DWORD
+hwnd : [intptr] Œ^: HWND ƒe[ƒ}‚ğæ“¾‚·‚éƒEƒBƒ“ƒhƒE‚Ü‚½‚ÍƒRƒ“ƒgƒ[ƒ‹‚Ö‚Ìƒnƒ“ƒhƒ‹B
+pszClassList : [wstr] Œ^: LPCWSTR ˆê’v‚³‚¹‚éƒNƒ‰ƒX–¼‚ğƒZƒ~ƒRƒƒ“‚Å‹æØ‚Á‚½ƒŠƒXƒgB
+dwFlags : [int] Œ^: DWORD
 %inst
-Opens the theme data associated with a window for specified theme
-classes.
+w’è‚³‚ê‚½ƒe[ƒ}ƒNƒ‰ƒX‚É‘Î‚·‚éƒEƒBƒ“ƒhƒE‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒe[ƒ}ƒf[ƒ^‚ğŠJ‚­B
 
 [–ß‚è’l]
-Type: HTHEME If a match is found, a valid handle to a theme is
-returned. Otherwise, a NULL value will be returned.
+Œ^: HTHEME ˆê’v‚ªŒ©‚Â‚©‚Á‚½ê‡‚ÍAƒe[ƒ}‚Ö‚Ì—LŒø‚Èƒnƒ“ƒhƒ‹‚ª•Ô‚³‚ê‚éB‚»‚êˆÈŠO‚Ìê‡‚Í NULL ’l‚ª•Ô‚³‚ê‚éB
 
 [”õl]
-The string specified by pszClassIdList will be tokenized using
-semicolons as a delimiter. The names are matched against class names
-one token at a time. If no match is found for a particular token, the
-next token will be matched. If a match is found, the return value of
-the function will be the theme handle associated with the matched
-class. Class names for the Aero theme are defined in AeroStyle.xml.
+pszClassIdList ‚Åw’è‚³‚ê‚½•¶š—ñ‚ÍƒZƒ~ƒRƒƒ“‚ğ‹æØ‚è•¶š‚Æ‚µ‚Äƒg[ƒNƒ“‰»‚³‚ê‚éBƒNƒ‰ƒX–¼‚Í 1
+ƒg[ƒNƒ“‚¸‚ÂÆ‡‚³‚ê‚éB‚ ‚éƒg[ƒNƒ“‚Éˆê’v‚·‚é‚à‚Ì‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚ÍAŸ‚Ìƒg[ƒNƒ“‚ªÆ‡‚³‚ê‚éBˆê’v‚ªŒ©‚Â‚©‚Á‚½ê‡AŠÖ”‚Ì–ß‚è’l‚Íˆê’v‚µ‚½ƒNƒ‰ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒe[ƒ}ƒnƒ“ƒhƒ‹‚Æ‚È‚éBAero
+ƒe[ƒ}‚ÌƒNƒ‰ƒX–¼‚Í AeroStyle.xml ‚Å’è‹`‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 OpenThemeDataForDpi
-A variant of OpenThemeData that opens a theme handle associated with a specific DPI.
+“Á’è‚Ì DPI ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒe[ƒ}ƒnƒ“ƒhƒ‹‚ğŠJ‚­ OpenThemeData ‚Ì”h¶ŠÖ”B
 %group
 Win32 uxtheme
 %prm
 hwnd, pszClassList, dpi
-hwnd : [intptr] The handle of the window for which theme data is required.
-pszClassList : [wstr] A pointer to a string that contains a semicolon-separated list of classes.
-dpi : [int] The specified DPI value with which to associate the theme handle. The function will return an error if this value is outside of those that correspond to the set of connected monitors.
+hwnd : [intptr] ƒe[ƒ}ƒf[ƒ^‚ª•K—v‚ÈƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B
+pszClassList : [wstr] ƒZƒ~ƒRƒƒ“‚Å‹æØ‚ç‚ê‚½ƒNƒ‰ƒX‚ÌƒŠƒXƒg‚ğŠÜ‚Ş•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^[B
+dpi : [int] ƒe[ƒ}ƒnƒ“ƒhƒ‹‚ÉŠÖ˜A•t‚¯‚éw’è‚³‚ê‚½ DPI ’lB‚±‚Ì’l‚ªÚ‘±‚³‚ê‚Ä‚¢‚éƒ‚ƒjƒ^[‚É‘Î‰‚·‚é’l‚ÌW‡ŠO‚Å‚ ‚éê‡AŠÖ”‚ÍƒGƒ‰[‚ğ•Ô‚·B
 %inst
-A variant of OpenThemeData that opens a theme handle associated with
-a specific DPI.
+“Á’è‚Ì DPI ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒe[ƒ}ƒnƒ“ƒhƒ‹‚ğŠJ‚­ OpenThemeData ‚Ì”h¶ŠÖ”B
 
 [–ß‚è’l]
-See OpenThemeData.
+OpenThemeData ‚ğQÆB
 
 [”õl]
-OpenThemeData will create theme handles associated with the DPI of a
-window when used with Per Monitor v2 windows. OpenThemeDataForDpi
-allows you to open a theme handle for a specific DPI when you do not
-have a window at that DPI. The behavior of the returned theme handle
-will be undermined if the requested DPI value does not correspond to
-a currently connected display. The theming system only loads theme
-assets for the set of DPI values corresponding to the currently
-connected displays. The theme handle will become invalid anytime the
-system reloads the theme data. Applications are required to monitor
-WM_THEMECHANGED and close and reopen all theme handles in response.
-This behavior is the same regardless of whether the handles were
-opened via OpenThemeData or OpenThemeDataForDpi.
+OpenThemeData ‚ÍAPer Monitor v2 ƒEƒBƒ“ƒhƒE‚Æ‚Æ‚à‚Ég—p‚³‚ê‚½ê‡‚ÉAƒEƒBƒ“ƒhƒE‚Ì DPI
+‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒe[ƒ}ƒnƒ“ƒhƒ‹‚ğì¬‚·‚éBOpenThemeDataForDpi ‚ÍA‚»‚Ì DPI
+‚ÌƒEƒBƒ“ƒhƒE‚ğ‚Á‚Ä‚¢‚È‚¢ê‡‚ÉA“Á’è‚Ì DPI ‚É‘Î‚·‚éƒe[ƒ}ƒnƒ“ƒhƒ‹‚ğŠJ‚¯‚é‚æ‚¤‚É‚·‚éB—v‹‚³‚ê‚½ DPI
+’l‚ªŒ»İÚ‘±‚³‚ê‚Ä‚¢‚éƒfƒBƒXƒvƒŒƒC‚É‘Î‰‚µ‚Ä‚¢‚È‚¢ê‡A•Ô‚³‚ê‚éƒe[ƒ}ƒnƒ“ƒhƒ‹‚Ì“®ì‚Í•s’è‚Æ‚È‚éBƒe[ƒ}ƒVƒXƒeƒ€‚ÍAŒ»İÚ‘±‚³‚ê‚Ä‚¢‚éƒfƒBƒXƒvƒŒƒC‚É‘Î‰‚·‚é
+DPI
+’l‚ÌW‡‚É‘Î‚µ‚Ä‚Ì‚İƒe[ƒ}ƒAƒZƒbƒg‚ğƒ[ƒh‚·‚éBƒe[ƒ}ƒnƒ“ƒhƒ‹‚ÍAƒVƒXƒeƒ€‚ªƒe[ƒ}ƒf[ƒ^‚ğÄƒ[ƒh‚·‚é‚½‚Ñ‚É–³Œø‚Æ‚È‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+WM_THEMECHANGED ‚ğŠÄ‹‚µA‚»‚ê‚É‰‚¶‚Ä‚·‚×‚Ä‚Ìƒe[ƒ}ƒnƒ“ƒhƒ‹‚ğ•Â‚¶‚ÄÄƒI[ƒvƒ“‚·‚é•K—v‚ª‚ ‚éB‚±‚Ì“®ì‚ÍAƒnƒ“ƒhƒ‹‚ª
+OpenThemeData ‚ÅŠJ‚©‚ê‚½‚© OpenThemeDataForDpi ‚ÅŠJ‚©‚ê‚½‚©‚É‚©‚©‚í‚ç‚¸“¯‚¶‚Å‚ ‚éB
 
 
 %index
 SetThemeAppProperties
-Sets the flags that determine how visual styles are implemented in the calling application.
+ŒÄ‚Ño‚µŒ³‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÅƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª‚Ç‚Ì‚æ‚¤‚ÉÀ‘•‚³‚ê‚é‚©‚ğŒˆ’è‚·‚éƒtƒ‰ƒO‚ğİ’è‚·‚éB
 %group
 Win32 uxtheme
 %prm
 dwFlags
-dwFlags : [int] Type: DWORD DWORD that specifies one or more of the following bit flags, which can be combined with a logical OR.
+dwFlags : [int] Œ^: DWORD ˜_— OR ‚ÅŒ‹‡‚Å‚«‚éAŸ‚Ìƒrƒbƒgƒtƒ‰ƒO‚Ì 1 ‚ÂˆÈã‚ğw’è‚·‚é DWORDB
 %inst
-Sets the flags that determine how visual styles are implemented in
-the calling application.
+ŒÄ‚Ño‚µŒ³‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÅƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª‚Ç‚Ì‚æ‚¤‚ÉÀ‘•‚³‚ê‚é‚©‚ğŒˆ’è‚·‚éƒtƒ‰ƒO‚ğİ’è‚·‚éB
 
 [”õl]
-After you set the flags, send a WM_THEMECHANGED message to your
-application's main window for the changes to take effect.
+ƒtƒ‰ƒO‚ğİ’è‚µ‚½ŒãA•ÏX‚ğ—LŒø‚É‚·‚é‚½‚ß‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒƒCƒ“ƒEƒBƒ“ƒhƒE‚Ö WM_THEMECHANGED ƒƒbƒZ[ƒW‚ğ‘—M‚·‚éB
 
 
 %index
@@ -1707,44 +1566,40 @@ pszSubAppName ‚Æ pszSubIdList ‚Ì—¼•û‚ª NULL ‚Ìê‡Aƒe[ƒ}ƒ}ƒl[ƒWƒƒ‚ÍˆÈ‘O‚ÌŠÖ˜A
 
 %index
 SetWindowThemeAttribute
-Sets attributes to control how visual styles are applied to a specified window.
+w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÉƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª‚Ç‚Ì‚æ‚¤‚É“K—p‚³‚ê‚é‚©‚ğ§Œä‚·‚é‘®«‚ğİ’è‚·‚éB
 %group
 Win32 uxtheme
 %prm
 hwnd, eAttribute, pvAttribute, cbAttribute
-hwnd : [intptr] Type: HWND Handle to a window to apply changes to.
+hwnd : [intptr] Œ^: HWND •ÏX‚ğ“K—p‚·‚éƒEƒBƒ“ƒhƒE‚Ö‚Ìƒnƒ“ƒhƒ‹B
 eAttribute : [int] 
-pvAttribute : [intptr] Type: PVOID A pointer that specifies attributes to set. Type is determined by the value of the eAttribute value.
-cbAttribute : [int] Type: DWORD Specifies the size, in bytes, of the data pointed to by pvAttribute.
+pvAttribute : [intptr] Œ^: PVOID İ’è‚·‚é‘®«‚ğw’è‚·‚éƒ|ƒCƒ“ƒ^[BŒ^‚Í eAttribute ’l‚É‚æ‚Á‚ÄŒˆ‚Ü‚éB
+cbAttribute : [int] Œ^: DWORD pvAttribute ‚ªw‚·ƒf[ƒ^‚ÌƒoƒCƒgƒTƒCƒY‚ğw’è‚·‚éB
 %inst
-Sets attributes to control how visual styles are applied to a
-specified window.
+w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÉƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒCƒ‹‚ª‚Ç‚Ì‚æ‚¤‚É“K—p‚³‚ê‚é‚©‚ğ§Œä‚·‚é‘®«‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+Œ^: HRESULT ŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 UpdatePanningFeedback
-Updates clients about state of a window resulting from a panning gesture. This function can only be called after a BeginPanningFeedback call.
+ƒpƒ“ƒWƒFƒXƒ`ƒƒ[‚ÌŒ‹‰Ê‚Æ‚µ‚Ä‚ÌƒEƒBƒ“ƒhƒE‚Ìó‘Ô‚É‚Â‚¢‚ÄƒNƒ‰ƒCƒAƒ“ƒg‚ğXV‚·‚éB‚±‚ÌŠÖ”‚Í BeginPanningFeedback ‚ÌŒÄ‚Ño‚µŒã‚É‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 %group
 Win32 uxtheme
 %prm
 hwnd, lTotalOverpanOffsetX, lTotalOverpanOffsetY, fInInertia
-hwnd : [intptr] Type: HWND The handle to the target window that will receive feedback. For the method to succeed, this must be the same HWND as provided in BeginPanningFeedback.
-lTotalOverpanOffsetX : [int] Type: LONG The total displacement that the window has moved in the horizontal direction since the end of scrollable region was reached. A maximum displacement of 30 pixels is allowed.
-lTotalOverpanOffsetY : [int] Type: LONG The total displacement that the window has moved in the vertical direction since the end of scrollable region was reached. A maximum displacement of 30 pixels is allowed.
-fInInertia : [int] Type: BOOL Flag indicating whether the application is handling a WM_GESTURE message with the GF_INERTIA FLAG set.
+hwnd : [intptr] Œ^: HWND ƒtƒB[ƒhƒoƒbƒN‚ğó‚¯æ‚éƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹Bƒƒ\ƒbƒh‚ª¬Œ÷‚·‚é‚½‚ß‚É‚ÍA‚±‚ê‚ª BeginPanningFeedback ‚Åw’è‚³‚ê‚½ HWND ‚Æ“¯‚¶‚Å‚ ‚é•K—v‚ª‚ ‚éB
+lTotalOverpanOffsetX : [int] Œ^: LONG ƒXƒNƒ[ƒ‹‰Â”\—Ìˆæ‚Ì’[‚É’B‚µ‚Ä‚©‚çAƒEƒBƒ“ƒhƒE‚ª…•½•ûŒü‚ÉˆÚ“®‚µ‚½‘•ÏˆÊ—ÊBÅ‘å 30 ƒsƒNƒZƒ‹‚Ì•ÏˆÊ‚ª‹–‰Â‚³‚ê‚éB
+lTotalOverpanOffsetY : [int] Œ^: LONG ƒXƒNƒ[ƒ‹‰Â”\—Ìˆæ‚Ì’[‚É’B‚µ‚Ä‚©‚çAƒEƒBƒ“ƒhƒE‚ª‚’¼•ûŒü‚ÉˆÚ“®‚µ‚½‘•ÏˆÊ—ÊBÅ‘å 30 ƒsƒNƒZƒ‹‚Ì•ÏˆÊ‚ª‹–‰Â‚³‚ê‚éB
+fInInertia : [int] Œ^: BOOL ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª GF_INERTIA ƒtƒ‰ƒO‚ªİ’è‚³‚ê‚½ WM_GESTURE ƒƒbƒZ[ƒW‚ğˆ—‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒOB
 %inst
-Updates clients about state of a window resulting from a panning
-gesture. This function can only be called after a
-BeginPanningFeedback call.
+ƒpƒ“ƒWƒFƒXƒ`ƒƒ[‚ÌŒ‹‰Ê‚Æ‚µ‚Ä‚ÌƒEƒBƒ“ƒhƒE‚Ìó‘Ô‚É‚Â‚¢‚ÄƒNƒ‰ƒCƒAƒ“ƒg‚ğXV‚·‚éB‚±‚ÌŠÖ”‚Í BeginPanningFeedback
+‚ÌŒÄ‚Ño‚µŒã‚É‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 
 [–ß‚è’l]
-Type: BOOL TRUE if successful.
+Œ^: BOOL ¬Œ÷‚µ‚½ê‡‚Í TRUEB
 
 [”õl]
-Incremental calls to this function should always pass the sum of the
-increments and not just the latest increment itself.
+‚±‚ÌŠÖ”‚ğ’€ŸŒÄ‚Ño‚·ê‡‚ÍAÅV‚Ì‘•ª‚¾‚¯‚Å‚È‚­í‚É‘•ª‚Ì‡Œv‚ğ“n‚·•K—v‚ª‚ ‚éB
 

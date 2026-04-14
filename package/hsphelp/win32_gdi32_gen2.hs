@@ -26,458 +26,363 @@ DC
 
 %index
 AbortDoc
-The AbortDoc function stops the current print job and erases everything drawn since the last call to the StartDoc function.
+AbortDoc 関数は、現在の印刷ジョブを停止し、最後に StartDoc 関数を呼んだ以降に描画された内容をすべて消去する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to the device context for the print job.
+hdc : [intptr] 印刷ジョブのデバイスコンテキストへのハンドル。
 %inst
-The AbortDoc function stops the current print job and erases
-everything drawn since the last call to the StartDoc function.
+AbortDoc 関数は、現在の印刷ジョブを停止し、最後に StartDoc 関数を呼んだ以降に描画された内容をすべて消去する。
 
 [戻り値]
-If the function succeeds, the return value is greater than zero. If
-the function fails, the return value is SP_ERROR.
+関数が成功した場合、戻り値はゼロより大きい値となる。関数が失敗した場合、戻り値は SP_ERROR となる。
 
 [備考]
-Note This is a blocking or synchronous function and might not return
-immediately. How quickly this function returns depends on run-time
-factors such as network status, print server configuration, and
-printer driver implementation?factors that are difficult to predict
-when writing an application. Calling this function from a thread that
-manages interaction with the user interface could make the
-application appear to be unresponsive. Applications should call the
-AbortDoc function to stop a print job if an error occurs, or to stop
-a print job after the user cancels that job. To end a successful
-print job, an application should call the EndDoc function. If Print
-Manager was used to start the print job, calling AbortDoc erases the
-entire spool job, so that the printer receives nothing. If Print
-Manager was not used to start the print job, the data may already
-have been sent to the printer. In this case, the printer driver
-resets the printer (when possible) and ends the print job.
+注意:
+これはブロッキングまたは同期関数であり、即座に戻らないことがある。この関数がどれくらい速く戻るかは、ネットワーク状態、プリントサーバーの構成、プリンタードライバーの実装といった、アプリケーション作成時には予測しにくい実行時要因に依存する。ユーザーインターフェイスとのやり取りを管理するスレッドからこの関数を呼び出すと、アプリケーションが応答しなくなったように見えることがある。アプリケーションは、エラーが発生した場合や、ユーザーがジョブをキャンセルした後で印刷ジョブを停止するために
+AbortDoc 関数を呼ぶべきである。印刷ジョブを正常に終了するには、アプリケーションは EndDoc
+関数を呼ぶ。プリントマネージャーで印刷ジョブが開始されていた場合、AbortDoc
+を呼ぶとスプールジョブ全体が消去され、プリンターには何も送られない。プリントマネージャーで印刷ジョブが開始されていなかった場合、データは既にプリンターへ送られている可能性がある。この場合、プリンタードライバーは（可能なら）プリンターをリセットして印刷ジョブを終了する。
 
 
 %index
 AbortPath
-The AbortPath function closes and discards any paths in the specified device context.
+AbortPath 関数は、指定したデバイスコンテキスト内のすべてのパスを閉じて破棄する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to the device context from which a path will be discarded.
+hdc : [intptr] パスを破棄するデバイスコンテキストへのハンドル。
 %inst
-The AbortPath function closes and discards any paths in the specified
-device context.
+AbortPath 関数は、指定したデバイスコンテキスト内のすべてのパスを閉じて破棄する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-If there is an open path bracket in the given device context, the
-path bracket is closed and the path is discarded. If there is a
-closed path in the device context, the path is discarded.
+
+指定したデバイスコンテキストにオープンなパスブラケットがある場合、そのパスブラケットは閉じられ、パスは破棄される。デバイスコンテキストにクローズされたパスがある場合、そのパスは破棄される。
 
 
 %index
 AddFontMemResourceEx
-The AddFontMemResourceEx function adds the font resource from a memory image to the system.
+AddFontMemResourceEx 関数は、メモリイメージからフォントリソースをシステムに追加する。
 %group
 Win32 gdi32
 %prm
 pFileView, cjSize, pvResrved, pNumFonts
-pFileView : [intptr] A pointer to a font resource.
-cjSize : [int] The number of bytes in the font resource that is pointed to by pbFont.
-pvResrved : [intptr] Reserved. Must be 0.
-pNumFonts : [var] A pointer to a variable that specifies the number of fonts installed.
+pFileView : [intptr] フォントリソースへのポインタ。
+cjSize : [int] pbFont が指すフォントリソースのバイト数。
+pvResrved : [intptr] 予約。0 を指定する。
+pNumFonts : [var] インストールされたフォントの数を格納する変数へのポインタ。
 %inst
-The AddFontMemResourceEx function adds the font resource from a
-memory image to the system.
+AddFontMemResourceEx 関数は、メモリイメージからフォントリソースをシステムに追加する。
 
 [戻り値]
-If the function succeeds, the return value specifies the handle to
-the font added. This handle uniquely identifies the fonts that were
-installed on the system. If the function fails, the return value is
-zero. No extended error information is available.
+
+関数が成功した場合、戻り値は追加されたフォントを示すハンドルとなる。このハンドルは、システムにインストールされたフォントを一意に識別する。関数が失敗した場合、戻り値はゼロとなる。拡張エラー情報は得られない。
 
 [備考]
-This function allows an application to get a font that is embedded in
-a document or a webpage. A font that is added by AddFontMemResourceEx
-is always private to the process that made the call and is not
-enumerable. A memory image can contain more than one font. When this
-function succeeds, pcFonts is a pointer to a DWORD whose value is the
-number of fonts added to the system as a result of this call. For
-example, this number could be 2 for the vertical and horizontal faces
-of an Asian font. When the function succeeds, the caller of this
-function can free the memory pointed to by pbFont because the system
-has made its own copy of the memory. To remove the fonts that were
-installed, call RemoveFontMemResourceEx. However, when the process
-goes away, the system will unload the fonts even if the process did
-not call RemoveFontMemResource.
+この関数を使うと、アプリケーションはドキュメントや Web
+ページに埋め込まれたフォントを取得できる。AddFontMemResourceEx
+で追加されたフォントは常に呼び出し元プロセスにプライベートで、列挙不可能となる。1
+つのメモリイメージに複数のフォントを含めることもできる。この関数が成功すると、pcFonts
+は呼び出しの結果システムに追加されたフォント数を値に持つ DWORD へのポインタとなる。例えばアジアフォントの縦書き・横書き 2
+種類なら 2 となる。関数が成功した場合、システムは独自にコピーを保持しているので、呼び出し元は pbFont
+が指すメモリを解放してよい。インストールされたフォントを削除するには RemoveFontMemResourceEx
+を呼ぶ。なお、プロセスが終了するときは、RemoveFontMemResource を呼ばなくてもシステムがフォントをアンロードする。
 
 
 %index
 AddFontResourceW
-The AddFontResource function adds the font resource from the specified file to the system font table. The font can subsequently be used for text output by any application. (Unicode)
+AddFontResource 関数は、指定したファイルからフォントリソースをシステムフォントテーブルに追加する。追加されたフォントは、その後どのアプリケーションからもテキスト出力に使用できる。(Unicode)
 %group
 Win32 gdi32
 %prm
 param0
 param0 : [wstr] 
 %inst
-The AddFontResource function adds the font resource from the
-specified file to the system font table. The font can subsequently be
-used for text output by any application. (Unicode)
+AddFontResource
+関数は、指定したファイルからフォントリソースをシステムフォントテーブルに追加する。追加されたフォントは、その後どのアプリケーションからもテキスト出力に使用できる。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value specifies the number of
-fonts added. If the function fails, the return value is zero. No
-extended error information is available.
+関数が成功した場合、戻り値は追加されたフォントの数となる。関数が失敗した場合、戻り値はゼロとなる。拡張エラー情報は得られない。
 
 [備考]
-Any application that adds or removes fonts from the system font table
-should notify other windows of the change by sending a WM_FONTCHANGE
-message to all top-level windows in the operating system. The
-application should send this message by calling the SendMessage
-function and setting the hwnd parameter to HWND_BROADCAST. When an
-application no longer needs a font resource that it loaded by calling
-the AddFontResource function, it must remove that resource by calling
-the RemoveFontResource function. This function installs the font only
-for the current session. When the system restarts, the font will not
-be present. To have the font installed even after restarting the
-system, the font must be listed in the registry. A font listed in the
-registry and installed to a location other than the %windir%\fonts\
-folder cannot be modified, deleted, or replaced as long as it is
-loaded in any session. In order to change one of these fonts, it must
-first be removed by calling RemoveFontResource, removed from the font
-registry (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows
-NT\CurrentVersion\Fonts), and the system restarted. After restarting
-the system, the font will no longer be loaded and can be changed.
-> [!NOTE] > The wingdi.h header defines AddFontResource as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+
+システムフォントテーブルにフォントを追加または削除するアプリケーションは、変更を他のウィンドウに通知するために、オペレーティングシステム上のすべてのトップレベルウィンドウに
+WM_FONTCHANGE メッセージを送信すべきである。アプリケーションは SendMessage を呼び、hwnd パラメータに
+HWND_BROADCAST を指定してこのメッセージを送信する。AddFontResource
+で読み込んだフォントリソースが不要になったら、RemoveFontResource
+を呼んで削除しなければならない。この関数は現在のセッションに対してのみフォントをインストールする。システム再起動後はそのフォントは存在しない。再起動後もフォントをインストール状態にするには、レジストリにフォントを登録する必要がある。レジストリに登録され
+%windir%\fonts\
+フォルダ以外の場所にインストールされたフォントは、いずれかのセッションで読み込まれている間は変更・削除・置き換えができない。これらのフォントを変更するには、まず
+RemoveFontResource で削除し、フォントレジストリ
+(HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows
+NT\CurrentVersion\Fonts)
+から削除して、システムを再起動する必要がある。再起動後はフォントが読み込まれなくなり変更可能となる。
+> [!NOTE] > wingdi.h ヘッダは AddFontResource を、UNICODE
+プリプロセッサ定数の定義に応じて自動的に ANSI 版か Unicode
+版を選択するエイリアスとして定義する。エンコーディング中立のエイリアスとそうでないコードを混在させると、コンパイルや実行時のエラーにつながるミスマッチが生じることがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 AddFontResourceExW
-The AddFontResourceEx function adds the font resource from the specified file to the system. Fonts added with the AddFontResourceEx function can be marked as private and not enumerable. (Unicode)
+AddFontResourceEx 関数は、指定したファイルからフォントリソースをシステムに追加する。AddFontResourceEx で追加したフォントはプライベートかつ列挙不可能とすることもできる。(Unicode)
 %group
 Win32 gdi32
 %prm
 name, fl, res
-name : [wstr] A pointer to a null-terminated character string that contains a valid font file name. This parameter can specify any of the following files.
+name : [wstr] 有効なフォントファイル名を含む、null 終端文字列へのポインタ。このパラメータには次のいずれかのファイルを指定できる。
 fl : [int] 
-res : [intptr] Reserved. Must be zero.
+res : [intptr] 予約。0 を指定する。
 %inst
-The AddFontResourceEx function adds the font resource from the
-specified file to the system. Fonts added with the AddFontResourceEx
-function can be marked as private and not enumerable. (Unicode)
+AddFontResourceEx 関数は、指定したファイルからフォントリソースをシステムに追加する。AddFontResourceEx
+で追加したフォントはプライベートかつ列挙不可能とすることもできる。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value specifies the number of
-fonts added. If the function fails, the return value is zero. No
-extended error information is available.
+関数が成功した場合、戻り値は追加されたフォントの数となる。関数が失敗した場合、戻り値はゼロとなる。拡張エラー情報は得られない。
 
 [備考]
-This function allows a process to use fonts without allowing other
-processes access to the fonts. When an application no longer needs a
-font resource it loaded by calling the AddFontResourceEx function, it
-must remove the resource by calling the RemoveFontResourceEx
-function. This function installs the font only for the current
-session. When the system restarts, the font will not be present. To
-have the font installed even after restarting the system, the font
-must be listed in the registry. A font listed in the registry and
-installed to a location other than the %windir%\fonts\ folder cannot
-be modified, deleted, or replaced as long as it is loaded in any
-session. In order to change one of these fonts, it must first be
-removed by calling RemoveFontResource, removed from the font registry
+この関数を使うと、プロセスは他のプロセスからアクセスを許さずにフォントを利用できる。アプリケーションは、AddFontResourceEx
+で読み込んだフォントリソースが不要になったら、RemoveFontResourceEx
+を呼んで削除しなければならない。この関数は現在のセッションに対してのみフォントをインストールする。システム再起動後はそのフォントは存在しない。再起動後もフォントをインストール状態にするには、レジストリにフォントを登録する必要がある。レジストリに登録され
+%windir%\fonts\
+フォルダ以外の場所にインストールされたフォントは、いずれかのセッションで読み込まれている間は変更・削除・置き換えができない。これらのフォントを変更するには、まず
+RemoveFontResource で削除し、フォントレジストリ
 (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows
-NT\CurrentVersion\Fonts), and the system restarted. After restarting
-the system, the font will no longer be loaded and can be changed.
-> [!NOTE] > The wingdi.h header defines AddFontResourceEx as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+NT\CurrentVersion\Fonts)
+から削除して、システムを再起動する必要がある。再起動後はフォントが読み込まれなくなり変更可能となる。
+> [!NOTE] > wingdi.h ヘッダは AddFontResourceEx を、UNICODE
+プリプロセッサ定数の定義に応じて自動的に ANSI 版か Unicode
+版を選択するエイリアスとして定義する。エンコーディング中立のエイリアスとそうでないコードを混在させると、コンパイルや実行時のエラーにつながるミスマッチが生じることがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 AngleArc
-The AngleArc function draws a line segment and an arc.
+AngleArc 関数は、線分と弧を描く。
 %group
 Win32 gdi32
 %prm
 hdc, x, y, r, StartAngle, SweepAngle
-hdc : [intptr] Handle to a device context.
-x : [int] Specifies the x-coordinate, in logical units, of the center of the circle.
-y : [int] Specifies the y-coordinate, in logical units, of the center of the circle.
-r : [int] Specifies the radius, in logical units, of the circle. This value must be positive.
-StartAngle : [float] Specifies the start angle, in degrees, relative to the x-axis.
-SweepAngle : [float] Specifies the sweep angle, in degrees, relative to the starting angle.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+x : [int] 円の中心の x 座標（論理単位）。
+y : [int] 円の中心の y 座標（論理単位）。
+r : [int] 円の半径（論理単位）。正の値でなければならない。
+StartAngle : [float] x 軸を基準とした開始角度（度単位）。
+SweepAngle : [float] 開始角度を基準とした掃引角度（度単位）。
 %inst
-The AngleArc function draws a line segment and an arc.
+AngleArc 関数は、線分と弧を描く。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-The AngleArc function moves the current position to the ending point
-of the arc. The arc drawn by this function may appear to be
-elliptical, depending on the current transformation and mapping mode.
-Before drawing the arc, AngleArc draws the line segment from the
-current position to the beginning of the arc. The arc is drawn by
-constructing an imaginary circle around the specified center point
-with the specified radius. The starting point of the arc is
-determined by measuring counterclockwise from the x-axis of the
-circle by the number of degrees in the start angle. The ending point
-is similarly located by measuring counterclockwise from the starting
-point by the number of degrees in the sweep angle. If the sweep angle
-is greater than 360 degrees, the arc is swept multiple times. This
-function draws lines by using the current pen. The figure is not
-filled.
+AngleArc
+関数は、現在位置を弧の終点へ移動する。描かれる弧は、現在の変換とマッピングモードに応じて楕円に見えることがある。弧を描く前に、AngleArc
+は現在位置から弧の始点までの線分を描く。弧は、指定した中心点を中心とする半径の仮想円を構築して描かれる。弧の始点は、円の x
+軸から開始角度の度数だけ反時計回りに測って決定する。終点は、始点から掃引角度の度数だけ反時計回りに測って同様に決定する。掃引角度が 360
+度を超える場合、弧は複数回掃引される。この関数は現在のペンを使って線を描く。図形は塗りつぶされない。
 
 
 %index
 AnimatePalette
-The AnimatePalette function replaces entries in the specified logical palette.
+AnimatePalette 関数は、指定した論理パレット内のエントリを置き換える。
 %group
 Win32 gdi32
 %prm
 hPal, iStartIndex, cEntries, ppe
-hPal : [intptr] A handle to the logical palette.
-iStartIndex : [int] The first logical palette entry to be replaced.
-cEntries : [int] The number of entries to be replaced.
-ppe : [var] A pointer to the first member in an array of PALETTEENTRY structures used to replace the current entries.
+hPal : [intptr] 論理パレットへのハンドル。
+iStartIndex : [int] 置き換える論理パレットの最初のエントリ。
+cEntries : [int] 置き換えるエントリの数。
+ppe : [var] 現在のエントリを置き換えるために使用する PALETTEENTRY 構造体配列の最初のメンバへのポインタ。
 %inst
-The AnimatePalette function replaces entries in the specified logical
-palette.
+AnimatePalette 関数は、指定した論理パレット内のエントリを置き換える。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-An application can determine whether a device supports palette
-operations by calling the GetDeviceCaps function and specifying the
-RASTERCAPS constant. The AnimatePalette function only changes entries
-with the PC_RESERVED flag set in the corresponding palPalEntry member
-of the LOGPALETTE structure. If the given palette is associated with
-the active window, the colors in the palette are replaced
-immediately.
+アプリケーションは GetDeviceCaps を呼び RASTERCAPS
+定数を指定することで、デバイスがパレット操作をサポートするかを判定できる。AnimatePalette 関数は、対応する
+LOGPALETTE 構造体の palPalEntry メンバに PC_RESERVED
+フラグが設定されたエントリのみを変更する。指定したパレットがアクティブウィンドウに関連付けられている場合、パレット内の色は直ちに置き換えられる。
 
 
 %index
 Arc
-The Arc function draws an elliptical arc.
+Arc 関数は楕円弧を描く。
 %group
 Win32 gdi32
 %prm
 hdc, x1, y1, x2, y2, x3, y3, x4, y4
-hdc : [intptr] A handle to the device context where drawing takes place.
-x1 : [int] The x-coordinate, in logical units, of the upper-left corner of the bounding rectangle.
-y1 : [int] The y-coordinate, in logical units, of the upper-left corner of the bounding rectangle.
-x2 : [int] The x-coordinate, in logical units, of the lower-right corner of the bounding rectangle.
-y2 : [int] The y-coordinate, in logical units, of the lower-right corner of the bounding rectangle.
-x3 : [int] The x-coordinate, in logical units, of the ending point of the radial line defining the starting point of the arc.
-y3 : [int] The y-coordinate, in logical units, of the ending point of the radial line defining the starting point of the arc.
-x4 : [int] The x-coordinate, in logical units, of the ending point of the radial line defining the ending point of the arc.
-y4 : [int] The y-coordinate, in logical units, of the ending point of the radial line defining the ending point of the arc.
+hdc : [intptr] 描画を行うデバイスコンテキストへのハンドル。
+x1 : [int] 外接矩形の左上隅の x 座標（論理単位）。
+y1 : [int] 外接矩形の左上隅の y 座標（論理単位）。
+x2 : [int] 外接矩形の右下隅の x 座標（論理単位）。
+y2 : [int] 外接矩形の右下隅の y 座標（論理単位）。
+x3 : [int] 弧の始点を定義する半径線の終点の x 座標（論理単位）。
+y3 : [int] 弧の始点を定義する半径線の終点の y 座標（論理単位）。
+x4 : [int] 弧の終点を定義する半径線の終点の x 座標（論理単位）。
+y4 : [int] 弧の終点を定義する半径線の終点の y 座標（論理単位）。
 %inst
-The Arc function draws an elliptical arc.
+Arc 関数は楕円弧を描く。
 
 [戻り値]
-If the arc is drawn, the return value is nonzero. If the arc is not
-drawn, the return value is zero.
+弧が描かれた場合、戻り値は非ゼロとなる。弧が描かれなかった場合、戻り値はゼロとなる。
 
 [備考]
-The points (nLeftRect, nTopRect) and (nRightRect, nBottomRect)
-specify the bounding rectangle. An ellipse formed by the specified
-bounding rectangle defines the curve of the arc. The arc extends in
-the current drawing direction from the point where it intersects the
-radial from the center of the bounding rectangle to the (nXStartArc,
-nYStartArc) point. The arc ends where it intersects the radial from
-the center of the bounding rectangle to the (nXEndArc, nYEndArc)
-point. If the starting point and ending point are the same, a
-complete ellipse is drawn. The arc is drawn using the current pen; it
-is not filled. The current position is neither used nor updated by
-Arc. Use the GetArcDirection and SetArcDirection functions to get and
-set the current drawing direction for a device context. The default
-drawing direction is counterclockwise.
+(nLeftRect, nTopRect) と (nRightRect, nBottomRect)
+の点は外接矩形を指定する。指定した外接矩形により形成される楕円が弧の曲線を定義する。弧は、外接矩形の中心から (nXStartArc,
+nYStartArc) 点への半径線と交わる点から、現在の描画方向に沿って延びる。弧は、外接矩形の中心から (nXEndArc,
+nYEndArc)
+点への半径線と交わる点で終わる。始点と終点が同じ場合、完全な楕円が描かれる。弧は現在のペンで描かれ、塗りつぶされない。Arc
+では現在位置は使用も更新もされない。デバイスコンテキストの現在の描画方向を取得・設定するには GetArcDirection と
+SetArcDirection を使う。デフォルトの描画方向は反時計回りである。
 
 
 %index
 ArcTo
-The ArcTo function draws an elliptical arc.
+ArcTo 関数は楕円弧を描く。
 %group
 Win32 gdi32
 %prm
 hdc, left, top, right, bottom, xr1, yr1, xr2, yr2
-hdc : [intptr] A handle to the device context where drawing takes place.
-left : [int] The x-coordinate, in logical units, of the upper-left corner of the bounding rectangle.
-top : [int] The y-coordinate, in logical units, of the upper-left corner of the bounding rectangle.
-right : [int] The x-coordinate, in logical units, of the lower-right corner of the bounding rectangle.
-bottom : [int] The y-coordinate, in logical units, of the lower-right corner of the bounding rectangle.
-xr1 : [int] The x-coordinate, in logical units, of the endpoint of the radial defining the starting point of the arc.
-yr1 : [int] The y-coordinate, in logical units, of the endpoint of the radial defining the starting point of the arc.
-xr2 : [int] The x-coordinate, in logical units, of the endpoint of the radial defining the ending point of the arc.
-yr2 : [int] The y-coordinate, in logical units, of the endpoint of the radial defining the ending point of the arc.
+hdc : [intptr] 描画を行うデバイスコンテキストへのハンドル。
+left : [int] 外接矩形の左上隅の x 座標（論理単位）。
+top : [int] 外接矩形の左上隅の y 座標（論理単位）。
+right : [int] 外接矩形の右下隅の x 座標（論理単位）。
+bottom : [int] 外接矩形の右下隅の y 座標（論理単位）。
+xr1 : [int] 弧の始点を定義する半径の終点の x 座標（論理単位）。
+yr1 : [int] 弧の始点を定義する半径の終点の y 座標（論理単位）。
+xr2 : [int] 弧の終点を定義する半径の終点の x 座標（論理単位）。
+yr2 : [int] 弧の終点を定義する半径の終点の y 座標（論理単位）。
 %inst
-The ArcTo function draws an elliptical arc.
+ArcTo 関数は楕円弧を描く。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-ArcTo is similar to the Arc function, except that the current
-position is updated. The points (nLeftRect, nTopRect) and
-(nRightRect, nBottomRect) specify the bounding rectangle. An ellipse
-formed by the specified bounding rectangle defines the curve of the
-arc. The arc extends counterclockwise from the point where it
-intersects the radial line from the center of the bounding rectangle
-to the (nXRadial1, nYRadial1) point. The arc ends where it intersects
-the radial line from the center of the bounding rectangle to the
-(nXRadial2, nYRadial2) point. If the starting point and ending point
-are the same, a complete ellipse is drawn. A line is drawn from the
-current position to the starting point of the arc. If no error
-occurs, the current position is set to the ending point of the arc.
-The arc is drawn using the current pen; it is not filled.
+ArcTo は Arc に似ているが、現在位置が更新される点が異なる。(nLeftRect, nTopRect) と
+(nRightRect, nBottomRect)
+は外接矩形を指定する。指定した外接矩形により形成される楕円が弧の曲線を定義する。弧は、外接矩形の中心から (nXRadial1,
+nYRadial1) 点への半径線と交わる点から反時計回りに延びる。弧は、外接矩形の中心から (nXRadial2, nYRadial2)
+点への半径線と交わる点で終わる。始点と終点が同じ場合、完全な楕円が描かれる。現在位置から弧の始点までの線が描かれる。エラーが発生しなければ、現在位置は弧の終点に設定される。弧は現在のペンで描かれ、塗りつぶされない。
 
 
 %index
 BRUSHOBJ_hGetColorTransform
-The BRUSHOBJ_hGetColorTransform function retrieves the color transform for the specified brush.
+BRUSHOBJ_hGetColorTransform 関数は、指定したブラシのカラー変換を取得する。
 %group
 Win32 gdi32
 %prm
 pbo
-pbo : [var] Pointer to the BRUSHOBJ structure whose color transform is being queried. The color transform was created in a prior call to DrvIcmCreateColorTransform.
+pbo : [var] カラー変換を問い合わせる対象の BRUSHOBJ 構造体へのポインタ。カラー変換は、以前に DrvIcmCreateColorTransform を呼び出して作成したものである。
 %inst
-The BRUSHOBJ_hGetColorTransform function retrieves the color
-transform for the specified brush.
+BRUSHOBJ_hGetColorTransform 関数は、指定したブラシのカラー変換を取得する。
 
 [戻り値]
-BRUSHOBJ_hGetColorTransform returns a handle to the color transform
-for the specified BRUSHOBJ structure upon success. Otherwise, it
-returns NULL.
+BRUSHOBJ_hGetColorTransform は、成功した場合、指定された BRUSHOBJ
+構造体のカラー変換へのハンドルを返す。失敗した場合は NULL を返す。
 
 [備考]
-BRUSHOBJ_hGetColorTransform returns NULL when ICM is disabled. The
-color transform for a translation object is obtained by calling
-XLATEOBJ_hGetColorTransform.
+BRUSHOBJ_hGetColorTransform は、ICM が無効な場合 NULL を返す。変換オブジェクトのカラー変換は
+XLATEOBJ_hGetColorTransform を呼んで取得する。
 
 
 %index
 BRUSHOBJ_pvAllocRbrush
-The BRUSHOBJ_pvAllocRbrush function allocates memory for the driver's realization of a specified brush.
+BRUSHOBJ_pvAllocRbrush 関数は、指定したブラシのドライバ実体化のためのメモリを割り当てる。
 %group
 Win32 gdi32
 %prm
 pbo, cj
-pbo : [var] Pointer to the BRUSHOBJ structure for which the realization is to be allocated.
-cj : [int] Specifies the size, in bytes, required for the realization.
+pbo : [var] 実体化を割り当てる対象の BRUSHOBJ 構造体へのポインタ。
+cj : [int] 実体化に必要なサイズ（バイト単位）。
 %inst
-The BRUSHOBJ_pvAllocRbrush function allocates memory for the driver's
-realization of a specified brush.
+BRUSHOBJ_pvAllocRbrush 関数は、指定したブラシのドライバ実体化のためのメモリを割り当てる。
 
 [戻り値]
-The return value is a pointer to the allocated memory if the function
-is successful. Otherwise, it is null, and an error code is logged.
+関数が成功した場合、戻り値は割り当てられたメモリへのポインタとなる。失敗した場合は null となり、エラーコードがログに記録される。
 
 [備考]
-BRUSHOBJ_pvAllocRbrush allocates memory for the brush realization.
-GDI manages the memory and discards it when the brush is no longer
-needed. This function should be called only by an implementation of a
-brush realization following a call to DrvRealizeBrush.
+BRUSHOBJ_pvAllocRbrush は、ブラシ実体化のためのメモリを割り当てる。GDI
+がメモリを管理し、ブラシが不要になると破棄する。この関数は、DrvRealizeBrush
+呼び出しの後でブラシ実体化の実装からのみ呼ぶべきである。
 
 
 %index
 BRUSHOBJ_pvGetRbrush
-The BRUSHOBJ_pvGetRbrush function retrieves a pointer to the driver's realization of a specified brush.
+BRUSHOBJ_pvGetRbrush 関数は、指定したブラシのドライバ実体化へのポインタを取得する。
 %group
 Win32 gdi32
 %prm
 pbo
-pbo : [var] Pointer to the BRUSHOBJ structure whose realization is requested.
+pbo : [var] 実体化を要求する対象の BRUSHOBJ 構造体へのポインタ。
 %inst
-The BRUSHOBJ_pvGetRbrush function retrieves a pointer to the driver's
-realization of a specified brush.
+BRUSHOBJ_pvGetRbrush 関数は、指定したブラシのドライバ実体化へのポインタを取得する。
 
 [戻り値]
-The return value is a pointer to the realized brush if the function
-is successful. If the brush cannot be realized, the return value is
-null and an error code is logged.
+関数が成功した場合、戻り値は実体化されたブラシへのポインタとなる。ブラシが実体化できない場合、戻り値は null
+となり、エラーコードがログに記録される。
 
 [備考]
-BRUSHOBJ_pvGetRbrush is called when the brush is a pattern brush that
-has not yet been realized; that is, it is called when the iSolidColor
-member of the BRUSHOBJ structure is 0xFFFFFFFF and the pvRbrush
-member is null. If the brush has not been realized when
-BRUSHOBJ_pvGetRbrush is called, GDI calls the driver-supplied
-DrvRealizeBrush function to obtain the driver's realization of the
-brush. As an acceleration, GDI caches this realization in the
-pvRbrush member of the BRUSHOBJ structure. Then, when an application
-reuses this brush for another drawing operation, the driver doesn't
-have to call BRUSHOBJ_pvGetRbrush again.
+BRUSHOBJ_pvGetRbrush は、ブラシがまだ実体化されていないパターンブラシのときに呼ばれる。すなわち、BRUSHOBJ
+構造体の iSolidColor メンバが 0xFFFFFFFF で pvRbrush メンバが null
+のときである。BRUSHOBJ_pvGetRbrush 呼び出し時にブラシが実体化されていなければ、GDI はドライバ提供の
+DrvRealizeBrush 関数を呼んでドライバによる実体化を取得する。GDI は高速化のため、この実体化を BRUSHOBJ
+構造体の pvRbrush メンバにキャッシュする。これにより、アプリケーションが同じブラシを別の描画操作で再利用するときに、ドライバは
+BRUSHOBJ_pvGetRbrush を再度呼ぶ必要がない。
 
 
 %index
 BRUSHOBJ_ulGetBrushColor
-The BRUSHOBJ_ulGetBrushColor function returns the RGB color of the specified solid brush.
+BRUSHOBJ_ulGetBrushColor 関数は、指定したソリッドブラシの RGB カラーを返す。
 %group
 Win32 gdi32
 %prm
 pbo
-pbo : [var] Pointer to the BRUSHOBJ structure whose color is being queried.
+pbo : [var] 色を問い合わせる対象の BRUSHOBJ 構造体へのポインタ。
 %inst
-The BRUSHOBJ_ulGetBrushColor function returns the RGB color of the
-specified solid brush.
+BRUSHOBJ_ulGetBrushColor 関数は、指定したソリッドブラシの RGB カラーを返す。
 
 [戻り値]
-BRUSHOBJ_ulGetBrushColor returns the RGB color of a solid brush. If
-the specified brush is not solid, this function returns -1.
+BRUSHOBJ_ulGetBrushColor は、ソリッドブラシの RGB
+カラーを返す。指定したブラシがソリッドでない場合、この関数は -1 を返す。
 
 [備考]
-The color stored in the iSolidColor member of the BRUSHOBJ structure
-is an index value that has been translated to the target surface's
-palette. BRUSHOBJ_ulGetBrushColor allows the driver to query the
-original RGB color value of iSolidColor.
+BRUSHOBJ 構造体の iSolidColor
+メンバに保存される色は、ターゲットサーフェスのパレットに変換されたインデックス値である。BRUSHOBJ_ulGetBrushColor
+を使うと、ドライバは iSolidColor の元の RGB カラー値を問い合わせることができる。
 
 
 %index
 BeginPath
-The BeginPath function opens a path bracket in the specified device context.
+BeginPath 関数は、指定したデバイスコンテキストでパスブラケットをオープンする。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストへのハンドル。
 %inst
-The BeginPath function opens a path bracket in the specified device
-context.
+BeginPath 関数は、指定したデバイスコンテキストでパスブラケットをオープンする。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-After a path bracket is open, an application can begin calling GDI
-drawing functions to define the points that lie in the path. An
-application can close an open path bracket by calling the EndPath
-function. When an application calls BeginPath for a device context,
-any previous paths are discarded from that device context. The
-following list shows which drawing functions can be used.
-This doc was truncated.
+パスブラケットがオープンされた後、アプリケーションは GDI 描画関数を呼んでパスに含める点を定義できる。アプリケーションは
+EndPath を呼んでオープン中のパスブラケットを閉じることができる。アプリケーションがデバイスコンテキストに対して BeginPath
+を呼ぶと、そのデバイスコンテキスト上の以前のパスはすべて破棄される。次のリストは使用できる描画関数を示す。
+（以下省略）
 
 
 %index
@@ -513,490 +418,396 @@ BitBlt は先 DC に対してのみクリッピングを行う。元 DC
 
 %index
 CLIPOBJ_bEnum
-The CLIPOBJ_bEnum function enumerates a batch of rectangles from a specified clip region; a prior call to CLIPOBJ_cEnumStart determines the order of enumeration.
+CLIPOBJ_bEnum 関数は、指定したクリップ領域から矩形のバッチを列挙する。列挙順序は事前の CLIPOBJ_cEnumStart 呼び出しによって決まる。
 %group
 Win32 gdi32
 %prm
 pco, cj, pul
-pco : [var] Pointer to a CLIPOBJ structure describing the clip region that is to be enumerated.
-cj : [int] Specifies the size, in bytes, of the buffer pointed to by pv.
-pul : [var] Pointer to the buffer that will receive data about the clip region in an ENUMRECTS structure.
+pco : [var] 列挙対象のクリップ領域を表す CLIPOBJ 構造体へのポインタ。
+cj : [int] pv が指すバッファのサイズ（バイト単位）。
+pul : [var] クリップ領域に関するデータを ENUMRECTS 構造体として受け取るバッファへのポインタ。
 %inst
-The CLIPOBJ_bEnum function enumerates a batch of rectangles from a
-specified clip region; a prior call to CLIPOBJ_cEnumStart determines
-the order of enumeration.
+CLIPOBJ_bEnum 関数は、指定したクリップ領域から矩形のバッチを列挙する。列挙順序は事前の CLIPOBJ_cEnumStart
+呼び出しによって決まる。
 
 [戻り値]
-The return value is TRUE if the driver must call this function again
-for more enumeration data, or FALSE if the enumeration is complete.
-It is possible for CLIPOBJ_bEnum to return TRUE with the number of
-clipping rectangles equal to zero. In such cases, the driver should
-call CLIPOBJ_bEnum again without taking any action.
+ドライバがさらに列挙データを取得するためにこの関数を再度呼ぶ必要があれば戻り値は TRUE、列挙が完了していれば FALSE
+となる。CLIPOBJ_bEnum がクリッピング矩形数 0 で TRUE を返すこともある。その場合、ドライバは何もせずに再度
+CLIPOBJ_bEnum を呼ぶべきである。
 
 [備考]
-A possible loop structure for calling this function follows:
-This doc was truncated.
+この関数を呼び出すループ構造の例を以下に示す。
+（以下省略）
 
 
 %index
 CLIPOBJ_cEnumStart
-The CLIPOBJ_cEnumStart function sets parameters for enumerating rectangles in a specified clip region.
+CLIPOBJ_cEnumStart 関数は、指定したクリップ領域内の矩形を列挙するためのパラメータを設定する。
 %group
 Win32 gdi32
 %prm
 pco, bAll, iType, iDirection, cLimit
-pco : [var] Pointer to the CLIPOBJ structure that defines the clip region to be enumerated.
-bAll : [int] Specifies whether the entire region should be enumerated. This parameter is TRUE if the whole region should be enumerated. It is FALSE if only the parts relevant to the present drawing operation should be enumerated. A driver that caches clip regions must enumerate the entire region.
-iType : [int] Specifies the data structures that are to be written by CLIPOBJ_bEnum. This parameter currently must be CT_RECTANGLES, indicating that the region is to be enumerated as a list of rectangles.
-iDirection : [int] Determines the order in which the rectangles are to be enumerated. This order can be essential if a DrvBitBlt operation is executing concurrently on the same surface. If the order is not relevant to the device driver, CD_ANY should be specified for complex regions, allowing GDI to optimize the enumeration. This value can be one of the following:
-cLimit : [int] Specifies the maximum number of rectangles to be enumerated. If this parameter is zero, counting is omitted.
+pco : [var] 列挙対象のクリップ領域を定義する CLIPOBJ 構造体へのポインタ。
+bAll : [int] 領域全体を列挙するかどうかを指定する。領域全体を列挙する場合は TRUE、現在の描画操作に関連する部分のみを列挙する場合は FALSE を指定する。クリップ領域をキャッシュするドライバは領域全体を列挙する必要がある。
+iType : [int] CLIPOBJ_bEnum によって書き込まれるデータ構造を指定する。現在は CT_RECTANGLES のみ指定可能で、領域は矩形のリストとして列挙される。
+iDirection : [int] 矩形を列挙する順序を決定する。同じサーフェス上で DrvBitBlt 操作が並行して実行される場合、この順序が重要になることがある。順序がデバイスドライバにとって重要でなければ、複雑な領域に対しては CD_ANY を指定して GDI に列挙の最適化を任せるべきである。次のいずれかを指定できる。
+cLimit : [int] 列挙する矩形の最大数。0 を指定するとカウントは省略される。
 %inst
-The CLIPOBJ_cEnumStart function sets parameters for enumerating
-rectangles in a specified clip region.
+CLIPOBJ_cEnumStart 関数は、指定したクリップ領域内の矩形を列挙するためのパラメータを設定する。
 
 [戻り値]
-The return value is the count of enumerated rectangles. If the count
-exceeds cLimit, the return value is 0xFFFFFFFF.
+戻り値は列挙される矩形の数となる。カウントが cLimit を超える場合、戻り値は 0xFFFFFFFF となる。
 
 [備考]
-A region can be enumerated whether this function is called. By
-default, the driver only enumerates relevant rectangles, starting at
-the upper left. The driver can restart enumeration by calling this
-function again.
+
+この関数の呼び出しの有無に関係なく領域は列挙できる。デフォルトでは、ドライバは関連する矩形のみを左上から列挙する。再度この関数を呼ぶことで列挙を再開できる。
 
 
 %index
 CLIPOBJ_ppoGetPath
-The CLIPOBJ_ppoGetPath function creates a PATHOBJ structure that contains the outline of the specified clip region.
+CLIPOBJ_ppoGetPath 関数は、指定したクリップ領域の輪郭を含む PATHOBJ 構造体を作成する。
 %group
 Win32 gdi32
 %prm
 pco
-pco : [var] Pointer to a CLIPOBJ structure that defines the specified clip region.
+pco : [var] 指定したクリップ領域を定義する CLIPOBJ 構造体へのポインタ。
 %inst
-The CLIPOBJ_ppoGetPath function creates a PATHOBJ structure that
-contains the outline of the specified clip region.
+CLIPOBJ_ppoGetPath 関数は、指定したクリップ領域の輪郭を含む PATHOBJ 構造体を作成する。
 
 [戻り値]
-The return value is a pointer to a PATHOBJ structure if the function
-is successful. Otherwise, it is NULL, and an error code is logged.
+関数が成功した場合、戻り値は PATHOBJ 構造体へのポインタとなる。失敗した場合は NULL となり、エラーコードがログに記録される。
 
 [備考]
-The returned PATHOBJ structure should be deleted using EngDeletePath
-when the driver no longer needs it. A driver for a device that can
-download a clipping path might prefer this function for defining
-complex regions.
+返された PATHOBJ 構造体は、ドライバが不要になった時点で EngDeletePath
+を使って削除すべきである。クリッピングパスをダウンロードできるデバイスのドライバは、複雑な領域を定義するのにこの関数を好むかもしれない。
 
 
 %index
 CancelDC
-The CancelDC function cancels any pending operation on the specified device context (DC).
+CancelDC 関数は、指定したデバイスコンテキスト (DC) で進行中の操作をキャンセルする。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the DC.
+hdc : [intptr] DC へのハンドル。
 %inst
-The CancelDC function cancels any pending operation on the specified
-device context (DC).
+CancelDC 関数は、指定したデバイスコンテキスト (DC) で進行中の操作をキャンセルする。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-The CancelDC function is used by multithreaded applications to cancel
-lengthy drawing operations. If thread A initiates a lengthy drawing
-operation, thread B may cancel that operation by calling this
-function. If an operation is canceled, the affected thread returns an
-error and the result of its drawing operation is undefined. The
-results are also undefined if no drawing operation was in progress
-when the function was called.
+CancelDC 関数は、長時間に及ぶ描画操作をキャンセルするためにマルチスレッドアプリケーションで使われる。スレッド A
+が長時間の描画操作を開始した場合、スレッド B
+がこの関数を呼んでその操作をキャンセルできる。操作がキャンセルされると、影響を受けたスレッドはエラーを返し、その描画操作の結果は未定義となる。関数を呼んだ時点で描画操作が進行中でなかった場合も、結果は未定義である。
 
 
 %index
 CheckColorsInGamut
-The CheckColorsInGamut function determines whether a specified set of RGB triples lies in the output gamut of a specified device. The RGB triples are interpreted in the input logical color space.
+CheckColorsInGamut 関数は、指定した RGB 三組の集合が指定デバイスの出力ガモット内にあるかどうかを判定する。RGB 三組は入力論理色空間として解釈される。
 %group
 Win32 gdi32
 %prm
 hdc, lpRGBTriple, dlpBuffer, nCount
-hdc : [intptr] Handle to the device context whose output gamut to be checked.
-lpRGBTriple : [var] Pointer to an array of RGB triples to check.
-dlpBuffer : [intptr] Pointer to the buffer in which the results are to be placed. This buffer must be at least as large as nCount bytes.
-nCount : [int] The number of elements in the array of triples.
+hdc : [intptr] 出力ガモットを確認する対象のデバイスコンテキストへのハンドル。
+lpRGBTriple : [var] 確認する RGB 三組の配列へのポインタ。
+dlpBuffer : [intptr] 結果を格納するバッファへのポインタ。このバッファは少なくとも nCount バイト以上の大きさが必要である。
+nCount : [int] 三組配列の要素数。
 %inst
-The CheckColorsInGamut function determines whether a specified set of
-RGB triples lies in the output gamut of a specified device. The RGB
-triples are interpreted in the input logical color space.
+CheckColorsInGamut 関数は、指定した RGB 三組の集合が指定デバイスの出力ガモット内にあるかどうかを判定する。RGB
+三組は入力論理色空間として解釈される。
 
 [戻り値]
-If this function succeeds, the return value is a nonzero value. If
-this function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロ値となる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-The function places the test results in the buffer pointed to by
-lpBuffer. Each byte in the buffer corresponds to an RGB triple, and
-has an unsigned value between CM_IN_GAMUT (= 0) and CM_OUT_OF_GAMUT
-(= 255). The value 0 denotes that the color is in gamut, while a
-nonzero value denotes that it is out of gamut. For any integer n such
-that 0 < n < 255, a result value of n + 1 indicates that the
-corresponding color is at least as far out of gamut as would be
-indicated by a result value of n, as specified by the ICC Profile
-Format Specification. For more information on the ICC Profile Format
-Specification, see the sources listed in [Further
-information](/windows/win32/wcs/further-information) . Note that for
-this function to succeed, WCS must be enabled for the device context
-handle that is passed in through the hDC parameter. WCS can be
-enabled for a device context handle by calling the SetICMMode
-function.
+この関数はテスト結果を lpBuffer が指すバッファに格納する。バッファ内の各バイトは RGB 三組に対応し、CM_IN_GAMUT
+(= 0) から CM_OUT_OF_GAMUT (= 255) までの符号なしの値となる。値 0
+はその色がガモット内であることを示し、非ゼロ値はガモット外であることを示す。0 < n < 255 となる整数 n に対して、結果値 n
++ 1 は対応する色が結果値 n に示される程度以上にガモットから外れていることを示す（ICC Profile Format
+Specification による）。ICC Profile Format Specification の詳細は [Further
+information](/windows/win32/wcs/further-information)
+のソースを参照。なお、この関数が成功するためには、hDC パラメータで渡されるデバイスコンテキストハンドルに対して WCS
+が有効になっている必要がある。WCS は SetICMMode 関数を呼んで有効化できる。
 
 
 %index
 ChoosePixelFormat
-The ChoosePixelFormat function attempts to match an appropriate pixel format supported by a device context to a given pixel format specification.
+ChoosePixelFormat 関数は、デバイスコンテキストでサポートされる適切なピクセルフォーマットを、与えられたピクセルフォーマット仕様にマッチさせる。
 %group
 Win32 gdi32
 %prm
 hdc, ppfd
-hdc : [intptr] Specifies the device context that the function examines to determine the best match for the pixel format descriptor pointed to by ppfd.
-ppfd : [var] Pointer to a PIXELFORMATDESCRIPTOR structure that specifies the requested pixel format. In this context, the members of the PIXELFORMATDESCRIPTOR structure that ppfd points to are used as follows:
+hdc : [intptr] ppfd が指すピクセルフォーマット記述子に最もよく一致するものを判定するために、関数が調査するデバイスコンテキストを指定する。
+ppfd : [var] 要求されたピクセルフォーマットを指定する PIXELFORMATDESCRIPTOR 構造体へのポインタ。この文脈では、ppfd が指す PIXELFORMATDESCRIPTOR 構造体のメンバは次のように使用される。
 %inst
-The ChoosePixelFormat function attempts to match an appropriate pixel
-format supported by a device context to a given pixel format
-specification.
+ChoosePixelFormat
+関数は、デバイスコンテキストでサポートされる適切なピクセルフォーマットを、与えられたピクセルフォーマット仕様にマッチさせる。
 
 [戻り値]
-If the function succeeds, the return value is a pixel format index
-(one-based) that is the closest match to the given pixel format
-descriptor. If the function fails, the return value is zero. To get
-extended error information, call GetLastError.
+関数が成功した場合、戻り値は与えられたピクセルフォーマット記述子に最も近いピクセルフォーマットインデックス（1
+始まり）となる。関数が失敗した場合、戻り値はゼロとなる。拡張エラー情報を取得するには GetLastError を呼ぶ。
 
 [備考]
-You must ensure that the pixel format matched by the
-ChoosePixelFormat function satisfies your requirements. For example,
-if you request a pixel format with a 24-bit RGB color buffer but the
-device context offers only 8-bit RGB color buffers, the function
-returns a pixel format with an 8-bit RGB color buffer.
+ChoosePixelFormat 関数で一致したピクセルフォーマットが要件を満たすかは利用者が確認しなければならない。例えば 24
+ビット RGB カラーバッファ付きピクセルフォーマットを要求しても、デバイスコンテキストが 8 ビット RGB
+カラーバッファのみしか提供しない場合、関数は 8 ビット RGB カラーバッファ付きピクセルフォーマットを返す。
 
 
 %index
 Chord
-The Chord function draws a chord (a region bounded by the intersection of an ellipse and a line segment, called a secant). The chord is outlined by using the current pen and filled by using the current brush.
+Chord 関数は弦（楕円と線分（割線と呼ばれる）の交差で囲まれた領域）を描く。弦は現在のペンで輪郭を描き、現在のブラシで塗りつぶす。
 %group
 Win32 gdi32
 %prm
 hdc, x1, y1, x2, y2, x3, y3, x4, y4
-hdc : [intptr] A handle to the device context in which the chord appears.
-x1 : [int] The x-coordinate, in logical coordinates, of the upper-left corner of the bounding rectangle.
-y1 : [int] The y-coordinate, in logical coordinates, of the upper-left corner of the bounding rectangle.
-x2 : [int] The x-coordinate, in logical coordinates, of the lower-right corner of the bounding rectangle.
-y2 : [int] The y-coordinate, in logical coordinates, of the lower-right corner of the bounding rectangle.
-x3 : [int] The x-coordinate, in logical coordinates, of the endpoint of the radial defining the beginning of the chord.
-y3 : [int] The y-coordinate, in logical coordinates, of the endpoint of the radial defining the beginning of the chord.
-x4 : [int] The x-coordinate, in logical coordinates, of the endpoint of the radial defining the end of the chord.
-y4 : [int] The y-coordinate, in logical coordinates, of the endpoint of the radial defining the end of the chord.
+hdc : [intptr] 弦が描かれるデバイスコンテキストへのハンドル。
+x1 : [int] 外接矩形の左上隅の x 座標（論理座標）。
+y1 : [int] 外接矩形の左上隅の y 座標（論理座標）。
+x2 : [int] 外接矩形の右下隅の x 座標（論理座標）。
+y2 : [int] 外接矩形の右下隅の y 座標（論理座標）。
+x3 : [int] 弦の始点を定義する半径の終点の x 座標（論理座標）。
+y3 : [int] 弦の始点を定義する半径の終点の y 座標（論理座標）。
+x4 : [int] 弦の終点を定義する半径の終点の x 座標（論理座標）。
+y4 : [int] 弦の終点を定義する半径の終点の y 座標（論理座標）。
 %inst
-The Chord function draws a chord (a region bounded by the
-intersection of an ellipse and a line segment, called a secant). The
-chord is outlined by using the current pen and filled by using the
-current brush.
+Chord 関数は弦（楕円と線分（割線と呼ばれる）の交差で囲まれた領域）を描く。弦は現在のペンで輪郭を描き、現在のブラシで塗りつぶす。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-The curve of the chord is defined by an ellipse that fits the
-specified bounding rectangle. The curve begins at the point where the
-ellipse intersects the first radial and extends counterclockwise to
-the point where the ellipse intersects the second radial. The chord
-is closed by drawing a line from the intersection of the first radial
-and the curve to the intersection of the second radial and the curve.
-If the starting point and ending point of the curve are the same, a
-complete ellipse is drawn. The current position is neither used nor
-updated by Chord.
+弦の曲線は、指定した外接矩形に収まる楕円によって定義される。曲線は楕円が最初の半径と交わる点から始まり、楕円が 2
+番目の半径と交わる点まで反時計回りに延びる。最初の半径と曲線の交点から 2
+番目の半径と曲線の交点まで線を引いて弦を閉じる。曲線の始点と終点が同じであれば、完全な楕円が描かれる。Chord
+では現在位置は使用も更新もされない。
 
 
 %index
 DeleteEnhMetaFile
-The DeleteEnhMetaFile function deletes an enhanced-format metafile or an enhanced-format metafile handle.
+DeleteEnhMetaFile 関数は、拡張形式メタファイルまたは拡張形式メタファイルハンドルを削除する。
 %group
 Win32 gdi32
 %prm
 hmf
-hmf : [intptr] A handle to an enhanced metafile.
+hmf : [intptr] 拡張メタファイルへのハンドル。
 %inst
-The DeleteEnhMetaFile function deletes an enhanced-format metafile or
-an enhanced-format metafile handle.
+DeleteEnhMetaFile 関数は、拡張形式メタファイルまたは拡張形式メタファイルハンドルを削除する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-If the hemf parameter identifies an enhanced metafile stored in
-memory, the DeleteEnhMetaFile function deletes the metafile. If hemf
-identifies a metafile stored on a disk, the function deletes the
-metafile handle but does not destroy the actual metafile. An
-application can retrieve the file by calling the GetEnhMetaFile
-function.
+hemf パラメータがメモリ内に保存された拡張メタファイルを識別する場合、DeleteEnhMetaFile
+関数はそのメタファイルを削除する。hemf
+がディスク上に保存されたメタファイルを識別する場合、関数はメタファイルハンドルを削除するが、実際のメタファイルは破壊しない。アプリケーションは
+GetEnhMetaFile を呼んでファイルを取得できる。
 
 
 %index
 CloseEnhMetaFile
-The CloseEnhMetaFile function closes an enhanced-metafile device context and returns a handle that identifies an enhanced-format metafile.
+CloseEnhMetaFile 関数は、拡張メタファイルデバイスコンテキストを閉じ、拡張形式メタファイルを識別するハンドルを返す。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to an enhanced-metafile device context.
+hdc : [intptr] 拡張メタファイルデバイスコンテキストへのハンドル。
 %inst
-The CloseEnhMetaFile function closes an enhanced-metafile device
-context and returns a handle that identifies an enhanced-format
-metafile.
+CloseEnhMetaFile 関数は、拡張メタファイルデバイスコンテキストを閉じ、拡張形式メタファイルを識別するハンドルを返す。
 
 [戻り値]
-If the function succeeds, the return value is a handle to an enhanced
-metafile. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値は拡張メタファイルへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-An application can use the enhanced-metafile handle returned by the
-CloseEnhMetaFile function to perform the following tasks:
-This doc was truncated.
+アプリケーションは、CloseEnhMetaFile が返した拡張メタファイルハンドルを使って次のタスクを行うことができる。
+（以下省略）
 
 
 %index
 CloseFigure
-The CloseFigure function closes an open figure in a path.
+CloseFigure 関数は、パス内のオープンな図形を閉じる。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to the device context in which the figure will be closed.
+hdc : [intptr] 図形を閉じるデバイスコンテキストへのハンドル。
 %inst
-The CloseFigure function closes an open figure in a path.
+CloseFigure 関数は、パス内のオープンな図形を閉じる。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-The CloseFigure function closes the figure by drawing a line from the
-current position to the first point of the figure (usually, the point
-specified by the most recent call to the MoveToEx function) and then
-connects the lines by using the line join style. If a figure is
-closed by using the LineTo function instead of CloseFigure, end caps
-are used to create the corner instead of a join. The CloseFigure
-function should only be called if there is an open path bracket in
-the specified device context. A figure in a path is open unless it is
-explicitly closed by using this function. (A figure can be open even
-if the current point and the starting point of the figure are the
-same.) After a call to CloseFigure, adding a line or curve to the
-path starts a new figure.
+CloseFigure 関数は、現在位置から図形の最初の点（通常は最後の MoveToEx
+呼び出しで指定された点）まで線を引き、ライン結合スタイルで線を結合することで図形を閉じる。CloseFigure ではなく LineTo
+を使って図形を閉じた場合、結合ではなくエンドキャップを使って角が作られる。CloseFigure
+関数は、指定したデバイスコンテキストにオープンなパスブラケットがあるときにのみ呼ぶべきである。パス内の図形は、この関数で明示的に閉じられない限りオープン状態である（現在位置と図形の始点が同じであっても、図形はオープンになり得る）。CloseFigure
+呼び出し後、線や曲線をパスに追加すると新しい図形が始まる。
 
 
 %index
 DeleteMetaFile
-The DeleteMetaFile function deletes a Windows-format metafile or Windows-format metafile handle.
+DeleteMetaFile 関数は、Windows 形式メタファイルまたは Windows 形式メタファイルハンドルを削除する。
 %group
 Win32 gdi32
 %prm
 hmf
-hmf : [intptr] A handle to a Windows-format metafile.
+hmf : [intptr] Windows 形式メタファイルへのハンドル。
 %inst
-The DeleteMetaFile function deletes a Windows-format metafile or
-Windows-format metafile handle.
+DeleteMetaFile 関数は、Windows 形式メタファイルまたは Windows 形式メタファイルハンドルを削除する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-If the metafile identified by the hmf parameter is stored in memory
-(rather than on a disk), its content is lost when it is deleted by
-using the DeleteMetaFile function.
+hmf パラメータが識別するメタファイルが（ディスクではなく）メモリ内に保存されている場合、DeleteMetaFile
+で削除されると内容は失われる。
 
 
 %index
 CloseMetaFile
-The CloseMetaFile function closes a metafile device context and returns a handle that identifies a Windows-format metafile.
+CloseMetaFile 関数は、メタファイルデバイスコンテキストを閉じ、Windows 形式メタファイルを識別するハンドルを返す。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to a metafile device context used to create a Windows-format metafile.
+hdc : [intptr] Windows 形式メタファイルを作成するために使用したメタファイルデバイスコンテキストへのハンドル。
 %inst
-The CloseMetaFile function closes a metafile device context and
-returns a handle that identifies a Windows-format metafile.
+CloseMetaFile 関数は、メタファイルデバイスコンテキストを閉じ、Windows 形式メタファイルを識別するハンドルを返す。
 
 [戻り値]
-If the function succeeds, the return value is a handle to a
-Windows-format metafile. If the function fails, the return value is
-NULL.
+関数が成功した場合、戻り値は Windows 形式メタファイルへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-To convert a Windows-format metafile into a new enhanced-format
-metafile, use the SetWinMetaFileBits function. When an application no
-longer needs the Windows-format metafile handle, it should delete the
-handle by calling the DeleteMetaFile function.
+Windows 形式メタファイルを新しい拡張形式メタファイルに変換するには SetWinMetaFileBits を使う。Windows
+形式メタファイルハンドルが不要になったら、DeleteMetaFile を呼んでハンドルを削除すべきである。
 
 
 %index
 ColorCorrectPalette
-The ColorCorrectPalette function corrects the entries of a palette using the WCS 1.0 parameters in the specified device context.
+ColorCorrectPalette 関数は、指定したデバイスコンテキストの WCS 1.0 パラメータを使ってパレットのエントリを補正する。
 %group
 Win32 gdi32
 %prm
 hdc, hPal, deFirst, num
-hdc : [intptr] Specifies a device context whose WCS parameters to use.
-hPal : [intptr] Specifies the handle to the palette to be color corrected.
-deFirst : [int] Specifies the first entry in the palette to be color corrected.
-num : [int] Specifies the number of entries to color correct.
+hdc : [intptr] WCS パラメータを使用するデバイスコンテキスト。
+hPal : [intptr] カラー補正するパレットへのハンドル。
+deFirst : [int] カラー補正するパレットの最初のエントリ。
+num : [int] カラー補正するエントリの数。
 %inst
-The ColorCorrectPalette function corrects the entries of a palette
-using the WCS 1.0 parameters in the specified device context.
+ColorCorrectPalette 関数は、指定したデバイスコンテキストの WCS 1.0
+パラメータを使ってパレットのエントリを補正する。
 
 [戻り値]
-If this function succeeds, the return value is TRUE. If this function
-fails, the return value is FALSE.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。
 
 
 %index
 ColorMatchToTarget
-The ColorMatchToTarget function enables you to preview colors as they would appear on the target device.
+ColorMatchToTarget 関数を使うと、ターゲットデバイスに表示されるとおりの色をプレビューできる。
 %group
 Win32 gdi32
 %prm
 hdc, hdcTarget, action
-hdc : [intptr] Specifies the device context for previewing, generally the screen.
-hdcTarget : [intptr] Specifies the target device context, generally a printer.
+hdc : [intptr] プレビュー用デバイスコンテキスト。一般的には画面。
+hdcTarget : [intptr] ターゲットデバイスコンテキスト。一般的にはプリンタ。
 action : [int] 
 %inst
-The ColorMatchToTarget function enables you to preview colors as they
-would appear on the target device.
+ColorMatchToTarget 関数を使うと、ターゲットデバイスに表示されるとおりの色をプレビューできる。
 
 [戻り値]
-If this function succeeds, the return value is TRUE. If this function
-fails, the return value is FALSE.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。
 
 [備考]
-ColorMatchToTarget can be used to proof the colors of a color output
-device on another color output device. Setting the uiAction parameter
-to CS_ENABLE causes all subsequent drawing commands to the DC to
-render colors as they would appear on the target device. If uiAction
-is set to CS_DISABLE, proofing is turned off. However, the current
-color transform is not deleted from the DC. It is just inactive. When
-ColorMatchToTarget is called, the color transform for the target
-device is performed first, and then the transform to the preview
-device is applied to the results of the first transform. This is used
-primarily for checking gamut mapping conditions. Before using this
-function, you must enable WCS for both device contexts. This function
-cannot be cascaded. While color mapping to the target is enabled by
-setting uiAction to CS_ENABLE, application changes to the color space
-or gamut mapping method are ignored. Those changes then take effect
-when color mapping to the target is disabled. Note A memory leak will
-not occur if an application does not delete a transform using
-CS_DELETE_TRANSFORM. The transform will be deleted when either the
-device context (DC) is closed, or when the application color space is
-deleted. However if the transform is not going to be used again, or
-if the application will not be performing any more color matching on
-the DC, it should explicitly delete the transform to free the memory
-it occupies. The uiAction parameter should only be set to
-CS_DELETE_TRANSFORM if color management is enabled before the
-ColorMatchToTarget function is called.
+ColorMatchToTarget は、あるカラー出力デバイスの色を別のカラー出力デバイス上で校正するために使用できる。uiAction
+パラメータを CS_ENABLE に設定すると、その後 DC
+への描画コマンドはターゲットデバイス上に表示されるとおりに色をレンダリングする。uiAction を CS_DISABLE
+に設定すると校正はオフになる。ただし、現在のカラー変換は DC
+から削除されるわけではなく、単に非アクティブになるだけである。ColorMatchToTarget
+が呼ばれると、まずターゲットデバイスのカラー変換が実行され、次にその結果に対してプレビューデバイスへの変換が適用される。これは主にガモットマッピング条件を確認するために使われる。この関数を使う前に、両方のデバイスコンテキストで
+WCS を有効にしておく必要がある。この関数はカスケードできない。uiAction を CS_ENABLE
+に設定してターゲットへのカラーマッピングを有効にしている間、アプリケーションによる色空間やガモットマッピング方法の変更は無視される。これらの変更は、ターゲットへのカラーマッピングが無効化された後で有効になる。注意:
+アプリケーションが CS_DELETE_TRANSFORM で変換を削除しなくてもメモリリークは発生しない。デバイスコンテキスト (DC)
+が閉じられるか、アプリケーションの色空間が削除されると変換は削除される。ただし変換を再使用しない、あるいは DC
+でこれ以上カラーマッチングを行わない場合は、メモリ解放のため明示的に変換を削除すべきである。uiAction を
+CS_DELETE_TRANSFORM に設定するのは、ColorMatchToTarget
+を呼ぶ前にカラーマネジメントが有効になっている場合のみとすべきである。
 
 
 %index
 CombineRgn
-The CombineRgn function combines two regions and stores the result in a third region. The two regions are combined according to the specified mode.
+CombineRgn 関数は 2 つの領域を結合し、その結果を 3 番目の領域に格納する。2 つの領域は指定したモードに従って結合される。
 %group
 Win32 gdi32
 %prm
 hrgnDst, hrgnSrc1, hrgnSrc2, iMode
-hrgnDst : [intptr] A handle to a new region with dimensions defined by combining two other regions. (This region must exist before CombineRgn is called.)
-hrgnSrc1 : [intptr] A handle to the first of two regions to be combined.
-hrgnSrc2 : [intptr] A handle to the second of two regions to be combined.
+hrgnDst : [intptr] 他の 2 つの領域を結合して定義された寸法を持つ新しい領域へのハンドル（CombineRgn を呼び出す前にこの領域は存在していなければならない）。
+hrgnSrc1 : [intptr] 結合する 2 つの領域のうち最初のものへのハンドル。
+hrgnSrc2 : [intptr] 結合する 2 つの領域のうち 2 番目のものへのハンドル。
 iMode : [int] 
 %inst
-The CombineRgn function combines two regions and stores the result in
-a third region. The two regions are combined according to the
-specified mode.
+CombineRgn 関数は 2 つの領域を結合し、その結果を 3 番目の領域に格納する。2 つの領域は指定したモードに従って結合される。
 
 [戻り値]
-The return value specifies the type of the resulting region. It can
-be one of the following values.
-This doc was truncated.
+戻り値は結果として得られる領域の種類を示す。次のいずれかの値となる。
+（以下省略）
 
 [備考]
-The three regions need not be distinct. For example, the hrgnSrc1
-parameter can equal the hrgnDest parameter.
+3 つの領域は別々である必要はない。例えば hrgnSrc1 パラメータは hrgnDest パラメータと同じでもよい。
 
 
 %index
 CombineTransform
-The CombineTransform function concatenates two world-space to page-space transformations.
+CombineTransform 関数は、ワールド空間からページ空間への 2 つの変換を連結する。
 %group
 Win32 gdi32
 %prm
 lpxfOut, lpxf1, lpxf2
-lpxfOut : [var] A pointer to an XFORM structure that receives the combined transformation.
-lpxf1 : [var] A pointer to an XFORM structure that specifies the first transformation.
-lpxf2 : [var] A pointer to an XFORM structure that specifies the second transformation.
+lpxfOut : [var] 結合された変換を受け取る XFORM 構造体へのポインタ。
+lpxf1 : [var] 最初の変換を指定する XFORM 構造体へのポインタ。
+lpxf2 : [var] 2 番目の変換を指定する XFORM 構造体へのポインタ。
 %inst
-The CombineTransform function concatenates two world-space to
-page-space transformations.
+CombineTransform 関数は、ワールド空間からページ空間への 2 つの変換を連結する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-Applying the combined transformation has the same effect as applying
-the first transformation and then applying the second transformation.
-The three transformations need not be distinct. For example, lpxform1
-can point to the same XFORM structure as lpxformResult.
+結合された変換を適用することは、最初の変換を適用してから 2 番目の変換を適用することと同じ効果を持つ。3
+つの変換は別々である必要はない。例えば lpxform1 は lpxformResult と同じ XFORM 構造体を指してもよい。
 
 
 %index
 CopyEnhMetaFileW
-The CopyEnhMetaFile function copies the contents of an enhanced-format metafile to a specified file. (Unicode)
+CopyEnhMetaFile 関数は、拡張形式メタファイルの内容を指定したファイルにコピーする。(Unicode)
 %group
 Win32 gdi32
 %prm
 hEnh, lpFileName
-hEnh : [intptr] A handle to the enhanced metafile to be copied.
-lpFileName : [wstr] A pointer to the name of the destination file. If this parameter is NULL, the source metafile is copied to memory.
+hEnh : [intptr] コピーする拡張メタファイルへのハンドル。
+lpFileName : [wstr] 宛先ファイル名へのポインタ。NULL の場合、ソースメタファイルはメモリにコピーされる。
 %inst
-The CopyEnhMetaFile function copies the contents of an
-enhanced-format metafile to a specified file. (Unicode)
+CopyEnhMetaFile 関数は、拡張形式メタファイルの内容を指定したファイルにコピーする。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a handle to the copy of
-the enhanced metafile. If the function fails, the return value is
-NULL.
+関数が成功した場合、戻り値は拡張メタファイルのコピーへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-Where text arguments must use Unicode characters, use the
-CopyEnhMetaFile function as a wide-character function. Where text
-arguments must use characters from the Windows character set, use
-this function as an ANSI function. Applications can use metafiles
-stored in memory for temporary operations. When the application no
-longer needs the enhanced-metafile handle, it should delete the
-handle by calling the DeleteEnhMetaFile function.
-> [!NOTE] > The wingdi.h header defines CopyEnhMetaFile as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+テキスト引数で Unicode 文字を使う必要がある場合は CopyEnhMetaFile をワイド文字関数として使う。テキスト引数で
+Windows 文字セットの文字を使う必要がある場合はこの関数を ANSI
+関数として使う。アプリケーションは一時的な操作のためにメモリ内に保存されたメタファイルを使うことができる。アプリケーションが拡張メタファイルハンドルを必要としなくなったら、DeleteEnhMetaFile
+を呼んで削除すべきである。
+> [!NOTE] > wingdi.h ヘッダは CopyEnhMetaFile を、UNICODE
+プリプロセッサ定数の定義に応じて自動的に ANSI 版か Unicode
+版を選択するエイリアスとして定義する。エンコーディング中立のエイリアスとそうでないコードを混在させると、コンパイルや実行時のエラーにつながるミスマッチが生じることがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 CopyMetaFileW
-The CopyMetaFile function copies the content of a Windows-format metafile to the specified file. (Unicode)
+CopyMetaFile 関数は、Windows 形式メタファイルの内容を指定したファイルにコピーする。(Unicode)
 %group
 Win32 gdi32
 %prm
@@ -1004,29 +815,21 @@ param0, param1
 param0 : [intptr] 
 param1 : [wstr] 
 %inst
-The CopyMetaFile function copies the content of a Windows-format
-metafile to the specified file. (Unicode)
+CopyMetaFile 関数は、Windows 形式メタファイルの内容を指定したファイルにコピーする。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a handle to the copy of
-the Windows-format metafile. If the function fails, the return value
-is NULL.
+関数が成功した場合、戻り値は Windows 形式メタファイルのコピーへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-Where text arguments must use Unicode characters, use this function
-as a wide-character function. Where text arguments must use
-characters from the Windows character set, use this function as an
-ANSI function. When the application no longer needs the
-Windows-format metafile handle, it should delete the handle by
-calling the DeleteMetaFile function.
-> [!NOTE] > The wingdi.h header defines CopyMetaFile as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+テキスト引数で Unicode 文字を使う必要がある場合は、この関数をワイド文字関数として使う。テキスト引数で Windows
+文字セットの文字を使う必要がある場合は、この関数を ANSI 関数として使う。アプリケーションが Windows
+形式メタファイルハンドルを必要としなくなったら、DeleteMetaFile を呼んで削除すべきである。
+> [!NOTE] > wingdi.h ヘッダは CopyMetaFile を、UNICODE プリプロセッサ定数の定義に応じて自動的に
+ANSI 版か Unicode
+版を選択するエイリアスとして定義する。エンコーディング中立のエイリアスとそうでないコードを混在させると、コンパイルや実行時のエラーにつながるミスマッチが生じることがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
@@ -1057,123 +860,98 @@ CreateBitmap はデバイス依存ビットマップ(DDB)を作成する。作成後は SelectObject で
 
 %index
 CreateBitmapIndirect
-The CreateBitmapIndirect function creates a bitmap with the specified width, height, and color format (color planes and bits-per-pixel).
+CreateBitmapIndirect 関数は、指定された幅、高さ、色フォーマット（カラープレーンと bpp）を持つビットマップを作成する。
 %group
 Win32 gdi32
 %prm
 pbm
-pbm : [var] A pointer to a BITMAP structure that contains information about the bitmap. If an application sets the bmWidth or bmHeight members to zero, CreateBitmapIndirect returns the handle to a 1-by-1 pixel, monochrome bitmap.
+pbm : [var] ビットマップに関する情報を含む BITMAP 構造体へのポインタ。アプリケーションが bmWidth または bmHeight メンバを 0 に設定した場合、CreateBitmapIndirect は 1×1 ピクセルのモノクロビットマップへのハンドルを返す。
 %inst
-The CreateBitmapIndirect function creates a bitmap with the specified
-width, height, and color format (color planes and bits-per-pixel).
+CreateBitmapIndirect 関数は、指定された幅、高さ、色フォーマット（カラープレーンと
+bpp）を持つビットマップを作成する。
 
 [戻り値]
-If the function succeeds, the return value is a handle to the bitmap.
-If the function fails, the return value is NULL. This function can
-return the following values.
-This doc was truncated.
+関数が成功した場合、戻り値はビットマップへのハンドルとなる。関数が失敗した場合、戻り値は NULL
+となる。この関数は次の値を返すことがある。
+（以下省略）
 
 [備考]
-The CreateBitmapIndirect function creates a device-dependent bitmap.
-After a bitmap is created, it can be selected into a device context
-by calling the SelectObject function. However, the bitmap can only be
-selected into a device context if the bitmap and the DC have the same
-format. While the CreateBitmapIndirect function can be used to create
-color bitmaps, for performance reasons applications should use
-CreateBitmapIndirect to create monochrome bitmaps and
-CreateCompatibleBitmap to create color bitmaps. Whenever a color
-bitmap from CreateBitmapIndirect is selected into a device context,
-the system must ensure that the bitmap matches the format of the
-device context it is being selected into. Because
-CreateCompatibleBitmap takes a device context, it returns a bitmap
-that has the same format as the specified device context. Thus,
-subsequent calls to SelectObject are faster with a color bitmap from
-CreateCompatibleBitmap than with a color bitmap returned from
-CreateBitmapIndirect. If the bitmap is monochrome, zeros represent
-the foreground color and ones represent the background color for the
-destination device context. When you no longer need the bitmap, call
-the DeleteObject function to delete it.
+CreateBitmapIndirect 関数はデバイス依存ビットマップを作成する。ビットマップを作成した後は、SelectObject
+を呼んでデバイスコンテキストに選択できる。ただし、ビットマップとデバイスコンテキストのフォーマットが同じ場合に限る。CreateBitmapIndirect
+でカラービットマップも作成できるが、性能上の理由から、アプリケーションはモノクロビットマップを CreateBitmapIndirect
+で作成し、カラービットマップは CreateCompatibleBitmap で作成すべきである。CreateBitmapIndirect
+で得たカラービットマップをデバイスコンテキストに選択するたびに、システムはビットマップのフォーマットが選択先 DC
+のフォーマットと一致するかを確認しなければならない。CreateCompatibleBitmap
+はデバイスコンテキストを引数に取るので、そのデバイスコンテキストと同じフォーマットのビットマップを返す。よって、CreateCompatibleBitmap
+で得たカラービットマップに対する SelectObject の呼び出しは、CreateBitmapIndirect
+で得たものより高速になる。ビットマップがモノクロの場合、0 が前景色、1
+が宛先デバイスコンテキストの背景色を表す。ビットマップが不要になったら DeleteObject を呼んで削除する。
 
 
 %index
 CreateBrushIndirect
-The CreateBrushIndirect function creates a logical brush that has the specified style, color, and pattern.
+CreateBrushIndirect 関数は、指定したスタイル、色、パターンを持つ論理ブラシを作成する。
 %group
 Win32 gdi32
 %prm
 plbrush
-plbrush : [var] A pointer to a LOGBRUSH structure that contains information about the brush.
+plbrush : [var] ブラシに関する情報を含む LOGBRUSH 構造体へのポインタ。
 %inst
-The CreateBrushIndirect function creates a logical brush that has the
-specified style, color, and pattern.
+CreateBrushIndirect 関数は、指定したスタイル、色、パターンを持つ論理ブラシを作成する。
 
 [戻り値]
-If the function succeeds, the return value identifies a logical
-brush. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値は論理ブラシを識別する。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-A brush is a bitmap that the system uses to paint the interiors of
-filled shapes. After an application creates a brush by calling
-CreateBrushIndirect, it can select it into any device context by
-calling the SelectObject function. A brush created by using a
-monochrome bitmap (one color plane, one bit per pixel) is drawn using
-the current text and background colors. Pixels represented by a bit
-set to 0 are drawn with the current text color; pixels represented by
-a bit set to 1 are drawn with the current background color. When you
-no longer need the brush, call the DeleteObject function to delete
-it. ICM: No color is done at brush creation. However, color
-management is performed when the brush is selected into an
-ICM-enabled device context.
+ブラシは、システムが塗りつぶされた図形の内側を描画するために使用するビットマップである。アプリケーションは
+CreateBrushIndirect でブラシを作成した後、SelectObject
+を呼んで任意のデバイスコンテキストに選択できる。モノクロビットマップ（1 カラープレーン、1
+bpp）から作成されたブラシは、現在のテキスト色と背景色で描画される。0 のビットで表されるピクセルは現在のテキスト色で、1
+のビットで表されるピクセルは現在の背景色で描画される。ブラシが不要になったら DeleteObject を呼んで削除する。ICM:
+ブラシ作成時にカラー処理は行われない。ただし、ブラシが ICM
+対応のデバイスコンテキストに選択されたときにカラーマネジメントが実行される。
 
 
 %index
 DeleteColorSpace
-The DeleteColorSpace function removes and destroys a specified color space.
+DeleteColorSpace 関数は、指定した色空間を削除し破棄する。
 %group
 Win32 gdi32
 %prm
 hcs
-hcs : [intptr] Specifies the handle to a color space to delete.
+hcs : [intptr] 削除する色空間へのハンドル。
 %inst
-The DeleteColorSpace function removes and destroys a specified color
-space.
+DeleteColorSpace 関数は、指定した色空間を削除し破棄する。
 
 [戻り値]
-If this function succeeds, the return value is TRUE. If this function
-fails, the return value is FALSE.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。
 
 
 %index
 CreateColorSpaceW
-The CreateColorSpace function creates a logical color space. (Unicode)
+CreateColorSpace 関数は論理色空間を作成する。(Unicode)
 %group
 Win32 gdi32
 %prm
 lplcs
-lplcs : [var] Pointer to the LOGCOLORSPACE data structure.
+lplcs : [var] LOGCOLORSPACE データ構造へのポインタ。
 %inst
-The CreateColorSpace function creates a logical color space.
-(Unicode)
+CreateColorSpace 関数は論理色空間を作成する。(Unicode)
 
 [戻り値]
-If this function succeeds, the return value is a handle that
-identifies a color space. If this function fails, the return value is
-NULL.
+関数が成功した場合、戻り値は色空間を識別するハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-When the color space is no longer needed, use DeleteColorSpace to
-delete it. Windows 95/98/Me: CreateColorSpaceW is supported by the
-Microsoft Layer for Unicode. To use this, you must add certain files
-to your application, as outlined in Microsoft Layer for Unicode on
-Windows 95/98/Me Systems.
-> [!NOTE] > The wingdi.h header defines CreateColorSpace as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+色空間が不要になったら DeleteColorSpace で削除する。Windows 95/98/Me:
+CreateColorSpaceW は Microsoft Layer for Unicode
+によりサポートされる。これを使用するには、Microsoft Layer for Unicode on Windows 95/98/Me
+Systems で説明されているとおり、特定のファイルをアプリケーションに追加しなければならない。
+> [!NOTE] > wingdi.h ヘッダは CreateColorSpace を、UNICODE
+プリプロセッサ定数の定義に応じて自動的に ANSI 版か Unicode
+版を選択するエイリアスとして定義する。エンコーディング中立のエイリアスとそうでないコードを混在させると、コンパイルや実行時のエラーにつながるミスマッチが生じることがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
@@ -1223,147 +1001,115 @@ CreateCompatibleBitmap
 
 %index
 CreateDCA
-The CreateDC function creates a device context (DC) for a device using the specified name. (ANSI)
+CreateDC 関数は、指定した名前のデバイス用にデバイスコンテキスト (DC) を作成する。(ANSI)
 %group
 Win32 gdi32
 %prm
 pwszDriver, pwszDevice, pszPort, pdm
-pwszDriver : [str] A pointer to a null-terminated character string that specifies either DISPLAY or the name of a specific display device. For printing, we recommend that you pass NULL to lpszDriver because GDI ignores lpszDriver for printer devices.
-pwszDevice : [str] A pointer to a null-terminated character string that specifies the name of the specific output device being used, as shown by the Print Manager (for example, Epson FX-80). It is not the printer model name. The lpszDevice parameter must be used. To obtain valid names for displays, call EnumDisplayDevices. If lpszDriver is DISPLAY or the device name of a specific display device, then lpszDevice must be NULL or that same device name. If lpszDevice is NULL, then a DC is created for the primary display device. If there are multiple monitors on the system, calling CreateDC(TEXT("DISPLAY"),NULL,NULL,NULL) will create a DC covering all the monitors.
-pszPort : [str] This parameter is ignored and should be set to NULL. It is provided only for compatibility with 16-bit Windows.
-pdm : [var] A pointer to a DEVMODE structure containing device-specific initialization data for the device driver. The DocumentProperties function retrieves this structure filled in for a specified device. The pdm parameter must be NULL if the device driver is to use the default initialization (if any) specified by the user. If lpszDriver is DISPLAY, pdm must be NULL; GDI then uses the display device's current DEVMODE.
+pwszDriver : [str] DISPLAY または特定のディスプレイデバイス名を指定する null 終端文字列へのポインタ。印刷の場合、GDI はプリンタデバイスでは lpszDriver を無視するため、NULL を渡すことを推奨する。
+pwszDevice : [str] プリントマネージャーで表示される、使用中の出力デバイスの名前（例：Epson FX-80）を指定する null 終端文字列へのポインタ。プリンターのモデル名ではない。lpszDevice パラメータは必ず使わなければならない。ディスプレイの有効な名前を取得するには EnumDisplayDevices を呼ぶ。lpszDriver が DISPLAY または特定のディスプレイデバイスのデバイス名の場合、lpszDevice は NULL かそのデバイス名と同じでなければならない。lpszDevice が NULL の場合、プライマリディスプレイデバイス用の DC が作成される。システムに複数のモニターがある場合、CreateDC(TEXT("DISPLAY"),NULL,NULL,NULL) を呼ぶとすべてのモニターをカバーする DC が作成される。
+pszPort : [str] このパラメータは無視され、NULL に設定するべきである。16 ビット Windows との互換性のためだけに用意されている。
+pdm : [var] デバイスドライバ向けのデバイス固有初期化データを含む DEVMODE 構造体へのポインタ。DocumentProperties 関数は、指定したデバイス用に値が設定されたこの構造体を取得する。デバイスドライバがユーザー指定のデフォルト初期化（あれば）を使うべき場合、pdm パラメータは NULL でなければならない。lpszDriver が DISPLAY の場合、pdm は NULL でなければならない。GDI はディスプレイデバイスの現在の DEVMODE を使う。
 %inst
-The CreateDC function creates a device context (DC) for a device
-using the specified name. (ANSI)
+CreateDC 関数は、指定した名前のデバイス用にデバイスコンテキスト (DC) を作成する。(ANSI)
 
 [戻り値]
-If the function succeeds, the return value is the handle to a DC for
-the specified device. If the function fails, the return value is
-NULL.
+関数が成功した場合、戻り値は指定したデバイス用 DC へのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-Note that the handle to the DC can only be used by a single thread at
-any one time. For parameters lpszDriver and lpszDevice, call
-EnumDisplayDevices to obtain valid names for displays. When you no
-longer need the DC, call the DeleteDC function. If lpszDriver or
-lpszDevice is DISPLAY, the thread that calls CreateDC owns the HDC
-that is created. When this thread is destroyed, the HDC is no longer
-valid. Thus, if you create the HDC and pass it to another thread,
-then exit the first thread, the second thread will not be able to use
-the HDC. When you call CreateDC to create the HDC for a display
-device, you must pass to pdm either NULL or a pointer to DEVMODE that
-matches the current DEVMODE of the display device that lpszDevice
-specifies. We recommend to pass NULL and not to try to exactly match
-the DEVMODE for the current display device. When you call CreateDC to
-create the HDC for a printer device, the printer driver validates the
-DEVMODE. If the printer driver determines that the DEVMODE is invalid
-(that is, printer driver can’t convert or consume the DEVMODE), the
-printer driver provides a default DEVMODE to create the HDC for the
-printer device. ICM: To enable ICM, set the dmICMMethod member of the
-DEVMODE structure (pointed to by the pInitData parameter) to the
-appropriate value.
+DC へのハンドルは同時に 1 つのスレッドからしか使用できないことに注意。lpszDriver と lpszDevice
+パラメータについては、ディスプレイの有効な名前を取得するには EnumDisplayDevices を呼ぶ。DC が不要になったら
+DeleteDC を呼ぶ。lpszDriver または lpszDevice が DISPLAY の場合、CreateDC
+を呼んだスレッドが作成された HDC を所有する。このスレッドが破棄されると HDC は無効になる。よって HDC
+を作成して別スレッドへ渡し、最初のスレッドを終了させると、2 番目のスレッドはその HDC を使用できない。CreateDC
+でディスプレイデバイス用 HDC を作成する場合、pdm には NULL か、lpszDevice が指定するディスプレイデバイスの現在の
+DEVMODE と一致する DEVMODE へのポインタを渡さなければならない。NULL を渡し、現在のディスプレイデバイスの
+DEVMODE と完全に一致させようとしないことを推奨する。CreateDC でプリンタデバイス用 HDC
+を作成する場合、プリンタドライバが DEVMODE を検証する。プリンタドライバが DEVMODE
+を無効と判断した場合（プリンタドライバが DEVMODE を変換または使用できない場合）、プリンタドライバはデフォルトの DEVMODE
+を提供して HDC を作成する。ICM: ICM を有効にするには、pInitData パラメータが指す DEVMODE 構造体の
+dmICMMethod メンバを適切な値に設定する。
 
 
 %index
 CreateDCW
-The CreateDC function creates a device context (DC) for a device using the specified name. (Unicode)
+CreateDC 関数は、指定した名前のデバイス用にデバイスコンテキスト (DC) を作成する。(Unicode)
 %group
 Win32 gdi32
 %prm
 pwszDriver, pwszDevice, pszPort, pdm
-pwszDriver : [wstr] A pointer to a null-terminated character string that specifies either DISPLAY or the name of a specific display device. For printing, we recommend that you pass NULL to lpszDriver because GDI ignores lpszDriver for printer devices.
-pwszDevice : [wstr] A pointer to a null-terminated character string that specifies the name of the specific output device being used, as shown by the Print Manager (for example, Epson FX-80). It is not the printer model name. The lpszDevice parameter must be used. To obtain valid names for displays, call EnumDisplayDevices. If lpszDriver is DISPLAY or the device name of a specific display device, then lpszDevice must be NULL or that same device name. If lpszDevice is NULL, then a DC is created for the primary display device. If there are multiple monitors on the system, calling CreateDC(TEXT("DISPLAY"),NULL,NULL,NULL) will create a DC covering all the monitors.
-pszPort : [wstr] This parameter is ignored and should be set to NULL. It is provided only for compatibility with 16-bit Windows.
-pdm : [var] A pointer to a DEVMODE structure containing device-specific initialization data for the device driver. The DocumentProperties function retrieves this structure filled in for a specified device. The pdm parameter must be NULL if the device driver is to use the default initialization (if any) specified by the user. If lpszDriver is DISPLAY, pdm must be NULL; GDI then uses the display device's current DEVMODE.
+pwszDriver : [wstr] DISPLAY または特定のディスプレイデバイス名を指定する null 終端文字列へのポインタ。印刷の場合、GDI はプリンタデバイスでは lpszDriver を無視するため、NULL を渡すことを推奨する。
+pwszDevice : [wstr] プリントマネージャーで表示される、使用中の出力デバイスの名前（例：Epson FX-80）を指定する null 終端文字列へのポインタ。プリンターのモデル名ではない。lpszDevice パラメータは必ず使わなければならない。ディスプレイの有効な名前を取得するには EnumDisplayDevices を呼ぶ。lpszDriver が DISPLAY または特定のディスプレイデバイスのデバイス名の場合、lpszDevice は NULL かそのデバイス名と同じでなければならない。lpszDevice が NULL の場合、プライマリディスプレイデバイス用の DC が作成される。システムに複数のモニターがある場合、CreateDC(TEXT("DISPLAY"),NULL,NULL,NULL) を呼ぶとすべてのモニターをカバーする DC が作成される。
+pszPort : [wstr] このパラメータは無視され、NULL に設定するべきである。16 ビット Windows との互換性のためだけに用意されている。
+pdm : [var] デバイスドライバ向けのデバイス固有初期化データを含む DEVMODE 構造体へのポインタ。DocumentProperties 関数は、指定したデバイス用に値が設定されたこの構造体を取得する。デバイスドライバがユーザー指定のデフォルト初期化（あれば）を使うべき場合、pdm パラメータは NULL でなければならない。lpszDriver が DISPLAY の場合、pdm は NULL でなければならない。GDI はディスプレイデバイスの現在の DEVMODE を使う。
 %inst
-The CreateDC function creates a device context (DC) for a device
-using the specified name. (Unicode)
+CreateDC 関数は、指定した名前のデバイス用にデバイスコンテキスト (DC) を作成する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is the handle to a DC for
-the specified device. If the function fails, the return value is
-NULL.
+関数が成功した場合、戻り値は指定したデバイス用 DC へのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-Note that the handle to the DC can only be used by a single thread at
-any one time. For parameters lpszDriver and lpszDevice, call
-EnumDisplayDevices to obtain valid names for displays. When you no
-longer need the DC, call the DeleteDC function. If lpszDriver or
-lpszDevice is DISPLAY, the thread that calls CreateDC owns the HDC
-that is created. When this thread is destroyed, the HDC is no longer
-valid. Thus, if you create the HDC and pass it to another thread,
-then exit the first thread, the second thread will not be able to use
-the HDC. When you call CreateDC to create the HDC for a display
-device, you must pass to pdm either NULL or a pointer to DEVMODE that
-matches the current DEVMODE of the display device that lpszDevice
-specifies. We recommend to pass NULL and not to try to exactly match
-the DEVMODE for the current display device. When you call CreateDC to
-create the HDC for a printer device, the printer driver validates the
-DEVMODE. If the printer driver determines that the DEVMODE is invalid
-(that is, printer driver can’t convert or consume the DEVMODE), the
-printer driver provides a default DEVMODE to create the HDC for the
-printer device. ICM: To enable ICM, set the dmICMMethod member of the
-DEVMODE structure (pointed to by the pInitData parameter) to the
-appropriate value.
+DC へのハンドルは同時に 1 つのスレッドからしか使用できないことに注意。lpszDriver と lpszDevice
+パラメータについては、ディスプレイの有効な名前を取得するには EnumDisplayDevices を呼ぶ。DC が不要になったら
+DeleteDC を呼ぶ。lpszDriver または lpszDevice が DISPLAY の場合、CreateDC
+を呼んだスレッドが作成された HDC を所有する。このスレッドが破棄されると HDC は無効になる。よって HDC
+を作成して別スレッドへ渡し、最初のスレッドを終了させると、2 番目のスレッドはその HDC を使用できない。CreateDC
+でディスプレイデバイス用 HDC を作成する場合、pdm には NULL か、lpszDevice が指定するディスプレイデバイスの現在の
+DEVMODE と一致する DEVMODE へのポインタを渡さなければならない。NULL を渡し、現在のディスプレイデバイスの
+DEVMODE と完全に一致させようとしないことを推奨する。CreateDC でプリンタデバイス用 HDC
+を作成する場合、プリンタドライバが DEVMODE を検証する。プリンタドライバが DEVMODE
+を無効と判断した場合（プリンタドライバが DEVMODE を変換または使用できない場合）、プリンタドライバはデフォルトの DEVMODE
+を提供して HDC を作成する。ICM: ICM を有効にするには、pInitData パラメータが指す DEVMODE 構造体の
+dmICMMethod メンバを適切な値に設定する。
 
 
 %index
 CreateDIBPatternBrush
-The CreateDIBPatternBrush function creates a logical brush that has the pattern specified by the specified device-independent bitmap (DIB).
+CreateDIBPatternBrush 関数は、指定したデバイス独立ビットマップ (DIB) で指定されたパターンを持つ論理ブラシを作成する。
 %group
 Win32 gdi32
 %prm
 h, iUsage
-h : [int] A handle to a global memory object containing a packed DIB, which consists of a BITMAPINFO structure immediately followed by an array of bytes defining the pixels of the bitmap.
+h : [int] BITMAPINFO 構造体の直後にビットマップのピクセルを定義するバイト配列が続く、パックド DIB を含むグローバルメモリオブジェクトへのハンドル。
 iUsage : [int] 
 %inst
-The CreateDIBPatternBrush function creates a logical brush that has
-the pattern specified by the specified device-independent bitmap
-(DIB).
+CreateDIBPatternBrush 関数は、指定したデバイス独立ビットマップ (DIB)
+で指定されたパターンを持つ論理ブラシを作成する。
 
 [戻り値]
-If the function succeeds, the return value identifies a logical
-brush. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値は論理ブラシを識別する。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-When an application selects a two-color DIB pattern brush into a
-monochrome device context, the system does not acknowledge the colors
-specified in the DIB; instead, it displays the pattern brush using
-the current background and foreground colors of the device context.
-Pixels mapped to the first color of the DIB (offset 0 in the DIB
-color table) are displayed using the foreground color; pixels mapped
-to the second color (offset 1 in the color table) are displayed using
-the background color. When you no longer need the brush, call the
-DeleteObject function to delete it. ICM: No color is done at brush
-creation. However, color management is performed when the brush is
-selected into an ICM-enabled device context.
+アプリケーションが 2 色 DIB パターンブラシをモノクロデバイスコンテキストに選択した場合、システムは DIB
+に指定された色を認識せず、デバイスコンテキストの現在の背景色と前景色を使ってパターンブラシを表示する。DIB の最初の色（DIB
+カラーテーブルのオフセット 0）にマップされたピクセルは前景色で表示され、2 番目の色（カラーテーブルのオフセット
+1）にマップされたピクセルは背景色で表示される。ブラシが不要になったら DeleteObject を呼んで削除する。ICM:
+ブラシ作成時にカラー処理は行われない。ただし、ブラシが ICM
+対応のデバイスコンテキストに選択されたときにカラーマネジメントが実行される。
 
 
 %index
 CreateDIBPatternBrushPt
-The CreateDIBPatternBrushPt function creates a logical brush that has the pattern specified by the device-independent bitmap (DIB).
+CreateDIBPatternBrushPt 関数は、デバイス独立ビットマップ (DIB) で指定されたパターンを持つ論理ブラシを作成する。
 %group
 Win32 gdi32
 %prm
 lpPackedDIB, iUsage
-lpPackedDIB : [intptr] A pointer to a packed DIB consisting of a BITMAPINFO structure immediately followed by an array of bytes defining the pixels of the bitmap.
+lpPackedDIB : [intptr] BITMAPINFO 構造体の直後にビットマップのピクセルを定義するバイト配列が続くパックド DIB へのポインタ。
 iUsage : [int] 
 %inst
-The CreateDIBPatternBrushPt function creates a logical brush that has
-the pattern specified by the device-independent bitmap (DIB).
+CreateDIBPatternBrushPt 関数は、デバイス独立ビットマップ (DIB)
+で指定されたパターンを持つ論理ブラシを作成する。
 
 [戻り値]
-If the function succeeds, the return value identifies a logical
-brush. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値は論理ブラシを識別する。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-A brush is a bitmap that the system uses to paint the interiors of
-filled shapes. After an application creates a brush by calling
-CreateDIBPatternBrushPt, it can select that brush into any device
-context by calling the SelectObject function. When you no longer need
-the brush, call the DeleteObject function to delete it. ICM: No color
-is done at brush creation. However, color management is performed
-when the brush is selected into an ICM-enabled device context.
+ブラシは、システムが塗りつぶされた図形の内側を描画するために使用するビットマップである。アプリケーションは
+CreateDIBPatternBrushPt でブラシを作成した後、SelectObject
+を呼んで任意のデバイスコンテキストに選択できる。ブラシが不要になったら DeleteObject を呼んで削除する。ICM:
+ブラシ作成時にカラー処理は行われない。ただし、ブラシが ICM
+対応のデバイスコンテキストに選択されたときにカラーマネジメントが実行される。
 
 
 %index
@@ -1398,167 +1144,128 @@ biXPelsPerMeter/biYPelsPerMeter を使用せず、解像度情報を BITMAPINFO に提供しない
 
 %index
 CreateDIBitmap
-The CreateDIBitmap function creates a compatible bitmap (DDB) from a DIB and, optionally, sets the bitmap bits.
+CreateDIBitmap 関数は DIB から互換ビットマップ (DDB) を作成し、必要に応じてビットマップビットを設定する。
 %group
 Win32 gdi32
 %prm
 hdc, pbmih, flInit, pjBits, pbmi, iUsage
-hdc : [intptr] A handle to a device context.
-pbmih : [var] A pointer to a bitmap information header structure, BITMAPV5HEADER. If fdwInit is CBM_INIT, the function uses the bitmap information header structure to obtain the desired width and height of the bitmap as well as other information. Note that a positive value for the height indicates a bottom-up DIB while a negative value for the height indicates a top-down DIB. Calling CreateDIBitmap with fdwInit as CBM_INIT is equivalent to calling the CreateCompatibleBitmap function to create a DDB in the format of the device and then calling the SetDIBits function to translate the DIB bits to the DDB.
-flInit : [int] Specifies how the system initializes the bitmap bits. The following value is defined.
-pjBits : [intptr] A pointer to an array of bytes containing the initial bitmap data. The format of the data depends on the biBitCount member of the BITMAPINFO structure to which the lpbmi parameter points.
-pbmi : [var] A pointer to a BITMAPINFO structure that describes the dimensions and color format of the array pointed to by the lpbInit parameter.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+pbmih : [var] ビットマップ情報ヘッダ構造体 BITMAPV5HEADER へのポインタ。fdwInit が CBM_INIT の場合、関数はビットマップ情報ヘッダ構造体を使ってビットマップに必要な幅、高さ、その他の情報を取得する。高さの正値は下から上の DIB を、負値は上から下の DIB を示すことに注意。CBM_INIT を fdwInit に指定して CreateDIBitmap を呼ぶことは、CreateCompatibleBitmap を呼んでデバイスのフォーマットの DDB を作成し、その後 SetDIBits を呼んで DIB ビットを DDB に変換することと等価である。
+flInit : [int] システムがビットマップビットを初期化する方法を指定する。次の値が定義されている。
+pjBits : [intptr] 初期ビットマップデータを含むバイト配列へのポインタ。データのフォーマットは、lpbmi パラメータが指す BITMAPINFO 構造体の biBitCount メンバに依存する。
+pbmi : [var] lpbInit パラメータが指す配列の寸法と色フォーマットを記述する BITMAPINFO 構造体へのポインタ。
 iUsage : [int] 
 %inst
-The CreateDIBitmap function creates a compatible bitmap (DDB) from a
-DIB and, optionally, sets the bitmap bits.
+CreateDIBitmap 関数は DIB から互換ビットマップ (DDB) を作成し、必要に応じてビットマップビットを設定する。
 
 [戻り値]
-If the function succeeds, the return value is a handle to the
-compatible bitmap. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値は互換ビットマップへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-The DDB that is created will be whatever bit depth your reference DC
-is. To create a bitmap that is of different bit depth, use
-CreateDIBSection. For a device to reach optimal bitmap-drawing speed,
-specify fdwInit as CBM_INIT. Then, use the same color depth DIB as
-the video mode. When the video is running 4- or 8-bpp, use
-DIB_PAL_COLORS. The CBM_CREATDIB flag for the fdwInit parameter is no
-longer supported. When you no longer need the bitmap, call the
-DeleteObject function to delete it. ICM: No color management is
-performed. The contents of the resulting bitmap are not color matched
-after the bitmap has been created.
+作成される DDB は、リファレンス DC のビット深度になる。異なるビット深度のビットマップを作成するには
+CreateDIBSection を使う。デバイスが最適なビットマップ描画速度に達するためには、fdwInit に CBM_INIT
+を指定する。そして DIB をビデオモードと同じ色深度にする。ビデオが 4 または 8 bpp の場合は DIB_PAL_COLORS
+を使う。fdwInit パラメータの CBM_CREATDIB フラグはサポートされなくなった。ビットマップが不要になったら
+DeleteObject を呼んで削除する。ICM:
+カラーマネジメントは実行されない。作成された結果のビットマップの内容はカラーマッチされない。
 
 
 %index
 CreateDiscardableBitmap
-The CreateDiscardableBitmap function creates a discardable bitmap that is compatible with the specified device.
+CreateDiscardableBitmap 関数は、指定したデバイスと互換性のある破棄可能なビットマップを作成する。
 %group
 Win32 gdi32
 %prm
 hdc, cx, cy
-hdc : [intptr] A handle to a device context.
-cx : [int] The width, in pixels, of the bitmap.
-cy : [int] The height, in pixels, of the bitmap.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+cx : [int] ビットマップの幅（ピクセル単位）。
+cy : [int] ビットマップの高さ（ピクセル単位）。
 %inst
-The CreateDiscardableBitmap function creates a discardable bitmap
-that is compatible with the specified device.
+CreateDiscardableBitmap 関数は、指定したデバイスと互換性のある破棄可能なビットマップを作成する。
 
 [戻り値]
-If the function succeeds, the return value is a handle to the
-compatible bitmap (DDB). If the function fails, the return value is
-NULL.
+関数が成功した場合、戻り値は互換ビットマップ (DDB) へのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-When you no longer need the bitmap, call the DeleteObject function to
-delete it.
+ビットマップが不要になったら DeleteObject を呼んで削除する。
 
 
 %index
 CreateEllipticRgn
-The CreateEllipticRgn function creates an elliptical region.
+CreateEllipticRgn 関数は楕円リージョンを作成する。
 %group
 Win32 gdi32
 %prm
 x1, y1, x2, y2
-x1 : [int] Specifies the x-coordinate in logical units, of the upper-left corner of the bounding rectangle of the ellipse.
-y1 : [int] Specifies the y-coordinate in logical units, of the upper-left corner of the bounding rectangle of the ellipse.
-x2 : [int] Specifies the x-coordinate in logical units, of the lower-right corner of the bounding rectangle of the ellipse.
-y2 : [int] Specifies the y-coordinate in logical units, of the lower-right corner of the bounding rectangle of the ellipse.
+x1 : [int] 楕円の外接矩形の左上隅の x 座標（論理単位）。
+y1 : [int] 楕円の外接矩形の左上隅の y 座標（論理単位）。
+x2 : [int] 楕円の外接矩形の右下隅の x 座標（論理単位）。
+y2 : [int] 楕円の外接矩形の右下隅の y 座標（論理単位）。
 %inst
-The CreateEllipticRgn function creates an elliptical region.
+CreateEllipticRgn 関数は楕円リージョンを作成する。
 
 [戻り値]
-If the function succeeds, the return value is the handle to the
-region. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値はリージョンへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-When you no longer need the HRGN object, call the DeleteObject
-function to delete it. A bounding rectangle defines the size, shape,
-and orientation of the region: The long sides of the rectangle define
-the length of the ellipse's major axis; the short sides define the
-length of the ellipse's minor axis; and the center of the rectangle
-defines the intersection of the major and minor axes.
+HRGN オブジェクトが不要になったら DeleteObject
+を呼んで削除する。外接矩形は領域のサイズ・形状・向きを定義する。矩形の長辺は楕円の長軸の長さを定義し、短辺は短軸の長さを定義する。矩形の中心が長軸と短軸の交点を定義する。
 
 
 %index
 CreateEllipticRgnIndirect
-The CreateEllipticRgnIndirect function creates an elliptical region.
+CreateEllipticRgnIndirect 関数は楕円リージョンを作成する。
 %group
 Win32 gdi32
 %prm
 lprect
-lprect : [var] Pointer to a RECT structure that contains the coordinates of the upper-left and lower-right corners of the bounding rectangle of the ellipse in logical units.
+lprect : [var] 楕円の外接矩形の左上隅と右下隅の座標（論理単位）を含む RECT 構造体へのポインタ。
 %inst
-The CreateEllipticRgnIndirect function creates an elliptical region.
+CreateEllipticRgnIndirect 関数は楕円リージョンを作成する。
 
 [戻り値]
-If the function succeeds, the return value is the handle to the
-region. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値はリージョンへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-When you no longer need the HRGN object, call the DeleteObject
-function to delete it. A bounding rectangle defines the size, shape,
-and orientation of the region: The long sides of the rectangle define
-the length of the ellipse's major axis; the short sides define the
-length of the ellipse's minor axis; and the center of the rectangle
-defines the intersection of the major and minor axes.
+HRGN オブジェクトが不要になったら DeleteObject
+を呼んで削除する。外接矩形は領域のサイズ・形状・向きを定義する。矩形の長辺は楕円の長軸の長さを定義し、短辺は短軸の長さを定義する。矩形の中心が長軸と短軸の交点を定義する。
 
 
 %index
 CreateEnhMetaFileW
-The CreateEnhMetaFile function creates a device context for an enhanced-format metafile. This device context can be used to store a device-independent picture. (Unicode)
+CreateEnhMetaFile 関数は拡張形式メタファイル用のデバイスコンテキストを作成する。このデバイスコンテキストはデバイス独立な図を保存するために使用できる。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, lpFilename, lprc, lpDesc
-hdc : [intptr] A handle to a reference device for the enhanced metafile. This parameter can be NULL; for more information, see Remarks.
-lpFilename : [wstr] A pointer to the file name for the enhanced metafile to be created. If this parameter is NULL, the enhanced metafile is memory based and its contents are lost when it is deleted by using the DeleteEnhMetaFile function.
-lprc : [var] A pointer to a RECT structure that specifies the dimensions (in .01-millimeter units) of the picture to be stored in the enhanced metafile.
-lpDesc : [wstr] A pointer to a string that specifies the name of the application that created the picture, as well as the picture's title. This parameter can be NULL; for more information, see Remarks.
+hdc : [intptr] 拡張メタファイル用のリファレンスデバイスへのハンドル。NULL を指定可能。詳細は備考を参照。
+lpFilename : [wstr] 作成する拡張メタファイルのファイル名へのポインタ。NULL の場合、拡張メタファイルはメモリ上に置かれ、DeleteEnhMetaFile で削除されると内容が失われる。
+lprc : [var] 拡張メタファイルに保存する図の寸法（0.01 ミリ単位）を指定する RECT 構造体へのポインタ。
+lpDesc : [wstr] 図を作成したアプリケーションの名前と図のタイトルを指定する文字列へのポインタ。NULL を指定可能。詳細は備考を参照。
 %inst
-The CreateEnhMetaFile function creates a device context for an
-enhanced-format metafile. This device context can be used to store a
-device-independent picture. (Unicode)
+CreateEnhMetaFile
+関数は拡張形式メタファイル用のデバイスコンテキストを作成する。このデバイスコンテキストはデバイス独立な図を保存するために使用できる。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a handle to the device
-context for the enhanced metafile. If the function fails, the return
-value is NULL.
+関数が成功した場合、戻り値は拡張メタファイル用のデバイスコンテキストへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-Where text arguments must use Unicode characters, use the
-CreateEnhMetaFile function as a wide-character function. Where text
-arguments must use characters from the Windows character set, use
-this function as an ANSI function. The system uses the reference
-device identified by the hdcRef parameter to record the resolution
-and units of the device on which a picture originally appeared. If
-the hdcRef parameter is NULL, it uses the current display device for
-reference. The left and top members of the RECT structure pointed to
-by the lpRect parameter must be less than the right and bottom
-members, respectively. Points along the edges of the rectangle are
-included in the picture. If lpRect is NULL, the graphics device
-interface (GDI) computes the dimensions of the smallest rectangle
-that surrounds the picture drawn by the application. The lpRect
-parameter should be provided where possible. The string pointed to by
-the lpDescription parameter must contain a null character between the
-application name and the picture name and must terminate with two
-null characters, for example, "XYZ Graphics Editor\0Bald Eagle\0\0",
-where \0 represents the null character. If lpDescription is NULL,
-there is no corresponding entry in the enhanced-metafile header.
-Applications use the device context created by this function to store
-a graphics picture in an enhanced metafile. The handle identifying
-this device context can be passed to any GDI function. After an
-application stores a picture in an enhanced metafile, it can display
-the picture on any output device by calling the PlayEnhMetaFile
-function. When displaying the picture, the system uses the rectangle
-pointed to by the lpRect parameter and the resolution data from the
-reference device to position and scale the picture. The device
-context returned by this function contains the same default
-attributes associated with any new device context. Applications must
-use the GetWinMetaFileBits function to convert an enhanced metafile
-to the older Windows metafile format. The file name for the enhanced
-metafile should use the .emf extension.
+テキスト引数で Unicode 文字を使う必要がある場合は CreateEnhMetaFile をワイド文字関数として使う。テキスト引数で
+Windows 文字セットの文字を使う必要がある場合はこの関数を ANSI 関数として使う。システムは hdcRef
+パラメータで指定されたリファレンスデバイスを使用して、図が元々表示されていたデバイスの解像度と単位を記録する。hdcRef パラメータが
+NULL の場合、現在のディスプレイデバイスをリファレンスとして使う。lpRect パラメータが指す RECT 構造体の left と
+top メンバは、それぞれ right と bottom メンバより小さくなければならない。矩形の辺上の点も図に含まれる。lpRect が
+NULL の場合、グラフィックスデバイスインターフェイス (GDI)
+はアプリケーションが描画した図を囲む最小矩形の寸法を計算する。可能な場合は lpRect
+パラメータを指定すべきである。lpDescription パラメータが指す文字列は、アプリケーション名と図名の間に null
+文字を含み、2 つの null 文字で終わらなければならない。例："XYZ Graphics Editor\0Bald
+Eagle\0\0"（\0 は null 文字）。lpDescription が NULL
+の場合、拡張メタファイルヘッダに対応するエントリは入らない。アプリケーションは、この関数で作成したデバイスコンテキストを使ってグラフィックス図を拡張メタファイルに保存する。このデバイスコンテキストを識別するハンドルは任意の
+GDI 関数に渡せる。アプリケーションが図を拡張メタファイルに保存した後、PlayEnhMetaFile
+を呼ぶことで任意の出力デバイス上に図を表示できる。図を表示する際、システムは lpRect
+パラメータが指す矩形とリファレンスデバイスからの解像度データを使って図を配置・スケーリングする。この関数が返すデバイスコンテキストには、新しいデバイスコンテキストに関連付けられているのと同じデフォルト属性が含まれる。アプリケーションは
+GetWinMetaFileBits を使って拡張メタファイルを古い Windows
+メタファイル形式に変換しなければならない。拡張メタファイルのファイル名には .emf 拡張子を使うべきである。
 
 
 %index
@@ -1619,67 +1326,54 @@ EnumFontFamiliesEx で適切な書体名を取得してから CreateFont/CreateFontIndirect
 
 %index
 CreateFontIndirectExW
-The CreateFontIndirectEx function specifies a logical font that has the characteristics in the specified structure. The font can subsequently be selected as the current font for any device context. (Unicode)
+CreateFontIndirectEx 関数は、指定した構造体内の特性を持つ論理フォントを指定する。このフォントはその後、任意のデバイスコンテキストの現在のフォントとして選択できる。(Unicode)
 %group
 Win32 gdi32
 %prm
 param0
 param0 : [var] 
 %inst
-The CreateFontIndirectEx function specifies a logical font that has
-the characteristics in the specified structure. The font can
-subsequently be selected as the current font for any device context.
-(Unicode)
+CreateFontIndirectEx
+関数は、指定した構造体内の特性を持つ論理フォントを指定する。このフォントはその後、任意のデバイスコンテキストの現在のフォントとして選択できる。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is the handle to the new
-ENUMLOGFONTEXDV structure. If the function fails, the return value is
-zero. No extended error information is available.
+関数が成功した場合、戻り値は新しい ENUMLOGFONTEXDV
+構造体へのハンドルとなる。関数が失敗した場合、戻り値はゼロとなる。拡張エラー情報は得られない。
 
 [備考]
-The CreateFontIndirectEx function creates a logical font with the
-characteristics specified in the ENUMLOGFONTEXDV structure. When this
-font is selected by using the SelectObject function, GDI's font
-mapper attempts to match the logical font with an existing physical
-font. If it fails to find an exact match, it provides an alternative
-whose characteristics match as many of the requested characteristics
-as possible. When you no longer need the font, call the DeleteObject
-function to delete it. The font mapper for CreateFont,
-CreateFontIndirect, and CreateFontIndirectEx recognizes both the
-English and the localized typeface name, regardless of locale.
-> [!NOTE] > The wingdi.h header defines CreateFontIndirectEx as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+CreateFontIndirectEx 関数は、ENUMLOGFONTEXDV
+構造体で指定された特性を持つ論理フォントを作成する。SelectObject でこのフォントが選択されると、GDI
+のフォントマッパは論理フォントを既存の物理フォントとマッチングしようとする。完全一致が見つからなかった場合、要求された特性をできるだけ多く満たす代替を提供する。フォントが不要になったら
+DeleteObject
+を呼んで削除する。CreateFont、CreateFontIndirect、CreateFontIndirectEx
+のフォントマッパは、ロケールに関係なく英語名とローカライズされた書体名の両方を認識する。
+> [!NOTE] > wingdi.h ヘッダは CreateFontIndirectEx を、UNICODE
+プリプロセッサ定数の定義に応じて自動的に ANSI 版か Unicode
+版を選択するエイリアスとして定義する。エンコーディング中立のエイリアスとそうでないコードを混在させると、コンパイルや実行時のエラーにつながるミスマッチが生じることがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 CreateHalftonePalette
-The CreateHalftonePalette function creates a halftone palette for the specified device context (DC).
+CreateHalftonePalette 関数は、指定したデバイスコンテキスト (DC) 用のハーフトーンパレットを作成する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストへのハンドル。
 %inst
-The CreateHalftonePalette function creates a halftone palette for the
-specified device context (DC).
+CreateHalftonePalette 関数は、指定したデバイスコンテキスト (DC) 用のハーフトーンパレットを作成する。
 
 [戻り値]
-If the function succeeds, the return value is a handle to a logical
-halftone palette. If the function fails, the return value is zero.
+関数が成功した場合、戻り値は論理ハーフトーンパレットへのハンドルとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-An application should create a halftone palette when the stretching
-mode of a device context is set to HALFTONE. The logical halftone
-palette returned by CreateHalftonePalette should then be selected and
-realized into the device context before the StretchBlt or
-StretchDIBits function is called. When you no longer need the
-palette, call the DeleteObject function to delete it.
+アプリケーションは、デバイスコンテキストのストレッチモードが HALFTONE
+に設定されている場合にハーフトーンパレットを作成すべきである。CreateHalftonePalette
+が返した論理ハーフトーンパレットは、StretchBlt や StretchDIBits
+を呼ぶ前にデバイスコンテキストに選択して実体化すべきである。パレットが不要になったら DeleteObject を呼んで削除する。
 
 
 %index
@@ -1706,139 +1400,113 @@ color : [int] ハッチに使用するブラシの前景色。COLORREF 値は RGB マクロで作成する
 
 %index
 CreateICA
-The CreateIC function creates an information context for the specified device. (ANSI)
+CreateIC 関数は、指定したデバイス用の情報コンテキストを作成する。(ANSI)
 %group
 Win32 gdi32
 %prm
 pszDriver, pszDevice, pszPort, pdm
-pszDriver : [str] A pointer to a null-terminated character string that specifies the name of the device driver (for example, Epson).
-pszDevice : [str] A pointer to a null-terminated character string that specifies the name of the specific output device being used, as shown by the Print Manager (for example, Epson FX-80). It is not the printer model name. The lpszDevice parameter must be used.
-pszPort : [str] This parameter is ignored and should be set to NULL. It is provided only for compatibility with 16-bit Windows.
-pdm : [var] A pointer to a DEVMODE structure containing device-specific initialization data for the device driver. The DocumentProperties function retrieves this structure filled in for a specified device. The lpdvmInit parameter must be NULL if the device driver is to use the default initialization (if any) specified by the user.
+pszDriver : [str] デバイスドライバの名前（例：Epson）を指定する null 終端文字列へのポインタ。
+pszDevice : [str] プリントマネージャーで表示される、使用中の出力デバイスの名前（例：Epson FX-80）を指定する null 終端文字列へのポインタ。プリンターのモデル名ではない。lpszDevice パラメータは必ず使用しなければならない。
+pszPort : [str] このパラメータは無視され、NULL に設定するべきである。16 ビット Windows との互換性のためだけに用意されている。
+pdm : [var] デバイスドライバ向けのデバイス固有初期化データを含む DEVMODE 構造体へのポインタ。DocumentProperties 関数は、指定したデバイス用に値が設定されたこの構造体を取得する。デバイスドライバがユーザー指定のデフォルト初期化（あれば）を使うべき場合、lpdvmInit パラメータは NULL でなければならない。
 %inst
-The CreateIC function creates an information context for the
-specified device. (ANSI)
+CreateIC 関数は、指定したデバイス用の情報コンテキストを作成する。(ANSI)
 
 [戻り値]
-If the function succeeds, the return value is the handle to an
-information context. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値は情報コンテキストへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-When you no longer need the information DC, call the DeleteDC
-function.
-> [!NOTE] > The wingdi.h header defines CreateIC as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+情報 DC が不要になったら DeleteDC を呼ぶ。
+> [!NOTE] > wingdi.h ヘッダは CreateIC を、UNICODE プリプロセッサ定数の定義に応じて自動的に
+ANSI 版か Unicode
+版を選択するエイリアスとして定義する。エンコーディング中立のエイリアスとそうでないコードを混在させると、コンパイルや実行時のエラーにつながるミスマッチが生じることがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 CreateICW
-The CreateIC function creates an information context for the specified device. (Unicode)
+CreateIC 関数は、指定したデバイス用の情報コンテキストを作成する。(Unicode)
 %group
 Win32 gdi32
 %prm
 pszDriver, pszDevice, pszPort, pdm
-pszDriver : [wstr] A pointer to a null-terminated character string that specifies the name of the device driver (for example, Epson).
-pszDevice : [wstr] A pointer to a null-terminated character string that specifies the name of the specific output device being used, as shown by the Print Manager (for example, Epson FX-80). It is not the printer model name. The lpszDevice parameter must be used.
-pszPort : [wstr] This parameter is ignored and should be set to NULL. It is provided only for compatibility with 16-bit Windows.
-pdm : [var] A pointer to a DEVMODE structure containing device-specific initialization data for the device driver. The DocumentProperties function retrieves this structure filled in for a specified device. The lpdvmInit parameter must be NULL if the device driver is to use the default initialization (if any) specified by the user.
+pszDriver : [wstr] デバイスドライバの名前（例：Epson）を指定する null 終端文字列へのポインタ。
+pszDevice : [wstr] プリントマネージャーで表示される、使用中の出力デバイスの名前（例：Epson FX-80）を指定する null 終端文字列へのポインタ。プリンターのモデル名ではない。lpszDevice パラメータは必ず使用しなければならない。
+pszPort : [wstr] このパラメータは無視され、NULL に設定するべきである。16 ビット Windows との互換性のためだけに用意されている。
+pdm : [var] デバイスドライバ向けのデバイス固有初期化データを含む DEVMODE 構造体へのポインタ。DocumentProperties 関数は、指定したデバイス用に値が設定されたこの構造体を取得する。デバイスドライバがユーザー指定のデフォルト初期化（あれば）を使うべき場合、lpdvmInit パラメータは NULL でなければならない。
 %inst
-The CreateIC function creates an information context for the
-specified device. (Unicode)
+CreateIC 関数は、指定したデバイス用の情報コンテキストを作成する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is the handle to an
-information context. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値は情報コンテキストへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-When you no longer need the information DC, call the DeleteDC
-function.
-> [!NOTE] > The wingdi.h header defines CreateIC as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+情報 DC が不要になったら DeleteDC を呼ぶ。
+> [!NOTE] > wingdi.h ヘッダは CreateIC を、UNICODE プリプロセッサ定数の定義に応じて自動的に
+ANSI 版か Unicode
+版を選択するエイリアスとして定義する。エンコーディング中立のエイリアスとそうでないコードを混在させると、コンパイルや実行時のエラーにつながるミスマッチが生じることがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 CreateMetaFileW
-The CreateMetaFile function creates a device context for a Windows-format metafile. (Unicode)
+CreateMetaFile 関数は、Windows 形式メタファイル用のデバイスコンテキストを作成する。(Unicode)
 %group
 Win32 gdi32
 %prm
 pszFile
-pszFile : [wstr] A pointer to the file name for the Windows-format metafile to be created. If this parameter is NULL, the Windows-format metafile is memory based and its contents are lost when it is deleted by using the DeleteMetaFile function.
+pszFile : [wstr] 作成する Windows 形式メタファイルのファイル名へのポインタ。NULL の場合、Windows 形式メタファイルはメモリ上に置かれ、DeleteMetaFile で削除されると内容が失われる。
 %inst
-The CreateMetaFile function creates a device context for a
-Windows-format metafile. (Unicode)
+CreateMetaFile 関数は、Windows 形式メタファイル用のデバイスコンテキストを作成する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a handle to the device
-context for the Windows-format metafile. If the function fails, the
-return value is NULL.
+関数が成功した場合、戻り値は Windows 形式メタファイル用デバイスコンテキストへのハンドルとなる。関数が失敗した場合、戻り値は
+NULL となる。
 
 [備考]
-Where text arguments must use Unicode characters, use the
-CreateMetaFile function as a wide-character function. Where text
-arguments must use characters from the Windows character set, use
-this function as an ANSI function. CreateMetaFile is a Windows-format
-metafile function. This function supports only 16-bit Windows-based
-applications, which are listed in Windows-Format Metafiles. It does
-not record or play back GDI functions such as PolyBezier, which were
-not part of 16-bit Windows. The device context created by this
-function can be used to record GDI output functions in a
-Windows-format metafile. It cannot be used with GDI query functions
-such as GetTextColor. When the device context is used with a GDI
-output function, the return value of that function becomes TRUE if
-the function is recorded and FALSE otherwise. When an object is
-selected by using the SelectObject function, only a copy of the
-object is recorded. The object still belongs to the application. To
-create a scalable Windows-format metafile, record the graphics output
-in the MM_ANISOTROPIC mapping mode. The file cannot contain functions
-that modify the viewport origin and extents, nor can it contain
-device-dependent functions such as the SelectClipRgn function. Once
-created, the Windows metafile can be scaled and rendered to any
-output device-format by defining the viewport origin and extents of
-the picture before playing it.
-> [!NOTE] > The wingdi.h header defines CreateMetaFile as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+テキスト引数で Unicode 文字を使う必要がある場合は CreateMetaFile をワイド文字関数として使う。テキスト引数で
+Windows 文字セットの文字を使う必要がある場合はこの関数を ANSI 関数として使う。CreateMetaFile は
+Windows 形式メタファイル関数である。この関数は、Windows-Format Metafiles に列挙されている 16 ビット
+Windows ベースのアプリケーションのみをサポートする。16 ビット Windows の一部ではなかった PolyBezier などの
+GDI 関数は記録・再生できない。この関数で作成されるデバイスコンテキストは、GDI 出力関数を Windows
+形式メタファイルに記録するために使用できる。GetTextColor のような GDI クエリ関数とは併用できない。デバイスコンテキストが
+GDI 出力関数で使用されるとき、その関数の戻り値は記録された場合は TRUE、それ以外は FALSE になる。SelectObject
+でオブジェクトを選択すると、オブジェクトのコピーのみが記録される。オブジェクト自体は引き続きアプリケーションが所有する。スケーラブルな
+Windows 形式メタファイルを作成するには、MM_ANISOTROPIC
+マッピングモードでグラフィックス出力を記録する。ファイルにはビューポートの原点や範囲を変更する関数は含められず、SelectClipRgn
+のようなデバイス依存関数も含められない。作成された Windows
+メタファイルは、再生前に図のビューポート原点と範囲を定義することで、任意の出力デバイス形式にスケールしてレンダリングできる。
+> [!NOTE] > wingdi.h ヘッダは CreateMetaFile を、UNICODE
+プリプロセッサ定数の定義に応じて自動的に ANSI 版か Unicode
+版を選択するエイリアスとして定義する。エンコーディング中立のエイリアスとそうでないコードを混在させると、コンパイルや実行時のエラーにつながるミスマッチが生じることがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 CreatePalette
-The CreatePalette function creates a logical palette.
+CreatePalette 関数は論理パレットを作成する。
 %group
 Win32 gdi32
 %prm
 plpal
-plpal : [var] A pointer to a LOGPALETTE structure that contains information about the colors in the logical palette.
+plpal : [var] 論理パレット内の色に関する情報を含む LOGPALETTE 構造体へのポインタ。
 %inst
-The CreatePalette function creates a logical palette.
+CreatePalette 関数は論理パレットを作成する。
 
 [戻り値]
-If the function succeeds, the return value is a handle to a logical
-palette. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値は論理パレットへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-An application can determine whether a device supports palette
-operations by calling the GetDeviceCaps function and specifying the
-RASTERCAPS constant. Once an application creates a logical palette,
-it can select that palette into a device context by calling the
-SelectPalette function. A palette selected into a device context can
-be realized by calling the RealizePalette function. When you no
-longer need the palette, call the DeleteObject function to delete it.
+アプリケーションは GetDeviceCaps を呼び RASTERCAPS
+定数を指定することで、デバイスがパレット操作をサポートするかを判定できる。論理パレットを作成した後、SelectPalette
+を呼んでデバイスコンテキストに選択できる。デバイスコンテキストに選択されたパレットは RealizePalette
+を呼ぶことで実体化できる。パレットが不要になったら DeleteObject を呼んで削除する。
 
 
 %index
@@ -1890,222 +1558,186 @@ DeleteObject で削除する。
 
 %index
 CreatePenIndirect
-The CreatePenIndirect function creates a logical cosmetic pen that has the style, width, and color specified in a structure.
+CreatePenIndirect 関数は、構造体で指定したスタイル、幅、色を持つ論理コスメティックペンを作成する。
 %group
 Win32 gdi32
 %prm
 plpen
-plpen : [var] Pointer to a LOGPEN structure that specifies the pen's style, width, and color.
+plpen : [var] ペンのスタイル、幅、色を指定する LOGPEN 構造体へのポインタ。
 %inst
-The CreatePenIndirect function creates a logical cosmetic pen that
-has the style, width, and color specified in a structure.
+CreatePenIndirect 関数は、構造体で指定したスタイル、幅、色を持つ論理コスメティックペンを作成する。
 
 [戻り値]
-If the function succeeds, the return value is a handle that
-identifies a logical cosmetic pen. If the function fails, the return
-value is NULL.
+関数が成功した場合、戻り値は論理コスメティックペンを識別するハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-After an application creates a logical pen, it can select that pen
-into a device context by calling the SelectObject function. After a
-pen is selected into a device context, it can be used to draw lines
-and curves. When you no longer need the pen, call the DeleteObject
-function to delete it.
+論理ペンを作成した後、SelectObject
+を呼んでデバイスコンテキストに選択できる。ペンがデバイスコンテキストに選択されると、線や曲線の描画に使用できる。ペンが不要になったら
+DeleteObject を呼んで削除する。
 
 
 %index
 CreatePolyPolygonRgn
-The CreatePolyPolygonRgn function creates a region consisting of a series of polygons. The polygons can overlap.
+CreatePolyPolygonRgn 関数は、複数のポリゴンからなるリージョンを作成する。ポリゴンは重なってもよい。
 %group
 Win32 gdi32
 %prm
 pptl, pc, cPoly, iMode
-pptl : [var] A pointer to an array of POINT structures that define the vertices of the polygons in logical units. The polygons are specified consecutively. Each polygon is presumed closed and each vertex is specified only once.
-pc : [var] A pointer to an array of integers, each of which specifies the number of points in one of the polygons in the array pointed to by lppt.
-cPoly : [int] The total number of integers in the array pointed to by lpPolyCounts.
+pptl : [var] ポリゴンの頂点を論理単位で定義する POINT 構造体配列へのポインタ。ポリゴンは連続して指定する。各ポリゴンは閉じていると見なされ、各頂点は 1 度のみ指定する。
+pc : [var] 整数配列へのポインタ。各整数は、lppt が指す配列内のいずれかのポリゴンの頂点数を指定する。
+cPoly : [int] lpPolyCounts が指す配列内の整数の総数。
 iMode : [int] 
 %inst
-The CreatePolyPolygonRgn function creates a region consisting of a
-series of polygons. The polygons can overlap.
+CreatePolyPolygonRgn 関数は、複数のポリゴンからなるリージョンを作成する。ポリゴンは重なってもよい。
 
 [戻り値]
-If the function succeeds, the return value is the handle to the
-region. If the function fails, the return value is zero.
+関数が成功した場合、戻り値はリージョンへのハンドルとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-When you no longer need the HRGN object, call the DeleteObject
-function to delete it. Region coordinates are represented as 27-bit
-signed integers.
+HRGN オブジェクトが不要になったら DeleteObject を呼んで削除する。リージョン座標は 27
+ビット符号付き整数として表現される。
 
 
 %index
 CreatePolygonRgn
-The CreatePolygonRgn function creates a polygonal region.
+CreatePolygonRgn 関数はポリゴンリージョンを作成する。
 %group
 Win32 gdi32
 %prm
 pptl, cPoint, iMode
-pptl : [var] A pointer to an array of POINT structures that define the vertices of the polygon in logical units. The polygon is presumed closed. Each vertex can be specified only once.
-cPoint : [int] The number of points in the array.
+pptl : [var] ポリゴンの頂点を論理単位で定義する POINT 構造体配列へのポインタ。ポリゴンは閉じていると見なされる。各頂点は 1 度のみ指定できる。
+cPoint : [int] 配列内の点の数。
 iMode : [int] 
 %inst
-The CreatePolygonRgn function creates a polygonal region.
+CreatePolygonRgn 関数はポリゴンリージョンを作成する。
 
 [戻り値]
-If the function succeeds, the return value is the handle to the
-region. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値はリージョンへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-When you no longer need the HRGN object, call the DeleteObject
-function to delete it. Region coordinates are represented as 27-bit
-signed integers. Regions created by the Create<shape>Rgn methods
-(such as CreateRectRgn and CreatePolygonRgn) only include the
-interior of the shape; the shape's outline is excluded from the
-region. This means that any point on a line between two sequential
-vertices is not included in the region. If you were to call
-PtInRegion for such a point, it would return zero as the result.
+HRGN オブジェクトが不要になったら DeleteObject を呼んで削除する。リージョン座標は 27
+ビット符号付き整数として表現される。Create<shape>Rgn 系メソッド（CreateRectRgn や
+CreatePolygonRgn など）で作成されるリージョンは形状の内側のみを含み、形状の輪郭はリージョンから除外される。これは、2
+つの連続する頂点を結ぶ線上の任意の点はリージョンに含まれないことを意味する。そのような点に対して PtInRegion を呼ぶと結果として
+0 が返る。
 
 
 %index
 CreateRectRgn
-The CreateRectRgn function creates a rectangular region.
+CreateRectRgn 関数は矩形リージョンを作成する。
 %group
 Win32 gdi32
 %prm
 x1, y1, x2, y2
-x1 : [int] Specifies the x-coordinate of the upper-left corner of the region in logical units.
-y1 : [int] Specifies the y-coordinate of the upper-left corner of the region in logical units.
-x2 : [int] Specifies the x-coordinate of the lower-right corner of the region in logical units.
-y2 : [int] Specifies the y-coordinate of the lower-right corner of the region in logical units.
+x1 : [int] リージョンの左上隅の x 座標（論理単位）。
+y1 : [int] リージョンの左上隅の y 座標（論理単位）。
+x2 : [int] リージョンの右下隅の x 座標（論理単位）。
+y2 : [int] リージョンの右下隅の y 座標（論理単位）。
 %inst
-The CreateRectRgn function creates a rectangular region.
+CreateRectRgn 関数は矩形リージョンを作成する。
 
 [戻り値]
-If the function succeeds, the return value is the handle to the
-region. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値はリージョンへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-When you no longer need the HRGN object, call the DeleteObject
-function to delete it. Region coordinates are represented as 27-bit
-signed integers. Regions created by the Create<shape>Rgn methods
-(such as CreateRectRgn and CreatePolygonRgn) only include the
-interior of the shape; the shape's outline is excluded from the
-region. This means that any point on a line between two sequential
-vertices is not included in the region. If you were to call
-PtInRegion for such a point, it would return zero as the result.
+HRGN オブジェクトが不要になったら DeleteObject を呼んで削除する。リージョン座標は 27
+ビット符号付き整数として表現される。Create<shape>Rgn 系メソッド（CreateRectRgn や
+CreatePolygonRgn など）で作成されるリージョンは形状の内側のみを含み、形状の輪郭はリージョンから除外される。これは、2
+つの連続する頂点を結ぶ線上の任意の点はリージョンに含まれないことを意味する。そのような点に対して PtInRegion を呼ぶと結果として
+0 が返る。
 
 
 %index
 CreateRectRgnIndirect
-The CreateRectRgnIndirect function creates a rectangular region.
+CreateRectRgnIndirect 関数は矩形リージョンを作成する。
 %group
 Win32 gdi32
 %prm
 lprect
-lprect : [var] Pointer to a RECT structure that contains the coordinates of the upper-left and lower-right corners of the rectangle that defines the region in logical units.
+lprect : [var] リージョンを定義する矩形の左上隅と右下隅の座標（論理単位）を含む RECT 構造体へのポインタ。
 %inst
-The CreateRectRgnIndirect function creates a rectangular region.
+CreateRectRgnIndirect 関数は矩形リージョンを作成する。
 
 [戻り値]
-If the function succeeds, the return value is the handle to the
-region. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値はリージョンへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-When you no longer need the HRGN object, call the DeleteObject
-function to delete it. Region coordinates are represented as 27-bit
-signed integers. The region will be exclusive of the bottom and right
-edges.
+HRGN オブジェクトが不要になったら DeleteObject を呼んで削除する。リージョン座標は 27
+ビット符号付き整数として表現される。リージョンは下辺と右辺を含まない。
 
 
 %index
 CreateRoundRectRgn
-The CreateRoundRectRgn function creates a rectangular region with rounded corners.
+CreateRoundRectRgn 関数は、角が丸い矩形リージョンを作成する。
 %group
 Win32 gdi32
 %prm
 x1, y1, x2, y2, w, h
-x1 : [int] Specifies the x-coordinate of the upper-left corner of the region in device units.
-y1 : [int] Specifies the y-coordinate of the upper-left corner of the region in device units.
-x2 : [int] Specifies the x-coordinate of the lower-right corner of the region in device units.
-y2 : [int] Specifies the y-coordinate of the lower-right corner of the region in device units.
-w : [int] Specifies the width of the ellipse used to create the rounded corners in device units.
-h : [int] Specifies the height of the ellipse used to create the rounded corners in device units.
+x1 : [int] リージョンの左上隅の x 座標（デバイス単位）。
+y1 : [int] リージョンの左上隅の y 座標（デバイス単位）。
+x2 : [int] リージョンの右下隅の x 座標（デバイス単位）。
+y2 : [int] リージョンの右下隅の y 座標（デバイス単位）。
+w : [int] 丸い角を作成するために使用する楕円の幅（デバイス単位）。
+h : [int] 丸い角を作成するために使用する楕円の高さ（デバイス単位）。
 %inst
-The CreateRoundRectRgn function creates a rectangular region with
-rounded corners.
+CreateRoundRectRgn 関数は、角が丸い矩形リージョンを作成する。
 
 [戻り値]
-If the function succeeds, the return value is the handle to the
-region. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値はリージョンへのハンドルとなる。関数が失敗した場合、戻り値は NULL となる。
 
 [備考]
-When you no longer need the HRGN object call the DeleteObject
-function to delete it. Region coordinates are represented as 27-bit
-signed integers.
+HRGN オブジェクトが不要になったら DeleteObject を呼んで削除する。リージョン座標は 27
+ビット符号付き整数として表現される。
 
 
 %index
 CreateScalableFontResourceW
-The CreateScalableFontResource function creates a font resource file for a scalable font. (Unicode)
+CreateScalableFontResource 関数は、スケーラブルフォント用のフォントリソースファイルを作成する。(Unicode)
 %group
 Win32 gdi32
 %prm
 fdwHidden, lpszFont, lpszFile, lpszPath
 fdwHidden : [int] 
-lpszFont : [wstr] A pointer to a null-terminated string specifying the name of the font resource file to create. If this parameter specifies an existing font resource file, the function fails.
-lpszFile : [wstr] A pointer to a null-terminated string specifying the name of the scalable font file that this function uses to create the font resource file.
-lpszPath : [wstr] A pointer to a null-terminated string specifying the path to the scalable font file.
+lpszFont : [wstr] 作成するフォントリソースファイルの名前を指定する null 終端文字列へのポインタ。既存のフォントリソースファイルを指定すると関数は失敗する。
+lpszFile : [wstr] この関数がフォントリソースファイルを作成するために使用するスケーラブルフォントファイルの名前を指定する null 終端文字列へのポインタ。
+lpszPath : [wstr] スケーラブルフォントファイルへのパスを指定する null 終端文字列へのポインタ。
 %inst
-The CreateScalableFontResource function creates a font resource file
-for a scalable font. (Unicode)
+CreateScalableFontResource
+関数は、スケーラブルフォント用のフォントリソースファイルを作成する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. If lpszFontRes specifies an
-existing font file, GetLastError returns ERROR_FILE_EXISTS
+関数が成功した場合、戻り値は非ゼロとなる。関数が失敗した場合、戻り値はゼロとなる。lpszFontRes
+が既存のフォントファイルを指定する場合、GetLastError は ERROR_FILE_EXISTS を返す。
 
 [備考]
-The CreateScalableFontResource function is used by applications that
-install TrueType fonts. An application uses the
-CreateScalableFontResource function to create a font resource file
-(typically with a .fot file name extension) and then uses the
-AddFontResource function to install the font. The TrueType font file
-(typically with a .ttf file name extension) must be in the System
-subdirectory of the Windows directory to be used by the
-AddFontResource function. The CreateScalableFontResource function
-currently supports only TrueType-technology scalable fonts. When the
-lpszFontFile parameter specifies only a file name and extension, the
-lpszCurrentPath parameter must specify a path. When the lpszFontFile
-parameter specifies a full path, the lpszCurrentPath parameter must
-be NULL or a pointer to NULL. When only a file name and extension are
-specified in the lpszFontFile parameter and a path is specified in
-the lpszCurrentPath parameter, the string in lpszFontFile is copied
-into the .fot file as the .ttf file that belongs to this resource.
-When the AddFontResource function is called, the operating system
-assumes that the .ttf file has been copied into the System directory
-(or into the main Windows directory in the case of a network
-installation). The .ttf file need not be in this directory when the
-CreateScalableFontResource function is called, because the
-lpszCurrentPath parameter contains the directory information. A
-resource created in this manner does not contain absolute path
-information and can be used in any installation. When a path is
-specified in the lpszFontFile parameter and NULL is specified in the
-lpszCurrentPath parameter, the string in lpszFontFile is copied into
-the .fot file. In this case, when the AddFontResource function is
-called, the .ttf file must be at the location specified in the
-lpszFontFile parameter when the CreateScalableFontResource function
-was called; the lpszCurrentPath parameter is not needed. A resource
-created in this manner contains absolute references to paths and
-drives and does not work if the .ttf file is moved to a different
-location.
-> [!NOTE] > The wingdi.h header defines CreateScalableFontResource as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+CreateScalableFontResource 関数は TrueType
+フォントをインストールするアプリケーションで使用される。アプリケーションは CreateScalableFontResource
+を使ってフォントリソースファイル（通常は .fot 拡張子）を作成し、その後 AddFontResource
+を使ってフォントをインストールする。TrueType フォントファイル（通常は .ttf 拡張子）は AddFontResource
+で使用するために Windows ディレクトリの System
+サブディレクトリに置かれている必要がある。CreateScalableFontResource は現在、TrueType
+技術のスケーラブルフォントのみをサポートする。lpszFontFile
+パラメータがファイル名と拡張子のみを指定する場合、lpszCurrentPath
+パラメータでパスを指定しなければならない。lpszFontFile パラメータが完全パスを指定する場合、lpszCurrentPath
+パラメータは NULL または NULL へのポインタでなければならない。lpszFontFile
+にファイル名と拡張子のみを指定し、lpszCurrentPath にパスを指定すると、lpszFontFile
+の文字列がこのリソースに属する .ttf ファイルとして .fot ファイルにコピーされる。AddFontResource
+が呼ばれると、オペレーティングシステムは .ttf ファイルが System ディレクトリ（ネットワークインストールの場合はメイン
+Windows ディレクトリ）にコピーされていると仮定する。CreateScalableFontResource を呼ぶときには .ttf
+ファイルがそのディレクトリにある必要はない。lpszCurrentPath
+パラメータがディレクトリ情報を含むためである。この方法で作成されたリソースには絶対パス情報が含まれず、任意のインストールで使用できる。lpszFontFile
+にパスを指定し lpszCurrentPath に NULL を指定すると、lpszFontFile の文字列が .fot
+ファイルにコピーされる。この場合、AddFontResource が呼ばれるときに .ttf ファイルは
+CreateScalableFontResource を呼んだ時点で lpszFontFile
+に指定された場所になければならず、lpszCurrentPath
+パラメータは不要となる。この方法で作成されたリソースにはパスとドライブへの絶対参照が含まれ、.ttf
+ファイルが別の場所に移動されると動作しない。
+> [!NOTE] > wingdi.h ヘッダは CreateScalableFontResource を、UNICODE
+プリプロセッサ定数の定義に応じて自動的に ANSI 版か Unicode
+版を選択するエイリアスとして定義する。エンコーディング中立のエイリアスとそうでないコードを混在させると、コンパイルや実行時のエラーにつながるミスマッチが生じることがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
@@ -2130,28 +1762,24 @@ HBRUSH オブジェクトが不要になったら DeleteObject
 
 %index
 DPtoLP
-The DPtoLP function converts device coordinates into logical coordinates. The conversion depends on the mapping mode of the device context, the settings of the origins and extents for the window and viewport, and the world transformation.
+DPtoLP 関数はデバイス座標を論理座標に変換する。変換は、デバイスコンテキストのマッピングモード、ウィンドウとビューポートの原点と範囲の設定、ワールド変換に依存する。
 %group
 Win32 gdi32
 %prm
 hdc, lppt, c
-hdc : [intptr] A handle to the device context.
-lppt : [var] A pointer to an array of POINT structures. The x- and y-coordinates contained in each POINT structure will be transformed.
-c : [int] The number of points in the array.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+lppt : [var] POINT 構造体配列へのポインタ。各 POINT 構造体に含まれる x, y 座標が変換される。
+c : [int] 配列内の点の数。
 %inst
-The DPtoLP function converts device coordinates into logical
-coordinates. The conversion depends on the mapping mode of the device
-context, the settings of the origins and extents for the window and
-viewport, and the world transformation.
+DPtoLP
+関数はデバイス座標を論理座標に変換する。変換は、デバイスコンテキストのマッピングモード、ウィンドウとビューポートの原点と範囲の設定、ワールド変換に依存する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 [備考]
-The DPtoLP function fails if the device coordinates exceed 27 bits,
-or if the converted logical coordinates exceed 32 bits. In the case
-of such an overflow, the results for all the points are undefined.
+DPtoLP 関数は、デバイス座標が 27 ビットを超えるか、変換後の論理座標が 32
+ビットを超えると失敗する。そのようなオーバーフローの場合、すべての点の結果は未定義となる。
 
 
 %index
@@ -2174,57 +1802,49 @@ GetDC で取得したハンドルの DC を DeleteDC で削除してはならない。代わりに Release
 
 %index
 DescribePixelFormat
-The DescribePixelFormat function obtains information about the pixel format identified by iPixelFormat of the device associated with hdc. The function sets the members of the PIXELFORMATDESCRIPTOR structure pointed to by ppfd with that pixel format data.
+DescribePixelFormat 関数は、hdc に関連付けられたデバイスの iPixelFormat で識別されるピクセルフォーマットに関する情報を取得する。関数は ppfd が指す PIXELFORMATDESCRIPTOR 構造体のメンバをそのピクセルフォーマットデータで設定する。
 %group
 Win32 gdi32
 %prm
 hdc, iPixelFormat, nBytes, ppfd
-hdc : [intptr] Specifies the device context.
-iPixelFormat : [int] Index that specifies the pixel format. The pixel formats that a device context supports are identified by positive one-based integer indexes.
-nBytes : [int] The size, in bytes, of the structure pointed to by ppfd. The DescribePixelFormat function stores no more than nBytes bytes of data to that structure. Set this value to sizeof(PIXELFORMATDESCRIPTOR).
-ppfd : [var] Pointer to a PIXELFORMATDESCRIPTOR structure whose members the function sets with pixel format data. The function stores the number of bytes copied to the structure in the structure's nSize member. If, upon entry, ppfd is NULL, the function writes no data to the structure. This is useful when you only want to obtain the maximum pixel format index of a device context.
+hdc : [intptr] デバイスコンテキストを指定する。
+iPixelFormat : [int] ピクセルフォーマットを指定するインデックス。デバイスコンテキストがサポートするピクセルフォーマットは正の 1 始まり整数インデックスで識別される。
+nBytes : [int] ppfd が指す構造体のサイズ（バイト単位）。DescribePixelFormat はその構造体に nBytes バイトを超えるデータを格納しない。この値には sizeof(PIXELFORMATDESCRIPTOR) を設定する。
+ppfd : [var] 関数がピクセルフォーマットデータでメンバを設定する PIXELFORMATDESCRIPTOR 構造体へのポインタ。関数は構造体にコピーしたバイト数を構造体の nSize メンバに格納する。呼び出し時に ppfd が NULL の場合、関数は構造体にデータを書き込まない。これはデバイスコンテキストの最大ピクセルフォーマットインデックスのみを取得したい場合に便利である。
 %inst
-The DescribePixelFormat function obtains information about the pixel
-format identified by iPixelFormat of the device associated with hdc.
-The function sets the members of the PIXELFORMATDESCRIPTOR structure
-pointed to by ppfd with that pixel format data.
+DescribePixelFormat 関数は、hdc に関連付けられたデバイスの iPixelFormat
+で識別されるピクセルフォーマットに関する情報を取得する。関数は ppfd が指す PIXELFORMATDESCRIPTOR
+構造体のメンバをそのピクセルフォーマットデータで設定する。
 
 [戻り値]
-If the function succeeds, the return value is the maximum pixel
-format index of the device context. In addition, the function sets
-the members of the PIXELFORMATDESCRIPTOR structure pointed to by ppfd
-according to the specified pixel format. If the function fails, the
-return value is zero. To get extended error information, call
-GetLastError.
+関数が成功した場合、戻り値はデバイスコンテキストの最大ピクセルフォーマットインデックスとなる。さらに、関数は ppfd が指す
+PIXELFORMATDESCRIPTOR
+構造体のメンバを指定したピクセルフォーマットに従って設定する。関数が失敗した場合、戻り値はゼロとなる。拡張エラー情報を取得するには
+GetLastError を呼ぶ。
 
 
 %index
 DrawEscape
-The DrawEscape function provides drawing capabilities of the specified video display that are not directly available through the graphics device interface (GDI).
+DrawEscape 関数は、グラフィックスデバイスインターフェイス (GDI) では直接利用できない、指定したビデオディスプレイの描画機能を提供する。
 %group
 Win32 gdi32
 %prm
 hdc, iEscape, cjIn, lpIn
-hdc : [intptr] A handle to the DC for the specified video display.
-iEscape : [int] The escape function to be performed.
-cjIn : [int] The number of bytes of data pointed to by the lpszInData parameter.
-lpIn : [str] A pointer to the input structure required for the specified escape.
+hdc : [intptr] 指定したビデオディスプレイの DC へのハンドル。
+iEscape : [int] 実行するエスケープ関数。
+cjIn : [int] lpszInData パラメータが指すデータのバイト数。
+lpIn : [str] 指定したエスケープに必要な入力構造体へのポインタ。
 %inst
-The DrawEscape function provides drawing capabilities of the
-specified video display that are not directly available through the
-graphics device interface (GDI).
+DrawEscape 関数は、グラフィックスデバイスインターフェイス (GDI)
+では直接利用できない、指定したビデオディスプレイの描画機能を提供する。
 
 [戻り値]
-If the function is successful, the return value is greater than zero
-except for the QUERYESCSUPPORT draw escape, which checks for
-implementation only. If the escape is not implemented, the return
-value is zero. If an error occurred, the return value is less than
-zero.
+関数が成功した場合、戻り値はゼロより大きい値となる。ただし QUERYESCSUPPORT
+描画エスケープは実装の有無のみを確認する。エスケープが実装されていない場合、戻り値はゼロとなる。エラーが発生した場合、戻り値はゼロより小さい値となる。
 
 [備考]
-When an application calls the DrawEscape function, the data
-identified by cbInput and lpszInData is passed directly to the
-specified display driver.
+アプリケーションが DrawEscape を呼ぶと、cbInput と lpszInData
+で識別されるデータが指定したディスプレイドライバへ直接渡される。
 
 
 %index
@@ -2248,947 +1868,813 @@ D2D1_ELLIPSE 構造体を作成する。
 
 %index
 EndDoc
-The EndDoc function ends a print job.
+EndDoc 関数は印刷ジョブを終了する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to the device context for the print job.
+hdc : [intptr] 印刷ジョブのデバイスコンテキストへのハンドル。
 %inst
-The EndDoc function ends a print job.
+EndDoc 関数は印刷ジョブを終了する。
 
 [戻り値]
-If the function succeeds, the return value is greater than zero. If
-the function fails, the return value is less than or equal to zero.
+関数が成功した場合、戻り値はゼロより大きい値となる。関数が失敗した場合、戻り値はゼロ以下となる。
 
 [備考]
-Note This is a blocking or synchronous function and might not return
-immediately. How quickly this function returns depends on run-time
-factors such as network status, print server configuration, and
-printer driver implementation?factors that are difficult to predict
-when writing an application. Calling this function from a thread that
-manages interaction with the user interface could make the
-application appear to be unresponsive. Applications should call
-EndDoc immediately after finishing a print job.
+注意:
+これはブロッキングまたは同期関数であり、即座に戻らないことがある。この関数がどれくらい速く戻るかは、ネットワーク状態、プリントサーバーの構成、プリンタードライバーの実装といった、アプリケーション作成時には予測しにくい実行時要因に依存する。ユーザーインターフェイスとのやり取りを管理するスレッドからこの関数を呼び出すと、アプリケーションが応答しなくなったように見えることがある。アプリケーションは印刷ジョブを終えた直後に
+EndDoc を呼ぶべきである。
 
 
 %index
 EndPage
-The EndPage function notifies the device that the application has finished writing to a page. This function is typically used to direct the device driver to advance to a new page.
+EndPage 関数は、アプリケーションがページへの書き込みを終えたことをデバイスに通知する。この関数は通常、デバイスドライバに新しいページへ進むよう指示するために使用する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context for the print job.
+hdc : [intptr] 印刷ジョブのデバイスコンテキストへのハンドル。
 %inst
-The EndPage function notifies the device that the application has
-finished writing to a page. This function is typically used to direct
-the device driver to advance to a new page.
+EndPage
+関数は、アプリケーションがページへの書き込みを終えたことをデバイスに通知する。この関数は通常、デバイスドライバに新しいページへ進むよう指示するために使用する。
 
 [戻り値]
-If the function succeeds, the return value is greater than zero. If
-the function fails, the return value is less than or equal to zero.
+関数が成功した場合、戻り値はゼロより大きい値となる。関数が失敗した場合、戻り値はゼロ以下となる。
 
 [備考]
-Note This is a blocking or synchronous function and might not return
-immediately. How quickly this function returns depends on run-time
-factors such as network status, print server configuration, and
-printer driver implementation?factors that are difficult to predict
-when writing an application. Calling this function from a thread that
-manages interaction with the user interface could make the
-application appear to be unresponsive. Use the ResetDC function to
-change the device mode, if necessary, after calling the EndPage
-function. Note that a call to ResetDC resets all device context
-attributes back to default values. Neither EndPage nor StartPage
-resets the device context attributes. Device context attributes
-remain constant across subsequent pages. You do not need to re-select
-objects and set up the mapping mode again before printing the next
-page; however, doing so will produce the same results and reduce code
-differences between versions of Windows. When a page in a spooled
-file exceeds approximately 350 MB, it may fail to print and not send
-an error message. For example, this can occur when printing large EMF
-files. The page size limit depends on many factors including the
-amount of virtual memory available, the amount of memory allocated by
-calling processes, and the amount of fragmentation in the process
-heap.
+注意:
+これはブロッキングまたは同期関数であり、即座に戻らないことがある。この関数がどれくらい速く戻るかは、ネットワーク状態、プリントサーバーの構成、プリンタードライバーの実装といった、アプリケーション作成時には予測しにくい実行時要因に依存する。ユーザーインターフェイスとのやり取りを管理するスレッドからこの関数を呼び出すと、アプリケーションが応答しなくなったように見えることがある。EndPage
+の呼び出し後に必要があれば、ResetDC を使ってデバイスモードを変更する。ResetDC
+を呼ぶとすべてのデバイスコンテキスト属性がデフォルト値にリセットされることに注意。EndPage と StartPage
+はデバイスコンテキスト属性をリセットしない。デバイスコンテキスト属性は次のページにわたって一定に保たれる。次のページを印刷する前にオブジェクトを再選択したりマッピングモードを再設定したりする必要はない。ただし、そうすることで結果は同じになり、Windows
+のバージョン間のコード差異を減らせる。スプールファイル内のページが約 350 MB
+を超えると、エラーメッセージなしに印刷が失敗することがある。例えば大きな EMF
+ファイルを印刷する場合に発生し得る。ページサイズの上限は、利用可能な仮想メモリ量、呼び出し元プロセスが割り当てているメモリ量、プロセスヒープの断片化の度合いなど、多くの要因に依存する。
 
 
 %index
 EndPath
-The EndPath function closes a path bracket and selects the path defined by the bracket into the specified device context.
+EndPath 関数は、パスブラケットを閉じ、そのブラケットで定義されたパスを指定したデバイスコンテキストに選択する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context into which the new path is selected.
+hdc : [intptr] 新しいパスを選択するデバイスコンテキストへのハンドル。
 %inst
-The EndPath function closes a path bracket and selects the path
-defined by the bracket into the specified device context.
+EndPath 関数は、パスブラケットを閉じ、そのブラケットで定義されたパスを指定したデバイスコンテキストに選択する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロとなる。関数が失敗した場合、戻り値はゼロとなる。
 
 
 %index
 EngDeleteSemaphore
-The EngDeleteSemaphore function deletes a semaphore object from the system's resource list.
+EngDeleteSemaphore 関数は、システムのリソースリストからセマフォオブジェクトを削除する。
 %group
 Win32 gdi32
 %prm
 hsem
-hsem : [intptr] Handle to the semaphore to be deleted. The semaphore was created in EngCreateSemaphore.
+hsem : [intptr] 削除するセマフォへのハンドル。セマフォは EngCreateSemaphore で作成されたものである。
 %inst
-The EngDeleteSemaphore function deletes a semaphore object from the
-system's resource list.
+EngDeleteSemaphore 関数は、システムのリソースリストからセマフォオブジェクトを削除する。
 
 [戻り値]
-None
+なし
 
 
 %index
 EngAcquireSemaphore
-The EngAcquireSemaphore function acquires the resource associated with the semaphore for exclusive access by the calling thread.
+EngAcquireSemaphore 関数は、呼び出しスレッドの排他アクセス用にセマフォに関連付けられたリソースを獲得する。
 %group
 Win32 gdi32
 %prm
 hsem
-hsem : [intptr] Handle to the semaphore associated with the resource to be acquired.
+hsem : [intptr] 獲得するリソースに関連付けられたセマフォへのハンドル。
 %inst
-The EngAcquireSemaphore function acquires the resource associated
-with the semaphore for exclusive access by the calling thread.
+EngAcquireSemaphore 関数は、呼び出しスレッドの排他アクセス用にセマフォに関連付けられたリソースを獲得する。
 
 [戻り値]
-None
+なし
 
 [備考]
-EngAcquireSemaphore allows exclusive access to the driver resource
-associated with the semaphore by locking out all other threads from
-accessing the semaphore's resource. A call to this routine should be
-followed with a call to EngReleaseSemaphore as quickly as possible.
+EngAcquireSemaphore
+は、セマフォに関連付けられたドライバリソースへの排他的アクセスを許可し、他のスレッドがセマフォのリソースにアクセスするのをロックアウトする。このルーチンの呼び出しの後は、できるだけ速やかに
+EngReleaseSemaphore を呼ぶべきである。
 
 
 %index
 EngAlphaBlend
-The EngAlphaBlend function provides bit-block transfer capabilities with alpha blending.
+EngAlphaBlend 関数は、アルファブレンディング付きビットブロック転送機能を提供する。
 %group
 Win32 gdi32
 %prm
 psoDest, psoSrc, pco, pxlo, prclDest, prclSrc, pBlendObj
-psoDest : [var] Pointer to a SURFOBJ structure that identifies the surface on which to draw.
-psoSrc : [var] Pointer to a SURFOBJ structure that identifies the source surface.
-pco : [var] Pointer to a CLIPOBJ structure. The CLIPOBJ_Xxx service routines are provided to enumerate the clip region as a set of rectangles. This enumeration limits the area of the destination that is modified. Whenever possible, GDI simplifies the clipping involved. However, unlike EngBitBlt, EngAlphaBlend might be called with a single rectangle in order to prevent round-off errors in clipping the output.
-pxlo : [var] Pointer to a XLATEOBJ structure that specifies how color indices should be translated between the source and destination surfaces. If the source surface is palette managed, its colors are represented by indices into a lookup table of RGB color values. In this case, GDI can query the XLATEOBJ structure for a translate vector to quickly translate any source index into a color index for the destination. The situation is more complicated when, for example, the source is RGB but the destination is palette-managed. In this case, the closest match to each source RGB value must be found in the destination palette. GDI calls the XLATEOBJ_iXlate service routine to perform this matching operation.
-prclDest : [var] Pointer to a RECTL structure that defines the rectangular area to be modified. This rectangle is specified in the coordinate system of the destination surface and is defined by two points: upper left and lower right. The two points that define the rectangle are always well ordered. The rectangle is lower-right exclusive; that is, its lower and right edges are not a part of the blend. The specified rectangle can overhang the destination surface; GDI performs the proper clipping when it does. EngAlphaBlend must never be called with an empty destination rectangle.
-prclSrc : [var] Pointer to a RECTL structure that defines the area to be copied. This rectangle is specified in the coordinate system of the source surface and is defined by two points: upper left and lower right. The two points that define the rectangle are always well ordered. The rectangle is lower-right exclusive; that is, its lower and right edges are not a part of the blend. The source rectangle must never exceed the bounds of the source surface, and thus never overhang the source surface. EngAlphaBlend must never be called with an empty source rectangle. The mapping is defined by prclSrc and prclDest. The points specified in prclDest and prclSrc lie on integer coordinates, which correspond to pixel centers. A rectangle defined by two such points is considered to be a geometric rectangle with two vertices whose coordinates are the given points, but with 0.5 subtracted from each coordinate. (POINTL structures are shorthand notation for specifying these fractional coordinate vertices.)
-pBlendObj : [var] Pointer to a BLENDOBJ structure that describes the blending operation to perform between the source and destination surfaces. This structure is a wrapper for the BLENDFUNCTION structure, which includes necessary source and destination format information that is not available in the XLATEOBJ structure . BLENDFUNCTION is declared in the Microsoft Windows SDK documentation. Its members are defined as follows: BlendOp defines the blend operation to be performed. Currently this value must be AC_SRC_OVER, which means that the source bitmap is placed over the destination bitmap based on the alpha values of the source pixels. There are three possible cases that this blend operation should handle. These are described in the Remarks section of this reference page. BlendFlags is reserved and is currently set to zero. SourceConstantAlpha defines the constant blend factor to apply to the entire source surface. This value is in the range of [0,255], where 0 is completely transparent and 255 is completely opaque. AlphaFormat defines whether the surface is assumed to have an alpha channel. This member can optionally be set to the following value:
+psoDest : [var] 描画先のサーフェスを識別する SURFOBJ 構造体へのポインタ。
+psoSrc : [var] ソースサーフェスを識別する SURFOBJ 構造体へのポインタ。
+pco : [var] CLIPOBJ 構造体へのポインタ。CLIPOBJ_Xxx サービスルーチンが、クリップ領域を矩形の集合として列挙するために提供される。この列挙は変更される宛先の領域を制限する。可能な限り GDI はクリッピングを単純化する。ただし EngBitBlt と異なり、出力をクリッピングする際の丸め誤差を避けるため、EngAlphaBlend は単一矩形で呼ばれることがある。
+pxlo : [var] ソースサーフェスと宛先サーフェスの間でカラーインデックスをどう変換するかを指定する XLATEOBJ 構造体へのポインタ。ソースサーフェスがパレット管理されている場合、その色は RGB カラー値のルックアップテーブルへのインデックスで表される。この場合、GDI は XLATEOBJ 構造体に変換ベクトルを問い合わせ、任意のソースインデックスを宛先のカラーインデックスに高速変換できる。例えばソースが RGB だが宛先がパレット管理の場合は状況がより複雑になる。この場合、各ソース RGB 値に最も近い一致を宛先パレットで見つけなければならない。GDI はこのマッチング操作のために XLATEOBJ_iXlate サービスルーチンを呼ぶ。
+prclDest : [var] 変更する矩形領域を定義する RECTL 構造体へのポインタ。この矩形は宛先サーフェスの座標系で指定し、左上と右下の 2 点で定義される。矩形を定義する 2 点は常に整列している。矩形は右下を含まない。すなわち、その下辺と右辺はブレンドの一部ではない。指定した矩形は宛先サーフェスからはみ出してもよく、その場合 GDI が適切にクリッピングを行う。EngAlphaBlend は決して空の宛先矩形で呼んではならない。
+prclSrc : [var] コピーする領域を定義する RECTL 構造体へのポインタ。この矩形はソースサーフェスの座標系で指定し、左上と右下の 2 点で定義される。矩形を定義する 2 点は常に整列している。矩形は右下を含まない。ソース矩形はソースサーフェスの境界を超えてはならず、ソースサーフェスからはみ出してはならない。EngAlphaBlend は決して空のソース矩形で呼んではならない。マッピングは prclSrc と prclDest によって定義される。prclDest と prclSrc に指定された点は整数座標上にあり、これはピクセル中心に対応する。そのような 2 点で定義される矩形は、与えられた点を頂点とする幾何学的矩形と見なされるが、各座標から 0.5 を引いたものになる。(POINTL 構造体はこれらの分数座標頂点を指定する省略表記である。)
+pBlendObj : [var] ソースサーフェスと宛先サーフェスの間で実行するブレンディング操作を記述する BLENDOBJ 構造体へのポインタ。この構造体は BLENDFUNCTION 構造体のラッパーであり、XLATEOBJ 構造体には含まれない、必要なソースおよび宛先のフォーマット情報を含む。BLENDFUNCTION は Microsoft Windows SDK ドキュメントで宣言されている。そのメンバは次のように定義される。BlendOp は実行するブレンド操作を定義する。現在この値は AC_SRC_OVER でなければならず、ソースビットマップがソースピクセルのアルファ値に基づいて宛先ビットマップの上に配置されることを意味する。このブレンド操作が扱うべき 3 つのケースがあり、本リファレンスページの備考で説明する。BlendFlags は予約され、現在 0 に設定される。SourceConstantAlpha はソースサーフェス全体に適用する一定のブレンド係数を定義する。値は [0,255] の範囲で、0 が完全に透明、255 が完全に不透明である。AlphaFormat はサーフェスがアルファチャンネルを持つかどうかを定義する。このメンバには次の値を任意に設定できる。
 %inst
-The EngAlphaBlend function provides bit-block transfer capabilities
-with alpha blending.
+EngAlphaBlend 関数は、アルファブレンディング付きビットブロック転送機能を提供する。
 
 [戻り値]
-EngAlphaBlend returns TRUE upon success. If an error occurs, it
-returns FALSE and reports an error code.
+EngAlphaBlend は成功時に TRUE を返す。エラーが発生した場合、FALSE を返しエラーコードを報告する。
 
 [備考]
-A bit-block transfer with alpha blending is supported between the
-following surfaces:
-This doc was truncated.
+アルファブレンディング付きビットブロック転送は次のサーフェス間でサポートされる。
+（以下省略）
 
 
 %index
 EngAssociateSurface
-The EngAssociateSurface function marks a given surface as belonging to a specified device.
+EngAssociateSurface 関数は、指定したサーフェスを指定デバイスに属するものとしてマークする。
 %group
 Win32 gdi32
 %prm
 hsurf, hdev, flHooks
-hsurf : [intptr] Handle to the surface or bitmap to be associated with hdev. This handle was returned by EngCreateBitmap or EngCreateDeviceBitmap.
-hdev : [intptr] Handle to the device with which the surface is to be associated. This is the GDI-created handle that was passed to the driver's DrvCompletePDEV function.
+hsurf : [intptr] hdev に関連付けるサーフェスまたはビットマップへのハンドル。このハンドルは EngCreateBitmap または EngCreateDeviceBitmap によって返されたものである。
+hdev : [intptr] サーフェスを関連付けるデバイスへのハンドル。これはドライバの DrvCompletePDEV 関数に渡された GDI 作成のハンドルである。
 flHooks : [int] 
 %inst
-The EngAssociateSurface function marks a given surface as belonging
-to a specified device.
+EngAssociateSurface 関数は、指定したサーフェスを指定デバイスに属するものとしてマークする。
 
 [戻り値]
-The return value is TRUE if the function is successful. Otherwise,
-the driver should send the information to the GDI function it is
-implementing, and return GDI's return value.
+関数が成功した場合、戻り値は TRUE となる。失敗した場合、ドライバは情報を実装中の GDI 関数へ送り、GDI
+の戻り値を返すべきである。
 
 [備考]
-EngAssociateSurface can be used by printer drivers to implement
-"rules" or device fonts, or by display drivers to make use of special
-blt hardware. If the surface identified by hsurf is a standard format
-bitmap, the driver can specify which output functions to the surface
-it will handle by setting bits in flHooks. Setting bits in flHooks
-causes particular output functions to be sent to the driver instead.
-This is referred to as hooking. If the driver does not hook a call,
-GDI will automatically manage the operation when a standard format
-bitmap is being drawn on. When the surface is associated, it assumes
-the default palette and style steps of the PDEV. A surface must be
-associated before it is returned by DrvEnableSurface. By default,
-when a driver supports device bitmaps by implementing
-DrvCreateDeviceBitmap/DrvDeleteDeviceBitmap, GDI does not
-automatically synchronize drawing calls to the device bitmap and to
-the primary surface. For example, GDI can call the driver's DrvBitBlt
-function to draw to a device bitmap, while another thread is drawing
-to the primary surface by executing the driver's implementation of
-DrvTextOut. The driver can even be called to draw to multiple device
-bitmaps at the same time. After DrvEnableSurface returns a handle to
-a primary surface, do not call EngAssociateSurface on that handle.
-Doing so can cause a bug check in certain circumstances. For more
-information, see Microsoft Knowledge Base article 330248.
+EngAssociateSurface は、プリンタドライバが「ルール」やデバイスフォントを実装したり、ディスプレイドライバが特殊な
+blt ハードウェアを利用するのに使用できる。hsurf が識別するサーフェスが標準フォーマットビットマップの場合、ドライバは
+flHooks のビットを設定して、自身が処理するサーフェスへの出力関数を指定できる。flHooks
+にビットを設定すると、特定の出力関数は代わりにドライバへ送られる。これはフッキングと呼ばれる。ドライバが呼び出しをフックしない場合、標準フォーマットビットマップに対する描画は
+GDI が自動的に管理する。サーフェスが関連付けられると、PDEV のデフォルトのパレットとスタイルステップを引き継ぐ。サーフェスは
+DrvEnableSurface から返される前に関連付けられていなければならない。デフォルトでは、ドライバが
+DrvCreateDeviceBitmap/DrvDeleteDeviceBitmap
+を実装してデバイスビットマップをサポートする場合、GDI
+はデバイスビットマップへの描画呼び出しとプライマリサーフェスへの描画呼び出しを自動的に同期しない。例えば GDI
+は、別のスレッドがドライバの DrvTextOut の実装を実行してプライマリサーフェスに描画している間に、ドライバの DrvBitBlt
+関数を呼んでデバイスビットマップに描画することがある。ドライバは複数のデバイスビットマップに同時に描画するために呼ばれることもある。DrvEnableSurface
+がプライマリサーフェスへのハンドルを返した後、そのハンドルに対して EngAssociateSurface
+を呼んではならない。状況によってはバグチェックを引き起こす可能性がある。詳細は Microsoft Knowledge Base 記事
+330248 を参照。
 
 
 %index
 EngBitBlt
-The EngBitBlt function provides general bit-block transfer capabilities either between device-managed surfaces, or between a device-managed surface and a GDI-managed standard format bitmap.
+EngBitBlt 関数は、デバイス管理サーフェス間、またはデバイス管理サーフェスと GDI 管理の標準フォーマットビットマップ間で、汎用ビットブロック転送機能を提供する。
 %group
 Win32 gdi32
 %prm
 psoTrg, psoSrc, psoMask, pco, pxlo, prclTrg, pptlSrc, pptlMask, pbo, pptlBrush, rop4
-psoTrg : [var] Pointer to the SURFOBJ structure that identifies the surface on which to draw.
-psoSrc : [var] If the rop4 requires it, pointer to a SURFOBJ structure that defines the source for the bit-block transfer operation.
-psoMask : [var] Pointer to a SURFOBJ structure that defines a surface to be used as a mask. The mask is defined as a bitmap with 1 bit per pixel. Typically, a mask limits the area that is to be modified in the destination surface. Masking is selected by a rop4 with the value 0xAACC. The destination surface is unaffected when the mask is zero. The mask is large enough to cover the destination rectangle. If the value of this parameter is NULL and a mask is required by the rop4, then the implicit mask in the brush is used. If a mask is required, then psoMask overrides the implicit mask in the brush.
-pco : [var] Pointer to a CLIPOBJ structure. The CLIPOBJ_Xxx service routines are provided to enumerate the clip region as a set of rectangles. This enumeration limits the area of the destination that will be modified. Whenever possible, GDI simplifies the clipping involved; for example, this function is never called with a single clipping rectangle. GDI clips the destination rectangle before calling this function, making additional clipping unnecessary.
-pxlo : [var] Pointer to a XLATEOBJ structure that tells how color indices should be translated between the source and target surfaces.
-prclTrg : [var] Pointer to a RECTL structure in the coordinate system of the destination surface that defines the area to be modified. The rectangle is defined by two points; upper left and lower right. The lower and right edges of this rectangle are not part of the bit-block transfer, meaning the rectangle is lower right exclusive. EngBitBlt is never called with an empty destination rectangle. The two points that define the rectangle are always well ordered.
-pptlSrc : [var] Pointer to a POINTL structure that defines the upper left corner of the source rectangle, if a source exists. If there is no source, the driver should ignore this parameter.
-pptlMask : [var] Pointer to a POINTL structure that defines which pixel in the mask corresponds to the upper left corner of the destination rectangle. If no mask is specified in psoMask the driver should ignore this parameter.
-pbo : [var] Pointer to the BRUSHOBJ structure to be used to define the pattern for the bit-block transfer. GDI's BRUSHOBJ_pvGetRbrush service routine retrieves the device's realization of the brush. The driver can ignore this parameter if the rop4 parameter does not require a pattern.
-pptlBrush : [var] Pointer to a POINTL structure that defines the origin of the brush in the destination surface. The upper left pixel of the brush is aligned at this point and the brush repeats according to its dimensions. Ignore this parameter if the rop4 parameter does not require a pattern.
-rop4 : [int] Represents a raster operation that defines how the mask, pattern, source, and destination pixels are combined to write an output pixel to the destination surface. This is a quaternary raster operation, which is a natural extension of the usual ternary Rop3 operation. A Rop4 has 16 relevant bits, which are similar to the 8 defining bits of a Rop3. (The other, redundant bits of the Rop3 are ignored.) The simplest way to implement a Rop4 is to consider its 2 bytes separately. The lower byte specifies a Rop3 that should be computed wherever the mask is 1. The high byte specifies a Rop3 that can be computed and applied wherever the mask is 0.
+psoTrg : [var] 描画先のサーフェスを識別する SURFOBJ 構造体へのポインタ。
+psoSrc : [var] rop4 が必要とする場合の、ビットブロック転送操作のソースを定義する SURFOBJ 構造体へのポインタ。
+psoMask : [var] マスクとして使用するサーフェスを定義する SURFOBJ 構造体へのポインタ。マスクは 1 ピクセルあたり 1 ビットのビットマップとして定義される。通常、マスクは宛先サーフェスで変更される領域を制限する。マスキングは値 0xAACC の rop4 で選択される。マスクが 0 のとき宛先サーフェスは影響を受けない。マスクは宛先矩形を覆うのに十分な大きさである。このパラメータの値が NULL かつ rop4 がマスクを必要とする場合、ブラシ内の暗黙のマスクが使用される。マスクが必要な場合、psoMask はブラシ内の暗黙のマスクを上書きする。
+pco : [var] CLIPOBJ 構造体へのポインタ。CLIPOBJ_Xxx サービスルーチンが、クリップ領域を矩形の集合として列挙するために提供される。この列挙は変更される宛先の領域を制限する。可能な限り GDI はクリッピングを単純化する。例えばこの関数は決して単一クリッピング矩形では呼ばれない。GDI はこの関数を呼ぶ前に宛先矩形をクリップするので、追加のクリッピングは不要である。
+pxlo : [var] ソースとターゲットのサーフェス間でカラーインデックスをどう変換するかを示す XLATEOBJ 構造体へのポインタ。
+prclTrg : [var] 宛先サーフェスの座標系で変更する領域を定義する RECTL 構造体へのポインタ。矩形は左上と右下の 2 点で定義される。この矩形の下辺と右辺はビットブロック転送の一部ではない（右下を含まない）。EngBitBlt は決して空の宛先矩形で呼ばれない。矩形を定義する 2 点は常に整列している。
+pptlSrc : [var] ソースが存在する場合の、ソース矩形の左上隅を定義する POINTL 構造体へのポインタ。ソースがない場合、ドライバはこのパラメータを無視すべきである。
+pptlMask : [var] マスク内のどのピクセルが宛先矩形の左上隅に対応するかを定義する POINTL 構造体へのポインタ。psoMask にマスクが指定されない場合、ドライバはこのパラメータを無視すべきである。
+pbo : [var] ビットブロック転送のパターンを定義するために使用する BRUSHOBJ 構造体へのポインタ。GDI の BRUSHOBJ_pvGetRbrush サービスルーチンがデバイスのブラシ実体化を取得する。rop4 パラメータがパターンを必要としない場合、ドライバはこのパラメータを無視できる。
+pptlBrush : [var] 宛先サーフェス上のブラシ原点を定義する POINTL 構造体へのポインタ。ブラシの左上ピクセルがこの点に整列され、ブラシはその寸法に従って繰り返される。rop4 パラメータがパターンを必要としない場合、このパラメータは無視する。
+rop4 : [int] マスク、パターン、ソース、宛先ピクセルがどのように組み合わされて宛先サーフェスへ出力ピクセルを書き込むかを定義するラスタ操作を表す。これは通常の三項 Rop3 操作の自然な拡張である四項ラスタ操作である。Rop4 には Rop3 の 8 個の定義ビットと類似する 16 個の関連ビットがある（Rop3 の他の冗長ビットは無視される）。Rop4 を実装する最も単純な方法は、その 2 バイトを別々に考えることである。下位バイトはマスクが 1 のときに計算すべき Rop3 を指定する。上位バイトはマスクが 0 のときに計算・適用できる Rop3 を指定する。
 %inst
-The EngBitBlt function provides general bit-block transfer
-capabilities either between device-managed surfaces, or between a
-device-managed surface and a GDI-managed standard format bitmap.
+EngBitBlt 関数は、デバイス管理サーフェス間、またはデバイス管理サーフェスと GDI
+管理の標準フォーマットビットマップ間で、汎用ビットブロック転送機能を提供する。
 
 [戻り値]
-The return value is TRUE if the function is successful. Otherwise, it
-is FALSE, and an error code is logged.
+関数が成功した場合、戻り値は TRUE となる。失敗した場合は FALSE となり、エラーコードがログに記録される。
 
 [備考]
-If a device's surface is organized as a standard-format bitmap, the
-driver can request that GDI perform the bit-block transfer by calling
-EngBitBlt. A driver might do this if it has special hardware to
-handle simple transfers quickly, but doesn't want to handle calls
-with complicated transfers. See the Microsoft Windows SDK
-documentation for more information about raster operations.
+デバイスのサーフェスが標準フォーマットビットマップとして組織されている場合、ドライバは EngBitBlt を呼んで GDI
+にビットブロック転送を実行させることができる。ドライバは、単純な転送を高速処理する特殊ハードウェアを持っているが複雑な転送付きの呼び出しは処理したくない場合などにこれを行う。ラスタ操作の詳細は
+Microsoft Windows SDK ドキュメントを参照。
 
 
 %index
 EngCheckAbort
-The EngCheckAbort function enables a printer graphics DLL to determine if a print job should be terminated.
+EngCheckAbort 関数は、印刷ジョブを終了すべきかどうかをプリンタグラフィックス DLL が判定できるようにする。
 %group
 Win32 gdi32
 %prm
 pso
-pso : [var] Caller-supplied pointer to a SURFOBJ structure, previously received from GDI.
+pso : [var] 以前に GDI から受け取った SURFOBJ 構造体への、呼び出し元提供のポインタ。
 %inst
-The EngCheckAbort function enables a printer graphics DLL to
-determine if a print job should be terminated.
+EngCheckAbort 関数は、印刷ジョブを終了すべきかどうかをプリンタグラフィックス DLL が判定できるようにする。
 
 [戻り値]
-If the print job should be terminated, the function returns TRUE. If
-the print job should not be terminated, or if pso does not point to a
-valid SURFOBJ structure, the function returns FALSE.
+印刷ジョブを終了すべき場合、関数は TRUE を返す。印刷ジョブを終了すべきでない場合、または pso が有効な SURFOBJ
+構造体を指していない場合、関数は FALSE を返す。
 
 [備考]
-A printer graphics DLL should call EngCheckAbort from within any
-graphics DDI function that takes more than five seconds to execute.
-If the print job should be terminated, the printer graphics DLL
-should stop its current operation and return to GDI, specifying a
-return value of FALSE for the graphics DDI function that called
-EngCheckAbort.
+プリンタグラフィックス DLL は、実行に 5 秒以上かかるグラフィックス DDI 関数内から EngCheckAbort
+を呼ぶべきである。印刷ジョブを終了すべき場合、プリンタグラフィックス DLL は現在の操作を中止し、EngCheckAbort
+を呼んだグラフィックス DDI 関数の戻り値として FALSE を指定して GDI に戻るべきである。
 
 
 %index
 EngComputeGlyphSet
-The EngComputeGlyphSet function computes the glyph set supported on a device.
+EngComputeGlyphSet 関数は、デバイス上でサポートされるグリフセットを計算する。
 %group
 Win32 gdi32
 %prm
 nCodePage, nFirstChar, cChars
-nCodePage : [int] Specifies the code page supported.
-nFirstChar : [int] Specifies the character code of the first supported ANSI character.
-cChars : [int] Specifies the number of ANSI characters supported.
+nCodePage : [int] サポートされるコードページ。
+nFirstChar : [int] サポートされる最初の ANSI 文字の文字コード。
+cChars : [int] サポートされる ANSI 文字数。
 %inst
-The EngComputeGlyphSet function computes the glyph set supported on a
-device.
+EngComputeGlyphSet 関数は、デバイス上でサポートされるグリフセットを計算する。
 
 [戻り値]
-If the glyph set is computed successfully, the function returns a
-pointer to an FD_GLYPHSET structure. If an error occurs, the function
-returns NULL.
+グリフセットの計算に成功した場合、関数は FD_GLYPHSET 構造体へのポインタを返す。エラーが発生した場合、NULL を返す。
 
 [備考]
-A driver can use EngComputeGlyphSet to compute the glyph set for a
-font that contains only glyphs in the code page described by
-nCodePage. The driver must call EngFreeMem to free memory when it is
-done using the FD_GLYPHSET structure returned by EngComputeGlyphSet.
+ドライバは EngComputeGlyphSet を使って、nCodePage
+で記述されるコードページ内のグリフのみを含むフォントのグリフセットを計算できる。EngComputeGlyphSet が返す
+FD_GLYPHSET 構造体の使用が終わったら、ドライバは EngFreeMem を呼んでメモリを解放しなければならない。
 
 
 %index
 EngCopyBits
-The EngCopyBits function translates between device-managed raster surfaces and GDI standard-format bitmaps.
+EngCopyBits 関数は、デバイス管理ラスタサーフェスと GDI 標準フォーマットビットマップとの間の変換を行う。
 %group
 Win32 gdi32
 %prm
 psoDest, psoSrc, pco, pxlo, prclDest, pptlSrc
-psoDest : [var] Pointer to a SURFOBJ structure that describes the destination surface for the copy operation.
-psoSrc : [var] Pointer to a SURFOBJ structure that describes the source surface for the copy operation.
-pco : [var] Pointer to a CLIPOBJ structure that restricts the area of the destination surface that will be affected. This parameter can be NULL.
-pxlo : [var] Pointer to a XLATEOBJ structure that defines the translation of color indices between the source and target surfaces.
-prclDest : [var] Pointer to a RECTL structure that defines the area in the coordinate system of the destination surface that will be modified. The rectangle is lower-right exclusive, meaning the lower and right edges of this rectangle are not part of the copy.
-pptlSrc : [var] Pointer to a POINTL structure that defines the upper left corner of the source rectangle.
+psoDest : [var] コピー操作の宛先サーフェスを記述する SURFOBJ 構造体へのポインタ。
+psoSrc : [var] コピー操作のソースサーフェスを記述する SURFOBJ 構造体へのポインタ。
+pco : [var] 影響を受ける宛先サーフェスの領域を制限する CLIPOBJ 構造体へのポインタ。NULL 可。
+pxlo : [var] ソースとターゲットのサーフェス間のカラーインデックスの変換を定義する XLATEOBJ 構造体へのポインタ。
+prclDest : [var] 宛先サーフェスの座標系で変更する領域を定義する RECTL 構造体へのポインタ。矩形は右下を含まない。下辺と右辺はコピーの一部ではない。
+pptlSrc : [var] ソース矩形の左上隅を定義する POINTL 構造体へのポインタ。
 %inst
-The EngCopyBits function translates between device-managed raster
-surfaces and GDI standard-format bitmaps.
+EngCopyBits 関数は、デバイス管理ラスタサーフェスと GDI 標準フォーマットビットマップとの間の変換を行う。
 
 [戻り値]
-The return value is TRUE if the function is successful. If it is
-unsuccessful, it logs an error and returns FALSE.
+関数が成功した場合、戻り値は TRUE となる。失敗した場合はエラーをログに記録し FALSE を返す。
 
 [備考]
-Standard-format bitmaps are single-plane, packed-pixel format. Each
-scan line is aligned on a 4-byte boundary. These bitmaps have 1, 4,
-8, 16, 24, or 32 bits per pixel. See the EngCreateBitmap function for
-a list of standard format types. GDI calls this function from its
-simulations. EngCopyBits should not be called with an empty
-destination rectangle, and the two points of the destination
-rectangle must be well-ordered; that is, the first point should
-represent the upper-left vertex of the rectangle, and the second
-should represent the lower-right vertex.
+標準フォーマットビットマップは単一プレーン、パックドピクセル形式である。各走査線は 4 バイト境界に整列される。これらのビットマップは
+1, 4, 8, 16, 24, または 32 bpp である。標準フォーマット型のリストは EngCreateBitmap
+関数を参照。GDI はシミュレーションからこの関数を呼ぶ。EngCopyBits は空の宛先矩形では呼ぶべきでなく、宛先矩形の 2
+点は整列していなければならない。すなわち、最初の点は矩形の左上頂点、2 番目の点は右下頂点を表すべきである。
 
 
 %index
 EngCreateBitmap
-The EngCreateBitmap function requests that GDI create and manage a bitmap.
+EngCreateBitmap 関数は、GDI にビットマップを作成・管理するよう要求する。
 %group
 Win32 gdi32
 %prm
 sizl, lWidth, iFormat, fl, pvBits
-sizl : [var] Specifies a SIZEL structure whose members contain the width and height, in pixels, of the bitmap to be created. A SIZEL structure is identical to a SIZE structure. If pvBits is not NULL, this value should represent all pixels visible on the device, allowing the device to keep off-screen memory.
-lWidth : [int] Specifies the allocation width of the bitmap, which is the number of bytes that must be added to a pointer to move down one scan line.
+sizl : [var] 作成するビットマップの幅と高さ（ピクセル単位）をメンバに含む SIZEL 構造体を指定する。SIZEL 構造体は SIZE 構造体と同一である。pvBits が NULL でない場合、この値はデバイス上で見えるすべてのピクセルを表すべきで、デバイスがオフスクリーンメモリを保持できるようにする。
+lWidth : [int] ビットマップの割り当て幅を指定する。これは、ポインタを 1 走査線下に移動するために加える必要があるバイト数である。
 iFormat : [int] 
 fl : [int] 
-pvBits : [intptr] Pointer to the first scan line of the bitmap that is to be created. If this parameter is NULL, GDI allocates the storage space for the pixels of the bitmap. If pvBits is not NULL, it is a pointer to the buffer for the bitmap.
+pvBits : [intptr] 作成するビットマップの最初の走査線へのポインタ。NULL の場合、GDI はビットマップのピクセルのストレージ領域を割り当てる。NULL でなければ、ビットマップ用バッファへのポインタとなる。
 %inst
-The EngCreateBitmap function requests that GDI create and manage a
-bitmap.
+EngCreateBitmap 関数は、GDI にビットマップを作成・管理するよう要求する。
 
 [戻り値]
-If the function completes successfully, the return value is a handle
-that identifies the created bitmap. Otherwise, the return value is 0.
-EngCreateBitmap does not log an error code.
+関数が正常に完了した場合、戻り値は作成されたビットマップを識別するハンドルとなる。それ以外の場合、戻り値は 0
+となる。EngCreateBitmap はエラーコードをログに記録しない。
 
 [備考]
-Storage for the bitmap can optionally be provided by the driver. The
-driver should associate the created bitmap as a surface by calling
-EngAssociateSurface before returning from DrvEnableSurface. The
-bitmap should be deleted by using EngDeleteSurface when it is no
-longer needed. Frame buffer display drivers should use the pvBits
-parameter, allowing GDI to do most drawing directly to the display.
+ビットマップ用ストレージはドライバが任意に提供できる。ドライバは DrvEnableSurface
+から戻る前に、EngAssociateSurface
+を呼んで作成したビットマップをサーフェスとして関連付けるべきである。ビットマップが不要になったら EngDeleteSurface
+で削除する。フレームバッファディスプレイドライバは、GDI がディスプレイへ直接描画できるように pvBits
+パラメータを使うべきである。
 
 
 %index
 EngCreateClip
-The EngCreateClip function creates a CLIPOBJ structure that the driver uses in callbacks.
+EngCreateClip 関数は、ドライバがコールバックで使用する CLIPOBJ 構造体を作成する。
 %group
 Win32 gdi32
 %prm
 
 %inst
-The EngCreateClip function creates a CLIPOBJ structure that the
-driver uses in callbacks.
+EngCreateClip 関数は、ドライバがコールバックで使用する CLIPOBJ 構造体を作成する。
 
 [戻り値]
-The return value is a pointer to the newly-created CLIPOBJ structure
-if the function succeeds. Otherwise, it is NULL.
+関数が成功した場合、戻り値は新しく作成された CLIPOBJ 構造体へのポインタとなる。それ以外の場合は NULL となる。
 
 [備考]
-The CLIPOBJ structure created by EngCreateClip allows GDI to directly
-access banked frame buffers. The structure must be initialized by the
-driver so that the iDComplexity member of the CLIPOBJ structure is
-set to DC_TRIVIAL or DC_RECT. If the iDComplexity member is set to
-DC_RECT, the driver can set the rclBounds member of CLIPOBJ to the
-extent of the frame buffer bank. The driver must delete this CLIPOBJ
-structure using EngDeleteClip.
+EngCreateClip が作成する CLIPOBJ 構造体により、GDI
+はバンクされたフレームバッファに直接アクセスできる。構造体は、CLIPOBJ 構造体の iDComplexity メンバが
+DC_TRIVIAL または DC_RECT に設定されるよう、ドライバが初期化しなければならない。iDComplexity が
+DC_RECT に設定された場合、ドライバは CLIPOBJ の rclBounds
+メンバをフレームバッファバンクの範囲に設定できる。ドライバは EngDeleteClip を使ってこの CLIPOBJ
+構造体を削除しなければならない。
 
 
 %index
 EngCreateDeviceBitmap
-The EngCreateDeviceBitmap function requests GDI to create a handle for a device bitmap.
+EngCreateDeviceBitmap 関数は、デバイスビットマップ用のハンドルを作成するよう GDI に要求する。
 %group
 Win32 gdi32
 %prm
 dhsurf, sizl, iFormatCompat
-dhsurf : [intptr] Device handle to the device bitmap to be created.
-sizl : [var] Specifies a SIZEL structure that contains the width and height of the bitmap to be created. The cx and cy members of this structure contain respectively, the bitmap's width and height, in pixels. A SIZEL structure is identical to a SIZE structure.
-iFormatCompat : [int] Specifies the compatible engine format of the device surface being created. This is used by GDI if a temporary buffer is needed to simulate a complicated drawing call. The allowable values for iFormatCompat are BMF_1BPP, BMF_4BPP, BMF_8BPP, BMF_16BPP, BMF_24BPP, and BMF_32BPP.
+dhsurf : [intptr] 作成するデバイスビットマップへのデバイスハンドル。
+sizl : [var] 作成するビットマップの幅と高さを含む SIZEL 構造体を指定する。この構造体の cx, cy メンバはそれぞれビットマップの幅と高さ（ピクセル単位）を含む。SIZEL 構造体は SIZE 構造体と同一である。
+iFormatCompat : [int] 作成するデバイスサーフェスの互換エンジンフォーマットを指定する。これは GDI が複雑な描画呼び出しをシミュレートするのに一時バッファが必要な場合に使われる。iFormatCompat に許される値は BMF_1BPP, BMF_4BPP, BMF_8BPP, BMF_16BPP, BMF_24BPP, BMF_32BPP である。
 %inst
-The EngCreateDeviceBitmap function requests GDI to create a handle
-for a device bitmap.
+EngCreateDeviceBitmap 関数は、デバイスビットマップ用のハンドルを作成するよう GDI に要求する。
 
 [戻り値]
-The return value is a handle that identifies the bitmap if the
-function is successful. Otherwise, it is zero, and an error code is
-logged.
+関数が成功した場合、戻り値はビットマップを識別するハンドルとなる。それ以外の場合はゼロとなり、エラーコードがログに記録される。
 
 [備考]
-The surface should be associated by using EngAssociateSurface. The
-bitmap should be deleted by calling EngDeleteSurface when it is no
-longer needed.
+サーフェスは EngAssociateSurface を使って関連付けるべきである。ビットマップが不要になったら
+EngDeleteSurface で削除する。
 
 
 %index
 EngCreateDeviceSurface
-The EngCreateDeviceSurface function creates and returns a handle for a device surface that the driver will manage.
+EngCreateDeviceSurface 関数は、ドライバが管理するデバイスサーフェスを作成し、そのハンドルを返す。
 %group
 Win32 gdi32
 %prm
 dhsurf, sizl, iFormatCompat
-dhsurf : [intptr] Device handle to the surface to be managed by the device. This handle is passed to the driver when a SURFOBJ structure is passed for input or output.
-sizl : [var] Specifies a SIZEL structure that contains the width and height of the surface to be created. The cx and cy members of this structure contain respectively, the surface's width and height, in pixels. A SIZEL structure is identical to a SIZE structure.
-iFormatCompat : [int] Specifies the compatible engine format of the device surface being created. This is used by GDI if a temporary buffer is needed to simulate a complicated drawing call.
+dhsurf : [intptr] デバイスが管理するサーフェスへのデバイスハンドル。このハンドルは、入出力のために SURFOBJ 構造体が渡されるときにドライバへ渡される。
+sizl : [var] 作成するサーフェスの幅と高さを含む SIZEL 構造体を指定する。この構造体の cx, cy メンバはそれぞれサーフェスの幅と高さ（ピクセル単位）を含む。SIZEL 構造体は SIZE 構造体と同一である。
+iFormatCompat : [int] 作成するデバイスサーフェスの互換エンジンフォーマットを指定する。これは GDI が複雑な描画呼び出しをシミュレートするのに一時バッファが必要な場合に使われる。
 %inst
-The EngCreateDeviceSurface function creates and returns a handle for
-a device surface that the driver will manage.
+EngCreateDeviceSurface 関数は、ドライバが管理するデバイスサーフェスを作成し、そのハンドルを返す。
 
 [戻り値]
-The return value is a handle that identifies the surface if the
-function is successful. Otherwise, it is zero, and an error code is
-logged.
+関数が成功した場合、戻り値はサーフェスを識別するハンドルとなる。それ以外の場合はゼロとなり、エラーコードがログに記録される。
 
 [備考]
-The storage space for the surface can optionally be provided by the
-driver. The surface should be associated by using
-EngAssociateSurface. The surface should be deleted when it is no
-longer needed by using EngDeleteSurface.
+サーフェスのストレージ領域はドライバが任意に提供できる。サーフェスは EngAssociateSurface
+を使って関連付けるべきである。サーフェスが不要になったら EngDeleteSurface を使って削除する。
 
 
 %index
 EngCreatePalette
-The EngCreatePalette function sends a request to GDI to create an RGB palette.
+EngCreatePalette 関数は、RGB パレットを作成するよう GDI に要求を送る。
 %group
 Win32 gdi32
 %prm
 iMode, cColors, pulColors, flRed, flGreen, flBlue
 iMode : [int] 
-cColors : [int] If the iMode parameter is PAL_INDEXED, cColors specifies the number of colors provided in the array pointed to by pulColors. Otherwise, this parameter should be zero.
-pulColors : [var] Pointer to the beginning of an array of ULONG values if iMode is PAL_INDEXED. The low-order 3 bytes of each ULONG define the RGB colors in the palette.
-flRed : [int] If the iMode parameter is PAL_BITFIELDS, the flRed, flGreen and flBlue parameters are masks that show which bits correspond to red, green, and blue. Each mask must consist of contiguous bits and should not overlap other masks. All combinations of bitfields are supported by GDI.
-flGreen : [int] If the iMode parameter is PAL_BITFIELDS, the flRed, flGreen and flBlue parameters are masks that show which bits correspond to red, green, and blue. Each mask must consist of contiguous bits and should not overlap other masks. All combinations of bitfields are supported by GDI.
-flBlue : [int] If the iMode parameter is PAL_BITFIELDS, the flRed, flGreen and flBlue parameters are masks that show which bits correspond to red, green, and blue. Each mask must consist of contiguous bits and should not overlap other masks. All combinations of bitfields are supported by GDI.
+cColors : [int] iMode パラメータが PAL_INDEXED の場合、cColors は pulColors が指す配列に提供される色数を指定する。それ以外の場合、このパラメータはゼロにすべきである。
+pulColors : [var] iMode が PAL_INDEXED の場合の ULONG 値配列の先頭へのポインタ。各 ULONG の下位 3 バイトがパレット内の RGB 色を定義する。
+flRed : [int] iMode パラメータが PAL_BITFIELDS の場合、flRed, flGreen, flBlue パラメータは赤・緑・青に対応するビットを示すマスクである。各マスクは連続するビットで構成され、他のマスクと重なってはならない。GDI はビットフィールドのすべての組み合わせをサポートする。
+flGreen : [int] iMode パラメータが PAL_BITFIELDS の場合、flRed, flGreen, flBlue パラメータは赤・緑・青に対応するビットを示すマスクである。各マスクは連続するビットで構成され、他のマスクと重なってはならない。GDI はビットフィールドのすべての組み合わせをサポートする。
+flBlue : [int] iMode パラメータが PAL_BITFIELDS の場合、flRed, flGreen, flBlue パラメータは赤・緑・青に対応するビットを示すマスクである。各マスクは連続するビットで構成され、他のマスクと重なってはならない。GDI はビットフィールドのすべての組み合わせをサポートする。
 %inst
-The EngCreatePalette function sends a request to GDI to create an RGB
-palette.
+EngCreatePalette 関数は、RGB パレットを作成するよう GDI に要求を送る。
 
 [戻り値]
-The return value is a handle to the new palette if the function is
-successful. Otherwise, it is zero, and an error code is logged.
+関数が成功した場合、戻り値は新しいパレットへのハンドルとなる。それ以外の場合はゼロとなり、エラーコードがログに記録される。
 
 [備考]
-The driver can associate the new palette with a device by returning a
-pointer to the palette in the DEVINFO structure. A PAL_INDEXED
-palette associated with the device must have its first index entry
-set to black (red = 0, green = 0, blue = 0) and its last entry set to
-white (255, 255, 255). All other entries should be set so that
-entries whose indexes are one's complements of each other have colors
-that contrast greatly. For example, if entry 0x9 of a 16 entry
-palette is set to pure green (0,255,0), entry 0x6 (=~0x9) should be
-set to a color that contrasts well with green, such as dark purple
-(128,0,128). Setting entries in this way allows XOR raster operations
-to behave reasonably. You should delete the palette when you no
-longer need it by using EngDeletePalette.
+ドライバは DEVINFO 構造体内にパレットへのポインタを返すことで、新しいパレットをデバイスに関連付けられる。デバイスに関連付けられた
+PAL_INDEXED パレットは、最初のインデックスエントリを黒 (red = 0, green = 0, blue =
+0)、最後のエントリを白 (255, 255, 255) に設定しなければならない。他のすべてのエントリは、インデックスが互いに 1
+の補数であるエントリが大きく対比する色となるように設定する。例えば 16 エントリパレットのエントリ 0x9 が純緑 (0,255,0)
+なら、エントリ 0x6 (=~0x9) は緑とよく対比する暗紫 (128,0,128)
+のような色にする。このようにエントリを設定することで、XOR ラスタ操作が妥当に動作する。パレットが不要になったら
+EngDeletePalette で削除すべきである。
 
 
 %index
 EngCreateSemaphore
-The EngCreateSemaphore function creates a semaphore object.
+EngCreateSemaphore 関数はセマフォオブジェクトを作成する。
 %group
 Win32 gdi32
 %prm
 
 %inst
-The EngCreateSemaphore function creates a semaphore object.
+EngCreateSemaphore 関数はセマフォオブジェクトを作成する。
 
 [戻り値]
-If the function succeeds, the return value is a handle to the
-semaphore object. A null pointer is returned if the function fails.
+関数が成功した場合、戻り値はセマフォオブジェクトへのハンドルとなる。失敗した場合は null ポインタが返る。
 
 [備考]
-Graphics drivers can create and use a semaphore object for resource
-synchronization. For example:
-This doc was truncated.
+グラフィックスドライバは、リソース同期のためにセマフォオブジェクトを作成・使用できる。例えば次のようになる。
+（以下省略）
 
 
 %index
 EngDeleteClip
-The EngDeleteClip function deletes a CLIPOBJ structure allocated by EngCreateClip.
+EngDeleteClip 関数は、EngCreateClip で割り当てられた CLIPOBJ 構造体を削除する。
 %group
 Win32 gdi32
 %prm
 pco
-pco : [var] Pointer to the CLIPOBJ structure to delete.
+pco : [var] 削除する CLIPOBJ 構造体へのポインタ。
 %inst
-The EngDeleteClip function deletes a CLIPOBJ structure allocated by
-EngCreateClip.
+EngDeleteClip 関数は、EngCreateClip で割り当てられた CLIPOBJ 構造体を削除する。
 
 [戻り値]
-None
+なし
 
 
 %index
 EngDeletePalette
-The EngDeletePalette function sends a request to GDI to delete the specified palette.
+EngDeletePalette 関数は、指定したパレットを削除するよう GDI に要求を送る。
 %group
 Win32 gdi32
 %prm
 hpal
-hpal : [intptr] Handle to the palette to be deleted. This handle is supplied by EngCreatePalette.
+hpal : [intptr] 削除するパレットへのハンドル。このハンドルは EngCreatePalette によって提供される。
 %inst
-The EngDeletePalette function sends a request to GDI to delete the
-specified palette.
+EngDeletePalette 関数は、指定したパレットを削除するよう GDI に要求を送る。
 
 [戻り値]
-The return value is TRUE if the function is successful; otherwise, it
-returns FALSE.
+関数が成功した場合、戻り値は TRUE となる。それ以外の場合は FALSE を返す。
 
 
 %index
 EngDeletePath
-The EngDeletePath function deletes a path previously allocated by EngCreatePath.
+EngDeletePath 関数は、以前 EngCreatePath で割り当てられたパスを削除する。
 %group
 Win32 gdi32
 %prm
 ppo
-ppo : [var] Pointer to the PATHOBJ structure to be deleted.
+ppo : [var] 削除する PATHOBJ 構造体へのポインタ。
 %inst
-The EngDeletePath function deletes a path previously allocated by
-EngCreatePath.
+EngDeletePath 関数は、以前 EngCreatePath で割り当てられたパスを削除する。
 
 [戻り値]
-None
+なし
 
 
 %index
 EngDeleteSurface
-The EngDeleteSurface function deletes the specified surface.
+EngDeleteSurface 関数は、指定したサーフェスを削除する。
 %group
 Win32 gdi32
 %prm
 hsurf
-hsurf : [intptr] Handle to the surface to delete. This handle can be an HSURF or HBM.
+hsurf : [intptr] 削除するサーフェスへのハンドル。このハンドルは HSURF または HBM である。
 %inst
-The EngDeleteSurface function deletes the specified surface.
+EngDeleteSurface 関数は、指定したサーフェスを削除する。
 
 [戻り値]
-EngDeleteSurface returns TRUE if it is successful in deleting the
-surface. Otherwise, it returns FALSE and an error code is logged.
+EngDeleteSurface はサーフェスの削除に成功した場合 TRUE を返す。それ以外の場合は FALSE
+を返し、エラーコードがログに記録される。
 
 
 %index
 EngEraseSurface
-The EngEraseSurface function calls GDI to erase the surface; a given rectangle on the surface will be filled with the given color.
+EngEraseSurface 関数は GDI を呼んでサーフェスを消去する。サーフェス上の指定矩形が指定色で塗りつぶされる。
 %group
 Win32 gdi32
 %prm
 pso, prcl, iColor
-pso : [var] Pointer to the surface to erase.
-prcl : [var] Pointer to a RECTL structure that defines which pixels to erase on the surface. This rectangle is exclusive of the bottom and right edges.
-iColor : [int] Specifies a color index. This is an index to the value that will be written into each pixel.
+pso : [var] 消去するサーフェスへのポインタ。
+prcl : [var] サーフェス上で消去するピクセルを定義する RECTL 構造体へのポインタ。この矩形は下辺と右辺を含まない。
+iColor : [int] カラーインデックスを指定する。これは各ピクセルに書き込まれる値へのインデックスである。
 %inst
-The EngEraseSurface function calls GDI to erase the surface; a given
-rectangle on the surface will be filled with the given color.
+EngEraseSurface 関数は GDI を呼んでサーフェスを消去する。サーフェス上の指定矩形が指定色で塗りつぶされる。
 
 [戻り値]
-The return value is TRUE if the function is successful. Otherwise, it
-is FALSE, and an error code is reported.
+関数が成功した場合、戻り値は TRUE となる。それ以外の場合は FALSE となり、エラーコードが報告される。
 
 
 %index
 EngFillPath
-The EngFillPath function fills a path.
+EngFillPath 関数はパスを塗りつぶす。
 %group
 Win32 gdi32
 %prm
 pso, ppo, pco, pbo, pptlBrushOrg, mix, flOptions
-pso : [var] Pointer to a SURFOBJ structure that describes the surface on which to draw.
-ppo : [var] Pointer to a PATHOBJ structure that defines the path to be filled. Use the PATHOBJ_Xxx service routines to enumerate the lines, Bezier curves, and other data that make up the path.
-pco : [var] Pointer to a CLIPOBJ structure. Use the CLIPOBJ_Xxx service routines to enumerate the clip region as a set of rectangles.
-pbo : [var] Pointer to a BRUSHOBJ structure that defines the pattern and colors with which to fill.
-pptlBrushOrg : [var] Pointer to a POINTL structure defining the brush origin to use to align the brush pattern on the device.
-mix : [int] Defines the foreground and background raster operations to use for the brush.
-flOptions : [int] Specifies the mode to use when filling the path. This value should be FP_WINDINGMODE or FP_ALTERNATEMODE. All other flags should be ignored. For more information about these modes, see Path Fill Modes.
+pso : [var] 描画先のサーフェスを記述する SURFOBJ 構造体へのポインタ。
+ppo : [var] 塗りつぶすパスを定義する PATHOBJ 構造体へのポインタ。パスを構成する線、ベジエ曲線などのデータを列挙するには PATHOBJ_Xxx サービスルーチンを使う。
+pco : [var] CLIPOBJ 構造体へのポインタ。クリップ領域を矩形の集合として列挙するには CLIPOBJ_Xxx サービスルーチンを使う。
+pbo : [var] 塗りつぶしに使用するパターンと色を定義する BRUSHOBJ 構造体へのポインタ。
+pptlBrushOrg : [var] デバイス上でブラシパターンを整列させるためのブラシ原点を定義する POINTL 構造体へのポインタ。
+mix : [int] ブラシに使用する前景および背景ラスタ操作を定義する。
+flOptions : [int] パスを塗りつぶすときに使用するモードを指定する。この値は FP_WINDINGMODE または FP_ALTERNATEMODE のいずれかであるべきである。それ以外のフラグは無視すべきである。これらのモードの詳細は Path Fill Modes を参照。
 %inst
-The EngFillPath function fills a path.
+EngFillPath 関数はパスを塗りつぶす。
 
 [戻り値]
-The return value is TRUE if GDI is able to fill the path. Otherwise,
-it is FALSE, and an error code is not logged. If an error is
-encountered, the return value is FALSE, and an error code is logged.
+関数が GDI がパスを塗りつぶすことができた場合、戻り値は TRUE となる。それ以外の場合は FALSE
+となり、エラーコードはログに記録されない。エラーが発生した場合、戻り値は FALSE となり、エラーコードがログに記録される。
 
 [備考]
-Whenever GDI fills a path on a device-managed surface, it can call
-this entry point depending on a comparison of the fill requirements
-and the following GCAPS bits: GCAPS_BEZIERS, GCAPS_ALTERNATEFILL, and
-GCAPS_WINDINGFILL.
+GDI はデバイス管理サーフェス上でパスを塗りつぶすたびに、塗りつぶし要件と次の GCAPS ビット (GCAPS_BEZIERS,
+GCAPS_ALTERNATEFILL, GCAPS_WINDINGFILL) との比較に応じてこのエントリポイントを呼ぶことがある。
 
 
 %index
 EngFindResource
-The EngFindResource function determines the location of a resource in a module.
+EngFindResource 関数は、モジュール内のリソースの位置を特定する。
 %group
 Win32 gdi32
 %prm
 h, iName, iType, pulSize
-h : [intptr] Handle to the module that contains the resource. This handle is obtained from EngLoadModule.
-iName : [int] Is an integer identifier representing the name of the resource being looked up.
-iType : [int] Is an integer identifier representing the type of the resource being looked up.
-pulSize : [var] Pointer to a ULONG in which the resource's size, in bytes, is returned.
+h : [intptr] リソースを含むモジュールへのハンドル。このハンドルは EngLoadModule から取得する。
+iName : [int] 検索するリソースの名前を表す整数識別子。
+iType : [int] 検索するリソースの種類を表す整数識別子。
+pulSize : [var] リソースのサイズ（バイト単位）を返す ULONG へのポインタ。
 %inst
-The EngFindResource function determines the location of a resource in
-a module.
+EngFindResource 関数は、モジュール内のリソースの位置を特定する。
 
 [戻り値]
-The return value is a pointer to the address of the specified
-resource. The function returns NULL if an error occurs.
+関数の戻り値は、指定したリソースのアドレスへのポインタとなる。エラーが発生した場合、関数は NULL を返す。
 
 [備考]
-The size of a successfully located resource is returned in pulSize.
+正常に見つかったリソースのサイズが pulSize に返される。
 
 
 %index
 EngFreeModule
-The EngFreeModule function unmaps a file from system memory.
+EngFreeModule 関数はファイルをシステムメモリからアンマップする。
 %group
 Win32 gdi32
 %prm
 h
-h : [intptr] Handle to the memory-mapped file to be freed. This handle was obtained from EngLoadModule or EngLoadModuleForWrite.
+h : [intptr] 解放するメモリマップトファイルへのハンドル。このハンドルは EngLoadModule または EngLoadModuleForWrite から取得したものである。
 %inst
-The EngFreeModule function unmaps a file from system memory.
+EngFreeModule 関数はファイルをシステムメモリからアンマップする。
 
 [戻り値]
-None
+なし
 
 
 %index
 EngGetCurrentCodePage
-The EngGetCurrentCodePage function returns the system's default OEM and ANSI code pages.
+EngGetCurrentCodePage 関数は、システムのデフォルト OEM および ANSI コードページを返す。
 %group
 Win32 gdi32
 %prm
 OemCodePage, AnsiCodePage
-OemCodePage : [var] Pointer to a USHORT that receives the system's default OEM code page.
-AnsiCodePage : [var] Pointer to a USHORT that receives the system's default ANSI code page.
+OemCodePage : [var] システムのデフォルト OEM コードページを受け取る USHORT へのポインタ。
+AnsiCodePage : [var] システムのデフォルト ANSI コードページを受け取る USHORT へのポインタ。
 %inst
-The EngGetCurrentCodePage function returns the system's default OEM
-and ANSI code pages.
+EngGetCurrentCodePage 関数は、システムのデフォルト OEM および ANSI コードページを返す。
 
 [戻り値]
-None
+なし
 
 [備考]
-EngGetCurrentCodePage returns the default code pages that are used by
-the system to translate from ANSI to Unicode. These values are set at
-boot time according to locale settings.
+EngGetCurrentCodePage は、ANSI から Unicode
+への変換にシステムが使用するデフォルトコードページを返す。これらの値はロケール設定に応じてブート時に設定される。
 
 
 %index
 EngGetDriverName
-The EngGetDriverName function returns the name of the driver's DLL.
+EngGetDriverName 関数は、ドライバ DLL の名前を返す。
 %group
 Win32 gdi32
 %prm
 hdev
-hdev : [intptr] Handle to the device. This is the GDI handle received by the driver as the hdev parameter for DrvCompletePDEV.
+hdev : [intptr] デバイスへのハンドル。これはドライバが DrvCompletePDEV の hdev パラメータとして受け取る GDI ハンドルである。
 %inst
-The EngGetDriverName function returns the name of the driver's DLL.
+EngGetDriverName 関数は、ドライバ DLL の名前を返す。
 
 [戻り値]
-EngGetDriverName returns a pointer to the null-terminated string
-buffer in which the name of the driver's DLL is specified. The system
-obtains and stores the driver's name from the DRIVER_INFO_2 structure
-when the driver is first installed through the Win32 AddPrinterDriver
-routine.
+EngGetDriverName は、ドライバ DLL の名前が指定された null
+終端文字列バッファへのポインタを返す。システムは、ドライバが Win32 AddPrinterDriver
+ルーチンで最初にインストールされるとき、DRIVER_INFO_2 構造体からドライバ名を取得・保存する。
 
 
 %index
 EngGetPrinterDataFileName
-The EngGetPrinterDataFileName function retrieves the string name of the printer's data file.
+EngGetPrinterDataFileName 関数は、プリンタのデータファイルの文字列名を取得する。
 %group
 Win32 gdi32
 %prm
 hdev
-hdev : [intptr] Handle to the device. This is the GDI handle received by the driver as the hdev parameter for DrvCompletePDEV.
+hdev : [intptr] デバイスへのハンドル。これはドライバが DrvCompletePDEV の hdev パラメータとして受け取る GDI ハンドルである。
 %inst
-The EngGetPrinterDataFileName function retrieves the string name of
-the printer's data file.
+EngGetPrinterDataFileName 関数は、プリンタのデータファイルの文字列名を取得する。
 
 [戻り値]
-EngGetPrinterDataFileName returns a pointer to the null-terminated
-string buffer in which the name of the printer's data file is
-specified. The system obtains and stores the printer's data file name
-from the DRIVER_INFO_2 structure (described in the Microsoft Windows
-SDK documentation) when the driver is first installed through the
-Microsoft Win32 AddPrinterDriver routine.
+EngGetPrinterDataFileName は、プリンタのデータファイル名が指定された null
+終端文字列バッファへのポインタを返す。システムは、ドライバが Microsoft Win32 AddPrinterDriver
+ルーチンで最初にインストールされるとき、DRIVER_INFO_2 構造体（Microsoft Windows SDK
+ドキュメント参照）からプリンタのデータファイル名を取得・保存する。
 
 
 %index
 EngGradientFill
-The EngGradientFill function shades the specified primitives.
+EngGradientFill 関数は、指定したプリミティブをシェーディングする。
 %group
 Win32 gdi32
 %prm
 psoDest, pco, pxlo, pVertex, nVertex, pMesh, nMesh, prclExtents, pptlDitherOrg, ulMode
-psoDest : [var] Pointer to the SURFOBJ structure that identifies the surface on which to draw.
-pco : [var] Pointer to a CLIPOBJ structure. The CLIPOBJ_Xxx service routines are provided to enumerate the clip region as a set of rectangles. This enumeration limits the area of the destination that is modified. Whenever possible, GDI simplifies the clipping involved.
-pxlo : [var] Pointer to a XLATEOBJ structure. This structure indicates how color indices should be translated between 32 bpp RGB format and the destination. The driver is responsible for converting the input COLOR16 color values to RGB.
-pVertex : [var] Pointer to an array of TRIVERTEX structures, with each entry containing position and color information. The TRIVERTEX structure is described in the Microsoft Windows SDK documentation.
-nVertex : [int] Specifies the number of TRIVERTEX structures in the array to which pVertex points.
-pMesh : [intptr] Pointer to an array of structures that define the connectivity of the TRIVERTEX elements to which pVertex points. When rectangles are being drawn, pMesh points to an array of GRADIENT_RECT structures, each of which specifies two TRIVERTEX elements that define a rectangle. The TRIVERTEX elements can represent any diagonally-opposed pair of rectangle vertices. Rectangle drawing is lower-right exclusive. Both TRIVERTEX and GRADIENT_RECT are defined in the Windows SDK documentation. When triangles are being drawn, pMesh points to an array of GRADIENT_TRIANGLE structures, each of which specifies the three TRIVERTEX elements that define a triangle. Triangle drawing is lower-right exclusive. The GRADIENT_TRIANGLE structure is defined in the Windows SDK documentation.
-nMesh : [int] Specifies the number of elements in the array to which pMesh points.
-prclExtents : [var] Pointer to a RECTL structure that defines the area in which the gradient drawing is to occur. The points are specified in the coordinate system of the destination surface. This parameter is useful in estimating the size of the drawing operations.
-pptlDitherOrg : [var] Pointer to a POINTL structure that defines the origin on the surface for dithering. The upper-left pixel of the dither pattern is aligned with this point.
+psoDest : [var] 描画先のサーフェスを識別する SURFOBJ 構造体へのポインタ。
+pco : [var] CLIPOBJ 構造体へのポインタ。CLIPOBJ_Xxx サービスルーチンが、クリップ領域を矩形の集合として列挙するために提供される。この列挙は変更される宛先の領域を制限する。可能な限り GDI はクリッピングを単純化する。
+pxlo : [var] XLATEOBJ 構造体へのポインタ。この構造体は、32 bpp RGB フォーマットと宛先の間でカラーインデックスをどう変換すべきかを示す。ドライバは入力 COLOR16 カラー値を RGB に変換する責任がある。
+pVertex : [var] TRIVERTEX 構造体配列へのポインタ。各エントリは位置情報と色情報を含む。TRIVERTEX 構造体は Microsoft Windows SDK ドキュメントで説明されている。
+nVertex : [int] pVertex が指す配列内の TRIVERTEX 構造体の数を指定する。
+pMesh : [intptr] pVertex が指す TRIVERTEX 要素の接続性を定義する構造体の配列へのポインタ。矩形を描画する場合、pMesh は GRADIENT_RECT 構造体配列を指し、各要素は矩形を定義する 2 つの TRIVERTEX 要素を指定する。TRIVERTEX 要素は矩形の対角頂点の任意の組み合わせを表せる。矩形描画は右下を含まない。TRIVERTEX と GRADIENT_RECT は Windows SDK ドキュメントで定義されている。三角形を描画する場合、pMesh は GRADIENT_TRIANGLE 構造体配列を指し、各要素は三角形を定義する 3 つの TRIVERTEX 要素を指定する。三角形描画は右下を含まない。GRADIENT_TRIANGLE 構造体は Windows SDK ドキュメントで定義されている。
+nMesh : [int] pMesh が指す配列の要素数を指定する。
+prclExtents : [var] グラデーション描画が行われる領域を定義する RECTL 構造体へのポインタ。点は宛先サーフェスの座標系で指定する。このパラメータは描画操作のサイズを推定するのに便利である。
+pptlDitherOrg : [var] ディザリング用のサーフェス上の原点を定義する POINTL 構造体へのポインタ。ディザパターンの左上ピクセルがこの点に整列される。
 ulMode : [int] 
 %inst
-The EngGradientFill function shades the specified primitives.
+EngGradientFill 関数は、指定したプリミティブをシェーディングする。
 
 [戻り値]
-EngGradientFill returns TRUE upon success. Otherwise, it reports an
-error and returns FALSE.
+EngGradientFill は成功時に TRUE を返す。それ以外の場合はエラーを報告し FALSE を返す。
 
 [備考]
-The driver should call EngGradientFill if it has hooked
-DrvGradientFill and it is called to do something that it does not
-support. The formulas used to compute the color value at each pixel
-depend on the value of ulMode as follows:
-GDI ignores the alpha value of the vertices, leaving the alpha
-channel unchanged for surfaces that support alpha.
+ドライバが DrvGradientFill をフックしているがサポートしない処理を要求された場合、EngGradientFill
+を呼ぶべきである。各ピクセルでカラー値を計算するために使用する数式は、ulMode の値に依存する。
+GDI は頂点のアルファ値を無視し、アルファをサポートするサーフェスではアルファチャンネルを変更しない。
 
 
 %index
 EngLineTo
-The EngLineTo function draws a single, solid, integer-only cosmetic line.
+EngLineTo 関数は、単一でソリッドな整数のみのコスメティックラインを描く。
 %group
 Win32 gdi32
 %prm
 pso, pco, pbo, x1, y1, x2, y2, prclBounds, mix
-pso : [var] Pointer to a SURFOBJ structure that describes the surface on which to draw.
-pco : [var] Pointer to a CLIPOBJ structure that defines the clip region in which the rendering must be done. No pixels can be affected outside this clip region.
-pbo : [var] Pointer to a BRUSHOBJ structure that specifies the brush to use when drawing the line.
-x1 : [int] Specify the integer x-coordinate of the line's beginning point.
-y1 : [int] Specify the integer y-coordinate of the line's beginning point.
-x2 : [int] Specify the integer x-coordinate of the line's end point.
-y2 : [int] Specify the integer x- and y-coordinate of the line's end point.
-prclBounds : [var] Pointer to a RECTL structure that describes the rectangle that bounds the unclipped line. Drivers that support hardware line drawing can use this rectangle to quickly determine whether the line fits in a coordinate space small enough to be rendered by the hardware.
-mix : [int] Defines how the incoming pattern should be mixed with the data already on the device surface. The low-order byte defines the raster operation. For more information about raster operation codes, see the Microsoft Windows SDK documentation.
+pso : [var] 描画先のサーフェスを記述する SURFOBJ 構造体へのポインタ。
+pco : [var] レンダリングを行うクリップ領域を定義する CLIPOBJ 構造体へのポインタ。このクリップ領域の外のピクセルは影響を受けない。
+pbo : [var] 線を描くときに使用するブラシを指定する BRUSHOBJ 構造体へのポインタ。
+x1 : [int] 線の始点の整数 x 座標を指定する。
+y1 : [int] 線の始点の整数 y 座標を指定する。
+x2 : [int] 線の終点の整数 x 座標を指定する。
+y2 : [int] 線の終点の整数 x 座標と y 座標を指定する。
+prclBounds : [var] クリップされていない線を囲む矩形を記述する RECTL 構造体へのポインタ。ハードウェア線描画をサポートするドライバは、この矩形を使って、線がハードウェアでレンダリングできるほど小さな座標空間に収まるかを素早く判定できる。
+mix : [int] 入ってくるパターンを既にデバイスサーフェス上にあるデータとどのように混合するかを定義する。下位バイトはラスタ操作を定義する。ラスタ操作コードの詳細は Microsoft Windows SDK ドキュメントを参照。
 %inst
-The EngLineTo function draws a single, solid, integer-only cosmetic
-line.
+EngLineTo 関数は、単一でソリッドな整数のみのコスメティックラインを描く。
 
 [戻り値]
-EngLineTo returns TRUE if it succeeds; otherwise, it returns FALSE.
+EngLineTo は成功時に TRUE を返し、それ以外は FALSE を返す。
 
 [備考]
-The driver that has hooked DrvLineTo can call EngLineTo when the
-rendering surface is a device-independent bitmap (DIB).
+DrvLineTo をフックしているドライバは、レンダリングサーフェスがデバイス独立ビットマップ (DIB) であるときに
+EngLineTo を呼ぶことができる。
 
 
 %index
 EngLoadModule
-The EngLoadModule function loads the specified data module into system memory for reading.
+EngLoadModule 関数は、指定したデータモジュールを読み取り用にシステムメモリへ読み込む。
 %group
 Win32 gdi32
 %prm
 pwsz
-pwsz : [wstr] Pointer to a null-terminated string that contains the name of the data file to be loaded.
+pwsz : [wstr] 読み込むデータファイルの名前を含む null 終端文字列へのポインタ。
 %inst
-The EngLoadModule function loads the specified data module into
-system memory for reading.
+EngLoadModule 関数は、指定したデータモジュールを読み取り用にシステムメモリへ読み込む。
 
 [戻り値]
-If EngLoadModule succeeds, the return value is a handle to the module
-that was loaded. Otherwise, the return value is NULL.
+EngLoadModule が成功した場合、戻り値は読み込まれたモジュールへのハンドルとなる。それ以外の場合、戻り値は NULL となる。
 
 [備考]
-EngLoadModule loads a data file into system memory with read-only
-permission. To access the loaded module, the driver should call
-EngMapModule with the handle returned by this function. The file
-identified by pwsz must be located in the %SystemRoot%\System32
-directory or within a directory found in the directory hierarchy
-under %SystemRoot%\System32. To load a writable module, the driver
-should call EngLoadModuleForWrite. Drivers that need to load an image
-as executable code should call EngLoadImage instead of this function.
+EngLoadModule
+は読み取り専用で、データファイルをシステムメモリに読み込む。読み込まれたモジュールにアクセスするには、ドライバはこの関数が返したハンドルを引数に
+EngMapModule を呼ぶべきである。pwsz が識別するファイルは %SystemRoot%\System32
+ディレクトリ内、または %SystemRoot%\System32
+配下のディレクトリ階層内に置かれている必要がある。書き込み可能なモジュールを読み込むには EngLoadModuleForWrite
+を呼ぶ。実行可能コードとしてイメージを読み込む必要があるドライバは、この関数の代わりに EngLoadImage を呼ぶべきである。
 
 
 %index
 EngLockSurface
-The EngLockSurface function creates a user object for a given surface. This function gives drivers access to surfaces they create.
+EngLockSurface 関数は、指定したサーフェス用のユーザーオブジェクトを作成する。この関数によりドライバは作成したサーフェスにアクセスできる。
 %group
 Win32 gdi32
 %prm
 hsurf
-hsurf : [intptr] Handle to the surface to be locked.
+hsurf : [intptr] ロックするサーフェスへのハンドル。
 %inst
-The EngLockSurface function creates a user object for a given
-surface. This function gives drivers access to surfaces they create.
+EngLockSurface
+関数は、指定したサーフェス用のユーザーオブジェクトを作成する。この関数によりドライバは作成したサーフェスにアクセスできる。
 
 [戻り値]
-EngLockSurface returns a pointer to a SURFOBJ structure if the
-function is successful. Otherwise, this function returns NULL.
+EngLockSurface は成功時に SURFOBJ 構造体へのポインタを返す。それ以外の場合は NULL を返す。
 
 [備考]
-This function gives drivers access to surfaces they create. The
-driver is responsible for unlocking the surface when it no longer
-needs it. Surfaces should be locked only for very short periods of
-time. Use the EngUnlockSurface function to unlock the surface.
+
+この関数により、ドライバは作成したサーフェスにアクセスできる。ドライバはサーフェスが不要になったらアンロックする責任がある。サーフェスは非常に短い時間だけロックすべきである。サーフェスをアンロックするには
+EngUnlockSurface を使う。
 
 
 %index
 EngMarkBandingSurface
-The EngMarkBandingSurface function marks the specified surface as a banding surface.
+EngMarkBandingSurface 関数は、指定したサーフェスをバンディングサーフェスとしてマークする。
 %group
 Win32 gdi32
 %prm
 hsurf
-hsurf : [intptr] Caller-supplied handle to the surface to mark as a banding surface.
+hsurf : [intptr] バンディングサーフェスとしてマークするサーフェスへの呼び出し元提供のハンドル。
 %inst
-The EngMarkBandingSurface function marks the specified surface as a
-banding surface.
+EngMarkBandingSurface 関数は、指定したサーフェスをバンディングサーフェスとしてマークする。
 
 [戻り値]
-EngMarkBandingSurface returns TRUE upon success; otherwise it returns
-FALSE.
+EngMarkBandingSurface は成功時に TRUE を返し、それ以外は FALSE を返す。
 
 [備考]
-If a printer graphics DLL uses GDI-managed surfaces, it must call
-EngMarkBandingSurface if it cannot create a surface (by calling
-EngCreateBitmap) that is large enough to hold an entire physical
-page's bitmap. Both EngCreateBitmap and EngMarkBandingSurface should
-be called from within the printer graphics DLL's DrvEnableSurface
-function. The handle supplied for hsurf must be a bitmap handle
-returned by EngCreateBitmap. If a printer graphics DLL calls
-EngMarkBandingSurface, it must define DrvStartBanding and DrvNextBand
-functions.
+プリンタグラフィックス DLL が GDI 管理サーフェスを使用する場合、物理ページのビットマップ全体を保持できるサーフェスを
+EngCreateBitmap で作成できないなら、EngMarkBandingSurface
+を呼ばなければならない。EngCreateBitmap と EngMarkBandingSurface の両方は、プリンタグラフィックス
+DLL の DrvEnableSurface 関数内から呼ぶべきである。hsurf に与えるハンドルは EngCreateBitmap
+が返したビットマップハンドルでなければならない。プリンタグラフィックス DLL が EngMarkBandingSurface
+を呼ぶ場合、DrvStartBanding と DrvNextBand 関数を定義しなければならない。
 
 
 %index
 EngMultiByteToUnicodeN
-The EngMultiByteToUnicodeN function converts the specified ANSI source string into a Unicode string using the current ANSI code page.
+EngMultiByteToUnicodeN 関数は、現在の ANSI コードページを使って指定した ANSI ソース文字列を Unicode 文字列に変換する。
 %group
 Win32 gdi32
 %prm
 UnicodeString, MaxBytesInUnicodeString, BytesInUnicodeString, MultiByteString, BytesInMultiByteString
-UnicodeString : [wstr] Pointer to the buffer that receives the resultant Unicode string.
-MaxBytesInUnicodeString : [int] Supplies the maximum number of bytes to be written to UnicodeString. If this value is too small, causing UnicodeString to be a truncated equivalent of MultiByteString, no error condition results.
-BytesInUnicodeString : [var] Pointer to a ULONG that receives the number of bytes written to UnicodeString.
-MultiByteString : [str] Pointer to the ANSI source string that is to be converted to Unicode.
-BytesInMultiByteString : [int] Specifies the number of bytes in MultiByteString.
+UnicodeString : [wstr] 結果の Unicode 文字列を受け取るバッファへのポインタ。
+MaxBytesInUnicodeString : [int] UnicodeString に書き込む最大バイト数を指定する。この値が小さすぎて UnicodeString が MultiByteString の切り詰め版になっても、エラーは発生しない。
+BytesInUnicodeString : [var] UnicodeString に書き込まれたバイト数を受け取る ULONG へのポインタ。
+MultiByteString : [str] Unicode に変換する ANSI ソース文字列へのポインタ。
+BytesInMultiByteString : [int] MultiByteString のバイト数を指定する。
 %inst
-The EngMultiByteToUnicodeN function converts the specified ANSI
-source string into a Unicode string using the current ANSI code page.
+EngMultiByteToUnicodeN 関数は、現在の ANSI コードページを使って指定した ANSI ソース文字列を
+Unicode 文字列に変換する。
 
 [戻り値]
-None
+なし
 
 
 %index
 EngMultiByteToWideChar
-The EngMultiByteToWideChar function converts an ANSI source string into a wide character string using the specified code page.
+EngMultiByteToWideChar 関数は、指定したコードページを使って ANSI ソース文字列をワイド文字列に変換する。
 %group
 Win32 gdi32
 %prm
 CodePage, WideCharString, BytesInWideCharString, MultiByteString, BytesInMultiByteString
-CodePage : [int] Specifies the code page to use to perform the translation.
-WideCharString : [wstr] Pointer to the buffer into which the translated character string is copied.
-BytesInWideCharString : [int] Specifies the size, in bytes, of WideCharString. If WideCharString is not large enough to contain the translation, EngMultiByteToWideChar truncates the string, and does not report an error.
-MultiByteString : [str] Pointer to the buffer containing the multibyte string to be translated.
-BytesInMultiByteString : [int] Specifies the number of bytes in MultiByteString.
+CodePage : [int] 変換に使用するコードページを指定する。
+WideCharString : [wstr] 変換された文字列をコピーするバッファへのポインタ。
+BytesInWideCharString : [int] WideCharString のサイズ（バイト単位）を指定する。WideCharString が変換結果を保持するのに十分な大きさでない場合、EngMultiByteToWideChar は文字列を切り詰め、エラーを報告しない。
+MultiByteString : [str] 変換するマルチバイト文字列を含むバッファへのポインタ。
+BytesInMultiByteString : [int] MultiByteString のバイト数を指定する。
 %inst
-The EngMultiByteToWideChar function converts an ANSI source string
-into a wide character string using the specified code page.
+EngMultiByteToWideChar 関数は、指定したコードページを使って ANSI ソース文字列をワイド文字列に変換する。
 
 [戻り値]
-The EngMultiByteToWideChar function returns the number of bytes it
-converted to wide character form, if successful. Otherwise, the
-function returns -1.
+EngMultiByteToWideChar は成功した場合、ワイド文字形式に変換したバイト数を返す。それ以外の場合、関数は -1
+を返す。
 
 
 %index
 EngPaint
-The EngPaint function causes GDI to paint a specified region.
+EngPaint 関数は、GDI に指定領域を塗りつぶさせる。
 %group
 Win32 gdi32
 %prm
 pso, pco, pbo, pptlBrushOrg, mix
-pso : [var] Pointer to a SURFOBJ structure that describes the surface on which to draw.
-pco : [var] Pointer to a CLIPOBJ structure that defines the area to be painted. The CLIPOBJ_Xxx service routines are provided to enumerate the clip region as a set of rectangles.
-pbo : [var] Pointer to a BRUSHOBJ structure that defines the pattern and colors with which to fill.
-pptlBrushOrg : [var] Pointer to a POINTL structure that defines the brush origin used to align the brush pattern on the device.
-mix : [int] Defines the foreground and background raster operations to use for the brush.
+pso : [var] 描画先のサーフェスを記述する SURFOBJ 構造体へのポインタ。
+pco : [var] 塗りつぶす領域を定義する CLIPOBJ 構造体へのポインタ。CLIPOBJ_Xxx サービスルーチンが、クリップ領域を矩形の集合として列挙するために提供される。
+pbo : [var] 塗りつぶしに使用するパターンと色を定義する BRUSHOBJ 構造体へのポインタ。
+pptlBrushOrg : [var] デバイス上でブラシパターンを整列させるためのブラシ原点を定義する POINTL 構造体へのポインタ。
+mix : [int] ブラシに使用する前景および背景ラスタ操作を定義する。
 %inst
-The EngPaint function causes GDI to paint a specified region.
+EngPaint 関数は、GDI に指定領域を塗りつぶさせる。
 
 [戻り値]
-The return value is TRUE if the function is successful. Otherwise, it
-is FALSE, and an error code is logged.
+関数が成功した場合、戻り値は TRUE となる。それ以外の場合は FALSE となり、エラーコードがログに記録される。
 
 [備考]
-Vector device drivers can implement this function with the help of
-EngCreatePath and PATHOBJ_Xxx service routines. The mix mode defines
-how the incoming pattern should be mixed with the data already on the
-device surface. The MIX data type consists of two ROP2 values packed
-into a single ULONG. The low-order byte defines the foreground raster
-operation; the next byte defines the background raster operation. For
-more information about raster operation codes, see the Microsoft
-Windows SDK documentation.
+ベクターデバイスドライバは、EngCreatePath と PATHOBJ_Xxx
+サービスルーチンの助けを借りてこの関数を実装できる。混合モードは、入ってくるパターンを既にデバイスサーフェス上にあるデータとどのように混合するかを定義する。MIX
+データ型は、単一の ULONG にパックされた 2 つの ROP2
+値からなる。下位バイトは前景ラスタ操作を、次のバイトは背景ラスタ操作を定義する。ラスタ操作コードの詳細は Microsoft
+Windows SDK ドキュメントを参照。
 
 
 %index
 EngPlgBlt
-The EngPlgBlt function causes GDI to perform a rotate bit-block transfer.
+EngPlgBlt 関数は、GDI に回転ビットブロック転送を実行させる。
 %group
 Win32 gdi32
 %prm
 psoTrg, psoSrc, psoMsk, pco, pxlo, pca, pptlBrushOrg, pptfx, prcl, pptl, iMode
-psoTrg : [var] Pointer to a SURFOBJ structure that describes the surface on which to draw.
-psoSrc : [var] Pointer to a SURFOBJ structure that describes the source surface for the bit-block transfer operation.
-psoMsk : [var] Pointer to an optional SURFOBJ structure that represents a mask for the source. It is defined by a logic map, which is a bitmap with one bit per pixel. This mask limits the area of the source that is copied. A mask has an implicit rop4 of 0xCCAA, which means the source should be copied wherever the mask is 1, but the destination should be left alone wherever the mask is zero. If this parameter is NULL, there is an implicit rop4 of 0xCCCC, which means the source should be copied everywhere in the source rectangle. The mask will always be large enough to contain the relevant source; tiling is unnecessary.
-pco : [var] Pointer to a CLIPOBJ structure that limits the area of the destination to be modified. GDI functions enumerate the clip region as a set of rectangles. Whenever possible, GDI simplifies the clipping involved. Unlike the DrvBitBlt function, EngPlgBlt may be called with a single clipping rectangle. This prevents rounding errors in clipping the output.
-pxlo : [var] Pointer to a XLATEOBJ structure that defines how color indices are translated between the source and target surfaces. This XLATEOBJ structure can be queried to find the RGB color for any source index. A high quality rotate bit-block transfer is needed to interpolate colors.
-pca : [var] Pointer to a COLORADJUSTMENT structure that defines the color adjustment values to be applied to the source bitmap before stretching the bits. For more information, see the Microsoft Windows SDK documentation.
-pptlBrushOrg : [var] Pointer to a POINTL structure that specifies the origin of the halftone brush. Drivers that use halftone brushes should align the upper left pixel of the brush's pattern with this point on the device surface.
-pptfx : [var] Pointer to three POINTFIX structures that define a parallelogram in the destination surface. A fourth, implicit, vertex is given as: D = B + C － A. For a description of this data type, see GDI Data Types. EngPlgBlt is never called with A, B, and C collinear.
-prcl : [var] Pointer to a RECTL structure that defines, in the coordinate system of the source surface, the area to be copied. The points of the source rectangle are well ordered. EngPlgBlt will never be given an empty source rectangle.
-pptl : [var] Pointer to a POINTL structure that specifies which pixel in the given mask corresponds to the upper-left pixel in the source rectangle. Ignore this parameter if psoMsk is NULL.
+psoTrg : [var] 描画先のサーフェスを記述する SURFOBJ 構造体へのポインタ。
+psoSrc : [var] ビットブロック転送操作のソースサーフェスを記述する SURFOBJ 構造体へのポインタ。
+psoMsk : [var] ソースのマスクを表す任意の SURFOBJ 構造体へのポインタ。これは 1 ピクセルあたり 1 ビットのビットマップである論理マップで定義される。このマスクはコピーされるソースの領域を制限する。マスクは暗黙の rop4 0xCCAA を持ち、マスクが 1 のところでソースをコピーし、マスクが 0 のところでは宛先をそのままにすべきことを意味する。このパラメータが NULL の場合、暗黙の rop4 は 0xCCCC で、ソース矩形のすべての場所でソースをコピーすべきことを意味する。マスクは関連するソースを含むのに十分な大きさが常にあり、タイリングは不要である。
+pco : [var] 変更する宛先の領域を制限する CLIPOBJ 構造体へのポインタ。GDI 関数はクリップ領域を矩形の集合として列挙する。可能な限り GDI はクリッピングを単純化する。DrvBitBlt と異なり、EngPlgBlt は単一クリッピング矩形で呼ばれることがある。これにより出力をクリッピングする際の丸め誤差を防ぐ。
+pxlo : [var] ソースとターゲットのサーフェス間でカラーインデックスをどう変換するかを定義する XLATEOBJ 構造体へのポインタ。この XLATEOBJ 構造体は、任意のソースインデックスの RGB 色を見つけるために問い合わせることができる。色を補間するには高品質な回転ビットブロック転送が必要である。
+pca : [var] ビットを伸縮する前にソースビットマップに適用するカラー調整値を定義する COLORADJUSTMENT 構造体へのポインタ。詳細は Microsoft Windows SDK ドキュメントを参照。
+pptlBrushOrg : [var] ハーフトーンブラシの原点を指定する POINTL 構造体へのポインタ。ハーフトーンブラシを使用するドライバは、ブラシのパターンの左上ピクセルをデバイスサーフェス上のこの点に整列させるべきである。
+pptfx : [var] 宛先サーフェス上で平行四辺形を定義する 3 つの POINTFIX 構造体へのポインタ。4 番目の暗黙の頂点は D = B + C － A として与えられる。このデータ型の説明は GDI Data Types を参照。EngPlgBlt は A, B, C が一直線上にある状態では決して呼ばれない。
+prcl : [var] ソースサーフェスの座標系で、コピーする領域を定義する RECTL 構造体へのポインタ。ソース矩形の点は整列している。EngPlgBlt は決して空のソース矩形では呼ばれない。
+pptl : [var] 指定したマスク内のどのピクセルがソース矩形の左上ピクセルに対応するかを指定する POINTL 構造体へのポインタ。psoMsk が NULL の場合、このパラメータは無視する。
 iMode : [int] 
 %inst
-The EngPlgBlt function causes GDI to perform a rotate bit-block
-transfer.
+EngPlgBlt 関数は、GDI に回転ビットブロック転送を実行させる。
 
 [戻り値]
-The return value is TRUE if the function is successful. Otherwise, it
-is FALSE and an error code is reported.
+関数が成功した場合、戻り値は TRUE となる。それ以外の場合は FALSE となり、エラーコードが報告される。
 
 [備考]
-EngPlgBlt performs only certain types of rotations. This function
-performs bit-block transfers from a rectangle defined by prcl to any
-parallelogram. The parallelogram is defined by pptfx, which points to
-an array of three points. The source rectangle at prcl is considered
-to be a geometric rectangle whose corners are displaced by
-(-0.5,-0.5) from the given integer coordinates. This exactly matches
-the source rectangle for EngStretchBlt. The source rectangle is
-always well ordered. The upper-left corner of the source rectangle is
-mapped to the first point, A. The upper-right corner of the source
-rectangle is mapped to the second point, B. The lower-left corner of
-the source rectangle is mapped to the third point, C. The lower-right
-corner of the source rectangle is mapped to the implicit point in the
-parallelogram defined by treating the three given points as vectors
-and computing:
-This doc was truncated.
+EngPlgBlt は特定の種類の回転のみを実行する。この関数は、prcl
+で定義された矩形から任意の平行四辺形へのビットブロック転送を実行する。平行四辺形は 3 点の配列を指す pptfx で定義される。prcl
+のソース矩形は、整数座標から (-0.5,-0.5) ずれた角を持つ幾何学的矩形と見なされる。これは EngStretchBlt
+のソース矩形と完全に一致する。ソース矩形は常に整列している。ソース矩形の左上隅は最初の点 A にマップされる。ソース矩形の右上隅は 2
+番目の点 B にマップされる。ソース矩形の左下隅は 3 番目の点 C にマップされる。ソース矩形の右下隅は、与えられた 3
+点をベクトルとして扱い計算することで定義される平行四辺形内の暗黙の点にマップされる。
+（以下省略）
 
 
 %index
@@ -3206,1039 +2692,863 @@ pEMFInfo : [var]
 
 %index
 EngQueryLocalTime
-The EngQueryLocalTime function queries the local time.
+EngQueryLocalTime 関数はローカル時刻を問い合わせる。
 %group
 Win32 gdi32
 %prm
 param0
 param0 : [var] 
 %inst
-The EngQueryLocalTime function queries the local time.
+EngQueryLocalTime 関数はローカル時刻を問い合わせる。
 
 [戻り値]
-None
+なし
 
 [備考]
-EngQueryLocalTime returns the time at the current locale in the
-ENG_TIME_FIELDS structure.
+EngQueryLocalTime は、現在のロケールでの時刻を ENG_TIME_FIELDS 構造体で返す。
 
 
 %index
 EngReleaseSemaphore
-The EngReleaseSemaphore function releases the specified semaphore.
+EngReleaseSemaphore 関数は、指定したセマフォを解放する。
 %group
 Win32 gdi32
 %prm
 hsem
-hsem : [intptr] Handle to the semaphore to be released.
+hsem : [intptr] 解放するセマフォへのハンドル。
 %inst
-The EngReleaseSemaphore function releases the specified semaphore.
+EngReleaseSemaphore 関数は、指定したセマフォを解放する。
 
 [戻り値]
-None
+なし
 
 [備考]
-EngReleaseSemaphore releases the semaphore's exclusive lock on a
-driver's resource and reenables the delivery of special kernel
-asynchronous procedure calls. The lock and asynchronous procedure
-call suspension were acquired in a call to EngAcquireSemaphore.
+EngReleaseSemaphore
+は、ドライバのリソースに対するセマフォの排他ロックを解放し、特殊カーネル非同期プロシージャ呼び出しの配信を再有効化する。ロックと非同期プロシージャ呼び出しの一時停止は
+EngAcquireSemaphore で取得されたものである。
 
 
 %index
 EngStretchBlt
-The EngStretchBlt function causes GDI to do a stretching bit-block transfer.
+EngStretchBlt 関数は、GDI に伸縮ビットブロック転送を実行させる。
 %group
 Win32 gdi32
 %prm
 psoDest, psoSrc, psoMask, pco, pxlo, pca, pptlHTOrg, prclDest, prclSrc, pptlMask, iMode
-psoDest : [var] Pointer to a SURFOBJ structure that describes the surface on which to draw.
-psoSrc : [var] Pointer to a SURFOBJ structure that describes the source surface for the bit-block transfer.
-psoMask : [var] Pointer to a SURFOBJ structure that defines a mask for the source. The mask is defined by a logic map, which is a bitmap with one bit per pixel. The mask limits the area of the source that is copied. If this parameter is specified, it has an implicit rop4 of 0xCCAA, meaning the source should be copied wherever the mask is 1, but the destination should be left alone wherever the mask is 0. If this parameter is NULL, the rop4 is implicitly 0xCCCC, which means the source should be copied everywhere in the source rectangle.
-pco : [var] Pointer to a CLIPOBJ structure that limits the area to be modified in the destination. GDI services are provided to enumerate the clip region as a set of rectangles. Whenever possible, GDI simplifies the clipping involved. However, unlike DrvBitBlt, EngStretchBlt can be called with a single clipping rectangle. This prevents rounding errors in clipping the output.
-pxlo : [var] Pointer to a XLATEOBJ structure that specifies how color indices are to be translated between the source and target surfaces. This XLATEOBJ structure can also be queried to find the RGB color for any source index. A high quality stretching bit-block transfer will need to interpolate colors in some cases.
-pca : [var] Pointer to a COLORADJUSTMENT structure that defines the color adjustment values to be applied to the source bitmap before stretching the bits. For more information, see the Microsoft Windows SDK documentation.
-pptlHTOrg : [var] Pointer to a POINTL structure that defines the origin of the halftone brush. Drivers that use halftone brushes should align the upper left pixel of the brush's pattern with this point on the device surface.
-prclDest : [var] Pointer to a RECTL structure that defines the area to be modified in the coordinate system of the destination surface. This rectangle is defined by two points that are not well ordered, meaning the coordinates of the second point are not necessarily larger than those of the first point. The rectangle described does not include the lower and right edges. This function is never called with an empty destination rectangle. If the destination rectangle is not well ordered, EngStretchBlt makes it well ordered.
-prclSrc : [var] Pointer to a RECTL structure that defines the area to be copied, in the coordinate system of the source surface. The rectangle will map to the rectangle defined by prclDest. This function is never given an empty source rectangle, and the points of the source rectangle are always well-ordered. The mapping is defined by prclSrc and prclDest. The points specified in prclDest and prclSrc lie on integer coordinates, which correspond to pixel centers. A rectangle defined by two such points is considered to be a geometric rectangle with two vertices whose coordinates are the given points, but with 0.5 subtracted from each coordinate. (POINTL structures are shorthand notation for specifying these fractional coordinate vertices.) The edges of any rectangle never intersect a pixel, but go around a set of pixels. The pixels that are inside the rectangle are those expected for a lower-right exclusive rectangle. EngStretchBlt maps the geometric source rectangle exactly onto the geometric destination rectangle.
-pptlMask : [var] Pointer to a POINTL structure that defines the pixel in the given mask that corresponds to the upper left pixel in the source rectangle. This parameter is ignored if no mask is specified.
-iMode : [int] Specifies how source pixels are combined to get output pixels. The HALFTONE mode is slower than the other modes, but produces higher quality images.
+psoDest : [var] 描画先のサーフェスを記述する SURFOBJ 構造体へのポインタ。
+psoSrc : [var] ビットブロック転送のソースサーフェスを記述する SURFOBJ 構造体へのポインタ。
+psoMask : [var] ソースのマスクを定義する SURFOBJ 構造体へのポインタ。マスクは 1 ピクセルあたり 1 ビットのビットマップである論理マップで定義される。マスクはコピーされるソースの領域を制限する。このパラメータが指定されると、暗黙の rop4 0xCCAA を持ち、マスクが 1 のところでソースをコピーし、マスクが 0 のところでは宛先をそのままにすべきことを意味する。NULL の場合、rop4 は暗黙的に 0xCCCC で、ソース矩形のすべての場所でソースをコピーすべきことを意味する。
+pco : [var] 宛先で変更する領域を制限する CLIPOBJ 構造体へのポインタ。GDI サービスがクリップ領域を矩形の集合として列挙するために提供される。可能な限り GDI はクリッピングを単純化する。ただし DrvBitBlt と異なり、EngStretchBlt は単一クリッピング矩形で呼ばれることがある。これにより出力をクリッピングする際の丸め誤差を防ぐ。
+pxlo : [var] ソースとターゲットのサーフェス間でカラーインデックスをどう変換するかを指定する XLATEOBJ 構造体へのポインタ。この XLATEOBJ 構造体は、任意のソースインデックスの RGB 色を見つけるためにも問い合わせることができる。場合によっては高品質な伸縮ビットブロック転送が色を補間する必要がある。
+pca : [var] ビットを伸縮する前にソースビットマップに適用するカラー調整値を定義する COLORADJUSTMENT 構造体へのポインタ。詳細は Microsoft Windows SDK ドキュメントを参照。
+pptlHTOrg : [var] ハーフトーンブラシの原点を定義する POINTL 構造体へのポインタ。ハーフトーンブラシを使用するドライバは、ブラシのパターンの左上ピクセルをデバイスサーフェス上のこの点に整列させるべきである。
+prclDest : [var] 宛先サーフェスの座標系で変更する領域を定義する RECTL 構造体へのポインタ。この矩形は整列していない 2 点で定義される。すなわち 2 番目の点の座標は必ずしも 1 番目の点より大きいとは限らない。記述される矩形は下辺と右辺を含まない。この関数は決して空の宛先矩形では呼ばれない。宛先矩形が整列していない場合、EngStretchBlt がそれを整列させる。
+prclSrc : [var] ソースサーフェスの座標系で、コピーする領域を定義する RECTL 構造体へのポインタ。矩形は prclDest で定義される矩形にマップされる。この関数は決して空のソース矩形では呼ばれず、ソース矩形の点は常に整列している。マッピングは prclSrc と prclDest によって定義される。prclDest と prclSrc に指定された点は整数座標上にあり、これはピクセル中心に対応する。そのような 2 点で定義される矩形は、与えられた点を頂点とする幾何学的矩形と見なされるが、各座標から 0.5 を引いたものになる。(POINTL 構造体はこれらの分数座標頂点を指定する省略表記である。) 矩形の辺はピクセルと交わることはなく、ピクセルの集合の周りを通る。矩形内のピクセルは右下を含まない矩形に期待されるピクセルである。EngStretchBlt は幾何学的ソース矩形を幾何学的宛先矩形に正確にマップする。
+pptlMask : [var] 指定したマスク内のピクセルで、ソース矩形の左上ピクセルに対応するものを定義する POINTL 構造体へのポインタ。マスクが指定されない場合、このパラメータは無視される。
+iMode : [int] 出力ピクセルを得るためにソースピクセルをどう組み合わせるかを指定する。HALFTONE モードは他のモードより遅いが、より高品質な画像を生成する。
 %inst
-The EngStretchBlt function causes GDI to do a stretching bit-block
-transfer.
+EngStretchBlt 関数は、GDI に伸縮ビットブロック転送を実行させる。
 
 [戻り値]
-The return value is TRUE if the function is successful. Otherwise, it
-is FALSE and an error code is reported.
+関数が成功した場合、戻り値は TRUE となる。それ以外の場合は FALSE となり、エラーコードが報告される。
 
 [備考]
-This function allows the same halftoning algorithm to be applied to
-GDI bitmaps and device surfaces. The driver should call EngStretchBlt
-if it has hooked DrvStretchBlt and is called to do something the
-driver does not support.
+この関数により、GDI ビットマップとデバイスサーフェスに同じハーフトーニングアルゴリズムを適用できる。ドライバが
+DrvStretchBlt をフックしているがサポートしない処理を要求された場合、EngStretchBlt を呼ぶべきである。
 
 
 %index
 EngStretchBltROP
-The EngStretchBltROP function performs a stretching bit-block transfer using a ROP.
+EngStretchBltROP 関数は、ROP を使って伸縮ビットブロック転送を実行する。
 %group
 Win32 gdi32
 %prm
 psoDest, psoSrc, psoMask, pco, pxlo, pca, pptlHTOrg, prclDest, prclSrc, pptlMask, iMode, pbo, rop4
-psoDest : [var] Pointer to a SURFOBJ structure that describes the surface on which to draw.
-psoSrc : [var] Pointer to a SURFOBJ structure that describes the source surface for the bit-block transfer.
-psoMask : [var] Pointer to a SURFOBJ structure that defines a mask for the source surface. The mask is defined by a logic map, which is a bitmap with 1 bit per pixel. Typically, a mask limits the area that is to be modified in the destination surface. This mask should always be the same size as the source surface.
-pco : [var] Pointer to a CLIPOBJ structure that limits the area to be modified in the destination. The CLIPOBJ_Xxx service routines are provided to enumerate the clip region as a set of rectangles. Whenever possible, GDI simplifies the clipping involved. However, unlike EngBitBlt, EngStretchBltROP can be called with a single clipping rectangle. This prevents rounding errors in clipping the output.
-pxlo : [var] Pointer to a XLATEOBJ structure that specifies how color indices are to be translated between the source and target surfaces. This XLATEOBJ structure can also be queried to find the RGB color for any source index. A high quality stretching bit-block transfer will need to interpolate colors in some cases.
-pca : [var] Pointer to a COLORADJUSTMENT structure that defines the color adjustment values to be applied to the source bitmap before stretching the bits. For more information see the Windows SDK documentation.
-pptlHTOrg : [var] Pointer to a POINTL structure that defines the origin of the halftone brush on the destination surface. When using halftone brushes, GDI aligns the upper left pixel of the brush's pattern at this point and repeats the brush according to its dimensions. GDI ignores this parameter if the rop4 parameter does not require a pattern.
-prclDest : [var] Pointer to a RECTL structure that defines the rectangular area to be modified. This rectangle is specified in the coordinate system of the destination surface and is defined by two points: upper left and lower right. The two points that define the rectangle are not always well ordered, meaning the coordinates of the second point are not necessarily larger than those of the first point. If the destination rectangle is not well ordered, GDI makes it so. The rectangle is lower-right exclusive; that is, its lower and right edges are not a part of the copy. EngStretchBltROP must never be called with an empty destination rectangle.
-prclSrc : [var] Pointer to a RECTL structure that defines the area to be copied. This rectangle is specified in the coordinate system of the source surface and is defined by two points: upper left and lower right. The two points that define the rectangle are always well ordered. The rectangle is lower-right exclusive; that is, its lower and right edges are not a part of the copy. This rectangle maps to the rectangle to which prclDest points. EngStretchBltROP must never be called with an empty source rectangle.
-pptlMask : [var] Pointer to a POINTL structure that defines the pixel in the mask to which prclMask points. This pixel corresponds to the upper-left pixel in the source rectangle to which prclSrc points. This parameter is ignored if no mask is specified; that is, GDI ignores pptlMask when prclMask is NULL.
+psoDest : [var] 描画先のサーフェスを記述する SURFOBJ 構造体へのポインタ。
+psoSrc : [var] ビットブロック転送のソースサーフェスを記述する SURFOBJ 構造体へのポインタ。
+psoMask : [var] ソースサーフェスのマスクを定義する SURFOBJ 構造体へのポインタ。マスクは 1 ピクセルあたり 1 ビットのビットマップである論理マップで定義される。通常、マスクは宛先サーフェスで変更される領域を制限する。このマスクは常にソースサーフェスと同じサイズであるべきである。
+pco : [var] 宛先で変更する領域を制限する CLIPOBJ 構造体へのポインタ。CLIPOBJ_Xxx サービスルーチンが、クリップ領域を矩形の集合として列挙するために提供される。可能な限り GDI はクリッピングを単純化する。ただし EngBitBlt と異なり、EngStretchBltROP は単一クリッピング矩形で呼ばれることがある。これにより出力をクリッピングする際の丸め誤差を防ぐ。
+pxlo : [var] ソースとターゲットのサーフェス間でカラーインデックスをどう変換するかを指定する XLATEOBJ 構造体へのポインタ。この XLATEOBJ 構造体は、任意のソースインデックスの RGB 色を見つけるためにも問い合わせることができる。場合によっては高品質な伸縮ビットブロック転送が色を補間する必要がある。
+pca : [var] ビットを伸縮する前にソースビットマップに適用するカラー調整値を定義する COLORADJUSTMENT 構造体へのポインタ。詳細は Windows SDK ドキュメントを参照。
+pptlHTOrg : [var] 宛先サーフェス上のハーフトーンブラシの原点を定義する POINTL 構造体へのポインタ。ハーフトーンブラシを使用する場合、GDI はブラシのパターンの左上ピクセルをこの点に整列させ、その寸法に従ってブラシを繰り返す。rop4 パラメータがパターンを必要としない場合、GDI はこのパラメータを無視する。
+prclDest : [var] 変更する矩形領域を定義する RECTL 構造体へのポインタ。この矩形は宛先サーフェスの座標系で指定し、左上と右下の 2 点で定義される。矩形を定義する 2 点は常に整列しているわけではなく、すなわち 2 番目の点の座標は必ずしも 1 番目の点より大きいとは限らない。宛先矩形が整列していない場合、GDI がそれを整列させる。矩形は右下を含まない。すなわち、その下辺と右辺はコピーの一部ではない。EngStretchBltROP は決して空の宛先矩形で呼んではならない。
+prclSrc : [var] コピーする領域を定義する RECTL 構造体へのポインタ。この矩形はソースサーフェスの座標系で指定し、左上と右下の 2 点で定義される。矩形を定義する 2 点は常に整列している。矩形は右下を含まない。すなわち、その下辺と右辺はコピーの一部ではない。この矩形は prclDest が指す矩形にマップされる。EngStretchBltROP は決して空のソース矩形で呼んではならない。
+pptlMask : [var] prclMask が指すマスク内のピクセルを定義する POINTL 構造体へのポインタ。このピクセルは prclSrc が指すソース矩形の左上ピクセルに対応する。マスクが指定されない場合、このパラメータは無視される。すなわち prclMask が NULL の場合、GDI は pptlMask を無視する。
 iMode : [int] 
-pbo : [var] Pointer to the BRUSHOBJ structure to be used to define the pattern for the bit-block transfer. GDI's BRUSHOBJ_pvGetRbrush service routine retrieves the device's realization of the brush. GDI ignores this parameter if the rop4 parameter does not require a pattern.
-rop4 : [int] Represents a raster operation that defines how the mask, pattern, source, and destination pixels are combined to write an output pixel to the destination surface. This is a quaternary raster operation, which is a natural extension of the usual ternary Rop3 operation. A Rop4 has 16 relevant bits, which are similar to the 8 defining bits of a Rop3. (The other redundant bits of the Rop3 are ignored.) The simplest way to implement a Rop4 is to consider its 2 bytes separately. The lower byte specifies a Rop3 that should be computed wherever the mask to which psoMask points is 1. The high byte specifies a Rop3 that can be computed and applied wherever the mask is zero.
+pbo : [var] ビットブロック転送のパターンを定義するために使用する BRUSHOBJ 構造体へのポインタ。GDI の BRUSHOBJ_pvGetRbrush サービスルーチンがデバイスのブラシ実体化を取得する。rop4 パラメータがパターンを必要としない場合、GDI はこのパラメータを無視する。
+rop4 : [int] マスク、パターン、ソース、宛先ピクセルがどのように組み合わされて宛先サーフェスへ出力ピクセルを書き込むかを定義するラスタ操作を表す。これは通常の三項 Rop3 操作の自然な拡張である四項ラスタ操作である。Rop4 には Rop3 の 8 個の定義ビットと類似する 16 個の関連ビットがある（Rop3 の他の冗長ビットは無視される）。Rop4 を実装する最も単純な方法は、その 2 バイトを別々に考えることである。下位バイトは psoMask が指すマスクが 1 のときに計算すべき Rop3 を指定する。上位バイトはマスクが 0 のときに計算・適用できる Rop3 を指定する。
 %inst
-The EngStretchBltROP function performs a stretching bit-block
-transfer using a ROP.
+EngStretchBltROP 関数は、ROP を使って伸縮ビットブロック転送を実行する。
 
 [戻り値]
-EngStretchBltROP returns TRUE upon success. Otherwise, it reports an
-error and returns FALSE.
+EngStretchBltROP は成功時に TRUE を返す。それ以外の場合はエラーを報告し FALSE を返す。
 
 [備考]
-The driver should call EngStretchBltROP if it has hooked
-DrvStretchBltROP but cannot support all operations. The mapping is
-defined by prclSrc and prclDest. The points specified in prclDest and
-prclSrc lie on integer coordinates that correspond to pixel centers.
-A rectangle defined by two such points is considered to be a
-geometric rectangle with two vertices whose coordinates are the given
-points, but with 0.5 subtracted from each coordinate. (POINTL
-structures are shorthand notation for specifying these fractional
-coordinate vertices.)
+ドライバが DrvStretchBltROP をフックしているがすべての操作をサポートできない場合、EngStretchBltROP
+を呼ぶべきである。マッピングは prclSrc と prclDest によって定義される。prclDest と prclSrc
+に指定された点は整数座標上にあり、これはピクセル中心に対応する。そのような 2
+点で定義される矩形は、与えられた点を頂点とする幾何学的矩形と見なされるが、各座標から 0.5 を引いたものになる。(POINTL
+構造体はこれらの分数座標頂点を指定する省略表記である。)
 
 
 %index
 EngTextOut
-The EngTextOut function causes GDI to render a set of glyphs at specified positions.
+EngTextOut 関数は、GDI に指定位置でグリフ集合をレンダリングさせる。
 %group
 Win32 gdi32
 %prm
 pso, pstro, pfo, pco, prclExtra, prclOpaque, pboFore, pboOpaque, pptlOrg, mix
-pso : [var] Pointer to a SURFOBJ structure that describes the surface on which to write.
-pstro : [var] Pointer to a STROBJ structure that defines the glyphs to be rendered and the positions where they are to be placed.
-pfo : [var] Pointer to a FONTOBJ structure that is used to retrieve information about the font and its glyphs.
-pco : [var] Pointer to a CLIPOBJ structure that defines the clip region through which rendering must be done. No pixels can be affected outside this clip region.
-prclExtra : [var] Pointer to a RECTL structure. This parameter should always be NULL.
-prclOpaque : [var] Pointer to a RECTL structure that identifies a single opaque rectangle that is lower-right exclusive. Pixels within this rectangle (those that are not foreground and not clipped) are to be rendered with the opaque brush. This rectangle always bounds the text to be drawn. If this parameter is NULL, no opaque pixels are to be rendered.
-pboFore : [var] Pointer to a BRUSHOBJ structure that represents the brush object to be used for the foreground pixels. This brush will always be a solid color brush.
-pboOpaque : [var] Pointer to a BRUSHOBJ structure that represents the brush object for the opaque pixels. Both the foreground and background mix modes for this brush are assumed to be R2_COPYPEN. Unless the driver sets the GCAPS_ARBRUSHOPAQUE capabilities bit in the flGraphicsCaps member of the DEVINFO structure, it will always be called with a solid color brush.
-pptlOrg : [var] Pointer to a POINTL structure that defines the brush origin for both brushes. If this parameter is set to 0 when EngTextOut is called, some printer drivers may print color images incorrectly. For more information, see Remarks.
-mix : [int] Specifies foreground and background raster operations (mix modes) for pboFore.
+pso : [var] 書き込み先のサーフェスを記述する SURFOBJ 構造体へのポインタ。
+pstro : [var] レンダリングするグリフと配置位置を定義する STROBJ 構造体へのポインタ。
+pfo : [var] フォントとそのグリフに関する情報を取得するために使われる FONTOBJ 構造体へのポインタ。
+pco : [var] レンダリングを行うクリップ領域を定義する CLIPOBJ 構造体へのポインタ。このクリップ領域の外のピクセルは影響を受けない。
+prclExtra : [var] RECTL 構造体へのポインタ。このパラメータは常に NULL であるべきである。
+prclOpaque : [var] 右下を含まない単一の不透明矩形を識別する RECTL 構造体へのポインタ。この矩形内のピクセル（前景でなくクリップされていないもの）は不透明ブラシでレンダリングされる。この矩形は常に描画されるテキストを囲む。NULL の場合、不透明ピクセルはレンダリングされない。
+pboFore : [var] 前景ピクセルに使用するブラシオブジェクトを表す BRUSHOBJ 構造体へのポインタ。このブラシは常にソリッドカラーブラシである。
+pboOpaque : [var] 不透明ピクセル用のブラシオブジェクトを表す BRUSHOBJ 構造体へのポインタ。このブラシの前景・背景の混合モードはどちらも R2_COPYPEN と仮定される。ドライバが DEVINFO 構造体の flGraphicsCaps メンバに GCAPS_ARBRUSHOPAQUE 機能ビットを設定しない限り、常にソリッドカラーブラシで呼ばれる。
+pptlOrg : [var] 両方のブラシのブラシ原点を定義する POINTL 構造体へのポインタ。EngTextOut の呼び出し時にこのパラメータが 0 に設定されていると、一部のプリンタドライバでカラー画像が正しく印刷されないことがある。詳細は備考を参照。
+mix : [int] pboFore 用の前景および背景ラスタ操作（混合モード）を指定する。
 %inst
-The EngTextOut function causes GDI to render a set of glyphs at
-specified positions.
+EngTextOut 関数は、GDI に指定位置でグリフ集合をレンダリングさせる。
 
 [戻り値]
-The return value is TRUE if the function is successful. Otherwise, it
-is FALSE, and an error code is logged.
+関数が成功した場合、戻り値は TRUE となる。それ以外の場合は FALSE となり、エラーコードがログに記録される。
 
 [備考]
-The driver should call EngTextOut when it has hooked DrvTextOut and
-cannot render the glyphs. Note The driver cannot punt to EngTextOut
-if it has hooked DrvTextOut for a device managed surface. The input
-parameters to EngTextOut define two sets of pixels: foreground and
-opaque. The driver must render the surface so the result is identical
-to a process where the opaque pixels are rendered first with the
-opaque brush, and then the foreground pixels are rendered with the
-foreground brush. Each of these operations is limited by clipping.
-When the pptlOrg parameter of this function is set to 0, some printer
-drivers print color images incorrectly in Microsoft Windows Server
-2003 (Japanese version). Setting pptlOrg to 0, a NULL pointer value,
-is interpreted to mean that no brush origin is defined. To prevent
-this problem, initialize pptlOrg with the address of a POINTL
-structure whose members are set to (0,0), prior to the call to
-EngTextOut. The foreground and opaque pixels are regarded as a screen
-through which color is brushed onto the surface. The glyphs of the
-font do not have color in themselves. The input parameters to
-EngTextOut define the set of glyph pixels, the set of extra
-rectangles, the opaque rectangle, and the clip region. The driver
-must calculate and then render the set of foreground and opaque
-pixels. The mix mode defines how the incoming pattern should be mixed
-with the data already on the device surface. The MIX data type
-consists of two ROP2 values packed into a single ULONG. The low-order
-byte defines the foreground raster operation; the next byte defines
-the background raster operation. For more information about raster
-operation codes, see the Microsoft Windows SDK documentation.
+ドライバが DrvTextOut をフックしているがグリフをレンダリングできない場合、EngTextOut を呼ぶべきである。注意:
+ドライバはデバイス管理サーフェスに対して DrvTextOut をフックしている場合、EngTextOut
+にパントできない。EngTextOut への入力パラメータは前景と不透明の 2
+種類のピクセル集合を定義する。ドライバは、まず不透明ブラシで不透明ピクセルをレンダリングし、次に前景ブラシで前景ピクセルをレンダリングするプロセスと同一の結果になるようにサーフェスをレンダリングしなければならない。これらの各操作はクリッピングによって制限される。この関数の
+pptlOrg パラメータが 0 に設定されると、Microsoft Windows Server 2003 (日本語版)
+では一部のプリンタドライバがカラー画像を正しく印刷しないことがある。pptlOrg を 0（NULL
+ポインタ値）に設定することは、ブラシ原点が定義されていないと解釈される。これを防ぐには、EngTextOut を呼ぶ前に pptlOrg
+をメンバが (0,0) に設定された POINTL
+構造体のアドレスで初期化する。前景および不透明ピクセルは、それを通して色がサーフェスに塗られるスクリーンとして扱われる。フォントのグリフ自体は色を持たない。EngTextOut
+への入力パラメータは、グリフピクセルの集合、追加矩形の集合、不透明矩形、クリップ領域を定義する。ドライバは前景・不透明ピクセルの集合を計算してレンダリングしなければならない。混合モードは、入ってくるパターンを既にデバイスサーフェス上にあるデータとどのように混合するかを定義する。MIX
+データ型は、単一の ULONG にパックされた 2 つの ROP2
+値からなる。下位バイトは前景ラスタ操作を、次のバイトは背景ラスタ操作を定義する。ラスタ操作コードの詳細は Microsoft
+Windows SDK ドキュメントを参照。
 
 
 %index
 EngTransparentBlt
-The EngTransparentBlt function provides bit-block transfer capabilities with transparency.
+EngTransparentBlt 関数は、透過付きビットブロック転送機能を提供する。
 %group
 Win32 gdi32
 %prm
 psoDst, psoSrc, pco, pxlo, prclDst, prclSrc, TransColor, bCalledFromBitBlt
-psoDst : [var] Pointer to the SURFOBJ structure that identifies the target surface on which to draw.
-psoSrc : [var] Pointer to the SURFOBJ structure that identifies the source surface of the bit-block transfer.
-pco : [var] Pointer to a CLIPOBJ structure. The CLIPOBJ_Xxx service routines are provided to enumerate the clip region as a set of rectangles. This enumeration limits the area of the destination that is modified. Whenever possible, GDI simplifies the clipping involved.
-pxlo : [var] Pointer to a XLATEOBJ structure that tells how the source color indices should be translated for writing to the target surface.
-prclDst : [var] Pointer to a RECTL structure that defines the rectangular area to be modified. This rectangle is specified in the coordinate system of the destination surface and is defined by two points: upper left and lower right. The rectangle is lower-right exclusive; that is, its lower and right edges are not a part of the bit-block transfer. The two points that define the rectangle are always well ordered. The driver must never call EngTransparentBlt with an empty destination rectangle.
-prclSrc : [var] Pointer to a RECTL structure that defines the rectangular area to be copied. This rectangle is specified in the coordinate system of the source surface and is defined by two points: upper left and lower right. The two points that define the rectangle are always well ordered. The source rectangle will never exceed the bounds of the source surface, and so will never overhang the source surface. This rectangle is mapped to the destination rectangle defined by prclDst. The driver must never call EngTransparentBlt with an empty source rectangle.
-TransColor : [int] Specifies the physical transparent color, in the source surface's format. This is a color index value that has been translated to the source surface's palette. For more information, see the Remarks section.
-bCalledFromBitBlt : [int] Reserved. This parameter must be set to zero.
+psoDst : [var] 描画先のターゲットサーフェスを識別する SURFOBJ 構造体へのポインタ。
+psoSrc : [var] ビットブロック転送のソースサーフェスを識別する SURFOBJ 構造体へのポインタ。
+pco : [var] CLIPOBJ 構造体へのポインタ。CLIPOBJ_Xxx サービスルーチンが、クリップ領域を矩形の集合として列挙するために提供される。この列挙は変更される宛先の領域を制限する。可能な限り GDI はクリッピングを単純化する。
+pxlo : [var] ターゲットサーフェスへ書き込むためにソースカラーインデックスをどう変換するかを示す XLATEOBJ 構造体へのポインタ。
+prclDst : [var] 変更する矩形領域を定義する RECTL 構造体へのポインタ。この矩形は宛先サーフェスの座標系で指定し、左上と右下の 2 点で定義される。矩形は右下を含まない。すなわち、その下辺と右辺はビットブロック転送の一部ではない。矩形を定義する 2 点は常に整列している。ドライバは決して空の宛先矩形で EngTransparentBlt を呼んではならない。
+prclSrc : [var] コピーする矩形領域を定義する RECTL 構造体へのポインタ。この矩形はソースサーフェスの座標系で指定し、左上と右下の 2 点で定義される。矩形を定義する 2 点は常に整列している。ソース矩形はソースサーフェスの境界を超えてはならず、ソースサーフェスからはみ出してはならない。この矩形は prclDst で定義される宛先矩形にマップされる。ドライバは決して空のソース矩形で EngTransparentBlt を呼んではならない。
+TransColor : [int] ソースサーフェスのフォーマットでの物理透過色を指定する。これはソースサーフェスのパレットに変換されたカラーインデックス値である。詳細は備考を参照。
+bCalledFromBitBlt : [int] 予約。このパラメータはゼロに設定しなければならない。
 %inst
-The EngTransparentBlt function provides bit-block transfer
-capabilities with transparency.
+EngTransparentBlt 関数は、透過付きビットブロック転送機能を提供する。
 
 [戻り値]
-EngTransparentBlt returns TRUE upon success. Otherwise, it returns
-FALSE.
+EngTransparentBlt は成功時に TRUE を返す。それ以外の場合は FALSE を返す。
 
 [備考]
-The driver should call EngTransparentBlt if it has hooked
-DrvTransparentBlt and it is called to do something that it does not
-support. Bit-block transfer with transparency is supported between
-two device-managed surfaces or between a device-managed surface and a
-GDI-managed standard format bitmap. Currently, GDI supports only
-BMF_4BPP and BMF_8BPP source surfaces. The pixels on the source
-surface that match the transparent color specified by
-iTransparentColor are not copied. For a detailed explanation of
-transparent blts, see Copying Bitmaps.
+ドライバが DrvTransparentBlt をフックしているがサポートしない処理を要求された場合、EngTransparentBlt
+を呼ぶべきである。透過付きビットブロック転送は、2 つのデバイス管理サーフェス間、またはデバイス管理サーフェスと GDI
+管理の標準フォーマットビットマップとの間でサポートされる。現在、GDI は BMF_4BPP と BMF_8BPP
+のソースサーフェスのみをサポートする。iTransparentColor
+で指定された透過色に一致するソースサーフェス上のピクセルはコピーされない。透過 blt の詳細は Copying Bitmaps を参照。
 
 
 %index
 EngUnicodeToMultiByteN
-The EngUnicodeToMultiByteN function converts the specified Unicode string into an ANSI string using the current ANSI code page.
+EngUnicodeToMultiByteN 関数は、現在の ANSI コードページを使って指定した Unicode 文字列を ANSI 文字列に変換する。
 %group
 Win32 gdi32
 %prm
 MultiByteString, MaxBytesInMultiByteString, BytesInMultiByteString, UnicodeString, BytesInUnicodeString
-MultiByteString : [str] Pointer to the buffer that receives the resultant ANSI string.
-MaxBytesInMultiByteString : [int] Specifies the maximum number of bytes to be written to MultiByteString. If this value is too small, causing MultiByteString to be a truncated equivalent of UnicodeString, then no error condition results.
-BytesInMultiByteString : [var] Pointer to a ULONG that receives the number of bytes written to MultiByteString.
-UnicodeString : [wstr] Pointer to the Unicode source string that is to be converted to ANSI.
-BytesInUnicodeString : [int] Specifies the number of bytes in UnicodeString.
+MultiByteString : [str] 結果の ANSI 文字列を受け取るバッファへのポインタ。
+MaxBytesInMultiByteString : [int] MultiByteString に書き込む最大バイト数を指定する。この値が小さすぎて MultiByteString が UnicodeString の切り詰め版になっても、エラーは発生しない。
+BytesInMultiByteString : [var] MultiByteString に書き込まれたバイト数を受け取る ULONG へのポインタ。
+UnicodeString : [wstr] ANSI に変換する Unicode ソース文字列へのポインタ。
+BytesInUnicodeString : [int] UnicodeString のバイト数を指定する。
 %inst
-The EngUnicodeToMultiByteN function converts the specified Unicode
-string into an ANSI string using the current ANSI code page.
+EngUnicodeToMultiByteN 関数は、現在の ANSI コードページを使って指定した Unicode 文字列を ANSI
+文字列に変換する。
 
 [戻り値]
-None
+なし
 
 
 %index
 EngUnlockSurface
-The EngUnlockSurface function causes GDI to unlock the surface.
+EngUnlockSurface 関数は、GDI にサーフェスをアンロックさせる。
 %group
 Win32 gdi32
 %prm
 pso
-pso : [var] Pointer to a SURFOBJ structure that describes the surface to be unlocked.
+pso : [var] アンロックするサーフェスを記述する SURFOBJ 構造体へのポインタ。
 %inst
-The EngUnlockSurface function causes GDI to unlock the surface.
+EngUnlockSurface 関数は、GDI にサーフェスをアンロックさせる。
 
 [戻り値]
-None
+なし
 
 [備考]
-The specified surface must previously have been locked by a call to
-EngLockSurface. The pointer to the SURFOBJ structure must not be used
-after this call.
+指定したサーフェスはこれ以前に EngLockSurface 呼び出しでロックされていなければならない。SURFOBJ
+構造体へのポインタは、この呼び出しの後で使用してはならない。
 
 
 %index
 EngWideCharToMultiByte
-The EngWideCharToMultiByte function converts a wide character string into an ANSI source string using the specified code page.
+EngWideCharToMultiByte 関数は、指定したコードページを使ってワイド文字列を ANSI ソース文字列に変換する。
 %group
 Win32 gdi32
 %prm
 CodePage, WideCharString, BytesInWideCharString, MultiByteString, BytesInMultiByteString
-CodePage : [int] Specifies the code page to use to perform the translation.
-WideCharString : [wstr] Pointer to a buffer containing the wide character string to be translated.
-BytesInWideCharString : [int] Specifies the size, in bytes, of WideCharString.
-MultiByteString : [str] Pointer to a buffer into which the translated character string is to be copied
-BytesInMultiByteString : [int] Specifies the number of bytes in MultiByteString. If MultiByteString is not large enough to contain the translation, EngWideCharToMultiByte truncates the string, and does not report an error.
+CodePage : [int] 変換に使用するコードページを指定する。
+WideCharString : [wstr] 変換するワイド文字列を含むバッファへのポインタ。
+BytesInWideCharString : [int] WideCharString のサイズ（バイト単位）を指定する。
+MultiByteString : [str] 変換された文字列をコピーするバッファへのポインタ。
+BytesInMultiByteString : [int] MultiByteString のバイト数を指定する。MultiByteString が変換結果を保持するのに十分な大きさでない場合、EngWideCharToMultiByte は文字列を切り詰め、エラーを報告しない。
 %inst
-The EngWideCharToMultiByte function converts a wide character string
-into an ANSI source string using the specified code page.
+EngWideCharToMultiByte 関数は、指定したコードページを使ってワイド文字列を ANSI ソース文字列に変換する。
 
 [戻り値]
-EngWideCharToMultiByte returns the number of bytes converted into
-multibyte form, if successful. Otherwise, it returns -1.
+EngWideCharToMultiByte は成功した場合、マルチバイト形式に変換したバイト数を返す。それ以外の場合は -1 を返す。
 
 
 %index
 EnumEnhMetaFile
-The EnumEnhMetaFile function enumerates the records within an enhanced-format metafile by retrieving each record and passing it to the specified callback function.
+EnumEnhMetaFile 関数は、拡張形式メタファイル内のレコードを取得し、各レコードを指定したコールバック関数に渡すことで列挙する。
 %group
 Win32 gdi32
 %prm
 hdc, hmf, proc, param3, lpRect
-hdc : [intptr] A handle to a device context. This handle is passed to the callback function.
-hmf : [intptr] A handle to an enhanced metafile.
-proc : [int] A pointer to the application-supplied callback function. For more information, see the EnhMetaFileProc function.
+hdc : [intptr] デバイスコンテキストへのハンドル。このハンドルはコールバック関数に渡される。
+hmf : [intptr] 拡張メタファイルへのハンドル。
+proc : [int] アプリケーション提供のコールバック関数へのポインタ。詳細は EnhMetaFileProc 関数を参照。
 param3 : [intptr] 
-lpRect : [var] A pointer to a RECT structure that specifies the coordinates, in logical units, of the picture's upper-left and lower-right corners.
+lpRect : [var] 図の左上隅と右下隅の座標（論理単位）を指定する RECT 構造体へのポインタ。
 %inst
-The EnumEnhMetaFile function enumerates the records within an
-enhanced-format metafile by retrieving each record and passing it to
-the specified callback function.
+EnumEnhMetaFile
+関数は、拡張形式メタファイル内のレコードを取得し、各レコードを指定したコールバック関数に渡すことで列挙する。
 
 [戻り値]
-If the callback function successfully enumerates all the records in
-the enhanced metafile, the return value is nonzero. If the callback
-function does not successfully enumerate all the records in the
-enhanced metafile, the return value is zero.
+
+コールバック関数が拡張メタファイル内のすべてのレコードを正常に列挙した場合、戻り値は非ゼロとなる。コールバック関数がすべてのレコードを正常に列挙しなかった場合、戻り値はゼロとなる。
 
 [備考]
-Points along the edge of the rectangle pointed to by the lpRect
-parameter are included in the picture. If the hdc parameter is NULL,
-the system ignores lpRect. If the callback function calls the
-PlayEnhMetaFileRecord function, hdc must identify a valid device
-context. The system uses the device context's transformation and
-mapping mode to transform the picture displayed by the
-PlayEnhMetaFileRecord function. You can use the EnumEnhMetaFile
-function to embed one enhanced-metafile within another.
+lpRect パラメータが指す矩形の辺上の点も図に含まれる。hdc パラメータが NULL の場合、システムは lpRect
+を無視する。コールバック関数が PlayEnhMetaFileRecord を呼ぶ場合、hdc
+は有効なデバイスコンテキストを識別しなければならない。システムはデバイスコンテキストの変換とマッピングモードを使って、PlayEnhMetaFileRecord
+で表示される図を変換する。EnumEnhMetaFile を使うと、ある拡張メタファイルを別のものに埋め込むことができる。
 
 
 %index
 EnumFontFamiliesW
-The EnumFontFamilies function enumerates the fonts in a specified font family that are available on a specified device. (Unicode)
+EnumFontFamilies 関数は、指定したデバイスで利用可能な、指定フォントファミリ内のフォントを列挙する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, lpLogfont, lpProc, lParam
-hdc : [intptr] A handle to the device context from which to enumerate the fonts.
-lpLogfont : [wstr] A pointer to a null-terminated string that specifies the family name of the desired fonts. If lpszFamily is NULL, EnumFontFamilies selects and enumerates one font of each available type family.
-lpProc : [int] A pointer to the application defined callback function. For information, see EnumFontFamProc.
-lParam : [intptr] A pointer to application-supplied data. The data is passed to the callback function along with the font information.
+hdc : [intptr] フォントを列挙するデバイスコンテキストへのハンドル。
+lpLogfont : [wstr] 目的のフォントのファミリ名を指定する、NULL終端文字列へのポインタ。lpszFamily が NULL の場合、EnumFontFamilies は利用可能な各タイプファミリのフォントを 1 つずつ選択して列挙する。
+lpProc : [int] アプリケーション定義のコールバック関数へのポインタ。詳細は EnumFontFamProc を参照。
+lParam : [intptr] アプリケーション提供のデータへのポインタ。データはフォント情報と共にコールバック関数に渡される。
 %inst
-The EnumFontFamilies function enumerates the fonts in a specified
-font family that are available on a specified device. (Unicode)
+EnumFontFamilies 関数は、指定したデバイスで利用可能な、指定フォントファミリ内のフォントを列挙する。(Unicode)
 
 [戻り値]
-The return value is the last value returned by the callback function.
-Its meaning is implementation specific.
+戻り値はコールバック関数が最後に返した値である。その意味は実装依存である。
 
 [備考]
-For each font having the typeface name specified by the lpszFamily
-parameter, the EnumFontFamilies function retrieves information about
-that font and passes it to the function pointed to by the
-lpEnumFontFamProc parameter. The application defined callback
-function can process the font information as desired. Enumeration
-continues until there are no more fonts or the callback function
-returns zero. When the graphics mode on the device context is set to
-GM_ADVANCED using the SetGraphicsMode function and the
-DEVICE_FONTTYPE flag is passed to the FontType parameter, this
-function returns a list of type 1 and OpenType fonts on the system.
-When the graphics mode is not set to GM_ADVANCED, this function
-returns a list of type 1, OpenType, and TrueType fonts on the system.
-The fonts for many East Asian languages have two typeface names: an
-English name and a localized name. EnumFonts, EnumFontFamilies, and
-EnumFontFamiliesEx return the English typeface name if the system
-locale does not match the language of the font.
+EnumFontFamilies 関数は、lpszFamily
+パラメータで指定された書体名を持つフォントごとに、そのフォント情報を取得し、lpEnumFontFamProc
+パラメータで指定された関数に渡す。アプリケーション定義のコールバック関数は、フォント情報を任意に処理できる。列挙はフォントがなくなるか、コールバック関数が
+0 を返すまで続けられる。SetGraphicsMode 関数によりデバイスコンテキストのグラフィックモードが GM_ADVANCED
+に設定され、FontType パラメータに DEVICE_FONTTYPE フラグが渡されている場合、この関数はシステム上の Type 1
+および OpenType フォントの一覧を返す。グラフィックモードが GM_ADVANCED でない場合は、Type
+1、OpenType、TrueType フォントの一覧を返す。多くの東アジア言語のフォントには、英語名とローカライズ名の 2
+つの書体名がある。EnumFonts、EnumFontFamilies、EnumFontFamiliesEx
+は、システムロケールがフォントの言語と一致しない場合、英語の書体名を返す。
 
 
 %index
 EnumFontFamiliesExW
-The EnumFontFamiliesEx function enumerates all uniquely-named fonts in the system that match the font characteristics specified by the LOGFONT structure. EnumFontFamiliesEx enumerates fonts based on typeface name, character set, or both. (Unicode)
+EnumFontFamiliesEx 関数は、LOGFONT 構造体で指定されたフォント特性に一致する、システム内のすべての一意な名前のフォントを列挙する。EnumFontFamiliesEx は、書体名、文字セット、またはその両方に基づいてフォントを列挙する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, lpLogfont, lpProc, lParam, dwFlags
-hdc : [intptr] A handle to the device context from which to enumerate the fonts.
-lpLogfont : [var] A pointer to a LOGFONT structure that contains information about the fonts to enumerate. The function examines the following members.
-lpProc : [int] A pointer to the application defined callback function. For more information, see the EnumFontFamExProc function.
-lParam : [intptr] An application defined value. The function passes this value to the callback function along with font information.
-dwFlags : [int] This parameter is not used and must be zero.
+hdc : [intptr] フォントを列挙するデバイスコンテキストへのハンドル。
+lpLogfont : [var] 列挙するフォントに関する情報を含む LOGFONT 構造体へのポインタ。関数は次のメンバを調査する。
+lpProc : [int] アプリケーション定義のコールバック関数へのポインタ。詳細は EnumFontFamExProc 関数を参照。
+lParam : [intptr] アプリケーション定義の値。関数はこの値をフォント情報と共にコールバック関数に渡す。
+dwFlags : [int] このパラメータは使用されず、ゼロでなければならない。
 %inst
-The EnumFontFamiliesEx function enumerates all uniquely-named fonts
-in the system that match the font characteristics specified by the
-LOGFONT structure. EnumFontFamiliesEx enumerates fonts based on
-typeface name, character set, or both. (Unicode)
+EnumFontFamiliesEx 関数は、LOGFONT
+構造体で指定されたフォント特性に一致する、システム内のすべての一意な名前のフォントを列挙する。EnumFontFamiliesEx
+は、書体名、文字セット、またはその両方に基づいてフォントを列挙する。(Unicode)
 
 [戻り値]
-The return value is the last value returned by the callback function.
-This value depends on which font families are available for the
-specified device.
+戻り値はコールバック関数が返した最後の値となる。この値は指定したデバイスで利用可能なフォントファミリに依存する。
 
 [備考]
-The EnumFontFamiliesEx function does not use tagged typeface names to
-identify character sets. Instead, it always passes the correct
-typeface name and a separate character set value to the callback
-function. The function enumerates fonts based on the values of the
-lfCharSet and lfFaceName members in the LOGFONT structure. As with
-EnumFontFamilies, EnumFontFamiliesEx enumerates all font styles. Not
-all styles of a font cover the same character sets. For example,
-Fontorama Bold might contain ANSI, Greek, and Cyrillic characters,
-but Fontorama Italic might contain only ANSI characters. For this
-reason, it's best not to assume that a specified font covers a
-specific character set, even if it is the ANSI character set. The
-following table shows the results of various combinations of values
-for lfCharSet and lfFaceName.
-This doc was truncated.
+EnumFontFamiliesEx
+関数は、文字セットを識別するためにタグ付き書体名を使わない。代わりに常に正しい書体名と別個の文字セット値をコールバック関数に渡す。関数は
+LOGFONT 構造体内の lfCharSet と lfFaceName
+メンバの値に基づいてフォントを列挙する。EnumFontFamilies と同様に EnumFontFamiliesEx
+はすべてのフォントスタイルを列挙する。フォントのすべてのスタイルが同じ文字セットをカバーするとは限らない。例えば Fontorama
+Bold は ANSI、ギリシャ、キリル文字を含むかもしれないが、Fontorama Italic は ANSI
+文字のみかもしれない。このため、たとえ ANSI
+文字セットであっても、指定したフォントが特定の文字セットをカバーすると仮定しない方がよい。次の表は lfCharSet と
+lfFaceName のさまざまな値の組み合わせの結果を示す。
+（以下省略）
 
 
 %index
 EnumFontsW
-The EnumFonts function enumerates the fonts available on a specified device. (Unicode)
+EnumFonts 関数は、指定したデバイスで利用可能なフォントを列挙する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, lpLogfont, lpProc, lParam
-hdc : [intptr] A handle to the device context from which to enumerate the fonts.
-lpLogfont : [wstr] A pointer to a null-terminated string that specifies the typeface name of the desired fonts. If lpFaceName is NULL, EnumFonts randomly selects and enumerates one font of each available typeface.
-lpProc : [int] A pointer to the application definedcallback function. For more information, see EnumFontsProc.
-lParam : [intptr] A pointer to any application-defined data. The data is passed to the callback function along with the font information.
+hdc : [intptr] フォントを列挙する対象の HDC。
+lpLogfont : [wstr] 目的のフォントの書体名を指定する NULL 終端文字列へのポインタ。lpFaceName が NULL の場合、EnumFonts は利用可能な各書体のフォントをランダムに 1 つ選択して列挙する。
+lpProc : [int] アプリケーション定義のコールバック関数へのポインタ。詳細は EnumFontsProc を参照。
+lParam : [intptr] アプリケーション定義のデータへのポインタ。このデータはフォント情報とともにコールバック関数へ渡される。
 %inst
-The EnumFonts function enumerates the fonts available on a specified
-device. (Unicode)
+EnumFonts 関数は、指定したデバイスで利用可能なフォントを列挙する。(Unicode)
 
 [戻り値]
-The return value is the last value returned by the callback function.
-Its meaning is defined by the application.
+戻り値はコールバック関数が最後に返した値である。その意味はアプリケーションが定義する。
 
 [備考]
-Use EnumFontFamiliesEx instead of EnumFonts. The EnumFontFamiliesEx
-function differs from the EnumFonts function in that it retrieves the
-style names associated with a TrueType font. With EnumFontFamiliesEx,
-you can retrieve information about font styles that cannot be
-enumerated using the EnumFonts function. The fonts for many East
-Asian languages have two typeface names: an English name and a
-localized name. EnumFonts, EnumFontFamilies, and EnumFontFamiliesEx
-return the English typeface name if the system locale does not match
-the language of the font.
-> [!NOTE] > The wingdi.h header defines EnumFonts as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+EnumFonts の代わりに EnumFontFamiliesEx を使用すること。EnumFontFamiliesEx 関数は
+TrueType フォントに関連付けられたスタイル名を取得する点で EnumFonts 関数と異なる。EnumFontFamiliesEx
+を使用すると、EnumFonts
+関数では列挙できないフォントスタイルの情報を取得できる。多くの東アジア言語のフォントには、英語名とローカライズ名の 2
+つの書体名がある。EnumFonts、EnumFontFamilies、EnumFontFamiliesEx
+は、システムロケールがフォントの言語と一致しない場合、英語の書体名を返す。
+> [!NOTE] > wingdi.h ヘッダは EnumFonts をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 EnumICMProfilesW
-The EnumICMProfiles function enumerates the different output color profiles that the system supports for a given device context. (Unicode)
+EnumICMProfiles 関数は、指定したデバイスコンテキストに対してシステムがサポートする各種出力カラープロファイルを列挙する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, proc, param2
-hdc : [intptr] Specifies the device context.
-proc : [int] Specifies the procedure instance address of a callback function defined by the application. (See EnumICMProfilesProcCallback.)
+hdc : [intptr] デバイスコンテキストを指定する。
+proc : [int] アプリケーションが定義したコールバック関数のプロシージャインスタンスアドレスを指定する(EnumICMProfilesProcCallback を参照)。
 param2 : [intptr] 
 %inst
-The EnumICMProfiles function enumerates the different output color
-profiles that the system supports for a given device context.
-(Unicode)
+EnumICMProfiles
+関数は、指定したデバイスコンテキストに対してシステムがサポートする各種出力カラープロファイルを列挙する。(Unicode)
 
 [戻り値]
-This function returns zero if the application interrupted the
-enumeration. The return value is -1 if there are no color profiles to
-enumerate. Otherwise, the return value is the last value returned by
-the callback function.
+アプリケーションが列挙を中断した場合、この関数は 0 を返す。列挙すべきカラープロファイルが存在しない場合、戻り値は -1
+である。それ以外の場合、戻り値はコールバック関数が最後に返した値である。
 
 [備考]
-The EnumICMProfiles function returns a list of profiles that are
-associated with a device context (DC), and whose settings match those
-of the DC. It is possible for a device context to contain device
-profiles that are not associated with particular hardware devices, or
-device profiles that do not match the settings of the DC. The sRGB
-profile is an example. The SetICMProfile function is used to
-associate these types of profiles with a DC. The GetICMProfile
-function can be used to retrieve a profile that is not enumerated by
-the EnumICMProfiles function. Windows 95/98/Me:EnumICMProfilesW is
-supported by the Microsoft Layer for Unicode. To use this, you must
-add certain files to your application, as outlined in Microsoft Layer
-for Unicode on Windows 95/98/Me Systems.
-> [!NOTE] > The wingdi.h header defines EnumICMProfiles as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+EnumICMProfiles 関数は、デバイスコンテキスト (DC) に関連付けられ、かつその DC
+の設定に一致するプロファイルの一覧を返す。デバイスコンテキストには、特定のハードウェアデバイスに関連付けられていないデバイスプロファイルや、DC
+の設定に一致しないデバイスプロファイルが含まれる場合がある。sRGB プロファイルはその例である。SetICMProfile
+関数はこの種のプロファイルを DC に関連付けるために使用される。GetICMProfile 関数を使えば、EnumICMProfiles
+関数では列挙されないプロファイルを取得できる。Windows 95/98/Me: EnumICMProfilesW は Microsoft
+Layer for Unicode でサポートされる。使用するには、Windows 95/98/Me 向け Microsoft Layer
+for Unicode の説明に従って、特定のファイルをアプリケーションに追加する必要がある。
+> [!NOTE] > wingdi.h ヘッダは EnumICMProfiles をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 EnumMetaFile
-The EnumMetaFile function enumerates the records within a Windows-format metafile by retrieving each record and passing it to the specified callback function.
+EnumMetaFile 関数は、Windows 形式メタファイル内の各レコードを取得して指定のコールバック関数に渡すことで、レコードを列挙する。
 %group
 Win32 gdi32
 %prm
 hdc, hmf, proc, param3
-hdc : [intptr] Handle to a device context. This handle is passed to the callback function.
-hmf : [intptr] Handle to a Windows-format metafile.
-proc : [int] Pointer to an application-supplied callback function. For more information, see EnumMetaFileProc.
+hdc : [intptr] デバイスコンテキストのハンドル。このハンドルはコールバック関数へ渡される。
+hmf : [intptr] Windows 形式メタファイルのハンドル。
+proc : [int] アプリケーションが用意するコールバック関数へのポインタ。詳細は EnumMetaFileProc を参照。
 param3 : [intptr] 
 %inst
-The EnumMetaFile function enumerates the records within a
-Windows-format metafile by retrieving each record and passing it to
-the specified callback function.
+EnumMetaFile 関数は、Windows
+形式メタファイル内の各レコードを取得して指定のコールバック関数に渡すことで、レコードを列挙する。
 
 [戻り値]
-If the callback function successfully enumerates all the records in
-the Windows-format metafile, the return value is nonzero. If the
-callback function does not successfully enumerate all the records in
-the Windows-format metafile, the return value is zero.
+コールバック関数が Windows 形式メタファイル内のすべてのレコードを正常に列挙した場合、戻り値は 0
+以外である。コールバック関数がすべてのレコードを正常に列挙できなかった場合、戻り値は 0 である。
 
 [備考]
-To convert a Windows-format metafile into an enhanced-format
-metafile, use the SetWinMetaFileBits function. You can use the
-EnumMetaFile function to embed one Windows-format metafile within
-another.
+Windows 形式メタファイルを拡張形式メタファイルに変換するには、SetWinMetaFileBits
+関数を使用する。EnumMetaFile 関数を使用すると、ある Windows
+形式メタファイルを別のメタファイルに埋め込むことができる。
 
 
 %index
 EnumObjects
-The EnumObjects function enumerates the pens or brushes available for the specified device context (DC).
+EnumObjects 関数は、指定したデバイスコンテキスト (DC) で利用可能なペンまたはブラシを列挙する。
 %group
 Win32 gdi32
 %prm
 hdc, nType, lpFunc, lParam
-hdc : [intptr] A handle to the DC.
-nType : [int] The object type. This parameter can be OBJ_BRUSH or OBJ_PEN.
-lpFunc : [int] A pointer to the application-defined callback function. For more information about the callback function, see the EnumObjectsProc function.
-lParam : [intptr] A pointer to the application-defined data. The data is passed to the callback function along with the object information.
+hdc : [intptr] DC のハンドル。
+nType : [int] オブジェクトの種類。このパラメータには OBJ_BRUSH または OBJ_PEN を指定できる。
+lpFunc : [int] アプリケーション定義のコールバック関数へのポインタ。コールバック関数の詳細は EnumObjectsProc を参照。
+lParam : [intptr] アプリケーション定義のデータへのポインタ。このデータはオブジェクト情報とともにコールバック関数へ渡される。
 %inst
-The EnumObjects function enumerates the pens or brushes available for
-the specified device context (DC).
+EnumObjects 関数は、指定したデバイスコンテキスト (DC) で利用可能なペンまたはブラシを列挙する。
 
 [戻り値]
-If the function succeeds, the return value is the last value returned
-by the callback function. Its meaning is user-defined. If the objects
-cannot be enumerated (for example, there are too many objects), the
-function returns zero without calling the callback function.
+
+関数が成功した場合、戻り値はコールバック関数が最後に返した値であり、その意味は利用者が定義する。オブジェクトを列挙できない場合(例:オブジェクトが多すぎる場合)、コールバック関数を呼び出さずに
+0 を返す。
 
 
 %index
 EqualRgn
-The EqualRgn function checks the two specified regions to determine whether they are identical. The function considers two regions identical if they are equal in size and shape.
+EqualRgn 関数は、指定した 2 つのリージョンが同一かどうかを判定する。2 つのリージョンのサイズと形状が等しい場合、それらは同一とみなされる。
 %group
 Win32 gdi32
 %prm
 hrgn1, hrgn2
-hrgn1 : [intptr] Handle to a region.
-hrgn2 : [intptr] Handle to a region.
+hrgn1 : [intptr] リージョンのハンドル。
+hrgn2 : [intptr] リージョンのハンドル。
 %inst
-The EqualRgn function checks the two specified regions to determine
-whether they are identical. The function considers two regions
-identical if they are equal in size and shape.
+EqualRgn 関数は、指定した 2 つのリージョンが同一かどうかを判定する。2
+つのリージョンのサイズと形状が等しい場合、それらは同一とみなされる。
 
 [戻り値]
-If the two regions are equal, the return value is nonzero. If the two
-regions are not equal, the return value is zero. A return value of
-ERROR means at least one of the region handles is invalid.
+2 つのリージョンが等しい場合、戻り値は 0 以外である。等しくない場合は 0 である。戻り値が ERROR
+の場合は、少なくとも一方のリージョンハンドルが無効であることを意味する。
 
 
 %index
 Escape
-Enables an application to access the system-defined device capabilities that are not available through GDI.
+アプリケーションが GDI 経由で利用できないシステム定義のデバイス機能にアクセスできるようにする。
 %group
 Win32 gdi32
 %prm
 hdc, iEscape, cjIn, pvIn, pvOut
-hdc : [intptr] A handle to the device context.
-iEscape : [int] The escape function to be performed. This parameter must be one of the predefined escape values listed in Remarks. Use the ExtEscape function if your application defines a private escape value.
-cjIn : [int] The number of bytes of data pointed to by the lpvInData parameter. This can be 0.
-pvIn : [str] A pointer to the input structure required for the specified escape.
-pvOut : [intptr] A pointer to the structure that receives output from this escape. This parameter should be NULL if no data is returned.
+hdc : [intptr] デバイスコンテキストのハンドル。
+iEscape : [int] 実行するエスケープ関数。このパラメータには備考に列挙された定義済みエスケープ値のいずれかを指定しなければならない。アプリケーション独自のエスケープ値を使用する場合は ExtEscape 関数を利用する。
+cjIn : [int] lpvInData パラメータが指すデータのバイト数。0 を指定することもできる。
+pvIn : [str] 指定エスケープに必要な入力構造体へのポインタ。
+pvOut : [intptr] このエスケープからの出力を受け取る構造体へのポインタ。データが返されない場合は NULL を指定する。
 %inst
-Enables an application to access the system-defined device
-capabilities that are not available through GDI.
+アプリケーションが GDI 経由で利用できないシステム定義のデバイス機能にアクセスできるようにする。
 
 [戻り値]
-If the function succeeds, the return value is greater than zero,
-except with the QUERYESCSUPPORT printer escape, which checks for
-implementation only. If the escape is not implemented, the return
-value is zero. If the function fails, the return value is a system
-error code.
+関数が成功した場合、戻り値は 0 より大きい(ただし QUERYESCSUPPORT
+プリンタエスケープの場合は実装の有無のみを確認する)。エスケープが実装されていない場合の戻り値は 0
+である。関数が失敗した場合、戻り値はシステムエラーコードとなる。
 
 [備考]
-Note This is a blocking or synchronous function and might not return
-immediately. How quickly this function returns depends on run-time
-factors such as network status, print server configuration, and
-printer driver implementation?factors that are difficult to predict
-when writing an application. Calling this function from a thread that
-manages interaction with the user interface could make the
-application appear to be unresponsive. The effect of passing 0 for
-cbInput will depend on the value of nEscape and on the driver that is
-handling the escape. Of the original printer escapes, only the
-following can be used.
-This doc was truncated.
+注意
+これはブロッキング(同期)関数であり、すぐには戻らない可能性がある。戻るまでの時間は、ネットワーク状態、プリントサーバの構成、プリンタドライバの実装など、アプリケーション側では予測しにくい実行時要因に依存する。ユーザインタフェースを管理するスレッドからこの関数を呼び出すと、アプリケーションが応答不能に見えることがある。cbInput
+に 0 を渡したときの動作は、nEscape
+の値とエスケープを処理するドライバに依存する。元々のプリンタエスケープのうち、使用可能なのは以下のものだけである。
+（以下省略）
 
 
 %index
 ExcludeClipRect
-The ExcludeClipRect function creates a new clipping region that consists of the existing clipping region minus the specified rectangle.
+ExcludeClipRect 関数は、既存のクリッピングリージョンから指定した矩形を除いた新しいクリッピングリージョンを作成する。
 %group
 Win32 gdi32
 %prm
 hdc, left, top, right, bottom
-hdc : [intptr] A handle to the device context.
-left : [int] The x-coordinate, in logical units, of the upper-left corner of the rectangle.
-top : [int] The y-coordinate, in logical units, of the upper-left corner of the rectangle.
-right : [int] The x-coordinate, in logical units, of the lower-right corner of the rectangle.
-bottom : [int] The y-coordinate, in logical units, of the lower-right corner of the rectangle.
+hdc : [intptr] デバイスコンテキストのハンドル。
+left : [int] 矩形の左上隅の x 座標(論理単位)。
+top : [int] 矩形の左上隅の y 座標(論理単位)。
+right : [int] 矩形の右下隅の x 座標(論理単位)。
+bottom : [int] 矩形の右下隅の y 座標(論理単位)。
 %inst
-The ExcludeClipRect function creates a new clipping region that
-consists of the existing clipping region minus the specified
-rectangle.
+ExcludeClipRect 関数は、既存のクリッピングリージョンから指定した矩形を除いた新しいクリッピングリージョンを作成する。
 
 [戻り値]
-The return value specifies the new clipping region's complexity; it
-can be one of the following values.
-This doc was truncated.
+戻り値は新しいクリッピングリージョンの複雑度を表し、次のいずれかの値となる。
+（以下省略）
 
 [備考]
-The lower and right edges of the specified rectangle are not excluded
-from the clipping region.
+指定した矩形の下辺および右辺はクリッピングリージョンから除外されない。
 
 
 %index
 ExtCreatePen
-The ExtCreatePen function creates a logical cosmetic or geometric pen that has the specified style, width, and brush attributes.
+ExtCreatePen 関数は、指定したスタイル、幅、ブラシ属性を持つ論理コスメティックまたはジオメトリックペンを作成する。
 %group
 Win32 gdi32
 %prm
 iPenStyle, cWidth, plbrush, cStyle, pstyle
-iPenStyle : [int] A combination of type, style, end cap, and join attributes. The values from each category are combined by using the bitwise OR operator ( | ).
-cWidth : [int] The width of the pen. If the dwPenStyle parameter is PS_GEOMETRIC, the width is given in logical units. If dwPenStyle is PS_COSMETIC, the width must be set to 1.
-plbrush : [var] A pointer to a LOGBRUSH structure. If dwPenStyle is PS_COSMETIC, the lbColor member specifies the color of the pen and the lpStyle member must be set to BS_SOLID. If dwPenStyle is PS_GEOMETRIC, all members must be used to specify the brush attributes of the pen.
-cStyle : [int] The length, in DWORD units, of the lpStyle array. This value must be zero if dwPenStyle is not PS_USERSTYLE. The style count is limited to 16.
-pstyle : [var] A pointer to an array. The first value specifies the length of the first dash in a user-defined style, the second value specifies the length of the first space, and so on. This pointer must be NULL if dwPenStyle is not PS_USERSTYLE. If the lpStyle array is exceeded during line drawing, the pointer is reset to the beginning of the array. When this happens and dwStyleCount is an even number, the pattern of dashes and spaces repeats. However, if dwStyleCount is odd, the pattern reverses when the pointer is reset -- the first element of lpStyle now refers to spaces, the second refers to dashes, and so forth.
+iPenStyle : [int] タイプ、スタイル、端点、結合属性の組み合わせ。各カテゴリの値はビット OR 演算子 ( | ) で結合する。
+cWidth : [int] ペンの幅。dwPenStyle が PS_GEOMETRIC の場合、幅は論理単位で指定する。PS_COSMETIC の場合、幅は 1 でなければならない。
+plbrush : [var] LOGBRUSH 構造体へのポインタ。dwPenStyle が PS_COSMETIC の場合、lbColor メンバにはペンの色を指定し、lpStyle メンバには BS_SOLID を設定する必要がある。dwPenStyle が PS_GEOMETRIC の場合、ペンのブラシ属性を指定するためにすべてのメンバを使用しなければならない。
+cStyle : [int] lpStyle 配列の長さ(DWORD 単位)。dwPenStyle が PS_USERSTYLE でない場合は 0 でなければならない。スタイル数は最大 16 個に制限される。
+pstyle : [var] 配列へのポインタ。最初の値はユーザ定義スタイルにおける最初のダッシュの長さ、2 番目の値は最初のスペースの長さ、以下同様。dwPenStyle が PS_USERSTYLE でない場合、このポインタは NULL でなければならない。線描画中に lpStyle 配列を越えた場合、ポインタは配列の先頭にリセットされる。このとき dwStyleCount が偶数ならダッシュとスペースのパターンが繰り返される。一方、dwStyleCount が奇数の場合は、ポインタがリセットされるとパターンが反転する。つまり lpStyle の最初の要素はスペースを、2 番目はダッシュを表すようになり、以下同様となる。
 %inst
-The ExtCreatePen function creates a logical cosmetic or geometric pen
-that has the specified style, width, and brush attributes.
+ExtCreatePen 関数は、指定したスタイル、幅、ブラシ属性を持つ論理コスメティックまたはジオメトリックペンを作成する。
 
 [戻り値]
-If the function succeeds, the return value is a handle that
-identifies a logical pen. If the function fails, the return value is
-zero.
+関数が成功した場合、戻り値は論理ペンを識別するハンドルである。失敗した場合の戻り値は 0 である。
 
 [備考]
-A geometric pen can have any width and can have any of the attributes
-of a brush, such as dithers and patterns. A cosmetic pen can only be
-a single pixel wide and must be a solid color, but cosmetic pens are
-generally faster than geometric pens. The width of a geometric pen is
-always specified in world units. The width of a cosmetic pen is
-always 1. End caps and joins are only specified for geometric pens.
-After an application creates a logical pen, it can select that pen
-into a device context by calling the SelectObject function. After a
-pen is selected into a device context, it can be used to draw lines
-and curves. If dwPenStyle is PS_COSMETIC and PS_USERSTYLE, the
-entries in the lpStyle array specify lengths of dashes and spaces in
-style units. A style unit is defined by the device where the pen is
-used to draw a line. If dwPenStyle is PS_GEOMETRIC and PS_USERSTYLE,
-the entries in the lpStyle array specify lengths of dashes and spaces
-in logical units. If dwPenStyle is PS_ALTERNATE, the style unit is
-ignored and every other pixel is set. If the lbStyle member of the
-LOGBRUSH structure pointed to by lplb is BS_PATTERN, the bitmap
-pointed to by the lbHatch member of that structure cannot be a DIB
-section. A DIB section is a bitmap created by CreateDIBSection. If
-that bitmap is a DIB section, the ExtCreatePen function fails. When
-an application no longer requires a specified pen, it should call the
-DeleteObject function to delete the pen. ICM: No color management is
-done at pen creation. However, color management is performed when the
-pen is selected into an ICM-enabled device context.
+ジオメトリックペンは任意の幅を持てるほか、ディザやパターンなどブラシの任意の属性を持つことができる。コスメティックペンは 1
+ピクセル幅で単色のみだが、一般にジオメトリックペンより高速である。ジオメトリックペンの幅は常にワールド単位で指定する。コスメティックペンの幅は常に
+1 である。端点と結合はジオメトリックペンに対してのみ指定する。論理ペンを作成した後、アプリケーションは SelectObject
+関数を呼び出してデバイスコンテキストにそのペンを選択できる。ペンがデバイスコンテキストに選択された後、線や曲線の描画に使用できる。dwPenStyle
+が PS_COSMETIC かつ PS_USERSTYLE の場合、lpStyle
+配列の各要素はスタイル単位によるダッシュとスペースの長さを指定する。スタイル単位は、ペンで線を引くデバイスによって定義される。dwPenStyle
+が PS_GEOMETRIC かつ PS_USERSTYLE の場合、lpStyle
+配列の各要素は論理単位によるダッシュとスペースの長さを指定する。dwPenStyle が PS_ALTERNATE
+の場合、スタイル単位は無視され、1 ピクセルおきに描画される。lplb が指す LOGBRUSH 構造体の lbStyle メンバが
+BS_PATTERN の場合、lbHatch メンバが指すビットマップは DIB セクションであってはならない。DIB セクションは
+CreateDIBSection で作成されるビットマップである。そのビットマップが DIB セクションの場合、ExtCreatePen
+関数は失敗する。指定したペンが不要になったら、アプリケーションは DeleteObject 関数を呼び出してペンを削除すること。ICM:
+ペンの作成時にはカラーマネジメントは行われない。ただし、ICM
+対応のデバイスコンテキストにペンが選択されたときにはカラーマネジメントが行われる。
 
 
 %index
 ExtCreateRegion
-The ExtCreateRegion function creates a region from the specified region and transformation data.
+ExtCreateRegion 関数は、指定したリージョンと変換データからリージョンを作成する。
 %group
 Win32 gdi32
 %prm
 lpx, nCount, lpData
-lpx : [var] A pointer to an XFORM structure that defines the transformation to be performed on the region. If this pointer is NULL, the identity transformation is used.
-nCount : [int] The number of bytes pointed to by lpRgnData.
-lpData : [var] A pointer to a RGNDATA structure that contains the region data in logical units.
+lpx : [var] リージョンに対して行う変換を定義する XFORM 構造体へのポインタ。このポインタが NULL の場合、恒等変換が使用される。
+nCount : [int] lpRgnData が指すデータのバイト数。
+lpData : [var] 論理単位のリージョンデータを含む RGNDATA 構造体へのポインタ。
 %inst
-The ExtCreateRegion function creates a region from the specified
-region and transformation data.
+ExtCreateRegion 関数は、指定したリージョンと変換データからリージョンを作成する。
 
 [戻り値]
-If the function succeeds, the return value is the value of the
-region. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値はリージョンの値である。失敗した場合の戻り値は NULL である。
 
 [備考]
-Region coordinates are represented as 27-bit signed integers. An
-application can retrieve data for a region by calling the
-GetRegionData function.
+リージョンの座標は 27 ビット符号付き整数として表現される。アプリケーションは GetRegionData
+関数を呼び出してリージョンのデータを取得できる。
 
 
 %index
 ExtEscape
-The ExtEscape function enables an application to access device capabilities that are not available through GDI.
+ExtEscape 関数は、アプリケーションが GDI 経由で利用できないデバイス機能にアクセスできるようにする。
 %group
 Win32 gdi32
 %prm
 hdc, iEscape, cjInput, lpInData, cjOutput, lpOutData
-hdc : [intptr] A handle to the device context.
-iEscape : [int] The escape function to be performed. It can be one of the following or it can be an application-defined escape function.
-cjInput : [int] The number of bytes of data pointed to by the lpszInData parameter.
-lpInData : [str] A pointer to the input structure required for the specified escape. See also Remarks.
-cjOutput : [int] The number of bytes of data pointed to by the lpszOutData parameter.
-lpOutData : [str] A pointer to the structure that receives output from this escape. This parameter must not be NULL if ExtEscape is called as a query function. If no data is to be returned in this structure, set cbOutput to 0. See also Remarks.
+hdc : [intptr] デバイスコンテキストのハンドル。
+iEscape : [int] 実行するエスケープ関数。以下のいずれか、またはアプリケーション定義のエスケープ関数を指定できる。
+cjInput : [int] lpszInData パラメータが指すデータのバイト数。
+lpInData : [str] 指定エスケープに必要な入力構造体へのポインタ。備考も参照。
+cjOutput : [int] lpszOutData パラメータが指すデータのバイト数。
+lpOutData : [str] このエスケープからの出力を受け取る構造体へのポインタ。ExtEscape をクエリ関数として呼ぶ場合、このパラメータは NULL であってはならない。この構造体にデータを返さない場合は、cbOutput に 0 を指定する。備考も参照。
 %inst
-The ExtEscape function enables an application to access device
-capabilities that are not available through GDI.
+ExtEscape 関数は、アプリケーションが GDI 経由で利用できないデバイス機能にアクセスできるようにする。
 
 [戻り値]
-The return value specifies the outcome of the function. It is greater
-than zero if the function is successful, except for the
-QUERYESCSUPPORT printer escape, which checks for implementation only.
-The return value is zero if the escape is not implemented. A return
-value less than zero indicates an error.
+戻り値は関数の結果を示す。関数が成功した場合は 0 より大きい値となる(ただし QUERYESCSUPPORT
+プリンタエスケープの場合は実装の有無のみを確認する)。エスケープが実装されていない場合、戻り値は 0 である。戻り値が 0
+未満の場合はエラーを示す。
 
 [備考]
-Note This is a blocking or synchronous function and might not return
-immediately. How quickly this function returns depends on run-time
-factors such as network status, print server configuration, and
-printer driver implementation?factors that are difficult to predict
-when writing an application. Calling this function from a thread that
-manages interaction with the user interface could make the
-application appear to be unresponsive. Use this function to pass a
-driver-defined escape value to a device. Use the Escape function to
-pass one of the system-defined escape values to a device, unless the
-escape is one of the defined escapes in nEscape. ExtEscape might not
-work properly with the system-defined escapes. In particular, escapes
-in which lpszInData is a pointer to a structure that contains a
-member that is a pointer will fail. Note, that the behavior described
-in this article is the expected behavior, but it is up to the driver
-to comply with this model. The variables referenced by lpszInData and
-lpszOutData should not be the same or overlap. If the input and the
-output buffer size variables overlap, they may not contain the
-correct values after the call returns. For the best results,
-lpszInData and lpszOutData should refer to different variables. The
-CHECKJPEGFORMAT printer escape function determines whether a printer
-supports printing a JPEG image. Before using the CHECKJPEGFORMAT
-printer escape function, call the QUERYESCSUPPORT printer escape
-function to determine whether the driver supports CHECKJPEGFORMAT.
-For sample code that demonstrates the use of CHECKJPEGFORMAT, see
-Testing a Printer for JPEG or PNG Support. The CHECKPNGFORMAT printer
-escape function determines whether a printer supports printing a PNG
-image. Before using the CHECKJPEGFORMAT printer escape function, call
-the QUERYESCSUPPORT printer escape function to determine whether the
-driver supports CHECKJPEGFORMAT. For sample code, see Testing a
-Printer for JPEG or PNG Support. The DRAWPATTERNRECT printer escape
-creates a white, gray scale, or solid black rectangle by using the
-pattern and rule capabilities of Page Control Language (PCL) on
-Hewlett-Packard LaserJet or LaserJet-compatible printers. A gray
-scale is a gray pattern that contains a specific mixture of black and
-white pixels. An application should use the QUERYESCSUPPORT escape to
-determine whether the printer is capable of drawing patterns and
-rules before using the DRAWPATTERNRECT escape.
-This doc was truncated.
+注意
+これはブロッキング(同期)関数であり、すぐには戻らない可能性がある。戻るまでの時間は、ネットワーク状態、プリントサーバの構成、プリンタドライバの実装など、アプリケーション側では予測しにくい実行時要因に依存する。ユーザインタフェースを管理するスレッドからこの関数を呼び出すと、アプリケーションが応答不能に見えることがある。この関数はドライバ定義のエスケープ値をデバイスに渡すために使用する。システム定義のエスケープ値(nEscape
+で定義された値を除く)を渡すには Escape 関数を使用する。ExtEscape
+はシステム定義エスケープでは正しく動作しない場合がある。特に、lpszInData
+がポインタを含む構造体へのポインタであるようなエスケープは失敗する。ここで説明する動作は期待される動作だが、このモデルに従うかはドライバ次第である。lpszInData
+と lpszOutData
+が参照する変数は同じでも重なってもいけない。入力と出力のバッファサイズ変数が重なっていると、呼び出し後に正しい値にならない可能性がある。最良の結果を得るには、lpszInData
+と lpszOutData は別々の変数を参照すべきである。CHECKJPEGFORMAT プリンタエスケープ関数は、プリンタが JPEG
+画像の印刷をサポートしているかを判定する。CHECKJPEGFORMAT プリンタエスケープを使用する前に、QUERYESCSUPPORT
+プリンタエスケープを呼び出してドライバが CHECKJPEGFORMAT をサポートするかを確認すること。CHECKJPEGFORMAT
+の使用例は、「プリンタの JPEG/PNG サポートのテスト」を参照。CHECKPNGFORMAT プリンタエスケープ関数は、プリンタが
+PNG 画像の印刷をサポートしているかを判定する。CHECKPNGFORMAT を使用する前に、QUERYESCSUPPORT
+プリンタエスケープを呼び出してドライバがサポートするかを確認すること。サンプルコードは「プリンタの JPEG/PNG
+サポートのテスト」を参照。DRAWPATTERNRECT プリンタエスケープは、Hewlett-Packard LaserJet または
+LaserJet 互換プリンタ上で Page Control Language (PCL)
+のパターンと罫線機能を使い、白、グレースケール、または塗りつぶしの黒い矩形を作成する。グレースケールとは、白黒ピクセルを特定の比率で混合したグレーのパターンである。DRAWPATTERNRECT
+エスケープを使用する前に、アプリケーションは QUERYESCSUPPORT
+エスケープで、プリンタがパターンや罫線を描画できるかを確認すべきである。
+（以下省略）
 
 
 %index
 ExtFloodFill
-The ExtFloodFill function fills an area of the display surface with the current brush.
+ExtFloodFill 関数は、表示面の領域を現在のブラシで塗りつぶす。
 %group
 Win32 gdi32
 %prm
 hdc, x, y, color, type
-hdc : [intptr] A handle to a device context.
-x : [int] The x-coordinate, in logical units, of the point where filling is to start.
-y : [int] The y-coordinate, in logical units, of the point where filling is to start.
-color : [int] The color of the boundary or of the area to be filled. The interpretation of color depends on the value of the fuFillType parameter. To create a COLORREF color value, use the RGB macro.
+hdc : [intptr] デバイスコンテキストのハンドル。
+x : [int] 塗りつぶしを開始する点の x 座標(論理単位)。
+y : [int] 塗りつぶしを開始する点の y 座標(論理単位)。
+color : [int] 境界または塗りつぶし領域の色。color の解釈は fuFillType パラメータの値に依存する。COLORREF 値を作成するには RGB マクロを使用する。
 type : [int] 
 %inst
-The ExtFloodFill function fills an area of the display surface with
-the current brush.
+ExtFloodFill 関数は、表示面の領域を現在のブラシで塗りつぶす。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The following are some of the reasons this function might fail:
-This doc was truncated.
+この関数が失敗する可能性のある理由には次のようなものがある。
+（以下省略）
 
 
 %index
 ExtSelectClipRgn
-The ExtSelectClipRgn function combines the specified region with the current clipping region using the specified mode.
+ExtSelectClipRgn 関数は、指定したリージョンを現在のクリッピングリージョンと指定モードで結合する。
 %group
 Win32 gdi32
 %prm
 hdc, hrgn, mode
-hdc : [intptr] A handle to the device context.
-hrgn : [intptr] A handle to the region to be selected. This handle must not be NULL unless the RGN_COPY mode is specified.
+hdc : [intptr] デバイスコンテキストのハンドル。
+hrgn : [intptr] 選択するリージョンのハンドル。RGN_COPY モードが指定されていない限り、このハンドルは NULL であってはならない。
 mode : [int] 
 %inst
-The ExtSelectClipRgn function combines the specified region with the
-current clipping region using the specified mode.
+ExtSelectClipRgn 関数は、指定したリージョンを現在のクリッピングリージョンと指定モードで結合する。
 
 [戻り値]
-The return value specifies the new clipping region's complexity; it
-can be one of the following values.
-This doc was truncated.
+戻り値は新しいクリッピングリージョンの複雑度を表し、次のいずれかの値となる。
+（以下省略)
 
 [備考]
-If an error occurs when this function is called, the previous
-clipping region for the specified device context is not affected. The
-ExtSelectClipRgn function assumes that the coordinates for the
-specified region are specified in device units. Only a copy of the
-region identified by the hrgn parameter is used. The region itself
-can be reused after this call or it can be deleted.
+
+この関数の呼び出し中にエラーが発生しても、指定したデバイスコンテキストの以前のクリッピングリージョンは影響を受けない。ExtSelectClipRgn
+関数は、指定したリージョンの座標がデバイス単位で与えられていると想定する。hrgn
+パラメータで識別されるリージョンのコピーのみが使用される。リージョン自体は、呼び出し後に再利用したり削除したりできる。
 
 
 %index
 ExtTextOutW
-The ExtTextOut function draws text using the currently selected font, background color, and text color. You can optionally provide dimensions to be used for clipping, opaquing, or both. (Unicode)
+ExtTextOut 関数は、現在選択されているフォント、背景色、テキスト色を使ってテキストを描画する。必要に応じてクリッピングや不透明描画の寸法を指定できる。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, x, y, options, lprect, lpString, c, lpDx
-hdc : [intptr] A handle to the device context.
-x : [int] The x-coordinate, in logical coordinates, of the reference point used to position the string.
-y : [int] The y-coordinate, in logical coordinates, of the reference point used to position the string.
+hdc : [intptr] デバイスコンテキストのハンドル。
+x : [int] 文字列の配置に使用する基準点の x 座標(論理座標)。
+y : [int] 文字列の配置に使用する基準点の y 座標(論理座標)。
 options : [int] 
-lprect : [var] A pointer to an optional RECT structure that specifies the dimensions, in logical coordinates, of a rectangle that is used for clipping, opaquing, or both.
-lpString : [wstr] A pointer to a string that specifies the text to be drawn. The string does not need to be zero-terminated, since cbCount specifies the length of the string.
-c : [int] The length of the string pointed to by lpString. This value may not exceed 8192.
-lpDx : [var] A pointer to an optional array of values that indicate the distance between origins of adjacent character cells. For example, lpDx[i] logical units separate the origins of character cell i and character cell i + 1.
+lprect : [var] クリッピング、不透明描画、またはその両方に使用する矩形の寸法を論理座標で指定する、省略可能な RECT 構造体へのポインタ。
+lpString : [wstr] 描画する文字列へのポインタ。cbCount で長さが指定されるため、NULL 終端である必要はない。
+c : [int] lpString が指す文字列の長さ。この値は 8192 を超えてはならない。
+lpDx : [var] 隣接する文字セルの原点間の距離を示す、省略可能な値の配列へのポインタ。例えば lpDx[i] 論理単位が、文字セル i と i+1 の原点を隔てる。
 %inst
-The ExtTextOut function draws text using the currently selected font,
-background color, and text color. You can optionally provide
-dimensions to be used for clipping, opaquing, or both. (Unicode)
+ExtTextOut
+関数は、現在選択されているフォント、背景色、テキスト色を使ってテキストを描画する。必要に応じてクリッピングや不透明描画の寸法を指定できる。(Unicode)
 
 [戻り値]
-If the string is drawn, the return value is nonzero. However, if the
-ANSI version of ExtTextOut is called with ETO_GLYPH_INDEX, the
-function returns TRUE even though the function does nothing. If the
-function fails, the return value is zero.
+文字列が描画された場合、戻り値は 0 以外である。ただし、ExtTextOut の ANSI 版が ETO_GLYPH_INDEX
+で呼ばれた場合、関数は何もしなくても TRUE を返す。関数が失敗した場合、戻り値は 0 である。
 
 [備考]
-The current text-alignment settings for the specified device context
-determine how the reference point is used to position the text. The
-text-alignment settings are retrieved by calling the GetTextAlign
-function. The text-alignment settings are altered by calling the
-SetTextAlign function. You can use the following values for text
-alignment. Only one flag can be chosen from those that affect
-horizontal and vertical alignment. In addition, only one of the two
-flags that alter the current position can be chosen.
-This doc was truncated.
+指定されたデバイスコンテキストの現在のテキスト配置設定により、基準点がどのようにテキストの配置に使われるかが決まる。テキスト配置設定は
+GetTextAlign 関数で取得でき、SetTextAlign
+関数で変更できる。テキスト配置には以下の値を使用できる。水平および垂直配置に影響するフラグから 1
+つだけ選択できる。さらに、現在位置を変更する 2 つのフラグのうち 1 つだけ選択できる。
+（以下省略)
 
 
 %index
 FONTOBJ_cGetAllGlyphHandles
-The FONTOBJ_cGetAllGlyphHandles function allows the device driver to find every glyph handle of a GDI font.
+FONTOBJ_cGetAllGlyphHandles 関数は、デバイスドライバが GDI フォントのすべてのグリフハンドルを取得できるようにする。
 %group
 Win32 gdi32
 %prm
 pfo, phg
-pfo : [var] Pointer to the FONTOBJ structure that is to be downloaded.
-phg : [var] Pointer to a buffer large enough to hold all the glyph handles in the font. This parameter can be NULL.
+pfo : [var] ダウンロード対象の FONTOBJ 構造体へのポインタ。
+phg : [var] フォント内のすべてのグリフハンドルを格納できる十分な大きさのバッファへのポインタ。このパラメータは NULL でもよい。
 %inst
-The FONTOBJ_cGetAllGlyphHandles function allows the device driver to
-find every glyph handle of a GDI font.
+FONTOBJ_cGetAllGlyphHandles 関数は、デバイスドライバが GDI
+フォントのすべてのグリフハンドルを取得できるようにする。
 
 [戻り値]
-The return value is the number of glyph handles supported by the
-font.
+戻り値はフォントがサポートするグリフハンドル数である。
 
 [備考]
-A driver uses this function to download an entire font. The driver
-must provide a buffer large enough to contain the output. GDI copies
-all glyph handles belonging to the associated font to this buffer.
-The number of glyphs in the font can be determined by calling
-FONTOBJ_vGetInfo, or by calling FONTOBJ_cGetAllGlyphHandles with the
-phg parameter set to NULL.
+
+ドライバはフォント全体をダウンロードするためにこの関数を使用する。ドライバは出力を格納する十分な大きさのバッファを用意しなければならない。GDI
+は関連付けられたフォントに属するすべてのグリフハンドルをこのバッファへコピーする。フォント内のグリフ数は、FONTOBJ_vGetInfo
+を呼び出すか、phg パラメータに NULL を指定して FONTOBJ_cGetAllGlyphHandles
+を呼び出すことで取得できる。
 
 
 %index
 FONTOBJ_cGetGlyphs
-The FONTOBJ_cGetGlyphs function is a service to the font consumer that translates glyph handles into pointers to glyph data, which are valid until the next call to FONTOBJ_cGetGlyphs.
+FONTOBJ_cGetGlyphs 関数は、グリフハンドルをグリフデータへのポインタに変換する、フォント利用者向けのサービスである。このポインタは次回の FONTOBJ_cGetGlyphs 呼び出しまで有効である。
 %group
 Win32 gdi32
 %prm
 pfo, iMode, cGlyph, phg, ppvGlyph
-pfo : [var] Pointer to a FONTOBJ structure containing the glyph handles to be translated.
+pfo : [var] 変換するグリフハンドルを含む FONTOBJ 構造体へのポインタ。
 iMode : [int] 
-cGlyph : [int] Specifies the number of glyphs to be translated. The only acceptable value is 1 (the code assumes 1, regardless of the value specified).
-phg : [var] Pointer to an array of cGlyph HGLYPH structures supplied by the driver.
-ppvGlyph : [var] Pointer to a memory location that receives the address of a GLYPHDATA structure. The first member of this structure is a GLYPHDEF union, which contains a pointer to either a GLYPHBITS structure or a PATHOBJ structure, depending on the value of the iMode parameter. If the value of iMode is FO_GLYPHBITS, (*ppvGlyph)->gdf contains the address of a GLYPHBITS structure. If the value of iMode is FO_PATHOBJ, (*ppvGlyph)->gdf contains the address of a PATHOBJ structure.
+cGlyph : [int] 変換するグリフ数を指定する。指定可能な値は 1 のみである(コードは指定値に関わらず 1 と仮定する)。
+phg : [var] ドライバが指定する cGlyph 個の HGLYPH 構造体の配列へのポインタ。
+ppvGlyph : [var] GLYPHDATA 構造体のアドレスを受け取るメモリ位置へのポインタ。この構造体の最初のメンバは GLYPHDEF 共用体で、iMode パラメータの値によって GLYPHBITS 構造体または PATHOBJ 構造体へのポインタを含む。iMode が FO_GLYPHBITS の場合、(*ppvGlyph)->gdf は GLYPHBITS 構造体のアドレスを含む。iMode が FO_PATHOBJ の場合、(*ppvGlyph)->gdf は PATHOBJ 構造体のアドレスを含む。
 %inst
-The FONTOBJ_cGetGlyphs function is a service to the font consumer
-that translates glyph handles into pointers to glyph data, which are
-valid until the next call to FONTOBJ_cGetGlyphs.
+FONTOBJ_cGetGlyphs
+関数は、グリフハンドルをグリフデータへのポインタに変換する、フォント利用者向けのサービスである。このポインタは次回の
+FONTOBJ_cGetGlyphs 呼び出しまで有効である。
 
 [戻り値]
-The return value is the count of pointers passed to the driver if the
-function is successful. Otherwise, it is zero, and an error code is
-logged.
+関数が成功した場合、戻り値はドライバに渡されたポインタの個数である。失敗した場合は 0 を返し、エラーコードがログに記録される。
 
 [備考]
-This function should be used if the driver is caching fonts.
+この関数は、ドライバがフォントをキャッシュする場合に使用すべきである。
 
 
 %index
 FONTOBJ_pQueryGlyphAttrs
-The FONTOBJ_pQueryGlyphAttrs function returns information about a font's glyphs.
+FONTOBJ_pQueryGlyphAttrs 関数は、フォントのグリフに関する情報を返す。
 %group
 Win32 gdi32
 %prm
 pfo, iMode
-pfo : [var] Is a caller-supplied pointer to a FONTOBJ structure identifying the font for which attributes are being requested.
-iMode : [int] Is a caller-supplied flag indicating the type of glyph attribute being requested. The following flag is defined:
+pfo : [var] 属性を要求するフォントを識別する FONTOBJ 構造体への、呼び出し元が指定するポインタ。
+iMode : [int] 呼び出し元が指定するフラグで、要求するグリフ属性の種類を示す。次のフラグが定義されている。
 %inst
-The FONTOBJ_pQueryGlyphAttrs function returns information about a
-font's glyphs.
+FONTOBJ_pQueryGlyphAttrs 関数は、フォントのグリフに関する情報を返す。
 
 [戻り値]
-FONTOBJ_pQueryGlyphAttrs returns a pointer to an FD_GLYPHATTR
-structure. If an error is encountered, such as an invalid input
-argument, or if the font described by the FONTOBJ structure is not a
-vertical font, the function returns NULL.
+FONTOBJ_pQueryGlyphAttrs は FD_GLYPHATTR
+構造体へのポインタを返す。無効な入力引数などのエラーが発生した場合、または FONTOBJ
+構造体が示すフォントが縦書きフォントでない場合、この関数は NULL を返す。
 
 [備考]
-Currently, the only attribute flag defined is FO_ATTR_MODE_ROTATE.
-This flag is meant for use by printer drivers that support printers
-with built-in font rasterizers. The driver can call the
-FONTOBJ_pQueryGlyphAttrs function, specifying the FO_ATTR_MODE_ROTATE
-flag, to determine which glyphs within a vertical font must be
-rotated. Vertical fonts have a font name that starts with the "@"
-character. To determine if the current font is a vertical font, the
-driver can check for the FO_VERT_FACE flag in the flFontType member
-of the font's FONTOBJ structure. Rotation information is returned in
-the FD_GLYPHATTR structure that is used as the function's return
-value. The FONTOBJ_pQueryGlyphAttrs function is supplied by GDI. When
-a printer driver calls FONTOBJ_pQueryGlyphAttrs, GDI calls the
-appropriate font driver's DrvQueryGlyphAttrs function to obtain the
-requested information.
+現在定義されている属性フラグは FO_ATTR_MODE_ROTATE
+のみである。このフラグは、組み込みフォントラスタライザを備えたプリンタをサポートするプリンタドライバ向けのものである。ドライバは
+FO_ATTR_MODE_ROTATE フラグを指定して FONTOBJ_pQueryGlyphAttrs
+関数を呼び、縦書きフォント内のどのグリフを回転させる必要があるかを判定できる。縦書きフォントはフォント名が "@"
+で始まる。現在のフォントが縦書きフォントかを判定するには、そのフォントの FONTOBJ 構造体の flFontType メンバに
+FO_VERT_FACE フラグが立っているかを確認する。回転情報はこの関数の戻り値である FD_GLYPHATTR
+構造体に格納される。FONTOBJ_pQueryGlyphAttrs 関数は GDI が提供する。プリンタドライバが
+FONTOBJ_pQueryGlyphAttrs を呼び出すと、GDI は該当するフォントドライバの DrvQueryGlyphAttrs
+関数を呼び出して要求情報を取得する。
 
 
 %index
 FONTOBJ_pfdg
-The FONTOBJ_pfdg function retrieves the pointer to the FD_GLYPHSET structure associated with the specified font.
+FONTOBJ_pfdg 関数は、指定フォントに関連付けられた FD_GLYPHSET 構造体へのポインタを取得する。
 %group
 Win32 gdi32
 %prm
 pfo
-pfo : [var] Pointer to the FONTOBJ structure for which the associated FD_GLYPHSET structure is to be returned.
+pfo : [var] 関連する FD_GLYPHSET 構造体を返す対象の FONTOBJ 構造体へのポインタ。
 %inst
-The FONTOBJ_pfdg function retrieves the pointer to the FD_GLYPHSET
-structure associated with the specified font.
+FONTOBJ_pfdg 関数は、指定フォントに関連付けられた FD_GLYPHSET 構造体へのポインタを取得する。
 
 [戻り値]
-FONTOBJ_pfdg returns a pointer to the FD_GLYPHSET structure
-associated with the specified font.
+FONTOBJ_pfdg は、指定フォントに関連付けられた FD_GLYPHSET 構造体へのポインタを返す。
 
 [備考]
-Printer drivers can call FONTOBJ_pfdg to determine which Unicode code
-points are supported in a GDI font. The printer driver can then
-determine whether it can optimize performance by instead using a
-similar printer-resident font to display a text string.
+プリンタドライバは FONTOBJ_pfdg を呼び出すことで、GDI フォントでサポートされる Unicode
+コードポイントを判定できる。その後、類似のプリンタ常駐フォントを使って文字列を表示することでパフォーマンスを最適化できるかを判断できる。
 
 
 %index
 FONTOBJ_pvTrueTypeFontFile
-The FONTOBJ_pvTrueTypeFontFile function retrieves a user-mode pointer to a view of a TrueType, OpenType, or Type1 font file.
+FONTOBJ_pvTrueTypeFontFile 関数は、TrueType、OpenType、または Type1 フォントファイルのビューへのユーザモードポインタを取得する。
 %group
 Win32 gdi32
 %prm
 pfo, pcjFile
-pfo : [var] Pointer to the FONTOBJ structure with which the TrueType, PostScript OpenType, or PostScript Type1 font is associated.
-pcjFile : [var] Pointer to a location in which GDI returns the size, in bytes, of the view of the font file.
+pfo : [var] TrueType、PostScript OpenType、または PostScript Type1 フォントが関連付けられた FONTOBJ 構造体へのポインタ。
+pcjFile : [var] GDI がフォントファイルのビューのサイズ(バイト単位)を返す場所へのポインタ。
 %inst
-The FONTOBJ_pvTrueTypeFontFile function retrieves a user-mode pointer
-to a view of a TrueType, OpenType, or Type1 font file.
+FONTOBJ_pvTrueTypeFontFile 関数は、TrueType、OpenType、または Type1
+フォントファイルのビューへのユーザモードポインタを取得する。
 
 [戻り値]
-FONTOBJ_pvTrueTypeFontFile returns a pointer to a user-mode view of a
-font file upon success. If the FONTOBJ structure identifies a Type1
-font, the return value is a pointer to the memory-mapped image of the
-pfb file. Otherwise, this function returns NULL.
+FONTOBJ_pvTrueTypeFontFile は成功するとフォントファイルのユーザモードビューへのポインタを返す。FONTOBJ
+構造体が Type1 フォントを示す場合、戻り値は pfb ファイルのメモリマップイメージへのポインタである。それ以外の場合、この関数は
+NULL を返す。
 
 [備考]
-FONTOBJ_pvTrueTypeFontFile should be called only for TrueType,
-OpenType, or Type1 fonts. The pointer returned by
-FONTOBJ_pvTrueTypeFontFile is valid only within the scope of the
-calling DrvTextOut function. That is, the driver should not assume
-that the pointer returned by this function is valid upon exiting
-DrvTextOut and returning control to GDI.
+FONTOBJ_pvTrueTypeFontFile は TrueType、OpenType、または Type1
+フォントに対してのみ呼び出すべきである。FONTOBJ_pvTrueTypeFontFile が返すポインタは、呼び出し元の
+DrvTextOut 関数のスコープ内でのみ有効である。つまり、ドライバは DrvTextOut を抜けて GDI
+に制御を戻した後、このポインタが有効であると仮定してはならない。
 
 
 %index
 FONTOBJ_pxoGetXform
-The FONTOBJ_pxoGetXform function retrieves the notional-to-device transform for the specified font.
+FONTOBJ_pxoGetXform 関数は、指定フォントの notional-to-device 変換を取得する。
 %group
 Win32 gdi32
 %prm
 pfo
-pfo : [var] Pointer to the FONTOBJ structure for which the transform is to be retrieved.
+pfo : [var] 変換を取得する対象の FONTOBJ 構造体へのポインタ。
 %inst
-The FONTOBJ_pxoGetXform function retrieves the notional-to-device
-transform for the specified font.
+FONTOBJ_pxoGetXform 関数は、指定フォントの notional-to-device 変換を取得する。
 
 [戻り値]
-The return value is a pointer to an XFORMOBJ structure that describes
-the transform. The XFORMOBJ structure can be used by the XFORMOBJ_Xxx
-service routines. The XFORMOBJ structure assumes that:
-This doc was truncated.
+戻り値は変換を記述する XFORMOBJ 構造体へのポインタである。この XFORMOBJ 構造体は XFORMOBJ_Xxx
+サービスルーチンで使用できる。XFORMOBJ 構造体は次を仮定している。
+（以下省略)
 
 [備考]
-The driver needs the notional-to-device transform to realize a
-driver-supplied font.
+ドライバは、ドライバが提供するフォントを実体化するために notional-to-device 変換を必要とする。
 
 
 %index
 FONTOBJ_vGetInfo
-The FONTOBJ_vGetInfo function retrieves information about an associated font.
+FONTOBJ_vGetInfo 関数は、関連付けられたフォントの情報を取得する。
 %group
 Win32 gdi32
 %prm
 pfo, cjSize, pfi
-pfo : [var] Pointer to the FONTOBJ structure to be queried.
-cjSize : [int] Specifies the size in bytes of the buffer pointed to by pfi.
-pfi : [var] Pointer to a buffer previously allocated by the driver. GDI writes a FONTINFO structure to this buffer.
+pfo : [var] 問い合わせる FONTOBJ 構造体へのポインタ。
+cjSize : [int] pfi が指すバッファのサイズ(バイト単位)。
+pfi : [var] ドライバがあらかじめ確保したバッファへのポインタ。GDI はこのバッファに FONTINFO 構造体を書き込む。
 %inst
-The FONTOBJ_vGetInfo function retrieves information about an
-associated font.
+FONTOBJ_vGetInfo 関数は、関連付けられたフォントの情報を取得する。
 
 
 %index
 FillPath
-The FillPath function closes any open figures in the current path and fills the path's interior by using the current brush and polygon-filling mode.
+FillPath 関数は、現在のパス内の開いている図形を閉じ、現在のブラシと多角形塗りつぶしモードでパス内部を塗りつぶす。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to a device context that contains a valid path.
+hdc : [intptr] 有効なパスを含むデバイスコンテキストのハンドル。
 %inst
-The FillPath function closes any open figures in the current path and
-fills the path's interior by using the current brush and
-polygon-filling mode.
+FillPath 関数は、現在のパス内の開いている図形を閉じ、現在のブラシと多角形塗りつぶしモードでパス内部を塗りつぶす。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-After its interior is filled, the path is discarded from the DC
-identified by the hdc parameter.
+内部が塗りつぶされた後、パスは hdc が示す DC から破棄される。
 
 
 %index
 FillRgn
-The FillRgn function fills a region by using the specified brush.
+FillRgn 関数は、指定したブラシを使ってリージョンを塗りつぶす。
 %group
 Win32 gdi32
 %prm
 hdc, hrgn, hbr
-hdc : [intptr] Handle to the device context.
-hrgn : [intptr] Handle to the region to be filled. The region's coordinates are presumed to be in logical units.
-hbr : [intptr] Handle to the brush to be used to fill the region.
+hdc : [intptr] デバイスコンテキストのハンドル。
+hrgn : [intptr] 塗りつぶすリージョンのハンドル。リージョンの座標は論理単位と見なされる。
+hbr : [intptr] リージョンの塗りつぶしに使用するブラシのハンドル。
 %inst
-The FillRgn function fills a region by using the specified brush.
+FillRgn 関数は、指定したブラシを使ってリージョンを塗りつぶす。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 
 %index
@@ -4258,161 +3568,128 @@ ptl : [var]
 
 %index
 FlattenPath
-The FlattenPath function transforms any curves in the path that is selected into the current device context (DC), turning each curve into a sequence of lines.
+FlattenPath 関数は、現在のデバイスコンテキスト (DC) に選択されているパス内の曲線を変換し、各曲線を線分の列に変える。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to a DC that contains a valid path.
+hdc : [intptr] 有効なパスを含む DC のハンドル。
 %inst
-The FlattenPath function transforms any curves in the path that is
-selected into the current device context (DC), turning each curve
-into a sequence of lines.
+FlattenPath 関数は、現在のデバイスコンテキスト (DC) に選択されているパス内の曲線を変換し、各曲線を線分の列に変える。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 
 %index
 FloodFill
-The FloodFill function fills an area of the display surface with the current brush. The area is assumed to be bounded as specified by the color parameter.
+FloodFill 関数は、表示面の領域を現在のブラシで塗りつぶす。領域は color パラメータで指定された色で境界が定められていると見なされる。
 %group
 Win32 gdi32
 %prm
 hdc, x, y, color
-hdc : [intptr] A handle to a device context.
-x : [int] The x-coordinate, in logical units, of the point where filling is to start.
-y : [int] The y-coordinate, in logical units, of the point where filling is to start.
-color : [int] The color of the boundary or the area to be filled. To create a COLORREF color value, use the RGB macro.
+hdc : [intptr] デバイスコンテキストのハンドル。
+x : [int] 塗りつぶしを開始する点の x 座標(論理単位)。
+y : [int] 塗りつぶしを開始する点の y 座標(論理単位)。
+color : [int] 境界または塗りつぶし領域の色。COLORREF 値を作成するには RGB マクロを使用する。
 %inst
-The FloodFill function fills an area of the display surface with the
-current brush. The area is assumed to be bounded as specified by the
-color parameter.
+FloodFill 関数は、表示面の領域を現在のブラシで塗りつぶす。領域は color
+パラメータで指定された色で境界が定められていると見なされる。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The following are reasons this function might fail:
-This doc was truncated.
+この関数が失敗する理由には次のようなものがある。
+（以下省略）
 
 
 %index
 FrameRgn
-The FrameRgn function draws a border around the specified region by using the specified brush.
+FrameRgn 関数は、指定したブラシを使って指定リージョンの周囲に境界線を描画する。
 %group
 Win32 gdi32
 %prm
 hdc, hrgn, hbr, w, h
-hdc : [intptr] Handle to the device context.
-hrgn : [intptr] Handle to the region to be enclosed in a border. The region's coordinates are presumed to be in logical units.
-hbr : [intptr] Handle to the brush to be used to draw the border.
-w : [int] Specifies the width, in logical units, of vertical brush strokes.
-h : [int] Specifies the height, in logical units, of horizontal brush strokes.
+hdc : [intptr] デバイスコンテキストのハンドル。
+hrgn : [intptr] 境界線で囲むリージョンのハンドル。リージョンの座標は論理単位と見なされる。
+hbr : [intptr] 境界線の描画に使用するブラシのハンドル。
+w : [int] 垂直ブラシストロークの幅(論理単位)を指定する。
+h : [int] 水平ブラシストロークの高さ(論理単位)を指定する。
 %inst
-The FrameRgn function draws a border around the specified region by
-using the specified brush.
+FrameRgn 関数は、指定したブラシを使って指定リージョンの周囲に境界線を描画する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 
 %index
 GdiAlphaBlend
-The GdiAlphaBlend function displays bitmaps that have transparent or semitransparent pixels.
+GdiAlphaBlend 関数は、透明または半透明ピクセルを持つビットマップを表示する。
 %group
 Win32 gdi32
 %prm
 hdcDest, xoriginDest, yoriginDest, wDest, hDest, hdcSrc, xoriginSrc, yoriginSrc, wSrc, hSrc, ftn
-hdcDest : [intptr] A handle to the destination device context.
-xoriginDest : [int] The x-coordinate, in logical units, of the upper-left corner of the destination rectangle.
-yoriginDest : [int] The y-coordinate, in logical units, of the upper-left corner of the destination rectangle.
-wDest : [int] The width, in logical units, of the destination rectangle.
-hDest : [int] The height, in logical units, of the destination rectangle.
-hdcSrc : [intptr] A handle to the source device context.
-xoriginSrc : [int] The x-coordinate, in logical units, of the upper-left corner of the source rectangle.
-yoriginSrc : [int] The y-coordinate, in logical units, of the upper-left corner of the source rectangle.
-wSrc : [int] The width, in logical units, of the source rectangle.
-hSrc : [int] The height, in logical units, of the source rectangle.
-ftn : [var] The alpha-blending function for source and destination bitmaps, a global alpha value to be applied to the entire source bitmap, and format information for the source bitmap. The source and destination blend functions are currently limited to AC_SRC_OVER. See the BLENDFUNCTION and EMRALPHABLEND structures.
+hdcDest : [intptr] デスティネーションデバイスコンテキストのハンドル。
+xoriginDest : [int] デスティネーション矩形の左上隅の x 座標(論理単位)。
+yoriginDest : [int] デスティネーション矩形の左上隅の y 座標(論理単位)。
+wDest : [int] デスティネーション矩形の幅(論理単位)。
+hDest : [int] デスティネーション矩形の高さ(論理単位)。
+hdcSrc : [intptr] ソースデバイスコンテキストのハンドル。
+xoriginSrc : [int] ソース矩形の左上隅の x 座標(論理単位)。
+yoriginSrc : [int] ソース矩形の左上隅の y 座標(論理単位)。
+wSrc : [int] ソース矩形の幅(論理単位)。
+hSrc : [int] ソース矩形の高さ(論理単位)。
+ftn : [var] ソースおよびデスティネーションビットマップのアルファブレンド関数、ソースビットマップ全体に適用されるグローバルアルファ値、ソースビットマップのフォーマット情報。ソースとデスティネーションのブレンド関数は現在 AC_SRC_OVER に限定される。BLENDFUNCTION および EMRALPHABLEND 構造体を参照。
 %inst
-The GdiAlphaBlend function displays bitmaps that have transparent or
-semitransparent pixels.
+GdiAlphaBlend 関数は、透明または半透明ピクセルを持つビットマップを表示する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. This function can return the
-following value.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE である。失敗した場合は FALSE を返す。この関数は次の値を返すことがある。
+（以下省略)
 
 [備考]
-Note This function is the same as AlphaBlend. If the source rectangle
-and destination rectangle are not the same size, the source bitmap is
-stretched to match the destination rectangle. If the
-SetStretchBltMode function is used, the iStretchMode value is
-automatically converted to COLORONCOLOR for this function (that is,
-BLACKONWHITE, WHITEONBLACK, and HALFTONE are changed to
-COLORONCOLOR). The destination coordinates are transformed by using
-the transformation currently specified for the destination device
-context. The source coordinates are transformed by using the
-transformation currently specified for the source device context. An
-error occurs (and the function returns FALSE) if the source device
-context identifies an enhanced metafile device context. If
-destination and source bitmaps do not have the same color format,
-GdiAlphaBlend converts the source bitmap to match the destination
-bitmap. GdiAlphaBlend does not support mirroring. If either the width
-or height of the source or destination is negative, this call will
-fail. When rendering to a printer, first call GetDeviceCaps with
-SHADEBLENDCAPS to determine if the printer supports blending with
-GdiAlphaBlend. Note that, for a display DC, all blending operations
-are supported and these flags represent whether the operations are
-accelerated. If the source and destination are the same surface, that
-is, they are both the screen or the same memory bitmap and the source
-and destination rectangles overlap, an error occurs and the function
-returns FALSE. The source rectangle must lie completely within the
-source surface, otherwise an error occurs and the function returns
-FALSE. GdiAlphaBlend fails if the width or height of the source or
-destination is negative. The SourceConstantAlpha member of
-BLENDFUNCTION specifies an alpha transparency value to be used on the
-entire source bitmap. The SourceConstantAlpha value is combined with
-any per-pixel alpha values. If SourceConstantAlpha is 0, it is
-assumed that the image is transparent. Set the SourceConstantAlpha
-value to 255 (which indicates that the image is opaque) when you only
-want to use per-pixel alpha values.
+注意 この関数は AlphaBlend
+と同じである。ソース矩形とデスティネーション矩形のサイズが異なる場合、ソースビットマップはデスティネーション矩形に合うように伸縮される。SetStretchBltMode
+関数が使用された場合、iStretchMode の値はこの関数では自動的に COLORONCOLOR
+に変換される(BLACKONWHITE、WHITEONBLACK、HALFTONE は COLORONCOLOR
+に変更される)。デスティネーションの座標は、デスティネーションデバイスコンテキストに現在設定されている変換で変換される。ソースの座標は、ソースデバイスコンテキストに現在設定されている変換で変換される。ソースデバイスコンテキストが拡張メタファイルデバイスコンテキストを示している場合、エラーが発生し(関数は
+FALSE を返す)。デスティネーションとソースのビットマップのカラーフォーマットが異なる場合、GdiAlphaBlend
+はソースビットマップをデスティネーションに合わせて変換する。GdiAlphaBlend
+はミラーリングをサポートしない。ソースまたはデスティネーションの幅あるいは高さが負の場合、この呼び出しは失敗する。プリンタへの描画時には、まず
+GetDeviceCaps に SHADEBLENDCAPS を指定して呼び出し、プリンタが GdiAlphaBlend
+でのブレンドをサポートしているかを確認すること。ディスプレイ DC
+ではすべてのブレンド操作がサポートされており、これらのフラグは操作がハードウェアで高速化されているかを示す。ソースとデスティネーションが同じサーフェス(つまり両方とも画面または同じメモリビットマップ)で、かつソース矩形とデスティネーション矩形が重なっている場合、エラーが発生し関数は
+FALSE を返す。ソース矩形はソースサーフェス内に完全に収まっていなければならず、そうでなければエラーとなり FALSE
+を返す。GdiAlphaBlend はソースまたはデスティネーションの幅または高さが負の場合に失敗する。BLENDFUNCTION の
+SourceConstantAlpha
+メンバは、ソースビットマップ全体に適用するアルファ透明度値を指定する。SourceConstantAlpha
+値はピクセル毎のアルファ値と組み合わされる。SourceConstantAlpha が 0
+の場合、画像は透明と見なされる。ピクセル毎のアルファ値のみを使用したい場合は SourceConstantAlpha に 255
+(不透明を示す) を指定する。
 
 
 %index
 GdiComment
-The GdiComment function copies a comment from a buffer into a specified enhanced-format metafile.
+GdiComment 関数は、バッファから指定された拡張形式メタファイルへコメントをコピーする。
 %group
 Win32 gdi32
 %prm
 hdc, nSize, lpData
-hdc : [intptr] A handle to an enhanced-metafile device context.
-nSize : [int] The length of the comment buffer, in bytes.
-lpData : [var] A pointer to the buffer that contains the comment.
+hdc : [intptr] 拡張メタファイルデバイスコンテキストのハンドル。
+nSize : [int] コメントバッファの長さ(バイト単位)。
+lpData : [var] コメントを含むバッファへのポインタ。
 %inst
-The GdiComment function copies a comment from a buffer into a
-specified enhanced-format metafile.
+GdiComment 関数は、バッファから指定された拡張形式メタファイルへコメントをコピーする。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-A comment can include any kind of private information, for example,
-the source of a picture and the date it was created. A comment should
-begin with an application signature, followed by the data. Comments
-should not contain application-specific or position-specific data.
-Position-specific data specifies the location of a record, and it
-should not be included because one metafile may be embedded within
-another metafile. A public comment is a comment that begins with the
-comment signature identifier GDICOMMENT_IDENTIFIER. The following
-public comments are defined.
-This doc was truncated.
+
+コメントには、例えば画像のソースや作成日などの任意のプライベート情報を含めることができる。コメントはアプリケーション署名で始まり、その後にデータを続けるべきである。アプリケーション固有または位置固有のデータを含めてはならない。位置固有のデータはレコードの位置を指定するが、メタファイルは別のメタファイル内に埋め込まれる可能性があるため、含めるべきではない。パブリックコメントは、コメント署名識別子
+GDICOMMENT_IDENTIFIER で始まるコメントである。次のパブリックコメントが定義されている。
+（以下省略)
 
 
 %index
@@ -4454,57 +3731,46 @@ dwOptimization : [int]
 
 %index
 GdiFlush
-The GdiFlush function flushes the calling thread's current batch.
+GdiFlush 関数は、呼び出しスレッドの現在のバッチをフラッシュする。
 %group
 Win32 gdi32
 %prm
 
 %inst
-The GdiFlush function flushes the calling thread's current batch.
+GdiFlush 関数は、呼び出しスレッドの現在のバッチをフラッシュする。
 
 [戻り値]
-If all functions in the current batch succeed, the return value is
-nonzero. If not all functions in the current batch succeed, the
-return value is zero, indicating that at least one function returned
-an error.
+現在のバッチ内のすべての関数が成功した場合、戻り値は 0 以外である。いずれかの関数が失敗した場合、戻り値は 0 であり、少なくとも 1
+つの関数がエラーを返したことを示す。
 
 [備考]
-Batching enhances drawing performance by minimizing the amount of
-time needed to call GDI drawing functions that return Boolean values.
-The system accumulates the parameters for calls to these functions in
-the current batch and then calls the functions when the batch is
-flushed by any of the following means:
-This doc was truncated.
+バッチ処理は、ブール値を返す GDI
+描画関数の呼び出しに要する時間を最小化することで描画性能を向上させる。システムはこれらの関数呼び出しのパラメータを現在のバッチに蓄積し、次のいずれかによってバッチがフラッシュされたときに実際に関数を呼び出す。
+（以下省略)
 
 
 %index
 GdiGetBatchLimit
-The GdiGetBatchLimit function returns the maximum number of function calls that can be accumulated in the calling thread's current batch. The system flushes the current batch whenever this limit is exceeded.
+GdiGetBatchLimit 関数は、呼び出しスレッドの現在のバッチに蓄積できる関数呼び出しの最大数を返す。この上限を超えるとシステムは現在のバッチをフラッシュする。
 %group
 Win32 gdi32
 %prm
 
 %inst
-The GdiGetBatchLimit function returns the maximum number of function
-calls that can be accumulated in the calling thread's current batch.
-The system flushes the current batch whenever this limit is exceeded.
+GdiGetBatchLimit
+関数は、呼び出しスレッドの現在のバッチに蓄積できる関数呼び出しの最大数を返す。この上限を超えるとシステムは現在のバッチをフラッシュする。
 
 [戻り値]
-If the function succeeds, the return value is the batch limit. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値はバッチ上限である。失敗した場合は 0 である。
 
 [備考]
-The batch limit is set by using the GdiSetBatchLimit function.
-Setting the limit to 1 effectively disables batching. Only GDI
-drawing functions that return Boolean values can be batched; calls to
-any other GDI functions immediately flush the current batch.
-Exceeding the batch limit or calling the GdiFlush function also
-flushes the current batch. When the system batches a function call,
-the function returns TRUE. The actual return value for the function
-is reported only if GdiFlush is used to flush the batch. Note The
-batch limit is maintained for each thread separately. In order to
-completely disable batching, call GdiSetBatchLimit (1) during the
-initialization of each thread.
+バッチ上限は GdiSetBatchLimit 関数で設定する。上限を 1
+に設定するとバッチ処理は事実上無効になる。バッチ処理できるのはブール値を返す GDI 描画関数のみで、その他の GDI
+関数呼び出しは直ちにバッチをフラッシュする。バッチ上限を超えたり GdiFlush
+関数を呼び出したりした場合も現在のバッチはフラッシュされる。システムが関数呼び出しをバッチ化すると、関数は TRUE
+を返す。関数の実際の戻り値は GdiFlush でバッチをフラッシュしたときのみ報告される。注意
+バッチ上限はスレッドごとに維持される。バッチ処理を完全に無効化するには、各スレッドの初期化時に GdiSetBatchLimit(1)
+を呼ぶ必要がある。
 
 
 %index
@@ -4576,30 +3842,28 @@ pwszDocName : [wstr]
 
 %index
 GdiGradientFill
-The GdiGradientFill function fills rectangle and triangle structures.
+GdiGradientFill 関数は、矩形および三角形構造を塗りつぶす。
 %group
 Win32 gdi32
 %prm
 hdc, pVertex, nVertex, pMesh, nCount, ulMode
-hdc : [intptr] A handle to the destination device context.
-pVertex : [var] A pointer to an array of TRIVERTEX structures that each define a triangle vertex.
-nVertex : [int] The number of vertices in pVertex.
-pMesh : [intptr] An array of GRADIENT_TRIANGLE structures in triangle mode, or an array of GRADIENT_RECT structures in rectangle mode.
-nCount : [int] The number of elements (triangles or rectangles) in pMesh.
+hdc : [intptr] デスティネーションデバイスコンテキストのハンドル。
+pVertex : [var] 三角形の頂点を定義する TRIVERTEX 構造体の配列へのポインタ。
+nVertex : [int] pVertex 内の頂点数。
+pMesh : [intptr] 三角形モードでは GRADIENT_TRIANGLE 構造体の配列、矩形モードでは GRADIENT_RECT 構造体の配列。
+nCount : [int] pMesh 内の要素(三角形または矩形)の数。
 ulMode : [int] 
 %inst
-The GdiGradientFill function fills rectangle and triangle structures.
+GdiGradientFill 関数は、矩形および三角形構造を塗りつぶす。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE.
+関数が成功した場合、戻り値は TRUE である。失敗した場合は FALSE である。
 
 [備考]
-Note This function is the same as GradientFill. To add smooth shading
-to a triangle, call the GdiGradientFill function with the three
-triangle endpoints. GDI will linearly interpolate and fill the
-triangle. Here is the drawing output of a shaded triangle.
-This doc was truncated.
+注意 この関数は GradientFill と同じである。三角形に滑らかなシェーディングを追加するには、3 つの三角形端点を指定して
+GdiGradientFill 関数を呼び出す。GDI
+は線形補間して三角形を塗りつぶす。以下はシェーディングされた三角形の描画出力である。
+（以下省略)
 
 
 %index
@@ -4633,34 +3897,27 @@ pCurrDM : [var]
 
 %index
 GdiSetBatchLimit
-The GdiSetBatchLimit function sets the maximum number of function calls that can be accumulated in the calling thread's current batch. The system flushes the current batch whenever this limit is exceeded.
+GdiSetBatchLimit 関数は、呼び出しスレッドの現在のバッチに蓄積できる関数呼び出しの最大数を設定する。この上限を超えるとシステムは現在のバッチをフラッシュする。
 %group
 Win32 gdi32
 %prm
 dw
-dw : [int] Specifies the batch limit to be set. A value of 0 sets the default limit. A value of 1 disables batching.
+dw : [int] 設定するバッチ上限を指定する。0 を指定するとデフォルトの上限が設定される。1 を指定するとバッチ処理が無効になる。
 %inst
-The GdiSetBatchLimit function sets the maximum number of function
-calls that can be accumulated in the calling thread's current batch.
-The system flushes the current batch whenever this limit is exceeded.
+GdiSetBatchLimit
+関数は、呼び出しスレッドの現在のバッチに蓄積できる関数呼び出しの最大数を設定する。この上限を超えるとシステムは現在のバッチをフラッシュする。
 
 [戻り値]
-If the function succeeds, the return value is the previous batch
-limit. If the function fails, the return value is zero.
+関数が成功した場合、戻り値は以前のバッチ上限である。失敗した場合は 0 である。
 
 [備考]
-Only GDI drawing functions that return Boolean values can be
-accumulated in the current batch; calls to any other GDI functions
-immediately flush the current batch. Exceeding the batch limit or
-calling the GdiFlush function also flushes the current batch. When
-the system accumulates a function call, the function returns TRUE to
-indicate it is in the batch. When the system flushes the current
-batch and executes the function for the second time, the return value
-is either TRUE or FALSE, depending on whether the function succeeds.
-This second return value is reported only if GdiFlush is used to
-flush the batch. Note The batch limit is maintained for each thread
-separately. In order to completely disable batching, call
-GdiSetBatchLimit (1) during the initialization of each thread.
+現在のバッチに蓄積できるのはブール値を返す GDI 描画関数のみで、その他の GDI
+関数呼び出しは直ちにバッチをフラッシュする。バッチ上限を超えたり GdiFlush
+関数を呼び出したりした場合も現在のバッチはフラッシュされる。システムが関数呼び出しを蓄積すると、バッチ内にあることを示すために関数は
+TRUE を返す。システムが現在のバッチをフラッシュして 2 回目にその関数を実行すると、戻り値は関数が成功したかによって TRUE
+または FALSE となる。この 2 回目の戻り値は、GdiFlush でバッチをフラッシュしたときのみ報告される。注意
+バッチ上限はスレッドごとに維持される。バッチ処理を完全に無効化するには、各スレッドの初期化時に GdiSetBatchLimit(1)
+を呼ぶ必要がある。
 
 
 %index
@@ -4690,846 +3947,664 @@ SpoolFileHandle : [intptr]
 
 %index
 GdiTransparentBlt
-The GdiTransparentBlt function performs a bit-block transfer of the color data corresponding to a rectangle of pixels from the specified source device context into a destination device context.
+GdiTransparentBlt 関数は、指定されたソースデバイスコンテキストのピクセル矩形に対応するカラーデータのビットブロック転送を、デスティネーションデバイスコンテキストへ行う。
 %group
 Win32 gdi32
 %prm
 hdcDest, xoriginDest, yoriginDest, wDest, hDest, hdcSrc, xoriginSrc, yoriginSrc, wSrc, hSrc, crTransparent
-hdcDest : [intptr] A handle to the destination device context.
-xoriginDest : [int] The x-coordinate, in logical units, of the upper-left corner of the destination rectangle.
-yoriginDest : [int] The y-coordinate, in logical units, of the upper-left corner of the destination rectangle.
-wDest : [int] The width, in logical units, of the destination rectangle.
-hDest : [int] The height, in logical units, of the destination rectangle.
-hdcSrc : [intptr] A handle to the source device context.
-xoriginSrc : [int] The x-coordinate, in logical units, of the source rectangle.
-yoriginSrc : [int] The y-coordinate, in logical units, of the source rectangle.
-wSrc : [int] The width, in logical units, of the source rectangle.
-hSrc : [int] The height, in logical units, of the source rectangle.
-crTransparent : [int] The RGB color in the source bitmap to treat as transparent.
+hdcDest : [intptr] デスティネーションデバイスコンテキストのハンドル。
+xoriginDest : [int] デスティネーション矩形の左上隅の x 座標(論理単位)。
+yoriginDest : [int] デスティネーション矩形の左上隅の y 座標(論理単位)。
+wDest : [int] デスティネーション矩形の幅(論理単位)。
+hDest : [int] デスティネーション矩形の高さ(論理単位)。
+hdcSrc : [intptr] ソースデバイスコンテキストのハンドル。
+xoriginSrc : [int] ソース矩形の x 座標(論理単位)。
+yoriginSrc : [int] ソース矩形の y 座標(論理単位)。
+wSrc : [int] ソース矩形の幅(論理単位)。
+hSrc : [int] ソース矩形の高さ(論理単位)。
+crTransparent : [int] ソースビットマップ内で透明として扱う RGB カラー。
 %inst
-The GdiTransparentBlt function performs a bit-block transfer of the
-color data corresponding to a rectangle of pixels from the specified
-source device context into a destination device context.
+GdiTransparentBlt
+関数は、指定されたソースデバイスコンテキストのピクセル矩形に対応するカラーデータのビットブロック転送を、デスティネーションデバイスコンテキストへ行う。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE.
+関数が成功した場合、戻り値は TRUE である。失敗した場合は FALSE である。
 
 [備考]
-The GdiTransparentBlt function works with compatible bitmaps (DDBs).
-The GdiTransparentBlt function supports all formats of source
-bitmaps. However, for 32 bpp bitmaps, it just copies the alpha value
-over. Use AlphaBlend to specify 32 bits-per-pixel bitmaps with
-transparency. If the source and destination rectangles are not the
-same size, the source bitmap is stretched to match the destination
-rectangle. When the SetStretchBltMode function is used, the
-iStretchMode modes of BLACKONWHITE and WHITEONBLACK are converted to
-COLORONCOLOR for the GdiTransparentBlt function. The destination
-device context specifies the transformation type for the destination
-coordinates. The source device context specifies the transformation
-type for the source coordinates. GdiTransparentBlt does not mirror a
-bitmap if either the width or height, of either the source or
-destination, is negative. When used in a multiple monitor system,
-both hdcSrc and hdcDest must refer to the same device or the function
-will fail. To transfer data between DCs for different devices,
-convert the memory bitmap to a DIB by calling GetDIBits. To display
-the DIB to the second device, call SetDIBits or StretchDIBits.
+GdiTransparentBlt 関数は互換ビットマップ (DDB) で動作する。GdiTransparentBlt
+関数はすべてのフォーマットのソースビットマップをサポートする。ただし 32bpp
+ビットマップの場合、アルファ値をそのままコピーする。透明度付きの 32 ビット/ピクセルビットマップを指定するには AlphaBlend
+を使用すること。ソース矩形とデスティネーション矩形のサイズが異なる場合、ソースビットマップはデスティネーション矩形に合うように伸縮される。SetStretchBltMode
+関数を使用する場合、BLACKONWHITE および WHITEONBLACK の iStretchMode は
+GdiTransparentBlt 関数では COLORONCOLOR
+に変換される。デスティネーションデバイスコンテキストはデスティネーション座標の変換種別を指定し、ソースデバイスコンテキストはソース座標の変換種別を指定する。GdiTransparentBlt
+は、ソースまたはデスティネーションの幅あるいは高さが負であってもビットマップをミラーリングしない。マルチモニターシステムで使用する場合、hdcSrc
+と hdcDest は同じデバイスを参照している必要があり、そうでないと関数は失敗する。異なるデバイスの DC
+間でデータを転送するには、GetDIBits を呼び出してメモリビットマップを DIB に変換する。2 つ目のデバイスに DIB
+を表示するには、SetDIBits または StretchDIBits を呼び出す。
 
 
 %index
 GetArcDirection
-The GetArcDirection function retrieves the current arc direction for the specified device context. Arc and rectangle functions use the arc direction.
+GetArcDirection 関数は、指定したデバイスコンテキストの現在の弧の方向を取得する。弧および矩形関数は弧の方向を使用する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to the device context.
+hdc : [intptr] デバイスコンテキストのハンドル。
 %inst
-The GetArcDirection function retrieves the current arc direction for
-the specified device context. Arc and rectangle functions use the arc
-direction.
+GetArcDirection 関数は、指定したデバイスコンテキストの現在の弧の方向を取得する。弧および矩形関数は弧の方向を使用する。
 
 [戻り値]
-The return value specifies the current arc direction; it can be any
-one of the following values:
-This doc was truncated.
+戻り値は現在の弧の方向を示し、次のいずれかの値となる。
+（以下省略)
 
 
 %index
 GetAspectRatioFilterEx
-The GetAspectRatioFilterEx function retrieves the setting for the current aspect-ratio filter.
+GetAspectRatioFilterEx 関数は、現在のアスペクト比フィルタの設定を取得する。
 %group
 Win32 gdi32
 %prm
 hdc, lpsize
-hdc : [intptr] Handle to a device context.
-lpsize : [var] Pointer to a SIZE structure that receives the current aspect-ratio filter.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lpsize : [var] 現在のアスペクト比フィルタを受け取る SIZE 構造体へのポインタ。
 %inst
-The GetAspectRatioFilterEx function retrieves the setting for the
-current aspect-ratio filter.
+GetAspectRatioFilterEx 関数は、現在のアスペクト比フィルタの設定を取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The aspect ratio is the ratio formed by the width and height of a
-pixel on a specified device. The system provides a special filter,
-the aspect-ratio filter, to select fonts that were designed for a
-particular device. An application can specify that the system should
-only retrieve fonts matching the specified aspect ratio by calling
-the SetMapperFlags function.
+アスペクト比は、指定デバイス上の 1
+ピクセルの幅と高さで形成される比である。システムは特定のデバイス向けにデザインされたフォントを選択するために、アスペクト比フィルタという特別なフィルタを提供する。アプリケーションは
+SetMapperFlags 関数を呼び出すことで、指定アスペクト比に一致するフォントのみを取得するようシステムに指示できる。
 
 
 %index
 GetBitmapBits
-The GetBitmapBits function copies the bitmap bits of a specified device-dependent bitmap into a buffer.
+GetBitmapBits 関数は、指定したデバイス依存 HBITMAP のビットマップビットをバッファへコピーする。
 %group
 Win32 gdi32
 %prm
 hbit, cb, lpvBits
-hbit : [intptr] A handle to the device-dependent bitmap.
-cb : [int] The number of bytes to copy from the bitmap into the buffer.
-lpvBits : [intptr] A pointer to a buffer to receive the bitmap bits. The bits are stored as an array of byte values.
+hbit : [intptr] デバイス依存ビットマップのハンドル。
+cb : [int] ビットマップからバッファへコピーするバイト数。
+lpvBits : [intptr] ビットマップビットを受け取るバッファへのポインタ。ビットはバイト値の配列として格納される。
 %inst
-The GetBitmapBits function copies the bitmap bits of a specified
-device-dependent bitmap into a buffer.
+GetBitmapBits 関数は、指定したデバイス依存 HBITMAP のビットマップビットをバッファへコピーする。
 
 [戻り値]
-If the function succeeds, the return value is the number of bytes
-copied to the buffer. If the function fails, the return value is
-zero.
+関数が成功した場合、戻り値はバッファへコピーしたバイト数である。失敗した場合は 0 である。
 
 
 %index
 GetBitmapDimensionEx
-The GetBitmapDimensionEx function retrieves the dimensions of a compatible bitmap. The retrieved dimensions must have been set by the SetBitmapDimensionEx function.
+GetBitmapDimensionEx 関数は、互換 HBITMAP の寸法を取得する。取得される寸法は SetBitmapDimensionEx 関数で設定されたものでなければならない。
 %group
 Win32 gdi32
 %prm
 hbit, lpsize
-hbit : [intptr] A handle to a compatible bitmap (DDB).
-lpsize : [var] A pointer to a SIZE structure to receive the bitmap dimensions. For more information, see Remarks.
+hbit : [intptr] 互換 HBITMAP (DDB) のハンドル。
+lpsize : [var] ビットマップの寸法を受け取る SIZE 構造体へのポインタ。詳細は備考を参照。
 %inst
-The GetBitmapDimensionEx function retrieves the dimensions of a
-compatible bitmap. The retrieved dimensions must have been set by the
-SetBitmapDimensionEx function.
+GetBitmapDimensionEx 関数は、互換 HBITMAP の寸法を取得する。取得される寸法は
+SetBitmapDimensionEx 関数で設定されたものでなければならない。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The function returns a data structure that contains fields for the
-height and width of the bitmap, in .01-mm units. If those dimensions
-have not yet been set, the structure that is returned will have zeros
-in those fields.
+この関数は、ビットマップの高さと幅(0.01 mm
+単位)のフィールドを含むデータ構造を返す。これらの寸法がまだ設定されていない場合、返される構造体のそれらのフィールドは 0 となる。
 
 
 %index
 GetBkColor
-The GetBkColor function returns the current background color for the specified device context.
+GetBkColor 関数は、指定したデバイスコンテキストの現在の背景色を返す。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to the device context whose background color is to be returned.
+hdc : [intptr] 背景色を取得するデバイスコンテキストのハンドル。
 %inst
-The GetBkColor function returns the current background color for the
-specified device context.
+GetBkColor 関数は、指定したデバイスコンテキストの現在の背景色を返す。
 
 [戻り値]
-If the function succeeds, the return value is a COLORREF value for
-the current background color. If the function fails, the return value
-is CLR_INVALID.
+関数が成功した場合、戻り値は現在の背景色の COLORREF 値である。失敗した場合は CLR_INVALID を返す。
 
 
 %index
 GetBkMode
-The GetBkMode function returns the current background mix mode for a specified device context. The background mix mode of a device context affects text, hatched brushes, and pen styles that are not solid lines.
+GetBkMode 関数は、指定したデバイスコンテキストの現在の背景混合モードを返す。デバイスコンテキストの背景混合モードは、テキスト、ハッチブラシ、実線以外のペンスタイルに影響する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to the device context whose background mode is to be returned.
+hdc : [intptr] 背景モードを取得するデバイスコンテキストのハンドル。
 %inst
-The GetBkMode function returns the current background mix mode for a
-specified device context. The background mix mode of a device context
-affects text, hatched brushes, and pen styles that are not solid
-lines.
+GetBkMode
+関数は、指定したデバイスコンテキストの現在の背景混合モードを返す。デバイスコンテキストの背景混合モードは、テキスト、ハッチブラシ、実線以外のペンスタイルに影響する。
 
 [戻り値]
-If the function succeeds, the return value specifies the current
-background mix mode, either OPAQUE or TRANSPARENT. If the function
-fails, the return value is zero.
+関数が成功した場合、戻り値は現在の背景混合モード(OPAQUE または TRANSPARENT)である。失敗した場合は 0 である。
 
 
 %index
 GetBoundsRect
-The GetBoundsRect function obtains the current accumulated bounding rectangle for a specified device context.
+GetBoundsRect 関数は、指定したデバイスコンテキストについて現在蓄積されている境界矩形を取得する。
 %group
 Win32 gdi32
 %prm
 hdc, lprect, flags
-hdc : [intptr] A handle to the device context whose bounding rectangle the function will return.
-lprect : [var] A pointer to the RECT structure that will receive the current bounding rectangle. The application's rectangle is returned in logical coordinates, and the bounding rectangle is returned in screen coordinates.
-flags : [int] Specifies how the GetBoundsRect function will behave. This parameter can be the following value.
+hdc : [intptr] 境界矩形を取得する対象のデバイスコンテキストのハンドル。
+lprect : [var] 現在の境界矩形を受け取る RECT 構造体へのポインタ。アプリケーションの矩形は論理座標で返され、境界矩形は画面座標で返される。
+flags : [int] GetBoundsRect 関数の動作を指定する。このパラメータは次の値を取り得る。
 %inst
-The GetBoundsRect function obtains the current accumulated bounding
-rectangle for a specified device context.
+GetBoundsRect 関数は、指定したデバイスコンテキストについて現在蓄積されている境界矩形を取得する。
 
 [戻り値]
-The return value specifies the state of the accumulated bounding
-rectangle; it can be one of the following values.
-This doc was truncated.
+戻り値は蓄積された境界矩形の状態を示し、次のいずれかの値となる。
+（以下省略)
 
 [備考]
-The DCB_SET value is a combination of the bit values DCB_ACCUMULATE
-and DCB_RESET. Applications that check the DCB_RESET bit to determine
-whether the bounding rectangle is empty must also check the
-DCB_ACCUMULATE bit. The bounding rectangle is empty only if the
-DCB_RESET bit is 1 and the DCB_ACCUMULATE bit is 0.
+DCB_SET 値は DCB_ACCUMULATE と DCB_RESET
+のビット値の組み合わせである。境界矩形が空かどうかを判定するために DCB_RESET
+ビットを確認するアプリケーションは、DCB_ACCUMULATE ビットも確認しなければならない。境界矩形が空なのは、DCB_RESET
+ビットが 1 かつ DCB_ACCUMULATE ビットが 0 の場合のみである。
 
 
 %index
 GetBrushOrgEx
-The GetBrushOrgEx function retrieves the current brush origin for the specified device context. This function replaces the GetBrushOrg function.
+GetBrushOrgEx 関数は、指定したデバイスコンテキストの現在のブラシ原点を取得する。この関数は GetBrushOrg 関数を置き換えるものである。
 %group
 Win32 gdi32
 %prm
 hdc, lppt
-hdc : [intptr] A handle to the device context.
-lppt : [var] A pointer to a POINT structure that receives the brush origin, in device coordinates.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lppt : [var] ブラシの原点(デバイス座標)を受け取る POINT 構造体へのポインタ。
 %inst
-The GetBrushOrgEx function retrieves the current brush origin for the
-specified device context. This function replaces the GetBrushOrg
-function.
+GetBrushOrgEx 関数は、指定したデバイスコンテキストの現在のブラシ原点を取得する。この関数は GetBrushOrg
+関数を置き換えるものである。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-A brush is a bitmap that the system uses to paint the interiors of
-filled shapes. The brush origin is a set of coordinates with values
-between 0 and 7, specifying the location of one pixel in the bitmap.
-The default brush origin coordinates are (0,0). For horizontal
-coordinates, the value 0 corresponds to the leftmost column of
-pixels; the value 7 corresponds to the rightmost column. For vertical
-coordinates, the value 0 corresponds to the uppermost row of pixels;
-the value 7 corresponds to the lowermost row. When the system
-positions the brush at the start of any painting operation, it maps
-the origin of the brush to the location in the window's client area
-specified by the brush origin. For example, if the origin is set to
-(2,3), the system maps the origin of the brush (0,0) to the location
-(2,3) on the window's client area. If an application uses a brush to
-fill the backgrounds of both a parent and a child window with
-matching colors, it may be necessary to set the brush origin after
-painting the parent window but before painting the child window. The
-system automatically tracks the origin of all window-managed device
-contexts and adjusts their brushes as necessary to maintain an
-alignment of patterns on the surface.
+ブラシは、塗りつぶし図形の内部を描画するためにシステムが使用するビットマップである。ブラシの原点は、ビットマップ内の 1
+ピクセルの位置を指定する 0 から 7 の座標である。デフォルトのブラシ原点座標は (0,0) である。水平座標の場合、0
+は最も左のピクセル列、7 は最も右のピクセル列に対応する。垂直座標の場合、0 は最上行、7
+は最下行に対応する。任意の描画操作の開始時にシステムがブラシを配置する際、ブラシ原点で指定された位置がウィンドウのクライアント領域上のブラシ原点
+(0,0) にマップされる。例えば原点が (2,3) に設定されていれば、システムはブラシの原点 (0,0)
+をウィンドウのクライアント領域上の (2,3)
+にマップする。親ウィンドウと子ウィンドウの背景を一致する色のブラシで塗りつぶすアプリケーションでは、親ウィンドウを描画した後、子ウィンドウを描画する前にブラシ原点を設定する必要があるかもしれない。システムはウィンドウ管理されるすべてのデバイスコンテキストのブラシ原点を自動的に追跡し、サーフェス上でパターンの整合を保つよう必要に応じてブラシを調整する。
 
 
 %index
 GetCharABCWidthsW
-The GetCharABCWidths function retrieves the widths, in logical units, of consecutive characters in a specified range from the current TrueType font. This function succeeds only with TrueType fonts. (Unicode)
+GetCharABCWidths 関数は、現在の TrueType フォントから指定範囲の連続する文字の幅(論理単位)を取得する。この関数は TrueType フォントでのみ成功する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, wFirst, wLast, lpABC
-hdc : [intptr] A handle to the device context.
-wFirst : [int] The first character in the group of consecutive characters from the current font.
-wLast : [int] The last character in the group of consecutive characters from the current font.
-lpABC : [var] A pointer to an array of ABC structures that receives the character widths, in logical units. This array must contain at least as many ABC structures as there are characters in the range specified by the uFirstChar and uLastChar parameters.
+hdc : [intptr] デバイスコンテキストのハンドル。
+wFirst : [int] 現在のフォントから連続する文字群の最初の文字。
+wLast : [int] 現在のフォントから連続する文字群の最後の文字。
+lpABC : [var] 文字幅(論理単位)を受け取る ABC 構造体の配列へのポインタ。この配列は、uFirstChar および uLastChar パラメータで指定された範囲の文字数以上の ABC 構造体を含んでいなければならない。
 %inst
-The GetCharABCWidths function retrieves the widths, in logical units,
-of consecutive characters in a specified range from the current
-TrueType font. This function succeeds only with TrueType fonts.
-(Unicode)
+GetCharABCWidths 関数は、現在の TrueType
+フォントから指定範囲の連続する文字の幅(論理単位)を取得する。この関数は TrueType フォントでのみ成功する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is nonzero If the function
-fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The TrueType rasterizer provides ABC character spacing after a
-specific point size has been selected. A spacing is the distance
-added to the current position before placing the glyph. B spacing is
-the width of the black part of the glyph. C spacing is the distance
-added to the current position to provide white space to the right of
-the glyph. The total advanced width is specified by A+B+C. When the
-GetCharABCWidths function retrieves negative A or C widths for a
-character, that character includes underhangs or overhangs. To
-convert the ABC widths to font design units, an application should
-use the value stored in the otmEMSquare member of a OUTLINETEXTMETRIC
-structure. This value can be retrieved by calling the
-GetOutlineTextMetrics function. The ABC widths of the default
-character are used for characters outside the range of the currently
-selected font. To retrieve the widths of characters in non-TrueType
-fonts, applications should use the GetCharWidth function.
-> [!NOTE] > The wingdi.h header defines GetCharABCWidths as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+TrueType ラスタライザは、特定のポイントサイズが選択された後に ABC 文字間隔を提供する。A
+スペースはグリフを配置する前に現在位置に加える距離である。B スペースはグリフの黒い部分の幅である。C
+スペースはグリフの右側に空白を設けるために現在位置に加える距離である。総前進幅は A+B+C
+で指定される。GetCharABCWidths 関数が文字に対して負の A または C
+幅を返す場合、その文字はアンダーハングまたはオーバーハングを含んでいる。ABC
+幅をフォントデザイン単位に変換するには、OUTLINETEXTMETRIC 構造体の otmEMSquare
+メンバに格納されている値を使用すべきである。この値は GetOutlineTextMetrics
+関数で取得できる。現在選択されているフォントの範囲外の文字にはデフォルト文字の ABC 幅が使用される。非 TrueType
+フォントの文字幅を取得するには GetCharWidth 関数を使用すべきである。
+> [!NOTE] > wingdi.h ヘッダは GetCharABCWidths をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetCharABCWidthsFloatW
-The GetCharABCWidthsFloat function retrieves the widths, in logical units, of consecutive characters in a specified range from the current font. (Unicode)
+GetCharABCWidthsFloat 関数は、現在のフォントから指定範囲の連続する文字の幅(論理単位)を取得する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, iFirst, iLast, lpABC
-hdc : [intptr] Handle to the device context.
-iFirst : [int] Specifies the code point of the first character in the group of consecutive characters where the ABC widths are seeked.
-iLast : [int] Specifies the code point of the last character in the group of consecutive characters where the ABC widths are seeked. This range is inclusive. An error is returned if the specified last character precedes the specified first character.
-lpABC : [var] Pointer to an array of ABCFLOAT structures that receives the character widths, in logical units.
+hdc : [intptr] デバイスコンテキストのハンドル。
+iFirst : [int] ABC 幅を取得する連続文字群の最初の文字のコードポイントを指定する。
+iLast : [int] ABC 幅を取得する連続文字群の最後の文字のコードポイントを指定する。この範囲は両端を含む。最後の文字が最初の文字より前にある場合はエラーが返される。
+lpABC : [var] 文字幅(論理単位)を受け取る ABCFLOAT 構造体の配列へのポインタ。
 %inst
-The GetCharABCWidthsFloat function retrieves the widths, in logical
-units, of consecutive characters in a specified range from the
-current font. (Unicode)
+GetCharABCWidthsFloat 関数は、現在のフォントから指定範囲の連続する文字の幅(論理単位)を取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-Unlike the GetCharABCWidths function that returns widths only for
-TrueType fonts, the GetCharABCWidthsFloat function retrieves widths
-for any font. The widths returned by this function are in the IEEE
-floating-point format. If the current world-to-device transformation
-is not identified, the returned widths may be noninteger values, even
-if the corresponding values in the device space are integers. A
-spacing is the distance added to the current position before placing
-the glyph. B spacing is the width of the black part of the glyph. C
-spacing is the distance added to the current position to provide
-white space to the right of the glyph. The total advanced width is
-specified by A+B+C. The ABC spaces are measured along the character
-base line of the selected font. The ABC widths of the default
-character are used for characters outside the range of the currently
-selected font.
-> [!NOTE] > The wingdi.h header defines GetCharABCWidthsFloat as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+TrueType フォントに対してのみ幅を返す GetCharABCWidths 関数と異なり、GetCharABCWidthsFloat
+関数は任意のフォントの幅を取得する。返される幅は IEEE
+浮動小数点形式である。現在のワールドからデバイスへの変換が恒等でない場合、返される幅はデバイス空間で整数でも非整数値となり得る。A
+スペースはグリフを配置する前に現在位置に加える距離である。B スペースはグリフの黒い部分の幅である。C
+スペースはグリフの右側に空白を設けるために現在位置に加える距離である。総前進幅は A+B+C で指定される。ABC
+スペースは選択されたフォントの文字ベースラインに沿って測定される。現在選択されているフォントの範囲外の文字にはデフォルト文字の ABC
+幅が使用される。
+> [!NOTE] > wingdi.h ヘッダは GetCharABCWidthsFloat
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetCharABCWidthsI
-The GetCharABCWidthsI function retrieves the widths, in logical units, of consecutive glyph indices in a specified range from the current TrueType font. This function succeeds only with TrueType fonts.
+GetCharABCWidthsI 関数は、現在の TrueType フォントから指定範囲の連続するグリフインデックスの幅(論理単位)を取得する。この関数は TrueType フォントでのみ成功する。
 %group
 Win32 gdi32
 %prm
 hdc, giFirst, cgi, pgi, pabc
-hdc : [intptr] A handle to the device context.
-giFirst : [int] The first glyph index in the group of consecutive glyph indices from the current font. This parameter is only used if the pgi parameter is NULL.
-cgi : [int] The number of glyph indices.
-pgi : [var] A pointer to an array that contains glyph indices. If this parameter is NULL, the giFirst parameter is used instead. The cgi parameter specifies the number of glyph indices in this array.
-pabc : [var] A pointer to an array of ABC structures that receives the character widths, in logical units. This array must contain at least as many ABC structures as there are glyph indices specified by the cgi parameter.
+hdc : [intptr] デバイスコンテキストのハンドル。
+giFirst : [int] 現在のフォントから連続するグリフインデックス群の最初のグリフインデックス。このパラメータは pgi パラメータが NULL の場合にのみ使用される。
+cgi : [int] グリフインデックスの数。
+pgi : [var] グリフインデックスを含む配列へのポインタ。このパラメータが NULL の場合、代わりに giFirst パラメータが使用される。cgi パラメータはこの配列内のグリフインデックス数を指定する。
+pabc : [var] 文字幅(論理単位)を受け取る ABC 構造体の配列へのポインタ。この配列は、cgi パラメータで指定したグリフインデックス数以上の ABC 構造体を含んでいなければならない。
 %inst
-The GetCharABCWidthsI function retrieves the widths, in logical
-units, of consecutive glyph indices in a specified range from the
-current TrueType font. This function succeeds only with TrueType
-fonts.
+GetCharABCWidthsI 関数は、現在の TrueType
+フォントから指定範囲の連続するグリフインデックスの幅(論理単位)を取得する。この関数は TrueType フォントでのみ成功する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The TrueType rasterizer provides ABC character spacing after a
-specific point size has been selected. A spacing is the distance
-added to the current position before placing the glyph. B spacing is
-the width of the black part of the glyph. C spacing is the distance
-added to the current position to provide white space to the right of
-the glyph. The total advanced width is specified by A+B+C. When the
-GetCharABCWidthsI function retrieves negative A or C widths for a
-character, that character includes underhangs or overhangs. To
-convert the ABC widths to font design units, an application should
-use the value stored in the otmEMSquare member of a OUTLINETEXTMETRIC
-structure. This value can be retrieved by calling the
-GetOutlineTextMetrics function. The ABC widths of the default
-character are used for characters outside the range of the currently
-selected font. To retrieve the widths of glyph indices in
-non-TrueType fonts, applications should use the GetCharWidthI
-function.
+TrueType ラスタライザは、特定のポイントサイズが選択された後に ABC 文字間隔を提供する。A
+スペースはグリフを配置する前に現在位置に加える距離である。B スペースはグリフの黒い部分の幅である。C
+スペースはグリフの右側に空白を設けるために現在位置に加える距離である。総前進幅は A+B+C
+で指定される。GetCharABCWidthsI 関数が文字に対して負の A または C
+幅を返す場合、その文字はアンダーハングまたはオーバーハングを含んでいる。ABC
+幅をフォントデザイン単位に変換するには、OUTLINETEXTMETRIC 構造体の otmEMSquare
+メンバに格納されている値を使用すべきである。この値は GetOutlineTextMetrics
+関数で取得できる。現在選択されているフォントの範囲外の文字にはデフォルト文字の ABC 幅が使用される。非 TrueType
+フォントのグリフインデックスの幅を取得するには GetCharWidthI 関数を使用すべきである。
 
 
 %index
 GetCharWidthW
-The GetCharWidth function retrieves the widths, in logical coordinates, of consecutive characters in a specified range from the current font. (Unicode)
+GetCharWidth 関数は、現在のフォントから指定範囲の連続する文字の幅(論理座標)を取得する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, iFirst, iLast, lpBuffer
-hdc : [intptr] A handle to the device context.
-iFirst : [int] The first character in the group of consecutive characters.
-iLast : [int] The last character in the group of consecutive characters, which must not precede the specified first character.
-lpBuffer : [var] A pointer to a buffer that receives the character widths, in logical coordinates.
+hdc : [intptr] デバイスコンテキストのハンドル。
+iFirst : [int] 連続する文字群の最初の文字。
+iLast : [int] 連続する文字群の最後の文字。指定した最初の文字より前であってはならない。
+lpBuffer : [var] 文字幅(論理座標)を受け取るバッファへのポインタ。
 %inst
-The GetCharWidth function retrieves the widths, in logical
-coordinates, of consecutive characters in a specified range from the
-current font. (Unicode)
+GetCharWidth 関数は、現在のフォントから指定範囲の連続する文字の幅(論理座標)を取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-GetCharWidth cannot be used on TrueType fonts. To retrieve character
-widths for TrueType fonts, use GetCharABCWidths. The range is
-inclusive; that is, the returned widths include the widths of the
-characters specified by the iFirstChar and iLastChar parameters. If a
-character does not exist in the current font, it is assigned the
-width of the default character.
-> [!NOTE] > The wingdi.h header defines GetCharWidth as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+GetCharWidth は TrueType フォントに対しては使用できない。TrueType フォントの文字幅を取得するには
+GetCharABCWidths を使用する。範囲は両端を含み、返される幅には iFirstChar および iLastChar
+パラメータで指定した文字自身の幅も含まれる。現在のフォントに存在しない文字にはデフォルト文字の幅が割り当てられる。
+> [!NOTE] > wingdi.h ヘッダは GetCharWidth をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetCharWidth32A
-The GetCharWidth32 function retrieves the widths, in logical coordinates, of consecutive characters in a specified range from the current font. (ANSI)
+GetCharWidth32 関数は、現在のフォントから指定範囲の連続する文字の幅(論理座標)を取得する。(ANSI)
 %group
 Win32 gdi32
 %prm
 hdc, iFirst, iLast, lpBuffer
-hdc : [intptr] A handle to the device context.
-iFirst : [int] The first character in the group of consecutive characters.
-iLast : [int] The last character in the group of consecutive characters, which must not precede the specified first character.
-lpBuffer : [var] A pointer to a buffer that receives the character widths, in logical coordinates.
+hdc : [intptr] デバイスコンテキストのハンドル。
+iFirst : [int] 連続する文字群の最初の文字。
+iLast : [int] 連続する文字群の最後の文字。指定した最初の文字より前であってはならない。
+lpBuffer : [var] 文字幅(論理座標)を受け取るバッファへのポインタ。
 %inst
-The GetCharWidth32 function retrieves the widths, in logical
-coordinates, of consecutive characters in a specified range from the
-current font. (ANSI)
+GetCharWidth32 関数は、現在のフォントから指定範囲の連続する文字の幅(論理座標)を取得する。(ANSI)
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-GetCharWidth32 cannot be used on TrueType fonts. To retrieve
-character widths for TrueType fonts, use GetCharABCWidths. The range
-is inclusive; that is, the returned widths include the widths of the
-characters specified by the iFirstChar and iLastChar parameters. If a
-character does not exist in the current font, it is assigned the
-width of the default character.
+GetCharWidth32 は TrueType フォントに対しては使用できない。TrueType フォントの文字幅を取得するには
+GetCharABCWidths を使用する。範囲は両端を含み、返される幅には iFirstChar および iLastChar
+パラメータで指定した文字自身の幅も含まれる。現在のフォントに存在しない文字にはデフォルト文字の幅が割り当てられる。
 
 
 %index
 GetCharWidth32W
-The GetCharWidth32 function retrieves the widths, in logical coordinates, of consecutive characters in a specified range from the current font. (Unicode)
+GetCharWidth32 関数は、現在のフォントから指定範囲の連続する文字の幅(論理座標)を取得する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, iFirst, iLast, lpBuffer
-hdc : [intptr] A handle to the device context.
-iFirst : [int] The first character in the group of consecutive characters.
-iLast : [int] The last character in the group of consecutive characters, which must not precede the specified first character.
-lpBuffer : [var] A pointer to a buffer that receives the character widths, in logical coordinates.
+hdc : [intptr] デバイスコンテキストのハンドル。
+iFirst : [int] 連続する文字群の最初の文字。
+iLast : [int] 連続する文字群の最後の文字。指定した最初の文字より前であってはならない。
+lpBuffer : [var] 文字幅(論理座標)を受け取るバッファへのポインタ。
 %inst
-The GetCharWidth32 function retrieves the widths, in logical
-coordinates, of consecutive characters in a specified range from the
-current font. (Unicode)
+GetCharWidth32 関数は、現在のフォントから指定範囲の連続する文字の幅(論理座標)を取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-GetCharWidth32 cannot be used on TrueType fonts. To retrieve
-character widths for TrueType fonts, use GetCharABCWidths. The range
-is inclusive; that is, the returned widths include the widths of the
-characters specified by the iFirstChar and iLastChar parameters. If a
-character does not exist in the current font, it is assigned the
-width of the default character.
+GetCharWidth32 は TrueType フォントに対しては使用できない。TrueType フォントの文字幅を取得するには
+GetCharABCWidths を使用する。範囲は両端を含み、返される幅には iFirstChar および iLastChar
+パラメータで指定した文字自身の幅も含まれる。現在のフォントに存在しない文字にはデフォルト文字の幅が割り当てられる。
 
 
 %index
 GetCharWidthFloatW
-The GetCharWidthFloat function retrieves the fractional widths of consecutive characters in a specified range from the current font. (Unicode)
+GetCharWidthFloat 関数は、現在のフォントから指定範囲の連続する文字の小数幅を取得する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, iFirst, iLast, lpBuffer
-hdc : [intptr] A handle to the device context.
-iFirst : [int] The code point of the first character in the group of consecutive characters.
-iLast : [int] The code point of the last character in the group of consecutive characters.
-lpBuffer : [var] A pointer to a buffer that receives the character widths, in logical units.
+hdc : [intptr] デバイスコンテキストのハンドル。
+iFirst : [int] 連続する文字群の最初の文字のコードポイント。
+iLast : [int] 連続する文字群の最後の文字のコードポイント。
+lpBuffer : [var] 文字幅(論理単位)を受け取るバッファへのポインタ。
 %inst
-The GetCharWidthFloat function retrieves the fractional widths of
-consecutive characters in a specified range from the current font.
-(Unicode)
+GetCharWidthFloat 関数は、現在のフォントから指定範囲の連続する文字の小数幅を取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The returned widths are in the 32-bit IEEE floating-point format.
-(The widths are measured along the base line of the characters.) If
-the iFirstChar parameter specifies the letter a and the iLastChar
-parameter specifies the letter z, GetCharWidthFloat retrieves the
-widths of all lowercase characters. If a character does not exist in
-the current font, it is assigned the width of the default character.
-> [!NOTE] > The wingdi.h header defines GetCharWidthFloat as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+返される幅は 32 ビット IEEE 浮動小数点形式である(幅は文字のベースラインに沿って測定される)。iFirstChar に文字
+a、iLastChar に文字 z を指定すると、GetCharWidthFloat
+はすべての小文字の幅を取得する。現在のフォントに存在しない文字にはデフォルト文字の幅が割り当てられる。
+> [!NOTE] > wingdi.h ヘッダは GetCharWidthFloat をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetCharWidthI
-The GetCharWidthI function retrieves the widths, in logical coordinates, of consecutive glyph indices in a specified range from the current font.
+GetCharWidthI 関数は、現在のフォントから指定範囲の連続するグリフインデックスの幅(論理座標)を取得する。
 %group
 Win32 gdi32
 %prm
 hdc, giFirst, cgi, pgi, piWidths
-hdc : [intptr] A handle to the device context.
-giFirst : [int] The first glyph index in the group of consecutive glyph indices.
-cgi : [int] The number of glyph indices.
-pgi : [var] A pointer to an array of glyph indices. If this parameter is not NULL, it is used instead of the giFirst parameter.
-piWidths : [var] A pointer to a buffer that receives the widths, in logical coordinates.
+hdc : [intptr] デバイスコンテキストのハンドル。
+giFirst : [int] 連続するグリフインデックス群の最初のグリフインデックス。
+cgi : [int] グリフインデックスの数。
+pgi : [var] グリフインデックスの配列へのポインタ。このパラメータが NULL でない場合、giFirst パラメータの代わりに使用される。
+piWidths : [var] 幅(論理座標)を受け取るバッファへのポインタ。
 %inst
-The GetCharWidthI function retrieves the widths, in logical
-coordinates, of consecutive glyph indices in a specified range from
-the current font.
+GetCharWidthI 関数は、現在のフォントから指定範囲の連続するグリフインデックスの幅(論理座標)を取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The GetCharWidthI function processes a consecutive glyph indices if
-the pgi parameter is NULL with the giFirst parameter indicating the
-first glyph index to process and the cgi parameter indicating how
-many glyph indices to process. Otherwise the GetCharWidthI function
-processes the array of glyph indices pointed to by the pgi parameter
-with the cgi parameter indicating how many glyph indices to process.
-If a character does not exist in the current font, it is assigned the
-width of the default character.
+GetCharWidthI 関数は、pgi パラメータが NULL の場合、giFirst で指定された先頭グリフインデックスから cgi
+で指定された個数の連続するグリフインデックスを処理する。そうでない場合は pgi が指すグリフインデックス配列を cgi
+で指定された個数だけ処理する。現在のフォントに存在しない文字にはデフォルト文字の幅が割り当てられる。
 
 
 %index
 GetCharacterPlacementW
-The GetCharacterPlacement function retrieves information about a character string, such as character widths, caret positioning, ordering within the string, and glyph rendering. (Unicode)
+GetCharacterPlacement 関数は、文字列に関する情報(文字幅、キャレット位置決め、文字列内の順序、グリフ描画など)を取得する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, lpString, nCount, nMexExtent, lpResults, dwFlags
-hdc : [intptr] A handle to the device context.
-lpString : [wstr] A pointer to the character string to process. The string does not need to be zero-terminated, since nCount specifies the length of the string.
-nCount : [int] The length of the string pointed to by lpString.
-nMexExtent : [int] The maximum extent (in logical units) to which the string is processed. Characters that, if processed, would exceed this extent are ignored. Computations for any required ordering or glyph arrays apply only to the included characters. This parameter is used only if the GCP_MAXEXTENT value is specified in the dwFlags parameter. As the function processes the input string, each character and its extent is added to the output, extent, and other arrays only if the total extent has not yet exceeded the maximum. Once the limit is reached, processing will stop.
-lpResults : [var] A pointer to a GCP_RESULTS structure that receives the results of the function.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lpString : [wstr] 処理対象の文字列へのポインタ。nCount で長さが指定されるため、NULL 終端である必要はない。
+nCount : [int] lpString が指す文字列の長さ。
+nMexExtent : [int] 文字列を処理する最大長(論理単位)。処理するとこの長さを超える文字は無視される。必要な順序付けやグリフ配列の計算は、含まれる文字にのみ適用される。このパラメータは dwFlags に GCP_MAXEXTENT 値が指定された場合にのみ使用される。関数が入力文字列を処理する際、合計長がまだ最大を超えていない場合にのみ、各文字とその長さが出力、長さ、その他の配列に追加される。上限に達すると処理が停止する。
+lpResults : [var] 関数の結果を受け取る GCP_RESULTS 構造体へのポインタ。
 dwFlags : [int] 
 %inst
-The GetCharacterPlacement function retrieves information about a
-character string, such as character widths, caret positioning,
-ordering within the string, and glyph rendering. (Unicode)
+GetCharacterPlacement
+関数は、文字列に関する情報(文字幅、キャレット位置決め、文字列内の順序、グリフ描画など)を取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is the width and height of
-the string in logical units. The width is the low-order word and the
-height is the high-order word. If the function fails, the return
-value is zero.
+関数が成功した場合、戻り値は文字列の幅と高さ(論理単位)である。幅は下位ワード、高さは上位ワードである。失敗した場合は 0 を返す。
 
 [備考]
-GetCharacterPlacement ensures that an application can correctly
-process text regardless of the international setting and type of
-fonts available. Applications use this function before using the
-ExtTextOut function and in place of the GetTextExtentPoint32 function
-(and occasionally in place of the GetCharWidth32 and GetCharABCWidths
-functions). Using GetCharacterPlacement to retrieve intercharacter
-spacing and index arrays is not always necessary unless justification
-or kerning is required. For non-Latin fonts, applications can improve
-the speed at which the ExtTextOut function renders text by using
-GetCharacterPlacement to retrieve the intercharacter spacing and
-index arrays before calling ExtTextOut. This is especially useful
-when rendering the same text repeatedly or when using intercharacter
-spacing to position the caret. If the lpGlyphs output array is used
-in the call to ExtTextOut, the ETO_GLYPH_INDEX flag must be set.
-GetCharacterPlacement checks the lpOrder, lpDX, lpCaretPos,
-lpOutString, and lpGlyphs members of the GCP_RESULTS structure and
-fills the corresponding arrays if these members are not set to NULL.
-If GetCharacterPlacement cannot fill an array, it sets the
-corresponding member to NULL. To ensure retrieval of valid
-information, the application is responsible for setting the member to
-a valid address before calling the function and for checking the
-value of the member after the call. If the GCP_JUSTIFY or
-GCP_USEKERNING values are specified, the lpDX and/or lpCaretPos
-members must have valid addresses. Note that the glyph indexes
-returned in GCP_RESULTS.lpGlyphs are specific to the current font in
-the device context and should only be used to draw text in the device
-context while that font remains selected. When computing
-justification, if the trailing characters in the string are spaces,
-the function reduces the length of the string and removes the spaces
-prior to computing the justification. If the array consists of only
-spaces, the function returns an error.
-ExtTextOut expects an lpDX entry for each byte of a DBCS string,
-whereas GetCharacterPlacement assigns an lpDX entry for each glyph.
-To correct this mismatch when using this combination of functions,
-either use GetGlyphIndices or expand the lpDX array with zero-width
-entries for the corresponding second byte of a DBCS byte pair. If the
-logical width is less than the width of the leading character in the
-input string, GCP_RESULTS.nMaxFit returns a bad value. For this case,
-call GetCharacterPlacement for glyph indexes and the lpDX array. Then
-use the lpDX array to do the extent calculation using the advance
-width of each character, where nMaxFit is the number of characters
-whose glyph indexes advance width is less than the width of the
-leading character.
-> [!NOTE] > The wingdi.h header defines GetCharacterPlacement as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+GetCharacterPlacement
+は、国際設定や利用可能なフォントの種類に関係なくアプリケーションがテキストを正しく処理できるようにする。アプリケーションはこの関数を
+ExtTextOut 関数の前に、また GetTextExtentPoint32 関数の代わりに(場合により GetCharWidth32
+や GetCharABCWidths 関数の代わりに)使用する。GetCharacterPlacement
+を使って文字間隔やインデックス配列を取得する必要があるのは、通常は揃えやカーニングが必要な場合のみである。非ラテン系フォントでは、アプリケーションは
+ExtTextOut を呼ぶ前に GetCharacterPlacement
+を使って文字間隔やインデックス配列を取得することで、ExtTextOut
+のテキスト描画速度を向上できる。これは、同じテキストを繰り返し描画する場合や、キャレット位置決めに文字間隔を使う場合に特に有効である。ExtTextOut
+の呼び出しで lpGlyphs 出力配列を使用する場合、ETO_GLYPH_INDEX
+フラグを設定する必要がある。GetCharacterPlacement は GCP_RESULTS 構造体の
+lpOrder、lpDX、lpCaretPos、lpOutString、lpGlyphs メンバを確認し、これらのメンバが NULL
+でなければ対応する配列を埋める。配列を埋められない場合、対応するメンバを NULL
+に設定する。有効な情報の取得を保証するため、アプリケーションは関数呼び出し前にメンバを有効なアドレスに設定し、呼び出し後にメンバの値を確認する責任を負う。GCP_JUSTIFY
+または GCP_USEKERNING 値が指定された場合、lpDX あるいは lpCaretPos
+メンバは有効なアドレスを持たなければならない。GCP_RESULTS.lpGlyphs
+で返されるグリフインデックスはデバイスコンテキスト内の現在のフォントに固有であり、そのフォントが選択されている間にそのデバイスコンテキストでテキストを描画する目的でのみ使用すべきである点に注意。揃えを計算する際、文字列の末尾文字がスペースの場合、関数は計算前に文字列の長さを縮めてスペースを除去する。配列がスペースのみで構成されている場合、関数はエラーを返す。
+ExtTextOut は DBCS 文字列のバイトごとに lpDx エントリを期待するが、GetCharacterPlacement
+はグリフごとに lpDX エントリを割り当てる。この組み合わせで使うときの不整合を修正するには、GetGlyphIndices
+を使用するか、DBCS バイトペアの 2 バイト目に対応する幅 0 のエントリを lpDX
+配列に追加する。論理幅が入力文字列の先頭文字の幅より小さい場合、GCP_RESULTS.nMaxFit
+に不正な値が返される。このような場合には、まず GetCharacterPlacement でグリフインデックスと lpDX
+配列を取得し、次に各文字の前進幅を使って lpDX 配列で長さ計算を行う。nMaxFit
+は先頭文字の幅より前進幅の合計が小さい文字数である。
+> [!NOTE] > wingdi.h ヘッダは GetCharacterPlacement
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetClipBox
-The GetClipBox function retrieves the dimensions of the tightest bounding rectangle that can be drawn around the current visible area on the device.
+GetClipBox 関数は、デバイス上の現在の可視領域を囲む最小の境界矩形の寸法を取得する。
 %group
 Win32 gdi32
 %prm
 hdc, lprect
-hdc : [intptr] A handle to the device context.
-lprect : [var] A pointer to a RECT structure that is to receive the rectangle dimensions, in logical units.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lprect : [var] 矩形の寸法(論理単位)を受け取る RECT 構造体へのポインタ。
 %inst
-The GetClipBox function retrieves the dimensions of the tightest
-bounding rectangle that can be drawn around the current visible area
-on the device.
+GetClipBox 関数は、デバイス上の現在の可視領域を囲む最小の境界矩形の寸法を取得する。
 
 [戻り値]
-If the function succeeds, the return value specifies the clipping
-box's complexity and can be one of the following values.
-This doc was truncated.
+関数が成功した場合、戻り値はクリッピングボックスの複雑度を表し、次のいずれかの値となる。
+（以下省略)
 
 
 %index
 GetClipRgn
-The GetClipRgn function retrieves a handle identifying the current application-defined clipping region for the specified device context.
+GetClipRgn 関数は、指定したデバイスコンテキストの現在のアプリケーション定義クリッピングリージョンを識別するハンドルを取得する。
 %group
 Win32 gdi32
 %prm
 hdc, hrgn
-hdc : [intptr] A handle to the device context.
-hrgn : [intptr] A handle to an existing region before the function is called. After the function returns, this parameter is a handle to a copy of the current clipping region.
+hdc : [intptr] デバイスコンテキストのハンドル。
+hrgn : [intptr] 関数呼び出し前は既存のリージョンのハンドル。関数から戻ると、このパラメータは現在のクリッピングリージョンのコピーのハンドルとなる。
 %inst
-The GetClipRgn function retrieves a handle identifying the current
-application-defined clipping region for the specified device context.
+GetClipRgn 関数は、指定したデバイスコンテキストの現在のアプリケーション定義クリッピングリージョンを識別するハンドルを取得する。
 
 [戻り値]
-If the function succeeds and there is no clipping region for the
-given device context, the return value is zero. If the function
-succeeds and there is a clipping region for the given device context,
-the return value is 1. If an error occurs, the return value is -1.
+関数が成功し、指定デバイスコンテキストにクリッピングリージョンが存在しない場合、戻り値は 0
+である。関数が成功し、クリッピングリージョンが存在する場合、戻り値は 1 である。エラーが発生した場合、戻り値は -1 である。
 
 [備考]
-An application-defined clipping region is a clipping region
-identified by the SelectClipRgn function. It is not a clipping region
-created when the application calls the BeginPaint function. If the
-function succeeds, the hrgn parameter is a handle to a copy of the
-current clipping region. Subsequent changes to this copy will not
-affect the current clipping region.
+アプリケーション定義のクリッピングリージョンとは、SelectClipRgn
+関数で指定されたクリッピングリージョンのことである。アプリケーションが BeginPaint
+関数を呼び出したときに作成されるクリッピングリージョンではない。関数が成功した場合、hrgn
+は現在のクリッピングリージョンのコピーのハンドルとなる。このコピーに対するその後の変更は、現在のクリッピングリージョンには影響しない。
 
 
 %index
 GetColorAdjustment
-The GetColorAdjustment function retrieves the color adjustment values for the specified device context (DC).
+GetColorAdjustment 関数は、指定したデバイスコンテキスト (DC) の色調整値を取得する。
 %group
 Win32 gdi32
 %prm
 hdc, lpca
-hdc : [intptr] A handle to the device context.
-lpca : [var] A pointer to a COLORADJUSTMENT structure that receives the color adjustment values.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lpca : [var] 色調整値を受け取る COLORADJUSTMENT 構造体へのポインタ。
 %inst
-The GetColorAdjustment function retrieves the color adjustment values
-for the specified device context (DC).
+GetColorAdjustment 関数は、指定したデバイスコンテキスト (DC) の色調整値を取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 
 %index
 GetColorSpace
-The GetColorSpace function retrieves the handle to the input color space from a specified device context.
+GetColorSpace 関数は、指定したデバイスコンテキストから入力カラースペースのハンドルを取得する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Specifies a device context that is to have its input color space handle retrieved.
+hdc : [intptr] 入力カラースペースハンドルを取得する対象のデバイスコンテキストを指定する。
 %inst
-The GetColorSpace function retrieves the handle to the input color
-space from a specified device context.
+GetColorSpace 関数は、指定したデバイスコンテキストから入力カラースペースのハンドルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is the current input color
-space handle. If this function fails, the return value is NULL.
+関数が成功した場合、戻り値は現在の入力カラースペースのハンドルである。失敗した場合は NULL を返す。
 
 [備考]
-GetColorSpace obtains the handle to the input color space regardless
-of whether color management is enabled for the device context.
+GetColorSpace は、デバイスコンテキストのカラーマネジメントが有効かどうかに関わらず、入力カラースペースのハンドルを取得する。
 
 
 %index
 GetCurrentObject
-The GetCurrentObject function retrieves a handle to an object of the specified type that has been selected into the specified device context (DC).
+GetCurrentObject 関数は、指定したデバイスコンテキスト (DC) に選択されている指定種類のオブジェクトのハンドルを取得する。
 %group
 Win32 gdi32
 %prm
 hdc, type
-hdc : [intptr] A handle to the DC.
+hdc : [intptr] DC のハンドル。
 type : [int] 
 %inst
-The GetCurrentObject function retrieves a handle to an object of the
-specified type that has been selected into the specified device
-context (DC).
+GetCurrentObject 関数は、指定したデバイスコンテキスト (DC)
+に選択されている指定種類のオブジェクトのハンドルを取得する。
 
 [戻り値]
-If the function succeeds, the return value is a handle to the
-specified object. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値は指定オブジェクトのハンドルである。失敗した場合は NULL を返す。
 
 [備考]
-An application can use the GetCurrentObject and GetObject functions
-to retrieve descriptions of the graphic objects currently selected
-into the specified DC.
+アプリケーションは GetCurrentObject および GetObject 関数を使って、指定した DC
+に現在選択されているグラフィックオブジェクトの記述を取得できる。
 
 
 %index
 GetCurrentPositionEx
-The GetCurrentPositionEx function retrieves the current position in logical coordinates.
+GetCurrentPositionEx 関数は、現在位置を論理座標で取得する。
 %group
 Win32 gdi32
 %prm
 hdc, lppt
-hdc : [intptr] A handle to the device context.
-lppt : [var] A pointer to a POINT structure that receives the logical coordinates of the current position.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lppt : [var] 現在位置の論理座標を受け取る POINT 構造体へのポインタ。
 %inst
-The GetCurrentPositionEx function retrieves the current position in
-logical coordinates.
+GetCurrentPositionEx 関数は、現在位置を論理座標で取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 
 %index
 GetDCBrushColor
-The GetDCBrushColor function retrieves the current brush color for the specified device context (DC).
+GetDCBrushColor 関数は、指定したデバイスコンテキスト (DC) の現在のブラシ色を取得する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the DC whose brush color is to be returned.
+hdc : [intptr] ブラシ色を取得する対象の DC のハンドル。
 %inst
-The GetDCBrushColor function retrieves the current brush color for
-the specified device context (DC).
+GetDCBrushColor 関数は、指定したデバイスコンテキスト (DC) の現在のブラシ色を取得する。
 
 [戻り値]
-If the function succeeds, the return value is the COLORREF value for
-the current DC brush color. If the function fails, the return value
-is CLR_INVALID.
+関数が成功した場合、戻り値は現在の DC ブラシ色を表す COLORREF 値である。失敗した場合は CLR_INVALID を返す。
 
 [備考]
-For information on setting the brush color, see SetDCBrushColor. ICM:
-Color management is performed if ICM is enabled.
+ブラシ色の設定については SetDCBrushColor を参照。ICM: ICM が有効な場合はカラーマネジメントが行われる。
 
 
 %index
 GetDCOrgEx
-The GetDCOrgEx function retrieves the final translation origin for a specified device context (DC).
+GetDCOrgEx 関数は、指定したデバイスコンテキスト (DC) の最終変換原点を取得する。
 %group
 Win32 gdi32
 %prm
 hdc, lppt
-hdc : [intptr] A handle to the DC whose final translation origin is to be retrieved.
-lppt : [var] A pointer to a POINT structure that receives the final translation origin, in device coordinates.
+hdc : [intptr] 最終変換原点を取得する対象の DC のハンドル。
+lppt : [var] 最終変換原点(デバイス座標)を受け取る POINT 構造体へのポインタ。
 %inst
-The GetDCOrgEx function retrieves the final translation origin for a
-specified device context (DC).
+GetDCOrgEx 関数は、指定したデバイスコンテキスト (DC) の最終変換原点を取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The final translation origin is relative to the physical origin of
-the screen.
+最終変換原点は画面の物理原点からの相対位置である。
 
 
 %index
 GetDCPenColor
-The GetDCPenColor function retrieves the current pen color for the specified device context (DC).
+GetDCPenColor 関数は、指定したデバイスコンテキスト (DC) の現在のペン色を取得する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the DC whose brush color is to be returned.
+hdc : [intptr] ペン色を取得する対象の DC のハンドル。
 %inst
-The GetDCPenColor function retrieves the current pen color for the
-specified device context (DC).
+GetDCPenColor 関数は、指定したデバイスコンテキスト (DC) の現在のペン色を取得する。
 
 [戻り値]
-If the function succeeds, the return value is a COLORREF value for
-the current DC pen color. If the function fails, the return value is
-CLR_INVALID.
+関数が成功した場合、戻り値は現在の DC ペン色を表す COLORREF 値である。失敗した場合は CLR_INVALID を返す。
 
 [備考]
-For information on setting the pen color, see SetDCPenColor. ICM:
-Color management is performed if ICM is enabled.
+ペン色の設定については SetDCPenColor を参照。ICM: ICM が有効な場合はカラーマネジメントが行われる。
 
 
 %index
 GetDIBColorTable
-The GetDIBColorTable function retrieves RGB (red, green, blue) color values from a range of entries in the color table of the DIB section bitmap that is currently selected into a specified device context.
+GetDIBColorTable 関数は、指定したデバイスコンテキストに現在選択されている DIB セクションビットマップのカラーテーブルの指定範囲のエントリから RGB (赤、緑、青) カラー値を取得する。
 %group
 Win32 gdi32
 %prm
 hdc, iStart, cEntries, prgbq
-hdc : [intptr] A handle to a device context. A DIB section bitmap must be selected into this device context.
-iStart : [int] A zero-based color table index that specifies the first color table entry to retrieve.
-cEntries : [int] The number of color table entries to retrieve.
-prgbq : [var] A pointer to a buffer that receives an array of RGBQUAD data structures containing color information from the DIB color table. The buffer must be large enough to contain as many RGBQUAD data structures as the value of cEntries.
+hdc : [intptr] デバイスコンテキストのハンドル。DIB セクションビットマップがこのデバイスコンテキストに選択されていなければならない。
+iStart : [int] 取得する最初のカラーテーブルエントリを指定する、0 から始まるカラーテーブルインデックス。
+cEntries : [int] 取得するカラーテーブルエントリ数。
+prgbq : [var] DIB カラーテーブルのカラー情報を含む RGBQUAD データ構造の配列を受け取るバッファへのポインタ。バッファは cEntries の値と同じ数の RGBQUAD 構造体を格納できる十分な大きさでなければならない。
 %inst
-The GetDIBColorTable function retrieves RGB (red, green, blue) color
-values from a range of entries in the color table of the DIB section
-bitmap that is currently selected into a specified device context.
+GetDIBColorTable 関数は、指定したデバイスコンテキストに現在選択されている DIB
+セクションビットマップのカラーテーブルの指定範囲のエントリから RGB (赤、緑、青) カラー値を取得する。
 
 [戻り値]
-If the function succeeds, the return value is the number of color
-table entries that the function retrieves. If the function fails, the
-return value is zero.
+関数が成功した場合、戻り値は取得したカラーテーブルエントリ数である。失敗した場合は 0 である。
 
 [備考]
-The GetDIBColorTable function should be called to retrieve the color
-table for DIB section bitmaps that use 1, 4, or 8 bpp. The biBitCount
-member of a bitmap associated BITMAPINFOHEADER structure specifies
-the number of bits-per-pixel. DIB section bitmaps with a biBitCount
-value greater than eight do not have a color table, but they do have
-associated color masks. Call the GetObject function to retrieve those
-color masks.
+GetDIBColorTable 関数は、1、4、または 8 bpp を使用する DIB
+セクションビットマップのカラーテーブルを取得するために呼び出すべきである。ビットマップに関連付けられた BITMAPINFOHEADER
+構造体の biBitCount メンバは 1 ピクセル当たりのビット数を指定する。biBitCount 値が 8 より大きい DIB
+セクションビットマップにはカラーテーブルは存在しないが、関連付けられたカラーマスクが存在する。これらのカラーマスクを取得するには
+GetObject 関数を呼び出す。
 
 
 %index
@@ -5561,800 +4636,633 @@ DIB の要求形式が内部形式と一致する場合、ビットマップの RGB 値がコピーされる。一�
 
 %index
 GetDeviceCaps
-The GetDeviceCaps function retrieves device-specific information for the specified device.
+GetDeviceCaps 関数は、指定したデバイスに固有の情報を取得する。
 %group
 Win32 gdi32
 %prm
 hdc, index
-hdc : [intptr] A handle to the DC.
+hdc : [intptr] DC のハンドル。
 index : [int] 
 %inst
-The GetDeviceCaps function retrieves device-specific information for
-the specified device.
+GetDeviceCaps 関数は、指定したデバイスに固有の情報を取得する。
 
 [戻り値]
-The return value specifies the value of the desired item. When nIndex
-is BITSPIXEL and the device has 15bpp or 16bpp, the return value is
-16.
+戻り値は要求された項目の値を表す。nIndex が BITSPIXEL で、デバイスが 15bpp または 16bpp の場合、戻り値は
+16 である。
 
 [備考]
-When nIndex is SHADEBLENDCAPS:
-This doc was truncated.
+nIndex が SHADEBLENDCAPS の場合:
+（以下省略)
 
 
 %index
 GetDeviceGammaRamp
-The GetDeviceGammaRamp function gets the gamma ramp on direct color display boards having drivers that support downloadable gamma ramps in hardware.
+GetDeviceGammaRamp 関数は、ハードウェアでダウンロード可能なガンマランプをサポートするドライバを持つダイレクトカラーディスプレイボードのガンマランプを取得する。
 %group
 Win32 gdi32
 %prm
 hdc, lpRamp
-hdc : [intptr] Specifies the device context of the direct color display board in question.
-lpRamp : [intptr] Points to a buffer where the function can place the current gamma ramp of the color display board. The gamma ramp is specified in three arrays of 256 WORD elements each, which contain the mapping between RGB values in the frame buffer and digital-analog-converter (DAC) values. The sequence of the arrays is red, green, blue.
+hdc : [intptr] 対象のダイレクトカラーディスプレイボードのデバイスコンテキストを指定する。
+lpRamp : [intptr] 関数がカラーディスプレイボードの現在のガンマランプを格納するバッファを指す。ガンマランプは、それぞれ 256 個の WORD 要素を持つ 3 つの配列で指定され、フレームバッファ内の RGB 値とデジタルアナログコンバータ (DAC) 値のマッピングを保持する。配列の順序は赤、緑、青である。
 %inst
-The GetDeviceGammaRamp function gets the gamma ramp on direct color
-display boards having drivers that support downloadable gamma ramps
-in hardware.
+GetDeviceGammaRamp
+関数は、ハードウェアでダウンロード可能なガンマランプをサポートするドライバを持つダイレクトカラーディスプレイボードのガンマランプを取得する。
 
 [戻り値]
-If this function succeeds, the return value is TRUE. If this function
-fails, the return value is FALSE.
+関数が成功した場合、戻り値は TRUE である。失敗した場合は FALSE である。
 
 [備考]
-Direct color display modes do not use color lookup tables and are
-usually 16, 24, or 32 bit. Not all direct color video boards support
-loadable gamma ramps. GetDeviceGammaRamp succeeds only for devices
-with drivers that support downloadable gamma ramps in hardware.
+ダイレクトカラー表示モードはカラールックアップテーブルを使用せず、通常は 16、24、または 32
+ビットである。すべてのダイレクトカラービデオボードがロード可能なガンマランプをサポートするわけではない。GetDeviceGammaRamp
+は、ハードウェアでのダウンロード可能なガンマランプをサポートするドライバを持つデバイスに対してのみ成功する。
 
 
 %index
 GetEnhMetaFileW
-The GetEnhMetaFile function creates a handle that identifies the enhanced-format metafile stored in the specified file. (Unicode)
+GetEnhMetaFile 関数は、指定ファイルに格納された拡張形式メタファイルを識別するハンドルを作成する。(Unicode)
 %group
 Win32 gdi32
 %prm
 lpName
-lpName : [wstr] A pointer to a null-terminated string that specifies the name of an enhanced metafile.
+lpName : [wstr] 拡張メタファイルの名前を指定する NULL 終端文字列へのポインタ。
 %inst
-The GetEnhMetaFile function creates a handle that identifies the
-enhanced-format metafile stored in the specified file. (Unicode)
+GetEnhMetaFile 関数は、指定ファイルに格納された拡張形式メタファイルを識別するハンドルを作成する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a handle to the
-enhanced metafile. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値は拡張メタファイルのハンドルである。失敗した場合は NULL である。
 
 [備考]
-When the application no longer needs an enhanced-metafile handle, it
-should delete the handle by calling the DeleteEnhMetaFile function. A
-Windows-format metafile must be converted to the enhanced format
-before it can be processed by the GetEnhMetaFile function. To convert
-the file, use the SetWinMetaFileBits function. Where text arguments
-must use Unicode characters, use this function as a wide-character
-function. Where text arguments must use characters from the Windows
-character set, use this function as an ANSI function.
+アプリケーションが拡張メタファイルハンドルを不要になったら、DeleteEnhMetaFile
+関数を呼び出してハンドルを削除する必要がある。GetEnhMetaFile 関数で処理するには、Windows
+形式メタファイルを拡張形式に変換しておかなければならない。ファイルを変換するには SetWinMetaFileBits
+関数を使用する。テキスト引数に Unicode 文字を使う必要がある場合はワイド文字版として、Windows
+文字セットを使う必要がある場合は ANSI 版として使用する。
 
 
 %index
 GetEnhMetaFileBits
-The GetEnhMetaFileBits function retrieves the contents of the specified enhanced-format metafile and copies them into a buffer.
+GetEnhMetaFileBits 関数は、指定した拡張形式メタファイルの内容を取得してバッファへコピーする。
 %group
 Win32 gdi32
 %prm
 hEMF, nSize, lpData
-hEMF : [intptr] A handle to the enhanced metafile.
-nSize : [int] The size, in bytes, of the buffer to receive the data.
-lpData : [var] A pointer to a buffer that receives the metafile data. The buffer must be sufficiently large to contain the data. If lpbBuffer is NULL, the function returns the size necessary to hold the data.
+hEMF : [intptr] 拡張メタファイルのハンドル。
+nSize : [int] データを受け取るバッファのサイズ(バイト単位)。
+lpData : [var] メタファイルデータを受け取るバッファへのポインタ。バッファはデータを格納するのに十分な大きさでなければならない。lpbBuffer が NULL の場合、関数はデータを保持するのに必要なサイズを返す。
 %inst
-The GetEnhMetaFileBits function retrieves the contents of the
-specified enhanced-format metafile and copies them into a buffer.
+GetEnhMetaFileBits 関数は、指定した拡張形式メタファイルの内容を取得してバッファへコピーする。
 
 [戻り値]
-If the function succeeds and the buffer pointer is NULL, the return
-value is the size of the enhanced metafile, in bytes. If the function
-succeeds and the buffer pointer is a valid pointer, the return value
-is the number of bytes copied to the buffer. If the function fails,
-the return value is zero.
+関数が成功し、バッファポインタが NULL
+の場合、戻り値は拡張メタファイルのサイズ(バイト単位)である。関数が成功しバッファポインタが有効なポインタの場合、戻り値はバッファへコピーされたバイト数である。失敗した場合は
+0 である。
 
 [備考]
-After the enhanced-metafile bits are retrieved, they can be used to
-create a memory-based metafile by calling the SetEnhMetaFileBits
-function. The GetEnhMetaFileBits function does not invalidate the
-enhanced-metafile handle. The application must call the
-DeleteEnhMetaFile function to delete the handle when it is no longer
-needed. The metafile contents retrieved by this function are in the
-enhanced format. To retrieve the metafile contents in the Windows
-format, use the GetWinMetaFileBits function.
+拡張メタファイルのビットが取得された後、SetEnhMetaFileBits
+関数を呼び出してメモリベースのメタファイルを作成するために使用できる。GetEnhMetaFileBits
+関数は拡張メタファイルハンドルを無効にしない。アプリケーションは不要になったハンドルを DeleteEnhMetaFile
+関数で削除しなければならない。この関数で取得したメタファイルの内容は拡張形式である。Windows 形式でメタファイルの内容を取得するには
+GetWinMetaFileBits 関数を使用する。
 
 
 %index
 GetEnhMetaFileDescriptionW
-The GetEnhMetaFileDescription function retrieves an optional text description from an enhanced-format metafile and copies the string to the specified buffer. (Unicode)
+GetEnhMetaFileDescription 関数は、拡張形式メタファイルから任意のテキスト記述を取得し、指定バッファへコピーする。(Unicode)
 %group
 Win32 gdi32
 %prm
 hemf, cchBuffer, lpDescription
-hemf : [intptr] A handle to the enhanced metafile.
-cchBuffer : [int] The size, in characters, of the buffer to receive the data. Only this many characters will be copied.
-lpDescription : [wstr] A pointer to a buffer that receives the optional text description.
+hemf : [intptr] 拡張メタファイルのハンドル。
+cchBuffer : [int] データを受け取るバッファのサイズ(文字単位)。この文字数までがコピーされる。
+lpDescription : [wstr] 任意のテキスト記述を受け取るバッファへのポインタ。
 %inst
-The GetEnhMetaFileDescription function retrieves an optional text
-description from an enhanced-format metafile and copies the string to
-the specified buffer. (Unicode)
+GetEnhMetaFileDescription
+関数は、拡張形式メタファイルから任意のテキスト記述を取得し、指定バッファへコピーする。(Unicode)
 
 [戻り値]
-If the optional text description exists and the buffer pointer is
-NULL, the return value is the length of the text string, in
-characters. If the optional text description exists and the buffer
-pointer is a valid pointer, the return value is the number of
-characters copied into the buffer. If the optional text description
-does not exist, the return value is zero. If the function fails, the
-return value is GDI_ERROR.
+任意のテキスト記述が存在しバッファポインタが NULL
+の場合、戻り値はテキスト文字列の長さ(文字単位)である。存在しバッファポインタが有効な場合、戻り値はバッファへコピーされた文字数である。テキスト記述が存在しない場合、戻り値は
+0 である。関数が失敗した場合、戻り値は GDI_ERROR である。
 
 [備考]
-The optional text description contains two strings, the first
-identifying the application that created the enhanced metafile and
-the second identifying the picture contained in the metafile. The
-strings are separated by a null character and terminated with two
-null characters, for example, "XYZ Graphics Editor\0Bald Eagle\0\0"
-where \0 represents the null character. Where text arguments must use
-Unicode characters, use this function as a wide-character function.
-Where text arguments must use characters from the Windows character
-set, use this function as an ANSI function.
-> [!NOTE] > The wingdi.h header defines GetEnhMetaFileDescription as
-an alias which automatically selects the ANSI or Unicode version of
-this function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+任意のテキスト記述は 2 つの文字列で構成される。1 つ目は拡張メタファイルを作成したアプリケーションを示し、2
+つ目はメタファイルに含まれる画像を示す。文字列は NULL 文字で区切られ、2 つの NULL 文字で終端される。例:"XYZ
+Graphics Editor\0Bald Eagle\0\0"(\0 は NULL 文字を表す)。テキスト引数に Unicode
+文字を使う必要がある場合はワイド文字版として、Windows 文字セットを使う必要がある場合は ANSI 版として使用する。
+> [!NOTE] > wingdi.h ヘッダは GetEnhMetaFileDescription
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetEnhMetaFileHeader
-The GetEnhMetaFileHeader function retrieves the record containing the header for the specified enhanced-format metafile.
+GetEnhMetaFileHeader 関数は、指定した拡張形式メタファイルのヘッダを含むレコードを取得する。
 %group
 Win32 gdi32
 %prm
 hemf, nSize, lpEnhMetaHeader
-hemf : [intptr] A handle to the enhanced metafile for which the header is to be retrieved.
-nSize : [int] The size, in bytes, of the buffer to receive the data. Only this many bytes will be copied.
-lpEnhMetaHeader : [var] A pointer to an ENHMETAHEADER structure that receives the header record. If this parameter is NULL, the function returns the size of the header record.
+hemf : [intptr] ヘッダを取得する対象の拡張メタファイルのハンドル。
+nSize : [int] データを受け取るバッファのサイズ(バイト単位)。この分だけコピーされる。
+lpEnhMetaHeader : [var] ヘッダレコードを受け取る ENHMETAHEADER 構造体へのポインタ。このパラメータが NULL の場合、関数はヘッダレコードのサイズを返す。
 %inst
-The GetEnhMetaFileHeader function retrieves the record containing the
-header for the specified enhanced-format metafile.
+GetEnhMetaFileHeader 関数は、指定した拡張形式メタファイルのヘッダを含むレコードを取得する。
 
 [戻り値]
-If the function succeeds and the structure pointer is NULL, the
-return value is the size of the record that contains the header; if
-the structure pointer is a valid pointer, the return value is the
-number of bytes copied. Otherwise, it is zero.
+関数が成功し構造体ポインタが NULL
+の場合、戻り値はヘッダを含むレコードのサイズである。構造体ポインタが有効な場合、戻り値はコピーされたバイト数である。それ以外の場合は 0
+である。
 
 [備考]
-An enhanced-metafile header contains such information as the
-metafile's size, in bytes; the dimensions of the picture stored in
-the metafile; the number of records stored in the metafile; the
-offset to the optional text description; the size of the optional
-palette, and the resolution of the device on which the picture was
-created. The record that contains the enhanced-metafile header is
-always the first record in the metafile.
+
+拡張メタファイルヘッダには、メタファイルのサイズ(バイト単位)、メタファイルに格納された画像の寸法、格納レコード数、任意のテキスト記述へのオフセット、任意のパレットのサイズ、画像を作成したデバイスの解像度などの情報が含まれる。拡張メタファイルヘッダを含むレコードは常にメタファイル内の最初のレコードである。
 
 
 %index
 GetEnhMetaFilePaletteEntries
-The GetEnhMetaFilePaletteEntries function retrieves optional palette entries from the specified enhanced metafile.
+GetEnhMetaFilePaletteEntries 関数は、指定拡張メタファイルから任意のパレットエントリを取得する。
 %group
 Win32 gdi32
 %prm
 hemf, nNumEntries, lpPaletteEntries
-hemf : [intptr] A handle to the enhanced metafile.
-nNumEntries : [int] The number of entries to be retrieved from the optional palette.
-lpPaletteEntries : [var] A pointer to an array of PALETTEENTRY structures that receives the palette colors. The array must contain at least as many structures as there are entries specified by the cEntries parameter.
+hemf : [intptr] 拡張メタファイルのハンドル。
+nNumEntries : [int] 任意のパレットから取得するエントリ数。
+lpPaletteEntries : [var] パレットカラーを受け取る PALETTEENTRY 構造体の配列へのポインタ。配列は cEntries パラメータで指定されたエントリ数以上の構造体を含んでいなければならない。
 %inst
-The GetEnhMetaFilePaletteEntries function retrieves optional palette
-entries from the specified enhanced metafile.
+GetEnhMetaFilePaletteEntries 関数は、指定拡張メタファイルから任意のパレットエントリを取得する。
 
 [戻り値]
-If the array pointer is NULL and the enhanced metafile contains an
-optional palette, the return value is the number of entries in the
-enhanced metafile's palette; if the array pointer is a valid pointer
-and the enhanced metafile contains an optional palette, the return
-value is the number of entries copied; if the metafile does not
-contain an optional palette, the return value is zero. Otherwise, the
-return value is GDI_ERROR.
+配列ポインタが NULL
+で拡張メタファイルに任意のパレットが含まれている場合、戻り値はメタファイルのパレット内のエントリ数である。配列ポインタが有効で任意のパレットが含まれている場合、戻り値はコピーされたエントリ数である。メタファイルに任意のパレットが含まれていない場合、戻り値は
+0 である。それ以外の場合は GDI_ERROR である。
 
 [備考]
-An application can store an optional palette in an enhanced metafile
-by calling the CreatePalette and SetPaletteEntries functions before
-creating the picture and storing it in the metafile. By doing this,
-the application can achieve consistent colors when the picture is
-displayed on a variety of devices. An application that displays a
-picture stored in an enhanced metafile can call the
-GetEnhMetaFilePaletteEntries function to determine whether the
-optional palette exists. If it does, the application can call the
-GetEnhMetaFilePaletteEntries function a second time to retrieve the
-palette entries and then create a logical palette (by using the
-CreatePalette function), select it into its device context (by using
-the SelectPalette function), and then realize it (by using the
-RealizePalette function). After the logical palette has been
-realized, calling the PlayEnhMetaFile function displays the picture
-using its original colors.
+アプリケーションは、画像を作成してメタファイルに保存する前に CreatePalette および SetPaletteEntries
+関数を呼び出すことで、拡張メタファイルに任意のパレットを格納できる。これにより、画像がさまざまなデバイスで表示されるときに一貫した色を得ることができる。拡張メタファイルに格納された画像を表示するアプリケーションは、GetEnhMetaFilePaletteEntries
+関数を呼び出して任意のパレットの存在を確認できる。存在する場合、アプリケーションは再度この関数を呼び出してパレットエントリを取得し、CreatePalette
+を使って論理パレットを作成し、SelectPalette でデバイスコンテキストに選択し、RealizePalette
+で実体化する。論理パレットが実体化された後、PlayEnhMetaFile 関数を呼び出すと元の色で画像が表示される。
 
 
 %index
 GetEnhMetaFilePixelFormat
-The GetEnhMetaFilePixelFormat function retrieves pixel format information for an enhanced metafile.
+GetEnhMetaFilePixelFormat 関数は、拡張メタファイルのピクセルフォーマット情報を取得する。
 %group
 Win32 gdi32
 %prm
 hemf, cbBuffer, ppfd
-hemf : [intptr] Identifies the enhanced metafile.
-cbBuffer : [int] Specifies the size, in bytes, of the buffer into which the pixel format information is copied.
-ppfd : [var] Pointer to a PIXELFORMATDESCRIPTOR structure that contains the logical pixel format specification. The metafile uses this structure to record the logical pixel format specification.
+hemf : [intptr] 拡張メタファイルを識別する。
+cbBuffer : [int] ピクセルフォーマット情報をコピーするバッファのサイズ(バイト単位)を指定する。
+ppfd : [var] 論理ピクセルフォーマット仕様を含む PIXELFORMATDESCRIPTOR 構造体へのポインタ。メタファイルはこの構造体を使って論理ピクセルフォーマット仕様を記録する。
 %inst
-The GetEnhMetaFilePixelFormat function retrieves pixel format
-information for an enhanced metafile.
+GetEnhMetaFilePixelFormat 関数は、拡張メタファイルのピクセルフォーマット情報を取得する。
 
 [戻り値]
-If the function succeeds and finds a pixel format, the return value
-is the size of the metafile's pixel format. If no pixel format is
-present, the return value is zero. If an error occurs and the
-function fails, the return value is GDI_ERROR. To get extended error
-information, call GetLastError.
+
+関数が成功しピクセルフォーマットが見つかった場合、戻り値はメタファイルのピクセルフォーマットのサイズである。ピクセルフォーマットがない場合は
+0 である。エラーが発生して関数が失敗した場合は GDI_ERROR である。拡張エラー情報を取得するには GetLastError
+を呼ぶ。
 
 [備考]
-When an enhanced metafile specifies a pixel format in its
-ENHMETAHEADER structure and the pixel format fits in the buffer, the
-pixel format information is copied into ppfd. When cbBuffer is too
-small to contain the pixel format of the metafile, the pixel format
-is not copied to the buffer. In either case, the function returns the
-size of the metafile's pixel format. For information on metafile
-recording and other operations, see Enhanced Metafile Operations.
+拡張メタファイルが ENHMETAHEADER
+構造体にピクセルフォーマットを指定しており、そのピクセルフォーマットがバッファに収まる場合、ピクセルフォーマット情報が ppfd
+にコピーされる。cbBuffer
+がメタファイルのピクセルフォーマットを格納するには小さすぎる場合、バッファにはコピーされない。いずれの場合も関数はメタファイルのピクセルフォーマットのサイズを返す。メタファイル記録やその他の操作については「拡張メタファイル操作」を参照。
 
 
 %index
 GetFontData
-The GetFontData function retrieves font metric data for a TrueType font.
+GetFontData 関数は、TrueType フォントのフォントメトリックデータを取得する。
 %group
 Win32 gdi32
 %prm
 hdc, dwTable, dwOffset, pvBuffer, cjBuffer
-hdc : [intptr] A handle to the device context.
-dwTable : [int] The name of a font metric table from which the font data is to be retrieved. This parameter can identify one of the metric tables documented in the TrueType Font Files specification published by Microsoft Corporation. If this parameter is zero, the information is retrieved starting at the beginning of the file for TrueType font files or from the beginning of the data for the currently selected font for TrueType Collection files. To retrieve the data from the beginning of the file for TrueType Collection files specify 'ttcf' (0x66637474).
-dwOffset : [int] The offset from the beginning of the font metric table to the location where the function should begin retrieving information. If this parameter is zero, the information is retrieved starting at the beginning of the table specified by the dwTable parameter. If this value is greater than or equal to the size of the table, an error occurs.
-pvBuffer : [intptr] A pointer to a buffer that receives the font information. If this parameter is NULL, the function returns the size of the buffer required for the font data.
-cjBuffer : [int] The length, in bytes, of the information to be retrieved. If this parameter is zero, GetFontData returns the size of the data specified in the dwTable parameter.
+hdc : [intptr] デバイスコンテキストのハンドル。
+dwTable : [int] フォントデータを取得する対象のフォントメトリックテーブルの名前。このパラメータは Microsoft 社の TrueType フォントファイル仕様に記載されたメトリックテーブルのいずれかを指定できる。このパラメータが 0 の場合、TrueType フォントファイルではファイルの先頭から、TrueType コレクションファイルでは現在選択されているフォントのデータの先頭から情報を取得する。TrueType コレクションファイルのファイル先頭からデータを取得するには 'ttcf' (0x66637474) を指定する。
+dwOffset : [int] 情報取得を開始する位置の、フォントメトリックテーブル先頭からのオフセット。このパラメータが 0 の場合、dwTable で指定されたテーブルの先頭から情報を取得する。この値がテーブルのサイズ以上の場合、エラーとなる。
+pvBuffer : [intptr] フォント情報を受け取るバッファへのポインタ。このパラメータが NULL の場合、関数はフォントデータに必要なバッファサイズを返す。
+cjBuffer : [int] 取得する情報の長さ(バイト単位)。このパラメータが 0 の場合、GetFontData は dwTable で指定されたデータのサイズを返す。
 %inst
-The GetFontData function retrieves font metric data for a TrueType
-font.
+GetFontData 関数は、TrueType フォントのフォントメトリックデータを取得する。
 
 [戻り値]
-If the function succeeds, the return value is the number of bytes
-returned. If the function fails, the return value is GDI_ERROR.
+関数が成功した場合、戻り値は返されたバイト数である。失敗した場合は GDI_ERROR を返す。
 
 [備考]
-This function is intended to be used to retrieve TrueType font
-information directly from the font file by font-manipulation
-applications. For information about embedding fonts see the Font
-Embedding Reference. An application can sometimes use the GetFontData
-function to save a TrueType font with a document. To do this, the
-application determines whether the font can be embedded by checking
-the otmfsType member of the OUTLINETEXTMETRIC structure. If bit 1 of
-otmfsType is set, embedding is not permitted for the font. If bit 1
-is clear, the font can be embedded. If bit 2 is set, the embedding is
-read-only. If embedding is permitted, the application can retrieve
-the entire font file, specifying zero for the dwTable, dwOffset, and
-cbData parameters. If an application attempts to use this function to
-retrieve information for a non-TrueType font, an error occurs.
+この関数は、フォント操作アプリケーションがフォントファイルから直接 TrueType
+フォント情報を取得するために使われる。フォント埋め込みについては Font Embedding Reference
+を参照。アプリケーションは GetFontData 関数を使って TrueType
+フォントをドキュメントと一緒に保存することがある。そのためにアプリケーションは OUTLINETEXTMETRIC 構造体の
+otmfsType メンバを確認し、フォントが埋め込み可能かを判断する。otmfsType のビット 1
+が立っている場合、フォントは埋め込みを許可しない。ビット 1 がクリアなら埋め込み可能である。ビット 2
+が立っている場合、埋め込みは読み取り専用となる。埋め込みが許可されている場合、アプリケーションは
+dwTable、dwOffset、cbData に 0 を指定してフォントファイル全体を取得できる。非 TrueType
+フォントに対してこの関数で情報取得を試みると、エラーが発生する。
 
 
 %index
 GetFontLanguageInfo
-The GetFontLanguageInfo function returns information about the currently selected font for the specified display context. Applications typically use this information and the GetCharacterPlacement function to prepare a character string for display.
+GetFontLanguageInfo 関数は、指定ディスプレイコンテキストで現在選択されているフォントに関する情報を返す。アプリケーションは通常、この情報と GetCharacterPlacement 関数を使って表示用の文字列を準備する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to a display device context.
+hdc : [intptr] ディスプレイデバイスコンテキストのハンドル。
 %inst
-The GetFontLanguageInfo function returns information about the
-currently selected font for the specified display context.
-Applications typically use this information and the
-GetCharacterPlacement function to prepare a character string for
-display.
+GetFontLanguageInfo
+関数は、指定ディスプレイコンテキストで現在選択されているフォントに関する情報を返す。アプリケーションは通常、この情報と
+GetCharacterPlacement 関数を使って表示用の文字列を準備する。
 
 [戻り値]
-The return value identifies characteristics of the currently selected
-font. The function returns 0 if the font is "normalized" and can be
-treated as a simple Latin font; it returns GCP_ERROR if an error
-occurs. Otherwise, the function returns a combination of the
-following values.
-This doc was truncated.
+戻り値は現在選択されているフォントの特性を表す。フォントが「正規化」されていて単純なラテン語フォントとして扱える場合は 0
+を返し、エラーが発生した場合は GCP_ERROR を返す。それ以外の場合は次の値の組み合わせを返す。
+（以下省略)
 
 
 %index
 GetFontUnicodeRanges
-The GetFontUnicodeRanges function returns information about which Unicode characters are supported by a font. The information is returned as a GLYPHSET structure.
+GetFontUnicodeRanges 関数は、フォントでサポートされている Unicode 文字に関する情報を返す。情報は GLYPHSET 構造体として返される。
 %group
 Win32 gdi32
 %prm
 hdc, lpgs
-hdc : [intptr] A handle to the device context.
-lpgs : [var] A pointer to a GLYPHSET structure that receives the glyph set information. If this parameter is NULL, the function returns the size of the GLYPHSET structure required to store the information.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lpgs : [var] グリフセット情報を受け取る GLYPHSET 構造体へのポインタ。このパラメータが NULL の場合、関数は情報を格納するのに必要な GLYPHSET 構造体のサイズを返す。
 %inst
-The GetFontUnicodeRanges function returns information about which
-Unicode characters are supported by a font. The information is
-returned as a GLYPHSET structure.
+GetFontUnicodeRanges 関数は、フォントでサポートされている Unicode 文字に関する情報を返す。情報は
+GLYPHSET 構造体として返される。
 
 [戻り値]
-If the function succeeds, it returns number of bytes written to the
-GLYPHSET structure or, if the lpgs parameter is NULL, it returns the
-size of the GLYPHSET structure required to store the information. If
-the function fails, it returns zero. No extended error information is
-available.
+関数が成功した場合、GLYPHSET 構造体に書き込まれたバイト数を返す。lpgs が NULL の場合は必要な GLYPHSET
+構造体のサイズを返す。失敗した場合は 0 を返す。拡張エラー情報は利用できない。
 
 
 %index
 GetGlyphIndicesW
-The GetGlyphIndices function translates a string into an array of glyph indices. The function can be used to determine whether a glyph exists in a font. (Unicode)
+GetGlyphIndices 関数は、文字列をグリフインデックスの配列に変換する。この関数はフォント内にグリフが存在するかどうかを判定するためにも使用できる。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, lpstr, c, pgi, fl
-hdc : [intptr] A handle to the device context.
-lpstr : [wstr] A pointer to the string to be converted.
-c : [int] The length of both the length of the string pointed to by lpstr and the size (in WORDs) of the buffer pointed to by pgi.
-pgi : [var] This buffer must be of dimension c. On successful return, contains an array of glyph indices corresponding to the characters in the string.
-fl : [int] Specifies how glyphs should be handled if they are not supported. This parameter can be the following value.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lpstr : [wstr] 変換する文字列へのポインタ。
+c : [int] lpstr が指す文字列の長さと、pgi が指すバッファのサイズ(WORD 単位)の両方。
+pgi : [var] このバッファは次元 c でなければならない。正常に戻ると、文字列内の文字に対応するグリフインデックスの配列を含む。
+fl : [int] サポートされていないグリフをどう扱うかを指定する。このパラメータには次の値を指定できる。
 %inst
-The GetGlyphIndices function translates a string into an array of
-glyph indices. The function can be used to determine whether a glyph
-exists in a font. (Unicode)
+GetGlyphIndices
+関数は、文字列をグリフインデックスの配列に変換する。この関数はフォント内にグリフが存在するかどうかを判定するためにも使用できる。(Unicode)
 
 [戻り値]
-If the function succeeds, it returns the number of bytes (for the
-ANSI function) or WORDs (for the Unicode function) converted. If the
-function fails, the return value is GDI_ERROR.
+関数が成功した場合、変換したバイト数(ANSI 版)または WORD 数(Unicode 版)を返す。失敗した場合は GDI_ERROR
+を返す。
 
 [備考]
-This function attempts to identify a single-glyph representation for
-each character in the string pointed to by lpstr. While this is
-useful for certain low-level purposes (such as manipulating font
-files), higher-level applications that wish to map a string to glyphs
-will typically wish to use the Uniscribe functions.
-> [!NOTE] > The wingdi.h header defines GetGlyphIndices as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+この関数は lpstr
+が指す文字列内の各文字に対する単一グリフ表現を特定しようとする。これはフォントファイル操作などの低レベル用途で有用だが、文字列をグリフにマップしたい高水準アプリケーションでは通常
+Uniscribe 関数を使用する。
+> [!NOTE] > wingdi.h ヘッダは GetGlyphIndices をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetGlyphOutlineW
-The GetGlyphOutline function retrieves the outline or bitmap for a character in the TrueType font that is selected into the specified device context. (Unicode)
+GetGlyphOutline 関数は、指定デバイスコンテキストに選択されている TrueType フォント内の文字のアウトラインまたはビットマップを取得する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, uChar, fuFormat, lpgm, cjBuffer, pvBuffer, lpmat2
-hdc : [intptr] A handle to the device context.
-uChar : [int] The character for which data is to be returned.
+hdc : [intptr] デバイスコンテキストのハンドル。
+uChar : [int] データを取得する対象の文字。
 fuFormat : [int] 
-lpgm : [var] A pointer to the GLYPHMETRICS structure describing the placement of the glyph in the character cell.
-cjBuffer : [int] The size, in bytes, of the buffer (*lpvBuffer) where the function is to copy information about the outline character. If this value is zero, the function returns the required size of the buffer.
-pvBuffer : [intptr] A pointer to the buffer that receives information about the outline character. If this value is NULL, the function returns the required size of the buffer.
-lpmat2 : [var] A pointer to a MAT2 structure specifying a transformation matrix for the character.
+lpgm : [var] 文字セル内のグリフ配置を記述する GLYPHMETRICS 構造体へのポインタ。
+cjBuffer : [int] アウトライン文字情報をコピーするバッファ (*lpvBuffer) のサイズ(バイト単位)。この値が 0 の場合、関数は必要なバッファサイズを返す。
+pvBuffer : [intptr] アウトライン文字情報を受け取るバッファへのポインタ。この値が NULL の場合、関数は必要なバッファサイズを返す。
+lpmat2 : [var] 文字の変換行列を指定する MAT2 構造体へのポインタ。
 %inst
-The GetGlyphOutline function retrieves the outline or bitmap for a
-character in the TrueType font that is selected into the specified
-device context. (Unicode)
+GetGlyphOutline 関数は、指定デバイスコンテキストに選択されている TrueType
+フォント内の文字のアウトラインまたはビットマップを取得する。(Unicode)
 
 [戻り値]
-If GGO_BITMAP, GGO_GRAY2_BITMAP, GGO_GRAY4_BITMAP, GGO_GRAY8_BITMAP,
-or GGO_NATIVE is specified and the function succeeds, the return
-value is greater than zero; otherwise, the return value is GDI_ERROR.
-If one of these flags is specified and the buffer size or address is
-zero, the return value specifies the required buffer size, in bytes.
-If GGO_METRICS is specified and the function fails, the return value
-is GDI_ERROR.
+GGO_BITMAP、GGO_GRAY2_BITMAP、GGO_GRAY4_BITMAP、GGO_GRAY8_BITMAP、または
+GGO_NATIVE が指定され、関数が成功した場合、戻り値は 0 より大きい。そうでない場合は GDI_ERROR
+を返す。これらのフラグのいずれかが指定されバッファサイズまたはアドレスが 0
+の場合、戻り値は必要なバッファサイズ(バイト単位)である。GGO_METRICS が指定され関数が失敗した場合、戻り値は
+GDI_ERROR である。
 
 [備考]
-The glyph outline returned by the GetGlyphOutline function is for a
-grid-fitted glyph. (A grid-fitted glyph is a glyph that has been
-modified so that its bitmapped image conforms as closely as possible
-to the original design of the glyph.) If an application needs an
-unmodified glyph outline, it can request the glyph outline for a
-character in a font whose size is equal to the font's em unit. The
-value for a font's em unit is stored in the otmEMSquare member of the
-OUTLINETEXTMETRIC structure. The glyph bitmap returned by
-GetGlyphOutline when GGO_BITMAP is specified is a DWORD-aligned,
-row-oriented, monochrome bitmap. When GGO_GRAY2_BITMAP is specified,
-the bitmap returned is a DWORD-aligned, row-oriented array of bytes
-whose values range from 0 to 4. When GGO_GRAY4_BITMAP is specified,
-the bitmap returned is a DWORD-aligned, row-oriented array of bytes
-whose values range from 0 to 16. When GGO_GRAY8_BITMAP is specified,
-the bitmap returned is a DWORD-aligned, row-oriented array of bytes
-whose values range from 0 to 64. The native buffer returned by
-GetGlyphOutline when GGO_NATIVE is specified is a glyph outline. A
-glyph outline is returned as a series of one or more contours defined
-by a TTPOLYGONHEADER structure followed by one or more curves. Each
-curve in the contour is defined by a TTPOLYCURVE structure followed
-by a number of POINTFX data points. POINTFX points are absolute
-positions, not relative moves. The starting point of a contour is
-given by the pfxStart member of the TTPOLYGONHEADER structure. The
-starting point of each curve is the last point of the previous curve
-or the starting point of the contour. The count of data points in a
-curve is stored in the cpfx member of TTPOLYCURVE structure. The size
-of each contour in the buffer, in bytes, is stored in the cb member
-of TTPOLYGONHEADER structure. Additional curve definitions are packed
-into the buffer following preceding curves and additional contours
-are packed into the buffer following preceding contours. The buffer
-contains as many contours as fit within the buffer returned by
-GetGlyphOutline. The GLYPHMETRICS structure specifies the width of
-the character cell and the location of a glyph within the character
-cell. The origin of the character cell is located at the left side of
-the cell at the baseline of the font. The location of the glyph
-origin is relative to the character cell origin. The height of a
-character cell, the baseline, and other metrics global to the font
-are given by the OUTLINETEXTMETRIC structure. An application can
-alter the characters retrieved in bitmap or native format by
-specifying a 2-by-2 transformation matrix in the lpMatrix parameter.
-For example the glyph can be modified by shear, rotation, scaling, or
-any combination of the three using matrix multiplication. Additional
-information on a glyph outlines is located in the TrueType and the
-OpenType technical specifications.
-> [!NOTE] > The wingdi.h header defines GetGlyphOutline as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+GetGlyphOutline
+関数が返すグリフアウトラインはグリッドフィットされたグリフ(ビットマップ画像が元のグリフデザインにできるだけ近づくよう修正されたグリフ)に対するものである。アプリケーションが未修正のグリフアウトラインを必要とする場合、フォントの
+em ユニットと同じサイズのフォント内の文字に対してグリフアウトラインを要求できる。フォントの em ユニット値は
+OUTLINETEXTMETRIC 構造体の otmEMSquare メンバに格納される。GGO_BITMAP 指定時に
+GetGlyphOutline が返すグリフビットマップは、DWORD
+境界に整列され行指向のモノクロビットマップである。GGO_GRAY2_BITMAP 指定時は値の範囲 0 ～ 4
+のバイト配列、GGO_GRAY4_BITMAP 指定時は値の範囲 0 ～ 16、GGO_GRAY8_BITMAP 指定時は値の範囲 0 ～
+64 である。GGO_NATIVE 指定時に GetGlyphOutline
+が返すネイティブバッファはグリフアウトラインである。グリフアウトラインは、TTPOLYGONHEADER 構造体とそれに続く 1
+つ以上の曲線によって定義される輪郭の連続として返される。輪郭内の各曲線は TTPOLYCURVE 構造体と、それに続く POINTFX
+データポイントによって定義される。POINTFX 点は相対移動ではなく絶対位置である。輪郭の始点は TTPOLYGONHEADER
+構造体の pfxStart メンバで与えられる。各曲線の始点は前の曲線の最後の点または輪郭の始点である。曲線のデータポイント数は
+TTPOLYCURVE 構造体の cpfx メンバに格納される。バッファ内の各輪郭のサイズ(バイト単位)は TTPOLYGONHEADER
+構造体の cb
+メンバに格納される。追加の曲線定義は先行する曲線に続いてバッファに詰め込まれ、追加の輪郭も先行する輪郭に続いて詰め込まれる。バッファにはバッファに収まるだけの輪郭が格納される。GLYPHMETRICS
+構造体は文字セルの幅とグリフの文字セル内の位置を指定する。文字セルの原点はフォントのベースライン上のセル左側にある。グリフ原点の位置は文字セル原点を基準とした相対位置である。文字セルの高さ、ベースライン、その他フォント全体に共通のメトリックは
+OUTLINETEXTMETRIC 構造体に含まれる。アプリケーションは lpMatrix パラメータに 2x2
+変換行列を指定することで、ビットマップまたはネイティブ形式で取得される文字を変形できる。例えば、行列乗算によりせん断、回転、スケーリング、またはそれらの組み合わせを適用できる。グリフアウトラインに関する追加情報は
+TrueType および OpenType 技術仕様に記載されている。
+> [!NOTE] > wingdi.h ヘッダは GetGlyphOutline をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetGraphicsMode
-The GetGraphicsMode function retrieves the current graphics mode for the specified device context.
+GetGraphicsMode 関数は、指定したデバイスコンテキストの現在のグラフィックモードを取得する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストのハンドル。
 %inst
-The GetGraphicsMode function retrieves the current graphics mode for
-the specified device context.
+GetGraphicsMode 関数は、指定したデバイスコンテキストの現在のグラフィックモードを取得する。
 
 [戻り値]
-If the function succeeds, the return value is the current graphics
-mode. It can be one of the following values.
-This doc was truncated.
+関数が成功した場合、戻り値は現在のグラフィックモードである。次のいずれかの値となる。
+（以下省略)
 
 [備考]
-An application can set the graphics mode for a device context by
-calling the SetGraphicsMode function.
+アプリケーションは SetGraphicsMode 関数を呼び出すことで、デバイスコンテキストのグラフィックモードを設定できる。
 
 
 %index
 GetICMProfileW
-The GetICMProfile function retrieves the file name of the current output color profile for a specified device context. (Unicode)
+GetICMProfile 関数は、指定したデバイスコンテキストの現在の出力カラープロファイルのファイル名を取得する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, pBufSize, pszFilename
-hdc : [intptr] Specifies a device context from which to retrieve the color profile.
-pBufSize : [var] Pointer to a DWORD that contains the size of the buffer pointed to by lpszFilename. For the ANSI version of this function, the size is in bytes. For the Unicode version, the size is in WCHARs. If this function is successful, on return this parameter contains the size of the buffer actually used. However, if the buffer is not large enough, this function returns FALSE. In this case, the GetLastError() function returns ERROR_INSUFFICIENT_BUFFER and the DWORD pointed to by this parameter contains the size needed for the lpszFilename buffer.
-pszFilename : [wstr] Points to the buffer that receives the path name of the profile.
+hdc : [intptr] カラープロファイルを取得する対象のデバイスコンテキストを指定する。
+pBufSize : [var] lpszFilename が指すバッファのサイズを含む DWORD へのポインタ。この関数の ANSI 版ではサイズはバイト単位、Unicode 版では WCHAR 単位である。関数が成功すると、戻り時にこのパラメータは実際に使用されたバッファサイズを含む。ただしバッファが十分でない場合、この関数は FALSE を返す。この場合 GetLastError() は ERROR_INSUFFICIENT_BUFFER を返し、このパラメータが指す DWORD には lpszFilename バッファに必要なサイズが格納される。
+pszFilename : [wstr] プロファイルのパス名を受け取るバッファを指す。
 %inst
-The GetICMProfile function retrieves the file name of the current
-output color profile for a specified device context. (Unicode)
+GetICMProfile 関数は、指定したデバイスコンテキストの現在の出力カラープロファイルのファイル名を取得する。(Unicode)
 
 [戻り値]
-If this function succeeds, the return value is TRUE. It also returns
-TRUE if the lpszFilename parameter is NULL and the size required for
-the buffer is copied into lpcbName. If this function fails, the
-return value is FALSE.
+関数が成功した場合、戻り値は TRUE である。lpszFilename が NULL で、必要なバッファサイズが lpcbName
+にコピーされた場合も TRUE を返す。関数が失敗した場合は FALSE を返す。
 
 [備考]
-GetICMProfile obtains the file name of the current output profile
-regardless of whether or not color management is enabled for the
-device context. Given a device context, GetICMProfile will output,
-through the parameter lpszFilename, the path name of the file
-containing the color profile currently being used by the device
-context. It will also output, through the parameter lpcbName, the
-length of the string containing the path name. It is possible that
-the profile name returned by GetICMProfile will not be in the list of
-profiles returned by EnumICMProfiles. The EnumICMProfiles function
-returns all color space profiles that are associated with a device
-context (DC) whose settings match that of the DC. If the
-SetICMProfile function is used to set the current profile, a profile
-may be associated with the DC that does not match its settings. For
-instance, the SetICMProfile function can be used to associate the
-device-independent sRGB profile with a DC. This profile will be used
-as the current WCS profile for that DC, and calls to GetICMProfile
-will return its file name. However, the profile will not appear in
-the list of profiles that is returned from EnumICMProfiles. If this
-function is called before any calls to the SetICMProfile function, it
-can be used to get the default profile for a device context. Windows
-95/98/Me: GetICMProfileW is supported by the Microsoft Layer for
-Unicode. To use this, you must add certain files to your application,
-as outlined in Microsoft Layer for Unicode on Windows 95/98/Me
-Systems.
-> [!NOTE] > The wingdi.h header defines GetICMProfile as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+GetICMProfile
+は、デバイスコンテキストのカラーマネジメントが有効かどうかに関わらず、現在の出力プロファイルのファイル名を取得する。デバイスコンテキストを与えると、GetICMProfile
+は lpszFilename
+パラメータを通じて、現在デバイスコンテキストで使用されているカラープロファイルを含むファイルのパス名を出力する。また lpcbName
+パラメータを通じてパス名を含む文字列の長さを出力する。GetICMProfile が返すプロファイル名は EnumICMProfiles
+が返すプロファイル一覧に含まれない可能性がある。EnumICMProfiles 関数は、デバイスコンテキスト (DC)
+に関連付けられ、かつ DC の設定に一致するすべてのカラースペースプロファイルを返す。SetICMProfile
+関数で現在のプロファイルを設定した場合、DC 設定に一致しないプロファイルが関連付けられることがある。例えば、SetICMProfile
+関数でデバイス非依存の sRGB プロファイルを DC に関連付けることができる。このプロファイルはその DC の現在の WCS
+プロファイルとして使用され、GetICMProfile 呼び出しではそのファイル名が返される。ただし、EnumICMProfiles
+が返すプロファイル一覧には現れない。SetICMProfile
+の呼び出し前にこの関数を呼び出すと、デバイスコンテキストのデフォルトプロファイルを取得するために使用できる。Windows
+95/98/Me: GetICMProfileW は Microsoft Layer for Unicode
+でサポートされる。使用するには、Windows 95/98/Me 向け Microsoft Layer for Unicode
+の説明に従って、特定のファイルをアプリケーションに追加する必要がある。
+> [!NOTE] > wingdi.h ヘッダは GetICMProfile をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetKerningPairsW
-The GetKerningPairs function retrieves the character-kerning pairs for the currently selected font for the specified device context. (Unicode)
+GetKerningPairs 関数は、指定したデバイスコンテキストの現在選択されているフォントの文字カーニングペアを取得する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, nPairs, lpKernPair
-hdc : [intptr] A handle to the device context.
-nPairs : [int] The number of pairs in the lpkrnpair array. If the font has more than nNumPairs kerning pairs, the function returns an error.
-lpKernPair : [var] A pointer to an array of KERNINGPAIR structures that receives the kerning pairs. The array must contain at least as many structures as specified by the nNumPairs parameter. If this parameter is NULL, the function returns the total number of kerning pairs for the font.
+hdc : [intptr] デバイスコンテキストのハンドル。
+nPairs : [int] lpkrnpair 配列内のペア数。フォントが nNumPairs より多くのカーニングペアを持つ場合、関数はエラーを返す。
+lpKernPair : [var] カーニングペアを受け取る KERNINGPAIR 構造体の配列へのポインタ。配列は nNumPairs パラメータで指定された数以上の構造体を含んでいなければならない。このパラメータが NULL の場合、関数はフォントのカーニングペアの総数を返す。
 %inst
-The GetKerningPairs function retrieves the character-kerning pairs
-for the currently selected font for the specified device context.
-(Unicode)
+GetKerningPairs
+関数は、指定したデバイスコンテキストの現在選択されているフォントの文字カーニングペアを取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is the number of kerning
-pairs returned. If the function fails, the return value is zero.
+関数が成功した場合、戻り値は返されたカーニングペアの数である。失敗した場合は 0 である。
 
 [備考]
-> [!NOTE] > The wingdi.h header defines GetKerningPairs as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > wingdi.h ヘッダは GetKerningPairs をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetLayout
-The GetLayout function returns the layout of a device context (DC).
+GetLayout 関数は、デバイスコンテキスト (DC) のレイアウトを返す。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストのハンドル。
 %inst
-The GetLayout function returns the layout of a device context (DC).
+GetLayout 関数は、デバイスコンテキスト (DC) のレイアウトを返す。
 
 [戻り値]
-If the function succeeds, it returns the layout flags for the current
-device context. If the function fails, it returns GDI_ERROR. For
-extended error information, call GetLastError.
+関数が成功した場合、現在のデバイスコンテキストのレイアウトフラグを返す。失敗した場合は GDI_ERROR
+を返す。拡張エラー情報を取得するには GetLastError を呼ぶ。
 
 [備考]
-The layout specifies the order in which text and graphics are
-revealed in a window or device context. The default is left to right.
-The GetLayout function tells you if the default has been changed
-through a call to SetLayout. For more information, see "Window Layout
-and Mirroring" in Window Features.
+
+レイアウトは、ウィンドウまたはデバイスコンテキスト内でテキストやグラフィックが現れる順序を指定する。既定は左から右である。GetLayout
+関数は、既定が SetLayout
+の呼び出しで変更されているかを返す。詳細はウィンドウ機能の「ウィンドウレイアウトとミラーリング」を参照。
 
 
 %index
 GetLogColorSpaceW
-The GetLogColorSpace function retrieves the color space definition identified by a specified handle. (Unicode)
+GetLogColorSpace 関数は、指定したハンドルで識別されるカラースペース定義を取得する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hColorSpace, lpBuffer, nSize
-hColorSpace : [intptr] Specifies the handle to a color space.
-lpBuffer : [var] Points to a buffer to receive the LOGCOLORSPACE structure.
-nSize : [int] Specifies the maximum size of the buffer.
+hColorSpace : [intptr] カラースペースのハンドルを指定する。
+lpBuffer : [var] LOGCOLORSPACE 構造体を受け取るバッファを指す。
+nSize : [int] バッファの最大サイズを指定する。
 %inst
-The GetLogColorSpace function retrieves the color space definition
-identified by a specified handle. (Unicode)
+GetLogColorSpace 関数は、指定したハンドルで識別されるカラースペース定義を取得する。(Unicode)
 
 [戻り値]
-If this function succeeds, the return value is TRUE. If this function
-fails, the return value is FALSE.
+関数が成功した場合、戻り値は TRUE である。失敗した場合は FALSE である。
 
 [備考]
-Windows 95/98/Me: GetLogColorSpaceW is supported by the Microsoft
-Layer for Unicode. To use this, you must add certain files to your
-application, as outlined in Microsoft Layer for Unicode on Windows
-95/98/Me Systems.
-> [!NOTE] > The wingdi.h header defines GetLogColorSpace as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+Windows 95/98/Me: GetLogColorSpaceW は Microsoft Layer for Unicode
+でサポートされる。使用するには、Windows 95/98/Me 向け Microsoft Layer for Unicode
+の説明に従って、特定のファイルをアプリケーションに追加する必要がある。
+> [!NOTE] > wingdi.h ヘッダは GetLogColorSpace をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetMapMode
-The GetMapMode function retrieves the current mapping mode.
+GetMapMode 関数は、現在のマッピングモードを取得する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストのハンドル。
 %inst
-The GetMapMode function retrieves the current mapping mode.
+GetMapMode 関数は、現在のマッピングモードを取得する。
 
 [戻り値]
-If the function succeeds, the return value specifies the mapping
-mode. If the function fails, the return value is zero.
+関数が成功した場合、戻り値はマッピングモードを表す。失敗した場合は 0 である。
 
 [備考]
-The following are the various mapping modes.
-This doc was truncated.
+以下は各種マッピングモードである。
+（以下省略)
 
 
 %index
 GetMetaFileW
-The GetMetaFile function creates a handle that identifies the metafile stored in the specified file. (Unicode)
+GetMetaFile 関数は、指定ファイルに格納されたメタファイルを識別するハンドルを作成する。(Unicode)
 %group
 Win32 gdi32
 %prm
 lpName
-lpName : [wstr] A pointer to a null-terminated string that specifies the name of a metafile.
+lpName : [wstr] メタファイルの名前を指定する NULL 終端文字列へのポインタ。
 %inst
-The GetMetaFile function creates a handle that identifies the
-metafile stored in the specified file. (Unicode)
+GetMetaFile 関数は、指定ファイルに格納されたメタファイルを識別するハンドルを作成する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a handle to the
-metafile. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値はメタファイルのハンドルである。失敗した場合は NULL を返す。
 
 [備考]
-This function is not implemented in the Win32 API. It is provided for
-compatibility with 16-bit versions of Windows. In Win32 applications,
-use the GetEnhMetaFile function.
-> [!NOTE] > The wingdi.h header defines GetMetaFile as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+この関数は Win32 API では実装されていない。16 ビット版 Windows との互換性のために提供されている。Win32
+アプリケーションでは GetEnhMetaFile 関数を使用する。
+> [!NOTE] > wingdi.h ヘッダは GetMetaFile をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetMetaFileBitsEx
-The GetMetaFileBitsEx function retrieves the contents of a Windows-format metafile and copies them into the specified buffer.
+GetMetaFileBitsEx 関数は、Windows 形式メタファイルの内容を取得して指定バッファへコピーする。
 %group
 Win32 gdi32
 %prm
 hMF, cbBuffer, lpData
-hMF : [intptr] A handle to a Windows-format metafile.
-cbBuffer : [int] The size, in bytes, of the buffer to receive the data.
-lpData : [intptr] A pointer to a buffer that receives the metafile data. The buffer must be sufficiently large to contain the data. If lpvData is NULL, the function returns the number of bytes required to hold the data.
+hMF : [intptr] Windows 形式メタファイルのハンドル。
+cbBuffer : [int] データを受け取るバッファのサイズ(バイト単位)。
+lpData : [intptr] メタファイルデータを受け取るバッファへのポインタ。バッファはデータを格納するのに十分な大きさでなければならない。lpvData が NULL の場合、関数はデータを保持するのに必要なバイト数を返す。
 %inst
-The GetMetaFileBitsEx function retrieves the contents of a
-Windows-format metafile and copies them into the specified buffer.
+GetMetaFileBitsEx 関数は、Windows 形式メタファイルの内容を取得して指定バッファへコピーする。
 
 [戻り値]
-If the function succeeds and the buffer pointer is NULL, the return
-value is the number of bytes required for the buffer; if the function
-succeeds and the buffer pointer is a valid pointer, the return value
-is the number of bytes copied. If the function fails, the return
-value is zero.
+関数が成功しバッファポインタが NULL
+の場合、戻り値はバッファに必要なバイト数である。関数が成功しバッファポインタが有効なポインタの場合、戻り値はコピーされたバイト数である。失敗した場合は
+0 である。
 
 [備考]
-After the Windows-metafile bits are retrieved, they can be used to
-create a memory-based metafile by calling the SetMetaFileBitsEx
-function. The GetMetaFileBitsEx function does not invalidate the
-metafile handle. An application must delete this handle by calling
-the DeleteMetaFile function. To convert a Windows-format metafile
-into an enhanced-format metafile, use the SetWinMetaFileBits
-function.
+Windows メタファイルのビットが取得された後、SetMetaFileBitsEx
+関数を呼び出してメモリベースのメタファイルを作成するために使用できる。GetMetaFileBitsEx
+関数はメタファイルハンドルを無効にしない。アプリケーションは DeleteMetaFile
+関数を呼び出してこのハンドルを削除しなければならない。Windows
+形式メタファイルを拡張形式メタファイルに変換するには、SetWinMetaFileBits 関数を使用する。
 
 
 %index
 GetMetaRgn
-The GetMetaRgn function retrieves the current metaregion for the specified device context.
+GetMetaRgn 関数は、指定したデバイスコンテキストの現在のメタリージョンを取得する。
 %group
 Win32 gdi32
 %prm
 hdc, hrgn
-hdc : [intptr] A handle to the device context.
-hrgn : [intptr] A handle to an existing region before the function is called. After the function returns, this parameter is a handle to a copy of the current metaregion.
+hdc : [intptr] デバイスコンテキストのハンドル。
+hrgn : [intptr] 関数呼び出し前は既存のリージョンのハンドル。関数から戻ると、このパラメータは現在のメタリージョンのコピーのハンドルとなる。
 %inst
-The GetMetaRgn function retrieves the current metaregion for the
-specified device context.
+GetMetaRgn 関数は、指定したデバイスコンテキストの現在のメタリージョンを取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-If the function succeeds, hrgn is a handle to a copy of the current
-metaregion. Subsequent changes to this copy will not affect the
-current metaregion. The current clipping region of a device context
-is defined by the intersection of its clipping region and its
-metaregion.
+関数が成功した場合、hrgn
+は現在のメタリージョンのコピーのハンドルである。このコピーに対するその後の変更は、現在のメタリージョンには影響しない。デバイスコンテキストの現在のクリッピングリージョンは、そのクリッピングリージョンとメタリージョンの交差で定義される。
 
 
 %index
 GetMiterLimit
-The GetMiterLimit function retrieves the miter limit for the specified device context.
+GetMiterLimit 関数は、指定したデバイスコンテキストのマイターリミットを取得する。
 %group
 Win32 gdi32
 %prm
 hdc, plimit
-hdc : [intptr] Handle to the device context.
-plimit : [var] Pointer to a floating-point value that receives the current miter limit.
+hdc : [intptr] デバイスコンテキストのハンドル。
+plimit : [var] 現在のマイターリミットを受け取る浮動小数点値へのポインタ。
 %inst
-The GetMiterLimit function retrieves the miter limit for the
-specified device context.
+GetMiterLimit 関数は、指定したデバイスコンテキストのマイターリミットを取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The miter limit is used when drawing geometric lines that have miter
-joins.
+マイターリミットは、マイター結合を持つジオメトリック線を描画するときに使用される。
 
 
 %index
 GetNearestColor
-The GetNearestColor function retrieves a color value identifying a color from the system palette that will be displayed when the specified color value is used.
+GetNearestColor 関数は、指定したカラー値が使われたときに表示される、システムパレット内の色を識別するカラー値を取得する。
 %group
 Win32 gdi32
 %prm
 hdc, color
-hdc : [intptr] A handle to the device context.
-color : [int] A color value that identifies a requested color. To create a COLORREF color value, use the RGB macro.
+hdc : [intptr] デバイスコンテキストのハンドル。
+color : [int] 要求する色を識別するカラー値。COLORREF カラー値を作成するには RGB マクロを使用する。
 %inst
-The GetNearestColor function retrieves a color value identifying a
-color from the system palette that will be displayed when the
-specified color value is used.
+GetNearestColor 関数は、指定したカラー値が使われたときに表示される、システムパレット内の色を識別するカラー値を取得する。
 
 [戻り値]
-If the function succeeds, the return value identifies a color from
-the system palette that corresponds to the given color value. If the
-function fails, the return value is CLR_INVALID.
+関数が成功した場合、戻り値は指定カラー値が使われたときに表示される、システムパレット内の色を示すカラー値である。失敗した場合は
+CLR_INVALID を返す。
 
 
 %index
 GetNearestPaletteIndex
-The GetNearestPaletteIndex function retrieves the index for the entry in the specified logical palette most closely matching a specified color value.
+GetNearestPaletteIndex 関数は、指定した論理パレット内で、指定カラー値に最も近いエントリのインデックスを取得する。
 %group
 Win32 gdi32
 %prm
 h, color
-h : [intptr] A handle to a logical palette.
-color : [int] A color to be matched. To create a COLORREF color value, use the RGB macro.
+h : [intptr] 論理パレットのハンドル。
+color : [int] 一致させる色。COLORREF カラー値を作成するには RGB マクロを使用する。
 %inst
-The GetNearestPaletteIndex function retrieves the index for the entry
-in the specified logical palette most closely matching a specified
-color value.
+GetNearestPaletteIndex 関数は、指定した論理パレット内で、指定カラー値に最も近いエントリのインデックスを取得する。
 
 [戻り値]
-If the function succeeds, the return value is the index of an entry
-in a logical palette. If the function fails, the return value is
-CLR_INVALID.
+関数が成功した場合、戻り値は論理パレット内のエントリのインデックスである。失敗した場合は CLR_INVALID を返す。
 
 [備考]
-An application can determine whether a device supports palette
-operations by calling the GetDeviceCaps function and specifying the
-RASTERCAPS constant. If the given logical palette contains entries
-with the PC_EXPLICIT flag set, the return value is undefined.
+アプリケーションは GetDeviceCaps 関数を呼び出し RASTERCAPS
+定数を指定することで、デバイスがパレット操作をサポートしているかを判定できる。指定した論理パレットに PC_EXPLICIT
+フラグが立ったエントリが含まれる場合、戻り値は未定義である。
 
 
 %index
 GetObjectW
-The GetObjectW (Unicode) function (wingdi.h) retrieves information for the specified graphics object.
+GetObjectW (Unicode) 関数 (wingdi.h) は、指定グラフィックオブジェクトに関する情報を取得する。
 %group
 Win32 gdi32
 %prm
@@ -6363,157 +5271,122 @@ h : [intptr]
 c : [int] 
 pv : [intptr] 
 %inst
-The GetObjectW (Unicode) function (wingdi.h) retrieves information
-for the specified graphics object.
+GetObjectW (Unicode) 関数 (wingdi.h) は、指定グラフィックオブジェクトに関する情報を取得する。
 
 [戻り値]
-If the function succeeds, and lpvObject is a valid pointer, the
-return value is the number of bytes stored into the buffer. If the
-function succeeds, and lpvObject is NULL, the return value is the
-number of bytes required to hold the information the function would
-store into the buffer. If the function fails, the return value is
-zero.
+関数が成功し lpvObject が有効なポインタの場合、戻り値はバッファに格納されたバイト数である。関数が成功し lpvObject が
+NULL の場合、戻り値はバッファに格納するのに必要なバイト数である。失敗した場合は 0 である。
 
 [備考]
-The buffer pointed to by the lpvObject parameter must be sufficiently
-large to receive the information about the graphics object. Depending
-on the graphics object, the function uses a BITMAP, DIBSECTION,
-EXTLOGPEN, LOGBRUSH, LOGFONT, or LOGPEN structure, or a count of
-table entries (for a logical palette). If hgdiobj is a handle to a
-bitmap created by calling CreateDIBSection, and the specified buffer
-is large enough, the GetObject function returns a DIBSECTION
-structure. In addition, the bmBits member of the BITMAP structure
-contained within the DIBSECTION will contain a pointer to the
-bitmap's bit values. If hgdiobj is a handle to a bitmap created by
-any other means, GetObject returns only the width, height, and color
-format information of the bitmap. You can obtain the bitmap's bit
-values by calling the GetDIBits or GetBitmapBits function. If hgdiobj
-is a handle to a logical palette, GetObject retrieves a 2-byte
-integer that specifies the number of entries in the palette. The
-function does not retrieve the LOGPALETTE structure defining the
-palette. To retrieve information about palette entries, an
-application can call the GetPaletteEntries function. If hgdiobj is a
-handle to a font, the LOGFONT that is returned is the LOGFONT used to
-create the font. If Windows had to make some interpolation of the
-font because the precise LOGFONT could not be represented, the
-interpolation will not be reflected in the LOGFONT. For example, if
-you ask for a vertical version of a font that doesn't support
-vertical painting, the LOGFONT indicates the font is vertical, but
-Windows will paint it horizontally.
+lpvObject
+が指すバッファは、グラフィックオブジェクトの情報を受け取るのに十分な大きさでなければならない。グラフィックオブジェクトによっては、関数は
+BITMAP、DIBSECTION、EXTLOGPEN、LOGBRUSH、LOGFONT、LOGPEN
+構造体、または論理パレットのテーブルエントリ数を使用する。hgdiobj が CreateDIBSection の呼び出しで作成された
+HBITMAP のハンドルで、指定バッファが十分な大きさを持つ場合、GetObject 関数は DIBSECTION 構造体を返す。さらに
+DIBSECTION 内の BITMAP 構造体の bmBits メンバには、ビットマップのビット値へのポインタが含まれる。hgdiobj
+がその他の方法で作成された HBITMAP のハンドルの場合、GetObject
+はビットマップの幅、高さ、カラーフォーマットの情報のみを返す。ビットマップのビット値を取得するには GetDIBits または
+GetBitmapBits 関数を呼び出す。hgdiobj が論理パレットのハンドルの場合、GetObject
+はパレット内のエントリ数を示す 2 バイト整数を取得する。パレットを定義する LOGPALETTE
+構造体は取得しない。パレットエントリに関する情報を取得するには GetPaletteEntries 関数を呼び出す。hgdiobj が
+HFONT のハンドルの場合、返される LOGFONT はフォント作成に使われた LOGFONT である。Windows が正確な
+LOGFONT を表現できず補間を行った場合、その補間は LOGFONT
+に反映されない。例えば、縦書き描画をサポートしないフォントの縦書き版を要求すると、LOGFONT
+ではフォントが縦書きであると示されるが、Windows は横書きで描画する。
 
 
 %index
 GetObjectType
-The GetObjectType retrieves the type of the specified object.
+GetObjectType は、指定オブジェクトの種類を取得する。
 %group
 Win32 gdi32
 %prm
 h
-h : [intptr] A handle to the graphics object.
+h : [intptr] グラフィックオブジェクトのハンドル。
 %inst
-The GetObjectType retrieves the type of the specified object.
+GetObjectType は、指定オブジェクトの種類を取得する。
 
 [戻り値]
-If the function succeeds, the return value identifies the object.
-This value can be one of the following.
-This doc was truncated.
+関数が成功した場合、戻り値はオブジェクトを識別する。次のいずれかの値となる。
+（以下省略)
 
 
 %index
 GetOutlineTextMetricsW
-The GetOutlineTextMetrics function retrieves text metrics for TrueType fonts. (Unicode)
+GetOutlineTextMetrics 関数は、TrueType フォントのテキストメトリックを取得する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, cjCopy, potm
-hdc : [intptr] A handle to the device context.
-cjCopy : [int] The size, in bytes, of the array that receives the text metrics.
-potm : [var] A pointer to an OUTLINETEXTMETRIC structure. If this parameter is NULL, the function returns the size of the buffer required for the retrieved metric data.
+hdc : [intptr] デバイスコンテキストのハンドル。
+cjCopy : [int] テキストメトリックを受け取る配列のサイズ(バイト単位)。
+potm : [var] OUTLINETEXTMETRIC 構造体へのポインタ。このパラメータが NULL の場合、関数は取得するメトリックデータに必要なバッファサイズを返す。
 %inst
-The GetOutlineTextMetrics function retrieves text metrics for
-TrueType fonts. (Unicode)
+GetOutlineTextMetrics 関数は、TrueType フォントのテキストメトリックを取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is nonzero or the size of
-the required buffer. If the function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外の値または必要なバッファサイズである。失敗した場合は 0 である。
 
 [備考]
-The OUTLINETEXTMETRIC structure contains most of the text metric
-information provided for TrueType fonts (including a TEXTMETRIC
-structure). The sizes returned in OUTLINETEXTMETRIC are in logical
-units; they depend on the current mapping mode.
-> [!NOTE] > The wingdi.h header defines GetOutlineTextMetrics as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+OUTLINETEXTMETRIC 構造体は、TrueType
+フォント向けに提供されるほとんどのテキストメトリック情報(TEXTMETRIC 構造体を含む)を含む。OUTLINETEXTMETRIC
+で返されるサイズは論理単位であり、現在のマッピングモードに依存する。
+> [!NOTE] > wingdi.h ヘッダは GetOutlineTextMetrics
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetPaletteEntries
-The GetPaletteEntries function retrieves a specified range of palette entries from the given logical palette.
+GetPaletteEntries 関数は、指定した論理パレットから指定範囲のパレットエントリを取得する。
 %group
 Win32 gdi32
 %prm
 hpal, iStart, cEntries, pPalEntries
-hpal : [intptr] A handle to the logical palette.
-iStart : [int] The first entry in the logical palette to be retrieved.
-cEntries : [int] The number of entries in the logical palette to be retrieved.
-pPalEntries : [var] A pointer to an array of PALETTEENTRY structures to receive the palette entries. The array must contain at least as many structures as specified by the nEntries parameter.
+hpal : [intptr] 論理パレットのハンドル。
+iStart : [int] 取得する論理パレットの最初のエントリ。
+cEntries : [int] 取得する論理パレットのエントリ数。
+pPalEntries : [var] パレットエントリを受け取る PALETTEENTRY 構造体の配列へのポインタ。配列は nEntries パラメータで指定された数以上の構造体を含んでいなければならない。
 %inst
-The GetPaletteEntries function retrieves a specified range of palette
-entries from the given logical palette.
+GetPaletteEntries 関数は、指定した論理パレットから指定範囲のパレットエントリを取得する。
 
 [戻り値]
-If the function succeeds and the handle to the logical palette is a
-valid pointer (not NULL), the return value is the number of entries
-retrieved from the logical palette. If the function succeeds and
-handle to the logical palette is NULL, the return value is the number
-of entries in the given palette. If the function fails, the return
-value is zero.
+関数が成功し論理パレットのハンドルが有効なポインタ(NULL
+でない)の場合、戻り値は論理パレットから取得されたエントリ数である。関数が成功し論理パレットのハンドルが NULL
+の場合、戻り値は指定パレット内のエントリ数である。失敗した場合は 0 である。
 
 [備考]
-An application can determine whether a device supports palette
-operations by calling the GetDeviceCaps function and specifying the
-RASTERCAPS constant. If the nEntries parameter specifies more entries
-than exist in the palette, the remaining members of the PALETTEENTRY
-structure are not altered.
+アプリケーションは GetDeviceCaps 関数を呼び出し RASTERCAPS
+定数を指定することで、デバイスがパレット操作をサポートしているかを判定できる。nEntries
+パラメータがパレット内に存在するエントリ数より多くのエントリを指定した場合、PALETTEENTRY 構造体の残りのメンバは変更されない。
 
 
 %index
 GetPath
-The GetPath function retrieves the coordinates defining the endpoints of lines and the control points of curves found in the path that is selected into the specified device context.
+GetPath 関数は、指定したデバイスコンテキストに選択されているパス内の線の端点および曲線の制御点を定義する座標を取得する。
 %group
 Win32 gdi32
 %prm
 hdc, apt, aj, cpt
-hdc : [intptr] A handle to a device context that contains a closed path.
-apt : [var] A pointer to an array of POINT structures that receives the line endpoints and curve control points, in logical coordinates.
+hdc : [intptr] 閉じたパスを含むデバイスコンテキストのハンドル。
+apt : [var] 線の端点と曲線の制御点(論理座標)を受け取る POINT 構造体の配列へのポインタ。
 aj : [var] 
-cpt : [int] The total number of POINT structures that can be stored in the array pointed to by lpPoints. This value must be the same as the number of bytes that can be placed in the array pointed to by lpTypes.
+cpt : [int] lpPoints が指す配列に格納できる POINT 構造体の総数。この値は lpTypes が指す配列に配置できるバイト数と同じでなければならない。
 %inst
-The GetPath function retrieves the coordinates defining the endpoints
-of lines and the control points of curves found in the path that is
-selected into the specified device context.
+GetPath 関数は、指定したデバイスコンテキストに選択されているパス内の線の端点および曲線の制御点を定義する座標を取得する。
 
 [戻り値]
-If the nSize parameter is nonzero, the return value is the number of
-points enumerated. If nSize is 0, the return value is the total
-number of points in the path (and GetPath writes nothing to the
-buffers). If nSize is nonzero and is less than the number of points
-in the path, the return value is 1.
+nSize パラメータが 0 以外の場合、戻り値は列挙された点の数である。nSize が 0
+の場合、戻り値はパス内の点の総数である(このとき GetPath はバッファに何も書き込まない)。nSize が 0
+以外でパス内の点数未満の場合、戻り値は 1 である。
 
 [備考]
-The device context identified by the hdc parameter must contain a
-closed path. The points of the path are returned in logical
-coordinates. Points are stored in the path in device coordinates, so
-GetPath changes the points from device coordinates to logical
-coordinates by using the inverse of the current transformation. The
-FlattenPath function may be called before GetPath to convert all
-curves in the path into line segments.
+hdc
+パラメータで識別されるデバイスコンテキストは閉じたパスを含んでいなければならない。パスの点は論理座標で返される。パス内の点はデバイス座標で格納されているので、GetPath
+は現在の変換の逆変換を用いてデバイス座標から論理座標へ変換する。パス内のすべての曲線を線分に変換するには、GetPath を呼び出す前に
+FlattenPath 関数を呼び出すとよい。
 
 
 %index
@@ -6541,168 +5414,143 @@ CLR_INVALID が返る。
 
 %index
 GetPixelFormat
-The GetPixelFormat function obtains the index of the currently selected pixel format of the specified device context.
+GetPixelFormat 関数は、指定したデバイスコンテキストの現在選択されているピクセルフォーマットのインデックスを取得する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Specifies the device context of the currently selected pixel format index returned by the function.
+hdc : [intptr] 関数が返す現在選択されているピクセルフォーマットインデックスのデバイスコンテキストを指定する。
 %inst
-The GetPixelFormat function obtains the index of the currently
-selected pixel format of the specified device context.
+GetPixelFormat 関数は、指定したデバイスコンテキストの現在選択されているピクセルフォーマットのインデックスを取得する。
 
 [戻り値]
-If the function succeeds, the return value is the currently selected
-pixel format index of the specified device context. This is a
-positive, one-based index value. If the function fails, the return
-value is zero. To get extended error information, call GetLastError.
+関数が成功した場合、戻り値は指定デバイスコンテキストの現在選択されているピクセルフォーマットインデックスである。これは 1
+から始まる正のインデックス値である。失敗した場合は 0 を返す。拡張エラー情報を取得するには GetLastError を呼ぶ。
 
 
 %index
 GetPolyFillMode
-The GetPolyFillMode function retrieves the current polygon fill mode.
+GetPolyFillMode 関数は、現在の多角形塗りつぶしモードを取得する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to the device context.
+hdc : [intptr] デバイスコンテキストのハンドル。
 %inst
-The GetPolyFillMode function retrieves the current polygon fill mode.
+GetPolyFillMode 関数は、現在の多角形塗りつぶしモードを取得する。
 
 [戻り値]
-If the function succeeds, the return value specifies the polygon fill
-mode, which can be one of the following values.
-This doc was truncated.
+関数が成功した場合、戻り値は多角形塗りつぶしモードを指定し、次のいずれかの値となる。
+（以下省略)
 
 
 %index
 GetROP2
-The GetROP2 function retrieves the foreground mix mode of the specified device context. The mix mode specifies how the pen or interior color and the color already on the screen are combined to yield a new color.
+GetROP2 関数は、指定したデバイスコンテキストの前景混合モードを取得する。混合モードは、ペンまたは内部色と画面上の既存の色を組み合わせて新しい色を作る方法を指定する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to the device context.
+hdc : [intptr] デバイスコンテキストのハンドル。
 %inst
-The GetROP2 function retrieves the foreground mix mode of the
-specified device context. The mix mode specifies how the pen or
-interior color and the color already on the screen are combined to
-yield a new color.
+GetROP2
+関数は、指定したデバイスコンテキストの前景混合モードを取得する。混合モードは、ペンまたは内部色と画面上の既存の色を組み合わせて新しい色を作る方法を指定する。
 
 [戻り値]
-If the function succeeds, the return value specifies the foreground
-mix mode. If the function fails, the return value is zero.
+関数が成功した場合、戻り値は前景混合モードを指定する。失敗した場合は 0 である。
 
 [備考]
-Following are the foreground mix modes.
-This doc was truncated.
+以下は前景混合モードである。
+（以下省略)
 
 
 %index
 GetRandomRgn
-The GetRandomRgn function copies the system clipping region of a specified device context to a specific region.
+GetRandomRgn 関数は、指定したデバイスコンテキストのシステムクリッピングリージョンを特定のリージョンへコピーする。
 %group
 Win32 gdi32
 %prm
 hdc, hrgn, i
-hdc : [intptr] A handle to the device context.
-hrgn : [intptr] A handle to a region. Before the function is called, this identifies an existing region. After the function returns, this identifies a copy of the current system region. The old region identified by hrgn is overwritten.
-i : [int] This parameter must be SYSRGN.
+hdc : [intptr] デバイスコンテキストのハンドル。
+hrgn : [intptr] リージョンのハンドル。関数呼び出し前は既存のリージョンを示す。関数から戻ると、現在のシステムリージョンのコピーを示す。hrgn が以前指していたリージョンは上書きされる。
+i : [int] このパラメータは SYSRGN でなければならない。
 %inst
-The GetRandomRgn function copies the system clipping region of a
-specified device context to a specific region.
+GetRandomRgn 関数は、指定したデバイスコンテキストのシステムクリッピングリージョンを特定のリージョンへコピーする。
 
 [戻り値]
-If the function succeeds, the return value is 1. If the function
-fails, the return value is -1. If the region to be retrieved is NULL,
-the return value is 0. If the function fails or the region to be
-retrieved is NULL, hrgn is not initialized.
+関数が成功した場合、戻り値は 1 である。失敗した場合は -1 である。取得対象のリージョンが NULL の場合、戻り値は 0
+である。関数が失敗するか取得対象のリージョンが NULL の場合、hrgn は初期化されない。
 
 [備考]
-When using the SYSRGN flag, note that the system clipping region
-might not be current because of window movements. Nonetheless, it is
-safe to retrieve and use the system clipping region within the
-BeginPaint-EndPaint block during WM_PAINT processing. In this case,
-the system region is the intersection of the update region and the
-current visible area of the window. Any window movement following the
-return of GetRandomRgn and before EndPaint will result in a new
-WM_PAINT message. Any other use of the SYSRGN flag may result in
-painting errors in your application. The region returned is in screen
-coordinates.
+SYSRGN フラグを使用する際、ウィンドウの移動によりシステムクリッピングリージョンが最新でない場合がある点に注意。それでも
+WM_PAINT 処理中の BeginPaint と EndPaint
+ブロック内でシステムクリッピングリージョンを取得して使用するのは安全である。この場合、システムリージョンは更新リージョンとウィンドウの現在の可視領域の交差である。GetRandomRgn
+の戻りから EndPaint までの間にウィンドウが移動すると、新たな WM_PAINT メッセージが発行される。これ以外の用途で
+SYSRGN フラグを使用するとアプリケーションで描画エラーが発生する可能性がある。返されるリージョンは画面座標である。
 
 
 %index
 GetRasterizerCaps
-The GetRasterizerCaps function returns flags indicating whether TrueType fonts are installed in the system.
+GetRasterizerCaps 関数は、システムに TrueType フォントがインストールされているかを示すフラグを返す。
 %group
 Win32 gdi32
 %prm
 lpraststat, cjBytes
-lpraststat : [var] A pointer to a RASTERIZER_STATUS structure that receives information about the rasterizer.
-cjBytes : [int] The number of bytes to be copied into the structure pointed to by the lprs parameter.
+lpraststat : [var] ラスタライザに関する情報を受け取る RASTERIZER_STATUS 構造体へのポインタ。
+cjBytes : [int] lprs パラメータが指す構造体へコピーするバイト数。
 %inst
-The GetRasterizerCaps function returns flags indicating whether
-TrueType fonts are installed in the system.
+GetRasterizerCaps 関数は、システムに TrueType フォントがインストールされているかを示すフラグを返す。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The GetRasterizerCaps function enables applications and printer
-drivers to determine whether TrueType fonts are installed. If the
-TT_AVAILABLE flag is set in the wFlags member of the
-RASTERIZER_STATUS structure, at least one TrueType font is installed.
-If the TT_ENABLED flag is set, TrueType is enabled for the system.
-The actual number of bytes copied is either the member specified in
-the cb parameter or the length of the RASTERIZER_STATUS structure,
-whichever is less.
+GetRasterizerCaps 関数により、アプリケーションやプリンタドライバは TrueType
+フォントがインストールされているかを判定できる。RASTERIZER_STATUS 構造体の wFlags メンバに
+TT_AVAILABLE フラグが立っている場合、少なくとも 1 つの TrueType
+フォントがインストールされている。TT_ENABLED フラグが立っている場合、システムで TrueType
+が有効である。実際にコピーされるバイト数は、cb パラメータで指定された値または RASTERIZER_STATUS
+構造体の長さのうち小さい方である。
 
 
 %index
 GetRegionData
-The GetRegionData function fills the specified buffer with data describing a region. This data includes the dimensions of the rectangles that make up the region.
+GetRegionData 関数は、リージョンを記述するデータで指定バッファを満たす。このデータにはリージョンを構成する矩形の寸法も含まれる。
 %group
 Win32 gdi32
 %prm
 hrgn, nCount, lpRgnData
-hrgn : [intptr] A handle to the region.
-nCount : [int] The size, in bytes, of the lpRgnData buffer.
-lpRgnData : [var] A pointer to a RGNDATA structure that receives the information. The dimensions of the region are in logical units. If this parameter is NULL, the return value contains the number of bytes needed for the region data.
+hrgn : [intptr] リージョンのハンドル。
+nCount : [int] lpRgnData バッファのサイズ(バイト単位)。
+lpRgnData : [var] 情報を受け取る RGNDATA 構造体へのポインタ。リージョンの寸法は論理単位である。このパラメータが NULL の場合、戻り値はリージョンデータに必要なバイト数を含む。
 %inst
-The GetRegionData function fills the specified buffer with data
-describing a region. This data includes the dimensions of the
-rectangles that make up the region.
+GetRegionData
+関数は、リージョンを記述するデータで指定バッファを満たす。このデータにはリージョンを構成する矩形の寸法も含まれる。
 
 [戻り値]
-If the function succeeds and dwCount specifies an adequate number of
-bytes, the return value is always dwCount. If dwCount is too small or
-the function fails, the return value is 0. If lpRgnData is NULL, the
-return value is the required number of bytes. If the function fails,
-the return value is zero.
+関数が成功し dwCount が十分なバイト数を指定している場合、戻り値は常に dwCount である。dwCount
+が小さすぎるか関数が失敗した場合、戻り値は 0 である。lpRgnData が NULL
+の場合、戻り値は必要なバイト数である。失敗した場合は 0 である。
 
 [備考]
-The GetRegionData function is used in conjunction with the
-ExtCreateRegion function.
+GetRegionData 関数は ExtCreateRegion 関数と組み合わせて使用される。
 
 
 %index
 GetRgnBox
-The GetRgnBox function retrieves the bounding rectangle of the specified region.
+GetRgnBox 関数は、指定したリージョンの境界矩形を取得する。
 %group
 Win32 gdi32
 %prm
 hrgn, lprc
-hrgn : [intptr] A handle to the region.
-lprc : [var] A pointer to a RECT structure that receives the bounding rectangle in logical units.
+hrgn : [intptr] リージョンのハンドル。
+lprc : [var] 境界矩形(論理単位)を受け取る RECT 構造体へのポインタ。
 %inst
-The GetRgnBox function retrieves the bounding rectangle of the
-specified region.
+GetRgnBox 関数は、指定したリージョンの境界矩形を取得する。
 
 [戻り値]
-The return value specifies the region's complexity. It can be one of
-the following values:
-This doc was truncated.
+戻り値はリージョンの複雑度を表し、次のいずれかの値となる。
+（以下省略)
 
 
 %index
@@ -6730,384 +5578,294 @@ SetDCBrushColor/SetDCPenColor と組み合わせて使える。
 
 %index
 GetStretchBltMode
-The GetStretchBltMode function retrieves the current stretching mode. The stretching mode defines how color data is added to or removed from bitmaps that are stretched or compressed when the StretchBlt function is called.
+GetStretchBltMode 関数は、現在のストレッチモードを取得する。ストレッチモードは、StretchBlt 関数の呼び出し時にビットマップが伸縮または圧縮されるときに、どのようにカラーデータが追加または削除されるかを定義する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストのハンドル。
 %inst
-The GetStretchBltMode function retrieves the current stretching mode.
-The stretching mode defines how color data is added to or removed
-from bitmaps that are stretched or compressed when the StretchBlt
-function is called.
+GetStretchBltMode 関数は、現在のストレッチモードを取得する。ストレッチモードは、StretchBlt
+関数の呼び出し時にビットマップが伸縮または圧縮されるときに、どのようにカラーデータが追加または削除されるかを定義する。
 
 [戻り値]
-If the function succeeds, the return value is the current stretching
-mode. This can be one of the following values.
-This doc was truncated.
+関数が成功した場合、戻り値は現在のストレッチモードである。次のいずれかの値となる。
+（以下省略)
 
 
 %index
 GetSystemPaletteEntries
-The GetSystemPaletteEntries function retrieves a range of palette entries from the system palette that is associated with the specified device context (DC).
+GetSystemPaletteEntries 関数は、指定したデバイスコンテキスト (DC) に関連付けられたシステムパレットから指定範囲のパレットエントリを取得する。
 %group
 Win32 gdi32
 %prm
 hdc, iStart, cEntries, pPalEntries
-hdc : [intptr] A handle to the device context.
-iStart : [int] The first entry to be retrieved from the system palette.
-cEntries : [int] The number of entries to be retrieved from the system palette.
-pPalEntries : [var] A pointer to an array of PALETTEENTRY structures to receive the palette entries. The array must contain at least as many structures as specified by the cEntries parameter. If this parameter is NULL, the function returns the total number of entries in the palette.
+hdc : [intptr] デバイスコンテキストのハンドル。
+iStart : [int] システムパレットから取得する最初のエントリ。
+cEntries : [int] システムパレットから取得するエントリ数。
+pPalEntries : [var] パレットエントリを受け取る PALETTEENTRY 構造体の配列へのポインタ。配列は cEntries パラメータで指定された数以上の構造体を含んでいなければならない。このパラメータが NULL の場合、関数はパレット内のエントリの総数を返す。
 %inst
-The GetSystemPaletteEntries function retrieves a range of palette
-entries from the system palette that is associated with the specified
-device context (DC).
+GetSystemPaletteEntries 関数は、指定したデバイスコンテキスト (DC)
+に関連付けられたシステムパレットから指定範囲のパレットエントリを取得する。
 
 [戻り値]
-If the function succeeds, the return value is the number of entries
-retrieved from the palette. If the function fails, the return value
-is zero.
+関数が成功した場合、戻り値はパレットから取得されたエントリ数である。失敗した場合は 0 である。
 
 [備考]
-An application can determine whether a device supports palette
-operations by calling the GetDeviceCaps function and specifying the
-RASTERCAPS constant.
+アプリケーションは GetDeviceCaps 関数を呼び出し RASTERCAPS
+定数を指定することで、デバイスがパレット操作をサポートしているかを判定できる。
 
 
 %index
 GetSystemPaletteUse
-The GetSystemPaletteUse function retrieves the current state of the system (physical) palette for the specified device context (DC).
+GetSystemPaletteUse 関数は、指定したデバイスコンテキスト (DC) のシステム(物理)パレットの現在の状態を取得する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストのハンドル。
 %inst
-The GetSystemPaletteUse function retrieves the current state of the
-system (physical) palette for the specified device context (DC).
+GetSystemPaletteUse 関数は、指定したデバイスコンテキスト (DC) のシステム(物理)パレットの現在の状態を取得する。
 
 [戻り値]
-If the function succeeds, the return value is the current state of
-the system palette. This parameter can be one of the following
-values.
-This doc was truncated.
+関数が成功した場合、戻り値はシステムパレットの現在の状態である。このパラメータは次のいずれかの値となる。
+（以下省略)
 
 [備考]
-By default, the system palette contains 20 static colors that are not
-changed when an application realizes its logical palette. An
-application can gain access to most of these colors by calling the
-SetSystemPaletteUse function. The device context identified by the
-hdc parameter must represent a device that supports color palettes.
-An application can determine whether a device supports color palettes
-by calling the GetDeviceCaps function and specifying the RASTERCAPS
-constant.
+既定では、システムパレットにはアプリケーションが論理パレットを実体化しても変更されない 20 個の静的色が含まれる。アプリケーションは
+SetSystemPaletteUse 関数を呼び出すことでこれらの色の多くにアクセスできる。hdc
+パラメータが識別するデバイスコンテキストはカラーパレットをサポートするデバイスを表していなければならない。アプリケーションは
+GetDeviceCaps 関数を呼び出し RASTERCAPS
+定数を指定することで、デバイスがカラーパレットをサポートしているかを判定できる。
 
 
 %index
 GetTextAlign
-The GetTextAlign function retrieves the text-alignment setting for the specified device context.
+GetTextAlign 関数は、指定したデバイスコンテキストのテキスト配置設定を取得する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストのハンドル。
 %inst
-The GetTextAlign function retrieves the text-alignment setting for
-the specified device context.
+GetTextAlign 関数は、指定したデバイスコンテキストのテキスト配置設定を取得する。
 
 [戻り値]
-If the function succeeds, the return value is the status of the
-text-alignment flags. For more information about the return value,
-see the Remarks section. The return value is a combination of the
-following values.
-This doc was truncated.
+関数が成功した場合、戻り値はテキスト配置フラグの状態である。戻り値の詳細は備考を参照。戻り値は次の値の組み合わせである。
+（以下省略)
 
 [備考]
-The bounding rectangle is a rectangle bounding all of the character
-cells in a string of text. Its dimensions can be obtained by calling
-the GetTextExtentPoint32 function. The text-alignment flags determine
-how the TextOut and ExtTextOut functions align a string of text in
-relation to the string's reference point provided to TextOut or
-ExtTextOut. The text-alignment flags are not necessarily single bit
-flags and may be equal to zero. The flags must be examined in groups
-of related flags, as shown in the following list.
-This doc was truncated.
+境界矩形は文字列内のすべての文字セルを囲む矩形である。その寸法は GetTextExtentPoint32
+関数で取得できる。テキスト配置フラグは、TextOut や ExtTextOut 関数が文字列をその基準点(TextOut や
+ExtTextOut に与える)に対してどのように配置するかを決定する。テキスト配置フラグは必ずしも単一ビットフラグではなく、0
+に等しくなることもある。フラグは、以下のリストに示すような関連フラグのグループごとに調べる必要がある。
+（以下省略)
 
 
 %index
 GetTextCharacterExtra
-The GetTextCharacterExtra function retrieves the current intercharacter spacing for the specified device context.
+GetTextCharacterExtra 関数は、指定したデバイスコンテキストの現在の文字間隔を取得する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to the device context.
+hdc : [intptr] デバイスコンテキストのハンドル。
 %inst
-The GetTextCharacterExtra function retrieves the current
-intercharacter spacing for the specified device context.
+GetTextCharacterExtra 関数は、指定したデバイスコンテキストの現在の文字間隔を取得する。
 
 [戻り値]
-If the function succeeds, the return value is the current
-intercharacter spacing, in logical coordinates. If the function
-fails, the return value is 0x8000000.
+関数が成功した場合、戻り値は現在の文字間隔(論理座標)である。失敗した場合は 0x8000000 を返す。
 
 [備考]
-The intercharacter spacing defines the extra space, in logical units
-along the base line, that the TextOut or ExtTextOut functions add to
-each character as a line is written. The spacing is used to expand
-lines of text.
+文字間隔は、TextOut や ExtTextOut
+関数が行を書き出すときに各文字に対して加える、ベースラインに沿った余白(論理単位)を定義する。この間隔はテキスト行を伸ばすために使われる。
 
 
 %index
 GetTextCharset
-Retrieves a character set identifier for the font that is currently selected into a specified device context.
+指定したデバイスコンテキストに現在選択されている HFONT の文字セット識別子を取得する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to a device context. The function obtains a character set identifier for the font that is selected into this device context.
+hdc : [intptr] デバイスコンテキストのハンドル。関数は、このデバイスコンテキストに選択されている HFONT の文字セット識別子を取得する。
 %inst
-Retrieves a character set identifier for the font that is currently
-selected into a specified device context.
+指定したデバイスコンテキストに現在選択されている HFONT の文字セット識別子を取得する。
 
 [戻り値]
-If successful, returns a value identifying the character set of the
-font that is currently selected into the specified device context.
-The following character set identifiers are defined: If the function
-fails, it returns DEFAULT_CHARSET.
+成功した場合、指定デバイスコンテキストに現在選択されている HFONT
+の文字セットを識別する値を返す。次の文字セット識別子が定義されている。関数が失敗した場合は DEFAULT_CHARSET を返す。
 
 
 %index
 GetTextCharsetInfo
-Retrieves information about the character set of the font that is currently selected into a specified device context.
+指定したデバイスコンテキストに現在選択されている HFONT の文字セットに関する情報を取得する。
 %group
 Win32 gdi32
 %prm
 hdc, lpSig, dwFlags
-hdc : [intptr] Handle to a device context. The function obtains information about the font that is selected into this device context.
-lpSig : [var] Pointer to a FONTSIGNATURE data structure that receives font-signature information. If a TrueType font is currently selected into the device context, the FONTSIGNATURE structure receives information that identifies the code page and Unicode subranges for which the font provides glyphs. If a font other than TrueType is currently selected into the device context, the FONTSIGNATURE structure receives zeros. In this case, the application should use the TranslateCharsetInfo function to obtain generic font-signature information for the character set. The lpSig parameter specifies NULL if the application does not require the FONTSIGNATURE information. In this case, the application can also call the       GetTextCharset function, which is equivalent to calling       GetTextCharsetInfo with lpSig set to NULL.
-dwFlags : [int] Reserved; must be set to 0.
+hdc : [intptr] デバイスコンテキストのハンドル。関数は、このデバイスコンテキストに選択されている HFONT に関する情報を取得する。
+lpSig : [var] フォント署名情報を受け取る FONTSIGNATURE データ構造体へのポインタ。TrueType フォントがデバイスコンテキストに現在選択されている場合、FONTSIGNATURE 構造体はフォントがグリフを提供するコードページと Unicode サブレンジを識別する情報を受け取る。TrueType 以外のフォントが選択されている場合、FONTSIGNATURE 構造体には 0 が設定される。この場合、アプリケーションは TranslateCharsetInfo 関数を使って文字セットの汎用フォント署名情報を取得すべきである。FONTSIGNATURE 情報が不要な場合、lpSig パラメータに NULL を指定する。この場合、アプリケーションは GetTextCharset 関数を呼び出すこともできる(これは lpSig に NULL を指定した GetTextCharsetInfo と等価である)。
+dwFlags : [int] 予約済み。0 に設定しなければならない。
 %inst
-Retrieves information about the character set of the font that is
-currently selected into a specified device context.
+指定したデバイスコンテキストに現在選択されている HFONT の文字セットに関する情報を取得する。
 
 [戻り値]
-If successful, returns a value identifying the character set of the
-font currently selected into the specified device context. The
-following character set identifiers are defined: If the function
-fails, the return value is DEFAULT_CHARSET.
+成功した場合、指定デバイスコンテキストに現在選択されている HFONT
+の文字セットを識別する値を返す。次の文字セット識別子が定義されている。失敗した場合、戻り値は DEFAULT_CHARSET である。
 
 
 %index
 GetTextColor
-The GetTextColor function retrieves the current text color for the specified device context.
+GetTextColor 関数は、指定したデバイスコンテキストの現在のテキスト色を取得する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to the device context.
+hdc : [intptr] デバイスコンテキストのハンドル。
 %inst
-The GetTextColor function retrieves the current text color for the
-specified device context.
+GetTextColor 関数は、指定したデバイスコンテキストの現在のテキスト色を取得する。
 
 [戻り値]
-If the function succeeds, the return value is the current text color
-as a COLORREF value. If the function fails, the return value is
-CLR_INVALID. No extended error information is available.
+関数が成功した場合、戻り値は現在のテキスト色を COLORREF 値として返す。失敗した場合は CLR_INVALID
+を返す。拡張エラー情報は利用できない。
 
 [備考]
-The text color defines the foreground color of characters drawn by
-using the TextOut or ExtTextOut function.
+テキスト色は、TextOut や ExtTextOut 関数で描画される文字の前景色を定義する。
 
 
 %index
 GetTextExtentExPointW
-The GetTextExtentExPoint function retrieves the number of characters in a specified string that will fit within a specified space and fills an array with the text extent for each of those characters. (Unicode)
+GetTextExtentExPoint 関数は、指定されたスペースに収まる指定文字列内の文字数を取得し、その各文字のテキスト長で配列を満たす。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, lpszString, cchString, nMaxExtent, lpnFit, lpnDx, lpSize
-hdc : [intptr] A handle to the device context.
-lpszString : [wstr] A pointer to the null-terminated string for which extents are to be retrieved.
-cchString : [int] The number of characters in the string pointed to by the lpszStr parameter. For an ANSI call it specifies the string length in bytes and for a Unicode it specifies the string length in WORDs. Note that for the ANSI function, characters in SBCS code pages take one byte each, while most characters in DBCS code pages take two bytes; for the Unicode function, most currently defined Unicode characters (those in the Basic Multilingual Plane (BMP)) are one WORD while Unicode surrogates are two WORDs.
-nMaxExtent : [int] The maximum allowable width, in logical units, of the formatted string.
-lpnFit : [var] A pointer to an integer that receives a count of the maximum number of characters that will fit in the space specified by the nMaxExtent parameter. When the lpnFit parameter is NULL, the nMaxExtent parameter is ignored.
-lpnDx : [var] A pointer to an array of integers that receives partial string extents. Each element in the array gives the distance, in logical units, between the beginning of the string and one of the characters that fits in the space specified by the nMaxExtent parameter. This array must have at least as many elements as characters specified by the cchString parameter because the entire array is used internally. The function fills the array with valid extents for as many characters as are specified by the lpnFit parameter. Any values in the rest of the array should be ignored. If alpDx is NULL, the function does not compute partial string widths. For complex scripts, where a sequence of characters may be represented by any number of glyphs, the values in the alpDx array up to the number specified by the lpnFit parameter match one-to-one with code points. Again, you should ignore the rest of the values in the alpDx array.
-lpSize : [var] A pointer to a SIZE structure that receives the dimensions of the string, in logical units. This parameter cannot be NULL.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lpszString : [wstr] 長さを取得する対象の NULL 終端文字列へのポインタ。
+cchString : [int] lpszStr パラメータが指す文字列内の文字数。ANSI 呼び出しでは文字列長をバイト単位で、Unicode 呼び出しでは WORD 単位で指定する。ANSI 関数では SBCS コードページ内の文字は 1 バイト、DBCS コードページ内のほとんどの文字は 2 バイトである。Unicode 関数では、現在定義されているほとんどの Unicode 文字(基本多言語面 (BMP) 内)は 1 WORD、Unicode サロゲートは 2 WORD である点に注意。
+nMaxExtent : [int] 整形された文字列の最大許容幅(論理単位)。
+lpnFit : [var] nMaxExtent パラメータで指定されたスペースに収まる文字の最大数を受け取る整数へのポインタ。lpnFit パラメータが NULL の場合、nMaxExtent パラメータは無視される。
+lpnDx : [var] 部分文字列長を受け取る整数配列へのポインタ。配列の各要素は、文字列の先頭から nMaxExtent パラメータで指定されたスペースに収まる文字の 1 つまでの距離(論理単位)を示す。この配列は cchString パラメータで指定された文字数以上の要素を持たなければならない(配列全体が内部的に使用される)。関数は lpnFit パラメータで指定された文字数分だけ有効な値で配列を埋める。それ以外の値は無視されるべきである。alpDx が NULL の場合、関数は部分文字列幅を計算しない。複雑スクリプトでは、一連の文字が任意の数のグリフで表現されることがあり、alpDx 配列の lpnFit で指定された数までの値はコードポイントと 1 対 1 で対応する。やはり、alpDx 配列の残りの値は無視すべきである。
+lpSize : [var] 文字列の寸法(論理単位)を受け取る SIZE 構造体へのポインタ。このパラメータは NULL であってはならない。
 %inst
-The GetTextExtentExPoint function retrieves the number of characters
-in a specified string that will fit within a specified space and
-fills an array with the text extent for each of those characters.
-(Unicode)
+GetTextExtentExPoint
+関数は、指定されたスペースに収まる指定文字列内の文字数を取得し、その各文字のテキスト長で配列を満たす。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-If both the lpnFit and alpDx parameters are NULL, calling the
-GetTextExtentExPoint function is equivalent to calling the
-GetTextExtentPoint function. For the ANSI version of
-GetTextExtentExPoint, the lpDx array has the same number of INT
-values as there are bytes in lpString. The INT values that correspond
-to the two bytes of a DBCS character are each the extent of the
-entire composite character. Note, the alpDx values for
-GetTextExtentExPoint are not the same as the lpDx values for
-ExtTextOut. To use the alpDx values in lpDx, you must first process
-them. When this function returns the text extent, it assumes that the
-text is horizontal, that is, that the escapement is always 0. This is
-true for both the horizontal and vertical measurements of the text.
-Even if you use a font that specifies a nonzero escapement, this
-function doesn't use the angle while it computes the text extent. The
-app must convert it explicitly. However, when the graphics mode is
-set to GM_ADVANCED and the character orientation is 90 degrees from
-the print orientation, the values that this function return do not
-follow this rule. When the character orientation and the print
-orientation match for a given string, this function returns the
-dimensions of the string in the SIZE structure as { cx : 116, cy : 18
-}. When the character orientation and the print orientation are 90
-degrees apart for the same string, this function returns the
-dimensions of the string in the SIZE structure as { cx : 18, cy : 116
-}. This function returns the extent of each successive character in a
-string. When these are rounded to logical units, you get different
-results than what is returned from the GetCharWidth, which returns
-the width of each individual character rounded to logical units.
-> [!NOTE] > The wingdi.h header defines GetTextExtentExPoint as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+lpnFit と alpDx パラメータの両方が NULL の場合、GetTextExtentExPoint 関数の呼び出しは
+GetTextExtentPoint 関数の呼び出しと等価である。ANSI 版 GetTextExtentExPoint では、lpDx
+配列は lpString のバイト数と同じ数の INT 値を持つ。DBCS 文字の 2 バイトに対応する INT
+値はそれぞれ合成文字全体の長さとなる。GetTextExtentExPoint の alpDx 値は ExtTextOut の lpDx
+値と同じではない点に注意。lpDx で alpDx
+値を使うには、最初に処理が必要である。この関数がテキストの長さを返すとき、テキストは水平である(つまり escapement は常に
+0)と想定する。これはテキストの水平と垂直の両方の測定に当てはまる。0 以外の escapement
+を指定するフォントを使用していても、この関数はテキストの長さを計算する際に角度を使わない。アプリケーションが明示的に変換する必要がある。ただし、グラフィックモードが
+GM_ADVANCED に設定され、文字方向が印刷方向から 90
+度異なる場合、この関数が返す値はこのルールに従わない。文字方向と印刷方向が一致する場合、この関数は SIZE 構造体として { cx :
+116, cy : 18 } のような寸法を返す。文字方向と印刷方向が 90 度異なる場合、SIZE 構造体として { cx : 18,
+cy : 116 } を返す。この関数は文字列内の各文字の累積長を返す。これを論理単位に丸めると、各文字の幅を論理単位に丸めて返す
+GetCharWidth とは異なる結果となる。
+> [!NOTE] > wingdi.h ヘッダは GetTextExtentExPoint
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetTextExtentExPointI
-The GetTextExtentExPointI function retrieves the number of characters in a specified string that will fit within a specified space and fills an array with the text extent for each of those characters.
+GetTextExtentExPointI 関数は、指定されたスペースに収まる指定文字列内の文字数を取得し、その各文字のテキスト長で配列を満たす。
 %group
 Win32 gdi32
 %prm
 hdc, lpwszString, cwchString, nMaxExtent, lpnFit, lpnDx, lpSize
-hdc : [intptr] A handle to the device context.
-lpwszString : [var] A pointer to an array of glyph indices for which extents are to be retrieved.
-cwchString : [int] The number of glyphs in the array pointed to by the pgiIn parameter.
-nMaxExtent : [int] The maximum allowable width, in logical units, of the formatted string.
-lpnFit : [var] A pointer to an integer that receives a count of the maximum number of characters that will fit in the space specified by the nMaxExtent parameter. When the lpnFit parameter is NULL, the nMaxExtent parameter is ignored.
-lpnDx : [var] A pointer to an array of integers that receives partial glyph extents. Each element in the array gives the distance, in logical units, between the beginning of the glyph indices array and one of the glyphs that fits in the space specified by the nMaxExtent parameter. Although this array should have at least as many elements as glyph indices specified by the cgi parameter, the function fills the array with extents only for as many glyph indices as are specified by the lpnFit parameter. If lpnFit is NULL, the function does not compute partial string widths.
-lpSize : [var] A pointer to a SIZE structure that receives the dimensions of the glyph indices array, in logical units. This value cannot be NULL.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lpwszString : [var] 長さを取得する対象のグリフインデックス配列へのポインタ。
+cwchString : [int] pgiIn パラメータが指す配列内のグリフ数。
+nMaxExtent : [int] 整形された文字列の最大許容幅(論理単位)。
+lpnFit : [var] nMaxExtent パラメータで指定されたスペースに収まる文字の最大数を受け取る整数へのポインタ。lpnFit パラメータが NULL の場合、nMaxExtent パラメータは無視される。
+lpnDx : [var] 部分グリフ長を受け取る整数配列へのポインタ。配列の各要素は、グリフインデックス配列の先頭から、nMaxExtent パラメータで指定されたスペースに収まるグリフの 1 つまでの距離(論理単位)を示す。この配列は cgi パラメータで指定されたグリフインデックス数以上の要素を持つ必要があるが、関数は lpnFit パラメータで指定された数のグリフインデックスに対してのみ長さを埋める。lpnFit が NULL の場合、関数は部分文字列幅を計算しない。
+lpSize : [var] グリフインデックス配列の寸法(論理単位)を受け取る SIZE 構造体へのポインタ。この値は NULL であってはならない。
 %inst
-The GetTextExtentExPointI function retrieves the number of characters
-in a specified string that will fit within a specified space and
-fills an array with the text extent for each of those characters.
+GetTextExtentExPointI
+関数は、指定されたスペースに収まる指定文字列内の文字数を取得し、その各文字のテキスト長で配列を満たす。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-If both the lpnFit and alpDx parameters are NULL, calling the
-GetTextExtentExPointI function is equivalent to calling the
-GetTextExtentPointI function. When this function returns the text
-extent, it assumes that the text is horizontal, that is, that the
-escapement is always 0. This is true for both the horizontal and
-vertical measurements of the text. Even if you use a font that
-specifies a nonzero escapement, this function doesn't use the angle
-while it computes the text extent. The app must convert it
-explicitly. However, when the graphics mode is set to GM_ADVANCED and
-the character orientation is 90 degrees from the print orientation,
-the values that this function return do not follow this rule. When
-the character orientation and the print orientation match for a given
-string, this function returns the dimensions of the string in the
-SIZE structure as { cx : 116, cy : 18 }. When the character
-orientation and the print orientation are 90 degrees apart for the
-same string, this function returns the dimensions of the string in
-the SIZE structure as { cx : 18, cy : 116 }.
+lpnFit と alpDx パラメータの両方が NULL の場合、GetTextExtentExPointI 関数の呼び出しは
+GetTextExtentPointI 関数の呼び出しと等価である。この関数がテキストの長さを返すとき、テキストは水平である(つまり
+escapement は常に 0)と想定する。これはテキストの水平と垂直の両方の測定に当てはまる。0 以外の escapement
+を指定するフォントを使用していても、この関数はテキストの長さを計算する際に角度を使わない。アプリケーションが明示的に変換する必要がある。ただし、グラフィックモードが
+GM_ADVANCED に設定され、文字方向が印刷方向から 90
+度異なる場合、この関数が返す値はこのルールに従わない。文字方向と印刷方向が一致する場合、この関数は SIZE 構造体として { cx :
+116, cy : 18 } のような寸法を返す。文字方向と印刷方向が 90 度異なる場合、SIZE 構造体として { cx : 18,
+cy : 116 } を返す。
 
 
 %index
 GetTextExtentPointW
-The GetTextExtentPoint function computes the width and height of the specified string of text. (Unicode)
+GetTextExtentPoint 関数は、指定したテキスト文字列の幅と高さを計算する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, lpString, c, lpsz
-hdc : [intptr] A handle to the device context.
-lpString : [wstr] A pointer to the string that specifies the text. The string does not need to be zero-terminated, since cbString specifies the length of the string.
-c : [int] The length of the string pointed to by lpString.
-lpsz : [var] A pointer to a SIZE structure that receives the dimensions of the string, in logical units.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lpString : [wstr] テキストを指定する文字列へのポインタ。cbString が文字列の長さを指定するため、0 終端である必要はない。
+c : [int] lpString が指す文字列の長さ。
+lpsz : [var] 文字列の寸法(論理単位)を受け取る SIZE 構造体へのポインタ。
 %inst
-The GetTextExtentPoint function computes the width and height of the
-specified string of text. (Unicode)
+GetTextExtentPoint 関数は、指定したテキスト文字列の幅と高さを計算する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The GetTextExtentPoint function uses the currently selected font to
-compute the dimensions of the string. The width and height, in
-logical units, are computed without considering any clipping. Also,
-this function assumes that the text is horizontal, that is, that the
-escapement is always 0. This is true for both the horizontal and
-vertical measurements of the text. Even if using a font specifying a
-nonzero escapement, this function will not use the angle while
-computing the text extent. The application must convert it
-explicitly. Because some devices kern characters, the sum of the
-extents of the characters in a string may not be equal to the extent
-of the string. The calculated string width takes into account the
-intercharacter spacing set by the SetTextCharacterExtra function.
-> [!NOTE] > The wingdi.h header defines GetTextExtentPoint as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+GetTextExtentPoint
+関数は、現在選択されているフォントを使って文字列の寸法を計算する。幅と高さ(論理単位)はクリッピングを考慮せずに計算される。また、この関数はテキストが水平である(つまり
+escapement が常に 0)と想定する。これはテキストの水平と垂直の両方の測定に当てはまる。0 以外の escapement
+を指定するフォントを使用していても、この関数はテキストの長さを計算する際に角度を使わない。アプリケーションが明示的に変換する必要がある。一部のデバイスは文字間をカーニングするため、文字列内の各文字の長さの合計は文字列全体の長さと等しくならない場合がある。計算される文字列幅は
+SetTextCharacterExtra 関数で設定された文字間隔を考慮する。
+> [!NOTE] > wingdi.h ヘッダは GetTextExtentPoint をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 GetTextExtentPoint32A
-The GetTextExtentPoint32 function computes the width and height of the specified string of text. (ANSI)
+GetTextExtentPoint32 関数は、指定したテキスト文字列の幅と高さを計算する。(ANSI)
 %group
 Win32 gdi32
 %prm
 hdc, lpString, c, psizl
-hdc : [intptr] A handle to the device context.
-lpString : [str] A pointer to a buffer that specifies the text string. The string does not need to be null-terminated, because the c parameter specifies the length of the string.
-c : [int] The length of the string pointed to by lpString.
-psizl : [var] A pointer to a SIZE structure that receives the dimensions of the string, in logical units.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lpString : [str] テキスト文字列を指定するバッファへのポインタ。c パラメータが文字列の長さを指定するため、NULL 終端である必要はない。
+c : [int] lpString が指す文字列の長さ。
+psizl : [var] 文字列の寸法(論理単位)を受け取る SIZE 構造体へのポインタ。
 %inst
-The GetTextExtentPoint32 function computes the width and height of
-the specified string of text. (ANSI)
+GetTextExtentPoint32 関数は、指定したテキスト文字列の幅と高さを計算する。(ANSI)
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The GetTextExtentPoint32 function uses the currently selected font to
-compute the dimensions of the string. The width and height, in
-logical units, are computed without considering any clipping. Because
-some devices kern characters, the sum of the extents of the
-characters in a string may not be equal to the extent of the string.
-The calculated string width takes into account the intercharacter
-spacing set by the SetTextCharacterExtra function and the
-justification set by SetTextJustification. This is true for both
-displaying on a screen and for printing. However, if lpDx is set in
-ExtTextOut, GetTextExtentPoint32 does not take into account either
-intercharacter spacing or justification. In addition, for EMF, the
-print result always takes both intercharacter spacing and
-justification into account. When dealing with text displayed on a
-screen, the calculated string width takes into account the
-intercharacter spacing set by the SetTextCharacterExtra function and
-the justification set by SetTextJustification. However, if lpDx is
-set in ExtTextOut, GetTextExtentPoint32 does not take into account
-either intercharacter spacing or justification. However, when
-printing with EMF:
-This doc was truncated.
+GetTextExtentPoint32
+関数は、現在選択されているフォントを使って文字列の寸法を計算する。幅と高さ(論理単位)はクリッピングを考慮せずに計算される。一部のデバイスは文字間をカーニングするため、文字列内の各文字の長さの合計は文字列全体の長さと等しくならない場合がある。計算される文字列幅は、SetTextCharacterExtra
+関数で設定された文字間隔と SetTextJustification
+で設定された揃えを考慮する。これは画面への表示と印刷の両方に当てはまる。ただし、ExtTextOut で lpDx
+が設定されている場合、GetTextExtentPoint32 は文字間隔や揃えを考慮しない。さらに、EMF
+では印刷結果は常に文字間隔と揃えの両方を考慮する。画面に表示されるテキストを扱う場合、計算される文字列幅は
+SetTextCharacterExtra で設定された文字間隔と SetTextJustification
+で設定された揃えを考慮する。ただし、ExtTextOut で lpDx が設定されている場合、GetTextExtentPoint32
+は文字間隔や揃えを考慮しない。一方、EMF で印刷する場合:
+（以下省略)
 
 
 %index
@@ -7137,78 +5895,57 @@ SetTextCharacterExtra で設定された文字間スペーシングと SetTextJustification
 
 %index
 GetTextExtentPointI
-The GetTextExtentPointI function computes the width and height of the specified array of glyph indices.
+GetTextExtentPointI 関数は、指定したグリフインデックス配列の幅と高さを計算する。
 %group
 Win32 gdi32
 %prm
 hdc, pgiIn, cgi, psize
-hdc : [intptr] Handle to the device context.
-pgiIn : [var] Pointer to array of glyph indices.
-cgi : [int] Specifies the number of glyph indices.
-psize : [var] Pointer to a SIZE structure that receives the dimensions of the string, in logical units.
+hdc : [intptr] デバイスコンテキストのハンドル。
+pgiIn : [var] グリフインデックス配列へのポインタ。
+cgi : [int] グリフインデックス数を指定する。
+psize : [var] 文字列の寸法(論理単位)を受け取る SIZE 構造体へのポインタ。
 %inst
-The GetTextExtentPointI function computes the width and height of the
-specified array of glyph indices.
+GetTextExtentPointI 関数は、指定したグリフインデックス配列の幅と高さを計算する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The GetTextExtentPointI function uses the currently selected font to
-compute the dimensions of the array of glyph indices. The width and
-height, in logical units, are computed without considering any
-clipping. When this function returns the text extent, it assumes that
-the text is horizontal, that is, that the escapement is always 0.
-This is true for both the horizontal and vertical measurements of the
-text. Even if you use a font that specifies a nonzero escapement,
-this function doesn't use the angle while it computes the text
-extent. The app must convert it explicitly. However, when the
-graphics mode is set to GM_ADVANCED and the character orientation is
-90 degrees from the print orientation, the values that this function
-return do not follow this rule. When the character orientation and
-the print orientation match for a given string, this function returns
-the dimensions of the string in the SIZE structure as { cx : 116, cy
-: 18 }. When the character orientation and the print orientation are
-90 degrees apart for the same string, this function returns the
-dimensions of the string in the SIZE structure as { cx : 18, cy : 116
-}. Because some devices kern characters, the sum of the extents of
-the individual glyph indices may not be equal to the extent of the
-entire array of glyph indices. The calculated string width takes into
-account the intercharacter spacing set by the SetTextCharacterExtra
-function.
+GetTextExtentPointI
+関数は、現在選択されているフォントを使ってグリフインデックス配列の寸法を計算する。幅と高さ(論理単位)はクリッピングを考慮せずに計算される。この関数がテキストの長さを返すとき、テキストは水平である(つまり
+escapement は常に 0)と想定する。これはテキストの水平と垂直の両方の測定に当てはまる。0 以外の escapement
+を指定するフォントを使用していても、この関数はテキストの長さを計算する際に角度を使わない。アプリケーションが明示的に変換する必要がある。ただし、グラフィックモードが
+GM_ADVANCED に設定され、文字方向が印刷方向から 90
+度異なる場合、この関数が返す値はこのルールに従わない。文字方向と印刷方向が一致する場合、この関数は SIZE 構造体として { cx :
+116, cy : 18 } のような寸法を返す。文字方向と印刷方向が 90 度異なる場合、SIZE 構造体として { cx : 18,
+cy : 116 }
+を返す。一部のデバイスは文字間をカーニングするため、各グリフインデックスの長さの合計はグリフインデックス配列全体の長さと等しくならない場合がある。計算される文字列幅は
+SetTextCharacterExtra 関数で設定された文字間隔を考慮する。
 
 
 %index
 GetTextFaceW
-The GetTextFace function retrieves the typeface name of the font that is selected into the specified device context. (Unicode)
+GetTextFace 関数は、指定したデバイスコンテキストに選択されている HFONT の書体名を取得する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, c, lpName
-hdc : [intptr] A handle to the device context.
-c : [int] The length of the buffer pointed to by lpFaceName. For the ANSI function it is a BYTE count and for the Unicode function it is a WORD count. Note that for the ANSI function, characters in SBCS code pages take one byte each, while most characters in DBCS code pages take two bytes; for the Unicode function, most currently defined Unicode characters (those in the Basic Multilingual Plane (BMP)) are one WORD while Unicode surrogates are two WORDs.
-lpName : [wstr] A pointer to the buffer that receives the typeface name. If this parameter is NULL, the function returns the number of characters in the name, including the terminating null character.
+hdc : [intptr] デバイスコンテキストのハンドル。
+c : [int] lpFaceName が指すバッファの長さ。ANSI 関数では BYTE 数、Unicode 関数では WORD 数である。ANSI 関数では SBCS コードページ内の文字は 1 バイト、DBCS コードページ内のほとんどの文字は 2 バイトである。Unicode 関数では、現在定義されているほとんどの Unicode 文字(BMP 内)は 1 WORD、Unicode サロゲートは 2 WORD である点に注意。
+lpName : [wstr] 書体名を受け取るバッファへのポインタ。このパラメータが NULL の場合、関数は終端 NULL 文字を含む名前の文字数を返す。
 %inst
-The GetTextFace function retrieves the typeface name of the font that
-is selected into the specified device context. (Unicode)
+GetTextFace 関数は、指定したデバイスコンテキストに選択されている HFONT の書体名を取得する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is the number of
-characters copied to the buffer. If the function fails, the return
-value is zero.
+関数が成功した場合、戻り値はバッファへコピーされた文字数である。失敗した場合は 0 である。
 
 [備考]
-The typeface name is copied as a null-terminated character string. If
-the name is longer than the number of characters specified by the
-nCount parameter, the name is truncated.
-> [!NOTE] > The wingdi.h header defines GetTextFace as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+書体名は NULL 終端文字列としてコピーされる。名前が nCount パラメータで指定された文字数より長い場合、名前は切り詰められる。
+> [!NOTE] > wingdi.h ヘッダは GetTextFace をエイリアスとして定義しており、UNICODE
+プリプロセッサ定数の有無に応じてこの関数の ANSI 版または Unicode
+版が自動的に選択される。エンコーディング中立なエイリアスと非中立コードを混在させると、コンパイルまたは実行時エラーの原因となる不整合を引き起こすことがある。詳細は
+[関数プロトタイプの規則](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
@@ -7234,316 +5971,261 @@ lptm : [var] テキストメトリックを受け取る TEXTMETRIC 構造体へのポインタ。
 
 %index
 GetViewportExtEx
-The GetViewportExtEx function retrieves the x-extent and y-extent of the current viewport for the specified device context.
+GetViewportExtEx 関数は、指定したデバイスコンテキストの現在のビューポートの x 方向および y 方向の長さを取得する。
 %group
 Win32 gdi32
 %prm
 hdc, lpsize
-hdc : [intptr] A handle to the device context.
-lpsize : [var] A pointer to a SIZE structure that receives the x- and y-extents, in device units.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lpsize : [var] x および y 方向の長さ(デバイス単位)を受け取る SIZE 構造体へのポインタ。
 %inst
-The GetViewportExtEx function retrieves the x-extent and y-extent of
-the current viewport for the specified device context.
+GetViewportExtEx 関数は、指定したデバイスコンテキストの現在のビューポートの x 方向および y 方向の長さを取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 
 %index
 GetViewportOrgEx
-The GetViewportOrgEx function retrieves the x-coordinates and y-coordinates of the viewport origin for the specified device context.
+GetViewportOrgEx 関数は、指定したデバイスコンテキストのビューポート原点の x 座標および y 座標を取得する。
 %group
 Win32 gdi32
 %prm
 hdc, lppoint
-hdc : [intptr] A handle to the device context.
-lppoint : [var] A pointer to a POINT structure that receives the coordinates of the origin, in device units.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lppoint : [var] 原点の座標(デバイス単位)を受け取る POINT 構造体へのポインタ。
 %inst
-The GetViewportOrgEx function retrieves the x-coordinates and
-y-coordinates of the viewport origin for the specified device
-context.
+GetViewportOrgEx 関数は、指定したデバイスコンテキストのビューポート原点の x 座標および y 座標を取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 
 %index
 GetWinMetaFileBits
-The GetWinMetaFileBits function converts the enhanced-format records from a metafile into Windows-format records and stores the converted records in the specified buffer.
+GetWinMetaFileBits 関数は、メタファイルから拡張形式レコードを Windows 形式レコードへ変換し、指定バッファへ格納する。
 %group
 Win32 gdi32
 %prm
 hemf, cbData16, pData16, iMapMode, hdcRef
-hemf : [intptr] A handle to the enhanced metafile.
-cbData16 : [int] The size, in bytes, of the buffer into which the converted records are to be copied.
-pData16 : [var] A pointer to the buffer that receives the converted records. If lpbBuffer is NULL, GetWinMetaFileBits returns the number of bytes required to store the converted metafile records.
-iMapMode : [int] The mapping mode to use in the converted metafile.
-hdcRef : [intptr] A handle to the reference device context.
+hemf : [intptr] 拡張メタファイルのハンドル。
+cbData16 : [int] 変換されたレコードをコピーするバッファのサイズ(バイト単位)。
+pData16 : [var] 変換されたレコードを受け取るバッファへのポインタ。lpbBuffer が NULL の場合、GetWinMetaFileBits は変換されたメタファイルレコードの格納に必要なバイト数を返す。
+iMapMode : [int] 変換後のメタファイルで使用するマッピングモード。
+hdcRef : [intptr] 参照デバイスコンテキストのハンドル。
 %inst
-The GetWinMetaFileBits function converts the enhanced-format records
-from a metafile into Windows-format records and stores the converted
-records in the specified buffer.
+GetWinMetaFileBits 関数は、メタファイルから拡張形式レコードを Windows
+形式レコードへ変換し、指定バッファへ格納する。
 
 [戻り値]
-If the function succeeds and the buffer pointer is NULL, the return
-value is the number of bytes required to store the converted records;
-if the function succeeds and the buffer pointer is a valid pointer,
-the return value is the size of the metafile data in bytes. If the
-function fails, the return value is zero.
+関数が成功しバッファポインタが NULL
+の場合、戻り値は変換されたレコードの格納に必要なバイト数である。関数が成功しバッファポインタが有効な場合、戻り値はメタファイルデータのサイズ(バイト単位)である。失敗した場合は
+0 である。
 
 [備考]
-This function converts an enhanced metafile into a Windows-format
-metafile so that its picture can be displayed in an application that
-recognizes the older format. The system uses the reference device
-context to determine the resolution of the converted metafile. The
-GetWinMetaFileBits function does not invalidate the enhanced metafile
-handle. An application should call the DeleteEnhMetaFile function to
-release the handle when it is no longer needed. To create a scalable
-Windows-format metafile, specify MM_ANISOTROPIC as the fnMapMode
-parameter. The upper-left corner of the metafile picture is always
-mapped to the origin of the reference device.
+この関数は拡張メタファイルを Windows
+形式メタファイルへ変換し、古い形式を認識するアプリケーションで画像を表示できるようにする。システムは参照デバイスコンテキストを使って変換後のメタファイルの解像度を決定する。GetWinMetaFileBits
+関数は拡張メタファイルハンドルを無効にしない。アプリケーションは不要になったハンドルを DeleteEnhMetaFile
+関数で解放すべきである。スケーラブルな Windows 形式メタファイルを作成するには、fnMapMode パラメータに
+MM_ANISOTROPIC を指定する。メタファイル画像の左上隅は常に参照デバイスの原点にマップされる。
 
 
 %index
 GetWindowExtEx
-This function retrieves the x-extent and y-extent of the window for the specified device context.
+この関数は、指定したデバイスコンテキストのウィンドウの x 方向および y 方向の長さを取得する。
 %group
 Win32 gdi32
 %prm
 hdc, lpsize
-hdc : [intptr] A handle to the device context.
-lpsize : [var] A pointer to a SIZE structure that receives the x- and y-extents in page-space units, that is, logical units.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lpsize : [var] ページ空間単位(論理単位)の x および y 方向の長さを受け取る SIZE 構造体へのポインタ。
 %inst
-This function retrieves the x-extent and y-extent of the window for
-the specified device context.
+この関数は、指定したデバイスコンテキストのウィンドウの x 方向および y 方向の長さを取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 
 %index
 GetWindowOrgEx
-The GetWindowOrgEx function retrieves the x-coordinates and y-coordinates of the window origin for the specified device context.
+GetWindowOrgEx 関数は、指定したデバイスコンテキストのウィンドウ原点の x 座標および y 座標を取得する。
 %group
 Win32 gdi32
 %prm
 hdc, lppoint
-hdc : [intptr] A handle to the device context.
-lppoint : [var] A pointer to a POINT structure that receives the coordinates, in logical units, of the window origin.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lppoint : [var] ウィンドウ原点の座標(論理単位)を受け取る POINT 構造体へのポインタ。
 %inst
-The GetWindowOrgEx function retrieves the x-coordinates and
-y-coordinates of the window origin for the specified device context.
+GetWindowOrgEx 関数は、指定したデバイスコンテキストのウィンドウ原点の x 座標および y 座標を取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 
 %index
 GetWorldTransform
-The GetWorldTransform function retrieves the current world-space to page-space transformation.
+GetWorldTransform 関数は、現在のワールド空間からページ空間への変換を取得する。
 %group
 Win32 gdi32
 %prm
 hdc, lpxf
-hdc : [intptr] A handle to the device context.
-lpxf : [var] A pointer to an XFORM structure that receives the current world-space to page-space transformation.
+hdc : [intptr] デバイスコンテキストのハンドル。
+lpxf : [var] 現在のワールド空間からページ空間への変換を受け取る XFORM 構造体へのポインタ。
 %inst
-The GetWorldTransform function retrieves the current world-space to
-page-space transformation.
+GetWorldTransform 関数は、現在のワールド空間からページ空間への変換を取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は 0 以外である。失敗した場合は 0 である。
 
 [備考]
-The precision of the transformation may be altered if an application
-calls the ModifyWorldTransform function prior to calling
-GetWorldTransform. (This is because the internal format for storing
-transformation values uses a higher precision than a FLOAT value.)
+GetWorldTransform を呼び出す前にアプリケーションが ModifyWorldTransform
+関数を呼び出していた場合、変換の精度が変化する可能性がある(変換値を格納する内部形式は FLOAT 値より高精度を使用するため)。
 
 
 %index
 HT_Get8BPPFormatPalette
-The HT_Get8BPPFormatPalette function returns a halftone palette for use on standard 8-bits per pixel device types.
+HT_Get8BPPFormatPalette 関数は、標準の 8 ビット/ピクセルデバイス用のハーフトーンパレットを返す。
 %group
 Win32 gdi32
 %prm
 pPaletteEntry, RedGamma, GreenGamma, BlueGamma
-pPaletteEntry : [var] Pointer to an array of PALETTEENTRY structures (described in the Microsoft Windows SDK documentation). When this pointer is not NULL, GDI assumes that it points to valid memory space in which GDI can place the entire 8-bits per pixel halftone palette.
-RedGamma : [int] Specifies the red, green, and blue gamma value. This USHORT value is interpreted as a real number whose four least-significant digits are to the right of the (implied) decimal point. For example, a gamma value of 10000 represents the real number 1.0000, and 12345 represents 1.2345. The minimum gamma value allowed is 0.0000, and the maximum allowable value is 6.5535.
-GreenGamma : [int] Specifies the red, green, and blue gamma value. This USHORT value is interpreted as a real number whose four least-significant digits are to the right of the (implied) decimal point. For example, a gamma value of 10000 represents the real number 1.0000, and 12345 represents 1.2345. The minimum gamma value allowed is 0.0000, and the maximum allowable value is 6.5535.
-BlueGamma : [int] Specifies the red, green, and blue gamma value. This USHORT value is interpreted as a real number whose four least-significant digits are to the right of the (implied) decimal point. For example, a gamma value of 10000 represents the real number 1.0000, and 12345 represents 1.2345. The minimum gamma value allowed is 0.0000, and the maximum allowable value is 6.5535.
+pPaletteEntry : [var] PALETTEENTRY 構造体の配列へのポインタ(Microsoft Windows SDK ドキュメントを参照)。このポインタが NULL でない場合、GDI は 8 ビット/ピクセルのハーフトーンパレット全体を配置できる有効なメモリ領域を指していると想定する。
+RedGamma : [int] 赤、緑、青のガンマ値を指定する。この USHORT 値は、暗黙の小数点の右側に下位 4 桁を持つ実数として解釈される。たとえば、ガンマ値 10000 は実数 1.0000 を表し、12345 は 1.2345 を表す。指定可能な最小ガンマ値は 0.0000、最大ガンマ値は 6.5535 である。
+GreenGamma : [int] 赤、緑、青のガンマ値を指定する。この USHORT 値は、暗黙の小数点の右側に下位 4 桁を持つ実数として解釈される。たとえば、ガンマ値 10000 は実数 1.0000 を表し、12345 は 1.2345 を表す。指定可能な最小ガンマ値は 0.0000、最大ガンマ値は 6.5535 である。
+BlueGamma : [int] 赤、緑、青のガンマ値を指定する。この USHORT 値は、暗黙の小数点の右側に下位 4 桁を持つ実数として解釈される。たとえば、ガンマ値 10000 は実数 1.0000 を表し、12345 は 1.2345 を表す。指定可能な最小ガンマ値は 0.0000、最大ガンマ値は 6.5535 である。
 %inst
-The HT_Get8BPPFormatPalette function returns a halftone palette for
-use on standard 8-bits per pixel device types.
+HT_Get8BPPFormatPalette 関数は、標準の 8 ビット/ピクセルデバイス用のハーフトーンパレットを返す。
 
 [戻り値]
-If pPaletteEntry is not NULL, the return value is the number of
-PALETTEENTRY structures that GDI filled in starting at the memory
-location pointed to by pPaletteEntry. If pPaletteEntry is NULL, the
-return value is the total count of PALETTEENTRY structures required
-to store the 8-bits per pixel halftone palette.
+pPaletteEntry が NULL でない場合、戻り値は pPaletteEntry が指すメモリ位置から GDI が埋めた
+PALETTEENTRY 構造体の数である。pPaletteEntry が NULL の場合、戻り値は 8
+ビット/ピクセルのハーフトーンパレットを格納するために必要な PALETTEENTRY 構造体の総数である。
 
 [備考]
-HT_Get8BPPFormatPalette is a halftone-related GDI service that
-drivers can use to acquire the system's standard 8-bits per pixel
-halftone palette.
+HT_Get8BPPFormatPalette は、ドライバがシステム標準の 8
+ビット/ピクセルハーフトーンパレットを取得するために使用できる、ハーフトーン関連の GDI サービスである。
 
 
 %index
 HT_Get8BPPMaskPalette
-The HT_Get8BPPMaskPalette function returns a mask palette for an 8-bits-per-pixel device type.
+HT_Get8BPPMaskPalette 関数は、8 ビット/ピクセルデバイス用のマスクパレットを返す。
 %group
 Win32 gdi32
 %prm
 pPaletteEntry, Use8BPPMaskPal, CMYMask, RedGamma, GreenGamma, BlueGamma
-pPaletteEntry : [var] Pointer to the array of PALETTEENTRY structures (described in the Windows SDK documentation) to be filled in. GDI assumes that it points to valid memory space in which GDI can place the entire 8-bit-per-pixel halftone palette. For a driver that runs on Windows XP and later operating system versions, GDI checks pPaletteEntry[0] to determine how to return the composed CMY palette. If pPaletteEntry[0] is set to 'RGB0', the palette will be in one of the CMY_INVERTED modes and will have its indexes inverted. That is, index 0 in the palette is black, and index 255 is white. If pPaletteEntry[0] is not set to 'RGB0', the palette is a normal CMY palette, with index 0 being white and index 255 being black. See Using GDI 8-Bit-Per-Pixel CMY Mask Modes for new requirements and details on how to use this parameter. Windows 2000 ignores any value the driver places in pPaletteEntry[0]. For this reason, if your driver is intended to run on Windows 2000 and on Windows XP or later versions, and your driver sets pPaletteEntry[0] to 'RGB0', the bitmaps your driver receives from Windows XP and later might have their colors inverted, relative to those received from Windows 2000. Therefore, such a driver must examine the palette before downloading a bitmap.
-Use8BPPMaskPal : [int] Indicates which type of palette should be returned. When Use8BPPMaskPal is TRUE, HT_Get8BPPMaskPalette sets the pPaletteEntry parameter with the address of a CMY palette (an array of PALETTEENTRY structures) that is described by the bitmask specified in CMYMask. When Use8BPPMaskPal is FALSE, the function sets pPaletteEntry with the address of a standard RGB 8-bit-per-pixel halftone palette.
+pPaletteEntry : [var] 埋められる PALETTEENTRY 構造体(Windows SDK ドキュメントを参照)配列へのポインタ。GDI はこれを、8 ビット/ピクセルハーフトーンパレット全体を配置できる有効なメモリ領域を指していると想定する。Windows XP 以降で動作するドライバの場合、GDI は pPaletteEntry[0] を調べて、構成された CMY パレットをどのように返すかを決定する。pPaletteEntry[0] が 'RGB0' に設定されていれば、パレットは CMY_INVERTED モードの 1 つとなり、インデックスが反転される。つまり、パレットのインデックス 0 は黒、インデックス 255 は白となる。pPaletteEntry[0] が 'RGB0' に設定されていない場合、パレットは通常の CMY パレットとなり、インデックス 0 が白、インデックス 255 が黒となる。新しい要件とこのパラメータの使用方法の詳細については、「Using GDI 8-Bit-Per-Pixel CMY Mask Modes」を参照すること。Windows 2000 はドライバが pPaletteEntry[0] に配置した値を無視する。このため、Windows 2000 および Windows XP 以降で動作させるドライバで pPaletteEntry[0] を 'RGB0' に設定する場合、Windows XP 以降から受け取るビットマップは Windows 2000 から受け取るものと比べて色が反転している可能性がある。したがって、そのようなドライバはビットマップをダウンロードする前にパレットを検査しなければならない。
+Use8BPPMaskPal : [int] 返されるパレットの種類を指定する。Use8BPPMaskPal が TRUE の場合、HT_Get8BPPMaskPalette は pPaletteEntry パラメータに、CMYMask で指定されたビットマスクで記述される CMY パレット(PALETTEENTRY 構造体の配列)のアドレスを設定する。Use8BPPMaskPal が FALSE の場合、この関数は pPaletteEntry に標準の RGB 8 ビット/ピクセルハーフトーンパレットのアドレスを設定する。
 CMYMask : [int] 
-RedGamma : [int] If Use8BPPMaskPal is TRUE, the value of this parameter is  not used. In that case, gamma values will be specified in the ciDevice member of the GDIINFO structure. If Use8BPPMaskPal is FALSE, the value of this parameter specifies the red gamma value, out of the red, green and blue gamma values that GDI is to use to gamma-correct the palette. The USHORT value is interpreted as a real number whose four least-significant digits are to the right of the decimal point. For example, a gamma value of 10000 represents the real number 1.0000, and 12345 represents 1.2345. The minimum gamma value allowed is 0.0000, and the maximum allowable value is 6.5535.
-GreenGamma : [int] If Use8BPPMaskPal is TRUE, the value of this parameter is  not used. In that case, gamma values will be specified in the ciDevice member of the GDIINFO structure. If Use8BPPMaskPal is FALSE, the value of this parameter specifies the green gamma value, out of the red, green and blue gamma values that GDI is to use to gamma-correct the palette. The USHORT value is interpreted as a real number whose four least-significant digits are to the right of the decimal point. For example, a gamma value of 10000 represents the real number 1.0000, and 12345 represents 1.2345. The minimum gamma value allowed is 0.0000, and the maximum allowable value is 6.5535.
-BlueGamma : [int] If Use8BPPMaskPal is TRUE, the value of this parameter is  not used. In that case, gamma values will be specified in the ciDevice member of the GDIINFO structure. If Use8BPPMaskPal is FALSE, the value of this parameter specifies the blue gamma value, out of the red, green and blue gamma values that GDI is to use to gamma-correct the palette. The USHORT value is interpreted as a real number whose four least-significant digits are to the right of the decimal point. For example, a gamma value of 10000 represents the real number 1.0000, and 12345 represents 1.2345. The minimum gamma value allowed is 0.0000, and the maximum allowable value is 6.5535.
+RedGamma : [int] Use8BPPMaskPal が TRUE の場合、このパラメータの値は使用されない。その場合、ガンマ値は GDIINFO 構造体の ciDevice メンバで指定される。Use8BPPMaskPal が FALSE の場合、このパラメータは、GDI がパレットをガンマ補正する際に使用する赤・緑・青のうち赤のガンマ値を指定する。この USHORT 値は、小数点の右側に下位 4 桁を持つ実数として解釈される。たとえば、ガンマ値 10000 は実数 1.0000 を表し、12345 は 1.2345 を表す。指定可能な最小ガンマ値は 0.0000、最大ガンマ値は 6.5535 である。
+GreenGamma : [int] Use8BPPMaskPal が TRUE の場合、このパラメータの値は使用されない。その場合、ガンマ値は GDIINFO 構造体の ciDevice メンバで指定される。Use8BPPMaskPal が FALSE の場合、このパラメータは、GDI がパレットをガンマ補正する際に使用する赤・緑・青のうち緑のガンマ値を指定する。この USHORT 値は、小数点の右側に下位 4 桁を持つ実数として解釈される。たとえば、ガンマ値 10000 は実数 1.0000 を表し、12345 は 1.2345 を表す。指定可能な最小ガンマ値は 0.0000、最大ガンマ値は 6.5535 である。
+BlueGamma : [int] Use8BPPMaskPal が TRUE の場合、このパラメータの値は使用されない。その場合、ガンマ値は GDIINFO 構造体の ciDevice メンバで指定される。Use8BPPMaskPal が FALSE の場合、このパラメータは、GDI がパレットをガンマ補正する際に使用する赤・緑・青のうち青のガンマ値を指定する。この USHORT 値は、小数点の右側に下位 4 桁を持つ実数として解釈される。たとえば、ガンマ値 10000 は実数 1.0000 を表し、12345 は 1.2345 を表す。指定可能な最小ガンマ値は 0.0000、最大ガンマ値は 6.5535 である。
 %inst
-The HT_Get8BPPMaskPalette function returns a mask palette for an
-8-bits-per-pixel device type.
+HT_Get8BPPMaskPalette 関数は、8 ビット/ピクセルデバイス用のマスクパレットを返す。
 
 [戻り値]
-If pPaletteEntry is not NULL, HT_Get8BPPMaskPalette returns the
-number of PALETTEENTRY structures that GDI filled out in the array to
-which pPaletteEntry points. If pPaletteEntry is NULL, the value
-returned is the total count of PALETTEENTRY structures required to
-store the halftone palette. If an illegal value of the CMYMask
-parameter is used in the call to this function, HT_Get8BPPMaskPalette
-returns a value of zero.
+pPaletteEntry が NULL でない場合、HT_Get8BPPMaskPalette は pPaletteEntry
+が指す配列内に GDI が埋めた PALETTEENTRY 構造体の数を返す。pPaletteEntry が NULL
+の場合、戻り値はハーフトーンパレットを格納するために必要な PALETTEENTRY 構造体の総数である。CMYMask
+パラメータに不正な値が渡された場合、HT_Get8BPPMaskPalette は 0 を返す。
 
 [備考]
-The PALETTEENTRY structure is documented in the Windows SDK
-documentation. Calling HT_Get8BPPMaskPalette with Use8BPPMaskPal set
-FALSE is equivalent to calling HT_Get8BPPFormatPalette. See Using GDI
-8-Bit-Per-Pixel CMY Mask Modes for more information about this
-function and how its parameters are used.
+PALETTEENTRY 構造体は Windows SDK ドキュメントに記載されている。Use8BPPMaskPal を FALSE
+にして HT_Get8BPPMaskPalette を呼び出すことは、HT_Get8BPPFormatPalette
+を呼び出すことと等価である。この関数とパラメータの使用方法の詳細については、「Using GDI 8-Bit-Per-Pixel CMY
+Mask Modes」を参照すること。
 
 
 %index
 IntersectClipRect
-The IntersectClipRect function creates a new clipping region from the intersection of the current clipping region and the specified rectangle.
+IntersectClipRect 関数は、現在のクリッピング領域と指定した矩形の交差部分から新しいクリッピング領域を作成する。
 %group
 Win32 gdi32
 %prm
 hdc, left, top, right, bottom
-hdc : [intptr] A handle to the device context.
-left : [int] The x-coordinate, in logical units, of the upper-left corner of the rectangle.
-top : [int] The y-coordinate, in logical units, of the upper-left corner of the rectangle.
-right : [int] The x-coordinate, in logical units, of the lower-right corner of the rectangle.
-bottom : [int] The y-coordinate, in logical units, of the lower-right corner of the rectangle.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+left : [int] 矩形の左上隅の x 座標(論理単位)。
+top : [int] 矩形の左上隅の y 座標(論理単位)。
+right : [int] 矩形の右下隅の x 座標(論理単位)。
+bottom : [int] 矩形の右下隅の y 座標(論理単位)。
 %inst
-The IntersectClipRect function creates a new clipping region from the
-intersection of the current clipping region and the specified
-rectangle.
+IntersectClipRect 関数は、現在のクリッピング領域と指定した矩形の交差部分から新しいクリッピング領域を作成する。
 
 [戻り値]
-The return value specifies the new clipping region's type and can be
-one of the following values.
-This doc was truncated.
+戻り値は新しいクリッピング領域の種類を示し、次のいずれかの値となる。
+（以下省略）
 
 [備考]
-The lower and right-most edges of the given rectangle are excluded
-from the clipping region. If a clipping region does not already exist
-then the system may apply a default clipping region to the specified
-HDC. A clipping region is then created from the intersection of that
-default clipping region and the rectangle specified in the function
-parameters.
+指定した矩形の下端と右端はクリッピング領域から除外される。クリッピング領域がまだ存在していない場合、システムは指定した HDC
+にデフォルトのクリッピング領域を適用することがある。その後、デフォルトのクリッピング領域と関数パラメータで指定された矩形の交差部分から新しいクリッピング領域が作成される。
 
 
 %index
 InvertRgn
-The InvertRgn function inverts the colors in the specified region.
+InvertRgn 関数は、指定したリージョン内の色を反転する。
 %group
 Win32 gdi32
 %prm
 hdc, hrgn
-hdc : [intptr] Handle to the device context.
-hrgn : [intptr] Handle to the region for which colors are inverted. The region's coordinates are presumed to be logical coordinates.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+hrgn : [intptr] 色を反転させるリージョンへのハンドル。リージョンの座標は論理座標とみなされる。
 %inst
-The InvertRgn function inverts the colors in the specified region.
+InvertRgn 関数は、指定したリージョン内の色を反転する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-On monochrome screens, the InvertRgn function makes white pixels
-black and black pixels white. On color screens, this inversion is
-dependent on the type of technology used to generate the colors for
-the screen.
+モノクロ画面では、InvertRgn
+関数は白ピクセルを黒に、黒ピクセルを白にする。カラー画面では、この反転は画面の色生成に使用される技術の種類に依存する。
 
 
 %index
 LPtoDP
-The LPtoDP function converts logical coordinates into device coordinates. The conversion depends on the mapping mode of the device context, the settings of the origins and extents for the window and viewport, and the world transformation.
+LPtoDP 関数は、論理座標をデバイス座標に変換する。変換はデバイスコンテキストのマッピングモード、ウィンドウとビューポートの原点と範囲の設定、およびワールド変換に依存する。
 %group
 Win32 gdi32
 %prm
 hdc, lppt, c
-hdc : [intptr] A handle to the device context.
-lppt : [var] A pointer to an array of POINT structures. The x-coordinates and y-coordinates contained in each of the POINT structures will be transformed.
-c : [int] The number of points in the array.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+lppt : [var] POINT 構造体の配列へのポインタ。各 POINT 構造体に含まれる x 座標と y 座標が変換される。
+c : [int] 配列内の点の数。
 %inst
-The LPtoDP function converts logical coordinates into device
-coordinates. The conversion depends on the mapping mode of the device
-context, the settings of the origins and extents for the window and
-viewport, and the world transformation.
+LPtoDP
+関数は、論理座標をデバイス座標に変換する。変換はデバイスコンテキストのマッピングモード、ウィンドウとビューポートの原点と範囲の設定、およびワールド変換に依存する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The LPtoDP function fails if the logical coordinates exceed 32 bits,
-or if the converted device coordinates exceed 27 bits. In the case of
-such an overflow, the results for all the points are undefined.
-LPtoDP calculates complex floating-point arithmetic, and it has a
-caching system for efficiency. Therefore, the conversion result of an
-initial call to LPtoDP might not exactly match the conversion result
-of a later call to LPtoDP. We recommend not to write code that relies
-on the exact match of the conversion results from multiple calls to
-LPtoDP even if the parameters that are passed to each call are
-identical.
+LPtoDP 関数は、論理座標が 32 ビットを超える場合、または変換後のデバイス座標が 27
+ビットを超える場合に失敗する。そのようなオーバーフローが発生した場合、すべての点の結果は未定義となる。LPtoDP
+は複雑な浮動小数点演算を行い、効率のためにキャッシュシステムを持つ。したがって、最初の LPtoDP 呼び出しの変換結果と、後の
+LPtoDP 呼び出しの変換結果が厳密に一致しないことがある。同一のパラメータを渡す複数の LPtoDP
+呼び出しの変換結果が厳密に一致することに依存するコードを書かないことを推奨する。
 
 
 %index
 LineDDA
-The LineDDA function determines which pixels should be highlighted for a line defined by the specified starting and ending points.
+LineDDA 関数は、指定した始点と終点で定義される線に対して、どのピクセルを強調表示すべきかを決定する。
 %group
 Win32 gdi32
 %prm
 xStart, yStart, xEnd, yEnd, lpProc, data
-xStart : [int] Specifies the x-coordinate, in logical units, of the line's starting point.
-yStart : [int] Specifies the y-coordinate, in logical units, of the line's starting point.
-xEnd : [int] Specifies the x-coordinate, in logical units, of the line's ending point.
-yEnd : [int] Specifies the y-coordinate, in logical units, of the line's ending point.
-lpProc : [int] Pointer to an application-defined callback function. For more information, see the LineDDAProc callback function.
-data : [intptr] Pointer to the application-defined data.
+xStart : [int] 線の始点の x 座標(論理単位)を指定する。
+yStart : [int] 線の始点の y 座標(論理単位)を指定する。
+xEnd : [int] 線の終点の x 座標(論理単位)を指定する。
+yEnd : [int] 線の終点の y 座標(論理単位)を指定する。
+lpProc : [int] アプリケーション定義のコールバック関数へのポインタ。詳細は LineDDAProc コールバック関数を参照。
+data : [intptr] アプリケーション定義データへのポインタ。
 %inst
-The LineDDA function determines which pixels should be highlighted
-for a line defined by the specified starting and ending points.
+LineDDA 関数は、指定した始点と終点で定義される線に対して、どのピクセルを強調表示すべきかを決定する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The LineDDA function passes the coordinates for each point along the
-line, except for the line's ending point, to the application-defined
-callback function. In addition to passing the coordinates of a point,
-this function passes any existing application-defined data. The
-coordinates passed to the callback function match pixels on a video
-display only if the default transformations and mapping modes are
-used.
+LineDDA
+関数は、線の終点を除いた線上の各点の座標を、アプリケーション定義のコールバック関数に渡す。座標を渡すのに加えて、既存のアプリケーション定義データも渡す。コールバック関数に渡される座標がビデオディスプレイ上のピクセルと一致するのは、デフォルトの変換およびマッピングモードが使用されている場合のみである。
 
 
 %index
@@ -7569,89 +6251,65 @@ y : [int] 線の終点の y 座標(論理単位)。
 
 %index
 MaskBlt
-The MaskBlt function combines the color data for the source and destination bitmaps using the specified mask and raster operation.
+MaskBlt 関数は、指定したマスクとラスタ演算を使用して、ソースとコピー先のビットマップのカラーデータを結合する。
 %group
 Win32 gdi32
 %prm
 hdcDest, xDest, yDest, width, height, hdcSrc, xSrc, ySrc, hbmMask, xMask, yMask, rop
-hdcDest : [intptr] A handle to the destination device context.
-xDest : [int] The x-coordinate, in logical units, of the upper-left corner of the destination rectangle.
-yDest : [int] The y-coordinate, in logical units, of the upper-left corner of the destination rectangle.
-width : [int] The width, in logical units, of the destination rectangle and source bitmap.
-height : [int] The height, in logical units, of the destination rectangle and source bitmap.
-hdcSrc : [intptr] A handle to the device context from which the bitmap is to be copied. It must be zero if the dwRop parameter specifies a raster operation that does not include a source.
-xSrc : [int] The x-coordinate, in logical units, of the upper-left corner of the source bitmap.
-ySrc : [int] The y-coordinate, in logical units, of the upper-left corner of the source bitmap.
-hbmMask : [intptr] A handle to the monochrome mask bitmap combined with the color bitmap in the source device context.
-xMask : [int] The horizontal pixel offset for the mask bitmap specified by the hbmMask parameter.
-yMask : [int] The vertical pixel offset for the mask bitmap specified by the hbmMask parameter.
-rop : [int] The foreground and background ternary raster operation codes (ROPs) that the function uses to control the combination of source and destination data. The background raster operation code is stored in the high-order byte of the high-order word of this value; the foreground raster operation code is stored in the low-order byte of the high-order word of this value; the low-order word of this value is ignored, and should be zero. The macro MAKEROP4 creates such combinations of foreground and background raster operation codes. For a discussion of foreground and background in the context of this function, see the following Remarks section. For a list of common raster operation codes (ROPs), see the BitBlt function. Note that the CAPTUREBLT ROP generally cannot be used for printing device contexts.
+hdcDest : [intptr] コピー先のデバイスコンテキストへのハンドル。
+xDest : [int] コピー先矩形の左上隅の x 座標(論理単位)。
+yDest : [int] コピー先矩形の左上隅の y 座標(論理単位)。
+width : [int] コピー先の矩形およびソースビットマップの幅(論理単位)。
+height : [int] コピー先の矩形およびソースビットマップの高さ(論理単位)。
+hdcSrc : [intptr] ビットマップのコピー元となるデバイスコンテキストへのハンドル。dwRop パラメータがソースを含まないラスタ操作を指定する場合は 0 でなければならない。
+xSrc : [int] ソースビットマップの左上隅の x 座標(論理単位)。
+ySrc : [int] ソースビットマップの左上隅の y 座標(論理単位)。
+hbmMask : [intptr] ソースデバイスコンテキスト内のカラービットマップと結合する、モノクロのマスクビットマップへのハンドル。
+xMask : [int] hbmMask パラメータで指定されたマスクビットマップの水平ピクセルオフセット。
+yMask : [int] hbmMask パラメータで指定されたマスクビットマップの垂直ピクセルオフセット。
+rop : [int] 関数がソースデータとコピー先データの結合を制御するのに使用する前景および背景の三項ラスタ演算コード(ROP)。背景ラスタ演算コードはこの値の上位ワードの上位バイトに、前景ラスタ演算コードはこの値の上位ワードの下位バイトに格納される。下位ワードは無視され、0 でなければならない。マクロ MAKEROP4 はこのような前景・背景ラスタ演算コードの組み合わせを作成する。この関数のコンテキストにおける前景と背景の説明については、後述の「解説」セクションを参照のこと。一般的なラスタ演算コード(ROP)の一覧は BitBlt 関数を参照。なお、CAPTUREBLT ROP は通常、印刷デバイスコンテキストには使用できない。
 %inst
-The MaskBlt function combines the color data for the source and
-destination bitmaps using the specified mask and raster operation.
+MaskBlt 関数は、指定したマスクとラスタ演算を使用して、ソースとコピー先のビットマップのカラーデータを結合する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The MaskBlt function uses device-dependent bitmaps. A value of 1 in
-the mask specified by hbmMask indicates that the foreground raster
-operation code specified by dwRop should be applied at that location.
-A value of 0 in the mask indicates that the background raster
-operation code specified by dwRop should be applied at that location.
-If the raster operations require a source, the mask rectangle must
-cover the source rectangle. If it does not, the function will fail.
-If the raster operations do not require a source, the mask rectangle
-must cover the destination rectangle. If it does not, the function
-will fail. If a rotation or shear transformation is in effect for the
-source device context when this function is called, an error occurs.
-However, other types of transformation are allowed. If the color
-formats of the source, pattern, and destination bitmaps differ, this
-function converts the pattern or source format, or both, to match the
-destination format. If the mask bitmap is not a monochrome bitmap, an
-error occurs. When an enhanced metafile is being recorded, an error
-occurs (and the function returns FALSE) if the source device context
-identifies an enhanced-metafile device context. Not all devices
-support the MaskBlt function. An application should call the
-GetDeviceCaps function with the nIndex parameter as RC_BITBLT to
-determine whether a device supports this function. If no mask bitmap
-is supplied, this function behaves exactly like BitBlt, using the
-foreground raster operation code. ICM: No color management is
-performed when blits occur. When used in a multiple monitor system,
-both hdcSrc and hdcDest must refer to the same device or the function
-will fail. To transfer data between DCs for different devices,
-convert the memory bitmap (compatible bitmap, or DDB) to a DIB by
-calling GetDIBits. To display the DIB to the second device, call
-SetDIBits or StretchDIBits.
+MaskBlt 関数はデバイス依存ビットマップを使用する。hbmMask で指定されたマスク内の値 1 は、その位置で dwRop
+で指定された前景ラスタ演算コードを適用すべきことを示す。マスク内の値 0 は、その位置で dwRop
+で指定された背景ラスタ演算コードを適用すべきことを示す。ラスタ演算がソースを必要とする場合、マスク矩形はソース矩形を覆っていなければならない。そうでないと関数は失敗する。ラスタ演算がソースを必要としない場合、マスク矩形はコピー先矩形を覆っていなければならない。そうでないと関数は失敗する。この関数の呼び出し時にソースデバイスコンテキストに回転または剪断変換が有効だとエラーになる。ただし、他の種類の変換は許可される。ソース、パターン、コピー先のビットマップのカラー形式が異なる場合、この関数はパターンまたはソース形式(あるいは両方)をコピー先の形式に合わせて変換する。マスクビットマップがモノクロビットマップでない場合、エラーが発生する。拡張メタファイルを記録中にソースデバイスコンテキストが拡張メタファイルデバイスコンテキストを指している場合、エラーが発生し(関数は
+FALSE を返す)関数は失敗する。すべてのデバイスが MaskBlt 関数をサポートしているわけではない。アプリケーションは
+GetDeviceCaps 関数を nIndex パラメータを RC_BITBLT
+として呼び出し、デバイスがこの関数をサポートしているかを判定する必要がある。マスクビットマップが指定されない場合、この関数は前景ラスタ演算コードを用いて
+BitBlt と全く同じ動作をする。ICM: blit
+が発生してもカラー管理は行われない。マルチモニタシステムで使用される場合、hdcSrc と hdcDest
+は同じデバイスを参照していなければならず、そうでなければ関数は失敗する。異なるデバイスの DC
+間でデータを転送するには、GetDIBits を呼び出してメモリビットマップ(互換ビットマップ、または DDB)を DIB
+に変換する。DIB を 2 台目のデバイスに表示するには、SetDIBits または StretchDIBits を呼び出す。
 
 
 %index
 ModifyWorldTransform
-The ModifyWorldTransform function changes the world transformation for a device context using the specified mode.
+ModifyWorldTransform 関数は、指定したモードを使用してデバイスコンテキストのワールド変換を変更する。
 %group
 Win32 gdi32
 %prm
 hdc, lpxf, mode
-hdc : [intptr] A handle to the device context.
-lpxf : [var] A pointer to an XFORM structure used to modify the world transformation for the given device context.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+lpxf : [var] 指定したデバイスコンテキストのワールド変換を変更するために使用する XFORM 構造体へのポインタ。
 mode : [int] 
 %inst
-The ModifyWorldTransform function changes the world transformation
-for a device context using the specified mode.
+ModifyWorldTransform 関数は、指定したモードを使用してデバイスコンテキストのワールド変換を変更する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The ModifyWorldTransform function will fail unless graphics mode for
-the specified device context has been set to GM_ADVANCED by
-previously calling the SetGraphicsMode function. Likewise, it will
-not be possible to reset the graphics mode for the device context to
-the default GM_COMPATIBLE mode, unless world transform has first been
-reset to the default identity transform by calling SetWorldTransform
-or ModifyWorldTransform.
+ModifyWorldTransform 関数は、事前に SetGraphicsMode
+関数を呼び出して指定したデバイスコンテキストのグラフィックスモードが GM_ADVANCED に設定されていなければ失敗する。同様に、まず
+SetWorldTransform または ModifyWorldTransform
+を呼んでワールド変換をデフォルトの恒等変換にリセットしない限り、デバイスコンテキストのグラフィックスモードをデフォルトの
+GM_COMPATIBLE モードに戻すことはできない。
 
 
 %index
@@ -7677,661 +6335,544 @@ MoveToEx はすべての描画関数に影響する。
 
 %index
 OffsetClipRgn
-The OffsetClipRgn function moves the clipping region of a device context by the specified offsets.
+OffsetClipRgn 関数は、デバイスコンテキストのクリッピング領域を指定したオフセットだけ移動する。
 %group
 Win32 gdi32
 %prm
 hdc, x, y
-hdc : [intptr] A handle to the device context.
-x : [int] The number of logical units to move left or right.
-y : [int] The number of logical units to move up or down.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+x : [int] 左右に移動する論理単位数。
+y : [int] 上下に移動する論理単位数。
 %inst
-The OffsetClipRgn function moves the clipping region of a device
-context by the specified offsets.
+OffsetClipRgn 関数は、デバイスコンテキストのクリッピング領域を指定したオフセットだけ移動する。
 
 [戻り値]
-The return value specifies the new region's complexity and can be one
-of the following values.
-This doc was truncated.
+戻り値は新しいリージョンの複雑度を示し、次のいずれかの値となる。
+（以下省略）
 
 
 %index
 OffsetRgn
-The OffsetRgn function moves a region by the specified offsets.
+OffsetRgn 関数は、指定したオフセットだけリージョンを移動する。
 %group
 Win32 gdi32
 %prm
 hrgn, x, y
-hrgn : [intptr] Handle to the region to be moved.
-x : [int] Specifies the number of logical units to move left or right.
-y : [int] Specifies the number of logical units to move up or down.
+hrgn : [intptr] 移動するリージョンへのハンドル。
+x : [int] 左右に移動する論理単位数を指定する。
+y : [int] 上下に移動する論理単位数を指定する。
 %inst
-The OffsetRgn function moves a region by the specified offsets.
+OffsetRgn 関数は、指定したオフセットだけリージョンを移動する。
 
 [戻り値]
-The return value specifies the new region's complexity. It can be one
-of the following values.
-This doc was truncated.
+戻り値は新しいリージョンの複雑度を示す。次のいずれかの値となる。
+（以下省略）
 
 
 %index
 OffsetViewportOrgEx
-The OffsetViewportOrgEx function modifies the viewport origin for a device context using the specified horizontal and vertical offsets.
+OffsetViewportOrgEx 関数は、指定した水平・垂直オフセットを用いてデバイスコンテキストのビューポート原点を変更する。
 %group
 Win32 gdi32
 %prm
 hdc, x, y, lppt
-hdc : [intptr] A handle to the device context.
-x : [int] The horizontal offset, in device units.
-y : [int] The vertical offset, in device units.
-lppt : [var] A pointer to a POINT structure. The previous viewport origin, in device units, is placed in this structure. If lpPoint is NULL, the previous viewport origin is not returned.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+x : [int] 水平方向のオフセット(デバイス単位)。
+y : [int] 垂直方向のオフセット(デバイス単位)。
+lppt : [var] POINT 構造体へのポインタ。以前のビューポート原点(デバイス単位)がこの構造体に格納される。lpPoint が NULL の場合、以前のビューポート原点は返されない。
 %inst
-The OffsetViewportOrgEx function modifies the viewport origin for a
-device context using the specified horizontal and vertical offsets.
+OffsetViewportOrgEx 関数は、指定した水平・垂直オフセットを用いてデバイスコンテキストのビューポート原点を変更する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The new origin is the sum of the current origin and the horizontal
-and vertical offsets.
+新しい原点は、現在の原点と水平・垂直オフセットの合計となる。
 
 
 %index
 OffsetWindowOrgEx
-The OffsetWindowOrgEx function modifies the window origin for a device context using the specified horizontal and vertical offsets.
+OffsetWindowOrgEx 関数は、指定した水平・垂直オフセットを用いてデバイスコンテキストのウィンドウ原点を変更する。
 %group
 Win32 gdi32
 %prm
 hdc, x, y, lppt
-hdc : [intptr] A handle to the device context.
-x : [int] The horizontal offset, in logical units.
-y : [int] The vertical offset, in logical units.
-lppt : [var] A pointer to a POINT structure. The logical coordinates of the previous window origin are placed in this structure. If lpPoint is NULL, the previous origin is not returned.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+x : [int] 水平方向のオフセット(論理単位)。
+y : [int] 垂直方向のオフセット(論理単位)。
+lppt : [var] POINT 構造体へのポインタ。以前のウィンドウ原点の論理座標がこの構造体に格納される。lpPoint が NULL の場合、以前の原点は返されない。
 %inst
-The OffsetWindowOrgEx function modifies the window origin for a
-device context using the specified horizontal and vertical offsets.
+OffsetWindowOrgEx 関数は、指定した水平・垂直オフセットを用いてデバイスコンテキストのウィンドウ原点を変更する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 
 %index
 PATHOBJ_bEnum
-The PATHOBJ_bEnum function retrieves the next PATHDATA record from a specified path and enumerates the curves in the path.
+PATHOBJ_bEnum 関数は、指定したパスから次の PATHDATA レコードを取得し、パス内の曲線を列挙する。
 %group
 Win32 gdi32
 %prm
 ppo, ppd
-ppo : [var] Pointer to a PATHOBJ structure whose curves and/or lines are to be enumerated.
-ppd : [var] Pointer to a PATHDATA structure that is to be filled.
+ppo : [var] 曲線や線を列挙する対象の PATHOBJ 構造体へのポインタ。
+ppd : [var] 埋められる PATHDATA 構造体へのポインタ。
 %inst
-The PATHOBJ_bEnum function retrieves the next PATHDATA record from a
-specified path and enumerates the curves in the path.
+PATHOBJ_bEnum 関数は、指定したパスから次の PATHDATA レコードを取得し、パス内の曲線を列挙する。
 
 [戻り値]
-The return value is TRUE if the specified path contains more PATHDATA
-records, indicating that this service should be called again.
-Otherwise, if the output is the last PATHDATA record in the path, the
-return value is FALSE.
+指定されたパスにさらに PATHDATA レコードが含まれる場合、戻り値は TRUE
+となり、このサービスを再度呼び出す必要があることを示す。出力がパス内の最後の PATHDATA レコードである場合、戻り値は FALSE
+となる。
 
 [備考]
-PATHOBJ_bEnum can be called only after a call to PATHOBJ_vEnumStart
-has been made. A PATHDATA structure describes all or part of a
-subpath (a connected part of a path). For example, a MoveTo call by
-the application within a path begins a new subpath.
+PATHOBJ_bEnum は PATHOBJ_vEnumStart の呼び出し後にのみ呼び出せる。PATHDATA
+構造体はサブパス(パスの接続された部分)の全部または一部を記述する。たとえば、パス内でアプリケーションが MoveTo
+を呼ぶと、新しいサブパスが開始される。
 
 
 %index
 PATHOBJ_bEnumClipLines
-The PATHOBJ_bEnumClipLines function enumerates clipped line segments from a given path.
+PATHOBJ_bEnumClipLines 関数は、指定したパスからクリップされた線分を列挙する。
 %group
 Win32 gdi32
 %prm
 ppo, cb, pcl
-ppo : [var] Pointer to the PATHOBJ structure containing the clipped line segments that are to be enumerated.
-cb : [int] Specifies the size of the output buffer, in bytes. GDI does not write beyond this point in the buffer. The value of this parameter must be large enough to hold a CLIPLINE structure with at least one RUN structure. The driver should allocate space for several RUN structures.
-pcl : [var] Pointer to the buffer that receives a CLIPLINE structure. The structure contains the original unclipped control points for a line segment. (The correct pixels for the line cannot be computed without the original points.) RUN structures, which describe sets of pixels along the line that are not clipped away, are written to this buffer. If a clip region is complex, a single line segment can be broken into many RUN structures. A segment is returned as many times as necessary to list all of its RUN structures. The CLIPLINE structure contains the starting and ending points of the original unclipped line and the line segments, or RUN structures, of that line that are to appear on the display.
+ppo : [var] 列挙するクリップ済みの線分を含む PATHOBJ 構造体へのポインタ。
+cb : [int] 出力バッファのサイズ(バイト単位)を指定する。GDI はバッファ内のこの位置を超えて書き込むことはない。このパラメータの値は、少なくとも 1 つの RUN 構造体を持つ CLIPLINE 構造体を収納できるだけの大きさでなければならない。ドライバは複数の RUN 構造体のための領域を確保すべきである。
+pcl : [var] CLIPLINE 構造体を受け取るバッファへのポインタ。この構造体には線分の元のクリップされていない制御点が含まれている(元の点がないと線の正しいピクセルを計算できない)。クリップされなかった線上のピクセルの集合を記述する RUN 構造体がこのバッファに書き込まれる。クリップ領域が複雑な場合、1 本の線分が多数の RUN 構造体に分割されることがある。その場合、線分のすべての RUN 構造体を列挙するために必要な回数だけ繰り返される。CLIPLINE 構造体には、元のクリップされていない線の始点と終点、およびその線の線分(RUN 構造体)が含まれており、それらが画面に表示される。
 %inst
-The PATHOBJ_bEnumClipLines function enumerates clipped line segments
-from a given path.
+PATHOBJ_bEnumClipLines 関数は、指定したパスからクリップされた線分を列挙する。
 
 [戻り値]
-The return value is TRUE if more line segments are to be enumerated,
-indicating that this service should be called again. Otherwise, it is
-FALSE, indicating that the returned segment is the last segment in
-the path.
+列挙すべき線分がまだある場合、戻り値は TRUE となり、このサービスを再度呼び出す必要があることを示す。そうでない場合は FALSE
+となり、返された線分がパス内の最後の線分であることを示す。
 
 [備考]
-The enumeration must be started with PATHOBJ_vEnumStartClipLines
-before the driver makes this call.
+列挙は、ドライバがこの呼び出しを行う前に PATHOBJ_vEnumStartClipLines で開始しておかなければならない。
 
 
 %index
 PATHOBJ_vEnumStart
-The PATHOBJ_vEnumStart function notifies a given PATHOBJ structure that the driver will be calling PATHOBJ_bEnum to enumerate lines and/or curves in the path.
+PATHOBJ_vEnumStart 関数は、指定された PATHOBJ 構造体に対して、ドライバがパス内の線や曲線を列挙するために PATHOBJ_bEnum を呼び出すことを通知する。
 %group
 Win32 gdi32
 %prm
 ppo
-ppo : [var] Pointer to a PATHOBJ structure whose lines and/or curves are to be enumerated.
+ppo : [var] 線や曲線を列挙する対象の PATHOBJ 構造体へのポインタ。
 %inst
-The PATHOBJ_vEnumStart function notifies a given PATHOBJ structure
-that the driver will be calling PATHOBJ_bEnum to enumerate lines
-and/or curves in the path.
+PATHOBJ_vEnumStart 関数は、指定された PATHOBJ 構造体に対して、ドライバがパス内の線や曲線を列挙するために
+PATHOBJ_bEnum を呼び出すことを通知する。
 
 [戻り値]
-None
+なし。
 
 [備考]
-PATHOBJ_vEnumStart can be called at any time to restart an
-enumeration.
+PATHOBJ_vEnumStart は、列挙を再開するためにいつでも呼び出せる。
 
 
 %index
 PATHOBJ_vGetBounds
-The PATHOBJ_vGetBounds function retrieves the bounding rectangle for the specified path.
+PATHOBJ_vGetBounds 関数は、指定したパスのバウンディング矩形を取得する。
 %group
 Win32 gdi32
 %prm
 ppo, prectfx
-ppo : [var] Pointer to a PATHOBJ structure that describes the path for which a bounding rectangle is to be calculated.
-prectfx : [var] Pointer to the address where the RECTFX structure is to be written. The returned rectangle is exclusive of the bottom and right edges. An empty rectangle is specified by setting all four RECTFX members to zero. For a description of this data type, see GDI Data Types.
+ppo : [var] バウンディング矩形を計算する対象のパスを記述する PATHOBJ 構造体へのポインタ。
+prectfx : [var] RECTFX 構造体を書き込むアドレスへのポインタ。返される矩形は下端と右端を含まない。空の矩形は、RECTFX の 4 つのメンバをすべて 0 に設定することで指定する。このデータ型の説明については、GDI Data Types を参照。
 %inst
-The PATHOBJ_vGetBounds function retrieves the bounding rectangle for
-the specified path.
+PATHOBJ_vGetBounds 関数は、指定したパスのバウンディング矩形を取得する。
 
 [戻り値]
-None
+なし。
 
 
 %index
 PaintRgn
-The PaintRgn function paints the specified region by using the brush currently selected into the device context.
+PaintRgn 関数は、デバイスコンテキストに現在選択されているブラシを使用して、指定したリージョンを塗りつぶす。
 %group
 Win32 gdi32
 %prm
 hdc, hrgn
-hdc : [intptr] Handle to the device context.
-hrgn : [intptr] Handle to the region to be filled. The region's coordinates are presumed to be logical coordinates.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+hrgn : [intptr] 塗りつぶすリージョンへのハンドル。リージョンの座標は論理座標とみなされる。
 %inst
-The PaintRgn function paints the specified region by using the brush
-currently selected into the device context.
+PaintRgn 関数は、デバイスコンテキストに現在選択されているブラシを使用して、指定したリージョンを塗りつぶす。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 
 %index
 PatBlt
-The PatBlt function paints the specified rectangle using the brush that is currently selected into the specified device context. The brush color and the surface color or colors are combined by using the specified raster operation.
+PatBlt 関数は、指定したデバイスコンテキストに現在選択されているブラシを使用して、指定した矩形を塗りつぶす。ブラシの色と描画先の色は、指定したラスタ演算で組み合わされる。
 %group
 Win32 gdi32
 %prm
 hdc, x, y, w, h, rop
-hdc : [intptr] A handle to the device context.
-x : [int] The x-coordinate, in logical units, of the upper-left corner of the rectangle to be filled.
-y : [int] The y-coordinate, in logical units, of the upper-left corner of the rectangle to be filled.
-w : [int] The width, in logical units, of the rectangle.
-h : [int] The height, in logical units, of the rectangle.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+x : [int] 塗りつぶす矩形の左上隅の x 座標(論理単位)。
+y : [int] 塗りつぶす矩形の左上隅の y 座標(論理単位)。
+w : [int] 矩形の幅(論理単位)。
+h : [int] 矩形の高さ(論理単位)。
 rop : [int] 
 %inst
-The PatBlt function paints the specified rectangle using the brush
-that is currently selected into the specified device context. The
-brush color and the surface color or colors are combined by using the
-specified raster operation.
+PatBlt
+関数は、指定したデバイスコンテキストに現在選択されているブラシを使用して、指定した矩形を塗りつぶす。ブラシの色と描画先の色は、指定したラスタ演算で組み合わされる。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The values of the dwRop parameter for this function are a limited
-subset of the full 256 ternary raster-operation codes; in particular,
-an operation code that refers to a source rectangle cannot be used.
-Not all devices support the PatBlt function. For more information,
-see the description of the RC_BITBLT capability in the GetDeviceCaps
-function.
+この関数の dwRop パラメータの値は、完全な 256
+個の三項ラスタ演算コードの限定的な部分集合である。特に、ソース矩形を参照する演算コードは使用できない。すべてのデバイスが PatBlt
+関数をサポートしているわけではない。詳細は GetDeviceCaps 関数の RC_BITBLT ケーパビリティの説明を参照。
 
 
 %index
 PathToRegion
-The PathToRegion function creates a region from the path that is selected into the specified device context. The resulting region uses device coordinates.
+PathToRegion 関数は、指定したデバイスコンテキストに選択されているパスからリージョンを作成する。結果のリージョンはデバイス座標を使用する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to a device context that contains a closed path.
+hdc : [intptr] 閉じたパスを含むデバイスコンテキストへのハンドル。
 %inst
-The PathToRegion function creates a region from the path that is
-selected into the specified device context. The resulting region uses
-device coordinates.
+PathToRegion
+関数は、指定したデバイスコンテキストに選択されているパスからリージョンを作成する。結果のリージョンはデバイス座標を使用する。
 
 [戻り値]
-If the function succeeds, the return value identifies a valid region.
-If the function fails, the return value is zero.
+関数が成功した場合、戻り値は有効なリージョンを識別する。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-When you no longer need the HRGN object call the DeleteObject
-function to delete it. The device context identified by the hdc
-parameter must contain a closed path. After PathToRegion converts a
-path into a region, the system discards the closed path from the
-specified device context.
+HRGN オブジェクトが不要になったら、DeleteObject 関数を呼び出して削除すること。hdc
+パラメータで指定されたデバイスコンテキストには閉じたパスが含まれていなければならない。PathToRegion
+がパスをリージョンに変換した後、システムは指定されたデバイスコンテキストから閉じたパスを破棄する。
 
 
 %index
 Pie
-The Pie function draws a pie-shaped wedge bounded by the intersection of an ellipse and two radials. The pie is outlined by using the current pen and filled by using the current brush.
+Pie 関数は、楕円と 2 本の半径線の交差部分で囲まれた扇形のくさびを描画する。パイは現在のペンで輪郭が描かれ、現在のブラシで塗りつぶされる。
 %group
 Win32 gdi32
 %prm
 hdc, left, top, right, bottom, xr1, yr1, xr2, yr2
-hdc : [intptr] A handle to the device context.
-left : [int] The x-coordinate, in logical coordinates, of the upper-left corner of the bounding rectangle.
-top : [int] The y-coordinate, in logical coordinates, of the upper-left corner of the bounding rectangle.
-right : [int] The x-coordinate, in logical coordinates, of the lower-right corner of the bounding rectangle.
-bottom : [int] The y-coordinate, in logical coordinates, of the lower-right corner of the bounding rectangle.
-xr1 : [int] The x-coordinate, in logical coordinates, of the endpoint of the first radial.
-yr1 : [int] The y-coordinate, in logical coordinates, of the endpoint of the first radial.
-xr2 : [int] The x-coordinate, in logical coordinates, of the endpoint of the second radial.
-yr2 : [int] The y-coordinate, in logical coordinates, of the endpoint of the second radial.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+left : [int] 境界矩形の左上隅の x 座標(論理座標)。
+top : [int] 境界矩形の左上隅の y 座標(論理座標)。
+right : [int] 境界矩形の右下隅の x 座標(論理座標)。
+bottom : [int] 境界矩形の右下隅の y 座標(論理座標)。
+xr1 : [int] 1 本目の半径線の端点の x 座標(論理座標)。
+yr1 : [int] 1 本目の半径線の端点の y 座標(論理座標)。
+xr2 : [int] 2 本目の半径線の端点の x 座標(論理座標)。
+yr2 : [int] 2 本目の半径線の端点の y 座標(論理座標)。
 %inst
-The Pie function draws a pie-shaped wedge bounded by the intersection
-of an ellipse and two radials. The pie is outlined by using the
-current pen and filled by using the current brush.
+Pie 関数は、楕円と 2
+本の半径線の交差部分で囲まれた扇形のくさびを描画する。パイは現在のペンで輪郭が描かれ、現在のブラシで塗りつぶされる。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The curve of the pie is defined by an ellipse that fits the specified
-bounding rectangle. The curve begins at the point where the ellipse
-intersects the first radial and extends counterclockwise to the point
-where the ellipse intersects the second radial. The current position
-is neither used nor updated by the Pie function.
+パイの曲線は、指定した境界矩形に収まる楕円で定義される。曲線は楕円が 1 本目の半径線と交差する点から始まり、反時計回りに 2
+本目の半径線と交差する点まで延びる。現在位置は Pie 関数では使用も更新もされない。
 
 
 %index
 PlayEnhMetaFile
-The PlayEnhMetaFile function displays the picture stored in the specified enhanced-format metafile.
+PlayEnhMetaFile 関数は、指定した拡張形式メタファイルに格納されている絵を表示する。
 %group
 Win32 gdi32
 %prm
 hdc, hmf, lprect
-hdc : [intptr] A handle to the device context for the output device on which the picture will appear.
-hmf : [intptr] A handle to the enhanced metafile.
-lprect : [var] A pointer to a RECT structure that contains the coordinates of the bounding rectangle used to display the picture. The coordinates are specified in logical units.
+hdc : [intptr] 絵を表示する出力デバイスのデバイスコンテキストへのハンドル。
+hmf : [intptr] 拡張メタファイルへのハンドル。
+lprect : [var] 絵を表示するために使用する境界矩形の座標を含む RECT 構造体へのポインタ。座標は論理単位で指定する。
 %inst
-The PlayEnhMetaFile function displays the picture stored in the
-specified enhanced-format metafile.
+PlayEnhMetaFile 関数は、指定した拡張形式メタファイルに格納されている絵を表示する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-When an application calls the PlayEnhMetaFile function, the system
-uses the picture frame in the enhanced-metafile header to map the
-picture onto the rectangle pointed to by the lpRect parameter. (This
-picture may be sheared or rotated by setting the world transform in
-the output device before calling PlayEnhMetaFile.) Points along the
-edges of the rectangle are included in the picture. An
-enhanced-metafile picture can be clipped by defining the clipping
-region in the output device before playing the enhanced metafile. If
-an enhanced metafile contains an optional palette, an application can
-achieve consistent colors by setting up a color palette on the output
-device before calling PlayEnhMetaFile. To retrieve the optional
-palette, use the GetEnhMetaFilePaletteEntries function. An enhanced
-metafile can be embedded in a newly created enhanced metafile by
-calling PlayEnhMetaFile and playing the source enhanced metafile into
-the device context for the new enhanced metafile. The states of the
-output device context are preserved by this function. Any object
-created but not deleted in the enhanced metafile is deleted by this
-function. To stop this function, an application can call the CancelDC
-function from another thread to terminate the operation. In this
-case, the function returns FALSE.
+アプリケーションが PlayEnhMetaFile
+関数を呼び出すと、システムは拡張メタファイルヘッダー内の絵のフレームを使用して、lpRect
+パラメータが指す矩形に絵をマッピングする(PlayEnhMetaFile
+を呼ぶ前に出力デバイスのワールド変換を設定することで、この絵を剪断または回転させることもできる)。矩形の端に沿った点は絵に含まれる。拡張メタファイルの絵は、拡張メタファイルを再生する前に出力デバイスでクリッピング領域を定義することでクリップできる。拡張メタファイルにオプションのパレットが含まれている場合、アプリケーションは
+PlayEnhMetaFile
+を呼ぶ前に出力デバイスにカラーパレットを設定することで、一貫した色を得ることができる。オプションのパレットを取得するには
+GetEnhMetaFilePaletteEntries
+関数を使用する。新しく作成された拡張メタファイルのデバイスコンテキストにソース拡張メタファイルを PlayEnhMetaFile
+で再生することで、拡張メタファイルを新しい拡張メタファイルに埋め込むこともできる。出力デバイスコンテキストの状態はこの関数によって保持される。拡張メタファイル内で作成されて削除されていないオブジェクトは、この関数によって削除される。この関数を停止するために、アプリケーションは別スレッドから
+CancelDC 関数を呼び出して操作を終了できる。この場合、関数は FALSE を返す。
 
 
 %index
 PlayEnhMetaFileRecord
-The PlayEnhMetaFileRecord function plays an enhanced-metafile record by executing the graphics device interface (GDI) functions identified by the record.
+PlayEnhMetaFileRecord 関数は、レコードで識別される GDI 関数を実行することにより、拡張メタファイルレコードを再生する。
 %group
 Win32 gdi32
 %prm
 hdc, pht, pmr, cht
-hdc : [intptr] A handle to the device context passed to the EnumEnhMetaFile function.
-pht : [var] A pointer to a table of handles to GDI objects used when playing the metafile. The first entry in this table contains the enhanced-metafile handle.
-pmr : [var] A pointer to the enhanced-metafile record to be played.
-cht : [int] The number of handles in the handle table.
+hdc : [intptr] EnumEnhMetaFile 関数に渡されたデバイスコンテキストへのハンドル。
+pht : [var] メタファイル再生時に使用される GDI オブジェクトへのハンドルのテーブルへのポインタ。このテーブルの最初のエントリには拡張メタファイルのハンドルが含まれる。
+pmr : [var] 再生する拡張メタファイルレコードへのポインタ。
+cht : [int] ハンドルテーブル内のハンドル数。
 %inst
-The PlayEnhMetaFileRecord function plays an enhanced-metafile record
-by executing the graphics device interface (GDI) functions identified
-by the record.
+PlayEnhMetaFileRecord 関数は、レコードで識別される GDI
+関数を実行することにより、拡張メタファイルレコードを再生する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-This is an enhanced-metafile function. An application typically uses
-PlayEnhMetaFileRecord in conjunction with the EnumEnhMetaFile
-function to process and play an enhanced-format metafile one record
-at a time. The hdc, lpHandletable, and nHandles parameters must be
-exactly those passed to the EnhMetaFileProc callback procedure by the
-EnumEnhMetaFile function. If PlayEnhMetaFileRecord does not recognize
-a record, it ignores the record and returns TRUE.
+これは拡張メタファイル関数である。アプリケーションは通常、EnumEnhMetaFile 関数と組み合わせて
+PlayEnhMetaFileRecord を使用し、拡張形式メタファイルを 1
+レコードずつ処理して再生する。hdc、lpHandletable、nHandles の各パラメータは、EnumEnhMetaFile
+関数から EnhMetaFileProc
+コールバックプロシージャに渡されたものと完全に同じでなければならない。PlayEnhMetaFileRecord
+がレコードを認識しない場合、そのレコードを無視して TRUE を返す。
 
 
 %index
 PlayMetaFile
-The PlayMetaFile function displays the picture stored in the given Windows-format metafile on the specified device.
+PlayMetaFile 関数は、指定した Windows 形式メタファイルに格納されている絵を指定デバイスに表示する。
 %group
 Win32 gdi32
 %prm
 hdc, hmf
-hdc : [intptr] Handle to a device context.
-hmf : [intptr] Handle to a Windows-format metafile.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+hmf : [intptr] Windows 形式メタファイルへのハンドル。
 %inst
-The PlayMetaFile function displays the picture stored in the given
-Windows-format metafile on the specified device.
+PlayMetaFile 関数は、指定した Windows 形式メタファイルに格納されている絵を指定デバイスに表示する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-To convert a Windows-format metafile into an enhanced format
-metafile, use the SetWinMetaFileBits function. A Windows-format
-metafile can be played multiple times. A Windows-format metafile can
-be embedded in a second Windows-format metafile by calling the
-PlayMetaFile function and playing the source metafile into the device
-context for the target metafile. Any object created but not deleted
-in the Windows-format metafile is deleted by this function. To stop
-this function, an application can call the CancelDC function from
-another thread to terminate the operation. In this case, the function
-returns FALSE.
+Windows 形式メタファイルを拡張形式メタファイルに変換するには、SetWinMetaFileBits 関数を使用する。Windows
+形式メタファイルは複数回再生できる。PlayMetaFile
+関数を呼び出してソースメタファイルをターゲットメタファイルのデバイスコンテキストに再生することで、Windows 形式メタファイルを別の
+Windows 形式メタファイルに埋め込むこともできる。Windows
+形式メタファイル内で作成されて削除されていないオブジェクトは、この関数によって削除される。この関数を停止するために、アプリケーションは別スレッドから
+CancelDC 関数を呼び出して操作を終了できる。この場合、関数は FALSE を返す。
 
 
 %index
 PlayMetaFileRecord
-The PlayMetaFileRecord function plays a Windows-format metafile record by executing the graphics device interface (GDI) function contained within that record.
+PlayMetaFileRecord 関数は、レコードに含まれる GDI 関数を実行することによって、Windows 形式メタファイルレコードを再生する。
 %group
 Win32 gdi32
 %prm
 hdc, lpHandleTable, lpMR, noObjs
-hdc : [intptr] A handle to a device context.
-lpHandleTable : [var] A pointer to a HANDLETABLE structure representing the table of handles to GDI objects used when playing the metafile.
-lpMR : [var] A pointer to the Windows-format metafile record.
-noObjs : [int] The number of handles in the handle table.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+lpHandleTable : [var] メタファイル再生時に使用される GDI オブジェクトへのハンドルのテーブルを表す HANDLETABLE 構造体へのポインタ。
+lpMR : [var] Windows 形式メタファイルレコードへのポインタ。
+noObjs : [int] ハンドルテーブル内のハンドル数。
 %inst
-The PlayMetaFileRecord function plays a Windows-format metafile
-record by executing the graphics device interface (GDI) function
-contained within that record.
+PlayMetaFileRecord 関数は、レコードに含まれる GDI 関数を実行することによって、Windows
+形式メタファイルレコードを再生する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-To convert a Windows-format metafile into an enhanced-format
-metafile, use the SetWinMetaFileBits function. An application
-typically uses PlayMetaFileRecord in conjunction with the
-EnumMetaFile function to process and play a Windows-format metafile
-one record at a time. The lpHandletable and nHandles parameters must
-be identical to those passed to the EnumMetaFileProc callback
-procedure by EnumMetaFile. If the PlayMetaFileRecord function does
-not recognize a record, it ignores the record and returns TRUE.
+Windows 形式メタファイルを拡張形式メタファイルに変換するには、SetWinMetaFileBits
+関数を使用する。アプリケーションは通常、EnumMetaFile 関数と組み合わせて PlayMetaFileRecord
+を使用し、Windows 形式メタファイルを 1 レコードずつ処理して再生する。lpHandletable と nHandles
+の各パラメータは、EnumMetaFile から EnumMetaFileProc
+コールバックプロシージャに渡されたものと同一でなければならない。PlayMetaFileRecord
+関数がレコードを認識しない場合、そのレコードを無視して TRUE を返す。
 
 
 %index
 PlgBlt
-The PlgBlt function performs a bit-block transfer of the bits of color data from the specified rectangle in the source device context to the specified parallelogram in the destination device context.
+PlgBlt 関数は、ソースデバイスコンテキスト内の指定矩形からコピー先デバイスコンテキスト内の指定平行四辺形へ、色データのビットをビットブロック転送する。
 %group
 Win32 gdi32
 %prm
 hdcDest, lpPoint, hdcSrc, xSrc, ySrc, width, height, hbmMask, xMask, yMask
-hdcDest : [intptr] A handle to the destination device context.
-lpPoint : [var] A pointer to an array of three points in logical space that identify three corners of the destination parallelogram. The upper-left corner of the source rectangle is mapped to the first point in this array, the upper-right corner to the second point in this array, and the lower-left corner to the third point. The lower-right corner of the source rectangle is mapped to the implicit fourth point in the parallelogram.
-hdcSrc : [intptr] A handle to the source device context.
-xSrc : [int] The x-coordinate, in logical units, of the upper-left corner of the source rectangle.
-ySrc : [int] The y-coordinate, in logical units, of the upper-left corner of the source rectangle.
-width : [int] The width, in logical units, of the source rectangle.
-height : [int] The height, in logical units, of the source rectangle.
-hbmMask : [intptr] A handle to an optional monochrome bitmap that is used to mask the colors of the source rectangle.
-xMask : [int] The x-coordinate, in logical units, of the upper-left corner of the monochrome bitmap.
-yMask : [int] The y-coordinate, in logical units, of the upper-left corner of the monochrome bitmap.
+hdcDest : [intptr] コピー先のデバイスコンテキストへのハンドル。
+lpPoint : [var] コピー先平行四辺形の 3 つの角を識別する、論理空間内の 3 点の配列へのポインタ。ソース矩形の左上隅はこの配列の最初の点に、右上隅は 2 番目の点に、左下隅は 3 番目の点にマッピングされる。ソース矩形の右下隅は、平行四辺形の暗黙の 4 番目の点にマッピングされる。
+hdcSrc : [intptr] コピー元のデバイスコンテキストへのハンドル。
+xSrc : [int] ソース矩形の左上隅の x 座標(論理単位)。
+ySrc : [int] ソース矩形の左上隅の y 座標(論理単位)。
+width : [int] ソース矩形の幅(論理単位)。
+height : [int] ソース矩形の高さ(論理単位)。
+hbmMask : [intptr] ソース矩形の色をマスクするために使用するオプションのモノクロビットマップへのハンドル。
+xMask : [int] モノクロビットマップの左上隅の x 座標(論理単位)。
+yMask : [int] モノクロビットマップの左上隅の y 座標(論理単位)。
 %inst
-The PlgBlt function performs a bit-block transfer of the bits of
-color data from the specified rectangle in the source device context
-to the specified parallelogram in the destination device context.
+PlgBlt
+関数は、ソースデバイスコンテキスト内の指定矩形からコピー先デバイスコンテキスト内の指定平行四辺形へ、色データのビットをビットブロック転送する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The PlgBlt function works with device-dependent bitmaps. The fourth
-vertex of the parallelogram (D) is defined by treating the first
-three points (A, B, and C ) as vectors and computing D = B +CA. If
-the bitmask exists, a value of one in the mask indicates that the
-source pixel color should be copied to the destination. A value of
-zero in the mask indicates that the destination pixel color is not to
-be changed. If the mask rectangle is smaller than the source and
-destination rectangles, the function replicates the mask pattern.
-Scaling, translation, and reflection transformations are allowed in
-the source device context; however, rotation and shear
-transformations are not. If the mask bitmap is not a monochrome
-bitmap, an error occurs. The stretching mode for the destination
-device context is used to determine how to stretch or compress the
-pixels, if that is necessary. When an enhanced metafile is being
-recorded, an error occurs if the source device context identifies an
-enhanced-metafile device context. The destination coordinates are
-transformed according to the destination device context; the source
-coordinates are transformed according to the source device context.
-If the source transformation has a rotation or shear, an error is
-returned. If the destination and source rectangles do not have the
-same color format, PlgBlt converts the source rectangle to match the
-destination rectangle. Not all devices support the PlgBlt function.
-For more information, see the description of the RC_BITBLT raster
-capability in the GetDeviceCaps function. If the source and
-destination device contexts represent incompatible devices, PlgBlt
-returns an error. When used in a multiple monitor system, both hdcSrc
-and hdcDest must refer to the same device or the function will fail.
-To transfer data between DCs for different devices, convert the
-memory bitmap to a DIB by calling GetDIBits. To display the DIB to
-the second device, call SetDIBits or StretchDIBits.
+PlgBlt 関数はデバイス依存ビットマップで動作する。平行四辺形の 4 番目の頂点(D)は、最初の 3
+点(A、B、C)をベクトルとして扱い、D = B + C - A として計算される。ビットマスクが存在する場合、マスク内の値 1
+はソースピクセル色をコピー先にコピーすることを示す。マスク内の値 0
+はコピー先のピクセル色を変更しないことを示す。マスク矩形がソース矩形やコピー先矩形より小さい場合、関数はマスクパターンを複製する。ソースデバイスコンテキストにはスケーリング、平行移動、反射変換が許可されるが、回転や剪断変換は許可されない。マスクビットマップがモノクロビットマップでない場合、エラーが発生する。必要であれば、ピクセルをどう伸縮するかを決めるためにコピー先デバイスコンテキストのストレッチモードが使用される。拡張メタファイルを記録中にソースデバイスコンテキストが拡張メタファイルデバイスコンテキストを指している場合、エラーが発生する。コピー先座標はコピー先デバイスコンテキストに従って変換され、ソース座標はソースデバイスコンテキストに従って変換される。ソース変換に回転や剪断がある場合、エラーが返される。コピー先とソースの矩形のカラー形式が一致しない場合、PlgBlt
+はソース矩形をコピー先矩形に合わせて変換する。すべてのデバイスが PlgBlt 関数をサポートしているわけではない。詳細は
+GetDeviceCaps 関数の RC_BITBLT
+ラスタケーパビリティの説明を参照。ソースとコピー先のデバイスコンテキストが互換性のないデバイスを表している場合、PlgBlt
+はエラーを返す。マルチモニタシステムで使用される場合、hdcSrc と hdcDest
+は同じデバイスを参照していなければならず、そうでなければ関数は失敗する。異なるデバイスの DC
+間でデータを転送するには、GetDIBits を呼び出してメモリビットマップを DIB に変換する。DIB を 2
+台目のデバイスに表示するには、SetDIBits または StretchDIBits を呼び出す。
 
 
 %index
 PolyBezier
-The PolyBezier function draws one or more B?zier curves.
+PolyBezier 関数は、1 つ以上のベジェ曲線を描画する。
 %group
 Win32 gdi32
 %prm
 hdc, apt, cpt
-hdc : [intptr] A handle to a device context.
-apt : [var] A pointer to an array of POINT structures that contain the endpoints and control points of the curve(s), in logical units.
-cpt : [int] The number of points in the lppt array. This value must be one more than three times the number of curves to be drawn, because each B?zier curve requires two control points and an endpoint, and the initial curve requires an additional starting point.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+apt : [var] 曲線の端点と制御点を含む POINT 構造体の配列へのポインタ(論理単位)。
+cpt : [int] lppt 配列内の点の数。各ベジェ曲線は 2 つの制御点と 1 つの端点を必要とし、最初の曲線には追加の始点が必要なため、この値は描画する曲線の数の 3 倍に 1 を加えた値でなければならない。
 %inst
-The PolyBezier function draws one or more B?zier curves.
+PolyBezier 関数は、1 つ以上のベジェ曲線を描画する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The PolyBezier function draws cubic B?zier curves by using the
-endpoints and control points specified by the lppt parameter. The
-first curve is drawn from the first point to the fourth point by
-using the second and third points as control points. Each subsequent
-curve in the sequence needs exactly three more points: the ending
-point of the previous curve is used as the starting point, the next
-two points in the sequence are control points, and the third is the
-ending point. The current position is neither used nor updated by the
-PolyBezier function. The figure is not filled. This function draws
-lines by using the current pen.
+PolyBezier 関数は、lppt パラメータで指定した端点と制御点を使用して 3 次ベジェ曲線を描画する。最初の曲線は、2 番目と
+3 番目の点を制御点として使用し、1 番目の点から 4 番目の点まで描画される。続く各曲線にはさらに 3
+点ずつ必要で、前の曲線の終点が始点として使用され、次の 2 点が制御点、3 つ目が終点となる。現在位置は PolyBezier
+関数では使用も更新もされない。図形は塗りつぶされない。この関数は現在のペンを使用して線を描画する。
 
 
 %index
 PolyBezierTo
-The PolyBezierTo function draws one or more B?zier curves.
+PolyBezierTo 関数は、1 つ以上のベジェ曲線を描画する。
 %group
 Win32 gdi32
 %prm
 hdc, apt, cpt
-hdc : [intptr] A handle to a device context.
-apt : [var] A pointer to an array of POINT structures that contains the endpoints and control points, in logical units.
-cpt : [int] The number of points in the lppt array. This value must be three times the number of curves to be drawn because each B?zier curve requires two control points and an ending point.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+apt : [var] 端点と制御点を含む POINT 構造体の配列へのポインタ(論理単位)。
+cpt : [int] lppt 配列内の点の数。各ベジェ曲線には 2 つの制御点と 1 つの終点が必要なので、この値は描画する曲線数の 3 倍でなければならない。
 %inst
-The PolyBezierTo function draws one or more B?zier curves.
+PolyBezierTo 関数は、1 つ以上のベジェ曲線を描画する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-This function draws cubic B?zier curves by using the control points
-specified by the lppt parameter. The first curve is drawn from the
-current position to the third point by using the first two points as
-control points. For each subsequent curve, the function needs exactly
-three more points, and uses the ending point of the previous curve as
-the starting point for the next. PolyBezierTo moves the current
-position to the ending point of the last B?zier curve. The figure is
-not filled. This function draws lines by using the current pen.
+この関数は、lppt パラメータで指定した制御点を使用して 3 次ベジェ曲線を描画する。最初の曲線は、最初の 2
+点を制御点として、現在位置から 3 番目の点まで描画される。続く各曲線にはさらに 3
+点ずつ必要で、関数は前の曲線の終点を次の曲線の始点として使用する。PolyBezierTo
+は現在位置を最後のベジェ曲線の終点に移動する。図形は塗りつぶされない。この関数は現在のペンを使用して線を描画する。
 
 
 %index
 PolyDraw
-The PolyDraw function draws a set of line segments and B?zier curves.
+PolyDraw 関数は、一連の線分とベジェ曲線を描画する。
 %group
 Win32 gdi32
 %prm
 hdc, apt, aj, cpt
-hdc : [intptr] A handle to a device context.
-apt : [var] A pointer to an array of POINT structures that contains the endpoints for each line segment and the endpoints and control points for each B?zier curve, in logical units.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+apt : [var] 各線分の端点、および各ベジェ曲線の端点と制御点を含む POINT 構造体の配列へのポインタ(論理単位)。
 aj : [var] 
-cpt : [int] The total number of points in the lppt array, the same as the number of bytes in the lpbTypes array.
+cpt : [int] lppt 配列内の点の総数。lpbTypes 配列内のバイト数と同じである。
 %inst
-The PolyDraw function draws a set of line segments and B?zier curves.
+PolyDraw 関数は、一連の線分とベジェ曲線を描画する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The PolyDraw function can be used in place of consecutive calls to
-MoveToEx, LineTo, and PolyBezierTo functions to draw disjoint
-figures. The lines and curves are drawn using the current pen and
-figures are not filled. If there is an active path started by calling
-BeginPath, PolyDraw adds to the path. The points contained in the
-lppt array and in the lpbTypes array indicate whether each point is
-part of a MoveTo, LineTo, or PolyBezierTo operation. It is also
-possible to close figures. This function updates the current
-position.
+PolyDraw 関数は、MoveToEx、LineTo、PolyBezierTo
+関数を連続して呼び出す代わりに使用でき、不連続な図形を描画する。線と曲線は現在のペンで描画され、図形は塗りつぶされない。BeginPath
+の呼び出しでアクティブなパスが開始されている場合、PolyDraw はそのパスに追加する。lppt 配列と lpbTypes
+配列に含まれる点は、各点が MoveTo、LineTo、PolyBezierTo
+操作のどれに属するかを示す。図形を閉じることもできる。この関数は現在位置を更新する。
 
 
 %index
 PolyPolygon
-The PolyPolygon function draws a series of closed polygons. Each polygon is outlined by using the current pen and filled by using the current brush and polygon fill mode. The polygons drawn by this function can overlap.
+PolyPolygon 関数は、複数の閉じたポリゴンを描画する。各ポリゴンは現在のペンで輪郭が描かれ、現在のブラシとポリゴン塗りつぶしモードで塗りつぶされる。この関数で描画されるポリゴンは重なってもよい。
 %group
 Win32 gdi32
 %prm
 hdc, apt, asz, csz
-hdc : [intptr] A handle to the device context.
-apt : [var] A pointer to an array of POINT structures that define the vertices of the polygons, in logical coordinates. The polygons are specified consecutively. Each polygon is closed automatically by drawing a line from the last vertex to the first. Each vertex should be specified once.
-asz : [var] A pointer to an array of integers, each of which specifies the number of points in the corresponding polygon. Each integer must be greater than or equal to 2.
-csz : [int] The total number of polygons.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+apt : [var] ポリゴンの頂点を定義する POINT 構造体の配列へのポインタ(論理座標)。ポリゴンは連続して指定される。各ポリゴンは最後の頂点から最初の頂点へ線を引くことで自動的に閉じられる。各頂点は 1 回のみ指定すること。
+asz : [var] 整数の配列へのポインタ。各整数は対応するポリゴンの点数を指定する。各整数は 2 以上でなければならない。
+csz : [int] ポリゴンの総数。
 %inst
-The PolyPolygon function draws a series of closed polygons. Each
-polygon is outlined by using the current pen and filled by using the
-current brush and polygon fill mode. The polygons drawn by this
-function can overlap.
+PolyPolygon
+関数は、複数の閉じたポリゴンを描画する。各ポリゴンは現在のペンで輪郭が描かれ、現在のブラシとポリゴン塗りつぶしモードで塗りつぶされる。この関数で描画されるポリゴンは重なってもよい。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The current position is neither used nor updated by this function.
-Any extra points are ignored. To draw the polygons with more points,
-divide your data into groups, each of which have less than the
-maximum number of points, and call the function for each group of
-points. Note, it is best to have a polygon in only one of the groups.
+
+現在位置はこの関数では使用も更新もされない。余分な点は無視される。より多くの点でポリゴンを描画するには、データを最大点数未満のグループに分割し、各グループごとに関数を呼び出す。なお、ポリゴンは
+1 つのグループにのみ含まれることが望ましい。
 
 
 %index
 PolyPolyline
-The PolyPolyline function draws multiple series of connected line segments.
+PolyPolyline 関数は、複数の連続した線分の系列を描画する。
 %group
 Win32 gdi32
 %prm
 hdc, apt, asz, csz
-hdc : [intptr] A handle to the device context.
-apt : [var] A pointer to an array of POINT structures that contains the vertices of the polylines, in logical units. The polylines are specified consecutively.
-asz : [var] A pointer to an array of variables specifying the number of points in the lppt array for the corresponding polyline. Each entry must be greater than or equal to two.
-csz : [int] The total number of entries in the lpdwPolyPoints array.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+apt : [var] ポリラインの頂点を含む POINT 構造体の配列へのポインタ(論理単位)。ポリラインは連続して指定される。
+asz : [var] 対応するポリラインの lppt 配列内の点数を指定する変数の配列へのポインタ。各エントリは 2 以上でなければならない。
+csz : [int] lpdwPolyPoints 配列内のエントリの総数。
 %inst
-The PolyPolyline function draws multiple series of connected line
-segments.
+PolyPolyline 関数は、複数の連続した線分の系列を描画する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The line segments are drawn by using the current pen. The figures
-formed by the segments are not filled. The current position is
-neither used nor updated by this function.
+線分は現在のペンで描画される。線分で形成される図形は塗りつぶされない。現在位置はこの関数では使用も更新もされない。
 
 
 %index
 PolyTextOutW
-The PolyTextOut function draws several strings using the font and text colors currently selected in the specified device context. (Unicode)
+PolyTextOut 関数は、指定したデバイスコンテキストに現在選択されているフォントとテキスト色を使用して、複数の文字列を描画する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, ppt, nstrings
-hdc : [intptr] A handle to the device context.
-ppt : [var] A pointer to an array of POLYTEXT structures describing the strings to be drawn. The array contains one structure for each string to be drawn.
-nstrings : [int] The number of POLYTEXT structures in the pptxt array.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+ppt : [var] 描画する文字列を記述する POLYTEXT 構造体の配列へのポインタ。配列には描画する各文字列ごとに 1 つの構造体が含まれる。
+nstrings : [int] pptxt 配列内の POLYTEXT 構造体の数。
 %inst
-The PolyTextOut function draws several strings using the font and
-text colors currently selected in the specified device context.
-(Unicode)
+PolyTextOut
+関数は、指定したデバイスコンテキストに現在選択されているフォントとテキスト色を使用して、複数の文字列を描画する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-Each POLYTEXT structure contains the coordinates of a reference point
-that Windows uses to align the corresponding string of text. An
-application can specify how the reference point is used by calling
-the SetTextAlign function. An application can determine the current
-text-alignment setting for the specified device context by calling
-the GetTextAlign function. To draw a single string of text, the
-application should call the ExtTextOut function. **PolyTextOut** will
-not handle international scripting support automatically. To get
-international scripting support, use **ExtTextOut** instead.
-**ExtTextOut** will use [Uniscribe](/windows/win32/intl/uniscribe)
-when necessary resulting in font fallback. Additionally,
-**ExtTextOut** will perform internal batching of calls before
-transitioning to kernel mode, mitigating some of the performance
-concerns when weighing usage of **PolyTextOut** versus
-**ExtTextOut**. > [!TIP] > **ExtTextOut** is strongly recommended
-over **PolyTextOut** for modern development due to its ability to
-handle display of different languages. > [!NOTE] > The wingdi.h
-header defines PolyTextOut as an alias which automatically selects
-the ANSI or Unicode version of this function based on the definition
-of the UNICODE preprocessor constant. Mixing usage of the
-encoding-neutral alias with code that not encoding-neutral can lead
-to mismatches that result in compilation or runtime errors. For more
-information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+各 POLYTEXT 構造体には、Windows が対応する文字列を揃えるために使用する参照点の座標が含まれる。アプリケーションは
+SetTextAlign 関数を呼び出すことで、参照点の使い方を指定できる。アプリケーションは GetTextAlign
+関数を呼び出すことで、指定したデバイスコンテキストの現在のテキスト配置設定を取得できる。単一のテキスト文字列を描画するには、アプリケーションは
+ExtTextOut 関数を呼び出すべきである。**PolyTextOut**
+は国際スクリプトサポートを自動的には処理しない。国際スクリプトサポートを得るには、代わりに **ExtTextOut**
+を使用する。**ExtTextOut** は必要に応じて
+[Uniscribe](/windows/win32/intl/uniscribe)
+を使用し、フォントフォールバックを行う。さらに、**ExtTextOut**
+はカーネルモードに遷移する前に呼び出しを内部的にバッチ処理するため、**PolyTextOut** と **ExtTextOut**
+のパフォーマンスを比較する際の懸念の一部を軽減する。> [!TIP] > 異なる言語の表示を扱えるため、現代的な開発では
+**PolyTextOut** より **ExtTextOut** の使用を強く推奨する。> [!NOTE] > wingdi.h
+ヘッダーは PolyTextOut を、UNICODE プリプロセッサ定数の定義に基づいてこの関数の ANSI 版または Unicode
+版を自動的に選択するエイリアスとして定義している。エンコーディング中立なエイリアスをエンコーディング中立でないコードと混在させると、コンパイルエラーや実行時エラーを引き起こす不一致が発生することがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
@@ -8378,151 +6919,122 @@ cpt : [int] 配列内の点数。2 以上でなければならない。
 
 %index
 PolylineTo
-The PolylineTo function draws one or more straight lines.
+PolylineTo 関数は、1 本以上の直線を描画する。
 %group
 Win32 gdi32
 %prm
 hdc, apt, cpt
-hdc : [intptr] A handle to the device context.
-apt : [var] A pointer to an array of POINT structures that contains the vertices of the line, in logical units.
-cpt : [int] The number of points in the array.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+apt : [var] 線の頂点を含む POINT 構造体の配列へのポインタ(論理単位)。
+cpt : [int] 配列内の点数。
 %inst
-The PolylineTo function draws one or more straight lines.
+PolylineTo 関数は、1 本以上の直線を描画する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-Unlike the Polyline function, the PolylineTo function uses and
-updates the current position. A line is drawn from the current
-position to the first point specified by the lppt parameter by using
-the current pen. For each additional line, the function draws from
-the ending point of the previous line to the next point specified by
-lppt. PolylineTo moves the current position to the ending point of
-the last line. If the line segments drawn by this function form a
-closed figure, the figure is not filled.
+Polyline 関数とは異なり、PolylineTo 関数は現在位置を使用・更新する。現在のペンを使用して、現在位置から lppt
+パラメータで指定された最初の点まで線が引かれる。追加の各線について、関数は前の線の終点から lppt
+で指定された次の点まで描画する。PolylineTo
+は現在位置を最後の線の終点に移動する。この関数で描画される線分が閉じた図形を形成する場合でも、図形は塗りつぶされない。
 
 
 %index
 PtInRegion
-The PtInRegion function determines whether the specified point is inside the specified region.
+PtInRegion 関数は、指定した点が指定したリージョン内にあるかどうかを判定する。
 %group
 Win32 gdi32
 %prm
 hrgn, x, y
-hrgn : [intptr] Handle to the region to be examined.
-x : [int] Specifies the x-coordinate of the point in logical units.
-y : [int] Specifies the y-coordinate of the point in logical units.
+hrgn : [intptr] 調査するリージョンへのハンドル。
+x : [int] 点の x 座標(論理単位)を指定する。
+y : [int] 点の y 座標(論理単位)を指定する。
 %inst
-The PtInRegion function determines whether the specified point is
-inside the specified region.
+PtInRegion 関数は、指定した点が指定したリージョン内にあるかどうかを判定する。
 
 [戻り値]
-If the specified point is in the region, the return value is nonzero.
-If the specified point is not in the region, the return value is
-zero.
+指定した点がリージョン内にある場合、戻り値は非ゼロである。指定した点がリージョン内にない場合、戻り値はゼロである。
 
 
 %index
 PtVisible
-The PtVisible function determines whether the specified point is within the clipping region of a device context.
+PtVisible 関数は、指定した点がデバイスコンテキストのクリッピング領域内にあるかどうかを判定する。
 %group
 Win32 gdi32
 %prm
 hdc, x, y
-hdc : [intptr] A handle to the device context.
-x : [int] The x-coordinate, in logical units, of the point.
-y : [int] The y-coordinate, in logical units, of the point.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+x : [int] 点の x 座標(論理単位)。
+y : [int] 点の y 座標(論理単位)。
 %inst
-The PtVisible function determines whether the specified point is
-within the clipping region of a device context.
+PtVisible 関数は、指定した点がデバイスコンテキストのクリッピング領域内にあるかどうかを判定する。
 
 [戻り値]
-If the specified point is within the clipping region of the device
-context, the return value is TRUE(1). If the specified point is not
-within the clipping region of the device context, the return value is
-FALSE(0). If the HDC is not valid, the return value is (BOOL)-1.
+指定した点がデバイスコンテキストのクリッピング領域内にある場合、戻り値は TRUE(1)
+である。指定した点がデバイスコンテキストのクリッピング領域内にない場合、戻り値は FALSE(0) である。HDC が無効な場合、戻り値は
+(BOOL)-1 である。
 
 
 %index
 RealizePalette
-The RealizePalette function maps palette entries from the current logical palette to the system palette.
+RealizePalette 関数は、現在の論理パレットのパレットエントリをシステムパレットにマッピングする。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context into which a logical palette has been selected.
+hdc : [intptr] 論理パレットが選択されているデバイスコンテキストへのハンドル。
 %inst
-The RealizePalette function maps palette entries from the current
-logical palette to the system palette.
+RealizePalette 関数は、現在の論理パレットのパレットエントリをシステムパレットにマッピングする。
 
 [戻り値]
-If the function succeeds, the return value is the number of entries
-in the logical palette mapped to the system palette. If the function
-fails, the return value is GDI_ERROR.
+関数が成功した場合、戻り値はシステムパレットにマッピングされた論理パレット内のエントリ数である。関数が失敗した場合、戻り値は
+GDI_ERROR である。
 
 [備考]
-An application can determine whether a device supports palette
-operations by calling the GetDeviceCaps function and specifying the
-RASTERCAPS constant. The RealizePalette function modifies the palette
-for the device associated with the specified device context. If the
-device context is a memory DC, the color table for the bitmap
-selected into the DC is modified. If the device context is a display
-DC, the physical palette for that device is modified. A logical
-palette is a buffer between color-intensive applications and the
-system, allowing these applications to use as many colors as needed
-without interfering with colors displayed by other windows. When an
-application's window has the focus and it calls the RealizePalette
-function, the system attempts to realize as many of the requested
-colors as possible. The same is also true for applications with
-inactive windows.
+アプリケーションは、GetDeviceCaps 関数を呼び出して RASTERCAPS
+定数を指定することで、デバイスがパレット操作をサポートしているかを判定できる。RealizePalette
+関数は、指定したデバイスコンテキストに関連付けられたデバイスのパレットを変更する。デバイスコンテキストがメモリ DC の場合、DC
+に選択されたビットマップのカラーテーブルが変更される。デバイスコンテキストがディスプレイ DC
+の場合、そのデバイスの物理パレットが変更される。論理パレットは、カラーを多用するアプリケーションとシステムとの間のバッファとして機能し、これらのアプリケーションが他のウィンドウで表示される色と干渉することなく、必要なだけの色を使用できるようにする。アプリケーションのウィンドウがフォーカスを持ち、RealizePalette
+関数を呼び出すと、システムは要求された色のうちできるだけ多くを実現しようとする。アクティブでないウィンドウを持つアプリケーションについても同様である。
 
 
 %index
 RectInRegion
-The RectInRegion function determines whether any part of the specified rectangle is within the boundaries of a region.
+RectInRegion 関数は、指定した矩形の一部がリージョンの境界内にあるかどうかを判定する。
 %group
 Win32 gdi32
 %prm
 hrgn, lprect
-hrgn : [intptr] Handle to the region.
-lprect : [var] Pointer to a RECT structure containing the coordinates of the rectangle in logical units. The lower and right edges of the rectangle are not included.
+hrgn : [intptr] リージョンへのハンドル。
+lprect : [var] 矩形の座標(論理単位)を含む RECT 構造体へのポインタ。矩形の下端と右端は含まれない。
 %inst
-The RectInRegion function determines whether any part of the
-specified rectangle is within the boundaries of a region.
+RectInRegion 関数は、指定した矩形の一部がリージョンの境界内にあるかどうかを判定する。
 
 [戻り値]
-If any part of the specified rectangle lies within the boundaries of
-the region, the return value is nonzero. If no part of the specified
-rectangle lies within the boundaries of the region, the return value
-is zero.
+
+指定した矩形の一部でもリージョンの境界内にあれば、戻り値は非ゼロである。指定した矩形がリージョンの境界内にまったくなければ、戻り値はゼロである。
 
 
 %index
 RectVisible
-The RectVisible function determines whether any part of the specified rectangle lies within the clipping region of a device context.
+RectVisible 関数は、指定した矩形の一部がデバイスコンテキストのクリッピング領域内にあるかどうかを判定する。
 %group
 Win32 gdi32
 %prm
 hdc, lprect
-hdc : [intptr] A handle to the device context.
-lprect : [var] A pointer to a RECT structure that contains the logical coordinates of the specified rectangle.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+lprect : [var] 指定した矩形の論理座標を含む RECT 構造体へのポインタ。
 %inst
-The RectVisible function determines whether any part of the specified
-rectangle lies within the clipping region of a device context.
+RectVisible 関数は、指定した矩形の一部がデバイスコンテキストのクリッピング領域内にあるかどうかを判定する。
 
 [戻り値]
-If the current transform does not have a rotation and the rectangle
-lies within the clipping region, the return value is TRUE (1). If the
-current transform does not have a rotation and the rectangle does not
-lie within the clipping region, the return value is FALSE (0). If the
-current transform has a rotation and the rectangle lies within the
-clipping region, the return value is 2. If the current transform has
-a rotation and the rectangle does not lie within the clipping region,
-the return value is 1. All other return values are considered error
-codes. If the any parameter is not valid, the return value is
-undefined.
+現在の変換に回転がなく矩形がクリッピング領域内にある場合、戻り値は TRUE (1)
+である。現在の変換に回転がなく矩形がクリッピング領域内にない場合、戻り値は FALSE (0)
+である。現在の変換に回転があり矩形がクリッピング領域内にある場合、戻り値は 2
+である。現在の変換に回転があり矩形がクリッピング領域内にない場合、戻り値は 1
+である。その他の戻り値はすべてエラーコードと見なされる。いずれかのパラメータが無効な場合、戻り値は未定義である。
 
 
 %index
@@ -8550,531 +7062,436 @@ bottom : [int] 矩形の右下隅の y 座標(論理単位)。
 
 %index
 RemoveFontMemResourceEx
-The RemoveFontMemResourceEx function removes the fonts added from a memory image file.
+RemoveFontMemResourceEx 関数は、メモリイメージファイルから追加されたフォントを削除する。
 %group
 Win32 gdi32
 %prm
 h
-h : [intptr] A handle to the font-resource. This handle is returned by the AddFontMemResourceEx function.
+h : [intptr] フォントリソースへのハンドル。このハンドルは AddFontMemResourceEx 関数によって返される。
 %inst
-The RemoveFontMemResourceEx function removes the fonts added from a
-memory image file.
+RemoveFontMemResourceEx 関数は、メモリイメージファイルから追加されたフォントを削除する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. No extended error
-information is available.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。拡張エラー情報は利用できない。
 
 [備考]
-This function removes a font that was added by the
-AddFontMemResourceEx function. To remove the font, specify the same
-path and flags as were used in AddFontMemResourceEx. This function
-will only remove the font that is specified by fh.
+この関数は AddFontMemResourceEx
+関数で追加されたフォントを削除する。フォントを削除するには、AddFontMemResourceEx
+で使用されたのと同じパスとフラグを指定する。この関数は fh で指定されたフォントのみを削除する。
 
 
 %index
 RemoveFontResourceW
-The RemoveFontResource function removes the fonts in the specified file from the system font table. (Unicode)
+RemoveFontResource 関数は、指定したファイル内のフォントをシステムフォントテーブルから削除する。(Unicode)
 %group
 Win32 gdi32
 %prm
 lpFileName
-lpFileName : [wstr] A pointer to a null-terminated string that names a font resource file.
+lpFileName : [wstr] フォントリソースファイル名を表す NULL 終端文字列へのポインタ。
 %inst
-The RemoveFontResource function removes the fonts in the specified
-file from the system font table. (Unicode)
+RemoveFontResource 関数は、指定したファイル内のフォントをシステムフォントテーブルから削除する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-We recommend that if an app adds or removes fonts from the system
-font table that it notify other windows of the change by sending a
-WM_FONTCHANGE message to all top-level windows in the system. The app
-sends this message by calling the SendMessage function with the hwnd
-parameter set to HWND_BROADCAST. If there are outstanding references
-to a font, the associated resource remains loaded until no device
-context is using it. Furthermore, if the font is listed in the font
-registry (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows
-NT\CurrentVersion\Fonts) and is installed to any location other than
-the %windir%\fonts\ folder, it may be loaded into other active
-sessions (including session 0). When you try to replace an existing
-font file that contains a font with outstanding references to it, you
-might get an error that indicates that the original font can't be
-deleted because it’s in use even after you call RemoveFontResource.
-If your app requires that the font file be replaced, to reduce the
-resource count of the original font to zero, call RemoveFontResource
-in a loop as shown in this example code. If you continue to get
-errors, this is an indication that the font file remains loaded in
-other sessions. Make sure the font isn't listed in the font registry
-and restart the system to ensure the font is unloaded from all
-sessions. Note Apps where the original font file is in use will still
-be able to access the original file and won't use the new font until
-the font reloads. Call AddFontResource to reload the font. We
-recommend that you call AddFontResource the same number of times as
-the call to RemoveFontResource succeeded as shown in this example
-code.
-This doc was truncated.
+アプリがシステムフォントテーブルにフォントを追加または削除した場合、WM_FONTCHANGE
+メッセージをシステム内のすべてのトップレベルウィンドウに送信して他のウィンドウに変更を通知することを推奨する。アプリは
+SendMessage 関数を hwnd パラメータに HWND_BROADCAST
+を設定して呼び出すことでこのメッセージを送信する。フォントへの未参照がある場合、そのフォントを使用しているデバイスコンテキストがなくなるまで、関連リソースはロードされたままになる。さらに、フォントがフォントレジストリ(HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows
+NT\CurrentVersion\Fonts)に登録されており、%windir%\fonts\
+フォルダ以外の場所にインストールされている場合、他のアクティブなセッション(セッション 0
+を含む)にロードされることがある。未参照のあるフォントを含む既存のフォントファイルを置き換えようとすると、RemoveFontResource
+を呼び出した後でも、元のフォントが使用中のため削除できないというエラーが発生することがある。アプリケーションがフォントファイルの置き換えを必要とする場合、元のフォントの参照カウントをゼロに減らすために、このサンプルコードのように
+RemoveFontResource
+をループで呼び出す。エラーが続く場合は、フォントファイルが他のセッションに読み込まれたままであることを示す。フォントがフォントレジストリに登録されていないことを確認し、すべてのセッションからフォントをアンロードするためにシステムを再起動すること。注:
+元のフォントファイルを使用しているアプリは、フォントがリロードされるまで元のファイルにアクセスでき、新しいフォントは使用されない。フォントをリロードするには
+AddFontResource を呼び出す。このサンプルコードに示すように、RemoveFontResource
+が成功した回数と同じ回数だけ AddFontResource を呼び出すことを推奨する。
+（以下省略）
 
 
 %index
 RemoveFontResourceExW
-The RemoveFontResourceEx function removes the fonts in the specified file from the system font table. (Unicode)
+RemoveFontResourceEx 関数は、指定したファイル内のフォントをシステムフォントテーブルから削除する。(Unicode)
 %group
 Win32 gdi32
 %prm
 name, fl, pdv
-name : [wstr] A pointer to a null-terminated string that names a font resource file.
-fl : [int] The characteristics of the font to be removed from the system. In order for the font to be removed, the flags used must be the same as when the font was added with the AddFontResourceEx function. See the AddFontResourceEx function for more information.
-pdv : [intptr] Reserved. Must be zero.
+name : [wstr] フォントリソースファイル名を表す NULL 終端文字列へのポインタ。
+fl : [int] システムから削除するフォントの特性。フォントを削除するには、使用するフラグが AddFontResourceEx 関数でフォントを追加したときと同じでなければならない。詳細は AddFontResourceEx 関数を参照。
+pdv : [intptr] 予約済み。0 でなければならない。
 %inst
-The RemoveFontResourceEx function removes the fonts in the specified
-file from the system font table. (Unicode)
+RemoveFontResourceEx 関数は、指定したファイル内のフォントをシステムフォントテーブルから削除する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. No extended error
-information is available.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。拡張エラー情報は利用できない。
 
 [備考]
-This function will only remove the font if the flags specified are
-the same as when then font was added with the AddFontResourceEx
-function. When you try to replace an existing font file that contains
-a font with outstanding references to it, you might get an error that
-indicates that the original font can't be deleted because it’s in use
-even after you call RemoveFontResourceEx. If your app requires that
-the font file be replaced, to reduce the resource count of the
-original font to zero, call RemoveFontResourceEx in a loop as shown
-in this example code. If you continue to get errors, this is an
-indication that the font file remains loaded in other sessions. Make
-sure the font isn't listed in the font registry and restart the
-system to ensure the font is unloaded from all sessions. Note Apps
-where the original font file is in use will still be able to access
-the original file and won't use the new font until the font reloads.
-Call AddFontResourceEx to reload the font. We recommend that you call
-AddFontResourceEx the same number of times as the call to
-RemoveFontResourceEx succeeded as shown in this example code.
-This doc was truncated.
+この関数は、指定されたフラグが AddFontResourceEx
+関数でフォントを追加したときと同じ場合にのみフォントを削除する。未参照のあるフォントを含む既存のフォントファイルを置き換えようとすると、RemoveFontResourceEx
+を呼び出した後でも、元のフォントが使用中のため削除できないというエラーが発生することがある。アプリケーションがフォントファイルの置き換えを必要とする場合、元のフォントの参照カウントをゼロに減らすために、このサンプルコードのように
+RemoveFontResourceEx
+をループで呼び出す。エラーが続く場合は、フォントファイルが他のセッションに読み込まれたままであることを示す。フォントがフォントレジストリに登録されていないことを確認し、すべてのセッションからフォントをアンロードするためにシステムを再起動すること。注:
+元のフォントファイルを使用しているアプリは、フォントがリロードされるまで元のファイルにアクセスでき、新しいフォントは使用されない。フォントをリロードするには
+AddFontResourceEx を呼び出す。このサンプルコードに示すように、RemoveFontResourceEx
+が成功した回数と同じ回数だけ AddFontResourceEx を呼び出すことを推奨する。
+（以下省略）
 
 
 %index
 ResetDCA
-The ResetDC function updates the specified printer or plotter device context (DC) using the specified information. (ANSI)
+ResetDC 関数は、指定した情報を使用して、指定したプリンタまたはプロッタのデバイスコンテキスト(DC)を更新する。(ANSI)
 %group
 Win32 gdi32
 %prm
 hdc, lpdm
-hdc : [intptr] A handle to the DC to update.
-lpdm : [var] A pointer to a DEVMODE structure containing information about the new DC.
+hdc : [intptr] 更新する DC へのハンドル。
+lpdm : [var] 新しい DC に関する情報を含む DEVMODE 構造体へのポインタ。
 %inst
-The ResetDC function updates the specified printer or plotter device
-context (DC) using the specified information. (ANSI)
+ResetDC 関数は、指定した情報を使用して、指定したプリンタまたはプロッタのデバイスコンテキスト(DC)を更新する。(ANSI)
 
 [戻り値]
-If the function succeeds, the return value is a handle to the
-original DC. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値は元の DC へのハンドルである。関数が失敗した場合、戻り値は NULL である。
 
 [備考]
-An application will typically use the ResetDC function when a window
-receives a WM_DEVMODECHANGE message. ResetDC can also be used to
-change the paper orientation or paper bins while printing a document.
-The ResetDC function cannot be used to change the driver name, device
-name, or the output port. When the user changes the port connection
-or device name, the application must delete the original DC and
-create a new DC with the new information. An application can pass an
-information DC to the ResetDC function. In that situation, ResetDC
-will always return a printer DC. ICM: The color profile of the DC
-specified by the hdc parameter will be reset based on the information
-contained in the lpInitData member of the DEVMODE structure.
-> [!NOTE] > The wingdi.h header defines ResetDC as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+アプリケーションは通常、ウィンドウが WM_DEVMODECHANGE メッセージを受信したときに ResetDC
+関数を使用する。ResetDC は、ドキュメントの印刷中に用紙の向きや用紙トレイを変更するためにも使用できる。ResetDC
+関数はドライバ名、デバイス名、出力ポートを変更するためには使用できない。ユーザがポート接続やデバイス名を変更した場合、アプリケーションは元の
+DC を削除し、新しい情報で新しい DC を作成しなければならない。アプリケーションは情報 DC を ResetDC
+関数に渡すことができる。その場合、ResetDC は常にプリンタ DC を返す。ICM: hdc パラメータで指定された DC
+のカラープロファイルは、DEVMODE 構造体の lpInitData メンバに含まれる情報に基づいてリセットされる。
+> [!NOTE] > wingdi.h ヘッダーは ResetDC を、UNICODE プリプロセッサ定数の定義に基づいてこの関数の
+ANSI 版または Unicode
+版を自動的に選択するエイリアスとして定義している。エンコーディング中立なエイリアスをエンコーディング中立でないコードと混在させると、コンパイルエラーや実行時エラーを引き起こす不一致が発生することがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 ResetDCW
-The ResetDC function updates the specified printer or plotter device context (DC) using the specified information. (Unicode)
+ResetDC 関数は、指定した情報を使用して、指定したプリンタまたはプロッタのデバイスコンテキスト(DC)を更新する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, lpdm
-hdc : [intptr] A handle to the DC to update.
-lpdm : [var] A pointer to a DEVMODE structure containing information about the new DC.
+hdc : [intptr] 更新する DC へのハンドル。
+lpdm : [var] 新しい DC に関する情報を含む DEVMODE 構造体へのポインタ。
 %inst
-The ResetDC function updates the specified printer or plotter device
-context (DC) using the specified information. (Unicode)
+ResetDC 関数は、指定した情報を使用して、指定したプリンタまたはプロッタのデバイスコンテキスト(DC)を更新する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is a handle to the
-original DC. If the function fails, the return value is NULL.
+関数が成功した場合、戻り値は元の DC へのハンドルである。関数が失敗した場合、戻り値は NULL である。
 
 [備考]
-An application will typically use the ResetDC function when a window
-receives a WM_DEVMODECHANGE message. ResetDC can also be used to
-change the paper orientation or paper bins while printing a document.
-The ResetDC function cannot be used to change the driver name, device
-name, or the output port. When the user changes the port connection
-or device name, the application must delete the original DC and
-create a new DC with the new information. An application can pass an
-information DC to the ResetDC function. In that situation, ResetDC
-will always return a printer DC. ICM: The color profile of the DC
-specified by the hdc parameter will be reset based on the information
-contained in the lpInitData member of the DEVMODE structure.
-> [!NOTE] > The wingdi.h header defines ResetDC as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+アプリケーションは通常、ウィンドウが WM_DEVMODECHANGE メッセージを受信したときに ResetDC
+関数を使用する。ResetDC は、ドキュメントの印刷中に用紙の向きや用紙トレイを変更するためにも使用できる。ResetDC
+関数はドライバ名、デバイス名、出力ポートを変更するためには使用できない。ユーザがポート接続やデバイス名を変更した場合、アプリケーションは元の
+DC を削除し、新しい情報で新しい DC を作成しなければならない。アプリケーションは情報 DC を ResetDC
+関数に渡すことができる。その場合、ResetDC は常にプリンタ DC を返す。ICM: hdc パラメータで指定された DC
+のカラープロファイルは、DEVMODE 構造体の lpInitData メンバに含まれる情報に基づいてリセットされる。
+> [!NOTE] > wingdi.h ヘッダーは ResetDC を、UNICODE プリプロセッサ定数の定義に基づいてこの関数の
+ANSI 版または Unicode
+版を自動的に選択するエイリアスとして定義している。エンコーディング中立なエイリアスをエンコーディング中立でないコードと混在させると、コンパイルエラーや実行時エラーを引き起こす不一致が発生することがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 ResizePalette
-The ResizePalette function increases or decreases the size of a logical palette based on the specified value.
+ResizePalette 関数は、指定した値に基づいて論理パレットのサイズを増減する。
 %group
 Win32 gdi32
 %prm
 hpal, n
-hpal : [intptr] A handle to the palette to be changed.
-n : [int] The number of entries in the palette after it has been resized. The number of entries is limited to 1024.
+hpal : [intptr] 変更するパレットへのハンドル。
+n : [int] リサイズ後のパレットのエントリ数。エントリ数は 1024 に制限される。
 %inst
-The ResizePalette function increases or decreases the size of a
-logical palette based on the specified value.
+ResizePalette 関数は、指定した値に基づいて論理パレットのサイズを増減する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-An application can determine whether a device supports palette
-operations by calling the GetDeviceCaps function and specifying the
-RASTERCAPS constant. If an application calls ResizePalette to reduce
-the size of the palette, the entries remaining in the resized palette
-are unchanged. If the application calls ResizePalette to enlarge the
-palette, the additional palette entries are set to black (the red,
-green, and blue values are all 0) and their flags are set to zero.
+アプリケーションは、GetDeviceCaps 関数を呼び出して RASTERCAPS
+定数を指定することで、デバイスがパレット操作をサポートしているかを判定できる。アプリケーションがパレットを縮小するために
+ResizePalette を呼び出した場合、リサイズ後のパレットに残るエントリは変更されない。アプリケーションがパレットを拡大するために
+ResizePalette を呼び出した場合、追加のパレットエントリは黒(赤・緑・青の値がすべて 0)に設定され、そのフラグは 0
+に設定される。
 
 
 %index
 RestoreDC
-The RestoreDC function restores a device context (DC) to the specified state. The DC is restored by popping state information off a stack created by earlier calls to the SaveDC function.
+RestoreDC 関数は、デバイスコンテキスト(DC)を指定した状態に復元する。DC は、SaveDC 関数の以前の呼び出しによって作成されたスタックから状態情報をポップすることで復元される。
 %group
 Win32 gdi32
 %prm
 hdc, nSavedDC
-hdc : [intptr] A handle to the DC.
-nSavedDC : [int] The saved state to be restored. If this parameter is positive, nSavedDC represents a specific instance of the state to be restored. If this parameter is negative, nSavedDC represents an instance relative to the current state. For example, -1 restores the most recently saved state.
+hdc : [intptr] DC へのハンドル。
+nSavedDC : [int] 復元する保存状態。このパラメータが正の場合、nSavedDC は復元する特定の状態インスタンスを表す。このパラメータが負の場合、nSavedDC は現在の状態からの相対インスタンスを表す。たとえば -1 は直近に保存された状態を復元する。
 %inst
-The RestoreDC function restores a device context (DC) to the
-specified state. The DC is restored by popping state information off
-a stack created by earlier calls to the SaveDC function.
+RestoreDC 関数は、デバイスコンテキスト(DC)を指定した状態に復元する。DC は、SaveDC
+関数の以前の呼び出しによって作成されたスタックから状態情報をポップすることで復元される。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-Each DC maintains a stack of saved states. The SaveDC function pushes
-the current state of the DC onto its stack of saved states. That
-state can be restored only to the same DC from which it was created.
-After a state is restored, the saved state is destroyed and cannot be
-reused. Furthermore, any states saved after the restored state was
-created are also destroyed and cannot be used. In other words, the
-RestoreDC function pops the restored state (and any subsequent
-states) from the state information stack.
+各 DC は保存された状態のスタックを保持する。SaveDC 関数は DC
+の現在の状態を保存状態スタックにプッシュする。その状態は作成元と同じ DC
+にのみ復元できる。状態が復元されると、保存された状態は破棄され、再利用できない。さらに、復元された状態の作成後に保存された状態もすべて破棄され、使用できなくなる。言い換えると、RestoreDC
+関数は状態情報スタックから復元した状態(および後続のすべての状態)をポップする。
 
 
 %index
 RoundRect
-The RoundRect function draws a rectangle with rounded corners. The rectangle is outlined by using the current pen and filled by using the current brush.
+RoundRect 関数は、丸い角を持つ矩形を描画する。矩形は現在のペンで輪郭が描かれ、現在のブラシで塗りつぶされる。
 %group
 Win32 gdi32
 %prm
 hdc, left, top, right, bottom, width, height
-hdc : [intptr] A handle to the device context.
-left : [int] The x-coordinate, in logical coordinates, of the upper-left corner of the rectangle.
-top : [int] The y-coordinate, in logical coordinates, of the upper-left corner of the rectangle.
-right : [int] The x-coordinate, in logical coordinates, of the lower-right corner of the rectangle.
-bottom : [int] The y-coordinate, in logical coordinates, of the lower-right corner of the rectangle.
-width : [int] The width, in logical coordinates, of the ellipse used to draw the rounded corners.
-height : [int] The height, in logical coordinates, of the ellipse used to draw the rounded corners.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+left : [int] 矩形の左上隅の x 座標(論理座標)。
+top : [int] 矩形の左上隅の y 座標(論理座標)。
+right : [int] 矩形の右下隅の x 座標(論理座標)。
+bottom : [int] 矩形の右下隅の y 座標(論理座標)。
+width : [int] 丸い角を描画するために使用する楕円の幅(論理座標)。
+height : [int] 丸い角を描画するために使用する楕円の高さ(論理座標)。
 %inst
-The RoundRect function draws a rectangle with rounded corners. The
-rectangle is outlined by using the current pen and filled by using
-the current brush.
+RoundRect 関数は、丸い角を持つ矩形を描画する。矩形は現在のペンで輪郭が描かれ、現在のブラシで塗りつぶされる。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The current position is neither used nor updated by this function.
+現在位置はこの関数では使用も更新もされない。
 
 
 %index
 STROBJ_bEnum
-The STROBJ_bEnum function enumerates glyph identities and positions.
+STROBJ_bEnum 関数は、グリフのアイデンティティと位置を列挙する。
 %group
 Win32 gdi32
 %prm
 pstro, pc, ppgpos
-pstro : [var] Pointer to the STROBJ structure containing the GLYPHPOS information.
-pc : [var] Pointer to the count, returned by GDI, of GLYPHPOS structures.
-ppgpos : [var] Pointer to the array in which GDI writes the GLYPHPOS structures.
+pstro : [var] GLYPHPOS 情報を含む STROBJ 構造体へのポインタ。
+pc : [var] GDI から返される GLYPHPOS 構造体の数を格納するポインタ。
+ppgpos : [var] GDI が GLYPHPOS 構造体を書き込む配列へのポインタ。
 %inst
-The STROBJ_bEnum function enumerates glyph identities and positions.
+STROBJ_bEnum 関数は、グリフのアイデンティティと位置を列挙する。
 
 [戻り値]
-The return value is TRUE if more glyphs remain to be enumerated, or
-FALSE if the enumeration is complete. The return value is DDI_ERROR
-if the glyphs cannot be enumerated, and an error code is logged.
+列挙するグリフがまだある場合、戻り値は TRUE となる。列挙が完了した場合は FALSE となる。グリフを列挙できない場合、戻り値は
+DDI_ERROR となり、エラーコードがログに記録される。
 
 [備考]
-A driver should download only the glyph handles if it caches fonts
-itself. The information returned depends on the driver's return value
-for DrvGetGlyphMode. Bitmaps or outlines can also be obtained from
-FONTOBJ structures. Printer drivers should call
-STROBJ_bEnumPositionsOnly instead of STROBJ_bEnum if printer hardware
-provides internal rendering of TrueType fonts.
+ドライバがフォントをキャッシュする場合、グリフハンドルのみをダウンロードすべきである。返される情報は、DrvGetGlyphMode
+に対するドライバの戻り値に依存する。ビットマップやアウトラインは FONTOBJ
+構造体からも取得できる。プリンタドライバは、プリンタハードウェアが TrueType
+フォントの内部レンダリングを提供する場合、STROBJ_bEnum の代わりに STROBJ_bEnumPositionsOnly
+を呼ぶべきである。
 
 
 %index
 STROBJ_bEnumPositionsOnly
-The STROBJ_bEnumPositionsOnly function enumerates glyph identities and positions for a specified text string, but does not create cached glyph bitmaps.
+STROBJ_bEnumPositionsOnly 関数は、指定したテキスト文字列のグリフのアイデンティティと位置を列挙するが、キャッシュ済みグリフビットマップは作成しない。
 %group
 Win32 gdi32
 %prm
 pstro, pc, ppgpos
-pstro : [var] A caller-supplied pointer to a STROBJ structure describing a text string. This is typically the STROBJ structure received by the driver's DrvTextOut function.
-pc : [var] A caller-supplied address to receive the GDI-supplied number of GLYPHPOS structures pointed to by the pointer in ppgpos.
-ppgpos : [var] A caller-supplied address that receives a GDI-supplied pointer to an array of GLYPHPOS structures. (See the following Remarks section.)
+pstro : [var] テキスト文字列を記述する STROBJ 構造体への呼び出し元が提供するポインタ。これは通常、ドライバの DrvTextOut 関数が受け取る STROBJ 構造体である。
+pc : [var] ppgpos が指すポインタが指す GLYPHPOS 構造体の数を GDI から受け取る、呼び出し元が提供するアドレス。
+ppgpos : [var] GLYPHPOS 構造体の配列への GDI 提供のポインタを受け取る、呼び出し元が提供するアドレス(後述の「解説」セクションを参照)。
 %inst
-The STROBJ_bEnumPositionsOnly function enumerates glyph identities
-and positions for a specified text string, but does not create cached
-glyph bitmaps.
+STROBJ_bEnumPositionsOnly
+関数は、指定したテキスト文字列のグリフのアイデンティティと位置を列挙するが、キャッシュ済みグリフビットマップは作成しない。
 
 [戻り値]
-The return value is TRUE if more glyphs remain to be enumerated, or
-FALSE if the enumeration is complete. The return value is DDI_ERROR
-if the glyphs cannot be enumerated, and an error code is logged.
+列挙するグリフがまだある場合、戻り値は TRUE となる。列挙が完了した場合は FALSE となる。グリフを列挙できない場合、戻り値は
+DDI_ERROR となり、エラーコードがログに記録される。
 
 [備考]
-The STROBJ_bEnumPositionsOnly function is typically called from
-within a driver's DrvTextOut function. It performs the same
-operations as STROBJ_bEnum with one important exception － GDI does
-not create cached bitmaps of the glyphs. The STROBJ_bEnum function
-assumes the driver will eventually need these bitmaps. However, many
-newer printers contain internal rasterizers and therefore do not need
-GDI to render glyphs. For such printers, eliminating the automatic
-rendering and caching of glyph bitmaps in server memory provides
-considerable savings of both processing time and memory allocation.
-For printers that support internal glyph rasterization, the following
-rules should be followed:
-This doc was truncated.
+STROBJ_bEnumPositionsOnly 関数は通常、ドライバの DrvTextOut
+関数内から呼び出される。STROBJ_bEnum と同じ動作を実行するが、1 つ重要な違いがある ? GDI
+はグリフのキャッシュ済みビットマップを作成しない。STROBJ_bEnum
+関数は、ドライバが最終的にこれらのビットマップを必要とすると仮定する。しかし、多くの新しいプリンタは内部ラスタライザを持ち、グリフのレンダリングに
+GDI
+を必要としない。そのようなプリンタの場合、サーバメモリ内でのグリフビットマップの自動レンダリングとキャッシュを排除することで、処理時間とメモリ割り当ての両方で大幅な節約が得られる。内部グリフラスタライズをサポートするプリンタでは、次のルールに従うべきである:
+（以下省略）
 
 
 %index
 STROBJ_bGetAdvanceWidths
-The STROBJ_bGetAdvanceWidths function retrieves an array of vectors specifying the probable widths of glyphs making up a specified string.
+STROBJ_bGetAdvanceWidths 関数は、指定した文字列を構成するグリフの推定幅を示すベクトルの配列を取得する。
 %group
 Win32 gdi32
 %prm
 pso, iFirst, c, pptqD
-pso : [var] Is a caller-supplied pointer to a STROBJ structure describing a text string. This is typically the STROBJ structure received by the driver's DrvTextOut function.
-iFirst : [int] Is a caller-supplied, zero-based index into the text string supplied by the STROBJ structure. This index represents the first character of the string for which a width is to be returned.
-c : [int] Is a caller-supplied count of the number of contiguous characters, starting and the character specified by iFirst, for which width values are to be returned.
-pptqD : [var] Is a caller-supplied pointer to a c-sized array of POINTQF structures to receive character widths in (28.36, 28.36) format. For a description of this data type, see GDI Data Types.
+pso : [var] テキスト文字列を記述する STROBJ 構造体への呼び出し元が提供するポインタ。これは通常、ドライバの DrvTextOut 関数が受け取る STROBJ 構造体である。
+iFirst : [int] STROBJ 構造体で提供されたテキスト文字列へのゼロベースのインデックス。このインデックスは、幅を返す対象となる文字列の最初の文字を表す。呼び出し元が指定する。
+c : [int] iFirst で指定された文字から始まる、幅の値を返す連続した文字数。呼び出し元が指定する。
+pptqD : [var] (28.36, 28.36) 形式で文字幅を受け取る、c 個の POINTQF 構造体の配列への呼び出し元が提供するポインタ。このデータ型の説明は GDI Data Types を参照。
 %inst
-The STROBJ_bGetAdvanceWidths function retrieves an array of vectors
-specifying the probable widths of glyphs making up a specified
-string.
+STROBJ_bGetAdvanceWidths 関数は、指定した文字列を構成するグリフの推定幅を示すベクトルの配列を取得する。
 
 [戻り値]
-If the operation succeeds, the function returns TRUE; otherwise it
-returns FALSE.
+操作が成功した場合、関数は TRUE を返す。そうでない場合は FALSE を返す。
 
 [備考]
-The STROBJ_bGetAdvanceWidths function is useful to printer drivers
-that call STROBJ_bEnumPositionsOnly instead of STROBJ_bEnum. The
-function fills in the pptqD array with the probable widths of a
-string's glyphs, and can be used to calculate the printer position
-after a string as been rendered by the printer, if the printer's
-glyph rendering hardware does not return exact character widths. Note
-that glyph positions returned by STROBJ_bEnumPositionsOnly do not
-necessarily correspond exactly to the widths returned by
-STROBJ_bGetAdvanceWidths.
+STROBJ_bGetAdvanceWidths 関数は、STROBJ_bEnum の代わりに
+STROBJ_bEnumPositionsOnly を呼び出すプリンタドライバに役立つ。関数は pptqD
+配列を文字列のグリフの推定幅で埋め、プリンタのグリフレンダリングハードウェアが正確な文字幅を返さない場合に、プリンタが文字列をレンダリングした後のプリンタ位置を計算するために使用できる。STROBJ_bEnumPositionsOnly
+から返されるグリフ位置は、必ずしも STROBJ_bGetAdvanceWidths
+から返される幅と正確に対応するわけではないことに注意。
 
 
 %index
 STROBJ_dwGetCodePage
-The STROBJ_dwGetCodePage function returns the code page associated with the specified STROBJ structure.
+STROBJ_dwGetCodePage 関数は、指定した STROBJ 構造体に関連付けられたコードページを返す。
 %group
 Win32 gdi32
 %prm
 pstro
-pstro : [var] Pointer to a STROBJ structure with which the code page is associated.
+pstro : [var] コードページを関連付ける STROBJ 構造体へのポインタ。
 %inst
-The STROBJ_dwGetCodePage function returns the code page associated
-with the specified STROBJ structure.
+STROBJ_dwGetCodePage 関数は、指定した STROBJ 構造体に関連付けられたコードページを返す。
 
 [戻り値]
-STROBJ_dwGetCodePage returns a DWORD value that identifies the code
-page associated with the font used in the text output call at the
-Win32 API level.
+STROBJ_dwGetCodePage は、Win32 API
+レベルのテキスト出力呼び出しで使用されたフォントに関連付けられたコードページを識別する DWORD 値を返す。
 
 
 %index
 STROBJ_vEnumStart
-The STROBJ_vEnumStart function defines the form, or type, for data that will be returned from GDI in subsequent calls to STROBJ_bEnum.
+STROBJ_vEnumStart 関数は、STROBJ_bEnum への後続呼び出しで GDI から返されるデータの形式(種類)を定義する。
 %group
 Win32 gdi32
 %prm
 pstro
-pstro : [var] Pointer to the STROBJ structure whose data form is to be defined.
+pstro : [var] データ形式を定義する STROBJ 構造体へのポインタ。
 %inst
-The STROBJ_vEnumStart function defines the form, or type, for data
-that will be returned from GDI in subsequent calls to STROBJ_bEnum.
+STROBJ_vEnumStart 関数は、STROBJ_bEnum への後続呼び出しで GDI
+から返されるデータの形式(種類)を定義する。
 
 [戻り値]
-None
+なし。
 
 [備考]
-This function also restarts the enumeration of the GLYPHPOS array.
-This function should be called by the driver prior to calling
-STROBJ_bEnum.
+この関数は GLYPHPOS 配列の列挙を再開する。この関数はドライバが STROBJ_bEnum を呼び出す前に呼び出すべきである。
 
 
 %index
 SaveDC
-The SaveDC function saves the current state of the specified device context (DC) by copying data describing selected objects and graphic modes (such as the bitmap, brush, palette, font, pen, region, drawing mode, and mapping mode) to a context stack.
+SaveDC 関数は、選択されたオブジェクトとグラフィックモード(ビットマップ、ブラシ、パレット、フォント、ペン、リージョン、描画モード、マッピングモードなど)を記述するデータをコンテキストスタックにコピーすることで、指定したデバイスコンテキスト(DC)の現在の状態を保存する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the DC whose state is to be saved.
+hdc : [intptr] 状態を保存する DC へのハンドル。
 %inst
-The SaveDC function saves the current state of the specified device
-context (DC) by copying data describing selected objects and graphic
-modes (such as the bitmap, brush, palette, font, pen, region, drawing
-mode, and mapping mode) to a context stack.
+SaveDC
+関数は、選択されたオブジェクトとグラフィックモード(ビットマップ、ブラシ、パレット、フォント、ペン、リージョン、描画モード、マッピングモードなど)を記述するデータをコンテキストスタックにコピーすることで、指定したデバイスコンテキスト(DC)の現在の状態を保存する。
 
 [戻り値]
-If the function succeeds, the return value identifies the saved
-state. If the function fails, the return value is zero.
+関数が成功した場合、戻り値は保存された状態を識別する。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The SaveDC function can be used any number of times to save any
-number of instances of the DC state. A saved state can be restored by
-using the RestoreDC function.
+SaveDC 関数は、DC 状態の任意のインスタンスを任意の回数保存するために使用できる。保存された状態は RestoreDC
+関数で復元できる。
 
 
 %index
 ScaleViewportExtEx
-The ScaleViewportExtEx function modifies the viewport for a device context using the ratios formed by the specified multiplicands and divisors.
+ScaleViewportExtEx 関数は、指定した被乗数と除数で形成される比率を使用して、デバイスコンテキストのビューポートを変更する。
 %group
 Win32 gdi32
 %prm
 hdc, xn, dx, yn, yd, lpsz
-hdc : [intptr] A handle to the device context.
-xn : [int] The amount by which to multiply the current horizontal extent.
-dx : [int] The amount by which to divide the current horizontal extent.
-yn : [int] The amount by which to multiply the current vertical extent.
-yd : [int] The amount by which to divide the current vertical extent.
-lpsz : [var] A pointer to a SIZE structure that receives the previous viewport extents, in device units. If lpSize is NULL, this parameter is not used.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+xn : [int] 現在の水平範囲に掛ける値。
+dx : [int] 現在の水平範囲を割る値。
+yn : [int] 現在の垂直範囲に掛ける値。
+yd : [int] 現在の垂直範囲を割る値。
+lpsz : [var] 以前のビューポート範囲(デバイス単位)を受け取る SIZE 構造体へのポインタ。lpSize が NULL の場合、このパラメータは使用されない。
 %inst
-The ScaleViewportExtEx function modifies the viewport for a device
-context using the ratios formed by the specified multiplicands and
-divisors.
+ScaleViewportExtEx
+関数は、指定した被乗数と除数で形成される比率を使用して、デバイスコンテキストのビューポートを変更する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The viewport extents are modified as follows:
-This doc was truncated.
+ビューポート範囲は次のように変更される:
+（以下省略）
 
 
 %index
 ScaleWindowExtEx
-The ScaleWindowExtEx function modifies the window for a device context using the ratios formed by the specified multiplicands and divisors.
+ScaleWindowExtEx 関数は、指定した被乗数と除数で形成される比率を使用して、デバイスコンテキストのウィンドウを変更する。
 %group
 Win32 gdi32
 %prm
 hdc, xn, xd, yn, yd, lpsz
-hdc : [intptr] A handle to the device context.
-xn : [int] The amount by which to multiply the current horizontal extent.
-xd : [int] The amount by which to divide the current horizontal extent.
-yn : [int] The amount by which to multiply the current vertical extent.
-yd : [int] The amount by which to divide the current vertical extent.
-lpsz : [var] A pointer to a SIZE structure that receives the previous window extents, in logical units. If lpSize is NULL, this parameter is not used.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+xn : [int] 現在の水平範囲に掛ける値。
+xd : [int] 現在の水平範囲を割る値。
+yn : [int] 現在の垂直範囲に掛ける値。
+yd : [int] 現在の垂直範囲を割る値。
+lpsz : [var] 以前のウィンドウ範囲(論理単位)を受け取る SIZE 構造体へのポインタ。lpSize が NULL の場合、このパラメータは使用されない。
 %inst
-The ScaleWindowExtEx function modifies the window for a device
-context using the ratios formed by the specified multiplicands and
-divisors.
+ScaleWindowExtEx 関数は、指定した被乗数と除数で形成される比率を使用して、デバイスコンテキストのウィンドウを変更する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The window extents are modified as follows:
-This doc was truncated.
+ウィンドウ範囲は次のように変更される:
+（以下省略）
 
 
 %index
 SelectClipPath
-The SelectClipPath function selects the current path as a clipping region for a device context, combining the new region with any existing clipping region using the specified mode.
+SelectClipPath 関数は、現在のパスをデバイスコンテキストのクリッピング領域として選択し、指定したモードで既存のクリッピング領域と新しい領域を結合する。
 %group
 Win32 gdi32
 %prm
 hdc, mode
-hdc : [intptr] A handle to the device context of the path.
+hdc : [intptr] パスを持つデバイスコンテキストへのハンドル。
 mode : [int] 
 %inst
-The SelectClipPath function selects the current path as a clipping
-region for a device context, combining the new region with any
-existing clipping region using the specified mode.
+SelectClipPath
+関数は、現在のパスをデバイスコンテキストのクリッピング領域として選択し、指定したモードで既存のクリッピング領域と新しい領域を結合する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The device context identified by the hdc parameter must contain a
-closed path.
+hdc パラメータで指定されるデバイスコンテキストには、閉じたパスが含まれていなければならない。
 
 
 %index
 SelectClipRgn
-The SelectClipRgn function selects a region as the current clipping region for the specified device context.
+SelectClipRgn 関数は、指定したデバイスコンテキストの現在のクリッピング領域としてリージョンを選択する。
 %group
 Win32 gdi32
 %prm
 hdc, hrgn
-hdc : [intptr] A handle to the device context.
-hrgn : [intptr] A handle to the region to be selected.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+hrgn : [intptr] 選択するリージョンへのハンドル。
 %inst
-The SelectClipRgn function selects a region as the current clipping
-region for the specified device context.
+SelectClipRgn 関数は、指定したデバイスコンテキストの現在のクリッピング領域としてリージョンを選択する。
 
 [戻り値]
-The return value specifies the region's complexity and can be one of
-the following values.
-This doc was truncated.
+戻り値はリージョンの複雑度を指定し、次のいずれかの値となる。
+（以下省略）
 
 [備考]
-Only a copy of the selected region is used. The region itself can be
-selected for any number of other device contexts or it can be
-deleted. The SelectClipRgn function assumes that the coordinates for
-a region are specified in device units. To remove a device-context's
-clipping region, specify a NULL region handle.
+
+選択されたリージョンのコピーのみが使用される。リージョン自体は他の任意の数のデバイスコンテキストに対して選択でき、また削除することもできる。SelectClipRgn
+関数は、リージョンの座標がデバイス単位で指定されていると想定する。デバイスコンテキストのクリッピング領域を解除するには、NULL
+のリージョンハンドルを指定する。
 
 
 %index
@@ -9102,141 +7519,115 @@ h : [intptr] 選択するオブジェクトへのハンドル。指定されるオブジェクトは以下の関�
 
 %index
 SelectPalette
-The SelectPalette function selects the specified logical palette into a device context.
+SelectPalette 関数は、指定した論理パレットをデバイスコンテキストに選択する。
 %group
 Win32 gdi32
 %prm
 hdc, hPal, bForceBkgd
-hdc : [intptr] A handle to the device context.
-hPal : [intptr] A handle to the logical palette to be selected.
-bForceBkgd : [int] Specifies whether the logical palette is forced to be a background palette. If this value is TRUE, the RealizePalette function causes the logical palette to be mapped to the colors already in the physical palette in the best possible way. This is always done, even if the window for which the palette is realized belongs to a thread without active focus. If this value is FALSE, RealizePalette causes the logical palette to be copied into the device palette when the application is in the foreground. (If the hdc parameter is a memory device context, this parameter is ignored.)
+hdc : [intptr] デバイスコンテキストへのハンドル。
+hPal : [intptr] 選択する論理パレットへのハンドル。
+bForceBkgd : [int] 論理パレットを強制的に背景パレットにするかどうかを指定する。この値が TRUE の場合、RealizePalette 関数は論理パレットを物理パレット内の既存の色にできるだけ良い形でマッピングする。パレットが実現されるウィンドウがアクティブフォーカスを持たないスレッドに属していても、これは常に行われる。この値が FALSE の場合、RealizePalette はアプリケーションがフォアグラウンドにあるときに論理パレットをデバイスパレットにコピーする(hdc パラメータがメモリデバイスコンテキストの場合、このパラメータは無視される)。
 %inst
-The SelectPalette function selects the specified logical palette into
-a device context.
+SelectPalette 関数は、指定した論理パレットをデバイスコンテキストに選択する。
 
 [戻り値]
-If the function succeeds, the return value is a handle to the device
-context's previous logical palette. If the function fails, the return
-value is NULL.
+関数が成功した場合、戻り値はデバイスコンテキストの以前の論理パレットへのハンドルである。関数が失敗した場合、戻り値は NULL である。
 
 [備考]
-An application can determine whether a device supports palette
-operations by calling the GetDeviceCaps function and specifying the
-RASTERCAPS constant. An application can select a logical palette into
-more than one device context only if device contexts are compatible.
-Otherwise SelectPalette fails. To create a device context that is
-compatible with another device context, call CreateCompatibleDC with
-the first device context as the parameter. If a logical palette is
-selected into more than one device context, changes to the logical
-palette will affect all device contexts for which it is selected. An
-application might call the SelectPalette function with the
-bForceBackground parameter set to TRUE if the child windows of a
-top-level window each realize their own palettes. However, only the
-child window that needs to realize its palette must set
-bForceBackground to TRUE; other child windows must set this value to
-FALSE.
+アプリケーションは、GetDeviceCaps 関数を呼び出して RASTERCAPS
+定数を指定することで、デバイスがパレット操作をサポートしているかを判定できる。アプリケーションは、デバイスコンテキストが互換性を持つ場合にのみ、論理パレットを複数のデバイスコンテキストに選択できる。そうでない場合
+SelectPalette
+は失敗する。別のデバイスコンテキストと互換性のあるデバイスコンテキストを作成するには、最初のデバイスコンテキストを引数として
+CreateCompatibleDC
+を呼び出す。論理パレットが複数のデバイスコンテキストに選択されている場合、論理パレットへの変更は、それが選択されているすべてのデバイスコンテキストに影響する。トップレベルウィンドウの子ウィンドウがそれぞれ独自のパレットを実現する場合、アプリケーションは
+bForceBackground パラメータを TRUE にして SelectPalette
+関数を呼び出すことがある。ただし、パレットを実現する必要がある子ウィンドウのみが bForceBackground を TRUE
+に設定しなければならず、他の子ウィンドウはこの値を FALSE に設定しなければならない。
 
 
 %index
 SetAbortProc
-The SetAbortProc function sets the application-defined abort function that allows a print job to be canceled during spooling.
+SetAbortProc 関数は、スプール中に印刷ジョブをキャンセルできるようにするアプリケーション定義の中止関数を設定する。
 %group
 Win32 gdi32
 %prm
 hdc, proc
-hdc : [intptr] Handle to the device context for the print job.
-proc : [int] Pointer to the application-defined abort function. For more information about the callback function, see the AbortProc callback function.
+hdc : [intptr] 印刷ジョブのデバイスコンテキストへのハンドル。
+proc : [int] アプリケーション定義の中止関数へのポインタ。コールバック関数の詳細は AbortProc コールバック関数を参照。
 %inst
-The SetAbortProc function sets the application-defined abort function
-that allows a print job to be canceled during spooling.
+SetAbortProc 関数は、スプール中に印刷ジョブをキャンセルできるようにするアプリケーション定義の中止関数を設定する。
 
 [戻り値]
-If the function succeeds, the return value is greater than zero. If
-the function fails, the return value is SP_ERROR.
+関数が成功した場合、戻り値はゼロより大きい値である。関数が失敗した場合、戻り値は SP_ERROR である。
 
 [備考]
-Note This is a blocking or synchronous function and might not return
-immediately. How quickly this function returns depends on run-time
-factors such as network status, print server configuration, and
-printer driver implementation?factors that are difficult to predict
-when writing an application. Calling this function from a thread that
-manages interaction with the user interface could make the
-application appear to be unresponsive.
+注:
+これはブロッキングまたは同期関数であり、すぐに返らない可能性がある。この関数がどれだけ早く返るかは、ネットワーク状態、印刷サーバの設定、プリンタドライバの実装といった、アプリケーションの作成時に予測が難しい実行時要因に依存する。ユーザインターフェイスとの対話を管理するスレッドからこの関数を呼び出すと、アプリケーションが応答しないように見えることがある。
 
 
 %index
 SetArcDirection
-The SetArcDirection sets the drawing direction to be used for arc and rectangle functions.
+SetArcDirection 関数は、円弧と矩形関数に使用する描画方向を設定する。
 %group
 Win32 gdi32
 %prm
 hdc, dir
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストへのハンドル。
 dir : [int] 
 %inst
-The SetArcDirection sets the drawing direction to be used for arc and
-rectangle functions.
+SetArcDirection 関数は、円弧と矩形関数に使用する描画方向を設定する。
 
 [戻り値]
-If the function succeeds, the return value specifies the old arc
-direction. If the function fails, the return value is zero.
+関数が成功した場合、戻り値は以前の円弧方向を指定する。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The default direction is counterclockwise. The SetArcDirection
-function specifies the direction in which the following functions
-draw:
-This doc was truncated.
+デフォルトの方向は反時計回りである。SetArcDirection 関数は、次の関数が描画する方向を指定する:
+（以下省略）
 
 
 %index
 SetBitmapBits
-The SetBitmapBits function sets the bits of color data for a bitmap to the specified values.
+SetBitmapBits 関数は、ビットマップのカラーデータのビットを指定した値に設定する。
 %group
 Win32 gdi32
 %prm
 hbm, cb, pvBits
-hbm : [intptr] A handle to the bitmap to be set. This must be a compatible bitmap (DDB).
-cb : [int] The number of bytes pointed to by the lpBits parameter.
-pvBits : [intptr] A pointer to an array of bytes that contain color data for the specified bitmap.
+hbm : [intptr] 設定するビットマップへのハンドル。これは互換ビットマップ(DDB)でなければならない。
+cb : [int] lpBits パラメータが指すバイト数。
+pvBits : [intptr] 指定したビットマップのカラーデータを含むバイト配列へのポインタ。
 %inst
-The SetBitmapBits function sets the bits of color data for a bitmap
-to the specified values.
+SetBitmapBits 関数は、ビットマップのカラーデータのビットを指定した値に設定する。
 
 [戻り値]
-If the function succeeds, the return value is the number of bytes
-used in setting the bitmap bits. If the function fails, the return
-value is zero.
+関数が成功した場合、戻り値はビットマップビットの設定に使用されたバイト数である。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The array identified by lpBits must be WORD aligned.
+lpBits で指定される配列は WORD 整列されている必要がある。
 
 
 %index
 SetBitmapDimensionEx
-The SetBitmapDimensionEx function assigns preferred dimensions to a bitmap. These dimensions can be used by applications; however, they are not used by the system.
+SetBitmapDimensionEx 関数は、ビットマップに優先寸法を割り当てる。これらの寸法はアプリケーションが使用できるが、システムは使用しない。
 %group
 Win32 gdi32
 %prm
 hbm, w, h, lpsz
-hbm : [intptr] A handle to the bitmap. The bitmap cannot be a DIB-section bitmap.
-w : [int] The width, in 0.1-millimeter units, of the bitmap.
-h : [int] The height, in 0.1-millimeter units, of the bitmap.
-lpsz : [var] A pointer to a SIZE structure to receive the previous dimensions of the bitmap. This pointer can be NULL.
+hbm : [intptr] ビットマップへのハンドル。このビットマップは DIB セクションビットマップであってはならない。
+w : [int] ビットマップの幅(0.1 ミリメートル単位)。
+h : [int] ビットマップの高さ(0.1 ミリメートル単位)。
+lpsz : [var] ビットマップの以前の寸法を受け取る SIZE 構造体へのポインタ。このポインタは NULL でもよい。
 %inst
-The SetBitmapDimensionEx function assigns preferred dimensions to a
-bitmap. These dimensions can be used by applications; however, they
-are not used by the system.
+SetBitmapDimensionEx
+関数は、ビットマップに優先寸法を割り当てる。これらの寸法はアプリケーションが使用できるが、システムは使用しない。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-An application can retrieve the dimensions assigned to a bitmap with
-the SetBitmapDimensionEx function by calling the GetBitmapDimensionEx
-function. The bitmap identified by hBitmap cannot be a DIB section,
-which is a bitmap created by the CreateDIBSection function. If the
-bitmap is a DIB section, the SetBitmapDimensionEx function fails.
+アプリケーションは、SetBitmapDimensionEx
+関数でビットマップに割り当てられた寸法を、GetBitmapDimensionEx 関数を呼び出して取得できる。hBitmap
+で指定されるビットマップは、CreateDIBSection 関数で作成された DIB セクションであってはならない。ビットマップが
+DIB セクションの場合、SetBitmapDimensionEx 関数は失敗する。
 
 
 %index
@@ -9283,207 +7674,167 @@ SetBkMode は CreatePen で作成されたペンで描画される線のスタイルに影響する。ExtCr
 
 %index
 SetBoundsRect
-The SetBoundsRect function controls the accumulation of bounding rectangle information for the specified device context.
+SetBoundsRect 関数は、指定したデバイスコンテキストのバウンディング矩形情報の蓄積を制御する。
 %group
 Win32 gdi32
 %prm
 hdc, lprect, flags
-hdc : [intptr] A handle to the device context for which to accumulate bounding rectangles.
-lprect : [var] A pointer to a RECT structure used to set the bounding rectangle. Rectangle dimensions are in logical coordinates. This parameter can be NULL.
+hdc : [intptr] バウンディング矩形を蓄積するデバイスコンテキストへのハンドル。
+lprect : [var] バウンディング矩形を設定するために使用する RECT 構造体へのポインタ。矩形の寸法は論理座標で指定する。このパラメータは NULL でもよい。
 flags : [int] 
 %inst
-The SetBoundsRect function controls the accumulation of bounding
-rectangle information for the specified device context.
+SetBoundsRect 関数は、指定したデバイスコンテキストのバウンディング矩形情報の蓄積を制御する。
 
 [戻り値]
-If the function succeeds, the return value specifies the previous
-state of the bounding rectangle. This state can be a combination of
-the following values.
-This doc was truncated.
+関数が成功した場合、戻り値はバウンディング矩形の以前の状態を指定する。この状態は次の値の組み合わせとなる。
+（以下省略）
 
 [備考]
-The DCB_SET value is a combination of the bit values DCB_ACCUMULATE
-and DCB_RESET. Applications that check the DCB_RESET bit to determine
-whether the bounding rectangle is empty must also check the
-DCB_ACCUMULATE bit. The bounding rectangle is empty only if the
-DCB_RESET bit is 1 and the DCB_ACCUMULATE bit is 0.
+DCB_SET 値は DCB_ACCUMULATE と DCB_RESET のビット値の組み合わせである。DCB_RESET
+ビットをチェックしてバウンディング矩形が空かどうかを判定するアプリケーションは、DCB_ACCUMULATE
+ビットもチェックしなければならない。バウンディング矩形が空なのは、DCB_RESET ビットが 1 で DCB_ACCUMULATE
+ビットが 0 の場合のみである。
 
 
 %index
 SetBrushOrgEx
-The SetBrushOrgEx function sets the brush origin that GDI assigns to the next brush an application selects into the specified device context.
+SetBrushOrgEx 関数は、アプリケーションが指定したデバイスコンテキストに次に選択するブラシに GDI が割り当てるブラシ原点を設定する。
 %group
 Win32 gdi32
 %prm
 hdc, x, y, lppt
-hdc : [intptr] A handle to the device context.
-x : [int] The x-coordinate, in device units, of the new brush origin. If this value is greater than the brush width, its value is reduced using the modulus operator (nXOrg mod brush width).
-y : [int] The y-coordinate, in device units, of the new brush origin. If this value is greater than the brush height, its value is reduced using the modulus operator (nYOrg mod brush height).
-lppt : [var] A pointer to a POINT structure that receives the previous brush origin. This parameter can be NULL if the previous brush origin is not required.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+x : [int] 新しいブラシ原点の x 座標(デバイス単位)。この値がブラシの幅より大きい場合、その値はモジュロ演算子(nXOrg mod ブラシ幅)を使用して縮小される。
+y : [int] 新しいブラシ原点の y 座標(デバイス単位)。この値がブラシの高さより大きい場合、その値はモジュロ演算子(nYOrg mod ブラシ高さ)を使用して縮小される。
+lppt : [var] 以前のブラシ原点を受け取る POINT 構造体へのポインタ。以前のブラシ原点が不要な場合、このパラメータは NULL でもよい。
 %inst
-The SetBrushOrgEx function sets the brush origin that GDI assigns to
-the next brush an application selects into the specified device
-context.
+SetBrushOrgEx 関数は、アプリケーションが指定したデバイスコンテキストに次に選択するブラシに GDI
+が割り当てるブラシ原点を設定する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-A brush is a bitmap that the system uses to paint the interiors of
-filled shapes. The brush origin is a pair of coordinates specifying
-the location of one pixel in the bitmap. The default brush origin
-coordinates are (0,0). For horizontal coordinates, the value 0
-corresponds to the leftmost column of pixels; the width corresponds
-to the rightmost column. For vertical coordinates, the value 0
-corresponds to the uppermost row of pixels; the height corresponds to
-the lowermost row. The system automatically tracks the origin of all
-window-managed device contexts and adjusts their brushes as necessary
-to maintain an alignment of patterns on the surface. The brush origin
-that is set with this call is relative to the upper-left corner of
-the client area. An application should call SetBrushOrgEx after
-setting the bitmap stretching mode to HALFTONE by using
-SetStretchBltMode. This must be done to avoid brush misalignment. The
-system automatically tracks the origin of all window-managed device
-contexts and adjusts their brushes as necessary to maintain an
-alignment of patterns on the surface.
+ブラシは、システムが塗りつぶされた図形の内部を塗るために使用するビットマップである。ブラシ原点は、ビットマップ内の 1
+ピクセルの位置を指定する座標のペアである。デフォルトのブラシ原点座標は (0,0) である。水平座標の場合、値 0
+はピクセルの最左列に対応し、幅は最右列に対応する。垂直座標の場合、値 0
+はピクセルの最上行に対応し、高さは最下行に対応する。システムはウィンドウ管理のすべてのデバイスコンテキストの原点を自動的に追跡し、サーフェス上のパターンの位置合わせを維持するために必要に応じてブラシを調整する。この呼び出しで設定されるブラシ原点は、クライアント領域の左上隅からの相対位置である。アプリケーションは、SetStretchBltMode
+を使用してビットマップストレッチモードを HALFTONE に設定した後に SetBrushOrgEx
+を呼び出すべきである。これはブラシの位置ずれを避けるために行う必要がある。システムはウィンドウ管理のすべてのデバイスコンテキストの原点を自動的に追跡し、サーフェス上のパターンの位置合わせを維持するために必要に応じてブラシを調整する。
 
 
 %index
 SetColorAdjustment
-The SetColorAdjustment function sets the color adjustment values for a device context (DC) using the specified values.
+SetColorAdjustment 関数は、指定した値を使用してデバイスコンテキスト(DC)のカラー調整値を設定する。
 %group
 Win32 gdi32
 %prm
 hdc, lpca
-hdc : [intptr] A handle to the device context.
-lpca : [var] A pointer to a COLORADJUSTMENT structure containing the color adjustment values.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+lpca : [var] カラー調整値を含む COLORADJUSTMENT 構造体へのポインタ。
 %inst
-The SetColorAdjustment function sets the color adjustment values for
-a device context (DC) using the specified values.
+SetColorAdjustment 関数は、指定した値を使用してデバイスコンテキスト(DC)のカラー調整値を設定する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The color adjustment values are used to adjust the input color of the
-source bitmap for calls to the StretchBlt and StretchDIBits functions
-when HALFTONE mode is set.
+カラー調整値は、HALFTONE モードが設定されているときに StretchBlt および StretchDIBits
+関数を呼び出した際のソースビットマップの入力カラーを調整するために使用される。
 
 
 %index
 SetColorSpace
-The SetColorSpace function defines the input color space for a given device context.
+SetColorSpace 関数は、指定したデバイスコンテキストの入力カラースペースを定義する。
 %group
 Win32 gdi32
 %prm
 hdc, hcs
-hdc : [intptr] Specifies the handle to a device context.
-hcs : [intptr] Identifies handle to the color space to set.
+hdc : [intptr] デバイスコンテキストへのハンドルを指定する。
+hcs : [intptr] 設定するカラースペースへのハンドルを識別する。
 %inst
-The SetColorSpace function defines the input color space for a given
-device context.
+SetColorSpace 関数は、指定したデバイスコンテキストの入力カラースペースを定義する。
 
 [戻り値]
-If this function succeeds, the return value is a handle to the
-hColorSpace being replaced. If this function fails, the return value
-is NULL.
+この関数が成功した場合、戻り値は置き換えられる hColorSpace へのハンドルである。この関数が失敗した場合、戻り値は NULL
+である。
 
 
 %index
 SetDCBrushColor
-SetDCBrushColor function sets the current device context (DC) brush color to the specified color value. If the device cannot represent the specified color value, the color is set to the nearest physical color.
+SetDCBrushColor 関数は、現在のデバイスコンテキスト(DC)のブラシ色を指定したカラー値に設定する。デバイスが指定したカラー値を表現できない場合、色は最も近い物理色に設定される。
 %group
 Win32 gdi32
 %prm
 hdc, color
-hdc : [intptr] A handle to the DC.
-color : [int] The new brush color.
+hdc : [intptr] DC へのハンドル。
+color : [int] 新しいブラシの色。
 %inst
-SetDCBrushColor function sets the current device context (DC) brush
-color to the specified color value. If the device cannot represent
-the specified color value, the color is set to the nearest physical
-color.
+SetDCBrushColor
+関数は、現在のデバイスコンテキスト(DC)のブラシ色を指定したカラー値に設定する。デバイスが指定したカラー値を表現できない場合、色は最も近い物理色に設定される。
 
 [戻り値]
-If the function succeeds, the return value specifies the previous DC
-brush color as a COLORREF value. If the function fails, the return
-value is CLR_INVALID.
+関数が成功した場合、戻り値は以前の DC ブラシ色を COLORREF 値として指定する。関数が失敗した場合、戻り値は
+CLR_INVALID である。
 
 [備考]
-When the stock DC_BRUSH is selected in a DC, all the subsequent
-drawings will be done using the DC brush color until the stock brush
-is deselected. The default DC_BRUSH color is WHITE. The function
-returns the previous DC_BRUSH color, even if the stock brush DC_BRUSH
-is not selected in the DC: however, this will not be used in drawing
-operations until the stock DC_BRUSH is selected in the DC. The
-GetStockObject function with an argument of DC_BRUSH or DC_PEN can be
-used interchangeably with the SetDCPenColor and SetDCBrushColor
-functions. ICM: Color management is performed if ICM is enabled.
+ストック DC_BRUSH が DC に選択されている場合、ストックブラシが選択解除されるまで、以降のすべての描画は DC
+ブラシの色を使用して行われる。デフォルトの DC_BRUSH の色は白である。関数は、ストックブラシ DC_BRUSH が DC
+に選択されていなくても、以前の DC_BRUSH の色を返す。ただし、これはストック DC_BRUSH が DC
+に選択されるまで描画操作で使用されない。DC_BRUSH または DC_PEN を引数とする GetStockObject
+関数は、SetDCPenColor および SetDCBrushColor 関数と相互に置き換えて使用できる。ICM: ICM
+が有効な場合、カラー管理が実行される。
 
 
 %index
 SetDCPenColor
-SetDCPenColor function sets the current device context (DC) pen color to the specified color value. If the device cannot represent the specified color value, the color is set to the nearest physical color.
+SetDCPenColor 関数は、現在のデバイスコンテキスト(DC)のペン色を指定したカラー値に設定する。デバイスが指定したカラー値を表現できない場合、色は最も近い物理色に設定される。
 %group
 Win32 gdi32
 %prm
 hdc, color
-hdc : [intptr] A handle to the DC.
-color : [int] The new pen color.
+hdc : [intptr] DC へのハンドル。
+color : [int] 新しいペンの色。
 %inst
-SetDCPenColor function sets the current device context (DC) pen color
-to the specified color value. If the device cannot represent the
-specified color value, the color is set to the nearest physical
-color.
+SetDCPenColor
+関数は、現在のデバイスコンテキスト(DC)のペン色を指定したカラー値に設定する。デバイスが指定したカラー値を表現できない場合、色は最も近い物理色に設定される。
 
 [戻り値]
-If the function succeeds, the return value specifies the previous DC
-pen color as a COLORREF value. If the function fails, the return
-value is CLR_INVALID.
+関数が成功した場合、戻り値は以前の DC ペン色を COLORREF 値として指定する。関数が失敗した場合、戻り値は
+CLR_INVALID である。
 
 [備考]
-The function returns the previous DC_PEN color, even if the stock pen
-DC_PEN is not selected in the DC; however, this will not be used in
-drawing operations until the stock DC_PEN is selected in the DC. The
-GetStockObject function with an argument of DC_BRUSH or DC_PEN can be
-used interchangeably with the SetDCPenColor and SetDCBrushColor
-functions. ICM: Color management is performed if ICM is enabled.
+関数は、ストックペン DC_PEN が DC に選択されていなくても、以前の DC_PEN の色を返す。ただし、これはストック
+DC_PEN が DC に選択されるまで描画操作で使用されない。DC_BRUSH または DC_PEN を引数とする
+GetStockObject 関数は、SetDCPenColor および SetDCBrushColor
+関数と相互に置き換えて使用できる。ICM: ICM が有効な場合、カラー管理が実行される。
 
 
 %index
 SetDIBColorTable
-The SetDIBColorTable function sets RGB (red, green, blue) color values in a range of entries in the color table of the DIB that is currently selected into a specified device context.
+SetDIBColorTable 関数は、指定したデバイスコンテキストに現在選択されている DIB のカラーテーブル内の範囲のエントリに、RGB(赤、緑、青)カラー値を設定する。
 %group
 Win32 gdi32
 %prm
 hdc, iStart, cEntries, prgbq
-hdc : [intptr] A device context. A DIB must be selected into this device context.
-iStart : [int] A zero-based color table index that specifies the first color table entry to set.
-cEntries : [int] The number of color table entries to set.
-prgbq : [var] A pointer to an array of RGBQUAD structures containing new color information for the DIB's color table.
+hdc : [intptr] デバイスコンテキスト。このデバイスコンテキストに DIB が選択されていなければならない。
+iStart : [int] 設定する最初のカラーテーブルエントリを指定するゼロベースのカラーテーブルインデックス。
+cEntries : [int] 設定するカラーテーブルのエントリ数。
+prgbq : [var] DIB のカラーテーブル用の新しいカラー情報を含む RGBQUAD 構造体の配列へのポインタ。
 %inst
-The SetDIBColorTable function sets RGB (red, green, blue) color
-values in a range of entries in the color table of the DIB that is
-currently selected into a specified device context.
+SetDIBColorTable 関数は、指定したデバイスコンテキストに現在選択されている DIB
+のカラーテーブル内の範囲のエントリに、RGB(赤、緑、青)カラー値を設定する。
 
 [戻り値]
-If the function succeeds, the return value is the number of color
-table entries that the function sets. If the function fails, the
-return value is zero.
+関数が成功した場合、戻り値は関数が設定したカラーテーブルのエントリ数である。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-This function should be called to set the color table for DIBs that
-use 1, 4, or 8 bpp. The BitCount member of a bitmap's associated
-bitmap information header structure.
-BITMAPINFOHEADER structure specifies the number of bits-per-pixel.
-Device-independent bitmaps with a biBitCount value greater than 8 do
-not have a color table. The bV5BitCount member of a bitmap's
-associated BITMAPV5HEADER structure specifies the number of
-bits-per-pixel. Device-independent bitmaps with a bV5BitCount value
-greater than 8 do not have a color table. ICM: No color management is
-performed.
+この関数は、1、4、または 8 bpp を使用する DIB
+のカラーテーブルを設定するために呼び出すべきである。ビットマップに関連付けられた BITMAPINFOHEADER 構造体の
+BitCount メンバがビット/ピクセル数を指定する。biBitCount 値が 8
+を超えるデバイス独立ビットマップはカラーテーブルを持たない。ビットマップに関連付けられた BITMAPV5HEADER 構造体の
+bV5BitCount メンバがビット/ピクセル数を指定する。bV5BitCount 値が 8
+を超えるデバイス独立ビットマップはカラーテーブルを持たない。ICM: カラー管理は実行されない。
 
 
 %index
@@ -9517,418 +7868,341 @@ ICM_ON が設定されている場合にカラーマネジメントが行われる。
 
 %index
 SetDIBitsToDevice
-The SetDIBitsToDevice function sets the pixels in the specified rectangle on the device that is associated with the destination device context using color data from a DIB, JPEG, or PNG image.
+SetDIBitsToDevice 関数は、DIB、JPEG、または PNG 画像のカラーデータを使用して、コピー先デバイスコンテキストに関連付けられたデバイス上の指定矩形内のピクセルを設定する。
 %group
 Win32 gdi32
 %prm
 hdc, xDest, yDest, w, h, xSrc, ySrc, StartScan, cLines, lpvBits, lpbmi, ColorUse
-hdc : [intptr] A handle to the device context.
-xDest : [int] The x-coordinate, in logical units, of the upper-left corner of the destination rectangle.
-yDest : [int] The y-coordinate, in logical units, of the upper-left corner of the destination rectangle.
-w : [int] The width, in logical units, of the image.
-h : [int] The height, in logical units, of the image.
-xSrc : [int] The x-coordinate, in logical units, of the lower-left corner of the image.
-ySrc : [int] The y-coordinate, in logical units, of the lower-left corner of the image.
-StartScan : [int] The starting scan line in the image.
-cLines : [int] The number of DIB scan lines contained in the array pointed to by the lpvBits parameter.
-lpvBits : [intptr] A pointer to the color data stored as an array of bytes. For more information, see the following Remarks section.
-lpbmi : [var] A pointer to a BITMAPINFO structure that contains information about the DIB.
-ColorUse : [int] Indicates whether the bmiColors member of the BITMAPINFO structure contains explicit red, green, blue (RGB) values or indexes into a palette. For more information, see the following Remarks section.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+xDest : [int] コピー先矩形の左上隅の x 座標(論理単位)。
+yDest : [int] コピー先矩形の左上隅の y 座標(論理単位)。
+w : [int] 画像の幅(論理単位)。
+h : [int] 画像の高さ(論理単位)。
+xSrc : [int] 画像の左下隅の x 座標(論理単位)。
+ySrc : [int] 画像の左下隅の y 座標(論理単位)。
+StartScan : [int] 画像内の開始スキャンライン。
+cLines : [int] lpvBits パラメータが指す配列に含まれる DIB スキャンラインの数。
+lpvBits : [intptr] バイト配列として格納されたカラーデータへのポインタ。詳細は後述の「解説」セクションを参照。
+lpbmi : [var] DIB に関する情報を含む BITMAPINFO 構造体へのポインタ。
+ColorUse : [int] BITMAPINFO 構造体の bmiColors メンバが明示的な赤、緑、青 (RGB) 値を含むか、パレットへのインデックスを含むかを示す。詳細は後述の「解説」セクションを参照。
 %inst
-The SetDIBitsToDevice function sets the pixels in the specified
-rectangle on the device that is associated with the destination
-device context using color data from a DIB, JPEG, or PNG image.
+SetDIBitsToDevice 関数は、DIB、JPEG、または PNG
+画像のカラーデータを使用して、コピー先デバイスコンテキストに関連付けられたデバイス上の指定矩形内のピクセルを設定する。
 
 [戻り値]
-If the function succeeds, the return value is the number of scan
-lines set. If zero scan lines are set (such as when dwHeight is 0) or
-the function fails, the function returns zero. If the driver cannot
-support the JPEG or PNG file image passed to SetDIBitsToDevice, the
-function will fail and return GDI_ERROR. If failure does occur, the
-application must fall back on its own JPEG or PNG support to
-decompress the image into a bitmap, and then pass the bitmap to
-SetDIBitsToDevice.
+関数が成功した場合、戻り値は設定されたスキャンラインの数である。スキャンラインが 0 設定された場合(dwHeight が 0
+のときなど)、あるいは関数が失敗した場合、関数は 0 を返す。ドライバが SetDIBitsToDevice に渡された JPEG または
+PNG ファイル画像をサポートできない場合、関数は失敗して GDI_ERROR を返す。失敗した場合、アプリケーションは独自の JPEG
+または PNG サポートにフォールバックして画像をビットマップに展開し、そのビットマップを SetDIBitsToDevice
+に渡す必要がある。
 
 [備考]
-Optimal bitmap drawing speed is obtained when the bitmap bits are
-indexes into the system palette. Applications can retrieve the system
-palette colors and indexes by calling the GetSystemPaletteEntries
-function. After the colors and indexes are retrieved, the application
-can create the DIB. For more information about the system palette,
-see Colors. The scan lines must be aligned on a DWORD except for
-RLE-compressed bitmaps. The origin of a bottom-up DIB is the
-lower-left corner of the bitmap; the origin of a top-down DIB is the
-upper-left corner. To reduce the amount of memory required to set
-bits from a large DIB on a device surface, an application can band
-the output by repeatedly calling SetDIBitsToDevice, placing a
-different portion of the bitmap into the lpvBits array each time. The
-values of the uStartScan and cScanLines parameters identify the
-portion of the bitmap contained in the lpvBits array. The
-SetDIBitsToDevice function returns an error if it is called by a
-process that is running in the background while a full-screen MS-DOS
-session runs in the foreground.
-This doc was truncated.
+最適なビットマップ描画速度は、ビットマップビットがシステムパレットへのインデックスである場合に得られる。アプリケーションは
+GetSystemPaletteEntries
+関数を呼び出してシステムパレットの色とインデックスを取得できる。色とインデックスを取得した後、アプリケーションは DIB
+を作成できる。システムパレットの詳細は Colors を参照。RLE 圧縮ビットマップを除いて、スキャンラインは DWORD
+に整列しなければならない。ボトムアップ DIB の原点はビットマップの左下隅であり、トップダウン DIB の原点は左上隅である。大きな
+DIB のビットをデバイスサーフェスに設定するために必要なメモリ量を減らすには、アプリケーションは SetDIBitsToDevice
+を繰り返し呼び出し、毎回 lpvBits 配列にビットマップの異なる部分を配置することで、出力を帯状化できる。uStartScan と
+cScanLines パラメータの値は、lpvBits 配列に含まれるビットマップの部分を識別する。SetDIBitsToDevice
+関数は、フォアグラウンドでフルスクリーンの MS-DOS
+セッションが実行されているときに、バックグラウンドで実行されているプロセスから呼び出された場合、エラーを返す。
+（以下省略）
 
 
 %index
 SetDeviceGammaRamp
-The SetDeviceGammaRamp function sets the gamma ramp on direct color display boards having drivers that support downloadable gamma ramps in hardware.
+SetDeviceGammaRamp 関数は、ハードウェアでダウンロード可能なガンマランプをサポートするドライバを持つダイレクトカラー表示ボード上にガンマランプを設定する。
 %group
 Win32 gdi32
 %prm
 hdc, lpRamp
-hdc : [intptr] Specifies the device context of the direct color display board in question.
-lpRamp : [intptr] Pointer to a buffer containing the gamma ramp to be set. The gamma ramp is specified in three arrays of 256 WORD elements each, which contain the mapping between RGB values in the frame buffer and digital-analog-converter (DAC ) values. The sequence of the arrays is red, green, blue. The RGB values must be stored in the most significant bits of each WORD to increase DAC independence.
+hdc : [intptr] 対象のダイレクトカラー表示ボードのデバイスコンテキストを指定する。
+lpRamp : [intptr] 設定するガンマランプを含むバッファへのポインタ。ガンマランプは、それぞれ 256 の WORD 要素を持つ 3 つの配列で指定され、フレームバッファ内の RGB 値とデジタルアナログコンバータ(DAC)値の間のマッピングを含む。配列の順序は赤、緑、青である。DAC の独立性を高めるため、RGB 値は各 WORD の最上位ビットに格納されていなければならない。
 %inst
-The SetDeviceGammaRamp function sets the gamma ramp on direct color
-display boards having drivers that support downloadable gamma ramps
-in hardware.
+SetDeviceGammaRamp
+関数は、ハードウェアでダウンロード可能なガンマランプをサポートするドライバを持つダイレクトカラー表示ボード上にガンマランプを設定する。
 
 [戻り値]
-If this function succeeds, the return value is TRUE. If this function
-fails, the return value is FALSE.
+この関数が成功した場合、戻り値は TRUE である。この関数が失敗した場合、戻り値は FALSE である。
 
 [備考]
-Direct color display modes do not use color lookup tables and are
-usually 16, 24, or 32 bit. Not all direct color video boards support
-loadable gamma ramps. SetDeviceGammaRamp succeeds only for devices
-with drivers that support downloadable gamma ramps in hardware. >
-[!NOTE] > This API can take a non-trivial amount of time to execute.
-It may take as long as 200ms to return on some hardware.
+ダイレクトカラー表示モードはカラールックアップテーブルを使用せず、通常 16、24、または 32
+ビットである。すべてのダイレクトカラービデオボードがロード可能なガンマランプをサポートしているわけではない。SetDeviceGammaRamp
+は、ハードウェアでダウンロード可能なガンマランプをサポートするドライバを持つデバイスでのみ成功する。> [!NOTE] > この API
+は実行に自明でない時間を要することがある。一部のハードウェアでは返るのに 200ms かかることもある。
 
 
 %index
 SetEnhMetaFileBits
-The SetEnhMetaFileBits function creates a memory-based enhanced-format metafile from the specified data.
+SetEnhMetaFileBits 関数は、指定したデータからメモリベースの拡張形式メタファイルを作成する。
 %group
 Win32 gdi32
 %prm
 nSize, pb
-nSize : [int] Specifies the size, in bytes, of the data provided.
-pb : [var] Pointer to a buffer that contains enhanced-metafile data. (It is assumed that the data in the buffer was obtained by calling the GetEnhMetaFileBits function.)
+nSize : [int] 提供されたデータのサイズ(バイト単位)を指定する。
+pb : [var] 拡張メタファイルデータを含むバッファへのポインタ(バッファ内のデータは GetEnhMetaFileBits 関数を呼び出して取得されたと想定される)。
 %inst
-The SetEnhMetaFileBits function creates a memory-based
-enhanced-format metafile from the specified data.
+SetEnhMetaFileBits 関数は、指定したデータからメモリベースの拡張形式メタファイルを作成する。
 
 [戻り値]
-If the function succeeds, the return value is a handle to a
-memory-based enhanced metafile. If the function fails, the return
-value is NULL.
+関数が成功した場合、戻り値はメモリベースの拡張メタファイルへのハンドルである。関数が失敗した場合、戻り値は NULL である。
 
 [備考]
-When the application no longer needs the enhanced-metafile handle, it
-should delete the handle by calling the DeleteEnhMetaFile function.
-The SetEnhMetaFileBits function does not accept metafile data in the
-Windows format. To import Windows-format metafiles, use the
-SetWinMetaFileBits function.
+アプリケーションが拡張メタファイルハンドルを必要としなくなったら、DeleteEnhMetaFile
+関数を呼び出してハンドルを削除するべきである。SetEnhMetaFileBits 関数は Windows
+形式のメタファイルデータを受け付けない。Windows 形式メタファイルをインポートするには、SetWinMetaFileBits
+関数を使用する。
 
 
 %index
 SetGraphicsMode
-The SetGraphicsMode function sets the graphics mode for the specified device context.
+SetGraphicsMode 関数は、指定したデバイスコンテキストのグラフィックスモードを設定する。
 %group
 Win32 gdi32
 %prm
 hdc, iMode
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストへのハンドル。
 iMode : [int] 
 %inst
-The SetGraphicsMode function sets the graphics mode for the specified
-device context.
+SetGraphicsMode 関数は、指定したデバイスコンテキストのグラフィックスモードを設定する。
 
 [戻り値]
-If the function succeeds, the return value is the old graphics mode.
-If the function fails, the return value is zero.
+関数が成功した場合、戻り値は古いグラフィックスモードである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-There are three areas in which graphics output differs according to
-the graphics mode:
-This doc was truncated.
+グラフィックスモードによってグラフィックス出力が異なる領域は 3 つある:
+（以下省略）
 
 
 %index
 SetICMMode
-The SetICMMode function causes Image Color Management to be enabled, disabled, or queried on a given device context (DC).
+SetICMMode 関数は、指定したデバイスコンテキスト(DC)上でイメージカラーマネジメントを有効化、無効化、または問い合わせる。
 %group
 Win32 gdi32
 %prm
 hdc, mode
-hdc : [intptr] Identifies handle to the device context.
-mode : [int] Turns on and off image color management. This parameter can take one of the following constant values.
+hdc : [intptr] デバイスコンテキストへのハンドルを識別する。
+mode : [int] イメージカラーマネジメントをオンまたはオフにする。このパラメータは次の定数値のいずれかを取ることができる。
 %inst
-The SetICMMode function causes Image Color Management to be enabled,
-disabled, or queried on a given device context (DC).
+SetICMMode 関数は、指定したデバイスコンテキスト(DC)上でイメージカラーマネジメントを有効化、無効化、または問い合わせる。
 
 [戻り値]
-If this function succeeds, the return value is a nonzero value. If
-this function fails, the return value is zero. If ICM_QUERY is
-specified and the function succeeds, the nonzero value returned is
-ICM_ON or ICM_OFF to indicate the current mode.
+この関数が成功した場合、戻り値は非ゼロ値である。この関数が失敗した場合、戻り値はゼロである。ICM_QUERY
+が指定されて関数が成功した場合、返される非ゼロ値は現在のモードを示す ICM_ON または ICM_OFF である。
 
 [備考]
-If the system cannot find an ICC color profile to match the state of
-the device, SetICMMode fails and returns zero. Once WCS is enabled
-for a device context (DC), colors passed into the DC using most Win32
-API functions are color matched. The primary exceptions are BitBlt
-and StretchBlt. The assumption is that when performing a bit block
-transfer (blit) from one DC to another, the two DCs are already
-compatible and need no color correction. If this is not the case,
-color correction may be performed. Specifically, if a device
-independent bitmap (DIB) is used as the source for a blit, and the
-blit is performed into a DC that has WCS enabled, color matching will
-be performed. If this is not what you want, turn WCS off for the
-destination DC by calling SetICMMode before calling BitBlt or
-StretchBlt. If the CreateCompatibleDC function is used to create a
-bitmap in a DC, it is possible for the bitmap to be color matched
-twice, once when it is created and once when a blit is performed. The
-reason is that a bitmap in a DC created by the CreateCompatibleDC
-function acquires the current brush, pens, and palette of the source
-DC. However, WCS will be disabled by default for the new DC. If WCS
-is later enabled for the new DC by using the SetICMMode function, a
-color correction will be done. To prevent double color corrections
-through the use of the CreateCompatibleDC function, use the
-SetICMMode function to turn WCS off for the source DC before the
-CreateCompatibleDC function is called. When a compatible DC is
-created from a printer's DC (see CreateCompatibleDC ), the default is
-for color matching to always be performed if it is enabled for the
-printer's DC. The default color profile for the printer is used when
-a blit is performed into the printer's DC using SetDIBitsToDevice or
-StretchDIBits. If this is not what you want, turn WCS off for the
-printer's DC by calling SetICMMode before calling SetDIBitsToDevice
-or StretchDIBits. Also, when printing to a printer's DC with WCS
-turned on, the SetICMMode function needs to be called after every
-call to the StartPage function to turn back on WCS. The StartPage
-function calls the RestoreDC and SaveDC functions, which result in
-WCS being turned off for the printer's DC.
+システムがデバイスの状態に一致する ICC カラープロファイルを見つけられない場合、SetICMMode
+は失敗してゼロを返す。デバイスコンテキスト(DC)に対して WCS が有効になると、ほとんどの Win32 API 関数を使って DC
+に渡される色はカラーマッチングされる。主な例外は BitBlt と StretchBlt である。ある DC から別の DC
+へのビットブロック転送(blit)を行う場合、2 つの DC
+はすでに互換性があり、カラー補正は必要ないと仮定される。そうでない場合、カラー補正が実行されることがある。具体的には、デバイス独立ビットマップ(DIB)を
+blit のソースとして使用し、blit を WCS が有効な DC
+に行う場合、カラーマッチングが実行される。これが望ましくない場合、BitBlt または StretchBlt を呼ぶ前に
+SetICMMode を呼び出して、コピー先 DC の WCS をオフにする。CreateCompatibleDC 関数を使用して DC
+内にビットマップを作成する場合、ビットマップは 2 回カラーマッチングされる可能性がある。1 回は作成時、もう 1 回は blit
+が実行されるときである。理由は、CreateCompatibleDC 関数で作成された DC 内のビットマップは、ソース DC
+の現在のブラシ、ペン、パレットを取得するためである。しかし、新しい DC では WCS がデフォルトで無効になる。その後
+SetICMMode 関数を使って新しい DC で WCS を有効にすると、カラー補正が行われる。CreateCompatibleDC
+関数の使用による二重のカラー補正を防ぐには、CreateCompatibleDC 関数を呼び出す前に SetICMMode
+関数を使って、ソース DC の WCS をオフにする。プリンタ DC から互換 DC
+が作成されるとき(CreateCompatibleDC を参照)、プリンタ DC
+に対して有効であれば、デフォルトでカラーマッチングが常に実行される。SetDIBitsToDevice または StretchDIBits
+を使用してプリンタ DC に blit
+を実行する場合、プリンタのデフォルトカラープロファイルが使用される。これが望ましくない場合、SetDIBitsToDevice または
+StretchDIBits を呼ぶ前に SetICMMode を呼び出して、プリンタ DC の WCS をオフにする。また、WCS
+を有効にしてプリンタ DC に印刷する場合、StartPage 関数の各呼び出しの後に WCS を再度オンにするために
+SetICMMode 関数を呼ぶ必要がある。StartPage 関数は RestoreDC と SaveDC
+関数を呼び出し、その結果プリンタ DC の WCS がオフになる。
 
 
 %index
 SetICMProfileW
-The SetICMProfile function sets a specified color profile as the output profile for a specified device context (DC). (Unicode)
+SetICMProfile 関数は、指定したカラープロファイルを指定したデバイスコンテキスト(DC)の出力プロファイルとして設定する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, lpFileName
-hdc : [intptr] Specifies a device context in which to set the color profile.
-lpFileName : [wstr] Specifies the path name of the color profile to be set.
+hdc : [intptr] カラープロファイルを設定するデバイスコンテキストを指定する。
+lpFileName : [wstr] 設定するカラープロファイルのパス名を指定する。
 %inst
-The SetICMProfile function sets a specified color profile as the
-output profile for a specified device context (DC). (Unicode)
+SetICMProfile
+関数は、指定したカラープロファイルを指定したデバイスコンテキスト(DC)の出力プロファイルとして設定する。(Unicode)
 
 [戻り値]
-If this function succeeds, the return value is TRUE. If this function
-fails, the return value is FALSE.
+この関数が成功した場合、戻り値は TRUE である。この関数が失敗した場合、戻り値は FALSE である。
 
 [備考]
-SetICMProfile associates a color profile with a device context. It
-becomes the output profile for that device context. The color profile
-does not have to be associated with any particular device.
-Device-independent profiles such as sRGB can also be used. If the
-color profile is not associated with a hardware device, it will be
-returned by GetICMProfile, but not by EnumICMProfiles. Note that
-under Windows 95 or later, the PostScript device driver for printers
-assumes a CMYK color model. Therefore, all PostScript printers must
-use a CMYK color profile. Windows 2000 does not have this limitation.
-SetICMProfile supports only RGB profiles in compatible DCs. Windows
-95/98/Me: SetICMProfileW is supported by the Microsoft Layer for
-Unicode. To use this, you must add certain files to your application,
-as outlined in Microsoft Layer for Unicode on Windows 95/98/Me
-Systems.
-> [!NOTE] > The wingdi.h header defines SetICMProfile as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+SetICMProfile
+は、カラープロファイルをデバイスコンテキストに関連付ける。そのデバイスコンテキストの出力プロファイルとなる。カラープロファイルは特定のデバイスに関連付けられている必要はない。sRGB
+のようなデバイス独立プロファイルも使用できる。カラープロファイルがハードウェアデバイスに関連付けられていない場合、GetICMProfile
+からは返されるが、EnumICMProfiles からは返されない。Windows 95 以降では、プリンタ用の PostScript
+デバイスドライバは CMYK カラーモデルを想定していることに注意。したがって、すべての PostScript プリンタは CMYK
+カラープロファイルを使用しなければならない。Windows 2000 にはこの制限はない。SetICMProfile は互換 DC では
+RGB プロファイルのみをサポートする。Windows 95/98/Me: SetICMProfileW は Microsoft
+Layer for Unicode でサポートされる。これを使用するには、「Microsoft Layer for Unicode on
+Windows 95/98/Me Systems」の概要に従って、特定のファイルをアプリケーションに追加しなければならない。
+> [!NOTE] > wingdi.h ヘッダーは SetICMProfile を、UNICODE
+プリプロセッサ定数の定義に基づいてこの関数の ANSI 版または Unicode
+版を自動的に選択するエイリアスとして定義している。エンコーディング中立なエイリアスをエンコーディング中立でないコードと混在させると、コンパイルエラーや実行時エラーを引き起こす不一致が発生することがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 SetLayout
-The SetLayout function changes the layout of a device context (DC).
+SetLayout 関数は、デバイスコンテキスト(DC)のレイアウトを変更する。
 %group
 Win32 gdi32
 %prm
 hdc, l
-hdc : [intptr] A handle to the DC.
+hdc : [intptr] DC へのハンドル。
 l : [int] 
 %inst
-The SetLayout function changes the layout of a device context (DC).
+SetLayout 関数は、デバイスコンテキスト(DC)のレイアウトを変更する。
 
 [戻り値]
-If the function succeeds, it returns the previous layout of the DC.
-If the function fails, it returns GDI_ERROR.
+関数が成功した場合、DC の以前のレイアウトを返す。関数が失敗した場合、GDI_ERROR を返す。
 
 [備考]
-The layout specifies the order in which text and graphics are
-revealed in a window or a device context. The default is left to
-right. The SetLayout function changes this to be right to left, which
-is the standard in Arabic and Hebrew cultures. Once the LAYOUT_RTL
-flag is selected, flags normally specifying right or left are
-reversed. To avoid confusion, consider defining alternate words for
-standard flags, such as those in the following table.
-This doc was truncated.
+
+レイアウトは、ウィンドウまたはデバイスコンテキスト内でテキストとグラフィックスがどの順序で現れるかを指定する。デフォルトは左から右である。SetLayout
+関数はこれを右から左に変更する。これはアラビア語やヘブライ語の文化における標準である。LAYOUT_RTL
+フラグが選択されると、通常右または左を指定するフラグは反転される。混乱を避けるため、次の表に示すような標準フラグの代替語を定義することを検討すること。
+（以下省略）
 
 
 %index
 SetMapMode
-The SetMapMode function sets the mapping mode of the specified device context. The mapping mode defines the unit of measure used to transform page-space units into device-space units, and also defines the orientation of the device's x and y axes.
+SetMapMode 関数は、指定したデバイスコンテキストのマッピングモードを設定する。マッピングモードは、ページ空間単位をデバイス空間単位に変換するための測定単位を定義し、デバイスの x 軸と y 軸の方向も定義する。
 %group
 Win32 gdi32
 %prm
 hdc, iMode
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストへのハンドル。
 iMode : [int] 
 %inst
-The SetMapMode function sets the mapping mode of the specified device
-context. The mapping mode defines the unit of measure used to
-transform page-space units into device-space units, and also defines
-the orientation of the device's x and y axes.
+SetMapMode
+関数は、指定したデバイスコンテキストのマッピングモードを設定する。マッピングモードは、ページ空間単位をデバイス空間単位に変換するための測定単位を定義し、デバイスの
+x 軸と y 軸の方向も定義する。
 
 [戻り値]
-If the function succeeds, the return value identifies the previous
-mapping mode. If the function fails, the return value is zero.
+関数が成功した場合、戻り値は以前のマッピングモードを識別する。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The MM_TEXT mode allows applications to work in device pixels, whose
-size varies from device to device. The MM_HIENGLISH, MM_HIMETRIC,
-MM_LOENGLISH, MM_LOMETRIC, and MM_TWIPS modes are useful for
-applications drawing in physically meaningful units (such as inches
-or millimeters). The MM_ISOTROPIC mode ensures a 1:1 aspect ratio.
-The MM_ANISOTROPIC mode allows the x-coordinates and y-coordinates to
-be adjusted independently.
+MM_TEXT
+モードは、アプリケーションがデバイスピクセル(サイズはデバイスによって異なる)で作業できるようにする。MM_HIENGLISH、MM_HIMETRIC、MM_LOENGLISH、MM_LOMETRIC、MM_TWIPS
+モードは、物理的に意味のある単位(インチやミリメートルなど)で描画するアプリケーションに有用である。MM_ISOTROPIC モードは
+1:1 のアスペクト比を保証する。MM_ANISOTROPIC モードは x 座標と y 座標を独立に調整できるようにする。
 
 
 %index
 SetMapperFlags
-The SetMapperFlags function alters the algorithm the font mapper uses when it maps logical fonts to physical fonts.
+SetMapperFlags 関数は、フォントマッパーが論理フォントを物理フォントにマッピングする際に使用するアルゴリズムを変更する。
 %group
 Win32 gdi32
 %prm
 hdc, flags
-hdc : [intptr] A handle to the device context that contains the font-mapper flag.
-flags : [int] Specifies whether the font mapper should attempt to match a font's aspect ratio to the current device's aspect ratio. If bit zero is set, the mapper selects only matching fonts.
+hdc : [intptr] フォントマッパーフラグを含むデバイスコンテキストへのハンドル。
+flags : [int] フォントマッパーがフォントのアスペクト比を現在のデバイスのアスペクト比に合わせるよう試みるかどうかを指定する。ビット 0 がセットされている場合、マッパーは一致するフォントのみを選択する。
 %inst
-The SetMapperFlags function alters the algorithm the font mapper uses
-when it maps logical fonts to physical fonts.
+SetMapperFlags 関数は、フォントマッパーが論理フォントを物理フォントにマッピングする際に使用するアルゴリズムを変更する。
 
 [戻り値]
-If the function succeeds, the return value is the previous value of
-the font-mapper flag. If the function fails, the return value is
-GDI_ERROR.
+関数が成功した場合、戻り値はフォントマッパーフラグの以前の値である。関数が失敗した場合、戻り値は GDI_ERROR である。
 
 [備考]
-If the dwFlag parameter is set and no matching fonts exist, Windows
-chooses a new aspect ratio and retrieves a font that matches this
-ratio. The remaining bits of the dwFlag parameter must be zero.
+dwFlag パラメータが設定され、一致するフォントが存在しない場合、Windows
+は新しいアスペクト比を選択し、その比率に一致するフォントを取得する。dwFlag パラメータの残りのビットは 0 でなければならない。
 
 
 %index
 SetMetaFileBitsEx
-The SetMetaFileBitsEx function creates a memory-based Windows-format metafile from the supplied data.
+SetMetaFileBitsEx 関数は、指定したデータからメモリベースの Windows 形式メタファイルを作成する。
 %group
 Win32 gdi32
 %prm
 cbBuffer, lpData
-cbBuffer : [int] Specifies the size, in bytes, of the Windows-format metafile.
-lpData : [var] Pointer to a buffer that contains the Windows-format metafile. (It is assumed that the data was obtained by using the GetMetaFileBitsEx function.)
+cbBuffer : [int] Windows 形式メタファイルのサイズ(バイト単位)を指定する。
+lpData : [var] Windows 形式メタファイルを含むバッファへのポインタ(データは GetMetaFileBitsEx 関数を使って取得されたと想定される)。
 %inst
-The SetMetaFileBitsEx function creates a memory-based Windows-format
-metafile from the supplied data.
+SetMetaFileBitsEx 関数は、指定したデータからメモリベースの Windows 形式メタファイルを作成する。
 
 [戻り値]
-If the function succeeds, the return value is a handle to a
-memory-based Windows-format metafile. If the function fails, the
-return value is NULL.
+関数が成功した場合、戻り値はメモリベースの Windows 形式メタファイルへのハンドルである。関数が失敗した場合、戻り値は NULL
+である。
 
 [備考]
-To convert a Windows-format metafile into an enhanced-format
-metafile, use the SetWinMetaFileBits function. When the application
-no longer needs the metafile handle returned by SetMetaFileBitsEx, it
-should delete it by calling the DeleteMetaFile function.
+Windows 形式メタファイルを拡張形式メタファイルに変換するには、SetWinMetaFileBits
+関数を使用する。アプリケーションが SetMetaFileBitsEx
+で返されたメタファイルハンドルを必要としなくなったら、DeleteMetaFile 関数を呼び出して削除すべきである。
 
 
 %index
 SetMetaRgn
-The SetMetaRgn function intersects the current clipping region for the specified device context with the current metaregion and saves the combined region as the new metaregion for the specified device context.
+SetMetaRgn 関数は、指定したデバイスコンテキストの現在のクリッピング領域を現在のメタリージョンと交差させ、その結合されたリージョンを指定したデバイスコンテキストの新しいメタリージョンとして保存する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストへのハンドル。
 %inst
-The SetMetaRgn function intersects the current clipping region for
-the specified device context with the current metaregion and saves
-the combined region as the new metaregion for the specified device
-context.
+SetMetaRgn
+関数は、指定したデバイスコンテキストの現在のクリッピング領域を現在のメタリージョンと交差させ、その結合されたリージョンを指定したデバイスコンテキストの新しいメタリージョンとして保存する。
 
 [戻り値]
-The return value specifies the new clipping region's complexity and
-can be one of the following values.
-This doc was truncated.
+戻り値は新しいクリッピング領域の複雑度を指定し、次のいずれかの値となる。
+（以下省略）
 
 [備考]
-The current clipping region of a device context is defined by the
-intersection of its clipping region and its metaregion. The
-SetMetaRgn function should only be called after an application's
-original device context was saved by calling the SaveDC function.
+デバイスコンテキストの現在のクリッピング領域は、そのクリッピング領域とメタリージョンの交差部分によって定義される。SetMetaRgn
+関数は、アプリケーションの元のデバイスコンテキストが SaveDC 関数を呼び出して保存された後にのみ呼び出すべきである。
 
 
 %index
 SetMiterLimit
-The SetMiterLimit function sets the limit for the length of miter joins for the specified device context.
+SetMiterLimit 関数は、指定したデバイスコンテキストのマイタ結合の長さの制限を設定する。
 %group
 Win32 gdi32
 %prm
 hdc, limit, old
-hdc : [intptr] Handle to the device context.
-limit : [float] Specifies the new miter limit for the device context.
-old : [var] Pointer to a floating-point value that receives the previous miter limit. If this parameter is NULL, the previous miter limit is not returned.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+limit : [float] デバイスコンテキストの新しいマイタ制限を指定する。
+old : [var] 以前のマイタ制限を受け取る浮動小数点値へのポインタ。このパラメータが NULL の場合、以前のマイタ制限は返されない。
 %inst
-The SetMiterLimit function sets the limit for the length of miter
-joins for the specified device context.
+SetMiterLimit 関数は、指定したデバイスコンテキストのマイタ結合の長さの制限を設定する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The miter length is defined as the distance from the intersection of
-the line walls on the inside of the join to the intersection of the
-line walls on the outside of the join. The miter limit is the maximum
-allowed ratio of the miter length to the line width. The default
-miter limit is 10.0. Note Setting eNewLimit to a float value less
-than 1.0f will cause the function to fail.
+
+マイタ長は、結合部の内側にある線の壁の交点から結合部の外側にある線の壁の交点までの距離として定義される。マイタ制限は、マイタ長と線の幅の最大許容比率である。デフォルトのマイタ制限は
+10.0 である。注: eNewLimit を 1.0f 未満の浮動小数点値に設定すると、関数は失敗する。
 
 
 %index
 SetPaletteEntries
-The SetPaletteEntries function sets RGB (red, green, blue) color values and flags in a range of entries in a logical palette.
+SetPaletteEntries 関数は、論理パレット内の範囲のエントリに RGB(赤、緑、青)カラー値とフラグを設定する。
 %group
 Win32 gdi32
 %prm
 hpal, iStart, cEntries, pPalEntries
-hpal : [intptr] A handle to the logical palette.
-iStart : [int] The first logical-palette entry to be set.
-cEntries : [int] The number of logical-palette entries to be set.
-pPalEntries : [var] A pointer to the first member of an array of PALETTEENTRY structures containing the RGB values and flags.
+hpal : [intptr] 論理パレットへのハンドル。
+iStart : [int] 設定する最初の論理パレットエントリ。
+cEntries : [int] 設定する論理パレットエントリの数。
+pPalEntries : [var] RGB 値とフラグを含む PALETTEENTRY 構造体の配列の最初のメンバへのポインタ。
 %inst
-The SetPaletteEntries function sets RGB (red, green, blue) color
-values and flags in a range of entries in a logical palette.
+SetPaletteEntries 関数は、論理パレット内の範囲のエントリに RGB(赤、緑、青)カラー値とフラグを設定する。
 
 [戻り値]
-If the function succeeds, the return value is the number of entries
-that were set in the logical palette. If the function fails, the
-return value is zero.
+関数が成功した場合、戻り値は論理パレットに設定されたエントリ数である。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-An application can determine whether a device supports palette
-operations by calling the GetDeviceCaps function and specifying the
-RASTERCAPS constant. Even if a logical palette has been selected and
-realized, changes to the palette do not affect the physical palette
-in the surface. RealizePalette must be called again to set the new
-logical palette into the surface.
+アプリケーションは、GetDeviceCaps 関数を呼び出して RASTERCAPS
+定数を指定することで、デバイスがパレット操作をサポートしているかを判定できる。論理パレットが選択されて実現されていても、パレットへの変更はサーフェス上の物理パレットには影響しない。新しい論理パレットをサーフェスに設定するには、RealizePalette
+を再度呼び出す必要がある。
 
 
 %index
@@ -9957,99 +8231,79 @@ GetDeviceCaps を参照。
 
 %index
 SetPixelFormat
-The SetPixelFormat function sets the pixel format of the specified device context to the format specified by the iPixelFormat index.
+SetPixelFormat 関数は、指定したデバイスコンテキストのピクセル形式を iPixelFormat インデックスで指定された形式に設定する。
 %group
 Win32 gdi32
 %prm
 hdc, format, ppfd
-hdc : [intptr] Specifies the device context whose pixel format the function attempts to set.
-format : [int] Index that identifies the pixel format to set. The various pixel formats supported by a device context are identified by one-based indexes.
-ppfd : [var] Pointer to a PIXELFORMATDESCRIPTOR structure that contains the logical pixel format specification. The system's metafile component uses this structure to record the logical pixel format specification. The structure has no other effect upon the behavior of the SetPixelFormat function.
+hdc : [intptr] ピクセル形式を設定するデバイスコンテキストを指定する。
+format : [int] 設定するピクセル形式を識別するインデックス。デバイスコンテキストでサポートされる様々なピクセル形式は 1 ベースのインデックスで識別される。
+ppfd : [var] 論理ピクセル形式の仕様を含む PIXELFORMATDESCRIPTOR 構造体へのポインタ。システムのメタファイルコンポーネントはこの構造体を使用して論理ピクセル形式の仕様を記録する。この構造体は SetPixelFormat 関数の動作に他の影響を与えない。
 %inst
-The SetPixelFormat function sets the pixel format of the specified
-device context to the format specified by the iPixelFormat index.
+SetPixelFormat 関数は、指定したデバイスコンテキストのピクセル形式を iPixelFormat
+インデックスで指定された形式に設定する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To get extended error information,
-call GetLastError.
+関数が成功した場合、戻り値は TRUE である。関数が失敗した場合、戻り値は FALSE である。拡張エラー情報を取得するには
+GetLastError を呼ぶ。
 
 [備考]
-If hdc references a window, calling the SetPixelFormat function also
-changes the pixel format of the window. Setting the pixel format of a
-window more than once can lead to significant complications for the
-Window Manager and for multithread applications, so it is not
-allowed. An application can only set the pixel format of a window one
-time. Once a window's pixel format is set, it cannot be changed. You
-should select a pixel format in the device context before calling the
-wglCreateContext function. The wglCreateContext function creates a
-rendering context for drawing on the device in the selected pixel
-format of the device context. An OpenGL window has its own pixel
-format. Because of this, only device contexts retrieved for the
-client area of an OpenGL window are allowed to draw into the window.
-As a result, an OpenGL window should be created with the
-WS_CLIPCHILDREN and WS_CLIPSIBLINGS styles. Additionally, the window
-class attribute should not include the CS_PARENTDC style.
+hdc がウィンドウを参照している場合、SetPixelFormat
+関数の呼び出しはウィンドウのピクセル形式も変更する。ウィンドウのピクセル形式を複数回設定すると、ウィンドウマネージャやマルチスレッドアプリケーションに大きな複雑さをもたらすため、許可されない。アプリケーションはウィンドウのピクセル形式を一度だけ設定できる。ウィンドウのピクセル形式が設定されたら、変更できない。wglCreateContext
+関数を呼び出す前に、デバイスコンテキスト内でピクセル形式を選択するべきである。wglCreateContext
+関数は、デバイスコンテキストの選択されたピクセル形式でデバイス上に描画するためのレンダリングコンテキストを作成する。OpenGL
+ウィンドウは独自のピクセル形式を持つ。このため、OpenGL
+ウィンドウのクライアント領域に対して取得したデバイスコンテキストのみがそのウィンドウに描画できる。その結果、OpenGL ウィンドウは
+WS_CLIPCHILDREN および WS_CLIPSIBLINGS スタイルで作成すべきである。さらに、ウィンドウクラスの属性には
+CS_PARENTDC スタイルを含めるべきではない。
 
 
 %index
 SetPixelV
-The SetPixelV function sets the pixel at the specified coordinates to the closest approximation of the specified color. The point must be in the clipping region and the visible part of the device surface.
+SetPixelV 関数は、指定した座標のピクセルを指定した色の最も近い近似値に設定する。点はクリッピング領域およびデバイスサーフェスの可視部分になければならない。
 %group
 Win32 gdi32
 %prm
 hdc, x, y, color
-hdc : [intptr] A handle to the device context.
-x : [int] The x-coordinate, in logical units, of the point to be set.
-y : [int] The y-coordinate, in logical units, of the point to be set.
-color : [int] The color to be used to paint the point. To create a COLORREF color value, use the RGB macro.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+x : [int] 設定する点の x 座標(論理単位)。
+y : [int] 設定する点の y 座標(論理単位)。
+color : [int] 点を塗るために使用する色。COLORREF カラー値を作成するには RGB マクロを使用する。
 %inst
-The SetPixelV function sets the pixel at the specified coordinates to
-the closest approximation of the specified color. The point must be
-in the clipping region and the visible part of the device surface.
+SetPixelV
+関数は、指定した座標のピクセルを指定した色の最も近い近似値に設定する。点はクリッピング領域およびデバイスサーフェスの可視部分になければならない。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-Not all devices support the SetPixelV function. For more information,
-see the description of the RC_BITBLT capability in the GetDeviceCaps
-function. SetPixelV is faster than SetPixel because it does not need
-to return the color value of the point actually painted.
+すべてのデバイスが SetPixelV 関数をサポートしているわけではない。詳細は GetDeviceCaps 関数の RC_BITBLT
+ケーパビリティの説明を参照。SetPixelV は実際に描画された点のカラー値を返す必要がないため、SetPixel より高速である。
 
 
 %index
 SetPolyFillMode
-The SetPolyFillMode function sets the polygon fill mode for functions that fill polygons.
+SetPolyFillMode 関数は、ポリゴンを塗りつぶす関数のためのポリゴン塗りつぶしモードを設定する。
 %group
 Win32 gdi32
 %prm
 hdc, mode
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストへのハンドル。
 mode : [int] 
 %inst
-The SetPolyFillMode function sets the polygon fill mode for functions
-that fill polygons.
+SetPolyFillMode 関数は、ポリゴンを塗りつぶす関数のためのポリゴン塗りつぶしモードを設定する。
 
 [戻り値]
-The return value specifies the previous filling mode. If an error
-occurs, the return value is zero.
+戻り値は以前の塗りつぶしモードを指定する。エラーが発生した場合、戻り値はゼロである。
 
 [備考]
-In general, the modes differ only in cases where a complex,
-overlapping polygon must be filled (for example, a five-sided polygon
-that forms a five-pointed star with a pentagon in the center). In
-such cases, ALTERNATE mode fills every other enclosed region within
-the polygon (that is, the points of the star), but WINDING mode fills
-all regions (that is, the points and the pentagon). When the fill
-mode is ALTERNATE, GDI fills the area between odd-numbered and
-even-numbered polygon sides on each scan line. That is, GDI fills the
-area between the first and second side, between the third and fourth
-side, and so on. When the fill mode is WINDING, GDI fills any region
-that has a nonzero winding value. This value is defined as the number
-of times a pen used to draw the polygon would go around the region.
-The direction of each edge of the polygon is important.
+一般に、モードが異なるのは複雑で重なり合うポリゴンを塗りつぶさなければならない場合のみである(例: 中央に五角形を持つ五芒星を形成する 5
+辺のポリゴン)。このような場合、ALTERNATE モードはポリゴン内の閉じた領域を 1
+つおきに塗りつぶす(つまり星の尖った部分)が、WINDING
+モードはすべての領域(つまり尖った部分と五角形)を塗りつぶす。塗りつぶしモードが ALTERNATE の場合、GDI
+は各スキャンライン上の奇数番目と偶数番目のポリゴンの辺の間の領域を塗りつぶす。つまり、GDI は 1 番目と 2 番目の辺の間、3 番目と
+4 番目の辺の間、といった領域を塗りつぶす。塗りつぶしモードが WINDING の場合、GDI
+は非ゼロの巻き数値を持つ任意の領域を塗りつぶす。この値は、ポリゴンを描画するために使用されたペンがその領域を何回回るかとして定義される。ポリゴンの各辺の方向が重要である。
 
 
 %index
@@ -10074,158 +8328,126 @@ rop2 : [int]
 
 %index
 SetRectRgn
-The SetRectRgn function converts a region into a rectangular region with the specified coordinates.
+SetRectRgn 関数は、リージョンを指定した座標を持つ矩形リージョンに変換する。
 %group
 Win32 gdi32
 %prm
 hrgn, left, top, right, bottom
-hrgn : [intptr] Handle to the region.
-left : [int] Specifies the x-coordinate of the upper-left corner of the rectangular region in logical units.
-top : [int] Specifies the y-coordinate of the upper-left corner of the rectangular region in logical units.
-right : [int] Specifies the x-coordinate of the lower-right corner of the rectangular region in logical units.
-bottom : [int] Specifies the y-coordinate of the lower-right corner of the rectangular region in logical units.
+hrgn : [intptr] リージョンへのハンドル。
+left : [int] 矩形リージョンの左上隅の x 座標(論理単位)を指定する。
+top : [int] 矩形リージョンの左上隅の y 座標(論理単位)を指定する。
+right : [int] 矩形リージョンの右下隅の x 座標(論理単位)を指定する。
+bottom : [int] 矩形リージョンの右下隅の y 座標(論理単位)を指定する。
 %inst
-The SetRectRgn function converts a region into a rectangular region
-with the specified coordinates.
+SetRectRgn 関数は、リージョンを指定した座標を持つ矩形リージョンに変換する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The region does not include the lower and right boundaries of the
-rectangle.
+リージョンは矩形の下端と右端を含まない。
 
 
 %index
 SetStretchBltMode
-The SetStretchBltMode function sets the bitmap stretching mode in the specified device context.
+SetStretchBltMode 関数は、指定したデバイスコンテキスト内のビットマップストレッチモードを設定する。
 %group
 Win32 gdi32
 %prm
 hdc, mode
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストへのハンドル。
 mode : [int] 
 %inst
-The SetStretchBltMode function sets the bitmap stretching mode in the
-specified device context.
+SetStretchBltMode 関数は、指定したデバイスコンテキスト内のビットマップストレッチモードを設定する。
 
 [戻り値]
-If the function succeeds, the return value is the previous stretching
-mode. If the function fails, the return value is zero. This function
-can return the following value.
-This doc was truncated.
+関数が成功した場合、戻り値は以前のストレッチモードである。関数が失敗した場合、戻り値はゼロである。この関数は次の値を返すことができる。
+（以下省略）
 
 [備考]
-The stretching mode defines how the system combines rows or columns
-of a bitmap with existing pixels on a display device when an
-application calls the StretchBlt function. The BLACKONWHITE
-(STRETCH_ANDSCANS) and WHITEONBLACK (STRETCH_ORSCANS) modes are
-typically used to preserve foreground pixels in monochrome bitmaps.
-The COLORONCOLOR (STRETCH_DELETESCANS) mode is typically used to
-preserve color in color bitmaps. The HALFTONE mode is slower and
-requires more processing of the source image than the other three
-modes; but produces higher quality images. Also note that
-SetBrushOrgEx must be called after setting the HALFTONE mode to avoid
-brush misalignment. Additional stretching modes might also be
-available depending on the capabilities of the device driver.
+ストレッチモードは、アプリケーションが StretchBlt
+関数を呼び出したときにシステムがビットマップの行または列を表示デバイス上の既存のピクセルとどのように結合するかを定義する。BLACKONWHITE
+(STRETCH_ANDSCANS) と WHITEONBLACK (STRETCH_ORSCANS)
+モードは、通常モノクロビットマップの前景ピクセルを保持するために使用される。COLORONCOLOR
+(STRETCH_DELETESCANS) モードは、通常カラービットマップで色を保持するために使用される。HALFTONE モードは他の
+3 つのモードより遅く、ソース画像の処理量も多いが、高品質の画像を生成する。また、HALFTONE
+モードを設定した後にブラシの位置ずれを避けるために SetBrushOrgEx
+を呼び出す必要があることに注意。デバイスドライバのケーパビリティに応じて追加のストレッチモードも利用できる場合がある。
 
 
 %index
 SetSystemPaletteUse
-The SetSystemPaletteUse function allows an application to specify whether the system palette contains 2 or 20 static colors.
+SetSystemPaletteUse 関数は、システムパレットが 2 または 20 の静的カラーを含むかをアプリケーションが指定できるようにする。
 %group
 Win32 gdi32
 %prm
 hdc, use
-hdc : [intptr] A handle to the device context. This device context must refer to a device that supports color palettes.
+hdc : [intptr] デバイスコンテキストへのハンドル。このデバイスコンテキストはカラーパレットをサポートするデバイスを参照していなければならない。
 use : [int] 
 %inst
-The SetSystemPaletteUse function allows an application to specify
-whether the system palette contains 2 or 20 static colors.
+SetSystemPaletteUse 関数は、システムパレットが 2 または 20
+の静的カラーを含むかをアプリケーションが指定できるようにする。
 
 [戻り値]
-If the function succeeds, the return value is the previous system
-palette. It can be either SYSPAL_NOSTATIC, SYSPAL_NOSTATIC256, or
-SYSPAL_STATIC. If the function fails, the return value is
-SYSPAL_ERROR.
+関数が成功した場合、戻り値は以前のシステムパレットである。SYSPAL_NOSTATIC、SYSPAL_NOSTATIC256、または
+SYSPAL_STATIC のいずれかとなる。関数が失敗した場合、戻り値は SYSPAL_ERROR である。
 
 [備考]
-An application can determine whether a device supports palette
-operations by calling the GetDeviceCaps function and specifying the
-RASTERCAPS constant. When an application window moves to the
-foreground and the SYSPAL_NOSTATIC value is set, the application must
-call the GetSysColor function to save the current system colors
-setting. It must also call SetSysColors to set reasonable values
-using only black and white. When the application returns to the
-background or terminates, the previous system colors must be
-restored. If the function returns SYSPAL_ERROR, the specified device
-context is invalid or does not support color palettes. An application
-must call this function only when its window is maximized and has the
-input focus. If an application calls SetSystemPaletteUse with uUsage
-set to SYSPAL_NOSTATIC, the system continues to set aside two entries
-in the system palette for pure white and pure black, respectively.
-After calling this function with uUsage set to SYSPAL_NOSTATIC, an
-application must take the following steps:
-This doc was truncated.
+アプリケーションは、GetDeviceCaps 関数を呼び出して RASTERCAPS
+定数を指定することで、デバイスがパレット操作をサポートしているかを判定できる。アプリケーションウィンドウがフォアグラウンドに移動して
+SYSPAL_NOSTATIC 値が設定されている場合、アプリケーションは GetSysColor
+関数を呼び出して現在のシステムカラー設定を保存しなければならない。また、黒と白のみを使用して合理的な値を設定するために
+SetSysColors
+を呼び出す必要がある。アプリケーションがバックグラウンドに戻ったり終了したりする場合、以前のシステムカラーを復元しなければならない。関数が
+SYSPAL_ERROR
+を返した場合、指定したデバイスコンテキストは無効であるか、カラーパレットをサポートしていない。アプリケーションはウィンドウが最大化され入力フォーカスを持つ場合にのみこの関数を呼び出さなければならない。アプリケーションが
+uUsage を SYSPAL_NOSTATIC にして SetSystemPaletteUse
+を呼び出すと、システムは純白と純黒用にシステムパレット内の 2 つのエントリを引き続き確保する。uUsage を
+SYSPAL_NOSTATIC に設定してこの関数を呼び出した後、アプリケーションは次の手順を実行しなければならない:
+（以下省略）
 
 
 %index
 SetTextAlign
-The SetTextAlign function sets the text-alignment flags for the specified device context.
+SetTextAlign 関数は、指定したデバイスコンテキストのテキスト配置フラグを設定する。
 %group
 Win32 gdi32
 %prm
 hdc, align
-hdc : [intptr] A handle to the device context.
-align : [int] The text alignment by using a mask of the values in the following list. Only one flag can be chosen from those that affect horizontal and vertical alignment. In addition, only one of the two flags that alter the current position can be chosen.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+align : [int] 次のリストの値のマスクを使用したテキスト配置。水平および垂直配置に影響を与えるフラグからは 1 つのみを選択できる。さらに、現在位置を変更する 2 つのフラグからも 1 つのみを選択できる。
 %inst
-The SetTextAlign function sets the text-alignment flags for the
-specified device context.
+SetTextAlign 関数は、指定したデバイスコンテキストのテキスト配置フラグを設定する。
 
 [戻り値]
-If the function succeeds, the return value is the previous
-text-alignment setting. If the function fails, the return value is
-GDI_ERROR.
+関数が成功した場合、戻り値は以前のテキスト配置設定である。関数が失敗した場合、戻り値は GDI_ERROR である。
 
 [備考]
-The TextOut and ExtTextOut functions use the text-alignment flags to
-position a string of text on a display or other device. The flags
-specify the relationship between a reference point and a rectangle
-that bounds the text. The reference point is either the current
-position or a point passed to a text output function. The rectangle
-that bounds the text is formed by the character cells in the text
-string. The best way to get left-aligned text is to use either
-This doc was truncated.
+TextOut および ExtTextOut
+関数は、テキスト配置フラグを使用してディスプレイや他のデバイス上にテキスト文字列を配置する。フラグは参照点とテキストを囲む矩形との関係を指定する。参照点は現在位置またはテキスト出力関数に渡された点である。テキストを囲む矩形は、テキスト文字列内の文字セルによって形成される。左揃えテキストを得る最良の方法は、次のいずれかを使用することである
+（以下省略）
 
 
 %index
 SetTextCharacterExtra
-The SetTextCharacterExtra function sets the intercharacter spacing. Intercharacter spacing is added to each character, including break characters, when the system writes a line of text.
+SetTextCharacterExtra 関数は、文字間スペースを設定する。文字間スペースは、システムがテキスト行を書き出すときに、ブレーク文字を含む各文字に追加される。
 %group
 Win32 gdi32
 %prm
 hdc, extra
-hdc : [intptr] A handle to the device context.
-extra : [int] The amount of extra space, in logical units, to be added to each character. If the current mapping mode is not MM_TEXT, the nCharExtra parameter is transformed and rounded to the nearest pixel.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+extra : [int] 各文字に追加する追加スペースの量(論理単位)。現在のマッピングモードが MM_TEXT でない場合、nCharExtra パラメータは変換され、最も近いピクセルに丸められる。
 %inst
-The SetTextCharacterExtra function sets the intercharacter spacing.
-Intercharacter spacing is added to each character, including break
-characters, when the system writes a line of text.
+SetTextCharacterExtra
+関数は、文字間スペースを設定する。文字間スペースは、システムがテキスト行を書き出すときに、ブレーク文字を含む各文字に追加される。
 
 [戻り値]
-If the function succeeds, the return value is the previous
-intercharacter spacing. If the function fails, the return value is
-0x80000000.
+関数が成功した場合、戻り値は以前の文字間スペースである。関数が失敗した場合、戻り値は 0x80000000 である。
 
 [備考]
-This function is supported mainly for compatibility with existing
-applications. New applications should generally avoid calling this
-function, because it is incompatible with complex scripts (scripts
-that require text shaping; Arabic script is an example of this). The
-recommended approach is that instead of calling this function and
-then TextOut, applications should call ExtTextOut and use its lpDx
-parameter to supply widths.
+
+この関数は主に既存のアプリケーションとの互換性のためにサポートされている。新しいアプリケーションは通常、この関数の呼び出しを避けるべきである。複雑なスクリプト(テキスト整形を必要とするスクリプト。アラビア語スクリプトがその例)と互換性がないためである。推奨されるアプローチは、この関数を呼び出してから
+TextOut を呼ぶ代わりに、ExtTextOut を呼び出してその lpDx パラメータで幅を提供することである。
 
 
 %index
@@ -10250,299 +8472,236 @@ color : [int] テキストの色。
 
 %index
 SetTextJustification
-The SetTextJustification function specifies the amount of space the system should add to the break characters in a string of text. The space is added when an application calls the TextOut or ExtTextOut functions.
+SetTextJustification 関数は、システムがテキスト文字列内のブレーク文字に追加すべきスペースの量を指定する。このスペースは、アプリケーションが TextOut または ExtTextOut 関数を呼び出したときに追加される。
 %group
 Win32 gdi32
 %prm
 hdc, extra, count
-hdc : [intptr] A handle to the device context.
-extra : [int] The total extra space, in logical units, to be added to the line of text. If the current mapping mode is not MM_TEXT, the value identified by the nBreakExtra parameter is transformed and rounded to the nearest pixel.
-count : [int] The number of break characters in the line.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+extra : [int] テキスト行に追加する追加スペースの合計(論理単位)。現在のマッピングモードが MM_TEXT でない場合、nBreakExtra パラメータで識別される値は変換され、最も近いピクセルに丸められる。
+count : [int] 行内のブレーク文字の数。
 %inst
-The SetTextJustification function specifies the amount of space the
-system should add to the break characters in a string of text. The
-space is added when an application calls the TextOut or ExtTextOut
-functions.
+SetTextJustification
+関数は、システムがテキスト文字列内のブレーク文字に追加すべきスペースの量を指定する。このスペースは、アプリケーションが TextOut
+または ExtTextOut 関数を呼び出したときに追加される。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The break character is usually the space character (ASCII 32), but it
-may be defined by a font as some other character. The GetTextMetrics
-function can be used to retrieve a font's break character. The
-TextOut function distributes the specified extra space evenly among
-the break characters in the line. The GetTextExtentPoint32 function
-is always used with the SetTextJustification function. Sometimes the
-GetTextExtentPoint32 function takes justification into account when
-computing the width of a specified line before justification, and
-sometimes it does not. For more details on this, see
-GetTextExtentPoint32. This width must be known before an appropriate
-nBreakExtra value can be computed. SetTextJustification can be used
-to justify a line that contains multiple strings in different fonts.
-In this case, each string must be justified separately. Because
-rounding errors can occur during justification, the system keeps a
-running error term that defines the current error value. When
-justifying a line that contains multiple runs, GetTextExtentPoint
-automatically uses this error term when it computes the extent of the
-next run, allowing TextOut to blend the error into the new run. After
-each line has been justified, this error term must be cleared to
-prevent it from being incorporated into the next line. The term can
-be cleared by calling SetTextJustification with nBreakExtra set to
-zero.
+ブレーク文字は通常スペース文字(ASCII
+32)であるが、フォントによって別の文字として定義されることもある。フォントのブレーク文字を取得するには GetTextMetrics
+関数を使用できる。TextOut
+関数は、指定された追加スペースを行内のブレーク文字に均等に配分する。GetTextExtentPoint32 関数は常に
+SetTextJustification 関数と共に使用される。GetTextExtentPoint32
+関数は、位置合わせ前の指定行の幅を計算するときに、位置合わせを考慮することもあれば、しないこともある。詳細は
+GetTextExtentPoint32 を参照。適切な nBreakExtra
+値を計算する前に、この幅を知る必要がある。SetTextJustification
+は、異なるフォントで複数の文字列を含む行の位置合わせに使用できる。この場合、各文字列を個別に位置合わせしなければならない。位置合わせ中に丸め誤差が発生することがあるため、システムは現在の誤差値を定義する実行時誤差項を保持する。複数の実行を含む行を位置合わせする場合、GetTextExtentPoint
+は次の実行の範囲を計算する際にこの誤差項を自動的に使用し、TextOut
+が新しい実行に誤差を混ぜ込めるようにする。各行が位置合わせされた後、この誤差項は次の行に組み込まれないようにクリアしなければならない。項は
+nBreakExtra を 0 に設定して SetTextJustification を呼び出すことでクリアできる。
 
 
 %index
 SetViewportExtEx
-Sets the horizontal and vertical extents of the viewport for a device context by using the specified values.
+指定した値を使用して、デバイスコンテキストのビューポートの水平および垂直範囲を設定する。
 %group
 Win32 gdi32
 %prm
 hdc, x, y, lpsz
-hdc : [intptr] A handle to the device context.
-x : [int] The horizontal extent, in device units, of the viewport.
-y : [int] The vertical extent, in device units, of the viewport.
-lpsz : [var] A pointer to a SIZE structure that receives the previous viewport extents, in device units. If lpSize is NULL, this parameter is not used.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+x : [int] ビューポートの水平範囲(デバイス単位)。
+y : [int] ビューポートの垂直範囲(デバイス単位)。
+lpsz : [var] 以前のビューポート範囲(デバイス単位)を受け取る SIZE 構造体へのポインタ。lpSize が NULL の場合、このパラメータは使用されない。
 %inst
-Sets the horizontal and vertical extents of the viewport for a device
-context by using the specified values.
+指定した値を使用して、デバイスコンテキストのビューポートの水平および垂直範囲を設定する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The viewport refers to the device coordinate system of the device
-space. The extent is the maximum value of an axis. This function sets
-the maximum values for the horizontal and vertical axes of the
-viewport in device coordinates (or pixels). When mapping between page
-space and device space, SetWindowExtEx and SetViewportExtEx determine
-the scaling factor between the window and the viewport. For more
-information, see Transformation of Coordinate Spaces. When the
-following mapping modes are set, calls to the SetWindowExtEx and
-SetViewportExtEx functions are ignored.
-This doc was truncated.
+
+ビューポートはデバイス空間のデバイス座標系を指す。範囲は軸の最大値である。この関数はビューポートの水平軸と垂直軸の最大値をデバイス座標(またはピクセル)で設定する。ページ空間とデバイス空間の間のマッピングでは、SetWindowExtEx
+と SetViewportExtEx がウィンドウとビューポート間のスケーリングファクタを決定する。詳細は Transformation
+of Coordinate Spaces を参照。次のマッピングモードが設定されている場合、SetWindowExtEx および
+SetViewportExtEx 関数への呼び出しは無視される。
+（以下省略）
 
 
 %index
 SetViewportOrgEx
-The SetViewportOrgEx function specifies which device point maps to the window origin (0,0).
+SetViewportOrgEx 関数は、どのデバイス点がウィンドウ原点 (0,0) にマッピングされるかを指定する。
 %group
 Win32 gdi32
 %prm
 hdc, x, y, lppt
-hdc : [intptr] A handle to the device context.
-x : [int] The x-coordinate, in device units, of the new viewport origin.
-y : [int] The y-coordinate, in device units, of the new viewport origin.
-lppt : [var] A pointer to a POINT structure that receives the previous viewport origin, in device coordinates. If lpPoint is NULL, this parameter is not used.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+x : [int] 新しいビューポート原点の x 座標(デバイス単位)。
+y : [int] 新しいビューポート原点の y 座標(デバイス単位)。
+lppt : [var] 以前のビューポート原点(デバイス座標)を受け取る POINT 構造体へのポインタ。lpPoint が NULL の場合、このパラメータは使用されない。
 %inst
-The SetViewportOrgEx function specifies which device point maps to
-the window origin (0,0).
+SetViewportOrgEx 関数は、どのデバイス点がウィンドウ原点 (0,0) にマッピングされるかを指定する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-This function (along with SetViewportExtEx and SetWindowExtEx) helps
-define the mapping from the logical coordinate space (also known as a
-window) to the device coordinate space (the viewport).
-SetViewportOrgEx specifies which device point maps to the logical
-point (0,0). It has the effect of shifting the axes so that the
-logical point (0,0) no longer refers to the upper-left corner.
-This doc was truncated.
+この関数は(SetViewportExtEx および SetWindowExtEx
+と共に)論理座標空間(ウィンドウとも呼ばれる)からデバイス座標空間(ビューポート)へのマッピングを定義するのに役立つ。SetViewportOrgEx
+は、どのデバイス点が論理点 (0,0) にマッピングされるかを指定する。これは、論理点 (0,0)
+が左上隅を指さなくなるように軸をシフトする効果がある。
+（以下省略）
 
 
 %index
 SetWinMetaFileBits
-The SetWinMetaFileBits function converts a metafile from the older Windows format to the new enhanced format and stores the new metafile in memory.
+SetWinMetaFileBits 関数は、メタファイルを古い Windows 形式から新しい拡張形式に変換し、新しいメタファイルをメモリに格納する。
 %group
 Win32 gdi32
 %prm
 nSize, lpMeta16Data, hdcRef, lpMFP
-nSize : [int] The size, in bytes, of the buffer that contains the Windows-format metafile.
-lpMeta16Data : [var] A pointer to a buffer that contains the Windows-format metafile data. (It is assumed that the data was obtained by using the GetMetaFileBitsEx or GetWinMetaFileBits function.)
-hdcRef : [intptr] A handle to a reference device context.
-lpMFP : [var] A pointer to a METAFILEPICT structure that contains the suggested size of the metafile picture and the mapping mode that was used when the picture was created.
+nSize : [int] Windows 形式メタファイルを含むバッファのサイズ(バイト単位)。
+lpMeta16Data : [var] Windows 形式メタファイルデータを含むバッファへのポインタ(データは GetMetaFileBitsEx または GetWinMetaFileBits 関数を使って取得されたと想定される)。
+hdcRef : [intptr] 参照デバイスコンテキストへのハンドル。
+lpMFP : [var] メタファイル画像の推奨サイズと画像作成時に使用されたマッピングモードを含む METAFILEPICT 構造体へのポインタ。
 %inst
-The SetWinMetaFileBits function converts a metafile from the older
-Windows format to the new enhanced format and stores the new metafile
-in memory.
+SetWinMetaFileBits 関数は、メタファイルを古い Windows
+形式から新しい拡張形式に変換し、新しいメタファイルをメモリに格納する。
 
 [戻り値]
-If the function succeeds, the return value is a handle to a
-memory-based enhanced metafile. If the function fails, the return
-value is NULL.
+関数が成功した場合、戻り値はメモリベースの拡張メタファイルへのハンドルである。関数が失敗した場合、戻り値は NULL である。
 
 [備考]
-Windows uses the reference device context's resolution data and the
-data in the METAFILEPICT structure to scale a picture. If the hdcRef
-parameter is NULL, the system uses resolution data for the current
-output device. If the lpmfp parameter is NULL, the system uses the
-MM_ANISOTROPIC mapping mode to scale the picture so that it fits the
-entire device surface. The hMF member of the METAFILEPICT structure
-is not used. When the application no longer needs the enhanced
-metafile handle, it should delete it by calling the DeleteEnhMetaFile
-function. The handle returned by this function can be used with other
-enhanced-metafile functions. If the reference device context is not
-identical to the device in which the metafile was originally created,
-some GDI functions that use device units may not draw the picture
-correctly.
+Windows は参照デバイスコンテキストの解像度データと METAFILEPICT
+構造体内のデータを使用して画像をスケーリングする。hdcRef パラメータが NULL
+の場合、システムは現在の出力デバイスの解像度データを使用する。lpmfp パラメータが NULL の場合、システムは
+MM_ANISOTROPIC マッピングモードを使用して画像をデバイスサーフェス全体に合わせてスケーリングする。METAFILEPICT
+構造体の hMF
+メンバは使用されない。アプリケーションが拡張メタファイルハンドルを必要としなくなったら、DeleteEnhMetaFile
+関数を呼び出して削除すべきである。この関数によって返されるハンドルは他の拡張メタファイル関数と共に使用できる。参照デバイスコンテキストがメタファイルが元々作成されたデバイスと同一でない場合、デバイス単位を使用する一部の
+GDI 関数が画像を正しく描画しないことがある。
 
 
 %index
 SetWindowExtEx
-The SetWindowExtEx function sets the horizontal and vertical extents of the window for a device context by using the specified values.
+SetWindowExtEx 関数は、指定した値を使用してデバイスコンテキストのウィンドウの水平および垂直範囲を設定する。
 %group
 Win32 gdi32
 %prm
 hdc, x, y, lpsz
-hdc : [intptr] A handle to the device context.
-x : [int] The window's horizontal extent in logical units.
-y : [int] The window's vertical extent in logical units.
-lpsz : [var] A pointer to a SIZE structure that receives the previous window extents, in logical units. If lpSize is NULL, this parameter is not used.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+x : [int] ウィンドウの水平範囲(論理単位)。
+y : [int] ウィンドウの垂直範囲(論理単位)。
+lpsz : [var] 以前のウィンドウ範囲(論理単位)を受け取る SIZE 構造体へのポインタ。lpSize が NULL の場合、このパラメータは使用されない。
 %inst
-The SetWindowExtEx function sets the horizontal and vertical extents
-of the window for a device context by using the specified values.
+SetWindowExtEx 関数は、指定した値を使用してデバイスコンテキストのウィンドウの水平および垂直範囲を設定する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The window refers to the logical coordinate system of the page space.
-The extent is the maximum value of an axis. This function sets the
-maximum values for the horizontal and vertical axes of the window (in
-logical coordinates). When mapping between page space and device
-space, SetViewportExtEx and SetWindowExtEx determine the scaling
-factor between the window and the viewport. For more information, see
-Transformation of Coordinate Spaces. When the following mapping modes
-are set, calls to the SetWindowExtEx and SetViewportExtEx functions
-are ignored:
-This doc was truncated.
+
+ウィンドウはページ空間の論理座標系を指す。範囲は軸の最大値である。この関数はウィンドウの水平軸と垂直軸の最大値を論理座標で設定する。ページ空間とデバイス空間の間のマッピングでは、SetViewportExtEx
+と SetWindowExtEx がウィンドウとビューポート間のスケーリングファクタを決定する。詳細は Transformation of
+Coordinate Spaces を参照。次のマッピングモードが設定されている場合、SetWindowExtEx および
+SetViewportExtEx 関数への呼び出しは無視される:
+（以下省略）
 
 
 %index
 SetWindowOrgEx
-The SetWindowOrgEx function specifies which window point maps to the viewport origin (0,0).
+SetWindowOrgEx 関数は、どのウィンドウ点がビューポート原点 (0,0) にマッピングされるかを指定する。
 %group
 Win32 gdi32
 %prm
 hdc, x, y, lppt
-hdc : [intptr] A handle to the device context.
-x : [int] The x-coordinate, in logical units, of the new window origin.
-y : [int] The y-coordinate, in logical units, of the new window origin.
-lppt : [var] A pointer to a POINT structure that receives the previous origin of the window, in logical units. If lpPoint is NULL, this parameter is not used.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+x : [int] 新しいウィンドウ原点の x 座標(論理単位)。
+y : [int] 新しいウィンドウ原点の y 座標(論理単位)。
+lppt : [var] 以前のウィンドウ原点(論理単位)を受け取る POINT 構造体へのポインタ。lpPoint が NULL の場合、このパラメータは使用されない。
 %inst
-The SetWindowOrgEx function specifies which window point maps to the
-viewport origin (0,0).
+SetWindowOrgEx 関数は、どのウィンドウ点がビューポート原点 (0,0) にマッピングされるかを指定する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-This helps define the mapping from the logical coordinate space (also
-known as a window) to the device coordinate space (the viewport).
-SetWindowOrgEx specifies which logical point maps to the device point
-(0,0). It has the effect of shifting the axes so that the logical
-point (0,0) no longer refers to the upper-left corner.
-This doc was truncated.
+
+これは論理座標空間(ウィンドウとも呼ばれる)からデバイス座標空間(ビューポート)へのマッピングを定義するのに役立つ。SetWindowOrgEx
+は、どの論理点がデバイス点 (0,0) にマッピングされるかを指定する。これは、論理点 (0,0)
+が左上隅を指さなくなるように軸をシフトする効果がある。
+（以下省略）
 
 
 %index
 SetWorldTransform
-The SetWorldTransform function sets a two-dimensional linear transformation between world space and page space for the specified device context. This transformation can be used to scale, rotate, shear, or translate graphics output.
+SetWorldTransform 関数は、指定したデバイスコンテキストのワールド空間とページ空間の間の 2 次元線形変換を設定する。この変換はグラフィックス出力をスケーリング、回転、剪断、または平行移動するために使用できる。
 %group
 Win32 gdi32
 %prm
 hdc, lpxf
-hdc : [intptr] A handle to the device context.
-lpxf : [var] A pointer to an XFORM structure that contains the transformation data.
+hdc : [intptr] デバイスコンテキストへのハンドル。
+lpxf : [var] 変換データを含む XFORM 構造体へのポインタ。
 %inst
-The SetWorldTransform function sets a two-dimensional linear
-transformation between world space and page space for the specified
-device context. This transformation can be used to scale, rotate,
-shear, or translate graphics output.
+SetWorldTransform 関数は、指定したデバイスコンテキストのワールド空間とページ空間の間の 2
+次元線形変換を設定する。この変換はグラフィックス出力をスケーリング、回転、剪断、または平行移動するために使用できる。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-Below is the transformation matrix (note that the digits in the
-element notation are 1-based column number followed by 1-based row
-number, rather than the reverse).
-This doc was truncated.
+以下は変換行列である(要素表記の数字は、逆ではなく、1 ベースの列番号に続く 1 ベースの行番号であることに注意)。
+（以下省略）
 
 
 %index
 StartDocW
-The StartDoc function starts a print job. (Unicode)
+StartDoc 関数は印刷ジョブを開始する。(Unicode)
 %group
 Win32 gdi32
 %prm
 hdc, lpdi
-hdc : [intptr] A handle to the device context for the print job.
-lpdi : [var] A pointer to a DOCINFO structure containing the name of the document file and the name of the output file.
+hdc : [intptr] 印刷ジョブのデバイスコンテキストへのハンドル。
+lpdi : [var] ドキュメントファイル名と出力ファイル名を含む DOCINFO 構造体へのポインタ。
 %inst
-The StartDoc function starts a print job. (Unicode)
+StartDoc 関数は印刷ジョブを開始する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is greater than zero. This
-value is the print job identifier for the document. If the function
-fails, the return value is less than or equal to zero.
+関数が成功した場合、戻り値はゼロより大きい。この値はドキュメントの印刷ジョブ識別子である。関数が失敗した場合、戻り値はゼロ以下である。
 
 [備考]
-Note This is a blocking or synchronous function and might not return
-immediately. How quickly this function returns depends on run-time
-factors such as network status, print server configuration, and
-printer driver implementation?factors that are difficult to predict
-when writing an application. Calling this function from a thread that
-manages interaction with the user interface could make the
-application appear to be unresponsive. Applications should call the
-StartDoc function immediately before beginning a print job. Using
-this function ensures that multipage documents are not interspersed
-with other print jobs. Applications can use the value returned by
-StartDoc to retrieve or set the priority of a print job. Call the
-GetJob or SetJob function and supply this value as one of the
-required arguments.
+注:
+これはブロッキングまたは同期関数であり、すぐに返らない可能性がある。この関数がどれだけ早く返るかは、ネットワーク状態、印刷サーバの設定、プリンタドライバの実装といった、アプリケーションの作成時に予測が難しい実行時要因に依存する。ユーザインターフェイスとの対話を管理するスレッドからこの関数を呼び出すと、アプリケーションが応答しないように見えることがある。アプリケーションは印刷ジョブを開始する直前に
+StartDoc
+関数を呼び出すべきである。この関数を使うことで、複数ページのドキュメントが他の印刷ジョブと混ざらないようにする。アプリケーションは、StartDoc
+から返された値を使って印刷ジョブの優先度を取得または設定できる。GetJob または SetJob 関数を呼び出し、必要な引数の 1
+つとしてこの値を提供する。
 
 
 %index
 StartPage
-The StartPage function prepares the printer driver to accept data.
+StartPage 関数は、プリンタドライバがデータを受け付けられるようにする。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context for the print job.
+hdc : [intptr] 印刷ジョブのデバイスコンテキストへのハンドル。
 %inst
-The StartPage function prepares the printer driver to accept data.
+StartPage 関数は、プリンタドライバがデータを受け付けられるようにする。
 
 [戻り値]
-If the function succeeds, the return value is greater than zero. If
-the function fails, the return value is less than or equal to zero.
+関数が成功した場合、戻り値はゼロより大きい。関数が失敗した場合、戻り値はゼロ以下である。
 
 [備考]
-Note This is a blocking or synchronous function and might not return
-immediately. How quickly this function returns depends on run-time
-factors such as network status, print server configuration, and
-printer driver implementation?factors that are difficult to predict
-when writing an application. Calling this function from a thread that
-manages interaction with the user interface could make the
-application appear to be unresponsive. The system disables the
-ResetDC function between calls to the StartPage and EndPage
-functions. This means that you cannot change the device mode except
-at page boundaries. After calling EndPage, you can call ResetDC to
-change the device mode, if necessary. Note that a call to ResetDC
-resets all device context attributes back to default values. Neither
-EndPage nor StartPage resets the device context attributes. Device
-context attributes remain constant across subsequent pages. You do
-not need to re-select objects and set up the mapping mode again
-before printing the next page; however, doing so will produce the
-same results and reduce code differences between versions of Windows.
+注:
+これはブロッキングまたは同期関数であり、すぐに返らない可能性がある。この関数がどれだけ早く返るかは、ネットワーク状態、印刷サーバの設定、プリンタドライバの実装といった、アプリケーションの作成時に予測が難しい実行時要因に依存する。ユーザインターフェイスとの対話を管理するスレッドからこの関数を呼び出すと、アプリケーションが応答しないように見えることがある。システムは
+StartPage と EndPage 関数の呼び出しの間に ResetDC
+関数を無効にする。つまり、ページ境界以外ではデバイスモードを変更できない。EndPage を呼び出した後、必要であれば ResetDC
+を呼び出してデバイスモードを変更できる。ResetDC
+の呼び出しは、すべてのデバイスコンテキスト属性をデフォルト値にリセットすることに注意。EndPage も StartPage
+もデバイスコンテキスト属性をリセットしない。デバイスコンテキスト属性は後続のページ間で保持される。次のページを印刷する前にオブジェクトを再度選択したりマッピングモードを設定したりする必要はないが、そうしても同じ結果が得られ、Windows
+のバージョン間のコード差異を減らせる。
 
 
 %index
@@ -10580,132 +8739,106 @@ DC が拡張メタファイル DC の場合はエラー。ラスタ操作がブラシを必要とする場合、先 
 
 %index
 StretchDIBits
-The StretchDIBits function copies the color data for a rectangle of pixels in a DIB, JPEG, or PNG image to the specified destination rectangle.
+StretchDIBits 関数は、DIB、JPEG、または PNG 画像のピクセル矩形のカラーデータを指定したコピー先矩形にコピーする。
 %group
 Win32 gdi32
 %prm
 hdc, xDest, yDest, DestWidth, DestHeight, xSrc, ySrc, SrcWidth, SrcHeight, lpBits, lpbmi, iUsage, rop
-hdc : [intptr] A handle to the destination device context.
-xDest : [int] The x-coordinate, in logical units, of the upper-left corner of the destination rectangle.
-yDest : [int] The y-coordinate, in logical units, of the upper-left corner of the destination rectangle.
-DestWidth : [int] The width, in logical units, of the destination rectangle.
-DestHeight : [int] The height, in logical units, of the destination rectangle.
-xSrc : [int] The x-coordinate, in pixels, of the source rectangle in the image.
-ySrc : [int] The y-coordinate, in pixels, of the source rectangle in the image.
-SrcWidth : [int] The width, in pixels, of the source rectangle in the image.
-SrcHeight : [int] The height, in pixels, of the source rectangle in the image.
-lpBits : [intptr] A pointer to the image bits, which are stored as an array of bytes. For more information, see the Remarks section.
-lpbmi : [var] A pointer to a BITMAPINFO structure that contains information about the DIB.
+hdc : [intptr] コピー先のデバイスコンテキストへのハンドル。
+xDest : [int] コピー先矩形の左上隅の x 座標(論理単位)。
+yDest : [int] コピー先矩形の左上隅の y 座標(論理単位)。
+DestWidth : [int] コピー先矩形の幅(論理単位)。
+DestHeight : [int] コピー先矩形の高さ(論理単位)。
+xSrc : [int] 画像内のソース矩形の x 座標(ピクセル単位)。
+ySrc : [int] 画像内のソース矩形の y 座標(ピクセル単位)。
+SrcWidth : [int] 画像内のソース矩形の幅(ピクセル単位)。
+SrcHeight : [int] 画像内のソース矩形の高さ(ピクセル単位)。
+lpBits : [intptr] バイト配列として格納された画像ビットへのポインタ。詳細は「解説」セクションを参照。
+lpbmi : [var] DIB に関する情報を含む BITMAPINFO 構造体へのポインタ。
 iUsage : [int] 
-rop : [int] A raster-operation code that specifies how the source pixels, the destination device context's current brush, and the destination pixels are to be combined to form the new image. For a list of some common raster operation codes, see BitBlt.
+rop : [int] ソースピクセル、コピー先デバイスコンテキストの現在のブラシ、およびコピー先ピクセルをどのように組み合わせて新しい画像を形成するかを指定するラスタ演算コード。一般的なラスタ演算コードの一覧は BitBlt を参照。
 %inst
-The StretchDIBits function copies the color data for a rectangle of
-pixels in a DIB, JPEG, or PNG image to the specified destination
-rectangle.
+StretchDIBits 関数は、DIB、JPEG、または PNG 画像のピクセル矩形のカラーデータを指定したコピー先矩形にコピーする。
 
 [戻り値]
-If the function succeeds, the return value is the number of scan
-lines copied. Note that this value can be negative for mirrored
-content. If the function fails, or no scan lines are copied, the
-return value is 0. If the driver cannot support the JPEG or PNG file
-image passed to StretchDIBits, the function will fail and return
-GDI_ERROR. If failure does occur, the application must fall back on
-its own JPEG or PNG support to decompress the image into a bitmap,
-and then pass the bitmap to StretchDIBits.
+
+関数が成功した場合、戻り値はコピーされたスキャンラインの数である。この値は鏡像化されたコンテンツに対して負になり得ることに注意。関数が失敗した場合、またはスキャンラインがコピーされなかった場合、戻り値は
+0 である。ドライバが StretchDIBits に渡された JPEG または PNG
+ファイル画像をサポートできない場合、関数は失敗して GDI_ERROR を返す。失敗した場合、アプリケーションは独自の JPEG または
+PNG サポートにフォールバックして画像をビットマップに展開し、そのビットマップを StretchDIBits に渡す必要がある。
 
 [備考]
-The origin of a bottom-up DIB is the lower-left corner; the origin of
-a top-down DIB is the upper-left corner. StretchDIBits creates a
-mirror image of a bitmap if the signs of the nSrcWidth and nDestWidth
-parameters, or if the nSrcHeight and nDestHeight parameters differ.
-If nSrcWidth and nDestWidth have different signs, the function
-creates a mirror image of the bitmap along the x-axis. If nSrcHeight
-and nDestHeight have different signs, the function creates a mirror
-image of the bitmap along the y-axis. StretchDIBits creates a
-top-down image if the sign of the biHeight member of the
-BITMAPINFOHEADER structure for the DIB is negative. For a code
-example, see Sizing a JPEG or PNG Image. This function allows a JPEG
-or PNG image to be passed as the source image. How each parameter is
-used remains the same, except:
-This doc was truncated.
+ボトムアップ DIB の原点は左下隅にあり、トップダウン DIB の原点は左上隅にある。StretchDIBits は、nSrcWidth
+と nDestWidth パラメータの符号、または nSrcHeight と nDestHeight
+パラメータの符号が異なる場合、ビットマップの鏡像を作成する。nSrcWidth と nDestWidth の符号が異なる場合、関数は x
+軸に沿ったビットマップの鏡像を作成する。nSrcHeight と nDestHeight の符号が異なる場合、関数は y
+軸に沿ったビットマップの鏡像を作成する。StretchDIBits は、DIB の BITMAPINFOHEADER 構造体の
+biHeight メンバの符号が負の場合、トップダウン画像を作成する。コード例は Sizing a JPEG or PNG Image
+を参照。この関数は JPEG または PNG
+画像をソース画像として渡すことを可能にする。各パラメータの使用方法は同じだが、次の例外がある:
+（以下省略）
 
 
 %index
 StrokeAndFillPath
-The StrokeAndFillPath function closes any open figures in a path, strokes the outline of the path by using the current pen, and fills its interior by using the current brush.
+StrokeAndFillPath 関数は、パス内の開いた図形を閉じ、現在のペンを使用してパスの輪郭をストロークし、現在のブラシを使用して内部を塗りつぶす。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストへのハンドル。
 %inst
-The StrokeAndFillPath function closes any open figures in a path,
-strokes the outline of the path by using the current pen, and fills
-its interior by using the current brush.
+StrokeAndFillPath
+関数は、パス内の開いた図形を閉じ、現在のペンを使用してパスの輪郭をストロークし、現在のブラシを使用して内部を塗りつぶす。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The device context identified by the hdc parameter must contain a
-closed path. The StrokeAndFillPath function has the same effect as
-closing all the open figures in the path, and stroking and filling
-the path separately, except that the filled region will not overlap
-the stroked region even if the pen is wide.
+hdc パラメータで指定されたデバイスコンテキストには閉じたパスが含まれていなければならない。StrokeAndFillPath
+関数は、パス内のすべての開いた図形を閉じて、パスのストロークと塗りつぶしを個別に行うのと同じ効果を持つが、ペンが太くても塗りつぶし領域がストローク領域と重ならない点が異なる。
 
 
 %index
 StrokePath
-The StrokePath function renders the specified path by using the current pen.
+StrokePath 関数は、現在のペンを使用して指定したパスを描画する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] Handle to a device context that contains the completed path.
+hdc : [intptr] 完成したパスを含むデバイスコンテキストへのハンドル。
 %inst
-The StrokePath function renders the specified path by using the
-current pen.
+StrokePath 関数は、現在のペンを使用して指定したパスを描画する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The path, if it is to be drawn by StrokePath, must have been
-completed through a call to EndPath. Calling this function on a path
-for which EndPath has not been called will cause this function to
-fail and return zero. Unlike other path drawing functions such as
-StrokeAndFillPath, StrokePath will not attempt to close the path by
-drawing a straight line from the first point on the path to the last
-point on the path.
+StrokePath で描画されるパスは、EndPath の呼び出しを通じて完成していなければならない。EndPath
+が呼ばれていないパスに対してこの関数を呼び出すと、この関数は失敗してゼロを返す。StrokeAndFillPath
+のような他のパス描画関数とは異なり、StrokePath はパス上の最初の点から最後の点まで直線を描いてパスを閉じることは試みない。
 
 
 %index
 SwapBuffers
-The SwapBuffers function exchanges the front and back buffers if the current pixel format for the window referenced by the specified device context includes a back buffer.
+SwapBuffers 関数は、指定したデバイスコンテキストが参照するウィンドウの現在のピクセル形式にバックバッファが含まれる場合、フロントバッファとバックバッファを入れ替える。
 %group
 Win32 gdi32
 %prm
 param0
 param0 : [intptr] 
 %inst
-The SwapBuffers function exchanges the front and back buffers if the
-current pixel format for the window referenced by the specified
-device context includes a back buffer.
+SwapBuffers
+関数は、指定したデバイスコンテキストが参照するウィンドウの現在のピクセル形式にバックバッファが含まれる場合、フロントバッファとバックバッファを入れ替える。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. To get extended error information,
-call GetLastError.
+関数が成功した場合、戻り値は TRUE である。関数が失敗した場合、戻り値は FALSE である。拡張エラー情報を取得するには
+GetLastError を呼ぶ。
 
 [備考]
-If the current pixel format for the window referenced by the device
-context does not include a back buffer, this call has no effect and
-the content of the back buffer is undefined when the function
-returns. With multithread applications, flush the drawing commands in
-any other threads drawing to the same window before calling
-SwapBuffers.
+
+デバイスコンテキストが参照するウィンドウの現在のピクセル形式にバックバッファが含まれていない場合、この呼び出しには効果がなく、関数が返る時点でバックバッファの内容は未定義となる。マルチスレッドアプリケーションの場合、SwapBuffers
+を呼び出す前に、同じウィンドウに描画している他のスレッドの描画コマンドをフラッシュすること。
 
 
 %index
@@ -10734,256 +8867,218 @@ c : [int] lpString が指す文字列の長さ(文字単位)。
 
 %index
 TranslateCharsetInfo
-Translates character set information and sets all members of a destination structure to appropriate values.
+文字セット情報を変換し、変換先構造体のすべてのメンバを適切な値に設定する。
 %group
 Win32 gdi32
 %prm
 lpSrc, lpCs, dwFlags
-lpSrc : [var] Pointer to the fsCsb member of a FONTSIGNATURE structure if dwFlags is set to TCI_SRCFONTSIG. Otherwise, this parameter is set to a DWORD value indicating the source.
-lpCs : [var] Pointer to a CHARSETINFO structure that receives the translated character set information.
+lpSrc : [var] dwFlags が TCI_SRCFONTSIG に設定されている場合は FONTSIGNATURE 構造体の fsCsb メンバへのポインタ。そうでない場合、このパラメータはソースを示す DWORD 値に設定される。
+lpCs : [var] 変換された文字セット情報を受け取る CHARSETINFO 構造体へのポインタ。
 dwFlags : [int] 
 %inst
-Translates character set information and sets all members of a
-destination structure to appropriate values.
+文字セット情報を変換し、変換先構造体のすべてのメンバを適切な値に設定する。
 
 [戻り値]
-Returns a nonzero value if successful, or 0 otherwise. To get
-extended error information, the application can call GetLastError.
+成功した場合は非ゼロ値、そうでない場合は 0 を返す。拡張エラー情報を取得するには、アプリケーションは GetLastError
+を呼ぶことができる。
 
 
 %index
 UnrealizeObject
-The UnrealizeObject function resets the origin of a brush or resets a logical palette.
+UnrealizeObject 関数は、ブラシの原点をリセットするか、論理パレットをリセットする。
 %group
 Win32 gdi32
 %prm
 h
 h : [intptr] 
 %inst
-The UnrealizeObject function resets the origin of a brush or resets a
-logical palette.
+UnrealizeObject 関数は、ブラシの原点をリセットするか、論理パレットをリセットする。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The UnrealizeObject function should not be used with stock objects.
-For example, the default palette, obtained by calling GetStockObject
-(DEFAULT_PALETTE), is a stock object. A palette identified by hgdiobj
-can be the currently selected palette of a device context. If hgdiobj
-is a brush, UnrealizeObject does nothing, and the function returns
-TRUE. Use SetBrushOrgEx to set the origin of a brush.
+UnrealizeObject 関数はストックオブジェクトと共に使用すべきではない。たとえば、GetStockObject
+(DEFAULT_PALETTE) を呼び出して取得されるデフォルトパレットはストックオブジェクトである。hgdiobj
+で識別されるパレットは、デバイスコンテキストの現在選択されているパレットでよい。hgdiobj
+がブラシの場合、UnrealizeObject は何もせず、関数は TRUE を返す。ブラシの原点を設定するには
+SetBrushOrgEx を使用する。
 
 
 %index
 UpdateColors
-The UpdateColors function updates the client area of the specified device context by remapping the current colors in the client area to the currently realized logical palette.
+UpdateColors 関数は、指定したデバイスコンテキストのクライアント領域内の現在の色を、現在実現されている論理パレットに再マッピングすることで、クライアント領域を更新する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to the device context.
+hdc : [intptr] デバイスコンテキストへのハンドル。
 %inst
-The UpdateColors function updates the client area of the specified
-device context by remapping the current colors in the client area to
-the currently realized logical palette.
+UpdateColors
+関数は、指定したデバイスコンテキストのクライアント領域内の現在の色を、現在実現されている論理パレットに再マッピングすることで、クライアント領域を更新する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-An application can determine whether a device supports palette
-operations by calling the GetDeviceCaps function and specifying the
-RASTERCAPS constant. An inactive window with a realized logical
-palette may call UpdateColors as an alternative to redrawing its
-client area when the system palette changes. The UpdateColors
-function typically updates a client area faster than redrawing the
-area. However, because UpdateColors performs the color translation
-based on the color of each pixel before the system palette changed,
-each call to this function results in the loss of some color
-accuracy. This function must be called soon after a WM_PALETTECHANGED
-message is received.
+アプリケーションは、GetDeviceCaps 関数を呼び出して RASTERCAPS
+定数を指定することで、デバイスがパレット操作をサポートしているかを判定できる。実現された論理パレットを持つ非アクティブなウィンドウは、システムパレットが変更されたときにクライアント領域を再描画する代わりに
+UpdateColors を呼び出すことができる。UpdateColors
+関数は通常、領域の再描画よりも速くクライアント領域を更新する。ただし、UpdateColors
+はシステムパレットが変更される前の各ピクセルの色に基づいてカラー変換を実行するため、この関数を呼び出すたびに色精度の一部が失われる。この関数は
+WM_PALETTECHANGED メッセージを受信した直後に呼び出さなければならない。
 
 
 %index
 UpdateICMRegKeyW
-The UpdateICMRegKey function manages color profiles and Color Management Modules in the system. (Unicode)
+UpdateICMRegKey 関数は、システム内のカラープロファイルとカラーマネジメントモジュールを管理する。(Unicode)
 %group
 Win32 gdi32
 %prm
 reserved, lpszCMID, lpszFileName, command
-reserved : [int] Reserved, must be set to zero.
-lpszCMID : [wstr] Points to a string that specifies the ICC profile identifier for the color management DLL to use with the profile.
-lpszFileName : [wstr] Points to a fully qualified ICC color profile file name or to a DEVMODE structure.
+reserved : [int] 予約済み。0 に設定しなければならない。
+lpszCMID : [wstr] プロファイルで使用するカラー管理 DLL の ICC プロファイル識別子を指定する文字列を指す。
+lpszFileName : [wstr] 完全修飾された ICC カラープロファイルファイル名、または DEVMODE 構造体を指す。
 command : [int] 
 %inst
-The UpdateICMRegKey function manages color profiles and Color
-Management Modules in the system. (Unicode)
+UpdateICMRegKey 関数は、システム内のカラープロファイルとカラーマネジメントモジュールを管理する。(Unicode)
 
 [戻り値]
-If this function succeeds, the return value is TRUE. If this function
-fails, the return value is FALSE.
+この関数が成功した場合、戻り値は TRUE である。この関数が失敗した場合、戻り値は FALSE である。
 
 [備考]
-Not all parameters are used by all functions. The nCommand parameter
-specifies the function to execute. This function is retained for
-backward compatibility and may be removed in future versions of ICM.
-Windows 95/98/Me: UpdateICMRegKeyW is supported by the Microsoft
-Layer for Unicode. To use this, you must add certain files to your
-application, as outlined in Microsoft Layer for Unicode on Windows
-95/98/Me Systems.
-> [!NOTE] > The wingdi.h header defines UpdateICMRegKey as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+すべてのパラメータがすべての関数で使用されるわけではない。nCommand
+パラメータは実行する関数を指定する。この関数は後方互換性のために残されており、将来の ICM
+のバージョンでは削除される可能性がある。Windows 95/98/Me: UpdateICMRegKeyW は Microsoft
+Layer for Unicode でサポートされる。これを使用するには、「Microsoft Layer for Unicode on
+Windows 95/98/Me Systems」の概要に従って、特定のファイルをアプリケーションに追加しなければならない。
+> [!NOTE] > wingdi.h ヘッダーは UpdateICMRegKey を、UNICODE
+プリプロセッサ定数の定義に基づいてこの関数の ANSI 版または Unicode
+版を自動的に選択するエイリアスとして定義している。エンコーディング中立なエイリアスをエンコーディング中立でないコードと混在させると、コンパイルエラーや実行時エラーを引き起こす不一致が発生することがある。詳細は
+[Conventions for Function
+Prototypes](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 WidenPath
-The WidenPath function redefines the current path as the area that would be painted if the path were stroked using the pen currently selected into the given device context.
+WidenPath 関数は、指定したデバイスコンテキストに現在選択されているペンを使用してパスをストロークした場合に塗られる領域として、現在のパスを再定義する。
 %group
 Win32 gdi32
 %prm
 hdc
-hdc : [intptr] A handle to a device context that contains a closed path.
+hdc : [intptr] 閉じたパスを含むデバイスコンテキストへのハンドル。
 %inst
-The WidenPath function redefines the current path as the area that
-would be painted if the path were stroked using the pen currently
-selected into the given device context.
+WidenPath
+関数は、指定したデバイスコンテキストに現在選択されているペンを使用してパスをストロークした場合に塗られる領域として、現在のパスを再定義する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero.
+関数が成功した場合、戻り値は非ゼロである。関数が失敗した場合、戻り値はゼロである。
 
 [備考]
-The WidenPath function is successful only if the current pen is a
-geometric pen created by the ExtCreatePen function, or if the pen is
-created with the CreatePen function and has a width, in device units,
-of more than one. The device context identified by the hdc parameter
-must contain a closed path. Any B?zier curves in the path are
-converted to sequences of straight lines approximating the widened
-curves. As such, no B?zier curves remain in the path after WidenPath
-is called.
+WidenPath 関数は、現在のペンが ExtCreatePen 関数で作成された幾何学的ペンである場合、または CreatePen
+関数で作成され、デバイス単位で幅が 1 を超えるペンである場合にのみ成功する。hdc
+パラメータで指定されたデバイスコンテキストには閉じたパスが含まれていなければならない。パス内のベジェ曲線は、広げられた曲線を近似する直線の列に変換される。したがって、WidenPath
+の呼び出し後、パス内にベジェ曲線は残らない。
 
 
 %index
 XFORMOBJ_bApplyXform
-The XFORMOBJ_bApplyXform function applies the given transform or its inverse to the given array of points.
+XFORMOBJ_bApplyXform 関数は、指定した変換またはその逆変換を、指定した点の配列に適用する。
 %group
 Win32 gdi32
 %prm
 pxo, iMode, cPoints, pvIn, pvOut
-pxo : [var] Pointer to a XFORMOBJ structure that defines the transform to be applied to the pvIn array.
-iMode : [int] Identifies the transform and the input and output data types. This parameter can be one of the following:
-cPoints : [int] Specifies the count of points in pvIn to be transformed.
-pvIn : [intptr] Pointer to an array of input points. The format of the points is specified by the iMode parameter.
-pvOut : [intptr] Pointer to the buffer that is to receive the transformed points. The iMode parameter specifies the format of the points.
+pxo : [var] pvIn 配列に適用する変換を定義する XFORMOBJ 構造体へのポインタ。
+iMode : [int] 変換と入出力データ型を識別する。このパラメータは次のいずれかの値を取ることができる:
+cPoints : [int] 変換する pvIn 内の点の数を指定する。
+pvIn : [intptr] 入力点の配列へのポインタ。点の形式は iMode パラメータで指定される。
+pvOut : [intptr] 変換された点を受け取るバッファへのポインタ。iMode パラメータが点の形式を指定する。
 %inst
-The XFORMOBJ_bApplyXform function applies the given transform or its
-inverse to the given array of points.
+XFORMOBJ_bApplyXform 関数は、指定した変換またはその逆変換を、指定した点の配列に適用する。
 
 [戻り値]
-The return value is TRUE if all points were transformed without
-overflow. FALSE is returned if pxo, pvIn, or pvOut are null, or if
-overflow occurs during the transformation.
+すべての点がオーバーフローなしで変換された場合、戻り値は TRUE である。pxo、pvIn、pvOut のいずれかが NULL
+の場合、または変換中にオーバーフローが発生した場合、FALSE が返される。
 
 
 %index
 XLATEOBJ_cGetPalette
-The XLATEOBJ_cGetPalette function retrieves RGB colors or the bitfields format from the specified palette.
+XLATEOBJ_cGetPalette 関数は、指定したパレットから RGB カラーまたはビットフィールド形式を取得する。
 %group
 Win32 gdi32
 %prm
 pxlo, iPal, cPal, pPal
-pxlo : [var] Pointer to the XLATEOBJ structure from which GDI retrieves the requested information.
+pxlo : [var] GDI が要求された情報を取得する XLATEOBJ 構造体へのポインタ。
 iPal : [int] 
-cPal : [int] Specifies the number of entries in the buffer pointed to by pPal. This can be smaller than the total size of the palette.
-pPal : [var] Pointer to a buffer in which GDI writes the requested palette information. If iPal is XO_SRCPALETTE or XO_DESTPALETTE and the respective palette type is PAL_INDEXED, each entry is a 24-bit RGB value. If iPal is XO_SRCBITFIELDS or XO_DESTBITFIELDS and the respective palette type is PAL_BITFIELDS, PAL_RGB, or PAL_BGR, pPal points to three ULONG masks that represent the red, green, and blue color masks.
+cPal : [int] pPal が指すバッファ内のエントリ数を指定する。これはパレットの総サイズより小さくてもよい。
+pPal : [var] GDI が要求されたパレット情報を書き込むバッファへのポインタ。iPal が XO_SRCPALETTE または XO_DESTPALETTE で、それぞれのパレットタイプが PAL_INDEXED の場合、各エントリは 24 ビット RGB 値である。iPal が XO_SRCBITFIELDS または XO_DESTBITFIELDS で、それぞれのパレットタイプが PAL_BITFIELDS、PAL_RGB、または PAL_BGR の場合、pPal は赤、緑、青のカラーマスクを表す 3 つの ULONG マスクを指す。
 %inst
-The XLATEOBJ_cGetPalette function retrieves RGB colors or the
-bitfields format from the specified palette.
+XLATEOBJ_cGetPalette 関数は、指定したパレットから RGB カラーまたはビットフィールド形式を取得する。
 
 [戻り値]
-XLATEOBJ_cGetPalette returns the number of entries written if pPal is
-not null. A value of zero is returned if the XLATEOBJ is null or its
-palette is invalid. XLATEOBJ_cGetPalette will also return zero if the
-data pointed to by pxlo is not consistent with the value in iPal. For
-example, if the data pointed to is a bitfield, but iPal is set to
-either XO_SRCPALETTE or XO_DESTPALETTE, XLATEOBJ_cGetPalette will
-return zero. Similarly, if the data pointed to by pxlo is a palette,
-but iPal is set to either XO_SRCBITFIELDS or XO_DESTBITFIELDS,
-XLATEOBJ_cGetPalette also returns zero.
+XLATEOBJ_cGetPalette は、pPal が NULL でない場合、書き込まれたエントリ数を返す。XLATEOBJ が
+NULL またはそのパレットが無効な場合、値 0 が返される。pxlo が指すデータが iPal
+の値と一致しない場合も、XLATEOBJ_cGetPalette は 0 を返す。たとえば、指されるデータがビットフィールドだが iPal
+が XO_SRCPALETTE または XO_DESTPALETTE に設定されている場合、XLATEOBJ_cGetPalette は
+0 を返す。同様に、pxlo が指すデータがパレットだが iPal が XO_SRCBITFIELDS または
+XO_DESTBITFIELDS に設定されている場合も、XLATEOBJ_cGetPalette は 0 を返す。
 
 [備考]
-The driver must have information about the palette to perform some
-methods of color blending.
+ドライバはカラーブレンディングの一部の方法を実行するためにパレットに関する情報を持たなければならない。
 
 
 %index
 XLATEOBJ_hGetColorTransform
-The XLATEOBJ_hGetColorTransform function returns the color transform for the specified translation object.
+XLATEOBJ_hGetColorTransform 関数は、指定した変換オブジェクトのカラー変換を返す。
 %group
 Win32 gdi32
 %prm
 pxlo
-pxlo : [var] Pointer to the XLATEOBJ structure whose color transform is being queried. The color transform was created in a prior call to DrvIcmCreateColorTransform.
+pxlo : [var] カラー変換が問い合わされる XLATEOBJ 構造体へのポインタ。カラー変換は DrvIcmCreateColorTransform への以前の呼び出しで作成されたものである。
 %inst
-The XLATEOBJ_hGetColorTransform function returns the color transform
-for the specified translation object.
+XLATEOBJ_hGetColorTransform 関数は、指定した変換オブジェクトのカラー変換を返す。
 
 [戻り値]
-XLATEOBJ_hGetColorTransform returns a handle to the color transform
-for the specified XLATEOBJ upon success. Otherwise, it returns NULL.
+XLATEOBJ_hGetColorTransform は、成功時に指定した XLATEOBJ
+のカラー変換へのハンドルを返す。そうでない場合は NULL を返す。
 
 [備考]
-XLATEOBJ_hGetColorTransform returns NULL when it is called in host
-ICM context or when ICM is disabled. The color transform for a brush
-is obtained by calling BRUSHOBJ_hGetColorTransform.
+XLATEOBJ_hGetColorTransform は、ホスト ICM コンテキストで呼び出された場合、または ICM が無効な場合に
+NULL を返す。ブラシのカラー変換は BRUSHOBJ_hGetColorTransform を呼び出すことで取得する。
 
 
 %index
 XLATEOBJ_iXlate
-The XLATEOBJ_iXlate function translates a color index of the source palette to the closest index in the destination palette.
+XLATEOBJ_iXlate 関数は、ソースパレットのカラーインデックスを変換先パレット内の最も近いインデックスに変換する。
 %group
 Win32 gdi32
 %prm
 pxlo, iColor
-pxlo : [var] Pointer to a XLATEOBJ structure that defines the source palette.
-iColor : [int] Specifies the color index to be translated.
+pxlo : [var] ソースパレットを定義する XLATEOBJ 構造体へのポインタ。
+iColor : [int] 変換するカラーインデックスを指定する。
 %inst
-The XLATEOBJ_iXlate function translates a color index of the source
-palette to the closest index in the destination palette.
+XLATEOBJ_iXlate 関数は、ソースパレットのカラーインデックスを変換先パレット内の最も近いインデックスに変換する。
 
 [戻り値]
-The return value is an index into the destination palette if the
-function is successful. If the function fails, -1 is returned.
+関数が成功した場合、戻り値は変換先パレットへのインデックスである。関数が失敗した場合、-1 が返される。
 
 
 %index
 XLATEOBJ_piVector
-The XLATEOBJ_piVector function retrieves a translation vector that the driver can use to translate source indices to destination indices.
+XLATEOBJ_piVector 関数は、ドライバがソースインデックスを変換先インデックスに変換するために使用できる変換ベクトルを取得する。
 %group
 Win32 gdi32
 %prm
 pxlo
-pxlo : [var] Pointer to a XLATEOBJ structure that defines the indexed source object.
+pxlo : [var] インデックス付きソースオブジェクトを定義する XLATEOBJ 構造体へのポインタ。
 %inst
-The XLATEOBJ_piVector function retrieves a translation vector that
-the driver can use to translate source indices to destination
-indices.
+XLATEOBJ_piVector
+関数は、ドライバがソースインデックスを変換先インデックスに変換するために使用できる変換ベクトルを取得する。
 
 [戻り値]
-The return value is a pointer to a vector of translation entries if
-the function is successful. Otherwise, it is null, and an error code
-is logged.
+関数が成功した場合、戻り値は変換エントリのベクトルへのポインタである。そうでない場合は NULL となり、エラーコードがログに記録される。
 
 [備考]
-This function can be used only if the source palette is an indexed
-palette.
+この関数はソースパレットがインデックス付きパレットである場合にのみ使用できる。
 

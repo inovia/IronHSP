@@ -6,471 +6,411 @@
 
 %index
 CertAddCRLContextToStore
-Adds a certificate revocation list (CRL) context to the specified certificate store.
+指定した証明書ストアに証明書失効リスト (CRL) コンテキストを追加する。
 %group
 Win32 crypt32
 %prm
 hCertStore, pCrlContext, dwAddDisposition, ppStoreContext
-hCertStore : [int] Handle of a certificate store.
-pCrlContext : [var] A pointer to the CRL_CONTEXT structure to be added.
-dwAddDisposition : [int] Specifies the action to take if a matching CRL or a link to a matching CRL already exists in the store. Currently defined disposition values and their uses are as follows.
-ppStoreContext : [var] A pointer to a pointer to the decoded CRL context. This is an optional parameter and can be NULL, indicating that the calling application does not require a copy of the added or existing CRL. If a copy is made, that context must be freed by using CertFreeCRLContext.
+hCertStore : [int] 証明書ストアのハンドル。
+pCrlContext : [var] 追加する CRL_CONTEXT 構造体へのポインター。
+dwAddDisposition : [int] 一致する CRL または一致する CRL へのリンクが既にストアに存在する場合の動作を指定する。現在定義されている配置値とその用途は次のとおり。
+ppStoreContext : [var] デコードされた CRL コンテキストへのポインターへのポインター。これは省略可能なパラメーターで、NULL を指定できる。NULL の場合、呼び出し元アプリケーションは追加または既存の CRL のコピーを必要としないことを示す。コピーが作成された場合、そのコンテキストは CertFreeCRLContext で解放しなければならない。
 %inst
-Adds a certificate revocation list (CRL) context to the specified
-certificate store.
+指定した証明書ストアに証明書失効リスト (CRL) コンテキストを追加する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. Errors from the called functions
-CertAddEncodedCRLToStore and CertSetCRLContextProperty can be
-propagated to this function. For extended error information, call
-GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE。関数が失敗した場合、戻り値は FALSE。呼び出し先の
+CertAddEncodedCRLToStore および CertSetCRLContextProperty
+からのエラーが本関数に伝播することがある。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-The CRL context is not duplicated using CertDuplicateCRLContext.
-Instead, a new copy is created and added to the store. In addition to
-copying the encoded CRL, the function copies the context's
-properties. To remove the CRL context from the certificate store, use
-the CertDeleteCRLFromStore function.
+CRL コンテキストは CertDuplicateCRLContext
+では複製されない。代わりに新しいコピーが作成され、ストアに追加される。エンコードされた CRL
+のコピーに加えて、本関数はコンテキストのプロパティもコピーする。証明書ストアから CRL コンテキストを削除するには
+CertDeleteCRLFromStore 関数を使用する。
 
 
 %index
 CertAddCRLLinkToStore
-Adds a link in a store to a certificate revocation list (CRL) context in a different store.
+あるストア内に、別のストアにある証明書失効リスト (CRL) コンテキストへのリンクを追加する。
 %group
 Win32 crypt32
 %prm
 hCertStore, pCrlContext, dwAddDisposition, ppStoreContext
-hCertStore : [int] Handle of a certificate store where the link is to be added.
-pCrlContext : [var] A pointer to the CRL_CONTEXT structure to be linked.
-dwAddDisposition : [int] Specifies the action to take if a matching CRL or a link to a matching CRL exists in the store. Currently defined disposition values and their uses are as follows.
-ppStoreContext : [var] A pointer to a pointer of a copy of the link created. The ppStoreContext parameter can be NULL to indicate that a copy of the link is not needed. If a copy of the link is created, that copy must be freed using CertFreeCRLContext.
+hCertStore : [int] リンクを追加する証明書ストアのハンドル。
+pCrlContext : [var] リンク対象の CRL_CONTEXT 構造体へのポインター。
+dwAddDisposition : [int] 一致する CRL または一致する CRL へのリンクがストアに存在する場合の動作を指定する。現在定義されている配置値とその用途は次のとおり。
+ppStoreContext : [var] 作成されたリンクのコピーへのポインターへのポインター。リンクのコピーが不要な場合、ppStoreContext には NULL を指定できる。リンクのコピーが作成された場合、そのコピーは CertFreeCRLContext を使用して解放しなければならない。
 %inst
-Adds a link in a store to a certificate revocation list (CRL) context
-in a different store.
+あるストア内に、別のストアにある証明書失効リスト (CRL) コンテキストへのリンクを追加する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE。関数が失敗した場合、戻り値は FALSE。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-Because the link provides access to an original CRL context, setting
-an extended property in the linked CRL context changes that extended
-property in the CRL's original location and in any other links to
-that CRL. Links cannot be added to a store that is opened as a
-collection. Stores opened as collections include all stores opened
-with CertOpenSystemStore or CertOpenStore using
-CERT_STORE_PROV_SYSTEM or CERT_STORE_PROV_COLLECTION. For more
-information, see CertAddStoreToCollection. If links are used and
-CertCloseStore is called with CERT_CLOSE_STORE_FORCE_FLAG, the store
-using links must be closed before the store containing the original
-contexts can be closed. If CERT_CLOSE_STORE_FORCE_FLAG is not used,
-the two stores can be closed in either order. To remove the CRL
-context link from the certificate store, use the
-CertDeleteCRLFromStore function.
+リンクは元の CRL コンテキストへのアクセスを提供するため、リンクされた CRL コンテキストで拡張プロパティを設定すると、元の CRL
+上のその拡張プロパティ、および同じ CRL
+への他のすべてのリンクも変更される。コレクションとして開かれたストアにはリンクを追加できない。コレクションとして開かれたストアには、CertOpenSystemStore
+または CertOpenStore に CERT_STORE_PROV_SYSTEM あるいは
+CERT_STORE_PROV_COLLECTION を指定して開かれたすべてのストアが含まれる。詳しくは
+CertAddStoreToCollection を参照。リンクを使用している場合で、CertCloseStore を
+CERT_CLOSE_STORE_FORCE_FLAG
+付きで呼び出すときは、元のコンテキストを含むストアを閉じる前に、リンクを使用しているストアを閉じなければならない。CERT_CLOSE_STORE_FORCE_FLAG
+を使用しない場合、2 つのストアはどちらの順序でも閉じてよい。証明書ストアから CRL コンテキストリンクを削除するには
+CertDeleteCRLFromStore 関数を使用する。
 
 
 %index
 CertAddCTLContextToStore
-Adds a certificate trust list (CTL) context to a certificate store.
+証明書ストアに証明書信頼リスト (CTL) コンテキストを追加する。
 %group
 Win32 crypt32
 %prm
 hCertStore, pCtlContext, dwAddDisposition, ppStoreContext
-hCertStore : [int] Handle of a certificate store.
-pCtlContext : [var] A pointer to the CTL_CONTEXT structure to be added to the store.
-dwAddDisposition : [int] Specifies the action to take if a matching CTL or a link to a matching CTL already exists in the store. Currently defined disposition values and their uses are as follows.
-ppStoreContext : [var] Pointer to a pointer to the decoded CTL context. This optional parameter can be NULL indicating that the calling application does not require a copy of the added or existing CTL. If a copy is made, that context must be freed using CertFreeCTLContext.
+hCertStore : [int] 証明書ストアのハンドル。
+pCtlContext : [var] ストアに追加する CTL_CONTEXT 構造体へのポインター。
+dwAddDisposition : [int] 一致する CTL または一致する CTL へのリンクが既にストアに存在する場合の動作を指定する。現在定義されている配置値とその用途は次のとおり。
+ppStoreContext : [var] デコードされた CTL コンテキストへのポインターへのポインター。この省略可能なパラメーターには NULL を指定でき、その場合、呼び出し元アプリケーションは追加または既存の CTL のコピーを必要としないことを示す。コピーが作成された場合、そのコンテキストは CertFreeCTLContext を使用して解放しなければならない。
 %inst
-Adds a certificate trust list (CTL) context to a certificate store.
+証明書ストアに証明書信頼リスト (CTL) コンテキストを追加する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. Errors from the called functions
-CertAddEncodedCRLToStore and CertSetCRLContextProperty can be
-propagated to this function. For extended error information, call
-GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE。関数が失敗した場合、戻り値は FALSE。呼び出し先の
+CertAddEncodedCRLToStore および CertSetCRLContextProperty
+からのエラーが本関数に伝播することがある。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-The CTL context is not duplicated using CertDuplicateCTLContext.
-Instead, a new copy is created and added to the store. In addition to
-the encoded CTL, the context's properties are copied. To remove the
-CTL context from the certificate store, use the
-CertDeleteCTLFromStore function.
+CTL コンテキストは CertDuplicateCTLContext
+では複製されない。代わりに新しいコピーが作成され、ストアに追加される。エンコードされた CTL
+に加えて、コンテキストのプロパティもコピーされる。証明書ストアから CTL コンテキストを削除するには
+CertDeleteCTLFromStore 関数を使用する。
 
 
 %index
 CertAddCTLLinkToStore
-The CertAddCTLLinkToStore function adds a link in a store to a certificate trust list (CTL) context in a different store. Instead of creating and adding a duplicate of a CTL context, this function adds a link to the original CTL context.
+CertAddCTLLinkToStore 関数は、あるストア内に、別のストアにある証明書信頼リスト (CTL) コンテキストへのリンクを追加する。CTL コンテキストの複製を作成して追加する代わりに、元の CTL コンテキストへのリンクを追加する。
 %group
 Win32 crypt32
 %prm
 hCertStore, pCtlContext, dwAddDisposition, ppStoreContext
-hCertStore : [int] Handle of the certificate store where the link is to be added.
-pCtlContext : [var] A pointer to the CTL_CONTEXT structure to be linked.
-dwAddDisposition : [int] Specifies the action to take if a matching CTL or a link to a matching CTL already exists in the store. Currently defined disposition values and their uses are as follows.
-ppStoreContext : [var] A pointer to a pointer to a copy of the link created. ppStoreContext can be NULL to indicate that a copy of the link is not needed. If a copy of the link is created, that copy must be freed using CertFreeCTLContext.
+hCertStore : [int] リンクを追加する証明書ストアのハンドル。
+pCtlContext : [var] リンク対象の CTL_CONTEXT 構造体へのポインター。
+dwAddDisposition : [int] 一致する CTL または一致する CTL へのリンクが既にストアに存在する場合の動作を指定する。現在定義されている配置値とその用途は次のとおり。
+ppStoreContext : [var] 作成されたリンクのコピーへのポインターへのポインター。リンクのコピーが不要であれば ppStoreContext に NULL を指定できる。リンクのコピーが作成された場合、そのコピーは CertFreeCTLContext を使用して解放しなければならない。
 %inst
-The CertAddCTLLinkToStore function adds a link in a store to a
-certificate trust list (CTL) context in a different store. Instead of
-creating and adding a duplicate of a CTL context, this function adds
-a link to the original CTL context.
+CertAddCTLLinkToStore 関数は、あるストア内に、別のストアにある証明書信頼リスト (CTL)
+コンテキストへのリンクを追加する。CTL コンテキストの複製を作成して追加する代わりに、元の CTL コンテキストへのリンクを追加する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE。関数が失敗した場合、戻り値は FALSE。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-Because the link provides access to the original CTL context, setting
-an extended property in the linked CTL context changes that extended
-property in the original CTL's location and in any other links to
-that CTL. Links cannot be added to a store that is opened as a
-collection. Stores opened as collections include all stores opened
-with CertOpenSystemStore or CertOpenStore using
-CERT_STORE_PROV_SYSTEM or CERT_STORE_PROV_COLLECTION. Also see
-CertAddStoreToCollection. When links are used and CertCloseStore is
-called with CERT_CLOSE_STORE_FORCE_FLAG, the store using links must
-be closed before the store containing the original contexts is
-closed. If CERT_CLOSE_STORE_FORCE_FLAG is not used, the two stores
-can be closed in either order. To remove the CTL context link from
-the certificate store, use the CertDeleteCTLFromStore function.
+リンクは元の CTL コンテキストへのアクセスを提供するため、リンクされた CTL コンテキストで拡張プロパティを設定すると、元の CTL
+上のその拡張プロパティ、および同じ CTL
+への他のすべてのリンクも変更される。コレクションとして開かれたストアにはリンクを追加できない。コレクションとして開かれたストアには、CertOpenSystemStore
+または CertOpenStore に CERT_STORE_PROV_SYSTEM あるいは
+CERT_STORE_PROV_COLLECTION
+を指定して開かれたすべてのストアが含まれる。CertAddStoreToCollection
+も参照。リンクを使用している場合で、CertCloseStore を CERT_CLOSE_STORE_FORCE_FLAG
+付きで呼び出すときは、元のコンテキストを含むストアを閉じる前に、リンクを使用しているストアを閉じなければならない。CERT_CLOSE_STORE_FORCE_FLAG
+を使用しない場合、2 つのストアはどちらの順序でも閉じてよい。証明書ストアから CTL コンテキストリンクを削除するには
+CertDeleteCTLFromStore 関数を使用する。
 
 
 %index
 CertAddCertificateContextToStore
-Adds a certificate context to the certificate store.
+証明書ストアに証明書コンテキストを追加する。
 %group
 Win32 crypt32
 %prm
 hCertStore, pCertContext, dwAddDisposition, ppStoreContext
-hCertStore : [int] Handle of a certificate store.
-pCertContext : [var] A pointer to the CERT_CONTEXT structure to be added to the store.
-dwAddDisposition : [int] Specifies the action to take if a matching certificate or a link to a matching certificate already exists in the store. Currently defined disposition values and their uses are as follows.
-ppStoreContext : [var] A pointer to a pointer to the copy to be made of the certificate that was added to the store.
+hCertStore : [int] 証明書ストアのハンドル。
+pCertContext : [var] ストアに追加する CERT_CONTEXT 構造体へのポインター。
+dwAddDisposition : [int] 一致する証明書または一致する証明書へのリンクが既にストアに存在する場合の動作を指定する。現在定義されている配置値とその用途は次のとおり。
+ppStoreContext : [var] ストアに追加された証明書のコピーへのポインターへのポインター。
 %inst
-Adds a certificate context to the certificate store.
+証明書ストアに証明書コンテキストを追加する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE。関数が失敗した場合、戻り値は FALSE。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-The certificate context is not duplicated using
-CertDuplicateCertificateContext. Instead, the function creates a new
-copy of the context and adds it to the store. In addition to the
-encoded certificate, CertDuplicateCertificateContext also copies the
-context's properties, with the exception of the
-CERT_KEY_PROV_HANDLE_PROP_ID and CERT_KEY_CONTEXT_PROP_ID properties.
-To remove the certificate context from the certificate store, use the
-CertDeleteCertificateFromStore function. Note The order of the
-certificate context may not be preserved within the store. To access
-a specific certificate you must iterate across the certificates in
-the store.
+証明書コンテキストは CertDuplicateCertificateContext
+では複製されない。代わりに、本関数はコンテキストの新しいコピーを作成してストアに追加する。エンコードされた証明書に加えて、CertDuplicateCertificateContext
+はコンテキストのプロパティもコピーするが、CERT_KEY_PROV_HANDLE_PROP_ID および
+CERT_KEY_CONTEXT_PROP_ID プロパティは例外である。証明書ストアから証明書コンテキストを削除するには
+CertDeleteCertificateFromStore 関数を使用する。注:
+証明書コンテキストの順序はストア内で保持されないことがある。特定の証明書にアクセスするには、ストア内の証明書を走査する必要がある。
 
 
 %index
 CertAddCertificateLinkToStore
-Adds a link in a certificate store to a certificate context in a different store.
+証明書ストア内に、別のストアにある証明書コンテキストへのリンクを追加する。
 %group
 Win32 crypt32
 %prm
 hCertStore, pCertContext, dwAddDisposition, ppStoreContext
-hCertStore : [int] A handle to the certificate store where the link is to be added.
-pCertContext : [var] A pointer to the CERT_CONTEXT structure to be linked.
-dwAddDisposition : [int] Specifies the action if a matching certificate or a link to a matching certificate already exists in the store. Currently defined disposition values and their uses are as follows.
-ppStoreContext : [var] A pointer to a pointer to a copy of the link created. The ppStoreContext parameter can be NULL to indicate that a copy of the link is not needed. If a copy of the link is created, that copy must be freed using the CertFreeCertificateContext function.
+hCertStore : [int] リンクを追加する証明書ストアのハンドル。
+pCertContext : [var] リンク対象の CERT_CONTEXT 構造体へのポインター。
+dwAddDisposition : [int] 一致する証明書または一致する証明書へのリンクが既にストアに存在する場合の動作を指定する。現在定義されている配置値とその用途は次のとおり。
+ppStoreContext : [var] 作成されたリンクのコピーへのポインターへのポインター。リンクのコピーが不要な場合、ppStoreContext に NULL を指定できる。リンクのコピーが作成された場合、そのコピーは CertFreeCertificateContext 関数で解放しなければならない。
 %inst
-Adds a link in a certificate store to a certificate context in a
-different store.
+証明書ストア内に、別のストアにある証明書コンテキストへのリンクを追加する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE。関数が失敗した場合、戻り値は FALSE。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-Because the link provides access to the original certificate context,
-setting an extended property in the linked certificate context
-changes that extended property in the certificate's original location
-and in any other links to that certificate. Links cannot be added to
-a store opened as a collection. Stores opened as collections include
-all stores opened with CertOpenSystemStore or CertOpenStore using
-CERT_STORE_PROV_SYSTEM or CERT_STORE_PROV_COLLECTION. For more
-information, see CertAddStoreToCollection. If links are used and
-CertCloseStore is called with CERT_CLOSE_STORE_FORCE_FLAG, the store
-that uses links must be closed before the store that contains the
-original contexts is closed. If CERT_CLOSE_STORE_FORCE_FLAG is not
-used, the two stores can be closed in either order. To remove the
-certificate context link from the certificate store, use the
-CertDeleteCertificateFromStore function.
+
+リンクは元の証明書コンテキストへのアクセスを提供するため、リンクされた証明書コンテキストで拡張プロパティを設定すると、元の証明書、および同じ証明書への他のすべてのリンクにおけるその拡張プロパティも変更される。コレクションとして開かれたストアにはリンクを追加できない。コレクションとして開かれたストアには、CertOpenSystemStore
+または CertOpenStore に CERT_STORE_PROV_SYSTEM あるいは
+CERT_STORE_PROV_COLLECTION を指定して開かれたすべてのストアが含まれる。詳しくは
+CertAddStoreToCollection を参照。リンクを使用している場合で、CertCloseStore を
+CERT_CLOSE_STORE_FORCE_FLAG
+付きで呼び出すときは、元のコンテキストを含むストアを閉じる前に、リンクを使用しているストアを閉じなければならない。CERT_CLOSE_STORE_FORCE_FLAG
+を使用しない場合、2 つのストアはどちらの順序でも閉じてよい。証明書ストアから証明書コンテキストリンクを削除するには
+CertDeleteCertificateFromStore 関数を使用する。
 
 
 %index
 CertAddEncodedCRLToStore
-Creates a certificate revocation list (CRL) context from an encoded CRL and adds it to the certificate store.
+エンコードされた CRL から証明書失効リスト (CRL) コンテキストを作成し、証明書ストアに追加する。
 %group
 Win32 crypt32
 %prm
 hCertStore, dwCertEncodingType, pbCrlEncoded, cbCrlEncoded, dwAddDisposition, ppCrlContext
-hCertStore : [int] Handle of a certificate store.
-dwCertEncodingType : [int] Specifies the type of encoding used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pbCrlEncoded : [var] A pointer to a buffer containing the encoded CRL to be added to the certificate store.
-cbCrlEncoded : [int] The size, in bytes, of the pbCrlEncoded buffer.
-dwAddDisposition : [int] Specifies the action to take if a matching CRL or a link to a matching CRL already exists in the store. Currently defined disposition values and their uses are as follows.
-ppCrlContext : [var] A pointer to a pointer to the decoded CRL_CONTEXT structure. This is an optional parameter that can be NULL, indicating that the calling application does not require a copy of the new or existing CRL. If a copy is made, that context must be freed using CertFreeCRLContext.
+hCertStore : [int] 証明書ストアのハンドル。
+dwCertEncodingType : [int] 使用するエンコード種別を指定する。証明書エンコード種別とメッセージエンコード種別を、次の例のようにビットごとの OR 演算で組み合わせて指定することも常に可能である: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコード種別は次のとおり。
+pbCrlEncoded : [var] 証明書ストアに追加するエンコード済み CRL を含むバッファーへのポインター。
+cbCrlEncoded : [int] pbCrlEncoded バッファーのサイズ（バイト単位）。
+dwAddDisposition : [int] 一致する CRL または一致する CRL へのリンクが既にストアに存在する場合の動作を指定する。現在定義されている配置値とその用途は次のとおり。
+ppCrlContext : [var] デコードされた CRL_CONTEXT 構造体へのポインターへのポインター。これは省略可能なパラメーターで、NULL を指定できる。NULL の場合、呼び出し元アプリケーションは新規または既存の CRL のコピーを必要としないことを示す。コピーが作成された場合、そのコンテキストは CertFreeCRLContext を使用して解放しなければならない。
 %inst
-Creates a certificate revocation list (CRL) context from an encoded
-CRL and adds it to the certificate store.
+エンコードされた CRL から証明書失効リスト (CRL) コンテキストを作成し、証明書ストアに追加する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE。関数が失敗した場合、戻り値は FALSE。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 
 %index
 CertAddEncodedCTLToStore
-Creates a certificate trust list (CTL) context from an encoded CTL and adds it to the certificate store.
+エンコードされた CTL から証明書信頼リスト (CTL) コンテキストを作成し、証明書ストアに追加する。
 %group
 Win32 crypt32
 %prm
 hCertStore, dwMsgAndCertEncodingType, pbCtlEncoded, cbCtlEncoded, dwAddDisposition, ppCtlContext
-hCertStore : [int] Handle of a certificate store.
-dwMsgAndCertEncodingType : [int] Specifies the type of encoding used. Both the certificate and message encoding types must be specified by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING
-pbCtlEncoded : [var] A pointer to a buffer containing the encoded CTL to be added to the certificate store.
-cbCtlEncoded : [int] The size, in bytes, of the pbCtlEncoded buffer.
-dwAddDisposition : [int] Specifies the action to take if a matching CTL or a link to a matching CTL already exists in the store. Currently defined disposition values and their uses are as follows
-ppCtlContext : [var] A pointer to a pointer to the decoded CTL_CONTEXT structure. Can be NULL indicating that the calling application does not require a copy of the added or existing CTL. If a copy is made, it must be freed by using CertFreeCTLContext.
+hCertStore : [int] 証明書ストアのハンドル。
+dwMsgAndCertEncodingType : [int] 使用するエンコード種別を指定する。証明書エンコード種別とメッセージエンコード種別の両方を、次の例のようにビットごとの OR 演算で組み合わせて指定しなければならない: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。
+pbCtlEncoded : [var] 証明書ストアに追加するエンコード済み CTL を含むバッファーへのポインター。
+cbCtlEncoded : [int] pbCtlEncoded バッファーのサイズ（バイト単位）。
+dwAddDisposition : [int] 一致する CTL または一致する CTL へのリンクが既にストアに存在する場合の動作を指定する。現在定義されている配置値とその用途は次のとおり。
+ppCtlContext : [var] デコードされた CTL_CONTEXT 構造体へのポインターへのポインター。NULL を指定でき、その場合、呼び出し元アプリケーションは追加または既存の CTL のコピーを必要としないことを示す。コピーが作成された場合は CertFreeCTLContext を使用して解放しなければならない。
 %inst
-Creates a certificate trust list (CTL) context from an encoded CTL
-and adds it to the certificate store.
+エンコードされた CTL から証明書信頼リスト (CTL) コンテキストを作成し、証明書ストアに追加する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE。関数が失敗した場合、戻り値は FALSE。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 
 %index
 CertAddEncodedCertificateToStore
-Creates a certificate context from an encoded certificate and adds it to the certificate store.
+エンコードされた証明書から証明書コンテキストを作成し、証明書ストアに追加する。
 %group
 Win32 crypt32
 %prm
 hCertStore, dwCertEncodingType, pbCertEncoded, cbCertEncoded, dwAddDisposition, ppCertContext
-hCertStore : [int] A handle to the certificate store.
-dwCertEncodingType : [int] Specifies the type of encoding used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pbCertEncoded : [var] A pointer to a buffer containing the encoded certificate that is to be added to the certificate store.
-cbCertEncoded : [int] The size, in bytes, of the pbCertEncoded buffer.
-dwAddDisposition : [int] Specifies the action to take if a matching certificate or link to a matching certificate exists in the store. Currently defined disposition values and their uses are as follows.
-ppCertContext : [var] A pointer to a pointer to the decoded certificate context. This is an optional parameter that can be NULL, indicating that the calling application does not require a copy of the new or existing certificate. When a copy is made, its context must be freed by using CertFreeCertificateContext.
+hCertStore : [int] 証明書ストアへのハンドル。
+dwCertEncodingType : [int] 使用するエンコード種別を指定する。証明書エンコード種別とメッセージエンコード種別を、次の例のようにビットごとの OR 演算で組み合わせて指定することも常に可能である: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコード種別は次のとおり。
+pbCertEncoded : [var] 証明書ストアに追加するエンコード済み証明書を含むバッファーへのポインター。
+cbCertEncoded : [int] pbCertEncoded バッファーのサイズ（バイト単位）。
+dwAddDisposition : [int] 一致する証明書または一致する証明書へのリンクがストアに存在する場合の動作を指定する。現在定義されている配置値とその用途は次のとおり。
+ppCertContext : [var] デコードされた証明書コンテキストへのポインターへのポインター。これは省略可能なパラメーターで、NULL を指定できる。NULL の場合、呼び出し元アプリケーションは新規または既存の証明書のコピーを必要としないことを示す。コピーが作成された場合、そのコンテキストは CertFreeCertificateContext を使用して解放しなければならない。
 %inst
-Creates a certificate context from an encoded certificate and adds it
-to the certificate store.
+エンコードされた証明書から証明書コンテキストを作成し、証明書ストアに追加する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE。関数が失敗した場合、戻り値は FALSE。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 
 %index
 CertAddEncodedCertificateToSystemStoreW
-Opens the specified system store and adds the encoded certificate to it. (Unicode)
+指定したシステムストアを開き、エンコード済み証明書を追加する。(Unicode)
 %group
 Win32 crypt32
 %prm
 szCertStoreName, pbCertEncoded, cbCertEncoded
-szCertStoreName : [wstr] A null-terminated string that contains the name of the system store for the encoded certificate.
-pbCertEncoded : [var] A pointer to a buffer that contains the encoded certificate to add.
-cbCertEncoded : [int] The size, in bytes, of the pbCertEncoded buffer.
+szCertStoreName : [wstr] エンコード済み証明書を格納するシステムストアの名前を含む、NULL 終端文字列。
+pbCertEncoded : [var] 追加するエンコード済み証明書を含むバッファーへのポインター。
+cbCertEncoded : [int] pbCertEncoded バッファーのサイズ（バイト単位）。
 %inst
-Opens the specified system store and adds the encoded certificate to
-it. (Unicode)
+指定したシステムストアを開き、エンコード済み証明書を追加する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE.
-CertAddEncodedCertificateToSystemStore depends on the functions
-listed in the following remarks for error handling. Refer to those
-function topics for their respective error handling behaviors. For
-extended error information, call GetLastError.
+関数が成功した場合、戻り値は TRUE。関数が失敗した場合、戻り値は
+FALSE。CertAddEncodedCertificateToSystemStore
+はエラー処理を以下の備考に記載された関数に依存している。それぞれのエラー処理動作については対応する関数のトピックを参照。拡張エラー情報は
+GetLastError を呼び出して取得する。
 
 [備考]
-Internally, CertAddEncodedCertificateToSystemStore calls
-CertOpenSystemStore and CertAddEncodedCertificateToStore with the
-following parameters.
-This doc was truncated.
+内部的に CertAddEncodedCertificateToSystemStore は、次のパラメーターで
+CertOpenSystemStore と CertAddEncodedCertificateToStore を呼び出す。
+（以下省略）
 
 
 %index
 CertAddEnhancedKeyUsageIdentifier
-The CertAddEnhancedKeyUsageIdentifier function adds a usage identifier object identifier (OID) to the enhanced key usage (EKU) extended property of the certificate.
+CertAddEnhancedKeyUsageIdentifier 関数は、証明書の拡張キー使用法 (EKU) 拡張プロパティに、使用法識別子オブジェクト識別子 (OID) を追加する。
 %group
 Win32 crypt32
 %prm
 pCertContext, pszUsageIdentifier
-pCertContext : [var] A pointer to the CERT_CONTEXT of the certificate for which the usage identifier is to be added.
-pszUsageIdentifier : [str] Specifies the usage identifier OID to add.
+pCertContext : [var] 使用法識別子を追加する対象の証明書の CERT_CONTEXT へのポインター。
+pszUsageIdentifier : [str] 追加する使用法識別子 OID を指定する。
 %inst
-The CertAddEnhancedKeyUsageIdentifier function adds a usage
-identifier object identifier (OID) to the enhanced key usage (EKU)
-extended property of the certificate.
+CertAddEnhancedKeyUsageIdentifier 関数は、証明書の拡張キー使用法 (EKU)
+拡張プロパティに、使用法識別子オブジェクト識別子 (OID) を追加する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError.
+関数が成功した場合、関数は 0 以外 (TRUE) を返す。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報は
+GetLastError を呼び出して取得する。
 
 
 %index
 CertAddRefServerOcspResponse
-Increments the reference count for an HCERT_SERVER_OCSP_RESPONSE handle.
+HCERT_SERVER_OCSP_RESPONSE ハンドルの参照カウントをインクリメントする。
 %group
 Win32 crypt32
 %prm
 hServerOcspResponse
-hServerOcspResponse : [intptr] A handle to an HCERT_SERVER_OCSP_RESPONSE returned by CertOpenServerOcspResponse.
+hServerOcspResponse : [intptr] CertOpenServerOcspResponse が返す HCERT_SERVER_OCSP_RESPONSE へのハンドル。
 %inst
-Increments the reference count for an HCERT_SERVER_OCSP_RESPONSE
-handle.
+HCERT_SERVER_OCSP_RESPONSE ハンドルの参照カウントをインクリメントする。
 
 [備考]
-Each CertOpenServerOcspResponse and CertAddRefServerOcspResponse
-requires a corresponding CertCloseServerOcspResponse.
+CertOpenServerOcspResponse および CertAddRefServerOcspResponse
+の各呼び出しには、対応する CertCloseServerOcspResponse の呼び出しが必要である。
 
 
 %index
 CertAddRefServerOcspResponseContext
-Increments the reference count for a CERT_SERVER_OCSP_RESPONSE_CONTEXT structure.
+CERT_SERVER_OCSP_RESPONSE_CONTEXT 構造体の参照カウントをインクリメントする。
 %group
 Win32 crypt32
 %prm
 pServerOcspResponseContext
-pServerOcspResponseContext : [var] A pointer to a CERT_SERVER_OCSP_RESPONSE_CONTEXT returned by CertGetServerOcspResponseContext.
+pServerOcspResponseContext : [var] CertGetServerOcspResponseContext が返す CERT_SERVER_OCSP_RESPONSE_CONTEXT へのポインター。
 %inst
-Increments the reference count for a
-CERT_SERVER_OCSP_RESPONSE_CONTEXT structure.
+CERT_SERVER_OCSP_RESPONSE_CONTEXT 構造体の参照カウントをインクリメントする。
 
 [備考]
-Each call to CertGetServerOcspResponseContext and
-CertAddRefServerOcspResponseContext requires a corresponding call to
-CertFreeServerOcspResponseContext.
+CertGetServerOcspResponseContext および
+CertAddRefServerOcspResponseContext の各呼び出しには、対応する
+CertFreeServerOcspResponseContext の呼び出しが必要である。
 
 
 %index
 CertAddSerializedElementToStore
-Adds a serialized certificate, certificate revocation list (CRL), or certificate trust list (CTL) element to the store.
+シリアル化された証明書、証明書失効リスト (CRL)、または証明書信頼リスト (CTL) 要素をストアに追加する。
 %group
 Win32 crypt32
 %prm
 hCertStore, pbElement, cbElement, dwAddDisposition, dwFlags, dwContextTypeFlags, pdwContextType, ppvContext
-hCertStore : [int] The handle of a certificate store where the created certificate will be stored. If hCertStore is NULL, the function creates a copy of a certificate, CRL, or CTL context with its extended properties, but the certificate, CRL, or CTL is not persisted in any store.
-pbElement : [var] A pointer to a buffer that contains the certificate, CRL, or CTL information to be serialized and added to the certificate store.
-cbElement : [int] The size, in bytes, of the pbElement buffer.
-dwAddDisposition : [int] Specifies the action to take if the certificate, CRL, or CTL already exists in the store. Currently defined disposition values are shown in the following table.
-dwFlags : [int] Reserved for future use and must be zero.
-dwContextTypeFlags : [int] Specifics the contexts that can be added. For example, to add either a certificate, CRL, or CTL, set dwContextTypeFlags to CERT_STORE_CERTIFICATE_CONTEXT_FLAG or CERT_STORE_CRL_CONTEXT_FLAG.
-pdwContextType : [var] A pointer to the context type of the added serialized element. This is an optional parameter and can be NULL, which indicates that the calling application does not require the context type. Currently defined context types are shown in the following table.
-ppvContext : [var] A pointer to a pointer to the decoded certificate, CRL, or CTL context. This is an optional parameter and can be NULL, which indicates that the calling application does not require the context of the added or existing certificate, CRL, or CTL. If ppvContext is not NULL, it must be the address of a pointer to a CERT_CONTEXT, CRL_CONTEXT, or CTL_CONTEXT. When the application is finished with the context, the context must be freed by using CertFreeCertificateContext for a certificate, CertFreeCRLContext for a CRL, or CertFreeCTLContext for a CTL.
+hCertStore : [int] 作成される証明書を格納する証明書ストアのハンドル。hCertStore が NULL の場合、本関数は証明書、CRL、または CTL コンテキストのコピーを拡張プロパティとともに作成するが、証明書、CRL、または CTL はどのストアにも永続化されない。
+pbElement : [var] シリアル化して証明書ストアに追加する証明書、CRL、または CTL 情報を含むバッファーへのポインター。
+cbElement : [int] pbElement バッファーのサイズ（バイト単位）。
+dwAddDisposition : [int] 証明書、CRL、または CTL が既にストアに存在する場合の動作を指定する。現在定義されている配置値を次の表に示す。
+dwFlags : [int] 将来の使用のために予約されている。0 でなければならない。
+dwContextTypeFlags : [int] 追加できるコンテキストを指定する。たとえば、証明書、CRL、または CTL のいずれかを追加するには、dwContextTypeFlags に CERT_STORE_CERTIFICATE_CONTEXT_FLAG または CERT_STORE_CRL_CONTEXT_FLAG を設定する。
+pdwContextType : [var] 追加したシリアル化要素のコンテキスト種別へのポインター。これは省略可能なパラメーターで、NULL を指定でき、その場合、呼び出し元アプリケーションはコンテキスト種別を必要としないことを示す。現在定義されているコンテキスト種別を次の表に示す。
+ppvContext : [var] デコードされた証明書、CRL、または CTL コンテキストへのポインターへのポインター。これは省略可能なパラメーターで、NULL を指定でき、その場合、呼び出し元アプリケーションは追加または既存の証明書、CRL、または CTL のコンテキストを必要としないことを示す。ppvContext が NULL でない場合、CERT_CONTEXT、CRL_CONTEXT、または CTL_CONTEXT へのポインターのアドレスでなければならない。アプリケーションがコンテキストの使用を終えたら、証明書の場合は CertFreeCertificateContext、CRL の場合は CertFreeCRLContext、CTL の場合は CertFreeCTLContext を使用して解放しなければならない。
 %inst
-Adds a serialized certificate, certificate revocation list (CRL), or
-certificate trust list (CTL) element to the store.
+シリアル化された証明書、証明書失効リスト (CRL)、または証明書信頼リスト (CTL) 要素をストアに追加する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero. If the
-function fails, it returns zero. For extended error information, call
-GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、関数は 0 以外を返す。関数が失敗した場合は 0 を返す。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 
 %index
 CertAddStoreToCollection
-The CertAddStoreToCollection function adds a sibling certificate store to a collection certificate store.
+CertAddStoreToCollection 関数は、コレクション証明書ストアに兄弟証明書ストアを追加する。
 %group
 Win32 crypt32
 %prm
 hCollectionStore, hSiblingStore, dwUpdateFlags, dwPriority
-hCollectionStore : [int] Handle of a certificate store.
-hSiblingStore : [int] Handle of a sibling store to be added to the collection store. For more information, see  Remarks.
-dwUpdateFlags : [int] Indicates whether certificates, CRLs, and CTLs can be added to the new sibling store member of the collection store. To enable addition, set dwUpdateFlag to CERT_PHYSICAL_STORE_ADD_ENABLE_FLAG.   To disable additions, set dwUpdateFlag to zero.
-dwPriority : [int] Sets a priority level of the new store in the collection, with zero being the lowest priority. If zero is passed for this parameter, the specified store is appended as the last store in the collection. The priority levels of the stores in a collection determine the order in which the stores are enumerated, and the search order of the stores when attempting to retrieve a certificate, CRL, or CTL. Priority levels also determine to which store of a collection a new certificate, CRL, or CTL is added. For more information, see  Remarks.
+hCollectionStore : [int] 証明書ストアのハンドル。
+hSiblingStore : [int] コレクションストアに追加する兄弟ストアのハンドル。詳しくは備考を参照。
+dwUpdateFlags : [int] コレクションストアの新しい兄弟ストアメンバーに対して、証明書、CRL、CTL を追加できるかを示す。追加を有効にするには、dwUpdateFlag に CERT_PHYSICAL_STORE_ADD_ENABLE_FLAG を設定する。追加を無効にするには、dwUpdateFlag に 0 を設定する。
+dwPriority : [int] コレクション内の新しいストアの優先順位レベルを設定する。0 が最下位の優先順位である。このパラメーターに 0 を渡すと、指定したストアはコレクション内の末尾に追加される。コレクション内のストアの優先順位レベルは、ストアを列挙する順序と、証明書、CRL、または CTL を取得する際のストアの検索順序を決定する。優先順位レベルは、新しい証明書、CRL、または CTL がコレクションのどのストアに追加されるかも決定する。詳しくは備考を参照。
 %inst
-The CertAddStoreToCollection function adds a sibling certificate
-store to a collection certificate store.
+CertAddStoreToCollection 関数は、コレクション証明書ストアに兄弟証明書ストアを追加する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero and a new
-store is added to the collection of stores. If the function fails, it
-returns zero and the store was not added.
+関数が成功した場合、関数は 0 以外を返し、新しいストアがストアのコレクションに追加される。関数が失敗した場合は 0
+を返し、ストアは追加されない。
 
 [備考]
-A collection store has the same HCERTSTORE handle as a single store;
-thus, almost all functions that apply to any certificate store also
-apply to any collection store. Enumeration and search processes span
-all of the stores in a collection store; however, functions such as
-CertAddCertificateLinkToStore that add links to stores cannot be used
-with collection stores. When a certificate, CRL, or CTL is added to a
-collection store, the list of sibling stores in the collection is
-searched in priority order to find the first store that allows
-adding. Adding is enabled if CERT_PHYSICAL_STORE_ADD_ENABLE_FLAG was
-set in the CertAddStoreToCollection call. With any function that adds
-elements to a store, if a store that allows adding does not return
-success, the addition function continues on to the next store without
-providing notification. When a collection store and its sibling
-stores are closed with CertCloseStore using
-CERT_CLOSE_STORE_FORCE_FLAG, the collection store must be closed
-before its sibling stores. If CERT_CLOSE_STORE_FORCE_FLAG is not
-used, the stores can be closed in any order.
+コレクションストアは単一ストアと同じ HCERTSTORE
+ハンドルを持つため、証明書ストアに適用されるほぼすべての関数はコレクションストアにも適用される。列挙および検索処理は、コレクションストア内のすべてのストアにまたがって行われる。ただし、CertAddCertificateLinkToStore
+など、ストアにリンクを追加する関数はコレクションストアでは使用できない。証明書、CRL、または CTL
+がコレクションストアに追加されると、コレクション内の兄弟ストアのリストが優先順位順に検索され、追加を許可する最初のストアが選ばれる。追加は
+CertAddStoreToCollection の呼び出しで CERT_PHYSICAL_STORE_ADD_ENABLE_FLAG
+を設定したときに有効になる。ストアに要素を追加する関数では、追加を許可するストアが成功を返さない場合、追加関数は通知なしで次のストアへ進む。コレクションストアとその兄弟ストアを
+CertCloseStore で CERT_CLOSE_STORE_FORCE_FLAG
+を指定して閉じる場合、兄弟ストアより先にコレクションストアを閉じなければならない。CERT_CLOSE_STORE_FORCE_FLAG
+を使用しない場合、ストアはどの順序でも閉じてよい。
 
 
 %index
 CertAlgIdToOID
-Converts a CryptoAPI algorithm identifier (ALG_ID) to an Abstract Syntax Notation One (ASN.1) object identifier (OID) string.
+CryptoAPI アルゴリズム識別子 (ALG_ID) を ASN.1 オブジェクト識別子 (OID) 文字列に変換する。
 %group
 Win32 crypt32
 %prm
 dwAlgId
-dwAlgId : [int] Value to be converted to an OID.
+dwAlgId : [int] OID に変換する値。
 %inst
-Converts a CryptoAPI algorithm identifier (ALG_ID) to an Abstract
-Syntax Notation One (ASN.1) object identifier (OID) string.
+CryptoAPI アルゴリズム識別子 (ALG_ID) を ASN.1 オブジェクト識別子 (OID) 文字列に変換する。
 
 [戻り値]
-If the function succeeds, the function returns the null-terminated
-OID string. If no OID string corresponds to the algorithm identifier,
-the function returns NULL.
+関数が成功した場合、関数は NULL 終端 OID 文字列を返す。アルゴリズム識別子に対応する OID 文字列がない場合、関数は NULL
+を返す。
 
 
 %index
 CertCloseServerOcspResponse
-Closes an online certificate status protocol (OCSP) server response handle.
+オンライン証明書状態プロトコル (OCSP) サーバー応答のハンドルを閉じる。
 %group
 Win32 crypt32
 %prm
 hServerOcspResponse, dwFlags
-hServerOcspResponse : [intptr] The handle to close for an OCSP server response.
-dwFlags : [int] This parameter is not used and must be zero.
+hServerOcspResponse : [intptr] 閉じる OCSP サーバー応答のハンドル。
+dwFlags : [int] このパラメーターは使用されず、0 でなければならない。
 %inst
-Closes an online certificate status protocol (OCSP) server response
-handle.
+オンライン証明書状態プロトコル (OCSP) サーバー応答のハンドルを閉じる。
 
 [備考]
-The CertCloseServerOcspResponse function closes a handle returned by
-either the CertOpenServerOcspResponse or CertAddRefServerOcspResponse
-function.
+CertCloseServerOcspResponse 関数は、CertOpenServerOcspResponse または
+CertAddRefServerOcspResponse が返したハンドルを閉じる。
 
 
 %index
@@ -509,660 +449,564 @@ CERT_STORE_NO_CRYPT_RELEASE_FLAG を指定していなければ、クローズ時に CSP ハンドル
 
 %index
 CertCompareCertificate
-Determines whether two certificates are identical by comparing the issuer name and serial number of the certificates.
+証明書の発行者名とシリアル番号を比較することにより、2 つの証明書が同一かどうかを判定する。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, pCertId1, pCertId2
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pCertId1 : [var] A pointer to the CERT_INFO for the first certificate in the comparison.
-pCertId2 : [var] A pointer to the CERT_INFO for the second certificate in the comparison.
+dwCertEncodingType : [int] 使用するエンコード種別を指定する。証明書エンコード種別とメッセージエンコード種別を、次の例のようにビットごとの OR 演算で組み合わせて指定することも常に可能である: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコード種別は次のとおり。
+pCertId1 : [var] 比較する 1 つ目の証明書の CERT_INFO へのポインター。
+pCertId2 : [var] 比較する 2 つ目の証明書の CERT_INFO へのポインター。
 %inst
-Determines whether two certificates are identical by comparing the
-issuer name and serial number of the certificates.
+証明書の発行者名とシリアル番号を比較することにより、2 つの証明書が同一かどうかを判定する。
 
 [戻り値]
-If the certificates are identical and the function succeeds, the
-function returns nonzero (TRUE). If the function fails, it returns
-zero (FALSE).
+証明書が同一で、関数が成功した場合、関数は 0 以外 (TRUE) を返す。関数が失敗した場合は 0 (FALSE) を返す。
 
 
 %index
 CertCompareCertificateName
-The CertCompareCertificateName function compares two certificate CERT_NAME_BLOB structures to determine whether they are identical. The CERT_NAME_BLOB structures are used for the subject and the issuer of certificates.
+CertCompareCertificateName 関数は、2 つの証明書の CERT_NAME_BLOB 構造体を比較して、同一かどうかを判定する。CERT_NAME_BLOB 構造体は証明書のサブジェクトおよび発行者のために使用される。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, pCertName1, pCertName2
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pCertName1 : [var] A pointer to a CERT_NAME_BLOB for the first name in the comparison. For more information, see CRYPT_INTEGER_BLOB.
-pCertName2 : [var] A pointer to a CERT_NAME_BLOB for the second name in the comparison.
+dwCertEncodingType : [int] 使用するエンコード種別を指定する。証明書エンコード種別とメッセージエンコード種別を、次の例のようにビットごとの OR 演算で組み合わせて指定することも常に可能である: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコード種別は次のとおり。
+pCertName1 : [var] 比較する 1 つ目の名前の CERT_NAME_BLOB へのポインター。詳しくは CRYPT_INTEGER_BLOB を参照。
+pCertName2 : [var] 比較する 2 つ目の名前の CERT_NAME_BLOB へのポインター。
 %inst
-The CertCompareCertificateName function compares two certificate
-CERT_NAME_BLOB structures to determine whether they are identical.
-The CERT_NAME_BLOB structures are used for the subject and the issuer
-of certificates.
+CertCompareCertificateName 関数は、2 つの証明書の CERT_NAME_BLOB
+構造体を比較して、同一かどうかを判定する。CERT_NAME_BLOB 構造体は証明書のサブジェクトおよび発行者のために使用される。
 
 [戻り値]
-If the names are identical and the function succeeds, the function
-returns nonzero (TRUE). If the function fails, it returns zero
-(FALSE).
+名前が同一で、関数が成功した場合、関数は 0 以外 (TRUE) を返す。関数が失敗した場合は 0 (FALSE) を返す。
 
 
 %index
 CertCompareIntegerBlob
-The CertCompareIntegerBlob function compares two integer BLOBs to determine whether they represent equal numeric values.
+CertCompareIntegerBlob 関数は、2 つの整数 BLOB を比較して、等しい数値を表しているかを判定する。
 %group
 Win32 crypt32
 %prm
 pInt1, pInt2
-pInt1 : [var] A pointer to a CRYPT_INTEGER_BLOB structure that contains the first integer in the comparison.
-pInt2 : [var] A pointer to a CRYPT_INTEGER_BLOB structure that contains the second integer in the comparison.
+pInt1 : [var] 比較する 1 つ目の整数を含む CRYPT_INTEGER_BLOB 構造体へのポインター。
+pInt2 : [var] 比較する 2 つ目の整数を含む CRYPT_INTEGER_BLOB 構造体へのポインター。
 %inst
-The CertCompareIntegerBlob function compares two integer BLOBs to
-determine whether they represent equal numeric values.
+CertCompareIntegerBlob 関数は、2 つの整数 BLOB を比較して、等しい数値を表しているかを判定する。
 
 [戻り値]
-If the representations of the integer BLOBs are identical and the
-function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError.
+整数 BLOB の表現が同一で、関数が成功した場合、関数は 0 以外 (TRUE) を返す。関数が失敗した場合は 0 (FALSE)
+を返す。拡張エラー情報は GetLastError を呼び出して取得する。
 
 [備考]
-Before doing the comparison, most significant bytes with a value of
-0x00 are removed from a positive number. Positive here means that the
-most significant bit in the next nonzero byte is not set. Most
-significant bytes with a value of 0xFF are removed from a negative
-number. Negative here means that the most significant bit in the next
-non-0xFF byte is set. This produces the unique representation of that
-integer, as shown in the following table.
-This doc was truncated.
+比較の前に、正の数からは値 0x00
+の最上位バイトが除去される。ここで言う正とは、次の非ゼロバイトの最上位ビットが立っていないことを意味する。負の数からは値 0xFF
+の最上位バイトが除去される。ここで言う負とは、次の非 0xFF
+バイトの最上位ビットが立っていることを意味する。これにより、その整数の一意な表現が得られる。次の表を参照。
+（以下省略）
 
 
 %index
 CertComparePublicKeyInfo
-The CertComparePublicKeyInfo function compares two encoded public keys to determine whether they are identical.
+CertComparePublicKeyInfo 関数は、エンコードされた 2 つの公開鍵を比較して、同一かどうかを判定する。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, pPublicKey1, pPublicKey2
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pPublicKey1 : [var] A pointer to the CERT_PUBLIC_KEY_INFO for the first public key in the comparison.
-pPublicKey2 : [var] A pointer to the CERT_PUBLIC_KEY_INFO for the second public key in the comparison.
+dwCertEncodingType : [int] 使用するエンコード種別を指定する。証明書エンコード種別とメッセージエンコード種別を、次の例のようにビットごとの OR 演算で組み合わせて指定することも常に可能である: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコード種別は次のとおり。
+pPublicKey1 : [var] 比較する 1 つ目の公開鍵の CERT_PUBLIC_KEY_INFO へのポインター。
+pPublicKey2 : [var] 比較する 2 つ目の公開鍵の CERT_PUBLIC_KEY_INFO へのポインター。
 %inst
-The CertComparePublicKeyInfo function compares two encoded public
-keys to determine whether they are identical.
+CertComparePublicKeyInfo 関数は、エンコードされた 2 つの公開鍵を比較して、同一かどうかを判定する。
 
 [戻り値]
-If the public keys are identical and the function succeeds, the
-function returns nonzero (TRUE). If the function fails, it returns
-zero (FALSE).
+公開鍵が同一で、関数が成功した場合、関数は 0 以外 (TRUE) を返す。関数が失敗した場合は 0 (FALSE) を返す。
 
 
 %index
 CertControlStore
-Allows an application to be notified when there is a difference between the contents of a cached store in use and the contents of that store as it is persisted to storage.
+使用中のキャッシュされたストアの内容と、永続化ストレージ上のその内容との間に差異がある場合に、アプリケーションに通知できるようにする。
 %group
 Win32 crypt32
 %prm
 hCertStore, dwFlags, dwCtrlType, pvCtrlPara
-hCertStore : [int] Handle of the certificate store.
+hCertStore : [int] 証明書ストアのハンドル。
 dwFlags : [int] 
-dwCtrlType : [int] Control action to be taken by CertControlStore. The interpretations of pvCtrlPara and dwFlags depend on the value of dwCtrlType. Currently, the following  actions are defined.
-pvCtrlPara : [intptr] If dwCtrlType is CERT_STORE_NOTIFY_CHANGE, pvCtrlPara is set to the address of a handle where the system signals the notification change event when a change from the persisted state of the store is detected. The handle must be initialized with a call to the function CreateEvent. The pvCtrlPara parameter can be set to NULL for registry-based stores. If pvCtrlPara is NULL, an internal notification change event is created and registered to be signaled. Using the internal notification change event allows resynchronization operations only if the store was changed.
+dwCtrlType : [int] CertControlStore が実行する制御動作。pvCtrlPara および dwFlags の解釈は dwCtrlType の値に依存する。現在、次の動作が定義されている。
+pvCtrlPara : [intptr] dwCtrlType が CERT_STORE_NOTIFY_CHANGE の場合、pvCtrlPara はハンドルのアドレスに設定し、システムはストアの永続化状態からの変更を検出したときにそのハンドル上で通知変更イベントをシグナルする。ハンドルは CreateEvent 関数の呼び出しで初期化しておく必要がある。レジストリベースのストアでは pvCtrlPara に NULL を指定できる。pvCtrlPara が NULL の場合、内部の通知変更イベントが作成され、シグナルされるよう登録される。内部の通知変更イベントを使用すると、ストアが変更された場合にのみ再同期操作が行える。
 %inst
-Allows an application to be notified when there is a difference
-between the contents of a cached store in use and the contents of
-that store as it is persisted to storage.
+使用中のキャッシュされたストアの内容と、永続化ストレージ上のその内容との間に差異がある場合に、アプリケーションに通知できるようにする。
 
 [戻り値]
-If the function succeeds, the function returns nonzero. If the
-function fails, it returns zero. For extended error information, call
-GetLastError. If dwCtrlType is CERT_STORE_NOTIFY_CHANGE, the function
-returns nonzero if a handle for the event signal was successfully set
-up. The function returns zero if the event handle was not set up. If
-dwCtrlType is CERT_STORE_CTRL_RESYNC, the function returns nonzero if
-the resynchronization succeeded. The function returns zero if the
-resynchronization failed. If dwCtrlType is CERT_STORE_CTRL_COMMIT,
-the function returns nonzero to indicate the successful completion of
-the commit to persisted storage. The function returns zero if the
-commit failed. Some providers might not support specific control
-types. In these cases, CertControlStore returns zero and GetLastError
-is set to the ERROR_NOT_SUPPORTED code.
+関数が成功した場合、関数は 0 以外を返す。関数が失敗した場合は 0 を返す。拡張エラー情報は GetLastError
+を呼び出して取得する。dwCtrlType が CERT_STORE_NOTIFY_CHANGE
+の場合、イベントシグナル用のハンドルの設定に成功すると関数は 0 以外を返す。イベントハンドルが設定されなかった場合は 0
+を返す。dwCtrlType が CERT_STORE_CTRL_RESYNC の場合、再同期が成功すると 0
+以外を返す。再同期が失敗した場合は 0 を返す。dwCtrlType が CERT_STORE_CTRL_COMMIT
+の場合、永続化ストアへのコミットが正常に完了すると 0 以外を返す。コミットが失敗した場合は 0
+を返す。プロバイダーによっては特定の制御種別をサポートしない場合がある。その場合 CertControlStore は 0
+を返し、GetLastError は ERROR_NOT_SUPPORTED に設定される。
 
 [備考]
-Resynchronization of a store can be done at any time. It need not
-follow a signaled notification change event.
-CERT_STORE_CTRL_NOTIFY_CHANGE is supported on registry-based store
-providers by using the RegNotifyChangeKeyValue function.
-CertControlStore using CERT_STORE_CTRL_NOTIFY_CHANGE is called once
-for each event handle to be passed with CERT_STORE_CTRL_RESYNC. These
-calls using CERT_STORE_CTRL_NOTIFY_CHANGE must be made after each
-event is created and not after an event has been signaled.
+
+ストアの再同期は任意のタイミングで実行でき、シグナルされた通知変更イベントに続けて行う必要はない。CERT_STORE_CTRL_NOTIFY_CHANGE
+はレジストリベースのストアプロバイダーで、RegNotifyChangeKeyValue
+関数を使用してサポートされる。CERT_STORE_CTRL_NOTIFY_CHANGE を用いた CertControlStore
+の呼び出しは、CERT_STORE_CTRL_RESYNC で渡すイベントハンドル 1 つにつき 1
+回行う。CERT_STORE_CTRL_NOTIFY_CHANGE
+を用いたこれらの呼び出しは、各イベントが作成された後に行わなければならず、イベントがシグナルされた後ではいけない。
 
 
 %index
 CertCreateCRLContext
-The CertCreateCRLContext function creates a certificate revocation list (CRL) context from an encoded CRL. The created context is not persisted to a certificate store. It makes a copy of the encoded CRL within the created context.
+CertCreateCRLContext 関数は、エンコードされた CRL から証明書失効リスト (CRL) コンテキストを作成する。作成されたコンテキストは証明書ストアには永続化されない。作成されたコンテキスト内にエンコード済み CRL のコピーを保持する。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, pbCrlEncoded, cbCrlEncoded
-dwCertEncodingType : [int] Specifies the type of encoding used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pbCrlEncoded : [var] A pointer to a buffer containing the encoded CRL from which the context is to be created.
-cbCrlEncoded : [int] The size, in bytes, of the pbCrlEncoded buffer.
+dwCertEncodingType : [int] 使用するエンコード種別を指定する。証明書エンコード種別とメッセージエンコード種別を、次の例のようにビットごとの OR 演算で組み合わせて指定することも常に可能である: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコード種別は次のとおり。
+pbCrlEncoded : [var] コンテキストの作成元となるエンコード済み CRL を含むバッファーへのポインター。
+cbCrlEncoded : [int] pbCrlEncoded バッファーのサイズ（バイト単位）。
 %inst
-The CertCreateCRLContext function creates a certificate revocation
-list (CRL) context from an encoded CRL. The created context is not
-persisted to a certificate store. It makes a copy of the encoded CRL
-within the created context.
+CertCreateCRLContext 関数は、エンコードされた CRL から証明書失効リスト (CRL)
+コンテキストを作成する。作成されたコンテキストは証明書ストアには永続化されない。作成されたコンテキスト内にエンコード済み CRL
+のコピーを保持する。
 
 [戻り値]
-If the function succeeds, the return value is a pointer to a
-read-only CRL_CONTEXT. If the function fails and is unable to decode
-and create the CRL_CONTEXT, the return value is NULL. For extended
-error information, call GetLastError. The following table shows a
-possible error code.
-This doc was truncated.
+関数が成功した場合、戻り値は読み取り専用の CRL_CONTEXT へのポインター。関数が失敗し、CRL_CONTEXT
+のデコードおよび作成ができなかった場合、戻り値は NULL。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを次の表に示す。
+（以下省略）
 
 [備考]
-The CRL_CONTEXT must be freed by calling CertFreeCRLContext.
-CertDuplicateCRLContext can be called to make a duplicate.
-CertSetCRLContextProperty and CertGetCRLContextProperty can be called
-to store and read properties for the CRL.
+CRL_CONTEXT は CertFreeCRLContext を呼び出して解放しなければならない。複製するには
+CertDuplicateCRLContext を呼び出せる。CRL のプロパティを保存・取得するには
+CertSetCRLContextProperty および CertGetCRLContextProperty を呼び出せる。
 
 
 %index
 CertCreateCTLContext
-The CertCreateCTLContext function creates a certificate trust list (CTL) context from an encoded CTL. The created context is not persisted to a certificate store. The function makes a copy of the encoded CTL within the created context.
+CertCreateCTLContext 関数は、エンコードされた CTL から証明書信頼リスト (CTL) コンテキストを作成する。作成されたコンテキストは証明書ストアには永続化されない。本関数は、作成したコンテキスト内にエンコード済み CTL のコピーを保持する。
 %group
 Win32 crypt32
 %prm
 dwMsgAndCertEncodingType, pbCtlEncoded, cbCtlEncoded
-dwMsgAndCertEncodingType : [int] Specifies the type of encoding used. Both the certificate and message encoding types must be specified by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pbCtlEncoded : [var] A pointer to a buffer containing the encoded CTL from which the context is to be created.
-cbCtlEncoded : [int] The size, in bytes, of the pbCtlEncoded buffer.
+dwMsgAndCertEncodingType : [int] 使用するエンコード種別を指定する。証明書エンコード種別とメッセージエンコード種別の両方を、次の例のようにビットごとの OR 演算で組み合わせて指定しなければならない: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコード種別は次のとおり。
+pbCtlEncoded : [var] コンテキストの作成元となるエンコード済み CTL を含むバッファーへのポインター。
+cbCtlEncoded : [int] pbCtlEncoded バッファーのサイズ（バイト単位）。
 %inst
-The CertCreateCTLContext function creates a certificate trust list
-(CTL) context from an encoded CTL. The created context is not
-persisted to a certificate store. The function makes a copy of the
-encoded CTL within the created context.
+CertCreateCTLContext 関数は、エンコードされた CTL から証明書信頼リスト (CTL)
+コンテキストを作成する。作成されたコンテキストは証明書ストアには永続化されない。本関数は、作成したコンテキスト内にエンコード済み CTL
+のコピーを保持する。
 
 [戻り値]
-If the function succeeds, the return value is a pointer to a
-read-only CTL_CONTEXT. If the function fails and is unable to decode
-and create the CTL_CONTEXT, the return value is NULL. For extended
-error information, call GetLastError. The following table shows a
-possible error code.
-This doc was truncated.
+関数が成功した場合、戻り値は読み取り専用の CTL_CONTEXT へのポインター。関数が失敗し、CTL_CONTEXT
+のデコードおよび作成ができなかった場合、戻り値は NULL。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを次の表に示す。
+（以下省略）
 
 [備考]
-The CTL_CONTEXT must be freed by calling CertFreeCTLContext.
-CertDuplicateCTLContext can be called to make a duplicate.
-CertSetCTLContextProperty and CertGetCTLContextProperty can be called
-to store and read properties for the CTL.
+CTL_CONTEXT は CertFreeCTLContext を呼び出して解放しなければならない。複製するには
+CertDuplicateCTLContext を呼び出せる。CTL のプロパティを保存・取得するには
+CertSetCTLContextProperty および CertGetCTLContextProperty を呼び出せる。
 
 
 %index
 CertCreateCTLEntryFromCertificateContextProperties
-The CertCreateCTLEntryFromCertificateContextProperties function creates a certificate trust list (CTL) entry whose attributes are the properties of the certificate context. The SubjectIdentifier in the CTL entry is the SHA1 hash of the certificate.
+CertCreateCTLEntryFromCertificateContextProperties 関数は、属性が証明書コンテキストのプロパティである証明書信頼リスト (CTL) エントリを作成する。CTL エントリの SubjectIdentifier は証明書の SHA1 ハッシュである。
 %group
 Win32 crypt32
 %prm
 pCertContext, cOptAttr, rgOptAttr, dwFlags, pvReserved, pCtlEntry, pcbCtlEntry
-pCertContext : [var] A pointer to the CERT_CONTEXT used to create the CTL.
-cOptAttr : [int] A DWORD that specifies the number of additional attributes to be added.
-rgOptAttr : [var] A pointer to any array of CRYPT_ATTRIBUTE attributes to be added to the CTL.
-dwFlags : [int] A DWORD. Can be set to CTL_ENTRY_FROM_PROP_CHAIN_FLAG to force the inclusion of the chain building hash properties as attributes.
-pvReserved : [intptr] A pointer to a VOID. Reserved for future use.
-pCtlEntry : [var] Address of a pointer to a CTL_ENTRY structure. Call this function twice to retrieve a CTL entry. Set this parameter to NULL on the first call. When the function returns, use the number of bytes retrieved from the pcbCtlEntry parameter to allocate memory. Call the function again, setting this parameter to the address of the allocated memory.
-pcbCtlEntry : [var] Pointer to a DWORD that contains the number of bytes that must be allocated for the CTL_ENTRY structure.  Call this function twice to retrieve the number of bytes. For the first call, set this parameter to the address of a DWORD value that contains zero and set the pCtlEntry parameter to NULL. If the first call succeeds, the DWORD value will contain the number of bytes that you must allocate for the CTL_ENTRY structure. Allocate the required memory and call the function again, supplying the address of the memory in the pCtlEntry parameter.
+pCertContext : [var] CTL の作成に使用する CERT_CONTEXT へのポインター。
+cOptAttr : [int] 追加する属性の数を指定する DWORD。
+rgOptAttr : [var] CTL に追加する CRYPT_ATTRIBUTE 属性の配列へのポインター。
+dwFlags : [int] DWORD。チェーン構築ハッシュプロパティを属性として強制的に含めるには CTL_ENTRY_FROM_PROP_CHAIN_FLAG を指定できる。
+pvReserved : [intptr] VOID へのポインター。将来の使用のために予約されている。
+pCtlEntry : [var] CTL_ENTRY 構造体へのポインターのアドレス。CTL エントリを取得するには本関数を 2 回呼び出す。1 回目の呼び出しでは、このパラメーターを NULL に設定する。関数が戻ったら、pcbCtlEntry パラメーターから取得したバイト数を使用してメモリを割り当てる。再度関数を呼び出し、このパラメーターに割り当てたメモリのアドレスを設定する。
+pcbCtlEntry : [var] CTL_ENTRY 構造体のために割り当てるバイト数を格納する DWORD へのポインター。バイト数を取得するには本関数を 2 回呼び出す。1 回目の呼び出しでは、このパラメーターに 0 を含む DWORD 値のアドレスを設定し、pCtlEntry パラメーターを NULL に設定する。1 回目の呼び出しが成功すると、DWORD 値には CTL_ENTRY 構造体のために割り当てる必要があるバイト数が格納される。必要なメモリを割り当て、再度関数を呼び出し、pCtlEntry パラメーターにそのメモリのアドレスを指定する。
 %inst
-The CertCreateCTLEntryFromCertificateContextProperties function
-creates a certificate trust list (CTL) entry whose attributes are the
-properties of the certificate context. The SubjectIdentifier in the
-CTL entry is the SHA1 hash of the certificate.
+CertCreateCTLEntryFromCertificateContextProperties
+関数は、属性が証明書コンテキストのプロパティである証明書信頼リスト (CTL) エントリを作成する。CTL エントリの
+SubjectIdentifier は証明書の SHA1 ハッシュである。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError.
+関数が成功した場合、関数は 0 以外 (TRUE) を返す。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報は
+GetLastError を呼び出して取得する。
 
 
 %index
 CertFreeCertificateChainEngine
-The CertFreeCertificateChainEngine function frees a certificate trust engine.
+CertFreeCertificateChainEngine 関数は、証明書信頼エンジンを解放する。
 %group
 Win32 crypt32
 %prm
 hChainEngine
-hChainEngine : [intptr] Handle of the chain engine to be freed.
+hChainEngine : [intptr] 解放するチェーンエンジンのハンドル。
 %inst
-The CertFreeCertificateChainEngine function frees a certificate trust
-engine.
+CertFreeCertificateChainEngine 関数は、証明書信頼エンジンを解放する。
 
 
 %index
 CertCreateCertificateChainEngine
-The CertCreateCertificateChainEngine function creates a new, nondefault chain engine for an application.
+CertCreateCertificateChainEngine 関数は、アプリケーション用に新しい既定以外のチェーンエンジンを作成する。
 %group
 Win32 crypt32
 %prm
 pConfig, phChainEngine
-pConfig : [var] A pointer to a CERT_CHAIN_ENGINE_CONFIG data structure that specifies the parameters for the chain engine.
-phChainEngine : [intptr] A pointer to the handle of the chain engine created. When you have finished using the chain engine, release the chain engine by calling the CertFreeCertificateChainEngine function.
+pConfig : [var] チェーンエンジンのパラメーターを指定する CERT_CHAIN_ENGINE_CONFIG データ構造体へのポインター。
+phChainEngine : [intptr] 作成したチェーンエンジンのハンドルへのポインター。チェーンエンジンの使用を終えたら、CertFreeCertificateChainEngine 関数を呼び出して解放する。
 %inst
-The CertCreateCertificateChainEngine function creates a new,
-nondefault chain engine for an application.
+CertCreateCertificateChainEngine 関数は、アプリケーション用に新しい既定以外のチェーンエンジンを作成する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. The phChainEngine parameter returns
-the chain engine handle.
+関数が成功した場合、関数は 0 以外 (TRUE) を返す。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報は
+GetLastError を呼び出して取得する。phChainEngine パラメーターはチェーンエンジンのハンドルを返す。
 
 
 %index
 CertCreateCertificateContext
-Creates a certificate context from an encoded certificate. The created context is not persisted to a certificate store. The function makes a copy of the encoded certificate within the created context.
+エンコードされた証明書から証明書コンテキストを作成する。作成されたコンテキストは証明書ストアには永続化されない。作成されたコンテキスト内にエンコード済み証明書のコピーを保持する。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, pbCertEncoded, cbCertEncoded
-dwCertEncodingType : [int] Specifies the type of encoding used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pbCertEncoded : [var] A pointer to a buffer that contains the encoded certificate from which the context is to be created.
-cbCertEncoded : [int] The size, in bytes, of the pbCertEncoded buffer.
+dwCertEncodingType : [int] 使用するエンコード種別を指定する。証明書エンコード種別とメッセージエンコード種別を、次の例のようにビットごとの OR 演算で組み合わせて指定することも常に可能である: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコード種別は次のとおり。
+pbCertEncoded : [var] コンテキストの作成元となるエンコード済み証明書を含むバッファーへのポインター。
+cbCertEncoded : [int] pbCertEncoded バッファーのサイズ（バイト単位）。
 %inst
-Creates a certificate context from an encoded certificate. The
-created context is not persisted to a certificate store. The function
-makes a copy of the encoded certificate within the created context.
+
+エンコードされた証明書から証明書コンテキストを作成する。作成されたコンテキストは証明書ストアには永続化されない。作成されたコンテキスト内にエンコード済み証明書のコピーを保持する。
 
 [戻り値]
-If the function succeeds, the function returns a pointer to a
-read-only CERT_CONTEXT. When you have finished using the certificate
-context, free it by calling the CertFreeCertificateContext function.
-If the function is unable to decode and create the certificate
-context, it returns NULL. For extended error information, call
-GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、関数は読み取り専用の CERT_CONTEXT
+へのポインターを返す。証明書コンテキストの使用を終えたら、CertFreeCertificateContext
+関数を呼び出して解放する。関数が証明書コンテキストをデコードおよび作成できなかった場合は NULL を返す。拡張エラー情報は
+GetLastError を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-The CERT_CONTEXT must be freed by calling CertFreeCertificateContext.
-CertDuplicateCertificateContext can be called to make a duplicate.
-CertSetCertificateContextProperty and
-CertGetCertificateContextProperty can be called to store and read
-properties for the certificate.
+CERT_CONTEXT は CertFreeCertificateContext を呼び出して解放しなければならない。複製するには
+CertDuplicateCertificateContext を呼び出せる。証明書のプロパティを保存・取得するには
+CertSetCertificateContextProperty および
+CertGetCertificateContextProperty を呼び出せる。
 
 
 %index
 CertCreateContext
-Creates the specified context from the encoded bytes. The context created does not include any extended properties.
+エンコードされたバイト列から指定したコンテキストを作成する。作成されたコンテキストには拡張プロパティは含まれない。
 %group
 Win32 crypt32
 %prm
 dwContextType, dwEncodingType, pbEncoded, cbEncoded, dwFlags, pCreatePara
-dwContextType : [int] Specifies the contexts that can be created. For example, to create a certificate context, set dwContextType to CERT_STORE_CERTIFICATE_CONTEXT.
-dwEncodingType : [int] Specifies the encoding type used. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types may be added in the future. For either current encoding type, use:
-pbEncoded : [var] A pointer to a buffer that contains the existing encoded context content to be copied.
-cbEncoded : [int] The size, in bytes, of the pbEncoded buffer.
-dwFlags : [int] The following flag values are defined and can be combined by using a bitwise-OR operation.
-pCreatePara : [var] A pointer to a CERT_CREATE_CONTEXT_PARA structure.
+dwContextType : [int] 作成可能なコンテキストを指定する。たとえば証明書コンテキストを作成するには、dwContextType に CERT_STORE_CERTIFICATE_CONTEXT を設定する。
+dwEncodingType : [int] 使用するエンコード種別を指定する。現在は X509_ASN_ENCODING と PKCS_7_ASN_ENCODING のみが使用されているが、将来はエンコード種別が追加される可能性がある。現在のどちらのエンコード種別にも次を使用する: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。
+pbEncoded : [var] コピー元となる既存のエンコード済みコンテキスト内容を含むバッファーへのポインター。
+cbEncoded : [int] pbEncoded バッファーのサイズ（バイト単位）。
+dwFlags : [int] 次のフラグ値が定義されており、ビットごとの OR 演算で組み合わせることができる。
+pCreatePara : [var] CERT_CREATE_CONTEXT_PARA 構造体へのポインター。
 %inst
-Creates the specified context from the encoded bytes. The context
-created does not include any extended properties.
+エンコードされたバイト列から指定したコンテキストを作成する。作成されたコンテキストには拡張プロパティは含まれない。
 
 [戻り値]
-If the function succeeds, the return value is a pointer to the newly
-created context. The pvFree member of pCreatePara must be called to
-free the created context.
-If the function fails, the return value is NULL. For extended error
-information, call GetLastError. If GetLastError returns
-ERROR_CANCELLED, this means that the
-PFN_CERT_CREATE_CONTEXT_SORT_FUNC callback function returned FALSE to
-stop the sort.
+関数が成功した場合、戻り値は新しく作成されたコンテキストへのポインター。作成されたコンテキストを解放するには pCreatePara の
+pvFree メンバーを呼び出さなければならない。
+関数が失敗した場合、戻り値は NULL。拡張エラー情報は GetLastError を呼び出して取得する。GetLastError が
+ERROR_CANCELLED を返した場合、それは PFN_CERT_CREATE_CONTEXT_SORT_FUNC
+コールバック関数がソートを中止するために FALSE を返したことを意味する。
 
 
 %index
 CertCreateSelfSignCertificate
-Builds a self-signed certificate and returns a pointer to a CERT_CONTEXT structure that represents the certificate.
+自己署名証明書を構築し、その証明書を表す CERT_CONTEXT 構造体へのポインターを返す。
 %group
 Win32 crypt32
 %prm
 hCryptProvOrNCryptKey, pSubjectIssuerBlob, dwFlags, pKeyProvInfo, pSignatureAlgorithm, pStartTime, pEndTime, pExtensions
-hCryptProvOrNCryptKey : [int] A handle of a cryptographic provider used to sign the certificate created. If NULL, information from the pKeyProvInfo parameter is used to acquire the needed handle. If pKeyProvInfo is also NULL, the default provider type, PROV_RSA_FULL provider type, the default key specification, AT_SIGNATURE, and a newly created key container with a unique container name are used. This handle must be an HCRYPTPROV handle that has been created by using the CryptAcquireContext function or an NCRYPT_KEY_HANDLE handle that has been created by using the NCryptOpenKey function. New applications should always pass in the NCRYPT_KEY_HANDLE handle of a CNG cryptographic service provider (CSP).
-pSubjectIssuerBlob : [var] A pointer to a BLOB that contains the distinguished name (DN) for the certificate subject. This parameter cannot be NULL. Minimally, a pointer to an empty DN must be provided. This BLOB is normally created by using the CertStrToName function. It can also be created by using the CryptEncodeObject function and specifying either the X509_NAME or X509_UNICODE_NAME StructType.
+hCryptProvOrNCryptKey : [int] 作成する証明書の署名に使用する暗号化プロバイダーのハンドル。NULL の場合、必要なハンドルを取得するために pKeyProvInfo パラメーターの情報が使用される。pKeyProvInfo も NULL の場合、既定のプロバイダー種別である PROV_RSA_FULL、既定のキー仕様である AT_SIGNATURE、および一意なコンテナー名で新しく作成したキーコンテナーが使用される。このハンドルは、CryptAcquireContext 関数で作成された HCRYPTPROV ハンドル、または NCryptOpenKey 関数で作成された NCRYPT_KEY_HANDLE ハンドルでなければならない。新しいアプリケーションでは、必ず CNG CSP の NCRYPT_KEY_HANDLE ハンドルを渡すべきである。
+pSubjectIssuerBlob : [var] 証明書サブジェクトの識別名 (DN) を含む BLOB へのポインター。このパラメーターは NULL にできない。最低限でも、空の DN へのポインターを指定する必要がある。この BLOB は通常 CertStrToName 関数を使用して作成する。CryptEncodeObject 関数を使用し、StructType として X509_NAME または X509_UNICODE_NAME を指定して作成することもできる。
 dwFlags : [int] 
-pKeyProvInfo : [var] A pointer to a CRYPT_KEY_PROV_INFO structure. Before a certificate is created, the CSP is queried for the key provider, key provider type, and the key container name. If the CSP queried does not support these queries, the function fails. If the default provider does not support these queries, a pKeyProvInfo value must be specified. The RSA BASE does support these queries. If the pKeyProvInfo parameter is not NULL, the corresponding values are set in the CERT_KEY_PROV_INFO_PROP_ID value of the generated certificate. You must ensure that all parameters of the supplied structure are correctly specified.
-pSignatureAlgorithm : [var] A pointer to a CRYPT_ALGORITHM_IDENTIFIER structure. If NULL, the default algorithm, SHA1RSA, is used.
-pStartTime : [var] A pointer to a SYSTEMTIME structure. If NULL, the system current time is used by default.
-pEndTime : [var] A pointer to a SYSTEMTIME structure. If NULL, the pStartTime value plus one year will be used by default.
-pExtensions : [var] A pointer to a CERT_EXTENSIONS array of CERT_EXTENSION structures. By default, the array is empty. An alternate subject name, if desired, can be specified as one of these extensions.
+pKeyProvInfo : [var] CRYPT_KEY_PROV_INFO 構造体へのポインター。証明書を作成する前に、CSP に対してキープロバイダー、キープロバイダー種別、およびキーコンテナー名が問い合わされる。問い合わせた CSP がこれらの問い合わせをサポートしていない場合、本関数は失敗する。既定のプロバイダーがこれらの問い合わせをサポートしていない場合は、pKeyProvInfo 値を指定する必要がある。RSA BASE はこれらの問い合わせをサポートする。pKeyProvInfo パラメーターが NULL でない場合、対応する値が、生成された証明書の CERT_KEY_PROV_INFO_PROP_ID 値に設定される。指定する構造体のすべてのパラメーターが正しく設定されていることを確認しなければならない。
+pSignatureAlgorithm : [var] CRYPT_ALGORITHM_IDENTIFIER 構造体へのポインター。NULL の場合、既定のアルゴリズムである SHA1RSA が使用される。
+pStartTime : [var] SYSTEMTIME 構造体へのポインター。NULL の場合、既定ではシステムの現在時刻が使用される。
+pEndTime : [var] SYSTEMTIME 構造体へのポインター。NULL の場合、既定では pStartTime 値に 1 年を加えた値が使用される。
+pExtensions : [var] CERT_EXTENSION 構造体の CERT_EXTENSIONS 配列へのポインター。既定では配列は空。別名のサブジェクト名が必要であれば、これらの拡張の 1 つとして指定できる。
 %inst
-Builds a self-signed certificate and returns a pointer to a
-CERT_CONTEXT structure that represents the certificate.
+自己署名証明書を構築し、その証明書を表す CERT_CONTEXT 構造体へのポインターを返す。
 
 [戻り値]
-If the function succeeds, a PCCERT_CONTEXT variable that points to
-the created certificate is returned. If the function fails, it
-returns NULL. For extended error information, call GetLastError.
+関数が成功した場合、作成された証明書を指す PCCERT_CONTEXT 変数が返される。関数が失敗した場合は NULL
+を返す。拡張エラー情報は GetLastError を呼び出して取得する。
 
 [備考]
-As the pEndTime must be a valid date, and is automatically generated
-if it is not supplied by the user, unexpected failures may easily be
-caused when this API is called on a leap day without accompanying app
-logic to compensate. For more information, please see [leap year
-readiness](https://techcommunity.microsoft.com/t5/azure-developer-community-blog/it-s-2020-is-your-code-ready-for-leap-day/ba-p/1157279).
+pEndTime は有効な日付でなければならず、ユーザーが指定しない場合は自動生成されるため、この API
+をうるう日に呼び出すと、補正するアプリケーションロジックが伴わないと予期しない失敗を簡単に引き起こす可能性がある。詳しくは leap
+year readiness
+(https://techcommunity.microsoft.com/t5/azure-developer-community-blog/it-s-2020-is-your-code-ready-for-leap-day/ba-p/1157279)
+を参照。
 
 
 %index
 CertDeleteCRLFromStore
-The CertDeleteCRLFromStore function deletes the specified certificate revocation list (CRL) context from the certificate store.
+CertDeleteCRLFromStore 関数は、指定した証明書失効リスト (CRL) コンテキストを証明書ストアから削除する。
 %group
 Win32 crypt32
 %prm
 pCrlContext
-pCrlContext : [var] A pointer to the CRL_CONTEXT structure to be deleted.
+pCrlContext : [var] 削除する CRL_CONTEXT 構造体へのポインター。
 %inst
-The CertDeleteCRLFromStore function deletes the specified certificate
-revocation list (CRL) context from the certificate store.
+CertDeleteCRLFromStore 関数は、指定した証明書失効リスト (CRL) コンテキストを証明書ストアから削除する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError. One possible error code is the following.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE。関数が失敗した場合、戻り値は FALSE。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードの 1 つを以下に示す。
+（以下省略）
 
 [備考]
-All subsequent get or find operations for the CRL in this store fail.
-However, memory allocated for the CRL is not freed until all
-duplicated contexts have also been freed. The pCrlContext parameter
-is always freed by this function by using CertFreeCRLContext, even
-for an error.
+以降、このストアでの CRL 取得および検索操作はすべて失敗する。ただし、CRL
+用に割り当てられたメモリは、すべての複製されたコンテキストも解放されるまで解放されない。pCrlContext
+パラメーターは、エラーの場合でも常に本関数が CertFreeCRLContext を使用して解放する。
 
 
 %index
 CertDeleteCTLFromStore
-The CertDeleteCTLFromStore function deletes the specified certificate trust list (CTL) context from a certificate store.
+CertDeleteCTLFromStore 関数は、指定した証明書信頼リスト (CTL) コンテキストを証明書ストアから削除する。
 %group
 Win32 crypt32
 %prm
 pCtlContext
-pCtlContext : [var] A pointer to the CTL_CONTEXT structure to be deleted.
+pCtlContext : [var] 削除する CTL_CONTEXT 構造体へのポインター。
 %inst
-The CertDeleteCTLFromStore function deletes the specified certificate
-trust list (CTL) context from a certificate store.
+CertDeleteCTLFromStore 関数は、指定した証明書信頼リスト (CTL) コンテキストを証明書ストアから削除する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError. One possible error code is the following.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE。関数が失敗した場合、戻り値は FALSE。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードの 1 つを以下に示す。
+（以下省略）
 
 [備考]
-All subsequent get or find operations for the CTL in this store fail.
-However, memory allocated for the CTL is not freed until all
-duplicated contexts have also been freed. The pCtlContext parameter
-is always freed by this function by using CertFreeCTLContext, even
-for an error.
+以降、このストアでの CTL 取得および検索操作はすべて失敗する。ただし、CTL
+用に割り当てられたメモリは、すべての複製されたコンテキストも解放されるまで解放されない。pCtlContext
+パラメーターは、エラーの場合でも常に本関数が CertFreeCTLContext を使用して解放する。
 
 
 %index
 CertDeleteCertificateFromStore
-The CertDeleteCertificateFromStore function deletes the specified certificate context from the certificate store.
+CertDeleteCertificateFromStore 関数は、指定した証明書コンテキストを証明書ストアから削除する。
 %group
 Win32 crypt32
 %prm
 pCertContext
-pCertContext : [var] A pointer to the CERT_CONTEXT structure to be deleted.
+pCertContext : [var] 削除する CERT_CONTEXT 構造体へのポインター。
 %inst
-The CertDeleteCertificateFromStore function deletes the specified
-certificate context from the certificate store.
+CertDeleteCertificateFromStore 関数は、指定した証明書コンテキストを証明書ストアから削除する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE.
-If the function fails, the return value is FALSE. For extended error
-information, call GetLastError. One possible error code is the
-following.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE。
+関数が失敗した場合、戻り値は FALSE。拡張エラー情報は GetLastError を呼び出して取得する。想定されるエラーコードの 1
+つを以下に示す。
+（以下省略）
 
 [備考]
-After a certificate is deleted from a store, all subsequent attempts
-to get or find that certificate in that store will fail. However,
-memory allocated for the certificate is not freed until all
-duplicated contexts have also been freed. The
-CertDeleteCertificateFromStore function always frees pCertContext by
-calling the CertFreeCertificateContext function, even if an error is
-encountered. Freeing the context reduces the context's reference
-count by one. If the reference count reaches zero, memory allocated
-for the certificate is freed.
+
+証明書がストアから削除された後は、そのストアでその証明書を取得・検索しようとしてもすべて失敗する。ただし、証明書用に割り当てられたメモリは、すべての複製されたコンテキストも解放されるまで解放されない。CertDeleteCertificateFromStore
+関数は、エラーが発生した場合でも常に CertFreeCertificateContext 関数を呼び出して pCertContext
+を解放する。コンテキストを解放すると、そのコンテキストの参照カウントが 1 減る。参照カウントが 0
+に達すると、証明書用に割り当てられたメモリが解放される。
 
 
 %index
 CertDuplicateCRLContext
-The CertDuplicateCRLContext function duplicates a certificate revocation list (CRL) context by incrementing its reference count.
+CertDuplicateCRLContext 関数は、参照カウントをインクリメントすることで、証明書失効リスト (CRL) コンテキストを複製する。
 %group
 Win32 crypt32
 %prm
 pCrlContext
-pCrlContext : [var] A pointer to the CRL_CONTEXT structure for which the reference count is being incremented.
+pCrlContext : [var] 参照カウントをインクリメントする対象の CRL_CONTEXT 構造体へのポインター。
 %inst
-The CertDuplicateCRLContext function duplicates a certificate
-revocation list (CRL) context by incrementing its reference count.
+CertDuplicateCRLContext 関数は、参照カウントをインクリメントすることで、証明書失効リスト (CRL)
+コンテキストを複製する。
 
 [戻り値]
-Currently, a copy is not made of the context, and the returned
-context is the same as the context that was input. If the pointer
-passed into this function is NULL, NULL is returned.
+現在はコンテキストのコピーは作成されず、返されるコンテキストは入力と同じものである。本関数に NULL を渡した場合は NULL を返す。
 
 
 %index
 CertDuplicateCTLContext
-The CertDuplicateCTLContext function duplicates a certificate trust list (CTL) context by incrementing its reference count.
+CertDuplicateCTLContext 関数は、参照カウントをインクリメントすることで、証明書信頼リスト (CTL) コンテキストを複製する。
 %group
 Win32 crypt32
 %prm
 pCtlContext
-pCtlContext : [var] A pointer to the CTL_CONTEXT structure for which the reference count is being incremented.
+pCtlContext : [var] 参照カウントをインクリメントする対象の CTL_CONTEXT 構造体へのポインター。
 %inst
-The CertDuplicateCTLContext function duplicates a certificate trust
-list (CTL) context by incrementing its reference count.
+CertDuplicateCTLContext 関数は、参照カウントをインクリメントすることで、証明書信頼リスト (CTL)
+コンテキストを複製する。
 
 [戻り値]
-Currently, a copy is not made of the context, and the returned
-pointer to CTL_CONTEXT is the same as pointer input. If the pointer
-passed into this function is NULL, NULL is returned.
+現在はコンテキストのコピーは作成されず、返される CTL_CONTEXT へのポインターは入力のポインターと同じものである。本関数に
+NULL を渡した場合は NULL を返す。
 
 
 %index
 CertDuplicateCertificateChain
-The CertDuplicateCertificateChain function duplicates a pointer to a certificate chain by incrementing the chain's reference count.
+CertDuplicateCertificateChain 関数は、チェーンの参照カウントをインクリメントすることで、証明書チェーンへのポインターを複製する。
 %group
 Win32 crypt32
 %prm
 pChainContext
-pChainContext : [var] A pointer to a CERT_CHAIN_CONTEXT chain context to be duplicated.
+pChainContext : [var] 複製する CERT_CHAIN_CONTEXT チェーンコンテキストへのポインター。
 %inst
-The CertDuplicateCertificateChain function duplicates a pointer to a
-certificate chain by incrementing the chain's reference count.
+CertDuplicateCertificateChain
+関数は、チェーンの参照カウントをインクリメントすることで、証明書チェーンへのポインターを複製する。
 
 [戻り値]
-If the function succeeds, a pointer is returned to the chain context.
-This pointer has the same value as the pChainContext passed into the
-function. When you have finished using the chain context, release the
-chain context by calling the CertFreeCertificateChain function. If
-the function fails, NULL is returned.
+関数が成功した場合、チェーンコンテキストへのポインターが返される。このポインターは本関数に渡した pChainContext
+と同じ値である。チェーンコンテキストの使用を終えたら、CertFreeCertificateChain
+関数を呼び出して解放する。関数が失敗した場合は NULL を返す。
 
 
 %index
 CertDuplicateCertificateContext
-Duplicates a certificate context by incrementing its reference count.
+参照カウントをインクリメントすることで、証明書コンテキストを複製する。
 %group
 Win32 crypt32
 %prm
 pCertContext
-pCertContext : [var] A pointer to the CERT_CONTEXT structure for which the reference count is incremented.
+pCertContext : [var] 参照カウントをインクリメントする対象の CERT_CONTEXT 構造体へのポインター。
 %inst
-Duplicates a certificate context by incrementing its reference count.
+参照カウントをインクリメントすることで、証明書コンテキストを複製する。
 
 [戻り値]
-Currently, a copy is not made of the context, and the returned
-pointer to a context has the same value as the pointer to a context
-that was input. If the pointer passed into this function is NULL,
-NULL is returned. When you have finished using the duplicate context,
-decrease its reference count by calling the
-CertFreeCertificateContext function.
+現在はコンテキストのコピーは作成されず、返されるコンテキストへのポインターは入力と同じ値である。本関数に NULL を渡した場合は
+NULL を返す。複製したコンテキストの使用を終えたら、CertFreeCertificateContext
+関数を呼び出して参照カウントを減らす。
 
 
 %index
 CertDuplicateStore
-Duplicates a store handle by incrementing the store's reference count.
+ストアの参照カウントをインクリメントすることで、ストアハンドルを複製する。
 %group
 Win32 crypt32
 %prm
 hCertStore
-hCertStore : [int] A handle of the certificate store for which the reference count is being incremented.
+hCertStore : [int] 参照カウントをインクリメントする対象の証明書ストアのハンドル。
 %inst
-Duplicates a store handle by incrementing the store's reference
-count.
+ストアの参照カウントをインクリメントすることで、ストアハンドルを複製する。
 
 [戻り値]
-Currently, a copy is not made of the handle, and the returned handle
-is the same as the handle that was input. If NULL is passed in, the
-called function will raise an access violation exception.
+現在はハンドルのコピーは作成されず、返されるハンドルは入力と同じものである。NULL
+を渡した場合、呼び出された関数はアクセス違反例外を発生させる。
 
 
 %index
 CertEnumCRLContextProperties
-The CertEnumCRLContextProperties function retrieves the first or next extended property associated with a certificate revocation list (CRL) context.
+CertEnumCRLContextProperties 関数は、証明書失効リスト (CRL) コンテキストに関連付けられた最初または次の拡張プロパティを取得する。
 %group
 Win32 crypt32
 %prm
 pCrlContext, dwPropId
-pCrlContext : [var] A pointer to a CRL_CONTEXT structure.
-dwPropId : [int] Property number of the last property enumerated. To get the first property, dwPropId is zero. To retrieve subsequent properties, dwPropId is set to the property number returned by the last call to the function. To enumerate all the properties, function calls continue until the function returns zero.
+pCrlContext : [var] CRL_CONTEXT 構造体へのポインター。
+dwPropId : [int] 直前に列挙したプロパティの番号。最初のプロパティを取得するには dwPropId を 0 にする。以降のプロパティを取得するには、dwPropId に直前の呼び出しで返されたプロパティ番号を設定する。すべてのプロパティを列挙するには、関数が 0 を返すまで呼び出しを続ける。
 %inst
-The CertEnumCRLContextProperties function retrieves the first or next
-extended property associated with a certificate revocation list (CRL)
-context.
+CertEnumCRLContextProperties 関数は、証明書失効リスト (CRL)
+コンテキストに関連付けられた最初または次の拡張プロパティを取得する。
 
 [戻り値]
-The return value is a DWORD value that identifies a CRL context's
-property. The DWORD value returned by one call of the function can be
-supplied as the dwPropId in a subsequent call to the function. If
-there are no more properties to be enumerated or if the function
-fails, zero is returned.
+戻り値は、CRL コンテキストのプロパティを識別する DWORD 値。1 回の呼び出しで返された DWORD 値は、次回の呼び出しの
+dwPropId に指定できる。列挙すべきプロパティがもうない場合、または関数が失敗した場合は 0 が返される。
 
 
 %index
 CertEnumCRLsInStore
-The CertEnumCRLsInStore function retrieves the first or next certificate revocation list (CRL) context in a certificate store. Used in a loop, this function can retrieve in sequence all CRL contexts in a certificate store.
+CertEnumCRLsInStore 関数は、証明書ストア内の最初または次の証明書失効リスト (CRL) コンテキストを取得する。ループ内で使用することで、証明書ストア内のすべての CRL コンテキストを順に取得できる。
 %group
 Win32 crypt32
 %prm
 hCertStore, pPrevCrlContext
-hCertStore : [int] Handle of a certificate store.
-pPrevCrlContext : [var] A pointer to the previous CRL_CONTEXT structure found. The pPrevCrlContext parameter must be NULL to get the first CRL in the store. Successive CRLs are enumerated by setting pPrevCrlContext to the pointer returned by a previous call to the function.  This function frees the CRL_CONTEXT referenced by non-NULL values of this parameter. The enumeration skips any CRLs previously deleted by CertDeleteCRLFromStore.
+hCertStore : [int] 証明書ストアのハンドル。
+pPrevCrlContext : [var] 直前に見つかった CRL_CONTEXT 構造体へのポインター。ストアの最初の CRL を取得するには pPrevCrlContext を NULL にしなければならない。以降の CRL は、pPrevCrlContext に直前の呼び出しで返されたポインターを設定して列挙する。このパラメーターが NULL 以外の場合、本関数はそのポインターが参照する CRL_CONTEXT を解放する。列挙は CertDeleteCRLFromStore で既に削除された CRL をスキップする。
 %inst
-The CertEnumCRLsInStore function retrieves the first or next
-certificate revocation list (CRL) context in a certificate store.
-Used in a loop, this function can retrieve in sequence all CRL
-contexts in a certificate store.
+CertEnumCRLsInStore 関数は、証明書ストア内の最初または次の証明書失効リスト (CRL)
+コンテキストを取得する。ループ内で使用することで、証明書ストア内のすべての CRL コンテキストを順に取得できる。
 
 [戻り値]
-If the function succeeds, the return value is a pointer to the next
-CRL_CONTEXT in the store. NULL is returned if the function fails. For
-extended error information, call GetLastError. Some possible error
-codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値はストア内の次の CRL_CONTEXT へのポインター。関数が失敗した場合は NULL
+が返される。拡張エラー情報は GetLastError を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-The returned pointer is freed when it is passed as the
-pPrevCrlContext on a subsequent call to the function. Otherwise, the
-pointer must explicitly be freed by calling CertFreeCRLContext. A
-pPrevCrlContext that is not NULL is always freed when passed to this
-function through a call to CertFreeCRLContext, even if the function
-itself returns an error. A duplicate of the CRL context returned by
-this function can be made by calling CertDuplicateCRLContext.
+返されたポインターは、次回の呼び出しで pPrevCrlContext
+として渡されると解放される。そうでない場合、CertFreeCRLContext
+を呼び出してポインターを明示的に解放しなければならない。NULL 以外の pPrevCrlContext
+は、関数自体がエラーを返した場合でも、本関数に渡されると常に CertFreeCRLContext の呼び出しで解放される。本関数が返す
+CRL コンテキストの複製は CertDuplicateCRLContext を呼び出して作成できる。
 
 
 %index
 CertEnumCTLContextProperties
-The CertEnumCTLContextProperties function retrieves the first or next extended property associated with a certificate trust list (CTL) context. Used in a loop, this function can retrieve in sequence all extended properties associated with a CTL context.
+CertEnumCTLContextProperties 関数は、証明書信頼リスト (CTL) コンテキストに関連付けられた最初または次の拡張プロパティを取得する。ループ内で使用することで、CTL コンテキストに関連付けられたすべての拡張プロパティを順に取得できる。
 %group
 Win32 crypt32
 %prm
 pCtlContext, dwPropId
-pCtlContext : [var] A pointer to a CTL_CONTEXT structure.
-dwPropId : [int] Property number of the last property enumerated. To get the first property, dwPropId is zero. To retrieve subsequent properties, dwPropId is set to the property number returned by the last call to the function. To enumerate all the properties, function calls continue until the function returns zero.
+pCtlContext : [var] CTL_CONTEXT 構造体へのポインター。
+dwPropId : [int] 直前に列挙したプロパティの番号。最初のプロパティを取得するには dwPropId を 0 にする。以降のプロパティを取得するには、dwPropId に直前の呼び出しで返されたプロパティ番号を設定する。すべてのプロパティを列挙するには、関数が 0 を返すまで呼び出しを続ける。
 %inst
-The CertEnumCTLContextProperties function retrieves the first or next
-extended property associated with a certificate trust list (CTL)
-context. Used in a loop, this function can retrieve in sequence all
-extended properties associated with a CTL context.
+CertEnumCTLContextProperties 関数は、証明書信頼リスト (CTL)
+コンテキストに関連付けられた最初または次の拡張プロパティを取得する。ループ内で使用することで、CTL
+コンテキストに関連付けられたすべての拡張プロパティを順に取得できる。
 
 [戻り値]
-The return value is a DWORD value that identifies a CTL context's
-property. The DWORD value returned by one call of the function can be
-supplied as the dwPropId in a subsequent call to the function. If
-there are no more properties to be enumerated or if the function
-fails, zero is returned.
+戻り値は、CTL コンテキストのプロパティを識別する DWORD 値。1 回の呼び出しで返された DWORD 値は、次回の呼び出しの
+dwPropId に指定できる。列挙すべきプロパティがもうない場合、または関数が失敗した場合は 0 が返される。
 
 
 %index
 CertEnumCTLsInStore
-The CertEnumCTLsInStore function retrieves the first or next certificate trust list (CTL) context in a certificate store. Used in a loop, this function can retrieve in sequence all CTL contexts in a certificate store.
+CertEnumCTLsInStore 関数は、証明書ストア内の最初または次の証明書信頼リスト (CTL) コンテキストを取得する。ループ内で使用することで、証明書ストア内のすべての CTL コンテキストを順に取得できる。
 %group
 Win32 crypt32
 %prm
 hCertStore, pPrevCtlContext
-hCertStore : [int] Handle of a certificate store.
-pPrevCtlContext : [var] A pointer to the previous CTL_CONTEXT structure found. It must be NULL to get the first CTL in the store. Successive CTLs are enumerated by setting pPrevCtlContext to the pointer returned by a previous call. This function frees the CTL_CONTEXT referenced by non-NULL values of this parameter. The enumeration skips any CTLs previously deleted by CertDeleteCTLFromStore.
+hCertStore : [int] 証明書ストアのハンドル。
+pPrevCtlContext : [var] 直前に見つかった CTL_CONTEXT 構造体へのポインター。ストアの最初の CTL を取得するには NULL にしなければならない。以降の CTL は、pPrevCtlContext に直前の呼び出しで返されたポインターを設定して列挙する。このパラメーターが NULL 以外の場合、本関数はそのポインターが参照する CTL_CONTEXT を解放する。列挙は CertDeleteCTLFromStore で既に削除された CTL をスキップする。
 %inst
-The CertEnumCTLsInStore function retrieves the first or next
-certificate trust list (CTL) context in a certificate store. Used in
-a loop, this function can retrieve in sequence all CTL contexts in a
-certificate store.
+CertEnumCTLsInStore 関数は、証明書ストア内の最初または次の証明書信頼リスト (CTL)
+コンテキストを取得する。ループ内で使用することで、証明書ストア内のすべての CTL コンテキストを順に取得できる。
 
 [戻り値]
-If the function succeeds, the return value is a pointer to a
-read-only CTL_CONTEXT. If the function fails and a CTL is not found,
-the return value is NULL. For extended error information, call
-GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は読み取り専用の CTL_CONTEXT へのポインター。関数が失敗し、CTL が見つからなかった場合、戻り値は
+NULL。拡張エラー情報は GetLastError を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-The returned pointer is freed when passed as the pPrevCtlContext on a
-subsequent call. Otherwise, the pointer must be explicitly freed by
-calling CertFreeCTLContext. A pPrevCtlContext that is not NULL is
-always freed by this function (through a call to CertFreeCTLContext),
-even for an error. A duplicate can be made by calling
-CertDuplicateCTLContext.
+返されたポインターは、次回の呼び出しで pPrevCtlContext
+として渡されると解放される。そうでない場合、CertFreeCTLContext を呼び出して明示的に解放しなければならない。NULL
+以外の pPrevCtlContext は、エラーの場合でも（CertFreeCTLContext
+の呼び出しを通じて）本関数が常に解放する。複製は CertDuplicateCTLContext を呼び出して作成できる。
 
 
 %index
 CertEnumCertificateContextProperties
-The CertEnumCertificateContextProperties function retrieves the first or next extended property associated with a certificate context.
+CertEnumCertificateContextProperties 関数は、証明書コンテキストに関連付けられた最初または次の拡張プロパティを取得する。
 %group
 Win32 crypt32
 %prm
 pCertContext, dwPropId
-pCertContext : [var] A pointer to the CERT_CONTEXT structure of the certificate containing the properties to be enumerated.
-dwPropId : [int] Property number of the last property enumerated. To get the first property, dwPropId is zero. To retrieve subsequent properties, dwPropId is set to the property number returned by the last call to the function. To enumerate all the properties, function calls continue until the function returns zero.
+pCertContext : [var] 列挙対象のプロパティを含む証明書の CERT_CONTEXT 構造体へのポインター。
+dwPropId : [int] 直前に列挙したプロパティの番号。最初のプロパティを取得するには dwPropId を 0 にする。以降のプロパティを取得するには、dwPropId に直前の呼び出しで返されたプロパティ番号を設定する。すべてのプロパティを列挙するには、関数が 0 を返すまで呼び出しを続ける。
 %inst
-The CertEnumCertificateContextProperties function retrieves the first
-or next extended property associated with a certificate context.
+CertEnumCertificateContextProperties
+関数は、証明書コンテキストに関連付けられた最初または次の拡張プロパティを取得する。
 
 [戻り値]
-The return value is a DWORD value that identifies a certificate
-context's property. The DWORD value returned by one call of the
-function can be supplied as the dwPropId in a subsequent call to the
-function. If there are no more properties to be enumerated or if the
-function fails, zero is returned.
+戻り値は、証明書コンテキストのプロパティを識別する DWORD 値。1 回の呼び出しで返された DWORD 値は、次回の呼び出しの
+dwPropId に指定できる。列挙すべきプロパティがもうない場合、または関数が失敗した場合は 0 が返される。
 
 [備考]
-CERT_KEY_PROV_HANDLE_PROP_ID and CERT_KEY_SPEC_PROP_ID properties are
-stored as members of the CERT_KEY_CONTEXT_PROP_ID property. They are
-not enumerated individually.
+CERT_KEY_PROV_HANDLE_PROP_ID および CERT_KEY_SPEC_PROP_ID
+プロパティは、CERT_KEY_CONTEXT_PROP_ID プロパティのメンバーとして保存されており、個別には列挙されない。
 
 
 %index
@@ -1191,234 +1035,205 @@ CertFreeCertificateContext で明示的に解放する必要がある。NULL でない pPrevCertCo
 
 %index
 CertEnumPhysicalStore
-The CertEnumPhysicalStore function retrieves the physical stores on a computer. The function calls the provided callback function for each physical store found.
+CertEnumPhysicalStore 関数は、コンピューター上の物理ストアを取得する。見つかった各物理ストアについて、指定したコールバック関数を呼び出す。
 %group
 Win32 crypt32
 %prm
 pvSystemStore, dwFlags, pvArg, pfnEnum
-pvSystemStore : [intptr] If CERT_SYSTEM_STORE_RELOCATE_FLAG is set in dwFlags, pvSystemStore points to a CERT_SYSTEM_STORE_RELOCATE_PARA structure that indicates both the name and the location of the system store to be enumerated. Otherwise, pvSystemStore is a pointer to a Unicode string that names the system store whose physical stores are to be enumerated. For information about prefixing a ServiceName or ComputerName to the system store name, see CertRegisterSystemStore.
-dwFlags : [int] Specifies the location of the system store. The following flag values are defined:
-pvArg : [intptr] A pointer to a void that allows the application to declare, define, and initialize a structure to hold any information to be passed to the callback enumeration function.
-pfnEnum : [int] A pointer to the callback function used to show the details for each physical store. This callback function determines the content and format for the presentation of information on each physical store. The application must provide the CertEnumPhysicalStoreCallback callback function.
+pvSystemStore : [intptr] dwFlags に CERT_SYSTEM_STORE_RELOCATE_FLAG が設定されている場合、pvSystemStore は、列挙対象のシステムストアの名前と場所の両方を示す CERT_SYSTEM_STORE_RELOCATE_PARA 構造体を指す。そうでない場合、pvSystemStore は物理ストアを列挙する対象のシステムストア名を保持する Unicode 文字列へのポインター。ServiceName または ComputerName をシステムストア名の前に付加する方法については CertRegisterSystemStore を参照。
+dwFlags : [int] システムストアの場所を指定する。次のフラグ値が定義されている。
+pvArg : [intptr] コールバック列挙関数に渡す情報を格納する構造体を、アプリケーションが宣言・定義・初期化するための void へのポインター。
+pfnEnum : [int] 各物理ストアの詳細を表示するために使用するコールバック関数へのポインター。このコールバック関数は、各物理ストアに関する情報の表示内容とフォーマットを決定する。アプリケーションは CertEnumPhysicalStoreCallback コールバック関数を提供しなければならない。
 %inst
-The CertEnumPhysicalStore function retrieves the physical stores on a
-computer. The function calls the provided callback function for each
-physical store found.
+CertEnumPhysicalStore
+関数は、コンピューター上の物理ストアを取得する。見つかった各物理ストアについて、指定したコールバック関数を呼び出す。
 
 [戻り値]
-If the function succeeds and another physical store was found, the
-return value is TRUE. If the system store location only supports
-system stores and does not support physical stores, the function
-returns FALSE and GetLastError returns the ERROR_NOT_SUPPORTED code.
-If the function fails and another physical store was not found, the
-return value is FALSE. For extended error information, call
-GetLastError.
+関数が成功し、別の物理ストアが見つかった場合、戻り値は
+TRUE。システムストアの場所がシステムストアのみをサポートし、物理ストアをサポートしていない場合、関数は FALSE
+を返し、GetLastError は ERROR_NOT_SUPPORTED
+を返す。関数が失敗し、別の物理ストアが見つからなかった場合、戻り値は FALSE。拡張エラー情報は GetLastError
+を呼び出して取得する。
 
 [備考]
-To use CertEnumPhysicalStore, an application must declare and define
-the ENUM_ARG structure and an enumeration callback function.
+CertEnumPhysicalStore を使用するには、アプリケーションは ENUM_ARG
+構造体と列挙コールバック関数を宣言・定義しなければならない。
 
 
 %index
 CertEnumSubjectInSortedCTL
-Retrieves the first or next TrustedSubject in a sorted certificate trust list (CTL).
+ソートされた証明書信頼リスト (CTL) 内の最初または次の TrustedSubject を取得する。
 %group
 Win32 crypt32
 %prm
 pCtlContext, ppvNextSubject, pSubjectIdentifier, pEncodedAttributes
-pCtlContext : [var] A pointer to the CTL_CONTEXT structure to be searched.
-ppvNextSubject : [var] A pointer to the address of the last TrustedSubject found. To start the enumeration, ppvNextSubject must point to a pointer  set to NULL. Upon return, the pointer addressed by ppvNextSubject is updated to point to the next TrustedSubject in the encoded sequence.
-pSubjectIdentifier : [var] A pointer to a CRYPT_DER_BLOB structure, uniquely identifying a TrustedSubject. The information in this structure can be a hash or any unique byte sequence.
-pEncodedAttributes : [var] A pointer to a CRYPT_DER_BLOB structure containing a byte count and a pointer to the TrustedSubject's encoded attributes.
+pCtlContext : [var] 検索対象の CTL_CONTEXT 構造体へのポインター。
+ppvNextSubject : [var] 直前に見つかった TrustedSubject のアドレスへのポインター。列挙を開始するには、ppvNextSubject は NULL に設定されたポインターを指していなければならない。戻り時、ppvNextSubject が指すポインターは、エンコードシーケンス内の次の TrustedSubject を指すように更新される。
+pSubjectIdentifier : [var] TrustedSubject を一意に識別する CRYPT_DER_BLOB 構造体へのポインター。この構造体の情報はハッシュまたは任意の一意なバイト列でよい。
+pEncodedAttributes : [var] バイト数と、TrustedSubject のエンコード済み属性へのポインターを含む CRYPT_DER_BLOB 構造体へのポインター。
 %inst
-Retrieves the first or next TrustedSubject in a sorted certificate
-trust list (CTL).
+ソートされた証明書信頼リスト (CTL) 内の最初または次の TrustedSubject を取得する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE, with
-ppvNextSubject updated to point to the next TrustedSubject in the
-encoded sequence. If the function fails, the return value is FALSE.
-The return value is FALSE if there are no more subjects or there is
-an argument that is not valid.
+関数が成功した場合、戻り値は TRUE で、ppvNextSubject はエンコードシーケンス内の次の TrustedSubject
+を指すように更新される。関数が失敗した場合、戻り値は FALSE。これ以上サブジェクトがない場合、または引数が無効な場合も FALSE
+になる。
 
 [備考]
-The pbData members of CRYPT_DER_BLOB structures point directly to the
-encoded bytes. The CRYPT_DER_BLOB structures, themselves, must be
-allocated and freed by the application, but the memory addressed by
-the pbData members of these structures is not allocated by the
-application and must not be freed by the application. If the CTL is
-not sorted with the CERT_CREATE_CONTEXT_SORTED_FLAG flag set, an
-error results.
+CRYPT_DER_BLOB 構造体の pbData メンバーは、エンコードされたバイト列を直接指している。CRYPT_DER_BLOB
+構造体自体はアプリケーションが割り当てて解放しなければならないが、これらの構造体の pbData
+メンバーが指すメモリはアプリケーションが割り当てたものではなく、アプリケーションが解放してはならない。CTL が
+CERT_CREATE_CONTEXT_SORTED_FLAG フラグを指定してソートされていない場合、エラーが発生する。
 
 
 %index
 CertEnumSystemStore
-The CertEnumSystemStore function retrieves the system stores available. The function calls the provided callback function for each system store found.
+CertEnumSystemStore 関数は、利用可能なシステムストアを取得する。見つかった各システムストアについて、指定したコールバック関数を呼び出す。
 %group
 Win32 crypt32
 %prm
 dwFlags, pvSystemStoreLocationPara, pvArg, pfnEnum
-dwFlags : [int] Specifies the location of the system store. This parameter can be one of the following flags:
-pvSystemStoreLocationPara : [intptr] If CERT_SYSTEM_STORE_RELOCATE_FLAG is set in the dwFlags parameter, pvSystemStoreLocationPara points to a CERT_SYSTEM_STORE_RELOCATE_PARA structure that indicates both the name and the location of the system store. Otherwise, pvSystemStoreLocationPara is a pointer to a Unicode string that names the system store.
-pvArg : [intptr] A pointer to a void  that allows the application to declare, define, and initialize a structure to hold any information to be passed to the callback enumeration function.
-pfnEnum : [int] A pointer to the callback function used to show the details for each system store. This callback function determines the content and format for the presentation of information on each system store. The application must provide the CertEnumSystemStoreCallback callback function.
+dwFlags : [int] システムストアの場所を指定する。このパラメーターには次のいずれかのフラグを指定できる。
+pvSystemStoreLocationPara : [intptr] dwFlags パラメーターに CERT_SYSTEM_STORE_RELOCATE_FLAG が設定されている場合、pvSystemStoreLocationPara は、システムストアの名前と場所の両方を示す CERT_SYSTEM_STORE_RELOCATE_PARA 構造体を指す。そうでない場合、pvSystemStoreLocationPara はシステムストア名を保持する Unicode 文字列へのポインター。
+pvArg : [intptr] コールバック列挙関数に渡す情報を格納する構造体を、アプリケーションが宣言・定義・初期化するための void へのポインター。
+pfnEnum : [int] 各システムストアの詳細を表示するために使用するコールバック関数へのポインター。このコールバック関数は、各システムストアに関する情報の表示内容とフォーマットを決定する。アプリケーションは CertEnumSystemStoreCallback コールバック関数を提供しなければならない。
 %inst
-The CertEnumSystemStore function retrieves the system stores
-available. The function calls the provided callback function for each
-system store found.
+CertEnumSystemStore
+関数は、利用可能なシステムストアを取得する。見つかった各システムストアについて、指定したコールバック関数を呼び出す。
 
 [戻り値]
-If the function succeeds, the function returns TRUE. If the function
-fails, it returns FALSE.
+関数が成功した場合、関数は TRUE を返す。関数が失敗した場合は FALSE を返す。
 
 [備考]
-To use CertEnumSystemStore, the application must declare and define
-the ENUM_ARG structure and the CertEnumSystemStoreCallback callback
-function.
+CertEnumSystemStore を使用するには、アプリケーションは ENUM_ARG 構造体および
+CertEnumSystemStoreCallback コールバック関数を宣言・定義しなければならない。
 
 
 %index
 CertEnumSystemStoreLocation
-The CertEnumSystemStoreLocation function retrieves all of the system store locations. The function calls the provided callback function for each system store location found.
+CertEnumSystemStoreLocation 関数は、すべてのシステムストアの場所を取得する。見つかった各システムストアの場所について、指定したコールバック関数を呼び出す。
 %group
 Win32 crypt32
 %prm
 dwFlags, pvArg, pfnEnum
-dwFlags : [int] Reserved for future use; must be zero.
-pvArg : [intptr] A pointer to a void  that allows the application to declare, define, and initialize a structure to hold any information to be passed to the callback enumeration function.
-pfnEnum : [int] A pointer to the callback function used to show the details for each store location. This callback function determines the content and format for the presentation of information on each store location. For the signature and parameters of the callback function, see CertEnumSystemStoreLocationCallback.
+dwFlags : [int] 将来の使用のために予約されている。0 でなければならない。
+pvArg : [intptr] コールバック列挙関数に渡す情報を格納する構造体を、アプリケーションが宣言・定義・初期化するための void へのポインター。
+pfnEnum : [int] 各ストア場所の詳細を表示するために使用するコールバック関数へのポインター。このコールバック関数は、各ストア場所に関する情報の表示内容とフォーマットを決定する。コールバック関数のシグネチャとパラメーターについては CertEnumSystemStoreLocationCallback を参照。
 %inst
-The CertEnumSystemStoreLocation function retrieves all of the system
-store locations. The function calls the provided callback function
-for each system store location found.
+CertEnumSystemStoreLocation
+関数は、すべてのシステムストアの場所を取得する。見つかった各システムストアの場所について、指定したコールバック関数を呼び出す。
 
 [戻り値]
-If the function succeeds, the function returns TRUE.
-If the function fails, it returns FALSE.
+関数が成功した場合、関数は TRUE を返す。
+関数が失敗した場合は FALSE を返す。
 
 [備考]
-To use CertEnumSystemStoreLocation, an application must declare and
-define the ENUM_ARG structure and an enumeration callback function.
+CertEnumSystemStoreLocation を使用するには、アプリケーションは ENUM_ARG
+構造体と列挙コールバック関数を宣言・定義しなければならない。
 
 
 %index
 CertFindAttribute
-The CertFindAttribute function finds the first attribute in the CRYPT_ATTRIBUTE array, as identified by its object identifier (OID).
+CertFindAttribute 関数は、CRYPT_ATTRIBUTE 配列内で、オブジェクト識別子 (OID) で識別される最初の属性を見つける。
 %group
 Win32 crypt32
 %prm
 pszObjId, cAttr, rgAttr
-pszObjId : [str] A pointer to the object identifier (OID) to use in the search.
-cAttr : [int] Number of attributes in the rgAttr array.
-rgAttr : [var] Array of CRYPT_ATTRIBUTE structures.
+pszObjId : [str] 検索に使用するオブジェクト識別子 (OID) へのポインター。
+cAttr : [int] rgAttr 配列内の属性数。
+rgAttr : [var] CRYPT_ATTRIBUTE 構造体の配列。
 %inst
-The CertFindAttribute function finds the first attribute in the
-CRYPT_ATTRIBUTE array, as identified by its object identifier (OID).
+CertFindAttribute 関数は、CRYPT_ATTRIBUTE 配列内で、オブジェクト識別子 (OID)
+で識別される最初の属性を見つける。
 
 [戻り値]
-Returns a pointer to the attribute, if one is found. Otherwise, NULL
-is returned.
+属性が見つかった場合はその属性へのポインターを返す。見つからなかった場合は NULL を返す。
 
 
 %index
 CertFindCRLInStore
-Finds the first or next certificate revocation list (CRL) context in a certificate store that matches a search criterion established by the dwFindType parameter and the associated pvFindPara parameter.
+dwFindType パラメーターと関連する pvFindPara パラメーターによって指定された検索条件に一致する証明書失効リスト (CRL) コンテキストのうち、最初または次のものを証明書ストアから見つける。
 %group
 Win32 crypt32
 %prm
 hCertStore, dwCertEncodingType, dwFindFlags, dwFindType, pvFindPara, pPrevCrlContext
-hCertStore : [int] A handle of the certificate store to be searched.
-dwCertEncodingType : [int] This parameter is not currently used. It must be set to zero.
-dwFindFlags : [int] If dwFindType is CRL_FIND_ISSUED_BY, by default, only issuer name matching is done. The following flags can be used to do additional filtering.
-dwFindType : [int] Specifies the type of search being made. The value of dwFindType determines the data type, contents, and use of the pvFindPara parameter. Currently defined search types and their pvFindPara requirements are as follows.
-pvFindPara : [intptr] This parameter is determined by the value of dwFindType. For details, see the table earlier in this topic.
-pPrevCrlContext : [var] A pointer to the last CRL_CONTEXT returned by this function. Must be NULL to get the first CRL in the store meeting the search criteria. Successive CRLs meeting the search criteria can be found by setting pPrevCrlContext to the PCCRL_CONTEXT pointer returned by a previous call to the function. The search process skips any CRLs that do not match the search criteria or that have been previously deleted from the store by CertDeleteCRLFromStore. This function frees the CRL_CONTEXT referenced by values of this parameter that are not NULL.
+hCertStore : [int] 検索対象の証明書ストアのハンドル。
+dwCertEncodingType : [int] このパラメーターは現在使用されていない。0 に設定しなければならない。
+dwFindFlags : [int] dwFindType が CRL_FIND_ISSUED_BY の場合、既定では発行者名の照合のみが行われる。次のフラグを使用して追加の絞り込みを行える。
+dwFindType : [int] 行う検索の種別を指定する。dwFindType の値が、pvFindPara パラメーターのデータ型、内容、および使用方法を決定する。現在定義されている検索種別と pvFindPara の要件は次のとおり。
+pvFindPara : [intptr] このパラメーターは dwFindType の値によって決まる。詳しくはこのトピック前出の表を参照。
+pPrevCrlContext : [var] 本関数が直前に返した CRL_CONTEXT へのポインター。検索条件を満たすストア内の最初の CRL を取得するには NULL にしなければならない。以降の検索条件に一致する CRL は、pPrevCrlContext に直前の呼び出しで返された PCCRL_CONTEXT ポインターを設定することで取得できる。検索処理は、検索条件に一致しない CRL、または CertDeleteCRLFromStore で既に削除された CRL をスキップする。このパラメーターが NULL でない場合、本関数はそのポインターが参照する CRL_CONTEXT を解放する。
 %inst
-Finds the first or next certificate revocation list (CRL) context in
-a certificate store that matches a search criterion established by
-the dwFindType parameter and the associated pvFindPara parameter.
+dwFindType パラメーターと関連する pvFindPara パラメーターによって指定された検索条件に一致する証明書失効リスト
+(CRL) コンテキストのうち、最初または次のものを証明書ストアから見つける。
 
 [戻り値]
-If the function succeeds, the function returns a pointer to a
-read-only CRL context. When you have finished using the returned CRL
-context, free it by calling the CertFreeCRLContext function or
-implicitly free it by passing it as the pPrevCrlContext parameter on
-a subsequent call to the CertFindCRLInStore function.
-If the function fails and a CRL that matches the search criteria is
-not found, the return value is NULL. For extended error information,
-call GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、関数は読み取り専用の CRL コンテキストへのポインターを返す。返された CRL
+コンテキストの使用を終えたら、CertFreeCRLContext 関数を呼び出して解放するか、後続の
+CertFindCRLInStore の呼び出しで pPrevCrlContext パラメーターとして渡して暗黙的に解放する。
+関数が失敗し、検索条件に一致する CRL が見つからなかった場合、戻り値は NULL。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-The returned pointer is freed when passed as the pPrevCrlContext
-parameter on a subsequent call to the function. Otherwise, the
-pointer must be explicitly freed by calling CertFreeCRLContext. A
-pPrevCrlContext that is not NULL is always freed by
-CertFindCRLInStore using a call to CertFreeCRLContext, even if there
-is an error in the function.
-CertDuplicateCRLContext can be called to make a duplicate of the
-returned context. The returned CRL context can be added to a
-different certificate store by using CertAddCRLContextToStore, or a
-link to that CRL context can be added to a noncollection store by
-using CertAddCRLLinkToStore.
+返されたポインターは、次回の呼び出しで pPrevCrlContext
+として渡されると解放される。そうでない場合、CertFreeCRLContext を呼び出して明示的に解放しなければならない。NULL
+以外の pPrevCrlContext は、本関数内でエラーが発生した場合でも、CertFindCRLInStore が
+CertFreeCRLContext の呼び出しにより常に解放する。
+返されたコンテキストの複製は CertDuplicateCRLContext を呼び出して作成できる。返された CRL コンテキストは
+CertAddCRLContextToStore を使用して別の証明書ストアに追加できる。また、CertAddCRLLinkToStore
+を使用して、その CRL コンテキストへのリンクを非コレクションストアに追加することもできる。
 
 
 %index
 CertFindCTLInStore
-Finds the first or next certificate trust list (CTL) context that matches search criteria established by the dwFindType and its associated pvFindPara.
+dwFindType とそれに関連付けられた pvFindPara によって指定された検索条件に一致する証明書信頼リスト (CTL) コンテキストのうち、最初または次のものを見つける。
 %group
 Win32 crypt32
 %prm
 hCertStore, dwMsgAndCertEncodingType, dwFindFlags, dwFindType, pvFindPara, pPrevCtlContext
-hCertStore : [int] Handle of the certificate store to be searched.
-dwMsgAndCertEncodingType : [int] Specifies the type of encoding used on the CTL. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-dwFindFlags : [int] Can be set when dwFindType is set to CTL_FIND_USAGE. For details, see the comments under CTL_FIND_USAGE, following.
+hCertStore : [int] 検索対象の証明書ストアのハンドル。
+dwMsgAndCertEncodingType : [int] CTL に使用されているエンコード種別を指定する。証明書エンコード種別とメッセージエンコード種別を、次の例のようにビットごとの OR 演算で組み合わせて指定することも常に可能である: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコード種別は次のとおり。
+dwFindFlags : [int] dwFindType が CTL_FIND_USAGE に設定されているときに指定できる。詳しくは後述の CTL_FIND_USAGE の説明を参照。
 dwFindType : [int] 
-pvFindPara : [intptr] A pointer to the search value associated with the dwFindType parameter.
-pPrevCtlContext : [var] A pointer to the last CTL_CONTEXT returned by this function. It must be NULL to get the first CTL in the store. Successive CTLs are retrieved by setting pPrevCtlContext to the pointer to the CTL_CONTEXT returned by a previous function call. Any certificates that do not meet the search criteria or that have been previously deleted by CertDeleteCTLFromStore are skipped. This function frees the CTL_CONTEXT referenced by non-NULL values of this parameter.
+pvFindPara : [intptr] dwFindType パラメーターに関連付けられた検索値へのポインター。
+pPrevCtlContext : [var] 本関数が直前に返した CTL_CONTEXT へのポインター。ストア内の最初の CTL を取得するには NULL でなければならない。以降の CTL は、pPrevCtlContext に直前の呼び出しで返された CTL_CONTEXT へのポインターを設定することで取得する。検索条件に一致しない証明書や、CertDeleteCTLFromStore で既に削除された証明書はスキップされる。このパラメーターが NULL 以外の場合、本関数はそのポインターが参照する CTL_CONTEXT を解放する。
 %inst
-Finds the first or next certificate trust list (CTL) context that
-matches search criteria established by the dwFindType and its
-associated pvFindPara.
+dwFindType とそれに関連付けられた pvFindPara によって指定された検索条件に一致する証明書信頼リスト (CTL)
+コンテキストのうち、最初または次のものを見つける。
 
 [戻り値]
-If the function succeeds, the return value is a pointer to a
-read-only CTLcontext. For extended error information, call
-GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は読み取り専用の CTL コンテキストへのポインター。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-A returned pointer is freed when passed as the pPrevCtlContext on a
-subsequent call to the function. Otherwise, the pointer must be freed
-by calling CertFreeCTLContext. A non-NULLpPrevCtlContext passed to
-the function is always freed with a call to CertFreeCTLContext, even
-if the function generates an error.
-CertDuplicateCTLContext can be called to make a duplicate of the
-returned context. The returned CTL context can be added to a
-different certificate store using CertAddCTLContextToStore, or a link
-to that CTL context can be added to a noncollection store using
-CertAddCTLLinkToStore. If a CTL matching the search criteria is not
-found, NULL is returned.
+返されたポインターは、次回の呼び出しで pPrevCtlContext として渡されると解放される。そうでない場合は
+CertFreeCTLContext を呼び出して解放しなければならない。NULL 以外の pPrevCtlContext
+は、本関数がエラーを発生させた場合でも、CertFreeCTLContext の呼び出しにより常に解放される。
+返されたコンテキストの複製は CertDuplicateCTLContext を呼び出して作成できる。返された CTL コンテキストは
+CertAddCTLContextToStore を使用して別の証明書ストアに追加できる。また、CertAddCTLLinkToStore
+を使用して、その CTL コンテキストへのリンクを非コレクションストアに追加することもできる。検索条件に一致する CTL
+が見つからない場合、NULL が返される。
 
 
 %index
 CertFindCertificateInCRL
-The CertFindCertificateInCRL function searches the certificate revocation list (CRL) for the specified certificate.
+CertFindCertificateInCRL 関数は、指定した証明書を証明書失効リスト (CRL) から検索する。
 %group
 Win32 crypt32
 %prm
 pCert, pCrlContext, dwFlags, pvReserved, ppCrlEntry
-pCert : [var] A pointer to a CERT_CONTEXT of the certificate to be searched for in the CRL.
-pCrlContext : [var] A pointer to the CRL_CONTEXT to be searched.
-dwFlags : [int] Reserved for future use. Must be set to zero.
-pvReserved : [intptr] Reserved for future use. Must be set to zero.
-ppCrlEntry : [var] If the certificate is found in the CRL, this pointer is updated with a pointer to the entry. Otherwise, it is set to NULL. The returned entry is not allocated and must not be freed.
+pCert : [var] CRL 内を検索する証明書の CERT_CONTEXT へのポインター。
+pCrlContext : [var] 検索対象の CRL_CONTEXT へのポインター。
+dwFlags : [int] 将来の使用のために予約されている。0 に設定しなければならない。
+pvReserved : [intptr] 将来の使用のために予約されている。0 に設定しなければならない。
+ppCrlEntry : [var] 証明書が CRL 内で見つかった場合、このポインターはそのエントリへのポインターで更新される。見つからなかった場合は NULL に設定される。返されたエントリは割り当てられたものではなく、解放してはならない。
 %inst
-The CertFindCertificateInCRL function searches the certificate
-revocation list (CRL) for the specified certificate.
+CertFindCertificateInCRL 関数は、指定した証明書を証明書失効リスト (CRL) から検索する。
 
 [戻り値]
-TRUE if the list was searched; otherwise FALSE.
+リストが検索された場合は TRUE、そうでない場合は FALSE。
 
 
 %index
@@ -1461,721 +1276,622 @@ CertFreeCertificateContext により解放される。
 
 %index
 CertFindChainInStore
-Finds the first or next certificate in a store that meets the specified criteria.
+ストア内で指定した条件を満たす最初または次の証明書を見つける。
 %group
 Win32 crypt32
 %prm
 hCertStore, dwCertEncodingType, dwFindFlags, dwFindType, pvFindPara, pPrevChainContext
-hCertStore : [int] The handle of the store to be searched for a certificate upon which a chain is built. This handle is passed as an additional store to the CertGetCertificateChain function as the chain is built.
-dwCertEncodingType : [int] The certificate encoding type   that was used to encode the store. The message encoding type identifier, contained in the high WORD of this value, is ignored by this function.
-dwFindFlags : [int] Contains additional options for the search. The possible values for this parameter depend on the value of the dwFindType parameter.
-dwFindType : [int] Determines what criteria to use to find a certificate in the store.
-pvFindPara : [intptr] A pointer that contains additional search criteria. The type and format of the data this parameter points to depends on the value of the dwFindType parameter.
-pPrevChainContext : [var] A pointer to a CERT_CHAIN_CONTEXT structure returned from a previous call to this function. The search is begun from this certificate. For the first call to this function, this parameter must be NULL. In subsequent calls, it is the pointer returned by the previous call to the function.  If this parameter is not NULL, this function will free this structure.
+hCertStore : [int] チェーンを構築する証明書を検索する対象のストアのハンドル。このハンドルは、チェーン構築時に追加のストアとして CertGetCertificateChain 関数に渡される。
+dwCertEncodingType : [int] ストアのエンコードに使用された証明書エンコード種別。この値の上位 WORD に含まれるメッセージエンコード種別識別子は、本関数では無視される。
+dwFindFlags : [int] 検索の追加オプションを含む。このパラメーターの指定可能な値は dwFindType パラメーターの値に依存する。
+dwFindType : [int] ストア内の証明書を見つけるために使用する条件を決定する。
+pvFindPara : [intptr] 追加の検索条件を含むポインター。このパラメーターが指すデータの型と形式は dwFindType パラメーターの値に依存する。
+pPrevChainContext : [var] 本関数の直前の呼び出しから返された CERT_CHAIN_CONTEXT 構造体へのポインター。検索はこの証明書から開始される。本関数への最初の呼び出しではこのパラメーターは NULL でなければならない。以降の呼び出しでは、直前の呼び出しで返されたポインターを指定する。このパラメーターが NULL でない場合、本関数はこの構造体を解放する。
 %inst
-Finds the first or next certificate in a store that meets the
-specified criteria.
+ストア内で指定した条件を満たす最初または次の証明書を見つける。
 
 [戻り値]
-If the first or next chain context is not built, NULL is returned.
-Otherwise, a pointer to a read-only CERT_CHAIN_CONTEXT structure is
-returned. The CERT_CHAIN_CONTEXT structure is freed when passed as
-the pPrevChainContext parameter on a subsequent call to this
-function. Otherwise, the CERT_CHAIN_CONTEXT structure must be freed
-explicitly by calling the CertFreeCertificateChain function.
+最初または次のチェーンコンテキストが構築されなかった場合は NULL を返す。そうでない場合、読み取り専用の
+CERT_CHAIN_CONTEXT 構造体へのポインターを返す。CERT_CHAIN_CONTEXT 構造体は、後続の本関数呼び出しで
+pPrevChainContext
+パラメーターとして渡されると解放される。そうでない場合、CertFreeCertificateChain
+関数を呼び出して明示的に解放しなければならない。
 
 [備考]
-The pPrevChainContext parameter must be NULL on the first call to
-build the chain context. To build the next chain context, the
-pPrevChainContext is set to the CERT_CHAIN_CONTEXT structure returned
-by a previous call. If pPrevChainContext is not NULL, the structure
-is always freed by this function by using the
-CertFreeCertificateChain function, even if an error occurs.
+チェーンコンテキストを構築する最初の呼び出しでは pPrevChainContext パラメーターは NULL
+でなければならない。次のチェーンコンテキストを構築するには、pPrevChainContext に直前の呼び出しで返された
+CERT_CHAIN_CONTEXT 構造体を設定する。pPrevChainContext が NULL
+でない場合、エラーが発生した場合でも、本関数は常に CertFreeCertificateChain 関数を使用してその構造体を解放する。
 
 
 %index
 CertFindExtension
-The CertFindExtension function finds the first extension in the CERT_EXTENSION array, as identified by its object identifier (OID).
+CertFindExtension 関数は、CERT_EXTENSION 配列内で、オブジェクト識別子 (OID) で識別される最初の拡張を見つける。
 %group
 Win32 crypt32
 %prm
 pszObjId, cExtensions, rgExtensions
-pszObjId : [str] A pointer to the object identifier (OID) to use in the search.
-cExtensions : [int] Number of extensions in the rgExtensions array.
-rgExtensions : [var] Array of CERT_EXTENSION structures.
+pszObjId : [str] 検索に使用するオブジェクト識別子 (OID) へのポインター。
+cExtensions : [int] rgExtensions 配列内の拡張の数。
+rgExtensions : [var] CERT_EXTENSION 構造体の配列。
 %inst
-The CertFindExtension function finds the first extension in the
-CERT_EXTENSION array, as identified by its object identifier (OID).
+CertFindExtension 関数は、CERT_EXTENSION 配列内で、オブジェクト識別子 (OID)
+で識別される最初の拡張を見つける。
 
 [戻り値]
-Returns a pointer to the extension, if one is found. Otherwise, NULL
-is returned.
+拡張が見つかった場合はその拡張へのポインターを返す。見つからなかった場合は NULL を返す。
 
 
 %index
 CertFindRDNAttr
-The CertFindRDNAttr function finds the first RDN attribute identified by its object identifier (OID) in a list of the Relative Distinguished Names (RDN).
+CertFindRDNAttr 関数は、相対識別名 (RDN) のリストから、オブジェクト識別子 (OID) で識別される最初の RDN 属性を見つける。
 %group
 Win32 crypt32
 %prm
 pszObjId, pName
-pszObjId : [str] A pointer to the object identifier (OID) to use In the search.
-pName : [var] A pointer to a CERT_NAME_INFO structure containing the list of the Relative Distinguished Names to be searched.
+pszObjId : [str] 検索に使用するオブジェクト識別子 (OID) へのポインター。
+pName : [var] 検索対象の相対識別名のリストを含む CERT_NAME_INFO 構造体へのポインター。
 %inst
-The CertFindRDNAttr function finds the first RDN attribute identified
-by its object identifier (OID) in a list of the Relative
-Distinguished Names (RDN).
+CertFindRDNAttr 関数は、相対識別名 (RDN) のリストから、オブジェクト識別子 (OID) で識別される最初の RDN
+属性を見つける。
 
 [戻り値]
-Returns a pointer to the attribute, if one is found. Otherwise, NULL
-is returned.
+属性が見つかった場合はその属性へのポインターを返す。見つからなかった場合は NULL を返す。
 
 
 %index
 CertFindSubjectInCTL
-The CertFindSubjectInCTL function attempts to find the specified subject in a certificate trust list (CTL).
+CertFindSubjectInCTL 関数は、証明書信頼リスト (CTL) 内から指定したサブジェクトを見つけることを試みる。
 %group
 Win32 crypt32
 %prm
 dwEncodingType, dwSubjectType, pvSubject, pCtlContext, dwFlags
-dwEncodingType : [int] Specifies the encoding type used. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types may be added in the future. For either current encoding type, use:
-dwSubjectType : [int] Specifies the type of subject to be searched for in the CTL. May be NULL for a default search.
-pvSubject : [intptr] Pointer used in conjunction with the dwSubjectType parameter.
-pCtlContext : [var] A pointer to the CTL_CONTEXT structure being searched.
-dwFlags : [int] Reserved for future use and must be zero.
+dwEncodingType : [int] 使用するエンコード種別を指定する。現在は X509_ASN_ENCODING と PKCS_7_ASN_ENCODING のみが使用されているが、将来はエンコード種別が追加される可能性がある。現在のどちらのエンコード種別にも次を使用する: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。
+dwSubjectType : [int] CTL 内で検索するサブジェクトの種別を指定する。既定の検索を行う場合は NULL でもよい。
+pvSubject : [intptr] dwSubjectType パラメーターと組み合わせて使用するポインター。
+pCtlContext : [var] 検索対象の CTL_CONTEXT 構造体へのポインター。
+dwFlags : [int] 将来の使用のために予約されている。0 でなければならない。
 %inst
-The CertFindSubjectInCTL function attempts to find the specified
-subject in a certificate trust list (CTL).
+CertFindSubjectInCTL 関数は、証明書信頼リスト (CTL) 内から指定したサブジェクトを見つけることを試みる。
 
 [戻り値]
-If the function succeeds, the return value is the entry, if it is
-found. If the function fails, the return value is NULL. For extended
-error information, call GetLastError. Some possible error codes
-follow.
-This doc was truncated.
+関数が成功した場合、戻り値は見つかったエントリ。関数が失敗した場合、戻り値は NULL。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-The certificate's hash or the SubjectIdentifier member of the
-CTL_ANY_SUBJECT_INFO structure is used as the key in searching the
-subject entries. A binary memory comparison is done between the key
-and the entry's SubjectIdentifier.
+サブジェクトエントリの検索では、証明書のハッシュまたは CTL_ANY_SUBJECT_INFO 構造体の
+SubjectIdentifier メンバーがキーとして使用される。キーとエントリの SubjectIdentifier
+との間でバイナリメモリ比較が行われる。
 
 
 %index
 CertFindSubjectInSortedCTL
-The CertFindSubjectInSortedCTL function attempts to find the specified subject in a sorted certificate trust list (CTL).
+CertFindSubjectInSortedCTL 関数は、ソートされた証明書信頼リスト (CTL) 内から指定したサブジェクトを見つけることを試みる。
 %group
 Win32 crypt32
 %prm
 pSubjectIdentifier, pCtlContext, dwFlags, pvReserved, pEncodedAttributes
-pSubjectIdentifier : [var] A pointer to a CRYPT_DATA_BLOB structure uniquely identifying the subject. The information in this structure can be a hash or any unique byte sequence.
-pCtlContext : [var] A pointer to the CTL_CONTEXT structure to be searched.
-dwFlags : [int] Reserved for future use and must be NULL.
-pvReserved : [intptr] Reserved for future use and must be NULL.
-pEncodedAttributes : [var] A pointer to a CRYPT_DER_BLOB structure containing a byte count and a pointer to the subject's encoded attributes.
+pSubjectIdentifier : [var] サブジェクトを一意に識別する CRYPT_DATA_BLOB 構造体へのポインター。この構造体の情報はハッシュまたは任意の一意なバイト列でよい。
+pCtlContext : [var] 検索対象の CTL_CONTEXT 構造体へのポインター。
+dwFlags : [int] 将来の使用のために予約されている。NULL でなければならない。
+pvReserved : [intptr] 将来の使用のために予約されている。NULL でなければならない。
+pEncodedAttributes : [var] バイト数と、サブジェクトのエンコード済み属性へのポインターを含む CRYPT_DER_BLOB 構造体へのポインター。
 %inst
-The CertFindSubjectInSortedCTL function attempts to find the
-specified subject in a sorted certificate trust list (CTL).
+CertFindSubjectInSortedCTL 関数は、ソートされた証明書信頼リスト (CTL)
+内から指定したサブジェクトを見つけることを試みる。
 
 [戻り値]
-If the function succeeds and the subject identifier exists in the
-CTL, the return value is TRUE. If the function fails and does not
-locate a matching subject identifier, the return value is FALSE.
+関数が成功し、CTL にサブジェクト識別子が存在する場合、戻り値は
+TRUE。関数が失敗し、一致するサブジェクト識別子が見つからなかった場合、戻り値は FALSE。
 
 
 %index
 CertFreeCRLContext
-Frees a certificate revocation list (CRL) context by decrementing its reference count.
+参照カウントをデクリメントすることで、証明書失効リスト (CRL) コンテキストを解放する。
 %group
 Win32 crypt32
 %prm
 pCrlContext
-pCrlContext : [var] A pointer to the CRL_CONTEXT to be freed.
+pCrlContext : [var] 解放する CRL_CONTEXT へのポインター。
 %inst
-Frees a certificate revocation list (CRL) context by decrementing its
-reference count.
+参照カウントをデクリメントすることで、証明書失効リスト (CRL) コンテキストを解放する。
 
 [戻り値]
-The function always returns TRUE.
+本関数は常に TRUE を返す。
 
 
 %index
 CertFreeCTLContext
-Frees a certificate trust list (CTL) context by decrementing its reference count.
+参照カウントをデクリメントすることで、証明書信頼リスト (CTL) コンテキストを解放する。
 %group
 Win32 crypt32
 %prm
 pCtlContext
-pCtlContext : [var] A pointer to the CTL_CONTEXT to be freed.
+pCtlContext : [var] 解放する CTL_CONTEXT へのポインター。
 %inst
-Frees a certificate trust list (CTL) context by decrementing its
-reference count.
+参照カウントをデクリメントすることで、証明書信頼リスト (CTL) コンテキストを解放する。
 
 [戻り値]
-The function always returns TRUE.
+本関数は常に TRUE を返す。
 
 
 %index
 CertFreeCertificateChain
-The CertFreeCertificateChain function frees a certificate chain by reducing its reference count. If the reference count becomes zero, memory allocated for the chain is released.
+CertFreeCertificateChain 関数は、証明書チェーンの参照カウントを減らして解放する。参照カウントが 0 になると、そのチェーンのために割り当てられたメモリが解放される。
 %group
 Win32 crypt32
 %prm
 pChainContext
-pChainContext : [var] A pointer to a CERT_CHAIN_CONTEXT certificate chain context to be freed. If the reference count on the context reaches zero, the storage allocated for the context is freed.
+pChainContext : [var] 解放する CERT_CHAIN_CONTEXT 証明書チェーンコンテキストへのポインター。コンテキストの参照カウントが 0 に達すると、そのコンテキストのために割り当てられたストレージが解放される。
 %inst
-The CertFreeCertificateChain function frees a certificate chain by
-reducing its reference count. If the reference count becomes zero,
-memory allocated for the chain is released.
+CertFreeCertificateChain 関数は、証明書チェーンの参照カウントを減らして解放する。参照カウントが 0
+になると、そのチェーンのために割り当てられたメモリが解放される。
 
 
 %index
 CertFreeCertificateChainList
-Frees the array of pointers to chain contexts.
+チェーンコンテキストへのポインター配列を解放する。
 %group
 Win32 crypt32
 %prm
 prgpSelection
-prgpSelection : [var] A pointer to a PCCERT_CHAIN_CONTEXT structure returned by the CertSelectCertificateChains function.
+prgpSelection : [var] CertSelectCertificateChains 関数が返した PCCERT_CHAIN_CONTEXT 構造体へのポインター。
 %inst
-Frees the array of pointers to chain contexts.
+チェーンコンテキストへのポインター配列を解放する。
 
 [備考]
-Before calling the CertFreeCertificateChainList function, you must
-call the CertFreeCertificateChain function on each chain context
-within the array pointed to by the prgpSelection parameter.
+CertFreeCertificateChainList 関数を呼び出す前に、prgpSelection
+パラメーターが指す配列内の各チェーンコンテキストに対して CertFreeCertificateChain
+関数を呼び出さなければならない。
 
 
 %index
 CertFreeCertificateContext
-Frees a certificate context by decrementing its reference count. When the reference count goes to zero, CertFreeCertificateContext frees the memory used by a certificate context.
+参照カウントをデクリメントすることで、証明書コンテキストを解放する。参照カウントが 0 になると、CertFreeCertificateContext は証明書コンテキストで使用されていたメモリを解放する。
 %group
 Win32 crypt32
 %prm
 pCertContext
-pCertContext : [var] A pointer to the CERT_CONTEXT to be freed.
+pCertContext : [var] 解放する CERT_CONTEXT へのポインター。
 %inst
-Frees a certificate context by decrementing its reference count. When
-the reference count goes to zero, CertFreeCertificateContext frees
-the memory used by a certificate context.
+参照カウントをデクリメントすることで、証明書コンテキストを解放する。参照カウントが 0
+になると、CertFreeCertificateContext は証明書コンテキストで使用されていたメモリを解放する。
 
 [戻り値]
-The function always returns nonzero.
+本関数は常に 0 以外を返す。
 
 
 %index
 CertFreeServerOcspResponseContext
-Decrements the reference count for a CERT_SERVER_OCSP_RESPONSE_CONTEXT structure.
+CERT_SERVER_OCSP_RESPONSE_CONTEXT 構造体の参照カウントをデクリメントする。
 %group
 Win32 crypt32
 %prm
 pServerOcspResponseContext
-pServerOcspResponseContext : [var] A pointer to a CERT_SERVER_OCSP_RESPONSE_CONTEXT structure that contains a value returned by the CertGetServerOcspResponseContext function.
+pServerOcspResponseContext : [var] CertGetServerOcspResponseContext 関数によって返された値を含む CERT_SERVER_OCSP_RESPONSE_CONTEXT 構造体へのポインター。
 %inst
-Decrements the reference count for a
-CERT_SERVER_OCSP_RESPONSE_CONTEXT structure.
+CERT_SERVER_OCSP_RESPONSE_CONTEXT 構造体の参照カウントをデクリメントする。
 
 
 %index
 CertGetCRLContextProperty
-Gets an extended property for the specified certificate revocation list (CRL) context.
+指定した証明書失効リスト (CRL) コンテキストの拡張プロパティを取得する。
 %group
 Win32 crypt32
 %prm
 pCrlContext, dwPropId, pvData, pcbData
-pCrlContext : [var] A pointer to the CRL_CONTEXT structure.
-dwPropId : [int] Identifies the property to be retrieved. Currently defined identifiers and the data type to be returned in pvData are listed in the following table.
-pvData : [intptr] A pointer to a buffer to receive the data as determined by dwPropId. Structures pointed to by members of a structure returned are also returned following the base structure. Therefore, the size contained in pcbData often exceed the size of the base structure.
-pcbData : [var] A pointer to a DWORD value specifying the size, in bytes, of the buffer pointed to by the pvData parameter. When the function returns, the DWORD value contains the number of bytes to be stored in the buffer.
+pCrlContext : [var] CRL_CONTEXT 構造体へのポインター。
+dwPropId : [int] 取得するプロパティを識別する。現在定義されている識別子と、pvData に返されるデータ型を次の表に示す。
+pvData : [intptr] dwPropId で決定されるデータを受け取るバッファーへのポインター。返される構造体のメンバーが指す構造体も、基底構造体に続けて返される。したがって、pcbData に格納されるサイズは、基底構造体のサイズを超えることが多い。
+pcbData : [var] pvData パラメーターが指すバッファーのサイズ（バイト単位）を指定する DWORD 値へのポインター。関数が戻るとき、この DWORD 値にはバッファーに格納するバイト数が含まれる。
 %inst
-Gets an extended property for the specified certificate revocation
-list (CRL) context.
+指定した証明書失効リスト (CRL) コンテキストの拡張プロパティを取得する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. Note that errors from the called
-function CryptHashCertificate can be propagated to this function. For
-extended error information, call GetLastError. Some possible error
-codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE。関数が失敗した場合、戻り値は FALSE。呼び出し先の CryptHashCertificate
+からのエラーが本関数に伝播することがある。拡張エラー情報は GetLastError
+を呼び出して取得する。想定されるエラーコードを以下に示す。
+（以下省略）
 
 
 %index
 CertGetCRLFromStore
-Gets the first or next certificate revocation list (CRL) context from the certificate store for the specified issuer.
+指定した発行者について、証明書ストアから最初または次の証明書失効リスト (CRL) コンテキストを取得する。
 %group
 Win32 crypt32
 %prm
 hCertStore, pIssuerContext, pPrevCrlContext, pdwFlags
-hCertStore : [int] Handle of a certificate store.
-pIssuerContext : [var] A pointer to an issuer CERT_CONTEXT. The pIssuerContext pointer can come from this store or another store, or could have been created by the calling CertCreateCertificateContext. If NULL is passed for this parameter, all the CRLs in the store are found.
-pPrevCrlContext : [var] A pointer to a CRL_CONTEXT. An issuer can have multiple CRLs. For example, it can generate delta CRLs by using an X.509 version 3 extension. This parameter must be NULL on the first call to get the CRL. To get the next CRL for the issuer, the parameter is set to the CRL_CONTEXT returned by a previous call. A non-NULLpPrevCrlContext is always freed by this function by calling CertFreeCRLContext, even for an error.
-pdwFlags : [var] The following flag values are defined to enable verification checks on the returned CRL. These flags can be combined using a bitwise-OR operation.
+hCertStore : [int] 証明書ストアのハンドル。
+pIssuerContext : [var] 発行者 CERT_CONTEXT へのポインター。pIssuerContext ポインターは、このストアや別のストアから取得したもの、または CertCreateCertificateContext を呼び出して作成したものでよい。このパラメーターに NULL を渡すと、ストア内のすべての CRL が検索対象となる。
+pPrevCrlContext : [var] CRL_CONTEXT へのポインター。発行者は複数の CRL を持つ場合がある。たとえば、X.509 バージョン 3 拡張を使用して差分 CRL を生成できる。CRL を取得する最初の呼び出しでは、このパラメーターは NULL でなければならない。発行者の次の CRL を取得するには、直前の呼び出しで返された CRL_CONTEXT を設定する。NULL 以外の pPrevCrlContext は、エラーの場合でも、本関数が CertFreeCRLContext を呼び出して常に解放する。
+pdwFlags : [var] 返される CRL に対する検証チェックを有効にするために、次のフラグ値が定義されている。これらのフラグはビットごとの OR 演算で組み合わせることができる。
 %inst
-Gets the first or next certificate revocation list (CRL) context from
-the certificate store for the specified issuer.
+指定した発行者について、証明書ストアから最初または次の証明書失効リスト (CRL) コンテキストを取得する。
 
 [戻り値]
-If the function succeeds, the return value is a pointer to a
-read-only CRL_CONTEXT. If the function fails and the first or next
-CRL is not found, the return value is NULL. The returned CRL_CONTEXT
-must be freed by calling CertFreeCRLContext. However, when the
-returned CRL_CONTEXT is supplied for pPrevCrlContext on a subsequent
-call, the function frees it. For extended error information, call
-GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は読み取り専用の CRL_CONTEXT へのポインターとなる。関数が失敗し、最初または次の CRL
+が見つからない場合は、戻り値は NULL となる。返された CRL_CONTEXT は CertFreeCRLContext
+を呼び出して解放しなければならない。ただし、返された CRL_CONTEXT を後続呼び出しで pPrevCrlContext
+として渡した場合、関数側で解放される。拡張エラー情報を取得するには GetLastError
+を呼び出す。考えられるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-CertDuplicateCRLContext can be called to make a duplicate CRL. The
-hexadecimal values of the flags can be combined using a bitwise-OR
-operation to enable both verifications. For example, to enable both
-verifications, the DWORD value pointed to by pdwFlags is set to value
-CERT_STORE_SIGNATURE_FLAG | CERT_STORE_TIME_VALIDITY_FLAG. If the
-CERT_STORE_SIGNATURE_FLAG verification succeeded, but
-CERT_STORE_TIME_VALIDITY_FLAG verification failed, the DWORD value
-pointed to by pdwFlags is set to CERT_STORE_TIME_VALIDITY_FLAG when
-the function returns.
+CertDuplicateCRLContext を呼び出すと CRL の複製を作成できる。フラグの 16 進値をビット単位 OR
+で組み合わせると複数の検証を同時に有効化できる。例えば署名検証と時刻有効性検証の両方を有効にするには、pdwFlags が指す DWORD
+値を CERT_STORE_SIGNATURE_FLAG | CERT_STORE_TIME_VALIDITY_FLAG
+に設定する。CERT_STORE_SIGNATURE_FLAG 検証が成功し、CERT_STORE_TIME_VALIDITY_FLAG
+検証が失敗した場合、関数から戻るときには pdwFlags が指す DWORD 値は
+CERT_STORE_TIME_VALIDITY_FLAG に設定される。
 
 
 %index
 CertGetCTLContextProperty
-Retrieves an extended property of a certificate trust list (CTL) context.
+証明書信頼リスト (CTL) コンテキストの拡張プロパティを取得する。
 %group
 Win32 crypt32
 %prm
 pCtlContext, dwPropId, pvData, pcbData
-pCtlContext : [var] A pointer to the CTL_CONTEXT structure.
-dwPropId : [int] Identifies the property to be retrieved. Currently defined identifiers and the data type to be returned in pvData are listed in the following table.
-pvData : [intptr] A pointer to a buffer to receive the data as determined by dwPropId. Structures pointed to by members of a structure returned are also returned following the base structure. Therefore, the size contained in pcbData often exceed the size of the base structure.
-pcbData : [var] A pointer to a DWORD value specifying the size, in bytes, of the buffer pointed to by the pvData parameter. When the function returns, the DWORD value contains the number of bytes to be stored in the buffer.
+pCtlContext : [var] CTL_CONTEXT 構造体へのポインター。
+dwPropId : [int] 取得するプロパティを識別する。現在定義されている識別子と pvData に返されるデータ型を次の表に示す。
+pvData : [intptr] dwPropId によって決まるデータを受け取るバッファーへのポインター。返される構造体のメンバーが指す構造体も、基底構造体に続けて返される。したがって pcbData に含まれるサイズは基底構造体のサイズを超えることが多い。
+pcbData : [var] pvData パラメーターが指すバッファーのサイズをバイト単位で指定する DWORD 値へのポインター。関数から戻ると、DWORD 値はバッファーに格納されるバイト数を含む。
 %inst
-Retrieves an extended property of a certificate trust list (CTL)
-context.
+証明書信頼リスト (CTL) コンテキストの拡張プロパティを取得する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. Errors from the called function,
-CryptHashCertificate, can be propagated to this function. For
-extended error information, call GetLastError. Some possible error
-codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。呼び出される関数
+CryptHashCertificate のエラーがこの関数に伝播することがある。拡張エラー情報を取得するには GetLastError
+を呼び出す。考えられるエラーコードを以下に示す。
+（以下省略）
 
 
 %index
 CertGetCertificateChain
-Builds a certificate chain context starting from an end certificate and going back, if possible, to a trusted root certificate.
+末端証明書から出発し、可能であれば信頼されたルート証明書まで遡る証明書チェーンコンテキストを構築する。
 %group
 Win32 crypt32
 %prm
 hChainEngine, pCertContext, pTime, hAdditionalStore, pChainPara, dwFlags, pvReserved, ppChainContext
-hChainEngine : [intptr] A handle of the chain engine (namespace and cache) to be used. If hChainEngine is NULL, the default chain engine, HCCE_CURRENT_USER, is used. This parameter can be set to HCCE_LOCAL_MACHINE.
-pCertContext : [var] A pointer to the CERT_CONTEXT of the end certificate, the certificate for which a chain is being built. This certificate context will be the zero-index element in the first simple chain.
-pTime : [var] A pointer to a FILETIME variable that indicates the time for which the chain is to be validated. Note that the time does not affect trust list, revocation, or root store checking. The current system time is used if NULL is passed to this parameter. Trust in a particular certificate being a trusted root is based on the current state of the root store and not the state of the root store at a time passed in by this parameter. For revocation, a certificate revocation list (CRL), itself, must be valid at the current time. The value of this parameter is used to determine whether a certificate listed in a CRL has been revoked.
-hAdditionalStore : [int] A handle to any additional store to search for supporting certificates and certificate trust lists (CTLs). This parameter can be NULL if no additional store is to be searched.
-pChainPara : [var] A pointer to a CERT_CHAIN_PARA structure that includes chain-building parameters.
-dwFlags : [int] Flag values that indicate special processing. This parameter can be a combination of one or more of the  following flags.
-pvReserved : [intptr] This parameter is reserved and must be NULL.
-ppChainContext : [var] The address of a pointer to the chain context created. When you have finished using the chain context, release the chain by calling the CertFreeCertificateChain function.
+hChainEngine : [intptr] 使用するチェーンエンジン (名前空間およびキャッシュ) のハンドル。hChainEngine が NULL の場合、既定のチェーンエンジン HCCE_CURRENT_USER が使用される。このパラメーターに HCCE_LOCAL_MACHINE を指定することもできる。
+pCertContext : [var] チェーンを構築する対象となる末端証明書 (エンド証明書) の CERT_CONTEXT へのポインター。この証明書コンテキストは最初の単純チェーンの 0 番目の要素になる。
+pTime : [var] チェーンを検証する対象の時刻を示す FILETIME 変数へのポインター。なお、この時刻は信頼リスト・失効・ルートストアの確認には影響しない。このパラメーターに NULL を渡すと、現在のシステム時刻が使用される。特定の証明書を信頼済みルートとして信頼するかは、現在のルートストアの状態に基づくもので、このパラメーターで渡した時刻におけるルートストアの状態ではない。失効については、証明書失効リスト (CRL) 自体が現在時刻で有効でなければならない。このパラメーターの値は、CRL に列挙された証明書が失効しているかどうかの判定に用いられる。
+hAdditionalStore : [int] サポート用の証明書および証明書信頼リスト (CTL) を検索する追加ストアへのハンドル。追加ストアを検索しない場合は NULL を指定できる。
+pChainPara : [var] チェーン構築パラメーターを含む CERT_CHAIN_PARA 構造体へのポインター。
+dwFlags : [int] 特殊な処理を指定するフラグ値。このパラメーターには以下のフラグを 1 つ以上組み合わせて指定できる。
+pvReserved : [intptr] このパラメーターは予約されており、NULL でなければならない。
+ppChainContext : [var] 作成されたチェーンコンテキストへのポインターのアドレス。チェーンコンテキストの使用を終えたら、CertFreeCertificateChain 関数を呼び出してチェーンを解放する。
 %inst
-Builds a certificate chain context starting from an end certificate
-and going back, if possible, to a trusted root certificate.
+末端証明書から出発し、可能であれば信頼されたルート証明書まで遡る証明書チェーンコンテキストを構築する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError.
+関数が成功した場合、0 以外 (TRUE) を返す。関数が失敗した場合、0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 [備考]
-When an application requests a certificate chain, the structure
-returned is in the form of a CERT_CHAIN_CONTEXT. This context
-contains an array of CERT_SIMPLE_CHAIN structures where each simple
-chain goes from an end certificate to a self-signed certificate. The
-chain context connects simple chains through trust lists. Each simple
-chain contains the chain of certificates, summary trust information
-about the chain, and trust information about each certificate element
-in the chain.
-This doc was truncated.
+アプリケーションが証明書チェーンを要求すると、返される構造は CERT_CHAIN_CONTEXT の形式となる。このコンテキストは
+CERT_SIMPLE_CHAIN
+構造体の配列を含み、各単純チェーンは末端証明書から自己署名証明書までをつなぐ。チェーンコンテキストは信頼リストを介して単純チェーンを接続する。各単純チェーンには証明書の連鎖、そのチェーンに関する要約された信頼情報、およびチェーン内の各証明書要素に関する信頼情報が含まれる。
+（以下省略）
 
 
 %index
 CertGetCertificateContextProperty
-Retrieves the information contained in an extended property of a certificate context.
+証明書コンテキストの拡張プロパティに含まれる情報を取得する。
 %group
 Win32 crypt32
 %prm
 pCertContext, dwPropId, pvData, pcbData
-pCertContext : [var] A pointer to the CERT_CONTEXT structure of the certificate that contains the property to be retrieved.
-dwPropId : [int] The property to be retrieved. Currently defined identifiers and the data type to be returned in pvData are listed in the following table.
-pvData : [intptr] A pointer to a buffer to receive the data as determined by dwPropId. Structures pointed to by members of a structure returned are also returned following the base structure. Therefore, the size contained in pcbData often exceeds the size of the base structure. This parameter can be NULL to set the size of the information for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbData : [var] A pointer to a DWORD value that specifies the size, in bytes, of the buffer pointed to by the pvData parameter. When the function returns, the DWORD value contains the number of bytes to be stored in the buffer. To obtain the required size of a buffer at run time, pass NULL for the pvData parameter, and set the value pointed to by this parameter to zero. If the pvData parameter is not NULL and the size specified in pcbData   is less than the number of bytes required to  contain the data, the function fails, GetLastError returns ERROR_MORE_DATA, and the required size is placed in the variable pointed to by the pcbData parameter. Note??When processing the data returned in the buffer, applications must use the actual size of the data returned. The actual size can be slightly smaller than the size of the buffer specified on input. (On input, buffer sizes are usually specified large enough to ensure that the largest possible output data fits in the buffer.) On output, the variable pointed to by this parameter is updated to reflect the actual size of the data copied to the buffer.
+pCertContext : [var] 取得対象のプロパティを含む証明書の CERT_CONTEXT 構造体へのポインター。
+dwPropId : [int] 取得するプロパティ。現在定義されている識別子と pvData に返されるデータ型を次の表に示す。
+pvData : [intptr] dwPropId によって決まるデータを受け取るバッファーへのポインター。返される構造体のメンバーが指す構造体も、基底構造体に続けて返される。したがって pcbData に含まれるサイズは基底構造体のサイズを超えることが多い。このパラメーターを NULL に設定すると、メモリ割り当て用に情報サイズを取得できる。詳細は「長さ不明のデータの取得」を参照。
+pcbData : [var] pvData パラメーターが指すバッファーのサイズをバイト単位で指定する DWORD 値へのポインター。関数から戻ると、DWORD 値はバッファーに格納されるバイト数を含む。実行時に必要なバッファーサイズを取得するには、pvData に NULL を渡し、このパラメーターが指す値を 0 に設定する。pvData が NULL でなく、pcbData に指定したサイズがデータを格納するのに必要なバイト数より小さい場合、関数は失敗し、GetLastError は ERROR_MORE_DATA を返し、必要なサイズが pcbData が指す変数に格納される。注意: バッファーに返されたデータを処理する際、アプリケーションは実際に返されたデータのサイズを使用しなければならない。実際のサイズは入力で指定したバッファーサイズよりわずかに小さいことがある。（入力時には通常、最大出力データが収まるように十分大きなサイズを指定する。）出力時には、このパラメーターが指す変数はバッファーにコピーされた実際のデータサイズを反映するよう更新される。
 %inst
-Retrieves the information contained in an extended property of a
-certificate context.
+証明書コンテキストの拡張プロパティに含まれる情報を取得する。
 
 [戻り値]
-If the function succeeds, the function returns TRUE. If the function
-fails, it returns FALSE. For extended error information, call
-GetLastError. Some possible error codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。考えられるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-Properties are not stored inside a certificate. Typically, they are
-associated with a certificate after the certificate response is
-received and then saved with the certificate in the store. For
-security reasons, we recommend that you validate property values
-before saving them and that you save only informational properties
-such as the CERT_FRIENDLY_NAME_PROP_ID value in user stores. All
-other property types should be saved in local computer stores. Your
-code can use a macro to evaluate the class of hash for a certificate
-context. For more information, see CertSetCertificateContextProperty.
+
+プロパティは証明書の内部には格納されない。通常、証明書応答を受け取った後に証明書に関連付けられ、ストアに証明書とともに保存される。セキュリティ上の理由から、プロパティ値は保存前に検証し、CERT_FRIENDLY_NAME_PROP_ID
+のような情報系プロパティのみをユーザーストアに保存することを推奨する。その他のプロパティ型はローカルコンピューターストアに保存すべきである。コードはマクロを用いて証明書コンテキストのハッシュクラスを評価できる。詳細は
+CertSetCertificateContextProperty を参照。
 
 
 %index
 CertGetEnhancedKeyUsage
-Returns information from the enhanced key usage (EKU) extension or the EKU extended property of a certificate.
+証明書の拡張キー使用法 (EKU) 拡張または EKU 拡張プロパティから情報を返す。
 %group
 Win32 crypt32
 %prm
 pCertContext, dwFlags, pUsage, pcbUsage
-pCertContext : [var] A pointer to a CERT_CONTEXT certificate context.
-dwFlags : [int] Indicates whether the function will report on extensions of a certificate, its extended properties, or both. If set to zero, the function returns the valid uses of a certificate based on both the EKU extension and the EKU extended property value of the certificate.
-pUsage : [var] A pointer to a CERT_ENHKEY_USAGE structure (CERT_ENHKEY_USAGE is an alternate typedef name for the CTL_USAGE structure) that receives the valid uses of the certificate.
-pcbUsage : [var] A pointer to a DWORD that specifies the size, in bytes, of the structure pointed to by pUsage. When the function returns, the DWORD contains the size, in bytes, of the structure.
+pCertContext : [var] CERT_CONTEXT 証明書コンテキストへのポインター。
+dwFlags : [int] 関数が証明書の拡張、その拡張プロパティ、またはその両方についてレポートするかを指定する。0 に設定すると、EKU 拡張と EKU 拡張プロパティ値の両方に基づいて証明書の有効な用途を返す。
+pUsage : [var] 証明書の有効な用途を受け取る CERT_ENHKEY_USAGE 構造体 (CERT_ENHKEY_USAGE は CTL_USAGE 構造体の別名 typedef) へのポインター。
+pcbUsage : [var] pUsage が指す構造体のサイズをバイト単位で指定する DWORD へのポインター。関数から戻ると、DWORD は構造体のサイズ (バイト単位) を含む。
 %inst
-Returns information from the enhanced key usage (EKU) extension or
-the EKU extended property of a certificate.
+証明書の拡張キー使用法 (EKU) 拡張または EKU 拡張プロパティから情報を返す。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE).
+関数が成功した場合、0 以外 (TRUE) を返す。関数が失敗した場合、0 (FALSE) を返す。
 
 [備考]
-If a certificate has an EKU extension, that extension lists object
-identifiers (OIDs) for valid uses of that certificate. In a Microsoft
-environment, a certificate might also have EKU extended properties
-that specify valid uses for the certificate.
-This doc was truncated.
+証明書が EKU 拡張を持つ場合、その拡張にはその証明書の有効な用途を表すオブジェクト識別子 (OID) が列挙される。Microsoft
+環境では、証明書に有効な用途を示す EKU 拡張プロパティが付加されていることもある。
+（以下省略）
 
 
 %index
 CertGetIntendedKeyUsage
-Acquires the intended key usage bytes from a certificate.
+証明書から意図されたキー用途バイトを取得する。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, pCertInfo, pbKeyUsage, cbKeyUsage
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pCertInfo : [var] A pointer to CERT_INFO structure of the specified certificate.
-pbKeyUsage : [var] A pointer to a buffer to receive the intended key usage. The following list shows currently defined values. These can be combined by using bitwise-OR operations.
-cbKeyUsage : [int] The size, in bytes, of the buffer pointed to by pbKeyUsage. Currently, the intended key usage occupies 1 or 2 bytes of data.
+dwCertEncodingType : [int] 使用するエンコーディング種別を指定する。次の例のように証明書エンコーディングとメッセージエンコーディングをビット単位 OR で組み合わせて指定することも常に許容される: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING 現在定義されているエンコーディング種別は次のとおり。
+pCertInfo : [var] 指定した証明書の CERT_INFO 構造体へのポインター。
+pbKeyUsage : [var] 意図されたキー用途を受け取るバッファーへのポインター。現在定義されている値を次に示す。これらはビット単位 OR 演算で組み合わせることができる。
+cbKeyUsage : [int] pbKeyUsage が指すバッファーのサイズ (バイト単位)。現在、意図されたキー用途は 1 ～ 2 バイトのデータで表される。
 %inst
-Acquires the intended key usage bytes from a certificate.
+証明書から意図されたキー用途バイトを取得する。
 
 [戻り値]
-If the certificate does not have any intended key usage bytes, FALSE
-is returned and pbKeyUsage is zeroed. Otherwise, TRUE is returned and
-up to cbKeyUsage number of bytes are copied into pbKeyUsage. Any
-remaining bytes not copied are zeroed.
-GetLastError returns zero if none of the required extensions is
-found. If the function fails, GetLastError may return an Abstract
-Syntax Notation One (ASN.1) encoding/decoding error. For information
-about these errors, see ASN.1 Encoding/Decoding Return Values.
+証明書に意図されたキー用途バイトが存在しない場合、FALSE が返され、pbKeyUsage は 0 クリアされる。存在する場合、TRUE
+が返され、cbKeyUsage バイトまでが pbKeyUsage にコピーされる。コピーされなかった残りのバイトは 0 クリアされる。
+必須の拡張が一つも見つからない場合、GetLastError は 0 を返す。関数が失敗した場合、GetLastError は ASN.1
+エンコード/デコードエラーを返すことがある。これらのエラーについては「ASN.1 エンコード/デコード戻り値」を参照。
 
 
 %index
 CertGetIssuerCertificateFromStore
-Retrieves the certificate context from the certificate store for the first or next issuer of the specified subject certificate. The new Certificate Chain Verification Functions are recommended instead of the use of this function.
+指定したサブジェクト証明書の最初または次の発行者について、証明書ストアから証明書コンテキストを取得する。本関数よりも新しい「証明書チェーン検証関数」の使用を推奨する。
 %group
 Win32 crypt32
 %prm
 hCertStore, pSubjectContext, pPrevIssuerContext, pdwFlags
-hCertStore : [int] Handle of a certificate store.
-pSubjectContext : [var] A pointer to a CERT_CONTEXT structure that contains the subject information. This parameter can be obtained from any certificate store or can be created by the calling application using the CertCreateCertificateContext function.
-pPrevIssuerContext : [var] A pointer to a CERT_CONTEXT structure that contains the issuer information. An issuer can have multiple certificates, especially when a validity period is about to change. This parameter must be NULL on the call to get the first issuer certificate. To get the next certificate for the issuer, set pPrevIssuerContext to the CERT_CONTEXT structure returned by the previous call. This function frees the CERT_CONTEXT referenced by non-NULL values of this parameter.
-pdwFlags : [var] The following flags enable verification checks on the returned certificate. They can be combined using a bitwise-OR operation to enable multiple verifications.
+hCertStore : [int] 証明書ストアのハンドル。
+pSubjectContext : [var] サブジェクト情報を含む CERT_CONTEXT 構造体へのポインター。このパラメーターは任意の証明書ストアから取得することも、呼び出し側アプリケーションが CertCreateCertificateContext 関数で作成することもできる。
+pPrevIssuerContext : [var] 発行者情報を含む CERT_CONTEXT 構造体へのポインター。特に有効期間が切り替わる時期には、発行者が複数の証明書を持つことがある。最初の発行者証明書を取得する呼び出しではこのパラメーターは NULL でなければならない。同じ発行者の次の証明書を取得するには、pPrevIssuerContext に前回の呼び出しで返された CERT_CONTEXT 構造体を設定する。このパラメーターが NULL でない値の CERT_CONTEXT は、本関数によって解放される。
+pdwFlags : [var] 以下のフラグにより、返される証明書に対する検証チェックを有効化できる。ビット単位 OR で組み合わせて複数の検証を有効化できる。
 %inst
-Retrieves the certificate context from the certificate store for the
-first or next issuer of the specified subject certificate. The new
-Certificate Chain Verification Functions are recommended instead of
-the use of this function.
+
+指定したサブジェクト証明書の最初または次の発行者について、証明書ストアから証明書コンテキストを取得する。本関数よりも新しい「証明書チェーン検証関数」の使用を推奨する。
 
 [戻り値]
-If the function succeeds, the return value is a pointer to a
-read-only issuer CERT_CONTEXT. If the function fails and the first or
-next issuer certificate is not found, the return value is NULL. Only
-the last returned CERT_CONTEXT structure must be freed by calling
-CertFreeCertificateContext. When the returned CERT_CONTEXT from one
-call to the function is supplied as the pPrevIssuerContext parameter
-on a subsequent call, the context is freed as part of the action of
-the function. For extended error information, call GetLastError. Some
-possible error codes follow.
-This doc was truncated.
+関数が成功した場合、戻り値は読み取り専用の発行者 CERT_CONTEXT
+へのポインターとなる。関数が失敗し、最初または次の発行者証明書が見つからない場合は、戻り値は NULL
+となる。CertFreeCertificateContext を呼び出して解放する必要があるのは最後に返された CERT_CONTEXT
+構造体のみである。ある呼び出しで返された CERT_CONTEXT を後続呼び出しで pPrevIssuerContext
+として渡した場合、そのコンテキストは関数の動作の一部として解放される。拡張エラー情報を取得するには GetLastError
+を呼び出す。考えられるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-The returned pointer is freed when passed as the pPrevIssuerContext
-parameter on a subsequent call to the function. Otherwise, the
-pointer must be explicitly freed by calling
-CertFreeCertificateContext. A pPrevIssuerContext that is not NULL is
-always freed by CertGetIssuerCertificateFromStore using a call to
-CertFreeCertificateContext, even if there is an error in the
-function.
-CertDuplicateCertificateContext can be called to make a duplicate of
-the issuer certificate. The hexadecimal values for dwFlags can be
-combined using a bitwise-OR operation to enable multiple
-verifications. For example, to enable both signature and time
-validity, the value 0x00000003 is passed in dwFlags on input. In this
-case, if CERT_STORE_SIGNATURE_FLAG verification succeeds but
-CERT_STORE_TIME_VALIDITY_FLAG verification fails, dwFlags returns as
-0x00000002 on output.
+返されるポインターは、後続呼び出しで pPrevIssuerContext
+として渡された時点で解放される。それ以外の場合、CertFreeCertificateContext
+を呼び出して明示的に解放しなければならない。関数内でエラーが発生した場合であっても、NULL 以外の pPrevIssuerContext
+は常に CertGetIssuerCertificateFromStore が CertFreeCertificateContext
+を呼び出して解放する。
+CertDuplicateCertificateContext を呼び出すと発行者証明書の複製を作成できる。dwFlags の 16
+進値はビット単位 OR で組み合わせて複数の検証を有効化できる。例えば署名と時刻有効性の両方を有効にするには、入力時に dwFlags に
+0x00000003 を渡す。この場合、CERT_STORE_SIGNATURE_FLAG 検証が成功し
+CERT_STORE_TIME_VALIDITY_FLAG 検証が失敗すると、出力時の dwFlags は 0x00000002 となる。
 
 
 %index
 CertGetNameStringW
-Obtains the subject or issuer name from a certificate CERT_CONTEXT structure and converts it to a null-terminated character string. (Unicode)
+証明書の CERT_CONTEXT 構造体からサブジェクト名または発行者名を取得し、NULL 終端文字列に変換する。(Unicode)
 %group
 Win32 crypt32
 %prm
 pCertContext, dwType, dwFlags, pvTypePara, pszNameString, cchNameString
-pCertContext : [var] A pointer to a CERT_CONTEXT certificate context that includes a subject and issuer name to be converted.
-dwType : [int] DWORD indicating how the name is to be found and how the output is to be formatted.
-dwFlags : [int] Indicates the type of processing needed.
-pvTypePara : [intptr] A pointer to either a DWORD containing the dwStrType or an object identifier (OID) specifying the name attribute. The type pointed to is determined by the value of dwType.
-pszNameString : [wstr] A pointer to an allocated buffer to receive the returned string. If pszNameString is not NULL and cchNameString is not zero, pszNameString is a null-terminated string. If CERT_NAME_SEARCH_ALL_NAMES_FLAG is specified in the dwFlags parameter and CERT_NAME_DNS_TYPE is set in the dwType parameter, the returned string will contain all of the DNS names that apply. Each string in the output string is null-terminated and the last string will be double null-terminated. If no DNS names are found, a single null-terminated empty string is returned.
-cchNameString : [int] Size, in characters, allocated for the returned string. The size must include the terminating NULL character.
+pCertContext : [var] 変換対象のサブジェクト名および発行者名を含む CERT_CONTEXT 証明書コンテキストへのポインター。
+dwType : [int] 名前を見つける方法と出力のフォーマット方法を示す DWORD。
+dwFlags : [int] 必要な処理の種類を示す。
+pvTypePara : [intptr] dwStrType を含む DWORD、または名前属性を指定するオブジェクト識別子 (OID) のいずれかへのポインター。指す型は dwType の値によって決まる。
+pszNameString : [wstr] 返される文字列を受け取るために確保したバッファーへのポインター。pszNameString が NULL でなく cchNameString が 0 でない場合、pszNameString は NULL 終端文字列となる。dwFlags に CERT_NAME_SEARCH_ALL_NAMES_FLAG が指定され、dwType に CERT_NAME_DNS_TYPE が指定されている場合、返される文字列は該当する全ての DNS 名を含む。出力文字列中の各文字列は NULL 終端され、最後の文字列は二重 NULL 終端される。DNS 名が見つからない場合、単一の NULL 終端された空文字列が返される。
+cchNameString : [int] 返される文字列のために確保した領域のサイズ (文字数)。このサイズには終端の NULL 文字を含める必要がある。
 %inst
-Obtains the subject or issuer name from a certificate CERT_CONTEXT
-structure and converts it to a null-terminated character string.
-(Unicode)
+証明書の CERT_CONTEXT 構造体からサブジェクト名または発行者名を取得し、NULL 終端文字列に変換する。(Unicode)
 
 [戻り値]
-Returns the number of characters converted, including the terminating
-zero character. If pszNameString is NULL or cchNameString is zero,
-returns the required size of the destination string (including the
-terminating NULL character). If the specified name type is not found,
-returns a null-terminated empty string with a returned character
-count of 1.
+終端の NULL 文字を含む、変換された文字数を返す。pszNameString が NULL または cchNameString が 0
+の場合、終端の NULL 文字を含む必要な出力文字列サイズを返す。指定した名前種別が見つからなかった場合、文字数 1 の NULL
+終端された空文字列を返す。
 
 [備考]
-> [!NOTE] > The wincrypt.h header defines CertGetNameString as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+> [!NOTE] > wincrypt.h ヘッダーでは CertGetNameString
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の定義に基づき、本関数の ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスをエンコーディング非依存でないコードと混在して使用すると、不整合によりコンパイルエラーや実行時エラーが発生することがある。詳細は
+[関数プロトタイプの規約](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 CertGetPublicKeyLength
-The CertGetPublicKeyLength function acquires the bit length of public/private keys from a public key BLOB.
+CertGetPublicKeyLength 関数は、公開鍵 BLOB から公開鍵/秘密鍵のビット長を取得する。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, pPublicKey
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pPublicKey : [var] A pointer to the public key BLOB containing the keys for which the length is being retrieved.
+dwCertEncodingType : [int] 使用するエンコーディング種別を指定する。次の例のように証明書エンコーディングとメッセージエンコーディングをビット単位 OR で組み合わせて指定することも常に許容される: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING 現在定義されているエンコーディング種別は次のとおり。
+pPublicKey : [var] 長さを取得したい鍵を含む公開鍵 BLOB へのポインター。
 %inst
-The CertGetPublicKeyLength function acquires the bit length of
-public/private keys from a public key BLOB.
+CertGetPublicKeyLength 関数は、公開鍵 BLOB から公開鍵/秘密鍵のビット長を取得する。
 
 [戻り値]
-Returns the length of the public/private keys in bits. If unable to
-determine the key's length, returns zero. Call GetLastError to see
-the reason for any failures.
+公開鍵/秘密鍵の長さをビット単位で返す。鍵の長さを判定できなかった場合は 0 を返す。失敗した理由は GetLastError
+を呼び出して確認する。
 
 
 %index
 CertGetServerOcspResponseContext
-Retrieves a non-blocking, time valid online certificate status protocol (OCSP) response context for the specified handle.
+指定したハンドルに対して、ノンブロッキングかつ時刻有効な OCSP (オンライン証明書状態プロトコル) 応答コンテキストを取得する。
 %group
 Win32 crypt32
 %prm
 hServerOcspResponse, dwFlags, pvReserved
-hServerOcspResponse : [intptr] The OCSP server response handle for which to retrieve a response context. This handle is returned by the CertOpenServerOcspResponse function.
-dwFlags : [int] This parameter is reserved for future use and must be zero.
-pvReserved : [intptr] This parameter is reserved for future use and must be NULL.
+hServerOcspResponse : [intptr] 応答コンテキストを取得する OCSP サーバー応答ハンドル。このハンドルは CertOpenServerOcspResponse 関数から返される。
+dwFlags : [int] このパラメーターは将来の使用のため予約されており、0 でなければならない。
+pvReserved : [intptr] このパラメーターは将来の使用のため予約されており、NULL でなければならない。
 %inst
-Retrieves a non-blocking, time valid online certificate status
-protocol (OCSP) response context for the specified handle.
+指定したハンドルに対して、ノンブロッキングかつ時刻有効な OCSP (オンライン証明書状態プロトコル) 応答コンテキストを取得する。
 
 [戻り値]
-If the function succeeds, it returns a pointer to a
-CERT_SERVER_OCSP_RESPONSE_CONTEXT structure. For a response to be
-time valid, the current time on the system hosting this function call
-must be less than the next update time for the certificate revocation
-list (CRL) context. When a time valid OCSP response is not available,
-this function returns NULL with the last error set to
-CRYPT_E_REVOCATION_OFFLINE. If the certificate is unknown by the OCSP
-responder, this function returns NULL with the last error set to
-CRYPT_E_REVOCATION_OFFLINE.
+関数が成功した場合、CERT_SERVER_OCSP_RESPONSE_CONTEXT
+構造体へのポインターを返す。応答が時刻的に有効であるためには、本関数呼び出しをホストしているシステムの現在時刻が、証明書失効リスト
+(CRL) コンテキストの次回更新時刻より前でなければならない。時刻的に有効な OCSP 応答が利用できない場合、本関数は NULL
+を返し、GetLastError は CRYPT_E_REVOCATION_OFFLINE を返す。OCSP
+レスポンダーにとって証明書が未知の場合も、本関数は NULL を返し、GetLastError は
+CRYPT_E_REVOCATION_OFFLINE を返す。
 
 [備考]
-If you use the CertGetServerOcspResponseContext function to create
-multiple references to an OCSP response context, you must call
-CertAddRefServerOcspResponseContext to increment the reference count
-for the CERT_SERVER_OCSP_RESPONSE_CONTEXT structure. When you have
-finished using the structure, you must free it by calling the
-CertFreeServerOcspResponseContext function.
+CertGetServerOcspResponseContext 関数を使用して OCSP
+応答コンテキストへの参照を複数作成する場合、CertAddRefServerOcspResponseContext を呼び出して
+CERT_SERVER_OCSP_RESPONSE_CONTEXT
+構造体の参照カウントを増やさなければならない。構造体の使用を終えたら、CertFreeServerOcspResponseContext
+関数を呼び出して解放する必要がある。
 
 
 %index
 CertGetStoreProperty
-Retrieves a store property.
+ストアプロパティを取得する。
 %group
 Win32 crypt32
 %prm
 hCertStore, dwPropId, pvData, pcbData
-hCertStore : [int] A handle of an open certificate store.
-dwPropId : [int] Indicates one of a range of store properties. There is one predefined store property, CERT_STORE_LOCALIZED_NAME_PROP_ID, the localized name of the store. User defined properties must be outside the current range of values for predefined context properties. Currently, user defined dwPropId values begin at 4,096.
-pvData : [intptr] A pointer to a buffer that receives the data as determined by dwPropId. For CERT_STORE_LOCALIZED_NAME_PROP_ID, this is the localized name of the store, and pvData points to a null-terminated Unicode wide-character string. For other dwPropIds, pvData points to an array of bytes. This parameter can be NULL to set the size of this information for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbData : [var] A pointer to a DWORD value that specifies the size, in bytes, of the pvData buffer. When the function returns, the DWORD value contains the number of bytes stored in the buffer.
+hCertStore : [int] オープン済み証明書ストアのハンドル。
+dwPropId : [int] 一連のストアプロパティのうち、いずれかを示す。事前定義されたストアプロパティは CERT_STORE_LOCALIZED_NAME_PROP_ID (ストアのローカライズ名) の一つである。ユーザー定義プロパティは事前定義のコンテキストプロパティの現在の値範囲の外でなければならない。現在、ユーザー定義の dwPropId 値は 4096 から開始する。
+pvData : [intptr] dwPropId によって決まるデータを受け取るバッファーへのポインター。CERT_STORE_LOCALIZED_NAME_PROP_ID の場合、これはストアのローカライズ名となり、pvData は NULL 終端の Unicode ワイド文字列を指す。その他の dwPropId の場合、pvData はバイト配列を指す。このパラメーターを NULL に設定すると、メモリ割り当て用に情報サイズを取得できる。詳細は「長さ不明のデータの取得」を参照。
+pcbData : [var] pvData バッファーのサイズをバイト単位で指定する DWORD 値へのポインター。関数から戻ると、DWORD 値はバッファーに格納されたバイト数を含む。
 %inst
-Retrieves a store property.
+ストアプロパティを取得する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero. If the
-function fails, it returns zero. If the store property is found, the
-function returns nonzero, pvData points to the property, and pcbData
-points to the length of the string. If the store property is not
-found, the function returns zero and GetLastError returns
-CRYPT_E_NOT_FOUND.
+関数が成功した場合、0 以外を返す。関数が失敗した場合、0 を返す。ストアプロパティが見つかった場合、関数は 0 以外を返し、pvData
+はプロパティを指し、pcbData は文字列長を指す。ストアプロパティが見つからない場合、関数は 0 を返し、GetLastError は
+CRYPT_E_NOT_FOUND を返す。
 
 [備考]
-Store property identifiers are properties applicable to an entire
-store. They are not properties on an individual certificate,
-certificate revocation list (CRL), or certificate trust list (CTL)
-context. Currently, no store properties are persisted. To find the
-localized name of a store, you can also use the
-CryptFindLocalizedName function.
+ストアプロパティ識別子はストア全体に適用されるプロパティである。個々の証明書、CRL、CTL
+コンテキストに対するプロパティではない。現在、ストアプロパティは永続化されない。ストアのローカライズ名を取得するには、CryptFindLocalizedName
+関数を使用することもできる。
 
 
 %index
 CertGetSubjectCertificateFromStore
-Returns from a certificate store a subject certificate context uniquely identified by its issuer and serial number.
+発行者とシリアル番号によって一意に識別されるサブジェクト証明書コンテキストを、証明書ストアから返す。
 %group
 Win32 crypt32
 %prm
 hCertStore, dwCertEncodingType, pCertId
-hCertStore : [int] A handle of a certificate store.
-dwCertEncodingType : [int] The type of encoding used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pCertId : [var] A pointer to a CERT_INFO structure. Only the Issuer and SerialNumber members are used.
+hCertStore : [int] 証明書ストアのハンドル。
+dwCertEncodingType : [int] 使用するエンコーディング種別。次の例のように証明書エンコーディングとメッセージエンコーディングをビット単位 OR で組み合わせて指定することも常に許容される: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING 現在定義されているエンコーディング種別は次のとおり。
+pCertId : [var] CERT_INFO 構造体へのポインター。Issuer メンバーと SerialNumber メンバーのみが使用される。
 %inst
-Returns from a certificate store a subject certificate context
-uniquely identified by its issuer and serial number.
+発行者とシリアル番号によって一意に識別されるサブジェクト証明書コンテキストを、証明書ストアから返す。
 
 [戻り値]
-If the function succeeds, the function returns a pointer to a
-read-only CERT_CONTEXT. The CERT_CONTEXT must be freed by calling
-CertFreeCertificateContext. The returned certificate might not be
-valid. Usually, it is verified when getting its issuer certificate
-(CertGetIssuerCertificateFromStore). For extended error information,
-call GetLastError. One possible error code is the following.
-This doc was truncated.
+関数が成功した場合、読み取り専用の CERT_CONTEXT へのポインターを返す。CERT_CONTEXT は
+CertFreeCertificateContext
+を呼び出して解放しなければならない。返される証明書は有効であるとは限らない。通常は発行者証明書を取得する際
+(CertGetIssuerCertificateFromStore) に検証される。拡張エラー情報を取得するには
+GetLastError を呼び出す。考えられるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-CertDuplicateCertificateContext can be called to make a duplicate
-certificate.
+CertDuplicateCertificateContext を呼び出すと、証明書の複製を作成できる。
 
 
 %index
 CertGetValidUsages
-Returns an array of usages that consist of the intersection of the valid usages for all certificates in an array of certificates.
+証明書配列内の全証明書の有効用途の積集合となる用途の配列を返す。
 %group
 Win32 crypt32
 %prm
 cCerts, rghCerts, cNumOIDs, rghOIDs, pcbOIDs
-cCerts : [int] The number of certificates in the array to be checked.
-rghCerts : [var] An array of certificates to be checked for valid usage.
-cNumOIDs : [var] The number of valid usages found as the intersection of the valid usages of all certificates in the array. If all of the certificates are valid for all usages, cNumOIDs is set to negative one (?1).
-rghOIDs : [var] An array of the object identifiers (OIDs) of the valid usages that are shared by all of the certificates in the rghCerts array. This parameter can be NULL to set the size of this structure for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbOIDs : [var] A pointer to a DWORD value that specifies the size, in bytes, of the rghOIDs array and the strings pointed to. When the function returns, the DWORD value contains the number of bytes needed for the array.
+cCerts : [int] 確認対象の配列に含まれる証明書数。
+rghCerts : [var] 有効用途を確認する対象の証明書配列。
+cNumOIDs : [var] 配列中の全証明書の有効用途の積集合として得られた有効用途の数。配列中の全証明書が全用途で有効な場合、cNumOIDs は -1 に設定される。
+rghOIDs : [var] rghCerts 配列中の全証明書で共有される有効用途のオブジェクト識別子 (OID) の配列。このパラメーターを NULL に設定すると、メモリ割り当て用にこの構造体のサイズを取得できる。詳細は「長さ不明のデータの取得」を参照。
+pcbOIDs : [var] rghOIDs 配列および指し示される文字列のサイズをバイト単位で指定する DWORD 値へのポインター。関数から戻ると、DWORD 値は配列に必要なバイト数を含む。
 %inst
-Returns an array of usages that consist of the intersection of the
-valid usages for all certificates in an array of certificates.
+証明書配列内の全証明書の有効用途の積集合となる用途の配列を返す。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero. For extended error
-information, call GetLastError.
+関数が成功した場合、戻り値は 0 以外となる。関数が失敗した場合、戻り値は 0 となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 
 %index
 CertIsRDNAttrsInCertificateName
-The CertIsRDNAttrsInCertificateName function compares the attributes in the certificate name with the specified CERT_RDN to determine whether all attributes are included there.
+CertIsRDNAttrsInCertificateName 関数は、証明書名の属性と指定した CERT_RDN を比較し、すべての属性がその中に含まれているかを判定する。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, dwFlags, pCertName, pRDN
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-dwFlags : [int] CERT_UNICODE_IS_RDN_ATTRS_FLAG must be set if the pRDN was initialized with Unicode strings as in CryptEncodeObject with lpszStructType set to X509_UNICODE_NAME. CERT_CASE_INSENSITIVE_IS_RDN_ATTRS_FLAG is set to do a case insensitive match. Otherwise, an exact, case sensitive match is done.
-pCertName : [var] A pointer to a CRYPT_INTEGER_BLOB that contains the encoded subject or issuer name.
-pRDN : [var] Array of CERT_RDN structures that contain the attributes to be found in the name. The CERT_RDN_ATTR member of the CERT_RDN structure behaves according to the following rules.
+dwCertEncodingType : [int] 使用するエンコーディング種別を指定する。次の例のように証明書エンコーディングとメッセージエンコーディングをビット単位 OR で組み合わせて指定することも常に許容される: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING 現在定義されているエンコーディング種別は次のとおり。
+dwFlags : [int] pRDN が lpszStructType を X509_UNICODE_NAME に設定した CryptEncodeObject のように Unicode 文字列で初期化されている場合、CERT_UNICODE_IS_RDN_ATTRS_FLAG を設定しなければならない。大文字小文字を区別しない照合を行うには CERT_CASE_INSENSITIVE_IS_RDN_ATTRS_FLAG を設定する。それ以外の場合は、完全一致かつ大文字小文字を区別する照合が行われる。
+pCertName : [var] エンコードされたサブジェクト名または発行者名を含む CRYPT_INTEGER_BLOB へのポインター。
+pRDN : [var] 名前の中で検索する属性を含む CERT_RDN 構造体の配列。CERT_RDN 構造体の CERT_RDN_ATTR メンバーは次の規則に従って動作する。
 %inst
-The CertIsRDNAttrsInCertificateName function compares the attributes
-in the certificate name with the specified CERT_RDN to determine
-whether all attributes are included there.
+CertIsRDNAttrsInCertificateName 関数は、証明書名の属性と指定した CERT_RDN
+を比較し、すべての属性がその中に含まれているかを判定する。
 
 [戻り値]
-If the function succeeds and all of the RDN values in the specified
-CERT_RDN are in the certificate name, the return value is nonzero
-(TRUE). If the function fails, or if there are RDN values in the
-specified CERT_RDN that are not in the certificate name, the return
-value is zero (FALSE). For extended error information, call
-GetLastError. The following table lists some possible error codes.
-This doc was truncated.
+関数が成功し、指定した CERT_RDN 内のすべての RDN 値が証明書名に含まれている場合、戻り値は 0 以外 (TRUE)
+となる。関数が失敗した場合、または指定した CERT_RDN 内の RDN 値のうち証明書名に含まれないものがある場合、戻り値は 0
+(FALSE) となる。拡張エラー情報を取得するには GetLastError を呼び出す。考えられるエラーコードを次の表に示す。
+（以下省略）
 
 [備考]
-Currently, only an exact, case-sensitive match is supported.
+現在、完全一致かつ大文字小文字を区別する照合のみがサポートされている。
 
 
 %index
 CertIsStrongHashToSign
-Determines whether the specified hash algorithm and the public key in the signing certificate can be used to perform strong signing.
+指定したハッシュアルゴリズムと署名証明書の公開鍵が、強い署名 (strong signing) に使用可能であるかを判定する。
 %group
 Win32 crypt32
 %prm
 pStrongSignPara, pwszCNGHashAlgid, pSigningCert
-pStrongSignPara : [var] Pointer to a CERT_STRONG_SIGN_PARA structure that contains information about supported signing and hashing algorithms.
-pwszCNGHashAlgid : [wstr] Pointer to a Unicode string that contains the name of the hashing algorithm. The following algorithms are supported:
-pSigningCert : [var] Pointer to a CERT_CONTEXT structure that  contains the signing certificate. The public key algorithm in the signing certificate is checked for strength. The public key (asymmetric) algorithm is used for signing. The following signature algorithms are supported:
+pStrongSignPara : [var] サポートされる署名およびハッシュアルゴリズムに関する情報を含む CERT_STRONG_SIGN_PARA 構造体へのポインター。
+pwszCNGHashAlgid : [wstr] ハッシュアルゴリズム名を含む Unicode 文字列へのポインター。サポートされているアルゴリズムは次のとおり。
+pSigningCert : [var] 署名証明書を含む CERT_CONTEXT 構造体へのポインター。署名証明書内の公開鍵アルゴリズムの強度がチェックされる。公開鍵 (非対称) アルゴリズムは署名に使用される。サポートされている署名アルゴリズムは次のとおり。
 %inst
-Determines whether the specified hash algorithm and the public key in
-the signing certificate can be used to perform strong signing.
+指定したハッシュアルゴリズムと署名証明書の公開鍵が、強い署名 (strong signing) に使用可能であるかを判定する。
 
 [戻り値]
-If the function succeeds, the function returns TRUE. If the function
-fails, it returns FALSE. For extended error information, call
-GetLastError. This function has the following error codes.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。この関数は次のエラーコードを返す。
+（以下省略）
 
 
 %index
 CertIsValidCRLForCertificate
-The CertIsValidCRLForCertificate function checks a CRL to find out if it is a CRL that would include a specific certificate if that certificate were revoked.
+CertIsValidCRLForCertificate 関数は、特定の証明書が失効していた場合にそれを含み得る CRL かどうかを確認する。
 %group
 Win32 crypt32
 %prm
 pCert, pCrl, dwFlags, pvReserved
-pCert : [var] A pointer to a certificate context.
-pCrl : [var] A pointer to a CRL. The function checks this CRL to determine whether it could contain the certificate context pointed to by pCert. The function does not look for the certificate in the CRL.
-dwFlags : [int] Currently not used and must be set to zero.
-pvReserved : [intptr] Currently not used and must be set to NULL.
+pCert : [var] 証明書コンテキストへのポインター。
+pCrl : [var] CRL へのポインター。関数はこの CRL を調べ、pCert が指す証明書コンテキストを含み得るかを判定する。CRL 内に実際にその証明書が存在するかどうかは確認しない。
+dwFlags : [int] 現在は使用されておらず、0 に設定しなければならない。
+pvReserved : [intptr] 現在は使用されておらず、NULL に設定しなければならない。
 %inst
-The CertIsValidCRLForCertificate function checks a CRL to find out if
-it is a CRL that would include a specific certificate if that
-certificate were revoked.
+CertIsValidCRLForCertificate 関数は、特定の証明書が失効していた場合にそれを含み得る CRL
+かどうかを確認する。
 
 [戻り値]
-The function returns TRUE if the CRL is a valid CRL to be searched
-for the specific certificate. It returns FALSE if the CRL is not a
-valid CRL for searching for the certificate.
+関数は、指定の証明書を検索する対象として CRL が有効な場合は TRUE を、有効でない場合は FALSE を返す。
 
 [備考]
-For the CRL to be valid for the certificate, the
-CertIsValidCRLForCertificate function does not require the CRL to be
-issued by the same certification authority (CA) as the issuer of the
-certificate.
+CRL が証明書に対して有効であるために、CertIsValidCRLForCertificate 関数は、CRL
+が証明書の発行者と同じ認証局 (CA) により発行されていることを要求しない。
 
 
 %index
@@ -2197,131 +1913,111 @@ pwszFileName : [wstr]
 
 %index
 CertNameToStrW
-Converts an encoded name in a CERT_NAME_BLOB structure to a null-terminated character string. (Unicode)
+CERT_NAME_BLOB 構造体内のエンコード済み名前を NULL 終端文字列に変換する。(Unicode)
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, pName, dwStrType, psz, csz
-dwCertEncodingType : [int] The certificate encoding type   that was used to encode the name. The message encoding type identifier, contained in the high WORD of this value, is ignored by this function.
-pName : [var] A pointer to the CERT_NAME_BLOB structure to be converted.
-dwStrType : [int] This parameter specifies the format of the output string. This parameter also specifies other options for the contents of the string.
-psz : [wstr] A pointer to a character buffer that receives the returned string. The size of this buffer is specified in the csz parameter.
-csz : [int] The size, in characters, of the psz buffer. The size must include the terminating null character.
+dwCertEncodingType : [int] 名前のエンコードに使用された証明書エンコーディング種別。この値の上位 WORD に含まれるメッセージエンコーディング種別識別子は、本関数では無視される。
+pName : [var] 変換対象の CERT_NAME_BLOB 構造体へのポインター。
+dwStrType : [int] このパラメーターは出力文字列のフォーマットを指定する。また、文字列の内容に関する他のオプションも指定する。
+psz : [wstr] 返される文字列を受け取る文字バッファーへのポインター。このバッファーのサイズは csz パラメーターで指定する。
+csz : [int] psz バッファーのサイズ (文字数)。サイズには終端の NULL 文字を含める必要がある。
 %inst
-Converts an encoded name in a CERT_NAME_BLOB structure to a
-null-terminated character string. (Unicode)
+CERT_NAME_BLOB 構造体内のエンコード済み名前を NULL 終端文字列に変換する。(Unicode)
 
 [戻り値]
-Returns the number of characters converted, including the terminating
-null character. If psz is NULL or csz is zero, returns the required
-size of the destination string.
+終端の NULL 文字を含む変換された文字数を返す。psz が NULL または csz が 0 の場合、必要な出力文字列サイズを返す。
 
 [備考]
-If psz is not NULL and csz is not zero, the returned psz is always a
-null-terminated string. We recommend against using multicomponent
-RDNs (e.g., CN=James+O=Microsoft) to avoid possible ordering problems
-when decoding occurs. Instead, consider using single valued RDNs
-(e.g., CN=James, O=Microsoft). The string representation follows the
-distinguished name specifications in RFC 1779 except for the
-deviations described in the following list.
-This doc was truncated.
+psz が NULL でなく csz が 0 でない場合、返される psz は常に NULL
+終端文字列となる。デコード時の順序問題を避けるため、マルチコンポーネント RDN (例: CN=James+O=Microsoft)
+の使用は推奨されない。代わりに単一値 RDN (例: CN=James, O=Microsoft) の使用を検討すること。文字列表現は
+RFC 1779 の識別名仕様に従うが、次の一覧に記載した点が異なる。
+（以下省略）
 
 
 %index
 CertOIDToAlgId
-Use the CryptFindOIDInfo function instead of this function because ALG_ID identifiers are no longer supported in CNG.
+ALG_ID 識別子は CNG でサポートされなくなったため、本関数の代わりに CryptFindOIDInfo 関数を使用すること。
 %group
 Win32 crypt32
 %prm
 pszObjId
-pszObjId : [str] Pointer to the ASN.1 OID to be converted to an algorithm identifier.
+pszObjId : [str] アルゴリズム識別子に変換する ASN.1 OID へのポインター。
 %inst
-Use the CryptFindOIDInfo function instead of this function because
-ALG_ID identifiers are no longer supported in CNG.
+ALG_ID 識別子は CNG でサポートされなくなったため、本関数の代わりに CryptFindOIDInfo 関数を使用すること。
 
 [戻り値]
-Returns the ALG_ID that corresponds to the object identifier (OID) or
-zero if no ALG_ID corresponds to the OID.
+オブジェクト識別子 (OID) に対応する ALG_ID を返す。OID に対応する ALG_ID がない場合は 0 を返す。
 
 
 %index
 CertOpenServerOcspResponse
-Opens a handle to an online certificate status protocol (OCSP) response associated with a server certificate chain.
+サーバー証明書チェーンに関連付けられた OCSP (オンライン証明書状態プロトコル) 応答へのハンドルを開く。
 %group
 Win32 crypt32
 %prm
 pChainContext, dwFlags, pOpenPara
-pChainContext : [var] The address of a CERT_CHAIN_CONTEXT structure that contains the certificate chain.
-dwFlags : [int] This parameter is not used and must be zero.
-pOpenPara : [var] This parameter is not used and must be NULL.
+pChainContext : [var] 証明書チェーンを含む CERT_CHAIN_CONTEXT 構造体のアドレス。
+dwFlags : [int] このパラメーターは使用されておらず、0 でなければならない。
+pOpenPara : [var] このパラメーターは使用されておらず、NULL でなければならない。
 %inst
-Opens a handle to an online certificate status protocol (OCSP)
-response associated with a server certificate chain.
+サーバー証明書チェーンに関連付けられた OCSP (オンライン証明書状態プロトコル) 応答へのハンドルを開く。
 
 [戻り値]
-Returns a handle to the OCSP response associated with a server
-certificate chain if successful; otherwise, NULL. This handle must be
-passed to the CertCloseServerOcspResponse function when it is no
-longer needed. For extended error information, call GetLastError.
-Possible error codes returned by the GetLastError function include,
-but are not limited to, the following.
-This doc was truncated.
+成功した場合、サーバー証明書チェーンに関連付けられた OCSP 応答へのハンドルを返す。失敗した場合、NULL
+を返す。このハンドルが不要になったら CertCloseServerOcspResponse
+関数に渡さなければならない。拡張エラー情報を取得するには GetLastError を呼び出す。GetLastError
+関数が返す可能性のあるエラーコードには、以下を含むが、これらに限定されない。
+（以下省略）
 
 [備考]
-The CertOpenServerOcspResponse function tries to retrieve an initial
-OCSP response before it returns. It blocks its process thread during
-the retrieval. The CertOpenServerOcspResponse function creates a
-background thread that prefetches time-valid OCSP responses. The
-CertOpenServerOcspResponse function increments the reference count
-for the chain context represented by the pChainContext parameter.
-When you have finished using the chain context, close the returned
-handle by calling the CertCloseServerOcspResponse function. The
-CertOpenServerOcspResponse function initializes configuration
-settings used by the following functions:
-This doc was truncated.
+CertOpenServerOcspResponse 関数は、戻る前に初期 OCSP
+応答の取得を試みる。その取得の間、プロセススレッドはブロックされる。CertOpenServerOcspResponse
+関数は、時刻的に有効な OCSP
+応答を事前取得するバックグラウンドスレッドを作成する。CertOpenServerOcspResponse 関数は
+pChainContext
+パラメーターが表すチェーンコンテキストの参照カウントを増やす。チェーンコンテキストの使用を終えたら、CertCloseServerOcspResponse
+関数を呼び出して返されたハンドルを閉じる。CertOpenServerOcspResponse
+関数は次の関数で使用する構成設定を初期化する。
+（以下省略）
 
 
 %index
 CertOpenStore
-Opens a certificate store by using a specified store provider type.
+指定したストアプロバイダー種別を使用して証明書ストアを開く。
 %group
 Win32 crypt32
 %prm
 lpszStoreProvider, dwEncodingType, hCryptProv, dwFlags, pvPara
-lpszStoreProvider : [str] A pointer to a null-terminated ANSI string that contains the store provider type. The following values  represent the predefined store types. The store provider type determines the contents of the pvPara parameter and the use and meaning of the high word of the dwFlags parameter. Additional store providers can be installed or registered by using the CryptInstallOIDFunctionAddress or CryptRegisterOIDFunction function. For more information about adding store providers, see Extending CertOpenStore Functionality.
-dwEncodingType : [int] Specifies the certificate encoding type and message encoding type. Encoding is used only when the dwSaveAs parameter of  the CertSaveStore function contains CERT_STORE_SAVE_AS_PKCS7. Otherwise, the dwMsgAndCertEncodingType parameter is not used. This parameter is only applicable  when the CERT_STORE_PROV_MSG, CERT_STORE_PROV_PKCS7, or CERT_STORE_PROV_FILENAME provider type is specified in the lpszStoreProvider parameter. For all other provider types, this parameter is unused and should be set to zero.
-hCryptProv : [int] This parameter is not used and should be set to NULL. Windows Server?2003 and Windows?XP:??A handle to a cryptographic provider. Passing NULL for this parameter causes an appropriate, default provider to be used. Using the default provider is recommended. The default or specified cryptographic provider is used for all store functions that verify the signature of a subject certificate or CRL.This parameter's data type is HCRYPTPROV.
-dwFlags : [int] These values consist of high-word and low-word values combined by using a bitwise-OR operation.
-pvPara : [intptr] A 32-bit value that can contain additional information for this function. The contents of this parameter depends on the value of the lpszStoreProvider and other parameters.
+lpszStoreProvider : [str] ストアプロバイダー種別を含む NULL 終端 ANSI 文字列へのポインター。次の値が事前定義されたストア種別を表す。ストアプロバイダー種別により、pvPara パラメーターの内容、および dwFlags パラメーターの上位ワードの用途と意味が決まる。追加のストアプロバイダーは CryptInstallOIDFunctionAddress または CryptRegisterOIDFunction 関数でインストール/登録できる。ストアプロバイダーの追加について詳しくは「CertOpenStore 機能の拡張」を参照。
+dwEncodingType : [int] 証明書エンコーディング種別およびメッセージエンコーディング種別を指定する。このエンコーディングは、CertSaveStore 関数の dwSaveAs パラメーターに CERT_STORE_SAVE_AS_PKCS7 を指定した場合にのみ使用される。それ以外の場合、dwMsgAndCertEncodingType パラメーターは使用されない。このパラメーターは lpszStoreProvider パラメーターに CERT_STORE_PROV_MSG、CERT_STORE_PROV_PKCS7、または CERT_STORE_PROV_FILENAME プロバイダー種別を指定した場合にのみ有効である。それ以外のプロバイダー種別では使用されず、0 に設定すべきである。
+hCryptProv : [int] このパラメーターは使用されておらず、NULL に設定すべきである。Windows Server 2003 および Windows XP: 暗号化プロバイダーへのハンドル。このパラメーターに NULL を渡すと、適切な既定のプロバイダーが使用される。既定のプロバイダーの使用を推奨する。既定または指定された暗号化プロバイダーは、サブジェクト証明書または CRL の署名を検証するすべてのストア関数で使用される。このパラメーターのデータ型は HCRYPTPROV である。
+dwFlags : [int] これらの値は、上位ワードと下位ワードの値をビット単位 OR で組み合わせて構成する。
+pvPara : [intptr] 本関数に対する追加情報を含めることができる 32 ビット値。このパラメーターの内容は lpszStoreProvider などの他のパラメーターの値に依存する。
 %inst
-Opens a certificate store by using a specified store provider type.
+指定したストアプロバイダー種別を使用して証明書ストアを開く。
 
 [戻り値]
-If the function succeeds, the function returns a handle to the
-certificate store. When you have finished using the store, release
-the handle by calling the CertCloseStore function. If the function
-fails, it returns NULL. For extended error information, call
-GetLastError.
-Note CreateFile, ReadFile, or registry errors might be propagated and
-their error codes returned. CertOpenStore has a single error code of
-its own, the ERROR_FILE_NOT_FOUND code, which indicates that the
-function was unable to find the provider specified by the
-lpszStoreProvider parameter.
+関数が成功した場合、証明書ストアへのハンドルを返す。ストアの使用を終えたら、CertCloseStore
+関数を呼び出してハンドルを解放する。関数が失敗した場合、NULL を返す。拡張エラー情報を取得するには GetLastError
+を呼び出す。
+注意:
+CreateFile、ReadFile、またはレジストリのエラーが伝播し、そのエラーコードが返されることがある。CertOpenStore
+固有のエラーコードとして ERROR_FILE_NOT_FOUND があり、これは lpszStoreProvider
+パラメーターで指定したプロバイダーが見つからなかったことを示す。
 
 [備考]
-A system store is a collection that consists of one or more physical
-sibling stores. For each system store, there are predefined physical
-sibling stores. After opening a system store such as "My" at
-CERT_SYSTEM_STORE_CURRENT_USER, CertOpenStore is called to open all
-of the physical stores in the system store collection. Each of these
-physical stores is added to the system store collection by using the
-CertAddStoreToCollection function. All certificates, CRLs, and CTLs
-in those physical stores are available through the logical system
-store collection. Note The order of the certificate context may not
-be preserved within the store. To access a specific certificate you
-must iterate across the certificates in the store. The following
-system store locations can be opened remotely:
-This doc was truncated.
+システムストアは 1
+つ以上の物理的な兄弟ストアから成るコレクションである。各システムストアには事前定義された物理兄弟ストアがある。CERT_SYSTEM_STORE_CURRENT_USER
+の "My" などのシステムストアを開いた後、CertOpenStore
+が呼び出され、システムストアコレクション内のすべての物理ストアが開かれる。これらの物理ストアは
+CertAddStoreToCollection
+関数を用いてシステムストアコレクションに追加される。これらの物理ストア内のすべての証明書、CRL、CTL
+は、論理的なシステムストアコレクションを通じて利用可能となる。注意:
+証明書コンテキストの順序はストア内で保持されない場合がある。特定の証明書にアクセスするには、ストア内の証明書を反復処理しなければならない。次のシステムストアの場所はリモートから開くことができる。
+（以下省略）
 
 
 %index
@@ -2349,778 +2045,684 @@ CertCloseStore で閉じる。自動移行されるストアについては Certificate Store Migrat
 
 %index
 CertRDNValueToStrW
-The CertRDNValueToStr function converts a name in a CERT_RDN_VALUE_BLOB to a null-terminated character string. (Unicode)
+CertRDNValueToStr 関数は、CERT_RDN_VALUE_BLOB 内の名前を NULL 終端文字列に変換する。(Unicode)
 %group
 Win32 crypt32
 %prm
 dwValueType, pValue, psz, csz
-dwValueType : [int] Indicates the kind of RDN value to be converted.
-pValue : [var] A pointer to an CERT_RDN_VALUE_BLOB of a type appropriate for the dwValueType.
-psz : [wstr] A pointer to a buffer to receive the returned string.
-csz : [int] Size, in characters, allocated for the returned string. The size must include the terminating NULL character.
+dwValueType : [int] 変換する RDN 値の種類を示す。
+pValue : [var] dwValueType に対応する型の CERT_RDN_VALUE_BLOB へのポインター。
+psz : [wstr] 返される文字列を受け取るバッファーへのポインター。
+csz : [int] 返される文字列のために確保した領域のサイズ (文字数)。サイズには終端の NULL 文字を含める必要がある。
 %inst
-The CertRDNValueToStr function converts a name in a
-CERT_RDN_VALUE_BLOB to a null-terminated character string. (Unicode)
+CertRDNValueToStr 関数は、CERT_RDN_VALUE_BLOB 内の名前を NULL
+終端文字列に変換する。(Unicode)
 
 [戻り値]
-Returns the number of characters converted, including the terminating
-NULL character. If psz is NULL or csz is zero, returns the required
-size of the destination string.
+終端の NULL 文字を含む変換された文字数を返す。psz が NULL または csz が 0 の場合、必要な出力文字列サイズを返す。
 
 [備考]
-If psz is not NULL and csz is not zero, the returned psz is always a
-possibly empty null-terminated string.
-> [!NOTE] > The wincrypt.h header defines CertRDNValueToStr as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+psz が NULL でなく csz が 0 でない場合、返される psz は常に (場合によっては空の) NULL 終端文字列となる。
+> [!NOTE] > wincrypt.h ヘッダーでは CertRDNValueToStr
+をエイリアスとして定義しており、UNICODE プリプロセッサ定数の定義に基づき、本関数の ANSI 版または Unicode
+版を自動的に選択する。エンコーディング非依存のエイリアスをエンコーディング非依存でないコードと混在して使用すると、不整合によりコンパイルエラーや実行時エラーが発生することがある。詳細は
+[関数プロトタイプの規約](/windows/win32/intl/conventions-for-function-prototypes)
+を参照。
 
 
 %index
 CertRegisterPhysicalStore
-Adds a physical store to a registry system store collection.
+レジストリのシステムストアコレクションに物理ストアを追加する。
 %group
 Win32 crypt32
 %prm
 pvSystemStore, dwFlags, pwszStoreName, pStoreInfo, pvReserved
-pvSystemStore : [intptr] The system store collection to which the physical store is added. This parameter points either to a null-terminated Unicode string or to a CERT_SYSTEM_STORE_RELOCATE_PARA structure. For information about using the structure and on adding a ServiceName or ComputerName before the system store name string, see CertRegisterSystemStore.
-dwFlags : [int] The high word of the dwFlags parameter specifies the location of the system store. For information about defined high-word flags and appending ServiceName, UserNames, and ComputerNames to the end of the system store name, see CertRegisterSystemStore.
-pwszStoreName : [wstr] A pointer to a Unicode string that names the physical store to be added to the system store collection. To remove a physical store from the system store collection, call the CertUnregisterPhysicalStore function.
-pStoreInfo : [var] A pointer to a CERT_PHYSICAL_STORE_INFO structure that provides basic information about the physical store.
-pvReserved : [intptr] Reserved for future use and must be set to NULL.
+pvSystemStore : [intptr] 物理ストアを追加するシステムストアコレクション。このパラメーターは NULL 終端の Unicode 文字列または CERT_SYSTEM_STORE_RELOCATE_PARA 構造体のいずれかを指す。構造体の使用方法、およびシステムストア名文字列の前への ServiceName や ComputerName の付加方法については、CertRegisterSystemStore を参照。
+dwFlags : [int] dwFlags パラメーターの上位ワードはシステムストアの場所を指定する。定義されている上位ワードフラグ、およびシステムストア名の末尾への ServiceName、UserNames、ComputerNames の付加方法については、CertRegisterSystemStore を参照。
+pwszStoreName : [wstr] システムストアコレクションに追加する物理ストアの名前を示す Unicode 文字列へのポインター。システムストアコレクションから物理ストアを削除するには、CertUnregisterPhysicalStore 関数を呼び出す。
+pStoreInfo : [var] 物理ストアに関する基本情報を提供する CERT_PHYSICAL_STORE_INFO 構造体へのポインター。
+pvReserved : [intptr] 将来の使用のため予約されており、NULL に設定しなければならない。
 %inst
-Adds a physical store to a registry system store collection.
+レジストリのシステムストアコレクションに物理ストアを追加する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero. If the
-function fails, it returns zero.
+関数が成功した場合、0 以外を返す。関数が失敗した場合、0 を返す。
 
 
 %index
 CertRegisterSystemStore
-Registers a system store.
+システムストアを登録する。
 %group
 Win32 crypt32
 %prm
 pvSystemStore, dwFlags, pStoreInfo, pvReserved
-pvSystemStore : [intptr] Identifies the system store to be registered. If CERT_SYSTEM_STORE_RELOCATE_FLAG is set in the dwFlags parameter, pvSystemStore points to a CERT_SYSTEM_STORE_RELOCATE_PARA structure. Otherwise, it points to a null-terminated Unicode string that names the system store.
-dwFlags : [int] The high word of the dwFlags parameter is used to specify the location of the system store.
-pStoreInfo : [var] Reserved for future use and must be set to NULL.
-pvReserved : [intptr] Reserved for future use and must be set to NULL.
+pvSystemStore : [intptr] 登録するシステムストアを識別する。dwFlags に CERT_SYSTEM_STORE_RELOCATE_FLAG が設定されている場合、pvSystemStore は CERT_SYSTEM_STORE_RELOCATE_PARA 構造体を指す。それ以外の場合、システムストア名の NULL 終端 Unicode 文字列を指す。
+dwFlags : [int] dwFlags パラメーターの上位ワードはシステムストアの場所を指定するために使用する。
+pStoreInfo : [var] 将来の使用のため予約されており、NULL に設定しなければならない。
+pvReserved : [intptr] 将来の使用のため予約されており、NULL に設定しなければならない。
 %inst
-Registers a system store.
+システムストアを登録する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero. If the
-function fails, it returns zero.
+関数が成功した場合、0 以外を返す。関数が失敗した場合、0 を返す。
 
 [備考]
-To unregister a system store that has been registered by this
-function, call CertUnregisterSystemStore.
+この関数で登録したシステムストアを登録解除するには、CertUnregisterSystemStore を呼び出す。
 
 
 %index
 CertRemoveEnhancedKeyUsageIdentifier
-The CertRemoveEnhancedKeyUsageIdentifier function removes a usage identifier object identifier (OID) from the enhanced key usage (EKU) extended property of the certificate.
+CertRemoveEnhancedKeyUsageIdentifier 関数は、証明書の拡張キー使用法 (EKU) 拡張プロパティから用途識別子オブジェクト識別子 (OID) を削除する。
 %group
 Win32 crypt32
 %prm
 pCertContext, pszUsageIdentifier
-pCertContext : [var] A pointer to a CERT_CONTEXT of the certificate for which the usage identifier OID is to be removed.
-pszUsageIdentifier : [str] A pointer to the usage identifier OID to remove.
+pCertContext : [var] 用途識別子 OID を削除する対象の証明書の CERT_CONTEXT へのポインター。
+pszUsageIdentifier : [str] 削除する用途識別子 OID へのポインター。
 %inst
-The CertRemoveEnhancedKeyUsageIdentifier function removes a usage
-identifier object identifier (OID) from the enhanced key usage (EKU)
-extended property of the certificate.
+CertRemoveEnhancedKeyUsageIdentifier 関数は、証明書の拡張キー使用法 (EKU)
+拡張プロパティから用途識別子オブジェクト識別子 (OID) を削除する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError.
+関数が成功した場合、0 以外 (TRUE) を返す。関数が失敗した場合、0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 
 %index
 CertRemoveStoreFromCollection
-Removes a sibling certificate store from a collection store.
+コレクションストアから兄弟証明書ストアを削除する。
 %group
 Win32 crypt32
 %prm
 hCollectionStore, hSiblingStore
-hCollectionStore : [int] A handle of the collection certificate store.
-hSiblingStore : [int] Handle of the sibling certificate store to be removed from the collection store.
+hCollectionStore : [int] コレクション証明書ストアのハンドル。
+hSiblingStore : [int] コレクションストアから削除する兄弟証明書ストアのハンドル。
 %inst
-Removes a sibling certificate store from a collection store.
+コレクションストアから兄弟証明書ストアを削除する。
 
 
 %index
 CertResyncCertificateChainEngine
-Resyncs the certificate chain engine, which resynchronizes the stores the store's engine and updates the engine caches.
+証明書チェーンエンジンを再同期し、そのエンジンが参照するストアを再同期し、エンジンキャッシュを更新する。
 %group
 Win32 crypt32
 %prm
 hChainEngine
-hChainEngine : [intptr] The chain engine to resynchronize.
+hChainEngine : [intptr] 再同期するチェーンエンジン。
 %inst
-Resyncs the certificate chain engine, which resynchronizes the stores
-the store's engine and updates the engine caches.
+証明書チェーンエンジンを再同期し、そのエンジンが参照するストアを再同期し、エンジンキャッシュを更新する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero. If the
-function fails, it returns zero. For extended error information, call
-GetLastError.
+関数が成功した場合、0 以外を返す。関数が失敗した場合、0 を返す。拡張エラー情報を取得するには GetLastError を呼び出す。
 
 
 %index
 CertRetrieveLogoOrBiometricInfo
-Performs a URL retrieval of logo or biometric information specified in either the szOID_LOGOTYPE_EXT or szOID_BIOMETRIC_EXT certificate extension.
+szOID_LOGOTYPE_EXT または szOID_BIOMETRIC_EXT 証明書拡張で指定されたロゴまたは生体情報を URL 経由で取得する。
 %group
 Win32 crypt32
 %prm
 pCertContext, lpszLogoOrBiometricType, dwRetrievalFlags, dwTimeout, dwFlags, pvReserved, ppbData, pcbData, ppwszMimeType
-pCertContext : [var] The address of a CERT_CONTEXT structure that contains the certificate.
-lpszLogoOrBiometricType : [str] The address of a null-terminated ANSI string that contains an object identifier (OID) string that identifies the type of information to retrieve.
-dwRetrievalFlags : [int] A set of flags that specify how the information should be retrieved. This parameter is passed as the dwRetrievalFlags in the CryptRetrieveObjectByUrl function.
-dwTimeout : [int] The maximum amount of time, in milliseconds, to wait for the retrieval.
-dwFlags : [int] This parameter is not used and must be zero.
-pvReserved : [intptr] This parameter is not used and must be NULL.
-ppbData : [var] The address of a BYTE pointer that receives the logotype or biometric data. This memory must be freed when it is no longer needed by passing this pointer to the CryptMemFree function.
-pcbData : [var] The address of a DWORD variable that receives the number of bytes in the ppbData buffer.
-ppwszMimeType : [var] The address of a pointer to a null-terminated Unicode string that receives the Multipurpose Internet Mail Extensions (MIME) type of the data. This parameter can be NULL if this information is not needed. This memory must be freed when it is no longer needed by passing this pointer to the CryptMemFree function. This address always receives NULL for biometric types. You must always ensure that this parameter contains a valid memory address before attempting to access the memory.
+pCertContext : [var] 証明書を含む CERT_CONTEXT 構造体のアドレス。
+lpszLogoOrBiometricType : [str] 取得する情報の種類を識別するオブジェクト識別子 (OID) 文字列を含む NULL 終端 ANSI 文字列のアドレス。
+dwRetrievalFlags : [int] 情報取得方法を指定するフラグの集合。このパラメーターは CryptRetrieveObjectByUrl 関数の dwRetrievalFlags として渡される。
+dwTimeout : [int] 取得を待機する最大時間 (ミリ秒単位)。
+dwFlags : [int] このパラメーターは使用されておらず、0 でなければならない。
+pvReserved : [intptr] このパラメーターは使用されておらず、NULL でなければならない。
+ppbData : [var] ロゴタイプまたは生体データを受け取る BYTE ポインターのアドレス。不要になったら、このポインターを CryptMemFree 関数に渡してメモリを解放しなければならない。
+pcbData : [var] ppbData バッファーのバイト数を受け取る DWORD 変数のアドレス。
+ppwszMimeType : [var] データの MIME (Multipurpose Internet Mail Extensions) 種別を受け取る NULL 終端 Unicode 文字列へのポインターのアドレス。この情報が不要な場合は NULL を指定できる。不要になったら、このポインターを CryptMemFree 関数に渡してメモリを解放しなければならない。生体種別の場合、このアドレスには常に NULL が格納される。メモリにアクセスする前に、このパラメーターに有効なメモリアドレスが入っていることを必ず確認すること。
 %inst
-Performs a URL retrieval of logo or biometric information specified
-in either the szOID_LOGOTYPE_EXT or szOID_BIOMETRIC_EXT certificate
-extension.
+szOID_LOGOTYPE_EXT または szOID_BIOMETRIC_EXT 証明書拡張で指定されたロゴまたは生体情報を URL
+経由で取得する。
 
 [戻り値]
-Returns nonzero if successful or zero otherwise. For extended error
-information, call GetLastError. Possible error codes returned by the
-GetLastError function include, but are not limited to, the following.
-This doc was truncated.
+成功した場合は 0 以外を、それ以外の場合は 0 を返す。拡張エラー情報を取得するには GetLastError
+を呼び出す。GetLastError 関数が返す可能性のあるエラーコードには、以下を含むが、これらに限定されない。
+（以下省略）
 
 
 %index
 CertSaveStore
-Saves the certificate store to a file or to a memory BLOB.
+証明書ストアをファイルまたはメモリ BLOB に保存する。
 %group
 Win32 crypt32
 %prm
 hCertStore, dwEncodingType, dwSaveAs, dwSaveTo, pvSaveToPara, dwFlags
-hCertStore : [int] The handle of the certificate store to be saved.
-dwEncodingType : [int] Specifies the certificate encoding type and message encoding type. Encoding is used only when dwSaveAs contains CERT_STORE_SAVE_AS_PKCS7. Otherwise, the dwMsgAndCertEncodingType parameter is not used.
-dwSaveAs : [int] Specifies how to save the certificate store.
-dwSaveTo : [int] Specifies where and how to save the certificate store. The contents of this parameter determines the format of the pvSaveToPara parameter.
-pvSaveToPara : [intptr] A pointer that represents where the store should be saved to. The contents of this parameter depends on the value of the dwSaveTo parameter.
-dwFlags : [int] This parameter is reserved for future use and must be set to zero.
+hCertStore : [int] 保存する証明書ストアのハンドル。
+dwEncodingType : [int] 証明書エンコーディング種別およびメッセージエンコーディング種別を指定する。このエンコーディングは dwSaveAs に CERT_STORE_SAVE_AS_PKCS7 を指定した場合にのみ使用される。それ以外の場合、dwMsgAndCertEncodingType パラメーターは使用されない。
+dwSaveAs : [int] 証明書ストアの保存形式を指定する。
+dwSaveTo : [int] 証明書ストアの保存先と保存方法を指定する。このパラメーターの内容により pvSaveToPara パラメーターの形式が決まる。
+pvSaveToPara : [intptr] ストアの保存先を表すポインター。このパラメーターの内容は dwSaveTo パラメーターの値に依存する。
+dwFlags : [int] このパラメーターは将来の使用のため予約されており、0 に設定しなければならない。
 %inst
-Saves the certificate store to a file or to a memory BLOB.
+証明書ストアをファイルまたはメモリ BLOB に保存する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero. If the
-function fails, it returns zero. For extended error information, call
-GetLastError. Note that CreateFile or WriteFile errors can be
-propagated to this function. One possible error code is
-CRYPT_E_FILE_ERROR which indicates that an error occurred while
-writing to the file.
+関数が成功した場合、0 以外を返す。関数が失敗した場合、0 を返す。拡張エラー情報を取得するには GetLastError
+を呼び出す。CreateFile や WriteFile のエラーが本関数に伝播することがある。考えられるエラーコードの一つに
+CRYPT_E_FILE_ERROR があり、これはファイルへの書き込み中にエラーが発生したことを示す。
 
 
 %index
 CertSelectCertificateChains
-Retrieves certificate chains based on specified selection criteria.
+指定した選択条件に基づいて証明書チェーンを取得する。
 %group
 Win32 crypt32
 %prm
 pSelectionContext, dwFlags, pChainParameters, cCriteria, rgpCriteria, hStore, pcSelection, pprgpSelection
-pSelectionContext : [var] A pointer to the GUID of the certificate selection scenario to use for this call.
-dwFlags : [int] Flags for controlling the certificate selection process. This parameter can be a combination of zero or more of the following flags:
-pChainParameters : [var] A pointer to a CERT_SELECT_CHAIN_PARA structure to specify parameters for chain building. If NULL, default parameters will be used. The pChainPara member of the CERT_SELECT_CHAIN_PARA structure points to a CERT_CHAIN_PARA structure that can be used to enable strong signing.
-cCriteria : [int] The number of elements in the array pointed to by the rgpCriteria array.
-rgpCriteria : [var] A pointer to an array of CERT_SELECT_CRITERIA structures that define the selection criteria. If this parameter is set to NULL, the value of the cCriteria parameter must be zero.
-hStore : [int] The handle to a store from which to select the certificates.
-pcSelection : [var] A pointer to a DWORD value to receive the number of elements in the array pointed to by the pprgpSelection parameter.
-pprgpSelection : [var] A pointer to a pointer to a location to receive an array of CERT_CHAIN_CONTEXT structure. The CertSelectCertificateChains function only returns certificate chains that match all the selection criteria. The entries in the array are ordered by quality, i.e. the chain with the highest quality is the first entry. Storage for the array is allocated by the CertSelectCertificateChains function. To free the allocated memory you must first release each individual chain context in the array by calling the CertFreeCertificateChain function. Then you must  free the memory by calling the CertFreeCertificateChainList function.
+pSelectionContext : [var] この呼び出しで使用する証明書選択シナリオの GUID へのポインター。
+dwFlags : [int] 証明書選択処理を制御するフラグ。このパラメーターには次のフラグを 0 個以上組み合わせて指定できる。
+pChainParameters : [var] チェーン構築パラメーターを指定する CERT_SELECT_CHAIN_PARA 構造体へのポインター。NULL の場合、既定のパラメーターが使用される。CERT_SELECT_CHAIN_PARA 構造体の pChainPara メンバーは、強い署名を有効化するために使用できる CERT_CHAIN_PARA 構造体を指す。
+cCriteria : [int] rgpCriteria 配列の要素数。
+rgpCriteria : [var] 選択条件を定義する CERT_SELECT_CRITERIA 構造体の配列へのポインター。このパラメーターを NULL に設定する場合、cCriteria パラメーターの値は 0 でなければならない。
+hStore : [int] 証明書を選択する元となるストアのハンドル。
+pcSelection : [var] pprgpSelection パラメーターが指す配列の要素数を受け取る DWORD 値へのポインター。
+pprgpSelection : [var] CERT_CHAIN_CONTEXT 構造体の配列を受け取る場所へのポインターのポインター。CertSelectCertificateChains 関数は、すべての選択条件に合致する証明書チェーンのみを返す。配列の要素は品質順に並び、品質の最も高いチェーンが先頭となる。配列用のメモリは CertSelectCertificateChains 関数が確保する。割り当てたメモリを解放するには、まず配列内の各チェーンコンテキストを CertFreeCertificateChain 関数で解放し、その後 CertFreeCertificateChainList 関数でメモリを解放しなければならない。
 %inst
-Retrieves certificate chains based on specified selection criteria.
+指定した選択条件に基づいて証明書チェーンを取得する。
 
 [戻り値]
-If the function succeeds, the function returns TRUE. If the function
-fails, it returns zero (FALSE). For extended error information, call
-the GetLastError function.
-Note If the selection does not yield any results, the
-CertSelectCertificateChains function returns TRUE, but the value
-pointed to by pcSelection parameter is set to zero.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は 0 (FALSE) となる。拡張エラー情報を取得するには
+GetLastError 関数を呼び出す。
+注意: 選択結果が 0 件となった場合でも、CertSelectCertificateChains 関数は TRUE
+を返すが、pcSelection パラメーターが指す値は 0 に設定される。
 
 [備考]
-Selection criteria can be specified through either the dwFlags
-parameter, through the rgpCriteria parameter, or through both
-parameters. If no selection criteria are specified, the function
-succeeds and returns certificate chains for all certificates in the
-store specified by the hStore parameter.
-Certificate chains that are selected are ordered based on the
-following preference logic:
-This doc was truncated.
+選択条件は dwFlags パラメーター、rgpCriteria
+パラメーター、あるいはその両方で指定できる。選択条件を指定しない場合、関数は成功し、hStore
+パラメーターで指定したストア内の全証明書についての証明書チェーンを返す。
+選択された証明書チェーンは、次の優先順位ロジックに基づいて並べられる。
+（以下省略）
 
 
 %index
 CertSerializeCRLStoreElement
-The CertSerializeCRLStoreElement function serializes an encoded certificate revocation list (CRL) context and the encoded representation of its properties.
+CertSerializeCRLStoreElement 関数は、エンコードされた CRL (証明書失効リスト) コンテキストと、そのプロパティのエンコード表現をシリアル化する。
 %group
 Win32 crypt32
 %prm
 pCrlContext, dwFlags, pbElement, pcbElement
-pCrlContext : [var] A pointer to the CRL_CONTEXT structure being serialized.
-dwFlags : [int] Reserved for future use and must be zero.
-pbElement : [var] A pointer to a buffer to receive the serialized output, including the encoded CRL, and possibly its properties.
-pcbElement : [var] A pointer to a DWORD value specifying the size, in bytes, of the buffer pointed to by the pbElement parameter. When the function returns, the DWORD value contains the number of bytes stored in the buffer.
+pCrlContext : [var] シリアル化する CRL_CONTEXT 構造体へのポインター。
+dwFlags : [int] 将来の使用のため予約されており、0 でなければならない。
+pbElement : [var] シリアル化された出力 (エンコード済み CRL およびそのプロパティを含む可能性あり) を受け取るバッファーへのポインター。
+pcbElement : [var] pbElement パラメーターが指すバッファーのサイズをバイト単位で指定する DWORD 値へのポインター。関数から戻ると、DWORD 値はバッファーに格納されたバイト数を含む。
 %inst
-The CertSerializeCRLStoreElement function serializes an encoded
-certificate revocation list (CRL) context and the encoded
-representation of its properties.
+CertSerializeCRLStoreElement 関数は、エンコードされた CRL (証明書失効リスト)
+コンテキストと、そのプロパティのエンコード表現をシリアル化する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 
 %index
 CertSerializeCTLStoreElement
-The CertSerializeCTLStoreElement function serializes an encoded certificate trust list (CTL) context and the encoded representation of its properties. The result can be persisted to storage so that the CTL and properties can be retrieved later.
+CertSerializeCTLStoreElement 関数は、エンコードされた CTL (証明書信頼リスト) コンテキストと、そのプロパティのエンコード表現をシリアル化する。結果はストレージに永続化でき、後で CTL とプロパティを取得できる。
 %group
 Win32 crypt32
 %prm
 pCtlContext, dwFlags, pbElement, pcbElement
-pCtlContext : [var] A pointer to the CTL_CONTEXT structure being serialized.
-dwFlags : [int] Reserved for future use and must be zero.
-pbElement : [var] A pointer to a buffer that receives the serialized output, including the encoded CTL and, possibly, its properties.
-pcbElement : [var] A pointer to a DWORD value that specifies the size, in bytes, of the buffer that is pointed to by the pbElement parameter. When the function returns the DWORD value contains the number of bytes stored in the buffer.
+pCtlContext : [var] シリアル化する CTL_CONTEXT 構造体へのポインター。
+dwFlags : [int] 将来の使用のため予約されており、0 でなければならない。
+pbElement : [var] シリアル化された出力 (エンコード済み CTL およびそのプロパティを含む可能性あり) を受け取るバッファーへのポインター。
+pcbElement : [var] pbElement パラメーターが指すバッファーのサイズをバイト単位で指定する DWORD 値へのポインター。関数から戻ると、DWORD 値はバッファーに格納されたバイト数を含む。
 %inst
-The CertSerializeCTLStoreElement function serializes an encoded
-certificate trust list (CTL) context and the encoded representation
-of its properties. The result can be persisted to storage so that the
-CTL and properties can be retrieved later.
+CertSerializeCTLStoreElement 関数は、エンコードされた CTL (証明書信頼リスト)
+コンテキストと、そのプロパティのエンコード表現をシリアル化する。結果はストレージに永続化でき、後で CTL とプロパティを取得できる。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 
 %index
 CertSerializeCertificateStoreElement
-The CertSerializeCertificateStoreElement function serializes a certificate context's encoded certificate and its encoded properties. The result can be persisted to storage so that the certificate and properties can be retrieved at a later time.
+CertSerializeCertificateStoreElement 関数は、証明書コンテキストのエンコード済み証明書とそのエンコード済みプロパティをシリアル化する。結果はストレージに永続化でき、後で証明書とプロパティを取得できる。
 %group
 Win32 crypt32
 %prm
 pCertContext, dwFlags, pbElement, pcbElement
-pCertContext : [var] A pointer to the CERT_CONTEXT to be serialized.
-dwFlags : [int] Reserved for future use and must be zero.
-pbElement : [var] A pointer to a buffer that receives the serialized output, including the encoded certificate and possibly its properties.
-pcbElement : [var] A pointer to a DWORD value specifying the size, in bytes, of the buffer pointed to by the pbElement parameter. When the function returns, DWORD value contains the number of bytes stored in the buffer.
+pCertContext : [var] シリアル化する CERT_CONTEXT へのポインター。
+dwFlags : [int] 将来の使用のため予約されており、0 でなければならない。
+pbElement : [var] シリアル化された出力 (エンコード済み証明書およびそのプロパティを含む可能性あり) を受け取るバッファーへのポインター。
+pcbElement : [var] pbElement パラメーターが指すバッファーのサイズをバイト単位で指定する DWORD 値へのポインター。関数から戻ると、DWORD 値はバッファーに格納されたバイト数を含む。
 %inst
-The CertSerializeCertificateStoreElement function serializes a
-certificate context's encoded certificate and its encoded properties.
-The result can be persisted to storage so that the certificate and
-properties can be retrieved at a later time.
+CertSerializeCertificateStoreElement
+関数は、証明書コンテキストのエンコード済み証明書とそのエンコード済みプロパティをシリアル化する。結果はストレージに永続化でき、後で証明書とプロパティを取得できる。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 
 %index
 CertSetCRLContextProperty
-Sets an extended property for the specified certificate revocation list (CRL) context.
+指定した証明書失効リスト (CRL) コンテキストに拡張プロパティを設定する。
 %group
 Win32 crypt32
 %prm
 pCrlContext, dwPropId, dwFlags, pvData
-pCrlContext : [var] A pointer to the CRL_CONTEXT structure.
-dwPropId : [int] Identifies the property to be set. The value of dwPropId determines the type and content of the pvData parameter. Currently defined identifiers and the data type to be returned in pvData are listed in the following table.
-dwFlags : [int] CERT_STORE_NO_CRYPT_RELEASE_FLAG can be set for the CERT_KEY_PROV_HANDLE_PROP_ID or CERT_KEY_CONTEXT_PROP_ID dwPropId properties.
-pvData : [intptr] A pointer to a data type that is determined by the value passed in dwPropId.
+pCrlContext : [var] CRL_CONTEXT 構造体へのポインター。
+dwPropId : [int] 設定するプロパティを識別する。dwPropId の値により pvData パラメーターの型と内容が決まる。現在定義されている識別子と pvData に返されるデータ型を次の表に示す。
+dwFlags : [int] CERT_KEY_PROV_HANDLE_PROP_ID または CERT_KEY_CONTEXT_PROP_ID の dwPropId プロパティに対しては CERT_STORE_NO_CRYPT_RELEASE_FLAG を設定できる。
+pvData : [intptr] dwPropId に渡される値によって決まる型のデータへのポインター。
 %inst
-Sets an extended property for the specified certificate revocation
-list (CRL) context.
+指定した証明書失効リスト (CRL) コンテキストに拡張プロパティを設定する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError. One possible error code is the following.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。考えられるエラーコードの一つを以下に示す。
+（以下省略）
 
 [備考]
-If a property already exists, its old value is replaced.
+プロパティが既に存在する場合、その古い値は置き換えられる。
 
 
 %index
 CertSetCTLContextProperty
-Sets an extended property for the specified certificate trust list (CTL) context.
+指定した証明書信頼リスト (CTL) コンテキストに拡張プロパティを設定する。
 %group
 Win32 crypt32
 %prm
 pCtlContext, dwPropId, dwFlags, pvData
-pCtlContext : [var] A pointer to the CTL_CONTEXT structure.
-dwPropId : [int] Identifies the property to be set. The value of dwPropId determines the type and content of the pvData parameter. Currently defined identifiers and their related pvData types are as follows.
-dwFlags : [int] CERT_STORE_NO_CRYPT_RELEASE_FLAG can be set for the CERT_KEY_PROV_HANDLE_PROP_ID or CERT_KEY_CONTEXT_PROP_ID dwPropId properties.
-pvData : [intptr] A pointer to a data type that is determined by the value passed in dwPropId.
+pCtlContext : [var] CTL_CONTEXT 構造体へのポインター。
+dwPropId : [int] 設定するプロパティを識別する。dwPropId の値により pvData パラメーターの型と内容が決まる。現在定義されている識別子と関連する pvData の型は次のとおり。
+dwFlags : [int] CERT_KEY_PROV_HANDLE_PROP_ID または CERT_KEY_CONTEXT_PROP_ID の dwPropId プロパティに対しては CERT_STORE_NO_CRYPT_RELEASE_FLAG を設定できる。
+pvData : [intptr] dwPropId に渡される値によって決まる型のデータへのポインター。
 %inst
-Sets an extended property for the specified certificate trust list
-(CTL) context.
+指定した証明書信頼リスト (CTL) コンテキストに拡張プロパティを設定する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError. One possible error code is the following.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。考えられるエラーコードの一つを以下に示す。
+（以下省略）
 
 [備考]
-If a property already exists, its old value is replaced.
+プロパティが既に存在する場合、その古い値は置き換えられる。
 
 
 %index
 CertSetCertificateContextPropertiesFromCTLEntry
-Sets the properties on the certificate context by using the attributes in the specified certificate trust list (CTL) entry.
+指定した証明書信頼リスト (CTL) エントリー内の属性を使用して、証明書コンテキストにプロパティを設定する。
 %group
 Win32 crypt32
 %prm
 pCertContext, pCtlEntry, dwFlags
-pCertContext : [var] A pointer to the CERT_CONTEXT whose attributes are to be set.
-pCtlEntry : [var] A pointer to the CTL_ENTRY structure used to set the attributes on the certificate.
-dwFlags : [int] A DWORD. This parameter can be set to CERT_SET_PROPERTY_IGNORE_PERSIST_ERROR_FLAG to ignore any persisted error flags.
+pCertContext : [var] 属性を設定する対象の CERT_CONTEXT へのポインター。
+pCtlEntry : [var] 証明書に属性を設定するために使用する CTL_ENTRY 構造体へのポインター。
+dwFlags : [int] DWORD 値。このパラメーターに CERT_SET_PROPERTY_IGNORE_PERSIST_ERROR_FLAG を指定すると、永続化された任意のエラーフラグを無視する。
 %inst
-Sets the properties on the certificate context by using the
-attributes in the specified certificate trust list (CTL) entry.
+指定した証明書信頼リスト (CTL) エントリー内の属性を使用して、証明書コンテキストにプロパティを設定する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero. If the
-function fails, it returns zero. For extended error information, call
-GetLastError.
+関数が成功した場合、0 以外を返す。関数が失敗した場合、0 を返す。拡張エラー情報を取得するには GetLastError を呼び出す。
 
 
 %index
 CertSetCertificateContextProperty
-Sets an extended property for a specified certificate context.
+指定した証明書コンテキストに拡張プロパティを設定する。
 %group
 Win32 crypt32
 %prm
 pCertContext, dwPropId, dwFlags, pvData
-pCertContext : [var] A pointer to a CERT_CONTEXT structure.
-dwPropId : [int] The property to be set. The value of dwPropId determines the type and content of the pvData parameter. Currently defined identifiers and their related pvData types are as follows. Note??CRYPT_HASH_BLOB and CRYPT_DATA_BLOB are described in the CRYPT_INTEGER_BLOB topic.
-dwFlags : [int] CERT_STORE_NO_CRYPT_RELEASE_FLAG can be set for the CERT_KEY_PROV_HANDLE_PROP_ID or CERT_KEY_CONTEXT_PROP_ID dwPropId properties. If the CERT_SET_PROPERTY_IGNORE_PERSIST_ERROR_FLAG value is set, any provider-write errors are ignored and the cached context's properties are always set. If CERT_SET_PROPERTY_INHIBIT_PERSIST_FLAG is set, any context property set is not persisted.
-pvData : [intptr] A pointer to a data type determined by the value of dwPropId. Note??For any dwPropId, setting pvData to NULL deletes the property.
+pCertContext : [var] CERT_CONTEXT 構造体へのポインター。
+dwPropId : [int] 設定するプロパティ。dwPropId の値により pvData パラメーターの型と内容が決まる。現在定義されている識別子と関連する pvData の型は次のとおり。注意: CRYPT_HASH_BLOB と CRYPT_DATA_BLOB は CRYPT_INTEGER_BLOB の項で説明されている。
+dwFlags : [int] CERT_KEY_PROV_HANDLE_PROP_ID または CERT_KEY_CONTEXT_PROP_ID の dwPropId プロパティに対しては CERT_STORE_NO_CRYPT_RELEASE_FLAG を設定できる。CERT_SET_PROPERTY_IGNORE_PERSIST_ERROR_FLAG を設定した場合、プロバイダー側の書き込みエラーは無視され、キャッシュされたコンテキストのプロパティは常に設定される。CERT_SET_PROPERTY_INHIBIT_PERSIST_FLAG を設定した場合、設定したコンテキストプロパティは永続化されない。
+pvData : [intptr] dwPropId の値によって決まる型のデータへのポインター。注意: いずれの dwPropId についても、pvData を NULL に設定するとそのプロパティは削除される。
 %inst
-Sets an extended property for a specified certificate context.
+指定した証明書コンテキストに拡張プロパティを設定する。
 
 [戻り値]
-If the function succeeds, the function returns TRUE. If the function
-fails, the function returns FALSE. For extended error information,
-call GetLastError. One possible error code is the following.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。拡張エラー情報を取得するには
+GetLastError を呼び出す。考えられるエラーコードの一つを以下に示す。
+（以下省略）
 
 [備考]
-If a property already exists, its old value is replaced. Your code
-can use a macro to evaluate the class of hash for a certificate
-context. The Wincrypt.h header defines the following macros for this
-purpose. These macros are used internally by the
-CertSetCertificateContextProperty function. IS_CERT_HASH_PROP_ID(X)
-IS_PUBKEY_HASH_PROP_ID(X) IS_CHAIN_HASH_PROP_ID(X) Each macro takes
-the dwPropId (X) value as input and evaluates to a Boolean value. The
-following table shows the dwPropId values that evaluate to TRUE for
-each macro.
-This doc was truncated.
+
+プロパティが既に存在する場合、その古い値は置き換えられる。コードはマクロを用いて証明書コンテキストのハッシュクラスを評価できる。Wincrypt.h
+ヘッダーはこの目的のため次のマクロを定義している。これらは CertSetCertificateContextProperty
+関数の内部で使用される。IS_CERT_HASH_PROP_ID(X) IS_PUBKEY_HASH_PROP_ID(X)
+IS_CHAIN_HASH_PROP_ID(X) 各マクロは dwPropId の値 (X)
+を入力として受け取り、真偽値として評価される。各マクロに対して TRUE と評価される dwPropId の値を次の表に示す。
+（以下省略）
 
 
 %index
 CertSetEnhancedKeyUsage
-The CertSetEnhancedKeyUsage function sets the enhanced key usage (EKU) property for the certificate.
+CertSetEnhancedKeyUsage 関数は、証明書の拡張キー使用法 (EKU) プロパティを設定する。
 %group
 Win32 crypt32
 %prm
 pCertContext, pUsage
-pCertContext : [var] A pointer to the CERT_CONTEXT of the specified certificate.
-pUsage : [var] Pointer to a CERT_ENHKEY_USAGE structure (equivalent to a CTL_USAGE structure) that contains an array of EKU object identifiers (OIDs) to be set as extended properties of the certificate.
+pCertContext : [var] 指定した証明書の CERT_CONTEXT へのポインター。
+pUsage : [var] 証明書の拡張プロパティとして設定する EKU オブジェクト識別子 (OID) の配列を含む CERT_ENHKEY_USAGE 構造体 (CTL_USAGE 構造体と等価) へのポインター。
 %inst
-The CertSetEnhancedKeyUsage function sets the enhanced key usage
-(EKU) property for the certificate.
+CertSetEnhancedKeyUsage 関数は、証明書の拡張キー使用法 (EKU) プロパティを設定する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError.
+関数が成功した場合、0 以外 (TRUE) を返す。関数が失敗した場合、0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 
 %index
 CertSetStoreProperty
-The CertSetStoreProperty function sets a store property.
+CertSetStoreProperty 関数は、ストアプロパティを設定する。
 %group
 Win32 crypt32
 %prm
 hCertStore, dwPropId, dwFlags, pvData
-hCertStore : [int] Handle for the certificate store.
-dwPropId : [int] Indicates one of a range of store properties. Values for user-defined properties must be outside the current range of predefined context property values. Currently, user-defined dwPropId values begin at 4,096. There is one predefined store property, CERT_STORE_LOCALIZED_NAME_PROP_ID, the localized name of the store.
-dwFlags : [int] Reserved for future use and must be zero.
-pvData : [intptr] The type definition for pvData depends on the dwPropId value. If dwPropId is CERT_STORE_LOCALIZED_NAME_PROP_ID, pvData points to a CRYPT_DATA_BLOB structure. The pbData member of that structure is a pointer to a null-terminated Unicode character string. The cbData member of that structure is a DWORD value holding the length of the string.
+hCertStore : [int] 証明書ストアのハンドル。
+dwPropId : [int] 一連のストアプロパティのうち、いずれかを示す。ユーザー定義プロパティの値は、事前定義のコンテキストプロパティの現在の値範囲の外でなければならない。現在、ユーザー定義の dwPropId 値は 4096 から開始する。事前定義されたストアプロパティは CERT_STORE_LOCALIZED_NAME_PROP_ID (ストアのローカライズ名) の一つである。
+dwFlags : [int] 将来の使用のため予約されており、0 でなければならない。
+pvData : [intptr] pvData の型定義は dwPropId の値に依存する。dwPropId が CERT_STORE_LOCALIZED_NAME_PROP_ID の場合、pvData は CRYPT_DATA_BLOB 構造体を指す。その構造体の pbData メンバーは NULL 終端 Unicode 文字列へのポインターであり、cbData メンバーは文字列長を保持する DWORD 値である。
 %inst
-The CertSetStoreProperty function sets a store property.
+CertSetStoreProperty 関数は、ストアプロパティを設定する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。
 
 [備考]
-Store property identifiers are properties applicable to an entire
-store. They are not properties for an individual certificate, CRL, or
-CTL context. Currently, no store properties are persisted.
+ストアプロパティ識別子はストア全体に適用されるプロパティである。個々の証明書、CRL、CTL
+コンテキストに対するプロパティではない。現在、ストアプロパティは永続化されない。
 
 
 %index
 CertStrToNameW
-Converts a null-terminated X.500 string to an encoded certificate name. (Unicode)
+NULL 終端された X.500 文字列をエンコードされた証明書名に変換する。(Unicode)
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, pszX500, dwStrType, pvReserved, pbEncoded, pcbEncoded, ppszError
-dwCertEncodingType : [int] The certificate encoding type   that was used to encode the string. The message encoding type identifier, contained in the high WORD of this value, is ignored by this function.
-pszX500 : [wstr] A pointer to the null-terminated X.500 string to be converted. The format of this string is specified by the dwStrType parameter. This string is expected to be formatted the same as the output from the CertNameToStr function.
-dwStrType : [int] This parameter specifies the type of the string. This parameter also specifies other options for the contents of the string. If no flags are combined with the string type specifier, the string can contain a comma (,) or a semicolon (;) as separators in the relative distinguished name (RDN) and a plus sign (+) as the separator in multiple RDN values. Quotation marks ("") are supported. A quotation can be included in a quoted value by using two sets of quotation marks, for example, CN="User ""one""". A value that starts with a number sign (#) is treated as ASCII hexadecimal and converted to a CERT_RDN_OCTET_STRING. Embedded white space is ignored. For example, 1.2.3 = # AB CD 01 is the same as 1.2.3=#ABCD01. White space that surrounds the keys, object identifiers, and values is ignored.
-pvReserved : [intptr] Reserved for future use and must be NULL.
-pbEncoded : [var] A pointer to a buffer that receives the encoded structure.
-pcbEncoded : [var] A pointer to a DWORD that, before calling the function, contains the size, in bytes, of the buffer pointed to by the pbEncoded parameter. When the function returns, the DWORD contains the number of bytes stored in the buffer. If pbEncoded is NULL, the DWORD receives the size, in bytes, required for the buffer.
-ppszError : [var] A pointer to a string pointer that receives additional error information about an input string that is not valid.
+dwCertEncodingType : [int] 文字列のエンコードに使用された証明書エンコーディング種別。この値の上位 WORD に含まれるメッセージエンコーディング種別識別子は、本関数では無視される。
+pszX500 : [wstr] 変換対象の NULL 終端 X.500 文字列へのポインター。この文字列の形式は dwStrType パラメーターで指定する。この文字列は CertNameToStr 関数の出力と同じ形式であることが想定される。
+dwStrType : [int] 文字列の種別を指定する。また、文字列の内容に関する他のオプションも指定する。文字列種別指定子にフラグを組み合わせない場合、文字列では RDN (相対識別名) の区切り文字としてコンマ (,) またはセミコロン (;) を含めることができ、複数の RDN 値の区切りにはプラス記号 (+) を使用する。ダブルクォーテーション ("") がサポートされる。引用された値の中にクォーテーションを含めるには、2 組のクォーテーションを使用する (例: CN="User ""one""")。シャープ記号 (#) で始まる値は ASCII 16 進数として扱われ、CERT_RDN_OCTET_STRING に変換される。埋め込まれた空白は無視される。例えば 1.2.3 = # AB CD 01 は 1.2.3=#ABCD01 と同じである。キー、オブジェクト識別子、値を囲む空白は無視される。
+pvReserved : [intptr] 将来の使用のため予約されており、NULL でなければならない。
+pbEncoded : [var] エンコードされた構造体を受け取るバッファーへのポインター。
+pcbEncoded : [var] DWORD へのポインター。関数を呼び出す前に、pbEncoded パラメーターが指すバッファーのサイズ (バイト単位) を格納する。関数から戻ると、DWORD はバッファーに格納されたバイト数を含む。pbEncoded が NULL の場合、DWORD は必要なバッファーサイズ (バイト単位) を受け取る。
+ppszError : [var] 入力文字列が不正な場合に追加のエラー情報を受け取る文字列ポインターへのポインター。
 %inst
-Converts a null-terminated X.500 string to an encoded certificate
-name. (Unicode)
+NULL 終端された X.500 文字列をエンコードされた証明書名に変換する。(Unicode)
 
 [戻り値]
-Returns nonzero if successful or zero otherwise.
-For extended error information, call GetLastError.
+成功した場合は 0 以外を、それ以外は 0 を返す。
+拡張エラー情報を取得するには GetLastError を呼び出す。
 
 [備考]
-The following table contains the supported X.500 keys, their
-corresponding object identifier string, string identifier (from
-Wincrypt.h), and value types.
-This doc was truncated.
+次の表には、サポートされる X.500 キー、対応するオブジェクト識別子文字列、文字列識別子 (Wincrypt.h
+より)、および値型が示されている。
+（以下省略）
 
 
 %index
 CertUnregisterPhysicalStore
-The CertUnregisterPhysicalStore function removes a physical store from a specified system store collection. CertUnregisterPhysicalStore can also be used to delete the physical store.
+CertUnregisterPhysicalStore 関数は、指定したシステムストアコレクションから物理ストアを削除する。CertUnregisterPhysicalStore は物理ストアの削除にも使用できる。
 %group
 Win32 crypt32
 %prm
 pvSystemStore, dwFlags, pwszStoreName
-pvSystemStore : [intptr] A pointer to an identifier of the system store collection from which the physical store is to be removed. It is either to a null-terminated Unicode string or to a CERT_SYSTEM_STORE_RELOCATE_PARA structure. For information about using the structure and on appending a ServiceName or ComputerName to the end of the system store name string, see CertRegisterSystemStore.
-dwFlags : [int] The high word of the dwFlags parameter specifies the location of the system store. For information about defined high-word flags and on appending ServiceName, UserNames, and ComputerNames to the end of the system store name, see CertRegisterSystemStore.
-pwszStoreName : [wstr] Null-terminated Unicode string that contains the name of the physical store.
+pvSystemStore : [intptr] 物理ストアを削除するシステムストアコレクションの識別子へのポインター。NULL 終端の Unicode 文字列または CERT_SYSTEM_STORE_RELOCATE_PARA 構造体のいずれかを指す。構造体の使用方法、およびシステムストア名文字列の末尾への ServiceName や ComputerName の付加方法については、CertRegisterSystemStore を参照。
+dwFlags : [int] dwFlags パラメーターの上位ワードはシステムストアの場所を指定する。定義されている上位ワードフラグ、およびシステムストア名の末尾への ServiceName、UserNames、ComputerNames の付加方法については、CertRegisterSystemStore を参照。
+pwszStoreName : [wstr] 物理ストア名を含む NULL 終端 Unicode 文字列。
 %inst
-The CertUnregisterPhysicalStore function removes a physical store
-from a specified system store collection. CertUnregisterPhysicalStore
-can also be used to delete the physical store.
+CertUnregisterPhysicalStore
+関数は、指定したシステムストアコレクションから物理ストアを削除する。CertUnregisterPhysicalStore
+は物理ストアの削除にも使用できる。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。
 
 
 %index
 CertUnregisterSystemStore
-The CertUnregisterSystemStore function unregisters a specified system store.
+CertUnregisterSystemStore 関数は、指定したシステムストアを登録解除する。
 %group
 Win32 crypt32
 %prm
 pvSystemStore, dwFlags
-pvSystemStore : [intptr] Identifies the system store to be unregistered. It points either to a null-terminated Unicode string or to a CERT_SYSTEM_STORE_RELOCATE_PARA structure. For information about using the structure and on appending a ServiceName or ComputerName to the end of the system store name string, see CertRegisterSystemStore.
-dwFlags : [int] The high word of the dwFlags parameter specifies the location of the system store. For information about defined high-word flags and on appending ServiceName, UserNames, and ComputerNames to the end of the system store name, see CertRegisterSystemStore.
+pvSystemStore : [intptr] 登録解除するシステムストアを識別する。NULL 終端の Unicode 文字列または CERT_SYSTEM_STORE_RELOCATE_PARA 構造体のいずれかを指す。構造体の使用方法、およびシステムストア名文字列の末尾への ServiceName や ComputerName の付加方法については、CertRegisterSystemStore を参照。
+dwFlags : [int] dwFlags パラメーターの上位ワードはシステムストアの場所を指定する。定義されている上位ワードフラグ、およびシステムストア名の末尾への ServiceName、UserNames、ComputerNames の付加方法については、CertRegisterSystemStore を参照。
 %inst
-The CertUnregisterSystemStore function unregisters a specified system
-store.
+CertUnregisterSystemStore 関数は、指定したシステムストアを登録解除する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。
 
 
 %index
 CertVerifyCRLRevocation
-Check a certificate revocation list (CRL) to determine whether a subject's certificate has or has not been revoked.
+証明書失効リスト (CRL) を調べ、サブジェクトの証明書が失効しているかどうかを判定する。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, pCertId, cCrlInfo, rgpCrlInfo
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pCertId : [var] A pointer to the CERT_INFO structure of the certificate to be checked against the CRL.
-cCrlInfo : [int] Number of CRL_INFO pointers in the rgpCrlInfo array.
-rgpCrlInfo : [var] Array of pointers to CRL_INFO structures.
+dwCertEncodingType : [int] 使用するエンコーディング種別を指定する。次の例のように証明書エンコーディングとメッセージエンコーディングをビット単位 OR で組み合わせて指定することも常に許容される: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING 現在定義されているエンコーディング種別は次のとおり。
+pCertId : [var] CRL と照合する証明書の CERT_INFO 構造体へのポインター。
+cCrlInfo : [int] rgpCrlInfo 配列に含まれる CRL_INFO ポインターの数。
+rgpCrlInfo : [var] CRL_INFO 構造体へのポインター配列。
 %inst
-Check a certificate revocation list (CRL) to determine whether a
-subject's certificate has or has not been revoked.
+証明書失効リスト (CRL) を調べ、サブジェクトの証明書が失効しているかどうかを判定する。
 
 [戻り値]
-Returns TRUE if the certificate is not on the CRL and therefore is
-valid.
-It returns FALSE if the certificate is on the list and therefore has
-been revoked and is not valid.
+証明書が CRL に載っておらず有効である場合は TRUE を返す。
+証明書が CRL に載っており失効して無効である場合は FALSE を返す。
 
 
 %index
 CertVerifyCRLTimeValidity
-The CertVerifyCRLTimeValidity function verifies the time validity of a CRL.
+CertVerifyCRLTimeValidity 関数は、CRL の時刻有効性を検証する。
 %group
 Win32 crypt32
 %prm
 pTimeToVerify, pCrlInfo
-pTimeToVerify : [var] A pointer to FILETIME structure containing the time to be used in the verification. If set to NULL, the current time is used.
-pCrlInfo : [var] A pointer to a CRL_INFO structure containing the CRL for which the time is to be verified.
+pTimeToVerify : [var] 検証に用いる時刻を含む FILETIME 構造体へのポインター。NULL に設定した場合、現在時刻が使用される。
+pCrlInfo : [var] 時刻を検証する対象の CRL を含む CRL_INFO 構造体へのポインター。
 %inst
-The CertVerifyCRLTimeValidity function verifies the time validity of
-a CRL.
+CertVerifyCRLTimeValidity 関数は、CRL の時刻有効性を検証する。
 
 [戻り値]
-Returns a minus one (?1) if the comparison time is before the
-ThisUpdate member of the CRL_INFO pointed to by pCrlInfo. Returns a
-plus one (+1) if the comparison time is after the NextUpdate time.
-Returns zero for valid time for the CRL.
+比較時刻が pCrlInfo が指す CRL_INFO の ThisUpdate メンバーより前の場合は -1 を返す。比較時刻が
+NextUpdate より後の場合は +1 を返す。CRL にとって有効な時刻の場合は 0 を返す。
 
 
 %index
 CertVerifyCTLUsage
-Verifies that a subject is trusted for a specified usage by finding a signed and time-valid certificate trust list (CTL) with the usage identifiers that contain the subject.
+署名されており時刻的に有効な証明書信頼リスト (CTL) を検索し、サブジェクトを含む用途識別子を持つことを確認することで、サブジェクトが指定の用途について信頼されていることを検証する。
 %group
 Win32 crypt32
 %prm
 dwEncodingType, dwSubjectType, pvSubject, pSubjectUsage, dwFlags, pVerifyUsagePara, pVerifyUsageStatus
-dwEncodingType : [int] Specifies the encoding type used. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types can be added in the future. For either current encoding type, use
-dwSubjectType : [int] If the dwSubjectType parameter is set to CTL_CERT_SUBJECT_TYPE, pvSubject points to a CERT_CONTEXT structure. The structure's SubjectAlgorithm member is examined to determine the representation of the subject's identity. Initially, only SHA1 and MD5 hashes are supported as values for SubjectAlgorithm. The appropriate hash property is obtained from the CERT_CONTEXT structure. If the dwSubjectType parameter is set to CTL_ANY_SUBJECT_TYPE, pvSubject points to the CTL_ANY_SUBJECT_INFO structure. The SubjectAlgorithm member of this structure must match the algorithm type of the CTL, and the SubjectIdentifier member must match one of the CTL entries. If dwSubjectType is set to either preceding value, dwEncodingType is not used.
-pvSubject : [intptr] Value used in conjunction with the dwSubjectType parameter.
-pSubjectUsage : [var] A pointer to a CTL_USAGE structure used to specify the intended usage of the subject.
-dwFlags : [int] If the CERT_VERIFY_INHIBIT_CTL_UPDATE_FLAG is not set, a CTL whose time is no longer valid in one of the stores specified by rghCtlStore in CTL_VERIFY_USAGE_PARA can be replaced. When replaced, the CERT_VERIFY_UPDATED_CTL_FLAG is set in the  dwFlags member of pVerifyUsageStatus. If this flag is set, an update will not be made, even if a time-valid, updated CTL is received for a CTL that is in the store and whose time is no longer valid. If the CERT_VERIFY_TRUSTED_SIGNERS_FLAG is set, only the signer stores specified by rghSignerStore in CTL_VERIFY_USAGE_PARA are searched to find the signer. Otherwise, the signer stores provide additional sources to find the signer's certificate. For more information, see Remarks. If CERT_VERIFY_NO_TIME_CHECK_FLAG is set, the CTLs are not checked for time validity. Otherwise, they are. If CERT_VERIFY_ALLOW_MORE_USAGE_FLAG is set, the CTL can contain usage identifiers in addition to those specified by pSubjectUsage. Otherwise, the found CTL will contain no additional usage identifiers.
-pVerifyUsagePara : [var] A pointer to a CTL_VERIFY_USAGE_PARA structure that specifies the stores to be searched to find the CTL and the stores that contain acceptable CTL signers. Setting the ListIdentifier member further limits the search.
-pVerifyUsageStatus : [var] A pointer to a CTL_VERIFY_USAGE_STATUS structure. The cbSize member of the structure must to be set to the size, in bytes, of the structure, and all other fields must be set to zero before CertVerifyCTLUsage is called. For more information, see CTL_VERIFY_USAGE_STATUS.
+dwEncodingType : [int] 使用するエンコーディング種別を指定する。現在使用されているのは X509_ASN_ENCODING と PKCS_7_ASN_ENCODING のみであるが、将来エンコーディング種別が追加される可能性がある。現状のどちらのエンコーディングでも、
+dwSubjectType : [int] dwSubjectType パラメーターが CTL_CERT_SUBJECT_TYPE の場合、pvSubject は CERT_CONTEXT 構造体を指す。構造体の SubjectAlgorithm メンバーを調べ、サブジェクトの識別情報の表現を判別する。当初は SubjectAlgorithm の値として SHA1 と MD5 ハッシュのみがサポートされる。対応するハッシュプロパティは CERT_CONTEXT 構造体から取得される。dwSubjectType パラメーターが CTL_ANY_SUBJECT_TYPE の場合、pvSubject は CTL_ANY_SUBJECT_INFO 構造体を指す。この構造体の SubjectAlgorithm メンバーは CTL のアルゴリズム種別と一致し、SubjectIdentifier メンバーは CTL エントリーのいずれかと一致しなければならない。dwSubjectType が上記いずれかの値に設定されている場合、dwEncodingType は使用されない。
+pvSubject : [intptr] dwSubjectType パラメーターと組み合わせて使用する値。
+pSubjectUsage : [var] サブジェクトの意図された用途を指定するための CTL_USAGE 構造体へのポインター。
+dwFlags : [int] CERT_VERIFY_INHIBIT_CTL_UPDATE_FLAG が設定されていない場合、CTL_VERIFY_USAGE_PARA の rghCtlStore で指定したストアに含まれる時刻的に有効でない CTL は置き換えられうる。置き換えが行われた場合、pVerifyUsageStatus の dwFlags メンバーに CERT_VERIFY_UPDATED_CTL_FLAG が設定される。このフラグを設定している場合、ストア内の時刻的に有効でない CTL に対して時刻的に有効な更新 CTL を受信しても、更新は行われない。CERT_VERIFY_TRUSTED_SIGNERS_FLAG を設定している場合、署名者の検索は CTL_VERIFY_USAGE_PARA の rghSignerStore で指定した署名者ストアのみで行われる。設定していない場合、署名者ストアは署名者の証明書を探すための追加の参照先となる。詳細は「解説」を参照。CERT_VERIFY_NO_TIME_CHECK_FLAG を設定している場合、CTL の時刻有効性は確認されない。設定していない場合は確認される。CERT_VERIFY_ALLOW_MORE_USAGE_FLAG を設定している場合、CTL は pSubjectUsage で指定したもの以外の用途識別子を含んでいてもよい。設定していない場合、見つかる CTL は追加の用途識別子を含まない。
+pVerifyUsagePara : [var] CTL の検索対象となるストアと、受け入れ可能な CTL 署名者を含むストアを指定する CTL_VERIFY_USAGE_PARA 構造体へのポインター。ListIdentifier メンバーを設定すると検索条件をさらに限定できる。
+pVerifyUsageStatus : [var] CTL_VERIFY_USAGE_STATUS 構造体へのポインター。CertVerifyCTLUsage を呼び出す前に、構造体の cbSize メンバーに構造体のサイズ (バイト単位) を設定し、他のすべてのフィールドを 0 にしなければならない。詳細は CTL_VERIFY_USAGE_STATUS を参照。
 %inst
-Verifies that a subject is trusted for a specified usage by finding a
-signed and time-valid certificate trust list (CTL) with the usage
-identifiers that contain the subject.
+署名されており時刻的に有効な証明書信頼リスト (CTL)
+を検索し、サブジェクトを含む用途識別子を持つことを確認することで、サブジェクトが指定の用途について信頼されていることを検証する。
 
 [戻り値]
-If the subject is trusted for the specified usage, TRUE is returned.
-Otherwise, FALSE is returned. GetLastError can return one of the
-following error codes.
-This doc was truncated.
+サブジェクトが指定された用途について信頼されている場合は TRUE を返す。そうでない場合は FALSE を返す。GetLastError
+は次のエラーコードのいずれかを返すことがある。
+（以下省略）
 
 [備考]
-CertVerifyCTLUsage is a dispatcher to functions that can be installed
-by using an object identifier (OID). First, it tries to find an OID
-function that matches the first usage object identifier in the
-CLT_USAGE structure pointed to by pSubjectUsage. If this fails, it
-uses the default CertDllVerifyCTLUsage functions. The
-CertDllVerifyCTLUsage function in Cryptnet.dll can be installed by
-using an OID; it has the following properties:
-This doc was truncated.
+CertVerifyCTLUsage は、オブジェクト識別子 (OID)
+によってインストール可能な関数へのディスパッチャーである。まず、pSubjectUsage が指す CTL_USAGE
+構造体内の最初の用途 OID に一致する OID 関数の検出を試みる。失敗した場合、既定の CertDllVerifyCTLUsage
+関数を使用する。Cryptnet.dll の CertDllVerifyCTLUsage 関数は OID
+を通じてインストールでき、次のプロパティを持つ。
+（以下省略）
 
 
 %index
 CertVerifyCertificateChainPolicy
-Checks a certificate chain to verify its validity, including its compliance with any specified validity policy criteria.
+証明書チェーンが有効であるかを検証する。指定された有効性ポリシー条件への準拠も含めて確認する。
 %group
 Win32 crypt32
 %prm
 pszPolicyOID, pChainContext, pPolicyPara, pPolicyStatus
-pszPolicyOID : [str] Current predefined verify chain policy structures are listed in the following table.
-pChainContext : [var] A pointer to a CERT_CHAIN_CONTEXT structure that contains a chain to be verified.
-pPolicyPara : [var] A pointer to a CERT_CHAIN_POLICY_PARA structure that provides the policy verification criteria for the chain. The dwFlags member of that structure can be set to change the default policy checking behavior.
-pPolicyStatus : [var] A pointer to a CERT_CHAIN_POLICY_STATUS structure where status information on the chain is returned. OID-specific extra status can be returned in the pvExtraPolicyStatus member of this structure.
+pszPolicyOID : [str] 現在事前定義されているチェーン検証ポリシー構造を次の表に示す。
+pChainContext : [var] 検証対象のチェーンを含む CERT_CHAIN_CONTEXT 構造体へのポインター。
+pPolicyPara : [var] チェーンに対するポリシー検証条件を提供する CERT_CHAIN_POLICY_PARA 構造体へのポインター。この構造体の dwFlags メンバーを設定することで既定のポリシーチェック動作を変更できる。
+pPolicyStatus : [var] チェーンの状態情報を返す CERT_CHAIN_POLICY_STATUS 構造体へのポインター。この構造体の pvExtraPolicyStatus メンバーには OID 固有の追加ステータスを返すことができる。
 %inst
-Checks a certificate chain to verify its validity, including its
-compliance with any specified validity policy criteria.
+証明書チェーンが有効であるかを検証する。指定された有効性ポリシー条件への準拠も含めて確認する。
 
 [戻り値]
-The return value indicates whether the function was able to check for
-the policy, it does not indicate whether the policy check failed or
-passed. If the chain can be verified for the specified policy, TRUE
-is returned and the dwError member of the pPolicyStatus is updated. A
-dwError of 0 (ERROR_SUCCESS or S_OK) indicates the chain satisfies
-the specified policy. If the chain cannot be validated, the return
-value is TRUE and you need to verify the pPolicyStatus parameter for
-the actual error. A value of FALSE indicates that the function wasn't
-able to check for the policy.
+
+戻り値は、関数がポリシーチェックを実行できたかどうかを示すものであり、ポリシーチェックの結果が合格か不合格かを示すものではない。指定のポリシーについてチェーンを検証できた場合、TRUE
+が返され、pPolicyStatus の dwError メンバーが更新される。dwError が 0 (ERROR_SUCCESS
+または S_OK) であれば、チェーンは指定のポリシーを満たすことを示す。チェーンを有効と判定できなかった場合、戻り値は TRUE
+となり、実際のエラーを知るには pPolicyStatus パラメーターを確認する必要がある。FALSE
+はそもそもポリシーをチェックできなかったことを示す。
 
 [備考]
-A dwError member of the CERT_CHAIN_POLICY_STATUS structure pointed to
-by pPolicyStatus can apply to a single chain element, to a simple
-chain, or to an entire chain context. If dwError applies to the
-entire chain context, both the lChainIndex and the lElementIndex
-members of the CERT_CHAIN_POLICY_STATUS structure are set to ?1. If
-dwError applies to a complete simple chain, lElementIndex is set to
-?1 and lChainIndex is set to the index of the first chain that has an
-error. If dwError applies to a single certificate element,
-lChainIndex and lElementIndex index the first certificate that has
-the error. To get the certificate element use this syntax:
-pChainContext->rgpChain[lChainIndex]->rgpElement[lElementIndex]; Use
-the CertGetCertificateChain function to enable and perform
-certificate revocation checking. The CertVerifyCertificateChainPolicy
-function does not check if certificates in the certificate chain are
-revoked.
+pPolicyStatus が指す CERT_CHAIN_POLICY_STATUS 構造体の dwError
+メンバーは、単一のチェーン要素、単純チェーン、またはチェーンコンテキスト全体に適用されうる。dwError
+がチェーンコンテキスト全体に適用される場合、CERT_CHAIN_POLICY_STATUS 構造体の lChainIndex と
+lElementIndex のどちらも -1 に設定される。dwError が単純チェーン全体に適用される場合、lElementIndex
+は -1、lChainIndex はエラーを含む最初のチェーンのインデックスに設定される。dwError
+が単一証明書要素に適用される場合、lChainIndex と lElementIndex
+はエラーを持つ最初の証明書を指す。証明書要素を取得するには次の構文を使用する:
+pChainContext->rgpChain[lChainIndex]->rgpElement[lElementIndex];
+証明書失効チェックを有効化して実行するには、CertGetCertificateChain
+関数を使用する。CertVerifyCertificateChainPolicy
+関数は、証明書チェーン内の証明書が失効しているかどうかのチェックは行わない。
 
 
 %index
 CertVerifyRevocation
-Checks the revocation status of the certificates contained in the rgpvContext array. If a certificate in the list is found to be revoked, no further checking is done.
+rgpvContext 配列に含まれる証明書の失効状態を確認する。リスト内のいずれかの証明書が失効していると判定された時点で、それ以上の確認は行われない。
 %group
 Win32 crypt32
 %prm
 dwEncodingType, dwRevType, cContext, rgpvContext, dwFlags, pRevPara, pRevStatus
-dwEncodingType : [int] Specifies the encoding type used. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types may be added in the future. For either current encoding type, use X509_ASN_ENCODING | PKCS_7_ASN_ENCODING.
-dwRevType : [int] Indicates the type of the context structure passed in rgpvContext. Currently only CERT_CONTEXT_REVOCATION_TYPE, the revocation of certificates, is defined.
-cContext : [int] Count of elements in the rgpvContext array.
-rgpvContext : [var] When the dwRevType is CERT_CONTEXT_REVOCATION_TYPE, rgpvContext is an array of pointers to CERT_CONTEXT structures. These contexts must contain sufficient information to allow the installable or registered revocation DLLs to find the revocation server. This information would normally be conveyed in an extension such as the CRLDistributionsPoints extension defined by the Internet Engineering Task Force (IETF) in PKIX Part 1.
-dwFlags : [int] Indicates any special processing needs. This parameter can be one of the following flags.
-pRevPara : [var] Optionally set to assist in finding the issuer. For details, see the CERT_REVOCATION_PARA structure.
-pRevStatus : [var] Only the cbSize member of the CERT_REVOCATION_STATUS pointed to by pRevStatus needs to be set before CertVerifyRevocation is called. If the function returns FALSE, this structure's members will contain error status information. For more information, see CERT_REVOCATION_STATUS. For a description of how pRevStatus is updated when a revocation verification problem is encountered, see Remarks.
+dwEncodingType : [int] 使用するエンコーディング種別を指定する。現在使用されているのは X509_ASN_ENCODING と PKCS_7_ASN_ENCODING のみであるが、将来エンコーディング種別が追加される可能性がある。現状のどちらのエンコーディングでも、X509_ASN_ENCODING | PKCS_7_ASN_ENCODING を使用する。
+dwRevType : [int] rgpvContext で渡されるコンテキスト構造体の種類を示す。現在定義されているのは CERT_CONTEXT_REVOCATION_TYPE (証明書の失効) のみである。
+cContext : [int] rgpvContext 配列の要素数。
+rgpvContext : [var] dwRevType が CERT_CONTEXT_REVOCATION_TYPE の場合、rgpvContext は CERT_CONTEXT 構造体へのポインターの配列となる。これらのコンテキストには、インストール済みまたは登録済みの失効 DLL が失効サーバーを特定するために十分な情報が含まれていなければならない。この情報は通常、IETF の PKIX Part 1 で定義されている CRLDistributionsPoints 拡張などの拡張で伝達される。
+dwFlags : [int] 特殊な処理が必要であるかを示す。このパラメーターには次のフラグのいずれかを指定できる。
+pRevPara : [var] 発行者の検索を補助するために任意で設定する。詳細は CERT_REVOCATION_PARA 構造体を参照。
+pRevStatus : [var] CertVerifyRevocation を呼び出す前に、pRevStatus が指す CERT_REVOCATION_STATUS の cbSize メンバーだけを設定すればよい。関数が FALSE を返した場合、この構造体のメンバーにはエラー状態情報が格納される。詳細は CERT_REVOCATION_STATUS を参照。失効検証で問題が発生した場合の pRevStatus の更新方法については「解説」を参照。
 %inst
-Checks the revocation status of the certificates contained in the
-rgpvContext array. If a certificate in the list is found to be
-revoked, no further checking is done.
+rgpvContext
+配列に含まれる証明書の失効状態を確認する。リスト内のいずれかの証明書が失効していると判定された時点で、それ以上の確認は行われない。
 
 [戻り値]
-If the function successfully checks all of the contexts and none were
-revoked, the function returns TRUE. If the function fails, it returns
-FALSE and updates the CERT_REVOCATION_STATUS structure pointed to by
-pRevStatus as described in CERT_REVOCATION_STATUS. When the
-revocation handler for any of the contexts returns FALSE due to an
-error, the dwError member in the structure pointed to by pRevStatus
-will be set by the handler to specify which error was encountered.
-GetLastError returns an error code equal to the error specified in
-the dwError member of the CERT_REVOCATION_STATUS structure.
-GetLastError can be one of the following values.
-This doc was truncated.
+関数が全コンテキストを正常に確認し、いずれも失効していなければ TRUE を返す。失敗した場合は FALSE
+を返し、CERT_REVOCATION_STATUS に記載のとおり pRevStatus
+が指す構造体を更新する。いずれかのコンテキストの失効ハンドラーがエラーで FALSE を返した場合、pRevStatus が指す構造体の
+dwError メンバーにハンドラーが遭遇したエラーが設定される。GetLastError は
+CERT_REVOCATION_STATUS 構造体の dwError メンバーと同じエラーコードを返す。GetLastError
+は次の値のいずれかを返すことがある。
+（以下省略）
 
 [備考]
-The following example shows how pRevStatus is updated when a
-revocation verification problem is encountered: Consider the case
-where cContext is four: If CertVerifyRevocation can verify that
-rgpvContext[0] and rgpvContext[1] are not revoked, but cannot check
-rgpvContext[2], the pRevStatus member dwIndex is set to two,
-indicating that the context at index two has the problem, the dwError
-member of pRevStatus is set to CRYPT_E_NO_REVOCATION_CHECK, and FALSE
-is returned. If rgpvContext[2] is found to be revoked, the dwIndex
-member of pRevStatus is set to two, and the dwError member of
-pRevStatus is set to CRYPT_E_REVOKED, dwReason is updated, and FALSE
-is returned. In either case, both rgpvContext[0] and rgpvContext[1]
-are verified not to be revoked, rgpvContext[2] is the last array
-index checked, and rgpvContext[3] has not been checked at all.
+失効検証で問題が発生した場合の pRevStatus の更新方法を次の例で示す。cContext が 4
+の場合を考える。CertVerifyRevocation が rgpvContext[0] と rgpvContext[1]
+を失効していないと検証できたが rgpvContext[2] をチェックできない場合、pRevStatus メンバー dwIndex は
+2 に設定され、インデックス 2 のコンテキストに問題があることを示す。また pRevStatus の dwError メンバーは
+CRYPT_E_NO_REVOCATION_CHECK に設定され、関数は FALSE を返す。rgpvContext[2]
+が失効していると判明した場合、pRevStatus の dwIndex メンバーは 2、dwError メンバーは
+CRYPT_E_REVOKED、dwReason も更新され、FALSE が返される。いずれの場合も、rgpvContext[0] と
+rgpvContext[1] は失効していないことが確認され、rgpvContext[2]
+は最後に確認された配列インデックスであり、rgpvContext[3] はまったく確認されていない。
 
 
 %index
 CertVerifySubjectCertificateContext
-The CertVerifySubjectCertificateContext function performs the enabled verification checks on a certificate by checking the validity of the certificate's issuer. The new Certificate Chain Verification Functions are recommended instead of this function.
+CertVerifySubjectCertificateContext 関数は、証明書の発行者の正当性を確認することで、証明書に対して有効化された検証チェックを行う。本関数よりも新しい「証明書チェーン検証関数」の使用を推奨する。
 %group
 Win32 crypt32
 %prm
 pSubject, pIssuer, pdwFlags
-pSubject : [var] A pointer to a CERT_CONTEXT structure containing the subject's certificate.
-pIssuer : [var] A pointer to a CERT_CONTEXT containing the issuer's certificate. When checking just CERT_STORE_TIME_VALIDITY_FLAG, pIssuer can be NULL.
-pdwFlags : [var] A pointer to a DWORD value contain verification check flags. The following flags can be set to enable verification checks on the subject certificate. They can be combined using a bitwise-OR operation to enable multiple verifications.
+pSubject : [var] サブジェクトの証明書を含む CERT_CONTEXT 構造体へのポインター。
+pIssuer : [var] 発行者の証明書を含む CERT_CONTEXT へのポインター。CERT_STORE_TIME_VALIDITY_FLAG のみを確認する場合、pIssuer は NULL でも構わない。
+pdwFlags : [var] 検証チェックフラグを含む DWORD 値へのポインター。次のフラグを設定することで、サブジェクト証明書に対する検証チェックを有効化できる。ビット単位 OR で組み合わせて複数の検証を有効化できる。
 %inst
-The CertVerifySubjectCertificateContext function performs the enabled
-verification checks on a certificate by checking the validity of the
-certificate's issuer. The new Certificate Chain Verification
-Functions are recommended instead of this function.
+CertVerifySubjectCertificateContext
+関数は、証明書の発行者の正当性を確認することで、証明書に対して有効化された検証チェックを行う。本関数よりも新しい「証明書チェーン検証関数」の使用を推奨する。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For a verification check failure,
-TRUE is still returned. FALSE is returned only when a bad parameter
-is passed in. For extended error information, call GetLastError. One
-possible error code is the following.
-This doc was truncated.
+関数が成功した場合、戻り値は TRUE となる。関数が失敗した場合、戻り値は FALSE となる。検証チェックに失敗した場合でも TRUE
+が返される。FALSE は不正なパラメーターが渡されたときのみ返される。拡張エラー情報を取得するには GetLastError
+を呼び出す。考えられるエラーコードの一つを以下に示す。
+（以下省略）
 
 [備考]
-The hexadecimal value of the flags can be combined using bitwise-OR
-operations to enable multiple verifications. For example, to enable
-both signature and time validity, the value
-This doc was truncated.
+フラグの 16 進値はビット単位 OR
+で組み合わせ、複数の検証を有効化できる。例えば署名と時刻有効性の両方を有効にするには次の値を指定する。
+（以下省略）
 
 
 %index
 CertVerifyTimeValidity
-The CertVerifyTimeValidity function verifies the time validity of a certificate.
+CertVerifyTimeValidity 関数は、証明書の時刻有効性を検証する。
 %group
 Win32 crypt32
 %prm
 pTimeToVerify, pCertInfo
-pTimeToVerify : [var] A pointer to a FILETIME structure containing the comparison time. If NULL, the current time is used.
-pCertInfo : [var] A pointer to the CERT_INFO structure of the certificate for which the time is being verified.
+pTimeToVerify : [var] 比較時刻を含む FILETIME 構造体へのポインター。NULL の場合、現在時刻が使用される。
+pCertInfo : [var] 時刻を検証する対象の証明書の CERT_INFO 構造体へのポインター。
 %inst
-The CertVerifyTimeValidity function verifies the time validity of a
-certificate.
+CertVerifyTimeValidity 関数は、証明書の時刻有効性を検証する。
 
 [戻り値]
-Returns a minus one if the comparison time is before the NotBefore
-member of the CERT_INFO structure. Returns a plus one if the
-comparison time is after the NotAfter member. Returns zero for valid
-time for the certificate.
+比較時刻が CERT_INFO 構造体の NotBefore メンバーより前の場合は -1 を返す。比較時刻が NotAfter
+メンバーより後の場合は +1 を返す。証明書にとって有効な時刻の場合は 0 を返す。
 
 
 %index
 CertVerifyValidityNesting
-The CertVerifyValidityNesting function verifies that a subject certificate's time validity nests correctly within its issuer's time validity.
+CertVerifyValidityNesting 関数は、サブジェクト証明書の時刻有効期間が、その発行者の時刻有効期間の中に正しく入れ子になっているかを検証する。
 %group
 Win32 crypt32
 %prm
 pSubjectInfo, pIssuerInfo
-pSubjectInfo : [var] A pointer to the CERT_INFO structure of the subject certificate.
-pIssuerInfo : [var] A pointer to the CERT_INFO structure of the issuer certificate.
+pSubjectInfo : [var] サブジェクト証明書の CERT_INFO 構造体へのポインター。
+pIssuerInfo : [var] 発行者証明書の CERT_INFO 構造体へのポインター。
 %inst
-The CertVerifyValidityNesting function verifies that a subject
-certificate's time validity nests correctly within its issuer's time
-validity.
+CertVerifyValidityNesting
+関数は、サブジェクト証明書の時刻有効期間が、その発行者の時刻有効期間の中に正しく入れ子になっているかを検証する。
 
 [戻り値]
-Returns TRUE if the NotBefore time of the subject's certificate is
-after the NotBefore time of the issuer's certificate and the NotAfter
-time of the subject's certificate is not after the NotAfter time of
-the issuer's certificate. Otherwise, returns FALSE.
+サブジェクト証明書の NotBefore 時刻が発行者証明書の NotBefore 時刻より後で、かつサブジェクト証明書の
+NotAfter 時刻が発行者証明書の NotAfter 時刻より後でない場合、TRUE を返す。そうでない場合は FALSE を返す。
 
 
 %index
 CryptAcquireCertificatePrivateKey
-Obtains the private key for a certificate.
+証明書の秘密鍵を取得する。
 %group
 Win32 crypt32
 %prm
 pCert, dwFlags, pvParameters, phCryptProvOrNCryptKey, pdwKeySpec, pfCallerFreeProvOrNCryptKey
-pCert : [var] The address of a CERT_CONTEXT structure that contains the certificate context for which a private key will be obtained.
+pCert : [var] 秘密鍵を取得する対象の証明書コンテキストを含む CERT_CONTEXT 構造体のアドレス。
 dwFlags : [int] 
-pvParameters : [intptr] If the CRYPT_ACQUIRE_WINDOW_HANDLE_FLAG  is set, then this is the address of an HWND. If the CRYPT_ACQUIRE_WINDOW_HANDLE_FLAG is not set, then this parameter must be NULL.
-phCryptProvOrNCryptKey : [var] The address of an HCRYPTPROV_OR_NCRYPT_KEY_HANDLE variable that receives the handle of either the CryptoAPI provider or the CNG key. If the pdwKeySpec variable receives the CERT_NCRYPT_KEY_SPEC flag, this is a CNG key handle of type NCRYPT_KEY_HANDLE; otherwise, this is a CryptoAPI provider handle of type HCRYPTPROV. For more information about when and how to release this handle, see the description of the pfCallerFreeProvOrNCryptKey parameter.
+pvParameters : [intptr] CRYPT_ACQUIRE_WINDOW_HANDLE_FLAG が設定されている場合、これは HWND のアドレスとなる。CRYPT_ACQUIRE_WINDOW_HANDLE_FLAG が設定されていない場合、このパラメーターは NULL でなければならない。
+phCryptProvOrNCryptKey : [var] CryptoAPI プロバイダーまたは CNG 鍵のハンドルを受け取る HCRYPTPROV_OR_NCRYPT_KEY_HANDLE 変数のアドレス。pdwKeySpec 変数が CERT_NCRYPT_KEY_SPEC フラグを受け取った場合、これは NCRYPT_KEY_HANDLE 型の CNG 鍵ハンドルとなり、そうでなければ HCRYPTPROV 型の CryptoAPI プロバイダーハンドルとなる。このハンドルをいつどのように解放するかについては、pfCallerFreeProvOrNCryptKey パラメーターの説明を参照。
 pdwKeySpec : [var] 
-pfCallerFreeProvOrNCryptKey : [var] The address of a BOOL variable that receives a value that indicates whether the caller must free the handle returned in the phCryptProvOrNCryptKey variable. This receives FALSE if any of the following is true:
+pfCallerFreeProvOrNCryptKey : [var] phCryptProvOrNCryptKey 変数に返されたハンドルを呼び出し元が解放する必要があるかを示す値を受け取る BOOL 変数のアドレス。次のいずれかが真であれば FALSE が返される。
 %inst
-Obtains the private key for a certificate.
+証明書の秘密鍵を取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. One possible error code is the
-following.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE) となる。関数が失敗した場合、戻り値は 0 (FALSE)
+となる。拡張エラー情報を取得するには GetLastError を呼び出す。考えられるエラーコードの一つを以下に示す。
+（以下省略）
 
 [備考]
-When CRYPT_ACQUIRE_WINDOW_HANDLE_FLAG is set, the caller must ensure
-the HWND is valid. If the HWND is no longer valid, for CSP the caller
-should call CryptSetProvParam using flag PP_CLIENT_HWND with NULL for
-the HWND and NULL for the HCRYPTPROV. For KSP, the caller should set
-the NCRYPT_WINDOW_HANDLE_PROPERTY of the ncrypt key to be NULL. When
-CRYPT_ACQUIRE_WINDOW_HANDLE_FLAG flag is set for KSP, the
-NCRYPT_WINDOW_HANDLE_PROPERTY is set on the storage provider and the
-key. If both calls fail, then the function fails. If only one fails,
-the function succeeds. Note that setting HWND to NULL effectively
-removes HWND from the HCRYPTPROV or ncrypt key.
+CRYPT_ACQUIRE_WINDOW_HANDLE_FLAG が設定されている場合、呼び出し元は HWND
+が有効であることを保証しなければならない。HWND が有効でなくなった場合、CSP では呼び出し元が CryptSetProvParam
+を PP_CLIENT_HWND フラグ、HWND に NULL、HCRYPTPROV に NULL を指定して呼び出す必要がある。KSP
+では呼び出し元が ncrypt 鍵の NCRYPT_WINDOW_HANDLE_PROPERTY を NULL
+に設定する必要がある。CRYPT_ACQUIRE_WINDOW_HANDLE_FLAG が KSP
+に対して設定されている場合、NCRYPT_WINDOW_HANDLE_PROPERTY
+はストレージプロバイダーと鍵の双方に設定される。両呼び出しとも失敗した場合、関数は失敗する。片方だけ失敗した場合、関数は成功する。HWND
+を NULL に設定すると、実質的に HCRYPTPROV または ncrypt 鍵から HWND が取り除かれる点に注意。
 
 
 %index
@@ -3152,1714 +2754,1500 @@ ANSI/Unicode
 
 %index
 CryptCloseAsyncHandle
-The CryptCloseAsyncHandle function (wincrypt.h) closes an async handle.
+CryptCloseAsyncHandle 関数 (wincrypt.h) は非同期ハンドルを閉じる。
 %group
 Win32 crypt32
 %prm
 hAsync
-hAsync : [intptr] The async handle to close.
+hAsync : [intptr] 閉じる非同期ハンドル。
 %inst
-The CryptCloseAsyncHandle function (wincrypt.h) closes an async
-handle.
+CryptCloseAsyncHandle 関数 (wincrypt.h) は非同期ハンドルを閉じる。
 
 [戻り値]
-Returns S_OK on success.
+成功した場合 S_OK を返す。
 
 
 %index
 CryptCreateAsyncHandle
-The CryptCreateAsyncHandle function (wincrypt.h) creates an async handle.
+CryptCreateAsyncHandle 関数 (wincrypt.h) は非同期ハンドルを作成する。
 %group
 Win32 crypt32
 %prm
 dwFlags, phAsync
-dwFlags : [int] Handle creation flags.
-phAsync : [intptr] Receives a pointer to the created async handle.
+dwFlags : [int] ハンドル作成フラグ。
+phAsync : [intptr] 作成された非同期ハンドルへのポインターを受け取る。
 %inst
-The CryptCreateAsyncHandle function (wincrypt.h) creates an async
-handle.
+CryptCreateAsyncHandle 関数 (wincrypt.h) は非同期ハンドルを作成する。
 
 
 %index
 CryptCreateKeyIdentifierFromCSP
-Important??This API is deprecated. (CryptCreateKeyIdentifierFromCSP)
+重要: この API は非推奨である。(CryptCreateKeyIdentifierFromCSP)
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, pszPubKeyOID, pPubKeyStruc, cbPubKeyStruc, dwFlags, pvReserved, pbHash, pcbHash
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pszPubKeyOID : [str] A pointer to the public key object identifier (OID). A value that is not NULL overrides the default OID obtained from the aiKeyAlg member of the structure pointed to by pPubKeyStruc. To use the default OID, set pszPubKeyOID to NULL.
-pPubKeyStruc : [var] A pointer to a PUBLICKEYSTRUC structure. In the default case, the aiKeyAlg member of the structure pointed to by pPubKeyStruc is used to find the public key OID. When the value of pszPubKeyOID is not NULL, it overrides the default.
-cbPubKeyStruc : [int] The size, in bytes, of the PUBLICKEYSTRUC.
-dwFlags : [int] Reserved for future use and must be zero.
-pvReserved : [intptr] Reserved for future use and must be NULL.
-pbHash : [var] A pointer to a buffer to receive the hash of the public key and the key identifier. To get the size of this information for memory allocation purposes, set this parameter to NULL. For more information, see Retrieving Data of Unknown Length.
-pcbHash : [var] A pointer to a DWORD that specifies the size, in bytes, of the buffer pointed to by the pbHash parameter. When the function returns, the DWORD contains the number of bytes stored in the buffer. Using SHA1 hashing, the length of the required buffer is twenty.
+dwCertEncodingType : [int] 使用するエンコーディング種別を指定する。次の例のように証明書エンコーディングとメッセージエンコーディングをビット単位 OR で組み合わせて指定することも常に許容される: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING 現在定義されているエンコーディング種別は次のとおり。
+pszPubKeyOID : [str] 公開鍵オブジェクト識別子 (OID) へのポインター。NULL 以外の値を指定すると、pPubKeyStruc が指す構造体の aiKeyAlg メンバーから取得される既定の OID を上書きする。既定の OID を使用する場合は pszPubKeyOID を NULL に設定する。
+pPubKeyStruc : [var] PUBLICKEYSTRUC 構造体へのポインター。既定では、pPubKeyStruc が指す構造体の aiKeyAlg メンバーを用いて公開鍵 OID を探す。pszPubKeyOID の値が NULL 以外の場合、既定値を上書きする。
+cbPubKeyStruc : [int] PUBLICKEYSTRUC のサイズ (バイト単位)。
+dwFlags : [int] 将来の使用のため予約されており、0 でなければならない。
+pvReserved : [intptr] 将来の使用のため予約されており、NULL でなければならない。
+pbHash : [var] 公開鍵のハッシュおよび鍵識別子を受け取るバッファーへのポインター。メモリ割り当て用にサイズを取得するには、このパラメーターを NULL に設定する。詳細は「長さ不明のデータの取得」を参照。
+pcbHash : [var] pbHash パラメーターが指すバッファーのサイズをバイト単位で指定する DWORD へのポインター。関数から戻ると、DWORD はバッファーに格納されたバイト数を含む。SHA1 ハッシュを使用する場合、必要なバッファー長は 20 である。
 %inst
-Important This API is deprecated. (CryptCreateKeyIdentifierFromCSP)
+重要: この API は非推奨である。(CryptCreateKeyIdentifierFromCSP)
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError.
+関数が成功した場合、0 以外 (TRUE) を返す。関数が失敗した場合、0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 
 %index
 CryptDecodeMessage
-Decodes, decrypts, and verifies a cryptographic message.
+暗号メッセージを復号・復号化・検証する。
 %group
 Win32 crypt32
 %prm
 dwMsgTypeFlags, pDecryptPara, pVerifyPara, dwSignerIndex, pbEncodedBlob, cbEncodedBlob, dwPrevInnerContentType, pdwMsgType, pdwInnerContentType, pbDecoded, pcbDecoded, ppXchgCert, ppSignerCert
-dwMsgTypeFlags : [int] Indicates the message type. Message types can be combined with the bitwise-OR operator. This parameter can be one of the following message types:
-pDecryptPara : [var] A pointer to a CRYPT_DECRYPT_MESSAGE_PARA structure that contains  decryption parameters.
-pVerifyPara : [var] A pointer to a CRYPT_VERIFY_MESSAGE_PARA structure that contains   verification parameters.
-dwSignerIndex : [int] Indicates which signer, among the possible many signers of a message, is to be verified. This index can be changed in multiple calls to the function to verify additional signers.
-pbEncodedBlob : [var] A pointer to the encoded BLOB that is to be decoded.
-cbEncodedBlob : [int] The size, in bytes, of the encoded BLOB.
-dwPrevInnerContentType : [int] Only applicable when processing nested cryptographic messages. When processing an outer cryptographic message, it must be set to zero. When decoding a nested cryptographic message, it is set to the value returned at pdwInnerContentType by a previous calling of CryptDecodeMessage for the outer message. It can be any of the CMSG types listed in pdwMsgType. For backward compatibility, set dwPrevInnerContentType to zero.
-pdwMsgType : [var] A pointer to a DWORD that specifies the message type returned. This parameter can be one of the following message types:
-pdwInnerContentType : [var] A pointer to a DWORD that specifies the type of an inner message. The message type codes used for pdwMsgType are used here, also.
-pbDecoded : [var] A pointer to a buffer to receive the decoded message.
-pcbDecoded : [var] A pointer to a variable that specifies the size, in bytes, of the buffer pointed to by the pbDecoded parameter. When the function returns, this variable contains the size of the decoded message.
-ppXchgCert : [var] A pointer to a pointer to a CERT_CONTEXT structure with a certificate that corresponds to the private exchange key needed to decode the message. This parameter is only set for message types CMSG_ENVELOPED and CMSG_SIGNED_AND_ENVELOPED.
-ppSignerCert : [var] A pointer to a pointer to a CERT_CONTEXT structure of the certificate context of the signer. This parameter is only set for message types CMSG_SIGNED and CMSG_SIGNED_AND_ENVELOPED.
+dwMsgTypeFlags : [int] メッセージ種別を示す。メッセージ種別はビット単位 OR 演算子で組み合わせることができる。このパラメーターには次のメッセージ種別のいずれかを指定できる。
+pDecryptPara : [var] 復号パラメーターを含む CRYPT_DECRYPT_MESSAGE_PARA 構造体へのポインター。
+pVerifyPara : [var] 検証パラメーターを含む CRYPT_VERIFY_MESSAGE_PARA 構造体へのポインター。
+dwSignerIndex : [int] メッセージに複数の署名者が存在する場合に、どの署名者を検証するかを示す。このインデックスを変えて関数を複数回呼び出すと、追加の署名者を検証できる。
+pbEncodedBlob : [var] デコード対象のエンコード済み BLOB へのポインター。
+cbEncodedBlob : [int] エンコードされた BLOB のサイズ (バイト単位)。
+dwPrevInnerContentType : [int] 入れ子になった暗号化メッセージを処理する場合にのみ適用される。外側の暗号化メッセージを処理する際は 0 に設定する必要がある。入れ子となった暗号化メッセージをデコードする場合、外側メッセージに対する前回の CryptDecodeMessage 呼び出しで pdwInnerContentType に返された値を設定する。pdwMsgType に列挙された CMSG 型のいずれでもよい。後方互換性のため、dwPrevInnerContentType は 0 に設定する。
+pdwMsgType : [var] 返されるメッセージ型を指定する DWORD へのポインタ。このパラメータには次のメッセージ型のいずれかを指定できる。
+pdwInnerContentType : [var] 内側メッセージの型を指定する DWORD へのポインタ。pdwMsgType に使用されるメッセージ型コードがここでも使用される。
+pbDecoded : [var] デコード済みメッセージを受け取るバッファーへのポインター。
+pcbDecoded : [var] pbDecoded パラメーターが指すバッファーのサイズをバイト単位で指定する変数へのポインター。関数から戻ると、この変数にはデコード済みメッセージのサイズが格納される。
+ppXchgCert : [var] メッセージを復号するために必要な秘密鍵交換鍵に対応する証明書を含む CERT_CONTEXT 構造体へのポインタのポインタ。このパラメータは、メッセージ型が CMSG_ENVELOPED および CMSG_SIGNED_AND_ENVELOPED の場合にのみ設定される。
+ppSignerCert : [var] 署名者の証明書コンテキストを表す CERT_CONTEXT 構造体へのポインタのポインタ。このパラメータは、メッセージ型が CMSG_SIGNED および CMSG_SIGNED_AND_ENVELOPED の場合にのみ設定される。
 %inst
-Decodes, decrypts, and verifies a cryptographic message.
+暗号メッセージを復号・復号化・検証する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. The CryptDecryptMessage,
-CryptVerifyMessageSignature, or CryptVerifyMessageHash functions can
-be propagated to this function. The following error code is most
-commonly returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError
+を呼び出す。CryptDecryptMessage、CryptVerifyMessageSignature、CryptVerifyMessageHash
+の各関数のエラーがこの関数に伝播することがある。次のエラーコードが GetLastError 関数によって最も一般的に返される。
+（以下省略）
 
 [備考]
-The dwMsgTypeFlags parameter specifies the set of allowable messages.
-For example, to decode either SIGNED or ENVELOPED messages, set
-dwMsgTypeFlags to CMSG_SIGNED_FLAG | CMSG_ENVELOPED_FLAG. Either or
-both of the pDecryptPara or pVerifyPara parameters must be specified.
-For a successfully decoded or verified message, the certificate
-context pointers pointed to by ppXchgCert and ppSignerCert are
-updated. They must be freed by calling CertFreeCertificateContext. If
-the function fails, they are set to NULL. The ppXchgCert or
-ppSignerCert parameters can be set to NULL before the function is
-called, which indicates that the caller is not interested in getting
-the exchange certificate or the signer certificate context.
+dwMsgTypeFlags パラメータは、許容されるメッセージの集合を指定する。たとえば SIGNED または ENVELOPED
+メッセージのいずれかを復号する場合、dwMsgTypeFlags に CMSG_SIGNED_FLAG |
+CMSG_ENVELOPED_FLAG を設定する。pDecryptPara または pVerifyPara
+のいずれか、または両方を指定する必要がある。メッセージの復号または検証に成功すると、ppXchgCert および ppSignerCert
+が指す証明書コンテキストポインタが更新される。これらは CertFreeCertificateContext
+を呼び出して解放しなければならない。関数が失敗した場合、これらは NULL に設定される。ppXchgCert または
+ppSignerCert の各パラメータは、関数呼び出し前に NULL
+に設定することができ、これは呼び出し元が交換証明書や署名者証明書コンテキストの取得に関心がないことを示す。
 
 
 %index
 CryptDecodeObject
-The CryptDecodeObject function decodes a structure of the type indicated by the lpszStructType parameter. The use of CryptDecodeObjectEx is recommended as an API that performs the same function with significant performance improvements.
+CryptDecodeObject 関数は、lpszStructType パラメータが示す型の構造体を復号する。大幅な性能向上を伴う同じ機能を実現する API として CryptDecodeObjectEx の使用が推奨される。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, lpszStructType, pbEncoded, cbEncoded, dwFlags, pvStructInfo, pcbStructInfo
-dwCertEncodingType : [int] Type of encoding used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-lpszStructType : [str] A pointer to an OID defining the structure type. If the high-order word of the lpszStructType parameter is zero, the low-order word specifies the integer identifier for the type of the specified structure. Otherwise, this parameter is a long pointer to a null-terminated string. For more information about object identifier strings, their predefined constants and corresponding structures, see Constants for CryptEncodeObject and CryptDecodeObject.
-pbEncoded : [var] A pointer to the encoded structure to be decoded.
-cbEncoded : [int] Number of bytes pointed to by pbEncoded.
-dwFlags : [int] The following flags are defined. They can be combined with a bitwise-OR operation.
-pvStructInfo : [intptr] A pointer to a buffer to receive the decoded structure. When the buffer that is specified is not large enough to receive the decoded structure, the function sets the ERROR_MORE_DATA code and stores the required buffer size, in bytes, in the variable pointed to by pcbStructInfo. This parameter can be NULL to retrieve the size of this information for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbStructInfo : [var] A pointer to a DWORD value specifying the size, in bytes, of the buffer pointed to by the pvStructInfo parameter. When the function returns, this DWORD value contains the size of the decoded data copied to pvStructInfo. The size contained in the variable pointed to by pcbStructInfo can indicate a size larger than the decoded structure, as the decoded structure can include pointers to other structures. This size is the sum of the size needed by the decoded structure and other structures pointed to.
+dwCertEncodingType : [int] 使用するエンコーディングの型。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+lpszStructType : [str] 構造体の型を定義する OID へのポインタ。lpszStructType パラメータの上位ワードが 0 の場合、下位ワードは指定された構造体の型の整数識別子を指定する。それ以外の場合、このパラメータは NULL 終端文字列への long ポインタとなる。オブジェクト識別子文字列、その定義済み定数および対応する構造体の詳細については、Constants for CryptEncodeObject and CryptDecodeObject を参照。
+pbEncoded : [var] 復号する符号化済み構造体へのポインタ。
+cbEncoded : [int] pbEncoded が指すバイト数。
+dwFlags : [int] 次のフラグが定義されている。これらはビットごとの OR 演算で組み合わせることができる。
+pvStructInfo : [intptr] 復号済み構造体を受け取るバッファへのポインタ。指定されたバッファが復号済み構造体を受け取るのに十分な大きさでない場合、関数は ERROR_MORE_DATA を設定し、必要なバッファサイズ (バイト単位) を pcbStructInfo が指す変数に格納する。メモリ割り当て目的でこの情報のサイズを取得するため、このパラメータは NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbStructInfo : [var] pvStructInfo パラメータが指すバッファのサイズ (バイト単位) を指定する DWORD 値へのポインタ。関数が戻ると、この DWORD 値には pvStructInfo にコピーされた復号済みデータのサイズが格納される。pcbStructInfo が指す変数に含まれるサイズは、復号済み構造体が他の構造体へのポインタを含むことができるため、復号済み構造体よりも大きいサイズを示すことがある。このサイズは復号済み構造体が必要とするサイズと、参照先の他の構造体のサイズの合計である。
 %inst
-The CryptDecodeObject function decodes a structure of the type
-indicated by the lpszStructType parameter. The use of
-CryptDecodeObjectEx is recommended as an API that performs the same
-function with significant performance improvements.
+CryptDecodeObject 関数は、lpszStructType
+パラメータが示す型の構造体を復号する。大幅な性能向上を伴う同じ機能を実現する API として CryptDecodeObjectEx
+の使用が推奨される。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. Some possible error codes are listed
-in the following table.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。次の表に、想定されるエラーコードの一部を示す。
+（以下省略）
 
 [備考]
-When encoding a cryptographic object using the preferred
-CryptEncodeObjectEx function, the terminating NULL character is
-included. When decoding, using the preferred CryptDecodeObjectEx
-function, the terminating NULL character is not retained.
+推奨される CryptEncodeObjectEx 関数を使用して暗号オブジェクトを符号化する場合、NULL
+終端文字が含まれる。推奨される CryptDecodeObjectEx 関数を使用して復号する場合、NULL 終端文字は保持されない。
 
 
 %index
 CryptDecodeObjectEx
-Decodes a structure of the type indicated by the lpszStructType parameter.
+lpszStructType パラメータが示す型の構造体を復号する。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, lpszStructType, pbEncoded, cbEncoded, dwFlags, pDecodePara, pvStructInfo, pcbStructInfo
-dwCertEncodingType : [int] The type of encoding used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-lpszStructType : [str] A pointer to an object identifier (OID) that defines the structure type. If the high-order word of the lpszStructType parameter is zero, the low-order word specifies the integer identifier for the type of the specified structure. Otherwise, this parameter is a long pointer to a null-terminated string. For more information about object identifier strings, their predefined constants, and corresponding structures, see Constants for CryptEncodeObject and CryptDecodeObject.
-pbEncoded : [var] A pointer to the data to be decoded. The structure must be of the type specified by lpszStructType.
-cbEncoded : [int] The number of bytes pointed to by pbEncoded. This is the number of bytes to be decoded.
-dwFlags : [int] This parameter can be one or more of the following flags. The flags can be combined by using a bitwise-OR operation.
-pDecodePara : [var] A pointer to a CRYPT_DECODE_PARA structure that contains decoding paragraph information. If pDecodePara is set to NULL, then LocalAlloc and LocalFree are used to allocate and free memory. If pDecodePara points to a CRYPT_DECODE_PARA structure, that structure passes in callback functions to allocate and free memory. These callback functions override the default memory allocation of LocalAlloc and LocalFree.
-pvStructInfo : [intptr] If the dwFlags CRYPT_ENCODE_ALLOC_FLAG is set, pvStructInfo is not a pointer to a buffer but is the address of a pointer to the buffer. Because memory is allocated inside the function and the pointer is stored at *pvStructInfo, pvStructInfo must never be NULL. If CRYPT_ENCODE_ALLOC_FLAG is not set, pvStructInfo is a pointer to a buffer that receives the decoded structure. When the buffer that is specified is not large enough to receive the decoded structure, the function sets the ERROR_MORE_DATA code and stores the required buffer size, in bytes, in the variable pointed to by pcbStructInfo. This parameter can be NULL to retrieve the size of this information for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbStructInfo : [var] A pointer to a DWORD variable that contains the size, in bytes, of the buffer pointed to by the pvStructInfo parameter. When the function returns, the DWORD value contains the number of bytes stored in the buffer. The size contained in the variable pointed to by pcbStructInfo can indicate a size larger than the decoded structure because the decoded structure can include pointers to auxiliary data. This size is the sum of the size needed by the decoded structure and the auxiliary data. When CRYPT_DECODE_ALLOC_FLAG is set, the initial value of *pcbStructInfo is not used by the function, and on return, *pcbStructInfo contains the number of bytes allocated for pvStructInfo. Note??When processing the data returned in the buffer, applications must use the actual size of the data returned. The actual size can be slightly smaller than the size of the buffer specified on input. (On input, buffer sizes are usually specified large enough to ensure that the largest possible output data fits in the buffer.) On output, the variable pointed to by this parameter is updated to reflect the actual size of the data copied to the buffer.
+dwCertEncodingType : [int] 使用するエンコーディングの型。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+lpszStructType : [str] 構造体の型を定義するオブジェクト識別子 (OID) へのポインタ。lpszStructType パラメータの上位ワードが 0 の場合、下位ワードは指定された構造体の型の整数識別子を指定する。それ以外の場合、このパラメータは NULL 終端文字列への long ポインタとなる。
+pbEncoded : [var] 復号するデータへのポインタ。構造体は lpszStructType で指定された型でなければならない。
+cbEncoded : [int] pbEncoded が指すバイト数。これは復号するバイト数を表す。
+dwFlags : [int] このパラメータには次のフラグのうち 1 つ以上を指定できる。フラグはビットごとの OR 演算で組み合わせることができる。
+pDecodePara : [var] デコード段落情報を含む CRYPT_DECODE_PARA 構造体へのポインタ。pDecodePara が NULL に設定されている場合、メモリの割り当てと解放には LocalAlloc と LocalFree が使用される。pDecodePara が CRYPT_DECODE_PARA 構造体を指している場合、その構造体がメモリの割り当てと解放用のコールバック関数を渡す。これらのコールバック関数は LocalAlloc と LocalFree の既定のメモリ割り当てをオーバーライドする。
+pvStructInfo : [intptr] dwFlags に CRYPT_ENCODE_ALLOC_FLAG が設定されている場合、pvStructInfo はバッファへのポインタではなく、バッファへのポインタのアドレスとなる。メモリは関数内部で割り当てられ、ポインタは *pvStructInfo に格納されるため、pvStructInfo が NULL であってはならない。CRYPT_ENCODE_ALLOC_FLAG が設定されていない場合、pvStructInfo は復号済み構造体を受け取るバッファへのポインタとなる。指定されたバッファが復号済み構造体を受け取るのに十分な大きさでない場合、関数は ERROR_MORE_DATA コードを設定し、必要なバッファサイズ (バイト単位) を pcbStructInfo が指す変数に格納する。メモリ割り当て目的でこの情報のサイズを取得するため、このパラメータは NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbStructInfo : [var] pvStructInfo パラメータが指すバッファのサイズ (バイト単位) を含む DWORD 変数へのポインタ。関数が戻ると、この DWORD 値はバッファに格納されたバイト数を含む。pcbStructInfo が指す変数に含まれるサイズは、復号済み構造体が補助データへのポインタを含むことがあるため、復号済み構造体より大きいサイズを示すことがある。このサイズは復号済み構造体が必要とするサイズと補助データのサイズの合計である。CRYPT_DECODE_ALLOC_FLAG が設定されている場合、*pcbStructInfo の初期値は関数に使用されず、復帰時に *pcbStructInfo は pvStructInfo に割り当てられたバイト数を含む。注意 バッファ内で返されたデータを処理する際、アプリケーションは返されたデータの実際のサイズを使用しなければならない。実際のサイズは入力時に指定されたバッファのサイズよりわずかに小さいことがある。出力時にはこのパラメータが指す変数は、実際のデータサイズを反映するよう更新される。
 %inst
-Decodes a structure of the type indicated by the lpszStructType
-parameter.
+lpszStructType パラメータが示す型の構造体を復号する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. The following table shows some
-possible error codes.
-This doc was truncated.
+関数が成功した場合、0 以外 (TRUE) を返す。関数が失敗した場合、0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。次の表にいくつかの想定されるエラーコードを示す。
+（以下省略）
 
 [備考]
-When encoding a cryptographic object using the preferred
-CryptEncodeObjectEx function, the terminating NULL character is
-included. When decoding, using the preferred CryptDecodeObjectEx
-function, the terminating NULL character is not retained. Each
-constant in the list below has an associated structure type that is
-pointed to by the pvStructInfo parameter. The structure pointed to,
-directly or indirectly, has a reference to a CERT_ALT_NAME_ENTRY
-structure.
-This doc was truncated.
+推奨される CryptEncodeObjectEx 関数を使用して暗号オブジェクトを符号化する場合、NULL
+終端文字が含まれる。推奨される CryptDecodeObjectEx 関数を使用して復号する場合、NULL
+終端文字は保持されない。下記のリストの各定数には、pvStructInfo
+パラメータが指す関連する構造体型がある。直接または間接的に指される構造体は CERT_ALT_NAME_ENTRY 構造体への参照を持つ。
+（以下省略）
 
 
 %index
 CryptDecryptAndVerifyMessageSignature
-The CryptDecryptAndVerifyMessageSignature function decrypts a message and verifies its signature.
+CryptDecryptAndVerifyMessageSignature 関数は、メッセージを復号し署名を検証する。
 %group
 Win32 crypt32
 %prm
 pDecryptPara, pVerifyPara, dwSignerIndex, pbEncryptedBlob, cbEncryptedBlob, pbDecrypted, pcbDecrypted, ppXchgCert, ppSignerCert
-pDecryptPara : [var] A pointer to a CRYPT_DECRYPT_MESSAGE_PARA structure that contains decryption parameters.
-pVerifyPara : [var] A pointer to a CRYPT_VERIFY_MESSAGE_PARA structure that contains  verification parameters.
-dwSignerIndex : [int] Identifies a particular signer of the message. A message can be signed by more than one signer and this function can be called multiple times changing this parameter to check for several signers. It is set to zero for the first signer. If the function returns FALSE, and GetLastError returns CRYPT_E_NO_SIGNER, the previous call received the last signer of the message.
-pbEncryptedBlob : [var] A pointer to the signed, encoded, and encrypted message to be decrypted and verified.
-cbEncryptedBlob : [int] The size, in bytes, of the encrypted message.
-pbDecrypted : [var] A pointer to a buffer to receive the decrypted message.
-pcbDecrypted : [var] A pointer to a DWORD that specifies the size, in bytes, of the buffer pointed to by the pbDecrypted parameter. When the function returns, it contains the size of the decrypted message copied to pbDecrypted.
-ppXchgCert : [var] A pointer to a CERT_CONTEXT structure of the certificate that corresponds to the private exchange key needed to decrypt the message.
-ppSignerCert : [var] A pointer to a CERT_CONTEXT structure of the certificate of the signer.
+pDecryptPara : [var] 復号パラメータを含む CRYPT_DECRYPT_MESSAGE_PARA 構造体へのポインタ。
+pVerifyPara : [var] 検証パラメータを含む CRYPT_VERIFY_MESSAGE_PARA 構造体へのポインタ。
+dwSignerIndex : [int] メッセージの特定の署名者を識別する。メッセージは複数の署名者によって署名されることがあり、このパラメータを変更しながらこの関数を複数回呼び出して複数の署名者を確認できる。最初の署名者では 0 に設定する。関数が FALSE を返し、GetLastError が CRYPT_E_NO_SIGNER を返す場合、前回の呼び出しでメッセージの最後の署名者を受け取ったことを示す。
+pbEncryptedBlob : [var] 復号および検証を行う署名・符号化・暗号化されたメッセージへのポインタ。
+cbEncryptedBlob : [int] 暗号化メッセージのサイズ (バイト単位)。
+pbDecrypted : [var] 復号されたメッセージを受け取るバッファへのポインタ。
+pcbDecrypted : [var] pbDecrypted パラメータが指すバッファのサイズ (バイト単位) を指定する DWORD へのポインタ。関数が戻ると、pbDecrypted にコピーされた復号済みメッセージのサイズが格納される。
+ppXchgCert : [var] メッセージを復号するために必要な秘密鍵交換鍵に対応する証明書を表す CERT_CONTEXT 構造体へのポインタ。
+ppSignerCert : [var] 署名者の証明書を表す CERT_CONTEXT 構造体へのポインタ。
 %inst
-The CryptDecryptAndVerifyMessageSignature function decrypts a message
-and verifies its signature.
+CryptDecryptAndVerifyMessageSignature 関数は、メッセージを復号し署名を検証する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. Note Errors from the called functions
-CryptDecryptMessage and CryptVerifyMessageSignature might be
-propagated to this function. The GetLastError function returns the
-following error code most often.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。注意 呼び出された CryptDecryptMessage および
+CryptVerifyMessageSignature 関数のエラーがこの関数に伝播することがある。GetLastError
+関数は最も一般的に次のエラーコードを返す。
+（以下省略）
 
 [備考]
-For a successfully decrypted and verified message, the certificate
-context pointers pointed to by ppXchgCert and ppSignerCert are
-updated. They must be freed by calling CertFreeCertificateContext. If
-the function fails, they are set to NULL. To indicate that the caller
-is not interested in the exchange certificate or the signer
-certificate context, set the ppXchgCert and ppSignerCert parameters
-to NULL.
+メッセージの復号および検証に成功すると、ppXchgCert および ppSignerCert
+が指す証明書コンテキストポインタが更新される。これらは CertFreeCertificateContext
+を呼び出して解放しなければならない。関数が失敗した場合、これらは NULL
+に設定される。呼び出し元が交換証明書や署名者証明書コンテキストに関心がないことを示すには、ppXchgCert および
+ppSignerCert パラメータを NULL に設定する。
 
 
 %index
 CryptDecryptMessage
-The CryptDecryptMessage function decodes and decrypts a message.
+CryptDecryptMessage 関数はメッセージを復号化および復号する。
 %group
 Win32 crypt32
 %prm
 pDecryptPara, pbEncryptedBlob, cbEncryptedBlob, pbDecrypted, pcbDecrypted, ppXchgCert
-pDecryptPara : [var] A pointer to a CRYPT_DECRYPT_MESSAGE_PARA structure that contains decryption parameters.
-pbEncryptedBlob : [var] A pointer to a buffer that contains the encoded and encrypted message to be decrypted.
-cbEncryptedBlob : [int] The size, in bytes, of the encoded and encrypted message.
-pbDecrypted : [var] A pointer to a buffer that receives the decrypted message.
-pcbDecrypted : [var] A pointer to a DWORD that specifies the size, in bytes, of the buffer pointed to by the pbDecrypted parameter. When the function returns, this variable contains the size, in bytes, of the decrypted message copied to pbDecrypted.
-ppXchgCert : [var] A pointer to a CERT_CONTEXT structure of a certificate that corresponds to the private exchange key needed to decrypt the message. To indicate that the function should not return the certificate context used to decrypt, set this parameter to NULL.
+pDecryptPara : [var] 復号パラメータを含む CRYPT_DECRYPT_MESSAGE_PARA 構造体へのポインタ。
+pbEncryptedBlob : [var] 復号する符号化・暗号化されたメッセージを含むバッファへのポインタ。
+cbEncryptedBlob : [int] 符号化・暗号化されたメッセージのサイズ (バイト単位)。
+pbDecrypted : [var] 復号されたメッセージを受け取るバッファへのポインタ。
+pcbDecrypted : [var] pbDecrypted パラメータが指すバッファのサイズ (バイト単位) を指定する DWORD へのポインタ。関数が戻ると、この変数は pbDecrypted にコピーされた復号済みメッセージのサイズ (バイト単位) を含む。
+ppXchgCert : [var] メッセージを復号するために必要な秘密鍵交換鍵に対応する証明書を表す CERT_CONTEXT 構造体へのポインタ。関数が復号に使用された証明書コンテキストを返さないことを示すには、このパラメータを NULL に設定する。
 %inst
-The CryptDecryptMessage function decodes and decrypts a message.
+CryptDecryptMessage 関数はメッセージを復号化および復号する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. Note Errors from calls to
-CryptImportKey and CryptDecrypt might be propagated to this function.
-The GetLastError function returns the following error codes most
-often.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。注意 CryptImportKey および CryptDecrypt
+の呼び出しからのエラーがこの関数に伝播することがある。GetLastError 関数は最も一般的に次のエラーコードを返す。
+（以下省略）
 
 [備考]
-When NULL is passed for pbDecrypted, and pcbDecrypted is not NULL,
-NULL is returned for the address passed in ppXchgCert; otherwise, a
-pointer to a CERT_CONTEXT is returned. For a successfully decrypted
-message, this pointer to a CERT_CONTEXT points to the certificate
-context used to decrypt the message. It must be freed by calling
-CertFreeCertificateContext. If the function fails, the value at
-ppXchgCert is set to NULL.
+pbDecrypted に NULL が渡され、pcbDecrypted が NULL でない場合、ppXchgCert
+に渡されたアドレスには NULL が返される。それ以外の場合は CERT_CONTEXT
+へのポインタが返される。復号に成功したメッセージについて、この CERT_CONTEXT
+へのポインタはメッセージの復号に使用された証明書コンテキストを指す。これは CertFreeCertificateContext
+を呼び出して解放しなければならない。関数が失敗した場合、ppXchgCert の値は NULL に設定される。
 
 
 %index
 CryptEncodeObject
-The CryptEncodeObject function encodes a structure of the type indicated by the value of the lpszStructType parameter. The use of CryptEncodeObjectEx is recommended as an API that performs the same function with significant performance improvements.
+CryptEncodeObject 関数は、lpszStructType パラメータの値が示す型の構造体を符号化する。大幅な性能向上を伴う同じ機能を実現する API として CryptEncodeObjectEx の使用が推奨される。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, lpszStructType, pvStructInfo, pbEncoded, pcbEncoded
-dwCertEncodingType : [int] Type of encoding used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-lpszStructType : [str] A pointer to an OID defining the structure type. If the high-order word of the lpszStructType parameter is zero, the low-order word specifies the integer identifier for the type of the specified structure. Otherwise, this parameter is a long pointer to a null-terminated string. For more information about object identifier strings, their predefined constants and corresponding structures, see Constants for CryptEncodeObject and CryptDecodeObject.
-pvStructInfo : [intptr] A pointer to the structure to be encoded. The structure must be of a type specified by lpszStructType.
-pbEncoded : [var] A pointer to a buffer to receive the encoded structure. When the buffer that is specified is not large enough to receive the decoded structure, the function sets the ERROR_MORE_DATA code and stores the required buffer size, in bytes, in the variable pointed to by pcbEncoded. This parameter can be NULL to retrieve the size of this information for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbEncoded : [var] A pointer to a DWORD variable that contains the size, in bytes, of the buffer pointed to by the pbEncoded parameter. When the function returns, the DWORD value contains the number of allocated encoded bytes stored in the buffer. Note??When processing the data returned in the buffer, applications must use the actual size of the data returned. The actual size can be slightly smaller than the size of the buffer specified on input. (On input, buffer sizes are usually specified large enough to ensure that the largest possible output data fits in the buffer.) On output, the variable pointed to by this parameter is updated to reflect the actual size of the data copied to the buffer.
+dwCertEncodingType : [int] 使用するエンコーディングの型。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+lpszStructType : [str] 構造体の型を定義する OID へのポインタ。lpszStructType パラメータの上位ワードが 0 の場合、下位ワードは指定された構造体の型の整数識別子を指定する。それ以外の場合、このパラメータは NULL 終端文字列への long ポインタとなる。
+pvStructInfo : [intptr] 符号化する構造体へのポインタ。構造体は lpszStructType で指定された型でなければならない。
+pbEncoded : [var] 符号化された構造体を受け取るバッファへのポインタ。指定されたバッファが復号済み構造体を受け取るのに十分な大きさでない場合、関数は ERROR_MORE_DATA コードを設定し、必要なバッファサイズ (バイト単位) を pcbEncoded が指す変数に格納する。メモリ割り当て目的でこの情報のサイズを取得するため、このパラメータは NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbEncoded : [var] pbEncoded パラメータが指すバッファのサイズ (バイト単位) を含む DWORD 変数へのポインタ。関数が戻ると、この DWORD 値はバッファに格納された割り当て済み符号化バイト数を含む。注意 バッファ内で返されたデータを処理する際、アプリケーションは返されたデータの実際のサイズを使用しなければならない。実際のサイズは入力で指定されたバッファのサイズよりわずかに小さいことがある。出力時には、このパラメータが指す変数は実際のデータサイズを反映するよう更新される。
 %inst
-The CryptEncodeObject function encodes a structure of the type
-indicated by the value of the lpszStructType parameter. The use of
-CryptEncodeObjectEx is recommended as an API that performs the same
-function with significant performance improvements.
+CryptEncodeObject 関数は、lpszStructType
+パラメータの値が示す型の構造体を符号化する。大幅な性能向上を伴う同じ機能を実現する API として CryptEncodeObjectEx
+の使用が推奨される。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. Some possible error codes are listed
-in the following table.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。次の表に想定されるエラーコードの一部を示す。
+（以下省略）
 
 [備考]
-When encoding a cryptographic object using the preferred
-CryptEncodeObjectEx function, the terminating NULL character is
-included. When decoding, using the preferred CryptDecodeObjectEx
-function, the terminating NULL character is not retained.
+推奨される CryptEncodeObjectEx 関数を使用して暗号オブジェクトを符号化する場合、NULL
+終端文字が含まれる。推奨される CryptDecodeObjectEx 関数を使用して復号する場合、NULL 終端文字は保持されない。
 
 
 %index
 CryptEncodeObjectEx
-Encodes a structure of the type indicated by the value of the lpszStructType parameter.
+lpszStructType パラメータの値が示す型の構造体を符号化する。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, lpszStructType, pvStructInfo, dwFlags, pEncodePara, pvEncoded, pcbEncoded
 dwCertEncodingType : [int] 
-lpszStructType : [str] A pointer to an object identifier (OID) that defines the structure type. If the high-order word of the lpszStructType parameter is zero, the low-order word specifies an integer identifier for the type of the specified structure. Otherwise, this parameter is a pointer to a null-terminated string that contains the string representation of the OID. For more information about object identifier strings, their predefined constants and corresponding structures, see Constants for CryptEncodeObject and CryptDecodeObject.
-pvStructInfo : [intptr] A pointer to the structure to be encoded. The structure must be of the type specified by lpszStructType.
+lpszStructType : [str] 構造体の型を定義するオブジェクト識別子 (OID) へのポインタ。lpszStructType パラメータの上位ワードが 0 の場合、下位ワードは指定された構造体の型の整数識別子を指定する。それ以外の場合、このパラメータは OID の文字列表現を含む NULL 終端文字列へのポインタとなる。
+pvStructInfo : [intptr] 符号化する構造体へのポインタ。構造体は lpszStructType で指定された型でなければならない。
 dwFlags : [int] 
-pEncodePara : [var] A pointer to a CRYPT_ENCODE_PARA structure that contains encoding information. This parameter can be NULL. If either pEncodePara or the pfnAlloc member of pEncodePara is NULL, then LocalAlloc is used for the allocation and LocalFree must be called to free the memory. If both pEncodePara and the pfnAlloc member of pEncodePara are not NULL, then the function pointed to by the pfnAlloc member of the CRYPT_ENCODE_PARA structure pointed to by pEncodePara is called for the allocation. The function pointed to by the pfnFree member of pEncodePara must be called to free the memory.
-pvEncoded : [intptr] A pointer to a buffer to receive the encoded structure. The size of this buffer is specified in the pcbEncoded parameter. When the buffer that is specified is not large enough to receive the decoded structure, the function sets the ERROR_MORE_DATA code and stores the required buffer size, in bytes, in the variable pointed to by pcbEncoded. This parameter can be NULL to retrieve the size of the buffer for memory allocation purposes. For more information, see Retrieving Data of Unknown Length. If dwFlags contains the CRYPT_ENCODE_ALLOC_FLAG flag, pvEncoded is not a pointer to a buffer but is the address of a pointer to the buffer. Because memory is allocated inside the function and the pointer is stored in pvEncoded, pvEncoded cannot be NULL.
-pcbEncoded : [var] A pointer to a DWORD variable that contains the size, in bytes, of the buffer pointed to by the pvEncoded parameter. When the function returns, the variable pointed to by the pcbEncoded parameter contains the number of allocated, encoded bytes stored in the buffer. When dwFlags contains the CRYPT_ENCODE_ALLOC_FLAG flag, pcbEncoded is the address of a pointer to the DWORD value that is updated. Note??When processing the data returned in the buffer, applications must use the actual size of the data returned. The actual size can be slightly smaller than the size of the buffer specified on input. (On input, buffer sizes are usually specified large enough to ensure that the largest possible output data fits in the buffer.) On output, the variable pointed to by this parameter is updated to reflect the actual size of the data copied to the buffer.
+pEncodePara : [var] 符号化情報を含む CRYPT_ENCODE_PARA 構造体へのポインタ。このパラメータは NULL にできる。pEncodePara か pEncodePara の pfnAlloc メンバのいずれかが NULL の場合、割り当てには LocalAlloc が使用され、メモリを解放するには LocalFree を呼び出さなければならない。pEncodePara と pEncodePara の pfnAlloc メンバの両方が NULL でない場合、pEncodePara が指す CRYPT_ENCODE_PARA 構造体の pfnAlloc メンバが指す関数が割り当てに呼び出される。メモリを解放するには pEncodePara の pfnFree メンバが指す関数を呼び出さなければならない。
+pvEncoded : [intptr] 符号化された構造体を受け取るバッファへのポインタ。このバッファのサイズは pcbEncoded パラメータで指定される。指定されたバッファが復号済み構造体を受け取るのに十分な大きさでない場合、関数は ERROR_MORE_DATA コードを設定し、必要なバッファサイズ (バイト単位) を pcbEncoded が指す変数に格納する。メモリ割り当て目的でバッファのサイズを取得するため、このパラメータは NULL にできる。詳細は Retrieving Data of Unknown Length を参照。dwFlags に CRYPT_ENCODE_ALLOC_FLAG フラグが含まれている場合、pvEncoded はバッファへのポインタではなく、バッファへのポインタのアドレスとなる。メモリは関数内部で割り当てられ、ポインタは pvEncoded に格納されるため、pvEncoded を NULL にすることはできない。
+pcbEncoded : [var] pvEncoded パラメータが指すバッファのサイズ (バイト単位) を含む DWORD 変数へのポインタ。関数が戻ると、pcbEncoded パラメータが指す変数はバッファに格納された割り当て済み符号化バイト数を含む。dwFlags に CRYPT_ENCODE_ALLOC_FLAG フラグが含まれている場合、pcbEncoded は更新される DWORD 値へのポインタのアドレスとなる。注意 バッファ内で返されたデータを処理する際、アプリケーションは返されたデータの実際のサイズを使用しなければならない。実際のサイズは入力で指定されたバッファのサイズよりわずかに小さいことがある。出力時には、このパラメータが指す変数は実際のデータサイズを反映するよう更新される。
 %inst
-Encodes a structure of the type indicated by the value of the
-lpszStructType parameter.
+lpszStructType パラメータの値が示す型の構造体を符号化する。
 
 [戻り値]
-Returns nonzero if successful or zero otherwise. For extended error
-information, call GetLastError. The following table shows some
-possible error codes that can be returned from GetLastError when
-CryptEncodeObjectEx fails.
-This doc was truncated.
+成功した場合は 0 以外、失敗した場合は 0 を返す。拡張エラー情報を取得するには GetLastError
+を呼び出す。次の表に、CryptEncodeObjectEx が失敗したときに GetLastError
+から返される可能性のあるエラーコードの一部を示す。
+（以下省略）
 
 [備考]
-When encoding a cryptographic object using the preferred
-CryptEncodeObjectEx function, the terminating NULL character is
-included. When decoding, using the preferred CryptDecodeObjectEx
-function, the terminating NULL character is not retained.
-CryptEncodeObjectEx first looks for an installable extended encoding
-function. If no extended encoding function is found, the old,
-nonextended, installable function is located. When direct IA5String
-encoding of the object is not possible, you can specify Punycode
-encoding by setting the dwFlag parameter to the
-CRYPT_ENCODE_ENABLE_PUNYCODE_FLAG value. Setting the
-CRYPT_ENCODE_ENABLE_PUNYCODE_FLAG flag has different effects based on
-the structure type being encoded as specified by the value of the
-lpszStructType parameter. Each constant in the list below has an
-associated structure type that is pointed to by the pvStructInfo
-parameter. The structure pointed to, directly or indirectly, has a
-reference to a CERT_ALT_NAME_ENTRY structure.
-This doc was truncated.
+推奨される CryptEncodeObjectEx 関数を使用して暗号オブジェクトを符号化する場合、NULL
+終端文字が含まれる。推奨される CryptDecodeObjectEx 関数を使用して復号する場合、NULL
+終端文字は保持されない。CryptEncodeObjectEx
+は最初にインストール可能な拡張符号化関数を検索する。拡張符号化関数が見つからない場合、古い非拡張のインストール可能関数が位置付けされる。オブジェクトの直接的な
+IA5String 符号化ができない場合、dwFlag パラメータに CRYPT_ENCODE_ENABLE_PUNYCODE_FLAG
+を設定することで Punycode 符号化を指定できる。CRYPT_ENCODE_ENABLE_PUNYCODE_FLAG
+フラグを設定する効果は、lpszStructType
+パラメータで指定される符号化対象の構造体の型によって異なる。下記のリストの各定数には、pvStructInfo
+パラメータが指す関連する構造体型がある。直接または間接的に指される構造体は CERT_ALT_NAME_ENTRY 構造体への参照を持つ。
+（以下省略）
 
 
 %index
 CryptEncryptMessage
-The CryptEncryptMessage function encrypts and encodes a message.
+CryptEncryptMessage 関数はメッセージを暗号化および符号化する。
 %group
 Win32 crypt32
 %prm
 pEncryptPara, cRecipientCert, rgpRecipientCert, pbToBeEncrypted, cbToBeEncrypted, pbEncryptedBlob, pcbEncryptedBlob
-pEncryptPara : [var] A pointer to a CRYPT_ENCRYPT_MESSAGE_PARA structure that contains the encryption parameters. The CryptEncryptMessage function does not support the SHA2 OIDs, szOID_DH_SINGLE_PASS_STDDH_SHA256_KDF and  szOID_DH_SINGLE_PASS_STDDH_SHA384_KDF.
-cRecipientCert : [int] Number of elements in the rgpRecipientCert array.
-rgpRecipientCert : [var] Array of pointers to CERT_CONTEXT structures that contain the certificates of intended recipients of the message.
-pbToBeEncrypted : [var] A pointer to a buffer that contains the message that is to be encrypted.
-cbToBeEncrypted : [int] The size, in bytes, of the message that is to be encrypted.
-pbEncryptedBlob : [var] A pointer to BLOB that contains a buffer that receives the encrypted and encoded message.
-pcbEncryptedBlob : [var] A pointer to a DWORD that specifies the size, in bytes, of the buffer pointed to by the pbEncryptedBlob parameter. When the function returns, this variable contains the size, in bytes, of the encrypted and encoded message copied to pbEncryptedBlob.
+pEncryptPara : [var] 暗号化パラメータを含む CRYPT_ENCRYPT_MESSAGE_PARA 構造体へのポインタ。CryptEncryptMessage 関数は SHA2 系 OID である szOID_DH_SINGLE_PASS_STDDH_SHA256_KDF および szOID_DH_SINGLE_PASS_STDDH_SHA384_KDF をサポートしない。
+cRecipientCert : [int] rgpRecipientCert 配列の要素数。
+rgpRecipientCert : [var] メッセージの意図された受信者の証明書を含む CERT_CONTEXT 構造体へのポインタの配列。
+pbToBeEncrypted : [var] 暗号化するメッセージを含むバッファへのポインタ。
+cbToBeEncrypted : [int] 暗号化するメッセージのサイズ (バイト単位)。
+pbEncryptedBlob : [var] 暗号化・符号化されたメッセージを受け取るバッファを含む BLOB へのポインタ。
+pcbEncryptedBlob : [var] pbEncryptedBlob パラメータが指すバッファのサイズ (バイト単位) を指定する DWORD へのポインタ。関数が戻ると、この変数は pbEncryptedBlob にコピーされた暗号化・符号化されたメッセージのサイズ (バイト単位) を含む。
 %inst
-The CryptEncryptMessage function encrypts and encodes a message.
+CryptEncryptMessage 関数はメッセージを暗号化および符号化する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. Note Errors from calls to
-CryptGenKey, CryptEncrypt, CryptImportKey, and CryptExportKey can be
-propagated to this function. The GetLastError function returns the
-following error codes most often.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。注意
+CryptGenKey、CryptEncrypt、CryptImportKey、CryptExportKey
+の呼び出しからのエラーがこの関数に伝播することがある。GetLastError 関数は最も一般的に次のエラーコードを返す。
+（以下省略）
 
 
 %index
 CryptEnumKeyIdentifierProperties
-The CryptEnumKeyIdentifierProperties function enumerates key identifiers and their properties.
+CryptEnumKeyIdentifierProperties 関数は鍵識別子とそのプロパティを列挙する。
 %group
 Win32 crypt32
 %prm
 pKeyIdentifier, dwPropId, dwFlags, pwszComputerName, pvReserved, pvArg, pfnEnum
-pKeyIdentifier : [var] A pointer to a CRYPT_HASH_BLOB structure that contains the key identifier.
-dwPropId : [int] Indicates the property identifier to be listed.
-dwFlags : [int] By default, the list of key identifiers for the CurrentUser is searched. If CRYPT_KEYID_MACHINE_FLAG is set, the list of key identifiers of the LocalMachine (if pwszComputerName is NULL) or of a remote computer (if pwszComputerName is not NULL) is searched. For more information, see pwszComputerName.
-pwszComputerName : [wstr] A pointer to the name of a remote computer to be searched. If CRYPT_KEYID_MACHINE_FLAG is set in dwFlags, the remote computer is searched for a list of key identifiers. If the local computer is to be searched and not a remote computer, pwszComputerName is set to NULL.
-pvReserved : [intptr] Reserved for future use and must be NULL.
-pvArg : [intptr] A pointer to data to be passed to the callback function. The type is a void that allows the application to declare, define, and initialize a structure or argument to hold any information.
-pfnEnum : [int] A pointer to an application-defined callback function that is executed for each key identifier entry that matches the input parameters. For details about the callback functions parameters, see CRYPT_ENUM_KEYID_PROP.
+pKeyIdentifier : [var] 鍵識別子を含む CRYPT_HASH_BLOB 構造体へのポインタ。
+dwPropId : [int] 列挙するプロパティ識別子を示す。
+dwFlags : [int] 既定では CurrentUser の鍵識別子の一覧が検索される。CRYPT_KEYID_MACHINE_FLAG が設定されている場合、LocalMachine (pwszComputerName が NULL の場合) またはリモートコンピュータ (pwszComputerName が NULL でない場合) の鍵識別子の一覧が検索される。詳細は pwszComputerName を参照。
+pwszComputerName : [wstr] 検索するリモートコンピュータの名前へのポインタ。dwFlags に CRYPT_KEYID_MACHINE_FLAG が設定されている場合、リモートコンピュータから鍵識別子の一覧が検索される。リモートコンピュータではなくローカルコンピュータを検索する場合、pwszComputerName は NULL に設定する。
+pvReserved : [intptr] 将来使用のために予約されており、NULL でなければならない。
+pvArg : [intptr] コールバック関数に渡されるデータへのポインタ。型は void で、アプリケーションが任意の情報を保持する構造体や引数を宣言・定義・初期化できる。
+pfnEnum : [int] 入力パラメータと一致する各鍵識別子エントリに対して実行されるアプリケーション定義のコールバック関数へのポインタ。コールバック関数のパラメータの詳細については CRYPT_ENUM_KEYID_PROP を参照。
 %inst
-The CryptEnumKeyIdentifierProperties function enumerates key
-identifiers and their properties.
+CryptEnumKeyIdentifierProperties 関数は鍵識別子とそのプロパティを列挙する。
 
 [戻り値]
-The CryptEnumKeyIdentifierProperties function repeatedly calls the
-CRYPT_ENUM_KEYID_PROP callback function until the last key identifier
-is enumerated or the callback function returns FALSE. If the main
-function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. To continue enumeration, the function
-returns TRUE. To stop enumeration, the function returns FALSE and
-sets the last error code.
+CryptEnumKeyIdentifierProperties 関数は、最後の鍵識別子が列挙されるか、コールバック関数が FALSE
+を返すまで CRYPT_ENUM_KEYID_PROP コールバック関数を繰り返し呼び出す。メイン関数が成功した場合、関数は 0 以外
+(TRUE) を返す。関数が失敗した場合、0 (FALSE) を返す。拡張エラー情報を取得するには GetLastError
+を呼び出す。列挙を継続するには関数は TRUE を返す。列挙を停止するには関数は FALSE を返し、最終エラーコードを設定する。
 
 [備考]
-A key identifier can have the same properties as a certificate
-context.
+鍵識別子は証明書コンテキストと同じプロパティを持つことができる。
 
 
 %index
 CryptEnumOIDFunction
-The CryptEnumOIDFunction function enumerates the registered object identifier (OID) functions.
+CryptEnumOIDFunction 関数は、登録されたオブジェクト識別子 (OID) 関数を列挙する。
 %group
 Win32 crypt32
 %prm
 dwEncodingType, pszFuncName, pszOID, dwFlags, pvArg, pfnEnumOIDFunc
-dwEncodingType : [int] Specifies the encoding type to match. Setting this parameter to CRYPT_MATCH_ANY_ENCODING_TYPE matches any encoding type. Note that if CRYPT_MATCH_ANY_ENCODING_TYPE is not specified, either a certificate or message encoding type is required. If the low-order word that contains the certificate encoding type is nonzero, it is used; otherwise, the high-order word that contains the message encoding type is used. If both are specified, the certificate encoding type in the low-order word is used.
-pszFuncName : [str] Name of a function for which a case insensitive match search is performed. Setting this parameter to NULL results in a match being found for any function name.
-pszOID : [str] If the high-order word of pszOID is nonzero, pszOID specifies the object identifier for which a case insensitive match search is performed. If the high-order word of pszOID is zero, pszOID is used to match a numeric object identifier. Setting this parameter to NULL matches any object identifier. Setting this parameter to CRYPT_DEFAULT_OID restricts the enumeration to only the default functions.
-dwFlags : [int] Reserved for future use and must be zero.
-pvArg : [intptr] A pointer to arguments to be passed through to the CRYPT_ENUM_OID_FUNCTION callback function.
-pfnEnumOIDFunc : [int] A pointer to the callback function that is executed for each OID function that matches the input parameters. For details, see CRYPT_ENUM_OID_FUNCTION.
+dwEncodingType : [int] 一致させるエンコーディング型を指定する。このパラメータを CRYPT_MATCH_ANY_ENCODING_TYPE に設定すると任意のエンコーディング型と一致する。CRYPT_MATCH_ANY_ENCODING_TYPE が指定されていない場合、証明書またはメッセージのエンコーディング型のいずれかが必要であることに注意。証明書エンコーディング型を含む下位ワードが 0 以外の場合、それが使用される。そうでない場合、メッセージエンコーディング型を含む上位ワードが使用される。両方が指定されている場合、下位ワードの証明書エンコーディング型が使用される。
+pszFuncName : [str] 大文字小文字を区別しない一致検索を行う関数の名前。このパラメータを NULL に設定すると、任意の関数名との一致が検出される。
+pszOID : [str] pszOID の上位ワードが 0 以外の場合、pszOID は大文字小文字を区別しない一致検索を行うオブジェクト識別子を指定する。pszOID の上位ワードが 0 の場合、pszOID は数値オブジェクト識別子との一致に使用される。このパラメータを NULL に設定すると任意のオブジェクト識別子と一致する。このパラメータを CRYPT_DEFAULT_OID に設定すると、列挙を既定の関数のみに制限する。
+dwFlags : [int] 将来使用のために予約されており、0 でなければならない。
+pvArg : [intptr] CRYPT_ENUM_OID_FUNCTION コールバック関数に渡される引数へのポインタ。
+pfnEnumOIDFunc : [int] 入力パラメータと一致する各 OID 関数に対して実行されるコールバック関数へのポインタ。詳細は CRYPT_ENUM_OID_FUNCTION を参照。
 %inst
-The CryptEnumOIDFunction function enumerates the registered object
-identifier (OID) functions.
+CryptEnumOIDFunction 関数は、登録されたオブジェクト識別子 (OID) 関数を列挙する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 
 %index
 CryptEnumOIDInfo
-Enumerates predefined and registered object identifier (OID) CRYPT_OID_INFO structures. This function enumerates either all of the predefined and registered structures or only structures identified by a selected OID group.
+定義済みおよび登録済みのオブジェクト識別子 (OID) CRYPT_OID_INFO 構造体を列挙する。この関数は定義済みと登録済みのすべての構造体、または選択された OID グループによって識別される構造体のみを列挙する。
 %group
 Win32 crypt32
 %prm
 dwGroupId, dwFlags, pvArg, pfnEnumOIDInfo
-dwGroupId : [int] Indicates which OID groups to be matched. Setting dwGroupId to zero matches all groups. If dwGroupId is greater than zero, only the OID entries in the specified group are enumerated.
-dwFlags : [int] This parameter is reserved for future use. It must be zero.
-pvArg : [intptr] A pointer to arguments to be passed through to the callback function.
-pfnEnumOIDInfo : [int] A pointer to the callback function that is executed for each OID information entry enumerated. For information about the callback parameters, see CRYPT_ENUM_OID_INFO.
+dwGroupId : [int] 一致させる OID グループを示す。dwGroupId を 0 に設定するとすべてのグループと一致する。dwGroupId が 0 より大きい場合、指定されたグループの OID エントリのみが列挙される。
+dwFlags : [int] このパラメータは将来使用のために予約されている。0 でなければならない。
+pvArg : [intptr] コールバック関数に渡される引数へのポインタ。
+pfnEnumOIDInfo : [int] 列挙される各 OID 情報エントリに対して実行されるコールバック関数へのポインタ。コールバックパラメータの情報は CRYPT_ENUM_OID_INFO を参照。
 %inst
-Enumerates predefined and registered object identifier (OID)
-CRYPT_OID_INFO structures. This function enumerates either all of the
-predefined and registered structures or only structures identified by
-a selected OID group.
+定義済みおよび登録済みのオブジェクト識別子 (OID) CRYPT_OID_INFO
+構造体を列挙する。この関数は定義済みと登録済みのすべての構造体、または選択された OID グループによって識別される構造体のみを列挙する。
 
 [戻り値]
-If the callback function completes the enumeration, this function
-returns TRUE. If the callback function has stopped the enumeration,
-this function returns FALSE.
+コールバック関数が列挙を完了した場合、この関数は TRUE を返す。コールバック関数が列挙を停止した場合、この関数は FALSE を返す。
 
 
 %index
 CryptExportPKCS8
-Exports the private key in PKCS (CryptExportPKCS8)
+PKCS 形式で秘密鍵をエクスポートする (CryptExportPKCS8)。
 %group
 Win32 crypt32
 %prm
 hCryptProv, dwKeySpec, pszPrivateKeyObjId, dwFlags, pvAuxInfo, pbPrivateKeyBlob, pcbPrivateKeyBlob
-hCryptProv : [int] An HCRYPTPROV  variable that contains  the cryptographic service provider (CSP). This is a handle to the CSP obtained by calling CryptAcquireContext.
-dwKeySpec : [int] A DWORD  variable that contains  the key specification. The following dwKeySpec values are defined for the default provider.
-pszPrivateKeyObjId : [str] An  LPSTR  variable that contains  the private key  object identifier (OID).
-dwFlags : [int] This parameter should be zero if pbPrivateKeyBlob is NULL and 0x8000 otherwise.
-pvAuxInfo : [intptr] This parameter must be set to NULL.
-pbPrivateKeyBlob : [var] A pointer to an array of BYTE structures to receive the private key  to be exported.
-pcbPrivateKeyBlob : [var] A pointer to a DWORD that may contain, on input, the size, in  bytes,  of the memory allocation needed to contain the pbPrivateKeyBlob. If pbPrivateKeyBlob is NULL, this parameter will return the size of the memory allocation needed for a second call to the function. For more information, see Retrieving Data of Unknown Length.
+hCryptProv : [int] 暗号サービスプロバイダ (CSP) を含む HCRYPTPROV 変数。これは CryptAcquireContext を呼び出して取得した CSP のハンドル。
+dwKeySpec : [int] 鍵指定を含む DWORD 変数。既定のプロバイダに対して次の dwKeySpec 値が定義されている。
+pszPrivateKeyObjId : [str] 秘密鍵オブジェクト識別子 (OID) を含む LPSTR 変数。
+dwFlags : [int] pbPrivateKeyBlob が NULL の場合は 0、それ以外の場合は 0x8000 にする。
+pvAuxInfo : [intptr] このパラメータは NULL に設定しなければならない。
+pbPrivateKeyBlob : [var] エクスポートする秘密鍵を受け取る BYTE 構造体の配列へのポインタ。
+pcbPrivateKeyBlob : [var] 入力時に pbPrivateKeyBlob を格納するために必要なメモリ割り当てのサイズ (バイト単位) を含むことがある DWORD へのポインタ。pbPrivateKeyBlob が NULL の場合、このパラメータは関数への 2 回目の呼び出しに必要なメモリ割り当てのサイズを返す。詳細は Retrieving Data of Unknown Length を参照。
 %inst
-Exports the private key in PKCS (CryptExportPKCS8)
+PKCS 形式で秘密鍵をエクスポートする (CryptExportPKCS8)。
 
 [戻り値]
-If the function succeeds, the function returns nonzero. If the
-function fails, it returns zero. For extended error information, call
-GetLastError. The following error codes are specific to this
-function.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外。関数が失敗した場合は 0 を返す。拡張エラー情報を取得するには GetLastError
+を呼び出す。次のエラーコードはこの関数に固有のものである。
+（以下省略）
 
 [備考]
-This function is only supported for asymmetric keys.
+この関数は非対称鍵に対してのみサポートされる。
 
 
 %index
 CryptExportPublicKeyInfo
-The CryptExportPublicKeyInfo function exports the public key information associated with the corresponding private key of the provider. For an updated version of this function, see CryptExportPublicKeyInfoEx.
+CryptExportPublicKeyInfo 関数は、プロバイダの対応する秘密鍵に関連付けられた公開鍵情報をエクスポートする。この関数の更新版については CryptExportPublicKeyInfoEx を参照。
 %group
 Win32 crypt32
 %prm
 hCryptProvOrNCryptKey, dwKeySpec, dwCertEncodingType, pInfo, pcbInfo
-hCryptProvOrNCryptKey : [int] Handle of the cryptographic service provider (CSP) to use when exporting the public key information. This handle must be an HCRYPTPROV handle that has been created by using the CryptAcquireContext function or an NCRYPT_KEY_HANDLE handle that has been created by using the NCryptOpenKey function. New applications should always pass in the NCRYPT_KEY_HANDLE handle of a CNG CSP.
-dwKeySpec : [int] Identifies the private key to use from the container of the provider. It can be AT_KEYEXCHANGE or AT_SIGNATURE. This parameter is ignored if an NCRYPT_KEY_HANDLE is used in the hCryptProvOrNCryptKey parameter.
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pInfo : [var] A pointer to a CERT_PUBLIC_KEY_INFO  structure to receive the public key information to be exported. To set the size of this information for memory allocation purposes, this parameter can be NULL. For more information, see Retrieving Data of Unknown Length.
-pcbInfo : [var] A pointer to a DWORD that contains the size, in bytes, of the buffer pointed to by the pInfo parameter. When the function returns, the DWORD contains the number of bytes needed for the return buffer. Note??When processing the data returned in the buffer, applications need to use the actual size of the data returned. The actual size can be slightly smaller than the size of the buffer specified on input. (On input, buffer sizes are usually specified large enough to ensure that the largest possible output data will fit in the buffer.) On output, the variable pointed to by this parameter is updated to reflect the actual size of the data copied to the buffer.
+hCryptProvOrNCryptKey : [int] 公開鍵情報をエクスポートするときに使用する暗号サービスプロバイダ (CSP) のハンドル。このハンドルは CryptAcquireContext 関数を使用して作成された HCRYPTPROV ハンドル、または NCryptOpenKey 関数を使用して作成された NCRYPT_KEY_HANDLE ハンドルでなければならない。新しいアプリケーションでは常に CNG CSP の NCRYPT_KEY_HANDLE ハンドルを渡すこと。
+dwKeySpec : [int] プロバイダのコンテナから使用する秘密鍵を識別する。AT_KEYEXCHANGE または AT_SIGNATURE を指定できる。hCryptProvOrNCryptKey パラメータに NCRYPT_KEY_HANDLE が使用されている場合、このパラメータは無視される。
+dwCertEncodingType : [int] 使用するエンコーディングの型を指定する。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+pInfo : [var] エクスポートする公開鍵情報を受け取る CERT_PUBLIC_KEY_INFO 構造体へのポインタ。メモリ割り当て目的でこの情報のサイズを設定するには、このパラメータを NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbInfo : [var] pInfo パラメータが指すバッファのサイズ (バイト単位) を含む DWORD へのポインタ。関数が戻ると、DWORD には戻りバッファに必要なバイト数が格納される。注意 バッファ内で返されたデータを処理する際、アプリケーションは返されたデータの実際のサイズを使用する必要がある。実際のサイズは入力で指定されたバッファのサイズよりわずかに小さいことがある。出力時には、このパラメータが指す変数は実際のデータサイズを反映するよう更新される。
 %inst
-The CryptExportPublicKeyInfo function exports the public key
-information associated with the corresponding private key of the
-provider. For an updated version of this function, see
-CryptExportPublicKeyInfoEx.
+CryptExportPublicKeyInfo
+関数は、プロバイダの対応する秘密鍵に関連付けられた公開鍵情報をエクスポートする。この関数の更新版については
+CryptExportPublicKeyInfoEx を参照。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. Note Errors from the called functions
-CryptGetUserKey and CryptExportKey might be propagated to this
-function. This function has the following error codes.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。注意 呼び出された CryptGetUserKey および CryptExportKey
+関数のエラーがこの関数に伝播することがある。この関数には次のエラーコードがある。
+（以下省略）
 
 
 %index
 CryptExportPublicKeyInfoEx
-Exports the public key information associated with the provider's corresponding private key.
+プロバイダの対応する秘密鍵に関連付けられた公開鍵情報をエクスポートする。
 %group
 Win32 crypt32
 %prm
 hCryptProvOrNCryptKey, dwKeySpec, dwCertEncodingType, pszPublicKeyObjId, dwFlags, pvAuxInfo, pInfo, pcbInfo
-hCryptProvOrNCryptKey : [int] A handle of the CSP to use when exporting the public key information. This handle must be an HCRYPTPROV handle that has been created by using the CryptAcquireContext function or an NCRYPT_KEY_HANDLE handle that has been created by using the NCryptOpenKey function. New applications should always pass in the NCRYPT_KEY_HANDLE handle of a CNG CSP.
-dwKeySpec : [int] Identifies the private key to use from the provider's container. It can be AT_KEYEXCHANGE or AT_SIGNATURE. This parameter is ignored if an NCRYPT_KEY_HANDLE is used in the hCryptProvOrNCryptKey parameter.
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pszPublicKeyObjId : [str] Specifies the public key algorithm. Note??pszPublicKeyObjId and dwCertEncodingType are used together to determine the installable CRYPT_OID_EXPORT_PUBLIC_KEY_INFO_FUNC to call. If an installable function was not found for the pszPublicKeyObjId parameter, an attempt is made to export the key as an RSA Public Key (szOID_RSA_RSA).
-dwFlags : [int] A DWORD flag value that indicates how the public key information  is exported. The flag value is passed directly to the CryptFindOIDInfo function when mapping the public key object identifier to the corresponding CNG public key algorithm Unicode string. The following flag values can be set.
-pvAuxInfo : [intptr] This parameter is reserved for future use and  must be set to NULL.
-pInfo : [var] A pointer to a CERT_PUBLIC_KEY_INFO  structure to receive the public key information to be exported. This parameter can be NULL to set the size of this information for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbInfo : [var] A pointer to a DWORD that contains the size, in bytes, of the buffer pointed to by the pInfo parameter. When the function returns, the DWORD contains the number of bytes stored in the buffer. Note??When processing the data returned in the buffer, applications need to use the actual size of the data returned. The actual size can be slightly smaller than the size of the buffer specified on input. (On input, buffer sizes are usually specified large enough to ensure that the largest possible output data will fit in the buffer.) On output, the variable pointed to by this parameter is updated to reflect the actual size of the data copied to the buffer.
+hCryptProvOrNCryptKey : [int] 公開鍵情報をエクスポートするときに使用する CSP のハンドル。このハンドルは CryptAcquireContext 関数を使用して作成された HCRYPTPROV ハンドル、または NCryptOpenKey 関数を使用して作成された NCRYPT_KEY_HANDLE ハンドルでなければならない。新しいアプリケーションでは常に CNG CSP の NCRYPT_KEY_HANDLE ハンドルを渡すこと。
+dwKeySpec : [int] プロバイダのコンテナから使用する秘密鍵を識別する。AT_KEYEXCHANGE または AT_SIGNATURE を指定できる。hCryptProvOrNCryptKey パラメータに NCRYPT_KEY_HANDLE が使用されている場合、このパラメータは無視される。
+dwCertEncodingType : [int] 使用するエンコーディングの型を指定する。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+pszPublicKeyObjId : [str] 公開鍵アルゴリズムを指定する。注意 pszPublicKeyObjId と dwCertEncodingType は、呼び出すインストール可能な CRYPT_OID_EXPORT_PUBLIC_KEY_INFO_FUNC を決定するために一緒に使用される。pszPublicKeyObjId パラメータ用にインストール可能な関数が見つからなかった場合、RSA 公開鍵 (szOID_RSA_RSA) として鍵をエクスポートする試みが行われる。
+dwFlags : [int] 公開鍵情報のエクスポート方法を示す DWORD フラグ値。フラグ値は、公開鍵オブジェクト識別子を対応する CNG 公開鍵アルゴリズム Unicode 文字列にマップするときに CryptFindOIDInfo 関数に直接渡される。次のフラグ値を設定できる。
+pvAuxInfo : [intptr] このパラメータは将来使用のために予約されており、NULL に設定しなければならない。
+pInfo : [var] エクスポートする公開鍵情報を受け取る CERT_PUBLIC_KEY_INFO 構造体へのポインタ。メモリ割り当て目的でこの情報のサイズを設定するには、このパラメータを NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbInfo : [var] pInfo パラメータが指すバッファのサイズ (バイト単位) を含む DWORD へのポインタ。関数が戻ると、DWORD にはバッファに格納されたバイト数が含まれる。注意 バッファ内で返されたデータを処理する際、アプリケーションは返されたデータの実際のサイズを使用する必要がある。実際のサイズは入力で指定されたバッファのサイズよりわずかに小さいことがある。出力時には、このパラメータが指す変数は実際のデータサイズを反映するよう更新される。
 %inst
-Exports the public key information associated with the provider's
-corresponding private key.
+プロバイダの対応する秘密鍵に関連付けられた公開鍵情報をエクスポートする。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. Note Errors from the called functions
-CryptGetUserKey and CryptExportKey can be propagated to this
-function. This function has the following error codes.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。注意 呼び出された CryptGetUserKey および CryptExportKey
+関数のエラーがこの関数に伝播することがある。この関数には次のエラーコードがある。
+（以下省略）
 
 
 %index
 CryptExportPublicKeyInfoFromBCryptKeyHandle
-Exports the public key information associated with a provider's corresponding private key.
+プロバイダの対応する秘密鍵に関連付けられた公開鍵情報をエクスポートする。
 %group
 Win32 crypt32
 %prm
 hBCryptKey, dwCertEncodingType, pszPublicKeyObjId, dwFlags, pvAuxInfo, pInfo, pcbInfo
-hBCryptKey : [int] The handle of the key from which to export the public key information.
-dwCertEncodingType : [int] Specifies the encoding type to be matched.
-pszPublicKeyObjId : [str] A pointer to the object identifier (OID) that identifies the installable function to  use to export the key. If the high-order word of the OID is nonzero, pszPublicKeyObjId is a pointer to either an OID string such as "2.5.29.1" or an ASCII string such as "file." If the high-order word of the OID is zero, the low-order word specifies the integer identifier to be used as the object identifier.
-dwFlags : [int] A DWORD value that indicates how the public key information  is exported.
-pvAuxInfo : [intptr] This parameter is reserved for future use and  must be set to NULL.
-pInfo : [var] A pointer to a CERT_PUBLIC_KEY_INFO  structure to receive the public key information to be exported. This parameter can be NULL to set the size of this information for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbInfo : [var] A pointer to a DWORD that contains the size, in bytes, of the buffer pointed to by the pInfo parameter. When the function returns, the DWORD contains the number of bytes stored in the buffer.
+hBCryptKey : [int] 公開鍵情報をエクスポートする鍵のハンドル。
+dwCertEncodingType : [int] 一致させるエンコーディング型を指定する。
+pszPublicKeyObjId : [str] 鍵のエクスポートに使用するインストール可能な関数を識別するオブジェクト識別子 (OID) へのポインタ。OID の上位ワードが 0 以外の場合、pszPublicKeyObjId は "2.5.29.1" のような OID 文字列または "file" のような ASCII 文字列へのポインタとなる。OID の上位ワードが 0 の場合、下位ワードはオブジェクト識別子として使用される整数識別子を指定する。
+dwFlags : [int] 公開鍵情報のエクスポート方法を示す DWORD 値。
+pvAuxInfo : [intptr] このパラメータは将来使用のために予約されており、NULL に設定しなければならない。
+pInfo : [var] エクスポートする公開鍵情報を受け取る CERT_PUBLIC_KEY_INFO 構造体へのポインタ。メモリ割り当て目的でこの情報のサイズを設定するには、このパラメータを NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbInfo : [var] pInfo パラメータが指すバッファのサイズ (バイト単位) を含む DWORD へのポインタ。関数が戻ると、DWORD にはバッファに格納されたバイト数が含まれる。
 %inst
-Exports the public key information associated with a provider's
-corresponding private key.
+プロバイダの対応する秘密鍵に関連付けられた公開鍵情報をエクスポートする。
 
 [戻り値]
-The function returns TRUE if it succeeds; otherwise, it returns
-FALSE.
+関数が成功した場合は TRUE、それ以外は FALSE を返す。
 
 [備考]
-If the CryptExportPublicKeyInfoFromBCryptKeyHandle function is unable
-to find an installable OID function for the OID specified by the
-pszPublicKeyObjId parameter, it attempts to export the key as a RSA
-Public Key (szOID_RSA_RSA). If the key is exported as a RSA Public
-Key, the values of the dwFlags and pvAuxInfo parameters are not used.
+CryptExportPublicKeyInfoFromBCryptKeyHandle 関数が pszPublicKeyObjId
+パラメータで指定された OID のインストール可能な OID 関数を見つけられない場合、RSA 公開鍵 (szOID_RSA_RSA)
+として鍵をエクスポートする試みが行われる。鍵が RSA 公開鍵としてエクスポートされる場合、dwFlags および pvAuxInfo
+パラメータの値は使用されない。
 
 
 %index
 CryptFindCertificateKeyProvInfo
-Enumerates the cryptographic providers and their containers to find the private key that corresponds to the certificate's public key.
+暗号プロバイダとそのコンテナを列挙し、証明書の公開鍵に対応する秘密鍵を検索する。
 %group
 Win32 crypt32
 %prm
 pCert, dwFlags, pvReserved
-pCert : [var] A pointer to the CERT_CONTEXT structure of the certificate to use when exporting public key information.
+pCert : [var] 公開鍵情報をエクスポートするときに使用する証明書の CERT_CONTEXT 構造体へのポインタ。
 dwFlags : [int] 
-pvReserved : [intptr] Reserved for future use and must be NULL.
+pvReserved : [intptr] 将来使用のために予約されており、NULL でなければならない。
 %inst
-Enumerates the cryptographic providers and their containers to find
-the private key that corresponds to the certificate's public key.
+暗号プロバイダとそのコンテナを列挙し、証明書の公開鍵に対応する秘密鍵を検索する。
 
 [戻り値]
-TRUE if the function finds a private key that corresponds to the
-certificate's public key within a searched container; FALSE if the
-function fails to find a container or a private key within a
-container.
-GetLastError returns the following error:
-This doc was truncated.
+検索対象のコンテナ内で証明書の公開鍵に対応する秘密鍵を関数が見つけた場合は
+TRUE。コンテナを見つけられないか、コンテナ内の秘密鍵を見つけられない場合は FALSE を返す。
+GetLastError は次のエラーを返す。
+（以下省略）
 
 [備考]
-This function enumerates the cryptographic providers and their
-containers to find the private key that corresponds to the
-certificate's public key. For a match, the function updates the
-certificate's CERT_KEY_PROV_INFO_PROP_ID property. If the
-CERT_KEY_PROV_INFO_PROP_ID is already set, it is checked to determine
-whether it matches the provider's public key. For a match, the
-function skips the previously mentioned enumeration.
+この関数は暗号プロバイダとそのコンテナを列挙し、証明書の公開鍵に対応する秘密鍵を検索する。一致した場合、関数は証明書の
+CERT_KEY_PROV_INFO_PROP_ID プロパティを更新する。CERT_KEY_PROV_INFO_PROP_ID
+がすでに設定されている場合、プロバイダの公開鍵と一致するかどうかを判定するためにチェックされる。一致した場合、関数は前述の列挙をスキップする。
 
 
 %index
 CryptFindLocalizedName
-Finds the localized name for the specified name, such as the localize name of the "Root" system store.
+"Root" システムストアのローカライズ名など、指定された名前のローカライズ名を検索する。
 %group
 Win32 crypt32
 %prm
 pwszCryptName
-pwszCryptName : [wstr] A pointer to a specified name. An internal table is searched to compare a predefined localized name to the specified name. The search matches the localized name by using a case insensitive string comparison.
+pwszCryptName : [wstr] 指定された名前へのポインタ。内部テーブルが検索され、定義済みのローカライズ名と指定された名前を比較する。検索では大文字小文字を区別しない文字列比較を使用してローカライズ名を照合する。
 %inst
-Finds the localized name for the specified name, such as the localize
-name of the "Root" system store.
+"Root" システムストアのローカライズ名など、指定された名前のローカライズ名を検索する。
 
 [戻り値]
-If the specified name is found, a pointer to the localized name is
-returned. The returned pointer must not be freed.
-If the specified name is not found, NULL is returned.
+指定された名前が見つかった場合、ローカライズ名へのポインタが返される。返されたポインタは解放してはならない。
+指定された名前が見つからない場合、NULL が返される。
 
 [備考]
-CryptSetOIDFunctionValue can be called as follows to register
-additional localized strings. dwEncodingType =
-CRYPT_LOCALIZED_NAME_ENCODING_TYPE pszFuncName =
+CryptSetOIDFunctionValue を次のように呼び出して追加のローカライズ文字列を登録できる。dwEncodingType
+= CRYPT_LOCALIZED_NAME_ENCODING_TYPE pszFuncName =
 CRYPT_OID_FIND_LOCALIZED_NAME_FUNC pszOID = CRYPT_LOCALIZED_NAME_OID
-pwszValueName = Name to be localized, for example,
-L"ApplicationStore" dwValueType = REG_SZ pbValueData = pointer to the
-Unicode localized string cbValueData = (wcslen(Unicode localized
-string) + 1) * sizeof(WCHAR)
-CryptSetOIDFunctionValue can be called as follows to unregister the
-localized strings. pbValueData = NULL cbValueData = 0. The registered
-names are searched before the preinstalled names.
-This doc was truncated.
+pwszValueName = ローカライズする名前 (たとえば L"ApplicationStore") dwValueType =
+REG_SZ pbValueData = Unicode ローカライズ文字列へのポインタ cbValueData =
+(wcslen(Unicode ローカライズ文字列) + 1) * sizeof(WCHAR)
+ローカライズ文字列の登録を解除するには CryptSetOIDFunctionValue を次のように呼び出す。pbValueData =
+NULL cbValueData = 0。登録された名前は、あらかじめインストールされた名前よりも先に検索される。
+（以下省略）
 
 
 %index
 CryptFindOIDInfo
-Retrieves the first predefined or registered CRYPT_OID_INFO structure that matches a specified key type and key. The search can be limited to object identifiers (OIDs) within a specified OID group.
+指定されたキー型とキーに一致する、最初の定義済みまたは登録済みの CRYPT_OID_INFO 構造体を取得する。検索は、指定された OID グループ内のオブジェクト識別子 (OID) に制限できる。
 %group
 Win32 crypt32
 %prm
 dwKeyType, pvKey, dwGroupId
-dwKeyType : [int] Specifies the key type to use when finding OID information.
-pvKey : [intptr] The address of a buffer that contains additional search information. This parameter depends on the value of the dwKeyType parameter. For more information, see the table under dwKeyType.
-dwGroupId : [int] The group identifier to use when finding OID information. Setting this parameter to zero searches all groups according to the dwKeyType parameter. Otherwise, only the indicated dwGroupId is searched. For information about code that lists the OID information by group identifier, see CryptEnumOIDInfo.
+dwKeyType : [int] OID 情報を検索するときに使用するキー型を指定する。
+pvKey : [intptr] 追加の検索情報を含むバッファのアドレス。このパラメータは dwKeyType パラメータの値に依存する。詳細は dwKeyType 以下の表を参照。
+dwGroupId : [int] OID 情報を検索するときに使用するグループ識別子。このパラメータを 0 に設定すると、dwKeyType パラメータに従ってすべてのグループが検索される。それ以外の場合、指定された dwGroupId のみが検索される。グループ識別子別に OID 情報を一覧表示するコードの情報については、CryptEnumOIDInfo を参照。
 %inst
-Retrieves the first predefined or registered CRYPT_OID_INFO structure
-that matches a specified key type and key. The search can be limited
-to object identifiers (OIDs) within a specified OID group.
+指定されたキー型とキーに一致する、最初の定義済みまたは登録済みの CRYPT_OID_INFO 構造体を取得する。検索は、指定された
+OID グループ内のオブジェクト識別子 (OID) に制限できる。
 
 [戻り値]
-Returns a pointer to a constant structure of type CRYPT_OID_INFO. The
-returned pointer must not be freed. When the specified key and group
-is not found, NULL is returned.
+CRYPT_OID_INFO
+型の定数構造体へのポインタを返す。返されたポインタは解放してはならない。指定されたキーとグループが見つからない場合、NULL が返される。
 
 [備考]
-The CryptFindOIDInfo function performs a lookup in the active
-directory to retrieve the friendly names of OIDs under the following
-conditions:
-This doc was truncated.
+CryptFindOIDInfo 関数は、次の条件下で OID のフレンドリー名を取得するために Active Directory
+で検索を実行する。
+（以下省略）
 
 
 %index
 CryptFormatObject
-The CryptFormatObject function formats the encoded data and returns a Unicode string in the allocated buffer according to the certificate encoding type.
+CryptFormatObject 関数は、符号化済みデータを書式化し、証明書エンコーディング型に従って割り当てられたバッファ内の Unicode 文字列を返す。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, dwFormatType, dwFormatStrType, pFormatStruct, lpszStructType, pbEncoded, cbEncoded, pbFormat, pcbFormat
-dwCertEncodingType : [int] Type of encoding used on the certificate. The currently defined certificate encoding type used is X509_ASN_ENCODING.
-dwFormatType : [int] Format type values. Not used. Set to zero.
-dwFormatStrType : [int] Structure format type values. This parameter can be zero, or you can specify one or more of the following flags by using the bitwise-OR operator to combine them.
-pFormatStruct : [intptr] A pointer to the format of the structure. Not used. Set to NULL.
-lpszStructType : [str] A pointer to an OID that defines the encoded data. If the high-order word of the lpszStructType parameter is zero, the low-order word specifies the integer identifier for the type of the given structure. Otherwise, this parameter is a long pointer to a null-terminated string.
-pbEncoded : [var] A pointer to the encoded data to be formatted. If lpszStructType is one of the OIDs listed above, the pbEncoded is the encoded extension.
-cbEncoded : [int] The size, in bytes, of the pbEncoded structure.
-pbFormat : [intptr] A pointer to a buffer that receives the formatted string. When the buffer that is specified is not large enough to receive the decoded structure, the function sets ERROR_MORE_DATA and stores the required buffer size, in bytes, into the variable pointed to by pcbFormat. This parameter can be NULL to set the size of this information for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbFormat : [var] A pointer to a variable that specifies the size, in bytes, of the buffer pointed to by the pbFormat parameter. When the function returns, the variable pointed to by the pcbFormat parameter contains the number of bytes stored in the buffer. This parameter can be NULL, only if pbFormat is NULL.
+dwCertEncodingType : [int] 証明書に使用されているエンコーディングの型。現在定義されている証明書エンコーディング型は X509_ASN_ENCODING。
+dwFormatType : [int] 書式型値。使用されない。0 に設定する。
+dwFormatStrType : [int] 構造体の書式型値。このパラメータは 0 にするか、ビットごとの OR 演算子を使用して次のフラグを 1 つ以上組み合わせて指定できる。
+pFormatStruct : [intptr] 構造体の書式へのポインタ。使用されない。NULL に設定する。
+lpszStructType : [str] 符号化済みデータを定義する OID へのポインタ。lpszStructType パラメータの上位ワードが 0 の場合、下位ワードは指定された構造体の型の整数識別子を指定する。それ以外の場合、このパラメータは NULL 終端文字列への long ポインタとなる。
+pbEncoded : [var] 書式化する符号化済みデータへのポインタ。lpszStructType が上記に示した OID の 1 つである場合、pbEncoded は符号化済み拡張となる。
+cbEncoded : [int] pbEncoded 構造体のサイズ (バイト単位)。
+pbFormat : [intptr] 書式化された文字列を受け取るバッファへのポインタ。指定されたバッファが復号済み構造体を受け取るのに十分な大きさでない場合、関数は ERROR_MORE_DATA を設定し、必要なバッファサイズ (バイト単位) を pcbFormat が指す変数に格納する。メモリ割り当て目的でこの情報のサイズを設定するには、このパラメータを NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbFormat : [var] pbFormat パラメータが指すバッファのサイズ (バイト単位) を指定する変数へのポインタ。関数が戻ると、pcbFormat パラメータが指す変数にはバッファに格納されたバイト数が含まれる。このパラメータは pbFormat が NULL の場合にのみ NULL にできる。
 %inst
-The CryptFormatObject function formats the encoded data and returns a
-Unicode string in the allocated buffer according to the certificate
-encoding type.
+CryptFormatObject 関数は、符号化済みデータを書式化し、証明書エンコーディング型に従って割り当てられたバッファ内の
+Unicode 文字列を返す。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If it does not
-succeed, the return value is FALSE. To retrieve extended error
-information, use the GetLastError function.
+関数が成功した場合、戻り値は TRUE。成功しない場合、戻り値は FALSE。拡張エラー情報を取得するには GetLastError
+関数を使用する。
 
 [備考]
-The default behavior of this function is to return a single-line
-display of the encoded data, that is, each subfield is concatenated
-with a comma (,) on one line. If you prefer to display the data in
-multiple lines, set the CRYPT_FORMAT_STR_MULTI_LINE flag. Each
-subfield will then be displayed on a separate line. If there is no
-formatting routine installed or registered for the lpszStructType
-parameter, the hexadecimal dump of the encoded CRYPT_INTEGER_BLOB
-will be returned. A user can set the CRYPT_FORMAT_STR_NO_HEX flag to
-disable the hexadecimal dump.
+この関数の既定の動作は、符号化済みデータを 1 行表示で返すことである。すなわち、各サブフィールドはコンマ (,) で連結され 1
+行にまとめられる。データを複数行で表示する場合、CRYPT_FORMAT_STR_MULTI_LINE
+フラグを設定する。そうすると各サブフィールドは別々の行に表示される。lpszStructType
+パラメータに対してインストールまたは登録された書式化ルーチンがない場合、符号化済み CRYPT_INTEGER_BLOB の 16
+進数ダンプが返される。ユーザーは 16 進数ダンプを無効にするために CRYPT_FORMAT_STR_NO_HEX フラグを設定できる。
 
 
 %index
 CryptFreeOIDFunctionAddress
-The CryptFreeOIDFunctionAddress function releases a handle returned by CryptGetOIDFunctionAddress or CryptGetDefaultOIDFunctionAddress by decrementing the reference count on the function handle.
+CryptFreeOIDFunctionAddress 関数は、関数ハンドルの参照カウントを減らすことで CryptGetOIDFunctionAddress または CryptGetDefaultOIDFunctionAddress によって返されたハンドルを解放する。
 %group
 Win32 crypt32
 %prm
 hFuncAddr, dwFlags
-hFuncAddr : [intptr] Handle of the function previously obtained from a call to CryptGetOIDFunctionAddress or CryptGetDefaultOIDFunctionAddress.
-dwFlags : [int] Reserved for future use and must be zero.
+hFuncAddr : [intptr] CryptGetOIDFunctionAddress または CryptGetDefaultOIDFunctionAddress の呼び出しから以前に取得された関数のハンドル。
+dwFlags : [int] 将来使用のために予約されており、0 でなければならない。
 %inst
-The CryptFreeOIDFunctionAddress function releases a handle returned
-by CryptGetOIDFunctionAddress or CryptGetDefaultOIDFunctionAddress by
-decrementing the reference count on the function handle.
+CryptFreeOIDFunctionAddress 関数は、関数ハンドルの参照カウントを減らすことで
+CryptGetOIDFunctionAddress または CryptGetDefaultOIDFunctionAddress
+によって返されたハンドルを解放する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE).
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。
 
 [備考]
-If the reference count becomes zero and a DLL is loaded for the
-function being freed, the DLL might be unloaded. If the DLL exports
-the DLLCanUnloadNow function, that function is called and its return
-is checked. An S_FALSE return from this function cancels the
-unloading of the DLL at this time. If the function returns S_TRUE or
-if the DLL does not export the DLLCanUnloadNow function, an unloading
-process is started. In this case, actual unloading is deferred for 15
-seconds. If another CryptFreeOIDFunctionAddress or
-CryptGetDefaultOIDFunctionAddress that requires the DLL occurs before
-the 15 seconds elapse, the deferred unload process is canceled.
+参照カウントが 0 になり、解放される関数のために DLL が読み込まれていた場合、DLL がアンロードされる可能性がある。DLL が
+DLLCanUnloadNow 関数をエクスポートしている場合、その関数が呼び出され、戻り値がチェックされる。この関数から S_FALSE
+が返されると、このタイミングでの DLL アンロードがキャンセルされる。関数が S_TRUE を返すか、DLL が
+DLLCanUnloadNow 関数をエクスポートしていない場合、アンロードプロセスが開始される。この場合、実際のアンロードは 15
+秒間延期される。DLL を必要とする別の CryptFreeOIDFunctionAddress または
+CryptGetDefaultOIDFunctionAddress が 15
+秒経過する前に発生した場合、延期されたアンロードプロセスはキャンセルされる。
 
 
 %index
 CryptGetAsyncParam
-The CryptGetAsyncParam function (wincrypt.h) sets an async parameter value.
+CryptGetAsyncParam 関数 (wincrypt.h) は非同期パラメータ値を設定する。
 %group
 Win32 crypt32
 %prm
 hAsync, pszParamOid, ppvParam, ppfnFree
-hAsync : [intptr] An async handle.
-pszParamOid : [str] The parameter ID.
-ppvParam : [var] Receives the parameter value.
-ppfnFree : [var] A callback function called when the parameter is freed.
+hAsync : [intptr] 非同期ハンドル。
+pszParamOid : [str] パラメータ ID。
+ppvParam : [var] パラメータ値を受け取る。
+ppfnFree : [var] パラメータが解放されるときに呼び出されるコールバック関数。
 %inst
-The CryptGetAsyncParam function (wincrypt.h) sets an async parameter
-value.
+CryptGetAsyncParam 関数 (wincrypt.h) は非同期パラメータ値を設定する。
 
 [戻り値]
-S_OK on success.
+成功時は S_OK。
 
 
 %index
 CryptGetDefaultOIDDllList
-The CryptGetDefaultOIDDllList function acquires the list of the names of DLL files that contain registered default object identifier (OID) functions for a specified function set and encoding type.
+CryptGetDefaultOIDDllList 関数は、指定された関数セットとエンコーディング型に対して登録された既定のオブジェクト識別子 (OID) 関数を含む DLL ファイルの名前の一覧を取得する。
 %group
 Win32 crypt32
 %prm
 hFuncSet, dwEncodingType, pwszDllList, pcchDllList
-hFuncSet : [intptr] Function set handle previously obtained by a call to CryptInitOIDFunctionSet.
-dwEncodingType : [int] Specifies the encoding type to be matched. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types may be added in the future. To match both current encoding types, use: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Note??Either a certificate or message encoding type is required. X509_ASN_ENCODING is the default. If that type is indicated, it is used; otherwise, if the PKCS7_ASN_ENCODING type is indicated, it is used.
-pwszDllList : [int] A pointer to a buffer to receive the list of zero or more null-terminated file names. The returned list is terminated with a terminating NULL character. For example, a list of two names could be:
-pcchDllList : [var] A pointer to a DWORD that specifies the size, in wide characters, of the returned list pointed to by the pwszDllList parameter. When the function returns, the variable pointed to by the pcchDllList parameter contains the number of wide characters stored in the buffer.
+hFuncSet : [intptr] CryptInitOIDFunctionSet の呼び出しから以前に取得された関数セットハンドル。
+dwEncodingType : [int] 一致させるエンコーディング型を指定する。現在、X509_ASN_ENCODING および PKCS_7_ASN_ENCODING のみが使用されているが、将来追加のエンコーディング型が追加される可能性がある。現在の両方のエンコーディング型と一致させるには X509_ASN_ENCODING | PKCS_7_ASN_ENCODING を使用する。注意 証明書またはメッセージのエンコーディング型のいずれかが必要。X509_ASN_ENCODING が既定となる。その型が指定されている場合、それが使用される。そうでない場合、PKCS7_ASN_ENCODING 型が指定されていればそれが使用される。
+pwszDllList : [int] 0 個以上の NULL 終端のファイル名の一覧を受け取るバッファへのポインタ。返されるリストは NULL 終端文字で終わる。たとえば、2 つの名前のリストは次のようになる。
+pcchDllList : [var] pwszDllList パラメータが指す返されるリストのサイズ (ワイド文字単位) を指定する DWORD へのポインタ。関数が戻ると、pcchDllList パラメータが指す変数にはバッファに格納されたワイド文字数が含まれる。
 %inst
-The CryptGetDefaultOIDDllList function acquires the list of the names
-of DLL files that contain registered default object identifier (OID)
-functions for a specified function set and encoding type.
+CryptGetDefaultOIDDllList
+関数は、指定された関数セットとエンコーディング型に対して登録された既定のオブジェクト識別子 (OID) 関数を含む DLL
+ファイルの名前の一覧を取得する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. This function has the following error
-codes.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。この関数には次のエラーコードがある。
+（以下省略）
 
 
 %index
 CryptGetDefaultOIDFunctionAddress
-The CryptGetDefaultOIDFunctionAddress function loads the DLL that contains a default function address.
+CryptGetDefaultOIDFunctionAddress 関数は、既定の関数アドレスを含む DLL を読み込む。
 %group
 Win32 crypt32
 %prm
 hFuncSet, dwEncodingType, pwszDll, dwFlags, ppvFuncAddr, phFuncAddr
-hFuncSet : [intptr] Function set handle previously obtained from a call to CryptInitOIDFunctionSet.
-dwEncodingType : [int] Encoding type to be matched. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types may be added in the future. To match both current encoding types, use: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING
-pwszDll : [wstr] Name of the DLL to load. Normally, the DLL name is obtained from the list returned by CryptGetDefaultOIDDllList. If pwszDll is NULL, a search is performed on the list of installed default functions.
-dwFlags : [int] Reserved for future use and must be zero.
-ppvFuncAddr : [var] A pointer to the address of the return function. If the function fails, a NULL is returned in ppvFuncAddr.
-phFuncAddr : [var] Used only if pwszDll is NULL. On the first call to the function, *phFuncAddr must be NULL to acquire the first installed function.
+hFuncSet : [intptr] CryptInitOIDFunctionSet の呼び出しから以前に取得された関数セットハンドル。
+dwEncodingType : [int] 一致させるエンコーディング型。現在、X509_ASN_ENCODING および PKCS_7_ASN_ENCODING のみが使用されているが、将来追加のエンコーディング型が追加される可能性がある。現在の両方のエンコーディング型と一致させるには X509_ASN_ENCODING | PKCS_7_ASN_ENCODING を使用する。
+pwszDll : [wstr] 読み込む DLL の名前。通常、DLL 名は CryptGetDefaultOIDDllList によって返されるリストから取得される。pwszDll が NULL の場合、インストール済みの既定の関数の一覧に対して検索が実行される。
+dwFlags : [int] 将来使用のために予約されており、0 でなければならない。
+ppvFuncAddr : [var] 戻り関数のアドレスへのポインタ。関数が失敗した場合、NULL が ppvFuncAddr で返される。
+phFuncAddr : [var] pwszDll が NULL の場合にのみ使用される。この関数への最初の呼び出しでは、最初にインストールされている関数を取得するために *phFuncAddr は NULL でなければならない。
 %inst
-The CryptGetDefaultOIDFunctionAddress function loads the DLL that
-contains a default function address.
+CryptGetDefaultOIDFunctionAddress 関数は、既定の関数アドレスを含む DLL を読み込む。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE).
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。
 
 
 %index
 CryptGetKeyIdentifierProperty
-The CryptGetKeyIdentifierProperty acquires a specific property from a specified key identifier.
+CryptGetKeyIdentifierProperty は指定された鍵識別子から特定のプロパティを取得する。
 %group
 Win32 crypt32
 %prm
 pKeyIdentifier, dwPropId, dwFlags, pwszComputerName, pvReserved, pvData, pcbData
-pKeyIdentifier : [var] A pointer to the CRYPT_HASH_BLOB that contains the key identifier.
-dwPropId : [int] Identifies the property to retrieve. The value of dwPropId determines the type and content of the pvData parameter. Any certificate property ID can be used.
-dwFlags : [int] The following flags can be used. They can be combined with a bitwise-OR operation.
-pwszComputerName : [wstr] A pointer to the name of a remote computer to be searched. If CRYPT_KEYID_MACHINE_FLAG flag is set, searches the remote computer for a list of key identifiers. If the local computer is to be searched and not a remote computer, set pwszComputerName to NULL.
-pvReserved : [intptr] Reserved for future use and must be NULL.
-pvData : [intptr] A pointer to a buffer to receive the data as determined by dwPropId. Elements pointed to by fields in the pvData structure follow the structure. Therefore, the size contained in pcbData can exceed the size of the structure.
-pcbData : [var] A pointer to a DWORD that contains the size, in bytes, of the buffer pointed to by the pvData parameter. When the function returns, the DWORD contains the number of bytes stored in the buffer. The size contained in the variable pointed to by pcbData can indicate a size larger than the CRYPT_KEY_PROV_INFO structure because the structure can contain pointers to auxiliary data. This size is the sum of the size needed by the structure and all auxiliary data.
+pKeyIdentifier : [var] 鍵識別子を含む CRYPT_HASH_BLOB へのポインタ。
+dwPropId : [int] 取得するプロパティを識別する。dwPropId の値が pvData パラメータの型と内容を決定する。任意の証明書プロパティ ID を使用できる。
+dwFlags : [int] 次のフラグを使用できる。これらはビットごとの OR 演算で組み合わせることができる。
+pwszComputerName : [wstr] 検索するリモートコンピュータの名前へのポインタ。CRYPT_KEYID_MACHINE_FLAG フラグが設定されている場合、リモートコンピュータから鍵識別子のリストが検索される。リモートコンピュータではなくローカルコンピュータを検索する場合、pwszComputerName を NULL に設定する。
+pvReserved : [intptr] 将来使用のために予約されており、NULL でなければならない。
+pvData : [intptr] dwPropId によって決定されるデータを受け取るバッファへのポインタ。pvData 構造体内のフィールドが指す要素は構造体の後に続く。したがって、pcbData に含まれるサイズが構造体のサイズを超えることがある。
+pcbData : [var] pvData パラメータが指すバッファのサイズ (バイト単位) を含む DWORD へのポインタ。関数が戻ると、DWORD にはバッファに格納されたバイト数が含まれる。pcbData が指す変数に含まれるサイズは、構造体が補助データへのポインタを含むことができるため、CRYPT_KEY_PROV_INFO 構造体よりも大きいサイズを示す場合がある。このサイズは構造体が必要とするサイズとすべての補助データのサイズの合計である。
 %inst
-The CryptGetKeyIdentifierProperty acquires a specific property from a
-specified key identifier.
+CryptGetKeyIdentifierProperty は指定された鍵識別子から特定のプロパティを取得する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 
 %index
 CryptGetMessageCertificates
-The CryptGetMessageCertificates function returns the handle of an open certificate store containing the message's certificates and CRLs. This function calls CertOpenStore using provider type CERT_STORE_PROV_PKCS7 as its lpszStoreProvider parameter.
+CryptGetMessageCertificates 関数は、メッセージの証明書および CRL を含む開かれた証明書ストアのハンドルを返す。この関数は lpszStoreProvider パラメータとしてプロバイダ型 CERT_STORE_PROV_PKCS7 を使用して CertOpenStore を呼び出す。
 %group
 Win32 crypt32
 %prm
 dwMsgAndCertEncodingType, hCryptProv, dwFlags, pbSignedBlob, cbSignedBlob
-dwMsgAndCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-hCryptProv : [int] This parameter is not used and should be set to NULL. Windows Server?2003 and Windows?XP:??Handle of the CSP passed to CertOpenStore. For more information, see CertOpenStore.Unless there is a strong reason for passing a specific cryptographic provider in hCryptProv, pass zero to cause the default RSA or DSS provider to be acquired. This parameter's data type is HCRYPTPROV.
-dwFlags : [int] Flags passed to CertOpenStore. For more information, see CertOpenStore.
-pbSignedBlob : [var] A pointer to a buffered CRYPT_INTEGER_BLOB structure that contains the signed message.
-cbSignedBlob : [int] The size, in bytes, of the signed message.
+dwMsgAndCertEncodingType : [int] 使用するエンコーディングの型を指定する。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+hCryptProv : [int] このパラメータは使用されず、NULL に設定すべきである。Windows Server 2003 および Windows XP: CertOpenStore に渡される CSP のハンドル。詳細は CertOpenStore を参照。hCryptProv に特定の暗号プロバイダを渡す強い理由がない限り、既定の RSA または DSS プロバイダを取得させるために 0 を渡す。このパラメータのデータ型は HCRYPTPROV。
+dwFlags : [int] CertOpenStore に渡されるフラグ。詳細は CertOpenStore を参照。
+pbSignedBlob : [var] 署名されたメッセージを含むバッファの CRYPT_INTEGER_BLOB 構造体へのポインタ。
+cbSignedBlob : [int] 署名されたメッセージのサイズ (バイト単位)。
 %inst
-The CryptGetMessageCertificates function returns the handle of an
-open certificate store containing the message's certificates and
-CRLs. This function calls CertOpenStore using provider type
-CERT_STORE_PROV_PKCS7 as its lpszStoreProvider parameter.
+CryptGetMessageCertificates 関数は、メッセージの証明書および CRL
+を含む開かれた証明書ストアのハンドルを返す。この関数は lpszStoreProvider パラメータとしてプロバイダ型
+CERT_STORE_PROV_PKCS7 を使用して CertOpenStore を呼び出す。
 
 [戻り値]
-Returns the certificate store containing the message's certificates
-and CRLs. For an error, NULL is returned. The following lists the
-error code most commonly returned by the GetLastError function.
-This doc was truncated.
+メッセージの証明書および CRL を含む証明書ストアを返す。エラーの場合は NULL が返される。GetLastError
+関数で最も一般的に返されるエラーコードを以下に示す。
+（以下省略）
 
 [備考]
-Use GetLastError to determine the reason for any errors.
+エラーの原因を特定するには GetLastError を使用する。
 
 
 %index
 CryptGetMessageSignerCount
-The CryptGetMessageSignerCount function returns the number of signers of a signed message.
+CryptGetMessageSignerCount 関数は、署名されたメッセージの署名者数を返す。
 %group
 Win32 crypt32
 %prm
 dwMsgEncodingType, pbSignedBlob, cbSignedBlob
-dwMsgEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pbSignedBlob : [var] A pointer to a buffer containing the signed message.
-cbSignedBlob : [int] The size, in bytes, of the signed message.
+dwMsgEncodingType : [int] 使用するエンコーディングの型を指定する。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+pbSignedBlob : [var] 署名されたメッセージを含むバッファへのポインタ。
+cbSignedBlob : [int] 署名されたメッセージのサイズ (バイト単位)。
 %inst
-The CryptGetMessageSignerCount function returns the number of signers
-of a signed message.
+CryptGetMessageSignerCount 関数は、署名されたメッセージの署名者数を返す。
 
 [戻り値]
-Returns the number of signers of a signed message, zero when there
-are no signers, and minus one (?1) for an error. For extended error
-information, call GetLastError. The following error code is most
-commonly returned.
-This doc was truncated.
+署名されたメッセージの署名者数を返す。署名者がいない場合は 0、エラーの場合は -1 を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。次のエラーコードが最も一般的に返される。
+（以下省略）
 
 
 %index
 CryptGetOIDFunctionAddress
-Searches the list of registered and installed functions for an encoding type and object identifier (OID) match.
+登録済みおよびインストール済みの関数の一覧から、エンコーディング型とオブジェクト識別子 (OID) の一致を検索する。
 %group
 Win32 crypt32
 %prm
 hFuncSet, dwEncodingType, pszOID, dwFlags, ppvFuncAddr, phFuncAddr
-hFuncSet : [intptr] The function set handle previously obtained from a call to the CryptInitOIDFunctionSet function.
-dwEncodingType : [int] Specifies the encoding type to be matched. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are used; however, additional encoding types can be added in the future. To match both current encoding types, use: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING For functions that do not use an encoding type, set this parameter to zero.
-pszOID : [str] If the high-order word of the OID is nonzero, pszOID is a pointer to either an OID string such as "2.5.29.1" or an ASCII string such as "file". If the high-order word of the OID is zero, the low-order word specifies the numeric identifier to be used as the object identifier. This resulting OID maps to the function that was either installed or registered with the same OID.
-dwFlags : [int] This parameter can be the following value.
-ppvFuncAddr : [var] A pointer to a pointer to a function address. If a match is found, ppvFuncAddr points to the function address.
-phFuncAddr : [var] If a match is found, phFuncAddr points to the function handle. The reference count for the handle is incremented. When you have finished using the handle, release the handle by calling the CryptFreeOIDFunctionAddress function.
+hFuncSet : [intptr] CryptInitOIDFunctionSet 関数の呼び出しから以前に取得された関数セットハンドル。
+dwEncodingType : [int] 一致させるエンコーディング型を指定する。現在、X509_ASN_ENCODING および PKCS_7_ASN_ENCODING のみが使用されているが、将来追加のエンコーディング型が追加される可能性がある。現在の両方のエンコーディング型と一致させるには X509_ASN_ENCODING | PKCS_7_ASN_ENCODING を使用する。エンコーディング型を使用しない関数の場合、このパラメータを 0 に設定する。
+pszOID : [str] OID の上位ワードが 0 以外の場合、pszOID は "2.5.29.1" のような OID 文字列または "file" のような ASCII 文字列へのポインタとなる。OID の上位ワードが 0 の場合、下位ワードはオブジェクト識別子として使用される数値識別子を指定する。この結果の OID は、同じ OID でインストールまたは登録された関数にマップされる。
+dwFlags : [int] このパラメータには次の値を指定できる。
+ppvFuncAddr : [var] 関数アドレスへのポインタへのポインタ。一致が見つかった場合、ppvFuncAddr は関数アドレスを指す。
+phFuncAddr : [var] 一致が見つかった場合、phFuncAddr は関数ハンドルを指す。ハンドルの参照カウントは増分される。ハンドルの使用が終了したら、CryptFreeOIDFunctionAddress 関数を呼び出してハンドルを解放する。
 %inst
-Searches the list of registered and installed functions for an
-encoding type and object identifier (OID) match.
+登録済みおよびインストール済みの関数の一覧から、エンコーディング型とオブジェクト識別子 (OID) の一致を検索する。
 
 [戻り値]
-If the function succeeds and a match is found, the function returns
-nonzero (TRUE). If the function fails or no match is found, it
-returns zero (FALSE). For extended error information, call
-GetLastError.
+関数が成功し、一致が見つかった場合、戻り値は 0 以外 (TRUE)。関数が失敗したか、一致が見つからない場合は 0 (FALSE)
+を返す。拡張エラー情報を取得するには GetLastError を呼び出す。
 
 [備考]
-You can call CryptGetOIDFunctionAddress with the pszOID argument set
-to CMSG_DEFAULT_INSTALLABLE_FUNC_OID to get the default installable
-function for the following callback functions. For retrieval of the
-default functions, set dwEncodingType to a bitwise OR combination of
-the following encoding types. CRYPT_ASN_ENCODING X509_ASN_ENCODING
+次のコールバック関数の既定のインストール可能な関数を取得するには、pszOID 引数を
+CMSG_DEFAULT_INSTALLABLE_FUNC_OID に設定して CryptGetOIDFunctionAddress
+を呼び出すことができる。既定の関数の取得には、dwEncodingType に次のエンコーディング型のビットごとの OR
+の組み合わせを設定する。CRYPT_ASN_ENCODING X509_ASN_ENCODING
 
 
 %index
 CryptGetOIDFunctionValue
-The CryptGetOIDFunctionValue function queries a value associated with an OID.
+CryptGetOIDFunctionValue 関数は、OID に関連付けられた値を照会する。
 %group
 Win32 crypt32
 %prm
 dwEncodingType, pszFuncName, pszOID, pwszValueName, pdwValueType, pbValueData, pcbValueData
-dwEncodingType : [int] Specifies the encoding type to be matched. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types may be added in the future. To match both current encoding types, use    X509_ASN_ENCODING | PKCS_7_ASN_ENCODING.
-pszFuncName : [str] A pointer to the null-terminated string that contains the name of the OID function set.
-pszOID : [str] If the high-order word of the OID is nonzero, pszOID is a pointer to either a  null-terminated OID string such as "2.5.29.1" or a null-terminated ASCII string such as "file." If the high-order word of the OID is zero, the low-order word specifies the numeric identifier to be used as the object identifier.
-pwszValueName : [wstr] A pointer to a null-terminated Unicode string that contains the name of the value to be queried.
-pdwValueType : [var] A pointer to a variable to receive the value's type. The type returned through this parameter will be one of the following.
-pbValueData : [var] A pointer to a buffer to receive the value associated with the pwszValueName parameter. The buffer must be big enough to contain the terminating NULL character. This parameter can be NULL if returned data is not required. This parameter can also be NULL to find the size of the buffer for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbValueData : [var] A pointer to a DWORD that specifies the size, in bytes, of the buffer pointed to by the pbValueData. In most cases the value returned in *pcbValueData includes the size of the terminating NULL character in the string.  For information about situations where the NULL character is not included, see the Remarks section of RegQueryValueEx. Note??When processing the data returned in the buffer, applications must use the actual size of the data returned. The actual size can be slightly smaller than the size of the buffer specified on input. (On input, buffer sizes are usually specified large enough to ensure that the largest possible output data will fit in the buffer.) On output, the variable pointed to by this parameter is updated to reflect the actual size of the data copied to the buffer.
+dwEncodingType : [int] 一致させるエンコーディング型を指定する。現在、X509_ASN_ENCODING および PKCS_7_ASN_ENCODING のみが使用されているが、将来追加のエンコーディング型が追加される可能性がある。現在の両方のエンコーディング型と一致させるには X509_ASN_ENCODING | PKCS_7_ASN_ENCODING を使用する。
+pszFuncName : [str] OID 関数セットの名前を含む NULL 終端文字列へのポインタ。
+pszOID : [str] OID の上位ワードが 0 以外の場合、pszOID は "2.5.29.1" のような NULL 終端の OID 文字列、または "file" のような NULL 終端の ASCII 文字列へのポインタとなる。OID の上位ワードが 0 の場合、下位ワードはオブジェクト識別子として使用される数値識別子を指定する。
+pwszValueName : [wstr] 照会する値の名前を含む NULL 終端の Unicode 文字列へのポインタ。
+pdwValueType : [var] 値の型を受け取る変数へのポインタ。このパラメータで返される型は次のいずれかとなる。
+pbValueData : [var] pwszValueName パラメータに関連付けられた値を受け取るバッファへのポインタ。バッファは NULL 終端文字を格納するのに十分な大きさでなければならない。返されるデータが不要な場合、このパラメータは NULL にできる。メモリ割り当て目的でバッファのサイズを取得するためにも NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbValueData : [var] pbValueData が指すバッファのサイズ (バイト単位) を指定する DWORD へのポインタ。ほとんどの場合、*pcbValueData で返される値は文字列内の NULL 終端文字のサイズを含む。NULL 文字が含まれない状況の詳細については、RegQueryValueEx の「備考」セクションを参照。注意 バッファ内で返されたデータを処理する際、アプリケーションは返されたデータの実際のサイズを使用しなければならない。実際のサイズは入力で指定されたバッファのサイズよりわずかに小さい場合がある。出力時には、このパラメータが指す変数は実際のデータサイズを反映するよう更新される。
 %inst
-The CryptGetOIDFunctionValue function queries a value associated with
-an OID.
+CryptGetOIDFunctionValue 関数は、OID に関連付けられた値を照会する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. This function has the following error
-code.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。この関数には次のエラーコードがある。
+（以下省略）
 
 
 %index
 CryptHashCertificate
-The CryptHashCertificate function hashes the entire encoded content of a certificate including its signature.
+CryptHashCertificate 関数は、署名を含む証明書の符号化済みコンテンツ全体をハッシュ化する。
 %group
 Win32 crypt32
 %prm
 hCryptProv, Algid, dwFlags, pbEncoded, cbEncoded, pbComputedHash, pcbComputedHash
-hCryptProv : [int] This parameter is not used and should be set to NULL. Windows Server?2003 and Windows?XP:??A handle of the cryptographic service provider (CSP) to use to compute the hash.
-Algid : [int] An ALG_ID structure that specifies the hash algorithm to use. If Algid is zero, the default hash algorithm, SHA1, is used.
-dwFlags : [int] Value to be passed to the hash API. For details, see CryptCreateHash.
-pbEncoded : [var] Address of the encoded content to be hashed.
-cbEncoded : [int] The size, in bytes, of the encoded content.
-pbComputedHash : [var] A pointer to a buffer to receive the computed hash.
-pcbComputedHash : [var] A pointer to a DWORD that contains the size, in bytes, of the buffer pointed to by the pbComputedHash parameter. When the function returns, the DWORD contains the number of bytes stored in the buffer.
+hCryptProv : [int] このパラメータは使用されず、NULL に設定すべきである。Windows Server 2003 および Windows XP: ハッシュの計算に使用する暗号サービスプロバイダ (CSP) のハンドル。
+Algid : [int] 使用するハッシュアルゴリズムを指定する ALG_ID 構造体。Algid が 0 の場合、既定のハッシュアルゴリズムである SHA1 が使用される。
+dwFlags : [int] ハッシュ API に渡される値。詳細は CryptCreateHash を参照。
+pbEncoded : [var] ハッシュ化する符号化済みコンテンツのアドレス。
+cbEncoded : [int] 符号化済みコンテンツのサイズ (バイト単位)。
+pbComputedHash : [var] 計算されたハッシュを受け取るバッファへのポインタ。
+pcbComputedHash : [var] pbComputedHash パラメータが指すバッファのサイズ (バイト単位) を含む DWORD へのポインタ。関数が戻ると、DWORD にはバッファに格納されたバイト数が含まれる。
 %inst
-The CryptHashCertificate function hashes the entire encoded content
-of a certificate including its signature.
+CryptHashCertificate 関数は、署名を含む証明書の符号化済みコンテンツ全体をハッシュ化する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. Note Errors from the called functions
-CryptCreateHash, CryptGetHashParam and CryptHashData might be
-propagated to this function.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。注意 呼び出された
+CryptCreateHash、CryptGetHashParam、CryptHashData
+関数のエラーがこの関数に伝播することがある。
 
 
 %index
 CryptHashCertificate2
-Hashes a block of data by using a CNG hash provider.
+CNG ハッシュプロバイダを使用してデータブロックをハッシュする。
 %group
 Win32 crypt32
 %prm
 pwszCNGHashAlgid, dwFlags, pvReserved, pbEncoded, cbEncoded, pbComputedHash, pcbComputedHash
-pwszCNGHashAlgid : [wstr] The address of a null-terminated Unicode string that contains the CNG hash algorithm identifier of the hash algorithm to use to hash the certificate. This can be one of the CNG Algorithm Identifiers that represents a hash algorithm or any other registered hash algorithm identifier.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are defined for this function.
-pvReserved : [intptr] Reserved for future use and must be NULL.
-pbEncoded : [var] The address of an array of bytes to be hashed. The cbEncoded parameter contains the size of this array.
-cbEncoded : [int] The number of elements in the pbEncoded array.
-pbComputedHash : [var] The address of a buffer that receives the computed hash. The variable pointed to by the pcbComputedHash parameter contains the size of this buffer.
-pcbComputedHash : [var] The address of a DWORD variable that, on entry, contains the size, in bytes, of the  pbComputedHash buffer. After this function returns, this variable contains the number of bytes copied to the pbComputedHash buffer.
+pwszCNGHashAlgid : [wstr] 証明書をハッシュするために使用するハッシュアルゴリズムの CNG ハッシュアルゴリズム識別子を含む NULL 終端の Unicode 文字列のアドレス。これはハッシュアルゴリズムを表す CNG アルゴリズム識別子、またはその他の登録済みハッシュアルゴリズム識別子にできる。
+dwFlags : [int] この関数の動作を変更する一連のフラグ。この関数にはフラグは定義されていない。
+pvReserved : [intptr] 将来使用のために予約されており、NULL でなければならない。
+pbEncoded : [var] ハッシュ化するバイト配列のアドレス。cbEncoded パラメータにはこの配列のサイズが含まれる。
+cbEncoded : [int] pbEncoded 配列の要素数。
+pbComputedHash : [var] 計算されたハッシュを受け取るバッファのアドレス。pcbComputedHash パラメータが指す変数にはこのバッファのサイズが含まれる。
+pcbComputedHash : [var] 入力時に pbComputedHash バッファのサイズ (バイト単位) を含む DWORD 変数のアドレス。この関数が戻ると、この変数には pbComputedHash バッファにコピーされたバイト数が含まれる。
 %inst
-Hashes a block of data by using a CNG hash provider.
+CNG ハッシュプロバイダを使用してデータブロックをハッシュする。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. Some of the possible error codes are
-identified in the following topics. BCryptOpenAlgorithmProvider
-BCryptCreateHash BCryptGetProperty BCryptHashData BCryptFinishHash
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError
+を呼び出す。想定されるエラーコードの一部は次のトピックに示されている。BCryptOpenAlgorithmProvider、BCryptCreateHash、BCryptGetProperty、BCryptHashData、BCryptFinishHash。
 
 
 %index
 CryptHashMessage
-Creates a hash of the message.
+メッセージのハッシュを作成する。
 %group
 Win32 crypt32
 %prm
 pHashPara, fDetachedHash, cToBeHashed, rgpbToBeHashed, rgcbToBeHashed, pbHashedBlob, pcbHashedBlob, pbComputedHash, pcbComputedHash
-pHashPara : [var] A pointer to a CRYPT_HASH_MESSAGE_PARA structure that contains the hash parameters.
-fDetachedHash : [int] If this parameter is set to TRUE, only pbComputedHash is encoded in pbHashedBlob. Otherwise, both rgpbToBeHashed and pbComputedHash are encoded.
-cToBeHashed : [int] The number of array elements in rgpbToBeHashed and rgcbToBeHashed. This parameter can only be one unless fDetachedHash is set to TRUE.
-rgpbToBeHashed : [var] An array of pointers to buffers that contain the contents to be hashed.
-rgcbToBeHashed : [var] An array of sizes, in bytes, of the buffers pointed to by rgpbToBeHashed.
-pbHashedBlob : [var] A pointer to a buffer to receive the hashed message encoded for transmission.
-pcbHashedBlob : [var] A pointer to a DWORD that specifies the size, in bytes, of the buffer pointed to by the pbHashedBlob parameter. When the function returns, this variable contains the size, in bytes, of the decrypted message copied to pbHashedBlob. This parameter must be the address of a DWORD and not NULL or the length of the buffer will not be returned.
-pbComputedHash : [var] A pointer to a buffer to receive the newly created hash value. This parameter can be NULL if the newly created hash is not needed for additional processing, or to set the size of the hash for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbComputedHash : [var] A pointer to a DWORD that specifies the size, in bytes, of the buffer pointed to by the pbComputedHash parameter. When the function returns, this DWORD contains the size, in bytes, of the newly created hash that was copied to pbComputedHash.
+pHashPara : [var] ハッシュパラメータを含む CRYPT_HASH_MESSAGE_PARA 構造体へのポインタ。
+fDetachedHash : [int] このパラメータが TRUE に設定されている場合、pbHashedBlob には pbComputedHash のみが符号化される。それ以外の場合、rgpbToBeHashed と pbComputedHash の両方が符号化される。
+cToBeHashed : [int] rgpbToBeHashed と rgcbToBeHashed の配列要素数。fDetachedHash が TRUE に設定されていない限り、このパラメータは 1 のみを指定できる。
+rgpbToBeHashed : [var] ハッシュ化するコンテンツを含むバッファへのポインタの配列。
+rgcbToBeHashed : [var] rgpbToBeHashed が指すバッファのサイズ (バイト単位) の配列。
+pbHashedBlob : [var] 送信用に符号化されたハッシュ化済みメッセージを受け取るバッファへのポインタ。
+pcbHashedBlob : [var] pbHashedBlob パラメータが指すバッファのサイズ (バイト単位) を指定する DWORD へのポインタ。関数が戻ると、この変数には pbHashedBlob にコピーされた復号済みメッセージのサイズ (バイト単位) が含まれる。このパラメータは DWORD のアドレスでなければならず、NULL にすると、バッファの長さが返されない。
+pbComputedHash : [var] 新しく作成されたハッシュ値を受け取るバッファへのポインタ。新しく作成されたハッシュが追加の処理に不要な場合、またはメモリ割り当て目的でハッシュのサイズを設定する場合、このパラメータは NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbComputedHash : [var] pbComputedHash パラメータが指すバッファのサイズ (バイト単位) を指定する DWORD へのポインタ。関数が戻ると、この DWORD には pbComputedHash にコピーされた新しく作成されたハッシュのサイズ (バイト単位) が含まれる。
 %inst
-Creates a hash of the message.
+メッセージのハッシュを作成する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. Note Errors from the called functions
-CryptCreateHash, CryptHashData, and CryptGetHashParam might be
-propagated to this function. The GetLastError function returns the
-following error codes most often.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。注意 呼び出された
+CryptCreateHash、CryptHashData、CryptGetHashParam
+関数のエラーがこの関数に伝播することがある。GetLastError 関数は最も一般的に次のエラーコードを返す。
+（以下省略）
 
 
 %index
 CryptHashPublicKeyInfo
-Encodes the public key information in a CERT_PUBLIC_KEY_INFO structure and computes the hash of the encoded bytes.
+CERT_PUBLIC_KEY_INFO 構造体内の公開鍵情報を符号化し、符号化されたバイト列のハッシュを計算する。
 %group
 Win32 crypt32
 %prm
 hCryptProv, Algid, dwFlags, dwCertEncodingType, pInfo, pbComputedHash, pcbComputedHash
-hCryptProv : [int] This parameter is not used and should be set to NULL. Windows Server?2003 and Windows?XP:??A handle of the cryptographic service provider (CSP) to use to compute the hash.This parameter's data type is HCRYPTPROV. Unless there is a strong reason for passing in a specific cryptographic provider in hCryptProv, zero is passed in. Passing in zero causes the default RSA or Digital Signature Standard (DSS) provider to be acquired before doing hash, signature verification, or recipient encryption operations.
-Algid : [int] An ALG_ID structure that specifies the CryptoAPI hash algorithm to use. If Algid is zero, the default hash algorithm, MD5, is used.
-dwFlags : [int] Values to be passed on to CryptCreateHash.
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pInfo : [var] A pointer to a CERT_PUBLIC_KEY_INFO structure that contains the public key information to be encoded and hashed.
-pbComputedHash : [var] A pointer to a buffer to receive the computed hash. To set the size of this information for memory allocation purposes, this parameter can be NULL. For more information, see Retrieving Data of Unknown Length.
-pcbComputedHash : [var] A pointer to a DWORD that contains the size, in bytes, of the buffer pointed to by the pbComputedHash parameter. When the function returns, the DWORD contains the number of bytes stored in the buffer. Note??When processing the data returned in the buffer, applications need to use the actual size of the data returned. The actual size can be slightly smaller than the size of the buffer specified on input. On input, buffer sizes are usually specified large enough to ensure that the largest possible output data will fit in the buffer. On output, the variable pointed to by this parameter is updated to reflect the actual size of the data copied to the buffer.
+hCryptProv : [int] このパラメータは使用されず、NULL に設定すべきである。Windows Server 2003 および Windows XP: ハッシュの計算に使用する暗号サービスプロバイダ (CSP) のハンドル。このパラメータのデータ型は HCRYPTPROV。hCryptProv で特定の暗号プロバイダを渡す強い理由がない限り、0 を渡す。0 を渡すと、ハッシュ、署名検証、または受信者暗号化操作を行う前に既定の RSA または Digital Signature Standard (DSS) プロバイダが取得される。
+Algid : [int] 使用する CryptoAPI ハッシュアルゴリズムを指定する ALG_ID 構造体。Algid が 0 の場合、既定のハッシュアルゴリズムである MD5 が使用される。
+dwFlags : [int] CryptCreateHash に渡される値。
+dwCertEncodingType : [int] 使用するエンコーディングの型を指定する。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+pInfo : [var] 符号化およびハッシュ化する公開鍵情報を含む CERT_PUBLIC_KEY_INFO 構造体へのポインタ。
+pbComputedHash : [var] 計算されたハッシュを受け取るバッファへのポインタ。メモリ割り当て目的でこの情報のサイズを設定するには、このパラメータを NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbComputedHash : [var] pbComputedHash パラメータが指すバッファのサイズ (バイト単位) を含む DWORD へのポインタ。関数が戻ると、DWORD にはバッファに格納されたバイト数が含まれる。注意 バッファ内で返されたデータを処理する際、アプリケーションは返されたデータの実際のサイズを使用する必要がある。実際のサイズは入力で指定されたバッファのサイズよりわずかに小さい場合がある。出力時には、このパラメータが指す変数は実際のデータサイズを反映するよう更新される。
 %inst
-Encodes the public key information in a CERT_PUBLIC_KEY_INFO
-structure and computes the hash of the encoded bytes.
+CERT_PUBLIC_KEY_INFO 構造体内の公開鍵情報を符号化し、符号化されたバイト列のハッシュを計算する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. Note Errors from the called functions
-CryptCreateHash, CryptGetHashParam, and CryptHashData can be
-propagated to this function. This function has the following error
-codes.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。注意 呼び出された
+CryptCreateHash、CryptGetHashParam、CryptHashData
+関数のエラーがこの関数に伝播することがある。この関数には次のエラーコードがある。
+（以下省略）
 
 
 %index
 CryptHashToBeSigned
-Important??This API is deprecated. (CryptHashToBeSigned)
+重要 この API は廃止予定。(CryptHashToBeSigned)
 %group
 Win32 crypt32
 %prm
 hCryptProv, dwCertEncodingType, pbEncoded, cbEncoded, pbComputedHash, pcbComputedHash
-hCryptProv : [int] This parameter is not used and should be set to NULL. Windows Server?2003 and Windows?XP:??A handle of the cryptographic service provider (CSP) to use to compute the hash.This parameter's data type is HCRYPTPROV. Unless there is a strong reason for passing in a specific cryptographic provider in hCryptProv, zero is passed in. Passing in zero causes the default RSA or Digital Signature Standard (DSS) provider to be acquired before doing hash, signature verification, or recipient encryption operations.
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pbEncoded : [var] Address of a buffer that contains the content to be hashed. This is the encoded form of a CERT_SIGNED_CONTENT_INFO.
-cbEncoded : [int] The size, in bytes, of the buffer.
-pbComputedHash : [var] A pointer to a buffer to receive the computed hash. This parameter can be NULL to set the size of this information for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbComputedHash : [var] A pointer to a DWORD that contains the size, in bytes, of the buffer pointed to by the pbComputedHash parameter. When the function returns, the DWORD contains the number of bytes stored in the buffer. Note??When processing the data returned in the buffer, applications need to use the actual size of the data returned. The actual size can be slightly smaller than the size of the buffer specified on input. On input, buffer sizes are usually specified large enough to ensure that the largest possible output data will fit in the buffer. On output, the variable pointed to by this parameter is updated to reflect the actual size of the data copied to the buffer.
+hCryptProv : [int] このパラメータは使用されず、NULL に設定すべきである。Windows Server 2003 および Windows XP: ハッシュの計算に使用する暗号サービスプロバイダ (CSP) のハンドル。このパラメータのデータ型は HCRYPTPROV。hCryptProv で特定の暗号プロバイダを渡す強い理由がない限り、0 を渡す。0 を渡すと、ハッシュ、署名検証、または受信者暗号化操作を行う前に既定の RSA または Digital Signature Standard (DSS) プロバイダが取得される。
+dwCertEncodingType : [int] 使用するエンコーディングの型を指定する。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+pbEncoded : [var] ハッシュ化するコンテンツを含むバッファのアドレス。これは CERT_SIGNED_CONTENT_INFO の符号化形式。
+cbEncoded : [int] バッファのサイズ (バイト単位)。
+pbComputedHash : [var] 計算されたハッシュを受け取るバッファへのポインタ。メモリ割り当て目的でこの情報のサイズを設定するには、このパラメータを NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbComputedHash : [var] pbComputedHash パラメータが指すバッファのサイズ (バイト単位) を含む DWORD へのポインタ。関数が戻ると、DWORD にはバッファに格納されたバイト数が含まれる。注意 バッファ内で返されたデータを処理する際、アプリケーションは返されたデータの実際のサイズを使用する必要がある。実際のサイズは入力で指定されたバッファのサイズよりわずかに小さい場合がある。出力時には、このパラメータが指す変数は実際のデータサイズを反映するよう更新される。
 %inst
-Important This API is deprecated. (CryptHashToBeSigned)
+重要 この API は廃止予定。(CryptHashToBeSigned)
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. Note Errors from the called functions
-CryptCreateHash, CryptGetHashParam, and CryptHashData might be
-propagated to this function. This function has the following error
-codes.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。注意 呼び出された
+CryptCreateHash、CryptGetHashParam、CryptHashData
+関数のエラーがこの関数に伝播することがある。この関数には次のエラーコードがある。
+（以下省略）
 
 
 %index
 CryptImportPKCS8
-Imports the private key in PKCS
+PKCS 形式で秘密鍵をインポートする。
 %group
 Win32 crypt32
 %prm
 sPrivateKeyAndParams, dwFlags, phCryptProv, pvAuxInfo
-sPrivateKeyAndParams : [var] A CRYPT_PKCS8_IMPORT_PARAMS structure that contains the private key BLOB and corresponding parameters.
+sPrivateKeyAndParams : [var] 秘密鍵 BLOB と対応するパラメータを含む CRYPT_PKCS8_IMPORT_PARAMS 構造体。
 dwFlags : [int] 
-phCryptProv : [var] A pointer to the HCRYPTPROV  to receive the handle of the provider into which the key is imported by calling the CryptImportPKCS8 function. When you have finished using the handle, free the handle by calling CryptReleaseContext. This parameter can be NULL, in which case the handle of the provider is not returned.
-pvAuxInfo : [intptr] This parameter must be NULL.
+phCryptProv : [var] CryptImportPKCS8 関数の呼び出しによって鍵がインポートされたプロバイダのハンドルを受け取る HCRYPTPROV へのポインタ。ハンドルの使用が終了したら、CryptReleaseContext を呼び出してハンドルを解放する。このパラメータは NULL にでき、その場合プロバイダのハンドルは返されない。
+pvAuxInfo : [intptr] このパラメータは NULL でなければならない。
 %inst
-Imports the private key in PKCS
+PKCS 形式で秘密鍵をインポートする。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. The following error code is specific
-to this function.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。次のエラーコードはこの関数に固有のものである。
+（以下省略）
 
 [備考]
-CryptImportPKCS8 calls the PCRYPT_RESOLVE_HCRYPTPROV_FUNC function by
-using the CRYPT_PKCS8_IMPORT_PARAMS structure contained in the
-sPrivateKeyAndParams parameter to retrieve a handle of the provider
-to which to import the key. If PCRYPT_RESOLVE_HCRYPTPROV_FUNC is
-NULL, then the default provider is used. This function is only
-supported for asymmetric keys.
+CryptImportPKCS8 は、sPrivateKeyAndParams パラメータに含まれる
+CRYPT_PKCS8_IMPORT_PARAMS 構造体を使用して PCRYPT_RESOLVE_HCRYPTPROV_FUNC
+関数を呼び出し、鍵をインポートするプロバイダのハンドルを取得する。PCRYPT_RESOLVE_HCRYPTPROV_FUNC が
+NULL の場合、既定のプロバイダが使用される。この関数は非対称鍵に対してのみサポートされる。
 
 
 %index
 CryptImportPublicKeyInfo
-Converts and imports the public key information into the provider and returns a handle of the public key.
+公開鍵情報を変換してプロバイダにインポートし、公開鍵のハンドルを返す。
 %group
 Win32 crypt32
 %prm
 hCryptProv, dwCertEncodingType, pInfo, phKey
-hCryptProv : [int] The handle of the cryptographic service provider (CSP) to use when importing the public key. This handle must have already been created using CryptAcquireContext.
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pInfo : [var] The address of a CERT_PUBLIC_KEY_INFO structure that contains the public key to import into the provider.
-phKey : [var] The address of an HCRYPTKEY variable that receives the handle of the imported public key. When you have finished using the public key, release the handle by calling the CryptDestroyKey function.
+hCryptProv : [int] 公開鍵をインポートするときに使用する暗号サービスプロバイダ (CSP) のハンドル。このハンドルは CryptAcquireContext を使用してあらかじめ作成されている必要がある。
+dwCertEncodingType : [int] 使用するエンコーディングの型を指定する。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+pInfo : [var] プロバイダにインポートする公開鍵を含む CERT_PUBLIC_KEY_INFO 構造体のアドレス。
+phKey : [var] インポートされた公開鍵のハンドルを受け取る HCRYPTKEY 変数のアドレス。公開鍵の使用が終了したら、CryptDestroyKey 関数を呼び出してハンドルを解放する。
 %inst
-Converts and imports the public key information into the provider and
-returns a handle of the public key.
+公開鍵情報を変換してプロバイダにインポートし、公開鍵のハンドルを返す。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. Note Errors from the called functions
-CryptGetUserKey and CryptExportKey might be propagated to this
-function. This function has the following error code.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。注意 呼び出された CryptGetUserKey および CryptExportKey
+関数のエラーがこの関数に伝播することがある。この関数には次のエラーコードがある。
+（以下省略）
 
 [備考]
-This function is normally used to retrieve the public key from a
-certificate. This is done by passing the CERT_PUBLIC_KEY_INFO
-structure from a filled-in certificate structure as shown in the
-following pseudocode.
-This doc was truncated.
+この関数は通常、証明書から公開鍵を取得するために使用される。これは、次の擬似コードに示すように、記入済みの証明書構造体から
+CERT_PUBLIC_KEY_INFO 構造体を渡すことで行われる。
+（以下省略）
 
 
 %index
 CryptImportPublicKeyInfoEx
-Important??This API is deprecated. (CryptImportPublicKeyInfoEx)
+重要 この API は廃止予定。(CryptImportPublicKeyInfoEx)
 %group
 Win32 crypt32
 %prm
 hCryptProv, dwCertEncodingType, pInfo, aiKeyAlg, dwFlags, pvAuxInfo, phKey
-hCryptProv : [int] The handle of the CSP to receive the imported public key. This handle must have already been created using CryptAcquireContext.
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pInfo : [var] the address of a CERT_PUBLIC_KEY_INFO structure that contains the public key to import into the provider. Note??The pzObjId member of the Algorithm member pointed to by the pInfo  and dwCertEncodingType parameters determine an installable CRYPT_OID_IMPORT_PUBLIC_KEY_INFO_FUNC callback function. If an installable function is not found, an attempt is made to import the key as an RSA Public Key (szOID_RSA_RSA).
-aiKeyAlg : [int] An ALG_ID structure that contains a CSP-specific algorithm to override the CALG_RSA_KEYX default algorithm.
-dwFlags : [int] Reserved for future use and must be zero.
-pvAuxInfo : [intptr] Reserved for future use and must be NULL.
-phKey : [var] The address of an HCRYPTKEY variable that receives the handle of the imported public key. When you have finished using the public key, release the handle by calling the CryptDestroyKey function.
+hCryptProv : [int] インポートされた公開鍵を受け取る CSP のハンドル。このハンドルは CryptAcquireContext を使用してあらかじめ作成されている必要がある。
+dwCertEncodingType : [int] 使用するエンコーディングの型を指定する。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+pInfo : [var] プロバイダにインポートする公開鍵を含む CERT_PUBLIC_KEY_INFO 構造体のアドレス。注意 pInfo が指す Algorithm メンバの pzObjId メンバと dwCertEncodingType パラメータによって、インストール可能な CRYPT_OID_IMPORT_PUBLIC_KEY_INFO_FUNC コールバック関数が決定される。インストール可能な関数が見つからない場合、RSA 公開鍵 (szOID_RSA_RSA) として鍵をインポートする試みが行われる。
+aiKeyAlg : [int] 既定の CALG_RSA_KEYX アルゴリズムを上書きする CSP 固有のアルゴリズムを含む ALG_ID 構造体。
+dwFlags : [int] 将来使用のために予約されており、0 でなければならない。
+pvAuxInfo : [intptr] 将来使用のために予約されており、NULL でなければならない。
+phKey : [var] インポートされた公開鍵のハンドルを受け取る HCRYPTKEY 変数のアドレス。公開鍵の使用が終了したら、CryptDestroyKey 関数を呼び出してハンドルを解放する。
 %inst
-Important This API is deprecated. (CryptImportPublicKeyInfoEx)
+重要 この API は廃止予定。(CryptImportPublicKeyInfoEx)
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. Note Errors from the called functions
-CryptGetUserKey and CryptExportKey might be propagated to this
-function. This function has the following error code.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。注意 呼び出された CryptGetUserKey および CryptExportKey
+関数のエラーがこの関数に伝播することがある。この関数には次のエラーコードがある。
+（以下省略）
 
 [備考]
-This function is normally used to retrieve the public key from a
-certificate. This is done by passing the CERT_PUBLIC_KEY_INFO
-structure from a filled-in certificate structure as shown in the
-following pseudocode.
-This doc was truncated.
+この関数は通常、証明書から公開鍵を取得するために使用される。これは、次の擬似コードに示すように、記入済みの証明書構造体から
+CERT_PUBLIC_KEY_INFO 構造体を渡すことで行われる。
+（以下省略）
 
 
 %index
 CryptImportPublicKeyInfoEx2
-Imports a public key into the CNG asymmetric provider that corresponds to the public key object identifier (OID) and returns a CNG handle to the key.
+公開鍵オブジェクト識別子 (OID) に対応する CNG 非対称プロバイダに公開鍵をインポートし、鍵の CNG ハンドルを返す。
 %group
 Win32 crypt32
 %prm
 dwCertEncodingType, pInfo, dwFlags, pvAuxInfo, phKey
-dwCertEncodingType : [int] The certificate encoding type that was used to encrypt the subject. The message encoding type identifier, contained in the high WORD of this value, is ignored by this function.
-pInfo : [var] The address of a CERT_PUBLIC_KEY_INFO structure that contains the public key information to import into the provider.
+dwCertEncodingType : [int] サブジェクトを暗号化するために使用された証明書エンコーディング型。この値の上位 WORD に含まれるメッセージエンコーディング型識別子は、この関数では無視される。
+pInfo : [var] プロバイダにインポートする公開鍵情報を含む CERT_PUBLIC_KEY_INFO 構造体のアドレス。
 dwFlags : [int] 
-pvAuxInfo : [intptr] This parameter is reserved for future use and must be set to NULL.
-phKey : [var] The address of a BCRYPT_KEY_HANDLE variable that receives the handle of the imported key. When this handle is no longer needed, you must release it by calling the BCryptDestroyKey function.
+pvAuxInfo : [intptr] このパラメータは将来使用のために予約されており、NULL に設定しなければならない。
+phKey : [var] インポートされた鍵のハンドルを受け取る BCRYPT_KEY_HANDLE 変数のアドレス。このハンドルが不要になったら、BCryptDestroyKey 関数を呼び出して解放しなければならない。
 %inst
-Imports a public key into the CNG asymmetric provider that
-corresponds to the public key object identifier (OID) and returns a
-CNG handle to the key.
+公開鍵オブジェクト識別子 (OID) に対応する CNG 非対称プロバイダに公開鍵をインポートし、鍵の CNG ハンドルを返す。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. Possible error codes include, but are
-not limited to, the following.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。想定されるエラーコードには次のものが含まれるが、これらに限定されない。
+（以下省略）
 
 
 %index
 CryptInitOIDFunctionSet
-The CryptInitOIDFunctionSet initializes and returns the handle of the OID function set identified by a supplied function set name.
+CryptInitOIDFunctionSet は、指定された関数セット名で識別される OID 関数セットを初期化してそのハンドルを返す。
 %group
 Win32 crypt32
 %prm
 pszFuncName, dwFlags
-pszFuncName : [str] Name of the OID function set.
-dwFlags : [int] Reserved for future use and must be zero.
+pszFuncName : [str] OID 関数セットの名前。
+dwFlags : [int] 将来使用のために予約されており、0 でなければならない。
 %inst
-The CryptInitOIDFunctionSet initializes and returns the handle of the
-OID function set identified by a supplied function set name.
+CryptInitOIDFunctionSet は、指定された関数セット名で識別される OID 関数セットを初期化してそのハンドルを返す。
 
 [戻り値]
-Returns the handle of the OID function set identified by pszFuncName,
-or NULL if the function fails.
+pszFuncName によって識別される OID 関数セットのハンドルを返す。関数が失敗した場合は NULL を返す。
 
 
 %index
 CryptInstallDefaultContext
-Installs a specific provider to be the default context provider for the specified algorithm.
+指定されたアルゴリズムの既定のコンテキストプロバイダとして特定のプロバイダをインストールする。
 %group
 Win32 crypt32
 %prm
 hCryptProv, dwDefaultType, pvDefaultPara, dwFlags, pvReserved, phDefaultContext
-hCryptProv : [int] The handle of the cryptographic service provider to be used as the default context. This handle is obtained by using the CryptAcquireContext function.
+hCryptProv : [int] 既定のコンテキストとして使用する暗号サービスプロバイダのハンドル。このハンドルは CryptAcquireContext 関数を使用して取得される。
 dwDefaultType : [int] 
-pvDefaultPara : [intptr] Specifies the object or objects to install the default context provider for. The format of this parameter depends on the contents of the dwDefaultType parameter.
+pvDefaultPara : [intptr] 既定のコンテキストプロバイダをインストールするオブジェクトを指定する。このパラメータの形式は dwDefaultType パラメータの内容によって異なる。
 dwFlags : [int] 
-pvReserved : [intptr] This parameter is reserved for future use.
-phDefaultContext : [var] The address of an HCRYPTDEFAULTCONTEXT variable that receives the default context handle. This handle is passed to the CryptUninstallDefaultContext function to uninstall the default context provider.
+pvReserved : [intptr] このパラメータは将来使用のために予約されている。
+phDefaultContext : [var] 既定のコンテキストハンドルを受け取る HCRYPTDEFAULTCONTEXT 変数のアドレス。このハンドルは既定のコンテキストプロバイダをアンインストールするために CryptUninstallDefaultContext 関数に渡される。
 %inst
-Installs a specific provider to be the default context provider for
-the specified algorithm.
+指定されたアルゴリズムの既定のコンテキストプロバイダとして特定のプロバイダをインストールする。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 [備考]
-The installed default context providers are stack ordered, thus when
-searching for a default context provider, the system starts with the
-most recently installed provider. The per-thread list of providers is
-searched before the per-process list of providers. After a match is
-found, the system does not continue to search for other matches. The
-installed provider handle must remain available for use until
-CryptUninstallDefaultContext is called, or the thread or process
-exits.
+
+インストール済みの既定のコンテキストプロバイダはスタック順に並べられており、既定のコンテキストプロバイダを検索する場合、システムは最も新しくインストールされたプロバイダから開始する。プロバイダのスレッドごとのリストは、プロバイダのプロセスごとのリストの前に検索される。一致が見つかると、システムは他の一致の検索を続行しない。インストールされたプロバイダハンドルは、CryptUninstallDefaultContext
+が呼び出されるか、スレッドまたはプロセスが終了するまで使用可能なままでなければならない。
 
 
 %index
 CryptInstallOIDFunctionAddress
-The CryptInstallOIDFunctionAddress function installs a set of callable object identifier (OID) function addresses.
+CryptInstallOIDFunctionAddress 関数は、呼び出し可能なオブジェクト識別子 (OID) 関数アドレスのセットをインストールする。
 %group
 Win32 crypt32
 %prm
 hModule, dwEncodingType, pszFuncName, cFuncEntry, rgFuncEntry, dwFlags
-hModule : [intptr] This parameter is updated with the hModule parameter passed to DllMain to prevent the DLL that contains the function addresses from being unloaded by CryptGetOIDFunctionAddress or CryptFreeOIDFunctionAddress. This would be the case when the DLL has also registered OID functions through CryptRegisterOIDFunction.
-dwEncodingType : [int] Specifies the encoding type to be matched. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types may be added in the future. To match both current encoding types, use: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING
-pszFuncName : [str] Name of the function set being installed.
-cFuncEntry : [int] Number of array elements in rgFuncEntry[].
-rgFuncEntry : [var] Array of CRYPT_OID_FUNC_ENTRY structures, each containing an OID and the starting address of its correlated routine.
-dwFlags : [int] By default, a new function set is installed at the end of the list of function sets. Setting the CRYPT_INSTALL_OID_FUNC_BEFORE_FLAG flag installs the function set at the beginning of the list.
+hModule : [intptr] このパラメータは、CryptGetOIDFunctionAddress または CryptFreeOIDFunctionAddress によって、関数アドレスを含む DLL がアンロードされないように、DllMain に渡される hModule パラメータで更新される。これは、DLL が CryptRegisterOIDFunction を介して OID 関数も登録している場合に当てはまる。
+dwEncodingType : [int] 一致させるエンコーディング型を指定する。現在、X509_ASN_ENCODING および PKCS_7_ASN_ENCODING のみが使用されているが、将来追加のエンコーディング型が追加される可能性がある。現在の両方のエンコーディング型と一致させるには X509_ASN_ENCODING | PKCS_7_ASN_ENCODING を使用する。
+pszFuncName : [str] インストールされる関数セットの名前。
+cFuncEntry : [int] rgFuncEntry[] の配列要素数。
+rgFuncEntry : [var] CRYPT_OID_FUNC_ENTRY 構造体の配列。各要素には OID と、それに関連付けられたルーチンの開始アドレスが含まれる。
+dwFlags : [int] 既定では、新しい関数セットは関数セットの一覧の末尾にインストールされる。CRYPT_INSTALL_OID_FUNC_BEFORE_FLAG フラグを設定すると、関数セットは一覧の先頭にインストールされる。
 %inst
-The CryptInstallOIDFunctionAddress function installs a set of
-callable object identifier (OID) function addresses.
+CryptInstallOIDFunctionAddress 関数は、呼び出し可能なオブジェクト識別子 (OID)
+関数アドレスのセットをインストールする。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE).
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。
 
 
 %index
 CryptMemAlloc
-The CryptMemAlloc function allocates memory for a buffer. It is used by all Crypt32.lib functions that return allocated buffers.
+CryptMemAlloc 関数はバッファのメモリを割り当てる。割り当てられたバッファを返すすべての Crypt32.lib 関数で使用される。
 %group
 Win32 crypt32
 %prm
 cbSize
-cbSize : [int] Number of bytes to be allocated.
+cbSize : [int] 割り当てるバイト数。
 %inst
-The CryptMemAlloc function allocates memory for a buffer. It is used
-by all Crypt32.lib functions that return allocated buffers.
+CryptMemAlloc 関数はバッファのメモリを割り当てる。割り当てられたバッファを返すすべての Crypt32.lib
+関数で使用される。
 
 [戻り値]
-Returns a pointer to the buffer allocated. If the function fails,
-NULL is returned. When you have finished using the buffer, free the
-memory by calling the CryptMemFree function.
+割り当てられたバッファへのポインタを返す。関数が失敗した場合は NULL を返す。バッファの使用が終了したら、CryptMemFree
+関数を呼び出してメモリを解放する。
 
 
 %index
 CryptMemFree
-The CryptMemFree function frees memory allocated by CryptMemAlloc or CryptMemRealloc.
+CryptMemFree 関数は、CryptMemAlloc または CryptMemRealloc によって割り当てられたメモリを解放する。
 %group
 Win32 crypt32
 %prm
 pv
-pv : [intptr] A pointer to the buffer to be freed.
+pv : [intptr] 解放するバッファへのポインタ。
 %inst
-The CryptMemFree function frees memory allocated by CryptMemAlloc or
-CryptMemRealloc.
+CryptMemFree 関数は、CryptMemAlloc または CryptMemRealloc
+によって割り当てられたメモリを解放する。
 
 
 %index
 CryptMemRealloc
-The CryptMemRealloc function frees the memory currently allocated for a buffer and allocates memory for a new buffer.
+CryptMemRealloc 関数は、バッファに現在割り当てられているメモリを解放し、新しいバッファのメモリを割り当てる。
 %group
 Win32 crypt32
 %prm
 pv, cbSize
-pv : [intptr] A pointer to a currently allocated buffer.
-cbSize : [int] Number of bytes to be allocated.
+pv : [intptr] 現在割り当てられているバッファへのポインタ。
+cbSize : [int] 割り当てるバイト数。
 %inst
-The CryptMemRealloc function frees the memory currently allocated for
-a buffer and allocates memory for a new buffer.
+CryptMemRealloc 関数は、バッファに現在割り当てられているメモリを解放し、新しいバッファのメモリを割り当てる。
 
 [戻り値]
-Returns a pointer to the buffer allocated. If the function fails,
-NULL is returned. When you have finished using the buffer, free the
-memory by calling the CryptMemFree function.
+割り当てられたバッファへのポインタを返す。関数が失敗した場合は NULL を返す。バッファの使用が終了したら、CryptMemFree
+関数を呼び出してメモリを解放する。
 
 
 %index
 CryptMsgCalculateEncodedLength
-Calculates the maximum number of bytes needed for an encoded cryptographic message given the message type, encoding parameters, and total length of the data to be encoded.
+メッセージの型、エンコーディングパラメータ、および符号化されるデータの合計長を指定して、符号化された暗号メッセージに必要な最大バイト数を計算する。
 %group
 Win32 crypt32
 %prm
 dwMsgEncodingType, dwFlags, dwMsgType, pvMsgEncodeInfo, pszInnerContentObjID, cbData
-dwMsgEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-dwFlags : [int] Currently defined flags are shown in the following table.
-dwMsgType : [int] Currently defined message types are shown in the following table.
-pvMsgEncodeInfo : [intptr] A pointer to the data to be encoded. The type of data pointed to depends on the value of dwMsgType. For details, see the dwMsgType table.
-pszInnerContentObjID : [str] When calling CryptMsgCalculateEncodedLength with data provided to CryptMsgUpdate already encoded, the appropriate object identifier is passed in pszInnerContentObjID. If pszInnerContentObjID is NULL, the inner content type is assumed not to have been previously encoded, and is encoded as an octet string and given the type CMSG_DATA.
-cbData : [int] The size, in bytes, of the content.
+dwMsgEncodingType : [int] 使用するエンコーディングの型を指定する。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+dwFlags : [int] 現在定義されているフラグは次の表に示す。
+dwMsgType : [int] 現在定義されているメッセージ型は次の表に示す。
+pvMsgEncodeInfo : [intptr] 符号化するデータへのポインタ。指し示すデータの型は dwMsgType の値に依存する。詳細は dwMsgType の表を参照。
+pszInnerContentObjID : [str] CryptMsgUpdate に渡されるデータがすでに符号化されている状態で CryptMsgCalculateEncodedLength を呼び出す場合、適切なオブジェクト識別子を pszInnerContentObjID に渡す。pszInnerContentObjID が NULL の場合、内部コンテンツ型はあらかじめ符号化されていないものと見なされ、オクテット文字列として符号化され、CMSG_DATA 型が付与される。
+cbData : [int] コンテンツのサイズ (バイト単位)。
 %inst
-Calculates the maximum number of bytes needed for an encoded
-cryptographic message given the message type, encoding parameters,
-and total length of the data to be encoded.
+
+メッセージの型、エンコーディングパラメータ、および符号化されるデータの合計長を指定して、符号化された暗号メッセージに必要な最大バイト数を計算する。
 
 [戻り値]
-Returns the required length for an encoded cryptographic message.
-This length might not be the exact length but it will not be less
-than the required length. Zero is returned if the function fails. To
-retrieve extended error information, use the GetLastError function.
-The following table lists the error codes most commonly returned.
-This doc was truncated.
+符号化された暗号メッセージに必要な長さを返す。この長さは正確な長さではない場合もあるが、必要な長さを下回ることはない。関数が失敗した場合は
+0 を返す。拡張エラー情報を取得するには GetLastError 関数を使用する。次の表に最も一般的に返されるエラーコードを示す。
+（以下省略）
 
 
 %index
 CryptMsgClose
-The CryptMsgClose function closes a cryptographic message handle. At each call to this function, the reference count on the message is reduced by one. When the reference count reaches zero, the message is fully released.
+CryptMsgClose 関数は暗号メッセージハンドルを閉じる。この関数の呼び出しごとに、メッセージの参照カウントが 1 つ減らされる。参照カウントが 0 に達すると、メッセージは完全に解放される。
 %group
 Win32 crypt32
 %prm
 hCryptMsg
-hCryptMsg : [intptr] Handle of the cryptographic message to be closed.
+hCryptMsg : [intptr] 閉じる暗号メッセージのハンドル。
 %inst
-The CryptMsgClose function closes a cryptographic message handle. At
-each call to this function, the reference count on the message is
-reduced by one. When the reference count reaches zero, the message is
-fully released.
+CryptMsgClose 関数は暗号メッセージハンドルを閉じる。この関数の呼び出しごとに、メッセージの参照カウントが 1
+つ減らされる。参照カウントが 0 に達すると、メッセージは完全に解放される。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 
 %index
 CryptMsgControl
-Performs a control operation after a message has been decoded by a final call to the CryptMsgUpdate function.
+CryptMsgUpdate 関数への最後の呼び出しでメッセージが復号された後に、制御操作を実行する。
 %group
 Win32 crypt32
 %prm
 hCryptMsg, dwFlags, dwCtrlType, pvCtrlPara
-hCryptMsg : [intptr] A handle of a cryptographic message for which a control is to be applied.
-dwFlags : [int] The following value is defined when the dwCtrlType parameter is one of the following:
-dwCtrlType : [int] The type of operation to be performed. Currently defined message control types and the type of structure that should be passed to the pvCtrlPara parameter are shown in the following table.
-pvCtrlPara : [intptr] A pointer to a structure determined by the value of dwCtrlType.
+hCryptMsg : [intptr] 制御を適用する暗号メッセージのハンドル。
+dwFlags : [int] 次の値は、dwCtrlType パラメータが次のいずれかの場合に定義される。
+dwCtrlType : [int] 実行する操作の型。現在定義されているメッセージ制御型と、pvCtrlPara パラメータに渡される構造体の型は次の表に示す。
+pvCtrlPara : [intptr] dwCtrlType の値によって決まる構造体へのポインタ。
 %inst
-Performs a control operation after a message has been decoded by a
-final call to the CryptMsgUpdate function.
+CryptMsgUpdate 関数への最後の呼び出しでメッセージが復号された後に、制御操作を実行する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero. If the
-function fails, the return value is zero and the GetLastError
-function returns an Abstract Syntax Notation One (ASN.1)
-encoding/decoding error. For information about these errors, see
-ASN.1 Encoding/Decoding Return Values. When a streamed, enveloped
-message is being decoded, errors encountered in the
-application-defined callback function specified by the pStreamInfo
-parameter of the CryptMsgOpenToDecode function might be propagated to
-the CryptMsgControl function. If this happens, the SetLastError
-function is not called by the CryptMsgControl function after the
-callback function returns. This preserves any errors encountered
-under the control of the application. It is the responsibility of the
-callback function (or one of the APIs that it calls) to call the
-SetLastError function if an error occurs while the application is
-processing the streamed data.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外。関数が失敗した場合、戻り値は 0 であり、GetLastError 関数は Abstract
+Syntax Notation One (ASN.1) のエンコード/デコードエラーを返す。これらのエラーの情報については、ASN.1
+Encoding/Decoding Return Values
+を参照。ストリームされたエンベロープメッセージが復号されている場合、CryptMsgOpenToDecode 関数の
+pStreamInfo パラメータで指定されたアプリケーション定義のコールバック関数で発生したエラーが CryptMsgControl
+関数に伝播することがある。これが発生した場合、コールバック関数が戻った後に CryptMsgControl 関数は
+SetLastError
+関数を呼び出さない。これにより、アプリケーションの制御下で発生したエラーが保持される。アプリケーションがストリームされたデータを処理している間にエラーが発生した場合、SetLastError
+関数を呼び出すのはコールバック関数 (またはそれが呼び出す API の 1 つ) の責任である。
+（以下省略）
 
 
 %index
 CryptMsgCountersign
-Countersigns an existing signature in a message.
+メッセージ内の既存の署名を副署する。
 %group
 Win32 crypt32
 %prm
 hCryptMsg, dwIndex, cCountersigners, rgCountersigners
-hCryptMsg : [intptr] Cryptographic message handle to be used.
-dwIndex : [int] Zero-based index of the signer in the signed or signed-and-enveloped message to be countersigned.
-cCountersigners : [int] Number of countersigners in the rgCountersigners array.
-rgCountersigners : [var] Array of countersigners' CMSG_SIGNER_ENCODE_INFO structures.
+hCryptMsg : [intptr] 使用する暗号メッセージハンドル。
+dwIndex : [int] 副署される署名済みまたは署名済み・エンベロープメッセージ内の署名者のゼロから始まるインデックス。
+cCountersigners : [int] rgCountersigners 配列の副署者数。
+rgCountersigners : [var] 副署者の CMSG_SIGNER_ENCODE_INFO 構造体の配列。
 %inst
-Countersigns an existing signature in a message.
+メッセージ内の既存の署名を副署する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE). For extended error
-information, call GetLastError. An error can be propagated from
-CryptMsgCountersignEncoded. The following error codes are returned
-most often.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。CryptMsgCountersignEncoded
+からエラーが伝播することがある。次のエラーコードが最も一般的に返される。
+（以下省略）
 
 
 %index
 CryptMsgCountersignEncoded
-Countersigns an existing PKCS
+既存の PKCS に副署する。
 %group
 Win32 crypt32
 %prm
 dwEncodingType, pbSignerInfo, cbSignerInfo, cCountersigners, rgCountersigners, pbCountersignature, pcbCountersignature
-dwEncodingType : [int] Specifies the encoding type used. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types may be added in the future. For either current encoding type, use:
-pbSignerInfo : [var] A pointer to the encoded SignerInfo that is to be countersigned.
-cbSignerInfo : [int] Count, in bytes, of the encoded SignerInfo data.
-cCountersigners : [int] Number of countersigners in the rgCountersigners array.
-rgCountersigners : [var] Array of countersigners' CMSG_SIGNER_ENCODE_INFO structures.
-pbCountersignature : [var] A pointer to a buffer to receive an encoded PKCS #9 countersignature attribute. On input, this parameter can be NULL to set the size of this information for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbCountersignature : [var] A pointer to a variable that specifies the size, in bytes, of the buffer pointed to by the pbCountersignature parameter. When the function returns, the variable pointed to by the pcbCountersignature parameter contains the number of bytes stored in the buffer.
+dwEncodingType : [int] 使用するエンコーディングの型を指定する。現在、X509_ASN_ENCODING および PKCS_7_ASN_ENCODING のみが使用されているが、将来追加のエンコーディング型が追加される可能性がある。現在の両方のエンコーディング型には X509_ASN_ENCODING | PKCS_7_ASN_ENCODING を使用する。
+pbSignerInfo : [var] 副署される符号化済み SignerInfo へのポインタ。
+cbSignerInfo : [int] 符号化された SignerInfo データのバイト数。
+cCountersigners : [int] rgCountersigners 配列の副署者数。
+rgCountersigners : [var] 副署者の CMSG_SIGNER_ENCODE_INFO 構造体の配列。
+pbCountersignature : [var] 符号化された PKCS #9 副署属性を受け取るバッファへのポインタ。入力時、このパラメータはメモリ割り当て目的でこの情報のサイズを設定するために NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbCountersignature : [var] pbCountersignature パラメータが指すバッファのサイズ (バイト単位) を指定する変数へのポインタ。関数が戻ると、pcbCountersignature パラメータが指す変数にはバッファに格納されたバイト数が含まれる。
 %inst
-Countersigns an existing PKCS
+既存の PKCS に副署する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. The following table lists the error
-codes most commonly returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。次の表に、GetLastError 関数で最も一般的に返されるエラーコードを示す。
+（以下省略）
 
 
 %index
 CryptMsgDuplicate
-The CryptMsgDuplicate function duplicates a cryptographic message handle by incrementing its reference count.
+CryptMsgDuplicate 関数は、参照カウントを増やすことによって暗号メッセージハンドルを複製する。
 %group
 Win32 crypt32
 %prm
 hCryptMsg
-hCryptMsg : [intptr] Handle of the cryptographic message to be duplicated. Duplication is done by incrementing the reference count of the message. A copy of the message is not made.
+hCryptMsg : [intptr] 複製する暗号メッセージのハンドル。複製はメッセージの参照カウントを増やすことによって行われる。メッセージのコピーは作成されない。
 %inst
-The CryptMsgDuplicate function duplicates a cryptographic message
-handle by incrementing its reference count.
+CryptMsgDuplicate 関数は、参照カウントを増やすことによって暗号メッセージハンドルを複製する。
 
 [戻り値]
-The returned handle is the same as the handle input. A copy of the
-message is not created. When you have finished using the duplicated
-message handle, decrease the reference count by calling the
-CryptMsgClose function.
+
+返されるハンドルは入力ハンドルと同じである。メッセージのコピーは作成されない。複製されたメッセージハンドルの使用が終了したら、CryptMsgClose
+関数を呼び出して参照カウントを減らす。
 
 [備考]
-CryptMsgDuplicate is used to increase the reference count on an
-HCRYPTMSG handle so that multiple calls to CryptMsgClose are required
-to actually release the handle.
+CryptMsgDuplicate は、HCRYPTMSG ハンドルの参照カウントを増やして、実際にハンドルを解放するために
+CryptMsgClose を複数回呼び出す必要があるようにするために使用される。
 
 
 %index
 CryptMsgEncodeAndSignCTL
-The CryptMsgEncodeAndSignCTL function encodes a CTL and creates a signed message containing the encoded CTL.This function first encodes the CTL pointed to by pCtlInfo and then calls CryptMsgSignCTL to sign the encoded message.
+CryptMsgEncodeAndSignCTL 関数は、CTL を符号化し、符号化された CTL を含む署名済みメッセージを作成する。この関数はまず pCtlInfo が指す CTL を符号化し、次に CryptMsgSignCTL を呼び出して符号化されたメッセージに署名する。
 %group
 Win32 crypt32
 %prm
 dwMsgEncodingType, pCtlInfo, pSignInfo, dwFlags, pbEncoded, pcbEncoded
-dwMsgEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pCtlInfo : [var] A pointer to the CTL_INFO structure containing the CTL to be encoded and signed.
-pSignInfo : [var] A pointer to a CMSG_SIGNED_ENCODE_INFO structure that contains an array of a CMSG_SIGNER_ENCODE_INFO structures. The message can be encoded without signers if the cbSize member of the structure is set to the size of the structure and all of the other members are set to zero.
-dwFlags : [int] CMSG_ENCODE_SORTED_CTL_FLAG is set if the CTL entries are to be sorted before encoding. This flag is set if the CertFindSubjectInSortedCTL or CertEnumSubjectInSortedCTL functions will be called. CMSG_ENCODE_HASHED_SUBJECT_IDENTIFIER_FLAG is set if CMSG_ENCODE_SORTED_CTL_FLAG is set, and the identifier for the TrustedSubjects is a hash, such as MD5 or SHA1. If CMS_PKCS7 is defined, dwFlags can be set to CMSG_CMS_ENCAPSULATED_CTL_FLAG to encode a CMS compatible V3 SignedData message.
-pbEncoded : [var] A pointer to a buffer that receives the encoded, signed message created. This parameter can be NULL to set the size of this information for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbEncoded : [var] A pointer to a DWORD that specifies the size, in bytes, of the pbEncoded buffer. When the function returns, the DWORD contains the number of bytes stored or to be stored in the buffer.
+dwMsgEncodingType : [int] 使用するエンコーディングの型を指定する。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+pCtlInfo : [var] 符号化および署名する CTL を含む CTL_INFO 構造体へのポインタ。
+pSignInfo : [var] CMSG_SIGNER_ENCODE_INFO 構造体の配列を含む CMSG_SIGNED_ENCODE_INFO 構造体へのポインタ。構造体の cbSize メンバを構造体のサイズに設定し、他のすべてのメンバを 0 に設定すると、署名者なしでメッセージを符号化することができる。
+dwFlags : [int] CTL エントリを符号化前にソートする場合、CMSG_ENCODE_SORTED_CTL_FLAG を設定する。このフラグは、CertFindSubjectInSortedCTL または CertEnumSubjectInSortedCTL 関数が呼び出される場合に設定される。CMSG_ENCODE_SORTED_CTL_FLAG が設定され、TrustedSubjects の識別子が MD5 や SHA1 などのハッシュである場合、CMSG_ENCODE_HASHED_SUBJECT_IDENTIFIER_FLAG を設定する。CMS_PKCS7 が定義されている場合、dwFlags を CMSG_CMS_ENCAPSULATED_CTL_FLAG に設定して、CMS 互換の V3 SignedData メッセージを符号化することができる。
+pbEncoded : [var] 作成された符号化・署名済みメッセージを受け取るバッファへのポインタ。メモリ割り当て目的でこの情報のサイズを設定するには、このパラメータを NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbEncoded : [var] pbEncoded バッファのサイズ (バイト単位) を指定する DWORD へのポインタ。関数が戻ると、DWORD にはバッファに格納された、または格納されるバイト数が含まれる。
 %inst
-The CryptMsgEncodeAndSignCTL function encodes a CTL and creates a
-signed message containing the encoded CTL.This function first encodes
-the CTL pointed to by pCtlInfo and then calls CryptMsgSignCTL to sign
-the encoded message.
+CryptMsgEncodeAndSignCTL 関数は、CTL を符号化し、符号化された CTL
+を含む署名済みメッセージを作成する。この関数はまず pCtlInfo が指す CTL を符号化し、次に CryptMsgSignCTL
+を呼び出して符号化されたメッセージに署名する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). To get extended
-error information, call GetLastError. Errors can be propagated from
-calls to CryptMsgOpenToEncode and CryptMsgUpdate.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。CryptMsgOpenToEncode および CryptMsgUpdate
+の呼び出しからエラーが伝播することがある。
 
 
 %index
 CryptMsgGetAndVerifySigner
-The CryptMsgGetAndVerifySigner function verifies a cryptographic message's signature.
+CryptMsgGetAndVerifySigner 関数は暗号メッセージの署名を検証する。
 %group
 Win32 crypt32
 %prm
 hCryptMsg, cSignerStore, rghSignerStore, dwFlags, ppSigner, pdwSignerIndex
-hCryptMsg : [intptr] Handle of a cryptographic message.
-cSignerStore : [int] Number of stores in the rghSignerStore array.
-rghSignerStore : [var] Array of certificate store handles that can be searched for a signer's certificate.
-dwFlags : [int] Indicates particular use of the function.
-ppSigner : [var] If the signature is verified, ppSigner is updated to point to the signer's certificate context. When you have finished using the certificate, free the context by calling the CertFreeCertificateContext function. This parameter can be NULL if the application has no need for the signer's certificate.
-pdwSignerIndex : [var] If the signature is verified, pdwSigner is updated to point to the index of the signer in the array of signers. This parameter can be NULL if the application has no need for the index of the signer.
+hCryptMsg : [intptr] 暗号メッセージのハンドル。
+cSignerStore : [int] rghSignerStore 配列のストア数。
+rghSignerStore : [var] 署名者の証明書を検索できる証明書ストアハンドルの配列。
+dwFlags : [int] 関数の特定の用途を示す。
+ppSigner : [var] 署名が検証された場合、ppSigner は署名者の証明書コンテキストを指すように更新される。証明書の使用が終了したら、CertFreeCertificateContext 関数を呼び出してコンテキストを解放する。アプリケーションが署名者の証明書を必要としない場合、このパラメータは NULL にできる。
+pdwSignerIndex : [var] 署名が検証された場合、pdwSigner は署名者配列内の署名者のインデックスを指すように更新される。アプリケーションが署名者のインデックスを必要としない場合、このパラメータは NULL にできる。
 %inst
-The CryptMsgGetAndVerifySigner function verifies a cryptographic
-message's signature.
+CryptMsgGetAndVerifySigner 関数は暗号メッセージの署名を検証する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 
 %index
 CryptMsgGetParam
-Acquires a message parameter after a cryptographic message has been encoded or decoded.
+暗号メッセージが符号化または復号化された後にメッセージパラメータを取得する。
 %group
 Win32 crypt32
 %prm
 hCryptMsg, dwParamType, dwIndex, pvData, pcbData
-hCryptMsg : [intptr] Handle of a cryptographic message.
-dwParamType : [int] Indicates the parameter types of data to be retrieved. The type of data to be retrieved determines the type of structure to use for pvData.
-dwIndex : [int] Index for the parameter being retrieved, where applicable. When a parameter is not being retrieved, this parameter is ignored and is set to zero.
-pvData : [intptr] A pointer to a buffer that receives the data retrieved. The form of this data will vary depending on the value of the dwParamType parameter.
-pcbData : [var] A pointer to a variable that specifies the size, in bytes, of the buffer pointed to by the pvData parameter. When the function returns, the variable pointed to by the pcbData parameter contains the number of bytes stored in the buffer.
+hCryptMsg : [intptr] 暗号メッセージのハンドル。
+dwParamType : [int] 取得するデータのパラメータ型を示す。取得するデータの型によって pvData に使用する構造体の型が決まる。
+dwIndex : [int] 該当する場合、取得するパラメータのインデックス。パラメータが取得されない場合、このパラメータは無視され 0 に設定される。
+pvData : [intptr] 取得されたデータを受け取るバッファへのポインタ。このデータの形式は dwParamType パラメータの値によって異なる。
+pcbData : [var] pvData パラメータが指すバッファのサイズ (バイト単位) を指定する変数へのポインタ。関数が戻ると、pcbData パラメータが指す変数にはバッファに格納されたバイト数が含まれる。
 %inst
-Acquires a message parameter after a cryptographic message has been
-encoded or decoded.
+暗号メッセージが符号化または復号化された後にメッセージパラメータを取得する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. The following table lists the error
-codes most commonly returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。次の表に、GetLastError 関数で最も一般的に返されるエラーコードを示す。
+（以下省略）
 
 [備考]
-The following version numbers are returned by calls to
-CryptMsgGetParam with dwParamType set to CMSG_VERSION_PARAM are
-defined:
-This doc was truncated.
+CMSG_VERSION_PARAM を dwParamType に設定した CryptMsgGetParam
+の呼び出しによって返されるバージョン番号は次のように定義されている。
+（以下省略）
 
 
 %index
 CryptMsgOpenToDecode
-Opens a cryptographic message for decoding and returns a handle of the opened message.
+復号のために暗号メッセージを開き、開かれたメッセージのハンドルを返す。
 %group
 Win32 crypt32
 %prm
 dwMsgEncodingType, dwFlags, dwMsgType, hCryptProv, pRecipientInfo, pStreamInfo
-dwMsgEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING
-dwFlags : [int] This parameter can be one of the following flags.
-dwMsgType : [int] Specifies the type of message to decode. In most cases, the message type is determined from the message header and zero is passed for this parameter. In some cases, notably with Internet Explorer 3.0, messages do not have headers and the type of message to be decoded must be supplied in this function call. If the header is missing and zero is passed for this parameter, the function fails.
-hCryptProv : [int] This parameter is not used and should be set to NULL. Windows Server?2003 and Windows?XP:??Specifies a handle for the cryptographic provider to use for hashing the message. For signed messages, hCryptProv is used for signature verification.This parameter's data type is HCRYPTPROV. Unless there is a strong reason for passing in a specific cryptographic provider in hCryptProv, set this parameter to NULL. Passing in NULL causes the default RSA or DSS provider to be acquired before performing hash, signature verification, or recipient encryption operations.
-pRecipientInfo : [var] This parameter is reserved for future use and must be NULL.
-pStreamInfo : [var] When streaming is not being used, this parameter must be set to NULL.
+dwMsgEncodingType : [int] 使用するエンコーディングの型を指定する。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING
+dwFlags : [int] このパラメータには次のフラグのいずれかを指定できる。
+dwMsgType : [int] 復号するメッセージの型を指定する。ほとんどの場合、メッセージ型はメッセージヘッダから決定され、このパラメータには 0 が渡される。特に Internet Explorer 3.0 では、メッセージにヘッダがない場合があり、この関数呼び出しで復号するメッセージの型を指定する必要がある。ヘッダが欠落しており、このパラメータに 0 が渡された場合、関数は失敗する。
+hCryptProv : [int] このパラメータは使用されず、NULL に設定すべきである。Windows Server 2003 および Windows XP: メッセージのハッシュに使用する暗号プロバイダのハンドルを指定する。署名されたメッセージの場合、hCryptProv は署名検証に使用される。このパラメータのデータ型は HCRYPTPROV。hCryptProv で特定の暗号プロバイダを渡す強い理由がない限り、このパラメータを NULL に設定する。NULL を渡すと、ハッシュ、署名検証、または受信者暗号化操作を実行する前に既定の RSA または DSS プロバイダが取得される。
+pRecipientInfo : [var] このパラメータは将来使用のために予約されており、NULL でなければならない。
+pStreamInfo : [var] ストリーミングが使用されない場合、このパラメータは NULL に設定しなければならない。
 %inst
-Opens a cryptographic message for decoding and returns a handle of
-the opened message.
+復号のために暗号メッセージを開き、開かれたメッセージのハンドルを返す。
 
 [戻り値]
-If the function succeeds, the function returns the handle of the
-opened message. If the function fails, it returns NULL. For extended
-error information, call GetLastError. The following table lists the
-error codes most commonly returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、開かれたメッセージのハンドルが返される。関数が失敗した場合、NULL が返される。拡張エラー情報を取得するには
+GetLastError を呼び出す。次の表に、GetLastError 関数で最も一般的に返されるエラーコードを示す。
+（以下省略）
 
 
 %index
 CryptMsgOpenToEncode
-Opens a cryptographic message for encoding and returns a handle of the opened message.
+符号化のために暗号メッセージを開き、開かれたメッセージのハンドルを返す。
 %group
 Win32 crypt32
 %prm
 dwMsgEncodingType, dwFlags, dwMsgType, pvMsgEncodeInfo, pszInnerContentObjID, pStreamInfo
-dwMsgEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-dwFlags : [int] Currently defined dwFlags are shown in the following table.
+dwMsgEncodingType : [int] 使用するエンコーディングの型を指定する。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+dwFlags : [int] 現在定義されている dwFlags を次の表に示す。
 dwMsgType : [int] 
-pvMsgEncodeInfo : [intptr] The address of a structure that contains the encoding information. The type of data depends on the value of the dwMsgType parameter. For details, see dwMsgType.
-pszInnerContentObjID : [str] If CryptMsgCalculateEncodedLength is called and the data for CryptMsgUpdate has already been message encoded, the appropriate object identifier (OID) is passed in pszInnerContentObjID. If pszInnerContentObjID is NULL, then the inner content type is assumed not to have been previously encoded and is therefore encoded as an octet string and given the type CMSG_DATA. Note??When streaming is being used, pszInnerContentObjID must be either NULL or szOID_RSA_data. ? The following algorithm OIDs are commonly used. A user can define new inner content usage by ensuring that the sender and receiver of the message agree upon the semantics associated with the OID.
-pStreamInfo : [var] When streaming is being used, this parameter is the address of a CMSG_STREAM_INFO structure. The callback function specified by the pfnStreamOutput member of the CMSG_STREAM_INFO structure is called when CryptMsgUpdate is executed. The callback is passed the encoded bytes that result from the encoding. For more information about how to use the callback, see CMSG_STREAM_INFO. Note??When streaming is being used, the application must not release any data handles that are passed in the pvMsgEncodeInfo parameter, such as the provider handle in the hCryptProv member of the CMSG_SIGNER_ENCODE_INFO structure, until after the message handle returned by this function is closed by using the CryptMsgClose function. ? When streaming is not being used, this parameter is set to NULL. Streaming is not used with the CMSG_HASHED message type. When dealing with hashed data, this parameter must be set to NULL. Consider the case of a signed message being enclosed in an enveloped message. The encoded output from the streamed encoding of the signed message feeds into another streaming encoding of the enveloped message. The callback for the streaming encoding calls CryptMsgUpdate to encode the enveloped message. The callback for the enveloped message receives the encoded bytes of the nested signed message.
+pvMsgEncodeInfo : [intptr] 符号化情報を含む構造体のアドレス。データの型は dwMsgType パラメータの値に依存する。詳細は dwMsgType を参照。
+pszInnerContentObjID : [str] CryptMsgCalculateEncodedLength が呼び出され、CryptMsgUpdate のデータがすでにメッセージ符号化されている場合、適切なオブジェクト識別子 (OID) が pszInnerContentObjID に渡される。pszInnerContentObjID が NULL の場合、内部コンテンツ型はあらかじめ符号化されていないものと見なされ、したがってオクテット文字列として符号化され、CMSG_DATA 型が付与される。注意 ストリーミングが使用される場合、pszInnerContentObjID は NULL または szOID_RSA_data のいずれかでなければならない。次のアルゴリズム OID がよく使用される。ユーザーは、メッセージの送信者と受信者が OID に関連付けられたセマンティクスに同意することを確認して、新しい内部コンテンツの用途を定義できる。
+pStreamInfo : [var] ストリーミングが使用される場合、このパラメータは CMSG_STREAM_INFO 構造体のアドレスとなる。CMSG_STREAM_INFO 構造体の pfnStreamOutput メンバで指定されたコールバック関数は、CryptMsgUpdate が実行されたときに呼び出される。コールバックには符号化によって生成された符号化済みバイトが渡される。コールバックの使用方法の詳細については CMSG_STREAM_INFO を参照。注意 ストリーミングが使用される場合、アプリケーションは、この関数が返したメッセージハンドルが CryptMsgClose 関数を使用して閉じられるまで、pvMsgEncodeInfo パラメータに渡されたデータハンドル (CMSG_SIGNER_ENCODE_INFO 構造体の hCryptProv メンバ内のプロバイダハンドルなど) を解放してはならない。ストリーミングが使用されない場合、このパラメータは NULL に設定される。ストリーミングは CMSG_HASHED メッセージ型では使用されない。ハッシュ化されたデータを扱う場合、このパラメータは NULL に設定しなければならない。署名済みメッセージがエンベロープメッセージ内に含まれる場合を考える。署名済みメッセージのストリーム符号化からの符号化出力は、エンベロープメッセージの別のストリーム符号化にフィードされる。ストリーム符号化のコールバックは CryptMsgUpdate を呼び出してエンベロープメッセージを符号化する。エンベロープメッセージのコールバックは、入れ子になった署名済みメッセージの符号化されたバイトを受け取る。
 %inst
-Opens a cryptographic message for encoding and returns a handle of
-the opened message.
+符号化のために暗号メッセージを開き、開かれたメッセージのハンドルを返す。
 
 [戻り値]
-If the function succeeds, it returns a handle to the opened message.
-This handle must be closed when it is no longer needed by passing it
-to the CryptMsgClose function. If this function fails, NULL is
-returned. To retrieve extended error information, use the
-GetLastError function. The following table lists the error codes most
-commonly returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、開かれたメッセージへのハンドルが返される。このハンドルは、不要になったら CryptMsgClose
+関数に渡して閉じる必要がある。関数が失敗した場合、NULL が返される。拡張エラー情報を取得するには GetLastError
+関数を使用する。次の表に、GetLastError 関数で最も一般的に返されるエラーコードを示す。
+（以下省略）
 
 [備考]
-For functions that perform encryption, the encrypted symmetric keys
-are reversed from little-endian format to big-endian format after
-CryptExportKey is called internally. For functions that perform
-decryption, the encrypted symmetric keys are reversed from big-endian
-format to little-endian format before CryptImportKey is called.
-CRYPT_NO_SALT is specified when symmetric keys are generated and
-imported with CryptGenKey and CryptImportKey. Messages encrypted with
-the RC2 encryption algorithm use KP_EFFECTIVE_KEYLEN with
-CryptGetKeyParam to determine the effective key length of the RC2 key
-importing or exporting keys.
-For messages encrypted with the RC2 encryption algorithm, encode and
-decode operations have been updated to handle ASN RC2 parameters for
-the ContentEncryptionAlgorithm member of the
-CMSG_ENVELOPED_ENCODE_INFO structure.
-For messages encrypted with the RC4, DES, and 3DES encryption
-algorithms, encode and decode operations now handle the ASN IV octet
-string parameter for the ContentEncryptionAlgorithm member of the
-CMSG_ENVELOPED_ENCODE_INFO structure.
+暗号化を実行する関数の場合、暗号化された対称鍵は CryptExportKey
+が内部的に呼び出された後にリトルエンディアンからビッグエンディアンに反転される。復号を実行する関数の場合、暗号化された対称鍵は
+CryptImportKey が呼び出される前にビッグエンディアンからリトルエンディアンに反転される。
+対称鍵が CryptGenKey と CryptImportKey で生成・インポートされる場合、CRYPT_NO_SALT
+が指定される。RC2 暗号化アルゴリズムで暗号化されたメッセージは、鍵のインポートまたはエクスポート時に RC2
+鍵の有効鍵長を決定するために CryptGetKeyParam と共に KP_EFFECTIVE_KEYLEN を使用する。
+RC2 暗号化アルゴリズムで暗号化されたメッセージの場合、符号化および復号化操作は、CMSG_ENVELOPED_ENCODE_INFO
+構造体の ContentEncryptionAlgorithm メンバの ASN RC2 パラメータを処理するように更新されている。
+RC4、DES、3DES
+暗号化アルゴリズムで暗号化されたメッセージの場合、符号化および復号化操作は、CMSG_ENVELOPED_ENCODE_INFO 構造体の
+ContentEncryptionAlgorithm メンバの ASN IV オクテット文字列パラメータを処理するようになっている。
 
 
 %index
 CryptMsgSignCTL
-The CryptMsgSignCTL function creates a signed message containing an encoded CTL.
+CryptMsgSignCTL 関数は、符号化された CTL を含む署名済みメッセージを作成する。
 %group
 Win32 crypt32
 %prm
 dwMsgEncodingType, pbCtlContent, cbCtlContent, pSignInfo, dwFlags, pbEncoded, pcbEncoded
-dwMsgEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pbCtlContent : [var] The encoded CTL_INFO that can be a member of a CTL_CONTEXT structure or can be created using the CryptEncodeObject function.
-cbCtlContent : [int] The size, in bytes, of the content pointed to by pbCtlContent.
-pSignInfo : [var] A pointer to a CMSG_SIGNED_ENCODE_INFO structure containing an array of a CMSG_SIGNER_ENCODE_INFO structures. The message can be encoded without signers if the cbSize member of the structure is set to the size of the structure and all of the other members are set to zero.
-dwFlags : [int] If CMS_PKCS7 is defined, can be set to CMSG_CMS_ENCAPSULATED_CTL_FLAG to encode a CMS compatible V3 SignedData message.
-pbEncoded : [var] A pointer to a buffer to receives the encoded message. This parameter can be NULL to get the size of this information for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbEncoded : [var] A pointer to a DWORD specifying the size, in bytes, of the pbEncoded buffer. When the function returns, the DWORD contains the number of bytes stored or to be stored in the buffer.
+dwMsgEncodingType : [int] 使用するエンコーディングの型を指定する。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+pbCtlContent : [var] 符号化された CTL_INFO。CTL_CONTEXT 構造体のメンバであるか、CryptEncodeObject 関数を使用して作成されたものでもよい。
+cbCtlContent : [int] pbCtlContent が指すコンテンツのサイズ (バイト単位)。
+pSignInfo : [var] CMSG_SIGNER_ENCODE_INFO 構造体の配列を含む CMSG_SIGNED_ENCODE_INFO 構造体へのポインタ。構造体の cbSize メンバを構造体のサイズに設定し、他のすべてのメンバを 0 に設定すると、署名者なしでメッセージを符号化することができる。
+dwFlags : [int] CMS_PKCS7 が定義されている場合、CMSG_CMS_ENCAPSULATED_CTL_FLAG に設定して、CMS 互換の V3 SignedData メッセージを符号化することができる。
+pbEncoded : [var] 符号化されたメッセージを受け取るバッファへのポインタ。メモリ割り当て目的でこの情報のサイズを取得するには、このパラメータを NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbEncoded : [var] pbEncoded バッファのサイズ (バイト単位) を指定する DWORD へのポインタ。関数が戻ると、DWORD にはバッファに格納された、または格納されるバイト数が含まれる。
 %inst
-The CryptMsgSignCTL function creates a signed message containing an
-encoded CTL.
+CryptMsgSignCTL 関数は、符号化された CTL を含む署名済みメッセージを作成する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. This function can return errors
-propagated from calls to CryptMsgOpenToEncode and CryptMsgUpdate.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。この関数は CryptMsgOpenToEncode および CryptMsgUpdate
+の呼び出しから伝播したエラーを返すことがある。
 
 
 %index
 CryptMsgUpdate
-Adds contents to a cryptographic message.
+暗号メッセージにコンテンツを追加する。
 %group
 Win32 crypt32
 %prm
 hCryptMsg, pbData, cbData, fFinal
-hCryptMsg : [intptr] Cryptographic message handle of the message to be updated.
-pbData : [var] A pointer to the buffer holding the data to be encoded or decoded.
-cbData : [int] Number of bytes of data in the pbData buffer.
-fFinal : [int] Indicates that the last block of data for encoding or decoding is being processed. Correct usage of this flag is dependent upon whether the message being processed has detached data. The inclusion of detached data in a message is indicated by setting dwFlags to CMSG_DETACHED_FLAG in the call to the function that opened the message.
+hCryptMsg : [intptr] 更新するメッセージの暗号メッセージハンドル。
+pbData : [var] 符号化または復号するデータを保持するバッファへのポインタ。
+cbData : [int] pbData バッファ内のデータのバイト数。
+fFinal : [int] 符号化または復号のためのデータの最後のブロックが処理されていることを示す。このフラグの正しい使用方法は、処理されるメッセージが分離データを含むかどうかに依存する。メッセージに分離データが含まれることは、メッセージを開いた関数の呼び出しで dwFlags を CMSG_DETACHED_FLAG に設定することで示される。
 %inst
-Adds contents to a cryptographic message.
+暗号メッセージにコンテンツを追加する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. Errors encountered in the application
-defined callback function specified by pStreamInfo in
-CryptMsgOpenToDecode and CryptMsgOpenToEncode might be propagated to
-CryptMsgUpdate if streaming is used. If this happens, SetLastError is
-not called by CryptMsgUpdate after the callback function returns,
-which preserves any errors encountered under the control of the
-application. It is the responsibility of the callback function (or
-one of the APIs that it calls) to call SetLastError if an error
-occurs while the application is processing the streamed data. The
-following table lists the error codes most commonly returned by the
-GetLastError function.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。ストリーミングが使用される場合、CryptMsgOpenToDecode および
+CryptMsgOpenToEncode の pStreamInfo で指定されたアプリケーション定義のコールバック関数で発生したエラーが
+CryptMsgUpdate に伝播することがある。これが発生した場合、コールバック関数が戻った後、CryptMsgUpdate は
+SetLastError
+を呼び出さない。これにより、アプリケーションの制御下で発生したエラーが保持される。アプリケーションがストリームされたデータを処理している間にエラーが発生した場合、SetLastError
+を呼び出すのはコールバック関数 (またはそれが呼び出す API の 1 つ) の責任である。次の表に、GetLastError
+関数で最も一般的に返されるエラーコードを示す。
+（以下省略）
 
 
 %index
 CryptMsgVerifyCountersignatureEncoded
-Verifies a countersignature in terms of the SignerInfo structure (as defined by PKCS
+SignerInfo 構造体 (PKCS で定義) の観点から副署を検証する。
 %group
 Win32 crypt32
 %prm
 hCryptProv, dwEncodingType, pbSignerInfo, cbSignerInfo, pbSignerInfoCountersignature, cbSignerInfoCountersignature, pciCountersigner
-hCryptProv : [int] This parameter is not used and should be set to NULL. Windows Server?2003 and Windows?XP:??NULL or the handle of the cryptographic provider to use to hash the encryptedDigest field of pbSignerInfo.This parameter's data type is HCRYPTPROV. Unless there is a strong reason for passing in a specific cryptographic provider in hCryptProv, pass NULL to cause the default RSA or DSS provider to be used.
-dwEncodingType : [int] Specifies the encoding type used. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types may be added in the future. For either current encoding type, use:
-pbSignerInfo : [var] A pointer to the encoded BLOB that contains the signer of the contents of a message to be countersigned.
-cbSignerInfo : [int] Count, in bytes, of the encoded BLOB for the signer of the contents.
-pbSignerInfoCountersignature : [var] A pointer to the encoded BLOB containing the countersigner information.
-cbSignerInfoCountersignature : [int] Count, in bytes, of the encoded BLOB for the countersigner of the message.
-pciCountersigner : [var] A pointer to a CERT_INFO that includes with the issuer and serial number of the countersigner. For more information, see Remarks.
+hCryptProv : [int] このパラメータは使用されず、NULL に設定すべきである。Windows Server 2003 および Windows XP: NULL、または pbSignerInfo の encryptedDigest フィールドをハッシュするために使用する暗号プロバイダのハンドル。このパラメータのデータ型は HCRYPTPROV。hCryptProv で特定の暗号プロバイダを渡す強い理由がない限り、既定の RSA または DSS プロバイダを使用させるために NULL を渡す。
+dwEncodingType : [int] 使用するエンコーディングの型を指定する。現在、X509_ASN_ENCODING および PKCS_7_ASN_ENCODING のみが使用されているが、将来追加のエンコーディング型が追加される可能性がある。現在の両方のエンコーディング型には X509_ASN_ENCODING | PKCS_7_ASN_ENCODING を使用する。
+pbSignerInfo : [var] 副署されるメッセージのコンテンツの署名者を含む符号化済み BLOB へのポインタ。
+cbSignerInfo : [int] コンテンツの署名者用の符号化済み BLOB のバイト数。
+pbSignerInfoCountersignature : [var] 副署者情報を含む符号化済み BLOB へのポインタ。
+cbSignerInfoCountersignature : [int] メッセージの副署者用の符号化済み BLOB のバイト数。
+pciCountersigner : [var] 副署者の発行者とシリアル番号を含む CERT_INFO へのポインタ。詳細は「備考」を参照。
 %inst
-Verifies a countersignature in terms of the SignerInfo structure (as
-defined by PKCS
+SignerInfo 構造体 (PKCS で定義) の観点から副署を検証する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. The following table lists the error
-codes most commonly returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。次の表に、GetLastError 関数で最も一般的に返されるエラーコードを示す。
+（以下省略）
 
 [備考]
-Countersigner verification is done using the PKCS #7 SIGNERINFO
-structure. The signature must contain the encrypted hash of the
-encryptedDigest field of pbSignerInfo. The issuer and serial number
-of the countersigner must match the countersigner information from
-pbSignerInfoCountersignature. The only fields referenced from
-pciCountersigner are SerialNumber, Issuer, and SubjectPublicKeyInfo.
-The SubjectPublicKeyInfo is used to access the public key that is
-then used to encrypt the hash from the pciCountersigner so compare it
-with the hash from the pbSignerInfo.
+副署者の検証は PKCS #7 SIGNERINFO 構造体を使用して行われる。署名は pbSignerInfo の
+encryptedDigest フィールドの暗号化されたハッシュを含む必要がある。副署者の発行者とシリアル番号は
+pbSignerInfoCountersignature の副署者情報と一致する必要がある。pciCountersigner
+から参照される唯一のフィールドは
+SerialNumber、Issuer、SubjectPublicKeyInfo。SubjectPublicKeyInfo
+は公開鍵にアクセスするために使用され、次に pciCountersigner からのハッシュを暗号化して pbSignerInfo
+からのハッシュと比較するために使用される。
 
 
 %index
 CryptMsgVerifyCountersignatureEncodedEx
-Verifies that the pbSignerInfoCounterSignature parameter contains the encrypted hash of the encryptedDigest field of the pbSignerInfo parameter structure.
+pbSignerInfoCounterSignature パラメータが pbSignerInfo パラメータ構造体の encryptedDigest フィールドの暗号化ハッシュを含んでいることを検証する。
 %group
 Win32 crypt32
 %prm
 hCryptProv, dwEncodingType, pbSignerInfo, cbSignerInfo, pbSignerInfoCountersignature, cbSignerInfoCountersignature, dwSignerType, pvSigner, dwFlags, pvExtra
-hCryptProv : [int] This parameter is not used and should be set to NULL. Windows Server?2003 and Windows?XP:??NULL or the handle of the cryptographic provider to use to hash the encryptedDigest field of pbSignerInfo.This parameter's data type is HCRYPTPROV. Unless there is a strong reason for passing in a specific cryptographic provider in hCryptProv, pass NULL to cause the default RSA or DSS provider to be used.
-dwEncodingType : [int] The encoding type used. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types may be added in the future. For either current encoding type, use:
-pbSignerInfo : [var] A pointer to the encoded BLOB that contains the signer of the contents of a message to be countersigned.
-cbSignerInfo : [int] The count, in bytes, of the encoded BLOB for the signer of the contents.
-pbSignerInfoCountersignature : [var] A pointer to the encoded BLOB containing the countersigner information.
-cbSignerInfoCountersignature : [int] The count, in bytes, of the encoded BLOB for the countersigner of the message.
-dwSignerType : [int] The structure that contains the signer information. The following table shows the predefined values and the structures indicated.
-pvSigner : [intptr] A pointer to a CERT_PUBLIC_KEY_INFO structure, a certificate context, or a chain context depending on the value of dwSignerType.
-dwFlags : [int] Flags that modify the function behavior. This can be zero or the following value.
-pvExtra : [intptr] If you set the dwFlags parameter to CMSG_VERIFY_COUNTER_SIGN_ENABLE_STRONG_FLAG, set this parameter (pvExtra) to point to a CERT_STRONG_SIGN_PARA structure that contains the parameters used to check the signature strength.
+hCryptProv : [int] このパラメータは使用されず、NULL に設定すべきである。Windows Server 2003 および Windows XP: NULL、または pbSignerInfo の encryptedDigest フィールドをハッシュするために使用する暗号プロバイダのハンドル。このパラメータのデータ型は HCRYPTPROV。hCryptProv で特定の暗号プロバイダを渡す強い理由がない限り、既定の RSA または DSS プロバイダを使用させるために NULL を渡す。
+dwEncodingType : [int] 使用するエンコーディング型。現在、X509_ASN_ENCODING および PKCS_7_ASN_ENCODING のみが使用されているが、将来追加のエンコーディング型が追加される可能性がある。現在の両方のエンコーディング型には X509_ASN_ENCODING | PKCS_7_ASN_ENCODING を使用する。
+pbSignerInfo : [var] 副署されるメッセージのコンテンツの署名者を含む符号化済み BLOB へのポインタ。
+cbSignerInfo : [int] コンテンツの署名者用の符号化済み BLOB のバイト数。
+pbSignerInfoCountersignature : [var] 副署者情報を含む符号化済み BLOB へのポインタ。
+cbSignerInfoCountersignature : [int] メッセージの副署者用の符号化済み BLOB のバイト数。
+dwSignerType : [int] 署名者情報を含む構造体。次の表は、定義済みの値と示される構造体を示す。
+pvSigner : [intptr] dwSignerType の値に応じて、CERT_PUBLIC_KEY_INFO 構造体、証明書コンテキスト、または連鎖コンテキストへのポインタ。
+dwFlags : [int] 関数の動作を変更するフラグ。これは 0 または次の値にできる。
+pvExtra : [intptr] dwFlags パラメータを CMSG_VERIFY_COUNTER_SIGN_ENABLE_STRONG_FLAG に設定する場合、このパラメータ (pvExtra) は、署名強度を確認するために使用されるパラメータを含む CERT_STRONG_SIGN_PARA 構造体を指すように設定する。
 %inst
-Verifies that the pbSignerInfoCounterSignature parameter contains the
-encrypted hash of the encryptedDigest field of the pbSignerInfo
-parameter structure.
+pbSignerInfoCounterSignature パラメータが pbSignerInfo パラメータ構造体の
+encryptedDigest フィールドの暗号化ハッシュを含んでいることを検証する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. The following error codes are most
-commonly returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。GetLastError 関数で最も一般的に返されるエラーコードは次のとおり。
+（以下省略）
 
 [備考]
-Countersigner verification is done using the PKCS #7 SIGNERINFO
-structure. The signature must contain the encrypted hash of the
-encryptedDigest field of pbSignerInfo. The issuer and serial number
-of the countersigner must match the countersigner information from
-pbSignerInfoCountersignature. The only fields referenced from
-pciCountersigner are SerialNumber, Issuer, and SubjectPublicKeyInfo.
-The SubjectPublicKeyInfo is used to access the public key that is
-then used to encrypt the hash from the pciCountersigner so compare it
-with the hash from the pbSignerInfo.
+副署者の検証は PKCS #7 SIGNERINFO 構造体を使用して行われる。署名は pbSignerInfo の
+encryptedDigest フィールドの暗号化されたハッシュを含む必要がある。副署者の発行者とシリアル番号は
+pbSignerInfoCountersignature の副署者情報と一致する必要がある。pciCountersigner
+から参照される唯一のフィールドは
+SerialNumber、Issuer、SubjectPublicKeyInfo。SubjectPublicKeyInfo
+は公開鍵にアクセスするために使用され、次に pciCountersigner からのハッシュを暗号化して pbSignerInfo
+からのハッシュと比較するために使用される。
 
 
 %index
@@ -4891,449 +4279,404 @@ MAC も付加する。一時的に同一プロセス内または複数プロセス間でメモリを保護するには
 
 %index
 CryptQueryObject
-Retrieves information about the contents of a cryptography API object, such as a certificate, a certificate revocation list, or a certificate trust list.
+証明書、証明書失効リスト、または証明書信頼リストなどの暗号 API オブジェクトのコンテンツに関する情報を取得する。
 %group
 Win32 crypt32
 %prm
 dwObjectType, pvObject, dwExpectedContentTypeFlags, dwExpectedFormatTypeFlags, dwFlags, pdwMsgAndCertEncodingType, pdwContentType, pdwFormatType, phCertStore, phMsg, ppvContext
 dwObjectType : [int] 
-pvObject : [intptr] A pointer to the object to be queried. The type of data pointer depends on the contents of the dwObjectType parameter.
+pvObject : [intptr] 照会するオブジェクトへのポインタ。データポインタの型は dwObjectType パラメータの内容に依存する。
 dwExpectedContentTypeFlags : [int] 
 dwExpectedFormatTypeFlags : [int] 
-dwFlags : [int] This parameter is reserved for future use and must be set to zero.
-pdwMsgAndCertEncodingType : [var] A pointer to a DWORD value that receives the type of encoding used in the message. If this information is not needed, set this parameter to NULL.
+dwFlags : [int] このパラメータは将来使用のために予約されており、0 に設定しなければならない。
+pdwMsgAndCertEncodingType : [var] メッセージで使用されるエンコーディングの型を受け取る DWORD 値へのポインタ。この情報が不要な場合、このパラメータを NULL に設定する。
 pdwContentType : [var] 
 pdwFormatType : [var] 
-phCertStore : [var] A pointer to an HCERTSTORE value that receives a handle to a certificate store that includes all of the certificates, CRLs, and CTLs in the object.
-phMsg : [var] A pointer to an HCRYPTMSG value that receives the handle of an opened message.
-ppvContext : [var] A pointer to a pointer that receives additional information about the object.
+phCertStore : [var] オブジェクト内のすべての証明書、CRL、CTL を含む証明書ストアへのハンドルを受け取る HCERTSTORE 値へのポインタ。
+phMsg : [var] 開かれたメッセージのハンドルを受け取る HCRYPTMSG 値へのポインタ。
+ppvContext : [var] オブジェクトに関する追加情報を受け取るポインタへのポインタ。
 %inst
-Retrieves information about the contents of a cryptography API
-object, such as a certificate, a certificate revocation list, or a
-certificate trust list.
+証明書、証明書失効リスト、または証明書信頼リストなどの暗号 API オブジェクトのコンテンツに関する情報を取得する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero. If the
-function fails, it returns zero. For extended error information, call
-GetLastError.
+関数が成功した場合、戻り値は 0 以外。関数が失敗した場合は 0 を返す。拡張エラー情報を取得するには GetLastError
+を呼び出す。
 
 
 %index
 CryptRegisterDefaultOIDFunction
-The CryptRegisterDefaultOIDFunction registers a DLL containing the default function to be called for the specified encoding type and function name. Unlike CryptRegisterOIDFunction, the function name to be exported by the DLL cannot be overridden.
+CryptRegisterDefaultOIDFunction は、指定されたエンコーディング型と関数名に対して呼び出される既定の関数を含む DLL を登録する。CryptRegisterOIDFunction とは異なり、DLL によってエクスポートされる関数名はオーバーライドできない。
 %group
 Win32 crypt32
 %prm
 dwEncodingType, pszFuncName, dwIndex, pwszDll
-dwEncodingType : [int] Specifies the encoding type to be matched. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types may be added in the future. To match both current encoding types, use:
-pszFuncName : [str] Name of the function being registered.
-dwIndex : [int] Index location for the insertion of the DLL in the list of DLLs. If dwIndex is zero, the DLL is inserted at the beginning of the list. If it is CRYPT_REGISTER_LAST_INDEX, the DLL is appended at the end of the list.
-pwszDll : [wstr] Optional environment-variable string to be expanded using ExpandEnvironmentStrings function before loading the DLL.
+dwEncodingType : [int] 一致させるエンコーディング型を指定する。現在、X509_ASN_ENCODING および PKCS_7_ASN_ENCODING のみが使用されているが、将来追加のエンコーディング型が追加される可能性がある。現在の両方のエンコーディング型と一致させるには X509_ASN_ENCODING | PKCS_7_ASN_ENCODING を使用する。
+pszFuncName : [str] 登録される関数の名前。
+dwIndex : [int] DLL の一覧への DLL の挿入位置のインデックス。dwIndex が 0 の場合、DLL は一覧の先頭に挿入される。CRYPT_REGISTER_LAST_INDEX の場合、DLL は一覧の末尾に追加される。
+pwszDll : [wstr] DLL の読み込み前に ExpandEnvironmentStrings 関数を使用して展開される省略可能な環境変数文字列。
 %inst
-The CryptRegisterDefaultOIDFunction registers a DLL containing the
-default function to be called for the specified encoding type and
-function name. Unlike CryptRegisterOIDFunction, the function name to
-be exported by the DLL cannot be overridden.
+CryptRegisterDefaultOIDFunction
+は、指定されたエンコーディング型と関数名に対して呼び出される既定の関数を含む DLL
+を登録する。CryptRegisterOIDFunction とは異なり、DLL
+によってエクスポートされる関数名はオーバーライドできない。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE).
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。
 
 
 %index
 CryptRegisterOIDFunction
-Registers a DLL that contains the function to be called for the specified encoding type, function name, and object identifier (OID).
+指定されたエンコーディング型、関数名、およびオブジェクト識別子 (OID) に対して呼び出される関数を含む DLL を登録する。
 %group
 Win32 crypt32
 %prm
 dwEncodingType, pszFuncName, pszOID, pwszDll, pszOverrideFuncName
-dwEncodingType : [int] Specifies the encoding type to be matched. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types may be added in the future. To match both current encoding types, use:
-pszFuncName : [str] Name of the function being registered.
-pszOID : [str] OID of the function to be registered. If the high-order word of the OID is nonzero, pszOID is a pointer to either an OID string such as "2.5.29.1" or an ASCII string such as "file." If the high-order word of the OID is zero, the low-order word specifies the numeric identifier to be used as the object identifier.
-pwszDll : [wstr] Name of the DLL file to be registered. It can contain environment-variable strings to be expanded by using the ExpandEnvironmentStrings function before loading the DLL.
-pszOverrideFuncName : [str] String that specifies a name for the function exported in the DLL. If pszOverrideFuncName is NULL, the function name specified by pszFuncName is used.
+dwEncodingType : [int] 一致させるエンコーディング型を指定する。現在、X509_ASN_ENCODING および PKCS_7_ASN_ENCODING のみが使用されているが、将来追加のエンコーディング型が追加される可能性がある。現在の両方のエンコーディング型と一致させるには X509_ASN_ENCODING | PKCS_7_ASN_ENCODING を使用する。
+pszFuncName : [str] 登録される関数の名前。
+pszOID : [str] 登録される関数の OID。OID の上位ワードが 0 以外の場合、pszOID は "2.5.29.1" のような OID 文字列または "file" のような ASCII 文字列へのポインタとなる。OID の上位ワードが 0 の場合、下位ワードはオブジェクト識別子として使用される数値識別子を指定する。
+pwszDll : [wstr] 登録される DLL ファイルの名前。DLL の読み込み前に ExpandEnvironmentStrings 関数を使用して展開される環境変数文字列を含むことができる。
+pszOverrideFuncName : [str] DLL でエクスポートされる関数の名前を指定する文字列。pszOverrideFuncName が NULL の場合、pszFuncName で指定された関数名が使用される。
 %inst
-Registers a DLL that contains the function to be called for the
-specified encoding type, function name, and object identifier (OID).
+指定されたエンコーディング型、関数名、およびオブジェクト識別子 (OID) に対して呼び出される関数を含む DLL を登録する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE).
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。
 
 [備考]
-When you have finished using an OID function, unregister it by
-calling the CryptUnregisterOIDFunction function.
+OID 関数の使用が終了したら、CryptUnregisterOIDFunction 関数を呼び出して登録を解除する。
 
 
 %index
 CryptRegisterOIDInfo
-The CryptRegisterOIDInfo function registers the OID information specified in the CRYPT_OID_INFO structure, persisting it to the registry.
+CryptRegisterOIDInfo 関数は、CRYPT_OID_INFO 構造体で指定された OID 情報を登録し、レジストリに永続化する。
 %group
 Win32 crypt32
 %prm
 pInfo, dwFlags
-pInfo : [var] A pointer to a CRYPT_OID_INFO structure with the OID information to register. Specify the group that the OID information is to be registered for by setting the dwGroupId member of the structure. Note??When registering OID information for Suite B algorithms implemented with Cryptography API: Next Generation (CNG), you must set the Algid member of the CRYPT_OID_INFO structure to CALG_OID_INFO_CNG_ONLY (0xFFFFFFFF).
-dwFlags : [int] By default, the registered OID information is installed after Crypt32.dll's OID entries. If CRYPT_INSTALL_OID_INFO_BEFORE_FLAG is set, new OID information is install before Crypt32.dll's entries.
+pInfo : [var] 登録する OID 情報を含む CRYPT_OID_INFO 構造体へのポインタ。構造体の dwGroupId メンバを設定して、OID 情報を登録するグループを指定する。注意 Cryptography API: Next Generation (CNG) で実装された Suite B アルゴリズムの OID 情報を登録するときは、CRYPT_OID_INFO 構造体の Algid メンバを CALG_OID_INFO_CNG_ONLY (0xFFFFFFFF) に設定する必要がある。
+dwFlags : [int] 既定では、登録された OID 情報は Crypt32.dll の OID エントリの後にインストールされる。CRYPT_INSTALL_OID_INFO_BEFORE_FLAG が設定されている場合、新しい OID 情報は Crypt32.dll のエントリの前にインストールされる。
 %inst
-The CryptRegisterOIDInfo function registers the OID information
-specified in the CRYPT_OID_INFO structure, persisting it to the
-registry.
+CryptRegisterOIDInfo 関数は、CRYPT_OID_INFO 構造体で指定された OID
+情報を登録し、レジストリに永続化する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE).
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。
 
 [備考]
-When you have finished using the OID information, unregister it by
-calling the CryptUnregisterOIDInfo function.
+OID 情報の使用が終了したら、CryptUnregisterOIDInfo 関数を呼び出して登録を解除する。
 
 
 %index
 CryptRetrieveTimeStamp
-Encodes a time stamp request and retrieves the time stamp token from a location specified by a URL to a Time Stamping Authority (TSA).
+タイムスタンプ要求を符号化し、タイムスタンプ局 (TSA) の URL で指定された場所からタイムスタンプトークンを取得する。
 %group
 Win32 crypt32
 %prm
 wszUrl, dwRetrievalFlags, dwTimeout, pszHashId, pPara, pbData, cbData, ppTsContext, ppTsSigner, phStore
-wszUrl : [wstr] A pointer to a null-terminated wide character string that contains the URL of the TSA to which to send the request.
-dwRetrievalFlags : [int] A set of flags that specify how the time stamp is retrieved.
-dwTimeout : [int] A DWORD value that specifies the maximum number of milliseconds to wait for retrieval. If this parameter is set to zero, this function does not time out.
-pszHashId : [str] A pointer to a null-terminated character string that contains the hash algorithm object identifier (OID).
-pPara : [var] A pointer to a CRYPT_TIMESTAMP_PARA structure that contains additional parameters for the request.
-pbData : [var] A pointer to an array of bytes to be time stamped.
-cbData : [int] The size, in bytes, of the array pointed to by the pbData parameter.
-ppTsContext : [var] A pointer to a PCRYPT_TIMESTAMP_CONTEXT structure. When you have finished using the context, you must free it by calling the CryptMemFree function.
-ppTsSigner : [var] A pointer to a PCERT_CONTEXT that receives the certificate of the signer. When you have finished using this structure, you must free it by passing this pointer to the CertFreeCertificateContext function.
-phStore : [var] The handle of a certificate store initialized with certificates from the time stamp response. This store can be used for validating the signer certificate of the time stamp response. This parameter can be NULL if the TSA supporting certificates are not needed. When you have finished using this handle,  release it by passing it to  the CertCloseStore function.
+wszUrl : [wstr] 要求の送信先 TSA の URL を含む NULL 終端ワイド文字列へのポインタ。
+dwRetrievalFlags : [int] タイムスタンプの取得方法を指定する一連のフラグ。
+dwTimeout : [int] 取得を待機する最大ミリ秒数を指定する DWORD 値。このパラメータが 0 に設定されている場合、この関数はタイムアウトしない。
+pszHashId : [str] ハッシュアルゴリズムのオブジェクト識別子 (OID) を含む NULL 終端文字列へのポインタ。
+pPara : [var] 要求の追加パラメータを含む CRYPT_TIMESTAMP_PARA 構造体へのポインタ。
+pbData : [var] タイムスタンプを付けるバイト配列へのポインタ。
+cbData : [int] pbData パラメータが指す配列のサイズ (バイト単位)。
+ppTsContext : [var] PCRYPT_TIMESTAMP_CONTEXT 構造体へのポインタ。コンテキストの使用が終了したら、CryptMemFree 関数を呼び出して解放しなければならない。
+ppTsSigner : [var] 署名者の証明書を受け取る PCERT_CONTEXT へのポインタ。この構造体の使用が終了したら、このポインタを CertFreeCertificateContext 関数に渡して解放しなければならない。
+phStore : [var] タイムスタンプ応答からの証明書で初期化された証明書ストアのハンドル。このストアはタイムスタンプ応答の署名者証明書の検証に使用できる。TSA サポート証明書が不要な場合、このパラメータは NULL にできる。このハンドルの使用が終了したら、CertCloseStore 関数に渡して解放する。
 %inst
-Encodes a time stamp request and retrieves the time stamp token from
-a location specified by a URL to a Time Stamping Authority (TSA).
+タイムスタンプ要求を符号化し、タイムスタンプ局 (TSA) の URL で指定された場所からタイムスタンプトークンを取得する。
 
 [戻り値]
-If the function is unable to retrieve, decode, and validate the time
-stamp context, it returns FALSE. For extended error information, call
-the GetLastError function.
+関数がタイムスタンプコンテキストの取得、復号、検証ができない場合、FALSE を返す。拡張エラー情報を取得するには
+GetLastError 関数を呼び出す。
 
 
 %index
 CryptSIPAddProvider
-The CryptSIPAddProvider function registers functions that are exported by a given DLL file that implements a Subject Interface Package (SIP).
+CryptSIPAddProvider 関数は、Subject Interface Package (SIP) を実装する指定された DLL ファイルによってエクスポートされる関数を登録する。
 %group
 Win32 crypt32
 %prm
 psNewProv
-psNewProv : [var] A pointer to a [SIP_ADD_NEWPROVIDER](/windows/desktop/api/mssip/ns-mssip-sip_add_newprovider) structure that specifies the DLL file and function names to register.
+psNewProv : [var] 登録する DLL ファイルと関数名を指定する [SIP_ADD_NEWPROVIDER](/windows/desktop/api/mssip/ns-mssip-sip_add_newprovider) 構造体へのポインタ。
 %inst
-The CryptSIPAddProvider function registers functions that are
-exported by a given DLL file that implements a Subject Interface
-Package (SIP).
+CryptSIPAddProvider 関数は、Subject Interface Package (SIP) を実装する指定された
+DLL ファイルによってエクスポートされる関数を登録する。
 
 [戻り値]
-The return value is TRUE if the function succeeds; FALSE if the
-function fails. If the function fails, call the GetLastError function
-to determine the reason for failure.
+関数が成功した場合は TRUE、失敗した場合は FALSE を返す。関数が失敗した場合、失敗の理由を確認するために
+GetLastError 関数を呼び出す。
 
 [備考]
-Typically, you call this function as part of an in-process COM server
-registration. The CryptSIPAddProvider function persists the
-appropriate Registry entries for the SIP provider functions. When you
-have finished using the added SIP provider, remove it by calling the
-CryptSIPRemoveProvider function.
+通常、この関数はインプロセス COM サーバ登録の一部として呼び出される。CryptSIPAddProvider 関数は、SIP
+プロバイダ関数用の適切なレジストリエントリを永続化する。追加された SIP
+プロバイダの使用が終了したら、CryptSIPRemoveProvider 関数を呼び出して削除する。
 
 
 %index
 CryptSIPLoad
-Loads the dynamic-link library (DLL) that implements a subject interface package (SIP) and assigns appropriate library export functions to a SIP_DISPATCH_INFO structure.
+サブジェクトインターフェイスパッケージ (SIP) を実装するダイナミックリンクライブラリ (DLL) を読み込み、適切なライブラリエクスポート関数を SIP_DISPATCH_INFO 構造体に割り当てる。
 %group
 Win32 crypt32
 %prm
 pgSubject, dwFlags, pSipDispatch
-pgSubject : [var] A pointer to a GUID returned by calling the CryptSIPRetrieveSubjectGuid function.
-dwFlags : [int] This parameter is reserved and must be set to zero.
-pSipDispatch : [var] A pointer to a [SIP_DISPATCH_INFO](/windows/desktop/api/mssip/ns-mssip-sip_dispatch_info) structure that contains pointers to SIP provider functions that are specific to the subject type. The caller must initialize this structure to binary zeros, and set the cbSize member to sizeof(SIP_DISPATCH_INFO) before calling the CryptSIPLoad function.
+pgSubject : [var] CryptSIPRetrieveSubjectGuid 関数の呼び出しによって返された GUID へのポインタ。
+dwFlags : [int] このパラメータは予約されており、0 に設定しなければならない。
+pSipDispatch : [var] サブジェクト型に固有の SIP プロバイダ関数へのポインタを含む [SIP_DISPATCH_INFO](/windows/desktop/api/mssip/ns-mssip-sip_dispatch_info) 構造体へのポインタ。呼び出し元はこの構造体をバイナリ 0 で初期化し、CryptSIPLoad 関数を呼び出す前に cbSize メンバを sizeof(SIP_DISPATCH_INFO) に設定しなければならない。
 %inst
-Loads the dynamic-link library (DLL) that implements a subject
-interface package (SIP) and assigns appropriate library export
-functions to a SIP_DISPATCH_INFO structure.
+サブジェクトインターフェイスパッケージ (SIP) を実装するダイナミックリンクライブラリ (DLL)
+を読み込み、適切なライブラリエクスポート関数を SIP_DISPATCH_INFO 構造体に割り当てる。
 
 [戻り値]
-If the function succeeds, the function returns TRUE. If the function
-fails, it returns FALSE. For extended error information, call
-GetLastError.
+関数が成功した場合は TRUE、失敗した場合は FALSE を返す。拡張エラー情報を取得するには GetLastError を呼び出す。
 
 
 %index
 CryptSIPRemoveProvider
-Removes registry details of a Subject Interface Package (SIP) DLL file added by a previous call to the CryptSIPAddProvider function.
+以前の CryptSIPAddProvider 関数の呼び出しで追加された Subject Interface Package (SIP) DLL ファイルのレジストリの詳細を削除する。
 %group
 Win32 crypt32
 %prm
 pgProv
-pgProv : [var] A pointer to the GUID that identifies the SIP DLL  to remove.
+pgProv : [var] 削除する SIP DLL を識別する GUID へのポインタ。
 %inst
-Removes registry details of a Subject Interface Package (SIP) DLL
-file added by a previous call to the CryptSIPAddProvider function.
+以前の CryptSIPAddProvider 関数の呼び出しで追加された Subject Interface Package (SIP)
+DLL ファイルのレジストリの詳細を削除する。
 
 [戻り値]
-The return value is TRUE if the function succeeds; FALSE if the
-function fails. If the function fails, call the GetLastError function
-to determine the reason for failure.
+関数が成功した場合は TRUE、失敗した場合は FALSE を返す。関数が失敗した場合、失敗の理由を確認するために
+GetLastError 関数を呼び出す。
 
 [備考]
-Typically you call this function to unregister an in-process COM
-server. The CryptSIPRemoveProvider function removes the appropriate
-Registry entries for the SIP provider functions.
+通常、この関数はインプロセス COM サーバの登録を解除するために呼び出される。CryptSIPRemoveProvider
+関数は、SIP プロバイダ関数の適切なレジストリエントリを削除する。
 
 
 %index
 CryptSIPRetrieveSubjectGuid
-Retrieves a GUID based on the header information in a specified file.
+指定されたファイル内のヘッダ情報に基づいて GUID を取得する。
 %group
 Win32 crypt32
 %prm
 FileName, hFileIn, pgSubject
-FileName : [wstr] The name of the file.
-hFileIn : [intptr] A handle to the file to check.
-pgSubject : [var] A GUID that identifies the subject.
+FileName : [wstr] ファイルの名前。
+hFileIn : [intptr] 確認するファイルのハンドル。
+pgSubject : [var] サブジェクトを識別する GUID。
 %inst
-Retrieves a GUID based on the header information in a specified file.
+指定されたファイル内のヘッダ情報に基づいて GUID を取得する。
 
 [戻り値]
-If the function succeeds, the function returns TRUE. If the function
-fails, it returns FALSE. For extended error information, call
-GetLastError.
+関数が成功した場合は TRUE、失敗した場合は FALSE を返す。拡張エラー情報を取得するには GetLastError を呼び出す。
 
 
 %index
 CryptSIPRetrieveSubjectGuidForCatalogFile
-Retrieves the subject GUID associated with the specified file.
+指定されたファイルに関連付けられたサブジェクト GUID を取得する。
 %group
 Win32 crypt32
 %prm
 FileName, hFileIn, pgSubject
-FileName : [wstr] The name of the file. If the hFileIn parameter is set, the value in this parameter is ignored.
-hFileIn : [intptr] A handle to the file to check. This parameter must contain a valid handle if the FileName parameter is NULL.
-pgSubject : [var] A globally unique ID that identifies the subject.
+FileName : [wstr] ファイルの名前。hFileIn パラメータが設定されている場合、このパラメータの値は無視される。
+hFileIn : [intptr] 確認するファイルのハンドル。FileName パラメータが NULL の場合、このパラメータには有効なハンドルを含める必要がある。
+pgSubject : [var] サブジェクトを識別するグローバル一意 ID。
 %inst
-Retrieves the subject GUID associated with the specified file.
+指定されたファイルに関連付けられたサブジェクト GUID を取得する。
 
 [戻り値]
-The return value is TRUE if the function succeeds; otherwise, FALSE.
-If this function returns FALSE, additional error information can be
-obtained by calling the GetLastError function. GetLastError will
-return one of the following error codes.
-This doc was truncated.
+関数が成功した場合は TRUE、それ以外は FALSE を返す。
+この関数が FALSE を返す場合、GetLastError 関数を呼び出して追加のエラー情報を取得できる。GetLastError
+は次のエラーコードのいずれかを返す。
+（以下省略）
 
 [備考]
-This function only supports subject interface packages (SIPs) that
-are used for portable executable images (.exe), cabinet (.cab)
-images, and flat files.
+この関数は、ポータブル実行可能イメージ (.exe)、キャビネット (.cab)
+イメージ、およびフラットファイルに使用されるサブジェクトインターフェイスパッケージ (SIP) のみをサポートする。
 
 
 %index
 CryptSetAsyncParam
-The CryptSetAsyncParam function (wincrypt.h) sets an async parameter.
+CryptSetAsyncParam 関数 (wincrypt.h) は非同期パラメータを設定する。
 %group
 Win32 crypt32
 %prm
 hAsync, pszParamOid, pvParam, pfnFree
-hAsync : [intptr] An async handle.
-pszParamOid : [str] The parameter ID.
-pvParam : [intptr] The parameter value.
-pfnFree : [int] A callback function called when the parameter is freed.
+hAsync : [intptr] 非同期ハンドル。
+pszParamOid : [str] パラメータ ID。
+pvParam : [intptr] パラメータ値。
+pfnFree : [int] パラメータが解放されるときに呼び出されるコールバック関数。
 %inst
-The CryptSetAsyncParam function (wincrypt.h) sets an async parameter.
+CryptSetAsyncParam 関数 (wincrypt.h) は非同期パラメータを設定する。
 
 [戻り値]
-S_OK on success.
+成功時は S_OK。
 
 
 %index
 CryptSetKeyIdentifierProperty
-The CryptSetKeyIdentifierProperty function sets the property of a specified key identifier. This function can set the property on the computer identified in pwszComputerName.
+CryptSetKeyIdentifierProperty 関数は指定された鍵識別子のプロパティを設定する。この関数は pwszComputerName で識別されるコンピュータ上のプロパティを設定できる。
 %group
 Win32 crypt32
 %prm
 pKeyIdentifier, dwPropId, dwFlags, pwszComputerName, pvReserved, pvData
-pKeyIdentifier : [var] A pointer to a CRYPT_HASH_BLOB containing the key identifier.
-dwPropId : [int] Identifies the property to be set. The value of dwPropId determines the type and content of the pvData parameter. Any certificate property ID can be used. CERT_KEY_PROV_INFO_PROP_ID is the property of most interest.
-dwFlags : [int] The following flags can be set. They can be combined with a bitwise-OR operation.
-pwszComputerName : [wstr] A pointer to a null-terminated string that contains the name of a remote computer that has the key identifier where the properties are set. If CRYPT_KEYID_MACHINE_FLAG flag is set, searches the remote computer for a list of key identifiers. If the local computer is to be set and not a remote computer, set pwszComputerName to NULL.
-pvReserved : [intptr] Reserved for future use and must be NULL.
-pvData : [intptr] If dwPropId is CERT_KEY_PROV_INFO_PROP_ID, pvData points to a CRYPT_KEY_PROV_INFO structure containing the property of the key identifier.
+pKeyIdentifier : [var] 鍵識別子を含む CRYPT_HASH_BLOB へのポインタ。
+dwPropId : [int] 設定するプロパティを識別する。dwPropId の値が pvData パラメータの型と内容を決定する。任意の証明書プロパティ ID を使用できる。最も関心のあるプロパティは CERT_KEY_PROV_INFO_PROP_ID である。
+dwFlags : [int] 次のフラグを設定できる。これらはビットごとの OR 演算で組み合わせることができる。
+pwszComputerName : [wstr] プロパティを設定する鍵識別子を持つリモートコンピュータの名前を含む NULL 終端文字列へのポインタ。CRYPT_KEYID_MACHINE_FLAG フラグが設定されている場合、リモートコンピュータから鍵識別子の一覧が検索される。リモートコンピュータではなくローカルコンピュータに設定する場合、pwszComputerName を NULL に設定する。
+pvReserved : [intptr] 将来使用のために予約されており、NULL でなければならない。
+pvData : [intptr] dwPropId が CERT_KEY_PROV_INFO_PROP_ID の場合、pvData は鍵識別子のプロパティを含む CRYPT_KEY_PROV_INFO 構造体を指す。
 %inst
-The CryptSetKeyIdentifierProperty function sets the property of a
-specified key identifier. This function can set the property on the
-computer identified in pwszComputerName.
+CryptSetKeyIdentifierProperty 関数は指定された鍵識別子のプロパティを設定する。この関数は
+pwszComputerName で識別されるコンピュータ上のプロパティを設定できる。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. Note If CRYPT_KEYID_SET_NEW_FLAG is
-set and the property already exists, FALSE is returned with the last
-error code set to CRYPT_E_EXISTS.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。注意 CRYPT_KEYID_SET_NEW_FLAG
+が設定されており、プロパティがすでに存在する場合、最終エラーコードを CRYPT_E_EXISTS に設定して FALSE が返される。
 
 
 %index
 CryptSetOIDFunctionValue
-The CryptSetOIDFunctionValue function sets a value for the specified encoding type, function name, OID, and value name.
+CryptSetOIDFunctionValue 関数は、指定されたエンコーディング型、関数名、OID、および値名の値を設定する。
 %group
 Win32 crypt32
 %prm
 dwEncodingType, pszFuncName, pszOID, pwszValueName, dwValueType, pbValueData, cbValueData
-dwEncodingType : [int] Specifies the encoding type to be matched. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types may be added in the future. To match both current encoding types, use:
-pszFuncName : [str] Name of the function for which the encoding type, OID, and value name is being updated.
-pszOID : [str] If the high-order word of the object identifier (OID) is nonzero, pszOID is a pointer to either an OID string such as "2.5.29.1" or an ASCII string such as "file". If the high-order word of the OID is zero, the low-order word specifies the integer identifier to be used as the object identifier.
-pwszValueName : [wstr] A pointer to a Unicode string containing the name of the value to set. If a value with this name is not already present, the function creates it.
+dwEncodingType : [int] 一致させるエンコーディング型を指定する。現在、X509_ASN_ENCODING および PKCS_7_ASN_ENCODING のみが使用されているが、将来追加のエンコーディング型が追加される可能性がある。現在の両方のエンコーディング型と一致させるには X509_ASN_ENCODING | PKCS_7_ASN_ENCODING を使用する。
+pszFuncName : [str] エンコーディング型、OID、および値名を更新する関数の名前。
+pszOID : [str] オブジェクト識別子 (OID) の上位ワードが 0 以外の場合、pszOID は "2.5.29.1" のような OID 文字列または "file" のような ASCII 文字列へのポインタとなる。OID の上位ワードが 0 の場合、下位ワードはオブジェクト識別子として使用される整数識別子を指定する。
+pwszValueName : [wstr] 設定する値の名前を含む Unicode 文字列へのポインタ。この名前の値がまだ存在しない場合、関数は作成する。
 dwValueType : [int] 
-pbValueData : [var] Points to a buffer containing the data to be stored for the specified value name.
-cbValueData : [int] Specifies the size, in bytes, of the information pointed to by the pbValueData parameter. If the data is of type REG_SZ, REG_EXPAND_SZ, or REG_MULTI_SZ, the size must include the terminating NULL wide character.
+pbValueData : [var] 指定された値名に格納されるデータを含むバッファを指す。
+cbValueData : [int] pbValueData パラメータが指す情報のサイズ (バイト単位) を指定する。データが REG_SZ、REG_EXPAND_SZ、REG_MULTI_SZ 型の場合、サイズには NULL 終端ワイド文字が含まれていなければならない。
 %inst
-The CryptSetOIDFunctionValue function sets a value for the specified
-encoding type, function name, OID, and value name.
+CryptSetOIDFunctionValue 関数は、指定されたエンコーディング型、関数名、OID、および値名の値を設定する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE).
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。
 
 
 %index
 CryptSignAndEncodeCertificate
-Encodes and signs a certificate, certificate revocation list (CRL), certificate trust list (CTL), or certificate request.
+証明書、証明書失効リスト (CRL)、証明書信頼リスト (CTL)、または証明書要求を符号化および署名する。
 %group
 Win32 crypt32
 %prm
 hCryptProvOrNCryptKey, dwKeySpec, dwCertEncodingType, lpszStructType, pvStructInfo, pSignatureAlgorithm, pvHashAuxInfo, pbEncoded, pcbEncoded
 hCryptProvOrNCryptKey : [int] 
 dwKeySpec : [int] 
-dwCertEncodingType : [int] Specifies the encoding type used. This can be the following value.
-lpszStructType : [str] A pointer to a null-terminated ANSI string that contains the type of data to be encoded and signed. The following predefined lpszStructType constants are used with encode operations.
-pvStructInfo : [intptr] The address of a structure that contains the data to be signed and encoded. The format of this structure is determined by the lpszStructType parameter.
-pSignatureAlgorithm : [var] A pointer to a CRYPT_ALGORITHM_IDENTIFIER structure that contains the object identifier (OID) of the signature algorithm and any additional parameters needed. This function uses the following algorithm OIDs:
-pvHashAuxInfo : [intptr] Reserved. Must be NULL.
-pbEncoded : [var] A pointer to a buffer to receive the signed and encoded output. This parameter can be NULL to set the size of this information for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbEncoded : [var] A pointer to a DWORD that contains the size, in bytes, of the buffer pointed to by the pbEncoded parameter. When the function returns, the DWORD contains the number of bytes stored or to be stored in the buffer.
+dwCertEncodingType : [int] 使用するエンコーディングの型を指定する。これは次の値にできる。
+lpszStructType : [str] 符号化および署名するデータの型を含む NULL 終端の ANSI 文字列へのポインタ。次の定義済み lpszStructType 定数は符号化操作で使用される。
+pvStructInfo : [intptr] 署名および符号化するデータを含む構造体のアドレス。この構造体の形式は lpszStructType パラメータによって決定される。
+pSignatureAlgorithm : [var] 署名アルゴリズムのオブジェクト識別子 (OID) と必要な追加パラメータを含む CRYPT_ALGORITHM_IDENTIFIER 構造体へのポインタ。この関数は次のアルゴリズム OID を使用する。
+pvHashAuxInfo : [intptr] 予約済み。NULL でなければならない。
+pbEncoded : [var] 署名および符号化された出力を受け取るバッファへのポインタ。メモリ割り当て目的でこの情報のサイズを設定するには、このパラメータを NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbEncoded : [var] pbEncoded パラメータが指すバッファのサイズ (バイト単位) を含む DWORD へのポインタ。関数が戻ると、DWORD にはバッファに格納された、または格納されるバイト数が含まれる。
 %inst
-Encodes and signs a certificate, certificate revocation list (CRL),
-certificate trust list (CTL), or certificate request.
+証明書、証明書失効リスト (CRL)、証明書信頼リスト (CTL)、または証明書要求を符号化および署名する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. Note Errors from the called functions
-CryptCreateHash, CryptSignHash and CryptHashData might be propagated
-to this function. Possible error codes include, but are not limited
-to, the following.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。注意 呼び出された
+CryptCreateHash、CryptSignHash、CryptHashData
+関数のエラーがこの関数に伝播することがある。想定されるエラーコードには次のものが含まれるが、これらに限定されない。
+（以下省略）
 
 
 %index
 CryptSignAndEncryptMessage
-The CryptSignAndEncryptMessage function creates a hash of the specified content, signs the hash, encrypts the content, hashes the encrypted contents and the signed hash, and then encodes both the encrypted content and the signed hash.
+CryptSignAndEncryptMessage 関数は、指定されたコンテンツのハッシュを作成し、ハッシュに署名し、コンテンツを暗号化し、暗号化されたコンテンツと署名済みハッシュをハッシュし、次に暗号化されたコンテンツと署名済みハッシュの両方を符号化する。
 %group
 Win32 crypt32
 %prm
 pSignPara, pEncryptPara, cRecipientCert, rgpRecipientCert, pbToBeSignedAndEncrypted, cbToBeSignedAndEncrypted, pbSignedAndEncryptedBlob, pcbSignedAndEncryptedBlob
-pSignPara : [var] A pointer to a CRYPT_SIGN_MESSAGE_PARA structure that contains the signature parameters.
-pEncryptPara : [var] A pointer to a CRYPT_ENCRYPT_MESSAGE_PARA structure containing encryption parameters.
-cRecipientCert : [int] Number of array elements in rgpRecipientCert.
-rgpRecipientCert : [var] Array of pointers to CERT_CONTEXT structures. Each structure is the certificate of an intended recipients of the message.
-pbToBeSignedAndEncrypted : [var] A pointer to a buffer containing the content to be signed and encrypted.
-cbToBeSignedAndEncrypted : [int] The size, in bytes, of the pbToBeSignedAndEncrypted buffer.
-pbSignedAndEncryptedBlob : [var] A pointer to a buffer to receive the encrypted and encoded message.
-pcbSignedAndEncryptedBlob : [var] A pointer to DWORD specifying the size, in bytes, of the buffer pointed to by pbSignedAndEncryptedBlob. When the function returns, this variable contains the size, in bytes, of the signed and encrypted message copied to *pbSignedAndEncryptedBlob.
+pSignPara : [var] 署名パラメータを含む CRYPT_SIGN_MESSAGE_PARA 構造体へのポインタ。
+pEncryptPara : [var] 暗号化パラメータを含む CRYPT_ENCRYPT_MESSAGE_PARA 構造体へのポインタ。
+cRecipientCert : [int] rgpRecipientCert の配列要素数。
+rgpRecipientCert : [var] CERT_CONTEXT 構造体へのポインタの配列。各構造体はメッセージの意図された受信者の証明書である。
+pbToBeSignedAndEncrypted : [var] 署名および暗号化するコンテンツを含むバッファへのポインタ。
+cbToBeSignedAndEncrypted : [int] pbToBeSignedAndEncrypted バッファのサイズ (バイト単位)。
+pbSignedAndEncryptedBlob : [var] 暗号化および符号化されたメッセージを受け取るバッファへのポインタ。
+pcbSignedAndEncryptedBlob : [var] pbSignedAndEncryptedBlob が指すバッファのサイズ (バイト単位) を指定する DWORD へのポインタ。関数が戻ると、この変数には *pbSignedAndEncryptedBlob にコピーされた署名および暗号化されたメッセージのサイズ (バイト単位) が含まれる。
 %inst
-The CryptSignAndEncryptMessage function creates a hash of the
-specified content, signs the hash, encrypts the content, hashes the
-encrypted contents and the signed hash, and then encodes both the
-encrypted content and the signed hash.
+CryptSignAndEncryptMessage
+関数は、指定されたコンテンツのハッシュを作成し、ハッシュに署名し、コンテンツを暗号化し、暗号化されたコンテンツと署名済みハッシュをハッシュし、次に暗号化されたコンテンツと署名済みハッシュの両方を符号化する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. The following lists the error code
-most commonly returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。GetLastError 関数で最も一般的に返されるエラーコードを以下に示す。
+（以下省略）
 
 
 %index
 CryptSignCertificate
-The CryptSignCertificate function signs the "to be signed" information in the encoded signed content.
+CryptSignCertificate 関数は、符号化署名済みコンテンツ内の「署名される」情報に署名する。
 %group
 Win32 crypt32
 %prm
 hCryptProvOrNCryptKey, dwKeySpec, dwCertEncodingType, pbEncodedToBeSigned, cbEncodedToBeSigned, pSignatureAlgorithm, pvHashAuxInfo, pbSignature, pcbSignature
 hCryptProvOrNCryptKey : [int] 
-dwKeySpec : [int] Identifies the private key to use from the provider's container. It can be AT_KEYEXCHANGE or AT_SIGNATURE. This parameter is ignored if an NCRYPT_KEY_HANDLE is used in the hCryptProvOrNCryptKey parameter.
-dwCertEncodingType : [int] Specifies the encoding type used. It is always acceptable to specify both the certificate and message encoding types by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-pbEncodedToBeSigned : [var] A pointer to the encoded content to be signed.
-cbEncodedToBeSigned : [int] The size, in bytes, of the encoded content, pbEncodedToBeSigned.
-pSignatureAlgorithm : [var] A pointer to a CRYPT_ALGORITHM_IDENTIFIER structure with a pszObjId member set to one of the following:
-pvHashAuxInfo : [intptr] Not currently used. Must be NULL.
-pbSignature : [var] A pointer to a buffer to receive the signed hash of the content. This parameter can be NULL to set the size of this information for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbSignature : [var] A pointer to a DWORD that contains the size, in bytes, of the buffer pointed to by the pbSignature parameter. When the function returns, the DWORD contains the number of bytes stored or to be stored in the buffer. Note??When processing the data returned in the buffer, applications must use the actual size of the data returned. The actual size can be slightly smaller than the size of the buffer specified on input. (On input, buffer sizes are usually specified large enough to ensure that the largest possible output data will fit in the buffer.) On output, the variable pointed to by this parameter is updated to reflect the actual size of the data copied to the buffer.
+dwKeySpec : [int] プロバイダのコンテナから使用する秘密鍵を識別する。AT_KEYEXCHANGE または AT_SIGNATURE を指定できる。hCryptProvOrNCryptKey パラメータに NCRYPT_KEY_HANDLE が使用されている場合、このパラメータは無視される。
+dwCertEncodingType : [int] 使用するエンコーディングの型を指定する。証明書とメッセージのエンコーディング型の両方をビットごとの OR 演算で組み合わせて指定することも常に許容される。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING。現在定義されているエンコーディング型は次のとおり。
+pbEncodedToBeSigned : [var] 署名する符号化済みコンテンツへのポインタ。
+cbEncodedToBeSigned : [int] 符号化済みコンテンツ pbEncodedToBeSigned のサイズ (バイト単位)。
+pSignatureAlgorithm : [var] pszObjId メンバが次のいずれかに設定された CRYPT_ALGORITHM_IDENTIFIER 構造体へのポインタ。
+pvHashAuxInfo : [intptr] 現在使用されない。NULL でなければならない。
+pbSignature : [var] コンテンツの署名済みハッシュを受け取るバッファへのポインタ。メモリ割り当て目的でこの情報のサイズを設定するには、このパラメータを NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbSignature : [var] pbSignature パラメータが指すバッファのサイズ (バイト単位) を含む DWORD へのポインタ。関数が戻ると、DWORD にはバッファに格納された、または格納されるバイト数が含まれる。注意 バッファ内で返されたデータを処理する際、アプリケーションは返されたデータの実際のサイズを使用しなければならない。実際のサイズは入力で指定されたバッファのサイズよりわずかに小さい場合がある。出力時には、このパラメータが指す変数は実際のデータサイズを反映するよう更新される。
 %inst
-The CryptSignCertificate function signs the "to be signed"
-information in the encoded signed content.
+CryptSignCertificate 関数は、符号化署名済みコンテンツ内の「署名される」情報に署名する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. Note Errors from the called functions
-CryptCreateHash, CryptSignHash and CryptHashData might be propagated
-to this function. This function has the following error codes.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。注意 呼び出された
+CryptCreateHash、CryptSignHash、CryptHashData
+関数のエラーがこの関数に伝播することがある。この関数には次のエラーコードがある。
+（以下省略）
 
 
 %index
 CryptSignMessage
-The CryptSignMessage function creates a hash of the specified content, signs the hash, and then encodes both the original message content and the signed hash.
+CryptSignMessage 関数は、指定されたコンテンツのハッシュを作成し、ハッシュに署名し、元のメッセージコンテンツと署名済みハッシュの両方を符号化する。
 %group
 Win32 crypt32
 %prm
 pSignPara, fDetachedSignature, cToBeSigned, rgpbToBeSigned, rgcbToBeSigned, pbSignedBlob, pcbSignedBlob
-pSignPara : [var] A pointer to CRYPT_SIGN_MESSAGE_PARA structure containing the signature parameters.
-fDetachedSignature : [int] TRUE if this is to be a detached signature. Otherwise, FALSE. If this parameter is set to TRUE, only the signed hash is encoded in pbSignedBlob. Otherwise, both rgpbToBeSigned and the signed hash are encoded.
-cToBeSigned : [int] Count of the number of array elements in rgpbToBeSigned and rgcbToBeSigned. This parameter must be set to one unless fDetachedSignature is set to TRUE.
-rgpbToBeSigned : [var] Array of pointers to buffers that contain the contents to be signed.
-rgcbToBeSigned : [var] Array of sizes, in bytes, of the content buffers pointed to in rgpbToBeSigned.
-pbSignedBlob : [var] A pointer to a buffer to receive the encoded signed hash, if fDetachedSignature is TRUE, or to both the encoded content and signed hash if fDetachedSignature is FALSE.
-pcbSignedBlob : [var] A pointer to a DWORD specifying the size, in bytes, of the pbSignedBlob buffer. When the function returns, this variable contains the size, in bytes, of the signed and encoded message.
+pSignPara : [var] 署名パラメータを含む CRYPT_SIGN_MESSAGE_PARA 構造体へのポインタ。
+fDetachedSignature : [int] これを分離署名にする場合は TRUE。それ以外の場合は FALSE。このパラメータが TRUE に設定されている場合、pbSignedBlob には署名済みハッシュのみが符号化される。それ以外の場合、rgpbToBeSigned と署名済みハッシュの両方が符号化される。
+cToBeSigned : [int] rgpbToBeSigned および rgcbToBeSigned の配列要素数。fDetachedSignature が TRUE に設定されていない限り、このパラメータは 1 に設定しなければならない。
+rgpbToBeSigned : [var] 署名するコンテンツを含むバッファへのポインタの配列。
+rgcbToBeSigned : [var] rgpbToBeSigned が指すコンテンツバッファのサイズ (バイト単位) の配列。
+pbSignedBlob : [var] fDetachedSignature が TRUE の場合は符号化された署名済みハッシュを、FALSE の場合は符号化されたコンテンツと署名済みハッシュの両方を受け取るバッファへのポインタ。
+pcbSignedBlob : [var] pbSignedBlob バッファのサイズ (バイト単位) を指定する DWORD へのポインタ。関数が戻ると、この変数には署名および符号化されたメッセージのサイズ (バイト単位) が含まれる。
 %inst
-The CryptSignMessage function creates a hash of the specified
-content, signs the hash, and then encodes both the original message
-content and the signed hash.
+CryptSignMessage
+関数は、指定されたコンテンツのハッシュを作成し、ハッシュに署名し、元のメッセージコンテンツと署名済みハッシュの両方を符号化する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. The following lists the error codes
-most commonly returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。GetLastError 関数で最も一般的に返されるエラーコードを以下に示す。
+（以下省略）
 
 
 %index
 CryptSignMessageWithKey
-Signs a message by using a CSP's private key specified in the parameters.
+パラメータで指定された CSP の秘密鍵を使用してメッセージに署名する。
 %group
 Win32 crypt32
 %prm
 pSignPara, pbToBeSigned, cbToBeSigned, pbSignedBlob, pcbSignedBlob
-pSignPara : [var] A pointer to a CRYPT_KEY_SIGN_MESSAGE_PARA structure that contains the signature parameters.
-pbToBeSigned : [var] A pointer to a buffer array that contains the message to be signed.
-cbToBeSigned : [int] The number of array elements in the pbToBeSigned buffer array.
-pbSignedBlob : [var] A pointer to a buffer to receive the encoded signed message.
-pcbSignedBlob : [var] A pointer to a DWORD value that indicates the size, in bytes, of the pbSignedBlob buffer. When the function returns, this variable contains the size, in bytes, of the signed and encoded message.
+pSignPara : [var] 署名パラメータを含む CRYPT_KEY_SIGN_MESSAGE_PARA 構造体へのポインタ。
+pbToBeSigned : [var] 署名するメッセージを含むバッファ配列へのポインタ。
+cbToBeSigned : [int] pbToBeSigned バッファ配列の要素数。
+pbSignedBlob : [var] 符号化された署名済みメッセージを受け取るバッファへのポインタ。
+pcbSignedBlob : [var] pbSignedBlob バッファのサイズ (バイト単位) を示す DWORD 値へのポインタ。関数が戻ると、この変数には署名および符号化されたメッセージのサイズ (バイト単位) が含まれる。
 %inst
-Signs a message by using a CSP's private key specified in the
-parameters.
+パラメータで指定された CSP の秘密鍵を使用してメッセージに署名する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. The following lists the error codes
-most commonly returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。GetLastError 関数で最も一般的に返されるエラーコードを以下に示す。
+（以下省略）
 
 
 %index
@@ -5369,21 +4712,20 @@ CryptStringToBinary を ANSI/Unicode 版のエイリアスとして定義する。
 
 %index
 CryptUninstallDefaultContext
-Important??This API is deprecated. (CryptUninstallDefaultContext)
+重要 この API は廃止予定。(CryptUninstallDefaultContext)
 %group
 Win32 crypt32
 %prm
 hDefaultContext, dwFlags, pvReserved
-hDefaultContext : [intptr] Handle of the context to be released.
-dwFlags : [int] Reserved for future use.
-pvReserved : [intptr] Reserved for future use.
+hDefaultContext : [intptr] 解放するコンテキストのハンドル。
+dwFlags : [int] 将来使用のために予約されている。
+pvReserved : [intptr] 将来使用のために予約されている。
 %inst
-Important This API is deprecated. (CryptUninstallDefaultContext)
+重要 この API は廃止予定。(CryptUninstallDefaultContext)
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE) .If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 
 %index
@@ -5415,468 +4757,402 @@ LocalFree で解放する必要がある。機密情報使用後は SecureZeroMemory でメモリをクリ
 
 %index
 CryptUnregisterDefaultOIDFunction
-The CryptUnregisterDefaultOIDFunction removes the registration of a DLL containing the default function to be called for the specified encoding type and function name.
+CryptUnregisterDefaultOIDFunction は、指定されたエンコーディング型と関数名に対して呼び出される既定の関数を含む DLL の登録を削除する。
 %group
 Win32 crypt32
 %prm
 dwEncodingType, pszFuncName, pwszDll
-dwEncodingType : [int] Specifies the encoding type to be matched. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are being used; however, additional encoding types may be added in the future. To match both current encoding types, use:
-pszFuncName : [str] Name of the function being unregistered.
-pwszDll : [wstr] Name of the DLL where the function is located.
+dwEncodingType : [int] 一致させるエンコーディング型を指定する。現在、X509_ASN_ENCODING および PKCS_7_ASN_ENCODING のみが使用されているが、将来追加のエンコーディング型が追加される可能性がある。現在の両方のエンコーディング型と一致させるには X509_ASN_ENCODING | PKCS_7_ASN_ENCODING を使用する。
+pszFuncName : [str] 登録を解除する関数の名前。
+pwszDll : [wstr] 関数が配置されている DLL の名前。
 %inst
-The CryptUnregisterDefaultOIDFunction removes the registration of a
-DLL containing the default function to be called for the specified
-encoding type and function name.
+CryptUnregisterDefaultOIDFunction
+は、指定されたエンコーディング型と関数名に対して呼び出される既定の関数を含む DLL の登録を削除する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE).
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。
 
 
 %index
 CryptUnregisterOIDFunction
-Removes the registration of a DLL that contains the function to be called for the specified encoding type, function name, and OID.
+指定されたエンコーディング型、関数名、および OID に対して呼び出される関数を含む DLL の登録を削除する。
 %group
 Win32 crypt32
 %prm
 dwEncodingType, pszFuncName, pszOID
-dwEncodingType : [int] Specifies the encoding type to be matched. Currently, only X509_ASN_ENCODING and PKCS_7_ASN_ENCODING are used; however, additional encoding types may be added in the future. To match both current encoding types, use:
-pszFuncName : [str] Name of the function being unregistered.
-pszOID : [str] A pointer to the object identifier (OID) that corresponds to the name of the function being unregistered. If the high order word of the OID is nonzero, pszOID is a pointer to either an OID string such as "2.5.29.1" or an ASCII string such as "file." If the high order word of the OID is zero, the low order word specifies the integer identifier to be used as the object identifier.
+dwEncodingType : [int] 一致させるエンコーディング型を指定する。現在、X509_ASN_ENCODING および PKCS_7_ASN_ENCODING のみが使用されているが、将来追加のエンコーディング型が追加される可能性がある。現在の両方のエンコーディング型と一致させるには X509_ASN_ENCODING | PKCS_7_ASN_ENCODING を使用する。エンコーディング型を使用しない関数の場合、このパラメータを 0 に設定する。
+pszFuncName : [str] 登録を解除する関数の名前。
+pszOID : [str] 登録を解除する関数の名前に対応するオブジェクト識別子 (OID) へのポインタ。OID の上位ワードが 0 以外の場合、pszOID は "2.5.29.1" のような OID 文字列または "file" のような ASCII 文字列へのポインタとなる。OID の上位ワードが 0 の場合、下位ワードはオブジェクト識別子として使用される整数識別子を指定する。
 %inst
-Removes the registration of a DLL that contains the function to be
-called for the specified encoding type, function name, and OID.
+指定されたエンコーディング型、関数名、および OID に対して呼び出される関数を含む DLL の登録を削除する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE).
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。
 
 
 %index
 CryptUnregisterOIDInfo
-The CryptUnregisterOIDInfo function removes the registration of a specified CRYPT_OID_INFO OID information structure. The structure to be unregistered is identified by the structure's pszOID and dwGroupId members.
+CryptUnregisterOIDInfo 関数は、指定された CRYPT_OID_INFO OID 情報構造体の登録を削除する。登録を解除する構造体は、構造体の pszOID および dwGroupId メンバによって識別される。
 %group
 Win32 crypt32
 %prm
 pInfo
-pInfo : [var] Specifies the object identifier (OID) information for which the registration is to be removed. The group that the registration is removed for is specified by the dwGroupId member in the pInfo.
+pInfo : [var] 登録を削除するオブジェクト識別子 (OID) 情報を指定する。登録を削除するグループは pInfo 内の dwGroupId メンバによって指定される。
 %inst
-The CryptUnregisterOIDInfo function removes the registration of a
-specified CRYPT_OID_INFO OID information structure. The structure to
-be unregistered is identified by the structure's pszOID and dwGroupId
-members.
+CryptUnregisterOIDInfo 関数は、指定された CRYPT_OID_INFO OID
+情報構造体の登録を削除する。登録を解除する構造体は、構造体の pszOID および dwGroupId メンバによって識別される。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE).
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合は 0 (FALSE) を返す。
 
 
 %index
 CryptVerifyCertificateSignature
-Verifies the signature of a certificate, certificate revocation list (CRL), or certificate request by using the public key in a CERT_PUBLIC_KEY_INFO structure.
+CERT_PUBLIC_KEY_INFO 構造体内の公開鍵を使用して、証明書、証明書失効リスト (CRL)、または証明書要求の署名を検証する。
 %group
 Win32 crypt32
 %prm
 hCryptProv, dwCertEncodingType, pbEncoded, cbEncoded, pPublicKey
-hCryptProv : [int] This parameter is not used and should be set to NULL. Windows Server?2003 and Windows?XP:??A handle to the cryptographic service provider (CSP) used to verify the signature.This parameter's data type is HCRYPTPROV. NULL is passed unless there is a strong reason for passing in a specific cryptographic provider. Passing in NULL causes the default RSA or DSS provider to be acquired.
-dwCertEncodingType : [int] The certificate encoding type that was used to encrypt the subject. The message encoding type identifier, contained in the high WORD of this value, is ignored by this function.
-pbEncoded : [var] A pointer to an encoded BLOB of CERT_SIGNED_CONTENT_INFO content on which the signature is to be verified.
-cbEncoded : [int] The size, in bytes, of the encoded content in pbEncoded.
-pPublicKey : [var] A pointer to a CERT_PUBLIC_KEY_INFO structure that contains the public key to use when verifying the signature.
+hCryptProv : [int] このパラメータは使用されず、NULL に設定すべきである。Windows Server 2003 および Windows XP: 署名の検証に使用する暗号サービスプロバイダ (CSP) のハンドル。このパラメータのデータ型は HCRYPTPROV。特定の暗号プロバイダを渡す強い理由がない限り、NULL を渡す。NULL を渡すと、既定の RSA または DSS プロバイダが取得される。
+dwCertEncodingType : [int] サブジェクトを暗号化するために使用された証明書エンコーディング型。この値の上位 WORD に含まれるメッセージエンコーディング型識別子は、この関数では無視される。
+pbEncoded : [var] 署名を検証する CERT_SIGNED_CONTENT_INFO コンテンツの符号化済み BLOB へのポインタ。
+cbEncoded : [int] pbEncoded 内の符号化済みコンテンツのサイズ (バイト単位)。
+pPublicKey : [var] 署名を検証するときに使用する公開鍵を含む CERT_PUBLIC_KEY_INFO 構造体へのポインタ。
 %inst
-Verifies the signature of a certificate, certificate revocation list
-(CRL), or certificate request by using the public key in a
-CERT_PUBLIC_KEY_INFO structure.
+CERT_PUBLIC_KEY_INFO 構造体内の公開鍵を使用して、証明書、証明書失効リスト
+(CRL)、または証明書要求の署名を検証する。
 
 [戻り値]
-Returns nonzero if successful or zero otherwise.
-For extended error information, call GetLastError. Note Errors from
-the called functions CryptCreateHash, CryptImportKey,
-CryptVerifySignature, and CryptHashData may be propagated to this
-function. On failure, this function will cause the following error
-codes to be returned from GetLastError.
-This doc was truncated.
+成功した場合は 0 以外、それ以外の場合は 0 を返す。
+拡張エラー情報を取得するには GetLastError を呼び出す。注意 呼び出された
+CryptCreateHash、CryptImportKey、CryptVerifySignature、CryptHashData
+関数のエラーがこの関数に伝播することがある。失敗時に、この関数は GetLastError から次のエラーコードを返させる。
+（以下省略）
 
 [備考]
-This function currently calls the CryptVerifyCertificateSignatureEx
-function to perform the verification.
+この関数は現在、検証を実行するために CryptVerifyCertificateSignatureEx 関数を呼び出す。
 
 
 %index
 CryptVerifyCertificateSignatureEx
-Verifies the signature of a subject certificate, certificate revocation list, certificate request, or keygen request by using the issuer's public key.
+発行者の公開鍵を使用して、サブジェクト証明書、証明書失効リスト、証明書要求、または keygen 要求の署名を検証する。
 %group
 Win32 crypt32
 %prm
 hCryptProv, dwCertEncodingType, dwSubjectType, pvSubject, dwIssuerType, pvIssuer, dwFlags, pvExtra
-hCryptProv : [int] This parameter is not used and should be set to NULL. Windows Server?2003 and Windows?XP:??A handle to the cryptographic service provider used to verify the signature.This parameter's data type is HCRYPTPROV. NULL is passed unless there is a strong reason for passing in a specific cryptographic provider. Passing in NULL causes the default RSA or DSS provider to be acquired.
-dwCertEncodingType : [int] The certificate encoding type   that was used to encrypt the subject. The message encoding type identifier, contained in the high WORD of this value, is ignored by this function.
-dwSubjectType : [int] The subject type. This parameter can be one of the following subject types.
-pvSubject : [intptr] A pointer to a structure of the type indicated by dwSubjectType that contains the signature to be verified.
-dwIssuerType : [int] The issuer type. This parameter can be one of the following issuer types.
-pvIssuer : [intptr] A pointer to a structure of the type indicated by the value of dwIssuerType. The structure contains access to the public key needed to verify the signature.
+hCryptProv : [int] このパラメータは使用されず、NULL に設定すべきである。Windows Server 2003 および Windows XP: 署名の検証に使用する暗号サービスプロバイダのハンドル。このパラメータのデータ型は HCRYPTPROV。特定の暗号プロバイダを渡す強い理由がない限り、NULL を渡す。NULL を渡すと、既定の RSA または DSS プロバイダが取得される。
+dwCertEncodingType : [int] サブジェクトを暗号化するために使用された証明書エンコーディング型。この値の上位 WORD に含まれるメッセージエンコーディング型識別子は、この関数では無視される。
+dwSubjectType : [int] サブジェクトの型。このパラメータには次のサブジェクト型のいずれかを指定できる。
+pvSubject : [intptr] dwSubjectType が示す型の構造体へのポインタ。検証される署名が含まれる。
+dwIssuerType : [int] 発行者の型。このパラメータには次の発行者型のいずれかを指定できる。
+pvIssuer : [intptr] dwIssuerType の値が示す型の構造体へのポインタ。この構造体は、署名を検証するために必要な公開鍵へのアクセスを含む。
 dwFlags : [int] 
-pvExtra : [intptr] Pointer to a CRYPT_VERIFY_CERT_SIGN_STRONG_PROPERTIES_INFO structure if the dwFlags parameter is set to CRYPT_VERIFY_CERT_SIGN_RETURN_STRONG_PROPERTIES_FLAG. You must call CryptMemFree to free the structure.
+pvExtra : [intptr] dwFlags パラメータが CRYPT_VERIFY_CERT_SIGN_RETURN_STRONG_PROPERTIES_FLAG に設定されている場合、CRYPT_VERIFY_CERT_SIGN_STRONG_PROPERTIES_INFO 構造体へのポインタ。構造体を解放するには CryptMemFree を呼び出さなければならない。
 %inst
-Verifies the signature of a subject certificate, certificate
-revocation list, certificate request, or keygen request by using the
-issuer's public key.
+発行者の公開鍵を使用して、サブジェクト証明書、証明書失効リスト、証明書要求、または keygen 要求の署名を検証する。
 
 [戻り値]
-Returns nonzero if successful or zero otherwise.
-For extended error information, call GetLastError. Note Errors from
-the called functions CryptCreateHash, CryptImportKey,
-CryptVerifySignature, and CryptHashData may be propagated to this
-function. On failure, this function will cause the following error
-codes to be returned from GetLastError.
-This doc was truncated.
+成功した場合は 0 以外、それ以外の場合は 0 を返す。
+拡張エラー情報を取得するには GetLastError を呼び出す。注意 呼び出された
+CryptCreateHash、CryptImportKey、CryptVerifySignature、CryptHashData
+関数のエラーがこの関数に伝播することがある。失敗時に、この関数は GetLastError から次のエラーコードを返させる。
+（以下省略）
 
 [備考]
-The subject buffer can contain an encoded BLOB or a context for a
-certificate or CRL. In the case of a certificate context, if the
-certificate's public key parameters are missing and if these
-parameters can be inherited from the certificate's issuer for example
-from the DSS public key parameter, the context's
-CERT_PUBKEY_ALG_PARA_PROP_ID property is updated with the issuer's
-public key algorithm parameters for a valid signature.
+サブジェクトバッファには、証明書または CRL の符号化済み BLOB
+またはコンテキストを含めることができる。証明書コンテキストの場合、証明書の公開鍵パラメータが欠落しており、これらのパラメータが証明書の発行者
+(たとえば DSS 公開鍵パラメータなど) から継承できる場合、コンテキストの CERT_PUBKEY_ALG_PARA_PROP_ID
+プロパティは、有効な署名に対して発行者の公開鍵アルゴリズムパラメータで更新される。
 
 
 %index
 CryptVerifyDetachedMessageHash
-The CryptVerifyDetachedMessageHash function verifies a detached hash.
+CryptVerifyDetachedMessageHash 関数は分離ハッシュを検証する。
 %group
 Win32 crypt32
 %prm
 pHashPara, pbDetachedHashBlob, cbDetachedHashBlob, cToBeHashed, rgpbToBeHashed, rgcbToBeHashed, pbComputedHash, pcbComputedHash
-pHashPara : [var] A pointer to a CRYPT_HASH_MESSAGE_PARA structure containing the hash parameters.
-pbDetachedHashBlob : [var] A pointer to the encoded, detached hash.
-cbDetachedHashBlob : [int] The size, in bytes, of the detached hash.
-cToBeHashed : [int] Number of elements in the rgpbToBeHashed and rgcbToBeHashed arrays.
-rgpbToBeHashed : [var] Array of pointers to content buffers to be hashed.
-rgcbToBeHashed : [var] Array of sizes, in bytes, for the content buffers pointed to by the elements of the rgcbToBeHashed array.
-pbComputedHash : [var] A pointer to a buffer to receive the computed hash.
-pcbComputedHash : [var] A pointer to a DWORD specifying the size, in bytes, of the pbComputedHash buffer. When the function returns, this DWORD contains the size, in bytes, of the created hash. The hash will not be returned if this parameter is NULL.
+pHashPara : [var] ハッシュパラメータを含む CRYPT_HASH_MESSAGE_PARA 構造体へのポインタ。
+pbDetachedHashBlob : [var] 符号化された分離ハッシュへのポインタ。
+cbDetachedHashBlob : [int] 分離ハッシュのサイズ (バイト単位)。
+cToBeHashed : [int] rgpbToBeHashed および rgcbToBeHashed 配列の要素数。
+rgpbToBeHashed : [var] ハッシュ化するコンテンツバッファへのポインタの配列。
+rgcbToBeHashed : [var] rgcbToBeHashed 配列の要素が指すコンテンツバッファのサイズ (バイト単位) の配列。
+pbComputedHash : [var] 計算されたハッシュを受け取るバッファへのポインタ。
+pcbComputedHash : [var] pbComputedHash バッファのサイズ (バイト単位) を指定する DWORD へのポインタ。関数が戻ると、この DWORD には作成されたハッシュのサイズ (バイト単位) が含まれる。このパラメータが NULL の場合、ハッシュは返されない。
 %inst
-The CryptVerifyDetachedMessageHash function verifies a detached hash.
+CryptVerifyDetachedMessageHash 関数は分離ハッシュを検証する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. The following lists the error codes
-most commonly returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。GetLastError 関数で最も一般的に返されるエラーコードを以下に示す。
+（以下省略）
 
 
 %index
 CryptVerifyDetachedMessageSignature
-The CryptVerifyDetachedMessageSignature function verifies a signed message containing a detached signature or signatures.
+CryptVerifyDetachedMessageSignature 関数は、分離署名を含む署名済みメッセージを検証する。
 %group
 Win32 crypt32
 %prm
 pVerifyPara, dwSignerIndex, pbDetachedSignBlob, cbDetachedSignBlob, cToBeSigned, rgpbToBeSigned, rgcbToBeSigned, ppSignerCert
-pVerifyPara : [var] A pointer to a CRYPT_VERIFY_MESSAGE_PARA structure containing the verification parameters.
-dwSignerIndex : [int] Index of the signature to be verified. A message might have several signers and this function can be called repeatedly, changing dwSignerIndex to verify other signatures. If the function returns FALSE, and GetLastError returns CRYPT_E_NO_SIGNER, the previous call received the last signer of the message.
-pbDetachedSignBlob : [var] A pointer to a BLOB containing the encoded message signatures.
-cbDetachedSignBlob : [int] The size, in bytes, of the detached signature.
-cToBeSigned : [int] Number of array elements in rgpbToBeSigned and rgcbToBeSigned.
-rgpbToBeSigned : [var] Array of pointers to buffers containing the contents to be hashed.
-rgcbToBeSigned : [var] Array of sizes, in bytes, for the content buffers pointed to in rgpbToBeSigned.
-ppSignerCert : [var] A pointer to a pointer to a CERT_CONTEXT structure of a signer certificate. When you have finished using the certificate context, free it by calling the CertFreeCertificateContext function. A pointer to a CERT_CONTEXT structure will not be returned if this parameter is NULL.
+pVerifyPara : [var] 検証パラメータを含む CRYPT_VERIFY_MESSAGE_PARA 構造体へのポインタ。
+dwSignerIndex : [int] 検証する署名のインデックス。メッセージには複数の署名者が存在する場合があり、この関数は dwSignerIndex を変更しながら繰り返し呼び出して他の署名を検証できる。関数が FALSE を返し、GetLastError が CRYPT_E_NO_SIGNER を返す場合、前回の呼び出しでメッセージの最後の署名者を受け取ったことを示す。
+pbDetachedSignBlob : [var] 符号化されたメッセージ署名を含む BLOB へのポインタ。
+cbDetachedSignBlob : [int] 分離署名のサイズ (バイト単位)。
+cToBeSigned : [int] rgpbToBeSigned および rgcbToBeSigned の配列要素数。
+rgpbToBeSigned : [var] ハッシュ化するコンテンツを含むバッファへのポインタの配列。
+rgcbToBeSigned : [var] rgpbToBeSigned が指すコンテンツバッファのサイズ (バイト単位) の配列。
+ppSignerCert : [var] 署名者証明書を表す CERT_CONTEXT 構造体へのポインタのポインタ。証明書コンテキストの使用が終了したら、CertFreeCertificateContext 関数を呼び出して解放する。このパラメータが NULL の場合、CERT_CONTEXT 構造体へのポインタは返されない。
 %inst
-The CryptVerifyDetachedMessageSignature function verifies a signed
-message containing a detached signature or signatures.
+CryptVerifyDetachedMessageSignature 関数は、分離署名を含む署名済みメッセージを検証する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. The following lists the error codes
-most commonly returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。GetLastError 関数で最も一般的に返されるエラーコードを以下に示す。
+（以下省略）
 
 
 %index
 CryptVerifyMessageHash
-The CryptVerifyMessageHash function verifies the hash of specified content.
+CryptVerifyMessageHash 関数は、指定されたコンテンツのハッシュを検証する。
 %group
 Win32 crypt32
 %prm
 pHashPara, pbHashedBlob, cbHashedBlob, pbToBeHashed, pcbToBeHashed, pbComputedHash, pcbComputedHash
-pHashPara : [var] A pointer to a CRYPT_HASH_MESSAGE_PARA structure containing hash parameters.
-pbHashedBlob : [var] A pointer to a buffer containing original content and its hash.
-cbHashedBlob : [int] The size, in bytes, of the original hash buffer.
-pbToBeHashed : [var] A pointer to a buffer to receive the original content that was hashed.
-pcbToBeHashed : [var] A pointer to a DWORD specifying the size, in bytes, of the pbToBeHashed buffer. When the function returns, this variable contains the size, in bytes, of the original content copied to pbToBeHashed. The original content will not be returned if this parameter is NULL.
-pbComputedHash : [var] A pointer to a buffer to receive the computed hash. This parameter can be NULL if the created hash is not needed for additional processing, or to set the size of the original content for memory allocation purposes. For more information, see Retrieving Data of Unknown Length.
-pcbComputedHash : [var] A pointer to a DWORD specifying the size, in bytes, of the pbComputedHash buffer. When the function returns, this variable contains the size, in bytes, of the created hash. The hash is not returned if this parameter is NULL.
+pHashPara : [var] ハッシュパラメータを含む CRYPT_HASH_MESSAGE_PARA 構造体へのポインタ。
+pbHashedBlob : [var] 元のコンテンツとそのハッシュを含むバッファへのポインタ。
+cbHashedBlob : [int] 元のハッシュバッファのサイズ (バイト単位)。
+pbToBeHashed : [var] ハッシュ化された元のコンテンツを受け取るバッファへのポインタ。
+pcbToBeHashed : [var] pbToBeHashed バッファのサイズ (バイト単位) を指定する DWORD へのポインタ。関数が戻ると、この変数には pbToBeHashed にコピーされた元のコンテンツのサイズ (バイト単位) が含まれる。このパラメータが NULL の場合、元のコンテンツは返されない。
+pbComputedHash : [var] 計算されたハッシュを受け取るバッファへのポインタ。作成されたハッシュが追加の処理に不要な場合、またはメモリ割り当て目的で元のコンテンツのサイズを設定する場合、このパラメータは NULL にできる。詳細は Retrieving Data of Unknown Length を参照。
+pcbComputedHash : [var] pbComputedHash バッファのサイズ (バイト単位) を指定する DWORD へのポインタ。関数が戻ると、この変数には作成されたハッシュのサイズ (バイト単位) が含まれる。このパラメータが NULL の場合、ハッシュは返されない。
 %inst
-The CryptVerifyMessageHash function verifies the hash of specified
-content.
+CryptVerifyMessageHash 関数は、指定されたコンテンツのハッシュを検証する。
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE). For extended error
-information, call GetLastError. The following lists the error codes
-most commonly returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、戻り値は 0 以外 (TRUE)。関数が失敗した場合、戻り値は 0 (FALSE)。拡張エラー情報を取得するには
+GetLastError を呼び出す。GetLastError 関数で最も一般的に返されるエラーコードを以下に示す。
+（以下省略）
 
 
 %index
 CryptVerifyMessageSignature
-Verifies a signed message's signature.
+署名済みメッセージの署名を検証する。
 %group
 Win32 crypt32
 %prm
 pVerifyPara, dwSignerIndex, pbSignedBlob, cbSignedBlob, pbDecoded, pcbDecoded, ppSignerCert
-pVerifyPara : [var] A pointer to a CRYPT_VERIFY_MESSAGE_PARA structure that contains verification parameters.
-dwSignerIndex : [int] The index of the desired signature. There can be more than one signature. CryptVerifyMessageSignature can be called repeatedly, incrementing dwSignerIndex each time. Set this parameter to zero for the first signer, or if there is only one signer. If the function returns FALSE, and GetLastError returns CRYPT_E_NO_SIGNER, the previous call processed the last signer of the message.
-pbSignedBlob : [var] A pointer to a buffer that contains the signed message.
-cbSignedBlob : [int] The size, in bytes, of the signed message buffer.
-pbDecoded : [var] A pointer to a buffer to receive the decoded message.
-pcbDecoded : [var] A pointer to a DWORD value that specifies the size, in bytes, of the pbDecoded buffer. When the function returns, this DWORD contains the size, in bytes, of the decoded message. The decoded message will not be returned if this parameter is NULL.
-ppSignerCert : [var] The address of a CERT_CONTEXT structure pointer that receives the certificate of the signer. When you have finished using this structure, free it by passing this pointer to the CertFreeCertificateContext function. This parameter can be NULL if the signer's certificate is not needed.
+pVerifyPara : [var] 検証パラメータを含む CRYPT_VERIFY_MESSAGE_PARA 構造体へのポインタ。
+dwSignerIndex : [int] 目的の署名のインデックス。複数の署名がある場合がある。CryptVerifyMessageSignature を繰り返し呼び出し、毎回 dwSignerIndex を増分できる。最初の署名者、または署名者が 1 人しかいない場合、このパラメータを 0 に設定する。関数が FALSE を返し、GetLastError が CRYPT_E_NO_SIGNER を返す場合、前回の呼び出しでメッセージの最後の署名者を処理したことを示す。
+pbSignedBlob : [var] 署名済みメッセージを含むバッファへのポインタ。
+cbSignedBlob : [int] 署名済みメッセージバッファのサイズ (バイト単位)。
+pbDecoded : [var] 復号されたメッセージを受け取るバッファへのポインタ。
+pcbDecoded : [var] pbDecoded バッファのサイズ (バイト単位) を指定する DWORD 値へのポインタ。関数が戻ると、この DWORD には復号されたメッセージのサイズ (バイト単位) が含まれる。このパラメータが NULL の場合、復号されたメッセージは返されない。
+ppSignerCert : [var] 署名者の証明書を受け取る CERT_CONTEXT 構造体へのポインタのアドレス。この構造体の使用が終了したら、このポインタを CertFreeCertificateContext 関数に渡して解放する。署名者の証明書が不要な場合、このパラメータは NULL にできる。
 %inst
-Verifies a signed message's signature.
+署名済みメッセージの署名を検証する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero. This does not
-necessarily mean that the signature was verified. In the case of a
-detached message, the variable pointed to by pcbDecoded will contain
-zero. In this case, this function will return nonzero, but the
-signature is not verified. To verify the signature of a detached
-message, use the CryptVerifyDetachedMessageSignature function. If the
-function fails, it returns zero. For extended error information, call
-GetLastError. The following table shows the error codes most commonly
-returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、関数は 0 以外を返す。これは必ずしも署名が検証されたことを意味しない。分離メッセージの場合、pcbDecoded
+が指す変数は 0 を含む。この場合、この関数は 0
+以外を返すが、署名は検証されない。分離メッセージの署名を検証するには、CryptVerifyDetachedMessageSignature
+関数を使用する。関数が失敗した場合は 0 を返す。拡張エラー情報を取得するには GetLastError
+を呼び出す。次の表に、GetLastError 関数で最も一般的に返されるエラーコードを示す。
+（以下省略）
 
 [備考]
-For a verified signer and message, ppSignerCert is updated with the
-CERT_CONTEXT of the signer. It must be freed by calling
-CertFreeCertificateContext. Otherwise, ppSignerCert is set to NULL.
-For a message that contains only certificates and CRLs, pcbDecoded is
-set to NULL.
+検証済みの署名者とメッセージについて、ppSignerCert は署名者の CERT_CONTEXT で更新される。これは
+CertFreeCertificateContext を呼び出して解放しなければならない。そうでない場合、ppSignerCert は
+NULL に設定される。証明書と CRL のみを含むメッセージについては、pcbDecoded は NULL に設定される。
 
 
 %index
 CryptVerifyMessageSignatureWithKey
-Verifies a signed message's signature by using specified public key information.
+指定された公開鍵情報を使用して、署名済みメッセージの署名を検証する。
 %group
 Win32 crypt32
 %prm
 pVerifyPara, pPublicKeyInfo, pbSignedBlob, cbSignedBlob, pbDecoded, pcbDecoded
-pVerifyPara : [var] A pointer to a CRYPT_KEY_VERIFY_MESSAGE_PARA structure that contains verification parameters.
-pPublicKeyInfo : [var] A pointer to a CERT_PUBLIC_KEY_INFO structure that contains the public key that is used to verify the signed message. If NULL, the signature is not verified.
-pbSignedBlob : [var] A pointer to a buffer that contains the signed message.
-cbSignedBlob : [int] The size, in bytes, of the signed message buffer.
-pbDecoded : [var] A pointer to a buffer to receive the decoded message.
-pcbDecoded : [var] A pointer to a DWORD value that specifies the size, in bytes, of the pbDecoded buffer. When the function returns, this DWORD contains the size, in bytes, of the decoded message. The decoded message will not be returned if this parameter is NULL.
+pVerifyPara : [var] 検証パラメータを含む CRYPT_KEY_VERIFY_MESSAGE_PARA 構造体へのポインタ。
+pPublicKeyInfo : [var] 署名済みメッセージの検証に使用する公開鍵を含む CERT_PUBLIC_KEY_INFO 構造体へのポインタ。NULL の場合、署名は検証されない。
+pbSignedBlob : [var] 署名済みメッセージを含むバッファへのポインタ。
+cbSignedBlob : [int] 署名済みメッセージバッファのサイズ (バイト単位)。
+pbDecoded : [var] 復号されたメッセージを受け取るバッファへのポインタ。
+pcbDecoded : [var] pbDecoded バッファのサイズ (バイト単位) を指定する DWORD 値へのポインタ。関数が戻ると、この DWORD には復号されたメッセージのサイズ (バイト単位) が含まれる。このパラメータが NULL の場合、復号されたメッセージは返されない。
 %inst
-Verifies a signed message's signature by using specified public key
-information.
+指定された公開鍵情報を使用して、署名済みメッセージの署名を検証する。
 
 [戻り値]
-If the function succeeds, the function returns nonzero. If the
-function fails, it returns zero. For extended error information, call
-GetLastError. The following table shows the error codes most commonly
-returned by the GetLastError function.
-This doc was truncated.
+関数が成功した場合、関数は 0 以外を返す。関数が失敗した場合は 0 を返す。拡張エラー情報を取得するには GetLastError
+を呼び出す。次の表に、GetLastError 関数で最も一般的に返されるエラーコードを示す。
+（以下省略）
 
 
 %index
 CryptVerifyTimeStampSignature
-Validates the time stamp signature on a specified array of bytes.
+指定されたバイト配列のタイムスタンプ署名を検証する。
 %group
 Win32 crypt32
 %prm
 pbTSContentInfo, cbTSContentInfo, pbData, cbData, hAdditionalStore, ppTsContext, ppTsSigner, phStore
-pbTSContentInfo : [var] A pointer to a buffer that contains time stamp content.
-cbTSContentInfo : [int] The size, in bytes, of the buffer pointed to by the pbTSContentInfo parameter.
-pbData : [var] A pointer to an array of bytes on which to validate the time stamp signature.
-cbData : [int] The size, in bytes, of the array pointed to by the pbData parameter.
-hAdditionalStore : [int] The handle of an additional store to search for supporting Time Stamping Authority (TSA) signing certificates and certificate trust lists (CTLs). This parameter can be NULL if no additional store is to be searched.
-ppTsContext : [var] A pointer to a PCRYPT_TIMESTAMP_CONTEXT structure. When you have finished using the context, you must free it by calling the CryptMemFree function.
-ppTsSigner : [var] A pointer to a PCERT_CONTEXT that receives the certificate of the signer. When you have finished using this structure, you must free it by passing this pointer to the CertFreeCertificateContext function. Set this parameter to NULL if the TSA signer's certificate is not needed.
-phStore : [var] A pointer to a handle that receives the certificate store opened  on CMS to search for supporting certificates. This parameter can be NULL if the TSA supporting certificates are not needed. When you have finished using this handle,  you  must release it by passing it to  the CertCloseStore function.
+pbTSContentInfo : [var] タイムスタンプコンテンツを含むバッファへのポインタ。
+cbTSContentInfo : [int] pbTSContentInfo パラメータが指すバッファのサイズ (バイト単位)。
+pbData : [var] タイムスタンプ署名を検証するバイト配列へのポインタ。
+cbData : [int] pbData パラメータが指す配列のサイズ (バイト単位)。
+hAdditionalStore : [int] サポートするタイムスタンプ局 (TSA) 署名証明書および証明書信頼リスト (CTL) を検索するために使用する追加ストアのハンドル。追加ストアを検索しない場合、このパラメータは NULL にできる。
+ppTsContext : [var] PCRYPT_TIMESTAMP_CONTEXT 構造体へのポインタ。コンテキストの使用が終了したら、CryptMemFree 関数を呼び出して解放しなければならない。
+ppTsSigner : [var] 署名者の証明書を受け取る PCERT_CONTEXT へのポインタ。この構造体の使用が終了したら、このポインタを CertFreeCertificateContext 関数に渡して解放しなければならない。TSA 署名者の証明書が不要な場合、このパラメータを NULL に設定する。
+phStore : [var] サポート証明書を検索するために CMS で開かれた証明書ストアを受け取るハンドルへのポインタ。TSA サポート証明書が不要な場合、このパラメータは NULL にできる。このハンドルの使用が終了したら、CertCloseStore 関数に渡して解放しなければならない。
 %inst
-Validates the time stamp signature on a specified array of bytes.
+指定されたバイト配列のタイムスタンプ署名を検証する。
 
 [戻り値]
-If the function succeeds, the function returns TRUE. For extended
-error information, call the GetLastError function.
+関数が成功した場合は TRUE を返す。拡張エラー情報を取得するには GetLastError 関数を呼び出す。
 
 [備考]
-The caller should validate the pszTSAPolicyId member of the
-CRYPT_TIMESTAMP_INFO structure when it is returned by the
-CryptRetrieveTimeStamp function. If a TSA policy was specified in the
-request and the ftTime member contains a valid value, the caller
-should build a certificate context chain with which to populate the
-ppTsSigner parameter and validate the trust.
+呼び出し元は、CryptRetrieveTimeStamp 関数によって返された CRYPT_TIMESTAMP_INFO 構造体の
+pszTSAPolicyId メンバを検証する必要がある。要求で TSA ポリシーが指定されており、ftTime
+メンバに有効な値が含まれている場合、呼び出し元は ppTsSigner
+パラメータに入力する証明書コンテキスト連鎖を構築し、信頼を検証する必要がある。
 
 
 %index
 PFXExportCertStore
-Exports the certificates and, if available, the associated private keys from the referenced certificate store.
+参照された証明書ストアから証明書、および利用可能であれば関連する秘密鍵をエクスポートする。
 %group
 Win32 crypt32
 %prm
 hStore, pPFX, szPassword, dwFlags
-hStore : [int] Handle of the certificate store containing the certificates to be exported.
-pPFX : [var] A pointer to a CRYPT_DATA_BLOB structure to contain the PFX packet with the exported certificates and keys. If pPFX->pbData is NULL, the function calculates the number of bytes needed for the encoded BLOB and returns this in pPFX->cbData. When the function is called with pPFX->pbData pointing to an allocated buffer of the needed size, the function copies the encoded bytes into the buffer and updates pPFX->cbData with the encode byte length.
-szPassword : [wstr] String password used to encrypt and verify the PFX packet. When you have finished using the password, clear the password from memory by calling the SecureZeroMemory function. For more information about protecting passwords, see Handling Passwords.
-dwFlags : [int] Flag values can be set to any combination of the following.
+hStore : [int] エクスポートする証明書を含む証明書ストアのハンドル。
+pPFX : [var] エクスポートされた証明書と鍵を含む PFX パケットを含む CRYPT_DATA_BLOB 構造体へのポインタ。pPFX->pbData が NULL の場合、関数は符号化された BLOB に必要なバイト数を計算し、これを pPFX->cbData に返す。pPFX->pbData が必要なサイズの割り当て済みバッファを指す状態で関数が呼び出されると、関数は符号化済みバイトをバッファにコピーし、pPFX->cbData を符号化バイト長で更新する。
+szPassword : [wstr] PFX パケットを暗号化および検証するために使用される文字列パスワード。パスワードの使用が終了したら、SecureZeroMemory 関数を呼び出してパスワードをメモリからクリアする。パスワードの保護に関する詳細は Handling Passwords を参照。
+dwFlags : [int] フラグ値は次の任意の組み合わせに設定できる。
 %inst
-Exports the certificates and, if available, the associated private
-keys from the referenced certificate store.
+参照された証明書ストアから証明書、および利用可能であれば関連する秘密鍵をエクスポートする。
 
 [戻り値]
-Returns TRUE (nonzero) if the function succeeds, and FALSE (zero) if
-the function fails. For extended error information, call
-GetLastError.
+関数が成功した場合は TRUE (0 以外)、失敗した場合は FALSE (0) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 
 %index
 PFXExportCertStoreEx
-Exports the certificates and, if available, their associated private keys from the referenced certificate store.
+参照された証明書ストアから証明書、および利用可能であれば関連する秘密鍵をエクスポートする。
 %group
 Win32 crypt32
 %prm
 hStore, pPFX, szPassword, pvPara, dwFlags
-hStore : [int] Handle of the certificate store containing the certificates to be exported.
-pPFX : [var] A pointer to a CRYPT_DATA_BLOB structure to contain the PFX packet with the exported certificates and keys. If pPFX->pbData is NULL, the function calculates the number of bytes needed for the encoded BLOB and returns this in pPFX->cbData. When the function is called with pPFX->pbData pointing to an allocated buffer of the needed size, the function copies the encoded bytes into the buffer and updates pPFX->cbData with the encode byte length.
-szPassword : [wstr] String password used to encrypt and verify the PFX packet. When you have finished using the password, clear the password from memory by calling the SecureZeroMemory function. For more information about protecting passwords, see Handling Passwords.
-pvPara : [intptr] This parameter must be NULL if the dwFlags parameter does not contain PKCS12_PROTECT_TO_DOMAIN_SIDS or PKCS12_EXPORT_PBES2_PARAMS. Prior to Windows?8 and Windows Server?2012, therefore, this parameter must be NULL. Beginning with Windows?8 and Windows Server?2012, if the dwFlags parameter contains PKCS12_PROTECT_TO_DOMAIN_SIDS, you can set the pvPara parameter to point to an NCRYPT_DESCRIPTOR_HANDLE value to identify which Active Directory principal the PFX password will be protected to inside of the PFX BLOB. Currently, the password can be protected to an Active Directory user, computer, or group. For more information about protection descriptors, see NCryptCreateProtectionDescriptor. Beginning with Windows 10 1709 (Fall Creators update) and Windows Server 2019, if the dwFlags parameter contains PKCS12_EXPORT_PBES2_PARAMS, you should set the pvPara to an PKCS12_EXPORT_PBES2_PARAMS value to select the password-based encryption algorithm to use.
-dwFlags : [int] Flag values can be set to any combination of the following.
+hStore : [int] エクスポートする証明書を含む証明書ストアのハンドル。
+pPFX : [var] エクスポートされた証明書と鍵を含む PFX パケットを含む CRYPT_DATA_BLOB 構造体へのポインタ。pPFX->pbData が NULL の場合、関数は符号化された BLOB に必要なバイト数を計算し、これを pPFX->cbData に返す。pPFX->pbData が必要なサイズの割り当て済みバッファを指す状態で関数が呼び出されると、関数は符号化済みバイトをバッファにコピーし、pPFX->cbData を符号化バイト長で更新する。
+szPassword : [wstr] PFX パケットを暗号化および検証するために使用される文字列パスワード。パスワードの使用が終了したら、SecureZeroMemory 関数を呼び出してパスワードをメモリからクリアする。パスワードの保護に関する詳細は Handling Passwords を参照。
+pvPara : [intptr] dwFlags パラメータに PKCS12_PROTECT_TO_DOMAIN_SIDS または PKCS12_EXPORT_PBES2_PARAMS が含まれていない場合、このパラメータは NULL でなければならない。したがって Windows 8 および Windows Server 2012 より前では、このパラメータは NULL でなければならない。Windows 8 および Windows Server 2012 以降、dwFlags パラメータに PKCS12_PROTECT_TO_DOMAIN_SIDS が含まれている場合、pvPara パラメータが NCRYPT_DESCRIPTOR_HANDLE 値を指すように設定して、PFX パスワードを PFX BLOB 内でどの Active Directory プリンシパルに対して保護するかを識別できる。現在、パスワードは Active Directory のユーザー、コンピュータ、またはグループに対して保護できる。保護記述子の詳細については NCryptCreateProtectionDescriptor を参照。Windows 10 1709 (Fall Creators update) および Windows Server 2019 以降、dwFlags パラメータに PKCS12_EXPORT_PBES2_PARAMS が含まれている場合、pvPara を PKCS12_EXPORT_PBES2_PARAMS 値に設定して、使用するパスワードベースの暗号化アルゴリズムを選択する必要がある。
+dwFlags : [int] フラグ値は次の任意の組み合わせに設定できる。
 %inst
-Exports the certificates and, if available, their associated private
-keys from the referenced certificate store.
+参照された証明書ストアから証明書、および利用可能であれば関連する秘密鍵をエクスポートする。
 
 [戻り値]
-Returns TRUE (nonzero) if the function succeeds, and FALSE (zero) if
-the function fails. For extended error information, call
-GetLastError.
+関数が成功した場合は TRUE (0 以外)、失敗した場合は FALSE (0) を返す。拡張エラー情報を取得するには
+GetLastError を呼び出す。
 
 [備考]
-Beginning with Windows 8 and Windows Server 2012, you can protect the
-PFX password to an Active Directory user, computer, or group. If you
-choose to do so but do not create a password, a temporary password
-will be randomly selected. The password is encrypted by using the
-Active Directory principal and then embedded in the PFX BLOB. For
-more information, see the pvPara parameter and the
-PKCS12_PROTECT_TO_DOMAIN_SIDS flag. Beginning with Windows 10 1709
-(Fall Creators update) and Windows Server 2019, you can control the
-number of iterations of the hash function over the password done by
-the PFXExportCertStoreEx function using the following registry key.
-The value in this key is of type REG_DWORD.
-HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\PFX\PasswordIterationCount
+Windows 8 および Windows Server 2012 以降、PFX パスワードを Active Directory
+のユーザー、コンピュータ、またはグループに対して保護できる。そうすることを選択したがパスワードを作成しない場合、一時的なパスワードがランダムに選択される。パスワードは
+Active Directory プリンシパルを使用して暗号化され、PFX BLOB に埋め込まれる。詳細は pvPara
+パラメータおよび PKCS12_PROTECT_TO_DOMAIN_SIDS フラグを参照。Windows 10 1709 (Fall
+Creators update) および Windows Server 2019 以降、次のレジストリキーを使用して
+PFXExportCertStoreEx 関数がパスワード上でハッシュ関数を実行する反復回数を制御できる。このキーの値は
+REG_DWORD
+型である。HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\PFX\PasswordIterationCount
 
 
 %index
 PFXImportCertStore
-Imports a PFX BLOB and returns the handle of a store that contains certificates and any associated private keys.
+PFX BLOB をインポートし、証明書と関連する秘密鍵を含むストアのハンドルを返す。
 %group
 Win32 crypt32
 %prm
 pPFX, szPassword, dwFlags
-pPFX : [var] A pointer to a [CRYPT_DATA_BLOB](/previous-versions/windows/desktop/legacy/aa381414(v=vs.85)) structure that contains a PFX packet with the exported and encrypted certificates and keys.
-szPassword : [wstr] A string password used to decrypt and verify the PFX packet. Whether set to a string of length greater than zero or set to an empty string or to **NULL**,  this value must be exactly the same as the value that was used to encrypt the packet. Beginning with Windows?8 and Windows Server?2012, if the PFX packet was created in the [PFXExportCertStoreEx](nf-wincrypt-pfxexportcertstoreex.md) function by using the **PKCS12_PROTECT_TO_DOMAIN_SIDS** flag, the **PFXImportCertStore** function attempts to decrypt the password by using the Active Directory (AD) principal that was used to encrypt it. The AD principal is specified in the *pvPara* parameter. If the *szPassword* parameter in the **PFXExportCertStoreEx** function was an empty string or **NULL** and the *dwFlags* parameter was set to **PKCS12_PROTECT_TO_DOMAIN_SIDS**, that function randomly generated a password and encrypted it to the AD principal specified in the *pvPara* parameter. In that case you should set the password to the value, empty string or **NULL**, that was used when the PFX packet was created. The **PFXImportCertStore** function will use the AD principal to decrypt the random password, and the randomly generated password will be used to decrypt the PFX certificate. When you have finished using the password, clear it from memory by calling the [SecureZeroMemory](/previous-versions/windows/desktop/legacy/aa366877(v=vs.85)) function. For more information about protecting passwords, see [Handling Passwords](/windows/win32/SecBP/handling-passwords).
+pPFX : [var] エクスポートおよび暗号化された証明書と鍵を含む PFX パケットを含む [CRYPT_DATA_BLOB](/previous-versions/windows/desktop/legacy/aa381414(v=vs.85)) 構造体へのポインタ。
+szPassword : [wstr] PFX パケットを復号および検証するために使用される文字列パスワード。長さが 0 より大きい文字列、空文字列、または **NULL** のいずれであっても、この値はパケットを暗号化するために使用された値と完全に同じでなければならない。Windows 8 および Windows Server 2012 以降、PFX パケットが [PFXExportCertStoreEx](nf-wincrypt-pfxexportcertstoreex.md) 関数で **PKCS12_PROTECT_TO_DOMAIN_SIDS** フラグを使用して作成された場合、**PFXImportCertStore** 関数はそれを暗号化するために使用された Active Directory (AD) プリンシパルを使用してパスワードの復号を試みる。AD プリンシパルは *pvPara* パラメータで指定される。**PFXExportCertStoreEx** 関数の *szPassword* パラメータが空文字列または **NULL** で、*dwFlags* パラメータが **PKCS12_PROTECT_TO_DOMAIN_SIDS** に設定されていた場合、その関数はランダムにパスワードを生成し、それを *pvPara* パラメータで指定された AD プリンシパルに暗号化した。その場合、PFX パケットが作成されたときに使用された値 (空文字列または **NULL**) にパスワードを設定する必要がある。**PFXImportCertStore** 関数は AD プリンシパルを使用してランダムなパスワードを復号し、ランダムに生成されたパスワードを使用して PFX 証明書を復号する。パスワードの使用が終了したら、[SecureZeroMemory](/previous-versions/windows/desktop/legacy/aa366877(v=vs.85)) 関数を呼び出してメモリからクリアする。パスワードの保護に関する詳細は [Handling Passwords](/windows/win32/SecBP/handling-passwords) を参照。
 dwFlags : [int] 
 %inst
-Imports a PFX BLOB and returns the handle of a store that contains
-certificates and any associated private keys.
+PFX BLOB をインポートし、証明書と関連する秘密鍵を含むストアのハンドルを返す。
 
 [戻り値]
-If the function succeeds, the function returns a handle to a
-certificate store that contains the imported certificates, including
-available private keys. If the function fails, that is, if the
-password parameter does not contain an exact match with the password
-used to encrypt the exported packet or if there were any other
-problems decoding the PFX BLOB, the function returns **NULL**, and an
-error code can be found by calling the
-[GetLastError](/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror)
-function.
+関数が成功した場合、インポートされた証明書 (利用可能な秘密鍵を含む)
+を含む証明書ストアへのハンドルを返す。関数が失敗した場合、つまり、パスワードパラメータがエクスポートされたパケットの暗号化に使用されたパスワードと完全に一致しない場合や、PFX
+BLOB の復号時に他の問題があった場合、関数は **NULL**
+を返し、[GetLastError](/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror)
+関数を呼び出してエラーコードを取得できる。
 
 [備考]
-The **PFXImportCertStore** function opens a temporary store. If the
-function succeeds, you should close the handle to the store by
-calling the [CertCloseStore](nf-wincrypt-certclosestore.md) function.
-When you import a certificate from the PFX packet, the CSP/KSP
-container name is determined by using the AttributeId with OID
-1.3.6.1.4.1.311.17.1 of the PKCS8ShroudedKeyBag SafeBag [bagId:
-1.2.840.113549.1.12.10.1.2] (see [PKCS
-#12](https://www.rfc-editor.org/rfc/rfc7292) for details about the
-ASN.1 structure of this). * **AttributeId:** 1.3.6.1.4.1.311.17.1 *
-**Value:** The KSP name or CSP name If the AttributeId is not present
-and the PREFER_CNG flag is passed, MS_KEY_STORAGE_PROVIDER is picked.
-If the AttributeId is not present and the PREFER_CNG flag is not
-passed, the provider name is determined based on the public key
-algorithm (that is, the public key algorithm is determined by the
-AlgorithmIdentifier in PKCS #8): * **RSA:** MS_ENHANCED_PROV_W *
-**DSA:** MS_DEF_DSS_DH_PROV_W Similarly, the key specification is
-determined by using the AttributeId with OID 2.5.29.15
-(szOID_KEY_USAGE) as follows: **If a CAPI key is used:** * If
-KEY_ENCIPHERMENT or DATA_ENCIPHERMENT is set, then the key
-specification is set to AT_KEYEXCHANGE. * If DIGITAL_SIGNATURE or
-CERT_SIGN or CRL_SIGN is set, then the key specification is set to
-AT_SIGNATURE. **If a CNG key is used:** * If KEY_ENCIPHERMENT or
-DATA_ENCIPHERMENT or ENCIPHER_ONLY or DECIPHER_ONLY is set, then
-ncrypt key usage is set to ALLOW_DECRYPT. * If DIGITAL_SIGNATURE or
-CERT_SIGN or CRL_SIGN is set, ncrypt key usage is set to ALLOW_SIGN.
-* If KEY_AGREEMENT is set, then ncrypt key usage is set to
-ALLOW_KEY_AGREEMENT. If the AttributeId is not present, then the CAPI
-key value is set to AT_KEYEXCHANGE for RSA or DH and the algorithm is
-determined by the AlgorithmIdentifier in PKCS #8; otherwise, the
-algorithm is set to AT_SIGNATURE. For the CNG key value, all ncrypt
-key usage is set. >[!NOTE] >If an invalid provider name is present in
-the PFX packet, or the base or enhanced cryptography provider is not
-present in this registry key:
-**HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography\\Defaults\\Provider**,
-then a provider lookup is performed by the provider type using this
-registry subkey:
-**HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography\\Defaults\\Provider
-Types**. Microsoft only supports two encryption/hash algorithms for
-importing a PFX: * TripleDES-SHA1 * AES256-SHA256 For either of the
-above algorithms, encryption of the certificates is optional.
-Microsoft can export a PFX from a certificate store via the `All
-Tasks` \> `Yes, export the private key` selection. There you can
-select the encryption/hash algorithm to match one of these two
-choices. You can use PowerShell to export a PFX via the following:
-This doc was truncated.
+**PFXImportCertStore**
+関数は一時ストアを開く。関数が成功した場合、[CertCloseStore](nf-wincrypt-certclosestore.md)
+関数を呼び出してストアへのハンドルを閉じる必要がある。PFX パケットから証明書をインポートするとき、CSP/KSP コンテナ名は
+PKCS8ShroudedKeyBag SafeBag [bagId: 1.2.840.113549.1.12.10.1.2] の OID
+1.3.6.1.4.1.311.17.1 を持つ AttributeId を使用して決定される (この ASN.1 構造の詳細については
+[PKCS #12](https://www.rfc-editor.org/rfc/rfc7292) を参照)。*
+**AttributeId:** 1.3.6.1.4.1.311.17.1 * **Value:** KSP 名または CSP
+名。AttributeId が存在せず、PREFER_CNG フラグが渡された場合、MS_KEY_STORAGE_PROVIDER
+が選択される。AttributeId が存在せず、PREFER_CNG フラグが渡されなかった場合、プロバイダ名は公開鍵アルゴリズム
+(つまり、公開鍵アルゴリズムは PKCS #8 内の AlgorithmIdentifier によって決定される)
+に基づいて決定される。* **RSA:** MS_ENHANCED_PROV_W * **DSA:**
+MS_DEF_DSS_DH_PROV_W。同様に、鍵指定は OID 2.5.29.15 (szOID_KEY_USAGE) を持つ
+AttributeId を使用して次のように決定される。**CAPI 鍵が使用される場合:** * KEY_ENCIPHERMENT
+または DATA_ENCIPHERMENT が設定されている場合、鍵指定は AT_KEYEXCHANGE に設定される。*
+DIGITAL_SIGNATURE または CERT_SIGN または CRL_SIGN が設定されている場合、鍵指定は
+AT_SIGNATURE に設定される。**CNG 鍵が使用される場合:** * KEY_ENCIPHERMENT または
+DATA_ENCIPHERMENT または ENCIPHER_ONLY または DECIPHER_ONLY
+が設定されている場合、ncrypt 鍵使用法は ALLOW_DECRYPT に設定される。* DIGITAL_SIGNATURE または
+CERT_SIGN または CRL_SIGN が設定されている場合、ncrypt 鍵使用法は ALLOW_SIGN に設定される。*
+KEY_AGREEMENT が設定されている場合、ncrypt 鍵使用法は ALLOW_KEY_AGREEMENT
+に設定される。AttributeId が存在しない場合、RSA または DH に対して CAPI 鍵の値は AT_KEYEXCHANGE
+に設定され、アルゴリズムは PKCS #8 の AlgorithmIdentifier によって決定される。それ以外の場合、アルゴリズムは
+AT_SIGNATURE に設定される。CNG 鍵の値については、すべての ncrypt 鍵使用法が設定される。>[!NOTE] >PFX
+パケット内に無効なプロバイダ名が存在する場合、または基本または強化暗号プロバイダがこのレジストリキー
+(**HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography\\Defaults\\Provider**)
+に存在しない場合、このレジストリサブキー
+(**HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography\\Defaults\\Provider
+Types**) を使用してプロバイダ型によるプロバイダ検索が実行される。Microsoft は PFX のインポートのために次の 2
+つの暗号化/ハッシュアルゴリズムのみをサポートする。* TripleDES-SHA1 *
+AES256-SHA256。上記のアルゴリズムのいずれにおいても、証明書の暗号化は省略可能。Microsoft は `All Tasks`
+> `Yes, export the private key` の選択により、証明書ストアから PFX
+をエクスポートできる。そこでは、これら 2 つの選択肢のいずれかに一致する暗号化/ハッシュアルゴリズムを選択できる。次を使用して
+PowerShell で PFX をエクスポートできる。
+（以下省略）
 
 
 %index
 PFXIsPFXBlob
-The PFXIsPFXBlob function attempts to decode the outer layer of a BLOB as a PFX packet.
+PFXIsPFXBlob 関数は、BLOB の外層を PFX パケットとして復号を試みる。
 %group
 Win32 crypt32
 %prm
 pPFX
-pPFX : [var] A pointer to a CRYPT_DATA_BLOB structure that the function will attempt to decode as a PFX packet.
+pPFX : [var] 関数が PFX パケットとして復号を試みる CRYPT_DATA_BLOB 構造体へのポインタ。
 %inst
-The PFXIsPFXBlob function attempts to decode the outer layer of a
-BLOB as a PFX packet.
+PFXIsPFXBlob 関数は、BLOB の外層を PFX パケットとして復号を試みる。
 
 [戻り値]
-The function returns TRUE if the BLOB can be decoded as a PFX packet.
-If the outer layer of the BLOB cannot be decoded as a PFX packet, the
-function returns FALSE.
+関数は、BLOB を PFX パケットとして復号できる場合は TRUE を返す。BLOB の外層を PFX
+パケットとして復号できない場合、関数は FALSE を返す。
 
 
 %index
 PFXVerifyPassword
-The PFXVerifyPassword function attempts to decode the outer layer of a BLOB as a Personal Information Exchange (PFX) packet and to decrypt it with the given password. No data from the BLOB is imported.
+PFXVerifyPassword 関数は、BLOB の外層を Personal Information Exchange (PFX) パケットとして復号し、指定されたパスワードで復号を試みる。BLOB からインポートされるデータはない。
 %group
 Win32 crypt32
 %prm
 pPFX, szPassword, dwFlags
-pPFX : [var] A pointer to a CRYPT_DATA_BLOB structure that the function will attempt to decode as a PFX packet.
-szPassword : [wstr] String password to be checked. For this function to succeed, this password must be exactly the same as the password used to encrypt the packet. If you set this value to an empty string or NULL, this function typically attempts to decrypt the password embedded in the PFX BLOB by using the empty string or NULL. However, beginning with Windows?8 and Windows Server?2012, if a NULL or empty password was specified when the PFX BLOB was created and the application also specified  that the password should be protected to an Active Directory (AD) principal, the Cryptography API (CAPI) randomly generates a password, encrypts it to the AD principal and embeds it in the PFX BLOB. The PFXVerifyPassword function will then try to use the specified AD principal (current user, computer, or AD group member) to decrypt the password. For more information about protecting PFX to an AD principal, see the pvPara parameter and the PKCS12_PROTECT_TO_DOMAIN_SIDS flag of the PFXExportCertStoreEx function. When you have finished using the password, clear the password from memory by calling the SecureZeroMemory function. For more information about protecting passwords, see Handling Passwords.
-dwFlags : [int] Reserved for future use.
+pPFX : [var] 関数が PFX パケットとして復号を試みる CRYPT_DATA_BLOB 構造体へのポインタ。
+szPassword : [wstr] 確認する文字列パスワード。この関数が成功するためには、このパスワードはパケットの暗号化に使用されたパスワードと完全に一致する必要がある。この値を空文字列または NULL に設定した場合、この関数は通常、空文字列または NULL を使用して PFX BLOB に埋め込まれたパスワードの復号を試みる。ただし、Windows 8 および Windows Server 2012 以降、PFX BLOB の作成時に NULL または空のパスワードが指定され、かつアプリケーションがパスワードを Active Directory (AD) プリンシパルに対して保護するよう指定した場合、Cryptography API (CAPI) はランダムにパスワードを生成し、それを AD プリンシパルに暗号化して PFX BLOB に埋め込む。その後、PFXVerifyPassword 関数は指定された AD プリンシパル (現在のユーザー、コンピュータ、または AD グループメンバー) を使用してパスワードの復号を試みる。PFX を AD プリンシパルに対して保護することに関する詳細については、PFXExportCertStoreEx 関数の pvPara パラメータおよび PKCS12_PROTECT_TO_DOMAIN_SIDS フラグを参照。パスワードの使用が終了したら、SecureZeroMemory 関数を呼び出してパスワードをメモリからクリアする。パスワードの保護に関する詳細は Handling Passwords を参照。
+dwFlags : [int] 将来使用のために予約されている。
 %inst
-The PFXVerifyPassword function attempts to decode the outer layer of
-a BLOB as a Personal Information Exchange (PFX) packet and to decrypt
-it with the given password. No data from the BLOB is imported.
+PFXVerifyPassword 関数は、BLOB の外層を Personal Information Exchange (PFX)
+パケットとして復号し、指定されたパスワードで復号を試みる。BLOB からインポートされるデータはない。
 
 [戻り値]
-The function return TRUE if the password appears correct; otherwise,
-it returns FALSE.
+パスワードが正しいと見られる場合、関数は TRUE を返す。それ以外の場合は FALSE を返す。
 

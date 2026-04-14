@@ -6,214 +6,196 @@
 
 %index
 NetAccessAdd
-Not supported. (NetAccessAdd)
+サポートされていない。(NetAccessAdd)
 %group
 Win32 netapi32
 %prm
 servername, level, buf, parm_err
-servername : [wstr] Pointer to a string that specifies the DNS or NetBIOS name of the remote server on which the function is to execute. If this parameter is NULL, the local computer is used.
-level : [int] Specifies the information level of the data. This parameter can be the following value.
-buf : [var] Pointer to the buffer that contains the access information structure.
-parm_err : [var] Specifies the size, in bytes, of the buffer pointed to by the pbBuffer parameter.
+servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
+level : [int] データの情報レベルを指定する。このパラメータには次の値を指定できる。
+buf : [var] アクセス情報構造体を格納したバッファへのポインタ。
+parm_err : [var] pbBuffer パラメータが指すバッファのサイズ (バイト単位) を指定する。
 %inst
-Not supported. (NetAccessAdd)
+サポートされていない。(NetAccessAdd)
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value is a system error code. For a list
-of error codes, see System Error Codes.
+関数が成功した場合、戻り値は NERR_Success となる。失敗した場合、戻り値はシステムエラーコードとなる。エラーコードの一覧は
+System Error Codes を参照。
 
 [備考]
-This function requires User level security to be enabled.
+この関数は User レベルのセキュリティが有効になっている必要がある。
 
 
 %index
 NetAccessDel
-Not supported. (NetAccessDel)
+サポートされていない。(NetAccessDel)
 %group
 Win32 netapi32
 %prm
 servername, resource
-servername : [wstr] Pointer to a string that specifies the DNS or NetBIOS name of the remote server on which the function is to execute. If this parameter is NULL, the local computer is used.
-resource : [wstr] Pointer to a string that contains the name of the network resource for which to remove the access control list.
+servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
+resource : [wstr] アクセス制御リストを削除するネットワークリソースの名前を格納する文字列へのポインタ。
 %inst
-Not supported. (NetAccessDel)
+サポートされていない。(NetAccessDel)
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value is a system error code. For a list
-of error codes, see System Error Codes.
+関数が成功した場合、戻り値は NERR_Success となる。失敗した場合、戻り値はシステムエラーコードとなる。エラーコードの一覧は
+System Error Codes を参照。
 
 [備考]
-This function requires Admin privilege to successfully execute on a
-computer that has local security enabled.
+この関数をローカルセキュリティが有効なコンピューターで正常に実行するには Admin 権限が必要である。
 
 
 %index
 NetAccessEnum
-Not supported. (NetAccessEnum)
+サポートされていない。(NetAccessEnum)
 %group
 Win32 netapi32
 %prm
 servername, BasePath, Recursive, level, bufptr, prefmaxlen, entriesread, totalentries, resume_handle
-servername : [wstr] Pointer to a string that specifies the DNS or NetBIOS name of the remote server on which the function is to execute. If this parameter is NULL, the local computer is used.
-BasePath : [wstr] Pointer to a string that contains a base pathname for the resource. A NULL pointer or NULL string means no base path is to be used. The path can be specified as a universal naming convention (UNC) pathname.
-Recursive : [int] Specifies a flag that enables or disables recursive searching. If this parameter is equal to zero, the NetAccessEnum function returns entries for the resource named as the base path by the pszBasePath parameter, and for the resources directly below that base path. If this parameter is nonzero, the function returns entries for all access control lists (ACLs) that have pszBasePath at the beginning of the resource name.
+servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
+BasePath : [wstr] リソースのベースパス名を格納する文字列へのポインタ。NULL ポインタまたは NULL 文字列はベースパスを使用しないことを意味する。パスは UNC (universal naming convention) パス名として指定できる。
+Recursive : [int] 再帰的検索の有効/無効を指定するフラグ。このパラメータが 0 の場合、NetAccessEnum 関数は pszBasePath パラメータで指定したリソースと、そのベースパスの直下のリソースのエントリを返す。0 以外の場合、関数はリソース名の先頭に pszBasePath を持つすべてのアクセス制御リスト (ACL) のエントリを返す。
 level : [int] 
-bufptr : [var] Pointer to the buffer that receives the access information structure. The format of this data depends on the value of the sLevel parameter.
-prefmaxlen : [int] Specifies the size, in bytes, of the buffer pointed to by the pbBuffer parameter.
-entriesread : [var] Pointer to an unsigned short integer that receives the count of elements actually enumerated. The count is valid only if the NetAccessEnum function returns NERR_Success or ERROR_MORE_DATA.
-totalentries : [var] Pointer to an unsigned short integer that receives the total number of entries that could have been enumerated. The count is valid only if the NetAccessEnum function returns NERR_Success or ERROR_MORE_DATA.
-resume_handle : [var] TBD
+bufptr : [var] アクセス情報構造体を受け取るバッファへのポインタ。このデータの形式は sLevel パラメータの値に依存する。
+prefmaxlen : [int] pbBuffer パラメータが指すバッファのサイズ (バイト単位) を指定する。
+entriesread : [var] 実際に列挙された要素数を受け取る unsigned short 整数へのポインタ。このカウントは NetAccessEnum 関数が NERR_Success または ERROR_MORE_DATA を返した場合にのみ有効である。
+totalentries : [var] 列挙可能だったエントリの総数を受け取る unsigned short 整数へのポインタ。このカウントは NetAccessEnum 関数が NERR_Success または ERROR_MORE_DATA を返した場合にのみ有効である。
+resume_handle : [var] 未定。
 %inst
-Not supported. (NetAccessEnum)
+サポートされていない。(NetAccessEnum)
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value is a system error code. For a list
-of error codes, see System Error Codes.
+関数が成功した場合、戻り値は NERR_Success となる。失敗した場合、戻り値はシステムエラーコードとなる。エラーコードの一覧は
+System Error Codes を参照。
 
 [備考]
-This function requires Admin privilege to successfully execute on a
-computer that has local security enabled.
+この関数をローカルセキュリティが有効なコンピューターで正常に実行するには Admin 権限が必要である。
 
 
 %index
 NetAccessGetInfo
-Not supported. (NetAccessGetInfo)
+サポートされていない。(NetAccessGetInfo)
 %group
 Win32 netapi32
 %prm
 servername, resource, level, bufptr
-servername : [wstr] Pointer to a string that specifies the DNS or NetBIOS name of the remote server on which the function is to execute. If this parameter is NULL, the local computer is used.
+servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
 resource : [wstr] 
-level : [int] Pointer to the buffer that receives the access information structure. The format of this data depends on the value of the sLevel parameter.
-bufptr : [var] Specifies the size, in bytes, of the buffer pointed to by the pbBuffer parameter.
+level : [int] アクセス情報構造体を受け取るバッファへのポインタ。このデータの形式は sLevel パラメータの値に依存する。
+bufptr : [var] pbBuffer パラメータが指すバッファのサイズ (バイト単位) を指定する。
 %inst
-Not supported. (NetAccessGetInfo)
+サポートされていない。(NetAccessGetInfo)
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value is a system error code. For a list
-of error codes, see System Error Codes.
+関数が成功した場合、戻り値は NERR_Success となる。失敗した場合、戻り値はシステムエラーコードとなる。エラーコードの一覧は
+System Error Codes を参照。
 
 [備考]
-This function requires Admin privilege to successfully execute on a
-computer that has local security enabled.
+この関数をローカルセキュリティが有効なコンピューターで正常に実行するには Admin 権限が必要である。
 
 
 %index
 NetAccessGetUserPerms
-Not supported. (NetAccessGetUserPerms)
+サポートされていない。(NetAccessGetUserPerms)
 %group
 Win32 netapi32
 %prm
 servername, UGname, resource, Perms
-servername : [wstr] Pointer to a string that specifies the DNS or NetBIOS name of the remote server on which the function is to execute. If this parameter is NULL, the local computer is used.
-UGname : [wstr] Pointer to a string that specifies the name of the user or group to query.
-resource : [wstr] Pointer to a string that contains the name of the network resource to query.
-Perms : [var] Pointer to an unsigned short integer that receives the user permissions for the specified resource.
+servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
+UGname : [wstr] 問い合わせるユーザーまたはグループの名前を指定する文字列へのポインタ。
+resource : [wstr] 問い合わせるネットワークリソースの名前を格納する文字列へのポインタ。
+Perms : [var] 指定したリソースに対するユーザーのアクセス許可を受け取る unsigned short 整数へのポインタ。
 %inst
-Not supported. (NetAccessGetUserPerms)
+サポートされていない。(NetAccessGetUserPerms)
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value is a system error code. For a list
-of error codes, see System Error Codes.
+関数が成功した場合、戻り値は NERR_Success となる。失敗した場合、戻り値はシステムエラーコードとなる。エラーコードの一覧は
+System Error Codes を参照。
 
 [備考]
-This function requires Admin privilege to successfully execute on a
-computer that has local security enabled. When users request their
-own access permissions, no special privilege is required.
+この関数をローカルセキュリティが有効なコンピューターで正常に実行するには Admin
+権限が必要である。ユーザー自身のアクセス許可を要求する場合は特別な権限は必要ない。
 
 
 %index
 NetAccessSetInfo
-Not supported. (NetAccessSetInfo)
+サポートされていない。(NetAccessSetInfo)
 %group
 Win32 netapi32
 %prm
 servername, resource, level, buf, parm_err
-servername : [wstr] Pointer to a string that specifies the DNS or NetBIOS name of the remote server on which the function is to execute. If this parameter is NULL, the local computer is used.
-resource : [wstr] Pointer to a string that contains the name of the network resource to modify.
-level : [int] Specifies the information level of the data. This parameter can be the following value.
-buf : [var] Pointer to the buffer that contains the access information structure. The format of this data depends on the value of the sLevel parameter.
-parm_err : [var] TBD
+servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
+resource : [wstr] 変更するネットワークリソースの名前を格納する文字列へのポインタ。
+level : [int] データの情報レベルを指定する。このパラメータには次の値を指定できる。
+buf : [var] アクセス情報構造体を格納したバッファへのポインタ。このデータの形式は sLevel パラメータの値に依存する。
+parm_err : [var] 未定。
 %inst
-Not supported. (NetAccessSetInfo)
+サポートされていない。(NetAccessSetInfo)
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value is a system error code. For a list
-of error codes, see System Error Codes.
+関数が成功した場合、戻り値は NERR_Success となる。失敗した場合、戻り値はシステムエラーコードとなる。エラーコードの一覧は
+System Error Codes を参照。
 
 [備考]
-This function requires Admin privilege to successfully execute on a
-computer that has local security enabled.
+この関数をローカルセキュリティが有効なコンピューターで正常に実行するには Admin 権限が必要である。
 
 
 %index
 NetAlertRaise
-The NetAlertRaise function notifies all registered clients when a particular event occurs.
+NetAlertRaise 関数は、特定のイベントが発生した際に登録済みのすべてのクライアントに通知する。
 %group
 Win32 netapi32
 %prm
 AlertType, Buffer, BufferSize
-AlertType : [wstr] A pointer to a constant string that specifies the alert class (type of alert) to raise. This parameter can be one of the following predefined values, or a user-defined alert class for network applications. The event name for an alert can be any text string.
-Buffer : [intptr] A pointer to the data to send to the clients listening for the interrupting message. The data should begin with a fixed-length STD_ALERT structure followed by additional message data in one ADMIN_OTHER_INFO, ERRLOG_OTHER_INFO, PRINT_OTHER_INFO, or USER_OTHER_INFO structure. Finally, the buffer should include any required variable-length information. For more information, see the code sample in the following Remarks section.
-BufferSize : [int] The size, in bytes, of the message buffer.
+AlertType : [wstr] 発生させるアラートクラス (アラートの種類) を指定する定数文字列へのポインタ。このパラメータには、次の定義済みの値のいずれか、またはネットワークアプリケーション用にユーザー定義したアラートクラスを指定できる。アラートのイベント名には任意のテキスト文字列を指定できる。
+Buffer : [intptr] 中断メッセージをリッスンしているクライアントに送信するデータへのポインタ。データは固定長の STD_ALERT 構造体で始まり、その後に ADMIN_OTHER_INFO、ERRLOG_OTHER_INFO、PRINT_OTHER_INFO、USER_OTHER_INFO のいずれか 1 つの構造体で追加のメッセージデータが続く。最後に、必要な可変長情報を含める。詳細は後述の解説セクションのコード例を参照。
+BufferSize : [int] メッセージバッファのサイズ (バイト単位)。
 %inst
-The NetAlertRaise function notifies all registered clients when a
-particular event occurs.
+NetAlertRaise 関数は、特定のイベントが発生した際に登録済みのすべてのクライアントに通知する。
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value is a system error code and a can be
-one of the following error codes. For a list of all possible error
-codes, see System Error Codes.
-This doc was truncated.
+関数が成功した場合、戻り値は NERR_Success
+となる。失敗した場合、戻り値はシステムエラーコードで、次のいずれかのエラーコードになる可能性がある。すべてのエラーコードの一覧は
+System Error Codes を参照。
+（以下省略）
 
 [備考]
-No special group membership is required to successfully execute the
-NetAlertRaise function. The alerter service must be running on the
-client computer when you call the NetAlertRaise function, or the
-function fails with ERROR_FILE_NOT_FOUND.
+NetAlertRaise 関数を正常に実行するために特別なグループメンバーシップは必要ない。NetAlertRaise
+関数を呼び出すときは、クライアントコンピューターで alerter サービスが実行されている必要があり、そうでない場合は関数は
+ERROR_FILE_NOT_FOUND で失敗する。
 
 
 %index
 NetAlertRaiseEx
-The NetAlertRaiseEx function notifies all registered clients when a particular event occurs. You can call this extended function to simplify the sending of an alert message because NetAlertRaiseEx does not require that you specify a STD_ALERT structure.
+NetAlertRaiseEx 関数は、特定のイベントが発生した際に登録済みのすべてのクライアントに通知する。この拡張関数は STD_ALERT 構造体の指定を必要としないため、アラートメッセージの送信を簡単にできる。
 %group
 Win32 netapi32
 %prm
 AlertType, VariableInfo, VariableInfoSize, ServiceName
-AlertType : [wstr] A pointer to a constant string that specifies the alert class (type of alert) to raise. This parameter can be one of the following predefined values, or a user-defined alert class for network applications. (The event name for an alert can be any text string.)
-VariableInfo : [intptr] A pointer to the data to send to the clients listening for the interrupting message. The data should consist of one ADMIN_OTHER_INFO, ERRLOG_OTHER_INFO, PRINT_OTHER_INFO, or USER_OTHER_INFO structure followed by any required variable-length information. For more information, see the code sample in the following Remarks section.
-VariableInfoSize : [int] The number of bytes of variable information in the buffer pointed to by the VariableInfo parameter.
-ServiceName : [wstr] A pointer to a constant string that specifies the name of the service raising the interrupting message.
+AlertType : [wstr] 発生させるアラートクラス (アラートの種類) を指定する定数文字列へのポインタ。このパラメータには、次の定義済みの値のいずれか、またはネットワークアプリケーション用にユーザー定義したアラートクラスを指定できる。(アラートのイベント名には任意のテキスト文字列を指定できる。)
+VariableInfo : [intptr] 中断メッセージをリッスンしているクライアントに送信するデータへのポインタ。データは ADMIN_OTHER_INFO、ERRLOG_OTHER_INFO、PRINT_OTHER_INFO、USER_OTHER_INFO のいずれか 1 つの構造体で構成し、その後に必要な可変長情報が続く。詳細は後述の解説セクションのコード例を参照。
+VariableInfoSize : [int] VariableInfo パラメータが指すバッファ内の可変情報のバイト数。
+ServiceName : [wstr] 中断メッセージを発生させるサービスの名前を指定する定数文字列へのポインタ。
 %inst
-The NetAlertRaiseEx function notifies all registered clients when a
-particular event occurs. You can call this extended function to
-simplify the sending of an alert message because NetAlertRaiseEx does
-not require that you specify a STD_ALERT structure.
+NetAlertRaiseEx 関数は、特定のイベントが発生した際に登録済みのすべてのクライアントに通知する。この拡張関数は
+STD_ALERT 構造体の指定を必要としないため、アラートメッセージの送信を簡単にできる。
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value is a system error code and a can be
-one of the following error codes. For a list of all possible error
-codes, see System Error Codes.
-This doc was truncated.
+関数が成功した場合、戻り値は NERR_Success
+となる。失敗した場合、戻り値はシステムエラーコードで、次のいずれかのエラーコードになる可能性がある。すべてのエラーコードの一覧は
+System Error Codes を参照。
+（以下省略）
 
 [備考]
-No special group membership is required to successfully execute the
-NetAlertRaiseEx function. The alerter service must be running on the
-client computer when you call the NetAlertRaiseEx function, or the
-function fails with ERROR_FILE_NOT_FOUND.
+NetAlertRaiseEx 関数を正常に実行するために特別なグループメンバーシップは必要ない。NetAlertRaiseEx
+関数を呼び出すときは、クライアントコンピューターで alerter サービスが実行されている必要があり、そうでない場合は関数は
+ERROR_FILE_NOT_FOUND で失敗する。
 
 
 %index
 NetAuditClear
-The NetAuditClear function is obsolete. It is included for compatibility with 16-bit versions of Windows. Other applications should use event logging.
+NetAuditClear 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
 %group
 Win32 netapi32
 %prm
@@ -222,14 +204,13 @@ server : [wstr]
 backupfile : [wstr] 
 service : [wstr] 
 %inst
-The NetAuditClear function is obsolete. It is included for
-compatibility with 16-bit versions of Windows. Other applications
-should use event logging.
+NetAuditClear 関数は廃止されている。16 ビット版 Windows
+との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
 
 
 %index
 NetAuditRead
-The NetAuditRead function is obsolete. It is included for compatibility with 16-bit versions of Windows. Other applications should use event logging.
+NetAuditRead 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
 %group
 Win32 netapi32
 %prm
@@ -246,14 +227,13 @@ prefmaxlen : [int]
 bytesread : [var] 
 totalavailable : [var] 
 %inst
-The NetAuditRead function is obsolete. It is included for
-compatibility with 16-bit versions of Windows. Other applications
-should use event logging.
+NetAuditRead 関数は廃止されている。16 ビット版 Windows
+との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
 
 
 %index
 NetAuditWrite
-The NetAuditWrite function is obsolete. It is included for compatibility with 16-bit versions of Windows. Other applications should use event logging.
+NetAuditWrite 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
 %group
 Win32 netapi32
 %prm
@@ -264,272 +244,244 @@ numbytes : [int]
 service : [wstr] 
 reserved : [var] 
 %inst
-The NetAuditWrite function is obsolete. It is included for
-compatibility with 16-bit versions of Windows. Other applications
-should use event logging.
+NetAuditWrite 関数は廃止されている。16 ビット版 Windows
+との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
 
 
 %index
 NetConfigGet
-The NetConfigGet function is obsolete. It is included for compatibility with 16-bit versions of Windows. Other applications should use the registry.
+NetConfigGet 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはレジストリを使用するべきである。
 %group
 Win32 netapi32
 %prm
 server, component, parameter, bufptr
-server : [wstr] TBD
-component : [wstr] TBD
-parameter : [wstr] TBD
-bufptr : [var] TBD
+server : [wstr] 未定。
+component : [wstr] 未定。
+parameter : [wstr] 未定。
+bufptr : [var] 未定。
 %inst
-The NetConfigGet function is obsolete. It is included for
-compatibility with 16-bit versions of Windows. Other applications
-should use the registry.
+NetConfigGet 関数は廃止されている。16 ビット版 Windows
+との互換性のために含まれている。他のアプリケーションはレジストリを使用するべきである。
 
 
 %index
 NetConfigGetAll
-The NetConfigGetAll function is obsolete. It is included for compatibility with 16-bit versions of Windows. Other applications should use the registry.
+NetConfigGetAll 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはレジストリを使用するべきである。
 %group
 Win32 netapi32
 %prm
 server, component, bufptr
-server : [wstr] TBD
-component : [wstr] TBD
-bufptr : [var] TBD
+server : [wstr] 未定。
+component : [wstr] 未定。
+bufptr : [var] 未定。
 %inst
-The NetConfigGetAll function is obsolete. It is included for
-compatibility with 16-bit versions of Windows. Other applications
-should use the registry.
+NetConfigGetAll 関数は廃止されている。16 ビット版 Windows
+との互換性のために含まれている。他のアプリケーションはレジストリを使用するべきである。
 
 
 %index
 NetConfigSet
-The NetConfigSet function is obsolete. It is included for compatibility with 16-bit versions of Windows. Other applications should use the registry.
+NetConfigSet 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはレジストリを使用するべきである。
 %group
 Win32 netapi32
 %prm
 server, reserved1, component, level, reserved2, buf, reserved3
-server : [wstr] TBD
-reserved1 : [wstr] TBD
-component : [wstr] TBD
-level : [int] TBD
-reserved2 : [int] TBD
-buf : [var] TBD
-reserved3 : [int] TBD
+server : [wstr] 未定。
+reserved1 : [wstr] 未定。
+component : [wstr] 未定。
+level : [int] 未定。
+reserved2 : [int] 未定。
+buf : [var] 未定。
+reserved3 : [int] 未定。
 %inst
-The NetConfigSet function is obsolete. It is included for
-compatibility with 16-bit versions of Windows. Other applications
-should use the registry.
+NetConfigSet 関数は廃止されている。16 ビット版 Windows
+との互換性のために含まれている。他のアプリケーションはレジストリを使用するべきである。
 
 
 %index
 NetErrorLogClear
-The NetErrorLogClear function is obsolete. It is included for compatibility with 16-bit versions of Windows. Other applications should use event logging.
+NetErrorLogClear 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
 %group
 Win32 netapi32
 %prm
 UncServerName, BackupFile, Reserved
-UncServerName : [wstr] TBD
-BackupFile : [wstr] TBD
-Reserved : [var] TBD
+UncServerName : [wstr] 未定。
+BackupFile : [wstr] 未定。
+Reserved : [var] 未定。
 %inst
-The NetErrorLogClear function is obsolete. It is included for
-compatibility with 16-bit versions of Windows. Other applications
-should use event logging.
+NetErrorLogClear 関数は廃止されている。16 ビット版 Windows
+との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
 
 
 %index
 NetErrorLogRead
-The NetErrorLogRead function is obsolete. It is included for compatibility with 16-bit versions of Windows. Other applications should use event logging.
+NetErrorLogRead 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
 %group
 Win32 netapi32
 %prm
 UncServerName, Reserved1, ErrorLogHandle, Offset, Reserved2, Reserved3, OffsetFlag, BufPtr, PrefMaxSize, BytesRead, TotalAvailable
-UncServerName : [wstr] TBD
-Reserved1 : [wstr] TBD
-ErrorLogHandle : [var] TBD
-Offset : [int] TBD
-Reserved2 : [var] TBD
-Reserved3 : [int] TBD
-OffsetFlag : [int] TBD
-BufPtr : [var] TBD
-PrefMaxSize : [int] TBD
-BytesRead : [var] TBD
-TotalAvailable : [var] TBD
+UncServerName : [wstr] 未定。
+Reserved1 : [wstr] 未定。
+ErrorLogHandle : [var] 未定。
+Offset : [int] 未定。
+Reserved2 : [var] 未定。
+Reserved3 : [int] 未定。
+OffsetFlag : [int] 未定。
+BufPtr : [var] 未定。
+PrefMaxSize : [int] 未定。
+BytesRead : [var] 未定。
+TotalAvailable : [var] 未定。
 %inst
-The NetErrorLogRead function is obsolete. It is included for
-compatibility with 16-bit versions of Windows. Other applications
-should use event logging.
+NetErrorLogRead 関数は廃止されている。16 ビット版 Windows
+との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
 
 
 %index
 NetErrorLogWrite
-The NetErrorLogWrite function is obsolete. It is included for compatibility with 16-bit versions of Windows. Other applications should use event logging.
+NetErrorLogWrite 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
 %group
 Win32 netapi32
 %prm
 Reserved1, Code, Component, Buffer, NumBytes, MsgBuf, StrCount, Reserved2
-Reserved1 : [var] TBD
-Code : [int] TBD
-Component : [wstr] TBD
-Buffer : [var] TBD
-NumBytes : [int] TBD
-MsgBuf : [var] TBD
-StrCount : [int] TBD
-Reserved2 : [var] TBD
+Reserved1 : [var] 未定。
+Code : [int] 未定。
+Component : [wstr] 未定。
+Buffer : [var] 未定。
+NumBytes : [int] 未定。
+MsgBuf : [var] 未定。
+StrCount : [int] 未定。
+Reserved2 : [var] 未定。
 %inst
-The NetErrorLogWrite function is obsolete. It is included for
-compatibility with 16-bit versions of Windows. Other applications
-should use event logging.
+NetErrorLogWrite 関数は廃止されている。16 ビット版 Windows
+との互換性のために含まれている。他のアプリケーションはイベントログを使用するべきである。
 
 
 %index
 NetMessageBufferSend
-The NetMessageBufferSend function sends a buffer of information to a registered message alias.
+NetMessageBufferSend 関数は、情報のバッファを登録済みのメッセージエイリアスに送信する。
 %group
 Win32 netapi32
 %prm
 servername, msgname, fromname, buf, buflen
-servername : [wstr] Pointer to a constant string that specifies the DNS or NetBIOS name of the remote server on which the function is to execute. If this parameter is NULL, the local computer is used.
-msgname : [wstr] Pointer to a constant string that specifies the message alias to which the message buffer should be sent.
-fromname : [wstr] Pointer to a constant string specifying who the message is from. If this parameter is NULL, the message is sent from the local computer name.
-buf : [var] Pointer to a buffer that contains the message text. For more information, see Network Management Function Buffers.
-buflen : [int] Specifies a value that contains the length, in bytes, of the message text pointed to by the buf parameter.
+servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する定数文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
+msgname : [wstr] メッセージバッファの送信先となるメッセージエイリアスを指定する定数文字列へのポインタ。
+fromname : [wstr] メッセージの送信元を指定する定数文字列へのポインタ。このパラメータが NULL の場合、メッセージはローカルコンピューター名から送信される。
+buf : [var] メッセージテキストを格納するバッファへのポインタ。詳細は Network Management Function Buffers を参照。
+buflen : [int] buf パラメータが指すメッセージテキストの長さ (バイト単位) を格納する値を指定する。
 %inst
-The NetMessageBufferSend function sends a buffer of information to a
-registered message alias.
+NetMessageBufferSend 関数は、情報のバッファを登録済みのメッセージエイリアスに送信する。
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value can be one of the following error
-codes.
-This doc was truncated.
+関数が成功した場合、戻り値は NERR_Success となる。失敗した場合、戻り値は次のいずれかのエラーコードになる可能性がある。
+（以下省略）
 
 [備考]
-If you call this function on a domain controller that is running
-Active Directory, access is allowed or denied based on the access
-control list (ACL) for the securable object. The default ACL permits
-only Domain Admins and Account Operators to call this function. On a
-member server or workstation, only Administrators and Server
-Operators can call this function. For more information, see Security
-Requirements for the Network Management Functions. For more
-information on ACLs and ACEs, see Access Control Model.
+Active Directory
+が動作しているドメインコントローラーでこの関数を呼び出す場合、アクセスはセキュリティ保護可能オブジェクトのアクセス制御リスト (ACL)
+に基づいて許可または拒否される。既定の ACL では Domain Admins と Account Operators
+のみがこの関数を呼び出せる。メンバーサーバーまたはワークステーションでは、Administrators と Server
+Operators のみがこの関数を呼び出せる。詳細は Security Requirements for the Network
+Management Functions を参照。ACL と ACE の詳細については Access Control Model を参照。
 
 
 %index
 NetMessageNameAdd
-The NetMessageNameAdd function registers a message alias in the message name table. The function requires that the messenger service be started.
+NetMessageNameAdd 関数は、メッセージ名テーブルにメッセージエイリアスを登録する。この関数は messenger サービスが開始されている必要がある。
 %group
 Win32 netapi32
 %prm
 servername, msgname
-servername : [wstr] Pointer to a constant string that specifies the DNS or NetBIOS name of the remote server on which the function is to execute. If this parameter is NULL, the local computer is used.
-msgname : [wstr] Pointer to a constant string that specifies the message alias to add. The string cannot be more than 15 characters long.
+servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する定数文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
+msgname : [wstr] 追加するメッセージエイリアスを指定する定数文字列へのポインタ。文字列は 15 文字を超えることはできない。
 %inst
-The NetMessageNameAdd function registers a message alias in the
-message name table. The function requires that the messenger service
-be started.
+NetMessageNameAdd 関数は、メッセージ名テーブルにメッセージエイリアスを登録する。この関数は messenger
+サービスが開始されている必要がある。
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value can be one of the following error
-codes.
-This doc was truncated.
+関数が成功した場合、戻り値は NERR_Success となる。失敗した場合、戻り値は次のいずれかのエラーコードになる可能性がある。
+（以下省略）
 
 [備考]
-Only members of the Administrators local group can successfully
-execute the NetMessageNameAdd function on a remote server. The
-forward action flag is no longer a parameter to the LAN Manager
-2.xNetMessageNameAdd function because message forwarding is no longer
-supported. If the NetMessageNameAdd function detects that a forwarded
-version of msgname exists on the network, the function will fail with
-error NERR_Already_Exists.
+リモートサーバー上で NetMessageNameAdd 関数を正常に実行できるのは、Administrators
+ローカルグループのメンバーだけである。メッセージ転送はもはやサポートされていないため、LAN Manager 2.x の
+NetMessageNameAdd 関数にあった forward action
+フラグは、もはやパラメータではない。NetMessageNameAdd 関数が、ネットワーク上に msgname
+の転送バージョンが存在することを検出した場合、関数は NERR_Already_Exists エラーで失敗する。
 
 
 %index
 NetMessageNameDel
-The NetMessageNameDel function deletes a message alias in the message name table. The function requires that the messenger service be started.
+NetMessageNameDel 関数は、メッセージ名テーブルからメッセージエイリアスを削除する。この関数は messenger サービスが開始されている必要がある。
 %group
 Win32 netapi32
 %prm
 servername, msgname
-servername : [wstr] Pointer to a constant string that specifies the DNS or NetBIOS name of the remote server on which the function is to execute. If this parameter is NULL, the local computer is used.
-msgname : [wstr] Pointer to a constant string that specifies the message alias to delete. The string cannot be more than 15 characters long.
+servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する定数文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
+msgname : [wstr] 削除するメッセージエイリアスを指定する定数文字列へのポインタ。文字列は 15 文字を超えることはできない。
 %inst
-The NetMessageNameDel function deletes a message alias in the message
-name table. The function requires that the messenger service be
-started.
+NetMessageNameDel 関数は、メッセージ名テーブルからメッセージエイリアスを削除する。この関数は messenger
+サービスが開始されている必要がある。
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value can be one of the following error
-codes.
-This doc was truncated.
+関数が成功した場合、戻り値は NERR_Success となる。失敗した場合、戻り値は次のいずれかのエラーコードになる可能性がある。
+（以下省略）
 
 [備考]
-Only members of the Administrators local group can successfully
-execute the NetMessageNameDel function on a remote server.
+リモートサーバー上で NetMessageNameDel 関数を正常に実行できるのは、Administrators
+ローカルグループのメンバーだけである。
 
 
 %index
 NetMessageNameEnum
-The NetMessageNameEnum function lists the message aliases that receive messages on a specified computer. The function requires that the messenger service be started.
+NetMessageNameEnum 関数は、指定したコンピューターでメッセージを受信するメッセージエイリアスの一覧を取得する。この関数は messenger サービスが開始されている必要がある。
 %group
 Win32 netapi32
 %prm
 servername, level, bufptr, prefmaxlen, entriesread, totalentries, resume_handle
-servername : [wstr] Pointer to a constant string that specifies the DNS or NetBIOS name of the remote server on which the function is to execute. If this parameter is NULL, the local computer is used.
+servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する定数文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
 level : [int] 
-bufptr : [var] Pointer to the buffer that receives the data. The format of this data depends on the value of the level parameter. This buffer is allocated by the system and must be freed using the NetApiBufferFree function. Note that you must free the buffer even if the function fails with ERROR_MORE_DATA.
-prefmaxlen : [int] Specifies the preferred maximum length of the returned data, in bytes. If you specify MAX_PREFERRED_LENGTH, the function allocates the amount of memory required for the data. If you specify another value in this parameter, it can restrict the number of bytes that the function returns. If the buffer size is insufficient to hold all entries, the function returns ERROR_MORE_DATA. For more information, see Network Management Function Buffers and Network Management Function Buffer Lengths.
-entriesread : [var] Pointer to a value that receives the count of elements actually enumerated.
-totalentries : [var] Pointer to a value that receives the total number of entries that could have been enumerated from the current resume position. Note that applications should consider this value only as a hint.
-resume_handle : [var] Pointer to a value that contains a resume handle which is used to continue an existing message alias search. The handle should be zero on the first call and left unchanged for subsequent calls. If resume_handle is NULL, no resume handle is stored.
+bufptr : [var] データを受け取るバッファへのポインタ。このデータの形式は level パラメータの値に依存する。このバッファはシステムによって割り当てられ、NetApiBufferFree 関数で解放しなければならない。関数が ERROR_MORE_DATA で失敗した場合でもバッファを解放する必要がある点に注意。
+prefmaxlen : [int] 返されるデータの望ましい最大長をバイト単位で指定する。MAX_PREFERRED_LENGTH を指定すると、関数は必要な量のメモリを割り当てる。別の値を指定すると、関数が返すバイト数を制限できる。バッファサイズがすべてのエントリを保持するのに不十分な場合、関数は ERROR_MORE_DATA を返す。詳細は Network Management Function Buffers および Network Management Function Buffer Lengths を参照。
+entriesread : [var] 実際に列挙された要素数を受け取る値へのポインタ。
+totalentries : [var] 現在の再開位置から列挙可能だったエントリの総数を受け取る値へのポインタ。アプリケーションはこの値を目安としてのみ扱うべきである点に注意。
+resume_handle : [var] 既存のメッセージエイリアス検索を継続するために使われる再開ハンドルを格納する値へのポインタ。最初の呼び出しではハンドルを 0 にし、以降の呼び出しでは変更せずに渡す。resume_handle が NULL の場合、再開ハンドルは格納されない。
 %inst
-The NetMessageNameEnum function lists the message aliases that
-receive messages on a specified computer. The function requires that
-the messenger service be started.
+NetMessageNameEnum 関数は、指定したコンピューターでメッセージを受信するメッセージエイリアスの一覧を取得する。この関数は
+messenger サービスが開始されている必要がある。
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value can be one of the following error
-codes.
-This doc was truncated.
+関数が成功した場合、戻り値は NERR_Success となる。失敗した場合、戻り値は次のいずれかのエラーコードになる可能性がある。
+（以下省略）
 
 [備考]
-Only members of the Administrators local group can successfully
-execute the NetMessageNameEnum function on a remote server. To
-retrieve information about a particular message alias in the message
-name table, you can call the NetMessageNameGetInfo function.
+リモートサーバー上で NetMessageNameEnum 関数を正常に実行できるのは、Administrators
+ローカルグループのメンバーだけである。メッセージ名テーブル内の特定のメッセージエイリアスの情報を取得するには、NetMessageNameGetInfo
+関数を呼び出せる。
 
 
 %index
 NetMessageNameGetInfo
-The NetMessageNameGetInfo function retrieves information about a particular message alias in the message name table. The function requires that the messenger service be started.
+NetMessageNameGetInfo 関数は、メッセージ名テーブル内の特定のメッセージエイリアスに関する情報を取得する。この関数は messenger サービスが開始されている必要がある。
 %group
 Win32 netapi32
 %prm
 servername, msgname, level, bufptr
-servername : [wstr] Pointer to a constant string that specifies the DNS or NetBIOS name of the remote server on which the function is to execute. If this parameter is NULL, the local computer is used.
-msgname : [wstr] Pointer to a constant string that specifies the message alias for which to return information.
+servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する定数文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
+msgname : [wstr] 情報を返すメッセージエイリアスを指定する定数文字列へのポインタ。
 level : [int] 
-bufptr : [var] Pointer to the buffer that receives the data. The format of this data depends on the value of the level parameter. This buffer is allocated by the system and must be freed using the NetApiBufferFree function. For more information, see Network Management Function Buffers and Network Management Function Buffer Lengths.
+bufptr : [var] データを受け取るバッファへのポインタ。このデータの形式は level パラメータの値に依存する。このバッファはシステムによって割り当てられ、NetApiBufferFree 関数で解放しなければならない。詳細は Network Management Function Buffers および Network Management Function Buffer Lengths を参照。
 %inst
-The NetMessageNameGetInfo function retrieves information about a
-particular message alias in the message name table. The function
-requires that the messenger service be started.
+NetMessageNameGetInfo 関数は、メッセージ名テーブル内の特定のメッセージエイリアスに関する情報を取得する。この関数は
+messenger サービスが開始されている必要がある。
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value can be one of the following error
-codes.
-This doc was truncated.
+関数が成功した場合、戻り値は NERR_Success となる。失敗した場合、戻り値は次のいずれかのエラーコードになる可能性がある。
+（以下省略）
 
 [備考]
-Only members of the Administrators local group can successfully
-execute the NetMessageNameGetInfo function on a remote server. To
-list all the message aliases in a message name table, you can call
-the NetMessageNameEnum function.
+リモートサーバー上で NetMessageNameGetInfo 関数を正常に実行できるのは、Administrators
+ローカルグループのメンバーだけである。メッセージ名テーブル内のすべてのメッセージエイリアスを一覧表示するには、NetMessageNameEnum
+関数を呼び出せる。
 
 
 %index
@@ -755,63 +707,53 @@ parm_err : [var]
 
 %index
 NetServerEnum
-The NetServerEnum function lists all servers of the specified type that are visible in a domain.
+NetServerEnum 関数は、ドメイン内で可視の指定した種類のすべてのサーバーを一覧表示する。
 %group
 Win32 netapi32
 %prm
 servername, level, bufptr, prefmaxlen, entriesread, totalentries, servertype, domain, resume_handle
-servername : [wstr] Reserved; must be NULL.
+servername : [wstr] 予約済み。NULL でなければならない。
 level : [int] 
-bufptr : [var] A pointer to the buffer that receives the data. The format of this data depends on the value of the level parameter. This buffer is allocated by the system and must be freed using the NetApiBufferFree function. Note that you must free the buffer even if the function fails with ERROR_MORE_DATA.
-prefmaxlen : [int] The preferred maximum length of returned data, in bytes. If you specify MAX_PREFERRED_LENGTH, the function allocates the amount of memory required for the data. If you specify another value in this parameter, it can restrict the number of bytes that the function returns. If the buffer size is insufficient to hold all entries, the function returns ERROR_MORE_DATA. For more information, see Network Management Function Buffers and Network Management Function Buffer Lengths.
-entriesread : [var] A pointer to a value that receives the count of elements actually enumerated.
-totalentries : [var] A pointer to a value that receives the total number of visible servers and workstations on the network. Note that applications should consider this value only as a hint.
+bufptr : [var] データを受け取るバッファへのポインタ。このデータの形式は level パラメータの値に依存する。このバッファはシステムによって割り当てられ、NetApiBufferFree 関数で解放しなければならない。関数が ERROR_MORE_DATA で失敗した場合でもバッファを解放する必要がある点に注意。
+prefmaxlen : [int] 返されるデータの望ましい最大長 (バイト単位)。MAX_PREFERRED_LENGTH を指定すると、関数は必要な量のメモリを割り当てる。別の値を指定すると、関数が返すバイト数を制限できる。バッファサイズがすべてのエントリを保持するのに不十分な場合、関数は ERROR_MORE_DATA を返す。詳細は Network Management Function Buffers および Network Management Function Buffer Lengths を参照。
+entriesread : [var] 実際に列挙された要素数を受け取る値へのポインタ。
+totalentries : [var] ネットワーク上で可視のサーバーおよびワークステーションの総数を受け取る値へのポインタ。アプリケーションはこの値を目安としてのみ扱うべきである点に注意。
 servertype : [int] 
-domain : [wstr] A pointer to a constant string that specifies the name of the domain for which a list of servers is to be returned. The domain name must be a NetBIOS domain name (for example, microsoft). The NetServerEnum function does not support DNS-style names (for example, microsoft.com). If this parameter is NULL, the primary domain is implied.
-resume_handle : [var] Reserved; must be set to zero.
+domain : [wstr] サーバー一覧を返すドメインの名前を指定する定数文字列へのポインタ。ドメイン名は NetBIOS ドメイン名 (例: microsoft) でなければならない。NetServerEnum 関数は DNS 形式の名前 (例: microsoft.com) をサポートしない。このパラメータが NULL の場合、プライマリドメインが暗黙的に使われる。
+resume_handle : [var] 予約済み。0 に設定する必要がある。
 %inst
-The NetServerEnum function lists all servers of the specified type
-that are visible in a domain.
+NetServerEnum 関数は、ドメイン内で可視の指定した種類のすべてのサーバーを一覧表示する。
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value can be one of the following error
-codes:
-This doc was truncated.
+関数が成功した場合、戻り値は NERR_Success となる。失敗した場合、戻り値は次のいずれかのエラーコードになる可能性がある。
+（以下省略）
 
 [備考]
-The NetServerEnum function is used to list all servers of the
-specified type that are visible in a domain. For example, an
-application can call NetServerEnum to list all domain controllers
-only or all servers that run instances of SQL server only. An
-application combine the bit masks for various server types in the
-servertype parameter to list several types. For example, a value of
-SV_TYPE_WORKSTATION | SVTYPE_SERVER (0x00000003) combines the bit
-masks for SV_TYPE_WORKSTATION (0x00000001) and SV_TYPE_SERVER
-(0x00000002). If you require more information for a specific server,
-call the WNetEnumResource function. No special group membership is
-required to successfully execute the NetServerEnum function. If you
-specify the value SV_TYPE_LOCAL_LIST_ONLY, the NetServerEnum function
-returns the list of servers that the browser maintains internally.
-This has meaning only on the master browser (or on a computer that
-has been the master browser in the past). The master browser is the
-computer that currently has rights to determine which computers can
-be servers or workstations on the network. If there are no servers
-found that match the types specified in the servertype parameter, the
-NetServerEnum function returns the bufptr parameter as NULL and DWORD
-values pointed to by the entriesread and totalentries parameters are
-set to zero. The NetServerEnum function depends on the browser
-service being installed and running. If no browser servers are found,
-then NetServerEnum fails with ERROR_NO_BROWSER_SERVERS_FOUND. If you
-are programming for Active Directory, you may be able to call certain
-Active Directory Service Interface (ADSI) methods to achieve the same
-function you can achieve by calling the network management server
-functions. For more information, see IADsComputer.
+NetServerEnum
+関数は、ドメイン内で可視の指定した種類のすべてのサーバーを列挙するために使う。たとえばアプリケーションは、NetServerEnum
+を呼び出してドメインコントローラーのみ、あるいは SQL Server
+のインスタンスを実行するサーバーのみを一覧表示できる。アプリケーションは servertype
+パラメータでさまざまなサーバー種別のビットマスクを組み合わせて複数の種類を列挙できる。たとえば SV_TYPE_WORKSTATION |
+SVTYPE_SERVER (0x00000003) は SV_TYPE_WORKSTATION (0x00000001) と
+SV_TYPE_SERVER (0x00000002)
+のビットマスクを組み合わせる。特定のサーバーの詳細情報が必要な場合は、WNetEnumResource
+関数を呼び出す。NetServerEnum
+関数を正常に実行するために特別なグループメンバーシップは必要ない。SV_TYPE_LOCAL_LIST_ONLY
+を指定した場合、NetServerEnum 関数はブラウザが内部で保持するサーバー一覧を返す。これはマスターブラウザ
+(または過去にマスターブラウザだったコンピューター)
+上でのみ意味を持つ。マスターブラウザはネットワーク上でどのコンピューターがサーバーまたはワークステーションになれるかを決定する権限を現在持つコンピューターである。servertype
+パラメータで指定した種類に一致するサーバーが見つからない場合、NetServerEnum 関数は bufptr パラメータを NULL
+として返し、entriesread と totalentries パラメータが指す DWORD 値は 0
+になる。NetServerEnum
+関数はブラウザサービスがインストールされ実行されていることに依存する。ブラウザサーバーが見つからない場合、NetServerEnum は
+ERROR_NO_BROWSER_SERVERS_FOUND で失敗する。Active Directory
+向けのプログラミングを行っている場合、特定の Active Directory Service Interface (ADSI)
+メソッドを呼び出すことで、ネットワーク管理サーバー関数を呼ぶのと同じ機能を実現できる場合がある。詳細は IADsComputer を参照。
 
 
 %index
 NetServiceControl
-The NetServiceControl function is obsolete. It is included for compatibility with 16-bit versions of Windows. Other applications should use the service functions.
+NetServiceControl 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはサービス関数を使用するべきである。
 %group
 Win32 netapi32
 %prm
@@ -822,14 +764,13 @@ opcode : [int]
 arg : [int] 
 bufptr : [var] 
 %inst
-The NetServiceControl function is obsolete. It is included for
-compatibility with 16-bit versions of Windows. Other applications
-should use the service functions.
+NetServiceControl 関数は廃止されている。16 ビット版 Windows
+との互換性のために含まれている。他のアプリケーションはサービス関数を使用するべきである。
 
 
 %index
 NetServiceEnum
-The NetServiceEnum function is obsolete. It is included for compatibility with 16-bit versions of Windows. Other applications should use the service functions.
+NetServiceEnum 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはサービス関数を使用するべきである。
 %group
 Win32 netapi32
 %prm
@@ -842,14 +783,13 @@ entriesread : [var]
 totalentries : [var] 
 resume_handle : [var] 
 %inst
-The NetServiceEnum function is obsolete. It is included for
-compatibility with 16-bit versions of Windows. Other applications
-should use the service functions.
+NetServiceEnum 関数は廃止されている。16 ビット版 Windows
+との互換性のために含まれている。他のアプリケーションはサービス関数を使用するべきである。
 
 
 %index
 NetServiceGetInfo
-The NetServiceGetInfo function is obsolete. It is included for compatibility with 16-bit versions of Windows. Other applications should use the service functions.
+NetServiceGetInfo 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはサービス関数を使用するべきである。
 %group
 Win32 netapi32
 %prm
@@ -859,14 +799,13 @@ service : [wstr]
 level : [int] 
 bufptr : [var] 
 %inst
-The NetServiceGetInfo function is obsolete. It is included for
-compatibility with 16-bit versions of Windows. Other applications
-should use the service functions.
+NetServiceGetInfo 関数は廃止されている。16 ビット版 Windows
+との互換性のために含まれている。他のアプリケーションはサービス関数を使用するべきである。
 
 
 %index
 NetServiceInstall
-The NetServiceInstall function is obsolete. It is included for compatibility with 16-bit versions of Windows. Other applications should use the service functions.
+NetServiceInstall 関数は廃止されている。16 ビット版 Windows との互換性のために含まれている。他のアプリケーションはサービス関数を使用するべきである。
 %group
 Win32 netapi32
 %prm
@@ -877,37 +816,32 @@ argc : [int]
 argv : [var] 
 bufptr : [var] 
 %inst
-The NetServiceInstall function is obsolete. It is included for
-compatibility with 16-bit versions of Windows. Other applications
-should use the service functions.
+NetServiceInstall 関数は廃止されている。16 ビット版 Windows
+との互換性のために含まれている。他のアプリケーションはサービス関数を使用するべきである。
 
 
 %index
 NetStatisticsGet
-Retrieves operating statistics for a service. Currently, only the workstation and server services are supported.
+サービスの動作統計情報を取得する。現在はワークステーションおよびサーバーサービスのみがサポートされている。
 %group
 Win32 netapi32
 %prm
 ServerName, Service, Level, Options, Buffer
-ServerName : [var] Pointer to a string that specifies the DNS or NetBIOS name of the server on which the function is to execute. If this parameter is NULL, the local computer is used.
-Service : [var] Pointer to a string that specifies the name of the service about which to get the statistics. Only the values SERVICE_SERVER and SERVICE_WORKSTATION are currently allowed.
-Level : [int] Specifies the information level of the data. This parameter can be the following value.
-Options : [int] This parameter must be zero.
-Buffer : [var] Pointer to the buffer that receives the data. The format of this data depends on the value of the level parameter. This buffer is allocated by the system and must be freed using the NetApiBufferFree function. For more information, see Network Management Function Buffers and Network Management Function Buffer Lengths.
+ServerName : [var] 関数を実行するサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
+Service : [var] 統計情報を取得するサービスの名前を指定する文字列へのポインタ。現在、SERVICE_SERVER と SERVICE_WORKSTATION の値のみが許可される。
+Level : [int] データの情報レベルを指定する。このパラメータには次の値を指定できる。
+Options : [int] このパラメータは 0 でなければならない。
+Buffer : [var] データを受け取るバッファへのポインタ。このデータの形式は level パラメータの値に依存する。このバッファはシステムによって割り当てられ、NetApiBufferFree 関数で解放しなければならない。詳細は Network Management Function Buffers および Network Management Function Buffer Lengths を参照。
 %inst
-Retrieves operating statistics for a service. Currently, only the
-workstation and server services are supported.
+サービスの動作統計情報を取得する。現在はワークステーションおよびサーバーサービスのみがサポートされている。
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value is a system error code. For a list
-of error codes, see System Error Codes.
+関数が成功した場合、戻り値は NERR_Success となる。失敗した場合、戻り値はシステムエラーコードとなる。エラーコードの一覧は
+System Error Codes を参照。
 
 [備考]
-No special group membership is required to obtain workstation
-statistics. Only members of the Administrators or Server Operators
-local group can successfully execute the NetStatisticsGet function on
-a remote server.
+ワークステーションの統計情報を取得するために特別なグループメンバーシップは必要ない。リモートサーバー上で NetStatisticsGet
+関数を正常に実行できるのは、Administrators または Server Operators ローカルグループのメンバーだけである。
 
 
 %index
@@ -939,45 +873,35 @@ Administrators、Server、System、Print Operator
 
 %index
 NetWkstaSetInfo
-The NetWkstaSetInfo function configures a workstation with information that remains in effect after the system has been reinitialized.
+NetWkstaSetInfo 関数は、システムを再初期化した後も有効な情報でワークステーションを構成する。
 %group
 Win32 netapi32
 %prm
 servername, level, buffer, parm_err
-servername : [wstr] A pointer to a string that specifies the DNS or NetBIOS name of the remote server on which the function is to execute. If this parameter is NULL, the local computer is used.
+servername : [wstr] 関数を実行するリモートサーバーの DNS または NetBIOS 名を指定する文字列へのポインタ。このパラメータが NULL の場合、ローカルコンピューターが使われる。
 level : [int] 
-buffer : [var] A pointer to the buffer that specifies the data. The format of this data depends on the value of the level parameter. For more information, see Network Management Function Buffers.
-parm_err : [var] A pointer to a value that receives the index of the first member of the workstation information structure that causes the ERROR_INVALID_PARAMETER error. If this parameter is NULL, the index is not returned on error. For more information, see the Remarks section.
+buffer : [var] データを指定するバッファへのポインタ。このデータの形式は level パラメータの値に依存する。詳細は Network Management Function Buffers を参照。
+parm_err : [var] ERROR_INVALID_PARAMETER エラーを引き起こしたワークステーション情報構造体の最初のメンバーのインデックスを受け取る値へのポインタ。このパラメータが NULL の場合、エラー時にインデックスは返されない。詳細は解説セクションを参照。
 %inst
-The NetWkstaSetInfo function configures a workstation with
-information that remains in effect after the system has been
-reinitialized.
+NetWkstaSetInfo 関数は、システムを再初期化した後も有効な情報でワークステーションを構成する。
 
 [戻り値]
-If the function succeeds, the return value is NERR_Success. If the
-function fails, the return value can be one of the following error
-codes.
-This doc was truncated.
+関数が成功した場合、戻り値は NERR_Success となる。失敗した場合、戻り値は次のいずれかのエラーコードになる可能性がある。
+（以下省略）
 
 [備考]
-Only members of the Administrators group can successfully execute the
-NetWkstaSetInfo function on a remote server. The NetWkstaSetInfo
-function calls the workstation service on the local system or a
-remote system. Only a limited number of members of the WKSTA_INFO_502
-structure can actually be changed using the NetWkstaSetInfo function.
-No errors are returned if a member is set that is ignored by the
-workstation service. The workstation service is primarily configured
-using settings in the registry. The NetWkstaUserSetInfo function can
-be used instead of the NetWkstaSetInfo function to set configuration
-information on the local system. The NetWkstaUserSetInfo function
-calls the Local Security Authority (LSA). If the NetWkstaSetInfo
-function returns ERROR_INVALID_PARAMETER, you can use the parm_err
-parameter to indicate the first member of the workstation information
-structure that is invalid. (A workstation information structure
-begins with WKSTA_INFO_ and its format is specified by the level
-parameter.) The following table lists the values that can be returned
-in the parm_err parameter and the corresponding structure member that
-is in error. (The prefix wki*_ indicates that the member can begin
-with multiple prefixes, for example, wki100_ or wki402_.)
-This doc was truncated.
+リモートサーバー上で NetWkstaSetInfo 関数を正常に実行できるのは Administrators
+グループのメンバーだけである。NetWkstaSetInfo 関数はローカルまたはリモートシステムの workstation
+サービスを呼び出す。NetWkstaSetInfo 関数で実際に変更できるのは WKSTA_INFO_502
+構造体のメンバーのうち限られた数だけである。workstation
+サービスが無視するメンバーを設定してもエラーは返されない。workstation
+サービスは主にレジストリの設定を使って構成される。ローカルシステムの構成情報を設定するには、NetWkstaSetInfo 関数の代わりに
+NetWkstaUserSetInfo 関数を使える。NetWkstaUserSetInfo 関数は Local Security
+Authority (LSA) を呼び出す。NetWkstaSetInfo 関数が ERROR_INVALID_PARAMETER
+を返した場合、parm_err
+パラメータを使って無効なワークステーション情報構造体の最初のメンバーを示すことができる。(ワークステーション情報構造体は
+WKSTA_INFO_ で始まり、その形式は level パラメータで指定される。) 次の表は parm_err
+パラメータで返される値と対応するエラーのある構造体メンバーを示す。(接頭辞 wki*_ はメンバーが wki100_ や wki402_
+など複数の接頭辞で始まることを示す。)
+（以下省略）
 
