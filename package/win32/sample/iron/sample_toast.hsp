@@ -1,0 +1,31 @@
+;============================================================
+;  iron_toast サンプル: タスクトレイバルーン通知
+;
+;  Shell_NotifyIconA ベース。Windows 10/11 ではトースト風に
+;  右下からスライドイン表示される (OS 設定に依存)。
+;============================================================
+
+#include "iron_toast.hsp"
+
+	mes "==== iron_toast サンプル ===="
+	mes ""
+	mes "3 種類の通知を 2 秒おきに順番に表示します。"
+	mes ""
+
+	toast "IronHSP", "情報: ビルドが完了しました"
+	mes "→ toast (情報)"
+	wait 200
+
+	toast_warning "警告", "ディスク空き容量が少なくなっています"
+	mes "→ toast_warning"
+	wait 200
+
+	toast_error "エラー", "ファイル open に失敗しました"
+	mes "→ toast_error"
+	wait 300
+
+	toast_clear
+	mes "→ toast_clear (タスクトレイから削除)"
+	mes ""
+	mes "完了。"
+	end
