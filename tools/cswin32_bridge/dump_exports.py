@@ -44,6 +44,18 @@ TARGET_DLLS = [
     "dbghelp",
     "userenv",
     "netapi32",
+    # Phase E: networking / DirectX entry points / utility DLLs
+    "ws2_32",       # Winsock 2 (socket / bind / connect / send / recv / etc.)
+    "iphlpapi",     # IP Helper API (GetAdaptersAddresses / GetIfTable / etc.)
+    "urlmon",       # URLDownloadToFile / IBindStatusCallback
+    "d2d1",         # Direct2D entry points (D2D1CreateFactory)
+    "dwrite",       # DirectWrite entry points (DWriteCreateFactory)
+    "windowscodecs",# WIC entry points
+    "dxgi",         # DXGI entry points (CreateDXGIFactory)
+    "d3d11",        # Direct3D 11 entry points (D3D11CreateDevice)
+    "xaudio2_9",    # XAudio2 (XAudio2Create)
+    "dinput8",      # DirectInput 8 (DirectInput8Create)
+    "secur32",      # Security Support Provider (SSPI)
 ]
 
 # Names matching these patterns are filtered out: clearly internal helpers,

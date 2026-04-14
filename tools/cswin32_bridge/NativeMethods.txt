@@ -77,7 +77,7 @@ ConvertFiberToThread
 ConvertSystemTimeToCalDateTime
 ConvertThreadToFiber
 ConvertThreadToFiberEx
-CopyContext
+// removed: PInvoke005 AnyCPU incompatible: CopyContext
 CopyFile
 CopyFile2
 CopyFileEx
@@ -335,7 +335,7 @@ GetDriveType
 GetDurationFormat
 GetDurationFormatEx
 GetDynamicTimeZoneInformation
-GetEnabledXStateFeatures
+// removed: PInvoke005 AnyCPU incompatible: GetEnabledXStateFeatures
 // removed: not in win32metadata: GetEncryptedFileVersionExt
 GetEnvironmentStrings
 GetEnvironmentVariable
@@ -367,7 +367,7 @@ GetGeoInfoEx
 GetHandleInformation
 GetLargePageMinimum
 GetLargestConsoleWindowSize
-GetLastError
+// removed: PInvoke003: GetLastError (CsWin32 advises Marshal.GetLastWin32Error)
 GetLocalTime
 GetLocaleInfo
 GetLocaleInfoEx
@@ -473,7 +473,7 @@ GetTapePosition
 GetTapeStatus
 GetTempFileName
 GetTempPath
-GetThreadContext
+// removed: PInvoke005 AnyCPU incompatible: GetThreadContext
 GetThreadErrorMode
 GetThreadGroupAffinity
 GetThreadIOPendingFlag
@@ -513,7 +513,7 @@ GetVolumePathName
 GetVolumePathNamesForVolumeName
 GetWindowsDirectory
 GetWriteWatch
-GetXStateFeaturesMask
+// removed: PInvoke005 AnyCPU incompatible: GetXStateFeaturesMask
 GlobalAddAtom
 GlobalAddAtomEx
 GlobalAlloc
@@ -553,8 +553,8 @@ IdnToAscii
 IdnToNameprepUnicode
 IdnToUnicode
 InitAtomTable
-InitializeContext
-InitializeContext2
+// removed: PInvoke005 AnyCPU incompatible: InitializeContext
+// removed: PInvoke005 AnyCPU incompatible: InitializeContext2
 InitializeCriticalSectionAndSpinCount
 InitializeCriticalSectionEx
 InitializeSynchronizationBarrier
@@ -638,7 +638,7 @@ LocalShrink
 LocalSize
 LocalUnlock
 LocaleNameToLCID
-LocateXStateFeature
+// removed: PInvoke005 AnyCPU incompatible: LocateXStateFeature
 LockFile
 LockFileEx
 LockResource
@@ -781,22 +781,22 @@ ResetWriteWatch
 ResizePseudoConsole
 ResolveLocaleName
 ResumeThread
-RtlAddFunctionTable
-RtlCaptureContext
+// removed: PInvoke005 AnyCPU incompatible: RtlAddFunctionTable
+// removed: PInvoke005 AnyCPU incompatible: RtlCaptureContext
 RtlCaptureStackBackTrace
 RtlCompareMemory
 // removed: not in win32metadata: RtlCopyMemory
-RtlDeleteFunctionTable
+// removed: PInvoke005 AnyCPU incompatible: RtlDeleteFunctionTable
 // removed: not in win32metadata: RtlFillMemory
-RtlInstallFunctionTableCallback
-RtlLookupFunctionEntry
+// removed: PInvoke005 AnyCPU incompatible: RtlInstallFunctionTableCallback
+// removed: PInvoke005 AnyCPU incompatible: RtlLookupFunctionEntry
 // removed: not in win32metadata: RtlMoveMemory
 RtlPcToFileHeader
 RtlRaiseException
-RtlRestoreContext
+// removed: PInvoke005 AnyCPU incompatible: RtlRestoreContext
 RtlUnwind
-RtlUnwindEx
-RtlVirtualUnwind
+// removed: PInvoke005 AnyCPU incompatible: RtlUnwindEx
+// removed: PInvoke005 AnyCPU incompatible: RtlVirtualUnwind
 ScrollConsoleScreenBuffer
 SearchPath
 SetCachedSigningLevel
@@ -895,7 +895,7 @@ SetTapeParameters
 SetTapePosition
 // removed: not in win32metadata: SetTermsrvAppInstallMode
 SetThreadAffinityMask
-SetThreadContext
+// removed: PInvoke005 AnyCPU incompatible: SetThreadContext
 SetThreadErrorMode
 SetThreadExecutionState
 SetThreadGroupAffinity
@@ -913,14 +913,14 @@ SetThreadpoolThreadMinimum
 SetTimeZoneInformation
 SetTimerQueueTimer
 SetUmsThreadInformation
-SetUnhandledExceptionFilter
+// removed: PInvoke005 AnyCPU incompatible: SetUnhandledExceptionFilter
 SetUserGeoID
 SetUserGeoName
 // removed: not in win32metadata: SetVDMCurrentDirectories
 SetVolumeLabel
 SetVolumeMountPoint
 SetWaitableTimer
-SetXStateFeaturesMask
+// removed: PInvoke005 AnyCPU incompatible: SetXStateFeaturesMask
 SetupComm
 // removed: not in win32metadata: ShowConsoleCursor
 SignalObjectAndWait
@@ -964,7 +964,7 @@ TzSpecificLocalTimeToSystemTime
 // removed: not in win32metadata: UTRegister
 // removed: not in win32metadata: UTUnRegister
 UmsThreadYield
-UnhandledExceptionFilter
+// removed: PInvoke005 AnyCPU incompatible: UnhandledExceptionFilter
 UnlockFile
 UnlockFileEx
 UnmapViewOfFile
@@ -991,8 +991,8 @@ VirtualFreeEx
 VirtualLock
 VirtualProtect
 VirtualProtectEx
-VirtualQuery
-VirtualQueryEx
+// removed: PInvoke005 AnyCPU incompatible: VirtualQuery
+// removed: PInvoke005 AnyCPU incompatible: VirtualQueryEx
 VirtualUnlock
 WTSGetActiveConsoleSessionId
 WaitCommEvent
@@ -2119,8 +2119,8 @@ EngQueryLocalTime
 EngReleaseSemaphore
 EngStretchBlt
 EngStretchBltROP
-EngStrokeAndFillPath
-EngStrokePath
+// removed: PInvoke005 AnyCPU incompatible: EngStrokeAndFillPath
+// removed: PInvoke005 AnyCPU incompatible: EngStrokePath
 EngTextOut
 EngTransparentBlt
 EngUnicodeToMultiByteN
@@ -2148,7 +2148,7 @@ FONTOBJ_cGetAllGlyphHandles
 FONTOBJ_cGetGlyphs
 FONTOBJ_pQueryGlyphAttrs
 FONTOBJ_pfdg
-FONTOBJ_pifi
+// removed: PInvoke005 AnyCPU incompatible: FONTOBJ_pifi
 FONTOBJ_pvTrueTypeFontFile
 FONTOBJ_pxoGetXform
 FONTOBJ_vGetInfo
@@ -2418,7 +2418,7 @@ OffsetWindowOrgEx
 PATHOBJ_bEnum
 PATHOBJ_bEnumClipLines
 PATHOBJ_vEnumStart
-PATHOBJ_vEnumStartClipLines
+// removed: PInvoke005 AnyCPU incompatible: PATHOBJ_vEnumStartClipLines
 PATHOBJ_vGetBounds
 PaintRgn
 PatBlt
@@ -2540,7 +2540,7 @@ UpdateColors
 UpdateICMRegKey
 WidenPath
 XFORMOBJ_bApplyXform
-XFORMOBJ_iGetXform
+// removed: PInvoke005 AnyCPU incompatible: XFORMOBJ_iGetXform
 XLATEOBJ_cGetPalette
 XLATEOBJ_hGetColorTransform
 XLATEOBJ_iXlate
@@ -2548,7 +2548,7 @@ XLATEOBJ_piVector
 
 // === shell32.dll (415 candidates) ===
 // removed: not in win32metadata: AppCompat_RunDLLW
-AssocCreateForClasses
+// removed: PInvoke005 AnyCPU incompatible: AssocCreateForClasses
 // removed: not in win32metadata: AssocElemCreateForKey
 AssocGetDetailsOfPropKey
 CDefFolderMenu_Create2
@@ -2653,7 +2653,7 @@ SHAddDefaultPropertiesByExt
 SHAddFromPropSheetExtArray
 SHAddToRecentDocs
 SHAlloc
-SHAppBarMessage
+// removed: PInvoke005 AnyCPU incompatible: SHAppBarMessage
 SHAssocEnumHandlers
 SHAssocEnumHandlersForProtocolByApplication
 SHBindToFolderIDListParent
@@ -2687,11 +2687,11 @@ SHCreateItemFromRelativeName
 SHCreateItemInKnownFolder
 SHCreateItemWithParent
 // removed: not in win32metadata: SHCreateLocalServerRunDll
-SHCreateProcessAsUser
+// removed: PInvoke005 AnyCPU incompatible: SHCreateProcessAsUser
 SHCreatePropSheetExtArray
 SHCreateQueryCancelAutoPlayMoniker
-SHCreateShellFolderView
-SHCreateShellFolderViewEx
+// removed: PInvoke005 AnyCPU incompatible: SHCreateShellFolderView
+// removed: PInvoke005 AnyCPU incompatible: SHCreateShellFolderViewEx
 SHCreateShellItem
 SHCreateShellItemArray
 SHCreateShellItemArrayFromDataObject
@@ -2830,7 +2830,7 @@ SHEnumerateUnreadMailAccounts
 SHEvaluateSystemCommandTemplate
 // removed: not in win32metadata: SHExecuteErrorMessageBox
 // removed: not in win32metadata: SHExtractIcons
-SHFileOperation
+// removed: PInvoke005 AnyCPU incompatible: SHFileOperation
 SHFindFiles
 SHFind_InitMenuPopup
 SHFlushSFCache
@@ -2843,7 +2843,7 @@ SHGetDesktopFolder
 // removed: not in win32metadata: SHGetDiskFreeSpace
 SHGetDiskFreeSpaceEx
 SHGetDriveMedia
-SHGetFileInfo
+// removed: PInvoke005 AnyCPU incompatible: SHGetFileInfo
 SHGetFolderLocation
 SHGetFolderPath
 SHGetFolderPathAndSubDir
@@ -2872,7 +2872,7 @@ SHGetSetSettings
 SHGetSettings
 SHGetSpecialFolderLocation
 SHGetSpecialFolderPath
-SHGetStockIconInfo
+// removed: PInvoke005 AnyCPU incompatible: SHGetStockIconInfo
 SHGetTemporaryPropertyForItem
 SHGetUnreadMailCount
 SHHandleUpdateImage
@@ -2889,14 +2889,14 @@ SHMapPIDLToSystemImageListIndex
 SHMultiFileProperties
 SHObjectProperties
 SHOpenFolderAndSelectItems
-SHOpenPropSheet
+// removed: PInvoke005 AnyCPU incompatible: SHOpenPropSheet
 SHOpenWithDialog
 SHParseDisplayName
 SHPathPrepareForWrite
 SHPropStgCreate
 SHPropStgReadMultiple
 SHPropStgWriteMultiple
-SHQueryRecycleBin
+// removed: PInvoke005 AnyCPU incompatible: SHQueryRecycleBin
 SHQueryUserNotificationState
 SHRemoveLocalizedName
 SHReplaceFromPropSheetExtArray
@@ -2927,13 +2927,13 @@ ShellAbout
 // removed: not in win32metadata: ShellExec_RunDLLA
 // removed: not in win32metadata: ShellExec_RunDLLW
 ShellExecute
-ShellExecuteEx
+// removed: PInvoke005 AnyCPU incompatible: ShellExecuteEx
 // removed: not in win32metadata: ShellHookProc
 Shell_GetCachedImageIndex
 Shell_GetImageLists
 Shell_MergeMenus
-Shell_NotifyIcon
-Shell_NotifyIconGetRect
+// removed: PInvoke005 AnyCPU incompatible: Shell_NotifyIcon
+// removed: PInvoke005 AnyCPU incompatible: Shell_NotifyIconGetRect
 SignalFileOpen
 // removed: not in win32metadata: StateRepoNewMenuCache_EnsureCacheAsync
 // removed: not in win32metadata: StateRepoNewMenuCache_RebuildCacheAsync
@@ -3541,7 +3541,7 @@ CreateMappedBitmap
 CreatePropertySheetPage
 CreateStatusWindow
 // removed: not in win32metadata: CreateToolbar
-CreateToolbarEx
+// removed: PInvoke005 AnyCPU incompatible: CreateToolbarEx
 CreateUpDownControl
 DPA_Clone
 DPA_Create
@@ -3645,18 +3645,18 @@ Str_SetPtr
 UninitializeFlatSB
 
 // === comdlg32.dll (14 candidates) ===
-ChooseColor
-ChooseFont
+// removed: PInvoke005 AnyCPU incompatible: ChooseColor
+// removed: PInvoke005 AnyCPU incompatible: ChooseFont
 CommDlgExtendedError
-FindText
+// removed: PInvoke005 AnyCPU incompatible: FindText
 GetFileTitle
-GetOpenFileName
-GetSaveFileName
+// removed: PInvoke005 AnyCPU incompatible: GetOpenFileName
+// removed: PInvoke005 AnyCPU incompatible: GetSaveFileName
 // removed: not in win32metadata: LoadAlterBitmap
-PageSetupDlg
-PrintDlg
-PrintDlgEx
-ReplaceText
+// removed: PInvoke005 AnyCPU incompatible: PageSetupDlg
+// removed: PInvoke005 AnyCPU incompatible: PrintDlg
+// removed: PInvoke005 AnyCPU incompatible: PrintDlgEx
+// removed: PInvoke005 AnyCPU incompatible: ReplaceText
 // removed: not in win32metadata: Ssync_ANSI_UNICODE_Struct_For_WOW
 // removed: not in win32metadata: WantArrows
 
@@ -5393,7 +5393,7 @@ BCryptVerifySignature
 // === dbghelp.dll (162 candidates) ===
 DbgHelpCreateUserDump
 EnumDirTree
-EnumerateLoadedModules
+// removed: PInvoke005 AnyCPU incompatible: EnumerateLoadedModules
 EnumerateLoadedModules64
 EnumerateLoadedModulesEx
 EnumerateLoadedModulesW64
@@ -5408,9 +5408,9 @@ GetSymLoadError
 GetTimestampForLoadedLibrary
 ImageDirectoryEntryToData
 ImageDirectoryEntryToDataEx
-ImageNtHeader
-ImageRvaToSection
-ImageRvaToVa
+// removed: PInvoke005 AnyCPU incompatible: ImageNtHeader
+// removed: PInvoke005 AnyCPU incompatible: ImageRvaToSection
+// removed: PInvoke005 AnyCPU incompatible: ImageRvaToVa
 ImagehlpApiVersion
 ImagehlpApiVersionEx
 MakeSureDirectoryPathExists
@@ -5425,7 +5425,7 @@ ReportSymbolLoadSummary
 SearchTreeForFile
 SetCheckUserInterruptShared
 SetSymLoadError
-StackWalk
+// removed: PInvoke005 AnyCPU incompatible: StackWalk
 StackWalk64
 StackWalkEx
 SymAddSourceStream
@@ -5446,10 +5446,10 @@ SymEnumSymbolsEx
 SymEnumSymbolsForAddr
 SymEnumTypes
 SymEnumTypesByName
-SymEnumerateModules
+// removed: PInvoke005 AnyCPU incompatible: SymEnumerateModules
 SymEnumerateModules64
 SymEnumerateModulesW64
-SymEnumerateSymbols
+// removed: PInvoke005 AnyCPU incompatible: SymEnumerateSymbols
 SymEnumerateSymbols64
 SymEnumerateSymbolsW64
 SymFindDebugInfoFile
@@ -5461,33 +5461,33 @@ SymFromIndex
 SymFromInlineContext
 SymFromName
 SymFromToken
-SymFunctionTableAccess
+// removed: PInvoke005 AnyCPU incompatible: SymFunctionTableAccess
 SymFunctionTableAccess64
 SymFunctionTableAccess64AccessRoutines
 // removed: not in win32metadata: SymGetDiaSession
 SymGetExtendedOption
 SymGetFileLineOffsets64
 SymGetHomeDirectory
-SymGetLineFromAddr
+// removed: PInvoke005 AnyCPU incompatible: SymGetLineFromAddr
 SymGetLineFromAddr64
 // removed: not in win32metadata: SymGetLineFromAddrEx
 SymGetLineFromAddrW64
 SymGetLineFromInlineContext
-SymGetLineFromName
+// removed: PInvoke005 AnyCPU incompatible: SymGetLineFromName
 SymGetLineFromName64
 // removed: not in win32metadata: SymGetLineFromNameEx
 SymGetLineFromNameW64
-SymGetLineNext
+// removed: PInvoke005 AnyCPU incompatible: SymGetLineNext
 SymGetLineNext64
 // removed: not in win32metadata: SymGetLineNextEx
 SymGetLineNextW64
-SymGetLinePrev
+// removed: PInvoke005 AnyCPU incompatible: SymGetLinePrev
 SymGetLinePrev64
 // removed: not in win32metadata: SymGetLinePrevEx
 SymGetLinePrevW64
-SymGetModuleBase
+// removed: PInvoke005 AnyCPU incompatible: SymGetModuleBase
 SymGetModuleBase64
-SymGetModuleInfo
+// removed: PInvoke005 AnyCPU incompatible: SymGetModuleInfo
 SymGetModuleInfo64
 SymGetModuleInfoW64
 // removed: not in win32metadata: SymGetOmapBlockBase
@@ -5500,13 +5500,13 @@ SymGetSourceFileChecksum
 SymGetSourceFileFromToken
 SymGetSourceFileToken
 SymGetSourceVarFromToken
-SymGetSymFromAddr
+// removed: PInvoke005 AnyCPU incompatible: SymGetSymFromAddr
 SymGetSymFromAddr64
-SymGetSymFromName
+// removed: PInvoke005 AnyCPU incompatible: SymGetSymFromName
 SymGetSymFromName64
-SymGetSymNext
+// removed: PInvoke005 AnyCPU incompatible: SymGetSymNext
 SymGetSymNext64
-SymGetSymPrev
+// removed: PInvoke005 AnyCPU incompatible: SymGetSymPrev
 SymGetSymPrev64
 SymGetSymbolFile
 SymGetTypeFromName
@@ -5514,7 +5514,7 @@ SymGetTypeInfo
 SymGetTypeInfoEx
 SymGetUnwindInfo
 SymInitialize
-SymLoadModule
+// removed: PInvoke005 AnyCPU incompatible: SymLoadModule
 SymLoadModule64
 SymLoadModuleEx
 SymMatchFileName
@@ -5523,10 +5523,10 @@ SymNext
 SymPrev
 SymQueryInlineTrace
 SymRefreshModuleList
-SymRegisterCallback
+// removed: PInvoke005 AnyCPU incompatible: SymRegisterCallback
 SymRegisterCallback64
 SymRegisterCallbackW64
-SymRegisterFunctionEntryCallback
+// removed: PInvoke005 AnyCPU incompatible: SymRegisterFunctionEntryCallback
 SymRegisterFunctionEntryCallback64
 SymSearch
 SymSetContext
@@ -5547,9 +5547,9 @@ SymSrvGetSupplement
 SymSrvIsStore
 SymSrvStoreFile
 SymSrvStoreSupplement
-SymUnDName
+// removed: PInvoke005 AnyCPU incompatible: SymUnDName
 SymUnDName64
-SymUnloadModule
+// removed: PInvoke005 AnyCPU incompatible: SymUnloadModule
 SymUnloadModule64
 UnDecorateSymbolName
 // removed: not in win32metadata: WinDbgExtensionDllInit
@@ -5651,7 +5651,7 @@ NetStatisticsGet
 // removed: not in win32metadata: NetUnregisterDomainNameChangeNotification
 NetWkstaGetInfo
 NetWkstaSetInfo
-Netbios
+// removed: PInvoke005 AnyCPU incompatible: Netbios
 // removed: not in win32metadata: NetpAddTlnFtinfoEntry
 // removed: not in win32metadata: NetpAllocFtinfoEntry
 // removed: not in win32metadata: NetpAssertFailed
@@ -5681,3 +5681,791 @@ Netbios
 // removed: not in win32metadata: RxNetServerEnum
 // removed: not in win32metadata: RxNetUserPasswordSet
 // removed: not in win32metadata: RxRemoteApi
+
+// === ws2_32.dll (142 candidates) ===
+FreeAddrInfo
+FreeAddrInfoEx
+GetAddrInfo
+GetAddrInfoEx
+GetAddrInfoExCancel
+GetAddrInfoExOverlappedResult
+GetHostName
+GetNameInfo
+InetNtop
+InetPton
+SetAddrInfoEx
+// removed: not in win32metadata: WEP
+WPUCompleteOverlappedRequest
+// removed: not in win32metadata: WPUGetProviderPathEx
+WSAAccept
+WSAAddressToString
+WSAAdvertiseProvider
+WSAAsyncGetHostByAddr
+WSAAsyncGetHostByName
+WSAAsyncGetProtoByName
+WSAAsyncGetProtoByNumber
+WSAAsyncGetServByName
+WSAAsyncGetServByPort
+WSAAsyncSelect
+WSACancelAsyncRequest
+WSACancelBlockingCall
+WSACleanup
+WSACloseEvent
+WSAConnect
+WSAConnectByList
+WSAConnectByName
+WSACreateEvent
+WSADuplicateSocket
+WSAEnumNameSpaceProviders
+WSAEnumNameSpaceProvidersEx
+WSAEnumNetworkEvents
+WSAEnumProtocols
+WSAEventSelect
+WSAGetLastError
+WSAGetOverlappedResult
+WSAGetQOSByName
+WSAGetServiceClassInfo
+WSAGetServiceClassNameByClassId
+WSAHtonl
+WSAHtons
+WSAInstallServiceClass
+WSAIoctl
+WSAIsBlocking
+WSAJoinLeaf
+WSALookupServiceBegin
+WSALookupServiceEnd
+WSALookupServiceNext
+WSANSPIoctl
+WSANtohl
+WSANtohs
+WSAPoll
+WSAProviderCompleteAsyncCall
+WSAProviderConfigChange
+WSARecv
+WSARecvDisconnect
+WSARecvFrom
+WSARemoveServiceClass
+WSAResetEvent
+WSASend
+WSASendDisconnect
+WSASendMsg
+WSASendTo
+WSASetBlockingHook
+WSASetEvent
+WSASetLastError
+WSASetService
+WSASocket
+// removed: PInvoke005 AnyCPU incompatible: WSAStartup
+WSAStringToAddress
+WSAUnadvertiseProvider
+WSAUnhookBlockingHook
+WSAWaitForMultipleEvents
+// removed: not in win32metadata: WSApSetPostRoutine
+WSCDeinstallProvider
+// removed: PInvoke005 AnyCPU incompatible: WSCDeinstallProvider32
+// removed: not in win32metadata: WSCDeinstallProviderEx
+WSCEnableNSProvider
+// removed: PInvoke005 AnyCPU incompatible: WSCEnableNSProvider32
+// removed: PInvoke005 AnyCPU incompatible: WSCEnumNameSpaceProviders32
+// removed: PInvoke005 AnyCPU incompatible: WSCEnumNameSpaceProvidersEx32
+WSCEnumProtocols
+// removed: PInvoke005 AnyCPU incompatible: WSCEnumProtocols32
+// removed: not in win32metadata: WSCEnumProtocolsEx
+WSCGetApplicationCategory
+// removed: not in win32metadata: WSCGetApplicationCategoryEx
+WSCGetProviderInfo
+// removed: PInvoke005 AnyCPU incompatible: WSCGetProviderInfo32
+WSCGetProviderPath
+// removed: PInvoke005 AnyCPU incompatible: WSCGetProviderPath32
+WSCInstallNameSpace
+// removed: PInvoke005 AnyCPU incompatible: WSCInstallNameSpace32
+WSCInstallNameSpaceEx
+// removed: not in win32metadata: WSCInstallNameSpaceEx2
+// removed: PInvoke005 AnyCPU incompatible: WSCInstallNameSpaceEx32
+WSCInstallProvider
+// removed: PInvoke005 AnyCPU incompatible: WSCInstallProvider64_32
+// removed: PInvoke005 AnyCPU incompatible: WSCInstallProviderAndChains64_32
+// removed: not in win32metadata: WSCInstallProviderEx
+WSCSetApplicationCategory
+// removed: not in win32metadata: WSCSetApplicationCategoryEx
+WSCSetProviderInfo
+// removed: PInvoke005 AnyCPU incompatible: WSCSetProviderInfo32
+WSCUnInstallNameSpace
+// removed: PInvoke005 AnyCPU incompatible: WSCUnInstallNameSpace32
+// removed: not in win32metadata: WSCUnInstallNameSpaceEx2
+WSCUpdateProvider
+// removed: PInvoke005 AnyCPU incompatible: WSCUpdateProvider32
+// removed: not in win32metadata: WSCUpdateProviderEx
+WSCWriteNameSpaceOrder
+// removed: PInvoke005 AnyCPU incompatible: WSCWriteNameSpaceOrder32
+WSCWriteProviderOrder
+// removed: PInvoke005 AnyCPU incompatible: WSCWriteProviderOrder32
+// removed: not in win32metadata: WSCWriteProviderOrderEx
+// removed: not in win32metadata: WahCloseApcHelper
+// removed: not in win32metadata: WahCloseHandleHelper
+// removed: not in win32metadata: WahCloseNotificationHandleHelper
+// removed: not in win32metadata: WahCloseSocketHandle
+// removed: not in win32metadata: WahCloseThread
+// removed: not in win32metadata: WahCompleteRequest
+// removed: not in win32metadata: WahCreateHandleContextTable
+// removed: not in win32metadata: WahCreateNotificationHandle
+// removed: not in win32metadata: WahCreateSocketHandle
+// removed: not in win32metadata: WahDestroyHandleContextTable
+// removed: not in win32metadata: WahDisableNonIFSHandleSupport
+// removed: not in win32metadata: WahEnableNonIFSHandleSupport
+// removed: not in win32metadata: WahEnumerateHandleContexts
+// removed: not in win32metadata: WahInsertHandleContext
+// removed: not in win32metadata: WahNotifyAllProcesses
+// removed: not in win32metadata: WahOpenApcHelper
+// removed: not in win32metadata: WahOpenCurrentThread
+// removed: not in win32metadata: WahOpenHandleHelper
+// removed: not in win32metadata: WahOpenNotificationHandleHelper
+// removed: not in win32metadata: WahQueueUserApc
+// removed: not in win32metadata: WahReferenceContextByHandle
+// removed: not in win32metadata: WahRemoveHandleContext
+// removed: not in win32metadata: WahWaitForNotification
+// removed: not in win32metadata: WahWriteLSPEvent
+
+// === iphlpapi.dll (288 candidates) ===
+AddIPAddress
+// removed: not in win32metadata: AllocateAndGetInterfaceInfoFromStack
+// removed: not in win32metadata: AllocateAndGetIpAddrTableFromStack
+CancelIPChangeNotify
+CancelIfTimestampConfigChange
+CancelMibChangeNotify2
+CaptureInterfaceHardwareCrossTimestamp
+// removed: not in win32metadata: CloseCompartment
+// removed: not in win32metadata: CloseGetIPPhysicalInterfaceForDestination
+ConvertCompartmentGuidToId
+ConvertCompartmentIdToGuid
+// removed: not in win32metadata: ConvertGuidToString
+ConvertInterfaceAliasToLuid
+ConvertInterfaceGuidToLuid
+ConvertInterfaceIndexToLuid
+ConvertInterfaceLuidToAlias
+ConvertInterfaceLuidToGuid
+ConvertInterfaceLuidToIndex
+ConvertInterfaceLuidToName
+ConvertInterfaceNameToLuid
+// removed: not in win32metadata: ConvertInterfacePhysicalAddressToLuid
+ConvertIpv4MaskToLength
+ConvertLengthToIpv4Mask
+// removed: not in win32metadata: ConvertRemoteInterfaceAliasToLuid
+// removed: not in win32metadata: ConvertRemoteInterfaceGuidToLuid
+// removed: not in win32metadata: ConvertRemoteInterfaceIndexToLuid
+// removed: not in win32metadata: ConvertRemoteInterfaceLuidToAlias
+// removed: not in win32metadata: ConvertRemoteInterfaceLuidToGuid
+// removed: not in win32metadata: ConvertRemoteInterfaceLuidToIndex
+// removed: not in win32metadata: ConvertStringToGuid
+// removed: not in win32metadata: ConvertStringToInterfacePhysicalAddress
+CreateAnycastIpAddressEntry
+// removed: not in win32metadata: CreateCompartment
+CreateIpForwardEntry
+CreateIpForwardEntry2
+CreateIpNetEntry
+CreateIpNetEntry2
+CreatePersistentTcpPortReservation
+CreatePersistentUdpPortReservation
+CreateProxyArpEntry
+CreateSortedAddressPairs
+CreateUnicastIpAddressEntry
+DeleteAnycastIpAddressEntry
+// removed: not in win32metadata: DeleteCompartment
+DeleteIPAddress
+DeleteIpForwardEntry
+DeleteIpForwardEntry2
+DeleteIpNetEntry
+DeleteIpNetEntry2
+DeletePersistentTcpPortReservation
+DeletePersistentUdpPortReservation
+DeleteProxyArpEntry
+DeleteUnicastIpAddressEntry
+DisableMediaSense
+EnableRouter
+FlushIpNetTable
+FlushIpNetTable2
+FlushIpPathTable
+FreeDnsSettings
+FreeInterfaceDnsSettings
+FreeMibTable
+GetAdapterIndex
+GetAdapterOrderMap
+GetAdaptersAddresses
+GetAdaptersInfo
+GetAnycastIpAddressEntry
+GetAnycastIpAddressTable
+GetBestInterface
+GetBestInterfaceEx
+GetBestRoute
+GetBestRoute2
+GetCurrentThreadCompartmentId
+GetCurrentThreadCompartmentScope
+GetDefaultCompartmentId
+GetDnsSettings
+GetExtendedTcpTable
+GetExtendedUdpTable
+GetFriendlyIfIndex
+GetIcmpStatistics
+GetIcmpStatisticsEx
+GetIfEntry
+GetIfEntry2
+GetIfEntry2Ex
+GetIfStackTable
+GetIfTable
+GetIfTable2
+GetIfTable2Ex
+// removed: not in win32metadata: GetInterfaceCompartmentId
+GetInterfaceCurrentTimestampCapabilities
+GetInterfaceDnsSettings
+GetInterfaceHardwareTimestampCapabilities
+GetInterfaceInfo
+GetInvertedIfStackTable
+GetIpAddrTable
+GetIpErrorString
+GetIpForwardEntry2
+GetIpForwardTable
+GetIpForwardTable2
+GetIpInterfaceEntry
+GetIpInterfaceTable
+GetIpNetEntry2
+GetIpNetTable
+GetIpNetTable2
+GetIpNetworkConnectionBandwidthEstimates
+GetIpPathEntry
+GetIpPathTable
+GetIpStatistics
+GetIpStatisticsEx
+GetJobCompartmentId
+GetMulticastIpAddressEntry
+GetMulticastIpAddressTable
+GetNetworkConnectivityHint
+GetNetworkConnectivityHintForInterface
+GetNetworkInformation
+GetNetworkParams
+GetNumberOfInterfaces
+GetOwnerModuleFromPidAndInfo
+GetOwnerModuleFromTcp6Entry
+GetOwnerModuleFromTcpEntry
+GetOwnerModuleFromUdp6Entry
+GetOwnerModuleFromUdpEntry
+GetPerAdapterInfo
+GetPerTcp6ConnectionEStats
+// removed: not in win32metadata: GetPerTcp6ConnectionStats
+GetPerTcpConnectionEStats
+// removed: not in win32metadata: GetPerTcpConnectionStats
+GetRTTAndHopCount
+GetSessionCompartmentId
+GetTcp6Table
+GetTcp6Table2
+GetTcpStatistics
+GetTcpStatisticsEx
+GetTcpStatisticsEx2
+GetTcpTable
+GetTcpTable2
+GetTeredoPort
+GetUdp6Table
+GetUdpStatistics
+GetUdpStatisticsEx
+GetUdpStatisticsEx2
+GetUdpTable
+GetUniDirectionalAdapterInfo
+GetUnicastIpAddressEntry
+GetUnicastIpAddressTable
+// removed: not in win32metadata: GetWPAOACSupportLevel
+Icmp6CreateFile
+Icmp6ParseReplies
+Icmp6SendEcho2
+IcmpCloseHandle
+IcmpCreateFile
+IcmpParseReplies
+IcmpSendEcho
+IcmpSendEcho2
+IcmpSendEcho2Ex
+// removed: not in win32metadata: InitializeCompartmentEntry
+InitializeIpForwardEntry
+InitializeIpInterfaceEntry
+InitializeUnicastIpAddressEntry
+// removed: not in win32metadata: InternalCleanupPersistentStore
+// removed: not in win32metadata: InternalCreateAnycastIpAddressEntry
+// removed: not in win32metadata: InternalCreateIpForwardEntry
+// removed: not in win32metadata: InternalCreateIpForwardEntry2
+// removed: not in win32metadata: InternalCreateIpNetEntry
+// removed: not in win32metadata: InternalCreateIpNetEntry2
+// removed: not in win32metadata: InternalCreateOrRefIpForwardEntry2
+// removed: not in win32metadata: InternalCreateUnicastIpAddressEntry
+// removed: not in win32metadata: InternalDeleteAnycastIpAddressEntry
+// removed: not in win32metadata: InternalDeleteIpForwardEntry
+// removed: not in win32metadata: InternalDeleteIpForwardEntry2
+// removed: not in win32metadata: InternalDeleteIpNetEntry
+// removed: not in win32metadata: InternalDeleteIpNetEntry2
+// removed: not in win32metadata: InternalDeleteUnicastIpAddressEntry
+// removed: not in win32metadata: InternalFindInterfaceByAddress
+// removed: not in win32metadata: InternalGetAnycastIpAddressEntry
+// removed: not in win32metadata: InternalGetAnycastIpAddressTable
+// removed: not in win32metadata: InternalGetBoundTcp6EndpointTable
+// removed: not in win32metadata: InternalGetBoundTcpEndpointTable
+// removed: not in win32metadata: InternalGetForwardIpTable2
+// removed: not in win32metadata: InternalGetIPPhysicalInterfaceForDestination
+// removed: not in win32metadata: InternalGetIfEntry2
+// removed: not in win32metadata: InternalGetIfTable
+// removed: not in win32metadata: InternalGetIfTable2
+// removed: not in win32metadata: InternalGetIpAddrTable
+// removed: not in win32metadata: InternalGetIpForwardEntry2
+// removed: not in win32metadata: InternalGetIpForwardTable
+// removed: not in win32metadata: InternalGetIpInterfaceEntry
+// removed: not in win32metadata: InternalGetIpInterfaceTable
+// removed: not in win32metadata: InternalGetIpNetEntry2
+// removed: not in win32metadata: InternalGetIpNetTable
+// removed: not in win32metadata: InternalGetIpNetTable2
+// removed: not in win32metadata: InternalGetMulticastIpAddressEntry
+// removed: not in win32metadata: InternalGetMulticastIpAddressTable
+// removed: not in win32metadata: InternalGetRtcSlotInformation
+// removed: not in win32metadata: InternalGetTcp6Table2
+// removed: not in win32metadata: InternalGetTcp6TableWithOwnerModule
+// removed: not in win32metadata: InternalGetTcp6TableWithOwnerPid
+// removed: not in win32metadata: InternalGetTcpTable
+// removed: not in win32metadata: InternalGetTcpTable2
+// removed: not in win32metadata: InternalGetTcpTableEx
+// removed: not in win32metadata: InternalGetTcpTableWithOwnerModule
+// removed: not in win32metadata: InternalGetTcpTableWithOwnerPid
+// removed: not in win32metadata: InternalGetTunnelPhysicalAdapter
+// removed: not in win32metadata: InternalGetUdp6TableWithOwnerModule
+// removed: not in win32metadata: InternalGetUdp6TableWithOwnerPid
+// removed: not in win32metadata: InternalGetUdpTable
+// removed: not in win32metadata: InternalGetUdpTableEx
+// removed: not in win32metadata: InternalGetUdpTableWithOwnerModule
+// removed: not in win32metadata: InternalGetUdpTableWithOwnerPid
+// removed: not in win32metadata: InternalGetUnicastIpAddressEntry
+// removed: not in win32metadata: InternalGetUnicastIpAddressTable
+// removed: not in win32metadata: InternalIcmpCreateFileEx
+// removed: not in win32metadata: InternalSetIfEntry
+// removed: not in win32metadata: InternalSetIpForwardEntry
+// removed: not in win32metadata: InternalSetIpForwardEntry2
+// removed: not in win32metadata: InternalSetIpInterfaceEntry
+// removed: not in win32metadata: InternalSetIpNetEntry
+// removed: not in win32metadata: InternalSetIpNetEntry2
+// removed: not in win32metadata: InternalSetIpStats
+// removed: not in win32metadata: InternalSetTcpEntry
+// removed: not in win32metadata: InternalSetTeredoPort
+// removed: not in win32metadata: InternalSetUnicastIpAddressEntry
+IpReleaseAddress
+IpRenewAddress
+LookupPersistentTcpPortReservation
+LookupPersistentUdpPortReservation
+// removed: not in win32metadata: NTPTimeToNTFileTime
+// removed: not in win32metadata: NTTimeToNTPTime
+// removed: not in win32metadata: NhGetGuidFromInterfaceName
+// removed: not in win32metadata: NhGetInterfaceDescriptionFromGuid
+// removed: not in win32metadata: NhGetInterfaceNameFromDeviceGuid
+// removed: not in win32metadata: NhGetInterfaceNameFromGuid
+NhpAllocateAndGetInterfaceInfoFromStack
+NotifyAddrChange
+// removed: not in win32metadata: NotifyCompartmentChange
+NotifyIfTimestampConfigChange
+NotifyIpInterfaceChange
+NotifyNetworkConnectivityHintChange
+NotifyRouteChange
+NotifyRouteChange2
+NotifyStableUnicastIpAddressTable
+NotifyTeredoPortChange
+NotifyUnicastIpAddressChange
+// removed: not in win32metadata: OpenCompartment
+ParseNetworkString
+PfAddFiltersToInterface
+PfAddGlobalFilterToInterface
+PfBindInterfaceToIPAddress
+PfBindInterfaceToIndex
+PfCreateInterface
+PfDeleteInterface
+PfDeleteLog
+PfGetInterfaceStatistics
+PfMakeLog
+PfRebindFilters
+PfRemoveFilterHandles
+PfRemoveFiltersFromInterface
+PfRemoveGlobalFilterFromInterface
+PfSetLogBuffer
+PfTestPacket
+PfUnBindInterface
+ResolveIpNetEntry2
+ResolveNeighbor
+RestoreMediaSense
+SendARP
+// removed: not in win32metadata: SetAdapterIpAddress
+SetCurrentThreadCompartmentId
+SetCurrentThreadCompartmentScope
+SetDnsSettings
+SetIfEntry
+SetInterfaceDnsSettings
+SetIpForwardEntry
+SetIpForwardEntry2
+SetIpInterfaceEntry
+SetIpNetEntry
+SetIpNetEntry2
+SetIpStatistics
+SetIpStatisticsEx
+SetIpTTL
+SetJobCompartmentId
+SetNetworkInformation
+SetPerTcp6ConnectionEStats
+// removed: not in win32metadata: SetPerTcp6ConnectionStats
+SetPerTcpConnectionEStats
+// removed: not in win32metadata: SetPerTcpConnectionStats
+SetSessionCompartmentId
+SetTcpEntry
+SetUnicastIpAddressEntry
+UnenableRouter
+
+// === urlmon.dll (118 candidates) ===
+// removed: not in win32metadata: AsyncGetClassBits
+// removed: not in win32metadata: AsyncInstallDistributionUnit
+// removed: not in win32metadata: BindAsyncMoniker
+// removed: not in win32metadata: CAuthenticateHostUI_CreateInstance
+// removed: not in win32metadata: CDLGetLongPathName
+// removed: not in win32metadata: CORPolicyProvider
+CoGetClassObjectFromURL
+CoInstall
+// removed: not in win32metadata: CoInternetCanonicalizeIUri
+CoInternetCombineIUri
+CoInternetCombineUrl
+CoInternetCombineUrlEx
+CoInternetCompareUrl
+CoInternetCreateSecurityManager
+CoInternetCreateZoneManager
+// removed: not in win32metadata: CoInternetFeatureSettingsChanged
+// removed: not in win32metadata: CoInternetGetMobileBrowserAppCompatMode
+// removed: not in win32metadata: CoInternetGetMobileBrowserForceDesktopMode
+CoInternetGetProtocolFlags
+CoInternetGetSecurityUrl
+CoInternetGetSecurityUrlEx
+CoInternetGetSession
+CoInternetIsFeatureEnabled
+CoInternetIsFeatureEnabledForIUri
+CoInternetIsFeatureEnabledForUrl
+CoInternetIsFeatureZoneElevationEnabled
+CoInternetParseIUri
+CoInternetParseUrl
+CoInternetQueryInfo
+CoInternetSetFeatureEnabled
+// removed: not in win32metadata: CoInternetSetMobileBrowserAppCompatMode
+// removed: not in win32metadata: CoInternetSetMobileBrowserForceDesktopMode
+CompareSecurityIds
+CompatFlagsFromClsid
+CopyBindInfo
+CopyStgMedium
+CreateAsyncBindCtx
+CreateAsyncBindCtxEx
+CreateFormatEnumerator
+CreateIUriBuilder
+CreateURLMoniker
+CreateURLMonikerEx
+CreateURLMonikerEx2
+CreateUri
+CreateUriFromMultiByteString
+// removed: not in win32metadata: CreateUriPriv
+CreateUriWithFragment
+// removed: not in win32metadata: DllRegisterServerEx
+// removed: not in win32metadata: Extract
+FaultInIEFeature
+// removed: not in win32metadata: FileBearsMarkOfTheWeb
+FindMediaType
+FindMediaTypeClass
+FindMimeFromData
+// removed: not in win32metadata: GetAddSitesFileUrl
+GetClassFileOrMime
+GetClassURL
+GetComponentIDFromCLSSPEC
+// removed: not in win32metadata: GetIDNFlagsForUri
+// removed: not in win32metadata: GetIUriPriv
+// removed: not in win32metadata: GetIUriPriv2
+// removed: not in win32metadata: GetLabelsFromNamedHost
+// removed: not in win32metadata: GetMarkOfTheWeb
+// removed: not in win32metadata: GetPortFromUrlScheme
+// removed: not in win32metadata: GetPropertyFromName
+// removed: not in win32metadata: GetPropertyName
+GetSoftwareUpdateInfo
+// removed: not in win32metadata: GetUrlmonThreadNotificationHwnd
+// removed: not in win32metadata: GetZoneFromAlternateDataStreamEx
+HlinkGoBack
+HlinkGoForward
+HlinkNavigateMoniker
+HlinkNavigateString
+HlinkSimpleNavigateToMoniker
+HlinkSimpleNavigateToString
+// removed: not in win32metadata: IECompatLogCSSFix
+IEGetUserPrivateNamespaceName
+IEInstallScope
+// removed: not in win32metadata: IntlPercentEncodeNormalize
+IsAsyncMoniker
+// removed: not in win32metadata: IsDWORDProperty
+// removed: not in win32metadata: IsIntranetAvailable
+// removed: not in win32metadata: IsJITInProgress
+IsLoggingEnabled
+// removed: not in win32metadata: IsStringProperty
+IsValidURL
+MkParseDisplayNameEx
+ObtainUserAgentString
+// removed: not in win32metadata: PrivateCoInstall
+// removed: not in win32metadata: QueryAssociations
+// removed: not in win32metadata: QueryClsidAssociation
+RegisterBindStatusCallback
+RegisterFormatEnumerator
+RegisterMediaTypeClass
+RegisterMediaTypes
+// removed: not in win32metadata: RegisterWebPlatformPermanentSecurityManager
+ReleaseBindInfo
+// removed: not in win32metadata: RestrictHTTP2
+RevokeBindStatusCallback
+RevokeFormatEnumerator
+SetAccessForIEAppContainer
+SetSoftwareUpdateAdvertisementState
+// removed: not in win32metadata: ShouldDisplayPunycodeForUri
+// removed: not in win32metadata: ShouldShowIntranetWarningSecband
+// removed: not in win32metadata: ShowTrustAlertDialog
+// removed: not in win32metadata: URLDownload
+URLDownloadToCacheFile
+URLDownloadToFile
+URLOpenBlockingStream
+URLOpenPullStream
+URLOpenStream
+// removed: not in win32metadata: UnregisterWebPlatformPermanentSecurityManager
+// removed: not in win32metadata: UrlMkBuildVersion
+UrlMkGetSessionOption
+UrlMkSetSessionOption
+// removed: not in win32metadata: UrlmonCleanupCurrentThread
+WriteHitLogging
+// removed: not in win32metadata: ZonesReInit
+
+// === d2d1.dll (13 candidates) ===
+D2D1ComputeMaximumScaleFactor
+D2D1ConvertColorSpace
+D2D1CreateDevice
+D2D1CreateDeviceContext
+D2D1CreateFactory
+D2D1GetGradientMeshInteriorPointsFromCoonsPatch
+D2D1InvertMatrix
+D2D1IsMatrixInvertible
+D2D1MakeRotateMatrix
+D2D1MakeSkewMatrix
+D2D1SinCos
+D2D1Tan
+D2D1Vec3Length
+
+// === dwrite.dll (1 candidates) ===
+DWriteCreateFactory
+
+// === windowscodecs.dll (114 candidates) ===
+// removed: not in win32metadata: IEnumString_Next_WIC_Proxy
+// removed: not in win32metadata: IEnumString_Reset_WIC_Proxy
+// removed: not in win32metadata: IPropertyBag2_Write_Proxy
+// removed: not in win32metadata: IWICBitmapClipper_Initialize_Proxy
+// removed: not in win32metadata: IWICBitmapCodecInfo_DoesSupportAnimation_Proxy
+// removed: not in win32metadata: IWICBitmapCodecInfo_DoesSupportLossless_Proxy
+// removed: not in win32metadata: IWICBitmapCodecInfo_DoesSupportMultiframe_Proxy
+// removed: not in win32metadata: IWICBitmapCodecInfo_GetContainerFormat_Proxy
+// removed: not in win32metadata: IWICBitmapCodecInfo_GetDeviceManufacturer_Proxy
+// removed: not in win32metadata: IWICBitmapCodecInfo_GetDeviceModels_Proxy
+// removed: not in win32metadata: IWICBitmapCodecInfo_GetFileExtensions_Proxy
+// removed: not in win32metadata: IWICBitmapCodecInfo_GetMimeTypes_Proxy
+// removed: not in win32metadata: IWICBitmapDecoder_CopyPalette_Proxy
+// removed: not in win32metadata: IWICBitmapDecoder_GetColorContexts_Proxy
+// removed: not in win32metadata: IWICBitmapDecoder_GetDecoderInfo_Proxy
+// removed: not in win32metadata: IWICBitmapDecoder_GetFrameCount_Proxy
+// removed: not in win32metadata: IWICBitmapDecoder_GetFrame_Proxy
+// removed: not in win32metadata: IWICBitmapDecoder_GetMetadataQueryReader_Proxy
+// removed: not in win32metadata: IWICBitmapDecoder_GetPreview_Proxy
+// removed: not in win32metadata: IWICBitmapDecoder_GetThumbnail_Proxy
+// removed: not in win32metadata: IWICBitmapEncoder_Commit_Proxy
+// removed: not in win32metadata: IWICBitmapEncoder_CreateNewFrame_Proxy
+// removed: not in win32metadata: IWICBitmapEncoder_GetEncoderInfo_Proxy
+// removed: not in win32metadata: IWICBitmapEncoder_GetMetadataQueryWriter_Proxy
+// removed: not in win32metadata: IWICBitmapEncoder_Initialize_Proxy
+// removed: not in win32metadata: IWICBitmapEncoder_SetPalette_Proxy
+// removed: not in win32metadata: IWICBitmapEncoder_SetThumbnail_Proxy
+// removed: not in win32metadata: IWICBitmapFlipRotator_Initialize_Proxy
+// removed: not in win32metadata: IWICBitmapFrameDecode_GetColorContexts_Proxy
+// removed: not in win32metadata: IWICBitmapFrameDecode_GetMetadataQueryReader_Proxy
+// removed: not in win32metadata: IWICBitmapFrameDecode_GetThumbnail_Proxy
+// removed: not in win32metadata: IWICBitmapFrameEncode_Commit_Proxy
+// removed: not in win32metadata: IWICBitmapFrameEncode_GetMetadataQueryWriter_Proxy
+// removed: not in win32metadata: IWICBitmapFrameEncode_Initialize_Proxy
+// removed: not in win32metadata: IWICBitmapFrameEncode_SetColorContexts_Proxy
+// removed: not in win32metadata: IWICBitmapFrameEncode_SetResolution_Proxy
+// removed: not in win32metadata: IWICBitmapFrameEncode_SetSize_Proxy
+// removed: not in win32metadata: IWICBitmapFrameEncode_SetThumbnail_Proxy
+// removed: not in win32metadata: IWICBitmapFrameEncode_WriteSource_Proxy
+// removed: not in win32metadata: IWICBitmapLock_GetDataPointer_STA_Proxy
+// removed: not in win32metadata: IWICBitmapLock_GetStride_Proxy
+// removed: not in win32metadata: IWICBitmapScaler_Initialize_Proxy
+// removed: not in win32metadata: IWICBitmapSource_CopyPalette_Proxy
+// removed: not in win32metadata: IWICBitmapSource_CopyPixels_Proxy
+// removed: not in win32metadata: IWICBitmapSource_GetPixelFormat_Proxy
+// removed: not in win32metadata: IWICBitmapSource_GetResolution_Proxy
+// removed: not in win32metadata: IWICBitmapSource_GetSize_Proxy
+// removed: not in win32metadata: IWICBitmap_Lock_Proxy
+// removed: not in win32metadata: IWICBitmap_SetPalette_Proxy
+// removed: not in win32metadata: IWICBitmap_SetResolution_Proxy
+// removed: not in win32metadata: IWICColorContext_InitializeFromMemory_Proxy
+// removed: not in win32metadata: IWICComponentFactory_CreateMetadataWriterFromReader_Proxy
+// removed: not in win32metadata: IWICComponentFactory_CreateQueryWriterFromBlockWriter_Proxy
+// removed: not in win32metadata: IWICComponentInfo_GetAuthor_Proxy
+// removed: not in win32metadata: IWICComponentInfo_GetCLSID_Proxy
+// removed: not in win32metadata: IWICComponentInfo_GetFriendlyName_Proxy
+// removed: not in win32metadata: IWICComponentInfo_GetSpecVersion_Proxy
+// removed: not in win32metadata: IWICComponentInfo_GetVersion_Proxy
+// removed: not in win32metadata: IWICFastMetadataEncoder_Commit_Proxy
+// removed: not in win32metadata: IWICFastMetadataEncoder_GetMetadataQueryWriter_Proxy
+// removed: not in win32metadata: IWICFormatConverter_Initialize_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateBitmapClipper_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateBitmapFlipRotator_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateBitmapFromHBITMAP_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateBitmapFromHICON_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateBitmapFromMemory_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateBitmapFromSource_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateBitmapScaler_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateBitmap_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateComponentInfo_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateDecoderFromFileHandle_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateDecoderFromFilename_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateDecoderFromStream_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateEncoder_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateFastMetadataEncoderFromDecoder_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateFastMetadataEncoderFromFrameDecode_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateFormatConverter_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreatePalette_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateQueryWriterFromReader_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateQueryWriter_Proxy
+// removed: not in win32metadata: IWICImagingFactory_CreateStream_Proxy
+// removed: not in win32metadata: IWICMetadataBlockReader_GetCount_Proxy
+// removed: not in win32metadata: IWICMetadataBlockReader_GetReaderByIndex_Proxy
+// removed: not in win32metadata: IWICMetadataQueryReader_GetContainerFormat_Proxy
+// removed: not in win32metadata: IWICMetadataQueryReader_GetEnumerator_Proxy
+// removed: not in win32metadata: IWICMetadataQueryReader_GetLocation_Proxy
+// removed: not in win32metadata: IWICMetadataQueryReader_GetMetadataByName_Proxy
+// removed: not in win32metadata: IWICMetadataQueryWriter_RemoveMetadataByName_Proxy
+// removed: not in win32metadata: IWICMetadataQueryWriter_SetMetadataByName_Proxy
+// removed: not in win32metadata: IWICPalette_GetColorCount_Proxy
+// removed: not in win32metadata: IWICPalette_GetColors_Proxy
+// removed: not in win32metadata: IWICPalette_GetType_Proxy
+// removed: not in win32metadata: IWICPalette_HasAlpha_Proxy
+// removed: not in win32metadata: IWICPalette_InitializeCustom_Proxy
+// removed: not in win32metadata: IWICPalette_InitializeFromBitmap_Proxy
+// removed: not in win32metadata: IWICPalette_InitializeFromPalette_Proxy
+// removed: not in win32metadata: IWICPalette_InitializePredefined_Proxy
+// removed: not in win32metadata: IWICPixelFormatInfo_GetBitsPerPixel_Proxy
+// removed: not in win32metadata: IWICPixelFormatInfo_GetChannelCount_Proxy
+// removed: not in win32metadata: IWICPixelFormatInfo_GetChannelMask_Proxy
+// removed: not in win32metadata: IWICStream_InitializeFromIStream_Proxy
+// removed: not in win32metadata: IWICStream_InitializeFromMemory_Proxy
+WICConvertBitmapSource
+WICCreateBitmapFromSection
+WICCreateBitmapFromSectionEx
+// removed: not in win32metadata: WICCreateColorContext_Proxy
+// removed: not in win32metadata: WICCreateImagingFactory_Proxy
+WICGetMetadataContentSize
+WICMapGuidToShortName
+WICMapSchemaToName
+WICMapShortNameToGuid
+WICMatchMetadataContent
+WICSerializeMetadataContent
+// removed: not in win32metadata: WICSetEncoderFormat_Proxy
+
+// === dxgi.dll (19 candidates) ===
+// removed: not in win32metadata: ApplyCompatResolutionQuirking
+// removed: not in win32metadata: CompatString
+// removed: not in win32metadata: CompatValue
+CreateDXGIFactory
+CreateDXGIFactory1
+CreateDXGIFactory2
+// removed: not in win32metadata: DXGID3D10CreateDevice
+// removed: not in win32metadata: DXGID3D10CreateLayeredDevice
+// removed: not in win32metadata: DXGID3D10GetLayeredDeviceSize
+// removed: not in win32metadata: DXGID3D10RegisterLayers
+DXGIDeclareAdapterRemovalSupport
+// removed: not in win32metadata: DXGIDumpJournal
+DXGIGetDebugInterface1
+// removed: not in win32metadata: DXGIReportAdapterConfiguration
+// removed: not in win32metadata: PIXBeginCapture
+// removed: not in win32metadata: PIXEndCapture
+// removed: not in win32metadata: PIXGetCaptureState
+// removed: not in win32metadata: SetAppCompatStringPointer
+// removed: not in win32metadata: UpdateHMDEmulationStatus
+
+// === d3d11.dll (51 candidates) ===
+CreateDirect3D11DeviceFromDXGIDevice
+CreateDirect3D11SurfaceFromDXGISurface
+// removed: not in win32metadata: D3D11CoreCreateDevice
+// removed: not in win32metadata: D3D11CoreCreateLayeredDevice
+// removed: not in win32metadata: D3D11CoreGetLayeredDeviceSize
+// removed: not in win32metadata: D3D11CoreRegisterLayers
+D3D11CreateDevice
+D3D11CreateDeviceAndSwapChain
+// removed: not in win32metadata: D3D11CreateDeviceForD3D12
+D3D11On12CreateDevice
+D3DKMTCloseAdapter
+D3DKMTCreateAllocation
+D3DKMTCreateContext
+D3DKMTCreateDevice
+D3DKMTCreateSynchronizationObject
+D3DKMTDestroyAllocation
+D3DKMTDestroyContext
+D3DKMTDestroyDevice
+D3DKMTDestroySynchronizationObject
+D3DKMTEscape
+D3DKMTGetContextSchedulingPriority
+D3DKMTGetDeviceState
+D3DKMTGetDisplayModeList
+D3DKMTGetMultisampleMethodList
+D3DKMTGetRuntimeData
+D3DKMTGetSharedPrimaryHandle
+D3DKMTLock
+D3DKMTOpenAdapterFromHdc
+D3DKMTOpenResource
+D3DKMTPresent
+D3DKMTQueryAdapterInfo
+D3DKMTQueryAllocationResidency
+D3DKMTQueryResourceInfo
+D3DKMTRender
+D3DKMTSetAllocationPriority
+D3DKMTSetContextSchedulingPriority
+D3DKMTSetDisplayMode
+D3DKMTSetDisplayPrivateDriverFormat
+D3DKMTSetGammaRamp
+D3DKMTSetVidPnSourceOwner
+D3DKMTSignalSynchronizationObject
+D3DKMTUnlock
+D3DKMTWaitForSynchronizationObject
+D3DKMTWaitForVerticalBlankEvent
+// removed: not in win32metadata: D3DPerformance_BeginEvent
+// removed: not in win32metadata: D3DPerformance_EndEvent
+// removed: not in win32metadata: D3DPerformance_GetStatus
+// removed: not in win32metadata: D3DPerformance_SetMarker
+// removed: not in win32metadata: EnableFeatureLevelUpgrade
+// removed: not in win32metadata: OpenAdapter10
+// removed: not in win32metadata: OpenAdapter10_2
+
+// === xaudio2_9.dll (10 candidates) ===
+CreateAudioReverb
+// removed: not in win32metadata: CreateAudioReverbV2_8
+CreateAudioVolumeMeter
+CreateFX
+// removed: not in win32metadata: X3DAudioCalculate
+// removed: not in win32metadata: X3DAudioInitialize
+// removed: not in win32metadata: XAudio2Create
+// removed: not in win32metadata: XAudio2CreateV2_9
+// removed: not in win32metadata: XAudio2CreateWithSharedContexts
+XAudio2CreateWithVersionInfo
+
+// === dinput8.dll (2 candidates) ===
+DirectInput8Create
+// removed: not in win32metadata: GetdfDIJoystick
+
+// === secur32.dll (8 candidates) ===
+// removed: not in win32metadata: CloseLsaPerformanceData
+// removed: not in win32metadata: CollectLsaPerformanceData
+GetComputerObjectName
+// removed: not in win32metadata: OpenLsaPerformanceData
+// removed: not in win32metadata: SecpFreeMemory
+// removed: not in win32metadata: SecpTranslateName
+// removed: not in win32metadata: SecpTranslateNameEx
+TranslateName

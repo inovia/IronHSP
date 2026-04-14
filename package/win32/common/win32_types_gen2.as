@@ -65,6 +65,73 @@
     #field int64 TimeStamp
 #endstruct
 
+#defstruct D3DDDI_ALLOCATIONLIST
+    #field int hAllocation
+    #field int Anonymous
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
+#defstruct _Anonymous_e__Union
+    #field int LockObject
+    #field int ThreadObject
+    #field int ObjectName
+    #field int64 Timeout
+    #field int Alertable
+    #field int ProcessId
+    #field int ThreadId
+    #field int WaitTime
+    #field int ContextSwitches
+#endstruct
+
+#defstruct D3DDDI_CREATECONTEXTFLAGS
+    #field var Anonymous
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
+#defstruct D3DDDI_DXGI_RGB
+    #field float Red
+    #field float Green
+    #field float Blue
+#endstruct
+
+#defstruct D3DDDI_ESCAPEFLAGS
+    #field var Anonymous
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
+#defstruct D3DDDI_GAMMA_RAMP_DXGI_1
+    #field var Scale
+    #field var Offset
+    #field int GammaCurve
+#endstruct
+
+#defstruct D3DDDI_GAMMA_RAMP_RGB256x3x16
+    #field int Red
+    #field int Green
+    #field int Blue
+#endstruct
+
+#defstruct D3DDDI_HDR_METADATA_HDR10
+    #field int RedPrimary
+    #field int GreenPrimary
+    #field int BluePrimary
+    #field int WhitePoint
+    #field int MaxMasteringLuminance
+    #field int MinMasteringLuminance
+    #field int MaxContentLightLevel
+    #field int MaxFrameAverageLightLevel
+#endstruct
+
+#defstruct D3DDDI_HDR_METADATA_HDR10PLUS
+    #field int Data
+#endstruct
+
 #defstruct D3DDDI_OPENALLOCATIONINFO
     #field int hAllocation
     #field var pPrivateDriverData
@@ -79,27 +146,32 @@
     #field int Reserved
 #endstruct
 
+#defstruct D3DDDI_PATCHLOCATIONLIST
+    #field int AllocationIndex
+    #field var Anonymous
+    #field int DriverId
+    #field int AllocationOffset
+    #field int PatchOffset
+    #field int SplitOffset
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
+#defstruct D3DDDI_RATIONAL
+    #field int Numerator
+    #field int Denominator
+#endstruct
+
 #defstruct D3DDDI_SYNCHRONIZATIONOBJECTINFO
     #field int Type
-    #field int Anonymous
+    #field var Anonymous
     #field int SynchronizationMutex
     #field int Semaphore
     #field int Reserved
     #field int MaxCount
     #field int InitialCount
     #field int Reserved
-#endstruct
-
-#defstruct _Anonymous_e__Union
-    #field int LockObject
-    #field int ThreadObject
-    #field int ObjectName
-    #field int64 Timeout
-    #field int Alertable
-    #field int ProcessId
-    #field int ThreadId
-    #field int WaitTime
-    #field int ContextSwitches
 #endstruct
 
 #defstruct _Semaphore_e__Struct
@@ -118,11 +190,38 @@
     #field int _bitfield
 #endstruct
 
+#defstruct D3DDDICB_LOCKFLAGS
+    #field var Anonymous
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
 #defstruct D3DDDICB_SIGNALFLAGS
     #field var Anonymous
     #field var Anonymous
     #field int Value
     #field int _bitfield
+#endstruct
+
+#defstruct D3DKMDT_DISPLAYMODE_FLAGS
+    #field int _bitfield1
+    #field int _bitfield2
+#endstruct
+
+#defstruct D3DKMT_BLTMODEL_PRESENTHISTORYTOKEN
+    #field int64 hLogicalSurface
+    #field int64 hPhysicalSurface
+    #field int64 EventId
+    #field int DirtyRegions
+#endstruct
+
+#defstruct D3DKMT_CLOSEADAPTER
+    #field int hAdapter
+#endstruct
+
+#defstruct D3DKMT_COMPOSITION_PRESENTHISTORYTOKEN
+    #field int64 hPrivateData
 #endstruct
 
 #defstruct D3DKMT_CREATEALLOCATION
@@ -146,6 +245,42 @@
     #field int _bitfield
 #endstruct
 
+#defstruct D3DKMT_CREATECONTEXT
+    #field int hDevice
+    #field int NodeOrdinal
+    #field int EngineAffinity
+    #field var Flags
+    #field var pPrivateDriverData
+    #field int PrivateDriverDataSize
+    #field int ClientHint
+    #field int hContext
+    #field var pCommandBuffer
+    #field int CommandBufferSize
+    #field var pAllocationList
+    #field int AllocationListSize
+    #field var pPatchLocationList
+    #field int PatchLocationListSize
+    #field int64 CommandBuffer
+#endstruct
+
+#defstruct D3DKMT_CREATEDEVICE
+    #field var Anonymous
+    #field int Flags
+    #field int hDevice
+    #field var pCommandBuffer
+    #field int CommandBufferSize
+    #field var pAllocationList
+    #field int AllocationListSize
+    #field var pPatchLocationList
+    #field int PatchLocationListSize
+    #field int hAdapter
+    #field var pAdapter
+#endstruct
+
+#defstruct D3DKMT_CREATEDEVICEFLAGS
+    #field int _bitfield
+#endstruct
+
 #defstruct D3DKMT_CREATESTANDARDALLOCATION
     #field int Type
     #field var Anonymous
@@ -164,6 +299,212 @@
     #field int hDevice
     #field var Info
     #field int hSyncObject
+#endstruct
+
+#defstruct D3DKMT_DESTROYALLOCATION
+    #field int hDevice
+    #field int hResource
+    #field var phAllocationList
+    #field int AllocationCount
+#endstruct
+
+#defstruct D3DKMT_DESTROYCONTEXT
+    #field int hContext
+#endstruct
+
+#defstruct D3DKMT_DESTROYDEVICE
+    #field int hDevice
+#endstruct
+
+#defstruct D3DKMT_DESTROYSYNCHRONIZATIONOBJECT
+    #field int hSyncObject
+#endstruct
+
+#defstruct D3DKMT_DEVICEPAGEFAULT_STATE
+    #field int64 FaultedPrimitiveAPISequenceNumber
+    #field int FaultedPipelineStage
+    #field int FaultedBindTableEntry
+    #field int PageFaultFlags
+    #field int FaultErrorCode
+    #field int64 FaultedVirtualAddress
+#endstruct
+
+#defstruct D3DKMT_DEVICEPRESENT_QUEUE_STATE
+    #field int VidPnSourceId
+#endstruct
+
+#defstruct D3DKMT_DEVICEPRESENT_STATE
+    #field int VidPnSourceId
+    #field int PresentStats
+#endstruct
+
+#defstruct D3DKMT_DEVICEPRESENT_STATE_DWM
+    #field int VidPnSourceId
+    #field int PresentStatsDWM
+#endstruct
+
+#defstruct D3DKMT_DEVICERESET_STATE
+    #field var Anonymous
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
+#defstruct D3DKMT_DIRTYREGIONS
+    #field int NumRects
+    #field int Rects
+#endstruct
+
+#defstruct D3DKMT_DISPLAYMODE
+    #field int Width
+    #field int Height
+    #field int Format
+    #field int IntegerRefreshRate
+    #field var RefreshRate
+    #field int ScanLineOrdering
+    #field int DisplayOrientation
+    #field int DisplayFixedOutput
+    #field var Flags
+#endstruct
+
+#defstruct D3DKMT_ESCAPE
+    #field int hAdapter
+    #field int hDevice
+    #field int Type
+    #field var Flags
+    #field var pPrivateDriverData
+    #field int PrivateDriverDataSize
+    #field int hContext
+#endstruct
+
+#defstruct D3DKMT_FENCE_PRESENTHISTORYTOKEN
+    #field int64 Key
+#endstruct
+
+#defstruct D3DKMT_FLIPMANAGER_PRESENTHISTORYTOKEN
+    #field int64 hPrivateData
+    #field int64 PresentAtQpc
+    #field var Flags
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
+#defstruct D3DKMT_FLIPMODEL_PRESENTHISTORYTOKEN
+    #field int64 FenceValue
+    #field int64 hLogicalSurface
+    #field int dxgContext
+    #field int VidPnSourceId
+    #field int SwapChainIndex
+    #field int64 PresentLimitSemaphoreId
+    #field int FlipInterval
+    #field int Flags
+    #field int64 hCompSurf
+    #field int64 confirmationCookie
+    #field int64 CompositionSyncKey
+    #field int RemainingTokens
+    #field int PresentCount
+    #field int RevealColor
+    #field int Rotation
+    #field var Anonymous
+    #field int InkCookie
+    #field int DestWidth
+    #field int DestHeight
+    #field int Transform
+    #field int CustomDuration
+    #field int CustomDurationFlipInterval
+    #field int PlaneIndex
+    #field int ColorSpace
+    #field var DirtyRegions
+    #field int ScatterBlts
+    #field var Anonymous
+    #field int HDRMetaDataType
+    #field var Anonymous
+    #field var HDRMetaDataHDR10
+    #field var HDRMetaDataHDR10Plus
+#endstruct
+
+#defstruct D3DKMT_FLIPMODEL_PRESENTHISTORYTOKENFLAGS
+    #field var Anonymous
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
+#defstruct D3DKMT_GDIMODEL_PRESENTHISTORYTOKEN
+    #field int64 hLogicalSurface
+    #field int64 hPhysicalSurface
+    #field var DirtyRegions
+#endstruct
+
+#defstruct D3DKMT_GDIMODEL_SYSMEM_PRESENTHISTORYTOKEN
+    #field int64 hlsurf
+    #field int dwDirtyFlags
+    #field int64 uiCookie
+#endstruct
+
+#defstruct D3DKMT_GETCONTEXTSCHEDULINGPRIORITY
+    #field int hContext
+    #field int Priority
+#endstruct
+
+#defstruct D3DKMT_GETDEVICESTATE
+    #field int hDevice
+    #field int StateType
+    #field var Anonymous
+    #field int ExecutionState
+    #field var PresentState
+    #field var ResetState
+    #field var PresentStateDWM
+    #field var PageFaultState
+    #field var PresentQueueState
+#endstruct
+
+#defstruct D3DKMT_GETDISPLAYMODELIST
+    #field int hAdapter
+    #field int VidPnSourceId
+    #field var pModeList
+    #field int ModeCount
+#endstruct
+
+#defstruct D3DKMT_GETMULTISAMPLEMETHODLIST
+    #field int hAdapter
+    #field int VidPnSourceId
+    #field int Width
+    #field int Height
+    #field int Format
+    #field var pMethodList
+    #field int MethodCount
+#endstruct
+
+#defstruct D3DKMT_GETRUNTIMEDATA
+    #field int hAdapter
+    #field int hGlobalShare
+    #field var pRuntimeData
+    #field int RuntimeDataSize
+#endstruct
+
+#defstruct D3DKMT_GETSHAREDPRIMARYHANDLE
+    #field int hAdapter
+    #field int VidPnSourceId
+    #field int hSharedPrimary
+#endstruct
+
+#defstruct D3DKMT_LOCK
+    #field int hDevice
+    #field int hAllocation
+    #field int PrivateDriverData
+    #field int NumPages
+    #field var pPages
+    #field var pData
+    #field var Flags
+    #field int64 GpuVirtualAddress
+#endstruct
+
+#defstruct D3DKMT_MULTISAMPLEMETHOD
+    #field int NumSamples
+    #field int NumQualityLevels
+    #field int Reserved
 #endstruct
 
 #defstruct D3DKMT_OPENADAPTERFROMGDIDISPLAYNAME
@@ -193,16 +534,201 @@
     #field var pOpenAllocationInfo2
 #endstruct
 
+#defstruct D3DKMT_PRESENT
+    #field var Anonymous1
+    #field int VidPnSourceId
+    #field int hSource
+    #field int hDestination
+    #field int Color
+    #field int SubRectCnt
+    #field int PresentCount
+    #field int FlipInterval
+    #field int Flags
+    #field int BroadcastContextCount
+    #field int BroadcastContext
+    #field int PresentHistoryToken
+    #field var pPresentRegions
+    #field var Anonymous2
+    #field int Duration
+    #field var BroadcastSrcAllocation
+    #field var BroadcastDstAllocation
+    #field int PrivateDriverDataSize
+    #field var pPrivateDriverData
+    #field int hDevice
+    #field int hContext
+    #field int hAdapter
+    #field int hIndirectContext
+#endstruct
+
+#defstruct D3DKMT_PRESENT_RGNS
+    #field int DirtyRectCount
+    #field int MoveRectCount
+    #field var pMoveRects
+#endstruct
+
+#defstruct D3DKMT_PRESENT_STATS
+    #field int PresentCount
+    #field int PresentRefreshCount
+    #field int SyncRefreshCount
+    #field int64 SyncQPCTime
+    #field int64 SyncGPUTime
+#endstruct
+
+#defstruct D3DKMT_PRESENT_STATS_DWM
+    #field int PresentCount
+    #field int PresentRefreshCount
+    #field int64 PresentQPCTime
+    #field int SyncRefreshCount
+    #field int64 SyncQPCTime
+    #field int CustomPresentDuration
+#endstruct
+
+#defstruct D3DKMT_PRESENTFLAGS
+    #field var Anonymous
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
+#defstruct D3DKMT_PRESENTHISTORYTOKEN
+    #field int Model
+    #field int TokenSize
+    #field int64 CompositionBindingId
+    #field int Token
+    #field var Flip
+    #field var Blt
+    #field int64 VistaBlt
+    #field var Gdi
+    #field var Fence
+    #field var GdiSysMem
+    #field var Composition
+    #field var FlipManager
+    #field int SurfaceComplete
+#endstruct
+
+#defstruct _Token_e__Union
+    #field var Flip
+    #field var Blt
+    #field int64 VistaBlt
+    #field var Gdi
+    #field var Fence
+    #field var GdiSysMem
+    #field var Composition
+    #field var FlipManager
+    #field int SurfaceComplete
+#endstruct
+
+#defstruct D3DKMT_QUERYADAPTERINFO
+    #field int hAdapter
+    #field int Type
+    #field var pPrivateDriverData
+    #field int PrivateDriverDataSize
+#endstruct
+
+#defstruct D3DKMT_QUERYALLOCATIONRESIDENCY
+    #field int hDevice
+    #field int hResource
+    #field var phAllocationList
+    #field int AllocationCount
+    #field var pResidencyStatus
+#endstruct
+
+#defstruct D3DKMT_QUERYRESOURCEINFO
+    #field int hDevice
+    #field int hGlobalShare
+    #field var pPrivateRuntimeData
+    #field int PrivateRuntimeDataSize
+    #field int TotalPrivateDriverDataSize
+    #field int ResourcePrivateDriverDataSize
+    #field int NumAllocations
+#endstruct
+
 #defstruct D3DKMT_REGISTERTRIMNOTIFICATION
     #field int hDevice
     #field var Context
     #field var Handle
 #endstruct
 
+#defstruct D3DKMT_RENDER
+    #field var Anonymous
+    #field int CommandOffset
+    #field int CommandLength
+    #field int AllocationCount
+    #field int PatchLocationCount
+    #field var pNewCommandBuffer
+    #field int NewCommandBufferSize
+    #field var pNewAllocationList
+    #field int NewAllocationListSize
+    #field var pNewPatchLocationList
+    #field int NewPatchLocationListSize
+    #field int Flags
+    #field int64 PresentHistoryToken
+    #field int BroadcastContextCount
+    #field int BroadcastContext
+    #field int QueuedBufferCount
+    #field int64 NewCommandBuffer
+    #field var pPrivateDriverData
+    #field int PrivateDriverDataSize
+    #field int hDevice
+    #field int hContext
+#endstruct
+
+#defstruct D3DKMT_RENDERFLAGS
+    #field int _bitfield
+#endstruct
+
+#defstruct D3DKMT_SCATTERBLT
+    #field int64 hLogicalSurfaceDestination
+    #field int64 hDestinationCompSurfDWM
+    #field int64 DestinationCompositionBindingId
+#endstruct
+
+#defstruct D3DKMT_SCATTERBLTS
+    #field int NumBlts
+    #field int Blts
+#endstruct
+
+#defstruct D3DKMT_SETALLOCATIONPRIORITY
+    #field int hDevice
+    #field int hResource
+    #field var phAllocationList
+    #field int AllocationCount
+    #field var pPriorities
+#endstruct
+
+#defstruct D3DKMT_SETCONTEXTSCHEDULINGPRIORITY
+    #field int hContext
+    #field int Priority
+#endstruct
+
+#defstruct D3DKMT_SETDISPLAYMODE
+    #field int hDevice
+    #field int hPrimaryAllocation
+    #field int ScanLineOrdering
+    #field int DisplayOrientation
+    #field int PrivateDriverFormatAttribute
+    #field int Flags
+#endstruct
+
+#defstruct D3DKMT_SETDISPLAYMODE_FLAGS
+    #field int _bitfield1
+    #field int _bitfield2
+#endstruct
+
 #defstruct D3DKMT_SETDISPLAYPRIVATEDRIVERFORMAT
     #field int hDevice
     #field int VidPnSourceId
     #field int PrivateDriverFormatAttribute
+#endstruct
+
+#defstruct D3DKMT_SETGAMMARAMP
+    #field int hDevice
+    #field int VidPnSourceId
+    #field int Type
+    #field var Anonymous
+    #field int Size
+    #field var pGammaRampRgb256x3x16
+    #field var pGammaRampDXGI1
 #endstruct
 
 #defstruct D3DKMT_SETVIDPNSOURCEOWNER
@@ -228,10 +754,20 @@
     #field int Size
 #endstruct
 
+#defstruct D3DKMT_SURFACECOMPLETE_PRESENTHISTORYTOKEN
+    #field int64 hLogicalSurface
+#endstruct
+
 #defstruct D3DKMT_TRIMNOTIFICATION
     #field var Context
     #field var Flags
     #field int64 NumBytesToTrim
+#endstruct
+
+#defstruct D3DKMT_UNLOCK
+    #field int hDevice
+    #field int NumAllocations
+    #field var phAllocations
 #endstruct
 
 #defstruct D3DKMT_UNREGISTERTRIMNOTIFICATION
@@ -249,6 +785,30 @@
     #field int hContext
     #field int ObjectCount
     #field int ObjectHandleArray
+#endstruct
+
+#defstruct D3DKMT_WAITFORVERTICALBLANKEVENT
+    #field int hAdapter
+    #field int hDevice
+    #field int VidPnSourceId
+#endstruct
+
+#defstruct DXGK_FAULT_ERROR_CODE
+    #field var Anonymous
+    #field int Anonymous1
+    #field int Anonymous2
+    #field int _bitfield
+    #field int _bitfield
+#endstruct
+
+#defstruct _Anonymous1_e__Struct
+    #field int lMinimum
+    #field int lMaximum
+#endstruct
+
+#defstruct _Anonymous2_e__Struct
+    #field int dwMinimum
+    #field int dwMaximum
 #endstruct
 
 #defstruct ABC
@@ -316,6 +876,48 @@
     #field int64 Offset
     #field int Segment
     #field int Mode
+#endstruct
+
+#defstruct ADDRINFOEXA
+    #field int ai_flags
+    #field int ai_family
+    #field int ai_socktype
+    #field int ai_protocol
+    #field int ai_addrlen
+    #field str ai_canonname
+    #field var ai_addr
+    #field var ai_blob
+    #field int ai_bloblen
+    #field var ai_next
+#endstruct
+
+#defstruct ADDRINFOEXW
+    #field int ai_flags
+    #field int ai_family
+    #field int ai_socktype
+    #field int ai_protocol
+    #field int ai_addrlen
+    #field wstr ai_canonname
+    #field var ai_addr
+    #field var ai_blob
+    #field int ai_bloblen
+    #field var ai_next
+#endstruct
+
+#defstruct ADDRINFOW
+    #field int ai_flags
+    #field int ai_family
+    #field int ai_socktype
+    #field int ai_protocol
+    #field int ai_addrlen
+    #field wstr ai_canonname
+    #field var ai_addr
+    #field var ai_next
+#endstruct
+
+#defstruct AFPROTOCOLS
+    #field int iAddressFamily
+    #field int iProtocol
 #endstruct
 
 #defstruct ALTTABINFO
@@ -1851,6 +2453,13 @@
     #field wstr szPrompt
 #endstruct
 
+#defstruct CSADDR_INFO
+    #field int LocalAddr
+    #field int RemoteAddr
+    #field int iSocketType
+    #field int iProtocol
+#endstruct
+
 #defstruct CSPLATFORM
     #field int dwPlatformId
     #field int dwVersionHi
@@ -1946,6 +2555,666 @@
 
 #defstruct CYPHER_BLOCK
     #field int data
+#endstruct
+
+#defstruct D2D1_ARC_SEGMENT
+    #field int point
+    #field int size
+    #field float rotationAngle
+    #field int sweepDirection
+    #field int arcSize
+#endstruct
+
+#defstruct D2D1_BEZIER_SEGMENT
+    #field int point1
+    #field int point2
+    #field int point3
+#endstruct
+
+#defstruct D2D1_BITMAP_BRUSH_PROPERTIES
+    #field int extendModeX
+    #field int extendModeY
+    #field int interpolationMode
+#endstruct
+
+#defstruct D2D1_BITMAP_BRUSH_PROPERTIES1
+    #field int extendModeX
+    #field int extendModeY
+    #field int interpolationMode
+#endstruct
+
+#defstruct D2D1_BITMAP_PROPERTIES
+    #field int pixelFormat
+    #field float dpiX
+    #field float dpiY
+#endstruct
+
+#defstruct D2D1_BITMAP_PROPERTIES1
+    #field int pixelFormat
+    #field float dpiX
+    #field float dpiY
+    #field int bitmapOptions
+    #field var colorContext
+#endstruct
+
+#defstruct D2D1_BRUSH_PROPERTIES
+    #field float opacity
+    #field int transform
+#endstruct
+
+#defstruct D2D1_COLOR_F
+    #field float r
+    #field float g
+    #field float b
+    #field float a
+#endstruct
+
+#defstruct D2D1_CREATION_PROPERTIES
+    #field int threadingMode
+    #field int debugLevel
+    #field int options
+#endstruct
+
+#defstruct D2D1_DRAWING_STATE_DESCRIPTION
+    #field int antialiasMode
+    #field int textAntialiasMode
+    #field int64 tag1
+    #field int64 tag2
+    #field int transform
+#endstruct
+
+#defstruct D2D1_EFFECT_INPUT_DESCRIPTION
+    #field var effect
+    #field int inputIndex
+    #field int inputRectangle
+#endstruct
+
+#defstruct D2D1_ELLIPSE
+    #field int point
+    #field float radiusX
+    #field float radiusY
+#endstruct
+
+#defstruct D2D1_FACTORY_OPTIONS
+    #field int debugLevel
+#endstruct
+
+#defstruct D2D1_GRADIENT_STOP
+    #field float position
+    #field var color
+#endstruct
+
+#defstruct D2D1_HWND_RENDER_TARGET_PROPERTIES
+    #field intptr hwnd
+    #field int pixelSize
+    #field int presentOptions
+#endstruct
+
+#defstruct D2D1_IMAGE_BRUSH_PROPERTIES
+    #field int sourceRectangle
+    #field int extendModeX
+    #field int extendModeY
+    #field int interpolationMode
+#endstruct
+
+#defstruct D2D1_LAYER_PARAMETERS
+    #field int contentBounds
+    #field var geometricMask
+    #field int maskAntialiasMode
+    #field int maskTransform
+    #field float opacity
+    #field var opacityBrush
+    #field int layerOptions
+#endstruct
+
+#defstruct D2D1_LAYER_PARAMETERS1
+    #field int contentBounds
+    #field var geometricMask
+    #field int maskAntialiasMode
+    #field int maskTransform
+    #field float opacity
+    #field var opacityBrush
+    #field int layerOptions
+#endstruct
+
+#defstruct D2D1_LINEAR_GRADIENT_BRUSH_PROPERTIES
+    #field int startPoint
+    #field int endPoint
+#endstruct
+
+#defstruct D2D1_MAPPED_RECT
+    #field int pitch
+    #field var bits
+#endstruct
+
+#defstruct D2D1_PIXEL_FORMAT
+    #field int format
+    #field int alphaMode
+#endstruct
+
+#defstruct D2D1_PRINT_CONTROL_PROPERTIES
+    #field int fontSubset
+    #field float rasterDPI
+    #field int colorSpace
+#endstruct
+
+#defstruct D2D1_QUADRATIC_BEZIER_SEGMENT
+    #field int point1
+    #field int point2
+#endstruct
+
+#defstruct D2D1_RADIAL_GRADIENT_BRUSH_PROPERTIES
+    #field int center
+    #field int gradientOriginOffset
+    #field float radiusX
+    #field float radiusY
+#endstruct
+
+#defstruct D2D1_RENDER_TARGET_PROPERTIES
+    #field int type
+    #field var pixelFormat
+    #field float dpiX
+    #field float dpiY
+    #field int usage
+    #field int minLevel
+#endstruct
+
+#defstruct D2D1_RENDERING_CONTROLS
+    #field int bufferPrecision
+    #field int tileSize
+#endstruct
+
+#defstruct D2D1_ROUNDED_RECT
+    #field int rect
+    #field float radiusX
+    #field float radiusY
+#endstruct
+
+#defstruct D2D1_STROKE_STYLE_PROPERTIES
+    #field int startCap
+    #field int endCap
+    #field int dashCap
+    #field int lineJoin
+    #field float miterLimit
+    #field int dashStyle
+    #field float dashOffset
+#endstruct
+
+#defstruct D2D1_TRIANGLE
+    #field int point1
+    #field int point2
+    #field int point3
+#endstruct
+
+#defstruct D2D_MATRIX_3X2_F
+    #field var Anonymous
+    #field var Anonymous1
+    #field var Anonymous2
+    #field int m
+    #field float m11
+    #field float m12
+    #field float m21
+    #field float m22
+    #field float dx
+    #field float dy
+    #field float _11
+    #field float _12
+    #field float _21
+    #field float _22
+    #field float _31
+    #field float _32
+#endstruct
+
+#defstruct D2D_MATRIX_4X4_F
+    #field var Anonymous
+    #field var Anonymous
+    #field int m
+    #field float _11
+    #field float _12
+    #field float _13
+    #field float _14
+    #field float _21
+    #field float _22
+    #field float _23
+    #field float _24
+    #field float _31
+    #field float _32
+    #field float _33
+    #field float _34
+    #field float _41
+    #field float _42
+    #field float _43
+    #field float _44
+#endstruct
+
+#defstruct D2D_POINT_2F
+    #field float x
+    #field float y
+#endstruct
+
+#defstruct D2D_POINT_2U
+    #field int x
+    #field int y
+#endstruct
+
+#defstruct D2D_RECT_F
+    #field float left
+    #field float top
+    #field float right
+    #field float bottom
+#endstruct
+
+#defstruct D2D_RECT_U
+    #field int left
+    #field int top
+    #field int right
+    #field int bottom
+#endstruct
+
+#defstruct D2D_SIZE_F
+    #field float width
+    #field float height
+#endstruct
+
+#defstruct D2D_SIZE_U
+    #field int width
+    #field int height
+#endstruct
+
+#defstruct D3D11_BLEND_DESC
+    #field int AlphaToCoverageEnable
+    #field int IndependentBlendEnable
+    #field int RenderTarget
+#endstruct
+
+#defstruct D3D11_BOX
+    #field int left
+    #field int top
+    #field int front
+    #field int right
+    #field int bottom
+    #field int back
+#endstruct
+
+#defstruct D3D11_BUFFER_DESC
+    #field int ByteWidth
+    #field int Usage
+    #field int StructureByteStride
+#endstruct
+
+#defstruct D3D11_BUFFER_RTV
+    #field var Anonymous1
+    #field var Anonymous2
+    #field int FirstElement
+    #field int ElementOffset
+    #field int NumElements
+    #field int ElementWidth
+#endstruct
+
+#defstruct D3D11_BUFFER_SRV
+    #field var Anonymous1
+    #field var Anonymous2
+    #field int FirstElement
+    #field int ElementOffset
+    #field int NumElements
+    #field int ElementWidth
+#endstruct
+
+#defstruct D3D11_BUFFER_UAV
+    #field int FirstElement
+    #field int NumElements
+    #field int Flags
+#endstruct
+
+#defstruct D3D11_BUFFEREX_SRV
+    #field int FirstElement
+    #field int NumElements
+    #field int Flags
+#endstruct
+
+#defstruct D3D11_CLASS_INSTANCE_DESC
+    #field int InstanceId
+    #field int InstanceIndex
+    #field int TypeId
+    #field int ConstantBuffer
+    #field int BaseConstantBufferOffset
+    #field int BaseTexture
+    #field int BaseSampler
+    #field int Created
+#endstruct
+
+#defstruct D3D11_COUNTER_DESC
+    #field int Counter
+    #field int MiscFlags
+#endstruct
+
+#defstruct D3D11_COUNTER_INFO
+    #field int LastDeviceDependentCounter
+    #field int NumSimultaneousCounters
+    #field int NumDetectableParallelUnits
+#endstruct
+
+#defstruct D3D11_DEPTH_STENCIL_DESC
+    #field int DepthEnable
+    #field int DepthWriteMask
+    #field int DepthFunc
+    #field int StencilEnable
+    #field int StencilReadMask
+    #field int StencilWriteMask
+    #field int FrontFace
+    #field int BackFace
+#endstruct
+
+#defstruct D3D11_DEPTH_STENCIL_VIEW_DESC
+    #field int Format
+    #field int ViewDimension
+    #field int Flags
+    #field var Anonymous
+    #field int Texture1D
+    #field int Texture1DArray
+    #field int Texture2D
+    #field int Texture2DArray
+    #field int Texture2DMS
+    #field int Texture2DMSArray
+#endstruct
+
+#defstruct D3D11_DEPTH_STENCILOP_DESC
+    #field int StencilFailOp
+    #field int StencilDepthFailOp
+    #field int StencilPassOp
+    #field int StencilFunc
+#endstruct
+
+#defstruct D3D11_INPUT_ELEMENT_DESC
+    #field str SemanticName
+    #field int SemanticIndex
+    #field int Format
+    #field int InputSlot
+    #field int AlignedByteOffset
+    #field int InputSlotClass
+    #field int InstanceDataStepRate
+#endstruct
+
+#defstruct D3D11_MAPPED_SUBRESOURCE
+    #field var pData
+    #field int RowPitch
+    #field int DepthPitch
+#endstruct
+
+#defstruct D3D11_QUERY_DESC
+    #field int Query
+    #field int MiscFlags
+#endstruct
+
+#defstruct D3D11_RASTERIZER_DESC
+    #field int FillMode
+    #field int CullMode
+    #field int FrontCounterClockwise
+    #field int DepthBias
+    #field float DepthBiasClamp
+    #field float SlopeScaledDepthBias
+    #field int DepthClipEnable
+    #field int ScissorEnable
+    #field int MultisampleEnable
+    #field int AntialiasedLineEnable
+#endstruct
+
+#defstruct D3D11_RENDER_TARGET_BLEND_DESC
+    #field int BlendEnable
+    #field int SrcBlend
+    #field int DestBlend
+    #field int BlendOp
+    #field int SrcBlendAlpha
+    #field int DestBlendAlpha
+    #field int BlendOpAlpha
+    #field int RenderTargetWriteMask
+#endstruct
+
+#defstruct D3D11_RENDER_TARGET_VIEW_DESC
+    #field int Format
+    #field int ViewDimension
+    #field var Anonymous
+    #field var Buffer
+    #field int Texture1D
+    #field int Texture1DArray
+    #field int Texture2D
+    #field int Texture2DArray
+    #field int Texture2DMS
+    #field int Texture2DMSArray
+    #field int Texture3D
+#endstruct
+
+#defstruct D3D11_SAMPLER_DESC
+    #field int Filter
+    #field int AddressU
+    #field int AddressV
+    #field int AddressW
+    #field float MipLODBias
+    #field int MaxAnisotropy
+    #field int ComparisonFunc
+    #field int BorderColor
+    #field float MinLOD
+    #field float MaxLOD
+#endstruct
+
+#defstruct D3D11_SHADER_RESOURCE_VIEW_DESC
+    #field int Format
+    #field int ViewDimension
+    #field var Anonymous
+    #field var Buffer
+    #field int Texture1D
+    #field int Texture1DArray
+    #field int Texture2D
+    #field int Texture2DArray
+    #field int Texture2DMS
+    #field int Texture2DMSArray
+    #field int Texture3D
+    #field int TextureCube
+    #field int TextureCubeArray
+    #field var BufferEx
+#endstruct
+
+#defstruct D3D11_SO_DECLARATION_ENTRY
+    #field int Stream
+    #field str SemanticName
+    #field int SemanticIndex
+    #field int StartComponent
+    #field int ComponentCount
+    #field int OutputSlot
+#endstruct
+
+#defstruct D3D11_SUBRESOURCE_DATA
+    #field var pSysMem
+    #field int SysMemPitch
+    #field int SysMemSlicePitch
+#endstruct
+
+#defstruct D3D11_TEX1D_ARRAY_DSV
+    #field int MipSlice
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D11_TEX1D_ARRAY_RTV
+    #field int MipSlice
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D11_TEX1D_ARRAY_SRV
+    #field int MostDetailedMip
+    #field int MipLevels
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D11_TEX1D_ARRAY_UAV
+    #field int MipSlice
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D11_TEX1D_DSV
+    #field int MipSlice
+#endstruct
+
+#defstruct D3D11_TEX1D_RTV
+    #field int MipSlice
+#endstruct
+
+#defstruct D3D11_TEX1D_SRV
+    #field int MostDetailedMip
+    #field int MipLevels
+#endstruct
+
+#defstruct D3D11_TEX1D_UAV
+    #field int MipSlice
+#endstruct
+
+#defstruct D3D11_TEX2D_ARRAY_DSV
+    #field int MipSlice
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D11_TEX2D_ARRAY_RTV
+    #field int MipSlice
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D11_TEX2D_ARRAY_SRV
+    #field int MostDetailedMip
+    #field int MipLevels
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D11_TEX2D_ARRAY_UAV
+    #field int MipSlice
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D11_TEX2D_DSV
+    #field int MipSlice
+#endstruct
+
+#defstruct D3D11_TEX2D_RTV
+    #field int MipSlice
+#endstruct
+
+#defstruct D3D11_TEX2D_SRV
+    #field int MostDetailedMip
+    #field int MipLevels
+#endstruct
+
+#defstruct D3D11_TEX2D_UAV
+    #field int MipSlice
+#endstruct
+
+#defstruct D3D11_TEX2DMS_ARRAY_DSV
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D11_TEX2DMS_ARRAY_RTV
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D11_TEX2DMS_ARRAY_SRV
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D11_TEX2DMS_DSV
+    #field int UnusedField_NothingToDefine
+#endstruct
+
+#defstruct D3D11_TEX2DMS_RTV
+    #field int UnusedField_NothingToDefine
+#endstruct
+
+#defstruct D3D11_TEX2DMS_SRV
+    #field int UnusedField_NothingToDefine
+#endstruct
+
+#defstruct D3D11_TEX3D_RTV
+    #field int MipSlice
+    #field int FirstWSlice
+    #field int WSize
+#endstruct
+
+#defstruct D3D11_TEX3D_SRV
+    #field int MostDetailedMip
+    #field int MipLevels
+#endstruct
+
+#defstruct D3D11_TEX3D_UAV
+    #field int MipSlice
+    #field int FirstWSlice
+    #field int WSize
+#endstruct
+
+#defstruct D3D11_TEXCUBE_ARRAY_SRV
+    #field int MostDetailedMip
+    #field int MipLevels
+    #field int First2DArrayFace
+    #field int NumCubes
+#endstruct
+
+#defstruct D3D11_TEXCUBE_SRV
+    #field int MostDetailedMip
+    #field int MipLevels
+#endstruct
+
+#defstruct D3D11_TEXTURE1D_DESC
+    #field int Width
+    #field int MipLevels
+    #field int ArraySize
+    #field int Format
+    #field int Usage
+#endstruct
+
+#defstruct D3D11_TEXTURE2D_DESC
+    #field int Width
+    #field int Height
+    #field int MipLevels
+    #field int ArraySize
+    #field int Format
+    #field int SampleDesc
+    #field int Usage
+#endstruct
+
+#defstruct D3D11_TEXTURE3D_DESC
+    #field int Width
+    #field int Height
+    #field int Depth
+    #field int MipLevels
+    #field int Format
+    #field int Usage
+#endstruct
+
+#defstruct D3D11_UNORDERED_ACCESS_VIEW_DESC
+    #field int Format
+    #field int ViewDimension
+    #field var Anonymous
+    #field var Buffer
+    #field var Texture1D
+    #field var Texture1DArray
+    #field var Texture2D
+    #field var Texture2DArray
+    #field var Texture3D
+#endstruct
+
+#defstruct D3D11_VIEWPORT
+    #field float TopLeftX
+    #field float TopLeftY
+    #field float Width
+    #field float Height
+    #field float MinDepth
+    #field float MaxDepth
 #endstruct
 
 #defstruct DATETIME
@@ -2063,8 +3332,8 @@
     #field int dmReserved2
     #field int dmPanningWidth
     #field int dmPanningHeight
-    #field int Anonymous1
-    #field int Anonymous2
+    #field var Anonymous1
+    #field var Anonymous2
     #field int dmOrientation
     #field int dmPaperSize
     #field int dmPaperLength
@@ -2078,16 +3347,6 @@
     #field int dmDisplayFixedOutput
     #field int dmDisplayFlags
     #field int dmNup
-#endstruct
-
-#defstruct _Anonymous1_e__Struct
-    #field int lMinimum
-    #field int lMaximum
-#endstruct
-
-#defstruct _Anonymous2_e__Struct
-    #field int dwMinimum
-    #field int dwMaximum
 #endstruct
 
 #defstruct DEVMODEW
@@ -2254,6 +3513,27 @@
     #field int cy
 #endstruct
 
+#defstruct DNS_INTERFACE_SETTINGS
+    #field int Version
+    #field int64 Flags
+    #field wstr Domain
+    #field wstr NameServer
+    #field wstr SearchList
+    #field int RegistrationEnabled
+    #field int RegisterAdapterName
+    #field int EnableLLMNR
+    #field int QueryAdapterName
+    #field wstr ProfileNameServer
+#endstruct
+
+#defstruct DNS_SETTINGS
+    #field int Version
+    #field int64 Flags
+    #field wstr Hostname
+    #field wstr Domain
+    #field wstr SearchList
+#endstruct
+
 #defstruct DOCINFOW
     #field int cbSize
     #field wstr lpszDocName
@@ -2373,6 +3653,244 @@
     #field int64 cPixelsReceived
     #field int64 cPixelsDrawn
     #field int64 cBuffersEmpty
+#endstruct
+
+#defstruct DWRITE_CLUSTER_METRICS
+    #field float width
+    #field int length
+    #field int _bitfield
+#endstruct
+
+#defstruct DWRITE_FONT_FEATURE
+    #field int nameTag
+    #field int parameter
+#endstruct
+
+#defstruct DWRITE_FONT_METRICS
+    #field int designUnitsPerEm
+    #field int ascent
+    #field int descent
+    #field int lineGap
+    #field int capHeight
+    #field int xHeight
+    #field int underlinePosition
+    #field int underlineThickness
+    #field int strikethroughPosition
+    #field int strikethroughThickness
+#endstruct
+
+#defstruct DWRITE_GLYPH_METRICS
+    #field int leftSideBearing
+    #field int advanceWidth
+    #field int rightSideBearing
+    #field int topSideBearing
+    #field int advanceHeight
+    #field int bottomSideBearing
+    #field int verticalOriginY
+#endstruct
+
+#defstruct DWRITE_GLYPH_OFFSET
+    #field float advanceOffset
+    #field float ascenderOffset
+#endstruct
+
+#defstruct DWRITE_GLYPH_RUN
+    #field var fontFace
+    #field float fontEmSize
+    #field int glyphCount
+    #field var glyphIndices
+    #field var glyphAdvances
+    #field var glyphOffsets
+    #field int isSideways
+    #field int bidiLevel
+#endstruct
+
+#defstruct DWRITE_GLYPH_RUN_DESCRIPTION
+    #field wstr localeName
+    #field int stringLength
+    #field var clusterMap
+    #field int textPosition
+#endstruct
+
+#defstruct DWRITE_HIT_TEST_METRICS
+    #field int textPosition
+    #field int length
+    #field float left
+    #field float top
+    #field float width
+    #field float height
+    #field int bidiLevel
+    #field int isText
+    #field int isTrimmed
+#endstruct
+
+#defstruct DWRITE_INLINE_OBJECT_METRICS
+    #field float width
+    #field float height
+    #field float baseline
+    #field int supportsSideways
+#endstruct
+
+#defstruct DWRITE_LINE_METRICS
+    #field int length
+    #field int trailingWhitespaceLength
+    #field int newlineLength
+    #field float height
+    #field float baseline
+    #field int isTrimmed
+#endstruct
+
+#defstruct DWRITE_MATRIX
+    #field float m11
+    #field float m12
+    #field float m21
+    #field float m22
+    #field float dx
+    #field float dy
+#endstruct
+
+#defstruct DWRITE_OVERHANG_METRICS
+    #field float left
+    #field float top
+    #field float right
+    #field float bottom
+#endstruct
+
+#defstruct DWRITE_STRIKETHROUGH
+    #field float width
+    #field float thickness
+    #field float offset
+    #field int readingDirection
+    #field int flowDirection
+    #field wstr localeName
+    #field int measuringMode
+#endstruct
+
+#defstruct DWRITE_TEXT_METRICS
+    #field float left
+    #field float top
+    #field float width
+    #field float widthIncludingTrailingWhitespace
+    #field float height
+    #field float layoutWidth
+    #field float layoutHeight
+    #field int maxBidiReorderingDepth
+    #field int lineCount
+#endstruct
+
+#defstruct DWRITE_TEXT_RANGE
+    #field int startPosition
+    #field int length
+#endstruct
+
+#defstruct DWRITE_TRIMMING
+    #field int granularity
+    #field int delimiter
+    #field int delimiterCount
+#endstruct
+
+#defstruct DWRITE_UNDERLINE
+    #field float width
+    #field float thickness
+    #field float offset
+    #field float runHeight
+    #field int readingDirection
+    #field int flowDirection
+    #field wstr localeName
+    #field int measuringMode
+#endstruct
+
+#defstruct DXGI_ADAPTER_DESC
+    #field int Description
+    #field int VendorId
+    #field int DeviceId
+    #field int SubSysId
+    #field int Revision
+    #field int DedicatedVideoMemory
+    #field int DedicatedSystemMemory
+    #field int SharedSystemMemory
+    #field int AdapterLuid
+#endstruct
+
+#defstruct DXGI_FRAME_STATISTICS
+    #field int PresentCount
+    #field int PresentRefreshCount
+    #field int SyncRefreshCount
+    #field int64 SyncQPCTime
+    #field int64 SyncGPUTime
+#endstruct
+
+#defstruct DXGI_GAMMA_CONTROL
+    #field int Scale
+    #field int Offset
+    #field int GammaCurve
+#endstruct
+
+#defstruct DXGI_GAMMA_CONTROL_CAPABILITIES
+    #field int ScaleAndOffsetSupported
+    #field float MaxConvertedValue
+    #field float MinConvertedValue
+    #field int NumGammaControlPoints
+    #field int ControlPointPositions
+#endstruct
+
+#defstruct DXGI_MAPPED_RECT
+    #field int Pitch
+    #field var pBits
+#endstruct
+
+#defstruct DXGI_MODE_DESC
+    #field int Width
+    #field int Height
+    #field int RefreshRate
+    #field int Format
+    #field int ScanlineOrdering
+    #field int Scaling
+#endstruct
+
+#defstruct DXGI_OUTPUT_DESC
+    #field int DeviceName
+    #field int DesktopCoordinates
+    #field int AttachedToDesktop
+    #field int Rotation
+    #field intptr Monitor
+#endstruct
+
+#defstruct DXGI_RATIONAL
+    #field int Numerator
+    #field int Denominator
+#endstruct
+
+#defstruct DXGI_RGB
+    #field float Red
+    #field float Green
+    #field float Blue
+#endstruct
+
+#defstruct DXGI_SAMPLE_DESC
+    #field int Count
+    #field int Quality
+#endstruct
+
+#defstruct DXGI_SHARED_RESOURCE
+    #field intptr Handle
+#endstruct
+
+#defstruct DXGI_SURFACE_DESC
+    #field int Width
+    #field int Height
+    #field int Format
+    #field var SampleDesc
+#endstruct
+
+#defstruct DXGI_SWAP_CHAIN_DESC
+    #field var BufferDesc
+    #field var SampleDesc
+    #field int BufferUsage
+    #field int BufferCount
+    #field intptr OutputWindow
+    #field int Windowed
+    #field int SwapEffect
 #endstruct
 
 #defstruct DYNAMIC_TIME_ZONE_INFORMATION
@@ -2762,12 +4280,35 @@
     #field int value
 #endstruct
 
+#defstruct FIXED_INFO_W2KSP1
+    #field int HostName
+    #field int DomainName
+    #field var CurrentDnsServer
+    #field int DnsServerList
+    #field int NodeType
+    #field int ScopeId
+    #field int EnableRouting
+    #field int EnableProxy
+    #field int EnableDns
+#endstruct
+
 #defstruct FLASHWINFO
     #field int cbSize
     #field intptr hwnd
     #field int dwFlags
     #field int uCount
     #field int dwTimeout
+#endstruct
+
+#defstruct FLOWSPEC
+    #field int TokenRate
+    #field int TokenBucketSize
+    #field int PeakBandwidth
+    #field int Latency
+    #field int DelayVariation
+    #field int ServiceType
+    #field int MaxSduSize
+    #field int MinimumPolicedSize
 #endstruct
 
 #defstruct FN_OBJECT_MGR_FUNCTS
@@ -3114,6 +4655,14 @@
     #field int dwContextId
 #endstruct
 
+#defstruct HIT_LOGGING_INFO
+    #field int dwStructSize
+    #field str lpszLoggedUrlName
+    #field int StartTime
+    #field int EndTime
+    #field str lpszExtendedInfo
+#endstruct
+
 #defstruct HLOG
     #field int time
     #field int last_flags
@@ -3347,6 +4896,49 @@
     #field int szOptions
 #endstruct
 
+#defstruct IN6_ADDR
+    #field var u
+    #field int Byte
+    #field int Word
+#endstruct
+
+#defstruct IN_ADDR
+    #field int S_un
+    #field int S_un_b
+    #field int S_un_w
+    #field int S_addr
+    #field int s_b1
+    #field int s_b2
+    #field int s_b3
+    #field int s_b4
+    #field int s_w1
+    #field int s_w2
+#endstruct
+
+#defstruct _S_un_e__Union
+    #field int S_un_b
+    #field int S_un_w
+    #field int S_addr
+    #field int s_b1
+    #field int s_b2
+    #field int s_b3
+    #field int s_b4
+    #field int s_w1
+    #field int s_w2
+#endstruct
+
+#defstruct _S_un_b_e__Struct
+    #field int s_b1
+    #field int s_b2
+    #field int s_b3
+    #field int s_b4
+#endstruct
+
+#defstruct _S_un_w_e__Struct
+    #field int s_w1
+    #field int s_w2
+#endstruct
+
 #defstruct INHERITED_FROMW
     #field int GenerationGap
     #field wstr AncestorName
@@ -3455,6 +5047,39 @@
 
 #defstruct _COMClass_e__Struct
     #field int ClsCtx
+#endstruct
+
+#defstruct INTERFACE_HARDWARE_CROSSTIMESTAMP
+    #field int64 SystemTimestamp1
+    #field int64 HardwareClockTimestamp
+    #field int64 SystemTimestamp2
+#endstruct
+
+#defstruct INTERFACE_HARDWARE_TIMESTAMP_CAPABILITIES
+    #field int PtpV2OverUdpIPv4EventMessageReceive
+    #field int PtpV2OverUdpIPv4AllMessageReceive
+    #field int PtpV2OverUdpIPv4EventMessageTransmit
+    #field int PtpV2OverUdpIPv4AllMessageTransmit
+    #field int PtpV2OverUdpIPv6EventMessageReceive
+    #field int PtpV2OverUdpIPv6AllMessageReceive
+    #field int PtpV2OverUdpIPv6EventMessageTransmit
+    #field int PtpV2OverUdpIPv6AllMessageTransmit
+    #field int AllReceive
+    #field int AllTransmit
+    #field int TaggedTransmit
+#endstruct
+
+#defstruct INTERFACE_SOFTWARE_TIMESTAMP_CAPABILITIES
+    #field int AllReceive
+    #field int AllTransmit
+    #field int TaggedTransmit
+#endstruct
+
+#defstruct INTERFACE_TIMESTAMP_CAPABILITIES
+    #field int64 HardwareClockFrequencyHz
+    #field int SupportsCrossTimestamp
+    #field var HardwareCapabilities
+    #field var SoftwareCapabilities
 #endstruct
 
 #defstruct INTERFACEDATA
@@ -3567,6 +5192,217 @@
     #field int64 ReadTransferCount
     #field int64 WriteTransferCount
     #field int64 OtherTransferCount
+#endstruct
+
+#defstruct IO_STATUS_BLOCK
+    #field var Anonymous
+    #field int Information
+    #field intptr Status
+    #field var Pointer
+#endstruct
+
+#defstruct IP_ADAPTER_ADDRESSES_LH
+    #field var Anonymous1
+    #field var Next
+    #field str AdapterName
+    #field var FirstUnicastAddress
+    #field var FirstAnycastAddress
+    #field var FirstMulticastAddress
+    #field var FirstDnsServerAddress
+    #field wstr DnsSuffix
+    #field wstr Description
+    #field wstr FriendlyName
+    #field int PhysicalAddress
+    #field int PhysicalAddressLength
+    #field var Anonymous2
+    #field int Mtu
+    #field int IfType
+    #field int OperStatus
+    #field int Ipv6IfIndex
+    #field int ZoneIndices
+    #field var FirstPrefix
+    #field int64 TransmitLinkSpeed
+    #field int64 ReceiveLinkSpeed
+    #field var FirstWinsServerAddress
+    #field var FirstGatewayAddress
+    #field int Ipv4Metric
+    #field int Ipv6Metric
+    #field int Luid
+    #field int Dhcpv4Server
+    #field int CompartmentId
+    #field int ConnectionType
+    #field int TunnelType
+    #field int Dhcpv6Server
+    #field int Dhcpv6ClientDuid
+    #field int Dhcpv6ClientDuidLength
+    #field int Dhcpv6Iaid
+    #field var FirstDnsSuffix
+    #field int64 Alignment
+    #field var Anonymous
+    #field int Length
+    #field int IfIndex
+    #field int Flags
+    #field var Anonymous
+    #field int _bitfield
+#endstruct
+
+#defstruct IP_ADAPTER_ANYCAST_ADDRESS_XP
+    #field var Anonymous
+    #field var Next
+    #field int Address
+    #field int64 Alignment
+    #field var Anonymous
+    #field int Length
+    #field int Flags
+#endstruct
+
+#defstruct IP_ADAPTER_DNS_SERVER_ADDRESS_XP
+    #field var Anonymous
+    #field var Next
+    #field int Address
+    #field int64 Alignment
+    #field var Anonymous
+    #field int Length
+    #field int Reserved
+#endstruct
+
+#defstruct IP_ADAPTER_DNS_SUFFIX
+    #field var Next
+    #field int String
+#endstruct
+
+#defstruct IP_ADAPTER_GATEWAY_ADDRESS_LH
+    #field var Anonymous
+    #field var Next
+    #field int Address
+    #field int64 Alignment
+    #field var Anonymous
+    #field int Length
+    #field int Reserved
+#endstruct
+
+#defstruct IP_ADAPTER_INDEX_MAP
+    #field int Index
+    #field int Name
+#endstruct
+
+#defstruct IP_ADAPTER_INFO
+    #field var Next
+    #field int ComboIndex
+    #field int AdapterName
+    #field int Description
+    #field int AddressLength
+    #field int Address
+    #field int Index
+    #field int Type
+    #field int DhcpEnabled
+    #field var CurrentIpAddress
+    #field int IpAddressList
+    #field int GatewayList
+    #field int DhcpServer
+    #field int HaveWins
+    #field int PrimaryWinsServer
+    #field int SecondaryWinsServer
+    #field int64 LeaseObtained
+    #field int64 LeaseExpires
+#endstruct
+
+#defstruct IP_ADAPTER_MULTICAST_ADDRESS_XP
+    #field var Anonymous
+    #field var Next
+    #field int Address
+    #field int64 Alignment
+    #field var Anonymous
+    #field int Length
+    #field int Flags
+#endstruct
+
+#defstruct IP_ADAPTER_ORDER_MAP
+    #field int NumAdapters
+#endstruct
+
+#defstruct IP_ADAPTER_PREFIX_XP
+    #field var Anonymous
+    #field var Next
+    #field int Address
+    #field int PrefixLength
+    #field int64 Alignment
+    #field var Anonymous
+    #field int Length
+    #field int Flags
+#endstruct
+
+#defstruct IP_ADAPTER_UNICAST_ADDRESS_LH
+    #field var Anonymous
+    #field var Next
+    #field int Address
+    #field int PrefixOrigin
+    #field int SuffixOrigin
+    #field int DadState
+    #field int ValidLifetime
+    #field int PreferredLifetime
+    #field int LeaseLifetime
+    #field int OnLinkPrefixLength
+    #field int64 Alignment
+    #field var Anonymous
+    #field int Length
+    #field int Flags
+#endstruct
+
+#defstruct IP_ADAPTER_WINS_SERVER_ADDRESS_LH
+    #field var Anonymous
+    #field var Next
+    #field int Address
+    #field int64 Alignment
+    #field var Anonymous
+    #field int Length
+    #field int Reserved
+#endstruct
+
+#defstruct IP_ADDR_STRING
+    #field var Next
+    #field int IpAddress
+    #field int IpMask
+    #field int Context
+#endstruct
+
+#defstruct IP_ADDRESS_PREFIX
+    #field int Prefix
+    #field int PrefixLength
+#endstruct
+
+#defstruct IP_ADDRESS_STRING
+    #field int String
+#endstruct
+
+#defstruct IP_INTERFACE_INFO
+    #field int NumAdapters
+#endstruct
+
+#defstruct IP_INTERFACE_NAME_INFO_W2KSP1
+    #field int Index
+    #field int MediaType
+    #field int ConnectionType
+    #field int AccessType
+#endstruct
+
+#defstruct IP_OPTION_INFORMATION
+    #field int Ttl
+    #field int Tos
+    #field int Flags
+    #field int OptionsSize
+    #field var OptionsData
+#endstruct
+
+#defstruct IP_PER_ADAPTER_INFO_W2KSP1
+    #field int AutoconfigEnabled
+    #field int AutoconfigActive
+    #field var CurrentDnsServer
+    #field var DnsServerList
+#endstruct
+
+#defstruct IP_UNIDIRECTIONAL_ADAPTER_ADDRESS
+    #field int NumAdapters
 #endstruct
 
 #defstruct ITEMIDLIST
@@ -4055,6 +5891,556 @@
     #field int vtReturn
 #endstruct
 
+#defstruct MIB_ANYCASTIPADDRESS_ROW
+    #field int Address
+    #field int InterfaceLuid
+    #field int InterfaceIndex
+    #field int ScopeId
+#endstruct
+
+#defstruct MIB_ANYCASTIPADDRESS_TABLE
+    #field int NumEntries
+#endstruct
+
+#defstruct MIB_ICMP
+    #field int stats
+#endstruct
+
+#defstruct MIB_ICMP_EX_XPSP1
+    #field int icmpInStats
+    #field int icmpOutStats
+#endstruct
+
+#defstruct MIB_IF_ROW2
+    #field int InterfaceLuid
+    #field int InterfaceIndex
+    #field int Alias
+    #field int Description
+    #field int PhysicalAddressLength
+    #field int PhysicalAddress
+    #field int PermanentPhysicalAddress
+    #field int Mtu
+    #field int Type
+    #field int TunnelType
+    #field int MediaType
+    #field int PhysicalMediumType
+    #field int AccessType
+    #field int DirectionType
+    #field int InterfaceAndOperStatusFlags
+    #field int OperStatus
+    #field int AdminStatus
+    #field int MediaConnectState
+    #field int ConnectionType
+    #field int64 TransmitLinkSpeed
+    #field int64 ReceiveLinkSpeed
+    #field int64 InOctets
+    #field int64 InUcastPkts
+    #field int64 InNUcastPkts
+    #field int64 InDiscards
+    #field int64 InErrors
+    #field int64 InUnknownProtos
+    #field int64 InUcastOctets
+    #field int64 InMulticastOctets
+    #field int64 InBroadcastOctets
+    #field int64 OutOctets
+    #field int64 OutUcastPkts
+    #field int64 OutNUcastPkts
+    #field int64 OutDiscards
+    #field int64 OutErrors
+    #field int64 OutUcastOctets
+    #field int64 OutMulticastOctets
+    #field int64 OutBroadcastOctets
+    #field int64 OutQLen
+    #field int _bitfield
+#endstruct
+
+#defstruct _InterfaceAndOperStatusFlags_e__Struct
+    #field int _bitfield
+#endstruct
+
+#defstruct MIB_IF_TABLE2
+    #field int NumEntries
+#endstruct
+
+#defstruct MIB_IFROW
+    #field int wszName
+    #field int dwIndex
+    #field int dwType
+    #field int dwMtu
+    #field int dwSpeed
+    #field int dwPhysAddrLen
+    #field int bPhysAddr
+    #field int dwAdminStatus
+    #field int dwOperStatus
+    #field int dwLastChange
+    #field int dwInOctets
+    #field int dwInUcastPkts
+    #field int dwInNUcastPkts
+    #field int dwInDiscards
+    #field int dwInErrors
+    #field int dwInUnknownProtos
+    #field int dwOutOctets
+    #field int dwOutUcastPkts
+    #field int dwOutNUcastPkts
+    #field int dwOutDiscards
+    #field int dwOutErrors
+    #field int dwOutQLen
+    #field int dwDescrLen
+    #field int bDescr
+#endstruct
+
+#defstruct MIB_IFSTACK_ROW
+    #field int HigherLayerInterfaceIndex
+    #field int LowerLayerInterfaceIndex
+#endstruct
+
+#defstruct MIB_IFSTACK_TABLE
+    #field int NumEntries
+#endstruct
+
+#defstruct MIB_IFTABLE
+    #field int dwNumEntries
+#endstruct
+
+#defstruct MIB_INVERTEDIFSTACK_ROW
+    #field int LowerLayerInterfaceIndex
+    #field int HigherLayerInterfaceIndex
+#endstruct
+
+#defstruct MIB_INVERTEDIFSTACK_TABLE
+    #field int NumEntries
+#endstruct
+
+#defstruct MIB_IP_NETWORK_CONNECTION_BANDWIDTH_ESTIMATES
+    #field int InboundBandwidthInformation
+    #field int OutboundBandwidthInformation
+#endstruct
+
+#defstruct MIB_IPADDRROW_XP
+    #field int dwAddr
+    #field int dwIndex
+    #field int dwMask
+    #field int dwBCastAddr
+    #field int dwReasmSize
+    #field int unused1
+    #field int wType
+#endstruct
+
+#defstruct MIB_IPADDRTABLE
+    #field int dwNumEntries
+#endstruct
+
+#defstruct MIB_IPFORWARD_ROW2
+    #field int InterfaceLuid
+    #field int InterfaceIndex
+    #field var DestinationPrefix
+    #field int NextHop
+    #field int SitePrefixLength
+    #field int ValidLifetime
+    #field int PreferredLifetime
+    #field int Metric
+    #field int Protocol
+    #field int Loopback
+    #field int AutoconfigureAddress
+    #field int Publish
+    #field int Immortal
+    #field int Age
+    #field int Origin
+#endstruct
+
+#defstruct MIB_IPFORWARD_TABLE2
+    #field int NumEntries
+#endstruct
+
+#defstruct MIB_IPFORWARDROW
+    #field int dwForwardDest
+    #field int dwForwardMask
+    #field int dwForwardPolicy
+    #field int dwForwardNextHop
+    #field int dwForwardIfIndex
+    #field var Anonymous1
+    #field var Anonymous2
+    #field int dwForwardAge
+    #field int dwForwardNextHopAS
+    #field int dwForwardMetric1
+    #field int dwForwardMetric2
+    #field int dwForwardMetric3
+    #field int dwForwardMetric4
+    #field int dwForwardMetric5
+    #field int dwForwardType
+    #field int ForwardType
+    #field int dwForwardProto
+    #field int ForwardProto
+#endstruct
+
+#defstruct MIB_IPFORWARDTABLE
+    #field int dwNumEntries
+#endstruct
+
+#defstruct MIB_IPINTERFACE_ROW
+    #field int Family
+    #field int InterfaceLuid
+    #field int InterfaceIndex
+    #field int MaxReassemblySize
+    #field int64 InterfaceIdentifier
+    #field int MinRouterAdvertisementInterval
+    #field int MaxRouterAdvertisementInterval
+    #field int AdvertisingEnabled
+    #field int ForwardingEnabled
+    #field int WeakHostSend
+    #field int WeakHostReceive
+    #field int UseAutomaticMetric
+    #field int UseNeighborUnreachabilityDetection
+    #field int ManagedAddressConfigurationSupported
+    #field int OtherStatefulConfigurationSupported
+    #field int AdvertiseDefaultRoute
+    #field int RouterDiscoveryBehavior
+    #field int DadTransmits
+    #field int BaseReachableTime
+    #field int RetransmitTime
+    #field int PathMtuDiscoveryTimeout
+    #field int LinkLocalAddressBehavior
+    #field int LinkLocalAddressTimeout
+    #field int ZoneIndices
+    #field int SitePrefixLength
+    #field int Metric
+    #field int NlMtu
+    #field int Connected
+    #field int SupportsWakeUpPatterns
+    #field int SupportsNeighborDiscovery
+    #field int SupportsRouterDiscovery
+    #field int ReachableTime
+    #field int TransmitOffload
+    #field int ReceiveOffload
+    #field int DisableDefaultRoutes
+#endstruct
+
+#defstruct MIB_IPINTERFACE_TABLE
+    #field int NumEntries
+#endstruct
+
+#defstruct MIB_IPNET_ROW2
+    #field int Address
+    #field int InterfaceIndex
+    #field int InterfaceLuid
+    #field int PhysicalAddress
+    #field int PhysicalAddressLength
+    #field int State
+    #field var Anonymous
+    #field int ReachabilityTime
+    #field var Anonymous
+    #field int Flags
+    #field int _bitfield
+    #field int LastReachable
+    #field int LastUnreachable
+#endstruct
+
+#defstruct _ReachabilityTime_e__Union
+    #field int LastReachable
+    #field int LastUnreachable
+#endstruct
+
+#defstruct MIB_IPNET_TABLE2
+    #field int NumEntries
+#endstruct
+
+#defstruct MIB_IPNETROW_LH
+    #field int dwIndex
+    #field int dwPhysAddrLen
+    #field int bPhysAddr
+    #field int dwAddr
+    #field var Anonymous
+    #field int dwType
+    #field int Type
+#endstruct
+
+#defstruct MIB_IPNETTABLE
+    #field int dwNumEntries
+#endstruct
+
+#defstruct MIB_IPPATH_ROW
+    #field int Source
+    #field int Destination
+    #field int InterfaceLuid
+    #field int InterfaceIndex
+    #field int CurrentNextHop
+    #field int PathMtu
+    #field int RttMean
+    #field int RttDeviation
+    #field var Anonymous
+    #field int IsReachable
+    #field int64 LinkTransmitSpeed
+    #field int64 LinkReceiveSpeed
+    #field int LastReachable
+    #field int LastUnreachable
+#endstruct
+
+#defstruct MIB_IPPATH_TABLE
+    #field int NumEntries
+#endstruct
+
+#defstruct MIB_IPSTATS_LH
+    #field var Anonymous
+    #field int dwDefaultTTL
+    #field int dwInReceives
+    #field int dwInHdrErrors
+    #field int dwInAddrErrors
+    #field int dwForwDatagrams
+    #field int dwInUnknownProtos
+    #field int dwInDiscards
+    #field int dwInDelivers
+    #field int dwOutRequests
+    #field int dwRoutingDiscards
+    #field int dwOutDiscards
+    #field int dwOutNoRoutes
+    #field int dwReasmTimeout
+    #field int dwReasmReqds
+    #field int dwReasmOks
+    #field int dwReasmFails
+    #field int dwFragOks
+    #field int dwFragFails
+    #field int dwFragCreates
+    #field int dwNumIf
+    #field int dwNumAddr
+    #field int dwNumRoutes
+    #field int dwForwarding
+    #field int Forwarding
+#endstruct
+
+#defstruct MIB_MULTICASTIPADDRESS_ROW
+    #field int Address
+    #field int InterfaceIndex
+    #field int InterfaceLuid
+    #field int ScopeId
+#endstruct
+
+#defstruct MIB_MULTICASTIPADDRESS_TABLE
+    #field int NumEntries
+#endstruct
+
+#defstruct MIB_TCP6ROW
+    #field int State
+    #field var LocalAddr
+    #field int dwLocalScopeId
+    #field int dwLocalPort
+    #field var RemoteAddr
+    #field int dwRemoteScopeId
+    #field int dwRemotePort
+#endstruct
+
+#defstruct MIB_TCP6ROW2
+    #field var LocalAddr
+    #field int dwLocalScopeId
+    #field int dwLocalPort
+    #field var RemoteAddr
+    #field int dwRemoteScopeId
+    #field int dwRemotePort
+    #field int State
+    #field int dwOwningPid
+    #field int dwOffloadState
+#endstruct
+
+#defstruct MIB_TCP6ROW_OWNER_MODULE
+    #field int ucLocalAddr
+    #field int dwLocalScopeId
+    #field int dwLocalPort
+    #field int ucRemoteAddr
+    #field int dwRemoteScopeId
+    #field int dwRemotePort
+    #field int dwOwningPid
+    #field int64 liCreateTimestamp
+    #field int OwningModuleInfo
+#endstruct
+
+#defstruct MIB_TCP6TABLE
+    #field int dwNumEntries
+#endstruct
+
+#defstruct MIB_TCP6TABLE2
+    #field int dwNumEntries
+#endstruct
+
+#defstruct MIB_TCPROW2
+    #field int dwState
+    #field int dwLocalAddr
+    #field int dwLocalPort
+    #field int dwRemoteAddr
+    #field int dwRemotePort
+    #field int dwOwningPid
+    #field int dwOffloadState
+#endstruct
+
+#defstruct MIB_TCPROW_LH
+    #field var Anonymous
+    #field int dwLocalAddr
+    #field int dwLocalPort
+    #field int dwRemoteAddr
+    #field int dwRemotePort
+    #field int State
+#endstruct
+
+#defstruct MIB_TCPROW_OWNER_MODULE
+    #field int dwLocalAddr
+    #field int dwLocalPort
+    #field int dwRemoteAddr
+    #field int dwRemotePort
+    #field int dwOwningPid
+    #field int64 liCreateTimestamp
+    #field int OwningModuleInfo
+#endstruct
+
+#defstruct MIB_TCPSTATS2
+    #field int RtoAlgorithm
+    #field int dwRtoMin
+    #field int dwRtoMax
+    #field int dwMaxConn
+    #field int dwActiveOpens
+    #field int dwPassiveOpens
+    #field int dwAttemptFails
+    #field int dwEstabResets
+    #field int dwCurrEstab
+    #field int64 dw64InSegs
+    #field int64 dw64OutSegs
+    #field int dwRetransSegs
+    #field int dwInErrs
+    #field int dwOutRsts
+    #field int dwNumConns
+#endstruct
+
+#defstruct MIB_TCPSTATS_LH
+    #field var Anonymous
+    #field int dwRtoMin
+    #field int dwRtoMax
+    #field int dwMaxConn
+    #field int dwActiveOpens
+    #field int dwPassiveOpens
+    #field int dwAttemptFails
+    #field int dwEstabResets
+    #field int dwCurrEstab
+    #field int dwInSegs
+    #field int dwOutSegs
+    #field int dwRetransSegs
+    #field int dwInErrs
+    #field int dwOutRsts
+    #field int dwNumConns
+    #field int dwRtoAlgorithm
+    #field int RtoAlgorithm
+#endstruct
+
+#defstruct MIB_TCPTABLE
+    #field int dwNumEntries
+#endstruct
+
+#defstruct MIB_TCPTABLE2
+    #field int dwNumEntries
+#endstruct
+
+#defstruct MIB_UDP6ROW
+    #field var dwLocalAddr
+    #field int dwLocalScopeId
+    #field int dwLocalPort
+#endstruct
+
+#defstruct MIB_UDP6ROW_OWNER_MODULE
+    #field int ucLocalAddr
+    #field int dwLocalScopeId
+    #field int dwLocalPort
+    #field int dwOwningPid
+    #field int64 liCreateTimestamp
+    #field var Anonymous
+    #field int OwningModuleInfo
+    #field var Anonymous
+    #field int dwFlags
+    #field int _bitfield
+#endstruct
+
+#defstruct MIB_UDP6TABLE
+    #field int dwNumEntries
+#endstruct
+
+#defstruct MIB_UDPROW
+    #field int dwLocalAddr
+    #field int dwLocalPort
+#endstruct
+
+#defstruct MIB_UDPROW_OWNER_MODULE
+    #field int dwLocalAddr
+    #field int dwLocalPort
+    #field int dwOwningPid
+    #field int64 liCreateTimestamp
+    #field var Anonymous
+    #field int OwningModuleInfo
+    #field var Anonymous
+    #field int dwFlags
+    #field int _bitfield
+#endstruct
+
+#defstruct MIB_UDPSTATS
+    #field int dwInDatagrams
+    #field int dwNoPorts
+    #field int dwInErrors
+    #field int dwOutDatagrams
+    #field int dwNumAddrs
+#endstruct
+
+#defstruct MIB_UDPSTATS2
+    #field int64 dw64InDatagrams
+    #field int dwNoPorts
+    #field int dwInErrors
+    #field int64 dw64OutDatagrams
+    #field int dwNumAddrs
+#endstruct
+
+#defstruct MIB_UDPTABLE
+    #field int dwNumEntries
+#endstruct
+
+#defstruct MIB_UNICASTIPADDRESS_ROW
+    #field int Address
+    #field int InterfaceLuid
+    #field int InterfaceIndex
+    #field int PrefixOrigin
+    #field int SuffixOrigin
+    #field int ValidLifetime
+    #field int PreferredLifetime
+    #field int OnLinkPrefixLength
+    #field int SkipAsSource
+    #field int DadState
+    #field int ScopeId
+    #field int64 CreationTimeStamp
+#endstruct
+
+#defstruct MIB_UNICASTIPADDRESS_TABLE
+    #field int NumEntries
+#endstruct
+
+#defstruct MIBICMPINFO
+    #field int icmpInStats
+    #field int icmpOutStats
+#endstruct
+
+#defstruct MIBICMPSTATS
+    #field int dwMsgs
+    #field int dwErrors
+    #field int dwDestUnreachs
+    #field int dwTimeExcds
+    #field int dwParmProbs
+    #field int dwSrcQuenchs
+    #field int dwRedirects
+    #field int dwEchos
+    #field int dwEchoReps
+    #field int dwTimestamps
+    #field int dwTimestampReps
+    #field int dwAddrMasks
+    #field int dwAddrMaskReps
+#endstruct
+
+#defstruct MIBICMPSTATS_EX_XPSP1
+    #field int dwMsgs
+    #field int dwErrors
+    #field int rgdwTypeCount
+#endstruct
+
 #defstruct MIDIHDR
     #field str lpData
     #field int dwBufferLength
@@ -4351,6 +6737,50 @@
     #field int dwLanguageId
 #endstruct
 
+#defstruct NET_ADDRESS_INFO
+    #field int Format
+    #field var Anonymous
+    #field int NamedAddress
+    #field int Ipv4Address
+    #field int Ipv6Address
+    #field int IpAddress
+    #field int Address
+    #field int Port
+#endstruct
+
+#defstruct _NamedAddress_e__Struct
+    #field int Address
+    #field int Port
+#endstruct
+
+#defstruct NET_LUID_LH
+    #field int64 Value
+    #field int Info
+    #field int64 _bitfield
+#endstruct
+
+#defstruct _Info_e__Struct
+    #field int64 _bitfield
+#endstruct
+
+#defstruct NL_BANDWIDTH_INFORMATION
+    #field int64 Bandwidth
+    #field int64 Instability
+    #field int BandwidthPeaked
+#endstruct
+
+#defstruct NL_INTERFACE_OFFLOAD_ROD
+    #field int _bitfield
+#endstruct
+
+#defstruct NL_NETWORK_CONNECTIVITY_HINT
+    #field int ConnectivityLevel
+    #field int ConnectivityCost
+    #field int ApproachingDataLimit
+    #field int OverDataLimit
+    #field int Roaming
+#endstruct
+
 #defstruct NLSVERSIONINFO
     #field int dwNLSVersionInfoSize
     #field int dwNLSVersion
@@ -4363,6 +6793,12 @@
     #field int dwNLSVersion
     #field int dwDefinedVersion
     #field int dwEffectiveId
+#endstruct
+
+#defstruct NSPV2_ROUTINE
+    #field int cbSize
+    #field int dwMajorVersion
+    #field int dwMinorVersion
 #endstruct
 
 #defstruct NUMBERFMTW
@@ -4646,6 +7082,51 @@
     #field int ThreadCount
 #endstruct
 
+#defstruct PF_FILTER_DESCRIPTOR
+    #field int dwFilterFlags
+    #field int dwRule
+    #field int pfatType
+    #field var SrcAddr
+    #field var SrcMask
+    #field var DstAddr
+    #field var DstMask
+    #field int dwProtocol
+    #field int fLateBound
+    #field int wSrcPort
+    #field int wDstPort
+    #field int wSrcPortHighRange
+    #field int wDstPortHighRange
+#endstruct
+
+#defstruct PF_FILTER_STATS
+    #field int dwNumPacketsFiltered
+    #field var info
+#endstruct
+
+#defstruct PF_INTERFACE_STATS
+    #field var pvDriverContext
+    #field int dwFlags
+    #field int dwInDrops
+    #field int dwOutDrops
+    #field int eaInAction
+    #field int eaOutAction
+    #field int dwNumInFilters
+    #field int dwNumOutFilters
+    #field int dwFrag
+    #field int dwSpoof
+    #field int dwReserved1
+    #field int dwReserved2
+    #field int64 liSYN
+    #field int64 liTotalLogged
+    #field int dwLostLogEntries
+#endstruct
+
+#defstruct PF_LATEBIND_INFO
+    #field var SrcAddr
+    #field var DstAddr
+    #field var Mask
+#endstruct
+
 #defstruct PICTDESC
     #field int cbSizeofstruct
     #field var Anonymous
@@ -4906,6 +7387,14 @@
     #field intptr hProfile
 #endstruct
 
+#defstruct PROPBAG2
+    #field int dwType
+    #field int vt
+    #field int cfType
+    #field int dwHint
+    #field wstr pstrName
+#endstruct
+
 #defstruct PROPERTYKEY
     #field int pid
 #endstruct
@@ -5050,6 +7539,13 @@
     #field var pvarVal
 #endstruct
 
+#defstruct PROTOCOLDATA
+    #field int grfFlags
+    #field int dwState
+    #field var pData
+    #field int cbData
+#endstruct
+
 #defstruct PSAPI_WS_WATCH_INFORMATION
     #field var FaultingPc
     #field var FaultingVa
@@ -5066,6 +7562,12 @@
     #field int bVersion
     #field int reserved
     #field int aiKeyAlg
+#endstruct
+
+#defstruct QOS
+    #field var SendingFlowspec
+    #field var ReceivingFlowspec
+    #field int ProviderSpecific
 #endstruct
 
 #defstruct QUERY_SERVICE_CONFIGW
@@ -5288,6 +7790,13 @@
 
 #defstruct SAMPR_ENCRYPTED_USER_PASSWORD
     #field int Buffer
+#endstruct
+
+#defstruct SCOPE_ID
+    #field var Anonymous
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
 #endstruct
 
 #defstruct SCROLLBARINFO
@@ -5528,6 +8037,64 @@
     #field int Top
     #field int Right
     #field int Bottom
+#endstruct
+
+#defstruct SOCKADDR
+    #field int sa_family
+    #field int sa_data
+#endstruct
+
+#defstruct SOCKADDR_IN
+    #field int sin_family
+    #field int sin_port
+    #field var sin_addr
+    #field int sin_zero
+#endstruct
+
+#defstruct SOCKADDR_IN6
+    #field int sin6_family
+    #field int sin6_port
+    #field int sin6_flowinfo
+    #field var sin6_addr
+    #field var Anonymous
+    #field int sin6_scope_id
+    #field var sin6_scope_struct
+#endstruct
+
+#defstruct SOCKADDR_IN6_PAIR
+    #field var SourceAddress
+    #field var DestinationAddress
+#endstruct
+
+#defstruct SOCKADDR_INET
+    #field var Ipv4
+    #field var Ipv6
+    #field int si_family
+#endstruct
+
+#defstruct SOCKET_ADDRESS
+    #field var lpSockaddr
+    #field int iSockaddrLength
+#endstruct
+
+#defstruct SOCKET_ADDRESS_LIST
+    #field int iAddressCount
+#endstruct
+
+#defstruct SOFTDISTINFO
+    #field int cbSize
+    #field int dwFlags
+    #field int dwAdState
+    #field wstr szTitle
+    #field wstr szAbstract
+    #field wstr szHREF
+    #field int dwInstalledVersionMS
+    #field int dwInstalledVersionLS
+    #field int dwUpdateVersionMS
+    #field int dwUpdateVersionLS
+    #field int dwAdvertisedVersionMS
+    #field int dwAdvertisedVersionLS
+    #field int dwReserved
 #endstruct
 
 #defstruct SOURCEFILE
@@ -5832,6 +8399,11 @@
 #defstruct TIMECAPS
     #field int wPeriodMin
     #field int wPeriodMax
+#endstruct
+
+#defstruct TIMEVAL
+    #field int tv_sec
+    #field int tv_usec
 #endstruct
 
 #defstruct TITLEBARINFO
@@ -6302,6 +8874,21 @@
     #field var phg
 #endstruct
 
+#defstruct WICBitmapPattern
+    #field int64 Position
+    #field int Length
+    #field var Pattern
+    #field var Mask
+    #field int EndOfStream
+#endstruct
+
+#defstruct WICRect
+    #field int X
+    #field int Y
+    #field int Width
+    #field int Height
+#endstruct
+
 #defstruct WIN32_FIND_DATAW
     #field int dwFileAttributes
     #field int nFileSizeHigh
@@ -6463,6 +9050,244 @@
     #field int64 TimeStamp
 #endstruct
 
+#defstruct WSABUF
+    #field int len
+    #field str buf
+#endstruct
+
+#defstruct WSACOMPLETION
+    #field int Type
+    #field int Parameters
+    #field int WindowMessage
+    #field int Event
+    #field int Apc
+    #field int Port
+    #field intptr hWnd
+    #field int uMsg
+    #field intptr context
+    #field intptr hPort
+    #field int Key
+#endstruct
+
+#defstruct _Parameters_e__Union
+    #field int WindowMessage
+    #field int Event
+    #field int Apc
+    #field int Port
+    #field intptr hWnd
+    #field int uMsg
+    #field intptr context
+    #field intptr hPort
+    #field int Key
+#endstruct
+
+#defstruct _WindowMessage_e__Struct
+    #field intptr hWnd
+    #field int uMsg
+    #field intptr context
+#endstruct
+
+#defstruct _Port_e__Struct
+    #field intptr hPort
+    #field int Key
+#endstruct
+
+#defstruct WSAMSG
+    #field var name
+    #field int namelen
+    #field var lpBuffers
+    #field int dwBufferCount
+    #field var Control
+    #field int dwFlags
+#endstruct
+
+#defstruct WSANAMESPACE_INFOEXW
+    #field int dwNameSpace
+    #field int fActive
+    #field int dwVersion
+    #field wstr lpszIdentifier
+    #field var ProviderSpecific
+#endstruct
+
+#defstruct WSANAMESPACE_INFOW
+    #field int dwNameSpace
+    #field int fActive
+    #field int dwVersion
+    #field wstr lpszIdentifier
+#endstruct
+
+#defstruct WSANETWORKEVENTS
+    #field int lNetworkEvents
+    #field int iErrorCode
+#endstruct
+
+#defstruct WSANSCLASSINFOW
+    #field wstr lpszName
+    #field int dwNameSpace
+    #field int dwValueType
+    #field int dwValueSize
+    #field var lpValue
+#endstruct
+
+#defstruct WSAPOLLFD
+    #field int fd
+    #field int events
+    #field int revents
+#endstruct
+
+#defstruct WSAPROTOCOL_INFOW
+    #field int dwServiceFlags1
+    #field int dwServiceFlags2
+    #field int dwServiceFlags3
+    #field int dwServiceFlags4
+    #field int dwProviderFlags
+    #field int dwCatalogEntryId
+    #field int ProtocolChain
+    #field int iVersion
+    #field int iAddressFamily
+    #field int iMaxSockAddr
+    #field int iMinSockAddr
+    #field int iSocketType
+    #field int iProtocol
+    #field int iProtocolMaxOffset
+    #field int iNetworkByteOrder
+    #field int iSecurityScheme
+    #field int dwMessageSize
+    #field int dwProviderReserved
+    #field int szProtocol
+#endstruct
+
+#defstruct WSAPROTOCOLCHAIN
+    #field int ChainLen
+    #field int ChainEntries
+#endstruct
+
+#defstruct WSAQUERYSET2W
+    #field int dwSize
+    #field wstr lpszServiceInstanceName
+    #field var lpVersion
+    #field wstr lpszComment
+    #field int dwNameSpace
+    #field wstr lpszContext
+    #field int dwNumberOfProtocols
+    #field var lpafpProtocols
+    #field wstr lpszQueryString
+    #field int dwNumberOfCsAddrs
+    #field var lpcsaBuffer
+    #field int dwOutputFlags
+    #field var lpBlob
+#endstruct
+
+#defstruct WSAQUERYSETW
+    #field int dwSize
+    #field wstr lpszServiceInstanceName
+    #field var lpVersion
+    #field wstr lpszComment
+    #field int dwNameSpace
+    #field wstr lpszContext
+    #field int dwNumberOfProtocols
+    #field var lpafpProtocols
+    #field wstr lpszQueryString
+    #field int dwNumberOfCsAddrs
+    #field var lpcsaBuffer
+    #field int dwOutputFlags
+    #field var lpBlob
+#endstruct
+
+#defstruct WSASERVICECLASSINFOW
+    #field wstr lpszServiceClassName
+    #field int dwCount
+    #field var lpClassInfos
+#endstruct
+
+#defstruct WSAVERSION
+    #field int dwVersion
+    #field int ecHow
+#endstruct
+
+#defstruct XAUDIO2_BUFFER
+    #field int Flags
+    #field int AudioBytes
+    #field var pAudioData
+    #field int PlayBegin
+    #field int PlayLength
+    #field int LoopBegin
+    #field int LoopLength
+    #field int LoopCount
+    #field var pContext
+#endstruct
+
+#defstruct XAUDIO2_BUFFER_WMA
+    #field var pDecodedPacketCumulativeBytes
+    #field int PacketCount
+#endstruct
+
+#defstruct XAUDIO2_DEBUG_CONFIGURATION
+    #field int TraceMask
+    #field int BreakMask
+    #field int LogThreadID
+    #field int LogFileline
+    #field int LogFunctionName
+    #field int LogTiming
+#endstruct
+
+#defstruct XAUDIO2_EFFECT_CHAIN
+    #field int EffectCount
+    #field var pEffectDescriptors
+#endstruct
+
+#defstruct XAUDIO2_EFFECT_DESCRIPTOR
+    #field var pEffect
+    #field int InitialState
+    #field int OutputChannels
+#endstruct
+
+#defstruct XAUDIO2_FILTER_PARAMETERS
+    #field int Type
+    #field float Frequency
+    #field float OneOverQ
+#endstruct
+
+#defstruct XAUDIO2_PERFORMANCE_DATA
+    #field int64 AudioCyclesSinceLastQuery
+    #field int64 TotalCyclesSinceLastQuery
+    #field int MinimumCyclesPerQuantum
+    #field int MaximumCyclesPerQuantum
+    #field int MemoryUsageInBytes
+    #field int CurrentLatencyInSamples
+    #field int GlitchesSinceEngineStarted
+    #field int ActiveSourceVoiceCount
+    #field int TotalSourceVoiceCount
+    #field int ActiveSubmixVoiceCount
+    #field int ActiveResamplerCount
+    #field int ActiveMatrixMixCount
+    #field int ActiveXmaSourceVoices
+    #field int ActiveXmaStreams
+#endstruct
+
+#defstruct XAUDIO2_SEND_DESCRIPTOR
+    #field int Flags
+    #field var pOutputVoice
+#endstruct
+
+#defstruct XAUDIO2_VOICE_DETAILS
+    #field int CreationFlags
+    #field int ActiveFlags
+    #field int InputChannels
+    #field int InputSampleRate
+#endstruct
+
+#defstruct XAUDIO2_VOICE_SENDS
+    #field int SendCount
+    #field var pSends
+#endstruct
+
+#defstruct XAUDIO2_VOICE_STATE
+    #field var pCurrentBufferContext
+    #field int BuffersQueued
+    #field int64 SamplesPlayed
+#endstruct
+
 #defstruct XFORM
     #field float eM11
     #field float eM12
@@ -6485,7 +9310,73 @@
     #field var pulXlate
 #endstruct
 
+#defstruct ZONEATTRIBUTES
+    #field int cbSize
+    #field int szDisplayName
+    #field int szDescription
+    #field int szIconPath
+    #field int dwTemplateMinLevel
+    #field int dwTemplateRecommended
+    #field int dwTemplateCurrentLevel
+    #field int dwFlags
+#endstruct
+
 ;--- enums / constants ---
+; D3DDDI_COLOR_SPACE_TYPE
+#define D3DDDI_COLOR_SPACE_RGB_FULL_G22_NONE_P709  0x0
+#define D3DDDI_COLOR_SPACE_RGB_FULL_G10_NONE_P709  0x1
+#define D3DDDI_COLOR_SPACE_RGB_STUDIO_G22_NONE_P709  0x2
+#define D3DDDI_COLOR_SPACE_RGB_STUDIO_G22_NONE_P2020  0x3
+#define D3DDDI_COLOR_SPACE_RESERVED  0x4
+#define D3DDDI_COLOR_SPACE_YCBCR_FULL_G22_NONE_P709_X601  0x5
+#define D3DDDI_COLOR_SPACE_YCBCR_STUDIO_G22_LEFT_P601  0x6
+#define D3DDDI_COLOR_SPACE_YCBCR_FULL_G22_LEFT_P601  0x7
+#define D3DDDI_COLOR_SPACE_YCBCR_STUDIO_G22_LEFT_P709  0x8
+#define D3DDDI_COLOR_SPACE_YCBCR_FULL_G22_LEFT_P709  0x9
+#define D3DDDI_COLOR_SPACE_YCBCR_STUDIO_G22_LEFT_P2020  0xa
+#define D3DDDI_COLOR_SPACE_YCBCR_FULL_G22_LEFT_P2020  0xb
+#define D3DDDI_COLOR_SPACE_RGB_FULL_G2084_NONE_P2020  0xc
+#define D3DDDI_COLOR_SPACE_YCBCR_STUDIO_G2084_LEFT_P2020  0xd
+#define D3DDDI_COLOR_SPACE_RGB_STUDIO_G2084_NONE_P2020  0xe
+#define D3DDDI_COLOR_SPACE_YCBCR_STUDIO_G22_TOPLEFT_P2020  0xf
+#define D3DDDI_COLOR_SPACE_YCBCR_STUDIO_G2084_TOPLEFT_P2020  0x10
+#define D3DDDI_COLOR_SPACE_RGB_FULL_G22_NONE_P2020  0x11
+#define D3DDDI_COLOR_SPACE_YCBCR_STUDIO_GHLG_TOPLEFT_P2020  0x12
+#define D3DDDI_COLOR_SPACE_YCBCR_FULL_GHLG_TOPLEFT_P2020  0x13
+#define D3DDDI_COLOR_SPACE_RGB_STUDIO_G24_NONE_P709  0x14
+#define D3DDDI_COLOR_SPACE_RGB_STUDIO_G24_NONE_P2020  0x15
+#define D3DDDI_COLOR_SPACE_YCBCR_STUDIO_G24_LEFT_P709  0x16
+#define D3DDDI_COLOR_SPACE_YCBCR_STUDIO_G24_LEFT_P2020  0x17
+#define D3DDDI_COLOR_SPACE_YCBCR_STUDIO_G24_TOPLEFT_P2020  0x18
+#define D3DDDI_COLOR_SPACE_CUSTOM  -1
+
+; D3DDDI_FLIPINTERVAL_TYPE
+#define D3DDDI_FLIPINTERVAL_IMMEDIATE  0x0
+#define D3DDDI_FLIPINTERVAL_ONE  0x1
+#define D3DDDI_FLIPINTERVAL_TWO  0x2
+#define D3DDDI_FLIPINTERVAL_THREE  0x3
+#define D3DDDI_FLIPINTERVAL_FOUR  0x4
+#define D3DDDI_FLIPINTERVAL_IMMEDIATE_ALLOW_TEARING  0x5
+
+; D3DDDI_GAMMARAMP_TYPE
+#define D3DDDI_GAMMARAMP_UNINITIALIZED  0x0
+#define D3DDDI_GAMMARAMP_DEFAULT  0x1
+#define D3DDDI_GAMMARAMP_RGB256x3x16  0x2
+#define D3DDDI_GAMMARAMP_DXGI_1  0x3
+#define D3DDDI_GAMMARAMP_MATRIX_3x4  0x4
+#define D3DDDI_GAMMARAMP_MATRIX_V2  0x5
+
+; D3DDDI_HDR_METADATA_TYPE
+#define D3DDDI_HDR_METADATA_TYPE_NONE  0x0
+#define D3DDDI_HDR_METADATA_TYPE_HDR10  0x1
+#define D3DDDI_HDR_METADATA_TYPE_HDR10PLUS  0x2
+
+; D3DDDI_ROTATION
+#define D3DDDI_ROTATION_IDENTITY  0x1
+#define D3DDDI_ROTATION_90  0x2
+#define D3DDDI_ROTATION_180  0x3
+#define D3DDDI_ROTATION_270  0x4
+
 ; D3DDDI_SYNCHRONIZATIONOBJECT_TYPE
 #define D3DDDI_SYNCHRONIZATION_MUTEX  0x1
 #define D3DDDI_SEMAPHORE  0x2
@@ -6494,6 +9385,229 @@
 #define D3DDDI_MONITORED_FENCE  0x5
 #define D3DDDI_PERIODIC_MONITORED_FENCE  0x6
 #define D3DDDI_SYNCHRONIZATION_TYPE_LIMIT  0x7
+
+; D3DDDI_VIDEO_SIGNAL_SCANLINE_ORDERING
+#define D3DDDI_VSSLO_UNINITIALIZED  0x0
+#define D3DDDI_VSSLO_PROGRESSIVE  0x1
+#define D3DDDI_VSSLO_INTERLACED_UPPERFIELDFIRST  0x2
+#define D3DDDI_VSSLO_INTERLACED_LOWERFIELDFIRST  0x3
+#define D3DDDI_VSSLO_OTHER  0xff
+
+; D3DDDIFORMAT
+#define D3DDDIFMT_UNKNOWN  0x0
+#define D3DDDIFMT_R8G8B8  0x14
+#define D3DDDIFMT_A8R8G8B8  0x15
+#define D3DDDIFMT_X8R8G8B8  0x16
+#define D3DDDIFMT_R5G6B5  0x17
+#define D3DDDIFMT_X1R5G5B5  0x18
+#define D3DDDIFMT_A1R5G5B5  0x19
+#define D3DDDIFMT_A4R4G4B4  0x1a
+#define D3DDDIFMT_R3G3B2  0x1b
+#define D3DDDIFMT_A8  0x1c
+#define D3DDDIFMT_A8R3G3B2  0x1d
+#define D3DDDIFMT_X4R4G4B4  0x1e
+#define D3DDDIFMT_A2B10G10R10  0x1f
+#define D3DDDIFMT_A8B8G8R8  0x20
+#define D3DDDIFMT_X8B8G8R8  0x21
+#define D3DDDIFMT_G16R16  0x22
+#define D3DDDIFMT_A2R10G10B10  0x23
+#define D3DDDIFMT_A16B16G16R16  0x24
+#define D3DDDIFMT_A8P8  0x28
+#define D3DDDIFMT_P8  0x29
+#define D3DDDIFMT_L8  0x32
+#define D3DDDIFMT_A8L8  0x33
+#define D3DDDIFMT_A4L4  0x34
+#define D3DDDIFMT_V8U8  0x3c
+#define D3DDDIFMT_L6V5U5  0x3d
+#define D3DDDIFMT_X8L8V8U8  0x3e
+#define D3DDDIFMT_Q8W8V8U8  0x3f
+#define D3DDDIFMT_V16U16  0x40
+#define D3DDDIFMT_W11V11U10  0x41
+#define D3DDDIFMT_A2W10V10U10  0x43
+#define D3DDDIFMT_UYVY  0x59565955
+#define D3DDDIFMT_R8G8_B8G8  0x47424752
+#define D3DDDIFMT_YUY2  0x32595559
+#define D3DDDIFMT_G8R8_G8B8  0x42475247
+#define D3DDDIFMT_DXT1  0x31545844
+#define D3DDDIFMT_DXT2  0x32545844
+#define D3DDDIFMT_DXT3  0x33545844
+#define D3DDDIFMT_DXT4  0x34545844
+#define D3DDDIFMT_DXT5  0x35545844
+#define D3DDDIFMT_D16_LOCKABLE  0x46
+#define D3DDDIFMT_D32  0x47
+#define D3DDDIFMT_D15S1  0x49
+#define D3DDDIFMT_D24S8  0x4b
+#define D3DDDIFMT_D24X8  0x4d
+#define D3DDDIFMT_D24X4S4  0x4f
+#define D3DDDIFMT_D16  0x50
+#define D3DDDIFMT_D32F_LOCKABLE  0x52
+#define D3DDDIFMT_D24FS8  0x53
+#define D3DDDIFMT_D32_LOCKABLE  0x54
+#define D3DDDIFMT_S8_LOCKABLE  0x55
+#define D3DDDIFMT_S1D15  0x48
+#define D3DDDIFMT_S8D24  0x4a
+#define D3DDDIFMT_X8D24  0x4c
+#define D3DDDIFMT_X4S4D24  0x4e
+#define D3DDDIFMT_L16  0x51
+#define D3DDDIFMT_G8R8  0x5b
+#define D3DDDIFMT_R8  0x5c
+#define D3DDDIFMT_VERTEXDATA  0x64
+#define D3DDDIFMT_INDEX16  0x65
+#define D3DDDIFMT_INDEX32  0x66
+#define D3DDDIFMT_Q16W16V16U16  0x6e
+#define D3DDDIFMT_MULTI2_ARGB8  0x3154454d
+#define D3DDDIFMT_R16F  0x6f
+#define D3DDDIFMT_G16R16F  0x70
+#define D3DDDIFMT_A16B16G16R16F  0x71
+#define D3DDDIFMT_R32F  0x72
+#define D3DDDIFMT_G32R32F  0x73
+#define D3DDDIFMT_A32B32G32R32F  0x74
+#define D3DDDIFMT_CxV8U8  0x75
+#define D3DDDIFMT_A1  0x76
+#define D3DDDIFMT_A2B10G10R10_XR_BIAS  0x77
+#define D3DDDIFMT_DXVACOMPBUFFER_BASE  0x96
+#define D3DDDIFMT_PICTUREPARAMSDATA  0x96
+#define D3DDDIFMT_MACROBLOCKDATA  0x97
+#define D3DDDIFMT_RESIDUALDIFFERENCEDATA  0x98
+#define D3DDDIFMT_DEBLOCKINGDATA  0x99
+#define D3DDDIFMT_INVERSEQUANTIZATIONDATA  0x9a
+#define D3DDDIFMT_SLICECONTROLDATA  0x9b
+#define D3DDDIFMT_BITSTREAMDATA  0x9c
+#define D3DDDIFMT_MOTIONVECTORBUFFER  0x9d
+#define D3DDDIFMT_FILMGRAINBUFFER  0x9e
+#define D3DDDIFMT_DXVA_RESERVED9  0x9f
+#define D3DDDIFMT_DXVA_RESERVED10  0xa0
+#define D3DDDIFMT_DXVA_RESERVED11  0xa1
+#define D3DDDIFMT_DXVA_RESERVED12  0xa2
+#define D3DDDIFMT_DXVA_RESERVED13  0xa3
+#define D3DDDIFMT_DXVA_RESERVED14  0xa4
+#define D3DDDIFMT_DXVA_RESERVED15  0xa5
+#define D3DDDIFMT_DXVA_RESERVED16  0xa6
+#define D3DDDIFMT_DXVA_RESERVED17  0xa7
+#define D3DDDIFMT_DXVA_RESERVED18  0xa8
+#define D3DDDIFMT_DXVA_RESERVED19  0xa9
+#define D3DDDIFMT_DXVA_RESERVED20  0xaa
+#define D3DDDIFMT_DXVA_RESERVED21  0xab
+#define D3DDDIFMT_DXVA_RESERVED22  0xac
+#define D3DDDIFMT_DXVA_RESERVED23  0xad
+#define D3DDDIFMT_DXVA_RESERVED24  0xae
+#define D3DDDIFMT_DXVA_RESERVED25  0xaf
+#define D3DDDIFMT_DXVA_RESERVED26  0xb0
+#define D3DDDIFMT_DXVA_RESERVED27  0xb1
+#define D3DDDIFMT_DXVA_RESERVED28  0xb2
+#define D3DDDIFMT_DXVA_RESERVED29  0xb3
+#define D3DDDIFMT_DXVA_RESERVED30  0xb4
+#define D3DDDIFMT_DXVA_RESERVED31  0xb5
+#define D3DDDIFMT_DXVACOMPBUFFER_MAX  0xb5
+#define D3DDDIFMT_BINARYBUFFER  0xc7
+
+; D3DKMT_ALLOCATIONRESIDENCYSTATUS
+#define D3DKMT_ALLOCATIONRESIDENCYSTATUS_RESIDENTINGPUMEMORY  0x1
+#define D3DKMT_ALLOCATIONRESIDENCYSTATUS_RESIDENTINSHAREDMEMORY  0x2
+#define D3DKMT_ALLOCATIONRESIDENCYSTATUS_NOTRESIDENT  0x3
+
+; D3DKMT_CLIENTHINT
+#define D3DKMT_CLIENTHINT_UNKNOWN  0x0
+#define D3DKMT_CLIENTHINT_OPENGL  0x1
+#define D3DKMT_CLIENTHINT_CDD  0x2
+#define D3DKMT_CLIENTHINT_OPENCL  0x3
+#define D3DKMT_CLIENTHINT_VULKAN  0x4
+#define D3DKMT_CLIENTHINT_CUDA  0x5
+#define D3DKMT_CLIENTHINT_RESERVED  0x6
+#define D3DKMT_CLIENTHINT_DX7  0x7
+#define D3DKMT_CLIENTHINT_DX8  0x8
+#define D3DKMT_CLIENTHINT_DX9  0x9
+#define D3DKMT_CLIENTHINT_DX10  0xa
+#define D3DKMT_CLIENTHINT_DX11  0xb
+#define D3DKMT_CLIENTHINT_DX12  0xc
+#define D3DKMT_CLIENTHINT_9ON12  0xd
+#define D3DKMT_CLIENTHINT_11ON12  0xe
+#define D3DKMT_CLIENTHINT_MFT_ENCODE  0xf
+#define D3DKMT_CLIENTHINT_GLON12  0x10
+#define D3DKMT_CLIENTHINT_CLON12  0x11
+#define D3DKMT_CLIENTHINT_DML_TENSORFLOW  0x12
+#define D3DKMT_CLIENTHINT_ONEAPI_LEVEL0  0x13
+#define D3DKMT_CLIENTHINT_DML_PYTORCH  0x14
+#define D3DKMT_CLIENTHINT_MAX  0x15
+
+; D3DKMT_DEVICEEXECUTION_STATE
+#define D3DKMT_DEVICEEXECUTION_ACTIVE  0x1
+#define D3DKMT_DEVICEEXECUTION_RESET  0x2
+#define D3DKMT_DEVICEEXECUTION_HUNG  0x3
+#define D3DKMT_DEVICEEXECUTION_STOPPED  0x4
+#define D3DKMT_DEVICEEXECUTION_ERROR_OUTOFMEMORY  0x5
+#define D3DKMT_DEVICEEXECUTION_ERROR_DMAFAULT  0x6
+#define D3DKMT_DEVICEEXECUTION_ERROR_DMAPAGEFAULT  0x7
+
+; D3DKMT_DEVICESTATE_TYPE
+#define D3DKMT_DEVICESTATE_EXECUTION  0x1
+#define D3DKMT_DEVICESTATE_PRESENT  0x2
+#define D3DKMT_DEVICESTATE_RESET  0x3
+#define D3DKMT_DEVICESTATE_PRESENT_DWM  0x4
+#define D3DKMT_DEVICESTATE_PAGE_FAULT  0x5
+#define D3DKMT_DEVICESTATE_PRESENT_QUEUE  0x6
+
+; D3DKMT_ESCAPETYPE
+#define D3DKMT_ESCAPE_DRIVERPRIVATE  0x0
+#define D3DKMT_ESCAPE_VIDMM  0x1
+#define D3DKMT_ESCAPE_TDRDBGCTRL  0x2
+#define D3DKMT_ESCAPE_VIDSCH  0x3
+#define D3DKMT_ESCAPE_DEVICE  0x4
+#define D3DKMT_ESCAPE_DMM  0x5
+#define D3DKMT_ESCAPE_DEBUG_SNAPSHOT  0x6
+#define D3DKMT_ESCAPE_DRT_TEST  0x8
+#define D3DKMT_ESCAPE_DIAGNOSTICS  0x9
+#define D3DKMT_ESCAPE_OUTPUTDUPL_SNAPSHOT  0xa
+#define D3DKMT_ESCAPE_OUTPUTDUPL_DIAGNOSTICS  0xb
+#define D3DKMT_ESCAPE_BDD_PNP  0xc
+#define D3DKMT_ESCAPE_BDD_FALLBACK  0xd
+#define D3DKMT_ESCAPE_ACTIVATE_SPECIFIC_DIAG  0xe
+#define D3DKMT_ESCAPE_MODES_PRUNED_OUT  0xf
+#define D3DKMT_ESCAPE_WHQL_INFO  0x10
+#define D3DKMT_ESCAPE_BRIGHTNESS  0x11
+#define D3DKMT_ESCAPE_EDID_CACHE  0x12
+#define D3DKMT_ESCAPE_MIRACAST_DISPLAY_REQUEST  0x14
+#define D3DKMT_ESCAPE_HISTORY_BUFFER_STATUS  0x15
+#define D3DKMT_ESCAPE_MIRACAST_ADAPTER_DIAG_INFO  0x17
+#define D3DKMT_ESCAPE_FORCE_BDDFALLBACK_HEADLESS  0x18
+#define D3DKMT_ESCAPE_REQUEST_MACHINE_CRASH  0x19
+#define D3DKMT_ESCAPE_SOFTGPU_ENABLE_DISABLE_HMD  0x1b
+#define D3DKMT_ESCAPE_PROCESS_VERIFIER_OPTION  0x1c
+#define D3DKMT_ESCAPE_ADAPTER_VERIFIER_OPTION  0x1d
+#define D3DKMT_ESCAPE_IDD_REQUEST  0x1e
+#define D3DKMT_ESCAPE_DOD_SET_DIRTYRECT_MODE  0x1f
+#define D3DKMT_ESCAPE_LOG_CODEPOINT_PACKET  0x20
+#define D3DKMT_ESCAPE_LOG_USERMODE_DAIG_PACKET  0x21
+#define D3DKMT_ESCAPE_GET_EXTERNAL_DIAGNOSTICS  0x22
+#define D3DKMT_ESCAPE_GET_DISPLAY_CONFIGURATIONS  0x24
+#define D3DKMT_ESCAPE_QUERY_IOMMU_STATUS  0x25
+#define D3DKMT_ESCAPE_CCD_DATABASE  0x26
+#define D3DKMT_ESCAPE_QUERY_DMA_REMAPPING_STATUS  0x27
+#define D3DKMT_ESCAPE_WIN32K_START  0x400
+#define D3DKMT_ESCAPE_WIN32K_HIP_DEVICE_INFO  0x400
+#define D3DKMT_ESCAPE_WIN32K_QUERY_CD_ROTATION_BLOCK  0x401
+#define D3DKMT_ESCAPE_WIN32K_DPI_INFO  0x402
+#define D3DKMT_ESCAPE_WIN32K_PRESENTER_VIEW_INFO  0x403
+#define D3DKMT_ESCAPE_WIN32K_SYSTEM_DPI  0x404
+#define D3DKMT_ESCAPE_WIN32K_BDD_FALLBACK  0x405
+#define D3DKMT_ESCAPE_WIN32K_DDA_TEST_CTL  0x406
+#define D3DKMT_ESCAPE_WIN32K_USER_DETECTED_BLACK_SCREEN  0x407
+#define D3DKMT_ESCAPE_WIN32K_DISPBROKER_TEST  0x40b
+#define D3DKMT_ESCAPE_WIN32K_COLOR_PROFILE_INFO  0x40c
+#define D3DKMT_ESCAPE_WIN32K_SET_DIMMED_STATE  0x40d
+#define D3DKMT_ESCAPE_WIN32K_SPECIALIZED_DISPLAY_TEST  0x40e
+
+; D3DKMT_PRESENT_MODEL
+#define D3DKMT_PM_UNINITIALIZED  0x0
+#define D3DKMT_PM_REDIRECTED_GDI  0x1
+#define D3DKMT_PM_REDIRECTED_FLIP  0x2
+#define D3DKMT_PM_REDIRECTED_BLT  0x3
+#define D3DKMT_PM_REDIRECTED_VISTABLT  0x4
+#define D3DKMT_PM_SCREENCAPTUREFENCE  0x5
+#define D3DKMT_PM_REDIRECTED_GDI_SYSMEM  0x6
+#define D3DKMT_PM_REDIRECTED_COMPOSITION  0x7
+#define D3DKMT_PM_SURFACECOMPLETE  0x8
+#define D3DKMT_PM_FLIPMANAGER  0x9
 
 ; D3DKMT_STANDARDALLOCATIONTYPE
 #define D3DKMT_STANDARDALLOCATIONTYPE_EXISTINGHEAP  0x1
@@ -6506,6 +9620,108 @@
 #define D3DKMT_VIDPNSOURCEOWNER_EXCLUSIVE  0x2
 #define D3DKMT_VIDPNSOURCEOWNER_EXCLUSIVEGDI  0x3
 #define D3DKMT_VIDPNSOURCEOWNER_EMULATED  0x4
+
+; DXGK_PAGE_FAULT_FLAGS
+#define DXGK_PAGE_FAULT_WRITE  0x1
+#define DXGK_PAGE_FAULT_FENCE_INVALID  0x2
+#define DXGK_PAGE_FAULT_ADAPTER_RESET_REQUIRED  0x4
+#define DXGK_PAGE_FAULT_ENGINE_RESET_REQUIRED  0x8
+#define DXGK_PAGE_FAULT_FATAL_HARDWARE_ERROR  0x10
+#define DXGK_PAGE_FAULT_IOMMU  0x20
+#define DXGK_PAGE_FAULT_HW_CONTEXT_VALID  0x40
+#define DXGK_PAGE_FAULT_PROCESS_HANDLE_VALID  0x80
+
+; DXGK_RENDER_PIPELINE_STAGE
+#define DXGK_RENDER_PIPELINE_STAGE_UNKNOWN  0x0
+#define DXGK_RENDER_PIPELINE_STAGE_INPUT_ASSEMBLER  0x1
+#define DXGK_RENDER_PIPELINE_STAGE_VERTEX_SHADER  0x2
+#define DXGK_RENDER_PIPELINE_STAGE_GEOMETRY_SHADER  0x3
+#define DXGK_RENDER_PIPELINE_STAGE_STREAM_OUTPUT  0x4
+#define DXGK_RENDER_PIPELINE_STAGE_RASTERIZER  0x5
+#define DXGK_RENDER_PIPELINE_STAGE_PIXEL_SHADER  0x6
+#define DXGK_RENDER_PIPELINE_STAGE_OUTPUT_MERGER  0x7
+
+; KMTQUERYADAPTERINFOTYPE
+#define KMTQAITYPE_UMDRIVERPRIVATE  0x0
+#define KMTQAITYPE_UMDRIVERNAME  0x1
+#define KMTQAITYPE_UMOPENGLINFO  0x2
+#define KMTQAITYPE_GETSEGMENTSIZE  0x3
+#define KMTQAITYPE_ADAPTERGUID  0x4
+#define KMTQAITYPE_FLIPQUEUEINFO  0x5
+#define KMTQAITYPE_ADAPTERADDRESS  0x6
+#define KMTQAITYPE_SETWORKINGSETINFO  0x7
+#define KMTQAITYPE_ADAPTERREGISTRYINFO  0x8
+#define KMTQAITYPE_CURRENTDISPLAYMODE  0x9
+#define KMTQAITYPE_MODELIST  0xa
+#define KMTQAITYPE_CHECKDRIVERUPDATESTATUS  0xb
+#define KMTQAITYPE_VIRTUALADDRESSINFO  0xc
+#define KMTQAITYPE_DRIVERVERSION  0xd
+#define KMTQAITYPE_ADAPTERTYPE  0xf
+#define KMTQAITYPE_OUTPUTDUPLCONTEXTSCOUNT  0x10
+#define KMTQAITYPE_WDDM_1_2_CAPS  0x11
+#define KMTQAITYPE_UMD_DRIVER_VERSION  0x12
+#define KMTQAITYPE_DIRECTFLIP_SUPPORT  0x13
+#define KMTQAITYPE_MULTIPLANEOVERLAY_SUPPORT  0x14
+#define KMTQAITYPE_DLIST_DRIVER_NAME  0x15
+#define KMTQAITYPE_WDDM_1_3_CAPS  0x16
+#define KMTQAITYPE_MULTIPLANEOVERLAY_HUD_SUPPORT  0x17
+#define KMTQAITYPE_WDDM_2_0_CAPS  0x18
+#define KMTQAITYPE_NODEMETADATA  0x19
+#define KMTQAITYPE_CPDRIVERNAME  0x1a
+#define KMTQAITYPE_XBOX  0x1b
+#define KMTQAITYPE_INDEPENDENTFLIP_SUPPORT  0x1c
+#define KMTQAITYPE_MIRACASTCOMPANIONDRIVERNAME  0x1d
+#define KMTQAITYPE_PHYSICALADAPTERCOUNT  0x1e
+#define KMTQAITYPE_PHYSICALADAPTERDEVICEIDS  0x1f
+#define KMTQAITYPE_DRIVERCAPS_EXT  0x20
+#define KMTQAITYPE_QUERY_MIRACAST_DRIVER_TYPE  0x21
+#define KMTQAITYPE_QUERY_GPUMMU_CAPS  0x22
+#define KMTQAITYPE_QUERY_MULTIPLANEOVERLAY_DECODE_SUPPORT  0x23
+#define KMTQAITYPE_QUERY_HW_PROTECTION_TEARDOWN_COUNT  0x24
+#define KMTQAITYPE_QUERY_ISBADDRIVERFORHWPROTECTIONDISABLED  0x25
+#define KMTQAITYPE_MULTIPLANEOVERLAY_SECONDARY_SUPPORT  0x26
+#define KMTQAITYPE_INDEPENDENTFLIP_SECONDARY_SUPPORT  0x27
+#define KMTQAITYPE_PANELFITTER_SUPPORT  0x28
+#define KMTQAITYPE_PHYSICALADAPTERPNPKEY  0x29
+#define KMTQAITYPE_GETSEGMENTGROUPSIZE  0x2a
+#define KMTQAITYPE_MPO3DDI_SUPPORT  0x2b
+#define KMTQAITYPE_HWDRM_SUPPORT  0x2c
+#define KMTQAITYPE_MPOKERNELCAPS_SUPPORT  0x2d
+#define KMTQAITYPE_MULTIPLANEOVERLAY_STRETCH_SUPPORT  0x2e
+#define KMTQAITYPE_GET_DEVICE_VIDPN_OWNERSHIP_INFO  0x2f
+#define KMTQAITYPE_QUERYREGISTRY  0x30
+#define KMTQAITYPE_KMD_DRIVER_VERSION  0x31
+#define KMTQAITYPE_BLOCKLIST_KERNEL  0x32
+#define KMTQAITYPE_BLOCKLIST_RUNTIME  0x33
+#define KMTQAITYPE_ADAPTERGUID_RENDER  0x34
+#define KMTQAITYPE_ADAPTERADDRESS_RENDER  0x35
+#define KMTQAITYPE_ADAPTERREGISTRYINFO_RENDER  0x36
+#define KMTQAITYPE_CHECKDRIVERUPDATESTATUS_RENDER  0x37
+#define KMTQAITYPE_DRIVERVERSION_RENDER  0x38
+#define KMTQAITYPE_ADAPTERTYPE_RENDER  0x39
+#define KMTQAITYPE_WDDM_1_2_CAPS_RENDER  0x3a
+#define KMTQAITYPE_WDDM_1_3_CAPS_RENDER  0x3b
+#define KMTQAITYPE_QUERY_ADAPTER_UNIQUE_GUID  0x3c
+#define KMTQAITYPE_NODEPERFDATA  0x3d
+#define KMTQAITYPE_ADAPTERPERFDATA  0x3e
+#define KMTQAITYPE_ADAPTERPERFDATA_CAPS  0x3f
+#define KMTQUITYPE_GPUVERSION  0x40
+#define KMTQAITYPE_DRIVER_DESCRIPTION  0x41
+#define KMTQAITYPE_DRIVER_DESCRIPTION_RENDER  0x42
+#define KMTQAITYPE_SCANOUT_CAPS  0x43
+#define KMTQAITYPE_DISPLAY_UMDRIVERNAME  0x47
+#define KMTQAITYPE_PARAVIRTUALIZATION_RENDER  0x44
+#define KMTQAITYPE_SERVICENAME  0x45
+#define KMTQAITYPE_WDDM_2_7_CAPS  0x46
+#define KMTQAITYPE_TRACKEDWORKLOAD_SUPPORT  0x48
+#define KMTQAITYPE_HYBRID_DLIST_DLL_SUPPORT  0x49
+#define KMTQAITYPE_DISPLAY_CAPS  0x4a
+#define KMTQAITYPE_WDDM_2_9_CAPS  0x4b
+#define KMTQAITYPE_CROSSADAPTERRESOURCE_SUPPORT  0x4c
+#define KMTQAITYPE_WDDM_3_0_CAPS  0x4d
+#define KMTQAITYPE_WSAUMDIMAGENAME  0x4e
+#define KMTQAITYPE_VGPUINTERFACEID  0x4f
+#define KMTQAITYPE_WDDM_3_1_CAPS  0x50
 
 ; ACCEL_VIRT_FLAGS
 #define FVIRTKEY  0x1
@@ -6559,6 +9775,11 @@
 ; ACTIVEOBJECT_FLAGS
 #define ACTIVEOBJECT_STRONG  0x0
 #define ACTIVEOBJECT_WEAK  0x1
+
+; ADDRESS_FAMILY
+#define AF_INET  0x2
+#define AF_INET6  0x17
+#define AF_UNSPEC  0x0
 
 ; ADDRESS_MODE
 #define AddrMode1616  0x0
@@ -6675,6 +9896,22 @@
 ; ASSOC_FILTER
 #define ASSOC_FILTER_NONE  0x0
 #define ASSOC_FILTER_RECOMMENDED  0x1
+
+; AUDIO_STREAM_CATEGORY
+#define AudioCategory_Other  0x0
+#define AudioCategory_ForegroundOnlyMedia  0x1
+#define AudioCategory_Communications  0x3
+#define AudioCategory_Alerts  0x4
+#define AudioCategory_SoundEffects  0x5
+#define AudioCategory_GameEffects  0x6
+#define AudioCategory_GameMedia  0x7
+#define AudioCategory_GameChat  0x8
+#define AudioCategory_Speech  0x9
+#define AudioCategory_Movie  0xa
+#define AudioCategory_Media  0xb
+#define AudioCategory_FarFieldSpeech  0xc
+#define AudioCategory_UniformSpeech  0xd
+#define AudioCategory_VoiceTyping  0xe
 
 ; AUDIT_EVENT_TYPE
 #define AuditEventObjectAccess  0x0
@@ -7114,6 +10351,38 @@
 #define CF_PRIVATELAST  0x2ff
 #define CF_GDIOBJFIRST  0x300
 #define CF_GDIOBJLAST  0x3ff
+
+; CLSCTX
+#define CLSCTX_INPROC_SERVER  0x1
+#define CLSCTX_INPROC_HANDLER  0x2
+#define CLSCTX_LOCAL_SERVER  0x4
+#define CLSCTX_INPROC_SERVER16  0x8
+#define CLSCTX_REMOTE_SERVER  0x10
+#define CLSCTX_INPROC_HANDLER16  0x20
+#define CLSCTX_RESERVED1  0x40
+#define CLSCTX_RESERVED2  0x80
+#define CLSCTX_RESERVED3  0x100
+#define CLSCTX_RESERVED4  0x200
+#define CLSCTX_NO_CODE_DOWNLOAD  0x400
+#define CLSCTX_RESERVED5  0x800
+#define CLSCTX_NO_CUSTOM_MARSHAL  0x1000
+#define CLSCTX_ENABLE_CODE_DOWNLOAD  0x2000
+#define CLSCTX_NO_FAILURE_LOG  0x4000
+#define CLSCTX_DISABLE_AAA  0x8000
+#define CLSCTX_ENABLE_AAA  0x10000
+#define CLSCTX_FROM_DEFAULT_CONTEXT  0x20000
+#define CLSCTX_ACTIVATE_X86_SERVER  0x40000
+#define CLSCTX_ACTIVATE_32_BIT_SERVER  0x40000
+#define CLSCTX_ACTIVATE_64_BIT_SERVER  0x80000
+#define CLSCTX_ENABLE_CLOAKING  0x100000
+#define CLSCTX_APPCONTAINER  0x400000
+#define CLSCTX_ACTIVATE_AAA_AS_IU  0x800000
+#define CLSCTX_RESERVED6  0x1000000
+#define CLSCTX_ACTIVATE_ARM32_SERVER  0x2000000
+#define CLSCTX_ALLOW_LOWER_TRUST_REGISTRATION  0x4000000
+#define CLSCTX_PS_DLL  0x80000000
+#define CLSCTX_ALL  0x17
+#define CLSCTX_SERVER  0x15
 
 ; COLOR_MATCH_TO_TARGET_ACTION
 #define CS_ENABLE  0x1
@@ -7555,6 +10824,674 @@
 #define CWP_SKIPINVISIBLE  0x1
 #define CWP_SKIPDISABLED  0x2
 #define CWP_SKIPTRANSPARENT  0x4
+
+; D2D1_ALPHA_MODE
+#define D2D1_ALPHA_MODE_UNKNOWN  0x0
+#define D2D1_ALPHA_MODE_PREMULTIPLIED  0x1
+#define D2D1_ALPHA_MODE_STRAIGHT  0x2
+#define D2D1_ALPHA_MODE_IGNORE  0x3
+
+; D2D1_ANTIALIAS_MODE
+#define D2D1_ANTIALIAS_MODE_PER_PRIMITIVE  0x0
+#define D2D1_ANTIALIAS_MODE_ALIASED  0x1
+
+; D2D1_ARC_SIZE
+#define D2D1_ARC_SIZE_SMALL  0x0
+#define D2D1_ARC_SIZE_LARGE  0x1
+
+; D2D1_BITMAP_INTERPOLATION_MODE
+#define D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR  0x0
+#define D2D1_BITMAP_INTERPOLATION_MODE_LINEAR  0x1
+
+; D2D1_BITMAP_OPTIONS
+#define D2D1_BITMAP_OPTIONS_NONE  0x0
+#define D2D1_BITMAP_OPTIONS_TARGET  0x1
+#define D2D1_BITMAP_OPTIONS_CANNOT_DRAW  0x2
+#define D2D1_BITMAP_OPTIONS_CPU_READ  0x4
+#define D2D1_BITMAP_OPTIONS_GDI_COMPATIBLE  0x8
+
+; D2D1_BUFFER_PRECISION
+#define D2D1_BUFFER_PRECISION_UNKNOWN  0x0
+#define D2D1_BUFFER_PRECISION_8BPC_UNORM  0x1
+#define D2D1_BUFFER_PRECISION_8BPC_UNORM_SRGB  0x2
+#define D2D1_BUFFER_PRECISION_16BPC_UNORM  0x3
+#define D2D1_BUFFER_PRECISION_16BPC_FLOAT  0x4
+#define D2D1_BUFFER_PRECISION_32BPC_FLOAT  0x5
+
+; D2D1_CAP_STYLE
+#define D2D1_CAP_STYLE_FLAT  0x0
+#define D2D1_CAP_STYLE_SQUARE  0x1
+#define D2D1_CAP_STYLE_ROUND  0x2
+#define D2D1_CAP_STYLE_TRIANGLE  0x3
+
+; D2D1_COLOR_INTERPOLATION_MODE
+#define D2D1_COLOR_INTERPOLATION_MODE_STRAIGHT  0x0
+#define D2D1_COLOR_INTERPOLATION_MODE_PREMULTIPLIED  0x1
+
+; D2D1_COLOR_SPACE
+#define D2D1_COLOR_SPACE_CUSTOM  0x0
+#define D2D1_COLOR_SPACE_SRGB  0x1
+#define D2D1_COLOR_SPACE_SCRGB  0x2
+
+; D2D1_COMBINE_MODE
+#define D2D1_COMBINE_MODE_UNION  0x0
+#define D2D1_COMBINE_MODE_INTERSECT  0x1
+#define D2D1_COMBINE_MODE_XOR  0x2
+#define D2D1_COMBINE_MODE_EXCLUDE  0x3
+
+; D2D1_COMPATIBLE_RENDER_TARGET_OPTIONS
+#define D2D1_COMPATIBLE_RENDER_TARGET_OPTIONS_NONE  0x0
+#define D2D1_COMPATIBLE_RENDER_TARGET_OPTIONS_GDI_COMPATIBLE  0x1
+
+; D2D1_COMPOSITE_MODE
+#define D2D1_COMPOSITE_MODE_SOURCE_OVER  0x0
+#define D2D1_COMPOSITE_MODE_DESTINATION_OVER  0x1
+#define D2D1_COMPOSITE_MODE_SOURCE_IN  0x2
+#define D2D1_COMPOSITE_MODE_DESTINATION_IN  0x3
+#define D2D1_COMPOSITE_MODE_SOURCE_OUT  0x4
+#define D2D1_COMPOSITE_MODE_DESTINATION_OUT  0x5
+#define D2D1_COMPOSITE_MODE_SOURCE_ATOP  0x6
+#define D2D1_COMPOSITE_MODE_DESTINATION_ATOP  0x7
+#define D2D1_COMPOSITE_MODE_XOR  0x8
+#define D2D1_COMPOSITE_MODE_PLUS  0x9
+#define D2D1_COMPOSITE_MODE_SOURCE_COPY  0xa
+#define D2D1_COMPOSITE_MODE_BOUNDED_SOURCE_COPY  0xb
+#define D2D1_COMPOSITE_MODE_MASK_INVERT  0xc
+
+; D2D1_DASH_STYLE
+#define D2D1_DASH_STYLE_SOLID  0x0
+
+; D2D1_DEBUG_LEVEL
+#define D2D1_DEBUG_LEVEL_NONE  0x0
+#define D2D1_DEBUG_LEVEL_ERROR  0x1
+#define D2D1_DEBUG_LEVEL_WARNING  0x2
+#define D2D1_DEBUG_LEVEL_INFORMATION  0x3
+
+; D2D1_DEVICE_CONTEXT_OPTIONS
+#define D2D1_DEVICE_CONTEXT_OPTIONS_NONE  0x0
+#define D2D1_DEVICE_CONTEXT_OPTIONS_ENABLE_MULTITHREADED_OPTIMIZATIONS  0x1
+
+; D2D1_DRAW_TEXT_OPTIONS
+#define D2D1_DRAW_TEXT_OPTIONS_NO_SNAP  0x1
+#define D2D1_DRAW_TEXT_OPTIONS_CLIP  0x2
+#define D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT  0x4
+#define D2D1_DRAW_TEXT_OPTIONS_DISABLE_COLOR_BITMAP_SNAPPING  0x8
+#define D2D1_DRAW_TEXT_OPTIONS_NONE  0x0
+
+; D2D1_EXTEND_MODE
+#define D2D1_EXTEND_MODE_CLAMP  0x0
+#define D2D1_EXTEND_MODE_WRAP  0x1
+#define D2D1_EXTEND_MODE_MIRROR  0x2
+
+; D2D1_FACTORY_TYPE
+#define D2D1_FACTORY_TYPE_SINGLE_THREADED  0x0
+#define D2D1_FACTORY_TYPE_MULTI_THREADED  0x1
+
+; D2D1_FEATURE_LEVEL
+#define D2D1_FEATURE_LEVEL_DEFAULT  0x0
+#define D2D1_FEATURE_LEVEL_9  0x9100
+#define D2D1_FEATURE_LEVEL_10  0xa000
+
+; D2D1_FIGURE_BEGIN
+#define D2D1_FIGURE_BEGIN_FILLED  0x0
+#define D2D1_FIGURE_BEGIN_HOLLOW  0x1
+
+; D2D1_FIGURE_END
+#define D2D1_FIGURE_END_OPEN  0x0
+#define D2D1_FIGURE_END_CLOSED  0x1
+
+; D2D1_FILL_MODE
+#define D2D1_FILL_MODE_ALTERNATE  0x0
+#define D2D1_FILL_MODE_WINDING  0x1
+
+; D2D1_GAMMA
+#define D2D1_GAMMA_2_2  0x0
+#define D2D1_GAMMA_1_0  0x1
+
+; D2D1_GEOMETRY_RELATION
+#define D2D1_GEOMETRY_RELATION_UNKNOWN  0x0
+#define D2D1_GEOMETRY_RELATION_DISJOINT  0x1
+#define D2D1_GEOMETRY_RELATION_IS_CONTAINED  0x2
+#define D2D1_GEOMETRY_RELATION_CONTAINS  0x3
+#define D2D1_GEOMETRY_RELATION_OVERLAP  0x4
+
+; D2D1_GEOMETRY_SIMPLIFICATION_OPTION
+#define D2D1_GEOMETRY_SIMPLIFICATION_OPTION_CUBICS_AND_LINES  0x0
+#define D2D1_GEOMETRY_SIMPLIFICATION_OPTION_LINES  0x1
+
+; D2D1_INTERPOLATION_MODE
+#define D2D1_INTERPOLATION_MODE_NEAREST_NEIGHBOR  0x0
+#define D2D1_INTERPOLATION_MODE_LINEAR  0x1
+#define D2D1_INTERPOLATION_MODE_CUBIC  0x2
+#define D2D1_INTERPOLATION_MODE_MULTI_SAMPLE_LINEAR  0x3
+#define D2D1_INTERPOLATION_MODE_ANISOTROPIC  0x4
+#define D2D1_INTERPOLATION_MODE_HIGH_QUALITY_CUBIC  0x5
+
+; D2D1_LAYER_OPTIONS
+#define D2D1_LAYER_OPTIONS_NONE  0x0
+#define D2D1_LAYER_OPTIONS_INITIALIZE_FOR_CLEARTYPE  0x1
+
+; D2D1_LAYER_OPTIONS1
+#define D2D1_LAYER_OPTIONS1_NONE  0x0
+#define D2D1_LAYER_OPTIONS1_INITIALIZE_FROM_BACKGROUND  0x1
+#define D2D1_LAYER_OPTIONS1_IGNORE_ALPHA  0x2
+
+; D2D1_LINE_JOIN
+#define D2D1_LINE_JOIN_MITER  0x0
+#define D2D1_LINE_JOIN_BEVEL  0x1
+#define D2D1_LINE_JOIN_ROUND  0x2
+#define D2D1_LINE_JOIN_MITER_OR_BEVEL  0x3
+
+; D2D1_MAP_OPTIONS
+#define D2D1_MAP_OPTIONS_NONE  0x0
+#define D2D1_MAP_OPTIONS_READ  0x1
+#define D2D1_MAP_OPTIONS_WRITE  0x2
+#define D2D1_MAP_OPTIONS_DISCARD  0x4
+
+; D2D1_OPACITY_MASK_CONTENT
+#define D2D1_OPACITY_MASK_CONTENT_GRAPHICS  0x0
+#define D2D1_OPACITY_MASK_CONTENT_TEXT_NATURAL  0x1
+#define D2D1_OPACITY_MASK_CONTENT_TEXT_GDI_COMPATIBLE  0x2
+
+; D2D1_PATH_SEGMENT
+#define D2D1_PATH_SEGMENT_NONE  0x0
+#define D2D1_PATH_SEGMENT_FORCE_UNSTROKED  0x1
+#define D2D1_PATH_SEGMENT_FORCE_ROUND_LINE_JOIN  0x2
+
+; D2D1_PRESENT_OPTIONS
+#define D2D1_PRESENT_OPTIONS_NONE  0x0
+#define D2D1_PRESENT_OPTIONS_RETAIN_CONTENTS  0x1
+#define D2D1_PRESENT_OPTIONS_IMMEDIATELY  0x2
+
+; D2D1_PRIMITIVE_BLEND
+#define D2D1_PRIMITIVE_BLEND_SOURCE_OVER  0x0
+#define D2D1_PRIMITIVE_BLEND_COPY  0x1
+#define D2D1_PRIMITIVE_BLEND_MIN  0x2
+#define D2D1_PRIMITIVE_BLEND_ADD  0x3
+#define D2D1_PRIMITIVE_BLEND_MAX  0x4
+
+; D2D1_PRINT_FONT_SUBSET_MODE
+#define D2D1_PRINT_FONT_SUBSET_MODE_DEFAULT  0x0
+#define D2D1_PRINT_FONT_SUBSET_MODE_EACHPAGE  0x1
+#define D2D1_PRINT_FONT_SUBSET_MODE_NONE  0x2
+
+; D2D1_PROPERTY_TYPE
+#define D2D1_PROPERTY_TYPE_UNKNOWN  0x0
+#define D2D1_PROPERTY_TYPE_STRING  0x1
+#define D2D1_PROPERTY_TYPE_BOOL  0x2
+#define D2D1_PROPERTY_TYPE_UINT32  0x3
+#define D2D1_PROPERTY_TYPE_INT32  0x4
+#define D2D1_PROPERTY_TYPE_FLOAT  0x5
+#define D2D1_PROPERTY_TYPE_VECTOR2  0x6
+#define D2D1_PROPERTY_TYPE_VECTOR3  0x7
+#define D2D1_PROPERTY_TYPE_VECTOR4  0x8
+#define D2D1_PROPERTY_TYPE_BLOB  0x9
+#define D2D1_PROPERTY_TYPE_IUNKNOWN  0xa
+#define D2D1_PROPERTY_TYPE_ENUM  0xb
+#define D2D1_PROPERTY_TYPE_ARRAY  0xc
+#define D2D1_PROPERTY_TYPE_CLSID  0xd
+#define D2D1_PROPERTY_TYPE_MATRIX_3X2  0xe
+#define D2D1_PROPERTY_TYPE_MATRIX_4X3  0xf
+#define D2D1_PROPERTY_TYPE_MATRIX_4X4  0x10
+#define D2D1_PROPERTY_TYPE_MATRIX_5X4  0x11
+#define D2D1_PROPERTY_TYPE_COLOR_CONTEXT  0x12
+
+; D2D1_RENDER_TARGET_TYPE
+#define D2D1_RENDER_TARGET_TYPE_DEFAULT  0x0
+#define D2D1_RENDER_TARGET_TYPE_SOFTWARE  0x1
+#define D2D1_RENDER_TARGET_TYPE_HARDWARE  0x2
+
+; D2D1_RENDER_TARGET_USAGE
+#define D2D1_RENDER_TARGET_USAGE_NONE  0x0
+#define D2D1_RENDER_TARGET_USAGE_FORCE_BITMAP_REMOTING  0x1
+#define D2D1_RENDER_TARGET_USAGE_GDI_COMPATIBLE  0x2
+
+; D2D1_SWEEP_DIRECTION
+#define D2D1_SWEEP_DIRECTION_COUNTER_CLOCKWISE  0x0
+#define D2D1_SWEEP_DIRECTION_CLOCKWISE  0x1
+
+; D2D1_TEXT_ANTIALIAS_MODE
+#define D2D1_TEXT_ANTIALIAS_MODE_DEFAULT  0x0
+#define D2D1_TEXT_ANTIALIAS_MODE_CLEARTYPE  0x1
+#define D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE  0x2
+#define D2D1_TEXT_ANTIALIAS_MODE_ALIASED  0x3
+
+; D2D1_THREADING_MODE
+#define D2D1_THREADING_MODE_SINGLE_THREADED  0x0
+#define D2D1_THREADING_MODE_MULTI_THREADED  0x1
+
+; D2D1_UNIT_MODE
+#define D2D1_UNIT_MODE_DIPS  0x0
+#define D2D1_UNIT_MODE_PIXELS  0x1
+
+; D2D1_WINDOW_STATE
+#define D2D1_WINDOW_STATE_NONE  0x0
+#define D2D1_WINDOW_STATE_OCCLUDED  0x1
+
+; D3D11_BIND_FLAG
+#define D3D11_BIND_VERTEX_BUFFER  0x1
+#define D3D11_BIND_INDEX_BUFFER  0x2
+#define D3D11_BIND_CONSTANT_BUFFER  0x4
+#define D3D11_BIND_SHADER_RESOURCE  0x8
+#define D3D11_BIND_STREAM_OUTPUT  0x10
+#define D3D11_BIND_RENDER_TARGET  0x20
+#define D3D11_BIND_DEPTH_STENCIL  0x40
+#define D3D11_BIND_UNORDERED_ACCESS  0x80
+#define D3D11_BIND_DECODER  0x200
+#define D3D11_BIND_VIDEO_ENCODER  0x400
+
+; D3D11_BLEND
+#define D3D11_BLEND_ZERO  0x1
+#define D3D11_BLEND_ONE  0x2
+#define D3D11_BLEND_SRC_COLOR  0x3
+#define D3D11_BLEND_INV_SRC_COLOR  0x4
+#define D3D11_BLEND_SRC_ALPHA  0x5
+#define D3D11_BLEND_INV_SRC_ALPHA  0x6
+#define D3D11_BLEND_DEST_ALPHA  0x7
+#define D3D11_BLEND_INV_DEST_ALPHA  0x8
+#define D3D11_BLEND_DEST_COLOR  0x9
+#define D3D11_BLEND_INV_DEST_COLOR  0xa
+#define D3D11_BLEND_SRC_ALPHA_SAT  0xb
+#define D3D11_BLEND_BLEND_FACTOR  0xe
+#define D3D11_BLEND_INV_BLEND_FACTOR  0xf
+#define D3D11_BLEND_SRC1_COLOR  0x10
+#define D3D11_BLEND_INV_SRC1_COLOR  0x11
+#define D3D11_BLEND_SRC1_ALPHA  0x12
+#define D3D11_BLEND_INV_SRC1_ALPHA  0x13
+
+; D3D11_BLEND_OP
+#define D3D11_BLEND_OP_ADD  0x1
+#define D3D11_BLEND_OP_SUBTRACT  0x2
+#define D3D11_BLEND_OP_REV_SUBTRACT  0x3
+#define D3D11_BLEND_OP_MIN  0x4
+#define D3D11_BLEND_OP_MAX  0x5
+
+; D3D11_COMPARISON_FUNC
+#define D3D11_COMPARISON_NEVER  0x1
+#define D3D11_COMPARISON_LESS  0x2
+#define D3D11_COMPARISON_EQUAL  0x3
+#define D3D11_COMPARISON_LESS_EQUAL  0x4
+#define D3D11_COMPARISON_GREATER  0x5
+#define D3D11_COMPARISON_NOT_EQUAL  0x6
+#define D3D11_COMPARISON_GREATER_EQUAL  0x7
+#define D3D11_COMPARISON_ALWAYS  0x8
+
+; D3D11_COUNTER
+#define D3D11_COUNTER_DEVICE_DEPENDENT_0  0x40000000
+
+; D3D11_COUNTER_TYPE
+#define D3D11_COUNTER_TYPE_FLOAT32  0x0
+#define D3D11_COUNTER_TYPE_UINT16  0x1
+#define D3D11_COUNTER_TYPE_UINT32  0x2
+#define D3D11_COUNTER_TYPE_UINT64  0x3
+
+; D3D11_CPU_ACCESS_FLAG
+#define D3D11_CPU_ACCESS_WRITE  0x10000
+#define D3D11_CPU_ACCESS_READ  0x20000
+
+; D3D11_CREATE_DEVICE_FLAG
+#define D3D11_CREATE_DEVICE_SINGLETHREADED  0x1
+#define D3D11_CREATE_DEVICE_DEBUG  0x2
+#define D3D11_CREATE_DEVICE_SWITCH_TO_REF  0x4
+#define D3D11_CREATE_DEVICE_PREVENT_INTERNAL_THREADING_OPTIMIZATIONS  0x8
+#define D3D11_CREATE_DEVICE_BGRA_SUPPORT  0x20
+#define D3D11_CREATE_DEVICE_DEBUGGABLE  0x40
+#define D3D11_CREATE_DEVICE_PREVENT_ALTERING_LAYER_SETTINGS_FROM_REGISTRY  0x80
+#define D3D11_CREATE_DEVICE_DISABLE_GPU_TIMEOUT  0x100
+#define D3D11_CREATE_DEVICE_VIDEO_SUPPORT  0x800
+
+; D3D11_CULL_MODE
+#define D3D11_CULL_NONE  0x1
+#define D3D11_CULL_FRONT  0x2
+#define D3D11_CULL_BACK  0x3
+
+; D3D11_DEPTH_WRITE_MASK
+#define D3D11_DEPTH_WRITE_MASK_ZERO  0x0
+#define D3D11_DEPTH_WRITE_MASK_ALL  0x1
+
+; D3D11_DEVICE_CONTEXT_TYPE
+#define D3D11_DEVICE_CONTEXT_IMMEDIATE  0x0
+#define D3D11_DEVICE_CONTEXT_DEFERRED  0x1
+
+; D3D11_DSV_DIMENSION
+#define D3D11_DSV_DIMENSION_UNKNOWN  0x0
+#define D3D11_DSV_DIMENSION_TEXTURE1D  0x1
+#define D3D11_DSV_DIMENSION_TEXTURE1DARRAY  0x2
+#define D3D11_DSV_DIMENSION_TEXTURE2D  0x3
+#define D3D11_DSV_DIMENSION_TEXTURE2DARRAY  0x4
+#define D3D11_DSV_DIMENSION_TEXTURE2DMS  0x5
+#define D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY  0x6
+
+; D3D11_FEATURE
+#define D3D11_FEATURE_THREADING  0x0
+#define D3D11_FEATURE_DOUBLES  0x1
+#define D3D11_FEATURE_FORMAT_SUPPORT  0x2
+#define D3D11_FEATURE_FORMAT_SUPPORT2  0x3
+#define D3D11_FEATURE_D3D10_X_HARDWARE_OPTIONS  0x4
+#define D3D11_FEATURE_D3D11_OPTIONS  0x5
+#define D3D11_FEATURE_ARCHITECTURE_INFO  0x6
+#define D3D11_FEATURE_D3D9_OPTIONS  0x7
+#define D3D11_FEATURE_SHADER_MIN_PRECISION_SUPPORT  0x8
+#define D3D11_FEATURE_D3D9_SHADOW_SUPPORT  0x9
+#define D3D11_FEATURE_D3D11_OPTIONS1  0xa
+#define D3D11_FEATURE_D3D9_SIMPLE_INSTANCING_SUPPORT  0xb
+#define D3D11_FEATURE_MARKER_SUPPORT  0xc
+#define D3D11_FEATURE_D3D9_OPTIONS1  0xd
+#define D3D11_FEATURE_D3D11_OPTIONS2  0xe
+#define D3D11_FEATURE_D3D11_OPTIONS3  0xf
+#define D3D11_FEATURE_GPU_VIRTUAL_ADDRESS_SUPPORT  0x10
+#define D3D11_FEATURE_D3D11_OPTIONS4  0x11
+#define D3D11_FEATURE_SHADER_CACHE  0x12
+#define D3D11_FEATURE_D3D11_OPTIONS5  0x13
+#define D3D11_FEATURE_DISPLAYABLE  0x14
+
+; D3D11_FILL_MODE
+#define D3D11_FILL_WIREFRAME  0x2
+#define D3D11_FILL_SOLID  0x3
+
+; D3D11_FILTER
+#define D3D11_FILTER_MIN_MAG_MIP_POINT  0x0
+#define D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR  0x1
+#define D3D11_FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT  0x4
+#define D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR  0x5
+#define D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT  0x10
+#define D3D11_FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR  0x11
+#define D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT  0x14
+#define D3D11_FILTER_MIN_MAG_MIP_LINEAR  0x15
+#define D3D11_FILTER_ANISOTROPIC  0x55
+#define D3D11_FILTER_COMPARISON_MIN_MAG_MIP_POINT  0x80
+#define D3D11_FILTER_COMPARISON_MIN_MAG_POINT_MIP_LINEAR  0x81
+#define D3D11_FILTER_COMPARISON_MIN_POINT_MAG_LINEAR_MIP_POINT  0x84
+#define D3D11_FILTER_COMPARISON_MIN_POINT_MAG_MIP_LINEAR  0x85
+#define D3D11_FILTER_COMPARISON_MIN_LINEAR_MAG_MIP_POINT  0x90
+#define D3D11_FILTER_COMPARISON_MIN_LINEAR_MAG_POINT_MIP_LINEAR  0x91
+#define D3D11_FILTER_COMPARISON_MIN_MAG_LINEAR_MIP_POINT  0x94
+#define D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR  0x95
+#define D3D11_FILTER_COMPARISON_ANISOTROPIC  0xd5
+#define D3D11_FILTER_MINIMUM_MIN_MAG_MIP_POINT  0x100
+#define D3D11_FILTER_MINIMUM_MIN_MAG_POINT_MIP_LINEAR  0x101
+#define D3D11_FILTER_MINIMUM_MIN_POINT_MAG_LINEAR_MIP_POINT  0x104
+#define D3D11_FILTER_MINIMUM_MIN_POINT_MAG_MIP_LINEAR  0x105
+#define D3D11_FILTER_MINIMUM_MIN_LINEAR_MAG_MIP_POINT  0x110
+#define D3D11_FILTER_MINIMUM_MIN_LINEAR_MAG_POINT_MIP_LINEAR  0x111
+#define D3D11_FILTER_MINIMUM_MIN_MAG_LINEAR_MIP_POINT  0x114
+#define D3D11_FILTER_MINIMUM_MIN_MAG_MIP_LINEAR  0x115
+#define D3D11_FILTER_MINIMUM_ANISOTROPIC  0x155
+#define D3D11_FILTER_MAXIMUM_MIN_MAG_MIP_POINT  0x180
+#define D3D11_FILTER_MAXIMUM_MIN_MAG_POINT_MIP_LINEAR  0x181
+#define D3D11_FILTER_MAXIMUM_MIN_POINT_MAG_LINEAR_MIP_POINT  0x184
+#define D3D11_FILTER_MAXIMUM_MIN_POINT_MAG_MIP_LINEAR  0x185
+#define D3D11_FILTER_MAXIMUM_MIN_LINEAR_MAG_MIP_POINT  0x190
+#define D3D11_FILTER_MAXIMUM_MIN_LINEAR_MAG_POINT_MIP_LINEAR  0x191
+#define D3D11_FILTER_MAXIMUM_MIN_MAG_LINEAR_MIP_POINT  0x194
+#define D3D11_FILTER_MAXIMUM_MIN_MAG_MIP_LINEAR  0x195
+#define D3D11_FILTER_MAXIMUM_ANISOTROPIC  0x1d5
+
+; D3D11_INPUT_CLASSIFICATION
+#define D3D11_INPUT_PER_VERTEX_DATA  0x0
+#define D3D11_INPUT_PER_INSTANCE_DATA  0x1
+
+; D3D11_MAP
+#define D3D11_MAP_READ  0x1
+#define D3D11_MAP_WRITE  0x2
+#define D3D11_MAP_READ_WRITE  0x3
+#define D3D11_MAP_WRITE_DISCARD  0x4
+#define D3D11_MAP_WRITE_NO_OVERWRITE  0x5
+
+; D3D11_QUERY
+#define D3D11_QUERY_EVENT  0x0
+#define D3D11_QUERY_OCCLUSION  0x1
+#define D3D11_QUERY_TIMESTAMP  0x2
+#define D3D11_QUERY_TIMESTAMP_DISJOINT  0x3
+#define D3D11_QUERY_PIPELINE_STATISTICS  0x4
+#define D3D11_QUERY_OCCLUSION_PREDICATE  0x5
+#define D3D11_QUERY_SO_STATISTICS  0x6
+#define D3D11_QUERY_SO_OVERFLOW_PREDICATE  0x7
+#define D3D11_QUERY_SO_STATISTICS_STREAM0  0x8
+#define D3D11_QUERY_SO_OVERFLOW_PREDICATE_STREAM0  0x9
+#define D3D11_QUERY_SO_STATISTICS_STREAM1  0xa
+#define D3D11_QUERY_SO_OVERFLOW_PREDICATE_STREAM1  0xb
+#define D3D11_QUERY_SO_STATISTICS_STREAM2  0xc
+#define D3D11_QUERY_SO_OVERFLOW_PREDICATE_STREAM2  0xd
+#define D3D11_QUERY_SO_STATISTICS_STREAM3  0xe
+#define D3D11_QUERY_SO_OVERFLOW_PREDICATE_STREAM3  0xf
+
+; D3D11_RESOURCE_DIMENSION
+#define D3D11_RESOURCE_DIMENSION_UNKNOWN  0x0
+#define D3D11_RESOURCE_DIMENSION_BUFFER  0x1
+#define D3D11_RESOURCE_DIMENSION_TEXTURE1D  0x2
+#define D3D11_RESOURCE_DIMENSION_TEXTURE2D  0x3
+#define D3D11_RESOURCE_DIMENSION_TEXTURE3D  0x4
+
+; D3D11_RESOURCE_MISC_FLAG
+#define D3D11_RESOURCE_MISC_GENERATE_MIPS  0x1
+#define D3D11_RESOURCE_MISC_SHARED  0x2
+#define D3D11_RESOURCE_MISC_TEXTURECUBE  0x4
+#define D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS  0x10
+#define D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS  0x20
+#define D3D11_RESOURCE_MISC_BUFFER_STRUCTURED  0x40
+#define D3D11_RESOURCE_MISC_RESOURCE_CLAMP  0x80
+#define D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX  0x100
+#define D3D11_RESOURCE_MISC_GDI_COMPATIBLE  0x200
+#define D3D11_RESOURCE_MISC_SHARED_NTHANDLE  0x800
+#define D3D11_RESOURCE_MISC_RESTRICTED_CONTENT  0x1000
+#define D3D11_RESOURCE_MISC_RESTRICT_SHARED_RESOURCE  0x2000
+#define D3D11_RESOURCE_MISC_RESTRICT_SHARED_RESOURCE_DRIVER  0x4000
+#define D3D11_RESOURCE_MISC_GUARDED  0x8000
+#define D3D11_RESOURCE_MISC_TILE_POOL  0x20000
+#define D3D11_RESOURCE_MISC_TILED  0x40000
+#define D3D11_RESOURCE_MISC_HW_PROTECTED  0x80000
+#define D3D11_RESOURCE_MISC_SHARED_DISPLAYABLE  0x100000
+#define D3D11_RESOURCE_MISC_SHARED_EXCLUSIVE_WRITER  0x200000
+
+; D3D11_RTV_DIMENSION
+#define D3D11_RTV_DIMENSION_UNKNOWN  0x0
+#define D3D11_RTV_DIMENSION_BUFFER  0x1
+#define D3D11_RTV_DIMENSION_TEXTURE1D  0x2
+#define D3D11_RTV_DIMENSION_TEXTURE1DARRAY  0x3
+#define D3D11_RTV_DIMENSION_TEXTURE2D  0x4
+#define D3D11_RTV_DIMENSION_TEXTURE2DARRAY  0x5
+#define D3D11_RTV_DIMENSION_TEXTURE2DMS  0x6
+#define D3D11_RTV_DIMENSION_TEXTURE2DMSARRAY  0x7
+#define D3D11_RTV_DIMENSION_TEXTURE3D  0x8
+
+; D3D11_STENCIL_OP
+#define D3D11_STENCIL_OP_KEEP  0x1
+#define D3D11_STENCIL_OP_ZERO  0x2
+#define D3D11_STENCIL_OP_REPLACE  0x3
+#define D3D11_STENCIL_OP_INCR_SAT  0x4
+#define D3D11_STENCIL_OP_DECR_SAT  0x5
+#define D3D11_STENCIL_OP_INVERT  0x6
+#define D3D11_STENCIL_OP_INCR  0x7
+#define D3D11_STENCIL_OP_DECR  0x8
+
+; D3D11_TEXTURE_ADDRESS_MODE
+#define D3D11_TEXTURE_ADDRESS_WRAP  0x1
+#define D3D11_TEXTURE_ADDRESS_MIRROR  0x2
+#define D3D11_TEXTURE_ADDRESS_CLAMP  0x3
+#define D3D11_TEXTURE_ADDRESS_BORDER  0x4
+#define D3D11_TEXTURE_ADDRESS_MIRROR_ONCE  0x5
+
+; D3D11_UAV_DIMENSION
+#define D3D11_UAV_DIMENSION_UNKNOWN  0x0
+#define D3D11_UAV_DIMENSION_BUFFER  0x1
+#define D3D11_UAV_DIMENSION_TEXTURE1D  0x2
+#define D3D11_UAV_DIMENSION_TEXTURE1DARRAY  0x3
+#define D3D11_UAV_DIMENSION_TEXTURE2D  0x4
+#define D3D11_UAV_DIMENSION_TEXTURE2DARRAY  0x5
+#define D3D11_UAV_DIMENSION_TEXTURE3D  0x8
+
+; D3D11_USAGE
+#define D3D11_USAGE_DEFAULT  0x0
+#define D3D11_USAGE_IMMUTABLE  0x1
+#define D3D11_USAGE_DYNAMIC  0x2
+#define D3D11_USAGE_STAGING  0x3
+
+; D3D_DRIVER_TYPE
+#define D3D_DRIVER_TYPE_UNKNOWN  0x0
+#define D3D_DRIVER_TYPE_HARDWARE  0x1
+#define D3D_DRIVER_TYPE_REFERENCE  0x2
+#define D3D_DRIVER_TYPE_NULL  0x3
+#define D3D_DRIVER_TYPE_SOFTWARE  0x4
+#define D3D_DRIVER_TYPE_WARP  0x5
+
+; D3D_FEATURE_LEVEL
+#define D3D_FEATURE_LEVEL_1_0_GENERIC  0x100
+#define D3D_FEATURE_LEVEL_1_0_CORE  0x1000
+#define D3D_FEATURE_LEVEL_9_1  0x9100
+#define D3D_FEATURE_LEVEL_9_2  0x9200
+#define D3D_FEATURE_LEVEL_9_3  0x9300
+#define D3D_FEATURE_LEVEL_10_0  0xa000
+#define D3D_FEATURE_LEVEL_10_1  0xa100
+#define D3D_FEATURE_LEVEL_11_0  0xb000
+#define D3D_FEATURE_LEVEL_11_1  0xb100
+#define D3D_FEATURE_LEVEL_12_0  0xc000
+#define D3D_FEATURE_LEVEL_12_1  0xc100
+#define D3D_FEATURE_LEVEL_12_2  0xc200
+
+; D3D_PRIMITIVE_TOPOLOGY
+#define D3D_PRIMITIVE_TOPOLOGY_UNDEFINED  0x0
+#define D3D_PRIMITIVE_TOPOLOGY_POINTLIST  0x1
+#define D3D_PRIMITIVE_TOPOLOGY_LINELIST  0x2
+#define D3D_PRIMITIVE_TOPOLOGY_LINESTRIP  0x3
+#define D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST  0x4
+#define D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP  0x5
+#define D3D_PRIMITIVE_TOPOLOGY_TRIANGLEFAN  0x6
+#define D3D_PRIMITIVE_TOPOLOGY_LINELIST_ADJ  0xa
+#define D3D_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ  0xb
+#define D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ  0xc
+#define D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ  0xd
+#define D3D_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST  0x21
+#define D3D_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST  0x22
+#define D3D_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST  0x23
+#define D3D_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST  0x24
+#define D3D_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST  0x25
+#define D3D_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST  0x26
+#define D3D_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST  0x27
+#define D3D_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST  0x28
+#define D3D_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST  0x29
+#define D3D_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST  0x2a
+#define D3D_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST  0x2b
+#define D3D_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST  0x2c
+#define D3D_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST  0x2d
+#define D3D_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST  0x2e
+#define D3D_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST  0x2f
+#define D3D_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST  0x30
+#define D3D_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST  0x31
+#define D3D_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST  0x32
+#define D3D_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST  0x33
+#define D3D_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST  0x34
+#define D3D_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST  0x35
+#define D3D_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST  0x36
+#define D3D_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST  0x37
+#define D3D_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST  0x38
+#define D3D_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST  0x39
+#define D3D_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST  0x3a
+#define D3D_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST  0x3b
+#define D3D_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST  0x3c
+#define D3D_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST  0x3d
+#define D3D_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST  0x3e
+#define D3D_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST  0x3f
+#define D3D_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST  0x40
+#define D3D10_PRIMITIVE_TOPOLOGY_UNDEFINED  0x0
+#define D3D10_PRIMITIVE_TOPOLOGY_POINTLIST  0x1
+#define D3D10_PRIMITIVE_TOPOLOGY_LINELIST  0x2
+#define D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP  0x3
+#define D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST  0x4
+#define D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP  0x5
+#define D3D10_PRIMITIVE_TOPOLOGY_LINELIST_ADJ  0xa
+#define D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ  0xb
+#define D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ  0xc
+#define D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ  0xd
+#define D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED  0x0
+#define D3D11_PRIMITIVE_TOPOLOGY_POINTLIST  0x1
+#define D3D11_PRIMITIVE_TOPOLOGY_LINELIST  0x2
+#define D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP  0x3
+#define D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST  0x4
+#define D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP  0x5
+#define D3D11_PRIMITIVE_TOPOLOGY_LINELIST_ADJ  0xa
+#define D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ  0xb
+#define D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ  0xc
+#define D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ  0xd
+#define D3D11_PRIMITIVE_TOPOLOGY_1_CONTROL_POINT_PATCHLIST  0x21
+#define D3D11_PRIMITIVE_TOPOLOGY_2_CONTROL_POINT_PATCHLIST  0x22
+#define D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST  0x23
+#define D3D11_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST  0x24
+#define D3D11_PRIMITIVE_TOPOLOGY_5_CONTROL_POINT_PATCHLIST  0x25
+#define D3D11_PRIMITIVE_TOPOLOGY_6_CONTROL_POINT_PATCHLIST  0x26
+#define D3D11_PRIMITIVE_TOPOLOGY_7_CONTROL_POINT_PATCHLIST  0x27
+#define D3D11_PRIMITIVE_TOPOLOGY_8_CONTROL_POINT_PATCHLIST  0x28
+#define D3D11_PRIMITIVE_TOPOLOGY_9_CONTROL_POINT_PATCHLIST  0x29
+#define D3D11_PRIMITIVE_TOPOLOGY_10_CONTROL_POINT_PATCHLIST  0x2a
+#define D3D11_PRIMITIVE_TOPOLOGY_11_CONTROL_POINT_PATCHLIST  0x2b
+#define D3D11_PRIMITIVE_TOPOLOGY_12_CONTROL_POINT_PATCHLIST  0x2c
+#define D3D11_PRIMITIVE_TOPOLOGY_13_CONTROL_POINT_PATCHLIST  0x2d
+#define D3D11_PRIMITIVE_TOPOLOGY_14_CONTROL_POINT_PATCHLIST  0x2e
+#define D3D11_PRIMITIVE_TOPOLOGY_15_CONTROL_POINT_PATCHLIST  0x2f
+#define D3D11_PRIMITIVE_TOPOLOGY_16_CONTROL_POINT_PATCHLIST  0x30
+#define D3D11_PRIMITIVE_TOPOLOGY_17_CONTROL_POINT_PATCHLIST  0x31
+#define D3D11_PRIMITIVE_TOPOLOGY_18_CONTROL_POINT_PATCHLIST  0x32
+#define D3D11_PRIMITIVE_TOPOLOGY_19_CONTROL_POINT_PATCHLIST  0x33
+#define D3D11_PRIMITIVE_TOPOLOGY_20_CONTROL_POINT_PATCHLIST  0x34
+#define D3D11_PRIMITIVE_TOPOLOGY_21_CONTROL_POINT_PATCHLIST  0x35
+#define D3D11_PRIMITIVE_TOPOLOGY_22_CONTROL_POINT_PATCHLIST  0x36
+#define D3D11_PRIMITIVE_TOPOLOGY_23_CONTROL_POINT_PATCHLIST  0x37
+#define D3D11_PRIMITIVE_TOPOLOGY_24_CONTROL_POINT_PATCHLIST  0x38
+#define D3D11_PRIMITIVE_TOPOLOGY_25_CONTROL_POINT_PATCHLIST  0x39
+#define D3D11_PRIMITIVE_TOPOLOGY_26_CONTROL_POINT_PATCHLIST  0x3a
+#define D3D11_PRIMITIVE_TOPOLOGY_27_CONTROL_POINT_PATCHLIST  0x3b
+#define D3D11_PRIMITIVE_TOPOLOGY_28_CONTROL_POINT_PATCHLIST  0x3c
+#define D3D11_PRIMITIVE_TOPOLOGY_29_CONTROL_POINT_PATCHLIST  0x3d
+#define D3D11_PRIMITIVE_TOPOLOGY_30_CONTROL_POINT_PATCHLIST  0x3e
+#define D3D11_PRIMITIVE_TOPOLOGY_31_CONTROL_POINT_PATCHLIST  0x3f
+#define D3D11_PRIMITIVE_TOPOLOGY_32_CONTROL_POINT_PATCHLIST  0x40
+
+; D3D_SRV_DIMENSION
+#define D3D_SRV_DIMENSION_UNKNOWN  0x0
+#define D3D_SRV_DIMENSION_BUFFER  0x1
+#define D3D_SRV_DIMENSION_TEXTURE1D  0x2
+#define D3D_SRV_DIMENSION_TEXTURE1DARRAY  0x3
+#define D3D_SRV_DIMENSION_TEXTURE2D  0x4
+#define D3D_SRV_DIMENSION_TEXTURE2DARRAY  0x5
+#define D3D_SRV_DIMENSION_TEXTURE2DMS  0x6
+#define D3D_SRV_DIMENSION_TEXTURE2DMSARRAY  0x7
+#define D3D_SRV_DIMENSION_TEXTURE3D  0x8
+#define D3D_SRV_DIMENSION_TEXTURECUBE  0x9
+#define D3D_SRV_DIMENSION_TEXTURECUBEARRAY  0xa
+#define D3D_SRV_DIMENSION_BUFFEREX  0xb
+#define D3D10_SRV_DIMENSION_UNKNOWN  0x0
+#define D3D10_SRV_DIMENSION_BUFFER  0x1
+#define D3D10_SRV_DIMENSION_TEXTURE1D  0x2
+#define D3D10_SRV_DIMENSION_TEXTURE1DARRAY  0x3
+#define D3D10_SRV_DIMENSION_TEXTURE2D  0x4
+#define D3D10_SRV_DIMENSION_TEXTURE2DARRAY  0x5
+#define D3D10_SRV_DIMENSION_TEXTURE2DMS  0x6
+#define D3D10_SRV_DIMENSION_TEXTURE2DMSARRAY  0x7
+#define D3D10_SRV_DIMENSION_TEXTURE3D  0x8
+#define D3D10_SRV_DIMENSION_TEXTURECUBE  0x9
+#define D3D10_1_SRV_DIMENSION_UNKNOWN  0x0
+#define D3D10_1_SRV_DIMENSION_BUFFER  0x1
+#define D3D10_1_SRV_DIMENSION_TEXTURE1D  0x2
+#define D3D10_1_SRV_DIMENSION_TEXTURE1DARRAY  0x3
+#define D3D10_1_SRV_DIMENSION_TEXTURE2D  0x4
+#define D3D10_1_SRV_DIMENSION_TEXTURE2DARRAY  0x5
+#define D3D10_1_SRV_DIMENSION_TEXTURE2DMS  0x6
+#define D3D10_1_SRV_DIMENSION_TEXTURE2DMSARRAY  0x7
+#define D3D10_1_SRV_DIMENSION_TEXTURE3D  0x8
+#define D3D10_1_SRV_DIMENSION_TEXTURECUBE  0x9
+#define D3D10_1_SRV_DIMENSION_TEXTURECUBEARRAY  0xa
+#define D3D11_SRV_DIMENSION_UNKNOWN  0x0
+#define D3D11_SRV_DIMENSION_BUFFER  0x1
+#define D3D11_SRV_DIMENSION_TEXTURE1D  0x2
+#define D3D11_SRV_DIMENSION_TEXTURE1DARRAY  0x3
+#define D3D11_SRV_DIMENSION_TEXTURE2D  0x4
+#define D3D11_SRV_DIMENSION_TEXTURE2DARRAY  0x5
+#define D3D11_SRV_DIMENSION_TEXTURE2DMS  0x6
+#define D3D11_SRV_DIMENSION_TEXTURE2DMSARRAY  0x7
+#define D3D11_SRV_DIMENSION_TEXTURE3D  0x8
+#define D3D11_SRV_DIMENSION_TEXTURECUBE  0x9
+#define D3D11_SRV_DIMENSION_TEXTURECUBEARRAY  0xa
+#define D3D11_SRV_DIMENSION_BUFFEREX  0xb
 
 ; DATAOBJ_GET_ITEM_FLAGS
 #define DOGIF_DEFAULT  0x0
@@ -8126,6 +12063,455 @@
 #define DWMWA_SYSTEMBACKDROP_TYPE  0x26
 #define DWMWA_LAST  0x27
 
+; DWRITE_BREAK_CONDITION
+#define DWRITE_BREAK_CONDITION_NEUTRAL  0x0
+#define DWRITE_BREAK_CONDITION_CAN_BREAK  0x1
+#define DWRITE_BREAK_CONDITION_MAY_NOT_BREAK  0x2
+#define DWRITE_BREAK_CONDITION_MUST_BREAK  0x3
+
+; DWRITE_FACTORY_TYPE
+#define DWRITE_FACTORY_TYPE_SHARED  0x0
+#define DWRITE_FACTORY_TYPE_ISOLATED  0x1
+
+; DWRITE_FLOW_DIRECTION
+#define DWRITE_FLOW_DIRECTION_TOP_TO_BOTTOM  0x0
+#define DWRITE_FLOW_DIRECTION_BOTTOM_TO_TOP  0x1
+#define DWRITE_FLOW_DIRECTION_LEFT_TO_RIGHT  0x2
+#define DWRITE_FLOW_DIRECTION_RIGHT_TO_LEFT  0x3
+
+; DWRITE_FONT_FACE_TYPE
+#define DWRITE_FONT_FACE_TYPE_CFF  0x0
+#define DWRITE_FONT_FACE_TYPE_TRUETYPE  0x1
+#define DWRITE_FONT_FACE_TYPE_OPENTYPE_COLLECTION  0x2
+#define DWRITE_FONT_FACE_TYPE_TYPE1  0x3
+#define DWRITE_FONT_FACE_TYPE_VECTOR  0x4
+#define DWRITE_FONT_FACE_TYPE_BITMAP  0x5
+#define DWRITE_FONT_FACE_TYPE_UNKNOWN  0x6
+#define DWRITE_FONT_FACE_TYPE_RAW_CFF  0x7
+#define DWRITE_FONT_FACE_TYPE_TRUETYPE_COLLECTION  0x2
+
+; DWRITE_FONT_FEATURE_TAG
+#define DWRITE_FONT_FEATURE_TAG_ALTERNATIVE_FRACTIONS  0x63726661
+#define DWRITE_FONT_FEATURE_TAG_PETITE_CAPITALS_FROM_CAPITALS  0x63703263
+#define DWRITE_FONT_FEATURE_TAG_SMALL_CAPITALS_FROM_CAPITALS  0x63733263
+#define DWRITE_FONT_FEATURE_TAG_CONTEXTUAL_ALTERNATES  0x746c6163
+#define DWRITE_FONT_FEATURE_TAG_CASE_SENSITIVE_FORMS  0x65736163
+#define DWRITE_FONT_FEATURE_TAG_GLYPH_COMPOSITION_DECOMPOSITION  0x706d6363
+#define DWRITE_FONT_FEATURE_TAG_CONTEXTUAL_LIGATURES  0x67696c63
+#define DWRITE_FONT_FEATURE_TAG_CAPITAL_SPACING  0x70737063
+#define DWRITE_FONT_FEATURE_TAG_CONTEXTUAL_SWASH  0x68777363
+#define DWRITE_FONT_FEATURE_TAG_CURSIVE_POSITIONING  0x73727563
+#define DWRITE_FONT_FEATURE_TAG_DEFAULT  0x746c6664
+#define DWRITE_FONT_FEATURE_TAG_DISCRETIONARY_LIGATURES  0x67696c64
+#define DWRITE_FONT_FEATURE_TAG_EXPERT_FORMS  0x74707865
+#define DWRITE_FONT_FEATURE_TAG_FRACTIONS  0x63617266
+#define DWRITE_FONT_FEATURE_TAG_FULL_WIDTH  0x64697766
+#define DWRITE_FONT_FEATURE_TAG_HALF_FORMS  0x666c6168
+#define DWRITE_FONT_FEATURE_TAG_HALANT_FORMS  0x6e6c6168
+#define DWRITE_FONT_FEATURE_TAG_ALTERNATE_HALF_WIDTH  0x746c6168
+#define DWRITE_FONT_FEATURE_TAG_HISTORICAL_FORMS  0x74736968
+#define DWRITE_FONT_FEATURE_TAG_HORIZONTAL_KANA_ALTERNATES  0x616e6b68
+#define DWRITE_FONT_FEATURE_TAG_HISTORICAL_LIGATURES  0x67696c68
+#define DWRITE_FONT_FEATURE_TAG_HALF_WIDTH  0x64697768
+#define DWRITE_FONT_FEATURE_TAG_HOJO_KANJI_FORMS  0x6f6a6f68
+#define DWRITE_FONT_FEATURE_TAG_JIS04_FORMS  0x3430706a
+#define DWRITE_FONT_FEATURE_TAG_JIS78_FORMS  0x3837706a
+#define DWRITE_FONT_FEATURE_TAG_JIS83_FORMS  0x3338706a
+#define DWRITE_FONT_FEATURE_TAG_JIS90_FORMS  0x3039706a
+#define DWRITE_FONT_FEATURE_TAG_KERNING  0x6e72656b
+#define DWRITE_FONT_FEATURE_TAG_STANDARD_LIGATURES  0x6167696c
+#define DWRITE_FONT_FEATURE_TAG_LINING_FIGURES  0x6d756e6c
+#define DWRITE_FONT_FEATURE_TAG_LOCALIZED_FORMS  0x6c636f6c
+#define DWRITE_FONT_FEATURE_TAG_MARK_POSITIONING  0x6b72616d
+#define DWRITE_FONT_FEATURE_TAG_MATHEMATICAL_GREEK  0x6b72676d
+#define DWRITE_FONT_FEATURE_TAG_MARK_TO_MARK_POSITIONING  0x6b6d6b6d
+#define DWRITE_FONT_FEATURE_TAG_ALTERNATE_ANNOTATION_FORMS  0x746c616e
+#define DWRITE_FONT_FEATURE_TAG_NLC_KANJI_FORMS  0x6b636c6e
+#define DWRITE_FONT_FEATURE_TAG_OLD_STYLE_FIGURES  0x6d756e6f
+#define DWRITE_FONT_FEATURE_TAG_ORDINALS  0x6e64726f
+#define DWRITE_FONT_FEATURE_TAG_PROPORTIONAL_ALTERNATE_WIDTH  0x746c6170
+#define DWRITE_FONT_FEATURE_TAG_PETITE_CAPITALS  0x70616370
+#define DWRITE_FONT_FEATURE_TAG_PROPORTIONAL_FIGURES  0x6d756e70
+#define DWRITE_FONT_FEATURE_TAG_PROPORTIONAL_WIDTHS  0x64697770
+#define DWRITE_FONT_FEATURE_TAG_QUARTER_WIDTHS  0x64697771
+#define DWRITE_FONT_FEATURE_TAG_REQUIRED_LIGATURES  0x67696c72
+#define DWRITE_FONT_FEATURE_TAG_RUBY_NOTATION_FORMS  0x79627572
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_ALTERNATES  0x746c6173
+#define DWRITE_FONT_FEATURE_TAG_SCIENTIFIC_INFERIORS  0x666e6973
+#define DWRITE_FONT_FEATURE_TAG_SMALL_CAPITALS  0x70636d73
+#define DWRITE_FONT_FEATURE_TAG_SIMPLIFIED_FORMS  0x6c706d73
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_1  0x31307373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_2  0x32307373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_3  0x33307373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_4  0x34307373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_5  0x35307373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_6  0x36307373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_7  0x37307373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_8  0x38307373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_9  0x39307373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_10  0x30317373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_11  0x31317373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_12  0x32317373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_13  0x33317373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_14  0x34317373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_15  0x35317373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_16  0x36317373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_17  0x37317373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_18  0x38317373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_19  0x39317373
+#define DWRITE_FONT_FEATURE_TAG_STYLISTIC_SET_20  0x30327373
+#define DWRITE_FONT_FEATURE_TAG_SUBSCRIPT  0x73627573
+#define DWRITE_FONT_FEATURE_TAG_SUPERSCRIPT  0x73707573
+#define DWRITE_FONT_FEATURE_TAG_SWASH  0x68737773
+#define DWRITE_FONT_FEATURE_TAG_TITLING  0x6c746974
+#define DWRITE_FONT_FEATURE_TAG_TRADITIONAL_NAME_FORMS  0x6d616e74
+#define DWRITE_FONT_FEATURE_TAG_TABULAR_FIGURES  0x6d756e74
+#define DWRITE_FONT_FEATURE_TAG_TRADITIONAL_FORMS  0x64617274
+#define DWRITE_FONT_FEATURE_TAG_THIRD_WIDTHS  0x64697774
+#define DWRITE_FONT_FEATURE_TAG_UNICASE  0x63696e75
+#define DWRITE_FONT_FEATURE_TAG_VERTICAL_WRITING  0x74726576
+#define DWRITE_FONT_FEATURE_TAG_VERTICAL_ALTERNATES_AND_ROTATION  0x32747276
+#define DWRITE_FONT_FEATURE_TAG_SLASHED_ZERO  0x6f72657a
+
+; DWRITE_FONT_FILE_TYPE
+#define DWRITE_FONT_FILE_TYPE_UNKNOWN  0x0
+#define DWRITE_FONT_FILE_TYPE_CFF  0x1
+#define DWRITE_FONT_FILE_TYPE_TRUETYPE  0x2
+#define DWRITE_FONT_FILE_TYPE_OPENTYPE_COLLECTION  0x3
+#define DWRITE_FONT_FILE_TYPE_TYPE1_PFM  0x4
+#define DWRITE_FONT_FILE_TYPE_TYPE1_PFB  0x5
+#define DWRITE_FONT_FILE_TYPE_VECTOR  0x6
+#define DWRITE_FONT_FILE_TYPE_BITMAP  0x7
+#define DWRITE_FONT_FILE_TYPE_TRUETYPE_COLLECTION  0x3
+
+; DWRITE_FONT_SIMULATIONS
+#define DWRITE_FONT_SIMULATIONS_NONE  0x0
+#define DWRITE_FONT_SIMULATIONS_BOLD  0x1
+#define DWRITE_FONT_SIMULATIONS_OBLIQUE  0x2
+
+; DWRITE_FONT_STRETCH
+#define DWRITE_FONT_STRETCH_UNDEFINED  0x0
+#define DWRITE_FONT_STRETCH_ULTRA_CONDENSED  0x1
+#define DWRITE_FONT_STRETCH_EXTRA_CONDENSED  0x2
+#define DWRITE_FONT_STRETCH_CONDENSED  0x3
+#define DWRITE_FONT_STRETCH_SEMI_CONDENSED  0x4
+#define DWRITE_FONT_STRETCH_NORMAL  0x5
+#define DWRITE_FONT_STRETCH_MEDIUM  0x5
+#define DWRITE_FONT_STRETCH_SEMI_EXPANDED  0x6
+#define DWRITE_FONT_STRETCH_EXPANDED  0x7
+#define DWRITE_FONT_STRETCH_EXTRA_EXPANDED  0x8
+#define DWRITE_FONT_STRETCH_ULTRA_EXPANDED  0x9
+
+; DWRITE_FONT_STYLE
+#define DWRITE_FONT_STYLE_NORMAL  0x0
+#define DWRITE_FONT_STYLE_OBLIQUE  0x1
+#define DWRITE_FONT_STYLE_ITALIC  0x2
+
+; DWRITE_FONT_WEIGHT
+#define DWRITE_FONT_WEIGHT_THIN  0x64
+#define DWRITE_FONT_WEIGHT_EXTRA_LIGHT  0xc8
+#define DWRITE_FONT_WEIGHT_ULTRA_LIGHT  0xc8
+#define DWRITE_FONT_WEIGHT_LIGHT  0x12c
+#define DWRITE_FONT_WEIGHT_SEMI_LIGHT  0x15e
+#define DWRITE_FONT_WEIGHT_NORMAL  0x190
+#define DWRITE_FONT_WEIGHT_REGULAR  0x190
+#define DWRITE_FONT_WEIGHT_MEDIUM  0x1f4
+#define DWRITE_FONT_WEIGHT_DEMI_BOLD  0x258
+#define DWRITE_FONT_WEIGHT_SEMI_BOLD  0x258
+#define DWRITE_FONT_WEIGHT_BOLD  0x2bc
+#define DWRITE_FONT_WEIGHT_EXTRA_BOLD  0x320
+#define DWRITE_FONT_WEIGHT_ULTRA_BOLD  0x320
+#define DWRITE_FONT_WEIGHT_BLACK  0x384
+#define DWRITE_FONT_WEIGHT_HEAVY  0x384
+#define DWRITE_FONT_WEIGHT_EXTRA_BLACK  0x3b6
+#define DWRITE_FONT_WEIGHT_ULTRA_BLACK  0x3b6
+
+; DWRITE_INFORMATIONAL_STRING_ID
+#define DWRITE_INFORMATIONAL_STRING_NONE  0x0
+#define DWRITE_INFORMATIONAL_STRING_COPYRIGHT_NOTICE  0x1
+#define DWRITE_INFORMATIONAL_STRING_VERSION_STRINGS  0x2
+#define DWRITE_INFORMATIONAL_STRING_TRADEMARK  0x3
+#define DWRITE_INFORMATIONAL_STRING_MANUFACTURER  0x4
+#define DWRITE_INFORMATIONAL_STRING_DESIGNER  0x5
+#define DWRITE_INFORMATIONAL_STRING_DESIGNER_URL  0x6
+#define DWRITE_INFORMATIONAL_STRING_DESCRIPTION  0x7
+#define DWRITE_INFORMATIONAL_STRING_FONT_VENDOR_URL  0x8
+#define DWRITE_INFORMATIONAL_STRING_LICENSE_DESCRIPTION  0x9
+#define DWRITE_INFORMATIONAL_STRING_LICENSE_INFO_URL  0xa
+#define DWRITE_INFORMATIONAL_STRING_WIN32_FAMILY_NAMES  0xb
+#define DWRITE_INFORMATIONAL_STRING_WIN32_SUBFAMILY_NAMES  0xc
+#define DWRITE_INFORMATIONAL_STRING_TYPOGRAPHIC_FAMILY_NAMES  0xd
+#define DWRITE_INFORMATIONAL_STRING_TYPOGRAPHIC_SUBFAMILY_NAMES  0xe
+#define DWRITE_INFORMATIONAL_STRING_SAMPLE_TEXT  0xf
+#define DWRITE_INFORMATIONAL_STRING_FULL_NAME  0x10
+#define DWRITE_INFORMATIONAL_STRING_POSTSCRIPT_NAME  0x11
+#define DWRITE_INFORMATIONAL_STRING_POSTSCRIPT_CID_NAME  0x12
+#define DWRITE_INFORMATIONAL_STRING_WEIGHT_STRETCH_STYLE_FAMILY_NAME  0x13
+#define DWRITE_INFORMATIONAL_STRING_DESIGN_SCRIPT_LANGUAGE_TAG  0x14
+#define DWRITE_INFORMATIONAL_STRING_SUPPORTED_SCRIPT_LANGUAGE_TAG  0x15
+#define DWRITE_INFORMATIONAL_STRING_PREFERRED_FAMILY_NAMES  0xd
+#define DWRITE_INFORMATIONAL_STRING_PREFERRED_SUBFAMILY_NAMES  0xe
+#define DWRITE_INFORMATIONAL_STRING_WWS_FAMILY_NAME  0x13
+
+; DWRITE_LINE_SPACING_METHOD
+#define DWRITE_LINE_SPACING_METHOD_DEFAULT  0x0
+#define DWRITE_LINE_SPACING_METHOD_UNIFORM  0x1
+#define DWRITE_LINE_SPACING_METHOD_PROPORTIONAL  0x2
+
+; DWRITE_MEASURING_MODE
+#define DWRITE_MEASURING_MODE_NATURAL  0x0
+#define DWRITE_MEASURING_MODE_GDI_CLASSIC  0x1
+#define DWRITE_MEASURING_MODE_GDI_NATURAL  0x2
+
+; DWRITE_PARAGRAPH_ALIGNMENT
+#define DWRITE_PARAGRAPH_ALIGNMENT_NEAR  0x0
+#define DWRITE_PARAGRAPH_ALIGNMENT_FAR  0x1
+#define DWRITE_PARAGRAPH_ALIGNMENT_CENTER  0x2
+
+; DWRITE_PIXEL_GEOMETRY
+#define DWRITE_PIXEL_GEOMETRY_FLAT  0x0
+#define DWRITE_PIXEL_GEOMETRY_RGB  0x1
+#define DWRITE_PIXEL_GEOMETRY_BGR  0x2
+
+; DWRITE_READING_DIRECTION
+#define DWRITE_READING_DIRECTION_LEFT_TO_RIGHT  0x0
+#define DWRITE_READING_DIRECTION_RIGHT_TO_LEFT  0x1
+#define DWRITE_READING_DIRECTION_TOP_TO_BOTTOM  0x2
+#define DWRITE_READING_DIRECTION_BOTTOM_TO_TOP  0x3
+
+; DWRITE_RENDERING_MODE
+#define DWRITE_RENDERING_MODE_DEFAULT  0x0
+#define DWRITE_RENDERING_MODE_ALIASED  0x1
+#define DWRITE_RENDERING_MODE_GDI_CLASSIC  0x2
+#define DWRITE_RENDERING_MODE_GDI_NATURAL  0x3
+#define DWRITE_RENDERING_MODE_NATURAL  0x4
+#define DWRITE_RENDERING_MODE_NATURAL_SYMMETRIC  0x5
+#define DWRITE_RENDERING_MODE_OUTLINE  0x6
+#define DWRITE_RENDERING_MODE_CLEARTYPE_GDI_CLASSIC  0x2
+#define DWRITE_RENDERING_MODE_CLEARTYPE_GDI_NATURAL  0x3
+#define DWRITE_RENDERING_MODE_CLEARTYPE_NATURAL  0x4
+#define DWRITE_RENDERING_MODE_CLEARTYPE_NATURAL_SYMMETRIC  0x5
+
+; DWRITE_TEXT_ALIGNMENT
+#define DWRITE_TEXT_ALIGNMENT_LEADING  0x0
+#define DWRITE_TEXT_ALIGNMENT_TRAILING  0x1
+#define DWRITE_TEXT_ALIGNMENT_CENTER  0x2
+#define DWRITE_TEXT_ALIGNMENT_JUSTIFIED  0x3
+
+; DWRITE_TRIMMING_GRANULARITY
+#define DWRITE_TRIMMING_GRANULARITY_NONE  0x0
+#define DWRITE_TRIMMING_GRANULARITY_CHARACTER  0x1
+#define DWRITE_TRIMMING_GRANULARITY_WORD  0x2
+
+; DWRITE_WORD_WRAPPING
+#define DWRITE_WORD_WRAPPING_WRAP  0x0
+#define DWRITE_WORD_WRAPPING_NO_WRAP  0x1
+#define DWRITE_WORD_WRAPPING_EMERGENCY_BREAK  0x2
+#define DWRITE_WORD_WRAPPING_WHOLE_WORD  0x3
+#define DWRITE_WORD_WRAPPING_CHARACTER  0x4
+
+; DXGI_CREATE_FACTORY_FLAGS
+#define DXGI_CREATE_FACTORY_DEBUG  0x1
+
+; DXGI_ENUM_MODES
+#define DXGI_ENUM_MODES_INTERLACED  0x1
+#define DXGI_ENUM_MODES_SCALING  0x2
+#define DXGI_ENUM_MODES_STEREO  0x4
+#define DXGI_ENUM_MODES_DISABLED_STEREO  0x8
+
+; DXGI_FORMAT
+#define DXGI_FORMAT_UNKNOWN  0x0
+#define DXGI_FORMAT_R32G32B32A32_TYPELESS  0x1
+#define DXGI_FORMAT_R32G32B32A32_FLOAT  0x2
+#define DXGI_FORMAT_R32G32B32A32_UINT  0x3
+#define DXGI_FORMAT_R32G32B32A32_SINT  0x4
+#define DXGI_FORMAT_R32G32B32_TYPELESS  0x5
+#define DXGI_FORMAT_R32G32B32_FLOAT  0x6
+#define DXGI_FORMAT_R32G32B32_UINT  0x7
+#define DXGI_FORMAT_R32G32B32_SINT  0x8
+#define DXGI_FORMAT_R16G16B16A16_TYPELESS  0x9
+#define DXGI_FORMAT_R16G16B16A16_FLOAT  0xa
+#define DXGI_FORMAT_R16G16B16A16_UNORM  0xb
+#define DXGI_FORMAT_R16G16B16A16_UINT  0xc
+#define DXGI_FORMAT_R16G16B16A16_SNORM  0xd
+#define DXGI_FORMAT_R16G16B16A16_SINT  0xe
+#define DXGI_FORMAT_R32G32_TYPELESS  0xf
+#define DXGI_FORMAT_R32G32_FLOAT  0x10
+#define DXGI_FORMAT_R32G32_UINT  0x11
+#define DXGI_FORMAT_R32G32_SINT  0x12
+#define DXGI_FORMAT_R32G8X24_TYPELESS  0x13
+#define DXGI_FORMAT_D32_FLOAT_S8X24_UINT  0x14
+#define DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS  0x15
+#define DXGI_FORMAT_X32_TYPELESS_G8X24_UINT  0x16
+#define DXGI_FORMAT_R10G10B10A2_TYPELESS  0x17
+#define DXGI_FORMAT_R10G10B10A2_UNORM  0x18
+#define DXGI_FORMAT_R10G10B10A2_UINT  0x19
+#define DXGI_FORMAT_R11G11B10_FLOAT  0x1a
+#define DXGI_FORMAT_R8G8B8A8_TYPELESS  0x1b
+#define DXGI_FORMAT_R8G8B8A8_UNORM  0x1c
+#define DXGI_FORMAT_R8G8B8A8_UNORM_SRGB  0x1d
+#define DXGI_FORMAT_R8G8B8A8_UINT  0x1e
+#define DXGI_FORMAT_R8G8B8A8_SNORM  0x1f
+#define DXGI_FORMAT_R8G8B8A8_SINT  0x20
+#define DXGI_FORMAT_R16G16_TYPELESS  0x21
+#define DXGI_FORMAT_R16G16_FLOAT  0x22
+#define DXGI_FORMAT_R16G16_UNORM  0x23
+#define DXGI_FORMAT_R16G16_UINT  0x24
+#define DXGI_FORMAT_R16G16_SNORM  0x25
+#define DXGI_FORMAT_R16G16_SINT  0x26
+#define DXGI_FORMAT_R32_TYPELESS  0x27
+#define DXGI_FORMAT_D32_FLOAT  0x28
+#define DXGI_FORMAT_R32_FLOAT  0x29
+#define DXGI_FORMAT_R32_UINT  0x2a
+#define DXGI_FORMAT_R32_SINT  0x2b
+#define DXGI_FORMAT_R24G8_TYPELESS  0x2c
+#define DXGI_FORMAT_D24_UNORM_S8_UINT  0x2d
+#define DXGI_FORMAT_R24_UNORM_X8_TYPELESS  0x2e
+#define DXGI_FORMAT_X24_TYPELESS_G8_UINT  0x2f
+#define DXGI_FORMAT_R8G8_TYPELESS  0x30
+#define DXGI_FORMAT_R8G8_UNORM  0x31
+#define DXGI_FORMAT_R8G8_UINT  0x32
+#define DXGI_FORMAT_R8G8_SNORM  0x33
+#define DXGI_FORMAT_R8G8_SINT  0x34
+#define DXGI_FORMAT_R16_TYPELESS  0x35
+#define DXGI_FORMAT_R16_FLOAT  0x36
+#define DXGI_FORMAT_D16_UNORM  0x37
+#define DXGI_FORMAT_R16_UNORM  0x38
+#define DXGI_FORMAT_R16_UINT  0x39
+#define DXGI_FORMAT_R16_SNORM  0x3a
+#define DXGI_FORMAT_R16_SINT  0x3b
+#define DXGI_FORMAT_R8_TYPELESS  0x3c
+#define DXGI_FORMAT_R8_UNORM  0x3d
+#define DXGI_FORMAT_R8_UINT  0x3e
+#define DXGI_FORMAT_R8_SNORM  0x3f
+#define DXGI_FORMAT_R8_SINT  0x40
+#define DXGI_FORMAT_A8_UNORM  0x41
+#define DXGI_FORMAT_R1_UNORM  0x42
+#define DXGI_FORMAT_R9G9B9E5_SHAREDEXP  0x43
+#define DXGI_FORMAT_R8G8_B8G8_UNORM  0x44
+#define DXGI_FORMAT_G8R8_G8B8_UNORM  0x45
+#define DXGI_FORMAT_BC1_TYPELESS  0x46
+#define DXGI_FORMAT_BC1_UNORM  0x47
+#define DXGI_FORMAT_BC1_UNORM_SRGB  0x48
+#define DXGI_FORMAT_BC2_TYPELESS  0x49
+#define DXGI_FORMAT_BC2_UNORM  0x4a
+#define DXGI_FORMAT_BC2_UNORM_SRGB  0x4b
+#define DXGI_FORMAT_BC3_TYPELESS  0x4c
+#define DXGI_FORMAT_BC3_UNORM  0x4d
+#define DXGI_FORMAT_BC3_UNORM_SRGB  0x4e
+#define DXGI_FORMAT_BC4_TYPELESS  0x4f
+#define DXGI_FORMAT_BC4_UNORM  0x50
+#define DXGI_FORMAT_BC4_SNORM  0x51
+#define DXGI_FORMAT_BC5_TYPELESS  0x52
+#define DXGI_FORMAT_BC5_UNORM  0x53
+#define DXGI_FORMAT_BC5_SNORM  0x54
+#define DXGI_FORMAT_B5G6R5_UNORM  0x55
+#define DXGI_FORMAT_B5G5R5A1_UNORM  0x56
+#define DXGI_FORMAT_B8G8R8A8_UNORM  0x57
+#define DXGI_FORMAT_B8G8R8X8_UNORM  0x58
+#define DXGI_FORMAT_R10G10B10_XR_BIAS_A2_UNORM  0x59
+#define DXGI_FORMAT_B8G8R8A8_TYPELESS  0x5a
+#define DXGI_FORMAT_B8G8R8A8_UNORM_SRGB  0x5b
+#define DXGI_FORMAT_B8G8R8X8_TYPELESS  0x5c
+#define DXGI_FORMAT_B8G8R8X8_UNORM_SRGB  0x5d
+#define DXGI_FORMAT_BC6H_TYPELESS  0x5e
+#define DXGI_FORMAT_BC6H_UF16  0x5f
+#define DXGI_FORMAT_BC6H_SF16  0x60
+#define DXGI_FORMAT_BC7_TYPELESS  0x61
+#define DXGI_FORMAT_BC7_UNORM  0x62
+#define DXGI_FORMAT_BC7_UNORM_SRGB  0x63
+#define DXGI_FORMAT_AYUV  0x64
+#define DXGI_FORMAT_Y410  0x65
+#define DXGI_FORMAT_Y416  0x66
+#define DXGI_FORMAT_NV12  0x67
+#define DXGI_FORMAT_P010  0x68
+#define DXGI_FORMAT_P016  0x69
+#define DXGI_FORMAT_420_OPAQUE  0x6a
+#define DXGI_FORMAT_YUY2  0x6b
+#define DXGI_FORMAT_Y210  0x6c
+#define DXGI_FORMAT_Y216  0x6d
+#define DXGI_FORMAT_NV11  0x6e
+#define DXGI_FORMAT_AI44  0x6f
+#define DXGI_FORMAT_IA44  0x70
+#define DXGI_FORMAT_P8  0x71
+#define DXGI_FORMAT_A8P8  0x72
+#define DXGI_FORMAT_B4G4R4A4_UNORM  0x73
+#define DXGI_FORMAT_P208  0x82
+#define DXGI_FORMAT_V208  0x83
+#define DXGI_FORMAT_V408  0x84
+#define DXGI_FORMAT_SAMPLER_FEEDBACK_MIN_MIP_OPAQUE  0xbd
+#define DXGI_FORMAT_SAMPLER_FEEDBACK_MIP_REGION_USED_OPAQUE  0xbe
+#define DXGI_FORMAT_A4B4G4R4_UNORM  0xbf
+
+; DXGI_MAP_FLAGS
+#define DXGI_MAP_READ  0x1
+#define DXGI_MAP_WRITE  0x2
+#define DXGI_MAP_DISCARD  0x4
+
+; DXGI_MODE_ROTATION
+#define DXGI_MODE_ROTATION_UNSPECIFIED  0x0
+#define DXGI_MODE_ROTATION_IDENTITY  0x1
+#define DXGI_MODE_ROTATION_ROTATE90  0x2
+#define DXGI_MODE_ROTATION_ROTATE180  0x3
+#define DXGI_MODE_ROTATION_ROTATE270  0x4
+
+; DXGI_MODE_SCALING
+#define DXGI_MODE_SCALING_UNSPECIFIED  0x0
+#define DXGI_MODE_SCALING_CENTERED  0x1
+#define DXGI_MODE_SCALING_STRETCHED  0x2
+
+; DXGI_MODE_SCANLINE_ORDER
+#define DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED  0x0
+#define DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE  0x1
+#define DXGI_MODE_SCANLINE_ORDER_UPPER_FIELD_FIRST  0x2
+#define DXGI_MODE_SCANLINE_ORDER_LOWER_FIELD_FIRST  0x3
+
+; DXGI_PRESENT
+#define DXGI_PRESENT_TEST  0x1
+#define DXGI_PRESENT_DO_NOT_SEQUENCE  0x2
+#define DXGI_PRESENT_RESTART  0x4
+#define DXGI_PRESENT_DO_NOT_WAIT  0x8
+#define DXGI_PRESENT_STEREO_PREFER_RIGHT  0x10
+#define DXGI_PRESENT_STEREO_TEMPORARY_MONO  0x20
+#define DXGI_PRESENT_RESTRICT_TO_OUTPUT  0x40
+#define DXGI_PRESENT_USE_DURATION  0x100
+#define DXGI_PRESENT_ALLOW_TEARING  0x200
+
+; DXGI_RESIDENCY
+#define DXGI_RESIDENCY_FULLY_RESIDENT  0x1
+#define DXGI_RESIDENCY_RESIDENT_IN_SHARED_MEMORY  0x2
+#define DXGI_RESIDENCY_EVICTED_TO_DISK  0x3
+
+; DXGI_SWAP_CHAIN_FLAG
+#define DXGI_SWAP_CHAIN_FLAG_NONPREROTATED  0x1
+#define DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH  0x2
+#define DXGI_SWAP_CHAIN_FLAG_GDI_COMPATIBLE  0x4
+#define DXGI_SWAP_CHAIN_FLAG_RESTRICTED_CONTENT  0x8
+#define DXGI_SWAP_CHAIN_FLAG_RESTRICT_SHARED_RESOURCE_DRIVER  0x10
+#define DXGI_SWAP_CHAIN_FLAG_DISPLAY_ONLY  0x20
+#define DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT  0x40
+#define DXGI_SWAP_CHAIN_FLAG_FOREGROUND_LAYER  0x80
+#define DXGI_SWAP_CHAIN_FLAG_FULLSCREEN_VIDEO  0x100
+#define DXGI_SWAP_CHAIN_FLAG_YUV_VIDEO  0x200
+#define DXGI_SWAP_CHAIN_FLAG_HW_PROTECTED  0x400
+#define DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING  0x800
+#define DXGI_SWAP_CHAIN_FLAG_RESTRICTED_TO_ALL_HOLOGRAPHIC_DISPLAYS  0x1000
+
+; DXGI_SWAP_EFFECT
+#define DXGI_SWAP_EFFECT_DISCARD  0x0
+#define DXGI_SWAP_EFFECT_SEQUENTIAL  0x1
+#define DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL  0x3
+#define DXGI_SWAP_EFFECT_FLIP_DISCARD  0x4
+
+; DXGI_USAGE
+#define DXGI_USAGE_SHADER_INPUT  0x10
+#define DXGI_USAGE_RENDER_TARGET_OUTPUT  0x20
+#define DXGI_USAGE_BACK_BUFFER  0x40
+#define DXGI_USAGE_SHARED  0x80
+#define DXGI_USAGE_READ_ONLY  0x100
+#define DXGI_USAGE_DISCARD_ON_PRESENT  0x200
+#define DXGI_USAGE_UNORDERED_ACCESS  0x400
+
 ; EMBDHLP_FLAGS
 #define EMBDHLP_INPROC_HANDLER  0x0
 #define EMBDHLP_INPROC_SERVER  0x1
@@ -8409,6 +12795,12 @@
 ; EXT_FLOOD_FILL_TYPE
 #define FLOODFILLBORDER  0x0
 #define FLOODFILLSURFACE  0x1
+
+; EXTENDED_NAME_FORMAT
+#define NameUnknown  0x0
+#define NameFullyQualifiedDN  0x1
+#define NameSamCompatible  0x2
+#define NameDisplay  0x3
 
 ; FEEDBACK_TYPE
 #define FEEDBACK_TOUCH_CONTACTVISUALIZATION  0x1
@@ -8732,6 +13124,12 @@
 #define SIMPLEREGION  0x2
 #define COMPLEXREGION  0x3
 
+; GENERIC_ACCESS_RIGHTS
+#define GENERIC_READ  0x80000000
+#define GENERIC_WRITE  0x40000000
+#define GENERIC_EXECUTE  0x20000000
+#define GENERIC_ALL  0x10000000
+
 ; GESTURE_TYPE
 #define GT_PEN_TAP  0x0
 #define GT_PEN_DOUBLETAP  0x1
@@ -8754,6 +13152,19 @@
 #define GID_TWOFINGERTAP  0x6
 #define GID_PRESSANDTAP  0x7
 #define GID_ROLLOVER  0x7
+
+; GET_ADAPTERS_ADDRESSES_FLAGS
+#define GAA_FLAG_SKIP_UNICAST  0x1
+#define GAA_FLAG_SKIP_ANYCAST  0x2
+#define GAA_FLAG_SKIP_MULTICAST  0x4
+#define GAA_FLAG_SKIP_DNS_SERVER  0x8
+#define GAA_FLAG_INCLUDE_PREFIX  0x10
+#define GAA_FLAG_SKIP_FRIENDLY_NAME  0x20
+#define GAA_FLAG_INCLUDE_WINS_INFO  0x40
+#define GAA_FLAG_INCLUDE_GATEWAYS  0x80
+#define GAA_FLAG_INCLUDE_ALL_INTERFACES  0x100
+#define GAA_FLAG_INCLUDE_ALL_COMPARTMENTS  0x200
+#define GAA_FLAG_INCLUDE_TUNNEL_BINDINGORDER  0x400
 
 ; GET_ANCESTOR_FLAGS
 #define GA_PARENT  0x1
@@ -8969,6 +13380,11 @@
 #define GMEM_ZEROINIT  0x40
 #define GPTR  0x40
 
+; GLOBAL_FILTER
+#define GF_FRAGMENTS  0x2
+#define GF_STRONGHOST  0x8
+#define GF_FRAGCACHE  0x9
+
 ; GOPHER_TYPE
 #define GOPHER_TYPE_ASK  0x40000000
 #define GOPHER_TYPE_BINARY  0x200
@@ -9144,6 +13560,25 @@
 #define IDLFLAG_FOUT  0x2
 #define IDLFLAG_FLCID  0x4
 #define IDLFLAG_FRETVAL  0x8
+
+; IEObjectType
+#define IE_EPM_OBJECT_EVENT  0x0
+#define IE_EPM_OBJECT_MUTEX  0x1
+#define IE_EPM_OBJECT_SEMAPHORE  0x2
+#define IE_EPM_OBJECT_SHARED_MEMORY  0x3
+#define IE_EPM_OBJECT_WAITABLE_TIMER  0x4
+#define IE_EPM_OBJECT_FILE  0x5
+#define IE_EPM_OBJECT_NAMED_PIPE  0x6
+#define IE_EPM_OBJECT_REGISTRY  0x7
+
+; IF_OPER_STATUS
+#define IfOperStatusUp  0x1
+#define IfOperStatusDown  0x2
+#define IfOperStatusTesting  0x3
+#define IfOperStatusUnknown  0x4
+#define IfOperStatusDormant  0x5
+#define IfOperStatusNotPresent  0x6
+#define IfOperStatusLowerLayerDown  0x7
 
 ; IMAGE_DIRECTORY_ENTRY
 #define IMAGE_DIRECTORY_ENTRY_ARCHITECTURE  0x7
@@ -9442,6 +13877,14 @@
 #define PROGID  0x3
 #define COMCLASS  0x4
 
+; INTERNAL_IF_OPER_STATUS
+#define IF_OPER_STATUS_NON_OPERATIONAL  0x0
+#define IF_OPER_STATUS_UNREACHABLE  0x1
+#define IF_OPER_STATUS_DISCONNECTED  0x2
+#define IF_OPER_STATUS_CONNECTING  0x3
+#define IF_OPER_STATUS_CONNECTED  0x4
+#define IF_OPER_STATUS_OPERATIONAL  0x5
+
 ; INTERNET_AUTODIAL
 #define INTERNET_AUTODIAL_FAILIFSECURITYCHECK  0x4
 #define INTERNET_AUTODIAL_FORCE_ONLINE  0x1
@@ -9479,6 +13922,37 @@
 #define INTERNET_SCHEME_RES  0xb
 #define INTERNET_SCHEME_FIRST  0x1
 #define INTERNET_SCHEME_LAST  0xb
+
+; INTERNETFEATURELIST
+#define FEATURE_OBJECT_CACHING  0x0
+#define FEATURE_ZONE_ELEVATION  0x1
+#define FEATURE_MIME_HANDLING  0x2
+#define FEATURE_MIME_SNIFFING  0x3
+#define FEATURE_WINDOW_RESTRICTIONS  0x4
+#define FEATURE_WEBOC_POPUPMANAGEMENT  0x5
+#define FEATURE_BEHAVIORS  0x6
+#define FEATURE_DISABLE_MK_PROTOCOL  0x7
+#define FEATURE_LOCALMACHINE_LOCKDOWN  0x8
+#define FEATURE_SECURITYBAND  0x9
+#define FEATURE_RESTRICT_ACTIVEXINSTALL  0xa
+#define FEATURE_VALIDATE_NAVIGATE_URL  0xb
+#define FEATURE_RESTRICT_FILEDOWNLOAD  0xc
+#define FEATURE_ADDON_MANAGEMENT  0xd
+#define FEATURE_PROTOCOL_LOCKDOWN  0xe
+#define FEATURE_HTTP_USERNAME_PASSWORD_DISABLE  0xf
+#define FEATURE_SAFE_BINDTOOBJECT  0x10
+#define FEATURE_UNC_SAVEDFILECHECK  0x11
+#define FEATURE_GET_URL_DOM_FILEPATH_UNENCODED  0x12
+#define FEATURE_TABBED_BROWSING  0x13
+#define FEATURE_SSLUX  0x14
+#define FEATURE_DISABLE_NAVIGATION_SOUNDS  0x15
+#define FEATURE_DISABLE_LEGACY_COMPRESSION  0x16
+#define FEATURE_FORCE_ADDR_AND_STATUS  0x17
+#define FEATURE_XMLHTTP  0x18
+#define FEATURE_DISABLE_TELNET_PROTOCOL  0x19
+#define FEATURE_FEEDS  0x1a
+#define FEATURE_BLOCK_INPUT_PROMPTS  0x1b
+#define FEATURE_ENTRY_COUNT  0x1c
 
 ; INVOKEKIND
 #define INVOKE_FUNC  0x1
@@ -9856,6 +14330,52 @@
 #define MB_MODEMASK  0x3000
 #define MB_MISCMASK  0xc000
 
+; MIB_IF_ENTRY_LEVEL
+#define MibIfEntryNormal  0x0
+#define MibIfEntryNormalWithoutStatistics  0x2
+
+; MIB_IF_TABLE_LEVEL
+#define MibIfTableNormal  0x0
+#define MibIfTableRaw  0x1
+#define MibIfTableNormalWithoutStatistics  0x2
+
+; MIB_IPFORWARD_TYPE
+#define MIB_IPROUTE_TYPE_OTHER  0x1
+#define MIB_IPROUTE_TYPE_INVALID  0x2
+#define MIB_IPROUTE_TYPE_DIRECT  0x3
+#define MIB_IPROUTE_TYPE_INDIRECT  0x4
+
+; MIB_IPNET_TYPE
+#define MIB_IPNET_TYPE_OTHER  0x1
+#define MIB_IPNET_TYPE_INVALID  0x2
+#define MIB_IPNET_TYPE_DYNAMIC  0x3
+#define MIB_IPNET_TYPE_STATIC  0x4
+
+; MIB_IPSTATS_FORWARDING
+#define MIB_IP_FORWARDING  0x1
+#define MIB_IP_NOT_FORWARDING  0x2
+
+; MIB_NOTIFICATION_TYPE
+#define MibParameterNotification  0x0
+#define MibAddInstance  0x1
+#define MibDeleteInstance  0x2
+#define MibInitialNotification  0x3
+
+; MIB_TCP_STATE
+#define MIB_TCP_STATE_CLOSED  0x1
+#define MIB_TCP_STATE_LISTEN  0x2
+#define MIB_TCP_STATE_SYN_SENT  0x3
+#define MIB_TCP_STATE_SYN_RCVD  0x4
+#define MIB_TCP_STATE_ESTAB  0x5
+#define MIB_TCP_STATE_FIN_WAIT1  0x6
+#define MIB_TCP_STATE_FIN_WAIT2  0x7
+#define MIB_TCP_STATE_CLOSE_WAIT  0x8
+#define MIB_TCP_STATE_CLOSING  0x9
+#define MIB_TCP_STATE_LAST_ACK  0xa
+#define MIB_TCP_STATE_TIME_WAIT  0xb
+#define MIB_TCP_STATE_DELETE_TCB  0xc
+#define MIB_TCP_STATE_RESERVED  0x64
+
 ; MIDI_WAVE_OPEN_TYPE
 #define CALLBACK_TYPEMASK  0x70000
 #define CALLBACK_NULL  0x0
@@ -9993,6 +14513,88 @@
 #define PIPE_ACCEPT_REMOTE_CLIENTS  0x0
 #define PIPE_REJECT_REMOTE_CLIENTS  0x8
 
+; NDIS_MEDIUM
+#define NdisMedium802_3  0x0
+#define NdisMedium802_5  0x1
+#define NdisMediumFddi  0x2
+#define NdisMediumWan  0x3
+#define NdisMediumLocalTalk  0x4
+#define NdisMediumDix  0x5
+#define NdisMediumArcnetRaw  0x6
+#define NdisMediumArcnet878_2  0x7
+#define NdisMediumAtm  0x8
+#define NdisMediumWirelessWan  0x9
+#define NdisMediumIrda  0xa
+#define NdisMediumBpc  0xb
+#define NdisMediumCoWan  0xc
+#define NdisMedium1394  0xd
+#define NdisMediumInfiniBand  0xe
+#define NdisMediumTunnel  0xf
+#define NdisMediumNative802_11  0x10
+#define NdisMediumLoopback  0x11
+#define NdisMediumWiMAX  0x12
+#define NdisMediumIP  0x13
+#define NdisMediumMax  0x14
+
+; NDIS_PHYSICAL_MEDIUM
+#define NdisPhysicalMediumUnspecified  0x0
+#define NdisPhysicalMediumWirelessLan  0x1
+#define NdisPhysicalMediumCableModem  0x2
+#define NdisPhysicalMediumPhoneLine  0x3
+#define NdisPhysicalMediumPowerLine  0x4
+#define NdisPhysicalMediumDSL  0x5
+#define NdisPhysicalMediumFibreChannel  0x6
+#define NdisPhysicalMedium1394  0x7
+#define NdisPhysicalMediumWirelessWan  0x8
+#define NdisPhysicalMediumNative802_11  0x9
+#define NdisPhysicalMediumBluetooth  0xa
+#define NdisPhysicalMediumInfiniband  0xb
+#define NdisPhysicalMediumWiMax  0xc
+#define NdisPhysicalMediumUWB  0xd
+#define NdisPhysicalMedium802_3  0xe
+#define NdisPhysicalMedium802_5  0xf
+#define NdisPhysicalMediumIrda  0x10
+#define NdisPhysicalMediumWiredWAN  0x11
+#define NdisPhysicalMediumWiredCoWan  0x12
+#define NdisPhysicalMediumOther  0x13
+#define NdisPhysicalMediumNative802_15_4  0x14
+#define NdisPhysicalMediumMax  0x15
+
+; NET_ADDRESS_FORMAT
+#define NET_ADDRESS_FORMAT_UNSPECIFIED  0x0
+#define NET_ADDRESS_DNS_NAME  0x1
+#define NET_ADDRESS_IPV4  0x2
+#define NET_ADDRESS_IPV6  0x3
+
+; NET_IF_ACCESS_TYPE
+#define NET_IF_ACCESS_LOOPBACK  0x1
+#define NET_IF_ACCESS_BROADCAST  0x2
+#define NET_IF_ACCESS_POINT_TO_POINT  0x3
+#define NET_IF_ACCESS_POINT_TO_MULTI_POINT  0x4
+#define NET_IF_ACCESS_MAXIMUM  0x5
+
+; NET_IF_ADMIN_STATUS
+#define NET_IF_ADMIN_STATUS_UP  0x1
+#define NET_IF_ADMIN_STATUS_DOWN  0x2
+#define NET_IF_ADMIN_STATUS_TESTING  0x3
+
+; NET_IF_CONNECTION_TYPE
+#define NET_IF_CONNECTION_DEDICATED  0x1
+#define NET_IF_CONNECTION_PASSIVE  0x2
+#define NET_IF_CONNECTION_DEMAND  0x3
+#define NET_IF_CONNECTION_MAXIMUM  0x4
+
+; NET_IF_DIRECTION_TYPE
+#define NET_IF_DIRECTION_SENDRECEIVE  0x0
+#define NET_IF_DIRECTION_SENDONLY  0x1
+#define NET_IF_DIRECTION_RECEIVEONLY  0x2
+#define NET_IF_DIRECTION_MAXIMUM  0x3
+
+; NET_IF_MEDIA_CONNECT_STATE
+#define MediaConnectStateUnknown  0x0
+#define MediaConnectStateConnected  0x1
+#define MediaConnectStateDisconnected  0x2
+
 ; NET_SERVER_TYPE
 #define SV_TYPE_WORKSTATION  0x1
 #define SV_TYPE_SERVER  0x2
@@ -10027,6 +14629,149 @@
 #define SV_TYPE_LOCAL_LIST_ONLY  0x40000000
 #define SV_TYPE_DOMAIN_ENUM  0x80000000
 #define SV_TYPE_ALL  0xffffffff
+
+; NL_DAD_STATE
+#define NldsInvalid  0x0
+#define NldsTentative  0x1
+#define NldsDuplicate  0x2
+#define NldsDeprecated  0x3
+#define NldsPreferred  0x4
+#define IpDadStateInvalid  0x0
+#define IpDadStateTentative  0x1
+#define IpDadStateDuplicate  0x2
+#define IpDadStateDeprecated  0x3
+#define IpDadStatePreferred  0x4
+
+; NL_LINK_LOCAL_ADDRESS_BEHAVIOR
+#define LinkLocalAlwaysOff  0x0
+#define LinkLocalDelayed  0x1
+#define LinkLocalAlwaysOn  0x2
+#define LinkLocalUnchanged  -1
+
+; NL_NEIGHBOR_STATE
+#define NlnsUnreachable  0x0
+#define NlnsIncomplete  0x1
+#define NlnsProbe  0x2
+#define NlnsDelay  0x3
+#define NlnsStale  0x4
+#define NlnsReachable  0x5
+#define NlnsPermanent  0x6
+#define NlnsMaximum  0x7
+
+; NL_NETWORK_CONNECTIVITY_COST_HINT
+#define NetworkConnectivityCostHintUnknown  0x0
+#define NetworkConnectivityCostHintUnrestricted  0x1
+#define NetworkConnectivityCostHintFixed  0x2
+#define NetworkConnectivityCostHintVariable  0x3
+
+; NL_NETWORK_CONNECTIVITY_LEVEL_HINT
+#define NetworkConnectivityLevelHintUnknown  0x0
+#define NetworkConnectivityLevelHintNone  0x1
+#define NetworkConnectivityLevelHintLocalAccess  0x2
+#define NetworkConnectivityLevelHintInternetAccess  0x3
+#define NetworkConnectivityLevelHintConstrainedInternetAccess  0x4
+#define NetworkConnectivityLevelHintHidden  0x5
+
+; NL_PREFIX_ORIGIN
+#define IpPrefixOriginOther  0x0
+#define IpPrefixOriginManual  0x1
+#define IpPrefixOriginWellKnown  0x2
+#define IpPrefixOriginDhcp  0x3
+#define IpPrefixOriginRouterAdvertisement  0x4
+#define IpPrefixOriginUnchanged  0x10
+
+; NL_ROUTE_ORIGIN
+#define NlroManual  0x0
+#define NlroWellKnown  0x1
+#define NlroDHCP  0x2
+#define NlroRouterAdvertisement  0x3
+#define Nlro6to4  0x4
+
+; NL_ROUTE_PROTOCOL
+#define RouteProtocolOther  0x1
+#define RouteProtocolLocal  0x2
+#define RouteProtocolNetMgmt  0x3
+#define RouteProtocolIcmp  0x4
+#define RouteProtocolEgp  0x5
+#define RouteProtocolGgp  0x6
+#define RouteProtocolHello  0x7
+#define RouteProtocolRip  0x8
+#define RouteProtocolIsIs  0x9
+#define RouteProtocolEsIs  0xa
+#define RouteProtocolCisco  0xb
+#define RouteProtocolBbn  0xc
+#define RouteProtocolOspf  0xd
+#define RouteProtocolBgp  0xe
+#define RouteProtocolIdpr  0xf
+#define RouteProtocolEigrp  0x10
+#define RouteProtocolDvmrp  0x11
+#define RouteProtocolRpl  0x12
+#define RouteProtocolDhcp  0x13
+#define MIB_IPPROTO_OTHER  0x1
+#define PROTO_IP_OTHER  0x1
+#define MIB_IPPROTO_LOCAL  0x2
+#define PROTO_IP_LOCAL  0x2
+#define MIB_IPPROTO_NETMGMT  0x3
+#define PROTO_IP_NETMGMT  0x3
+#define MIB_IPPROTO_ICMP  0x4
+#define PROTO_IP_ICMP  0x4
+#define MIB_IPPROTO_EGP  0x5
+#define PROTO_IP_EGP  0x5
+#define MIB_IPPROTO_GGP  0x6
+#define PROTO_IP_GGP  0x6
+#define MIB_IPPROTO_HELLO  0x7
+#define PROTO_IP_HELLO  0x7
+#define MIB_IPPROTO_RIP  0x8
+#define PROTO_IP_RIP  0x8
+#define MIB_IPPROTO_IS_IS  0x9
+#define PROTO_IP_IS_IS  0x9
+#define MIB_IPPROTO_ES_IS  0xa
+#define PROTO_IP_ES_IS  0xa
+#define MIB_IPPROTO_CISCO  0xb
+#define PROTO_IP_CISCO  0xb
+#define MIB_IPPROTO_BBN  0xc
+#define PROTO_IP_BBN  0xc
+#define MIB_IPPROTO_OSPF  0xd
+#define PROTO_IP_OSPF  0xd
+#define MIB_IPPROTO_BGP  0xe
+#define PROTO_IP_BGP  0xe
+#define MIB_IPPROTO_IDPR  0xf
+#define PROTO_IP_IDPR  0xf
+#define MIB_IPPROTO_EIGRP  0x10
+#define PROTO_IP_EIGRP  0x10
+#define MIB_IPPROTO_DVMRP  0x11
+#define PROTO_IP_DVMRP  0x11
+#define MIB_IPPROTO_RPL  0x12
+#define PROTO_IP_RPL  0x12
+#define MIB_IPPROTO_DHCP  0x13
+#define PROTO_IP_DHCP  0x13
+#define MIB_IPPROTO_NT_AUTOSTATIC  0x2712
+#define PROTO_IP_NT_AUTOSTATIC  0x2712
+#define MIB_IPPROTO_NT_STATIC  0x2716
+#define PROTO_IP_NT_STATIC  0x2716
+#define MIB_IPPROTO_NT_STATIC_NON_DOD  0x2717
+#define PROTO_IP_NT_STATIC_NON_DOD  0x2717
+
+; NL_ROUTER_DISCOVERY_BEHAVIOR
+#define RouterDiscoveryDisabled  0x0
+#define RouterDiscoveryEnabled  0x1
+#define RouterDiscoveryDhcp  0x2
+#define RouterDiscoveryUnchanged  -1
+
+; NL_SUFFIX_ORIGIN
+#define NlsoOther  0x0
+#define NlsoManual  0x1
+#define NlsoWellKnown  0x2
+#define NlsoDhcp  0x3
+#define NlsoLinkLayerAddress  0x4
+#define NlsoRandom  0x5
+#define IpSuffixOriginOther  0x0
+#define IpSuffixOriginManual  0x1
+#define IpSuffixOriginWellKnown  0x2
+#define IpSuffixOriginDhcp  0x3
+#define IpSuffixOriginLinkLayerAddress  0x4
+#define IpSuffixOriginRandom  0x5
+#define IpSuffixOriginUnchanged  0x10
 
 ; NORM_FORM
 #define NormalizationOther  0x0
@@ -10483,6 +15228,27 @@
 #define PARAMFLAG_FHASDEFAULT  0x20
 #define PARAMFLAG_FHASCUSTDATA  0x40
 
+; PARSEACTION
+#define PARSE_CANONICALIZE  0x1
+#define PARSE_FRIENDLY  0x2
+#define PARSE_SECURITY_URL  0x3
+#define PARSE_ROOTDOCUMENT  0x4
+#define PARSE_DOCUMENT  0x5
+#define PARSE_ANCHOR  0x6
+#define PARSE_ENCODE_IS_UNESCAPE  0x7
+#define PARSE_DECODE_IS_ESCAPE  0x8
+#define PARSE_PATH_FROM_URL  0x9
+#define PARSE_URL_FROM_PATH  0xa
+#define PARSE_MIME  0xb
+#define PARSE_SERVER  0xc
+#define PARSE_SCHEMA  0xd
+#define PARSE_SITE  0xe
+#define PARSE_DOMAIN  0xf
+#define PARSE_LOCATION  0x10
+#define PARSE_SECURITY_DOMAIN  0x11
+#define PARSE_ESCAPE  0x12
+#define PARSE_UNESCAPE  0x13
+
 ; PCS_RET
 #define PCS_FATAL  0x80000000
 #define PCS_REPLACEDCHAR  0x1
@@ -10541,6 +15307,10 @@
 #define PERF_REG_COUNTERSET_ENGLISH_NAME  0x9
 #define PERF_REG_COUNTER_ENGLISH_NAMES  0xa
 
+; PFADDRESSTYPE
+#define PF_IPV4  0x0
+#define PF_IPV6  0x1
+
 ; PFD_FLAGS
 #define PFD_DOUBLEBUFFER  0x1
 #define PFD_STEREO  0x2
@@ -10570,6 +15340,10 @@
 ; PFD_PIXEL_TYPE
 #define PFD_TYPE_RGBA  0x0
 #define PFD_TYPE_COLORINDEX  0x1
+
+; PFFORWARD_ACTION
+#define PF_ACTION_FORWARD  0x0
+#define PF_ACTION_DROP  0x1
 
 ; PICTYPE
 #define PICTYPE_UNINITIALIZED  -1
@@ -10893,6 +15667,10 @@
 #define PSPCB_RELEASE  0x1
 #define PSPCB_SI_INITDIALOG  0x401
 
+; PSUACTION
+#define PSU_DEFAULT  0x1
+#define PSU_SECURITY_URL_ONLY  0x2
+
 ; PURGE_COMM_FLAGS
 #define PURGE_RXABORT  0x2
 #define PURGE_RXCLEAR  0x8
@@ -10915,6 +15693,24 @@
 #define QUNS_ACCEPTS_NOTIFICATIONS  0x5
 #define QUNS_QUIET_TIME  0x6
 #define QUNS_APP  0x7
+
+; QUERYOPTION
+#define QUERY_EXPIRATION_DATE  0x1
+#define QUERY_TIME_OF_LAST_CHANGE  0x2
+#define QUERY_CONTENT_ENCODING  0x3
+#define QUERY_CONTENT_TYPE  0x4
+#define QUERY_REFRESH  0x5
+#define QUERY_RECOMBINE  0x6
+#define QUERY_CAN_NAVIGATE  0x7
+#define QUERY_USES_NETWORK  0x8
+#define QUERY_IS_CACHED  0x9
+#define QUERY_IS_INSTALLEDENTRY  0xa
+#define QUERY_IS_CACHED_OR_MAPPED  0xb
+#define QUERY_USES_CACHE  0xc
+#define QUERY_IS_SECURE  0xd
+#define QUERY_IS_SAFE  0xe
+#define QUERY_USES_HISTORYFOLDER  0xf
+#define QUERY_IS_CACHED_AND_USABLE_OFFLINE  0x10
 
 ; QUEUE_STATUS_FLAGS
 #define QS_ALLEVENTS  0x4bf
@@ -12471,6 +17267,49 @@
 #define TAPE_SETMARKS  0x0
 #define TAPE_SHORT_FILEMARKS  0x2
 
+; TCP_CONNECTION_OFFLOAD_STATE
+#define TcpConnectionOffloadStateInHost  0x0
+#define TcpConnectionOffloadStateOffloading  0x1
+#define TcpConnectionOffloadStateOffloaded  0x2
+#define TcpConnectionOffloadStateUploading  0x3
+#define TcpConnectionOffloadStateMax  0x4
+
+; TCP_ESTATS_TYPE
+#define TcpConnectionEstatsSynOpts  0x0
+#define TcpConnectionEstatsData  0x1
+#define TcpConnectionEstatsSndCong  0x2
+#define TcpConnectionEstatsPath  0x3
+#define TcpConnectionEstatsSendBuff  0x4
+#define TcpConnectionEstatsRec  0x5
+#define TcpConnectionEstatsObsRec  0x6
+#define TcpConnectionEstatsBandwidth  0x7
+#define TcpConnectionEstatsFineRtt  0x8
+#define TcpConnectionEstatsMaximum  0x9
+
+; TCP_RTO_ALGORITHM
+#define TcpRtoAlgorithmOther  0x1
+#define TcpRtoAlgorithmConstant  0x2
+#define TcpRtoAlgorithmRsre  0x3
+#define TcpRtoAlgorithmVanj  0x4
+#define MIB_TCP_RTO_OTHER  0x1
+#define MIB_TCP_RTO_CONSTANT  0x2
+#define MIB_TCP_RTO_RSRE  0x3
+#define MIB_TCP_RTO_VANJ  0x4
+
+; TCP_TABLE_CLASS
+#define TCP_TABLE_BASIC_LISTENER  0x0
+#define TCP_TABLE_BASIC_CONNECTIONS  0x1
+#define TCP_TABLE_BASIC_ALL  0x2
+#define TCP_TABLE_OWNER_PID_LISTENER  0x3
+#define TCP_TABLE_OWNER_PID_CONNECTIONS  0x4
+#define TCP_TABLE_OWNER_PID_ALL  0x5
+#define TCP_TABLE_OWNER_MODULE_LISTENER  0x6
+#define TCP_TABLE_OWNER_MODULE_CONNECTIONS  0x7
+#define TCP_TABLE_OWNER_MODULE_ALL  0x8
+
+; TCPIP_OWNER_MODULE_INFO_CLASS
+#define TCPIP_OWNER_MODULE_INFO_BASIC  0x0
+
 ; TEXT_ALIGN_OPTIONS
 #define TA_NOUPDATECP  0x0
 #define TA_UPDATECP  0x1
@@ -13059,6 +17898,20 @@
 #define TRUSTEE_IS_INVALID  0x7
 #define TRUSTEE_IS_COMPUTER  0x8
 
+; TrustLevel
+#define BaseTrust  0x0
+#define PartialTrust  0x1
+#define FullTrust  0x2
+
+; TUNNEL_TYPE
+#define TUNNEL_TYPE_NONE  0x0
+#define TUNNEL_TYPE_OTHER  0x1
+#define TUNNEL_TYPE_DIRECT  0x2
+#define TUNNEL_TYPE_6TO4  0xb
+#define TUNNEL_TYPE_ISATAP  0xd
+#define TUNNEL_TYPE_TEREDO  0xe
+#define TUNNEL_TYPE_IPHTTPS  0xf
+
 ; TXFS_MINIVERSION
 #define TXFS_MINIVERSION_COMMITTED_VIEW  0x0
 #define TXFS_MINIVERSION_DIRTY_VIEW  0xffff
@@ -13085,6 +17938,11 @@
 #define TKIND_UNION  0x7
 #define TKIND_MAX  0x8
 
+; UDP_TABLE_CLASS
+#define UDP_TABLE_BASIC  0x0
+#define UDP_TABLE_OWNER_PID  0x1
+#define UDP_TABLE_OWNER_MODULE  0x2
+
 ; UMS_THREAD_INFO_CLASS
 #define UmsThreadInvalidInfoClass  0x0
 #define UmsThreadUserContext  0x1
@@ -13101,12 +17959,62 @@
 #define ULW_OPAQUE  0x4
 #define ULW_EX_NORESIZE  0x8
 
+; URI_CREATE_FLAGS
+#define Uri_CREATE_ALLOW_RELATIVE  0x1
+#define Uri_CREATE_ALLOW_IMPLICIT_WILDCARD_SCHEME  0x2
+#define Uri_CREATE_ALLOW_IMPLICIT_FILE_SCHEME  0x4
+#define Uri_CREATE_NOFRAG  0x8
+#define Uri_CREATE_NO_CANONICALIZE  0x10
+#define Uri_CREATE_CANONICALIZE  0x100
+#define Uri_CREATE_FILE_USE_DOS_PATH  0x20
+#define Uri_CREATE_DECODE_EXTRA_INFO  0x40
+#define Uri_CREATE_NO_DECODE_EXTRA_INFO  0x80
+#define Uri_CREATE_CRACK_UNKNOWN_SCHEMES  0x200
+#define Uri_CREATE_NO_CRACK_UNKNOWN_SCHEMES  0x400
+#define Uri_CREATE_PRE_PROCESS_HTML_URI  0x800
+#define Uri_CREATE_NO_PRE_PROCESS_HTML_URI  0x1000
+#define Uri_CREATE_IE_SETTINGS  0x2000
+#define Uri_CREATE_NO_IE_SETTINGS  0x4000
+#define Uri_CREATE_NO_ENCODE_FORBIDDEN_CHARACTERS  0x8000
+#define Uri_CREATE_NORMALIZE_INTL_CHARACTERS  0x10000
+#define Uri_CREATE_CANONICALIZE_ABSOLUTE  0x20000
+
+; Uri_PROPERTY
+#define Uri_PROPERTY_ABSOLUTE_URI  0x0
+#define Uri_PROPERTY_STRING_START  0x0
+#define Uri_PROPERTY_AUTHORITY  0x1
+#define Uri_PROPERTY_DISPLAY_URI  0x2
+#define Uri_PROPERTY_DOMAIN  0x3
+#define Uri_PROPERTY_EXTENSION  0x4
+#define Uri_PROPERTY_FRAGMENT  0x5
+#define Uri_PROPERTY_HOST  0x6
+#define Uri_PROPERTY_PASSWORD  0x7
+#define Uri_PROPERTY_PATH  0x8
+#define Uri_PROPERTY_PATH_AND_QUERY  0x9
+#define Uri_PROPERTY_QUERY  0xa
+#define Uri_PROPERTY_RAW_URI  0xb
+#define Uri_PROPERTY_SCHEME_NAME  0xc
+#define Uri_PROPERTY_USER_INFO  0xd
+#define Uri_PROPERTY_USER_NAME  0xe
+#define Uri_PROPERTY_STRING_LAST  0xe
+#define Uri_PROPERTY_HOST_TYPE  0xf
+#define Uri_PROPERTY_DWORD_START  0xf
+#define Uri_PROPERTY_PORT  0x10
+#define Uri_PROPERTY_SCHEME  0x11
+#define Uri_PROPERTY_ZONE  0x12
+#define Uri_PROPERTY_DWORD_LAST  0x12
+
 ; URL_CACHE_LIMIT_TYPE
 #define UrlCacheLimitTypeIE  0x0
 #define UrlCacheLimitTypeIETotal  0x1
 #define UrlCacheLimitTypeAppContainer  0x2
 #define UrlCacheLimitTypeAppContainerTotal  0x3
 #define UrlCacheLimitTypeNum  0x4
+
+; URLZONEREG
+#define URLZONEREG_DEFAULT  0x0
+#define URLZONEREG_HKLM  0x1
+#define URLZONEREG_HKCU  0x2
 
 ; USER_OBJECT_INFORMATION_INDEX
 #define UOI_FLAGS  0x1
@@ -13787,6 +18695,86 @@
 #define WerRegFileTypeUserDocument  0x1
 #define WerRegFileTypeOther  0x2
 #define WerRegFileTypeMax  0x3
+
+; WICBitmapAlphaChannelOption
+#define WICBitmapUseAlpha  0x0
+#define WICBitmapUsePremultipliedAlpha  0x1
+#define WICBitmapIgnoreAlpha  0x2
+
+; WICBitmapCreateCacheOption
+#define WICBitmapNoCache  0x0
+#define WICBitmapCacheOnDemand  0x1
+#define WICBitmapCacheOnLoad  0x2
+
+; WICBitmapDitherType
+#define WICBitmapDitherTypeNone  0x0
+#define WICBitmapDitherTypeSolid  0x0
+#define WICBitmapDitherTypeOrdered4x4  0x1
+#define WICBitmapDitherTypeOrdered8x8  0x2
+#define WICBitmapDitherTypeOrdered16x16  0x3
+#define WICBitmapDitherTypeSpiral4x4  0x4
+#define WICBitmapDitherTypeSpiral8x8  0x5
+#define WICBitmapDitherTypeDualSpiral4x4  0x6
+#define WICBitmapDitherTypeDualSpiral8x8  0x7
+#define WICBitmapDitherTypeErrorDiffusion  0x8
+
+; WICBitmapEncoderCacheOption
+#define WICBitmapEncoderCacheInMemory  0x0
+#define WICBitmapEncoderCacheTempFile  0x1
+#define WICBitmapEncoderNoCache  0x2
+
+; WICBitmapInterpolationMode
+#define WICBitmapInterpolationModeNearestNeighbor  0x0
+#define WICBitmapInterpolationModeLinear  0x1
+#define WICBitmapInterpolationModeCubic  0x2
+#define WICBitmapInterpolationModeFant  0x3
+#define WICBitmapInterpolationModeHighQualityCubic  0x4
+
+; WICBitmapPaletteType
+#define WICBitmapPaletteTypeCustom  0x0
+#define WICBitmapPaletteTypeMedianCut  0x1
+#define WICBitmapPaletteTypeFixedBW  0x2
+#define WICBitmapPaletteTypeFixedHalftone8  0x3
+#define WICBitmapPaletteTypeFixedHalftone27  0x4
+#define WICBitmapPaletteTypeFixedHalftone64  0x5
+#define WICBitmapPaletteTypeFixedHalftone125  0x6
+#define WICBitmapPaletteTypeFixedHalftone216  0x7
+#define WICBitmapPaletteTypeFixedWebPalette  0x7
+#define WICBitmapPaletteTypeFixedHalftone252  0x8
+#define WICBitmapPaletteTypeFixedHalftone256  0x9
+#define WICBitmapPaletteTypeFixedGray4  0xa
+#define WICBitmapPaletteTypeFixedGray16  0xb
+#define WICBitmapPaletteTypeFixedGray256  0xc
+
+; WICBitmapTransformOptions
+#define WICBitmapTransformRotate0  0x0
+#define WICBitmapTransformRotate90  0x1
+#define WICBitmapTransformRotate180  0x2
+#define WICBitmapTransformRotate270  0x3
+#define WICBitmapTransformFlipHorizontal  0x8
+#define WICBitmapTransformFlipVertical  0x10
+
+; WICColorContextType
+#define WICColorContextUninitialized  0x0
+#define WICColorContextProfile  0x1
+#define WICColorContextExifColorSpace  0x2
+
+; WICComponentType
+#define WICDecoder  0x1
+#define WICEncoder  0x2
+#define WICPixelFormatConverter  0x4
+#define WICMetadataReader  0x8
+#define WICMetadataWriter  0x10
+#define WICPixelFormat  0x20
+#define WICAllComponents  0x3f
+
+; WICDecodeOptions
+#define WICDecodeMetadataCacheOnDemand  0x0
+#define WICDecodeMetadataCacheOnLoad  0x1
+
+; WICSectionAccessLevel
+#define WICSectionAccessLevelRead  0x1
+#define WICSectionAccessLevelReadWrite  0x3
 
 ; WIN32_ERROR
 #define NO_ERROR  0x0
@@ -17294,6 +22282,136 @@
 #define WPAD_CACHE_DELETE_CURRENT  0x0
 #define WPAD_CACHE_DELETE_ALL  0x1
 
+; WSA_ERROR
+#define WSA_IO_PENDING  0x3e5
+#define WSA_IO_INCOMPLETE  0x3e4
+#define WSA_INVALID_HANDLE  0x6
+#define WSA_INVALID_PARAMETER  0x57
+#define WSA_NOT_ENOUGH_MEMORY  0x8
+#define WSA_OPERATION_ABORTED  0x3e3
+#define WSA_WAIT_EVENT_0  0x0
+#define WSA_WAIT_IO_COMPLETION  0xc0
+#define WSABASEERR  0x2710
+#define WSAEINTR  0x2714
+#define WSAEBADF  0x2719
+#define WSAEACCES  0x271d
+#define WSAEFAULT  0x271e
+#define WSAEINVAL  0x2726
+#define WSAEMFILE  0x2728
+#define WSAEWOULDBLOCK  0x2733
+#define WSAEINPROGRESS  0x2734
+#define WSAEALREADY  0x2735
+#define WSAENOTSOCK  0x2736
+#define WSAEDESTADDRREQ  0x2737
+#define WSAEMSGSIZE  0x2738
+#define WSAEPROTOTYPE  0x2739
+#define WSAENOPROTOOPT  0x273a
+#define WSAEPROTONOSUPPORT  0x273b
+#define WSAESOCKTNOSUPPORT  0x273c
+#define WSAEOPNOTSUPP  0x273d
+#define WSAEPFNOSUPPORT  0x273e
+#define WSAEAFNOSUPPORT  0x273f
+#define WSAEADDRINUSE  0x2740
+#define WSAEADDRNOTAVAIL  0x2741
+#define WSAENETDOWN  0x2742
+#define WSAENETUNREACH  0x2743
+#define WSAENETRESET  0x2744
+#define WSAECONNABORTED  0x2745
+#define WSAECONNRESET  0x2746
+#define WSAENOBUFS  0x2747
+#define WSAEISCONN  0x2748
+#define WSAENOTCONN  0x2749
+#define WSAESHUTDOWN  0x274a
+#define WSAETOOMANYREFS  0x274b
+#define WSAETIMEDOUT  0x274c
+#define WSAECONNREFUSED  0x274d
+#define WSAELOOP  0x274e
+#define WSAENAMETOOLONG  0x274f
+#define WSAEHOSTDOWN  0x2750
+#define WSAEHOSTUNREACH  0x2751
+#define WSAENOTEMPTY  0x2752
+#define WSAEPROCLIM  0x2753
+#define WSAEUSERS  0x2754
+#define WSAEDQUOT  0x2755
+#define WSAESTALE  0x2756
+#define WSAEREMOTE  0x2757
+#define WSASYSNOTREADY  0x276b
+#define WSAVERNOTSUPPORTED  0x276c
+#define WSANOTINITIALISED  0x276d
+#define WSAEDISCON  0x2775
+#define WSAENOMORE  0x2776
+#define WSAECANCELLED  0x2777
+#define WSAEINVALIDPROCTABLE  0x2778
+#define WSAEINVALIDPROVIDER  0x2779
+#define WSAEPROVIDERFAILEDINIT  0x277a
+#define WSASYSCALLFAILURE  0x277b
+#define WSASERVICE_NOT_FOUND  0x277c
+#define WSATYPE_NOT_FOUND  0x277d
+#define WSA_E_NO_MORE  0x277e
+#define WSA_E_CANCELLED  0x277f
+#define WSAEREFUSED  0x2780
+#define WSAHOST_NOT_FOUND  0x2af9
+#define WSATRY_AGAIN  0x2afa
+#define WSANO_RECOVERY  0x2afb
+#define WSANO_DATA  0x2afc
+#define WSA_QOS_RECEIVERS  0x2afd
+#define WSA_QOS_SENDERS  0x2afe
+#define WSA_QOS_NO_SENDERS  0x2aff
+#define WSA_QOS_NO_RECEIVERS  0x2b00
+#define WSA_QOS_REQUEST_CONFIRMED  0x2b01
+#define WSA_QOS_ADMISSION_FAILURE  0x2b02
+#define WSA_QOS_POLICY_FAILURE  0x2b03
+#define WSA_QOS_BAD_STYLE  0x2b04
+#define WSA_QOS_BAD_OBJECT  0x2b05
+#define WSA_QOS_TRAFFIC_CTRL_ERROR  0x2b06
+#define WSA_QOS_GENERIC_ERROR  0x2b07
+#define WSA_QOS_ESERVICETYPE  0x2b08
+#define WSA_QOS_EFLOWSPEC  0x2b09
+#define WSA_QOS_EPROVSPECBUF  0x2b0a
+#define WSA_QOS_EFILTERSTYLE  0x2b0b
+#define WSA_QOS_EFILTERTYPE  0x2b0c
+#define WSA_QOS_EFILTERCOUNT  0x2b0d
+#define WSA_QOS_EOBJLENGTH  0x2b0e
+#define WSA_QOS_EFLOWCOUNT  0x2b0f
+#define WSA_QOS_EUNKOWNPSOBJ  0x2b10
+#define WSA_QOS_EPOLICYOBJ  0x2b11
+#define WSA_QOS_EFLOWDESC  0x2b12
+#define WSA_QOS_EPSFLOWSPEC  0x2b13
+#define WSA_QOS_EPSFILTERSPEC  0x2b14
+#define WSA_QOS_ESDMODEOBJ  0x2b15
+#define WSA_QOS_ESHAPERATEOBJ  0x2b16
+#define WSA_QOS_RESERVED_PETYPE  0x2b17
+#define WSA_SECURE_HOST_NOT_FOUND  0x2b18
+#define WSA_IPSEC_NAME_POLICY_ERROR  0x2b19
+
+; WSACOMPLETIONTYPE
+#define NSP_NOTIFY_IMMEDIATELY  0x0
+#define NSP_NOTIFY_HWND  0x1
+#define NSP_NOTIFY_EVENT  0x2
+#define NSP_NOTIFY_PORT  0x3
+#define NSP_NOTIFY_APC  0x4
+
+; WSAECOMPARATOR
+#define COMP_EQUAL  0x0
+#define COMP_NOTLESS  0x1
+
+; WSAESETSERVICEOP
+#define RNRSERVICE_REGISTER  0x0
+#define RNRSERVICE_DEREGISTER  0x1
+#define RNRSERVICE_DELETE  0x2
+
+; WSAPOLL_EVENT_FLAGS
+#define POLLRDNORM  0x100
+#define POLLRDBAND  0x200
+#define POLLIN  0x300
+#define POLLPRI  0x400
+#define POLLWRNORM  0x10
+#define POLLOUT  0x10
+#define POLLWRBAND  0x20
+#define POLLERR  0x1
+#define POLLHUP  0x2
+#define POLLNVAL  0x4
+
 ; WSB_PROP
 #define WSB_PROP_CXHSCROLL  0x2
 #define WSB_PROP_CXHTHUMB  0x10
@@ -17307,5 +22425,17 @@
 #define WSB_PROP_VBKGCOLOR  0x40
 #define WSB_PROP_VSTYLE  0x100
 #define WSB_PROP_WINSTYLE  0x400
+
+; WSC_PROVIDER_INFO_TYPE
+#define ProviderInfoLspCategories  0x0
+#define ProviderInfoAudit  0x1
+
+; XAUDIO2_FILTER_TYPE
+#define LowPassFilter  0x0
+#define BandPassFilter  0x1
+#define HighPassFilter  0x2
+#define NotchFilter  0x3
+#define LowPassOnePoleFilter  0x4
+#define HighPassOnePoleFilter  0x5
 
 #endif
