@@ -1,0 +1,315 @@
+;============================================================
+;   iron_dialog.hsp — モダン (Vista+) ファイルダイアログ
+;
+;   Win32 IFileOpenDialog / IFileSaveDialog COM インターフェースを
+;   HSP から手軽に使えるようにする薄いラッパ。
+;
+;   特徴:
+;     - Windows Vista 以降のモダン UI (旧 GetOpenFileName より見た目良い)
+;     - Win10/11 ネイティブの「最近のフォルダ」「お気に入り」「OneDrive」
+;       「クイックアクセス」等の左ペインがそのまま使える
+;     - hsp3net 専用 (#usecom / #comfunc / newcom -2 アタッチを使うため)
+;
+;   API:
+;     dialog_open ["title"] [, "filter"]
+;       → refstr に選択されたファイルパス (キャンセル時は "")
+;       → stat = 0 成功 / 1 キャンセル / 負値 エラー
+;
+;     dialog_save ["title"] [, "filter"] [, "default_ext"]
+;       → 同上
+;
+;     filter フォーマット (NULL 区切り):
+;       "PNG (*.png)|*.png|JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|All|*.*|"
+;       (内部で NULL に変換)
+;
+;   例:
+;     #include "iron_dialog.hsp"
+;
+;         dialog_open "画像を開いてください", "画像 (*.png;*.jpg)|*.png;*.jpg|All|*.*|"
+;         if stat = 0 {
+;             mes "選択: " + refstr
+;             picload refstr
+;         }
+;
+;         dialog_save "保存先を指定", "テキスト|*.txt|", "txt"
+;         if stat = 0 : notesave refstr
+;============================================================
+
+#ifndef __iron_dialog_hsp__
+#define __iron_dialog_hsp__
+
+#module iron_dialog
+
+;------------------------------------------------------------
+; CLSID / IID
+;------------------------------------------------------------
+#define CLSID_FileOpenDialog "{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}"
+#define CLSID_FileSaveDialog "{C0B4E2F3-BA21-4773-8DBA-335EC946EB8B}"
+#define IID_IFileOpenDialog  "{D57C7288-D4AD-4768-BE02-9D969532D960}"
+#define IID_IFileSaveDialog  "{84BCCD23-5FDE-4CDB-AEA4-AF64B83D78AB}"
+#define IID_IShellItem       "{43826D1E-E718-42EE-BC55-A1E261C37BFE}"
+
+;------------------------------------------------------------
+; Win32 helpers (ole32 / kernel32)
+;------------------------------------------------------------
+#uselib "ole32.dll"
+#cfunc _co_init     "CoInitializeEx" int, int
+#func  _co_freemem  "CoTaskMemFree" var
+
+#uselib "kernel32.dll"
+#cfunc _wcs_to_mbs  "WideCharToMultiByte" int, int, var, int, var, int, int, int
+
+;------------------------------------------------------------
+; COM interfaces
+;
+; IFileOpenDialog : IFileDialog : IModalWindow : IUnknown
+;   vtable layout (flat):
+;     0..2  IUnknown (QI / AddRef / Release)
+;     3     IModalWindow::Show(HWND owner)
+;     4..25 IFileDialog (SetFileTypes / SetTitle / GetResult / etc.)
+;     26..28 IFileOpenDialog (GetResults / GetSelectedItems)
+;
+; IFileSaveDialog : IFileDialog : IModalWindow : IUnknown
+;   vtable layout (flat):
+;     0..2  IUnknown
+;     3     IModalWindow::Show
+;     4..25 IFileDialog
+;     26..32 IFileSaveDialog (Set/GetSaveAsItem / SetProperties / etc.)
+;------------------------------------------------------------
+#usecom IFileOpenDialog IID_IFileOpenDialog CLSID_FileOpenDialog
+#comfunc fod_Show 3 int
+#comfunc fod_SetFileTypes 4 int, var
+#comfunc fod_SetOptions   9 int
+#comfunc fod_SetTitle    17 wstr
+#comfunc fod_GetResult   20 var
+
+#usecom IFileSaveDialog IID_IFileSaveDialog CLSID_FileSaveDialog
+#comfunc fsd_Show 3 int
+#comfunc fsd_SetFileTypes 4 int, var
+#comfunc fsd_SetOptions   9 int
+#comfunc fsd_SetTitle    17 wstr
+#comfunc fsd_SetDefExt   22 wstr
+#comfunc fsd_GetResult   20 var
+
+#usecom IShellItem IID_IShellItem "{}"
+#comfunc si_GetDisplayName 5 int, var
+
+;------------------------------------------------------------
+; FILEOPENDIALOGOPTIONS
+;------------------------------------------------------------
+#define FOS_OVERWRITEPROMPT       0x00000002
+#define FOS_STRICTFILETYPES       0x00000004
+#define FOS_NOCHANGEDIR           0x00000008
+#define FOS_PICKFOLDERS           0x00000020
+#define FOS_FORCEFILESYSTEM       0x00000040
+#define FOS_ALLNONSTORAGEITEMS    0x00000080
+#define FOS_NOVALIDATE            0x00000100
+#define FOS_ALLOWMULTISELECT      0x00000200
+#define FOS_PATHMUSTEXIST         0x00000800
+#define FOS_FILEMUSTEXIST         0x00001000
+#define FOS_CREATEPROMPT          0x00002000
+#define FOS_SHAREAWARE            0x00004000
+#define FOS_NOREADONLYRETURN      0x00008000
+#define FOS_NOTESTFILECREATE      0x00010000
+#define FOS_HIDEMRUPLACES         0x00020000
+#define FOS_HIDEPINNEDPLACES      0x00040000
+#define FOS_NODEREFERENCELINKS    0x00100000
+#define FOS_DONTADDTORECENT       0x02000000
+#define FOS_FORCESHOWHIDDEN       0x10000000
+#define FOS_DEFAULTNOMINIMODE     0x20000000
+#define FOS_FORCEPREVIEWPANEON    0x40000000
+
+#define SIGDN_FILESYSPATH         0x80058000
+
+;------------------------------------------------------------
+; 内部: COM 初期化 (一度だけ)
+;------------------------------------------------------------
+#deffunc _dlg_init
+    if _dlg_initialized != 0 : return
+    ; COINIT_APARTMENTTHREADED = 2
+    _co_init 0, 2
+    _dlg_initialized = 1
+    return
+
+;------------------------------------------------------------
+; 内部: パイプ区切り filter 文字列を COMDLG_FILTERSPEC[] に変換
+;
+; 入力例: "PNG (*.png)|*.png|JPEG (*.jpg)|*.jpg|"
+;
+; COMDLG_FILTERSPEC は { LPCWSTR pszName; LPCWSTR pszSpec; } 構造体の配列。
+; この実装では filter 数 0 のとき何も渡さない (デフォルト = "All Files (*.*)")
+;
+; ここでは簡単のため、SetFileTypes は使わず、フィルタは無視する PoC として
+; 動かす (拡張子フィルタ無し = すべて表示)。本実装は次フェーズで。
+;------------------------------------------------------------
+
+;------------------------------------------------------------
+; 内部: 生 IShellItem ポインタから path を取得
+;
+; in:  raw_si_ptr (intptr) — IShellItem*
+; out: refstr に SJIS パス
+;------------------------------------------------------------
+#deffunc _dlg_get_path_from_si int raw_si_ptr, \
+        local _si, local _wptr_var, local _wptr, local _len, local _wbuf, local _mb, local _mb_len
+    ; raw IShellItem* を comobj としてアタッチ (-2 = AddRef しないアタッチ)
+    newcom _si, IShellItem, -2, raw_si_ptr
+    if vartype(_si) != 6 {
+        return "", -10
+    }
+
+    ; GetDisplayName(SIGDN_FILESYSPATH, &pwszName)
+    ; pwszName は LPWSTR* (out)。HSP では var で受けて int64 ポインタとして取得
+    sdim _wptr_var, 16
+    si_GetDisplayName _si, SIGDN_FILESYSPATH, _wptr_var
+    if stat != 0 {
+        delcom _si
+        return "", -11
+    }
+    _wptr = lpeek(_wptr_var, 0)             ; 32bit 部分。x64 では 64bit ポインタの低位
+    if _wptr = 0 {
+        delcom _si
+        return "", -12
+    }
+
+    ; 1 度目の WideCharToMultiByte で必要な byte 数を取得
+    ; CP_ACP = 0
+    _mb_len = _wcs_to_mbs(0, 0, _wptr, -1, 0, 0, 0, 0)
+    if _mb_len <= 0 {
+        _co_freemem _wptr_var
+        delcom _si
+        return "", -13
+    }
+
+    sdim _mb, _mb_len + 16
+    _wcs_to_mbs 0, 0, _wptr, -1, _mb, _mb_len, 0, 0
+
+    _co_freemem _wptr_var
+    delcom _si
+
+    return _mb, 0
+
+;------------------------------------------------------------
+; dialog_open ["title"] [, "filter"]
+;------------------------------------------------------------
+#deffunc dialog_open str title, str filter, \
+        local _dlg, local _opts, local _hr, local _si_var, local _si_ptr
+    _dlg_init
+
+    newcom _dlg, IFileOpenDialog
+    if vartype(_dlg) != 6 : return "", -1
+
+    if strlen(title) > 0 : fod_SetTitle _dlg, title
+
+    _opts = FOS_FILEMUSTEXIST | FOS_PATHMUSTEXIST | FOS_FORCEFILESYSTEM
+    fod_SetOptions _dlg, _opts
+
+    ; Show — owner window: 0 (current top window). HWND を取りたければ
+    ; 0 を渡すと parent モーダルになる
+    fod_Show _dlg, 0
+    _hr = stat
+    if _hr != 0 {
+        delcom _dlg
+        return "", 1                        ; キャンセル or エラー
+    }
+
+    ; GetResult → IShellItem*
+    sdim _si_var, 16
+    fod_GetResult _dlg, _si_var
+    _hr = stat
+    if _hr != 0 {
+        delcom _dlg
+        return "", -2
+    }
+    _si_ptr = lpeek(_si_var, 0)
+    if _si_ptr = 0 {
+        delcom _dlg
+        return "", -3
+    }
+
+    _dlg_get_path_from_si _si_ptr
+    delcom _dlg
+    return refstr, stat
+
+;------------------------------------------------------------
+; dialog_save ["title"] [, "filter"] [, "default_ext"]
+;------------------------------------------------------------
+#deffunc dialog_save str title, str filter, str defext, \
+        local _dlg, local _opts, local _hr, local _si_var, local _si_ptr
+    _dlg_init
+
+    newcom _dlg, IFileSaveDialog
+    if vartype(_dlg) != 6 : return "", -1
+
+    if strlen(title) > 0 : fsd_SetTitle _dlg, title
+    if strlen(defext) > 0 : fsd_SetDefExt _dlg, defext
+
+    _opts = FOS_OVERWRITEPROMPT | FOS_PATHMUSTEXIST | FOS_FORCEFILESYSTEM
+    fsd_SetOptions _dlg, _opts
+
+    fsd_Show _dlg, 0
+    _hr = stat
+    if _hr != 0 {
+        delcom _dlg
+        return "", 1
+    }
+
+    sdim _si_var, 16
+    fsd_GetResult _dlg, _si_var
+    _hr = stat
+    if _hr != 0 {
+        delcom _dlg
+        return "", -2
+    }
+    _si_ptr = lpeek(_si_var, 0)
+    if _si_ptr = 0 {
+        delcom _dlg
+        return "", -3
+    }
+
+    _dlg_get_path_from_si _si_ptr
+    delcom _dlg
+    return refstr, stat
+
+;------------------------------------------------------------
+; dialog_pickfolder ["title"]
+;   フォルダ選択ダイアログ (FOS_PICKFOLDERS フラグで)
+;------------------------------------------------------------
+#deffunc dialog_pickfolder str title, \
+        local _dlg, local _opts, local _hr, local _si_var, local _si_ptr
+    _dlg_init
+
+    newcom _dlg, IFileOpenDialog
+    if vartype(_dlg) != 6 : return "", -1
+
+    if strlen(title) > 0 : fod_SetTitle _dlg, title
+
+    _opts = FOS_PICKFOLDERS | FOS_PATHMUSTEXIST | FOS_FORCEFILESYSTEM
+    fod_SetOptions _dlg, _opts
+
+    fod_Show _dlg, 0
+    _hr = stat
+    if _hr != 0 {
+        delcom _dlg
+        return "", 1
+    }
+
+    sdim _si_var, 16
+    fod_GetResult _dlg, _si_var
+    _hr = stat
+    if _hr != 0 {
+        delcom _dlg
+        return "", -2
+    }
+    _si_ptr = lpeek(_si_var, 0)
+    if _si_ptr = 0 {
+        delcom _dlg
+        return "", -3
+    }
+
+    _dlg_get_path_from_si _si_ptr
+    delcom _dlg
+    return refstr, stat
+
+#global
+
+#endif

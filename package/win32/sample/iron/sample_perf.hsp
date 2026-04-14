@@ -1,0 +1,41 @@
+;============================================================
+;  iron_perf.hsp サンプル: 高精度タイマー
+;
+;  QueryPerformanceCounter による μ秒精度のベンチマーク。
+;============================================================
+
+#include "iron_perf.hsp"
+
+	mes "==== iron_perf サンプル ===="
+	mes ""
+
+	; --- パフォーマンス周波数 ---
+	perf_freq
+	mes "QueryPerformanceFrequency: " + refdval + " Hz"
+	mes ""
+
+	; --- ベンチマーク 1: 100 万回 cnt 加算 ---
+	perf_start
+	repeat 1000000
+		dummy = cnt * 2 + 1
+	loop
+	perf_lap
+	mes "100万回 cnt*2+1: " + (refdval * 1000.0) + " ms"
+
+	; --- ベンチマーク 2: 100 回 wait 1ms ---
+	perf_start
+	repeat 100
+		await 1
+	loop
+	perf_lap
+	mes "100回 await 1: " + (refdval * 1000.0) + " ms (期待 ~100ms)"
+
+	; --- 起動からの経過時間 ---
+	perf_now
+	mes ""
+	mes "起動からの経過: " + refdval + " 秒"
+
+	perf_now_us
+	mes "起動からの経過: " + stat + " マイクロ秒"
+
+	stop

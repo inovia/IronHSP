@@ -1,0 +1,134 @@
+;============================================================
+;   iron_perf.hsp — 高精度タイマー
+;
+;   QueryPerformanceCounter / QueryPerformanceFrequency による
+;   サブミリ秒精度のタイマー。プロファイリング、FPS 計測、
+;   ベンチマーク等に。
+;
+;   timeGetTime (winmm) はミリ秒精度で OS タイマーに依存するのに対し、
+;   QueryPerformanceCounter は CPU の高精度カウンタ (~100ns) を使う。
+;
+;   API:
+;     perf_now            ; → refdval に経過秒 (起動からの相対値)
+;     perf_now_us         ; → stat にマイクロ秒 (32bit 範囲、約 70 分でラップ)
+;     perf_start          ; ストップウォッチ開始
+;     perf_lap            ; → refdval に開始からの経過秒
+;     perf_freq           ; → refdval に Hz
+;
+;   例:
+;     #include "iron_perf.hsp"
+;
+;         perf_start
+;         repeat 1000000 : a = cnt * 2 : loop
+;         perf_lap
+;         mes "elapsed: " + refdval + " 秒"
+;
+;     FPS 計測:
+;         perf_start
+;         frames = 0
+;     *main
+;         ; 描画処理
+;         redraw
+;         frames++
+;         perf_lap
+;         if refdval >= 1.0 {
+;             mes "FPS: " + frames
+;             frames = 0
+;             perf_start
+;         }
+;         await 0
+;         goto *main
+;============================================================
+
+#ifndef __iron_perf_hsp__
+#define __iron_perf_hsp__
+
+#module iron_perf
+
+#uselib "kernel32.dll"
+#cfunc _qpc "QueryPerformanceCounter" var
+#cfunc _qpf "QueryPerformanceFrequency" var
+
+;------------------------------------------------------------
+; 内部初期化 (頻度キャッシュ)
+;------------------------------------------------------------
+#deffunc _perf_init local _buf, local _lo, local _hi
+    if _perf_initialized != 0 : return
+    _perf_initialized = 1
+    sdim _buf, 16
+    _qpf _buf
+    _lo = lpeek(_buf, 0)
+    _hi = lpeek(_buf, 4)
+    _perf_freq_d = double(_lo) + double(_hi) * 4294967296.0
+    ; 起動時カウンタ (perf_now の基準)
+    _qpc _buf
+    _lo = lpeek(_buf, 0)
+    _hi = lpeek(_buf, 4)
+    _perf_t0_d = double(_lo) + double(_hi) * 4294967296.0
+    ; ストップウォッチ用 (1 個)
+    _perf_sw_d = _perf_t0_d
+    return
+
+;------------------------------------------------------------
+; perf_now
+;   起動からの経過秒 (double) を refdval で返す。
+;------------------------------------------------------------
+#deffunc perf_now local _buf, local _lo, local _hi, local _d
+    _perf_init
+    sdim _buf, 16
+    _qpc _buf
+    _lo = lpeek(_buf, 0)
+    _hi = lpeek(_buf, 4)
+    _d = double(_lo) + double(_hi) * 4294967296.0
+    return 0, 0, (_d - _perf_t0_d) / _perf_freq_d
+
+;------------------------------------------------------------
+; perf_now_us
+;   起動からの経過マイクロ秒 (int) を stat で返す。
+;------------------------------------------------------------
+#deffunc perf_now_us local _buf, local _lo, local _hi, local _d
+    _perf_init
+    sdim _buf, 16
+    _qpc _buf
+    _lo = lpeek(_buf, 0)
+    _hi = lpeek(_buf, 4)
+    _d = double(_lo) + double(_hi) * 4294967296.0
+    return int((_d - _perf_t0_d) * 1000000.0 / _perf_freq_d)
+
+;------------------------------------------------------------
+; perf_freq
+;   QueryPerformanceFrequency の値を refdval で返す (Hz)
+;------------------------------------------------------------
+#deffunc perf_freq
+    _perf_init
+    return 0, 0, _perf_freq_d
+
+;------------------------------------------------------------
+; perf_start
+;   ストップウォッチ開始
+;------------------------------------------------------------
+#deffunc perf_start local _buf, local _lo, local _hi
+    _perf_init
+    sdim _buf, 16
+    _qpc _buf
+    _lo = lpeek(_buf, 0)
+    _hi = lpeek(_buf, 4)
+    _perf_sw_d = double(_lo) + double(_hi) * 4294967296.0
+    return
+
+;------------------------------------------------------------
+; perf_lap
+;   ストップウォッチからの経過秒を refdval で返す (継続)
+;------------------------------------------------------------
+#deffunc perf_lap local _buf, local _lo, local _hi, local _d
+    _perf_init
+    sdim _buf, 16
+    _qpc _buf
+    _lo = lpeek(_buf, 0)
+    _hi = lpeek(_buf, 4)
+    _d = double(_lo) + double(_hi) * 4294967296.0
+    return 0, 0, (_d - _perf_sw_d) / _perf_freq_d
+
+#global
+
+#endif

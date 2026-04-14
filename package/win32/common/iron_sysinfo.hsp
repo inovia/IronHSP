@@ -1,0 +1,136 @@
+;============================================================
+;   iron_sysinfo.hsp — OS / CPU / ユーザー情報
+;
+;   GetUserNameA / GetComputerNameA / GetSystemInfo /
+;   GetTickCount64 / GlobalMemoryStatusEx 等を簡単に呼び出すラッパ。
+;
+;   API:
+;     sys_username      ; → refstr に Windows ログオンユーザー名
+;     sys_computername  ; → refstr にコンピュータ名
+;     sys_cpucount      ; → stat に論理プロセッサ数
+;     sys_pagesize      ; → stat にメモリページサイズ (通常 4096)
+;     sys_uptime        ; → stat に起動からのミリ秒 (GetTickCount)
+;     sys_temp_path     ; → refstr に %TEMP% パス
+;     sys_windows_dir   ; → refstr に Windows ディレクトリ
+;     sys_system_dir    ; → refstr に System32 ディレクトリ
+;     sys_appdata       ; → refstr に %APPDATA% パス (Roaming)
+;     sys_localappdata  ; → refstr に %LOCALAPPDATA% パス
+;
+;   例:
+;     #include "iron_sysinfo.hsp"
+;
+;         sys_username     : mes "User: " + refstr
+;         sys_computername : mes "Host: " + refstr
+;         sys_cpucount     : mes "CPUs: " + stat
+;         sys_appdata      : mes "AppData: " + refstr
+;============================================================
+
+#ifndef __iron_sysinfo_hsp__
+#define __iron_sysinfo_hsp__
+
+#module iron_sysinfo
+
+#uselib "advapi32.dll"
+#cfunc _si_get_user "GetUserNameA" var, var
+
+#uselib "kernel32.dll"
+#cfunc _si_get_comp "GetComputerNameA" var, var
+#cfunc _si_get_tick "GetTickCount"
+#cfunc _si_get_temp "GetTempPathA" int, var
+#cfunc _si_get_win  "GetWindowsDirectoryA" var, int
+#cfunc _si_get_sys  "GetSystemDirectoryA" var, int
+#func  _si_get_sysinfo "GetSystemInfo" var
+#func  _si_get_envvar  "GetEnvironmentVariableA" str, var, int
+
+;------------------------------------------------------------
+; sys_username
+;------------------------------------------------------------
+#deffunc sys_username local _buf, local _len_buf
+    sdim _buf, 256
+    sdim _len_buf, 8
+    lpoke _len_buf, 0, 256
+    _si_get_user _buf, _len_buf
+    return _buf
+
+;------------------------------------------------------------
+; sys_computername
+;------------------------------------------------------------
+#deffunc sys_computername local _buf, local _len_buf
+    sdim _buf, 256
+    sdim _len_buf, 8
+    lpoke _len_buf, 0, 256
+    _si_get_comp _buf, _len_buf
+    return _buf
+
+;------------------------------------------------------------
+; sys_cpucount
+;------------------------------------------------------------
+#deffunc sys_cpucount local _si_buf, local _n
+    ; SYSTEM_INFO 構造体は 32bit 36 byte / 64bit 48 byte
+    sdim _si_buf, 64
+    _si_get_sysinfo _si_buf
+    ; dwNumberOfProcessors は offset 32 (32bit) / 32 (64bit) の DWORD
+    _n = lpeek(_si_buf, 32)
+    return _n
+
+;------------------------------------------------------------
+; sys_pagesize
+;------------------------------------------------------------
+#deffunc sys_pagesize local _si_buf, local _n
+    sdim _si_buf, 64
+    _si_get_sysinfo _si_buf
+    ; dwPageSize は offset 4 の DWORD
+    _n = lpeek(_si_buf, 4)
+    return _n
+
+;------------------------------------------------------------
+; sys_uptime
+;   GetTickCount は 32bit ミリ秒 (約 49 日でラップ)
+;------------------------------------------------------------
+#deffunc sys_uptime local _t
+    _t = _si_get_tick()
+    return _t
+
+;------------------------------------------------------------
+; sys_temp_path
+;------------------------------------------------------------
+#deffunc sys_temp_path local _buf
+    sdim _buf, 520
+    _si_get_temp 520, _buf
+    return _buf
+
+;------------------------------------------------------------
+; sys_windows_dir
+;------------------------------------------------------------
+#deffunc sys_windows_dir local _buf
+    sdim _buf, 520
+    _si_get_win _buf, 520
+    return _buf
+
+;------------------------------------------------------------
+; sys_system_dir
+;------------------------------------------------------------
+#deffunc sys_system_dir local _buf
+    sdim _buf, 520
+    _si_get_sys _buf, 520
+    return _buf
+
+;------------------------------------------------------------
+; sys_appdata
+;------------------------------------------------------------
+#deffunc sys_appdata local _buf
+    sdim _buf, 520
+    _si_get_envvar "APPDATA", _buf, 520
+    return _buf
+
+;------------------------------------------------------------
+; sys_localappdata
+;------------------------------------------------------------
+#deffunc sys_localappdata local _buf
+    sdim _buf, 520
+    _si_get_envvar "LOCALAPPDATA", _buf, 520
+    return _buf
+
+#global
+
+#endif

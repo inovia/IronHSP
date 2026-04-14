@@ -1,0 +1,126 @@
+;============================================================
+;   iron_clip.hsp — クリップボード文字列
+;
+;   Win32 OpenClipboard / GetClipboardData / SetClipboardData /
+;   CloseClipboard / EmptyClipboard / GlobalAlloc / GlobalLock を
+;   組み合わせた文字列クリップボードラッパ。
+;
+;   HSP 標準の clipget / clipset でも文字列はやり取りできるが、
+;   このモジュールはサイズ取得や CF_TEXT/CF_UNICODETEXT 切り替え、
+;   has_text 判定等のヘルパを追加する。
+;
+;   API:
+;     clip_get_text          ; → refstr に文字列、stat に文字数 (失敗 -1)
+;     clip_set_text "..."    ; 文字列をクリップボードに書き込む
+;     clip_clear             ; クリップボード内容をクリア
+;     clip_has_text          ; → stat 1 = テキストあり / 0 = なし
+;
+;   例:
+;     #include "iron_clip.hsp"
+;
+;         clip_set_text "Hello, World!"
+;
+;         clip_get_text
+;         mes "クリップボード: " + refstr + " (" + stat + " chars)"
+;
+;         if clip_has_text() : mes "テキストあり"
+;
+;   注意:
+;     - HSP 標準の clipget/clipset と互換性あり (同じ CF_TEXT を使う)
+;     - 大量データ書き込みでは GlobalAlloc → GlobalLock → memcpy →
+;       SetClipboardData の順で行うので速い
+;============================================================
+
+#ifndef __iron_clip_hsp__
+#define __iron_clip_hsp__
+
+#module iron_clip
+
+#uselib "user32.dll"
+#cfunc _clip_open  "OpenClipboard" int
+#cfunc _clip_close "CloseClipboard"
+#cfunc _clip_empty "EmptyClipboard"
+#cfunc _clip_get   "GetClipboardData" int
+#cfunc _clip_set   "SetClipboardData" int, int
+#cfunc _clip_has   "IsClipboardFormatAvailable" int
+
+#uselib "kernel32.dll"
+#cfunc _clip_galloc "GlobalAlloc" int, int
+#cfunc _clip_glock  "GlobalLock" int
+#cfunc _clip_gunlock "GlobalUnlock" int
+#cfunc _clip_gfree  "GlobalFree" int
+#cfunc _clip_gsize  "GlobalSize" int
+#func  _clip_movemem "RtlMoveMemory" var, int, int
+#func  _clip_movemem_p "RtlMoveMemory" int, var, int
+
+#define CF_TEXT 1
+#define CF_UNICODETEXT 13
+#define GMEM_MOVEABLE 0x0002
+
+;------------------------------------------------------------
+; clip_has_text
+;------------------------------------------------------------
+#deffunc clip_has_text
+    return _clip_has(CF_TEXT)
+
+;------------------------------------------------------------
+; clip_get_text
+;   refstr に文字列、stat に文字数。失敗時 stat = -1
+;------------------------------------------------------------
+#deffunc clip_get_text local _h, local _p, local _sz, local _buf
+    if _clip_open(0) = 0 : return "", -1
+    _h = _clip_get(CF_TEXT)
+    if _h = 0 {
+        _clip_close
+        return "", -2
+    }
+    _p = _clip_glock(_h)
+    if _p = 0 {
+        _clip_close
+        return "", -3
+    }
+    _sz = _clip_gsize(_h)
+    if _sz <= 0 : _sz = 1
+    sdim _buf, _sz + 16
+    _clip_movemem _buf, _p, _sz
+    _clip_gunlock _h
+    _clip_close
+    ; 文字列終端探索 (NUL 終端があればその長さ、なければ全体)
+    return _buf, strlen(_buf)
+
+;------------------------------------------------------------
+; clip_set_text "..."
+;------------------------------------------------------------
+#deffunc clip_set_text str s, local _len, local _h, local _p
+    _len = strlen(s) + 1
+    if _clip_open(0) = 0 : return -1
+    _clip_empty
+    _h = _clip_galloc(GMEM_MOVEABLE, _len)
+    if _h = 0 {
+        _clip_close
+        return -2
+    }
+    _p = _clip_glock(_h)
+    if _p = 0 {
+        _clip_gfree _h
+        _clip_close
+        return -3
+    }
+    _clip_movemem_p _p, s, _len
+    _clip_gunlock _h
+    _clip_set CF_TEXT, _h
+    _clip_close
+    return 0
+
+;------------------------------------------------------------
+; clip_clear
+;------------------------------------------------------------
+#deffunc clip_clear
+    if _clip_open(0) = 0 : return -1
+    _clip_empty
+    _clip_close
+    return 0
+
+#global
+
+#endif

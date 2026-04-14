@@ -1,0 +1,23 @@
+;============================================================
+;  iron_sysinfo.hsp サンプル: システム情報取得
+;============================================================
+
+#include "iron_sysinfo.hsp"
+
+	mes "==== iron_sysinfo サンプル ===="
+	mes ""
+
+	sys_username     : mes "ユーザー名     : " + refstr
+	sys_computername : mes "コンピュータ名 : " + refstr
+	sys_cpucount     : mes "CPU コア数     : " + stat
+	sys_pagesize     : mes "ページサイズ   : " + stat + " bytes"
+	sys_uptime       : mes "起動時間       : " + (stat / 1000) + " 秒 (" + stat + " ms)"
+	mes ""
+	mes "==== ディレクトリ ===="
+	sys_temp_path     : mes "TEMP            : " + refstr
+	sys_windows_dir   : mes "Windows         : " + refstr
+	sys_system_dir    : mes "System32        : " + refstr
+	sys_appdata       : mes "APPDATA         : " + refstr
+	sys_localappdata  : mes "LOCALAPPDATA    : " + refstr
+
+	stop

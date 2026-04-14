@@ -1,0 +1,33 @@
+;============================================================
+;  iron_clip.hsp サンプル: クリップボード文字列
+;============================================================
+
+#include "iron_clip.hsp"
+
+	mes "==== iron_clip サンプル ===="
+	mes ""
+
+	; --- 現在のクリップボード状態 ---
+	if clip_has_text() {
+		mes "現在クリップボードにはテキストがあります"
+		clip_get_text
+		mes "  内容: " + refstr
+		mes "  サイズ: " + stat + " 文字"
+	} else {
+		mes "現在クリップボードは空です"
+	}
+	mes ""
+
+	; --- 何かを書き込んでみる ---
+	clip_set_text "Hello from iron_clip!\nIronHSP の Phase J 第 2 弾."
+	mes "→ クリップボードに書き込みました。"
+	mes "  Notepad 等で Ctrl+V してみてください。"
+
+	; --- 書き込んだ後すぐ読み戻し ---
+	clip_get_text
+	mes ""
+	mes "読み戻し:"
+	mes "  内容: " + refstr
+	mes "  サイズ: " + stat + " 文字"
+
+	stop
