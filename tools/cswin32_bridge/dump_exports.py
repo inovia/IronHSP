@@ -56,6 +56,16 @@ TARGET_DLLS = [
     "xaudio2_9",    # XAudio2 (XAudio2Create)
     "dinput8",      # DirectInput 8 (DirectInput8Create)
     "secur32",      # Security Support Provider (SSPI)
+    # Phase F: graphics / web server / xml / opengl / multimedia
+    "gdiplus",      # GDI+ (high-level 2D graphics, image codecs, font rendering)
+    "opengl32",     # OpenGL (wgl* + GL 1.1 functions)
+    "glu32",        # GLU utility (gluPerspective / gluLookAt etc.)
+    "httpapi",      # HTTP Server API (kernel-mode HTTP.sys)
+    "xmllite",      # XmlLite (CreateXmlReader / CreateXmlWriter — fast XML)
+    "wlanapi",      # Wireless LAN API
+    "wer",          # Windows Error Reporting
+    "powrprof",     # Power Profile (battery, sleep, hibernate)
+    "wtsapi32",     # Terminal Services / session info
 ]
 
 # Names matching these patterns are filtered out: clearly internal helpers,
@@ -65,6 +75,7 @@ TARGET_DLLS = [
 LEGACY_LOWER_PREFIXES = (
     "lstr", "time", "wave", "midi", "mci", "mmio", "joy", "snd", "aux",
     "mixer", "sndPlay", "Reg",   # Reg is uppercase, not needed but included
+    "gl", "wgl", "glu",          # OpenGL / GLU lower-case convention
 )
 
 EXCLUDE_SUFFIXES = ("Worker", "Internal", "Stub")

@@ -915,6 +915,15 @@
     #field var ai_next
 #endstruct
 
+#defstruct ADMINISTRATOR_POWER_POLICY
+    #field int MinSleep
+    #field int MaxSleep
+    #field int MinVideoTimeout
+    #field int MaxVideoTimeout
+    #field int MinSpindownTimeout
+    #field int MaxSpindownTimeout
+#endstruct
+
 #defstruct AFPROTOCOLS
     #field int iAddressFamily
     #field int iProtocol
@@ -995,6 +1004,11 @@
     #field int dwSupport
 #endstruct
 
+#defstruct BATTERY_REPORTING_SCALE
+    #field int Granularity
+    #field int Capacity
+#endstruct
+
 #defstruct BCRYPT_ALGORITHM_IDENTIFIER
     #field wstr pszName
     #field int dwClass
@@ -1054,6 +1068,15 @@
     #field int bmPlanes
     #field int bmBitsPixel
     #field var bmBits
+#endstruct
+
+#defstruct BitmapData
+    #field int Width
+    #field int Height
+    #field int Stride
+    #field int PixelFormat
+    #field var Scan0
+    #field int Reserved
 #endstruct
 
 #defstruct BITMAPINFO
@@ -1565,6 +1588,11 @@
     #field int AsciiChar
 #endstruct
 
+#defstruct CharacterRange
+    #field int First
+    #field int Length
+#endstruct
+
 #defstruct CHARSETINFO
     #field int ciCharset
     #field int ciACP
@@ -1691,6 +1719,10 @@
     #field var pvArg
 #endstruct
 
+#defstruct Color
+    #field int Argb
+#endstruct
+
 #defstruct COLORADJUSTMENT
     #field int caSize
     #field int caFlags
@@ -1709,6 +1741,20 @@
 #defstruct COLORMAP
     #field int from
     #field int to
+#endstruct
+
+#defstruct ColorMap
+    #field var oldColor
+    #field var newColor
+#endstruct
+
+#defstruct ColorMatrix
+    #field int m
+#endstruct
+
+#defstruct ColorPalette
+    #field int Flags
+    #field int Count
 #endstruct
 
 #defstruct COMBOBOXINFO
@@ -3249,6 +3295,264 @@
     #field int wReserved1
 #endstruct
 
+#defstruct DDBLTBATCH
+    #field var lprDest
+    #field var lpDDSSrc
+    #field var lprSrc
+    #field int dwFlags
+    #field var lpDDBltFx
+#endstruct
+
+#defstruct DDBLTFX
+    #field int dwSize
+    #field int dwDDFX
+    #field int dwROP
+    #field int dwDDROP
+    #field int dwRotationAngle
+    #field int dwZBufferOpCode
+    #field int dwZBufferLow
+    #field int dwZBufferHigh
+    #field int dwZBufferBaseDest
+    #field int dwZDestConstBitDepth
+    #field var Anonymous1
+    #field int dwZSrcConstBitDepth
+    #field var Anonymous2
+    #field int dwAlphaEdgeBlendBitDepth
+    #field int dwAlphaEdgeBlend
+    #field int dwReserved
+    #field int dwAlphaDestConstBitDepth
+    #field int Anonymous3
+    #field int dwAlphaSrcConstBitDepth
+    #field int Anonymous4
+    #field int Anonymous5
+    #field int ddckDestColorkey
+    #field int ddckSrcColorkey
+    #field int dwZDestConst
+    #field var lpDDSZBufferDest
+    #field int dwZSrcConst
+    #field var lpDDSZBufferSrc
+    #field int dwAlphaDestConst
+    #field var lpDDSAlphaDest
+    #field int dwAlphaSrcConst
+    #field var lpDDSAlphaSrc
+    #field int dwFillColor
+    #field int dwFillDepth
+    #field int dwFillPixel
+    #field var lpDDSPattern
+#endstruct
+
+#defstruct _Anonymous3_e__Union
+    #field intptr hbmHeader
+    #field wstr pszbmHeader
+#endstruct
+
+#defstruct _Anonymous4_e__Union
+    #field intptr hbmWatermark
+    #field wstr pszbmWatermark
+#endstruct
+
+#defstruct _Anonymous5_e__Union
+    #field intptr hbmHeader
+    #field wstr pszbmHeader
+#endstruct
+
+#defstruct DDCAPS_DX7
+    #field int dwSize
+    #field int dwCaps
+    #field int dwCaps2
+    #field int dwCKeyCaps
+    #field int dwFXCaps
+    #field int dwFXAlphaCaps
+    #field int dwPalCaps
+    #field int dwSVCaps
+    #field int dwAlphaBltConstBitDepths
+    #field int dwAlphaBltPixelBitDepths
+    #field int dwAlphaBltSurfaceBitDepths
+    #field int dwAlphaOverlayConstBitDepths
+    #field int dwAlphaOverlayPixelBitDepths
+    #field int dwAlphaOverlaySurfaceBitDepths
+    #field int dwZBufferBitDepths
+    #field int dwVidMemTotal
+    #field int dwVidMemFree
+    #field int dwMaxVisibleOverlays
+    #field int dwCurrVisibleOverlays
+    #field int dwNumFourCCCodes
+    #field int dwAlignBoundarySrc
+    #field int dwAlignSizeSrc
+    #field int dwAlignBoundaryDest
+    #field int dwAlignSizeDest
+    #field int dwAlignStrideAlign
+    #field int dwRops
+    #field int ddsOldCaps
+    #field int dwMinOverlayStretch
+    #field int dwMaxOverlayStretch
+    #field int dwMinLiveVideoStretch
+    #field int dwMaxLiveVideoStretch
+    #field int dwMinHwCodecStretch
+    #field int dwMaxHwCodecStretch
+    #field int dwReserved1
+    #field int dwReserved2
+    #field int dwReserved3
+    #field int dwSVBCaps
+    #field int dwSVBCKeyCaps
+    #field int dwSVBFXCaps
+    #field int dwSVBRops
+    #field int dwVSBCaps
+    #field int dwVSBCKeyCaps
+    #field int dwVSBFXCaps
+    #field int dwVSBRops
+    #field int dwSSBCaps
+    #field int dwSSBCKeyCaps
+    #field int dwSSBFXCaps
+    #field int dwSSBRops
+    #field int dwMaxVideoPorts
+    #field int dwCurrVideoPorts
+    #field int dwSVBCaps2
+    #field int dwNLVBCaps
+    #field int dwNLVBCaps2
+    #field int dwNLVBCKeyCaps
+    #field int dwNLVBFXCaps
+    #field int dwNLVBRops
+    #field int ddsCaps
+#endstruct
+
+#defstruct DDCOLORKEY
+    #field int dwColorSpaceLowValue
+    #field int dwColorSpaceHighValue
+#endstruct
+
+#defstruct DDOVERLAYFX
+    #field int dwSize
+    #field int dwAlphaEdgeBlendBitDepth
+    #field int dwAlphaEdgeBlend
+    #field int dwReserved
+    #field int dwAlphaDestConstBitDepth
+    #field var Anonymous1
+    #field int dwAlphaSrcConstBitDepth
+    #field var Anonymous2
+    #field var dckDestColorkey
+    #field var dckSrcColorkey
+    #field int dwDDFX
+    #field int dwFlags
+    #field int dwAlphaDestConst
+    #field var lpDDSAlphaDest
+    #field int dwAlphaSrcConst
+    #field var lpDDSAlphaSrc
+#endstruct
+
+#defstruct DDPIXELFORMAT
+    #field int dwSize
+    #field int dwFlags
+    #field int dwFourCC
+    #field var Anonymous1
+    #field var Anonymous2
+    #field var Anonymous3
+    #field var Anonymous4
+    #field var Anonymous5
+    #field int dwRGBBitCount
+    #field int dwYUVBitCount
+    #field int dwZBufferBitDepth
+    #field int dwAlphaBitDepth
+    #field int dwLuminanceBitCount
+    #field int dwBumpBitCount
+    #field int dwPrivateFormatBitCount
+    #field int dwRBitMask
+    #field int dwYBitMask
+    #field int dwStencilBitDepth
+    #field int dwLuminanceBitMask
+    #field int dwBumpDuBitMask
+    #field int dwOperations
+    #field int dwGBitMask
+    #field int dwUBitMask
+    #field int dwZBitMask
+    #field int dwBumpDvBitMask
+    #field int MultiSampleCaps
+    #field int wFlipMSTypes
+    #field int wBltMSTypes
+    #field int dwBBitMask
+    #field int dwVBitMask
+    #field int dwStencilBitMask
+    #field int dwBumpLuminanceBitMask
+    #field int dwRGBAlphaBitMask
+    #field int dwYUVAlphaBitMask
+    #field int dwLuminanceAlphaBitMask
+    #field int dwRGBZBitMask
+    #field int dwYUVZBitMask
+#endstruct
+
+#defstruct _MultiSampleCaps_e__Struct
+    #field int wFlipMSTypes
+    #field int wBltMSTypes
+#endstruct
+
+#defstruct DDSCAPS
+    #field int dwCaps
+#endstruct
+
+#defstruct DDSCAPS2
+    #field int dwCaps
+    #field int dwCaps2
+    #field int dwCaps3
+    #field var Anonymous
+    #field int dwCaps4
+    #field int dwVolumeDepth
+#endstruct
+
+#defstruct DDSURFACEDESC
+    #field int dwSize
+    #field int dwFlags
+    #field int dwHeight
+    #field int dwWidth
+    #field var Anonymous1
+    #field int dwBackBufferCount
+    #field var Anonymous2
+    #field int dwAlphaBitDepth
+    #field int dwReserved
+    #field var lpSurface
+    #field var ddckCKDestOverlay
+    #field var ddckCKDestBlt
+    #field var ddckCKSrcOverlay
+    #field var ddckCKSrcBlt
+    #field var ddpfPixelFormat
+    #field var ddsCaps
+    #field int lPitch
+    #field int dwLinearSize
+    #field int dwMipMapCount
+    #field int dwZBufferBitDepth
+    #field int dwRefreshRate
+#endstruct
+
+#defstruct DDSURFACEDESC2
+    #field int dwSize
+    #field int dwFlags
+    #field int dwHeight
+    #field int dwWidth
+    #field var Anonymous1
+    #field var Anonymous2
+    #field var Anonymous3
+    #field int dwAlphaBitDepth
+    #field int dwReserved
+    #field var lpSurface
+    #field var Anonymous4
+    #field var ddckCKDestBlt
+    #field var ddckCKSrcOverlay
+    #field var ddckCKSrcBlt
+    #field var Anonymous5
+    #field var ddsCaps
+    #field int dwTextureStage
+    #field int lPitch
+    #field int dwLinearSize
+    #field int dwBackBufferCount
+    #field int dwDepth
+    #field int dwMipMapCount
+    #field int dwRefreshRate
+    #field int dwSrcVBHandle
+    #field var ddckCKDestOverlay
+    #field int dwEmptyFaceColor
+    #field var ddpfPixelFormat
+    #field int dwFVF
+#endstruct
+
 #defstruct DEBUG_EVENT
     #field int dwDebugEventCode
     #field int dwProcessId
@@ -3540,6 +3844,40 @@
     #field wstr lpszOutput
     #field wstr lpszDatatype
     #field int fwType
+#endstruct
+
+#defstruct DOT11_ACCESSNETWORKOPTIONS
+    #field int AccessNetworkType
+    #field int Internet
+    #field int ASRA
+    #field int ESR
+    #field int UESA
+#endstruct
+
+#defstruct DOT11_BSSID_LIST
+    #field int Header
+    #field int uNumOfEntries
+    #field int uTotalNumOfEntries
+#endstruct
+
+#defstruct DOT11_NETWORK
+    #field int dot11Ssid
+    #field int dot11BssType
+#endstruct
+
+#defstruct DOT11_NETWORK_LIST
+    #field int dwNumberOfItems
+    #field int dwIndex
+#endstruct
+
+#defstruct DOT11_SSID
+    #field int uSSIDLength
+    #field int ucSSID
+#endstruct
+
+#defstruct DOT11_VENUEINFO
+    #field int VenueGroup
+    #field int VenueType
 #endstruct
 
 #defstruct DPASTREAMINFO
@@ -3905,6 +4243,17 @@
     #field int DynamicDaylightTimeDisabled
 #endstruct
 
+#defstruct EAP_METHOD_TYPE
+    #field int eapType
+    #field int dwAuthorId
+#endstruct
+
+#defstruct EAP_TYPE
+    #field int type
+    #field int dwVendorId
+    #field int dwVendorType
+#endstruct
+
 #defstruct EFS_CERTIFICATE_BLOB
     #field int dwCertEncodingType
     #field int cbData
@@ -3936,6 +4285,16 @@
     #field int ControlFlags
     #field var EnableFilterDesc
     #field int FilterDescCount
+#endstruct
+
+#defstruct EncoderParameter
+    #field int NumberOfValues
+    #field int Type
+    #field var Value
+#endstruct
+
+#defstruct EncoderParameters
+    #field int Count
 #endstruct
 
 #defstruct ENCRYPTED_LM_OWF_PASSWORD
@@ -3996,6 +4355,24 @@
     #field int offPixelFormat
     #field int bOpenGL
     #field int szlMicrometers
+#endstruct
+
+#defstruct ENHMETAHEADER3
+    #field int iType
+    #field int nSize
+    #field int rclBounds
+    #field int rclFrame
+    #field int dSignature
+    #field int nVersion
+    #field int nBytes
+    #field int nRecords
+    #field int nHandles
+    #field int sReserved
+    #field int nDescription
+    #field int offDescription
+    #field int nPalEntries
+    #field int szlDevice
+    #field int szlMillimeters
 #endstruct
 
 #defstruct ENHMETARECORD
@@ -4107,8 +4484,8 @@
     #field int ThreadId
     #field int ProcessId
     #field int64 TimeStamp
-    #field int Anonymous3
-    #field int Anonymous4
+    #field var Anonymous3
+    #field var Anonymous4
     #field int FieldTypeFlags
     #field var Anonymous
     #field int HeaderType
@@ -4132,16 +4509,6 @@
     #field int Type
     #field int Level
     #field int Version
-#endstruct
-
-#defstruct _Anonymous3_e__Union
-    #field intptr hbmHeader
-    #field wstr pszbmHeader
-#endstruct
-
-#defstruct _Anonymous4_e__Union
-    #field intptr hbmWatermark
-    #field wstr pszbmWatermark
 #endstruct
 
 #defstruct EVENT_TRACE_LOGFILEW
@@ -4393,6 +4760,18 @@
     #field int nMaxFit
 #endstruct
 
+#defstruct GdiplusStartupInput
+    #field int GdiplusVersion
+    #field int DebugEventCallback
+    #field int SuppressBackgroundThread
+    #field int SuppressExternalCodecs
+#endstruct
+
+#defstruct GdiplusStartupOutput
+    #field int NotificationHook
+    #field int NotificationUnhook
+#endstruct
+
 #defstruct GENERIC_MAPPING
     #field int GenericRead
     #field int GenericWrite
@@ -4418,6 +4797,30 @@
     #field int cbExtraArgs
 #endstruct
 
+#defstruct GLOBAL_MACHINE_POWER_POLICY
+    #field int Revision
+    #field int LidOpenWakeAc
+    #field int LidOpenWakeDc
+    #field int BroadcastCapacityResolution
+#endstruct
+
+#defstruct GLOBAL_POWER_POLICY
+    #field int user
+    #field var mach
+#endstruct
+
+#defstruct GLOBAL_USER_POWER_POLICY
+    #field int Revision
+    #field int PowerButtonAc
+    #field int PowerButtonDc
+    #field int SleepButtonAc
+    #field int SleepButtonDc
+    #field int LidCloseAc
+    #field int LidCloseDc
+    #field int DischargePolicy
+    #field int GlobalFlags
+#endstruct
+
 #defstruct GLYPHBITS
     #field int ptlOrigin
     #field int sizlBitmap
@@ -4433,6 +4836,14 @@
     #field int gmBlackBoxY
     #field int gmCellIncX
     #field int gmCellIncY
+#endstruct
+
+#defstruct GLYPHMETRICSFLOAT
+    #field float gmfBlackBoxX
+    #field float gmfBlackBoxY
+    #field int gmfptGlyphOrigin
+    #field float gmfCellIncX
+    #field float gmfCellIncY
 #endstruct
 
 #defstruct GLYPHPOS
@@ -4670,9 +5081,203 @@
     #field int rec_offset
 #endstruct
 
+#defstruct HTTP_BYTE_RANGE
+    #field int64 StartingOffset
+    #field int64 Length
+#endstruct
+
+#defstruct HTTP_CACHE_POLICY
+    #field int Policy
+    #field int SecondsToLive
+#endstruct
+
+#defstruct HTTP_COOKED_URL
+    #field int FullUrlLength
+    #field int HostLength
+    #field int AbsPathLength
+    #field int QueryStringLength
+    #field wstr pFullUrl
+    #field wstr pHost
+    #field wstr pAbsPath
+    #field wstr pQueryString
+#endstruct
+
+#defstruct HTTP_DATA_CHUNK
+    #field int DataChunkType
+    #field var Anonymous
+    #field int FromMemory
+    #field int FromFileHandle
+    #field int FromFragmentCache
+    #field int FromFragmentCacheEx
+    #field int Trailers
+    #field var pBuffer
+    #field int BufferLength
+    #field var ByteRange
+    #field intptr FileHandle
+    #field int FragmentNameLength
+    #field wstr pFragmentName
+    #field var ByteRange
+    #field wstr pFragmentName
+    #field int TrailerCount
+    #field var pTrailers
+#endstruct
+
+#defstruct _FromMemory_e__Struct
+    #field var pBuffer
+    #field int BufferLength
+#endstruct
+
+#defstruct _FromFileHandle_e__Struct
+    #field var ByteRange
+    #field intptr FileHandle
+#endstruct
+
+#defstruct _FromFragmentCache_e__Struct
+    #field int FragmentNameLength
+    #field wstr pFragmentName
+#endstruct
+
+#defstruct _FromFragmentCacheEx_e__Struct
+    #field var ByteRange
+    #field wstr pFragmentName
+#endstruct
+
+#defstruct _Trailers_e__Struct
+    #field int TrailerCount
+    #field var pTrailers
+#endstruct
+
+#defstruct HTTP_DELEGATE_REQUEST_PROPERTY_INFO
+    #field int PropertyId
+    #field int PropertyInfoLength
+    #field var PropertyInfo
+#endstruct
+
+#defstruct HTTP_KNOWN_HEADER
+    #field int RawValueLength
+    #field str pRawValue
+#endstruct
+
+#defstruct HTTP_LOG_DATA
+    #field int Type
+#endstruct
+
 #defstruct HTTP_PUSH_NOTIFICATION_STATUS
     #field int ChannelStatusValid
     #field int ChannelStatus
+#endstruct
+
+#defstruct HTTP_REQUEST_HEADERS
+    #field int UnknownHeaderCount
+    #field var pUnknownHeaders
+    #field int TrailerCount
+    #field var pTrailers
+    #field int KnownHeaders
+#endstruct
+
+#defstruct HTTP_REQUEST_INFO
+    #field int InfoType
+    #field int InfoLength
+    #field var pInfo
+#endstruct
+
+#defstruct HTTP_REQUEST_V1
+    #field int Flags
+    #field int64 ConnectionId
+    #field int64 RequestId
+    #field int64 UrlContext
+    #field int Version
+    #field int Verb
+    #field int UnknownVerbLength
+    #field int RawUrlLength
+    #field str pUnknownVerb
+    #field str pRawUrl
+    #field var CookedUrl
+    #field int Address
+    #field var Headers
+    #field int64 BytesReceived
+    #field int EntityChunkCount
+    #field var pEntityChunks
+    #field int64 RawConnectionId
+    #field var pSslInfo
+#endstruct
+
+#defstruct HTTP_REQUEST_V2
+    #field var Base
+    #field int RequestInfoCount
+    #field var pRequestInfo
+#endstruct
+
+#defstruct HTTP_RESPONSE_HEADERS
+    #field int UnknownHeaderCount
+    #field var pUnknownHeaders
+    #field int TrailerCount
+    #field var pTrailers
+    #field int KnownHeaders
+#endstruct
+
+#defstruct HTTP_RESPONSE_INFO
+    #field int Type
+    #field int Length
+    #field var pInfo
+#endstruct
+
+#defstruct HTTP_RESPONSE_V1
+    #field int Flags
+    #field int Version
+    #field int StatusCode
+    #field int ReasonLength
+    #field str pReason
+    #field var Headers
+    #field int EntityChunkCount
+    #field var pEntityChunks
+#endstruct
+
+#defstruct HTTP_RESPONSE_V2
+    #field var Base
+    #field int ResponseInfoCount
+    #field var pResponseInfo
+#endstruct
+
+#defstruct HTTP_SSL_CLIENT_CERT_INFO
+    #field int CertFlags
+    #field int CertEncodedSize
+    #field var pCertEncoded
+    #field intptr Token
+    #field int CertDeniedByMapper
+#endstruct
+
+#defstruct HTTP_SSL_INFO
+    #field int ServerCertKeySize
+    #field int ConnectionKeySize
+    #field int ServerCertIssuerSize
+    #field int ServerCertSubjectSize
+    #field str pServerCertIssuer
+    #field str pServerCertSubject
+    #field var pClientCertInfo
+    #field int SslClientCertNegotiated
+#endstruct
+
+#defstruct HTTP_TRANSPORT_ADDRESS
+    #field var pRemoteAddress
+    #field var pLocalAddress
+#endstruct
+
+#defstruct HTTP_UNKNOWN_HEADER
+    #field int NameLength
+    #field int RawValueLength
+    #field str pName
+    #field str pRawValue
+#endstruct
+
+#defstruct HTTP_VERSION
+    #field int MajorVersion
+    #field int MinorVersion
+#endstruct
+
+#defstruct HTTPAPI_VERSION
+    #field int HttpApiMajorVersion
+    #field int HttpApiMinorVersion
 #endstruct
 
 #defstruct HW_PROFILE_INFOW
@@ -4724,6 +5329,20 @@
 #defstruct _Misc_e__Union
     #field int PhysicalAddress
     #field int VirtualSize
+#endstruct
+
+#defstruct ImageCodecInfo
+    #field wstr CodecName
+    #field wstr DllName
+    #field wstr FormatDescription
+    #field wstr FilenameExtension
+    #field wstr MimeType
+    #field int Flags
+    #field int Version
+    #field int SigCount
+    #field int SigSize
+    #field var SigPattern
+    #field var SigMask
 #endstruct
 
 #defstruct IMAGEHLP_GET_TYPE_INFO_PARAMS
@@ -4844,6 +5463,16 @@
     #field int Unused1
     #field int Unused2
     #field int rcImage
+#endstruct
+
+#defstruct ImageItemData
+    #field int Size
+    #field int Position
+    #field var Desc
+    #field int DescSize
+    #field var Data
+    #field int DataSize
+    #field int Cookie
 #endstruct
 
 #defstruct IMAGELISTDRAWPARAMS
@@ -5523,9 +6152,43 @@
     #field int dwExtraInfo
 #endstruct
 
+#defstruct L2_NOTIFICATION_DATA
+    #field int NotificationSource
+    #field int NotificationCode
+    #field int dwDataSize
+    #field var pData
+#endstruct
+
 #defstruct LASTINPUTINFO
     #field int cbSize
     #field int dwTime
+#endstruct
+
+#defstruct LAYERPLANEDESCRIPTOR
+    #field int nSize
+    #field int nVersion
+    #field int dwFlags
+    #field int iPixelType
+    #field int cColorBits
+    #field int cRedBits
+    #field int cRedShift
+    #field int cGreenBits
+    #field int cGreenShift
+    #field int cBlueBits
+    #field int cBlueShift
+    #field int cAlphaBits
+    #field int cAlphaShift
+    #field int cAccumBits
+    #field int cAccumRedBits
+    #field int cAccumGreenBits
+    #field int cAccumBlueBits
+    #field int cAccumAlphaBits
+    #field int cDepthBits
+    #field int cStencilBits
+    #field int cAuxBuffers
+    #field int iLayerPlane
+    #field int bReserved
+    #field int crTransparent
 #endstruct
 
 #defstruct LDT_ENTRY
@@ -5777,6 +6440,29 @@
     #field int Attributes
 #endstruct
 
+#defstruct MACHINE_POWER_POLICY
+    #field int Revision
+    #field int MinSleepAc
+    #field int MinSleepDc
+    #field int ReducedLatencySleepAc
+    #field int ReducedLatencySleepDc
+    #field int DozeTimeoutAc
+    #field int DozeTimeoutDc
+    #field int DozeS4TimeoutAc
+    #field int DozeS4TimeoutDc
+    #field int MinThrottleAc
+    #field int MinThrottleDc
+    #field int pad1
+    #field int OverThrottledAc
+    #field int OverThrottledDc
+#endstruct
+
+#defstruct MACHINE_PROCESSOR_POWER_POLICY
+    #field int Revision
+    #field int ProcessorPolicyAc
+    #field int ProcessorPolicyDc
+#endstruct
+
 #defstruct MANAGEDAPPLICATION
     #field wstr pszPackageName
     #field wstr pszPublisher
@@ -5868,11 +6554,40 @@
     #field intptr hbmpItem
 #endstruct
 
+#defstruct MetafileHeader
+    #field int Type
+    #field int Size
+    #field int Version
+    #field int EmfPlusFlags
+    #field float DpiX
+    #field float DpiY
+    #field int X
+    #field int Y
+    #field int Width
+    #field int Height
+    #field var Anonymous
+    #field int EmfPlusHeaderSize
+    #field int LogicalDpiX
+    #field int LogicalDpiY
+    #field int WmfHeader
+    #field var EmfHeader
+#endstruct
+
 #defstruct METAFILEPICT
     #field int mm
     #field int xExt
     #field int yExt
     #field intptr hMF
+#endstruct
+
+#defstruct METAHEADER
+    #field int mtType
+    #field int mtHeaderSize
+    #field int mtVersion
+    #field int mtSize
+    #field int mtNoObjects
+    #field int mtMaxRecord
+    #field int mtNoParameters
 #endstruct
 
 #defstruct METARECORD
@@ -6737,6 +7452,12 @@
     #field int dwLanguageId
 #endstruct
 
+#defstruct NDIS_OBJECT_HEADER
+    #field int Type
+    #field int Revision
+    #field int Size
+#endstruct
+
 #defstruct NET_ADDRESS_INFO
     #field int Format
     #field var Anonymous
@@ -7190,6 +7911,11 @@
     #field int dwDamageMask
 #endstruct
 
+#defstruct Point
+    #field int X
+    #field int Y
+#endstruct
+
 #defstruct POINTER_DEVICE_CURSOR_INFO
     #field int cursorId
     #field int cursor
@@ -7258,9 +7984,19 @@
     #field var penInfo
 #endstruct
 
+#defstruct PointF
+    #field float X
+    #field float Y
+#endstruct
+
 #defstruct POINTFIX
     #field int x
     #field int y
+#endstruct
+
+#defstruct POINTFLOAT
+    #field float x
+    #field float y
 #endstruct
 
 #defstruct POINTL
@@ -7303,9 +8039,24 @@
     #field var pdx
 #endstruct
 
+#defstruct POWER_ACTION_POLICY
+    #field int Action
+    #field int Flags
+    #field int EventCode
+#endstruct
+
+#defstruct POWER_POLICY
+    #field int user
+    #field var mach
+#endstruct
+
 #defstruct PRIVILEGE_SET
     #field int PrivilegeCount
     #field int Control
+#endstruct
+
+#defstruct PROC
+    #field int Value
 #endstruct
 
 #defstruct PROCESS_HEAP_ENTRY
@@ -7376,6 +8127,25 @@
     #field int Reserved
 #endstruct
 
+#defstruct PROCESSOR_POWER_POLICY
+    #field int Revision
+    #field int DynamicThrottle
+    #field int Spare
+    #field int _bitfield
+    #field int PolicyCount
+    #field int Policy
+#endstruct
+
+#defstruct PROCESSOR_POWER_POLICY_INFO
+    #field int TimeCheck
+    #field int DemoteLimit
+    #field int PromoteLimit
+    #field int DemotePercent
+    #field int PromotePercent
+    #field int Spare
+    #field int _bitfield
+#endstruct
+
 #defstruct PROFILEINFOW
     #field int dwSize
     #field int dwFlags
@@ -7395,6 +8165,13 @@
     #field wstr pstrName
 #endstruct
 
+#defstruct PropertyItem
+    #field int id
+    #field int length
+    #field int type
+    #field var value
+#endstruct
+
 #defstruct PROPERTYKEY
     #field int pid
 #endstruct
@@ -7411,7 +8188,7 @@
     #field var Anonymous3
     #field var Anonymous4
     #field intptr hplWatermark
-    #field int Anonymous5
+    #field var Anonymous5
     #field intptr hIcon
     #field wstr pszIcon
     #field int nStartPage
@@ -7420,11 +8197,6 @@
     #field var phpage
     #field intptr hbmWatermark
     #field wstr pszbmWatermark
-    #field intptr hbmHeader
-    #field wstr pszbmHeader
-#endstruct
-
-#defstruct _Anonymous5_e__Union
     #field intptr hbmHeader
     #field wstr pszbmHeader
 #endstruct
@@ -7562,6 +8334,13 @@
     #field int bVersion
     #field int reserved
     #field int aiKeyAlg
+#endstruct
+
+#defstruct PWMFRect16
+    #field int Left
+    #field int Top
+    #field int Right
+    #field int Bottom
 #endstruct
 
 #defstruct QOS
@@ -7704,6 +8483,20 @@
     #field int top
     #field int right
     #field int bottom
+#endstruct
+
+#defstruct Rect
+    #field int X
+    #field int Y
+    #field int Width
+    #field int Height
+#endstruct
+
+#defstruct RectF
+    #field float X
+    #field float Y
+    #field float Width
+    #field float Height
 #endstruct
 
 #defstruct RECTFX
@@ -8321,6 +9114,50 @@
     #field int NodeNumber
 #endstruct
 
+#defstruct SYSTEM_POWER_CAPABILITIES
+    #field int PowerButtonPresent
+    #field int SleepButtonPresent
+    #field int LidPresent
+    #field int SystemS1
+    #field int SystemS2
+    #field int SystemS3
+    #field int SystemS4
+    #field int SystemS5
+    #field int HiberFilePresent
+    #field int FullWake
+    #field int VideoDimPresent
+    #field int ApmPresent
+    #field int UpsPresent
+    #field int ThermalControl
+    #field int ProcessorThrottle
+    #field int ProcessorMinThrottle
+    #field int ProcessorMaxThrottle
+    #field int FastSystemS4
+    #field int Hiberboot
+    #field int WakeAlarmPresent
+    #field int AoAc
+    #field int DiskSpinDown
+    #field int HiberFileType
+    #field int AoAcConnectivitySupported
+    #field int spare3
+    #field int SystemBatteriesPresent
+    #field int BatteriesAreShortTerm
+    #field int BatteryScale
+    #field int AcOnLineWake
+    #field int SoftLidWake
+    #field int RtcWake
+    #field int MinDeviceWakeState
+    #field int DefaultLowLatencyWake
+#endstruct
+
+#defstruct SYSTEM_POWER_LEVEL
+    #field int Enable
+    #field int Spare
+    #field int BatteryLevel
+    #field var PowerPolicy
+    #field int MinSystemState
+#endstruct
+
 #defstruct SYSTEM_POWER_STATUS
     #field int ACLineStatus
     #field int BatteryFlag
@@ -8374,6 +9211,15 @@
     #field int tmStruckOut
     #field int tmPitchAndFamily
     #field int tmCharSet
+#endstruct
+
+#defstruct THERMAL_EVENT
+    #field int Version
+    #field int Size
+    #field int Type
+    #field int Temperature
+    #field int TripPointTemperature
+    #field wstr Initiator
 #endstruct
 
 #defstruct THREADENTRY32
@@ -8712,6 +9558,31 @@
     #field int cbExtraDataSize
 #endstruct
 
+#defstruct USER_POWER_POLICY
+    #field int Revision
+    #field var IdleAc
+    #field var IdleDc
+    #field int IdleTimeoutAc
+    #field int IdleTimeoutDc
+    #field int IdleSensitivityAc
+    #field int IdleSensitivityDc
+    #field int ThrottlePolicyAc
+    #field int ThrottlePolicyDc
+    #field int MaxSleepAc
+    #field int MaxSleepDc
+    #field int Reserved
+    #field int VideoTimeoutAc
+    #field int VideoTimeoutDc
+    #field int SpindownTimeoutAc
+    #field int SpindownTimeoutDc
+    #field int OptimizeForPowerAc
+    #field int OptimizeForPowerDc
+    #field int FanThrottleToleranceAc
+    #field int FanThrottleToleranceDc
+    #field int ForcedThrottleAc
+    #field int ForcedThrottleDc
+#endstruct
+
 #defstruct VALENTW
     #field wstr ve_valuename
     #field int ve_valuelen
@@ -8874,6 +9745,63 @@
     #field var phg
 #endstruct
 
+#defstruct WER_REPORT_INFORMATION
+    #field int dwSize
+    #field intptr hProcess
+    #field int wzConsentKey
+    #field int wzFriendlyEventName
+    #field int wzApplicationName
+    #field int wzApplicationPath
+    #field int wzDescription
+    #field intptr hwndParent
+#endstruct
+
+#defstruct WER_REPORT_METADATA_V1
+    #field int Signature
+    #field int64 SizeInBytes
+#endstruct
+
+#defstruct WER_REPORT_METADATA_V2
+    #field int Signature
+    #field int64 SizeInBytes
+    #field int CabId
+    #field int ReportStatus
+    #field int NumberOfFiles
+    #field int SizeOfFileNames
+    #field wstr FileNames
+#endstruct
+
+#defstruct WER_REPORT_METADATA_V3
+    #field int Signature
+    #field int64 SizeInBytes
+    #field int CabId
+    #field int ReportStatus
+    #field int NumberOfFiles
+    #field int SizeOfFileNames
+    #field wstr FileNames
+    #field int FriendlyEventName
+    #field int ApplicationName
+    #field int ApplicationPath
+    #field int Description
+    #field int BucketIdString
+    #field int64 LegacyBucketId
+#endstruct
+
+#defstruct WER_REPORT_PARAMETER
+    #field int Name
+    #field int Value
+#endstruct
+
+#defstruct WER_REPORT_SIGNATURE
+    #field int EventName
+    #field int Parameters
+#endstruct
+
+#defstruct WGLSWAP
+    #field intptr hdc
+    #field int uiFlags
+#endstruct
+
 #defstruct WICBitmapPattern
     #field int64 Position
     #field int Length
@@ -9006,6 +9934,160 @@
 #defstruct WININET_PROXY_INFO_LIST
     #field int dwProxyInfoCount
     #field var pProxyInfo
+#endstruct
+
+#defstruct WLAN_AVAILABLE_NETWORK
+    #field int strProfileName
+    #field var dot11Ssid
+    #field int dot11BssType
+    #field int uNumberOfBssids
+    #field int bNetworkConnectable
+    #field int wlanNotConnectableReason
+    #field int uNumberOfPhyTypes
+    #field int dot11PhyTypes
+    #field int bMorePhyTypes
+    #field int wlanSignalQuality
+    #field int bSecurityEnabled
+    #field int dot11DefaultAuthAlgorithm
+    #field int dot11DefaultCipherAlgorithm
+    #field int dwFlags
+    #field int dwReserved
+#endstruct
+
+#defstruct WLAN_AVAILABLE_NETWORK_LIST
+    #field int dwNumberOfItems
+    #field int dwIndex
+#endstruct
+
+#defstruct WLAN_AVAILABLE_NETWORK_LIST_V2
+    #field int dwNumberOfItems
+    #field int dwIndex
+#endstruct
+
+#defstruct WLAN_AVAILABLE_NETWORK_V2
+    #field int strProfileName
+    #field var dot11Ssid
+    #field int dot11BssType
+    #field int uNumberOfBssids
+    #field int bNetworkConnectable
+    #field int wlanNotConnectableReason
+    #field int uNumberOfPhyTypes
+    #field int dot11PhyTypes
+    #field int bMorePhyTypes
+    #field int wlanSignalQuality
+    #field int bSecurityEnabled
+    #field int dot11DefaultAuthAlgorithm
+    #field int dot11DefaultCipherAlgorithm
+    #field int dwFlags
+    #field var AccessNetworkOptions
+    #field int dot11HESSID
+    #field var VenueInfo
+    #field int dwReserved
+#endstruct
+
+#defstruct WLAN_BSS_ENTRY
+    #field var dot11Ssid
+    #field int uPhyId
+    #field int dot11Bssid
+    #field int dot11BssType
+    #field int dot11BssPhyType
+    #field int lRssi
+    #field int uLinkQuality
+    #field int bInRegDomain
+    #field int usBeaconPeriod
+    #field int64 ullTimestamp
+    #field int64 ullHostTimestamp
+    #field int usCapabilityInformation
+    #field int ulChCenterFrequency
+    #field int wlanRateSet
+    #field int ulIeOffset
+    #field int ulIeSize
+#endstruct
+
+#defstruct WLAN_BSS_LIST
+    #field int dwTotalSize
+    #field int dwNumberOfItems
+#endstruct
+
+#defstruct WLAN_CONNECTION_PARAMETERS
+    #field int wlanConnectionMode
+    #field wstr strProfile
+    #field var pDot11Ssid
+    #field var pDesiredBssidList
+    #field int dot11BssType
+    #field int dwFlags
+#endstruct
+
+#defstruct WLAN_DEVICE_SERVICE_GUID_LIST
+    #field int dwNumberOfItems
+    #field int dwIndex
+#endstruct
+
+#defstruct WLAN_HOSTED_NETWORK_PEER_STATE
+    #field int PeerMacAddress
+    #field int PeerAuthState
+#endstruct
+
+#defstruct WLAN_HOSTED_NETWORK_STATUS
+    #field int HostedNetworkState
+    #field int wlanHostedNetworkBSSID
+    #field int dot11PhyType
+    #field int ulChannelFrequency
+    #field int dwNumberOfPeers
+#endstruct
+
+#defstruct WLAN_INTERFACE_CAPABILITY
+    #field int interfaceType
+    #field int bDot11DSupported
+    #field int dwMaxDesiredSsidListSize
+    #field int dwMaxDesiredBssidListSize
+    #field int dwNumberOfSupportedPhys
+    #field int dot11PhyTypes
+#endstruct
+
+#defstruct WLAN_INTERFACE_INFO
+    #field int strInterfaceDescription
+    #field int isState
+#endstruct
+
+#defstruct WLAN_INTERFACE_INFO_LIST
+    #field int dwNumberOfItems
+    #field int dwIndex
+#endstruct
+
+#defstruct WLAN_PROFILE_INFO
+    #field int strProfileName
+    #field int dwFlags
+#endstruct
+
+#defstruct WLAN_PROFILE_INFO_LIST
+    #field int dwNumberOfItems
+    #field int dwIndex
+#endstruct
+
+#defstruct WLAN_RATE_SET
+    #field int uRateSetLength
+    #field int usRateSet
+#endstruct
+
+#defstruct WLAN_RAW_DATA
+    #field int dwDataSize
+#endstruct
+
+#defstruct WLAN_RAW_DATA_LIST
+    #field int dwTotalSize
+    #field int dwNumberOfItems
+    #field int dwDataOffset
+    #field int dwDataSize
+#endstruct
+
+#defstruct WmfPlaceableFileHeader
+    #field int Key
+    #field int Hmf
+    #field var BoundingBox
+    #field int Inch
+    #field int Reserved
+    #field int Checksum
 #endstruct
 
 #defstruct WNDCLASSEXW
@@ -9203,6 +10285,68 @@
 #defstruct WSAVERSION
     #field int dwVersion
     #field int ecHow
+#endstruct
+
+#defstruct WTS_PROCESS_INFOW
+    #field int SessionId
+    #field int ProcessId
+    #field wstr pProcessName
+    #field int pUserSid
+#endstruct
+
+#defstruct WTS_SERVER_INFOW
+    #field wstr pServerName
+#endstruct
+
+#defstruct WTS_SESSION_INFO_1W
+    #field int ExecEnvId
+    #field int State
+    #field int SessionId
+    #field wstr pSessionName
+    #field wstr pHostName
+    #field wstr pUserName
+    #field wstr pDomainName
+    #field wstr pFarmName
+#endstruct
+
+#defstruct WTS_SESSION_INFOW
+    #field int SessionId
+    #field wstr pWinStationName
+    #field int State
+#endstruct
+
+#defstruct WTSLISTENERCONFIGW
+    #field int version
+    #field int fEnableListener
+    #field int MaxConnectionCount
+    #field int fPromptForPassword
+    #field int fInheritColorDepth
+    #field int ColorDepth
+    #field int fInheritBrokenTimeoutSettings
+    #field int BrokenTimeoutSettings
+    #field int fDisablePrinterRedirection
+    #field int fDisableDriveRedirection
+    #field int fDisableComPortRedirection
+    #field int fDisableLPTPortRedirection
+    #field int fDisableClipboardRedirection
+    #field int fDisableAudioRedirection
+    #field int fDisablePNPRedirection
+    #field int fDisableDefaultMainClientPrinter
+    #field int LanAdapter
+    #field int PortNumber
+    #field int fInheritShadowSettings
+    #field int ShadowSettings
+    #field int TimeoutSettingsConnection
+    #field int TimeoutSettingsDisconnection
+    #field int TimeoutSettingsIdle
+    #field int SecurityLayer
+    #field int MinEncryptionLevel
+    #field int UserAuthentication
+    #field int Comment
+    #field int LogonUserName
+    #field int LogonDomain
+    #field int WorkDirectory
+    #field int InitialProgram
 #endstruct
 
 #defstruct XAUDIO2_BUFFER
@@ -10021,6 +11165,13 @@
 #define BS_DIBPATTERN8X8  0x8
 #define BS_MONOPATTERN  0x9
 
+; BrushType
+#define BrushTypeSolidColor  0x0
+#define BrushTypeHatchFill  0x1
+#define BrushTypeTextureFill  0x2
+#define BrushTypePathGradient  0x3
+#define BrushTypeLinearGradient  0x4
+
 ; CACHE_CONFIG
 #define CACHE_CONFIG_FORCE_CLEANUP_FC  0x20
 #define CACHE_CONFIG_DISK_CACHE_PATHS_FC  0x40
@@ -10389,6 +11540,35 @@
 #define CS_DISABLE  0x2
 #define CS_DELETE_TRANSFORM  0x3
 
+; ColorAdjustType
+#define ColorAdjustTypeDefault  0x0
+#define ColorAdjustTypeBitmap  0x1
+#define ColorAdjustTypeBrush  0x2
+#define ColorAdjustTypePen  0x3
+#define ColorAdjustTypeText  0x4
+#define ColorAdjustTypeCount  0x5
+#define ColorAdjustTypeAny  0x6
+
+; ColorChannelFlags
+#define ColorChannelFlagsC  0x0
+#define ColorChannelFlagsM  0x1
+#define ColorChannelFlagsY  0x2
+#define ColorChannelFlagsK  0x3
+#define ColorChannelFlagsLast  0x4
+
+; ColorMatrixFlags
+#define ColorMatrixFlagsDefault  0x0
+#define ColorMatrixFlagsSkipGrays  0x1
+#define ColorMatrixFlagsAltGray  0x2
+
+; CombineMode
+#define CombineModeReplace  0x0
+#define CombineModeIntersect  0x1
+#define CombineModeUnion  0x2
+#define CombineModeXor  0x3
+#define CombineModeExclude  0x4
+#define CombineModeComplement  0x5
+
 ; COMBOBOXINFO_BUTTON_STATE
 #define STATE_SYSTEM_INVISIBLE  0x8000
 #define STATE_SYSTEM_PRESSED  0x8
@@ -10477,6 +11657,18 @@
 #define CSTR_EQUAL  0x2
 #define CSTR_GREATER_THAN  0x3
 
+; CompositingMode
+#define CompositingModeSourceOver  0x0
+#define CompositingModeSourceCopy  0x1
+
+; CompositingQuality
+#define CompositingQualityInvalid  -1
+#define CompositingQualityDefault  0x0
+#define CompositingQualityHighSpeed  0x1
+#define CompositingQualityHighQuality  0x2
+#define CompositingQualityGammaCorrected  0x3
+#define CompositingQualityAssumeLinear  0x4
+
 ; COMPUTER_NAME_FORMAT
 #define ComputerNameNetBIOS  0x0
 #define ComputerNameDnsHostname  0x1
@@ -10562,6 +11754,11 @@
 #define ST_ISLOCAL  0x4
 #define ST_ISSELF  0x100
 #define ST_TERMINATED  0x20
+
+; CoordinateSpace
+#define CoordinateSpaceWorld  0x0
+#define CoordinateSpacePage  0x1
+#define CoordinateSpaceDevice  0x2
 
 ; COPYFILE2_COPY_PHASE
 #define COPYFILE2_PHASE_NONE  0x0
@@ -10818,6 +12015,10 @@
 ; CURSORINFO_FLAGS
 #define CURSOR_SHOWING  0x1
 #define CURSOR_SUPPRESSED  0x2
+
+; CustomLineCapType
+#define CustomLineCapTypeDefault  0x0
+#define CustomLineCapTypeAdjustableArrow  0x1
 
 ; CWP_FLAGS
 #define CWP_ALL  0x0
@@ -11493,6 +12694,19 @@
 #define D3D11_SRV_DIMENSION_TEXTURECUBEARRAY  0xa
 #define D3D11_SRV_DIMENSION_BUFFEREX  0xb
 
+; DashCap
+#define DashCapFlat  0x0
+#define DashCapRound  0x2
+#define DashCapTriangle  0x3
+
+; DashStyle
+#define DashStyleSolid  0x0
+#define DashStyleDash  0x1
+#define DashStyleDot  0x2
+#define DashStyleDashDot  0x3
+#define DashStyleDashDotDot  0x4
+#define DashStyleCustom  0x5
+
 ; DATAOBJ_GET_ITEM_FLAGS
 #define DOGIF_DEFAULT  0x0
 #define DOGIF_TRAVERSE_LINK  0x1
@@ -11848,6 +13062,19 @@
 #define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_DISPLAYPORT_USB_TUNNEL  0x12
 #define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_INTERNAL  -2147483648
 
+; DitherType
+#define DitherTypeNone  0x0
+#define DitherTypeSolid  0x1
+#define DitherTypeOrdered4x4  0x2
+#define DitherTypeOrdered8x8  0x3
+#define DitherTypeOrdered16x16  0x4
+#define DitherTypeSpiral4x4  0x5
+#define DitherTypeSpiral8x8  0x6
+#define DitherTypeDualSpiral4x4  0x7
+#define DitherTypeDualSpiral8x8  0x8
+#define DitherTypeErrorDiffusion  0x9
+#define DitherTypeMax  0xa
+
 ; DLG_BUTTON_CHECK_STATE
 #define BST_CHECKED  0x1
 #define BST_INDETERMINATE  0x2
@@ -11863,6 +13090,63 @@
 #define DDL_READWRITE  0x0
 #define DDL_SYSTEM  0x4
 #define DDL_POSTMSGS  0x2000
+
+; DOT11_AUTH_ALGORITHM
+#define DOT11_AUTH_ALGO_80211_OPEN  0x1
+#define DOT11_AUTH_ALGO_80211_SHARED_KEY  0x2
+#define DOT11_AUTH_ALGO_WPA  0x3
+#define DOT11_AUTH_ALGO_WPA_PSK  0x4
+#define DOT11_AUTH_ALGO_WPA_NONE  0x5
+#define DOT11_AUTH_ALGO_RSNA  0x6
+#define DOT11_AUTH_ALGO_RSNA_PSK  0x7
+#define DOT11_AUTH_ALGO_WPA3  0x8
+#define DOT11_AUTH_ALGO_WPA3_ENT_192  0x8
+#define DOT11_AUTH_ALGO_WPA3_SAE  0x9
+#define DOT11_AUTH_ALGO_OWE  0xa
+#define DOT11_AUTH_ALGO_WPA3_ENT  0xb
+#define DOT11_AUTH_ALGO_IHV_START  -2147483648
+#define DOT11_AUTH_ALGO_IHV_END  -1
+
+; DOT11_BSS_TYPE
+#define dot11_BSS_type_infrastructure  0x1
+#define dot11_BSS_type_independent  0x2
+#define dot11_BSS_type_any  0x3
+
+; DOT11_CIPHER_ALGORITHM
+#define DOT11_CIPHER_ALGO_NONE  0x0
+#define DOT11_CIPHER_ALGO_WEP40  0x1
+#define DOT11_CIPHER_ALGO_TKIP  0x2
+#define DOT11_CIPHER_ALGO_CCMP  0x4
+#define DOT11_CIPHER_ALGO_WEP104  0x5
+#define DOT11_CIPHER_ALGO_BIP  0x6
+#define DOT11_CIPHER_ALGO_GCMP  0x8
+#define DOT11_CIPHER_ALGO_GCMP_256  0x9
+#define DOT11_CIPHER_ALGO_CCMP_256  0xa
+#define DOT11_CIPHER_ALGO_BIP_GMAC_128  0xb
+#define DOT11_CIPHER_ALGO_BIP_GMAC_256  0xc
+#define DOT11_CIPHER_ALGO_BIP_CMAC_256  0xd
+#define DOT11_CIPHER_ALGO_WPA_USE_GROUP  0x100
+#define DOT11_CIPHER_ALGO_RSN_USE_GROUP  0x100
+#define DOT11_CIPHER_ALGO_WEP  0x101
+#define DOT11_CIPHER_ALGO_IHV_START  -2147483648
+#define DOT11_CIPHER_ALGO_IHV_END  -1
+
+; DOT11_PHY_TYPE
+#define dot11_phy_type_unknown  0x0
+#define dot11_phy_type_any  0x0
+#define dot11_phy_type_fhss  0x1
+#define dot11_phy_type_dsss  0x2
+#define dot11_phy_type_irbaseband  0x3
+#define dot11_phy_type_ofdm  0x4
+#define dot11_phy_type_hrdsss  0x5
+#define dot11_phy_type_erp  0x6
+#define dot11_phy_type_ht  0x7
+#define dot11_phy_type_vht  0x8
+#define dot11_phy_type_dmg  0x9
+#define dot11_phy_type_he  0xa
+#define dot11_phy_type_eht  0xb
+#define dot11_phy_type_IHV_start  -2147483648
+#define dot11_phy_type_IHV_end  -1
 
 ; DPAMM_MESSAGE
 #define DPAMM_MERGE  0x1
@@ -12512,11 +13796,292 @@
 #define DXGI_USAGE_DISCARD_ON_PRESENT  0x200
 #define DXGI_USAGE_UNORDERED_ACCESS  0x400
 
+; EFFECTIVE_POWER_MODE
+#define EffectivePowerModeBatterySaver  0x0
+#define EffectivePowerModeBetterBattery  0x1
+#define EffectivePowerModeBalanced  0x2
+#define EffectivePowerModeHighPerformance  0x3
+#define EffectivePowerModeMaxPerformance  0x4
+#define EffectivePowerModeGameMode  0x5
+#define EffectivePowerModeMixedReality  0x6
+
 ; EMBDHLP_FLAGS
 #define EMBDHLP_INPROC_HANDLER  0x0
 #define EMBDHLP_INPROC_SERVER  0x1
 #define EMBDHLP_CREATENOW  0x0
 #define EMBDHLP_DELAYCREATE  0x10000
+
+; EmfPlusRecordType
+#define WmfRecordTypeSetBkColor  0x10201
+#define WmfRecordTypeSetBkMode  0x10102
+#define WmfRecordTypeSetMapMode  0x10103
+#define WmfRecordTypeSetROP2  0x10104
+#define WmfRecordTypeSetRelAbs  0x10105
+#define WmfRecordTypeSetPolyFillMode  0x10106
+#define WmfRecordTypeSetStretchBltMode  0x10107
+#define WmfRecordTypeSetTextCharExtra  0x10108
+#define WmfRecordTypeSetTextColor  0x10209
+#define WmfRecordTypeSetTextJustification  0x1020a
+#define WmfRecordTypeSetWindowOrg  0x1020b
+#define WmfRecordTypeSetWindowExt  0x1020c
+#define WmfRecordTypeSetViewportOrg  0x1020d
+#define WmfRecordTypeSetViewportExt  0x1020e
+#define WmfRecordTypeOffsetWindowOrg  0x1020f
+#define WmfRecordTypeScaleWindowExt  0x10410
+#define WmfRecordTypeOffsetViewportOrg  0x10211
+#define WmfRecordTypeScaleViewportExt  0x10412
+#define WmfRecordTypeLineTo  0x10213
+#define WmfRecordTypeMoveTo  0x10214
+#define WmfRecordTypeExcludeClipRect  0x10415
+#define WmfRecordTypeIntersectClipRect  0x10416
+#define WmfRecordTypeArc  0x10817
+#define WmfRecordTypeEllipse  0x10418
+#define WmfRecordTypeFloodFill  0x10419
+#define WmfRecordTypePie  0x1081a
+#define WmfRecordTypeRectangle  0x1041b
+#define WmfRecordTypeRoundRect  0x1061c
+#define WmfRecordTypePatBlt  0x1061d
+#define WmfRecordTypeSaveDC  0x1001e
+#define WmfRecordTypeSetPixel  0x1041f
+#define WmfRecordTypeOffsetClipRgn  0x10220
+#define WmfRecordTypeTextOut  0x10521
+#define WmfRecordTypeBitBlt  0x10922
+#define WmfRecordTypeStretchBlt  0x10b23
+#define WmfRecordTypePolygon  0x10324
+#define WmfRecordTypePolyline  0x10325
+#define WmfRecordTypeEscape  0x10626
+#define WmfRecordTypeRestoreDC  0x10127
+#define WmfRecordTypeFillRegion  0x10228
+#define WmfRecordTypeFrameRegion  0x10429
+#define WmfRecordTypeInvertRegion  0x1012a
+#define WmfRecordTypePaintRegion  0x1012b
+#define WmfRecordTypeSelectClipRegion  0x1012c
+#define WmfRecordTypeSelectObject  0x1012d
+#define WmfRecordTypeSetTextAlign  0x1012e
+#define WmfRecordTypeDrawText  0x1062f
+#define WmfRecordTypeChord  0x10830
+#define WmfRecordTypeSetMapperFlags  0x10231
+#define WmfRecordTypeExtTextOut  0x10a32
+#define WmfRecordTypeSetDIBToDev  0x10d33
+#define WmfRecordTypeSelectPalette  0x10234
+#define WmfRecordTypeRealizePalette  0x10035
+#define WmfRecordTypeAnimatePalette  0x10436
+#define WmfRecordTypeSetPalEntries  0x10037
+#define WmfRecordTypePolyPolygon  0x10538
+#define WmfRecordTypeResizePalette  0x10139
+#define WmfRecordTypeDIBBitBlt  0x10940
+#define WmfRecordTypeDIBStretchBlt  0x10b41
+#define WmfRecordTypeDIBCreatePatternBrush  0x10142
+#define WmfRecordTypeStretchDIB  0x10f43
+#define WmfRecordTypeExtFloodFill  0x10548
+#define WmfRecordTypeSetLayout  0x10149
+#define WmfRecordTypeResetDC  0x1014c
+#define WmfRecordTypeStartDoc  0x1014d
+#define WmfRecordTypeStartPage  0x1004f
+#define WmfRecordTypeEndPage  0x10050
+#define WmfRecordTypeAbortDoc  0x10052
+#define WmfRecordTypeEndDoc  0x1005e
+#define WmfRecordTypeDeleteObject  0x101f0
+#define WmfRecordTypeCreatePalette  0x100f7
+#define WmfRecordTypeCreateBrush  0x100f8
+#define WmfRecordTypeCreatePatternBrush  0x101f9
+#define WmfRecordTypeCreatePenIndirect  0x102fa
+#define WmfRecordTypeCreateFontIndirect  0x102fb
+#define WmfRecordTypeCreateBrushIndirect  0x102fc
+#define WmfRecordTypeCreateBitmapIndirect  0x102fd
+#define WmfRecordTypeCreateBitmap  0x106fe
+#define WmfRecordTypeCreateRegion  0x106ff
+#define EmfRecordTypeHeader  0x1
+#define EmfRecordTypePolyBezier  0x2
+#define EmfRecordTypePolygon  0x3
+#define EmfRecordTypePolyline  0x4
+#define EmfRecordTypePolyBezierTo  0x5
+#define EmfRecordTypePolyLineTo  0x6
+#define EmfRecordTypePolyPolyline  0x7
+#define EmfRecordTypePolyPolygon  0x8
+#define EmfRecordTypeSetWindowExtEx  0x9
+#define EmfRecordTypeSetWindowOrgEx  0xa
+#define EmfRecordTypeSetViewportExtEx  0xb
+#define EmfRecordTypeSetViewportOrgEx  0xc
+#define EmfRecordTypeSetBrushOrgEx  0xd
+#define EmfRecordTypeEOF  0xe
+#define EmfRecordTypeSetPixelV  0xf
+#define EmfRecordTypeSetMapperFlags  0x10
+#define EmfRecordTypeSetMapMode  0x11
+#define EmfRecordTypeSetBkMode  0x12
+#define EmfRecordTypeSetPolyFillMode  0x13
+#define EmfRecordTypeSetROP2  0x14
+#define EmfRecordTypeSetStretchBltMode  0x15
+#define EmfRecordTypeSetTextAlign  0x16
+#define EmfRecordTypeSetColorAdjustment  0x17
+#define EmfRecordTypeSetTextColor  0x18
+#define EmfRecordTypeSetBkColor  0x19
+#define EmfRecordTypeOffsetClipRgn  0x1a
+#define EmfRecordTypeMoveToEx  0x1b
+#define EmfRecordTypeSetMetaRgn  0x1c
+#define EmfRecordTypeExcludeClipRect  0x1d
+#define EmfRecordTypeIntersectClipRect  0x1e
+#define EmfRecordTypeScaleViewportExtEx  0x1f
+#define EmfRecordTypeScaleWindowExtEx  0x20
+#define EmfRecordTypeSaveDC  0x21
+#define EmfRecordTypeRestoreDC  0x22
+#define EmfRecordTypeSetWorldTransform  0x23
+#define EmfRecordTypeModifyWorldTransform  0x24
+#define EmfRecordTypeSelectObject  0x25
+#define EmfRecordTypeCreatePen  0x26
+#define EmfRecordTypeCreateBrushIndirect  0x27
+#define EmfRecordTypeDeleteObject  0x28
+#define EmfRecordTypeAngleArc  0x29
+#define EmfRecordTypeEllipse  0x2a
+#define EmfRecordTypeRectangle  0x2b
+#define EmfRecordTypeRoundRect  0x2c
+#define EmfRecordTypeArc  0x2d
+#define EmfRecordTypeChord  0x2e
+#define EmfRecordTypePie  0x2f
+#define EmfRecordTypeSelectPalette  0x30
+#define EmfRecordTypeCreatePalette  0x31
+#define EmfRecordTypeSetPaletteEntries  0x32
+#define EmfRecordTypeResizePalette  0x33
+#define EmfRecordTypeRealizePalette  0x34
+#define EmfRecordTypeExtFloodFill  0x35
+#define EmfRecordTypeLineTo  0x36
+#define EmfRecordTypeArcTo  0x37
+#define EmfRecordTypePolyDraw  0x38
+#define EmfRecordTypeSetArcDirection  0x39
+#define EmfRecordTypeSetMiterLimit  0x3a
+#define EmfRecordTypeBeginPath  0x3b
+#define EmfRecordTypeEndPath  0x3c
+#define EmfRecordTypeCloseFigure  0x3d
+#define EmfRecordTypeFillPath  0x3e
+#define EmfRecordTypeStrokeAndFillPath  0x3f
+#define EmfRecordTypeStrokePath  0x40
+#define EmfRecordTypeFlattenPath  0x41
+#define EmfRecordTypeWidenPath  0x42
+#define EmfRecordTypeSelectClipPath  0x43
+#define EmfRecordTypeAbortPath  0x44
+#define EmfRecordTypeReserved_069  0x45
+#define EmfRecordTypeGdiComment  0x46
+#define EmfRecordTypeFillRgn  0x47
+#define EmfRecordTypeFrameRgn  0x48
+#define EmfRecordTypeInvertRgn  0x49
+#define EmfRecordTypePaintRgn  0x4a
+#define EmfRecordTypeExtSelectClipRgn  0x4b
+#define EmfRecordTypeBitBlt  0x4c
+#define EmfRecordTypeStretchBlt  0x4d
+#define EmfRecordTypeMaskBlt  0x4e
+#define EmfRecordTypePlgBlt  0x4f
+#define EmfRecordTypeSetDIBitsToDevice  0x50
+#define EmfRecordTypeStretchDIBits  0x51
+#define EmfRecordTypeExtCreateFontIndirect  0x52
+#define EmfRecordTypeExtTextOutA  0x53
+#define EmfRecordTypeExtTextOutW  0x54
+#define EmfRecordTypePolyBezier16  0x55
+#define EmfRecordTypePolygon16  0x56
+#define EmfRecordTypePolyline16  0x57
+#define EmfRecordTypePolyBezierTo16  0x58
+#define EmfRecordTypePolylineTo16  0x59
+#define EmfRecordTypePolyPolyline16  0x5a
+#define EmfRecordTypePolyPolygon16  0x5b
+#define EmfRecordTypePolyDraw16  0x5c
+#define EmfRecordTypeCreateMonoBrush  0x5d
+#define EmfRecordTypeCreateDIBPatternBrushPt  0x5e
+#define EmfRecordTypeExtCreatePen  0x5f
+#define EmfRecordTypePolyTextOutA  0x60
+#define EmfRecordTypePolyTextOutW  0x61
+#define EmfRecordTypeSetICMMode  0x62
+#define EmfRecordTypeCreateColorSpace  0x63
+#define EmfRecordTypeSetColorSpace  0x64
+#define EmfRecordTypeDeleteColorSpace  0x65
+#define EmfRecordTypeGLSRecord  0x66
+#define EmfRecordTypeGLSBoundedRecord  0x67
+#define EmfRecordTypePixelFormat  0x68
+#define EmfRecordTypeDrawEscape  0x69
+#define EmfRecordTypeExtEscape  0x6a
+#define EmfRecordTypeStartDoc  0x6b
+#define EmfRecordTypeSmallTextOut  0x6c
+#define EmfRecordTypeForceUFIMapping  0x6d
+#define EmfRecordTypeNamedEscape  0x6e
+#define EmfRecordTypeColorCorrectPalette  0x6f
+#define EmfRecordTypeSetICMProfileA  0x70
+#define EmfRecordTypeSetICMProfileW  0x71
+#define EmfRecordTypeAlphaBlend  0x72
+#define EmfRecordTypeSetLayout  0x73
+#define EmfRecordTypeTransparentBlt  0x74
+#define EmfRecordTypeReserved_117  0x75
+#define EmfRecordTypeGradientFill  0x76
+#define EmfRecordTypeSetLinkedUFIs  0x77
+#define EmfRecordTypeSetTextJustification  0x78
+#define EmfRecordTypeColorMatchToTargetW  0x79
+#define EmfRecordTypeCreateColorSpaceW  0x7a
+#define EmfRecordTypeMax  0x7a
+#define EmfRecordTypeMin  0x1
+#define EmfPlusRecordTypeInvalid  0x4000
+#define EmfPlusRecordTypeHeader  0x4001
+#define EmfPlusRecordTypeEndOfFile  0x4002
+#define EmfPlusRecordTypeComment  0x4003
+#define EmfPlusRecordTypeGetDC  0x4004
+#define EmfPlusRecordTypeMultiFormatStart  0x4005
+#define EmfPlusRecordTypeMultiFormatSection  0x4006
+#define EmfPlusRecordTypeMultiFormatEnd  0x4007
+#define EmfPlusRecordTypeObject  0x4008
+#define EmfPlusRecordTypeClear  0x4009
+#define EmfPlusRecordTypeFillRects  0x400a
+#define EmfPlusRecordTypeDrawRects  0x400b
+#define EmfPlusRecordTypeFillPolygon  0x400c
+#define EmfPlusRecordTypeDrawLines  0x400d
+#define EmfPlusRecordTypeFillEllipse  0x400e
+#define EmfPlusRecordTypeDrawEllipse  0x400f
+#define EmfPlusRecordTypeFillPie  0x4010
+#define EmfPlusRecordTypeDrawPie  0x4011
+#define EmfPlusRecordTypeDrawArc  0x4012
+#define EmfPlusRecordTypeFillRegion  0x4013
+#define EmfPlusRecordTypeFillPath  0x4014
+#define EmfPlusRecordTypeDrawPath  0x4015
+#define EmfPlusRecordTypeFillClosedCurve  0x4016
+#define EmfPlusRecordTypeDrawClosedCurve  0x4017
+#define EmfPlusRecordTypeDrawCurve  0x4018
+#define EmfPlusRecordTypeDrawBeziers  0x4019
+#define EmfPlusRecordTypeDrawImage  0x401a
+#define EmfPlusRecordTypeDrawImagePoints  0x401b
+#define EmfPlusRecordTypeDrawString  0x401c
+#define EmfPlusRecordTypeSetRenderingOrigin  0x401d
+#define EmfPlusRecordTypeSetAntiAliasMode  0x401e
+#define EmfPlusRecordTypeSetTextRenderingHint  0x401f
+#define EmfPlusRecordTypeSetTextContrast  0x4020
+#define EmfPlusRecordTypeSetInterpolationMode  0x4021
+#define EmfPlusRecordTypeSetPixelOffsetMode  0x4022
+#define EmfPlusRecordTypeSetCompositingMode  0x4023
+#define EmfPlusRecordTypeSetCompositingQuality  0x4024
+#define EmfPlusRecordTypeSave  0x4025
+#define EmfPlusRecordTypeRestore  0x4026
+#define EmfPlusRecordTypeBeginContainer  0x4027
+#define EmfPlusRecordTypeBeginContainerNoParams  0x4028
+#define EmfPlusRecordTypeEndContainer  0x4029
+#define EmfPlusRecordTypeSetWorldTransform  0x402a
+#define EmfPlusRecordTypeResetWorldTransform  0x402b
+#define EmfPlusRecordTypeMultiplyWorldTransform  0x402c
+#define EmfPlusRecordTypeTranslateWorldTransform  0x402d
+#define EmfPlusRecordTypeScaleWorldTransform  0x402e
+#define EmfPlusRecordTypeRotateWorldTransform  0x402f
+#define EmfPlusRecordTypeSetPageTransform  0x4030
+#define EmfPlusRecordTypeResetClip  0x4031
+#define EmfPlusRecordTypeSetClipRect  0x4032
+#define EmfPlusRecordTypeSetClipPath  0x4033
+#define EmfPlusRecordTypeSetClipRegion  0x4034
+#define EmfPlusRecordTypeOffsetClip  0x4035
+#define EmfPlusRecordTypeDrawDriverString  0x4036
+#define EmfPlusRecordTypeStrokeFillPath  0x4037
+#define EmfPlusRecordTypeSerializableObject  0x4038
+#define EmfPlusRecordTypeSetTSGraphics  0x4039
+#define EmfPlusRecordTypeSetTSClip  0x403a
+#define EmfPlusRecordTotal  0x403b
+#define EmfPlusRecordTypeMax  0x403a
+#define EmfPlusRecordTypeMin  0x4001
+
+; EmfType
+#define EmfTypeEmfOnly  0x3
+#define EmfTypeEmfPlusOnly  0x4
+#define EmfTypeEmfPlusDual  0x5
 
 ; ENABLE_SCROLL_BAR_ARROWS
 #define ESB_DISABLE_BOTH  0x3
@@ -12972,6 +14537,10 @@
 #define FOF_NORECURSEREPARSE  0x8000
 #define FOF_NO_UI  0x614
 
+; FillMode
+#define FillModeAlternate  0x0
+#define FillModeWinding  0x1
+
 ; FIND_FIRST_EX_FLAGS
 #define FIND_FIRST_EX_CASE_SENSITIVE  0x1
 #define FIND_FIRST_EX_LARGE_FETCH  0x2
@@ -13006,6 +14575,10 @@
 #define FLASHW_TIMER  0x4
 #define FLASHW_TIMERNOFG  0xc
 #define FLASHW_TRAY  0x2
+
+; FlushIntention
+#define FlushIntentionFlush  0x0
+#define FlushIntentionSync  0x1
 
 ; FOLD_STRING_MAP_FLAGS
 #define MAP_COMPOSITE  0x40
@@ -13423,6 +14996,11 @@
 #define GPLinkDomain  0x3
 #define GPLinkOrganizationalUnit  0x4
 
+; GpTestControlEnum
+#define TestControlForceBilinear  0x0
+#define TestControlNoICM  0x1
+#define TestControlGetBuildNumber  0x2
+
 ; GRADIENT_FILL
 #define GRADIENT_FILL_RECT_H  0x0
 #define GRADIENT_FILL_RECT_V  0x1
@@ -13454,6 +15032,65 @@
 #define HS_FDIAGONAL  0x2
 #define HS_HORIZONTAL  0x0
 #define HS_VERTICAL  0x1
+
+; HatchStyle
+#define HatchStyleHorizontal  0x0
+#define HatchStyleVertical  0x1
+#define HatchStyleForwardDiagonal  0x2
+#define HatchStyleBackwardDiagonal  0x3
+#define HatchStyleCross  0x4
+#define HatchStyleDiagonalCross  0x5
+#define HatchStyle05Percent  0x6
+#define HatchStyle10Percent  0x7
+#define HatchStyle20Percent  0x8
+#define HatchStyle25Percent  0x9
+#define HatchStyle30Percent  0xa
+#define HatchStyle40Percent  0xb
+#define HatchStyle50Percent  0xc
+#define HatchStyle60Percent  0xd
+#define HatchStyle70Percent  0xe
+#define HatchStyle75Percent  0xf
+#define HatchStyle80Percent  0x10
+#define HatchStyle90Percent  0x11
+#define HatchStyleLightDownwardDiagonal  0x12
+#define HatchStyleLightUpwardDiagonal  0x13
+#define HatchStyleDarkDownwardDiagonal  0x14
+#define HatchStyleDarkUpwardDiagonal  0x15
+#define HatchStyleWideDownwardDiagonal  0x16
+#define HatchStyleWideUpwardDiagonal  0x17
+#define HatchStyleLightVertical  0x18
+#define HatchStyleLightHorizontal  0x19
+#define HatchStyleNarrowVertical  0x1a
+#define HatchStyleNarrowHorizontal  0x1b
+#define HatchStyleDarkVertical  0x1c
+#define HatchStyleDarkHorizontal  0x1d
+#define HatchStyleDashedDownwardDiagonal  0x1e
+#define HatchStyleDashedUpwardDiagonal  0x1f
+#define HatchStyleDashedHorizontal  0x20
+#define HatchStyleDashedVertical  0x21
+#define HatchStyleSmallConfetti  0x22
+#define HatchStyleLargeConfetti  0x23
+#define HatchStyleZigZag  0x24
+#define HatchStyleWave  0x25
+#define HatchStyleDiagonalBrick  0x26
+#define HatchStyleHorizontalBrick  0x27
+#define HatchStyleWeave  0x28
+#define HatchStylePlaid  0x29
+#define HatchStyleDivot  0x2a
+#define HatchStyleDottedGrid  0x2b
+#define HatchStyleDottedDiamond  0x2c
+#define HatchStyleShingle  0x2d
+#define HatchStyleTrellis  0x2e
+#define HatchStyleSphere  0x2f
+#define HatchStyleSmallGrid  0x30
+#define HatchStyleSmallCheckerBoard  0x31
+#define HatchStyleLargeCheckerBoard  0x32
+#define HatchStyleOutlinedDiamond  0x33
+#define HatchStyleSolidDiamond  0x34
+#define HatchStyleTotal  0x35
+#define HatchStyleLargeGrid  0x4
+#define HatchStyleMin  0x0
+#define HatchStyleMax  0x34
 
 ; HDC_MAP_MODE
 #define MM_ANISOTROPIC  0x8
@@ -13499,6 +15136,16 @@
 #define HELPINFO_WINDOW  0x1
 #define HELPINFO_MENUITEM  0x2
 
+; HistogramFormat
+#define HistogramFormatARGB  0x0
+#define HistogramFormatPARGB  0x1
+#define HistogramFormatRGB  0x2
+#define HistogramFormatGray  0x3
+#define HistogramFormatB  0x4
+#define HistogramFormatG  0x5
+#define HistogramFormatR  0x6
+#define HistogramFormatA  0x7
+
 ; HIT_TEST_BACKGROUND_OPTIONS
 #define HTTB_BACKGROUNDSEG  0x0
 #define HTTB_FIXEDBORDER  0x2
@@ -13526,10 +15173,120 @@
 #define HTTP_ADDREQ_FLAG_COALESCE_WITH_SEMICOLON  0x1000000
 #define HTTP_ADDREQ_FLAG_REPLACE  0x80000000
 
+; HTTP_CACHE_POLICY_TYPE
+#define HttpCachePolicyNocache  0x0
+#define HttpCachePolicyUserInvalidates  0x1
+#define HttpCachePolicyTimeToLive  0x2
+#define HttpCachePolicyMaximum  0x3
+
+; HTTP_DATA_CHUNK_TYPE
+#define HttpDataChunkFromMemory  0x0
+#define HttpDataChunkFromFileHandle  0x1
+#define HttpDataChunkFromFragmentCache  0x2
+#define HttpDataChunkFromFragmentCacheEx  0x3
+#define HttpDataChunkTrailers  0x4
+#define HttpDataChunkMaximum  0x5
+
+; HTTP_DELEGATE_REQUEST_PROPERTY_ID
+#define DelegateRequestReservedProperty  0x0
+#define DelegateRequestDelegateUrlProperty  0x1
+
+; HTTP_FEATURE_ID
+#define HttpFeatureUnknown  0x0
+#define HttpFeatureResponseTrailers  0x1
+#define HttpFeatureApiTimings  0x2
+#define HttpFeatureDelegateEx  0x3
+#define HttpFeatureHttp3  0x4
+#define HttpFeatureLast  0x5
+#define HttpFeaturemax  -1
+
+; HTTP_INITIALIZE
+#define HTTP_INITIALIZE_CONFIG  0x2
+#define HTTP_INITIALIZE_SERVER  0x1
+
+; HTTP_LOG_DATA_TYPE
+#define HttpLogDataTypeFields  0x0
+
 ; HTTP_PUSH_WAIT_TYPE
 #define HttpPushWaitEnableComplete  0x0
 #define HttpPushWaitReceiveComplete  0x1
 #define HttpPushWaitSendComplete  0x2
+
+; HTTP_RECEIVE_HTTP_REQUEST_FLAGS
+#define HTTP_RECEIVE_REQUEST_FLAG_COPY_BODY  0x1
+#define HTTP_RECEIVE_REQUEST_FLAG_FLUSH_BODY  0x2
+
+; HTTP_REQUEST_INFO_TYPE
+#define HttpRequestInfoTypeAuth  0x0
+#define HttpRequestInfoTypeChannelBind  0x1
+#define HttpRequestInfoTypeSslProtocol  0x2
+#define HttpRequestInfoTypeSslTokenBindingDraft  0x3
+#define HttpRequestInfoTypeSslTokenBinding  0x4
+#define HttpRequestInfoTypeRequestTiming  0x5
+#define HttpRequestInfoTypeTcpInfoV0  0x6
+#define HttpRequestInfoTypeRequestSizing  0x7
+#define HttpRequestInfoTypeQuicStats  0x8
+#define HttpRequestInfoTypeTcpInfoV1  0x9
+
+; HTTP_RESPONSE_INFO_TYPE
+#define HttpResponseInfoTypeMultipleKnownHeaders  0x0
+#define HttpResponseInfoTypeAuthenticationProperty  0x1
+#define HttpResponseInfoTypeQoSProperty  0x2
+#define HttpResponseInfoTypeChannelBind  0x3
+
+; HTTP_SERVER_PROPERTY
+#define HttpServerAuthenticationProperty  0x0
+#define HttpServerLoggingProperty  0x1
+#define HttpServerQosProperty  0x2
+#define HttpServerTimeoutsProperty  0x3
+#define HttpServerQueueLengthProperty  0x4
+#define HttpServerStateProperty  0x5
+#define HttpServer503VerbosityProperty  0x6
+#define HttpServerBindingProperty  0x7
+#define HttpServerExtendedAuthenticationProperty  0x8
+#define HttpServerListenEndpointProperty  0x9
+#define HttpServerChannelBindProperty  0xa
+#define HttpServerProtectionLevelProperty  0xb
+#define HttpServerDelegationProperty  0x10
+
+; HTTP_SERVICE_CONFIG_ID
+#define HttpServiceConfigIPListenList  0x0
+#define HttpServiceConfigSSLCertInfo  0x1
+#define HttpServiceConfigUrlAclInfo  0x2
+#define HttpServiceConfigTimeout  0x3
+#define HttpServiceConfigCache  0x4
+#define HttpServiceConfigSslSniCertInfo  0x5
+#define HttpServiceConfigSslCcsCertInfo  0x6
+#define HttpServiceConfigSetting  0x7
+#define HttpServiceConfigSslCertInfoEx  0x8
+#define HttpServiceConfigSslSniCertInfoEx  0x9
+#define HttpServiceConfigSslCcsCertInfoEx  0xa
+#define HttpServiceConfigSslScopedCcsCertInfo  0xb
+#define HttpServiceConfigSslScopedCcsCertInfoEx  0xc
+#define HttpServiceConfigMax  0xd
+
+; HTTP_VERB
+#define HttpVerbUnparsed  0x0
+#define HttpVerbUnknown  0x1
+#define HttpVerbInvalid  0x2
+#define HttpVerbOPTIONS  0x3
+#define HttpVerbGET  0x4
+#define HttpVerbHEAD  0x5
+#define HttpVerbPOST  0x6
+#define HttpVerbPUT  0x7
+#define HttpVerbDELETE  0x8
+#define HttpVerbTRACE  0x9
+#define HttpVerbCONNECT  0xa
+#define HttpVerbTRACK  0xb
+#define HttpVerbMOVE  0xc
+#define HttpVerbCOPY  0xd
+#define HttpVerbPROPFIND  0xe
+#define HttpVerbPROPPATCH  0xf
+#define HttpVerbMKCOL  0x10
+#define HttpVerbLOCK  0x11
+#define HttpVerbUNLOCK  0x12
+#define HttpVerbSEARCH  0x13
+#define HttpVerbMaximum  0x14
 
 ; HTTP_WEB_SOCKET_BUFFER_TYPE
 #define HTTP_WEB_SOCKET_BINARY_MESSAGE_TYPE  0x0
@@ -13750,6 +15507,11 @@
 #define ILC_ORIGINALSIZE  0x10000
 #define ILC_HIGHQUALITYSCALE  0x20000
 
+; ImageType
+#define ImageTypeUnknown  0x0
+#define ImageTypeBitmap  0x1
+#define ImageTypeMetafile  0x2
+
 ; IME_COMPOSITION_STRING
 #define GCS_COMPREADSTR  0x1
 #define GCS_COMPREADATTR  0x2
@@ -13954,6 +15716,17 @@
 #define FEATURE_BLOCK_INPUT_PROMPTS  0x1b
 #define FEATURE_ENTRY_COUNT  0x1c
 
+; InterpolationMode
+#define InterpolationModeInvalid  -1
+#define InterpolationModeDefault  0x0
+#define InterpolationModeLowQuality  0x1
+#define InterpolationModeHighQuality  0x2
+#define InterpolationModeBilinear  0x3
+#define InterpolationModeBicubic  0x4
+#define InterpolationModeNearestNeighbor  0x5
+#define InterpolationModeHighQualityBilinear  0x6
+#define InterpolationModeHighQualityBicubic  0x7
+
 ; INVOKEKIND
 #define INVOKE_FUNC  0x1
 #define INVOKE_PROPERTYGET  0x2
@@ -14081,6 +15854,31 @@
 #define LMD_DEFAULT  0x0
 #define LMD_ALLOWUNINDEXABLENETWORKLOCATIONS  0x1
 
+; LinearGradientMode
+#define LinearGradientModeHorizontal  0x0
+#define LinearGradientModeVertical  0x1
+#define LinearGradientModeForwardDiagonal  0x2
+#define LinearGradientModeBackwardDiagonal  0x3
+
+; LineCap
+#define LineCapFlat  0x0
+#define LineCapSquare  0x1
+#define LineCapRound  0x2
+#define LineCapTriangle  0x3
+#define LineCapNoAnchor  0x10
+#define LineCapSquareAnchor  0x11
+#define LineCapRoundAnchor  0x12
+#define LineCapDiamondAnchor  0x13
+#define LineCapArrowAnchor  0x14
+#define LineCapCustom  0xff
+#define LineCapAnchorMask  0xf0
+
+; LineJoin
+#define LineJoinMiter  0x0
+#define LineJoinBevel  0x1
+#define LineJoinRound  0x2
+#define LineJoinMiterClipped  0x3
+
 ; LOAD_LIBRARY_FLAGS
 #define DONT_RESOLVE_DLL_REFERENCES  0x1
 #define LOAD_LIBRARY_AS_DATAFILE  0x2
@@ -14193,6 +15991,10 @@
 #define MAPVK_VK_TO_CHAR  0x2
 #define MAPVK_VSC_TO_VK_EX  0x3
 #define MAPVK_VK_TO_VSC_EX  0x4
+
+; MatrixOrder
+#define MatrixOrderPrepend  0x0
+#define MatrixOrderAppend  0x1
 
 ; MEMORY_RESOURCE_NOTIFICATION_TYPE
 #define LowMemoryResourceNotification  0x0
@@ -14329,6 +16131,22 @@
 #define MB_DEFMASK  0xf00
 #define MB_MODEMASK  0x3000
 #define MB_MISCMASK  0xc000
+
+; MetafileFrameUnit
+#define MetafileFrameUnitPixel  0x2
+#define MetafileFrameUnitPoint  0x3
+#define MetafileFrameUnitInch  0x4
+#define MetafileFrameUnitDocument  0x5
+#define MetafileFrameUnitMillimeter  0x6
+#define MetafileFrameUnitGdi  0x7
+
+; MetafileType
+#define MetafileTypeInvalid  0x0
+#define MetafileTypeWmf  0x1
+#define MetafileTypeWmfPlaceable  0x2
+#define MetafileTypeEmf  0x3
+#define MetafileTypeEmfPlusOnly  0x4
+#define MetafileTypeEmfPlusDual  0x5
 
 ; MIB_IF_ENTRY_LEVEL
 #define MibIfEntryNormal  0x0
@@ -15081,6 +16899,18 @@
 #define SEC_LARGE_PAGES  0x80000000
 #define SEC_IMAGE_NO_EXECUTE  0x11000000
 
+; PaletteType
+#define PaletteTypeCustom  0x0
+#define PaletteTypeOptimal  0x1
+#define PaletteTypeFixedBW  0x2
+#define PaletteTypeFixedHalftone8  0x3
+#define PaletteTypeFixedHalftone27  0x4
+#define PaletteTypeFixedHalftone64  0x5
+#define PaletteTypeFixedHalftone125  0x6
+#define PaletteTypeFixedHalftone216  0x7
+#define PaletteTypeFixedHalftone252  0x8
+#define PaletteTypeFixedHalftone256  0x9
+
 ; PAN_ARM_STYLE
 #define PAN_ARM_ANY  0x0
 #define PAN_ARM_NO_FIT  0x1
@@ -15295,6 +17125,18 @@
 #define PS_JOIN_MASK  0xf000
 #define PS_TYPE_MASK  0xf0000
 
+; PenAlignment
+#define PenAlignmentCenter  0x0
+#define PenAlignmentInset  0x1
+
+; PenType
+#define PenTypeSolidColor  0x0
+#define PenTypeHatchFill  0x1
+#define PenTypeTextureFill  0x2
+#define PenTypePathGradient  0x3
+#define PenTypeLinearGradient  0x4
+#define PenTypeUnknown  -1
+
 ; PerfRegInfoType
 #define PERF_REG_COUNTERSET_STRUCT  0x1
 #define PERF_REG_COUNTER_STRUCT  0x2
@@ -15352,6 +17194,14 @@
 #define PICTYPE_METAFILE  0x2
 #define PICTYPE_ICON  0x3
 #define PICTYPE_ENHMETAFILE  0x4
+
+; PixelOffsetMode
+#define PixelOffsetModeInvalid  -1
+#define PixelOffsetModeDefault  0x0
+#define PixelOffsetModeHighSpeed  0x1
+#define PixelOffsetModeHighQuality  0x2
+#define PixelOffsetModeNone  0x3
+#define PixelOffsetModeHalf  0x4
 
 ; POINTER_BUTTON_CHANGE_TYPE
 #define POINTER_CHANGE_NONE  0x0
@@ -15445,6 +17295,172 @@
 #define PolicyMachineAccountInformation  0xf
 #define PolicyMachineAccountInformation2  0x10
 #define PolicyLastEntry  0x11
+
+; POWER_ACTION
+#define PowerActionNone  0x0
+#define PowerActionReserved  0x1
+#define PowerActionSleep  0x2
+#define PowerActionHibernate  0x3
+#define PowerActionShutdown  0x4
+#define PowerActionShutdownReset  0x5
+#define PowerActionShutdownOff  0x6
+#define PowerActionWarmEject  0x7
+#define PowerActionDisplayOff  0x8
+
+; POWER_ACTION_POLICY_EVENT_CODE
+#define POWER_FORCE_TRIGGER_RESET  0x80000000
+#define POWER_LEVEL_USER_NOTIFY_EXEC  0x4
+#define POWER_LEVEL_USER_NOTIFY_SOUND  0x2
+#define POWER_LEVEL_USER_NOTIFY_TEXT  0x1
+#define POWER_USER_NOTIFY_BUTTON  0x8
+#define POWER_USER_NOTIFY_SHUTDOWN  0x10
+
+; POWER_DATA_ACCESSOR
+#define ACCESS_AC_POWER_SETTING_INDEX  0x0
+#define ACCESS_DC_POWER_SETTING_INDEX  0x1
+#define ACCESS_FRIENDLY_NAME  0x2
+#define ACCESS_DESCRIPTION  0x3
+#define ACCESS_POSSIBLE_POWER_SETTING  0x4
+#define ACCESS_POSSIBLE_POWER_SETTING_FRIENDLY_NAME  0x5
+#define ACCESS_POSSIBLE_POWER_SETTING_DESCRIPTION  0x6
+#define ACCESS_DEFAULT_AC_POWER_SETTING  0x7
+#define ACCESS_DEFAULT_DC_POWER_SETTING  0x8
+#define ACCESS_POSSIBLE_VALUE_MIN  0x9
+#define ACCESS_POSSIBLE_VALUE_MAX  0xa
+#define ACCESS_POSSIBLE_VALUE_INCREMENT  0xb
+#define ACCESS_POSSIBLE_VALUE_UNITS  0xc
+#define ACCESS_ICON_RESOURCE  0xd
+#define ACCESS_DEFAULT_SECURITY_DESCRIPTOR  0xe
+#define ACCESS_ATTRIBUTES  0xf
+#define ACCESS_SCHEME  0x10
+#define ACCESS_SUBGROUP  0x11
+#define ACCESS_INDIVIDUAL_SETTING  0x12
+#define ACCESS_ACTIVE_SCHEME  0x13
+#define ACCESS_CREATE_SCHEME  0x14
+#define ACCESS_AC_POWER_SETTING_MAX  0x15
+#define ACCESS_DC_POWER_SETTING_MAX  0x16
+#define ACCESS_AC_POWER_SETTING_MIN  0x17
+#define ACCESS_DC_POWER_SETTING_MIN  0x18
+#define ACCESS_PROFILE  0x19
+#define ACCESS_OVERLAY_SCHEME  0x1a
+#define ACCESS_ACTIVE_OVERLAY_SCHEME  0x1b
+
+; POWER_INFORMATION_LEVEL
+#define SystemPowerPolicyAc  0x0
+#define SystemPowerPolicyDc  0x1
+#define VerifySystemPolicyAc  0x2
+#define VerifySystemPolicyDc  0x3
+#define SystemPowerCapabilities  0x4
+#define SystemBatteryState  0x5
+#define SystemPowerStateHandler  0x6
+#define ProcessorStateHandler  0x7
+#define SystemPowerPolicyCurrent  0x8
+#define AdministratorPowerPolicy  0x9
+#define SystemReserveHiberFile  0xa
+#define ProcessorInformation  0xb
+#define SystemPowerInformation  0xc
+#define ProcessorStateHandler2  0xd
+#define LastWakeTime  0xe
+#define LastSleepTime  0xf
+#define SystemExecutionState  0x10
+#define SystemPowerStateNotifyHandler  0x11
+#define ProcessorPowerPolicyAc  0x12
+#define ProcessorPowerPolicyDc  0x13
+#define VerifyProcessorPowerPolicyAc  0x14
+#define VerifyProcessorPowerPolicyDc  0x15
+#define ProcessorPowerPolicyCurrent  0x16
+#define SystemPowerStateLogging  0x17
+#define SystemPowerLoggingEntry  0x18
+#define SetPowerSettingValue  0x19
+#define NotifyUserPowerSetting  0x1a
+#define PowerInformationLevelUnused0  0x1b
+#define SystemMonitorHiberBootPowerOff  0x1c
+#define SystemVideoState  0x1d
+#define TraceApplicationPowerMessage  0x1e
+#define TraceApplicationPowerMessageEnd  0x1f
+#define ProcessorPerfStates  0x20
+#define ProcessorIdleStates  0x21
+#define ProcessorCap  0x22
+#define SystemWakeSource  0x23
+#define SystemHiberFileInformation  0x24
+#define TraceServicePowerMessage  0x25
+#define ProcessorLoad  0x26
+#define PowerShutdownNotification  0x27
+#define MonitorCapabilities  0x28
+#define SessionPowerInit  0x29
+#define SessionDisplayState  0x2a
+#define PowerRequestCreate  0x2b
+#define PowerRequestAction  0x2c
+#define GetPowerRequestList  0x2d
+#define ProcessorInformationEx  0x2e
+#define NotifyUserModeLegacyPowerEvent  0x2f
+#define GroupPark  0x30
+#define ProcessorIdleDomains  0x31
+#define WakeTimerList  0x32
+#define SystemHiberFileSize  0x33
+#define ProcessorIdleStatesHv  0x34
+#define ProcessorPerfStatesHv  0x35
+#define ProcessorPerfCapHv  0x36
+#define ProcessorSetIdle  0x37
+#define LogicalProcessorIdling  0x38
+#define UserPresence  0x39
+#define PowerSettingNotificationName  0x3a
+#define GetPowerSettingValue  0x3b
+#define IdleResiliency  0x3c
+#define SessionRITState  0x3d
+#define SessionConnectNotification  0x3e
+#define SessionPowerCleanup  0x3f
+#define SessionLockState  0x40
+#define SystemHiberbootState  0x41
+#define PlatformInformation  0x42
+#define PdcInvocation  0x43
+#define MonitorInvocation  0x44
+#define FirmwareTableInformationRegistered  0x45
+#define SetShutdownSelectedTime  0x46
+#define SuspendResumeInvocation  0x47
+#define PlmPowerRequestCreate  0x48
+#define ScreenOff  0x49
+#define CsDeviceNotification  0x4a
+#define PlatformRole  0x4b
+#define LastResumePerformance  0x4c
+#define DisplayBurst  0x4d
+#define ExitLatencySamplingPercentage  0x4e
+#define RegisterSpmPowerSettings  0x4f
+#define PlatformIdleStates  0x50
+#define ProcessorIdleVeto  0x51
+#define PlatformIdleVeto  0x52
+#define SystemBatteryStatePrecise  0x53
+#define ThermalEvent  0x54
+#define PowerRequestActionInternal  0x55
+#define BatteryDeviceState  0x56
+#define PowerInformationInternal  0x57
+#define ThermalStandby  0x58
+#define SystemHiberFileType  0x59
+#define PhysicalPowerButtonPress  0x5a
+#define QueryPotentialDripsConstraint  0x5b
+#define EnergyTrackerCreate  0x5c
+#define EnergyTrackerQuery  0x5d
+#define UpdateBlackBoxRecorder  0x5e
+#define SessionAllowExternalDmaDevices  0x5f
+#define SendSuspendResumeNotification  0x60
+#define BlackBoxRecorderDirectAccessBuffer  0x61
+#define PowerInformationLevelMaximum  0x62
+
+; POWER_PLATFORM_ROLE
+#define PlatformRoleUnspecified  0x0
+#define PlatformRoleDesktop  0x1
+#define PlatformRoleMobile  0x2
+#define PlatformRoleWorkstation  0x3
+#define PlatformRoleEnterpriseServer  0x4
+#define PlatformRoleSOHOServer  0x5
+#define PlatformRoleAppliancePC  0x6
+#define PlatformRolePerformanceServer  0x7
+#define PlatformRoleSlate  0x8
+#define PlatformRoleMaximum  0x9
+
+; POWER_PLATFORM_ROLE_VERSION
+#define POWER_PLATFORM_ROLE_V1  0x1
+#define POWER_PLATFORM_ROLE_V2  0x2
 
 ; POWER_REQUEST_CONTEXT_FLAGS
 #define POWER_REQUEST_CONTEXT_DETAILED_STRING  0x2
@@ -15903,6 +17919,13 @@
 #define EVENTLOG_INFORMATION_TYPE  0x4
 #define EVENTLOG_WARNING_TYPE  0x2
 
+; REPORT_STORE_TYPES
+#define E_STORE_USER_ARCHIVE  0x0
+#define E_STORE_USER_QUEUE  0x1
+#define E_STORE_MACHINE_ARCHIVE  0x2
+#define E_STORE_MACHINE_QUEUE  0x3
+#define E_STORE_INVALID  0x4
+
 ; RESTRICTIONS
 #define REST_NONE  0x0
 #define REST_NORUN  0x1
@@ -16102,6 +18125,24 @@
 ; ROT_FLAGS
 #define ROTFLAGS_REGISTRATIONKEEPSALIVE  0x1
 #define ROTFLAGS_ALLOWANYCLIENT  0x2
+
+; RotateFlipType
+#define RotateNoneFlipNone  0x0
+#define Rotate90FlipNone  0x1
+#define Rotate180FlipNone  0x2
+#define Rotate270FlipNone  0x3
+#define RotateNoneFlipX  0x4
+#define Rotate90FlipX  0x5
+#define Rotate180FlipX  0x6
+#define Rotate270FlipX  0x7
+#define RotateNoneFlipY  0x6
+#define Rotate90FlipY  0x7
+#define Rotate180FlipY  0x4
+#define Rotate270FlipY  0x5
+#define RotateNoneFlipXY  0x2
+#define Rotate90FlipXY  0x3
+#define Rotate180FlipXY  0x0
+#define Rotate270FlipXY  0x1
 
 ; RTL_UMS_SCHEDULER_REASON
 #define UmsSchedulerStartup  0x0
@@ -16585,6 +18626,16 @@
 #define SIGDN_PARENTRELATIVE  -2146959359
 #define SIGDN_PARENTRELATIVEFORUI  -2146877439
 
+; SmoothingMode
+#define SmoothingModeInvalid  -1
+#define SmoothingModeDefault  0x0
+#define SmoothingModeHighSpeed  0x1
+#define SmoothingModeHighQuality  0x2
+#define SmoothingModeNone  0x3
+#define SmoothingModeAntiAlias  0x4
+#define SmoothingModeAntiAlias8x4  0x4
+#define SmoothingModeAntiAlias8x8  0x5
+
 ; SND_FLAGS
 #define SND_APPLICATION  0x80
 #define SND_ALIAS  0x10000
@@ -16663,6 +18714,30 @@
 #define STARTF_USESIZE  0x2
 #define STARTF_USESTDHANDLES  0x100
 
+; Status
+#define Ok  0x0
+#define GenericError  0x1
+#define InvalidParameter  0x2
+#define OutOfMemory  0x3
+#define ObjectBusy  0x4
+#define InsufficientBuffer  0x5
+#define NotImplemented  0x6
+#define Win32Error  0x7
+#define WrongState  0x8
+#define Aborted  0x9
+#define FileNotFound  0xa
+#define ValueOverflow  0xb
+#define AccessDenied  0xc
+#define UnknownImageFormat  0xd
+#define FontFamilyNotFound  0xe
+#define FontStyleNotFound  0xf
+#define NotTrueTypeFont  0x10
+#define UnsupportedGdiplusVersion  0x11
+#define GdiplusNotInitialized  0x12
+#define PropertyNotFound  0x13
+#define PropertyNotSupported  0x14
+#define ProfileNotFound  0x15
+
 ; STD_HANDLE
 #define STD_INPUT_HANDLE  0xfffffff6
 #define STD_OUTPUT_HANDLE  0xfffffff5
@@ -16709,6 +18784,25 @@
 #define STRETCH_HALFTONE  0x4
 #define STRETCH_ORSCANS  0x2
 #define WHITEONBLACK  0x2
+
+; StringAlignment
+#define StringAlignmentNear  0x0
+#define StringAlignmentCenter  0x1
+#define StringAlignmentFar  0x2
+
+; StringDigitSubstitute
+#define StringDigitSubstituteUser  0x0
+#define StringDigitSubstituteNone  0x1
+#define StringDigitSubstituteNational  0x2
+#define StringDigitSubstituteTraditional  0x3
+
+; StringTrimming
+#define StringTrimmingNone  0x0
+#define StringTrimmingCharacter  0x1
+#define StringTrimmingWord  0x2
+#define StringTrimmingEllipsisCharacter  0x3
+#define StringTrimmingEllipsisWord  0x4
+#define StringTrimmingEllipsisPath  0x5
 
 ; SYM_FIND_ID_OPTION
 #define SSRVOPT_DWORD  0x2
@@ -17218,6 +19312,16 @@
 #define SPIF_SENDCHANGE  0x2
 #define SPIF_SENDWININICHANGE  0x2
 
+; SYSTEM_POWER_STATE
+#define PowerSystemUnspecified  0x0
+#define PowerSystemWorking  0x1
+#define PowerSystemSleeping1  0x2
+#define PowerSystemSleeping2  0x3
+#define PowerSystemSleeping3  0x4
+#define PowerSystemHibernate  0x5
+#define PowerSystemShutdown  0x6
+#define PowerSystemMaximum  0x7
+
 ; TA_PROPERTY
 #define TAP_FLAGS  0x0
 #define TAP_TRANSFORMCOUNT  0x1
@@ -17327,6 +19431,14 @@
 #define VTA_CENTER  0x6
 #define VTA_BOTTOM  0x2
 #define VTA_TOP  0x0
+
+; TextRenderingHint
+#define TextRenderingHintSystemDefault  0x0
+#define TextRenderingHintSingleBitPerPixelGridFit  0x1
+#define TextRenderingHintSingleBitPerPixel  0x2
+#define TextRenderingHintAntiAliasGridFit  0x3
+#define TextRenderingHintAntiAlias  0x4
+#define TextRenderingHintClearTypeGridFit  0x5
 
 ; THEME_PROPERTY_SYMBOL_ID
 #define TMT_RESERVEDLOW  0x0
@@ -17953,6 +20065,15 @@
 #define UmsThreadIsTerminated  0x6
 #define UmsThreadMaxInfoClass  0x7
 
+; Unit
+#define UnitWorld  0x0
+#define UnitDisplay  0x1
+#define UnitPixel  0x2
+#define UnitPoint  0x3
+#define UnitInch  0x4
+#define UnitDocument  0x5
+#define UnitMillimeter  0x6
+
 ; UPDATE_LAYERED_WINDOW_FLAGS
 #define ULW_ALPHA  0x2
 #define ULW_COLORKEY  0x1
@@ -18486,6 +20607,10 @@
 #define WAIT_TIMEOUT  0x102
 #define WAIT_FAILED  0xffffffff
 
+; WarpMode
+#define WarpModePerspective  0x0
+#define WarpModeBilinear  0x1
+
 ; WBEM_COMPARISON_FLAG
 #define WBEM_COMPARISON_INCLUDE_ALL  0x0
 #define WBEM_FLAG_IGNORE_QUALIFIERS  0x1
@@ -18680,6 +20805,13 @@
 #define WinAuthenticationFreshKeyAuthSid  0x76
 #define WinBuiltinDeviceOwnersSid  0x77
 
+; WER_CONSENT
+#define WerConsentNotAsked  0x1
+#define WerConsentApproved  0x2
+#define WerConsentDenied  0x3
+#define WerConsentAlwaysPrompt  0x4
+#define WerConsentMax  0x5
+
 ; WER_FAULT_REPORTING
 #define WER_FAULT_REPORTING_FLAG_DISABLE_THREAD_SUSPENSION  0x4
 #define WER_FAULT_REPORTING_FLAG_NOHEAP  0x1
@@ -18691,10 +20823,74 @@
 #define WER_FILE_ANONYMOUS_DATA  0x2
 #define WER_FILE_DELETE_WHEN_DONE  0x1
 
+; WER_FILE_TYPE
+#define WerFileTypeMicrodump  0x1
+#define WerFileTypeMinidump  0x2
+#define WerFileTypeHeapdump  0x3
+#define WerFileTypeUserDocument  0x4
+#define WerFileTypeOther  0x5
+#define WerFileTypeTriagedump  0x6
+#define WerFileTypeCustomDump  0x7
+#define WerFileTypeAuxiliaryDump  0x8
+#define WerFileTypeEtlTrace  0x9
+#define WerFileTypeMax  0xa
+
 ; WER_REGISTER_FILE_TYPE
 #define WerRegFileTypeUserDocument  0x1
 #define WerRegFileTypeOther  0x2
 #define WerRegFileTypeMax  0x3
+
+; WER_REPORT_TYPE
+#define WerReportNonCritical  0x0
+#define WerReportCritical  0x1
+#define WerReportApplicationCrash  0x2
+#define WerReportApplicationHang  0x3
+#define WerReportKernel  0x4
+#define WerReportInvalid  0x5
+
+; WER_REPORT_UI
+#define WerUIAdditionalDataDlgHeader  0x1
+#define WerUIIconFilePath  0x2
+#define WerUIConsentDlgHeader  0x3
+#define WerUIConsentDlgBody  0x4
+#define WerUIOnlineSolutionCheckText  0x5
+#define WerUIOfflineSolutionCheckText  0x6
+#define WerUICloseText  0x7
+#define WerUICloseDlgHeader  0x8
+#define WerUICloseDlgBody  0x9
+#define WerUICloseDlgButtonText  0xa
+#define WerUIMax  0xb
+
+; WER_SUBMIT_FLAGS
+#define WER_SUBMIT_ADD_REGISTERED_DATA  0x10
+#define WER_SUBMIT_HONOR_RECOVERY  0x1
+#define WER_SUBMIT_HONOR_RESTART  0x2
+#define WER_SUBMIT_NO_ARCHIVE  0x100
+#define WER_SUBMIT_NO_CLOSE_UI  0x40
+#define WER_SUBMIT_NO_QUEUE  0x80
+#define WER_SUBMIT_OUTOFPROCESS  0x20
+#define WER_SUBMIT_OUTOFPROCESS_ASYNC  0x400
+#define WER_SUBMIT_QUEUE  0x4
+#define WER_SUBMIT_SHOW_DEBUG  0x8
+#define WER_SUBMIT_START_MINIMIZED  0x200
+#define WER_SUBMIT_BYPASS_DATA_THROTTLING  0x800
+#define WER_SUBMIT_ARCHIVE_PARAMETERS_ONLY  0x1000
+#define WER_SUBMIT_REPORT_MACHINE_ID  0x2000
+
+; WER_SUBMIT_RESULT
+#define WerReportQueued  0x1
+#define WerReportUploaded  0x2
+#define WerReportDebug  0x3
+#define WerReportFailed  0x4
+#define WerDisabled  0x5
+#define WerReportCancelled  0x6
+#define WerDisabledQueue  0x7
+#define WerReportAsync  0x8
+#define WerCustomAction  0x9
+#define WerThrottled  0xa
+#define WerReportUploadedCab  0xb
+#define WerStorageLocationNotFound  0xc
+#define WerSubmitResultMax  0xd
 
 ; WICBitmapAlphaChannelOption
 #define WICBitmapUseAlpha  0x0
@@ -22253,6 +24449,165 @@
 #define WINHTTP_WEB_SOCKET_UTF8_FRAGMENT_BUFFER_TYPE  0x3
 #define WINHTTP_WEB_SOCKET_CLOSE_BUFFER_TYPE  0x4
 
+; WLAN_AUTOCONF_OPCODE
+#define wlan_autoconf_opcode_start  0x0
+#define wlan_autoconf_opcode_show_denied_networks  0x1
+#define wlan_autoconf_opcode_power_setting  0x2
+#define wlan_autoconf_opcode_only_use_gp_profiles_for_allowed_networks  0x3
+#define wlan_autoconf_opcode_allow_explicit_creds  0x4
+#define wlan_autoconf_opcode_block_period  0x5
+#define wlan_autoconf_opcode_allow_virtual_station_extensibility  0x6
+#define wlan_autoconf_opcode_end  0x7
+
+; WLAN_CONNECTION_MODE
+#define wlan_connection_mode_profile  0x0
+#define wlan_connection_mode_temporary_profile  0x1
+#define wlan_connection_mode_discovery_secure  0x2
+#define wlan_connection_mode_discovery_unsecure  0x3
+#define wlan_connection_mode_auto  0x4
+#define wlan_connection_mode_invalid  0x5
+
+; WLAN_FILTER_LIST_TYPE
+#define wlan_filter_list_type_gp_permit  0x0
+#define wlan_filter_list_type_gp_deny  0x1
+#define wlan_filter_list_type_user_permit  0x2
+#define wlan_filter_list_type_user_deny  0x3
+
+; WLAN_HOSTED_NETWORK_OPCODE
+#define wlan_hosted_network_opcode_connection_settings  0x0
+#define wlan_hosted_network_opcode_security_settings  0x1
+#define wlan_hosted_network_opcode_station_profile  0x2
+#define wlan_hosted_network_opcode_enable  0x3
+
+; WLAN_HOSTED_NETWORK_PEER_AUTH_STATE
+#define wlan_hosted_network_peer_state_invalid  0x0
+#define wlan_hosted_network_peer_state_authenticated  0x1
+
+; WLAN_HOSTED_NETWORK_REASON
+#define wlan_hosted_network_reason_success  0x0
+#define wlan_hosted_network_reason_unspecified  0x1
+#define wlan_hosted_network_reason_bad_parameters  0x2
+#define wlan_hosted_network_reason_service_shutting_down  0x3
+#define wlan_hosted_network_reason_insufficient_resources  0x4
+#define wlan_hosted_network_reason_elevation_required  0x5
+#define wlan_hosted_network_reason_read_only  0x6
+#define wlan_hosted_network_reason_persistence_failed  0x7
+#define wlan_hosted_network_reason_crypt_error  0x8
+#define wlan_hosted_network_reason_impersonation  0x9
+#define wlan_hosted_network_reason_stop_before_start  0xa
+#define wlan_hosted_network_reason_interface_available  0xb
+#define wlan_hosted_network_reason_interface_unavailable  0xc
+#define wlan_hosted_network_reason_miniport_stopped  0xd
+#define wlan_hosted_network_reason_miniport_started  0xe
+#define wlan_hosted_network_reason_incompatible_connection_started  0xf
+#define wlan_hosted_network_reason_incompatible_connection_stopped  0x10
+#define wlan_hosted_network_reason_user_action  0x11
+#define wlan_hosted_network_reason_client_abort  0x12
+#define wlan_hosted_network_reason_ap_start_failed  0x13
+#define wlan_hosted_network_reason_peer_arrived  0x14
+#define wlan_hosted_network_reason_peer_departed  0x15
+#define wlan_hosted_network_reason_peer_timeout  0x16
+#define wlan_hosted_network_reason_gp_denied  0x17
+#define wlan_hosted_network_reason_service_unavailable  0x18
+#define wlan_hosted_network_reason_device_change  0x19
+#define wlan_hosted_network_reason_properties_change  0x1a
+#define wlan_hosted_network_reason_virtual_station_blocking_use  0x1b
+#define wlan_hosted_network_reason_service_available_on_virtual_station  0x1c
+
+; WLAN_HOSTED_NETWORK_STATE
+#define wlan_hosted_network_unavailable  0x0
+#define wlan_hosted_network_idle  0x1
+#define wlan_hosted_network_active  0x2
+
+; WLAN_IHV_CONTROL_TYPE
+#define wlan_ihv_control_type_service  0x0
+#define wlan_ihv_control_type_driver  0x1
+
+; WLAN_INTERFACE_STATE
+#define wlan_interface_state_not_ready  0x0
+#define wlan_interface_state_connected  0x1
+#define wlan_interface_state_ad_hoc_network_formed  0x2
+#define wlan_interface_state_disconnecting  0x3
+#define wlan_interface_state_disconnected  0x4
+#define wlan_interface_state_associating  0x5
+#define wlan_interface_state_discovering  0x6
+#define wlan_interface_state_authenticating  0x7
+
+; WLAN_INTERFACE_TYPE
+#define wlan_interface_type_emulated_802_11  0x0
+#define wlan_interface_type_native_802_11  0x1
+#define wlan_interface_type_invalid  0x2
+
+; WLAN_INTF_OPCODE
+#define wlan_intf_opcode_autoconf_start  0x0
+#define wlan_intf_opcode_autoconf_enabled  0x1
+#define wlan_intf_opcode_background_scan_enabled  0x2
+#define wlan_intf_opcode_media_streaming_mode  0x3
+#define wlan_intf_opcode_radio_state  0x4
+#define wlan_intf_opcode_bss_type  0x5
+#define wlan_intf_opcode_interface_state  0x6
+#define wlan_intf_opcode_current_connection  0x7
+#define wlan_intf_opcode_channel_number  0x8
+#define wlan_intf_opcode_supported_infrastructure_auth_cipher_pairs  0x9
+#define wlan_intf_opcode_supported_adhoc_auth_cipher_pairs  0xa
+#define wlan_intf_opcode_supported_country_or_region_string_list  0xb
+#define wlan_intf_opcode_current_operation_mode  0xc
+#define wlan_intf_opcode_supported_safe_mode  0xd
+#define wlan_intf_opcode_certified_safe_mode  0xe
+#define wlan_intf_opcode_hosted_network_capable  0xf
+#define wlan_intf_opcode_management_frame_protection_capable  0x10
+#define wlan_intf_opcode_secondary_sta_interfaces  0x11
+#define wlan_intf_opcode_secondary_sta_synchronized_connections  0x12
+#define wlan_intf_opcode_autoconf_end  0xfffffff
+#define wlan_intf_opcode_msm_start  0x10000100
+#define wlan_intf_opcode_statistics  0x10000101
+#define wlan_intf_opcode_rssi  0x10000102
+#define wlan_intf_opcode_msm_end  0x1fffffff
+#define wlan_intf_opcode_security_start  0x20010000
+#define wlan_intf_opcode_security_end  0x2fffffff
+#define wlan_intf_opcode_ihv_start  0x30000000
+#define wlan_intf_opcode_ihv_end  0x3fffffff
+
+; WLAN_NOTIFICATION_SOURCES
+#define WLAN_NOTIFICATION_SOURCE_NONE  0x0
+#define WLAN_NOTIFICATION_SOURCE_ALL  0xffff
+#define WLAN_NOTIFICATION_SOURCE_ACM  0x8
+#define WLAN_NOTIFICATION_SOURCE_MSM  0x10
+#define WLAN_NOTIFICATION_SOURCE_SECURITY  0x20
+#define WLAN_NOTIFICATION_SOURCE_IHV  0x40
+#define WLAN_NOTIFICATION_SOURCE_HNWK  0x80
+#define WLAN_NOTIFICATION_SOURCE_ONEX  0x4
+#define WLAN_NOTIFICATION_SOURCE_DEVICE_SERVICE  0x800
+
+; WLAN_OPCODE_VALUE_TYPE
+#define wlan_opcode_value_type_query_only  0x0
+#define wlan_opcode_value_type_set_by_group_policy  0x1
+#define wlan_opcode_value_type_set_by_user  0x2
+#define wlan_opcode_value_type_invalid  0x3
+
+; WLAN_SECURABLE_OBJECT
+#define wlan_secure_permit_list  0x0
+#define wlan_secure_deny_list  0x1
+#define wlan_secure_ac_enabled  0x2
+#define wlan_secure_bc_scan_enabled  0x3
+#define wlan_secure_bss_type  0x4
+#define wlan_secure_show_denied  0x5
+#define wlan_secure_interface_properties  0x6
+#define wlan_secure_ihv_control  0x7
+#define wlan_secure_all_user_profiles_order  0x8
+#define wlan_secure_add_new_all_user_profiles  0x9
+#define wlan_secure_add_new_per_user_profiles  0xa
+#define wlan_secure_media_streaming_mode_enabled  0xb
+#define wlan_secure_current_operation_mode  0xc
+#define wlan_secure_get_plaintext_key  0xd
+#define wlan_secure_hosted_network_elevated_access  0xe
+#define wlan_secure_virtual_station_extensibility  0xf
+#define wlan_secure_wfd_elevated_access  0x10
+#define WLAN_SECURABLE_OBJECT_COUNT  0x11
+
+; WLAN_SET_EAPHOST_FLAGS
+#define WLAN_SET_EAPHOST_DATA_ALL_USERS  0x1
+
 ; WNDCLASS_STYLES
 #define CS_VREDRAW  0x1
 #define CS_HREDRAW  0x2
@@ -22281,6 +24636,13 @@
 ; WPAD_CACHE_DELETE
 #define WPAD_CACHE_DELETE_CURRENT  0x0
 #define WPAD_CACHE_DELETE_ALL  0x1
+
+; WrapMode
+#define WrapModeTile  0x0
+#define WrapModeTileFlipX  0x1
+#define WrapModeTileFlipY  0x2
+#define WrapModeTileFlipXY  0x3
+#define WrapModeClamp  0x4
 
 ; WSA_ERROR
 #define WSA_IO_PENDING  0x3e5
@@ -22429,6 +24791,81 @@
 ; WSC_PROVIDER_INFO_TYPE
 #define ProviderInfoLspCategories  0x0
 #define ProviderInfoAudit  0x1
+
+; WTS_CONFIG_CLASS
+#define WTSUserConfigInitialProgram  0x0
+#define WTSUserConfigWorkingDirectory  0x1
+#define WTSUserConfigfInheritInitialProgram  0x2
+#define WTSUserConfigfAllowLogonTerminalServer  0x3
+#define WTSUserConfigTimeoutSettingsConnections  0x4
+#define WTSUserConfigTimeoutSettingsDisconnections  0x5
+#define WTSUserConfigTimeoutSettingsIdle  0x6
+#define WTSUserConfigfDeviceClientDrives  0x7
+#define WTSUserConfigfDeviceClientPrinters  0x8
+#define WTSUserConfigfDeviceClientDefaultPrinter  0x9
+#define WTSUserConfigBrokenTimeoutSettings  0xa
+#define WTSUserConfigReconnectSettings  0xb
+#define WTSUserConfigModemCallbackSettings  0xc
+#define WTSUserConfigModemCallbackPhoneNumber  0xd
+#define WTSUserConfigShadowingSettings  0xe
+#define WTSUserConfigTerminalServerProfilePath  0xf
+#define WTSUserConfigTerminalServerHomeDir  0x10
+#define WTSUserConfigTerminalServerHomeDirDrive  0x11
+#define WTSUserConfigfTerminalServerRemoteHomeDir  0x12
+#define WTSUserConfigUser  0x13
+
+; WTS_CONNECTSTATE_CLASS
+#define WTSActive  0x0
+#define WTSConnected  0x1
+#define WTSConnectQuery  0x2
+#define WTSShadow  0x3
+#define WTSDisconnected  0x4
+#define WTSIdle  0x5
+#define WTSListen  0x6
+#define WTSReset  0x7
+#define WTSDown  0x8
+#define WTSInit  0x9
+
+; WTS_INFO_CLASS
+#define WTSInitialProgram  0x0
+#define WTSApplicationName  0x1
+#define WTSWorkingDirectory  0x2
+#define WTSOEMId  0x3
+#define WTSSessionId  0x4
+#define WTSUserName  0x5
+#define WTSWinStationName  0x6
+#define WTSDomainName  0x7
+#define WTSConnectState  0x8
+#define WTSClientBuildNumber  0x9
+#define WTSClientName  0xa
+#define WTSClientDirectory  0xb
+#define WTSClientProductId  0xc
+#define WTSClientHardwareId  0xd
+#define WTSClientAddress  0xe
+#define WTSClientDisplay  0xf
+#define WTSClientProtocolType  0x10
+#define WTSIdleTime  0x11
+#define WTSLogonTime  0x12
+#define WTSIncomingBytes  0x13
+#define WTSOutgoingBytes  0x14
+#define WTSIncomingFrames  0x15
+#define WTSOutgoingFrames  0x16
+#define WTSClientInfo  0x17
+#define WTSSessionInfo  0x18
+#define WTSSessionInfoEx  0x19
+#define WTSConfigInfo  0x1a
+#define WTSValidationInfo  0x1b
+#define WTSSessionAddressV4  0x1c
+#define WTSIsRemoteSession  0x1d
+
+; WTS_TYPE_CLASS
+#define WTSTypeProcessInfoLevel0  0x0
+#define WTSTypeProcessInfoLevel1  0x1
+#define WTSTypeSessionInfoLevel1  0x2
+
+; WTS_VIRTUAL_CLASS
+#define WTSVirtualClientData  0x0
+#define WTSVirtualFileHandle  0x1
 
 ; XAUDIO2_FILTER_TYPE
 #define LowPassFilter  0x0
