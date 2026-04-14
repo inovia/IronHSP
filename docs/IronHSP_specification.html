@@ -39,7 +39,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-13</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-14</p>
 <p class="muted">ベース: OpenHSP 3.8beta1 (SVN trunk) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="toc">
@@ -59,7 +59,8 @@
   <li><a href="#cbcom">12. COM コールバックインターフェース (#defcbcom)</a></li>
   <li><a href="#hspd2d">13. hspd2d (DirectWrite + Direct2D + WIC モジュール)</a></li>
   <li><a href="#dxlib">14. DxLib 統合 (hspdxlib)</a></li>
-  <li><a href="#changelog">15. 変更履歴</a></li>
+  <li><a href="#win32api">15. Win32 API 大幅拡充 (CsWin32 bridge)</a></li>
+  <li><a href="#changelog">16. 変更履歴</a></li>
 </ul>
 </div>
 
@@ -1693,7 +1694,151 @@ lpoke vec, VECTOR_x, 0x3F800000  ; 1.0f のビットパターン</code></pre>
 </ul>
 
 <!-- ======================================== -->
-<h2 id="changelog">15. 変更履歴</h2>
+<h2 id="win32api">15. Win32 API 大幅拡充 (CsWin32 bridge)</h2>
+
+<p>OpenHSP 標準同梱の <code>package/win32/common/user32.as</code> / <code>kernel32.as</code> / <code>gdi32.as</code>
+等は古く (<code>sptr</code> ベース、構造体未対応、x64 で破綻ぎりぎり、ANSI/Unicode 判別曖昧)、
+kernel32.dll の 1449 exports に対して 67 関数 (4%) しかカバーできていなかった。これを
+Microsoft の <a href="https://github.com/microsoft/win32metadata">win32metadata</a> +
+<code>Microsoft.Windows.CsWin32</code> source generator を経由した自動生成パイプラインで
+体系的に再構築した。</p>
+
+<div class="card">
+<h3>15.1 概要</h3>
+<table>
+<tr><th>項目</th><th>旧 (手書き)</th><th>新 (CsWin32 bridge)</th></tr>
+<tr><td>カバー DLL 数</td><td>10〜15 (部分)</td><td><strong>30 DLL</strong></td></tr>
+<tr><td>関数数</td><td>数百</td><td><strong>4338 関数</strong></td></tr>
+<tr><td>COM インターフェース</td><td>0</td><td><strong>118 interface / 1238 method</strong></td></tr>
+<tr><td>構造体 (NSTRUCT)</td><td>未対応</td><td><strong>734 構造体</strong>を自動 <code>#defstruct</code></td></tr>
+<tr><td>定数 enum</td><td>手書きで一部</td><td><strong>608 enum 群</strong> (SW_*/SM_*/WS_*/MB_*/...) を自動 <code>#define</code> 完全展開</td></tr>
+<tr><td>A/W 自動選択</td><td>手書きで明示</td><td>自動 (<code>CreateFileW</code>, <code>MessageBoxW</code>, <code>RegOpenKeyExW</code> 等)</td></tr>
+<tr><td>型マッピング</td><td>すべて <code>sptr</code></td><td><code>HWND</code>→<code>intptr</code> / <code>PCWSTR</code>→<code>wstr</code> / <code>LPRECT</code>→<code>var</code> / enum→<code>int</code></td></tr>
+<tr><td>日本語 MSDN ヘルプ</td><td>なし</td><td><strong>28373 entries</strong> (常体 MSDN-JP 準拠)</td></tr>
+</table>
+</div>
+
+<h3>15.2 ディレクトリ構成</h3>
+
+<pre><code>tools/cswin32_bridge/                ← Plain DllImport 用 (allowMarshaling=false)
+├── Win32Gen.csproj                 ← .NET 8 + Microsoft.Windows.CsWin32 source generator
+├── NativeMethods.txt               ← 生成したい API 一覧 (~5300 行、コメントアウト含む)
+├── NativeMethods.json              ← CsWin32 オプション
+├── NativeMethods_full.txt          ← dump_exports.py の出力 (ROM)
+├── dump_exports.py                 ← dumpbin /exports → 候補抽出
+├── filter_unsupported.py           ← PInvoke001/003/005 警告から非対応 API をコメントアウト
+├── gen_from_cswin32.py             ← C# パース → .as / .hs 出力
+├── split_for_translation.py        ← docs_en.json → per-DLL チャンク
+├── merge_translations.py           ← per-DLL .ja.json → docs_ja.json マージ
+├── docs_en.json                    ← 英語 doc 中間キャッシュ (25341 entries)
+├── docs_ja.json                    ← 日本語訳キャッシュ (25422 entries)
+└── translate_chunks/               ← 翻訳 subagent 用ワークスペース
+
+tools/cswin32_bridge_com/            ← COM インターフェース用 (allowMarshaling=true)
+├── Win32Com.csproj
+├── NativeMethods.txt               ← IShellLinkW / IFileDialog / IDropTarget / ID2D1Factory /
+│                                       IDWriteFactory / IWICImagingFactory / IDXGIFactory 等
+├── gen_com_from_cswin32.py         ← [ComImport] interface → #usecom + #comfunc
+├── docs_en.json (2951 entries)
+└── docs_ja.json (2951 entries)
+
+package/win32/common/
+├── win32_types_gen2.as             ← 共有: 734 NSTRUCT + 608 enum 定数 (各 DLL .as が #include)
+├── kernel32_gen2.as (881 funcs)
+├── user32_gen2.as   (606 funcs)
+├── advapi32_gen2.as (419 funcs)
+├── oleaut32_gen2.as (404 funcs)
+├── gdi32_gen2.as    (384 funcs)
+├── ... (合計 30 DLL)
+└── com_misc_gen2.as                ← 118 COM interface (#usecom + #comfunc)
+
+package/hsphelp/
+├── win32_kernel32_gen2.hs          ← 日本語 MSDN ヘルプ (HSP3 .hs 形式)
+├── win32_user32_gen2.hs
+├── ... (合計 30 DLL + com_misc)
+</code></pre>
+
+<h3>15.3 パイプライン</h3>
+
+<ol>
+  <li><code>dump_exports.py</code>: <code>C:\Windows\System32\*.dll</code> を dumpbin /exports で走査 → 5631 候補抽出 → <code>NativeMethods_full.txt</code></li>
+  <li><code>NativeMethods.txt</code> として配置 → <code>dotnet build -c Release</code> で CsWin32 が <code>obj/generated/.../*.g.cs</code> に C# P/Invoke 署名 + XML doc コメントを emit</li>
+  <li><code>filter_unsupported.py</code>: PInvoke001 / 003 / 005 警告から非対応 API を <code>// removed: &lt;reason&gt;</code> でコメントアウト (削除せず audit 用に残す)</li>
+  <li>iterate (2)→(3) until clean (実測 3 round)</li>
+  <li><code>gen_from_cswin32.py</code>: C# を regex parse → 型マッピング → <code>&lt;dll&gt;_gen2.as</code> + <code>win32_&lt;dll&gt;_gen2.hs</code> を SJIS / CRLF で emit、<code>docs_en.json</code> も dump</li>
+  <li>翻訳パス: <code>split_for_translation.py</code> で per-DLL チャンク化 → 並列 subagent で翻訳 → <code>merge_translations.py</code> で <code>docs_ja.json</code> に集約</li>
+  <li>(5) を再実行すると <code>docs_ja.json</code> をルックアップして日本語版 .hs を出力</li>
+</ol>
+
+<h3>15.4 採用根拠 (vs libclang 直接 parse)</h3>
+
+<p>初期は libclang Python binding で Windows SDK ヘッダを直接 parse する案 (<code>tools/gen_winapi_as.py</code>) を検討したが、以下の理由で CsWin32 経由に切り替えた:</p>
+
+<ul>
+  <li><strong>typedef 保持</strong>: libclang は <code>cursor.type.spelling</code> で <code>HWND</code> が <code>int</code> に脱糖される (token hack で回避は可能だが脆弱)。CsWin32 は型情報を完全に保持</li>
+  <li><strong>A/W 自動選択</strong>: libclang では <code>#define MessageBox MessageBoxW</code> を追跡する必要があるが、win32metadata は最初から W バリアントを別エントリで持っている</li>
+  <li><strong>定数 enum 群</strong>: libclang では <code>#define SW_HIDE 0</code> 系を全部マクロ展開で拾う必要があるが、win32metadata は <code>SHOW_WINDOW_CMD</code> enum として整理済み</li>
+  <li><strong>parse error ゼロ</strong>: libclang は winuser.h で 20 件の parse error が出る</li>
+  <li><strong>MSDN doc</strong>: CsWin32 は <code>api-docs.msgpack</code> 経由で MSDN の関数 / 引数 / 戻り値説明を XML コメントとして埋め込む。これがそのまま .hs ファイルの源泉になる</li>
+  <li><strong>COM サポート</strong>: <code>allowMarshaling=true</code> モードで <code>[ComImport]</code> 属性付き C# interface を生成 → <code>#usecom</code> / <code>#comfunc</code> 形式に変換可</li>
+</ul>
+
+<h3>15.5 カバー DLL 一覧 (関数数)</h3>
+
+<table>
+<tr><th>カテゴリ</th><th>DLL</th><th>関数数</th></tr>
+<tr><td rowspan="4">ベース (大規模)</td><td>kernel32</td><td>881</td></tr>
+<tr><td>user32</td><td>606</td></tr>
+<tr><td>advapi32</td><td>419</td></tr>
+<tr><td>oleaut32</td><td>404</td></tr>
+<tr><td rowspan="4">ベース (中規模)</td><td>gdi32</td><td>384</td></tr>
+<tr><td>crypt32</td><td>218</td></tr>
+<tr><td>shell32</td><td>195</td></tr>
+<tr><td>wininet</td><td>192</td></tr>
+<tr><td rowspan="4">マルチメディア / OLE / デバッグ</td><td>winmm</td><td>146</td></tr>
+<tr><td>ole32</td><td>143</td></tr>
+<tr><td>dbghelp</td><td>128</td></tr>
+<tr><td>comctl32</td><td>94</td></tr>
+<tr><td rowspan="3">UI / IME / DWM</td><td>uxtheme</td><td>77</td></tr>
+<tr><td>imm32</td><td>63</td></tr>
+<tr><td>dwmapi</td><td>31</td></tr>
+<tr><td rowspan="3">セキュリティ</td><td>bcrypt</td><td>53</td></tr>
+<tr><td>userenv</td><td>34</td></tr>
+<tr><td>wintrust</td><td>7</td></tr>
+<tr><td rowspan="3">ネットワーク</td><td>winhttp</td><td>46</td></tr>
+<tr><td>netapi32</td><td>45</td></tr>
+<tr><td>ws2_32</td><td>(未対応)</td></tr>
+<tr><td>システム</td><td>psapi / version / shlwapi / msimg32 / comdlg32 他</td><td>~50</td></tr>
+<tr><td>bonus (依存解決)</td><td>ncrypt / normaliz / propsys</td><td>27</td></tr>
+<tr><td><strong>合計</strong></td><td><strong>30 DLL</strong></td><td><strong>4338 関数</strong></td></tr>
+</table>
+
+<h3>15.6 COM インターフェース (118 / 1238 method)</h3>
+
+<p><code>tools/cswin32_bridge_com/</code> は <code>allowMarshaling=true</code> オプションで CsWin32 を駆動する。<code>[ComImport]</code> 属性付きの flat な C# interface が生成され、これを <code>gen_com_from_cswin32.py</code> がパースして HSP の <code>#usecom</code> + <code>#comfunc</code> 形式に変換する。CsWin32 は親インターフェースのメソッドを <code>new</code> 修飾子付きで flatten 出力するので、vtable スロット計算は本文内のメソッド順 = <code>base + index</code> (IUnknown ベースなら base=3、IDispatch ベースなら base=7) で済む。</p>
+
+<p>カバーされている主要 COM:</p>
+<ul>
+  <li><strong>シェル / ダイアログ</strong>: <code>IShellLinkW</code>, <code>IPersistFile</code>, <code>IModalWindow</code>, <code>IFileDialog</code>, <code>IFileOpenDialog</code>, <code>IFileSaveDialog</code>, <code>IShellItem</code>, <code>IShellItemArray</code>, <code>IFileDialogEvents</code></li>
+  <li><strong>ドラッグ&amp;ドロップ / クリップボード</strong>: <code>IDropTarget</code>, <code>IDropSource</code>, <code>IDataObject</code>, <code>IEnumFORMATETC</code></li>
+  <li><strong>OLE / バインド</strong>: <code>IBindStatusCallback</code>, <code>IBindCtx</code>, <code>IMoniker</code>, <code>IRunningObjectTable</code>, <code>IPersistFile</code>, <code>IPropertyStore</code>, <code>IPropertyDescriptionList</code>, <code>IStream</code></li>
+  <li><strong>Direct2D</strong>: <code>ID2D1Factory</code>, <code>ID2D1RenderTarget</code>, <code>ID2D1HwndRenderTarget</code>, <code>ID2D1BitmapRenderTarget</code>, <code>ID2D1Bitmap</code>, <code>ID2D1SolidColorBrush</code>, <code>ID2D1LinearGradientBrush</code>, <code>ID2D1RadialGradientBrush</code>, <code>ID2D1Geometry</code>, <code>ID2D1PathGeometry</code>, <code>ID2D1RectangleGeometry</code>, <code>ID2D1RoundedRectangleGeometry</code>, <code>ID2D1EllipseGeometry</code>, <code>ID2D1StrokeStyle</code> 等</li>
+  <li><strong>DirectWrite</strong>: <code>IDWriteFactory</code>, <code>IDWriteTextFormat</code>, <code>IDWriteTextLayout</code>, <code>IDWriteFontCollection</code>, <code>IDWriteFontFamily</code>, <code>IDWriteFont</code>, <code>IDWriteFontFace</code>, <code>IDWriteTextAnalyzer</code>, <code>IDWriteInlineObject</code> 等</li>
+  <li><strong>WIC</strong>: <code>IWICImagingFactory</code>, <code>IWICBitmap</code>, <code>IWICBitmapSource</code>, <code>IWICBitmapDecoder</code>, <code>IWICBitmapFrameDecode</code>, <code>IWICBitmapEncoder</code>, <code>IWICBitmapFrameEncode</code>, <code>IWICFormatConverter</code>, <code>IWICStream</code>, <code>IWICBitmapLock</code>, <code>IWICBitmapClipper</code>, <code>IWICBitmapScaler</code>, <code>IWICColorContext</code>, <code>IWICPalette</code> 等</li>
+  <li><strong>DXGI</strong>: <code>IDXGIFactory</code>, <code>IDXGIAdapter</code>, <code>IDXGIDevice</code>, <code>IDXGISwapChain</code>, <code>IDXGIOutput</code>, <code>IDXGISurface</code></li>
+</ul>
+
+<h3>15.7 既知の制約</h3>
+
+<ul>
+  <li><code>comdlg32</code> の <code>OPENFILENAMEW</code> 系構造体は AnyCPU 非互換 (PInvoke005) で <code>GetOpenFileName</code> / <code>GetSaveFileName</code> / <code>ChooseColor</code> / <code>ChooseFont</code> / <code>PrintDlg</code> は生成不可 → 代替として <code>IFileOpenDialog</code> / <code>IFileSaveDialog</code> COM インターフェースを使う想定</li>
+  <li><code>POINTL</code> など 8byte 値渡し構造体は COM パーサが現状 <code>int</code> にフォールバック (将来 <code>intptr</code> 経由で対応予定)</li>
+  <li>Winsock (<code>ws2_32</code>) は <code>sockaddr</code> 系の union 多用構造体が特殊で未対応</li>
+  <li>DirectX のうち <code>d3d11</code> / <code>d3d12</code> / <code>xaudio2</code> 等の重量級 COM 階層は今回は対象外 (Direct2D / DirectWrite / WIC / DXGI のみ)</li>
+</ul>
+
+<!-- ======================================== -->
+<h2 id="changelog">16. 変更履歴</h2>
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
@@ -1749,6 +1894,13 @@ lpoke vec, VECTOR_x, 0x3F800000  ; 1.0f のビットパターン</code></pre>
 <tr><td>4/13</td><td><code>6b1d2541</code></td><td><span class="badge">新機能</span> COM コールバック Phase B1: hspcmp に <code>#defcbcom</code> / <code>#cbmethod</code> / <code>#endcbcom</code> パーサ追加</td></tr>
 <tr><td>4/13</td><td><code>90e9bdb1</code></td><td><span class="badge">新機能</span> COM コールバック Phase B2: bytecode emission + runtime opcodes (<code>newcomcb</code> / <code>comprm</code> / <code>comcbtag</code> / <code>comcbtags</code> / <code>comcbis</code> / <code>comcbthis</code> / <code>comcbidx</code> / <code>comret</code>)</td></tr>
 <tr><td>4/13</td><td><code>b91186e9</code></td><td><span class="badge">新機能</span> COM コールバック Phase B3: <code>IBindStatusCallback</code> サンプルで <code>URLDownloadToFile</code> 経由の e2e 動作確認 (HSP 側で実装した COM コールバックが外部 COM API から正しく invoke される)</td></tr>
+<tr><td>4/13</td><td><code>16b50129 / 813e0ce1</code></td><td><span class="badge">新機能</span> hspcv4 Phase 27: highgui Trackbar / mouse events / FreeType による日本語フォント描画 (FreeType + HarfBuzz via vcpkg) を本実装</td></tr>
+<tr><td>4/14</td><td><code>0c4750d5</code></td><td><span class="badge">新機能</span> <strong>hspcv4 アルファチャンネル対応 Phase 1-3</strong>: <code>cv4load</code> がデフォルトで <code>IMREAD_UNCHANGED</code> を使い PNG/TIFF の BGRA を保持。namespace 内に <code>with_alpha_preserved&lt;OpBGR&gt;()</code> ヘルパーを追加し、blur / gauss / median / bilateral / canny / threshold / erode / dilate / morphology / sobel / scharr / laplacian / filter2d / filter2d_mat の主要 15 フィルタが 4ch 入力で alpha を自動分離・再合成。19 箇所の <code>cvtColor(BGR2GRAY)</code> 呼び出しを <code>as_bgr()</code> 経由に変換 (4ch 入力でも channel mismatch しない)。<code>cv4_put_pixel</code> に optional <code>a</code> 引数追加 (CV_8UC4 対応)、新規 <code>cv4_get_pixela</code> で BGRA 4ch 読み取り対応</td></tr>
+<tr><td>4/14</td><td><code>3680c4b7 / 4cce6e7d</code></td><td><span class="badge">新機能</span> <strong>CsWin32 bridge</strong>: Microsoft の <a href="https://github.com/microsoft/win32metadata">win32metadata</a> + <code>Microsoft.Windows.CsWin32</code> source generator を経由した Win32 API 自動生成パイプラインを構築。<code>tools/cswin32_bridge/</code> に .NET 8 csproj + Python 後処理 (<code>gen_from_cswin32.py</code>)。生成 C# (<code>[DllImport]</code> + XML doc コメント) を regex parse して、<code>HWND</code>→<code>intptr</code> / <code>PCWSTR</code>→<code>wstr</code> / 構造体ポインタ→<code>var</code> / enum→<code>int</code> 等にマップして <code>.as</code> 出力。A/W バリアント自動選択 (<code>CreateFileW</code> / <code>MessageBoxW</code> 等)、定数 enum 群 (<code>SW_*</code> / <code>SM_*</code> / <code>WS_*</code> / <code>MB_*</code>) 完全展開。<code>cswin32_bridge_com/</code> 側は <code>allowMarshaling=true</code> で COM インターフェース (<code>[ComImport]</code>) を生成し <code>#usecom</code> + <code>#comfunc</code> 形式に変換</td></tr>
+<tr><td>4/14</td><td><code>4cce6e7d</code></td><td><span class="badge">バグ修正</span> <code>gen_from_cswin32.py</code>: 各 DLL .as に全 struct + 全 enum をダンプしていたため 22 ファイル全部が ~210KB の重複データになっていた問題を修正。共有 <code>win32_types_gen2.as</code> を 1 個出力し、各 DLL .as は <code>#include "win32_types_gen2.as"</code> で参照する形に変更 (4.6 MB → 273 KB、94% 削減)</td></tr>
+<tr><td>4/14</td><td><code>383ab46c</code></td><td><span class="badge">新機能</span> <strong>Phase D — DLL exports 体系的走査</strong>: kernel32.dll の 1449 exports に対して 67 関数 (4%) しかカバーできていなかった旧来の手書き <code>NativeMethods.txt</code> を全廃し、<code>tools/cswin32_bridge/dump_exports.py</code> で 23 system DLL を dumpbin 走査して 5631 候補を抽出 → win32metadata がサポートする 4334 関数 (77%) を全網羅。<strong>278 → 4334 関数 (15.5x)</strong>。kernel32 が 67 → 881 (13.1x)、user32 が 36 → 606 (16.8x)、advapi32 が 10 → 419 (41.9x)。bonus DLL (comdlg32 / ncrypt / normaliz / propsys / shlwapi / wintrust / api-ms-win-dx) も win32metadata の依存解決経由で 7 個追加</td></tr>
+<tr><td>4/14</td><td><code>21b72511 / dedcdb8f</code></td><td><span class="badge">新機能</span> Win32 API + COM の MSDN 説明を全日本語化。<code>tools/cswin32_bridge/docs_ja.json</code> に 25422 entries、<code>tools/cswin32_bridge_com/docs_ja.json</code> に 2951 entries (合計 <strong>28373 entries</strong>)。並列バックグラウンド subagent 60+ で per-DLL チャンク翻訳。生成スクリプトは英語 doc を中間 JSON に dump し翻訳キャッシュを emit 時に上書きする方式なので、新規 API 追加時の翻訳追記もスムーズ</td></tr>
+<tr><td>4/14</td><td><code>e2406644</code></td><td><span class="badge">バグ修正</span> <code>OpenMutex</code> / <code>OpenSemaphore</code> / <code>SetEnvironmentStrings</code> / <code>IsCharLower</code> の 4 API は win32metadata の複数 namespace に同名が存在し CsWin32 が CS8785 で source generator ごと crash する問題を解決。<code>NativeMethods.txt</code> に fully-qualified name (<code>Windows.Win32.System.Threading.OpenMutex</code> 等) を指定して個別に復活</td></tr>
 </table>
 
 <h3>64bit ビルド対応一覧</h3>

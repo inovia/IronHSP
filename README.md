@@ -24,7 +24,7 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 
 ### 新規プラグイン
 
-- **hspcv4** ([`plugins/win32/hspcv4/`](plugins/win32/hspcv4/)) — OpenCV 4.12 + opencv_contrib をベースに新規開発したプラグイン。**全 200 命令** (main 12 + contrib 8 = 20 モジュールカバー)。FreeType / HarfBuzz による日本語フォント描画、Tesseract OCR、wechat_qrcode、saliency、SWT text detection、stereo / xfeatures2d / ximgproc / ml / face / dnn 等、フル装備。
+- **hspcv4** ([`plugins/win32/hspcv4/`](plugins/win32/hspcv4/)) — OpenCV 4.12 + opencv_contrib をベースに新規開発したプラグイン。**全 200 命令以上** (main 12 + contrib 8 = 20 モジュールカバー)。FreeType / HarfBuzz による日本語フォント描画、Tesseract OCR、wechat_qrcode、saliency、SWT text detection、stereo / xfeatures2d / ximgproc / ml / face / dnn 等、フル装備。**アルファチャンネル対応 (Phase 1-3 完了)**: `cv4load` がデフォルトで `IMREAD_UNCHANGED` を使い PNG 等の BGRA を保持、`with_alpha_preserved` ヘルパーで blur/filter2d/canny/sobel/morphology 等の主要フィルタ系がアルファを自動分離・再合成、`cv4_get_pixela` で 4ch ピクセル読み取り対応。
 
 ### 大幅拡張したプラグイン
 
@@ -32,7 +32,42 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 
 ### Pure HSP モジュール
 
-- **hspd2d** ([`package/win32/common/hspd2d.hsp`](package/win32/common/hspd2d.hsp)) — DirectWrite + Direct2D + WIC を **HSP の COM 機能 (`#usecom` / `#comfunc` / `newcom -1/-2`) だけで wrap** したモジュール。C++ DLL を介さずに高品質テキスト描画と PNG 出力を実現。`d2d_init` / `d2d_image_create` / `d2d_clear` / `d2d_font` / `d2d_color` / `d2d_drawtext` / `d2d_image_save` 等のコマンドを提供。`D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT` を有効にしているので **Segoe UI Emoji 等の COLR/CPAL カラーフォントによる絵文字** も自動で色付き描画される。サンプル: [`package/win32/sample/hspd2d/`](package/win32/sample/hspd2d/)。
+- **hspd2d** ([`package/win32/common/hspd2d.hsp`](package/win32/common/hspd2d.hsp)) — DirectWrite + Direct2D + WIC を **HSP の COM 機能 (`#usecom` / `#comfunc` / `newcom -1/-2`) だけで wrap** したモジュール。C++ DLL を介さずに高品質テキスト描画と画像読み書きを実現。`d2d_init` / `d2d_image_create` / `d2d_image_load` / `d2d_clear` / `d2d_font` / `d2d_color` / `d2d_drawtext` / `d2d_drawline` / `d2d_drawrect` / `d2d_fillrect` / `d2d_drawellipse` / `d2d_fillellipse` / `d2d_drawimage` / `d2d_image_save` 等のコマンドを提供。PNG / BMP / JPEG / TIFF / GIF 形式のロード・保存対応。`D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT` を有効にしているので **Segoe UI Emoji 等の COLR/CPAL カラーフォントによる絵文字** も自動で色付き描画される。サンプル: [`package/win32/sample/hspd2d/`](package/win32/sample/hspd2d/)。
+
+### Win32 API 大幅拡充 (CsWin32 bridge)
+
+OpenHSP 標準の `package/win32/common/user32.as` / `kernel32.as` / `gdi32.as` 等は古く (sptr ベース、構造体未対応、x64 で破綻ぎりぎり)、kernel32.dll の 1449 exports に対して 67 関数 (4%) しかカバーできていなかった。これを **dumpbin による実 DLL exports 走査 + Microsoft の [win32metadata](https://github.com/microsoft/win32metadata) (CsWin32 source generator)** をベースに体系的に再構築:
+
+- **30 DLL / 4338 関数 / 118 COM インターフェース / 1238 COM メソッド / 全 28373 entries 日本語 MSDN ヘルプ付き** ([`package/win32/common/*_gen2.as`](package/win32/common/) + [`package/hsphelp/win32_*_gen2.hs`](package/hsphelp/))
+- 自動 A/W 選択 (`CreateFileW` / `MessageBoxW` / `RegOpenKeyExW` 等が自動でユニコード版を選択)
+- 完全な `intptr` / `wstr` / `var` (NSTRUCT pointer) 型マッピング
+- 全定数 enum を自動 `#define` 展開 (`SW_*` / `SM_*` / `WS_*` / `MB_*` / `WM_*` / `KEY_*` 等)
+- 共有 `win32_types_gen2.as` に 734 構造体 + 608 enum 群を集約 (各 DLL .as は `#include` で参照)
+- `#usecom` / `#comfunc` 形式で COM インターフェース ([IFileDialog](package/win32/common/com_misc_gen2.as) / IDropTarget / IShellLinkW / IDataObject / ID2D1Factory / IDWriteFactory / IWICImagingFactory / IDXGIFactory 等) も自動生成
+
+#### カバー DLL 一覧
+
+| カテゴリ | DLL |
+|---|---|
+| ベース | kernel32 (881), user32 (606), advapi32 (419), oleaut32 (404), gdi32 (384), crypt32 (218), shell32 (195), wininet (192), winmm (146), ole32 (143), dbghelp (128), comctl32 (94) |
+| その他 | uxtheme (77), imm32 (63), bcrypt (53), winhttp (46), netapi32 (45), userenv (34), dwmapi (31), psapi (20), shlwapi (15), version (7), wintrust (7), msimg32 (3), comdlg32 / ncrypt / normaliz / propsys 他 |
+
+#### パイプライン
+
+```
+dumpbin /exports → tools/cswin32_bridge/dump_exports.py → NativeMethods.txt
+                                                              ↓
+                                          dotnet build (CsWin32 SourceGenerator)
+                                                              ↓
+                              tools/cswin32_bridge/gen_from_cswin32.py (Python)
+                                                              ↓
+                         package/win32/common/<dll>_gen2.as + win32_types_gen2.as
+                         package/hsphelp/win32_<dll>_gen2.hs (英語/日本語 fallback)
+```
+
+`tools/cswin32_bridge/docs_ja.json` (25422 entries) と `tools/cswin32_bridge_com/docs_ja.json` (2951 entries) に MSDN-JP 準拠の常体翻訳をキャッシュ。再生成時に自動的に日本語ヘルプとして埋め込まれる。
+
+新規 API を追加するときは `NativeMethods.txt` に 1 行追加 → `dotnet build` → `python gen_from_cswin32.py` だけで .as / .hs まで完成する。詳細は [`tools/cswin32_bridge/`](tools/cswin32_bridge/) と [`tools/cswin32_bridge_com/`](tools/cswin32_bridge_com/)。
 
 ### 標準プラグインの 64bit 対応
 
