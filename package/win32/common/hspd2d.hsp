@@ -108,9 +108,24 @@
 ;   ID2D1RenderTarget: 4..56
 #usecom ID2D1RenderTarget IID_ID2D1RenderTarget "{}"
 #comfunc d2d_RT_CreateSolidColorBrush 8 var, var, var
+; DrawLine(D2D1_POINT_2F p0, D2D1_POINT_2F p1, ID2D1Brush*, FLOAT strokeWidth, ID2D1StrokeStyle*)
+; POINT_2F は { float x, float y } = 8 byte 値渡しで int64 引数 1 個に乗る
+#comfunc d2d_RT_DrawLine 15 int64, int64, comobj, float, intptr
+; DrawRectangle(D2D1_RECT_F* rect, ID2D1Brush*, FLOAT strokeWidth, ID2D1StrokeStyle*)
+#comfunc d2d_RT_DrawRectangle 16 var, comobj, float, intptr
+; FillRectangle(D2D1_RECT_F* rect, ID2D1Brush*)
+#comfunc d2d_RT_FillRectangle 17 var, comobj
+; DrawEllipse(D2D1_ELLIPSE* ellipse, ID2D1Brush*, FLOAT strokeWidth, ID2D1StrokeStyle*)
+#comfunc d2d_RT_DrawEllipse 20 var, comobj, float, intptr
+; FillEllipse(D2D1_ELLIPSE* ellipse, ID2D1Brush*)
+#comfunc d2d_RT_FillEllipse 21 var, comobj
+; DrawBitmap(ID2D1Bitmap*, D2D1_RECT_F* destRect, FLOAT opacity, D2D1_BITMAP_INTERPOLATION_MODE, D2D1_RECT_F* srcRect)
+#comfunc d2d_RT_DrawBitmap 26 comobj, var, float, int, intptr
 ; DrawText(WCHAR*, UINT32 strLen, IDWriteTextFormat*, D2D1_RECT_F*, ID2D1Brush*,
 ;          D2D1_DRAW_TEXT_OPTIONS, DWRITE_MEASURING_MODE)
 #comfunc d2d_RT_DrawText 27 wstr, int, comobj, var, comobj, int, int
+; SetTransform(D2D1_MATRIX_3X2_F* matrix)
+#comfunc d2d_RT_SetTransform 30 var
 #comfunc d2d_RT_Clear 47 var
 #comfunc d2d_RT_BeginDraw 48
 #comfunc d2d_RT_EndDraw 49 var, var
@@ -225,6 +240,22 @@
     #field float dy
 #endstruct
 
+; D2D1_ELLIPSE = D2D1_POINT_2F point + FLOAT radiusX + FLOAT radiusY = 16 byte
+#defstruct D2D_ELLIPSE
+    #field float cx
+    #field float cy
+    #field float rx
+    #field float ry
+#endstruct
+
+; D2D1_POINT_2F = { float x, float y } = 8 byte
+;   x64 ABI では 8 byte の aggregate は整数 register にバイト列でそのまま乗せて
+;   渡される。HSP からは int64 として packed bit pattern を渡す必要がある。
+#defstruct D2D_POINT_2F
+    #field float x
+    #field float y
+#endstruct
+
 ;-----------------------------------------------------------
 ; モジュール内部状態
 ;   HSP の #module ブロック直下の生の文 (dim/代入) は構文として通るが
@@ -335,7 +366,7 @@
     return
 
 ;-----------------------------------------------------------
-; d2d_image_create id, width, height
+; d2d_image_create id, linew, height
 ;-----------------------------------------------------------
 #deffunc d2d_image_create int id, int w, int h, \
     local _pixfmt_buf, local _out, local _props, local _d2dfac, local _wicbmp, local _rt_out, local _stat
@@ -576,6 +607,38 @@
     return
 
 ;-----------------------------------------------------------
+; 内部ヘルパ: 2 つの float 値を D2D1_POINT_2F bit pattern (int64) に packing
+;   x64 calling convention で 8 byte aggregate を register に乗せる必要があるため
+;-----------------------------------------------------------
+#deffunc _d2d_pt2f double x, double y, var out_i64, local _s
+    stdim _s, D2D_POINT_2F
+    _s->x = x
+    _s->y = y
+    d2d_RtlMoveMemory out_i64, _s, 8
+    return
+
+;-----------------------------------------------------------
+; 内部ヘルパ: カレント色から ID2D1SolidColorBrush * を作って raw int64 で返す
+;   呼び出し側は使い終わったら newcom -1 + delcom で release する
+;-----------------------------------------------------------
+#deffunc _d2d_make_brush var out_brush_ptr, local _col, local _bp, local _rt, local _out
+    stdim _col, D2D_COLOR_F
+    _col->r = d2d_cur_color(0)
+    _col->g = d2d_cur_color(1)
+    _col->b = d2d_cur_color(2)
+    _col->a = d2d_cur_color(3)
+    stdim _bp, D2D_BRUSH_PROPS
+    _bp->opacity = 1.0
+    _bp->m11 = 1.0
+    _bp->m22 = 1.0
+    sdim _out, 16
+    _attach_rt(_rt, d2d_rt_ptrs(d2d_cur_id))
+    d2d_RT_CreateSolidColorBrush _rt, _col, _bp, _out
+    delcom _rt
+    d2d_RtlMoveMemory out_brush_ptr, _out, 8
+    return
+
+;-----------------------------------------------------------
 ; d2d_clear r, g, b [, a]
 ;-----------------------------------------------------------
 #deffunc d2d_clear int r, int g, int b, int a, local _col, local _rt
@@ -737,6 +800,105 @@
         if _ext5 = ".TIFF" : return GUID_ContainerFormatTiff
     }
     return GUID_ContainerFormatPng    ; 未対応拡張子は PNG fallback
+
+;-----------------------------------------------------------
+; 図形プリミティブ
+;   いずれもカレント描画色 (d2d_color) で描く
+;-----------------------------------------------------------
+
+#deffunc d2d_drawline int x0, int y0, int x1, int y1, double linew, \
+    local _p0, local _p1, local _brush_ptr, local _brush, local _rt
+    if d2d_cur_id < 0 : return
+    _d2d_ensure_drawing
+    dim64 _p0, 1
+    dim64 _p1, 1
+    _d2d_pt2f double(x0), double(y0), _p0
+    _d2d_pt2f double(x1), double(y1), _p1
+    dim64 _brush_ptr, 1
+    _d2d_make_brush _brush_ptr
+    _attach_rt(_rt, d2d_rt_ptrs(d2d_cur_id))
+    _attach_scb(_brush, _brush_ptr)
+    d2d_RT_DrawLine _rt, _p0, _p1, _brush, linew, 0
+    d2d_SCB_Release _brush
+    delcom _brush
+    delcom _rt
+    return
+
+#deffunc d2d_drawrect int x, int y, int w, int h, double linew, \
+    local _rect, local _brush_ptr, local _brush, local _rt
+    if d2d_cur_id < 0 : return
+    _d2d_ensure_drawing
+    stdim _rect, D2D_RECT_F
+    _rect->left   = double(x)
+    _rect->top    = double(y)
+    _rect->right  = double(x + w)
+    _rect->bottom = double(y + h)
+    dim64 _brush_ptr, 1
+    _d2d_make_brush _brush_ptr
+    _attach_rt(_rt, d2d_rt_ptrs(d2d_cur_id))
+    _attach_scb(_brush, _brush_ptr)
+    d2d_RT_DrawRectangle _rt, _rect, _brush, linew, 0
+    d2d_SCB_Release _brush
+    delcom _brush
+    delcom _rt
+    return
+
+#deffunc d2d_fillrect int x, int y, int w, int h, \
+    local _rect, local _brush_ptr, local _brush, local _rt
+    if d2d_cur_id < 0 : return
+    _d2d_ensure_drawing
+    stdim _rect, D2D_RECT_F
+    _rect->left   = double(x)
+    _rect->top    = double(y)
+    _rect->right  = double(x + w)
+    _rect->bottom = double(y + h)
+    dim64 _brush_ptr, 1
+    _d2d_make_brush _brush_ptr
+    _attach_rt(_rt, d2d_rt_ptrs(d2d_cur_id))
+    _attach_scb(_brush, _brush_ptr)
+    d2d_RT_FillRectangle _rt, _rect, _brush
+    d2d_SCB_Release _brush
+    delcom _brush
+    delcom _rt
+    return
+
+#deffunc d2d_drawellipse int cx, int cy, int rx, int ry, double linew, \
+    local _e, local _brush_ptr, local _brush, local _rt
+    if d2d_cur_id < 0 : return
+    _d2d_ensure_drawing
+    stdim _e, D2D_ELLIPSE
+    _e->cx = double(cx)
+    _e->cy = double(cy)
+    _e->rx = double(rx)
+    _e->ry = double(ry)
+    dim64 _brush_ptr, 1
+    _d2d_make_brush _brush_ptr
+    _attach_rt(_rt, d2d_rt_ptrs(d2d_cur_id))
+    _attach_scb(_brush, _brush_ptr)
+    d2d_RT_DrawEllipse _rt, _e, _brush, linew, 0
+    d2d_SCB_Release _brush
+    delcom _brush
+    delcom _rt
+    return
+
+#deffunc d2d_fillellipse int cx, int cy, int rx, int ry, \
+    local _e, local _brush_ptr, local _brush, local _rt
+    if d2d_cur_id < 0 : return
+    _d2d_ensure_drawing
+    stdim _e, D2D_ELLIPSE
+    _e->cx = double(cx)
+    _e->cy = double(cy)
+    _e->rx = double(rx)
+    _e->ry = double(ry)
+    dim64 _brush_ptr, 1
+    _d2d_make_brush _brush_ptr
+    _attach_rt(_rt, d2d_rt_ptrs(d2d_cur_id))
+    _attach_scb(_brush, _brush_ptr)
+    d2d_RT_FillEllipse _rt, _e, _brush
+    d2d_SCB_Release _brush
+    delcom _brush
+    delcom _rt
+    return
 
 ;-----------------------------------------------------------
 ; d2d_image_save id, "out.png" (.png/.bmp/.jpg/.jpeg/.tif/.tiff/.gif 対応)
