@@ -25,5 +25,48 @@ IDataObject
 // === Property store ===
 IPropertyStore
 
-// === DWM thumbnail (needs a COM-ish interface check) ===
-// IApplicationViewConsolidatedEventArgs
+// === Direct2D core (hspd2d でも使用中) ===
+ID2D1Factory
+ID2D1RenderTarget
+ID2D1HwndRenderTarget
+ID2D1BitmapRenderTarget
+ID2D1Bitmap
+ID2D1SolidColorBrush
+ID2D1LinearGradientBrush
+ID2D1RadialGradientBrush
+ID2D1Geometry
+ID2D1PathGeometry
+ID2D1RectangleGeometry
+ID2D1RoundedRectangleGeometry
+ID2D1EllipseGeometry
+ID2D1StrokeStyle
+
+// === DirectWrite core ===
+IDWriteFactory
+IDWriteTextFormat
+IDWriteTextLayout
+IDWriteFontCollection
+IDWriteFontFamily
+IDWriteFont
+IDWriteFontFace
+IDWriteInlineObject
+
+// === WIC core (hspd2d での画像読み書き) ===
+IWICImagingFactory
+IWICBitmap
+IWICBitmapSource
+IWICBitmapDecoder
+IWICBitmapFrameDecode
+IWICBitmapEncoder
+IWICBitmapFrameEncode
+IWICFormatConverter
+IWICStream
+IWICBitmapLock
+
+// === DXGI (DirectX 共通基盤) ===
+IDXGIFactory
+IDXGIAdapter
+IDXGIDevice
+IDXGISwapChain
+IDXGIOutput
+IDXGISurface

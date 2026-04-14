@@ -5,141 +5,110 @@
 
 %index
 IAdviseSink_OnDataChange
-Called by the server to notify a data object's currently registered advise sinks that data in the object has changed.
+ƒf[ƒ^ƒIƒuƒWƒFƒNƒg“à‚Ìƒf[ƒ^‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğAŒ»İ“o˜^‚³‚ê‚Ä‚¢‚éƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚é‚½‚ß‚ÉƒT[ƒo[‚©‚çŒÄ‚Ño‚³‚ê‚éB
 %group
 COM misc / IAdviseSink
 %prm
 this, pFormatetc, pStgmed
 this : [comobj] IAdviseSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pFormatetc : [var] A pointer to a FORMATETC structure, which describes the format, target device, rendering, and storage information of the calling data object.
-pStgmed : [int] A pointer to a STGMEDIUM structure, which defines the storage medium (global memory, disk file, storage object, stream object, GDI object, or undefined) and ownership of that medium for the calling data object.
+pFormatetc : [var] ŒÄ‚Ño‚µŒ³‚Ìƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ÌŒ`®Aƒ^[ƒQƒbƒgƒfƒoƒCƒXAƒŒƒ“ƒ_ƒŠƒ“ƒOAƒXƒgƒŒ[ƒWî•ñ‚ğ‹Lq‚·‚é FORMATETC \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pStgmed : [int] ŒÄ‚Ño‚µŒ³‚Ìƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚é‹L‰¯”}‘ÌiƒOƒ[ƒoƒ‹ƒƒ‚ƒŠAƒfƒBƒXƒNƒtƒ@ƒCƒ‹AƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒgAƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒgAGDI ƒIƒuƒWƒFƒNƒgA‚Ü‚½‚Í–¢’è‹`j‚Æ‚»‚ÌŠ—LŒ ‚ğ’è‹`‚·‚é STGMEDIUM \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Called by the server to notify a data object's currently registered
-advise sinks that data in the object has changed.
+ƒf[ƒ^ƒIƒuƒWƒFƒNƒg“à‚Ìƒf[ƒ^‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğAŒ»İ“o˜^‚³‚ê‚Ä‚¢‚éƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚é‚½‚ß‚ÉƒT[ƒo[‚©‚çŒÄ‚Ño‚³‚ê‚éB
 
 [”õl]
-Object handlers and containers of link objects implement
-IAdviseSink::OnDataChange to take appropriate steps when notified
-that data in the object has changed. They also must call
-IDataObject::DAdvise to set up advisory connections with the objects
-in whose data they are interested. Containers that take advantage of
-OLE's caching support do not need to register for data-change
-notifications, because the information necessary to update the
-container's presentation of the object, including any changes in its
-data, are maintained in the object's cache. Notes to Implementers If
-you implement IAdviseSink::OnDataChange for a container, remember
-that this method is asynchronous and that making synchronous calls
-within asynchronous methods is not valid. Therefore, you cannot call
-IDataObject::GetData to obtain the data you need to update your
-object. Instead, you either post an internal message, or invalidate
-the rectangle for the changed data by calling InvalidateRect and
-waiting for a WM_PAINT message, at which point you are free to get
-the data and update the object. The data itself, which is valid only
-for the duration of the call, is passed using the storage medium
-pointed to by pStgmed. Since the caller owns the medium, the advise
-sink should not free it. Also, if pStgmed points to an IStorage or
-IStream interface, the sink must not increment the reference count.
+ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÌƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚âƒRƒ“ƒeƒi‚ÍAƒIƒuƒWƒFƒNƒg“à‚Ìƒf[ƒ^‚ª•ÏX‚³‚ê‚½‚Æ‚¢‚¤’Ê’m‚ğó‚¯‚½‚Æ‚«‚É“KØ‚Èˆ—‚ğs‚¤‚½‚ß‚É
+IAdviseSink::OnDataChange ‚ğÀ‘•‚·‚éB‚Ü‚½A‹»–¡‚Ì‚ ‚éƒIƒuƒWƒFƒNƒg‚ÆƒAƒhƒoƒCƒUƒŠÚ‘±‚ğŠm—§‚·‚é‚½‚ß‚É
+IDataObject::DAdvise ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BOLE
+‚ÌƒLƒƒƒbƒVƒ…ƒTƒ|[ƒg‚ğ—˜—p‚·‚éƒRƒ“ƒeƒi‚ÍAƒf[ƒ^•ÏX’Ê’m‚ğ“o˜^‚·‚é•K—v‚Í‚È‚¢B‚È‚º‚È‚çAƒRƒ“ƒeƒi‚ªƒIƒuƒWƒFƒNƒg‚ğ•\¦‚·‚é‚½‚ß‚É•K—v‚Èî•ñiƒf[ƒ^‚Ì•ÏX‚ğŠÜ‚Şj‚Í‚·‚×‚ÄƒIƒuƒWƒFƒNƒg‚ÌƒLƒƒƒbƒVƒ…“à‚É•Û‚³‚ê‚é‚©‚ç‚Å‚ ‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ
+ƒRƒ“ƒeƒi‚Å IAdviseSink::OnDataChange
+‚ğÀ‘•‚·‚éê‡A‚±‚Ìƒƒ\ƒbƒh‚Í”ñ“¯Šú‚Å‚ ‚èA”ñ“¯Šúƒƒ\ƒbƒh“à‚Å“¯ŠúŒÄ‚Ño‚µ‚ğs‚¤‚±‚Æ‚Í–³Œø‚Å‚ ‚é“_‚É’ˆÓ‚·‚é‚±‚ÆB‚µ‚½‚ª‚Á‚ÄAƒIƒuƒWƒFƒNƒg‚ÌXV‚É•K—v‚Èƒf[ƒ^‚ğæ“¾‚·‚é‚½‚ß‚É
+IDataObject::GetData ‚ğŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢B‘ã‚í‚è‚ÉA“à•”ƒƒbƒZ[ƒW‚ğƒ|ƒXƒg‚·‚é‚©AInvalidateRect
+‚ğŒÄ‚Ño‚µ‚Ä•ÏX‚³‚ê‚½ƒf[ƒ^‚Ì‹éŒ`‚ğ–³Œø‰»‚µAWM_PAINT
+ƒƒbƒZ[ƒW‚ğ‘Ò‚Á‚Ä‚©‚çƒf[ƒ^‚ğæ“¾‚µƒIƒuƒWƒFƒNƒg‚ğXV‚·‚éBƒf[ƒ^©‘Ì‚ÍŒÄ‚Ño‚µ‚ÌŠÔ‚¾‚¯—LŒø‚ÅApStgmed
+‚ªw‚·‹L‰¯”}‘Ì‚ğ‰î‚µ‚Ä“n‚³‚ê‚éB”}‘Ì‚ÌŠ—LŒ ‚ÍŒÄ‚Ño‚µŒ³‚É‚ ‚é‚½‚ßAƒAƒhƒoƒCƒXƒVƒ“ƒN‚Í‚»‚ê‚ğ‰ğ•ú‚µ‚Ä‚Í‚È‚ç‚È‚¢B‚Ü‚½ApStgmed ‚ª
+IStorage ‚â IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğw‚µ‚Ä‚¢‚éê‡AƒVƒ“ƒN‚ÍQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 
 
 %index
 IAdviseSink_OnViewChange
-Notifies an object's registered advise sinks that its view has changed.
+ƒrƒ…[‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğAƒIƒuƒWƒFƒNƒg‚É“o˜^‚³‚ê‚½ƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚éB
 %group
 COM misc / IAdviseSink
 %prm
 this, dwAspect, lindex
 this : [comobj] IAdviseSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwAspect : [int] The aspect, or view, of the object. Contains a value taken from the DVASPECT enumeration.
-lindex : [int] The portion of the view that has changed. Currently only -1 is valid.
+dwAspect : [int] ƒIƒuƒWƒFƒNƒg‚ÌƒAƒXƒyƒNƒgiƒrƒ…[jBDVASPECT —ñ‹“‘Ì‚©‚çæ“¾‚µ‚½’l‚ª“ü‚éB
+lindex : [int] •ÏX‚³‚ê‚½ƒrƒ…[‚Ìˆê•”•ªBŒ»“_‚Å‚Í -1 ‚Ì‚İ‚ª—LŒø‚Å‚ ‚éB
 %inst
-Notifies an object's registered advise sinks that its view has
-changed.
+ƒrƒ…[‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğAƒIƒuƒWƒFƒNƒg‚É“o˜^‚³‚ê‚½ƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚éB
 
 [”õl]
-Containers register to be notified when an object's view changes by
-calling IViewObject::SetAdvise. After it is registered, the object
-will call the sink's IAdviseSink::OnViewChange method when
-appropriate. OnViewChange can be called when the object is in either
-the loaded or running state. Even though DVASPECT values are
-individual flag bits, dwAspect may represent only one value. That is,
-dwAspect cannot contain the result of an OR operation combining two
-or more DVASPECT values. The lindex parameter represents the part of
-the aspect that is of interest. The value of lindex depends on the
-value of dwAspect. If dwAspect is either DVASPECT_THUMBNAIL or
-DVASPECT_ICON, lindex is ignored. If dwAspect is DVASPECT_CONTENT,
-lindex must be -1, which indicates that the entire view is of
-interest and is the only value that is currently valid.
+ƒRƒ“ƒeƒi‚Í IViewObject::SetAdvise
+‚ğŒÄ‚Ño‚µ‚ÄAƒIƒuƒWƒFƒNƒg‚Ìƒrƒ…[‚ª•Ï‰»‚µ‚½‚Æ‚«‚É’Ê’m‚ğó‚¯‚é‚æ‚¤“o˜^‚·‚éB“o˜^ŒãAƒIƒuƒWƒFƒNƒg‚Í“KØ‚Èƒ^ƒCƒ~ƒ“ƒO‚ÅƒVƒ“ƒN‚Ì
+IAdviseSink::OnViewChange ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·BOnViewChange
+‚ÍƒIƒuƒWƒFƒNƒg‚ªƒ[ƒhó‘Ô‚Ü‚½‚ÍÀsó‘Ô‚Ì‚¢‚¸‚ê‚É‚ ‚Á‚Ä‚àŒÄ‚Ño‚µ“¾‚éBDVASPECT ‚Ì’l‚ÍŒÂ•Ê‚Ìƒtƒ‰ƒOƒrƒbƒg‚¾‚ªAdwAspect
+‚Í’Pˆê‚Ì’l‚¾‚¯‚ğ•\Œ»‚Å‚«‚éB‚Â‚Ü‚è dwAspect ‚Í 2 ‚ÂˆÈã‚Ì DVASPECT ’l‚ğ OR
+‰‰Z‚µ‚½Œ‹‰Ê‚ğŠÜ‚Ş‚±‚Æ‚Í‚Å‚«‚È‚¢Blindex ƒpƒ‰ƒ[ƒ^‚ÍŠÖS‚Ì‚ ‚éƒAƒXƒyƒNƒg‚Ìˆê•”•ª‚ğ•\‚·Blindex ‚Ì’l‚Í dwAspect
+‚Ì’l‚ÉˆË‘¶‚·‚éBdwAspect ‚ª DVASPECT_THUMBNAIL ‚Ü‚½‚Í DVASPECT_ICON ‚Ìê‡ lindex
+‚Í–³‹‚³‚ê‚éBdwAspect ‚ª DVASPECT_CONTENT ‚Ìê‡ lindex ‚Í -1
+‚Å‚È‚¯‚ê‚Î‚È‚ç‚¸A‚±‚ê‚Íƒrƒ…[‘S‘Ì‚ªŠÖS‚Ì‘ÎÛ‚Å‚ ‚é‚±‚Æ‚ğ¦‚µAŒ»“_‚Å—Bˆê—LŒø‚È’l‚Å‚ ‚éB
 
 
 %index
 IAdviseSink_OnRename
-Called by the server to notify all registered advisory sinks that the object has been renamed.
+ƒIƒuƒWƒFƒNƒg‚Ì–¼‘O‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğA“o˜^‚³‚ê‚½‚·‚×‚Ä‚ÌƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚é‚½‚ß‚ÉƒT[ƒo[‚©‚çŒÄ‚Ño‚³‚ê‚éB
 %group
 COM misc / IAdviseSink
 %prm
 this, pmk
 this : [comobj] IAdviseSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pmk : [comobj] A pointer to the IMoniker interface on the new full moniker of the object.
+pmk : [comobj] ƒIƒuƒWƒFƒNƒg‚ÌV‚µ‚¢Š®‘Sƒ‚ƒjƒJã‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Called by the server to notify all registered advisory sinks that the
-object has been renamed.
+ƒIƒuƒWƒFƒNƒg‚Ì–¼‘O‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğA“o˜^‚³‚ê‚½‚·‚×‚Ä‚ÌƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚é‚½‚ß‚ÉƒT[ƒo[‚©‚çŒÄ‚Ño‚³‚ê‚éB
 
 [”õl]
-OLE link objects normally implement IAdviseSink::OnRename to receive
-notification of a change in the name of a link source or its
-container. The object serving as the link source calls OnRename and
-passes its new full moniker to the object handler, which forwards the
-notification to the link object. In response, the link object must
-update its moniker. The link object, in turn, forwards the
-notification to its own container.
+OLE ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Í’ÊíAƒŠƒ“ƒNƒ\[ƒX‚Ü‚½‚Í‚»‚ÌƒRƒ“ƒeƒi‚Ì–¼‘O•ÏX’Ê’m‚ğó‚¯‚é‚½‚ß‚É IAdviseSink::OnRename
+‚ğÀ‘•‚·‚éBƒŠƒ“ƒNƒ\[ƒX‚Æ‚µ‚Ä‹@”\‚·‚éƒIƒuƒWƒFƒNƒg‚Í OnRename
+‚ğŒÄ‚Ño‚µAV‚µ‚¢Š®‘Sƒ‚ƒjƒJ‚ğƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚É“n‚µAƒnƒ“ƒhƒ‰‚Í‚»‚Ì’Ê’m‚ğƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Ö“]‘—‚·‚éB‚±‚ê‚É‰‚¶‚ÄƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Íƒ‚ƒjƒJ‚ğXV‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚³‚ç‚ÉƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÍA‚»‚Ì’Ê’m‚ğ©g‚ÌƒRƒ“ƒeƒi‚Ö“]‘—‚·‚éB
 
 
 %index
 IAdviseSink_OnSave
-Called by the server to notify all registered advisory sinks that the object has been saved.
+ƒIƒuƒWƒFƒNƒg‚ª•Û‘¶‚³‚ê‚½‚±‚Æ‚ğA“o˜^‚³‚ê‚½‚·‚×‚Ä‚ÌƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚é‚½‚ß‚ÉƒT[ƒo[‚©‚çŒÄ‚Ño‚³‚ê‚éB
 %group
 COM misc / IAdviseSink
 %prm
 this
 this : [comobj] IAdviseSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Called by the server to notify all registered advisory sinks that the
-object has been saved.
+ƒIƒuƒWƒFƒNƒg‚ª•Û‘¶‚³‚ê‚½‚±‚Æ‚ğA“o˜^‚³‚ê‚½‚·‚×‚Ä‚ÌƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚é‚½‚ß‚ÉƒT[ƒo[‚©‚çŒÄ‚Ño‚³‚ê‚éB
 
 [”õl]
-Object handlers and link objects normally implement
-IAdviseSink::OnSave to receive notifications of when an object is
-saved to disk, either to its original storage (through a Save
-operation) or to new storage (through a Save As operation). Object
-Handlers and link objects register to be notified when an object is
-saved for the purpose of updating their caches, but then only if the
-advise flag passed during registration specifies ADVFCACHE_ONSAVE.
-Object handlers and link objects forward these notifications to their
-containers.
+
+ƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚âƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÍAƒIƒuƒWƒFƒNƒg‚ªŒ³‚ÌƒXƒgƒŒ[ƒWi•Û‘¶‘€ìŒo—Rj‚Ü‚½‚ÍV‚µ‚¢ƒXƒgƒŒ[ƒWi–¼‘O‚ğ•t‚¯‚Ä•Û‘¶‘€ìŒo—Rj‚ÖƒfƒBƒXƒN‚É•Û‘¶‚³‚ê‚½‚Æ‚«‚É’Ê’m‚ğó‚¯‚é‚½‚ß‚ÉA’Êí
+IAdviseSink::OnSave
+‚ğÀ‘•‚·‚éBƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚âƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÍA©g‚ÌƒLƒƒƒbƒVƒ…‚ğXV‚·‚é–Ú“I‚ÅƒIƒuƒWƒFƒNƒg‚Ì•Û‘¶’Ê’m‚ğ“o˜^‚·‚é‚ªA‚±‚ê‚Í“o˜^‚É“n‚µ‚½ƒAƒhƒoƒCƒXƒtƒ‰ƒO‚ª
+ADVFCACHE_ONSAVE
+‚ğw’è‚µ‚Ä‚¢‚éê‡‚Ì‚İ‚Å‚ ‚éBƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚ÆƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÍA‚±‚ê‚ç‚Ì’Ê’m‚ğ©g‚ÌƒRƒ“ƒeƒi‚É“]‘—‚·‚éB
 
 
 %index
 IAdviseSink_OnClose
-Called by the server to notify all registered advisory sinks that the object has changed from the running to the loaded state.
+ƒIƒuƒWƒFƒNƒg‚ªÀsó‘Ô‚©‚çƒ[ƒhó‘Ô‚Ö•Ï‰»‚µ‚½‚±‚Æ‚ğA“o˜^‚³‚ê‚½‚·‚×‚Ä‚ÌƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚é‚½‚ß‚ÉƒT[ƒo[‚©‚çŒÄ‚Ño‚³‚ê‚éB
 %group
 COM misc / IAdviseSink
 %prm
 this
 this : [comobj] IAdviseSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Called by the server to notify all registered advisory sinks that the
-object has changed from the running to the loaded state.
+ƒIƒuƒWƒFƒNƒg‚ªÀsó‘Ô‚©‚çƒ[ƒhó‘Ô‚Ö•Ï‰»‚µ‚½‚±‚Æ‚ğA“o˜^‚³‚ê‚½‚·‚×‚Ä‚ÌƒAƒhƒoƒCƒXƒVƒ“ƒN‚É’Ê’m‚·‚é‚½‚ß‚ÉƒT[ƒo[‚©‚çŒÄ‚Ño‚³‚ê‚éB
 
 [”õl]
-The OnClose notification indicates that an object is making the
-transition from the running to the loaded state, so its container can
-take appropriate measures to ensure an orderly shutdown. For example,
-an object handler must release its pointer to the object. If the
-object that is closing is the last open object supported by its OLE
-server application, the application can also shut down. In the case
-of a link object, the notification that the object is closing should
-always be interpreted to mean that the connection to the link source
-has broken.
+OnClose
+’Ê’m‚ÍAƒIƒuƒWƒFƒNƒg‚ªÀsó‘Ô‚©‚çƒ[ƒhó‘Ô‚Ö‘JˆÚ‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚é‚±‚Æ‚ğ¦‚µAƒRƒ“ƒeƒi‚ª®‘R‚Æ‚µ‚½ƒVƒƒƒbƒgƒ_ƒEƒ“‚ğs‚¦‚é‚æ‚¤‚É‚·‚éB‚½‚Æ‚¦‚ÎAƒIƒuƒWƒFƒNƒgƒnƒ“ƒhƒ‰‚ÍƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B•Â‚¶‚æ‚¤‚Æ‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚ªA‚»‚Ì
+OLE
+ƒT[ƒo[ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚æ‚Á‚ÄƒTƒ|[ƒg‚³‚ê‚éÅŒã‚ÌŠJ‚¢‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚Å‚ ‚ê‚ÎAƒAƒvƒŠƒP[ƒVƒ‡ƒ“©‘Ì‚àƒVƒƒƒbƒgƒ_ƒEƒ“‚Å‚«‚éBƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Ìê‡A‚±‚Ì’Ê’m‚Íí‚ÉƒŠƒ“ƒNƒ\[ƒX‚Æ‚ÌÚ‘±‚ªØ’f‚³‚ê‚½‚±‚Æ‚ğˆÓ–¡‚·‚é‚Æ‰ğß‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
@@ -776,188 +745,157 @@ transform : [var]
 
 %index
 ID2D1BitmapBrush_SetExtendModeX
-Specifies how the brush horizontally tiles those areas that extend past its bitmap.
+ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª…•½•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğw’è‚·‚éB
 %group
 COM misc / ID2D1BitmapBrush
 %prm
 this, extendModeX
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-extendModeX : [int] Type: D2D1_EXTEND_MODE A value that specifies how the brush horizontally tiles those areas that extend past its bitmap.
+extendModeX : [int] Œ^: D2D1_EXTEND_MODE ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª…•½•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğ¦‚·’lB
 %inst
-Specifies how the brush horizontally tiles those areas that extend
-past its bitmap.
+ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª…•½•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğw’è‚·‚éB
 
 [”õl]
-Sometimes, the bitmap for a bitmap brush doesn't completely fill the
-area being painted. When this happens, Direct2D uses the brush's
-horizontal (SetExtendModeX) and vertical (SetExtendModeY) extend mode
-settings to determine how to fill the remaining area. The following
-illustration shows the results from every possible combination of the
-extend modes for an ID2D1BitmapBrush: D2D1_EXTEND_MODE_CLAMP (CLAMP),
-D2D1_EXTEND_MODE_WRAP (WRAP), and D2D1_EXTEND_MIRROR (MIRROR).
-This doc was truncated.
+ƒrƒbƒgƒ}ƒbƒvƒuƒ‰ƒV‚Ìƒrƒbƒgƒ}ƒbƒv‚ª•`‰æ‘ÎÛ‚Ì—Ìˆæ‚ğŠ®‘S‚É–„‚ß‚«‚ê‚È‚¢ê‡‚ª‚ ‚éB‚»‚Ì‚æ‚¤‚È‚Æ‚«ADirect2D ‚Íƒuƒ‰ƒV‚Ì…•½•ûŒü
+(SetExtendModeX) ‚¨‚æ‚Ñ‚’¼•ûŒü (SetExtendModeY)
+‚ÌŠg’£ƒ‚[ƒhİ’è‚ÉŠî‚Ã‚¢‚Äc‚è‚Ì—Ìˆæ‚Ì–„‚ß•û‚ğŒˆ’è‚·‚éBŸ‚Ì}‚ÍAID2D1BitmapBrush ‚É‘Î‚·‚éŠg’£ƒ‚[ƒh‚Ì‘g‚İ‡‚í‚¹
+(D2D1_EXTEND_MODE_CLAMP (CLAMP)AD2D1_EXTEND_MODE_WRAP
+(WRAP)AD2D1_EXTEND_MIRROR (MIRROR)) ‚ÌŒ‹‰Ê‚ğ¦‚µ‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 ID2D1BitmapBrush_SetExtendModeY
-Specifies how the brush vertically tiles those areas that extend past its bitmap.
+ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª‚’¼•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğw’è‚·‚éB
 %group
 COM misc / ID2D1BitmapBrush
 %prm
 this, extendModeY
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-extendModeY : [int] Type: D2D1_EXTEND_MODE A value that specifies how the brush vertically tiles those areas that extend past its bitmap.
+extendModeY : [int] Œ^: D2D1_EXTEND_MODE ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª‚’¼•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğ¦‚·’lB
 %inst
-Specifies how the brush vertically tiles those areas that extend past
-its bitmap.
+ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª‚’¼•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğw’è‚·‚éB
 
 [”õl]
-Sometimes, the bitmap for a bitmap brush doesn't completely fill the
-area being painted. When this happens, Direct2D uses the brush's
-horizontal (SetExtendModeX) and vertical (SetExtendModeY) extend mode
-settings to determine how to fill the remaining area. The following
-illustration shows the results from every possible combination of the
-extend modes for an ID2D1BitmapBrush: D2D1_EXTEND_MODE_CLAMP (CLAMP),
-D2D1_EXTEND_MODE_WRAP (WRAP), and D2D1_EXTEND_MIRROR (MIRROR).
-This doc was truncated.
+ƒrƒbƒgƒ}ƒbƒvƒuƒ‰ƒV‚Ìƒrƒbƒgƒ}ƒbƒv‚ª•`‰æ‘ÎÛ‚Ì—Ìˆæ‚ğŠ®‘S‚É–„‚ß‚«‚ê‚È‚¢ê‡‚ª‚ ‚éB‚»‚Ì‚æ‚¤‚È‚Æ‚«ADirect2D ‚Íƒuƒ‰ƒV‚Ì…•½•ûŒü
+(SetExtendModeX) ‚¨‚æ‚Ñ‚’¼•ûŒü (SetExtendModeY)
+‚ÌŠg’£ƒ‚[ƒhİ’è‚ÉŠî‚Ã‚¢‚Äc‚è‚Ì—Ìˆæ‚Ì–„‚ß•û‚ğŒˆ’è‚·‚éBŸ‚Ì}‚ÍAID2D1BitmapBrush ‚É‘Î‚·‚éŠg’£ƒ‚[ƒh‚Ì‘g‚İ‡‚í‚¹
+(D2D1_EXTEND_MODE_CLAMP (CLAMP)AD2D1_EXTEND_MODE_WRAP
+(WRAP)AD2D1_EXTEND_MIRROR (MIRROR)) ‚ÌŒ‹‰Ê‚ğ¦‚µ‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 ID2D1BitmapBrush_SetInterpolationMode
-Specifies the interpolation mode used when the brush bitmap is scaled or rotated.
+ƒuƒ‰ƒV‚Ìƒrƒbƒgƒ}ƒbƒv‚ªŠg‘åk¬‚Ü‚½‚Í‰ñ“]‚³‚ê‚½Û‚Ég—p‚³‚ê‚é•âŠÔƒ‚[ƒh‚ğw’è‚·‚éB
 %group
 COM misc / ID2D1BitmapBrush
 %prm
 this, interpolationMode
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-interpolationMode : [int] Type: D2D1_BITMAP_INTERPOLATION_MODE The interpolation mode used when the brush bitmap is scaled or rotated.
+interpolationMode : [int] Œ^: D2D1_BITMAP_INTERPOLATION_MODE ƒuƒ‰ƒV‚Ìƒrƒbƒgƒ}ƒbƒv‚ªŠg‘åk¬‚Ü‚½‚Í‰ñ“]‚³‚ê‚½Û‚Ég—p‚³‚ê‚é•âŠÔƒ‚[ƒhB
 %inst
-Specifies the interpolation mode used when the brush bitmap is scaled
-or rotated.
+ƒuƒ‰ƒV‚Ìƒrƒbƒgƒ}ƒbƒv‚ªŠg‘åk¬‚Ü‚½‚Í‰ñ“]‚³‚ê‚½Û‚Ég—p‚³‚ê‚é•âŠÔƒ‚[ƒh‚ğw’è‚·‚éB
 
 [”õl]
-This method sets the interpolation mode for a bitmap, which is an
-enum value that is specified in the D2D1_BITMAP_INTERPOLATION_MODE
-enumeration type. D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR
-represents nearest neighbor filtering. It looks up the nearest bitmap
-pixel to the current rendering pixel and chooses its exact color.
-D2D1_BITMAP_INTERPOLATION_MODE_LINEAR represents linear filtering,
-and interpolates a color from the four nearest bitmap pixels. The
-interpolation mode of a bitmap also affects subpixel translations. In
-a subpixel translation, bilinear interpolation positions the bitmap
-more precisely to the application requests, but blurs the bitmap in
-the process.
+‚±‚Ìƒƒ\ƒbƒh‚Íƒrƒbƒgƒ}ƒbƒv‚Ì•âŠÔƒ‚[ƒh‚ğİ’è‚·‚éB•âŠÔƒ‚[ƒh‚Í D2D1_BITMAP_INTERPOLATION_MODE
+—ñ‹“Œ^‚Åw’è‚³‚ê‚é—ñ‹“’l‚Å‚ ‚éBD2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR
+‚ÍÅ‹ß–TƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğ•\‚µAŒ»İ‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒOƒsƒNƒZƒ‹‚ÉÅ‚à‹ß‚¢ƒrƒbƒgƒ}ƒbƒvƒsƒNƒZƒ‹‚ğQÆ‚µ‚Ä‚»‚ÌF‚ğ‚»‚Ì‚Ü‚Ü‘I‘ğ‚·‚éBD2D1_BITMAP_INTERPOLATION_MODE_LINEAR
+‚ÍüŒ`ƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğ•\‚µAÅ‚à‹ß‚¢ 4
+‚Â‚Ìƒrƒbƒgƒ}ƒbƒvƒsƒNƒZƒ‹‚©‚çF‚ğ•âŠÔ‚·‚éBƒrƒbƒgƒ}ƒbƒv‚Ì•âŠÔƒ‚[ƒh‚ÍƒTƒuƒsƒNƒZƒ‹ˆÚ“®‚É‚à‰e‹¿‚·‚éBƒTƒuƒsƒNƒZƒ‹ˆÚ“®‚Å‚ÍA‘oüŒ`•âŠÔ‚É‚æ‚èƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì—v‹‚É‘Î‚µ‚Äƒrƒbƒgƒ}ƒbƒv‚ª‚æ‚è¸–§‚É”z’u‚³‚ê‚é‚ªA‚»‚Ì‰ß’ö‚Åƒrƒbƒgƒ}ƒbƒv‚Í‚Ú‚©‚³‚ê‚éB
 
 
 %index
 ID2D1BitmapBrush_SetBitmap
-Specifies the bitmap source that this brush uses to paint.
+‚±‚Ìƒuƒ‰ƒV‚ª•`‰æ‚Ég‚¤ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ğw’è‚·‚éB
 %group
 COM misc / ID2D1BitmapBrush
 %prm
 this, bitmap
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-bitmap : [comobj] Type: ID2D1Bitmap* The bitmap source used by the brush.
+bitmap : [comobj] Œ^: ID2D1Bitmap* ƒuƒ‰ƒV‚ªg‚¤ƒrƒbƒgƒ}ƒbƒvƒ\[ƒXB
 %inst
-Specifies the bitmap source that this brush uses to paint.
+‚±‚Ìƒuƒ‰ƒV‚ª•`‰æ‚Ég‚¤ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ğw’è‚·‚éB
 
 [”õl]
-This method specifies the bitmap source that this brush uses to
-paint. The bitmap is not resized or rescaled automatically to fit the
-geometry that it fills. The bitmap stays at its native size. To
-resize or translate the bitmap, use the SetTransform method to apply
-a transform to the brush. The native size of a bitmap is the width
-and height in bitmap pixels, divided by the bitmap DPI. This native
-size forms the base tile of the brush. To tile a subregion of the
-bitmap, you must generate a new bitmap containing this subregion and
-use SetBitmap to apply it to the brush.
+
+‚±‚Ìƒƒ\ƒbƒh‚Í‚±‚Ìƒuƒ‰ƒV‚ª•`‰æ‚Ég‚¤ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ğw’è‚·‚éBƒrƒbƒgƒ}ƒbƒv‚Í“h‚è‚Â‚Ô‚·‘ÎÛ‚ÌƒWƒIƒƒgƒŠ‚É‡‚í‚¹‚Ä©“®“I‚ÉƒŠƒTƒCƒY‚âƒŠƒXƒP[ƒ‹‚³‚ê‚é‚±‚Æ‚Í‚È‚­AƒlƒCƒeƒBƒuƒTƒCƒY‚Ì‚Ü‚ÜˆÛ‚³‚ê‚éBƒrƒbƒgƒ}ƒbƒv‚ğƒŠƒTƒCƒY‚Ü‚½‚Í•½sˆÚ“®‚µ‚½‚¢ê‡‚ÍASetTransform
+ƒƒ\ƒbƒh‚Åƒuƒ‰ƒV‚Éƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğ“K—p‚·‚éBƒrƒbƒgƒ}ƒbƒv‚ÌƒlƒCƒeƒBƒuƒTƒCƒY‚ÍAƒrƒbƒgƒ}ƒbƒvƒsƒNƒZƒ‹’PˆÊ‚Ì•‚Æ‚‚³‚ğƒrƒbƒgƒ}ƒbƒv‚Ì DPI
+‚ÅŠ„‚Á‚½’l‚Å‚ ‚éB‚±‚ÌƒlƒCƒeƒBƒuƒTƒCƒY‚ªƒuƒ‰ƒV‚ÌŠî–{ƒ^ƒCƒ‹‚Æ‚È‚éBƒrƒbƒgƒ}ƒbƒv‚Ì•”•ª—Ìˆæ‚ğƒ^ƒCƒ‹•\¦‚µ‚½‚¢ê‡‚ÍA‚»‚Ì•”•ª—Ìˆæ‚ğŠÜ‚ŞV‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚ğ¶¬‚µASetBitmap
+‚Åƒuƒ‰ƒV‚É“K—p‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 ID2D1BitmapBrush_GetExtendModeX
-Gets the method by which the brush horizontally tiles those areas that extend past its bitmap.
+ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª…•½•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğ¦‚·•û®‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1BitmapBrush
 %prm
 this
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the method by which the brush horizontally tiles those areas
-that extend past its bitmap.
+ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª…•½•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğ¦‚·•û®‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: D2D1_EXTEND_MODE A value that specifies how the brush
-horizontally tiles those areas that extend past its bitmap.
+Œ^: D2D1_EXTEND_MODE ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª…•½•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğ¦‚·’lB
 
 [”õl]
-Like all brushes, ID2D1BitmapBrush defines an infinite plane of
-content. Because bitmaps are finite, it relies on an extend mode to
-determine how the plane is filled horizontally and vertically.
+‚·‚×‚Ä‚Ìƒuƒ‰ƒV‚Æ“¯‚¶‚­AID2D1BitmapBrush
+‚Í–³ŒÀ•½–Ê‚ÌƒRƒ“ƒeƒ“ƒc‚ğ’è‹`‚·‚éBƒrƒbƒgƒ}ƒbƒv‚Í—LŒÀ‚Å‚ ‚é‚½‚ßA…•½•ûŒü‚¨‚æ‚Ñ‚’¼•ûŒü‚É•½–Ê‚ğ‚Ç‚¤–„‚ß‚é‚©‚ğŒˆ’è‚·‚é‚½‚ß‚ÉŠg’£ƒ‚[ƒh‚ğ—˜—p‚·‚éB
 
 
 %index
 ID2D1BitmapBrush_GetExtendModeY
-Gets the method by which the brush vertically tiles those areas that extend past its bitmap.
+ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª‚’¼•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğ¦‚·•û®‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1BitmapBrush
 %prm
 this
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the method by which the brush vertically tiles those areas that
-extend past its bitmap.
+ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª‚’¼•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğ¦‚·•û®‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: D2D1_EXTEND_MODE A value that specifies how the brush
-vertically tiles those areas that extend past its bitmap.
+Œ^: D2D1_EXTEND_MODE ƒrƒbƒgƒ}ƒbƒv‚Ì”ÍˆÍŠO‚Ì—Ìˆæ‚ğƒuƒ‰ƒV‚ª‚’¼•ûŒü‚É‚Ç‚Ì‚æ‚¤‚Éƒ^ƒCƒ‹•\¦‚·‚é‚©‚ğ¦‚·’lB
 
 [”õl]
-Like all brushes, ID2D1BitmapBrush defines an infinite plane of
-content. Because bitmaps are finite, it relies on an extend mode to
-determine how the plane is filled horizontally and vertically.
+‚·‚×‚Ä‚Ìƒuƒ‰ƒV‚Æ“¯‚¶‚­AID2D1BitmapBrush
+‚Í–³ŒÀ•½–Ê‚ÌƒRƒ“ƒeƒ“ƒc‚ğ’è‹`‚·‚éBƒrƒbƒgƒ}ƒbƒv‚Í—LŒÀ‚Å‚ ‚é‚½‚ßA…•½•ûŒü‚¨‚æ‚Ñ‚’¼•ûŒü‚É•½–Ê‚ğ‚Ç‚¤–„‚ß‚é‚©‚ğŒˆ’è‚·‚é‚½‚ß‚ÉŠg’£ƒ‚[ƒh‚ğ—˜—p‚·‚éB
 
 
 %index
 ID2D1BitmapBrush_GetInterpolationMode
-Gets the interpolation method used when the brush bitmap is scaled or rotated.
+ƒuƒ‰ƒV‚Ìƒrƒbƒgƒ}ƒbƒv‚ªŠg‘åk¬‚Ü‚½‚Í‰ñ“]‚³‚ê‚½Û‚Ég—p‚³‚ê‚é•âŠÔ•û®‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1BitmapBrush
 %prm
 this
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the interpolation method used when the brush bitmap is scaled or
-rotated.
+ƒuƒ‰ƒV‚Ìƒrƒbƒgƒ}ƒbƒv‚ªŠg‘åk¬‚Ü‚½‚Í‰ñ“]‚³‚ê‚½Û‚Ég—p‚³‚ê‚é•âŠÔ•û®‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: D2D1_BITMAP_INTERPOLATION_MODE The interpolation method used
-when the brush bitmap is scaled or rotated.
+Œ^: D2D1_BITMAP_INTERPOLATION_MODE ƒuƒ‰ƒV‚Ìƒrƒbƒgƒ}ƒbƒv‚ªŠg‘åk¬‚Ü‚½‚Í‰ñ“]‚³‚ê‚½Û‚Ég—p‚³‚ê‚é•âŠÔ•û®B
 
 [”õl]
-This method gets the interpolation mode of a bitmap, which is
-specified by the D2D1_BITMAP_INTERPOLATION_MODE enumeration type.
-D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR represents nearest
-neighbor filtering. It looks up the bitmap pixel nearest to the
-current rendering pixel and chooses its exact color.
-D2D1_BITMAP_INTERPOLATION_MODE_LINEAR represents linear filtering,
-and interpolates a color from the four nearest bitmap pixels. The
-interpolation mode of a bitmap also affects subpixel translations. In
-a subpixel translation, linear interpolation positions the bitmap
-more precisely to the application request, but blurs the bitmap in
-the process.
+‚±‚Ìƒƒ\ƒbƒh‚Íƒrƒbƒgƒ}ƒbƒv‚Ì•âŠÔƒ‚[ƒh‚ğæ“¾‚·‚éB•âŠÔƒ‚[ƒh‚Í D2D1_BITMAP_INTERPOLATION_MODE
+—ñ‹“Œ^‚Åw’è‚³‚ê‚éBD2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR
+‚ÍÅ‹ß–TƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğ•\‚·B‚±‚ê‚ÍŒ»İ‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒOƒsƒNƒZƒ‹‚ÉÅ‚à‹ß‚¢ƒrƒbƒgƒ}ƒbƒvƒsƒNƒZƒ‹‚ğQÆ‚µA‚»‚ÌF‚ğ‚»‚Ì‚Ü‚Ü‘I‘ğ‚·‚éBD2D1_BITMAP_INTERPOLATION_MODE_LINEAR
+‚ÍüŒ`ƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğ•\‚µAÅ‚à‹ß‚¢ 4
+‚Â‚Ìƒrƒbƒgƒ}ƒbƒvƒsƒNƒZƒ‹‚©‚çF‚ğ•âŠÔ‚·‚éBƒrƒbƒgƒ}ƒbƒv‚Ì•âŠÔƒ‚[ƒh‚ÍƒTƒuƒsƒNƒZƒ‹ˆÚ“®‚É‚à‰e‹¿‚·‚éBƒTƒuƒsƒNƒZƒ‹ˆÚ“®‚Å‚ÍAüŒ`•âŠÔ‚É‚æ‚èƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì—v‹‚É‘Î‚µ‚Äƒrƒbƒgƒ}ƒbƒv‚ª‚æ‚è¸–§‚É”z’u‚³‚ê‚é‚ªA‚»‚Ì‰ß’ö‚Åƒrƒbƒgƒ}ƒbƒv‚Í‚Ú‚©‚³‚ê‚éB
 
 
 %index
 ID2D1BitmapBrush_GetBitmap
-Gets the bitmap source that this brush uses to paint.
+‚±‚Ìƒuƒ‰ƒV‚ª•`‰æ‚Ég‚¤ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1BitmapBrush
 %prm
 this, bitmap
 this : [comobj] ID2D1BitmapBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-bitmap : [comobj] Type: ID2D1Bitmap** When this method returns, contains the address to a pointer to the bitmap with which this brush paints.
+bitmap : [comobj] Œ^: ID2D1Bitmap** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A‚±‚Ìƒuƒ‰ƒV‚ª•`‰æ‚Ég‚¤ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Gets the bitmap source that this brush uses to paint.
+‚±‚Ìƒuƒ‰ƒV‚ª•`‰æ‚Ég‚¤ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ğæ“¾‚·‚éB
 
 
 %index
@@ -1680,32 +1618,28 @@ renderTargetProperties : [var]
 
 %index
 ID2D1BitmapRenderTarget_GetBitmap
-Retrieves the bitmap for this render target. The returned bitmap can be used for drawing operations.
+‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg—p‚Ìƒrƒbƒgƒ}ƒbƒv‚ğæ“¾‚·‚éB•Ô‚³‚ê‚éƒrƒbƒgƒ}ƒbƒv‚Í•`‰æ‘€ì‚Ég—p‚Å‚«‚éB
 %group
 COM misc / ID2D1BitmapRenderTarget
 %prm
 this, bitmap
 this : [comobj] ID2D1BitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-bitmap : [comobj] Type: ID2D1Bitmap** When this method returns, contains the address of a pointer to the bitmap for this render target. This bitmap can be used for drawing operations.
+bitmap : [comobj] Œ^: ID2D1Bitmap** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg—p‚Ìƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB‚±‚Ìƒrƒbƒgƒ}ƒbƒv‚Í•`‰æ‘€ì‚Ég—p‚Å‚«‚éB
 %inst
-Retrieves the bitmap for this render target. The returned bitmap can
-be used for drawing operations.
+‚±‚ÌƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg—p‚Ìƒrƒbƒgƒ}ƒbƒv‚ğæ“¾‚·‚éB•Ô‚³‚ê‚éƒrƒbƒgƒ}ƒbƒv‚Í•`‰æ‘€ì‚Ég—p‚Å‚«‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í
 [**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
-error code.
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The DPI for the ID2D1Bitmap obtained from GetBitmap will be the DPI
-of the ID2D1BitmapRenderTarget when the render target was created.
-Changing the DPI of the ID2D1BitmapRenderTarget by calling SetDpi
-doesn't affect the DPI of the bitmap, even if SetDpi is called before
-GetBitmap. Using SetDpi to change the DPI of the
-ID2D1BitmapRenderTarget does affect how contents are rendered into
-the bitmap: it just doesn't affect the DPI of the bitmap retrieved by
-GetBitmap.
+GetBitmap ‚Åæ“¾‚µ‚½ ID2D1Bitmap ‚Ì DPI ‚ÍAID2D1BitmapRenderTarget
+‚ªì¬‚³‚ê‚½“_‚Å‚Ì DPI ‚Æ‚È‚éBSetDpi ‚ÌŒÄ‚Ño‚µ‚É‚æ‚Á‚Ä ID2D1BitmapRenderTarget ‚Ì DPI
+‚ğ•ÏX‚µ‚Ä‚àA‚½‚Æ‚¦‚»‚ê‚ª GetBitmap ‚Ì‘O‚Å‚ ‚Á‚Ä‚àAƒrƒbƒgƒ}ƒbƒv©‘Ì‚Ì DPI ‚Í•Ï‰»‚µ‚È‚¢BSetDpi ‚Å
+ID2D1BitmapRenderTarget ‚Ì DPI
+‚ğ•ÏX‚·‚é‚ÆAƒrƒbƒgƒ}ƒbƒv‚Ö•`‰æ‚³‚ê‚é“à—e‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO•û–@‚É‚Í‰e‹¿‚·‚é‚ªAGetBitmap ‚Åæ“¾‚³‚ê‚éƒrƒbƒgƒ}ƒbƒv‚Ì DPI
+‚É‚Í‰e‹¿‚µ‚È‚¢B
 
 
 %index
@@ -1722,20 +1656,20 @@ factory : [comobj]
 
 %index
 ID2D1Brush_SetOpacity
-Sets the degree of opacity of this brush.
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğİ’è‚·‚éB
 %group
 COM misc / ID2D1Brush
 %prm
 this, opacity
 this : [comobj] ID2D1Brush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-opacity : [float] Type: FLOAT A value between zero and 1 that indicates the opacity of the brush. This value is a constant multiplier that linearly scales the alpha value of all pixels filled by the brush. The opacity values are clamped in the range 0?1 before they are multiplied together.
+opacity : [float] Œ^: FLOAT ƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğ¦‚· 0 ‚©‚ç 1 ‚Ü‚Å‚Ì’lB‚±‚Ì’l‚Íƒuƒ‰ƒV‚É‚æ‚Á‚Ä“h‚è‚Â‚Ô‚³‚ê‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹‚ÌƒAƒ‹ƒtƒ@’l‚É‘Î‚·‚éüŒ`ƒXƒP[ƒŠƒ“ƒOŒW”‚Æ‚µ‚Äì—p‚·‚é’è””{—¦‚Å‚ ‚éB•s“§–¾“x‚Ì’l‚ÍæZ‘O‚É 0?1 ‚Ì”ÍˆÍ‚ÉƒNƒ‰ƒ“ƒv‚³‚ê‚éB
 %inst
-Sets the degree of opacity of this brush.
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğİ’è‚·‚éB
 
 
 %index
 ID2D1Brush_SetTransform
-Sets the transformation applied to the brush.
+ƒuƒ‰ƒV‚É“K—p‚·‚é•ÏŠ·‚ğİ’è‚·‚éB
 %group
 COM misc / ID2D1Brush
 %prm
@@ -1743,73 +1677,57 @@ this, transform
 this : [comobj] ID2D1Brush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 transform : [var] 
 %inst
-Sets the transformation applied to the brush.
+ƒuƒ‰ƒV‚É“K—p‚·‚é•ÏŠ·‚ğİ’è‚·‚éB
 
 [”õl]
-When you paint with a brush, it paints in the coordinate space of the
-render target. Brushes do not automatically position themselves to
-align with the object being painted; by default, they begin painting
-at the origin (0, 0) of the render target. You can "move" the
-gradient defined by an
-[**ID2D1LinearGradientBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1lineargradientbrush)
-to a target area by setting its start point and end point. Likewise,
-you can move the gradient defined by an
+
+ƒuƒ‰ƒV‚Å•`‰æ‚·‚éÛ‚ÍAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌÀ•W‹óŠÔ‚Å“h‚è‚Â‚Ô‚µ‚ªs‚í‚ê‚éBƒuƒ‰ƒV‚Í•`‰æ‘ÎÛ‚É®—ñ‚·‚é‚æ‚¤©“®“I‚ÉˆÊ’u‚ğ‡‚í‚¹‚é‚í‚¯‚Å‚Í‚È‚­AƒfƒtƒHƒ‹ƒg‚Å‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ´“_
+(0, 0)
+‚©‚ç•`‰æ‚ğŠJn‚·‚éB[**ID2D1LinearGradientBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1lineargradientbrush)
+‚Å’è‹`‚³‚ê‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÍAŠJn“_‚ÆI—¹“_‚ğİ’è‚·‚é‚±‚Æ‚Å‘ÎÛ—Ìˆæ‚ÖuˆÚ“®v‚Å‚«‚éB“¯—l‚É
 [**ID2D1RadialGradientBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1radialgradientbrush)
-by changing its center and radii. To align the content of an
+‚Å’è‹`‚³‚ê‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Í’†S‚Æ”¼Œa‚ğ•ÏX‚·‚é‚±‚Æ‚ÅˆÚ“®‚Å‚«‚éB[**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
+‚Ì“à—e‚ğ“h‚è‚Â‚Ô‚µ‘ÎÛ—Ìˆæ‚É®—ñ‚³‚¹‚½‚¢ê‡‚Í **SetTransform**
+ƒƒ\ƒbƒh‚ğg‚Á‚Äƒrƒbƒgƒ}ƒbƒv‚ğ–Ú“I‚ÌˆÊ’u‚Ö•½sˆÚ“®‚Å‚«‚éB‚±‚Ì•ÏŠ·‚Íƒuƒ‰ƒV‚Ì‚İ‚Éì—p‚µAƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚É‚æ‚Á‚Ä•`‰æ‚³‚ê‚é‘¼‚ÌƒRƒ“ƒeƒ“ƒc‚É‚Í‰e‹¿‚µ‚È‚¢BŸ‚Ì}‚Í
+(100, 100) ‚ÉˆÊ’u‚·‚é‹éŒ`‚ğ
 [**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
-to the area being painted, you can use the **SetTransform** method to
-translate the bitmap to the desired location. This transform only
-affects the brush; it does not affect any other content drawn by the
-render target. The following illustrations show the effect of using
-an
+‚Å“h‚è‚Â‚Ô‚µ‚½‚Æ‚«‚ÌŒø‰Ê‚ğ¦‚·B¶‚Ì}‚Íƒuƒ‰ƒV‚ğ•ÏŠ·‚µ‚È‚¢‚Ü‚Ü‹éŒ`‚ğ“h‚è‚Â‚Ô‚µ‚½Œ‹‰Ê‚ÅAƒrƒbƒgƒ}ƒbƒv‚ÍƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌŒ´“_‚É•`‰æ‚³‚ê‚éB‚»‚ÌŒ‹‰ÊA‹éŒ`‚É‚Íƒrƒbƒgƒ}ƒbƒv‚Ìˆê•”‚µ‚©Œ»‚ê‚È‚¢B‰E‚Ì}‚Í
 [**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
-to fill a rectangle located at (100, 100). The illustration on the
-left illustration shows the result of filling the rectangle without
-transforming the brush: the bitmap is drawn at the render target's
-origin. As a result, only a portion of the bitmap appears in the
-rectangle. The illustration on the right shows the result of
-transforming the
-[**ID2D1BitmapBrush**](/windows/win32/api/d2d1/nn-d2d1-id2d1bitmapbrush)
-so that its content is shifted 50 pixels to the right and 50 pixels
-down. The bitmap now fills the rectangle. ![illustration of two
-squares, one painted with a bitmap without a transformed brush and
-one painted with a transformed
-brush](images/brushes-ovw-transform.png)
+‚ğ•ÏŠ·‚µ‚Ä‚»‚Ì“à—e‚ğ‰E‚Ö 50 ƒsƒNƒZƒ‹A‰º‚Ö 50
+ƒsƒNƒZƒ‹‚¸‚ç‚µ‚½Œ‹‰Ê‚ÅAƒrƒbƒgƒ}ƒbƒv‚ª‹éŒ`‚ğ–„‚ß‚Ä‚¢‚éB![•ÏŠ·‚µ‚Ä‚¢‚È‚¢ƒuƒ‰ƒV‚Å“h‚ç‚ê‚½³•ûŒ`‚ÆA•ÏŠ·‚µ‚½ƒuƒ‰ƒV‚Å“h‚ç‚ê‚½³•ûŒ`‚ğ¦‚·}](images/brushes-ovw-transform.png)
 
 
 %index
 ID2D1Brush_GetOpacity
-Gets the degree of opacity of this brush.
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1Brush
 %prm
 this
 this : [comobj] ID2D1Brush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the degree of opacity of this brush.
+‚±‚Ìƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: FLOAT A value between zero and 1 that indicates the opacity of
-the brush. This value is a constant multiplier that linearly scales
-the alpha value of all pixels filled by the brush. The opacity values
-are clamped in the range 0?1 before they are multiplied together.
+Œ^: FLOAT ƒuƒ‰ƒV‚Ì•s“§–¾“x‚ğ¦‚· 0 ‚©‚ç 1
+‚Ü‚Å‚Ì’lB‚±‚Ì’l‚Íƒuƒ‰ƒV‚É‚æ‚Á‚Ä“h‚è‚Â‚Ô‚³‚ê‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹‚ÌƒAƒ‹ƒtƒ@’l‚É‘Î‚·‚éüŒ`ƒXƒP[ƒŠƒ“ƒOŒW”‚Æ‚µ‚Äì—p‚·‚é’è””{—¦‚Å‚ ‚éB•s“§–¾“x‚Ì’l‚ÍæZ‘O‚É
+0?1 ‚Ì”ÍˆÍ‚ÉƒNƒ‰ƒ“ƒv‚³‚ê‚éB
 
 
 %index
 ID2D1Brush_GetTransform
-Gets the transform applied to this brush.
+‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1Brush
 %prm
 this, transform
 this : [comobj] ID2D1Brush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-transform : [var] Type: D2D1_MATRIX_3X2_F* The transform applied to this brush.
+transform : [var] Œ^: D2D1_MATRIX_3X2_F* ‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·B
 %inst
-Gets the transform applied to this brush.
+‚±‚Ìƒuƒ‰ƒV‚É“K—p‚³‚ê‚Ä‚¢‚é•ÏŠ·‚ğæ“¾‚·‚éB
 
 [”õl]
-When the brush transform is the identity matrix, the brush appears in
-the same coordinate space as the render target in which it is drawn.
+ƒuƒ‰ƒV‚Ì•ÏŠ·‚ª’PˆÊs—ñ‚Ìê‡Aƒuƒ‰ƒV‚Í•`‰æ‚³‚ê‚éƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Æ“¯‚¶À•W‹óŠÔ‚ÉoŒ»‚·‚éB
 
 
 %index
@@ -2532,29 +2450,25 @@ renderTargetProperties : [var]
 
 %index
 ID2D1DCRenderTarget_BindDC
-Binds the render target to the device context to which it issues drawing commands.
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğA•`‰æƒRƒ}ƒ“ƒh‚ğ”­s‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉƒoƒCƒ“ƒh‚·‚éB
 %group
 COM misc / ID2D1DCRenderTarget
 %prm
 this, hDC, pSubRect
 this : [comobj] ID2D1DCRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hDC : [intptr] Type: const HDC The device context to which the render target issues drawing commands.
-pSubRect : [var] Type: const RECT* The dimensions of the handle to a device context (HDC) to which the render target is bound.
+hDC : [intptr] Œ^: const HDC ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ª•`‰æƒRƒ}ƒ“ƒh‚ğ”­s‚·‚é‘ÎÛ‚Æ‚È‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒgB
+pSubRect : [var] Œ^: const RECT* ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ªƒoƒCƒ“ƒh‚³‚ê‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (HDC) ƒnƒ“ƒhƒ‹‚Ì¡–@B
 %inst
-Binds the render target to the device context to which it issues
-drawing commands.
+ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ğA•`‰æƒRƒ}ƒ“ƒh‚ğ”­s‚·‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉƒoƒCƒ“ƒh‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í
 [**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
-error code.
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Before you can render with the DC render target, you must use its
-BindDC method to associate it with a GDI DC. You do this each time
-you use a different DC, or the size of the area you want to draw to
-changes.
+DC ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÅƒŒƒ“ƒ_ƒŠƒ“ƒO‚·‚é‘O‚ÉA‚»‚Ì BindDC ƒƒ\ƒbƒh‚ğg‚Á‚Ä GDI DC ‚ÆŠÖ˜A•t‚¯‚é•K—v‚ª‚ ‚éBˆÙ‚È‚é DC
+‚ğg‚¤‚½‚ÑA‚Ü‚½‚Í•`‰æ‚µ‚½‚¢—Ìˆæ‚ÌƒTƒCƒY‚ª•Ï‚í‚é‚½‚Ñ‚É‚±‚Ì‘€ì‚ğs‚¤B
 
 
 %index
@@ -2571,21 +2485,20 @@ factory : [comobj]
 
 %index
 ID2D1DrawingStateBlock_GetDescription
-Retrieves the antialiasing mode, transform, and tags portion of the drawing state.
+•`‰æó‘Ô‚Ì‚¤‚¿ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhA•ÏŠ·Aƒ^ƒO‚Ì•”•ª‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1DrawingStateBlock
 %prm
 this, stateDescription
 this : [comobj] ID2D1DrawingStateBlock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-stateDescription : [var] Type: D2D1_DRAWING_STATE_DESCRIPTION* When this method returns, contains the antialiasing mode, transform, and tags portion of the drawing state. You must allocate storage for this parameter.
+stateDescription : [var] Œ^: D2D1_DRAWING_STATE_DESCRIPTION* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A•`‰æó‘Ô‚Ì‚¤‚¿ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhA•ÏŠ·Aƒ^ƒO‚Ì•”•ª‚ğŠi”[‚·‚éBŒÄ‚Ño‚µ‘¤‚ª‚±‚Ìƒpƒ‰ƒ[ƒ^—p‚Ì—Ìˆæ‚ğŠm•Û‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Retrieves the antialiasing mode, transform, and tags portion of the
-drawing state.
+•`‰æó‘Ô‚Ì‚¤‚¿ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhA•ÏŠ·Aƒ^ƒO‚Ì•”•ª‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1DrawingStateBlock_SetDescription
-Specifies the antialiasing mode, transform, and tags portion of the drawing state.
+•`‰æó‘Ô‚Ì‚¤‚¿ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhA•ÏŠ·Aƒ^ƒO‚Ì•”•ª‚ğw’è‚·‚éB
 %group
 COM misc / ID2D1DrawingStateBlock
 %prm
@@ -2593,34 +2506,33 @@ this, stateDescription
 this : [comobj] ID2D1DrawingStateBlock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 stateDescription : [var] 
 %inst
-Specifies the antialiasing mode, transform, and tags portion of the
-drawing state.
+•`‰æó‘Ô‚Ì‚¤‚¿ƒAƒ“ƒ`ƒGƒCƒŠƒAƒXƒ‚[ƒhA•ÏŠ·Aƒ^ƒO‚Ì•”•ª‚ğw’è‚·‚éB
 
 
 %index
 ID2D1DrawingStateBlock_SetTextRenderingParams
-Specifies the text-rendering configuration of the drawing state.
+•`‰æó‘Ô‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOİ’è‚ğw’è‚·‚éB
 %group
 COM misc / ID2D1DrawingStateBlock
 %prm
 this, textRenderingParams
 this : [comobj] ID2D1DrawingStateBlock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textRenderingParams : [comobj] Type: IDWriteRenderingParams* The text-rendering configuration of the drawing state, or NULL to use default settings.
+textRenderingParams : [comobj] Œ^: IDWriteRenderingParams* •`‰æó‘Ô‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOİ’èBƒfƒtƒHƒ‹ƒgİ’è‚ğg—p‚·‚éê‡‚Í NULLB
 %inst
-Specifies the text-rendering configuration of the drawing state.
+•`‰æó‘Ô‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOİ’è‚ğw’è‚·‚éB
 
 
 %index
 ID2D1DrawingStateBlock_GetTextRenderingParams
-Retrieves the text-rendering configuration of the drawing state.
+•`‰æó‘Ô‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOİ’è‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1DrawingStateBlock
 %prm
 this, textRenderingParams
 this : [comobj] ID2D1DrawingStateBlock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textRenderingParams : [comobj] Type: IDWriteRenderingParams** When this method returns, contains the address of a pointer to an IDWriteRenderingParams object that describes the text-rendering configuration of the drawing state.
+textRenderingParams : [comobj] Œ^: IDWriteRenderingParams** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A•`‰æó‘Ô‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOİ’è‚ğ•\‚· IDWriteRenderingParams ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Retrieves the text-rendering configuration of the drawing state.
+•`‰æó‘Ô‚ÌƒeƒLƒXƒgƒŒƒ“ƒ_ƒŠƒ“ƒOİ’è‚ğæ“¾‚·‚éB
 
 
 %index
@@ -2832,15 +2744,15 @@ geometrySink : [comobj]
 
 %index
 ID2D1EllipseGeometry_GetEllipse
-Gets the D2D1_ELLIPSE structure that describes this ellipse geometry.
+‚±‚Ì‘È‰~ƒWƒIƒƒgƒŠ‚ğ•\‚· D2D1_ELLIPSE \‘¢‘Ì‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1EllipseGeometry
 %prm
 this, ellipse
 this : [comobj] ID2D1EllipseGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ellipse : [var] Type: D2D1_ELLIPSE* When this method returns, contains the D2D1_ELLIPSE that describes the size and position of the ellipse. You must allocate storage for this parameter.
+ellipse : [var] Œ^: D2D1_ELLIPSE* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‘È‰~‚ÌƒTƒCƒY‚ÆˆÊ’u‚ğ•\‚· D2D1_ELLIPSE ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì‹L‰¯—Ìˆæ‚ÍŒÄ‚Ño‚µ‘¤‚ÅŠm•Û‚·‚é•K—v‚ª‚ ‚éB
 %inst
-Gets the D2D1_ELLIPSE structure that describes this ellipse geometry.
+‚±‚Ì‘È‰~ƒWƒIƒƒgƒŠ‚ğ•\‚· D2D1_ELLIPSE \‘¢‘Ì‚ğæ“¾‚·‚éB
 
 
 %index
@@ -3147,7 +3059,7 @@ factory : [comobj]
 
 %index
 ID2D1Geometry_GetBounds
-Retrieves the bounds of the geometry.
+ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1Geometry
 %prm
@@ -3156,12 +3068,12 @@ this : [comobj] ID2D1Geometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 worldTransform : [var] 
 bounds : [var] 
 %inst
-Retrieves the bounds of the geometry.
+ƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1Geometry_GetWidenedBounds
-Gets the bounds of the geometry after it has been widened by the specified stroke width and style and transformed by the specified matrix.
+w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1Geometry
 %prm
@@ -3173,14 +3085,12 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 bounds : [var] 
 %inst
-Gets the bounds of the geometry after it has been widened by the
-specified stroke width and style and transformed by the specified
-matrix.
+w’è‚µ‚½ƒXƒgƒ[ƒN•‚ÆƒXƒ^ƒCƒ‹‚Å‘¾‚ç‚¹Aw’è‚µ‚½s—ñ‚Å•ÏŠ·‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚Ì‹«ŠE‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1Geometry_StrokeContainsPoint
-Determines whether the geometry's stroke contains the specified point.
+ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 COM misc / ID2D1Geometry
 %prm
@@ -3193,13 +3103,12 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 contains : [var] 
 %inst
-Determines whether the geometry's stroke contains the specified
-point.
+ƒWƒIƒƒgƒŠ‚ÌƒXƒgƒ[ƒN‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 
 %index
 ID2D1Geometry_FillContainsPoint
-Indicates whether the area filled by the geometry would contain the specified point.
+ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
 %group
 COM misc / ID2D1Geometry
 %prm
@@ -3210,13 +3119,12 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 contains : [var] 
 %inst
-Indicates whether the area filled by the geometry would contain the
-specified point.
+ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ—Ìˆæ‚ªw’è‚µ‚½“_‚ğŠÜ‚Ş‚©‚Ç‚¤‚©‚ğ¦‚·B
 
 
 %index
 ID2D1Geometry_CompareWithGeometry
-Describes the intersection between this geometry and the specified geometry.
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
 %group
 COM misc / ID2D1Geometry
 %prm
@@ -3227,23 +3135,21 @@ inputGeometryTransform : [var]
 flatteningTolerance : [float] 
 relation : [var] 
 %inst
-Describes the intersection between this geometry and the specified
-geometry.
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ÌŒğ·‚ğ‹Lq‚·‚éB
 
 [”õl]
-When interpreting the returned *relation* value, it is important to
-remember that the member
-[**D2D1\_GEOMETRY\_RELATION\_IS\_CONTAINED**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
-of the **D2D1\_GEOMETRY\_RELATION** enumeration type means that this
-geometry is contained inside *inputGeometry*, not that this geometry
-contains *inputGeometry*. For more information about how to interpret
-other possible return values, see
-[**D2D1\_GEOMETRY\_RELATION**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation).
+•Ô‚³‚ê‚é *relation*
+‚Ì’l‚ğ‰ğß‚·‚éÛ‚ÍA[**D2D1\_GEOMETRY\_RELATION\_IS\_CONTAINED**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
+‚Æ‚¢‚¤ **D2D1\_GEOMETRY\_RELATION** —ñ‹“‘Ì‚Ìƒƒ“ƒo[‚ªu‚±‚ÌƒWƒIƒƒgƒŠ‚ª *inputGeometry*
+‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚év‚±‚Æ‚ğˆÓ–¡‚µAu‚±‚ÌƒWƒIƒƒgƒŠ‚ª *inputGeometry*
+‚ğŠÜ‚Şv‚Æ‚¢‚¤ˆÓ–¡‚Å‚Í‚È‚¢“_‚É’ˆÓ‚·‚é‚±‚Æ‚ªd—v‚Å‚ ‚éB‘¼‚Éæ‚è“¾‚é–ß‚è’l‚Ì‰ğß‚É‚Â‚¢‚Ä‚Í
+[**D2D1\_GEOMETRY\_RELATION**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_geometry_relation)
+‚ğQÆB
 
 
 %index
 ID2D1Geometry_Simplify
-Creates a simplified version of the geometry that contains only lines and (optionally) cubic Bezier curves and writes the result to an ID2D1SimplifiedGeometrySink.
+’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 %group
 COM misc / ID2D1Geometry
 %prm
@@ -3254,14 +3160,13 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
-Creates a simplified version of the geometry that contains only lines
-and (optionally) cubic Bezier curves and writes the result to an
-ID2D1SimplifiedGeometrySink.
+’¼ü‚ÆiƒIƒvƒVƒ‡ƒ“‚Åj3 ŸƒxƒWƒF‹Èü‚Ì‚İ‚ğŠÜ‚Ş’Pƒ‰»”Å‚ÌƒWƒIƒƒgƒŠ‚ğ¶¬‚µAŒ‹‰Ê‚ğ
+ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 
 %index
 ID2D1Geometry_Tessellate
-Creates a set of clockwise-wound triangles that cover the geometry after it has been transformed using the specified matrix and flattened using the specified tolerance.
+w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
 %group
 COM misc / ID2D1Geometry
 %prm
@@ -3271,14 +3176,12 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 tessellationSink : [comobj] 
 %inst
-Creates a set of clockwise-wound triangles that cover the geometry
-after it has been transformed using the specified matrix and
-flattened using the specified tolerance.
+w’è‚µ‚½s—ñ‚Å•ÏŠ·‚µAw’è‚µ‚½‹–—e’l‚Å•½’R‰»‚µ‚½‚ ‚Æ‚ÌƒWƒIƒƒgƒŠ‚ğ•¢‚¤AŒv‰ñ‚è‚ÉŠª‚©‚ê‚½ˆê˜A‚ÌOŠpŒ`‚ğ¶¬‚·‚éB
 
 
 %index
 ID2D1Geometry_CombineWithGeometry
-Combines this geometry with the specified geometry and stores the result in an ID2D1SimplifiedGeometrySink.
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
 %group
 COM misc / ID2D1Geometry
 %prm
@@ -3290,13 +3193,12 @@ inputGeometryTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
-Combines this geometry with the specified geometry and stores the
-result in an ID2D1SimplifiedGeometrySink.
+‚±‚ÌƒWƒIƒƒgƒŠ‚Æw’è‚µ‚½ƒWƒIƒƒgƒŠ‚ğŒ‹‡‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚ÉŠi”[‚·‚éB
 
 
 %index
 ID2D1Geometry_Outline
-Computes the outline of the geometry and writes the result to an ID2D1SimplifiedGeometrySink.
+ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 %group
 COM misc / ID2D1Geometry
 %prm
@@ -3306,33 +3208,26 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
-Computes the outline of the geometry and writes the result to an
-ID2D1SimplifiedGeometrySink.
+ƒWƒIƒƒgƒŠ‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚µAŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 [”õl]
-The
+
 [**Outline**](/windows/win32/api/d2d1/nf-d2d1-id2d1geometry-outline(constd2d1_matrix_3x2_f__id2d1simplifiedgeometrysink))
-method allows the caller to produce a geometry with an equivalent
-fill to the input geometry, with the following additional properties:
-- The output geometry contains no transverse intersections; that is,
-segments may touch, but they never cross. - The outermost figures in
-the output geometry are all oriented counterclockwise. - The output
-geometry is fill-mode invariant; that is, the fill of the geometry
-does not depend on the choice of the fill mode. For more information
-about the fill mode, see
-[**D2D1\_FILL\_MODE**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_fill_mode).
-Additionally, the
+ƒƒ\ƒbƒh‚ğg‚¤‚ÆA“ü—ÍƒWƒIƒƒgƒŠ‚Æ“™‰¿‚È“h‚è‚Â‚Ô‚µ‚ğ‚¿A‚³‚ç‚ÉŸ‚Ì“Á«‚ğ”õ‚¦‚½ƒWƒIƒƒgƒŠ‚ğŒÄ‚Ño‚µ‘¤‚ª¶¬‚Å‚«‚éB-
+o—ÍƒWƒIƒƒgƒŠ‚É‚Í‰¡’f“I‚ÈŒğ·‚ªŠÜ‚Ü‚ê‚È‚¢B‚·‚È‚í‚¿ƒZƒOƒƒ“ƒg“¯m‚ÍÚ‚·‚é‚±‚Æ‚Í‚ ‚Á‚Ä‚àŒˆ‚µ‚ÄŒğ·‚µ‚È‚¢B-
+o—ÍƒWƒIƒƒgƒŠ‚ÌÅŠO}Œ`‚Í‚·‚×‚Ä”½Œv‰ñ‚è‚ÉŒü‚«•t‚¯‚³‚ê‚éB-
+o—ÍƒWƒIƒƒgƒŠ‚Í“h‚è‚Â‚Ô‚µƒ‚[ƒh•s•Ï‚Å‚ ‚éB‚·‚È‚í‚¿ƒWƒIƒƒgƒŠ‚Ì“h‚è‚Â‚Ô‚µ‚Í“h‚è‚Â‚Ô‚µƒ‚[ƒh‚Ì‘I‘ğ‚ÉˆË‘¶‚µ‚È‚¢B“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+[**D2D1\_FILL\_MODE**](/windows/desktop/api/d2d1/ne-d2d1-d2d1_fill_mode)
+‚ğQÆB‚³‚ç‚É
 [**Outline**](/windows/win32/api/d2d1/nf-d2d1-id2d1geometry-outline(constd2d1_matrix_3x2_f__id2d1simplifiedgeometrysink))
-method can be useful in removing redundant portions of said
-geometries to simplify complex geometries. It can also be useful in
-combination with
+ƒƒ\ƒbƒh‚ÍA•¡G‚ÈƒWƒIƒƒgƒŠ‚ğ’Pƒ‰»‚·‚é‚½‚ß‚É‘Oq‚ÌƒWƒIƒƒgƒŠ‚Ìç’·•”•ª‚ğæ‚èœ‚­‚Ì‚É‚à—L—p‚Å‚ ‚éB‚Ü‚½
 [**ID2D1GeometryGroup**](/windows/win32/api/d2d1/nn-d2d1-id2d1geometrygroup)
-to create unions among several geometries simultaneously.
+‚Æ‘g‚İ‡‚í‚¹‚ÄA•¡”‚ÌƒWƒIƒƒgƒŠ‚Ì˜aW‡‚ğˆê“x‚Éì¬‚·‚é‚Ì‚É‚à–ğ—§‚ÂB
 
 
 %index
 ID2D1Geometry_ComputeArea
-Computes the area of the geometry.
+ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
 %group
 COM misc / ID2D1Geometry
 %prm
@@ -3342,12 +3237,12 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 area : [float] 
 %inst
-Computes the area of the geometry.
+ƒWƒIƒƒgƒŠ‚Ì–ÊÏ‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1Geometry_ComputeLength
-Calculates the length of the geometry as though each segment were unrolled into a line.
+ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
 %group
 COM misc / ID2D1Geometry
 %prm
@@ -3357,13 +3252,12 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 length : [float] 
 %inst
-Calculates the length of the geometry as though each segment were
-unrolled into a line.
+ŠeƒZƒOƒƒ“ƒg‚ğ’¼ü‚Æ‚µ‚Ä“WŠJ‚µ‚½ê‡‚ÌƒWƒIƒƒgƒŠ‚Ì’·‚³‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1Geometry_ComputePointAtLength
-Calculates the point and tangent vector at the specified distance along the \ 160;geometry.
+ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
 %group
 COM misc / ID2D1Geometry
 %prm
@@ -3375,13 +3269,12 @@ flatteningTolerance : [float]
 point : [var] 
 unitTangentVector : [var] 
 %inst
-Calculates the point and tangent vector at the specified distance
-along the \ 160;geometry.
+ƒWƒIƒƒgƒŠã‚Ìw’è‹——£‚É‚¨‚¯‚é“_‚ÆÚüƒxƒNƒgƒ‹‚ğŒvZ‚·‚éB
 
 
 %index
 ID2D1Geometry_Widen
-Widens the geometry by the specified stroke and writes the result to an ID2D1SimplifiedGeometrySink.
+w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 %group
 COM misc / ID2D1Geometry
 %prm
@@ -3393,8 +3286,7 @@ worldTransform : [var]
 flatteningTolerance : [float] 
 geometrySink : [comobj] 
 %inst
-Widens the geometry by the specified stroke and writes the result to
-an ID2D1SimplifiedGeometrySink.
+w’è‚µ‚½ƒXƒgƒ[ƒN‚ÅƒWƒIƒƒgƒŠ‚ğ‘¾‚ç‚¹AŒ‹‰Ê‚ğ ID2D1SimplifiedGeometrySink ‚É‘‚«o‚·B
 
 
 %index
@@ -3606,53 +3498,49 @@ geometrySink : [comobj]
 
 %index
 ID2D1GeometryGroup_GetFillMode
-Indicates how the intersecting areas of the geometries contained in this geometry group are combined.
+‚±‚ÌƒWƒIƒƒgƒŠƒOƒ‹[ƒv‚ÉŠÜ‚Ü‚ê‚éƒWƒIƒƒgƒŠ‚ÌŒğ·—Ìˆæ‚ª‚Ç‚Ì‚æ‚¤‚ÉŒ‹‡‚³‚ê‚é‚©‚ğ¦‚·B
 %group
 COM misc / ID2D1GeometryGroup
 %prm
 this
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Indicates how the intersecting areas of the geometries contained in
-this geometry group are combined.
+‚±‚ÌƒWƒIƒƒgƒŠƒOƒ‹[ƒv‚ÉŠÜ‚Ü‚ê‚éƒWƒIƒƒgƒŠ‚ÌŒğ·—Ìˆæ‚ª‚Ç‚Ì‚æ‚¤‚ÉŒ‹‡‚³‚ê‚é‚©‚ğ¦‚·B
 
 [–ß‚è’l]
-Type: D2D1_FILL_MODE A value that indicates how the intersecting
-areas of the geometries contained in this geometry group are
-combined.
+Œ^: D2D1_FILL_MODE ‚±‚ÌƒWƒIƒƒgƒŠƒOƒ‹[ƒv‚ÉŠÜ‚Ü‚ê‚éƒWƒIƒƒgƒŠ‚ÌŒğ·—Ìˆæ‚ª‚Ç‚Ì‚æ‚¤‚ÉŒ‹‡‚³‚ê‚é‚©‚ğ¦‚·’lB
 
 
 %index
 ID2D1GeometryGroup_GetSourceGeometryCount
-Indicates the number of geometry objects in the geometry group.
+ƒWƒIƒƒgƒŠƒOƒ‹[ƒv“à‚ÌƒWƒIƒƒgƒŠƒIƒuƒWƒFƒNƒg‚Ì”‚ğ¦‚·B
 %group
 COM misc / ID2D1GeometryGroup
 %prm
 this
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Indicates the number of geometry objects in the geometry group.
+ƒWƒIƒƒgƒŠƒOƒ‹[ƒv“à‚ÌƒWƒIƒƒgƒŠƒIƒuƒWƒFƒNƒg‚Ì”‚ğ¦‚·B
 
 [–ß‚è’l]
-Type: UINT32 The number of geometries in the ID2D1GeometryGroup.
+Œ^: UINT32 ID2D1GeometryGroup “à‚ÌƒWƒIƒƒgƒŠ‚Ì”B
 
 
 %index
 ID2D1GeometryGroup_GetSourceGeometries
-Retrieves the geometries in the geometry group.
+ƒWƒIƒƒgƒŠƒOƒ‹[ƒv“à‚ÌƒWƒIƒƒgƒŠ‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1GeometryGroup
 %prm
 this, geometries, geometriesCount
 this : [comobj] ID2D1GeometryGroup ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-geometries : [comobj] Type: const ID2D1Geometry** When this method returns, contains the address of a pointer to an array of geometries to be filled by this method. The length of the array is specified by the geometryCount parameter. If the array is NULL, then this method performs no operation. You must allocate the memory for this array.
-geometriesCount : [int] Type: UINT A value indicating the number of geometries to return in the geometries array. If this value is less than the number of geometries in the geometry group, the remaining geometries are omitted. If this value is larger than the number of geometries in the geometry group, the extra geometries are set to NULL. To obtain the number of geometries currently in the geometry group, use the GetSourceGeometryCount method.
+geometries : [comobj] Œ^: const ID2D1Geometry** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A–{ƒƒ\ƒbƒh‚ª–„‚ß‚éƒWƒIƒƒgƒŠ‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB”z—ñ‚Ì’·‚³‚Í geometriesCount ƒpƒ‰ƒ[ƒ^‚Åw’è‚·‚éB”z—ñ‚ª NULL ‚Ìê‡A–{ƒƒ\ƒbƒh‚Í‰½‚às‚í‚È‚¢B‚±‚Ì”z—ñ‚Ìƒƒ‚ƒŠ‚ÍŒÄ‚Ño‚µ‘¤‚ªŠm•Û‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+geometriesCount : [int] Œ^: UINT geometries ”z—ñ‚É•Ô‚·ƒWƒIƒƒgƒŠ‚Ì”‚ğ¦‚·’lB‚±‚Ì’l‚ªƒWƒIƒƒgƒŠƒOƒ‹[ƒv“à‚ÌƒWƒIƒƒgƒŠ”‚æ‚è¬‚³‚¢ê‡Ac‚è‚ÌƒWƒIƒƒgƒŠ‚ÍÈ—ª‚³‚ê‚éB‘å‚«‚¢ê‡A—]•ª‚È—v‘f‚Í NULL ‚Éİ’è‚³‚ê‚éBŒ»İƒWƒIƒƒgƒŠƒOƒ‹[ƒv‚ÉŠÜ‚Ü‚ê‚éƒWƒIƒƒgƒŠ‚Ì”‚ğæ“¾‚·‚é‚É‚Í GetSourceGeometryCount ƒƒ\ƒbƒh‚ğg—p‚·‚éB
 %inst
-Retrieves the geometries in the geometry group.
+ƒWƒIƒƒgƒŠƒOƒ‹[ƒv“à‚ÌƒWƒIƒƒgƒŠ‚ğæ“¾‚·‚éB
 
 [”õl]
-The returned geometries are referenced and counted, and the caller
-must release them.
+•Ô‚³‚ê‚½ƒWƒIƒƒgƒŠ‚ÍQÆ‚³‚ê‚ÄƒJƒEƒ“ƒg‚³‚ê‚Ä‚¨‚èAŒÄ‚Ño‚µ‘¤‚ª‚»‚ê‚ç‚ğ‰ğ•ú‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
@@ -3743,21 +3631,20 @@ this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 
 %index
 ID2D1GeometrySink_AddLine
-Creates a line segment between the current point and the specified end point and adds it to the geometry sink.
+Œ»İ‚Ì“_‚Æw’è‚³‚ê‚½I“_‚Æ‚ÌŠÔ‚Éü•ª‚ğì¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
 %group
 COM misc / ID2D1GeometrySink
 %prm
 this, point
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-point : [int] Type: D2D1_POINT_2F The end point of the line to draw.
+point : [int] Œ^: D2D1_POINT_2F •`‰æ‚·‚éü•ª‚ÌI“_B
 %inst
-Creates a line segment between the current point and the specified
-end point and adds it to the geometry sink.
+Œ»İ‚Ì“_‚Æw’è‚³‚ê‚½I“_‚Æ‚ÌŠÔ‚Éü•ª‚ğì¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
 
 
 %index
 ID2D1GeometrySink_AddBezier
-Creates a cubic Bezier curve between the current point and the specified end point and adds it to the geometry sink.
+Œ»İ‚Ì“_‚Æw’è‚³‚ê‚½I“_‚Æ‚ÌŠÔ‚É 3 ŸƒxƒWƒF‹Èü‚ğì¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
 %group
 COM misc / ID2D1GeometrySink
 %prm
@@ -3765,13 +3652,12 @@ this, bezier
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 bezier : [var] 
 %inst
-Creates a cubic Bezier curve between the current point and the
-specified end point and adds it to the geometry sink.
+Œ»İ‚Ì“_‚Æw’è‚³‚ê‚½I“_‚Æ‚ÌŠÔ‚É 3 ŸƒxƒWƒF‹Èü‚ğì¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
 
 
 %index
 ID2D1GeometrySink_AddQuadraticBezier
-Creates a quadratic Bezier curve between the current point and the specified end point and adds it to the geometry sink.
+Œ»İ‚Ì“_‚Æw’è‚³‚ê‚½I“_‚Æ‚ÌŠÔ‚É 2 ŸƒxƒWƒF‹Èü‚ğì¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
 %group
 COM misc / ID2D1GeometrySink
 %prm
@@ -3779,28 +3665,26 @@ this, bezier
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 bezier : [var] 
 %inst
-Creates a quadratic Bezier curve between the current point and the
-specified end point and adds it to the geometry sink.
+Œ»İ‚Ì“_‚Æw’è‚³‚ê‚½I“_‚Æ‚ÌŠÔ‚É 2 ŸƒxƒWƒF‹Èü‚ğì¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
 
 
 %index
 ID2D1GeometrySink_AddQuadraticBeziers
-Adds a sequence of quadratic Bezier segments as an array in a single call.
+ˆê˜A‚Ì 2 ŸƒxƒWƒFƒZƒOƒƒ“ƒg‚ğ 1 ‰ñ‚ÌŒÄ‚Ño‚µ‚Å”z—ñ‚Æ‚µ‚Ä‚Ü‚Æ‚ß‚Ä’Ç‰Á‚·‚éB
 %group
 COM misc / ID2D1GeometrySink
 %prm
 this, beziers, beziersCount
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-beziers : [var] Type: const D2D1_QUADRATIC_BEZIER_SEGMENT* An array of a sequence of quadratic Bezier segments.
-beziersCount : [int] Type: UINT A value indicating the number of quadratic Bezier segments in beziers.
+beziers : [var] Œ^: const D2D1_QUADRATIC_BEZIER_SEGMENT* ˆê˜A‚Ì 2 ŸƒxƒWƒFƒZƒOƒƒ“ƒg‚Ì”z—ñB
+beziersCount : [int] Œ^: UINT beziers “à‚Ì 2 ŸƒxƒWƒFƒZƒOƒƒ“ƒg‚Ì”‚ğ¦‚·’lB
 %inst
-Adds a sequence of quadratic Bezier segments as an array in a single
-call.
+ˆê˜A‚Ì 2 ŸƒxƒWƒFƒZƒOƒƒ“ƒg‚ğ 1 ‰ñ‚ÌŒÄ‚Ño‚µ‚Å”z—ñ‚Æ‚µ‚Ä‚Ü‚Æ‚ß‚Ä’Ç‰Á‚·‚éB
 
 
 %index
 ID2D1GeometrySink_AddArc
-Creates a single arc and adds it to the path geometry.
+1 –{‚Ì‰~ŒÊ‚ğì¬‚µAƒpƒXƒWƒIƒƒgƒŠ‚É’Ç‰Á‚·‚éB
 %group
 COM misc / ID2D1GeometrySink
 %prm
@@ -3808,7 +3692,7 @@ this, arc
 this : [comobj] ID2D1GeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 arc : [var] 
 %inst
-Creates a single arc and adds it to the path geometry.
+1 –{‚Ì‰~ŒÊ‚ğì¬‚µAƒpƒXƒWƒIƒƒgƒŠ‚É’Ç‰Á‚·‚éB
 
 
 %index
@@ -3825,71 +3709,64 @@ factory : [comobj]
 
 %index
 ID2D1GradientStopCollection_GetGradientStopCount
-Retrieves the number of gradient stops in the collection.
+ƒRƒŒƒNƒVƒ‡ƒ““à‚ÌƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚Ì”‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1GradientStopCollection
 %prm
 this
 this : [comobj] ID2D1GradientStopCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Retrieves the number of gradient stops in the collection.
+ƒRƒŒƒNƒVƒ‡ƒ““à‚ÌƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚Ì”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: UINT32 The number of gradient stops in the collection.
+Œ^: UINT32 ƒRƒŒƒNƒVƒ‡ƒ““à‚ÌƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚Ì”B
 
 
 %index
 ID2D1GradientStopCollection_GetGradientStops
-Copies the gradient stops from the collection into an array of D2D1_GRADIENT_STOP structures.
+ƒRƒŒƒNƒVƒ‡ƒ“‚ÌƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚ğ D2D1_GRADIENT_STOP \‘¢‘Ì‚Ì”z—ñ‚ÖƒRƒs[‚·‚éB
 %group
 COM misc / ID2D1GradientStopCollection
 %prm
 this, gradientStops, gradientStopsCount
 this : [comobj] ID2D1GradientStopCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-gradientStops : [var] Type: D2D1_GRADIENT_STOP* A pointer to a one-dimensional array of D2D1_GRADIENT_STOP structures. When this method returns, the array contains copies of the collection's gradient stops. You must allocate the memory for this array.
-gradientStopsCount : [int] Type: UINT A value indicating the number of gradient stops to copy. If the value is less than the number of gradient stops in the collection, the remaining gradient stops are omitted. If the value is larger than the number of gradient stops in the collection, the extra gradient stops are set to NULL. To obtain the number of gradient stops in the collection, use the GetGradientStopCount method.
+gradientStops : [var] Œ^: D2D1_GRADIENT_STOP* D2D1_GRADIENT_STOP \‘¢‘Ì‚Ì 1 ŸŒ³”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B–{ƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A”z—ñ‚É‚ÍƒRƒŒƒNƒVƒ‡ƒ“‚ÌƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚ÌƒRƒs[‚ªŠi”[‚³‚ê‚éB‚±‚Ì”z—ñ‚Ìƒƒ‚ƒŠ‚ÍŒÄ‚Ño‚µ‘¤‚ªŠm•Û‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+gradientStopsCount : [int] Œ^: UINT ƒRƒs[‚·‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚Ì”‚ğ¦‚·’lB’l‚ªƒRƒŒƒNƒVƒ‡ƒ““à‚ÌƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚Ì”‚æ‚è¬‚³‚¢ê‡Ac‚è‚ÌƒXƒgƒbƒv‚ÍÈ—ª‚³‚ê‚éB‘å‚«‚¢ê‡A—]•ª‚È—v‘f‚Í NULL ‚Éİ’è‚³‚ê‚éBƒRƒŒƒNƒVƒ‡ƒ““à‚ÌƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚Ì”‚ğæ“¾‚·‚é‚É‚Í GetGradientStopCount ƒƒ\ƒbƒh‚ğg—p‚·‚éB
 %inst
-Copies the gradient stops from the collection into an array of
-D2D1_GRADIENT_STOP structures.
+ƒRƒŒƒNƒVƒ‡ƒ“‚ÌƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚ğ D2D1_GRADIENT_STOP \‘¢‘Ì‚Ì”z—ñ‚ÖƒRƒs[‚·‚éB
 
 [”õl]
-Gradient stops are copied in order of position, starting with the
-gradient stop with the smallest position value and progressing to the
-gradient stop with the largest position value.
+ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚ÍˆÊ’u‚Ì¬‚³‚¢‚à‚Ì‚©‚ç‘å‚«‚¢‚à‚Ì‚Ö‚ÆˆÊ’u‡‚ÉƒRƒs[‚³‚ê‚éB
 
 
 %index
 ID2D1GradientStopCollection_GetColorInterpolationGamma
-Indicates the gamma space in which the gradient stops are interpolated.
+ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚ª•âŠÔ‚³‚ê‚éƒKƒ“ƒ}‹óŠÔ‚ğ¦‚·B
 %group
 COM misc / ID2D1GradientStopCollection
 %prm
 this
 this : [comobj] ID2D1GradientStopCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Indicates the gamma space in which the gradient stops are
-interpolated.
+ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚ª•âŠÔ‚³‚ê‚éƒKƒ“ƒ}‹óŠÔ‚ğ¦‚·B
 
 [–ß‚è’l]
-Type: D2D1_GAMMA The gamma space in which the gradient stops are
-interpolated.
+Œ^: D2D1_GAMMA ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒXƒgƒbƒv‚ª•âŠÔ‚³‚ê‚éƒKƒ“ƒ}‹óŠÔB
 
 
 %index
 ID2D1GradientStopCollection_GetExtendMode
-Indicates the behavior of the gradient outside the normalized gradient range.
+³‹K‰»ƒOƒ‰ƒf[ƒVƒ‡ƒ“”ÍˆÍ‚ÌŠO‘¤‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Ì“®ì‚ğ¦‚·B
 %group
 COM misc / ID2D1GradientStopCollection
 %prm
 this
 this : [comobj] ID2D1GradientStopCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Indicates the behavior of the gradient outside the normalized
-gradient range.
+³‹K‰»ƒOƒ‰ƒf[ƒVƒ‡ƒ“”ÍˆÍ‚ÌŠO‘¤‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Ì“®ì‚ğ¦‚·B
 
 [–ß‚è’l]
-Type: D2D1_EXTEND_MODE The behavior of the gradient outside the [0,1]
-normalized gradient range.
+Œ^: D2D1_EXTEND_MODE ³‹K‰»ƒOƒ‰ƒf[ƒVƒ‡ƒ“”ÍˆÍ [0,1] ‚ÌŠO‘¤‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Ì“®ìB
 
 
 %index
@@ -4691,17 +4568,17 @@ factory : [comobj]
 
 %index
 ID2D1Layer_GetSize
-Gets the size of the layer in device-independent pixels.
+ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊ‚ÅƒŒƒCƒ„[‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1Layer
 %prm
 this
 this : [comobj] ID2D1Layer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the size of the layer in device-independent pixels.
+ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊ‚ÅƒŒƒCƒ„[‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: D2D1_SIZE_F The size of the layer in device-independent pixels.
+Œ^: D2D1_SIZE_F ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹’PˆÊ‚Å‚ÌƒŒƒCƒ„[‚ÌƒTƒCƒYB
 
 
 %index
@@ -4765,105 +4642,91 @@ transform : [var]
 
 %index
 ID2D1LinearGradientBrush_SetStartPoint
-Sets the starting coordinates of the linear gradient in the brush's coordinate space.
+üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌŠJnÀ•W‚ğƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚Åİ’è‚·‚éB
 %group
 COM misc / ID2D1LinearGradientBrush
 %prm
 this, startPoint
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-startPoint : [int] Type: D2D1_POINT_2F The starting two-dimensional coordinates of the linear gradient, in the brush's coordinate space.
+startPoint : [int] Œ^: D2D1_POINT_2F ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éüŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌŠJnÀ•W (2 ŸŒ³)B
 %inst
-Sets the starting coordinates of the linear gradient in the brush's
-coordinate space.
+üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌŠJnÀ•W‚ğƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚Åİ’è‚·‚éB
 
 [”õl]
-The start point and end point are described in the brush's space and
-are mapped to the render target when the brush is used. If there is a
-non-identity brush transform or render target transform, the brush's
-start point and end point are also transformed.
+
+ŠJn“_‚ÆI—¹“_‚Íƒuƒ‰ƒV‚Ì‹óŠÔ‚Å‹Lq‚³‚êAƒuƒ‰ƒV‚ªg—p‚³‚ê‚éÛ‚ÉƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Öƒ}ƒbƒsƒ“ƒO‚³‚ê‚éBƒuƒ‰ƒV•ÏŠ·‚âƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg•ÏŠ·‚ª’PˆÊs—ñ‚Å‚È‚¢ê‡Aƒuƒ‰ƒV‚ÌŠJn“_‚ÆI—¹“_‚à‚»‚ê‚É‰‚¶‚Ä•ÏŠ·‚³‚ê‚éB
 
 
 %index
 ID2D1LinearGradientBrush_SetEndPoint
-Sets the ending coordinates of the linear gradient in the brush's coordinate space.
+üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌI—¹À•W‚ğƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚Åİ’è‚·‚éB
 %group
 COM misc / ID2D1LinearGradientBrush
 %prm
 this, endPoint
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-endPoint : [int] Type: D2D1_POINT_2F The ending two-dimensional coordinates of the linear gradient, in the brush's coordinate space.
+endPoint : [int] Œ^: D2D1_POINT_2F ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éüŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌI—¹À•W (2 ŸŒ³)B
 %inst
-Sets the ending coordinates of the linear gradient in the brush's
-coordinate space.
+üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌI—¹À•W‚ğƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚Åİ’è‚·‚éB
 
 [”õl]
-The start point and end point are described in the brush's space and
-are mapped to the render target when the brush is used. If there is a
-non-identity brush transform or render target transform, the brush's
-start point and end point are also transformed.
+
+ŠJn“_‚ÆI—¹“_‚Íƒuƒ‰ƒV‚Ì‹óŠÔ‚Å‹Lq‚³‚êAƒuƒ‰ƒV‚ªg—p‚³‚ê‚éÛ‚ÉƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Öƒ}ƒbƒsƒ“ƒO‚³‚ê‚éBƒuƒ‰ƒV•ÏŠ·‚âƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg•ÏŠ·‚ª’PˆÊs—ñ‚Å‚È‚¢ê‡Aƒuƒ‰ƒV‚ÌŠJn“_‚ÆI—¹“_‚à‚»‚ê‚É‰‚¶‚Ä•ÏŠ·‚³‚ê‚éB
 
 
 %index
 ID2D1LinearGradientBrush_GetStartPoint
-Retrieves the starting coordinates of the linear gradient.
+üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌŠJnÀ•W‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1LinearGradientBrush
 %prm
 this
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Retrieves the starting coordinates of the linear gradient.
+üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌŠJnÀ•W‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: D2D1_POINT_2F The starting two-dimensional coordinates of the
-linear gradient, in the brush's coordinate space.
+Œ^: D2D1_POINT_2F ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éüŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌŠJnÀ•W (2 ŸŒ³)B
 
 [”õl]
-The start point and end point are described in the brush's space and
-are mapped to the render target when the brush is used. If there is a
-non-identity brush transform or render target transform, the brush's
-start point and end point are also transformed.
+
+ŠJn“_‚ÆI—¹“_‚Íƒuƒ‰ƒV‚Ì‹óŠÔ‚Å‹Lq‚³‚êAƒuƒ‰ƒV‚ªg—p‚³‚ê‚éÛ‚ÉƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Öƒ}ƒbƒsƒ“ƒO‚³‚ê‚éBƒuƒ‰ƒV•ÏŠ·‚âƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg•ÏŠ·‚ª’PˆÊs—ñ‚Å‚È‚¢ê‡Aƒuƒ‰ƒV‚ÌŠJn“_‚ÆI—¹“_‚à‚»‚ê‚É‰‚¶‚Ä•ÏŠ·‚³‚ê‚éB
 
 
 %index
 ID2D1LinearGradientBrush_GetEndPoint
-Retrieves the ending coordinates of the linear gradient.
+üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌI—¹À•W‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1LinearGradientBrush
 %prm
 this
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Retrieves the ending coordinates of the linear gradient.
+üŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌI—¹À•W‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: D2D1_POINT_2F The ending two-dimensional coordinates of the
-linear gradient, in the brush's coordinate space.
+Œ^: D2D1_POINT_2F ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éüŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ÌI—¹À•W (2 ŸŒ³)B
 
 [”õl]
-The start point and end point are described in the brush's space and
-are mapped to the render target when the brush is used. If there is a
-non-identity brush transform or render target transform, the brush's
-start point and end point are also transformed.
+
+ŠJn“_‚ÆI—¹“_‚Íƒuƒ‰ƒV‚Ì‹óŠÔ‚Å‹Lq‚³‚êAƒuƒ‰ƒV‚ªg—p‚³‚ê‚éÛ‚ÉƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Öƒ}ƒbƒsƒ“ƒO‚³‚ê‚éBƒuƒ‰ƒV•ÏŠ·‚âƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg•ÏŠ·‚ª’PˆÊs—ñ‚Å‚È‚¢ê‡Aƒuƒ‰ƒV‚ÌŠJn“_‚ÆI—¹“_‚à‚»‚ê‚É‰‚¶‚Ä•ÏŠ·‚³‚ê‚éB
 
 
 %index
 ID2D1LinearGradientBrush_GetGradientStopCollection
-Retrieves the ID2D1GradientStopCollection associated with this linear gradient brush.
+‚±‚ÌüŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒuƒ‰ƒV‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ ID2D1GradientStopCollection ‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1LinearGradientBrush
 %prm
 this, gradientStopCollection
 this : [comobj] ID2D1LinearGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-gradientStopCollection : [comobj] Type: ID2D1GradientStopCollection** The  ID2D1GradientStopCollection object associated with this linear gradient brush object. This parameter is passed uninitialized.
+gradientStopCollection : [comobj] Œ^: ID2D1GradientStopCollection** ‚±‚ÌüŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒuƒ‰ƒVƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ ID2D1GradientStopCollection ƒIƒuƒWƒFƒNƒgB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚³‚ê‚éB
 %inst
-Retrieves the ID2D1GradientStopCollection associated with this linear
-gradient brush.
+‚±‚ÌüŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒuƒ‰ƒV‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ ID2D1GradientStopCollection ‚ğæ“¾‚·‚éB
 
 [”õl]
-ID2D1GradientStopCollection contains an array of D2D1_GRADIENT_STOP
-structures and information, such as the extend mode and the color
-interpolation mode.
+ID2D1GradientStopCollection ‚Í D2D1_GRADIENT_STOP
+\‘¢‘Ì‚Ì”z—ñ‚ÆAƒGƒNƒXƒeƒ“ƒhƒ‚[ƒh‚âF•âŠÔƒ‚[ƒh‚Æ‚¢‚Á‚½î•ñ‚ğ•Û‚·‚éB
 
 
 %index
@@ -4880,21 +4743,20 @@ factory : [comobj]
 
 %index
 ID2D1Mesh_Open
-Opens the mesh for population.
+ƒƒbƒVƒ…‚ğŠJ‚¢‚Ä‘‚«‚İ‰Â”\‚Èó‘Ô‚É‚·‚éB
 %group
 COM misc / ID2D1Mesh
 %prm
 this, tessellationSink
 this : [comobj] ID2D1Mesh ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-tessellationSink : [comobj] Type: ID2D1TessellationSink** When this method returns, contains a pointer to a pointer to an ID2D1TessellationSink that is used to populate the mesh. This parameter is passed uninitialized.
+tessellationSink : [comobj] Œ^: ID2D1TessellationSink** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒƒbƒVƒ…‚Ö‚Ì‘‚«‚İ‚É—p‚¢‚é ID2D1TessellationSink ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
-Opens the mesh for population.
+ƒƒbƒVƒ…‚ğŠJ‚¢‚Ä‘‚«‚İ‰Â”\‚Èó‘Ô‚É‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í
 [**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
-error code.
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -5106,87 +4968,80 @@ geometrySink : [comobj]
 
 %index
 ID2D1PathGeometry_Open
-Retrieves the geometry sink that is used to populate the path geometry with figures and segments.
+ƒpƒXƒWƒIƒƒgƒŠ‚ğ figure ‚ÆƒZƒOƒƒ“ƒg‚Å–„‚ß‚é‚½‚ß‚Ég—p‚·‚éƒWƒIƒƒgƒŠƒVƒ“ƒN‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1PathGeometry
 %prm
 this, geometrySink
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-geometrySink : [comobj] Type: ID2D1GeometrySink** When this method returns, geometrySink contains the address of a pointer to the geometry sink that is used to populate the path geometry with figures and segments. This parameter is passed uninitialized.
+geometrySink : [comobj] Œ^: ID2D1GeometrySink** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AgeometrySink ‚É‚ÍƒpƒXƒWƒIƒƒgƒŠ‚ğ figure ‚ÆƒZƒOƒƒ“ƒg‚Å–„‚ß‚é‚½‚ß‚Ég—p‚·‚éƒWƒIƒƒgƒŠƒVƒ“ƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚³‚ê‚éB
 %inst
-Retrieves the geometry sink that is used to populate the path
-geometry with figures and segments.
+ƒpƒXƒWƒIƒƒgƒŠ‚ğ figure ‚ÆƒZƒOƒƒ“ƒg‚Å–„‚ß‚é‚½‚ß‚Ég—p‚·‚éƒWƒIƒƒgƒŠƒVƒ“ƒN‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í
 [**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
-error code.
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Because path geometries are immutable and can only be populated once,
-it is an error to call Open on a path geometry more than once. Note
-that the fill mode defaults to D2D1_FILL_MODE_ALTERNATE. To set the
-fill mode, call SetFillMode before the first call to BeginFigure.
-Failure to do so will put the geometry sink in an error state.
+ƒpƒXƒWƒIƒƒgƒŠ‚Í•s•Ï‚Å‚ ‚èˆê“x‚µ‚©–„‚ß‚ç‚ê‚È‚¢‚½‚ßA“¯‚¶ƒpƒXƒWƒIƒƒgƒŠ‚É‘Î‚µ‚Ä Open
+‚ğ•¡”‰ñŒÄ‚Ño‚·‚Ì‚ÍƒGƒ‰[‚Å‚ ‚éB“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ÍŠù’è‚Å D2D1_FILL_MODE_ALTERNATE
+‚É‚È‚Á‚Ä‚¢‚é“_‚É’ˆÓB“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ğİ’è‚·‚é‚É‚ÍAÅ‰‚Ì BeginFigure ‚ÌŒÄ‚Ño‚µ‚æ‚è‘O‚É SetFillMode
+‚ğŒÄ‚Ô•K—v‚ª‚ ‚éB‚±‚ê‚ğ‘Ó‚é‚ÆƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éB
 
 
 %index
 ID2D1PathGeometry_Stream
-Copies the contents of the path geometry to the specified ID2D1GeometrySink.
+ƒpƒXƒWƒIƒƒgƒŠ‚Ì“à—e‚ğw’è‚µ‚½ ID2D1GeometrySink ‚ÉƒRƒs[‚·‚éB
 %group
 COM misc / ID2D1PathGeometry
 %prm
 this, geometrySink
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-geometrySink : [comobj] Type: ID2D1GeometrySink* The sink to which the path geometry's contents are copied. Modifying this sink does not change the contents of this path geometry.
+geometrySink : [comobj] Œ^: ID2D1GeometrySink* ƒpƒXƒWƒIƒƒgƒŠ‚Ì“à—e‚ÌƒRƒs[æ‚Æ‚È‚éƒVƒ“ƒNB‚±‚ÌƒVƒ“ƒN‚ğ•ÏX‚µ‚Ä‚àA‚±‚ÌƒpƒXƒWƒIƒƒgƒŠ‚Ì“à—e‚Í•Ï‰»‚µ‚È‚¢B
 %inst
-Copies the contents of the path geometry to the specified
-ID2D1GeometrySink.
+ƒpƒXƒWƒIƒƒgƒŠ‚Ì“à—e‚ğw’è‚µ‚½ ID2D1GeometrySink ‚ÉƒRƒs[‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í
 [**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
-error code.
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 ID2D1PathGeometry_GetSegmentCount
-Retrieves the number of segments in the path geometry.
+ƒpƒXƒWƒIƒƒgƒŠ“à‚ÌƒZƒOƒƒ“ƒg”‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1PathGeometry
 %prm
 this, count
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-count : [int] Type: UINT32* A pointer that receives the number of segments in the path geometry when this method returns. You must allocate storage for this parameter.
+count : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒpƒXƒWƒIƒƒgƒŠ“à‚ÌƒZƒOƒƒ“ƒg”‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^—p‚Ì—Ìˆæ‚ÍŒÄ‚Ño‚µ‘¤‚ªŠm•Û‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Retrieves the number of segments in the path geometry.
+ƒpƒXƒWƒIƒƒgƒŠ“à‚ÌƒZƒOƒƒ“ƒg”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í
 [**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
-error code.
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 ID2D1PathGeometry_GetFigureCount
-Retrieves the number of figures in the path geometry.
+ƒpƒXƒWƒIƒƒgƒŠ“à‚Ì}Œ` (figure) ‚Ì”‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1PathGeometry
 %prm
 this, count
 this : [comobj] ID2D1PathGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-count : [int] Type: UINT32* A pointer that receives the number of figures in the path geometry when this method returns. You must allocate storage for this parameter.
+count : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒpƒXƒWƒIƒƒgƒŠ“à‚Ì}Œ` (figure) ‚Ì”‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^—p‚Ì—Ìˆæ‚ÍŒÄ‚Ño‚µ‘¤‚ªŠm•Û‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Retrieves the number of figures in the path geometry.
+ƒpƒXƒWƒIƒƒgƒŠ“à‚Ì}Œ` (figure) ‚Ì”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í
 [**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
-error code.
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -5250,143 +5105,131 @@ transform : [var]
 
 %index
 ID2D1RadialGradientBrush_SetCenter
-Specifies the center of the gradient ellipse in the brush's coordinate space.
+ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚ğw’è‚·‚éB
 %group
 COM misc / ID2D1RadialGradientBrush
 %prm
 this, center
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-center : [int] Type: D2D1_POINT_2F The center of the gradient ellipse, in the brush's coordinate space.
+center : [int] Œ^: D2D1_POINT_2F ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†SB
 %inst
-Specifies the center of the gradient ellipse in the brush's
-coordinate space.
+ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚ğw’è‚·‚éB
 
 
 %index
 ID2D1RadialGradientBrush_SetGradientOriginOffset
-Specifies the offset of the gradient origin relative to the gradient ellipse's center.
+ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚ğŠî€‚Æ‚µ‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“Œ´“_‚ÌƒIƒtƒZƒbƒg‚ğw’è‚·‚éB
 %group
 COM misc / ID2D1RadialGradientBrush
 %prm
 this, gradientOriginOffset
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-gradientOriginOffset : [int] Type: D2D1_POINT_2F The offset of the gradient origin from the center of the gradient ellipse.
+gradientOriginOffset : [int] Œ^: D2D1_POINT_2F ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚©‚ç‚ÌƒOƒ‰ƒf[ƒVƒ‡ƒ“Œ´“_‚ÌƒIƒtƒZƒbƒgB
 %inst
-Specifies the offset of the gradient origin relative to the gradient
-ellipse's center.
+ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚ğŠî€‚Æ‚µ‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“Œ´“_‚ÌƒIƒtƒZƒbƒg‚ğw’è‚·‚éB
 
 
 %index
 ID2D1RadialGradientBrush_SetRadiusX
-Specifies the x-radius of the gradient ellipse, in the brush's coordinate space.
+ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì x ”¼Œa‚ğw’è‚·‚éB
 %group
 COM misc / ID2D1RadialGradientBrush
 %prm
 this, radiusX
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-radiusX : [float] Type: FLOAT The x-radius of the gradient ellipse. This value is in the brush's coordinate space.
+radiusX : [float] Œ^: FLOAT ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì x ”¼ŒaB’l‚Íƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚Åw’è‚·‚éB
 %inst
-Specifies the x-radius of the gradient ellipse, in the brush's
-coordinate space.
+ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì x ”¼Œa‚ğw’è‚·‚éB
 
 
 %index
 ID2D1RadialGradientBrush_SetRadiusY
-Specifies the y-radius of the gradient ellipse, in the brush's coordinate space.
+ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì y ”¼Œa‚ğw’è‚·‚éB
 %group
 COM misc / ID2D1RadialGradientBrush
 %prm
 this, radiusY
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-radiusY : [float] Type: FLOAT The y-radius of the gradient ellipse. This value is in the brush's coordinate space.
+radiusY : [float] Œ^: FLOAT ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì y ”¼ŒaB’l‚Íƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚Åw’è‚·‚éB
 %inst
-Specifies the y-radius of the gradient ellipse, in the brush's
-coordinate space.
+ƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚É‚¨‚¯‚éƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì y ”¼Œa‚ğw’è‚·‚éB
 
 
 %index
 ID2D1RadialGradientBrush_GetCenter
-Retrieves the center of the gradient ellipse.
+ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1RadialGradientBrush
 %prm
 this
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Retrieves the center of the gradient ellipse.
+ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: D2D1_POINT_2F The center of the gradient ellipse. This value is
-expressed in the brush's coordinate space.
+Œ^: D2D1_POINT_2F ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†SB’l‚Íƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚Å•\‚³‚ê‚éB
 
 
 %index
 ID2D1RadialGradientBrush_GetGradientOriginOffset
-Retrieves the offset of the gradient origin relative to the gradient ellipse's center.
+ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚ğŠî€‚Æ‚µ‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“Œ´“_‚ÌƒIƒtƒZƒbƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1RadialGradientBrush
 %prm
 this
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Retrieves the offset of the gradient origin relative to the gradient
-ellipse's center.
+ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚ğŠî€‚Æ‚µ‚½ƒOƒ‰ƒf[ƒVƒ‡ƒ“Œ´“_‚ÌƒIƒtƒZƒbƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: D2D1_POINT_2F The offset of the gradient origin from the center
-of the gradient ellipse. This value is expressed in the brush's
-coordinate space.
+Œ^: D2D1_POINT_2F ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì’†S‚©‚ç‚ÌƒOƒ‰ƒf[ƒVƒ‡ƒ“Œ´“_‚ÌƒIƒtƒZƒbƒgB’l‚Íƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚Å•\‚³‚ê‚éB
 
 
 %index
 ID2D1RadialGradientBrush_GetRadiusX
-Retrieves the x-radius of the gradient ellipse.
+ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì x ”¼Œa‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1RadialGradientBrush
 %prm
 this
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Retrieves the x-radius of the gradient ellipse.
+ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì x ”¼Œa‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: FLOAT The x-radius of the gradient ellipse. This value is
-expressed in the brush's coordinate space.
+Œ^: FLOAT ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì x ”¼ŒaB’l‚Íƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚Å•\‚³‚ê‚éB
 
 
 %index
 ID2D1RadialGradientBrush_GetRadiusY
-Retrieves the y-radius of the gradient ellipse.
+ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì y ”¼Œa‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1RadialGradientBrush
 %prm
 this
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Retrieves the y-radius of the gradient ellipse.
+ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì y ”¼Œa‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: FLOAT The y-radius of the gradient ellipse. This value is
-expressed in the brush's coordinate space.
+Œ^: FLOAT ƒOƒ‰ƒf[ƒVƒ‡ƒ“‘È‰~‚Ì y ”¼ŒaB’l‚Íƒuƒ‰ƒV‚ÌÀ•W‹óŠÔ‚Å•\‚³‚ê‚éB
 
 
 %index
 ID2D1RadialGradientBrush_GetGradientStopCollection
-Retrieves the ID2D1GradientStopCollection associated with this radial gradient brush object.
+‚±‚Ì•úËóƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒuƒ‰ƒVƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ ID2D1GradientStopCollection ‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1RadialGradientBrush
 %prm
 this, gradientStopCollection
 this : [comobj] ID2D1RadialGradientBrush ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-gradientStopCollection : [comobj] Type: ID2D1GradientStopCollection** The  ID2D1GradientStopCollection object associated with this linear gradient brush object. This parameter is passed uninitialized.
+gradientStopCollection : [comobj] Œ^: ID2D1GradientStopCollection** ‚±‚ÌüŒ`ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒuƒ‰ƒVƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ ID2D1GradientStopCollection ƒIƒuƒWƒFƒNƒgB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
 %inst
-Retrieves the ID2D1GradientStopCollection associated with this radial
-gradient brush object.
+‚±‚Ì•úËóƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒuƒ‰ƒVƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ ID2D1GradientStopCollection ‚ğæ“¾‚·‚éB
 
 [”õl]
-ID2D1GradientStopCollection contains an array of D2D1_GRADIENT_STOP
-structures and additional information, such as the extend mode and
-the color interpolation mode.
+ID2D1GradientStopCollection ‚Í D2D1_GRADIENT_STOP
+\‘¢‘Ì‚Ì”z—ñ‚ÆAŠg’£ƒ‚[ƒh‚âF•âŠÔƒ‚[ƒh‚È‚Ç‚Ì’Ç‰Áî•ñ‚ğ•Û‚·‚éB
 
 
 %index
@@ -5598,16 +5441,15 @@ geometrySink : [comobj]
 
 %index
 ID2D1RectangleGeometry_GetRect
-Retrieves the rectangle that describes the rectangle geometry's dimensions.
+‹éŒ`ƒWƒIƒƒgƒŠ‚Ì¡–@‚ğ•\‚·‹éŒ`‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1RectangleGeometry
 %prm
 this, rect
 this : [comobj] ID2D1RectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-rect : [var] Type: D2D1_RECT_F* Contains a pointer to a rectangle that describes the rectangle geometry's dimensions when this method returns. You must allocate storage for this parameter.
+rect : [var] Œ^: D2D1_RECT_F* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‹éŒ`ƒWƒIƒƒgƒŠ‚Ì¡–@‚ğ•\‚·‹éŒ`‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì‹L‰¯—Ìˆæ‚ÍŒÄ‚Ño‚µ‘¤‚ÅŠm•Û‚·‚é•K—v‚ª‚ ‚éB
 %inst
-Retrieves the rectangle that describes the rectangle geometry's
-dimensions.
+‹éŒ`ƒWƒIƒƒgƒŠ‚Ì¡–@‚ğ•\‚·‹éŒ`‚ğæ“¾‚·‚éB
 
 
 %index
@@ -6707,15 +6549,15 @@ FALSEB
 
 %index
 ID2D1Resource_GetFactory
-Retrieves the factory associated with this resource.
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1Resource
 %prm
 this, factory
 this : [comobj] ID2D1Resource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] Type: ID2D1Factory** When this method returns, contains a pointer to a pointer to the factory that created this resource. This parameter is passed uninitialized.
+factory : [comobj] Œ^: ID2D1Factory** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌƒŠƒ\[ƒX‚ğì¬‚µ‚½ƒtƒ@ƒNƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚·B
 %inst
-Retrieves the factory associated with this resource.
+‚±‚ÌƒŠƒ\[ƒX‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒtƒ@ƒNƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
@@ -6927,150 +6769,136 @@ geometrySink : [comobj]
 
 %index
 ID2D1RoundedRectangleGeometry_GetRoundedRect
-Retrieves a rounded rectangle that describes this rounded rectangle geometry.
+‚±‚ÌŠpŠÛ‹éŒ`ƒWƒIƒƒgƒŠ‚ğ•\‚·ŠpŠÛ‹éŒ`‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1RoundedRectangleGeometry
 %prm
 this, roundedRect
 this : [comobj] ID2D1RoundedRectangleGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-roundedRect : [var] Type: D2D1_ROUNDED_RECT* A pointer that receives a rounded rectangle that describes this rounded rectangle geometry. You must allocate storage for this parameter.
+roundedRect : [var] Œ^: D2D1_ROUNDED_RECT* ‚±‚ÌŠpŠÛ‹éŒ`ƒWƒIƒƒgƒŠ‚ğ•\‚·ŠpŠÛ‹éŒ`‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Ì‹L‰¯—Ìˆæ‚ÍŒÄ‚Ño‚µ‘¤‚ÅŠm•Û‚·‚é•K—v‚ª‚ ‚éB
 %inst
-Retrieves a rounded rectangle that describes this rounded rectangle
-geometry.
+‚±‚ÌŠpŠÛ‹éŒ`ƒWƒIƒƒgƒŠ‚ğ•\‚·ŠpŠÛ‹éŒ`‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1SimplifiedGeometrySink_SetFillMode
-Specifies the method used to determine which points are inside the geometry described by this geometry sink and which points are outside.
+‚±‚ÌƒWƒIƒƒgƒŠƒVƒ“ƒN‚ª‹Lq‚·‚éƒWƒIƒƒgƒŠ‚É‚¨‚¢‚ÄA‚Ç‚Ì“_‚ª“à‘¤‚Å‚Ç‚Ì“_‚ªŠO‘¤‚Å‚ ‚é‚©‚ğ”»’è‚·‚é‚½‚ß‚Ì•û®‚ğw’è‚·‚éB
 %group
 COM misc / ID2D1SimplifiedGeometrySink
 %prm
 this, fillMode
 this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fillMode : [int] Type: D2D1_FILL_MODE The method used to determine whether a given point is part of the geometry.
+fillMode : [int] Œ^: D2D1_FILL_MODE —^‚¦‚ç‚ê‚½“_‚ªƒWƒIƒƒgƒŠ‚Ìˆê•”‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é•û®B
 %inst
-Specifies the method used to determine which points are inside the
-geometry described by this geometry sink and which points are
-outside.
+‚±‚ÌƒWƒIƒƒgƒŠƒVƒ“ƒN‚ª‹Lq‚·‚éƒWƒIƒƒgƒŠ‚É‚¨‚¢‚ÄA‚Ç‚Ì“_‚ª“à‘¤‚Å‚Ç‚Ì“_‚ªŠO‘¤‚Å‚ ‚é‚©‚ğ”»’è‚·‚é‚½‚ß‚Ì•û®‚ğw’è‚·‚éB
 
 [”õl]
-The fill mode defaults to D2D1_FILL_MODE_ALTERNATE. To set the fill
-mode, call SetFillMode before the first call to BeginFigure. Not
-doing will put the geometry sink in an error state.
+“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ÌŠù’è’l‚Í D2D1_FILL_MODE_ALTERNATE ‚Å‚ ‚éB“h‚è‚Â‚Ô‚µƒ‚[ƒh‚ğİ’è‚·‚é‚É‚ÍAÅ‰‚Ì
+BeginFigure ŒÄ‚Ño‚µ‚Ì‘O‚É SetFillMode ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB‚»‚¤‚µ‚È‚¢ê‡AƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éB
 
 
 %index
 ID2D1SimplifiedGeometrySink_SetSegmentFlags
-Specifies stroke and join options to be applied to new segments added to the geometry sink.
+ƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÉV‚½‚É’Ç‰Á‚³‚ê‚éƒZƒOƒƒ“ƒg‚É“K—p‚·‚éƒXƒgƒ[ƒN‚¨‚æ‚ÑƒWƒ‡ƒCƒ“ƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éB
 %group
 COM misc / ID2D1SimplifiedGeometrySink
 %prm
 this, vertexFlags
 this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-vertexFlags : [int] Type: D2D1_PATH_SEGMENT Stroke and join options to be applied to new segments added to the geometry sink.
+vertexFlags : [int] Œ^: D2D1_PATH_SEGMENT ƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÉV‚½‚É’Ç‰Á‚³‚ê‚éƒZƒOƒƒ“ƒg‚É“K—p‚·‚éƒXƒgƒ[ƒN‚¨‚æ‚ÑƒWƒ‡ƒCƒ“ƒIƒvƒVƒ‡ƒ“B
 %inst
-Specifies stroke and join options to be applied to new segments added
-to the geometry sink.
+ƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÉV‚½‚É’Ç‰Á‚³‚ê‚éƒZƒOƒƒ“ƒg‚É“K—p‚·‚éƒXƒgƒ[ƒN‚¨‚æ‚ÑƒWƒ‡ƒCƒ“ƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éB
 
 [”õl]
-After this method is called, the specified segment flags are applied
-to each segment subsequently added to the sink. The segment flags are
-applied to every additional segment until this method is called again
-and a different set of segment flags is specified.
+
+‚±‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚é‚ÆAˆÈ~ƒVƒ“ƒN‚É’Ç‰Á‚³‚ê‚é‚·‚×‚Ä‚ÌƒZƒOƒƒ“ƒg‚Éw’è‚ÌƒZƒOƒƒ“ƒgƒtƒ‰ƒO‚ª“K—p‚³‚ê‚éBƒZƒOƒƒ“ƒgƒtƒ‰ƒO‚ÍA‚±‚Ìƒƒ\ƒbƒh‚ªÄ‚ÑŒÄ‚Ño‚³‚ê‚ÄˆÙ‚È‚éƒZƒOƒƒ“ƒgƒtƒ‰ƒOW‡‚ªw’è‚³‚ê‚é‚Ü‚ÅA’Ç‰Á‚³‚ê‚éŠeƒZƒOƒƒ“ƒg‚É“K—p‚³‚ê‘±‚¯‚éB
 
 
 %index
 ID2D1SimplifiedGeometrySink_BeginFigure
-Starts a new figure at the specified point.
+w’è‚µ‚½“_‚©‚çV‚µ‚¢ƒtƒBƒMƒ…ƒA‚ğŠJn‚·‚éB
 %group
 COM misc / ID2D1SimplifiedGeometrySink
 %prm
 this, startPoint, figureBegin
 this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-startPoint : [int] Type: D2D1_POINT_2F The point at which to begin the new figure.
-figureBegin : [int] Type: D2D1_FIGURE_BEGIN Whether the new figure should be hollow or filled.
+startPoint : [int] Œ^: D2D1_POINT_2F V‚µ‚¢ƒtƒBƒMƒ…ƒA‚ğŠJn‚·‚é“_B
+figureBegin : [int] Œ^: D2D1_FIGURE_BEGIN V‚µ‚¢ƒtƒBƒMƒ…ƒA‚ğ’†‹ó‚É‚·‚é‚©“h‚è‚Â‚Ô‚µ‚É‚·‚é‚©B
 %inst
-Starts a new figure at the specified point.
+w’è‚µ‚½“_‚©‚çV‚µ‚¢ƒtƒBƒMƒ…ƒA‚ğŠJn‚·‚éB
 
 [”õl]
-If this method is called while a figure is currently in progress, the
-interface is invalidated and all future methods will fail.
+ƒtƒBƒMƒ…ƒA‚Ìˆ—’†‚É‚±‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Î‚ê‚½ê‡AƒCƒ“ƒ^[ƒtƒF[ƒX‚Í–³Œø‰»‚³‚êAˆÈ~‚Ì‚·‚×‚Ä‚Ìƒƒ\ƒbƒhŒÄ‚Ño‚µ‚Í¸”s‚·‚éB
 
 
 %index
 ID2D1SimplifiedGeometrySink_AddLines
-Creates a sequence of lines using the specified points and adds them to the geometry sink.
+w’è‚³‚ê‚½“_‚ğ—p‚¢‚Ä’¼ü‚ÌƒV[ƒPƒ“ƒX‚ğ¶¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
 %group
 COM misc / ID2D1SimplifiedGeometrySink
 %prm
 this, points, pointsCount
 this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-points : [var] Type: const D2D1_POINT_2F* A pointer to an array of one or more points that describe the lines to draw. A line is drawn from the geometry sink's current point (the end point of the last segment drawn or the location specified by BeginFigure) to the first point in the array. if the array contains additional points, a line is drawn from the first point to the second point in the array, from the second point to the third point, and so on.
-pointsCount : [int] Type: UINT The number of points in the points array.
+points : [var] Œ^: const D2D1_POINT_2F* •`‰æ‚·‚éü‚ğ‹Lq‚·‚é 1 ‚ÂˆÈã‚Ì“_‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÌŒ»İ‚Ì“_ (’¼‘O‚É•`‰æ‚µ‚½ƒZƒOƒƒ“ƒg‚ÌI“_A‚Ü‚½‚Í BeginFigure ‚Åw’è‚³‚ê‚½ˆÊ’u) ‚©‚ç”z—ñ“à‚ÌÅ‰‚Ì“_‚ÉŒü‚¯‚Äü‚ª•`‰æ‚³‚ê‚éB”z—ñ‚É‚³‚ç‚É“_‚ªŠÜ‚Ü‚ê‚éê‡AÅ‰‚Ì“_‚©‚ç 2 ”Ô–Ú‚Ì“_A2 ”Ô–Ú‚Ì“_‚©‚ç 3 ”Ô–Ú‚Ì“_‚ÖA‚Æ‚¢‚¤‚æ‚¤‚Éü‚ª•`‰æ‚³‚ê‚éB
+pointsCount : [int] Œ^: UINT points ”z—ñ‚ÉŠÜ‚Ü‚ê‚é“_‚Ì”B
 %inst
-Creates a sequence of lines using the specified points and adds them
-to the geometry sink.
+w’è‚³‚ê‚½“_‚ğ—p‚¢‚Ä’¼ü‚ÌƒV[ƒPƒ“ƒX‚ğ¶¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
 
 
 %index
 ID2D1SimplifiedGeometrySink_AddBeziers
-Creates a sequence of cubic Bezier curves and adds them to the geometry sink.
+3 ŸƒxƒWƒG‹Èü‚ÌƒV[ƒPƒ“ƒX‚ğ¶¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
 %group
 COM misc / ID2D1SimplifiedGeometrySink
 %prm
 this, beziers, beziersCount
 this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-beziers : [var] Type: const D2D1_BEZIER_SEGMENT* A pointer to an array of Bezier segments that describes the Bezier curves to create. A curve is drawn from the geometry sink's current point (the end point of the last segment drawn or the location specified by BeginFigure) to the end point of the first Bezier segment in the array. if the array contains additional Bezier segments, each subsequent Bezier segment uses the end point of the preceding Bezier segment as its start point.
-beziersCount : [int] Type: UINT The number of Bezier segments in the beziers array.
+beziers : [var] Œ^: const D2D1_BEZIER_SEGMENT* ¶¬‚·‚éƒxƒWƒG‹Èü‚ğ‹Lq‚·‚éƒxƒWƒGƒZƒOƒƒ“ƒg”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÌŒ»İ‚Ì“_ (’¼‘O‚É•`‰æ‚µ‚½ƒZƒOƒƒ“ƒg‚ÌI“_A‚Ü‚½‚Í BeginFigure ‚Åw’è‚³‚ê‚½ˆÊ’u) ‚©‚ç”z—ñ“à‚ÌÅ‰‚ÌƒxƒWƒGƒZƒOƒƒ“ƒg‚ÌI“_‚ÉŒü‚¯‚Ä‹Èü‚ª•`‰æ‚³‚ê‚éB”z—ñ‚É‚³‚ç‚ÉƒxƒWƒGƒZƒOƒƒ“ƒg‚ªŠÜ‚Ü‚ê‚éê‡AŒã‘±‚ÌŠeƒxƒWƒGƒZƒOƒƒ“ƒg‚Í’¼‘O‚ÌƒxƒWƒGƒZƒOƒƒ“ƒg‚ÌI“_‚ğn“_‚Æ‚·‚éB
+beziersCount : [int] Œ^: UINT beziers ”z—ñ‚ÉŠÜ‚Ü‚ê‚éƒxƒWƒGƒZƒOƒƒ“ƒg‚Ì”B
 %inst
-Creates a sequence of cubic Bezier curves and adds them to the
-geometry sink.
+3 ŸƒxƒWƒG‹Èü‚ÌƒV[ƒPƒ“ƒX‚ğ¶¬‚µAƒWƒIƒƒgƒŠƒVƒ“ƒN‚É’Ç‰Á‚·‚éB
 
 
 %index
 ID2D1SimplifiedGeometrySink_EndFigure
-Ends the current figure; optionally, closes it.
+Œ»İ‚ÌƒtƒBƒMƒ…ƒA‚ğI—¹‚·‚éB•K—v‚É‰‚¶‚Ä•Â‚¶‚éB
 %group
 COM misc / ID2D1SimplifiedGeometrySink
 %prm
 this, figureEnd
 this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-figureEnd : [int] Type: D2D1_FIGURE_END A value that indicates whether the current figure is closed. If the figure is closed, a line is drawn between the current point and the start point specified by BeginFigure.
+figureEnd : [int] Œ^: D2D1_FIGURE_END Œ»İ‚ÌƒtƒBƒMƒ…ƒA‚ğ•Â‚¶‚é‚©‚Ç‚¤‚©‚ğ¦‚·’lB•Â‚¶‚éê‡AŒ»İ‚Ì“_‚Æ BeginFigure ‚Åw’è‚µ‚½n“_‚ÌŠÔ‚Éü‚ª•`‰æ‚³‚ê‚éB
 %inst
-Ends the current figure; optionally, closes it.
+Œ»İ‚ÌƒtƒBƒMƒ…ƒA‚ğI—¹‚·‚éB•K—v‚É‰‚¶‚Ä•Â‚¶‚éB
 
 [”õl]
-Calling this method without a matching call to BeginFigure places the
-geometry sink in an error state; subsequent calls are ignored, and
-the overall failure will be returned when the Close method is called.
+‘Î‰‚·‚é BeginFigure
+‚ÌŒÄ‚Ño‚µ‚È‚µ‚É‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚ÆƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éBˆÈ~‚ÌŒÄ‚Ño‚µ‚Í–³‹‚³‚êAÅI“I‚È¸”s‚Í Close
+ƒƒ\ƒbƒhŒÄ‚Ño‚µ‚É•Ô‚³‚ê‚éB
 
 
 %index
 ID2D1SimplifiedGeometrySink_Close
-Closes the geometry sink, indicates whether it is in an error state, and resets the sink's error state.
+ƒWƒIƒƒgƒŠƒVƒ“ƒN‚ğ•Â‚¶AƒGƒ‰[ó‘Ô‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚µAƒVƒ“ƒN‚ÌƒGƒ‰[ó‘Ô‚ğƒŠƒZƒbƒg‚·‚éB
 %group
 COM misc / ID2D1SimplifiedGeometrySink
 %prm
 this
 this : [comobj] ID2D1SimplifiedGeometrySink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Closes the geometry sink, indicates whether it is in an error state,
-and resets the sink's error state.
+ƒWƒIƒƒgƒŠƒVƒ“ƒN‚ğ•Â‚¶AƒGƒ‰[ó‘Ô‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚µAƒVƒ“ƒN‚ÌƒGƒ‰[ó‘Ô‚ğƒŠƒZƒbƒg‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í
 [**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
-error code.
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Do not close the geometry sink while a figure is still in progress;
-doing so puts the geometry sink in an error state. For the close
-operation to be successful, there must be one EndFigure call for each
-call to BeginFigure. After calling this method, the geometry sink
-might not be usable. Direct2D implementations of this interface do
-not allow the geometry sink to be modified after it is closed, but
-other implementations might not impose this restriction.
+
+ƒtƒBƒMƒ…ƒA‚Ìˆ—’†‚ÉƒWƒIƒƒgƒŠƒVƒ“ƒN‚ğ•Â‚¶‚Ä‚Í‚È‚ç‚È‚¢B•Â‚¶‚é‚ÆƒWƒIƒƒgƒŠƒVƒ“ƒN‚ÍƒGƒ‰[ó‘Ô‚É‚È‚éBƒNƒ[ƒYˆ—‚ğ¬Œ÷‚³‚¹‚é‚½‚ß‚É‚ÍABeginFigure
+ŒÄ‚Ño‚µ‚²‚Æ‚É‘Î‰‚·‚é EndFigure
+ŒÄ‚Ño‚µ‚ª•K—v‚Å‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½ŒãAƒWƒIƒƒgƒŠƒVƒ“ƒN‚Íg—p‚Å‚«‚È‚­‚È‚éê‡‚ª‚ ‚éBDirect2D
+‚Ì‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXÀ‘•‚Å‚ÍƒNƒ[ƒYŒã‚ÌƒWƒIƒƒgƒŠƒVƒ“ƒN‚Ö‚Ì•ÏX‚ğ‹–‰Â‚µ‚È‚¢‚ªA‘¼‚ÌÀ‘•‚Å‚Í‚±‚Ì§–ñ‚ª‚È‚¢ê‡‚à‚ ‚éB
 
 
 %index
@@ -7179,191 +7007,176 @@ factory : [comobj]
 
 %index
 ID2D1StrokeStyle_GetStartCap
-Retrieves the type of shape used at the beginning of a stroke.
+ƒXƒgƒ[ƒN‚Ìn’[‚Ég—p‚³‚ê‚éŒ`ó‚Ìí—Ş‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Retrieves the type of shape used at the beginning of a stroke.
+ƒXƒgƒ[ƒN‚Ìn’[‚Ég—p‚³‚ê‚éŒ`ó‚Ìí—Ş‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: D2D1_CAP_STYLE The type of shape used at the beginning of a
-stroke.
+Œ^: D2D1_CAP_STYLE ƒXƒgƒ[ƒN‚Ìn’[‚Ég—p‚³‚ê‚éŒ`ó‚Ìí—ŞB
 
 
 %index
 ID2D1StrokeStyle_GetEndCap
-Retrieves the type of shape used at the end of a stroke.
+ƒXƒgƒ[ƒN‚ÌI’[‚Ég—p‚³‚ê‚éŒ`ó‚Ìí—Ş‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Retrieves the type of shape used at the end of a stroke.
+ƒXƒgƒ[ƒN‚ÌI’[‚Ég—p‚³‚ê‚éŒ`ó‚Ìí—Ş‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: D2D1_CAP_STYLE The type of shape used at the end of a stroke.
+Œ^: D2D1_CAP_STYLE ƒXƒgƒ[ƒN‚ÌI’[‚Ég—p‚³‚ê‚éŒ`ó‚Ìí—ŞB
 
 
 %index
 ID2D1StrokeStyle_GetDashCap
-Gets a value that specifies how the ends of each dash are drawn.
+Šeƒ_ƒbƒVƒ…‚Ì’[‚ğ‚Ç‚Ì‚æ‚¤‚É•`‰æ‚·‚é‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets a value that specifies how the ends of each dash are drawn.
+Šeƒ_ƒbƒVƒ…‚Ì’[‚ğ‚Ç‚Ì‚æ‚¤‚É•`‰æ‚·‚é‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: D2D1_CAP_STYLE A value that specifies how the ends of each dash
-are drawn.
+Œ^: D2D1_CAP_STYLE Šeƒ_ƒbƒVƒ…‚Ì’[‚ğ‚Ç‚Ì‚æ‚¤‚É•`‰æ‚·‚é‚©‚ğ¦‚·’lB
 
 
 %index
 ID2D1StrokeStyle_GetMiterLimit
-Retrieves the limit on the ratio of the miter length to half the stroke's thickness.
+ƒ}ƒCƒ^’·‚ÆƒXƒgƒ[ƒNŒú‚Ì”¼•ª‚Æ‚Ì”ä‚É‘Î‚·‚éãŒÀ‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Retrieves the limit on the ratio of the miter length to half the
-stroke's thickness.
+ƒ}ƒCƒ^’·‚ÆƒXƒgƒ[ƒNŒú‚Ì”¼•ª‚Æ‚Ì”ä‚É‘Î‚·‚éãŒÀ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: FLOAT A positive number greater than or equal to 1.0f that
-describes the limit on the ratio of the miter length to half the
-stroke's thickness.
+Œ^: FLOAT ƒ}ƒCƒ^’·‚ÆƒXƒgƒ[ƒNŒú‚Ì”¼•ª‚Æ‚Ì”ä‚É‘Î‚·‚éãŒÀ‚ğ•\‚·A1.0f ˆÈã‚Ì³‚Ì”B
 
 
 %index
 ID2D1StrokeStyle_GetLineJoin
-Retrieves the type of joint used at the vertices of a shape's outline.
+}Œ`‚Ì—ÖŠs‚Ì’¸“_‚Åg—p‚³‚ê‚éÚ‡‚Ìí—Ş‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Retrieves the type of joint used at the vertices of a shape's
-outline.
+}Œ`‚Ì—ÖŠs‚Ì’¸“_‚Åg—p‚³‚ê‚éÚ‡‚Ìí—Ş‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: D2D1_LINE_JOIN A value that specifies the type of joint used at
-the vertices of a shape's outline.
+Œ^: D2D1_LINE_JOIN }Œ`‚Ì—ÖŠs‚Ì’¸“_‚Åg—p‚³‚ê‚éÚ‡‚Ìí—Ş‚ğ¦‚·’lB
 
 
 %index
 ID2D1StrokeStyle_GetDashOffset
-Retrieves a value that specifies how far in the dash sequence the stroke will start.
+ƒ_ƒbƒVƒ…ƒV[ƒPƒ“ƒXã‚Ì‚Ç‚ÌˆÊ’u‚©‚çƒXƒgƒ[ƒN‚ğŠJn‚·‚é‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Retrieves a value that specifies how far in the dash sequence the
-stroke will start.
+ƒ_ƒbƒVƒ…ƒV[ƒPƒ“ƒXã‚Ì‚Ç‚ÌˆÊ’u‚©‚çƒXƒgƒ[ƒN‚ğŠJn‚·‚é‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: FLOAT A value that specifies how far in the dash sequence the
-stroke will start.
+Œ^: FLOAT ƒ_ƒbƒVƒ…ƒV[ƒPƒ“ƒXã‚Ì‚Ç‚ÌˆÊ’u‚©‚çƒXƒgƒ[ƒN‚ğŠJn‚·‚é‚©‚ğ¦‚·’lB
 
 
 %index
 ID2D1StrokeStyle_GetDashStyle
-Gets a value that describes the stroke's dash pattern.
+ƒXƒgƒ[ƒN‚Ìƒ_ƒbƒVƒ…ƒpƒ^[ƒ“‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets a value that describes the stroke's dash pattern.
+ƒXƒgƒ[ƒN‚Ìƒ_ƒbƒVƒ…ƒpƒ^[ƒ“‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: D2D1_DASH_STYLE A value that describes the predefined dash
-pattern used, or D2D1_DASH_STYLE_CUSTOM if a custom dash style is
-used.
+Œ^: D2D1_DASH_STYLE g—p‚³‚ê‚é’è‹`Ï‚İƒ_ƒbƒVƒ…ƒpƒ^[ƒ“‚ğ¦‚·’lA‚Ü‚½‚ÍƒJƒXƒ^ƒ€ƒ_ƒbƒVƒ…ƒXƒ^ƒCƒ‹‚Ìê‡‚Í
+D2D1_DASH_STYLE_CUSTOMB
 
 [”õl]
-If a custom dash style is specified, the dash pattern is described by
-the dashes array, which can be retrieved by calling the GetDashes
-method.
+ƒJƒXƒ^ƒ€‚Ìƒ_ƒbƒVƒ…ƒXƒ^ƒCƒ‹‚ªw’è‚³‚ê‚Ä‚¢‚éê‡Aƒ_ƒbƒVƒ…ƒpƒ^[ƒ“‚Í dashes ”z—ñ‚Å‹Lq‚³‚êAGetDashes
+ƒƒ\ƒbƒh‚Åæ“¾‚Å‚«‚éB
 
 
 %index
 ID2D1StrokeStyle_GetDashesCount
-Retrieves the number of entries in the dashes array.
+dashes ”z—ñ‚Ì—v‘f”‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1StrokeStyle
 %prm
 this
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Retrieves the number of entries in the dashes array.
+dashes ”z—ñ‚Ì—v‘f”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: UINT32 The number of entries in the dashes array if the stroke
-is dashed; otherwise, 0.
+Œ^: UINT32 ƒXƒgƒ[ƒN‚ª”jü‚Å‚ ‚éê‡‚Í dashes ”z—ñ‚Ì—v‘f”B‚»‚êˆÈŠO‚Ìê‡‚Í 0B
 
 
 %index
 ID2D1StrokeStyle_GetDashes
-Copies the dash pattern to the specified array.
+ƒ_ƒbƒVƒ…ƒpƒ^[ƒ“‚ğw’è‚³‚ê‚½”z—ñ‚ÉƒRƒs[‚·‚éB
 %group
 COM misc / ID2D1StrokeStyle
 %prm
 this, dashes, dashesCount
 this : [comobj] ID2D1StrokeStyle ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dashes : [float] Type: FLOAT* A pointer to an array that will receive the dash pattern. The array must be able to contain at least as many elements as specified by dashesCount. You must allocate storage for this array.
-dashesCount : [int] Type: UINT The number of dashes to copy. If this value is less than the number of dashes in the stroke style's dashes array, the returned dashes are truncated to dashesCount. If this value is greater than the number of dashes in the stroke style's dashes array, the extra dashes are set to 0.0f. To obtain the actual number of dashes in the stroke style's dashes array, use the GetDashesCount method.
+dashes : [float] Œ^: FLOAT* ƒ_ƒbƒVƒ…ƒpƒ^[ƒ“‚ğó‚¯æ‚é”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B”z—ñ‚É‚Í­‚È‚­‚Æ‚à dashesCount ‚Åw’è‚³‚ê‚½”‚Ì—v‘f‚ğŠi”[‚Å‚«‚é•K—v‚ª‚ ‚éB‚±‚Ì”z—ñ—p‚Ì—Ìˆæ‚ÍŒÄ‚Ño‚µ‘¤‚ªŠm•Û‚·‚éB
+dashesCount : [int] Œ^: UINT ƒRƒs[‚·‚éƒ_ƒbƒVƒ…‚Ì”B‚±‚Ì’l‚ªƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚Ì dashes ”z—ñ‚Ìƒ_ƒbƒVƒ…”‚æ‚è­‚È‚¢ê‡A•Ô‚³‚ê‚éƒ_ƒbƒVƒ…‚Í dashesCount ‚ÉØ‚è‹l‚ß‚ç‚ê‚éB‚±‚Ì’l‚ªƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚Ì dashes ”z—ñ‚Ìƒ_ƒbƒVƒ…”‚æ‚è‘½‚¢ê‡A—]•ª‚Èƒ_ƒbƒVƒ…‚Í 0.0f ‚Éİ’è‚³‚ê‚éBƒXƒgƒ[ƒNƒXƒ^ƒCƒ‹‚Ì dashes ”z—ñ‚ÌÀÛ‚Ìƒ_ƒbƒVƒ…”‚ğæ“¾‚·‚é‚É‚Í GetDashesCount ƒƒ\ƒbƒh‚ğg—p‚·‚éB
 %inst
-Copies the dash pattern to the specified array.
+ƒ_ƒbƒVƒ…ƒpƒ^[ƒ“‚ğw’è‚³‚ê‚½”z—ñ‚ÉƒRƒs[‚·‚éB
 
 [”õl]
-The dashes are specified in units that are a multiple of the stroke
-width, with subsequent members of the array indicating the dashes and
-gaps between dashes: the first entry indicates a filled dash, the
-second a gap, and so on.
+ƒ_ƒbƒVƒ…‚ÍƒXƒgƒ[ƒN•‚Ì”{”’PˆÊ‚Åw’è‚³‚ê‚éB”z—ñ‚Ì—v‘f‚Íƒ_ƒbƒVƒ…‚Æƒ_ƒbƒVƒ…ŠÔ‚ÌŒ„ŠÔ‚ğŒğŒİ‚É¦‚·BÅ‰‚Ì—v‘f‚Í“h‚è‚Â‚Ô‚³‚ê‚½ƒ_ƒbƒVƒ…‚ğA2
+”Ô–Ú‚Ì—v‘f‚ÍŒ„ŠÔ‚ğ¦‚·B
 
 
 %index
 ID2D1TessellationSink_AddTriangles
-Copies the specified triangles to the sink.
+w’è‚³‚ê‚½OŠpŒ`‚ğƒVƒ“ƒN‚ÉƒRƒs[‚·‚éB
 %group
 COM misc / ID2D1TessellationSink
 %prm
 this, triangles, trianglesCount
 this : [comobj] ID2D1TessellationSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-triangles : [var] Type: const D2D1_TRIANGLE* An array of D2D1_TRIANGLE structures that describe the triangles to add to the sink.
-trianglesCount : [int] Type: UINT The number of triangles to copy from the triangles array.
+triangles : [var] Œ^: const D2D1_TRIANGLE* ƒVƒ“ƒN‚É’Ç‰Á‚·‚éOŠpŒ`‚ğ‹Lq‚·‚é D2D1_TRIANGLE \‘¢‘Ì‚Ì”z—ñB
+trianglesCount : [int] Œ^: UINT triangles ”z—ñ‚©‚çƒRƒs[‚·‚éOŠpŒ`‚Ì”B
 %inst
-Copies the specified triangles to the sink.
+w’è‚³‚ê‚½OŠpŒ`‚ğƒVƒ“ƒN‚ÉƒRƒs[‚·‚éB
 
 
 %index
 ID2D1TessellationSink_Close
-Closes the sink and returns its error status.
+ƒVƒ“ƒN‚ğ•Â‚¶A‚»‚ÌƒGƒ‰[ó‘Ô‚ğ•Ô‚·B
 %group
 COM misc / ID2D1TessellationSink
 %prm
 this
 this : [comobj] ID2D1TessellationSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Closes the sink and returns its error status.
+ƒVƒ“ƒN‚ğ•Â‚¶A‚»‚ÌƒGƒ‰[ó‘Ô‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í
 [**HRESULT**](/windows/desktop/com/structure-of-com-error-codes)
-error code.
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -7575,29 +7388,28 @@ geometrySink : [comobj]
 
 %index
 ID2D1TransformedGeometry_GetSourceGeometry
-Retrieves the source geometry of this transformed geometry object.
+‚±‚Ì•ÏŠ·Ï‚İƒWƒIƒƒgƒŠƒIƒuƒWƒFƒNƒg‚Ìƒ\[ƒXƒWƒIƒƒgƒŠ‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1TransformedGeometry
 %prm
 this, sourceGeometry
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-sourceGeometry : [comobj] Type: ID2D1Geometry** When this method returns, contains a pointer to a pointer to the source geometry for this transformed geometry object. This parameter is passed uninitialized.
+sourceGeometry : [comobj] Œ^: ID2D1Geometry** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A‚±‚Ì•ÏŠ·Ï‚İƒWƒIƒƒgƒŠƒIƒuƒWƒFƒNƒg‚Ìƒ\[ƒXƒWƒIƒƒgƒŠ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚³‚ê‚éB
 %inst
-Retrieves the source geometry of this transformed geometry object.
+‚±‚Ì•ÏŠ·Ï‚İƒWƒIƒƒgƒŠƒIƒuƒWƒFƒNƒg‚Ìƒ\[ƒXƒWƒIƒƒgƒŠ‚ğæ“¾‚·‚éB
 
 
 %index
 ID2D1TransformedGeometry_GetTransform
-Retrieves the matrix used to transform the ID2D1TransformedGeometry object's source geometry.
+ID2D1TransformedGeometry ƒIƒuƒWƒFƒNƒg‚Ìƒ\[ƒXƒWƒIƒƒgƒŠ‚ğ•ÏŠ·‚·‚é‚½‚ß‚Ég—p‚³‚ê‚és—ñ‚ğæ“¾‚·‚éB
 %group
 COM misc / ID2D1TransformedGeometry
 %prm
 this, transform
 this : [comobj] ID2D1TransformedGeometry ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-transform : [var] Type: D2D1_MATRIX_3X2_F* A pointer that receives the matrix used to transform the ID2D1TransformedGeometry object's source geometry. You must allocate storage for this parameter.
+transform : [var] Œ^: D2D1_MATRIX_3X2_F* ID2D1TransformedGeometry ƒIƒuƒWƒFƒNƒg‚Ìƒ\[ƒXƒWƒIƒƒgƒŠ‚ğ•ÏŠ·‚·‚é‚½‚ß‚Ég—p‚³‚ê‚és—ñ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^—p‚Ì—Ìˆæ‚ÍŒÄ‚Ño‚µ‘¤‚ªŠm•Û‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Retrieves the matrix used to transform the ID2D1TransformedGeometry
-object's source geometry.
+ID2D1TransformedGeometry ƒIƒuƒWƒFƒNƒg‚Ìƒ\[ƒXƒWƒIƒƒgƒŠ‚ğ•ÏŠ·‚·‚é‚½‚ß‚Ég—p‚³‚ê‚és—ñ‚ğæ“¾‚·‚éB
 
 
 %index
@@ -8034,1262 +7846,1146 @@ pdwEffect : [var] “ü—Í‚Í DoDragDrop ŠÖ”‚Ì pdwEffect ƒpƒ‰ƒ[ƒ^[‚Ì’l‚Ö‚Ìƒ|ƒCƒ
 
 %index
 IDWriteBitmapRenderTarget_DrawGlyphRun
-Draws a run of glyphs to a bitmap target at the specified position.
+w’è‚µ‚½ˆÊ’u‚Åƒrƒbƒgƒ}ƒbƒvƒ^[ƒQƒbƒg‚ÉƒOƒŠƒtƒ‰ƒ“‚ğ•`‰æ‚·‚éB
 %group
 COM misc / IDWriteBitmapRenderTarget
 %prm
 this, baselineOriginX, baselineOriginY, measuringMode, glyphRun, renderingParams, textColor, blackBoxRect
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-baselineOriginX : [float] Type: FLOAT The horizontal position of the baseline origin, in DIPs, relative to the upper-left corner of the DIB.
-baselineOriginY : [float] Type: FLOAT The vertical position of the baseline origin, in DIPs, relative to the upper-left corner of the DIB.
-measuringMode : [int] Type: DWRITE_MEASURING_MODE The measuring method for glyphs in the run, used with the other properties to determine the rendering mode.
-glyphRun : [int] Type: const DWRITE_GLYPH_RUN* The structure containing the properties of the glyph run.
-renderingParams : [comobj] Type: IDWriteRenderingParams* The object that controls rendering behavior.
-textColor : [int] Type: COLORREF The foreground color of the text.
-blackBoxRect : [var] Type: RECT* The optional rectangle that receives the bounding box (in pixels not DIPs) of all the pixels affected by drawing the glyph run. The black box rectangle may extend beyond the dimensions of the bitmap.
+baselineOriginX : [float] Œ^: FLOAT DIB ‚Ì¶ã‹÷‚ğŠî€‚Æ‚µ‚½Aƒx[ƒXƒ‰ƒCƒ“Œ´“_‚Ì…•½ˆÊ’u (DIP ’PˆÊ)B
+baselineOriginY : [float] Œ^: FLOAT DIB ‚Ì¶ã‹÷‚ğŠî€‚Æ‚µ‚½Aƒx[ƒXƒ‰ƒCƒ“Œ´“_‚Ì‚’¼ˆÊ’u (DIP ’PˆÊ)B
+measuringMode : [int] Œ^: DWRITE_MEASURING_MODE ƒ‰ƒ““à‚ÌƒOƒŠƒt‚ÌŒv‘ª•û®B‘¼‚ÌƒvƒƒpƒeƒB‚Æ‘g‚İ‡‚í‚¹‚ÄƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğŒˆ’è‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB
+glyphRun : [int] Œ^: const DWRITE_GLYPH_RUN* ƒOƒŠƒtƒ‰ƒ“‚ÌƒvƒƒpƒeƒB‚ğŠÜ‚Ş\‘¢‘ÌB
+renderingParams : [comobj] Œ^: IDWriteRenderingParams* •`‰æ“®ì‚ğ§Œä‚·‚éƒIƒuƒWƒFƒNƒgB
+textColor : [int] Œ^: COLORREF ƒeƒLƒXƒg‚Ì‘OŒiFB
+blackBoxRect : [var] Œ^: RECT* ƒOƒŠƒtƒ‰ƒ“•`‰æ‚Å‰e‹¿‚ğó‚¯‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹‚Ì‹«ŠEƒ{ƒbƒNƒX (DIP ‚Å‚Í‚È‚­ƒsƒNƒZƒ‹’PˆÊ) ‚ğó‚¯æ‚éƒIƒvƒVƒ‡ƒ“‚Ì‹éŒ`Bƒuƒ‰ƒbƒNƒ{ƒbƒNƒX‹éŒ`‚Íƒrƒbƒgƒ}ƒbƒv‚Ì¡–@‚ğ’´‚¦‚ÄŠg’£‚³‚ê‚éê‡‚ª‚ ‚éB
 %inst
-Draws a run of glyphs to a bitmap target at the specified position.
+w’è‚µ‚½ˆÊ’u‚Åƒrƒbƒgƒ}ƒbƒvƒ^[ƒQƒbƒg‚ÉƒOƒŠƒtƒ‰ƒ“‚ğ•`‰æ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-You can use the IDWriteBitmapRenderTarget::DrawGlyphRun to render to
-a bitmap from a custom text renderer that you implement. The custom
-text renderer should call this method from within the
-IDWriteTextRenderer::DrawGlyphRun callback method as shown in the
-following code.
-This doc was truncated.
+“Æ©‚ÉÀ‘•‚µ‚½ƒJƒXƒ^ƒ€ƒeƒLƒXƒgƒŒƒ“ƒ_ƒ‰[‚©‚çƒrƒbƒgƒ}ƒbƒv‚Ö•`‰æ‚·‚é‚½‚ß‚É
+IDWriteBitmapRenderTarget::DrawGlyphRun ‚ğg—p‚Å‚«‚éBƒJƒXƒ^ƒ€ƒeƒLƒXƒgƒŒƒ“ƒ_ƒ‰[‚Í
+IDWriteTextRenderer::DrawGlyphRun
+ƒR[ƒ‹ƒoƒbƒNƒƒ\ƒbƒh“à‚ÅŸ‚ÌƒR[ƒh‚Ì‚æ‚¤‚É‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDWriteBitmapRenderTarget_GetMemoryDC
-Gets a handle to the memory device context.
+ƒƒ‚ƒŠƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteBitmapRenderTarget
 %prm
 this
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets a handle to the memory device context.
+ƒƒ‚ƒŠƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HDC Returns a device context handle to the memory device
-context.
+Œ^: HDC ƒƒ‚ƒŠƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒgƒnƒ“ƒhƒ‹‚ğ•Ô‚·B
 
 [”õl]
-An application can use the device context to draw using GDI
-functions. An application can obtain the bitmap handle (HBITMAP) by
-calling GetCurrentObject. An application that wants information about
-the underlying bitmap, including a pointer to the pixel data, can
-call GetObject to fill in a DIBSECTION structure. The bitmap is
-always a 32-bit top-down DIB. Note that this method takes no
-parameters and returns an HDC variable, not an HRESULT.
-This doc was truncated.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ğg—p‚µ‚Ä GDI ŠÖ”‚Å•`‰æ‚Å‚«‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í GetCurrentObject
+‚ğŒÄ‚Ño‚µ‚Äƒrƒbƒgƒ}ƒbƒvƒnƒ“ƒhƒ‹ (HBITMAP) ‚ğæ“¾‚Å‚«‚éB“à•”‚Ìƒrƒbƒgƒ}ƒbƒv‚ÉŠÖ‚·‚éî•ñ (ƒsƒNƒZƒ‹ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠÜ‚Ş)
+‚ğæ“¾‚µ‚½‚¢ê‡‚ÍAGetObject ‚ğŒÄ‚Ño‚µ‚Ä DIBSECTION \‘¢‘Ì‚Éî•ñ‚ğ“ü‚ê‚é‚±‚Æ‚ª‚Å‚«‚éBƒrƒbƒgƒ}ƒbƒv‚Íí‚É 32
+ƒrƒbƒg‚Ìƒgƒbƒvƒ_ƒEƒ“ DIB ‚Å‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚Íƒpƒ‰ƒ[ƒ^‚ğæ‚ç‚¸AHRESULT ‚Å‚Í‚È‚­ HDC •Ï”‚ğ•Ô‚·‚±‚Æ‚É’ˆÓB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDWriteBitmapRenderTarget_GetPixelsPerDip
-Gets the number of bitmap pixels per DIP.
+DIP ‚ ‚½‚è‚Ìƒrƒbƒgƒ}ƒbƒvƒsƒNƒZƒ‹”‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteBitmapRenderTarget
 %prm
 this
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the number of bitmap pixels per DIP.
+DIP ‚ ‚½‚è‚Ìƒrƒbƒgƒ}ƒbƒvƒsƒNƒZƒ‹”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: FLOAT The number of bitmap pixels per DIP.
+Œ^: FLOAT DIP ‚ ‚½‚è‚Ìƒrƒbƒgƒ}ƒbƒvƒsƒNƒZƒ‹”B
 
 [”õl]
-A DIP (device-independent pixel) is 1/96 inch. Therefore, this value
-is the number if pixels per inch divided by 96.
+DIP (ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹) ‚Í 1/96 ƒCƒ“ƒ`‚Å‚ ‚éB‚µ‚½‚ª‚Á‚Ä‚±‚Ì’l‚Í 1 ƒCƒ“ƒ`‚ ‚½‚è‚ÌƒsƒNƒZƒ‹”‚ğ 96
+‚ÅŠ„‚Á‚½’l‚Æ‚È‚éB
 
 
 %index
 IDWriteBitmapRenderTarget_SetPixelsPerDip
-Sets the number of bitmap pixels per DIP (device-independent pixel). A DIP is 1/96 inch, so this value is the number if pixels per inch divided by 96.
+DIP (ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹) ‚ ‚½‚è‚Ìƒrƒbƒgƒ}ƒbƒvƒsƒNƒZƒ‹”‚ğİ’è‚·‚éBDIP ‚Í 1/96 ƒCƒ“ƒ`‚È‚Ì‚ÅA‚±‚Ì’l‚Í 1 ƒCƒ“ƒ`‚ ‚½‚è‚ÌƒsƒNƒZƒ‹”‚ğ 96 ‚ÅŠ„‚Á‚½’l‚Æ‚È‚éB
 %group
 COM misc / IDWriteBitmapRenderTarget
 %prm
 this, pixelsPerDip
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pixelsPerDip : [float] Type: FLOAT A value that specifies the number of pixels per DIP.
+pixelsPerDip : [float] Œ^: FLOAT DIP ‚ ‚½‚è‚ÌƒsƒNƒZƒ‹”‚ğw’è‚·‚é’lB
 %inst
-Sets the number of bitmap pixels per DIP (device-independent pixel).
-A DIP is 1/96 inch, so this value is the number if pixels per inch
-divided by 96.
+DIP (ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹) ‚ ‚½‚è‚Ìƒrƒbƒgƒ}ƒbƒvƒsƒNƒZƒ‹”‚ğİ’è‚·‚éBDIP ‚Í 1/96 ƒCƒ“ƒ`‚È‚Ì‚ÅA‚±‚Ì’l‚Í 1
+ƒCƒ“ƒ`‚ ‚½‚è‚ÌƒsƒNƒZƒ‹”‚ğ 96 ‚ÅŠ„‚Á‚½’l‚Æ‚È‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteBitmapRenderTarget_GetCurrentTransform
-Gets the transform that maps abstract coordinates to DIPs. By default this is the identity transform. Note that this is unrelated to the world transform of the underlying device context.
+’ŠÛÀ•W‚ğ DIP ‚Éƒ}ƒbƒv‚·‚éƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğæ“¾‚·‚éBŠù’è‚Å‚ÍP“™•ÏŠ·‚Å‚ ‚éB‚±‚ê‚Í“à•”ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ[ƒ‹ƒhƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Æ‚Í–³ŠÖŒW‚Å‚ ‚éB
 %group
 COM misc / IDWriteBitmapRenderTarget
 %prm
 this, transform
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-transform : [var] Type: DWRITE_MATRIX* When this method returns, contains a transform matrix.
+transform : [var] Œ^: DWRITE_MATRIX* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aƒgƒ‰ƒ“ƒXƒtƒH[ƒ€s—ñ‚ğŠi”[‚·‚éB
 %inst
-Gets the transform that maps abstract coordinates to DIPs. By default
-this is the identity transform. Note that this is unrelated to the
-world transform of the underlying device context.
+’ŠÛÀ•W‚ğ DIP
+‚Éƒ}ƒbƒv‚·‚éƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğæ“¾‚·‚éBŠù’è‚Å‚ÍP“™•ÏŠ·‚Å‚ ‚éB‚±‚ê‚Í“à•”ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ[ƒ‹ƒhƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Æ‚Í–³ŠÖŒW‚Å‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteBitmapRenderTarget_SetCurrentTransform
-Sets the transform that maps abstract coordinate to DIPs (device-independent pixel). This does not affect the world transform of the underlying device context.
+’ŠÛÀ•W‚ğ DIP (ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹) ‚Éƒ}ƒbƒv‚·‚éƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğİ’è‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚Í“à•”ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ[ƒ‹ƒhƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚É‚Í‰e‹¿‚µ‚È‚¢B
 %group
 COM misc / IDWriteBitmapRenderTarget
 %prm
 this, transform
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-transform : [var] Type: const DWRITE_MATRIX* Specifies the new transform. This parameter can be NULL, in which case the identity transform is implied.
+transform : [var] Œ^: const DWRITE_MATRIX* V‚µ‚¢ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğw’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚à‚Å‚«A‚»‚Ìê‡‚ÍP“™•ÏŠ·‚ªˆÃ–Ù“I‚É“K—p‚³‚ê‚éB
 %inst
-Sets the transform that maps abstract coordinate to DIPs
-(device-independent pixel). This does not affect the world transform
-of the underlying device context.
+’ŠÛÀ•W‚ğ DIP (ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹)
+‚Éƒ}ƒbƒv‚·‚éƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğİ’è‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚Í“à•”ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ìƒ[ƒ‹ƒhƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚É‚Í‰e‹¿‚µ‚È‚¢B
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteBitmapRenderTarget_GetSize
-Gets the dimensions of the target bitmap.
+ƒ^[ƒQƒbƒgƒrƒbƒgƒ}ƒbƒv‚Ì¡–@‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteBitmapRenderTarget
 %prm
 this, size
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-size : [var] Type: SIZE* Returns  the width and height of the bitmap in pixels.
+size : [var] Œ^: SIZE* ƒrƒbƒgƒ}ƒbƒv‚Ì•‚Æ‚‚³‚ğƒsƒNƒZƒ‹’PˆÊ‚Å•Ô‚·B
 %inst
-Gets the dimensions of the target bitmap.
+ƒ^[ƒQƒbƒgƒrƒbƒgƒ}ƒbƒv‚Ì¡–@‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteBitmapRenderTarget_Resize
-Resizes the bitmap.
+ƒrƒbƒgƒ}ƒbƒv‚ğƒŠƒTƒCƒY‚·‚éB
 %group
 COM misc / IDWriteBitmapRenderTarget
 %prm
 this, width, height
 this : [comobj] IDWriteBitmapRenderTarget ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-width : [int] Type: UINT32 The new bitmap width, in pixels.
-height : [int] Type: UINT32 The new bitmap height, in pixels.
+width : [int] Œ^: UINT32 V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ì• (ƒsƒNƒZƒ‹’PˆÊ)B
+height : [int] Œ^: UINT32 V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ì‚‚³ (ƒsƒNƒZƒ‹’PˆÊ)B
 %inst
-Resizes the bitmap.
+ƒrƒbƒgƒ}ƒbƒv‚ğƒŠƒTƒCƒY‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFactory_GetSystemFontCollection
-Gets an object which represents the set of installed fonts.
+ƒCƒ“ƒXƒg[ƒ‹Ï‚İƒtƒHƒ“ƒg‚ÌW‡‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, fontCollection, checkForUpdates
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontCollection : [comobj] Type: IDWriteFontCollection** When this method returns, contains the address of a pointer to the system font collection object, or NULL in case of failure.
-checkForUpdates : [int] Type: BOOL If this parameter is nonzero, the function performs an immediate check for changes to the set of installed fonts. If this parameter is FALSE, the function will still detect changes if the font cache service is running, but there may be some latency. For example, an application might specify TRUE if it has itself just installed a font and wants to be sure the font collection contains that font.
+fontCollection : [comobj] Œ^: IDWriteFontCollection** ƒƒ\ƒbƒh‚ª–ß‚éÛAƒVƒXƒeƒ€ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB¸”s‚Í NULLB
+checkForUpdates : [int] Œ^: BOOL 0 ˆÈŠO‚Ìê‡AƒCƒ“ƒXƒg[ƒ‹Ï‚İƒtƒHƒ“ƒg‚Ì•ÏX‚ğ’¼‚¿‚Éƒ`ƒFƒbƒN‚·‚éBFALSE ‚Ìê‡‚Å‚àAƒtƒHƒ“ƒgƒLƒƒƒbƒVƒ…ƒT[ƒrƒX‚ª“®ì‚µ‚Ä‚¢‚ê‚Î•ÏX‚ÍŒŸo‚³‚ê‚é‚ªA‘½­‚ÌƒŒƒCƒeƒ“ƒV‚ª¶‚¶‚é‰Â”\«‚ª‚ ‚éB—á‚¦‚ÎAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª©g‚ÅƒtƒHƒ“ƒg‚ğƒCƒ“ƒXƒg[ƒ‹‚µA‚»‚ê‚ªŠmÀ‚ÉƒRƒŒƒNƒVƒ‡ƒ“‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚é‚æ‚¤‚É‚µ‚½‚¢ê‡‚É‚Í TRUE ‚ğw’è‚·‚é‚Æ‚æ‚¢B
 %inst
-Gets an object which represents the set of installed fonts.
+ƒCƒ“ƒXƒg[ƒ‹Ï‚İƒtƒHƒ“ƒg‚ÌW‡‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFactory_CreateCustomFontCollection
-Creates a font collection using a custom font collection loader.
+ƒJƒXƒ^ƒ€ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒ[ƒ_[‚ğ—p‚¢‚ÄƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğì¬‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, collectionLoader, collectionKey, collectionKeySize, fontCollection
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-collectionLoader : [comobj] Type: IDWriteFontCollectionLoader* An application-defined font collection loader, which must have been previously registered using RegisterFontCollectionLoader.
-collectionKey : [intptr] Type: const void* The key used by the loader to identify a collection of font files.  The buffer allocated for this key should at least be the size of collectionKeySize.
-collectionKeySize : [int] Type: UINT32 The size, in bytes, of the collection key.
-fontCollection : [comobj] Type: IDWriteFontCollection** Contains  an address of a pointer to the system font collection object if the method succeeds, or NULL in case of failure.
+collectionLoader : [comobj] Œ^: IDWriteFontCollectionLoader* ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒ[ƒ_[B–‘O‚É RegisterFontCollectionLoader ‚Å“o˜^‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚éB
+collectionKey : [intptr] Œ^: const void* ƒ[ƒ_[‚ªƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚ğ¯•Ê‚·‚é‚½‚ß‚Ég—p‚·‚éƒL[B‚±‚ÌƒL[—p‚ÉŠm•Û‚·‚éƒoƒbƒtƒ@‚ÍA­‚È‚­‚Æ‚à collectionKeySize ‚ÌƒTƒCƒY‚ğ‚Â•K—v‚ª‚ ‚éB
+collectionKeySize : [int] Œ^: UINT32 ƒRƒŒƒNƒVƒ‡ƒ“ƒL[‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
+fontCollection : [comobj] Œ^: IDWriteFontCollection** ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚ÍƒVƒXƒeƒ€ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğA¸”s‚µ‚½ê‡‚Í NULL ‚ğŠi”[‚·‚éB
 %inst
-Creates a font collection using a custom font collection loader.
+ƒJƒXƒ^ƒ€ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒ[ƒ_[‚ğ—p‚¢‚ÄƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFactory_RegisterFontCollectionLoader
-Registers a custom font collection loader with the factory object.
+ƒJƒXƒ^ƒ€ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒ[ƒ_[‚ğƒtƒ@ƒNƒgƒŠƒIƒuƒWƒFƒNƒg‚É“o˜^‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, fontCollectionLoader
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontCollectionLoader : [comobj] Type: IDWriteFontCollectionLoader* Pointer to a IDWriteFontCollectionLoader object to be registered.
+fontCollectionLoader : [comobj] Œ^: IDWriteFontCollectionLoader* “o˜^‘ÎÛ‚Æ‚È‚é IDWriteFontCollectionLoader ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Registers a custom font collection loader with the factory object.
+ƒJƒXƒ^ƒ€ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒ[ƒ_[‚ğƒtƒ@ƒNƒgƒŠƒIƒuƒWƒFƒNƒg‚É“o˜^‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function registers a font collection loader with DirectWrite.
-The font collection loader interface, which should be implemented by
-a singleton object, handles enumerating font files in a font
-collection given a particular type of key. A given instance can only
-be registered once. Succeeding attempts will return an error,
-indicating that it has already been registered. Note that font file
-loader implementations must not register themselves with DirectWrite
-inside their constructors, and must not unregister themselves inside
-their destructors, because registration and unregistration operations
-increment and decrement the object reference count respectively.
-Instead, registration and unregistration with DirectWrite of font
-file loaders should be performed outside of the font file loader
-implementation.
+‚±‚ÌŠÖ”‚ÍƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒ[ƒ_[‚ğ DirectWrite
+‚É“o˜^‚·‚éBƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒ[ƒ_[ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÍƒVƒ“ƒOƒ‹ƒgƒ“ƒIƒuƒWƒFƒNƒg‚ÅÀ‘•‚³‚ê‚é‚×‚«‚ÅA“Á’è‚Ìí—Ş‚ÌƒL[‚ğ—^‚¦‚ç‚ê‚½‚Æ‚«‚ÉƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ““à‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ğ—ñ‹“‚·‚é–ğŠ„‚ğ‚ÂB“¯ˆêƒCƒ“ƒXƒ^ƒ“ƒX‚Íˆê“x‚µ‚©“o˜^‚Å‚«‚¸AÄ“x“o˜^‚µ‚æ‚¤‚Æ‚·‚é‚ÆƒGƒ‰[‚ª•Ô‚³‚ê‚éB‚È‚¨AƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚ÌÀ‘•‚ÍAƒRƒ“ƒXƒgƒ‰ƒNƒ^“à‚Å
+DirectWrite
+‚É©g‚ğ“o˜^‚µ‚Ä‚Í‚È‚ç‚¸AƒfƒXƒgƒ‰ƒNƒ^“à‚Å“o˜^‰ğœ‚µ‚Ä‚à‚È‚ç‚È‚¢B“o˜^/“o˜^‰ğœ‚Í‚»‚ê‚¼‚êƒIƒuƒWƒFƒNƒg‚ÌQÆƒJƒEƒ“ƒg‚ğ‘Œ¸‚³‚¹‚é‚½‚ß‚Å‚ ‚éB‘ã‚í‚è‚ÉAƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚Ì
+DirectWrite ‚Ö‚Ì“o˜^/“o˜^‰ğœ‚ÍAƒ[ƒ_[À‘•‚ÌŠO‘¤‚Ås‚¤‚×‚«‚Å‚ ‚éB
 
 
 %index
 IDWriteFactory_UnregisterFontCollectionLoader
-Unregisters a custom font collection loader that was previously registered using RegisterFontCollectionLoader.
+ˆÈ‘O‚É RegisterFontCollectionLoader ‚Å“o˜^‚µ‚½ƒJƒXƒ^ƒ€ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒ[ƒ_[‚ğ“o˜^‰ğœ‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, fontCollectionLoader
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontCollectionLoader : [comobj] Type: IDWriteFontCollectionLoader* Pointer to a IDWriteFontCollectionLoader object to be unregistered.
+fontCollectionLoader : [comobj] Œ^: IDWriteFontCollectionLoader* “o˜^‰ğœ‘ÎÛ‚Æ‚È‚é IDWriteFontCollectionLoader ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Unregisters a custom font collection loader that was previously
-registered using RegisterFontCollectionLoader.
+ˆÈ‘O‚É RegisterFontCollectionLoader ‚Å“o˜^‚µ‚½ƒJƒXƒ^ƒ€ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒ[ƒ_[‚ğ“o˜^‰ğœ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFactory_CreateFontFileReference
-Creates a font file reference object from a local font file.
+ƒ[ƒJƒ‹‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚©‚çƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹QÆƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, filePath, lastWriteTime, fontFile
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-filePath : [wstr] Type: const WCHAR* An array of characters that contains the absolute file path for the font file. Subsequent operations on the constructed object may fail if the user provided filePath doesn't correspond to a valid file on the disk.
-lastWriteTime : [var] Type: const FILETIME* The last modified time of the input file path. If the parameter is omitted, the function will access the font file to obtain its last write time. You should specify this value to avoid extra disk access. Subsequent operations on the constructed object may fail if the user provided lastWriteTime doesn't match the file on the disk.
-fontFile : [comobj] Type: IDWriteFontFile** When this method returns, contains an address of a pointer to the newly created font file reference object, or NULL in case of failure.
+filePath : [wstr] Œ^: const WCHAR* ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚Ìâ‘ÎƒpƒX‚ğŠi”[‚µ‚½•¶š”z—ñBfilePath ‚ªƒfƒBƒXƒNã‚Ì—LŒø‚Èƒtƒ@ƒCƒ‹‚É‘Î‰‚µ‚Ä‚¢‚È‚¢ê‡Aì¬Œã‚ÌƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚éŒã‘±‘€ì‚Í¸”s‚·‚é‰Â”\«‚ª‚ ‚éB
+lastWriteTime : [var] Œ^: const FILETIME* “ü—Íƒtƒ@ƒCƒ‹ƒpƒX‚ÌÅIXV“úBÈ—ª‚µ‚½ê‡AŠÖ”‚ÍƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÉƒAƒNƒZƒX‚µ‚ÄÅI‘‚«‚İ“ú‚ğæ“¾‚·‚éB—]•ª‚ÈƒfƒBƒXƒNƒAƒNƒZƒX‚ğ”ğ‚¯‚é‚½‚ß‚É‚Í‚±‚Ì’l‚ğw’è‚·‚×‚«‚Å‚ ‚éBlastWriteTime ‚ªƒfƒBƒXƒNã‚Ìƒtƒ@ƒCƒ‹‚Æˆê’v‚µ‚È‚¢ê‡AŒã‘±‘€ì‚Í¸”s‚·‚é‰Â”\«‚ª‚ ‚éB
+fontFile : [comobj] Œ^: IDWriteFontFile** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì¬‚³‚ê‚½ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹QÆƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB¸”s‚Í NULLB
 %inst
-Creates a font file reference object from a local font file.
+ƒ[ƒJƒ‹‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚©‚çƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹QÆƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFactory_CreateCustomFontFileReference
-Creates a reference to an application-specific font file resource.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ŒÅ—L‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒŠƒ\[ƒX‚Ö‚ÌQÆ‚ğì¬‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, fontFileReferenceKey, fontFileReferenceKeySize, fontFileLoader, fontFile
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFileReferenceKey : [intptr] Type: const void* A font file reference key that uniquely identifies the font file resource during the lifetime of fontFileLoader.
-fontFileReferenceKeySize : [int] Type: UINT32 The size of the font file reference key in bytes.
-fontFileLoader : [comobj] Type: IDWriteFontFileLoader* The font file loader that will be used by the font system to load data from the file identified by fontFileReferenceKey.
-fontFile : [comobj] Type: IDWriteFontFile** Contains an address of a pointer to the newly created font file object when this method succeeds, or NULL in case of failure.
+fontFileReferenceKey : [intptr] Œ^: const void* fontFileLoader ‚Ì¶‘¶ŠúŠÔ’†AƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒŠƒ\[ƒX‚ğˆêˆÓ‚É¯•Ê‚·‚é‚½‚ß‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹QÆƒL[B
+fontFileReferenceKeySize : [int] Œ^: UINT32 ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹QÆƒL[‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
+fontFileLoader : [comobj] Œ^: IDWriteFontFileLoader* fontFileReferenceKey ‚Å¯•Ê‚³‚ê‚éƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^‚ğ“Ç‚İ‚Ş‚½‚ß‚ÉƒtƒHƒ“ƒgƒVƒXƒeƒ€‚ªg—p‚·‚éƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[B
+fontFile : [comobj] Œ^: IDWriteFontFile** ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚ÍV‹Kì¬‚³‚ê‚½ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğA¸”s‚µ‚½ê‡‚Í NULL ‚ğŠi”[‚·‚éB
 %inst
-Creates a reference to an application-specific font file resource.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ŒÅ—L‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒŠƒ\[ƒX‚Ö‚ÌQÆ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function is provided for cases when an application or a document
-needs to use a private font without having to install it on the
-system. fontFileReferenceKey has to be unique only in the scope of
-the fontFileLoader used in this call.
+
+‚±‚ÌŠÖ”‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚âƒhƒLƒ…ƒƒ“ƒg‚ªƒVƒXƒeƒ€‚ÉƒCƒ“ƒXƒg[ƒ‹‚·‚é‚±‚Æ‚È‚­ƒvƒ‰ƒCƒx[ƒgƒtƒHƒ“ƒg‚ğg—p‚·‚é•K—v‚ª‚ ‚éê‡‚É’ñ‹Ÿ‚³‚ê‚éBfontFileReferenceKey
+‚ÍA‚±‚ÌŒÄ‚Ño‚µ‚Åg—p‚³‚ê‚é fontFileLoader ‚ÌƒXƒR[ƒv“à‚Å‚Ì‚İˆêˆÓ‚Å‚ ‚ê‚Î‚æ‚¢B
 
 
 %index
 IDWriteFactory_CreateFontFace
-Creates an object that represents a font face.
+ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, fontFaceType, numberOfFiles, fontFiles, faceIndex, fontFaceSimulationFlags, fontFace
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFaceType : [int] Type: DWRITE_FONT_FACE_TYPE A value that indicates the type of file format of the font face.
-numberOfFiles : [int] Type: UINT32 The number of font files, in element count, required to represent the font face.
-fontFiles : [comobj] Type: const IDWriteFontFile* A font file object representing the font face.  Because IDWriteFontFace maintains its own references to the input font file objects, you may release them after this call.
-faceIndex : [int] Type: UINT32 The zero-based index of a font face, in cases when the font files contain a collection of font faces. If the font files contain a single face, this value should be zero.
-fontFaceSimulationFlags : [int] Type: DWRITE_FONT_SIMULATIONS A value that indicates which, if any, font face simulation flags for algorithmic means of making text bold or italic are applied to the current font face.
-fontFace : [comobj] Type: IDWriteFontFace** When this method returns, contains an address of a pointer to the newly created font face object, or NULL in case of failure.
+fontFaceType : [int] Œ^: DWRITE_FONT_FACE_TYPE ƒtƒHƒ“ƒgƒtƒFƒCƒX‚Ìƒtƒ@ƒCƒ‹Œ`®‚Ìí—Ş‚ğ¦‚·’lB
+numberOfFiles : [int] Œ^: UINT32 ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ğ•\‚·‚½‚ß‚É•K—v‚ÈƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚Ì” (—v‘f”)B
+fontFiles : [comobj] Œ^: const IDWriteFontFile* ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ğ•\‚·ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒgBIDWriteFontFace ‚Í“ü—Í‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚Ö‚ÌQÆ‚ğ©g‚Å•Û‚·‚é‚½‚ßA–{ŒÄ‚Ño‚µŒã‚É‰ğ•ú‚µ‚Ä‚æ‚¢B
+faceIndex : [int] Œ^: UINT32 ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ªƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚ğŠÜ‚Şê‡‚ÌAƒtƒHƒ“ƒgƒtƒFƒCƒX‚Ì 0 ‹N“_ƒCƒ“ƒfƒbƒNƒXB’Pˆê‚ÌƒtƒFƒCƒX‚µ‚©ŠÜ‚Ü‚È‚¢ê‡‚Í 0 ‚ğw’è‚·‚éB
+fontFaceSimulationFlags : [int] Œ^: DWRITE_FONT_SIMULATIONS Œ»İ‚ÌƒtƒHƒ“ƒgƒtƒFƒCƒX‚É‘Î‚µ‚ÄAƒeƒLƒXƒg‚ğƒAƒ‹ƒSƒŠƒYƒ€“I‚Éƒ{[ƒ‹ƒh‚âƒCƒ^ƒŠƒbƒN‚É‚·‚é‚½‚ß‚ÌƒtƒHƒ“ƒgƒtƒFƒCƒXƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“ƒtƒ‰ƒO‚ğw’è‚·‚é’lB
+fontFace : [comobj] Œ^: IDWriteFontFace** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì¬‚³‚ê‚½ƒtƒHƒ“ƒgƒtƒFƒCƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB¸”s‚Í NULLB
 %inst
-Creates an object that represents a font face.
+ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFactory_CreateRenderingParams
-Creates a rendering parameters object with default settings for the primary monitor. Different monitors may have different rendering parameters, for more information see the How to Add Support for Multiple Monitors topic.
+ƒvƒ‰ƒCƒ}ƒŠƒ‚ƒjƒ^[Œü‚¯‚ÌŠù’èİ’è‚ğ‚ÂƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBƒ‚ƒjƒ^[‚²‚Æ‚ÉˆÙ‚È‚éƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^‚ğ‚Âê‡‚ª‚ ‚é‚½‚ßAÚ×‚Íƒ}ƒ‹ƒ`ƒ‚ƒjƒ^[ƒTƒ|[ƒg‚Ì’Ç‰Á•û–@‚ğQÆ‚Ì‚±‚ÆB
 %group
 COM misc / IDWriteFactory
 %prm
 this, renderingParams
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-renderingParams : [comobj] Type: IDWriteRenderingParams** When this method returns, contains an address of a pointer to the newly created  rendering parameters object.
+renderingParams : [comobj] Œ^: IDWriteRenderingParams** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì¬‚³‚ê‚½ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Creates a rendering parameters object with default settings for the
-primary monitor. Different monitors may have different rendering
-parameters, for more information see the How to Add Support for
-Multiple Monitors topic.
+
+ƒvƒ‰ƒCƒ}ƒŠƒ‚ƒjƒ^[Œü‚¯‚ÌŠù’èİ’è‚ğ‚ÂƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBƒ‚ƒjƒ^[‚²‚Æ‚ÉˆÙ‚È‚éƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^‚ğ‚Âê‡‚ª‚ ‚é‚½‚ßAÚ×‚Íƒ}ƒ‹ƒ`ƒ‚ƒjƒ^[ƒTƒ|[ƒg‚Ì’Ç‰Á•û–@‚ğQÆ‚Ì‚±‚ÆB
 
 [–ß‚è’l]
-Type: HRESULT Standard HRESULT error code.
+Œ^: HRESULT •W€‚Ì HRESULT ƒGƒ‰[ƒR[ƒhB
 
 
 %index
 IDWriteFactory_CreateMonitorRenderingParams
-Creates a rendering parameters object with default settings for the specified monitor. In most cases, this is the preferred way to create a rendering parameters object.
+w’è‚µ‚½ƒ‚ƒjƒ^[Œü‚¯‚ÌŠù’èİ’è‚ğ‚ÂƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‘½‚­‚Ìê‡A‚±‚ê‚ªƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é„§‚Ì•û–@‚Å‚ ‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, monitor, renderingParams
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-monitor : [int] Type: HMONITOR A handle for the specified monitor.
-renderingParams : [comobj] Type: IDWriteRenderingParams** When this method returns, contains an address of a pointer to the rendering parameters object created by this method.
+monitor : [int] Œ^: HMONITOR ‘ÎÛ‚Æ‚È‚éƒ‚ƒjƒ^[‚Ìƒnƒ“ƒhƒ‹B
+renderingParams : [comobj] Œ^: IDWriteRenderingParams** ƒƒ\ƒbƒh‚ª–ß‚éÛA‚±‚Ìƒƒ\ƒbƒh‚Åì¬‚³‚ê‚½ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Creates a rendering parameters object with default settings for the
-specified monitor. In most cases, this is the preferred way to create
-a rendering parameters object.
+
+w’è‚µ‚½ƒ‚ƒjƒ^[Œü‚¯‚ÌŠù’èİ’è‚ğ‚ÂƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB‘½‚­‚Ìê‡A‚±‚ê‚ªƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é„§‚Ì•û–@‚Å‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFactory_CreateCustomRenderingParams
-Creates a rendering parameters object with the specified properties. (IDWriteFactory.CreateCustomRenderingParams)
+w’è‚µ‚½ƒvƒƒpƒeƒB‚ğ‚ÂƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB(IDWriteFactory.CreateCustomRenderingParams)
 %group
 COM misc / IDWriteFactory
 %prm
 this, gamma, enhancedContrast, clearTypeLevel, pixelGeometry, renderingMode, renderingParams
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-gamma : [float] Type: FLOAT The gamma level to be set for the new rendering parameters object.
-enhancedContrast : [float] Type: FLOAT The enhanced contrast level to be set for the new rendering parameters object.
-clearTypeLevel : [float] Type: FLOAT The ClearType level to be set for the new rendering parameters object.
-pixelGeometry : [int] Type: DWRITE_PIXEL_GEOMETRY Represents the internal structure of a device pixel (that is, the physical arrangement of red, green, and blue color components) that is assumed for purposes of rendering text.
-renderingMode : [int] Type: DWRITE_RENDERING_MODE A value that represents the method (for example, ClearType natural quality) for rendering glyphs.
-renderingParams : [comobj] Type: IDWriteRenderingParams** When this method returns, contains an address of a pointer to the newly created rendering parameters object.
+gamma : [float] Œ^: FLOAT V‚µ‚¢ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚Éİ’è‚·‚éƒKƒ“ƒ}ƒŒƒxƒ‹B
+enhancedContrast : [float] Œ^: FLOAT V‚µ‚¢ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚Éİ’è‚·‚éŠg’£ƒRƒ“ƒgƒ‰ƒXƒgƒŒƒxƒ‹B
+clearTypeLevel : [float] Œ^: FLOAT V‚µ‚¢ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚Éİ’è‚·‚é ClearType ƒŒƒxƒ‹B
+pixelGeometry : [int] Œ^: DWRITE_PIXEL_GEOMETRY ƒeƒLƒXƒg‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‚Å‘z’è‚³‚ê‚éƒfƒoƒCƒXƒsƒNƒZƒ‹‚Ì“à•”\‘¢ (ÔE—ÎEÂ‚ÌF¬•ª‚Ì•¨—“I‚È”z’u) ‚ğ•\‚·B
+renderingMode : [int] Œ^: DWRITE_RENDERING_MODE ƒOƒŠƒt‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO‚·‚é•û® (—á: ClearType natural quality) ‚ğ•\‚·’lB
+renderingParams : [comobj] Œ^: IDWriteRenderingParams** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì¬‚³‚ê‚½ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Creates a rendering parameters object with the specified properties.
-(IDWriteFactory.CreateCustomRenderingParams)
+
+w’è‚µ‚½ƒvƒƒpƒeƒB‚ğ‚ÂƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB(IDWriteFactory.CreateCustomRenderingParams)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFactory_RegisterFontFileLoader
-Registers a font file loader with DirectWrite.
+ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚ğ DirectWrite ‚É“o˜^‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, fontFileLoader
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFileLoader : [comobj] Type: IDWriteFontFileLoader* Pointer to a IDWriteFontFileLoader object for a particular file resource type.
+fontFileLoader : [comobj] Œ^: IDWriteFontFileLoader* “Á’è‚Ìƒtƒ@ƒCƒ‹ƒŠƒ\[ƒXí•Ê‚É‘Î‚·‚é IDWriteFontFileLoader ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Registers a font file loader with DirectWrite.
+ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚ğ DirectWrite ‚É“o˜^‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function registers a font file loader with DirectWrite. The font
-file loader interface, which should be implemented by a singleton
-object, handles loading font file resources of a particular type from
-a key. A given instance can only be registered once. Succeeding
-attempts will return an error, indicating that it has already been
-registered. Note that font file loader implementations must not
-register themselves with DirectWrite inside their constructors, and
-must not unregister themselves inside their destructors, because
-registration and unregistration operations increment and decrement
-the object reference count respectively. Instead, registration and
-unregistration with DirectWrite of font file loaders should be
-performed outside of the font file loader implementation.
+‚±‚ÌŠÖ”‚ÍƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚ğ DirectWrite
+‚É“o˜^‚·‚éBƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÍƒVƒ“ƒOƒ‹ƒgƒ“ƒIƒuƒWƒFƒNƒg‚ÅÀ‘•‚³‚ê‚é‚×‚«‚ÅAƒL[‚©‚ç“Á’èí•Ê‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒŠƒ\[ƒX‚ğ“Ç‚İ‚Ş–ğŠ„‚ğ‚ÂB“¯ˆêƒCƒ“ƒXƒ^ƒ“ƒX‚Íˆê“x‚µ‚©“o˜^‚Å‚«‚¸AÄ“x“o˜^‚µ‚æ‚¤‚Æ‚·‚é‚ÆƒGƒ‰[‚ª•Ô‚³‚ê‚éB‚È‚¨AƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚ÌÀ‘•‚ÍAƒRƒ“ƒXƒgƒ‰ƒNƒ^“à‚Å
+DirectWrite
+‚É©g‚ğ“o˜^‚µ‚Ä‚Í‚È‚ç‚¸AƒfƒXƒgƒ‰ƒNƒ^“à‚Å“o˜^‰ğœ‚µ‚Ä‚à‚È‚ç‚È‚¢B“o˜^/“o˜^‰ğœ‚Í‚»‚ê‚¼‚êƒIƒuƒWƒFƒNƒg‚ÌQÆƒJƒEƒ“ƒg‚ğ‘Œ¸‚³‚¹‚é‚½‚ß‚Å‚ ‚éB‘ã‚í‚è‚ÉAƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚Ì
+DirectWrite ‚Ö‚Ì“o˜^/“o˜^‰ğœ‚ÍAƒ[ƒ_[À‘•‚ÌŠO‘¤‚Ås‚¤‚×‚«‚Å‚ ‚éB
 
 
 %index
 IDWriteFactory_UnregisterFontFileLoader
-Unregisters a font file loader that was previously registered with the DirectWrite font system using RegisterFontFileLoader.
+ˆÈ‘O‚É RegisterFontFileLoader ‚Å DirectWrite ‚ÌƒtƒHƒ“ƒgƒVƒXƒeƒ€‚É“o˜^‚µ‚½ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚ğ“o˜^‰ğœ‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, fontFileLoader
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFileLoader : [comobj] Type: IDWriteFontFileLoader* Pointer to the file loader that was previously registered with the DirectWrite font system using RegisterFontFileLoader.
+fontFileLoader : [comobj] Œ^: IDWriteFontFileLoader* ˆÈ‘O‚É RegisterFontFileLoader ‚Å DirectWrite ‚ÌƒtƒHƒ“ƒgƒVƒXƒeƒ€‚É“o˜^‚µ‚½ƒtƒ@ƒCƒ‹ƒ[ƒ_[‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Unregisters a font file loader that was previously registered with
-the DirectWrite font system using RegisterFontFileLoader.
+ˆÈ‘O‚É RegisterFontFileLoader ‚Å DirectWrite
+‚ÌƒtƒHƒ“ƒgƒVƒXƒeƒ€‚É“o˜^‚µ‚½ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚ğ“o˜^‰ğœ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function unregisters font file loader callbacks with the
-DirectWrite font system. You should implement the font file loader
-interface by a singleton object. Note that font file loader
-implementations must not register themselves with DirectWrite inside
-their constructors and must not unregister themselves in their
-destructors, because registration and unregistration operations
-increment and decrement the object reference count respectively.
-Instead, registration and unregistration of font file loaders with
-DirectWrite should be performed outside of the font file loader
-implementation.
+‚±‚ÌŠÖ”‚Í DirectWrite
+‚ÌƒtƒHƒ“ƒgƒVƒXƒeƒ€‚©‚çƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚ÌƒR[ƒ‹ƒoƒbƒN‚ğ“o˜^‰ğœ‚·‚éBƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÍƒVƒ“ƒOƒ‹ƒgƒ“ƒIƒuƒWƒFƒNƒg‚ÅÀ‘•‚·‚×‚«‚Å‚ ‚éB‚È‚¨AƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚ÌÀ‘•‚ÍAƒRƒ“ƒXƒgƒ‰ƒNƒ^“à‚Å
+DirectWrite
+‚É©g‚ğ“o˜^‚µ‚Ä‚Í‚È‚ç‚¸AƒfƒXƒgƒ‰ƒNƒ^“à‚Å“o˜^‰ğœ‚µ‚Ä‚à‚È‚ç‚È‚¢B“o˜^/“o˜^‰ğœ‚Í‚»‚ê‚¼‚êƒIƒuƒWƒFƒNƒg‚ÌQÆƒJƒEƒ“ƒg‚ğ‘Œ¸‚³‚¹‚é‚½‚ß‚Å‚ ‚éB‘ã‚í‚è‚ÉAƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚Ì
+DirectWrite ‚Ö‚Ì“o˜^/“o˜^‰ğœ‚ÍAƒ[ƒ_[À‘•‚ÌŠO‘¤‚Ås‚¤‚×‚«‚Å‚ ‚éB
 
 
 %index
 IDWriteFactory_CreateTextFormat
-Creates a text format object used for text layout. (IDWriteFactory.CreateTextFormat)
+ƒeƒLƒXƒgƒŒƒCƒAƒEƒg‚Ég—p‚·‚éƒeƒLƒXƒgƒtƒH[ƒ}ƒbƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB(IDWriteFactory.CreateTextFormat)
 %group
 COM misc / IDWriteFactory
 %prm
 this, fontFamilyName, fontCollection, fontWeight, fontStyle, fontStretch, fontSize, localeName, textFormat
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFamilyName : [wstr] Type: const WCHAR* An array of characters that contains the name of the font family
-fontCollection : [comobj] Type: IDWriteFontCollection* A pointer to a font collection object. When this is NULL, indicates the system font collection.
-fontWeight : [int] Type: DWRITE_FONT_WEIGHT A value that indicates the font weight for the text object created by this method.
-fontStyle : [int] Type: DWRITE_FONT_STYLE A value that indicates the font style for the text object created by this method.
-fontStretch : [int] Type: DWRITE_FONT_STRETCH A value that indicates the font stretch for the text object created by this method.
-fontSize : [float] Type: FLOAT The logical size of the font in DIP ("device-independent pixel") units. A DIP equals 1/96 inch.
-localeName : [wstr] Type: const WCHAR* An array of characters that contains the locale name.
-textFormat : [comobj] Type: IDWriteTextFormat** When this method returns, contains an address of a pointer to a  newly created text format object, or NULL in case of failure.
+fontFamilyName : [wstr] Œ^: const WCHAR* ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[–¼‚ğŠi”[‚·‚é•¶š”z—ñB
+fontCollection : [comobj] Œ^: IDWriteFontCollection* ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Ìê‡‚ÍƒVƒXƒeƒ€ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğw’è‚µ‚½‚±‚Æ‚É‚È‚éB
+fontWeight : [int] Œ^: DWRITE_FONT_WEIGHT ‚±‚Ìƒƒ\ƒbƒh‚Åì¬‚³‚ê‚éƒeƒLƒXƒgƒIƒuƒWƒFƒNƒg‚ÌƒtƒHƒ“ƒgƒEƒFƒCƒg‚ğ¦‚·’lB
+fontStyle : [int] Œ^: DWRITE_FONT_STYLE ‚±‚Ìƒƒ\ƒbƒh‚Åì¬‚³‚ê‚éƒeƒLƒXƒgƒIƒuƒWƒFƒNƒg‚ÌƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹‚ğ¦‚·’lB
+fontStretch : [int] Œ^: DWRITE_FONT_STRETCH ‚±‚Ìƒƒ\ƒbƒh‚Åì¬‚³‚ê‚éƒeƒLƒXƒgƒIƒuƒWƒFƒNƒg‚ÌƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚ğ¦‚·’lB
+fontSize : [float] Œ^: FLOAT ƒtƒHƒ“ƒg‚Ì˜_—ƒTƒCƒY (DIP ’PˆÊ)B1 DIP ‚Í 1/96 ƒCƒ“ƒ`‚É‘Š“–‚·‚éB
+localeName : [wstr] Œ^: const WCHAR* ƒƒP[ƒ‹–¼‚ğŠi”[‚·‚é•¶š”z—ñB
+textFormat : [comobj] Œ^: IDWriteTextFormat** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì¬‚³‚ê‚½ƒeƒLƒXƒgƒtƒH[ƒ}ƒbƒgƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB¸”s‚Í NULLB
 %inst
-Creates a text format object used for text layout.
-(IDWriteFactory.CreateTextFormat)
+ƒeƒLƒXƒgƒŒƒCƒAƒEƒg‚Ég—p‚·‚éƒeƒLƒXƒgƒtƒH[ƒ}ƒbƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB(IDWriteFactory.CreateTextFormat)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFactory_CreateTypography
-Creates a typography object for use in a text layout.
+ƒeƒLƒXƒgƒŒƒCƒAƒEƒg‚Åg—p‚·‚éƒ^ƒCƒ|ƒOƒ‰ƒtƒBƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, typography
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-typography : [comobj] Type: IDWriteTypography** When this method returns, contains the address of  a pointer to a newly created typography object, or NULL in case of failure.
+typography : [comobj] Œ^: IDWriteTypography** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì¬‚³‚ê‚½ƒ^ƒCƒ|ƒOƒ‰ƒtƒBƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB¸”s‚Í NULLB
 %inst
-Creates a typography object for use in a text layout.
+ƒeƒLƒXƒgƒŒƒCƒAƒEƒg‚Åg—p‚·‚éƒ^ƒCƒ|ƒOƒ‰ƒtƒBƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFactory_GetGdiInterop
-Creates an object that is used for interoperability with GDI.
+GDI ‚Æ‚Ì‘ŠŒİ‰^—p‚Ég—p‚·‚éƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, gdiInterop
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-gdiInterop : [comobj] Type: IDWriteGdiInterop** When this method returns, contains an address of a pointer to a GDI interop object if successful, or NULL in case of failure.
+gdiInterop : [comobj] Œ^: IDWriteGdiInterop** ƒƒ\ƒbƒh‚ª–ß‚éÛA¬Œ÷‚Í GDI ‘ŠŒİ‰^—pƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğA¸”s‚Í NULL ‚ğŠi”[‚·‚éB
 %inst
-Creates an object that is used for interoperability with GDI.
+GDI ‚Æ‚Ì‘ŠŒİ‰^—p‚Ég—p‚·‚éƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFactory_CreateTextLayout
-Takes a string, text format, and associated constraints, and produces an object that represents the fully analyzed and formatted result.
+•¶š—ñAƒeƒLƒXƒgƒtƒH[ƒ}ƒbƒgA‚¨‚æ‚Ñ•t‚·‚é§–ñ‚ğó‚¯æ‚èAŠ®‘S‚É‰ğÍE®Œ`‚³‚ê‚½Œ‹‰Ê‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, string, stringLength, textFormat, maxWidth, maxHeight, textLayout
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 string : [int] 
-stringLength : [int] Type: UINT32 The number of characters in  the string.
-textFormat : [comobj] Type: IDWriteTextFormat* A pointer to an object that indicates the format to apply to the string.
-maxWidth : [float] Type: FLOAT The width of the layout box.
-maxHeight : [float] Type: FLOAT The height of the layout box.
-textLayout : [comobj] Type: IDWriteTextLayout** When this method returns, contains an address of a pointer to the resultant text layout object.
+stringLength : [int] Œ^: UINT32 •¶š—ñ’†‚Ì•¶š”B
+textFormat : [comobj] Œ^: IDWriteTextFormat* •¶š—ñ‚É“K—p‚·‚éƒtƒH[ƒ}ƒbƒg‚ğ¦‚·ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+maxWidth : [float] Œ^: FLOAT ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì•B
+maxHeight : [float] Œ^: FLOAT ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì‚‚³B
+textLayout : [comobj] Œ^: IDWriteTextLayout** ƒƒ\ƒbƒh‚ª–ß‚éÛA¶¬‚³‚ê‚½ƒeƒLƒXƒgƒŒƒCƒAƒEƒgƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Takes a string, text format, and associated constraints, and produces
-an object that represents the fully analyzed and formatted result.
+•¶š—ñAƒeƒLƒXƒgƒtƒH[ƒ}ƒbƒgA‚¨‚æ‚Ñ•t‚·‚é§–ñ‚ğó‚¯æ‚èAŠ®‘S‚É‰ğÍE®Œ`‚³‚ê‚½Œ‹‰Ê‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFactory_CreateGdiCompatibleTextLayout
-Takes a string, format, and associated constraints, and produces an object representing the result, formatted for a particular display resolution and measuring mode.
+•¶š—ñAƒtƒH[ƒ}ƒbƒgA‚¨‚æ‚Ñ•t‚·‚é§–ñ‚ğó‚¯æ‚èA“Á’è‚Ì•\¦‰ğ‘œ“x‚ÆŒv‘ªƒ‚[ƒhŒü‚¯‚É®Œ`‚µ‚½Œ‹‰Ê‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, string, stringLength, textFormat, layoutWidth, layoutHeight, pixelsPerDip, transform, useGdiNatural, textLayout
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 string : [int] 
-stringLength : [int] Type: UINT32 The length of the string, in character count.
-textFormat : [comobj] Type: IDWriteTextFormat* The text formatting object to apply to the string.
-layoutWidth : [float] Type: FLOAT The width of the layout box.
-layoutHeight : [float] Type: FLOAT The height of the layout box.
-pixelsPerDip : [float] Type: FLOAT The number of physical pixels per DIP (device independent pixel). For example, if rendering onto a 96 DPI device pixelsPerDip is 1. If rendering onto a 120 DPI device pixelsPerDip is 1.25 (120/96).
-transform : [var] Type: const DWRITE_MATRIX* An optional transform applied to the glyphs and their positions. This transform is applied after the scaling specifies the font size and pixels per DIP.
-useGdiNatural : [int] Type: BOOL Instructs the text layout to use the same metrics as GDI bi-level text when set to FALSE. When set to TRUE, instructs the text layout to use the same metrics as text measured by GDI using a font created with CLEARTYPE_NATURAL_QUALITY.
-textLayout : [comobj] Type: IDWriteTextLayout** When this method returns, contains an address to the pointer of the resultant text layout object.
+stringLength : [int] Œ^: UINT32 •¶š—ñ‚Ì’·‚³ (•¶š”)B
+textFormat : [comobj] Œ^: IDWriteTextFormat* •¶š—ñ‚É“K—p‚·‚éƒeƒLƒXƒgƒtƒH[ƒ}ƒbƒgƒIƒuƒWƒFƒNƒgB
+layoutWidth : [float] Œ^: FLOAT ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì•B
+layoutHeight : [float] Œ^: FLOAT ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì‚‚³B
+pixelsPerDip : [float] Œ^: FLOAT DIP (ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹) ‚ ‚½‚è‚Ì•¨—ƒsƒNƒZƒ‹”B—á‚¦‚Î 96 DPI ‚ÌƒfƒoƒCƒX‚ÉƒŒƒ“ƒ_ƒŠƒ“ƒO‚·‚éê‡‚Í 1A120 DPI ‚ÌƒfƒoƒCƒX‚Ìê‡‚Í 1.25 (120/96) ‚Æ‚È‚éB
+transform : [var] Œ^: const DWRITE_MATRIX* ƒOƒŠƒt‚¨‚æ‚Ñ‚»‚ÌˆÊ’u‚É“K—p‚·‚é”CˆÓ‚Ìƒgƒ‰ƒ“ƒXƒtƒH[ƒ€B‚±‚Ìƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ÍAƒtƒHƒ“ƒgƒTƒCƒY‚Æ DIP ‚ ‚½‚è‚ÌƒsƒNƒZƒ‹”‚É‚æ‚éŠg‘åk¬‚ÌŒã‚É“K—p‚³‚ê‚éB
+useGdiNatural : [int] Œ^: BOOL FALSE ‚Ì‚Æ‚«AƒeƒLƒXƒgƒŒƒCƒAƒEƒg‚É GDI ‚Ì“ñ’lƒeƒLƒXƒg‚Æ“¯‚¶ƒƒgƒŠƒNƒX‚ğg—p‚³‚¹‚éBTRUE ‚Ì‚Æ‚«ACLEARTYPE_NATURAL_QUALITY ‚Åì¬‚³‚ê‚½ƒtƒHƒ“ƒg‚ğ—p‚¢‚Ä GDI ‚ªŒv‘ª‚µ‚½ƒeƒLƒXƒg‚Æ“¯‚¶ƒƒgƒŠƒNƒX‚ğg—p‚³‚¹‚éB
+textLayout : [comobj] Œ^: IDWriteTextLayout** ƒƒ\ƒbƒh‚ª–ß‚éÛA¶¬‚³‚ê‚½ƒeƒLƒXƒgƒŒƒCƒAƒEƒgƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Takes a string, format, and associated constraints, and produces an
-object representing the result, formatted for a particular display
-resolution and measuring mode.
+•¶š—ñAƒtƒH[ƒ}ƒbƒgA‚¨‚æ‚Ñ•t‚·‚é§–ñ‚ğó‚¯æ‚èA“Á’è‚Ì•\¦‰ğ‘œ“x‚ÆŒv‘ªƒ‚[ƒhŒü‚¯‚É®Œ`‚µ‚½Œ‹‰Ê‚ğ•\‚·ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The resulting text layout should only be used for the intended
-resolution, and for cases where text scalability is desired
-CreateTextLayout should be used instead.
+¶¬‚³‚ê‚½ƒeƒLƒXƒgƒŒƒCƒAƒEƒg‚ÍˆÓ}‚µ‚½‰ğ‘œ“x‚Å‚Ì‚İg—p‚·‚×‚«‚Å‚ ‚èAƒeƒLƒXƒg‚ÌƒXƒP[ƒ‰ƒrƒŠƒeƒB‚ª•K—v‚Èê‡‚Í
+CreateTextLayout ‚ğg—p‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 IDWriteFactory_CreateEllipsisTrimmingSign
-Creates an inline object for trimming, using an ellipsis as the omission sign.
+È—ª‹L†‚ğƒgƒŠƒ~ƒ“ƒO‹L†‚Æ‚µ‚Ä—p‚¢‚éAƒgƒŠƒ~ƒ“ƒO—p‚ÌƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, textFormat, trimmingSign
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textFormat : [comobj] Type: IDWriteTextFormat* A text format object, created with CreateTextFormat, used for text layout.
-trimmingSign : [comobj] Type: IDWriteInlineObject** When this method returns, contains an address of a pointer to the omission (that is, ellipsis trimming) sign created by this method.
+textFormat : [comobj] Œ^: IDWriteTextFormat* CreateTextFormat ‚Åì¬‚³‚êAƒeƒLƒXƒgƒŒƒCƒAƒEƒg‚Ég—p‚³‚ê‚éƒeƒLƒXƒgƒtƒH[ƒ}ƒbƒgƒIƒuƒWƒFƒNƒgB
+trimmingSign : [comobj] Œ^: IDWriteInlineObject** ƒƒ\ƒbƒh‚ª–ß‚éÛA‚±‚Ìƒƒ\ƒbƒh‚Åì¬‚³‚ê‚½È—ª‹L† (‘È‰~ƒgƒŠƒ~ƒ“ƒO‹L†) ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Creates an inline object for trimming, using an ellipsis as the
-omission sign.
+È—ª‹L†‚ğƒgƒŠƒ~ƒ“ƒO‹L†‚Æ‚µ‚Ä—p‚¢‚éAƒgƒŠƒ~ƒ“ƒO—p‚ÌƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The ellipsis will be created using the current settings of the
-format, including base font, style, and any effects. Alternate
-omission signs can be created by the application by implementing
-IDWriteInlineObject.
+È—ª‹L†‚ÍAƒtƒH[ƒ}ƒbƒg‚ÌŒ»İ‚Ìİ’è (ƒx[ƒXƒtƒHƒ“ƒgAƒXƒ^ƒCƒ‹AŠeíŒø‰Ê‚ğŠÜ‚Ş)
+‚ğg—p‚µ‚Äì¬‚³‚ê‚éB‘ã‘Ö‚ÌÈ—ª‹L†‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª IDWriteInlineObject ‚ğÀ‘•‚·‚é‚±‚Æ‚Åì¬‚Å‚«‚éB
 
 
 %index
 IDWriteFactory_CreateTextAnalyzer
-Returns an interface for performing text analysis.
+ƒeƒLƒXƒg‰ğÍ‚ğs‚¤‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ•Ô‚·B
 %group
 COM misc / IDWriteFactory
 %prm
 this, textAnalyzer
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textAnalyzer : [comobj] Type: IDWriteTextAnalyzer** When this method returns, contains an address of  a pointer to the newly created text analyzer object.
+textAnalyzer : [comobj] Œ^: IDWriteTextAnalyzer** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì¬‚³‚ê‚½ƒeƒLƒXƒgƒAƒiƒ‰ƒCƒU[ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Returns an interface for performing text analysis.
+ƒeƒLƒXƒg‰ğÍ‚ğs‚¤‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFactory_CreateNumberSubstitution
-Creates a number substitution object using a locale name, substitution method, and an indicator whether to ignore user overrides (use NLS defaults for the given culture instead).
+ƒƒP[ƒ‹–¼A’uŠ·•û®A‚¨‚æ‚Ñƒ†[ƒU[‚É‚æ‚éã‘‚«‚ğ–³‹‚·‚é‚© (–³‹‚·‚éê‡‚Íw’èƒJƒ‹ƒ`ƒƒ‚Ì NLS Šù’è’l‚ğg‚¤) ‚ğ¦‚·ƒtƒ‰ƒO‚ğw’è‚µ‚ÄA”š’uŠ·ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 COM misc / IDWriteFactory
 %prm
 this, substitutionMethod, localeName, ignoreUserOverride, numberSubstitution
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-substitutionMethod : [int] Type: DWRITE_NUMBER_SUBSTITUTION_METHOD A value that specifies how to apply number substitution on digits and related punctuation.
-localeName : [wstr] Type: const WCHAR* The name of the locale to be used in the numberSubstitution object.
-ignoreUserOverride : [int] Type: BOOL A Boolean flag that indicates whether to ignore user overrides.
-numberSubstitution : [comobj] Type: IDWriteNumberSubstitution** When this method returns, contains an address to  a pointer to the number substitution object created by this method.
+substitutionMethod : [int] Œ^: DWRITE_NUMBER_SUBSTITUTION_METHOD ”š‚¨‚æ‚ÑŠÖ˜A‚·‚é‹L†‚É‘Î‚·‚é’uŠ·•û®‚ğw’è‚·‚é’lB
+localeName : [wstr] Œ^: const WCHAR* numberSubstitution ƒIƒuƒWƒFƒNƒg‚Åg—p‚·‚éƒƒP[ƒ‹–¼B
+ignoreUserOverride : [int] Œ^: BOOL ƒ†[ƒU[‚É‚æ‚éã‘‚«‚ğ–³‹‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒu[ƒ‹ƒtƒ‰ƒOB
+numberSubstitution : [comobj] Œ^: IDWriteNumberSubstitution** ƒƒ\ƒbƒh‚ª–ß‚éÛA‚±‚Ìƒƒ\ƒbƒh‚Åì¬‚³‚ê‚½”š’uŠ·ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Creates a number substitution object using a locale name,
-substitution method, and an indicator whether to ignore user
-overrides (use NLS defaults for the given culture instead).
+ƒƒP[ƒ‹–¼A’uŠ·•û®A‚¨‚æ‚Ñƒ†[ƒU[‚É‚æ‚éã‘‚«‚ğ–³‹‚·‚é‚© (–³‹‚·‚éê‡‚Íw’èƒJƒ‹ƒ`ƒƒ‚Ì NLS Šù’è’l‚ğg‚¤)
+‚ğ¦‚·ƒtƒ‰ƒO‚ğw’è‚µ‚ÄA”š’uŠ·ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFactory_CreateGlyphRunAnalysis
-Creates a glyph run analysis object, which encapsulates information used to render a glyph run. (IDWriteFactory.CreateGlyphRunAnalysis)
+ƒOƒŠƒtƒ‰ƒ“‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‚Ég—p‚·‚éî•ñ‚ğƒJƒvƒZƒ‹‰»‚µ‚½ƒOƒŠƒtƒ‰ƒ“‰ğÍƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB(IDWriteFactory.CreateGlyphRunAnalysis)
 %group
 COM misc / IDWriteFactory
 %prm
 this, glyphRun, pixelsPerDip, transform, renderingMode, measuringMode, baselineOriginX, baselineOriginY, glyphRunAnalysis
 this : [comobj] IDWriteFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-glyphRun : [int] Type: const DWRITE_GLYPH_RUN* A structure that contains the properties of the glyph run (font face, advances, and so on).
-pixelsPerDip : [float] Type: FLOAT Number of physical pixels per DIP (device independent pixel). For example, if rendering onto a 96 DPI bitmap then pixelsPerDip is 1. If rendering onto a 120 DPI bitmap then pixelsPerDip is 1.25.
-transform : [var] Type: const DWRITE_MATRIX* Optional transform applied to the glyphs and their positions. This transform is applied after the scaling specified the emSize and pixelsPerDip.
-renderingMode : [int] Type: DWRITE_RENDERING_MODE A value that specifies the rendering mode, which must be one of the raster rendering modes (that is, not default and not outline).
-measuringMode : [int] Type: DWRITE_MEASURING_MODE Specifies the measuring mode to use with glyphs.
-baselineOriginX : [float] Type: FLOAT The horizontal position (X-coordinate) of the baseline origin, in DIPs.
-baselineOriginY : [float] Type: FLOAT Vertical position (Y-coordinate) of the baseline origin, in DIPs.
-glyphRunAnalysis : [comobj] Type: IDWriteGlyphRunAnalysis** When this method returns, contains an address of a pointer to the newly created glyph run analysis object.
+glyphRun : [int] Œ^: const DWRITE_GLYPH_RUN* ƒOƒŠƒtƒ‰ƒ“ (ƒtƒHƒ“ƒgƒtƒFƒCƒXAƒAƒhƒoƒ“ƒX‚È‚Ç) ‚ÌƒvƒƒpƒeƒB‚ğŠi”[‚·‚é\‘¢‘ÌB
+pixelsPerDip : [float] Œ^: FLOAT DIP (ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹) ‚ ‚½‚è‚Ì•¨—ƒsƒNƒZƒ‹”B—á‚¦‚Î 96 DPI ‚Ìƒrƒbƒgƒ}ƒbƒv‚ÉƒŒƒ“ƒ_ƒŠƒ“ƒO‚·‚éê‡‚Í 1A120 DPI ‚Ìƒrƒbƒgƒ}ƒbƒv‚Ìê‡‚Í 1.25 ‚Æ‚È‚éB
+transform : [var] Œ^: const DWRITE_MATRIX* ƒOƒŠƒt‚¨‚æ‚Ñ‚»‚ÌˆÊ’u‚É“K—p‚·‚é”CˆÓ‚Ìƒgƒ‰ƒ“ƒXƒtƒH[ƒ€B‚±‚Ìƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Í emSize ‚Æ pixelsPerDip ‚É‚æ‚éŠg‘åk¬‚ÌŒã‚É“K—p‚³‚ê‚éB
+renderingMode : [int] Œ^: DWRITE_RENDERING_MODE ƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğw’è‚·‚é’lBƒ‰ƒXƒ^[ƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh (‚Â‚Ü‚è default ‚â outline ‚Å‚È‚¢‚à‚Ì) ‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+measuringMode : [int] Œ^: DWRITE_MEASURING_MODE ƒOƒŠƒt‚É‘Î‚µ‚Äg—p‚·‚éŒv‘ªƒ‚[ƒh‚ğw’è‚·‚éB
+baselineOriginX : [float] Œ^: FLOAT ƒx[ƒXƒ‰ƒCƒ“Œ´“_‚Ì…•½ˆÊ’u (X À•W)BDIP ’PˆÊB
+baselineOriginY : [float] Œ^: FLOAT ƒx[ƒXƒ‰ƒCƒ“Œ´“_‚Ì‚’¼ˆÊ’u (Y À•W)BDIP ’PˆÊB
+glyphRunAnalysis : [comobj] Œ^: IDWriteGlyphRunAnalysis** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‹Kì¬‚³‚ê‚½ƒOƒŠƒtƒ‰ƒ“‰ğÍƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Creates a glyph run analysis object, which encapsulates information
-used to render a glyph run. (IDWriteFactory.CreateGlyphRunAnalysis)
+
+ƒOƒŠƒtƒ‰ƒ“‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‚Ég—p‚·‚éî•ñ‚ğƒJƒvƒZƒ‹‰»‚µ‚½ƒOƒŠƒtƒ‰ƒ“‰ğÍƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB(IDWriteFactory.CreateGlyphRunAnalysis)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The glyph run analysis object contains the results of analyzing the
-glyph run, including the positions of all the glyphs and references
-to all of the rasterized glyphs in the font cache.
+ƒOƒŠƒtƒ‰ƒ“‰ğÍƒIƒuƒWƒFƒNƒg‚ÍAƒOƒŠƒtƒ‰ƒ“‚ğ‰ğÍ‚µ‚½Œ‹‰Ê (‘SƒOƒŠƒt‚ÌˆÊ’u‚ÆAƒtƒHƒ“ƒgƒLƒƒƒbƒVƒ…“à‚Ìƒ‰ƒXƒ^‰»‚³‚ê‚½ƒOƒŠƒt‚Ö‚ÌQÆ‚ğŠÜ‚Ş)
+‚ğ•Û‚·‚éB
 
 
 %index
 IDWriteFont_GetFontFamily
-Gets the font family to which the specified font belongs.
+w’è‚µ‚½ƒtƒHƒ“ƒg‚ª‘®‚·‚éƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFont
 %prm
 this, fontFamily
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFamily : [comobj] Type: IDWriteFontFamily** When this method returns, contains an address of a pointer to the font family object to which the specified font belongs.
+fontFamily : [comobj] Œ^: IDWriteFontFamily** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aw’èƒtƒHƒ“ƒg‚ª‘®‚·‚éƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Gets the font family to which the specified font belongs.
+w’è‚µ‚½ƒtƒHƒ“ƒg‚ª‘®‚·‚éƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFont_GetWeight
-Gets the weight, or stroke thickness, of the specified font.
+w’èƒtƒHƒ“ƒg‚ÌƒEƒFƒCƒg (ƒXƒgƒ[ƒN‚Ì‘¾‚³) ‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFont
 %prm
 this
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the weight, or stroke thickness, of the specified font.
+w’èƒtƒHƒ“ƒg‚ÌƒEƒFƒCƒg (ƒXƒgƒ[ƒN‚Ì‘¾‚³) ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_FONT_WEIGHT A value that indicates the weight for the
-specified font.
+Œ^: DWRITE_FONT_WEIGHT w’èƒtƒHƒ“ƒg‚ÌƒEƒFƒCƒg‚ğ¦‚·’lB
 
 
 %index
 IDWriteFont_GetStretch
-Gets the stretch, or width, of the specified font.
+w’èƒtƒHƒ“ƒg‚ÌƒXƒgƒŒƒbƒ` (•) ‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFont
 %prm
 this
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the stretch, or width, of the specified font.
+w’èƒtƒHƒ“ƒg‚ÌƒXƒgƒŒƒbƒ` (•) ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_FONT_STRETCH A value that indicates the type of stretch,
-or width, applied to the specified font.
+Œ^: DWRITE_FONT_STRETCH w’èƒtƒHƒ“ƒg‚É“K—p‚³‚ê‚Ä‚¢‚éƒXƒgƒŒƒbƒ` (•) ‚Ìí—Ş‚ğ¦‚·’lB
 
 
 %index
 IDWriteFont_GetStyle
-Gets the style, or slope, of the specified font.
+w’èƒtƒHƒ“ƒg‚ÌƒXƒ^ƒCƒ‹ (ŒXÎ) ‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFont
 %prm
 this
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the style, or slope, of the specified font.
+w’èƒtƒHƒ“ƒg‚ÌƒXƒ^ƒCƒ‹ (ŒXÎ) ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_FONT_STYLE A value that indicates the type of style, or
-slope, of the specified font.
+Œ^: DWRITE_FONT_STYLE w’èƒtƒHƒ“ƒg‚ÌƒXƒ^ƒCƒ‹ (ŒXÎ) ‚Ìí—Ş‚ğ¦‚·’lB
 
 
 %index
 IDWriteFont_IsSymbolFont
-Determines whether the font is a symbol font. (IDWriteFont.IsSymbolFont)
+ƒtƒHƒ“ƒg‚ªƒVƒ“ƒ{ƒ‹ƒtƒHƒ“ƒg‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB(IDWriteFont.IsSymbolFont)
 %group
 COM misc / IDWriteFont
 %prm
 this
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Determines whether the font is a symbol font.
-(IDWriteFont.IsSymbolFont)
+ƒtƒHƒ“ƒg‚ªƒVƒ“ƒ{ƒ‹ƒtƒHƒ“ƒg‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB(IDWriteFont.IsSymbolFont)
 
 [–ß‚è’l]
-Type: BOOL TRUE if the font is a symbol font; otherwise, FALSE.
+Œ^: BOOL ƒtƒHƒ“ƒg‚ªƒVƒ“ƒ{ƒ‹ƒtƒHƒ“ƒg‚Å‚ ‚ê‚Î TRUEA‚»‚¤‚Å‚È‚¯‚ê‚Î FALSEB
 
 
 %index
 IDWriteFont_GetFaceNames
-Gets a localized strings collection containing the face names for the font (such as Regular or Bold), indexed by locale name.
+ƒtƒHƒ“ƒg‚ÌƒtƒFƒCƒX–¼ (Regular ‚â Bold ‚È‚Ç) ‚ğAƒƒP[ƒ‹–¼‚ÅƒCƒ“ƒfƒbƒNƒX‰»‚µ‚½ƒ[ƒJƒ‰ƒCƒY•¶š—ñƒRƒŒƒNƒVƒ‡ƒ“‚Æ‚µ‚Äæ“¾‚·‚éB
 %group
 COM misc / IDWriteFont
 %prm
 this, names
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-names : [comobj] Type: IDWriteLocalizedStrings** When this method returns, contains an address to a  pointer to the newly created localized strings object.
+names : [comobj] Œ^: IDWriteLocalizedStrings** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­¶¬‚³‚ê‚½ƒ[ƒJƒ‰ƒCƒY•¶š—ñƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Gets a localized strings collection containing the face names for the
-font (such as Regular or Bold), indexed by locale name.
+ƒtƒHƒ“ƒg‚ÌƒtƒFƒCƒX–¼ (Regular ‚â Bold ‚È‚Ç)
+‚ğAƒƒP[ƒ‹–¼‚ÅƒCƒ“ƒfƒbƒNƒX‰»‚µ‚½ƒ[ƒJƒ‰ƒCƒY•¶š—ñƒRƒŒƒNƒVƒ‡ƒ“‚Æ‚µ‚Äæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFont_GetInformationalStrings
-Gets a localized strings collection containing the specified informational strings, indexed by locale name.
+w’è‚µ‚½î•ñ•¶š—ñ‚ğAƒƒP[ƒ‹–¼‚ÅƒCƒ“ƒfƒbƒNƒX‰»‚µ‚½ƒ[ƒJƒ‰ƒCƒY•¶š—ñƒRƒŒƒNƒVƒ‡ƒ“‚Æ‚µ‚Äæ“¾‚·‚éB
 %group
 COM misc / IDWriteFont
 %prm
 this, informationalStringID, informationalStrings, exists
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-informationalStringID : [int] Type: DWRITE_INFORMATIONAL_STRING_ID A value that identifies the  informational string to get. For example, DWRITE_INFORMATIONAL_STRING_DESCRIPTION specifies a string that contains a description of the font.
-informationalStrings : [comobj] Type: IDWriteLocalizedStrings** When this method returns, contains an address of a pointer to the newly created localized strings object.
-exists : [var] Type: BOOL* When this method returns, TRUE if the font contains the specified string ID; otherwise, FALSE.
+informationalStringID : [int] Œ^: DWRITE_INFORMATIONAL_STRING_ID æ“¾‚·‚éî•ñ•¶š—ñ‚ğ¯•Ê‚·‚é’lB‚½‚Æ‚¦‚Î DWRITE_INFORMATIONAL_STRING_DESCRIPTION ‚ÍƒtƒHƒ“ƒg‚Ìà–¾‚ğŠÜ‚Ş•¶š—ñ‚ğw’è‚·‚éB
+informationalStrings : [comobj] Œ^: IDWriteLocalizedStrings** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­¶¬‚³‚ê‚½ƒ[ƒJƒ‰ƒCƒY•¶š—ñƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
+exists : [var] Œ^: BOOL* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒtƒHƒ“ƒg‚ªw’è‚µ‚½•¶š—ñ ID ‚ğŠÜ‚ñ‚Å‚¢‚ê‚Î TRUEA‚»‚¤‚Å‚È‚¯‚ê‚Î FALSE ‚ğŠi”[‚·‚éB
 %inst
-Gets a localized strings collection containing the specified
-informational strings, indexed by locale name.
+w’è‚µ‚½î•ñ•¶š—ñ‚ğAƒƒP[ƒ‹–¼‚ÅƒCƒ“ƒfƒbƒNƒX‰»‚µ‚½ƒ[ƒJƒ‰ƒCƒY•¶š—ñƒRƒŒƒNƒVƒ‡ƒ“‚Æ‚µ‚Äæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If the font does not contain the string specified by
-informationalStringID, the return value is S_OK but
-informationalStrings receives a NULL pointer and exists receives the
-value FALSE.
+ƒtƒHƒ“ƒg‚ª informationalStringID ‚Åw’è‚³‚ê‚½•¶š—ñ‚ğŠÜ‚ñ‚Å‚¢‚È‚¢ê‡A–ß‚è’l‚Í S_OK
+‚¾‚ªAinformationalStrings ‚É‚Í NULL ƒ|ƒCƒ“ƒ^‚ªAexists ‚É‚Í FALSE ‚ªŠi”[‚³‚ê‚éB
 
 
 %index
 IDWriteFont_GetSimulations
-Gets a value that indicates what simulations are applied to the specified font.
+w’èƒtƒHƒ“ƒg‚É“K—p‚³‚ê‚Ä‚¢‚éƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFont
 %prm
 this
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets a value that indicates what simulations are applied to the
-specified font.
+w’èƒtƒHƒ“ƒg‚É“K—p‚³‚ê‚Ä‚¢‚éƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_FONT_SIMULATIONS A value that indicates one or more of
-the types of simulations (none, bold, or oblique) applied to the
-specified font.
+Œ^: DWRITE_FONT_SIMULATIONS w’èƒtƒHƒ“ƒg‚É“K—p‚³‚ê‚Ä‚¢‚éƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“ (‚È‚µAƒ{[ƒ‹ƒhAÎ‘Ì) ‚Ì 1
+‚ÂˆÈã‚Ìí—Ş‚ğ¦‚·’lB
 
 
 %index
 IDWriteFont_GetMetrics
-Obtains design units and common metrics for the font face. These metrics are applicable to all the glyphs within a font face and are used by applications for layout calculations. (IDWriteFont.GetMetrics)
+ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒfƒUƒCƒ“’PˆÊ‚Æ‹¤’ÊƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB‚±‚ê‚ç‚ÌƒƒgƒŠƒNƒX‚ÍƒtƒHƒ“ƒgƒtƒFƒCƒX“à‚Ì‚·‚×‚Ä‚ÌƒOƒŠƒt‚É“K—p‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒŒƒCƒAƒEƒgŒvZ‚Ég—p‚³‚ê‚éB(IDWriteFont.GetMetrics)
 %group
 COM misc / IDWriteFont
 %prm
 this, fontMetrics
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontMetrics : [var] Type: DWRITE_FONT_METRICS* When this method returns, contains a structure that has font metrics for the current font face. The metrics returned by this function are in font design units.
+fontMetrics : [var] Œ^: DWRITE_FONT_METRICS* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AŒ»İ‚ÌƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒtƒHƒ“ƒgƒƒgƒŠƒNƒX‚ğŠi”[‚µ‚½\‘¢‘ÌB‚±‚ÌŠÖ”‚ª•Ô‚·ƒƒgƒŠƒNƒX‚ÍƒtƒHƒ“ƒgƒfƒUƒCƒ“’PˆÊ‚Å‚ ‚éB
 %inst
-Obtains design units and common metrics for the font face. These
-metrics are applicable to all the glyphs within a font face and are
-used by applications for layout calculations.
-(IDWriteFont.GetMetrics)
+
+ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒfƒUƒCƒ“’PˆÊ‚Æ‹¤’ÊƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB‚±‚ê‚ç‚ÌƒƒgƒŠƒNƒX‚ÍƒtƒHƒ“ƒgƒtƒFƒCƒX“à‚Ì‚·‚×‚Ä‚ÌƒOƒŠƒt‚É“K—p‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒŒƒCƒAƒEƒgŒvZ‚Ég—p‚³‚ê‚éB(IDWriteFont.GetMetrics)
 
 
 %index
 IDWriteFont_HasCharacter
-Determines whether the font supports a specified character.
+ƒtƒHƒ“ƒg‚ªw’è‚µ‚½•¶š‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 COM misc / IDWriteFont
 %prm
 this, unicodeValue, exists
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-unicodeValue : [int] Type: UINT32 A Unicode (UCS-4) character value for the method to inspect.
-exists : [var] Type: BOOL* When this method returns, TRUE if the font supports the specified character; otherwise, FALSE.
+unicodeValue : [int] Œ^: UINT32 ‚±‚Ìƒƒ\ƒbƒh‚ªŒŸ¸‚·‚é Unicode (UCS-4) •¶š’lB
+exists : [var] Œ^: BOOL* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒtƒHƒ“ƒg‚ªw’è•¶š‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚ê‚Î TRUEA‚»‚¤‚Å‚È‚¯‚ê‚Î FALSE ‚ğŠi”[‚·‚éB
 %inst
-Determines whether the font supports a specified character.
+ƒtƒHƒ“ƒg‚ªw’è‚µ‚½•¶š‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFont_CreateFontFace
-Creates a font face object for the font. (IDWriteFont.CreateFontFace)
+ƒtƒHƒ“ƒg—p‚ÌƒtƒHƒ“ƒgƒtƒFƒCƒXƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB(IDWriteFont.CreateFontFace)
 %group
 COM misc / IDWriteFont
 %prm
 this, fontFace
 this : [comobj] IDWriteFont ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFace : [comobj] Type: IDWriteFontFace** When this method returns, contains an address of a pointer to the newly created font face object.
+fontFace : [comobj] Œ^: IDWriteFontFace** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­¶¬‚³‚ê‚½ƒtƒHƒ“ƒgƒtƒFƒCƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Creates a font face object for the font. (IDWriteFont.CreateFontFace)
+ƒtƒHƒ“ƒg—p‚ÌƒtƒHƒ“ƒgƒtƒFƒCƒXƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB(IDWriteFont.CreateFontFace)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontCollection_GetFontFamilyCount
-Gets the number of font families in the collection.
+ƒRƒŒƒNƒVƒ‡ƒ““à‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[‚Ì”‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontCollection
 %prm
 this
 this : [comobj] IDWriteFontCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the number of font families in the collection.
+ƒRƒŒƒNƒVƒ‡ƒ““à‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[‚Ì”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: UINT32 The number of font families in the collection.
+Œ^: UINT32 ƒRƒŒƒNƒVƒ‡ƒ““à‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[‚Ì”B
 
 
 %index
 IDWriteFontCollection_GetFontFamily
-Creates a font family object given a zero-based font family index.
+0 ‹N“_‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[ƒCƒ“ƒfƒbƒNƒX‚©‚çƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 COM misc / IDWriteFontCollection
 %prm
 this, index, fontFamily
 this : [comobj] IDWriteFontCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-index : [int] Type: UINT32 Zero-based index of the font family.
-fontFamily : [comobj] Type: IDWriteFontFamily** When this method returns, contains the address of   a pointer to the newly created font family object.
+index : [int] Œ^: UINT32 ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[‚Ì 0 ‹N“_‚ÌƒCƒ“ƒfƒbƒNƒXB
+fontFamily : [comobj] Œ^: IDWriteFontFamily** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­ì¬‚³‚ê‚½ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Creates a font family object given a zero-based font family index.
+0 ‹N“_‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[ƒCƒ“ƒfƒbƒNƒX‚©‚çƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontCollection_FindFamilyName
-Finds the font family with the specified family name.
+w’è‚µ‚½ƒtƒ@ƒ~ƒŠ[–¼‚ğ‚ÂƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[‚ğŒŸõ‚·‚éB
 %group
 COM misc / IDWriteFontCollection
 %prm
 this, familyName, index, exists
 this : [comobj] IDWriteFontCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-familyName : [wstr] Type: const WCHAR* An array of characters, which is null-terminated, containing the name of the font family. The name is not case-sensitive but must otherwise exactly match a family name in the collection.
-index : [int] Type: UINT32* When this method returns, contains the zero-based index of the matching font family if the family name was found; otherwise, UINT_MAX.
-exists : [var] Type: BOOL* When this method returns, TRUE if the family name exists; otherwise, FALSE.
+familyName : [wstr] Œ^: const WCHAR* ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[‚Ì–¼‘O‚ğŠÜ‚Ş null I’[‚³‚ê‚½•¶š”z—ñB–¼‘O‚Í‘å•¶š¬•¶š‚ğ‹æ•Ê‚µ‚È‚¢‚ªA‚»‚êˆÈŠO‚ÍƒRƒŒƒNƒVƒ‡ƒ““à‚Ìƒtƒ@ƒ~ƒŠ[–¼‚ÆŠ®‘S‚Éˆê’v‚·‚é•K—v‚ª‚ ‚éB
+index : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aƒtƒ@ƒ~ƒŠ[–¼‚ªŒ©‚Â‚©‚Á‚½ê‡‚Íˆê’v‚·‚éƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[‚Ì 0 ‹N“_‚ÌƒCƒ“ƒfƒbƒNƒX‚ğŠi”[‚µAŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚Í UINT_MAX ‚ğŠi”[‚·‚éB
+exists : [var] Œ^: BOOL* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aƒtƒ@ƒ~ƒŠ[–¼‚ª‘¶İ‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSEB
 %inst
-Finds the font family with the specified family name.
+w’è‚µ‚½ƒtƒ@ƒ~ƒŠ[–¼‚ğ‚ÂƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[‚ğŒŸõ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontCollection_GetFontFromFontFace
-Gets the font object that corresponds to the same physical font as the specified font face object. The specified physical font must belong to the font collection.
+w’è‚µ‚½ƒtƒHƒ“ƒgƒtƒFƒCƒXƒIƒuƒWƒFƒNƒg‚Æ“¯‚¶•¨—ƒtƒHƒ“ƒg‚É‘Î‰‚·‚éƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éBw’è‚³‚ê‚½•¨—ƒtƒHƒ“ƒg‚Í‚±‚ÌƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚É‘®‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %group
 COM misc / IDWriteFontCollection
 %prm
 this, fontFace, font
 this : [comobj] IDWriteFontCollection ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFace : [comobj] Type: IDWriteFontFace* A font face object that specifies the physical font.
-font : [comobj] Type: IDWriteFont** When this method returns, contains the address of a pointer to the newly created font object if successful; otherwise, NULL.
+fontFace : [comobj] Œ^: IDWriteFontFace* •¨—ƒtƒHƒ“ƒg‚ğw’è‚·‚éƒtƒHƒ“ƒgƒtƒFƒCƒXƒIƒuƒWƒFƒNƒgB
+font : [comobj] Œ^: IDWriteFont** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A¬Œ÷‚µ‚½ê‡‚ÍV‚µ‚­ì¬‚³‚ê‚½ƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚µA‚»‚êˆÈŠO‚Í NULL ‚ğŠi”[‚·‚éB
 %inst
-Gets the font object that corresponds to the same physical font as
-the specified font face object. The specified physical font must
-belong to the font collection.
+
+w’è‚µ‚½ƒtƒHƒ“ƒgƒtƒFƒCƒXƒIƒuƒWƒFƒNƒg‚Æ“¯‚¶•¨—ƒtƒHƒ“ƒg‚É‘Î‰‚·‚éƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éBw’è‚³‚ê‚½•¨—ƒtƒHƒ“ƒg‚Í‚±‚ÌƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚É‘®‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontCollectionLoader_CreateEnumeratorFromKey
-Creates a font file enumerator object that encapsulates a collection of font files. The font system calls back to this interface to create a font collection.
+ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚ğƒJƒvƒZƒ‹‰»‚·‚éƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹—ñ‹“qƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBƒtƒHƒ“ƒgƒVƒXƒeƒ€‚Í‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğƒR[ƒ‹ƒoƒbƒN‚µ‚ÄƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğì¬‚·‚éB
 %group
 COM misc / IDWriteFontCollectionLoader
 %prm
 this, factory, collectionKey, collectionKeySize, fontFileEnumerator
 this : [comobj] IDWriteFontCollectionLoader ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-factory : [comobj] Type: IDWriteFactory* Pointer to the IDWriteFactory object that was used to create the current font collection.
-collectionKey : [intptr] Type: const void* A font collection key that uniquely identifies the collection of font files within the scope of the font collection loader being used. The buffer allocated for this key must be at least  the size, in bytes, specified by collectionKeySize.
-collectionKeySize : [int] Type: UINT32 The size of the font collection key, in bytes.
-fontFileEnumerator : [comobj] Type: IDWriteFontFileEnumerator** When this method returns, contains the address of  a pointer to the newly created font file enumerator.
+factory : [comobj] Œ^: IDWriteFactory* Œ»İ‚ÌƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğì¬‚·‚é‚Ì‚Ég—p‚³‚ê‚½ IDWriteFactory ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+collectionKey : [intptr] Œ^: const void* g—p‚µ‚Ä‚¢‚éƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒ[ƒ_‚ÌƒXƒR[ƒv“à‚ÅƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚ğˆêˆÓ‚É¯•Ê‚·‚éƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒL[B‚±‚ÌƒL[‚ÉŠ„‚è“–‚Ä‚éƒoƒbƒtƒ@‚Í­‚È‚­‚Æ‚à collectionKeySize ‚Åw’è‚³‚ê‚½ƒoƒCƒg”‚ğ‚½‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+collectionKeySize : [int] Œ^: UINT32 ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“ƒL[‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
+fontFileEnumerator : [comobj] Œ^: IDWriteFontFileEnumerator** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­ì¬‚³‚ê‚½ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹—ñ‹“q‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Creates a font file enumerator object that encapsulates a collection
-of font files. The font system calls back to this interface to create
-a font collection.
+
+ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚ğƒJƒvƒZƒ‹‰»‚·‚éƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹—ñ‹“qƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBƒtƒHƒ“ƒgƒVƒXƒeƒ€‚Í‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğƒR[ƒ‹ƒoƒbƒN‚µ‚ÄƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontFace_GetType
-Obtains the file format type of a font face.
+ƒtƒHƒ“ƒgƒtƒFƒCƒX‚Ìƒtƒ@ƒCƒ‹ƒtƒH[ƒ}ƒbƒg‚Ìí—Ş‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontFace
 %prm
 this
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Obtains the file format type of a font face.
+ƒtƒHƒ“ƒgƒtƒFƒCƒX‚Ìƒtƒ@ƒCƒ‹ƒtƒH[ƒ}ƒbƒg‚Ìí—Ş‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_FONT_FACE_TYPE A value that indicates the type of format
-for the font face (such as Type 1, TrueType, vector, or bitmap).
+Œ^: DWRITE_FONT_FACE_TYPE ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒtƒH[ƒ}ƒbƒg‚Ìí—Ş (Type
+1ATrueTypeAƒxƒNƒ^[Aƒrƒbƒgƒ}ƒbƒv‚È‚Ç) ‚ğ¦‚·’lB
 
 
 %index
 IDWriteFontFace_GetFiles
-Obtains the font files representing a font face.
+ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ğ•\‚·ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontFace
 %prm
 this, numberOfFiles, fontFiles
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-numberOfFiles : [int] Type: UINT32* If fontFiles is NULL, receives the number of files representing the font face.  Otherwise, the number of font files being requested should be passed.  See the Remarks section below for more information.
-fontFiles : [comobj] Type: IDWriteFontFile** When this method returns, contains a pointer to a user-provided array that stores pointers to font files representing the font face. This parameter can be NULL if the user wants only the number of files representing the font face. This API increments reference count of the font file pointers returned according to COM conventions, and the client should release them when finished.
+numberOfFiles : [int] Œ^: UINT32* fontFiles ‚ª NULL ‚Ìê‡AƒtƒHƒ“ƒgƒtƒFƒCƒX‚ğ•\‚·ƒtƒ@ƒCƒ‹”‚ğó‚¯æ‚éB‚»‚êˆÈŠO‚Ìê‡‚ÍA—v‹‚·‚éƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹”‚ğ“n‚·•K—v‚ª‚ ‚éBÚ‚µ‚­‚Í‰º‚Ì”õlƒZƒNƒVƒ‡ƒ“‚ğQÆB
+fontFiles : [comobj] Œ^: IDWriteFontFile** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒtƒHƒ“ƒgƒtƒFƒCƒX‚ğ•\‚·ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éAƒ†[ƒU[’ñ‹Ÿ‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éBƒtƒHƒ“ƒgƒtƒFƒCƒX‚ğ•\‚·ƒtƒ@ƒCƒ‹”‚Ì‚İ‚ğæ“¾‚µ‚½‚¢ê‡‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ‚É‚Å‚«‚éB‚±‚Ì API ‚Í COM ‚Ì‹K–ñ‚É]‚Á‚Ä•Ô‚³‚ê‚½ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚ÌQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é‚Ì‚ÅAŒÄ‚Ño‚µ‘¤‚Íg—pŒã‚É‚»‚ê‚ç‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
 %inst
-Obtains the font files representing a font face.
+ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ğ•\‚·ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The IDWriteFontFace::GetFiles method should be called twice. The
-first time you call GetFilesfontFiles should be NULL. When the method
-returns, numberOfFiles receives the number of font files that
-represent the font face. Then, call the method a second time, passing
-the numberOfFiles value that was output the first call, and a
-non-null buffer of the correct size to store the IDWriteFontFile
-pointers.
+IDWriteFontFace::GetFiles ƒƒ\ƒbƒh‚Í 2 ‰ñŒÄ‚Ño‚·•K—v‚ª‚ ‚éB1 ‰ñ–Ú‚Í GetFiles ‚É
+fontFiles ‚ğ NULL ‚Å“n‚·Bƒƒ\ƒbƒh‚ª•Ô‚é‚ÆAnumberOfFiles
+‚ÉƒtƒHƒ“ƒgƒtƒFƒCƒX‚ğ•\‚·ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹”‚ªŠi”[‚³‚ê‚éBŸ‚ÉA1 ‰ñ–Ú‚ÌŒÄ‚Ño‚µ‚Åo—Í‚³‚ê‚½ numberOfFiles
+‚Ì’l‚ÆAIDWriteFontFile ƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚é‚½‚ß‚Ì“KØ‚ÈƒTƒCƒY‚Ì”ñ NULL ƒoƒbƒtƒ@‚ğ“n‚µ‚ÄAƒƒ\ƒbƒh‚ğ 2
+‰ñ–Ú‚ÉŒÄ‚Ño‚·B
 
 
 %index
 IDWriteFontFace_GetIndex
-Obtains the index of a font face in the context of its font files.
+ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌƒRƒ“ƒeƒLƒXƒg‚É‚¨‚¯‚éƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontFace
 %prm
 this
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Obtains the index of a font face in the context of its font files.
+ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌƒRƒ“ƒeƒLƒXƒg‚É‚¨‚¯‚éƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: UINT32 The zero-based index of a font face in cases when the
-font files contain a collection of font faces. If the font files
-contain a single face, this value is zero.
+Œ^: UINT32 ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÉƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡AƒtƒHƒ“ƒgƒtƒFƒCƒX‚Ì 0
+ƒx[ƒX‚ÌƒCƒ“ƒfƒbƒNƒXBƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚É’Pˆê‚ÌƒtƒFƒCƒX‚µ‚©ŠÜ‚Ü‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚Ì’l‚Í 0 ‚Å‚ ‚éB
 
 
 %index
 IDWriteFontFace_GetSimulations
-Obtains the algorithmic style simulation flags of a font face. (IDWriteFontFace.GetSimulations)
+ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒAƒ‹ƒSƒŠƒYƒ€“I‚ÈƒXƒ^ƒCƒ‹ƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“ƒtƒ‰ƒO‚ğæ“¾‚·‚éB(IDWriteFontFace.GetSimulations)
 %group
 COM misc / IDWriteFontFace
 %prm
 this
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Obtains the algorithmic style simulation flags of a font face.
-(IDWriteFontFace.GetSimulations)
+
+ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒAƒ‹ƒSƒŠƒYƒ€“I‚ÈƒXƒ^ƒCƒ‹ƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“ƒtƒ‰ƒO‚ğæ“¾‚·‚éB(IDWriteFontFace.GetSimulations)
 
 [–ß‚è’l]
-Type: DWRITE_FONT_SIMULATIONS Font face simulation flags for
-algorithmic means of making text bold or italic.
+Œ^: DWRITE_FONT_SIMULATIONS
+ƒeƒLƒXƒg‚ğƒAƒ‹ƒSƒŠƒYƒ€“I‚Éƒ{[ƒ‹ƒh‚Ü‚½‚ÍƒCƒ^ƒŠƒbƒN‚É‚·‚é‚½‚ß‚ÌƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“ƒtƒ‰ƒOB
 
 
 %index
 IDWriteFontFace_IsSymbolFont
-Determines whether the font is a symbol font. (IDWriteFontFace.IsSymbolFont)
+ƒtƒHƒ“ƒg‚ªƒVƒ“ƒ{ƒ‹ƒtƒHƒ“ƒg‚©‚Ç‚¤‚©‚ğ”»’f‚·‚éB(IDWriteFontFace.IsSymbolFont)
 %group
 COM misc / IDWriteFontFace
 %prm
 this
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Determines whether the font is a symbol font.
-(IDWriteFontFace.IsSymbolFont)
+ƒtƒHƒ“ƒg‚ªƒVƒ“ƒ{ƒ‹ƒtƒHƒ“ƒg‚©‚Ç‚¤‚©‚ğ”»’f‚·‚éB(IDWriteFontFace.IsSymbolFont)
 
 [–ß‚è’l]
-Type: BOOL Returns TRUE if the font is a symbol font, otherwise
-FALSE.
+Œ^: BOOL ƒtƒHƒ“ƒg‚ªƒVƒ“ƒ{ƒ‹ƒtƒHƒ“ƒg‚Å‚ ‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontFace_GetMetrics
-Obtains design units and common metrics for the font face. These metrics are applicable to all the glyphs within a font face and are used by applications for layout calculations. (IDWriteFontFace.GetMetrics)
+ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒfƒUƒCƒ“’PˆÊ‚Æ‹¤’Ê‚ÌƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB‚±‚ê‚ç‚ÌƒƒgƒŠƒNƒX‚ÍƒtƒHƒ“ƒgƒtƒFƒCƒX“à‚Ì‚·‚×‚Ä‚ÌƒOƒŠƒt‚É“K—p‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒŒƒCƒAƒEƒgŒvZ‚Ég—p‚·‚éB(IDWriteFontFace.GetMetrics)
 %group
 COM misc / IDWriteFontFace
 %prm
 this, fontFaceMetrics
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFaceMetrics : [var] Type: DWRITE_FONT_METRICS* When this method returns, a?DWRITE_FONT_METRICS structure that holds metrics (such as ascent, descent, or cap height) for the current font face element. The metrics returned by this function are in font design units.
+fontFaceMetrics : [var] Œ^: DWRITE_FONT_METRICS* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAŒ»İ‚ÌƒtƒHƒ“ƒgƒtƒFƒCƒX—v‘f‚ÌƒƒgƒŠƒNƒX (ƒAƒZƒ“ƒgAƒfƒBƒZƒ“ƒgAƒLƒƒƒbƒvƒnƒCƒg‚È‚Ç) ‚ğ•Û‚·‚é DWRITE_FONT_METRICS \‘¢‘ÌB‚±‚ÌŠÖ”‚ª•Ô‚·ƒƒgƒŠƒNƒX‚ÍƒtƒHƒ“ƒgƒfƒUƒCƒ“’PˆÊ‚Å‚ ‚éB
 %inst
-Obtains design units and common metrics for the font face. These
-metrics are applicable to all the glyphs within a font face and are
-used by applications for layout calculations.
-(IDWriteFontFace.GetMetrics)
+
+ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒfƒUƒCƒ“’PˆÊ‚Æ‹¤’Ê‚ÌƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB‚±‚ê‚ç‚ÌƒƒgƒŠƒNƒX‚ÍƒtƒHƒ“ƒgƒtƒFƒCƒX“à‚Ì‚·‚×‚Ä‚ÌƒOƒŠƒt‚É“K—p‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒŒƒCƒAƒEƒgŒvZ‚Ég—p‚·‚éB(IDWriteFontFace.GetMetrics)
 
 
 %index
 IDWriteFontFace_GetGlyphCount
-Obtains the number of glyphs in the font face.
+ƒtƒHƒ“ƒgƒtƒFƒCƒX“à‚ÌƒOƒŠƒt”‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontFace
 %prm
 this
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Obtains the number of glyphs in the font face.
+ƒtƒHƒ“ƒgƒtƒFƒCƒX“à‚ÌƒOƒŠƒt”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: UINT16 The number of glyphs in the font face.
+Œ^: UINT16 ƒtƒHƒ“ƒgƒtƒFƒCƒX“à‚ÌƒOƒŠƒt”B
 
 
 %index
 IDWriteFontFace_GetDesignGlyphMetrics
-Obtains ideal (resolution-independent) glyph metrics in font design units.
+ƒtƒHƒ“ƒgƒfƒUƒCƒ“’PˆÊ‚Å‚Ì—‘z“I‚È (‰ğ‘œ“x‚ÉˆË‘¶‚µ‚È‚¢) ƒOƒŠƒtƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontFace
 %prm
 this, glyphIndices, glyphCount, glyphMetrics, isSideways
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-glyphIndices : [int] Type: const UINT16* An array of glyph indices for which to compute  metrics. The array must contain at least as many elements as specified by glyphCount.
-glyphCount : [int] Type: UINT32 The number of elements in the glyphIndices array.
-glyphMetrics : [var] Type: DWRITE_GLYPH_METRICS* When this method returns, contains an array of DWRITE_GLYPH_METRICS structures.  glyphMetrics must be initialized with an empty buffer that contains at least as many elements as glyphCount. The metrics returned by this function are in font design units.
-isSideways : [int] Type: BOOL Indicates whether the font is being used in a sideways run. This can affect the glyph metrics if the font has oblique simulation because sideways oblique simulation differs from non-sideways oblique simulation
+glyphIndices : [int] Œ^: const UINT16* ƒƒgƒŠƒNƒX‚ğŒvZ‚·‚éƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚Ì”z—ñB”z—ñ‚É‚Í­‚È‚­‚Æ‚à glyphCount ‚Åw’è‚³‚ê‚½”‚Ì—v‘f‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
+glyphCount : [int] Œ^: UINT32 glyphIndices ”z—ñ‚Ì—v‘f”B
+glyphMetrics : [var] Œ^: DWRITE_GLYPH_METRICS* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉADWRITE_GLYPH_METRICS \‘¢‘Ì‚Ì”z—ñ‚ğŠi”[‚·‚éBglyphMetrics ‚ÍA­‚È‚­‚Æ‚à glyphCount ‚Æ“¯‚¶—v‘f”‚ğ‚Â‹ó‚Ìƒoƒbƒtƒ@‚Å‰Šú‰»‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB‚±‚ÌŠÖ”‚ª•Ô‚·ƒƒgƒŠƒNƒX‚ÍƒtƒHƒ“ƒgƒfƒUƒCƒ“’PˆÊ‚Å‚ ‚éB
+isSideways : [int] Œ^: BOOL ƒtƒHƒ“ƒg‚ª‰¡Œü‚« (sideways) ƒ‰ƒ“‚Åg—p‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·BƒtƒHƒ“ƒg‚ÉÎ‘ÌƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ª“K—p‚³‚ê‚Ä‚¢‚éê‡A‰¡Œü‚«‚ÌÎ‘ÌƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚Í”ñ‰¡Œü‚«‚Ì‚à‚Ì‚Æ‚ÍˆÙ‚È‚é‚½‚ßAƒOƒŠƒtƒƒgƒŠƒNƒX‚É‰e‹¿‚·‚é‰Â”\«‚ª‚ ‚éB
 %inst
-Obtains ideal (resolution-independent) glyph metrics in font design
-units.
+ƒtƒHƒ“ƒgƒfƒUƒCƒ“’PˆÊ‚Å‚Ì—‘z“I‚È (‰ğ‘œ“x‚ÉˆË‘¶‚µ‚È‚¢) ƒOƒŠƒtƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Design glyph metrics are used for glyph positioning.
+ƒfƒUƒCƒ“ƒOƒŠƒtƒƒgƒŠƒNƒX‚ÍƒOƒŠƒt”z’u‚Ég—p‚³‚ê‚éB
 
 
 %index
 IDWriteFontFace_GetGlyphIndices
-Returns the nominal mapping of UCS4 Unicode code points to glyph indices as defined by the font 'CMAP' table.
+ƒtƒHƒ“ƒg‚Ì 'CMAP' ƒe[ƒuƒ‹‚Å’è‹`‚³‚ê‚½ UCS4 Unicode ƒR[ƒhƒ|ƒCƒ“ƒg‚©‚çƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚Ö‚Ì–¼–Úã‚Ìƒ}ƒbƒsƒ“ƒO‚ğ•Ô‚·B
 %group
 COM misc / IDWriteFontFace
 %prm
 this, codePoints, codePointCount, glyphIndices
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-codePoints : [int] Type: const UINT32* An array of USC4 code points from which to obtain nominal glyph indices. The array must be allocated and be able to contain the number of elements specified by codePointCount.
-codePointCount : [int] Type: UINT32 The number of elements in the codePoints array.
-glyphIndices : [int] Type: UINT16* When this method returns, contains a pointer to an array of nominal glyph indices filled by this function.
+codePoints : [int] Œ^: const UINT32* –¼–Úã‚ÌƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éŒ³‚Æ‚È‚é UCS4 ƒR[ƒhƒ|ƒCƒ“ƒg‚Ì”z—ñB”z—ñ‚ÍŠm•Û‚³‚êAcodePointCount ‚Åw’è‚³‚ê‚½—v‘f”‚ğŠi”[‚Å‚«‚é•K—v‚ª‚ ‚éB
+codePointCount : [int] Œ^: UINT32 codePoints ”z—ñ‚Ì—v‘f”B
+glyphIndices : [int] Œ^: UINT16* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA‚±‚ÌŠÖ”‚ª–„‚ß‚é–¼–Úã‚ÌƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Returns the nominal mapping of UCS4 Unicode code points to glyph
-indices as defined by the font 'CMAP' table.
+ƒtƒHƒ“ƒg‚Ì 'CMAP' ƒe[ƒuƒ‹‚Å’è‹`‚³‚ê‚½ UCS4 Unicode
+ƒR[ƒhƒ|ƒCƒ“ƒg‚©‚çƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚Ö‚Ì–¼–Úã‚Ìƒ}ƒbƒsƒ“ƒO‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Note that this mapping is primarily provided for line layout engines
-built on top of the physical font API. Because of OpenType glyph
-substitution and line layout character substitution, the nominal
-conversion does not always correspond to how a Unicode string will
-map to glyph indices when rendering using a particular font face.
-Also, note that Unicode variant selectors provide for alternate
-mappings for character to glyph. This call will always return the
-default variant. When characters are not present in the font this
-method returns the index 0, which is the undefined glyph or ".notdef"
-glyph. If a character isn't in a font, IDWriteFont::HasCharacter
-returns false and GetUnicodeRanges doesn't return it in the range.
+‚±‚Ìƒ}ƒbƒsƒ“ƒO‚ÍAå‚É•¨—ƒtƒHƒ“ƒg API ã‚É\’z‚³‚ê‚½sƒŒƒCƒAƒEƒgƒGƒ“ƒWƒ“Œü‚¯‚É’ñ‹Ÿ‚³‚ê‚é‚±‚Æ‚É’ˆÓBOpenType
+‚ÌƒOƒŠƒt’uŠ·‚ÆsƒŒƒCƒAƒEƒg‚Ì•¶š’uŠ·‚Ì‚½‚ßA–¼–Úã‚Ì•ÏŠ·‚Í“Á’è‚ÌƒtƒHƒ“ƒgƒtƒFƒCƒX‚ğg—p‚µ‚ÄƒŒƒ“ƒ_ƒŠƒ“ƒO‚·‚éÛ‚É Unicode
+•¶š—ñ‚ª‚Ç‚Ì‚æ‚¤‚ÉƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚Éƒ}ƒbƒv‚³‚ê‚é‚©‚Æ•K‚¸‚µ‚àˆê’v‚µ‚È‚¢B‚Ü‚½AUnicode
+‚ÌˆÙ‘ÌšƒZƒŒƒNƒ^‚É‚æ‚èA•¶š‚©‚çƒOƒŠƒt‚Ö‚Ì‘ã‘Öƒ}ƒbƒsƒ“ƒO‚ª’ñ‹Ÿ‚³‚ê‚é‚±‚Æ‚É‚à’ˆÓB‚±‚ÌŒÄ‚Ño‚µ‚Íí‚ÉƒfƒtƒHƒ‹ƒg‚ÌˆÙ‘Ìš‚ğ•Ô‚·BƒtƒHƒ“ƒg‚É•¶š‚ª‘¶İ‚µ‚È‚¢ê‡A‚±‚Ìƒƒ\ƒbƒh‚Í–¢’è‹`‚ÌƒOƒŠƒtA‚Â‚Ü‚è
+".notdef" ƒOƒŠƒt‚Å‚ ‚éƒCƒ“ƒfƒbƒNƒX 0
+‚ğ•Ô‚·B•¶š‚ªƒtƒHƒ“ƒg‚ÉŠÜ‚Ü‚ê‚È‚¢ê‡AIDWriteFont::HasCharacter ‚Í false
+‚ğ•Ô‚µAGetUnicodeRanges ‚à‚»‚Ì”ÍˆÍ‚ğ•Ô‚³‚È‚¢B
 
 
 %index
 IDWriteFontFace_TryGetFontTable
-Finds the specified OpenType font table if it exists and returns a pointer to it. The function accesses the underlying font data through the IDWriteFontFileStream interface implemented by the font file loader.
+w’è‚³‚ê‚½ OpenType ƒtƒHƒ“ƒgƒe[ƒuƒ‹‚ª‘¶İ‚·‚éê‡A‚»‚ê‚ğŒŸõ‚µ‚Äƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B‚±‚ÌŠÖ”‚ÍAƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚ªÀ‘•‚·‚é IDWriteFontFileStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ’Ê‚¶‚ÄŠî‘b‚Æ‚È‚éƒtƒHƒ“ƒgƒf[ƒ^‚ÉƒAƒNƒZƒX‚·‚éB
 %group
 COM misc / IDWriteFontFace
 %prm
 this, openTypeTableTag, tableData, tableSize, tableContext, exists
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-openTypeTableTag : [int] Type: UINT32 The four-character tag of a OpenType font table to find. Use the DWRITE_MAKE_OPENTYPE_TAG macro to create it as an UINT32. Unlike GDI, it does not support the special TTCF and null tags to access the whole font.
-tableData : [var] Type: const void** When this method returns, contains the address of  a pointer to the base of the table in memory. The pointer is valid only as long as the font face used to get the font table still exists; (not any other font face, even if it actually refers to the same physical font). This parameter is passed uninitialized.
-tableSize : [int] Type: UINT32* When this method returns, contains a pointer to the size, in bytes, of the font table.
-tableContext : [var] Type: void** When this method returns, the address of a pointer to  the opaque context, which must be freed by calling ReleaseFontTable. The context actually comes from the lower-level IDWriteFontFileStream, which may be implemented by the application or DWrite itself. It is possible for a NULL tableContext to be returned, especially if the implementation performs direct memory mapping on the whole file. Nevertheless, always release it later, and do not use it as a test for function success. The same table can be queried multiple times, but because each returned context can be different, you must release each context separately.
-exists : [var] Type: BOOL* When this method returns, TRUE if the font table exists; otherwise, FALSE.
+openTypeTableTag : [int] Œ^: UINT32 ŒŸõ‚·‚é OpenType ƒtƒHƒ“ƒgƒe[ƒuƒ‹‚Ì 4 •¶šƒ^ƒOBDWRITE_MAKE_OPENTYPE_TAG ƒ}ƒNƒ‚ğg—p‚µ‚Ä UINT32 ‚Æ‚µ‚Äì¬‚·‚éBGDI ‚Æ‚ÍˆÙ‚È‚èAƒtƒHƒ“ƒg‘S‘Ì‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚Ì“Áê‚È TTCF ƒ^ƒO‚â null ƒ^ƒO‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B
+tableData : [var] Œ^: const void** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒƒ‚ƒŠ“à‚Ìƒe[ƒuƒ‹‚Ìæ“ª‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB‚±‚Ìƒ|ƒCƒ“ƒ^‚ÍAƒtƒHƒ“ƒgƒe[ƒuƒ‹‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚µ‚½ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ª‘¶İ‚·‚éŠÔ‚Ì‚İ—LŒø‚Å‚ ‚é (ÀÛ‚É“¯‚¶•¨—ƒtƒHƒ“ƒg‚ğQÆ‚µ‚Ä‚¢‚Ä‚àA‘¼‚ÌƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÍŠÜ‚Ü‚È‚¢)B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Å“n‚³‚ê‚éB
+tableSize : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒtƒHƒ“ƒgƒe[ƒuƒ‹‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
+tableContext : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉA•s“§–¾‚ÈƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB‚±‚ê‚Í ReleaseFontTable ‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚é•K—v‚ª‚ ‚éBƒRƒ“ƒeƒLƒXƒg‚ÍÀÛ‚É‚Í‚æ‚è’áƒŒƒxƒ‹‚Ì IDWriteFontFileStream ‚©‚ç—ˆ‚Ä‚¨‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ü‚½‚Í DWrite ©‘Ì‚ªÀ‘•‚·‚éê‡‚ª‚ ‚éBÀ‘•‚ªƒtƒ@ƒCƒ‹‘S‘Ì‚É‘Î‚µ‚Ä’¼Úƒƒ‚ƒŠƒ}ƒbƒsƒ“ƒO‚ğs‚¤ê‡‚È‚Ç‚Í“Á‚ÉAtableContext ‚Æ‚µ‚Ä NULL ‚ª•Ô‚³‚ê‚é‰Â”\«‚ª‚ ‚éB‚»‚ê‚Å‚àAŒã‚Å•K‚¸‰ğ•ú‚µAŠÖ”‚Ì¬Œ÷ƒeƒXƒg‚Æ‚µ‚Äg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢B“¯‚¶ƒe[ƒuƒ‹‚ğ•¡”‰ñÆ‰ï‚Å‚«‚é‚ªA•Ô‚³‚ê‚éƒRƒ“ƒeƒLƒXƒg‚Í–ˆ‰ñˆÙ‚È‚éê‡‚ª‚ ‚é‚½‚ßAŠeƒRƒ“ƒeƒLƒXƒg‚ğŒÂ•Ê‚É‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
+exists : [var] Œ^: BOOL* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒtƒHƒ“ƒgƒe[ƒuƒ‹‚ª‘¶İ‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSEB
 %inst
-Finds the specified OpenType font table if it exists and returns a
-pointer to it. The function accesses the underlying font data through
-the IDWriteFontFileStream interface implemented by the font file
-loader.
+w’è‚³‚ê‚½ OpenType ƒtƒHƒ“ƒgƒe[ƒuƒ‹‚ª‘¶İ‚·‚éê‡A‚»‚ê‚ğŒŸõ‚µ‚Äƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B‚±‚ÌŠÖ”‚ÍAƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_[‚ªÀ‘•‚·‚é
+IDWriteFontFileStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ’Ê‚¶‚ÄŠî‘b‚Æ‚È‚éƒtƒHƒ“ƒgƒf[ƒ^‚ÉƒAƒNƒZƒX‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The context for the same tag may be different for each call, so each
-one must be held and released separately.
+“¯‚¶ƒ^ƒO‚É‘Î‚·‚éƒRƒ“ƒeƒLƒXƒg‚ÍŒÄ‚Ño‚µ‚²‚Æ‚ÉˆÙ‚È‚éê‡‚ª‚ ‚é‚½‚ßAŠeƒRƒ“ƒeƒLƒXƒg‚ğŒÂ•Ê‚É•Û‚µ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 IDWriteFontFace_ReleaseFontTable
-Releases the table obtained earlier from TryGetFontTable.
+TryGetFontTable ‚Åæ‚Éæ“¾‚µ‚½ƒe[ƒuƒ‹‚ğ‰ğ•ú‚·‚éB
 %group
 COM misc / IDWriteFontFace
 %prm
 this, tableContext
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-tableContext : [intptr] Type: void* A pointer to the opaque context from TryGetFontTable.
+tableContext : [intptr] Œ^: void* TryGetFontTable ‚©‚çæ“¾‚µ‚½•s“§–¾‚ÈƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Releases the table obtained earlier from TryGetFontTable.
+TryGetFontTable ‚Åæ‚Éæ“¾‚µ‚½ƒe[ƒuƒ‹‚ğ‰ğ•ú‚·‚éB
 
 
 %index
 IDWriteFontFace_GetGlyphRunOutline
-Computes the outline of a run of glyphs by calling back to the outline sink interface.
+ƒAƒEƒgƒ‰ƒCƒ“ƒVƒ“ƒNƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚ÌƒR[ƒ‹ƒoƒbƒN‚É‚æ‚Á‚ÄƒOƒŠƒt‚Ìƒ‰ƒ“‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚·‚éB
 %group
 COM misc / IDWriteFontFace
 %prm
 this, emSize, glyphIndices, glyphAdvances, glyphOffsets, glyphCount, isSideways, isRightToLeft, geometrySink
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-emSize : [float] Type: FLOAT The logical size of the font in DIP units. A DIP ("device-independent pixel") equals 1/96 inch.
-glyphIndices : [int] Type: const UINT16* An array of glyph indices. The glyphs are in logical order and the advance direction depends on the isRightToLeft parameter. The array must be allocated and be able to contain the number of elements specified by glyphCount.
-glyphAdvances : [var] Type: const FLOAT* An optional array of glyph advances in DIPs. The advance of a glyph is the amount to advance the position (in the direction of the baseline) after drawing the glyph. glyphAdvances contains the number of elements specified by glyphCount.
-glyphOffsets : [var] Type: const DWRITE_GLYPH_OFFSET* An optional array of glyph offsets, each of which specifies the offset along the baseline and offset perpendicular to the baseline of a glyph relative to the current pen position.   glyphOffsets contains the number of elements specified by glyphCount.
-glyphCount : [int] Type: UINT32 The number of glyphs in the run.
-isSideways : [int] Type: BOOL If TRUE, the ascender of the glyph runs alongside the baseline. If FALSE, the glyph ascender runs perpendicular to the baseline. For example, an English alphabet on a vertical baseline would have isSideways set to FALSE. A client can render a vertical run by setting isSideways to TRUE and rotating the resulting geometry 90 degrees to the right using a transform. The isSideways and isRightToLeft parameters cannot both be true.
-isRightToLeft : [int] Type: BOOL The visual order of the glyphs. If this parameter is FALSE, then glyph advances are from left to right. If TRUE, the advance direction is right to left. By default, the advance direction is left to right.
-geometrySink : [comobj] Type: IDWriteGeometrySink* A pointer to the interface that is called back to perform outline drawing operations.
+emSize : [float] Œ^: FLOAT ƒtƒHƒ“ƒg‚Ì˜_—ƒTƒCƒY (DIP ’PˆÊ)BDIP ("ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹") ‚Í 1/96 ƒCƒ“ƒ`‚É“™‚µ‚¢B
+glyphIndices : [int] Œ^: const UINT16* ƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚Ì”z—ñBƒOƒŠƒt‚Í˜_—‡‚ÅAƒAƒhƒoƒ“ƒX•ûŒü‚Í isRightToLeft ƒpƒ‰ƒ[ƒ^‚ÉˆË‘¶‚·‚éB”z—ñ‚ÍŠm•Û‚³‚êAglyphCount ‚Åw’è‚³‚ê‚½—v‘f”‚ğŠi”[‚Å‚«‚é•K—v‚ª‚ ‚éB
+glyphAdvances : [var] Œ^: const FLOAT* DIP ’PˆÊ‚ÌƒOƒŠƒtƒAƒhƒoƒ“ƒX‚ÌƒIƒvƒVƒ‡ƒ“”z—ñBƒOƒŠƒt‚ÌƒAƒhƒoƒ“ƒX‚Æ‚ÍAƒOƒŠƒt‚ğ•`‰æ‚µ‚½Œã‚Éƒx[ƒXƒ‰ƒCƒ“‚Ì•ûŒü‚ÉˆÊ’u‚ği‚ß‚é—Ê‚Å‚ ‚éBglyphAdvances ‚Í glyphCount ‚Åw’è‚³‚ê‚½—v‘f”‚ğŠÜ‚ŞB
+glyphOffsets : [var] Œ^: const DWRITE_GLYPH_OFFSET* ƒOƒŠƒtƒIƒtƒZƒbƒg‚ÌƒIƒvƒVƒ‡ƒ“”z—ñBŠeƒIƒtƒZƒbƒg‚ÍAŒ»İ‚Ìƒyƒ“ˆÊ’u‚É‘Î‚·‚éƒOƒŠƒt‚Ìƒx[ƒXƒ‰ƒCƒ“•ûŒü‚ÌƒIƒtƒZƒbƒg‚Æƒx[ƒXƒ‰ƒCƒ“‚É‚’¼‚È•ûŒü‚ÌƒIƒtƒZƒbƒg‚ğw’è‚·‚éBglyphOffsets ‚Í glyphCount ‚Åw’è‚³‚ê‚½—v‘f”‚ğŠÜ‚ŞB
+glyphCount : [int] Œ^: UINT32 ƒ‰ƒ““à‚ÌƒOƒŠƒt”B
+isSideways : [int] Œ^: BOOL TRUE ‚Ìê‡AƒOƒŠƒt‚ÌƒAƒZƒ“ƒ_‚Íƒx[ƒXƒ‰ƒCƒ“‚É‰ˆ‚Á‚Ä‘–‚éBFALSE ‚Ìê‡AƒOƒŠƒt‚ÌƒAƒZƒ“ƒ_‚Íƒx[ƒXƒ‰ƒCƒ“‚É‚’¼‚É‘–‚éB‚½‚Æ‚¦‚ÎA‚’¼‚Ìƒx[ƒXƒ‰ƒCƒ“ã‚Ì‰pŒêƒAƒ‹ƒtƒ@ƒxƒbƒg‚Å‚Í isSideways ‚Í FALSE ‚Éİ’è‚³‚ê‚éBƒNƒ‰ƒCƒAƒ“ƒg‚ÍAisSideways ‚ğ TRUE ‚Éİ’è‚µAŒ‹‰Ê‚ÌƒWƒIƒƒgƒŠ‚ğ•ÏŠ·‚ğg—p‚µ‚Ä‰E‚É 90 “x‰ñ“]‚·‚é‚±‚Æ‚ÅA‚’¼‚Ìƒ‰ƒ“‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO‚Å‚«‚éBisSideways ‚Æ isRightToLeft ‚Ìƒpƒ‰ƒ[ƒ^‚ğ—¼•û‚Æ‚à true ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+isRightToLeft : [int] Œ^: BOOL ƒOƒŠƒt‚Ì‹Šo“I‚È‡˜B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª FALSE ‚Ìê‡AƒOƒŠƒt‚ÌƒAƒhƒoƒ“ƒX‚Í¶‚©‚ç‰E‚Å‚ ‚éBTRUE ‚Ìê‡AƒAƒhƒoƒ“ƒX•ûŒü‚Í‰E‚©‚ç¶‚Å‚ ‚éBƒfƒtƒHƒ‹ƒg‚Å‚ÍAƒAƒhƒoƒ“ƒX•ûŒü‚Í¶‚©‚ç‰E‚Å‚ ‚éB
+geometrySink : [comobj] Œ^: IDWriteGeometrySink* ƒAƒEƒgƒ‰ƒCƒ“•`‰æ‘€ì‚ğÀs‚·‚é‚½‚ß‚ÉƒR[ƒ‹ƒoƒbƒN‚³‚ê‚éƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Computes the outline of a run of glyphs by calling back to the
-outline sink interface.
+ƒAƒEƒgƒ‰ƒCƒ“ƒVƒ“ƒNƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚ÌƒR[ƒ‹ƒoƒbƒN‚É‚æ‚Á‚ÄƒOƒŠƒt‚Ìƒ‰ƒ“‚ÌƒAƒEƒgƒ‰ƒCƒ“‚ğŒvZ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontFace_GetRecommendedRenderingMode
-Determines the recommended rendering mode for the font, using the specified size and rendering parameters. (IDWriteFontFace.GetRecommendedRenderingMode)
+w’è‚³‚ê‚½ƒTƒCƒY‚ÆƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^‚ğg—p‚µ‚ÄAƒtƒHƒ“ƒg‚Ì„§ƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğŒˆ’è‚·‚éB(IDWriteFontFace.GetRecommendedRenderingMode)
 %group
 COM misc / IDWriteFontFace
 %prm
 this, emSize, pixelsPerDip, measuringMode, renderingParams, renderingMode
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-emSize : [float] Type: FLOAT The logical size of the font in DIP units. A DIP ("device-independent pixel") equals 1/96 inch.
-pixelsPerDip : [float] Type: FLOAT The number of physical pixels per DIP. For example, if the DPI of the rendering surface is 96, this value is 1.0f. If the DPI is 120, this value is 120.0f/96.
-measuringMode : [int] Type: DWRITE_MEASURING_MODE The measuring method that will be used for glyphs in the font. Renderer implementations may choose different rendering modes for different measuring methods, for example:
-renderingParams : [comobj] Type: IDWriteRenderingParams* A pointer to an object that contains rendering settings such as gamma level, enhanced contrast, and ClearType level. This parameter is necessary in case the rendering parameters object overrides the rendering mode.
-renderingMode : [var] Type: DWRITE_RENDERING_MODE* When this method returns, contains a value that indicates the recommended rendering mode to use.
+emSize : [float] Œ^: FLOAT ƒtƒHƒ“ƒg‚Ì˜_—ƒTƒCƒY (DIP ’PˆÊ)BDIP ("ƒfƒoƒCƒX”ñˆË‘¶ƒsƒNƒZƒ‹") ‚Í 1/96 ƒCƒ“ƒ`‚É“™‚µ‚¢B
+pixelsPerDip : [float] Œ^: FLOAT DIP ‚ ‚½‚è‚Ì•¨—ƒsƒNƒZƒ‹”B‚½‚Æ‚¦‚ÎAƒŒƒ“ƒ_ƒŠƒ“ƒOƒT[ƒtƒFƒX‚Ì DPI ‚ª 96 ‚Ìê‡A‚±‚Ì’l‚Í 1.0f ‚Å‚ ‚éBDPI ‚ª 120 ‚Ìê‡A‚±‚Ì’l‚Í 120.0f/96 ‚Å‚ ‚éB
+measuringMode : [int] Œ^: DWRITE_MEASURING_MODE ƒtƒHƒ“ƒg“à‚ÌƒOƒŠƒt‚Ég—p‚³‚ê‚é‘ª’è•û–@BƒŒƒ“ƒ_ƒ‰[‚ÌÀ‘•‚Í‘ª’è•û–@‚²‚Æ‚ÉˆÙ‚È‚éƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğ‘I‘ğ‚·‚éê‡‚ª‚ ‚éB—á:
+renderingParams : [comobj] Œ^: IDWriteRenderingParams* ƒKƒ“ƒ}ƒŒƒxƒ‹A‹­’²ƒRƒ“ƒgƒ‰ƒXƒgAClearType ƒŒƒxƒ‹‚È‚Ç‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒOİ’è‚ğŠÜ‚ŞƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ªƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğƒI[ƒo[ƒ‰ƒCƒh‚·‚éê‡‚É•K—v‚Æ‚È‚éB
+renderingMode : [var] Œ^: DWRITE_RENDERING_MODE* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAg—p‚·‚×‚«„§ƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğ¦‚·’l‚ğŠi”[‚·‚éB
 %inst
-Determines the recommended rendering mode for the font, using the
-specified size and rendering parameters.
-(IDWriteFontFace.GetRecommendedRenderingMode)
+
+w’è‚³‚ê‚½ƒTƒCƒY‚ÆƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^‚ğg—p‚µ‚ÄAƒtƒHƒ“ƒg‚Ì„§ƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğŒˆ’è‚·‚éB(IDWriteFontFace.GetRecommendedRenderingMode)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontFace_GetGdiCompatibleMetrics
-Obtains design units and common metrics for the font face. These metrics are applicable to all the glyphs within a fontface and are used by applications for layout calculations.
+ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒfƒUƒCƒ“’PˆÊ‚Æ‹¤’Ê‚ÌƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB‚±‚ê‚ç‚ÌƒƒgƒŠƒNƒX‚ÍƒtƒHƒ“ƒgƒtƒFƒCƒX“à‚Ì‚·‚×‚Ä‚ÌƒOƒŠƒt‚É“K—p‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒŒƒCƒAƒEƒgŒvZ‚Ég—p‚·‚éB
 %group
 COM misc / IDWriteFontFace
 %prm
 this, emSize, pixelsPerDip, transform, fontFaceMetrics
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-emSize : [float] Type: **FLOAT** The logical size of the font in DIP units.
-pixelsPerDip : [float] Type: **FLOAT** The number of physical pixels per DIP.
-transform : [var] Type: **const [**DWRITE\_MATRIX**](/windows/win32/api/dwrite/ns-dwrite-dwrite_matrix)\*** An optional transform applied to the glyphs and their positions. This transform is applied after the scaling specified by the font size and *pixelsPerDip*.
-fontFaceMetrics : [var] Type: **[**DWRITE\_FONT\_METRICS**](/windows/win32/api/dwrite/ns-dwrite-dwrite_font_metrics)\*** A pointer to a [**DWRITE\_FONT\_METRIC**](/windows/win32/api/dwrite/ns-dwrite-dwrite_font_metrics)S structure to fill in. The metrics returned by this function are in font design units.
+emSize : [float] Œ^: **FLOAT** ƒtƒHƒ“ƒg‚Ì˜_—ƒTƒCƒY (DIP ’PˆÊ)B
+pixelsPerDip : [float] Œ^: **FLOAT** DIP ‚ ‚½‚è‚Ì•¨—ƒsƒNƒZƒ‹”B
+transform : [var] Œ^: **const [**DWRITE\_MATRIX**](/windows/win32/api/dwrite/ns-dwrite-dwrite_matrix)\*** ƒOƒŠƒt‚Æ‚»‚ÌˆÊ’u‚É“K—p‚³‚ê‚éƒIƒvƒVƒ‡ƒ“‚Ì•ÏŠ·B‚±‚Ì•ÏŠ·‚ÍƒtƒHƒ“ƒgƒTƒCƒY‚Æ *pixelsPerDip* ‚Åw’è‚³‚ê‚½ƒXƒP[ƒŠƒ“ƒO‚ÌŒã‚É“K—p‚³‚ê‚éB
+fontFaceMetrics : [var] Œ^: **[**DWRITE\_FONT\_METRICS**](/windows/win32/api/dwrite/ns-dwrite-dwrite_font_metrics)\*** –„‚ß‚é [**DWRITE\_FONT\_METRIC**](/windows/win32/api/dwrite/ns-dwrite-dwrite_font_metrics)S \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌŠÖ”‚ª•Ô‚·ƒƒgƒŠƒNƒX‚ÍƒtƒHƒ“ƒgƒfƒUƒCƒ“’PˆÊ‚Å‚ ‚éB
 %inst
-Obtains design units and common metrics for the font face. These
-metrics are applicable to all the glyphs within a fontface and are
-used by applications for layout calculations.
+
+ƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÌƒfƒUƒCƒ“’PˆÊ‚Æ‹¤’Ê‚ÌƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB‚±‚ê‚ç‚ÌƒƒgƒŠƒNƒX‚ÍƒtƒHƒ“ƒgƒtƒFƒCƒX“à‚Ì‚·‚×‚Ä‚ÌƒOƒŠƒt‚É“K—p‚³‚êAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒŒƒCƒAƒEƒgŒvZ‚Ég—p‚·‚éB
 
 [–ß‚è’l]
-Type: **HRESULT** Standard HRESULT error code.
+Œ^: **HRESULT** •W€‚Ì HRESULT ƒGƒ‰[ƒR[ƒhB
 
 
 %index
 IDWriteFontFace_GetGdiCompatibleGlyphMetrics
-Obtains glyph metrics in font design units with the return values compatible with what GDI would produce.
+GDI ‚ª¶¬‚·‚é‚à‚Ì‚ÆŒİŠ·«‚Ì‚ ‚é–ß‚è’l‚ÅAƒtƒHƒ“ƒgƒfƒUƒCƒ“’PˆÊ‚ÌƒOƒŠƒtƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontFace
 %prm
 this, emSize, pixelsPerDip, transform, useGdiNatural, glyphIndices, glyphCount, glyphMetrics, isSideways
 this : [comobj] IDWriteFontFace ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-emSize : [float] Type: **FLOAT** The ogical size of the font in DIP units.
-pixelsPerDip : [float] Type: **FLOAT** The number of physical pixels per DIP.
-transform : [var] Type: **const [**DWRITE\_MATRIX**](/windows/win32/api/dwrite/ns-dwrite-dwrite_matrix)\*** An optional transform applied to the glyphs and their positions. This transform is applied after the scaling specified by the font size and *pixelsPerDip*.
-useGdiNatural : [int] Type: **BOOL** When set to **FALSE**, the metrics are the same as the metrics of GDI aliased text. When set to **TRUE**, the metrics are the same as the metrics of text measured by GDI using a font created with **CLEARTYPE\_NATURAL\_QUALITY**.
-glyphIndices : [int] Type: **const UINT16\*** An array of glyph indices for which to compute the metrics.
-glyphCount : [int] Type: **UINT32** The number of elements in the *glyphIndices* array.
-glyphMetrics : [var] Type: **[**DWRITE\_GLYPH\_METRICS**](/windows/win32/api/dwrite/ns-dwrite-dwrite_glyph_metrics)\*** An array of [**DWRITE\_GLYPH\_METRICS**](/windows/win32/api/dwrite/ns-dwrite-dwrite_glyph_metrics) structures filled by this function. The metrics are in font design units.
-isSideways : [int] Type: **BOOL** A BOOL value that indicates whether the font is being used in a sideways run. This can affect the glyph metrics if the font has oblique simulation because sideways oblique simulation differs from non-sideways oblique simulation.
+emSize : [float] Œ^: **FLOAT** ƒtƒHƒ“ƒg‚Ì˜_—ƒTƒCƒY (DIP ’PˆÊ)B
+pixelsPerDip : [float] Œ^: **FLOAT** DIP ‚ ‚½‚è‚Ì•¨—ƒsƒNƒZƒ‹”B
+transform : [var] Œ^: **const [**DWRITE\_MATRIX**](/windows/win32/api/dwrite/ns-dwrite-dwrite_matrix)\*** ƒOƒŠƒt‚Æ‚»‚ÌˆÊ’u‚É“K—p‚³‚ê‚éƒIƒvƒVƒ‡ƒ“‚Ì•ÏŠ·B‚±‚Ì•ÏŠ·‚ÍƒtƒHƒ“ƒgƒTƒCƒY‚Æ *pixelsPerDip* ‚Åw’è‚³‚ê‚½ƒXƒP[ƒŠƒ“ƒO‚ÌŒã‚É“K—p‚³‚ê‚éB
+useGdiNatural : [int] Œ^: **BOOL** **FALSE** ‚Éİ’è‚·‚é‚ÆAƒƒgƒŠƒNƒX‚Í GDI ‚ÌƒGƒCƒŠƒAƒXƒeƒLƒXƒg‚ÌƒƒgƒŠƒNƒX‚Æ“¯‚¶‚É‚È‚éB**TRUE** ‚Éİ’è‚·‚é‚ÆAƒƒgƒŠƒNƒX‚Í **CLEARTYPE\_NATURAL\_QUALITY** ‚Åì¬‚µ‚½ƒtƒHƒ“ƒg‚ğg—p‚µ‚Ä GDI ‚Å‘ª’è‚µ‚½ƒeƒLƒXƒg‚ÌƒƒgƒŠƒNƒX‚Æ“¯‚¶‚É‚È‚éB
+glyphIndices : [int] Œ^: **const UINT16\*** ƒƒgƒŠƒNƒX‚ğŒvZ‚·‚éƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚Ì”z—ñB
+glyphCount : [int] Œ^: **UINT32** *glyphIndices* ”z—ñ‚Ì—v‘f”B
+glyphMetrics : [var] Œ^: **[**DWRITE\_GLYPH\_METRICS**](/windows/win32/api/dwrite/ns-dwrite-dwrite_glyph_metrics)\*** ‚±‚ÌŠÖ”‚ª–„‚ß‚é [**DWRITE\_GLYPH\_METRICS**](/windows/win32/api/dwrite/ns-dwrite-dwrite_glyph_metrics) \‘¢‘Ì‚Ì”z—ñBƒƒgƒŠƒNƒX‚ÍƒtƒHƒ“ƒgƒfƒUƒCƒ“’PˆÊ‚Å‚ ‚éB
+isSideways : [int] Œ^: **BOOL** ƒtƒHƒ“ƒg‚ª‰¡Œü‚«ƒ‰ƒ“‚Åg—p‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚· BOOL ’lBƒtƒHƒ“ƒg‚ÉÎ‘ÌƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚ª“K—p‚³‚ê‚Ä‚¢‚éê‡A‰¡Œü‚«‚ÌÎ‘ÌƒVƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚Í”ñ‰¡Œü‚«‚Ì‚à‚Ì‚Æ‚ÍˆÙ‚È‚é‚½‚ßAƒOƒŠƒtƒƒgƒŠƒNƒX‚É‰e‹¿‚·‚é‰Â”\«‚ª‚ ‚éB
 %inst
-Obtains glyph metrics in font design units with the return values
-compatible with what GDI would produce.
+GDI ‚ª¶¬‚·‚é‚à‚Ì‚ÆŒİŠ·«‚Ì‚ ‚é–ß‚è’l‚ÅAƒtƒHƒ“ƒgƒfƒUƒCƒ“’PˆÊ‚ÌƒOƒŠƒtƒƒgƒŠƒNƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: **HRESULT** Standard **HRESULT** error code. If any of the
-input glyph indices are outside of the valid glyph index range for
-the current font face, **E\_INVALIDARG** will be returned.
+Œ^: **HRESULT** •W€‚Ì **HRESULT**
+ƒGƒ‰[ƒR[ƒhB“ü—ÍƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚Ì‚¢‚¸‚ê‚©‚ªŒ»İ‚ÌƒtƒHƒ“ƒgƒtƒFƒCƒX‚Ì—LŒø‚ÈƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX”ÍˆÍŠO‚É‚ ‚éê‡‚Í
+**E\_INVALIDARG** ‚ª•Ô‚³‚ê‚éB
 
 
 %index
@@ -9330,731 +9026,661 @@ font : [comobj]
 
 %index
 IDWriteFontFamily_GetFamilyNames
-Creates a localized strings object that contains the family names for the font family, indexed by locale name. (IDWriteFontFamily.GetFamilyNames)
+ƒƒP[ƒ‹–¼‚ÅƒCƒ“ƒfƒbƒNƒX•t‚¯‚³‚ê‚½AƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[‚Ìƒtƒ@ƒ~ƒŠ[–¼‚ğŠÜ‚Şƒ[ƒJƒ‰ƒCƒYƒh•¶š—ñƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB(IDWriteFontFamily.GetFamilyNames)
 %group
 COM misc / IDWriteFontFamily
 %prm
 this, names
 this : [comobj] IDWriteFontFamily ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-names : [comobj] Type: IDWriteLocalizedStrings** The address of a pointer to the newly created IDWriteLocalizedStrings object.
+names : [comobj] Œ^: IDWriteLocalizedStrings** V‚µ‚­ì¬‚³‚ê‚½ IDWriteLocalizedStrings ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
-Creates a localized strings object that contains the family names for
-the font family, indexed by locale name.
-(IDWriteFontFamily.GetFamilyNames)
+
+ƒƒP[ƒ‹–¼‚ÅƒCƒ“ƒfƒbƒNƒX•t‚¯‚³‚ê‚½AƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[‚Ìƒtƒ@ƒ~ƒŠ[–¼‚ğŠÜ‚Şƒ[ƒJƒ‰ƒCƒYƒh•¶š—ñƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB(IDWriteFontFamily.GetFamilyNames)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The following code example shows how to get the font family name from
-a IDWriteFontFamily object.
-This doc was truncated.
+Ÿ‚ÌƒR[ƒh—á‚Í IDWriteFontFamily ƒIƒuƒWƒFƒNƒg‚©‚çƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[–¼‚ğæ“¾‚·‚é•û–@‚ğ¦‚·B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDWriteFontFamily_GetFirstMatchingFont
-Gets the font that best matches the specified properties.
+w’è‚µ‚½ƒvƒƒpƒeƒB‚ÉÅ‚àˆê’v‚·‚éƒtƒHƒ“ƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontFamily
 %prm
 this, weight, stretch, style, matchingFont
 this : [comobj] IDWriteFontFamily ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-weight : [int] Type: DWRITE_FONT_WEIGHT A value that is used to match a requested font weight.
-stretch : [int] Type: DWRITE_FONT_STRETCH A value that is used to match a requested font stretch.
-style : [int] Type: DWRITE_FONT_STYLE A value that is used to match a requested font style.
-matchingFont : [comobj] Type: IDWriteFont** When this method returns, contains the address of a pointer to the newly created IDWriteFont object.
+weight : [int] Œ^: DWRITE_FONT_WEIGHT —v‹‚·‚éƒtƒHƒ“ƒgƒEƒFƒCƒg‚Éˆê’v‚³‚¹‚é‚½‚ß‚Ég—p‚³‚ê‚é’lB
+stretch : [int] Œ^: DWRITE_FONT_STRETCH —v‹‚·‚éƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚Éˆê’v‚³‚¹‚é‚½‚ß‚Ég—p‚³‚ê‚é’lB
+style : [int] Œ^: DWRITE_FONT_STYLE —v‹‚·‚éƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹‚Éˆê’v‚³‚¹‚é‚½‚ß‚Ég—p‚³‚ê‚é’lB
+matchingFont : [comobj] Œ^: IDWriteFont** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­ì¬‚³‚ê‚½ IDWriteFont ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Gets the font that best matches the specified properties.
+w’è‚µ‚½ƒvƒƒpƒeƒB‚ÉÅ‚àˆê’v‚·‚éƒtƒHƒ“ƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontFamily_GetMatchingFonts
-Gets a list of fonts in the font family ranked in order of how well they match the specified properties.
+w’è‚µ‚½ƒvƒƒpƒeƒB‚Æ‚Ìˆê’v“x‚Ì‚‚¢‡‚É•À‚×‚½ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[“à‚ÌƒtƒHƒ“ƒgˆê——‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontFamily
 %prm
 this, weight, stretch, style, matchingFonts
 this : [comobj] IDWriteFontFamily ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-weight : [int] Type: DWRITE_FONT_WEIGHT A value that is used to match a requested font weight.
-stretch : [int] Type: DWRITE_FONT_STRETCH A value that is used to match a requested font stretch.
-style : [int] Type: DWRITE_FONT_STYLE A value that is used to match a requested font style.
-matchingFonts : [comobj] Type: IDWriteFontList** An address of a pointer to the newly created IDWriteFontList object.
+weight : [int] Œ^: DWRITE_FONT_WEIGHT —v‹‚·‚éƒtƒHƒ“ƒgƒEƒFƒCƒg‚Éˆê’v‚³‚¹‚é‚½‚ß‚Ég—p‚³‚ê‚é’lB
+stretch : [int] Œ^: DWRITE_FONT_STRETCH —v‹‚·‚éƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚Éˆê’v‚³‚¹‚é‚½‚ß‚Ég—p‚³‚ê‚é’lB
+style : [int] Œ^: DWRITE_FONT_STYLE —v‹‚·‚éƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹‚Éˆê’v‚³‚¹‚é‚½‚ß‚Ég—p‚³‚ê‚é’lB
+matchingFonts : [comobj] Œ^: IDWriteFontList** V‚µ‚­ì¬‚³‚ê‚½ IDWriteFontList ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
-Gets a list of fonts in the font family ranked in order of how well
-they match the specified properties.
+w’è‚µ‚½ƒvƒƒpƒeƒB‚Æ‚Ìˆê’v“x‚Ì‚‚¢‡‚É•À‚×‚½ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[“à‚ÌƒtƒHƒ“ƒgˆê——‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontFile_GetReferenceKey
-Obtains the pointer to the reference key of a font file. The returned pointer is valid until the font file object is released.
+ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌQÆƒL[‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB•Ô‚³‚ê‚½ƒ|ƒCƒ“ƒ^‚ÍƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚ª‰ğ•ú‚³‚ê‚é‚Ü‚Å—LŒø‚Å‚ ‚éB
 %group
 COM misc / IDWriteFontFile
 %prm
 this, fontFileReferenceKey, fontFileReferenceKeySize
 this : [comobj] IDWriteFontFile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFileReferenceKey : [var] Type: const void** When this method returns, contains an address of  a pointer to the font file reference key. Note that the pointer value is only valid until the font file object it is obtained from is released. This parameter is passed uninitialized.
-fontFileReferenceKeySize : [int] Type: UINT32* When this method returns, contains the size of the font file reference key in bytes. This parameter is passed uninitialized.
+fontFileReferenceKey : [var] Œ^: const void** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹QÆƒL[‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB‚È‚¨A‚±‚Ìƒ|ƒCƒ“ƒ^‚Ì’l‚ÍA‚»‚ê‚ğæ“¾‚µ‚½ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚ª‰ğ•ú‚³‚ê‚é‚Ü‚Å‚ÌŠÔ‚Ì‚İ—LŒø‚Å‚ ‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚³‚ê‚éB
+fontFileReferenceKeySize : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹QÆƒL[‚ÌƒTƒCƒY‚ğƒoƒCƒg’PˆÊ‚ÅŠi”[‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚³‚ê‚éB
 %inst
-Obtains the pointer to the reference key of a font file. The returned
-pointer is valid until the font file object is released.
+ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌQÆƒL[‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB•Ô‚³‚ê‚½ƒ|ƒCƒ“ƒ^‚ÍƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚ª‰ğ•ú‚³‚ê‚é‚Ü‚Å—LŒø‚Å‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontFile_GetLoader
-Obtains the file loader associated with a font file object.
+ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹ƒ[ƒ_‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontFile
 %prm
 this, fontFileLoader
 this : [comobj] IDWriteFontFile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFileLoader : [comobj] Type: IDWriteFontFileLoader** When this method returns, contains the address of  a pointer to the font file loader associated with the font file object.
+fontFileLoader : [comobj] Œ^: IDWriteFontFileLoader** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒ[ƒ_‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Obtains the file loader associated with a font file object.
+ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹ƒ[ƒ_‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontFile_Analyze
-Analyzes a file and returns whether it represents a font, and whether the font type is supported by the font system.
+ƒtƒ@ƒCƒ‹‚ğ‰ğÍ‚µA‚»‚ê‚ªƒtƒHƒ“ƒg‚ğ•\‚µ‚Ä‚¢‚é‚©A‚Ü‚½‚»‚ÌƒtƒHƒ“ƒgí•Ê‚ªƒtƒHƒ“ƒgƒVƒXƒeƒ€‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚ğ•Ô‚·B
 %group
 COM misc / IDWriteFontFile
 %prm
 this, isSupportedFontType, fontFileType, fontFaceType, numberOfFaces
 this : [comobj] IDWriteFontFile ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-isSupportedFontType : [var] Type: BOOL* TRUE if the font type is supported by the font system; otherwise, FALSE.
-fontFileType : [var] Type: DWRITE_FONT_FILE_TYPE* When this method returns, contains a value that indicates the type of the font file. Note that even if  isSupportedFontType is FALSE, the fontFileType value may be different from DWRITE_FONT_FILE_TYPE_UNKNOWN.
-fontFaceType : [var] Type: DWRITE_FONT_FACE_TYPE* When this method returns, contains a value that indicates the type of the font face. If fontFileType is not equal to DWRITE_FONT_FILE_TYPE_UNKNOWN, then that can be constructed from the font file.
-numberOfFaces : [int] Type: UINT32* When this method returns, contains the number of font faces contained in the font file.
+isSupportedFontType : [var] Œ^: BOOL* ƒtƒHƒ“ƒg‚Ìí—Ş‚ªƒtƒHƒ“ƒgƒVƒXƒeƒ€‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSEB
+fontFileType : [var] Œ^: DWRITE_FONT_FILE_TYPE* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚Ìí—Ş‚ğ¦‚·’l‚ğŠi”[‚·‚éB‚½‚Æ‚¦ isSupportedFontType ‚ª FALSE ‚Å‚ ‚Á‚Ä‚àAfontFileType ‚Ì’l‚Í DWRITE_FONT_FILE_TYPE_UNKNOWN ‚ÆˆÙ‚È‚éê‡‚ª‚ ‚é‚±‚Æ‚É’ˆÓB
+fontFaceType : [var] Œ^: DWRITE_FONT_FACE_TYPE* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒtƒHƒ“ƒgƒtƒFƒCƒX‚Ìí—Ş‚ğ¦‚·’l‚ğŠi”[‚·‚éBfontFileType ‚ª DWRITE_FONT_FILE_TYPE_UNKNOWN ‚Æ“™‚µ‚­‚È‚¢ê‡A‚»‚Ì’l‚©‚çƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚©‚çƒtƒHƒ“ƒgƒtƒFƒCƒX‚ğ\’z‚Å‚«‚éB
+numberOfFaces : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÉŠÜ‚Ü‚ê‚éƒtƒHƒ“ƒgƒtƒFƒCƒX‚Ì”‚ğŠi”[‚·‚éB
 %inst
-Analyzes a file and returns whether it represents a font, and whether
-the font type is supported by the font system.
+ƒtƒ@ƒCƒ‹‚ğ‰ğÍ‚µA‚»‚ê‚ªƒtƒHƒ“ƒg‚ğ•\‚µ‚Ä‚¢‚é‚©A‚Ü‚½‚»‚ÌƒtƒHƒ“ƒgí•Ê‚ªƒtƒHƒ“ƒgƒVƒXƒeƒ€‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Important Certain font file types are recognized, but not supported
-by the font system. For example, the font system will recognize a
-file as a Type 1 font file but will not be able to construct a font
-face object from it. In such situations, Analyze will set
-isSupportedFontType output parameter to FALSE.
+d—v ˆê•”‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹í•Ê‚Í”F¯‚Í‚³‚ê‚é‚ªƒtƒHƒ“ƒgƒVƒXƒeƒ€‚Å‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B‚½‚Æ‚¦‚ÎƒtƒHƒ“ƒgƒVƒXƒeƒ€‚Íƒtƒ@ƒCƒ‹‚ğ Type 1
+ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚Æ‚µ‚Ä”F¯‚Å‚«‚é‚ªA‚»‚ê‚©‚çƒtƒHƒ“ƒgƒtƒFƒCƒXƒIƒuƒWƒFƒNƒg‚ğ\’z‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B‚±‚Ì‚æ‚¤‚Èó‹µ‚Å‚Í Analyze
+‚Ío—Íƒpƒ‰ƒ[ƒ^ isSupportedFontType ‚ğ FALSE ‚Éİ’è‚·‚éB
 
 
 %index
 IDWriteFontFileEnumerator_MoveNext
-Advances to the next font file in the collection. When it is first created, the enumerator is positioned before the first element of the collection and the first call to MoveNext advances to the first file.
+ƒRƒŒƒNƒVƒ‡ƒ““à‚ÌŸ‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚Öi‚ŞBì¬’¼Œã‚Ì—ñ‹“q‚ÍƒRƒŒƒNƒVƒ‡ƒ“‚ÌÅ‰‚Ì—v‘f‚æ‚è‘O‚ÉˆÊ’u‚µ‚Ä‚¨‚èAÅ‰‚Ì MoveNext ‚ÌŒÄ‚Ño‚µ‚Åæ“ª‚Ìƒtƒ@ƒCƒ‹‚Öi‚ŞB
 %group
 COM misc / IDWriteFontFileEnumerator
 %prm
 this, hasCurrentFile
 this : [comobj] IDWriteFontFileEnumerator ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hasCurrentFile : [var] Type: BOOL* When the method returns, contains  the value TRUE if the enumerator advances to a file; otherwise, FALSE if the enumerator advances past the last file in the collection.
+hasCurrentFile : [var] Œ^: BOOL* ƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A—ñ‹“q‚ªƒtƒ@ƒCƒ‹‚Öi‚ñ‚¾ê‡‚Í TRUEAƒRƒŒƒNƒVƒ‡ƒ““à‚ÌÅŒã‚Ìƒtƒ@ƒCƒ‹‚ğ‰z‚¦‚½ê‡‚Í FALSE ‚ªŠi”[‚³‚ê‚éB
 %inst
-Advances to the next font file in the collection. When it is first
-created, the enumerator is positioned before the first element of the
-collection and the first call to MoveNext advances to the first file.
+ƒRƒŒƒNƒVƒ‡ƒ““à‚ÌŸ‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚Öi‚ŞBì¬’¼Œã‚Ì—ñ‹“q‚ÍƒRƒŒƒNƒVƒ‡ƒ“‚ÌÅ‰‚Ì—v‘f‚æ‚è‘O‚ÉˆÊ’u‚µ‚Ä‚¨‚èAÅ‰‚Ì MoveNext
+‚ÌŒÄ‚Ño‚µ‚Åæ“ª‚Ìƒtƒ@ƒCƒ‹‚Öi‚ŞB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontFileEnumerator_GetCurrentFontFile
-Gets a reference to the current font file.
+Œ»İ‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚Ö‚ÌQÆ‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontFileEnumerator
 %prm
 this, fontFile
 this : [comobj] IDWriteFontFileEnumerator ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFile : [comobj] Type: IDWriteFontFile** When this method returns, the address of a pointer to the newly created IDWriteFontFile  object.
+fontFile : [comobj] Œ^: IDWriteFontFile** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­ì¬‚³‚ê‚½ IDWriteFontFile ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
-Gets a reference to the current font file.
+Œ»İ‚ÌƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚Ö‚ÌQÆ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontFileLoader_CreateStreamFromKey
-Creates a font file stream object that encapsulates an open file resource.
+ƒI[ƒvƒ“‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒŠƒ\[ƒX‚ğƒJƒvƒZƒ‹‰»‚·‚éƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 COM misc / IDWriteFontFileLoader
 %prm
 this, fontFileReferenceKey, fontFileReferenceKeySize, fontFileStream
 this : [comobj] IDWriteFontFileLoader ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFileReferenceKey : [intptr] Type: const void* A pointer to a font file reference key that uniquely identifies the font file resource within the scope of the font loader being used. The buffer allocated for this key must at least be the size, in bytes, specified by  fontFileReferenceKeySize.
-fontFileReferenceKeySize : [int] Type: UINT32 The size of font file reference key, in bytes.
-fontFileStream : [comobj] Type: IDWriteFontFileStream** When this method returns, contains the address of a pointer to the newly created IDWriteFontFileStream object.
+fontFileReferenceKey : [intptr] Œ^: const void* g—p‚µ‚Ä‚¢‚éƒtƒHƒ“ƒgƒ[ƒ_‚ÌƒXƒR[ƒv“à‚ÅƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒŠƒ\[ƒX‚ğˆêˆÓ‚É¯•Ê‚·‚éƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹QÆƒL[‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒL[‚ÉŠ„‚è“–‚Ä‚éƒoƒbƒtƒ@‚Í­‚È‚­‚Æ‚à fontFileReferenceKeySize ‚Åw’è‚³‚ê‚½ƒoƒCƒg”‚ğ‚½‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+fontFileReferenceKeySize : [int] Œ^: UINT32 ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹QÆƒL[‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
+fontFileStream : [comobj] Œ^: IDWriteFontFileStream** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­ì¬‚³‚ê‚½ IDWriteFontFileStream ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Creates a font file stream object that encapsulates an open file
-resource.
+ƒI[ƒvƒ“‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒŠƒ\[ƒX‚ğƒJƒvƒZƒ‹‰»‚·‚éƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The resource is closed when the last reference to fontFileStream is
-released.
+ƒŠƒ\[ƒX‚Í fontFileStream ‚Ö‚ÌÅŒã‚ÌQÆ‚ª‰ğ•ú‚³‚ê‚½“_‚ÅƒNƒ[ƒY‚³‚ê‚éB
 
 
 %index
 IDWriteFontFileStream_ReadFileFragment
-Reads a fragment from a font file.
+ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚©‚çƒtƒ‰ƒOƒƒ“ƒg‚ğ“Ç‚İ‚ŞB
 %group
 COM misc / IDWriteFontFileStream
 %prm
 this, fragmentStart, fileOffset, fragmentSize, fragmentContext
 this : [comobj] IDWriteFontFileStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fragmentStart : [var] Type: const void** When this method returns, contains an address of a  pointer to the start of the font file fragment.  This parameter is passed uninitialized.
-fileOffset : [int64] Type: UINT64 The offset of the fragment, in bytes, from the beginning of the font file.
-fragmentSize : [int64] Type: UINT64 The size of the file fragment, in bytes.
-fragmentContext : [var] Type: void** When this method returns, contains the address of a pointer to a pointer to the client-defined context to be passed to ReleaseFileFragment.
+fragmentStart : [var] Œ^: const void** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒtƒ‰ƒOƒƒ“ƒg‚Ìæ“ª‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í–¢‰Šú‰»‚Ìó‘Ô‚Å“n‚³‚ê‚éB
+fileOffset : [int64] Œ^: UINT64 ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚Ìæ“ª‚©‚ç‚Ìƒtƒ‰ƒOƒƒ“ƒg‚ÌƒIƒtƒZƒbƒg (ƒoƒCƒg’PˆÊ)B
+fragmentSize : [int64] Œ^: UINT64 ƒtƒ@ƒCƒ‹ƒtƒ‰ƒOƒƒ“ƒg‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)B
+fragmentContext : [var] Œ^: void** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AReleaseFileFragment ‚É“n‚·ƒNƒ‰ƒCƒAƒ“ƒg’è‹`‚ÌƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Reads a fragment from a font file.
+ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚©‚çƒtƒ‰ƒOƒƒ“ƒg‚ğ“Ç‚İ‚ŞB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Note that ReadFileFragment implementations must check whether the
-requested font file fragment is within the file bounds. Otherwise, an
-error should be returned from ReadFileFragment.
-DirectWrite may invoke IDWriteFontFileStream methods on the same
-object from multiple threads simultaneously. Therefore,
-ReadFileFragment implementations that rely on internal mutable state
-must serialize access to such state across multiple threads. For
-example, an implementation that uses separate Seek and Read
-operations to read a file fragment must place the code block
-containing Seek and Read calls under a lock or a critical section.
+ReadFileFragment
+‚ÌÀ‘•‚Å‚ÍA—v‹‚³‚ê‚½ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹ƒtƒ‰ƒOƒƒ“ƒg‚ªƒtƒ@ƒCƒ‹‹«ŠE“à‚É‚ ‚é‚©‚ğ•K‚¸Šm”F‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¯‚ê‚Î
+ReadFileFragment ‚©‚çƒGƒ‰[‚ğ•Ô‚·‚×‚«‚Å‚ ‚éBDirectWrite ‚Í“¯‚¶ƒIƒuƒWƒFƒNƒgã‚Ì
+IDWriteFontFileStream ƒƒ\ƒbƒh‚ğ•¡”‚ÌƒXƒŒƒbƒh‚©‚ç“¯‚ÉŒÄ‚Ño‚·‚±‚Æ‚ª‚ ‚éB‚µ‚½‚ª‚Á‚ÄA“à•”‚Ì‰Â•Ïó‘Ô‚ÉˆË‘¶‚·‚é
+ReadFileFragment
+‚ÌÀ‘•‚ÍA•¡”ƒXƒŒƒbƒh‚©‚ç‚Ì‚»‚Ìó‘Ô‚Ö‚ÌƒAƒNƒZƒX‚ğ’¼—ñ‰»‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚½‚Æ‚¦‚ÎAƒtƒ@ƒCƒ‹ƒtƒ‰ƒOƒƒ“ƒg‚ğ“Ç‚İ‚Ş‚½‚ß‚É Seek ‚Æ
+Read ‘€ì‚ğ•ÊX‚És‚¤À‘•‚ÍASeek ‚Æ Read
+‚ÌŒÄ‚Ño‚µ‚ğŠÜ‚ŞƒR[ƒhƒuƒƒbƒN‚ğƒƒbƒN‚Ü‚½‚ÍƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“‚Ì‰º‚É’u‚­•K—v‚ª‚ ‚éB
 
 
 %index
 IDWriteFontFileStream_ReleaseFileFragment
-Releases a fragment from a file.
+ƒtƒ@ƒCƒ‹‚©‚çƒtƒ‰ƒOƒƒ“ƒg‚ğ‰ğ•ú‚·‚éB
 %group
 COM misc / IDWriteFontFileStream
 %prm
 this, fragmentContext
 this : [comobj] IDWriteFontFileStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fragmentContext : [intptr] Type: void* A pointer to the client-defined context of a font fragment returned from ReadFileFragment.
+fragmentContext : [intptr] Œ^: void* ReadFileFragment ‚©‚ç•Ô‚³‚ê‚½ƒtƒHƒ“ƒgƒtƒ‰ƒOƒƒ“ƒg‚ÌƒNƒ‰ƒCƒAƒ“ƒg’è‹`ƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Releases a fragment from a file.
+ƒtƒ@ƒCƒ‹‚©‚çƒtƒ‰ƒOƒƒ“ƒg‚ğ‰ğ•ú‚·‚éB
 
 
 %index
 IDWriteFontFileStream_GetFileSize
-Obtains the total size of a file.
+ƒtƒ@ƒCƒ‹‚Ì‘ƒTƒCƒY‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontFileStream
 %prm
 this, fileSize
 this : [comobj] IDWriteFontFileStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fileSize : [int64] Type: UINT64* When this method returns, contains the total size of the file.
+fileSize : [int64] Œ^: UINT64* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aƒtƒ@ƒCƒ‹‚Ì‘ƒTƒCƒY‚ğŠi”[‚·‚éB
 %inst
-Obtains the total size of a file.
+ƒtƒ@ƒCƒ‹‚Ì‘ƒTƒCƒY‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Implementing GetFileSize() for asynchronously loaded font files may
-require downloading the complete file contents. Therefore, this
-method should be used only for operations that either require a
-complete font file to be loaded (for example, copying a font file) or
-that need to make decisions based on the value of the file size (for
-example, validation against a persisted file size).
+”ñ“¯Šú‚Éƒ[ƒh‚³‚ê‚éƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚É‘Î‚µ‚Ä GetFileSize()
+‚ğÀ‘•‚·‚éê‡Aƒtƒ@ƒCƒ‹‚Ì“à—e‚ğŠ®‘S‚Éƒ_ƒEƒ“ƒ[ƒh‚·‚é•K—v‚ª‚ ‚é‚±‚Æ‚ª‚ ‚éB‚µ‚½‚ª‚Á‚ÄA‚±‚Ìƒƒ\ƒbƒh‚ÍƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‘S‘Ì‚ğƒ[ƒh‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‘€ìi—á:
+ƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹‚ÌƒRƒs[j‚âAƒtƒ@ƒCƒ‹ƒTƒCƒY‚Ì’l‚ÉŠî‚Ã‚¢‚Ä”»’f‚ğ‰º‚·•K—v‚ª‚ ‚é‘€ìi—á:
+‰i‘±‰»‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒTƒCƒY‚Æ‚ÌÆ‡j‚É‚Ì‚İg—p‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 IDWriteFontFileStream_GetLastWriteTime
-Obtains the last modified time of the file.
+ƒtƒ@ƒCƒ‹‚ÌÅIXV‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontFileStream
 %prm
 this, lastWriteTime
 this : [comobj] IDWriteFontFileStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-lastWriteTime : [int64] Type: UINT64* When this method returns, contains  the last modified time of the file in the format that represents the number of 100-nanosecond intervals since January 1, 1601 (UTC).
+lastWriteTime : [int64] Œ^: UINT64* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aƒtƒ@ƒCƒ‹‚ÌÅIXV‚ğA1601 ”N 1 Œ 1 “ú (UTC) ‚©‚ç”‚¦‚½ 100 ƒiƒm•bŠÔŠu‚Ì”‚ğ•\‚·Œ`®‚ÅŠi”[‚·‚éB
 %inst
-Obtains the last modified time of the file.
+ƒtƒ@ƒCƒ‹‚ÌÅIXV‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The "last modified time" is used by DirectWrite font selection
-algorithms to determine whether one font resource is more up to date
-than another one.
+uÅIXVv‚Í DirectWrite
+‚ÌƒtƒHƒ“ƒg‘I‘ğƒAƒ‹ƒSƒŠƒYƒ€‚ªA‚ ‚éƒtƒHƒ“ƒgƒŠƒ\[ƒX‚ª•Ê‚ÌƒŠƒ\[ƒX‚æ‚èV‚µ‚¢‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚½‚ß‚Ég—p‚·‚éB
 
 
 %index
 IDWriteFontList_GetFontCollection
-Gets the font collection that contains the fonts in the font list.
+ƒtƒHƒ“ƒgƒŠƒXƒg‚ÉŠÜ‚Ü‚ê‚éƒtƒHƒ“ƒg‚ğ•Û‚·‚éƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontList
 %prm
 this, fontCollection
 this : [comobj] IDWriteFontList ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontCollection : [comobj] Type: IDWriteFontCollection** When this method returns, contains the address of a pointer to the current IDWriteFontCollection object.
+fontCollection : [comobj] Œ^: IDWriteFontCollection** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AŒ»İ‚Ì IDWriteFontCollection ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Gets the font collection that contains the fonts in the font list.
+ƒtƒHƒ“ƒgƒŠƒXƒg‚ÉŠÜ‚Ü‚ê‚éƒtƒHƒ“ƒg‚ğ•Û‚·‚éƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteFontList_GetFontCount
-Gets the number of fonts in the font list.
+ƒtƒHƒ“ƒgƒŠƒXƒg“à‚ÌƒtƒHƒ“ƒg‚Ì”‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteFontList
 %prm
 this
 this : [comobj] IDWriteFontList ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the number of fonts in the font list.
+ƒtƒHƒ“ƒgƒŠƒXƒg“à‚ÌƒtƒHƒ“ƒg‚Ì”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: UINT32 The number of fonts in the font list.
+Œ^: UINT32 ƒtƒHƒ“ƒgƒŠƒXƒg“à‚ÌƒtƒHƒ“ƒg‚Ì”B
 
 
 %index
 IDWriteFontList_GetFont
-Gets a font given its zero-based index. (IDWriteFontList.GetFont)
+0 ‹N“_‚ÌƒCƒ“ƒfƒbƒNƒX‚©‚çƒtƒHƒ“ƒg‚ğæ“¾‚·‚éB(IDWriteFontList.GetFont)
 %group
 COM misc / IDWriteFontList
 %prm
 this, index, font
 this : [comobj] IDWriteFontList ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-index : [int] Type: UINT32 Zero-based index of the font in the font list.
-font : [comobj] Type: IDWriteFont** When this method returns, contains the address of a pointer to the newly created IDWriteFont object.
+index : [int] Œ^: UINT32 ƒtƒHƒ“ƒgƒŠƒXƒg“à‚ÌƒtƒHƒ“ƒg‚Ì 0 ‹N“_‚ÌƒCƒ“ƒfƒbƒNƒXB
+font : [comobj] Œ^: IDWriteFont** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­ì¬‚³‚ê‚½ IDWriteFont ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Gets a font given its zero-based index. (IDWriteFontList.GetFont)
+0 ‹N“_‚ÌƒCƒ“ƒfƒbƒNƒX‚©‚çƒtƒHƒ“ƒg‚ğæ“¾‚·‚éB(IDWriteFontList.GetFont)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteGdiInterop_CreateFontFromLOGFONT
-Creates a font object that matches the properties specified by the LOGFONT structure. (IDWriteGdiInterop.CreateFontFromLOGFONT)
+LOGFONT \‘¢‘Ì‚Åw’è‚³‚ê‚½ƒvƒƒpƒeƒB‚Éˆê’v‚·‚éƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB(IDWriteGdiInterop.CreateFontFromLOGFONT)
 %group
 COM misc / IDWriteGdiInterop
 %prm
 this, logFont, font
 this : [comobj] IDWriteGdiInterop ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-logFont : [var] Type: const LOGFONTW* A structure containing a GDI-compatible font description.
-font : [comobj] Type: IDWriteFont** When this method returns, contains an address of a  pointer to a newly created IDWriteFont  object if successful; otherwise, NULL.
+logFont : [var] Œ^: const LOGFONTW* GDI ŒİŠ·‚ÌƒtƒHƒ“ƒg‹Lq‚ğŠÜ‚Ş\‘¢‘ÌB
+font : [comobj] Œ^: IDWriteFont** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A¬Œ÷‚µ‚½ê‡‚ÍV‚µ‚­¶¬‚³‚ê‚½ IDWriteFont ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB‚»‚êˆÈŠO‚Ìê‡‚Í NULLB
 %inst
-Creates a font object that matches the properties specified by the
-LOGFONT structure. (IDWriteGdiInterop.CreateFontFromLOGFONT)
+LOGFONT
+\‘¢‘Ì‚Åw’è‚³‚ê‚½ƒvƒƒpƒeƒB‚Éˆê’v‚·‚éƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB(IDWriteGdiInterop.CreateFontFromLOGFONT)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteGdiInterop_ConvertFontToLOGFONT
-Initializes a LOGFONT structure based on the GDI-compatible properties of the specified font. (IDWriteGdiInterop.ConvertFontToLOGFONT)
+w’èƒtƒHƒ“ƒg‚Ì GDI ŒİŠ·ƒvƒƒpƒeƒB‚ÉŠî‚Ã‚¢‚Ä LOGFONT \‘¢‘Ì‚ğ‰Šú‰»‚·‚éB(IDWriteGdiInterop.ConvertFontToLOGFONT)
 %group
 COM misc / IDWriteGdiInterop
 %prm
 this, font, logFont, isSystemFont
 this : [comobj] IDWriteGdiInterop ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-font : [comobj] Type: IDWriteFont* An IDWriteFont object to be converted into a GDI-compatible LOGFONT structure.
-logFont : [var] Type: LOGFONTW* When this method returns, contains a structure that receives a GDI-compatible font description.
-isSystemFont : [var] Type: BOOL* When this method returns, contains TRUE if the specified font object is part of the system font collection; otherwise, FALSE.
+font : [comobj] Œ^: IDWriteFont* GDI ŒİŠ·‚Ì LOGFONT \‘¢‘Ì‚É•ÏŠ·‚·‚é IDWriteFont ƒIƒuƒWƒFƒNƒgB
+logFont : [var] Œ^: LOGFONTW* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AGDI ŒİŠ·‚ÌƒtƒHƒ“ƒg‹Lq‚ğó‚¯æ‚é\‘¢‘Ì‚ğŠi”[‚·‚éB
+isSystemFont : [var] Œ^: BOOL* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aw’èƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒg‚ªƒVƒXƒeƒ€ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚Ìˆê•”‚Å‚ ‚ê‚Î TRUEA‚»‚¤‚Å‚È‚¯‚ê‚Î FALSE ‚ğŠi”[‚·‚éB
 %inst
-Initializes a LOGFONT structure based on the GDI-compatible
-properties of the specified font.
-(IDWriteGdiInterop.ConvertFontToLOGFONT)
+w’èƒtƒHƒ“ƒg‚Ì GDI ŒİŠ·ƒvƒƒpƒeƒB‚ÉŠî‚Ã‚¢‚Ä LOGFONT
+\‘¢‘Ì‚ğ‰Šú‰»‚·‚éB(IDWriteGdiInterop.ConvertFontToLOGFONT)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The conversion to a LOGFONT by using ConvertFontToLOGFONT operates at
-the logical font level and does not guarantee that it will map to a
-specific physical font. It is not guaranteed that GDI will select the
-same physical font for displaying text formatted by a LOGFONT as the
-IDWriteFont object that was converted.
+ConvertFontToLOGFONT ‚É‚æ‚é LOGFONT
+‚Ö‚Ì•ÏŠ·‚Í˜_—ƒtƒHƒ“ƒgƒŒƒxƒ‹‚Å“®ì‚·‚é‚½‚ßA“Á’è‚Ì•¨—ƒtƒHƒ“ƒg‚Éƒ}ƒbƒv‚³‚ê‚é‚±‚Æ‚ğ•ÛØ‚µ‚È‚¢B•ÏŠ·Œ³‚Ì IDWriteFont
+ƒIƒuƒWƒFƒNƒg‚ÆALOGFONT ‚ÅƒtƒH[ƒ}ƒbƒg‚³‚ê‚½ƒeƒLƒXƒg‚Ì•`‰æ‚É GDI ‚ª“¯‚¶•¨—ƒtƒHƒ“ƒg‚ğ‘I‘ğ‚·‚é•ÛØ‚Í‚È‚¢B
 
 
 %index
 IDWriteGdiInterop_ConvertFontFaceToLOGFONT
-Initializes a LOGFONT structure based on the GDI-compatible properties of the specified font. (IDWriteGdiInterop.ConvertFontFaceToLOGFONT)
+w’èƒtƒHƒ“ƒg‚Ì GDI ŒİŠ·ƒvƒƒpƒeƒB‚ÉŠî‚Ã‚¢‚Ä LOGFONT \‘¢‘Ì‚ğ‰Šú‰»‚·‚éB(IDWriteGdiInterop.ConvertFontFaceToLOGFONT)
 %group
 COM misc / IDWriteGdiInterop
 %prm
 this, font, logFont
 this : [comobj] IDWriteGdiInterop ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-font : [comobj] Type: IDWriteFontFace* An IDWriteFontFace object to be converted into a GDI-compatible LOGFONT structure.
-logFont : [var] Type: LOGFONTW* When this method returns, contains a pointer to a structure that receives a GDI-compatible font description.
+font : [comobj] Œ^: IDWriteFontFace* GDI ŒİŠ·‚Ì LOGFONT \‘¢‘Ì‚É•ÏŠ·‚·‚é IDWriteFontFace ƒIƒuƒWƒFƒNƒgB
+logFont : [var] Œ^: LOGFONTW* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AGDI ŒİŠ·‚ÌƒtƒHƒ“ƒg‹Lq‚ğó‚¯æ‚é\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Initializes a LOGFONT structure based on the GDI-compatible
-properties of the specified font.
-(IDWriteGdiInterop.ConvertFontFaceToLOGFONT)
+w’èƒtƒHƒ“ƒg‚Ì GDI ŒİŠ·ƒvƒƒpƒeƒB‚ÉŠî‚Ã‚¢‚Ä LOGFONT
+\‘¢‘Ì‚ğ‰Šú‰»‚·‚éB(IDWriteGdiInterop.ConvertFontFaceToLOGFONT)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The conversion to a LOGFONT by using ConvertFontFaceToLOGFONT
-operates at the logical font level and does not guarantee that it
-will map to a specific physical font. It is not guaranteed that GDI
-will select the same physical font for displaying text formatted by a
-LOGFONT as the IDWriteFont object that was converted.
+ConvertFontFaceToLOGFONT ‚É‚æ‚é LOGFONT
+‚Ö‚Ì•ÏŠ·‚Í˜_—ƒtƒHƒ“ƒgƒŒƒxƒ‹‚Å“®ì‚·‚é‚½‚ßA“Á’è‚Ì•¨—ƒtƒHƒ“ƒg‚Éƒ}ƒbƒv‚³‚ê‚é‚±‚Æ‚ğ•ÛØ‚µ‚È‚¢B•ÏŠ·Œ³‚Ì IDWriteFont
+ƒIƒuƒWƒFƒNƒg‚ÆALOGFONT ‚ÅƒtƒH[ƒ}ƒbƒg‚³‚ê‚½ƒeƒLƒXƒg‚Ì•`‰æ‚É GDI ‚ª“¯‚¶•¨—ƒtƒHƒ“ƒg‚ğ‘I‘ğ‚·‚é•ÛØ‚Í‚È‚¢B
 
 
 %index
 IDWriteGdiInterop_CreateFontFaceFromHdc
-Creates an IDWriteFontFace object that corresponds to the currently selected HFONT of the specified HDC.
+w’è‚µ‚½ HDC ‚ÉŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é HFONT ‚É‘Î‰‚·‚é IDWriteFontFace ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 %group
 COM misc / IDWriteGdiInterop
 %prm
 this, hdc, fontFace
 this : [comobj] IDWriteGdiInterop ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hdc : [intptr] Type: HDC A handle to a device context into which a font has been selected. It is assumed that the client has already performed font mapping and that the font selected into the device context is the actual font to be used for rendering glyphs.
-fontFace : [comobj] Type: IDWriteFontFace** Contains an address of a pointer to  the newly created font face object, or NULL in case of failure. The font face returned is guaranteed to reference the same physical typeface that would be used for drawing glyphs (but not necessarily characters) using ExtTextOut.
+hdc : [intptr] Œ^: HDC ƒtƒHƒ“ƒg‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹BƒNƒ‰ƒCƒAƒ“ƒg‚Í‚·‚Å‚ÉƒtƒHƒ“ƒgƒ}ƒbƒsƒ“ƒO‚ğÀsÏ‚İ‚Å‚ ‚èAƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚É‘I‘ğ‚³‚ê‚Ä‚¢‚éƒtƒHƒ“ƒg‚ªƒOƒŠƒt‚Ì•`‰æ‚Ég—p‚³‚ê‚éÀÛ‚ÌƒtƒHƒ“ƒg‚Å‚ ‚é‚Æ‘z’è‚³‚ê‚éB
+fontFace : [comobj] Œ^: IDWriteFontFace** V‚µ‚­¶¬‚³‚ê‚½ƒtƒHƒ“ƒgƒtƒFƒCƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB¸”s‚µ‚½ê‡‚Í NULLB•Ô‚³‚ê‚éƒtƒHƒ“ƒgƒtƒFƒCƒX‚ÍAExtTextOut ‚ğg—p‚µ‚½ƒOƒŠƒt (•K‚¸‚µ‚à•¶š‚Å‚Í‚È‚¢) •`‰æ‚Ég‚í‚ê‚é‚Ì‚Æ“¯‚¶•¨—‘‘Ì‚ğQÆ‚·‚é‚±‚Æ‚ª•ÛØ‚³‚ê‚éB
 %inst
-Creates an IDWriteFontFace object that corresponds to the currently
-selected HFONT of the specified HDC.
+w’è‚µ‚½ HDC ‚ÉŒ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é HFONT ‚É‘Î‰‚·‚é IDWriteFontFace ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This function is intended for scenarios in which an application wants
-to use GDI and Uniscribe 1.x for text layout and shaping, but
-DirectWrite for final rendering. This function assumes the client is
-performing text output using glyph indexes.
+‚±‚ÌŠÖ”‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒeƒLƒXƒgƒŒƒCƒAƒEƒg‚ÆƒVƒFƒCƒsƒ“ƒO‚É GDI ‚¨‚æ‚Ñ Uniscribe 1.x ‚ğg—p‚µ‚Â‚ÂAÅI“I‚È•`‰æ‚É
+DirectWrite
+‚ğg—p‚·‚éƒVƒiƒŠƒI‚ğ‘z’è‚µ‚Ä‚¢‚éB‚±‚ÌŠÖ”‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ªƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚É‚æ‚éƒeƒLƒXƒgo—Í‚ğs‚Á‚Ä‚¢‚é‚±‚Æ‚ğ‘O’ñ‚Æ‚·‚éB
 
 
 %index
 IDWriteGdiInterop_CreateBitmapRenderTarget
-Creates an object that encapsulates a bitmap and memory DC (device context) which can be used for rendering glyphs.
+ƒOƒŠƒt•`‰æ‚Ég—p‚Å‚«‚éƒrƒbƒgƒ}ƒbƒv‚Æƒƒ‚ƒŠ DC (ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg) ‚ğƒJƒvƒZƒ‹‰»‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 %group
 COM misc / IDWriteGdiInterop
 %prm
 this, hdc, width, height, renderTarget
 this : [comobj] IDWriteGdiInterop ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hdc : [intptr] Type: HDC A handle to the optional device context used to create a compatible memory DC (device context).
-width : [int] Type: UINT32 The width of the bitmap render target.
-height : [int] Type: UINT32 The height of the bitmap render target.
-renderTarget : [comobj] Type: IDWriteBitmapRenderTarget** When this method returns, contains an address of a pointer to the newly created IDWriteBitmapRenderTarget object.
+hdc : [intptr] Œ^: HDC ŒİŠ·‚Ìƒƒ‚ƒŠ DC (ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg) ‚ğ¶¬‚·‚é‚½‚ß‚Ég—p‚·‚éƒIƒvƒVƒ‡ƒ“‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒnƒ“ƒhƒ‹B
+width : [int] Œ^: UINT32 ƒrƒbƒgƒ}ƒbƒvƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì•B
+height : [int] Œ^: UINT32 ƒrƒbƒgƒ}ƒbƒvƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì‚‚³B
+renderTarget : [comobj] Œ^: IDWriteBitmapRenderTarget** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AV‚µ‚­¶¬‚³‚ê‚½ IDWriteBitmapRenderTarget ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Creates an object that encapsulates a bitmap and memory DC (device
-context) which can be used for rendering glyphs.
+ƒOƒŠƒt•`‰æ‚Ég—p‚Å‚«‚éƒrƒbƒgƒ}ƒbƒv‚Æƒƒ‚ƒŠ DC (ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg) ‚ğƒJƒvƒZƒ‹‰»‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteGlyphRunAnalysis_GetAlphaTextureBounds
-Gets the bounding rectangle of the physical pixels affected by the glyph run.
+ƒOƒŠƒtƒ‰ƒ“‚Ì‰e‹¿‚ğó‚¯‚é•¨—ƒsƒNƒZƒ‹‚Ì‹«ŠE‹éŒ`‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteGlyphRunAnalysis
 %prm
 this, textureType, textureBounds
 this : [comobj] IDWriteGlyphRunAnalysis ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textureType : [int] Type: DWRITE_TEXTURE_TYPE Specifies the type of texture requested. If a bi-level texture is requested, the bounding rectangle includes only bi-level glyphs. Otherwise, the bounding rectangle includes only antialiased glyphs.
-textureBounds : [var] Type: RECT* When this method returns, contains the bounding rectangle of the physical pixels affected by the glyph run, or an empty rectangle if there are no glyphs of the specified texture type.
+textureType : [int] Œ^: DWRITE_TEXTURE_TYPE —v‹‚·‚éƒeƒNƒXƒ`ƒƒ‚Ìí•Ê‚ğw’è‚·‚éBƒoƒCƒŒƒxƒ‹ƒeƒNƒXƒ`ƒƒ‚ğ—v‹‚µ‚½ê‡A‹«ŠE‹éŒ`‚É‚ÍƒoƒCƒŒƒxƒ‹‚ÌƒOƒŠƒt‚Ì‚İ‚ªŠÜ‚Ü‚ê‚éB‚»‚êˆÈŠO‚Ìê‡‚ÍƒAƒ“ƒ`ƒGƒCƒŠƒAƒX‚³‚ê‚½ƒOƒŠƒt‚Ì‚İ‚ªŠÜ‚Ü‚ê‚éB
+textureBounds : [var] Œ^: RECT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒOƒŠƒtƒ‰ƒ“‚Ì‰e‹¿‚ğó‚¯‚é•¨—ƒsƒNƒZƒ‹‚Ì‹«ŠE‹éŒ`‚ğŠi”[‚·‚éBw’è‚µ‚½ƒeƒNƒXƒ`ƒƒí•Ê‚ÌƒOƒŠƒt‚ª‘¶İ‚µ‚È‚¢ê‡‚Í‹ó‚Ì‹éŒ`‚ğŠi”[‚·‚éB
 %inst
-Gets the bounding rectangle of the physical pixels affected by the
-glyph run.
+ƒOƒŠƒtƒ‰ƒ“‚Ì‰e‹¿‚ğó‚¯‚é•¨—ƒsƒNƒZƒ‹‚Ì‹«ŠE‹éŒ`‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteGlyphRunAnalysis_CreateAlphaTexture
-Creates an alpha texture of the specified type for glyphs within a specified bounding rectangle.
+w’è‚³‚ê‚½‹«ŠE‹éŒ`“à‚ÌƒOƒŠƒt‚É‘Î‚µ‚ÄAw’è‚³‚ê‚½í—Ş‚ÌƒAƒ‹ƒtƒ@ƒeƒNƒXƒ`ƒƒ‚ğì¬‚·‚éB
 %group
 COM misc / IDWriteGlyphRunAnalysis
 %prm
 this, textureType, textureBounds, alphaValues, bufferSize
 this : [comobj] IDWriteGlyphRunAnalysis ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textureType : [int] Type: DWRITE_TEXTURE_TYPE A value that specifies the type of texture requested. This can be DWRITE_TEXTURE_BILEVEL_1x1 or DWRITE_TEXTURE_CLEARTYPE_3x1. If a bi-level texture is requested, the texture contains only bi-level glyphs. Otherwise, the texture contains only antialiased glyphs.
-textureBounds : [var] Type: const RECT* The bounding rectangle of the texture, which can be different than the bounding rectangle returned by GetAlphaTextureBounds.
-alphaValues : [int] Type: BYTE* When this method returns, contains  the array of alpha values from the texture. The buffer allocated for this array must be at least the size of bufferSize.
-bufferSize : [int] Type: UINT32 The size of the alphaValues array, in bytes. The minimum size depends on the dimensions of the rectangle and the type of texture requested.
+textureType : [int] Œ^: DWRITE_TEXTURE_TYPE —v‹‚·‚éƒeƒNƒXƒ`ƒƒ‚Ìí•Ê‚ğw’è‚·‚é’lBDWRITE_TEXTURE_BILEVEL_1x1 ‚Ü‚½‚Í DWRITE_TEXTURE_CLEARTYPE_3x1 ‚ğw’è‚Å‚«‚éBƒoƒCƒŒƒxƒ‹ƒeƒNƒXƒ`ƒƒ‚ğ—v‹‚µ‚½ê‡AƒeƒNƒXƒ`ƒƒ‚É‚ÍƒoƒCƒŒƒxƒ‹‚ÌƒOƒŠƒt‚Ì‚İ‚ªŠÜ‚Ü‚ê‚éB‚»‚êˆÈŠO‚Ìê‡‚ÍƒAƒ“ƒ`ƒGƒCƒŠƒAƒX‚³‚ê‚½ƒOƒŠƒt‚Ì‚İ‚ªŠÜ‚Ü‚ê‚éB
+textureBounds : [var] Œ^: const RECT* ƒeƒNƒXƒ`ƒƒ‚Ì‹«ŠE‹éŒ`BGetAlphaTextureBounds ‚ª•Ô‚·‹«ŠE‹éŒ`‚ÆˆÙ‚È‚Á‚Ä‚¢‚Ä‚à‚æ‚¢B
+alphaValues : [int] Œ^: BYTE* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒeƒNƒXƒ`ƒƒ‚©‚çæ“¾‚µ‚½ƒAƒ‹ƒtƒ@’l‚Ì”z—ñ‚ğŠi”[‚·‚éB‚±‚Ì”z—ñ‚ÉŠm•Û‚·‚éƒoƒbƒtƒ@‚Í­‚È‚­‚Æ‚à bufferSize ‚ÌƒTƒCƒY‚ª•K—v‚Å‚ ‚éB
+bufferSize : [int] Œ^: UINT32 alphaValues ”z—ñ‚ÌƒTƒCƒY (ƒoƒCƒg’PˆÊ)BÅ¬ƒTƒCƒY‚Í‹éŒ`‚Ì¡–@‚Æ—v‹‚·‚éƒeƒNƒXƒ`ƒƒí•Ê‚ÉˆË‘¶‚·‚éB
 %inst
-Creates an alpha texture of the specified type for glyphs within a
-specified bounding rectangle.
+w’è‚³‚ê‚½‹«ŠE‹éŒ`“à‚ÌƒOƒŠƒt‚É‘Î‚µ‚ÄAw’è‚³‚ê‚½í—Ş‚ÌƒAƒ‹ƒtƒ@ƒeƒNƒXƒ`ƒƒ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteGlyphRunAnalysis_GetAlphaBlendParams
-Gets alpha blending properties required for ClearType blending.
+ClearType ƒuƒŒƒ“ƒh‚É•K—v‚ÈƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh‚ÌƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteGlyphRunAnalysis
 %prm
 this, renderingParams, blendGamma, blendEnhancedContrast, blendClearTypeLevel
 this : [comobj] IDWriteGlyphRunAnalysis ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-renderingParams : [comobj] Type: IDWriteRenderingParams* An object that specifies the ClearType level and enhanced contrast, gamma, pixel geometry, and rendering mode. In most cases, the values returned by the output parameters of this method are based on the properties of this object, unless a GDI-compatible rendering mode was specified.
-blendGamma : [float] Type: FLOAT* When this method returns, contains  the gamma value to use for gamma correction.
-blendEnhancedContrast : [float] Type: FLOAT* When this method returns, contains the enhanced contrast value to be used for blending.
-blendClearTypeLevel : [float] Type: FLOAT* When this method returns, contains  the ClearType level used in the alpha blending.
+renderingParams : [comobj] Œ^: IDWriteRenderingParams* ClearType ƒŒƒxƒ‹A‹­’²ƒRƒ“ƒgƒ‰ƒXƒgAƒKƒ“ƒ}AƒsƒNƒZƒ‹ƒWƒIƒƒgƒŠAƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğw’è‚·‚éƒIƒuƒWƒFƒNƒgBGDI ŒİŠ·‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ªw’è‚³‚ê‚Ä‚¢‚éê‡‚ğœ‚«A‚±‚Ìƒƒ\ƒbƒh‚Ìo—Íƒpƒ‰ƒ[ƒ^‚ª•Ô‚·’l‚Ì‘½‚­‚Í‚±‚ÌƒIƒuƒWƒFƒNƒg‚ÌƒvƒƒpƒeƒB‚ÉŠî‚Ã‚­B
+blendGamma : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒKƒ“ƒ}•â³‚Ég—p‚·‚éƒKƒ“ƒ}’l‚ğŠi”[‚·‚éB
+blendEnhancedContrast : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒuƒŒƒ“ƒh‚Ég—p‚³‚ê‚é‹­’²ƒRƒ“ƒgƒ‰ƒXƒg’l‚ğŠi”[‚·‚éB
+blendClearTypeLevel : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh‚Ég—p‚³‚ê‚é ClearType ƒŒƒxƒ‹‚ğŠi”[‚·‚éB
 %inst
-Gets alpha blending properties required for ClearType blending.
+ClearType ƒuƒŒƒ“ƒh‚É•K—v‚ÈƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh‚ÌƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteInlineObject_Draw
-The application implemented rendering callback (IDWriteTextRenderer::DrawInlineObject) can use this to draw the inline object without needing to cast or query the object type. The text layout does not call this method directly.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªÀ‘•‚·‚é•`‰æƒR[ƒ‹ƒoƒbƒN (IDWriteTextRenderer::DrawInlineObject) ‚ÍAƒIƒuƒWƒFƒNƒgŒ^‚ğƒLƒƒƒXƒg‚Ü‚½‚ÍƒNƒGƒŠ‚¹‚¸‚ÉƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğ•`‰æ‚·‚é‚½‚ß‚É‚±‚Ìƒƒ\ƒbƒh‚ğ—˜—p‚Å‚«‚éBƒeƒLƒXƒgƒŒƒCƒAƒEƒg‚Í‚±‚Ìƒƒ\ƒbƒh‚ğ’¼ÚŒÄ‚Ño‚³‚È‚¢B
 %group
 COM misc / IDWriteInlineObject
 %prm
 this, clientDrawingContext, renderer, originX, originY, isSideways, isRightToLeft, clientDrawingEffect
 this : [comobj] IDWriteInlineObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-clientDrawingContext : [intptr] Type: void* The drawing context passed to IDWriteTextLayout::Draw.  This parameter may be NULL.
-renderer : [comobj] Type: IDWriteTextRenderer* The same renderer passed to IDWriteTextLayout::Draw as the object's containing parent.  This is useful if the inline object is recursive such as a nested layout.
-originX : [float] Type: FLOAT The x-coordinate at the upper-left corner of the inline object.
-originY : [float] Type: FLOAT The y-coordinate at the upper-left corner of the inline object.
-isSideways : [int] Type: BOOL A Boolean flag that indicates whether the object's baseline runs alongside the baseline axis of the line.
-isRightToLeft : [int] Type: BOOL A Boolean flag that indicates whether the object is in a right-to-left context and should be drawn flipped.
-clientDrawingEffect : [int] Type: IUnknown* The drawing effect set in IDWriteTextLayout::SetDrawingEffect.  Usually this effect is a foreground brush that  is used in glyph drawing.
+clientDrawingContext : [intptr] Œ^: void* IDWriteTextLayout::Draw ‚É“n‚³‚ê‚½•`‰æƒRƒ“ƒeƒLƒXƒgB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«‚éB
+renderer : [comobj] Œ^: IDWriteTextRenderer* ƒIƒuƒWƒFƒNƒg‚ğ•ïŠÜ‚·‚ée‚Æ‚µ‚Ä IDWriteTextLayout::Draw ‚É“n‚³‚ê‚½‚Ì‚Æ“¯‚¶ƒŒƒ“ƒ_ƒ‰[BƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ªƒlƒXƒg‚³‚ê‚½ƒŒƒCƒAƒEƒg‚È‚ÇÄ‹A“I‚Èê‡‚É—L—p‚Å‚ ‚éB
+originX : [float] Œ^: FLOAT ƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚Ì¶ã‹÷‚Ì x À•WB
+originY : [float] Œ^: FLOAT ƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚Ì¶ã‹÷‚Ì y À•WB
+isSideways : [int] Œ^: BOOL ƒIƒuƒWƒFƒNƒg‚Ìƒx[ƒXƒ‰ƒCƒ“‚ªs‚Ìƒx[ƒXƒ‰ƒCƒ“²‚É‰ˆ‚Á‚Ä‘–‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒu[ƒŠƒAƒ“ƒtƒ‰ƒOB
+isRightToLeft : [int] Œ^: BOOL ƒIƒuƒWƒFƒNƒg‚ª‰E‚©‚ç¶‚Ö‚ÌƒRƒ“ƒeƒLƒXƒg‚É‚ ‚èA”½“]‚µ‚Ä•`‰æ‚·‚×‚«‚©‚Ç‚¤‚©‚ğ¦‚·ƒu[ƒŠƒAƒ“ƒtƒ‰ƒOB
+clientDrawingEffect : [int] Œ^: IUnknown* IDWriteTextLayout::SetDrawingEffect ‚Åİ’è‚³‚ê‚½•`‰æŒø‰ÊB’Êí‚±‚ÌŒø‰Ê‚ÍƒOƒŠƒt•`‰æ‚Å—p‚¢‚é‘OŒiƒuƒ‰ƒV‚Å‚ ‚éB
 %inst
-The application implemented rendering callback
-(IDWriteTextRenderer::DrawInlineObject) can use this to draw the
-inline object without needing to cast or query the object type. The
-text layout does not call this method directly.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªÀ‘•‚·‚é•`‰æƒR[ƒ‹ƒoƒbƒN (IDWriteTextRenderer::DrawInlineObject)
+‚ÍAƒIƒuƒWƒFƒNƒgŒ^‚ğƒLƒƒƒXƒg‚Ü‚½‚ÍƒNƒGƒŠ‚¹‚¸‚ÉƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğ•`‰æ‚·‚é‚½‚ß‚É‚±‚Ìƒƒ\ƒbƒh‚ğ—˜—p‚Å‚«‚éBƒeƒLƒXƒgƒŒƒCƒAƒEƒg‚Í‚±‚Ìƒƒ\ƒbƒh‚ğ’¼ÚŒÄ‚Ño‚³‚È‚¢B
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteInlineObject_GetMetrics
-IDWriteTextLayout calls this callback function to get the measurement of the inline object.
+IDWriteTextLayout ‚ÍƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ÌŒv‘ª’l‚ğæ“¾‚·‚é‚½‚ß‚É‚±‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·B
 %group
 COM misc / IDWriteInlineObject
 %prm
 this, metrics
 this : [comobj] IDWriteInlineObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-metrics : [var] Type: DWRITE_INLINE_OBJECT_METRICS* When this method returns, contains a structure describing the geometric measurement of an application-defined inline object.  These metrics are in relation to the baseline of the adjacent text.
+metrics : [var] Œ^: DWRITE_INLINE_OBJECT_METRICS* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ÌŠô‰½Šw“IŒv‘ª‚ğ‹Lq‚·‚é\‘¢‘Ì‚ğŠi”[‚·‚éB‚±‚ê‚ç‚ÌƒƒgƒŠƒNƒX‚Í—×ÚƒeƒLƒXƒg‚Ìƒx[ƒXƒ‰ƒCƒ“‚ğŠî€‚Æ‚·‚éB
 %inst
-IDWriteTextLayout calls this callback function to get the measurement
-of the inline object.
+IDWriteTextLayout ‚ÍƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ÌŒv‘ª’l‚ğæ“¾‚·‚é‚½‚ß‚É‚±‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·B
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteInlineObject_GetOverhangMetrics
-IDWriteTextLayout calls this callback function to get the visible extents (in DIPs) of the inline object. In the case of a simple bitmap, with no padding and no overhang, all the overhangs will simply be zeroes.
+IDWriteTextLayout ‚ÍƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚Ì‰Â‹”ÍˆÍ (DIP ’PˆÊ) ‚ğæ“¾‚·‚é‚½‚ß‚É‚±‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·BƒpƒfƒBƒ“ƒO‚â‚Í‚İo‚µ‚Ì‚È‚¢’Pƒ‚Èƒrƒbƒgƒ}ƒbƒv‚Ìê‡A‚·‚×‚Ä‚Ì‚Í‚İo‚µ‚Í’Pƒ‚Éƒ[ƒ‚Æ‚È‚éB
 %group
 COM misc / IDWriteInlineObject
 %prm
 this, overhangs
 this : [comobj] IDWriteInlineObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-overhangs : [var] Type: **[**DWRITE\_OVERHANG\_METRICS**](/windows/win32/api/dwrite/ns-dwrite-dwrite_overhang_metrics)\*** Overshoot of visible extents (in DIPs) outside the object.
+overhangs : [var] Œ^: **[**DWRITE\_OVERHANG\_METRICS**](/windows/win32/api/dwrite/ns-dwrite-dwrite_overhang_metrics)\*** ƒIƒuƒWƒFƒNƒgŠO‚Ö‚Ì‰Â‹”ÍˆÍ‚Ì‚Í‚İo‚µ (DIP ’PˆÊ)B
 %inst
-IDWriteTextLayout calls this callback function to get the visible
-extents (in DIPs) of the inline object. In the case of a simple
-bitmap, with no padding and no overhang, all the overhangs will
-simply be zeroes.
+IDWriteTextLayout ‚ÍƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚Ì‰Â‹”ÍˆÍ (DIP ’PˆÊ)
+‚ğæ“¾‚·‚é‚½‚ß‚É‚±‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·BƒpƒfƒBƒ“ƒO‚â‚Í‚İo‚µ‚Ì‚È‚¢’Pƒ‚Èƒrƒbƒgƒ}ƒbƒv‚Ìê‡A‚·‚×‚Ä‚Ì‚Í‚İo‚µ‚Í’Pƒ‚Éƒ[ƒ‚Æ‚È‚éB
 
 [–ß‚è’l]
-Type: **HRESULT** If this method succeeds, it returns **S\_OK**.
-Otherwise, it returns an **HRESULT** error code.
+Œ^: **HRESULT** ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í **S\_OK** ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í **HRESULT**
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteInlineObject_GetBreakConditions
-Layout uses this to determine the line-breaking behavior of the inline object among the text.
+ƒŒƒCƒAƒEƒg‚Í‚±‚Ìƒƒ\ƒbƒh‚ğg—p‚µ‚ÄAƒeƒLƒXƒg’†‚ÌƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚Ì‰üs‹““®‚ğŒˆ’è‚·‚éB
 %group
 COM misc / IDWriteInlineObject
 %prm
 this, breakConditionBefore, breakConditionAfter
 this : [comobj] IDWriteInlineObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-breakConditionBefore : [var] Type: DWRITE_BREAK_CONDITION* When this method returns, contains a value which indicates the line-breaking condition between the object and the content immediately preceding it.
-breakConditionAfter : [var] Type: DWRITE_BREAK_CONDITION* When this method returns, contains a value which indicates the line-breaking condition between the object and the content immediately following it.
+breakConditionBefore : [var] Œ^: DWRITE_BREAK_CONDITION* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒIƒuƒWƒFƒNƒg‚Æ‚»‚Ì’¼‘O‚ÌƒRƒ“ƒeƒ“ƒc‚Æ‚ÌŠÔ‚Ì‰üsğŒ‚ğ¦‚·’l‚ğŠi”[‚·‚éB
+breakConditionAfter : [var] Œ^: DWRITE_BREAK_CONDITION* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒIƒuƒWƒFƒNƒg‚Æ‚»‚Ì’¼Œã‚ÌƒRƒ“ƒeƒ“ƒc‚Æ‚ÌŠÔ‚Ì‰üsğŒ‚ğ¦‚·’l‚ğŠi”[‚·‚éB
 %inst
-Layout uses this to determine the line-breaking behavior of the
-inline object among the text.
+ƒŒƒCƒAƒEƒg‚Í‚±‚Ìƒƒ\ƒbƒh‚ğg—p‚µ‚ÄAƒeƒLƒXƒg’†‚ÌƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚Ì‰üs‹““®‚ğŒˆ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteLocalizedStrings_GetCount
-Gets the number of language/string pairs.
+Œ¾Œê‚Æ•¶š—ñ‚ÌƒyƒA‚Ì”‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteLocalizedStrings
 %prm
 this
 this : [comobj] IDWriteLocalizedStrings ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the number of language/string pairs.
+Œ¾Œê‚Æ•¶š—ñ‚ÌƒyƒA‚Ì”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: UINT32 The number of language/string pairs.
+Œ^: UINT32 Œ¾Œê‚Æ•¶š—ñ‚ÌƒyƒA‚Ì”B
 
 
 %index
 IDWriteLocalizedStrings_FindLocaleName
-Gets the zero-based index of the locale name/string pair with the specified locale name.
+w’è‚µ‚½ƒƒP[ƒ‹–¼‚ğ‚ÂƒƒP[ƒ‹–¼‚Æ•¶š—ñ‚ÌƒyƒA‚Ì 0 Šî€ƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteLocalizedStrings
 %prm
 this, localeName, index, exists
 this : [comobj] IDWriteLocalizedStrings ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-localeName : [wstr] Type: const WCHAR* A null-terminated array of characters containing the locale name to look for.
-index : [int] Type: UINT32* The zero-based index of the locale name/string pair. This method initializes index to UINT_MAX.
-exists : [var] Type: BOOL* When this method returns, contains TRUE if the locale name exists; otherwise, FALSE. This method initializes exists to FALSE.
+localeName : [wstr] Œ^: const WCHAR* ŒŸõ‚·‚éƒƒP[ƒ‹–¼‚ğŠÜ‚Şƒkƒ‹I’[‚Ì•¶š”z—ñB
+index : [int] Œ^: UINT32* ƒƒP[ƒ‹–¼‚Æ•¶š—ñ‚ÌƒyƒA‚Ì 0 Šî€ƒCƒ“ƒfƒbƒNƒXB‚±‚Ìƒƒ\ƒbƒh‚Í index ‚ğ UINT_MAX ‚É‰Šú‰»‚·‚éB
+exists : [var] Œ^: BOOL* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒƒP[ƒ‹–¼‚ª‘¶İ‚·‚ê‚Î TRUEA‚»‚¤‚Å‚È‚¯‚ê‚Î FALSE ‚ğŠi”[‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚Í exists ‚ğ FALSE ‚É‰Šú‰»‚·‚éB
 %inst
-Gets the zero-based index of the locale name/string pair with the
-specified locale name.
+w’è‚µ‚½ƒƒP[ƒ‹–¼‚ğ‚ÂƒƒP[ƒ‹–¼‚Æ•¶š—ñ‚ÌƒyƒA‚Ì 0 Šî€ƒCƒ“ƒfƒbƒNƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If the specified locale name does not exist, the return
-value is S_OK, but index is UINT_MAX and exists is FALSE.
+Œ^: HRESULT w’è‚µ‚½ƒƒP[ƒ‹–¼‚ª‘¶İ‚µ‚È‚¢ê‡A–ß‚è’l‚Í S_OK ‚¾‚ªAindex ‚Í UINT_MAXAexists ‚Í
+FALSE ‚Æ‚È‚éB
 
 [”õl]
-Note that if the locale name does not exist, the return value is a
-success and the exists parameter is FALSE. If you are getting the
-font family name for a font and the specified locale name does not
-exist, one option is to set the index to 0 as shown below. There is
-always at least one locale for a font family.
-This doc was truncated.
+ƒƒP[ƒ‹–¼‚ª‘¶İ‚µ‚È‚¢ê‡‚Å‚à–ß‚è’l‚Í¬Œ÷‚Æ‚È‚èAexists ƒpƒ‰ƒ[ƒ^‚ª FALSE
+‚É‚È‚é‚±‚Æ‚É’ˆÓBƒtƒHƒ“ƒg‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğæ“¾‚µ‚Ä‚¢‚Äw’è‚µ‚½ƒƒP[ƒ‹–¼‚ª‘¶İ‚µ‚È‚¢ê‡‚Ìˆê‚Â‚Ì‘I‘ğˆ‚ÍAŸ‚Ì‚æ‚¤‚É index ‚ğ
+0 ‚Éİ’è‚·‚é‚±‚Æ‚Å‚ ‚éBƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ‚É‚Íí‚É­‚È‚­‚Æ‚à 1 ‚Â‚ÌƒƒP[ƒ‹‚ª‘¶İ‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDWriteLocalizedStrings_GetLocaleNameLength
-Gets the length in characters (not including the null terminator) of the locale name with the specified index. (IDWriteLocalizedStrings.GetLocaleNameLength)
+w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚ÌƒƒP[ƒ‹–¼‚Ì•¶š” (ƒkƒ‹I’[‚ğŠÜ‚Ü‚È‚¢) ‚ğæ“¾‚·‚éB(IDWriteLocalizedStrings.GetLocaleNameLength)
 %group
 COM misc / IDWriteLocalizedStrings
 %prm
 this, index, length
 this : [comobj] IDWriteLocalizedStrings ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-index : [int] Type: UINT32 Zero-based index of the locale name to be retrieved.
-length : [int] Type: UINT32* When this method returns, contains the length in characters of the locale name, not including the null terminator.
+index : [int] Œ^: UINT32 æ“¾‚·‚éƒƒP[ƒ‹–¼‚Ì 0 Šî€ƒCƒ“ƒfƒbƒNƒXB
+length : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒƒP[ƒ‹–¼‚Ì•¶š” (ƒkƒ‹I’[‚ğŠÜ‚Ü‚È‚¢) ‚ğŠi”[‚·‚éB
 %inst
-Gets the length in characters (not including the null terminator) of
-the locale name with the specified index.
-(IDWriteLocalizedStrings.GetLocaleNameLength)
+w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚ÌƒƒP[ƒ‹–¼‚Ì•¶š” (ƒkƒ‹I’[‚ğŠÜ‚Ü‚È‚¢)
+‚ğæ“¾‚·‚éB(IDWriteLocalizedStrings.GetLocaleNameLength)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteLocalizedStrings_GetLocaleName
-Copies the locale name with the specified index to the specified array. (IDWriteLocalizedStrings.GetLocaleName)
+w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚ÌƒƒP[ƒ‹–¼‚ğw’è‚µ‚½”z—ñ‚ÉƒRƒs[‚·‚éB(IDWriteLocalizedStrings.GetLocaleName)
 %group
 COM misc / IDWriteLocalizedStrings
 %prm
 this, index, localeName, size
 this : [comobj] IDWriteLocalizedStrings ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-index : [int] Type: UINT32 Zero-based index of the locale name to be retrieved.
-localeName : [wstr] Type: WCHAR* When this method returns, contains a character array, which is null-terminated, that receives the locale name from the language/string pair.  The buffer allocated for this array must be at least the size of size, in element count.
-size : [int] Type: UINT32 The size of the array in characters. The size must include space for the terminating null character.
+index : [int] Œ^: UINT32 æ“¾‚·‚éƒƒP[ƒ‹–¼‚Ì 0 Šî€ƒCƒ“ƒfƒbƒNƒXB
+localeName : [wstr] Œ^: WCHAR* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AŒ¾Œê‚Æ•¶š—ñ‚ÌƒyƒA‚©‚çƒƒP[ƒ‹–¼‚ğó‚¯æ‚éƒkƒ‹I’[‚Ì•¶š”z—ñ‚ğŠi”[‚·‚éB‚±‚Ì”z—ñ‚ÉŠ„‚è“–‚Ä‚éƒoƒbƒtƒ@‚Í size ‚Éw’è‚µ‚½—v‘f”ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+size : [int] Œ^: UINT32 ”z—ñ‚ÌƒTƒCƒY (•¶š”)BƒTƒCƒY‚É‚ÍI’[‚Ìƒkƒ‹•¶š‚Ì•ª‚àŠÜ‚ß‚é•K—v‚ª‚ ‚éB
 %inst
-Copies the locale name with the specified index to the specified
-array. (IDWriteLocalizedStrings.GetLocaleName)
+w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚ÌƒƒP[ƒ‹–¼‚ğw’è‚µ‚½”z—ñ‚ÉƒRƒs[‚·‚éB(IDWriteLocalizedStrings.GetLocaleName)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteLocalizedStrings_GetStringLength
-Gets the length in characters (not including the null terminator) of the string with the specified index. (IDWriteLocalizedStrings.GetStringLength)
+w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚Ì•¶š—ñ‚Ì•¶š” (ƒkƒ‹I’[‚ğŠÜ‚Ü‚È‚¢) ‚ğæ“¾‚·‚éB(IDWriteLocalizedStrings.GetStringLength)
 %group
 COM misc / IDWriteLocalizedStrings
 %prm
 this, index, length
 this : [comobj] IDWriteLocalizedStrings ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-index : [int] Type: UINT32 A zero-based index of the language/string pair.
-length : [int] Type: UINT32* The length in characters of the string, not including the null terminator, from the language/string pair.
+index : [int] Œ^: UINT32 Œ¾Œê‚Æ•¶š—ñ‚ÌƒyƒA‚Ì 0 Šî€ƒCƒ“ƒfƒbƒNƒXB
+length : [int] Œ^: UINT32* Œ¾Œê‚Æ•¶š—ñ‚ÌƒyƒA‚©‚ç“¾‚ç‚ê‚é•¶š—ñ‚Ì•¶š” (ƒkƒ‹I’[‚ğŠÜ‚Ü‚È‚¢)B
 %inst
-Gets the length in characters (not including the null terminator) of
-the string with the specified index.
-(IDWriteLocalizedStrings.GetStringLength)
+w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚Ì•¶š—ñ‚Ì•¶š” (ƒkƒ‹I’[‚ğŠÜ‚Ü‚È‚¢)
+‚ğæ“¾‚·‚éB(IDWriteLocalizedStrings.GetStringLength)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Use GetStringLength to get the string length before calling the
-IDWriteLocalizedStrings::GetString method, as shown in the following
-code.
-This doc was truncated.
+Ÿ‚ÌƒR[ƒh‚Ì‚æ‚¤‚ÉAIDWriteLocalizedStrings::GetString ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‘O‚É•¶š—ñ‚Ì’·‚³‚ğæ“¾‚·‚é‚É‚Í
+GetStringLength ‚ğg—p‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDWriteLocalizedStrings_GetString
-Copies the string with the specified index to the specified array. (IDWriteLocalizedStrings.GetString)
+w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚Ì•¶š—ñ‚ğw’è‚µ‚½”z—ñ‚ÉƒRƒs[‚·‚éB(IDWriteLocalizedStrings.GetString)
 %group
 COM misc / IDWriteLocalizedStrings
 %prm
 this, index, stringBuffer, size
 this : [comobj] IDWriteLocalizedStrings ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-index : [int] Type: UINT32 The zero-based index of the language/string pair to be examined.
-stringBuffer : [wstr] Type: WCHAR* The null terminated array of characters that receives the string from the language/string pair.  The buffer allocated for this array should be at least the size of size. GetStringLength can be used to get the size of the array before using this method.
-size : [int] Type: UINT32 The size of the array in characters. The size must include space for the terminating null character. GetStringLength can be used to get the size of the array before using this method.
+index : [int] Œ^: UINT32 ’²¸‚·‚éŒ¾Œê‚Æ•¶š—ñ‚ÌƒyƒA‚Ì 0 Šî€ƒCƒ“ƒfƒbƒNƒXB
+stringBuffer : [wstr] Œ^: WCHAR* Œ¾Œê‚Æ•¶š—ñ‚ÌƒyƒA‚©‚ç•¶š—ñ‚ğó‚¯æ‚éƒkƒ‹I’[‚Ì•¶š”z—ñB‚±‚Ì”z—ñ‚ÉŠ„‚è“–‚Ä‚éƒoƒbƒtƒ@‚Í­‚È‚­‚Æ‚à size ˆÈã‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒƒ\ƒbƒh‚ğg‚¤‘O‚É GetStringLength ‚Å”z—ñƒTƒCƒY‚ğæ“¾‚Å‚«‚éB
+size : [int] Œ^: UINT32 ”z—ñ‚ÌƒTƒCƒY (•¶š”)BƒTƒCƒY‚É‚ÍI’[‚Ìƒkƒ‹•¶š‚Ì•ª‚àŠÜ‚ß‚é•K—v‚ª‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚ğg‚¤‘O‚É GetStringLength ‚Å”z—ñƒTƒCƒY‚ğæ“¾‚Å‚«‚éB
 %inst
-Copies the string with the specified index to the specified array.
-(IDWriteLocalizedStrings.GetString)
+w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚Ì•¶š—ñ‚ğw’è‚µ‚½”z—ñ‚ÉƒRƒs[‚·‚éB(IDWriteLocalizedStrings.GetString)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The string returned must be allocated by the caller. You can get the
-size of the string by using the GetStringLength method prior to
-calling GetString, as shown in the following example.
-This doc was truncated.
+•Ô‚³‚ê‚é•¶š—ñ‚ÍŒÄ‚Ño‚µ‘¤‚ª—Ìˆæ‚ğŠm•Û‚·‚é•K—v‚ª‚ ‚éBŸ‚Ì—á‚Ì‚æ‚¤‚ÉAGetString ‚ğŒÄ‚Ô‘O‚É GetStringLength
+ƒƒ\ƒbƒh‚Å•¶š—ñ‚ÌƒTƒCƒY‚ğæ“¾‚Å‚«‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
@@ -10072,1017 +9698,923 @@ isDisabled : [var]
 
 %index
 IDWritePixelSnapping_GetCurrentTransform
-Gets a transform that maps abstract coordinates to DIPs.
+’ŠÛÀ•W‚ğ DIP ‚Éƒ}ƒbƒsƒ“ƒO‚·‚é•ÏŠ·‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWritePixelSnapping
 %prm
 this, clientDrawingContext, transform
 this : [comobj] IDWritePixelSnapping ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-clientDrawingContext : [intptr] Type: void* The drawing context passed to IDWriteTextLayout::Draw.
-transform : [var] Type: DWRITE_MATRIX* When this method returns, contains a structure which has transform information for  pixel snapping.
+clientDrawingContext : [intptr] Œ^: void* IDWriteTextLayout::Draw ‚É“n‚³‚ê‚½•`‰æƒRƒ“ƒeƒLƒXƒgB
+transform : [var] Œ^: DWRITE_MATRIX* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒsƒNƒZƒ‹ƒXƒiƒbƒsƒ“ƒO‚Ì‚½‚ß‚Ì•ÏŠ·î•ñ‚ğ‚Â\‘¢‘Ì‚ğŠi”[‚·‚éB
 %inst
-Gets a transform that maps abstract coordinates to DIPs.
+’ŠÛÀ•W‚ğ DIP ‚Éƒ}ƒbƒsƒ“ƒO‚·‚é•ÏŠ·‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWritePixelSnapping_GetPixelsPerDip
-Gets the number of physical pixels per DIP.
+DIP ‚ ‚½‚è‚Ì•¨—ƒsƒNƒZƒ‹”‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWritePixelSnapping
 %prm
 this, clientDrawingContext, pixelsPerDip
 this : [comobj] IDWritePixelSnapping ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-clientDrawingContext : [intptr] Type: void* The drawing context passed to IDWriteTextLayout::Draw.
-pixelsPerDip : [float] Type: FLOAT* When this method returns, contains the number of physical pixels per DIP.
+clientDrawingContext : [intptr] Œ^: void* IDWriteTextLayout::Draw ‚É“n‚³‚ê‚½•`‰æƒRƒ“ƒeƒLƒXƒgB
+pixelsPerDip : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«ADIP ‚ ‚½‚è‚Ì•¨—ƒsƒNƒZƒ‹”‚ğŠi”[‚·‚éB
 %inst
-Gets the number of physical pixels per DIP.
+DIP ‚ ‚½‚è‚Ì•¨—ƒsƒNƒZƒ‹”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Because a DIP (device-independent pixel) is 1/96 inch, the
-pixelsPerDip value is the number of logical pixels per inch divided
-by 96.
+DIP (ƒfƒoƒCƒX“Æ—§ƒsƒNƒZƒ‹) ‚Í 1/96 ƒCƒ“ƒ`‚Å‚ ‚é‚½‚ßApixelsPerDip ‚Ì’l‚Í 1 ƒCƒ“ƒ`‚ ‚½‚è‚Ì˜_—ƒsƒNƒZƒ‹”‚ğ
+96 ‚ÅŠ„‚Á‚½‚à‚Ì‚É‚È‚éB
 
 
 %index
 IDWriteRenderingParams_GetGamma
-Gets the gamma value used for gamma correction. Valid values must be greater than zero and cannot exceed 256.
+ƒKƒ“ƒ}•â³‚Ég—p‚³‚ê‚éƒKƒ“ƒ}’l‚ğæ“¾‚·‚éB—LŒø‚È’l‚Í 0 ‚æ‚è‘å‚«‚­A256 ‚ğ’´‚¦‚Ä‚Í‚È‚ç‚È‚¢B
 %group
 COM misc / IDWriteRenderingParams
 %prm
 this
 this : [comobj] IDWriteRenderingParams ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the gamma value used for gamma correction. Valid values must be
-greater than zero and cannot exceed 256.
+ƒKƒ“ƒ}•â³‚Ég—p‚³‚ê‚éƒKƒ“ƒ}’l‚ğæ“¾‚·‚éB—LŒø‚È’l‚Í 0 ‚æ‚è‘å‚«‚­A256 ‚ğ’´‚¦‚Ä‚Í‚È‚ç‚È‚¢B
 
 [–ß‚è’l]
-Type: FLOAT Returns the gamma value used for gamma correction. Valid
-values must be greater than zero and cannot exceed 256.
+Œ^: FLOAT ƒKƒ“ƒ}•â³‚Ég—p‚³‚ê‚éƒKƒ“ƒ}’l‚ğ•Ô‚·B—LŒø‚È’l‚Í 0 ‚æ‚è‘å‚«‚­A256 ‚ğ’´‚¦‚Ä‚Í‚È‚ç‚È‚¢B
 
 [”õl]
-The gamma value is used for gamma correction, which compensates for
-the non-linear luminosity response of most monitors.
+ƒKƒ“ƒ}’l‚ÍA‘½‚­‚Ìƒ‚ƒjƒ^‚Ì”ñüŒ`‚È‹P“x‰“š‚ğ•â³‚·‚é‚½‚ß‚ÌƒKƒ“ƒ}•â³‚Ég—p‚³‚ê‚éB
 
 
 %index
 IDWriteRenderingParams_GetEnhancedContrast
-Gets the enhanced contrast property of the rendering parameters object. Valid values are greater than or equal to zero.
+ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚Ì‹­’²ƒRƒ“ƒgƒ‰ƒXƒgƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB—LŒø‚È’l‚Í 0 ˆÈã‚Å‚ ‚éB
 %group
 COM misc / IDWriteRenderingParams
 %prm
 this
 this : [comobj] IDWriteRenderingParams ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the enhanced contrast property of the rendering parameters
-object. Valid values are greater than or equal to zero.
+ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚Ì‹­’²ƒRƒ“ƒgƒ‰ƒXƒgƒvƒƒpƒeƒB‚ğæ“¾‚·‚éB—LŒø‚È’l‚Í 0 ˆÈã‚Å‚ ‚éB
 
 [–ß‚è’l]
-Type: FLOAT Returns the amount of contrast enhancement. Valid values
-are greater than or equal to zero.
+Œ^: FLOAT ƒRƒ“ƒgƒ‰ƒXƒg‹­’²‚Ì—Ê‚ğ•Ô‚·B—LŒø‚È’l‚Í 0 ˆÈã‚Å‚ ‚éB
 
 [”õl]
-Enhanced contrast is the amount to increase the darkness of text, and
-typically ranges from 0 to 1. Zero means no contrast enhancement.
+‹­’²ƒRƒ“ƒgƒ‰ƒXƒg‚ÍƒeƒLƒXƒg‚ÌˆÃ‚³‚ğ‘‚·—Ê‚ÅA“TŒ^“I‚É‚Í 0 ‚©‚ç 1 ‚Ì”ÍˆÍ‚ğæ‚éB0 ‚ÍƒRƒ“ƒgƒ‰ƒXƒg‹­’²‚È‚µ‚ğˆÓ–¡‚·‚éB
 
 
 %index
 IDWriteRenderingParams_GetClearTypeLevel
-Gets the ClearType level of the rendering parameters object.
+ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚Ì ClearType ƒŒƒxƒ‹‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteRenderingParams
 %prm
 this
 this : [comobj] IDWriteRenderingParams ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the ClearType level of the rendering parameters object.
+ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚Ì ClearType ƒŒƒxƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: FLOAT The ClearType level of the rendering parameters object.
+Œ^: FLOAT ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚Ì ClearType ƒŒƒxƒ‹B
 
 [”õl]
-The ClearType level represents the amount of ClearType ? that is, the
-degree to which the red, green, and blue subpixels of each pixel are
-treated differently. Valid values range from zero (meaning no
-ClearType, which is equivalent to grayscale anti-aliasing) to one
-(meaning full ClearType)
+ClearType ƒŒƒxƒ‹‚Í ClearType
+‚Ì—ÊA‚·‚È‚í‚¿ŠeƒsƒNƒZƒ‹‚ÌÔE—ÎEÂƒTƒuƒsƒNƒZƒ‹‚ª‚Ç‚Ì’ö“x•ÊŒÂ‚Éˆµ‚í‚ê‚é‚©‚ğ•\‚·B—LŒø’l‚Í 0 (ClearType
+‚È‚µAƒOƒŒ[ƒXƒP[ƒ‹ƒAƒ“ƒ`ƒGƒCƒŠƒAƒX‚Æ“™‰¿) ‚©‚ç 1 (ƒtƒ‹ ClearType) ‚Ü‚Å‚Ì”ÍˆÍ‚Å‚ ‚éB
 
 
 %index
 IDWriteRenderingParams_GetPixelGeometry
-Gets the pixel geometry of the rendering parameters object.
+ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ÌƒsƒNƒZƒ‹ƒWƒIƒƒgƒŠ‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteRenderingParams
 %prm
 this
 this : [comobj] IDWriteRenderingParams ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the pixel geometry of the rendering parameters object.
+ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ÌƒsƒNƒZƒ‹ƒWƒIƒƒgƒŠ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_PIXEL_GEOMETRY A value that indicates the type of pixel
-geometry used in the rendering parameters object.
+Œ^: DWRITE_PIXEL_GEOMETRY ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚Åg—p‚³‚ê‚éƒsƒNƒZƒ‹ƒWƒIƒƒgƒŠ‚Ìí•Ê‚ğ¦‚·’lB
 
 
 %index
 IDWriteRenderingParams_GetRenderingMode
-Gets the rendering mode of the rendering parameters object.
+ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteRenderingParams
 %prm
 this
 this : [comobj] IDWriteRenderingParams ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the rendering mode of the rendering parameters object.
+ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_RENDERING_MODE A value that indicates the rendering mode
-of the rendering parameters object.
+Œ^: DWRITE_RENDERING_MODE ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğ¦‚·’lB
 
 [”õl]
-By default, the rendering mode is initialized to
-DWRITE_RENDERING_MODE_DEFAULT, which means the rendering mode is
-determined automatically based on the font and size. To determine the
-recommended rendering mode to use for a given font and size and
-rendering parameters object, use the
-IDWriteFontFace::GetRecommendedRenderingMode method.
+ƒfƒtƒHƒ‹ƒg‚ÅƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚Í DWRITE_RENDERING_MODE_DEFAULT
+‚Å‰Šú‰»‚³‚ê‚Ä‚¨‚èA‚±‚ê‚ÍƒtƒHƒ“ƒg‚ÆƒTƒCƒY‚ÉŠî‚Ã‚¢‚Ä©“®“I‚ÉƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ªŒˆ’è‚³‚ê‚é‚±‚Æ‚ğˆÓ–¡‚·‚éBw’è‚µ‚½ƒtƒHƒ“ƒgAƒTƒCƒYAƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒ‰ƒ[ƒ^ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚é„§ƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğ”»’è‚·‚é‚É‚Í
+IDWriteFontFace::GetRecommendedRenderingMode ƒƒ\ƒbƒh‚ğg—p‚·‚éB
 
 
 %index
 IDWriteTextAnalysisSink_SetScriptAnalysis
-Reports script analysis for the specified text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ‚É‘Î‚·‚éƒXƒNƒŠƒvƒg•ªÍ‚ğ•ñ‚·‚éB
 %group
 COM misc / IDWriteTextAnalysisSink
 %prm
 this, textPosition, textLength, scriptAnalysis
 this : [comobj] IDWriteTextAnalysisSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textPosition : [int] Type: UINT32 The starting position from which to report.
-textLength : [int] Type: UINT32 The number of UTF16 units of the reported range.
-scriptAnalysis : [var] Type: const DWRITE_SCRIPT_ANALYSIS* A pointer to a structure that contains a zero-based index representation of a writing system script and a value indicating whether additional shaping of text is required.
+textPosition : [int] Œ^: UINT32 •ñ‚ğŠJn‚·‚éˆÊ’uB
+textLength : [int] Œ^: UINT32 •ñ‘ÎÛ”ÍˆÍ‚Ì UTF16 ’PˆÊ”B
+scriptAnalysis : [var] Œ^: const DWRITE_SCRIPT_ANALYSIS* ‘‹LŒnƒXƒNƒŠƒvƒg‚Ì 0 Šî€ƒCƒ“ƒfƒbƒNƒX•\Œ»‚ÆAƒeƒLƒXƒg‚Ì’Ç‰ÁƒVƒFƒCƒsƒ“ƒO‚ª•K—v‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğŠÜ‚Ş\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Reports script analysis for the specified text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ‚É‘Î‚·‚éƒXƒNƒŠƒvƒg•ªÍ‚ğ•ñ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT A successful code or error code to stop analysis.
+Œ^: HRESULT ¬Œ÷ƒR[ƒhA‚Ü‚½‚Í•ªÍ‚ğ’â~‚·‚é‚½‚ß‚ÌƒGƒ‰[ƒR[ƒhB
 
 
 %index
 IDWriteTextAnalysisSink_SetLineBreakpoints
-Sets line-break opportunities for each character, starting from the specified position.
+w’èˆÊ’u‚©‚çŠe•¶š‚É‘Î‚·‚é‰üs‹@‰ï‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextAnalysisSink
 %prm
 this, textPosition, textLength, lineBreakpoints
 this : [comobj] IDWriteTextAnalysisSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textPosition : [int] Type: UINT32 The starting text position from which to report.
-textLength : [int] Type: UINT32 The number of UTF16 units of the reported range.
-lineBreakpoints : [var] Type: DWRITE_LINE_BREAKPOINT* A pointer to a structure that contains breaking conditions set for each character from the starting position to the end of the specified range.
+textPosition : [int] Œ^: UINT32 •ñ‚ğŠJn‚·‚éƒeƒLƒXƒgˆÊ’uB
+textLength : [int] Œ^: UINT32 •ñ‘ÎÛ”ÍˆÍ‚Ì UTF16 ’PˆÊ”B
+lineBreakpoints : [var] Œ^: DWRITE_LINE_BREAKPOINT* ŠJnˆÊ’u‚©‚çw’è”ÍˆÍ‚Ì––”ö‚Ü‚Å‚ÌŠe•¶š‚Éİ’è‚³‚ê‚é‰üsğŒ‚ğŠÜ‚Ş\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Sets line-break opportunities for each character, starting from the
-specified position.
+w’èˆÊ’u‚©‚çŠe•¶š‚É‘Î‚·‚é‰üs‹@‰ï‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT A successful code or error code to stop analysis.
+Œ^: HRESULT ¬Œ÷ƒR[ƒhA‚Ü‚½‚Í•ªÍ‚ğ’â~‚·‚é‚½‚ß‚ÌƒGƒ‰[ƒR[ƒhB
 
 
 %index
 IDWriteTextAnalysisSink_SetBidiLevel
-Sets a bidirectional level on the range, which is called once per run change (either explicit or resolved implicit).
+”ÍˆÍ‚É‘Î‚µ‚Ä‘o•ûŒüƒŒƒxƒ‹‚ğİ’è‚·‚éBƒ‰ƒ“•Ï‰» (–¾¦“I‚Ü‚½‚Í‰ğŒˆ‚³‚ê‚½ˆÃ–Ù“I) ‚²‚Æ‚É 1 “x‚¾‚¯ŒÄ‚Î‚ê‚éB
 %group
 COM misc / IDWriteTextAnalysisSink
 %prm
 this, textPosition, textLength, explicitLevel, resolvedLevel
 this : [comobj] IDWriteTextAnalysisSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textPosition : [int] Type: UINT32 The starting position from which to report.
-textLength : [int] Type: UINT32 The number of UTF16 units of the reported range.
-explicitLevel : [int] Type: UINT8 The explicit level from the paragraph reading direction and any embedded control codes RLE/RLO/LRE/LRO/PDF, which is determined before any additional rules.
-resolvedLevel : [int] Type: UINT8 The final implicit level considering the explicit level and characters' natural directionality, after all Bidi rules have been applied.
+textPosition : [int] Œ^: UINT32 •ñ‚ğŠJn‚·‚éˆÊ’uB
+textLength : [int] Œ^: UINT32 •ñ‘ÎÛ”ÍˆÍ‚Ì UTF16 ’PˆÊ”B
+explicitLevel : [int] Œ^: UINT8 ’i—‚Ì“Ç‚İæ‚è•ûŒü‚¨‚æ‚Ñ–„‚ß‚İ§ŒäƒR[ƒh RLE/RLO/LRE/LRO/PDF ‚©‚çŒˆ’è‚³‚ê‚é–¾¦ƒŒƒxƒ‹B‚±‚ê‚Í’Ç‰Á‚Ìƒ‹[ƒ‹‚ª“K—p‚³‚ê‚é‘O‚ÉŒˆ’è‚³‚ê‚éB
+resolvedLevel : [int] Œ^: UINT8 –¾¦ƒŒƒxƒ‹‚Æ•¶š‚Ì©‘R‚È•ûŒü«‚ğl—¶‚µA‚·‚×‚Ä‚Ì Bidi ƒ‹[ƒ‹‚ğ“K—p‚µ‚½Œã‚ÌÅI“I‚ÈˆÃ–ÙƒŒƒxƒ‹B
 %inst
-Sets a bidirectional level on the range, which is called once per run
-change (either explicit or resolved implicit).
+”ÍˆÍ‚É‘Î‚µ‚Ä‘o•ûŒüƒŒƒxƒ‹‚ğİ’è‚·‚éBƒ‰ƒ“•Ï‰» (–¾¦“I‚Ü‚½‚Í‰ğŒˆ‚³‚ê‚½ˆÃ–Ù“I) ‚²‚Æ‚É 1 “x‚¾‚¯ŒÄ‚Î‚ê‚éB
 
 [–ß‚è’l]
-Type: HRESULT A successful code or error code to stop analysis.
+Œ^: HRESULT ¬Œ÷ƒR[ƒhA‚Ü‚½‚Í•ªÍ‚ğ’â~‚·‚é‚½‚ß‚ÌƒGƒ‰[ƒR[ƒhB
 
 
 %index
 IDWriteTextAnalysisSink_SetNumberSubstitution
-Sets the number substitution on the text range affected by the text analysis.
+ƒeƒLƒXƒg•ªÍ‚Ì‰e‹¿‚ğó‚¯‚éƒeƒLƒXƒg”ÍˆÍ‚É‘Î‚µ‚Ä”š’uŠ·‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextAnalysisSink
 %prm
 this, textPosition, textLength, numberSubstitution
 this : [comobj] IDWriteTextAnalysisSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textPosition : [int] Type: UINT32 The starting position from which to report.
-textLength : [int] Type: UINT32 The number of UTF16 units of the reported range.
-numberSubstitution : [comobj] Type: IDWriteNumberSubstitution* An object that holds the appropriate digits and numeric punctuation for a given locale. Use IDWriteFactory::CreateNumberSubstitution to create this object.
+textPosition : [int] Œ^: UINT32 •ñ‚ğŠJn‚·‚éˆÊ’uB
+textLength : [int] Œ^: UINT32 •ñ‘ÎÛ”ÍˆÍ‚Ì UTF16 ’PˆÊ”B
+numberSubstitution : [comobj] Œ^: IDWriteNumberSubstitution* w’èƒƒP[ƒ‹‚É‘Î‚·‚é“KØ‚È”š‚Æ”’l‹å“Ç“_‚ğ•Û‚·‚éƒIƒuƒWƒFƒNƒgB‚±‚ÌƒIƒuƒWƒFƒNƒg‚Í IDWriteFactory::CreateNumberSubstitution ‚Å¶¬‚·‚éB
 %inst
-Sets the number substitution on the text range affected by the text
-analysis.
+ƒeƒLƒXƒg•ªÍ‚Ì‰e‹¿‚ğó‚¯‚éƒeƒLƒXƒg”ÍˆÍ‚É‘Î‚µ‚Ä”š’uŠ·‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextAnalysisSource_GetTextAtPosition
-Gets a block of text starting at the specified text position.
+w’è‚µ‚½ƒeƒLƒXƒgˆÊ’u‚©‚çn‚Ü‚éƒeƒLƒXƒgƒuƒƒbƒN‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextAnalysisSource
 %prm
 this, textPosition, textString, textLength
 this : [comobj] IDWriteTextAnalysisSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textPosition : [int] Type: UINT32 The first position of the piece to obtain. All positions are in UTF16 code units, not whole characters, which matters when supplementary characters are used.
-textString : [var] Type: const WCHAR** When this method returns, contains an address of  the block of text as an array of characters to be retrieved from the text analysis.
-textLength : [int] Type: UINT32* When this method returns, contains the number of UTF16 units of the retrieved chunk. The returned length is not the length of the block, but the length     remaining in the block, from the specified position until its end. For example, querying for a position that is 75 positions into a 100-position block would return 25.
+textPosition : [int] Œ^: UINT32 æ“¾‚·‚é•”•ª‚Ìæ“ªˆÊ’uBˆÊ’u‚Í‚·‚×‚Ä UTF16 ƒR[ƒh’PˆÊ‚Å‚ ‚èA•¶š’PˆÊ‚Å‚Í‚È‚¢‚½‚ßA•â••¶š‚ªg—p‚³‚ê‚Ä‚¢‚éê‡‚É‰e‹¿‚·‚éB
+textString : [var] Œ^: const WCHAR** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒeƒLƒXƒg•ªÍ‚©‚çæ“¾‚³‚ê‚éƒeƒLƒXƒgƒuƒƒbƒN‚ğ•\‚·•¶š”z—ñ‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
+textLength : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aæ“¾‚µ‚½ƒ`ƒƒƒ“ƒN‚Ì UTF16 ’PˆÊ”‚ğŠi”[‚·‚éB•Ô‚³‚ê‚é’·‚³‚ÍƒuƒƒbƒN‚Ì’·‚³‚Å‚Í‚È‚­Aw’èˆÊ’u‚©‚çƒuƒƒbƒN––”ö‚Ü‚Å‚Ìc‚è‚Ì’·‚³‚Å‚ ‚éB‚½‚Æ‚¦‚Î 100 ’PˆÊ‚ÌƒuƒƒbƒN“à‚Ì 75 ’PˆÊ–Ú‚ÌˆÊ’u‚ğ–â‚¢‡‚í‚¹‚½ê‡‚Í 25 ‚ğ•Ô‚·B
 %inst
-Gets a block of text starting at the specified text position.
+w’è‚µ‚½ƒeƒLƒXƒgˆÊ’u‚©‚çn‚Ü‚éƒeƒLƒXƒgƒuƒƒbƒN‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Returning NULL indicates the end of text, which is the position after
-the last character. This function is called iteratively for each
-consecutive block, tying together several fragmented blocks in the
-backing store into a virtual contiguous string. Although applications
-can implement sparse textual content that maps only part of the
-backing store, the application must map any text that is in the range
-passed to any analysis functions.
+NULL ‚ğ•Ô‚·‚ÆƒeƒLƒXƒg‚ÌI’[ (ÅI•¶š‚ÌŸ‚ÌˆÊ’u)
+‚ğ¦‚·B‚±‚ÌŠÖ”‚Í˜A‘±‚·‚éŠeƒuƒƒbƒN‚É‘Î‚µ‚ÄŒJ‚è•Ô‚µŒÄ‚Ño‚³‚êAƒoƒbƒLƒ“ƒOƒXƒgƒAã‚Ì•¡”‚Ì’f•Ğ‰»‚µ‚½ƒuƒƒbƒN‚ğ‰¼‘z“I‚È˜A‘±•¶š—ñ‚Æ‚µ‚ÄŒ‹‚Ñ‚Â‚¯‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒoƒbƒLƒ“ƒOƒXƒgƒA‚Ìˆê•”‚Ì‚İ‚ğƒ}ƒbƒv‚·‚é‘a‚ÈƒeƒLƒXƒgƒRƒ“ƒeƒ“ƒc‚ğÀ‘•‚Å‚«‚é‚ªA•ªÍŠÖ”‚É“n‚³‚ê‚½”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚Í•K‚¸ƒ}ƒbƒv‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 IDWriteTextAnalysisSource_GetTextBeforePosition
-Gets a block of text immediately preceding the specified position.
+w’è‚µ‚½ˆÊ’u‚Ì’¼‘O‚É‚ ‚éƒeƒLƒXƒgƒuƒƒbƒN‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextAnalysisSource
 %prm
 this, textPosition, textString, textLength
 this : [comobj] IDWriteTextAnalysisSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textPosition : [int] Type: UINT32 The position immediately after the last position of the block of text to obtain.
-textString : [var] Type: const WCHAR** When this method returns, contains an address of a pointer to the block of text, as an array of characters from the specified range.  The text range will be from textPosition to the front of the block.
-textLength : [int] Type: UINT32* Number of UTF16 units of the retrieved block. The length returned is from the specified position to the front of the block.
+textPosition : [int] Œ^: UINT32 æ“¾‘ÎÛ‚ÌƒeƒLƒXƒgƒuƒƒbƒN‚Ì––”öˆÊ’u‚Ì’¼Œã‚ÌˆÊ’uB
+textString : [var] Œ^: const WCHAR** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aw’è”ÍˆÍ‚ÌƒeƒLƒXƒgƒuƒƒbƒN‚ğ•\‚·•¶š”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éBƒeƒLƒXƒg”ÍˆÍ‚Í textPosition ‚©‚çƒuƒƒbƒNæ“ª‚Ü‚Å‚Æ‚È‚éB
+textLength : [int] Œ^: UINT32* æ“¾‚µ‚½ƒuƒƒbƒN‚Ì UTF16 ’PˆÊ”B•Ô‚³‚ê‚é’·‚³‚Íw’èˆÊ’u‚©‚çƒuƒƒbƒNæ“ª‚Ü‚Å‚Ì’·‚³‚Å‚ ‚éB
 %inst
-Gets a block of text immediately preceding the specified position.
+w’è‚µ‚½ˆÊ’u‚Ì’¼‘O‚É‚ ‚éƒeƒLƒXƒgƒuƒƒbƒN‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-NULL indicates no chunk available at the specified position, either
-because textPosition equals 0, textPosition is greater than the
-entire text content length, or the queried position is not mapped
-into the application's backing store. Although applications can
-implement sparse textual content that maps only part of the backing
-store, the application must map any text that is in the range passed
-to any analysis functions.
+NULL ‚ÍAtextPosition ‚ª 0 ‚Å‚ ‚é‚©AtextPosition
+‚ªƒeƒLƒXƒgƒRƒ“ƒeƒ“ƒc‘S’·‚æ‚è‘å‚«‚¢‚©A–â‚¢‡‚í‚¹‚½ˆÊ’u‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒoƒbƒLƒ“ƒOƒXƒgƒA‚Éƒ}ƒbƒv‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßAw’èˆÊ’u‚Éƒ`ƒƒƒ“ƒN‚ª‚È‚¢‚±‚Æ‚ğ¦‚·BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒoƒbƒLƒ“ƒOƒXƒgƒA‚Ìˆê•”‚Ì‚İ‚ğƒ}ƒbƒv‚·‚é‘a‚ÈƒeƒLƒXƒgƒRƒ“ƒeƒ“ƒc‚ğÀ‘•‚Å‚«‚é‚ªA•ªÍŠÖ”‚É“n‚³‚ê‚½”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚Í•K‚¸ƒ}ƒbƒv‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 IDWriteTextAnalysisSource_GetParagraphReadingDirection
-Gets the paragraph reading direction.
+’i—‚Ì“Ç‚İæ‚è•ûŒü‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextAnalysisSource
 %prm
 this
 this : [comobj] IDWriteTextAnalysisSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the paragraph reading direction.
+’i—‚Ì“Ç‚İæ‚è•ûŒü‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_READING_DIRECTION The reading direction of the current
-paragraph.
+Œ^: DWRITE_READING_DIRECTION Œ»İ‚Ì’i—‚Ì“Ç‚İæ‚è•ûŒüB
 
 
 %index
 IDWriteTextAnalysisSource_GetLocaleName
-Gets the locale name on the range affected by the text analysis.
+ƒeƒLƒXƒg•ªÍ‚Ì‰e‹¿‚ğó‚¯‚é”ÍˆÍ‚É‚¨‚¯‚éƒƒP[ƒ‹–¼‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextAnalysisSource
 %prm
 this, textPosition, textLength, localeName
 this : [comobj] IDWriteTextAnalysisSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textPosition : [int] Type: UINT32 The text position to examine.
-textLength : [int] Type: UINT32* Contains the length of the text being affected by the text analysis up to the next differing locale.
-localeName : [var] Type: const WCHAR** Contains an address of a  pointer to an array of characters which receives the locale name from the text affected by the text analysis. The array of characters is null-terminated.
+textPosition : [int] Œ^: UINT32 ’²¸‚·‚éƒeƒLƒXƒgˆÊ’uB
+textLength : [int] Œ^: UINT32* ƒeƒLƒXƒg•ªÍ‚Ì‰e‹¿‚ğó‚¯‚éƒeƒLƒXƒg‚ÌAŸ‚ÉˆÙ‚È‚éƒƒP[ƒ‹‚Ü‚Å‚Ì’·‚³‚ğŠi”[‚·‚éB
+localeName : [var] Œ^: const WCHAR** ƒeƒLƒXƒg•ªÍ‚Ì‰e‹¿‚ğó‚¯‚éƒeƒLƒXƒg‚©‚çƒƒP[ƒ‹–¼‚ğó‚¯æ‚é•¶š”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB•¶š”z—ñ‚Íƒkƒ‹I’[‚Å‚ ‚éB
 %inst
-Gets the locale name on the range affected by the text analysis.
+ƒeƒLƒXƒg•ªÍ‚Ì‰e‹¿‚ğó‚¯‚é”ÍˆÍ‚É‚¨‚¯‚éƒƒP[ƒ‹–¼‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The localeName pointer must remain valid until the next call or until
-the analysis returns.
+localeName ƒ|ƒCƒ“ƒ^‚ÍŸ‚ÌŒÄ‚Ño‚µ‚Ü‚ÅA‚Ü‚½‚Í•ªÍ‚ª•Ô‚é‚Ü‚Å—LŒø‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 IDWriteTextAnalysisSource_GetNumberSubstitution
-Gets the number substitution from the text range affected by the text analysis.
+ƒeƒLƒXƒg•ªÍ‚Ì‰e‹¿‚ğó‚¯‚éƒeƒLƒXƒg”ÍˆÍ‚©‚ç”š’uŠ·‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextAnalysisSource
 %prm
 this, textPosition, textLength, numberSubstitution
 this : [comobj] IDWriteTextAnalysisSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textPosition : [int] Type: UINT32 The starting position from which to report.
-textLength : [int] Type: UINT32* Contains  the length of the text, in characters, remaining in the text range up to the next differing number substitution.
-numberSubstitution : [comobj] Type: IDWriteNumberSubstitution** Contains an address of a pointer to an object, which was created with IDWriteFactory::CreateNumberSubstitution, that holds the appropriate digits and numeric punctuation for a given locale.
+textPosition : [int] Œ^: UINT32 •ñ‚ğŠJn‚·‚éˆÊ’uB
+textLength : [int] Œ^: UINT32* ƒeƒLƒXƒg”ÍˆÍ‚Ì‚¤‚¿AŸ‚ÉˆÙ‚È‚é”š’uŠ·‚Ü‚Å‚Éc‚Á‚Ä‚¢‚éƒeƒLƒXƒg‚Ì’·‚³ (•¶š”) ‚ğŠi”[‚·‚éB
+numberSubstitution : [comobj] Œ^: IDWriteNumberSubstitution** IDWriteFactory::CreateNumberSubstitution ‚Å¶¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ÅAw’èƒƒP[ƒ‹‚É‘Î‚·‚é“KØ‚È”š‚Æ”’l‹å“Ç“_‚ğ•Û‚·‚éA‚»‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Gets the number substitution from the text range affected by the text
-analysis.
+ƒeƒLƒXƒg•ªÍ‚Ì‰e‹¿‚ğó‚¯‚éƒeƒLƒXƒg”ÍˆÍ‚©‚ç”š’uŠ·‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Any implementation should return the number substitution with an
-incremented reference count, and the analysis will release when
-finished with it (either before the next call or before it returns).
-However, the sink callback may hold onto it after that.
+À‘•‚ÍQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚µ‚½”š’uŠ·‚ğ•Ô‚·‚×‚«‚Å‚ ‚èA•ªÍ‚Íˆ—‚ğI‚¦‚½“_‚Å (Ÿ‚ÌŒÄ‚Ño‚µ‚Ì‘O‚à‚µ‚­‚Í•Ô‚é‘O‚É)
+‚»‚ê‚ğ‰ğ•ú‚·‚éB‚½‚¾‚µƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒN‚Í‚»‚ÌŒã‚à•Û‚·‚é‚±‚Æ‚ª‚Å‚«‚éB
 
 
 %index
 IDWriteTextAnalyzer_AnalyzeScript
-Analyzes a text range for script boundaries, reading text attributes from the source and reporting the Unicode script ID to the sink callback SetScript.
+ƒeƒLƒXƒg”ÍˆÍ‚ğƒXƒNƒŠƒvƒg‹«ŠE‚É‚Â‚¢‚Ä‰ğÍ‚µAƒ\[ƒX‚©‚çƒeƒLƒXƒg‘®«‚ğ“Ç‚İæ‚Á‚ÄƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒN SetScript ‚É Unicode ƒXƒNƒŠƒvƒg ID ‚ğ•ñ‚·‚éB
 %group
 COM misc / IDWriteTextAnalyzer
 %prm
 this, analysisSource, textPosition, textLength, analysisSink
 this : [comobj] IDWriteTextAnalyzer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-analysisSource : [comobj] Type: IDWriteTextAnalysisSource* A pointer to the source object to analyze.
-textPosition : [int] Type: UINT32 The starting text position within the source object.
-textLength : [int] Type: UINT32 The text length to analyze.
-analysisSink : [comobj] Type: IDWriteTextAnalysisSink* A pointer to the sink callback object that receives the text analysis.
+analysisSource : [comobj] Œ^: IDWriteTextAnalysisSource* ‰ğÍ‘ÎÛ‚Ìƒ\[ƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+textPosition : [int] Œ^: UINT32 ƒ\[ƒXƒIƒuƒWƒFƒNƒg“à‚Å‚Ì‰ğÍŠJnƒeƒLƒXƒgˆÊ’uB
+textLength : [int] Œ^: UINT32 ‰ğÍ‚·‚éƒeƒLƒXƒg‚Ì’·‚³B
+analysisSink : [comobj] Œ^: IDWriteTextAnalysisSink* ƒeƒLƒXƒg‰ğÍŒ‹‰Ê‚ğó‚¯æ‚éƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Analyzes a text range for script boundaries, reading text attributes
-from the source and reporting the Unicode script ID to the sink
-callback SetScript.
+ƒeƒLƒXƒg”ÍˆÍ‚ğƒXƒNƒŠƒvƒg‹«ŠE‚É‚Â‚¢‚Ä‰ğÍ‚µAƒ\[ƒX‚©‚çƒeƒLƒXƒg‘®«‚ğ“Ç‚İæ‚Á‚ÄƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒN SetScript ‚É Unicode
+ƒXƒNƒŠƒvƒg ID ‚ğ•ñ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextAnalyzer_AnalyzeBidi
-Analyzes a text range for script directionality, reading attributes from the source and reporting levels to the sink callback SetBidiLevel.
+ƒeƒLƒXƒg”ÍˆÍ‚ğƒXƒNƒŠƒvƒg‚Ì•ûŒü«‚É‚Â‚¢‚Ä‰ğÍ‚µAƒ\[ƒX‚©‚ç‘®«‚ğ“Ç‚İæ‚Á‚ÄƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒN SetBidiLevel ‚ÉƒŒƒxƒ‹‚ğ•ñ‚·‚éB
 %group
 COM misc / IDWriteTextAnalyzer
 %prm
 this, analysisSource, textPosition, textLength, analysisSink
 this : [comobj] IDWriteTextAnalyzer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-analysisSource : [comobj] Type: IDWriteTextAnalysisSource* A pointer to a source object to analyze.
-textPosition : [int] Type: UINT32 The starting text position within the source object.
-textLength : [int] Type: UINT32 The text length to analyze.
-analysisSink : [comobj] Type: IDWriteTextAnalysisSink* A pointer to the sink callback object that receives the text analysis.
+analysisSource : [comobj] Œ^: IDWriteTextAnalysisSource* ‰ğÍ‘ÎÛ‚Ìƒ\[ƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+textPosition : [int] Œ^: UINT32 ƒ\[ƒXƒIƒuƒWƒFƒNƒg“à‚Å‚Ì‰ğÍŠJnƒeƒLƒXƒgˆÊ’uB
+textLength : [int] Œ^: UINT32 ‰ğÍ‚·‚éƒeƒLƒXƒg‚Ì’·‚³B
+analysisSink : [comobj] Œ^: IDWriteTextAnalysisSink* ƒeƒLƒXƒg‰ğÍŒ‹‰Ê‚ğó‚¯æ‚éƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Analyzes a text range for script directionality, reading attributes
-from the source and reporting levels to the sink callback
-SetBidiLevel.
+ƒeƒLƒXƒg”ÍˆÍ‚ğƒXƒNƒŠƒvƒg‚Ì•ûŒü«‚É‚Â‚¢‚Ä‰ğÍ‚µAƒ\[ƒX‚©‚ç‘®«‚ğ“Ç‚İæ‚Á‚ÄƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒN SetBidiLevel
+‚ÉƒŒƒxƒ‹‚ğ•ñ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-While the function can handle multiple paragraphs, the text range
-should not arbitrarily split the middle of paragraphs. Otherwise, the
-returned levels may be wrong, because the Bidi algorithm is meant to
-apply to the paragraph as a whole.
+‚±‚ÌŠÖ”‚Í•¡”‚Ì’i—‚ğˆµ‚¦‚é‚ªAƒeƒLƒXƒg”ÍˆÍ‚ğ’i—‚Ì“r’†‚Åœ“ˆÓ“I‚É•ªŠ„‚·‚×‚«‚Å‚Í‚È‚¢BBidi
+ƒAƒ‹ƒSƒŠƒYƒ€‚Í’i—‘S‘Ì‚É“K—p‚·‚é‚±‚Æ‚ª‘O’ñ‚Ì‚½‚ßA•ªŠ„‚·‚é‚Æ•Ô‚³‚ê‚éƒŒƒxƒ‹‚ªŒë‚è‚É‚È‚é‰Â”\«‚ª‚ ‚éB
 
 
 %index
 IDWriteTextAnalyzer_AnalyzeNumberSubstitution
-Analyzes a text range for spans where number substitution is applicable, reading attributes from the source and reporting substitutable ranges to the sink callback SetNumberSubstitution.
+ƒeƒLƒXƒg”ÍˆÍ‚ğ”š’uŠ·‚ª“K—p‰Â”\‚È‹æŠÔ‚É‚Â‚¢‚Ä‰ğÍ‚µAƒ\[ƒX‚©‚ç‘®«‚ğ“Ç‚İæ‚Á‚ÄƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒN SetNumberSubstitution ‚É’uŠ·‰Â”\‚È”ÍˆÍ‚ğ•ñ‚·‚éB
 %group
 COM misc / IDWriteTextAnalyzer
 %prm
 this, analysisSource, textPosition, textLength, analysisSink
 this : [comobj] IDWriteTextAnalyzer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-analysisSource : [comobj] Type: IDWriteTextAnalysisSource* The source object to analyze.
-textPosition : [int] Type: UINT32 The starting position within the source object.
-textLength : [int] Type: UINT32 The length to analyze.
-analysisSink : [comobj] Type: IDWriteTextAnalysisSink* A pointer to the sink callback object that receives the text analysis.
+analysisSource : [comobj] Œ^: IDWriteTextAnalysisSource* ‰ğÍ‘ÎÛ‚Ìƒ\[ƒXƒIƒuƒWƒFƒNƒgB
+textPosition : [int] Œ^: UINT32 ƒ\[ƒXƒIƒuƒWƒFƒNƒg“à‚Å‚ÌŠJnˆÊ’uB
+textLength : [int] Œ^: UINT32 ‰ğÍ‚·‚é’·‚³B
+analysisSink : [comobj] Œ^: IDWriteTextAnalysisSink* ƒeƒLƒXƒg‰ğÍŒ‹‰Ê‚ğó‚¯æ‚éƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Analyzes a text range for spans where number substitution is
-applicable, reading attributes from the source and reporting
-substitutable ranges to the sink callback SetNumberSubstitution.
+ƒeƒLƒXƒg”ÍˆÍ‚ğ”š’uŠ·‚ª“K—p‰Â”\‚È‹æŠÔ‚É‚Â‚¢‚Ä‰ğÍ‚µAƒ\[ƒX‚©‚ç‘®«‚ğ“Ç‚İæ‚Á‚ÄƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒN
+SetNumberSubstitution ‚É’uŠ·‰Â”\‚È”ÍˆÍ‚ğ•ñ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Although the function can handle multiple ranges of differing number
-substitutions, the text ranges should not arbitrarily split the
-middle of numbers. Otherwise, it will treat the numbers separately
-and will not translate any intervening punctuation.
+
+‚±‚ÌŠÖ”‚ÍˆÙ‚È‚é”š’uŠ·‚ğ‚Â•¡”‚Ì”ÍˆÍ‚ğˆµ‚¦‚é‚ªAƒeƒLƒXƒg”ÍˆÍ‚ğ”š‚Ì“r’†‚Åœ“ˆÓ“I‚É•ªŠ„‚·‚×‚«‚Å‚Í‚È‚¢B•ªŠ„‚·‚é‚ÆA”š‚ªŒÂ•Ê‚Éˆµ‚í‚êAŠÔ‚É‚ ‚é‹å“Ç“_‚ª–|–ó‚³‚ê‚È‚¢B
 
 
 %index
 IDWriteTextAnalyzer_AnalyzeLineBreakpoints
-Analyzes a text range for potential breakpoint opportunities, reading attributes from the source and reporting breakpoint opportunities to the sink callback SetLineBreakpoints.
+ƒeƒLƒXƒg”ÍˆÍ‚ğ‰üs‰Â”\‰ÓŠ‚É‚Â‚¢‚Ä‰ğÍ‚µAƒ\[ƒX‚©‚ç‘®«‚ğ“Ç‚İæ‚Á‚ÄƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒN SetLineBreakpoints ‚É‰üs‰Â”\‰ÓŠ‚ğ•ñ‚·‚éB
 %group
 COM misc / IDWriteTextAnalyzer
 %prm
 this, analysisSource, textPosition, textLength, analysisSink
 this : [comobj] IDWriteTextAnalyzer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-analysisSource : [comobj] Type: IDWriteTextAnalysisSource* A pointer to the source object to analyze.
-textPosition : [int] Type: UINT32 The starting text position within the source object.
-textLength : [int] Type: UINT32 The text length to analyze.
-analysisSink : [comobj] Type: IDWriteTextAnalysisSink* A pointer to the  sink callback object that receives the text analysis.
+analysisSource : [comobj] Œ^: IDWriteTextAnalysisSource* ‰ğÍ‘ÎÛ‚Ìƒ\[ƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+textPosition : [int] Œ^: UINT32 ƒ\[ƒXƒIƒuƒWƒFƒNƒg“à‚Å‚Ì‰ğÍŠJnƒeƒLƒXƒgˆÊ’uB
+textLength : [int] Œ^: UINT32 ‰ğÍ‚·‚éƒeƒLƒXƒg‚Ì’·‚³B
+analysisSink : [comobj] Œ^: IDWriteTextAnalysisSink* ƒeƒLƒXƒg‰ğÍŒ‹‰Ê‚ğó‚¯æ‚éƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒNƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Analyzes a text range for potential breakpoint opportunities, reading
-attributes from the source and reporting breakpoint opportunities to
-the sink callback SetLineBreakpoints.
+ƒeƒLƒXƒg”ÍˆÍ‚ğ‰üs‰Â”\‰ÓŠ‚É‚Â‚¢‚Ä‰ğÍ‚µAƒ\[ƒX‚©‚ç‘®«‚ğ“Ç‚İæ‚Á‚ÄƒVƒ“ƒNƒR[ƒ‹ƒoƒbƒN SetLineBreakpoints
+‚É‰üs‰Â”\‰ÓŠ‚ğ•ñ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Although the function can handle multiple paragraphs, the text range
-should not arbitrarily split the middle of paragraphs, unless the
-specified text span is considered a whole unit. Otherwise, the
-returned properties for the first and last characters will
-inappropriately allow breaks.
+
+‚±‚ÌŠÖ”‚Í•¡”’i—‚ğˆµ‚¦‚é‚ªAw’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ‚ªŠ®Œ‹‚µ‚½’PˆÊ‚Æ‚µ‚Äˆµ‚¦‚éê‡‚ğœ‚«AƒeƒLƒXƒg”ÍˆÍ‚ğ’i—‚Ì“r’†‚Åœ“ˆÓ“I‚É•ªŠ„‚·‚×‚«‚Å‚Í‚È‚¢B‚»‚¤‚Å‚È‚¢‚ÆAÅ‰‚ÆÅŒã‚Ì•¶š‚É‘Î‚µ‚Ä•Ô‚³‚ê‚éƒvƒƒpƒeƒB‚ª•s“KØ‚É‰üs‚ğ‹–‰Â‚·‚é‰Â”\«‚ª‚ ‚éB
 
 
 %index
 IDWriteTextAnalyzer_GetGlyphs
-Parses the input text string and maps it to the set of glyphs and associated glyph data according to the font and the writing system's rendering rules.
+“ü—ÍƒeƒLƒXƒg•¶š—ñ‚ğ‰ğÍ‚µAƒtƒHƒ“ƒg‚Æ‘‹LŒn‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‹K‘¥‚É]‚Á‚ÄƒOƒŠƒt‚¨‚æ‚ÑŠÖ˜A‚·‚éƒOƒŠƒtƒf[ƒ^‚ÌW‡‚Éƒ}ƒbƒsƒ“ƒO‚·‚éB
 %group
 COM misc / IDWriteTextAnalyzer
 %prm
 this, textString, textLength, fontFace, isSideways, isRightToLeft, scriptAnalysis, localeName, numberSubstitution, features, featureRangeLengths, featureRanges, maxGlyphCount, clusterMap, textProps, glyphIndices, glyphProps, actualGlyphCount
 this : [comobj] IDWriteTextAnalyzer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textString : [wstr] Type: const WCHAR* An array of characters to convert to glyphs.
-textLength : [int] Type: UINT32 The length of textString.
-fontFace : [comobj] Type: IDWriteFontFace* The font face that is the source of the output glyphs.
-isSideways : [int] Type: BOOL A Boolean flag set to TRUE if the text is intended to be drawn vertically.
-isRightToLeft : [int] Type: BOOL A Boolean flag set to TRUE for right-to-left text.
-scriptAnalysis : [var] Type: const DWRITE_SCRIPT_ANALYSIS* A pointer to a Script analysis result from an AnalyzeScript call.
-localeName : [wstr] Type: const WCHAR* The locale to use when selecting glyphs. For example the same character may map to different glyphs for ja-jp versus zh-chs. If this is NULL, then the default mapping based on the script is used.
-numberSubstitution : [comobj] Type: IDWriteNumberSubstitution* A pointer to an optional number substitution which selects the appropriate glyphs for digits and related numeric characters, depending on the results obtained from AnalyzeNumberSubstitution. Passing NULL indicates that no substitution is needed and that the digits should receive nominal glyphs.
-features : [var] Type: const DWRITE_TYPOGRAPHIC_FEATURES** An array of pointers to the sets of typographic features to use in each feature range.
-featureRangeLengths : [var] Type: const UINT32* The length of each feature range, in characters. The sum of all lengths should be equal to textLength.
-featureRanges : [int] Type: UINT32 The number of feature ranges.
-maxGlyphCount : [int] Type: UINT32 The maximum number of glyphs that can be returned.
-clusterMap : [int] Type: UINT16* When this method returns, contains the mapping from character ranges to glyph ranges.
-textProps : [var] Type: DWRITE_SHAPING_TEXT_PROPERTIES* When this method returns, contains a pointer to an array of structures that contains  shaping properties for each character.
-glyphIndices : [int] Type: UINT16* The output glyph indices.
-glyphProps : [var] Type: DWRITE_SHAPING_GLYPH_PROPERTIES* When this method returns, contains a pointer to an array of structures that contain  shaping properties for each output glyph.
-actualGlyphCount : [int] Type: UINT32* When this method returns, contains the actual number of glyphs returned if the call succeeds.
+textString : [wstr] Œ^: const WCHAR* ƒOƒŠƒt‚É•ÏŠ·‚·‚é•¶š‚Ì”z—ñB
+textLength : [int] Œ^: UINT32 textString ‚Ì’·‚³B
+fontFace : [comobj] Œ^: IDWriteFontFace* o—ÍƒOƒŠƒt‚ÌŒ³‚Æ‚È‚éƒtƒHƒ“ƒgƒtƒFƒCƒXB
+isSideways : [int] Œ^: BOOL ƒeƒLƒXƒg‚ğc‘‚«‚Å•`‰æ‚·‚é‚±‚Æ‚ğˆÓ}‚µ‚Ä‚¢‚éê‡‚É TRUE ‚ğİ’è‚·‚éƒu[ƒ‹ƒtƒ‰ƒOB
+isRightToLeft : [int] Œ^: BOOL ‰E‚©‚ç¶•ûŒü‚ÌƒeƒLƒXƒg‚Ìê‡‚É TRUE ‚ğİ’è‚·‚éƒu[ƒ‹ƒtƒ‰ƒOB
+scriptAnalysis : [var] Œ^: const DWRITE_SCRIPT_ANALYSIS* AnalyzeScript ŒÄ‚Ño‚µ‚©‚ç“¾‚ç‚ê‚éƒXƒNƒŠƒvƒg‰ğÍŒ‹‰Ê‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+localeName : [wstr] Œ^: const WCHAR* ƒOƒŠƒt‚ğ‘I‘ğ‚·‚éÛ‚Ég—p‚·‚éƒƒP[ƒ‹B—á‚¦‚Î“¯‚¶•¶š‚Å‚à ja-jp ‚Æ zh-chs ‚Å‚ÍˆÙ‚È‚éƒOƒŠƒt‚Éƒ}ƒbƒsƒ“ƒO‚³‚ê‚éê‡‚ª‚ ‚éBNULL ‚Ìê‡‚ÍƒXƒNƒŠƒvƒg‚ÉŠî‚Ã‚­Šù’è‚Ìƒ}ƒbƒsƒ“ƒO‚ªg—p‚³‚ê‚éB
+numberSubstitution : [comobj] Œ^: IDWriteNumberSubstitution* AnalyzeNumberSubstitution ‚ÌŒ‹‰Ê‚ÉŠî‚Ã‚«A”š‚¨‚æ‚ÑŠÖ˜A‚·‚é”’l•¶š‚É‘Î‚µ‚Ä“KØ‚ÈƒOƒŠƒt‚ğ‘I‘ğ‚·‚é”CˆÓ‚Ì”š’uŠ·‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚ğ“n‚·‚ÆA’uŠ·‚Í•s—v‚Å‚ ‚èA”š‚É‘Î‚µ‚ÄŠî–{ƒOƒŠƒt‚ğg—p‚·‚é‚±‚Æ‚ğ¦‚·B
+features : [var] Œ^: const DWRITE_TYPOGRAPHIC_FEATURES** ŠeƒtƒB[ƒ`ƒƒ[”ÍˆÍ‚Åg—p‚·‚éƒ^ƒCƒ|ƒOƒ‰ƒtƒBƒtƒB[ƒ`ƒƒ[‚ÌW‡‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñB
+featureRangeLengths : [var] Œ^: const UINT32* ŠeƒtƒB[ƒ`ƒƒ[”ÍˆÍ‚Ì’·‚³ (•¶š”)B‚·‚×‚Ä‚Ì’·‚³‚Ì‡Œv‚Í textLength ‚Æ“™‚µ‚­‚È‚é‚×‚«‚Å‚ ‚éB
+featureRanges : [int] Œ^: UINT32 ƒtƒB[ƒ`ƒƒ[”ÍˆÍ‚Ì”B
+maxGlyphCount : [int] Œ^: UINT32 •Ô‹p‰Â”\‚ÈƒOƒŠƒt‚ÌÅ‘å”B
+clusterMap : [int] Œ^: UINT16* ƒƒ\ƒbƒh‚ª–ß‚éÛA•¶š”ÍˆÍ‚©‚çƒOƒŠƒt”ÍˆÍ‚Ö‚Ìƒ}ƒbƒsƒ“ƒO‚ğŠi”[‚·‚éB
+textProps : [var] Œ^: DWRITE_SHAPING_TEXT_PROPERTIES* ƒƒ\ƒbƒh‚ª–ß‚éÛAŠe•¶š‚ÌƒVƒF[ƒsƒ“ƒOƒvƒƒpƒeƒB‚ğŠi”[‚·‚é\‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
+glyphIndices : [int] Œ^: UINT16* o—ÍƒOƒŠƒtƒCƒ“ƒfƒbƒNƒXB
+glyphProps : [var] Œ^: DWRITE_SHAPING_GLYPH_PROPERTIES* ƒƒ\ƒbƒh‚ª–ß‚éÛAŠeo—ÍƒOƒŠƒt‚ÌƒVƒF[ƒsƒ“ƒOƒvƒƒpƒeƒB‚ğŠi”[‚·‚é\‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
+actualGlyphCount : [int] Œ^: UINT32* ƒƒ\ƒbƒh‚ª–ß‚éÛAŒÄ‚Ño‚µ‚ª¬Œ÷‚µ‚½ê‡‚É•Ô‚³‚ê‚½ƒOƒŠƒt‚ÌÀ”‚ğŠi”[‚·‚éB
 %inst
-Parses the input text string and maps it to the set of glyphs and
-associated glyph data according to the font and the writing system's
-rendering rules.
+“ü—ÍƒeƒLƒXƒg•¶š—ñ‚ğ‰ğÍ‚µAƒtƒHƒ“ƒg‚Æ‘‹LŒn‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‹K‘¥‚É]‚Á‚ÄƒOƒŠƒt‚¨‚æ‚ÑŠÖ˜A‚·‚éƒOƒŠƒtƒf[ƒ^‚ÌW‡‚Éƒ}ƒbƒsƒ“ƒO‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Note that the mapping from characters to glyphs is, in general,
-many-to-many. The recommended estimate for the per-glyph output
-buffers is (3 * textLength / 2 + 16). This is not guaranteed to be
-sufficient. The value of the actualGlyphCount parameter is only valid
-if the call succeeds. In the event that maxGlyphCount is not big
-enough, HRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER) will be
-returned. The application should allocate a larger buffer and try
-again.
+•¶š‚©‚çƒOƒŠƒt‚Ö‚Ìƒ}ƒbƒsƒ“ƒO‚Íˆê”Ê‚É‘½‘Î‘½‚Å‚ ‚éBƒOƒŠƒt’PˆÊ‚Ìo—Íƒoƒbƒtƒ@‚É‘Î‚·‚é„§Œ©Ï‚à‚è‚Í (3 * textLength / 2
++ 16) ‚¾‚ªA‚±‚ê‚Å\•ª‚Å‚ ‚é•ÛØ‚Í‚È‚¢BactualGlyphCount
+ƒpƒ‰ƒ[ƒ^‚Ì’l‚ÍŒÄ‚Ño‚µ‚ª¬Œ÷‚µ‚½ê‡‚É‚Ì‚İ—LŒø‚Å‚ ‚éBmaxGlyphCount
+‚ª\•ª‚Å‚È‚¢ê‡AHRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER)
+‚ª•Ô‚³‚ê‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚æ‚è‘å‚«‚Èƒoƒbƒtƒ@‚ğŠm•Û‚µ‚ÄÄs‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 IDWriteTextAnalyzer_GetGlyphPlacements
-Places glyphs output from the GetGlyphs method according to the font and the writing system's rendering rules.
+GetGlyphs ƒƒ\ƒbƒh‚©‚ço—Í‚³‚ê‚½ƒOƒŠƒt‚ğAƒtƒHƒ“ƒg‚Æ‘‹LŒn‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‹K‘¥‚É]‚Á‚Ä”z’u‚·‚éB
 %group
 COM misc / IDWriteTextAnalyzer
 %prm
 this, textString, clusterMap, textProps, textLength, glyphIndices, glyphProps, glyphCount, fontFace, fontEmSize, isSideways, isRightToLeft, scriptAnalysis, localeName, features, featureRangeLengths, featureRanges, glyphAdvances, glyphOffsets
 this : [comobj] IDWriteTextAnalyzer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textString : [wstr] Type: const WCHAR* An array of characters containing the original string from which the glyphs came.
-clusterMap : [int] Type: const UINT16* A pointer to the mapping from character ranges to glyph ranges. This is returned by GetGlyphs.
-textProps : [var] Type: DWRITE_SHAPING_TEXT_PROPERTIES* A pointer to an array of structures that contains  shaping properties for each character. This structure is returned by GetGlyphs.
-textLength : [int] Type: UINT32 The text length of textString.
-glyphIndices : [int] Type: const UINT16* An array of glyph indices returned by GetGlyphs.
-glyphProps : [var] Type: const DWRITE_SHAPING_GLYPH_PROPERTIES* A pointer to an array of structures that contain  shaping properties for each glyph returned by GetGlyphs.
-glyphCount : [int] Type: UINT32 The number of glyphs returned from GetGlyphs.
-fontFace : [comobj] Type: IDWriteFontFace* A pointer to the font face that is the source for the output glyphs.
-fontEmSize : [float] Type: FLOAT The logical font size in DIPs.
-isSideways : [int] Type: BOOL A Boolean flag set to TRUE if the text is intended to be drawn vertically.
-isRightToLeft : [int] Type: BOOL A Boolean flag set to TRUE for right-to-left text.
-scriptAnalysis : [var] Type: const DWRITE_SCRIPT_ANALYSIS* A pointer to a Script analysis result from an AnalyzeScript call.
-localeName : [wstr] Type: const WCHAR* An array of characters containing the locale to use when selecting glyphs. For example, the same character may map to different glyphs for ja-jp versus zh-chs. If this is NULL, the default mapping based on the script is used.
-features : [var] Type: const DWRITE_TYPOGRAPHIC_FEATURES** An array of pointers to the sets of typographic features to use in each feature range.
-featureRangeLengths : [var] Type: const UINT32* The length of each feature range, in characters. The sum of all lengths should be equal to textLength.
-featureRanges : [int] Type: UINT32 The number of feature ranges.
-glyphAdvances : [float] Type: FLOAT* When this method returns, contains the advance width of each glyph.
-glyphOffsets : [var] Type: DWRITE_GLYPH_OFFSET* When this method returns, contains the offset of the origin of each glyph.
+textString : [wstr] Œ^: const WCHAR* ƒOƒŠƒt‚ÌŒ³‚Æ‚È‚Á‚½Œ³‚Ì•¶š—ñ‚ğŠi”[‚·‚é•¶š”z—ñB
+clusterMap : [int] Œ^: const UINT16* •¶š”ÍˆÍ‚©‚çƒOƒŠƒt”ÍˆÍ‚Ö‚Ìƒ}ƒbƒsƒ“ƒO‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í GetGlyphs ‚É‚æ‚è•Ô‚³‚ê‚éB
+textProps : [var] Œ^: DWRITE_SHAPING_TEXT_PROPERTIES* Še•¶š‚ÌƒVƒF[ƒsƒ“ƒOƒvƒƒpƒeƒB‚ğŠi”[‚·‚é\‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚Í GetGlyphs ‚É‚æ‚è•Ô‚³‚ê‚éB
+textLength : [int] Œ^: UINT32 textString ‚ÌƒeƒLƒXƒg’·B
+glyphIndices : [int] Œ^: const UINT16* GetGlyphs ‚É‚æ‚è•Ô‚³‚ê‚½ƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚Ì”z—ñB
+glyphProps : [var] Œ^: const DWRITE_SHAPING_GLYPH_PROPERTIES* GetGlyphs ‚É‚æ‚è•Ô‚³‚ê‚½ŠeƒOƒŠƒt‚ÌƒVƒF[ƒsƒ“ƒOƒvƒƒpƒeƒB‚ğŠi”[‚·‚é\‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+glyphCount : [int] Œ^: UINT32 GetGlyphs ‚©‚ç•Ô‚³‚ê‚½ƒOƒŠƒt”B
+fontFace : [comobj] Œ^: IDWriteFontFace* o—ÍƒOƒŠƒt‚ÌŒ³‚Æ‚È‚éƒtƒHƒ“ƒgƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fontEmSize : [float] Œ^: FLOAT ˜_—ƒtƒHƒ“ƒgƒTƒCƒY (DIP ’PˆÊ)B
+isSideways : [int] Œ^: BOOL ƒeƒLƒXƒg‚ğc‘‚«‚Å•`‰æ‚·‚é‚±‚Æ‚ğˆÓ}‚µ‚Ä‚¢‚éê‡‚É TRUE ‚ğİ’è‚·‚éƒu[ƒ‹ƒtƒ‰ƒOB
+isRightToLeft : [int] Œ^: BOOL ‰E‚©‚ç¶•ûŒü‚ÌƒeƒLƒXƒg‚Ìê‡‚É TRUE ‚ğİ’è‚·‚éƒu[ƒ‹ƒtƒ‰ƒOB
+scriptAnalysis : [var] Œ^: const DWRITE_SCRIPT_ANALYSIS* AnalyzeScript ŒÄ‚Ño‚µ‚©‚ç“¾‚ç‚ê‚éƒXƒNƒŠƒvƒg‰ğÍŒ‹‰Ê‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+localeName : [wstr] Œ^: const WCHAR* ƒOƒŠƒt‚ğ‘I‘ğ‚·‚éÛ‚Ég—p‚·‚éƒƒP[ƒ‹‚ğŠi”[‚·‚é•¶š”z—ñB—á‚¦‚ÎA“¯‚¶•¶š‚Å‚à ja-jp ‚Æ zh-chs ‚Å‚ÍˆÙ‚È‚éƒOƒŠƒt‚Éƒ}ƒbƒsƒ“ƒO‚³‚ê‚éê‡‚ª‚ ‚éBNULL ‚Ìê‡‚ÍƒXƒNƒŠƒvƒg‚ÉŠî‚Ã‚­Šù’è‚Ìƒ}ƒbƒsƒ“ƒO‚ªg—p‚³‚ê‚éB
+features : [var] Œ^: const DWRITE_TYPOGRAPHIC_FEATURES** ŠeƒtƒB[ƒ`ƒƒ[”ÍˆÍ‚Åg—p‚·‚éƒ^ƒCƒ|ƒOƒ‰ƒtƒBƒtƒB[ƒ`ƒƒ[‚ÌW‡‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñB
+featureRangeLengths : [var] Œ^: const UINT32* ŠeƒtƒB[ƒ`ƒƒ[”ÍˆÍ‚Ì’·‚³ (•¶š”)B‚·‚×‚Ä‚Ì’·‚³‚Ì‡Œv‚Í textLength ‚Æ“™‚µ‚­‚È‚é‚×‚«‚Å‚ ‚éB
+featureRanges : [int] Œ^: UINT32 ƒtƒB[ƒ`ƒƒ[”ÍˆÍ‚Ì”B
+glyphAdvances : [float] Œ^: FLOAT* ƒƒ\ƒbƒh‚ª–ß‚éÛAŠeƒOƒŠƒt‚ÌƒAƒhƒoƒ“ƒX•‚ğŠi”[‚·‚éB
+glyphOffsets : [var] Œ^: DWRITE_GLYPH_OFFSET* ƒƒ\ƒbƒh‚ª–ß‚éÛAŠeƒOƒŠƒt‚ÌŒ´“_‚ÌƒIƒtƒZƒbƒg‚ğŠi”[‚·‚éB
 %inst
-Places glyphs output from the GetGlyphs method according to the font
-and the writing system's rendering rules.
+GetGlyphs ƒƒ\ƒbƒh‚©‚ço—Í‚³‚ê‚½ƒOƒŠƒt‚ğAƒtƒHƒ“ƒg‚Æ‘‹LŒn‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‹K‘¥‚É]‚Á‚Ä”z’u‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextAnalyzer_GetGdiCompatibleGlyphPlacements
-Place glyphs output from the GetGlyphs method according to the font and the writing system's rendering rules.
+GetGlyphs ƒƒ\ƒbƒh‚©‚ço—Í‚³‚ê‚½ƒOƒŠƒt‚ğAƒtƒHƒ“ƒg‚Æ‘‹LŒn‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‹K‘¥‚É]‚Á‚Ä”z’u‚·‚éB
 %group
 COM misc / IDWriteTextAnalyzer
 %prm
 this, textString, clusterMap, textProps, textLength, glyphIndices, glyphProps, glyphCount, fontFace, fontEmSize, pixelsPerDip, transform, useGdiNatural, isSideways, isRightToLeft, scriptAnalysis, localeName, features, featureRangeLengths, featureRanges, glyphAdvances, glyphOffsets
 this : [comobj] IDWriteTextAnalyzer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textString : [wstr] Type: **const WCHAR\*** An array of characters containing the original string from which the glyphs came.
-clusterMap : [int] Type: **const UINT16\*** A pointer to the mapping from character ranges to glyph ranges. This is returned by [**GetGlyphs**](/windows/win32/api/dwrite/nf-dwrite-idwritetextanalyzer-getglyphs).
-textProps : [var] Type: **[**DWRITE\_SHAPING\_TEXT\_PROPERTIES**](/windows/win32/api/dwrite/ns-dwrite-dwrite_shaping_text_properties)\*** A pointer to an array of structures that contains shaping properties for each character. This structure is returned by [**GetGlyphs**](/windows/win32/api/dwrite/nf-dwrite-idwritetextanalyzer-getglyphs).
-textLength : [int] Type: **UINT32** The text length of *textString*.
-glyphIndices : [int] Type: **const UINT16\*** An array of glyph indices returned by [**GetGlyphs**](/windows/win32/api/dwrite/nf-dwrite-idwritetextanalyzer-getglyphs).
-glyphProps : [var] Type: **const [**DWRITE\_SHAPING\_GLYPH\_PROPERTIES**](/windows/win32/api/dwrite/ns-dwrite-dwrite_shaping_glyph_properties)\*** A pointer to an array of structures that contain shaping properties for each glyph returned by [**GetGlyphs**](/windows/win32/api/dwrite/nf-dwrite-idwritetextanalyzer-getglyphs).
-glyphCount : [int] Type: **UINT32** The number of glyphs returned from [**GetGlyphs**](/windows/win32/api/dwrite/nf-dwrite-idwritetextanalyzer-getglyphs).
-fontFace : [comobj] Type: **[**IDWriteFontFace**](/windows/win32/api/dwrite/nn-dwrite-idwritefontface)\*** A pointer to the font face that is the source for the output glyphs.
-fontEmSize : [float] Type: **FLOAT** The logical font size in DIPs.
-pixelsPerDip : [float] Type: **FLOAT** The number of physical pixels per DIP.
-transform : [var] Type: **const [**DWRITE\_MATRIX**](/windows/win32/api/dwrite/ns-dwrite-dwrite_matrix)\*** An optional transform applied to the glyphs and their positions. This transform is applied after the scaling specified by the font size and *pixelsPerDip*.
-useGdiNatural : [int] Type: **BOOL** When set to **FALSE**, the metrics are the same as the metrics of GDI aliased text. When set to **TRUE**, the metrics are the same as the metrics of text measured by GDI using a font created with **CLEARTYPE\_NATURAL\_QUALITY**.
-isSideways : [int] Type: **BOOL** A Boolean flag set to **TRUE** if the text is intended to be drawn vertically.
-isRightToLeft : [int] Type: **BOOL** A Boolean flag set to **TRUE** for right-to-left text.
-scriptAnalysis : [var] Type: **const [**DWRITE\_SCRIPT\_ANALYSIS**](/windows/win32/api/dwrite/ns-dwrite-dwrite_script_analysis)\*** A pointer to a Script analysis result from an[**AnalyzeScript**](/windows/win32/api/dwrite/nf-dwrite-idwritetextanalyzer-analyzescript) call.
-localeName : [wstr] Type: **const WCHAR\*** An array of characters containing the locale to use when selecting glyphs. For example, the same character may map to different glyphs for ja-jp versus zh-chs. If this is **NULL**, then the default mapping based on the script is used.
-features : [var] Type: **const [**DWRITE\_TYPOGRAPHIC\_FEATURES**](/windows/win32/api/dwrite/ns-dwrite-dwrite_typographic_features)\*\*** An array of pointers to the sets of typographic features to use in each feature range.
-featureRangeLengths : [var] Type: **const UINT32\*** The length of each feature range, in characters. The sum of all lengths should be equal to *textLength*.
-featureRanges : [int] Type: **UINT32** The number of feature ranges.
-glyphAdvances : [float] Type: **FLOAT\*** When this method returns, contains the advance width of each glyph.
-glyphOffsets : [var] Type: **[**DWRITE\_GLYPH\_OFFSET**](/windows/win32/api/dwrite/ns-dwrite-dwrite_glyph_offset)\*** When this method returns, contains the offset of the origin of each glyph.
+textString : [wstr] Œ^: **const WCHAR\*** ƒOƒŠƒt‚ÌŒ³‚Æ‚È‚Á‚½Œ³‚Ì•¶š—ñ‚ğŠi”[‚·‚é•¶š”z—ñB
+clusterMap : [int] Œ^: **const UINT16\*** •¶š”ÍˆÍ‚©‚çƒOƒŠƒt”ÍˆÍ‚Ö‚Ìƒ}ƒbƒsƒ“ƒO‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í [**GetGlyphs**](/windows/win32/api/dwrite/nf-dwrite-idwritetextanalyzer-getglyphs) ‚É‚æ‚è•Ô‚³‚ê‚éB
+textProps : [var] Œ^: **[**DWRITE\_SHAPING\_TEXT\_PROPERTIES**](/windows/win32/api/dwrite/ns-dwrite-dwrite_shaping_text_properties)\*** Še•¶š‚ÌƒVƒF[ƒsƒ“ƒOƒvƒƒpƒeƒB‚ğŠi”[‚·‚é\‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ì\‘¢‘Ì‚Í [**GetGlyphs**](/windows/win32/api/dwrite/nf-dwrite-idwritetextanalyzer-getglyphs) ‚É‚æ‚è•Ô‚³‚ê‚éB
+textLength : [int] Œ^: **UINT32** *textString* ‚ÌƒeƒLƒXƒg’·B
+glyphIndices : [int] Œ^: **const UINT16\*** [**GetGlyphs**](/windows/win32/api/dwrite/nf-dwrite-idwritetextanalyzer-getglyphs) ‚É‚æ‚è•Ô‚³‚ê‚½ƒOƒŠƒtƒCƒ“ƒfƒbƒNƒX‚Ì”z—ñB
+glyphProps : [var] Œ^: **const [**DWRITE\_SHAPING\_GLYPH\_PROPERTIES**](/windows/win32/api/dwrite/ns-dwrite-dwrite_shaping_glyph_properties)\*** [**GetGlyphs**](/windows/win32/api/dwrite/nf-dwrite-idwritetextanalyzer-getglyphs) ‚É‚æ‚è•Ô‚³‚ê‚½ŠeƒOƒŠƒt‚ÌƒVƒF[ƒsƒ“ƒOƒvƒƒpƒeƒB‚ğŠi”[‚·‚é\‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+glyphCount : [int] Œ^: **UINT32** [**GetGlyphs**](/windows/win32/api/dwrite/nf-dwrite-idwritetextanalyzer-getglyphs) ‚©‚ç•Ô‚³‚ê‚½ƒOƒŠƒt”B
+fontFace : [comobj] Œ^: **[**IDWriteFontFace**](/windows/win32/api/dwrite/nn-dwrite-idwritefontface)\*** o—ÍƒOƒŠƒt‚ÌŒ³‚Æ‚È‚éƒtƒHƒ“ƒgƒtƒFƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fontEmSize : [float] Œ^: **FLOAT** ˜_—ƒtƒHƒ“ƒgƒTƒCƒY (DIP ’PˆÊ)B
+pixelsPerDip : [float] Œ^: **FLOAT** DIP ‚ ‚½‚è‚Ì•¨—ƒsƒNƒZƒ‹”B
+transform : [var] Œ^: **const [**DWRITE\_MATRIX**](/windows/win32/api/dwrite/ns-dwrite-dwrite_matrix)\*** ƒOƒŠƒt‚¨‚æ‚Ñ‚»‚ÌˆÊ’u‚É“K—p‚·‚é”CˆÓ‚Ìƒgƒ‰ƒ“ƒXƒtƒH[ƒ€B‚±‚Ìƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ÍAƒtƒHƒ“ƒgƒTƒCƒY‚Æ *pixelsPerDip* ‚É‚æ‚éŠg‘åk¬‚ÌŒã‚É“K—p‚³‚ê‚éB
+useGdiNatural : [int] Œ^: **BOOL** **FALSE** ‚Ìê‡AƒƒgƒŠƒNƒX‚Í GDI ƒGƒCƒŠƒAƒXƒeƒLƒXƒg‚Æ“¯‚¶‚É‚È‚éB**TRUE** ‚Ìê‡AƒƒgƒŠƒNƒX‚Í **CLEARTYPE\_NATURAL\_QUALITY** ‚Åì¬‚³‚ê‚½ƒtƒHƒ“ƒg‚ğ—p‚¢‚Ä GDI ‚ªŒv‘ª‚µ‚½ƒeƒLƒXƒg‚Æ“¯‚¶‚É‚È‚éB
+isSideways : [int] Œ^: **BOOL** ƒeƒLƒXƒg‚ğc‘‚«‚Å•`‰æ‚·‚é‚±‚Æ‚ğˆÓ}‚µ‚Ä‚¢‚éê‡‚É **TRUE** ‚ğİ’è‚·‚éƒu[ƒ‹ƒtƒ‰ƒOB
+isRightToLeft : [int] Œ^: **BOOL** ‰E‚©‚ç¶•ûŒü‚ÌƒeƒLƒXƒg‚Ìê‡‚É **TRUE** ‚ğİ’è‚·‚éƒu[ƒ‹ƒtƒ‰ƒOB
+scriptAnalysis : [var] Œ^: **const [**DWRITE\_SCRIPT\_ANALYSIS**](/windows/win32/api/dwrite/ns-dwrite-dwrite_script_analysis)\*** [**AnalyzeScript**](/windows/win32/api/dwrite/nf-dwrite-idwritetextanalyzer-analyzescript) ŒÄ‚Ño‚µ‚©‚ç“¾‚ç‚ê‚éƒXƒNƒŠƒvƒg‰ğÍŒ‹‰Ê‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+localeName : [wstr] Œ^: **const WCHAR\*** ƒOƒŠƒt‚ğ‘I‘ğ‚·‚éÛ‚Ég—p‚·‚éƒƒP[ƒ‹‚ğŠi”[‚·‚é•¶š”z—ñB—á‚¦‚ÎA“¯‚¶•¶š‚Å‚à ja-jp ‚Æ zh-chs ‚Å‚ÍˆÙ‚È‚éƒOƒŠƒt‚Éƒ}ƒbƒsƒ“ƒO‚³‚ê‚éê‡‚ª‚ ‚éB**NULL** ‚Ìê‡‚ÍƒXƒNƒŠƒvƒg‚ÉŠî‚Ã‚­Šù’è‚Ìƒ}ƒbƒsƒ“ƒO‚ªg—p‚³‚ê‚éB
+features : [var] Œ^: **const [**DWRITE\_TYPOGRAPHIC\_FEATURES**](/windows/win32/api/dwrite/ns-dwrite-dwrite_typographic_features)\*\*** ŠeƒtƒB[ƒ`ƒƒ[”ÍˆÍ‚Åg—p‚·‚éƒ^ƒCƒ|ƒOƒ‰ƒtƒBƒtƒB[ƒ`ƒƒ[‚ÌW‡‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñB
+featureRangeLengths : [var] Œ^: **const UINT32\*** ŠeƒtƒB[ƒ`ƒƒ[”ÍˆÍ‚Ì’·‚³ (•¶š”)B‚·‚×‚Ä‚Ì’·‚³‚Ì‡Œv‚Í *textLength* ‚Æ“™‚µ‚­‚È‚é‚×‚«‚Å‚ ‚éB
+featureRanges : [int] Œ^: **UINT32** ƒtƒB[ƒ`ƒƒ[”ÍˆÍ‚Ì”B
+glyphAdvances : [float] Œ^: **FLOAT\*** ƒƒ\ƒbƒh‚ª–ß‚éÛAŠeƒOƒŠƒt‚ÌƒAƒhƒoƒ“ƒX•‚ğŠi”[‚·‚éB
+glyphOffsets : [var] Œ^: **[**DWRITE\_GLYPH\_OFFSET**](/windows/win32/api/dwrite/ns-dwrite-dwrite_glyph_offset)\*** ƒƒ\ƒbƒh‚ª–ß‚éÛAŠeƒOƒŠƒt‚ÌŒ´“_‚ÌƒIƒtƒZƒbƒg‚ğŠi”[‚·‚éB
 %inst
-Place glyphs output from the GetGlyphs method according to the font
-and the writing system's rendering rules.
+GetGlyphs ƒƒ\ƒbƒh‚©‚ço—Í‚³‚ê‚½ƒOƒŠƒt‚ğAƒtƒHƒ“ƒg‚Æ‘‹LŒn‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒO‹K‘¥‚É]‚Á‚Ä”z’u‚·‚éB
 
 [–ß‚è’l]
-Type: **HRESULT** If this method succeeds, it returns **S\_OK**.
-Otherwise, it returns an **HRESULT** error code.
+Œ^: **HRESULT** ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í **S\_OK** ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í **HRESULT**
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextFormat_SetTextAlignment
-Sets the alignment of text in a paragraph, relative to the leading and trailing edge of a layout box for a IDWriteTextFormat interface.
+IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìæ“ª‘¤‚Æ––”ö‘¤‚Ì’[‚É‘Î‚·‚éA’i—“à‚ÌƒeƒLƒXƒg‚Ì”z’u‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this, textAlignment
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textAlignment : [int] Type: DWRITE_TEXT_ALIGNMENT The text alignment option being set for the paragraph of type DWRITE_TEXT_ALIGNMENT.  For more information, see Remarks.
+textAlignment : [int] Œ^: DWRITE_TEXT_ALIGNMENT ’i—‚Éİ’è‚·‚é DWRITE_TEXT_ALIGNMENT Œ^‚ÌƒeƒLƒXƒg”z’uƒIƒvƒVƒ‡ƒ“BÚ×‚Í”õl‚ğQÆB
 %inst
-Sets the alignment of text in a paragraph, relative to the leading
-and trailing edge of a layout box for a IDWriteTextFormat interface.
+IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìæ“ª‘¤‚Æ––”ö‘¤‚Ì’[‚É‘Î‚·‚éA’i—“à‚ÌƒeƒLƒXƒg‚Ì”z’u‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT This method can return one of these values.
-This doc was truncated.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The text can be aligned to the leading or trailing edge of the layout
-box, or it can be centered. The following illustration shows text
-with the alignment set to DWRITE_TEXT_ALIGNMENT_LEADING,
-DWRITE_TEXT_ALIGNMENT_CENTER, and DWRITE_TEXT_ALIGNMENT_TRAILING,
-respectively.
-This doc was truncated.
+ƒeƒLƒXƒg‚ÍƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìæ“ª‘¤‚Ü‚½‚Í––”ö‘¤‚Ì’[‚É‘µ‚¦‚é‚©A’†‰›‘µ‚¦‚É‚Å‚«‚éBŸ‚Ì}‚ÍA”z’u‚ğ‚»‚ê‚¼‚ê
+DWRITE_TEXT_ALIGNMENT_LEADINGADWRITE_TEXT_ALIGNMENT_CENTERADWRITE_TEXT_ALIGNMENT_TRAILING
+‚Éİ’è‚µ‚½ƒeƒLƒXƒg‚ğ¦‚µ‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDWriteTextFormat_SetParagraphAlignment
-Sets the alignment option of a paragraph relative to the layout box's top and bottom edge.
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìã‰º’[‚É‘Î‚·‚é’i—‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this, paragraphAlignment
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-paragraphAlignment : [int] Type: DWRITE_PARAGRAPH_ALIGNMENT The paragraph alignment option being set for a paragraph; see DWRITE_PARAGRAPH_ALIGNMENT for more information.
+paragraphAlignment : [int] Œ^: DWRITE_PARAGRAPH_ALIGNMENT ’i—‚Éİ’è‚·‚é’i—”z’uƒIƒvƒVƒ‡ƒ“BÚ×‚Í DWRITE_PARAGRAPH_ALIGNMENT ‚ğQÆB
 %inst
-Sets the alignment option of a paragraph relative to the layout box's
-top and bottom edge.
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìã‰º’[‚É‘Î‚·‚é’i—‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextFormat_SetWordWrapping
-Sets the word wrapping option.
+ƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this, wordWrapping
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-wordWrapping : [int] Type: DWRITE_WORD_WRAPPING The word wrapping option being set for a paragraph; see DWRITE_WORD_WRAPPING for more information.
+wordWrapping : [int] Œ^: DWRITE_WORD_WRAPPING ’i—‚Éİ’è‚·‚éƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡ƒ“BÚ×‚Í DWRITE_WORD_WRAPPING ‚ğQÆB
 %inst
-Sets the word wrapping option.
+ƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextFormat_SetReadingDirection
-Sets the paragraph reading direction.
+’i—‚Ì“Ç‚İæ‚è•ûŒü‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this, readingDirection
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-readingDirection : [int] Type: DWRITE_READING_DIRECTION The text reading direction (for example, DWRITE_READING_DIRECTION_RIGHT_TO_LEFT for languages, such as Arabic, that read from right to left) for a paragraph.
+readingDirection : [int] Œ^: DWRITE_READING_DIRECTION ’i—‚ÌƒeƒLƒXƒg“Ç‚İæ‚è•ûŒü (‚½‚Æ‚¦‚ÎAƒAƒ‰ƒrƒAŒê‚Ì‚æ‚¤‚È‰E‚©‚ç¶‚É“Ç‚ŞŒ¾ŒêŒü‚¯‚É‚Í DWRITE_READING_DIRECTION_RIGHT_TO_LEFT)B
 %inst
-Sets the paragraph reading direction.
+’i—‚Ì“Ç‚İæ‚è•ûŒü‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The reading direction and flow direction must always be set 90
-degrees orthogonal to each other, or else you will get the error
-DWRITE_E_FLOWDIRECTIONCONFLICTS when you use layout functions like
-Draw or GetMetrics. So if you set a vertical reading direction (for
-example, to DWRITE_READING_DIRECTION_TOP_TO_BOTTOM), then you must
-also use SetFlowDirection to set the flow direction appropriately
-(for example, to DWRITE_FLOW_DIRECTION_RIGHT_TO_LEFT).
+“Ç‚İæ‚è•ûŒü‚Æƒtƒ[•ûŒü‚Íí‚ÉŒİ‚¢‚É 90 “x’¼Œğ‚·‚é‚æ‚¤‚Éİ’è‚·‚é•K—v‚ª‚ ‚éB‚³‚à‚È‚¢‚ÆADraw ‚â GetMetrics
+‚È‚Ç‚ÌƒŒƒCƒAƒEƒgŠÖ”‚ğg—p‚µ‚½Û‚É DWRITE_E_FLOWDIRECTIONCONFLICTS
+ƒGƒ‰[‚ª”­¶‚·‚éB‚µ‚½‚ª‚Á‚ÄA‚’¼‚Ì“Ç‚İæ‚è•ûŒü (‚½‚Æ‚¦‚Î
+DWRITE_READING_DIRECTION_TOP_TO_BOTTOM) ‚ğİ’è‚·‚éê‡ASetFlowDirection
+‚ğg—p‚µ‚Äƒtƒ[•ûŒü‚à“KØ‚É (‚½‚Æ‚¦‚Î DWRITE_FLOW_DIRECTION_RIGHT_TO_LEFT ‚É)
+İ’è‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 IDWriteTextFormat_SetFlowDirection
-Sets the paragraph flow direction.
+’i—‚Ìƒtƒ[•ûŒü‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this, flowDirection
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-flowDirection : [int] Type: DWRITE_FLOW_DIRECTION The paragraph flow direction; see DWRITE_FLOW_DIRECTION for more information.
+flowDirection : [int] Œ^: DWRITE_FLOW_DIRECTION ’i—‚Ìƒtƒ[•ûŒüBÚ×‚Í DWRITE_FLOW_DIRECTION ‚ğQÆB
 %inst
-Sets the paragraph flow direction.
+’i—‚Ìƒtƒ[•ûŒü‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextFormat_SetIncrementalTabStop
-Sets a fixed distance between two adjacent tab stops.
+—×Ú‚·‚é 2 ‚Â‚Ìƒ^ƒuƒXƒgƒbƒvŠÔ‚ÉŒÅ’è‹——£‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this, incrementalTabStop
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-incrementalTabStop : [float] Type: FLOAT The fixed distance between two adjacent tab stops.
+incrementalTabStop : [float] Œ^: FLOAT —×Ú‚·‚é 2 ‚Â‚Ìƒ^ƒuƒXƒgƒbƒvŠÔ‚ÌŒÅ’è‹——£B
 %inst
-Sets a fixed distance between two adjacent tab stops.
+—×Ú‚·‚é 2 ‚Â‚Ìƒ^ƒuƒXƒgƒbƒvŠÔ‚ÉŒÅ’è‹——£‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextFormat_SetTrimming
-Sets trimming options for text overflowing the layout width.
+ƒŒƒCƒAƒEƒg•‚ğƒI[ƒo[ƒtƒ[‚·‚éƒeƒLƒXƒg‚ÌƒgƒŠƒ~ƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this, trimmingOptions, trimmingSign
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-trimmingOptions : [var] Type: const DWRITE_TRIMMING* Text trimming options.
-trimmingSign : [comobj] Type: IDWriteInlineObject* Application-defined omission sign. This parameter may be NULL. See IDWriteInlineObject for more information.
+trimmingOptions : [var] Œ^: const DWRITE_TRIMMING* ƒeƒLƒXƒgƒgƒŠƒ~ƒ“ƒOƒIƒvƒVƒ‡ƒ“B
+trimmingSign : [comobj] Œ^: IDWriteInlineObject* ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌÈ—ª‹L†B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚¢BÚ×‚Í IDWriteInlineObject ‚ğQÆB
 %inst
-Sets trimming options for text overflowing the layout width.
+ƒŒƒCƒAƒEƒg•‚ğƒI[ƒo[ƒtƒ[‚·‚éƒeƒLƒXƒg‚ÌƒgƒŠƒ~ƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextFormat_SetLineSpacing
-Sets the line spacing.
+sŠÔ‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this, lineSpacingMethod, lineSpacing, baseline
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-lineSpacingMethod : [int] Type: DWRITE_LINE_SPACING_METHOD Specifies how line height is being determined; see DWRITE_LINE_SPACING_METHOD for more information.
-lineSpacing : [float] Type: FLOAT The line height, or distance between one baseline to another.
-baseline : [float] Type: FLOAT The distance from top of line to baseline. A reasonable ratio to lineSpacing is 80 percent.
+lineSpacingMethod : [int] Œ^: DWRITE_LINE_SPACING_METHOD s‚Ì‚‚³‚ÌŒˆ’è•û–@‚ğw’è‚·‚éBÚ×‚Í DWRITE_LINE_SPACING_METHOD ‚ğQÆB
+lineSpacing : [float] Œ^: FLOAT s‚Ì‚‚³A‚Â‚Ü‚è‚ ‚éƒx[ƒXƒ‰ƒCƒ“‚©‚ç•Ê‚Ìƒx[ƒXƒ‰ƒCƒ“‚Ü‚Å‚Ì‹——£B
+baseline : [float] Œ^: FLOAT s“ª‚©‚çƒx[ƒXƒ‰ƒCƒ“‚Ü‚Å‚Ì‹——£BlineSpacing ‚É‘Î‚·‚é‘Ã“–‚È”ä—¦‚Í 80 ƒp[ƒZƒ“ƒg‚Å‚ ‚éB
 %inst
-Sets the line spacing.
+sŠÔ‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-For the default method, spacing depends solely on the content. For
-uniform spacing, the specified line height overrides the content.
+ƒfƒtƒHƒ‹ƒg‚Ì•û–@‚Å‚ÍAŠÔŠu‚Í“à—e‚Ì‚İ‚ÉˆË‘¶‚·‚éBˆê—l‚ÈŠÔŠu‚Ìê‡Aw’è‚³‚ê‚½s‚Ì‚‚³‚ª“à—e‚ğã‘‚«‚·‚éB
 
 
 %index
 IDWriteTextFormat_GetTextAlignment
-Gets the alignment option of text relative to the layout box's leading and trailing edge.
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìæ“ª‘¤‚Æ––”ö‘¤‚Ì’[‚É‘Î‚·‚éƒeƒLƒXƒg‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the alignment option of text relative to the layout box's
-leading and trailing edge.
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìæ“ª‘¤‚Æ––”ö‘¤‚Ì’[‚É‘Î‚·‚éƒeƒLƒXƒg‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_TEXT_ALIGNMENT Returns the text alignment option of the
-current paragraph.
+Œ^: DWRITE_TEXT_ALIGNMENT Œ»İ‚Ì’i—‚ÌƒeƒLƒXƒg”z’uƒIƒvƒVƒ‡ƒ“‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextFormat_GetParagraphAlignment
-Gets the alignment option of a paragraph which is relative to the top and bottom edges of a layout box.
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìã‰º’[‚É‘Î‚·‚é’i—‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the alignment option of a paragraph which is relative to the top
-and bottom edges of a layout box.
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìã‰º’[‚É‘Î‚·‚é’i—‚Ì”z’uƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_PARAGRAPH_ALIGNMENT A value that indicates the current
-paragraph alignment option.
+Œ^: DWRITE_PARAGRAPH_ALIGNMENT Œ»İ‚Ì’i—”z’uƒIƒvƒVƒ‡ƒ“‚ğ¦‚·’lB
 
 
 %index
 IDWriteTextFormat_GetWordWrapping
-Gets the word wrapping option.
+ƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the word wrapping option.
+ƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_WORD_WRAPPING Returns the word wrapping option; see
-DWRITE_WORD_WRAPPING for more information.
+Œ^: DWRITE_WORD_WRAPPING ƒ[ƒhƒ‰ƒbƒvƒIƒvƒVƒ‡ƒ“‚ğ•Ô‚·BÚ×‚Í DWRITE_WORD_WRAPPING ‚ğQÆB
 
 
 %index
 IDWriteTextFormat_GetReadingDirection
-Gets the current reading direction for text in a paragraph.
+’i—“à‚ÌƒeƒLƒXƒg‚ÌŒ»İ‚Ì“Ç‚İæ‚è•ûŒü‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the current reading direction for text in a paragraph.
+’i—“à‚ÌƒeƒLƒXƒg‚ÌŒ»İ‚Ì“Ç‚İæ‚è•ûŒü‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_READING_DIRECTION A value that indicates the current
-reading direction for text in a paragraph.
+Œ^: DWRITE_READING_DIRECTION ’i—“à‚ÌƒeƒLƒXƒg‚ÌŒ»İ‚Ì“Ç‚İæ‚è•ûŒü‚ğ¦‚·’lB
 
 
 %index
 IDWriteTextFormat_GetFlowDirection
-Gets the direction that text lines flow.
+ƒeƒLƒXƒgs‚ª—¬‚ê‚é•ûŒü‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the direction that text lines flow.
+ƒeƒLƒXƒgs‚ª—¬‚ê‚é•ûŒü‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_FLOW_DIRECTION The direction that text lines flow within
-their parent container. For example,
-DWRITE_FLOW_DIRECTION_TOP_TO_BOTTOM indicates that text lines are
-placed from top to bottom.
+Œ^: DWRITE_FLOW_DIRECTION
+eƒRƒ“ƒeƒi“à‚ÅƒeƒLƒXƒgs‚ª—¬‚ê‚é•ûŒüB‚½‚Æ‚¦‚ÎADWRITE_FLOW_DIRECTION_TOP_TO_BOTTOM
+‚ÍƒeƒLƒXƒgs‚ªã‚©‚ç‰º‚Ö”z’u‚³‚ê‚é‚±‚Æ‚ğ¦‚·B
 
 
 %index
 IDWriteTextFormat_GetIncrementalTabStop
-Gets the incremental tab stop position.
+ƒCƒ“ƒNƒŠƒƒ“ƒ^ƒ‹ƒ^ƒuƒXƒgƒbƒvˆÊ’u‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the incremental tab stop position.
+ƒCƒ“ƒNƒŠƒƒ“ƒ^ƒ‹ƒ^ƒuƒXƒgƒbƒvˆÊ’u‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: FLOAT The incremental tab stop value.
+Œ^: FLOAT ƒCƒ“ƒNƒŠƒƒ“ƒ^ƒ‹ƒ^ƒuƒXƒgƒbƒv‚Ì’lB
 
 
 %index
 IDWriteTextFormat_GetTrimming
-Gets the trimming options for text that overflows the layout box.
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚©‚çƒI[ƒo[ƒtƒ[‚·‚éƒeƒLƒXƒg‚ÌƒgƒŠƒ~ƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this, trimmingOptions, trimmingSign
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-trimmingOptions : [var] Type: DWRITE_TRIMMING* When this method returns, it contains a pointer to a DWRITE_TRIMMING structure that holds the text trimming options for the overflowing text.
-trimmingSign : [comobj] Type: IDWriteInlineObject** When this method returns, contains an address of a pointer to a trimming omission sign. This parameter may be NULL.
+trimmingOptions : [var] Œ^: DWRITE_TRIMMING* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒI[ƒo[ƒtƒ[ƒeƒLƒXƒg‚ÌƒgƒŠƒ~ƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğ•Û‚·‚é DWRITE_TRIMMING \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
+trimmingSign : [comobj] Œ^: IDWriteInlineObject** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒgƒŠƒ~ƒ“ƒOÈ—ª‹L†‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚¢B
 %inst
-Gets the trimming options for text that overflows the layout box.
+ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚©‚çƒI[ƒo[ƒtƒ[‚·‚éƒeƒLƒXƒg‚ÌƒgƒŠƒ~ƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextFormat_GetLineSpacing
-Gets the line spacing adjustment set for a multiline text paragraph. (IDWriteTextFormat.GetLineSpacing)
+•¡”s‚ÌƒeƒLƒXƒg’i—‚Éİ’è‚³‚ê‚½sŠÔ’²®‚ğæ“¾‚·‚éB(IDWriteTextFormat.GetLineSpacing)
 %group
 COM misc / IDWriteTextFormat
 %prm
 this, lineSpacingMethod, lineSpacing, baseline
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-lineSpacingMethod : [var] Type: DWRITE_LINE_SPACING_METHOD* A value that indicates how line height is determined.
-lineSpacing : [float] Type: FLOAT* When this method returns, contains the line height, or  distance between one baseline to another.
-baseline : [float] Type: FLOAT* When this method returns, contains the distance from top of line to baseline. A reasonable ratio to lineSpacing is 80 percent.
+lineSpacingMethod : [var] Œ^: DWRITE_LINE_SPACING_METHOD* s‚Ì‚‚³‚ÌŒˆ’è•û–@‚ğ¦‚·’lB
+lineSpacing : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAs‚Ì‚‚³A‚Â‚Ü‚è‚ ‚éƒx[ƒXƒ‰ƒCƒ“‚©‚ç•Ê‚Ìƒx[ƒXƒ‰ƒCƒ“‚Ü‚Å‚Ì‹——£‚ğŠi”[‚·‚éB
+baseline : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAs“ª‚©‚çƒx[ƒXƒ‰ƒCƒ“‚Ü‚Å‚Ì‹——£‚ğŠi”[‚·‚éBlineSpacing ‚É‘Î‚·‚é‘Ã“–‚È”ä—¦‚Í 80 ƒp[ƒZƒ“ƒg‚Å‚ ‚éB
 %inst
-Gets the line spacing adjustment set for a multiline text paragraph.
-(IDWriteTextFormat.GetLineSpacing)
+•¡”s‚ÌƒeƒLƒXƒg’i—‚Éİ’è‚³‚ê‚½sŠÔ’²®‚ğæ“¾‚·‚éB(IDWriteTextFormat.GetLineSpacing)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextFormat_GetFontCollection
-Gets the current font collection.
+Œ»İ‚ÌƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this, fontCollection
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontCollection : [comobj] Type: IDWriteFontCollection** When this method returns, contains an address of a pointer to the font collection being used for the current text.
+fontCollection : [comobj] Œ^: IDWriteFontCollection** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAŒ»İ‚ÌƒeƒLƒXƒg‚Ég—p‚³‚ê‚Ä‚¢‚éƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚éB
 %inst
-Gets the current font collection.
+Œ»İ‚ÌƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextFormat_GetFontFamilyNameLength
-Gets the length of the font family name.
+ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the length of the font family name.
+ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: UINT32 The size of the character array, in character count, not
-including the terminated NULL character.
+Œ^: UINT32 •¶š”z—ñ‚ÌƒTƒCƒY (I’[‚Ì NULL •¶š‚ğŠÜ‚Ü‚È‚¢•¶š”)B
 
 
 %index
 IDWriteTextFormat_GetFontFamilyName
-Gets a copy of the font family name.
+ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ÌƒRƒs[‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this, fontFamilyName, nameSize
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFamilyName : [wstr] Type: WCHAR* When this method returns, contains a pointer to a character array, which is null-terminated, that receives the current font family name. The buffer allocated for this array should be at least the size, in elements, of nameSize.
-nameSize : [int] Type: UINT32 The size of the fontFamilyName character array, in character count, including the terminated NULL character.  To find the size of fontFamilyName, use GetFontFamilyNameLength.
+fontFamilyName : [wstr] Œ^: WCHAR* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAŒ»İ‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğó‚¯æ‚éAnull I’[‚Ì•¶š”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB‚±‚Ì”z—ñ‚ÉŠm•Û‚·‚éƒoƒbƒtƒ@‚ÍA­‚È‚­‚Æ‚à nameSize —v‘f•ª‚ÌƒTƒCƒY‚ª•K—v‚Å‚ ‚éB
+nameSize : [int] Œ^: UINT32 fontFamilyName •¶š”z—ñ‚ÌƒTƒCƒY (I’[‚Ì NULL •¶š‚ğŠÜ‚Ş•¶š”)BfontFamilyName ‚ÌƒTƒCƒY‚ğ’²‚×‚é‚É‚Í GetFontFamilyNameLength ‚ğg—p‚·‚éB
 %inst
-Gets a copy of the font family name.
+ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ÌƒRƒs[‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextFormat_GetFontWeight
-Gets the font weight of the text.
+ƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒEƒFƒCƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the font weight of the text.
+ƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒEƒFƒCƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_FONT_WEIGHT A value that indicates the type of weight
-(such as normal, bold, or black).
+Œ^: DWRITE_FONT_WEIGHT ƒEƒFƒCƒg‚Ìí—Ş (normalAboldAblack ‚È‚Ç) ‚ğ¦‚·’lB
 
 
 %index
 IDWriteTextFormat_GetFontStyle
-Gets the font style of the text.
+ƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the font style of the text.
+ƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_FONT_STYLE A value which indicates the type of font
-style (such as slope or incline).
+Œ^: DWRITE_FONT_STYLE ƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹‚Ìí—Ş (slopeAincline ‚È‚Ç) ‚ğ¦‚·’lB
 
 
 %index
 IDWriteTextFormat_GetFontStretch
-Gets the font stretch of the text.
+ƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the font stretch of the text.
+ƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: DWRITE_FONT_STRETCH A value which indicates the type of font
-stretch (such as normal or condensed).
+Œ^: DWRITE_FONT_STRETCH ƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚Ìí—Ş (normalAcondensed ‚È‚Ç) ‚ğ¦‚·’lB
 
 
 %index
 IDWriteTextFormat_GetFontSize
-Gets the font size in DIP unites.
+ƒtƒHƒ“ƒgƒTƒCƒY‚ğ DIP ’PˆÊ‚Åæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the font size in DIP unites.
+ƒtƒHƒ“ƒgƒTƒCƒY‚ğ DIP ’PˆÊ‚Åæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: FLOAT The current font size in DIP units.
+Œ^: FLOAT Œ»İ‚ÌƒtƒHƒ“ƒgƒTƒCƒY (DIP ’PˆÊ)B
 
 
 %index
 IDWriteTextFormat_GetLocaleNameLength
-Gets the length of the locale name.
+ƒƒP[ƒ‹–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the length of the locale name.
+ƒƒP[ƒ‹–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: UINT32 The size of the character array in character count, not
-including the terminated NULL character.
+Œ^: UINT32 •¶š”z—ñ‚ÌƒTƒCƒY (I’[‚Ì NULL •¶š‚ğŠÜ‚Ü‚È‚¢•¶š”)B
 
 
 %index
 IDWriteTextFormat_GetLocaleName
-Gets a copy of the locale name.
+ƒƒP[ƒ‹–¼‚ÌƒRƒs[‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextFormat
 %prm
 this, localeName, nameSize
 this : [comobj] IDWriteTextFormat ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-localeName : [wstr] Type: WCHAR* Contains a character array that receives the current locale name.
-nameSize : [int] Type: UINT32 The size of the character array, in character count, including the terminated NULL character. Use GetLocaleNameLength to get the size of the locale name character array.
+localeName : [wstr] Œ^: WCHAR* Œ»İ‚ÌƒƒP[ƒ‹–¼‚ğó‚¯æ‚é•¶š”z—ñ‚ğŠi”[‚·‚éB
+nameSize : [int] Œ^: UINT32 •¶š”z—ñ‚ÌƒTƒCƒY (I’[‚Ì NULL •¶š‚ğŠÜ‚Ş•¶š”)BƒƒP[ƒ‹–¼‚Ì•¶š”z—ñ‚ÌƒTƒCƒY‚ğæ“¾‚·‚é‚É‚Í GetLocaleNameLength ‚ğg—p‚·‚éB
 %inst
-Gets a copy of the locale name.
+ƒƒP[ƒ‹–¼‚ÌƒRƒs[‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -11279,958 +10811,877 @@ baseline : [float]
 
 %index
 IDWriteTextLayout_GetFontCollection
-Gets the font collection associated with the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, fontCollection
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontCollection : [comobj] Type: IDWriteFontCollection** Contains an address of a  pointer to the current font collection.
+fontCollection : [comobj] Œ^: IDWriteFontCollection** Œ»İ‚ÌƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚éB
 %inst
-Gets the font collection associated with the text at the specified
-position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetFontFamilyNameLength
-Get the length of the font family name at the current position.
+Œ»İ‚ÌˆÊ’u‚É‚ ‚éƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Get the length of the font family name at the current position.
+Œ»İ‚ÌˆÊ’u‚É‚ ‚éƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetFontFamilyName
-Copies the font family name of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğƒRƒs[‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, fontFamilyName, nameSize
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFamilyName : [wstr] Type: WCHAR* When this method returns, contains an array of characters that receives the current font family name. You must allocate storage for this parameter.
-nameSize : [int] Type: UINT32 The size of the character array in character count including the terminated NULL character.
+fontFamilyName : [wstr] Œ^: WCHAR* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AŒ»İ‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğó‚¯æ‚é•¶š”z—ñ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^—p‚Ì—Ìˆæ‚ÍŒÄ‚Ño‚µ‘¤‚ÅŠm•Û‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+nameSize : [int] Œ^: UINT32 I’[ NULL •¶š‚ğŠÜ‚ŞA•¶š”’PˆÊ‚Å‚Ì•¶š”z—ñ‚ÌƒTƒCƒYB
 %inst
-Copies the font family name of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğƒRƒs[‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetFontWeight
-Gets the font weight of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒEƒFƒCƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the font weight of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒEƒFƒCƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetFontStyle
-Gets the font style (also known as slope) of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹ (ŒXÎ‚Æ‚àŒÄ‚Î‚ê‚é) ‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the font style (also known as slope) of the text at the
-specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹ (ŒXÎ‚Æ‚àŒÄ‚Î‚ê‚é) ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetFontStretch
-Gets the font stretch of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the font stretch of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetFontSize
-Gets the font em height of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒg em ‚‚³‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the font em height of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒg em ‚‚³‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetLocaleNameLength
-Gets the length of the locale name of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒƒP[ƒ‹–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the length of the locale name of the text at the specified
-position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒƒP[ƒ‹–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetLocaleName
-Gets the locale name of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒƒP[ƒ‹–¼‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, localeName, nameSize
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-localeName : [wstr] Type: WCHAR* When this method returns, contains the character array receiving the current locale name.
-nameSize : [int] Type: UINT32 Size of the character array, in character count, including the terminated NULL character.
+localeName : [wstr] Œ^: WCHAR* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AŒ»İ‚ÌƒƒP[ƒ‹–¼‚ğó‚¯æ‚é•¶š”z—ñ‚ªŠi”[‚³‚ê‚éB
+nameSize : [int] Œ^: UINT32 I’[ NULL •¶š‚ğŠÜ‚ŞA•¶š”’PˆÊ‚Å‚Ì•¶š”z—ñ‚ÌƒTƒCƒYB
 %inst
-Gets the locale name of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒƒP[ƒ‹–¼‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetMaxWidth
-Sets the layout maximum width.
+ƒŒƒCƒAƒEƒg‚ÌÅ‘å•‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, maxWidth
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-maxWidth : [float] Type: FLOAT A value that indicates the maximum width of the layout box.
+maxWidth : [float] Œ^: FLOAT ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚ÌÅ‘å•‚ğ¦‚·’lB
 %inst
-Sets the layout maximum width.
+ƒŒƒCƒAƒEƒg‚ÌÅ‘å•‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetMaxHeight
-Sets the layout maximum height.
+ƒŒƒCƒAƒEƒg‚ÌÅ‘å‚‚³‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, maxHeight
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-maxHeight : [float] Type: FLOAT A value that indicates the maximum height of the layout box.
+maxHeight : [float] Œ^: FLOAT ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚ÌÅ‘å‚‚³‚ğ¦‚·’lB
 %inst
-Sets the layout maximum height.
+ƒŒƒCƒAƒEƒg‚ÌÅ‘å‚‚³‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetFontCollection
-Sets the font collection.
+ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, fontCollection, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontCollection : [comobj] Type: IDWriteFontCollection* The font collection to set.
-textRange : [int] Type: DWRITE_TEXT_RANGE Text range to which this change applies.
+fontCollection : [comobj] Œ^: IDWriteFontCollection* İ’è‚·‚éƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“B
+textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %inst
-Sets the font collection.
+ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetFontFamilyName
-Sets null-terminated font family name for text within a specified text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚Äƒkƒ‹I’[‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, fontFamilyName, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFamilyName : [wstr] Type: const WCHAR* The font family name that applies to the entire text string within the range specified by textRange.
-textRange : [int] Type: DWRITE_TEXT_RANGE Text range to which this change applies.
+fontFamilyName : [wstr] Œ^: const WCHAR* textRange ‚Åw’è‚³‚ê‚½”ÍˆÍ“à‚ÌƒeƒLƒXƒg•¶š—ñ‘S‘Ì‚É“K—p‚³‚ê‚éƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼B
+textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %inst
-Sets null-terminated font family name for text within a specified
-text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚Äƒkƒ‹I’[‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetFontWeight
-Sets the font weight for text within a text range specified by a DWRITE_TEXT_RANGE structure.
+DWRITE_TEXT_RANGE \‘¢‘Ì‚Åw’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒtƒHƒ“ƒgƒEƒFƒCƒg‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, fontWeight, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontWeight : [int] Type: DWRITE_FONT_WEIGHT The font weight to be set for text within the range specified by textRange.
-textRange : [int] Type: DWRITE_TEXT_RANGE Text range to which this change applies.
+fontWeight : [int] Œ^: DWRITE_FONT_WEIGHT textRange ‚Åw’è‚³‚ê‚½”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚Éİ’è‚·‚éƒtƒHƒ“ƒgƒEƒFƒCƒgB
+textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %inst
-Sets the font weight for text within a text range specified by a
-DWRITE_TEXT_RANGE structure.
+DWRITE_TEXT_RANGE \‘¢‘Ì‚Åw’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒtƒHƒ“ƒgƒEƒFƒCƒg‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The font weight can be set to one of the predefined font weight
-values provided in the DWRITE_FONT_WEIGHT enumeration or an integer
-from 1 to 999. Values outside this range will cause the method to
-fail with an E_INVALIDARG return value. The following illustration
-shows an example of Normal and UltraBold weights for the Palatino
-Linotype typeface.
-This doc was truncated.
+ƒtƒHƒ“ƒgƒEƒFƒCƒg‚Í DWRITE_FONT_WEIGHT —ñ‹“Œ^‚Å’ñ‹Ÿ‚³‚ê‚é’è‹`Ï‚İƒtƒHƒ“ƒgƒEƒFƒCƒg’l‚Ì‚¢‚¸‚ê‚©A‚Ü‚½‚Í 1 ‚©‚ç 999
+‚Ì®”‚Éİ’è‚Å‚«‚éB‚±‚Ì”ÍˆÍŠO‚Ì’l‚Íƒƒ\ƒbƒh‚ğ¸”s‚³‚¹AE_INVALIDARG ‚Ì–ß‚è’l‚Æ‚È‚éBŸ‚Ì}‚Í Palatino
+Linotype ‘‘Ì‚Ì Normal ‚Æ UltraBold ƒEƒFƒCƒg‚Ì—á‚ğ¦‚µ‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDWriteTextLayout_SetFontStyle
-Sets the font style for text within a text range specified by a DWRITE_TEXT_RANGE structure.
+DWRITE_TEXT_RANGE \‘¢‘Ì‚Åw’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, fontStyle, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontStyle : [int] Type: DWRITE_FONT_STYLE The  font style to be set   for text within a range specified by textRange.
-textRange : [int] Type: DWRITE_TEXT_RANGE The text range to which this change applies.
+fontStyle : [int] Œ^: DWRITE_FONT_STYLE textRange ‚Åw’è‚³‚ê‚½”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚Éİ’è‚·‚éƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹B
+textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %inst
-Sets the font style for text within a text range specified by a
-DWRITE_TEXT_RANGE structure.
+DWRITE_TEXT_RANGE \‘¢‘Ì‚Åw’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The font style can be set to Normal, Italic or Oblique. The following
-illustration shows three styles for the Palatino font. For more
-information, see DWRITE_FONT_STYLE.
-This doc was truncated.
+ƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹‚Í NormalAItalicAOblique ‚Ì‚¢‚¸‚ê‚©‚Éİ’è‚Å‚«‚éBŸ‚Ì}‚Í Palatino ƒtƒHƒ“ƒg‚Ì 3
+í—Ş‚ÌƒXƒ^ƒCƒ‹‚ğ¦‚µ‚Ä‚¢‚éBÚ×‚Í DWRITE_FONT_STYLE ‚ğQÆB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDWriteTextLayout_SetFontStretch
-Sets the font stretch for text within a specified text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, fontStretch, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontStretch : [int] Type: DWRITE_FONT_STRETCH A value which indicates the type of font stretch for text within the range specified by textRange.
-textRange : [int] Type: DWRITE_TEXT_RANGE Text range to which this change applies.
+fontStretch : [int] Œ^: DWRITE_FONT_STRETCH textRange ‚Åw’è‚³‚ê‚½”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚·‚éƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚Ìí—Ş‚ğ¦‚·’lB
+textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %inst
-Sets the font stretch for text within a specified text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetFontSize
-Sets the font size in DIP units for text within a specified text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚Ä DIP ’PˆÊ‚ÌƒtƒHƒ“ƒgƒTƒCƒY‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, fontSize, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontSize : [float] Type: FLOAT The  font size in DIP units to be set for   text in the range specified by textRange.
-textRange : [int] Type: DWRITE_TEXT_RANGE Text range to which this change applies.
+fontSize : [float] Œ^: FLOAT textRange ‚Åw’è‚³‚ê‚½”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚Éİ’è‚·‚éƒtƒHƒ“ƒgƒTƒCƒY (DIP ’PˆÊ)B
+textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %inst
-Sets the font size in DIP units for text within a specified text
-range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚Ä DIP ’PˆÊ‚ÌƒtƒHƒ“ƒgƒTƒCƒY‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetUnderline
-Sets underlining for text within a specified text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚Ä‰ºü‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, hasUnderline, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hasUnderline : [int] Type: BOOL A Boolean flag that indicates whether underline takes place within a specified text range.
-textRange : [int] Type: DWRITE_TEXT_RANGE Text range to which this change applies.
+hasUnderline : [int] Œ^: BOOL w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚Å‰ºü‚ª—LŒø‚©‚Ç‚¤‚©‚ğ¦‚·ƒu[ƒ‹’lƒtƒ‰ƒOB
+textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %inst
-Sets underlining for text within a specified text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚Ä‰ºü‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetStrikethrough
-Sets strikethrough for text within a specified text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚Äæ‚èÁ‚µü‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, hasStrikethrough, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hasStrikethrough : [int] Type: BOOL A Boolean flag that indicates whether strikethrough takes place in the range specified by textRange.
-textRange : [int] Type: DWRITE_TEXT_RANGE Text range to which this change applies.
+hasStrikethrough : [int] Œ^: BOOL textRange ‚Åw’è‚³‚ê‚½”ÍˆÍ“à‚Åæ‚èÁ‚µü‚ª—LŒø‚©‚Ç‚¤‚©‚ğ¦‚·ƒu[ƒ‹’lƒtƒ‰ƒOB
+textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %inst
-Sets strikethrough for text within a specified text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚Äæ‚èÁ‚µü‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetDrawingEffect
-Sets the application-defined drawing effect.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æƒGƒtƒFƒNƒg‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, drawingEffect, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-drawingEffect : [int] Type: IUnknown* Application-defined drawing effects that apply to the range. This data object will be passed back to the application's drawing callbacks for final rendering.
-textRange : [int] Type: DWRITE_TEXT_RANGE The text range to which this change applies.
+drawingEffect : [int] Œ^: IUnknown* ”ÍˆÍ‚É“K—p‚³‚ê‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æƒGƒtƒFƒNƒgB‚±‚Ìƒf[ƒ^ƒIƒuƒWƒFƒNƒg‚ÍÅIƒŒƒ“ƒ_ƒŠƒ“ƒO‚Ì‚½‚ß‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì•`‰æƒR[ƒ‹ƒoƒbƒN‚É“n‚³‚ê‚éB
+textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %inst
-Sets the application-defined drawing effect.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æƒGƒtƒFƒNƒg‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-An ID2D1Brush, such as a color or gradient brush, can be set as a
-drawing effect if you are using the ID2D1RenderTarget::DrawTextLayout
-to draw text and that brush will be used to draw the specified range
-of text. This drawing effect is associated with the specified range
-and will be passed back to the application by way of the callback
-when the range is drawn at drawing time.
+ID2D1RenderTarget::DrawTextLayout ‚ğg‚Á‚ÄƒeƒLƒXƒg‚ğ•`‰æ‚·‚éê‡AF‚âƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒuƒ‰ƒV‚È‚Ç‚Ì
+ID2D1Brush
+‚ğ•`‰æƒGƒtƒFƒNƒg‚Æ‚µ‚Äİ’è‚Å‚«A‚»‚Ìƒuƒ‰ƒV‚Íw’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ‚Ì•`‰æ‚Ég—p‚³‚ê‚éB‚±‚Ì•`‰æƒGƒtƒFƒNƒg‚Íw’è‚³‚ê‚½”ÍˆÍ‚ÉŠÖ˜A•t‚¯‚ç‚êA•`‰æ‚É”ÍˆÍ‚ª•`‰æ‚³‚ê‚é‚Æ‚«ƒR[ƒ‹ƒoƒbƒN‚ğ’Ê‚¶‚ÄƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É“n‚³‚ê‚éB
 
 
 %index
 IDWriteTextLayout_SetInlineObject
-Sets the inline object.
+ƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, inlineObject, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-inlineObject : [comobj] Type: IDWriteInlineObject* An application-defined inline object.
-textRange : [int] Type: DWRITE_TEXT_RANGE Text range to which this change applies.
+inlineObject : [comobj] Œ^: IDWriteInlineObject* ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒgB
+textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %inst
-Sets the inline object.
+ƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The application may call this function to specify the set of
-properties describing an application-defined inline object for
-specific range. This inline object applies to the specified range and
-will be passed back to the application by way of the DrawInlineObject
-callback when the range is drawn. Any text in that range will be
-suppressed.
+
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚ÄA“Á’è‚Ì”ÍˆÍ‚É‘Î‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğ‹Lq‚·‚éƒvƒƒpƒeƒBƒZƒbƒg‚ğw’è‚Å‚«‚éB‚±‚ÌƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚Íw’è‚³‚ê‚½”ÍˆÍ‚É“K—p‚³‚êA”ÍˆÍ‚ª•`‰æ‚³‚ê‚é‚Æ‚«‚É
+DrawInlineObject ƒR[ƒ‹ƒoƒbƒN‚ğ’Ê‚¶‚ÄƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É“n‚³‚ê‚éB‚»‚Ì”ÍˆÍ“à‚Ì”CˆÓ‚ÌƒeƒLƒXƒg‚Í—}§‚³‚ê‚éB
 
 
 %index
 IDWriteTextLayout_SetTypography
-Sets font typography features for text within a specified text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒtƒHƒ“ƒgƒ^ƒCƒ|ƒOƒ‰ƒtƒB‹@”\‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, typography, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-typography : [comobj] Type: IDWriteTypography* Pointer to font typography settings.
-textRange : [int] Type: DWRITE_TEXT_RANGE Text range to which this change applies.
+typography : [comobj] Œ^: IDWriteTypography* ƒtƒHƒ“ƒgƒ^ƒCƒ|ƒOƒ‰ƒtƒBİ’è‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %inst
-Sets font typography features for text within a specified text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒtƒHƒ“ƒgƒ^ƒCƒ|ƒOƒ‰ƒtƒB‹@”\‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_SetLocaleName
-Sets the locale name for text within a specified text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒƒP[ƒ‹–¼‚ğİ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, localeName, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-localeName : [wstr] Type: const WCHAR* A null-terminated locale name string.
-textRange : [int] Type: DWRITE_TEXT_RANGE Text range to which this change applies.
+localeName : [wstr] Œ^: const WCHAR* ƒkƒ‹I’[‚ÌƒƒP[ƒ‹–¼•¶š—ñB
+textRange : [int] Œ^: DWRITE_TEXT_RANGE ‚±‚Ì•ÏX‚ª“K—p‚³‚ê‚éƒeƒLƒXƒg”ÍˆÍB
 %inst
-Sets the locale name for text within a specified text range.
+w’è‚µ‚½ƒeƒLƒXƒg”ÍˆÍ“à‚ÌƒeƒLƒXƒg‚É‘Î‚µ‚ÄƒƒP[ƒ‹–¼‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetMaxWidth
-Gets the layout maximum width.
+ƒŒƒCƒAƒEƒg‚ÌÅ‘å•‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the layout maximum width.
+ƒŒƒCƒAƒEƒg‚ÌÅ‘å•‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: FLOAT Returns the layout maximum width.
+Œ^: FLOAT ƒŒƒCƒAƒEƒg‚ÌÅ‘å•‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetMaxHeight
-Gets the layout maximum height.
+ƒŒƒCƒAƒEƒg‚ÌÅ‘å‚‚³‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the layout maximum height.
+ƒŒƒCƒAƒEƒg‚ÌÅ‘å‚‚³‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: FLOAT The layout maximum height.
+Œ^: FLOAT ƒŒƒCƒAƒEƒg‚ÌÅ‘å‚‚³B
 
 
 %index
 IDWriteTextLayout_GetFontCollection
-Gets the font collection associated with the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, fontCollection, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-currentPosition : [int] Type: UINT32 The position of the text to inspect.
-fontCollection : [comobj] Type: IDWriteFontCollection** Contains an address of a  pointer to the current font collection.
-textRange : [var] Type: DWRITE_TEXT_RANGE* The range of text that has the same  formatting as the text at the position specified by currentPosition.  This means the run has the exact  formatting as the position specified, including but not limited to the underline.
+currentPosition : [int] Œ^: UINT32 ’²¸‚·‚éƒeƒLƒXƒg‚ÌˆÊ’uB
+fontCollection : [comobj] Œ^: IDWriteFontCollection** Œ»İ‚ÌƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚éB
+textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Æ“¯‚¶‘®‚ğ‚ÂƒeƒLƒXƒg”ÍˆÍB‚Â‚Ü‚èA‚»‚Ìƒ‰ƒ“‚Í‰ºü‚ğŠÜ‚ßAw’èˆÊ’u‚Æ‚Ü‚Á‚½‚­“¯‚¶‘®‚ğ‚ÂB
 %inst
-Gets the font collection associated with the text at the specified
-position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒHƒ“ƒgƒRƒŒƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetFontFamilyNameLength
-Get the length of the font family name at the current position.
+Œ»İ‚ÌˆÊ’u‚É‚ ‚éƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, nameLength, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-currentPosition : [int] Type: UINT32 The current text position.
-nameLength : [int] Type: UINT32* When this method returns, contains the size of the character array containing the font family name, in character count, not including the terminated NULL character.
-textRange : [var] Type: DWRITE_TEXT_RANGE* The range of text that has the same  formatting as the text at the position specified by currentPosition.  This means the run has the exact  formatting as the position specified, including but not limited to the font family.
+currentPosition : [int] Œ^: UINT32 Œ»İ‚ÌƒeƒLƒXƒgˆÊ’uB
+nameLength : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AI’[ NULL •¶š‚ğŠÜ‚Ü‚È‚¢A•¶š”’PˆÊ‚Å‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğŠi”[‚·‚é•¶š”z—ñ‚ÌƒTƒCƒY‚ªŠi”[‚³‚ê‚éB
+textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Æ“¯‚¶‘®‚ğ‚ÂƒeƒLƒXƒg”ÍˆÍB‚Â‚Ü‚èA‚»‚Ìƒ‰ƒ“‚ÍƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ‚ğŠÜ‚ßAw’èˆÊ’u‚Æ‚Ü‚Á‚½‚­“¯‚¶‘®‚ğ‚ÂB
 %inst
-Get the length of the font family name at the current position.
+Œ»İ‚ÌˆÊ’u‚É‚ ‚éƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetFontFamilyName
-Copies the font family name of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğƒRƒs[‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, fontFamilyName, nameSize, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-currentPosition : [int] Type: UINT32 The position of the text to examine.
-fontFamilyName : [wstr] Type: WCHAR* When this method returns, contains an array of characters that receives the current font family name. You must allocate storage for this parameter.
-nameSize : [int] Type: UINT32 The size of the character array in character count including the terminated NULL character.
-textRange : [var] Type: DWRITE_TEXT_RANGE* The range of text that has the same  formatting as the text at the position specified by currentPosition.  This means the run has the exact  formatting as the position specified, including but not limited to the font family name.
+currentPosition : [int] Œ^: UINT32 ’²‚×‚éƒeƒLƒXƒg‚ÌˆÊ’uB
+fontFamilyName : [wstr] Œ^: WCHAR* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AŒ»İ‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğó‚¯æ‚é•¶š”z—ñ‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^—p‚Ì—Ìˆæ‚ÍŒÄ‚Ño‚µ‘¤‚ÅŠm•Û‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+nameSize : [int] Œ^: UINT32 I’[ NULL •¶š‚ğŠÜ‚ŞA•¶š”’PˆÊ‚Å‚Ì•¶š”z—ñ‚ÌƒTƒCƒYB
+textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Æ“¯‚¶‘®‚ğ‚ÂƒeƒLƒXƒg”ÍˆÍB‚Â‚Ü‚èA‚»‚Ìƒ‰ƒ“‚ÍƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğŠÜ‚ßAw’èˆÊ’u‚Æ‚Ü‚Á‚½‚­“¯‚¶‘®‚ğ‚ÂB
 %inst
-Copies the font family name of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ–¼‚ğƒRƒs[‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetFontWeight
-Gets the font weight of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒEƒFƒCƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, fontWeight, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-currentPosition : [int] Type: UINT32 The position of the text to inspect.
-fontWeight : [var] Type: DWRITE_FONT_WEIGHT* When this method returns, contains a value which indicates the type of font weight being applied at the specified position.
-textRange : [var] Type: DWRITE_TEXT_RANGE* The range of text that has the same  formatting as the text at the position specified by currentPosition.  This means the run has the exact  formatting as the position specified, including but not limited to the font weight.
+currentPosition : [int] Œ^: UINT32 ’²¸‚·‚éƒeƒLƒXƒg‚ÌˆÊ’uB
+fontWeight : [var] Œ^: DWRITE_FONT_WEIGHT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aw’èˆÊ’u‚É“K—p‚³‚ê‚Ä‚¢‚éƒtƒHƒ“ƒgƒEƒFƒCƒg‚Ìí—Ş‚ğ¦‚·’l‚ªŠi”[‚³‚ê‚éB
+textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Æ“¯‚¶‘®‚ğ‚ÂƒeƒLƒXƒg”ÍˆÍB‚Â‚Ü‚èA‚»‚Ìƒ‰ƒ“‚ÍƒtƒHƒ“ƒgƒEƒFƒCƒg‚ğŠÜ‚ßAw’èˆÊ’u‚Æ‚Ü‚Á‚½‚­“¯‚¶‘®‚ğ‚ÂB
 %inst
-Gets the font weight of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒEƒFƒCƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetFontStyle
-Gets the font style (also known as slope) of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹ (ŒXÎ‚Æ‚àŒÄ‚Î‚ê‚é) ‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, fontStyle, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-currentPosition : [int] Type: UINT32 The position of the text to inspect.
-fontStyle : [var] Type: DWRITE_FONT_STYLE* When this method returns, contains a value which indicates the type of font style (also known as slope or incline) being applied at the specified position.
-textRange : [var] Type: DWRITE_TEXT_RANGE* The range of text that has the same  formatting as the text at the position specified by currentPosition.  This means the run has the exact  formatting as the position specified, including but not limited to the font style.
+currentPosition : [int] Œ^: UINT32 ’²¸‚·‚éƒeƒLƒXƒg‚ÌˆÊ’uB
+fontStyle : [var] Œ^: DWRITE_FONT_STYLE* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aw’èˆÊ’u‚É“K—p‚³‚ê‚Ä‚¢‚éƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹ (ŒXÎ‚Ü‚½‚ÍŒX‚«‚Æ‚àŒÄ‚Î‚ê‚é) ‚Ìí—Ş‚ğ¦‚·’l‚ªŠi”[‚³‚ê‚éB
+textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Æ“¯‚¶‘®‚ğ‚ÂƒeƒLƒXƒg”ÍˆÍB‚Â‚Ü‚èA‚»‚Ìƒ‰ƒ“‚ÍƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹‚ğŠÜ‚ßAw’èˆÊ’u‚Æ‚Ü‚Á‚½‚­“¯‚¶‘®‚ğ‚ÂB
 %inst
-Gets the font style (also known as slope) of the text at the
-specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹ (ŒXÎ‚Æ‚àŒÄ‚Î‚ê‚é) ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetFontStretch
-Gets the font stretch of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, fontStretch, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-currentPosition : [int] Type: UINT32 The position of the text to inspect.
-fontStretch : [var] Type: DWRITE_FONT_STRETCH* When this method returns, contains a value which indicates the type of font stretch (also known as width) being applied at the specified position.
-textRange : [var] Type: DWRITE_TEXT_RANGE* The range of text that has the same  formatting as the text at the position specified by currentPosition.  This means the run has the exact  formatting as the position specified, including but not limited to the font stretch.
+currentPosition : [int] Œ^: UINT32 ’²¸‚·‚éƒeƒLƒXƒg‚ÌˆÊ’uB
+fontStretch : [var] Œ^: DWRITE_FONT_STRETCH* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aw’èˆÊ’u‚É“K—p‚³‚ê‚Ä‚¢‚éƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ` (•‚Æ‚àŒÄ‚Î‚ê‚é) ‚Ìí—Ş‚ğ¦‚·’l‚ªŠi”[‚³‚ê‚éB
+textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Æ“¯‚¶‘®‚ğ‚ÂƒeƒLƒXƒg”ÍˆÍB‚Â‚Ü‚èA‚»‚Ìƒ‰ƒ“‚ÍƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚ğŠÜ‚ßAw’èˆÊ’u‚Æ‚Ü‚Á‚½‚­“¯‚¶‘®‚ğ‚ÂB
 %inst
-Gets the font stretch of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒXƒgƒŒƒbƒ`‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetFontSize
-Gets the font em height of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒg em ‚‚³‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, fontSize, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-currentPosition : [int] Type: UINT32 The position of the text to inspect.
-fontSize : [float] Type: FLOAT* When this method returns, contains the size of the font in ems  of the text at the specified position.
-textRange : [var] Type: DWRITE_TEXT_RANGE* The range of text that has the same  formatting as the text at the position specified by currentPosition.  This means the run has the exact  formatting as the position specified, including but not limited to the font size.
+currentPosition : [int] Œ^: UINT32 ’²¸‚·‚éƒeƒLƒXƒg‚ÌˆÊ’uB
+fontSize : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aw’èˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒgƒTƒCƒY‚ª em ’PˆÊ‚ÅŠi”[‚³‚ê‚éB
+textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Æ“¯‚¶‘®‚ğ‚ÂƒeƒLƒXƒg”ÍˆÍB‚Â‚Ü‚èA‚»‚Ìƒ‰ƒ“‚ÍƒtƒHƒ“ƒgƒTƒCƒY‚ğŠÜ‚ßAw’èˆÊ’u‚Æ‚Ü‚Á‚½‚­“¯‚¶‘®‚ğ‚ÂB
 %inst
-Gets the font em height of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒtƒHƒ“ƒg em ‚‚³‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetUnderline
-Gets the underline presence of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚É‰ºü‚ª‘¶İ‚·‚é‚©‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, hasUnderline, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-currentPosition : [int] Type: UINT32 The current text position.
-hasUnderline : [var] Type: BOOL* A Boolean  flag that indicates whether underline is present at the position indicated by currentPosition.
-textRange : [var] Type: DWRITE_TEXT_RANGE* The range of text that has the same  formatting as the text at the position specified by currentPosition.  This means the run has the exact  formatting as the position specified, including but not limited to the underline.
+currentPosition : [int] Œ^: UINT32 Œ»İ‚ÌƒeƒLƒXƒgˆÊ’uB
+hasUnderline : [var] Œ^: BOOL* currentPosition ‚Å¦‚³‚ê‚éˆÊ’u‚É‰ºü‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒu[ƒ‹’lƒtƒ‰ƒOB
+textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Æ“¯‚¶‘®‚ğ‚ÂƒeƒLƒXƒg”ÍˆÍB‚Â‚Ü‚èA‚»‚Ìƒ‰ƒ“‚Í‰ºü‚ğŠÜ‚ßAw’èˆÊ’u‚Æ‚Ü‚Á‚½‚­“¯‚¶‘®‚ğ‚ÂB
 %inst
-Gets the underline presence of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚É‰ºü‚ª‘¶İ‚·‚é‚©‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetStrikethrough
-Get the strikethrough presence of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Éæ‚èÁ‚µü‚ª‘¶İ‚·‚é‚©‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, hasStrikethrough, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-currentPosition : [int] Type: UINT32 The position of the text to inspect.
-hasStrikethrough : [var] Type: BOOL* A Boolean  flag that indicates whether strikethrough is present at the position indicated by currentPosition.
-textRange : [var] Type: DWRITE_TEXT_RANGE* Contains the range of text that has the same  formatting as the text at the position specified by currentPosition.  This means the run has the exact  formatting as the position specified, including but not limited to strikethrough.
+currentPosition : [int] Œ^: UINT32 ’²¸‚·‚éƒeƒLƒXƒg‚ÌˆÊ’uB
+hasStrikethrough : [var] Œ^: BOOL* currentPosition ‚Å¦‚³‚ê‚éˆÊ’u‚Éæ‚èÁ‚µü‚ª‘¶İ‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒu[ƒ‹’lƒtƒ‰ƒOB
+textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Æ“¯‚¶‘®‚ğ‚ÂƒeƒLƒXƒg”ÍˆÍ‚ªŠi”[‚³‚ê‚éB‚Â‚Ü‚èA‚»‚Ìƒ‰ƒ“‚Íæ‚èÁ‚µü‚ğŠÜ‚ßAw’èˆÊ’u‚Æ‚Ü‚Á‚½‚­“¯‚¶‘®‚ğ‚ÂB
 %inst
-Get the strikethrough presence of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Éæ‚èÁ‚µü‚ª‘¶İ‚·‚é‚©‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetDrawingEffect
-Gets the application-defined drawing effect at the specified text position.
+w’è‚µ‚½ƒeƒLƒXƒgˆÊ’u‚É‚ ‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æƒGƒtƒFƒNƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, drawingEffect, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-currentPosition : [int] Type: UINT32 The position of the text whose drawing effect is to be retrieved.
-drawingEffect : [int] Type: IUnknown** When this method returns, contains an address of a pointer to  the current application-defined drawing effect. Usually this effect is a foreground brush that  is used in glyph drawing.
-textRange : [var] Type: DWRITE_TEXT_RANGE* Contains the range of text that has the same  formatting as the text at the position specified by currentPosition.  This means the run has the exact  formatting as the position specified, including but not limited to the drawing effect.
+currentPosition : [int] Œ^: UINT32 •`‰æƒGƒtƒFƒNƒg‚ğæ“¾‚·‚éƒeƒLƒXƒg‚ÌˆÊ’uB
+drawingEffect : [int] Œ^: IUnknown** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AŒ»İ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æƒGƒtƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚éB’ÊíA‚±‚ÌƒGƒtƒFƒNƒg‚ÍƒOƒŠƒt•`‰æ‚Åg—p‚³‚ê‚é‘OŒiƒuƒ‰ƒV‚Å‚ ‚éB
+textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Æ“¯‚¶‘®‚ğ‚ÂƒeƒLƒXƒg”ÍˆÍ‚ªŠi”[‚³‚ê‚éB‚Â‚Ü‚èA‚»‚Ìƒ‰ƒ“‚Í•`‰æƒGƒtƒFƒNƒg‚ğŠÜ‚ßAw’èˆÊ’u‚Æ‚Ü‚Á‚½‚­“¯‚¶‘®‚ğ‚ÂB
 %inst
-Gets the application-defined drawing effect at the specified text
-position.
+w’è‚µ‚½ƒeƒLƒXƒgˆÊ’u‚É‚ ‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æƒGƒtƒFƒNƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetInlineObject
-Gets the inline object at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, inlineObject, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-currentPosition : [int] Type: UINT32 The specified text position.
-inlineObject : [comobj] Type: IDWriteInlineObject** Contains the application-defined inline object.
-textRange : [var] Type: DWRITE_TEXT_RANGE* The range of text that has the same  formatting as the text at the position specified by currentPosition.  This means the run has the exact  formatting as the position specified, including but not limited to the inline object.
+currentPosition : [int] Œ^: UINT32 w’è‚µ‚½ƒeƒLƒXƒgˆÊ’uB
+inlineObject : [comobj] Œ^: IDWriteInlineObject** ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ªŠi”[‚³‚ê‚éB
+textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Æ“¯‚¶‘®‚ğ‚ÂƒeƒLƒXƒg”ÍˆÍB‚Â‚Ü‚èA‚»‚Ìƒ‰ƒ“‚ÍƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğŠÜ‚ßAw’èˆÊ’u‚Æ‚Ü‚Á‚½‚­“¯‚¶‘®‚ğ‚ÂB
 %inst
-Gets the inline object at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetTypography
-Gets the typography setting of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Ìƒ^ƒCƒ|ƒOƒ‰ƒtƒBİ’è‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, typography, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-currentPosition : [int] Type: UINT32 The position of the text to inspect.
-typography : [comobj] Type: IDWriteTypography** When this method returns, contains an address of a  pointer to the current typography setting.
-textRange : [var] Type: DWRITE_TEXT_RANGE* The range of text that has the same  formatting as the text at the position specified by currentPosition.  This means the run has the exact  formatting as the position specified, including but not limited to the typography.
+currentPosition : [int] Œ^: UINT32 ’²¸‚·‚éƒeƒLƒXƒg‚ÌˆÊ’uB
+typography : [comobj] Œ^: IDWriteTypography** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AŒ»İ‚Ìƒ^ƒCƒ|ƒOƒ‰ƒtƒBİ’è‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚éB
+textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Æ“¯‚¶‘®‚ğ‚ÂƒeƒLƒXƒg”ÍˆÍB‚Â‚Ü‚èA‚»‚Ìƒ‰ƒ“‚Íƒ^ƒCƒ|ƒOƒ‰ƒtƒB‚ğŠÜ‚ßAw’èˆÊ’u‚Æ‚Ü‚Á‚½‚­“¯‚¶‘®‚ğ‚ÂB
 %inst
-Gets the typography setting of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Ìƒ^ƒCƒ|ƒOƒ‰ƒtƒBİ’è‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetLocaleNameLength
-Gets the length of the locale name of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒƒP[ƒ‹–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, nameLength, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-currentPosition : [int] Type: UINT32 The position of the text to inspect.
-nameLength : [int] Type: UINT32* Size of the character array, in character count, not including the terminated NULL character.
-textRange : [var] Type: DWRITE_TEXT_RANGE* The range of text that has the same  formatting as the text at the position specified by currentPosition.  This means the run has the exact  formatting as the position specified, including but not limited to the locale name.
+currentPosition : [int] Œ^: UINT32 ’²¸‚·‚éƒeƒLƒXƒg‚ÌˆÊ’uB
+nameLength : [int] Œ^: UINT32* I’[ NULL •¶š‚ğŠÜ‚Ü‚È‚¢A•¶š”’PˆÊ‚Å‚Ì•¶š”z—ñ‚ÌƒTƒCƒYB
+textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Æ“¯‚¶‘®‚ğ‚ÂƒeƒLƒXƒg”ÍˆÍB‚Â‚Ü‚èA‚»‚Ìƒ‰ƒ“‚ÍƒƒP[ƒ‹–¼‚ğŠÜ‚ßAw’èˆÊ’u‚Æ‚Ü‚Á‚½‚­“¯‚¶‘®‚ğ‚ÂB
 %inst
-Gets the length of the locale name of the text at the specified
-position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒƒP[ƒ‹–¼‚Ì’·‚³‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetLocaleName
-Gets the locale name of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒƒP[ƒ‹–¼‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, currentPosition, localeName, nameSize, textRange
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-currentPosition : [int] Type: UINT32 The position of the text to inspect.
-localeName : [wstr] Type: WCHAR* When this method returns, contains the character array receiving the current locale name.
-nameSize : [int] Type: UINT32 Size of the character array, in character count, including the terminated NULL character.
-textRange : [var] Type: DWRITE_TEXT_RANGE* The range of text that has the same  formatting as the text at the position specified by currentPosition.  This means the run has the exact  formatting as the position specified, including but not limited to the locale name.
+currentPosition : [int] Œ^: UINT32 ’²¸‚·‚éƒeƒLƒXƒg‚ÌˆÊ’uB
+localeName : [wstr] Œ^: WCHAR* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AŒ»İ‚ÌƒƒP[ƒ‹–¼‚ğó‚¯æ‚é•¶š”z—ñ‚ªŠi”[‚³‚ê‚éB
+nameSize : [int] Œ^: UINT32 I’[ NULL •¶š‚ğŠÜ‚ŞA•¶š”’PˆÊ‚Å‚Ì•¶š”z—ñ‚ÌƒTƒCƒYB
+textRange : [var] Œ^: DWRITE_TEXT_RANGE* currentPosition ‚Åw’è‚³‚ê‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚Æ“¯‚¶‘®‚ğ‚ÂƒeƒLƒXƒg”ÍˆÍB‚Â‚Ü‚èA‚»‚Ìƒ‰ƒ“‚ÍƒƒP[ƒ‹–¼‚ğŠÜ‚ßAw’èˆÊ’u‚Æ‚Ü‚Á‚½‚­“¯‚¶‘®‚ğ‚ÂB
 %inst
-Gets the locale name of the text at the specified position.
+w’è‚µ‚½ˆÊ’u‚ÌƒeƒLƒXƒg‚ÌƒƒP[ƒ‹–¼‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_Draw
-Draws text using the specified client drawing context.
+w’è‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg•`‰æƒRƒ“ƒeƒLƒXƒg‚ğg—p‚µ‚ÄƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, clientDrawingContext, renderer, originX, originY
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-clientDrawingContext : [intptr] Type: void* An application-defined drawing context.
-renderer : [comobj] Type: IDWriteTextRenderer* Pointer to the set of callback functions used to draw parts of a text string.
-originX : [float] Type: FLOAT The x-coordinate of the layout's left side.
-originY : [float] Type: FLOAT The y-coordinate of the layout's top side.
+clientDrawingContext : [intptr] Œ^: void* ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æƒRƒ“ƒeƒLƒXƒgB
+renderer : [comobj] Œ^: IDWriteTextRenderer* ƒeƒLƒXƒg•¶š—ñ‚ÌŠe•”•ª‚ğ•`‰æ‚·‚é‚½‚ß‚Ég—p‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”ƒZƒbƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+originX : [float] Œ^: FLOAT ƒŒƒCƒAƒEƒg‚Ì¶’[‚Ì x À•WB
+originY : [float] Œ^: FLOAT ƒŒƒCƒAƒEƒg‚Ìã’[‚Ì y À•WB
 %inst
-Draws text using the specified client drawing context.
+w’è‚µ‚½ƒNƒ‰ƒCƒAƒ“ƒg•`‰æƒRƒ“ƒeƒLƒXƒg‚ğg—p‚µ‚ÄƒeƒLƒXƒg‚ğ•`‰æ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-To draw text with this method, a textLayout object needs to be
-created by the application using IDWriteFactory::CreateTextLayout.
-After the textLayout object is obtained, the application calls the
-IDWriteTextLayout::Draw method to draw the text, decorations, and
-inline objects. The actual drawing is done through the callback
-interface passed in as the textRenderer argument; there, the
-corresponding DrawGlyphRun API is called. If you set a vertical text
-reading direction on IDWriteTextLayout via SetReadingDirection with
-DWRITE_READING_DIRECTION_TOP_TO_BOTTOM (or bottom to top), then you
-must pass an interface that implements IDWriteTextRenderer1.
-Otherwise you get the error DWRITE_E_TEXTRENDERERINCOMPATIBLE because
-the original IDWriteTextRenderer interface only supported horizontal
-text.
+‚±‚Ìƒƒ\ƒbƒh‚ÅƒeƒLƒXƒg‚ğ•`‰æ‚·‚é‚É‚ÍAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª IDWriteFactory::CreateTextLayout ‚ğg‚Á‚Ä
+textLayout ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é•K—v‚ª‚ ‚éBtextLayout ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚µ‚½ŒãAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+IDWriteTextLayout::Draw ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚ÄƒeƒLƒXƒgA‘•üA‚¨‚æ‚ÑƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğ•`‰æ‚·‚éBÀÛ‚Ì•`‰æ‚Í
+textRenderer ˆø”‚Æ‚µ‚Ä“n‚³‚ê‚½ƒR[ƒ‹ƒoƒbƒNƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ’Ê‚¶‚Äs‚í‚êA‚»‚±‚Å‘Î‰‚·‚é DrawGlyphRun API
+‚ªŒÄ‚Ño‚³‚ê‚éBIDWriteTextLayout ‚É‘Î‚µ‚Ä SetReadingDirection ‚Å
+DWRITE_READING_DIRECTION_TOP_TO_BOTTOM (‚Ü‚½‚Í‰º‚©‚çã)
+‚ğg‚Á‚Äc‘‚«‚Ì“Ç‚İæ‚è•ûŒü‚ğİ’è‚µ‚½ê‡AIDWriteTextRenderer1
+‚ğÀ‘•‚µ‚½ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğ“n‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚¤‚Å‚È‚¯‚ê‚ÎŒ³‚Ì IDWriteTextRenderer
+ƒCƒ“ƒ^[ƒtƒFƒCƒX‚ª‰¡‘‚«ƒeƒLƒXƒg‚Ì‚İ‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚½‚½‚ßADWRITE_E_TEXTRENDERERINCOMPATIBLE
+ƒGƒ‰[‚ª”­¶‚·‚éB
 
 
 %index
 IDWriteTextLayout_GetLineMetrics
-Retrieves the information about each individual text line of the text string.
+ƒeƒLƒXƒg•¶š—ñ‚ÌŒÂX‚ÌƒeƒLƒXƒgs‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, lineMetrics, maxLineCount, actualLineCount
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-lineMetrics : [var] Type: DWRITE_LINE_METRICS* When this method returns, contains a pointer to an array of structures containing various calculated length values of individual text lines.
-maxLineCount : [int] Type: UINT32 The maximum size of the lineMetrics array.
-actualLineCount : [int] Type: UINT32* When this method returns, contains the actual size of the lineMetrics array that is needed.
+lineMetrics : [var] Œ^: DWRITE_LINE_METRICS* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AŒÂX‚ÌƒeƒLƒXƒgs‚Ì‚³‚Ü‚´‚Ü‚ÈŒvZÏ‚İ’·‚³’l‚ğŠÜ‚Ş\‘¢‘Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB
+maxLineCount : [int] Œ^: UINT32 lineMetrics ”z—ñ‚ÌÅ‘åƒTƒCƒYB
+actualLineCount : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A•K—v‚È lineMetrics ”z—ñ‚ÌÀƒTƒCƒY‚ªŠi”[‚³‚ê‚éB
 %inst
-Retrieves the information about each individual text line of the text
-string.
+ƒeƒLƒXƒg•¶š—ñ‚ÌŒÂX‚ÌƒeƒLƒXƒgs‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If maxLineCount is not large enough E_NOT_SUFFICIENT_BUFFER, which is
-equivalent to HRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER), is
-returned and *actualLineCount is set to the number of lines needed.
+maxLineCount
+‚ª\•ª‚È‘å‚«‚³‚Å‚È‚¢ê‡AHRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER) ‚Æ“™‰¿‚È
+E_NOT_SUFFICIENT_BUFFER ‚ª•Ô‚³‚êA*actualLineCount ‚É•K—v‚Ès”‚ªİ’è‚³‚ê‚éB
 
 
 %index
 IDWriteTextLayout_GetMetrics
-Retrieves overall metrics for the formatted string. (IDWriteTextLayout.GetMetrics)
+‘®İ’è‚³‚ê‚½•¶š—ñ‚Ì‘S‘Ì“I‚ÈƒƒgƒŠƒbƒN‚ğæ“¾‚·‚éB(IDWriteTextLayout.GetMetrics)
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, textMetrics
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textMetrics : [var] Type: DWRITE_TEXT_METRICS* When this method returns, contains the measured distances of text and associated content after being formatted.
+textMetrics : [var] Œ^: DWRITE_TEXT_METRICS* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A‘®İ’èŒã‚ÌƒeƒLƒXƒg‚¨‚æ‚ÑŠÖ˜AƒRƒ“ƒeƒ“ƒc‚ÌŒv‘ª‹——£‚ªŠi”[‚³‚ê‚éB
 %inst
-Retrieves overall metrics for the formatted string.
-(IDWriteTextLayout.GetMetrics)
+‘®İ’è‚³‚ê‚½•¶š—ñ‚Ì‘S‘Ì“I‚ÈƒƒgƒŠƒbƒN‚ğæ“¾‚·‚éB(IDWriteTextLayout.GetMetrics)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_GetOverhangMetrics
-Returns the overhangs (in DIPs) of the layout and all objects contained in it, including text glyphs and inline objects.
+ƒŒƒCƒAƒEƒg‚¨‚æ‚Ñ‚»‚±‚ÉŠÜ‚Ü‚ê‚éƒeƒLƒXƒgƒOƒŠƒt‚âƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğŠÜ‚Ş‚·‚×‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚Í‚İo‚µ—Ê (DIP ’PˆÊ) ‚ğ•Ô‚·B
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, overhangs
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-overhangs : [var] Type: **[**DWRITE\_OVERHANG\_METRICS**](/windows/win32/api/dwrite/ns-dwrite-dwrite_overhang_metrics)\*** Overshoots of visible extents (in DIPs) outside the layout.
+overhangs : [var] Œ^: **[**DWRITE\_OVERHANG\_METRICS**](/windows/win32/api/dwrite/ns-dwrite-dwrite_overhang_metrics)\*** ƒŒƒCƒAƒEƒg‚ÌŠO‘¤‚É‚Í‚İo‚µ‚½‰Â‹”ÍˆÍ (DIP ’PˆÊ)B
 %inst
-Returns the overhangs (in DIPs) of the layout and all objects
-contained in it, including text glyphs and inline objects.
+ƒŒƒCƒAƒEƒg‚¨‚æ‚Ñ‚»‚±‚ÉŠÜ‚Ü‚ê‚éƒeƒLƒXƒgƒOƒŠƒt‚âƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğŠÜ‚Ş‚·‚×‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚Í‚İo‚µ—Ê (DIP ’PˆÊ) ‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: **HRESULT** If this method succeeds, it returns **S\_OK**.
-Otherwise, it returns an **HRESULT** error code.
+Œ^: **HRESULT** ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í **S\_OK** ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í **HRESULT**
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Underlines and strikethroughs do not contribute to the black box
-determination, since these are actually drawn by the renderer, which
-is allowed to draw them in any variety of styles.
+‰ºü‚âæ‚èÁ‚µü‚ÍÀÛ‚É‚ÍƒŒƒ“ƒ_ƒ‰‚É‚æ‚Á‚Ä‚³‚Ü‚´‚Ü‚ÈƒXƒ^ƒCƒ‹‚Å•`‰æ‚Å‚«‚é‚½‚ßAƒuƒ‰ƒbƒNƒ{ƒbƒNƒX‚ÌŒˆ’è‚É‚ÍŠñ—^‚µ‚È‚¢B
 
 
 %index
 IDWriteTextLayout_GetClusterMetrics
-Retrieves logical properties and measurements of each glyph cluster.
+ŠeƒOƒŠƒtƒNƒ‰ƒXƒ^‚Ì˜_—ƒvƒƒpƒeƒB‚ÆŒv‘ª’l‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, clusterMetrics, maxClusterCount, actualClusterCount
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-clusterMetrics : [var] Type: DWRITE_CLUSTER_METRICS* When this method returns, contains metrics, such as line-break or total advance width, for a glyph cluster.
-maxClusterCount : [int] Type: UINT32 The maximum size of the clusterMetrics array.
-actualClusterCount : [int] Type: UINT32* When this method returns, contains the actual size of the clusterMetrics array that is needed.
+clusterMetrics : [var] Œ^: DWRITE_CLUSTER_METRICS* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒOƒŠƒtƒNƒ‰ƒXƒ^‚Ì‰üsˆÊ’u‚â‘‘—‚è•‚È‚Ç‚ÌƒƒgƒŠƒbƒN‚ªŠi”[‚³‚ê‚éB
+maxClusterCount : [int] Œ^: UINT32 clusterMetrics ”z—ñ‚ÌÅ‘åƒTƒCƒYB
+actualClusterCount : [int] Œ^: UINT32* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A•K—v‚È clusterMetrics ”z—ñ‚ÌÀƒTƒCƒY‚ªŠi”[‚³‚ê‚éB
 %inst
-Retrieves logical properties and measurements of each glyph cluster.
+ŠeƒOƒŠƒtƒNƒ‰ƒXƒ^‚Ì˜_—ƒvƒƒpƒeƒB‚ÆŒv‘ª’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If maxClusterCount is not large enough, then E_NOT_SUFFICIENT_BUFFER,
-which is equivalent to HRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER),
-is returned and actualClusterCount is set to the number of clusters
-needed.
+maxClusterCount
+‚ª\•ª‚È‘å‚«‚³‚Å‚È‚¢ê‡AHRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER) ‚Æ“™‰¿‚È
+E_NOT_SUFFICIENT_BUFFER ‚ª•Ô‚³‚êAactualClusterCount ‚É•K—v‚ÈƒNƒ‰ƒXƒ^”‚ªİ’è‚³‚ê‚éB
 
 
 %index
 IDWriteTextLayout_DetermineMinWidth
-Determines the minimum possible width the layout can be set to without emergency breaking between the characters of whole words occurring.
+’PŒê‘S‘Ì‚Ì•¶šŠÔ‚Å‹Ù‹}‰üs‚ª”­¶‚·‚é‚±‚Æ‚È‚­AƒŒƒCƒAƒEƒg‚Éİ’è‰Â”\‚ÈÅ¬•‚ğŒˆ’è‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, minWidth
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-minWidth : [float] Type: **FLOAT\*** Minimum width.
+minWidth : [float] Œ^: **FLOAT\*** Å¬•B
 %inst
-Determines the minimum possible width the layout can be set to
-without emergency breaking between the characters of whole words
-occurring.
+’PŒê‘S‘Ì‚Ì•¶šŠÔ‚Å‹Ù‹}‰üs‚ª”­¶‚·‚é‚±‚Æ‚È‚­AƒŒƒCƒAƒEƒg‚Éİ’è‰Â”\‚ÈÅ¬•‚ğŒˆ’è‚·‚éB
 
 [–ß‚è’l]
-Type: **HRESULT** If this method succeeds, it returns **S\_OK**.
-Otherwise, it returns an **HRESULT** error code.
+Œ^: **HRESULT** ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í **S\_OK** ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í **HRESULT**
+ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_HitTestPoint
-The application calls this function passing in a specific pixel location relative to the top-left location of the layout box and obtains the information about the correspondent hit-test metrics of the text string where the hit-test has occurred.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì¶ãˆÊ’u‚ğŠî€‚Æ‚µ‚½“Á’è‚ÌƒsƒNƒZƒ‹ˆÊ’u‚ğ“n‚µ‚Ä‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µAƒqƒbƒgƒeƒXƒg‚ª”­¶‚µ‚½ƒeƒLƒXƒg•¶š—ñ‚É‘Î‰‚·‚éƒqƒbƒgƒeƒXƒgƒƒgƒŠƒbƒN‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, pointX, pointY, isTrailingHit, isInside, hitTestMetrics
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pointX : [float] Type: FLOAT The pixel location X to hit-test, relative to the top-left location of the layout box.
-pointY : [float] Type: FLOAT The pixel location Y to hit-test, relative to the top-left location of the layout box.
-isTrailingHit : [var] Type: BOOL* An output flag that indicates whether the hit-test location is at the leading or the trailing side of the character. When the output *isInside value is set to FALSE, this value is set according to the output hitTestMetrics->textPosition value to represent the edge closest to the hit-test location.
-isInside : [var] Type: BOOL* An output flag that indicates whether the hit-test location is inside the text string. When FALSE, the position nearest the text's edge is returned.
-hitTestMetrics : [var] Type: DWRITE_HIT_TEST_METRICS* The output geometry fully enclosing the hit-test location. When the output *isInside value is set to FALSE, this structure represents the geometry enclosing the edge closest to the hit-test location.
+pointX : [float] Œ^: FLOAT ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì¶ãˆÊ’u‚ğŠî€‚É‚µ‚½ƒqƒbƒgƒeƒXƒg‘ÎÛ‚ÌƒsƒNƒZƒ‹ˆÊ’u XB
+pointY : [float] Œ^: FLOAT ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì¶ãˆÊ’u‚ğŠî€‚É‚µ‚½ƒqƒbƒgƒeƒXƒg‘ÎÛ‚ÌƒsƒNƒZƒ‹ˆÊ’u YB
+isTrailingHit : [var] Œ^: BOOL* ƒqƒbƒgƒeƒXƒgˆÊ’u‚ª•¶š‚Ìæ“ª‘¤‚©––”ö‘¤‚©‚ğ¦‚·o—Íƒtƒ‰ƒOBo—Í‚Ì *isInside ‚ª FALSE ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡A‚±‚Ì’l‚Ío—Í‚³‚ê‚½ hitTestMetrics->textPosition ‚Ì’l‚É]‚Á‚Äİ’è‚³‚êAƒqƒbƒgƒeƒXƒgˆÊ’u‚ÉÅ‚à‹ß‚¢’[‚ğ•\‚·B
+isInside : [var] Œ^: BOOL* ƒqƒbƒgƒeƒXƒgˆÊ’u‚ªƒeƒLƒXƒg•¶š—ñ“à‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚·o—Íƒtƒ‰ƒOBFALSE ‚Ìê‡AƒeƒLƒXƒg‚Ì’[‚ÉÅ‚à‹ß‚¢ˆÊ’u‚ª•Ô‚³‚ê‚éB
+hitTestMetrics : [var] Œ^: DWRITE_HIT_TEST_METRICS* ƒqƒbƒgƒeƒXƒgˆÊ’u‚ğŠ®‘S‚ÉˆÍ‚Şo—ÍƒWƒIƒƒgƒŠBo—Í‚Ì *isInside ‚ª FALSE ‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡A‚±‚Ì\‘¢‘Ì‚ÍƒqƒbƒgƒeƒXƒgˆÊ’u‚ÉÅ‚à‹ß‚¢’[‚ğˆÍ‚ŞƒWƒIƒƒgƒŠ‚ğ•\‚·B
 %inst
-The application calls this function passing in a specific pixel
-location relative to the top-left location of the layout box and
-obtains the information about the correspondent hit-test metrics of
-the text string where the hit-test has occurred.
+
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì¶ãˆÊ’u‚ğŠî€‚Æ‚µ‚½“Á’è‚ÌƒsƒNƒZƒ‹ˆÊ’u‚ğ“n‚µ‚Ä‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µAƒqƒbƒgƒeƒXƒg‚ª”­¶‚µ‚½ƒeƒLƒXƒg•¶š—ñ‚É‘Î‰‚·‚éƒqƒbƒgƒeƒXƒgƒƒgƒŠƒbƒN‚ÉŠÖ‚·‚éî•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_HitTestTextPosition
-The application calls this function to get the pixel location relative to the top-left of the layout box given the text position and the logical side of the position.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒeƒLƒXƒgˆÊ’u‚ÆˆÊ’u‚Ì˜_—‘¤‚ğ—^‚¦‚ÄA‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì¶ã‚ğŠî€‚Æ‚µ‚½ƒsƒNƒZƒ‹ˆÊ’u‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, textPosition, isTrailingHit, pointX, pointY, hitTestMetrics
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textPosition : [int] Type: UINT32 The text position used to get the pixel location.
-isTrailingHit : [int] Type: BOOL A Boolean flag that indicates whether the pixel location is of the leading or the trailing side of the specified text position.
-pointX : [float] Type: FLOAT* When this method returns, contains the output pixel location X, relative to the top-left location of the layout box.
-pointY : [float] Type: FLOAT* When this method returns, contains the output pixel location Y, relative to the top-left location of the layout box.
-hitTestMetrics : [var] Type: DWRITE_HIT_TEST_METRICS* When this method returns, contains the output geometry fully enclosing the specified text position.
+textPosition : [int] Œ^: UINT32 ƒsƒNƒZƒ‹ˆÊ’u‚ğæ“¾‚·‚é‚½‚ß‚Ég—p‚·‚éƒeƒLƒXƒgˆÊ’uB
+isTrailingHit : [int] Œ^: BOOL ƒsƒNƒZƒ‹ˆÊ’u‚ªw’è‚µ‚½ƒeƒLƒXƒgˆÊ’u‚Ìæ“ª‘¤‚©––”ö‘¤‚©‚ğ¦‚·ƒu[ƒ‹’lƒtƒ‰ƒOB
+pointX : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì¶ãˆÊ’u‚ğŠî€‚É‚µ‚½o—ÍƒsƒNƒZƒ‹ˆÊ’u X ‚ªŠi”[‚³‚ê‚éB
+pointY : [float] Œ^: FLOAT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì¶ãˆÊ’u‚ğŠî€‚É‚µ‚½o—ÍƒsƒNƒZƒ‹ˆÊ’u Y ‚ªŠi”[‚³‚ê‚éB
+hitTestMetrics : [var] Œ^: DWRITE_HIT_TEST_METRICS* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aw’è‚µ‚½ƒeƒLƒXƒgˆÊ’u‚ğŠ®‘S‚ÉˆÍ‚Şo—ÍƒWƒIƒƒgƒŠ‚ªŠi”[‚³‚ê‚éB
 %inst
-The application calls this function to get the pixel location
-relative to the top-left of the layout box given the text position
-and the logical side of the position.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒeƒLƒXƒgˆÊ’u‚ÆˆÊ’u‚Ì˜_—‘¤‚ğ—^‚¦‚ÄA‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì¶ã‚ğŠî€‚Æ‚µ‚½ƒsƒNƒZƒ‹ˆÊ’u‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTextLayout_HitTestTextRange
-The application calls this function to get a set of hit-test metrics corresponding to a range of text positions. One of the main usages is to implement highlight selection of the text string.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚ÄAƒeƒLƒXƒgˆÊ’u‚Ì”ÍˆÍ‚É‘Î‰‚·‚éƒqƒbƒgƒeƒXƒgƒƒgƒŠƒbƒN‚ÌƒZƒbƒg‚ğæ“¾‚·‚éBå‚È—p“r‚Ìˆê‚Â‚ÍƒeƒLƒXƒg•¶š—ñ‚ÌƒnƒCƒ‰ƒCƒg‘I‘ğ‚ÌÀ‘•‚Å‚ ‚éB
 %group
 COM misc / IDWriteTextLayout
 %prm
 this, textPosition, textLength, originX, originY, hitTestMetrics, maxHitTestMetricsCount, actualHitTestMetricsCount
 this : [comobj] IDWriteTextLayout ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-textPosition : [int] Type: UINT32 The first text position of the specified range.
-textLength : [int] Type: UINT32 The number of positions of the specified range.
-originX : [float] Type: FLOAT The origin pixel location X at the left of the layout box. This offset is added to the hit-test metrics returned.
-originY : [float] Type: FLOAT The origin pixel location Y at the top of the layout box. This offset is added to the hit-test metrics returned.
-hitTestMetrics : [var] Type: DWRITE_HIT_TEST_METRICS* When this method returns, contains a pointer to a buffer of the output geometry fully enclosing the specified position range.  The buffer must be at least as large as maxHitTestMetricsCount.
-maxHitTestMetricsCount : [int] Type: UINT32 Maximum number of boxes hitTestMetrics could hold in its buffer memory.
-actualHitTestMetricsCount : [int] Type: UINT32* Actual number of geometries hitTestMetrics holds in its buffer memory.
+textPosition : [int] Œ^: UINT32 w’è”ÍˆÍ‚ÌÅ‰‚ÌƒeƒLƒXƒgˆÊ’uB
+textLength : [int] Œ^: UINT32 w’è”ÍˆÍ‚ÌˆÊ’u”B
+originX : [float] Œ^: FLOAT ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ì¶’[‚É‚ ‚éŒ´“_ƒsƒNƒZƒ‹ˆÊ’u XB‚±‚ÌƒIƒtƒZƒbƒg‚Í•Ô‚³‚ê‚éƒqƒbƒgƒeƒXƒgƒƒgƒŠƒbƒN‚É‰ÁZ‚³‚ê‚éB
+originY : [float] Œ^: FLOAT ƒŒƒCƒAƒEƒgƒ{ƒbƒNƒX‚Ìã’[‚É‚ ‚éŒ´“_ƒsƒNƒZƒ‹ˆÊ’u YB‚±‚ÌƒIƒtƒZƒbƒg‚Í•Ô‚³‚ê‚éƒqƒbƒgƒeƒXƒgƒƒgƒŠƒbƒN‚É‰ÁZ‚³‚ê‚éB
+hitTestMetrics : [var] Œ^: DWRITE_HIT_TEST_METRICS* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aw’è‚µ‚½ˆÊ’u”ÍˆÍ‚ğŠ®‘S‚ÉˆÍ‚Şo—ÍƒWƒIƒƒgƒŠ‚Ìƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB‚±‚Ìƒoƒbƒtƒ@‚Í­‚È‚­‚Æ‚à maxHitTestMetricsCount ˆÈã‚Ì‘å‚«‚³‚ª•K—v‚Å‚ ‚éB
+maxHitTestMetricsCount : [int] Œ^: UINT32 hitTestMetrics ‚Ìƒoƒbƒtƒ@ƒƒ‚ƒŠ‚É•Û‚Å‚«‚éƒ{ƒbƒNƒX‚ÌÅ‘åŒÂ”B
+actualHitTestMetricsCount : [int] Œ^: UINT32* hitTestMetrics ‚Ìƒoƒbƒtƒ@ƒƒ‚ƒŠ‚É•Û‚³‚ê‚éƒWƒIƒƒgƒŠ‚ÌÀÛ‚ÌŒÂ”B
 %inst
-The application calls this function to get a set of hit-test metrics
-corresponding to a range of text positions. One of the main usages is
-to implement highlight selection of the text string.
+
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚µ‚ÄAƒeƒLƒXƒgˆÊ’u‚Ì”ÍˆÍ‚É‘Î‰‚·‚éƒqƒbƒgƒeƒXƒgƒƒgƒŠƒbƒN‚ÌƒZƒbƒg‚ğæ“¾‚·‚éBå‚È—p“r‚Ìˆê‚Â‚ÍƒeƒLƒXƒg•¶š—ñ‚ÌƒnƒCƒ‰ƒCƒg‘I‘ğ‚ÌÀ‘•‚Å‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -12274,184 +11725,164 @@ pixelsPerDip : [float]
 
 %index
 IDWriteTextRenderer_DrawGlyphRun
-IDWriteTextLayout::Draw calls this function to instruct the client to render a run of glyphs. (IDWriteTextRenderer.DrawGlyphRun)
+IDWriteTextLayout::Draw ‚ÍAƒOƒŠƒtƒ‰ƒ“‚ğ•`‰æ‚·‚é‚æ‚¤ƒNƒ‰ƒCƒAƒ“ƒg‚Éw¦‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·B(IDWriteTextRenderer.DrawGlyphRun)
 %group
 COM misc / IDWriteTextRenderer
 %prm
 this, clientDrawingContext, baselineOriginX, baselineOriginY, measuringMode, glyphRun, glyphRunDescription, clientDrawingEffect
 this : [comobj] IDWriteTextRenderer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-clientDrawingContext : [intptr] Type: void* The application-defined drawing context passed to IDWriteTextLayout::Draw.
-baselineOriginX : [float] Type: FLOAT The pixel location (X-coordinate) at the baseline origin of the glyph run.
-baselineOriginY : [float] Type: FLOAT The pixel location (Y-coordinate) at the baseline origin of the glyph run.
-measuringMode : [int] Type: DWRITE_MEASURING_MODE The measuring method for glyphs in the run, used with the other properties to determine the rendering mode.
-glyphRun : [int] Type: const DWRITE_GLYPH_RUN* Pointer to the glyph run instance to render.
-glyphRunDescription : [var] Type: const DWRITE_GLYPH_RUN_DESCRIPTION* A pointer to the glyph run description instance which contains properties of the characters associated with this run.
-clientDrawingEffect : [int] Type: IUnknown* Application-defined drawing effects for the glyphs to render. Usually this argument represents effects such as the foreground brush filling the interior of text.
+clientDrawingContext : [intptr] Œ^: void* IDWriteTextLayout::Draw ‚É“n‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æƒRƒ“ƒeƒLƒXƒgB
+baselineOriginX : [float] Œ^: FLOAT ƒOƒŠƒtƒ‰ƒ“‚Ìƒx[ƒXƒ‰ƒCƒ“Œ´“_‚ÌƒsƒNƒZƒ‹ˆÊ’u (X À•W)B
+baselineOriginY : [float] Œ^: FLOAT ƒOƒŠƒtƒ‰ƒ“‚Ìƒx[ƒXƒ‰ƒCƒ“Œ´“_‚ÌƒsƒNƒZƒ‹ˆÊ’u (Y À•W)B
+measuringMode : [int] Œ^: DWRITE_MEASURING_MODE ƒ‰ƒ““à‚ÌƒOƒŠƒt‚ÌŒv‘ª•û®B‘¼‚ÌƒvƒƒpƒeƒB‚Æ‘g‚İ‡‚í‚¹‚ÄƒŒƒ“ƒ_ƒŠƒ“ƒOƒ‚[ƒh‚ğŒˆ’è‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB
+glyphRun : [int] Œ^: const DWRITE_GLYPH_RUN* •`‰æ‚·‚éƒOƒŠƒtƒ‰ƒ“‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+glyphRunDescription : [var] Œ^: const DWRITE_GLYPH_RUN_DESCRIPTION* ‚±‚Ìƒ‰ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½•¶š‚ÌƒvƒƒpƒeƒB‚ğ•Û‚·‚éƒOƒŠƒtƒ‰ƒ“‹LqƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+clientDrawingEffect : [int] Œ^: IUnknown* •`‰æ‚·‚éƒOƒŠƒt‚É‘Î‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æŒø‰ÊB’Êí‚±‚Ìˆø”‚ÍAƒeƒLƒXƒg“à•”‚ğ“h‚è‚Â‚Ô‚·‘OŒiƒuƒ‰ƒV‚È‚Ç‚ÌŒø‰Ê‚ğ•\‚·B
 %inst
-IDWriteTextLayout::Draw calls this function to instruct the client to
-render a run of glyphs. (IDWriteTextRenderer.DrawGlyphRun)
+IDWriteTextLayout::Draw
+‚ÍAƒOƒŠƒtƒ‰ƒ“‚ğ•`‰æ‚·‚é‚æ‚¤ƒNƒ‰ƒCƒAƒ“ƒg‚Éw¦‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·B(IDWriteTextRenderer.DrawGlyphRun)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The IDWriteTextLayout::Draw function calls this callback function
-with all the information about glyphs to render. The application
-implements this callback by mostly delegating the call to the
-underlying platform's graphics API such as Direct2D to draw glyphs on
-the drawing context. An application that uses GDI can implement this
-callback in terms of the IDWriteBitmapRenderTarget::DrawGlyphRun
-method.
+IDWriteTextLayout::Draw
+ŠÖ”‚ÍA•`‰æ‚·‚éƒOƒŠƒt‚ÉŠÖ‚·‚é‚·‚×‚Ä‚Ìî•ñ‚ğˆø”‚Æ‚µ‚Ä‚±‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚ğŒÄ‚Ño‚·BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚±‚ÌƒR[ƒ‹ƒoƒbƒN‚ğÀ‘•‚µAŒÄ‚Ño‚µ‚Ì‘å•”•ª‚ğ
+Direct2D ‚È‚Ç‚Ì‰ºˆÊƒvƒ‰ƒbƒgƒtƒH[ƒ€‚ÌƒOƒ‰ƒtƒBƒbƒNƒX API ‚ÉˆÏ÷‚µ‚Ä•`‰æƒRƒ“ƒeƒLƒXƒgã‚ÉƒOƒŠƒt‚ğ•`‰æ‚·‚éBGDI
+‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAIDWriteBitmapRenderTarget::DrawGlyphRun
+ƒƒ\ƒbƒh‚ğ—p‚¢‚Ä‚±‚ÌƒR[ƒ‹ƒoƒbƒN‚ğÀ‘•‚Å‚«‚éB
 
 
 %index
 IDWriteTextRenderer_DrawUnderline
-IDWriteTextLayout::Draw calls this function to instruct the client to draw an underline. (IDWriteTextRenderer.DrawUnderline)
+IDWriteTextLayout::Draw ‚ÍA‰ºü‚ğ•`‰æ‚·‚é‚æ‚¤ƒNƒ‰ƒCƒAƒ“ƒg‚Éw¦‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·B(IDWriteTextRenderer.DrawUnderline)
 %group
 COM misc / IDWriteTextRenderer
 %prm
 this, clientDrawingContext, baselineOriginX, baselineOriginY, underline, clientDrawingEffect
 this : [comobj] IDWriteTextRenderer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-clientDrawingContext : [intptr] Type: void* The application-defined drawing context passed to IDWriteTextLayout::Draw.
-baselineOriginX : [float] Type: FLOAT The pixel location (X-coordinate) at the baseline origin of the run where underline applies.
-baselineOriginY : [float] Type: FLOAT The pixel location (Y-coordinate) at the baseline origin of the run where underline applies.
-underline : [var] Type: const DWRITE_UNDERLINE* Pointer to  a structure containing underline logical information.
-clientDrawingEffect : [int] Type: IUnknown* Application-defined effect to apply to the underline. Usually this argument represents effects such as the foreground brush filling the interior of a line.
+clientDrawingContext : [intptr] Œ^: void* IDWriteTextLayout::Draw ‚É“n‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æƒRƒ“ƒeƒLƒXƒgB
+baselineOriginX : [float] Œ^: FLOAT ‰ºü‚ª“K—p‚³‚ê‚éƒ‰ƒ“‚Ìƒx[ƒXƒ‰ƒCƒ“Œ´“_‚ÌƒsƒNƒZƒ‹ˆÊ’u (X À•W)B
+baselineOriginY : [float] Œ^: FLOAT ‰ºü‚ª“K—p‚³‚ê‚éƒ‰ƒ“‚Ìƒx[ƒXƒ‰ƒCƒ“Œ´“_‚ÌƒsƒNƒZƒ‹ˆÊ’u (Y À•W)B
+underline : [var] Œ^: const DWRITE_UNDERLINE* ‰ºü‚Ì˜_—î•ñ‚ğŠÜ‚Ş\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+clientDrawingEffect : [int] Œ^: IUnknown* ‰ºü‚É“K—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌŒø‰ÊB’Êí‚±‚Ìˆø”‚ÍAs‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·‘OŒiƒuƒ‰ƒV‚È‚Ç‚ÌŒø‰Ê‚ğ•\‚·B
 %inst
-IDWriteTextLayout::Draw calls this function to instruct the client to
-draw an underline. (IDWriteTextRenderer.DrawUnderline)
+IDWriteTextLayout::Draw
+‚ÍA‰ºü‚ğ•`‰æ‚·‚é‚æ‚¤ƒNƒ‰ƒCƒAƒ“ƒg‚Éw¦‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·B(IDWriteTextRenderer.DrawUnderline)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-A single underline can be broken into multiple calls, depending on
-how the formatting changes attributes. If font sizes/styles change
-within an underline, the thickness and offset will be averaged
-weighted according to characters. To get an appropriate starting
-pixel position, add underline::offset to the baseline. Otherwise
-there will be no spacing between the text. The x coordinate will
-always be passed as the left side, regardless of text directionality.
-This simplifies drawing and reduces the problem of round-off that
-could potentially cause gaps or a double stamped alpha blend. To
-avoid alpha overlap, round the end points to the nearest device
-pixel.
+‘®‘®«‚Ì•Ï‰»‚Ìd•û‚É‚æ‚èA1
+–{‚Ì‰ºü‚ª•¡”‚ÌŒÄ‚Ño‚µ‚É•ªŠ„‚³‚ê‚éê‡‚ª‚ ‚éB‰ºü“à‚ÅƒtƒHƒ“ƒgƒTƒCƒY‚âƒXƒ^ƒCƒ‹‚ª•Ï‰»‚µ‚½ê‡A‘¾‚³‚ÆƒIƒtƒZƒbƒg‚Í•¶š‚É‰‚¶‚Äd‚İ•t‚¯•½‹Ï‚³‚ê‚éB“KØ‚È•`‰æŠJnƒsƒNƒZƒ‹ˆÊ’u‚ğ“¾‚é‚É‚ÍAƒx[ƒXƒ‰ƒCƒ“‚É
+underline::offset ‚ğ‰ÁZ‚·‚éB‚»‚¤‚µ‚È‚¢‚ÆƒeƒLƒXƒg‚Æ‚ÌŠÔ‚ÉŒ„ŠÔ‚ª¶‚¶‚È‚¢Bx
+À•W‚ÍƒeƒLƒXƒg‚Ì•ûŒü«‚É‚©‚©‚í‚ç‚¸í‚É¶‘¤‚Æ‚µ‚Ä“n‚³‚ê‚éB‚±‚ê‚Í•`‰æ‚ğŠÈ—ª‰»‚µAŒ„ŠÔ‚â“ñdƒXƒ^ƒ“ƒv‚ÌƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh‚ğˆø‚«‹N‚±‚·‰Â”\«‚Ì‚ ‚éŠÛ‚ßŒë·‚ğŒ¸‚ç‚·BƒAƒ‹ƒtƒ@‚Ìd‚È‚è‚ğ”ğ‚¯‚é‚½‚ß‚ÉA’[“_‚ğÅ‚à‹ß‚¢ƒfƒoƒCƒXƒsƒNƒZƒ‹‚ÉŠÛ‚ß‚é‚±‚ÆB
 
 
 %index
 IDWriteTextRenderer_DrawStrikethrough
-IDWriteTextLayout::Draw calls this function to instruct the client to draw a strikethrough. (IDWriteTextRenderer.DrawStrikethrough)
+IDWriteTextLayout::Draw ‚ÍAæ‚èÁ‚µü‚ğ•`‰æ‚·‚é‚æ‚¤ƒNƒ‰ƒCƒAƒ“ƒg‚Éw¦‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·B(IDWriteTextRenderer.DrawStrikethrough)
 %group
 COM misc / IDWriteTextRenderer
 %prm
 this, clientDrawingContext, baselineOriginX, baselineOriginY, strikethrough, clientDrawingEffect
 this : [comobj] IDWriteTextRenderer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-clientDrawingContext : [intptr] Type: void* The application-defined drawing context passed to IDWriteTextLayout::Draw.
-baselineOriginX : [float] Type: FLOAT The pixel location (X-coordinate) at the baseline origin of the run where strikethrough applies.
-baselineOriginY : [float] Type: FLOAT The pixel location (Y-coordinate) at the baseline origin of the run where strikethrough applies.
-strikethrough : [var] Type: const DWRITE_STRIKETHROUGH* Pointer to  a structure containing strikethrough logical information.
-clientDrawingEffect : [int] Type: IUnknown* Application-defined effect to apply to the strikethrough.  Usually this argument represents effects such as the foreground brush filling the interior of a line.
+clientDrawingContext : [intptr] Œ^: void* IDWriteTextLayout::Draw ‚É“n‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æƒRƒ“ƒeƒLƒXƒgB
+baselineOriginX : [float] Œ^: FLOAT æ‚èÁ‚µü‚ª“K—p‚³‚ê‚éƒ‰ƒ“‚Ìƒx[ƒXƒ‰ƒCƒ“Œ´“_‚ÌƒsƒNƒZƒ‹ˆÊ’u (X À•W)B
+baselineOriginY : [float] Œ^: FLOAT æ‚èÁ‚µü‚ª“K—p‚³‚ê‚éƒ‰ƒ“‚Ìƒx[ƒXƒ‰ƒCƒ“Œ´“_‚ÌƒsƒNƒZƒ‹ˆÊ’u (Y À•W)B
+strikethrough : [var] Œ^: const DWRITE_STRIKETHROUGH* æ‚èÁ‚µü‚Ì˜_—î•ñ‚ğŠÜ‚Ş\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+clientDrawingEffect : [int] Œ^: IUnknown* æ‚èÁ‚µü‚É“K—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌŒø‰ÊB’Êí‚±‚Ìˆø”‚ÍAs‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·‘OŒiƒuƒ‰ƒV‚È‚Ç‚ÌŒø‰Ê‚ğ•\‚·B
 %inst
-IDWriteTextLayout::Draw calls this function to instruct the client to
-draw a strikethrough. (IDWriteTextRenderer.DrawStrikethrough)
+IDWriteTextLayout::Draw
+‚ÍAæ‚èÁ‚µü‚ğ•`‰æ‚·‚é‚æ‚¤ƒNƒ‰ƒCƒAƒ“ƒg‚Éw¦‚·‚é‚½‚ß‚É‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚·B(IDWriteTextRenderer.DrawStrikethrough)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-A single strikethrough can be broken into multiple calls, depending
-on how the formatting changes attributes. Strikethrough is not
-averaged across font sizes/styles changes. To get an appropriate
-starting pixel position, add strikethrough::offset to the baseline.
-Like underlines, the x coordinate will always be passed as the left
-side, regardless of text directionality.
+‘®‘®«‚Ì•Ï‰»‚Ìd•û‚É‚æ‚èA1
+–{‚Ìæ‚èÁ‚µü‚ª•¡”‚ÌŒÄ‚Ño‚µ‚É•ªŠ„‚³‚ê‚éê‡‚ª‚ ‚éBæ‚èÁ‚µü‚ÍƒtƒHƒ“ƒgƒTƒCƒY‚âƒXƒ^ƒCƒ‹‚Ì•Ï‰»‚ğ‚Ü‚½‚¢‚Å•½‹Ï‰»‚³‚ê‚È‚¢B“KØ‚È•`‰æŠJnƒsƒNƒZƒ‹ˆÊ’u‚ğ“¾‚é‚É‚ÍAƒx[ƒXƒ‰ƒCƒ“‚É
+strikethrough::offset ‚ğ‰ÁZ‚·‚éB‰ºü‚Æ“¯—l‚ÉAƒeƒLƒXƒg‚Ì•ûŒü«‚É‚©‚©‚í‚ç‚¸ x À•W‚Íí‚É¶‘¤‚Æ‚µ‚Ä“n‚³‚ê‚éB
 
 
 %index
 IDWriteTextRenderer_DrawInlineObject
-IDWriteTextLayout::Draw calls this application callback when it needs to draw an inline object. (IDWriteTextRenderer.DrawInlineObject)
+IDWriteTextLayout::Draw ‚ÍƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğ•`‰æ‚·‚é•K—v‚ª‚ ‚é‚Æ‚«‚É‚±‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒR[ƒ‹ƒoƒbƒN‚ğŒÄ‚Ño‚·B(IDWriteTextRenderer.DrawInlineObject)
 %group
 COM misc / IDWriteTextRenderer
 %prm
 this, clientDrawingContext, originX, originY, inlineObject, isSideways, isRightToLeft, clientDrawingEffect
 this : [comobj] IDWriteTextRenderer ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-clientDrawingContext : [intptr] Type: void* The application-defined drawing context passed to IDWriteTextLayout::Draw.
-originX : [float] Type: FLOAT X-coordinate at the top-left corner of the inline object.
-originY : [float] Type: FLOAT Y-coordinate at the top-left corner of the inline object.
-inlineObject : [comobj] Type: IDWriteInlineObject* The application-defined inline object set using IDWriteTextFormat::SetInlineObject.
-isSideways : [int] Type: BOOL A Boolean flag that indicates whether the object's baseline runs alongside the baseline axis of the line.
-isRightToLeft : [int] Type: BOOL A Boolean flag that indicates whether the object is in a right-to-left context, hinting that the drawing may want to mirror the normal image.
-clientDrawingEffect : [int] Type: IUnknown* Application-defined drawing effects for the glyphs to render. Usually this argument represents effects such as the foreground brush filling the interior of a line.
+clientDrawingContext : [intptr] Œ^: void* IDWriteTextLayout::Draw ‚É“n‚³‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æƒRƒ“ƒeƒLƒXƒgB
+originX : [float] Œ^: FLOAT ƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚Ì¶ã‹÷‚Ì X À•WB
+originY : [float] Œ^: FLOAT ƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚Ì¶ã‹÷‚Ì Y À•WB
+inlineObject : [comobj] Œ^: IDWriteInlineObject* IDWriteTextFormat::SetInlineObject ‚Åİ’è‚µ‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚ÌƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒgB
+isSideways : [int] Œ^: BOOL ƒIƒuƒWƒFƒNƒg‚Ìƒx[ƒXƒ‰ƒCƒ“‚ªs‚Ìƒx[ƒXƒ‰ƒCƒ“²‚É‰ˆ‚Á‚Ä‘–‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒu[ƒŠƒAƒ“ƒtƒ‰ƒOB
+isRightToLeft : [int] Œ^: BOOL ƒIƒuƒWƒFƒNƒg‚ª‰E‚©‚ç¶‚Ö‚ÌƒRƒ“ƒeƒLƒXƒg‚É‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒu[ƒŠƒAƒ“ƒtƒ‰ƒOB•`‰æ‚É’Êí‚Ì‰æ‘œ‚ğ”½“]‚µ‚½‚Ù‚¤‚ª‚æ‚¢‚±‚Æ‚ğƒqƒ“ƒg‚·‚éB
+clientDrawingEffect : [int] Œ^: IUnknown* •`‰æ‚·‚éƒOƒŠƒt‚É‘Î‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ì•`‰æŒø‰ÊB’Êí‚±‚Ìˆø”‚ÍAs‚Ì“à•”‚ğ“h‚è‚Â‚Ô‚·‘OŒiƒuƒ‰ƒV‚È‚Ç‚ÌŒø‰Ê‚ğ•\‚·B
 %inst
-IDWriteTextLayout::Draw calls this application callback when it needs
-to draw an inline object. (IDWriteTextRenderer.DrawInlineObject)
+IDWriteTextLayout::Draw
+‚ÍƒCƒ“ƒ‰ƒCƒ“ƒIƒuƒWƒFƒNƒg‚ğ•`‰æ‚·‚é•K—v‚ª‚ ‚é‚Æ‚«‚É‚±‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒR[ƒ‹ƒoƒbƒN‚ğŒÄ‚Ño‚·B(IDWriteTextRenderer.DrawInlineObject)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTypography_AddFontFeature
-Adds an OpenType font feature.
+OpenType ƒtƒHƒ“ƒg‹@”\‚ğ’Ç‰Á‚·‚éB
 %group
 COM misc / IDWriteTypography
 %prm
 this, fontFeature
 this : [comobj] IDWriteTypography ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFeature : [int] Type: DWRITE_FONT_FEATURE A structure that contains the OpenType name identifier and the execution parameter for the font feature being added.
+fontFeature : [int] Œ^: DWRITE_FONT_FEATURE ’Ç‰Á‚·‚éƒtƒHƒ“ƒg‹@”\‚Ì OpenType –¼¯•Êq‚ÆÀsƒpƒ‰ƒ[ƒ^‚ğ•Û‚·‚é\‘¢‘ÌB
 %inst
-Adds an OpenType font feature.
+OpenType ƒtƒHƒ“ƒg‹@”\‚ğ’Ç‰Á‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IDWriteTypography_GetFontFeatureCount
-Gets the number of OpenType font features for the current font.
+Œ»İ‚ÌƒtƒHƒ“ƒg‚Ì OpenType ƒtƒHƒ“ƒg‹@”\‚Ì”‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTypography
 %prm
 this
 this : [comobj] IDWriteTypography ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets the number of OpenType font features for the current font.
+Œ»İ‚ÌƒtƒHƒ“ƒg‚Ì OpenType ƒtƒHƒ“ƒg‹@”\‚Ì”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: UINT32 The number of font features for the current text format.
+Œ^: UINT32 Œ»İ‚ÌƒeƒLƒXƒgƒtƒH[ƒ}ƒbƒg‚ÌƒtƒHƒ“ƒg‹@”\‚Ì”B
 
 [”õl]
-A single run of text can be associated with more than one typographic
-feature. The IDWriteTypography object holds a list of these font
-features.
+ƒeƒLƒXƒg‚Ì 1 ‚Â‚Ìƒ‰ƒ“‚Í•¡”‚Ìƒ^ƒCƒ|ƒOƒ‰ƒtƒB‹@”\‚ÆŠÖ˜A•t‚¯‚é‚±‚Æ‚ª‚Å‚«‚éBIDWriteTypography
+ƒIƒuƒWƒFƒNƒg‚Í‚±‚ê‚ç‚ÌƒtƒHƒ“ƒg‹@”\‚Ìˆê——‚ğ•Û‚·‚éB
 
 
 %index
 IDWriteTypography_GetFontFeature
-Gets the font feature at the specified index.
+w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚É‚ ‚éƒtƒHƒ“ƒg‹@”\‚ğæ“¾‚·‚éB
 %group
 COM misc / IDWriteTypography
 %prm
 this, fontFeatureIndex, fontFeature
 this : [comobj] IDWriteTypography ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fontFeatureIndex : [int] Type: UINT32 The zero-based index of the font feature to retrieve.
-fontFeature : [var] Type: DWRITE_FONT_FEATURE* When this method returns, contains the font feature which is at the specified index.
+fontFeatureIndex : [int] Œ^: UINT32 æ“¾‚·‚éƒtƒHƒ“ƒg‹@”\‚Ì 0 ‹N“_‚ÌƒCƒ“ƒfƒbƒNƒXB
+fontFeature : [var] Œ^: DWRITE_FONT_FEATURE* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«Aw’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚É‚ ‚éƒtƒHƒ“ƒg‹@”\‚ğŠi”[‚·‚éB
 %inst
-Gets the font feature at the specified index.
+w’è‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚É‚ ‚éƒtƒHƒ“ƒg‹@”\‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-A single run of text can be associated with more than one typographic
-feature. The IDWriteTypography object holds a list of these font
-features.
+ƒeƒLƒXƒg‚Ì 1 ‚Â‚Ìƒ‰ƒ“‚Í•¡”‚Ìƒ^ƒCƒ|ƒOƒ‰ƒtƒB‹@”\‚ÆŠÖ˜A•t‚¯‚é‚±‚Æ‚ª‚Å‚«‚éBIDWriteTypography
+ƒIƒuƒWƒFƒNƒg‚Í‚±‚ê‚ç‚ÌƒtƒHƒ“ƒg‹@”\‚Ìˆê——‚ğ•Û‚·‚éB
 
 
 %index
@@ -12510,88 +11941,78 @@ ppParent : [int]
 
 %index
 IDXGIAdapter_EnumOutputs
-Enumerate adapter (video card) outputs.
+ƒAƒ_ƒvƒ^ (ƒrƒfƒIƒJ[ƒh) ‚Ìo—Í‚ğ—ñ‹“‚·‚éB
 %group
 COM misc / IDXGIAdapter
 %prm
 this, Output, ppOutput
 this : [comobj] IDXGIAdapter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Output : [int] Type: UINT The index of the output.
-ppOutput : [comobj] Type: IDXGIOutput** The address of a pointer to an IDXGIOutput interface at the position specified by the Output parameter.
+Output : [int] Œ^: UINT o—Í‚ÌƒCƒ“ƒfƒbƒNƒXB
+ppOutput : [comobj] Œ^: IDXGIOutput** Output ƒpƒ‰ƒ[ƒ^‚Åw’è‚³‚ê‚½ˆÊ’u‚É‚ ‚é IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
-Enumerate adapter (video card) outputs.
+ƒAƒ_ƒvƒ^ (ƒrƒfƒIƒJ[ƒh) ‚Ìo—Í‚ğ—ñ‹“‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT A code that indicates success or failure (see
-DXGI_ERROR). DXGI_ERROR_NOT_FOUND is returned if the index is greater
-than the number of outputs. If the adapter came from a device created
-using D3D_DRIVER_TYPE_WARP, then the adapter has no outputs, so
-DXGI_ERROR_NOT_FOUND is returned.
+Œ^: HRESULT ¬Œ÷‚Ü‚½‚Í¸”s‚ğ¦‚·ƒR[ƒh (DXGI_ERROR ‚ğQÆ)BƒCƒ“ƒfƒbƒNƒX‚ªo—Í”‚ğ’´‚¦‚Ä‚¢‚éê‡‚Í
+DXGI_ERROR_NOT_FOUND ‚ª•Ô‚³‚ê‚éBƒAƒ_ƒvƒ^‚ª D3D_DRIVER_TYPE_WARP
+‚ğg‚Á‚Äì¬‚³‚ê‚½ƒfƒoƒCƒX‚©‚çæ“¾‚³‚ê‚½ê‡AƒAƒ_ƒvƒ^‚Ío—Í‚ğ‚½‚È‚¢‚½‚ß DXGI_ERROR_NOT_FOUND ‚ª•Ô‚³‚ê‚éB
 
 [”õl]
-Note If you call this API in a Session 0 process, it returns
-DXGI_ERROR_NOT_CURRENTLY_AVAILABLE. When the EnumOutputs method
-succeeds and fills the ppOutput parameter with the address of the
-pointer to the output interface, EnumOutputs increments the output
-interface's reference count. To avoid a memory leak, when you finish
-using the output interface, call the Release method to decrement the
-reference count. EnumOutputs first returns the output on which the
-desktop primary is displayed. This output corresponds with an index
-of zero. EnumOutputs then returns other outputs.
+’ˆÓ ƒZƒbƒVƒ‡ƒ“ 0 ‚ÌƒvƒƒZƒX‚©‚ç‚±‚Ì API ‚ğŒÄ‚Ño‚·‚Æ DXGI_ERROR_NOT_CURRENTLY_AVAILABLE
+‚ª•Ô‚³‚ê‚éBEnumOutputs ƒƒ\ƒbƒh‚ª¬Œ÷‚µAppOutput
+ƒpƒ‰ƒ[ƒ^‚Éo—ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ğŠi”[‚·‚é‚ÆAEnumOutputs
+‚Í‚»‚Ìo—ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚éBƒƒ‚ƒŠƒŠ[ƒN‚ğ”ğ‚¯‚é‚½‚ßAo—ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚Ìg—p‚ğI‚¦‚½‚ç
+Release ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚ÄQÆƒJƒEƒ“ƒg‚ğƒfƒNƒŠƒƒ“ƒg‚·‚é‚±‚ÆBEnumOutputs
+‚Í‚Ü‚¸ƒfƒXƒNƒgƒbƒvƒvƒ‰ƒCƒ}ƒŠ‚ª•\¦‚³‚ê‚Ä‚¢‚éo—Í‚ğ•Ô‚·B‚±‚Ìo—Í‚ÍƒCƒ“ƒfƒbƒNƒX 0 ‚É‘Î‰‚·‚éBŸ‚É EnumOutputs
+‚Í‘¼‚Ìo—Í‚ğ•Ô‚·B
 
 
 %index
 IDXGIAdapter_GetDesc
-Gets a DXGI 1.0 description of an adapter (or video card).
+ƒAƒ_ƒvƒ^ (‚Ü‚½‚ÍƒrƒfƒIƒJ[ƒh) ‚Ì DXGI 1.0 —p‚Ìà–¾‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGIAdapter
 %prm
 this
 this : [comobj] IDXGIAdapter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Gets a DXGI 1.0 description of an adapter (or video card).
+ƒAƒ_ƒvƒ^ (‚Ü‚½‚ÍƒrƒfƒIƒJ[ƒh) ‚Ì DXGI 1.0 —p‚Ìà–¾‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful; otherwise returns
-E_INVALIDARG if the pDesc parameter is NULL.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µApDesc ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡‚Í E_INVALIDARG ‚ğ•Ô‚·B
 
 [”õl]
-Graphics apps can use the DXGI API to retrieve an accurate set of
-graphics memory values on systems that have Windows Display Driver
-Model (WDDM) drivers. The following are the critical steps involved.
-This doc was truncated.
+ƒOƒ‰ƒtƒBƒbƒNƒXƒAƒvƒŠ‚ÍAWindows ƒfƒBƒXƒvƒŒƒCƒhƒ‰ƒCƒoƒ‚ƒfƒ‹ (WDDM)
+ƒhƒ‰ƒCƒo‚ğ‚ÂƒVƒXƒeƒ€ã‚Å³Šm‚ÈƒOƒ‰ƒtƒBƒbƒNƒXƒƒ‚ƒŠ’l‚ğæ“¾‚·‚é‚½‚ß‚É DXGI API ‚ğ—˜—p‚Å‚«‚éBˆÈ‰º‚Í‚»‚Ìå—v‚Èè‡‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIAdapter_CheckInterfaceSupport
-Checks whether the system supports a device interface for a graphics component.
+ƒVƒXƒeƒ€‚ª‚ ‚éƒOƒ‰ƒtƒBƒbƒNƒXƒRƒ“ƒ|[ƒlƒ“ƒg—p‚ÌƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒF[ƒX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğŠm”F‚·‚éB
 %group
 COM misc / IDXGIAdapter
 %prm
 this, InterfaceName, pUMDVersion
 this : [comobj] IDXGIAdapter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-InterfaceName : [var] Type: REFGUID The GUID of the interface of the device version for which support is being checked. This should usually be __uuidof(IDXGIDevice), which returns the version number of the Direct3D 9 UMD (user mode driver) binary. Since WDDM 2.3, all driver components within a driver package (D3D9, D3D11, and D3D12) have been required to share a single version number, so this is a good way to query the driver version regardless of which API is being used.
-pUMDVersion : [int64] Type: LARGE_INTEGER* The user mode driver version of InterfaceName. This is  returned only if the interface is supported, otherwise this parameter will be NULL.
+InterfaceName : [var] Œ^: REFGUID ƒTƒ|[ƒg‚ğŠm”F‚·‚éƒfƒoƒCƒXƒo[ƒWƒ‡ƒ“‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì GUIDB’Êí‚Í __uuidof(IDXGIDevice) ‚ğw’è‚µA‚±‚ê‚Í Direct3D 9 UMD (ƒ†[ƒUƒ‚[ƒhƒhƒ‰ƒCƒo) ƒoƒCƒiƒŠ‚Ìƒo[ƒWƒ‡ƒ“”Ô†‚ğ•Ô‚·BWDDM 2.3 ˆÈ~Aƒhƒ‰ƒCƒoƒpƒbƒP[ƒW“à‚Ì‚·‚×‚Ä‚Ìƒhƒ‰ƒCƒoƒRƒ“ƒ|[ƒlƒ“ƒg (D3D9AD3D11AD3D12) ‚Í’Pˆê‚Ìƒo[ƒWƒ‡ƒ“”Ô†‚ğ‹¤—L‚·‚é‚±‚Æ‚ª—v‹‚³‚ê‚Ä‚¢‚é‚½‚ßA‚±‚ê‚Íg—p‚µ‚Ä‚¢‚é API ‚ÉŠÖŒW‚È‚­ƒhƒ‰ƒCƒoƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚é—Ç‚¢•û–@‚Å‚ ‚éB
+pUMDVersion : [int64] Œ^: LARGE_INTEGER* InterfaceName ‚Ìƒ†[ƒUƒ‚[ƒhƒhƒ‰ƒCƒoƒo[ƒWƒ‡ƒ“B‚±‚ê‚ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éê‡‚Ì‚İ•Ô‚³‚êA‚»‚êˆÈŠO‚Ìê‡ NULL ‚Æ‚È‚éB
 %inst
-Checks whether the system supports a device interface for a graphics
-component.
+ƒVƒXƒeƒ€‚ª‚ ‚éƒOƒ‰ƒtƒBƒbƒNƒXƒRƒ“ƒ|[ƒlƒ“ƒg—p‚ÌƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒF[ƒX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğŠm”F‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT S_OK indicates that the interface is supported,
-otherwise DXGI_ERROR_UNSUPPORTED is returned (For more information,
-see DXGI_ERROR).
+Œ^: HRESULT S_OK ‚ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ¦‚µA‚»‚êˆÈŠO‚Í DXGI_ERROR_UNSUPPORTED
+‚ª•Ô‚³‚ê‚é (Ú×‚Í DXGI_ERROR ‚ğQÆ)B
 
 [”õl]
-Note You can use CheckInterfaceSupport only to check whether a
-Direct3D 10.x interface is supported, and only on Windows Vista SP1
-and later versions of the operating system. If you try to use
-CheckInterfaceSupport to check whether a Direct3D 11.x and later
-version interface is supported, CheckInterfaceSupport returns
-DXGI_ERROR_UNSUPPORTED. Therefore, do not use CheckInterfaceSupport.
-Instead, to verify whether the operating system supports a particular
-interface, try to create the interface. For example, if you call the
-ID3D11Device::CreateBlendState method and it fails, the operating
-system does not support the ID3D11BlendState interface.
+’ˆÓ CheckInterfaceSupport ‚Í Direct3D 10.x
+ƒCƒ“ƒ^[ƒtƒF[ƒX‚ªƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚©‚ğŠm”F‚·‚é–Ú“I‚Å‚Ì‚İA‚Ü‚½ Windows Vista SP1
+ˆÈ~‚ÌƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€ã‚Å‚Ì‚İg—p‚Å‚«‚éBDirect3D 11.x ˆÈ~‚Ìƒo[ƒWƒ‡ƒ“‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌƒTƒ|[ƒg‚ğ
+CheckInterfaceSupport ‚ÅŠm”F‚µ‚æ‚¤‚Æ‚·‚é‚Æ DXGI_ERROR_UNSUPPORTED ‚ª•Ô‚³‚ê‚éB‚µ‚½‚ª‚Á‚Ä
+CheckInterfaceSupport
+‚ğg‚Á‚Ä‚Í‚È‚ç‚È‚¢B‘ã‚í‚è‚ÉA“Á’è‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ªƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚©‚ğŠm”F‚·‚é‚É‚ÍA‚»‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğÀÛ‚Éì¬‚µ‚Ä‚İ‚éB‚½‚Æ‚¦‚Î
+ID3D11Device::CreateBlendState ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ‚ª¸”s‚·‚éê‡AƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚Í
+ID3D11BlendState ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢B
 
 
 %index
@@ -12650,132 +12071,122 @@ ppParent : [int]
 
 %index
 IDXGIDevice_GetAdapter
-Returns the adapter for the specified device.
+w’èƒfƒoƒCƒX‚ÌƒAƒ_ƒvƒ^‚ğ•Ô‚·B
 %group
 COM misc / IDXGIDevice
 %prm
 this, pAdapter
 this : [comobj] IDXGIDevice ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pAdapter : [comobj] Type: IDXGIAdapter** The address of an IDXGIAdapter interface pointer to the adapter.  This parameter must not be NULL.
+pAdapter : [comobj] Œ^: IDXGIAdapter** ƒAƒ_ƒvƒ^‚Ö‚Ì IDXGIAdapter ƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
 %inst
-Returns the adapter for the specified device.
+w’èƒfƒoƒCƒX‚ÌƒAƒ_ƒvƒ^‚ğ•Ô‚·B
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful; otherwise, returns one of
-the DXGI_ERROR that indicates failure. If the pAdapter parameter is
-NULL this method returns E_INVALIDARG.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í¸”s‚ğ¦‚· DXGI_ERROR
+‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·BpAdapter ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡‚Í E_INVALIDARG ‚ğ•Ô‚·B
 
 [”õl]
-If the GetAdapter method succeeds, the reference count on the adapter
-interface will be incremented. To avoid a memory leak, be sure to
-release the interface when you are finished using it.
+GetAdapter
+ƒƒ\ƒbƒh‚ª¬Œ÷‚·‚é‚ÆAƒAƒ_ƒvƒ^ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌQÆƒJƒEƒ“ƒg‚ªƒCƒ“ƒNƒŠƒƒ“ƒg‚³‚ê‚éBƒƒ‚ƒŠƒŠ[ƒN‚ğ”ğ‚¯‚é‚½‚ß‚ÉAg—p‚µI‚¦‚½‚ç•K‚¸ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ‰ğ•ú‚·‚é‚±‚ÆB
 
 
 %index
 IDXGIDevice_CreateSurface
-Returns a surface. This method is used internally and you should not call it directly in your application.
+ƒT[ƒtƒFƒX‚ğ•Ô‚·B‚±‚Ìƒƒ\ƒbƒh‚Í“à•”‚Åg—p‚³‚ê‚é‚à‚Ì‚Å‚ ‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç’¼ÚŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 %group
 COM misc / IDXGIDevice
 %prm
 this, pDesc, NumSurfaces, Usage, pSharedResource, ppSurface
 this : [comobj] IDXGIDevice ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pDesc : [var] Type: const DXGI_SURFACE_DESC* A pointer to a DXGI_SURFACE_DESC structure that describes the surface.
-NumSurfaces : [int] Type: UINT The number of surfaces to create.
-Usage : [int] Type: DXGI_USAGE A DXGI_USAGE flag that specifies how the surface is expected to be used.
-pSharedResource : [var] Type: const DXGI_SHARED_RESOURCE* An optional pointer to a DXGI_SHARED_RESOURCE structure that contains shared resource information for opening views of such resources.
-ppSurface : [comobj] Type: IDXGISurface** The address of an IDXGISurface interface pointer to the first created surface.
+pDesc : [var] Œ^: const DXGI_SURFACE_DESC* ƒT[ƒtƒFƒX‚ğ‹Lq‚·‚é DXGI_SURFACE_DESC \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+NumSurfaces : [int] Œ^: UINT ¶¬‚·‚éƒT[ƒtƒFƒX‚Ì”B
+Usage : [int] Œ^: DXGI_USAGE ƒT[ƒtƒFƒX‚Ìg—p–Ú“I‚ğw’è‚·‚é DXGI_USAGE ƒtƒ‰ƒOB
+pSharedResource : [var] Œ^: const DXGI_SHARED_RESOURCE* ‹¤—LƒŠƒ\[ƒX‚Ìƒrƒ…[‚ğŠJ‚­‚½‚ß‚É•K—v‚Èî•ñ‚ğŠÜ‚Ş DXGI_SHARED_RESOURCE \‘¢‘Ì‚Ö‚ÌƒIƒvƒVƒ‡ƒ“‚Ìƒ|ƒCƒ“ƒ^B
+ppSurface : [comobj] Œ^: IDXGISurface** Å‰‚É¶¬‚³‚ê‚½ƒT[ƒtƒFƒX‚Ö‚Ì IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
-Returns a surface. This method is used internally and you should not
-call it directly in your application.
+ƒT[ƒtƒFƒX‚ğ•Ô‚·B‚±‚Ìƒƒ\ƒbƒh‚Í“à•”‚Åg—p‚³‚ê‚é‚à‚Ì‚Å‚ ‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç’¼ÚŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful; an error code otherwise.
-For a list of error codes, see DXGI_ERROR.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚ÍƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·BƒGƒ‰[ƒR[ƒh‚Ìˆê——‚Í DXGI_ERROR ‚ğQÆB
 
 [”õl]
-The CreateSurface method creates a buffer to exchange data between
-one or more devices. It is used internally, and you should not
-directly call it. The runtime automatically creates an IDXGISurface
-interface when it creates a Direct3D resource object that represents
-a surface. For example, the runtime creates an IDXGISurface interface
-when it calls ID3D11Device::CreateTexture2D or
-ID3D10Device::CreateTexture2D to create a 2D texture. To retrieve the
-IDXGISurface interface that represents the 2D texture surface, call
-ID3D11Texture2D::QueryInterface or ID3D10Texture2D::QueryInterface.
-In this call, you must pass the identifier of IDXGISurface. If the 2D
-texture has only a single MIP-map level and does not consist of an
-array of textures, QueryInterface succeeds and returns a pointer to
-the IDXGISurface interface pointer. Otherwise, QueryInterface fails
-and does not return the pointer to IDXGISurface.
+CreateSurface ƒƒ\ƒbƒh‚ÍA1
+‚ÂˆÈã‚ÌƒfƒoƒCƒXŠÔ‚Åƒf[ƒ^‚ğŒğŠ·‚·‚é‚½‚ß‚Ìƒoƒbƒtƒ@‚ğ¶¬‚·‚éB“à•”‚Åg—p‚³‚ê‚é‚à‚Ì‚Å‚ ‚èA’¼ÚŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢Bƒ‰ƒ“ƒ^ƒCƒ€‚ÍƒT[ƒtƒFƒX‚ğ•\‚·
+Direct3D ƒŠƒ\[ƒXƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éÛ‚É©“®“I‚É IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ¶¬‚·‚éB‚½‚Æ‚¦‚Î
+ID3D11Device::CreateTexture2D ‚â ID3D10Device::CreateTexture2D ‚Å 2D
+ƒeƒNƒXƒ`ƒƒ‚ğ¶¬‚·‚é‚Æ‚«‚ÉAƒ‰ƒ“ƒ^ƒCƒ€‚Í IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ¶¬‚·‚éB2D ƒeƒNƒXƒ`ƒƒƒT[ƒtƒFƒX‚ğ•\‚·
+IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğæ“¾‚·‚é‚É‚ÍAID3D11Texture2D::QueryInterface ‚Ü‚½‚Í
+ID3D10Texture2D::QueryInterface ‚ğŒÄ‚Ño‚·B‚±‚ÌŒÄ‚Ño‚µ‚É‚Í IDXGISurface
+‚Ì¯•Êq‚ğ“n‚·•K—v‚ª‚ ‚éB2D ƒeƒNƒXƒ`ƒƒ‚ª MIP ƒ}ƒbƒvƒŒƒxƒ‹‚ğ 1
+‚Â‚µ‚©‚½‚¸A‚©‚ÂƒeƒNƒXƒ`ƒƒ”z—ñ‚Å‚È‚¢ê‡AQueryInterface ‚Í¬Œ÷‚µ‚Ä IDXGISurface
+ƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡AQueryInterface ‚Í¸”s‚µAIDXGISurface
+‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚³‚È‚¢B
 
 
 %index
 IDXGIDevice_QueryResourceResidency
-Gets the residency status of an array of resources.
+ƒŠƒ\[ƒX”z—ñ‚Ìí’“ó‘Ô‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGIDevice
 %prm
 this, ppResources, pResidencyStatus, NumResources
 this : [comobj] IDXGIDevice ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppResources : [int] Type: IUnknown* An array of IDXGIResource interfaces.
-pResidencyStatus : [var] Type: DXGI_RESIDENCY* An array of DXGI_RESIDENCY flags. Each element describes the residency status for corresponding element in the ppResources argument array.
-NumResources : [int] Type: UINT The number of resources in the ppResources argument array and pResidencyStatus argument array.
+ppResources : [int] Œ^: IUnknown* IDXGIResource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì”z—ñB
+pResidencyStatus : [var] Œ^: DXGI_RESIDENCY* DXGI_RESIDENCY ƒtƒ‰ƒO‚Ì”z—ñBŠe—v‘f‚Í ppResources ”z—ñ‚Ì‘Î‰‚·‚é—v‘f‚Ìí’“ó‘Ô‚ğ•\‚·B
+NumResources : [int] Œ^: UINT ppResources ˆø””z—ñ‚Æ pResidencyStatus ˆø””z—ñ“à‚ÌƒŠƒ\[ƒX”B
 %inst
-Gets the residency status of an array of resources.
+ƒŠƒ\[ƒX”z—ñ‚Ìí’“ó‘Ô‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful; otherwise, returns
-DXGI_ERROR_DEVICE_REMOVED, E_INVALIDARG, or E_POINTER (see Common
-HRESULT Values and WinError.h for more information).
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í
+DXGI_ERROR_DEVICE_REMOVEDAE_INVALIDARGA‚Ü‚½‚Í E_POINTER ‚ğ•Ô‚· (Ú×‚Í Common
+HRESULT Values ‚¨‚æ‚Ñ WinError.h ‚ğQÆ)B
 
 [”õl]
-The information returned by the pResidencyStatus argument array
-describes the residency status at the time that the
-QueryResourceResidency method was called.
-Note The residency status will constantly change. If you call the
-QueryResourceResidency method during a device removed state, the
-pResidencyStatus argument will return the
-DXGI_RESIDENCY_RESIDENT_IN_SHARED_MEMORY flag. Note This method
-should not be called every frame as it incurs a non-trivial amount of
-overhead.
+pResidencyStatus ˆø””z—ñ‚ª•Ô‚·î•ñ‚ÍAQueryResourceResidency
+ƒƒ\ƒbƒh‚ªŒÄ‚Î‚ê‚½“_‚Å‚Ìí’“ó‘Ô‚ğ•\‚·B
+’: í’“ó‘Ô‚Íâ‚¦‚¸•Ï‰»‚·‚éBƒfƒoƒCƒXíœó‘Ô‚Å QueryResourceResidency
+ƒƒ\ƒbƒh‚ğŒÄ‚Ô‚ÆApResidencyStatus ˆø”‚Í
+DXGI_RESIDENCY_RESIDENT_IN_SHARED_MEMORY ƒtƒ‰ƒO‚ğ•Ô‚·B’:
+‚±‚Ìƒƒ\ƒbƒh‚Í–³‹‚Å‚«‚È‚¢ƒI[ƒo[ƒwƒbƒh‚ğ”º‚¤‚½‚ßA–ˆƒtƒŒ[ƒ€ŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢B
 
 
 %index
 IDXGIDevice_SetGPUThreadPriority
-Sets the GPU thread priority.
+GPU ƒXƒŒƒbƒh—Dæ“x‚ğİ’è‚·‚éB
 %group
 COM misc / IDXGIDevice
 %prm
 this, Priority
 this : [comobj] IDXGIDevice ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Priority : [int] Type: INT A value that specifies the required GPU thread priority. This value must be between -7 and 7, inclusive, where 0 represents normal priority.
+Priority : [int] Œ^: INT —v‹‚·‚é GPU ƒXƒŒƒbƒh—Dæ“x‚ğw’è‚·‚é’lB’l‚Í -7 ‚©‚ç 7 ‚Ì”ÍˆÍ (—¼’[ŠÜ‚Ş) ‚ÅA0 ‚ª’Êí—Dæ“x‚ğ•\‚·B
 %inst
-Sets the GPU thread priority.
+GPU ƒXƒŒƒbƒh—Dæ“x‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Return S_OK if successful; otherwise, returns
-E_INVALIDARG if the Priority parameter is invalid.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡APriority ƒpƒ‰ƒ[ƒ^‚ª•s³‚È‚ç E_INVALIDARG
+‚ğ•Ô‚·B
 
 [”õl]
-The values for the Priority parameter function as follows:
-This doc was truncated.
+Priority ƒpƒ‰ƒ[ƒ^‚Ì’l‚ÍŸ‚Ì‚æ‚¤‚É‹@”\‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIDevice_GetGPUThreadPriority
-Gets the GPU thread priority.
+GPU ƒXƒŒƒbƒh—Dæ“x‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGIDevice
 %prm
 this, pPriority
 this : [comobj] IDXGIDevice ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pPriority : [int] Type: INT* A pointer to a variable that receives a value that indicates the current GPU thread priority. The value will be between -7 and 7, inclusive, where 0 represents normal priority.
+pPriority : [int] Œ^: INT* Œ»İ‚Ì GPU ƒXƒŒƒbƒh—Dæ“x‚ğ¦‚·’l‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B’l‚Í -7 ‚©‚ç 7 ‚Ì”ÍˆÍ (—¼’[ŠÜ‚Ş) ‚ÅA0 ‚ª’Êí—Dæ“x‚ğ•\‚·B
 %inst
-Gets the GPU thread priority.
+GPU ƒXƒŒƒbƒh—Dæ“x‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Return S_OK if successful; otherwise, returns E_POINTER
-if the pPriority parameter is NULL.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡ApPriority ‚ª NULL ‚È‚ç E_POINTER
+‚ğ•Ô‚·B
 
 
 %index
@@ -12834,26 +12245,23 @@ ppParent : [int]
 
 %index
 IDXGIDeviceSubObject_GetDevice
-Retrieves the device.
+ƒfƒoƒCƒX‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGIDeviceSubObject
 %prm
 this, riid, ppDevice
 this : [comobj] IDXGIDeviceSubObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-riid : [var] Type: REFIID The reference id for the device.
-ppDevice : [int] Type: void** The address of a pointer to the device.
+riid : [var] Œ^: REFIID ƒfƒoƒCƒX‚ÌQÆ IDB
+ppDevice : [int] Œ^: void** ƒfƒoƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
-Retrieves the device.
+ƒfƒoƒCƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT A code that indicates success or failure (see
-DXGI_ERROR).
+Œ^: HRESULT ¬Œ÷‚Ü‚½‚Í¸”s‚ğ¦‚·ƒR[ƒh (DXGI_ERROR ‚ğQÆ)B
 
 [”õl]
-The type of interface that is returned can be any interface published
-by the device. For example, it could be an IDXGIDevice * called
-pDevice, and therefore the REFIID would be obtained by calling
-__uuidof(pDevice).
+•Ô‚³‚ê‚éƒCƒ“ƒ^[ƒtƒF[ƒXŒ^‚ÍAƒfƒoƒCƒX‚ªŒöŠJ‚µ‚Ä‚¢‚é”CˆÓ‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚ ‚è“¾‚éB‚½‚Æ‚¦‚Î pDevice ‚Æ‚¢‚¤
+IDXGIDevice* ‚Å‚ ‚Á‚Ä‚à‚æ‚­A‚»‚Ìê‡ REFIID ‚Í __uuidof(pDevice) ‚ğŒÄ‚Ño‚·‚±‚Æ‚Å“¾‚ç‚ê‚éB
 
 
 %index
@@ -12912,307 +12320,255 @@ ppParent : [int]
 
 %index
 IDXGIFactory_EnumAdapters
-Enumerates the adapters (video cards).
+ƒAƒ_ƒvƒ^ (ƒrƒfƒIƒJ[ƒh) ‚ğ—ñ‹“‚·‚éB
 %group
 COM misc / IDXGIFactory
 %prm
 this, Adapter, ppAdapter
 this : [comobj] IDXGIFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Adapter : [int] Type: UINT The index of the adapter to enumerate.
-ppAdapter : [comobj] Type: IDXGIAdapter** The address of a pointer to an IDXGIAdapter interface at the position specified by the Adapter parameter.  This parameter must not be NULL.
+Adapter : [int] Œ^: UINT —ñ‹“‚·‚éƒAƒ_ƒvƒ^‚ÌƒCƒ“ƒfƒbƒNƒXB
+ppAdapter : [comobj] Œ^: IDXGIAdapter** Adapter ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½ˆÊ’u‚É‚ ‚é IDXGIAdapter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B
 %inst
-Enumerates the adapters (video cards).
+ƒAƒ_ƒvƒ^ (ƒrƒfƒIƒJ[ƒh) ‚ğ—ñ‹“‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful; otherwise, returns
-DXGI_ERROR_NOT_FOUND if the index is greater than or equal to the
-number of adapters in the local system, or DXGI_ERROR_INVALID_CALL if
-ppAdapter parameter is NULL.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·BƒCƒ“ƒfƒbƒNƒX‚ªƒ[ƒJƒ‹ƒVƒXƒeƒ€‚ÌƒAƒ_ƒvƒ^”ˆÈã‚Ìê‡‚Í
+DXGI_ERROR_NOT_FOUND ‚ğAppAdapter ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡‚Í
+DXGI_ERROR_INVALID_CALL ‚ğ•Ô‚·B
 
 [”õl]
-When you create a factory, the factory enumerates the set of adapters
-that are available in the system. Therefore, if you change the
-adapters in a system, you must destroy and recreate the IDXGIFactory
-object. The number of adapters in a system changes when you add or
-remove a display card, or dock or undock a laptop. When the
-EnumAdapters method succeeds and fills the ppAdapter parameter with
-the address of the pointer to the adapter interface, EnumAdapters
-increments the adapter interface's reference count. When you finish
-using the adapter interface, call the Release method to decrement the
-reference count before you destroy the pointer. EnumAdapters first
-returns the adapter with the output on which the desktop primary is
-displayed. This adapter corresponds with an index of zero.
-EnumAdapters next returns other adapters with outputs. EnumAdapters
-finally returns adapters without outputs.
+
+ƒtƒ@ƒNƒgƒŠ‚ğ¶¬‚·‚é‚ÆAƒtƒ@ƒNƒgƒŠ‚ÍƒVƒXƒeƒ€“à‚Å—˜—p‰Â”\‚ÈƒAƒ_ƒvƒ^W‡‚ğ—ñ‹“‚·‚éB‚µ‚½‚ª‚Á‚ÄƒVƒXƒeƒ€“à‚ÌƒAƒ_ƒvƒ^‚ğ•ÏX‚µ‚½ê‡‚ÍAIDXGIFactory
+ƒIƒuƒWƒFƒNƒg‚ğ”jŠü‚µ‚ÄÄ¶¬‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒVƒXƒeƒ€“à‚ÌƒAƒ_ƒvƒ^”‚ÍAƒfƒBƒXƒvƒŒƒCƒJ[ƒh‚Ì’Ç‰ÁEæ‚èŠO‚µ‚âAƒ‰ƒbƒvƒgƒbƒv‚ÌƒhƒbƒNEƒAƒ“ƒhƒbƒN‚É”º‚Á‚Ä•Ï‰»‚·‚éBEnumAdapters
+ƒƒ\ƒbƒh‚ª¬Œ÷‚µ ppAdapter ƒpƒ‰ƒ[ƒ^‚ÉƒAƒ_ƒvƒ^ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX‚ªŠi”[‚³‚ê‚é‚ÆAEnumAdapters
+‚ÍƒAƒ_ƒvƒ^ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌQÆƒJƒEƒ“ƒg‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚éBƒAƒ_ƒvƒ^ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ìg—p‚ªI‚í‚Á‚½‚çAƒ|ƒCƒ“ƒ^‚ğ”jŠü‚·‚é‘O‚É
+Release ƒƒ\ƒbƒh‚ğŒÄ‚ñ‚ÅQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚·‚±‚ÆBEnumAdapters
+‚Í‚Ü‚¸ƒfƒXƒNƒgƒbƒvƒvƒ‰ƒCƒ}ƒŠ‚ª•\¦‚³‚ê‚éo—Í‚ğ‚ÂƒAƒ_ƒvƒ^‚ğ•Ô‚·B‚±‚ÌƒAƒ_ƒvƒ^‚ÍƒCƒ“ƒfƒbƒNƒX 0
+‚É‘Î‰‚·‚éBŸ‚É‘¼‚Ìo—Í‚ğ‚ÂƒAƒ_ƒvƒ^‚ğ•Ô‚µAÅŒã‚Éo—Í‚ğ‚½‚È‚¢ƒAƒ_ƒvƒ^‚ğ•Ô‚·B
 
 
 %index
 IDXGIFactory_MakeWindowAssociation
-Allows DXGI to monitor an application's message queue for the alt-enter key sequence (which causes the application to switch from windowed to full screen or vice versa).
+DXGI ‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒƒbƒZ[ƒWƒLƒ…[‚ğŠÄ‹‚µ‚Ä Alt+Enter ƒL[ƒV[ƒPƒ“ƒX (ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒEƒBƒ“ƒhƒE•\¦‚Æƒtƒ‹ƒXƒNƒŠ[ƒ“‚ÌŠÔ‚ÅØ‚è‘Ö‚¦‚é) ‚ğŒŸo‚·‚é‚±‚Æ‚ğ‹–‰Â‚·‚éB
 %group
 COM misc / IDXGIFactory
 %prm
 this, WindowHandle, Flags
 this : [comobj] IDXGIFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-WindowHandle : [intptr] Type: HWND The handle of the window that is to be monitored. This parameter can be NULL; but only if *Flags* is also 0.
-Flags : [int] Type: UINT
+WindowHandle : [intptr] Œ^: HWND ŠÄ‹‘ÎÛ‚ÌƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«‚é‚ªA‚»‚Ìê‡‚Í *Flags* ‚à 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+Flags : [int] Œ^: UINT
 %inst
-Allows DXGI to monitor an application's message queue for the
-alt-enter key sequence (which causes the application to switch from
-windowed to full screen or vice versa).
+DXGI ‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒƒbƒZ[ƒWƒLƒ…[‚ğŠÄ‹‚µ‚Ä Alt+Enter ƒL[ƒV[ƒPƒ“ƒX
+(ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğƒEƒBƒ“ƒhƒE•\¦‚Æƒtƒ‹ƒXƒNƒŠ[ƒ“‚ÌŠÔ‚ÅØ‚è‘Ö‚¦‚é) ‚ğŒŸo‚·‚é‚±‚Æ‚ğ‹–‰Â‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT DXGI_ERROR_INVALID_CALL if WindowHandle is invalid, or
-E_OUTOFMEMORY.
+Œ^: HRESULT WindowHandle ‚ª–³Œø‚Èê‡‚Í DXGI_ERROR_INVALID_CALLA‚Ü‚½‚Í
+E_OUTOFMEMORYB
 
 [”õl]
-Note If you call this API in a Session 0 process, it returns
-DXGI_ERROR_NOT_CURRENTLY_AVAILABLE. The combination of WindowHandle
-and Flags informs DXGI to stop monitoring window messages for the
-previously-associated window. If the application switches to
-full-screen mode, DXGI will choose a full-screen resolution to be the
-smallest supported resolution that is larger or the same size as the
-current back buffer size. Applications can make some changes to make
-the transition from windowed to full screen more efficient. For
-example, on a WM_SIZE message, the application should release any
-outstanding swap-chain back buffers, call
-IDXGISwapChain::ResizeBuffers, then re-acquire the back buffers from
-the swap chain(s). This gives the swap chain(s) an opportunity to
-resize the back buffers, and/or recreate them to enable full-screen
-flipping operation. If the application does not perform this
-sequence, DXGI will still make the full-screen/windowed transition,
-but may be forced to use a stretch operation (since the back buffers
-may not be the correct size), which may be less efficient. Even if a
-stretch is not required, presentation may not be optimal because the
-back buffers might not be directly interchangeable with the front
-buffer. Thus, a call to ResizeBuffers on WM_SIZE is always
-recommended, since WM_SIZE is always sent during a fullscreen
-transition. While windowed, the application can, if it chooses,
-restrict the size of its window's client area to sizes to which it is
-comfortable rendering. A fully flexible application would make no
-such restriction, but UI elements or other design considerations can,
-of course, make this flexibility untenable. If the application
-further chooses to restrict its window's client area to just those
-that match supported full-screen resolutions, the application can
-field WM_SIZING, then check against
-IDXGIOutput::FindClosestMatchingMode. If a matching mode is found,
-allow the resize. (The IDXGIOutput can be retrieved from
-IDXGISwapChain::GetContainingOutput. Absent subsequent changes to
-desktop topology, this will be the same output that will be chosen
-when alt-enter is fielded and fullscreen mode is begun for that swap
-chain.) Applications that want to handle mode changes or Alt+Enter
-themselves should call MakeWindowAssociation with the
-DXGI_MWA_NO_WINDOW_CHANGES flag after swap chain creation. The
-WindowHandle argument, if non-NULL, specifies that the application
-message queues will not be handled by the DXGI runtime for all swap
-chains of a particular target HWND. Calling MakeWindowAssociation
-with the DXGI_MWA_NO_WINDOW_CHANGES flag after swapchain creation
-ensures that DXGI will not interfere with application's handling of
-window mode changes or Alt+Enter. You must call the
-**MakeWindowAssociation** method on the factory object associated
-with the target HWND swap chain(s). You can guarantee that by calling
-the
+’: ‚±‚ÌAPI‚ğƒZƒbƒVƒ‡ƒ“ 0 ƒvƒƒZƒX‚ÅŒÄ‚Ño‚·‚Æ DXGI_ERROR_NOT_CURRENTLY_AVAILABLE
+‚ğ•Ô‚·BWindowHandle ‚Æ Flags
+‚Ì‘g‚İ‡‚í‚¹‚É‚æ‚èAˆÈ‘O‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒEƒBƒ“ƒhƒE‚ÌƒEƒBƒ“ƒhƒEƒƒbƒZ[ƒWŠÄ‹‚ğ’â~‚·‚é‚æ‚¤ DXGI
+‚Éw¦‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚ÉØ‚è‘Ö‚í‚éÛADXGI
+‚ÍŒ»İ‚ÌƒoƒbƒNƒoƒbƒtƒ@ƒTƒCƒYˆÈã‚ÅÅ‚à¬‚³‚¢ƒTƒ|[ƒg‰ğ‘œ“x‚ğƒtƒ‹ƒXƒNƒŠ[ƒ“‰ğ‘œ“x‚Æ‚µ‚Ä‘I‘ğ‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒEƒBƒ“ƒhƒE•\¦‚©‚çƒtƒ‹ƒXƒNƒŠ[ƒ“‚Ö‚ÌØ‚è‘Ö‚¦‚ğ‚æ‚èŒø—¦“I‚É‚·‚é‚½‚ß‚É‚¢‚­‚Â‚©‚Ì’²®‚ª‚Å‚«‚éB‚½‚Æ‚¦‚Î
+WM_SIZE
+ƒƒbƒZ[ƒW“’B‚ÉA–¢ˆ—‚ÌƒXƒƒbƒvƒ`ƒF[ƒ“ƒoƒbƒNƒoƒbƒtƒ@‚ğ‚·‚×‚Ä‰ğ•ú‚µAIDXGISwapChain::ResizeBuffers
+‚ğŒÄ‚ÑA‚»‚Ì‚ ‚ÆƒoƒbƒNƒoƒbƒtƒ@‚ğæ“¾‚µ’¼‚·‚×‚«‚Å‚ ‚éB‚±‚¤‚·‚é‚±‚Æ‚ÅƒXƒƒbƒvƒ`ƒF[ƒ“‚ÉƒoƒbƒNƒoƒbƒtƒ@‚ğƒŠƒTƒCƒY‚µ‚½‚èAƒtƒ‹ƒXƒNƒŠ[ƒ“ƒtƒŠƒbƒv“®ì‚ğ‰Â”\‚É‚·‚é‚½‚ß‚ÉÄ¶¬‚µ‚½‚è‚·‚é‹@‰ï‚ğ—^‚¦‚éB‚±‚Ìè‡‚ğÀs‚µ‚È‚¢ê‡ADXGI
+‚Íƒtƒ‹ƒXƒNƒŠ[ƒ“ /
+ƒEƒBƒ“ƒhƒE‚Ì‘JˆÚ‚ğs‚¤‚ªAƒoƒbƒNƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ª³‚µ‚­‚È‚¢‚½‚ß‚ÉƒXƒgƒŒƒbƒ`“®ì‚ğ‹­‚¢‚ç‚ê‚é‰Â”\«‚ª‚ ‚èAŒø—¦‚ª’á‰º‚·‚é‚±‚Æ‚ª‚ ‚éBƒXƒgƒŒƒbƒ`‚ª•s—v‚Èê‡‚Å‚àAƒoƒbƒNƒoƒbƒtƒ@‚ªƒtƒƒ“ƒgƒoƒbƒtƒ@‚Æ’¼ÚŒğŠ·‰Â”\‚Å‚È‚¢‰Â”\«‚ª‚ ‚é‚½‚ßA’ñ¦‚ªÅ“K‚Å‚È‚­‚È‚éê‡‚ª‚ ‚éB‚µ‚½‚ª‚Á‚ÄAWM_SIZE
+‚Íƒtƒ‹ƒXƒNƒŠ[ƒ“‘JˆÚ’†‚Éí‚É‘—M‚³‚ê‚é‚Ì‚ÅAWM_SIZE ‚É‚¨‚¯‚é ResizeBuffers
+ŒÄ‚Ño‚µ‚Íí‚É„§‚³‚ê‚éBƒEƒBƒ“ƒhƒE•\¦’†‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í”CˆÓ‚ÅA•`‰æ‚É“K‚µ‚½ƒTƒCƒY‚ÉƒEƒBƒ“ƒhƒEƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ÌƒTƒCƒY‚ğ§ŒÀ‚Å‚«‚éBŠ®‘S‚É_“î‚ÈƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚»‚Ì‚æ‚¤‚È§ŒÀ‚ğ‚©‚¯‚È‚¢‚ªAUI
+—v‘f‚â‚»‚Ì‘¼‚ÌİŒvã‚Ì–î‚©‚ç‚»‚Ì_“î«‚Íó‚¯“ü‚ê‚ª‚½‚¢ê‡‚ª‚ ‚éBƒtƒ‹ƒXƒNƒŠ[ƒ“‰ğ‘œ“x‚Éƒ}ƒbƒ`‚·‚éƒTƒCƒY‚ÉƒEƒBƒ“ƒhƒEƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚ğ§ŒÀ‚µ‚½‚¢ê‡AWM_SIZING
+‚ğ•ß‘¨‚µAIDXGIOutput::FindClosestMatchingMode
+‚Æ”äŠr‚·‚é‚Æ‚æ‚¢Bƒ}ƒbƒ`‚·‚éƒ‚[ƒh‚ªŒ©‚Â‚©‚ê‚ÎƒŠƒTƒCƒY‚ğ‹–‰Â‚·‚é (IDXGIOutput ‚Í
+IDXGISwapChain::GetContainingOutput
+‚Åæ“¾‚Å‚«‚éBƒfƒXƒNƒgƒbƒvƒgƒ|ƒƒW‚ÉˆÈ~‚Ì•ÏX‚ª‚È‚¯‚ê‚ÎAAlt+Enter
+‚ª•ß‘¨‚³‚ê‚»‚ÌƒXƒƒbƒvƒ`ƒF[ƒ“‚É‘Î‚µ‚Äƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚ªŠJn‚³‚ê‚½‚Æ‚«‚É‘I‚Î‚ê‚é‚Ì‚Æ“¯‚¶o—Í‚Æ‚È‚é)Bƒ‚[ƒh•ÏX‚â Alt+Enter
+‚ğ©•ª‚Åˆ—‚µ‚½‚¢ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍAƒXƒƒbƒvƒ`ƒF[ƒ“¶¬Œã‚É DXGI_MWA_NO_WINDOW_CHANGES ƒtƒ‰ƒO‚Å
+MakeWindowAssociation ‚ğŒÄ‚Ô‚×‚«‚Å‚ ‚éBWindowHandle ˆø”‚ª”ñ NULL ‚Ìê‡ADXGI
+ƒ‰ƒ“ƒ^ƒCƒ€‚ª“Á’è‚Ì‘ÎÛ HWND
+‚Ì‚·‚×‚Ä‚ÌƒXƒƒbƒvƒ`ƒF[ƒ“‚É‚Â‚¢‚ÄƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒƒbƒZ[ƒWƒLƒ…[‚ğˆ—‚µ‚È‚¢‚±‚Æ‚ğw’è‚·‚éBƒXƒƒbƒvƒ`ƒF[ƒ“¶¬Œã‚É
+DXGI_MWA_NO_WINDOW_CHANGES ƒtƒ‰ƒO‚ğ•t‚¯‚Ä MakeWindowAssociation ‚ğŒÄ‚Ô‚±‚Æ‚ÅADXGI
+‚ªƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚É‚æ‚éƒEƒBƒ“ƒhƒEƒ‚[ƒh•ÏX‚â Alt+Enter
+‚Ìˆ—‚ÉŠ±Â‚µ‚È‚¢‚±‚Æ‚ğ•ÛØ‚Å‚«‚éB**MakeWindowAssociation** ƒƒ\ƒbƒh‚ÍA‘ÎÛ HWND
+ƒXƒƒbƒvƒ`ƒF[ƒ“‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒNƒgƒŠƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄŒÄ‚Ño‚·•K—v‚ª‚ ‚éB‚±‚ê‚ÍƒXƒƒbƒvƒ`ƒF[ƒ“‚É‘Î‚µ‚Ä
 [IDXGIObject::GetParent](/windows/win32/api/dxgi/nf-dxgi-idxgiobject-getparent)
-method on the swap chain(s) to locate the factory. Here's a code
-example of doing that.
-This doc was truncated.
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Äƒtƒ@ƒNƒgƒŠ‚ğ“Á’è‚·‚é‚±‚Æ‚Å•ÛØ‚Å‚«‚éBˆÈ‰º‚Í‚»‚ÌƒR[ƒh—á‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIFactory_GetWindowAssociation
-Get the window through which the user controls the transition to and from full screen.
+ƒ†[ƒU[‚ªƒtƒ‹ƒXƒNƒŠ[ƒ“‚Ö‚ÌØ‚è‘Ö‚¦‚ğ§Œä‚·‚é‚½‚ß‚ÌƒEƒBƒ“ƒhƒE‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGIFactory
 %prm
 this, pWindowHandle
 this : [comobj] IDXGIFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pWindowHandle : [var] Type: HWND* A pointer to a window handle.
+pWindowHandle : [var] Œ^: HWND* ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Get the window through which the user controls the transition to and
-from full screen.
+ƒ†[ƒU[‚ªƒtƒ‹ƒXƒNƒŠ[ƒ“‚Ö‚ÌØ‚è‘Ö‚¦‚ğ§Œä‚·‚é‚½‚ß‚ÌƒEƒBƒ“ƒhƒE‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns a code that indicates success or failure. S_OK
-indicates success, DXGI_ERROR_INVALID_CALL indicates pWindowHandle
-was passed in as NULL.
+Œ^: HRESULT ¬Œ÷‚Ü‚½‚Í¸”s‚ğ¦‚·ƒR[ƒh‚ğ•Ô‚·BS_OK ‚Í¬Œ÷‚ğ¦‚·BpWindowHandle ‚ª NULL ‚Å“n‚³‚ê‚½ê‡‚Í
+DXGI_ERROR_INVALID_CALL ‚ğ¦‚·B
 
 [”õl]
-Note If you call this API in a Session 0 process, it returns
-DXGI_ERROR_NOT_CURRENTLY_AVAILABLE.
+’: ‚±‚ÌAPI‚ğƒZƒbƒVƒ‡ƒ“ 0 ƒvƒƒZƒX‚ÅŒÄ‚Ño‚·‚Æ DXGI_ERROR_NOT_CURRENTLY_AVAILABLE ‚ğ•Ô‚·B
 
 
 %index
 IDXGIFactory_CreateSwapChain
-Creates a swap chain.
+ƒXƒƒbƒvƒ`ƒF[ƒ“‚ğ¶¬‚·‚éB
 %group
 COM misc / IDXGIFactory
 %prm
 this, pDevice, pDesc, ppSwapChain
 this : [comobj] IDXGIFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pDevice : [int] Type: IUnknown* For Direct3D 11, and earlier versions of Direct3D, this is a pointer to the Direct3D device for the swap chain. For Direct3D 12 this is a pointer to a direct command queue (refer to ID3D12CommandQueue) . This parameter cannot be NULL.
-pDesc : [var] Type: DXGI_SWAP_CHAIN_DESC* A pointer to a  DXGI_SWAP_CHAIN_DESC structure for the swap-chain description. This parameter cannot be NULL.
-ppSwapChain : [comobj] Type: IDXGISwapChain** A pointer to a variable that receives a pointer to the IDXGISwapChain interface for the swap chain that CreateSwapChain creates.
+pDevice : [int] Œ^: IUnknown* Direct3D 11 ‚¨‚æ‚Ñ‚»‚êˆÈ‘O‚Ì Direct3D ‚Ìê‡‚ÍƒXƒƒbƒvƒ`ƒF[ƒ“—p‚Ì Direct3D ƒfƒoƒCƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BDirect3D 12 ‚Ìê‡‚Íƒ_ƒCƒŒƒNƒgƒRƒ}ƒ“ƒhƒLƒ…[ (ID3D12CommandQueue ‚ğQÆ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«‚È‚¢B
+pDesc : [var] Œ^: DXGI_SWAP_CHAIN_DESC* ƒXƒƒbƒvƒ`ƒF[ƒ“‚Ì‹Lq‚ğŠÜ‚Ş DXGI_SWAP_CHAIN_DESC \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«‚È‚¢B
+ppSwapChain : [comobj] Œ^: IDXGISwapChain** CreateSwapChain ‚ª¶¬‚·‚éƒXƒƒbƒvƒ`ƒF[ƒ“‚Ì IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Creates a swap chain.
+ƒXƒƒbƒvƒ`ƒF[ƒ“‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT
-DXGI_ERROR_INVALID_CALL if pDesc or ppSwapChain is NULL,
-DXGI_STATUS_OCCLUDED if you request full-screen mode and it is
-unavailable, or E_OUTOFMEMORY. Other error codes defined by the type
-of device passed in may also be returned.
+Œ^: HRESULT
+pDesc ‚Ü‚½‚Í ppSwapChain ‚ª NULL ‚Ìê‡‚Í
+DXGI_ERROR_INVALID_CALLAƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚ğ—v‹‚µ‚½‚ª—˜—p‚Å‚«‚È‚¢ê‡‚Í
+DXGI_STATUS_OCCLUDEDA‚Ü‚½‚Í
+E_OUTOFMEMORYB“n‚³‚ê‚½ƒfƒoƒCƒX‚Ìí—Ş‚É‰‚¶‚½‘¼‚ÌƒGƒ‰[ƒR[ƒh‚à•Ô‚³‚ê‚éê‡‚ª‚ ‚éB
 
 [”õl]
-Note If you call this API in a Session 0 process, it returns
-DXGI_ERROR_NOT_CURRENTLY_AVAILABLE. If you attempt to create a swap
-chain in full-screen mode, and full-screen mode is unavailable, the
-swap chain will be created in windowed mode and DXGI_STATUS_OCCLUDED
-will be returned. If the buffer width or the buffer height is zero,
-the sizes will be inferred from the output window size in the
-swap-chain description. Because the target output can't be chosen
-explicitly when the swap chain is created, we recommend not to create
-a full-screen swap chain. This can reduce presentation performance if
-the swap chain size and the output window size do not match. Here are
-two ways to ensure that the sizes match:
-This doc was truncated.
+’: ‚±‚ÌAPI‚ğƒZƒbƒVƒ‡ƒ“ 0 ƒvƒƒZƒX‚ÅŒÄ‚Ño‚·‚Æ DXGI_ERROR_NOT_CURRENTLY_AVAILABLE
+‚ğ•Ô‚·Bƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚Å‚ÌƒXƒƒbƒvƒ`ƒF[ƒ“¶¬‚ğ‚İ‚½‚ªƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚ª—˜—p‚Å‚«‚È‚¢ê‡AƒXƒƒbƒvƒ`ƒF[ƒ“‚ÍƒEƒBƒ“ƒhƒEƒ‚[ƒh‚Å¶¬‚³‚ê
+DXGI_STATUS_OCCLUDED ‚ª•Ô‚³‚ê‚éBƒoƒbƒtƒ@‚Ì•‚Ü‚½‚Í‚‚³‚ª 0
+‚Ìê‡AƒTƒCƒY‚ÍƒXƒƒbƒvƒ`ƒF[ƒ“‹Lq‚Ìo—ÍƒEƒBƒ“ƒhƒEƒTƒCƒY‚©‚ç„‘ª‚³‚ê‚éBƒXƒƒbƒvƒ`ƒF[ƒ“¶¬‚É‘ÎÛ‚Ìo—Í‚ğ–¾¦“I‚É‘I‘ğ‚Å‚«‚È‚¢‚½‚ßAƒtƒ‹ƒXƒNƒŠ[ƒ“ƒXƒƒbƒvƒ`ƒF[ƒ“‚Í¶¬‚µ‚È‚¢‚±‚Æ‚ğ„§‚·‚éBƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒTƒCƒY‚Æo—ÍƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒY‚ªˆê’v‚µ‚È‚¢‚Æ’ñ¦«”\‚ª’á‰º‚µ‚¤‚éBƒTƒCƒY‚ğˆê’v‚³‚¹‚é•û–@‚Í
+2 ’Ê‚è‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIFactory_CreateSoftwareAdapter
-Create an adapter interface that represents a software adapter.
+ƒ\ƒtƒgƒEƒFƒAƒAƒ_ƒvƒ^‚ğ•\‚·ƒAƒ_ƒvƒ^ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ¶¬‚·‚éB
 %group
 COM misc / IDXGIFactory
 %prm
 this, Module, ppAdapter
 this : [comobj] IDXGIFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Module : [intptr] Type: HMODULE Handle to the software adapter's dll. HMODULE can be obtained with GetModuleHandle or LoadLibrary.
-ppAdapter : [comobj] Type: IDXGIAdapter** Address of a pointer to an adapter (see IDXGIAdapter).
+Module : [intptr] Œ^: HMODULE ƒ\ƒtƒgƒEƒFƒAƒAƒ_ƒvƒ^ DLL ‚Ìƒnƒ“ƒhƒ‹BHMODULE ‚Í GetModuleHandle ‚Ü‚½‚Í LoadLibrary ‚Åæ“¾‚Å‚«‚éB
+ppAdapter : [comobj] Œ^: IDXGIAdapter** ƒAƒ_ƒvƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒX (IDXGIAdapter ‚ğQÆ)B
 %inst
-Create an adapter interface that represents a software adapter.
+ƒ\ƒtƒgƒEƒFƒAƒAƒ_ƒvƒ^‚ğ•\‚·ƒAƒ_ƒvƒ^ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT A return code indicating success or failure.
+Œ^: HRESULT ¬Œ÷‚Ü‚½‚Í¸”s‚ğ¦‚·ƒŠƒ^[ƒ“ƒR[ƒhB
 
 [”õl]
-A software adapter is a DLL that implements the entirety of a device
-driver interface, plus emulation, if necessary, of kernel-mode
-graphics components for Windows. Details on implementing a software
-adapter can be found in the Windows Vista Driver Development Kit.
-This is a very complex development task, and is not recommended for
-general readers. Calling this method will increment the module's
-reference count by one. The reference count can be decremented by
-calling FreeLibrary. The typical calling scenario is to call
-LoadLibrary, pass the handle to CreateSoftwareAdapter, then
-immediately call FreeLibrary on the DLL and forget the DLL's HMODULE.
-Since the software adapter calls FreeLibrary when it is destroyed,
-the lifetime of the DLL will now be owned by the adapter, and the
-application is free of any further consideration of its lifetime.
+ƒ\ƒtƒgƒEƒFƒAƒAƒ_ƒvƒ^‚ÍƒfƒoƒCƒXƒhƒ‰ƒCƒoƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì‘S‘Ì‚ğÀ‘•‚µ‚½ DLL ‚Å‚ ‚èA•K—v‚É‰‚¶‚Ä Windows
+‚ÌƒJ[ƒlƒ‹ƒ‚[ƒhƒOƒ‰ƒtƒBƒbƒNƒXƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒGƒ~ƒ…ƒŒ[ƒVƒ‡ƒ“‚àÀ‘•‚·‚éBƒ\ƒtƒgƒEƒFƒAƒAƒ_ƒvƒ^À‘•‚ÌÚ×‚Í Windows Vista
+Driver Development Kit
+‚ğQÆB‚±‚ê‚Í‹É‚ß‚Ä•¡G‚ÈŠJ”­ì‹Æ‚Å‚ ‚èAˆê”Ê‚Ì“ÇÒ‚É‚Í„§‚µ‚È‚¢B‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚Æƒ‚ƒWƒ…[ƒ‹‚ÌQÆƒJƒEƒ“ƒg‚Í 1
+‘‰Á‚·‚éBQÆƒJƒEƒ“ƒg‚Í FreeLibrary ‚ğŒÄ‚Ô‚±‚Æ‚ÅŒ¸‚ç‚·‚±‚Æ‚ª‚Å‚«‚éB“TŒ^“I‚ÈŒÄ‚Ño‚µè‡‚ÍALoadLibrary
+‚ğŒÄ‚ÑA‚»‚Ìƒnƒ“ƒhƒ‹‚ğ CreateSoftwareAdapter ‚É“n‚µA’¼Œã‚É DLL ‚É‘Î‚µ‚Ä FreeLibrary
+‚ğŒÄ‚ÑADLL ‚Ì HMODULE ‚Ì‚±‚Æ‚Í–Y‚ê‚éA‚Æ‚¢‚¤‚à‚Ì‚Å‚ ‚éBƒ\ƒtƒgƒEƒFƒAƒAƒ_ƒvƒ^‚Í”jŠü‚³‚ê‚éÛ‚É FreeLibrary
+‚ğŒÄ‚Ño‚·‚½‚ßADLL ‚Ìõ–½‚ÍƒAƒ_ƒvƒ^‚ªŠ—L‚·‚é‚±‚Æ‚É‚È‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í‚»‚ÌŒã‚Ìõ–½ŠÇ—‚©‚ç‰ğ•ú‚³‚ê‚éB
 
 
 %index
 IDXGIObject_SetPrivateData
-Sets application-defined data to the object and associates that data with a GUID.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
 %group
 COM misc / IDXGIObject
 %prm
 this, Name, DataSize, pData
 this : [comobj] IDXGIObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] Type: REFGUID A GUID that identifies the data. Use this GUID in a call to GetPrivateData to get the data.
-DataSize : [int] Type: UINT The size of the object's data.
-pData : [intptr] Type: const void* A pointer to the object's data.
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB‚±‚Ì GUID ‚ğ GetPrivateData ‚ÌŒÄ‚Ño‚µ‚Åg—p‚µ‚Äƒf[ƒ^‚ğæ“¾‚·‚éB
+DataSize : [int] Œ^: UINT ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: const void* ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Sets application-defined data to the object and associates that data
-with a GUID.
+ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`ƒf[ƒ^‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚µA‚»‚Ìƒf[ƒ^‚ğ GUID ‚ÉŠÖ˜A•t‚¯‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the DXGI_ERROR values.
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-SetPrivateData makes a copy of the specified data and stores it with
-the object. Private data that SetPrivateData stores in the object
-occupies the same storage space as private data that is stored by
-associated Direct3D objects (for example, by a Microsoft Direct3D 11
-device through ID3D11Device::SetPrivateData or by a Direct3D 11 child
-device through ID3D11DeviceChild::SetPrivateData). The debug layer
-reports memory leaks by outputting a list of object interface
-pointers along with their friendly names. The default friendly name
-is "<unnamed>". You can set the friendly name so that you can
-determine if the corresponding object interface pointer caused the
-leak. To set the friendly name, use the SetPrivateData method and the
-well-known private data GUID (WKPDID_D3DDebugObjectName) that is in
-D3Dcommon.h. For example, to give pContext a friendly name of My
-name, use the following code:
-This doc was truncated.
+SetPrivateData ‚Íw’è‚³‚ê‚½ƒf[ƒ^‚ÌƒRƒs[‚ğì¬‚µAƒIƒuƒWƒFƒNƒg‚Æ‚Æ‚à‚ÉŠi”[‚·‚éBSetPrivateData
+‚ªƒIƒuƒWƒFƒNƒg‚ÉŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÍAŠÖ˜A•t‚¯‚ç‚ê‚½ Direct3D ƒIƒuƒWƒFƒNƒg‚ªŠi”[‚·‚éƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ (—á‚¦‚Î
+Microsoft Direct3D 11 ƒfƒoƒCƒX‚ª ID3D11Device::SetPrivateData ‚ÅA‚Ü‚½‚Í
+Direct3D 11 qƒfƒoƒCƒX‚ª ID3D11DeviceChild::SetPrivateData ‚ÅŠi”[‚·‚é‚à‚Ì)
+‚Æ“¯‚¶‹L‰¯—Ìˆæ‚ğè—L‚·‚éBƒfƒoƒbƒOƒŒƒCƒ„[‚ÍƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^ˆê——‚ğƒtƒŒƒ“ƒhƒŠ–¼•t‚«‚Åo—Í‚µ‚Äƒƒ‚ƒŠƒŠ[ƒN‚ğ•ñ‚·‚éBŠù’è‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚Í
+"<unnamed>"
+‚Å‚ ‚éB‚Ç‚ÌƒIƒuƒWƒFƒNƒgƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ªƒŠ[ƒN‚ÌŒ´ˆö‚É‚È‚Á‚½‚©‚ğ“Á’è‚Å‚«‚é‚æ‚¤‚ÉƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚Å‚«‚éBƒtƒŒƒ“ƒhƒŠ–¼‚ğİ’è‚·‚é‚É‚ÍASetPrivateData
+ƒƒ\ƒbƒh‚Æ D3Dcommon.h ‚É‚ ‚éŠù’m‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^ GUID (WKPDID_D3DDebugObjectName)
+‚ğg—p‚·‚éB‚½‚Æ‚¦‚Î pContext ‚ÉƒtƒŒƒ“ƒhƒŠ–¼ My name ‚ğ•t—^‚·‚é‚É‚ÍŸ‚ÌƒR[ƒh‚ğg—p‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIObject_SetPrivateDataInterface
-Set an interface in the object's private data.
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
 %group
 COM misc / IDXGIObject
 %prm
 this, Name, pUnknown
 this : [comobj] IDXGIObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] Type: REFGUID A GUID identifying the interface.
-pUnknown : [int] Type: const IUnknown* The interface to set.
+Name : [var] Œ^: REFGUID ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ¯•Ê‚·‚é GUIDB
+pUnknown : [int] Œ^: const IUnknown* İ’è‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒXB
 %inst
-Set an interface in the object's private data.
+ƒIƒuƒWƒFƒNƒg‚Ìƒvƒ‰ƒCƒx[ƒgƒf[ƒ^‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the following DXGI_ERROR.
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-This API associates an interface pointer with the object. When the
-interface is set its reference count is incremented. When the data
-are overwritten (by calling SPD or SPDI with the same GUID) or the
-object is destroyed, ::Release() is called and the interface's
-reference count is decremented.
+
+‚±‚ÌAPI‚ÍƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğƒIƒuƒWƒFƒNƒg‚ÉŠÖ˜A•t‚¯‚éBƒCƒ“ƒ^[ƒtƒF[ƒX‚ªİ’è‚³‚ê‚é‚Æ‚»‚ÌQÆƒJƒEƒ“ƒg‚ªƒCƒ“ƒNƒŠƒƒ“ƒg‚³‚ê‚éBƒf[ƒ^‚ª
+(“¯‚¶ GUID ‚Å SPD ‚Ü‚½‚Í SPDI ‚ğÄ“xŒÄ‚Ño‚µ‚Ä) ã‘‚«‚³‚ê‚é‚©AƒIƒuƒWƒFƒNƒg‚ª”jŠü‚³‚ê‚½‚Æ‚«‚ÉA::Release()
+‚ªŒÄ‚Î‚êƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌQÆƒJƒEƒ“ƒg‚ªƒfƒNƒŠƒƒ“ƒg‚³‚ê‚éB
 
 
 %index
 IDXGIObject_GetPrivateData
-Get a pointer to the object's data.
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGIObject
 %prm
 this, Name, pDataSize, pData
 this : [comobj] IDXGIObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Name : [var] Type: REFGUID A GUID identifying the data.
-pDataSize : [int] Type: UINT* The size of the data.
-pData : [intptr] Type: void* Pointer to the data.
+Name : [var] Œ^: REFGUID ƒf[ƒ^‚ğ¯•Ê‚·‚é GUIDB
+pDataSize : [int] Œ^: UINT* ƒf[ƒ^‚ÌƒTƒCƒYB
+pData : [intptr] Œ^: void* ƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Get a pointer to the object's data.
+ƒIƒuƒWƒFƒNƒg‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the following DXGI_ERROR.
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-If the data returned is a pointer to an IUnknown, or one of its
-derivative classes, previously set by
-IDXGIObject::SetPrivateDataInterface, you must call ::Release() on
-the pointer before the pointer is freed to decrement the reference
-count. You can pass GUID_DeviceType in the Name parameter of
-GetPrivateData to retrieve the device type from the display adapter
-object (IDXGIAdapter, IDXGIAdapter1, IDXGIAdapter2). To get the type
-of device on which the display adapter was created
-This doc was truncated.
+•Ô‚³‚ê‚½ƒf[ƒ^‚ª IUnknown ‚Ü‚½‚Í‚»‚Ì”h¶ƒNƒ‰ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Å‚ ‚èAˆÈ‘O‚É
+IDXGIObject::SetPrivateDataInterface ‚Åİ’è‚³‚ê‚½‚à‚Ì‚Å‚ ‚éê‡Aƒ|ƒCƒ“ƒ^‚ğ‰ğ•ú‚·‚é‘O‚É
+::Release() ‚ğŒÄ‚Ño‚µ‚ÄQÆƒJƒEƒ“ƒg‚ğŒ¸‚ç‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BGetPrivateData ‚Ì Name ƒpƒ‰ƒ[ƒ^‚É
+GUID_DeviceType ‚ğ“n‚·‚±‚Æ‚ÅAƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^ƒIƒuƒWƒFƒNƒg
+(IDXGIAdapterAIDXGIAdapter1AIDXGIAdapter2)
+‚©‚çƒfƒoƒCƒXí•Ê‚ğæ“¾‚Å‚«‚éBƒfƒBƒXƒvƒŒƒCƒAƒ_ƒvƒ^‚ª¶¬‚³‚ê‚½ƒfƒoƒCƒX‚Ìí•Ê‚ğæ“¾‚·‚é‚É‚ÍA
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIObject_GetParent
-Gets the parent of the object.
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGIObject
 %prm
 this, riid, ppParent
 this : [comobj] IDXGIObject ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-riid : [var] Type: REFIID The ID of the requested interface.
-ppParent : [int] Type: void** The address of a pointer to the parent object.
+riid : [var] Œ^: REFIID —v‹‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì IDB
+ppParent : [int] Œ^: void** eƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
-Gets the parent of the object.
+ƒIƒuƒWƒFƒNƒg‚Ìe‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the DXGI_ERROR values.
+Œ^: HRESULT DXGI_ERROR ‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 
 %index
@@ -13271,293 +12627,275 @@ ppParent : [int]
 
 %index
 IDXGIOutput_GetDesc
-Get a description of the output.
+o—Í‚Ìà–¾‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGIOutput
 %prm
 this
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Get a description of the output.
+o—Í‚Ìà–¾‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns a code that indicates success or failure. S_OK
-if successful, DXGI_ERROR_INVALID_CALL if pDesc is passed in as NULL.
+Œ^: HRESULT ¬Œ÷‚Ü‚½‚Í¸”s‚ğ¦‚·ƒR[ƒh‚ğ•Ô‚·B¬Œ÷‚µ‚½ê‡‚Í S_OKApDesc ‚É NULL ‚ª“n‚³‚ê‚½ê‡‚Í
+DXGI_ERROR_INVALID_CALLB
 
 [”õl]
-On a high DPI desktop, GetDesc returns the visualized screen size
-unless the app is marked high DPI aware. For info about writing
-DPI-aware Win32 apps, see High DPI.
+‚ DPI ƒfƒXƒNƒgƒbƒv‚Å‚ÍAƒAƒvƒŠ‚ª‚ DPI ‘Î‰‚Æ‚µ‚Äƒ}[ƒN‚³‚ê‚Ä‚¢‚È‚¢ŒÀ‚èAGetDesc ‚Í‰¼‘z‰»‚³‚ê‚½‰æ–ÊƒTƒCƒY‚ğ•Ô‚·BDPI
+‘Î‰ Win32 ƒAƒvƒŠ‚Ìì¬‚É‚Â‚¢‚Ä‚ÍAHigh DPI ‚ğQÆB
 
 
 %index
 IDXGIOutput_GetDisplayModeList
-Gets the display modes that match the requested format and other input options. (IDXGIOutput.GetDisplayModeList)
+—v‹‚³‚ê‚½ƒtƒH[ƒ}ƒbƒg‚Æ‚»‚Ì‘¼‚Ì“ü—ÍƒIƒvƒVƒ‡ƒ“‚Éˆê’v‚·‚éƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğæ“¾‚·‚éB(IDXGIOutput.GetDisplayModeList)
 %group
 COM misc / IDXGIOutput
 %prm
 this, EnumFormat, Flags, pNumModes, pDesc
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-EnumFormat : [int] Type: DXGI_FORMAT The color format (see DXGI_FORMAT).
-Flags : [int] Type: UINT Options for modes to include (see DXGI_ENUM_MODES). DXGI_ENUM_MODES_SCALING needs to be specified to expose the display modes that require scaling.  Centered modes, requiring no scaling and corresponding directly to the display output, are enumerated by default.
-pNumModes : [int] Type: UINT* Set pDesc to NULL so that pNumModes returns the number of display modes that match the format and the options. Otherwise, pNumModes returns the number of display modes returned in pDesc.
-pDesc : [var] Type: DXGI_MODE_DESC* A pointer to a list of display modes (see DXGI_MODE_DESC); set to NULL to get the number of display modes.
+EnumFormat : [int] Œ^: DXGI_FORMAT ƒJƒ‰[ƒtƒH[ƒ}ƒbƒg (DXGI_FORMAT ‚ğQÆ)B
+Flags : [int] Œ^: UINT ŠÜ‚ß‚éƒ‚[ƒh‚ÌƒIƒvƒVƒ‡ƒ“ (DXGI_ENUM_MODES ‚ğQÆ)BƒXƒP[ƒŠƒ“ƒO‚ª•K—v‚ÈƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğŒöŠJ‚·‚é‚É‚Í DXGI_ENUM_MODES_SCALING ‚ğw’è‚·‚é•K—v‚ª‚ ‚éBƒXƒP[ƒŠƒ“ƒO‚ª•s—v‚ÅƒfƒBƒXƒvƒŒƒCo—Í‚É’¼Ú‘Î‰‚·‚éƒZƒ“ƒ^ƒŠƒ“ƒOƒ‚[ƒh‚ÍƒfƒtƒHƒ‹ƒg‚Å—ñ‹“‚³‚ê‚éB
+pNumModes : [int] Œ^: UINT* pDesc ‚ğ NULL ‚Éİ’è‚·‚é‚ÆApNumModes ‚ÍƒtƒH[ƒ}ƒbƒg‚ÆƒIƒvƒVƒ‡ƒ“‚Éˆê’v‚·‚éƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚Ì”‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡ApNumModes ‚Í pDesc ‚É•Ô‚³‚ê‚½ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚Ì”‚ğ•Ô‚·B
+pDesc : [var] Œ^: DXGI_MODE_DESC* ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ÌƒŠƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^ (DXGI_MODE_DESC ‚ğQÆ)BƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚Ì”‚ğæ“¾‚·‚é‚É‚Í NULL ‚Éİ’è‚·‚éB
 %inst
-Gets the display modes that match the requested format and other
-input options. (IDXGIOutput.GetDisplayModeList)
+
+—v‹‚³‚ê‚½ƒtƒH[ƒ}ƒbƒg‚Æ‚»‚Ì‘¼‚Ì“ü—ÍƒIƒvƒVƒ‡ƒ“‚Éˆê’v‚·‚éƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğæ“¾‚·‚éB(IDXGIOutput.GetDisplayModeList)
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the following DXGI_ERROR. It is rare,
-but possible, that the display modes available can change immediately
-after calling this method, in which case DXGI_ERROR_MORE_DATA is
-returned (if there is not enough room for all the display modes). If
-GetDisplayModeList is called from a Remote Desktop Services session
-(formerly Terminal Services session),
-DXGI_ERROR_NOT_CURRENTLY_AVAILABLE is returned.
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR
+‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B‚±‚Ìƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ’¼Œã‚É—˜—p‰Â”\‚ÈƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ª•ÏX‚³‚ê‚éê‡‚ª‚ ‚èA‚»‚Ìê‡‚Í
+DXGI_ERROR_MORE_DATA ‚ª•Ô‚³‚ê‚é
+(‚·‚×‚Ä‚ÌƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğŠi”[‚·‚é\•ª‚È—Ìˆæ‚ª‚È‚¢ê‡)BGetDisplayModeList ‚ªƒŠƒ‚[ƒgƒfƒXƒNƒgƒbƒvƒT[ƒrƒX
+(‹ŒÌƒ^[ƒ~ƒiƒ‹ƒT[ƒrƒX) ƒZƒbƒVƒ‡ƒ“‚©‚çŒÄ‚Ño‚³‚ê‚½ê‡ADXGI_ERROR_NOT_CURRENTLY_AVAILABLE
+‚ª•Ô‚³‚ê‚éB
 
 [”õl]
-In general, when switching from windowed to full-screen mode, a swap
-chain automatically chooses a display mode that meets (or exceeds)
-the resolution, color depth and refresh rate of the swap chain. To
-exercise more control over the display mode, use this API to poll the
-set of display modes that are validated against monitor capabilities,
-or all modes that match the desktop (if the desktop settings are not
-validated against the monitor). As shown, this API is designed to be
-called twice. First to get the number of modes available, and second
-to return a description of the modes.
-This doc was truncated.
+
+ˆê”Ê“I‚ÉAƒEƒBƒ“ƒhƒEƒ‚[ƒh‚©‚çƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚ÉØ‚è‘Ö‚¦‚é‚Æ‚«AƒXƒƒbƒvƒ`ƒF[ƒ“‚ÍƒXƒƒbƒvƒ`ƒF[ƒ“‚Ì‰ğ‘œ“xAF[“xAƒŠƒtƒŒƒbƒVƒ…ƒŒ[ƒg‚ğ–‚½‚·
+(‚Ü‚½‚Í‚»‚ê‚ğã‰ñ‚é) ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğ©“®“I‚É‘I‘ğ‚·‚éBƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğ‚æ‚è×‚©‚­§Œä‚·‚é‚É‚ÍA‚±‚Ì API
+‚ğg—p‚µ‚Äƒ‚ƒjƒ^‚Ì”\—Í‚É‘Î‚µ‚ÄŒŸØ‚³‚ê‚½ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ÌƒZƒbƒgA‚Ü‚½‚ÍƒfƒXƒNƒgƒbƒv‚Éˆê’v‚·‚é‚·‚×‚Ä‚Ìƒ‚[ƒh‚ğæ“¾‚·‚é
+(ƒfƒXƒNƒgƒbƒvİ’è‚ªƒ‚ƒjƒ^‚É‘Î‚µ‚ÄŒŸØ‚³‚ê‚È‚¢ê‡)B¦‚³‚ê‚Ä‚¢‚é‚Æ‚¨‚èA‚±‚Ì API ‚Í 2
+‰ñŒÄ‚Ño‚³‚ê‚é‚æ‚¤‚ÉİŒv‚³‚ê‚Ä‚¢‚éBÅ‰‚É—˜—p‰Â”\‚Èƒ‚[ƒh‚Ì”‚ğæ“¾‚µA2 ‰ñ–Ú‚Éƒ‚[ƒh‚Ìà–¾‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGIOutput_FindClosestMatchingMode
-Finds the display mode that most closely matches the requested display mode. (IDXGIOutput.FindClosestMatchingMode)
+—v‹‚³‚ê‚½ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ÉÅ‚à‹ß‚¢ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğŒŸõ‚·‚éB(IDXGIOutput.FindClosestMatchingMode)
 %group
 COM misc / IDXGIOutput
 %prm
 this, pModeToMatch, pClosestMatch, pConcernedDevice
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pModeToMatch : [var] Type: const DXGI_MODE_DESC* The desired display mode (see DXGI_MODE_DESC). Members of DXGI_MODE_DESC can be unspecified indicating no preference for that member.  A value of 0 for Width or Height indicates the value is unspecified.  If either Width or Height are 0, both must be 0.  A numerator and denominator of 0 in RefreshRate indicate it is unspecified. Other members of DXGI_MODE_DESC have enumeration values indicating the member is unspecified.  If pConcernedDevice is NULL, Format cannot be DXGI_FORMAT_UNKNOWN.
-pClosestMatch : [var] Type: DXGI_MODE_DESC* The mode that most closely matches pModeToMatch.
-pConcernedDevice : [int] Type: IUnknown* A pointer to the Direct3D device interface. If this parameter is NULL, only modes whose format matches that of pModeToMatch will be returned; otherwise, only those formats that are supported for scan-out by the device are returned. For info about the formats that are supported for scan-out by the device at each feature level:
+pModeToMatch : [var] Œ^: const DXGI_MODE_DESC* –]‚Ü‚µ‚¢ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh (DXGI_MODE_DESC ‚ğQÆ)BDXGI_MODE_DESC ‚Ìƒƒ“ƒo‚Í–¢w’è‚É‚Å‚«A‚»‚Ìƒƒ“ƒo‚É‘Î‚·‚é—Dæ‡ˆÊ‚ª‚È‚¢‚±‚Æ‚ğ¦‚·BWidth ‚Ü‚½‚Í Height ‚Ì’l‚ª 0 ‚Í‚»‚Ì’l‚ª–¢w’è‚Å‚ ‚é‚±‚Æ‚ğ¦‚·BWidth ‚Ü‚½‚Í Height ‚Ì‚¢‚¸‚ê‚©‚ª 0 ‚Ìê‡A—¼•û‚Æ‚à 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BRefreshRate ‚Ì•ªq‚Æ•ª•ê‚ª 0 ‚Í–¢w’è‚Å‚ ‚é‚±‚Æ‚ğ¦‚·BDXGI_MODE_DESC ‚Ì‘¼‚Ìƒƒ“ƒo‚ÍAƒƒ“ƒo‚ª–¢w’è‚Å‚ ‚é‚±‚Æ‚ğ¦‚·—ñ‹“’l‚ğ‚ÂBpConcernedDevice ‚ª NULL ‚Ìê‡AFormat ‚ğ DXGI_FORMAT_UNKNOWN ‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+pClosestMatch : [var] Œ^: DXGI_MODE_DESC* pModeToMatch ‚ÉÅ‚à‹ß‚¢ƒ‚[ƒhB
+pConcernedDevice : [int] Œ^: IUnknown* Direct3D ƒfƒoƒCƒXƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡AƒtƒH[ƒ}ƒbƒg‚ª pModeToMatch ‚Æˆê’v‚·‚éƒ‚[ƒh‚Ì‚İ‚ª•Ô‚³‚ê‚éB‚»‚êˆÈŠO‚Ìê‡‚ÍAƒfƒoƒCƒX‚ªƒXƒLƒƒƒ“ƒAƒEƒg—p‚ÉƒTƒ|[ƒg‚µ‚Ä‚¢‚éƒtƒH[ƒ}ƒbƒg‚Ì‚İ‚ª•Ô‚³‚ê‚éBŠe‹@”\ƒŒƒxƒ‹‚ÅƒfƒoƒCƒX‚ªƒXƒLƒƒƒ“ƒAƒEƒg—p‚ÉƒTƒ|[ƒg‚µ‚Ä‚¢‚éƒtƒH[ƒ}ƒbƒg‚ÌÚ×:
 %inst
-Finds the display mode that most closely matches the requested
-display mode. (IDXGIOutput.FindClosestMatchingMode)
+
+—v‹‚³‚ê‚½ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ÉÅ‚à‹ß‚¢ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğŒŸõ‚·‚éB(IDXGIOutput.FindClosestMatchingMode)
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the following DXGI_ERROR.
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-FindClosestMatchingMode behaves similarly to the
-IDXGIOutput1::FindClosestMatchingMode1 except FindClosestMatchingMode
-considers only the mono display modes.
-IDXGIOutput1::FindClosestMatchingMode1 considers only stereo modes if
-you set the Stereo member in the DXGI_MODE_DESC1 structure that
-pModeToMatch points to, and considers only mono modes if Stereo is
-not set.
-IDXGIOutput1::FindClosestMatchingMode1 returns a matched display-mode
-set with only stereo modes or only mono modes.
-FindClosestMatchingMode behaves as though you specified the input
-mode as mono.
+FindClosestMatchingMode ‚Í IDXGIOutput1::FindClosestMatchingMode1
+‚Æ“¯—l‚É“®ì‚·‚é‚ªAFindClosestMatchingMode
+‚Íƒ‚ƒmƒ‰ƒ‹ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚Ì‚İ‚ğl—¶‚·‚é“_‚ªˆÙ‚È‚éBIDXGIOutput1::FindClosestMatchingMode1
+‚ÍApModeToMatch ‚ªw‚· DXGI_MODE_DESC1 \‘¢‘Ì‚Ì Stereo
+ƒƒ“ƒo‚ğİ’è‚µ‚½ê‡‚Ì‚İƒXƒeƒŒƒIƒ‚[ƒh‚ğl—¶‚µAStereo ‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Íƒ‚ƒmƒ‰ƒ‹ƒ‚[ƒh‚Ì‚İ‚ğl—¶‚·‚éB
+IDXGIOutput1::FindClosestMatchingMode1
+‚ÍƒXƒeƒŒƒIƒ‚[ƒh‚Ì‚İ‚Ü‚½‚Íƒ‚ƒmƒ‰ƒ‹ƒ‚[ƒh‚Ì‚İ‚ğŠÜ‚Şˆê’v‚µ‚½ƒfƒBƒXƒvƒŒƒCƒ‚[ƒhƒZƒbƒg‚ğ•Ô‚·BFindClosestMatchingMode
+‚Í“ü—Íƒ‚[ƒh‚ğƒ‚ƒmƒ‰ƒ‹‚Æ‚µ‚Äw’è‚µ‚½‚©‚Ì‚æ‚¤‚É“®ì‚·‚éB
 
 
 %index
 IDXGIOutput_WaitForVBlank
-Halt a thread until the next vertical blank occurs.
+Ÿ‚Ì‚’¼ƒuƒ‰ƒ“ƒN‚ª”­¶‚·‚é‚Ü‚ÅƒXƒŒƒbƒh‚ğ’â~‚·‚éB
 %group
 COM misc / IDXGIOutput
 %prm
 this
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Halt a thread until the next vertical blank occurs.
+Ÿ‚Ì‚’¼ƒuƒ‰ƒ“ƒN‚ª”­¶‚·‚é‚Ü‚ÅƒXƒŒƒbƒh‚ğ’â~‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the following DXGI_ERROR.
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-A vertical blank occurs when the raster moves from the lower right
-corner to the upper left corner to begin drawing the next frame.
+‚’¼ƒuƒ‰ƒ“ƒN‚ÍAŸ‚ÌƒtƒŒ[ƒ€‚Ì•`‰æ‚ğŠJn‚·‚é‚½‚ß‚Éƒ‰ƒXƒ^[‚ª‰E‰º‹÷‚©‚ç¶ã‹÷‚ÉˆÚ“®‚·‚é‚Æ‚«‚É”­¶‚·‚éB
 
 
 %index
 IDXGIOutput_TakeOwnership
-Takes ownership of an output.
+o—Í‚ÌŠ—LŒ ‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGIOutput
 %prm
 this, pDevice, Exclusive
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pDevice : [int] Type: IUnknown* A pointer to the IUnknown interface of a device (such as an ID3D10Device).
-Exclusive : [int] Type: BOOL Set to TRUE to enable other threads or applications to take ownership of the device; otherwise, set to FALSE.
+pDevice : [int] Œ^: IUnknown* ƒfƒoƒCƒX (ID3D10Device ‚È‚Ç) ‚Ì IUnknown ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+Exclusive : [int] Œ^: BOOL ‘¼‚ÌƒXƒŒƒbƒh‚âƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒfƒoƒCƒX‚ÌŠ—LŒ ‚ğæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚é‚É‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚Éİ’è‚·‚éB
 %inst
-Takes ownership of an output.
+o—Í‚ÌŠ—LŒ ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the DXGI_ERROR values.
+Œ^: HRESULT DXGI_ERROR ’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-When you are finished with the output, call
-IDXGIOutput::ReleaseOwnership. TakeOwnership should not be called
-directly by applications, since results will be unpredictable. It is
-called implicitly by the DXGI swap chain object during full-screen
-transitions, and should not be used as a substitute for swap-chain
-methods. Notes for Windows Store apps If a Windows Store app uses
-TakeOwnership, it fails with DXGI_ERROR_NOT_CURRENTLY_AVAILABLE.
+o—Í‚ğg‚¢I‚í‚Á‚½‚ç IDXGIOutput::ReleaseOwnership ‚ğŒÄ‚Ño‚·BTakeOwnership
+‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç’¼ÚŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢BŒ‹‰Ê‚ª—\‘ª‚Å‚«‚È‚¢‚©‚ç‚Å‚ ‚éB‚±‚ê‚Íƒtƒ‹ƒXƒNƒŠ[ƒ“‘JˆÚ‚É DXGI
+ƒXƒƒbƒvƒ`ƒF[ƒ“ƒIƒuƒWƒFƒNƒg‚É‚æ‚Á‚ÄˆÃ–Ù“I‚ÉŒÄ‚Ño‚³‚ê‚é‚à‚Ì‚Å‚ ‚èAƒXƒƒbƒvƒ`ƒF[ƒ“ƒƒ\ƒbƒh‚Ì‘ã‚í‚è‚Ég—p‚·‚×‚«‚Å‚Í‚È‚¢BWindows
+ƒXƒgƒAƒAƒvƒŠ‚Ì’ˆÓ“_ Windows ƒXƒgƒAƒAƒvƒŠ‚ª TakeOwnership
+‚ğg—p‚·‚é‚ÆADXGI_ERROR_NOT_CURRENTLY_AVAILABLE ‚Å¸”s‚·‚éB
 
 
 %index
 IDXGIOutput_ReleaseOwnership
-Releases ownership of the output.
+o—Í‚ÌŠ—LŒ ‚ğ‰ğ•ú‚·‚éB
 %group
 COM misc / IDXGIOutput
 %prm
 this
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Releases ownership of the output.
+o—Í‚ÌŠ—LŒ ‚ğ‰ğ•ú‚·‚éB
 
 [”õl]
-If you are not using a swap chain, get access to an output by calling
-IDXGIOutput::TakeOwnership and release it when you are finished by
-calling IDXGIOutput::ReleaseOwnership. An application that uses a
-swap chain will typically not call either of these methods.
+ƒXƒƒbƒvƒ`ƒF[ƒ“‚ğg—p‚µ‚Ä‚¢‚È‚¢ê‡‚ÍAIDXGIOutput::TakeOwnership ‚ğŒÄ‚Ño‚µ‚Äo—Í‚ÉƒAƒNƒZƒX‚µAI—¹‚µ‚½‚ç
+IDXGIOutput::ReleaseOwnership
+‚ğŒÄ‚Ño‚µ‚Ä‰ğ•ú‚·‚éBƒXƒƒbƒvƒ`ƒF[ƒ“‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍA’Êí‚±‚ê‚ç‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚³‚È‚¢B
 
 
 %index
 IDXGIOutput_GetGammaControlCapabilities
-Gets a description of the gamma-control capabilities.
+ƒKƒ“ƒ}ƒRƒ“ƒgƒ[ƒ‹”\—Í‚Ìà–¾‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGIOutput
 %prm
 this, pGammaCaps
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pGammaCaps : [var] Type: DXGI_GAMMA_CONTROL_CAPABILITIES* A pointer to a  description of the gamma-control capabilities (see DXGI_GAMMA_CONTROL_CAPABILITIES).
+pGammaCaps : [var] Œ^: DXGI_GAMMA_CONTROL_CAPABILITIES* ƒKƒ“ƒ}ƒRƒ“ƒgƒ[ƒ‹”\—Í‚Ìà–¾‚Ö‚Ìƒ|ƒCƒ“ƒ^ (DXGI_GAMMA_CONTROL_CAPABILITIES ‚ğQÆ)B
 %inst
-Gets a description of the gamma-control capabilities.
+ƒKƒ“ƒ}ƒRƒ“ƒgƒ[ƒ‹”\—Í‚Ìà–¾‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the DXGI_ERROR values.
+Œ^: HRESULT DXGI_ERROR ’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-Note Calling this method is only supported while in full-screen mode.
-For info about using gamma correction, see Using gamma correction.
+’ ‚±‚Ìƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ‚Íƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éB
+ƒKƒ“ƒ}•â³‚Ìg—p•û–@‚É‚Â‚¢‚Ä‚ÍAUsing gamma correction ‚ğQÆB
 
 
 %index
 IDXGIOutput_SetGammaControl
-Sets the gamma controls.
+ƒKƒ“ƒ}ƒRƒ“ƒgƒ[ƒ‹‚ğİ’è‚·‚éB
 %group
 COM misc / IDXGIOutput
 %prm
 this, pArray
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pArray : [var] Type: const DXGI_GAMMA_CONTROL* A pointer to a DXGI_GAMMA_CONTROL structure that describes the gamma curve to set.
+pArray : [var] Œ^: const DXGI_GAMMA_CONTROL* İ’è‚·‚éƒKƒ“ƒ}ƒJ[ƒu‚ğ‹Lq‚·‚é DXGI_GAMMA_CONTROL \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Sets the gamma controls.
+ƒKƒ“ƒ}ƒRƒ“ƒgƒ[ƒ‹‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the DXGI_ERROR values.
+Œ^: HRESULT DXGI_ERROR ’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-Note Calling this method is only supported while in full-screen mode.
-For info about using gamma correction, see Using gamma correction.
+’ ‚±‚Ìƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ‚Íƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éB
+ƒKƒ“ƒ}•â³‚Ìg—p•û–@‚É‚Â‚¢‚Ä‚ÍAUsing gamma correction ‚ğQÆB
 
 
 %index
 IDXGIOutput_GetGammaControl
-Gets the gamma control settings.
+ƒKƒ“ƒ}ƒRƒ“ƒgƒ[ƒ‹İ’è‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGIOutput
 %prm
 this, pArray
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pArray : [var] Type: DXGI_GAMMA_CONTROL* An array of gamma control settings (see DXGI_GAMMA_CONTROL).
+pArray : [var] Œ^: DXGI_GAMMA_CONTROL* ƒKƒ“ƒ}ƒRƒ“ƒgƒ[ƒ‹İ’è‚Ì”z—ñ (DXGI_GAMMA_CONTROL ‚ğQÆ)B
 %inst
-Gets the gamma control settings.
+ƒKƒ“ƒ}ƒRƒ“ƒgƒ[ƒ‹İ’è‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the DXGI_ERROR values.
+Œ^: HRESULT DXGI_ERROR ’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-Note Calling this method is only supported while in full-screen mode.
-For info about using gamma correction, see Using gamma correction.
+’ ‚±‚Ìƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ‚Íƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éB
+ƒKƒ“ƒ}•â³‚Ìg—p•û–@‚É‚Â‚¢‚Ä‚ÍAUsing gamma correction ‚ğQÆB
 
 
 %index
 IDXGIOutput_SetDisplaySurface
-Changes the display mode.
+ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğ•ÏX‚·‚éB
 %group
 COM misc / IDXGIOutput
 %prm
 this, pScanoutSurface
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pScanoutSurface : [comobj] Type: IDXGISurface* A pointer to a surface (see IDXGISurface) used for rendering an image to the screen. The surface must have been created as a back buffer (DXGI_USAGE_BACKBUFFER).
+pScanoutSurface : [comobj] Œ^: IDXGISurface* ‰æ–Ê‚É‰æ‘œ‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO‚·‚é‚½‚ß‚Ég—p‚·‚éƒT[ƒtƒFƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^ (IDXGISurface ‚ğQÆ)BƒT[ƒtƒFƒX‚ÍƒoƒbƒNƒoƒbƒtƒ@ (DXGI_USAGE_BACKBUFFER) ‚Æ‚µ‚Äì¬‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB
 %inst
-Changes the display mode.
+ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğ•ÏX‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the DXGI_ERROR values.
+Œ^: HRESULT DXGI_ERROR ’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-IDXGIOutput::SetDisplaySurface should not be called directly by
-applications, since results will be unpredictable. It is called
-implicitly by the DXGI swap chain object during full-screen
-transitions, and should not be used as a substitute for swap-chain
-methods. This method should only be called between
-IDXGIOutput::TakeOwnership and IDXGIOutput::ReleaseOwnership calls.
-Notes for Windows Store apps If a Windows Store app uses
-SetDisplaySurface, it fails with DXGI_ERROR_NOT_CURRENTLY_AVAILABLE.
+IDXGIOutput::SetDisplaySurface
+‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©‚ç’¼ÚŒÄ‚Ño‚·‚×‚«‚Å‚Í‚È‚¢BŒ‹‰Ê‚ª—\‘ª‚Å‚«‚È‚¢‚©‚ç‚Å‚ ‚éB‚±‚ê‚Íƒtƒ‹ƒXƒNƒŠ[ƒ“‘JˆÚ‚É DXGI
+ƒXƒƒbƒvƒ`ƒF[ƒ“ƒIƒuƒWƒFƒNƒg‚É‚æ‚Á‚ÄˆÃ–Ù“I‚ÉŒÄ‚Ño‚³‚ê‚é‚à‚Ì‚Å‚ ‚èAƒXƒƒbƒvƒ`ƒF[ƒ“ƒƒ\ƒbƒh‚Ì‘ã‚í‚è‚Ég—p‚·‚×‚«‚Å‚Í‚È‚¢B‚±‚Ìƒƒ\ƒbƒh‚Í
+IDXGIOutput::TakeOwnership ‚Æ IDXGIOutput::ReleaseOwnership
+‚ÌŒÄ‚Ño‚µ‚ÌŠÔ‚Å‚Ì‚İŒÄ‚Ño‚³‚ê‚é‚×‚«‚Å‚ ‚éBWindows ƒXƒgƒAƒAƒvƒŠ‚Ì’ˆÓ“_ Windows ƒXƒgƒAƒAƒvƒŠ‚ª
+SetDisplaySurface ‚ğg—p‚·‚é‚ÆADXGI_ERROR_NOT_CURRENTLY_AVAILABLE ‚Å¸”s‚·‚éB
 
 
 %index
 IDXGIOutput_GetDisplaySurfaceData
-Gets a copy of the current display surface.
+Œ»İ‚ÌƒfƒBƒXƒvƒŒƒCƒT[ƒtƒFƒX‚ÌƒRƒs[‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGIOutput
 %prm
 this, pDestination
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pDestination : [comobj] Type: IDXGISurface* A pointer to a destination surface (see IDXGISurface).
+pDestination : [comobj] Œ^: IDXGISurface* ‘ÎÛ‚ÌƒT[ƒtƒFƒX (IDXGISurface ‚ğQÆ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Gets a copy of the current display surface.
+Œ»İ‚ÌƒfƒBƒXƒvƒŒƒCƒT[ƒtƒFƒX‚ÌƒRƒs[‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the DXGI_ERROR values.
+Œ^: HRESULT DXGI_ERROR ’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-IDXGIOutput::GetDisplaySurfaceData can only be called when an output
-is in full-screen mode. If the method succeeds, DXGI fills the
-destination surface. Use IDXGIOutput::GetDesc to determine the size
-(width and height) of the output when you want to allocate space for
-the destination surface. This is true regardless of target monitor
-rotation. A destination surface created by a graphics component (such
-as Direct3D 10) must be created with CPU-write permission (see
-D3D10_CPU_ACCESS_WRITE). Other surfaces should be created with CPU
-read-write permission (see D3D10_CPU_ACCESS_READ_WRITE). This method
-will modify the surface data to fit the destination surface (stretch,
-shrink, convert format, rotate). The stretch and shrink is performed
-with point-sampling.
+IDXGIOutput::GetDisplaySurfaceData
+‚ÍAo—Í‚ªƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚Ì‚Æ‚«‚É‚Ì‚İŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éBƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡ADXGI
+‚Í‘ÎÛ‚ÌƒT[ƒtƒFƒX‚ğ–„‚ß‚éB‘ÎÛƒT[ƒtƒFƒX—p‚Ì—Ìˆæ‚ğŠm•Û‚·‚é‚½‚ß‚Éo—Í‚ÌƒTƒCƒY (•‚Æ‚‚³) ‚ğæ“¾‚·‚é‚É‚Í
+IDXGIOutput::GetDesc ‚ğg—p‚·‚éB‚±‚ê‚Íƒ^[ƒQƒbƒgƒ‚ƒjƒ^‚Ì‰ñ“]‚ÉŠÖŒW‚È‚­^‚Å‚ ‚éBƒOƒ‰ƒtƒBƒbƒNƒXƒRƒ“ƒ|[ƒlƒ“ƒg
+(Direct3D 10 ‚È‚Ç) ‚É‚æ‚Á‚Äì¬‚³‚ê‚½‘ÎÛƒT[ƒtƒFƒX‚ÍACPU ‘‚«‚İŒ ŒÀ (D3D10_CPU_ACCESS_WRITE
+‚ğQÆ) ‚ğ‚Á‚Äì¬‚·‚é•K—v‚ª‚ ‚éB‚»‚Ì‘¼‚ÌƒT[ƒtƒFƒX‚ÍACPU “Ç‚İ‘‚«Œ ŒÀ (D3D10_CPU_ACCESS_READ_WRITE
+‚ğQÆ) ‚ğ‚Á‚Äì¬‚·‚é•K—v‚ª‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚ÍA‘ÎÛƒT[ƒtƒFƒX‚É‡‚¤‚æ‚¤‚ÉƒT[ƒtƒFƒXƒf[ƒ^‚ğ•ÏX‚·‚é
+(Šg‘åAk¬AƒtƒH[ƒ}ƒbƒg•ÏŠ·A‰ñ“])BŠg‘å‚Æk¬‚Íƒ|ƒCƒ“ƒgƒTƒ“ƒvƒŠƒ“ƒO‚ÅÀs‚³‚ê‚éB
 
 
 %index
 IDXGIOutput_GetFrameStatistics
-Gets statistics about recently rendered frames.
+Å‹ßƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚½ƒtƒŒ[ƒ€‚ÉŠÖ‚·‚é“Œvî•ñ‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGIOutput
 %prm
 this, pStats
 this : [comobj] IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pStats : [var] Type: DXGI_FRAME_STATISTICS* A pointer to frame statistics (see DXGI_FRAME_STATISTICS).
+pStats : [var] Œ^: DXGI_FRAME_STATISTICS* ƒtƒŒ[ƒ€“Œvî•ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^ (DXGI_FRAME_STATISTICS ‚ğQÆ)B
 %inst
-Gets statistics about recently rendered frames.
+Å‹ßƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚½ƒtƒŒ[ƒ€‚ÉŠÖ‚·‚é“Œvî•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it might return DXGI_ERROR_INVALID_CALL.
+Œ^: HRESULT ‚±‚ÌŠÖ”‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í DXGI_ERROR_INVALID_CALL
+‚ğ•Ô‚·‰Â”\«‚ª‚ ‚éB
 
 [”õl]
-This API is similar to IDXGISwapChain::GetFrameStatistics.
-Note Calling this method is only supported while in full-screen mode.
+‚±‚Ì API ‚Í IDXGISwapChain::GetFrameStatistics ‚Æ—Ş—‚µ‚Ä‚¢‚éB
+’ ‚±‚Ìƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ‚Íƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éB
 
 
 %index
@@ -13629,58 +12967,56 @@ ppDevice : [int]
 
 %index
 IDXGISurface_GetDesc
-Get a description of the surface.
+ƒT[ƒtƒFƒX‚Ìà–¾‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGISurface
 %prm
 this
 this : [comobj] IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Get a description of the surface.
+ƒT[ƒtƒFƒX‚Ìà–¾‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful; otherwise, returns one of
-the error codes that are described in the DXGI_ERROR topic.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚Ìê‡‚Í DXGI_ERROR
+ƒgƒsƒbƒN‚Åà–¾‚³‚ê‚Ä‚¢‚éƒGƒ‰[ƒR[ƒh‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 
 %index
 IDXGISurface_Map
-Get a pointer to the data contained in the surface, and deny GPU access to the surface.
+ƒT[ƒtƒFƒX‚ÉŠÜ‚Ü‚ê‚éƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚µAƒT[ƒtƒFƒX‚Ö‚Ì GPU ƒAƒNƒZƒX‚ğ‹‘”Û‚·‚éB
 %group
 COM misc / IDXGISurface
 %prm
 this, pLockedRect, MapFlags
 this : [comobj] IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pLockedRect : [var] Type: DXGI_MAPPED_RECT* A pointer to the surface data (see DXGI_MAPPED_RECT).
-MapFlags : [int] Type: UINT CPU read-write flags. These flags can be combined with a logical OR.
+pLockedRect : [var] Œ^: DXGI_MAPPED_RECT* ƒT[ƒtƒFƒXƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^ (DXGI_MAPPED_RECT ‚ğQÆ)B
+MapFlags : [int] Œ^: UINT CPU ‚Ì“Ç‚İ‘‚«ƒtƒ‰ƒOB‚±‚ê‚ç‚Ìƒtƒ‰ƒO‚Í˜_— OR ‚Å‘g‚İ‡‚í‚¹‚é‚±‚Æ‚ª‚Å‚«‚éB
 %inst
-Get a pointer to the data contained in the surface, and deny GPU
-access to the surface.
+ƒT[ƒtƒFƒX‚ÉŠÜ‚Ü‚ê‚éƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚µAƒT[ƒtƒFƒX‚Ö‚Ì GPU ƒAƒNƒZƒX‚ğ‹‘”Û‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful; otherwise, returns one of
-the error codes that are described in the DXGI_ERROR topic.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚Ìê‡‚Í DXGI_ERROR
+ƒgƒsƒbƒN‚Åà–¾‚³‚ê‚Ä‚¢‚éƒGƒ‰[ƒR[ƒh‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-Use IDXGISurface::Map to access a surface from the CPU. To release a
-mapped surface (and allow GPU access) call IDXGISurface::Unmap.
+CPU ‚©‚çƒT[ƒtƒFƒX‚ÉƒAƒNƒZƒX‚·‚é‚É‚Í IDXGISurface::Map ‚ğg—p‚·‚éBƒ}ƒbƒv‚µ‚½ƒT[ƒtƒFƒX‚ğ‰ğ•ú‚µ (GPU
+‚©‚ç‚ÌƒAƒNƒZƒX‚ğ‹–‰Â‚µ) ‚½‚¢ê‡‚Í IDXGISurface::Unmap ‚ğŒÄ‚Ño‚·B
 
 
 %index
 IDXGISurface_Unmap
-Invalidate the pointer to the surface retrieved by IDXGISurface::Map and re-enable GPU access to the resource.
+IDXGISurface::Map ‚Åæ“¾‚µ‚½ƒT[ƒtƒFƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ–³Œø‰»‚µAƒŠƒ\[ƒX‚Ö‚Ì GPU ƒAƒNƒZƒX‚ğÄ‚Ñ—LŒø‚É‚·‚éB
 %group
 COM misc / IDXGISurface
 %prm
 this
 this : [comobj] IDXGISurface ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Invalidate the pointer to the surface retrieved by IDXGISurface::Map
-and re-enable GPU access to the resource.
+IDXGISurface::Map ‚Åæ“¾‚µ‚½ƒT[ƒtƒFƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ–³Œø‰»‚µAƒŠƒ\[ƒX‚Ö‚Ì GPU ƒAƒNƒZƒX‚ğÄ‚Ñ—LŒø‚É‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful; otherwise, returns one of
-the error codes that are described in the DXGI_ERROR topic.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚Ìê‡‚Í DXGI_ERROR
+ƒgƒsƒbƒN‚Åà–¾‚³‚ê‚Ä‚¢‚éƒGƒ‰[ƒR[ƒh‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 
 %index
@@ -13752,324 +13088,276 @@ ppDevice : [int]
 
 %index
 IDXGISwapChain_Present
-Presents a rendered image to the user.
+ƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚½‰æ‘œ‚ğƒ†[ƒU[‚É•\¦‚·‚éB
 %group
 COM misc / IDXGISwapChain
 %prm
 this, SyncInterval, Flags
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-SyncInterval : [int] Type: UINT An integer that specifies how to synchronize presentation of a frame with the vertical blank.
-Flags : [int] Type: UINT An integer value that contains swap-chain presentation options. These options are defined by the DXGI_PRESENT constants.
+SyncInterval : [int] Œ^: UINT ƒtƒŒ[ƒ€‚ÌƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚ğ‚’¼ƒuƒ‰ƒ“ƒN‚Æ‚Ç‚Ì‚æ‚¤‚É“¯Šú‚·‚é‚©‚ğw’è‚·‚é®”B
+Flags : [int] Œ^: UINT ƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒIƒvƒVƒ‡ƒ“‚ğŠÜ‚Ş®”’lB‚±‚ê‚ç‚ÌƒIƒvƒVƒ‡ƒ“‚Í DXGI_PRESENT ’è”‚Å’è‹`‚³‚ê‚Ä‚¢‚éB
 %inst
-Presents a rendered image to the user.
+ƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚½‰æ‘œ‚ğƒ†[ƒU[‚É•\¦‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Possible return values include: S_OK,
-DXGI_ERROR_DEVICE_RESET or DXGI_ERROR_DEVICE_REMOVED (see
-DXGI_ERROR), DXGI_STATUS_OCCLUDED (see DXGI_STATUS), or
-D3DDDIERR_DEVICEREMOVED. Note The Present method can return either
-DXGI_ERROR_DEVICE_REMOVED or D3DDDIERR_DEVICEREMOVED if a video card
-has been physically removed from the computer, or a driver upgrade
-for the video card has occurred.
+Œ^: HRESULT –ß‚è’l‚É‚ÍŸ‚ªŠÜ‚Ü‚ê‚é: S_OKADXGI_ERROR_DEVICE_RESET ‚Ü‚½‚Í
+DXGI_ERROR_DEVICE_REMOVED (DXGI_ERROR ‚ğQÆ)ADXGI_STATUS_OCCLUDED
+(DXGI_STATUS ‚ğQÆ)A‚Ü‚½‚Í D3DDDIERR_DEVICEREMOVEDB’
+ƒrƒfƒIƒJ[ƒh‚ªƒRƒ“ƒsƒ…[ƒ^‚©‚ç•¨—“I‚Éæ‚èŠO‚³‚ê‚½‚©AƒrƒfƒIƒJ[ƒh‚Ìƒhƒ‰ƒCƒoƒAƒbƒvƒOƒŒ[ƒh‚ª”­¶‚µ‚½ê‡APresent ƒƒ\ƒbƒh‚Í
+DXGI_ERROR_DEVICE_REMOVED ‚Ü‚½‚Í D3DDDIERR_DEVICEREMOVED ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·‰Â”\«‚ª‚ ‚éB
 
 [”õl]
-Starting with Direct3D 11.1, consider using IDXGISwapChain1::Present1
-because you can then use dirty rectangles and the scroll rectangle in
-the swap chain presentation and as such use less memory bandwidth and
-as a result less system power. For more info about using dirty
-rectangles and the scroll rectangle in swap chain presentation, see
-Using dirty rectangles and the scroll rectangle in swap chain
-presentation. For the best performance when flipping swap-chain
-buffers in a full-screen application, see Full-Screen Application
-Performance Hints. Because calling Present might cause the render
-thread to wait on the message-pump thread, be careful when calling
-this method in an application that uses multiple threads. For more
-details, see Multithreading Considerations.
-This doc was truncated.
+Direct3D 11.1 ˆÈ~‚Å‚ÍAIDXGISwapChain1::Present1
+‚Ìg—p‚ğŒŸ“¢‚·‚é‚±‚ÆB‚±‚ê‚É‚æ‚èAƒXƒƒbƒvƒ`ƒF[ƒ“ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚Åƒ_[ƒeƒB‹éŒ`‚ÆƒXƒNƒ[ƒ‹‹éŒ`‚ğg—p‚Å‚«Aƒƒ‚ƒŠ‘Ñˆæ•A‚Ğ‚¢‚Ä‚ÍƒVƒXƒeƒ€“d—Í‚Ìg—p‚ğíŒ¸‚Å‚«‚éBƒXƒƒbƒvƒ`ƒF[ƒ“ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“‚Å‚Ìƒ_[ƒeƒB‹éŒ`‚ÆƒXƒNƒ[ƒ‹‹éŒ`‚Ìg—p‚É‚Â‚¢‚Ä‚ÍAUsing
+dirty rectangles and the scroll rectangle in swap chain presentation
+‚ğQÆBƒtƒ‹ƒXƒNƒŠ[ƒ“ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÅƒXƒƒbƒvƒ`ƒF[ƒ“ƒoƒbƒtƒ@‚ğ”½“]‚·‚éÛ‚ÌÅ“K‚ÈƒpƒtƒH[ƒ}ƒ“ƒX‚É‚Â‚¢‚Ä‚ÍAFull-Screen
+Application Performance Hints ‚ğQÆBPresent
+‚ÌŒÄ‚Ño‚µ‚ÍƒŒƒ“ƒ_[ƒXƒŒƒbƒh‚ğƒƒbƒZ[ƒWƒ|ƒ“ƒvƒXƒŒƒbƒh‚Å‘Ò‹@‚³‚¹‚é‰Â”\«‚ª‚ ‚é‚½‚ßA•¡”‚ÌƒXƒŒƒbƒh‚ğg—p‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·Û‚Í’ˆÓ‚·‚é‚±‚ÆBÚ×‚Í
+Multithreading Considerations ‚ğQÆB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IDXGISwapChain_GetBuffer
-Accesses one of the swap-chain's back buffers.
+ƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒoƒbƒNƒoƒbƒtƒ@‚Ì 1 ‚Â‚ÉƒAƒNƒZƒX‚·‚éB
 %group
 COM misc / IDXGISwapChain
 %prm
 this, Buffer, riid, ppSurface
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Buffer : [int] Type: UINT A zero-based buffer index. If the swap chain's swap effect is DXGI_SWAP_EFFECT_DISCARD, this method can only access the first buffer; for this situation, set the index to zero. If the swap chain's swap effect is either DXGI_SWAP_EFFECT_SEQUENTIAL or DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL, only the swap chain's zero-index buffer can be read from and written to. The swap chain's buffers with indexes greater than zero can only be read from; so if you call the IDXGIResource::GetUsage method for such buffers, they have the DXGI_USAGE_READ_ONLY flag set.
-riid : [var] Type: REFIID The type of interface used to manipulate the buffer.
-ppSurface : [int] Type: void** A pointer to a back-buffer interface.
+Buffer : [int] Œ^: UINT 0 ƒx[ƒX‚Ìƒoƒbƒtƒ@ƒCƒ“ƒfƒbƒNƒXBƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒXƒƒbƒvƒGƒtƒFƒNƒg‚ª DXGI_SWAP_EFFECT_DISCARD ‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍÅ‰‚Ìƒoƒbƒtƒ@‚É‚Ì‚İƒAƒNƒZƒX‚Å‚«‚éB‚±‚Ìó‹µ‚Å‚ÍƒCƒ“ƒfƒbƒNƒX‚ğ 0 ‚Éİ’è‚·‚éBƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒXƒƒbƒvƒGƒtƒFƒNƒg‚ª DXGI_SWAP_EFFECT_SEQUENTIAL ‚Ü‚½‚Í DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL ‚Ìê‡AƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒCƒ“ƒfƒbƒNƒX 0 ‚Ìƒoƒbƒtƒ@‚Ì‚İ‚ª“Ç‚İ‘‚«‰Â”\‚Å‚ ‚éBƒCƒ“ƒfƒbƒNƒX‚ª 0 ‚æ‚è‘å‚«‚¢ƒXƒƒbƒvƒ`ƒF[ƒ“‚Ìƒoƒbƒtƒ@‚Í“Ç‚İæ‚è‚Ì‚İ‰Â”\‚Å‚ ‚é‚½‚ßA‚»‚Ì‚æ‚¤‚Èƒoƒbƒtƒ@‚É‘Î‚µ‚Ä IDXGIResource::GetUsage ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚ÆADXGI_USAGE_READ_ONLY ƒtƒ‰ƒO‚ªİ’è‚³‚ê‚Ä‚¢‚éB
+riid : [var] Œ^: REFIID ƒoƒbƒtƒ@‚ğ‘€ì‚·‚é‚½‚ß‚Ég—p‚·‚éƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌŒ^B
+ppSurface : [int] Œ^: void** ƒoƒbƒNƒoƒbƒtƒ@ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Accesses one of the swap-chain's back buffers.
+ƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒoƒbƒNƒoƒbƒtƒ@‚Ì 1 ‚Â‚ÉƒAƒNƒZƒX‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the following DXGI_ERROR.
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 
 %index
 IDXGISwapChain_SetFullscreenState
-Sets the display state to windowed or full screen.
+ƒfƒBƒXƒvƒŒƒCó‘Ô‚ğƒEƒBƒ“ƒhƒE‚Ü‚½‚Íƒtƒ‹ƒXƒNƒŠ[ƒ“‚Éİ’è‚·‚éB
 %group
 COM misc / IDXGISwapChain
 %prm
 this, Fullscreen, pTarget
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-Fullscreen : [int] Type: BOOL A Boolean value that specifies whether to set the display state to windowed or full screen. TRUE for full screen, and FALSE for windowed.
-pTarget : [comobj] Type: [in, optional] IDXGIOutput* If you pass TRUE to the Fullscreen parameter to set the display state to full screen, you can optionally set this parameter to a pointer to an IDXGIOutput interface for the output target that contains the swap chain. If you set this parameter to NULL, DXGI will choose the output based on the swap-chain's device and the output window's placement. If you pass FALSE to Fullscreen, then you must set this parameter to NULL.
+Fullscreen : [int] Œ^: BOOL ƒfƒBƒXƒvƒŒƒCó‘Ô‚ğƒEƒBƒ“ƒhƒE‚Ü‚½‚Íƒtƒ‹ƒXƒNƒŠ[ƒ“‚Éİ’è‚·‚é‚©‚Ç‚¤‚©‚ğw’è‚·‚éƒu[ƒ‹’lBƒtƒ‹ƒXƒNƒŠ[ƒ“‚Ìê‡‚Í TRUEAƒEƒBƒ“ƒhƒE‚Ìê‡‚Í FALSEB
+pTarget : [comobj] Œ^: [in, optional] IDXGIOutput* Fullscreen ƒpƒ‰ƒ[ƒ^‚É TRUE ‚ğ“n‚µ‚ÄƒfƒBƒXƒvƒŒƒCó‘Ô‚ğƒtƒ‹ƒXƒNƒŠ[ƒ“‚Éİ’è‚·‚éê‡AƒXƒƒbƒvƒ`ƒF[ƒ“‚ğŠÜ‚Şo—Íƒ^[ƒQƒbƒg‚Ì IDXGIOutput ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÉƒIƒvƒVƒ‡ƒ“‚Åİ’è‚Å‚«‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ‚Éİ’è‚µ‚½ê‡ADXGI ‚ÍƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒfƒoƒCƒX‚Æo—ÍƒEƒBƒ“ƒhƒE‚Ì”z’u‚ÉŠî‚Ã‚¢‚Äo—Í‚ğ‘I‘ğ‚·‚éBFullscreen ‚É FALSE ‚ğ“n‚·ê‡‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ NULL ‚Éİ’è‚·‚é•K—v‚ª‚ ‚éB
 %inst
-Sets the display state to windowed or full screen.
+ƒfƒBƒXƒvƒŒƒCó‘Ô‚ğƒEƒBƒ“ƒhƒE‚Ü‚½‚Íƒtƒ‹ƒXƒNƒŠ[ƒ“‚Éİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT This method returns one of these values. - **S_OK** if
-the action succeeded and the swap chain was placed in the requested
-state. - **DXGI_ERROR_NOT_CURRENTLY_AVAILABLE** if the action failed.
-When this error is returned, your application can continue to run in
-windowed mode and try to switch to full-screen mode later. There are
-many reasons why a windowed-mode swap chain cannot switch to
-full-screen mode. Here are some examples. - The application is
-running over Terminal Server. - The output window is occluded. - The
-output window does not have keyboard focus. - Another application is
-already in full-screen mode. -
-**DXGI_STATUS_MODE_CHANGE_IN_PROGRESS** is returned if a
-fullscreen/windowed mode transition is occurring when this API is
-called. - Other error codes if you run out of memory or encounter
-another unexpected fault; these codes may be treated as hard,
-non-continuable errors.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B- **S_OK**
+ƒAƒNƒVƒ‡ƒ“‚ª¬Œ÷‚µAƒXƒƒbƒvƒ`ƒF[ƒ“‚ª—v‹‚³‚ê‚½ó‘Ô‚É’u‚©‚ê‚½ê‡B-
+**DXGI_ERROR_NOT_CURRENTLY_AVAILABLE**
+ƒAƒNƒVƒ‡ƒ“‚ª¸”s‚µ‚½ê‡B‚±‚ÌƒGƒ‰[‚ª•Ô‚³‚ê‚½ê‡AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒEƒBƒ“ƒhƒEƒ‚[ƒh‚ÅÀs‚ğ‘±‚¯AŒã‚Åƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚Ö‚ÌØ‚è‘Ö‚¦‚ğ‚İ‚é‚±‚Æ‚ª‚Å‚«‚éBƒEƒBƒ“ƒhƒEƒ‚[ƒh‚ÌƒXƒƒbƒvƒ`ƒF[ƒ“‚ªƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚ÉØ‚è‘Ö‚¦‚ç‚ê‚È‚¢——R‚Í‘½”‚ ‚éB—á:
+- ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒ^[ƒ~ƒiƒ‹ƒT[ƒoã‚ÅÀs‚³‚ê‚Ä‚¢‚éB- o—ÍƒEƒBƒ“ƒhƒE‚ªÕ•Á‚³‚ê‚Ä‚¢‚éB-
+o—ÍƒEƒBƒ“ƒhƒE‚ªƒL[ƒ{[ƒhƒtƒH[ƒJƒX‚ğ‚Á‚Ä‚¢‚È‚¢B- •Ê‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª‚·‚Å‚Éƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚É‚ ‚éB-
+**DXGI_STATUS_MODE_CHANGE_IN_PROGRESS** ‚±‚Ì API
+‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚Éƒtƒ‹ƒXƒNƒŠ[ƒ“/ƒEƒBƒ“ƒhƒEƒ‚[ƒh‚Ì‘JˆÚ‚ª”­¶‚µ‚Ä‚¢‚éê‡‚É•Ô‚³‚ê‚éB-
+ƒƒ‚ƒŠ•s‘«‚â‚»‚Ì‘¼‚Ì—\Šú‚µ‚È‚¢ƒGƒ‰[‚ª”­¶‚µ‚½ê‡‚Ì‘¼‚ÌƒGƒ‰[ƒR[ƒhB‚±‚ê‚ç‚ÌƒR[ƒh‚Íƒn[ƒh‚ÅŒp‘±•s‰Â”\‚ÈƒGƒ‰[‚Æ‚µ‚Äˆµ‚í‚ê‚éê‡‚ª‚ ‚éB
 
 [”õl]
-DXGI may change the display state of a swap chain in response to end
-user or system requests. We recommend that you create a windowed swap
-chain and allow the end user to change the swap chain to full screen
-through SetFullscreenState; that is, do not set the Windowed member
-of DXGI_SWAP_CHAIN_DESC to FALSE to force the swap chain to be full
-screen. However, if you create the swap chain as full screen, also
-provide the end user with a list of supported display modes because a
-swap chain that is created with an unsupported display mode might
-cause the display to go black and prevent the end user from seeing
-anything. Also, we recommend that you have a time-out confirmation
-screen or other fallback mechanism when you allow the end user to
-change display modes. Notes for Windows Store apps If a Windows Store
-app calls SetFullscreenState to set the display state to full screen,
-SetFullscreenState fails with DXGI_ERROR_NOT_CURRENTLY_AVAILABLE. You
-cannot call SetFullscreenState on a swap chain that you created with
-IDXGIFactory2::CreateSwapChainForComposition. For the flip
-presentation model, after you transition the display state to full
-screen, you must call ResizeBuffers to ensure that your call to
-IDXGISwapChain1::Present1 succeeds.
+DXGI
+‚ÍƒGƒ“ƒhƒ†[ƒU[‚Ü‚½‚ÍƒVƒXƒeƒ€‚Ì—v‹‚É‰‚¶‚ÄƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒfƒBƒXƒvƒŒƒCó‘Ô‚ğ•ÏX‚·‚éê‡‚ª‚ ‚éBƒEƒBƒ“ƒhƒE‚ÌƒXƒƒbƒvƒ`ƒF[ƒ“‚ğì¬‚µASetFullscreenState
+‚ğ‰î‚µ‚ÄƒGƒ“ƒhƒ†[ƒU[‚ªƒXƒƒbƒvƒ`ƒF[ƒ“‚ğƒtƒ‹ƒXƒNƒŠ[ƒ“‚É•ÏX‚Å‚«‚é‚æ‚¤‚É‚·‚é‚±‚Æ‚ğ„§‚·‚éB‚Â‚Ü‚èAƒXƒƒbƒvƒ`ƒF[ƒ“‚ğ‹­§“I‚Éƒtƒ‹ƒXƒNƒŠ[ƒ“‚É‚·‚é‚½‚ß‚É
+DXGI_SWAP_CHAIN_DESC ‚Ì Windowed ƒƒ“ƒo‚ğ FALSE
+‚Éİ’è‚µ‚È‚¢‚±‚ÆB‚½‚¾‚µAƒXƒƒbƒvƒ`ƒF[ƒ“‚ğƒtƒ‹ƒXƒNƒŠ[ƒ“‚Æ‚µ‚Äì¬‚·‚éê‡AƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢ƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚Åì¬‚³‚ê‚½ƒXƒƒbƒvƒ`ƒF[ƒ“‚ÍƒfƒBƒXƒvƒŒƒC‚ª^‚ÁˆÃ‚É‚È‚èƒGƒ“ƒhƒ†[ƒU[‚ª‰½‚àŒ©‚ç‚ê‚È‚­‚È‚é‰Â”\«‚ª‚ ‚é‚½‚ßAƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ÌƒŠƒXƒg‚àƒGƒ“ƒhƒ†[ƒU[‚É’ñ‹Ÿ‚·‚é‚±‚ÆB‚Ü‚½AƒGƒ“ƒhƒ†[ƒU[‚ªƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğ•ÏX‚Å‚«‚é‚æ‚¤‚É‚·‚éê‡Aƒ^ƒCƒ€ƒAƒEƒgŠm”F‰æ–Ê‚â‚»‚Ì‘¼‚ÌƒtƒH[ƒ‹ƒoƒbƒNƒƒJƒjƒYƒ€‚ğ—pˆÓ‚·‚é‚±‚Æ‚ğ„§‚·‚éBWindows
+ƒXƒgƒAƒAƒvƒŠ‚Ì’ˆÓ“_ Windows ƒXƒgƒAƒAƒvƒŠ‚ª SetFullscreenState
+‚ğŒÄ‚Ño‚µ‚ÄƒfƒBƒXƒvƒŒƒCó‘Ô‚ğƒtƒ‹ƒXƒNƒŠ[ƒ“‚Éİ’è‚·‚é‚ÆASetFullscreenState ‚Í
+DXGI_ERROR_NOT_CURRENTLY_AVAILABLE
+‚Å¸”s‚·‚éBIDXGIFactory2::CreateSwapChainForComposition ‚Åì¬‚µ‚½ƒXƒƒbƒvƒ`ƒF[ƒ“‚É‘Î‚µ‚Ä‚Í
+SetFullscreenState
+‚ğŒÄ‚Ño‚¹‚È‚¢BƒtƒŠƒbƒvƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒ‚ƒfƒ‹‚Å‚ÍAƒfƒBƒXƒvƒŒƒCó‘Ô‚ğƒtƒ‹ƒXƒNƒŠ[ƒ“‚É‘JˆÚ‚µ‚½ŒãAIDXGISwapChain1::Present1
+‚ÌŒÄ‚Ño‚µ‚ª¬Œ÷‚·‚é‚æ‚¤‚É ResizeBuffers ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
 
 
 %index
 IDXGISwapChain_GetFullscreenState
-Get the state associated with full-screen mode.
+ƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚ÉŠÖ˜A‚·‚éó‘Ô‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGISwapChain
 %prm
 this, pFullscreen, ppTarget
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pFullscreen : [var] Type: BOOL* A pointer to a boolean whose value is either:
-ppTarget : [comobj] Type: IDXGIOutput** A pointer to the output target (see IDXGIOutput) when the mode is full screen; otherwise NULL.
+pFullscreen : [var] Œ^: BOOL* Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ‚Âƒu[ƒ‹’l‚Ö‚Ìƒ|ƒCƒ“ƒ^:
+ppTarget : [comobj] Œ^: IDXGIOutput** ƒ‚[ƒh‚ªƒtƒ‹ƒXƒNƒŠ[ƒ“‚Ìê‡‚Ío—Íƒ^[ƒQƒbƒg (IDXGIOutput ‚ğQÆ) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚»‚êˆÈŠO‚Ìê‡‚Í NULLB
 %inst
-Get the state associated with full-screen mode.
+ƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚ÉŠÖ˜A‚·‚éó‘Ô‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the following DXGI_ERROR.
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-When the swap chain is in full-screen mode, a pointer to the target
-output will be returned and its reference count will be incremented.
+ƒXƒƒbƒvƒ`ƒF[ƒ“‚ªƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚Ìê‡Aƒ^[ƒQƒbƒgo—Í‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ª•Ô‚³‚êA‚»‚ÌQÆƒJƒEƒ“ƒg‚ªƒCƒ“ƒNƒŠƒƒ“ƒg‚³‚ê‚éB
 
 
 %index
 IDXGISwapChain_GetDesc
-Get a description of the swap chain.
+ƒXƒƒbƒvƒ`ƒF[ƒ“‚Ìà–¾‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGISwapChain
 %prm
 this
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Get a description of the swap chain.
+ƒXƒƒbƒvƒ`ƒF[ƒ“‚Ìà–¾‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the following DXGI_ERROR.
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 
 %index
 IDXGISwapChain_ResizeBuffers
-Changes the swap chain's back buffer size, format, and number of buffers. This should be called when the application window is resized.
+ƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒoƒbƒNƒoƒbƒtƒ@ƒTƒCƒYAƒtƒH[ƒ}ƒbƒgAƒoƒbƒtƒ@”‚ğ•ÏX‚·‚éB‚±‚ê‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ªƒŠƒTƒCƒY‚³‚ê‚½‚Æ‚«‚ÉŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB
 %group
 COM misc / IDXGISwapChain
 %prm
 this, BufferCount, Width, Height, NewFormat, SwapChainFlags
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-BufferCount : [int] Type: UINT The number of buffers in the swap chain (including all back and front buffers). This number can be different from the number of buffers with which you created the swap chain. This number can't be greater than DXGI_MAX_SWAP_CHAIN_BUFFERS. Set this number to zero to preserve the existing number of buffers in the swap chain. You can't specify less than two buffers for the flip presentation model.
-Width : [int] Type: UINT The new width of the back buffer. If you specify zero, DXGI will use the width of the client area of the target window. You can't specify the width as zero if you called the IDXGIFactory2::CreateSwapChainForComposition method to create the swap chain for a composition surface.
-Height : [int] Type: UINT The new height of the back buffer. If you specify zero, DXGI will use the height of the client area of the target window. You can't specify the height as zero if you called the IDXGIFactory2::CreateSwapChainForComposition method to create the swap chain for a composition surface.
-NewFormat : [int] Type: DXGI_FORMAT A DXGI_FORMAT-typed value for the new format of the back buffer. Set this value to DXGI_FORMAT_UNKNOWN to preserve the existing format of the back buffer. The flip presentation model supports a more restricted set of formats than the bit-block transfer (bitblt) model.
-SwapChainFlags : [int] Type: UINT A combination of DXGI_SWAP_CHAIN_FLAG-typed values that are combined by using a bitwise OR operation. The resulting value specifies options for swap-chain behavior.
+BufferCount : [int] Œ^: UINT ƒXƒƒbƒvƒ`ƒF[ƒ““à‚Ìƒoƒbƒtƒ@” (‚·‚×‚Ä‚ÌƒoƒbƒNƒoƒbƒtƒ@‚Æƒtƒƒ“ƒgƒoƒbƒtƒ@‚ğŠÜ‚Ş)B‚±‚Ì”‚ÍAƒXƒƒbƒvƒ`ƒF[ƒ“‚ğì¬‚µ‚½‚Æ‚«‚Ìƒoƒbƒtƒ@”‚Æ‚ÍˆÙ‚È‚éê‡‚ª‚ ‚éB‚±‚Ì”‚Í DXGI_MAX_SWAP_CHAIN_BUFFERS ‚ğ’´‚¦‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BƒXƒƒbƒvƒ`ƒF[ƒ““à‚ÌŠù‘¶‚Ìƒoƒbƒtƒ@”‚ğˆÛ‚·‚é‚É‚ÍA‚±‚Ì”‚ğ 0 ‚Éİ’è‚·‚éBƒtƒŠƒbƒvƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒ‚ƒfƒ‹‚Å‚Í 2 ‚Â–¢–‚Ìƒoƒbƒtƒ@‚ğw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+Width : [int] Œ^: UINT ƒoƒbƒNƒoƒbƒtƒ@‚ÌV‚µ‚¢•B0 ‚ğw’è‚·‚é‚ÆADXGI ‚Íƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ì•‚ğg—p‚·‚éBƒRƒ“ƒ|ƒWƒVƒ‡ƒ“ƒT[ƒtƒFƒX—p‚ÌƒXƒƒbƒvƒ`ƒF[ƒ“‚ğì¬‚·‚é‚½‚ß‚É IDXGIFactory2::CreateSwapChainForComposition ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½ê‡A•‚ğ 0 ‚Æ‚µ‚Äw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+Height : [int] Œ^: UINT ƒoƒbƒNƒoƒbƒtƒ@‚ÌV‚µ‚¢‚‚³B0 ‚ğw’è‚·‚é‚ÆADXGI ‚Íƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ì‚‚³‚ğg—p‚·‚éBƒRƒ“ƒ|ƒWƒVƒ‡ƒ“ƒT[ƒtƒFƒX—p‚ÌƒXƒƒbƒvƒ`ƒF[ƒ“‚ğì¬‚·‚é‚½‚ß‚É IDXGIFactory2::CreateSwapChainForComposition ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½ê‡A‚‚³‚ğ 0 ‚Æ‚µ‚Äw’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+NewFormat : [int] Œ^: DXGI_FORMAT ƒoƒbƒNƒoƒbƒtƒ@‚ÌV‚µ‚¢ƒtƒH[ƒ}ƒbƒg—p‚Ì DXGI_FORMAT Œ^‚Ì’lBƒoƒbƒNƒoƒbƒtƒ@‚ÌŠù‘¶‚ÌƒtƒH[ƒ}ƒbƒg‚ğˆÛ‚·‚é‚É‚ÍA‚±‚Ì’l‚ğ DXGI_FORMAT_UNKNOWN ‚Éİ’è‚·‚éBƒtƒŠƒbƒvƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒ‚ƒfƒ‹‚ÍAƒrƒbƒgƒuƒƒbƒN“]‘— (bitblt) ƒ‚ƒfƒ‹‚æ‚è‚à§ŒÀ‚³‚ê‚½ƒtƒH[ƒ}ƒbƒgƒZƒbƒg‚ğƒTƒ|[ƒg‚·‚éB
+SwapChainFlags : [int] Œ^: UINT ƒrƒbƒg’PˆÊ‚Ì OR ‰‰Z‚Å‘g‚İ‡‚í‚³‚ê‚é DXGI_SWAP_CHAIN_FLAG Œ^‚Ì’l‚Ì‘g‚İ‡‚í‚¹BŒ‹‰Ê‚Ì’l‚ÍƒXƒƒbƒvƒ`ƒF[ƒ“‚Ì“®ì‚ÌƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚éB
 %inst
-Changes the swap chain's back buffer size, format, and number of
-buffers. This should be called when the application window is
-resized.
+
+ƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒoƒbƒNƒoƒbƒtƒ@ƒTƒCƒYAƒtƒH[ƒ}ƒbƒgAƒoƒbƒtƒ@”‚ğ•ÏX‚·‚éB‚±‚ê‚ÍƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒEƒBƒ“ƒhƒE‚ªƒŠƒTƒCƒY‚³‚ê‚½‚Æ‚«‚ÉŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful; an error code otherwise.
-For a list of error codes, see DXGI_ERROR.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·BƒGƒ‰[ƒR[ƒh‚ÌƒŠƒXƒg‚É‚Â‚¢‚Ä‚Í
+DXGI_ERROR ‚ğQÆB
 
 [”õl]
-You can't resize a swap chain unless you release all outstanding
-references to its back buffers. You must release all of its direct
-and indirect references on the back buffers in order for
-ResizeBuffers to succeed.
-Direct references are held by the application after it calls AddRef
-on a resource.
-Indirect references are held by views to a resource, binding a view
-of the resource to a device context, a command list that used the
-resource, a command list that used a view to that resource, a command
-list that executed another command list that used the resource, and
-so on.
-Before you call ResizeBuffers, ensure that the application releases
-all references (by calling the appropriate number of Release
-invocations) on the resources, any views to the resource, and any
-command lists that use either the resources or views, and ensure that
-neither the resource nor a view is still bound to a device context.
-You can use ID3D11DeviceContext::ClearState to ensure that all
-references are released. If a view is bound to a deferred context,
-you must discard the partially built command list as well (by calling
-ID3D11DeviceContext::ClearState, then
-ID3D11DeviceContext::FinishCommandList, then Release on the command
-list). After you call ResizeBuffers, you can re-query interfaces via
-IDXGISwapChain::GetBuffer.
-For swap chains that you created with
-DXGI_SWAP_CHAIN_FLAG_GDI_COMPATIBLE, before you call ResizeBuffers,
-also call IDXGISurface1::ReleaseDC on the swap chain's back-buffer
-surface to ensure that you have no outstanding GDI device contexts
-(DCs) open.
-We recommend that you call ResizeBuffers when a client window is
-resized (that is, when an application receives a WM_SIZE message).
-The only difference between IDXGISwapChain::ResizeBuffers in Windows
-8 versus Windows 7 is with flip presentation model swap chains that
-you create with the DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL or
-DXGI_SWAP_EFFECT_FLIP_DISCARD value set. In Windows 8, you must call
-ResizeBuffers to realize a transition between full-screen mode and
-windowed mode; otherwise, your next call to the
-IDXGISwapChain::Present method fails.
+ƒoƒbƒNƒoƒbƒtƒ@‚É‘Î‚·‚é–¢‰ğŒˆ‚Ì‚·‚×‚Ä‚ÌQÆ‚ğ‰ğ•ú‚µ‚È‚¢ŒÀ‚èAƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒTƒCƒY‚ğ•ÏX‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BResizeBuffers
+‚ª¬Œ÷‚·‚é‚½‚ß‚É‚ÍAƒoƒbƒNƒoƒbƒtƒ@‚É‘Î‚·‚é‚·‚×‚Ä‚Ì’¼Ú‚¨‚æ‚ÑŠÔÚ“I‚ÈQÆ‚ğ‰ğ•ú‚·‚é•K—v‚ª‚ ‚éB
+’¼ÚQÆ‚ÍAƒŠƒ\[ƒX‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚µ‚½Œã‚ÉƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª•Û‚·‚éB
+
+ŠÔÚQÆ‚ÍAƒŠƒ\[ƒX‚Ìƒrƒ…[AƒŠƒ\[ƒX‚Ìƒrƒ…[‚ğƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉƒoƒCƒ“ƒh‚·‚é‚±‚ÆAƒŠƒ\[ƒX‚ğg—p‚µ‚½ƒRƒ}ƒ“ƒhƒŠƒXƒgA‚»‚ÌƒŠƒ\[ƒX‚Ìƒrƒ…[‚ğg—p‚µ‚½ƒRƒ}ƒ“ƒhƒŠƒXƒgAƒŠƒ\[ƒX‚ğg—p‚µ‚½•Ê‚ÌƒRƒ}ƒ“ƒhƒŠƒXƒg‚ğÀs‚µ‚½ƒRƒ}ƒ“ƒhƒŠƒXƒg‚È‚Ç‚ª•Û‚·‚éB
+ResizeBuffers
+‚ğŒÄ‚Ño‚·‘O‚ÉAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªƒŠƒ\[ƒXAƒŠƒ\[ƒX‚É‘Î‚·‚éƒrƒ…[AƒŠƒ\[ƒX‚Ü‚½‚Íƒrƒ…[‚ğg—p‚·‚éƒRƒ}ƒ“ƒhƒŠƒXƒg‚É‘Î‚·‚é‚·‚×‚Ä‚ÌQÆ‚ğ‰ğ•ú‚µ
+(“KØ‚È‰ñ”‚Ì Release
+‚ğŒÄ‚Ño‚µ‚Ä)AƒŠƒ\[ƒX‚àƒrƒ…[‚àƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚ÉƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚È‚¢‚±‚Æ‚ğŠm”F‚·‚é‚±‚ÆB‚·‚×‚Ä‚ÌQÆ‚ª‰ğ•ú‚³‚ê‚½‚±‚Æ‚ğŠm”F‚·‚é‚½‚ß‚É
+ID3D11DeviceContext::ClearState
+‚ğg—p‚Å‚«‚éBƒrƒ…[‚ª’x‰„ƒRƒ“ƒeƒLƒXƒg‚ÉƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚éê‡A•”•ª“I‚É\’z‚³‚ê‚½ƒRƒ}ƒ“ƒhƒŠƒXƒg‚à”jŠü‚·‚é•K—v‚ª‚ ‚é
+(ID3D11DeviceContext::ClearStateA‘±‚¢‚Ä
+ID3D11DeviceContext::FinishCommandListA‚»‚ÌŒãƒRƒ}ƒ“ƒhƒŠƒXƒg‚É‘Î‚µ‚Ä Release
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Å)BResizeBuffers ‚ğŒÄ‚Ño‚µ‚½Œã‚ÍAIDXGISwapChain::GetBuffer
+Œo—R‚ÅƒCƒ“ƒ^[ƒtƒF[ƒX‚ğÄÆ‰ï‚Å‚«‚éB
+DXGI_SWAP_CHAIN_FLAG_GDI_COMPATIBLE ‚Åì¬‚µ‚½ƒXƒƒbƒvƒ`ƒF[ƒ“‚Ìê‡AResizeBuffers
+‚ğŒÄ‚Ño‚·‘O‚ÉAƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒoƒbƒNƒoƒbƒtƒ@ƒT[ƒtƒFƒX‚É‘Î‚µ‚Ä IDXGISurface1::ReleaseDC
+‚àŒÄ‚Ño‚µ‚ÄA–¢‰ğŒˆ‚Ì GDI ƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg (DC) ‚ªŠJ‚¢‚Ä‚¢‚È‚¢‚±‚Æ‚ğŠm”F‚·‚é‚±‚ÆB
+ƒNƒ‰ƒCƒAƒ“ƒgƒEƒBƒ“ƒhƒE‚ªƒŠƒTƒCƒY‚³‚ê‚½‚Æ‚« (‚Â‚Ü‚èAƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ª WM_SIZE ƒƒbƒZ[ƒW‚ğóM‚µ‚½‚Æ‚«) ‚É
+ResizeBuffers ‚ğŒÄ‚Ño‚·‚±‚Æ‚ğ„§‚·‚éB
+Windows 8 ‚Æ Windows 7 ‚Ì IDXGISwapChain::ResizeBuffers
+‚Ì—Bˆê‚Ìˆá‚¢‚ÍADXGI_SWAP_EFFECT_FLIP_SEQUENTIAL ‚Ü‚½‚Í
+DXGI_SWAP_EFFECT_FLIP_DISCARD
+’l‚ğİ’è‚µ‚Äì¬‚µ‚½ƒtƒŠƒbƒvƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒ‚ƒfƒ‹‚ÌƒXƒƒbƒvƒ`ƒF[ƒ“‚ÉŠÖ‚·‚é‚à‚Ì‚Å‚ ‚éBWindows 8
+‚Å‚ÍAƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚ÆƒEƒBƒ“ƒhƒEƒ‚[ƒh‚ÌŠÔ‚Ì‘JˆÚ‚ğÀŒ»‚·‚é‚É‚Í ResizeBuffers ‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB‚»‚¤‚µ‚È‚¢‚ÆAŸ‚Ì
+IDXGISwapChain::Present ƒƒ\ƒbƒh‚ÌŒÄ‚Ño‚µ‚ª¸”s‚·‚éB
 
 
 %index
 IDXGISwapChain_ResizeTarget
-Resizes the output target.
+o—Íƒ^[ƒQƒbƒg‚ğƒŠƒTƒCƒY‚·‚éB
 %group
 COM misc / IDXGISwapChain
 %prm
 this, pNewTargetParameters
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pNewTargetParameters : [var] Type: const DXGI_MODE_DESC* A pointer to a DXGI_MODE_DESC structure that describes the mode, which specifies the new width, height, format, and refresh rate of the target. If the format is DXGI_FORMAT_UNKNOWN, ResizeTarget uses the existing format. We only recommend that you use DXGI_FORMAT_UNKNOWN when the swap chain is in full-screen mode as this method is not thread safe.
+pNewTargetParameters : [var] Œ^: const DXGI_MODE_DESC* ƒ‚[ƒh‚ğ‹Lq‚·‚é DXGI_MODE_DESC \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^BV‚µ‚¢•A‚‚³AƒtƒH[ƒ}ƒbƒgAƒ^[ƒQƒbƒg‚ÌƒŠƒtƒŒƒbƒVƒ…ƒŒ[ƒg‚ğw’è‚·‚éBƒtƒH[ƒ}ƒbƒg‚ª DXGI_FORMAT_UNKNOWN ‚Ìê‡AResizeTarget ‚ÍŠù‘¶‚ÌƒtƒH[ƒ}ƒbƒg‚ğg—p‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚ÍƒXƒŒƒbƒhƒZ[ƒt‚Å‚Í‚È‚¢‚½‚ßAƒXƒƒbƒvƒ`ƒF[ƒ“‚ªƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚Ì‚Æ‚«‚É‚Ì‚İ DXGI_FORMAT_UNKNOWN ‚ğg—p‚·‚é‚±‚Æ‚ğ„§‚·‚éB
 %inst
-Resizes the output target.
+o—Íƒ^[ƒQƒbƒg‚ğƒŠƒTƒCƒY‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns a code that indicates success or failure.
-DXGI_STATUS_MODE_CHANGE_IN_PROGRESS is returned if a
-full-screen/windowed mode transition is occurring when this API is
-called. See DXGI_ERROR for additional DXGI error codes.
+Œ^: HRESULT ¬Œ÷‚Ü‚½‚Í¸”s‚ğ¦‚·ƒR[ƒh‚ğ•Ô‚·B‚±‚Ì API
+‚ªŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚Éƒtƒ‹ƒXƒNƒŠ[ƒ“/ƒEƒBƒ“ƒhƒEƒ‚[ƒh‚Ì‘JˆÚ‚ª”­¶‚µ‚Ä‚¢‚éê‡‚Í
+DXGI_STATUS_MODE_CHANGE_IN_PROGRESS ‚ª•Ô‚³‚ê‚éB’Ç‰Á‚Ì DXGI ƒGƒ‰[ƒR[ƒh‚É‚Â‚¢‚Ä‚Í
+DXGI_ERROR ‚ğQÆB
 
 [”õl]
-ResizeTarget resizes the target window when the swap chain is in
-windowed mode, and changes the display mode on the target output when
-the swap chain is in full-screen mode. Therefore, apps can call
-ResizeTarget to resize the target window (rather than a Microsoft
-Win32API such as SetWindowPos) without knowledge of the swap chain
-display mode. If a Windows Store app calls ResizeTarget, it fails
-with DXGI_ERROR_NOT_CURRENTLY_AVAILABLE. You cannot call ResizeTarget
-on a swap chain that you created with
-IDXGIFactory2::CreateSwapChainForComposition. Apps must still call
-IDXGISwapChain::ResizeBuffers after they call ResizeTarget because
-only ResizeBuffers can change the back buffers. But, if those apps
-have implemented window resize processing to call ResizeBuffers, they
-don't need to explicitly call ResizeBuffers after they call
-ResizeTarget because the window resize processing will achieve what
-the app requires.
+ResizeTarget
+‚ÍAƒXƒƒbƒvƒ`ƒF[ƒ“‚ªƒEƒBƒ“ƒhƒEƒ‚[ƒh‚Ìê‡‚Íƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚ğƒŠƒTƒCƒY‚µAƒXƒƒbƒvƒ`ƒF[ƒ“‚ªƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚Ìê‡‚Íƒ^[ƒQƒbƒgo—Í‚ÌƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğ•ÏX‚·‚éB‚µ‚½‚ª‚Á‚ÄAƒAƒvƒŠ‚ÍAƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒfƒBƒXƒvƒŒƒCƒ‚[ƒh‚ğ’m‚ç‚¸‚ÉA(SetWindowPos
+‚Ì‚æ‚¤‚È Microsoft Win32 API ‚Å‚Í‚È‚­) ResizeTarget
+‚ğŒÄ‚Ño‚µ‚Äƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚ğƒŠƒTƒCƒY‚Å‚«‚éBWindows ƒXƒgƒAƒAƒvƒŠ‚ª ResizeTarget
+‚ğŒÄ‚Ño‚·‚ÆADXGI_ERROR_NOT_CURRENTLY_AVAILABLE
+‚Å¸”s‚·‚éBIDXGIFactory2::CreateSwapChainForComposition ‚Åì¬‚µ‚½ƒXƒƒbƒvƒ`ƒF[ƒ“‚É‘Î‚µ‚Ä‚Í
+ResizeTarget ‚ğŒÄ‚Ño‚¹‚È‚¢BResizeBuffers ‚Ì‚İ‚ªƒoƒbƒNƒoƒbƒtƒ@‚ğ•ÏX‚Å‚«‚é‚½‚ßAƒAƒvƒŠ‚Í
+ResizeTarget ‚ÌŒÄ‚Ño‚µŒã‚à IDXGISwapChain::ResizeBuffers
+‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB‚½‚¾‚µAResizeBuffers
+‚ğŒÄ‚Ño‚·ƒEƒBƒ“ƒhƒEƒŠƒTƒCƒYˆ—‚ğÀ‘•‚µ‚Ä‚¢‚éƒAƒvƒŠ‚Å‚ÍAƒEƒBƒ“ƒhƒEƒŠƒTƒCƒYˆ—‚ªƒAƒvƒŠ‚ª•K—v‚Æ‚·‚é‚±‚Æ‚ğÀŒ»‚·‚é‚½‚ßAResizeTarget
+‚ÌŒÄ‚Ño‚µŒã‚É–¾¦“I‚É ResizeBuffers ‚ğŒÄ‚Ño‚·•K—v‚Í‚È‚¢B
 
 
 %index
 IDXGISwapChain_GetContainingOutput
-Get the output (the display monitor) that contains the majority of the client area of the target window.
+ƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ì‘å”¼‚ğŠÜ‚Şo—Í (ƒfƒBƒXƒvƒŒƒCƒ‚ƒjƒ^) ‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGISwapChain
 %prm
 this, ppOutput
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppOutput : [comobj] Type: IDXGIOutput** A pointer to the output interface (see IDXGIOutput).
+ppOutput : [comobj] Œ^: IDXGIOutput** o—ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^ (IDXGIOutput ‚ğQÆ)B
 %inst
-Get the output (the display monitor) that contains the majority of
-the client area of the target window.
+ƒ^[ƒQƒbƒgƒEƒBƒ“ƒhƒE‚ÌƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ‚Ì‘å”¼‚ğŠÜ‚Şo—Í (ƒfƒBƒXƒvƒŒƒCƒ‚ƒjƒ^) ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the following DXGI_ERROR.
+Œ^: HRESULT Ÿ‚Ì DXGI_ERROR ‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-If the method succeeds, the output interface will be filled and its
-reference count incremented. When you are finished with it, be sure
-to release the interface to avoid a memory leak. The output is also
-owned by the adapter on which the swap chain's device was created.
-You cannot call GetContainingOutput on a swap chain that you created
-with IDXGIFactory2::CreateSwapChainForComposition. To determine the
-output corresponding to such a swap chain, you should call
-IDXGIFactory::EnumAdapters and then IDXGIAdapter::EnumOutputs to
-enumerate over all of the available outputs. You should then
-intersect the bounds of your CoreWindow::Bounds with the desktop
-coordinates of each output, as reported by
-DXGI_OUTPUT_DESC1::DesktopCoordinates or
-DXGI_OUTPUT_DESC::DesktopCoordinates.
+
+ƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡Ao—ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚ª–„‚ß‚ç‚êA‚»‚ÌQÆƒJƒEƒ“ƒg‚ªƒCƒ“ƒNƒŠƒƒ“ƒg‚³‚ê‚éBg‚¢I‚í‚Á‚½‚çƒƒ‚ƒŠƒŠ[ƒN‚ğ–h‚®‚½‚ß‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ•K‚¸‰ğ•ú‚·‚é‚±‚ÆBo—Í‚ÍƒXƒƒbƒvƒ`ƒF[ƒ“‚ÌƒfƒoƒCƒX‚ªì¬‚³‚ê‚½ƒAƒ_ƒvƒ^‚É‚àŠ—L‚³‚ê‚éBIDXGIFactory2::CreateSwapChainForComposition
+‚Åì¬‚µ‚½ƒXƒƒbƒvƒ`ƒF[ƒ“‚É‘Î‚µ‚Ä‚Í GetContainingOutput
+‚ğŒÄ‚Ño‚¹‚È‚¢B‚»‚Ì‚æ‚¤‚ÈƒXƒƒbƒvƒ`ƒF[ƒ“‚É‘Î‰‚·‚éo—Í‚ğ”»•Ê‚·‚é‚É‚ÍAIDXGIFactory::EnumAdapters
+‚ğŒÄ‚Ño‚µ‚Ä‚©‚ç IDXGIAdapter::EnumOutputs
+‚ğŒÄ‚Ño‚µ‚Ä—˜—p‰Â”\‚È‚·‚×‚Ä‚Ìo—Í‚ğ—ñ‹“‚·‚é•K—v‚ª‚ ‚éBŸ‚ÉACoreWindow::Bounds
+‚Ì‹«ŠE‚ğADXGI_OUTPUT_DESC1::DesktopCoordinates ‚Ü‚½‚Í
+DXGI_OUTPUT_DESC::DesktopCoordinates
+‚É‚æ‚Á‚Ä•ñ‚³‚ê‚éŠeo—Í‚ÌƒfƒXƒNƒgƒbƒvÀ•W‚ÆŒğ·‚³‚¹‚é•K—v‚ª‚ ‚éB
 
 
 %index
 IDXGISwapChain_GetFrameStatistics
-Gets performance statistics about the last render frame.
+ÅŒã‚ÌƒŒƒ“ƒ_[ƒtƒŒ[ƒ€‚ÉŠÖ‚·‚éƒpƒtƒH[ƒ}ƒ“ƒX“Œvî•ñ‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGISwapChain
 %prm
 this, pStats
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pStats : [var] Type: DXGI_FRAME_STATISTICS* A pointer to a DXGI_FRAME_STATISTICS structure for the frame statistics.
+pStats : [var] Œ^: DXGI_FRAME_STATISTICS* ƒtƒŒ[ƒ€“Œvî•ñ—p‚Ì DXGI_FRAME_STATISTICS \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Gets performance statistics about the last render frame.
+ÅŒã‚ÌƒŒƒ“ƒ_[ƒtƒŒ[ƒ€‚ÉŠÖ‚·‚éƒpƒtƒH[ƒ}ƒ“ƒX“Œvî•ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the DXGI_ERROR values.
+Œ^: HRESULT DXGI_ERROR ’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-You cannot use GetFrameStatistics for swap chains that both use the
-bit-block transfer (bitblt) presentation model and draw in windowed
-mode. You can only use GetFrameStatistics for swap chains that either
-use the flip presentation model or draw in full-screen mode. You set
-the DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL value in the SwapEffect member
-of the DXGI_SWAP_CHAIN_DESC1 structure to specify that the swap chain
-uses the flip presentation model. Statistics are not reliable in many
-multiple monitor scenarios, as well as scenarios where other
-fullscreen apps are running.
+ƒrƒbƒgƒuƒƒbƒN“]‘— (bitblt) ƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒ‚ƒfƒ‹‚ğg—p‚µA‚©‚ÂƒEƒBƒ“ƒhƒEƒ‚[ƒh‚Å•`‰æ‚·‚éƒXƒƒbƒvƒ`ƒF[ƒ“‚É‘Î‚µ‚Ä
+GetFrameStatistics ‚ğg—p‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BGetFrameStatistics
+‚ÍAƒtƒŠƒbƒvƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒ‚ƒfƒ‹‚ğg—p‚·‚é‚©Aƒtƒ‹ƒXƒNƒŠ[ƒ“ƒ‚[ƒh‚Å•`‰æ‚·‚éƒXƒƒbƒvƒ`ƒF[ƒ“‚É‘Î‚µ‚Ä‚Ì‚İg—p‚Å‚«‚éBƒXƒƒbƒvƒ`ƒF[ƒ“‚ªƒtƒŠƒbƒvƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ“ƒ‚ƒfƒ‹‚ğg—p‚·‚é‚æ‚¤‚Éw’è‚·‚é‚É‚ÍADXGI_SWAP_CHAIN_DESC1
+\‘¢‘Ì‚Ì SwapEffect ƒƒ“ƒo‚É DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL
+’l‚ğİ’è‚·‚éB•¡”ƒ‚ƒjƒ^‚ÌƒVƒiƒŠƒI‚â‘¼‚Ìƒtƒ‹ƒXƒNƒŠ[ƒ“ƒAƒvƒŠ‚ªÀs‚³‚ê‚Ä‚¢‚éƒVƒiƒŠƒI‚Å‚ÍA“Œvî•ñ‚ÌM—Š«‚ª’á‚¢B
 
 
 %index
 IDXGISwapChain_GetLastPresentCount
-Gets the number of times that IDXGISwapChain::Present or IDXGISwapChain1::Present1 has been called.
+IDXGISwapChain::Present ‚Ü‚½‚Í IDXGISwapChain1::Present1 ‚ªŒÄ‚Ño‚³‚ê‚½‰ñ”‚ğæ“¾‚·‚éB
 %group
 COM misc / IDXGISwapChain
 %prm
 this, pLastPresentCount
 this : [comobj] IDXGISwapChain ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pLastPresentCount : [int] Type: UINT* A pointer to a variable that receives the number of calls.
+pLastPresentCount : [int] Œ^: UINT* ŒÄ‚Ño‚µ‰ñ”‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Gets the number of times that IDXGISwapChain::Present or
-IDXGISwapChain1::Present1 has been called.
+IDXGISwapChain::Present ‚Ü‚½‚Í IDXGISwapChain1::Present1 ‚ªŒÄ‚Ño‚³‚ê‚½‰ñ”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the DXGI_ERROR values.
+Œ^: HRESULT DXGI_ERROR ’l‚Ì‚¢‚¸‚ê‚©‚ğ•Ô‚·B
 
 [”õl]
-For info about presentation statistics for a frame, see
-DXGI_FRAME_STATISTICS.
+ƒtƒŒ[ƒ€‚ÌƒvƒŒƒ[ƒ“ƒe[ƒVƒ‡ƒ““Œvî•ñ‚É‚Â‚¢‚Ä‚Í DXGI_FRAME_STATISTICS ‚ğQÆB
 
 
 %index
@@ -14144,403 +13432,360 @@ ppenum : [comobj] —ñ‹“ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^[‚ğó‚¯æ‚é IEnum
 
 %index
 IEnumMoniker_Next
-Retrieves the specified number of items in the enumeration sequence. (IEnumMoniker.Next)
+—ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚³‚ê‚½”‚Ì€–Ú‚ğæ“¾‚·‚éB(IEnumMoniker.Next)
 %group
 COM misc / IEnumMoniker
 %prm
 this, celt, rgelt, pceltFetched
 this : [comobj] IEnumMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-celt : [int] The number of items to be retrieved. If there are fewer than the requested number of items left in the sequence, this method retrieves the remaining elements.
-rgelt : [comobj] An array of enumerated items. The enumerator is responsible for calling AddRef, and the caller is responsible for calling Release through each pointer enumerated. If celt is greater than 1, the caller must also pass a non-NULL pointer passed to pceltFetched to know how many pointers to release.
-pceltFetched : [var] The number of items that were retrieved. This parameter is always less than or equal to the number of items requested. This parameter can be NULL if celt is 1.
+celt : [int] æ“¾‚·‚é€–Ú”Bc‚è€–Ú”‚ª—v‹‚µ‚½”‚æ‚è­‚È‚¢ê‡A‚±‚Ìƒƒ\ƒbƒh‚Íc‚è‚Ì—v‘f‚ğæ“¾‚·‚éB
+rgelt : [comobj] —ñ‹“‚³‚ê‚½€–Ú‚Ì”z—ñB—ñ‹“q‚Í AddRef ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¢AŒÄ‚Ño‚µ‘¤‚Í—ñ‹“‚³‚ê‚½Šeƒ|ƒCƒ“ƒ^‚É‘Î‚µ‚Ä Release ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¤Bcelt ‚ª 1 ‚æ‚è‘å‚«‚¢ê‡A‰ğ•ú‚·‚×‚«ƒ|ƒCƒ“ƒ^”‚ğ’m‚é‚½‚ß‚É pceltFetched ‚É NULL ‚Å‚È‚¢ƒ|ƒCƒ“ƒ^‚ğ“n‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pceltFetched : [var] æ“¾‚³‚ê‚½€–Ú”B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íí‚É—v‹‚³‚ê‚½€–Ú”ˆÈ‰º‚É‚È‚éBcelt ‚ª 1 ‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚¢B
 %inst
-Retrieves the specified number of items in the enumeration sequence.
-(IEnumMoniker.Next)
+—ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚³‚ê‚½”‚Ì€–Ú‚ğæ“¾‚·‚éB(IEnumMoniker.Next)
 
 [–ß‚è’l]
-If the method retrieves the number of items requested, the return
-value is S_OK. Otherwise, it is S_FALSE.
+ƒƒ\ƒbƒh‚ª—v‹‚³‚ê‚½€–Ú”‚ğæ“¾‚µ‚½ê‡A–ß‚è’l‚Í S_OK ‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡‚Í S_FALSE ‚Æ‚È‚éB
 
 
 %index
 IEnumMoniker_Skip
-Skips over the specified number of items in the enumeration sequence. (IEnumMoniker.Skip)
+—ñ‹“ƒV[ƒPƒ“ƒX“à‚Ìw’è‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚·‚éB(IEnumMoniker.Skip)
 %group
 COM misc / IEnumMoniker
 %prm
 this, celt
 this : [comobj] IEnumMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-celt : [int] The number of items to be skipped.
+celt : [int] ƒXƒLƒbƒv‚·‚é€–Ú”B
 %inst
-Skips over the specified number of items in the enumeration sequence.
-(IEnumMoniker.Skip)
+—ñ‹“ƒV[ƒPƒ“ƒX“à‚Ìw’è‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚·‚éB(IEnumMoniker.Skip)
 
 [–ß‚è’l]
-If the method skips the number of items requested, the return value
-is S_OK. Otherwise, it is S_FALSE.
+ƒƒ\ƒbƒh‚ª—v‹‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚µ‚½ê‡A–ß‚è’l‚Í S_OK ‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡‚Í S_FALSE ‚Æ‚È‚éB
 
 
 %index
 IEnumMoniker_Reset
-Resets the enumeration sequence to the beginning. (IEnumMoniker.Reset)
+—ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚éB(IEnumMoniker.Reset)
 %group
 COM misc / IEnumMoniker
 %prm
 this
 this : [comobj] IEnumMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Resets the enumeration sequence to the beginning.
-(IEnumMoniker.Reset)
+—ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚éB(IEnumMoniker.Reset)
 
 [–ß‚è’l]
-This method returns S_OK on success.
+¬Œ÷‚Í S_OK ‚ğ•Ô‚·B
 
 [”õl]
-There is no guarantee that the same set of objects will be enumerated
-after the reset operation has completed. A static collection is reset
-to the beginning, but it can be too expensive for some collections,
-such as files in a directory, to guarantee this condition.
+
+ƒŠƒZƒbƒg‘€ì‚ÌŠ®—¹Œã‚É“¯‚¶ƒIƒuƒWƒFƒNƒgW‡‚ª—ñ‹“‚³‚ê‚é•ÛØ‚Í‚È‚¢BÃ“I‚ÈƒRƒŒƒNƒVƒ‡ƒ“‚Íæ“ª‚ÉƒŠƒZƒbƒg‚³‚ê‚é‚ªAƒfƒBƒŒƒNƒgƒŠ“à‚Ìƒtƒ@ƒCƒ‹‚È‚Çˆê•”‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚Å‚ÍA‚»‚ÌğŒ‚ğ•ÛØ‚·‚é‚±‚Æ‚Í‚ƒRƒXƒg‚É‚È‚è“¾‚éB
 
 
 %index
 IEnumMoniker_Clone
-Creates a new enumerator that contains the same enumeration state as the current one. (IEnumMoniker.Clone)
+Œ»İ‚Ì—ñ‹“ó‘Ô‚Æ“¯‚¶ó‘Ô‚ğ‚ÂV‚µ‚¢—ñ‹“q‚ğì¬‚·‚éB(IEnumMoniker.Clone)
 %group
 COM misc / IEnumMoniker
 %prm
 this, ppenum
 this : [comobj] IEnumMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppenum : [comobj] Address of an IEnumMoniker pointer variable that receives the interface pointer to the enumeration object. If the method is unsuccessful, the value of this output variable is undefined.
+ppenum : [comobj] —ñ‹“ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IEnumMoniker ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXBƒƒ\ƒbƒh‚ª¸”s‚µ‚½ê‡A‚±‚Ìo—Í•Ï”‚Ì’l‚Í–¢’è‹`‚Å‚ ‚éB
 %inst
-Creates a new enumerator that contains the same enumeration state as
-the current one. (IEnumMoniker.Clone)
+Œ»İ‚Ì—ñ‹“ó‘Ô‚Æ“¯‚¶ó‘Ô‚ğ‚ÂV‚µ‚¢—ñ‹“q‚ğì¬‚·‚éB(IEnumMoniker.Clone)
 
 [–ß‚è’l]
-This method returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+¬Œ÷‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì’l‚Æ‚µ‚ÄˆÈ‰º‚Ì‚à‚Ì‚ª‚ ‚è“¾‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IEnumShellItems_Next
-Gets an array of one or more IShellItem interfaces from the enumeration.
+—ñ‹“‚©‚ç 1 ‚ÂˆÈã‚Ì IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì”z—ñ‚ğæ“¾‚·‚éB
 %group
 COM misc / IEnumShellItems
 %prm
 this, celt, rgelt, pceltFetched
 this : [comobj] IEnumShellItems ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-celt : [int] Type: ULONG The number of elements in the array referenced by the rgelt parameter.
-rgelt : [comobj] Type: IShellItem** The address of an array of pointers to IShellItem interfaces that receive the enumerated item or items. The calling application is responsible for freeing the IShellItem interfaces by calling the IUnknown::Release method.
-pceltFetched : [var] Type: ULONG* A pointer to a value that receives the number of IShellItem interfaces successfully retrieved. The count can be smaller than the value specified in the celt parameter. This parameter can be NULL on entry only if celt is one, because in that case the method can only retrieve one item and return S_OK, or zero items and return S_FALSE.
+celt : [int] Œ^: ULONG rgelt ƒpƒ‰ƒ[ƒ^‚ªQÆ‚·‚é”z—ñ“à‚Ì—v‘f”B
+rgelt : [comobj] Œ^: IShellItem** —ñ‹“‚³‚ê‚½€–Ú‚ğó‚¯æ‚é IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì”z—ñ‚ÌƒAƒhƒŒƒXBŒÄ‚Ño‚µ‘¤‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í IUnknown::Release ‚ğŒÄ‚Ño‚µ‚Ä IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ‰ğ•ú‚·‚éÓ”C‚ğ•‰‚¤B
+pceltFetched : [var] Œ^: ULONG* ³í‚Éæ“¾‚³‚ê‚½ IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì”‚ğó‚¯æ‚é’l‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ÌƒJƒEƒ“ƒg‚Í celt ƒpƒ‰ƒ[ƒ^‚Åw’è‚µ‚½’l‚æ‚è¬‚³‚­‚È‚é‚±‚Æ‚ª‚ ‚éBcelt ‚ª 1 ‚Ìê‡‚ÉŒÀ‚è“ü—Í‚É NULL ‚ğw’è‚Å‚«‚éB‚±‚ê‚Í‚»‚Ìê‡Aƒƒ\ƒbƒh‚Í 1 €–Ú‚ğæ“¾‚µ‚Ä S_OK ‚ğ•Ô‚·‚©A€–Ú‚ğ 0 ŒÂæ“¾‚µ‚Ä S_FALSE ‚ğ•Ô‚·‚©‚Ì‚¢‚¸‚ê‚©‚µ‚©‚È‚¢‚©‚ç‚Å‚ ‚éB
 %inst
-Gets an array of one or more IShellItem interfaces from the
-enumeration.
+—ñ‹“‚©‚ç 1 ‚ÂˆÈã‚Ì IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì”z—ñ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT This method can return one of these values.
-This doc was truncated.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IEnumShellItems_Skip
-Skips a given number of IShellItem interfaces in the enumeration. Used when retrieving interfaces.
+—ñ‹““à‚Ìw’è‚³‚ê‚½”‚Ì IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğƒXƒLƒbƒv‚·‚éBƒCƒ“ƒ^[ƒtƒF[ƒX‚ğæ“¾‚·‚éÛ‚Ég—p‚·‚éB
 %group
 COM misc / IEnumShellItems
 %prm
 this, celt
 this : [comobj] IEnumShellItems ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-celt : [int] Type: ULONG The number of IShellItem interfaces to skip.
+celt : [int] Œ^: ULONG ƒXƒLƒbƒv‚·‚é IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì”B
 %inst
-Skips a given number of IShellItem interfaces in the enumeration.
-Used when retrieving interfaces.
+—ñ‹““à‚Ìw’è‚³‚ê‚½”‚Ì IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğƒXƒLƒbƒv‚·‚éBƒCƒ“ƒ^[ƒtƒF[ƒX‚ğæ“¾‚·‚éÛ‚Ég—p‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IEnumShellItems_Reset
-Resets the internal count of retrieved IShellItem interfaces in the enumeration.
+—ñ‹““à‚Ìæ“¾Ï‚İ IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì“à•”ƒJƒEƒ“ƒg‚ğƒŠƒZƒbƒg‚·‚éB
 %group
 COM misc / IEnumShellItems
 %prm
 this
 this : [comobj] IEnumShellItems ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Resets the internal count of retrieved IShellItem interfaces in the
-enumeration.
+—ñ‹““à‚Ìæ“¾Ï‚İ IShellItem ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì“à•”ƒJƒEƒ“ƒg‚ğƒŠƒZƒbƒg‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IEnumShellItems_Clone
-Gets a copy of the current enumeration.
+Œ»İ‚Ì—ñ‹“‚ÌƒRƒs[‚ğæ“¾‚·‚éB
 %group
 COM misc / IEnumShellItems
 %prm
 this, ppenum
 this : [comobj] IEnumShellItems ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppenum : [comobj] Type: IEnumShellItems** The address of a pointer that receives a copy of this enumeration.
+ppenum : [comobj] Œ^: IEnumShellItems** ‚±‚Ì—ñ‹“‚ÌƒRƒs[‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^‚ÌƒAƒhƒŒƒXB
 %inst
-Gets a copy of the current enumeration.
+Œ»İ‚Ì—ñ‹“‚ÌƒRƒs[‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IEnumSTATDATA_Next
-Retrieves the specified number of items in the enumeration sequence. (IEnumSTATDATA.Next)
+—ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚³‚ê‚½”‚Ì€–Ú‚ğæ“¾‚·‚éB(IEnumSTATDATA.Next)
 %group
 COM misc / IEnumSTATDATA
 %prm
 this, celt, rgelt, pceltFetched
 this : [comobj] IEnumSTATDATA ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-celt : [int] The number of items to be retrieved. If there are fewer than the requested number of items left in the sequence, this method retrieves the remaining elements.
-rgelt : [int] An array of enumerated items. The enumerator is responsible for allocating any memory, and the caller is responsible for freeing it. If celt is greater than 1, the caller must also pass a non-NULL pointer passed to pceltFetched to know how many pointers to release.
-pceltFetched : [var] The number of items that were retrieved. This parameter is always less than or equal to the number of items requested. This parameter can be NULL if celt is 1.
+celt : [int] æ“¾‚·‚é€–Ú”Bc‚è€–Ú”‚ª—v‹‚µ‚½”‚æ‚è­‚È‚¢ê‡A‚±‚Ìƒƒ\ƒbƒh‚Íc‚è‚Ì—v‘f‚ğæ“¾‚·‚éB
+rgelt : [int] —ñ‹“‚³‚ê‚½€–Ú‚Ì”z—ñB—ñ‹“q‚Íƒƒ‚ƒŠ‚ÌŠm•ÛÓ”C‚ğ•‰‚¢AŒÄ‚Ño‚µ‘¤‚Í‚»‚ê‚ğ‰ğ•ú‚·‚éÓ”C‚ğ•‰‚¤Bcelt ‚ª 1 ‚æ‚è‘å‚«‚¢ê‡A‰ğ•ú‚·‚×‚«ƒ|ƒCƒ“ƒ^”‚ğ’m‚é‚½‚ß‚É pceltFetched ‚É NULL ‚Å‚È‚¢ƒ|ƒCƒ“ƒ^‚ğ“n‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pceltFetched : [var] æ“¾‚³‚ê‚½€–Ú”B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íí‚É—v‹‚³‚ê‚½€–Ú”ˆÈ‰º‚É‚È‚éBcelt ‚ª 1 ‚Ìê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚Å‚à‚æ‚¢B
 %inst
-Retrieves the specified number of items in the enumeration sequence.
-(IEnumSTATDATA.Next)
+—ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚³‚ê‚½”‚Ì€–Ú‚ğæ“¾‚·‚éB(IEnumSTATDATA.Next)
 
 [–ß‚è’l]
-If the method retrieves the number of items requested, the return
-value is S_OK. Otherwise, it is S_FALSE.
+ƒƒ\ƒbƒh‚ª—v‹‚³‚ê‚½€–Ú”‚ğæ“¾‚µ‚½ê‡A–ß‚è’l‚Í S_OK ‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡‚Í S_FALSE ‚Æ‚È‚éB
 
 
 %index
 IEnumSTATDATA_Skip
-Skips over the specified number of items in the enumeration sequence. (IEnumSTATDATA.Skip)
+—ñ‹“ƒV[ƒPƒ“ƒX“à‚Ìw’è‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚·‚éB(IEnumSTATDATA.Skip)
 %group
 COM misc / IEnumSTATDATA
 %prm
 this, celt
 this : [comobj] IEnumSTATDATA ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-celt : [int] The number of items to be skipped.
+celt : [int] ƒXƒLƒbƒv‚·‚é€–Ú”B
 %inst
-Skips over the specified number of items in the enumeration sequence.
-(IEnumSTATDATA.Skip)
+—ñ‹“ƒV[ƒPƒ“ƒX“à‚Ìw’è‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚·‚éB(IEnumSTATDATA.Skip)
 
 [–ß‚è’l]
-If the method skips the number of items requested, the return value
-is S_OK. Otherwise, it is S_FALSE.
+ƒƒ\ƒbƒh‚ª—v‹‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚µ‚½ê‡A–ß‚è’l‚Í S_OK ‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡‚Í S_FALSE ‚Æ‚È‚éB
 
 
 %index
 IEnumSTATDATA_Reset
-Resets the enumeration sequence to the beginning. (IEnumSTATDATA.Reset)
+—ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚éB(IEnumSTATDATA.Reset)
 %group
 COM misc / IEnumSTATDATA
 %prm
 this
 this : [comobj] IEnumSTATDATA ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Resets the enumeration sequence to the beginning.
-(IEnumSTATDATA.Reset)
+—ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚éB(IEnumSTATDATA.Reset)
 
 [–ß‚è’l]
-This method returns S_OK on success.
+¬Œ÷‚Í S_OK ‚ğ•Ô‚·B
 
 [”õl]
-There is no guarantee that the same set of objects will be enumerated
-after the reset operation has completed. A static collection is reset
-to the beginning, but it can be too expensive for some collections,
-such as files in a directory, to guarantee this condition.
+
+ƒŠƒZƒbƒg‘€ì‚ÌŠ®—¹Œã‚É“¯‚¶ƒIƒuƒWƒFƒNƒgW‡‚ª—ñ‹“‚³‚ê‚é•ÛØ‚Í‚È‚¢BÃ“I‚ÈƒRƒŒƒNƒVƒ‡ƒ“‚Íæ“ª‚ÉƒŠƒZƒbƒg‚³‚ê‚é‚ªAƒfƒBƒŒƒNƒgƒŠ“à‚Ìƒtƒ@ƒCƒ‹‚È‚Çˆê•”‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚Å‚ÍA‚»‚ÌğŒ‚ğ•ÛØ‚·‚é‚±‚Æ‚Í‚ƒRƒXƒg‚É‚È‚è“¾‚éB
 
 
 %index
 IEnumSTATDATA_Clone
-Creates a new enumerator that contains the same enumeration state as the current one. (IEnumSTATDATA.Clone)
+Œ»İ‚Ì—ñ‹“ó‘Ô‚Æ“¯‚¶ó‘Ô‚ğ‚ÂV‚µ‚¢—ñ‹“q‚ğì¬‚·‚éB(IEnumSTATDATA.Clone)
 %group
 COM misc / IEnumSTATDATA
 %prm
 this, ppenum
 this : [comobj] IEnumSTATDATA ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppenum : [comobj] A pointer to an IEnumSTATDATA pointer variable that receives the interface pointer to the enumeration object. If the method is unsuccessful, the value of this output variable is undefined.
+ppenum : [comobj] —ñ‹“ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IEnumSTATDATA ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^Bƒƒ\ƒbƒh‚ª¸”s‚µ‚½ê‡A‚±‚Ìo—Í•Ï”‚Ì’l‚Í–¢’è‹`‚Å‚ ‚éB
 %inst
-Creates a new enumerator that contains the same enumeration state as
-the current one. (IEnumSTATDATA.Clone)
+Œ»İ‚Ì—ñ‹“ó‘Ô‚Æ“¯‚¶ó‘Ô‚ğ‚ÂV‚µ‚¢—ñ‹“q‚ğì¬‚·‚éB(IEnumSTATDATA.Clone)
 
 [–ß‚è’l]
-This method returns S_OK on success. Other possible values include
-the following.
-This doc was truncated.
+¬Œ÷‚Í S_OK ‚ğ•Ô‚·B‚»‚Ì‘¼‚Ì’l‚Æ‚µ‚ÄˆÈ‰º‚Ì‚à‚Ì‚ª‚ ‚è“¾‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IEnumString_Next
-The IEnumString::Next (objidlbase.h) method retrieves the specified number of items in the enumeration sequence.
+IEnumString::Next (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚³‚ê‚½”‚Ì€–Ú‚ğæ“¾‚·‚éB
 %group
 COM misc / IEnumString
 %prm
 this, celt, rgelt, pceltFetched
 this : [comobj] IEnumString ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-celt : [int] The number of items to be retrieved. If there are fewer than the requested number of items left in the sequence, this method retrieves the remaining elements.
-rgelt : [var] An array of enumerated items. The enumerator is responsible for allocating any memory, and the caller is responsible for freeing it. If celt is greater than 1, the caller must also pass a non-NULL pointer passed to pceltFetched to know how many pointers to release.
-pceltFetched : [var] The number of items that were retrieved. This parameter is always less than or equal to the number of items requested.
+celt : [int] æ“¾‚·‚é€–Ú”Bc‚è€–Ú”‚ª—v‹‚µ‚½”‚æ‚è­‚È‚¢ê‡A‚±‚Ìƒƒ\ƒbƒh‚Íc‚è‚Ì—v‘f‚ğæ“¾‚·‚éB
+rgelt : [var] —ñ‹“‚³‚ê‚½€–Ú‚Ì”z—ñB—ñ‹“q‚Íƒƒ‚ƒŠ‚ÌŠm•ÛÓ”C‚ğ•‰‚¢AŒÄ‚Ño‚µ‘¤‚Í‚»‚ê‚ğ‰ğ•ú‚·‚éÓ”C‚ğ•‰‚¤Bcelt ‚ª 1 ‚æ‚è‘å‚«‚¢ê‡A‰ğ•ú‚·‚×‚«ƒ|ƒCƒ“ƒ^”‚ğ’m‚é‚½‚ß‚É pceltFetched ‚É NULL ‚Å‚È‚¢ƒ|ƒCƒ“ƒ^‚ğ“n‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pceltFetched : [var] æ“¾‚³‚ê‚½€–Ú”B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íí‚É—v‹‚³‚ê‚½€–Ú”ˆÈ‰º‚É‚È‚éB
 %inst
-The IEnumString::Next (objidlbase.h) method retrieves the specified
-number of items in the enumeration sequence.
+IEnumString::Next (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚³‚ê‚½”‚Ì€–Ú‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the method retrieves the number of items requested, the return
-value is S_OK. Otherwise, it is S_FALSE.
+ƒƒ\ƒbƒh‚ª—v‹‚³‚ê‚½€–Ú”‚ğæ“¾‚µ‚½ê‡A–ß‚è’l‚Í S_OK ‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡‚Í S_FALSE ‚Æ‚È‚éB
 
 
 %index
 IEnumString_Skip
-The IEnumString::Skip (objidlbase.h) method skips over the specified number of items in the enumeration sequence.
+IEnumString::Skip (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX“à‚Ìw’è‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚·‚éB
 %group
 COM misc / IEnumString
 %prm
 this, celt
 this : [comobj] IEnumString ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-celt : [int] The number of items to be skipped.
+celt : [int] ƒXƒLƒbƒv‚·‚é€–Ú”B
 %inst
-The IEnumString::Skip (objidlbase.h) method skips over the specified
-number of items in the enumeration sequence.
+IEnumString::Skip (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX“à‚Ìw’è‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚·‚éB
 
 [–ß‚è’l]
-If the method skips the number of items requested, the return value
-is S_OK. Otherwise, it is S_FALSE.
+ƒƒ\ƒbƒh‚ª—v‹‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚µ‚½ê‡A–ß‚è’l‚Í S_OK ‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡‚Í S_FALSE ‚Æ‚È‚éB
 
 
 %index
 IEnumString_Reset
-The IEnumString::Reset (objidlbase.h) method resets the enumeration sequence to the beginning.
+IEnumString::Reset (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚éB
 %group
 COM misc / IEnumString
 %prm
 this
 this : [comobj] IEnumString ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-The IEnumString::Reset (objidlbase.h) method resets the enumeration
-sequence to the beginning.
+IEnumString::Reset (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚éB
 
 [–ß‚è’l]
-The return value is S_OK.
+–ß‚è’l‚Í S_OK ‚Å‚ ‚éB
 
 [”õl]
-There is no guarantee that the same set of objects will be enumerated
-after the reset operation has completed. A static collection is reset
-to the beginning, but it can be too expensive for some collections,
-such as files in a directory, to guarantee this condition.
+
+ƒŠƒZƒbƒg‘€ì‚ÌŠ®—¹Œã‚É“¯‚¶ƒIƒuƒWƒFƒNƒgW‡‚ª—ñ‹“‚³‚ê‚é•ÛØ‚Í‚È‚¢BÃ“I‚ÈƒRƒŒƒNƒVƒ‡ƒ“‚Íæ“ª‚ÉƒŠƒZƒbƒg‚³‚ê‚é‚ªAƒfƒBƒŒƒNƒgƒŠ“à‚Ìƒtƒ@ƒCƒ‹‚È‚Çˆê•”‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚Å‚ÍA‚»‚ÌğŒ‚ğ•ÛØ‚·‚é‚±‚Æ‚Í‚ƒRƒXƒg‚É‚È‚è“¾‚éB
 
 
 %index
 IEnumString_Clone
-The IEnumString::Clone (objidlbase.h) method creates a new enumerator that contains the same enumeration state as the current one.
+IEnumString::Clone (objidlbase.h) ƒƒ\ƒbƒh‚ÍAŒ»İ‚Ì—ñ‹“ó‘Ô‚Æ“¯‚¶ó‘Ô‚ğ‚ÂV‚µ‚¢—ñ‹“q‚ğì¬‚·‚éB
 %group
 COM misc / IEnumString
 %prm
 this, ppenum
 this : [comobj] IEnumString ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppenum : [comobj] A pointer to the cloned enumerator object.
+ppenum : [comobj] ƒNƒ[ƒ“‚³‚ê‚½—ñ‹“ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The IEnumString::Clone (objidlbase.h) method creates a new enumerator
-that contains the same enumeration state as the current one.
+IEnumString::Clone (objidlbase.h) ƒƒ\ƒbƒh‚ÍAŒ»İ‚Ì—ñ‹“ó‘Ô‚Æ“¯‚¶ó‘Ô‚ğ‚ÂV‚µ‚¢—ñ‹“q‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_INVALIDARG,
-E_OUTOFMEMORY, E_UNEXPECTED, and S_OK.
+‚±‚Ìƒƒ\ƒbƒh‚Í•W€‚Ì–ß‚è’l E_INVALIDARGAE_OUTOFMEMORYAE_UNEXPECTEDAS_OK ‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB
 
 
 %index
 IEnumUnknown_Next
-The IEnumUnknown::Next (objidlbase.h) method retrieves the specified number of items in the enumeration sequence.
+IEnumUnknown::Next (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚³‚ê‚½”‚Ì€–Ú‚ğæ“¾‚·‚éB
 %group
 COM misc / IEnumUnknown
 %prm
 this, celt, rgelt, pceltFetched
 this : [comobj] IEnumUnknown ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-celt : [int] The number of items to be retrieved. If there are fewer than the requested number of items left in the sequence, this method retrieves the remaining elements.
-rgelt : [int] An array of enumerated items. The enumerator is responsible for calling AddRef, and the caller is responsible for calling Release through each pointer enumerated. If celt is greater than 1, the caller must also pass a non-NULL pointer passed to pceltFetched to know how many pointers to release.
-pceltFetched : [var] The number of items that were retrieved. This parameter is always less than or equal to the number of items requested.
+celt : [int] æ“¾‚·‚é€–Ú”Bc‚è€–Ú”‚ª—v‹‚µ‚½”‚æ‚è­‚È‚¢ê‡A‚±‚Ìƒƒ\ƒbƒh‚Íc‚è‚Ì—v‘f‚ğæ“¾‚·‚éB
+rgelt : [int] —ñ‹“‚³‚ê‚½€–Ú‚Ì”z—ñB—ñ‹“q‚Í AddRef ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¢AŒÄ‚Ño‚µ‘¤‚Í—ñ‹“‚³‚ê‚½Šeƒ|ƒCƒ“ƒ^‚É‘Î‚µ‚Ä Release ‚ğŒÄ‚Ño‚·Ó”C‚ğ•‰‚¤Bcelt ‚ª 1 ‚æ‚è‘å‚«‚¢ê‡A‰ğ•ú‚·‚×‚«ƒ|ƒCƒ“ƒ^”‚ğ’m‚é‚½‚ß‚É pceltFetched ‚É NULL ‚Å‚È‚¢ƒ|ƒCƒ“ƒ^‚ğ“n‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+pceltFetched : [var] æ“¾‚³‚ê‚½€–Ú”B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íí‚É—v‹‚³‚ê‚½€–Ú”ˆÈ‰º‚É‚È‚éB
 %inst
-The IEnumUnknown::Next (objidlbase.h) method retrieves the specified
-number of items in the enumeration sequence.
+IEnumUnknown::Next (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚©‚çw’è‚³‚ê‚½”‚Ì€–Ú‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-If the method retrieves the number of items requested, the return
-value is S_OK. Otherwise, it is S_FALSE.
+ƒƒ\ƒbƒh‚ª—v‹‚³‚ê‚½€–Ú”‚ğæ“¾‚µ‚½ê‡A–ß‚è’l‚Í S_OK ‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡‚Í S_FALSE ‚Æ‚È‚éB
 
 
 %index
 IEnumUnknown_Skip
-The IEnumUnknown::Skip (objidlbase.h) method skips over the specified number of items in the enumeration sequence.
+IEnumUnknown::Skip (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX“à‚Ìw’è‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚·‚éB
 %group
 COM misc / IEnumUnknown
 %prm
 this, celt
 this : [comobj] IEnumUnknown ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-celt : [int] The number of items to be skipped.
+celt : [int] ƒXƒLƒbƒv‚·‚é€–Ú”B
 %inst
-The IEnumUnknown::Skip (objidlbase.h) method skips over the specified
-number of items in the enumeration sequence.
+IEnumUnknown::Skip (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX“à‚Ìw’è‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚·‚éB
 
 [–ß‚è’l]
-If the method skips the number of items requested, the return value
-is S_OK. Otherwise, it is S_FALSE.
+ƒƒ\ƒbƒh‚ª—v‹‚³‚ê‚½”‚Ì€–Ú‚ğƒXƒLƒbƒv‚µ‚½ê‡A–ß‚è’l‚Í S_OK ‚Å‚ ‚éB‚»‚êˆÈŠO‚Ìê‡‚Í S_FALSE ‚Æ‚È‚éB
 
 
 %index
 IEnumUnknown_Reset
-The IEnumUnknown::Reset (objidlbase.h) method resets the enumeration sequence to the beginning.
+IEnumUnknown::Reset (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚éB
 %group
 COM misc / IEnumUnknown
 %prm
 this
 this : [comobj] IEnumUnknown ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-The IEnumUnknown::Reset (objidlbase.h) method resets the enumeration
-sequence to the beginning.
+IEnumUnknown::Reset (objidlbase.h) ƒƒ\ƒbƒh‚ÍA—ñ‹“ƒV[ƒPƒ“ƒX‚ğæ“ª‚ÉƒŠƒZƒbƒg‚·‚éB
 
 [–ß‚è’l]
-The return value is S_OK.
+–ß‚è’l‚Í S_OK ‚Å‚ ‚éB
 
 [”õl]
-There is no guarantee that the same set of objects will be enumerated
-after the reset operation has completed. A static collection is reset
-to the beginning, but it can be too expensive for some collections,
-such as files in a directory, to guarantee this condition.
+
+ƒŠƒZƒbƒg‘€ì‚ÌŠ®—¹Œã‚É“¯‚¶ƒIƒuƒWƒFƒNƒgW‡‚ª—ñ‹“‚³‚ê‚é•ÛØ‚Í‚È‚¢BÃ“I‚ÈƒRƒŒƒNƒVƒ‡ƒ“‚Íæ“ª‚ÉƒŠƒZƒbƒg‚³‚ê‚é‚ªAƒfƒBƒŒƒNƒgƒŠ“à‚Ìƒtƒ@ƒCƒ‹‚È‚Çˆê•”‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚Å‚ÍA‚»‚ÌğŒ‚ğ•ÛØ‚·‚é‚±‚Æ‚Í‚ƒRƒXƒg‚É‚È‚è“¾‚éB
 
 
 %index
 IEnumUnknown_Clone
-The IEnumUnknown::Clone (objidlbase.h) method creates a new enumerator that contains the same enumeration state as the current one.
+IEnumUnknown::Clone (objidlbase.h) ƒƒ\ƒbƒh‚ÍAŒ»İ‚Ì—ñ‹“ó‘Ô‚Æ“¯‚¶ó‘Ô‚ğ‚ÂV‚µ‚¢—ñ‹“q‚ğì¬‚·‚éB
 %group
 COM misc / IEnumUnknown
 %prm
 this, ppenum
 this : [comobj] IEnumUnknown ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppenum : [comobj] A pointer to the cloned enumerator object.
+ppenum : [comobj] ƒNƒ[ƒ“‚³‚ê‚½—ñ‹“ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-The IEnumUnknown::Clone (objidlbase.h) method creates a new
-enumerator that contains the same enumeration state as the current
-one.
+IEnumUnknown::Clone (objidlbase.h) ƒƒ\ƒbƒh‚ÍAŒ»İ‚Ì—ñ‹“ó‘Ô‚Æ“¯‚¶ó‘Ô‚ğ‚ÂV‚µ‚¢—ñ‹“q‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_INVALIDARG,
-E_OUTOFMEMORY, E_UNEXPECTED, and S_OK.
+‚±‚Ìƒƒ\ƒbƒh‚Í•W€‚Ì–ß‚è’l E_INVALIDARGAE_OUTOFMEMORYAE_UNEXPECTEDAS_OK ‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB
 
 
 %index
 IErrorLog_AddError
-Adds an error for the specified property to the error log.
+w’è‚µ‚½ƒvƒƒpƒeƒB‚É‘Î‚·‚éƒGƒ‰[‚ğƒGƒ‰[ƒƒO‚É’Ç‰Á‚·‚éB
 %group
 COM misc / IErrorLog
 %prm
 this, pszPropName, pExcepInfo
 this : [comobj] IErrorLog ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pszPropName : [wstr] The address of the name of the property to read. This cannot be NULL.
-pExcepInfo : [int] Pointer to an array of [EXCEPINFO](ns-oaidl-excepinfo.md) structures.
+pszPropName : [wstr] “Ç‚İæ‚éƒvƒƒpƒeƒB‚Ì–¼‘O‚ÌƒAƒhƒŒƒXBNULL ‚Íw’è‚Å‚«‚È‚¢B
+pExcepInfo : [int] [EXCEPINFO](ns-oaidl-excepinfo.md) \‘¢‘Ì‚Ì”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Adds an error for the specified property to the error log.
+w’è‚µ‚½ƒvƒƒpƒeƒB‚É‘Î‚·‚éƒGƒ‰[‚ğƒGƒ‰[ƒƒO‚É’Ç‰Á‚·‚éB
 
 
 %index
@@ -15494,358 +14739,321 @@ UI ‚ğƒuƒƒbƒN‚µ‚È‚¢Bƒ†[ƒU[‚Í‘€ì‚ğ’â~‚Å‚«A‚»‚ÌŒ‹‰Ê IFileOpenDialog::GetSele
 
 %index
 IFileOperationProgressSink_StartOperations
-Performs caller-implemented actions before any specific file operations are performed.
+“Á’è‚Ìƒtƒ@ƒCƒ‹‘€ì‚ªÀs‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Performs caller-implemented actions before any specific file
-operations are performed.
+“Á’è‚Ìƒtƒ@ƒCƒ‹‘€ì‚ªÀs‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-StartOperations is the first of the IFileOperationProgressSink
-methods to be called after PerformOperations. It can be used to
-perform any setup or initialization that you require before the file
-operations begin.
+StartOperations ‚ÍAPerformOperations ‚ÌŒã‚ÉŒÄ‚Ño‚³‚ê‚é
+IFileOperationProgressSink
+ƒƒ\ƒbƒh‚Ì‚¤‚¿Å‰‚Ì‚à‚Ì‚Å‚ ‚éBƒtƒ@ƒCƒ‹‘€ì‚ªŠJn‚³‚ê‚é‘O‚É•K—v‚ÈƒZƒbƒgƒAƒbƒv‚â‰Šú‰»‚ğs‚¤‚½‚ß‚Ég—p‚Å‚«‚éB
 
 
 %index
 IFileOperationProgressSink_FinishOperations
-Performs caller-implemented actions after the last operation performed by the call to IFileOperation is complete.
+IFileOperation ŒÄ‚Ño‚µ‚É‚æ‚éÅŒã‚Ì‘€ì‚ÌŠ®—¹Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this, hrResult
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hrResult : [intptr] Type: HRESULT The return value of the final operation. Note that this is not the HRESULT returned by one of the IFileOperation methods, which simply queue the operations. Instead, this is the result of the actual operation, such as copy, delete, or move.
+hrResult : [intptr] Œ^: HRESULT ÅŒã‚ÉÀs‚³‚ê‚½‘€ì‚Ì–ß‚è’lB‚±‚ê‚Í’P‚É‘€ì‚ğƒLƒ…[‚É“ü‚ê‚é‚¾‚¯‚Ì IFileOperation ƒƒ\ƒbƒh‚ª•Ô‚· HRESULT ‚Å‚Í‚È‚­AƒRƒs[AíœAˆÚ“®‚È‚Ç‚ÌÀÛ‚Ì‘€ì‚ÌŒ‹‰Ê‚Å‚ ‚é“_‚É’ˆÓB
 %inst
-Performs caller-implemented actions after the last operation
-performed by the call to IFileOperation is complete.
+IFileOperation ŒÄ‚Ño‚µ‚É‚æ‚éÅŒã‚Ì‘€ì‚ÌŠ®—¹Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Not used.
+Œ^: HRESULT –¢g—pB
 
 
 %index
 IFileOperationProgressSink_PreRenameItem
-Performs caller-implemented actions before the rename process for each item begins.
+Še€–Ú‚Ì–¼‘O•ÏXˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem, pszNewName
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwFlags : [int] Type: DWORD bitwise value that contains flags that control the operation. See TRANSFER_SOURCE_FLAGS for flag descriptions.
-psiItem : [comobj] Type: IShellItem* Pointer to an IShellItem that specifies the item to be renamed.
-pszNewName : [wstr] Type: LPCWSTR Pointer to the new display name of the item. This is a null-terminated, Unicode string.
+dwFlags : [int] Œ^: DWORD ‘€ì‚ğ§Œä‚·‚éƒtƒ‰ƒO‚ğŠÜ‚Şƒrƒbƒg’lBƒtƒ‰ƒO‚Ìà–¾‚Í TRANSFER_SOURCE_FLAGS ‚ğQÆ‚Ì‚±‚ÆB
+psiItem : [comobj] Œ^: IShellItem* –¼‘O•ÏX‘ÎÛ‚Ì€–Ú‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pszNewName : [wstr] Œ^: LPCWSTR €–Ú‚ÌV‚µ‚¢•\¦–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í null I’[ Unicode •¶š—ñ‚Å‚ ‚éB
 %inst
-Performs caller-implemented actions before the rename process for
-each item begins.
+Še€–Ú‚Ì–¼‘O•ÏXˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise. In the case of an error value, the rename operation and
-all subsequent operations pending from the call to IFileOperation are
-canceled.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚ÍƒGƒ‰[’l‚ğ•Ô‚·BƒGƒ‰[’l‚Ìê‡A–¼‘O•ÏX‘€ì‚Æ
+IFileOperation ‚ÌŒÄ‚Ño‚µ‚©‚ç•Û—¯’†‚ÌŒã‘±‚Ì‘€ì‚Í‚·‚×‚ÄƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB
 
 
 %index
 IFileOperationProgressSink_PostRenameItem
-Performs caller-implemented actions after the rename process for each item is complete.
+Še€–Ú‚Ì–¼‘O•ÏXˆ—‚ªŠ®—¹‚µ‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem, pszNewName, hrRename, psiNewlyCreated
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwFlags : [int] Type: DWORD bitwise value that contains flags that were used during the rename operation. Some values can be set or changed during the rename operation. See TRANSFER_SOURCE_FLAGS for flag descriptions.
-psiItem : [comobj] Type: IShellItem* Pointer to an IShellItem that specifies the item before it was renamed.
-pszNewName : [wstr] Type: LPCWSTR Pointer to the new display name of the item. This is a null-terminated, Unicode string. Note that this might not be the name that you asked for, given collisions and other naming rules.
-hrRename : [intptr] Type: HRESULT The return value of the rename operation. Note that this is not the HRESULT returned by RenameItem, which simply queues the rename operation. Instead, this is the result of the actual rename operation.
-psiNewlyCreated : [comobj] Type: IShellItem* Pointer to an IShellItem that represents the item with its new name.
+dwFlags : [int] Œ^: DWORD –¼‘O•ÏX‘€ì’†‚Ég—p‚³‚ê‚½ƒtƒ‰ƒO‚ğŠÜ‚Şƒrƒbƒg’lB–¼‘O•ÏX‘€ì’†‚Éİ’è‚Ü‚½‚Í•ÏX‚³‚ê“¾‚é’l‚à‚ ‚éBƒtƒ‰ƒO‚Ìà–¾‚Í TRANSFER_SOURCE_FLAGS ‚ğQÆ‚Ì‚±‚ÆB
+psiItem : [comobj] Œ^: IShellItem* –¼‘O•ÏX‘O‚Ì€–Ú‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pszNewName : [wstr] Œ^: LPCWSTR €–Ú‚ÌV‚µ‚¢•\¦–¼‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í null I’[ Unicode •¶š—ñ‚Å‚ ‚éB–¼‘OÕ“Ë‚â‚»‚Ì‘¼‚Ì–½–¼‹K‘¥‚É‚æ‚èA—v‹‚µ‚½–¼‘O‚Æ‚ÍˆÙ‚È‚éê‡‚ª‚ ‚é“_‚É’ˆÓB
+hrRename : [intptr] Œ^: HRESULT –¼‘O•ÏX‘€ì‚Ì–ß‚è’lB‚±‚ê‚Í’P‚É–¼‘O•ÏX‘€ì‚ğƒLƒ…[‚É“ü‚ê‚é‚¾‚¯‚Ì RenameItem ‚ª•Ô‚· HRESULT ‚Å‚Í‚È‚­AÀÛ‚Ì–¼‘O•ÏX‘€ì‚ÌŒ‹‰Ê‚Å‚ ‚é“_‚É’ˆÓB
+psiNewlyCreated : [comobj] Œ^: IShellItem* V‚µ‚¢–¼‘O‚ğ‚Â€–Ú‚ğ•\‚· IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Performs caller-implemented actions after the rename process for each
-item is complete.
+Še€–Ú‚Ì–¼‘O•ÏXˆ—‚ªŠ®—¹‚µ‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise. In the case of an error value, all subsequent operations
-pending from the call to IFileOperation are canceled.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚ÍƒGƒ‰[’l‚ğ•Ô‚·BƒGƒ‰[’l‚Ìê‡AIFileOperation
+‚ÌŒÄ‚Ño‚µ‚©‚ç•Û—¯’†‚ÌŒã‘±‚Ì‘€ì‚Í‚·‚×‚ÄƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB
 
 
 %index
 IFileOperationProgressSink_PreMoveItem
-Performs caller-implemented actions before the move process for each item begins.
+Še€–Ú‚ÌˆÚ“®ˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem, psiDestinationFolder, pszNewName
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwFlags : [int] Type: DWORD bitwise value that contains flags that control the operation. See TRANSFER_SOURCE_FLAGS for flag descriptions.
-psiItem : [comobj] Type: IShellItem* Pointer to an IShellItem that specifies the item to be moved.
-psiDestinationFolder : [comobj] Type: IShellItem* Pointer to an IShellItem that specifies the destination folder to contain the moved item.
-pszNewName : [wstr] Type: LPCWSTR Pointer to a new name for the item in its new location. This is a null-terminated Unicode string and can be NULL. If NULL, the name of the destination item is the same as the source.
+dwFlags : [int] Œ^: DWORD ‘€ì‚ğ§Œä‚·‚éƒtƒ‰ƒO‚ğŠÜ‚Şƒrƒbƒg’lBƒtƒ‰ƒO‚Ìà–¾‚Í TRANSFER_SOURCE_FLAGS ‚ğQÆ‚Ì‚±‚ÆB
+psiItem : [comobj] Œ^: IShellItem* ˆÚ“®‘ÎÛ‚Ì€–Ú‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+psiDestinationFolder : [comobj] Œ^: IShellItem* ˆÚ“®‚³‚ê‚½€–Ú‚ğ•Û‚·‚éˆÚ“®æƒtƒHƒ‹ƒ_‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pszNewName : [wstr] Œ^: LPCWSTR V‚µ‚¢êŠ‚Å‚Ì€–Ú‚ÌV‚µ‚¢–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í null I’[ Unicode •¶š—ñ‚Å‚ ‚èANULL ‚ğw’è‚Å‚«‚éBNULL ‚Ìê‡AˆÚ“®æ‚Ì€–Ú–¼‚ÍƒRƒs[Œ³‚Æ“¯‚¶‚É‚È‚éB
 %inst
-Performs caller-implemented actions before the move process for each
-item begins.
+Še€–Ú‚ÌˆÚ“®ˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise. In the case of an error value, the move operation and all
-subsequent operations pending from the call to IFileOperation are
-canceled.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚ÍƒGƒ‰[’l‚ğ•Ô‚·BƒGƒ‰[’l‚Ìê‡AˆÚ“®‘€ì‚Æ IFileOperation
+‚ÌŒÄ‚Ño‚µ‚©‚ç•Û—¯’†‚ÌŒã‘±‚Ì‘€ì‚Í‚·‚×‚ÄƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB
 
 
 %index
 IFileOperationProgressSink_PostMoveItem
-Performs caller-implemented actions after the move process for each item is complete.
+Še€–Ú‚ÌˆÚ“®ˆ—‚ªŠ®—¹‚µ‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem, psiDestinationFolder, pszNewName, hrMove, psiNewlyCreated
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwFlags : [int] Type: DWORD bitwise value that contains flags that were used during the move operation. Some values can be set or changed during the move operation. See TRANSFER_SOURCE_FLAGS for flag descriptions.
-psiItem : [comobj] Type: IShellItem* Pointer to an IShellItem that specifies the source item.
-psiDestinationFolder : [comobj] Type: IShellItem* Pointer to an IShellItem that specifies the destination folder that contains the moved item.
-pszNewName : [wstr] Type: LPCWSTR Pointer to the name that was given to the item after it was moved. This is a null-terminated Unicode string. Note that this might not be the name that you asked for, given collisions and other naming rules.
-hrMove : [intptr] Type: HRESULT The return value of the move operation. Note that this is not the HRESULT returned by MoveItem, which simply queues the move operation. Instead, this is the result of the actual move.
-psiNewlyCreated : [comobj] Type: IShellItem* Pointer to an IShellItem that represents the moved item in its new location.
+dwFlags : [int] Œ^: DWORD ˆÚ“®‘€ì’†‚Ég—p‚³‚ê‚½ƒtƒ‰ƒO‚ğŠÜ‚Şƒrƒbƒg’lBˆÚ“®‘€ì’†‚Éİ’è‚Ü‚½‚Í•ÏX‚³‚ê“¾‚é’l‚à‚ ‚éBƒtƒ‰ƒO‚Ìà–¾‚Í TRANSFER_SOURCE_FLAGS ‚ğQÆ‚Ì‚±‚ÆB
+psiItem : [comobj] Œ^: IShellItem* ˆÚ“®Œ³‚Ì€–Ú‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+psiDestinationFolder : [comobj] Œ^: IShellItem* ˆÚ“®‚³‚ê‚½€–Ú‚ğŠÜ‚ŞˆÚ“®æƒtƒHƒ‹ƒ_‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pszNewName : [wstr] Œ^: LPCWSTR ˆÚ“®Œã‚É€–Ú‚É—^‚¦‚ç‚ê‚½–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í null I’[ Unicode •¶š—ñ‚Å‚ ‚éB–¼‘OÕ“Ë‚â‚»‚Ì‘¼‚Ì–½–¼‹K‘¥‚É‚æ‚èA—v‹‚µ‚½–¼‘O‚Æ‚ÍˆÙ‚È‚éê‡‚ª‚ ‚é“_‚É’ˆÓB
+hrMove : [intptr] Œ^: HRESULT ˆÚ“®‘€ì‚Ì–ß‚è’lB‚±‚ê‚Í’P‚ÉˆÚ“®‘€ì‚ğƒLƒ…[‚É“ü‚ê‚é‚¾‚¯‚Ì MoveItem ‚ª•Ô‚· HRESULT ‚Å‚Í‚È‚­AÀÛ‚ÌˆÚ“®‚ÌŒ‹‰Ê‚Å‚ ‚é“_‚É’ˆÓB
+psiNewlyCreated : [comobj] Œ^: IShellItem* V‚µ‚¢êŠ‚ÉˆÚ“®‚³‚ê‚½€–Ú‚ğ•\‚· IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Performs caller-implemented actions after the move process for each
-item is complete.
+Še€–Ú‚ÌˆÚ“®ˆ—‚ªŠ®—¹‚µ‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise. In the case of an error value, all subsequent operations
-pending from the call to IFileOperation are canceled.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚ÍƒGƒ‰[’l‚ğ•Ô‚·BƒGƒ‰[’l‚Ìê‡AIFileOperation
+‚ÌŒÄ‚Ño‚µ‚©‚ç•Û—¯’†‚ÌŒã‘±‚Ì‘€ì‚Í‚·‚×‚ÄƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB
 
 
 %index
 IFileOperationProgressSink_PreCopyItem
-Performs caller-implemented actions before the copy process for each item begins.
+Še€–Ú‚ÌƒRƒs[ˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem, psiDestinationFolder, pszNewName
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwFlags : [int] Type: DWORD bitwise value that contains flags that control the operation. See TRANSFER_SOURCE_FLAGS for flag descriptions.
-psiItem : [comobj] Type: IShellItem* Pointer to an IShellItem that specifies the source item.
-psiDestinationFolder : [comobj] Type: IShellItem* Pointer to an IShellItem that specifies the destination folder to contain the copy of the item.
-pszNewName : [wstr] Type: LPCWSTR Pointer to a new name for the item after it has been copied. This is a null-terminated Unicode string and can be NULL. If NULL, the name of the destination item is the same as the source.
+dwFlags : [int] Œ^: DWORD ‘€ì‚ğ§Œä‚·‚éƒtƒ‰ƒO‚ğŠÜ‚Şƒrƒbƒg’lBƒtƒ‰ƒO‚Ìà–¾‚Í TRANSFER_SOURCE_FLAGS ‚ğQÆ‚Ì‚±‚ÆB
+psiItem : [comobj] Œ^: IShellItem* ƒRƒs[Œ³‚Ì€–Ú‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+psiDestinationFolder : [comobj] Œ^: IShellItem* €–Ú‚ÌƒRƒs[‚ğ•Û‚·‚éˆÚ“®æƒtƒHƒ‹ƒ_‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pszNewName : [wstr] Œ^: LPCWSTR ƒRƒs[Œã‚Ì€–Ú‚É•t‚¯‚éV‚µ‚¢–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í null I’[ Unicode •¶š—ñ‚Å‚ ‚èANULL ‚ğw’è‚Å‚«‚éBNULL ‚Ìê‡AˆÚ“®æ‚Ì€–Ú–¼‚ÍƒRƒs[Œ³‚Æ“¯‚¶‚É‚È‚éB
 %inst
-Performs caller-implemented actions before the copy process for each
-item begins.
+Še€–Ú‚ÌƒRƒs[ˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise. In the case of an error value, the copy operation and all
-subsequent operations pending from the call to IFileOperation are
-canceled.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚ÍƒGƒ‰[’l‚ğ•Ô‚·BƒGƒ‰[’l‚Ìê‡AƒRƒs[‘€ì‚Æ
+IFileOperation ‚ÌŒÄ‚Ño‚µ‚©‚ç•Û—¯’†‚ÌŒã‘±‚Ì‘€ì‚Í‚·‚×‚ÄƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB
 
 
 %index
 IFileOperationProgressSink_PostCopyItem
-Performs caller-implemented actions after the copy process for each item is complete.
+Še€–Ú‚ÌƒRƒs[ˆ—‚ªŠ®—¹‚µ‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem, psiDestinationFolder, pszNewName, hrCopy, psiNewlyCreated
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwFlags : [int] Type: DWORD bitwise value that contains flags that were used during the copy operation. Some values can be set or changed during the copy operation. See TRANSFER_SOURCE_FLAGS for flag descriptions.
-psiItem : [comobj] Type: IShellItem* Pointer to an IShellItem that specifies the source item.
-psiDestinationFolder : [comobj] Type: IShellItem* Pointer to an IShellItem that specifies the destination folder to which the item was copied.
-pszNewName : [wstr] Type: LPCWSTR Pointer to the new name that was given to the item after it was copied. This is a null-terminated Unicode string. Note that this might not be the name that you asked for, given collisions and other naming rules.
-hrCopy : [intptr] Type: HRESULT The return value of the copy operation. Note that this is not the HRESULT returned by CopyItem, which simply queues the copy operation. Instead, this is the result of the actual copy.
-psiNewlyCreated : [comobj] Type: IShellItem* Pointer to an IShellItem that represents the new copy of the item.
+dwFlags : [int] Œ^: DWORD ƒRƒs[‘€ì’†‚Ég—p‚³‚ê‚½ƒtƒ‰ƒO‚ğŠÜ‚Şƒrƒbƒg’lBƒRƒs[‘€ì’†‚Éİ’è‚Ü‚½‚Í•ÏX‚³‚ê“¾‚é’l‚à‚ ‚éBƒtƒ‰ƒO‚Ìà–¾‚Í TRANSFER_SOURCE_FLAGS ‚ğQÆ‚Ì‚±‚ÆB
+psiItem : [comobj] Œ^: IShellItem* ƒRƒs[Œ³‚Ì€–Ú‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+psiDestinationFolder : [comobj] Œ^: IShellItem* €–Ú‚ÌƒRƒs[æƒtƒHƒ‹ƒ_‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pszNewName : [wstr] Œ^: LPCWSTR ƒRƒs[Œã‚É€–Ú‚É—^‚¦‚ç‚ê‚½V‚µ‚¢–¼‘O‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í null I’[ Unicode •¶š—ñ‚Å‚ ‚éB–¼‘OÕ“Ë‚â‚»‚Ì‘¼‚Ì–½–¼‹K‘¥‚É‚æ‚èA—v‹‚µ‚½–¼‘O‚Æ‚ÍˆÙ‚È‚éê‡‚ª‚ ‚é“_‚É’ˆÓB
+hrCopy : [intptr] Œ^: HRESULT ƒRƒs[‘€ì‚Ì–ß‚è’lB‚±‚ê‚Í’P‚ÉƒRƒs[‘€ì‚ğƒLƒ…[‚É“ü‚ê‚é‚¾‚¯‚Ì CopyItem ‚ª•Ô‚· HRESULT ‚Å‚Í‚È‚­AÀÛ‚ÌƒRƒs[‚ÌŒ‹‰Ê‚Å‚ ‚é“_‚É’ˆÓB
+psiNewlyCreated : [comobj] Œ^: IShellItem* €–Ú‚ÌV‚µ‚¢ƒRƒs[‚ğ•\‚· IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Performs caller-implemented actions after the copy process for each
-item is complete.
+Še€–Ú‚ÌƒRƒs[ˆ—‚ªŠ®—¹‚µ‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise. In the case of an error value, all subsequent operations
-pending from the call to IFileOperation are canceled.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚ÍƒGƒ‰[’l‚ğ•Ô‚·BƒGƒ‰[’l‚Ìê‡AIFileOperation
+‚ÌŒÄ‚Ño‚µ‚©‚ç•Û—¯’†‚ÌŒã‘±‚Ì‘€ì‚Í‚·‚×‚ÄƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB
 
 
 %index
 IFileOperationProgressSink_PreDeleteItem
-Performs caller-implemented actions before the delete process for each item begins.
+Še€–Ú‚Ìíœˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwFlags : [int] Type: DWORD bitwise value that contains flags that control the operation. See TRANSFER_SOURCE_FLAGS for flag descriptions.
-psiItem : [comobj] Type: IShellItem* Pointer to an IShellItem that specifies the item to be deleted.
+dwFlags : [int] Œ^: DWORD ‘€ì‚ğ§Œä‚·‚éƒtƒ‰ƒO‚ğŠÜ‚Şƒrƒbƒg’lBƒtƒ‰ƒO‚Ìà–¾‚Í TRANSFER_SOURCE_FLAGS ‚ğQÆ‚Ì‚±‚ÆB
+psiItem : [comobj] Œ^: IShellItem* íœ‘ÎÛ‚Ì€–Ú‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Performs caller-implemented actions before the delete process for
-each item begins.
+Še€–Ú‚Ìíœˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise. In the case of an error value, the delete operation and
-all subsequent operations pending from the call to IFileOperation are
-canceled.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚ÍƒGƒ‰[’l‚ğ•Ô‚·BƒGƒ‰[’l‚Ìê‡Aíœ‘€ì‚Æ IFileOperation
+‚ÌŒÄ‚Ño‚µ‚©‚ç•Û—¯’†‚ÌŒã‘±‚Ì‘€ì‚Í‚·‚×‚ÄƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB
 
 
 %index
 IFileOperationProgressSink_PostDeleteItem
-Performs caller-implemented actions after the delete process for each item is complete.
+Še€–Ú‚Ìíœˆ—‚ªŠ®—¹‚µ‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiItem, hrDelete, psiNewlyCreated
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwFlags : [int] Type: DWORD bitwise value that contains flags that were used during the delete operation. Some values can be set or changed during the delete operation. See TRANSFER_SOURCE_FLAGS for flag descriptions.
-psiItem : [comobj] Type: IShellItem* Pointer to an IShellItem that specifies the item that was deleted.
-hrDelete : [intptr] Type: HRESULT The return value of the delete operation. Note that this is not the HRESULT returned by DeleteItem, which simply queues the delete operation. Instead, this is the result of the actual deletion.
-psiNewlyCreated : [comobj] Type: IShellItem* A pointer to an IShellItem that specifies the deleted item, now in the Recycle Bin. If the item was fully deleted, this value is NULL.
+dwFlags : [int] Œ^: DWORD íœ‘€ì’†‚Ég—p‚³‚ê‚½ƒtƒ‰ƒO‚ğŠÜ‚Şƒrƒbƒg’lBíœ‘€ì’†‚Éİ’è‚Ü‚½‚Í•ÏX‚³‚ê“¾‚é’l‚à‚ ‚éBƒtƒ‰ƒO‚Ìà–¾‚Í TRANSFER_SOURCE_FLAGS ‚ğQÆ‚Ì‚±‚ÆB
+psiItem : [comobj] Œ^: IShellItem* íœ‚³‚ê‚½€–Ú‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+hrDelete : [intptr] Œ^: HRESULT íœ‘€ì‚Ì–ß‚è’lB‚±‚ê‚Í’P‚Éíœ‘€ì‚ğƒLƒ…[‚É“ü‚ê‚é‚¾‚¯‚Ì DeleteItem ‚ª•Ô‚· HRESULT ‚Å‚Í‚È‚­AÀÛ‚Ìíœ‚ÌŒ‹‰Ê‚Å‚ ‚é“_‚É’ˆÓB
+psiNewlyCreated : [comobj] Œ^: IShellItem* ‚²‚İ” ‚É“ü‚Á‚½íœÏ‚İ€–Ú‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B€–Ú‚ªŠ®‘S‚Éíœ‚³‚ê‚½ê‡A‚±‚Ì’l‚Í NULL ‚Æ‚È‚éB
 %inst
-Performs caller-implemented actions after the delete process for each
-item is complete.
+Še€–Ú‚Ìíœˆ—‚ªŠ®—¹‚µ‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise. In the case of an error value, all subsequent operations
-pending from the call to IFileOperation are canceled.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚ÍƒGƒ‰[’l‚ğ•Ô‚·BƒGƒ‰[’l‚Ìê‡AIFileOperation
+‚ÌŒÄ‚Ño‚µ‚©‚ç•Û—¯’†‚ÌŒã‘±‚Ì‘€ì‚Í‚·‚×‚ÄƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB
 
 
 %index
 IFileOperationProgressSink_PreNewItem
-Performs caller-implemented actions before the process to create a new item begins.
+V‚µ‚¢€–Ú‚ğì¬‚·‚éˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiDestinationFolder, pszNewName
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwFlags : [int] Type: DWORD bitwise value that contains flags that control the operation. See TRANSFER_SOURCE_FLAGS for flag descriptions.
-psiDestinationFolder : [comobj] Type: IShellItem* Pointer to an IShellItem that specifies the destination folder that will contain the new item.
-pszNewName : [wstr] Type: LPCWSTR Pointer to the file name of the new item, for instance Newfile.txt. This is a null-terminated, Unicode string.
+dwFlags : [int] Œ^: DWORD ‘€ì‚ğ§Œä‚·‚éƒtƒ‰ƒO‚ğŠÜ‚Şƒrƒbƒg’lBƒtƒ‰ƒO‚Ìà–¾‚Í TRANSFER_SOURCE_FLAGS ‚ğQÆ‚Ì‚±‚ÆB
+psiDestinationFolder : [comobj] Œ^: IShellItem* V‚µ‚¢€–Ú‚ğŠi”[‚·‚éˆÚ“®æƒtƒHƒ‹ƒ_‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pszNewName : [wstr] Œ^: LPCWSTR V‚µ‚¢€–Ú‚Ìƒtƒ@ƒCƒ‹–¼ (—á: Newfile.txt) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í null I’[ Unicode •¶š—ñ‚Å‚ ‚éB
 %inst
-Performs caller-implemented actions before the process to create a
-new item begins.
+V‚µ‚¢€–Ú‚ğì¬‚·‚éˆ—‚ªŠJn‚³‚ê‚é‘O‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise. In the case of an error value, this operation and all
-subsequent operations pending from the call to IFileOperation are
-canceled.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚ÍƒGƒ‰[’l‚ğ•Ô‚·BƒGƒ‰[’l‚Ìê‡A‚±‚Ì‘€ì‚Æ IFileOperation
+‚ÌŒÄ‚Ño‚µ‚©‚ç•Û—¯’†‚ÌŒã‘±‚Ì‘€ì‚Í‚·‚×‚ÄƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB
 
 
 %index
 IFileOperationProgressSink_PostNewItem
-Performs caller-implemented actions after the new item is created.
+V‚µ‚¢€–Ú‚ªì¬‚³‚ê‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this, dwFlags, psiDestinationFolder, pszNewName, pszTemplateName, dwFileAttributes, hrNew, psiNewItem
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwFlags : [int] Type: DWORD bitwise value that contains flags that were used during the creation operation. Some values can be set or changed during the creation operation. See TRANSFER_SOURCE_FLAGS for flag descriptions.
-psiDestinationFolder : [comobj] Type: IShellItem* Pointer to an IShellItem that specifies the destination folder to which the new item was added.
-pszNewName : [wstr] Type: LPCWSTR Pointer to the file name of the new item, for instance Newfile.txt. This is a null-terminated, Unicode string.
-pszTemplateName : [wstr] Type: LPCWSTR Pointer to the name of the template file (for example Excel9.xls) that the new item is based on, stored in one of the following locations:
-dwFileAttributes : [int] Type: DWORD The file attributes applied to the new item. One or more of the values found at GetFileAttributes.
-hrNew : [intptr] Type: HRESULT The return value of the creation operation. Note that this is not the HRESULT returned by NewItem, which simply queues the creation operation. Instead, this is the result of the actual creation.
-psiNewItem : [comobj] Type: IShellItem* Pointer to an IShellItem that represents the new item.
+dwFlags : [int] Œ^: DWORD ì¬‘€ì’†‚Ég—p‚³‚ê‚½ƒtƒ‰ƒO‚ğŠÜ‚Şƒrƒbƒg’lBì¬‘€ì’†‚Éİ’è‚Ü‚½‚Í•ÏX‚³‚ê“¾‚é’l‚à‚ ‚éBƒtƒ‰ƒO‚Ìà–¾‚Í TRANSFER_SOURCE_FLAGS ‚ğQÆ‚Ì‚±‚ÆB
+psiDestinationFolder : [comobj] Œ^: IShellItem* V‚µ‚¢€–Ú‚ª’Ç‰Á‚³‚ê‚½ˆÚ“®æƒtƒHƒ‹ƒ_‚ğw’è‚·‚é IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pszNewName : [wstr] Œ^: LPCWSTR V‚µ‚¢€–Ú‚Ìƒtƒ@ƒCƒ‹–¼ (—á: Newfile.txt) ‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚ê‚Í null I’[ Unicode •¶š—ñ‚Å‚ ‚éB
+pszTemplateName : [wstr] Œ^: LPCWSTR V‚µ‚¢€–Ú‚ÌŒ³‚Æ‚È‚éƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹‚Ì–¼‘O (—á: Excel9.xls) ‚Ö‚Ìƒ|ƒCƒ“ƒ^BŸ‚Ì‚¢‚¸‚ê‚©‚ÌêŠ‚ÉŠi”[‚³‚ê‚éB
+dwFileAttributes : [int] Œ^: DWORD V‚µ‚¢€–Ú‚É“K—p‚³‚ê‚éƒtƒ@ƒCƒ‹‘®«BGetFileAttributes ‚É‚ ‚é’l‚Ì‚¤‚¿‚Ì 1 ‚ÂˆÈãB
+hrNew : [intptr] Œ^: HRESULT ì¬‘€ì‚Ì–ß‚è’lB‚±‚ê‚Í’P‚Éì¬‘€ì‚ğƒLƒ…[‚É“ü‚ê‚é‚¾‚¯‚Ì NewItem ‚ª•Ô‚· HRESULT ‚Å‚Í‚È‚­AÀÛ‚Ìì¬‚ÌŒ‹‰Ê‚Å‚ ‚é“_‚É’ˆÓB
+psiNewItem : [comobj] Œ^: IShellItem* V‚µ‚¢€–Ú‚ğ•\‚· IShellItem ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Performs caller-implemented actions after the new item is created.
+V‚µ‚¢€–Ú‚ªì¬‚³‚ê‚½Œã‚ÉAŒÄ‚Ño‚µ‘¤‚ªÀ‘•‚µ‚½ƒAƒNƒVƒ‡ƒ“‚ğÀs‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise. In the case of an error value, all subsequent operations
-pending from the call to IFileOperation are canceled.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚ÍƒGƒ‰[’l‚ğ•Ô‚·BƒGƒ‰[’l‚Ìê‡AIFileOperation
+‚ÌŒÄ‚Ño‚µ‚©‚ç•Û—¯’†‚ÌŒã‘±‚Ì‘€ì‚Í‚·‚×‚ÄƒLƒƒƒ“ƒZƒ‹‚³‚ê‚éB
 
 
 %index
 IFileOperationProgressSink_UpdateProgress
-Provides an estimate of the total amount of work currently done in relation to the total amount of work.
+‘Sì‹Æ—Ê‚É‘Î‚µ‚ÄAŒ»İ‚Ü‚Å‚ÉŠ®—¹‚µ‚½ì‹Æ—Ê‚ÌŒ©Ï‚à‚è‚ğ’ñ‹Ÿ‚·‚éB
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this, iWorkTotal, iWorkSoFar
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-iWorkTotal : [int] Type: UINT An estimate of the amount of work to be completed.
-iWorkSoFar : [int] Type: UINT The portion of iWorkTotal that has been completed so far.
+iWorkTotal : [int] Œ^: UINT Š®—¹‚·‚×‚«ì‹Æ—Ê‚ÌŒ©Ï‚à‚èB
+iWorkSoFar : [int] Œ^: UINT iWorkTotal ‚Ì‚¤‚¿A‚±‚ê‚Ü‚Å‚ÉŠ®—¹‚µ‚½•ªB
 %inst
-Provides an estimate of the total amount of work currently done in
-relation to the total amount of work.
+‘Sì‹Æ—Ê‚É‘Î‚µ‚ÄAŒ»İ‚Ü‚Å‚ÉŠ®—¹‚µ‚½ì‹Æ—Ê‚ÌŒ©Ï‚à‚è‚ğ’ñ‹Ÿ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The iWorkTotal and iWorkSoFar values are "points" or estimates of the
-amount of work to be done, and how much is completed. They are not
-specified in any particular units, but should be roughly proportional
-to how much time the total process takes. For example, to copy one
-small file might be considered two points, and a large file might be
-considered ten points. If a process is performing an operation that
-copies five small files and one large file, and the process has
-completed four of the small files, iWorkSoFar would be eight points
-(4 x 2 = 8) and iWorkTotal would be twenty points (5 x 2 + 10 = 20),
-so the estimate would be 8 of 20 points (or 40%) complete.
+iWorkTotal ‚¨‚æ‚Ñ iWorkSoFar
+‚Ì’l‚ÍAŠ®—¹‚·‚×‚«ì‹Æ—Ê‚ÆŠù‚ÉŠ®—¹‚µ‚½—Ê‚Ìuƒ|ƒCƒ“ƒgv‚Ü‚½‚ÍŒ©Ï‚à‚è‚Å‚ ‚éB“Á’è‚Ì’PˆÊ‚Åw’è‚³‚ê‚é‚í‚¯‚Å‚Í‚È‚¢‚ªAƒvƒƒZƒX‘S‘Ì‚É‚©‚©‚éŠÔ‚É‚Ù‚Ú”ä—á‚·‚é‚æ‚¤‚É‚·‚×‚«‚Å‚ ‚éB—á‚¦‚ÎA¬‚³‚Èƒtƒ@ƒCƒ‹
+1 ŒÂ‚ÌƒRƒs[‚ğ 2 ƒ|ƒCƒ“ƒgA‘å‚«‚Èƒtƒ@ƒCƒ‹‚ğ 10 ƒ|ƒCƒ“ƒg‚Æ‚İ‚È‚·‚±‚Æ‚ª‚Å‚«‚éB¬‚³‚Èƒtƒ@ƒCƒ‹ 5 ŒÂ‚Æ‘å‚«‚Èƒtƒ@ƒCƒ‹ 1
+ŒÂ‚ğƒRƒs[‚·‚éƒvƒƒZƒX‚ÅA¬‚³‚Èƒtƒ@ƒCƒ‹‚Ì‚¤‚¿ 4 ŒÂ‚ğŠ®—¹‚µ‚½ê‡AiWorkSoFar ‚Í 8 ƒ|ƒCƒ“ƒg (4 ~ 2 =
+8)AiWorkTotal ‚Í 20 ƒ|ƒCƒ“ƒg (5 ~ 2 + 10 = 20) ‚Æ‚È‚èAŒ©Ï‚à‚è‚Í 20 ƒ|ƒCƒ“ƒg’† 8 ƒ|ƒCƒ“ƒg
+(40%) Š®—¹‚Æ‚È‚éB
 
 
 %index
 IFileOperationProgressSink_ResetTimer
-Not supported. (IFileOperationProgressSink.ResetTimer)
+ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B(IFileOperationProgressSink.ResetTimer)
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Not supported. (IFileOperationProgressSink.ResetTimer)
+ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B(IFileOperationProgressSink.ResetTimer)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This method should return S_OK rather than E_NOTIMPL.
+‚±‚Ìƒƒ\ƒbƒh‚Í E_NOTIMPL ‚Å‚Í‚È‚­ S_OK ‚ğ•Ô‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 IFileOperationProgressSink_PauseTimer
-Not supported. (IFileOperationProgressSink.PauseTimer)
+ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B(IFileOperationProgressSink.PauseTimer)
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Not supported. (IFileOperationProgressSink.PauseTimer)
+ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B(IFileOperationProgressSink.PauseTimer)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This method should return S_OK rather than E_NOTIMPL.
+‚±‚Ìƒƒ\ƒbƒh‚Í E_NOTIMPL ‚Å‚Í‚È‚­ S_OK ‚ğ•Ô‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 IFileOperationProgressSink_ResumeTimer
-Not supported. (IFileOperationProgressSink.ResumeTimer)
+ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B(IFileOperationProgressSink.ResumeTimer)
 %group
 COM misc / IFileOperationProgressSink
 %prm
 this
 this : [comobj] IFileOperationProgressSink ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Not supported. (IFileOperationProgressSink.ResumeTimer)
+ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B(IFileOperationProgressSink.ResumeTimer)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This method should return S_OK rather than E_NOTIMPL.
+‚±‚Ìƒƒ\ƒbƒh‚Í E_NOTIMPL ‚Å‚Í‚È‚­ S_OK ‚ğ•Ô‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
@@ -16334,629 +15542,468 @@ pcbSize : [int64]
 
 %index
 IMoniker_BindToObject
-Binds to the specified object. The binding process involves finding the object, putting it into the running state if necessary, and providing the caller with a pointer to a specified interface on the identified object.
+w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÉƒoƒCƒ“ƒh‚·‚éBƒoƒCƒ“ƒhˆ—‚Å‚ÍAƒIƒuƒWƒFƒNƒg‚ğŒŸõ‚µA•K—v‚Å‚ ‚ê‚ÎÀsó‘Ô‚É‘JˆÚ‚³‚¹A¯•Ê‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚Ìw’èƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŒÄ‚Ño‚µ‘¤‚É’ñ‹Ÿ‚·‚éB
 %group
 COM misc / IMoniker
 %prm
 this, pbc, pmkToLeft, riidResult, ppvResult
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pbc : [comobj] A pointer to the IBindCtx interface on the bind context object, which is used in this binding operation. The bind context caches objects bound during the binding process, contains parameters that apply to all operations using the bind context, and provides the means by which the moniker implementation should retrieve information about its environment.
-pmkToLeft : [comobj] If the moniker is part of a composite moniker, pointer to the moniker to the left of this moniker. This parameter is primarily used by moniker implementers to enable cooperation between the various components of a composite moniker. Moniker clients should use NULL.
-riidResult : [var] The IID of the interface the client wishes to use to communicate with the object that the moniker identifies.
-ppvResult : [int] The address of pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvResult contains the requested interface pointer to the object the moniker identifies. When successful, the implementation must call AddRef on the moniker. It is the caller's responsibility to call Release. If an error occurs, *ppvResult should be NULL.
+pbc : [comobj] ‚±‚ÌƒoƒCƒ“ƒh‘€ì‚Åg—p‚·‚éƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒgƒIƒuƒWƒFƒNƒg‚Ì IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ÍAƒoƒCƒ“ƒhˆ—’†‚ÉƒoƒCƒ“ƒh‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğƒLƒƒƒbƒVƒ…‚µAƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ğg—p‚·‚é‚·‚×‚Ä‚Ì‘€ì‚É“K—p‚³‚ê‚éƒpƒ‰ƒ[ƒ^‚ğŠÜ‚İAƒ‚ƒjƒJ[À‘•‚ª‚»‚ÌŠÂ‹«‚É‚Â‚¢‚Äî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ìè’i‚ğ’ñ‹Ÿ‚·‚éB
+pmkToLeft : [comobj] ƒ‚ƒjƒJ[‚ª•¡‡ƒ‚ƒjƒJ[‚Ìˆê•”‚Å‚ ‚éê‡A‚±‚Ìƒ‚ƒjƒJ[‚Ì¶‘¤‚É‚ ‚éƒ‚ƒjƒJ[‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íå‚Éƒ‚ƒjƒJ[À‘•Ò‚ª•¡‡ƒ‚ƒjƒJ[‚ÌŠe\¬—v‘fŠÔ‚Ì˜AŒg‚ğ‰Â”\‚É‚·‚é‚½‚ß‚Ég—p‚·‚éBƒ‚ƒjƒJ[ƒNƒ‰ƒCƒAƒ“ƒg‚Í NULL ‚ğw’è‚·‚×‚«‚Å‚ ‚éB
+riidResult : [var] ƒNƒ‰ƒCƒAƒ“ƒg‚ªƒ‚ƒjƒJ[‚Ì¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚Æ‚Ì’ÊM‚Ég—p‚µ‚½‚¢ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì IIDB
+ppvResult : [int] riid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXBŒÄ‚Ño‚µ‚ª¬Œ÷‚·‚é‚ÆA*ppvResult ‚É‚Íƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚é—v‹ƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB¬Œ÷AÀ‘•‚Íƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŒÄ‚Ño‚µ‘¤‚Í Release ‚ğŒÄ‚Ño‚·Ó”C‚ª‚ ‚éBƒGƒ‰[‚ª”­¶‚µ‚½ê‡A*ppvResult ‚Í NULL ‚Å‚ ‚é‚×‚«‚Å‚ ‚éB
 %inst
-Binds to the specified object. The binding process involves finding
-the object, putting it into the running state if necessary, and
-providing the caller with a pointer to a specified interface on the
-identified object.
+
+w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÉƒoƒCƒ“ƒh‚·‚éBƒoƒCƒ“ƒhˆ—‚Å‚ÍAƒIƒuƒWƒFƒNƒg‚ğŒŸõ‚µA•K—v‚Å‚ ‚ê‚ÎÀsó‘Ô‚É‘JˆÚ‚³‚¹A¯•Ê‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚Ìw’èƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŒÄ‚Ño‚µ‘¤‚É’ñ‹Ÿ‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_OUTOFMEMORY and
-E_UNEXPECTED, as well as the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍA•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚¨‚æ‚Ñ E_UNEXPECTED ‚Ì‚Ù‚©AˆÈ‰º‚Ì’l‚ğ•Ô‚·ê‡‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-BindToObject implements the primary function of a moniker, which is
-to locate the object identified by the moniker and return a pointer
-to one of its interfaces. Notes to Callers If you are using a moniker
-as a persistent connection between two objects, you activate the
-connection by calling BindToObject. You typically call BindToObject
-during the following process:
-This doc was truncated.
+BindToObject
+‚Íƒ‚ƒjƒJ[‚Ìå‹@”\‚ğÀ‘•‚·‚éB‚·‚È‚í‚¿Aƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ğ“Á’è‚µA‚»‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì‚¢‚¸‚ê‚©‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·BŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ:
+ƒ‚ƒjƒJ[‚ğ 2 ‚Â‚ÌƒIƒuƒWƒFƒNƒgŠÔ‚Ì‰i‘±“I‚ÈÚ‘±‚Æ‚µ‚Äg—p‚µ‚Ä‚¢‚éê‡‚ÍABindToObject
+‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅÚ‘±‚ğƒAƒNƒeƒBƒu‰»‚·‚éB’Êí‚ÍˆÈ‰º‚ÌƒvƒƒZƒX‚Å BindToObject ‚ğŒÄ‚Ño‚·B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_BindToStorage
-Binds to the storage for the specified object. Unlike the IMoniker::BindToObject method, this method does not activate the object identified by the moniker.
+w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒXƒgƒŒ[ƒW‚ÉƒoƒCƒ“ƒh‚·‚éBIMoniker::BindToObject ƒƒ\ƒbƒh‚Æ‚ÍˆÙ‚È‚èA‚±‚Ìƒƒ\ƒbƒh‚Íƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ğƒAƒNƒeƒBƒu‰»‚µ‚È‚¢B
 %group
 COM misc / IMoniker
 %prm
 this, pbc, pmkToLeft, riid, ppvObj
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pbc : [comobj] A pointer to the IBindCtx interface on the bind context object, which is used in this binding operation. The bind context caches objects bound during the binding process, contains parameters that apply to all operations using the bind context, and provides the means by which the moniker implementation should retrieve information about its environment.
-pmkToLeft : [comobj] If the moniker is part of a composite moniker, pointer to the moniker to the left of this moniker. This parameter is primarily used by moniker implementers to enable cooperation between the various components of a composite moniker. Moniker clients should use NULL.
-riid : [var] A reference to the identifier of the storage interface requested, whose pointer will be returned in ppvObj. Storage interfaces commonly requested include IStorage, IStream, and ILockBytes.
-ppvObj : [int] The address of pointer variable that receives the interface pointer requested in riid. Upon successful return, *ppvObj contains the requested interface pointer to the storage of the object the moniker identifies. When successful, the implementation must call AddRef on the storage. It is the caller's responsibility to call Release. If an error occurs, *ppvObj should be NULL.
+pbc : [comobj] ‚±‚ÌƒoƒCƒ“ƒh‘€ì‚Åg—p‚·‚éƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒgƒIƒuƒWƒFƒNƒg‚Ì IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ÍAƒoƒCƒ“ƒhˆ—’†‚ÉƒoƒCƒ“ƒh‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğƒLƒƒƒbƒVƒ…‚µAƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ğg—p‚·‚é‚·‚×‚Ä‚Ì‘€ì‚É“K—p‚³‚ê‚éƒpƒ‰ƒ[ƒ^‚ğŠÜ‚İAƒ‚ƒjƒJ[À‘•‚ª‚»‚ÌŠÂ‹«‚É‚Â‚¢‚Äî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ìè’i‚ğ’ñ‹Ÿ‚·‚éB
+pmkToLeft : [comobj] ƒ‚ƒjƒJ[‚ª•¡‡ƒ‚ƒjƒJ[‚Ìˆê•”‚Å‚ ‚éê‡A‚±‚Ìƒ‚ƒjƒJ[‚Ì¶‘¤‚É‚ ‚éƒ‚ƒjƒJ[‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íå‚Éƒ‚ƒjƒJ[À‘•Ò‚ª•¡‡ƒ‚ƒjƒJ[‚ÌŠe\¬—v‘fŠÔ‚Ì˜AŒg‚ğ‰Â”\‚É‚·‚é‚½‚ß‚Ég—p‚·‚éBƒ‚ƒjƒJ[ƒNƒ‰ƒCƒAƒ“ƒg‚Í NULL ‚ğw’è‚·‚×‚«‚Å‚ ‚éB
+riid : [var] —v‹‚·‚éƒXƒgƒŒ[ƒWƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì¯•Êq‚Ö‚ÌQÆ‚Å‚ ‚èAppvObj ‚É•Ô‚³‚ê‚éƒ|ƒCƒ“ƒ^‚ÌŒ^‚Æ‚È‚éBˆê”Ê“I‚É—v‹‚³‚ê‚éƒXƒgƒŒ[ƒWƒCƒ“ƒ^[ƒtƒF[ƒX‚É‚Í IStorageAIStreamA‚¨‚æ‚Ñ ILockBytes ‚ª‚ ‚éB
+ppvObj : [int] riid ‚Å—v‹‚³‚ê‚½ƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXBŒÄ‚Ño‚µ‚ª¬Œ÷‚·‚é‚ÆA*ppvObj ‚É‚Íƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ÌƒXƒgƒŒ[ƒW‚É‘Î‚·‚é—v‹ƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ªŠi”[‚³‚ê‚éB¬Œ÷AÀ‘•‚ÍƒXƒgƒŒ[ƒW‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŒÄ‚Ño‚µ‘¤‚Í Release ‚ğŒÄ‚Ño‚·Ó”C‚ª‚ ‚éBƒGƒ‰[‚ª”­¶‚µ‚½ê‡A*ppvObj ‚Í NULL ‚Å‚ ‚é‚×‚«‚Å‚ ‚éB
 %inst
-Binds to the storage for the specified object. Unlike the
-IMoniker::BindToObject method, this method does not activate the
-object identified by the moniker.
+w’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒXƒgƒŒ[ƒW‚ÉƒoƒCƒ“ƒh‚·‚éBIMoniker::BindToObject
+ƒƒ\ƒbƒh‚Æ‚ÍˆÙ‚È‚èA‚±‚Ìƒƒ\ƒbƒh‚Íƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ğƒAƒNƒeƒBƒu‰»‚µ‚È‚¢B
 
 [–ß‚è’l]
-This method can return the standard return values E_UNEXPECTED, as
-well as the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍA•W€‚Ì–ß‚è’l E_UNEXPECTED ‚Ì‚Ù‚©AˆÈ‰º‚Ì’l‚ğ•Ô‚·ê‡‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-There is an important difference between the BindToObject and
-BindToStorage methods. If, for example, you have a moniker that
-identifies a spreadsheet object, calling BindToObject provides access
-to the spreadsheet object itself, while calling BindToStorage
-provides access to the storage object in which the spreadsheet
-resides. Notes to Callers Although none of the COM moniker classes
-call this method in their binding operations, it might be appropriate
-to call it in the implementation of a new moniker class. You could
-call this method in an implementation of BindToObject that requires
-information from the object identified by the pmkToLeft parameter and
-can get it from the persistent storage of the object without
-activation. For example, if your monikers are used to identify
-objects that can be activated without activating their containers,
-you may find this method useful. A client that can read the storage
-of the object its moniker identifies could also call this method.
-Notes to Implementers Your implementation should locate the
-persistent storage for the object identified by the current moniker
-and return the desired interface pointer. Some types of monikers
-represent pseudo-objects, which are objects that do not have their
-own persistent storage. Such objects comprise some portion of the
-internal state of its container, for example, a range of cells in a
-spreadsheet. If your moniker class identifies this type of object,
-your implementation of BindToStorage should return the error
-MK_E_NOSTORAGE. If the bind context's BIND_OPTS structure specifies
-the BINDFLAGS_JUSTTESTEXISTENCE flag, your implementation has the
-option of returning NULL in ppvObj (although you can also ignore the
-flag and perform the complete binding operation).
-Implementation-specific Notes
-This doc was truncated.
+BindToObject ‚Æ BindToStorage
+‚ÌŠÔ‚É‚Íd—v‚Èˆá‚¢‚ª‚ ‚éB—á‚¦‚ÎAƒXƒvƒŒƒbƒhƒV[ƒgƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ[‚ª‚ ‚éê‡ABindToObject
+‚ğŒÄ‚Ño‚·‚ÆƒXƒvƒŒƒbƒhƒV[ƒgƒIƒuƒWƒFƒNƒg©‘Ì‚ÉƒAƒNƒZƒX‚Å‚«‚é‚ªABindToStorage
+‚ğŒÄ‚Ño‚·‚ÆƒXƒvƒŒƒbƒhƒV[ƒg‚ª’u‚©‚ê‚Ä‚¢‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚ÉƒAƒNƒZƒX‚Å‚«‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ: COM
+‚Ìƒ‚ƒjƒJ[ƒNƒ‰ƒX‚Ì‚¢‚¸‚ê‚àƒoƒCƒ“ƒhˆ—‚Å‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚³‚È‚¢‚ªAV‚µ‚¢ƒ‚ƒjƒJ[ƒNƒ‰ƒX‚ÌÀ‘•‚Å‚Í‚±‚ê‚ğŒÄ‚Ño‚·‚±‚Æ‚ª“KØ‚Èê‡‚ª‚ ‚éBpmkToLeft
+ƒpƒ‰ƒ[ƒ^‚Å¯•Ê‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚©‚ç‚Ìî•ñ‚ğ•K—v‚Æ‚µAƒAƒNƒeƒBƒu‰»‚¹‚¸‚É‚»‚ÌƒIƒuƒWƒFƒNƒg‚Ì‰i‘±ƒXƒgƒŒ[ƒW‚©‚çæ“¾‚Å‚«‚éê‡ABindToObject
+‚ÌÀ‘•“à‚Å–{ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB—á‚¦‚ÎAƒRƒ“ƒeƒi‚ğƒAƒNƒeƒBƒu‰»‚¹‚¸‚ÉƒAƒNƒeƒBƒu‰»‚Å‚«‚éƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ[‚Å‚ ‚ê‚ÎA‚±‚Ìƒƒ\ƒbƒh‚ª—L—p‚Å‚ ‚éB¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ÌƒXƒgƒŒ[ƒW‚ğ“Ç‚İæ‚ê‚éƒNƒ‰ƒCƒAƒ“ƒg‚à‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚¹‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ:
+À‘•‚ÍŒ»İ‚Ìƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚Ì‰i‘±ƒXƒgƒŒ[ƒW‚ğ“Á’è‚µA–Ú“I‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğ•Ô‚·‚×‚«‚Å‚ ‚éBƒ‚ƒjƒJ[‚Ìí—Ş‚É‚æ‚Á‚Ä‚Í‹[—ƒIƒuƒWƒFƒNƒg
+(©g‚Ì‰i‘±ƒXƒgƒŒ[ƒW‚ğ‚½‚¸AƒRƒ“ƒeƒi‚Ì“à•”ó‘Ô‚Ìˆê•”‚ğ¬‚·ƒIƒuƒWƒFƒNƒgB—á: ƒXƒvƒŒƒbƒhƒV[ƒg“à‚ÌƒZƒ‹”ÍˆÍ)
+‚ğ•\‚·B‚±‚Ì‚æ‚¤‚Èí—Ş‚ÌƒIƒuƒWƒFƒNƒg‚ğƒ‚ƒjƒJ[ƒNƒ‰ƒX‚ª¯•Ê‚·‚éê‡ABindToStorage ‚ÌÀ‘•‚Í MK_E_NOSTORAGE
+ƒGƒ‰[‚ğ•Ô‚·‚×‚«‚Å‚ ‚éBƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ì BIND_OPTS \‘¢‘Ì‚É BINDFLAGS_JUSTTESTEXISTENCE
+ƒtƒ‰ƒO‚ªw’è‚³‚ê‚Ä‚¢‚éê‡AÀ‘•‚Í ppvObj ‚É NULL ‚ğ•Ô‚·‚±‚Æ‚à‚Å‚«‚é
+(‚½‚¾‚µAƒtƒ‰ƒO‚ğ–³‹‚µ‚ÄŠ®‘S‚ÈƒoƒCƒ“ƒh‘€ì‚ğÀs‚µ‚Ä‚à‚æ‚¢)BÀ‘•ŒÅ—L‚Ì’ˆÓ:
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_Reduce
-Reduces a moniker to its simplest form.
+ƒ‚ƒjƒJ[‚ğÅ‚à’Pƒ‚ÈŒ`®‚ÉŠÈ–ñ‚·‚éB
 %group
 COM misc / IMoniker
 %prm
 this, pbc, dwReduceHowFar, ppmkToLeft, ppmkReduced
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pbc : [comobj] A pointer to the IBindCtx interface on the bind context to be used in this binding operation. The bind context caches objects bound during the binding process, contains parameters that apply to all operations using the bind context, and provides the means by which the moniker implementation should retrieve information about its environment.
-dwReduceHowFar : [int] Specifies how far this moniker should be reduced. This parameter must be one of the values from the MKRREDUCE enumeration.
-ppmkToLeft : [comobj] On entry, a pointer to an IMoniker pointer variable that contains the interface pointer to moniker to the left of this moniker. This parameter is used primarily by moniker implementers to enable cooperation between the various components of a composite moniker; moniker clients can usually pass NULL. On return, *ppmkToLeft is usually set to NULL, indicating no change in the original moniker to the left. In rare situations, *ppmkToLeft indicates a moniker, indicating that the previous moniker to the left should be disregarded and the moniker returned through *ppmkToLeft is the replacement. In such a situation, the implementation must call Release on the old moniker to the left of this moniker and must call AddRef on the new returned moniker; the caller must release it later. If an error occurs, the implementation can either leave the interface pointer unchanged or set it to NULL.
-ppmkReduced : [comobj] A pointer to an IMoniker pointer variable that receives the interface pointer to the reduced form of this moniker, which can be NULL if an error occurs or if this moniker is reduced to nothing. If this moniker cannot be reduced, *ppmkReduced is simply set to this moniker and the return value is MK_S_REDUCED_TO_SELF. If *ppmkReduced is non-NULL, the implementation must call AddRef on the new moniker; it is the caller's responsibility to call Release. (This is true even if *ppmkReduced is set to this moniker.)
+pbc : [comobj] ‚±‚ÌƒoƒCƒ“ƒh‘€ì‚Åg—p‚·‚éƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ì IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ÍAƒoƒCƒ“ƒhˆ—’†‚ÉƒoƒCƒ“ƒh‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğƒLƒƒƒbƒVƒ…‚µAƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ğg—p‚·‚é‚·‚×‚Ä‚Ì‘€ì‚É“K—p‚³‚ê‚éƒpƒ‰ƒ[ƒ^‚ğŠÜ‚İAƒ‚ƒjƒJ[À‘•‚ª‚»‚ÌŠÂ‹«‚É‚Â‚¢‚Äî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ìè’i‚ğ’ñ‹Ÿ‚·‚éB
+dwReduceHowFar : [int] ‚±‚Ìƒ‚ƒjƒJ[‚ğ‚Ç‚±‚Ü‚ÅŠÈ–ñ‚·‚é‚©‚ğw’è‚·‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í MKRREDUCE —ñ‹“Œ^‚Ì’l‚Ì‚¢‚¸‚ê‚©‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppmkToLeft : [comobj] “ü—ÍA‚±‚Ìƒ‚ƒjƒJ[‚Ì¶‘¤‚É‚ ‚éƒ‚ƒjƒJ[‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğ•Û‚·‚é IMoniker ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íå‚Éƒ‚ƒjƒJ[À‘•Ò‚ª•¡‡ƒ‚ƒjƒJ[‚ÌŠe\¬—v‘fŠÔ‚Ì˜AŒg‚ğ‰Â”\‚É‚·‚é‚½‚ß‚Ég—p‚·‚éBƒ‚ƒjƒJ[ƒNƒ‰ƒCƒAƒ“ƒg‚Í’Êí NULL ‚ğ“n‚¹‚Î‚æ‚¢B–ß‚èA*ppmkToLeft ‚Í’Êí NULL ‚Éİ’è‚³‚êAŒ³‚Ì¶‘¤ƒ‚ƒjƒJ[‚É•ÏX‚ª‚È‚¢‚±‚Æ‚ğ¦‚·B‚Ü‚ê‚ÉA*ppmkToLeft ‚ªƒ‚ƒjƒJ[‚ğ¦‚µAŒ³‚Ì¶‘¤ƒ‚ƒjƒJ[‚ğ”jŠü‚µA*ppmkToLeft ‚©‚ç•Ô‚³‚ê‚éƒ‚ƒjƒJ[‚ª’u‚«Š·‚¦‚Æ‚È‚é‚±‚Æ‚ğ¦‚·B‚±‚Ì‚æ‚¤‚Èó‹µ‚Å‚ÍAÀ‘•‚Í‚±‚Ìƒ‚ƒjƒJ[‚Ì¶‘¤‚É‚ ‚Á‚½ŒÃ‚¢ƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä Release ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚¸A•Ô‚³‚ê‚éV‚µ‚¢ƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŒÄ‚Ño‚µ‘¤‚ÍŒã‚Å‚»‚ê‚ğ‰ğ•ú‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒGƒ‰[‚ª”­¶‚µ‚½ê‡AÀ‘•‚ÍƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğ•ÏX‚µ‚È‚¢‚Ü‚Ü‚É‚·‚é‚©ANULL ‚Éİ’è‚Å‚«‚éB
+ppmkReduced : [comobj] ‚±‚Ìƒ‚ƒjƒJ[‚ÌŠÈ–ñŒ`‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒGƒ‰[”­¶‚âƒ‚ƒjƒJ[‚ª‰½‚à‚È‚¢ó‘Ô‚Ü‚ÅŠÈ–ñ‚³‚ê‚½ê‡‚Í NULL ‚É‚È‚è“¾‚éB‚±‚Ìƒ‚ƒjƒJ[‚ªŠÈ–ñ‚Å‚«‚È‚¢ê‡A*ppmkReduced ‚Í’P‚É‚±‚Ìƒ‚ƒjƒJ[‚Éİ’è‚³‚êA–ß‚è’l‚Í MK_S_REDUCED_TO_SELF ‚Æ‚È‚éB*ppmkReduced ‚ª”ñ NULL ‚Ìê‡AÀ‘•‚ÍV‚µ‚¢ƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŒÄ‚Ño‚µ‘¤‚Í Release ‚ğŒÄ‚Ño‚·Ó”C‚ª‚ ‚éB(‚±‚ê‚Í *ppmkReduced ‚ª‚±‚Ìƒ‚ƒjƒJ[©‘Ì‚Éİ’è‚³‚ê‚Ä‚¢‚éê‡‚Å‚à“¯—l‚Å‚ ‚éB)
 %inst
-Reduces a moniker to its simplest form.
+ƒ‚ƒjƒJ[‚ğÅ‚à’Pƒ‚ÈŒ`®‚ÉŠÈ–ñ‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_OUTOFMEMORY and
-E_UNEXPECTED, as well as the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍA•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚¨‚æ‚Ñ E_UNEXPECTED ‚Ì‚Ù‚©AˆÈ‰º‚Ì’l‚ğ•Ô‚·ê‡‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This method is intended for the following uses:
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì—p“r‚Ì‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_ComposeWith
-Creates a new composite moniker by combining the current moniker with the specified moniker.
+Œ»İ‚Ìƒ‚ƒjƒJ[‚Æw’è‚µ‚½ƒ‚ƒjƒJ[‚ğŒ‹‡‚µ‚ÄAV‚µ‚¢•¡‡ƒ‚ƒjƒJ[‚ğì¬‚·‚éB
 %group
 COM misc / IMoniker
 %prm
 this, pmkRight, fOnlyIfNotGeneric, ppmkComposite
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pmkRight : [comobj] A pointer to the IMoniker interface on the moniker to compose onto the end of this moniker.
-fOnlyIfNotGeneric : [int] If TRUE, the caller requires a nongeneric composition, so the operation should proceed only if pmkRight is a moniker class that this moniker can compose with in some way other than forming a generic composite. If FALSE, the method can create a generic composite if necessary. Most callers should set this parameter to FALSE.
-ppmkComposite : [comobj] A pointer to an IMoniker pointer variable that receives the composite moniker pointer. When successful, the implementation must call AddRef on the resulting moniker; it is the caller's responsibility to call Release. If an error occurs or if the monikers compose to nothing (for example, composing an anti-moniker with an item moniker or a file moniker), *ppmkComposite should be set to NULL.
+pmkRight : [comobj] ‚±‚Ìƒ‚ƒjƒJ[‚Ì––”ö‚É‡¬‚·‚éƒ‚ƒjƒJ[‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+fOnlyIfNotGeneric : [int] TRUE ‚Ìê‡AŒÄ‚Ño‚µ‘¤‚Í”ñ”Ä—p‡¬‚ğ—v‹‚µ‚Ä‚¨‚èApmkRight ‚ª”Ä—p•¡‡ˆÈŠO‚Ì•û–@‚Å‚±‚Ìƒ‚ƒjƒJ[‚Æ‡¬‚Å‚«‚éƒ‚ƒjƒJ[ƒNƒ‰ƒX‚Ìê‡‚É‚Ì‚İ‘€ì‚ğ‘±s‚·‚×‚«‚Å‚ ‚éBFALSE ‚Ìê‡A•K—v‚Å‚ ‚ê‚Î”Ä—p•¡‡‚ğì¬‚Å‚«‚éB‘½‚­‚ÌŒÄ‚Ño‚µ‘¤‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^‚É FALSE ‚ğw’è‚·‚×‚«‚Å‚ ‚éB
+ppmkComposite : [comobj] •¡‡ƒ‚ƒjƒJ[ƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷AÀ‘•‚ÍŒ‹‰Ê‚Ìƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŒÄ‚Ño‚µ‘¤‚Í Release ‚ğŒÄ‚Ño‚·Ó”C‚ª‚ ‚éBƒGƒ‰[‚ª”­¶‚µ‚½ê‡A‚Ü‚½‚Íƒ‚ƒjƒJ[“¯m‚Ì‡¬Œ‹‰Ê‚ª‰½‚à‚È‚¢ê‡ (—á‚¦‚ÎAƒAƒ“ƒ`ƒ‚ƒjƒJ[‚ğ€–Úƒ‚ƒjƒJ[‚âƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ[‚Æ‡¬‚·‚éê‡)A*ppmkComposite ‚Í NULL ‚Éİ’è‚·‚×‚«‚Å‚ ‚éB
 %inst
-Creates a new composite moniker by combining the current moniker with
-the specified moniker.
+Œ»İ‚Ìƒ‚ƒjƒJ[‚Æw’è‚µ‚½ƒ‚ƒjƒJ[‚ğŒ‹‡‚µ‚ÄAV‚µ‚¢•¡‡ƒ‚ƒjƒJ[‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_OUTOFMEMORY and
-E_UNEXPECTED, as well as the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍA•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚¨‚æ‚Ñ E_UNEXPECTED ‚Ì‚Ù‚©AˆÈ‰º‚Ì’l‚ğ•Ô‚·ê‡‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Joining two monikers together is called composition. Sometimes two
-monikers of the same class can be combined in what is called
-nongeneric composition. For example, a file moniker representing an
-incomplete path and another file moniker representing a relative path
-can be combined to form a single file moniker representing the
-complete path. Nongeneric composition for a given moniker class can
-be handled only in the implementation of ComposeWith for that moniker
-class. Combining two monikers of any class is called generic
-composition, which can be accomplished through a call to the
-CreateGenericComposite function. Composition of monikers is an
-associative operation. That is, if A, B, and C are monikers, then,
-where Comp() represents the composition operation, Comp( Comp( A, B
-), C ) is always equal to Comp( A, Comp( B, C ) ). Notes to Callers
-To combine two monikers, you should call ComposeWith rather than
-calling the CreateGenericComposite function to give the first moniker
-a chance to perform a nongeneric composition. An object that provides
-item monikers to identify its objects would call ComposeWith to
-provide a moniker that completely identifies the location of the
-object. This would apply, for example, to a server that supports
-linking to portions of a document, or to a container that supports
-linking to embedded objects within its documents. In such a
-situation, you would do the following:
-This doc was truncated.
+2 ‚Â‚Ìƒ‚ƒjƒJ[‚ğŒ‹‡‚·‚é‚±‚Æ‚ğ‡¬‚ÆŒÄ‚ÔB“¯‚¶ƒNƒ‰ƒX‚Ì 2
+‚Â‚Ìƒ‚ƒjƒJ[‚ÍA”ñ”Ä—p‡¬‚ÆŒÄ‚Î‚ê‚é•û–@‚ÅŒ‹‡‚Å‚«‚é‚±‚Æ‚ª‚ ‚éB—á‚¦‚ÎA•sŠ®‘S‚ÈƒpƒX‚ğ•\‚·ƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ[‚Æ‘Š‘ÎƒpƒX‚ğ•\‚·ƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ[‚ğŒ‹‡‚µAŠ®‘S‚ÈƒpƒX‚ğ•\‚·’Pˆê‚Ìƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ[‚ğŒ`¬‚Å‚«‚éB“Á’è‚Ìƒ‚ƒjƒJ[ƒNƒ‰ƒX‚É‘Î‚·‚é”ñ”Ä—p‡¬‚ÍA‚»‚ÌƒNƒ‰ƒX‚Ì
+ComposeWith ‚ÌÀ‘•‚Å‚Ì‚İˆ—‚Å‚«‚éBƒNƒ‰ƒX‚ğ–â‚í‚¸ 2
+‚Â‚Ìƒ‚ƒjƒJ[‚ğŒ‹‡‚·‚é‚±‚Æ‚ğ”Ä—p‡¬‚ÆŒÄ‚ÑACreateGenericComposite
+ŠÖ”‚ÌŒÄ‚Ño‚µ‚ÅÀŒ»‚Å‚«‚éBƒ‚ƒjƒJ[‚Ì‡¬‚ÍŒ‹‡‘¥‚ª¬‚è—§‚ÂB‚·‚È‚í‚¿AAABAC ‚ªƒ‚ƒjƒJ[‚Ì‚Æ‚«AComp()
+‚ğ‡¬‘€ì‚Æ‚µ‚ÄAComp( Comp( A, B ), C ) ‚Íí‚É Comp( A, Comp( B, C ) )
+‚Æ“™‚µ‚¢BŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ: 2
+‚Â‚Ìƒ‚ƒjƒJ[‚ğŒ‹‡‚·‚é‚É‚ÍAÅ‰‚Ìƒ‚ƒjƒJ[‚É”ñ”Ä—p‡¬‚ğs‚¤‹@‰ï‚ğ—^‚¦‚é‚½‚ßACreateGenericComposite ŠÖ”‚Å‚Í‚È‚­
+ComposeWith
+‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB€–Úƒ‚ƒjƒJ[‚ğ—p‚¢‚Ä©g‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ÍA‚»‚ÌƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ğŠ®‘S‚É¯•Ê‚·‚éƒ‚ƒjƒJ[‚ğ’ñ‹Ÿ‚·‚é‚½‚ß
+ComposeWith
+‚ğŒÄ‚Ño‚·‚¾‚ë‚¤B‚±‚ê‚ÍA—á‚¦‚ÎAƒhƒLƒ…ƒƒ“ƒg‚Ìˆê•”‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒT[ƒo‚âAƒhƒLƒ…ƒƒ“ƒg“à‚Ì–„‚ß‚İƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒi‚É“K—p‚³‚ê‚éB‚±‚Ì‚æ‚¤‚Èó‹µ‚Å‚ÍAŸ‚Ì‚æ‚¤‚É‚·‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_Enum
-Retrieves a pointer to an enumerator for the components of a composite moniker.
+•¡‡ƒ‚ƒjƒJ[‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg—p‚Ì—ñ‹“q‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 %group
 COM misc / IMoniker
 %prm
 this, fForward, ppenumMoniker
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-fForward : [int] If TRUE, enumerates the monikers from left to right. If FALSE, enumerates from right to left.
-ppenumMoniker : [comobj] A pointer to an IEnumMoniker pointer variable that receives the interface pointer to the enumerator object for the moniker. When successful, the implementation must call AddRef on the enumerator object. It is the caller's responsibility to call Release. If an error occurs or if the moniker has no enumerable components, the implementation sets *ppenumMoniker to NULL.
+fForward : [int] TRUE ‚Ìê‡Aƒ‚ƒjƒJ[‚ğ¶‚©‚ç‰E‚Ö—ñ‹“‚·‚éBFALSE ‚Ìê‡‚Í‰E‚©‚ç¶‚Ö—ñ‹“‚·‚éB
+ppenumMoniker : [comobj] ƒ‚ƒjƒJ[‚Ì—ñ‹“qƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IEnumMoniker ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷AÀ‘•‚Í—ñ‹“qƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŒÄ‚Ño‚µ‘¤‚Í Release ‚ğŒÄ‚Ño‚·Ó”C‚ª‚ ‚éBƒGƒ‰[‚ª”­¶‚µ‚½ê‡A‚Ü‚½‚Íƒ‚ƒjƒJ[‚É—ñ‹“‰Â”\‚ÈƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‘¶İ‚µ‚È‚¢ê‡AÀ‘•‚Í *ppenumMoniker ‚ğ NULL ‚Éİ’è‚·‚éB
 %inst
-Retrieves a pointer to an enumerator for the components of a
-composite moniker.
+•¡‡ƒ‚ƒjƒJ[‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg—p‚Ì—ñ‹“q‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_OUTOFMEMORY,
-E_UNEXPECTED, and S_OK.
+‚±‚Ìƒƒ\ƒbƒh‚ÍA•W€‚Ì–ß‚è’l E_OUTOFMEMORYAE_UNEXPECTEDA‚¨‚æ‚Ñ S_OK ‚ğ•Ô‚·ê‡‚ª‚ ‚éB
 
 [”õl]
-This method must supply an IEnumMoniker pointer to an enumerator that
-can enumerate the components of a moniker. For example, the
-implementation of the IMoniker::Enum method for a generic composite
-moniker creates an enumerator that can determine the individual
-monikers that make up the composite, while the IMoniker::Enum method
-for a file moniker creates an enumerator that returns monikers
-representing each of the components in the path. Notes to Callers
-Call this method to examine the components that make up a composite
-moniker. Notes to Implementers If the new moniker class has no
-discernible internal structure, your implementation of this method
-can simply return S_OK and set ppenumMoniker to NULL.
-Implementation-specific Notes
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍAƒ‚ƒjƒJ[‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ—ñ‹“‚Å‚«‚é—ñ‹“q‚Ö‚Ì IEnumMoniker
+ƒ|ƒCƒ“ƒ^‚ğ’ñ‹Ÿ‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B—á‚¦‚ÎA”Ä—p•¡‡ƒ‚ƒjƒJ[‚É‘Î‚·‚é IMoniker::Enum
+ƒƒ\ƒbƒh‚ÌÀ‘•‚ÍA‚»‚Ì•¡‡‚ğ\¬‚·‚éŒÂX‚Ìƒ‚ƒjƒJ[‚ğ”»•Ê‚Å‚«‚é—ñ‹“q‚ğì¬‚·‚éBˆê•ûAƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ[‚É‘Î‚·‚é
+IMoniker::Enum ƒƒ\ƒbƒh‚ÍAƒpƒX“à‚ÌŠeƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ•\‚·ƒ‚ƒjƒJ[‚ğ•Ô‚·—ñ‹“q‚ğì¬‚·‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ:
+•¡‡ƒ‚ƒjƒJ[‚ğ\¬‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ’²‚×‚é‚½‚ß‚É‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·BÀ‘•Ò‚Ö‚Ì’ˆÓ:
+V‚µ‚¢ƒ‚ƒjƒJ[ƒNƒ‰ƒX‚É”»•Ê‰Â”\‚È“à•”\‘¢‚ª‚È‚¢ê‡A‚±‚Ìƒƒ\ƒbƒh‚ÌÀ‘•‚Å‚Í’P‚É S_OK ‚ğ•Ô‚µ ppenumMoniker ‚ğ NULL
+‚Éİ’è‚·‚ê‚Î‚æ‚¢BÀ‘•ŒÅ—L‚Ì’ˆÓ:
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_IsEqual
-Determines whether this moniker is identical to the specified moniker.
+‚±‚Ìƒ‚ƒjƒJ[‚ªw’è‚µ‚½ƒ‚ƒjƒJ[‚Æ“¯ˆê‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 COM misc / IMoniker
 %prm
 this, pmkOtherMoniker
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pmkOtherMoniker : [comobj] A  pointer to the IMoniker interface on the moniker to be used for comparison with this one (the one from which this method is called).
+pmkOtherMoniker : [comobj] ”äŠr‘ÎÛ‚Æ‚È‚éƒ‚ƒjƒJ[ (‚±‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚éƒ‚ƒjƒJ[‚Æ”äŠr‚³‚ê‚é‚à‚Ì) ‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Determines whether this moniker is identical to the specified
-moniker.
+‚±‚Ìƒ‚ƒjƒJ[‚ªw’è‚µ‚½ƒ‚ƒjƒJ[‚Æ“¯ˆê‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-This method returns S_OK to indicate that the two monikers are
-identical, and S_FALSE otherwise.
+‚±‚Ìƒƒ\ƒbƒh‚ÍA2 ‚Â‚Ìƒ‚ƒjƒJ[‚ª“¯ˆê‚Å‚ ‚é‚±‚Æ‚ğ¦‚·‚½‚ß‚É S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚Í S_FALSE ‚ğ•Ô‚·B
 
 [”õl]
-Previous implementations of the running object table (ROT) called
-this method. The current implementation of the ROT uses the IROTData
-interface instead. Notes to Callers Call this method to determine
-whether two monikers are identical. The reduced form of a moniker is
-considered different from the unreduced form. You should call the
-IMoniker::Reduce method before calling IsEqual, because a reduced
-moniker is in its most specific form. IsEqual may return S_FALSE on
-two monikers before they are reduced, and S_OK after they are
-reduced. Notes to Implementers Your implementation should not reduce
-the current moniker before performing the comparison. It is the
-caller's responsibility to call IMoniker::Reduce to compare reduced
-monikers. Two monikers that compare as equal must hash to the same
-value using IMoniker::Hash. Implementation-specific Notes
-This doc was truncated.
+ˆÈ‘O‚ÌÀs’†ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚ÌÀ‘•‚Í‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä‚¢‚½BŒ»İ‚Ì ROT ‚ÌÀ‘•‚Í‘ã‚í‚è‚É IROTData
+ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğg—p‚·‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ: 2
+‚Â‚Ìƒ‚ƒjƒJ[‚ª“¯ˆê‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚½‚ß‚É‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·Bƒ‚ƒjƒJ[‚ÌŠÈ–ñŒ`‚Í”ñŠÈ–ñŒ`‚Æ‚ÍˆÙ‚È‚é‚à‚Ì‚Æ‚İ‚È‚³‚ê‚éBŠÈ–ñƒ‚ƒjƒJ[‚ÍÅ‚à‹ï‘Ì“I‚ÈŒ`‚Å‚ ‚é‚½‚ßAIsEqual
+‚ğŒÄ‚Ño‚·‘O‚É IMoniker::Reduce ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éBIsEqual ‚ÍA2 ‚Â‚Ìƒ‚ƒjƒJ[‚ªŠÈ–ñ‘O‚É‚Í
+S_FALSE ‚ğ•Ô‚µAŠÈ–ñŒã‚É‚Í S_OK ‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ:
+À‘•‚Í”äŠr‚ğs‚¤‘O‚ÉŒ»İ‚Ìƒ‚ƒjƒJ[‚ğŠÈ–ñ‚·‚×‚«‚Å‚Í‚È‚¢BŠÈ–ñÏ‚İƒ‚ƒjƒJ[‚ğ”äŠr‚·‚é‚½‚ß‚É IMoniker::Reduce
+‚ğŒÄ‚Ño‚·‚Ì‚ÍŒÄ‚Ño‚µ‘¤‚ÌÓ”C‚Å‚ ‚éB“™‚µ‚¢‚Æ”äŠr‚³‚ê‚é 2 ‚Â‚Ìƒ‚ƒjƒJ[‚Í IMoniker::Hash
+‚Å“¯‚¶’l‚ÉƒnƒbƒVƒ…‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÀ‘•ŒÅ—L‚Ì’ˆÓ:
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_Hash
-Creates a hash value using the internal state of the moniker.
+ƒ‚ƒjƒJ[‚Ì“à•”ó‘Ô‚ğ—p‚¢‚ÄƒnƒbƒVƒ…’l‚ğì¬‚·‚éB
 %group
 COM misc / IMoniker
 %prm
 this, pdwHash
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pdwHash : [int] A pointer to a variable that receives the hash value.
+pdwHash : [int] ƒnƒbƒVƒ…’l‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Creates a hash value using the internal state of the moniker.
+ƒ‚ƒjƒJ[‚Ì“à•”ó‘Ô‚ğ—p‚¢‚ÄƒnƒbƒVƒ…’l‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This method returns S_OK to indicate that the hash value was
-retrieved successfully.
+ƒnƒbƒVƒ…’l‚ª³í‚Éæ“¾‚Å‚«‚½‚±‚Æ‚ğ¦‚·‚½‚ßA‚±‚Ìƒƒ\ƒbƒh‚Í S_OK ‚ğ•Ô‚·B
 
 [”õl]
-Notes to Callers You can use the value returned by this method to
-maintain a hash table of monikers. The hash value determines a hash
-bucket in the table. To search such a table for a specified moniker,
-calculate its hash value and then compare it to the monikers in that
-hash bucket using IMoniker::IsEqual. Notes to Implementers The hash
-value must be constant for the lifetime of the moniker. Two monikers
-that compare as equal using IMoniker::IsEqual must hash to the same
-value. Marshaling and then unmarshaling a moniker should have no
-effect on its hash value. Consequently, your implementation of
-IMoniker::Hash should rely only on the internal state of the moniker,
-not on its memory address. Implementation-specific Notes
-This doc was truncated.
+ŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ:
+‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚·’l‚ğg—p‚µ‚Äƒ‚ƒjƒJ[‚ÌƒnƒbƒVƒ…ƒe[ƒuƒ‹‚ğ•Ûç‚Å‚«‚éBƒnƒbƒVƒ…’l‚Íƒe[ƒuƒ‹“à‚ÌƒnƒbƒVƒ…ƒoƒPƒbƒg‚ğŒˆ’è‚·‚éB‚±‚Ì‚æ‚¤‚Èƒe[ƒuƒ‹‚©‚çw’è‚Ìƒ‚ƒjƒJ[‚ğŒŸõ‚·‚é‚É‚ÍA‚»‚ÌƒnƒbƒVƒ…’l‚ğŒvZ‚µA‚»‚ÌƒnƒbƒVƒ…ƒoƒPƒbƒg“à‚Ìƒ‚ƒjƒJ[‚Æ
+IMoniker::IsEqual ‚Å”äŠr‚·‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ:
+ƒnƒbƒVƒ…’l‚Íƒ‚ƒjƒJ[‚Ì¶‘¶ŠúŠÔ’†ˆê’è‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BIMoniker::IsEqual ‚Å“™‚µ‚¢‚Æ”äŠr‚³‚ê‚é 2
+‚Â‚Ìƒ‚ƒjƒJ[‚Í“¯‚¶’l‚ÉƒnƒbƒVƒ…‚³‚ê‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bƒ‚ƒjƒJ[‚ğƒ}[ƒVƒƒƒŠƒ“ƒO‚µƒAƒ“ƒ}[ƒVƒƒƒŠƒ“ƒO‚µ‚Ä‚àA‚»‚ÌƒnƒbƒVƒ…’l‚É‰e‹¿‚ª‚ ‚Á‚Ä‚Í‚È‚ç‚È‚¢B‚µ‚½‚ª‚Á‚ÄAIMoniker::Hash
+‚ÌÀ‘•‚ÍAƒ‚ƒjƒJ[‚Ìƒƒ‚ƒŠƒAƒhƒŒƒX‚Å‚Í‚È‚­“à•”ó‘Ô‚Ì‚İ‚ÉˆË‘¶‚·‚×‚«‚Å‚ ‚éBÀ‘•ŒÅ—L‚Ì’ˆÓ:
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_IsRunning
-Determines whether the object identified by this moniker is currently loaded and running.
+‚±‚Ìƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ªŒ»İƒ[ƒh‚³‚êÀs’†‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 COM misc / IMoniker
 %prm
 this, pbc, pmkToLeft, pmkNewlyRunning
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pbc : [comobj] A pointer to the IBindCtx interface on the bind context to be used in this binding operation. The bind context caches objects bound during the binding process, contains parameters that apply to all operations using the bind context, and provides the means by which the moniker implementation should retrieve information about its environment.
-pmkToLeft : [comobj] A pointer to the IMoniker interface on the moniker to the left of this moniker if this moniker is part of a composite. This parameter is used primarily by moniker implementers to enable cooperation between the various components of a composite moniker; moniker clients can usually pass NULL.
-pmkNewlyRunning : [comobj] A pointer to the IMoniker interface on the moniker most recently added to the running object table (ROT). This can be NULL. If non-NULL, the implementation can return the results of calling IMoniker::IsEqual on the pmkNewlyRunning parameter, passing the current moniker. This parameter is intended to enable IsRunning implementations that are more efficient than just searching the ROT, but the implementation can choose to ignore pmkNewlyRunning without causing any harm.
+pbc : [comobj] ‚±‚ÌƒoƒCƒ“ƒh‘€ì‚Åg—p‚·‚éƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ì IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ÍAƒoƒCƒ“ƒhˆ—’†‚ÉƒoƒCƒ“ƒh‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğƒLƒƒƒbƒVƒ…‚µAƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ğg—p‚·‚é‚·‚×‚Ä‚Ì‘€ì‚É“K—p‚³‚ê‚éƒpƒ‰ƒ[ƒ^‚ğŠÜ‚İAƒ‚ƒjƒJ[À‘•‚ª‚»‚ÌŠÂ‹«‚É‚Â‚¢‚Äî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ìè’i‚ğ’ñ‹Ÿ‚·‚éB
+pmkToLeft : [comobj] ‚±‚Ìƒ‚ƒjƒJ[‚ª•¡‡‚Ìˆê•”‚Å‚ ‚éê‡A‚±‚Ìƒ‚ƒjƒJ[‚Ì¶‘¤‚É‚ ‚éƒ‚ƒjƒJ[‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íå‚Éƒ‚ƒjƒJ[À‘•Ò‚ª•¡‡ƒ‚ƒjƒJ[‚ÌŠe\¬—v‘fŠÔ‚Ì˜AŒg‚ğ‰Â”\‚É‚·‚é‚½‚ß‚Ég—p‚·‚éBƒ‚ƒjƒJ[ƒNƒ‰ƒCƒAƒ“ƒg‚Í’Êí NULL ‚ğ“n‚¹‚Î‚æ‚¢B
+pmkNewlyRunning : [comobj] Às’†ƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚ÉÅŒã‚É’Ç‰Á‚³‚ê‚½ƒ‚ƒjƒJ[‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BNULL ‚Å‚à‚æ‚¢B”ñ NULL ‚Ìê‡AÀ‘•‚Í pmkNewlyRunning ‚É‘Î‚µ‚ÄŒ»İ‚Ìƒ‚ƒjƒJ[‚ğ“n‚µ‚Ä IMoniker::IsEqual ‚ğŒÄ‚Ño‚µ‚½Œ‹‰Ê‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍA’P‚É ROT ‚ğŒŸõ‚·‚é‚æ‚è‚àŒø—¦“I‚È IsRunning ‚ÌÀ‘•‚ğ‰Â”\‚É‚·‚é‚½‚ß‚É—pˆÓ‚³‚ê‚Ä‚¢‚é‚ªAÀ‘•‚ÍŠQ‚È‚­ pmkNewlyRunning ‚ğ–³‹‚·‚é‚±‚Æ‚ğ‘I‚×‚éB
 %inst
-Determines whether the object identified by this moniker is currently
-loaded and running.
+‚±‚Ìƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ªŒ»İƒ[ƒh‚³‚êÀs’†‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_UNEXPECTED, as
-well as the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍA•W€‚Ì–ß‚è’l E_UNEXPECTED ‚Ì‚Ù‚©AˆÈ‰º‚Ì’l‚ğ•Ô‚·ê‡‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Notes to Callers If speed is important when you're requesting
-services from the object identified by the moniker, you may want
-those services only if the object is already running (because loading
-an object into the running state may be time-consuming). In such a
-situation, you should call IsRunning to determine whether the object
-is running. For the monikers stored within linked objects, IsRunning
-is primarily called by the default handler's implementation of
-IOleLink::BindIfRunning. Notes to Implementers To get a pointer to
-the ROT, your implementation should call
-IBindCtx::GetRunningObjectTable on the pbc parameter. Your
-implementation can then call IRunningObjectTable::IsRunning to
-determine whether the object identified by the moniker is running.
-The object identified by the moniker must have registered itself with
-the ROT when it first began running. Implementation-specific Notes
-This doc was truncated.
+ŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ:
+ƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚©‚çƒT[ƒrƒX‚ğ—v‹‚·‚éÛ‚É‘¬“x‚ªd—v‚Èê‡AƒIƒuƒWƒFƒNƒg‚ªŠù‚ÉÀs’†‚Å‚ ‚éê‡‚É‚Ì‚İ‚»‚ê‚ç‚ÌƒT[ƒrƒX‚ğ•K—v‚Æ‚·‚é‚±‚Æ‚ª‚ ‚é
+(ƒIƒuƒWƒFƒNƒg‚ğÀsó‘Ô‚Éƒ[ƒh‚·‚é‚±‚Æ‚ÍŠÔ‚ª‚©‚©‚é‰Â”\«‚ª‚ ‚é‚½‚ß)B‚±‚Ì‚æ‚¤‚Èó‹µ‚Å‚ÍAIsRunning
+‚ğŒÄ‚Ño‚µ‚ÄƒIƒuƒWƒFƒNƒg‚ªÀs’†‚©‚Ç‚¤‚©‚ğ”»’è‚·‚×‚«‚Å‚ ‚éBƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg“à‚É•Û‘¶‚³‚ê‚½ƒ‚ƒjƒJ[‚Ìê‡AIsRunning
+‚Íå‚ÉŠù’èƒnƒ“ƒhƒ‰‚Ì IOleLink::BindIfRunning ‚ÌÀ‘•‚©‚çŒÄ‚Ño‚³‚ê‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ: ROT
+‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é‚É‚ÍAÀ‘•‚Í pbc ƒpƒ‰ƒ[ƒ^‚É‘Î‚µ‚Ä IBindCtx::GetRunningObjectTable
+‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB‚»‚ÌŒãAIRunningObjectTable::IsRunning
+‚ğŒÄ‚Ño‚µ‚ÄAƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ªÀs’†‚©‚Ç‚¤‚©‚ğ”»’è‚Å‚«‚éBƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ÍAÀsŠJn‚É ROT
+‚É©g‚ğ“o˜^‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚éBÀ‘•ŒÅ—L‚Ì’ˆÓ:
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_GetTimeOfLastChange
-Retrieves the time at which the object identified by this moniker was last changed.
+‚±‚Ìƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ªÅŒã‚É•ÏX‚³‚ê‚½‚ğæ“¾‚·‚éB
 %group
 COM misc / IMoniker
 %prm
 this, pbc, pmkToLeft, pFileTime
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pbc : [comobj] A pointer to the bind context to be used in this binding operation. The bind context caches objects bound during the binding process, contains parameters that apply to all operations using the bind context, and provides the means by which the moniker implementation should retrieve information about its environment. For more information, see IBindCtx.
-pmkToLeft : [comobj] If the moniker is part of a composite moniker, pointer to the moniker to the left of this moniker. This parameter is primarily used by moniker implementers to enable cooperation between the various components of a composite moniker. Moniker clients should pass NULL.
-pFileTime : [var] A pointer to the FILETIME structure that receives the time of last change. A value of {0xFFFFFFFF,0x7FFFFFFF} indicates an error (for example, exceeded time limit, information not available).
+pbc : [comobj] ‚±‚ÌƒoƒCƒ“ƒh‘€ì‚Åg—p‚·‚éƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ÍAƒoƒCƒ“ƒhˆ—’†‚ÉƒoƒCƒ“ƒh‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğƒLƒƒƒbƒVƒ…‚µAƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ğg—p‚·‚é‚·‚×‚Ä‚Ì‘€ì‚É“K—p‚³‚ê‚éƒpƒ‰ƒ[ƒ^‚ğŠÜ‚İAƒ‚ƒjƒJ[À‘•‚ª‚»‚ÌŠÂ‹«‚É‚Â‚¢‚Äî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ìè’i‚ğ’ñ‹Ÿ‚·‚éBÚ×‚Í IBindCtx ‚ğQÆ‚Ì‚±‚ÆB
+pmkToLeft : [comobj] ƒ‚ƒjƒJ[‚ª•¡‡ƒ‚ƒjƒJ[‚Ìˆê•”‚Å‚ ‚éê‡A‚±‚Ìƒ‚ƒjƒJ[‚Ì¶‘¤‚É‚ ‚éƒ‚ƒjƒJ[‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íå‚Éƒ‚ƒjƒJ[À‘•Ò‚ª•¡‡ƒ‚ƒjƒJ[‚ÌŠe\¬—v‘fŠÔ‚Ì˜AŒg‚ğ‰Â”\‚É‚·‚é‚½‚ß‚Ég—p‚·‚éBƒ‚ƒjƒJ[ƒNƒ‰ƒCƒAƒ“ƒg‚Í NULL ‚ğ“n‚·‚×‚«‚Å‚ ‚éB
+pFileTime : [var] ÅI•ÏX‚ğó‚¯æ‚é FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B{0xFFFFFFFF,0x7FFFFFFF} ‚Æ‚¢‚¤’l‚ÍƒGƒ‰[‚ğ¦‚· (—á‚¦‚ÎAŠÔ§ŒÀ‚ğ’´‰ß‚µ‚½Aî•ñ‚ª—˜—p‚Å‚«‚È‚¢A‚È‚Ç)B
 %inst
-Retrieves the time at which the object identified by this moniker was
-last changed.
+‚±‚Ìƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚ªÅŒã‚É•ÏX‚³‚ê‚½‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_OUTOFMEMORY, as
-well as the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍA•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚Ì‚Ù‚©AˆÈ‰º‚Ì’l‚ğ•Ô‚·ê‡‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-To be precise, the time returned is the earliest time COM can
-identify after which no change has occurred, so this time may be
-later than the time of the last change to the object. Notes to
-Callers If you're caching information returned by the object
-identified by the moniker, you may want to ensure that your
-information is up-to-date. To do so, you would call
-GetTimeOfLastChange and compare the time returned with the time you
-last retrieved information from the object.
-For the monikers stored within linked objects, GetTimeOfLastChange is
-primarily called by the default handler's implementation of
-IOleObject::IsUpToDate. Container applications call
-IOleObject::IsUpToDate to determine if a linked object (or an
-embedded object containing linked objects) is up-to-date without
-actually binding to the object. This enables an application to
-determine quickly which linked objects require updating when the end
-user opens a document. The application can then bind only those
-linked objects that need updating (after prompting the end user to
-determine whether they should be updated) instead of binding every
-linked object in the document. Notes to Implementers It is important
-to perform this operation quickly because, for linked objects, this
-method is called when a user first opens a compound document.
-Consequently, your GetTimeOfLastChange implementation should not bind
-to any objects. In addition, your implementation should check the
-deadline parameter in the bind context and return
-MK_E_EXCEEDEDDEADLINE if the operation cannot be completed by the
-specified time. Following are some strategies you can use in your
-implementations:
-This doc was truncated.
+³Šm‚É‚ÍA•Ô‚³‚ê‚é‚Í‚»‚êˆÈ~•ÏX‚ª‚È‚¢‚±‚Æ‚ğ COM
+‚ªŠm”F‚Å‚«‚éÅ‚à‘‚¢‚Å‚ ‚èA‚µ‚½‚ª‚Á‚ÄƒIƒuƒWƒFƒNƒg‚ÌÀÛ‚ÌÅI•ÏX‚æ‚è‚àŒã‚É‚È‚éê‡‚ª‚ ‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ:
+ƒ‚ƒjƒJ[‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚©‚ç•Ô‚³‚ê‚½î•ñ‚ğƒLƒƒƒbƒVƒ…‚µ‚Ä‚¢‚éê‡A‚»‚Ìî•ñ‚ªÅV‚Å‚ ‚é‚±‚Æ‚ğŠm”F‚µ‚½‚­‚È‚é‚¾‚ë‚¤B‚»‚Ì‚½‚ß‚É‚ÍAGetTimeOfLastChange
+‚ğŒÄ‚Ño‚µA•Ô‚³‚ê‚½‚ÆÅŒã‚ÉƒIƒuƒWƒFƒNƒg‚©‚çî•ñ‚ğæ“¾‚µ‚½‚ğ”äŠr‚·‚ê‚Î‚æ‚¢B
+ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg“à‚É•Û‘¶‚³‚ê‚½ƒ‚ƒjƒJ[‚Ìê‡AGetTimeOfLastChange ‚Íå‚ÉŠù’èƒnƒ“ƒhƒ‰‚Ì
+IOleObject::IsUpToDate ‚ÌÀ‘•‚©‚çŒÄ‚Ño‚³‚ê‚éBƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Í
+IOleObject::IsUpToDate ‚ğŒÄ‚Ño‚µ‚ÄAƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg (‚Ü‚½‚ÍƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğŠÜ‚Ş–„‚ß‚İƒIƒuƒWƒFƒNƒg)
+‚ªÀÛ‚ÉƒoƒCƒ“ƒh‚·‚é‚±‚Æ‚È‚­ÅV‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB‚±‚ê‚É‚æ‚èAƒ†[ƒU[‚ªƒhƒLƒ…ƒƒ“ƒg‚ğŠJ‚¢‚½Û‚ÉA‚Ç‚ÌƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğXV‚·‚é•K—v‚ª‚ ‚é‚©‚ğ‘f‘‚­”»’è‚Å‚«‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒhƒLƒ…ƒƒ“ƒg“à‚Ì‚·‚×‚Ä‚ÌƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ğƒoƒCƒ“ƒh‚·‚é‘ã‚í‚è‚ÉAXV‚ª•K—v‚È‚à‚Ì‚Ì‚İ
+(ƒ†[ƒU[‚ÉŠm”F‚µ‚½ã‚Å) ƒoƒCƒ“ƒh‚Å‚«‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ:
+ƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚Íƒ†[ƒU[‚ª•¡‡ƒhƒLƒ…ƒƒ“ƒg‚ğÅ‰‚ÉŠJ‚­Û‚ÉŒÄ‚Ño‚³‚ê‚é‚½‚ßA‚±‚Ì‘€ì‚ğ‘f‘‚­Às‚·‚é‚±‚Æ‚ªd—v‚Å‚ ‚éB‚µ‚½‚ª‚Á‚ÄAGetTimeOfLastChange
+‚ÌÀ‘•‚ÍƒIƒuƒWƒFƒNƒg‚ÉƒoƒCƒ“ƒh‚·‚×‚«‚Å‚Í‚È‚¢B‰Á‚¦‚ÄAÀ‘•‚ÍƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg“à‚Ìƒfƒbƒhƒ‰ƒCƒ“ƒpƒ‰ƒ[ƒ^‚ğƒ`ƒFƒbƒN‚µAw’èŠÔ‚Ü‚Å‚É‘€ì‚ğŠ®—¹‚Å‚«‚È‚¢ê‡‚Í
+MK_E_EXCEEDEDDEADLINE ‚ğ•Ô‚·‚×‚«‚Å‚ ‚éBˆÈ‰º‚ÍÀ‘•‚Åg—p‚Å‚«‚éí—ª‚Ì—á‚Å‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_Inverse
-Creates a moniker that is the inverse of this moniker. When composed to the right of this moniker or one of similar structure, the moniker will compose to nothing.
+‚±‚Ìƒ‚ƒjƒJ[‚Ì‹t‚Æ‚È‚éƒ‚ƒjƒJ[‚ğì¬‚·‚éB‚±‚Ìƒ‚ƒjƒJ[‚Ü‚½‚Í—Ş—\‘¢‚Ìƒ‚ƒjƒJ[‚Ì‰E‘¤‚É‡¬‚·‚é‚ÆAƒ‚ƒjƒJ[‚Í‰½‚à‚È‚¢ó‘Ô‚É‡¬‚³‚ê‚éB
 %group
 COM misc / IMoniker
 %prm
 this, ppmk
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppmk : [comobj] The address of an IMoniker pointer variable that receives the interface pointer to a moniker that is the inverse of this moniker. When successful, the implementation must call AddRef on the new inverse moniker. It is the caller's responsibility to call Release. If an error occurs, the implementation should set *ppmk to NULL.
+ppmk : [comobj] ‚±‚Ìƒ‚ƒjƒJ[‚Ì‹t‚Æ‚È‚éƒ‚ƒjƒJ[‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB¬Œ÷AÀ‘•‚ÍV‚µ‚¢‹tƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŒÄ‚Ño‚µ‘¤‚Í Release ‚ğŒÄ‚Ño‚·Ó”C‚ª‚ ‚éBƒGƒ‰[‚ª”­¶‚µ‚½ê‡AÀ‘•‚Í *ppmk ‚ğ NULL ‚Éİ’è‚·‚×‚«‚Å‚ ‚éB
 %inst
-Creates a moniker that is the inverse of this moniker. When composed
-to the right of this moniker or one of similar structure, the moniker
-will compose to nothing.
+‚±‚Ìƒ‚ƒjƒJ[‚Ì‹t‚Æ‚È‚éƒ‚ƒjƒJ[‚ğì¬‚·‚éB‚±‚Ìƒ‚ƒjƒJ[‚Ü‚½‚Í—Ş—\‘¢‚Ìƒ‚ƒjƒJ[‚Ì‰E‘¤‚É‡¬‚·‚é‚ÆAƒ‚ƒjƒJ[‚Í‰½‚à‚È‚¢ó‘Ô‚É‡¬‚³‚ê‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_OUTOFMEMORY, as
-well as the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍA•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚Ì‚Ù‚©AˆÈ‰º‚Ì’l‚ğ•Ô‚·ê‡‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The inverse of a moniker is analogous to the ".." directory in MS-DOS
-file systems; the ".." directory acts as the inverse to any other
-directory name, because appending ".." to a directory name results in
-an empty path. In the same way, the inverse of a moniker typically is
-also the inverse of all monikers in the same class. However, it is
-not necessarily the inverse of a moniker of a different class. The
-inverse of a composite moniker is a composite consisting of the
-inverses of the components of the original moniker, arranged in
-reverse order. For example, if the inverse of A is Inv( A ) and the
-composite of A, B, and C is Comp( A, B, C ), then Inv( Comp( A, B, C
-) ) is equal to Comp( Inv( C ), Inv( B ), Inv( A ) ). Not all
-monikers have inverses. Most monikers that are themselves inverses,
-such as anti-monikers, do not have inverses. Monikers that have no
-inverse cannot have relative monikers formed from inside the objects
-they identify to other objects outside. Notes to Callers An object
-that is using a moniker to locate another object usually does not
-know the class of the moniker it is using. To get the inverse of a
-moniker, you should always call IMoniker::Inverse rather than the
-CreateAntiMoniker function, because you cannot be certain that the
-moniker you're using considers an anti-moniker to be its inverse.
-The Inverse method is also called by the implementation of the
-IMoniker::RelativePathTo method, to assist in constructing a relative
-moniker. Notes to Implementers If your monikers have no internal
-structure, you can call the CreateAntiMoniker function in to get an
-anti-moniker in your implementation of IMoniker::Inverse. In your
-implementation of IMoniker::ComposeWith, you need to check for the
-inverse you supply in the implementation of Inverse.
-Implementation-specific Notes
-This doc was truncated.
+ƒ‚ƒjƒJ[‚Ì‹t‚ÍAMS-DOS ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ì ".." ƒfƒBƒŒƒNƒgƒŠ‚É—Ş—‚µ‚Ä‚¢‚éB".."
+ƒfƒBƒŒƒNƒgƒŠ‚Í‘¼‚Ì”CˆÓ‚ÌƒfƒBƒŒƒNƒgƒŠ–¼‚Ì‹t‚Æ‚µ‚Ä‹@”\‚·‚éBƒfƒBƒŒƒNƒgƒŠ–¼‚É ".."
+‚ğ’Ç‰Á‚·‚é‚Æ‹ó‚ÌƒpƒX‚É‚È‚é‚©‚ç‚Å‚ ‚éB“¯—l‚ÉAƒ‚ƒjƒJ[‚Ì‹t‚Í’Êí‚Í“¯‚¶ƒNƒ‰ƒX‚Ì‚·‚×‚Ä‚Ìƒ‚ƒjƒJ[‚Ì‹t‚Å‚à‚ ‚éB‚½‚¾‚µAˆÙ‚È‚éƒNƒ‰ƒX‚Ìƒ‚ƒjƒJ[‚Ì‹t‚Å‚ ‚é‚Æ‚ÍŒÀ‚ç‚È‚¢B•¡‡ƒ‚ƒjƒJ[‚Ì‹t‚ÍAŒ³‚Ìƒ‚ƒjƒJ[‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì‹t‚ğ‹t‡‚É•À‚×‚½•¡‡‚Å‚ ‚éB—á‚¦‚ÎAA
+‚Ì‹t‚ğ Inv( A )AAABAC ‚Ì•¡‡‚ğ Comp( A, B, C ) ‚Æ‚·‚é‚ÆAInv( Comp( A, B, C ) ) ‚Í
+Comp( Inv( C ), Inv( B ), Inv( A ) )
+‚Æ“™‚µ‚¢B‚·‚×‚Ä‚Ìƒ‚ƒjƒJ[‚É‹t‚ª‚ ‚é‚í‚¯‚Å‚Í‚È‚¢BƒAƒ“ƒ`ƒ‚ƒjƒJ[‚È‚ÇA‚»‚ê©‘Ì‚ª‹t‚Å‚ ‚éƒ‚ƒjƒJ[‚Ì‘½‚­‚Í‹t‚ğ‚½‚È‚¢B‹t‚ğ‚½‚È‚¢ƒ‚ƒjƒJ[‚Å‚ÍA‚»‚ê‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚Ì“à‘¤‚©‚çŠO‘¤‚Ì‘¼‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ì‘Š‘Îƒ‚ƒjƒJ[‚ğŒ`¬‚Å‚«‚È‚¢BŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ:
+ƒ‚ƒjƒJ[‚ğg—p‚µ‚Ä•Ê‚ÌƒIƒuƒWƒFƒNƒg‚ğ“Á’è‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚ÍA’ÊíA©g‚ªg—p‚µ‚Ä‚¢‚éƒ‚ƒjƒJ[‚ÌƒNƒ‰ƒX‚ğ’m‚ç‚È‚¢Bƒ‚ƒjƒJ[‚Ì‹t‚ğæ“¾‚·‚é‚É‚ÍAg—p’†‚Ìƒ‚ƒjƒJ[‚ªƒAƒ“ƒ`ƒ‚ƒjƒJ[‚ğ©g‚Ì‹t‚ÆŒ©‚È‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©ŠmM‚ª‚Ä‚È‚¢‚½‚ßACreateAntiMoniker
+ŠÖ”‚Å‚Í‚È‚­í‚É IMoniker::Inverse ‚ğŒÄ‚Ño‚·‚×‚«‚Å‚ ‚éB
+Inverse ƒƒ\ƒbƒh‚ÍA‘Š‘Îƒ‚ƒjƒJ[‚Ì\’z‚ğ•‚¯‚é‚½‚ßAIMoniker::RelativePathTo
+ƒƒ\ƒbƒh‚ÌÀ‘•‚©‚ç‚àŒÄ‚Ño‚³‚ê‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ: ƒ‚ƒjƒJ[‚É“à•”\‘¢‚ª‚È‚¢ê‡AIMoniker::Inverse
+‚ÌÀ‘•“à‚ÅƒAƒ“ƒ`ƒ‚ƒjƒJ[‚ğæ“¾‚·‚é‚½‚ß‚É CreateAntiMoniker
+ŠÖ”‚ğŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éBIMoniker::ComposeWith ‚ÌÀ‘•‚Å‚ÍAInverse
+‚ÌÀ‘•‚Å’ñ‹Ÿ‚µ‚½‹t‚ğƒ`ƒFƒbƒN‚·‚é•K—v‚ª‚ ‚éBÀ‘•ŒÅ—L‚Ì’ˆÓ:
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_CommonPrefixWith
-Creates a new moniker based on the prefix that this moniker has in common with the specified moniker.
+‚±‚Ìƒ‚ƒjƒJ[‚ªw’è‚µ‚½ƒ‚ƒjƒJ[‚Æ‹¤—L‚·‚éÚ“ª•”‚ÉŠî‚Ã‚¢‚ÄAV‚µ‚¢ƒ‚ƒjƒJ[‚ğì¬‚·‚éB
 %group
 COM misc / IMoniker
 %prm
 this, pmkOther, ppmkPrefix
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pmkOther : [comobj] A pointer to the IMoniker interface on another moniker to be compared with this one to determine whether there is a common prefix.
-ppmkPrefix : [comobj] The address of an IMoniker* pointer variable that receives the interface pointer to the moniker that is the common prefix of this moniker and pmkOther. When successful, the implementation must call AddRef on the resulting moniker; it is the caller's responsibility to call Release. If an error occurs or if there is no common prefix, the implementation should set *ppmkPrefix to NULL.
+pmkOther : [comobj] ‚±‚Ìƒ‚ƒjƒJ[‚Æ”äŠr‚µ‚Ä‹¤’Ê‚ÌÚ“ª•”‚ª‚ ‚é‚©‚ğ”»’è‚·‚é‚½‚ß‚ÌA•Ê‚Ìƒ‚ƒjƒJ[‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppmkPrefix : [comobj] ‚±‚Ìƒ‚ƒjƒJ[‚Æ pmkOther ‚Ì‹¤’ÊÚ“ª•”‚Æ‚È‚éƒ‚ƒjƒJ[‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker* ƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXB¬Œ÷AÀ‘•‚ÍŒ‹‰Ê‚Ìƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŒÄ‚Ño‚µ‘¤‚Í Release ‚ğŒÄ‚Ño‚·Ó”C‚ª‚ ‚éBƒGƒ‰[‚ª”­¶‚µ‚½ê‡A‚Ü‚½‚Í‹¤’ÊÚ“ª•”‚ª‘¶İ‚µ‚È‚¢ê‡‚ÍAÀ‘•‚Í *ppmkPrefix ‚ğ NULL ‚Éİ’è‚·‚×‚«‚Å‚ ‚éB
 %inst
-Creates a new moniker based on the prefix that this moniker has in
-common with the specified moniker.
+‚±‚Ìƒ‚ƒjƒJ[‚ªw’è‚µ‚½ƒ‚ƒjƒJ[‚Æ‹¤—L‚·‚éÚ“ª•”‚ÉŠî‚Ã‚¢‚ÄAV‚µ‚¢ƒ‚ƒjƒJ[‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_OUTOFMEMORY, as
-well as the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍA•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚Ì‚Ù‚©AˆÈ‰º‚Ì’l‚ğ•Ô‚·ê‡‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-CommonPrefixWith creates a new moniker that consists of the common
-prefixes of the moniker on this moniker object and another moniker.
-For example, if one moniker represents the path
-"c:\projects\secret\art\pict1.bmp" and another moniker represents the
-path "c:\projects\secret\docs\chap1.txt", the common prefix of these
-two monikers would be a moniker representing the path
-"c:\projects\secret". Notes to Callers The CommonPrefixWith method is
-primarily called in the implementation of the
-IMoniker::RelativePathTo method. Clients using a moniker to locate an
-object rarely need to call this method.
-Call this method only if pmkOther and this moniker are both absolute
-monikers. An absolute moniker is either a file moniker or a generic
-composite whose leftmost component is a file moniker that represents
-an absolute path. Do not call this method on relative monikers
-because it would not produce meaningful results.
-Notes to Implementers Your implementation should first determine
-whether pmkOther is a moniker of a class that you recognize and for
-which you can provide special handling (for example, if it is of the
-same class as this moniker). If so, your implementation should
-determine the common prefix of the two monikers. Otherwise, it should
-pass both monikers in a call to the MonikerCommonPrefixWith function,
-which correctly handles the generic case.
-Implementation-specific Notes
-This doc was truncated.
+CommonPrefixWith
+‚ÍA‚±‚Ìƒ‚ƒjƒJ[ƒIƒuƒWƒFƒNƒg‚Ìƒ‚ƒjƒJ[‚Æ•Ê‚Ìƒ‚ƒjƒJ[‚Ì‹¤’ÊÚ“ª•”‚©‚ç‚È‚éV‚µ‚¢ƒ‚ƒjƒJ[‚ğì¬‚·‚éB—á‚¦‚ÎAˆê•û‚Ìƒ‚ƒjƒJ[‚ªƒpƒX
+"c:\projects\secret\art\pict1.bmp" ‚ğ•\‚µA‘¼•û‚ª
+"c:\projects\secret\docs\chap1.txt" ‚ğ•\‚·ê‡A‚±‚ê‚ç 2 ‚Â‚Ìƒ‚ƒjƒJ[‚Ì‹¤’ÊÚ“ª•”‚Í
+"c:\projects\secret" ‚ğ•\‚·ƒ‚ƒjƒJ[‚Æ‚È‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ: CommonPrefixWith ƒƒ\ƒbƒh‚Íå‚É
+IMoniker::RelativePathTo
+ƒƒ\ƒbƒh‚ÌÀ‘•‚ÅŒÄ‚Ño‚³‚ê‚éBƒ‚ƒjƒJ[‚ğg—p‚µ‚ÄƒIƒuƒWƒFƒNƒg‚ğ“Á’è‚·‚éƒNƒ‰ƒCƒAƒ“ƒg‚ª‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·•K—v‚Í‚Ù‚Æ‚ñ‚Ç‚È‚¢B
+‚±‚Ìƒƒ\ƒbƒh‚ÍApmkOther
+‚Æ‚±‚Ìƒ‚ƒjƒJ[‚Ì—¼•û‚ªâ‘Îƒ‚ƒjƒJ[‚Å‚ ‚éê‡‚É‚Ì‚İŒÄ‚Ño‚·‚±‚ÆBâ‘Îƒ‚ƒjƒJ[‚Æ‚ÍAƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ[A‚Ü‚½‚ÍÅ¶ƒRƒ“ƒ|[ƒlƒ“ƒg‚ªâ‘ÎƒpƒX‚ğ•\‚·ƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ[‚Å‚ ‚é”Ä—p•¡‡ƒ‚ƒjƒJ[‚Ì‚±‚Æ‚Å‚ ‚éB‘Š‘Îƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä‚ÍˆÓ–¡‚Ì‚ ‚éŒ‹‰Ê‚ª“¾‚ç‚ê‚È‚¢‚½‚ßA–{ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢BÀ‘•Ò‚Ö‚Ì’ˆÓ:
+À‘•‚Í‚Ü‚¸ApmkOther ‚ª©•ª‚ª”F¯‚µ‚Ä‚¨‚è“Á•Ê‚Èˆ—‚ğ’ñ‹Ÿ‚Å‚«‚éƒNƒ‰ƒX (—á‚¦‚Î‚±‚Ìƒ‚ƒjƒJ[‚Æ“¯‚¶ƒNƒ‰ƒX‚Ìê‡)
+‚Ìƒ‚ƒjƒJ[‚©‚Ç‚¤‚©‚ğ”»’è‚·‚×‚«‚Å‚ ‚éB‚»‚¤‚Å‚ ‚ê‚ÎA2 ‚Â‚Ìƒ‚ƒjƒJ[‚Ì‹¤’ÊÚ“ª•”‚ğ”»’è‚·‚×‚«‚Å‚ ‚éB‚»‚¤‚Å‚È‚¯‚ê‚ÎA—¼•û‚Ìƒ‚ƒjƒJ[‚ğ
+MonikerCommonPrefixWith ŠÖ”‚É“n‚·‚×‚«‚Å‚ ‚èA‚±‚ê‚Í”Ä—pƒP[ƒX‚ğ³‚µ‚­ˆ—‚·‚éB
+À‘•ŒÅ—L‚Ì’ˆÓ:
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_RelativePathTo
-Creates a relative moniker between this moniker and the specified moniker.
+‚±‚Ìƒ‚ƒjƒJ[‚Æw’è‚µ‚½ƒ‚ƒjƒJ[‚ÌŠÔ‚Ì‘Š‘Îƒ‚ƒjƒJ[‚ğì¬‚·‚éB
 %group
 COM misc / IMoniker
 %prm
 this, pmkOther, ppmkRelPath
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pmkOther : [comobj] A pointer to the IMoniker interface on the moniker to which a relative path should be taken.
-ppmkRelPath : [comobj] A pointer to an  IMoniker pointer variable that receives the interface pointer to the relative moniker. When successful, the implementation must call AddRef on the new moniker; it is the caller's responsibility to call Release. If an error occurs, the implementation sets *ppmkRelPath to NULL.
+pmkOther : [comobj] ‘Š‘ÎƒpƒX‚ğæ‚é‘ÎÛ‚Æ‚È‚éƒ‚ƒjƒJ[‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppmkRelPath : [comobj] ‘Š‘Îƒ‚ƒjƒJ[‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷AÀ‘•‚ÍV‚µ‚¢ƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŒÄ‚Ño‚µ‘¤‚Í Release ‚ğŒÄ‚Ño‚·Ó”C‚ª‚ ‚éBƒGƒ‰[‚ª”­¶‚µ‚½ê‡AÀ‘•‚Í *ppmkRelPath ‚ğ NULL ‚Éİ’è‚·‚éB
 %inst
-Creates a relative moniker between this moniker and the specified
-moniker.
+‚±‚Ìƒ‚ƒjƒJ[‚Æw’è‚µ‚½ƒ‚ƒjƒJ[‚ÌŠÔ‚Ì‘Š‘Îƒ‚ƒjƒJ[‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_OUTOFMEMORY and
-E_UNEXPECTED, as well as the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍA•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚¨‚æ‚Ñ E_UNEXPECTED ‚Ì‚Ù‚©AˆÈ‰º‚Ì’l‚ğ•Ô‚·ê‡‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-A relative moniker is analogous to a relative path (such as
-"..\backup"). For example, suppose you have one moniker that
-represents the path "c:\projects\secret\art\pict1.bmp" and another
-moniker that represents the path "c:\projects\secret\docs\chap1.txt".
-Calling RelativePathTo on the first moniker, passing the second one
-as the pmkOther parameter, would create a relative moniker
-representing the path "..\docs\chap1.txt". Notes to Callers Moniker
-clients typically do not need to call RelativePathTo. This method is
-called primarily by the default handler for linked objects. Linked
-objects contain both an absolute and a relative moniker to identify
-the link source. (This enables link tracking if the user moves a
-directory tree containing both the container and source files.) The
-default handler calls this method to create a relative moniker from
-the container document to the link source. (That is, it calls
-RelativePathTo on the moniker identifying the container document,
-passing the moniker identifying the link source as the pmkOther
-parameter.) If you do call RelativePathTo, call it only on absolute
-monikers, for example, a file moniker or a composite moniker whose
-leftmost component is a file moniker, where the file moniker
-represents an absolute path. Do not call this method on relative
-monikers. Notes to Implementers Your implementation of RelativePathTo
-should first determine whether pmkOther is a moniker of a class that
-you recognize and for which you can provide special handling (for
-example, if it is of the same class as this moniker). If so, your
-implementation should determine the relative path. Otherwise, it
-should pass both monikers in a call to the MonikerRelativePathTo
-function, which correctly handles the generic case. The first step in
-determining a relative path is determining the common prefix of this
-moniker and pmkOther. The next step is to break this moniker and
-pmkOther into two parts each, say (P, myTail) and (P, otherTail)
-respectively, where P is the common prefix. The correct relative path
-is then the inverse of myTail composed with otherTail: Comp( Inv(
-myTail ), otherTail ) where Comp() represents the composition
-operation and Inv() represents the inverse operation. For certain
-types of monikers, you cannot use your IMoniker::Inverse method to
-construct the inverse of myTail. For example, a file moniker returns
-an anti-moniker as an inverse, while its RelativePathTo method must
-use one or more file monikers that each represent the path ".." to
-construct the inverse of myTail. Implementation-specific Notes
-This doc was truncated.
+‘Š‘Îƒ‚ƒjƒJ[‚Í‘Š‘ÎƒpƒX ("..\backup" ‚È‚Ç) ‚É—Ş—‚µ‚Ä‚¢‚éB—á‚¦‚ÎA‚ ‚éƒ‚ƒjƒJ[‚ªƒpƒX
+"c:\projects\secret\art\pict1.bmp" ‚ğ•\‚µA•Ê‚Ìƒ‚ƒjƒJ[‚ª
+"c:\projects\secret\docs\chap1.txt" ‚ğ•\‚·‚Æ‚·‚éBÅ‰‚Ìƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä RelativePathTo
+‚ğŒÄ‚Ño‚µA2 ”Ô–Ú‚Ìƒ‚ƒjƒJ[‚ğ pmkOther ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚·‚ÆAƒpƒX "..\docs\chap1.txt"
+‚ğ•\‚·‘Š‘Îƒ‚ƒjƒJ[‚ªì¬‚³‚ê‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ: ƒ‚ƒjƒJ[ƒNƒ‰ƒCƒAƒ“ƒg‚Í’Êí RelativePathTo
+‚ğŒÄ‚Ño‚·•K—v‚Í‚È‚¢B‚±‚Ìƒƒ\ƒbƒh‚Íå‚ÉƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg—p‚ÌŠù’èƒnƒ“ƒhƒ‰‚©‚çŒÄ‚Ño‚³‚ê‚éBƒŠƒ“ƒNƒIƒuƒWƒFƒNƒg‚ÍAƒŠƒ“ƒNƒ\[ƒX‚ğ¯•Ê‚·‚é‚½‚ß‚Éâ‘Îƒ‚ƒjƒJ[‚Æ‘Š‘Îƒ‚ƒjƒJ[‚Ì—¼•û‚ğ•Û‚·‚éB(‚±‚ê‚É‚æ‚èAƒ†[ƒU[‚ªƒRƒ“ƒeƒi‚Æƒ\[ƒX‚Ì—¼•û‚Ìƒtƒ@ƒCƒ‹‚ğŠÜ‚ŞƒfƒBƒŒƒNƒgƒŠƒcƒŠ[‚ğˆÚ“®‚µ‚½ê‡‚Å‚àƒŠƒ“ƒN’ÇÕ‚ª‰Â”\‚É‚È‚éB)
+Šù’èƒnƒ“ƒhƒ‰‚Í‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚ÄAƒRƒ“ƒeƒiƒhƒLƒ…ƒƒ“ƒg‚©‚çƒŠƒ“ƒNƒ\[ƒX‚Ö‚Ì‘Š‘Îƒ‚ƒjƒJ[‚ğì¬‚·‚éB(‚·‚È‚í‚¿AƒRƒ“ƒeƒiƒhƒLƒ…ƒƒ“ƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä
+RelativePathTo ‚ğŒÄ‚Ño‚µAƒŠƒ“ƒNƒ\[ƒX‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ[‚ğ pmkOther ƒpƒ‰ƒ[ƒ^‚Æ‚µ‚Ä“n‚·B) ‚à‚µ
+RelativePathTo ‚ğŒÄ‚Ño‚·ê‡‚ÍAâ‘Îƒ‚ƒjƒJ[
+(—á‚¦‚Îƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ[A‚Ü‚½‚ÍÅ¶ƒRƒ“ƒ|[ƒlƒ“ƒg‚ªâ‘ÎƒpƒX‚ğ•\‚·ƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ[‚Å‚ ‚é•¡‡ƒ‚ƒjƒJ[)
+‚É‘Î‚µ‚Ä‚Ì‚İŒÄ‚Ño‚·‚±‚ÆB‘Š‘Îƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä‚Í‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ä‚Í‚È‚ç‚È‚¢BÀ‘•Ò‚Ö‚Ì’ˆÓ: RelativePathTo
+‚ÌÀ‘•‚Í‚Ü‚¸ApmkOther ‚ª©•ª‚ª”F¯‚µ‚Ä‚¨‚è“Á•Ê‚Èˆ—‚ğ’ñ‹Ÿ‚Å‚«‚éƒNƒ‰ƒX (—á‚¦‚Î‚±‚Ìƒ‚ƒjƒJ[‚Æ“¯‚¶ƒNƒ‰ƒX‚Ìê‡)
+‚Ìƒ‚ƒjƒJ[‚©‚Ç‚¤‚©‚ğ”»’è‚·‚×‚«‚Å‚ ‚éB‚»‚¤‚Å‚ ‚ê‚ÎAÀ‘•‚Í‘Š‘ÎƒpƒX‚ğ”»’è‚·‚×‚«‚Å‚ ‚éB‚»‚¤‚Å‚È‚¯‚ê‚ÎA—¼•û‚Ìƒ‚ƒjƒJ[‚ğ
+MonikerRelativePathTo
+ŠÖ”‚É“n‚·‚×‚«‚Å‚ ‚éB‚±‚ê‚Í”Ä—pƒP[ƒX‚ğ³‚µ‚­ˆ—‚·‚éB‘Š‘ÎƒpƒX‚ğ”»’è‚·‚éÅ‰‚ÌƒXƒeƒbƒv‚ÍA‚±‚Ìƒ‚ƒjƒJ[‚Æ pmkOther
+‚Ì‹¤’ÊÚ“ª•”‚ğ”»’è‚·‚é‚±‚Æ‚Å‚ ‚éBŸ‚ÌƒXƒeƒbƒv‚ÍA‚±‚Ìƒ‚ƒjƒJ[‚Æ pmkOther ‚ğ‚»‚ê‚¼‚ê 2 ‚Â‚Ì•”•ª‚É•ªŠ„‚·‚é‚±‚Æ‚Å‚ ‚éB‰¼‚É
+(P, myTail) ‚Æ (P, otherTail) ‚Æ‚·‚é (P ‚Í‹¤’ÊÚ“ª•”)B³‚µ‚¢‘Š‘ÎƒpƒX‚Í myTail ‚Ì‹t‚Æ
+otherTail ‚Ì‡¬‚Å‚ ‚éB‚·‚È‚í‚¿AComp() ‚ğ‡¬‘€ìAInv() ‚ğ‹t‘€ì‚Æ‚·‚é‚ÆAComp( Inv( myTail
+), otherTail ) ‚Æ‚È‚éBƒ‚ƒjƒJ[‚Ìí—Ş‚É‚æ‚Á‚Ä‚ÍAIMoniker::Inverse ƒƒ\ƒbƒh‚Å myTail
+‚Ì‹t‚ğ\’z‚Å‚«‚È‚¢B—á‚¦‚ÎAƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ[‚Í‹t‚Æ‚µ‚ÄƒAƒ“ƒ`ƒ‚ƒjƒJ[‚ğ•Ô‚·‚ªA‚»‚Ì RelativePathTo ƒƒ\ƒbƒh‚Í myTail
+‚Ì‹t‚ğ\’z‚·‚é‚½‚ß‚ÉA‚»‚ê‚¼‚êƒpƒX ".." ‚ğ•\‚· 1 ‚ÂˆÈã‚Ìƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ[‚ğg—p‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BÀ‘•ŒÅ—L‚Ì’ˆÓ:
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_GetDisplayName
-Retrieves the display name for the moniker.
+ƒ‚ƒjƒJ[‚Ì•\¦–¼‚ğæ“¾‚·‚éB
 %group
 COM misc / IMoniker
 %prm
 this, pbc, pmkToLeft, ppszDisplayName
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pbc : [comobj] A pointer to the IBindCtx interface on the bind context to be used in this operation. The bind context caches objects bound during the binding process, contains parameters that apply to all operations using the bind context, and provides the means by which the moniker implementation should retrieve information about its environment.
-pmkToLeft : [comobj] If the moniker is part of a composite moniker, pointer to the moniker to the left of this moniker. This parameter is used primarily by moniker implementers to enable cooperation between the various components of a composite moniker. Moniker clients should pass NULL.
-ppszDisplayName : [var] The address of a pointer variable that receives a pointer to the display name string for the moniker. The implementation must use IMalloc::Alloc to allocate the string returned in ppszDisplayName, and the caller is responsible for calling IMalloc::Free to free it. Both the caller and the implementation of this method use the COM task allocator returned by CoGetMalloc. If an error occurs, the implementation must set *ppszDisplayName should be set to NULL.
+pbc : [comobj] ‚±‚Ì‘€ì‚Åg—p‚·‚éƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ì IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ÍAƒoƒCƒ“ƒhˆ—’†‚ÉƒoƒCƒ“ƒh‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğƒLƒƒƒbƒVƒ…‚µAƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ğg—p‚·‚é‚·‚×‚Ä‚Ì‘€ì‚É“K—p‚³‚ê‚éƒpƒ‰ƒ[ƒ^‚ğŠÜ‚İAƒ‚ƒjƒJ[À‘•‚ª‚»‚ÌŠÂ‹«‚É‚Â‚¢‚Äî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ìè’i‚ğ’ñ‹Ÿ‚·‚éB
+pmkToLeft : [comobj] ƒ‚ƒjƒJ[‚ª•¡‡ƒ‚ƒjƒJ[‚Ìˆê•”‚Å‚ ‚éê‡A‚±‚Ìƒ‚ƒjƒJ[‚Ì¶‘¤‚É‚ ‚éƒ‚ƒjƒJ[‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Íå‚Éƒ‚ƒjƒJ[À‘•Ò‚ª•¡‡ƒ‚ƒjƒJ[‚ÌŠe\¬—v‘fŠÔ‚Ì˜AŒg‚ğ‰Â”\‚É‚·‚é‚½‚ß‚Ég—p‚·‚éBƒ‚ƒjƒJ[ƒNƒ‰ƒCƒAƒ“ƒg‚Í NULL ‚ğ“n‚·‚×‚«‚Å‚ ‚éB
+ppszDisplayName : [var] ƒ‚ƒjƒJ[‚Ì•\¦–¼•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^•Ï”‚ÌƒAƒhƒŒƒXBÀ‘•‚Í ppszDisplayName ‚É•Ô‚·•¶š—ñ‚ğ IMalloc::Alloc ‚ğ—p‚¢‚ÄŠ„‚è“–‚Ä‚é•K—v‚ª‚ ‚èAŒÄ‚Ño‚µ‘¤‚Í‚»‚ê‚ğ‰ğ•ú‚·‚é‚½‚ß‚É IMalloc::Free ‚ğŒÄ‚Ño‚·Ó”C‚ª‚ ‚éBŒÄ‚Ño‚µ‘¤‚Æ–{ƒƒ\ƒbƒh‚ÌÀ‘•‚Í‹¤‚É CoGetMalloc ‚ª•Ô‚· COM ƒ^ƒXƒNƒAƒƒP[ƒ^‚ğg—p‚·‚éBƒGƒ‰[‚ª”­¶‚µ‚½ê‡AÀ‘•‚Í *ppszDisplayName ‚ğ NULL ‚Éİ’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 %inst
-Retrieves the display name for the moniker.
+ƒ‚ƒjƒJ[‚Ì•\¦–¼‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_OUTOFMEMORY, as
-well as the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍA•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚Ì‚Ù‚©AˆÈ‰º‚Ì’l‚ğ•Ô‚·ê‡‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-GetDisplayName provides a string that is a displayable representation
-of the moniker. A display name is not a complete representation of a
-moniker's internal state; it is simply a form that can be read by
-users. As a result, it is possible (though rare) for two different
-monikers to have the same display name. While there is no guarantee
-that the display name of a moniker can be parsed back into that
-moniker when calling the MkParseDisplayName function with it, failure
-to do so is rare. Notes to Callers It is possible that retrieving a
-moniker's display name may be an expensive operation. For efficiency,
-you may want to cache the results of the first successful call to
-GetDisplayName, rather than making repeated calls. Notes to
-Implementers If you are writing a moniker class in which the display
-name does not change, simply cache the display name and supply the
-cached name when requested. If the display name can change over time,
-getting the current display name might mean that the moniker has to
-access the object's storage or bind to the object, either of which
-can be expensive operations. If this is the case, your implementation
-of GetDisplayName should return MK_E_EXCEEDEDDEADLINE if the name
-cannot be retrieved by the time specified in the bind context's
-BIND_OPTS structure. A moniker that is intended to be part of a
-generic composite moniker should include any preceding delimiter
-(such as '\') as part of its display name. For example, the display
-name returned by an item moniker includes the delimiter specified
-when it was created with the CreateItemMoniker function. The display
-name for a file moniker does not include a delimiter because file
-monikers are always expected to be the leftmost component of a
-composite. Implementation-specific Notes
-This doc was truncated.
+GetDisplayName
+‚Íƒ‚ƒjƒJ[‚ğ•\¦‰Â”\‚ÈŒ`®‚Å•\Œ»‚µ‚½•¶š—ñ‚ğ’ñ‹Ÿ‚·‚éB•\¦–¼‚Íƒ‚ƒjƒJ[‚Ì“à•”ó‘Ô‚ÌŠ®‘S‚È•\Œ»‚Å‚Í‚È‚­A’P‚Éƒ†[ƒU[‚ª“Ç‚ß‚éŒ`®‚Å‚ ‚éB‚»‚ÌŒ‹‰ÊA2
+‚Â‚ÌˆÙ‚È‚éƒ‚ƒjƒJ[‚ª“¯‚¶•\¦–¼‚ğ‚Â‚±‚Æ‚à (‚Ü‚ê‚¾‚ª) ‚ ‚è‚¤‚éBƒ‚ƒjƒJ[‚Ì•\¦–¼‚ğ MkParseDisplayName
+ŠÖ”‚É“n‚µ‚½ê‡‚ÉŒ³‚Ìƒ‚ƒjƒJ[‚É–ß‚¹‚é•ÛØ‚Í‚È‚¢‚ªA–ß‚¹‚È‚¢ê‡‚Í‚Ü‚ê‚Å‚ ‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ:
+ƒ‚ƒjƒJ[‚Ì•\¦–¼‚ğæ“¾‚·‚é‘€ì‚ÍƒRƒXƒg‚ª‚‚¢ê‡‚ª‚ ‚éBŒø—¦‚Ì‚½‚ßAGetDisplayName
+‚ÌÅ‰‚ÌŒÄ‚Ño‚µ‚É¬Œ÷‚µ‚½Œ‹‰Ê‚ğƒLƒƒƒbƒVƒ…‚µAŒJ‚è•Ô‚µŒÄ‚Ño‚·‚Ì‚ğ”ğ‚¯‚é‚Æ‚æ‚¢BÀ‘•Ò‚Ö‚Ì’ˆÓ:
+•\¦–¼‚ª•Ï‚í‚ç‚È‚¢ƒ‚ƒjƒJ[ƒNƒ‰ƒX‚ğ‹Lq‚·‚éê‡‚ÍA’Pƒ‚É•\¦–¼‚ğƒLƒƒƒbƒVƒ…‚µA—v‹‚ÉƒLƒƒƒbƒVƒ…Ï‚İ‚Ì–¼‘O‚ğ•Ô‚¹‚Î‚æ‚¢B•\¦–¼‚ªŠÔ‚ÌŒo‰ß‚Æ‚Æ‚à‚É•Ï‚í‚é‰Â”\«‚ª‚ ‚éê‡AŒ»İ‚Ì•\¦–¼‚ğæ“¾‚·‚é‚½‚ß‚É‚ÍƒIƒuƒWƒFƒNƒg‚ÌƒXƒgƒŒ[ƒW‚ÉƒAƒNƒZƒX‚·‚é‚©AƒIƒuƒWƒFƒNƒg‚ÉƒoƒCƒ“ƒh‚·‚é•K—v‚ª‚ ‚é‚©‚à‚µ‚ê‚¸A‚¢‚¸‚ê‚àƒRƒXƒg‚ª‚‚¢‘€ì‚É‚È‚è‚¤‚éB‚»‚Ìê‡AGetDisplayName
+‚ÌÀ‘•‚ÍAƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ì BIND_OPTS \‘¢‘Ì‚Åw’è‚³‚ê‚½ŠÔ‚Ü‚Å‚É–¼‘O‚ğæ“¾‚Å‚«‚È‚¢‚Æ‚«
+MK_E_EXCEEDEDDEADLINE ‚ğ•Ô‚·‚×‚«‚Å‚ ‚éB”Ä—p•¡‡ƒ‚ƒjƒJ[‚Ìˆê•”‚Æ‚È‚é‚±‚Æ‚ğˆÓ}‚µ‚½ƒ‚ƒjƒJ[‚ÍAæs‚·‚éƒfƒŠƒ~ƒ^
+('\' “™) ‚ğ•\¦–¼‚Ìˆê•”‚Æ‚µ‚ÄŠÜ‚ß‚é‚×‚«‚Å‚ ‚éB—á‚¦‚ÎA€–Úƒ‚ƒjƒJ[‚ª•Ô‚·•\¦–¼‚É‚ÍACreateItemMoniker
+ŠÖ”‚Åì¬‚Éw’è‚µ‚½ƒfƒŠƒ~ƒ^‚ªŠÜ‚Ü‚ê‚éBƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ[‚Ì•\¦–¼‚É‚ÍƒfƒŠƒ~ƒ^‚ÍŠÜ‚Ü‚ê‚È‚¢Bƒtƒ@ƒCƒ‹ƒ‚ƒjƒJ[‚Íí‚É•¡‡‚ÌÅ¶ƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚È‚é‚½‚ß‚Å‚ ‚éBÀ‘•ŒÅ—L‚Ì’ˆÓ:
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_ParseDisplayName
-Converts a display name into a moniker.
+•\¦–¼‚ğƒ‚ƒjƒJ[‚É•ÏŠ·‚·‚éB
 %group
 COM misc / IMoniker
 %prm
 this, pbc, pmkToLeft, pszDisplayName, pchEaten, ppmkOut
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pbc : [comobj] A pointer to the IBindCtx interface on the bind context to be used in this binding operation. The bind context caches objects bound during the binding process, contains parameters that apply to all operations using the bind context, and provides the means by which the moniker implementation should retrieve information about its environment.
-pmkToLeft : [comobj] A pointer to the IMoniker interface on the moniker that has been built out of the display name up to this point.
-pszDisplayName : [wstr] The remaining display name to be parsed.
-pchEaten : [int] A pointer to a variable that receives the number of characters in pszDisplayName that were consumed in this step.
-ppmkOut : [comobj] A pointer to an IMoniker pointer variable that receives the interface pointer to the moniker that was built from pszDisplayName. When successful, the implementation must call AddRef on the new moniker; it is the caller's responsibility to call Release. If an error occurs, the implementation sets *ppmkOut to NULL.
+pbc : [comobj] ‚±‚ÌƒoƒCƒ“ƒh‘€ì‚Åg—p‚·‚éƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚Ì IBindCtx ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ÍAƒoƒCƒ“ƒhˆ—’†‚ÉƒoƒCƒ“ƒh‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğƒLƒƒƒbƒVƒ…‚µAƒoƒCƒ“ƒhƒRƒ“ƒeƒLƒXƒg‚ğg—p‚·‚é‚·‚×‚Ä‚Ì‘€ì‚É“K—p‚³‚ê‚éƒpƒ‰ƒ[ƒ^‚ğŠÜ‚İAƒ‚ƒjƒJ[À‘•‚ª‚»‚ÌŠÂ‹«‚É‚Â‚¢‚Äî•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ìè’i‚ğ’ñ‹Ÿ‚·‚éB
+pmkToLeft : [comobj] ‚±‚±‚Ü‚Å‚É•\¦–¼‚©‚ç\’z‚³‚ê‚½ƒ‚ƒjƒJ[‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pszDisplayName : [wstr] ‰ğÍ‚Ìc‚è‚Ì•\¦–¼B
+pchEaten : [int] ‚±‚ÌƒXƒeƒbƒv‚ÅÁ”ï‚³‚ê‚½ pszDisplayName ’†‚Ì•¶š”‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppmkOut : [comobj] pszDisplayName ‚©‚ç\’z‚³‚ê‚½ƒ‚ƒjƒJ[‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IMoniker ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷AÀ‘•‚ÍV‚µ‚¢ƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BŒÄ‚Ño‚µ‘¤‚Í Release ‚ğŒÄ‚Ño‚·Ó”C‚ª‚ ‚éBƒGƒ‰[‚ª”­¶‚µ‚½ê‡AÀ‘•‚Í *ppmkOut ‚ğ NULL ‚Éİ’è‚·‚éB
 %inst
-Converts a display name into a moniker.
+•\¦–¼‚ğƒ‚ƒjƒJ[‚É•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return valuesE_OUTOFMEMORY and
-E_UNEXPECTED, as well as the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍA•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚¨‚æ‚Ñ E_UNEXPECTED ‚Ì‚Ù‚©AˆÈ‰º‚Ì’l‚ğ•Ô‚·ê‡‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Notes to Callers Moniker clients do not typically call
-ParseDisplayName directly. Instead, they call the MkParseDisplayName
-function when they want to convert a display name into a moniker (for
-example, in implementing the Links dialog box for a container
-application, or for implementing a macro language that supports
-references to objects outside the document). That function first
-parses the initial portion of the display name itself. It then calls
-ParseDisplayName on the moniker it has just created, passing the
-remainder of the display name and getting a new moniker in return;
-this step is repeated until the entire display name has been parsed.
-Notes to Implementers Your implementation may be able to perform this
-parsing by itself if your moniker class is designed to designate only
-certain kinds of objects. Otherwise, you must get an
-IParseDisplayName interface pointer for the object identified by the
-moniker-so-far (that is, the composition of pmkToLeft and this
-moniker) and then return the results of calling
-IParseDisplayName::ParseDisplayName. There are different strategies
-for getting an IParseDisplayName pointer, as follows:
-This doc was truncated.
+ŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ: ƒ‚ƒjƒJ[ƒNƒ‰ƒCƒAƒ“ƒg‚Í’Êí ParseDisplayName
+‚ğ’¼ÚŒÄ‚Ño‚³‚È‚¢B‘ã‚í‚è‚ÉA•\¦–¼‚ğƒ‚ƒjƒJ[‚É•ÏŠ·‚µ‚½‚¢ê‡‚Í MkParseDisplayName ŠÖ”‚ğŒÄ‚Ño‚·
+(—á‚¦‚ÎAƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒŠƒ“ƒNƒ_ƒCƒAƒƒOƒ{ƒbƒNƒX‚ÌÀ‘•A‚Ü‚½‚ÍƒhƒLƒ…ƒƒ“ƒgŠO‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚ÌQÆ‚ğƒTƒ|[ƒg‚·‚éƒ}ƒNƒŒ¾Œê‚ÌÀ‘•)B‚»‚ÌŠÖ”‚Í‚Ü‚¸A•\¦–¼‚ÌÅ‰‚Ì•”•ª‚ğ©g‚Å‰ğÍ‚·‚éBŸ‚ÉAì¬‚µ‚½‚Î‚©‚è‚Ìƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä
+ParseDisplayName
+‚ğŒÄ‚Ño‚µA•\¦–¼‚Ìc‚è‚ğ“n‚µ‚ÄAV‚µ‚¢ƒ‚ƒjƒJ[‚ğó‚¯æ‚éB‚±‚ÌƒXƒeƒbƒv‚ª•\¦–¼‘S‘Ì‚ª‰ğÍ‚³‚ê‚é‚Ü‚ÅŒJ‚è•Ô‚³‚ê‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ:
+ƒ‚ƒjƒJ[ƒNƒ‰ƒX‚ª“Á’èí—Ş‚ÌƒIƒuƒWƒFƒNƒg‚Ì‚İ‚ğw’è‚·‚é‚æ‚¤‚ÉİŒv‚³‚ê‚Ä‚¢‚éê‡A‚±‚Ì‰ğÍ‚ğ©g‚Ås‚¦‚é‚©‚à‚µ‚ê‚È‚¢B‚»‚¤‚Å‚È‚¯‚ê‚ÎA‚±‚±‚Ü‚Å‚Ìƒ‚ƒjƒJ[
+(‚·‚È‚í‚¿ pmkToLeft ‚Æ‚±‚Ìƒ‚ƒjƒJ[‚Ì‡¬) ‚ª¯•Ê‚·‚éƒIƒuƒWƒFƒNƒg‚©‚ç IParseDisplayName
+ƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğæ“¾‚µAIParseDisplayName::ParseDisplayName
+‚ğŒÄ‚Ño‚µ‚½Œ‹‰Ê‚ğ•Ô‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BIParseDisplayName ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éí—ª‚Í‚¢‚­‚Â‚©‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IMoniker_IsSystemMoniker
-Determines whether this moniker is one of the system-provided moniker classes.
+‚±‚Ìƒ‚ƒjƒJ[‚ªƒVƒXƒeƒ€’ñ‹Ÿ‚Ìƒ‚ƒjƒJ[ƒNƒ‰ƒX‚Ì‚¢‚¸‚ê‚©‚ÉŠY“–‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 COM misc / IMoniker
 %prm
 this, pdwMksys
 this : [comobj] IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pdwMksys : [int] A pointer to a variables that receives one of the values from the MKSYS enumeration and refers to one of the COM moniker classes. This parameter cannot be NULL.
+pdwMksys : [int] MKSYS —ñ‹“Œ^‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BCOM ƒ‚ƒjƒJ[ƒNƒ‰ƒX‚Ì‚¢‚¸‚ê‚©‚ğw‚·B‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚Å‚«‚È‚¢B
 %inst
-Determines whether this moniker is one of the system-provided moniker
-classes.
+‚±‚Ìƒ‚ƒjƒJ[‚ªƒVƒXƒeƒ€’ñ‹Ÿ‚Ìƒ‚ƒjƒJ[ƒNƒ‰ƒX‚Ì‚¢‚¸‚ê‚©‚ÉŠY“–‚·‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-This method returns S_OK to indicate that the moniker is a system
-moniker, and S_FALSE otherwise.
+‚±‚Ìƒƒ\ƒbƒh‚ÍAƒ‚ƒjƒJ[‚ªƒVƒXƒeƒ€ƒ‚ƒjƒJ[‚Å‚ ‚é‚±‚Æ‚ğ¦‚·‚½‚ß‚É S_OK ‚ğ•Ô‚µA‚»‚êˆÈŠO‚Í S_FALSE ‚ğ•Ô‚·B
 
 [”õl]
-Notes to Callers New values of the MKSYS enumeration may be defined
-in the future; therefore, you should explicitly test for each value
-you are interested in. Notes to Implementers Your implementation of
-this method must return MKSYS_NONE. You cannot use this function to
-identify your own monikers (for example, in your implementation of
-IMoniker::ComposeWith). Instead, you should use your moniker's
-implementation of IPersist::GetClassID or use QueryInterface to test
-for your own private interface. Implementation-specific Notes
-This doc was truncated.
+ŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ: MKSYS
+—ñ‹“Œ^‚É‚Í«—ˆV‚µ‚¢’l‚ª’è‹`‚³‚ê‚é‰Â”\«‚ª‚ ‚é‚½‚ßAŠÖS‚Ì‚ ‚é’l‚²‚Æ‚É–¾¦“I‚ÉƒeƒXƒg‚·‚×‚«‚Å‚ ‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ: ‚±‚Ìƒƒ\ƒbƒh‚ÌÀ‘•‚Í
+MKSYS_NONE ‚ğ•Ô‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B©g‚Ìƒ‚ƒjƒJ[‚ğ¯•Ê‚·‚é‚½‚ß‚É (—á‚¦‚ÎAIMoniker::ComposeWith
+‚ÌÀ‘•‚Å) ‚±‚ÌŠÖ”‚ğg—p‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B‘ã‚í‚è‚ÉAƒ‚ƒjƒJ[‚Ì IPersist::GetClassID
+‚ÌÀ‘•‚ğg—p‚·‚é‚©AQueryInterface ‚ğg—p‚µ‚Ä©g‚Ìƒvƒ‰ƒCƒx[ƒgƒCƒ“ƒ^[ƒtƒF[ƒX‚ğƒeƒXƒg‚·‚é‚×‚«‚Å‚ ‚éBÀ‘•ŒÅ—L‚Ì’ˆÓ:
+iˆÈ‰ºÈ—ªj
 
 
 %index
@@ -17174,118 +16221,101 @@ pClassID : [var]
 
 %index
 IPersistStream_IsDirty
-Determines whether an object has changed since it was last saved to its stream. (IPersistStream.IsDirty)
+ƒIƒuƒWƒFƒNƒg‚ªÅŒã‚ÉƒXƒgƒŠ[ƒ€‚Ö•Û‘¶‚³‚ê‚Ä‚©‚ç•ÏX‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB(IPersistStream.IsDirty)
 %group
 COM misc / IPersistStream
 %prm
 this
 this : [comobj] IPersistStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Determines whether an object has changed since it was last saved to
-its stream. (IPersistStream.IsDirty)
+ƒIƒuƒWƒFƒNƒg‚ªÅŒã‚ÉƒXƒgƒŠ[ƒ€‚Ö•Û‘¶‚³‚ê‚Ä‚©‚ç•ÏX‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB(IPersistStream.IsDirty)
 
 [–ß‚è’l]
-This method returns S_OK to indicate that the object has changed.
-Otherwise, it returns S_FALSE.
+ƒIƒuƒWƒFƒNƒg‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğ¦‚·‚½‚ß‚ÉA‚±‚Ìƒƒ\ƒbƒh‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í S_FALSE ‚ğ•Ô‚·B
 
 [”õl]
-Use this method to determine whether an object should be saved before
-closing it. The dirty flag for an object is conditionally cleared in
-the IPersistStream::Save method. Notes to Callers You should treat
-any error return codes as an indication that the object has changed.
-Unless this method explicitly returns S_FALSE, assume that the object
-must be saved. Note that the OLE-provided implementations of the
-IPersistStream::IsDirty method in the OLE-provided moniker interfaces
-always return S_FALSE because their internal state never changes.
+ƒIƒuƒWƒFƒNƒg‚ğ•Â‚¶‚é‘O‚É•Û‘¶‚·‚×‚«‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é‚½‚ß‚É‚±‚Ìƒƒ\ƒbƒh‚ğg—p‚·‚éBƒIƒuƒWƒFƒNƒg‚Ìƒ_[ƒeƒBƒtƒ‰ƒO‚Í
+IPersistStream::Save ƒƒ\ƒbƒh“à‚ÅğŒ•t‚«‚ÅƒNƒŠƒA‚³‚ê‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ
+ƒGƒ‰[‚Ì–ß‚è’l‚ÍƒIƒuƒWƒFƒNƒg‚ª•ÏX‚³‚ê‚½‚±‚Æ‚ğ¦‚·‚à‚Ì‚Æ‚µ‚Äˆµ‚¤‚×‚«‚Å‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚ª–¾¦“I‚É S_FALSE
+‚ğ•Ô‚³‚È‚¢ŒÀ‚èAƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‚Æ‰¼’è‚·‚é‚±‚ÆBOLE ‚ª’ñ‹Ÿ‚·‚éƒ‚ƒjƒJƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì
+IPersistStream::IsDirty ƒƒ\ƒbƒh‚Ì OLE ’ñ‹ŸÀ‘•‚ÍA“à•”ó‘Ô‚ªŒˆ‚µ‚Ä•Ï‰»‚µ‚È‚¢‚½‚ßí‚É S_FALSE
+‚ğ•Ô‚·‚±‚Æ‚É’ˆÓB
 
 
 %index
 IPersistStream_Load
-Initializes an object from the stream where it was saved previously. (IPersistStream.Load)
+ˆÈ‘O‚É•Û‘¶‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚©‚çƒIƒuƒWƒFƒNƒg‚ğ‰Šú‰»‚·‚éB(IPersistStream.Load)
 %group
 COM misc / IPersistStream
 %prm
 this, pStm
 this : [comobj] IPersistStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pStm : [comobj] An IStream pointer to the stream from which the object should be loaded.
+pStm : [comobj] ƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚éƒXƒgƒŠ[ƒ€‚Ö‚Ì IStream ƒ|ƒCƒ“ƒ^B
 %inst
-Initializes an object from the stream where it was saved previously.
-(IPersistStream.Load)
+ˆÈ‘O‚É•Û‘¶‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚©‚çƒIƒuƒWƒFƒNƒg‚ğ‰Šú‰»‚·‚éB(IPersistStream.Load)
 
 [–ß‚è’l]
-This method can return the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This method loads an object from its associated stream. The seek
-pointer is set as it was in the most recent IPersistStream::Save
-method. This method can seek and read from the stream, but cannot
-write to it. Notes to Callers Rather than calling
-IPersistStream::Load directly, you typically call the
-OleLoadFromStream function does the following:
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍŠÖ˜A•t‚¯‚ç‚ê‚½ƒXƒgƒŠ[ƒ€‚©‚çƒIƒuƒWƒFƒNƒg‚ğƒ[ƒh‚·‚éBƒV[ƒNƒ|ƒCƒ“ƒ^‚Í’¼‹ß‚Ì IPersistStream::Save
+ƒƒ\ƒbƒh‚Æ“¯‚¶ˆÊ’u‚Éİ’è‚³‚ê‚éB‚±‚Ìƒƒ\ƒbƒh‚ÍƒXƒgƒŠ[ƒ€‚É‘Î‚µ‚ÄƒV[ƒN‚Æ“Ç‚İæ‚è‚ª‚Å‚«‚é‚ªA‘‚«‚İ‚Í‚Å‚«‚È‚¢BŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ
+IPersistStream::Load ‚ğ’¼ÚŒÄ‚Ño‚·‘ã‚í‚è‚ÉA’Êí‚Í OleLoadFromStream
+ŠÖ”‚ğŒÄ‚Ño‚·B‚±‚ê‚ÍŸ‚Ìˆ—‚ğs‚¤B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IPersistStream_Save
-Saves an object to the specified stream. (IPersistStream.Save)
+ƒIƒuƒWƒFƒNƒg‚ğw’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB(IPersistStream.Save)
 %group
 COM misc / IPersistStream
 %prm
 this, pStm, fClearDirty
 this : [comobj] IPersistStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pStm : [comobj] An IStream pointer to the stream into which the object should be saved.
-fClearDirty : [int] Indicates whether to clear the dirty flag after the save is complete. If TRUE, the flag should be cleared. If FALSE, the flag should be left unchanged.
+pStm : [comobj] ƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚éƒXƒgƒŠ[ƒ€‚Ö‚Ì IStream ƒ|ƒCƒ“ƒ^B
+fClearDirty : [int] •Û‘¶Š®—¹Œã‚Éƒ_[ƒeƒBƒtƒ‰ƒO‚ğƒNƒŠƒA‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·BTRUE ‚È‚çƒtƒ‰ƒO‚ğƒNƒŠƒA‚µAFALSE ‚È‚ç‚»‚Ì‚Ü‚Üc‚·B
 %inst
-Saves an object to the specified stream. (IPersistStream.Save)
+ƒIƒuƒWƒFƒNƒg‚ğw’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚É•Û‘¶‚·‚éB(IPersistStream.Save)
 
 [–ß‚è’l]
-This method can return the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-IPersistStream::Save saves an object into the specified stream and
-indicates whether the object should reset its dirty flag. The seek
-pointer is positioned at the location in the stream at which the
-object should begin writing its data. The object calls the
-ISequentialStream::Write method to write its data. On exit, the seek
-pointer must be positioned immediately past the object data. The
-position of the seek pointer is undefined if an error returns. Notes
-to Callers Rather than calling IPersistStream::Save directly, you
-typically call the OleSaveToStream helper function which does the
-following:
-This doc was truncated.
+IPersistStream::Save
+‚ÍƒIƒuƒWƒFƒNƒg‚ğw’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚Ö•Û‘¶‚µAƒIƒuƒWƒFƒNƒg‚ªƒ_[ƒeƒBƒtƒ‰ƒO‚ğƒŠƒZƒbƒg‚·‚×‚«‚©‚Ç‚¤‚©‚ğ¦‚·BƒV[ƒNƒ|ƒCƒ“ƒ^‚ÍƒIƒuƒWƒFƒNƒg‚ªƒf[ƒ^‚Ì‘‚«‚İ‚ğŠJn‚·‚×‚«ƒXƒgƒŠ[ƒ€“à‚ÌˆÊ’u‚É’u‚©‚ê‚éBƒIƒuƒWƒFƒNƒg‚Íƒf[ƒ^‚ğ‘‚«‚Ş‚½‚ß‚É
+ISequentialStream::Write
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·BI—¹‚É‚ÍƒV[ƒNƒ|ƒCƒ“ƒ^‚ÍƒIƒuƒWƒFƒNƒgƒf[ƒ^‚Ì’¼Œã‚ÉˆÊ’u‚µ‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒGƒ‰[‚ª•Ô‚Á‚½ê‡‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ÌˆÊ’u‚Í–¢’è‹`‚Å‚ ‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ
+IPersistStream::Save ‚ğ’¼ÚŒÄ‚Ño‚·‘ã‚í‚è‚ÉA’Êí‚Í OleSaveToStream
+ƒwƒ‹ƒp[ŠÖ”‚ğŒÄ‚Ño‚·B‚±‚ê‚ÍŸ‚Ìˆ—‚ğs‚¤B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IPersistStream_GetSizeMax
-Retrieves the size of the stream needed to save the object. (IPersistStream.GetSizeMax)
+ƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚é‚½‚ß‚É•K—v‚ÈƒXƒgƒŠ[ƒ€‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB(IPersistStream.GetSizeMax)
 %group
 COM misc / IPersistStream
 %prm
 this, pcbSize
 this : [comobj] IPersistStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pcbSize : [int64] The size in bytes of the stream needed to save this object, in bytes.
+pcbSize : [int64] ‚±‚ÌƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚é‚½‚ß‚É•K—v‚ÈƒXƒgƒŠ[ƒ€‚ÌƒoƒCƒg’PˆÊ‚ÌƒTƒCƒYB
 %inst
-Retrieves the size of the stream needed to save the object.
-(IPersistStream.GetSizeMax)
+ƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚é‚½‚ß‚É•K—v‚ÈƒXƒgƒŠ[ƒ€‚ÌƒTƒCƒY‚ğæ“¾‚·‚éB(IPersistStream.GetSizeMax)
 
 [–ß‚è’l]
-This method returns S_OK to indicate that the size was retrieved
-successfully.
+ƒTƒCƒY‚ª³í‚Éæ“¾‚Å‚«‚½‚±‚Æ‚ğ¦‚·‚½‚ß‚ÉA‚±‚Ìƒƒ\ƒbƒh‚Í S_OK ‚ğ•Ô‚·B
 
 [”õl]
-This method returns the size needed to save an object. You can call
-this method to determine the size and set the necessary buffers
-before calling the IPersistStream::Save method. Notes to Implementers
-The GetSizeMax implementation should return a conservative estimate
-of the necessary size because the caller might call the
-IPersistStream::Save method with a non-growable stream. URL Moniker
-Notes This method retrieves the maximum number of bytes in the stream
-that will be required by a subsequent call to IPersistStream::Save.
-This value is sizeof(ULONG)==4 plus sizeof(WCHAR)*n where n is the
-length of the full or partial URL string, including the NULL
-terminator.
+‚±‚Ìƒƒ\ƒbƒh‚ÍƒIƒuƒWƒFƒNƒg‚ğ•Û‘¶‚·‚é‚½‚ß‚É•K—v‚ÈƒTƒCƒY‚ğ•Ô‚·BIPersistStream::Save
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‘O‚É‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚ÄƒTƒCƒY‚ğŠm”F‚µA•K—v‚Èƒoƒbƒtƒ@‚ğ€”õ‚Å‚«‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ GetSizeMax
+‚ÌÀ‘•‚Í•K—v‚ÈƒTƒCƒY‚ğ•Ûç“I‚ÉŒ©Ï‚à‚é‚×‚«‚Å‚ ‚éB‚È‚º‚È‚çŒÄ‚Ño‚µ‘¤‚ªŠg’£•s‰Â”\‚ÈƒXƒgƒŠ[ƒ€‚ğg‚Á‚Ä
+IPersistStream::Save ‚ğŒÄ‚Ño‚·‰Â”\«‚ª‚ ‚é‚©‚ç‚Å‚ ‚éBURL Moniker ‚ÉŠÖ‚·‚é’ˆÓ ‚±‚Ìƒƒ\ƒbƒh‚ÍAŒã‘±‚Ì
+IPersistStream::Save ŒÄ‚Ño‚µ‚Å•K—v‚Æ‚È‚éƒXƒgƒŠ[ƒ€‚ÌÅ‘åƒoƒCƒg”‚ğæ“¾‚·‚éB‚±‚Ì’l‚Í
+sizeof(ULONG)==4 ‚É sizeof(WCHAR)*n ‚ğ‰Á‚¦‚½‚à‚Ì‚ÅAn ‚Í NULL
+ƒ^[ƒ~ƒl[ƒ^‚ğŠÜ‚ŞŠ®‘S‚Ü‚½‚Í•”•ª“I‚È URL •¶š—ñ‚Ì’·‚³‚Å‚ ‚éB
 
 
 %index
@@ -17526,404 +16556,310 @@ Commit
 
 %index
 IRunningObjectTable_Register
-Registers an object and its identifying moniker in the running object table (ROT).
+ƒ‰ƒ“ƒjƒ“ƒOƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚ÉƒIƒuƒWƒFƒNƒg‚Æ‚»‚ê‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ[‚ğ“o˜^‚·‚éB
 %group
 COM misc / IRunningObjectTable
 %prm
 this, grfFlags, punkObject, pmkObjectName, pdwRegister
 this : [comobj] IRunningObjectTable ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-grfFlags : [int] Specifies whether the ROT's reference to punkObject is weak or strong and controls access to the object through its entry in the ROT. For details, see the Remarks section.
-punkObject : [int] A pointer to the object that is being registered as running.
-pmkObjectName : [comobj] A pointer to the moniker that identifies punkObject.
-pdwRegister : [int] An identifier for this ROT entry that can be used in subsequent calls to IRunningObjectTable::Revoke or IRunningObjectTable::NoteChangeTime. The caller cannot specify NULL for this parameter. If an error occurs, *pdwRegister is set to zero.
+grfFlags : [int] ROT ‚Ì punkObject ‚Ö‚ÌQÆ‚ªãQÆ‚©‹­QÆ‚©‚ğw’è‚µAROT ‚ÌƒGƒ“ƒgƒŠ‚ğ’Ê‚¶‚½ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒX‚ğ§Œä‚·‚éBÚ×‚Í Remarks ƒZƒNƒVƒ‡ƒ“‚ğQÆB
+punkObject : [int] Às’†‚Æ‚µ‚Ä“o˜^‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pmkObjectName : [comobj] punkObject ‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ[‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pdwRegister : [int] IRunningObjectTable::Revoke ‚â IRunningObjectTable::NoteChangeTime ‚ÌŒã‘±ŒÄ‚Ño‚µ‚Åg—p‚Å‚«‚éA‚±‚Ì ROT ƒGƒ“ƒgƒŠ‚Ì¯•ÊqBŒÄ‚Ño‚µ‘¤‚Í‚±‚Ìƒpƒ‰ƒ[ƒ^‚É NULL ‚ğw’è‚Å‚«‚È‚¢BƒGƒ‰[‚ª”­¶‚µ‚½ê‡A*pdwRegister ‚Í 0 ‚Éİ’è‚³‚ê‚éB
 %inst
-Registers an object and its identifying moniker in the running object
-table (ROT).
+ƒ‰ƒ“ƒjƒ“ƒOƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚ÉƒIƒuƒWƒFƒNƒg‚Æ‚»‚ê‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ[‚ğ“o˜^‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_INVALIDARG and
-E_OUTOFMEMORY, as well as the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚Í•W€‚Ì–ß‚è’l E_INVALIDARGAE_OUTOFMEMORYA‚¨‚æ‚ÑŸ‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This method registers a pointer to an object under a moniker that
-identifies the object. The moniker is used as the key when the table
-is searched with IRunningObjectTable::GetObject. When an object is
-registered, the ROT always calls AddRef on the object. For a weak
-registration (ROTFLAGS_REGISTRATIONKEEPSALIVE not set), the ROT will
-release the object whenever the last strong reference to the object
-is released. For a strong registration
-(ROTFLAGS_REGISTRATIONKEEPSALIVE set), the ROT prevents the object
-from being destroyed until the object's registration is explicitly
-revoked. A server registered as either LocalService or RunAs can set
-the ROTFLAGS_ALLOWANYCLIENT flag in its call to Register to allow any
-client to connect to it. A server setting this bit must have its
-executable name in the AppID section of the registry that refers to
-the AppID for the executable. An "activate as activator" server (not
-registered as LocalService or RunAs) must not set this flag in its
-call to Register. For details on installing services, see Installing
-as a Service Application. Registering a second object with the same
-moniker, or re-registering the same object with the same moniker,
-creates a second entry in the ROT. In this case, Register returns
-MK_S_MONIKERALREADYREGISTERED. Each call to Register must be matched
-by a call to IRunningObjectTable::Revoke because even duplicate
-entries have different pdwRegister identifiers. A problem with
-duplicate registrations is that there is no way to determine which
-object will be returned if the moniker is specified in a subsequent
-call to IRunningObjectTable::IsRunning. Notes to Callers If you are a
-moniker provider (that is, you hand out monikers identifying your
-objects to make them accessible to others), you must call the
-Register method to register your objects when they begin running. You
-must also call this method if you rename your objects while they are
-loaded.
-The most common type of moniker provider is a compound-document link
-source. This includes server applications that support linking to
-their documents (or portions of a document) and container
-applications that support linking to embeddings within their
-documents. Server applications that do not support linking can also
-use the ROT to cooperate with container applications that support
-linking to embeddings.
-If you are writing a server application, you should register an
-object with the ROT when it begins running, typically in your
-implementation of IOleObject::DoVerb. The object must be registered
-under its full moniker, which requires getting the moniker of its
-container document using IOleClientSite::GetMoniker. You should also
-revoke and re-register the object in your implementation of
-IOleObject::SetMoniker, which is called if the container document is
-renamed. If you are writing a container application that supports
-linking to embeddings, you should register your document with the ROT
-when it is loaded. If your document is renamed, you should revoke and
-re-register it with the ROT and call IOleObject::SetMoniker for any
-embedded objects in the document to give them an opportunity to
-re-register themselves. Objects registered in the ROT must be
-explicitly revoked when the object is no longer running or when its
-moniker changes. This revocation is important because there is no way
-for the system to automatically remove entries from the ROT. You must
-cache the identifier that is written through pdwRegister and use it
-in a call to IRunningObjectTable::Revoke to revoke the registration.
-For a strong registration, a strong reference is released when the
-objects registration is revoked. As of Windows Server 2003, if there
-are stale entries that remain in the ROT due to unexpected server
-problems, COM will automatically remove these stale entries from the
-ROT. The system's implementation of Register calls IMoniker::Reduce
-on the pmkObjectName parameter to ensure that the moniker is fully
-reduced before registration. If an object is known by more than one
-fully reduced moniker, it should be registered under all such
-monikers.
+‚±‚Ìƒƒ\ƒbƒh‚ÍAƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğA‚»‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ[‚Ì‰º‚É“o˜^‚·‚éBƒ‚ƒjƒJ[‚Í
+IRunningObjectTable::GetObject
+‚É‚æ‚Á‚Äƒe[ƒuƒ‹‚ªŒŸõ‚³‚ê‚éÛ‚ÌƒL[‚Æ‚µ‚Äg—p‚³‚ê‚éBƒIƒuƒWƒFƒNƒg‚ª“o˜^‚³‚ê‚é‚Æ‚«AROT ‚Íí‚ÉƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä AddRef
+‚ğŒÄ‚ÔBãQÆ“o˜^ (ROTFLAGS_REGISTRATIONKEEPSALIVE ‚ª–¢İ’è) ‚Ìê‡AROT
+‚ÍƒIƒuƒWƒFƒNƒg‚Ö‚ÌÅŒã‚Ì‹­QÆ‚ª‰ğ•ú‚³‚ê‚½‚Æ‚«‚ÉƒIƒuƒWƒFƒNƒg‚ğ‰ğ•ú‚·‚éB‹­QÆ“o˜^
+(ROTFLAGS_REGISTRATIONKEEPSALIVE ‚ªİ’è) ‚Ìê‡AROT
+‚Í“o˜^‚ª–¾¦“I‚Éæ‚èÁ‚³‚ê‚é‚Ü‚ÅƒIƒuƒWƒFƒNƒg‚ª”jŠü‚³‚ê‚é‚Ì‚ğ–h‚®BLocalService ‚Ü‚½‚Í RunAs
+‚Æ‚µ‚Ä“o˜^‚³‚ê‚½ƒT[ƒo‚ÍARegister ŒÄ‚Ño‚µ‚Å ROTFLAGS_ALLOWANYCLIENT
+ƒtƒ‰ƒO‚ğİ’è‚µ‚Ä”CˆÓ‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚ÌÚ‘±‚ğ‹–‰Â‚Å‚«‚éB‚±‚Ìƒrƒbƒg‚ğİ’è‚·‚éƒT[ƒo‚ÍAÀsƒtƒ@ƒCƒ‹—p‚Ì AppID
+‚ğQÆ‚·‚éƒŒƒWƒXƒgƒŠ‚Ì AppID ƒZƒNƒVƒ‡ƒ“‚ÉÀsƒtƒ@ƒCƒ‹–¼‚ª“o˜^‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚éB"activate as activator"
+ƒT[ƒo (LocalService ‚â RunAs ‚Æ‚µ‚Ä“o˜^‚³‚ê‚Ä‚¢‚È‚¢‚à‚Ì) ‚Í Register
+ŒÄ‚Ño‚µ‚Å‚±‚Ìƒtƒ‰ƒO‚ğİ’è‚µ‚Ä‚Í‚È‚ç‚È‚¢BƒT[ƒrƒX‚ÌƒCƒ“ƒXƒg[ƒ‹‚ÌÚ×‚Í Installing as a Service
+Application ‚ğQÆB“¯‚¶ƒ‚ƒjƒJ[‚Å 2
+‚Â–Ú‚ÌƒIƒuƒWƒFƒNƒg‚ğ“o˜^‚µ‚½‚èA“¯‚¶ƒ‚ƒjƒJ[‚Å“¯‚¶ƒIƒuƒWƒFƒNƒg‚ğÄ“o˜^‚µ‚½‚è‚·‚é‚ÆAROT ‚É‚Í 2 ‚Â‚ÌƒGƒ“ƒgƒŠ‚ªì‚ç‚ê‚éB‚±‚Ìê‡
+Register ‚Í MK_S_MONIKERALREADYREGISTERED ‚ğ•Ô‚·Bd•¡‚·‚éƒGƒ“ƒgƒŠ‚Å‚à pdwRegister
+‚Ì¯•Êq‚ªˆÙ‚È‚é‚½‚ßARegister ‚ÌŠeŒÄ‚Ño‚µ‚É‚Í‘Î‰‚·‚é IRunningObjectTable::Revoke
+‚ÌŒÄ‚Ño‚µ‚ª•K—v‚Å‚ ‚éBd•¡“o˜^‚Ì–â‘è“_‚ÍA‚»‚ÌŒã IRunningObjectTable::IsRunning
+‚Å‚»‚Ìƒ‚ƒjƒJ[‚ğw’è‚µ‚½‚Æ‚«‚É‚Ç‚ÌƒIƒuƒWƒFƒNƒg‚ª•Ô‚³‚ê‚é‚©‚ğŒˆ’è‚·‚é•û–@‚ª‚È‚¢‚±‚Æ‚Å‚ ‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ ƒ‚ƒjƒJ[ƒvƒƒoƒCƒ_
+(‘¼Ò‚ªƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤A©g‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ[‚ğ”z•z‚·‚é‘¤) ‚Ìê‡AƒIƒuƒWƒFƒNƒg‚ªÀs‚ğŠJn‚µ‚½‚Æ‚«‚É
+Register
+ƒƒ\ƒbƒh‚ğŒÄ‚ñ‚ÅƒIƒuƒWƒFƒNƒg‚ğ“o˜^‚·‚é•K—v‚ª‚ ‚éBƒ[ƒh’†‚ÉƒIƒuƒWƒFƒNƒg‚ªƒŠƒl[ƒ€‚³‚ê‚½ê‡‚à‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ô•K—v‚ª‚ ‚éB
+Å‚àˆê”Ê“I‚Èƒ‚ƒjƒJ[ƒvƒƒoƒCƒ_‚Í•¡‡ƒhƒLƒ…ƒƒ“ƒg‚ÌƒŠƒ“ƒNƒ\[ƒX‚Å‚ ‚éB‚±‚ê‚É‚Í©ƒhƒLƒ…ƒƒ“ƒg (‚Ü‚½‚Í‚»‚Ìˆê•”)
+‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒT[ƒoƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚âAƒhƒLƒ…ƒƒ“ƒg“à‚Ì–„‚ß‚İ‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŠÜ‚Ü‚ê‚éBƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚µ‚È‚¢ƒT[ƒoƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚àAROT
+‚ğ—p‚¢‚Ä–„‚ß‚İ‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ‹¦’²‚·‚é‚±‚Æ‚ª‚Å‚«‚éB
+ƒT[ƒoƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‘‚¢‚Ä‚¢‚éê‡AƒIƒuƒWƒFƒNƒg‚ªÀs‚ğŠJn‚µ‚½‚Æ‚« (“TŒ^“I‚É‚Í IOleObject::DoVerb ‚ÌÀ‘•“à‚Å)
+‚»‚ÌƒIƒuƒWƒFƒNƒg‚ğ ROT ‚É“o˜^‚·‚×‚«‚Å‚ ‚éBƒIƒuƒWƒFƒNƒg‚ÍŠ®‘S‚Èƒ‚ƒjƒJ[‚Å“o˜^‚µ‚È‚¯‚ê‚Î‚È‚ç‚¸A‚±‚ê‚É‚Í
+IOleClientSite::GetMoniker
+‚ğg‚Á‚ÄƒRƒ“ƒeƒiƒhƒLƒ…ƒƒ“ƒg‚Ìƒ‚ƒjƒJ[‚ğæ“¾‚·‚é•K—v‚ª‚ ‚éBƒRƒ“ƒeƒiƒhƒLƒ…ƒƒ“ƒg‚ªƒŠƒl[ƒ€‚³‚ê‚½Û‚ÉŒÄ‚Î‚ê‚é
+IOleObject::SetMoniker
+‚ÌÀ‘•“à‚Å‚àAƒIƒuƒWƒFƒNƒg‚ğæ‚èÁ‚µ‚ÄÄ“o˜^‚·‚×‚«‚Å‚ ‚éB–„‚ß‚İ‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‘‚¢‚Ä‚¢‚éê‡AƒhƒLƒ…ƒƒ“ƒg‚ªƒ[ƒh‚³‚ê‚½‚Æ‚«‚É
+ROT ‚É“o˜^‚·‚×‚«‚Å‚ ‚éBƒhƒLƒ…ƒƒ“ƒg‚ªƒŠƒl[ƒ€‚³‚ê‚½ê‡‚Í ROT
+‚Å‚Ìæ‚èÁ‚µEÄ“o˜^‚ğs‚¢AƒhƒLƒ…ƒƒ“ƒg“à‚Ì–„‚ß‚İƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä IOleObject::SetMoniker
+‚ğŒÄ‚ñ‚ÅÄ“o˜^‚Ì‹@‰ï‚ğ—^‚¦‚é‚×‚«‚Å‚ ‚éBROT
+‚É“o˜^‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÍAÀs‚³‚ê‚È‚­‚È‚Á‚½‚Æ‚«‚â‚»‚Ìƒ‚ƒjƒJ[‚ª•ÏX‚³‚ê‚½‚Æ‚«‚É–¾¦“I‚Éæ‚èÁ‚·•K—v‚ª‚ ‚éBƒVƒXƒeƒ€‚ª©“®“I‚É ROT
+‚©‚çƒGƒ“ƒgƒŠ‚ğíœ‚·‚é•û–@‚Í‚È‚¢‚½‚ßA‚±‚Ìæ‚èÁ‚µ‚Íd—v‚Å‚ ‚éBpdwRegister
+‚ğ‰î‚µ‚Ä‘‚«‚Ü‚ê‚½¯•Êq‚ğƒLƒƒƒbƒVƒ…‚µAIRunningObjectTable::Revoke
+ŒÄ‚Ño‚µ‚É“n‚µ‚Ä“o˜^‚ğæ‚èÁ‚·•K—v‚ª‚ ‚éB‹­QÆ“o˜^‚Ìê‡A“o˜^‚ªæ‚èÁ‚³‚ê‚é‚Æ‹­QÆ‚ª‰ğ•ú‚³‚ê‚éBWindows Server 2003
+ˆÈ~‚Å‚ÍA—\Šú‚µ‚È‚¢ƒT[ƒo‚Ì–â‘è‚É‚æ‚èŒÃ‚¢ƒGƒ“ƒgƒŠ‚ª ROT ‚Éc‚Á‚Ä‚¢‚éê‡ACOM ‚ª©“®“I‚É‚»‚ê‚ç‚ÌŒÃ‚¢ƒGƒ“ƒgƒŠ‚ğ ROT
+‚©‚çíœ‚·‚éBƒVƒXƒeƒ€‚Ì Register À‘•‚ÍA“o˜^‘O‚Éƒ‚ƒjƒJ[‚ªŠ®‘S‚ÉŠÈ–ñ‰»‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ•ÛØ‚·‚é‚½‚ß‚É
+pmkObjectName ƒpƒ‰ƒ[ƒ^‚É‘Î‚µ‚Ä IMoniker::Reduce ‚ğŒÄ‚Ño‚·B1
+‚Â‚ÌƒIƒuƒWƒFƒNƒg‚ª•¡”‚ÌŠ®‘S‚ÉŠÈ–ñ‰»‚³‚ê‚½ƒ‚ƒjƒJ[‚Å’m‚ç‚ê‚éê‡A‚»‚ê‚ç‚·‚×‚Ä‚Ìƒ‚ƒjƒJ[‚Å“o˜^‚·‚é‚×‚«‚Å‚ ‚éB
 
 
 %index
 IRunningObjectTable_Revoke
-Removes an entry from the running object table (ROT) that was previously registered by a call to IRunningObjectTable::Register.
+IRunningObjectTable::Register ŒÄ‚Ño‚µ‚ÅˆÈ‘O‚É“o˜^‚³‚ê‚½ƒGƒ“ƒgƒŠ‚ğƒ‰ƒ“ƒjƒ“ƒOƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚©‚çíœ‚·‚éB
 %group
 COM misc / IRunningObjectTable
 %prm
 this, dwRegister
 this : [comobj] IRunningObjectTable ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwRegister : [int] The identifier of the ROT entry to be revoked.
+dwRegister : [int] æ‚èÁ‚· ROT ƒGƒ“ƒgƒŠ‚Ì¯•ÊqB
 %inst
-Removes an entry from the running object table (ROT) that was
-previously registered by a call to IRunningObjectTable::Register.
+IRunningObjectTable::Register ŒÄ‚Ño‚µ‚ÅˆÈ‘O‚É“o˜^‚³‚ê‚½ƒGƒ“ƒgƒŠ‚ğƒ‰ƒ“ƒjƒ“ƒOƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT)
+‚©‚çíœ‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_INVALIDARG and
-S_OK.
+‚±‚Ìƒƒ\ƒbƒh‚Í•W€‚Ì–ß‚è’l E_INVALIDARG ‚¨‚æ‚Ñ S_OK ‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
 
 [”õl]
-This method undoes the effect of a call to
-IRunningObjectTable::Register, removing both the moniker and the
-pointer to the object identified by that moniker. Notes to Callers A
-moniker provider (hands out monikers identifying its objects to make
-them accessible to others) must call the Revoke method to revoke the
-registration of its objects when it stops running. It must have
-previously called IRunningObjectTable::Register and stored the
-identifier returned by that method; it uses that identifier when
-calling Revoke. The most common type of moniker provider is a
-compound-document link source. This includes server applications that
-support linking to their documents (or portions of a document) and
-container applications that support linking to embeddings within
-their documents. Server applications that do not support linking can
-also use the ROT to cooperate with container applications that
-support linking to embeddings. If you are writing a container
-application, you must revoke a document's registration when the
-document is closed. You must also revoke a document's registration
-before re-registering it when it is renamed.
-If you are writing a server application, you must revoke an object's
-registration when the object is closed. You must also revoke an
-object's registration before re-registering it when its container
-document is renamed (see IOleObject::SetMoniker).
+‚±‚Ìƒƒ\ƒbƒh‚Í IRunningObjectTable::Register
+‚ÌŒÄ‚Ño‚µ‚ÌŒø‰Ê‚ğæ‚èÁ‚µAƒ‚ƒjƒJ[‚Æ‚»‚Ìƒ‚ƒjƒJ[‚Å¯•Ê‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚Ì—¼•û‚ğíœ‚·‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ
+ƒ‚ƒjƒJ[ƒvƒƒoƒCƒ_ (‘¼Ò‚ªƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤A©g‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ[‚ğ”z•z‚·‚é‘¤)
+‚ÍAÀs‚ğ’â~‚·‚éÛ‚ÉƒIƒuƒWƒFƒNƒg‚Ì“o˜^‚ğæ‚èÁ‚·‚½‚ß‚É Revoke ƒƒ\ƒbƒh‚ğŒÄ‚Î‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B–‘O‚É
+IRunningObjectTable::Register ‚ğŒÄ‚ÑA‚»‚Ìƒƒ\ƒbƒh‚ª•Ô‚µ‚½¯•Êq‚ğ•Û‘¶‚µ‚Ä‚¨‚«ARevoke
+ŒÄ‚Ño‚µ‚É‚»‚Ì¯•Êq‚ğg—p‚·‚é•K—v‚ª‚ ‚éBÅ‚àˆê”Ê“I‚Èƒ‚ƒjƒJ[ƒvƒƒoƒCƒ_‚Í•¡‡ƒhƒLƒ…ƒƒ“ƒg‚ÌƒŠƒ“ƒNƒ\[ƒX‚Å‚ ‚éB‚±‚ê‚É‚Í©ƒhƒLƒ…ƒƒ“ƒg
+(‚Ü‚½‚Í‚»‚Ìˆê•”)
+‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒT[ƒoƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚âAƒhƒLƒ…ƒƒ“ƒg“à‚Ì–„‚ß‚İ‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŠÜ‚Ü‚ê‚éBƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚µ‚È‚¢ƒT[ƒoƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚àAROT
+‚ğ—p‚¢‚Ä–„‚ß‚İ‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ‹¦’²‚·‚é‚±‚Æ‚ª‚Å‚«‚éBƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‘‚¢‚Ä‚¢‚éê‡AƒhƒLƒ…ƒƒ“ƒg‚ª•Â‚¶‚ç‚ê‚é‚Æ‚«‚É‚»‚Ì“o˜^‚ğæ‚èÁ‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒŠƒl[ƒ€‚³‚ê‚ÄÄ“o˜^‚·‚é‘O‚É‚àƒhƒLƒ…ƒƒ“ƒg‚Ì“o˜^‚ğæ‚èÁ‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+
+ƒT[ƒoƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‘‚¢‚Ä‚¢‚éê‡AƒIƒuƒWƒFƒNƒg‚ª•Â‚¶‚ç‚ê‚é‚Æ‚«‚É‚»‚Ì“o˜^‚ğæ‚èÁ‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒRƒ“ƒeƒiƒhƒLƒ…ƒƒ“ƒg‚ªƒŠƒl[ƒ€‚³‚ê‚½‚Æ‚«‚ÉƒIƒuƒWƒFƒNƒg‚ğÄ“o˜^‚·‚é‘O‚É‚àA‚»‚Ì“o˜^‚ğæ‚èÁ‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
+(IOleObject::SetMoniker ‚ğQÆ)B
 
 
 %index
 IRunningObjectTable_IsRunning
-Determines whether the object identified by the specified moniker is currently running.
+w’è‚µ‚½ƒ‚ƒjƒJ[‚Å¯•Ê‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ªŒ»İÀs’†‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 %group
 COM misc / IRunningObjectTable
 %prm
 this, pmkObjectName
 this : [comobj] IRunningObjectTable ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pmkObjectName : [comobj] A pointer to the IMoniker interface on the moniker.
+pmkObjectName : [comobj] ƒ‚ƒjƒJ[ã‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Determines whether the object identified by the specified moniker is
-currently running.
+w’è‚µ‚½ƒ‚ƒjƒJ[‚Å¯•Ê‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ªŒ»İÀs’†‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-If the object is in the running state, the return value is TRUE.
-Otherwise, it is FALSE.
+ƒIƒuƒWƒFƒNƒg‚ªÀsó‘Ô‚É‚ ‚éê‡A–ß‚è’l‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚Å‚ ‚éB
 
 [”õl]
-This method simply indicates whether a object is running. To retrieve
-a pointer to a running object, use the IRunningObjectTable::GetObject
-method. Notes to Callers Generally, you call the IsRunning method
-only if you are writing your own moniker class (that is, implementing
-the IMoniker interface). You typically call this method from your
-implementation of IMoniker::IsRunning. However, you should do so only
-if the pmkToLeft parameter of IMoniker::IsRunning is NULL. Otherwise,
-you should call IMoniker::IsRunning on your pmkToLeft parameter
-instead.
+‚±‚Ìƒƒ\ƒbƒh‚ÍƒIƒuƒWƒFƒNƒg‚ªÀs’†‚©‚Ç‚¤‚©‚ğ’Pƒ‚É¦‚·BÀs’†‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é‚É‚Í
+IRunningObjectTable::GetObject ƒƒ\ƒbƒh‚ğg—p‚·‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ ˆê”Ê‚É IsRunning
+ƒƒ\ƒbƒh‚ğŒÄ‚Ô‚Ì‚ÍA“Æ©‚Ìƒ‚ƒjƒJ[ƒNƒ‰ƒX‚ğ‘‚¢‚Ä‚¢‚éê‡ (‚·‚È‚í‚¿ IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğÀ‘•‚µ‚Ä‚¢‚éê‡)
+‚Ì‚İ‚Å‚ ‚éB’Êí‚Í IMoniker::IsRunning ‚ÌÀ‘•“à‚©‚çŒÄ‚Ño‚·B‚½‚¾‚µA‚±‚ê‚ğs‚¤‚Ì‚Í
+IMoniker::IsRunning ‚Ì pmkToLeft ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡‚ÉŒÀ‚éB‚»‚¤‚Å‚È‚¢ê‡‚ÍA‘ã‚í‚è‚É
+pmkToLeft ƒpƒ‰ƒ[ƒ^‚É‘Î‚µ‚Ä IMoniker::IsRunning ‚ğŒÄ‚Ô‚×‚«‚Å‚ ‚éB
 
 
 %index
 IRunningObjectTable_GetObject
-Determines whether the object identified by the specified moniker is running, and if it is, retrieves a pointer to that object.
+w’è‚µ‚½ƒ‚ƒjƒJ[‚Å¯•Ê‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ªÀs’†‚©‚Ç‚¤‚©‚ğ”»’è‚µAÀs’†‚Å‚ ‚ê‚Î‚»‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 %group
 COM misc / IRunningObjectTable
 %prm
 this, pmkObjectName, ppunkObject
 this : [comobj] IRunningObjectTable ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pmkObjectName : [comobj] A pointer to the IMoniker interface on the moniker.
-ppunkObject : [int] A pointer to an IUnknown pointer variable that receives the interface pointer to the running object. When successful, the implementation calls AddRef on the object; it is the caller's responsibility to call Release. If the object is not running or if an error occurs, the implementation sets *ppunkObject to NULL.
+pmkObjectName : [comobj] ƒ‚ƒjƒJ[ã‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ppunkObject : [int] Às’†‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IUnknown ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷‚É‚ÍÀ‘•‚ÍƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚ÔBRelease ‚ğŒÄ‚Ô‚Ì‚ÍŒÄ‚Ño‚µ‘¤‚ÌÓ”C‚Å‚ ‚éBƒIƒuƒWƒFƒNƒg‚ªÀs’†‚Å‚È‚¢‚©AƒGƒ‰[‚ª”­¶‚µ‚½ê‡AÀ‘•‚Í *ppunkObject ‚ğ NULL ‚Éİ’è‚·‚éB
 %inst
-Determines whether the object identified by the specified moniker is
-running, and if it is, retrieves a pointer to that object.
+w’è‚µ‚½ƒ‚ƒjƒJ[‚Å¯•Ê‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ªÀs’†‚©‚Ç‚¤‚©‚ğ”»’è‚µAÀs’†‚Å‚ ‚ê‚Î‚»‚ÌƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-This method can return the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This method checks the ROT for the moniker specified by
-pmkObjectName. If that moniker had previously been registered with a
-call to IRunningObjectTable::Register, this method returns the
-pointer that was registered at that time. Notes to Callers Generally,
-you call the IRunningObjectTable::GetObject method only if you are
-writing your own moniker class (that is, implementing the IMoniker
-interface). You typically call this method from your implementation
-of IMoniker::BindToObject. However, note that not all implementations
-of IMoniker::BindToObject need to call this method. If you expect
-your moniker to have a prefix (indicated by a non-NULLpmkToLeft
-parameter to IMoniker::BindToObject), you should not check the ROT.
-The reason for this is that only complete monikers are registered
-with the ROT, and if your moniker has a prefix, your moniker is part
-of a composite and thus not complete. Instead, your moniker should
-request services from the object identified by the prefix (for
-example, the container of the object identified by your moniker).
+‚±‚Ìƒƒ\ƒbƒh‚Í pmkObjectName ‚Åw’è‚³‚ê‚½ƒ‚ƒjƒJ[‚ğ ROT “à‚ÅŠm”F‚·‚éB‚»‚Ìƒ‚ƒjƒJ[‚ªˆÈ‘O‚É
+IRunningObjectTable::Register
+ŒÄ‚Ño‚µ‚Å“o˜^‚³‚ê‚Ä‚¢‚½ê‡A‚±‚Ìƒƒ\ƒbƒh‚Í‚»‚Ì‚É“o˜^‚³‚ê‚½ƒ|ƒCƒ“ƒ^‚ğ•Ô‚·BŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ ˆê”Ê‚É
+IRunningObjectTable::GetObject ƒƒ\ƒbƒh‚ğŒÄ‚Ô‚Ì‚ÍA“Æ©‚Ìƒ‚ƒjƒJ[ƒNƒ‰ƒX‚ğ‘‚¢‚Ä‚¢‚éê‡ (‚·‚È‚í‚¿
+IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğÀ‘•‚µ‚Ä‚¢‚éê‡) ‚Ì‚İ‚Å‚ ‚éB’Êí‚Í IMoniker::BindToObject
+‚ÌÀ‘•“à‚©‚çŒÄ‚Ño‚·B‚½‚¾‚µ‚·‚×‚Ä‚Ì IMoniker::BindToObject
+À‘•‚ª‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ô•K—v‚ª‚ ‚é‚í‚¯‚Å‚Í‚È‚¢Bƒ‚ƒjƒJ[‚ÉƒvƒŒƒtƒBƒbƒNƒX (IMoniker::BindToObject ‚Ì”ñ NULL
+pmkToLeft ƒpƒ‰ƒ[ƒ^‚Å¦‚³‚ê‚é) ‚ª‚ ‚é‚Æ‘z’è‚³‚ê‚éê‡AROT ‚ğŠm”F‚·‚×‚«‚Å‚Í‚È‚¢B——R‚ÍAROT
+‚É‚ÍŠ®‘S‚Èƒ‚ƒjƒJ[‚Ì‚İ‚ª“o˜^‚³‚ê‚é‚©‚ç‚Å‚ ‚èAƒvƒŒƒtƒBƒbƒNƒX•t‚«ƒ‚ƒjƒJ[‚Í‡¬‚Ìˆê•”‚Å‚ ‚Á‚ÄŠ®‘S‚Å‚Í‚È‚¢‚½‚ß‚Å‚ ‚éB‚±‚Ìê‡ƒ‚ƒjƒJ[‚Í‘ã‚í‚è‚ÉAƒvƒŒƒtƒBƒbƒNƒX‚Å¯•Ê‚³‚ê‚éƒIƒuƒWƒFƒNƒg
+(—á: ©•ª‚Ìƒ‚ƒjƒJ[‚Å¯•Ê‚³‚ê‚éƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒeƒi) ‚ÉƒT[ƒrƒX‚ğ—v‹‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 IRunningObjectTable_NoteChangeTime
-Records the time that a running object was last modified. The object must have previously been registered with the running object table (ROT). This method stores the time of last change in the ROT.
+Às’†‚ÌƒIƒuƒWƒFƒNƒg‚ªÅŒã‚É•ÏX‚³‚ê‚½‚ğ‹L˜^‚·‚éBƒIƒuƒWƒFƒNƒg‚Í–‘O‚Éƒ‰ƒ“ƒjƒ“ƒOƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚É“o˜^‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒƒ\ƒbƒh‚ÍÅI•ÏX‚ğ ROT ‚É•Û‘¶‚·‚éB
 %group
 COM misc / IRunningObjectTable
 %prm
 this, dwRegister, pfiletime
 this : [comobj] IRunningObjectTable ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dwRegister : [int] The identifier of the ROT entry of the changed object. This value was previously returned by IRunningObjectTable::Register.
-pfiletime : [var] A pointer to a FILETIME structure containing the object's last change time.
+dwRegister : [int] •ÏX‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚Ì ROT ƒGƒ“ƒgƒŠ‚Ì¯•ÊqB‚±‚Ì’l‚ÍˆÈ‘O‚É IRunningObjectTable::Register ‚ª•Ô‚µ‚½‚à‚Ì‚Å‚ ‚éB
+pfiletime : [var] ƒIƒuƒWƒFƒNƒg‚ÌÅI•ÏX‚ğŠÜ‚Ş FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Records the time that a running object was last modified. The object
-must have previously been registered with the running object table
-(ROT). This method stores the time of last change in the ROT.
+Às’†‚ÌƒIƒuƒWƒFƒNƒg‚ªÅŒã‚É•ÏX‚³‚ê‚½‚ğ‹L˜^‚·‚éBƒIƒuƒWƒFƒNƒg‚Í–‘O‚Éƒ‰ƒ“ƒjƒ“ƒOƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT)
+‚É“o˜^‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒƒ\ƒbƒh‚ÍÅI•ÏX‚ğ ROT ‚É•Û‘¶‚·‚éB
 
 [–ß‚è’l]
-This method can return the standard return values E_INVALIDARG and
-S_OK.
+‚±‚Ìƒƒ\ƒbƒh‚Í•W€‚Ì–ß‚è’l E_INVALIDARG ‚¨‚æ‚Ñ S_OK ‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
 
 [”õl]
-The time recorded by this method can be retrieved by calling
-IRunningObjectTable::GetTimeOfLastChange. Notes to Callers A moniker
-provider (hands out monikers identifying its objects to make them
-accessible to others) must call the NoteChangeTime method whenever
-its objects are modified. It must have previously called
-IRunningObjectTable::Register and stored the identifier returned by
-that method; it uses that identifier when calling NoteChangeTime.
-The most common type of moniker provider is a compound-document link
-source. This includes server applications that support linking to
-their documents (or portions of a document) and container
-applications that support linking to embeddings within their
-documents. Server applications that do not support linking can also
-use the ROT to cooperate with container applications that support
-linking to embeddings.
-When an object is first registered in the ROT, the ROT records its
-last change time as the value returned by calling
-IMoniker::GetTimeOfLastChange on the moniker being registered.
+‚±‚Ìƒƒ\ƒbƒh‚Å‹L˜^‚³‚ê‚½‚Í IRunningObjectTable::GetTimeOfLastChange
+‚ğŒÄ‚Ño‚·‚±‚Æ‚Åæ“¾‚Å‚«‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ ƒ‚ƒjƒJ[ƒvƒƒoƒCƒ_
+(‘¼Ò‚ªƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤A©g‚ÌƒIƒuƒWƒFƒNƒg‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ[‚ğ”z•z‚·‚é‘¤) ‚ÍA©g‚ÌƒIƒuƒWƒFƒNƒg‚ª•ÏX‚³‚ê‚é‚½‚Ñ‚É
+NoteChangeTime ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B–‘O‚É IRunningObjectTable::Register
+‚ğŒÄ‚ÑA‚»‚Ìƒƒ\ƒbƒh‚ª•Ô‚µ‚½¯•Êq‚ğ•Û‘¶‚µ‚Ä‚¨‚«ANoteChangeTime ŒÄ‚Ño‚µ‚É‚»‚Ì¯•Êq‚ğg—p‚·‚é•K—v‚ª‚ ‚éB
+Å‚àˆê”Ê“I‚Èƒ‚ƒjƒJ[ƒvƒƒoƒCƒ_‚Í•¡‡ƒhƒLƒ…ƒƒ“ƒg‚ÌƒŠƒ“ƒNƒ\[ƒX‚Å‚ ‚éB‚±‚ê‚É‚Í©ƒhƒLƒ…ƒƒ“ƒg (‚Ü‚½‚Í‚»‚Ìˆê•”)
+‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒT[ƒoƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚âAƒhƒLƒ…ƒƒ“ƒg“à‚Ì–„‚ß‚İ‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªŠÜ‚Ü‚ê‚éBƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚µ‚È‚¢ƒT[ƒoƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚àAROT
+‚ğ—p‚¢‚Ä–„‚ß‚İ‚Ö‚ÌƒŠƒ“ƒN‚ğƒTƒ|[ƒg‚·‚éƒRƒ“ƒeƒiƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Æ‹¦’²‚·‚é‚±‚Æ‚ª‚Å‚«‚éB
+ƒIƒuƒWƒFƒNƒg‚ªÅ‰‚É ROT ‚É“o˜^‚³‚ê‚é‚ÆAROT ‚Í“o˜^‚³‚ê‚éƒ‚ƒjƒJ[‚É‘Î‚µ‚Ä
+IMoniker::GetTimeOfLastChange ‚ğŒÄ‚ñ‚Å“¾‚½’l‚ğÅI•ÏX‚Æ‚µ‚Ä‹L˜^‚·‚éB
 
 
 %index
 IRunningObjectTable_GetTimeOfLastChange
-Retrieves the time that an object was last modified.
+ƒIƒuƒWƒFƒNƒg‚ªÅŒã‚É•ÏX‚³‚ê‚½‚ğæ“¾‚·‚éB
 %group
 COM misc / IRunningObjectTable
 %prm
 this, pmkObjectName, pfiletime
 this : [comobj] IRunningObjectTable ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pmkObjectName : [comobj] A pointer to the IMoniker interface on the moniker.
-pfiletime : [var] A pointer to a FILETIME structure that receives the object's last change time.
+pmkObjectName : [comobj] ƒ‚ƒjƒJ[ã‚Ì IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pfiletime : [var] ƒIƒuƒWƒFƒNƒg‚ÌÅI•ÏX‚ğó‚¯æ‚é FILETIME \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the time that an object was last modified.
+ƒIƒuƒWƒFƒNƒg‚ªÅŒã‚É•ÏX‚³‚ê‚½‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-This method can return the following values.
-This doc was truncated.
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-This method returns the change time that was last reported for this
-object by a call to IRunningObjectTable::NoteChangeTime. If
-NoteChangeTime has not been called previously, the method returns the
-time that was recorded when the object was registered. This method is
-provided to enable checking whether a connection between two objects
-(represented by one object holding a moniker that identifies the
-other) is up-to-date. For example, if one object is holding cached
-information about the other object, this method can be used to check
-whether the object has been modified since the cache was last
-updated. See IMoniker::GetTimeOfLastChange. Notes to Callers
-Generally, you call GetTimeOfLastChange only if you are writing your
-own moniker class (that is, implementing the IMoniker interface). You
-typically call this method from your implementation of
-IMoniker::GetTimeOfLastChange. However, you should do so only if the
-pmkToLeft parameter of IMoniker::GetTimeOfLastChange is NULL.
-Otherwise, you should call IMoniker::GetTimeOfLastChange on your
-pmkToLeft parameter instead.
+‚±‚Ìƒƒ\ƒbƒh‚ÍA‚±‚ÌƒIƒuƒWƒFƒNƒg‚É‚Â‚¢‚Ä IRunningObjectTable::NoteChangeTime
+ŒÄ‚Ño‚µ‚ÅÅŒã‚É•ñ‚³‚ê‚½•ÏX‚ğ•Ô‚·BNoteChangeTime
+‚ªˆÈ‘O‚ÉŒÄ‚Î‚ê‚Ä‚¢‚È‚¢ê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍƒIƒuƒWƒFƒNƒg‚ª“o˜^‚³‚ê‚½Û‚É‹L˜^‚³‚ê‚½‚ğ•Ô‚·B‚±‚Ìƒƒ\ƒbƒh‚ÍA2 ‚Â‚ÌƒIƒuƒWƒFƒNƒgŠÔ‚ÌÚ‘±
+(•Ğ•û‚ª‚à‚¤•Ğ•û‚ğ¯•Ê‚·‚éƒ‚ƒjƒJ[‚ğ•Û‚µ‚Ä‚¢‚é)
+‚ªÅV‚©‚Ç‚¤‚©‚ğŠm”F‚Å‚«‚é‚æ‚¤’ñ‹Ÿ‚³‚ê‚Ä‚¢‚éB‚½‚Æ‚¦‚ÎAˆê•û‚ÌƒIƒuƒWƒFƒNƒg‚ª‚à‚¤ˆê•û‚ÌƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éƒLƒƒƒbƒVƒ…î•ñ‚ğ•Û‚µ‚Ä‚¢‚éê‡A‚±‚Ìƒƒ\ƒbƒh‚ğg‚Á‚ÄƒLƒƒƒbƒVƒ…‚ªÅŒã‚ÉXV‚³‚ê‚Ä‚©‚çƒIƒuƒWƒFƒNƒg‚ª•ÏX‚³‚ê‚½‚©‚Ç‚¤‚©‚ğŠm”F‚Å‚«‚éBIMoniker::GetTimeOfLastChange
+‚ğQÆBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ ˆê”Ê‚É GetTimeOfLastChange ‚ğŒÄ‚Ô‚Ì‚ÍA“Æ©‚Ìƒ‚ƒjƒJ[ƒNƒ‰ƒX‚ğ‘‚¢‚Ä‚¢‚éê‡ (‚·‚È‚í‚¿
+IMoniker ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğÀ‘•‚µ‚Ä‚¢‚éê‡) ‚Ì‚İ‚Å‚ ‚éB’Êí‚Í IMoniker::GetTimeOfLastChange
+‚ÌÀ‘•“à‚©‚çŒÄ‚Ño‚·B‚½‚¾‚µA‚±‚ê‚ğs‚¤‚Ì‚Í IMoniker::GetTimeOfLastChange ‚Ì pmkToLeft
+ƒpƒ‰ƒ[ƒ^‚ª NULL ‚Ìê‡‚ÉŒÀ‚éB‚»‚¤‚Å‚È‚¢ê‡‚ÍA‘ã‚í‚è‚É pmkToLeft ƒpƒ‰ƒ[ƒ^‚É‘Î‚µ‚Ä
+IMoniker::GetTimeOfLastChange ‚ğŒÄ‚Ô‚×‚«‚Å‚ ‚éB
 
 
 %index
 IRunningObjectTable_EnumRunning
-Creates and returns a pointer to an enumerator that can list the monikers of all the objects currently registered in the running object table (ROT).
+ƒ‰ƒ“ƒjƒ“ƒOƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT) ‚ÉŒ»İ“o˜^‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚Ìƒ‚ƒjƒJ[‚ğ—ñ‹“‚Å‚«‚é—ñ‹“q‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ¶¬‚µ‚Ä•Ô‚·B
 %group
 COM misc / IRunningObjectTable
 %prm
 this, ppenumMoniker
 this : [comobj] IRunningObjectTable ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppenumMoniker : [comobj] A pointer to an IEnumMoniker pointer variable that receives the interface pointer to the new enumerator for the ROT. When successful, the implementation calls AddRef on the enumerator; it is the caller's responsibility to call Release. If an error occurs; the implementation sets *ppenumMoniker to NULL.
+ppenumMoniker : [comobj] ROT —p‚ÌV‚µ‚¢—ñ‹“q‚Ö‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é IEnumMoniker ƒ|ƒCƒ“ƒ^•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B¬Œ÷‚É‚ÍÀ‘•‚Í—ñ‹“q‚É‘Î‚µ‚Ä AddRef ‚ğŒÄ‚ÔBRelease ‚ğŒÄ‚Ô‚Ì‚ÍŒÄ‚Ño‚µ‘¤‚ÌÓ”C‚Å‚ ‚éBƒGƒ‰[‚ª”­¶‚µ‚½ê‡AÀ‘•‚Í *ppenumMoniker ‚ğ NULL ‚Éİ’è‚·‚éB
 %inst
-Creates and returns a pointer to an enumerator that can list the
-monikers of all the objects currently registered in the running
-object table (ROT).
+ƒ‰ƒ“ƒjƒ“ƒOƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹ (ROT)
+‚ÉŒ»İ“o˜^‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚Ìƒ‚ƒjƒJ[‚ğ—ñ‹“‚Å‚«‚é—ñ‹“q‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ¶¬‚µ‚Ä•Ô‚·B
 
 [–ß‚è’l]
-This method can return the standard return values E_OUTOFMEMORY and
-S_OK.
+‚±‚Ìƒƒ\ƒbƒh‚Í•W€‚Ì–ß‚è’l E_OUTOFMEMORY ‚¨‚æ‚Ñ S_OK ‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
 
 [”õl]
-IRunningObjectTable::EnumRunning must create and return a pointer to
-an IEnumMoniker interface on an enumerator object. The standard
-enumerator methods can then be called to enumerate the monikers
-currently registered in the registry. The enumerator cannot be used
-to enumerate monikers that are registered in the ROT after the
-enumerator has been created. The EnumRunning method is intended
-primarily for the use by the system in implementing the alert object
-table. Note that OLE 2 does not include an implementation of the
-alert object table.
+IRunningObjectTable::EnumRunning ‚ÍA—ñ‹“qƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚é IEnumMoniker
+ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ¶¬‚µ‚Ä•Ô‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚»‚ÌŒãA•W€‚Ì—ñ‹“qƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚ÄƒŒƒWƒXƒgƒŠ‚ÉŒ»İ“o˜^‚³‚ê‚Ä‚¢‚éƒ‚ƒjƒJ[‚ğ—ñ‹“‚Å‚«‚éB‚±‚Ì—ñ‹“q‚ÍA—ñ‹“q¶¬Œã‚É
+ROT ‚Ö“o˜^‚³‚ê‚½ƒ‚ƒjƒJ[‚Ì—ñ‹“‚É‚Íg—p‚Å‚«‚È‚¢BEnumRunning
+ƒƒ\ƒbƒh‚Íå‚ÉƒAƒ‰[ƒgƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹‚ğÀ‘•‚·‚é‚½‚ßƒVƒXƒeƒ€‚ªg—p‚·‚é‚±‚Æ‚ğ‘z’è‚µ‚Ä‚¢‚éBOLE 2
+‚É‚ÍƒAƒ‰[ƒgƒIƒuƒWƒFƒNƒgƒe[ƒuƒ‹‚ÌÀ‘•‚ÍŠÜ‚Ü‚ê‚Ä‚¢‚È‚¢‚±‚Æ‚É’ˆÓB
 
 
 %index
 ISequentialStream_Read
-Reads a specified number of bytes from the stream object into memory, starting at the current seek pointer.
+Œ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½”‚ÌƒoƒCƒg‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚çƒƒ‚ƒŠ‚Ö“Ç‚İæ‚éB
 %group
 COM misc / ISequentialStream
 %prm
 this, pv, cb, pcbRead
 this : [comobj] ISequentialStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pv : [intptr] A pointer to the buffer which the stream data is read into.
-cb : [int] The number of bytes of data to read from the stream object.
-pcbRead : [var] A pointer to a ULONG variable that receives the actual number of bytes read from the stream object. Note??The number of bytes read may be zero.
+pv : [intptr] ƒXƒgƒŠ[ƒ€ƒf[ƒ^‚Ì“Ç‚İ‚İæ‚Æ‚È‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cb : [int] ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚ç“Ç‚İæ‚éƒf[ƒ^‚ÌƒoƒCƒg”B
+pcbRead : [var] ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚çÀÛ‚É“Ç‚İæ‚ç‚ê‚½ƒoƒCƒg”‚ğó‚¯æ‚é ULONG •Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B’ˆÓ “Ç‚İæ‚ç‚ê‚½ƒoƒCƒg”‚Í 0 ‚É‚È‚é‚±‚Æ‚à‚ ‚éB
 %inst
-Reads a specified number of bytes from the stream object into memory,
-starting at the current seek pointer.
+Œ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½”‚ÌƒoƒCƒg‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚çƒƒ‚ƒŠ‚Ö“Ç‚İæ‚éB
 
 [–ß‚è’l]
-This method can return one of these values. | Return code |
-Description | |----------------|---------------| |S_OK | All of the
-requested data was successfully read from the stream object; the
-number of bytes requested in *cb* is the same as the number of bytes
-returned in *pcbRead*.| |S_FALSE | The value returned in *pcbRead* is
-less than the number of bytes requested in *cb*. This indicates the
-end of the stream has been reached. The number of bytes read
-indicates how much of the *pv* buffer has been filled.| |E_PENDING |
-Asynchronous storage only: Part or all of the data to be read is
-currently unavailable. | |STG_E_ACCESSDENIED | The caller does not
-have permissions required to read this stream object.|
-|STG_E_INVALIDPOINTER | One of the pointer values is invalid.|
-|STG_E_REVERTED | The object has been invalidated by a revert
-operation above it in the transaction tree.|
+‚±‚Ìƒƒ\ƒbƒh‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB | –ß‚èƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK |
+—v‹‚³‚ê‚½ƒf[ƒ^‚ª‚·‚×‚ÄƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚ç³í‚É“Ç‚İæ‚ç‚ê‚½B*cb* ‚Å—v‹‚µ‚½ƒoƒCƒg”‚Æ *pcbRead*
+‚Å•Ô‚³‚ê‚½ƒoƒCƒg”‚ª“¯‚¶‚Å‚ ‚éB| |S_FALSE | *pcbRead* ‚Å•Ô‚³‚ê‚½’l‚ª *cb*
+‚Å—v‹‚µ‚½ƒoƒCƒg”‚æ‚è­‚È‚¢B‚±‚ê‚ÍƒXƒgƒŠ[ƒ€‚Ì––”ö‚É’B‚µ‚½‚±‚Æ‚ğ¦‚·B“Ç‚İæ‚ç‚ê‚½ƒoƒCƒg”‚Í *pv*
+ƒoƒbƒtƒ@‚Ì‚¤‚¿‚Ç‚ê‚¾‚¯‚ª–„‚ß‚ç‚ê‚½‚©‚ğ¦‚·B| |E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ:
+“Ç‚İæ‚é‚×‚«ƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p•s‰Â‚Å‚ ‚éB| |STG_E_ACCESSDENIED |
+ŒÄ‚Ño‚µ‘¤‚ª‚±‚ÌƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğ“Ç‚İæ‚é‚Ì‚É•K—v‚ÈŒ ŒÀ‚ğ‚Á‚Ä‚¢‚È‚¢B| |STG_E_INVALIDPOINTER |
+ƒ|ƒCƒ“ƒ^’l‚Ì 1 ‚Â‚ª–³Œø‚Å‚ ‚éB| |STG_E_REVERTED | ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[“à‚Å‚»‚ÌãˆÊ‚Ì revert
+‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
 
 [”õl]
-This method reads bytes from this stream object into memory. The
-stream object must be opened in STGM_READ mode. This method adjusts
-the seek pointer by the actual number of bytes read. The number of
-bytes actually read is also returned in the pcbRead parameter. Notes
-to Callers The actual number of bytes read can be less than the
-number of bytes requested if an error occurs or if the end of the
-stream is reached during the read operation. The number of bytes
-returned should always be compared to the number of bytes requested.
-If the number of bytes returned is less than the number of bytes
-requested, it usually means the Read method attempted to read past
-the end of the stream. The application should handle both a returned
-error and S_OK return values on end-of-stream read operations.
+‚±‚Ìƒƒ\ƒbƒh‚Í‚±‚ÌƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚©‚çƒƒ‚ƒŠ‚ÖƒoƒCƒg‚ğ“Ç‚İæ‚éBƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Í STGM_READ
+ƒ‚[ƒh‚ÅŠJ‚©‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B‚±‚Ìƒƒ\ƒbƒh‚ÍÀÛ‚É“Ç‚İæ‚Á‚½ƒoƒCƒg”‚¾‚¯ƒV[ƒNƒ|ƒCƒ“ƒ^‚ği‚ß‚éBÀÛ‚É“Ç‚İæ‚ç‚ê‚½ƒoƒCƒg”‚Í
+pcbRead ƒpƒ‰ƒ[ƒ^‚Å‚à•Ô‚³‚ê‚éBŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ
+ƒGƒ‰[‚ª”­¶‚µ‚½‚è“Ç‚İæ‚è‘€ì’†‚ÉƒXƒgƒŠ[ƒ€‚Ì––”ö‚É’B‚µ‚½‚è‚µ‚½ê‡AÀÛ‚É“Ç‚İæ‚ç‚ê‚éƒoƒCƒg”‚Í—v‹‚µ‚½ƒoƒCƒg”‚æ‚è­‚È‚­‚È‚é‚±‚Æ‚ª‚ ‚éB•Ô‚³‚ê‚éƒoƒCƒg”‚Íí‚É—v‹‚µ‚½ƒoƒCƒg”‚Æ”äŠr‚·‚×‚«‚Å‚ ‚éB•Ô‚³‚ê‚éƒoƒCƒg”‚ª—v‹‚æ‚è­‚È‚¢ê‡A’Êí‚Í
+Read
+ƒƒ\ƒbƒh‚ªƒXƒgƒŠ[ƒ€‚Ì––”ö‚ğ’´‚¦‚Ä“Ç‚İæ‚ë‚¤‚Æ‚µ‚½‚±‚Æ‚ğˆÓ–¡‚·‚éBƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÍƒXƒgƒŠ[ƒ€I’[‚Å‚Ì“Ç‚İæ‚è‚É‘Î‚·‚éƒGƒ‰[–ß‚è’l‚Æ
+S_OK –ß‚è’l‚Ì—¼•û‚ğˆµ‚¤‚×‚«‚Å‚ ‚éB
 
 
 %index
 ISequentialStream_Write
-Writes a specified number of bytes into the stream object starting at the current seek pointer.
+Œ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½”‚ÌƒoƒCƒg‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‘‚«‚ŞB
 %group
 COM misc / ISequentialStream
 %prm
 this, pv, cb, pcbWritten
 this : [comobj] ISequentialStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pv : [intptr] A pointer to the buffer that contains the data that is to be written to the stream. A valid pointer must be provided for this parameter even when cb is zero.
-cb : [int] The number of bytes of data to attempt to write into the stream. This value can be zero.
-pcbWritten : [var] A pointer to a ULONG variable where this method writes the actual number of bytes written to the stream object. The caller can set this pointer to NULL, in which case this method does not provide the actual number of bytes written.
+pv : [intptr] ƒXƒgƒŠ[ƒ€‚É‘‚«‚Şƒf[ƒ^‚ğŠÜ‚Şƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^Bcb ‚ª 0 ‚Å‚ ‚Á‚Ä‚à‚±‚Ìƒpƒ‰ƒ[ƒ^‚É‚Í—LŒø‚Èƒ|ƒCƒ“ƒ^‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+cb : [int] ƒXƒgƒŠ[ƒ€‚É‘‚«‚à‚¤‚Æ‚·‚éƒf[ƒ^‚ÌƒoƒCƒg”B‚±‚Ì’l‚Í 0 ‚Å‚à‚æ‚¢B
+pcbWritten : [var] ‚±‚Ìƒƒ\ƒbƒh‚ªAƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÖÀÛ‚É‘‚«‚ñ‚¾ƒoƒCƒg”‚ğ‘‚«‚Ş ULONG •Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BŒÄ‚Ño‚µ‘¤‚Í‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ NULL ‚Éİ’è‚Å‚«A‚»‚Ìê‡‚±‚Ìƒƒ\ƒbƒh‚ÍÀÛ‚É‘‚«‚Ü‚ê‚½ƒoƒCƒg”‚ğ’ñ‹Ÿ‚µ‚È‚¢B
 %inst
-Writes a specified number of bytes into the stream object starting at
-the current seek pointer.
+Œ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çn‚ß‚ÄAw’è‚³‚ê‚½”‚ÌƒoƒCƒg‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‘‚«‚ŞB
 
 [–ß‚è’l]
-This method can return one of these values. | Return code |
-Description | |----------------|---------------| |S_OK | The data was
-successfully written to the stream object.| |E_PENDING | Asynchronous
-Storage only: Part or all of the data to be written is currently
-unavailable.| |STG_E_MEDIUMFULL | The write operation failed because
-there is no space left on the storage device.| |STG_E_ACCESSDENIED |
-The caller does not have the required permissions for writing to this
-stream object.| |STG_E_CANTSAVE | Data cannot be written for reasons
-other than improper access or insufficient space.|
-|STG_E_INVALIDPOINTER | One of the pointer values is not valid. The
-*pv* parameter must contain a valid pointer even if *cb* is zero.|
-|STG_E_REVERTED | The object has been invalidated by a revert
-operation above it in the transaction tree.| |STG_E_WRITEFAULT | The
-write operation failed due to a disk error. This value is also
-returned when this method attempts to write to a stream that was
-opened in simple mode (using the STGM_SIMPLE flag).|
+‚±‚Ìƒƒ\ƒbƒh‚ÍˆÈ‰º‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·‚±‚Æ‚ª‚Å‚«‚éB | –ß‚èƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK |
+ƒf[ƒ^‚ªƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö³í‚É‘‚«‚Ü‚ê‚½B| |E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ:
+‘‚«‚Ş‚×‚«ƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p•s‰Â‚Å‚ ‚éB| |STG_E_MEDIUMFULL |
+ƒXƒgƒŒ[ƒWƒfƒoƒCƒX‚Éc‚è—e—Ê‚ª‚È‚¢‚½‚ß‘‚«‚İ‘€ì‚É¸”s‚µ‚½B| |STG_E_ACCESSDENIED |
+ŒÄ‚Ño‚µ‘¤‚ª‚±‚ÌƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‘‚«‚Ş‚Ì‚É•K—v‚ÈŒ ŒÀ‚ğ‚Á‚Ä‚¢‚È‚¢B| |STG_E_CANTSAVE |
+•s“KØ‚ÈƒAƒNƒZƒX‚â‹ó‚«—e—Ê•s‘«ˆÈŠO‚Ì——R‚Åƒf[ƒ^‚ğ‘‚«‚ß‚È‚¢B| |STG_E_INVALIDPOINTER | ƒ|ƒCƒ“ƒ^’l‚Ì 1
+‚Â‚ª–³Œø‚Å‚ ‚éBcb ‚ª 0 ‚Å‚à *pv* ƒpƒ‰ƒ[ƒ^‚É‚Í—LŒø‚Èƒ|ƒCƒ“ƒ^‚ğŠÜ‚ß‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B| |STG_E_REVERTED |
+ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[“à‚Å‚»‚ÌãˆÊ‚Ì revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B| |STG_E_WRITEFAULT |
+ƒfƒBƒXƒNƒGƒ‰[‚É‚æ‚è‘‚«‚İ‘€ì‚É¸”s‚µ‚½BƒVƒ“ƒvƒ‹ƒ‚[ƒh (STGM_SIMPLE ƒtƒ‰ƒO‚ğg—p)
+‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€‚Ö‘‚«‚à‚¤‚Æ‚µ‚½ê‡‚É‚à‚±‚Ì’l‚ª•Ô‚³‚ê‚éB|
 
 [”õl]
-ISequentialStream::Write writes the specified data to a stream
-object. The seek pointer is adjusted for the number of bytes actually
-written. The number of bytes actually written is returned in the
-pcbWritten parameter. If the byte count is zero bytes, the write
-operation has no effect. If the seek pointer is currently past the
-end of the stream and the byte count is nonzero, this method
-increases the size of the stream to the seek pointer and writes the
-specified bytes starting at the seek pointer. The fill bytes written
-to the stream are not initialized to any particular value. This is
-the same as the end-of-file behavior in the MS-DOS FAT file system.
-With a zero byte count and a seek pointer past the end of the stream,
-this method does not create the fill bytes to increase the stream to
-the seek pointer. In this case, you must call the IStream::SetSize
-method to increase the size of the stream and write the fill bytes.
-The pcbWritten parameter can have a value even if an error occurs. In
-the COM-provided implementation, stream objects are not sparse. Any
-fill bytes are eventually allocated on the disk and assigned to the
-stream.
+ISequentialStream::Write
+‚Íw’è‚³‚ê‚½ƒf[ƒ^‚ğƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‘‚«‚ŞBƒV[ƒNƒ|ƒCƒ“ƒ^‚ÍÀÛ‚É‘‚«‚Ü‚ê‚½ƒoƒCƒg”‚¾‚¯i‚ß‚ç‚ê‚éBÀÛ‚É‘‚«‚Ü‚ê‚½ƒoƒCƒg”‚Í
+pcbWritten ƒpƒ‰ƒ[ƒ^‚Å•Ô‚³‚ê‚éBƒoƒCƒg”‚ª 0
+‚Ìê‡A‘‚«‚İ‘€ì‚Í‰½‚ÌŒø‰Ê‚à‚½‚È‚¢BƒV[ƒNƒ|ƒCƒ“ƒ^‚ªŒ»İƒXƒgƒŠ[ƒ€‚Ì––”ö‚ğ’´‚¦‚Ä‚¨‚èAƒoƒCƒg”‚ª 0
+‚Å‚È‚¢ê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍƒXƒgƒŠ[ƒ€‚ÌƒTƒCƒY‚ğƒV[ƒNƒ|ƒCƒ“ƒ^‚Ü‚ÅŠg‘å‚µAƒV[ƒNƒ|ƒCƒ“ƒ^‚ÌˆÊ’u‚©‚çw’è‚³‚ê‚½ƒoƒCƒg‚ğ‘‚«‚ŞBƒXƒgƒŠ[ƒ€‚É‘‚«‚Ü‚ê‚½–„‚ß‘ƒoƒCƒg‚Í“Á’è‚Ì’l‚Å‰Šú‰»‚³‚ê‚È‚¢B‚±‚ê‚Í
+MS-DOS FAT ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Å‚Ìƒtƒ@ƒCƒ‹––”ö‚Ì“®ì‚Æ“¯‚¶‚Å‚ ‚éBƒoƒCƒg”‚ª 0
+‚Å‚©‚ÂƒV[ƒNƒ|ƒCƒ“ƒ^‚ªƒXƒgƒŠ[ƒ€––”ö‚ğ’´‚¦‚Ä‚¢‚éê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍƒXƒgƒŠ[ƒ€‚ğƒV[ƒNƒ|ƒCƒ“ƒ^‚Ü‚ÅŠg‘å‚·‚é‚½‚ß‚Ì–„‚ß‘ƒoƒCƒg‚ğì¬‚µ‚È‚¢B‚±‚Ìê‡AƒXƒgƒŠ[ƒ€‚ÌƒTƒCƒY‚ğŠg‘å‚µ‚Ä–„‚ß‘ƒoƒCƒg‚ğ‘‚«‚Ş‚É‚Í
+IStream::SetSize ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒGƒ‰[‚ª”­¶‚µ‚Ä‚à pcbWritten
+ƒpƒ‰ƒ[ƒ^‚ª’l‚ğ‚Â‚±‚Æ‚ª‚ ‚éBCOM
+’ñ‹Ÿ‚ÌÀ‘•‚Å‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÍƒXƒp[ƒX‚Å‚Í‚È‚­A‚·‚×‚Ä‚Ì–„‚ß‘ƒoƒCƒg‚ÍÅI“I‚ÉƒfƒBƒXƒNã‚ÉŠ„‚è“–‚Ä‚ç‚êƒXƒgƒŠ[ƒ€‚É•R•t‚¯‚ç‚ê‚éB
 
 
 %index
@@ -18582,363 +17518,284 @@ pcbWritten : [var]
 
 %index
 IStream_Seek
-Changes the seek pointer to a new location. The new location is relative to either the beginning of the stream, the end of the stream, or the current seek pointer.
+ƒV[ƒNƒ|ƒCƒ“ƒ^‚ğV‚µ‚¢ˆÊ’u‚É•ÏX‚·‚éBV‚µ‚¢ˆÊ’u‚ÍAƒXƒgƒŠ[ƒ€‚Ìæ“ªAƒXƒgƒŠ[ƒ€‚Ì––”öA‚Ü‚½‚ÍŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚ç‚Ì‘Š‘ÎˆÊ’u‚Å‚ ‚éB
 %group
 COM misc / IStream
 %prm
 this, dlibMove, dwOrigin, plibNewPosition
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dlibMove : [int64] The displacement to be added to the location indicated by the dwOrigin parameter. If dwOrigin is STREAM_SEEK_SET, this is interpreted as an unsigned value rather than a signed value.
-dwOrigin : [int] The origin for the displacement specified in dlibMove. The origin can be the beginning of the file (STREAM_SEEK_SET), the current seek pointer (STREAM_SEEK_CUR), or the end of the file (STREAM_SEEK_END). For more information about values, see the STREAM_SEEK enumeration.
-plibNewPosition : [var] A pointer to the location where this method writes the value of the new seek pointer from the beginning of the stream. You can set this pointer to NULL. In this case, this method does not provide the new seek pointer.
+dlibMove : [int64] dwOrigin ƒpƒ‰ƒ[ƒ^‚Å¦‚³‚ê‚éˆÊ’u‚É‰ÁZ‚³‚ê‚é•ÏˆÊBdwOrigin ‚ª STREAM_SEEK_SET ‚Ìê‡A‚±‚ê‚Í•„†•t‚«’l‚Å‚Í‚È‚­•„†‚È‚µ’l‚Æ‚µ‚Ä‰ğß‚³‚ê‚éB
+dwOrigin : [int] dlibMove ‚Åw’è‚³‚ê‚½•ÏˆÊ‚Ì‹N“_B‹N“_‚ÍAƒtƒ@ƒCƒ‹‚Ìæ“ª (STREAM_SEEK_SET)AŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^ (STREAM_SEEK_CUR)A‚Ü‚½‚Íƒtƒ@ƒCƒ‹‚Ì––”ö (STREAM_SEEK_END) ‚Ì‚¢‚¸‚ê‚©‚É‚Å‚«‚éB’l‚ÌÚ×‚É‚Â‚¢‚Ä‚Í STREAM_SEEK —ñ‹“‚ğQÆB
+plibNewPosition : [var] ‚±‚Ìƒƒ\ƒbƒh‚ªAƒXƒgƒŠ[ƒ€‚Ìæ“ª‚©‚ç‚ÌV‚µ‚¢ƒV[ƒNƒ|ƒCƒ“ƒ^‚Ì’l‚ğ‘‚«‚ŞˆÊ’u‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ NULL ‚Éİ’è‚Å‚«‚éB‚»‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍV‚µ‚¢ƒV[ƒNƒ|ƒCƒ“ƒ^‚ğ’ñ‹Ÿ‚µ‚È‚¢B
 %inst
-Changes the seek pointer to a new location. The new location is
-relative to either the beginning of the stream, the end of the
-stream, or the current seek pointer.
+ƒV[ƒNƒ|ƒCƒ“ƒ^‚ğV‚µ‚¢ˆÊ’u‚É•ÏX‚·‚éBV‚µ‚¢ˆÊ’u‚ÍAƒXƒgƒŠ[ƒ€‚Ìæ“ªAƒXƒgƒŠ[ƒ€‚Ì––”öA‚Ü‚½‚ÍŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚ç‚Ì‘Š‘ÎˆÊ’u‚Å‚ ‚éB
 
 [–ß‚è’l]
-This method can return one of these values. | Return code |
-Description | |----------------|---------------| |S_OK | The seek
-pointer was successfully adjusted.| |E_PENDING | Asynchronous Storage
-only: Part or all of the stream data is currently unavailable. |
-|STG_E_INVALIDPOINTER | Indicates that *plibNewPosition* points to
-invalid memory, because *plibNewPosition* is not read.|
-|STG_E_INVALIDFUNCTION | The *dwOrigin* parameter contains an invalid
-value, or the *dlibMove* parameter contains a bad offset value. For
-example, the result of the seek pointer is a negative offset value.|
-|STG_E_REVERTED | The object has been invalidated by a revert
-operation above it in the transaction tree.|
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | ƒV[ƒNƒ|ƒCƒ“ƒ^‚ª³í‚É’²®‚³‚ê‚½B|
+|E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ: ƒXƒgƒŠ[ƒ€ƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B |
+|STG_E_INVALIDPOINTER | *plibNewPosition*
+‚ª“Ç‚İæ‚ç‚ê‚È‚¢‚½‚ßA*plibNewPosition* ‚ª–³Œø‚Èƒƒ‚ƒŠ‚ğw‚µ‚Ä‚¢‚é‚±‚Æ‚ğ¦‚·B|
+|STG_E_INVALIDFUNCTION | *dwOrigin* ƒpƒ‰ƒ[ƒ^‚É–³Œø‚È’l‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©A*dlibMove*
+ƒpƒ‰ƒ[ƒ^‚É•s³‚ÈƒIƒtƒZƒbƒg’l‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éB‚½‚Æ‚¦‚ÎAƒV[ƒNƒ|ƒCƒ“ƒ^‚ÌŒ‹‰Ê‚ª•‰‚ÌƒIƒtƒZƒbƒg’l‚Å‚ ‚éB| |STG_E_REVERTED
+| ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
 
 [”õl]
-IStream::Seek changes the seek pointer so that subsequent read and
-write operations can be performed at a different location in the
-stream object. It is an error to seek before the beginning of the
-stream. It is not, however, an error to seek past the end of the
-stream. Seeking past the end of the stream is useful for subsequent
-write operations, as the stream byte range will be extended to the
-new seek position immediately before the write is complete. You can
-also use this method to obtain the current value of the seek pointer
-by calling this method with the dwOrigin parameter set to
-STREAM_SEEK_CUR and the dlibMove parameter set to 0 so that the seek
-pointer is not changed. The current seek pointer is returned in the
-plibNewPosition parameter.
+IStream::Seek
+‚ÍƒV[ƒNƒ|ƒCƒ“ƒ^‚ğ•ÏX‚µAƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg“à‚ÌˆÙ‚È‚éˆÊ’u‚ÅŒã‘±‚Ì“Ç‚İ‘‚«‘€ì‚ğÀs‚Å‚«‚é‚æ‚¤‚É‚·‚éBƒXƒgƒŠ[ƒ€‚Ìæ“ª‚æ‚è‘O‚ÉƒV[ƒN‚·‚é‚±‚Æ‚ÍƒGƒ‰[‚Å‚ ‚éB‚½‚¾‚µAƒXƒgƒŠ[ƒ€‚Ì––”ö‚ğ’´‚¦‚ÄƒV[ƒN‚·‚é‚±‚Æ‚ÍƒGƒ‰[‚Å‚Í‚È‚¢BƒXƒgƒŠ[ƒ€‚Ì––”ö‚ğ’´‚¦‚ÄƒV[ƒN‚·‚é‚±‚Æ‚ÍAŒã‘±‚Ì‘‚«‚İ‘€ì‚É—L—p‚Å‚ ‚éB‘‚«‚İ‚ªŠ®—¹‚·‚é’¼‘O‚ÉƒXƒgƒŠ[ƒ€‚ÌƒoƒCƒg”ÍˆÍ‚ªV‚µ‚¢ƒV[ƒNˆÊ’u‚Ü‚ÅŠg’£‚³‚ê‚é‚©‚ç‚Å‚ ‚éBdwOrigin
+ƒpƒ‰ƒ[ƒ^‚ğ STREAM_SEEK_CUR ‚ÉAdlibMove ƒpƒ‰ƒ[ƒ^‚ğ 0
+‚Éİ’è‚µ‚Ä‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚±‚Æ‚ÅAƒV[ƒNƒ|ƒCƒ“ƒ^‚ğ•ÏX‚¹‚¸‚ÉƒV[ƒNƒ|ƒCƒ“ƒ^‚ÌŒ»İ‚Ì’l‚ğæ“¾‚·‚é‚±‚Æ‚à‚Å‚«‚éBŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚Í
+plibNewPosition ƒpƒ‰ƒ[ƒ^‚Å•Ô‚³‚ê‚éB
 
 
 %index
 IStream_SetSize
-Changes the size of the stream object.
+ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒY‚ğ•ÏX‚·‚éB
 %group
 COM misc / IStream
 %prm
 this, libNewSize
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-libNewSize : [int64] Specifies the new size, in bytes, of the stream.
+libNewSize : [int64] ƒXƒgƒŠ[ƒ€‚ÌV‚µ‚¢ƒTƒCƒY (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚éB
 %inst
-Changes the size of the stream object.
+ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒY‚ğ•ÏX‚·‚éB
 
 [–ß‚è’l]
-This method can return one of these values. | Return code |
-Description | |----------------|---------------| |S_OK | The size of
-the stream object was successfully changed.| |E_PENDING |
-Asynchronous Storage only: Part or all of the stream's data is
-currently unavailable.| |STG_E_MEDIUMFULL | The stream size is not
-changed because there is no space left on the storage device.|
-|STG_E_INVALIDFUNCTION | The value of the *libNewSize* parameter is
-not supported by the implementation. Not all streams support greater
-than 232 bytes. If a stream does not support more than 232 bytes, the
-high DWORD data type of *libNewSize* must be zero. If it is nonzero,
-the implementation may return STG_E_INVALIDFUNCTION. In general,
-COM-based implementations of the IStream interface do not support
-streams larger than 232 bytes.| |STG_E_REVERTED | The object has been
-invalidated by a revert operation above it in the transaction tree.|
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒY‚ª³í‚É•ÏX‚³‚ê‚½B|
+|E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ: ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B|
+|STG_E_MEDIUMFULL | ƒXƒgƒŒ[ƒWƒfƒoƒCƒX‚É‹ó‚«—e—Ê‚ª‚È‚¢‚½‚ßAƒXƒgƒŠ[ƒ€ƒTƒCƒY‚ª•ÏX‚³‚ê‚È‚¢B|
+|STG_E_INVALIDFUNCTION | *libNewSize*
+ƒpƒ‰ƒ[ƒ^‚Ì’l‚ªÀ‘•‚É‚æ‚Á‚ÄƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚È‚¢B‚·‚×‚Ä‚ÌƒXƒgƒŠ[ƒ€‚ª 232
+ƒoƒCƒg‚ğ’´‚¦‚éƒTƒCƒY‚ğƒTƒ|[ƒg‚·‚é‚í‚¯‚Å‚Í‚È‚¢BƒXƒgƒŠ[ƒ€‚ª 232 ƒoƒCƒg‚ğ’´‚¦‚éƒTƒCƒY‚ğƒTƒ|[ƒg‚µ‚È‚¢ê‡A*libNewSize*
+‚ÌãˆÊ DWORD ƒf[ƒ^Œ^‚Í 0 ‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B0 ‚Å‚È‚¢ê‡AÀ‘•‚Í STG_E_INVALIDFUNCTION
+‚ğ•Ô‚·‰Â”\«‚ª‚ ‚éBˆê”Ê‚ÉAIStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒx[ƒX‚ÌÀ‘•‚Í 232
+ƒoƒCƒg‚ğ’´‚¦‚éƒXƒgƒŠ[ƒ€‚ğƒTƒ|[ƒg‚µ‚È‚¢B| |STG_E_REVERTED | ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì revert
+‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
 
 [”õl]
-IStream::SetSize changes the size of the stream object. Call this
-method to preallocate space for the stream. If the libNewSize
-parameter is larger than the current stream size, the stream is
-extended to the indicated size by filling the intervening space with
-bytes of undefined value. This operation is similar to the
-ISequentialStream::Write method if the seek pointer is past the
-current end of the stream. If the libNewSize parameter is smaller
-than the current stream, the stream is truncated to the indicated
-size. The seek pointer is not affected by the change in stream size.
-Calling IStream::SetSize can be an effective way to obtain a large
-chunk of contiguous space.
+IStream::SetSize
+‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÌƒTƒCƒY‚ğ•ÏX‚·‚éB‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚ÄƒXƒgƒŠ[ƒ€—p‚Ì—Ìˆæ‚ğ–‘O‚ÉŠm•Û‚·‚éBlibNewSize
+ƒpƒ‰ƒ[ƒ^‚ªŒ»İ‚ÌƒXƒgƒŠ[ƒ€ƒTƒCƒY‚æ‚è‚à‘å‚«‚¢ê‡AƒXƒgƒŠ[ƒ€‚Íw’è‚³‚ê‚½ƒTƒCƒY‚ÉŠg’£‚³‚êAŠÔ‚Ì—Ìˆæ‚Í–¢’è‹`‚Ì’l‚ÌƒoƒCƒg‚Å–„‚ß‚ç‚ê‚éB‚±‚Ì‘€ì‚ÍAƒV[ƒNƒ|ƒCƒ“ƒ^‚ªŒ»İ‚ÌƒXƒgƒŠ[ƒ€‚Ì––”ö‚ğ’´‚¦‚Ä‚¢‚éê‡‚Ì
+ISequentialStream::Write ƒƒ\ƒbƒh‚É—‚Ä‚¢‚éBlibNewSize
+ƒpƒ‰ƒ[ƒ^‚ªŒ»İ‚ÌƒXƒgƒŠ[ƒ€‚æ‚è‚à¬‚³‚¢ê‡AƒXƒgƒŠ[ƒ€‚Íw’è‚³‚ê‚½ƒTƒCƒY‚ÉØ‚è‹l‚ß‚ç‚ê‚éBƒV[ƒNƒ|ƒCƒ“ƒ^‚ÍƒXƒgƒŠ[ƒ€ƒTƒCƒY‚Ì•ÏX‚Ì‰e‹¿‚ğó‚¯‚È‚¢BIStream::SetSize
+‚ÌŒÄ‚Ño‚µ‚ÍA˜A‘±‚µ‚½‘å‚«‚È—Ìˆæ‚ğæ“¾‚·‚éŒø‰Ê“I‚È•û–@‚Å‚ ‚éB
 
 
 %index
 IStream_CopyTo
-Copies a specified number of bytes from the current seek pointer in the stream to the current seek pointer in another stream.
+ƒXƒgƒŠ[ƒ€‚ÌŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚ç•Ê‚ÌƒXƒgƒŠ[ƒ€‚ÌŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ÖAw’è‚³‚ê‚½ƒoƒCƒg”‚ğƒRƒs[‚·‚éB
 %group
 COM misc / IStream
 %prm
 this, pstm, cb, pcbRead, pcbWritten
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pstm : [comobj] A pointer to the destination stream. The stream pointed to by pstm can be a new stream or a clone of the source stream.
-cb : [int64] The number of bytes to copy from the source stream.
-pcbRead : [var] A pointer to the location where this method writes the actual number of bytes read from the source. You can set this pointer to NULL. In this case, this method does not provide the actual number of bytes read.
-pcbWritten : [var] A pointer to the location where this method writes the actual number of bytes written to the destination. You can set this pointer to NULL. In this case, this method does not provide the actual number of bytes written.
+pstm : [comobj] ˆ¶æƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^Bpstm ‚ªw‚·ƒXƒgƒŠ[ƒ€‚ÍAV‚µ‚¢ƒXƒgƒŠ[ƒ€‚Å‚àƒ\[ƒXƒXƒgƒŠ[ƒ€‚ÌƒNƒ[ƒ“‚Å‚à‚æ‚¢B
+cb : [int64] ƒ\[ƒXƒXƒgƒŠ[ƒ€‚©‚çƒRƒs[‚·‚éƒoƒCƒg”B
+pcbRead : [var] ‚±‚Ìƒƒ\ƒbƒh‚ªƒ\[ƒX‚©‚çÀÛ‚É“Ç‚İæ‚Á‚½ƒoƒCƒg”‚ğ‘‚«‚ŞˆÊ’u‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ NULL ‚Éİ’è‚Å‚«‚éB‚»‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍÀÛ‚É“Ç‚İæ‚Á‚½ƒoƒCƒg”‚ğ’ñ‹Ÿ‚µ‚È‚¢B
+pcbWritten : [var] ‚±‚Ìƒƒ\ƒbƒh‚ªˆ¶æ‚ÉÀÛ‚É‘‚«‚ñ‚¾ƒoƒCƒg”‚ğ‘‚«‚ŞˆÊ’u‚Ö‚Ìƒ|ƒCƒ“ƒ^B‚±‚Ìƒ|ƒCƒ“ƒ^‚ğ NULL ‚Éİ’è‚Å‚«‚éB‚»‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍÀÛ‚É‘‚«‚ñ‚¾ƒoƒCƒg”‚ğ’ñ‹Ÿ‚µ‚È‚¢B
 %inst
-Copies a specified number of bytes from the current seek pointer in
-the stream to the current seek pointer in another stream.
+ƒXƒgƒŠ[ƒ€‚ÌŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚ç•Ê‚ÌƒXƒgƒŠ[ƒ€‚ÌŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ÖAw’è‚³‚ê‚½ƒoƒCƒg”‚ğƒRƒs[‚·‚éB
 
 [–ß‚è’l]
-This method can return one of these values. | Return code |
-Description | |----------------|---------------| |S_OK | The stream
-object was successfully copied.| |E_PENDING | Asynchronous Storage
-only: Part or all of the data to be copied is currently unavailable.
-| |STG_E_INVALIDPOINTER | The value of one of the pointer parameters
-is invalid.| |STG_E_MEDIUMFULL | The stream is not copied because
-there is no space left on the storage device.| |STG_E_REVERTED | The
-object has been invalidated by a revert operation above it in the
-transaction tree.|
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ª³í‚ÉƒRƒs[‚³‚ê‚½B|
+|E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ: ƒRƒs[‘ÎÛ‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B |
+|STG_E_INVALIDPOINTER | ƒ|ƒCƒ“ƒ^ƒpƒ‰ƒ[ƒ^‚Ì 1 ‚Â‚Ì’l‚ª–³Œø‚Å‚ ‚éB| |STG_E_MEDIUMFULL |
+ƒXƒgƒŒ[ƒWƒfƒoƒCƒX‚É‹ó‚«—e—Ê‚ª‚È‚¢‚½‚ßAƒXƒgƒŠ[ƒ€‚ªƒRƒs[‚³‚ê‚È‚¢B| |STG_E_REVERTED | ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì
+revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
 
 [”õl]
-The CopyTo method copies the specified bytes from one stream to
-another. It can also be used to copy a stream to itself. The seek
-pointer in each stream instance is adjusted for the number of bytes
-read or written. This method is equivalent to reading cb bytes into
-memory using ISequentialStream::Read and then immediately writing
-them to the destination stream using ISequentialStream::Write,
-although IStream::CopyTo will be more efficient. The destination
-stream can be a clone of the source stream created by calling the
-IStream::Clone method. If IStream::CopyTo returns an error, you
-cannot assume that the seek pointers are valid for either the source
-or destination. Additionally, the values of pcbRead and pcbWritten
-are not meaningful even though they are returned. If IStream::CopyTo
-returns successfully, the actual number of bytes read and written are
-the same. To copy the remainder of the source from the current seek
-pointer, specify the maximum large integer value for the cb
-parameter. If the seek pointer is the beginning of the stream, this
-operation copies the entire stream.
+CopyTo ƒƒ\ƒbƒh‚ÍAw’è‚³‚ê‚½ƒoƒCƒg‚ğ 1
+‚Â‚ÌƒXƒgƒŠ[ƒ€‚©‚ç•Ê‚ÌƒXƒgƒŠ[ƒ€‚ÉƒRƒs[‚·‚éBƒXƒgƒŠ[ƒ€‚ğ©•ª©g‚ÉƒRƒs[‚·‚é‚Ì‚É‚àg—p‚Å‚«‚éBŠeƒXƒgƒŠ[ƒ€ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ÍA“Ç‚İ‘‚«‚³‚ê‚½ƒoƒCƒg”‚¾‚¯’²®‚³‚ê‚éB‚±‚Ìƒƒ\ƒbƒh‚ÍAISequentialStream::Read
+‚ğg—p‚µ‚Ä cb ƒoƒCƒg‚ğƒƒ‚ƒŠ‚É“Ç‚İ‚İA‘¦À‚É ISequentialStream::Write
+‚ğg—p‚µ‚Äˆ¶æƒXƒgƒŠ[ƒ€‚É‘‚«‚Ş‚Ì‚Æ“™‰¿‚Å‚ ‚é‚ªAIStream::CopyTo
+‚Ì•û‚ªŒø—¦“I‚Å‚ ‚éBˆ¶æƒXƒgƒŠ[ƒ€‚ÍAIStream::Clone
+ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Äì¬‚µ‚½ƒ\[ƒXƒXƒgƒŠ[ƒ€‚ÌƒNƒ[ƒ“‚Å‚à‚æ‚¢BIStream::CopyTo
+‚ªƒGƒ‰[‚ğ•Ô‚µ‚½ê‡Aƒ\[ƒX‚Ü‚½‚Íˆ¶æ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ª—LŒø‚Å‚ ‚é‚Æ‰¼’è‚µ‚Ä‚Í‚È‚ç‚È‚¢B‚³‚ç‚ÉApcbRead ‚Æ pcbWritten
+‚Ì’l‚Í•Ô‚³‚ê‚Ä‚àˆÓ–¡‚ğ‚½‚È‚¢BIStream::CopyTo
+‚ª¬Œ÷‚µ‚½ê‡AÀÛ‚É“Ç‚İ‘‚«‚³‚ê‚½ƒoƒCƒg”‚Í“¯‚¶‚Å‚ ‚éBŒ»İ‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚©‚çƒ\[ƒX‚Ìc‚è‚ğƒRƒs[‚·‚é‚É‚ÍAcb ƒpƒ‰ƒ[ƒ^‚ÉÅ‘å‚Ì
+large integer ’l‚ğw’è‚·‚éBƒV[ƒNƒ|ƒCƒ“ƒ^‚ªƒXƒgƒŠ[ƒ€‚Ìæ“ª‚É‚ ‚éê‡A‚±‚Ì‘€ì‚ÍƒXƒgƒŠ[ƒ€‘S‘Ì‚ğƒRƒs[‚·‚éB
 
 
 %index
 IStream_Commit
-The Commit method ensures that any changes made to a stream object open in transacted mode are reflected in the parent storage.
+Commit ƒƒ\ƒbƒh‚ÍAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚é•ÏX‚ªeƒXƒgƒŒ[ƒW‚É”½‰f‚³‚ê‚é‚±‚Æ‚ğ•ÛØ‚·‚éB
 %group
 COM misc / IStream
 %prm
 this, grfCommitFlags
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-grfCommitFlags : [int] Controls how the changes for the stream object are committed. See the STGC enumeration for a definition of these values.
+grfCommitFlags : [int] ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ì•ÏX‚ªƒRƒ~ƒbƒg‚³‚ê‚é•û–@‚ğ§Œä‚·‚éB‚±‚ê‚ç‚Ì’l‚Ì’è‹`‚É‚Â‚¢‚Ä‚Í STGC —ñ‹“‚ğQÆB
 %inst
-The Commit method ensures that any changes made to a stream object
-open in transacted mode are reflected in the parent storage.
+Commit ƒƒ\ƒbƒh‚ÍAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚é•ÏX‚ªeƒXƒgƒŒ[ƒW‚É”½‰f‚³‚ê‚é‚±‚Æ‚ğ•ÛØ‚·‚éB
 
 [–ß‚è’l]
-This method can return one of these values. | Return code |
-Description | |----------------|---------------| |S_OK | Changes to
-the stream object were successfully committed to the parent level.|
-|E_PENDING | Asynchronous Storage only: Part or all of the stream's
-data is currently unavailable. | |STG_E_MEDIUMFULL | The commit
-operation failed due to lack of space on the storage device.|
-|STG_E_REVERTED | The object has been invalidated by a revert
-operation above it in the transaction tree.|
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK |
+ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ì•ÏX‚ªeƒŒƒxƒ‹‚É³í‚ÉƒRƒ~ƒbƒg‚³‚ê‚½B| |E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ:
+ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B | |STG_E_MEDIUMFULL |
+ƒXƒgƒŒ[ƒWƒfƒoƒCƒX‚Ì‹ó‚«—e—Ê•s‘«‚Ì‚½‚ßƒRƒ~ƒbƒg‘€ì‚ª¸”s‚µ‚½B| |STG_E_REVERTED | ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì
+revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
 
 [”õl]
-The Commit method ensures that changes to a stream object opened in
-transacted mode are reflected in the parent storage. Changes that
-have been made to the stream since it was opened or last committed
-are reflected to the parent storage object. If the parent is opened
-in transacted mode, the parent may revert at a later time, rolling
-back the changes to this stream object. The compound file
-implementation does not support the opening of streams in transacted
-mode, so this method has very little effect other than to flush
-memory buffers. For more information, see IStream - Compound File
-Implementation. If the stream is open in direct mode, this method
-ensures that any memory buffers have been flushed out to the
-underlying storage object. This is much like a flush in traditional
-file systems. The IStream::Commit method is useful on a direct mode
-stream when the implementation of the IStream interface is a wrapper
-for underlying file system APIs. In this case, IStream::Commit would
-be connected to the file system's flush call.
+Commit
+ƒƒ\ƒbƒh‚ÍAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚É‘Î‚·‚é•ÏX‚ªeƒXƒgƒŒ[ƒW‚É”½‰f‚³‚ê‚é‚±‚Æ‚ğ•ÛØ‚·‚éBƒXƒgƒŠ[ƒ€‚ªŠJ‚©‚ê‚Ä‚©‚çA‚Ü‚½‚ÍÅŒã‚ÉƒRƒ~ƒbƒg‚³‚ê‚Ä‚©‚çs‚í‚ê‚½•ÏX‚ªeƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚É”½‰f‚³‚ê‚éBe‚ªƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚ÅŠJ‚©‚ê‚Ä‚¢‚éê‡Ae‚ÍŒã‚Å
+revert
+‚·‚é‰Â”\«‚ª‚ ‚èA‚±‚ÌƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ö‚Ì•ÏX‚ªƒ[ƒ‹ƒoƒbƒN‚³‚ê‚éB•¡‡ƒtƒ@ƒCƒ‹À‘•‚Å‚Íƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒ‚[ƒh‚Å‚ÌƒXƒgƒŠ[ƒ€‚ÌŠJ•ú‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢‚½‚ßA‚±‚Ìƒƒ\ƒbƒh‚Íƒƒ‚ƒŠƒoƒbƒtƒ@‚ğƒtƒ‰ƒbƒVƒ…‚·‚éˆÈŠO‚É‚Ù‚Æ‚ñ‚ÇŒø‰Ê‚ª‚È‚¢BÚ×‚Í
+IStream - Compound File Implementation
+‚ğQÆBƒXƒgƒŠ[ƒ€‚ª’¼Úƒ‚[ƒh‚ÅŠJ‚©‚ê‚Ä‚¢‚éê‡A‚±‚Ìƒƒ\ƒbƒh‚Íƒƒ‚ƒŠƒoƒbƒtƒ@‚ªŠî‘b‚Æ‚È‚éƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Éƒtƒ‰ƒbƒVƒ…‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğ•ÛØ‚·‚éB‚±‚ê‚Í]—ˆ‚Ìƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ìƒtƒ‰ƒbƒVƒ…‚É‚æ‚­—‚Ä‚¢‚éBIStream::Commit
+ƒƒ\ƒbƒh‚ÍAIStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌÀ‘•‚ªŠî‘b‚Æ‚È‚éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ API
+‚Ìƒ‰ƒbƒp‚Å‚ ‚é’¼Úƒ‚[ƒh‚ÌƒXƒgƒŠ[ƒ€‚É‘Î‚µ‚Ä—L—p‚Å‚ ‚éB‚±‚Ìê‡AIStream::Commit
+‚Íƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ìƒtƒ‰ƒbƒVƒ…ŒÄ‚Ño‚µ‚ÉÚ‘±‚³‚ê‚éB
 
 
 %index
 IStream_Revert
-The Revert method discards all changes that have been made to a transacted stream since the last IStream::Commit call. On streams open in direct mode and streams using the COM compound file implementation of IStream::Revert, this method has no effect.
+Revert ƒƒ\ƒbƒh‚ÍAÅŒã‚Ì IStream::Commit ŒÄ‚Ño‚µˆÈ~‚Éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“•t‚«ƒXƒgƒŠ[ƒ€‚É‘Î‚µ‚Äs‚í‚ê‚½‚·‚×‚Ä‚Ì•ÏX‚ğ”jŠü‚·‚éB’¼Úƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€‚ÆAIStream::Revert ‚Ì COM •¡‡ƒtƒ@ƒCƒ‹À‘•‚ğg—p‚·‚éƒXƒgƒŠ[ƒ€‚Å‚ÍA‚±‚Ìƒƒ\ƒbƒh‚É‚ÍŒø‰Ê‚ª‚È‚¢B
 %group
 COM misc / IStream
 %prm
 this
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-The Revert method discards all changes that have been made to a
-transacted stream since the last IStream::Commit call. On streams
-open in direct mode and streams using the COM compound file
-implementation of IStream::Revert, this method has no effect.
+Revert ƒƒ\ƒbƒh‚ÍAÅŒã‚Ì IStream::Commit
+ŒÄ‚Ño‚µˆÈ~‚Éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“•t‚«ƒXƒgƒŠ[ƒ€‚É‘Î‚µ‚Äs‚í‚ê‚½‚·‚×‚Ä‚Ì•ÏX‚ğ”jŠü‚·‚éB’¼Úƒ‚[ƒh‚ÅŠJ‚©‚ê‚½ƒXƒgƒŠ[ƒ€‚ÆAIStream::Revert
+‚Ì COM •¡‡ƒtƒ@ƒCƒ‹À‘•‚ğg—p‚·‚éƒXƒgƒŠ[ƒ€‚Å‚ÍA‚±‚Ìƒƒ\ƒbƒh‚É‚ÍŒø‰Ê‚ª‚È‚¢B
 
 [–ß‚è’l]
-This method can return one of these values. | Return code |
-Description | |----------------|---------------| |S_OK | The stream
-was successfully reverted to its previous version.| |E_PENDING |
-Asynchronous Storage only: Part or all of the stream's data is
-currently unavailable. |
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | ƒXƒgƒŠ[ƒ€‚ªˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚É³í‚É–ß‚³‚ê‚½B|
+|E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ: ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B |
 
 [”õl]
-The Revert method discards changes made to a transacted stream since
-the last commit operation.
+Revert ƒƒ\ƒbƒh‚ÍAÅŒã‚ÌƒRƒ~ƒbƒg‘€ìˆÈ~‚Éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“•t‚«ƒXƒgƒŠ[ƒ€‚É‘Î‚µ‚Äs‚í‚ê‚½•ÏX‚ğ”jŠü‚·‚éB
 
 
 %index
 IStream_LockRegion
-The LockRegion method restricts access to a specified range of bytes in the stream.
+LockRegion ƒƒ\ƒbƒh‚ÍƒXƒgƒŠ[ƒ€“à‚Ìw’è‚³‚ê‚½ƒoƒCƒg”ÍˆÍ‚Ö‚ÌƒAƒNƒZƒX‚ğ§ŒÀ‚·‚éB
 %group
 COM misc / IStream
 %prm
 this, libOffset, cb, dwLockType
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-libOffset : [int64] Integer that specifies the byte offset for the beginning of the range.
-cb : [int64] Integer that specifies the length of the range, in bytes, to be restricted.
-dwLockType : [int] Specifies the restrictions being requested on accessing the range.
+libOffset : [int64] ”ÍˆÍ‚Ìæ“ª‚ÌƒoƒCƒgƒIƒtƒZƒbƒg‚ğw’è‚·‚é®”B
+cb : [int64] §ŒÀ‚·‚é”ÍˆÍ‚Ì’·‚³ (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚é®”B
+dwLockType : [int] ”ÍˆÍ‚Ö‚ÌƒAƒNƒZƒX‚É‘Î‚µ‚Ä—v‹‚³‚ê‚é§ŒÀ‚ğw’è‚·‚éB
 %inst
-The LockRegion method restricts access to a specified range of bytes
-in the stream.
+LockRegion ƒƒ\ƒbƒh‚ÍƒXƒgƒŠ[ƒ€“à‚Ìw’è‚³‚ê‚½ƒoƒCƒg”ÍˆÍ‚Ö‚ÌƒAƒNƒZƒX‚ğ§ŒÀ‚·‚éB
 
 [–ß‚è’l]
-This method can return one of these values. | Return code |
-Description | |----------------|---------------| |S_OK | The
-specified range of bytes was locked.| |E_PENDING | Asynchronous
-Storage only: Part or all of the stream's data is currently
-unavailable. | |STG_E_INVALIDFUNCTION | Locking is not supported at
-all or the specific type of lock requested is not supported.|
-|STG_E_LOCKVIOLATION | Requested lock is supported, but cannot be
-granted because of an existing lock.| |STG_E_REVERTED | The object
-has been invalidated by a revert operation above it in the
-transaction tree.|
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | w’è‚³‚ê‚½ƒoƒCƒg”ÍˆÍ‚ªƒƒbƒN‚³‚ê‚½B|
+|E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ: ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B |
+|STG_E_INVALIDFUNCTION | ƒƒbƒN‚ª‚Ü‚Á‚½‚­ƒTƒ|[ƒg‚³‚ê‚È‚¢‚©A—v‹‚³‚ê‚½“Á’è‚Ìƒ^ƒCƒv‚ÌƒƒbƒN‚ªƒTƒ|[ƒg‚³‚ê‚È‚¢B|
+|STG_E_LOCKVIOLATION | —v‹‚³‚ê‚½ƒƒbƒN‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚ªAŠù‘¶‚ÌƒƒbƒN‚Ì‚½‚ß‹–‰Â‚Å‚«‚È‚¢B|
+|STG_E_REVERTED | ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
 
 [”õl]
-The byte range of the stream can be extended. Locking an extended
-range for the stream is useful as a method of communication between
-different instances of the stream without changing data that is
-actually part of the stream. Three types of locking can be supported:
-locking to exclude other writers, locking to exclude other readers or
-writers, and locking that allows only one requester to obtain a lock
-on the given range, which is usually an alias for one of the other
-two lock types. A given stream instance might support either of the
-first two types, or both. The lock type is specified by dwLockType,
-using a value from the LOCKTYPE enumeration. Any region locked with
-IStream::LockRegion must later be explicitly unlocked by calling
-IStream::UnlockRegion with exactly the same values for the libOffset,
-cb, and dwLockType parameters. The region must be unlocked before the
-stream is released. Two adjacent regions cannot be locked separately
-and then unlocked with a single unlock call. Notes to Callers Since
-the type of locking supported is optional and can vary in different
-implementations of IStream, you must provide code to deal with the
-STG_E_INVALIDFUNCTION error. The LockRegion method has no effect in
-the compound file implementation, because the implementation does not
-support range locking. Notes to Implementers Support for this method
-is optional for implementations of stream objects since it may not be
-supported by the underlying file system. The type of locking
-supported is also optional. The STG_E_INVALIDFUNCTION error is
-returned if the requested type of locking is not supported.
+
+ƒXƒgƒŠ[ƒ€‚ÌƒoƒCƒg”ÍˆÍ‚ÍŠg’£‚Å‚«‚éBƒXƒgƒŠ[ƒ€‚ÌŠg’£”ÍˆÍ‚ğƒƒbƒN‚·‚é‚±‚Æ‚ÍAÀÛ‚É‚ÍƒXƒgƒŠ[ƒ€‚Ìˆê•”‚Å‚ ‚éƒf[ƒ^‚ğ•ÏX‚¹‚¸‚ÉAƒXƒgƒŠ[ƒ€‚ÌˆÙ‚È‚éƒCƒ“ƒXƒ^ƒ“ƒXŠÔ‚Ì’ÊM•û–@‚Æ‚µ‚Ä—L—p‚Å‚ ‚éB3
+‚Â‚Ìƒ^ƒCƒv‚ÌƒƒbƒN‚ªƒTƒ|[ƒg‚³‚ê‚é: ‘¼‚Ìƒ‰ƒCƒ^‚ğœŠO‚·‚éƒƒbƒNA‘¼‚ÌƒŠ[ƒ_‚Ü‚½‚Íƒ‰ƒCƒ^‚ğœŠO‚·‚éƒƒbƒNAw’è‚³‚ê‚½”ÍˆÍ‚É‘Î‚·‚éƒƒbƒN‚ğ
+1 ‚Â‚Ì—v‹Ò‚Ì‚İ‚ªæ“¾‚Å‚«‚éƒƒbƒNB‚±‚ê‚Í’ÊíA‘¼‚Ì 2 ‚Â‚ÌƒƒbƒNƒ^ƒCƒv‚Ì 1
+‚Â‚ÌƒGƒCƒŠƒAƒX‚Å‚ ‚éBw’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€ƒCƒ“ƒXƒ^ƒ“ƒX‚ÍAÅ‰‚Ì 2
+‚Â‚Ìƒ^ƒCƒv‚Ì‚¢‚¸‚ê‚©A‚Ü‚½‚Í—¼•û‚ğƒTƒ|[ƒg‚·‚éê‡‚ª‚ ‚éBƒƒbƒNƒ^ƒCƒv‚Í LOCKTYPE —ñ‹“‚Ì’l‚ğg—p‚µ‚Ä dwLockType
+‚Åw’è‚·‚éBIStream::LockRegion ‚ÅƒƒbƒN‚³‚ê‚½—Ìˆæ‚ÍAŒã‚Å libOffsetAcbAdwLockType
+ƒpƒ‰ƒ[ƒ^‚É‚Ü‚Á‚½‚­“¯‚¶’l‚ğw’è‚µ‚Ä IStream::UnlockRegion
+‚ğŒÄ‚Ño‚µ‚Ä–¾¦“I‚ÉƒƒbƒN‰ğœ‚·‚é•K—v‚ª‚ ‚éBƒXƒgƒŠ[ƒ€‚ª‰ğ•ú‚³‚ê‚é‘O‚É—Ìˆæ‚ğƒƒbƒN‰ğœ‚·‚é•K—v‚ª‚ ‚éB—×Ú‚·‚é 2
+‚Â‚Ì—Ìˆæ‚ğ•ÊX‚ÉƒƒbƒN‚µ‚ÄA1 ‰ñ‚ÌƒƒbƒN‰ğœŒÄ‚Ño‚µ‚ÅƒƒbƒN‰ğœ‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢BŒÄ‚Ño‚µ‘¤‚Ö‚Ì’ˆÓ
+ƒTƒ|[ƒg‚³‚ê‚éƒƒbƒN‚Ìƒ^ƒCƒv‚ÍƒIƒvƒVƒ‡ƒ“‚ÅAIStream ‚ÌˆÙ‚È‚éÀ‘•‚ÅˆÙ‚È‚éê‡‚ª‚ ‚é‚½‚ßASTG_E_INVALIDFUNCTION
+ƒGƒ‰[‚É‘Îˆ‚·‚éƒR[ƒh‚ğ’ñ‹Ÿ‚·‚é•K—v‚ª‚ ‚éBLockRegion
+ƒƒ\ƒbƒh‚Í•¡‡ƒtƒ@ƒCƒ‹À‘•‚É‚ÍŒø‰Ê‚ª‚È‚¢BÀ‘•‚ª”ÍˆÍƒƒbƒN‚ğƒTƒ|[ƒg‚µ‚È‚¢‚©‚ç‚Å‚ ‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ
+‚±‚Ìƒƒ\ƒbƒh‚ÌƒTƒ|[ƒg‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÌÀ‘•‚É‘Î‚µ‚ÄƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBŠî‘b‚Æ‚È‚éƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚É‚æ‚Á‚ÄƒTƒ|[ƒg‚³‚ê‚È‚¢‰Â”\«‚ª‚ ‚é‚©‚ç‚Å‚ ‚éBƒTƒ|[ƒg‚³‚ê‚éƒƒbƒN‚Ìƒ^ƒCƒv‚àƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éB—v‹‚³‚ê‚½ƒ^ƒCƒv‚ÌƒƒbƒN‚ªƒTƒ|[ƒg‚³‚ê‚È‚¢ê‡ASTG_E_INVALIDFUNCTION
+ƒGƒ‰[‚ª•Ô‚³‚ê‚éB
 
 
 %index
 IStream_UnlockRegion
-The UnlockRegion method removes the access restriction on a range of bytes previously restricted with IStream::LockRegion.
+UnlockRegion ƒƒ\ƒbƒh‚ÍAIStream::LockRegion ‚ÅˆÈ‘O‚É§ŒÀ‚³‚ê‚½ƒoƒCƒg”ÍˆÍ‚ÌƒAƒNƒZƒX§ŒÀ‚ğíœ‚·‚éB
 %group
 COM misc / IStream
 %prm
 this, libOffset, cb, dwLockType
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-libOffset : [int64] Specifies the byte offset for the beginning of the range.
-cb : [int64] Specifies, in bytes, the length of the range to be restricted.
-dwLockType : [int] Specifies the access restrictions previously placed on the range.
+libOffset : [int64] ”ÍˆÍ‚Ìæ“ª‚ÌƒoƒCƒgƒIƒtƒZƒbƒg‚ğw’è‚·‚éB
+cb : [int64] §ŒÀ‚·‚é”ÍˆÍ‚Ì’·‚³ (ƒoƒCƒg’PˆÊ) ‚ğw’è‚·‚éB
+dwLockType : [int] ”ÍˆÍ‚ÉˆÈ‘O‚Éİ’è‚³‚ê‚½ƒAƒNƒZƒX§ŒÀ‚ğw’è‚·‚éB
 %inst
-The UnlockRegion method removes the access restriction on a range of
-bytes previously restricted with IStream::LockRegion.
+UnlockRegion ƒƒ\ƒbƒh‚ÍAIStream::LockRegion ‚ÅˆÈ‘O‚É§ŒÀ‚³‚ê‚½ƒoƒCƒg”ÍˆÍ‚ÌƒAƒNƒZƒX§ŒÀ‚ğíœ‚·‚éB
 
 [–ß‚è’l]
-This method can return one of these values. | Return code |
-Description | |----------------|---------------| |S_OK | The byte
-range was unlocked.| |E_PENDING | Asynchronous Storage only: Part or
-all of the stream's data is currently unavailable.|
-|STG_E_INVALIDFUNCTION | Locking is not supported at all or the
-specific type of lock requested is not supported.|
-|STG_E_LOCKVIOLATION | The requested unlock operation cannot be
-granted.| |STG_E_REVERTED | The object has been invalidated by a
-revert operation above it in the transaction tree.|
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | ƒoƒCƒg”ÍˆÍ‚ªƒƒbƒN‰ğœ‚³‚ê‚½B|
+|E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ: ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B|
+|STG_E_INVALIDFUNCTION | ƒƒbƒN‚ª‚Ü‚Á‚½‚­ƒTƒ|[ƒg‚³‚ê‚È‚¢‚©A—v‹‚³‚ê‚½“Á’è‚Ìƒ^ƒCƒv‚ÌƒƒbƒN‚ªƒTƒ|[ƒg‚³‚ê‚È‚¢B|
+|STG_E_LOCKVIOLATION | —v‹‚³‚ê‚½ƒƒbƒN‰ğœ‘€ì‚ğ‹–‰Â‚Å‚«‚È‚¢B| |STG_E_REVERTED |
+ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
 
 [”õl]
-IStream::UnlockRegion unlocks a region previously locked with the
-IStream::LockRegion method. Locked regions must later be explicitly
-unlocked by calling IStream::UnlockRegion with exactly the same
-values for the libOffset, cb, and dwLockType parameters. The region
-must be unlocked before the stream is released. Two adjacent regions
-cannot be locked separately and then unlocked with a single unlock
-call.
+IStream::UnlockRegion ‚ÍAIStream::LockRegion
+ƒƒ\ƒbƒh‚ÅˆÈ‘O‚ÉƒƒbƒN‚³‚ê‚½—Ìˆæ‚ğƒƒbƒN‰ğœ‚·‚éBƒƒbƒN‚³‚ê‚½—Ìˆæ‚ÍAŒã‚Å libOffsetAcbAdwLockType
+ƒpƒ‰ƒ[ƒ^‚É‚Ü‚Á‚½‚­“¯‚¶’l‚ğw’è‚µ‚Ä IStream::UnlockRegion
+‚ğŒÄ‚Ño‚µ‚Ä–¾¦“I‚ÉƒƒbƒN‰ğœ‚·‚é•K—v‚ª‚ ‚éBƒXƒgƒŠ[ƒ€‚ª‰ğ•ú‚³‚ê‚é‘O‚É—Ìˆæ‚ğƒƒbƒN‰ğœ‚·‚é•K—v‚ª‚ ‚éB—×Ú‚·‚é 2
+‚Â‚Ì—Ìˆæ‚ğ•ÊX‚ÉƒƒbƒN‚µ‚ÄA1 ‰ñ‚ÌƒƒbƒN‰ğœŒÄ‚Ño‚µ‚ÅƒƒbƒN‰ğœ‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
 
 
 %index
 IStream_Stat
-The Stat method retrieves the STATSTG structure for this stream.
+Stat ƒƒ\ƒbƒh‚ÍA‚±‚ÌƒXƒgƒŠ[ƒ€‚Ì STATSTG \‘¢‘Ì‚ğæ“¾‚·‚éB
 %group
 COM misc / IStream
 %prm
 this, pstatstg, grfStatFlag
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pstatstg : [var] Pointer to a STATSTG structure where this method places information about this stream object.
-grfStatFlag : [int] Specifies that this method does not return some of the members in the STATSTG structure, thus saving a memory allocation operation. Values are taken from the STATFLAG enumeration.
+pstatstg : [var] ‚±‚Ìƒƒ\ƒbƒh‚ª‚±‚ÌƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÉŠÖ‚·‚éî•ñ‚ğ”z’u‚·‚é STATSTG \‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+grfStatFlag : [int] ‚±‚Ìƒƒ\ƒbƒh‚ª STATSTG \‘¢‘Ì‚Ìƒƒ“ƒo‚Ìˆê•”‚ğ•Ô‚³‚È‚¢‚æ‚¤‚Éw’è‚µAƒƒ‚ƒŠŠm•Û‘€ì‚ğß–ñ‚·‚éB’l‚Í STATFLAG —ñ‹“‚©‚çæ“¾‚³‚ê‚éB
 %inst
-The Stat method retrieves the STATSTG structure for this stream.
+Stat ƒƒ\ƒbƒh‚ÍA‚±‚ÌƒXƒgƒŠ[ƒ€‚Ì STATSTG \‘¢‘Ì‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-This method can return one of these values. | Return code |
-Description | |----------------|---------------| |S_OK | The STATSTG
-structure was successfully returned at the specified location.|
-|E_PENDING | Asynchronous Storage only: Part or all of the stream's
-data is currently unavailable. | |STG_E_ACCESSDENIED | The caller
-does not have enough permissions for accessing statistics for this
-storage object.| |STG_E_INSUFFICIENTMEMORY | The STATSTG structure
-was not returned due to a lack of memory.| |STG_E_INVALIDFLAG | The
-value for the *grfStateFlag* parameter is not valid.|
-|STG_E_INVALIDPOINTER | The *pStatStg* pointer is not valid.|
-|STG_E_REVERTED | The object has been invalidated by a revert
-operation above it in the transaction tree.|
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | STATSTG
+\‘¢‘Ì‚ªw’è‚³‚ê‚½ˆÊ’u‚É³í‚É•Ô‚³‚ê‚½B| |E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ:
+ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B | |STG_E_ACCESSDENIED |
+ŒÄ‚Ño‚µ‘¤‚É‚±‚ÌƒXƒgƒŒ[ƒWƒIƒuƒWƒFƒNƒg‚Ì“Œvî•ñ‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚Ì\•ª‚ÈŒ ŒÀ‚ª‚È‚¢B|
+|STG_E_INSUFFICIENTMEMORY | ƒƒ‚ƒŠ•s‘«‚Ì‚½‚ß STATSTG \‘¢‘Ì‚ª•Ô‚³‚ê‚È‚©‚Á‚½B|
+|STG_E_INVALIDFLAG | *grfStateFlag* ƒpƒ‰ƒ[ƒ^‚Ì’l‚ª—LŒø‚Å‚È‚¢B|
+|STG_E_INVALIDPOINTER | *pStatStg* ƒ|ƒCƒ“ƒ^‚ª—LŒø‚Å‚È‚¢B| |STG_E_REVERTED |
+ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
 
 [”õl]
-IStream::Stat retrieves a pointer to the STATSTG structure that
-contains information about this open stream. When this stream is
-within a structured storage and IStorage::EnumElements is called, it
-creates an enumerator object with the IEnumSTATSTG interface on it,
-which can be called to enumerate the storages and streams through the
-STATSTG structures associated with each of them.
+IStream::Stat ‚ÍA‚±‚ÌŠJ‚¢‚Ä‚¢‚éƒXƒgƒŠ[ƒ€‚ÉŠÖ‚·‚éî•ñ‚ğŠÜ‚Ş STATSTG
+\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB‚±‚ÌƒXƒgƒŠ[ƒ€‚ª\‘¢‰»ƒXƒgƒŒ[ƒW“à‚É‚ ‚èAIStorage::EnumElements
+‚ªŒÄ‚Ño‚³‚ê‚é‚ÆAIEnumSTATSTG ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ‚Â—ñ‹“ƒIƒuƒWƒFƒNƒg‚ªì¬‚³‚êA‚»‚ê‚¼‚ê‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ STATSTG
+\‘¢‘Ì‚ğ’Ê‚¶‚ÄƒXƒgƒŒ[ƒW‚ÆƒXƒgƒŠ[ƒ€‚ğ—ñ‹“‚·‚é‚½‚ß‚ÉŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éB
 
 
 %index
 IStream_Clone
-The Clone method creates a new stream object with its own seek pointer that references the same bytes as the original stream.
+Clone ƒƒ\ƒbƒh‚ÍAŒ³‚ÌƒXƒgƒŠ[ƒ€‚Æ“¯‚¶ƒoƒCƒg‚ğQÆ‚·‚é“Æ©‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ğ‚ÂV‚µ‚¢ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 COM misc / IStream
 %prm
 this, ppstm
 this : [comobj] IStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppstm : [comobj] When successful, pointer to the location of an IStream pointer to the new stream object. If an error occurs, this parameter is NULL.
+ppstm : [comobj] ¬Œ÷‚µ‚½ê‡AV‚µ‚¢ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ì IStream ƒ|ƒCƒ“ƒ^‚ÌˆÊ’u‚Ö‚Ìƒ|ƒCƒ“ƒ^BƒGƒ‰[‚ª”­¶‚µ‚½ê‡A‚±‚Ìƒpƒ‰ƒ[ƒ^‚Í NULL ‚É‚È‚éB
 %inst
-The Clone method creates a new stream object with its own seek
-pointer that references the same bytes as the original stream.
+Clone ƒƒ\ƒbƒh‚ÍAŒ³‚ÌƒXƒgƒŠ[ƒ€‚Æ“¯‚¶ƒoƒCƒg‚ğQÆ‚·‚é“Æ©‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ğ‚ÂV‚µ‚¢ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-This method can return one of these values. | Return code |
-Description | |----------------|---------------| |S_OK | The stream
-was successfully cloned.| |E_PENDING | Asynchronous Storage only:
-Part or all of the stream's data is currently unavailable. |
-|STG_E_INSUFFICIENTMEMORY | The stream was not cloned due to a lack
-of memory.| |STG_E_INVALIDPOINTER | The ppStm pointer is not valid.|
-|STG_E_REVERTED | The object has been invalidated by a revert
-operation above it in the transaction tree.|
+‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B | ƒŠƒ^[ƒ“ƒR[ƒh | à–¾ |
+|----------------|---------------| |S_OK | ƒXƒgƒŠ[ƒ€‚ª³í‚ÉƒNƒ[ƒ“‚³‚ê‚½B|
+|E_PENDING | ”ñ“¯ŠúƒXƒgƒŒ[ƒW‚Ì‚İ: ƒXƒgƒŠ[ƒ€‚Ìƒf[ƒ^‚Ìˆê•”‚Ü‚½‚Í‘S•”‚ªŒ»İ—˜—p‚Å‚«‚È‚¢B |
+|STG_E_INSUFFICIENTMEMORY | ƒƒ‚ƒŠ•s‘«‚Ì‚½‚ßƒXƒgƒŠ[ƒ€‚ªƒNƒ[ƒ“‚³‚ê‚È‚©‚Á‚½B|
+|STG_E_INVALIDPOINTER | ppStm ƒ|ƒCƒ“ƒ^‚ª—LŒø‚Å‚È‚¢B| |STG_E_REVERTED |
+ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒcƒŠ[‚ÌãˆÊ‚Ì revert ‘€ì‚É‚æ‚èƒIƒuƒWƒFƒNƒg‚ª–³Œø‰»‚³‚ê‚½B|
 
 [”õl]
-The Clone method creates a new stream object for accessing the same
-bytes but using a separate seek pointer. The new stream object sees
-the same data as the source-stream object. Changes written to one
-object are immediately visible in the other. Range locking is shared
-between the stream objects. The initial setting of the seek pointer
-in the cloned stream instance is the same as the current setting of
-the seek pointer in the original stream at the time of the clone
-operation.
+Clone
+ƒƒ\ƒbƒh‚ÍA“¯‚¶ƒoƒCƒg‚ÉƒAƒNƒZƒX‚·‚é‚ª•Ê‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ğg—p‚·‚éV‚µ‚¢ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éBV‚µ‚¢ƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Íƒ\[ƒXƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒg‚Æ“¯‚¶ƒf[ƒ^‚ğQÆ‚·‚éBˆê•û‚ÌƒIƒuƒWƒFƒNƒg‚É‘‚«‚Ü‚ê‚½•ÏX‚ÍA‚à‚¤ˆê•û‚É‚à‚½‚¾‚¿‚É”½‰f‚³‚ê‚éB”ÍˆÍƒƒbƒN‚ÍƒXƒgƒŠ[ƒ€ƒIƒuƒWƒFƒNƒgŠÔ‚Å‹¤—L‚³‚ê‚éBƒNƒ[ƒ“‚³‚ê‚½ƒXƒgƒŠ[ƒ€ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚Ì‰Šúİ’è‚ÍAƒNƒ[ƒ“‘€ì‚ÌŒ³‚ÌƒXƒgƒŠ[ƒ€‚ÌƒV[ƒNƒ|ƒCƒ“ƒ^‚ÌŒ»İ‚Ìİ’è‚Æ“¯‚¶‚Å‚ ‚éB
 
 
 %index
@@ -19008,71 +17865,64 @@ pbBuffer : [int]
 
 %index
 IWICBitmap_Lock
-Provides access to a rectangular area of the bitmap.
+ƒrƒbƒgƒ}ƒbƒv‚Ì‹éŒ`—Ìˆæ‚Ö‚ÌƒAƒNƒZƒX‚ğ’ñ‹Ÿ‚·‚éB
 %group
 COM misc / IWICBitmap
 %prm
 this, prcLock, flags, ppILock
 this : [comobj] IWICBitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-prcLock : [var] Type: const WICRect* The rectangle to be accessed.
-flags : [int] Type: DWORD The access mode you wish to obtain for the lock. This is a bitwise combination of WICBitmapLockFlags for read, write, or read and write access.
-ppILock : [comobj] Type: IWICBitmapLock** A pointer that receives the locked memory location.
+prcLock : [var] Œ^: const WICRect* ƒAƒNƒZƒX‚·‚é‹éŒ`B
+flags : [int] Œ^: DWORD ƒƒbƒN‚É‘Î‚µ‚Äæ“¾‚µ‚½‚¢ƒAƒNƒZƒXƒ‚[ƒhB“Ç‚İæ‚èA‘‚«‚İA‚Ü‚½‚Í“Ç‚İ‘‚«—¼—p‚ÌƒAƒNƒZƒX‚ğ¦‚· WICBitmapLockFlags ‚Ìƒrƒbƒg’PˆÊ‚Ì‘g‚İ‡‚í‚¹B
+ppILock : [comobj] Œ^: IWICBitmapLock** ƒƒbƒN‚³‚ê‚½ƒƒ‚ƒŠˆÊ’u‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Provides access to a rectangular area of the bitmap.
+ƒrƒbƒgƒ}ƒbƒv‚Ì‹éŒ`—Ìˆæ‚Ö‚ÌƒAƒNƒZƒX‚ğ’ñ‹Ÿ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Locks are exclusive for writing but can be shared for reading. You
-cannot call CopyPixels while the IWICBitmap is locked for writing.
-Doing so will return an error, since locks are exclusive.
+ƒƒbƒN‚Í‘‚«‚İ‚É‚Â‚¢‚Ä‚Í”r‘¼“I‚¾‚ªA“Ç‚İæ‚è‚É‚Â‚¢‚Ä‚Í‹¤—L‰Â”\‚Å‚ ‚éBIWICBitmap ‚ª‘‚«‚İ—p‚ÉƒƒbƒN‚³‚ê‚Ä‚¢‚éŠÔ‚Í
+CopyPixels ‚ğŒÄ‚Ño‚·‚±‚Æ‚Í‚Å‚«‚È‚¢BƒƒbƒN‚Í”r‘¼“I‚È‚Ì‚ÅA‚»‚ê‚ğs‚¤‚ÆƒGƒ‰[‚ª•Ô‚³‚ê‚éB
 
 
 %index
 IWICBitmap_SetPalette
-Provides access for palette modifications.
+ƒpƒŒƒbƒg‚ğ•ÏX‚·‚é‚½‚ß‚ÌƒAƒNƒZƒX‚ğ’ñ‹Ÿ‚·‚éB
 %group
 COM misc / IWICBitmap
 %prm
 this, pIPalette
 this : [comobj] IWICBitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIPalette : [comobj] Type: IWICPalette* The palette to use for conversion.
+pIPalette : [comobj] Œ^: IWICPalette* •ÏŠ·‚Ég—p‚·‚éƒpƒŒƒbƒgB
 %inst
-Provides access for palette modifications.
+ƒpƒŒƒbƒg‚ğ•ÏX‚·‚é‚½‚ß‚ÌƒAƒNƒZƒX‚ğ’ñ‹Ÿ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmap_SetResolution
-Changes the physical resolution of the image.
+‰æ‘œ‚Ì•¨—‰ğ‘œ“x‚ğ•ÏX‚·‚éB
 %group
 COM misc / IWICBitmap
 %prm
 this, dpiX, dpiY
 this : [comobj] IWICBitmap ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dpiX : [double] Type: double The horizontal resolution.
-dpiY : [double] Type: double The vertical resolution.
+dpiX : [double] Œ^: double …•½•ûŒü‚Ì‰ğ‘œ“xB
+dpiY : [double] Œ^: double ‚’¼•ûŒü‚Ì‰ğ‘œ“xB
 %inst
-Changes the physical resolution of the image.
+‰æ‘œ‚Ì•¨—‰ğ‘œ“x‚ğ•ÏX‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This method has no effect on the actual pixels or samples stored in
-the bitmap. Instead the interpretation of the sampling rate is
-modified. This means that a 96 DPI image which is 96 pixels wide is
-one inch. If the physical resolution is modified to 48 DPI, then the
-bitmap is considered to be 2 inches wide but has the same number of
-pixels. If the resolution is less than REAL_EPSILON
-(1.192092896e-07F) the error code WINCODEC_ERR_INVALIDPARAMETER is
-returned.
+
+‚±‚Ìƒƒ\ƒbƒh‚Íƒrƒbƒgƒ}ƒbƒv‚ÉŠi”[‚³‚ê‚½ÀÛ‚ÌƒsƒNƒZƒ‹‚âƒTƒ“ƒvƒ‹‚É‚Í‰e‹¿‚µ‚È‚¢B‘ã‚í‚è‚ÉAƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚Ì‰ğß‚ª•ÏX‚³‚ê‚éB‚±‚ê‚Í‚½‚Æ‚¦‚ÎA•
+96 ƒsƒNƒZƒ‹‚Ì 96 DPI ‰æ‘œ‚Í 1 ƒCƒ“ƒ`‚Å‚ ‚é‚±‚Æ‚ğˆÓ–¡‚·‚éB•¨—‰ğ‘œ“x‚ğ 48 DPI ‚É•ÏX‚·‚é‚ÆAƒrƒbƒgƒ}ƒbƒv‚Í 2
+ƒCƒ“ƒ`•‚Æ‚İ‚È‚³‚ê‚é‚ªAƒsƒNƒZƒ‹”‚Í“¯‚¶‚Å‚ ‚éB‰ğ‘œ“x‚ª REAL_EPSILON (1.192092896e-07F)
+–¢–‚Ìê‡AƒGƒ‰[ƒR[ƒh WINCODEC_ERR_INVALIDPARAMETER ‚ª•Ô‚³‚ê‚éB
 
 
 %index
@@ -19142,20 +17992,19 @@ pbBuffer : [int]
 
 %index
 IWICBitmapClipper_Initialize
-Initializes the bitmap clipper with the provided parameters.
+w’è‚µ‚½ƒpƒ‰ƒ[ƒ^‚Åƒrƒbƒgƒ}ƒbƒvƒNƒŠƒbƒp[‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICBitmapClipper
 %prm
 this, pISource, prc
 this : [comobj] IWICBitmapClipper ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pISource : [comobj] Type: IWICBitmapSource* he input bitmap source.
-prc : [var] Type: const WICRect* The rectangle of the bitmap source to clip.
+pISource : [comobj] Œ^: IWICBitmapSource* “ü—Í‚Æ‚È‚éƒrƒbƒgƒ}ƒbƒvƒ\[ƒXB
+prc : [var] Œ^: const WICRect* Ø‚è”²‚­‘ÎÛ‚Æ‚È‚éƒrƒbƒgƒ}ƒbƒvƒ\[ƒXã‚Ì‹éŒ`B
 %inst
-Initializes the bitmap clipper with the provided parameters.
+w’è‚µ‚½ƒpƒ‰ƒ[ƒ^‚Åƒrƒbƒgƒ}ƒbƒvƒNƒŠƒbƒp[‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -19264,515 +18113,461 @@ pcchActual : [int]
 
 %index
 IWICBitmapCodecInfo_GetContainerFormat
-Retrieves the container GUID associated with the codec.
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ“ƒeƒi GUID ‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapCodecInfo
 %prm
 this, pguidContainerFormat
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pguidContainerFormat : [var] Type: GUID* Receives the container GUID.
+pguidContainerFormat : [var] Œ^: GUID* ƒRƒ“ƒeƒi GUID ‚ğó‚¯æ‚éB
 %inst
-Retrieves the container GUID associated with the codec.
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒRƒ“ƒeƒi GUID ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapCodecInfo_GetPixelFormats
-Retrieves the pixel formats the codec supports.
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapCodecInfo
 %prm
 this, cFormats, pguidPixelFormats, pcActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cFormats : [int] Type: UINT The size of the pguidPixelFormats array. Use 0 on first call to determine the needed array size.
-pguidPixelFormats : [var] Type: GUID* Receives the supported pixel formats. Use NULL on first call to determine needed array size.
-pcActual : [int] Type: UINT* The array size needed to retrieve all supported pixel formats.
+cFormats : [int] Œ^: UINT pguidPixelFormats ”z—ñ‚ÌƒTƒCƒYB•K—v‚È”z—ñƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+pguidPixelFormats : [var] Œ^: GUID* ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğó‚¯æ‚éB•K—v‚È”z—ñƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcActual : [int] Œ^: UINT* ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚È”z—ñƒTƒCƒYB
 %inst
-Retrieves the pixel formats the codec supports.
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The usage pattern for this method is a two call process. The first
-call retrieves the array size needed to retrieve all the supported
-pixel formats by calling it with cFormats set to 0 and
-pguidPixelFormats set to NULL. This call sets pcActual to the array
-size needed. Once the needed array size is determined, a second
-GetPixelFormats call with pguidPixelFormats set to an array of the
-appropriate size will retrieve the pixel formats.
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcFormats ‚ğ 0
+‚ÉApguidPixelFormats ‚ğ NULL
+‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅAƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚é‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚È”z—ñƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í
+pcActual ‚É•K—v‚È”z—ñƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚È”z—ñƒTƒCƒY‚ª”»–¾‚µ‚½‚çApguidPixelFormats
+‚ğ“KØ‚ÈƒTƒCƒY‚Ì”z—ñ‚Éİ’è‚µ‚Ä GetPixelFormats ‚ğ 2 ‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapCodecInfo_GetColorManagementVersion
-Retrieves the color management version number the codec supports.
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapCodecInfo
 %prm
 this, cchColorManagementVersion, wzColorManagementVersion, pcchActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchColorManagementVersion : [int] Type: UINT The size of the version buffer. Use 0 on first call to determine needed buffer size.
-wzColorManagementVersion : [wstr] Type: WCHAR* Receives the color management version number. Use NULL on first call to determine needed buffer size.
-pcchActual : [int] Type: UINT* The actual buffer size needed to retrieve the full color management version number.
+cchColorManagementVersion : [int] Œ^: UINT ƒo[ƒWƒ‡ƒ“ƒoƒbƒtƒ@‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzColorManagementVersion : [wstr] Œ^: WCHAR* ƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* Š®‘S‚ÈƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
-Retrieves the color management version number the codec supports.
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The usage pattern for this method is a two call process. The first
-call retrieves the buffer size needed to retrieve the full color
-management version number by calling it with
-cchColorManagementVersion set to 0 and wzColorManagementVersion set
-to NULL. This call sets pcchActual to the buffer size needed. Once
-the needed buffer size is determined, a second
-GetColorManagementVersion call with cchColorManagementVersion set to
-the buffer size and wzColorManagementVersion set to a buffer of the
-appropriate size will retrieve the pixel formats.
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchColorManagementVersion ‚ğ
+0 ‚ÉAwzColorManagementVersion ‚ğ NULL
+‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅAŠ®‘S‚ÈƒJƒ‰[ƒ}ƒlƒWƒƒ“ƒgƒo[ƒWƒ‡ƒ“”Ô†‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í
+pcchActual
+‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchColorManagementVersion
+‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzColorManagementVersion ‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä
+GetColorManagementVersion ‚ğ 2 ‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapCodecInfo_GetDeviceManufacturer
-Retrieves the name of the device manufacture associated with the codec.
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒfƒoƒCƒX»‘¢Œ³–¼‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapCodecInfo
 %prm
 this, cchDeviceManufacturer, wzDeviceManufacturer, pcchActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchDeviceManufacturer : [int] Type: UINT The size of the device manufacture's name. Use 0 on first call to determine needed buffer size.
-wzDeviceManufacturer : [wstr] Type: WCHAR* Receives the device manufacture's name. Use NULL on first call to determine needed buffer size.
-pcchActual : [int] Type: UINT* The actual buffer size needed to retrieve the device manufacture's name.
+cchDeviceManufacturer : [int] Œ^: UINT ƒfƒoƒCƒX»‘¢Œ³–¼‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzDeviceManufacturer : [wstr] Œ^: WCHAR* ƒfƒoƒCƒX»‘¢Œ³–¼‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* ƒfƒoƒCƒX»‘¢Œ³–¼‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
-Retrieves the name of the device manufacture associated with the
-codec.
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒfƒoƒCƒX»‘¢Œ³–¼‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The usage pattern for this method is a two call process. The first
-call retrieves the buffer size needed to retrieve the full color
-management version number by calling it with cchDeviceManufacturer
-set to 0 and wzDeviceManufacturer set to NULL. This call sets
-pcchActual to the buffer size needed. Once the needed buffer size is
-determined, a second GetDeviceManufacturer call with
-cchDeviceManufacturer set to the buffer size and wzDeviceManufacturer
-set to a buffer of the appropriate size will retrieve the pixel
-formats.
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchDeviceManufacturer ‚ğ 0
+‚ÉAwzDeviceManufacturer ‚ğ NULL ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅA•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í
+pcchActual ‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchDeviceManufacturer
+‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzDeviceManufacturer ‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä
+GetDeviceManufacturer ‚ğ 2 ‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapCodecInfo_GetDeviceModels
-Retrieves a comma delimited list of device models associated with the codec.
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJƒ“ƒ}‹æØ‚è‚ÌƒfƒoƒCƒXƒ‚ƒfƒ‹‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapCodecInfo
 %prm
 this, cchDeviceModels, wzDeviceModels, pcchActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchDeviceModels : [int] Type: UINT The size of the device models buffer. Use 0 on first call to determine needed buffer size.
-wzDeviceModels : [wstr] Type: WCHAR* Receives a comma delimited list of device model names associated with the codec. Use NULL on first call to determine needed buffer size.
-pcchActual : [int] Type: UINT* The actual buffer size needed to retrieve all of the device model names.
+cchDeviceModels : [int] Œ^: UINT ƒfƒoƒCƒXƒ‚ƒfƒ‹ƒoƒbƒtƒ@‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzDeviceModels : [wstr] Œ^: WCHAR* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJƒ“ƒ}‹æØ‚è‚ÌƒfƒoƒCƒXƒ‚ƒfƒ‹–¼‚ÌƒŠƒXƒg‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* ‚·‚×‚Ä‚ÌƒfƒoƒCƒXƒ‚ƒfƒ‹–¼‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
-Retrieves a comma delimited list of device models associated with the
-codec.
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJƒ“ƒ}‹æØ‚è‚ÌƒfƒoƒCƒXƒ‚ƒfƒ‹‚ÌƒŠƒXƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The usage pattern for this method is a two call process. The first
-call retrieves the buffer size needed to retrieve the full color
-management version number by calling it with cchDeviceModels set to 0
-and wzDeviceModels set to NULL. This call sets pcchActual to the
-buffer size needed. Once the needed buffer size is determined, a
-second GetDeviceModels call with cchDeviceModels set to the buffer
-size and wzDeviceModels set to a buffer of the appropriate size will
-retrieve the pixel formats.
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchDeviceModels ‚ğ 0
+‚ÉAwzDeviceModels ‚ğ NULL ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅA•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í
+pcchActual ‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchDeviceModels
+‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzDeviceModels ‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä GetDeviceModels ‚ğ 2
+‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapCodecInfo_GetMimeTypes
-Retrieves a comma delimited sequence of mime types associated with the codec.
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MIME ƒ^ƒCƒv‚ÌƒJƒ“ƒ}‹æØ‚èƒV[ƒPƒ“ƒX‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapCodecInfo
 %prm
 this, cchMimeTypes, wzMimeTypes, pcchActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchMimeTypes : [int] Type: UINT The size of the mime types buffer.  Use 0 on first call to determine needed buffer size.
-wzMimeTypes : [wstr] Type: WCHAR* Receives the mime types associated with the codec. Use NULL on first call to determine needed buffer size.
-pcchActual : [int] Type: UINT* The actual buffer size needed to retrieve all mime types associated with the codec.
+cchMimeTypes : [int] Œ^: UINT MIME ƒ^ƒCƒvƒoƒbƒtƒ@‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzMimeTypes : [wstr] Œ^: WCHAR* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MIME ƒ^ƒCƒv‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚Ì MIME ƒ^ƒCƒv‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
-Retrieves a comma delimited sequence of mime types associated with
-the codec.
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ MIME ƒ^ƒCƒv‚ÌƒJƒ“ƒ}‹æØ‚èƒV[ƒPƒ“ƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The usage pattern for this method is a two call process. The first
-call retrieves the buffer size needed to retrieve the full color
-management version number by calling it with cchMimeTypes set to 0
-and wzMimeTypes set to NULL. This call sets pcchActual to the buffer
-size needed. Once the needed buffer size is determined, a second
-GetMimeTypes call with cchMimeTypes set to the buffer size and
-wzMimeTypes set to a buffer of the appropriate size will retrieve the
-pixel formats.
+‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2 ‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchMimeTypes ‚ğ 0
+‚ÉAwzMimeTypes ‚ğ NULL ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅA•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í pcchActual
+‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchMimeTypes ‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzMimeTypes
+‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä GetMimeTypes ‚ğ 2 ‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapCodecInfo_GetFileExtensions
-Retrieves a comma delimited list of the file name extensions associated with the codec.
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹–¼Šg’£q‚ÌƒJƒ“ƒ}‹æØ‚èƒŠƒXƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapCodecInfo
 %prm
 this, cchFileExtensions, wzFileExtensions, pcchActual
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchFileExtensions : [int] Type: UINT The size of the file name extension buffer. Use 0 on first call to determine needed buffer size.
-wzFileExtensions : [wstr] Type: WCHAR* Receives a comma delimited list  of file name extensions associated with the codec. Use NULL on first call to determine needed buffer size.
-pcchActual : [int] Type: UINT* The actual buffer size needed to retrieve all file name extensions associated with the codec.
+cchFileExtensions : [int] Œ^: UINT ƒtƒ@ƒCƒ‹–¼Šg’£qƒoƒbƒtƒ@‚ÌƒTƒCƒYB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í 0 ‚ğg—p‚·‚éB
+wzFileExtensions : [wstr] Œ^: WCHAR* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒJƒ“ƒ}‹æØ‚è‚Ìƒtƒ@ƒCƒ‹–¼Šg’£q‚ÌƒŠƒXƒg‚ğó‚¯æ‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğ”»•Ê‚·‚é‚½‚ß‚ÉAÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚Í NULL ‚ğg—p‚·‚éB
+pcchActual : [int] Œ^: UINT* ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹–¼Šg’£q‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒYB
 %inst
-Retrieves a comma delimited list of the file name extensions
-associated with the codec.
+ƒR[ƒfƒbƒN‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ƒtƒ@ƒCƒ‹–¼Šg’£q‚ÌƒJƒ“ƒ}‹æØ‚èƒŠƒXƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The default extension for an image encoder is the first item in the
-list of returned extensions. The usage pattern for this method is a
-two call process. The first call retrieves the buffer size needed to
-retrieve the full color management version number by calling it with
-cchFileExtensions set to 0 and wzFileExtensions set to NULL. This
-call sets pcchActual to the buffer size needed. Once the needed
-buffer size is determined, a second GetFileExtensions call with
-cchFileExtensions set to the buffer size and wzFileExtensions set to
-a buffer of the appropriate size will retrieve the pixel formats.
+‰æ‘œƒGƒ“ƒR[ƒ_‚ÌƒfƒtƒHƒ‹ƒg‚ÌŠg’£q‚ÍA•Ô‚³‚ê‚éŠg’£q‚ÌƒŠƒXƒg‚ÌÅ‰‚Ì€–Ú‚Å‚ ‚éB‚±‚Ìƒƒ\ƒbƒh‚Ìg—pƒpƒ^[ƒ“‚Í 2
+‰ñ‚ÌŒÄ‚Ño‚µƒvƒƒZƒX‚Å‚ ‚éBÅ‰‚ÌŒÄ‚Ño‚µ‚Å‚ÍAcchFileExtensions ‚ğ 0 ‚ÉAwzFileExtensions ‚ğ
+NULL ‚Éİ’è‚µ‚ÄŒÄ‚Ño‚·‚±‚Æ‚ÅA•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾‚·‚éB‚±‚ÌŒÄ‚Ño‚µ‚Í pcchActual
+‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ğİ’è‚·‚éB•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª”»–¾‚µ‚½‚çAcchFileExtensions
+‚ğƒoƒbƒtƒ@ƒTƒCƒY‚ÉAwzFileExtensions ‚ğ“KØ‚ÈƒTƒCƒY‚Ìƒoƒbƒtƒ@‚Éİ’è‚µ‚Ä GetFileExtensions ‚ğ 2
+‰ñ–Ú‚ÉŒÄ‚Ño‚·‚ÆAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªæ“¾‚³‚ê‚éB
 
 
 %index
 IWICBitmapCodecInfo_DoesSupportAnimation
-Retrieves a value indicating whether the codec supports animation.
+ƒR[ƒfƒbƒN‚ªƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapCodecInfo
 %prm
 this, pfSupportAnimation
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfSupportAnimation : [var] Type: BOOL* Receives TRUE if the codec supports images with timing information; otherwise, FALSE.
+pfSupportAnimation : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒ^ƒCƒ~ƒ“ƒOî•ñ•t‚«‚Ì‰æ‘œ‚ğƒTƒ|[ƒg‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
-Retrieves a value indicating whether the codec supports animation.
+ƒR[ƒfƒbƒN‚ªƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapCodecInfo_DoesSupportChromakey
-Retrieves a value indicating whether the codec supports chromakeys.
+ƒR[ƒfƒbƒN‚ªƒNƒƒ}ƒL[‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapCodecInfo
 %prm
 this, pfSupportChromakey
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfSupportChromakey : [var] Type: BOOL* Receives TRUE if the codec supports chromakeys; otherwise, FALSE.
+pfSupportChromakey : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒNƒƒ}ƒL[‚ğƒTƒ|[ƒg‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
-Retrieves a value indicating whether the codec supports chromakeys.
+ƒR[ƒfƒbƒN‚ªƒNƒƒ}ƒL[‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapCodecInfo_DoesSupportLossless
-Retrieves a value indicating whether the codec supports lossless formats.
+ƒR[ƒfƒbƒN‚ªƒƒXƒŒƒXƒtƒH[ƒ}ƒbƒg‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapCodecInfo
 %prm
 this, pfSupportLossless
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfSupportLossless : [var] Type: BOOL* Receives TRUE if the codec supports lossless formats; otherwise, FALSE.
+pfSupportLossless : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒƒXƒŒƒXƒtƒH[ƒ}ƒbƒg‚ğƒTƒ|[ƒg‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
-Retrieves a value indicating whether the codec supports lossless
-formats.
+ƒR[ƒfƒbƒN‚ªƒƒXƒŒƒXƒtƒH[ƒ}ƒbƒg‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapCodecInfo_DoesSupportMultiframe
-Retrieves a value indicating whether the codec supports multi frame images.
+ƒR[ƒfƒbƒN‚ªƒ}ƒ‹ƒ`ƒtƒŒ[ƒ€‰æ‘œ‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapCodecInfo
 %prm
 this, pfSupportMultiframe
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfSupportMultiframe : [var] Type: BOOL* Receives TRUE if the codec supports multi frame images; otherwise, FALSE.
+pfSupportMultiframe : [var] Œ^: BOOL* ƒR[ƒfƒbƒN‚ªƒ}ƒ‹ƒ`ƒtƒŒ[ƒ€‰æ‘œ‚ğƒTƒ|[ƒg‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
-Retrieves a value indicating whether the codec supports multi frame
-images.
+ƒR[ƒfƒbƒN‚ªƒ}ƒ‹ƒ`ƒtƒŒ[ƒ€‰æ‘œ‚ğƒTƒ|[ƒg‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapCodecInfo_MatchesMimeType
-Retrieves a value indicating whether the given mime type matches the mime type of the codec.
+w’è‚³‚ê‚½ MIME ƒ^ƒCƒv‚ªƒR[ƒfƒbƒN‚Ì MIME ƒ^ƒCƒv‚Æˆê’v‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapCodecInfo
 %prm
 this, wzMimeType, pfMatches
 this : [comobj] IWICBitmapCodecInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-wzMimeType : [wstr] Type: LPCWSTR The mime type to compare.
-pfMatches : [var] Type: BOOL* Receives TRUE if the mime types match; otherwise, FALSE.
+wzMimeType : [wstr] Œ^: LPCWSTR ”äŠr‚·‚é MIME ƒ^ƒCƒvB
+pfMatches : [var] Œ^: BOOL* MIME ƒ^ƒCƒv‚ªˆê’v‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éB
 %inst
-Retrieves a value indicating whether the given mime type matches the
-mime type of the codec.
+w’è‚³‚ê‚½ MIME ƒ^ƒCƒv‚ªƒR[ƒfƒbƒN‚Ì MIME ƒ^ƒCƒv‚Æˆê’v‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT This method can return one of these values.
-This doc was truncated.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ÍŸ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Note The Windows provided codecs do not implement this method and
-return E_NOTIMPL.
+’ Windows ’ñ‹Ÿ‚ÌƒR[ƒfƒbƒN‚Í‚±‚Ìƒƒ\ƒbƒh‚ğÀ‘•‚µ‚Ä‚¨‚ç‚¸AE_NOTIMPL ‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoder_QueryCapability
-Retrieves the capabilities of the decoder based on the specified stream.
+w’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚ÉŠî‚Ã‚¢‚ÄƒfƒR[ƒ_‚Ì”\—Í‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapDecoder
 %prm
 this, pIStream, pdwCapability
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIStream : [comobj] Type: IStream* The stream to retrieve the decoder capabilities from.
-pdwCapability : [int] Type: DWORD* The WICBitmapDecoderCapabilities of the decoder.
+pIStream : [comobj] Œ^: IStream* ƒfƒR[ƒ_‚Ì”\—Í‚ğæ“¾‚·‚éƒXƒgƒŠ[ƒ€B
+pdwCapability : [int] Œ^: DWORD* ƒfƒR[ƒ_‚Ì WICBitmapDecoderCapabilitiesB
 %inst
-Retrieves the capabilities of the decoder based on the specified
-stream.
+w’è‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚ÉŠî‚Ã‚¢‚ÄƒfƒR[ƒ_‚Ì”\—Í‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Custom decoder implementations should save the current position of
-the specified IStream, read whatever information is necessary in
-order to determine which capabilities it can provide for the supplied
-stream, and restore the stream position.
+ƒJƒXƒ^ƒ€ƒfƒR[ƒ_‚ÌÀ‘•‚ÍAw’è‚³‚ê‚½ IStream
+‚ÌŒ»İ‚ÌˆÊ’u‚ğ•Û‘¶‚µA’ñ‹Ÿ‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚É‘Î‚µ‚Ä’ñ‹Ÿ‚Å‚«‚é”\—Í‚ğ”»’f‚·‚é‚½‚ß‚É•K—v‚Èî•ñ‚ğ“Ç‚İæ‚èAƒXƒgƒŠ[ƒ€ˆÊ’u‚ğ•œŒ³‚·‚×‚«‚Å‚ ‚éB
 
 
 %index
 IWICBitmapDecoder_Initialize
-Initializes the decoder with the provided stream.
+’ñ‹Ÿ‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚ÅƒfƒR[ƒ_‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICBitmapDecoder
 %prm
 this, pIStream, cacheOptions
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIStream : [comobj] Type: IStream* The stream to use for initialization. The stream contains the encoded pixels which are decoded each time the CopyPixels method on the IWICBitmapFrameDecode interface (see GetFrame) is invoked.
-cacheOptions : [int] Type: WICDecodeOptions The WICDecodeOptions to use for initialization.
+pIStream : [comobj] Œ^: IStream* ‰Šú‰»‚Ég—p‚·‚éƒXƒgƒŠ[ƒ€BƒXƒgƒŠ[ƒ€‚É‚ÍAIWICBitmapFrameDecode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì CopyPixels ƒƒ\ƒbƒh (GetFrame ‚ğQÆ) ‚ªŒÄ‚Ño‚³‚ê‚é‚½‚Ñ‚ÉƒfƒR[ƒh‚³‚ê‚éƒGƒ“ƒR[ƒh‚³‚ê‚½ƒsƒNƒZƒ‹‚ªŠÜ‚Ü‚ê‚éB
+cacheOptions : [int] Œ^: WICDecodeOptions ‰Šú‰»‚Ég—p‚·‚é WICDecodeOptionsB
 %inst
-Initializes the decoder with the provided stream.
+’ñ‹Ÿ‚³‚ê‚½ƒXƒgƒŠ[ƒ€‚ÅƒfƒR[ƒ_‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoder_GetContainerFormat
-Retrieves the image's container format.
+‰æ‘œ‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapDecoder
 %prm
 this, pguidContainerFormat
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pguidContainerFormat : [var] Type: GUID* A pointer that receives the image's container format GUID.
+pguidContainerFormat : [var] Œ^: GUID* ‰æ‘œ‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the image's container format.
+‰æ‘œ‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoder_GetDecoderInfo
-Retrieves an IWICBitmapDecoderInfo for the image.
+‰æ‘œ‚Ì IWICBitmapDecoderInfo ‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapDecoder
 %prm
 this, ppIDecoderInfo
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIDecoderInfo : [comobj] Type: IWICBitmapDecoderInfo** A pointer that receives a pointer to an IWICBitmapDecoderInfo.
+ppIDecoderInfo : [comobj] Œ^: IWICBitmapDecoderInfo** IWICBitmapDecoderInfo ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves an IWICBitmapDecoderInfo for the image.
+‰æ‘œ‚Ì IWICBitmapDecoderInfo ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoder_CopyPalette
-Copies the decoder's IWICPalette .
+ƒfƒR[ƒ_‚Ì IWICPalette ‚ğƒRƒs[‚·‚éB
 %group
 COM misc / IWICBitmapDecoder
 %prm
 this, pIPalette
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIPalette : [comobj] Type: IWICPalette* AnIWICPalette to which the decoder's global palette is to be copied. Use CreatePalette to create the destination palette before calling CopyPalette.
+pIPalette : [comobj] Œ^: IWICPalette* ƒfƒR[ƒ_‚ÌƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ªƒRƒs[‚³‚ê‚é IWICPaletteBCopyPalette ‚ğŒÄ‚Ño‚·‘O‚É CreatePalette ‚ğg—p‚µ‚Äˆ¶æƒpƒŒƒbƒg‚ğì¬‚·‚éB
 %inst
-Copies the decoder's IWICPalette .
+ƒfƒR[ƒ_‚Ì IWICPalette ‚ğƒRƒs[‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-CopyPalette returns a global palette (a palette that applies to all
-the frames in the image) if there is one; otherwise, it returns
-WINCODEC_ERR_PALETTEUNAVAILABLE. If an image doesn't have a global
-palette, it may still have a frame-level palette, which can be
-retrieved using IWICBitmapFrameDecode::CopyPalette.
+CopyPalette ‚ÍƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg (‰æ‘œ“à‚Ì‚·‚×‚Ä‚ÌƒtƒŒ[ƒ€‚É“K—p‚³‚ê‚éƒpƒŒƒbƒg)
+‚ª‘¶İ‚·‚éê‡‚Í‚»‚ê‚ğ•Ô‚µA‘¶İ‚µ‚È‚¢ê‡‚Í WINCODEC_ERR_PALETTEUNAVAILABLE
+‚ğ•Ô‚·B‰æ‘œ‚ÉƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ª‚È‚¢ê‡‚Å‚àAƒtƒŒ[ƒ€ƒŒƒxƒ‹‚ÌƒpƒŒƒbƒg‚ğ‚Â‰Â”\«‚ª‚ ‚èAIWICBitmapFrameDecode::CopyPalette
+‚ğg—p‚µ‚Äæ“¾‚Å‚«‚éB
 
 
 %index
 IWICBitmapDecoder_GetMetadataQueryReader
-Retrieves the metadata query reader from the decoder.
+ƒfƒR[ƒ_‚©‚çƒƒ^ƒf[ƒ^ƒNƒGƒŠƒŠ[ƒ_‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapDecoder
 %prm
 this, ppIMetadataQueryReader
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIMetadataQueryReader : [comobj] Type: IWICMetadataQueryReader** Receives a pointer to the decoder's IWICMetadataQueryReader.
+ppIMetadataQueryReader : [comobj] Œ^: IWICMetadataQueryReader** ƒfƒR[ƒ_‚Ì IWICMetadataQueryReader ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éB
 %inst
-Retrieves the metadata query reader from the decoder.
+ƒfƒR[ƒ_‚©‚çƒƒ^ƒf[ƒ^ƒNƒGƒŠƒŠ[ƒ_‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If an image format does not support container-level metadata, this
-will return WINCODEC_ERR_UNSUPPORTEDOPERATION. The only Windows
-provided image format that supports container-level metadata is GIF.
-Instead, use IWICBitmapFrameDecode::GetMetadataQueryReader.
+‰æ‘œƒtƒH[ƒ}ƒbƒg‚ªƒRƒ“ƒeƒiƒŒƒxƒ‹‚Ìƒƒ^ƒf[ƒ^‚ğƒTƒ|[ƒg‚µ‚È‚¢ê‡A‚±‚ê‚Í
+WINCODEC_ERR_UNSUPPORTEDOPERATION ‚ğ•Ô‚·BƒRƒ“ƒeƒiƒŒƒxƒ‹‚Ìƒƒ^ƒf[ƒ^‚ğƒTƒ|[ƒg‚·‚é Windows
+’ñ‹Ÿ‚Ì‰æ‘œƒtƒH[ƒ}ƒbƒg‚Í GIF ‚Ì‚İ‚Å‚ ‚éB‘ã‚í‚è‚É
+IWICBitmapFrameDecode::GetMetadataQueryReader ‚ğg—p‚·‚é‚±‚ÆB
 
 
 %index
 IWICBitmapDecoder_GetPreview
-Retrieves a preview image, if supported.
+ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éê‡AƒvƒŒƒrƒ…[‰æ‘œ‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapDecoder
 %prm
 this, ppIBitmapSource
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIBitmapSource : [comobj] Type: IWICBitmapSource** Receives a pointer to the preview bitmap if supported.
+ppIBitmapSource : [comobj] Œ^: IWICBitmapSource** ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éê‡AƒvƒŒƒrƒ…[ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éB
 %inst
-Retrieves a preview image, if supported.
+ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éê‡AƒvƒŒƒrƒ…[‰æ‘œ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Not all formats support previews. Only the native Microsoft Windows
-Digital Photo (WDP) codec support previews.
+‚·‚×‚Ä‚ÌƒtƒH[ƒ}ƒbƒg‚ªƒvƒŒƒrƒ…[‚ğƒTƒ|[ƒg‚·‚é‚í‚¯‚Å‚Í‚È‚¢BƒvƒŒƒrƒ…[‚ğƒTƒ|[ƒg‚·‚é‚Ì‚ÍƒlƒCƒeƒBƒu‚Ì Microsoft Windows
+Digital Photo (WDP) ƒR[ƒfƒbƒN‚Ì‚İ‚Å‚ ‚éB
 
 
 %index
 IWICBitmapDecoder_GetColorContexts
-Retrieves the IWICColorContext objects of the image.
+‰æ‘œ‚Ì IWICColorContext ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapDecoder
 %prm
 this, cCount, ppIColorContexts, pcActualCount
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cCount : [int] Type: UINT The number of color contexts to retrieve. This value must be the size of, or smaller than, the size available to ppIColorContexts.
-ppIColorContexts : [comobj] Type: IWICColorContext** A pointer that receives a pointer to the IWICColorContext.
-pcActualCount : [int] Type: UINT* A pointer that receives the number of color contexts contained in the image.
+cCount : [int] Œ^: UINT æ“¾‚·‚éƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚Ì”B‚±‚Ì’l‚Í ppIColorContexts ‚É—˜—p‰Â”\‚ÈƒTƒCƒY‚Æ“¯‚¶‚©A‚»‚ê‚æ‚è¬‚³‚­‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppIColorContexts : [comobj] Œ^: IWICColorContext** IWICColorContext ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pcActualCount : [int] Œ^: UINT* ‰æ‘œ‚ÉŠÜ‚Ü‚ê‚éƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚Ì”‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the IWICColorContext objects of the image.
+‰æ‘œ‚Ì IWICColorContext ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoder_GetThumbnail
-Retrieves a bitmap thumbnail of the image, if one exists
+‘¶İ‚·‚éê‡A‰æ‘œ‚Ìƒrƒbƒgƒ}ƒbƒvƒTƒ€ƒlƒCƒ‹‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapDecoder
 %prm
 this, ppIThumbnail
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIThumbnail : [comobj] Type: IWICBitmapSource** Receives a pointer to the IWICBitmapSource of the thumbnail.
+ppIThumbnail : [comobj] Œ^: IWICBitmapSource** ƒTƒ€ƒlƒCƒ‹‚Ì IWICBitmapSource ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éB
 %inst
-Retrieves a bitmap thumbnail of the image, if one exists
+‘¶İ‚·‚éê‡A‰æ‘œ‚Ìƒrƒbƒgƒ}ƒbƒvƒTƒ€ƒlƒCƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The returned thumbnail can be of any size, so the caller should scale
-the thumbnail to the desired size. The only Windows provided image
-formats that support thumbnails are JPEG, TIFF, and JPEG-XR. If the
-thumbnail is not available, this will return
-WINCODEC_ERR_CODECNOTHUMBNAIL.
+•Ô‚³‚ê‚éƒTƒ€ƒlƒCƒ‹‚Í”CˆÓ‚ÌƒTƒCƒY‚É‚È‚è“¾‚é‚½‚ßAŒÄ‚Ño‚µ‘¤‚ÍƒTƒ€ƒlƒCƒ‹‚ğŠó–]‚ÌƒTƒCƒY‚ÉƒXƒP[ƒŠƒ“ƒO‚·‚é•K—v‚ª‚ ‚éBƒTƒ€ƒlƒCƒ‹‚ğƒTƒ|[ƒg‚·‚é
+Windows ’ñ‹Ÿ‚Ì‰æ‘œƒtƒH[ƒ}ƒbƒg‚Í JPEGATIFFAJPEG-XR ‚Ì‚İ‚Å‚ ‚éBƒTƒ€ƒlƒCƒ‹‚ª—˜—p‚Å‚«‚È‚¢ê‡A‚±‚ê‚Í
+WINCODEC_ERR_CODECNOTHUMBNAIL ‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoder_GetFrameCount
-Retrieves the total number of frames in the image.
+‰æ‘œ“à‚ÌƒtƒŒ[ƒ€‚Ì‘”‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapDecoder
 %prm
 this, pCount
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pCount : [int] Type: UINT* A pointer that receives the total number of frames in the image.
+pCount : [int] Œ^: UINT* ‰æ‘œ“à‚ÌƒtƒŒ[ƒ€‚Ì‘”‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the total number of frames in the image.
+‰æ‘œ“à‚ÌƒtƒŒ[ƒ€‚Ì‘”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoder_GetFrame
-Retrieves the specified frame of the image.
+‰æ‘œ‚Ìw’è‚³‚ê‚½ƒtƒŒ[ƒ€‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapDecoder
 %prm
 this, index, ppIBitmapFrame
 this : [comobj] IWICBitmapDecoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-index : [int] Type: UINT The particular frame to retrieve.
-ppIBitmapFrame : [comobj] Type: IWICBitmapFrameDecode** A pointer that receives a pointer to the IWICBitmapFrameDecode.
+index : [int] Œ^: UINT æ“¾‚·‚é“Á’è‚ÌƒtƒŒ[ƒ€B
+ppIBitmapFrame : [comobj] Œ^: IWICBitmapFrameDecode** IWICBitmapFrameDecode ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the specified frame of the image.
+‰æ‘œ‚Ìw’è‚³‚ê‚½ƒtƒŒ[ƒ€‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -20038,284 +18833,253 @@ pfMatches : [var]
 
 %index
 IWICBitmapDecoderInfo_GetPatterns
-Retrieves the file pattern signatures supported by the decoder.
+ƒfƒR[ƒ_‚ªƒTƒ|[ƒg‚·‚éƒtƒ@ƒCƒ‹ƒpƒ^[ƒ“ƒVƒOƒlƒ`ƒƒ‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapDecoderInfo
 %prm
 this, cbSizePatterns, pPatterns, pcPatterns, pcbPatternsActual
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cbSizePatterns : [int] Type: UINT The array size of the pPatterns array.
-pPatterns : [var] Type: WICBitmapPattern* Receives a list of WICBitmapPattern objects supported by the decoder.
-pcPatterns : [var] Type: UINT* Receives the number of patterns the decoder supports.
-pcbPatternsActual : [int] Type: UINT* Receives the actual buffer size needed to retrieve all pattern signatures supported by the decoder.
+cbSizePatterns : [int] Œ^: UINT pPatterns ”z—ñ‚Ì”z—ñƒTƒCƒYB
+pPatterns : [var] Œ^: WICBitmapPattern* ƒfƒR[ƒ_‚ªƒTƒ|[ƒg‚·‚é WICBitmapPattern ƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg‚ğó‚¯æ‚éB
+pcPatterns : [var] Œ^: UINT* ƒfƒR[ƒ_‚ªƒTƒ|[ƒg‚·‚éƒpƒ^[ƒ“”‚ğó‚¯æ‚éB
+pcbPatternsActual : [int] Œ^: UINT* ƒfƒR[ƒ_‚ªƒTƒ|[ƒg‚·‚é‚·‚×‚Ä‚Ìƒpƒ^[ƒ“ƒVƒOƒlƒ`ƒƒ‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒY‚ğó‚¯æ‚éB
 %inst
-Retrieves the file pattern signatures supported by the decoder.
+ƒfƒR[ƒ_‚ªƒTƒ|[ƒg‚·‚éƒtƒ@ƒCƒ‹ƒpƒ^[ƒ“ƒVƒOƒlƒ`ƒƒ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-To retrieve all pattern signatures, this method should first be
-called with pPatterns set to NULL to retrieve the actual buffer size
-needed through pcbPatternsActual. Once the needed buffer size is
-known, allocate a buffer of the needed size and call GetPatterns
-again with the allocated buffer.
+‚·‚×‚Ä‚Ìƒpƒ^[ƒ“ƒVƒOƒlƒ`ƒƒ‚ğæ“¾‚·‚é‚É‚ÍA‚Ü‚¸ pPatterns ‚ğ NULL
+‚Éİ’è‚µ‚Ä‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µA•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒY‚ğ pcbPatternsActual
+‚©‚çæ“¾‚·‚éB•K—v‚ÈƒTƒCƒY‚ª•ª‚©‚Á‚½‚çA‚»‚ÌƒTƒCƒY‚Ìƒoƒbƒtƒ@‚ğŠm•Û‚µAŠm•Û‚µ‚½ƒoƒbƒtƒ@‚ğg‚Á‚Ä GetPatterns ‚ğÄ“xŒÄ‚Ño‚·B
 
 
 %index
 IWICBitmapDecoderInfo_MatchesPattern
-Retrieves a value that indicates whether the codec recognizes the pattern within a specified stream.
+ƒR[ƒfƒbƒN‚ªw’è‚µ‚½ƒXƒgƒŠ[ƒ€“à‚Ìƒpƒ^[ƒ“‚ğ”F¯‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapDecoderInfo
 %prm
 this, pIStream, pfMatches
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIStream : [comobj] Type: IStream* The stream to pattern match within.
-pfMatches : [var] Type: BOOL* A pointer that receives TRUE if the patterns match; otherwise, FALSE.
+pIStream : [comobj] Œ^: IStream* ƒpƒ^[ƒ“ƒ}ƒbƒ`‚ğs‚¤ƒXƒgƒŠ[ƒ€B
+pfMatches : [var] Œ^: BOOL* ƒpƒ^[ƒ“‚ªˆê’v‚·‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves a value that indicates whether the codec recognizes the
-pattern within a specified stream.
+ƒR[ƒfƒbƒN‚ªw’è‚µ‚½ƒXƒgƒŠ[ƒ€“à‚Ìƒpƒ^[ƒ“‚ğ”F¯‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapDecoderInfo_CreateInstance
-Creates a new IWICBitmapDecoder instance.
+IWICBitmapDecoder ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICBitmapDecoderInfo
 %prm
 this, ppIBitmapDecoder
 this : [comobj] IWICBitmapDecoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIBitmapDecoder : [comobj] Type: IWICBitmapDecoder** A pointer that receives a pointer to a new instance of the IWICBitmapDecoder.
+ppIBitmapDecoder : [comobj] Œ^: IWICBitmapDecoder** IWICBitmapDecoder ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates a new IWICBitmapDecoder instance.
+IWICBitmapDecoder ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoder_Initialize
-Initializes the encoder with an IStream which tells the encoder where to encode the bits.
+ƒrƒbƒg‚ğ‚Ç‚±‚ÖƒGƒ“ƒR[ƒh‚·‚é‚©‚ğƒGƒ“ƒR[ƒ_‚É“`‚¦‚é IStream ‚ÅƒGƒ“ƒR[ƒ_‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICBitmapEncoder
 %prm
 this, pIStream, cacheOption
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIStream : [comobj] Type: IStream* The output stream.
-cacheOption : [int] Type: WICBitmapEncoderCacheOption The WICBitmapEncoderCacheOption used on initialization.
+pIStream : [comobj] Œ^: IStream* o—ÍƒXƒgƒŠ[ƒ€B
+cacheOption : [int] Œ^: WICBitmapEncoderCacheOption ‰Šú‰»‚Ég—p‚·‚é WICBitmapEncoderCacheOptionB
 %inst
-Initializes the encoder with an IStream which tells the encoder where
-to encode the bits.
+ƒrƒbƒg‚ğ‚Ç‚±‚ÖƒGƒ“ƒR[ƒh‚·‚é‚©‚ğƒGƒ“ƒR[ƒ_‚É“`‚¦‚é IStream ‚ÅƒGƒ“ƒR[ƒ_‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoder_GetContainerFormat
-Retrieves the encoder's container format.
+ƒGƒ“ƒR[ƒ_‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapEncoder
 %prm
 this, pguidContainerFormat
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pguidContainerFormat : [var] Type: GUID* A pointer that receives the encoder's container format GUID.
+pguidContainerFormat : [var] Œ^: GUID* ƒGƒ“ƒR[ƒ_‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the encoder's container format.
+ƒGƒ“ƒR[ƒ_‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoder_GetEncoderInfo
-Retrieves an IWICBitmapEncoderInfo for the encoder.
+ƒGƒ“ƒR[ƒ_‚Ì IWICBitmapEncoderInfo ‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapEncoder
 %prm
 this, ppIEncoderInfo
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIEncoderInfo : [comobj] Type: IWICBitmapEncoderInfo** A pointer that receives a pointer to an IWICBitmapEncoderInfo.
+ppIEncoderInfo : [comobj] Œ^: IWICBitmapEncoderInfo** IWICBitmapEncoderInfo ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves an IWICBitmapEncoderInfo for the encoder.
+ƒGƒ“ƒR[ƒ_‚Ì IWICBitmapEncoderInfo ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoder_SetColorContexts
-Sets the IWICColorContext objects for the encoder.
+ƒGƒ“ƒR[ƒ_‚É IWICColorContext ƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚éB
 %group
 COM misc / IWICBitmapEncoder
 %prm
 this, cCount, ppIColorContext
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cCount : [int] Type: UINT The number of IWICColorContext to set.
-ppIColorContext : [comobj] Type: IWICColorContext** A pointer an IWICColorContext pointer containing the color contexts to set for the encoder.
+cCount : [int] Œ^: UINT İ’è‚·‚é IWICColorContext ‚Ì”B
+ppIColorContext : [comobj] Œ^: IWICColorContext** ƒGƒ“ƒR[ƒ_‚Éİ’è‚·‚éƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğ•Û‚·‚é IWICColorContext ƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Sets the IWICColorContext objects for the encoder.
+ƒGƒ“ƒR[ƒ_‚É IWICColorContext ƒIƒuƒWƒFƒNƒg‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoder_SetPalette
-Sets the global palette for the image.
+‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğİ’è‚·‚éB
 %group
 COM misc / IWICBitmapEncoder
 %prm
 this, pIPalette
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIPalette : [comobj] Type: IWICPalette* The IWICPalette to use as the global palette.
+pIPalette : [comobj] Œ^: IWICPalette* ƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚Æ‚µ‚Äg—p‚·‚é IWICPaletteB
 %inst
-Sets the global palette for the image.
+‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise.
-Returns WINCODEC_ERR_UNSUPPORTEDOPERATION if the feature is not
-supported by the encoder.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[’l‚ğ•Ô‚·B
+ƒGƒ“ƒR[ƒ_‚ª‚±‚Ì‹@”\‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡‚Í WINCODEC_ERR_UNSUPPORTEDOPERATION ‚ğ•Ô‚·B
 
 [”õl]
-Only GIF images support an optional global palette, and you must set
-the global palette before adding any frames to the image. You only
-need to set the palette for indexed pixel formats.
+ƒIƒvƒVƒ‡ƒ“‚ÌƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğƒTƒ|[ƒg‚·‚é‚Ì‚Í GIF
+‰æ‘œ‚Ì‚İ‚Å‚ ‚èA‰æ‘œ‚ÉƒtƒŒ[ƒ€‚ğ’Ç‰Á‚·‚é‘O‚ÉƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğİ’è‚·‚é•K—v‚ª‚ ‚éBƒpƒŒƒbƒg‚ğİ’è‚·‚é•K—v‚ª‚ ‚é‚Ì‚ÍƒCƒ“ƒfƒbƒNƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ìê‡‚Ì‚İ‚Å‚ ‚éB
 
 
 %index
 IWICBitmapEncoder_SetThumbnail
-Sets the global thumbnail for the image.
+‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒTƒ€ƒlƒCƒ‹‚ğİ’è‚·‚éB
 %group
 COM misc / IWICBitmapEncoder
 %prm
 this, pIThumbnail
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIThumbnail : [comobj] Type: IWICBitmapSource* The IWICBitmapSource to set as the global thumbnail.
+pIThumbnail : [comobj] Œ^: IWICBitmapSource* ƒOƒ[ƒoƒ‹ƒTƒ€ƒlƒCƒ‹‚Æ‚µ‚Äİ’è‚·‚é IWICBitmapSourceB
 %inst
-Sets the global thumbnail for the image.
+‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒTƒ€ƒlƒCƒ‹‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise.
-Returns WINCODEC_ERR_UNSUPPORTEDOPERATION if the feature is not
-supported by the encoder.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[’l‚ğ•Ô‚·B
+ƒGƒ“ƒR[ƒ_‚ª‚±‚Ì‹@”\‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡‚Í WINCODEC_ERR_UNSUPPORTEDOPERATION ‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoder_SetPreview
-Sets the global preview for the image.
+‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒvƒŒƒrƒ…[‚ğİ’è‚·‚éB
 %group
 COM misc / IWICBitmapEncoder
 %prm
 this, pIPreview
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIPreview : [comobj] Type: IWICBitmapSource* The IWICBitmapSource to use as the global preview.
+pIPreview : [comobj] Œ^: IWICBitmapSource* ƒOƒ[ƒoƒ‹ƒvƒŒƒrƒ…[‚Æ‚µ‚Äg—p‚·‚é IWICBitmapSourceB
 %inst
-Sets the global preview for the image.
+‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒvƒŒƒrƒ…[‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise.
-Returns WINCODEC_ERR_UNSUPPORTEDOPERATION if the feature is not
-supported by the encoder.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[’l‚ğ•Ô‚·B
+ƒGƒ“ƒR[ƒ_‚ª‚±‚Ì‹@”\‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚È‚¢ê‡‚Í WINCODEC_ERR_UNSUPPORTEDOPERATION ‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapEncoder_CreateNewFrame
-Creates a new IWICBitmapFrameEncode instance.
+V‚µ‚¢ IWICBitmapFrameEncode ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
 %group
 COM misc / IWICBitmapEncoder
 %prm
 this, ppIFrameEncode, ppIEncoderOptions
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIFrameEncode : [comobj] Type: IWICBitmapFrameEncode** A pointer that receives a pointer to the new instance of an IWICBitmapFrameEncode.
-ppIEncoderOptions : [comobj] Type: IPropertyBag2** Optional. Receives the named properties to use for subsequent frame initialization. See Remarks.
+ppIFrameEncode : [comobj] Œ^: IWICBitmapFrameEncode** V‚µ‚¢ IWICBitmapFrameEncode ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+ppIEncoderOptions : [comobj] Œ^: IPropertyBag2** ƒIƒvƒVƒ‡ƒ“BŒã‘±‚ÌƒtƒŒ[ƒ€‰Šú‰»‚Åg—p‚·‚é–¼‘O•t‚«ƒvƒƒpƒeƒB‚ğó‚¯æ‚éBRemarks ‚ğQÆB
 %inst
-Creates a new IWICBitmapFrameEncode instance.
+V‚µ‚¢ IWICBitmapFrameEncode ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The parameter ppIEncoderOptions can be used to receive an
-IPropertyBag2 that can then be used to specify encoder options. This
-is done by passing a pointer to a NULL IPropertyBag2 pointer in
-ppIEncoderOptions. The returned IPropertyBag2 is initialized with all
-encoder options that are available for the given format, at their
-default values. To specify non-default encoding behavior, set the
-needed encoder options on the IPropertyBag2 and pass it to
-IWICBitmapFrameEncode::Initialize. Note Do not pass in a pointer to
-an initialized IPropertyBag2. The pointer will be overwritten, and
-the original IPropertyBag2 will not be freed. Otherwise, you can pass
-NULL in ppIEncoderOptions if you do not intend to specify encoder
-options. See Encoding Overview for an example of how to set encoder
-options. For formats that support encoding multiple frames (for
-example, TIFF, JPEG-XR), you can work on only one frame at a time.
-This means that you must call IWICBitmapFrameEncode::Commit before
-you call CreateNewFrame again.
+ppIEncoderOptions ƒpƒ‰ƒ[ƒ^‚ÍAƒGƒ“ƒR[ƒ_ƒIƒvƒVƒ‡ƒ“‚ğw’è‚·‚é‚½‚ß‚Ég—p‚Å‚«‚é IPropertyBag2
+‚ğó‚¯æ‚é‚Ì‚Ég‚¦‚éB‚±‚ê‚Í ppIEncoderOptions ‚É NULL ‚Ì IPropertyBag2
+ƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚·‚±‚Æ‚Ås‚¤B•Ô‚³‚ê‚é IPropertyBag2
+‚ÍAw’èƒtƒH[ƒ}ƒbƒg‚Å—˜—p‰Â”\‚È‚·‚×‚Ä‚ÌƒGƒ“ƒR[ƒ_ƒIƒvƒVƒ‡ƒ“‚ªŠù’è’l‚Å‰Šú‰»‚³‚ê‚Ä‚¢‚éBŠù’èˆÈŠO‚ÌƒGƒ“ƒR[ƒfƒBƒ“ƒO“®ì‚ğw’è‚·‚é‚É‚ÍA•K—v‚ÈƒGƒ“ƒR[ƒ_ƒIƒvƒVƒ‡ƒ“‚ğ
+IPropertyBag2 ‚Éİ’è‚µ‚Ä IWICBitmapFrameEncode::Initialize ‚É“n‚·B’: ‰Šú‰»Ï‚İ‚Ì
+IPropertyBag2 ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ“n‚µ‚Ä‚Í‚È‚ç‚È‚¢Bƒ|ƒCƒ“ƒ^‚Íã‘‚«‚³‚êAŒ³‚Ì IPropertyBag2 ‚Í‰ğ•ú‚³‚ê‚È‚¢B
+ƒGƒ“ƒR[ƒ_ƒIƒvƒVƒ‡ƒ“‚ğw’è‚µ‚È‚¢‚Ì‚Å‚ ‚ê‚ÎAppIEncoderOptions ‚É NULL
+‚ğ“n‚µ‚Ä‚à‚æ‚¢BƒGƒ“ƒR[ƒ_ƒIƒvƒVƒ‡ƒ“‚Ìİ’è—á‚Í Encoding Overview
+‚ğQÆB•¡”ƒtƒŒ[ƒ€‚ÌƒGƒ“ƒR[ƒh‚ğƒTƒ|[ƒg‚·‚éƒtƒH[ƒ}ƒbƒg (—á‚¦‚Î TIFFAJPEG-XR) ‚Å‚ÍAˆê“x‚É 1
+ƒtƒŒ[ƒ€‚µ‚©ˆµ‚¦‚È‚¢B‚Â‚Ü‚è CreateNewFrame ‚ğÄ“xŒÄ‚Ô‘O‚É IWICBitmapFrameEncode::Commit
+‚ğŒÄ‚Ô•K—v‚ª‚ ‚éB
 
 
 %index
 IWICBitmapEncoder_Commit
-Commits all changes for the image and closes the stream.
+‰æ‘œ‚É‘Î‚·‚é‚·‚×‚Ä‚Ì•ÏX‚ğƒRƒ~ƒbƒg‚µ‚ÄƒXƒgƒŠ[ƒ€‚ğ•Â‚¶‚éB
 %group
 COM misc / IWICBitmapEncoder
 %prm
 this
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Commits all changes for the image and closes the stream.
+‰æ‘œ‚É‘Î‚·‚é‚·‚×‚Ä‚Ì•ÏX‚ğƒRƒ~ƒbƒg‚µ‚ÄƒXƒgƒŠ[ƒ€‚ğ•Â‚¶‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-To finalize an image, both the frame Commit and the encoder Commit
-must be called. However, only call the encoder Commit method after
-all frames have been committed. After the encoder has been committed,
-it can't be re-initialized or reused with another stream. A new
-encoder interface must be created, for example, with
-IWICImagingFactory::CreateEncoder.
-For the encoder Commit to succeed, you must at a minimum call
-IWICBitmapEncoder::Initialize and either
-IWICBitmapFrameEncode::WriteSource or
-IWICBitmapFrameEncode::WritePixels.
-IWICBitmapFrameEncode::WriteSource specifies all parameters needed to
-encode the image data. IWICBitmapFrameEncode::WritePixels requires
-that you also call IWICBitmapFrameEncode::SetSize,
-IWICBitmapFrameEncode::SetPixelFormat, and
-IWICBitmapFrameEncode::SetPalette (if the pixel format is indexed).
+‰æ‘œ‚ğŠm’è‚·‚é‚É‚ÍAƒtƒŒ[ƒ€‚Ì Commit ‚ÆƒGƒ“ƒR[ƒ_‚Ì Commit ‚Ì—¼•û‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB‚½‚¾‚µƒGƒ“ƒR[ƒ_‚Ì Commit
+ƒƒ\ƒbƒh‚Í‚·‚×‚Ä‚ÌƒtƒŒ[ƒ€‚ªƒRƒ~ƒbƒg‚³‚ê‚½Œã‚É‚Ì‚İŒÄ‚Ño‚·‚±‚ÆBƒGƒ“ƒR[ƒ_‚ªƒRƒ~ƒbƒg‚³‚ê‚½Œã‚ÍAÄ‰Šú‰»‚µ‚½‚è•Ê‚ÌƒXƒgƒŠ[ƒ€‚ÅÄ—˜—p‚µ‚½‚è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B‚½‚Æ‚¦‚Î
+IWICImagingFactory::CreateEncoder ‚È‚Ç‚ÅV‚µ‚¢ƒGƒ“ƒR[ƒ_ƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ¶¬‚·‚é•K—v‚ª‚ ‚éB
+ƒGƒ“ƒR[ƒ_‚Ì Commit ‚ª¬Œ÷‚·‚é‚½‚ß‚É‚ÍA­‚È‚­‚Æ‚à IWICBitmapEncoder::Initialize ‚ğŒÄ‚ÑA‚³‚ç‚É
+IWICBitmapFrameEncode::WriteSource ‚©
+IWICBitmapFrameEncode::WritePixels ‚Ì‚¢‚¸‚ê‚©‚ğŒÄ‚Î‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+IWICBitmapFrameEncode::WriteSource
+‚Í‰æ‘œƒf[ƒ^‚ÌƒGƒ“ƒR[ƒh‚É•K—v‚È‚·‚×‚Ä‚Ìƒpƒ‰ƒ[ƒ^‚ğw’è‚·‚éBIWICBitmapFrameEncode::WritePixels
+‚ğg—p‚·‚éê‡‚ÍAIWICBitmapFrameEncode::SetSizeAIWICBitmapFrameEncode::SetPixelFormatA‚¨‚æ‚Ñ
+(ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªƒCƒ“ƒfƒbƒNƒX‚Ìê‡) IWICBitmapFrameEncode::SetPalette ‚àŒÄ‚Ño‚·•K—v‚ª‚ ‚éB
 
 
 %index
 IWICBitmapEncoder_GetMetadataQueryWriter
-Retrieves a metadata query writer for the encoder.
+ƒGƒ“ƒR[ƒ_—p‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒ‰ƒCƒ^‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapEncoder
 %prm
 this, ppIMetadataQueryWriter
 this : [comobj] IWICBitmapEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIMetadataQueryWriter : [comobj] Type: IWICMetadataQueryWriter** When this method returns, contains a pointer to the encoder's metadata query writer.
+ppIMetadataQueryWriter : [comobj] Œ^: IWICMetadataQueryWriter** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒGƒ“ƒR[ƒ_‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒ‰ƒCƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Retrieves a metadata query writer for the encoder.
+ƒGƒ“ƒR[ƒ_—p‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒ‰ƒCƒ^‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -20581,19 +19345,18 @@ pfMatches : [var]
 
 %index
 IWICBitmapEncoderInfo_CreateInstance
-Creates a new IWICBitmapEncoder instance.
+V‚µ‚¢ IWICBitmapEncoder ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICBitmapEncoderInfo
 %prm
 this, ppIBitmapEncoder
 this : [comobj] IWICBitmapEncoderInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIBitmapEncoder : [comobj] Type: IWICBitmapEncoder** A pointer that receives a pointer to a new IWICBitmapEncoder instance.
+ppIBitmapEncoder : [comobj] Œ^: IWICBitmapEncoder** V‚µ‚¢ IWICBitmapEncoder ƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates a new IWICBitmapEncoder instance.
+V‚µ‚¢ IWICBitmapEncoder ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -20663,20 +19426,19 @@ pbBuffer : [int]
 
 %index
 IWICBitmapFlipRotator_Initialize
-Initializes the bitmap flip rotator with the provided parameters.
+w’è‚µ‚½ƒpƒ‰ƒ[ƒ^‚Åƒrƒbƒgƒ}ƒbƒv”½“]‰ñ“]ˆ—‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICBitmapFlipRotator
 %prm
 this, pISource, options
 this : [comobj] IWICBitmapFlipRotator ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pISource : [comobj] Type: IWICBitmapSource* The input bitmap source.
-options : [int] Type: WICBitmapTransformOptions The WICBitmapTransformOptions to flip or rotate the image.
+pISource : [comobj] Œ^: IWICBitmapSource* “ü—Í‚Æ‚È‚éƒrƒbƒgƒ}ƒbƒvƒ\[ƒXB
+options : [int] Œ^: WICBitmapTransformOptions ‰æ‘œ‚ğ”½“]‚Ü‚½‚Í‰ñ“]‚³‚¹‚é‚½‚ß‚Ì WICBitmapTransformOptionsB
 %inst
-Initializes the bitmap flip rotator with the provided parameters.
+w’è‚µ‚½ƒpƒ‰ƒ[ƒ^‚Åƒrƒbƒgƒ}ƒbƒv”½“]‰ñ“]ˆ—‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -20746,439 +19508,397 @@ pbBuffer : [int]
 
 %index
 IWICBitmapFrameDecode_GetMetadataQueryReader
-Retrieves a metadata query reader for the frame.
+ƒtƒŒ[ƒ€‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒŠ[ƒ_[‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapFrameDecode
 %prm
 this, ppIMetadataQueryReader
 this : [comobj] IWICBitmapFrameDecode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIMetadataQueryReader : [comobj] Type: IWICMetadataQueryReader** When this method returns, contains a pointer to the frame's metadata query reader.
+ppIMetadataQueryReader : [comobj] Œ^: IWICMetadataQueryReader** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«AƒtƒŒ[ƒ€‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒŠ[ƒ_[‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Retrieves a metadata query reader for the frame.
+ƒtƒŒ[ƒ€‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒŠ[ƒ_[‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-For image formats with one frame (JPG, PNG, JPEG-XR), the frame-level
-query reader of the first frame is used to access all image metadata,
-and the decoder-level query reader isnft used. For formats with more
-than one frame (GIF, TIFF), the frame-level query reader for a given
-frame is used to access metadata specific to that frame, and in the
-case of GIF a decoder-level metadata reader will be present. If the
-decoder doesnft support metadata (BMP, ICO), this will return
-WINCODEC_ERR_UNSUPPORTEDOPERATION.
+1 ƒtƒŒ[ƒ€‚Ì‚İ‚ğ‚Â‰æ‘œƒtƒH[ƒ}ƒbƒg (JPGAPNGAJPEG-XR)
+‚Å‚ÍAÅ‰‚ÌƒtƒŒ[ƒ€‚ÌƒtƒŒ[ƒ€ƒŒƒxƒ‹ƒNƒGƒŠƒŠ[ƒ_[‚ª‚·‚×‚Ä‚Ì‰æ‘œƒƒ^ƒf[ƒ^‚Ö‚ÌƒAƒNƒZƒX‚Ég—p‚³‚êAƒfƒR[ƒ_ƒŒƒxƒ‹‚ÌƒNƒGƒŠƒŠ[ƒ_[‚Íg—p‚³‚ê‚È‚¢B•¡”ƒtƒŒ[ƒ€‚ğ‚ÂƒtƒH[ƒ}ƒbƒg
+(GIFATIFF) ‚Å‚ÍA“Á’èƒtƒŒ[ƒ€‚ÉŒÅ—L‚Ìƒƒ^ƒf[ƒ^‚Ö‚ÌƒAƒNƒZƒX‚ÉA‚»‚ÌƒtƒŒ[ƒ€‚ÌƒtƒŒ[ƒ€ƒŒƒxƒ‹ƒNƒGƒŠƒŠ[ƒ_[‚ªg—p‚³‚ê‚éBGIF
+‚Ìê‡‚ÍƒfƒR[ƒ_ƒŒƒxƒ‹‚Ìƒƒ^ƒf[ƒ^ƒŠ[ƒ_[‚à‘¶İ‚·‚éBƒfƒR[ƒ_‚ªƒƒ^ƒf[ƒ^‚ğƒTƒ|[ƒg‚µ‚È‚¢ê‡ (BMPAICO)A‚±‚ê‚Í
+WINCODEC_ERR_UNSUPPORTEDOPERATION ‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapFrameDecode_GetColorContexts
-Retrieves the IWICColorContext associated with the image frame.
+‰æ‘œƒtƒŒ[ƒ€‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ IWICColorContext ‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapFrameDecode
 %prm
 this, cCount, ppIColorContexts, pcActualCount
 this : [comobj] IWICBitmapFrameDecode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cCount : [int] Type: UINT The number of color contexts to retrieve. This value must be the size of, or smaller than, the size available to ppIColorContexts.
-ppIColorContexts : [comobj] Type: IWICColorContext** A pointer that receives a pointer to the IWICColorContext objects.
-pcActualCount : [int] Type: UINT* A pointer that receives the number of color contexts contained in the image frame.
+cCount : [int] Œ^: UINT æ“¾‚·‚éƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚Ì”B‚±‚Ì’l‚Í ppIColorContexts ‚ÉŠm•Û‚³‚ê‚½ƒTƒCƒYˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+ppIColorContexts : [comobj] Œ^: IWICColorContext** IWICColorContext ƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pcActualCount : [int] Œ^: UINT* ‰æ‘œƒtƒŒ[ƒ€‚ÉŠÜ‚Ü‚ê‚éƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚Ì”‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the IWICColorContext associated with the image frame.
+‰æ‘œƒtƒŒ[ƒ€‚ÉŠÖ˜A•t‚¯‚ç‚ê‚½ IWICColorContext ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If NULL is passed for ppIColorContexts, and 0 is passed for cCount,
-this method will return the total number of color contexts in the
-image in pcActualCount.
-The ppIColorContexts array must be filled with valid data: each
-IWICColorContext* in the array must have been created using
-IWICImagingFactory::CreateColorContext.
+ppIColorContexts ‚É NULL ‚ğAcCount ‚É 0 ‚ğ“n‚·‚ÆA‚±‚Ìƒƒ\ƒbƒh‚Í‰æ‘œ“à‚ÌƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚Ì‘”‚ğ
+pcActualCount ‚É•Ô‚·B
+ppIColorContexts ”z—ñ‚Í—LŒø‚Èƒf[ƒ^‚Å–‚½‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B”z—ñ“à‚ÌŠe IWICColorContext* ‚Í
+IWICImagingFactory::CreateColorContext ‚Åì¬‚³‚ê‚½‚à‚Ì‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 IWICBitmapFrameDecode_GetThumbnail
-Retrieves a small preview of the frame, if supported by the codec.
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚µ‚Ä‚¢‚éê‡AƒtƒŒ[ƒ€‚Ì¬‚³‚ÈƒvƒŒƒrƒ…[‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapFrameDecode
 %prm
 this, ppIThumbnail
 this : [comobj] IWICBitmapFrameDecode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIThumbnail : [comobj] Type: IWICBitmapSource** A pointer that receives a pointer to the IWICBitmapSource of the thumbnail.
+ppIThumbnail : [comobj] Œ^: IWICBitmapSource** ƒTƒ€ƒlƒCƒ‹‚Ì IWICBitmapSource ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves a small preview of the frame, if supported by the codec.
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚µ‚Ä‚¢‚éê‡AƒtƒŒ[ƒ€‚Ì¬‚³‚ÈƒvƒŒƒrƒ…[‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Not all formats support thumbnails. Joint Photographic Experts Group
-(JPEG), Tagged Image File Format (TIFF), and Microsoft Windows
-Digital Photo (WDP) support thumbnails. Note to Implementers If the
-codec does not support thumbnails, return
-WINCODEC_ERROR_CODECNOTHUMBNAIL rather than E_NOTIMPL.
+‚·‚×‚Ä‚ÌƒtƒH[ƒ}ƒbƒg‚ªƒTƒ€ƒlƒCƒ‹‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚é‚í‚¯‚Å‚Í‚È‚¢BJoint Photographic Experts Group
+(JPEG)ATagged Image File Format (TIFF)A‚¨‚æ‚Ñ Microsoft Windows Digital
+Photo (WDP) ‚ÍƒTƒ€ƒlƒCƒ‹‚ğƒTƒ|[ƒg‚·‚éBÀ‘•Ò‚Ö‚Ì’ˆÓ ƒR[ƒfƒbƒN‚ªƒTƒ€ƒlƒCƒ‹‚ğƒTƒ|[ƒg‚µ‚È‚¢ê‡‚Í E_NOTIMPL
+‚Å‚Í‚È‚­ WINCODEC_ERROR_CODECNOTHUMBNAIL ‚ğ•Ô‚·‚±‚ÆB
 
 
 %index
 IWICBitmapFrameEncode_Initialize
-Initializes the frame encoder using the given properties.
+w’è‚³‚ê‚½ƒvƒƒpƒeƒB‚ğg—p‚µ‚ÄƒtƒŒ[ƒ€ƒGƒ“ƒR[ƒ_‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICBitmapFrameEncode
 %prm
 this, pIEncoderOptions
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIEncoderOptions : [comobj] Type: IPropertyBag2* The set of properties to use for IWICBitmapFrameEncode initialization.
+pIEncoderOptions : [comobj] Œ^: IPropertyBag2* IWICBitmapFrameEncode ‚Ì‰Šú‰»‚Ég—p‚·‚éƒvƒƒpƒeƒB‚ÌƒZƒbƒgB
 %inst
-Initializes the frame encoder using the given properties.
+w’è‚³‚ê‚½ƒvƒƒpƒeƒB‚ğg—p‚µ‚ÄƒtƒŒ[ƒ€ƒGƒ“ƒR[ƒ_‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If you don't want any encoding options, pass NULL for
-pIEncoderOptions. Otherwise, pass the IPropertyBag2 that was provided
-by IWICBitmapEncoder::CreateNewFrame with updated values.
-For a complete list of encoding options supported by the
-Windows-provided codecs, see Native WIC Codecs.
+ƒGƒ“ƒR[ƒfƒBƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ª•s—v‚Èê‡‚ÍApIEncoderOptions ‚É NULL
+‚ğ“n‚·B‚»‚êˆÈŠO‚Ìê‡‚ÍAIWICBitmapEncoder::CreateNewFrame ‚Å’ñ‹Ÿ‚³‚ê‚½ IPropertyBag2
+‚ğXV‚³‚ê‚½’l‚Å“n‚·B
+Windows ’ñ‹Ÿ‚ÌƒR[ƒfƒbƒN‚ÅƒTƒ|[ƒg‚³‚ê‚éƒGƒ“ƒR[ƒfƒBƒ“ƒOƒIƒvƒVƒ‡ƒ“‚ÌŠ®‘S‚ÈƒŠƒXƒg‚É‚Â‚¢‚Ä‚ÍANative WIC Codecs
+‚ğQÆB
 
 
 %index
 IWICBitmapFrameEncode_SetSize
-Sets the output image dimensions for the frame.
+ƒtƒŒ[ƒ€‚Ìo—Í‰æ‘œ‚Ì¡–@‚ğİ’è‚·‚éB
 %group
 COM misc / IWICBitmapFrameEncode
 %prm
 this, uiWidth, uiHeight
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-uiWidth : [int] Type: UINT The width of the output image.
-uiHeight : [int] Type: UINT The height of the output image.
+uiWidth : [int] Œ^: UINT o—Í‰æ‘œ‚Ì•B
+uiHeight : [int] Œ^: UINT o—Í‰æ‘œ‚Ì‚‚³B
 %inst
-Sets the output image dimensions for the frame.
+ƒtƒŒ[ƒ€‚Ìo—Í‰æ‘œ‚Ì¡–@‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapFrameEncode_SetResolution
-Sets the physical resolution of the output image.
+o—Í‰æ‘œ‚Ì•¨—‰ğ‘œ“x‚ğİ’è‚·‚éB
 %group
 COM misc / IWICBitmapFrameEncode
 %prm
 this, dpiX, dpiY
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-dpiX : [double] Type: double The horizontal resolution value.
-dpiY : [double] Type: double The vertical resolution value.
+dpiX : [double] Œ^: double …•½‰ğ‘œ“x‚Ì’lB
+dpiY : [double] Œ^: double ‚’¼‰ğ‘œ“x‚Ì’lB
 %inst
-Sets the physical resolution of the output image.
+o—Í‰æ‘œ‚Ì•¨—‰ğ‘œ“x‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Windows Imaging Component (WIC) doesn't perform any special
-processing as a result of DPI resolution values. For example, data
-returned from IWICBitmapSource::CopyPixels isn't scaled by the DPI.
-The app must handle DPI resolution.
+Windows Imaging Component (WIC) ‚Í DPI
+‰ğ‘œ“x’l‚ÌŒ‹‰Ê‚Æ‚µ‚Ä“Á•Ê‚Èˆ—‚ğs‚í‚È‚¢B‚½‚Æ‚¦‚ÎAIWICBitmapSource::CopyPixels ‚©‚ç•Ô‚³‚ê‚éƒf[ƒ^‚Í DPI
+‚ÅƒXƒP[ƒŠƒ“ƒO‚³‚ê‚È‚¢BƒAƒvƒŠ‚Í DPI ‰ğ‘œ“x‚ğˆ—‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 IWICBitmapFrameEncode_SetPixelFormat
-Requests that the encoder use the specified pixel format.
+ƒGƒ“ƒR[ƒ_‚Éw’è‚³‚ê‚½ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ìg—p‚ğ—v‹‚·‚éB
 %group
 COM misc / IWICBitmapFrameEncode
 %prm
 this, pPixelFormat
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pPixelFormat : [var] Type: WICPixelFormatGUID* On input, the requested pixel format GUID. On output, the closest pixel format GUID supported by the encoder; this may be different than the requested format. For a list of pixel format GUIDs, see Native Pixel Formats.
+pPixelFormat : [var] Œ^: WICPixelFormatGUID* “ü—Í‚Í—v‹‚³‚ê‚½ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg GUIDBo—Í‚ÍƒGƒ“ƒR[ƒ_‚ªƒTƒ|[ƒg‚·‚éÅ‚à‹ß‚¢ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg GUIDB‚±‚ê‚Í—v‹‚³‚ê‚½ƒtƒH[ƒ}ƒbƒg‚Æ‚ÍˆÙ‚È‚éê‡‚ª‚ ‚éBƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg GUID ‚ÌƒŠƒXƒg‚É‚Â‚¢‚Ä‚Í Native Pixel Formats ‚ğQÆB
 %inst
-Requests that the encoder use the specified pixel format.
+ƒGƒ“ƒR[ƒ_‚Éw’è‚³‚ê‚½ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ìg—p‚ğ—v‹‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Possible return values include the following.
-This doc was truncated.
+Œ^: HRESULT –ß‚è’l‚É‚ÍŸ‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-The encoder might not support the requested pixel format. If not,
-SetPixelFormat returns the closest match in the memory block that
-pPixelFormat points to. If the returned pixel format doesn't match
-the requested format, you must use an IWICFormatConverter object to
-convert the pixel data.
+ƒGƒ“ƒR[ƒ_‚Í—v‹‚³‚ê‚½ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğƒTƒ|[ƒg‚µ‚È‚¢ê‡‚ª‚ ‚éBƒTƒ|[ƒg‚µ‚È‚¢ê‡ASetPixelFormat ‚Í
+pPixelFormat
+‚ªw‚·ƒƒ‚ƒŠƒuƒƒbƒN‚ÉÅ‚à‹ß‚¢ˆê’v‚ğ•Ô‚·B•Ô‚³‚ê‚½ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ª—v‹‚³‚ê‚½ƒtƒH[ƒ}ƒbƒg‚Æˆê’v‚µ‚È‚¢ê‡AIWICFormatConverter
+ƒIƒuƒWƒFƒNƒg‚ğg—p‚µ‚ÄƒsƒNƒZƒ‹ƒf[ƒ^‚ğ•ÏŠ·‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 IWICBitmapFrameEncode_SetColorContexts
-Sets a given number IWICColorContext profiles to the frame.
+w’è‚³‚ê‚½”‚Ì IWICColorContext ƒvƒƒtƒ@ƒCƒ‹‚ğƒtƒŒ[ƒ€‚Éİ’è‚·‚éB
 %group
 COM misc / IWICBitmapFrameEncode
 %prm
 this, cCount, ppIColorContext
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cCount : [int] Type: UINT The number of IWICColorContext profiles to set.
-ppIColorContext : [comobj] Type: IWICColorContext** A pointer to an IWICColorContext pointer containing the color contexts profiles to set to the frame.
+cCount : [int] Œ^: UINT İ’è‚·‚é IWICColorContext ƒvƒƒtƒ@ƒCƒ‹‚Ì”B
+ppIColorContext : [comobj] Œ^: IWICColorContext** ƒtƒŒ[ƒ€‚Éİ’è‚·‚éƒJƒ‰[ƒRƒ“ƒeƒLƒXƒgƒvƒƒtƒ@ƒCƒ‹‚ğŠÜ‚Ş IWICColorContext ƒ|ƒCƒ“ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Sets a given number IWICColorContext profiles to the frame.
+w’è‚³‚ê‚½”‚Ì IWICColorContext ƒvƒƒtƒ@ƒCƒ‹‚ğƒtƒŒ[ƒ€‚Éİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This doc was truncated.
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IWICBitmapFrameEncode_SetPalette
-Sets the IWICPalette for indexed pixel formats.
+ƒCƒ“ƒfƒbƒNƒX•t‚«ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg—p‚Ì IWICPalette ‚ğİ’è‚·‚éB
 %group
 COM misc / IWICBitmapFrameEncode
 %prm
 this, pIPalette
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIPalette : [comobj] Type: IWICPalette* The IWICPalette to use for indexed pixel formats. The encoder may change the palette to reflect the pixel formats the encoder supports.
+pIPalette : [comobj] Œ^: IWICPalette* ƒCƒ“ƒfƒbƒNƒX•t‚«ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ég—p‚·‚é IWICPaletteBƒGƒ“ƒR[ƒ_‚ªƒTƒ|[ƒg‚·‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğ”½‰f‚·‚é‚½‚ß‚ÉƒpƒŒƒbƒg‚ğ•ÏX‚·‚éê‡‚ª‚ ‚éB
 %inst
-Sets the IWICPalette for indexed pixel formats.
+ƒCƒ“ƒfƒbƒNƒX•t‚«ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg—p‚Ì IWICPalette ‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This method doesn't fail if called on a frame whose pixel format is
-set to a non-indexed pixel format. If the target pixel format is a
-non-indexed format, the palette will be ignored. If you already
-called IWICBitmapEncoder::SetPalette to set a global palette, this
-method overrides that palette for the current frame. The palette must
-be specified before your first call to WritePixels/WriteSource. Doing
-so will cause WriteSource to use the specified palette when
-converting the source image to the encoder pixel format. If no
-palette is specified, a palette will be generated on the first call
-to WriteSource.
+
+‚±‚Ìƒƒ\ƒbƒh‚ÍAƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ª”ñƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Éİ’è‚³‚ê‚½ƒtƒŒ[ƒ€‚ÅŒÄ‚Ño‚³‚ê‚Ä‚à¸”s‚µ‚È‚¢Bƒ^[ƒQƒbƒgƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ª”ñƒCƒ“ƒfƒbƒNƒXƒtƒH[ƒ}ƒbƒg‚Ìê‡AƒpƒŒƒbƒg‚Í–³‹‚³‚ê‚éBƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğİ’è‚·‚é‚½‚ß‚É
+IWICBitmapEncoder::SetPalette
+‚ğŠù‚ÉŒÄ‚Ño‚µ‚Ä‚¢‚éê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍŒ»İ‚ÌƒtƒŒ[ƒ€‚É‘Î‚µ‚Ä‚»‚ÌƒpƒŒƒbƒg‚ğƒI[ƒo[ƒ‰ƒCƒh‚·‚éBƒpƒŒƒbƒg‚Í
+WritePixels/WriteSource ‚ÌÅ‰‚ÌŒÄ‚Ño‚µ‘O‚Éw’è‚·‚é•K—v‚ª‚ ‚éB‚»‚¤‚·‚é‚±‚Æ‚ÅAWriteSource
+‚Íƒ\[ƒX‰æ‘œ‚ğƒGƒ“ƒR[ƒ_‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚É•ÏŠ·‚·‚éÛ‚Éw’è‚³‚ê‚½ƒpƒŒƒbƒg‚ğg—p‚·‚éBƒpƒŒƒbƒg‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AWriteSource
+‚ÌÅ‰‚ÌŒÄ‚Ño‚µ‚ÉƒpƒŒƒbƒg‚ª¶¬‚³‚ê‚éB
 
 
 %index
 IWICBitmapFrameEncode_SetThumbnail
-Sets the frame thumbnail if supported by the codec.
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éê‡AƒtƒŒ[ƒ€‚ÌƒTƒ€ƒlƒCƒ‹‚ğİ’è‚·‚éB
 %group
 COM misc / IWICBitmapFrameEncode
 %prm
 this, pIThumbnail
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIThumbnail : [comobj] Type: IWICBitmapSource* The bitmap source to use as the thumbnail.
+pIThumbnail : [comobj] Œ^: IWICBitmapSource* ƒTƒ€ƒlƒCƒ‹‚Æ‚µ‚Äg—p‚·‚éƒrƒbƒgƒ}ƒbƒvƒ\[ƒXB
 %inst
-Sets the frame thumbnail if supported by the codec.
+ƒR[ƒfƒbƒN‚ªƒTƒ|[ƒg‚·‚éê‡AƒtƒŒ[ƒ€‚ÌƒTƒ€ƒlƒCƒ‹‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns S_OK if successful, or an error value
-otherwise.
-Returns WINCODEC_ERR_UNSUPPORTEDOPERATION if the feature is not
-supported by the encoder.
+Œ^: HRESULT ¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğA‚»‚êˆÈŠO‚Ìê‡‚ÍƒGƒ‰[’l‚ğ•Ô‚·B
+ƒGƒ“ƒR[ƒ_‚ª‚±‚Ì‹@”\‚ğƒTƒ|[ƒg‚µ‚È‚¢ê‡‚Í WINCODEC_ERR_UNSUPPORTEDOPERATION ‚ğ•Ô‚·B
 
 [”õl]
-We recommend that you call SetThumbnail before calling WritePixels or
-WriteSource. The thumbnail won't be added to the encoded file if
-SetThumbnail is called after a call to WritePixels or WriteSource.
-This doc was truncated.
+WritePixels ‚Ü‚½‚Í WriteSource ‚ğŒÄ‚Ño‚·‘O‚É SetThumbnail
+‚ğŒÄ‚Ño‚·‚±‚Æ‚ğ„§‚·‚éBWritePixels ‚Ü‚½‚Í WriteSource ‚ÌŒÄ‚Ño‚µŒã‚É SetThumbnail
+‚ğŒÄ‚Ño‚µ‚½ê‡AƒTƒ€ƒlƒCƒ‹‚ÍƒGƒ“ƒR[ƒh‚³‚ê‚½ƒtƒ@ƒCƒ‹‚É’Ç‰Á‚³‚ê‚È‚¢B
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IWICBitmapFrameEncode_WritePixels
-Copies scan-line data from a caller-supplied buffer to the IWICBitmapFrameEncode object.
+ŒÄ‚Ño‚µ‘¤‚ª’ñ‹Ÿ‚µ‚½ƒoƒbƒtƒ@‚©‚ç IWICBitmapFrameEncode ƒIƒuƒWƒFƒNƒg‚ÉƒXƒLƒƒƒ“ƒ‰ƒCƒ“ƒf[ƒ^‚ğƒRƒs[‚·‚éB
 %group
 COM misc / IWICBitmapFrameEncode
 %prm
 this, lineCount, cbStride, cbBufferSize, pbPixels
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-lineCount : [int] Type: UINT The number of lines to encode.
-cbStride : [int] Type: UINT The stride of the image pixels.
-cbBufferSize : [int] Type: UINT The size of the pixel buffer.
-pbPixels : [int] Type: BYTE* A pointer to the pixel buffer.
+lineCount : [int] Œ^: UINT ƒGƒ“ƒR[ƒh‚·‚és”B
+cbStride : [int] Œ^: UINT ‰æ‘œƒsƒNƒZƒ‹‚ÌƒXƒgƒ‰ƒCƒhB
+cbBufferSize : [int] Œ^: UINT ƒsƒNƒZƒ‹ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+pbPixels : [int] Œ^: BYTE* ƒsƒNƒZƒ‹ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Copies scan-line data from a caller-supplied buffer to the
-IWICBitmapFrameEncode object.
+ŒÄ‚Ño‚µ‘¤‚ª’ñ‹Ÿ‚µ‚½ƒoƒbƒtƒ@‚©‚ç IWICBitmapFrameEncode ƒIƒuƒWƒFƒNƒg‚ÉƒXƒLƒƒƒ“ƒ‰ƒCƒ“ƒf[ƒ^‚ğƒRƒs[‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Possible return values include the following.
-This doc was truncated.
+Œ^: HRESULT –ß‚è’l‚É‚ÍŸ‚ªŠÜ‚Ü‚ê‚éB
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-Successive WritePixels calls are assumed to be sequential scan-line
-access in the output image.
+˜A‘±‚·‚é WritePixels ŒÄ‚Ño‚µ‚ÍAo—Í‰æ‘œ‚Ì‡Ÿ“I‚ÈƒXƒLƒƒƒ“ƒ‰ƒCƒ“ƒAƒNƒZƒX‚Å‚ ‚é‚Æ‰¼’è‚³‚ê‚éB
 
 
 %index
 IWICBitmapFrameEncode_WriteSource
-Encodes a bitmap source.
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ğƒGƒ“ƒR[ƒh‚·‚éB
 %group
 COM misc / IWICBitmapFrameEncode
 %prm
 this, pIBitmapSource, prc
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIBitmapSource : [comobj] Type: IWICBitmapSource* The bitmap source to encode.
-prc : [var] Type: WICRect* The size rectangle of the bitmap source.
+pIBitmapSource : [comobj] Œ^: IWICBitmapSource* ƒGƒ“ƒR[ƒh‚·‚éƒrƒbƒgƒ}ƒbƒvƒ\[ƒXB
+prc : [var] Œ^: WICRect* ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒTƒCƒY‹éŒ`B
 %inst
-Encodes a bitmap source.
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ğƒGƒ“ƒR[ƒh‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If SetSize is not called prior to calling WriteSource, the size given
-in prc is used if not NULL. Otherwise, the size of the
-IWICBitmapSource given in pIBitmapSource is used. If SetPixelFormat
-is not called prior to calling WriteSource, the pixel format of the
-IWICBitmapSource given in pIBitmapSource is used. If SetResolution is
-not called prior to calling WriteSource, the pixel format of
-pIBitmapSource is used. If SetPalette is not called prior to calling
-WriteSource, the target pixel format is indexed, and the pixel format
-of pIBitmapSource matches the encoder frame's pixel format, then the
-pIBitmapSource pixel format is used. When encoding a GIF image, if
-the global palette is set and the frame level palette is not set
-directly by the user or by a custom independent software vendor (ISV)
-GIF codec, WriteSource will use the global palette to encode the
-frame even when pIBitmapSource has a frame level palette. Starting
-with Windows Vista, repeated WriteSource calls can be made as long as
-the total accumulated source rect height is the same as set through
-SetSize. Starting with Windows 8.1, the source rect must be at least
-the dimensions set through SetSize. If the source rect width exceeds
-the SetSize width, extra pixels on the right side are ignored. If the
-source rect height exceeds the remaining unfilled height, extra scan
-lines on the bottom are ignored.
+WriteSource ‚ğŒÄ‚Ño‚·‘O‚É SetSize ‚ğŒÄ‚Ño‚µ‚Ä‚¢‚È‚¢ê‡Aprc ‚ª NULL ‚Å‚È‚¯‚ê‚Î prc
+‚Å—^‚¦‚ç‚ê‚½ƒTƒCƒY‚ªg—p‚³‚ê‚éB‚»‚êˆÈŠO‚Ìê‡‚ÍApIBitmapSource ‚Å—^‚¦‚ç‚ê‚½ IWICBitmapSource
+‚ÌƒTƒCƒY‚ªg—p‚³‚ê‚éBWriteSource ‚ğŒÄ‚Ño‚·‘O‚É SetPixelFormat
+‚ğŒÄ‚Ño‚µ‚Ä‚¢‚È‚¢ê‡ApIBitmapSource ‚Å—^‚¦‚ç‚ê‚½ IWICBitmapSource
+‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªg—p‚³‚ê‚éBWriteSource ‚ğŒÄ‚Ño‚·‘O‚É SetResolution
+‚ğŒÄ‚Ño‚µ‚Ä‚¢‚È‚¢ê‡ApIBitmapSource ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªg—p‚³‚ê‚éBWriteSource ‚ğŒÄ‚Ño‚·‘O‚É
+SetPalette ‚ğŒÄ‚Ño‚µ‚Ä‚¨‚ç‚¸Aƒ^[ƒQƒbƒgƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªƒCƒ“ƒfƒbƒNƒX•t‚«‚ÅApIBitmapSource
+‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªƒGƒ“ƒR[ƒ_ƒtƒŒ[ƒ€‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Æˆê’v‚·‚éê‡ApIBitmapSource
+‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ªg—p‚³‚ê‚éBGIF
+‰æ‘œ‚ğƒGƒ“ƒR[ƒh‚·‚éÛ‚ÉAƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ªİ’è‚³‚ê‚Ä‚¨‚èAƒtƒŒ[ƒ€ƒŒƒxƒ‹‚ÌƒpƒŒƒbƒg‚ªƒ†[ƒU[‚Ü‚½‚ÍƒJƒXƒ^ƒ€“Æ—§Œnƒ\ƒtƒgƒEƒFƒAƒxƒ“ƒ_
+(ISV) GIF ƒR[ƒfƒbƒN‚É‚æ‚Á‚Ä’¼Úİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡ApIBitmapSource
+‚ªƒtƒŒ[ƒ€ƒŒƒxƒ‹‚ÌƒpƒŒƒbƒg‚ğ‚Á‚Ä‚¢‚Ä‚àAWriteSource ‚ÍƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğg—p‚µ‚ÄƒtƒŒ[ƒ€‚ğƒGƒ“ƒR[ƒh‚·‚éBWindows
+Vista ˆÈ~A—İÏ‚³‚ê‚½ƒ\[ƒX‹éŒ`‚Ì‚‚³‚Ì‡Œv‚ª SetSize ‚Åİ’è‚³‚ê‚½’l‚Æ“¯‚¶‚Å‚ ‚éŒÀ‚èAWriteSource
+‚ğŒJ‚è•Ô‚µŒÄ‚Ño‚·‚±‚Æ‚ª‚Å‚«‚éBWindows 8.1 ˆÈ~Aƒ\[ƒX‹éŒ`‚Í SetSize
+‚Åİ’è‚³‚ê‚½¡–@ˆÈã‚Å‚ ‚é•K—v‚ª‚ ‚éBƒ\[ƒX‹éŒ`‚Ì•‚ª SetSize
+‚Ì•‚ğ’´‚¦‚éê‡A‰E‘¤‚Ì—]•ª‚ÈƒsƒNƒZƒ‹‚Í–³‹‚³‚ê‚éBƒ\[ƒX‹éŒ`‚Ì‚‚³‚ªc‚è‚Ì–¢g—p‚Ì‚‚³‚ğ’´‚¦‚éê‡A’ê•”‚Ì—]•ª‚ÈƒXƒLƒƒƒ“ƒ‰ƒCƒ“‚Í–³‹‚³‚ê‚éB
 
 
 %index
 IWICBitmapFrameEncode_Commit
-Commits the frame to the image.
+ƒtƒŒ[ƒ€‚ğ‰æ‘œ‚ÉƒRƒ~ƒbƒg‚·‚éB
 %group
 COM misc / IWICBitmapFrameEncode
 %prm
 this
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Commits the frame to the image.
+ƒtƒŒ[ƒ€‚ğ‰æ‘œ‚ÉƒRƒ~ƒbƒg‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-After the frame Commit has been called, you can't use or reinitialize
-the IWICBitmapFrameEncode object and any objects created from it.
-To finalize the image, both the frame Commit and the encoder Commit
-must be called. However, only call the encoder Commit method after
-all frames have been committed.
+ƒtƒŒ[ƒ€‚Ì Commit ‚ªŒÄ‚Ño‚³‚ê‚½Œã‚ÍAIWICBitmapFrameEncode
+ƒIƒuƒWƒFƒNƒg‚¨‚æ‚Ñ‚»‚ê‚©‚çì¬‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ğg—p‚µ‚½‚èÄ‰Šú‰»‚µ‚½‚è‚Å‚«‚È‚¢B
+‰æ‘œ‚ğŠm’è‚·‚é‚É‚ÍAƒtƒŒ[ƒ€‚Ì Commit ‚ÆƒGƒ“ƒR[ƒ_‚Ì Commit ‚Ì—¼•û‚ğŒÄ‚Ño‚·•K—v‚ª‚ ‚éB‚½‚¾‚µAƒGƒ“ƒR[ƒ_‚Ì Commit
+ƒƒ\ƒbƒh‚Í‚·‚×‚Ä‚ÌƒtƒŒ[ƒ€‚ªƒRƒ~ƒbƒg‚³‚ê‚½Œã‚É‚Ì‚İŒÄ‚Ño‚·‚±‚ÆB
 
 
 %index
 IWICBitmapFrameEncode_GetMetadataQueryWriter
-Gets the metadata query writer for the encoder frame.
+ƒGƒ“ƒR[ƒ_ƒtƒŒ[ƒ€‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒ‰ƒCƒ^‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapFrameEncode
 %prm
 this, ppIMetadataQueryWriter
 this : [comobj] IWICBitmapFrameEncode ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIMetadataQueryWriter : [comobj] Type: IWICMetadataQueryWriter** When this method returns, contains a pointer to metadata query writer for the encoder frame.
+ppIMetadataQueryWriter : [comobj] Œ^: IWICMetadataQueryWriter** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒGƒ“ƒR[ƒ_ƒtƒŒ[ƒ€‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒ‰ƒCƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Gets the metadata query writer for the encoder frame.
+ƒGƒ“ƒR[ƒ_ƒtƒŒ[ƒ€‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒ‰ƒCƒ^‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If you are setting metadata on the frame, you must do this before you
-use IWICBitmapFrameEncode::WritePixels or
-IWICBitmapFrameEncode::WriteSource to write any image pixels to the
-frame
+ƒtƒŒ[ƒ€‚Éƒƒ^ƒf[ƒ^‚ğİ’è‚·‚éê‡AIWICBitmapFrameEncode::WritePixels ‚Ü‚½‚Í
+IWICBitmapFrameEncode::WriteSource ‚ğg—p‚µ‚ÄƒtƒŒ[ƒ€‚É‰æ‘œƒsƒNƒZƒ‹‚ğ‘‚«‚Ş‘O‚É‚±‚ê‚ğs‚¤•K—v‚ª‚ ‚éB
 
 
 %index
 IWICBitmapLock_GetSize
-Retrieves the width and height, in pixels, of the locked rectangle.
+ƒƒbƒN‚³‚ê‚½‹éŒ`‚Ì•‚Æ‚‚³‚ğƒsƒNƒZƒ‹’PˆÊ‚Åæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapLock
 %prm
 this, puiWidth, puiHeight
 this : [comobj] IWICBitmapLock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-puiWidth : [int] Type: UINT* A pointer that receives the width of the locked rectangle.
-puiHeight : [int] Type: UINT* A pointer that receives the height of the locked rectangle.
+puiWidth : [int] Œ^: UINT* ƒƒbƒN‚³‚ê‚½‹éŒ`‚Ì•‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+puiHeight : [int] Œ^: UINT* ƒƒbƒN‚³‚ê‚½‹éŒ`‚Ì‚‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the width and height, in pixels, of the locked rectangle.
+ƒƒbƒN‚³‚ê‚½‹éŒ`‚Ì•‚Æ‚‚³‚ğƒsƒNƒZƒ‹’PˆÊ‚Åæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapLock_GetStride
-Provides access to the stride value for the memory.
+ƒƒ‚ƒŠ‚ÌƒXƒgƒ‰ƒCƒh’l‚Ö‚ÌƒAƒNƒZƒX‚ğ’ñ‹Ÿ‚·‚éB
 %group
 COM misc / IWICBitmapLock
 %prm
 this, pcbStride
 this : [comobj] IWICBitmapLock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pcbStride : [int] Type: UINT*
+pcbStride : [int] Œ^: UINT*
 %inst
-Provides access to the stride value for the memory.
+ƒƒ‚ƒŠ‚ÌƒXƒgƒ‰ƒCƒh’l‚Ö‚ÌƒAƒNƒZƒX‚ğ’ñ‹Ÿ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Note the stride value is specific to the IWICBitmapLock, not the
-bitmap. For example, two consecutive locks on the same rectangle of a
-bitmap may return different pointers and stride values, depending on
-internal implementation.
+ƒXƒgƒ‰ƒCƒh’l‚Íƒrƒbƒgƒ}ƒbƒv‚Å‚Í‚È‚­ IWICBitmapLock ‚ÉŒÅ—L‚Å‚ ‚é“_‚É’ˆÓB‚½‚Æ‚¦‚ÎA“¯‚¶ƒrƒbƒgƒ}ƒbƒv‚Ì“¯‚¶‹éŒ`‚É‘Î‚·‚é 2
+‰ñ˜A‘±‚ÌƒƒbƒN‚ÍA“à•”À‘•‚É‚æ‚Á‚ÄˆÙ‚È‚éƒ|ƒCƒ“ƒ^‚ÆƒXƒgƒ‰ƒCƒh’l‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éB
 
 
 %index
 IWICBitmapLock_GetDataPointer
-Gets the pointer to the top left pixel in the locked rectangle.
+ƒƒbƒN‚³‚ê‚½‹éŒ`‚Ì¶ãƒsƒNƒZƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapLock
 %prm
 this, pcbBufferSize, ppbData
 this : [comobj] IWICBitmapLock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pcbBufferSize : [int] Type: UINT* A pointer that receives the size of the buffer.
-ppbData : [var] Type: BYTE** A pointer that receives a pointer to the top left pixel in the locked rectangle.
+pcbBufferSize : [int] Œ^: UINT* ƒoƒbƒtƒ@‚ÌƒTƒCƒY‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+ppbData : [var] Œ^: BYTE** ƒƒbƒN‚³‚ê‚½‹éŒ`‚Ì¶ãƒsƒNƒZƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Gets the pointer to the top left pixel in the locked rectangle.
+ƒƒbƒN‚³‚ê‚½‹éŒ`‚Ì¶ãƒsƒNƒZƒ‹‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The pointer provided by this method should not be used outside of the
-lifetime of the lock itself. GetDataPointer is not available in
-multi-threaded apartment applications.
+‚±‚Ìƒƒ\ƒbƒh‚ª’ñ‹Ÿ‚·‚éƒ|ƒCƒ“ƒ^‚ÍƒƒbƒN©‘Ì‚Ì—LŒøŠúŠÔŠO‚Åg—p‚µ‚Ä‚Í‚È‚ç‚È‚¢BGetDataPointer ‚Íƒ}ƒ‹ƒ`ƒXƒŒƒbƒhƒAƒp[ƒgƒƒ“ƒg
+(MTA) ‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚Í—˜—p‚Å‚«‚È‚¢B
 
 
 %index
 IWICBitmapLock_GetPixelFormat
-Gets the pixel format of for the locked area of pixels. This can be used to compute the number of bytes-per-pixel in the locked area.
+ƒƒbƒN‚³‚ê‚½ƒsƒNƒZƒ‹—Ìˆæ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB‚±‚ê‚ğg‚Á‚ÄƒƒbƒN—Ìˆæ‚ÌƒsƒNƒZƒ‹‚ ‚½‚èƒoƒCƒg”‚ğŒvZ‚Å‚«‚éB
 %group
 COM misc / IWICBitmapLock
 %prm
 this, pPixelFormat
 this : [comobj] IWICBitmapLock ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pPixelFormat : [var] Type: WICPixelFormatGUID* A pointer that receives the pixel format GUID of the locked area.
+pPixelFormat : [var] Œ^: WICPixelFormatGUID* ƒƒbƒN‚³‚ê‚½—Ìˆæ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Gets the pixel format of for the locked area of pixels. This can be
-used to compute the number of bytes-per-pixel in the locked area.
+ƒƒbƒN‚³‚ê‚½ƒsƒNƒZƒ‹—Ìˆæ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB‚±‚ê‚ğg‚Á‚ÄƒƒbƒN—Ìˆæ‚ÌƒsƒNƒZƒ‹‚ ‚½‚èƒoƒCƒg”‚ğŒvZ‚Å‚«‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -21248,292 +19968,258 @@ pbBuffer : [int]
 
 %index
 IWICBitmapScaler_Initialize
-Initializes the bitmap scaler with the provided parameters.
+w’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Åƒrƒbƒgƒ}ƒbƒvƒXƒP[ƒ‰‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICBitmapScaler
 %prm
 this, pISource, uiWidth, uiHeight, mode
 this : [comobj] IWICBitmapScaler ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pISource : [comobj] Type: IWICBitmapSource* The input bitmap source.
-uiWidth : [int] Type: UINT The destination width.
-uiHeight : [int] Type: UINT The destination height.
-mode : [int] Type: WICBitmapInterpolationMode The WICBitmapInterpolationMode to use when scaling.
+pISource : [comobj] Œ^: IWICBitmapSource* “ü—Í‚Ìƒrƒbƒgƒ}ƒbƒvƒ\[ƒXB
+uiWidth : [int] Œ^: UINT o—Íæ‚Ì•B
+uiHeight : [int] Œ^: UINT o—Íæ‚Ì‚‚³B
+mode : [int] Œ^: WICBitmapInterpolationMode Šg‘åk¬‚Ég—p‚·‚é WICBitmapInterpolationModeB
 %inst
-Initializes the bitmap scaler with the provided parameters.
+w’è‚³‚ê‚½ƒpƒ‰ƒ[ƒ^‚Åƒrƒbƒgƒ}ƒbƒvƒXƒP[ƒ‰‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-IWICBitmapScaler can't be initialized multiple times. For example,
-when scaling every frame in a multi-frame image, a new
-IWICBitmapScaler must be created and initialized for each frame.
+IWICBitmapScaler
+‚Í•¡”‰ñ‰Šú‰»‚Å‚«‚È‚¢B‚½‚Æ‚¦‚Îƒ}ƒ‹ƒ`ƒtƒŒ[ƒ€‰æ‘œ‚Ì‚·‚×‚Ä‚ÌƒtƒŒ[ƒ€‚ğƒXƒP[ƒŠƒ“ƒO‚·‚éê‡AƒtƒŒ[ƒ€‚²‚Æ‚ÉV‚µ‚¢
+IWICBitmapScaler ‚ğì¬‚µ‚Ä‰Šú‰»‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 IWICBitmapSource_GetSize
-Retrieves the pixel width and height of the bitmap.
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapSource
 %prm
 this, puiWidth, puiHeight
 this : [comobj] IWICBitmapSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-puiWidth : [int] Type: UINT* A pointer that receives the pixel width of the bitmap.
-puiHeight : [int] Type: UINT* A pointer that receives the pixel height of the bitmap
+puiWidth : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+puiHeight : [int] Œ^: UINT* ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹‚‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the pixel width and height of the bitmap.
+ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICBitmapSource_GetPixelFormat
-Retrieves the pixel format of the bitmap source..
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapSource
 %prm
 this, pPixelFormat
 this : [comobj] IWICBitmapSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pPixelFormat : [var] Type: WICPixelFormatGUID* Receives the pixel format GUID the bitmap is stored in. For a list of available pixel formats, see the Native Pixel Formats topic.
+pPixelFormat : [var] Œ^: WICPixelFormatGUID* ƒrƒbƒgƒ}ƒbƒv‚ª•Û‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚éB—˜—p‰Â”\‚ÈƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgˆê——‚Í Native Pixel Formats ‚ğQÆB
 %inst
-Retrieves the pixel format of the bitmap source..
+ƒrƒbƒgƒ}ƒbƒvƒ\[ƒX‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The pixel format returned by this method is not necessarily the pixel
-format the image is stored as. The codec may perform a format
-conversion from the storage pixel format to an output pixel format.
+
+‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚·ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÍA•K‚¸‚µ‚à‰æ‘œ‚ªÀÛ‚ÉŠi”[‚³‚ê‚Ä‚¢‚éƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Æ“¯‚¶‚Å‚Í‚È‚¢BƒR[ƒfƒbƒN‚ªƒXƒgƒŒ[ƒW‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚©‚ço—Í‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ö•ÏŠ·‚ğs‚¤ê‡‚ª‚ ‚éB
 
 
 %index
 IWICBitmapSource_GetResolution
-Retrieves the sampling rate between pixels and physical world measurements.
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapSource
 %prm
 this, pDpiX, pDpiY
 this : [comobj] IWICBitmapSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pDpiX : [double] Type: double* A pointer that receives the x-axis dpi resolution.
-pDpiY : [double] Type: double* A pointer that receives the y-axis dpi resolution.
+pDpiX : [double] Œ^: double* x ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pDpiY : [double] Œ^: double* y ²‚Ì dpi ‰ğ‘œ“x‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the sampling rate between pixels and physical world
-measurements.
+ƒsƒNƒZƒ‹‚Æ•¨—¢ŠE‚ÌŒv‘ª’l‚ÌŠÔ‚ÌƒTƒ“ƒvƒŠƒ“ƒOƒŒ[ƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Some formats, such as GIF and ICO, do not have full DPI support. For
-GIF, this method calculates the DPI values from the aspect ratio,
-using a base DPI of (96.0, 96.0). The ICO format does not support DPI
-at all, and the method always returns (96.0,96.0) for ICO images.
-Additionally, WIC itself does not transform images based on the DPI
-values in an image. It is up to the caller to transform an image
-based on the resolution returned.
+GIF ‚â ICO ‚Ì‚æ‚¤‚Èˆê•”‚ÌƒtƒH[ƒ}ƒbƒg‚Í DPI ‚ğŠ®‘S‚É‚ÍƒTƒ|[ƒg‚µ‚È‚¢BGIF ‚Ìê‡A‚±‚Ìƒƒ\ƒbƒh‚Í (96.0,
+96.0) ‚ğƒx[ƒX DPI ‚Æ‚µ‚ÄƒAƒXƒyƒNƒg”ä‚©‚ç DPI ’l‚ğŒvZ‚·‚éBICO ƒtƒH[ƒ}ƒbƒg‚Í DPI
+‚ğ‚Ü‚Á‚½‚­ƒTƒ|[ƒg‚µ‚È‚¢‚Ì‚ÅAICO ‰æ‘œ‚É‘Î‚µ‚Ä‚Íí‚É (96.0, 96.0) ‚ğ•Ô‚·B
+‚³‚ç‚ÉAWIC ©g‚Í‰æ‘œ“à‚Ì DPI
+’l‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚µ‚È‚¢B•Ô‚³‚ê‚½‰ğ‘œ“x‚ÉŠî‚Ã‚¢‚Ä‰æ‘œ‚ğ•ÏŠ·‚·‚é‚©‚Ç‚¤‚©‚ÍŒÄ‚Ño‚µ‘¤Ÿ‘æ‚Å‚ ‚éB
 
 
 %index
 IWICBitmapSource_CopyPalette
-Retrieves the color table for indexed pixel formats.
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICBitmapSource
 %prm
 this, pIPalette
 this : [comobj] IWICBitmapSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIPalette : [comobj] Type: IWICPalette* An IWICPalette. A palette can be created using the CreatePalette method.
+pIPalette : [comobj] Œ^: IWICPalette* IWICPaletteBCreatePalette ƒƒ\ƒbƒh‚ÅƒpƒŒƒbƒg‚ğ¶¬‚Å‚«‚éB
 %inst
-Retrieves the color table for indexed pixel formats.
+ƒCƒ“ƒfƒbƒNƒXƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ÌƒJƒ‰[ƒe[ƒuƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT Returns one of the following values.
-This doc was truncated.
+Œ^: HRESULT Ÿ‚Ì‚¢‚¸‚ê‚©‚Ì’l‚ğ•Ô‚·B
+iˆÈ‰ºÈ—ªj
 
 [”õl]
-If the IWICBitmapSource is an IWICBitmapFrameDecode, the function may
-return the image's global palette if a frame-level palette is not
-available. The global palette may also be retrieved using the
-CopyPalette method.
+IWICBitmapSource ‚ª IWICBitmapFrameDecode
+‚Ìê‡AƒtƒŒ[ƒ€ƒŒƒxƒ‹‚ÌƒpƒŒƒbƒg‚ª—˜—p‚Å‚«‚È‚¢‚Æ‚«‚Í‚±‚ÌŠÖ”‚ª‰æ‘œ‚ÌƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚ğ•Ô‚·‚±‚Æ‚ª‚ ‚éBƒOƒ[ƒoƒ‹ƒpƒŒƒbƒg‚Í
+CopyPalette ƒƒ\ƒbƒh‚Å‚àæ“¾‚Å‚«‚éB
 
 
 %index
 IWICBitmapSource_CopyPixels
-Instructs the object to produce pixels.
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
 %group
 COM misc / IWICBitmapSource
 %prm
 this, prc, cbStride, cbBufferSize, pbBuffer
 this : [comobj] IWICBitmapSource ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-prc : [var] Type: const WICRect* The rectangle to copy. A NULL value specifies the entire bitmap.
-cbStride : [int] Type: UINT The stride of the bitmap
-cbBufferSize : [int] Type: UINT The size of the buffer.
-pbBuffer : [int] Type: BYTE* A pointer to the buffer.
+prc : [var] Œ^: const WICRect* ƒRƒs[‚·‚é‹éŒ`BNULL ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ğw’è‚µ‚½‚±‚Æ‚É‚È‚éB
+cbStride : [int] Œ^: UINT ƒrƒbƒgƒ}ƒbƒv‚ÌƒXƒgƒ‰ƒCƒhB
+cbBufferSize : [int] Œ^: UINT ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+pbBuffer : [int] Œ^: BYTE* ƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Instructs the object to produce pixels.
+ƒIƒuƒWƒFƒNƒg‚ÉƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-CopyPixels is one of the two main image processing routines (the
-other being Lock) triggering the actual processing. It instructs the
-object to produce pixels according to its algorithm - this may
-involve decoding a portion of a JPEG stored on disk, copying a block
-of memory, or even analytically computing a complex gradient. The
-algorithm is completely dependent on the object implementing the
-interface.
-The caller can restrict the operation to a rectangle of interest
-(ROI) using the prc parameter. The ROI sub-rectangle must be fully
-contained in the bounds of the bitmap. Specifying a NULL ROI implies
-that the whole bitmap should be returned.
-The caller controls the memory management and must provide an output
-buffer (pbBuffer) for the results of the copy along with the buffer's
-bounds (cbBufferSize). The cbStride parameter defines the count of
-bytes between two vertically adjacent pixels in the output buffer.
-The caller must ensure that there is sufficient buffer to complete
-the call based on the width, height and pixel format of the bitmap
-and the sub-rectangle provided to the copy method.
-If the caller needs to perform numerous copies of an expensive
-IWICBitmapSource such as a JPEG, it is recommended to create an
-in-memory IWICBitmap first.
-Codec Developer Remarks The callee must only write to the first
-(prc->Width*bitsperpixel+7)/8 bytes of each line of the output buffer
-(in this case, a line is a consecutive string of cbStride bytes).
+CopyPixels ‚ÍÀÛ‚Ìˆ—‚ğ‹N“®‚·‚é 2 ‚Â‚Ìå—v‚È‰æ‘œˆ—ƒ‹[ƒ`ƒ“‚Ì 1 ‚Â‚Å‚ ‚è (‚à‚¤ 1 ‚Â‚Í
+Lock)AƒIƒuƒWƒFƒNƒg‚É©g‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚É]‚Á‚ÄƒsƒNƒZƒ‹‚ğ¶¬‚·‚é‚æ‚¤w¦‚·‚éBˆ—“à—e‚ÍAƒfƒBƒXƒNã‚Ì JPEG
+‚Ìˆê•”‚ğƒfƒR[ƒh‚µ‚½‚èAƒƒ‚ƒŠƒuƒƒbƒN‚ğƒRƒs[‚µ‚½‚èA•¡G‚ÈƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ğ‰ğÍ“I‚ÉŒvZ‚µ‚½‚è‚Æ‚³‚Ü‚´‚Ü‚Å‚ ‚éBƒAƒ‹ƒSƒŠƒYƒ€‚ÍA‚±‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğÀ‘•‚·‚éƒIƒuƒWƒFƒNƒg‚ÉŠ®‘S‚ÉˆË‘¶‚·‚éB
+ŒÄ‚Ño‚µ‘¤‚Í prc ƒpƒ‰ƒ[ƒ^‚Åˆ—‘ÎÛ‚ÌŠÖS‹éŒ` (ROI) ‚ğ§ŒÀ‚Å‚«‚éBROI
+‚Ì•”•ª‹éŒ`‚Íƒrƒbƒgƒ}ƒbƒv‚Ì‹«ŠE“à‚ÉŠ®‘S‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BNULL ‚Ì ROI ‚ğw’è‚·‚é‚Æƒrƒbƒgƒ}ƒbƒv‘S‘Ì‚ª•Ô‚³‚ê‚éB
+ŒÄ‚Ño‚µ‘¤‚Íƒƒ‚ƒŠŠÇ—‚ğ’S“–‚µAƒRƒs[Œ‹‰Ê‚ğó‚¯æ‚éo—Íƒoƒbƒtƒ@ (pbBuffer) ‚Æ‚»‚ÌƒTƒCƒY (cbBufferSize)
+‚ğ—pˆÓ‚·‚é•K—v‚ª‚ ‚éBcbStride ƒpƒ‰ƒ[ƒ^‚Ío—Íƒoƒbƒtƒ@“à‚Å‚’¼•ûŒü‚É—×Ú‚·‚é 2
+‚Â‚ÌƒsƒNƒZƒ‹ŠÔ‚ÌƒoƒCƒg”‚ğ’è‹`‚·‚éBŒÄ‚Ño‚µ‘¤‚ÍAƒrƒbƒgƒ}ƒbƒv‚Ì•E‚‚³EƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚¨‚æ‚ÑƒRƒs[ƒƒ\ƒbƒh‚É—^‚¦‚½•”•ª‹éŒ`‚ÉŠî‚Ã‚«AŒÄ‚Ño‚µ‚ğŠ®—¹‚·‚é‚Ì‚É\•ª‚Èƒoƒbƒtƒ@‚ª‚ ‚é‚±‚Æ‚ğ•ÛØ‚·‚é•K—v‚ª‚ ‚éB
+ŒÄ‚Ño‚µ‘¤‚ª JPEG ‚Ì‚æ‚¤‚É‚‰¿‚È IWICBitmapSource ‚©‚ç‚Ì‘½”‚ÌƒRƒs[‚ğs‚¤•K—v‚ª‚ ‚éê‡‚ÍAæ‚Éƒƒ‚ƒŠã‚Ì
+IWICBitmap ‚ğ¶¬‚µ‚Ä‚¨‚­‚±‚Æ‚ğ„§‚·‚éB
+ƒR[ƒfƒbƒNŠJ”­ÒŒü‚¯‚Ì’ˆÓ ŒÄ‚Ño‚³‚ê‚é‘¤‚Ío—Íƒoƒbƒtƒ@‚ÌŠes‚Ìæ“ª (prc->Width*bitsperpixel+7)/8
+ƒoƒCƒg‚Ì‚İ‚É‘‚«‚Ş‚×‚«‚Å‚ ‚é (‚±‚Ìê‡usv‚Í˜A‘±‚·‚é cbStride ƒoƒCƒg‚ğw‚·)B
 
 
 %index
 IWICColorContext_InitializeFromFilename
-Initializes the color context from the given file.
+w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚©‚çƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICColorContext
 %prm
 this, wzFilename
 this : [comobj] IWICColorContext ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-wzFilename : [wstr] Type: LPCWSTR The name of the file.
+wzFilename : [wstr] Œ^: LPCWSTR ƒtƒ@ƒCƒ‹‚Ì–¼‘OB
 %inst
-Initializes the color context from the given file.
+w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚©‚çƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Once a color context has been initialized, it can't be
-re-initialized.
+ƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚Íˆê“x‰Šú‰»‚·‚é‚ÆÄ‰Šú‰»‚Å‚«‚È‚¢B
 
 
 %index
 IWICColorContext_InitializeFromMemory
-Initializes the color context from a memory block.
+ƒƒ‚ƒŠƒuƒƒbƒN‚©‚çƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICColorContext
 %prm
 this, pbBuffer, cbBufferSize
 this : [comobj] IWICColorContext ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pbBuffer : [int] Type: const BYTE* The buffer used to initialize the IWICColorContext.
-cbBufferSize : [int] Type: UINT The size of the pbBuffer buffer.
+pbBuffer : [int] Œ^: const BYTE* IWICColorContext ‚Ì‰Šú‰»‚Ég—p‚·‚éƒoƒbƒtƒ@B
+cbBufferSize : [int] Œ^: UINT pbBuffer ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
 %inst
-Initializes the color context from a memory block.
+ƒƒ‚ƒŠƒuƒƒbƒN‚©‚çƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Once a color context has been initialized, it can't be
-re-initialized.
+ƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚Íˆê“x‰Šú‰»‚·‚é‚ÆÄ‰Šú‰»‚Å‚«‚È‚¢B
 
 
 %index
 IWICColorContext_InitializeFromExifColorSpace
-Initializes the color context using an Exchangeable Image File (EXIF) color space.
+Exchangeable Image File (EXIF) ƒJƒ‰[ƒXƒy[ƒX‚ğ—p‚¢‚ÄƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICColorContext
 %prm
 this, value
 this : [comobj] IWICColorContext ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-value : [int] Type: UINT The value of the EXIF color space.
+value : [int] Œ^: UINT EXIF ƒJƒ‰[ƒXƒy[ƒX‚Ì’lB
 %inst
-Initializes the color context using an Exchangeable Image File (EXIF)
-color space.
+Exchangeable Image File (EXIF) ƒJƒ‰[ƒXƒy[ƒX‚ğ—p‚¢‚ÄƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Once a color context has been initialized, it can't be
-re-initialized.
+ƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚Íˆê“x‰Šú‰»‚·‚é‚Æ‚ÉÄ‰Šú‰»‚Å‚«‚È‚¢B
 
 
 %index
 IWICColorContext_GetType
-Retrieves the color context type. (IWICColorContext.GetType)
+ƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚Ìí•Ê‚ğæ“¾‚·‚éB(IWICColorContext.GetType)
 %group
 COM misc / IWICColorContext
 %prm
 this, pType
 this : [comobj] IWICColorContext ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pType : [var] Type: WICColorContextType* A pointer that receives the WICColorContextType of the color context.
+pType : [var] Œ^: WICColorContextType* ƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚Ì WICColorContextType ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the color context type. (IWICColorContext.GetType)
+ƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚Ìí•Ê‚ğæ“¾‚·‚éB(IWICColorContext.GetType)
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICColorContext_GetProfileBytes
-Retrieves the color context profile.
+ƒJƒ‰[ƒRƒ“ƒeƒLƒXƒgƒvƒƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICColorContext
 %prm
 this, cbBuffer, pbBuffer, pcbActual
 this : [comobj] IWICColorContext ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cbBuffer : [int] Type: UINT The size of the pbBuffer buffer.
-pbBuffer : [int] Type: BYTE* A pointer that receives the color context profile.
-pcbActual : [int] Type: UINT* A pointer that receives the actual buffer size needed to retrieve the entire color context profile.
+cbBuffer : [int] Œ^: UINT pbBuffer ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+pbBuffer : [int] Œ^: BYTE* ƒJƒ‰[ƒRƒ“ƒeƒLƒXƒgƒvƒƒtƒ@ƒCƒ‹‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pcbActual : [int] Œ^: UINT* ƒJƒ‰[ƒRƒ“ƒeƒLƒXƒgƒvƒƒtƒ@ƒCƒ‹‘S‘Ì‚ğæ“¾‚·‚é‚Ì‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@ƒTƒCƒY‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the color context profile.
+ƒJƒ‰[ƒRƒ“ƒeƒLƒXƒgƒvƒƒtƒ@ƒCƒ‹‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Only use this method if the context type is WICColorContextProfile.
-Calling this method with pbBuffer set to NULL will cause it to return
-the required buffer size in pcbActual.
+ƒRƒ“ƒeƒLƒXƒgí•Ê‚ª WICColorContextProfile ‚Ìê‡‚Ì‚İg—p‚·‚éB
+pbBuffer ‚ğ NULL ‚É‚µ‚Ä‚±‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚·‚ÆApcbActual ‚É•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª•Ô‚³‚ê‚éB
 
 
 %index
 IWICColorContext_GetExifColorSpace
-Retrieves the Exchangeable Image File (EXIF) color space color context.
+Exchangeable Image File (EXIF) ƒJƒ‰[ƒXƒy[ƒX‚ÌƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICColorContext
 %prm
 this, pValue
 this : [comobj] IWICColorContext ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pValue : [int] Type: UINT* A pointer that receives the EXIF color space color context.
+pValue : [int] Œ^: UINT* EXIF ƒJƒ‰[ƒXƒy[ƒX‚ÌƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the Exchangeable Image File (EXIF) color space color
-context.
+Exchangeable Image File (EXIF) ƒJƒ‰[ƒXƒy[ƒX‚ÌƒJƒ‰[ƒRƒ“ƒeƒLƒXƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This method should only be used when IWICColorContext::GetType
-indicates WICColorContextExifColorSpace.
+‚±‚Ìƒƒ\ƒbƒh‚Í IWICColorContext::GetType ‚ª WICColorContextExifColorSpace
+‚ğ¦‚·ê‡‚É‚Ì‚İg—p‚·‚é‚±‚ÆB
 
 
 %index
@@ -21603,239 +20289,219 @@ pbBuffer : [int]
 
 %index
 IWICColorTransform_Initialize
-Initializes an IWICColorTransform with a IWICBitmapSource and transforms it from one IWICColorContext to another.
+IWICColorTransform ‚ğ IWICBitmapSource ‚Å‰Šú‰»‚µA‚ ‚é IWICColorContext ‚©‚ç•Ê‚Ì IWICColorContext ‚Ö•ÏŠ·‚·‚éB
 %group
 COM misc / IWICColorTransform
 %prm
 this, pIBitmapSource, pIContextSource, pIContextDest, pixelFmtDest
 this : [comobj] IWICColorTransform ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIBitmapSource : [comobj] Type: IWICBitmapSource* The bitmap source used to initialize the color transform.
-pIContextSource : [comobj] Type: IWICColorContext* The color context source.
-pIContextDest : [comobj] Type: IWICColorContext* The color context destination.
-pixelFmtDest : [var] Type: REFWICPixelFormatGUID The GUID of the desired pixel format. This parameter is limited to a subset of the native WIC pixel formats, see Remarks for a list.
+pIBitmapSource : [comobj] Œ^: IWICBitmapSource* ƒJƒ‰[•ÏŠ·‚Ì‰Šú‰»‚Ég—p‚·‚éƒrƒbƒgƒ}ƒbƒvƒ\[ƒXB
+pIContextSource : [comobj] Œ^: IWICColorContext* •ÏŠ·Œ³‚ÌƒJƒ‰[ƒRƒ“ƒeƒLƒXƒgB
+pIContextDest : [comobj] Œ^: IWICColorContext* •ÏŠ·æ‚ÌƒJƒ‰[ƒRƒ“ƒeƒLƒXƒgB
+pixelFmtDest : [var] Œ^: REFWICPixelFormatGUID –Ú“I‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ì GUIDB‚±‚Ìƒpƒ‰ƒ[ƒ^‚ÍƒlƒCƒeƒBƒu‚Ì WIC ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚Ìˆê•”‚ÉŒÀ’è‚³‚ê‚éBˆê——‚É‚Â‚¢‚Ä‚Í Remarks ‚ğQÆB
 %inst
-Initializes an IWICColorTransform with a IWICBitmapSource and
-transforms it from one IWICColorContext to another.
+IWICColorTransform ‚ğ IWICBitmapSource ‚Å‰Šú‰»‚µA‚ ‚é IWICColorContext ‚©‚ç•Ê‚Ì
+IWICColorContext ‚Ö•ÏŠ·‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The currently supported formats for the pIContextSource and
-pixelFmtDest parameters are:
-This doc was truncated.
+pIContextSource ‚¨‚æ‚Ñ pixelFmtDest ƒpƒ‰ƒ[ƒ^‚ÅŒ»İƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éƒtƒH[ƒ}ƒbƒg‚ÍŸ‚Ì‚Æ‚¨‚èB
+iˆÈ‰ºÈ—ªj
 
 
 %index
 IWICComponentInfo_GetComponentType
-Retrieves the component's WICComponentType.
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì WICComponentType ‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICComponentInfo
 %prm
 this, pType
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pType : [var] Type: WICComponentType* A pointer that receives the WICComponentType.
+pType : [var] Œ^: WICComponentType* WICComponentType ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the component's WICComponentType.
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì WICComponentType ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICComponentInfo_GetCLSID
-Retrieves the component's class identifier (CLSID)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICComponentInfo
 %prm
 this, pclsid
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pclsid : [var] Type: CLSID* A pointer that receives the component's CLSID.
+pclsid : [var] Œ^: CLSID* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì CLSID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the component's class identifier (CLSID)
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒNƒ‰ƒX¯•Êq (CLSID) ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICComponentInfo_GetSigningStatus
-Retrieves the signing status of the component.
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì–¼ƒXƒe[ƒ^ƒX‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICComponentInfo
 %prm
 this, pStatus
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pStatus : [int] Type: DWORD* A pointer that receives the WICComponentSigning status of the component.
+pStatus : [int] Œ^: DWORD* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì WICComponentSigning ƒXƒe[ƒ^ƒX‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the signing status of the component.
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì–¼ƒXƒe[ƒ^ƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Signing is unused by WIC. Therefore, all components
-WICComponentSigned. This function can be used to determine whether a
-component has no binary component or has been added to the disabled
-components list in the registry.
+–¼‚Í WIC ‚Å‚Íg—p‚³‚ê‚È‚¢B‚µ‚½‚ª‚Á‚ÄA‚·‚×‚Ä‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Í WICComponentSigned
+‚Æ‚È‚éB‚±‚ÌŠÖ”‚ÍAƒRƒ“ƒ|[ƒlƒ“ƒg‚ÉƒoƒCƒiƒŠƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‚È‚¢‚©AƒŒƒWƒXƒgƒŠ‚Ì–³Œø‰»‚³‚ê‚½ƒRƒ“ƒ|[ƒlƒ“ƒgƒŠƒXƒg‚É’Ç‰Á‚³‚ê‚Ä‚¢‚é‚©‚ğ”»’f‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB
 
 
 %index
 IWICComponentInfo_GetAuthor
-Retrieves the name of component's author.
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICComponentInfo
 %prm
 this, cchAuthor, wzAuthor, pcchActual
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchAuthor : [int] Type: UINT The size of the wzAuthor buffer.
-wzAuthor : [wstr] Type: WCHAR* A pointer that receives the name of the component's author. The locale of the string depends on the value that the codec wrote to the registry at install time. For built-in components, these strings are always in English.
-pcchActual : [int] Type: UINT* A pointer that receives the actual length of the component's authors name. The author name is optional; if an author name is not specified by the component, the length returned is 0.
+cchAuthor : [int] Œ^: UINT wzAuthor ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzAuthor : [wstr] Œ^: WCHAR* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B•¶š—ñ‚ÌƒƒP[ƒ‹‚ÍAƒR[ƒfƒbƒN‚ªƒCƒ“ƒXƒg[ƒ‹‚ÉƒŒƒWƒXƒgƒŠ‚É‘‚«‚ñ‚¾’l‚ÉˆË‘¶‚·‚éB‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìê‡A‚±‚ê‚ç‚Ì•¶š—ñ‚Íí‚É‰pŒê‚Å‚ ‚éB
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^BìÒ–¼‚ÍƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚ÄìÒ–¼‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A•Ô‚³‚ê‚é’·‚³‚Í 0 ‚Å‚ ‚éB
 %inst
-Retrieves the name of component's author.
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌìÒ–¼‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If cchAuthor is 0 and wzAuthor is NULL, the required buffer size is
-returned in pccchActual.
+cchAuthor ‚ª 0 ‚Å wzAuthor ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª pccchActual ‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICComponentInfo_GetVendorGUID
-Retrieves the vendor GUID.
+ƒxƒ“ƒ_ GUID ‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICComponentInfo
 %prm
 this, pguidVendor
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pguidVendor : [var] Type: GUID* A pointer that receives the component's vendor GUID.
+pguidVendor : [var] Œ^: GUID* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒxƒ“ƒ_ GUID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the vendor GUID.
+ƒxƒ“ƒ_ GUID ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICComponentInfo_GetVersion
-Retrieves the component's version.
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICComponentInfo
 %prm
 this, cchVersion, wzVersion, pcchActual
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchVersion : [int] Type: UINT The size of the wzVersion buffer.
-wzVersion : [wstr] Type: WCHAR* A pointer that receives a culture invariant string of the component's version.
-pcchActual : [int] Type: UINT* A pointer that receives the actual length of the component's version. The version is optional; if a value is not specified by the component, the length returned is 0.
+cchVersion : [int] Œ^: UINT wzVersion ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzVersion : [wstr] Œ^: WCHAR* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ÌƒJƒ‹ƒ`ƒƒ”ñˆË‘¶•¶š—ñ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^Bƒo[ƒWƒ‡ƒ“‚ÍƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚Ä’l‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A•Ô‚³‚ê‚é’·‚³‚Í 0 ‚Å‚ ‚éB
 %inst
-Retrieves the component's version.
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-All built-in components return "1.0.0.0", except for pixel formats,
-which do not have a version. If cchAuthor is 0 and wzAuthor is NULL,
-the required buffer size is returned in pccchActual.
+ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg (ƒo[ƒWƒ‡ƒ“‚ğ‚½‚È‚¢) ‚ğœ‚«A‚·‚×‚Ä‚Ì‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Í "1.0.0.0" ‚ğ•Ô‚·BcchAuthor
+‚ª 0 ‚Å wzAuthor ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª pccchActual ‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICComponentInfo_GetSpecVersion
-Retrieves the component's specification version.
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICComponentInfo
 %prm
 this, cchSpecVersion, wzSpecVersion, pcchActual
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchSpecVersion : [int] Type: UINT The size of the wzSpecVersion buffer.
-wzSpecVersion : [wstr] Type: WCHAR* When this method returns, contain a culture invariant string of the component's specification version. The version form is NN.NN.NN.NN.
-pcchActual : [int] Type: UINT* A pointer that receives the actual length of the component's specification version. The specification version is optional; if a value is not specified by the component, the length returned is 0.
+cchSpecVersion : [int] Œ^: UINT wzSpecVersion ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzSpecVersion : [wstr] Œ^: WCHAR* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«‚ÉAƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ÌƒJƒ‹ƒ`ƒƒ”ñˆË‘¶•¶š—ñ‚ğŠÜ‚ŞBƒo[ƒWƒ‡ƒ“Œ`®‚Í NN.NN.NN.NN ‚Å‚ ‚éB
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^Bd—lƒo[ƒWƒ‡ƒ“‚ÍƒIƒvƒVƒ‡ƒ“‚Å‚ ‚éBƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚æ‚Á‚Ä’l‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡A•Ô‚³‚ê‚é’·‚³‚Í 0 ‚Å‚ ‚éB
 %inst
-Retrieves the component's specification version.
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìd—lƒo[ƒWƒ‡ƒ“‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-All built-in components return "1.0.0.0", except for pixel formats,
-which do not have a spec version. If cchAuthor is 0 and wzAuthor is
-NULL, the required buffer size is returned in pccchActual.
+ƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg (d—lƒo[ƒWƒ‡ƒ“‚ğ‚½‚È‚¢) ‚ğœ‚«A‚·‚×‚Ä‚Ì‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Í "1.0.0.0"
+‚ğ•Ô‚·BcchAuthor ‚ª 0 ‚Å wzAuthor ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª pccchActual
+‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICComponentInfo_GetFriendlyName
-Retrieves the component's friendly name, which is a human-readable display name for the component.
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼ (lŠÔ‚ª“Ç‚ß‚é•\¦–¼) ‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICComponentInfo
 %prm
 this, cchFriendlyName, wzFriendlyName, pcchActual
 this : [comobj] IWICComponentInfo ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchFriendlyName : [int] Type: UINT The size of the wzFriendlyName buffer.
-wzFriendlyName : [wstr] Type: WCHAR* A pointer that receives the friendly name of the component. The locale of the string depends on the value that the codec wrote to the registry at install time. For built-in components, these strings are always in English.
-pcchActual : [int] Type: UINT* A pointer that receives the actual length of the component's friendly name.
+cchFriendlyName : [int] Œ^: UINT wzFriendlyName ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
+wzFriendlyName : [wstr] Œ^: WCHAR* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B•¶š—ñ‚ÌƒƒP[ƒ‹‚ÍAƒR[ƒfƒbƒN‚ªƒCƒ“ƒXƒg[ƒ‹‚ÉƒŒƒWƒXƒgƒŠ‚É‘‚«‚ñ‚¾’l‚ÉˆË‘¶‚·‚éB‘g‚İ‚İƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìê‡A‚±‚ê‚ç‚Ì•¶š—ñ‚Íí‚É‰pŒê‚Å‚ ‚éB
+pcchActual : [int] Œ^: UINT* ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼‚ÌÀÛ‚Ì’·‚³‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the component's friendly name, which is a human-readable
-display name for the component.
+ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒtƒŒƒ“ƒhƒŠ–¼ (lŠÔ‚ª“Ç‚ß‚é•\¦–¼) ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If cchFriendlyName is 0 and wzFriendlyName is NULL, the required
-buffer size is returned in pccchActual.
+cchFriendlyName ‚ª 0 ‚Å wzFriendlyName ‚ª NULL ‚Ìê‡A•K—v‚Èƒoƒbƒtƒ@ƒTƒCƒY‚ª
+pccchActual ‚É•Ô‚³‚ê‚éB
 
 
 %index
 IWICFastMetadataEncoder_Commit
-Finalizes metadata changes to the image stream.
+‰æ‘œƒXƒgƒŠ[ƒ€‚É‘Î‚·‚éƒƒ^ƒf[ƒ^‚Ì•ÏX‚ğŠm’è‚·‚éB
 %group
 COM misc / IWICFastMetadataEncoder
 %prm
 this
 this : [comobj] IWICFastMetadataEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
 %inst
-Finalizes metadata changes to the image stream.
+‰æ‘œƒXƒgƒŠ[ƒ€‚É‘Î‚·‚éƒƒ^ƒf[ƒ^‚Ì•ÏX‚ğŠm’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If the commit fails and returns WINCODEC_ERR_STREAMNOTAVAILABLE,
-ensure that the image decoder was loaded using the
-WICDecodeMetadataCacheOnDemand option. A fast metadata encoder is not
-supported when the decoder is created using the
-WICDecodeMetadataCacheOnLoad option. If the commit fails for any
-reason, you will need to re-encode the image to ensure the new
-metadata is added to the image.
+ƒRƒ~ƒbƒg‚ª¸”s‚µ‚Ä WINCODEC_ERR_STREAMNOTAVAILABLE ‚ğ•Ô‚µ‚½ê‡A‰æ‘œƒfƒR[ƒ_‚ª
+WICDecodeMetadataCacheOnDemand ƒIƒvƒVƒ‡ƒ“‚Åƒ[ƒh‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ğŠm”F‚·‚é‚±‚ÆBƒfƒR[ƒ_‚ª
+WICDecodeMetadataCacheOnLoad
+ƒIƒvƒVƒ‡ƒ“‚Åì¬‚³‚ê‚Ä‚¢‚éê‡A‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒ_‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B‰½‚ç‚©‚Ì——R‚ÅƒRƒ~ƒbƒg‚ª¸”s‚µ‚½ê‡AV‚µ‚¢ƒƒ^ƒf[ƒ^‚ğ‰æ‘œ‚ÉŠmÀ‚É’Ç‰Á‚·‚é‚É‚Í‰æ‘œ‚ğÄƒGƒ“ƒR[ƒh‚·‚é•K—v‚ª‚ ‚éB
 
 
 %index
 IWICFastMetadataEncoder_GetMetadataQueryWriter
-Retrieves a metadata query writer for fast metadata encoding.
+‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒfƒBƒ“ƒO—p‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒ‰ƒCƒ^‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICFastMetadataEncoder
 %prm
 this, ppIMetadataQueryWriter
 this : [comobj] IWICFastMetadataEncoder ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIMetadataQueryWriter : [comobj] Type: IWICMetadataQueryWriter** When this method returns, contains a pointer to the fast metadata encoder's metadata query writer.
+ppIMetadataQueryWriter : [comobj] Œ^: IWICMetadataQueryWriter** ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒ_‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒ‰ƒCƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Retrieves a metadata query writer for fast metadata encoding.
+‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒfƒBƒ“ƒO—p‚Ìƒƒ^ƒf[ƒ^ƒNƒGƒŠƒ‰ƒCƒ^‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
@@ -21905,707 +20571,630 @@ pbBuffer : [int]
 
 %index
 IWICFormatConverter_Initialize
-Initializes the format converter.
+ƒtƒH[ƒ}ƒbƒgƒRƒ“ƒo[ƒ^‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICFormatConverter
 %prm
 this, pISource, dstFormat, dither, pIPalette, alphaThresholdPercent, paletteTranslate
 this : [comobj] IWICFormatConverter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pISource : [comobj] Type: IWICBitmapSource* The input bitmap to convert
-dstFormat : [var] Type: REFWICPixelFormatGUID The destination pixel format GUID.
-dither : [int] Type: WICBitmapDitherType The WICBitmapDitherType used for conversion.
-pIPalette : [comobj] Type: IWICPalette* The palette to use for conversion.
-alphaThresholdPercent : [double] Type: double The alpha threshold to use for conversion.
-paletteTranslate : [int] Type: WICBitmapPaletteType The palette translation type to use for conversion.
+pISource : [comobj] Œ^: IWICBitmapSource* •ÏŠ·‚·‚é“ü—Íƒrƒbƒgƒ}ƒbƒvB
+dstFormat : [var] Œ^: REFWICPixelFormatGUID •ÏŠ·æ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg GUIDB
+dither : [int] Œ^: WICBitmapDitherType •ÏŠ·‚Ég—p‚·‚é WICBitmapDitherTypeB
+pIPalette : [comobj] Œ^: IWICPalette* •ÏŠ·‚Ég—p‚·‚éƒpƒŒƒbƒgB
+alphaThresholdPercent : [double] Œ^: double •ÏŠ·‚Ég—p‚·‚éƒAƒ‹ƒtƒ@‚µ‚«‚¢’lB
+paletteTranslate : [int] Œ^: WICBitmapPaletteType •ÏŠ·‚Ég—p‚·‚éƒpƒŒƒbƒg•ÏŠ·í•ÊB
 %inst
-Initializes the format converter.
+ƒtƒH[ƒ}ƒbƒgƒRƒ“ƒo[ƒ^‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If you do not have a predefined palette, you must first create one.
-Use InitializeFromBitmap to create the palette object, then pass it
-in along with your other parameters.
-dither, pIPalette, alphaThresholdPercent, and paletteTranslate are
-used to mitigate color loss when converting to a reduced bit-depth
-format. For conversions that do not need these settings, the
-following parameters values should be used: dither set to
-WICBitmapDitherTypeNone, pIPalette set to NULL, alphaThresholdPercent
-set to 0.0f, and paletteTranslate set to WICBitmapPaletteTypeCustom.
-The basic algorithm involved when using an ordered dither requires a
-fixed palette, found in the WICBitmapPaletteType enumeration, in a
-specific order. Often, the actual palette provided for the output may
-have a different ordering or some slight variation in the actual
-colors. This is the case when using the Microsoft Windows palette
-which has slight differences among versions of Windows.To provide for
-this, a palette and a palette translation are given to the format
-converter. The pIPalette is the actual destination palette to be used
-and the paletteTranslate is a fixed palette. Once the conversion is
-complete, the colors are mapped from the fixed palette to the actual
-colors in pIPalette using a nearest color matching algorithm. If
-colors in pIPalette do not closely match those in paletteTranslate,
-the mapping may produce undesirable results.
-WICBitmapDitherTypeOrdered4x4 can be useful in format conversions
-from 8-bit formats to 5- or 6-bit formats as there is no way to
-accurately convert color data. WICBitmapDitherTypeErrorDiffusion
-selects the error diffusion algorithm and may be used with any
-palette. If an arbitrary palette is provided, WICBitmapPaletteCustom
-should be passed in as the paletteTranslate. Error diffusion often
-provides superior results compared to the ordered dithering
-algorithms especially when combined with the optimized palette
-generation functionality on the IWICPalette. When converting a bitmap
-which has an alpha channel, such as a Portable Network Graphics
-(PNG), to 8bpp, the alpha channel is normally ignored. Any pixels
-which were transparent in the original bitmap show up as black in the
-final output because both transparent and black have pixel values of
-zero in the respective formats. Some 8bpp content can contains an
-alpha color; for instance, the Graphics Interchange Format (GIF)
-format allows for a single palette entry to be used as a transparent
-color. For this type of content, alphaThresholdPercent specifies what
-percentage of transparency should map to the transparent color.
-Because the alpha value is directly proportional to the opacity (not
-transparency) of a pixel, the alphaThresholdPercent indicates what
-level of opacity is mapped to the fully transparent color. For
-instance, 9.8% implies that any pixel with an alpha value of less
-than 25 will be mapped to the transparent color. A value of 100% maps
-all pixels which are not fully opaque to the transparent color. Note
-that the palette should provide a transparent color. If it does not,
-the 'transparent' color will be the one closest to zero - often
-black.
+–‘O’è‹`‚ÌƒpƒŒƒbƒg‚ª‚È‚¢ê‡‚ÍA‚Ü‚¸ƒpƒŒƒbƒg‚ğì¬‚·‚é•K—v‚ª‚ ‚éBInitializeFromBitmap
+‚ğg‚Á‚ÄƒpƒŒƒbƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚µA‚»‚ê‚ğ‘¼‚Ìƒpƒ‰ƒ[ƒ^‚Æˆê‚É“n‚·B
+ditherApIPaletteAalphaThresholdPercentApaletteTranslate
+‚Íƒrƒbƒg[“x‚ğ’áŒ¸‚·‚éƒtƒH[ƒ}ƒbƒg‚Ö•ÏŠ·‚·‚éÛ‚ÌF‘¹¸‚ğŠÉ˜a‚·‚é‚½‚ß‚Ég—p‚³‚ê‚éB‚±‚ê‚ç‚Ìİ’è‚ª•s—v‚È•ÏŠ·‚Å‚ÍAŸ‚Ìƒpƒ‰ƒ[ƒ^’l‚ğg—p‚·‚×‚«‚Å‚ ‚é:
+dither ‚Í WICBitmapDitherTypeNoneApIPalette ‚Í
+NULLAalphaThresholdPercent ‚Í 0.0fApaletteTranslate ‚Í
+WICBitmapPaletteTypeCustomB
+‡˜•t‚«ƒfƒBƒU‚ğg—p‚·‚éŠî–{ƒAƒ‹ƒSƒŠƒYƒ€‚Å‚ÍAWICBitmapPaletteType
+—ñ‹“‘Ì‚Å’è‹`‚³‚ê‚½ŒÅ’èƒpƒŒƒbƒg‚ğ“Á’è‚Ì‡˜‚Å•K—v‚Æ‚·‚éB‘½‚­‚Ìê‡Ao—Í‚ÉÀÛ‚É’ñ‹Ÿ‚³‚ê‚éƒpƒŒƒbƒg‚Í‡˜‚ªˆÙ‚È‚é‚©AÀÛ‚ÌF‚É”÷–­‚È·ˆÙ‚ª‚ ‚éB‚±‚ê‚Í
+Microsoft Windows ‚ÌƒpƒŒƒbƒg‚ğg‚¤ê‡‚É“–‚Ä‚Í‚Ü‚èAWindows
+‚Ìƒo[ƒWƒ‡ƒ“ŠÔ‚Å‹Í‚©‚Èˆá‚¢‚ª‚ ‚éB‚±‚ê‚É‘Î‰‚·‚é‚½‚ßAƒtƒH[ƒ}ƒbƒgƒRƒ“ƒo[ƒ^‚ÉƒpƒŒƒbƒg‚ÆƒpƒŒƒbƒg•ÏŠ·‚ª—^‚¦‚ç‚ê‚éBpIPalette
+‚ÍÀÛ‚Ég—p‚³‚ê‚é•ÏŠ·æƒpƒŒƒbƒg‚ÅApaletteTranslate
+‚ÍŒÅ’èƒpƒŒƒbƒg‚Å‚ ‚éB•ÏŠ·‚ªŠ®—¹‚·‚é‚ÆAÅ‹ß–TFƒ}ƒbƒ`ƒ“ƒOƒAƒ‹ƒSƒŠƒYƒ€‚ğg‚Á‚ÄAŒÅ’èƒpƒŒƒbƒg‚©‚ç pIPalette
+“à‚ÌÀÛ‚ÌF‚ÖF‚ªƒ}ƒbƒsƒ“ƒO‚³‚ê‚éBpIPalette “à‚ÌF‚ª paletteTranslate
+‚ÌF‚É‹ß‚­‚È‚¢ê‡Aƒ}ƒbƒsƒ“ƒO‚Í–]‚Ü‚µ‚­‚È‚¢Œ‹‰Ê‚ğ¶‚Ş‚±‚Æ‚ª‚ ‚éBWICBitmapDitherTypeOrdered4x4 ‚ÍA8
+ƒrƒbƒgƒtƒH[ƒ}ƒbƒg‚©‚ç 5 ‚Ü‚½‚Í 6
+ƒrƒbƒgƒtƒH[ƒ}ƒbƒg‚Ö‚Ì•ÏŠ·‚É‚¨‚¢‚ÄAFƒf[ƒ^‚ğ³Šm‚É•ÏŠ·‚·‚é•û–@‚ª‚È‚¢‚½‚ß—L—p‚Å‚ ‚éBWICBitmapDitherTypeErrorDiffusion
+‚ÍŒë·ŠgUƒAƒ‹ƒSƒŠƒYƒ€‚ğ‘I‘ğ‚µA”CˆÓ‚ÌƒpƒŒƒbƒg‚Æ•¹—p‚Å‚«‚éB”CˆÓ‚ÌƒpƒŒƒbƒg‚ğ—^‚¦‚éê‡‚Í paletteTranslate ‚É
+WICBitmapPaletteCustom
+‚ğ“n‚·‚×‚«‚Å‚ ‚éBŒë·ŠgU‚Í‡˜•t‚«ƒfƒBƒUƒŠƒ“ƒOƒAƒ‹ƒSƒŠƒYƒ€‚æ‚è‚à—D‚ê‚½Œ‹‰Ê‚ğ’ñ‹Ÿ‚·‚é‚±‚Æ‚ª‘½‚­A“Á‚É IWICPalette
+ã‚ÌÅ“K‰»‚³‚ê‚½ƒpƒŒƒbƒg¶¬‹@”\‚Æ‘g‚İ‡‚í‚¹‚é‚ÆŒø‰Ê“I‚Å‚ ‚éBPortable Network Graphics (PNG)
+‚Ì‚æ‚¤‚ÉƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹‚ğ‚Âƒrƒbƒgƒ}ƒbƒv‚ğ 8bpp
+‚É•ÏŠ·‚·‚éÛAƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹‚Í’Êí–³‹‚³‚ê‚éBŒ³‚Ìƒrƒbƒgƒ}ƒbƒv‚Å“§–¾‚¾‚Á‚½ƒsƒNƒZƒ‹‚ÍA‚»‚ê‚¼‚ê‚ÌƒtƒH[ƒ}ƒbƒg‚Å“§–¾‚Æ•‚Ì—¼•û‚ªƒsƒNƒZƒ‹’l
+0 ‚ğ‚Â‚½‚ßAÅIo—Í‚Å‚Í•‚É‚È‚éB8bpp ‚ÌƒRƒ“ƒeƒ“ƒc‚Ì’†‚É‚ÍƒAƒ‹ƒtƒ@ƒJƒ‰[‚ğŠÜ‚Ş‚à‚Ì‚ª‚ ‚èA‚½‚Æ‚¦‚Î Graphics
+Interchange Format (GIF)
+ƒtƒH[ƒ}ƒbƒg‚Å‚Í’Pˆê‚ÌƒpƒŒƒbƒgƒGƒ“ƒgƒŠ‚ğ“§–¾F‚Æ‚µ‚Äg—p‚Å‚«‚éB‚±‚Ì‚æ‚¤‚ÈƒRƒ“ƒeƒ“ƒc‚É‘Î‚µ‚Ä alphaThresholdPercent
+‚Í‚Ç‚Ì“§–¾“xƒp[ƒZƒ“ƒe[ƒW‚ğ“§–¾F‚Éƒ}ƒbƒsƒ“ƒO‚·‚é‚©‚ğw’è‚·‚éBƒAƒ‹ƒtƒ@’l‚ÍƒsƒNƒZƒ‹‚Ì•s“§–¾“xi“§–¾“x‚Å‚Í‚È‚­j‚É’¼Ú”ä—á‚·‚é‚½‚ßAalphaThresholdPercent
+‚Í‚Ç‚Ì•s“§–¾“xƒŒƒxƒ‹‚ğŠ®‘S‚É“§–¾‚ÈF‚Éƒ}ƒbƒsƒ“ƒO‚·‚é‚©‚ğ¦‚·B‚½‚Æ‚¦‚Î 9.8% ‚ÍAƒAƒ‹ƒtƒ@’l‚ª 25
+–¢–‚ÌƒsƒNƒZƒ‹‚ª“§–¾F‚Éƒ}ƒbƒsƒ“ƒO‚³‚ê‚é‚±‚Æ‚ğˆÓ–¡‚·‚éB’l 100%
+‚ÍAŠ®‘S‚É•s“§–¾‚Å‚È‚¢‚·‚×‚Ä‚ÌƒsƒNƒZƒ‹‚ğ“§–¾F‚Éƒ}ƒbƒsƒ“ƒO‚·‚éB‚È‚¨ƒpƒŒƒbƒg‚É‚Í“§–¾F‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚×‚«‚Å‚ ‚éB‚È‚¯‚ê‚Îu“§–¾vF‚Í 0
+‚ÉÅ‚à‹ß‚¢F (‘½‚­‚Ìê‡‚Í•) ‚É‚È‚éB
 
 
 %index
 IWICFormatConverter_CanConvert
-Determines if the source pixel format can be converted to the destination pixel format.
+•ÏŠ·Œ³‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğ•ÏŠ·æ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚É•ÏŠ·‰Â”\‚©‚ğ”»’è‚·‚éB
 %group
 COM misc / IWICFormatConverter
 %prm
 this, srcPixelFormat, dstPixelFormat, pfCanConvert
 this : [comobj] IWICFormatConverter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-srcPixelFormat : [var] Type: REFWICPixelFormatGUID The source pixel format.
-dstPixelFormat : [var] Type: REFWICPixelFormatGUID The destination pixel format.
-pfCanConvert : [var] Type: BOOL* A pointer that receives a value indicating whether the source pixel format can be converted to the destination pixel format.
+srcPixelFormat : [var] Œ^: REFWICPixelFormatGUID •ÏŠ·Œ³‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgB
+dstPixelFormat : [var] Œ^: REFWICPixelFormatGUID •ÏŠ·æ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgB
+pfCanConvert : [var] Œ^: BOOL* •ÏŠ·Œ³‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğ•ÏŠ·æ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚É•ÏŠ·‚Å‚«‚é‚©‚ğ¦‚·’l‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Determines if the source pixel format can be converted to the
-destination pixel format.
+•ÏŠ·Œ³‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğ•ÏŠ·æ‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚É•ÏŠ·‰Â”\‚©‚ğ”»’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateDecoderFromFilename
-Creates a new instance of the IWICBitmapDecoder class based on the given file.
+w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ÉŠî‚Ã‚¢‚Ä IWICBitmapDecoder ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, wzFilename, pguidVendor, dwDesiredAccess, metadataOptions
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-wzFilename : [wstr] Type: LPCWSTR A pointer to a null-terminated string that specifies the name of an object to create or open.
-pguidVendor : [var] Type: const GUID* The GUID for the preferred decoder vendor. Use NULL if no preferred vendor.
-dwDesiredAccess : [int] Type: DWORD The access to the object, which can be read, write, or both.
-metadataOptions : [int] Type: WICDecodeOptions The WICDecodeOptions to use when creating the decoder.
+wzFilename : [wstr] Œ^: LPCWSTR ì¬‚Ü‚½‚ÍŠJ‚­ƒIƒuƒWƒFƒNƒg‚Ì–¼‘O‚ğw’è‚·‚é null I’[•¶š—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+pguidVendor : [var] Œ^: const GUID* —DæƒfƒR[ƒ_ƒxƒ“ƒ_[‚Ì GUIDB—Dæƒxƒ“ƒ_[‚ª‚È‚¢ê‡‚Í NULL ‚ğg—p‚·‚éB
+dwDesiredAccess : [int] Œ^: DWORD ƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒAƒNƒZƒXí•ÊB“Ç‚İæ‚èA‘‚«‚İA‚Ü‚½‚Í‚»‚Ì—¼•û‚ğw’è‚Å‚«‚éB
+metadataOptions : [int] Œ^: WICDecodeOptions ƒfƒR[ƒ_ì¬‚Ég—p‚·‚é WICDecodeOptionsB
 %inst
-Creates a new instance of the IWICBitmapDecoder class based on the
-given file.
+w’è‚µ‚½ƒtƒ@ƒCƒ‹‚ÉŠî‚Ã‚¢‚Ä IWICBitmapDecoder ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateDecoderFromStream
-Creates a new instance of the IWICBitmapDecoder class based on the given IStream.
+w’è‚µ‚½ IStream ‚ÉŠî‚Ã‚¢‚Ä IWICBitmapDecoder ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, pIStream, pguidVendor, metadataOptions
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIStream : [comobj] Type: IStream* The stream to create the decoder from.
-pguidVendor : [var] Type: const GUID* The GUID for the preferred decoder vendor. Use NULL if no preferred vendor.
-metadataOptions : [int] Type: WICDecodeOptions The WICDecodeOptions to use when creating the decoder.
+pIStream : [comobj] Œ^: IStream* ƒfƒR[ƒ_‚Ìì¬Œ³‚Æ‚È‚éƒXƒgƒŠ[ƒ€B
+pguidVendor : [var] Œ^: const GUID* —DæƒfƒR[ƒ_ƒxƒ“ƒ_[‚Ì GUIDB—Dæƒxƒ“ƒ_[‚ª‚È‚¢ê‡‚Í NULL ‚ğg—p‚·‚éB
+metadataOptions : [int] Œ^: WICDecodeOptions ƒfƒR[ƒ_ì¬‚Ég—p‚·‚é WICDecodeOptionsB
 %inst
-Creates a new instance of the IWICBitmapDecoder class based on the
-given IStream.
+w’è‚µ‚½ IStream ‚ÉŠî‚Ã‚¢‚Ä IWICBitmapDecoder ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateDecoderFromFileHandle
-Creates a new instance of the IWICBitmapDecoder based on the given file handle.
+w’è‚µ‚½ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ÉŠî‚Ã‚¢‚Ä IWICBitmapDecoder ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, hFile, pguidVendor, metadataOptions
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hFile : [int] Type: ULONG_PTR The file handle to create the decoder from.
-pguidVendor : [var] Type: const GUID* The GUID for the preferred decoder vendor. Use NULL if no preferred vendor.
-metadataOptions : [int] Type: WICDecodeOptions The WICDecodeOptions to use when creating the decoder.
+hFile : [int] Œ^: ULONG_PTR ƒfƒR[ƒ_‚ğì¬‚·‚é‚½‚ß‚Ìƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹B
+pguidVendor : [var] Œ^: const GUID* —DæƒfƒR[ƒ_ƒxƒ“ƒ_[‚Ì GUIDB—Dæƒxƒ“ƒ_[‚ª‚È‚¢ê‡‚Í NULL ‚ğg—p‚·‚éB
+metadataOptions : [int] Œ^: WICDecodeOptions ƒfƒR[ƒ_ì¬‚Ég—p‚·‚é WICDecodeOptionsB
 %inst
-Creates a new instance of the IWICBitmapDecoder based on the given
-file handle.
+w’è‚µ‚½ƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ÉŠî‚Ã‚¢‚Ä IWICBitmapDecoder ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-When a decoder is created using this method, the file handle must
-remain alive during the lifetime of the decoder.
+‚±‚Ìƒƒ\ƒbƒh‚ğg—p‚µ‚ÄƒfƒR[ƒ_‚ğì¬‚µ‚½ê‡Aƒtƒ@ƒCƒ‹ƒnƒ“ƒhƒ‹‚ÍƒfƒR[ƒ_‚Ì¶‘¶ŠúŠÔ’†—LŒø‚È‚Ü‚Ü‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
 
 
 %index
 IWICImagingFactory_CreateComponentInfo
-Creates a new instance of the IWICComponentInfo class for the given component class identifier (CLSID).
+w’è‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒgƒNƒ‰ƒX¯•Êq (CLSID) ‚É‘Î‚·‚é IWICComponentInfo ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, clsidComponent, ppIInfo
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-clsidComponent : [var] Type: REFCLSID The CLSID for the desired component.
-ppIInfo : [comobj] Type: IWICComponentInfo** A pointer that receives a pointer to a new IWICComponentInfo.
+clsidComponent : [var] Œ^: REFCLSID –Ú“I‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì CLSIDB
+ppIInfo : [comobj] Œ^: IWICComponentInfo** V‚µ‚¢ IWICComponentInfo ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates a new instance of the IWICComponentInfo class for the given
-component class identifier (CLSID).
+w’è‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒgƒNƒ‰ƒX¯•Êq (CLSID) ‚É‘Î‚·‚é IWICComponentInfo ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateDecoder
-Creates a new instance of IWICBitmapDecoder.
+IWICBitmapDecoder ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, guidContainerFormat, pguidVendor
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-guidContainerFormat : [var] Type: REFGUID The GUID for the desired container format.
-pguidVendor : [var] Type: const GUID* The GUID for the preferred encoder vendor.
+guidContainerFormat : [var] Œ^: REFGUID –Ú“I‚ÌƒRƒ“ƒeƒiŒ`®‚Ì GUIDB
+pguidVendor : [var] Œ^: const GUID* —DæƒGƒ“ƒR[ƒ_ƒxƒ“ƒ_[‚Ì GUIDB
 %inst
-Creates a new instance of IWICBitmapDecoder.
+IWICBitmapDecoder ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Other values may be available for both guidContainerFormat and
-pguidVendor depending on the installed WIC-enabled encoders. The
-values listed are those that are natively supported by the operating
-system.
+ƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é WIC ‘Î‰ƒGƒ“ƒR[ƒ_‚É‚æ‚Á‚Ä‚ÍAguidContainerFormat ‚Æ pguidVendor
+‚Ì—¼•û‚É‘Î‚µ‚Ä‘¼‚Ì’l‚ª—˜—p‰Â”\‚Èê‡‚à‚ ‚éB—ñ‹“‚³‚ê‚é’l‚ÍAƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ª•W€‚ÅƒTƒ|[ƒg‚·‚é‚à‚Ì‚Å‚ ‚éB
 
 
 %index
 IWICImagingFactory_CreateEncoder
-Creates a new instance of the IWICBitmapEncoder class.
+IWICBitmapEncoder ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, guidContainerFormat, pguidVendor
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-guidContainerFormat : [var] Type: REFGUID The GUID for the desired container format.
-pguidVendor : [var] Type: const GUID* The GUID for the preferred encoder vendor.
+guidContainerFormat : [var] Œ^: REFGUID –Ú“I‚ÌƒRƒ“ƒeƒiŒ`®‚Ì GUIDB
+pguidVendor : [var] Œ^: const GUID* —DæƒGƒ“ƒR[ƒ_ƒxƒ“ƒ_[‚Ì GUIDB
 %inst
-Creates a new instance of the IWICBitmapEncoder class.
+IWICBitmapEncoder ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Other values may be available for both guidContainerFormat and
-pguidVendor depending on the installed WIC-enabled encoders. The
-values listed are those that are natively supported by the operating
-system.
+ƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é WIC ‘Î‰ƒGƒ“ƒR[ƒ_‚É‚æ‚Á‚Ä‚ÍAguidContainerFormat ‚Æ pguidVendor
+‚Ì—¼•û‚É‘Î‚µ‚Ä‘¼‚Ì’l‚ª—˜—p‰Â”\‚Èê‡‚à‚ ‚éB—ñ‹“‚³‚ê‚é’l‚ÍAƒIƒyƒŒ[ƒeƒBƒ“ƒOƒVƒXƒeƒ€‚ª•W€‚ÅƒTƒ|[ƒg‚·‚é‚à‚Ì‚Å‚ ‚éB
 
 
 %index
 IWICImagingFactory_CreatePalette
-Creates a new instance of the IWICPalette class.
+IWICPalette ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, ppIPalette
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIPalette : [comobj] Type: IWICPalette** A pointer that receives a pointer to a new IWICPalette.
+ppIPalette : [comobj] Œ^: IWICPalette** V‚µ‚¢ IWICPalette ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates a new instance of the IWICPalette class.
+IWICPalette ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateFormatConverter
-Creates a new instance of the IWICFormatConverter class.
+IWICFormatConverter ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, ppIFormatConverter
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIFormatConverter : [comobj] Type: IWICFormatConverter** A pointer that receives a pointer to a new IWICFormatConverter.
+ppIFormatConverter : [comobj] Œ^: IWICFormatConverter** V‚µ‚¢ IWICFormatConverter ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates a new instance of the IWICFormatConverter class.
+IWICFormatConverter ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateBitmapScaler
-Creates a new instance of an IWICBitmapScaler.
+IWICBitmapScaler ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, ppIBitmapScaler
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIBitmapScaler : [comobj] Type: IWICBitmapScaler** A pointer that receives a pointer to a new IWICBitmapScaler.
+ppIBitmapScaler : [comobj] Œ^: IWICBitmapScaler** V‚µ‚¢ IWICBitmapScaler ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates a new instance of an IWICBitmapScaler.
+IWICBitmapScaler ‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateBitmapClipper
-Creates a new instance of an IWICBitmapClipper object.
+IWICBitmapClipper ƒIƒuƒWƒFƒNƒg‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, ppIBitmapClipper
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIBitmapClipper : [comobj] Type: IWICBitmapClipper** A pointer that receives a pointer to a new IWICBitmapClipper.
+ppIBitmapClipper : [comobj] Œ^: IWICBitmapClipper** V‚µ‚¢ IWICBitmapClipper ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates a new instance of an IWICBitmapClipper object.
+IWICBitmapClipper ƒIƒuƒWƒFƒNƒg‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateBitmapFlipRotator
-Creates a new instance of an IWICBitmapFlipRotator object.
+IWICBitmapFlipRotator ƒIƒuƒWƒFƒNƒg‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, ppIBitmapFlipRotator
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIBitmapFlipRotator : [comobj] Type: IWICBitmapFlipRotator** A pointer that receives a pointer to a new IWICBitmapFlipRotator.
+ppIBitmapFlipRotator : [comobj] Œ^: IWICBitmapFlipRotator** V‚µ‚¢ IWICBitmapFlipRotator ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates a new instance of an IWICBitmapFlipRotator object.
+IWICBitmapFlipRotator ƒIƒuƒWƒFƒNƒg‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateStream
-Creates a new instance of the IWICStream class.
+IWICStream ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, ppIWICStream
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIWICStream : [comobj] Type: IWICStream** A pointer that receives a pointer to a new IWICStream.
+ppIWICStream : [comobj] Œ^: IWICStream** V‚µ‚¢ IWICStream ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates a new instance of the IWICStream class.
+IWICStream ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateColorContext
-Creates a new instance of the IWICColorContext class.
+IWICColorContext ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, ppIWICColorContext
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIWICColorContext : [comobj] Type: IWICColorContext** A pointer that receives a pointer to a new IWICColorContext.
+ppIWICColorContext : [comobj] Œ^: IWICColorContext** V‚µ‚¢ IWICColorContext ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates a new instance of the IWICColorContext class.
+IWICColorContext ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateColorTransformer
-Creates a new instance of the IWICColorTransform class.
+IWICColorTransform ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, ppIWICColorTransform
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIWICColorTransform : [comobj] Type: IWICColorTransform** A pointer that receives a pointer to a new IWICColorTransform.
+ppIWICColorTransform : [comobj] Œ^: IWICColorTransform** V‚µ‚¢ IWICColorTransform ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates a new instance of the IWICColorTransform class.
+IWICColorTransform ƒNƒ‰ƒX‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateBitmap
-Creates an IWICBitmap object.
+IWICBitmap ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, uiWidth, uiHeight, pixelFormat, option, ppIBitmap
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-uiWidth : [int] Type: UINT The width of the new bitmap .
-uiHeight : [int] Type: UINT The height of the new bitmap.
-pixelFormat : [var] Type: REFWICPixelFormatGUID The pixel format of the new bitmap.
-option : [int] Type: WICBitmapCreateCacheOption The cache creation options of the new bitmap. This can be one of the values in the WICBitmapCreateCacheOption enumeration.
-ppIBitmap : [comobj] Type: IWICBitmap** A pointer that receives a pointer to the new bitmap.
+uiWidth : [int] Œ^: UINT V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ì•B
+uiHeight : [int] Œ^: UINT V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ì‚‚³B
+pixelFormat : [var] Œ^: REFWICPixelFormatGUID V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgB
+option : [int] Œ^: WICBitmapCreateCacheOption V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚ÌƒLƒƒƒbƒVƒ…ì¬ƒIƒvƒVƒ‡ƒ“BWICBitmapCreateCacheOption —ñ‹“Œ^‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
+ppIBitmap : [comobj] Œ^: IWICBitmap** V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates an IWICBitmap object.
+IWICBitmap ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateBitmapFromSource
-Creates a IWICBitmap from a IWICBitmapSource.
+IWICBitmapSource ‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, pIBitmapSource, option, ppIBitmap
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIBitmapSource : [comobj] Type: IWICBitmapSource* The IWICBitmapSource to create the bitmap from.
-option : [int] Type: WICBitmapCreateCacheOption The cache options of the new bitmap.  This can be one of the values in the WICBitmapCreateCacheOption enumeration.
-ppIBitmap : [comobj] Type: IWICBitmap** A pointer that receives a pointer to the new bitmap.
+pIBitmapSource : [comobj] Œ^: IWICBitmapSource* ƒrƒbƒgƒ}ƒbƒv‚Ìì¬Œ³‚Æ‚È‚é IWICBitmapSourceB
+option : [int] Œ^: WICBitmapCreateCacheOption V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚ÌƒLƒƒƒbƒVƒ…ƒIƒvƒVƒ‡ƒ“BWICBitmapCreateCacheOption —ñ‹“Œ^‚Ì’l‚Ì‚¢‚¸‚ê‚©‚ğw’è‚Å‚«‚éB
+ppIBitmap : [comobj] Œ^: IWICBitmap** V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates a IWICBitmap from a IWICBitmapSource.
+IWICBitmapSource ‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateBitmapFromSourceRect
-Creates an IWICBitmap from a specified rectangle of an IWICBitmapSource.
+IWICBitmapSource ‚Ìw’è‚µ‚½‹éŒ`‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, pIBitmapSource, x, y, width, height, ppIBitmap
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIBitmapSource : [comobj] Type: IWICBitmapSource* The IWICBitmapSource to create the bitmap from.
-x : [int] Type: UINT The horizontal coordinate of the upper-left corner of the rectangle.
-y : [int] Type: UINT The vertical coordinate of the upper-left corner of the rectangle.
-width : [int] Type: UINT The width of the rectangle and the new bitmap.
-height : [int] Type: UINT The height of the rectangle and the new bitmap.
-ppIBitmap : [comobj] Type: IWICBitmap** A pointer that receives a pointer to the new bitmap.
+pIBitmapSource : [comobj] Œ^: IWICBitmapSource* ƒrƒbƒgƒ}ƒbƒv‚Ìì¬Œ³‚Æ‚È‚é IWICBitmapSourceB
+x : [int] Œ^: UINT ‹éŒ`‚Ì¶ã‹÷‚Ì…•½À•WB
+y : [int] Œ^: UINT ‹éŒ`‚Ì¶ã‹÷‚Ì‚’¼À•WB
+width : [int] Œ^: UINT ‹éŒ`‚¨‚æ‚ÑV‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ì•B
+height : [int] Œ^: UINT ‹éŒ`‚¨‚æ‚ÑV‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ì‚‚³B
+ppIBitmap : [comobj] Œ^: IWICBitmap** V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates an IWICBitmap from a specified rectangle of an
-IWICBitmapSource.
+IWICBitmapSource ‚Ìw’è‚µ‚½‹éŒ`‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Providing a rectangle that is larger than the source will produce
-undefined results. This method always creates a separate copy of the
-source image, similar to the cache option WICBitmapCacheOnLoad.
+ƒ\[ƒX‚æ‚è‚à‘å‚«‚È‹éŒ`‚ğw’è‚·‚é‚ÆAŒ‹‰Ê‚Í–¢’è‹`‚Æ‚È‚éB‚±‚Ìƒƒ\ƒbƒh‚ÍƒLƒƒƒbƒVƒ…ƒIƒvƒVƒ‡ƒ“ WICBitmapCacheOnLoad
+‚Æ“¯—l‚ÉAí‚Éƒ\[ƒX‰æ‘œ‚Ì“Æ—§‚µ‚½ƒRƒs[‚ğì¬‚·‚éB
 
 
 %index
 IWICImagingFactory_CreateBitmapFromMemory
-Creates an IWICBitmap from a memory block.
+ƒƒ‚ƒŠƒuƒƒbƒN‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, uiWidth, uiHeight, pixelFormat, cbStride, cbBufferSize, pbBuffer, ppIBitmap
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-uiWidth : [int] Type: UINT The width of the new bitmap.
-uiHeight : [int] Type: UINT The height of the new bitmap.
-pixelFormat : [var] Type: REFWICPixelFormatGUID The pixel format of the new bitmap.  For valid pixel formats, see Native Pixel Formats.
-cbStride : [int] Type: UINT The number of bytes between successive scanlines in pbBuffer.
-cbBufferSize : [int] Type: UINT The size of pbBuffer.
-pbBuffer : [int] Type: BYTE* The buffer used to create the bitmap.
-ppIBitmap : [comobj] Type: IWICBitmap** A pointer that receives a pointer to the new bitmap.
+uiWidth : [int] Œ^: UINT V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ì•B
+uiHeight : [int] Œ^: UINT V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ì‚‚³B
+pixelFormat : [var] Œ^: REFWICPixelFormatGUID V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒgB—LŒø‚ÈƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚É‚Â‚¢‚Ä‚Í Native Pixel Formats ‚ğQÆ‚Ì‚±‚ÆB
+cbStride : [int] Œ^: UINT pbBuffer “à‚Ì˜A‘±‚·‚éƒXƒLƒƒƒ“ƒ‰ƒCƒ“ŠÔ‚ÌƒoƒCƒg”B
+cbBufferSize : [int] Œ^: UINT pbBuffer ‚ÌƒTƒCƒYB
+pbBuffer : [int] Œ^: BYTE* ƒrƒbƒgƒ}ƒbƒv‚ğì¬‚·‚é‚½‚ß‚Ég—p‚·‚éƒoƒbƒtƒ@B
+ppIBitmap : [comobj] Œ^: IWICBitmap** V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates an IWICBitmap from a memory block.
+ƒƒ‚ƒŠƒuƒƒbƒN‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The size of the IWICBitmap to be created must be smaller than or
-equal to the size of the image in pbBuffer. The stride of the
-destination bitmap will equal the stride of the source data,
-regardless of the width and height specified. The pixelFormat
-parameter defines the pixel format for both the input data and the
-output bitmap.
+ì¬‚·‚é IWICBitmap ‚ÌƒTƒCƒY‚ÍApbBuffer
+“à‚Ì‰æ‘œƒTƒCƒYˆÈ‰º‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢Bì¬‚³‚ê‚éƒrƒbƒgƒ}ƒbƒv‚ÌƒXƒgƒ‰ƒCƒh‚ÍAw’è‚µ‚½•‚â‚‚³‚ÉŠÖŒW‚È‚­ƒ\[ƒXƒf[ƒ^‚ÌƒXƒgƒ‰ƒCƒh‚Æ“™‚µ‚­‚È‚éBpixelFormat
+ƒpƒ‰ƒ[ƒ^‚Í“ü—Íƒf[ƒ^‚Æo—Íƒrƒbƒgƒ}ƒbƒv—¼•û‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg‚ğ’è‹`‚·‚éB
 
 
 %index
 IWICImagingFactory_CreateBitmapFromHBITMAP
-Creates an IWICBitmap from a bitmap handle.
+ƒrƒbƒgƒ}ƒbƒvƒnƒ“ƒhƒ‹‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, hBitmap, hPalette, options, ppIBitmap
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hBitmap : [intptr] Type: HBITMAP A bitmap handle to create the bitmap from.
-hPalette : [int] Type: HPALETTE A palette handle used to create the bitmap.
-options : [int] Type: WICBitmapAlphaChannelOption The alpha channel options to create the bitmap.
-ppIBitmap : [comobj] Type: IWICBitmap** A pointer that receives a pointer to the new bitmap.
+hBitmap : [intptr] Œ^: HBITMAP ƒrƒbƒgƒ}ƒbƒv‚Ìì¬Œ³‚Æ‚È‚éƒrƒbƒgƒ}ƒbƒvƒnƒ“ƒhƒ‹B
+hPalette : [int] Œ^: HPALETTE ƒrƒbƒgƒ}ƒbƒvì¬‚Ég—p‚·‚éƒpƒŒƒbƒgƒnƒ“ƒhƒ‹B
+options : [int] Œ^: WICBitmapAlphaChannelOption ƒrƒbƒgƒ}ƒbƒvì¬‚ÌƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹ƒIƒvƒVƒ‡ƒ“B
+ppIBitmap : [comobj] Œ^: IWICBitmap** V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates an IWICBitmap from a bitmap handle.
+ƒrƒbƒgƒ}ƒbƒvƒnƒ“ƒhƒ‹‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-For a non-palletized bitmap, set NULL for the hPalette parameter.
+ƒpƒŒƒbƒg‚ğ‚½‚È‚¢ƒrƒbƒgƒ}ƒbƒv‚Ìê‡AhPalette ƒpƒ‰ƒ[ƒ^‚É‚Í NULL ‚ğw’è‚·‚éB
 
 
 %index
 IWICImagingFactory_CreateBitmapFromHICON
-Creates an IWICBitmap from an icon handle.
+ƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, hIcon, ppIBitmap
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-hIcon : [intptr] Type: HICON The icon handle to create the new bitmap from.
-ppIBitmap : [comobj] Type: IWICBitmap** A pointer that receives a pointer to the new bitmap.
+hIcon : [intptr] Œ^: HICON V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ìì¬Œ³‚Æ‚È‚éƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹B
+ppIBitmap : [comobj] Œ^: IWICBitmap** V‚µ‚¢ƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates an IWICBitmap from an icon handle.
+ƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹‚©‚ç IWICBitmap ‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateComponentEnumerator
-Creates an IEnumUnknown object of the specified component types.
+w’è‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒgí—Ş‚Ì IEnumUnknown ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, componentTypes, options, ppIEnumUnknown
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-componentTypes : [int] Type: DWORD The types of WICComponentType to enumerate.
-options : [int] Type: DWORD The WICComponentEnumerateOptions used to enumerate the given component types.
-ppIEnumUnknown : [comobj] Type: IEnumUnknown** A pointer that receives a pointer to a new component enumerator.
+componentTypes : [int] Œ^: DWORD —ñ‹“‚·‚é WICComponentType ‚Ìí—ŞB
+options : [int] Œ^: DWORD w’è‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒgí—Ş‚ğ—ñ‹“‚·‚é‚½‚ß‚Ég—p‚·‚é WICComponentEnumerateOptionsB
+ppIEnumUnknown : [comobj] Œ^: IEnumUnknown** V‚µ‚¢ƒRƒ“ƒ|[ƒlƒ“ƒg—ñ‹“q‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Creates an IEnumUnknown object of the specified component types.
+w’è‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒgí—Ş‚Ì IEnumUnknown ƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Component types must be enumerated separately. Combinations of
-component types and WICAllComponents are unsupported.
+ƒRƒ“ƒ|[ƒlƒ“ƒgí—Ş‚ÍŒÂ•Ê‚É—ñ‹“‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BƒRƒ“ƒ|[ƒlƒ“ƒgí—Ş‚Æ WICAllComponents ‚Ì‘g‚İ‡‚í‚¹‚ÍƒTƒ|[ƒg‚³‚ê‚È‚¢B
 
 
 %index
 IWICImagingFactory_CreateFastMetadataEncoderFromDecoder
-Creates a new instance of the fast metadata encoder based on the given IWICBitmapDecoder.
+w’è‚µ‚½ IWICBitmapDecoder ‚ÉŠî‚Ã‚¢‚Ä‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒ_‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, pIDecoder, ppIFastEncoder
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIDecoder : [comobj] Type: IWICBitmapDecoder* The decoder to create the fast metadata encoder from.
-ppIFastEncoder : [comobj] Type: IWICFastMetadataEncoder** When this method returns, contains a pointer to the new IWICFastMetadataEncoder.
+pIDecoder : [comobj] Œ^: IWICBitmapDecoder* ‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒ_‚Ìì¬Œ³‚Æ‚È‚éƒfƒR[ƒ_B
+ppIFastEncoder : [comobj] Œ^: IWICFastMetadataEncoder** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‚µ‚¢ IWICFastMetadataEncoder ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Creates a new instance of the fast metadata encoder based on the
-given IWICBitmapDecoder.
+w’è‚µ‚½ IWICBitmapDecoder ‚ÉŠî‚Ã‚¢‚Ä‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒ_‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The Windows provided codecs do not support fast metadata encoding at
-the decoder level, and only support fast metadata encoding at the
-frame level. To create a fast metadata encoder from a frame, see
-CreateFastMetadataEncoderFromFrameDecode.
+Windows
+’ñ‹Ÿ‚ÌƒR[ƒfƒbƒN‚ÍƒfƒR[ƒ_ƒŒƒxƒ‹‚Å‚Ì‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ğƒTƒ|[ƒg‚µ‚Ä‚¨‚ç‚¸AƒtƒŒ[ƒ€ƒŒƒxƒ‹‚Å‚Ì‚İƒTƒ|[ƒg‚µ‚Ä‚¢‚éBƒtƒŒ[ƒ€‚©‚ç‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒ_‚ğì¬‚·‚é‚É‚Í
+CreateFastMetadataEncoderFromFrameDecode ‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 IWICImagingFactory_CreateFastMetadataEncoderFromFrameDecode
-Creates a new instance of the fast metadata encoder based on the given image frame.
+w’è‚µ‚½‰æ‘œƒtƒŒ[ƒ€‚ÉŠî‚Ã‚¢‚Ä‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒ_‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, pIFrameDecoder, ppIFastEncoder
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIFrameDecoder : [comobj] Type: IWICBitmapFrameDecode* The IWICBitmapFrameDecode to create the IWICFastMetadataEncoder from.
-ppIFastEncoder : [comobj] Type: IWICFastMetadataEncoder** When this method returns, contains a pointer to a new fast metadata encoder.
+pIFrameDecoder : [comobj] Œ^: IWICBitmapFrameDecode* IWICFastMetadataEncoder ‚Ìì¬Œ³‚Æ‚È‚é IWICBitmapFrameDecodeB
+ppIFastEncoder : [comobj] Œ^: IWICFastMetadataEncoder** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‚µ‚¢‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒ_‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Creates a new instance of the fast metadata encoder based on the
-given image frame.
+w’è‚µ‚½‰æ‘œƒtƒŒ[ƒ€‚ÉŠî‚Ã‚¢‚Ä‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒ_‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-For a list of support metadata formats for fast metadata encoding,
-see WIC Metadata Overview.
+‚‘¬ƒƒ^ƒf[ƒ^ƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ÅƒTƒ|[ƒg‚³‚ê‚éƒƒ^ƒf[ƒ^Œ`®‚Ìˆê——‚Í WIC Metadata Overview ‚ğQÆ‚Ì‚±‚ÆB
 
 
 %index
 IWICImagingFactory_CreateQueryWriter
-Creates a new instance of a query writer.
+ƒNƒGƒŠƒ‰ƒCƒ^[‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, guidMetadataFormat, pguidVendor, ppIQueryWriter
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-guidMetadataFormat : [var] Type: REFGUID The GUID for the desired metadata format.
-pguidVendor : [var] Type: const GUID* The GUID for the preferred metadata writer vendor. Use NULL if no preferred vendor.
-ppIQueryWriter : [comobj] Type: IWICMetadataQueryWriter** When this method returns, contains a pointer to a new IWICMetadataQueryWriter.
+guidMetadataFormat : [var] Œ^: REFGUID –Ú“I‚Ìƒƒ^ƒf[ƒ^Œ`®‚Ì GUIDB
+pguidVendor : [var] Œ^: const GUID* —Dæƒƒ^ƒf[ƒ^ƒ‰ƒCƒ^[ƒxƒ“ƒ_[‚Ì GUIDB—Dæƒxƒ“ƒ_[‚ª‚È‚¢ê‡‚Í NULL ‚ğg—p‚·‚éB
+ppIQueryWriter : [comobj] Œ^: IWICMetadataQueryWriter** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‚µ‚¢ IWICMetadataQueryWriter ‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Creates a new instance of a query writer.
+ƒNƒGƒŠƒ‰ƒCƒ^[‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICImagingFactory_CreateQueryWriterFromReader
-Creates a new instance of a query writer based on the given query reader. The query writer will be pre-populated with metadata from the query reader.
+w’è‚µ‚½ƒNƒGƒŠƒŠ[ƒ_[‚ÉŠî‚Ã‚¢‚ÄƒNƒGƒŠƒ‰ƒCƒ^[‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éBƒNƒGƒŠƒ‰ƒCƒ^[‚É‚ÍƒNƒGƒŠƒŠ[ƒ_[—R—ˆ‚Ìƒƒ^ƒf[ƒ^‚ª–‘O‚É“Š“ü‚³‚ê‚éB
 %group
 COM misc / IWICImagingFactory
 %prm
 this, pIQueryReader, pguidVendor, ppIQueryWriter
 this : [comobj] IWICImagingFactory ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIQueryReader : [comobj] Type: IWICMetadataQueryReader* The IWICMetadataQueryReader to create the IWICMetadataQueryWriter from.
-pguidVendor : [var] Type: const GUID* The GUID for the preferred metadata writer vendor. Use NULL if no preferred vendor.
-ppIQueryWriter : [comobj] Type: IWICMetadataQueryWriter** When this method returns, contains a pointer to a new metadata writer.
+pIQueryReader : [comobj] Œ^: IWICMetadataQueryReader* IWICMetadataQueryWriter ‚Ìì¬Œ³‚Æ‚È‚é IWICMetadataQueryReaderB
+pguidVendor : [var] Œ^: const GUID* —Dæƒƒ^ƒf[ƒ^ƒ‰ƒCƒ^[ƒxƒ“ƒ_[‚Ì GUIDB—Dæƒxƒ“ƒ_[‚ª‚È‚¢ê‡‚Í NULL ‚ğg—p‚·‚éB
+ppIQueryWriter : [comobj] Œ^: IWICMetadataQueryWriter** ƒƒ\ƒbƒh‚ª–ß‚éÛAV‚µ‚¢ƒƒ^ƒf[ƒ^ƒ‰ƒCƒ^[‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğŠi”[‚·‚éB
 %inst
-Creates a new instance of a query writer based on the given query
-reader. The query writer will be pre-populated with metadata from the
-query reader.
+
+w’è‚µ‚½ƒNƒGƒŠƒŠ[ƒ_[‚ÉŠî‚Ã‚¢‚ÄƒNƒGƒŠƒ‰ƒCƒ^[‚ÌV‚µ‚¢ƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éBƒNƒGƒŠƒ‰ƒCƒ^[‚É‚ÍƒNƒGƒŠƒŠ[ƒ_[—R—ˆ‚Ìƒƒ^ƒf[ƒ^‚ª–‘O‚É“Š“ü‚³‚ê‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚¤‚Å‚È‚¢ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICMetadataQueryReader_GetContainerFormat
-Gets the metadata query readers container format.
+ƒƒ^ƒf[ƒ^ƒNƒGƒŠƒŠ[ƒ_[‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICMetadataQueryReader
 %prm
 this, pguidContainerFormat
 this : [comobj] IWICMetadataQueryReader ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pguidContainerFormat : [var] Type: GUID* Pointer that receives the cointainer format GUID.
+pguidContainerFormat : [var] Œ^: GUID* ƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg GUID ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Gets the metadata query readers container format.
+ƒƒ^ƒf[ƒ^ƒNƒGƒŠƒŠ[ƒ_[‚ÌƒRƒ“ƒeƒiƒtƒH[ƒ}ƒbƒg‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICMetadataQueryReader_GetLocation
-Retrieves the current path relative to the root metadata block.
+ƒ‹[ƒgƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚©‚ç‚ÌŒ»İ‚ÌƒpƒX‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICMetadataQueryReader
 %prm
 this, cchMaxLength, wzNamespace, pcchActualLength
 this : [comobj] IWICMetadataQueryReader ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cchMaxLength : [int] Type: UINT The length of the wzNamespace buffer.
-wzNamespace : [wstr] Type: WCHAR* Pointer that receives the current namespace location.
-pcchActualLength : [int] Type: UINT* The actual buffer length that was needed to retrieve the current namespace location.
+cchMaxLength : [int] Œ^: UINT wzNamespace ƒoƒbƒtƒ@‚Ì’·‚³B
+wzNamespace : [wstr] Œ^: WCHAR* Œ»İ‚Ì–¼‘O‹óŠÔ‚ÌêŠ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pcchActualLength : [int] Œ^: UINT* Œ»İ‚Ì–¼‘O‹óŠÔ‚ÌêŠ‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚Ìƒoƒbƒtƒ@’·B
 %inst
-Retrieves the current path relative to the root metadata block.
+ƒ‹[ƒgƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚©‚ç‚ÌŒ»İ‚ÌƒpƒX‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If you pass NULL to wzNamespace, GetLocation ignores cchMaxLength and
-returns the required buffer length to store the path in the variable
-that pcchActualLength points to.
-If the query reader is relative to the top of the metadata hierarchy,
-it will return a single-char string. If the query reader is relative
-to a nested metadata block, this method will return the path to the
-current query reader.
+wzNamespace ‚É NULL ‚ğ“n‚·‚ÆAGetLocation ‚Í cchMaxLength
+‚ğ–³‹‚µAƒpƒX‚ğŠi”[‚·‚é‚½‚ß‚É•K—v‚Èƒoƒbƒtƒ@’·‚ğ pcchActualLength ‚ªw‚·•Ï”‚É•Ô‚·B
+
+ƒNƒGƒŠƒŠ[ƒ_[‚ªƒƒ^ƒf[ƒ^ŠK‘w‚ÌÅãˆÊ‚É‘Î‚µ‚Ä‘Š‘Î“I‚Å‚ ‚éê‡‚Í’Pˆê•¶š‚Ì•¶š—ñ‚ğ•Ô‚·BƒNƒGƒŠƒŠ[ƒ_[‚ªƒlƒXƒg‚³‚ê‚½ƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚É‘Î‚µ‚Ä‘Š‘Î“I‚Å‚ ‚éê‡A‚±‚Ìƒƒ\ƒbƒh‚ÍŒ»İ‚ÌƒNƒGƒŠƒŠ[ƒ_[‚Ö‚ÌƒpƒX‚ğ•Ô‚·B
 
 
 %index
 IWICMetadataQueryReader_GetMetadataByName
-Retrieves the metadata block or item identified by a metadata query expression.
+ƒƒ^ƒf[ƒ^ƒNƒGƒŠ®‚Å¯•Ê‚³‚ê‚éƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚Ü‚½‚Í€–Ú‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICMetadataQueryReader
 %prm
 this, wzName, pvarValue
 this : [comobj] IWICMetadataQueryReader ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-wzName : [wstr] Type: LPCWSTR The query expression to the requested metadata block or item.
-pvarValue : [int] Type: PROPVARIANT* When this method returns, contains the metadata block or item requested.
+wzName : [wstr] Œ^: LPCWSTR —v‹‚·‚éƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚Ü‚½‚Í€–Ú‚Ö‚ÌƒNƒGƒŠ®B
+pvarValue : [int] Œ^: PROPVARIANT* ‚±‚Ìƒƒ\ƒbƒh‚ª•Ô‚é‚Æ‚«A—v‹‚³‚ê‚½ƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚Ü‚½‚Í€–Ú‚ğŠi”[‚·‚éB
 %inst
-Retrieves the metadata block or item identified by a metadata query
-expression.
+ƒƒ^ƒf[ƒ^ƒNƒGƒŠ®‚Å¯•Ê‚³‚ê‚éƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚Ü‚½‚Í€–Ú‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-GetMetadataByName uses metadata query expressions to access embedded
-metadata. For more information on the metadata query language, see
-the Metadata Query Language Overview. If multiple blocks or items
-exist that are expressed by the same query expression, the first
-metadata block or item found will be returned.
+GetMetadataByName
+‚Í–„‚ß‚İƒƒ^ƒf[ƒ^‚ÉƒAƒNƒZƒX‚·‚é‚½‚ß‚Éƒƒ^ƒf[ƒ^ƒNƒGƒŠ®‚ğg—p‚·‚éBƒƒ^ƒf[ƒ^ƒNƒGƒŠŒ¾Œê‚ÌÚ×‚É‚Â‚¢‚Ä‚Í Metadata Query
+Language Overview
+‚ğQÆB“¯‚¶ƒNƒGƒŠ®‚Å•\‚³‚ê‚é•¡”‚ÌƒuƒƒbƒN‚â€–Ú‚ª‘¶İ‚·‚éê‡AÅ‰‚ÉŒ©‚Â‚©‚Á‚½ƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚Ü‚½‚Í€–Ú‚ª•Ô‚³‚ê‚éB
 
 
 %index
 IWICMetadataQueryReader_GetEnumerator
-Gets an enumerator of all metadata items at the current relative location within the metadata hierarchy.
+ƒƒ^ƒf[ƒ^ŠK‘w“à‚ÌŒ»İ‚Ì‘Š‘ÎˆÊ’u‚É‚ ‚é‚·‚×‚Ä‚Ìƒƒ^ƒf[ƒ^€–Ú‚Ì—ñ‹“q‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICMetadataQueryReader
 %prm
 this, ppIEnumString
 this : [comobj] IWICMetadataQueryReader ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ppIEnumString : [comobj] Type: IEnumString** A pointer to a variable that receives a pointer to the IEnumString interface for the enumerator that contains query strings that can be used in the current IWICMetadataQueryReader.
+ppIEnumString : [comobj] Œ^: IEnumString** Œ»İ‚Ì IWICMetadataQueryReader ‚Åg—p‚Å‚«‚éƒNƒGƒŠ•¶š—ñ‚ğŠÜ‚Ş—ñ‹“q‚Ì IEnumString ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Gets an enumerator of all metadata items at the current relative
-location within the metadata hierarchy.
+ƒƒ^ƒf[ƒ^ŠK‘w“à‚ÌŒ»İ‚Ì‘Š‘ÎˆÊ’u‚É‚ ‚é‚·‚×‚Ä‚Ìƒƒ^ƒf[ƒ^€–Ú‚Ì—ñ‹“q‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The retrieved enumerator only contains query strings for the metadata
-blocks and items in the current level of the hierarchy.
+æ“¾‚³‚ê‚é—ñ‹“q‚ÍAŠK‘w“à‚ÌŒ»İ‚ÌƒŒƒxƒ‹‚É‚ ‚éƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚¨‚æ‚Ñ€–Ú‚ÌƒNƒGƒŠ•¶š—ñ‚Ì‚İ‚ğŠÜ‚ŞB
 
 
 %index
@@ -22661,280 +21250,247 @@ ppIEnumString : [comobj]
 
 %index
 IWICMetadataQueryWriter_SetMetadataByName
-Sets a metadata item to a specific location.
+“Á’è‚ÌêŠ‚Éƒƒ^ƒf[ƒ^€–Ú‚ğİ’è‚·‚éB
 %group
 COM misc / IWICMetadataQueryWriter
 %prm
 this, wzName, pvarValue
 this : [comobj] IWICMetadataQueryWriter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-wzName : [wstr] Type: LPCWSTR The name of the metadata item.
-pvarValue : [int] Type: const PROPVARIANT* The metadata to set.
+wzName : [wstr] Œ^: LPCWSTR ƒƒ^ƒf[ƒ^€–Ú‚Ì–¼‘OB
+pvarValue : [int] Œ^: const PROPVARIANT* İ’è‚·‚éƒƒ^ƒf[ƒ^B
 %inst
-Sets a metadata item to a specific location.
+“Á’è‚ÌêŠ‚Éƒƒ^ƒf[ƒ^€–Ú‚ğİ’è‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-SetMetadataByName uses metadata query expressions to remove metadata.
-For more information on the metadata query language, see the Metadata
-Query Language Overview. If the value set is a nested metadata block
-then use variant type VT_UNKNOWN and pvarValue pointing to the
-IWICMetadataQueryWriter of the new metadata block. The ordering of
-metadata items is at the discretion of the query writer since
-relative locations are not specified.
+SetMetadataByName ‚Íƒƒ^ƒf[ƒ^‚ğ‘€ì‚·‚é‚½‚ß‚Éƒƒ^ƒf[ƒ^ƒNƒGƒŠ®‚ğg—p‚·‚éBƒƒ^ƒf[ƒ^ƒNƒGƒŠŒ¾Œê‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+Metadata Query Language Overview
+‚ğQÆBİ’è‚·‚é’l‚ªƒlƒXƒg‚³‚ê‚½ƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚Å‚ ‚éê‡‚ÍAƒoƒŠƒAƒ“ƒgŒ^ VT_UNKNOWN ‚ğg—p‚µApvarValue
+‚ğV‚µ‚¢ƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚Ì IWICMetadataQueryWriter
+‚ğw‚·‚æ‚¤‚É‚·‚éB‘Š‘ÎˆÊ’u‚Íw’è‚³‚ê‚È‚¢‚½‚ßAƒƒ^ƒf[ƒ^€–Ú‚Ì‡˜‚ÍƒNƒGƒŠƒ‰ƒCƒ^‚ÌÙ—Ê‚ÉˆÏ‚Ë‚ç‚ê‚éB
 
 
 %index
 IWICMetadataQueryWriter_RemoveMetadataByName
-Removes a metadata item from a specific location using a metadata query expression.
+ƒƒ^ƒf[ƒ^ƒNƒGƒŠ®‚ğ—p‚¢‚Ä“Á’è‚ÌêŠ‚©‚çƒƒ^ƒf[ƒ^€–Ú‚ğíœ‚·‚éB
 %group
 COM misc / IWICMetadataQueryWriter
 %prm
 this, wzName
 this : [comobj] IWICMetadataQueryWriter ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-wzName : [wstr] Type: LPCWSTR The name of the metadata item to remove.
+wzName : [wstr] Œ^: LPCWSTR íœ‚·‚éƒƒ^ƒf[ƒ^€–Ú‚Ì–¼‘OB
 %inst
-Removes a metadata item from a specific location using a metadata
-query expression.
+ƒƒ^ƒf[ƒ^ƒNƒGƒŠ®‚ğ—p‚¢‚Ä“Á’è‚ÌêŠ‚©‚çƒƒ^ƒf[ƒ^€–Ú‚ğíœ‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-RemoveMetadataByName uses metadata query expressions to remove
-metadata. For more information on the metadata query language, see
-the Metadata Query Language Overview. If the metadata item is a
-metadata block, it is removed from the metadata hierarchy.
+RemoveMetadataByName ‚Íƒƒ^ƒf[ƒ^‚ğíœ‚·‚é‚½‚ß‚Éƒƒ^ƒf[ƒ^ƒNƒGƒŠ®‚ğg—p‚·‚éBƒƒ^ƒf[ƒ^ƒNƒGƒŠŒ¾Œê‚ÌÚ×‚É‚Â‚¢‚Ä‚Í
+Metadata Query Language Overview
+‚ğQÆBƒƒ^ƒf[ƒ^€–Ú‚ªƒƒ^ƒf[ƒ^ƒuƒƒbƒN‚Å‚ ‚éê‡A‚»‚ê‚Íƒƒ^ƒf[ƒ^ŠK‘w‚©‚çíœ‚³‚ê‚éB
 
 
 %index
 IWICPalette_InitializePredefined
-Initializes the palette to one of the pre-defined palettes specified by WICBitmapPaletteType and optionally adds a transparent color.
+WICBitmapPaletteType ‚Åw’è‚³‚ê‚½–‘O’è‹`ƒpƒŒƒbƒg‚Ì 1 ‚Â‚ÉƒpƒŒƒbƒg‚ğ‰Šú‰»‚µAƒIƒvƒVƒ‡ƒ“‚Å“§–¾‚ÈF‚ğ’Ç‰Á‚·‚éB
 %group
 COM misc / IWICPalette
 %prm
 this, ePaletteType, fAddTransparentColor
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-ePaletteType : [int] Type: WICBitmapPaletteType The desired pre-defined palette type.
-fAddTransparentColor : [int] Type: BOOL The optional transparent color to add to the palette. If no transparent color is needed, use 0. When initializing to a grayscale or black and white palette, set this parameter to FALSE.
+ePaletteType : [int] Œ^: WICBitmapPaletteType –]‚Ü‚µ‚¢–‘O’è‹`ƒpƒŒƒbƒgŒ^B
+fAddTransparentColor : [int] Œ^: BOOL ƒpƒŒƒbƒg‚É’Ç‰Á‚·‚éƒIƒvƒVƒ‡ƒ“‚Ì“§–¾‚ÈFB“§–¾‚ÈF‚ª•s—v‚Èê‡‚Í 0 ‚ğg—p‚·‚éBƒOƒŒ[ƒXƒP[ƒ‹‚Ü‚½‚Í”’•ƒpƒŒƒbƒg‚É‰Šú‰»‚·‚éê‡‚ÍA‚±‚Ìƒpƒ‰ƒ[ƒ^‚ğ FALSE ‚Éİ’è‚·‚éB
 %inst
-Initializes the palette to one of the pre-defined palettes specified
-by WICBitmapPaletteType and optionally adds a transparent color.
+WICBitmapPaletteType ‚Åw’è‚³‚ê‚½–‘O’è‹`ƒpƒŒƒbƒg‚Ì 1 ‚Â‚ÉƒpƒŒƒbƒg‚ğ‰Šú‰»‚µAƒIƒvƒVƒ‡ƒ“‚Å“§–¾‚ÈF‚ğ’Ç‰Á‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If a transparent color is added to a palette, the palette is no
-longer predefined and is returned as WICBitmapPaletteTypeCustom. For
-palettes with less than 256 entries, the transparent entry is added
-to the end of the palette (that is, a 16-color palette becomes a
-17-color palette). For palettes with 256 colors, the transparent
-palette entry will replace the last entry in the pre-defined palette.
+“§–¾‚ÈF‚ªƒpƒŒƒbƒg‚É’Ç‰Á‚³‚ê‚é‚ÆAƒpƒŒƒbƒg‚Í‚à‚Í‚â–‘O’è‹`‚Å‚Í‚È‚­‚È‚èAWICBitmapPaletteTypeCustom
+‚Æ‚µ‚Ä•Ô‚³‚ê‚éB256 ƒGƒ“ƒgƒŠ–¢–‚ÌƒpƒŒƒbƒg‚Ìê‡A“§–¾ƒGƒ“ƒgƒŠ‚ÍƒpƒŒƒbƒg‚Ì––”ö‚É’Ç‰Á‚³‚ê‚é (‚Â‚Ü‚èA16 FƒpƒŒƒbƒg‚Í 17
+FƒpƒŒƒbƒg‚É‚È‚é)B256 F‚ÌƒpƒŒƒbƒg‚Ìê‡A“§–¾ƒpƒŒƒbƒgƒGƒ“ƒgƒŠ‚Í–‘O’è‹`ƒpƒŒƒbƒg‚ÌÅŒã‚ÌƒGƒ“ƒgƒŠ‚ğ’u‚«Š·‚¦‚éB
 
 
 %index
 IWICPalette_InitializeCustom
-Initializes a palette to the custom color entries provided.
+’ñ‹Ÿ‚³‚ê‚½ƒJƒXƒ^ƒ€ƒJƒ‰[ƒGƒ“ƒgƒŠ‚ÅƒpƒŒƒbƒg‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICPalette
 %prm
 this, pColors, cCount
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pColors : [int] Type: WICColor* Pointer to the color array.
-cCount : [int] Type: UINT The number of colors in pColors.
+pColors : [int] Œ^: WICColor* ƒJƒ‰[”z—ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cCount : [int] Œ^: UINT pColors “à‚ÌF‚Ì”B
 %inst
-Initializes a palette to the custom color entries provided.
+’ñ‹Ÿ‚³‚ê‚½ƒJƒXƒ^ƒ€ƒJƒ‰[ƒGƒ“ƒgƒŠ‚ÅƒpƒŒƒbƒg‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-If a transparent color is required, provide it as part of the custom
-entries. To add a transparent value to the palette, its alpha value
-must be 0 (0x00RRGGBB).
-The entry count is limited to 256.
+“§–¾‚ÈF‚ª•K—v‚Èê‡‚ÍAƒJƒXƒ^ƒ€ƒGƒ“ƒgƒŠ‚Ìˆê•”‚Æ‚µ‚Ä’ñ‹Ÿ‚·‚éBƒpƒŒƒbƒg‚É“§–¾‚È’l‚ğ’Ç‰Á‚·‚é‚É‚ÍA‚»‚ÌƒAƒ‹ƒtƒ@’l‚ğ 0
+(0x00RRGGBB) ‚É‚·‚é•K—v‚ª‚ ‚éB
+ƒGƒ“ƒgƒŠ”‚Í 256 ‚É§ŒÀ‚³‚ê‚Ä‚¢‚éB
 
 
 %index
 IWICPalette_InitializeFromBitmap
-Initializes a palette using a computed optimized values based on the reference bitmap.
+QÆƒrƒbƒgƒ}ƒbƒv‚ÉŠî‚Ã‚¢‚ÄŒvZ‚³‚ê‚½Å“K‰»‚³‚ê‚½’l‚ğg—p‚µ‚ÄƒpƒŒƒbƒg‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICPalette
 %prm
 this, pISurface, cCount, fAddTransparentColor
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pISurface : [comobj] Type: IWICBitmapSource* Pointer to the source bitmap.
-cCount : [int] Type: UINT The number of colors to initialize the palette with.
-fAddTransparentColor : [int] Type: BOOL A value to indicate whether to add a transparent color.
+pISurface : [comobj] Œ^: IWICBitmapSource* ƒ\[ƒXƒrƒbƒgƒ}ƒbƒv‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cCount : [int] Œ^: UINT ƒpƒŒƒbƒg‚ğ‰Šú‰»‚·‚éF‚Ì”B
+fAddTransparentColor : [int] Œ^: BOOL “§–¾‚ÈF‚ğ’Ç‰Á‚·‚é‚©‚Ç‚¤‚©‚ğ¦‚·’lB
 %inst
-Initializes a palette using a computed optimized values based on the
-reference bitmap.
+QÆƒrƒbƒgƒ}ƒbƒv‚ÉŠî‚Ã‚¢‚ÄŒvZ‚³‚ê‚½Å“K‰»‚³‚ê‚½’l‚ğg—p‚µ‚ÄƒpƒŒƒbƒg‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The resulting palette contains the specified number of colors which
-best represent the colors present in the bitmap. The algorithm
-operates on the opaque RGB color value of each pixel in the reference
-bitmap and hence ignores any alpha values. If a transparent color is
-required, set the fAddTransparentColor parameter to TRUE and one
-fewer optimized color will be computed, reducing the colorCount, and
-a fully transparent color entry will be added.
+
+Œ‹‰Ê‚ÌƒpƒŒƒbƒg‚É‚ÍAQÆƒrƒbƒgƒ}ƒbƒv‚É‘¶İ‚·‚éF‚ğÅ‚à‚æ‚­•\‚·w’è‚³‚ê‚½”‚ÌF‚ªŠÜ‚Ü‚ê‚éBƒAƒ‹ƒSƒŠƒYƒ€‚ÍQÆƒrƒbƒgƒ}ƒbƒv‚ÌŠeƒsƒNƒZƒ‹‚Ì•s“§–¾‚È
+RGB ƒJƒ‰[’l‚Å“®ì‚·‚é‚½‚ßAƒAƒ‹ƒtƒ@’l‚Í–³‹‚³‚ê‚éB“§–¾‚ÈF‚ª•K—v‚Èê‡‚ÍAfAddTransparentColor ƒpƒ‰ƒ[ƒ^‚ğ
+TRUE ‚Éİ’è‚·‚é‚ÆAÅ“K‰»‚³‚ê‚½F‚ª 1 ‚Â­‚È‚­ŒvZ‚³‚êAcolorCount ‚ªíŒ¸‚³‚êAŠ®‘S‚É“§–¾‚ÈƒJƒ‰[ƒGƒ“ƒgƒŠ‚ª’Ç‰Á‚³‚ê‚éB
 
 
 %index
 IWICPalette_InitializeFromPalette
-Initialize the palette based on a given palette.
+w’è‚³‚ê‚½ƒpƒŒƒbƒg‚ÉŠî‚Ã‚¢‚ÄƒpƒŒƒbƒg‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICPalette
 %prm
 this, pIPalette
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIPalette : [comobj] Type: IWICPalette* Pointer to the source palette.
+pIPalette : [comobj] Œ^: IWICPalette* ƒ\[ƒXƒpƒŒƒbƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^B
 %inst
-Initialize the palette based on a given palette.
+w’è‚³‚ê‚½ƒpƒŒƒbƒg‚ÉŠî‚Ã‚¢‚ÄƒpƒŒƒbƒg‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICPalette_GetType
-Retrieves the WICBitmapPaletteType that describes the palette.
+ƒpƒŒƒbƒg‚ğ‹Lq‚·‚é WICBitmapPaletteType ‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICPalette
 %prm
 this, pePaletteType
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pePaletteType : [var] Type: WICBitmapPaletteType* Pointer that receives the palette type of the bimtap.
+pePaletteType : [var] Œ^: WICBitmapPaletteType* ƒrƒbƒgƒ}ƒbƒv‚ÌƒpƒŒƒbƒgŒ^‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the WICBitmapPaletteType that describes the palette.
+ƒpƒŒƒbƒg‚ğ‹Lq‚·‚é WICBitmapPaletteType ‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-WICBitmapPaletteCustom is used for palettes initialized from both
-InitializeCustom and InitializeFromBitmap. There is no distinction is
-made between optimized and custom palettes.
+WICBitmapPaletteCustom ‚ÍAInitializeCustom ‚Æ InitializeFromBitmap
+‚Ì—¼•û‚©‚ç‰Šú‰»‚³‚ê‚½ƒpƒŒƒbƒg‚Ég—p‚³‚ê‚éBÅ“K‰»‚³‚ê‚½ƒpƒŒƒbƒg‚ÆƒJƒXƒ^ƒ€ƒpƒŒƒbƒg‚ÌŠÔ‚É‹æ•Ê‚Í‚È‚¢B
 
 
 %index
 IWICPalette_GetColorCount
-Retrieves the number of colors in the color table.
+ƒJƒ‰[ƒe[ƒuƒ‹“à‚ÌF‚Ì”‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICPalette
 %prm
 this, pcCount
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pcCount : [int] Type: UINT* Pointer that receives the number of colors in the color table.
+pcCount : [int] Œ^: UINT* ƒJƒ‰[ƒe[ƒuƒ‹“à‚ÌF‚Ì”‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Retrieves the number of colors in the color table.
+ƒJƒ‰[ƒe[ƒuƒ‹“à‚ÌF‚Ì”‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICPalette_GetColors
-Fills out the supplied color array with the colors from the internal color table. The color array should be sized according to the return results from GetColorCount.
+’ñ‹Ÿ‚³‚ê‚½ƒJƒ‰[”z—ñ‚ğ“à•”ƒJƒ‰[ƒe[ƒuƒ‹‚ÌF‚Å–„‚ß‚éBƒJƒ‰[”z—ñ‚Í GetColorCount ‚©‚ç‚Ì–ß‚èŒ‹‰Ê‚É]‚Á‚ÄƒTƒCƒY‚ğŒˆ‚ß‚é‚×‚«‚Å‚ ‚éB
 %group
 COM misc / IWICPalette
 %prm
 this, cCount, pColors, pcActualColors
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-cCount : [int] Type: UINT The size of the pColors array.
-pColors : [int] Type: WICColor* Pointer that receives the colors of the palette.
-pcActualColors : [int] Type: UINT* The actual size needed to obtain the palette colors.
+cCount : [int] Œ^: UINT pColors ”z—ñ‚ÌƒTƒCƒYB
+pColors : [int] Œ^: WICColor* ƒpƒŒƒbƒg‚ÌF‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
+pcActualColors : [int] Œ^: UINT* ƒpƒŒƒbƒg‚ÌF‚ğæ“¾‚·‚é‚½‚ß‚É•K—v‚ÈÀÛ‚ÌƒTƒCƒYB
 %inst
-Fills out the supplied color array with the colors from the internal
-color table. The color array should be sized according to the return
-results from GetColorCount.
+’ñ‹Ÿ‚³‚ê‚½ƒJƒ‰[”z—ñ‚ğ“à•”ƒJƒ‰[ƒe[ƒuƒ‹‚ÌF‚Å–„‚ß‚éBƒJƒ‰[”z—ñ‚Í GetColorCount
+‚©‚ç‚Ì–ß‚èŒ‹‰Ê‚É]‚Á‚ÄƒTƒCƒY‚ğŒˆ‚ß‚é‚×‚«‚Å‚ ‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICPalette_IsBlackWhite
-Retrieves a value that describes whether the palette is black and white.
+ƒpƒŒƒbƒg‚ª”’•‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ‹Lq‚·‚é’l‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICPalette
 %prm
 this, pfIsBlackWhite
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfIsBlackWhite : [var] Type: BOOL* A pointer to a variable  that receives a boolean value that indicates whether the palette is black and white. TRUE indicates that the palette is black and white; otherwise, FALSE.
+pfIsBlackWhite : [var] Œ^: BOOL* ƒpƒŒƒbƒg‚ª”’•‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒu[ƒ‹’l‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BTRUE ‚ÍƒpƒŒƒbƒg‚ª”’•‚Å‚ ‚é‚±‚Æ‚ğ¦‚µA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSEB
 %inst
-Retrieves a value that describes whether the palette is black and
-white.
+ƒpƒŒƒbƒg‚ª”’•‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ‹Lq‚·‚é’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-A palette is considered to be black and white only if it contains
-exactly two entries, one full black (0xFF000000) and one full white
-(0xFFFFFFF).
+ƒpƒŒƒbƒg‚ª”’•‚Æ‚İ‚È‚³‚ê‚é‚Ì‚ÍA‚¿‚å‚¤‚Ç 2 ‚Â‚ÌƒGƒ“ƒgƒŠ‚ğŠÜ‚İA1 ‚Â‚ªŠ®‘S‚È• (0xFF000000)A‚à‚¤ 1 ‚Â‚ªŠ®‘S‚È”’
+(0xFFFFFFF) ‚Å‚ ‚éê‡‚Ì‚İ‚Å‚ ‚éB
 
 
 %index
 IWICPalette_IsGrayscale
-Retrieves a value that describes whether a palette is grayscale.
+ƒpƒŒƒbƒg‚ªƒOƒŒ[ƒXƒP[ƒ‹‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ‹Lq‚·‚é’l‚ğæ“¾‚·‚éB
 %group
 COM misc / IWICPalette
 %prm
 this, pfIsGrayscale
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfIsGrayscale : [var] Type: BOOL* A pointer to a variable that receives a boolean value that indicates whether the palette is grayscale. TRUE indicates that the palette is grayscale; otherwise FALSE.
+pfIsGrayscale : [var] Œ^: BOOL* ƒpƒŒƒbƒg‚ªƒOƒŒ[ƒXƒP[ƒ‹‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒu[ƒ‹’l‚ğó‚¯æ‚é•Ï”‚Ö‚Ìƒ|ƒCƒ“ƒ^BTRUE ‚ÍƒpƒŒƒbƒg‚ªƒOƒŒ[ƒXƒP[ƒ‹‚Å‚ ‚é‚±‚Æ‚ğ¦‚µA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSEB
 %inst
-Retrieves a value that describes whether a palette is grayscale.
+ƒpƒŒƒbƒg‚ªƒOƒŒ[ƒXƒP[ƒ‹‚Å‚ ‚é‚©‚Ç‚¤‚©‚ğ‹Lq‚·‚é’l‚ğæ“¾‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-A palette is considered grayscale only if, for every entry, the alpha
-value is 0xFF and the red, green and blue values match.
+ƒpƒŒƒbƒg‚ªƒOƒŒ[ƒXƒP[ƒ‹‚Æ‚İ‚È‚³‚ê‚é‚Ì‚ÍA‚·‚×‚Ä‚ÌƒGƒ“ƒgƒŠ‚ÌƒAƒ‹ƒtƒ@’l‚ª 0xFF ‚ÅAÔA—ÎAÂ‚Ì’l‚ªˆê’v‚·‚éê‡‚Ì‚İ‚Å‚ ‚éB
 
 
 %index
 IWICPalette_HasAlpha
-Indicates whether the palette contains an entry that is non-opaque (that is, an entry with an alpha that is less than 1).
+ƒpƒŒƒbƒg‚É•s“§–¾‚Å‚È‚¢ƒGƒ“ƒgƒŠ (ƒAƒ‹ƒtƒ@‚ª 1 –¢–‚ÌƒGƒ“ƒgƒŠ) ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·B
 %group
 COM misc / IWICPalette
 %prm
 this, pfHasAlpha
 this : [comobj] IWICPalette ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pfHasAlpha : [var] Type: BOOL* Pointer that receives TRUE if the palette contains a transparent color; otherwise, FALSE.
+pfHasAlpha : [var] Œ^: BOOL* ƒpƒŒƒbƒg‚É“§–¾‚ÈF‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éê‡‚Í TRUEA‚»‚¤‚Å‚È‚¢ê‡‚Í FALSE ‚ğó‚¯æ‚éƒ|ƒCƒ“ƒ^B
 %inst
-Indicates whether the palette contains an entry that is non-opaque
-(that is, an entry with an alpha that is less than 1).
+ƒpƒŒƒbƒg‚É•s“§–¾‚Å‚È‚¢ƒGƒ“ƒgƒŠ (ƒAƒ‹ƒtƒ@‚ª 1 –¢–‚ÌƒGƒ“ƒgƒŠ) ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·B
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B‚»‚êˆÈŠO‚Ìê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-Various image formats support alpha in different ways. PNG has full
-alpha support by supporting partially transparent palette entries.
-GIF stores colors as 24bpp, without alpha, but allows one palette
-entry to be specified as fully transparent. If a palette has multiple
-fully transparent entries (0x00RRGGBB), GIF will use the last one as
-its transparent index.
+‚³‚Ü‚´‚Ü‚È‰æ‘œƒtƒH[ƒ}ƒbƒg‚ªƒAƒ‹ƒtƒ@‚ğ‚³‚Ü‚´‚Ü‚È•û–@‚ÅƒTƒ|[ƒg‚·‚éBPNG
+‚Í•”•ª“I‚É“§–¾‚ÈƒpƒŒƒbƒgƒGƒ“ƒgƒŠ‚ğƒTƒ|[ƒg‚·‚é‚±‚Æ‚ÅŠ®‘S‚ÈƒAƒ‹ƒtƒ@ƒTƒ|[ƒg‚ğ‚ÂBGIF ‚ÍF‚ğƒAƒ‹ƒtƒ@‚È‚µ‚Å 24bpp
+‚Æ‚µ‚Ä•Û‘¶‚·‚é‚ªA1 ‚Â‚ÌƒpƒŒƒbƒgƒGƒ“ƒgƒŠ‚ğŠ®‘S‚É“§–¾‚Æ‚µ‚Äw’è‚Å‚«‚éBƒpƒŒƒbƒg‚É•¡”‚ÌŠ®‘S‚É“§–¾‚ÈƒGƒ“ƒgƒŠ (0x00RRGGBB)
+‚ª‚ ‚éê‡AGIF ‚ÍÅŒã‚ÌƒGƒ“ƒgƒŠ‚ğ“§–¾ƒCƒ“ƒfƒbƒNƒX‚Æ‚µ‚Äg—p‚·‚éB
 
 
 %index
@@ -23084,94 +21640,83 @@ ppstm : [comobj]
 
 %index
 IWICStream_InitializeFromIStream
-Initializes a stream from another stream. Access rights are inherited from the underlying stream.
+•Ê‚ÌƒXƒgƒŠ[ƒ€‚©‚çƒXƒgƒŠ[ƒ€‚ğ‰Šú‰»‚·‚éBƒAƒNƒZƒXŒ ‚ÍŒ³‚ÌƒXƒgƒŠ[ƒ€‚©‚çŒp³‚³‚ê‚éB
 %group
 COM misc / IWICStream
 %prm
 this, pIStream
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIStream : [comobj] Type: IStream* The initialize stream.
+pIStream : [comobj] Œ^: IStream* ‰Šú‰»‚Ég—p‚·‚éƒXƒgƒŠ[ƒ€B
 %inst
-Initializes a stream from another stream. Access rights are inherited
-from the underlying stream.
+•Ê‚ÌƒXƒgƒŠ[ƒ€‚©‚çƒXƒgƒŠ[ƒ€‚ğ‰Šú‰»‚·‚éBƒAƒNƒZƒXŒ ‚ÍŒ³‚ÌƒXƒgƒŠ[ƒ€‚©‚çŒp³‚³‚ê‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 
 %index
 IWICStream_InitializeFromFilename
-Initializes a stream from a particular file.
+“Á’è‚Ìƒtƒ@ƒCƒ‹‚©‚çƒXƒgƒŠ[ƒ€‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICStream
 %prm
 this, wzFileName, dwDesiredAccess
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-wzFileName : [wstr] Type: LPCWSTR The file used to initialize the stream.
-dwDesiredAccess : [int] Type: DWORD The desired file access mode.
+wzFileName : [wstr] Œ^: LPCWSTR ƒXƒgƒŠ[ƒ€‚Ì‰Šú‰»‚Ég—p‚·‚éƒtƒ@ƒCƒ‹B
+dwDesiredAccess : [int] Œ^: DWORD –]‚Şƒtƒ@ƒCƒ‹ƒAƒNƒZƒXƒ‚[ƒhB
 %inst
-Initializes a stream from a particular file.
+“Á’è‚Ìƒtƒ@ƒCƒ‹‚©‚çƒXƒgƒŠ[ƒ€‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The IWICStream interface methods do not enable you to provide a file
-sharing option. To create a shared file stream for an image, use the
-SHCreateStreamOnFileEx function. This stream can then be used to
-create an IWICBitmapDecoder using the CreateDecoderFromStream method.
+IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ìƒƒ\ƒbƒh‚Íƒtƒ@ƒCƒ‹‹¤—LƒIƒvƒVƒ‡ƒ“‚ğ’ñ‹Ÿ‚µ‚È‚¢B‰æ‘œ—p‚Ì‹¤—Lƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€‚ğ¶¬‚·‚é‚É‚Í
+SHCreateStreamOnFileEx ŠÖ”‚ğg—p‚·‚éB‚±‚ÌƒXƒgƒŠ[ƒ€‚Í CreateDecoderFromStream ƒƒ\ƒbƒh‚Å
+IWICBitmapDecoder ‚ğ¶¬‚·‚é‚½‚ß‚Ég—p‚Å‚«‚éB
 
 
 %index
 IWICStream_InitializeFromMemory
-Initializes a stream to treat a block of memory as a stream. The stream cannot grow beyond the buffer size.
+ƒƒ‚ƒŠƒuƒƒbƒN‚ğƒXƒgƒŠ[ƒ€‚Æ‚µ‚Äˆµ‚¤‚æ‚¤‚ÉƒXƒgƒŠ[ƒ€‚ğ‰Šú‰»‚·‚éBƒXƒgƒŠ[ƒ€‚Íƒoƒbƒtƒ@ƒTƒCƒY‚ğ’´‚¦‚ÄŠg’£‚Å‚«‚È‚¢B
 %group
 COM misc / IWICStream
 %prm
 this, pbBuffer, cbBufferSize
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pbBuffer : [int] Type: BYTE* Pointer to the buffer used to initialize the stream.
-cbBufferSize : [int] Type: DWORD The size of buffer.
+pbBuffer : [int] Œ^: BYTE* ƒXƒgƒŠ[ƒ€‚Ì‰Šú‰»‚Ég—p‚·‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+cbBufferSize : [int] Œ^: DWORD ƒoƒbƒtƒ@‚ÌƒTƒCƒYB
 %inst
-Initializes a stream to treat a block of memory as a stream. The
-stream cannot grow beyond the buffer size.
+ƒƒ‚ƒŠƒuƒƒbƒN‚ğƒXƒgƒŠ[ƒ€‚Æ‚µ‚Äˆµ‚¤‚æ‚¤‚ÉƒXƒgƒŠ[ƒ€‚ğ‰Šú‰»‚·‚éBƒXƒgƒŠ[ƒ€‚Íƒoƒbƒtƒ@ƒTƒCƒY‚ğ’´‚¦‚ÄŠg’£‚Å‚«‚È‚¢B
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-This method should be avoided whenever possible. The caller is
-responsible for ensuring the memory block is valid for the lifetime
-of the stream when using InitializeFromMemory. A workaround for this
-behavior is to create an IStream and use InitializeFromIStream to
-create the IWICStream. If you require a growable memory stream, use
-CreateStreamOnHGlobal.
+‰Â”\‚ÈŒÀ‚è‚±‚Ìƒƒ\ƒbƒh‚Ìg—p‚Í”ğ‚¯‚é‚×‚«‚Å‚ ‚éBInitializeFromMemory
+‚ğg—p‚·‚éê‡Aƒƒ‚ƒŠƒuƒƒbƒN‚ªƒXƒgƒŠ[ƒ€‚Ìõ–½‚ğ’Ê‚¶‚Ä—LŒø‚Å‚ ‚é‚±‚Æ‚ğŒÄ‚Ño‚µ‘¤‚ª•ÛØ‚·‚é•K—v‚ª‚ ‚éB‰ñ”ğô‚Æ‚µ‚ÄAIStream
+‚ğ¶¬‚µ‚Ä InitializeFromIStream ‚ğg—p‚µ IWICStream
+‚ğ¶¬‚·‚é•û–@‚ª‚ ‚éBŠg’£‰Â”\‚Èƒƒ‚ƒŠƒXƒgƒŠ[ƒ€‚ª•K—v‚Èê‡‚Í CreateStreamOnHGlobal ‚ğg—p‚·‚éB
 
 
 %index
 IWICStream_InitializeFromIStreamRegion
-Initializes the stream as a substream of another stream.
+•Ê‚ÌƒXƒgƒŠ[ƒ€‚ÌƒTƒuƒXƒgƒŠ[ƒ€‚Æ‚µ‚ÄƒXƒgƒŠ[ƒ€‚ğ‰Šú‰»‚·‚éB
 %group
 COM misc / IWICStream
 %prm
 this, pIStream, ulOffset, ulMaxSize
 this : [comobj] IWICStream ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ì COM ƒIƒuƒWƒFƒNƒg•Ï”
-pIStream : [comobj] Type: IStream* Pointer to the input stream.
-ulOffset : [int64] Type: ULARGE_INTEGER The stream offset used to create the new stream.
-ulMaxSize : [int64] Type: ULARGE_INTEGER The maximum size of the stream.
+pIStream : [comobj] Œ^: IStream* “ü—ÍƒXƒgƒŠ[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^B
+ulOffset : [int64] Œ^: ULARGE_INTEGER V‚µ‚¢ƒXƒgƒŠ[ƒ€‚ğ¶¬‚·‚é‚½‚ß‚Ég—p‚·‚éƒXƒgƒŠ[ƒ€ƒIƒtƒZƒbƒgB
+ulMaxSize : [int64] Œ^: ULARGE_INTEGER ƒXƒgƒŠ[ƒ€‚ÌÅ‘åƒTƒCƒYB
 %inst
-Initializes the stream as a substream of another stream.
+•Ê‚ÌƒXƒgƒŠ[ƒ€‚ÌƒTƒuƒXƒgƒŠ[ƒ€‚Æ‚µ‚ÄƒXƒgƒŠ[ƒ€‚ğ‰Šú‰»‚·‚éB
 
 [–ß‚è’l]
-Type: HRESULT If this method succeeds, it returns S_OK. Otherwise, it
-returns an HRESULT error code.
+Œ^: HRESULT ‚±‚Ìƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·B¸”s‚µ‚½ê‡‚Í HRESULT ƒGƒ‰[ƒR[ƒh‚ğ•Ô‚·B
 
 [”õl]
-The stream functions with its own stream position, independent of the
-underlying stream but restricted to a region. All seek positions are
-relative to the sub region. It is allowed, though not recommended, to
-have multiple writable sub streams overlapping the same range.
+
+‚±‚ÌƒXƒgƒŠ[ƒ€‚ÍŒ³‚ÌƒXƒgƒŠ[ƒ€‚Æ‚Í“Æ—§‚µ‚½©g‚ÌƒXƒgƒŠ[ƒ€ˆÊ’u‚Å‹@”\‚·‚é‚ªA“Á’è‚Ì—Ìˆæ‚É§ŒÀ‚³‚ê‚éB‚·‚×‚Ä‚ÌƒV[ƒNˆÊ’u‚Í•”•ª—Ìˆæ‚ğŠî€‚Æ‚·‚éB„§‚Í‚µ‚È‚¢‚ªA“¯‚¶”ÍˆÍ‚É‘‚«‚İ‰Â”\‚È•¡”‚ÌƒTƒuƒXƒgƒŠ[ƒ€‚ğd‚Ë‡‚í‚¹‚é‚±‚Æ‚à‹–‚³‚ê‚éB
 
