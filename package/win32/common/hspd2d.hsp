@@ -39,6 +39,7 @@
 #define IID_ID2D1Factory          "{06152247-6f50-465a-9245-118bfd3b6007}"
 #define IID_ID2D1RenderTarget     "{2cd90694-12e2-11dc-9fed-001143a055f9}"
 #define IID_ID2D1SolidColorBrush  "{2cd906a9-12e2-11dc-9fed-001143a055f9}"
+#define IID_ID2D1Bitmap           "{a2296057-ea42-4099-983b-539fb6505426}"
 #define IID_IWICImagingFactory    "{ec5ec8a9-c395-4314-9c77-54d7a935ff70}"
 #define CLSID_WICImagingFactory   "{cacaf262-9370-4615-a13b-9f5539da4c0a}"
 #define IID_IWICBitmap            "{00000121-a8f2-4877-ba0a-fd2b6645fb94}"
@@ -107,6 +108,8 @@
 ;   ID2D1Resource: 3=GetFactory
 ;   ID2D1RenderTarget: 4..56
 #usecom ID2D1RenderTarget IID_ID2D1RenderTarget "{}"
+; CreateBitmapFromWicBitmap(IWICBitmapSource*, D2D1_BITMAP_PROPERTIES* (NULL OK), ID2D1Bitmap** out)
+#comfunc d2d_RT_CreateBitmapFromWicBitmap 5 comobj, intptr, var
 #comfunc d2d_RT_CreateSolidColorBrush 8 var, var, var
 ; DrawLine(D2D1_POINT_2F p0, D2D1_POINT_2F p1, ID2D1Brush*, FLOAT strokeWidth, ID2D1StrokeStyle*)
 ; POINT_2F は { float x, float y } = 8 byte 値渡しで int64 引数 1 個に乗る
@@ -130,6 +133,11 @@
 #comfunc d2d_RT_BeginDraw 48
 #comfunc d2d_RT_EndDraw 49 var, var
 #comfunc d2d_RT_Release 2
+
+; --- ID2D1Bitmap (extends ID2D1Image extends ID2D1Resource extends IUnknown) ---
+;   既に Release は IUnknown 標準で OK。HSP 側では comobj として扱うだけ
+#usecom ID2D1Bitmap IID_ID2D1Bitmap "{}"
+#comfunc d2d_Bmp_Release 2
 
 ; --- ID2D1SolidColorBrush ---
 ;   ID2D1Brush extends ID2D1Resource extends IUnknown
@@ -299,6 +307,7 @@
 #define ctype _attach_wicenc(%1, %2) newcom %1, IWICBitmapEncoder, -2, %2
 #define ctype _attach_wicfrm(%1, %2) newcom %1, IWICBitmapFrameEncode, -2, %2
 #define ctype _attach_wicstr(%1, %2) newcom %1, IWICStream, -2, %2
+#define ctype _attach_d2dbmp(%1, %2) newcom %1, ID2D1Bitmap, -2, %2
 
 
 ;-----------------------------------------------------------
@@ -558,12 +567,12 @@
         ; 直接 ptr を消費する newcom -1 にする
         newcom _rt_final, ID2D1RenderTarget, -1, d2d_rt_ptrs(id)
         delcom _rt_final
-        d2d_rt_ptrs(id) = 0
+        d2d_rt_ptrs(id) = int64(0)
     }
     if d2d_wicbmp_ptrs(id) ! 0 {
         newcom _bmp_final, IWICBitmap, -1, d2d_wicbmp_ptrs(id)
         delcom _bmp_final
-        d2d_wicbmp_ptrs(id) = 0
+        d2d_wicbmp_ptrs(id) = int64(0)
     }
     d2d_img_w(id) = 0
     d2d_img_h(id) = 0
@@ -897,6 +906,57 @@
     d2d_RT_FillEllipse _rt, _e, _brush
     d2d_SCB_Release _brush
     delcom _brush
+    delcom _rt
+    return
+
+;-----------------------------------------------------------
+; d2d_drawimage src_id, dst_x, dst_y [, dst_w, dst_h]
+;   src_id (= 別の d2d_image) をカレント描画対象に転写する
+;   w/h を 0 にすると元サイズで描画 (アスペクト維持)
+;-----------------------------------------------------------
+#deffunc d2d_drawimage int src_id, int dst_x, int dst_y, int dst_w, int dst_h, \
+    local _rt, local _wicbmp, local _bmp_out, local _bmp_ptr, local _bmp, \
+    local _rect, local _w, local _h
+    if d2d_cur_id < 0 : return
+    if src_id < 0 : return
+    if src_id >= D2D_IMGS_MAX : return
+    if d2d_wicbmp_ptrs(src_id) = 0 : return
+    _d2d_ensure_drawing
+
+    ; src の WIC bitmap を attach
+    _attach_wicbmp(_wicbmp, d2d_wicbmp_ptrs(src_id))
+
+    ; dst の RT 上で ID2D1Bitmap を作成 (CreateBitmapFromWicBitmap)
+    _attach_rt(_rt, d2d_rt_ptrs(d2d_cur_id))
+    sdim _bmp_out, 16
+    d2d_RT_CreateBitmapFromWicBitmap _rt, _wicbmp, 0, _bmp_out
+    delcom _wicbmp
+    if stat ! 0 {
+        delcom _rt
+        mes "d2d_drawimage: CreateBitmapFromWicBitmap stat=" + stat
+        return
+    }
+    dim64 _bmp_ptr, 1
+    d2d_RtlMoveMemory _bmp_ptr, _bmp_out, 8
+
+    ; 描画矩形 (w/h <=0 なら元サイズ)
+    _w = dst_w : if _w <= 0 : _w = d2d_img_w(src_id)
+    _h = dst_h : if _h <= 0 : _h = d2d_img_h(src_id)
+    stdim _rect, D2D_RECT_F
+    _rect->left   = double(dst_x)
+    _rect->top    = double(dst_y)
+    _rect->right  = double(dst_x + _w)
+    _rect->bottom = double(dst_y + _h)
+
+    ; DrawBitmap
+    _attach_d2dbmp(_bmp, _bmp_ptr)
+    ; opacity=1.0, interpolationMode=1=LINEAR, srcRect=NULL
+    ; (DrawBitmap は void 戻りなので stat はチェックしない)
+    d2d_RT_DrawBitmap _rt, _bmp, _rect, 1.0, 1, 0
+
+    ; CreateBitmapFromWicBitmap で得た refを 1 回 release
+    d2d_Bmp_Release _bmp
+    delcom _bmp
     delcom _rt
     return
 
