@@ -279,6 +279,133 @@
     json_release _hid
     return 200
 
+;------------------------------------------------------------
+; ストリーミング (SSE) API
+;
+; iron_ai_chat_stream_start msg
+;   開始。サーバに stream:true で POST、SSE 読み取り状態に入る。
+;
+; iron_ai_chat_stream_poll delta_var, done_var
+;   次の delta テキストを取得。
+;     delta_var : 新しく届いた部分テキスト (空文字の場合あり)
+;     done_var  : 1 = ストリーム終了、0 = 続行
+;   HSP 側は loop で回して delta を逐次表示する。
+;
+; iron_ai_chat_stream_end
+;   接続を閉じる。
+;
+; 例:
+;   iron_ai_chat_stream_start "日本の首都は?"
+;   sdim full, 16384
+;   *loop
+;       iron_ai_chat_stream_poll delta, done
+;       if strlen(delta) > 0 {
+;           full = full + delta
+;           ; 画面に delta を追記描画
+;       }
+;       if done : break
+;       await 16
+;       goto *loop
+;   iron_ai_chat_stream_end
+;------------------------------------------------------------
+
+	sdim _ai_stream_pending, 65536
+	_ai_stream_pending = ""
+	_ai_stream_done = 0
+	goto *_ai_stream_skip_init
+
+#deffunc iron_ai_chat_stream_start str msg,  local _esc_msg, local _sys_esc, local _body, local _msgs, local _full_url, local _hdr_buf
+    _ai_json_escape msg, _esc_msg
+
+    sdim _msgs, strlen(_esc_msg) + strlen(_ai_system) * 2 + strlen(_ai_history_json) + 1024
+    _msgs = ""
+    if strlen(_ai_system) > 0 {
+        _ai_json_escape _ai_system, _sys_esc
+        _msgs = "{\"role\":\"system\",\"content\":\"" + _sys_esc + "\"}"
+    }
+    if strlen(_ai_history_json) > 0 {
+        if strlen(_msgs) > 0 : _msgs = _msgs + ","
+        _msgs = _msgs + _ai_history_json
+    }
+    if strlen(_msgs) > 0 : _msgs = _msgs + ","
+    _msgs = _msgs + "{\"role\":\"user\",\"content\":\"" + _esc_msg + "\"}"
+
+    sdim _body, strlen(_msgs) + 1024
+    _body = "{\"model\":\"" + _ai_model + "\",\"messages\":[" + _msgs + "],\"stream\":true"
+    if _ai_max_tokens > 0 : _body = _body + ",\"max_tokens\":" + _ai_max_tokens
+    _body = _body + "}"
+
+    ; Authorization
+    sdim _hdr_buf, 2048
+    if strlen(_ai_key) > 0 {
+        _hdr_buf = "Authorization: Bearer " + _ai_key + "\r\n"
+    } else {
+        _hdr_buf = ""
+    }
+    http_set_header _hdr_buf
+
+    sdim _full_url, 1024
+    _full_url = _ai_endpoint + "/chat/completions"
+
+    _ai_stream_pending = ""
+    _ai_stream_done = 0
+    http_stream_open _full_url, _body, "application/json"
+    return stat
+
+;   次の delta を取得 (SSE event "data: {...}" 1 個分)
+#deffunc iron_ai_chat_stream_poll var out_delta, var out_done,  local _buf, local _nl2, local _event, local _payload, local _hid, local _d
+    sdim out_delta, 4096
+    out_delta = ""
+    out_done = 0
+    if _ai_stream_done {
+        out_done = 1
+        return 1
+    }
+
+    ; pending が空または "data:" 未到達なら次チャンクを読む
+    repeat 8
+        _nl2 = instr(_ai_stream_pending, 0, "\n\n")
+        if _nl2 >= 0 : break
+
+        sdim _buf, 8192
+        http_stream_read _buf, 8191
+        if stat <= 0 {
+            ; no more data right now; return empty delta
+            return 0
+        }
+        _ai_stream_pending = _ai_stream_pending + _buf
+    loop
+
+    _nl2 = instr(_ai_stream_pending, 0, "\n\n")
+    if _nl2 < 0 : return 0
+
+    _event = strmid(_ai_stream_pending, 0, _nl2)
+    _ai_stream_pending = strmid(_ai_stream_pending, _nl2 + 2, strlen(_ai_stream_pending) - _nl2 - 2)
+
+    ; "data: " prefix
+    if strmid(_event, 0, 6) = "data: " {
+        _payload = strmid(_event, 6, strlen(_event) - 6)
+        if _payload = "[DONE]" {
+            _ai_stream_done = 1
+            out_done = 1
+            return 1
+        }
+        _hid = json_load(_payload)
+        if _hid >= 0 {
+            out_delta = json_str(_hid, "choices[0].delta.content")
+            json_release _hid
+        }
+    }
+    return 1
+
+#deffunc iron_ai_chat_stream_end
+    http_stream_close
+    _ai_stream_pending = ""
+    _ai_stream_done = 0
+    return
+
+*_ai_stream_skip_init
+
 *_ai_skip_init
 
 #endif

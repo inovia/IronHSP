@@ -49,6 +49,9 @@
 #comfunc IMFPMediaPlayer_Pause         4
 #comfunc IMFPMediaPlayer_Stop          5
 #comfunc IMFPMediaPlayer_FrameStep     6
+#comfunc IMFPMediaPlayer_SetPosition   7 var, var
+#comfunc IMFPMediaPlayer_GetPosition   8 var, var
+#comfunc IMFPMediaPlayer_GetDuration   9 var, var
 #comfunc IMFPMediaPlayer_SetRate      10 float
 #comfunc IMFPMediaPlayer_GetState     13 var
 #comfunc IMFPMediaPlayer_SetVolume    20 float
@@ -79,6 +82,22 @@
 	; 全体で 1 個の player スロットを使い回す
 	newcom _iv_player, IMFPMediaPlayer
 	_iv_loaded = 0
+
+	; MFP_POSITIONTYPE_100NS GUID (16 byte)
+	; {c8e00d8d-1eae-4de7-99f4-5c2f8db5729a}
+	sdim _iv_posguid, 16
+	lpoke _iv_posguid, 0, 0xc8e00d8d       ; Data1
+	wpoke _iv_posguid, 4, 0x1eae           ; Data2
+	wpoke _iv_posguid, 6, 0x4de7           ; Data3
+	poke  _iv_posguid, 8,  0x99
+	poke  _iv_posguid, 9,  0xf4
+	poke  _iv_posguid, 10, 0x5c
+	poke  _iv_posguid, 11, 0x2f
+	poke  _iv_posguid, 12, 0x8d
+	poke  _iv_posguid, 13, 0xb5
+	poke  _iv_posguid, 14, 0x72
+	poke  _iv_posguid, 15, 0x9a
+
 	goto *_iv_skip_init
 
 #deffunc iron_video_open str path, int hwnd
@@ -143,6 +162,64 @@
     _st = -1
     IMFPMediaPlayer_GetState _iv_player, _st
     return _st
+
+;------------------------------------------------------------
+; Position / Duration 取得・設定 (PROPVARIANT 経由)
+;
+; PROPVARIANT layout (最小):
+;   offset 0: WORD vt          (VT_I8 = 20 を使う)
+;   offset 2: WORD wReserved1
+;   offset 4: WORD wReserved2
+;   offset 6: WORD wReserved3
+;   offset 8: LONGLONG hVal    (100ns 単位の時刻)
+; 24 byte 確保 (64bit ポインタ化された PROPVARIANT 互換サイズ)
+;------------------------------------------------------------
+
+;   現在の再生位置を ms で取得 (defcfunc)
+#defcfunc iron_video_position_ms  local _pv, local _lo, local _hi, local _hns
+    if _iv_loaded = 0 : return 0
+    sdim _pv, 24
+    IMFPMediaPlayer_GetPosition _iv_player, _iv_posguid, _pv
+    _lo = lpeek(_pv, 8)
+    _hi = lpeek(_pv, 12)
+    ; 100ns → ms: hns / 10000
+    ; 低 32bit を /10000 + 高 32bit 分を加算 (約 429497 ms/unit)
+    return (_lo / 10000) + (_hi * 429497)
+
+;   全長を ms で取得 (defcfunc)
+#defcfunc iron_video_duration_ms  local _pv, local _lo, local _hi
+    if _iv_loaded = 0 : return 0
+    sdim _pv, 24
+    IMFPMediaPlayer_GetDuration _iv_player, _iv_posguid, _pv
+    _lo = lpeek(_pv, 8)
+    _hi = lpeek(_pv, 12)
+    return (_lo / 10000) + (_hi * 429497)
+
+;   指定 ms 位置にシーク
+#deffunc iron_video_seek_ms int ms,  local _pv, local _lo, local _hi, local _ms10k
+    if _iv_loaded = 0 : return
+    sdim _pv, 24
+    ; 0 クリア
+    repeat 24
+        poke _pv, cnt, 0
+    loop
+    ; vt = VT_I8 (20)
+    wpoke _pv, 0, 20
+    ; hVal at offset 8: ms * 10000 (100ns 単位)
+    ; ms が int32 なので hi は簡単計算
+    _ms10k = ms * 10000
+    _lo = _ms10k
+    _hi = 0
+    if ms > 0 & (ms > 214748) {   ; ms * 10000 が int32 範囲を超える
+        ; hns = ms * 10000 を 64bit で計算
+        ; hi = (ms / 429497)  (ざっくり近似)
+        _hi = ms / 429497
+        _lo = (ms - _hi * 429497) * 10000
+    }
+    lpoke _pv, 8, _lo
+    lpoke _pv, 12, _hi
+    IMFPMediaPlayer_SetPosition _iv_player, _iv_posguid, _pv
+    return
 
 *_iv_skip_init
 

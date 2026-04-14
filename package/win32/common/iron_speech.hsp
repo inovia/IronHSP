@@ -60,6 +60,10 @@
 #uselib "hspvosk.dll"
 #cfunc _hvosk_open              "hvosk_open"              str, int
 #cfunc _hvosk_transcribe_wav    "hvosk_transcribe_wav"    int, str, var, int
+#cfunc _hvosk_accept_pcm_s16    "hvosk_accept_pcm_s16"    int, var, int
+#func  _hvosk_partial_result    "hvosk_partial_result"    int, var, int
+#func  _hvosk_final_result      "hvosk_final_result"      int, var, int
+#func  _hvosk_reset             "hvosk_reset"             int
 #func  _hvosk_close             "hvosk_close"             int
 
 ;------------------------------------------------------------
@@ -268,6 +272,93 @@
     if _isp_backend = SPEECH_BACKEND_WINRT   : return "WinRT Speech (mic-only)"
     if _isp_backend = SPEECH_BACKEND_VOSK    : return "Vosk (offline)"
     return "(unknown)"
+
+;============================================================
+; 連続認識 API (A4)
+;
+; iron_speech_listen_start_mic dev_idx
+;   マイクからリアルタイム認識を開始 (現状 VOSK backend のみサポート)
+;   内部で hspmfcam.dll の mfcam_audio_open を使ってマイクオープン
+;
+; iron_speech_listen_poll partial_var, final_var
+;   partial_var : 途中テキスト (継続的に成長)
+;   final_var   : フレーズ確定時の最終テキスト (確定時のみ非空)
+;
+; iron_speech_listen_stop
+;   停止。マイクを閉じる。
+;
+; 例:
+;   iron_speech_set_backend SPEECH_BACKEND_VOSK
+;   iron_speech_set_model "vosk-model-small-ja-0.22"
+;   iron_speech_open
+;   iron_speech_listen_start_mic 0
+;   *loop
+;       iron_speech_listen_poll partial, final
+;       if strlen(partial) > 0 : mes "途中: " + partial
+;       if strlen(final) > 0   : mes "確定: " + final
+;       await 50
+;       stick k, 128
+;       if k & 128 : break
+;       goto *loop
+;   iron_speech_listen_stop
+;============================================================
+
+;------------------------------------------------------------
+; hspmfcam.dll 側の mic 関数を再宣言 (iron_camera_mf に依存せず動くように)
+;------------------------------------------------------------
+#uselib "hspmfcam.dll"
+#cfunc _isp_mfcam_audio_open    "mfcam_audio_open"     int, int, int, int
+#func  _isp_mfcam_audio_close   "mfcam_audio_close"    int
+#cfunc _isp_mfcam_audio_avail   "mfcam_audio_pcm_avail" int
+#func  _isp_mfcam_audio_read    "mfcam_audio_read_pcm" int, var, int
+
+	_isp_mic_handle = -1
+	sdim _isp_pcm_buf, 32768
+	goto *_isp_listen_skip
+
+#deffunc iron_speech_listen_start_mic int dev_idx
+    if _isp_opened = 0 : return SPEECH_ERR_NOT_OPEN
+    if _isp_backend ! SPEECH_BACKEND_VOSK : return SPEECH_ERR_NOT_IMPL
+
+    ; 16kHz mono 16bit でマイクを open (Vosk の典型値)
+    _isp_mic_handle = _isp_mfcam_audio_open(dev_idx, 16000, 1, 16)
+    if _isp_mic_handle < 0 : return SPEECH_ERR_BACKEND
+    return SPEECH_OK
+
+#deffunc iron_speech_listen_poll var out_partial, var out_final,  local _avail, local _read, local _flag
+    sdim out_partial, 4096
+    sdim out_final, 4096
+    out_partial = ""
+    out_final = ""
+    if _isp_mic_handle < 0 : return SPEECH_ERR_NOT_OPEN
+
+    ; 1. マイクのリングから byte 取り出し (最大 16k byte = 0.5 秒)
+    _avail = _isp_mfcam_audio_avail(_isp_mic_handle)
+    if _avail >= 2 {
+        if _avail > 16000 : _avail = 16000
+        sdim _isp_pcm_buf, _avail + 16
+        _isp_mfcam_audio_read _isp_mic_handle, _isp_pcm_buf, _avail
+        _read = stat
+        ; 2. Vosk に食わせる (sample_count = bytes / 2 for s16)
+        _flag = _hvosk_accept_pcm_s16(_isp_vosk_handle, _isp_pcm_buf, _read / 2)
+        if _flag = 1 {
+            ; Final phrase
+            _hvosk_final_result _isp_vosk_handle, out_final, 4095
+        }
+    }
+    ; Partial は常に取得可
+    _hvosk_partial_result _isp_vosk_handle, out_partial, 4095
+    return SPEECH_OK
+
+#deffunc iron_speech_listen_stop
+    if _isp_mic_handle >= 0 {
+        _isp_mfcam_audio_close _isp_mic_handle
+        _isp_mic_handle = -1
+    }
+    if _isp_vosk_handle >= 0 : _hvosk_reset _isp_vosk_handle
+    return SPEECH_OK
+
+*_isp_listen_skip
 
 *_isp_skip_init
 

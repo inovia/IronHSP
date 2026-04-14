@@ -100,6 +100,10 @@
     _http_timeout_ms = 30000
     sdim _http_extra_headers, 1024
     _http_extra_headers = ""
+    ; streaming state
+    _http_stream_session = 0
+    _http_stream_connect = 0
+    _http_stream_request = 0
     return
 
 ;------------------------------------------------------------
@@ -467,6 +471,97 @@
 
     _http_do_buf url, "POST", _body, _total, _ctype, _agent, out_body
     return stat
+
+;------------------------------------------------------------
+; Streaming HTTP (chunk 単位 polling, Server-Sent Events 等に使用)
+;
+;   http_stream_open url, body, ctype
+;     HTTP request を送信して stream 受信モードに入る
+;     open 中は同時に 1 本のみ許容 (内部状態がグローバル)
+;
+;   http_stream_read buf, max_bytes
+;     次の chunk を読み取る。stat に読めた byte 数 (0 = stream 終端)
+;
+;   http_stream_close
+;     stream を閉じる
+;------------------------------------------------------------
+#deffunc http_stream_open str url, str body, str ctype,  local _host, local _path, local _port, local _https, local _flags, local _headers, local _agent, local _result
+    _http_init
+    if _http_stream_request ! 0 : http_stream_close
+
+    _http_parse_url url, _host, _path, _port, _https
+    _agent = "IronHSP/1.0"
+
+    _http_stream_session = _http_open(_agent, 1, "", "", 0)
+    if _http_stream_session = 0 : return 0
+    _http_set_to _http_stream_session, _http_timeout_ms, _http_timeout_ms, _http_timeout_ms, _http_timeout_ms
+
+    _http_stream_connect = _http_connect(_http_stream_session, _host, _port, 0)
+    if _http_stream_connect = 0 {
+        _http_close _http_stream_session
+        _http_stream_session = 0
+        return 0
+    }
+
+    _flags = 0
+    if _https ! 0 : _flags = 0x00800000
+    _http_stream_request = _http_request(_http_stream_connect, "POST", _path, "", "", 0, _flags)
+    if _http_stream_request = 0 {
+        _http_close _http_stream_connect
+        _http_close _http_stream_session
+        _http_stream_connect = 0
+        _http_stream_session = 0
+        return 0
+    }
+
+    _headers = ""
+    if strlen(ctype) > 0 : _headers = "Content-Type: " + ctype + "\r\n"
+    if strlen(_http_extra_headers) > 0 : _headers = _headers + _http_extra_headers
+
+    if strlen(body) > 0 {
+        _result = _http_send(_http_stream_request, _headers, -1, body, strlen(body), strlen(body), 0)
+    } else {
+        _result = _http_send_nobody(_http_stream_request, _headers, -1, 0, 0, 0, 0)
+    }
+    if _result = 0 { http_stream_close : return 0 }
+
+    _result = _http_recv(_http_stream_request, 0)
+    if _result = 0 { http_stream_close : return 0 }
+
+    return 1
+
+#deffunc http_stream_read var out_buf, int max_bytes,  local _avail, local _read, local _result, local _chunk
+    if _http_stream_request = 0 : return -1
+    sdim out_buf, max_bytes + 16
+
+    _result = _http_query_avail(_http_stream_request, _avail)
+    if _result = 0 : return 0
+    if _avail = 0 : return 0
+
+    sdim _chunk, _avail + 16
+    _result = _http_read(_http_stream_request, _chunk, _avail, _read)
+    if _result = 0 : return 0
+    if _read = 0 : return 0
+
+    if _read > max_bytes - 1 : _read = max_bytes - 1
+    memcpy out_buf, _chunk, _read, 0, 0
+    poke out_buf, _read, 0
+    return _read
+
+#deffunc http_stream_close
+    if _http_stream_request ! 0 {
+        _http_close _http_stream_request
+        _http_stream_request = 0
+    }
+    if _http_stream_connect ! 0 {
+        _http_close _http_stream_connect
+        _http_stream_connect = 0
+    }
+    if _http_stream_session ! 0 {
+        _http_close _http_stream_session
+        _http_stream_session = 0
+    }
+    return
 
 #global
 

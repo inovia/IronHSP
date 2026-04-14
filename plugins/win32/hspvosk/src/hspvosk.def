@@ -3,4 +3,8 @@ EXPORTS
     hvosk_open
     hvosk_transcribe_wav
     hvosk_transcribe_pcm_s16
+    hvosk_accept_pcm_s16
+    hvosk_partial_result
+    hvosk_final_result
+    hvosk_reset
     hvosk_close

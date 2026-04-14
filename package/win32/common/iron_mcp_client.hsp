@@ -56,6 +56,10 @@
 	_mcp_next_id = 1
 	sdim _mcp_tools_json, 65536
 	_mcp_tools_count_cached = 0
+	sdim _mcp_resources_json, 65536
+	_mcp_resources_count_cached = 0
+	sdim _mcp_prompts_json, 65536
+	_mcp_prompts_count_cached = 0
 	goto *_mcp_skip_init
 
 ;------------------------------------------------------------
@@ -267,6 +271,160 @@
     json_release _hid
     return 0
 
+;============================================================
+; resources/* (A1)
+;============================================================
+
+#deffunc iron_mcp_resources_refresh local _req, local _resp, local _id, local _hid
+    _id = _mcp_next_id : _mcp_next_id++
+    sdim _req, 256
+    _req = "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"method\":\"resources/list\"}"
+    sdim _resp, 65536
+    _mcp_xchg _req, _resp
+    if stat ! 0 {
+        _mcp_resources_count_cached = 0
+        return stat
+    }
+    _mcp_resources_json = _resp
+    _hid = json_load(_resp)
+    if _hid >= 0 {
+        _mcp_resources_count_cached = json_len(_hid, "result.resources")
+        json_release _hid
+    }
+    return 0
+
+#defcfunc iron_mcp_resources_count
+    if _mcp_resources_count_cached <= 0 : iron_mcp_resources_refresh
+    return _mcp_resources_count_cached
+
+#deffunc iron_mcp_resource_uri int idx, var out_uri, local _hid, local _path
+    sdim out_uri, 1024
+    out_uri = ""
+    if strlen(_mcp_resources_json) = 0 : return
+    _hid = json_load(_mcp_resources_json)
+    if _hid < 0 : return
+    sdim _path, 64
+    _path = "result.resources[" + idx + "].uri"
+    out_uri = json_str(_hid, _path)
+    json_release _hid
+    return
+
+#deffunc iron_mcp_resource_name int idx, var out_name, local _hid, local _path
+    sdim out_name, 256
+    out_name = ""
+    if strlen(_mcp_resources_json) = 0 : return
+    _hid = json_load(_mcp_resources_json)
+    if _hid < 0 : return
+    sdim _path, 64
+    _path = "result.resources[" + idx + "].name"
+    out_name = json_str(_hid, _path)
+    json_release _hid
+    return
+
+;   resource を読み出す。result_var に "result.contents[0].text" or
+;   "result.contents[0].blob" (base64) を入れる。
+#deffunc iron_mcp_resource_read str uri, var out_content, local _req, local _resp, local _id, local _hid, local _uri_esc
+    sdim out_content, 65536
+    out_content = ""
+    _id = _mcp_next_id : _mcp_next_id++
+    _mcp_json_escape uri, _uri_esc
+    sdim _req, strlen(_uri_esc) + 256
+    _req = "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"method\":\"resources/read\",\"params\":{\"uri\":\"" + _uri_esc + "\"}}"
+    sdim _resp, 65536
+    _mcp_xchg _req, _resp
+    if stat ! 0 : return stat
+
+    _hid = json_load(_resp)
+    if _hid < 0 {
+        out_content = _resp
+        return -1
+    }
+    out_content = json_str(_hid, "result.contents[0].text")
+    if strlen(out_content) = 0 {
+        out_content = json_str(_hid, "result.contents[0].blob")
+    }
+    if strlen(out_content) = 0 : out_content = _resp
+    json_release _hid
+    return 0
+
+;============================================================
+; prompts/* (A1)
+;============================================================
+
+#deffunc iron_mcp_prompts_refresh local _req, local _resp, local _id, local _hid
+    _id = _mcp_next_id : _mcp_next_id++
+    sdim _req, 256
+    _req = "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"method\":\"prompts/list\"}"
+    sdim _resp, 65536
+    _mcp_xchg _req, _resp
+    if stat ! 0 {
+        _mcp_prompts_count_cached = 0
+        return stat
+    }
+    _mcp_prompts_json = _resp
+    _hid = json_load(_resp)
+    if _hid >= 0 {
+        _mcp_prompts_count_cached = json_len(_hid, "result.prompts")
+        json_release _hid
+    }
+    return 0
+
+#defcfunc iron_mcp_prompts_count
+    if _mcp_prompts_count_cached <= 0 : iron_mcp_prompts_refresh
+    return _mcp_prompts_count_cached
+
+#deffunc iron_mcp_prompt_name int idx, var out_name, local _hid, local _path
+    sdim out_name, 256
+    out_name = ""
+    if strlen(_mcp_prompts_json) = 0 : return
+    _hid = json_load(_mcp_prompts_json)
+    if _hid < 0 : return
+    sdim _path, 64
+    _path = "result.prompts[" + idx + "].name"
+    out_name = json_str(_hid, _path)
+    json_release _hid
+    return
+
+#deffunc iron_mcp_prompt_desc int idx, var out_desc, local _hid, local _path
+    sdim out_desc, 1024
+    out_desc = ""
+    if strlen(_mcp_prompts_json) = 0 : return
+    _hid = json_load(_mcp_prompts_json)
+    if _hid < 0 : return
+    sdim _path, 64
+    _path = "result.prompts[" + idx + "].description"
+    out_desc = json_str(_hid, _path)
+    json_release _hid
+    return
+
+;   prompt を取得 (引数 JSON は省略可、result_var に messages 配列の
+;   最初の content.text を返す)
+#deffunc iron_mcp_prompt_get str name, str args_json, var out_text, local _req, local _resp, local _id, local _hid, local _name_esc, local _args
+    sdim out_text, 65536
+    out_text = ""
+    _id = _mcp_next_id : _mcp_next_id++
+    _mcp_json_escape name, _name_esc
+    if strlen(args_json) = 0 {
+        _args = "{}"
+    } else {
+        _args = args_json
+    }
+    sdim _req, strlen(_args) + 1024
+    _req = "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"method\":\"prompts/get\",\"params\":{\"name\":\"" + _name_esc + "\",\"arguments\":" + _args + "}}"
+    sdim _resp, 65536
+    _mcp_xchg _req, _resp
+    if stat ! 0 : return stat
+
+    _hid = json_load(_resp)
+    if _hid < 0 {
+        out_text = _resp
+        return -1
+    }
+    out_text = json_str(_hid, "result.messages[0].content.text")
+    if strlen(out_text) = 0 : out_text = _resp
+    json_release _hid
+    return 0
+
 ;------------------------------------------------------------
 ; iron_mcp_close
 ;------------------------------------------------------------
@@ -279,6 +437,8 @@
     }
     _mcp_transport = 0
     _mcp_tools_count_cached = 0
+    _mcp_resources_count_cached = 0
+    _mcp_prompts_count_cached = 0
     return
 
 *_mcp_skip_init

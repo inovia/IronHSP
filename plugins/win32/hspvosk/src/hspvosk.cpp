@@ -229,6 +229,79 @@ HSPVOSK_EXPORT int __stdcall hvosk_transcribe_wav(int handle, const char* wav_pa
     return hvosk_transcribe_pcm_s16(handle, pcm.data(), (int)pcm.size(), out_text, out_len);
 }
 
+// 連続認識用: PCM chunk を食わせる
+//   戻り値: 1 = 完全な phrase が確定 (final result 取得可能)
+//           0 = まだ途中 (partial result 取得可能)
+//          -1 = エラー
+HSPVOSK_EXPORT int __stdcall hvosk_accept_pcm_s16(int handle, const short* pcm, int sample_count) {
+    if (handle < 0 || handle >= MAX_HANDLES) return -1;
+    VoskState& s = g_states[handle];
+    if (!s.active || !s.recognizer || !pcm || sample_count <= 0) return -1;
+    return vosk_recognizer_accept_waveform_s(s.recognizer, pcm, sample_count);
+}
+
+HSPVOSK_EXPORT int __stdcall hvosk_partial_result(int handle, char* out_text, int out_len) {
+    if (handle < 0 || handle >= MAX_HANDLES) return -1;
+    VoskState& s = g_states[handle];
+    if (!s.active || !s.recognizer) return -1;
+    if (!out_text || out_len <= 0) return -1;
+    out_text[0] = 0;
+
+    const char* json = vosk_recognizer_partial_result(s.recognizer);
+    // partial result JSON: {"partial":"..."}
+    // _ExtractTextFromJson は "text" を探すので partial 用の簡易版
+    std::string result;
+    if (json) {
+        const char* p = strstr(json, "\"partial\"");
+        if (p) {
+            p = strchr(p, ':');
+            if (p) {
+                p++;
+                while (*p && (*p == ' ' || *p == '\t')) p++;
+                if (*p == '"') {
+                    p++;
+                    while (*p && *p != '"') {
+                        if (*p == '\\' && p[1]) {
+                            p++;
+                            result += *p++;
+                        } else {
+                            result += *p++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    int n = (int)result.size();
+    if (n >= out_len) n = out_len - 1;
+    memcpy(out_text, result.data(), n);
+    out_text[n] = 0;
+    return n;
+}
+
+HSPVOSK_EXPORT int __stdcall hvosk_final_result(int handle, char* out_text, int out_len) {
+    if (handle < 0 || handle >= MAX_HANDLES) return -1;
+    VoskState& s = g_states[handle];
+    if (!s.active || !s.recognizer) return -1;
+    if (!out_text || out_len <= 0) return -1;
+    out_text[0] = 0;
+
+    const char* json = vosk_recognizer_final_result(s.recognizer);
+    std::string result = ExtractTextFromJson(json);
+    int n = (int)result.size();
+    if (n >= out_len) n = out_len - 1;
+    memcpy(out_text, result.data(), n);
+    out_text[n] = 0;
+    return n;
+}
+
+HSPVOSK_EXPORT void __stdcall hvosk_reset(int handle) {
+    if (handle < 0 || handle >= MAX_HANDLES) return;
+    VoskState& s = g_states[handle];
+    if (!s.active || !s.recognizer) return;
+    vosk_recognizer_reset(s.recognizer);
+}
+
 HSPVOSK_EXPORT void __stdcall hvosk_close(int handle) {
     if (handle < 0 || handle >= MAX_HANDLES) return;
     VoskState& s = g_states[handle];
