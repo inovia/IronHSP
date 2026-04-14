@@ -1,6 +1,6 @@
 ;
-; DxLib サンプル10: シューティングゲーム (ミニ)
-; 簡易的なシューティングゲーム
+; DxLib サンプル10: シュー�?ィングゲーム (ミニ)
+; 簡易的なシュー�?ィングゲーム
 ;
 
 #include "hspdxlib.as"
@@ -8,7 +8,7 @@
 
 	ChangeWindowMode TRUE
 	SetGraphMode 480, 640, 32
-	SetMainWindowText "DxLib シューティングサンプル"
+	SetMainWindowText "DxLib シュー�?ィングサンプル"
 
 	if DxLib_Init() == -1 : end
 	SetDrawScreen DX_SCREEN_BACK
@@ -31,7 +31,7 @@
 	dim by, max_bullet
 	dim bflag, max_bullet
 
-	; 敵 (最大10体)
+	; 敵 (最大10�?)
 	max_enemy = 10
 	dim ex, max_enemy
 	dim ey, max_enemy
@@ -53,7 +53,7 @@
 *main
 	ClearDrawScreen_1
 
-	; === プレイヤー操作 ===
+	; === プレイヤー操�? ===
 	if CheckHitKey(KEY_INPUT_LEFT) == 1  : px -= pspeed
 	if CheckHitKey(KEY_INPUT_RIGHT) == 1 : px += pspeed
 	if CheckHitKey(KEY_INPUT_UP) == 1    : py -= pspeed
@@ -63,7 +63,7 @@
 	if py < 10 : py = 10
 	if py > 620 : py = 620
 
-	; 弾発射 (Zキー or スペース)
+	; 弾発�? (Zキー or スペ�?�ス)
 	shot_timer -= 1
 	if shot_timer < 0 : shot_timer = 0
 	if CheckHitKey(KEY_INPUT_Z) == 1 || CheckHitKey(KEY_INPUT_SPACE) == 1 {
@@ -94,7 +94,7 @@
 		if eflag(cnt) {
 			ey(cnt) += espeed(cnt)
 			if ey(cnt) > 660 {
-				; 画面外に出たら再配置
+				; 画面外に出たら再�?�置
 				ex(cnt) = rnd(440) + 20
 				ey(cnt) = -(rnd(200))
 				espeed(cnt) = rnd(3) + 1
@@ -104,25 +104,25 @@
 		}
 	loop
 
-	; === 当たり判定 ===
+	; === 当たり判�? ===
 	repeat max_enemy
 		ei = cnt
 		if eflag(ei) {
 			repeat max_bullet
 				bi = cnt
 				if bflag(bi) {
-					; 簡易矩形判定
+					; 簡易矩形判�?
 					dx = bx(bi) - ex(ei)
 					dy = by(bi) - ey(ei)
 					if dx < 0 : dx = 0 - dx
 					if dy < 0 : dy = 0 - dy
 					if dx < 14 && dy < 14 {
-						; ヒット！
+						; ヒット�?
 						eflag(ei) = 0
 						bflag(bi) = 0
 						score += 100
 
-						; 敵を再生成
+						; 敵を�?�生�?
 						ex(ei) = rnd(440) + 20
 						ey(ei) = -(rnd(200))
 						eflag(ei) = 1
@@ -138,8 +138,8 @@
 	DrawTriangle px, py - 15, px - 10, py + 10, px + 10, py + 10, green, TRUE
 
 	; === UI ===
-	DrawFormatString 10, 10, yellow, "SCORE: %d", score
-	DrawString 10, 620, "←→↑↓:移動  Z/Space:弾  ESC:終了", white
+	DrawString 10, 10, strf("SCORE: %d", score), yellow
+	DrawString 10, 620, "←�?��?��??:移�?  Z/Space:弾  ESC:終�?", white
 
 	ScreenFlip
 

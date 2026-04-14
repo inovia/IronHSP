@@ -1,6 +1,6 @@
 ;
-; DxLib サンプル08: ブレンドモード
-; 各種ブレンドモードのデモ
+; DxLib サンプル08: ブレンドモー�?
+; �?種ブレンドモード�?��?モ
 ;
 
 #include "hspdxlib.as"
@@ -24,7 +24,7 @@
 *main
 	ClearDrawScreen_1
 
-	; 背景パターン (市松模様)
+	; 背景パターン (市松模�?)
 	repeat 20
 		y_idx = cnt
 		repeat 25
@@ -38,12 +38,12 @@
 		loop
 	loop
 
-	; ベース図形
+	; ベ�?�ス図形
 	DrawCircle 300, 300, 120, red, TRUE
 	DrawCircle 400, 250, 120, green, TRUE
 	DrawCircle 500, 300, 120, blue, TRUE
 
-	; ブレンドモード選択
+	; ブレンドモード選�?
 	if CheckHitKey(KEY_INPUT_1) == 1 : mode = DX_BLENDMODE_NOBLEND
 	if CheckHitKey(KEY_INPUT_2) == 1 : mode = DX_BLENDMODE_ALPHA
 	if CheckHitKey(KEY_INPUT_3) == 1 : mode = DX_BLENDMODE_ADD
@@ -56,23 +56,23 @@
 	if alpha < 0 : alpha = 0
 	if alpha > 255 : alpha = 255
 
-	; ブレンド適用して白い矩形を描画
+	; ブレンド適用して白�?矩形を描画
 	SetDrawBlendMode mode, alpha
 	DrawBox 200, 150, 600, 450, white, TRUE
 	SetDrawBlendMode DX_BLENDMODE_NOBLEND, 0
 
-	; 操作説明
+	; 操作説�?
 	DrawString 10, 10, "[1]NoBlend [2]Alpha [3]Add [4]Sub [5]Mul", white
-	DrawFormatString 10, 30, white, "Alpha: %d (↑/↓で変更)", alpha
+	DrawString 10, 30, strf("Alpha: %d (�?/↓で変更)", alpha), white
 
 	mname = "NOBLEND"
 	if mode == DX_BLENDMODE_ALPHA : mname = "ALPHA"
 	if mode == DX_BLENDMODE_ADD : mname = "ADD"
 	if mode == DX_BLENDMODE_SUB : mname = "SUB"
 	if mode == DX_BLENDMODE_MUL : mname = "MUL"
-	DrawFormatString 10, 50, white, "Mode: %s", mname
+	DrawString 10, 50, strf("Mode: %s", mname), white
 
-	DrawString 10, 570, "ESCキーで終了", white
+	DrawString 10, 570, "ESCキーで終�?", white
 
 	ScreenFlip
 

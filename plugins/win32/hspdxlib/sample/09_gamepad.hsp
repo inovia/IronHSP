@@ -1,6 +1,6 @@
 ;
-; DxLib サンプル09: ゲームパッド入力
-; ジョイパッド・XInput の入力取得
+; DxLib サンプル09: ゲームパッド�?��?
+; ジョイパッド�?�XInput の入力取�?
 ;
 
 #include "hspdxlib.as"
@@ -8,7 +8,7 @@
 
 	ChangeWindowMode TRUE
 	SetGraphMode 640, 480, 32
-	SetMainWindowText "DxLib ゲームパッド入力サンプル"
+	SetMainWindowText "DxLib ゲームパッド�?�力サンプル"
 
 	if DxLib_Init() == -1 : end
 	SetDrawScreen DX_SCREEN_BACK
@@ -27,51 +27,51 @@
 
 	; ジョイパッド接続数
 	pad_num = GetJoypadNum()
-	DrawFormatString 10, 10, white, "接続パッド数: %d", pad_num
+	DrawString 10, 10, strf("接続パ�?ド数: %d", pad_num), white
 
 	if pad_num > 0 {
-		; パッド入力取得
+		; パッド�?�力取�?
 		pad = GetJoypadInputState(DX_INPUT_PAD1)
 
-		; 方向入力
+		; 方向�?��?
 		if pad & PAD_INPUT_UP    : py -= 4
 		if pad & PAD_INPUT_DOWN  : py += 4
 		if pad & PAD_INPUT_LEFT  : px -= 4
 		if pad & PAD_INPUT_RIGHT : px += 4
 
 		; ボタン状態表示
-		DrawString 10, 40, "=== デジタル入力 ===", yellow
+		DrawString 10, 40, "=== �?ジタル入�? ===", yellow
 
-		if pad & PAD_INPUT_UP    : DrawString 10, 70, "↑", green
-		if pad & PAD_INPUT_DOWN  : DrawString 10, 90, "↓", green
-		if pad & PAD_INPUT_LEFT  : DrawString 10, 110, "←", green
-		if pad & PAD_INPUT_RIGHT : DrawString 10, 130, "→", green
+		if pad & PAD_INPUT_UP    : DrawString 10, 70, "�?", green
+		if pad & PAD_INPUT_DOWN  : DrawString 10, 90, "�?", green
+		if pad & PAD_INPUT_LEFT  : DrawString 10, 110, "�?", green
+		if pad & PAD_INPUT_RIGHT : DrawString 10, 130, "�?", green
 
 		if pad & PAD_INPUT_1 : DrawString 100, 70, "Button1", green
 		if pad & PAD_INPUT_2 : DrawString 100, 90, "Button2", green
 		if pad & PAD_INPUT_3 : DrawString 100, 110, "Button3", green
 		if pad & PAD_INPUT_4 : DrawString 100, 130, "Button4", green
 
-		; アナログ入力
+		; アナログ入�?
 		GetJoypadAnalogInput ax, ay, DX_INPUT_PAD1
-		DrawString 10, 170, "=== アナログ入力 ===", yellow
-		DrawFormatString 10, 200, white, "X: %d  Y: %d", ax, ay
+		DrawString 10, 170, "=== アナログ入�? ===", yellow
+		DrawString 10, 200, strf("X: %d  Y: %d", ax, ay), white
 
-		; アナログスティック可視化
+		; アナログス�?ィ�?ク可視化
 		DrawCircle 500, 100, 50, gray, FALSE
 		DrawCircle 500 + ax / 20, 100 + ay / 20, 5, green, TRUE
 	} else {
-		DrawString 10, 40, "ゲームパッドが接続されていません", red
-		DrawString 10, 60, "キーボード(矢印キー)で操作できます", white
+		DrawString 10, 40, "ゲームパッドが接続されて�?ません", red
+		DrawString 10, 60, "キーボ�?��?(矢印キー)で操作できま�?", white
 
-		; キーボードフォールバック
+		; キーボ�?�ドフォールバック
 		if CheckHitKey(KEY_INPUT_UP) == 1 : py -= 4
 		if CheckHitKey(KEY_INPUT_DOWN) == 1 : py += 4
 		if CheckHitKey(KEY_INPUT_LEFT) == 1 : px -= 4
 		if CheckHitKey(KEY_INPUT_RIGHT) == 1 : px += 4
 	}
 
-	; 範囲制限
+	; �?囲制�?
 	if px < 10 : px = 10
 	if px > 620 : px = 620
 	if py < 10 : py = 10
@@ -80,7 +80,7 @@
 	; プレイヤー描画
 	DrawCircle px, py, 10, green, TRUE
 
-	DrawString 10, 450, "ESCキーで終了", gray
+	DrawString 10, 450, "ESCキーで終�?", gray
 
 	ScreenFlip
 

@@ -1,5 +1,5 @@
 ;
-; DxLib サンプル05: サウンド再生
+; DxLib サンプル05: サウンド�?�生
 ; BGMとSEの再生制御
 ;
 ; ※ 実行前に bgm.mp3 / se.wav を用意してください
@@ -20,7 +20,7 @@
 	red    = GetColor(255, 0, 0)
 	yellow = GetColor(255, 255, 0)
 
-	; サウンド読み込み (ファイルがなくてもエラーにはならない)
+	; サウンド読み込み (ファイルがなくてもエラーにはならな�?)
 	bgm = LoadSoundMem("bgm.mp3")
 	se  = LoadSoundMem("se.wav")
 
@@ -36,7 +36,7 @@
 	if bgm != -1 {
 		DrawString 20, 60, "[1] BGM 再生", white
 		DrawString 20, 80, "[2] BGM 停止", white
-		DrawFormatString 20, 100, white, "[↑/↓] 音量: %d / 255", volume
+		DrawString 20, 100, strf("[�?/↓] 音�?: %d / 255", volume), white
 
 		if CheckHitKey(KEY_INPUT_1) == 1 {
 			if bgm_playing == 0 {
@@ -61,7 +61,7 @@
 
 		; 再生状態表示
 		if bgm_playing {
-			DrawString 300, 60, "● BGM再生中", green
+			DrawString 300, 60, "�? BGM再生中", green
 		} else {
 			DrawString 300, 60, "■ BGM停止", red
 		}
@@ -72,7 +72,7 @@
 	; SE制御
 	DrawString 20, 160, "=== 効果音 ===", yellow
 	if se != -1 {
-		DrawString 20, 200, "[スペース] SE再生", white
+		DrawString 20, 200, "[スペ�?�ス] SE再生", white
 		if CheckHitKey(KEY_INPUT_SPACE) == 1 {
 			PlaySoundMem se, DX_PLAYTYPE_BACK
 		}
@@ -80,7 +80,7 @@
 		DrawString 20, 200, "se.wav が見つかりません", red
 	}
 
-	DrawString 20, 440, "ESCキーで終了", white
+	DrawString 20, 440, "ESCキーで終�?", white
 
 	ScreenFlip
 

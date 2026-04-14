@@ -16,14 +16,14 @@
 	white  = GetColor(255, 255, 255)
 	yellow = GetColor(255, 255, 0)
 
-	; ボール
+	; ボ�?�ル
 	bx = 100.0
 	by = 200.0
 	bvx = 3.0
 	bvy = -5.0
 	gravity = 0.2
 
-	; 星
+	; �?
 	dim star_x, 20
 	dim star_y, 20
 	dim star_speed, 20
@@ -49,12 +49,12 @@
 		DrawPixel star_x(cnt), star_y(cnt), c
 	loop
 
-	; バウンドするボール
+	; バウンドする�?��?�ル
 	bx += bvx
 	by += bvy
 	bvy += gravity
 
-	; 壁反射
+	; 壁反�?
 	if bx < 10 : bx = 10.0 : bvx = 0.0 - bvx
 	if bx > 620 : bx = 620.0 : bvx = 0.0 - bvx
 	if by > 460 {
@@ -63,14 +63,14 @@
 	}
 	if by < 10 : by = 10.0 : bvy = 0.0 - bvy
 
-	; ボール描画 (色変化アニメーション)
+	; ボ�?�ル描画 (色変化アニメーション)
 	r = 128 + sin(frame * 0.05) * 127
 	g = 128 + sin(frame * 0.07 + 2.0) * 127
 	b = 128 + sin(frame * 0.09 + 4.0) * 127
 	ball_color = GetColor(int(r), int(g), int(b))
 	DrawCircle int(bx), int(by), 15, ball_color, TRUE
 
-	; 回転する四角形 (簡易)
+	; 回転する四角形 (簡�?)
 	cx = 320
 	cy = 240
 	sz = 40
@@ -88,7 +88,7 @@
 	DrawTriangle x1, y1, x3, y3, x4, y4, yellow, TRUE
 
 	; FPS表示
-	DrawFormatString 10, 10, white, "Frame: %d", frame
+	DrawString 10, 10, strf("Frame: %d", frame), white
 
 	frame += 1
 
