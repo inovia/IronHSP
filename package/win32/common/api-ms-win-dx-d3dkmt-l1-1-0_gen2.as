@@ -15,6 +15,6 @@
 ;--- functions ---
 #uselib "api-ms-win-dx-d3dkmt-l1-1-0.dll"
 ; uint GdiEntry13()
-#cfunc GdiEntry13 "GdiEntry13"
+#cfunc global GdiEntry13 "GdiEntry13"
 
 #endif

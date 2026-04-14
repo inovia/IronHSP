@@ -690,7 +690,7 @@ def emit_types(structs: List[Struct],
     ap("; ============================================================")
     ap("")
     ap("#ifndef __win32_types_gen2_as__")
-    ap("#define __win32_types_gen2_as__")
+    ap("#define global __win32_types_gen2_as__")
     ap("")
     if structs:
         ap(";--- structs ---")
@@ -706,9 +706,9 @@ def emit_types(structs: List[Struct],
             ap(f"; {ename}")
             for (mname, val, _doc) in members:
                 if val >= 0:
-                    ap(f"#define {mname}  {hex(val)}")
+                    ap(f"#define global {mname}  {hex(val)}")
                 else:
-                    ap(f"#define {mname}  {val}")
+                    ap(f"#define global {mname}  {val}")
             ap("")
     ap("#endif")
     ap("")
@@ -730,7 +730,7 @@ def emit_as(dll_short: str, funcs: List[Func]) -> str:
     ap("; ============================================================")
     ap("")
     ap(f"#ifndef __{dll_short}_gen2_as__")
-    ap(f"#define __{dll_short}_gen2_as__")
+    ap(f"#define global __{dll_short}_gen2_as__")
     ap("")
     ap("; Shared NSTRUCT + #define constants for all win32 *_gen2.as")
     ap('#include "win32_types_gen2.as"')
@@ -743,14 +743,14 @@ def emit_as(dll_short: str, funcs: List[Func]) -> str:
             args_txt = ", ".join(t for (t, _n, _d) in fn.args)
             if fn.ret_hsp and fn.ret_hsp != "":
                 if args_txt:
-                    ap(f'#cfunc {fn.entry} "{fn.entry}" {args_txt}')
+                    ap(f'#cfunc global {fn.entry} "{fn.entry}" {args_txt}')
                 else:
-                    ap(f'#cfunc {fn.entry} "{fn.entry}"')
+                    ap(f'#cfunc global {fn.entry} "{fn.entry}"')
             else:
                 if args_txt:
-                    ap(f'#func {fn.entry} "{fn.entry}" {args_txt}')
+                    ap(f'#func global {fn.entry} "{fn.entry}" {args_txt}')
                 else:
-                    ap(f'#func {fn.entry} "{fn.entry}"')
+                    ap(f'#func global {fn.entry} "{fn.entry}"')
             ap("")
     ap("#endif")
     ap("")

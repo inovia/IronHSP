@@ -7,7 +7,7 @@
 ; ============================================================
 
 #ifndef __avrt_gen2_as__
-#define __avrt_gen2_as__
+#define global __avrt_gen2_as__
 
 ; Shared NSTRUCT + #define constants for all win32 *_gen2.as
 #include "win32_types_gen2.as"
@@ -15,36 +15,36 @@
 ;--- functions ---
 #uselib "avrt.dll"
 ; winmdroot.Foundation.BOOL AvQuerySystemResponsiveness(winmdroot.Foundation.HANDLE AvrtHandle, uint* SystemResponsivenessValue)
-#cfunc AvQuerySystemResponsiveness "AvQuerySystemResponsiveness" intptr, var
+#cfunc global AvQuerySystemResponsiveness "AvQuerySystemResponsiveness" intptr, var
 
 ; winmdroot.Foundation.BOOL AvRevertMmThreadCharacteristics(winmdroot.Foundation.HANDLE AvrtHandle)
-#cfunc AvRevertMmThreadCharacteristics "AvRevertMmThreadCharacteristics" intptr
+#cfunc global AvRevertMmThreadCharacteristics "AvRevertMmThreadCharacteristics" intptr
 
 ; winmdroot.Foundation.BOOL AvRtCreateThreadOrderingGroup(winmdroot.Foundation.HANDLE* Context, long* Period, global::System.Guid* ThreadOrderingGuid, [Optional] long* Timeout)
-#cfunc AvRtCreateThreadOrderingGroup "AvRtCreateThreadOrderingGroup" intptr, var, var, var
+#cfunc global AvRtCreateThreadOrderingGroup "AvRtCreateThreadOrderingGroup" intptr, var, var, var
 
 ; winmdroot.Foundation.BOOL AvRtCreateThreadOrderingGroupEx(winmdroot.Foundation.HANDLE* Context, long* Period, global::System.Guid* ThreadOrderingGuid, [Optional] long* Timeout, winmdroot.Foundation.PCWSTR TaskName)
-#cfunc AvRtCreateThreadOrderingGroupExW "AvRtCreateThreadOrderingGroupExW" intptr, var, var, var, wstr
+#cfunc global AvRtCreateThreadOrderingGroupExW "AvRtCreateThreadOrderingGroupExW" intptr, var, var, var, wstr
 
 ; winmdroot.Foundation.BOOL AvRtDeleteThreadOrderingGroup(winmdroot.Foundation.HANDLE Context)
-#cfunc AvRtDeleteThreadOrderingGroup "AvRtDeleteThreadOrderingGroup" intptr
+#cfunc global AvRtDeleteThreadOrderingGroup "AvRtDeleteThreadOrderingGroup" intptr
 
 ; winmdroot.Foundation.BOOL AvRtJoinThreadOrderingGroup(winmdroot.Foundation.HANDLE* Context, global::System.Guid* ThreadOrderingGuid, winmdroot.Foundation.BOOL Before)
-#cfunc AvRtJoinThreadOrderingGroup "AvRtJoinThreadOrderingGroup" intptr, var, int
+#cfunc global AvRtJoinThreadOrderingGroup "AvRtJoinThreadOrderingGroup" intptr, var, int
 
 ; winmdroot.Foundation.BOOL AvRtLeaveThreadOrderingGroup(winmdroot.Foundation.HANDLE Context)
-#cfunc AvRtLeaveThreadOrderingGroup "AvRtLeaveThreadOrderingGroup" intptr
+#cfunc global AvRtLeaveThreadOrderingGroup "AvRtLeaveThreadOrderingGroup" intptr
 
 ; winmdroot.Foundation.BOOL AvRtWaitOnThreadOrderingGroup(winmdroot.Foundation.HANDLE Context)
-#cfunc AvRtWaitOnThreadOrderingGroup "AvRtWaitOnThreadOrderingGroup" intptr
+#cfunc global AvRtWaitOnThreadOrderingGroup "AvRtWaitOnThreadOrderingGroup" intptr
 
 ; winmdroot.Foundation.HANDLE AvSetMmMaxThreadCharacteristics(winmdroot.Foundation.PCWSTR FirstTask, winmdroot.Foundation.PCWSTR SecondTask, uint* TaskIndex)
-#cfunc AvSetMmMaxThreadCharacteristicsW "AvSetMmMaxThreadCharacteristicsW" wstr, wstr, var
+#cfunc global AvSetMmMaxThreadCharacteristicsW "AvSetMmMaxThreadCharacteristicsW" wstr, wstr, var
 
 ; winmdroot.Foundation.HANDLE AvSetMmThreadCharacteristics(winmdroot.Foundation.PCWSTR TaskName, uint* TaskIndex)
-#cfunc AvSetMmThreadCharacteristicsW "AvSetMmThreadCharacteristicsW" wstr, var
+#cfunc global AvSetMmThreadCharacteristicsW "AvSetMmThreadCharacteristicsW" wstr, var
 
 ; winmdroot.Foundation.BOOL AvSetMmThreadPriority(winmdroot.Foundation.HANDLE AvrtHandle, winmdroot.System.Threading.AVRT_PRIORITY Priority)
-#cfunc AvSetMmThreadPriority "AvSetMmThreadPriority" intptr, int
+#cfunc global AvSetMmThreadPriority "AvSetMmThreadPriority" intptr, int
 
 #endif

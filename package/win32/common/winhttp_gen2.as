@@ -7,7 +7,7 @@
 ; ============================================================
 
 #ifndef __winhttp_gen2_as__
-#define __winhttp_gen2_as__
+#define global __winhttp_gen2_as__
 
 ; Shared NSTRUCT + #define constants for all win32 *_gen2.as
 #include "win32_types_gen2.as"
@@ -15,141 +15,141 @@
 ;--- functions ---
 #uselib "winhttp.dll"
 ; winmdroot.Foundation.BOOL WinHttpAddRequestHeaders(void* hRequest, winmdroot.Foundation.PCWSTR lpszHeaders, uint dwHeadersLength, uint dwModifiers)
-#cfunc WinHttpAddRequestHeaders "WinHttpAddRequestHeaders" intptr, wstr, int, int
+#cfunc global WinHttpAddRequestHeaders "WinHttpAddRequestHeaders" intptr, wstr, int, int
 
 ; uint WinHttpAddRequestHeadersEx(void* hRequest, uint dwModifiers, ulong ullFlags, ulong ullExtra, uint cHeaders, winmdroot.Networking.WinHttp.WINHTTP_EXTENDED_HEADER* pHeaders)
-#cfunc WinHttpAddRequestHeadersEx "WinHttpAddRequestHeadersEx" intptr, int, int64, int64, int, var
+#cfunc global WinHttpAddRequestHeadersEx "WinHttpAddRequestHeadersEx" intptr, int, int64, int64, int, var
 
 ; winmdroot.Foundation.BOOL WinHttpCheckPlatform()
-#cfunc WinHttpCheckPlatform "WinHttpCheckPlatform"
+#cfunc global WinHttpCheckPlatform "WinHttpCheckPlatform"
 
 ; winmdroot.Foundation.BOOL WinHttpCloseHandle(void* hInternet)
-#cfunc WinHttpCloseHandle "WinHttpCloseHandle" intptr
+#cfunc global WinHttpCloseHandle "WinHttpCloseHandle" intptr
 
 ; void* WinHttpConnect(void* hSession, winmdroot.Foundation.PCWSTR pswzServerName, ushort nServerPort, uint dwReserved)
-#cfunc WinHttpConnect "WinHttpConnect" intptr, wstr, int, int
+#cfunc global WinHttpConnect "WinHttpConnect" intptr, wstr, int, int
 
 ; winmdroot.Foundation.BOOL WinHttpCrackUrl(winmdroot.Foundation.PCWSTR pwszUrl, uint dwUrlLength, uint dwFlags, winmdroot.Networking.WinHttp.URL_COMPONENTS* lpUrlComponents)
-#cfunc WinHttpCrackUrl "WinHttpCrackUrl" wstr, int, int, var
+#cfunc global WinHttpCrackUrl "WinHttpCrackUrl" wstr, int, int, var
 
 ; uint WinHttpCreateProxyResolver(void* hSession, void** phResolver)
-#cfunc WinHttpCreateProxyResolver "WinHttpCreateProxyResolver" intptr, var
+#cfunc global WinHttpCreateProxyResolver "WinHttpCreateProxyResolver" intptr, var
 
 ; winmdroot.Foundation.BOOL WinHttpCreateUrl(winmdroot.Networking.WinHttp.URL_COMPONENTS* lpUrlComponents, winmdroot.Networking.WinHttp.WIN_HTTP_CREATE_URL_FLAGS dwFlags, winmdroot.Foundation.PWSTR pwszUrl, uint* pdwUrlLength)
-#cfunc WinHttpCreateUrl "WinHttpCreateUrl" var, int, wstr, var
+#cfunc global WinHttpCreateUrl "WinHttpCreateUrl" var, int, wstr, var
 
 ; winmdroot.Foundation.BOOL WinHttpDetectAutoProxyConfigUrl(uint dwAutoDetectFlags, winmdroot.Foundation.PWSTR* ppwstrAutoConfigUrl)
-#cfunc WinHttpDetectAutoProxyConfigUrl "WinHttpDetectAutoProxyConfigUrl" int, var
+#cfunc global WinHttpDetectAutoProxyConfigUrl "WinHttpDetectAutoProxyConfigUrl" int, var
 
 ; void WinHttpFreeProxyResult(winmdroot.Networking.WinHttp.WINHTTP_PROXY_RESULT* pProxyResult)
-#func WinHttpFreeProxyResult "WinHttpFreeProxyResult" var
+#func global WinHttpFreeProxyResult "WinHttpFreeProxyResult" var
 
 ; void WinHttpFreeProxyResultEx(winmdroot.Networking.WinHttp.WINHTTP_PROXY_RESULT_EX* pProxyResultEx)
-#func WinHttpFreeProxyResultEx "WinHttpFreeProxyResultEx" var
+#func global WinHttpFreeProxyResultEx "WinHttpFreeProxyResultEx" var
 
 ; void WinHttpFreeProxySettings(winmdroot.Networking.WinHttp.WINHTTP_PROXY_SETTINGS* pWinHttpProxySettings)
-#func WinHttpFreeProxySettings "WinHttpFreeProxySettings" var
+#func global WinHttpFreeProxySettings "WinHttpFreeProxySettings" var
 
 ; winmdroot.Foundation.BOOL WinHttpGetDefaultProxyConfiguration(winmdroot.Networking.WinHttp.WINHTTP_PROXY_INFO* pProxyInfo)
-#cfunc WinHttpGetDefaultProxyConfiguration "WinHttpGetDefaultProxyConfiguration" var
+#cfunc global WinHttpGetDefaultProxyConfiguration "WinHttpGetDefaultProxyConfiguration" var
 
 ; winmdroot.Foundation.BOOL WinHttpGetIEProxyConfigForCurrentUser(winmdroot.Networking.WinHttp.WINHTTP_CURRENT_USER_IE_PROXY_CONFIG* pProxyConfig)
-#cfunc WinHttpGetIEProxyConfigForCurrentUser "WinHttpGetIEProxyConfigForCurrentUser" var
+#cfunc global WinHttpGetIEProxyConfigForCurrentUser "WinHttpGetIEProxyConfigForCurrentUser" var
 
 ; winmdroot.Foundation.BOOL WinHttpGetProxyForUrl(void* hSession, winmdroot.Foundation.PCWSTR lpcwszUrl, winmdroot.Networking.WinHttp.WINHTTP_AUTOPROXY_OPTIONS* pAutoProxyOptions, winmdroot.Networking.WinHttp.WINHTTP_PROXY_INFO* pProxyInfo)
-#cfunc WinHttpGetProxyForUrl "WinHttpGetProxyForUrl" intptr, wstr, var, var
+#cfunc global WinHttpGetProxyForUrl "WinHttpGetProxyForUrl" intptr, wstr, var, var
 
 ; uint WinHttpGetProxyForUrlEx(void* hResolver, winmdroot.Foundation.PCWSTR pcwszUrl, winmdroot.Networking.WinHttp.WINHTTP_AUTOPROXY_OPTIONS* pAutoProxyOptions, nuint pContext)
-#cfunc WinHttpGetProxyForUrlEx "WinHttpGetProxyForUrlEx" intptr, wstr, var, int
+#cfunc global WinHttpGetProxyForUrlEx "WinHttpGetProxyForUrlEx" intptr, wstr, var, int
 
 ; uint WinHttpGetProxyForUrlEx2(void* hResolver, winmdroot.Foundation.PCWSTR pcwszUrl, winmdroot.Networking.WinHttp.WINHTTP_AUTOPROXY_OPTIONS* pAutoProxyOptions, uint cbInterfaceSelectionContext, [Optional] byte* pInterfaceSelectionContext, nuint pContext)
-#cfunc WinHttpGetProxyForUrlEx2 "WinHttpGetProxyForUrlEx2" intptr, wstr, var, int, var, int
+#cfunc global WinHttpGetProxyForUrlEx2 "WinHttpGetProxyForUrlEx2" intptr, wstr, var, int, var, int
 
 ; uint WinHttpGetProxyResult(void* hResolver, winmdroot.Networking.WinHttp.WINHTTP_PROXY_RESULT* pProxyResult)
-#cfunc WinHttpGetProxyResult "WinHttpGetProxyResult" intptr, var
+#cfunc global WinHttpGetProxyResult "WinHttpGetProxyResult" intptr, var
 
 ; uint WinHttpGetProxyResultEx(void* hResolver, winmdroot.Networking.WinHttp.WINHTTP_PROXY_RESULT_EX* pProxyResultEx)
-#cfunc WinHttpGetProxyResultEx "WinHttpGetProxyResultEx" intptr, var
+#cfunc global WinHttpGetProxyResultEx "WinHttpGetProxyResultEx" intptr, var
 
 ; uint WinHttpGetProxySettingsVersion(void* hSession, uint* pdwProxySettingsVersion)
-#cfunc WinHttpGetProxySettingsVersion "WinHttpGetProxySettingsVersion" intptr, var
+#cfunc global WinHttpGetProxySettingsVersion "WinHttpGetProxySettingsVersion" intptr, var
 
 ; void* WinHttpOpen(winmdroot.Foundation.PCWSTR pszAgentW, winmdroot.Networking.WinHttp.WINHTTP_ACCESS_TYPE dwAccessType, winmdroot.Foundation.PCWSTR pszProxyW, winmdroot.Foundation.PCWSTR pszProxyBypassW, uint dwFlags)
-#cfunc WinHttpOpen "WinHttpOpen" wstr, int, wstr, wstr, int
+#cfunc global WinHttpOpen "WinHttpOpen" wstr, int, wstr, wstr, int
 
 ; void* WinHttpOpenRequest(void* hConnect, winmdroot.Foundation.PCWSTR pwszVerb, winmdroot.Foundation.PCWSTR pwszObjectName, winmdroot.Foundation.PCWSTR pwszVersion, winmdroot.Foundation.PCWSTR pwszReferrer, winmdroot.Foundation.PCWSTR* ppwszAcceptTypes, winmdroot.Networking.WinHttp.WINHTTP_OPEN_REQUEST_FLAGS dwFlags)
-#cfunc WinHttpOpenRequest "WinHttpOpenRequest" intptr, wstr, wstr, wstr, wstr, var, int
+#cfunc global WinHttpOpenRequest "WinHttpOpenRequest" intptr, wstr, wstr, wstr, wstr, var, int
 
 ; winmdroot.Foundation.BOOL WinHttpQueryAuthSchemes(void* hRequest, uint* lpdwSupportedSchemes, uint* lpdwFirstScheme, uint* pdwAuthTarget)
-#cfunc WinHttpQueryAuthSchemes "WinHttpQueryAuthSchemes" intptr, var, var, var
+#cfunc global WinHttpQueryAuthSchemes "WinHttpQueryAuthSchemes" intptr, var, var, var
 
 ; winmdroot.Foundation.BOOL WinHttpQueryDataAvailable(void* hRequest, uint* lpdwNumberOfBytesAvailable)
-#cfunc WinHttpQueryDataAvailable "WinHttpQueryDataAvailable" intptr, var
+#cfunc global WinHttpQueryDataAvailable "WinHttpQueryDataAvailable" intptr, var
 
 ; winmdroot.Foundation.BOOL WinHttpQueryHeaders(void* hRequest, uint dwInfoLevel, winmdroot.Foundation.PCWSTR pwszName, [Optional] void* lpBuffer, uint* lpdwBufferLength, uint* lpdwIndex)
-#cfunc WinHttpQueryHeaders "WinHttpQueryHeaders" intptr, int, wstr, intptr, var, var
+#cfunc global WinHttpQueryHeaders "WinHttpQueryHeaders" intptr, int, wstr, intptr, var, var
 
 ; winmdroot.Foundation.BOOL WinHttpQueryOption(void* hInternet, uint dwOption, [Optional] void* lpBuffer, uint* lpdwBufferLength)
-#cfunc WinHttpQueryOption "WinHttpQueryOption" intptr, int, intptr, var
+#cfunc global WinHttpQueryOption "WinHttpQueryOption" intptr, int, intptr, var
 
 ; winmdroot.Foundation.BOOL WinHttpReadData(void* hRequest, void* lpBuffer, uint dwNumberOfBytesToRead, uint* lpdwNumberOfBytesRead)
-#cfunc WinHttpReadData "WinHttpReadData" intptr, intptr, int, var
+#cfunc global WinHttpReadData "WinHttpReadData" intptr, intptr, int, var
 
 ; uint WinHttpReadProxySettings(void* hSession, winmdroot.Foundation.PCWSTR pcwszConnectionName, winmdroot.Foundation.BOOL fFallBackToDefaultSettings, winmdroot.Foundation.BOOL fSetAutoDiscoverForDefaultSettings, uint* pdwSettingsVersion, winmdroot.Foundation.BOOL* pfDefaultSettingsAreReturned, winmdroot.Networking.WinHttp.WINHTTP_PROXY_SETTINGS* pWinHttpProxySettings)
-#cfunc WinHttpReadProxySettings "WinHttpReadProxySettings" intptr, wstr, int, int, var, var, var
+#cfunc global WinHttpReadProxySettings "WinHttpReadProxySettings" intptr, wstr, int, int, var, var, var
 
 ; winmdroot.Foundation.BOOL WinHttpReceiveResponse(void* hRequest, void* lpReserved)
-#cfunc WinHttpReceiveResponse "WinHttpReceiveResponse" intptr, intptr
+#cfunc global WinHttpReceiveResponse "WinHttpReceiveResponse" intptr, intptr
 
 ; uint WinHttpResetAutoProxy(void* hSession, uint dwFlags)
-#cfunc WinHttpResetAutoProxy "WinHttpResetAutoProxy" intptr, int
+#cfunc global WinHttpResetAutoProxy "WinHttpResetAutoProxy" intptr, int
 
 ; winmdroot.Foundation.BOOL WinHttpSendRequest(void* hRequest, winmdroot.Foundation.PCWSTR lpszHeaders, uint dwHeadersLength, [Optional] void* lpOptional, uint dwOptionalLength, uint dwTotalLength, nuint dwContext)
-#cfunc WinHttpSendRequest "WinHttpSendRequest" intptr, wstr, int, intptr, int, int, int
+#cfunc global WinHttpSendRequest "WinHttpSendRequest" intptr, wstr, int, intptr, int, int, int
 
 ; winmdroot.Foundation.BOOL WinHttpSetCredentials(void* hRequest, uint AuthTargets, uint AuthScheme, winmdroot.Foundation.PCWSTR pwszUserName, winmdroot.Foundation.PCWSTR pwszPassword, void* pAuthParams)
-#cfunc WinHttpSetCredentials "WinHttpSetCredentials" intptr, int, int, wstr, wstr, intptr
+#cfunc global WinHttpSetCredentials "WinHttpSetCredentials" intptr, int, int, wstr, wstr, intptr
 
 ; winmdroot.Foundation.BOOL WinHttpSetDefaultProxyConfiguration(winmdroot.Networking.WinHttp.WINHTTP_PROXY_INFO* pProxyInfo)
-#cfunc WinHttpSetDefaultProxyConfiguration "WinHttpSetDefaultProxyConfiguration" var
+#cfunc global WinHttpSetDefaultProxyConfiguration "WinHttpSetDefaultProxyConfiguration" var
 
 ; winmdroot.Foundation.BOOL WinHttpSetOption([Optional] void* hInternet, uint dwOption, [Optional] void* lpBuffer, uint dwBufferLength)
-#cfunc WinHttpSetOption "WinHttpSetOption" intptr, int, intptr, int
+#cfunc global WinHttpSetOption "WinHttpSetOption" intptr, int, intptr, int
 
 ; uint WinHttpSetProxySettingsPerUser(winmdroot.Foundation.BOOL fProxySettingsPerUser)
-#cfunc WinHttpSetProxySettingsPerUser "WinHttpSetProxySettingsPerUser" int
+#cfunc global WinHttpSetProxySettingsPerUser "WinHttpSetProxySettingsPerUser" int
 
 ; winmdroot.Foundation.BOOL WinHttpSetTimeouts(void* hInternet, int nResolveTimeout, int nConnectTimeout, int nSendTimeout, int nReceiveTimeout)
-#cfunc WinHttpSetTimeouts "WinHttpSetTimeouts" intptr, int, int, int, int
+#cfunc global WinHttpSetTimeouts "WinHttpSetTimeouts" intptr, int, int, int, int
 
 ; winmdroot.Foundation.BOOL WinHttpTimeFromSystemTime(winmdroot.Foundation.SYSTEMTIME* pst, winmdroot.Foundation.PWSTR pwszTime)
-#cfunc WinHttpTimeFromSystemTime "WinHttpTimeFromSystemTime" var, wstr
+#cfunc global WinHttpTimeFromSystemTime "WinHttpTimeFromSystemTime" var, wstr
 
 ; winmdroot.Foundation.BOOL WinHttpTimeToSystemTime(winmdroot.Foundation.PCWSTR pwszTime, winmdroot.Foundation.SYSTEMTIME* pst)
-#cfunc WinHttpTimeToSystemTime "WinHttpTimeToSystemTime" wstr, var
+#cfunc global WinHttpTimeToSystemTime "WinHttpTimeToSystemTime" wstr, var
 
 ; uint WinHttpWebSocketClose(void* hWebSocket, ushort usStatus, [Optional] void* pvReason, uint dwReasonLength)
-#cfunc WinHttpWebSocketClose "WinHttpWebSocketClose" intptr, int, intptr, int
+#cfunc global WinHttpWebSocketClose "WinHttpWebSocketClose" intptr, int, intptr, int
 
 ; void* WinHttpWebSocketCompleteUpgrade(void* hRequest, nuint pContext)
-#cfunc WinHttpWebSocketCompleteUpgrade "WinHttpWebSocketCompleteUpgrade" intptr, int
+#cfunc global WinHttpWebSocketCompleteUpgrade "WinHttpWebSocketCompleteUpgrade" intptr, int
 
 ; uint WinHttpWebSocketQueryCloseStatus(void* hWebSocket, ushort* pusStatus, [Optional] void* pvReason, uint dwReasonLength, uint* pdwReasonLengthConsumed)
-#cfunc WinHttpWebSocketQueryCloseStatus "WinHttpWebSocketQueryCloseStatus" intptr, var, intptr, int, var
+#cfunc global WinHttpWebSocketQueryCloseStatus "WinHttpWebSocketQueryCloseStatus" intptr, var, intptr, int, var
 
 ; uint WinHttpWebSocketReceive(void* hWebSocket, void* pvBuffer, uint dwBufferLength, uint* pdwBytesRead, winmdroot.Networking.WinHttp.WINHTTP_WEB_SOCKET_BUFFER_TYPE* peBufferType)
-#cfunc WinHttpWebSocketReceive "WinHttpWebSocketReceive" intptr, intptr, int, var, var
+#cfunc global WinHttpWebSocketReceive "WinHttpWebSocketReceive" intptr, intptr, int, var, var
 
 ; uint WinHttpWebSocketSend(void* hWebSocket, winmdroot.Networking.WinHttp.WINHTTP_WEB_SOCKET_BUFFER_TYPE eBufferType, [Optional] void* pvBuffer, uint dwBufferLength)
-#cfunc WinHttpWebSocketSend "WinHttpWebSocketSend" intptr, int, intptr, int
+#cfunc global WinHttpWebSocketSend "WinHttpWebSocketSend" intptr, int, intptr, int
 
 ; uint WinHttpWebSocketShutdown(void* hWebSocket, ushort usStatus, [Optional] void* pvReason, uint dwReasonLength)
-#cfunc WinHttpWebSocketShutdown "WinHttpWebSocketShutdown" intptr, int, intptr, int
+#cfunc global WinHttpWebSocketShutdown "WinHttpWebSocketShutdown" intptr, int, intptr, int
 
 ; winmdroot.Foundation.BOOL WinHttpWriteData(void* hRequest, [Optional] void* lpBuffer, uint dwNumberOfBytesToWrite, uint* lpdwNumberOfBytesWritten)
-#cfunc WinHttpWriteData "WinHttpWriteData" intptr, intptr, int, var
+#cfunc global WinHttpWriteData "WinHttpWriteData" intptr, intptr, int, var
 
 ; uint WinHttpWriteProxySettings(void* hSession, winmdroot.Foundation.BOOL fForceUpdate, winmdroot.Networking.WinHttp.WINHTTP_PROXY_SETTINGS* pWinHttpProxySettings)
-#cfunc WinHttpWriteProxySettings "WinHttpWriteProxySettings" intptr, int, var
+#cfunc global WinHttpWriteProxySettings "WinHttpWriteProxySettings" intptr, int, var
 
 #endif

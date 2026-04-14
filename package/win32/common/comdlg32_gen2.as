@@ -7,7 +7,7 @@
 ; ============================================================
 
 #ifndef __comdlg32_gen2_as__
-#define __comdlg32_gen2_as__
+#define global __comdlg32_gen2_as__
 
 ; Shared NSTRUCT + #define constants for all win32 *_gen2.as
 #include "win32_types_gen2.as"
@@ -15,9 +15,9 @@
 ;--- functions ---
 #uselib "comdlg32.dll"
 ; winmdroot.UI.Controls.Dialogs.COMMON_DLG_ERRORS CommDlgExtendedError()
-#cfunc CommDlgExtendedError "CommDlgExtendedError"
+#cfunc global CommDlgExtendedError "CommDlgExtendedError"
 
 ; short GetFileTitleW(winmdroot.Foundation.PCWSTR param0, winmdroot.Foundation.PWSTR Buf, ushort cchSize)
-#cfunc GetFileTitleW "GetFileTitleW" wstr, wstr, int
+#cfunc global GetFileTitleW "GetFileTitleW" wstr, wstr, int
 
 #endif

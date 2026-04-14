@@ -7,7 +7,7 @@
 ; ============================================================
 
 #ifndef __ncrypt_gen2_as__
-#define __ncrypt_gen2_as__
+#define global __ncrypt_gen2_as__
 
 ; Shared NSTRUCT + #define constants for all win32 *_gen2.as
 #include "win32_types_gen2.as"
@@ -15,6 +15,6 @@
 ;--- functions ---
 #uselib "ncrypt.dll"
 ; winmdroot.Foundation.HRESULT NCryptFreeObject(winmdroot.Security.Cryptography.NCRYPT_HANDLE hObject)
-#cfunc NCryptFreeObject "NCryptFreeObject" int
+#cfunc global NCryptFreeObject "NCryptFreeObject" int
 
 #endif

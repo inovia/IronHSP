@@ -7,7 +7,7 @@
 ; ============================================================
 
 #ifndef __user32_gen2_as__
-#define __user32_gen2_as__
+#define global __user32_gen2_as__
 
 ; Shared NSTRUCT + #define constants for all win32 *_gen2.as
 #include "win32_types_gen2.as"
@@ -15,1824 +15,1824 @@
 ;--- functions ---
 #uselib "user32.dll"
 ; winmdroot.Foundation.BOOL UnloadKeyboardLayout(winmdroot.UI.Input.KeyboardAndMouse.HKL hkl)
-#cfunc UnloadKeyboardLayout "UnloadKeyboardLayout" intptr
+#cfunc global UnloadKeyboardLayout "UnloadKeyboardLayout" intptr
 
 ; winmdroot.UI.Input.KeyboardAndMouse.HKL ActivateKeyboardLayout(winmdroot.UI.Input.KeyboardAndMouse.HKL hkl, winmdroot.UI.Input.KeyboardAndMouse.ACTIVATE_KEYBOARD_LAYOUT_FLAGS Flags)
-#cfunc ActivateKeyboardLayout "ActivateKeyboardLayout" intptr, int
+#cfunc global ActivateKeyboardLayout "ActivateKeyboardLayout" intptr, int
 
 ; winmdroot.Foundation.BOOL AddClipboardFormatListener(winmdroot.Foundation.HWND hwnd)
-#cfunc AddClipboardFormatListener "AddClipboardFormatListener" intptr
+#cfunc global AddClipboardFormatListener "AddClipboardFormatListener" intptr
 
 ; winmdroot.Foundation.BOOL AdjustWindowRect(winmdroot.Foundation.RECT* lpRect, winmdroot.UI.WindowsAndMessaging.WINDOW_STYLE dwStyle, winmdroot.Foundation.BOOL bMenu)
-#cfunc AdjustWindowRect "AdjustWindowRect" var, int, int
+#cfunc global AdjustWindowRect "AdjustWindowRect" var, int, int
 
 ; winmdroot.Foundation.BOOL AdjustWindowRectEx(winmdroot.Foundation.RECT* lpRect, winmdroot.UI.WindowsAndMessaging.WINDOW_STYLE dwStyle, winmdroot.Foundation.BOOL bMenu, winmdroot.UI.WindowsAndMessaging.WINDOW_EX_STYLE dwExStyle)
-#cfunc AdjustWindowRectEx "AdjustWindowRectEx" var, int, int, int
+#cfunc global AdjustWindowRectEx "AdjustWindowRectEx" var, int, int, int
 
 ; winmdroot.Foundation.BOOL AdjustWindowRectExForDpi(winmdroot.Foundation.RECT* lpRect, winmdroot.UI.WindowsAndMessaging.WINDOW_STYLE dwStyle, winmdroot.Foundation.BOOL bMenu, winmdroot.UI.WindowsAndMessaging.WINDOW_EX_STYLE dwExStyle, uint dpi)
-#cfunc AdjustWindowRectExForDpi "AdjustWindowRectExForDpi" var, int, int, int, int
+#cfunc global AdjustWindowRectExForDpi "AdjustWindowRectExForDpi" var, int, int, int, int
 
 ; winmdroot.Foundation.BOOL AllowSetForegroundWindow(uint dwProcessId)
-#cfunc AllowSetForegroundWindow "AllowSetForegroundWindow" int
+#cfunc global AllowSetForegroundWindow "AllowSetForegroundWindow" int
 
 ; winmdroot.Foundation.BOOL AnimateWindow(winmdroot.Foundation.HWND hWnd, uint dwTime, winmdroot.UI.WindowsAndMessaging.ANIMATE_WINDOW_FLAGS dwFlags)
-#cfunc AnimateWindow "AnimateWindow" intptr, int, int
+#cfunc global AnimateWindow "AnimateWindow" intptr, int, int
 
 ; winmdroot.Foundation.BOOL AnyPopup()
-#cfunc AnyPopup "AnyPopup"
+#cfunc global AnyPopup "AnyPopup"
 
 ; winmdroot.Foundation.BOOL DestroyMenu(winmdroot.UI.WindowsAndMessaging.HMENU hMenu)
-#cfunc DestroyMenu "DestroyMenu" intptr
+#cfunc global DestroyMenu "DestroyMenu" intptr
 
 ; winmdroot.Foundation.BOOL AppendMenu(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, winmdroot.UI.WindowsAndMessaging.MENU_ITEM_FLAGS uFlags, nuint uIDNewItem, winmdroot.Foundation.PCWSTR lpNewItem)
-#cfunc AppendMenuW "AppendMenuW" intptr, int, int, wstr
+#cfunc global AppendMenuW "AppendMenuW" intptr, int, int, wstr
 
 ; winmdroot.Foundation.BOOL AreDpiAwarenessContextsEqual(winmdroot.UI.HiDpi.DPI_AWARENESS_CONTEXT dpiContextA, winmdroot.UI.HiDpi.DPI_AWARENESS_CONTEXT dpiContextB)
-#cfunc AreDpiAwarenessContextsEqual "AreDpiAwarenessContextsEqual" intptr, intptr
+#cfunc global AreDpiAwarenessContextsEqual "AreDpiAwarenessContextsEqual" intptr, intptr
 
 ; uint ArrangeIconicWindows(winmdroot.Foundation.HWND hWnd)
-#cfunc ArrangeIconicWindows "ArrangeIconicWindows" intptr
+#cfunc global ArrangeIconicWindows "ArrangeIconicWindows" intptr
 
 ; winmdroot.Foundation.BOOL AttachThreadInput(uint idAttach, uint idAttachTo, winmdroot.Foundation.BOOL fAttach)
-#cfunc AttachThreadInput "AttachThreadInput" int, int, int
+#cfunc global AttachThreadInput "AttachThreadInput" int, int, int
 
 ; winmdroot.UI.WindowsAndMessaging.HDWP BeginDeferWindowPos(int nNumWindows)
-#cfunc BeginDeferWindowPos "BeginDeferWindowPos" int
+#cfunc global BeginDeferWindowPos "BeginDeferWindowPos" int
 
 ; winmdroot.Graphics.Gdi.HDC BeginPaint(winmdroot.Foundation.HWND hWnd, winmdroot.Graphics.Gdi.PAINTSTRUCT* lpPaint)
-#cfunc BeginPaint "BeginPaint" intptr, var
+#cfunc global BeginPaint "BeginPaint" intptr, var
 
 ; winmdroot.Foundation.BOOL BlockInput(winmdroot.Foundation.BOOL fBlockIt)
-#cfunc BlockInput "BlockInput" int
+#cfunc global BlockInput "BlockInput" int
 
 ; winmdroot.Foundation.BOOL BringWindowToTop(winmdroot.Foundation.HWND hWnd)
-#cfunc BringWindowToTop "BringWindowToTop" intptr
+#cfunc global BringWindowToTop "BringWindowToTop" intptr
 
 ; int BroadcastSystemMessage(winmdroot.System.StationsAndDesktops.BROADCAST_SYSTEM_MESSAGE_FLAGS flags, [Optional] winmdroot.System.StationsAndDesktops.BROADCAST_SYSTEM_MESSAGE_INFO* lpInfo, uint Msg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam)
-#cfunc BroadcastSystemMessageW "BroadcastSystemMessageW" int, var, int, intptr, intptr
+#cfunc global BroadcastSystemMessageW "BroadcastSystemMessageW" int, var, int, intptr, intptr
 
 ; winmdroot.Foundation.BOOL CloseDesktop(winmdroot.System.StationsAndDesktops.HDESK hDesktop)
-#cfunc CloseDesktop "CloseDesktop" intptr
+#cfunc global CloseDesktop "CloseDesktop" intptr
 
 ; int BroadcastSystemMessageEx(winmdroot.System.StationsAndDesktops.BROADCAST_SYSTEM_MESSAGE_FLAGS flags, [Optional] winmdroot.System.StationsAndDesktops.BROADCAST_SYSTEM_MESSAGE_INFO* lpInfo, uint Msg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam, [Optional] winmdroot.System.StationsAndDesktops.BSMINFO* pbsmInfo)
-#cfunc BroadcastSystemMessageExW "BroadcastSystemMessageExW" int, var, int, intptr, intptr, var
+#cfunc global BroadcastSystemMessageExW "BroadcastSystemMessageExW" int, var, int, intptr, intptr, var
 
 ; winmdroot.Foundation.BOOL CalculatePopupWindowPosition(global::System.Drawing.Point* anchorPoint, winmdroot.Foundation.SIZE* windowSize, uint flags, [Optional] winmdroot.Foundation.RECT* excludeRect, winmdroot.Foundation.RECT* popupWindowPosition)
-#cfunc CalculatePopupWindowPosition "CalculatePopupWindowPosition" var, var, int, var, var
+#cfunc global CalculatePopupWindowPosition "CalculatePopupWindowPosition" var, var, int, var, var
 
 ; winmdroot.Foundation.BOOL CallMsgFilterW(winmdroot.UI.WindowsAndMessaging.MSG* lpMsg, int nCode)
-#cfunc CallMsgFilterW "CallMsgFilterW" var, int
+#cfunc global CallMsgFilterW "CallMsgFilterW" var, int
 
 ; winmdroot.Foundation.BOOL UnhookWindowsHookEx(winmdroot.UI.WindowsAndMessaging.HHOOK hhk)
-#cfunc UnhookWindowsHookEx "UnhookWindowsHookEx" intptr
+#cfunc global UnhookWindowsHookEx "UnhookWindowsHookEx" intptr
 
 ; winmdroot.Foundation.LRESULT CallNextHookEx(winmdroot.UI.WindowsAndMessaging.HHOOK hhk, int nCode, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam)
-#cfunc CallNextHookEx "CallNextHookEx" intptr, int, intptr, intptr
+#cfunc global CallNextHookEx "CallNextHookEx" intptr, int, intptr, intptr
 
 ; winmdroot.Foundation.LRESULT CallWindowProcW(delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.HWND,uint,global::Windows.Win32.Foundation.WPARAM,global::Windows.Win32.Foundation.LPARAM,global::Windows.Win32.Foundation.LRESULT> lpPrevWndFunc, winmdroot.Foundation.HWND hWnd, uint Msg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam)
-#cfunc CallWindowProcW "CallWindowProcW" int, intptr, int, intptr, intptr
+#cfunc global CallWindowProcW "CallWindowProcW" int, intptr, int, intptr, intptr
 
 ; winmdroot.Foundation.BOOL CancelShutdown()
-#cfunc CancelShutdown "CancelShutdown"
+#cfunc global CancelShutdown "CancelShutdown"
 
 ; ushort CascadeWindows(winmdroot.Foundation.HWND hwndParent, winmdroot.UI.WindowsAndMessaging.CASCADE_WINDOWS_HOW wHow, [Optional] winmdroot.Foundation.RECT* lpRect, uint cKids, [Optional] winmdroot.Foundation.HWND* lpKids)
-#cfunc CascadeWindows "CascadeWindows" intptr, int, var, int, intptr
+#cfunc global CascadeWindows "CascadeWindows" intptr, int, var, int, intptr
 
 ; winmdroot.Foundation.BOOL ChangeClipboardChain(winmdroot.Foundation.HWND hWndRemove, winmdroot.Foundation.HWND hWndNewNext)
-#cfunc ChangeClipboardChain "ChangeClipboardChain" intptr, intptr
+#cfunc global ChangeClipboardChain "ChangeClipboardChain" intptr, intptr
 
 ; winmdroot.Graphics.Gdi.DISP_CHANGE ChangeDisplaySettingsW([Optional] winmdroot.Graphics.Gdi.DEVMODEW* lpDevMode, winmdroot.Graphics.Gdi.CDS_TYPE dwFlags)
-#cfunc ChangeDisplaySettingsW "ChangeDisplaySettingsW" var, int
+#cfunc global ChangeDisplaySettingsW "ChangeDisplaySettingsW" var, int
 
 ; winmdroot.Graphics.Gdi.DISP_CHANGE ChangeDisplaySettingsExW(winmdroot.Foundation.PCWSTR lpszDeviceName, [Optional] winmdroot.Graphics.Gdi.DEVMODEW* lpDevMode, winmdroot.Foundation.HWND hwnd, winmdroot.Graphics.Gdi.CDS_TYPE dwflags, [Optional] void* lParam)
-#cfunc ChangeDisplaySettingsExW "ChangeDisplaySettingsExW" wstr, var, intptr, int, intptr
+#cfunc global ChangeDisplaySettingsExW "ChangeDisplaySettingsExW" wstr, var, intptr, int, intptr
 
 ; winmdroot.Foundation.BOOL ChangeMenuW(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, uint cmd, winmdroot.Foundation.PCWSTR lpszNewItem, uint cmdInsert, uint flags)
-#cfunc ChangeMenuW "ChangeMenuW" intptr, int, wstr, int, int
+#cfunc global ChangeMenuW "ChangeMenuW" intptr, int, wstr, int, int
 
 ; winmdroot.Foundation.BOOL ChangeWindowMessageFilter(uint message, winmdroot.UI.WindowsAndMessaging.CHANGE_WINDOW_MESSAGE_FILTER_FLAGS dwFlag)
-#cfunc ChangeWindowMessageFilter "ChangeWindowMessageFilter" int, int
+#cfunc global ChangeWindowMessageFilter "ChangeWindowMessageFilter" int, int
 
 ; winmdroot.Foundation.BOOL ChangeWindowMessageFilterEx(winmdroot.Foundation.HWND hwnd, uint message, winmdroot.UI.WindowsAndMessaging.WINDOW_MESSAGE_FILTER_ACTION action, [Optional] winmdroot.UI.WindowsAndMessaging.CHANGEFILTERSTRUCT* pChangeFilterStruct)
-#cfunc ChangeWindowMessageFilterEx "ChangeWindowMessageFilterEx" intptr, int, int, var
+#cfunc global ChangeWindowMessageFilterEx "ChangeWindowMessageFilterEx" intptr, int, int, var
 
 ; winmdroot.Foundation.PWSTR CharLower(winmdroot.Foundation.PWSTR lpsz)
-#cfunc CharLowerW "CharLowerW" wstr
+#cfunc global CharLowerW "CharLowerW" wstr
 
 ; uint CharLowerBuffW(winmdroot.Foundation.PWSTR lpsz, uint cchLength)
-#cfunc CharLowerBuffW "CharLowerBuffW" wstr, int
+#cfunc global CharLowerBuffW "CharLowerBuffW" wstr, int
 
 ; winmdroot.Foundation.PWSTR CharNextW(winmdroot.Foundation.PCWSTR lpsz)
-#cfunc CharNextW "CharNextW" wstr
+#cfunc global CharNextW "CharNextW" wstr
 
 ; winmdroot.Foundation.PWSTR CharPrevW(winmdroot.Foundation.PCWSTR lpszStart, winmdroot.Foundation.PCWSTR lpszCurrent)
-#cfunc CharPrevW "CharPrevW" wstr, wstr
+#cfunc global CharPrevW "CharPrevW" wstr, wstr
 
 ; winmdroot.Foundation.BOOL CharToOem(winmdroot.Foundation.PCWSTR pSrc, winmdroot.Foundation.PSTR pDst)
-#cfunc CharToOemW "CharToOemW" wstr, str
+#cfunc global CharToOemW "CharToOemW" wstr, str
 
 ; winmdroot.Foundation.BOOL CharToOemBuff(winmdroot.Foundation.PCWSTR lpszSrc, winmdroot.Foundation.PSTR lpszDst, uint cchDstLength)
-#cfunc CharToOemBuffW "CharToOemBuffW" wstr, str, int
+#cfunc global CharToOemBuffW "CharToOemBuffW" wstr, str, int
 
 ; winmdroot.Foundation.PWSTR CharUpper(winmdroot.Foundation.PWSTR lpsz)
-#cfunc CharUpperW "CharUpperW" wstr
+#cfunc global CharUpperW "CharUpperW" wstr
 
 ; uint CharUpperBuffW(winmdroot.Foundation.PWSTR lpsz, uint cchLength)
-#cfunc CharUpperBuffW "CharUpperBuffW" wstr, int
+#cfunc global CharUpperBuffW "CharUpperBuffW" wstr, int
 
 ; winmdroot.Foundation.BOOL CheckDlgButton(winmdroot.Foundation.HWND hDlg, int nIDButton, winmdroot.UI.Controls.DLG_BUTTON_CHECK_STATE uCheck)
-#cfunc CheckDlgButton "CheckDlgButton" intptr, int, int
+#cfunc global CheckDlgButton "CheckDlgButton" intptr, int, int
 
 ; uint CheckMenuItem(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, uint uIDCheckItem, uint uCheck)
-#cfunc CheckMenuItem "CheckMenuItem" intptr, int, int
+#cfunc global CheckMenuItem "CheckMenuItem" intptr, int, int
 
 ; winmdroot.Foundation.BOOL CheckMenuRadioItem(winmdroot.UI.WindowsAndMessaging.HMENU hmenu, uint first, uint last, uint check, uint flags)
-#cfunc CheckMenuRadioItem "CheckMenuRadioItem" intptr, int, int, int, int
+#cfunc global CheckMenuRadioItem "CheckMenuRadioItem" intptr, int, int, int, int
 
 ; winmdroot.Foundation.BOOL CheckRadioButton(winmdroot.Foundation.HWND hDlg, int nIDFirstButton, int nIDLastButton, int nIDCheckButton)
-#cfunc CheckRadioButton "CheckRadioButton" intptr, int, int, int
+#cfunc global CheckRadioButton "CheckRadioButton" intptr, int, int, int
 
 ; winmdroot.Foundation.HWND ChildWindowFromPoint(winmdroot.Foundation.HWND hWndParent, global::System.Drawing.Point Point)
-#cfunc ChildWindowFromPoint "ChildWindowFromPoint" intptr, int
+#cfunc global ChildWindowFromPoint "ChildWindowFromPoint" intptr, int
 
 ; winmdroot.Foundation.HWND ChildWindowFromPointEx(winmdroot.Foundation.HWND hwnd, global::System.Drawing.Point pt, winmdroot.UI.WindowsAndMessaging.CWP_FLAGS flags)
-#cfunc ChildWindowFromPointEx "ChildWindowFromPointEx" intptr, int, int
+#cfunc global ChildWindowFromPointEx "ChildWindowFromPointEx" intptr, int, int
 
 ; winmdroot.Foundation.BOOL ClientToScreen(winmdroot.Foundation.HWND hWnd, global::System.Drawing.Point* lpPoint)
-#cfunc ClientToScreen "ClientToScreen" intptr, var
+#cfunc global ClientToScreen "ClientToScreen" intptr, var
 
 ; winmdroot.Foundation.BOOL ClipCursor([Optional] winmdroot.Foundation.RECT* lpRect)
-#cfunc ClipCursor "ClipCursor" var
+#cfunc global ClipCursor "ClipCursor" var
 
 ; winmdroot.Foundation.BOOL CloseClipboard()
-#cfunc CloseClipboard "CloseClipboard"
+#cfunc global CloseClipboard "CloseClipboard"
 
 ; winmdroot.Foundation.BOOL CloseGestureInfoHandle(winmdroot.UI.Input.Touch.HGESTUREINFO hGestureInfo)
-#cfunc CloseGestureInfoHandle "CloseGestureInfoHandle" intptr
+#cfunc global CloseGestureInfoHandle "CloseGestureInfoHandle" intptr
 
 ; winmdroot.Foundation.BOOL CloseTouchInputHandle(winmdroot.UI.Input.Touch.HTOUCHINPUT hTouchInput)
-#cfunc CloseTouchInputHandle "CloseTouchInputHandle" intptr
+#cfunc global CloseTouchInputHandle "CloseTouchInputHandle" intptr
 
 ; winmdroot.Foundation.BOOL CloseWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc CloseWindow "CloseWindow" intptr
+#cfunc global CloseWindow "CloseWindow" intptr
 
 ; winmdroot.Foundation.BOOL CloseWindowStation(winmdroot.System.StationsAndDesktops.HWINSTA hWinSta)
-#cfunc CloseWindowStation "CloseWindowStation" intptr
+#cfunc global CloseWindowStation "CloseWindowStation" intptr
 
 ; winmdroot.Foundation.NTSTATUS ConsoleControl(winmdroot.System.Console.CONSOLECONTROL Command, void* ConsoleInformation, uint ConsoleInformationLength)
-#cfunc ConsoleControl "ConsoleControl" int, intptr, int
+#cfunc global ConsoleControl "ConsoleControl" int, intptr, int
 
 ; winmdroot.Foundation.BOOL DestroyAcceleratorTable(winmdroot.UI.WindowsAndMessaging.HACCEL hAccel)
-#cfunc DestroyAcceleratorTable "DestroyAcceleratorTable" intptr
+#cfunc global DestroyAcceleratorTable "DestroyAcceleratorTable" intptr
 
 ; int CopyAcceleratorTableW(winmdroot.UI.WindowsAndMessaging.HACCEL hAccelSrc, [Optional] winmdroot.UI.WindowsAndMessaging.ACCEL* lpAccelDst, int cAccelEntries)
-#cfunc CopyAcceleratorTableW "CopyAcceleratorTableW" intptr, var, int
+#cfunc global CopyAcceleratorTableW "CopyAcceleratorTableW" intptr, var, int
 
 ; winmdroot.Foundation.BOOL DestroyIcon(winmdroot.UI.WindowsAndMessaging.HICON hIcon)
-#cfunc DestroyIcon "DestroyIcon" intptr
+#cfunc global DestroyIcon "DestroyIcon" intptr
 
 ; winmdroot.UI.WindowsAndMessaging.HICON CopyIcon(winmdroot.UI.WindowsAndMessaging.HICON hIcon)
-#cfunc CopyIcon "CopyIcon" intptr
+#cfunc global CopyIcon "CopyIcon" intptr
 
 ; winmdroot.Foundation.HANDLE CopyImage(winmdroot.Foundation.HANDLE h, winmdroot.UI.WindowsAndMessaging.GDI_IMAGE_TYPE type, int cx, int cy, winmdroot.UI.WindowsAndMessaging.IMAGE_FLAGS flags)
-#cfunc CopyImage "CopyImage" intptr, int, int, int, int
+#cfunc global CopyImage "CopyImage" intptr, int, int, int, int
 
 ; winmdroot.Foundation.BOOL CopyRect(winmdroot.Foundation.RECT* lprcDst, winmdroot.Foundation.RECT* lprcSrc)
-#cfunc CopyRect "CopyRect" var, var
+#cfunc global CopyRect "CopyRect" var, var
 
 ; int CountClipboardFormats()
-#cfunc CountClipboardFormats "CountClipboardFormats"
+#cfunc global CountClipboardFormats "CountClipboardFormats"
 
 ; winmdroot.UI.WindowsAndMessaging.HACCEL CreateAcceleratorTable(winmdroot.UI.WindowsAndMessaging.ACCEL* paccel, int cAccel)
-#cfunc CreateAcceleratorTableW "CreateAcceleratorTableW" var, int
+#cfunc global CreateAcceleratorTableW "CreateAcceleratorTableW" var, int
 
 ; winmdroot.Foundation.BOOL CreateCaret(winmdroot.Foundation.HWND hWnd, winmdroot.Graphics.Gdi.HBITMAP hBitmap, int nWidth, int nHeight)
-#cfunc CreateCaret "CreateCaret" intptr, intptr, int, int
+#cfunc global CreateCaret "CreateCaret" intptr, intptr, int, int
 
 ; winmdroot.Foundation.BOOL DestroyCursor(winmdroot.UI.WindowsAndMessaging.HCURSOR hCursor)
-#cfunc DestroyCursor "DestroyCursor" intptr
+#cfunc global DestroyCursor "DestroyCursor" intptr
 
 ; winmdroot.UI.WindowsAndMessaging.HCURSOR CreateCursor(winmdroot.Foundation.HINSTANCE hInst, int xHotSpot, int yHotSpot, int nWidth, int nHeight, void* pvANDPlane, void* pvXORPlane)
-#cfunc CreateCursor "CreateCursor" intptr, int, int, int, int, intptr, intptr
+#cfunc global CreateCursor "CreateCursor" intptr, int, int, int, int, intptr, intptr
 
 ; winmdroot.System.StationsAndDesktops.HDESK CreateDesktop(winmdroot.Foundation.PCWSTR lpszDesktop, winmdroot.Foundation.PCWSTR lpszDevice, [Optional] winmdroot.Graphics.Gdi.DEVMODEW* pDevmode, winmdroot.System.StationsAndDesktops.DESKTOP_CONTROL_FLAGS dwFlags, uint dwDesiredAccess, [Optional] winmdroot.Security.SECURITY_ATTRIBUTES* lpsa)
-#cfunc CreateDesktopW "CreateDesktopW" wstr, wstr, var, int, int, var
+#cfunc global CreateDesktopW "CreateDesktopW" wstr, wstr, var, int, int, var
 
 ; winmdroot.System.StationsAndDesktops.HDESK CreateDesktopEx(winmdroot.Foundation.PCWSTR lpszDesktop, winmdroot.Foundation.PCWSTR lpszDevice, [Optional] winmdroot.Graphics.Gdi.DEVMODEW* pDevmode, winmdroot.System.StationsAndDesktops.DESKTOP_CONTROL_FLAGS dwFlags, uint dwDesiredAccess, [Optional] winmdroot.Security.SECURITY_ATTRIBUTES* lpsa, uint ulHeapSize, [Optional] void* pvoid)
-#cfunc CreateDesktopExW "CreateDesktopExW" wstr, wstr, var, int, int, var, int, intptr
+#cfunc global CreateDesktopExW "CreateDesktopExW" wstr, wstr, var, int, int, var, int, intptr
 
 ; winmdroot.Foundation.HWND CreateDialogIndirectParam(winmdroot.Foundation.HINSTANCE hInstance, winmdroot.UI.WindowsAndMessaging.DLGTEMPLATE* lpTemplate, winmdroot.Foundation.HWND hWndParent, delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.HWND,uint,global::Windows.Win32.Foundation.WPARAM,global::Windows.Win32.Foundation.LPARAM,nint> lpDialogFunc, winmdroot.Foundation.LPARAM dwInitParam)
-#cfunc CreateDialogIndirectParamW "CreateDialogIndirectParamW" intptr, var, intptr, int, intptr
+#cfunc global CreateDialogIndirectParamW "CreateDialogIndirectParamW" intptr, var, intptr, int, intptr
 
 ; winmdroot.Foundation.HWND CreateDialogParam(winmdroot.Foundation.HINSTANCE hInstance, winmdroot.Foundation.PCWSTR lpTemplateName, winmdroot.Foundation.HWND hWndParent, delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.HWND,uint,global::Windows.Win32.Foundation.WPARAM,global::Windows.Win32.Foundation.LPARAM,nint> lpDialogFunc, winmdroot.Foundation.LPARAM dwInitParam)
-#cfunc CreateDialogParamW "CreateDialogParamW" intptr, wstr, intptr, int, intptr
+#cfunc global CreateDialogParamW "CreateDialogParamW" intptr, wstr, intptr, int, intptr
 
 ; winmdroot.UI.WindowsAndMessaging.HICON CreateIcon(winmdroot.Foundation.HINSTANCE hInstance, int nWidth, int nHeight, byte cPlanes, byte cBitsPixel, byte* lpbANDbits, byte* lpbXORbits)
-#cfunc CreateIcon "CreateIcon" intptr, int, int, int, int, var, var
+#cfunc global CreateIcon "CreateIcon" intptr, int, int, int, int, var, var
 
 ; winmdroot.UI.WindowsAndMessaging.HICON CreateIconFromResource(byte* presbits, uint dwResSize, winmdroot.Foundation.BOOL fIcon, uint dwVer)
-#cfunc CreateIconFromResource "CreateIconFromResource" var, int, int, int
+#cfunc global CreateIconFromResource "CreateIconFromResource" var, int, int, int
 
 ; winmdroot.UI.WindowsAndMessaging.HICON CreateIconFromResourceEx(byte* presbits, uint dwResSize, winmdroot.Foundation.BOOL fIcon, uint dwVer, int cxDesired, int cyDesired, winmdroot.UI.WindowsAndMessaging.IMAGE_FLAGS Flags)
-#cfunc CreateIconFromResourceEx "CreateIconFromResourceEx" var, int, int, int, int, int, int
+#cfunc global CreateIconFromResourceEx "CreateIconFromResourceEx" var, int, int, int, int, int, int
 
 ; winmdroot.UI.WindowsAndMessaging.HICON CreateIconIndirect(winmdroot.UI.WindowsAndMessaging.ICONINFO* piconinfo)
-#cfunc CreateIconIndirect "CreateIconIndirect" var
+#cfunc global CreateIconIndirect "CreateIconIndirect" var
 
 ; winmdroot.Foundation.HWND CreateMDIWindow(winmdroot.Foundation.PCWSTR lpClassName, winmdroot.Foundation.PCWSTR lpWindowName, winmdroot.UI.WindowsAndMessaging.WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, winmdroot.Foundation.HWND hWndParent, winmdroot.Foundation.HINSTANCE hInstance, winmdroot.Foundation.LPARAM lParam)
-#cfunc CreateMDIWindowW "CreateMDIWindowW" wstr, wstr, int, int, int, int, int, intptr, intptr, intptr
+#cfunc global CreateMDIWindowW "CreateMDIWindowW" wstr, wstr, int, int, int, int, int, intptr, intptr, intptr
 
 ; winmdroot.UI.WindowsAndMessaging.HMENU CreateMenu()
-#cfunc CreateMenu "CreateMenu"
+#cfunc global CreateMenu "CreateMenu"
 
 ; winmdroot.UI.WindowsAndMessaging.HMENU CreatePopupMenu()
-#cfunc CreatePopupMenu "CreatePopupMenu"
+#cfunc global CreatePopupMenu "CreatePopupMenu"
 
 ; void DestroySyntheticPointerDevice(winmdroot.UI.Controls.HSYNTHETICPOINTERDEVICE device)
-#func DestroySyntheticPointerDevice "DestroySyntheticPointerDevice" intptr
+#func global DestroySyntheticPointerDevice "DestroySyntheticPointerDevice" intptr
 
 ; winmdroot.UI.Controls.HSYNTHETICPOINTERDEVICE CreateSyntheticPointerDevice(winmdroot.UI.WindowsAndMessaging.POINTER_INPUT_TYPE pointerType, uint maxCount, winmdroot.UI.Controls.POINTER_FEEDBACK_MODE mode)
-#cfunc CreateSyntheticPointerDevice "CreateSyntheticPointerDevice" int, int, int
+#cfunc global CreateSyntheticPointerDevice "CreateSyntheticPointerDevice" int, int, int
 
 ; winmdroot.Foundation.HWND CreateWindowEx(winmdroot.UI.WindowsAndMessaging.WINDOW_EX_STYLE dwExStyle, winmdroot.Foundation.PCWSTR lpClassName, winmdroot.Foundation.PCWSTR lpWindowName, winmdroot.UI.WindowsAndMessaging.WINDOW_STYLE dwStyle, int X, int Y, int nWidth, int nHeight, winmdroot.Foundation.HWND hWndParent, winmdroot.UI.WindowsAndMessaging.HMENU hMenu, winmdroot.Foundation.HINSTANCE hInstance, [Optional] void* lpParam)
-#cfunc CreateWindowExW "CreateWindowExW" int, wstr, wstr, int, int, int, int, int, intptr, intptr, intptr, intptr
+#cfunc global CreateWindowExW "CreateWindowExW" int, wstr, wstr, int, int, int, int, int, intptr, intptr, intptr, intptr
 
 ; winmdroot.System.StationsAndDesktops.HWINSTA CreateWindowStation(winmdroot.Foundation.PCWSTR lpwinsta, uint dwFlags, uint dwDesiredAccess, [Optional] winmdroot.Security.SECURITY_ATTRIBUTES* lpsa)
-#cfunc CreateWindowStationW "CreateWindowStationW" wstr, int, int, var
+#cfunc global CreateWindowStationW "CreateWindowStationW" wstr, int, int, var
 
 ; winmdroot.Foundation.BOOL DdeDisconnect(winmdroot.System.DataExchange.HCONV hConv)
-#cfunc DdeDisconnect "DdeDisconnect" intptr
+#cfunc global DdeDisconnect "DdeDisconnect" intptr
 
 ; winmdroot.Foundation.BOOL DdeAbandonTransaction(uint idInst, winmdroot.System.DataExchange.HCONV hConv, uint idTransaction)
-#cfunc DdeAbandonTransaction "DdeAbandonTransaction" int, intptr, int
+#cfunc global DdeAbandonTransaction "DdeAbandonTransaction" int, intptr, int
 
 ; winmdroot.Foundation.BOOL DdeFreeDataHandle(winmdroot.System.DataExchange.HDDEDATA hData)
-#cfunc DdeFreeDataHandle "DdeFreeDataHandle" intptr
+#cfunc global DdeFreeDataHandle "DdeFreeDataHandle" intptr
 
 ; byte* DdeAccessData(winmdroot.System.DataExchange.HDDEDATA hData, [Optional] uint* pcbDataSize)
-#cfunc DdeAccessData "DdeAccessData" intptr, var
+#cfunc global DdeAccessData "DdeAccessData" intptr, var
 
 ; winmdroot.System.DataExchange.HDDEDATA DdeAddData(winmdroot.System.DataExchange.HDDEDATA hData, byte* pSrc, uint cb, uint cbOff)
-#cfunc DdeAddData "DdeAddData" intptr, var, int, int
+#cfunc global DdeAddData "DdeAddData" intptr, var, int, int
 
 ; winmdroot.System.DataExchange.HDDEDATA DdeClientTransaction([Optional] byte* pData, uint cbData, winmdroot.System.DataExchange.HCONV hConv, winmdroot.System.DataExchange.HSZ hszItem, uint wFmt, winmdroot.System.DataExchange.DDE_CLIENT_TRANSACTION_TYPE wType, uint dwTimeout, [Optional] uint* pdwResult)
-#cfunc DdeClientTransaction "DdeClientTransaction" var, int, intptr, intptr, int, int, int, var
+#cfunc global DdeClientTransaction "DdeClientTransaction" var, int, intptr, intptr, int, int, int, var
 
 ; int DdeCmpStringHandles(winmdroot.System.DataExchange.HSZ hsz1, winmdroot.System.DataExchange.HSZ hsz2)
-#cfunc DdeCmpStringHandles "DdeCmpStringHandles" intptr, intptr
+#cfunc global DdeCmpStringHandles "DdeCmpStringHandles" intptr, intptr
 
 ; winmdroot.System.DataExchange.HCONV DdeConnect(uint idInst, winmdroot.System.DataExchange.HSZ hszService, winmdroot.System.DataExchange.HSZ hszTopic, [Optional] winmdroot.System.DataExchange.CONVCONTEXT* pCC)
-#cfunc DdeConnect "DdeConnect" int, intptr, intptr, var
+#cfunc global DdeConnect "DdeConnect" int, intptr, intptr, var
 
 ; winmdroot.Foundation.BOOL DdeDisconnectList(winmdroot.System.DataExchange.HCONVLIST hConvList)
-#cfunc DdeDisconnectList "DdeDisconnectList" intptr
+#cfunc global DdeDisconnectList "DdeDisconnectList" intptr
 
 ; winmdroot.System.DataExchange.HCONVLIST DdeConnectList(uint idInst, winmdroot.System.DataExchange.HSZ hszService, winmdroot.System.DataExchange.HSZ hszTopic, winmdroot.System.DataExchange.HCONVLIST hConvList, [Optional] winmdroot.System.DataExchange.CONVCONTEXT* pCC)
-#cfunc DdeConnectList "DdeConnectList" int, intptr, intptr, intptr, var
+#cfunc global DdeConnectList "DdeConnectList" int, intptr, intptr, intptr, var
 
 ; winmdroot.System.DataExchange.HDDEDATA DdeCreateDataHandle(uint idInst, [Optional] byte* pSrc, uint cb, uint cbOff, winmdroot.System.DataExchange.HSZ hszItem, uint wFmt, uint afCmd)
-#cfunc DdeCreateDataHandle "DdeCreateDataHandle" int, var, int, int, intptr, int, int
+#cfunc global DdeCreateDataHandle "DdeCreateDataHandle" int, var, int, int, intptr, int, int
 
 ; winmdroot.System.DataExchange.HSZ DdeCreateStringHandleW(uint idInst, winmdroot.Foundation.PCWSTR psz, int iCodePage)
-#cfunc DdeCreateStringHandleW "DdeCreateStringHandleW" int, wstr, int
+#cfunc global DdeCreateStringHandleW "DdeCreateStringHandleW" int, wstr, int
 
 ; winmdroot.Foundation.BOOL DdeEnableCallback(uint idInst, winmdroot.System.DataExchange.HCONV hConv, winmdroot.System.DataExchange.DDE_ENABLE_CALLBACK_CMD wCmd)
-#cfunc DdeEnableCallback "DdeEnableCallback" int, intptr, int
+#cfunc global DdeEnableCallback "DdeEnableCallback" int, intptr, int
 
 ; winmdroot.Foundation.BOOL DdeFreeStringHandle(uint idInst, winmdroot.System.DataExchange.HSZ hsz)
-#cfunc DdeFreeStringHandle "DdeFreeStringHandle" int, intptr
+#cfunc global DdeFreeStringHandle "DdeFreeStringHandle" int, intptr
 
 ; uint DdeGetData(winmdroot.System.DataExchange.HDDEDATA hData, [Optional] byte* pDst, uint cbMax, uint cbOff)
-#cfunc DdeGetData "DdeGetData" intptr, var, int, int
+#cfunc global DdeGetData "DdeGetData" intptr, var, int, int
 
 ; uint DdeGetLastError(uint idInst)
-#cfunc DdeGetLastError "DdeGetLastError" int
+#cfunc global DdeGetLastError "DdeGetLastError" int
 
 ; winmdroot.Foundation.BOOL DdeImpersonateClient(winmdroot.System.DataExchange.HCONV hConv)
-#cfunc DdeImpersonateClient "DdeImpersonateClient" intptr
+#cfunc global DdeImpersonateClient "DdeImpersonateClient" intptr
 
 ; uint DdeInitializeW(uint* pidInst, delegate *unmanaged[Stdcall]<uint,uint,global::Windows.Win32.System.DataExchange.HCONV,global::Windows.Win32.System.DataExchange.HSZ,global::Windows.Win32.System.DataExchange.HSZ,global::Windows.Win32.System.DataExchange.HDDEDATA,nuint,nuint,global::Windows.Win32.System.DataExchange.HDDEDATA> pfnCallback, winmdroot.System.DataExchange.DDE_INITIALIZE_COMMAND afCmd, uint ulRes)
-#cfunc DdeInitializeW "DdeInitializeW" var, int, int, int
+#cfunc global DdeInitializeW "DdeInitializeW" var, int, int, int
 
 ; winmdroot.Foundation.BOOL DdeKeepStringHandle(uint idInst, winmdroot.System.DataExchange.HSZ hsz)
-#cfunc DdeKeepStringHandle "DdeKeepStringHandle" int, intptr
+#cfunc global DdeKeepStringHandle "DdeKeepStringHandle" int, intptr
 
 ; winmdroot.System.DataExchange.HDDEDATA DdeNameService(uint idInst, winmdroot.System.DataExchange.HSZ hsz1, winmdroot.System.DataExchange.HSZ hsz2, winmdroot.System.DataExchange.DDE_NAME_SERVICE_CMD afCmd)
-#cfunc DdeNameService "DdeNameService" int, intptr, intptr, int
+#cfunc global DdeNameService "DdeNameService" int, intptr, intptr, int
 
 ; winmdroot.Foundation.BOOL DdePostAdvise(uint idInst, winmdroot.System.DataExchange.HSZ hszTopic, winmdroot.System.DataExchange.HSZ hszItem)
-#cfunc DdePostAdvise "DdePostAdvise" int, intptr, intptr
+#cfunc global DdePostAdvise "DdePostAdvise" int, intptr, intptr
 
 ; uint DdeQueryConvInfo(winmdroot.System.DataExchange.HCONV hConv, uint idTransaction, winmdroot.System.DataExchange.CONVINFO* pConvInfo)
-#cfunc DdeQueryConvInfo "DdeQueryConvInfo" intptr, int, var
+#cfunc global DdeQueryConvInfo "DdeQueryConvInfo" intptr, int, var
 
 ; winmdroot.System.DataExchange.HCONV DdeQueryNextServer(winmdroot.System.DataExchange.HCONVLIST hConvList, winmdroot.System.DataExchange.HCONV hConvPrev)
-#cfunc DdeQueryNextServer "DdeQueryNextServer" intptr, intptr
+#cfunc global DdeQueryNextServer "DdeQueryNextServer" intptr, intptr
 
 ; uint DdeQueryStringW(uint idInst, winmdroot.System.DataExchange.HSZ hsz, winmdroot.Foundation.PWSTR psz, uint cchMax, int iCodePage)
-#cfunc DdeQueryStringW "DdeQueryStringW" int, intptr, wstr, int, int
+#cfunc global DdeQueryStringW "DdeQueryStringW" int, intptr, wstr, int, int
 
 ; winmdroot.System.DataExchange.HCONV DdeReconnect(winmdroot.System.DataExchange.HCONV hConv)
-#cfunc DdeReconnect "DdeReconnect" intptr
+#cfunc global DdeReconnect "DdeReconnect" intptr
 
 ; winmdroot.Foundation.BOOL DdeSetQualityOfService(winmdroot.Foundation.HWND hwndClient, winmdroot.Security.SECURITY_QUALITY_OF_SERVICE* pqosNew, winmdroot.Security.SECURITY_QUALITY_OF_SERVICE* pqosPrev)
-#cfunc DdeSetQualityOfService "DdeSetQualityOfService" intptr, var, var
+#cfunc global DdeSetQualityOfService "DdeSetQualityOfService" intptr, var, var
 
 ; winmdroot.Foundation.BOOL DdeSetUserHandle(winmdroot.System.DataExchange.HCONV hConv, uint id, nuint hUser)
-#cfunc DdeSetUserHandle "DdeSetUserHandle" intptr, int, int
+#cfunc global DdeSetUserHandle "DdeSetUserHandle" intptr, int, int
 
 ; winmdroot.Foundation.BOOL DdeUnaccessData(winmdroot.System.DataExchange.HDDEDATA hData)
-#cfunc DdeUnaccessData "DdeUnaccessData" intptr
+#cfunc global DdeUnaccessData "DdeUnaccessData" intptr
 
 ; winmdroot.Foundation.BOOL DdeUninitialize(uint idInst)
-#cfunc DdeUninitialize "DdeUninitialize" int
+#cfunc global DdeUninitialize "DdeUninitialize" int
 
 ; winmdroot.Foundation.LRESULT DefFrameProcW(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.HWND hWndMDIClient, uint uMsg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam)
-#cfunc DefFrameProcW "DefFrameProcW" intptr, intptr, int, intptr, intptr
+#cfunc global DefFrameProcW "DefFrameProcW" intptr, intptr, int, intptr, intptr
 
 ; winmdroot.Foundation.LRESULT DefMDIChildProcW(winmdroot.Foundation.HWND hWnd, uint uMsg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam)
-#cfunc DefMDIChildProcW "DefMDIChildProcW" intptr, int, intptr, intptr
+#cfunc global DefMDIChildProcW "DefMDIChildProcW" intptr, int, intptr, intptr
 
 ; winmdroot.Foundation.LRESULT DefRawInputProc(winmdroot.UI.Input.RAWINPUT** paRawInput, int nInput, uint cbSizeHeader)
-#cfunc DefRawInputProc "DefRawInputProc" var, int, int
+#cfunc global DefRawInputProc "DefRawInputProc" var, int, int
 
 ; winmdroot.UI.WindowsAndMessaging.HDWP DeferWindowPos(winmdroot.UI.WindowsAndMessaging.HDWP hWinPosInfo, winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.HWND hWndInsertAfter, int x, int y, int cx, int cy, winmdroot.UI.WindowsAndMessaging.SET_WINDOW_POS_FLAGS uFlags)
-#cfunc DeferWindowPos "DeferWindowPos" intptr, intptr, intptr, int, int, int, int, int
+#cfunc global DeferWindowPos "DeferWindowPos" intptr, intptr, intptr, int, int, int, int, int
 
 ; winmdroot.Foundation.BOOL DeleteMenu(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, uint uPosition, winmdroot.UI.WindowsAndMessaging.MENU_ITEM_FLAGS uFlags)
-#cfunc DeleteMenu "DeleteMenu" intptr, int, int
+#cfunc global DeleteMenu "DeleteMenu" intptr, int, int
 
 ; winmdroot.Foundation.BOOL DeregisterShellHookWindow(winmdroot.Foundation.HWND hwnd)
-#cfunc DeregisterShellHookWindow "DeregisterShellHookWindow" intptr
+#cfunc global DeregisterShellHookWindow "DeregisterShellHookWindow" intptr
 
 ; winmdroot.Foundation.BOOL DestroyCaret()
-#cfunc DestroyCaret "DestroyCaret"
+#cfunc global DestroyCaret "DestroyCaret"
 
 ; winmdroot.Foundation.BOOL DestroyWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc DestroyWindow "DestroyWindow" intptr
+#cfunc global DestroyWindow "DestroyWindow" intptr
 
 ; nint DialogBoxIndirectParam(winmdroot.Foundation.HINSTANCE hInstance, winmdroot.UI.WindowsAndMessaging.DLGTEMPLATE* hDialogTemplate, winmdroot.Foundation.HWND hWndParent, delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.HWND,uint,global::Windows.Win32.Foundation.WPARAM,global::Windows.Win32.Foundation.LPARAM,nint> lpDialogFunc, winmdroot.Foundation.LPARAM dwInitParam)
-#cfunc DialogBoxIndirectParamW "DialogBoxIndirectParamW" intptr, var, intptr, int, intptr
+#cfunc global DialogBoxIndirectParamW "DialogBoxIndirectParamW" intptr, var, intptr, int, intptr
 
 ; nint DialogBoxParam(winmdroot.Foundation.HINSTANCE hInstance, winmdroot.Foundation.PCWSTR lpTemplateName, winmdroot.Foundation.HWND hWndParent, delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.HWND,uint,global::Windows.Win32.Foundation.WPARAM,global::Windows.Win32.Foundation.LPARAM,nint> lpDialogFunc, winmdroot.Foundation.LPARAM dwInitParam)
-#cfunc DialogBoxParamW "DialogBoxParamW" intptr, wstr, intptr, int, intptr
+#cfunc global DialogBoxParamW "DialogBoxParamW" intptr, wstr, intptr, int, intptr
 
 ; void DisableProcessWindowsGhosting()
-#func DisableProcessWindowsGhosting "DisableProcessWindowsGhosting"
+#func global DisableProcessWindowsGhosting "DisableProcessWindowsGhosting"
 
 ; winmdroot.Foundation.LRESULT DispatchMessageW(winmdroot.UI.WindowsAndMessaging.MSG* lpMsg)
-#cfunc DispatchMessageW "DispatchMessageW" var
+#cfunc global DispatchMessageW "DispatchMessageW" var
 
 ; int DisplayConfigGetDeviceInfo(winmdroot.Devices.Display.DISPLAYCONFIG_DEVICE_INFO_HEADER* requestPacket)
-#cfunc DisplayConfigGetDeviceInfo "DisplayConfigGetDeviceInfo" var
+#cfunc global DisplayConfigGetDeviceInfo "DisplayConfigGetDeviceInfo" var
 
 ; int DisplayConfigSetDeviceInfo(winmdroot.Devices.Display.DISPLAYCONFIG_DEVICE_INFO_HEADER* setPacket)
-#cfunc DisplayConfigSetDeviceInfo "DisplayConfigSetDeviceInfo" var
+#cfunc global DisplayConfigSetDeviceInfo "DisplayConfigSetDeviceInfo" var
 
 ; int DlgDirListW(winmdroot.Foundation.HWND hDlg, winmdroot.Foundation.PWSTR lpPathSpec, int nIDListBox, int nIDStaticPath, winmdroot.UI.Controls.DLG_DIR_LIST_FILE_TYPE uFileType)
-#cfunc DlgDirListW "DlgDirListW" intptr, wstr, int, int, int
+#cfunc global DlgDirListW "DlgDirListW" intptr, wstr, int, int, int
 
 ; int DlgDirListComboBox(winmdroot.Foundation.HWND hDlg, winmdroot.Foundation.PWSTR lpPathSpec, int nIDComboBox, int nIDStaticPath, winmdroot.UI.Controls.DLG_DIR_LIST_FILE_TYPE uFiletype)
-#cfunc DlgDirListComboBoxW "DlgDirListComboBoxW" intptr, wstr, int, int, int
+#cfunc global DlgDirListComboBoxW "DlgDirListComboBoxW" intptr, wstr, int, int, int
 
 ; winmdroot.Foundation.BOOL DlgDirSelectComboBoxEx(winmdroot.Foundation.HWND hwndDlg, winmdroot.Foundation.PWSTR lpString, int cchOut, int idComboBox)
-#cfunc DlgDirSelectComboBoxExW "DlgDirSelectComboBoxExW" intptr, wstr, int, int
+#cfunc global DlgDirSelectComboBoxExW "DlgDirSelectComboBoxExW" intptr, wstr, int, int
 
 ; winmdroot.Foundation.BOOL DlgDirSelectEx(winmdroot.Foundation.HWND hwndDlg, winmdroot.Foundation.PWSTR lpString, int chCount, int idListBox)
-#cfunc DlgDirSelectExW "DlgDirSelectExW" intptr, wstr, int, int
+#cfunc global DlgDirSelectExW "DlgDirSelectExW" intptr, wstr, int, int
 
 ; winmdroot.Foundation.BOOL DragDetect(winmdroot.Foundation.HWND hwnd, global::System.Drawing.Point pt)
-#cfunc DragDetect "DragDetect" intptr, int
+#cfunc global DragDetect "DragDetect" intptr, int
 
 ; uint DragObject(winmdroot.Foundation.HWND hwndParent, winmdroot.Foundation.HWND hwndFrom, uint fmt, nuint data, winmdroot.UI.WindowsAndMessaging.HCURSOR hcur)
-#cfunc DragObject "DragObject" intptr, intptr, int, int, intptr
+#cfunc global DragObject "DragObject" intptr, intptr, int, int, intptr
 
 ; winmdroot.Foundation.BOOL DrawAnimatedRects(winmdroot.Foundation.HWND hwnd, int idAni, winmdroot.Foundation.RECT* lprcFrom, winmdroot.Foundation.RECT* lprcTo)
-#cfunc DrawAnimatedRects "DrawAnimatedRects" intptr, int, var, var
+#cfunc global DrawAnimatedRects "DrawAnimatedRects" intptr, int, var, var
 
 ; winmdroot.Foundation.BOOL DrawCaption(winmdroot.Foundation.HWND hwnd, winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Foundation.RECT* lprect, winmdroot.Graphics.Gdi.DRAW_CAPTION_FLAGS flags)
-#cfunc DrawCaption "DrawCaption" intptr, intptr, var, int
+#cfunc global DrawCaption "DrawCaption" intptr, intptr, var, int
 
 ; winmdroot.Foundation.BOOL DrawEdge(winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Foundation.RECT* qrc, winmdroot.Graphics.Gdi.DRAWEDGE_FLAGS edge, winmdroot.Graphics.Gdi.DRAW_EDGE_FLAGS grfFlags)
-#cfunc DrawEdge "DrawEdge" intptr, var, int, int
+#cfunc global DrawEdge "DrawEdge" intptr, var, int, int
 
 ; winmdroot.Foundation.BOOL DrawFocusRect(winmdroot.Graphics.Gdi.HDC hDC, winmdroot.Foundation.RECT* lprc)
-#cfunc DrawFocusRect "DrawFocusRect" intptr, var
+#cfunc global DrawFocusRect "DrawFocusRect" intptr, var
 
 ; winmdroot.Foundation.BOOL DrawFrameControl(winmdroot.Graphics.Gdi.HDC param0, winmdroot.Foundation.RECT* param1, winmdroot.Graphics.Gdi.DFC_TYPE param2, winmdroot.Graphics.Gdi.DFCS_STATE param3)
-#cfunc DrawFrameControl "DrawFrameControl" intptr, var, int, int
+#cfunc global DrawFrameControl "DrawFrameControl" intptr, var, int, int
 
 ; winmdroot.Foundation.BOOL DrawIcon(winmdroot.Graphics.Gdi.HDC hDC, int X, int Y, winmdroot.UI.WindowsAndMessaging.HICON hIcon)
-#cfunc DrawIcon "DrawIcon" intptr, int, int, intptr
+#cfunc global DrawIcon "DrawIcon" intptr, int, int, intptr
 
 ; winmdroot.Foundation.BOOL DrawIconEx(winmdroot.Graphics.Gdi.HDC hdc, int xLeft, int yTop, winmdroot.UI.WindowsAndMessaging.HICON hIcon, int cxWidth, int cyWidth, uint istepIfAniCur, winmdroot.Graphics.Gdi.HBRUSH hbrFlickerFreeDraw, winmdroot.UI.WindowsAndMessaging.DI_FLAGS diFlags)
-#cfunc DrawIconEx "DrawIconEx" intptr, int, int, intptr, int, int, int, intptr, int
+#cfunc global DrawIconEx "DrawIconEx" intptr, int, int, intptr, int, int, int, intptr, int
 
 ; winmdroot.Foundation.BOOL DrawMenuBar(winmdroot.Foundation.HWND hWnd)
-#cfunc DrawMenuBar "DrawMenuBar" intptr
+#cfunc global DrawMenuBar "DrawMenuBar" intptr
 
 ; winmdroot.Foundation.BOOL DrawStateW(winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Graphics.Gdi.HBRUSH hbrFore, delegate *unmanaged[Stdcall]<global::Windows.Win32.Graphics.Gdi.HDC,global::Windows.Win32.Foundation.LPARAM,global::Windows.Win32.Foundation.WPARAM,int,int,global::Windows.Win32.Foundation.BOOL> qfnCallBack, winmdroot.Foundation.LPARAM lData, winmdroot.Foundation.WPARAM wData, int x, int y, int cx, int cy, winmdroot.Graphics.Gdi.DRAWSTATE_FLAGS uFlags)
-#cfunc DrawStateW "DrawStateW" intptr, intptr, int, intptr, intptr, int, int, int, int, int
+#cfunc global DrawStateW "DrawStateW" intptr, intptr, int, intptr, intptr, int, int, int, int, int
 
 ; int DrawTextW(winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Foundation.PCWSTR lpchText, int cchText, winmdroot.Foundation.RECT* lprc, winmdroot.Graphics.Gdi.DRAW_TEXT_FORMAT format)
-#cfunc DrawTextW "DrawTextW" intptr, wstr, int, var, int
+#cfunc global DrawTextW "DrawTextW" intptr, wstr, int, var, int
 
 ; int DrawTextExW(winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Foundation.PWSTR lpchText, int cchText, winmdroot.Foundation.RECT* lprc, winmdroot.Graphics.Gdi.DRAW_TEXT_FORMAT format, [Optional] winmdroot.Graphics.Gdi.DRAWTEXTPARAMS* lpdtp)
-#cfunc DrawTextExW "DrawTextExW" intptr, wstr, int, var, int, var
+#cfunc global DrawTextExW "DrawTextExW" intptr, wstr, int, var, int, var
 
 ; winmdroot.Foundation.BOOL EmptyClipboard()
-#cfunc EmptyClipboard "EmptyClipboard"
+#cfunc global EmptyClipboard "EmptyClipboard"
 
 ; winmdroot.Foundation.BOOL EnableMenuItem(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, uint uIDEnableItem, winmdroot.UI.WindowsAndMessaging.MENU_ITEM_FLAGS uEnable)
-#cfunc EnableMenuItem "EnableMenuItem" intptr, int, int
+#cfunc global EnableMenuItem "EnableMenuItem" intptr, int, int
 
 ; winmdroot.Foundation.BOOL EnableMouseInPointer(winmdroot.Foundation.BOOL fEnable)
-#cfunc EnableMouseInPointer "EnableMouseInPointer" int
+#cfunc global EnableMouseInPointer "EnableMouseInPointer" int
 
 ; winmdroot.Foundation.BOOL EnableNonClientDpiScaling(winmdroot.Foundation.HWND hwnd)
-#cfunc EnableNonClientDpiScaling "EnableNonClientDpiScaling" intptr
+#cfunc global EnableNonClientDpiScaling "EnableNonClientDpiScaling" intptr
 
 ; winmdroot.Foundation.BOOL EnableScrollBar(winmdroot.Foundation.HWND hWnd, uint wSBflags, winmdroot.UI.Controls.ENABLE_SCROLL_BAR_ARROWS wArrows)
-#cfunc EnableScrollBar "EnableScrollBar" intptr, int, int
+#cfunc global EnableScrollBar "EnableScrollBar" intptr, int, int
 
 ; winmdroot.Foundation.BOOL EnableWindow(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.BOOL bEnable)
-#cfunc EnableWindow "EnableWindow" intptr, int
+#cfunc global EnableWindow "EnableWindow" intptr, int
 
 ; winmdroot.Foundation.BOOL EndDeferWindowPos(winmdroot.UI.WindowsAndMessaging.HDWP hWinPosInfo)
-#cfunc EndDeferWindowPos "EndDeferWindowPos" intptr
+#cfunc global EndDeferWindowPos "EndDeferWindowPos" intptr
 
 ; winmdroot.Foundation.BOOL EndDialog(winmdroot.Foundation.HWND hDlg, nint nResult)
-#cfunc EndDialog "EndDialog" intptr, int
+#cfunc global EndDialog "EndDialog" intptr, int
 
 ; winmdroot.Foundation.BOOL EndMenu()
-#cfunc EndMenu "EndMenu"
+#cfunc global EndMenu "EndMenu"
 
 ; winmdroot.Foundation.BOOL EndPaint(winmdroot.Foundation.HWND hWnd, winmdroot.Graphics.Gdi.PAINTSTRUCT* lpPaint)
-#cfunc EndPaint "EndPaint" intptr, var
+#cfunc global EndPaint "EndPaint" intptr, var
 
 ; winmdroot.Foundation.BOOL EnumChildWindows(winmdroot.Foundation.HWND hWndParent, delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.HWND,global::Windows.Win32.Foundation.LPARAM,global::Windows.Win32.Foundation.BOOL> lpEnumFunc, winmdroot.Foundation.LPARAM lParam)
-#cfunc EnumChildWindows "EnumChildWindows" intptr, int, intptr
+#cfunc global EnumChildWindows "EnumChildWindows" intptr, int, intptr
 
 ; uint EnumClipboardFormats(uint format)
-#cfunc EnumClipboardFormats "EnumClipboardFormats" int
+#cfunc global EnumClipboardFormats "EnumClipboardFormats" int
 
 ; winmdroot.Foundation.BOOL EnumDesktopWindows(winmdroot.System.StationsAndDesktops.HDESK hDesktop, delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.HWND,global::Windows.Win32.Foundation.LPARAM,global::Windows.Win32.Foundation.BOOL> lpfn, winmdroot.Foundation.LPARAM lParam)
-#cfunc EnumDesktopWindows "EnumDesktopWindows" intptr, int, intptr
+#cfunc global EnumDesktopWindows "EnumDesktopWindows" intptr, int, intptr
 
 ; winmdroot.Foundation.BOOL EnumDesktops(winmdroot.System.StationsAndDesktops.HWINSTA hwinsta, delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.PWSTR,global::Windows.Win32.Foundation.LPARAM,global::Windows.Win32.Foundation.BOOL> lpEnumFunc, winmdroot.Foundation.LPARAM lParam)
-#cfunc EnumDesktopsW "EnumDesktopsW" intptr, int, intptr
+#cfunc global EnumDesktopsW "EnumDesktopsW" intptr, int, intptr
 
 ; winmdroot.Foundation.BOOL EnumDisplayDevicesW(winmdroot.Foundation.PCWSTR lpDevice, uint iDevNum, winmdroot.Graphics.Gdi.DISPLAY_DEVICEW* lpDisplayDevice, uint dwFlags)
-#cfunc EnumDisplayDevicesW "EnumDisplayDevicesW" wstr, int, var, int
+#cfunc global EnumDisplayDevicesW "EnumDisplayDevicesW" wstr, int, var, int
 
 ; winmdroot.Foundation.BOOL EnumDisplayMonitors(winmdroot.Graphics.Gdi.HDC hdc, [Optional] winmdroot.Foundation.RECT* lprcClip, delegate *unmanaged[Stdcall]<global::Windows.Win32.Graphics.Gdi.HMONITOR,global::Windows.Win32.Graphics.Gdi.HDC,global::Windows.Win32.Foundation.RECT*,global::Windows.Win32.Foundation.LPARAM,global::Windows.Win32.Foundation.BOOL> lpfnEnum, winmdroot.Foundation.LPARAM dwData)
-#cfunc EnumDisplayMonitors "EnumDisplayMonitors" intptr, var, int, intptr
+#cfunc global EnumDisplayMonitors "EnumDisplayMonitors" intptr, var, int, intptr
 
 ; winmdroot.Foundation.BOOL EnumDisplaySettingsW(winmdroot.Foundation.PCWSTR lpszDeviceName, winmdroot.Graphics.Gdi.ENUM_DISPLAY_SETTINGS_MODE iModeNum, winmdroot.Graphics.Gdi.DEVMODEW* lpDevMode)
-#cfunc EnumDisplaySettingsW "EnumDisplaySettingsW" wstr, int, var
+#cfunc global EnumDisplaySettingsW "EnumDisplaySettingsW" wstr, int, var
 
 ; winmdroot.Foundation.BOOL EnumDisplaySettingsExW(winmdroot.Foundation.PCWSTR lpszDeviceName, winmdroot.Graphics.Gdi.ENUM_DISPLAY_SETTINGS_MODE iModeNum, winmdroot.Graphics.Gdi.DEVMODEW* lpDevMode, winmdroot.Graphics.Gdi.ENUM_DISPLAY_SETTINGS_FLAGS dwFlags)
-#cfunc EnumDisplaySettingsExW "EnumDisplaySettingsExW" wstr, int, var, int
+#cfunc global EnumDisplaySettingsExW "EnumDisplaySettingsExW" wstr, int, var, int
 
 ; int EnumPropsW(winmdroot.Foundation.HWND hWnd, delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.HWND,winmdroot.Foundation.PCWSTR,global::Windows.Win32.Foundation.HANDLE,global::Windows.Win32.Foundation.BOOL> lpEnumFunc)
-#cfunc EnumPropsW "EnumPropsW" intptr, int
+#cfunc global EnumPropsW "EnumPropsW" intptr, int
 
 ; int EnumPropsExW(winmdroot.Foundation.HWND hWnd, delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.HWND,global::Windows.Win32.Foundation.PWSTR,global::Windows.Win32.Foundation.HANDLE,nuint,global::Windows.Win32.Foundation.BOOL> lpEnumFunc, winmdroot.Foundation.LPARAM lParam)
-#cfunc EnumPropsExW "EnumPropsExW" intptr, int, intptr
+#cfunc global EnumPropsExW "EnumPropsExW" intptr, int, intptr
 
 ; winmdroot.Foundation.BOOL EnumThreadWindows(uint dwThreadId, delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.HWND,global::Windows.Win32.Foundation.LPARAM,global::Windows.Win32.Foundation.BOOL> lpfn, winmdroot.Foundation.LPARAM lParam)
-#cfunc EnumThreadWindows "EnumThreadWindows" int, int, intptr
+#cfunc global EnumThreadWindows "EnumThreadWindows" int, int, intptr
 
 ; winmdroot.Foundation.BOOL EnumWindowStations(delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.PWSTR,global::Windows.Win32.Foundation.LPARAM,global::Windows.Win32.Foundation.BOOL> lpEnumFunc, winmdroot.Foundation.LPARAM lParam)
-#cfunc EnumWindowStationsW "EnumWindowStationsW" int, intptr
+#cfunc global EnumWindowStationsW "EnumWindowStationsW" int, intptr
 
 ; winmdroot.Foundation.BOOL EnumWindows(delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.HWND,global::Windows.Win32.Foundation.LPARAM,global::Windows.Win32.Foundation.BOOL> lpEnumFunc, winmdroot.Foundation.LPARAM lParam)
-#cfunc EnumWindows "EnumWindows" int, intptr
+#cfunc global EnumWindows "EnumWindows" int, intptr
 
 ; winmdroot.Foundation.BOOL EqualRect(winmdroot.Foundation.RECT* lprc1, winmdroot.Foundation.RECT* lprc2)
-#cfunc EqualRect "EqualRect" var, var
+#cfunc global EqualRect "EqualRect" var, var
 
 ; winmdroot.Foundation.BOOL EvaluateProximityToPolygon(uint numVertices, global::System.Drawing.Point* controlPolygon, winmdroot.UI.Controls.TOUCH_HIT_TESTING_INPUT* pHitTestingInput, winmdroot.UI.Controls.TOUCH_HIT_TESTING_PROXIMITY_EVALUATION* pProximityEval)
-#cfunc EvaluateProximityToPolygon "EvaluateProximityToPolygon" int, var, var, var
+#cfunc global EvaluateProximityToPolygon "EvaluateProximityToPolygon" int, var, var, var
 
 ; winmdroot.Foundation.BOOL EvaluateProximityToRect(winmdroot.Foundation.RECT* controlBoundingBox, winmdroot.UI.Controls.TOUCH_HIT_TESTING_INPUT* pHitTestingInput, winmdroot.UI.Controls.TOUCH_HIT_TESTING_PROXIMITY_EVALUATION* pProximityEval)
-#cfunc EvaluateProximityToRect "EvaluateProximityToRect" var, var, var
+#cfunc global EvaluateProximityToRect "EvaluateProximityToRect" var, var, var
 
 ; int ExcludeUpdateRgn(winmdroot.Graphics.Gdi.HDC hDC, winmdroot.Foundation.HWND hWnd)
-#cfunc ExcludeUpdateRgn "ExcludeUpdateRgn" intptr, intptr
+#cfunc global ExcludeUpdateRgn "ExcludeUpdateRgn" intptr, intptr
 
 ; winmdroot.Foundation.BOOL ExitWindowsEx(winmdroot.System.Shutdown.EXIT_WINDOWS_FLAGS uFlags, winmdroot.System.Shutdown.SHUTDOWN_REASON dwReason)
-#cfunc ExitWindowsEx "ExitWindowsEx" int, int
+#cfunc global ExitWindowsEx "ExitWindowsEx" int, int
 
 ; int FillRect(winmdroot.Graphics.Gdi.HDC hDC, winmdroot.Foundation.RECT* lprc, winmdroot.Graphics.Gdi.HBRUSH hbr)
-#cfunc FillRect "FillRect" intptr, var, intptr
+#cfunc global FillRect "FillRect" intptr, var, intptr
 
 ; winmdroot.Foundation.HWND FindWindow(winmdroot.Foundation.PCWSTR lpClassName, winmdroot.Foundation.PCWSTR lpWindowName)
-#cfunc FindWindowW "FindWindowW" wstr, wstr
+#cfunc global FindWindowW "FindWindowW" wstr, wstr
 
 ; winmdroot.Foundation.HWND FindWindowEx(winmdroot.Foundation.HWND hWndParent, winmdroot.Foundation.HWND hWndChildAfter, winmdroot.Foundation.PCWSTR lpszClass, winmdroot.Foundation.PCWSTR lpszWindow)
-#cfunc FindWindowExW "FindWindowExW" intptr, intptr, wstr, wstr
+#cfunc global FindWindowExW "FindWindowExW" intptr, intptr, wstr, wstr
 
 ; winmdroot.Foundation.BOOL FlashWindow(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.BOOL bInvert)
-#cfunc FlashWindow "FlashWindow" intptr, int
+#cfunc global FlashWindow "FlashWindow" intptr, int
 
 ; winmdroot.Foundation.BOOL FlashWindowEx(winmdroot.UI.WindowsAndMessaging.FLASHWINFO* pfwi)
-#cfunc FlashWindowEx "FlashWindowEx" var
+#cfunc global FlashWindowEx "FlashWindowEx" var
 
 ; int FrameRect(winmdroot.Graphics.Gdi.HDC hDC, winmdroot.Foundation.RECT* lprc, winmdroot.Graphics.Gdi.HBRUSH hbr)
-#cfunc FrameRect "FrameRect" intptr, var, intptr
+#cfunc global FrameRect "FrameRect" intptr, var, intptr
 
 ; winmdroot.Foundation.BOOL FreeDDElParam(uint msg, winmdroot.Foundation.LPARAM lParam)
-#cfunc FreeDDElParam "FreeDDElParam" int, intptr
+#cfunc global FreeDDElParam "FreeDDElParam" int, intptr
 
 ; winmdroot.Foundation.HWND GetActiveWindow()
-#cfunc GetActiveWindow "GetActiveWindow"
+#cfunc global GetActiveWindow "GetActiveWindow"
 
 ; winmdroot.Foundation.BOOL GetAltTabInfo(winmdroot.Foundation.HWND hwnd, int iItem, winmdroot.UI.WindowsAndMessaging.ALTTABINFO* pati, winmdroot.Foundation.PWSTR pszItemText, uint cchItemText)
-#cfunc GetAltTabInfoW "GetAltTabInfoW" intptr, int, var, wstr, int
+#cfunc global GetAltTabInfoW "GetAltTabInfoW" intptr, int, var, wstr, int
 
 ; winmdroot.Foundation.HWND GetAncestor(winmdroot.Foundation.HWND hwnd, winmdroot.UI.WindowsAndMessaging.GET_ANCESTOR_FLAGS gaFlags)
-#cfunc GetAncestor "GetAncestor" intptr, int
+#cfunc global GetAncestor "GetAncestor" intptr, int
 
 ; short GetAsyncKeyState(int vKey)
-#cfunc GetAsyncKeyState "GetAsyncKeyState" int
+#cfunc global GetAsyncKeyState "GetAsyncKeyState" int
 
 ; winmdroot.Foundation.BOOL GetAutoRotationState(winmdroot.Devices.Display.AR_STATE* pState)
-#cfunc GetAutoRotationState "GetAutoRotationState" var
+#cfunc global GetAutoRotationState "GetAutoRotationState" var
 
 ; winmdroot.UI.HiDpi.DPI_AWARENESS GetAwarenessFromDpiAwarenessContext(winmdroot.UI.HiDpi.DPI_AWARENESS_CONTEXT value)
-#cfunc GetAwarenessFromDpiAwarenessContext "GetAwarenessFromDpiAwarenessContext" intptr
+#cfunc global GetAwarenessFromDpiAwarenessContext "GetAwarenessFromDpiAwarenessContext" intptr
 
 ; winmdroot.Foundation.BOOL GetCIMSSM(winmdroot.UI.Input.INPUT_MESSAGE_SOURCE* inputMessageSource)
-#cfunc GetCIMSSM "GetCIMSSM" var
+#cfunc global GetCIMSSM "GetCIMSSM" var
 
 ; winmdroot.Foundation.HWND GetCapture()
-#cfunc GetCapture "GetCapture"
+#cfunc global GetCapture "GetCapture"
 
 ; uint GetCaretBlinkTime()
-#cfunc GetCaretBlinkTime "GetCaretBlinkTime"
+#cfunc global GetCaretBlinkTime "GetCaretBlinkTime"
 
 ; winmdroot.Foundation.BOOL GetCaretPos(global::System.Drawing.Point* lpPoint)
-#cfunc GetCaretPos "GetCaretPos" var
+#cfunc global GetCaretPos "GetCaretPos" var
 
 ; winmdroot.Foundation.BOOL GetClassInfo(winmdroot.Foundation.HINSTANCE hInstance, winmdroot.Foundation.PCWSTR lpClassName, winmdroot.UI.WindowsAndMessaging.WNDCLASSW* lpWndClass)
-#cfunc GetClassInfoW "GetClassInfoW" intptr, wstr, var
+#cfunc global GetClassInfoW "GetClassInfoW" intptr, wstr, var
 
 ; winmdroot.Foundation.BOOL GetClassInfoEx(winmdroot.Foundation.HINSTANCE hInstance, winmdroot.Foundation.PCWSTR lpszClass, winmdroot.UI.WindowsAndMessaging.WNDCLASSEXW* lpwcx)
-#cfunc GetClassInfoExW "GetClassInfoExW" intptr, wstr, var
+#cfunc global GetClassInfoExW "GetClassInfoExW" intptr, wstr, var
 
 ; uint GetClassLong(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.GET_CLASS_LONG_INDEX nIndex)
-#cfunc GetClassLongW "GetClassLongW" intptr, int
+#cfunc global GetClassLongW "GetClassLongW" intptr, int
 
 ; int GetClassName(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.PWSTR lpClassName, int nMaxCount)
-#cfunc GetClassNameW "GetClassNameW" intptr, wstr, int
+#cfunc global GetClassNameW "GetClassNameW" intptr, wstr, int
 
 ; ushort GetClassWord(winmdroot.Foundation.HWND hWnd, int nIndex)
-#cfunc GetClassWord "GetClassWord" intptr, int
+#cfunc global GetClassWord "GetClassWord" intptr, int
 
 ; winmdroot.Foundation.BOOL GetClientRect(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.RECT* lpRect)
-#cfunc GetClientRect "GetClientRect" intptr, var
+#cfunc global GetClientRect "GetClientRect" intptr, var
 
 ; winmdroot.Foundation.BOOL GetClipCursor(winmdroot.Foundation.RECT* lpRect)
-#cfunc GetClipCursor "GetClipCursor" var
+#cfunc global GetClipCursor "GetClipCursor" var
 
 ; winmdroot.Foundation.HANDLE GetClipboardData(uint uFormat)
-#cfunc GetClipboardData "GetClipboardData" int
+#cfunc global GetClipboardData "GetClipboardData" int
 
 ; int GetClipboardFormatName(uint format, winmdroot.Foundation.PWSTR lpszFormatName, int cchMaxCount)
-#cfunc GetClipboardFormatNameW "GetClipboardFormatNameW" int, wstr, int
+#cfunc global GetClipboardFormatNameW "GetClipboardFormatNameW" int, wstr, int
 
 ; winmdroot.Foundation.HWND GetClipboardOwner()
-#cfunc GetClipboardOwner "GetClipboardOwner"
+#cfunc global GetClipboardOwner "GetClipboardOwner"
 
 ; uint GetClipboardSequenceNumber()
-#cfunc GetClipboardSequenceNumber "GetClipboardSequenceNumber"
+#cfunc global GetClipboardSequenceNumber "GetClipboardSequenceNumber"
 
 ; winmdroot.Foundation.HWND GetClipboardViewer()
-#cfunc GetClipboardViewer "GetClipboardViewer"
+#cfunc global GetClipboardViewer "GetClipboardViewer"
 
 ; winmdroot.Foundation.BOOL GetComboBoxInfo(winmdroot.Foundation.HWND hwndCombo, winmdroot.UI.Controls.COMBOBOXINFO* pcbi)
-#cfunc GetComboBoxInfo "GetComboBoxInfo" intptr, var
+#cfunc global GetComboBoxInfo "GetComboBoxInfo" intptr, var
 
 ; winmdroot.Foundation.BOOL GetCurrentInputMessageSource(winmdroot.UI.Input.INPUT_MESSAGE_SOURCE* inputMessageSource)
-#cfunc GetCurrentInputMessageSource "GetCurrentInputMessageSource" var
+#cfunc global GetCurrentInputMessageSource "GetCurrentInputMessageSource" var
 
 ; winmdroot.UI.WindowsAndMessaging.HCURSOR GetCursor()
-#cfunc GetCursor "GetCursor"
+#cfunc global GetCursor "GetCursor"
 
 ; winmdroot.Foundation.BOOL GetCursorInfo(winmdroot.UI.WindowsAndMessaging.CURSORINFO* pci)
-#cfunc GetCursorInfo "GetCursorInfo" var
+#cfunc global GetCursorInfo "GetCursorInfo" var
 
 ; winmdroot.Foundation.BOOL GetCursorPos(global::System.Drawing.Point* lpPoint)
-#cfunc GetCursorPos "GetCursorPos" var
+#cfunc global GetCursorPos "GetCursorPos" var
 
 ; winmdroot.Graphics.Gdi.HDC GetDC(winmdroot.Foundation.HWND hWnd)
-#cfunc GetDC "GetDC" intptr
+#cfunc global GetDC "GetDC" intptr
 
 ; winmdroot.Graphics.Gdi.HDC GetDCEx(winmdroot.Foundation.HWND hWnd, winmdroot.Graphics.Gdi.HRGN hrgnClip, winmdroot.Graphics.Gdi.GET_DCX_FLAGS flags)
-#cfunc GetDCEx "GetDCEx" intptr, intptr, int
+#cfunc global GetDCEx "GetDCEx" intptr, intptr, int
 
 ; winmdroot.Foundation.HWND GetDesktopWindow()
-#cfunc GetDesktopWindow "GetDesktopWindow"
+#cfunc global GetDesktopWindow "GetDesktopWindow"
 
 ; int GetDialogBaseUnits()
-#cfunc GetDialogBaseUnits "GetDialogBaseUnits"
+#cfunc global GetDialogBaseUnits "GetDialogBaseUnits"
 
 ; winmdroot.UI.HiDpi.DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS GetDialogControlDpiChangeBehavior(winmdroot.Foundation.HWND hWnd)
-#cfunc GetDialogControlDpiChangeBehavior "GetDialogControlDpiChangeBehavior" intptr
+#cfunc global GetDialogControlDpiChangeBehavior "GetDialogControlDpiChangeBehavior" intptr
 
 ; winmdroot.UI.HiDpi.DIALOG_DPI_CHANGE_BEHAVIORS GetDialogDpiChangeBehavior(winmdroot.Foundation.HWND hDlg)
-#cfunc GetDialogDpiChangeBehavior "GetDialogDpiChangeBehavior" intptr
+#cfunc global GetDialogDpiChangeBehavior "GetDialogDpiChangeBehavior" intptr
 
 ; winmdroot.Foundation.BOOL GetDisplayAutoRotationPreferences(winmdroot.Devices.Display.ORIENTATION_PREFERENCE* pOrientation)
-#cfunc GetDisplayAutoRotationPreferences "GetDisplayAutoRotationPreferences" var
+#cfunc global GetDisplayAutoRotationPreferences "GetDisplayAutoRotationPreferences" var
 
 ; winmdroot.Foundation.WIN32_ERROR GetDisplayConfigBufferSizes(winmdroot.Devices.Display.QUERY_DISPLAY_CONFIG_FLAGS flags, uint* numPathArrayElements, uint* numModeInfoArrayElements)
-#cfunc GetDisplayConfigBufferSizes "GetDisplayConfigBufferSizes" int, var, var
+#cfunc global GetDisplayConfigBufferSizes "GetDisplayConfigBufferSizes" int, var, var
 
 ; int GetDlgCtrlID(winmdroot.Foundation.HWND hWnd)
-#cfunc GetDlgCtrlID "GetDlgCtrlID" intptr
+#cfunc global GetDlgCtrlID "GetDlgCtrlID" intptr
 
 ; winmdroot.Foundation.HWND GetDlgItem(winmdroot.Foundation.HWND hDlg, int nIDDlgItem)
-#cfunc GetDlgItem "GetDlgItem" intptr, int
+#cfunc global GetDlgItem "GetDlgItem" intptr, int
 
 ; uint GetDlgItemInt(winmdroot.Foundation.HWND hDlg, int nIDDlgItem, [Optional] winmdroot.Foundation.BOOL* lpTranslated, winmdroot.Foundation.BOOL bSigned)
-#cfunc GetDlgItemInt "GetDlgItemInt" intptr, int, var, int
+#cfunc global GetDlgItemInt "GetDlgItemInt" intptr, int, var, int
 
 ; uint GetDlgItemText(winmdroot.Foundation.HWND hDlg, int nIDDlgItem, winmdroot.Foundation.PWSTR lpString, int cchMax)
-#cfunc GetDlgItemTextW "GetDlgItemTextW" intptr, int, wstr, int
+#cfunc global GetDlgItemTextW "GetDlgItemTextW" intptr, int, wstr, int
 
 ; uint GetDoubleClickTime()
-#cfunc GetDoubleClickTime "GetDoubleClickTime"
+#cfunc global GetDoubleClickTime "GetDoubleClickTime"
 
 ; winmdroot.UI.HiDpi.DPI_AWARENESS_CONTEXT GetDpiAwarenessContextForProcess(winmdroot.Foundation.HANDLE hProcess)
-#cfunc GetDpiAwarenessContextForProcess "GetDpiAwarenessContextForProcess" intptr
+#cfunc global GetDpiAwarenessContextForProcess "GetDpiAwarenessContextForProcess" intptr
 
 ; uint GetDpiForSystem()
-#cfunc GetDpiForSystem "GetDpiForSystem"
+#cfunc global GetDpiForSystem "GetDpiForSystem"
 
 ; uint GetDpiForWindow(winmdroot.Foundation.HWND hwnd)
-#cfunc GetDpiForWindow "GetDpiForWindow" intptr
+#cfunc global GetDpiForWindow "GetDpiForWindow" intptr
 
 ; uint GetDpiFromDpiAwarenessContext(winmdroot.UI.HiDpi.DPI_AWARENESS_CONTEXT value)
-#cfunc GetDpiFromDpiAwarenessContext "GetDpiFromDpiAwarenessContext" intptr
+#cfunc global GetDpiFromDpiAwarenessContext "GetDpiFromDpiAwarenessContext" intptr
 
 ; winmdroot.Foundation.HWND GetFocus()
-#cfunc GetFocus "GetFocus"
+#cfunc global GetFocus "GetFocus"
 
 ; winmdroot.Foundation.HWND GetForegroundWindow()
-#cfunc GetForegroundWindow "GetForegroundWindow"
+#cfunc global GetForegroundWindow "GetForegroundWindow"
 
 ; winmdroot.Foundation.BOOL GetGUIThreadInfo(uint idThread, winmdroot.UI.WindowsAndMessaging.GUITHREADINFO* pgui)
-#cfunc GetGUIThreadInfo "GetGUIThreadInfo" int, var
+#cfunc global GetGUIThreadInfo "GetGUIThreadInfo" int, var
 
 ; winmdroot.Foundation.BOOL GetGestureConfig(winmdroot.Foundation.HWND hwnd, uint dwReserved, uint dwFlags, uint* pcIDs, winmdroot.UI.Input.Touch.GESTURECONFIG* pGestureConfig, uint cbSize)
-#cfunc GetGestureConfig "GetGestureConfig" intptr, int, int, var, var, int
+#cfunc global GetGestureConfig "GetGestureConfig" intptr, int, int, var, var, int
 
 ; winmdroot.Foundation.BOOL GetGestureExtraArgs(winmdroot.UI.Input.Touch.HGESTUREINFO hGestureInfo, uint cbExtraArgs, byte* pExtraArgs)
-#cfunc GetGestureExtraArgs "GetGestureExtraArgs" intptr, int, var
+#cfunc global GetGestureExtraArgs "GetGestureExtraArgs" intptr, int, var
 
 ; winmdroot.Foundation.BOOL GetGestureInfo(winmdroot.UI.Input.Touch.HGESTUREINFO hGestureInfo, winmdroot.UI.Input.Touch.GESTUREINFO* pGestureInfo)
-#cfunc GetGestureInfo "GetGestureInfo" intptr, var
+#cfunc global GetGestureInfo "GetGestureInfo" intptr, var
 
 ; uint GetGuiResources(winmdroot.Foundation.HANDLE hProcess, winmdroot.System.Threading.GET_GUI_RESOURCES_FLAGS uiFlags)
-#cfunc GetGuiResources "GetGuiResources" intptr, int
+#cfunc global GetGuiResources "GetGuiResources" intptr, int
 
 ; winmdroot.Foundation.BOOL GetIconInfo(winmdroot.UI.WindowsAndMessaging.HICON hIcon, winmdroot.UI.WindowsAndMessaging.ICONINFO* piconinfo)
-#cfunc GetIconInfo "GetIconInfo" intptr, var
+#cfunc global GetIconInfo "GetIconInfo" intptr, var
 
 ; winmdroot.Foundation.BOOL GetIconInfoExW(winmdroot.UI.WindowsAndMessaging.HICON hicon, winmdroot.UI.WindowsAndMessaging.ICONINFOEXW* piconinfo)
-#cfunc GetIconInfoExW "GetIconInfoExW" intptr, var
+#cfunc global GetIconInfoExW "GetIconInfoExW" intptr, var
 
 ; winmdroot.Foundation.BOOL GetInputState()
-#cfunc GetInputState "GetInputState"
+#cfunc global GetInputState "GetInputState"
 
 ; uint GetKBCodePage()
-#cfunc GetKBCodePage "GetKBCodePage"
+#cfunc global GetKBCodePage "GetKBCodePage"
 
 ; int GetKeyNameText(int lParam, winmdroot.Foundation.PWSTR lpString, int cchSize)
-#cfunc GetKeyNameTextW "GetKeyNameTextW" int, wstr, int
+#cfunc global GetKeyNameTextW "GetKeyNameTextW" int, wstr, int
 
 ; short GetKeyState(int nVirtKey)
-#cfunc GetKeyState "GetKeyState" int
+#cfunc global GetKeyState "GetKeyState" int
 
 ; winmdroot.UI.Input.KeyboardAndMouse.HKL GetKeyboardLayout(uint idThread)
-#cfunc GetKeyboardLayout "GetKeyboardLayout" int
+#cfunc global GetKeyboardLayout "GetKeyboardLayout" int
 
 ; int GetKeyboardLayoutList(int nBuff, [Optional] winmdroot.UI.Input.KeyboardAndMouse.HKL* lpList)
-#cfunc GetKeyboardLayoutList "GetKeyboardLayoutList" int, intptr
+#cfunc global GetKeyboardLayoutList "GetKeyboardLayoutList" int, intptr
 
 ; winmdroot.Foundation.BOOL GetKeyboardLayoutName(winmdroot.Foundation.PWSTR pwszKLID)
-#cfunc GetKeyboardLayoutNameW "GetKeyboardLayoutNameW" wstr
+#cfunc global GetKeyboardLayoutNameW "GetKeyboardLayoutNameW" wstr
 
 ; winmdroot.Foundation.BOOL GetKeyboardState(byte* lpKeyState)
-#cfunc GetKeyboardState "GetKeyboardState" var
+#cfunc global GetKeyboardState "GetKeyboardState" var
 
 ; int GetKeyboardType(int nTypeFlag)
-#cfunc GetKeyboardType "GetKeyboardType" int
+#cfunc global GetKeyboardType "GetKeyboardType" int
 
 ; winmdroot.Foundation.HWND GetLastActivePopup(winmdroot.Foundation.HWND hWnd)
-#cfunc GetLastActivePopup "GetLastActivePopup" intptr
+#cfunc global GetLastActivePopup "GetLastActivePopup" intptr
 
 ; winmdroot.Foundation.BOOL GetLastInputInfo(winmdroot.UI.Input.KeyboardAndMouse.LASTINPUTINFO* plii)
-#cfunc GetLastInputInfo "GetLastInputInfo" var
+#cfunc global GetLastInputInfo "GetLastInputInfo" var
 
 ; winmdroot.Foundation.BOOL GetLayeredWindowAttributes(winmdroot.Foundation.HWND hwnd, [Optional] winmdroot.Foundation.COLORREF* pcrKey, [Optional] byte* pbAlpha, [Optional] winmdroot.UI.WindowsAndMessaging.LAYERED_WINDOW_ATTRIBUTES_FLAGS* pdwFlags)
-#cfunc GetLayeredWindowAttributes "GetLayeredWindowAttributes" intptr, var, var, var
+#cfunc global GetLayeredWindowAttributes "GetLayeredWindowAttributes" intptr, var, var, var
 
 ; uint GetListBoxInfo(winmdroot.Foundation.HWND hwnd)
-#cfunc GetListBoxInfo "GetListBoxInfo" intptr
+#cfunc global GetListBoxInfo "GetListBoxInfo" intptr
 
 ; winmdroot.UI.WindowsAndMessaging.HMENU GetMenu(winmdroot.Foundation.HWND hWnd)
-#cfunc GetMenu "GetMenu" intptr
+#cfunc global GetMenu "GetMenu" intptr
 
 ; winmdroot.Foundation.BOOL GetMenuBarInfo(winmdroot.Foundation.HWND hwnd, winmdroot.UI.WindowsAndMessaging.OBJECT_IDENTIFIER idObject, int idItem, winmdroot.UI.WindowsAndMessaging.MENUBARINFO* pmbi)
-#cfunc GetMenuBarInfo "GetMenuBarInfo" intptr, int, int, var
+#cfunc global GetMenuBarInfo "GetMenuBarInfo" intptr, int, int, var
 
 ; int GetMenuCheckMarkDimensions()
-#cfunc GetMenuCheckMarkDimensions "GetMenuCheckMarkDimensions"
+#cfunc global GetMenuCheckMarkDimensions "GetMenuCheckMarkDimensions"
 
 ; uint GetMenuContextHelpId(winmdroot.UI.WindowsAndMessaging.HMENU param0)
-#cfunc GetMenuContextHelpId "GetMenuContextHelpId" intptr
+#cfunc global GetMenuContextHelpId "GetMenuContextHelpId" intptr
 
 ; uint GetMenuDefaultItem(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, uint fByPos, winmdroot.UI.WindowsAndMessaging.GET_MENU_DEFAULT_ITEM_FLAGS gmdiFlags)
-#cfunc GetMenuDefaultItem "GetMenuDefaultItem" intptr, int, int
+#cfunc global GetMenuDefaultItem "GetMenuDefaultItem" intptr, int, int
 
 ; winmdroot.Foundation.BOOL GetMenuInfo(winmdroot.UI.WindowsAndMessaging.HMENU param0, winmdroot.UI.WindowsAndMessaging.MENUINFO* param1)
-#cfunc GetMenuInfo "GetMenuInfo" intptr, var
+#cfunc global GetMenuInfo "GetMenuInfo" intptr, var
 
 ; int GetMenuItemCount(winmdroot.UI.WindowsAndMessaging.HMENU hMenu)
-#cfunc GetMenuItemCount "GetMenuItemCount" intptr
+#cfunc global GetMenuItemCount "GetMenuItemCount" intptr
 
 ; uint GetMenuItemID(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, int nPos)
-#cfunc GetMenuItemID "GetMenuItemID" intptr, int
+#cfunc global GetMenuItemID "GetMenuItemID" intptr, int
 
 ; winmdroot.Foundation.BOOL GetMenuItemInfo(winmdroot.UI.WindowsAndMessaging.HMENU hmenu, uint item, winmdroot.Foundation.BOOL fByPosition, winmdroot.UI.WindowsAndMessaging.MENUITEMINFOW* lpmii)
-#cfunc GetMenuItemInfoW "GetMenuItemInfoW" intptr, int, int, var
+#cfunc global GetMenuItemInfoW "GetMenuItemInfoW" intptr, int, int, var
 
 ; winmdroot.Foundation.BOOL GetMenuItemRect(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.HMENU hMenu, uint uItem, winmdroot.Foundation.RECT* lprcItem)
-#cfunc GetMenuItemRect "GetMenuItemRect" intptr, intptr, int, var
+#cfunc global GetMenuItemRect "GetMenuItemRect" intptr, intptr, int, var
 
 ; uint GetMenuState(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, uint uId, winmdroot.UI.WindowsAndMessaging.MENU_ITEM_FLAGS uFlags)
-#cfunc GetMenuState "GetMenuState" intptr, int, int
+#cfunc global GetMenuState "GetMenuState" intptr, int, int
 
 ; int GetMenuStringW(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, uint uIDItem, winmdroot.Foundation.PWSTR lpString, int cchMax, winmdroot.UI.WindowsAndMessaging.MENU_ITEM_FLAGS flags)
-#cfunc GetMenuStringW "GetMenuStringW" intptr, int, wstr, int, int
+#cfunc global GetMenuStringW "GetMenuStringW" intptr, int, wstr, int, int
 
 ; winmdroot.Foundation.BOOL GetMessage(winmdroot.UI.WindowsAndMessaging.MSG* lpMsg, winmdroot.Foundation.HWND hWnd, uint wMsgFilterMin, uint wMsgFilterMax)
-#cfunc GetMessageW "GetMessageW" var, intptr, int, int
+#cfunc global GetMessageW "GetMessageW" var, intptr, int, int
 
 ; winmdroot.Foundation.LPARAM GetMessageExtraInfo()
-#cfunc GetMessageExtraInfo "GetMessageExtraInfo"
+#cfunc global GetMessageExtraInfo "GetMessageExtraInfo"
 
 ; uint GetMessagePos()
-#cfunc GetMessagePos "GetMessagePos"
+#cfunc global GetMessagePos "GetMessagePos"
 
 ; int GetMessageTime()
-#cfunc GetMessageTime "GetMessageTime"
+#cfunc global GetMessageTime "GetMessageTime"
 
 ; winmdroot.Foundation.BOOL GetMonitorInfoW(winmdroot.Graphics.Gdi.HMONITOR hMonitor, winmdroot.Graphics.Gdi.MONITORINFO* lpmi)
-#cfunc GetMonitorInfoW "GetMonitorInfoW" intptr, var
+#cfunc global GetMonitorInfoW "GetMonitorInfoW" intptr, var
 
 ; int GetMouseMovePointsEx(uint cbSize, winmdroot.UI.Input.KeyboardAndMouse.MOUSEMOVEPOINT* lppt, winmdroot.UI.Input.KeyboardAndMouse.MOUSEMOVEPOINT* lpptBuf, int nBufPoints, winmdroot.UI.Input.KeyboardAndMouse.GET_MOUSE_MOVE_POINTS_EX_RESOLUTION resolution)
-#cfunc GetMouseMovePointsEx "GetMouseMovePointsEx" int, var, var, int, int
+#cfunc global GetMouseMovePointsEx "GetMouseMovePointsEx" int, var, var, int, int
 
 ; winmdroot.Foundation.HWND GetNextDlgGroupItem(winmdroot.Foundation.HWND hDlg, winmdroot.Foundation.HWND hCtl, winmdroot.Foundation.BOOL bPrevious)
-#cfunc GetNextDlgGroupItem "GetNextDlgGroupItem" intptr, intptr, int
+#cfunc global GetNextDlgGroupItem "GetNextDlgGroupItem" intptr, intptr, int
 
 ; winmdroot.Foundation.HWND GetNextDlgTabItem(winmdroot.Foundation.HWND hDlg, winmdroot.Foundation.HWND hCtl, winmdroot.Foundation.BOOL bPrevious)
-#cfunc GetNextDlgTabItem "GetNextDlgTabItem" intptr, intptr, int
+#cfunc global GetNextDlgTabItem "GetNextDlgTabItem" intptr, intptr, int
 
 ; winmdroot.Foundation.HWND GetOpenClipboardWindow()
-#cfunc GetOpenClipboardWindow "GetOpenClipboardWindow"
+#cfunc global GetOpenClipboardWindow "GetOpenClipboardWindow"
 
 ; winmdroot.Foundation.HWND GetParent(winmdroot.Foundation.HWND hWnd)
-#cfunc GetParent "GetParent" intptr
+#cfunc global GetParent "GetParent" intptr
 
 ; winmdroot.Foundation.BOOL GetPhysicalCursorPos(global::System.Drawing.Point* lpPoint)
-#cfunc GetPhysicalCursorPos "GetPhysicalCursorPos" var
+#cfunc global GetPhysicalCursorPos "GetPhysicalCursorPos" var
 
 ; winmdroot.Foundation.BOOL GetPointerCursorId(uint pointerId, uint* cursorId)
-#cfunc GetPointerCursorId "GetPointerCursorId" int, var
+#cfunc global GetPointerCursorId "GetPointerCursorId" int, var
 
 ; winmdroot.Foundation.BOOL GetPointerDevice(winmdroot.Foundation.HANDLE device, winmdroot.UI.Controls.POINTER_DEVICE_INFO* pointerDevice)
-#cfunc GetPointerDevice "GetPointerDevice" intptr, var
+#cfunc global GetPointerDevice "GetPointerDevice" intptr, var
 
 ; winmdroot.Foundation.BOOL GetPointerDeviceCursors(winmdroot.Foundation.HANDLE device, uint* cursorCount, [Optional] winmdroot.UI.Controls.POINTER_DEVICE_CURSOR_INFO* deviceCursors)
-#cfunc GetPointerDeviceCursors "GetPointerDeviceCursors" intptr, var, var
+#cfunc global GetPointerDeviceCursors "GetPointerDeviceCursors" intptr, var, var
 
 ; winmdroot.Foundation.BOOL GetPointerDeviceProperties(winmdroot.Foundation.HANDLE device, uint* propertyCount, [Optional] winmdroot.UI.Controls.POINTER_DEVICE_PROPERTY* pointerProperties)
-#cfunc GetPointerDeviceProperties "GetPointerDeviceProperties" intptr, var, var
+#cfunc global GetPointerDeviceProperties "GetPointerDeviceProperties" intptr, var, var
 
 ; winmdroot.Foundation.BOOL GetPointerDeviceRects(winmdroot.Foundation.HANDLE device, winmdroot.Foundation.RECT* pointerDeviceRect, winmdroot.Foundation.RECT* displayRect)
-#cfunc GetPointerDeviceRects "GetPointerDeviceRects" intptr, var, var
+#cfunc global GetPointerDeviceRects "GetPointerDeviceRects" intptr, var, var
 
 ; winmdroot.Foundation.BOOL GetPointerDevices(uint* deviceCount, [Optional] winmdroot.UI.Controls.POINTER_DEVICE_INFO* pointerDevices)
-#cfunc GetPointerDevices "GetPointerDevices" var, var
+#cfunc global GetPointerDevices "GetPointerDevices" var, var
 
 ; winmdroot.Foundation.BOOL GetPointerFrameInfo(uint pointerId, uint* pointerCount, [Optional] winmdroot.UI.Input.Pointer.POINTER_INFO* pointerInfo)
-#cfunc GetPointerFrameInfo "GetPointerFrameInfo" int, var, var
+#cfunc global GetPointerFrameInfo "GetPointerFrameInfo" int, var, var
 
 ; winmdroot.Foundation.BOOL GetPointerFrameInfoHistory(uint pointerId, uint* entriesCount, uint* pointerCount, [Optional] winmdroot.UI.Input.Pointer.POINTER_INFO* pointerInfo)
-#cfunc GetPointerFrameInfoHistory "GetPointerFrameInfoHistory" int, var, var, var
+#cfunc global GetPointerFrameInfoHistory "GetPointerFrameInfoHistory" int, var, var, var
 
 ; winmdroot.Foundation.BOOL GetPointerFramePenInfo(uint pointerId, uint* pointerCount, [Optional] winmdroot.UI.Input.Pointer.POINTER_PEN_INFO* penInfo)
-#cfunc GetPointerFramePenInfo "GetPointerFramePenInfo" int, var, var
+#cfunc global GetPointerFramePenInfo "GetPointerFramePenInfo" int, var, var
 
 ; winmdroot.Foundation.BOOL GetPointerFramePenInfoHistory(uint pointerId, uint* entriesCount, uint* pointerCount, [Optional] winmdroot.UI.Input.Pointer.POINTER_PEN_INFO* penInfo)
-#cfunc GetPointerFramePenInfoHistory "GetPointerFramePenInfoHistory" int, var, var, var
+#cfunc global GetPointerFramePenInfoHistory "GetPointerFramePenInfoHistory" int, var, var, var
 
 ; winmdroot.Foundation.BOOL GetPointerFrameTouchInfo(uint pointerId, uint* pointerCount, [Optional] winmdroot.UI.Input.Pointer.POINTER_TOUCH_INFO* touchInfo)
-#cfunc GetPointerFrameTouchInfo "GetPointerFrameTouchInfo" int, var, var
+#cfunc global GetPointerFrameTouchInfo "GetPointerFrameTouchInfo" int, var, var
 
 ; winmdroot.Foundation.BOOL GetPointerFrameTouchInfoHistory(uint pointerId, uint* entriesCount, uint* pointerCount, [Optional] winmdroot.UI.Input.Pointer.POINTER_TOUCH_INFO* touchInfo)
-#cfunc GetPointerFrameTouchInfoHistory "GetPointerFrameTouchInfoHistory" int, var, var, var
+#cfunc global GetPointerFrameTouchInfoHistory "GetPointerFrameTouchInfoHistory" int, var, var, var
 
 ; winmdroot.Foundation.BOOL GetPointerInfo(uint pointerId, winmdroot.UI.Input.Pointer.POINTER_INFO* pointerInfo)
-#cfunc GetPointerInfo "GetPointerInfo" int, var
+#cfunc global GetPointerInfo "GetPointerInfo" int, var
 
 ; winmdroot.Foundation.BOOL GetPointerInfoHistory(uint pointerId, uint* entriesCount, [Optional] winmdroot.UI.Input.Pointer.POINTER_INFO* pointerInfo)
-#cfunc GetPointerInfoHistory "GetPointerInfoHistory" int, var, var
+#cfunc global GetPointerInfoHistory "GetPointerInfoHistory" int, var, var
 
 ; winmdroot.Foundation.BOOL GetPointerInputTransform(uint pointerId, uint historyCount, winmdroot.UI.Input.Pointer.INPUT_TRANSFORM* inputTransform)
-#cfunc GetPointerInputTransform "GetPointerInputTransform" int, int, var
+#cfunc global GetPointerInputTransform "GetPointerInputTransform" int, int, var
 
 ; winmdroot.Foundation.BOOL GetPointerPenInfo(uint pointerId, winmdroot.UI.Input.Pointer.POINTER_PEN_INFO* penInfo)
-#cfunc GetPointerPenInfo "GetPointerPenInfo" int, var
+#cfunc global GetPointerPenInfo "GetPointerPenInfo" int, var
 
 ; winmdroot.Foundation.BOOL GetPointerPenInfoHistory(uint pointerId, uint* entriesCount, [Optional] winmdroot.UI.Input.Pointer.POINTER_PEN_INFO* penInfo)
-#cfunc GetPointerPenInfoHistory "GetPointerPenInfoHistory" int, var, var
+#cfunc global GetPointerPenInfoHistory "GetPointerPenInfoHistory" int, var, var
 
 ; winmdroot.Foundation.BOOL GetPointerTouchInfo(uint pointerId, winmdroot.UI.Input.Pointer.POINTER_TOUCH_INFO* touchInfo)
-#cfunc GetPointerTouchInfo "GetPointerTouchInfo" int, var
+#cfunc global GetPointerTouchInfo "GetPointerTouchInfo" int, var
 
 ; winmdroot.Foundation.BOOL GetPointerTouchInfoHistory(uint pointerId, uint* entriesCount, [Optional] winmdroot.UI.Input.Pointer.POINTER_TOUCH_INFO* touchInfo)
-#cfunc GetPointerTouchInfoHistory "GetPointerTouchInfoHistory" int, var, var
+#cfunc global GetPointerTouchInfoHistory "GetPointerTouchInfoHistory" int, var, var
 
 ; winmdroot.Foundation.BOOL GetPointerType(uint pointerId, winmdroot.UI.WindowsAndMessaging.POINTER_INPUT_TYPE* pointerType)
-#cfunc GetPointerType "GetPointerType" int, var
+#cfunc global GetPointerType "GetPointerType" int, var
 
 ; int GetPriorityClipboardFormat(uint* paFormatPriorityList, int cFormats)
-#cfunc GetPriorityClipboardFormat "GetPriorityClipboardFormat" var, int
+#cfunc global GetPriorityClipboardFormat "GetPriorityClipboardFormat" var, int
 
 ; winmdroot.Foundation.BOOL GetProcessDefaultLayout(uint* pdwDefaultLayout)
-#cfunc GetProcessDefaultLayout "GetProcessDefaultLayout" var
+#cfunc global GetProcessDefaultLayout "GetProcessDefaultLayout" var
 
 ; winmdroot.System.StationsAndDesktops.HWINSTA GetProcessWindowStation()
-#cfunc GetProcessWindowStation "GetProcessWindowStation"
+#cfunc global GetProcessWindowStation "GetProcessWindowStation"
 
 ; winmdroot.Foundation.HANDLE GetPropW(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.PCWSTR lpString)
-#cfunc GetPropW "GetPropW" intptr, wstr
+#cfunc global GetPropW "GetPropW" intptr, wstr
 
 ; uint GetQueueStatus(winmdroot.UI.WindowsAndMessaging.QUEUE_STATUS_FLAGS flags)
-#cfunc GetQueueStatus "GetQueueStatus" int
+#cfunc global GetQueueStatus "GetQueueStatus" int
 
 ; uint GetRawInputBuffer([Optional] winmdroot.UI.Input.RAWINPUT* pData, uint* pcbSize, uint cbSizeHeader)
-#cfunc GetRawInputBuffer "GetRawInputBuffer" var, var, int
+#cfunc global GetRawInputBuffer "GetRawInputBuffer" var, var, int
 
 ; uint GetRawInputData(winmdroot.UI.Input.HRAWINPUT hRawInput, winmdroot.UI.Input.RAW_INPUT_DATA_COMMAND_FLAGS uiCommand, [Optional] void* pData, uint* pcbSize, uint cbSizeHeader)
-#cfunc GetRawInputData "GetRawInputData" intptr, int, intptr, var, int
+#cfunc global GetRawInputData "GetRawInputData" intptr, int, intptr, var, int
 
 ; uint GetRawInputDeviceInfo(winmdroot.Foundation.HANDLE hDevice, winmdroot.UI.Input.RAW_INPUT_DEVICE_INFO_COMMAND uiCommand, [Optional] void* pData, uint* pcbSize)
-#cfunc GetRawInputDeviceInfoW "GetRawInputDeviceInfoW" intptr, int, intptr, var
+#cfunc global GetRawInputDeviceInfoW "GetRawInputDeviceInfoW" intptr, int, intptr, var
 
 ; uint GetRawInputDeviceList([Optional] winmdroot.UI.Input.RAWINPUTDEVICELIST* pRawInputDeviceList, uint* puiNumDevices, uint cbSize)
-#cfunc GetRawInputDeviceList "GetRawInputDeviceList" var, var, int
+#cfunc global GetRawInputDeviceList "GetRawInputDeviceList" var, var, int
 
 ; winmdroot.Foundation.BOOL GetRawPointerDeviceData(uint pointerId, uint historyCount, uint propertiesCount, winmdroot.UI.Controls.POINTER_DEVICE_PROPERTY* pProperties, int* pValues)
-#cfunc GetRawPointerDeviceData "GetRawPointerDeviceData" int, int, int, var, var
+#cfunc global GetRawPointerDeviceData "GetRawPointerDeviceData" int, int, int, var, var
 
 ; uint GetRegisteredRawInputDevices([Optional] winmdroot.UI.Input.RAWINPUTDEVICE* pRawInputDevices, uint* puiNumDevices, uint cbSize)
-#cfunc GetRegisteredRawInputDevices "GetRegisteredRawInputDevices" var, var, int
+#cfunc global GetRegisteredRawInputDevices "GetRegisteredRawInputDevices" var, var, int
 
 ; winmdroot.Foundation.BOOL GetScrollBarInfo(winmdroot.Foundation.HWND hwnd, winmdroot.UI.WindowsAndMessaging.OBJECT_IDENTIFIER idObject, winmdroot.UI.WindowsAndMessaging.SCROLLBARINFO* psbi)
-#cfunc GetScrollBarInfo "GetScrollBarInfo" intptr, int, var
+#cfunc global GetScrollBarInfo "GetScrollBarInfo" intptr, int, var
 
 ; winmdroot.Foundation.BOOL GetScrollInfo(winmdroot.Foundation.HWND hwnd, winmdroot.UI.WindowsAndMessaging.SCROLLBAR_CONSTANTS nBar, winmdroot.UI.WindowsAndMessaging.SCROLLINFO* lpsi)
-#cfunc GetScrollInfo "GetScrollInfo" intptr, int, var
+#cfunc global GetScrollInfo "GetScrollInfo" intptr, int, var
 
 ; int GetScrollPos(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.SCROLLBAR_CONSTANTS nBar)
-#cfunc GetScrollPos "GetScrollPos" intptr, int
+#cfunc global GetScrollPos "GetScrollPos" intptr, int
 
 ; winmdroot.Foundation.BOOL GetScrollRange(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.SCROLLBAR_CONSTANTS nBar, int* lpMinPos, int* lpMaxPos)
-#cfunc GetScrollRange "GetScrollRange" intptr, int, var, var
+#cfunc global GetScrollRange "GetScrollRange" intptr, int, var, var
 
 ; winmdroot.Foundation.HWND GetShellWindow()
-#cfunc GetShellWindow "GetShellWindow"
+#cfunc global GetShellWindow "GetShellWindow"
 
 ; winmdroot.UI.WindowsAndMessaging.HMENU GetSubMenu(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, int nPos)
-#cfunc GetSubMenu "GetSubMenu" intptr, int
+#cfunc global GetSubMenu "GetSubMenu" intptr, int
 
 ; uint GetSysColor(winmdroot.Graphics.Gdi.SYS_COLOR_INDEX nIndex)
-#cfunc GetSysColor "GetSysColor" int
+#cfunc global GetSysColor "GetSysColor" int
 
 ; winmdroot.Graphics.Gdi.HBRUSH GetSysColorBrush(winmdroot.Graphics.Gdi.SYS_COLOR_INDEX nIndex)
-#cfunc GetSysColorBrush "GetSysColorBrush" int
+#cfunc global GetSysColorBrush "GetSysColorBrush" int
 
 ; uint GetSystemDpiForProcess(winmdroot.Foundation.HANDLE hProcess)
-#cfunc GetSystemDpiForProcess "GetSystemDpiForProcess" intptr
+#cfunc global GetSystemDpiForProcess "GetSystemDpiForProcess" intptr
 
 ; winmdroot.UI.WindowsAndMessaging.HMENU GetSystemMenu(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.BOOL bRevert)
-#cfunc GetSystemMenu "GetSystemMenu" intptr, int
+#cfunc global GetSystemMenu "GetSystemMenu" intptr, int
 
 ; int GetSystemMetrics(winmdroot.UI.WindowsAndMessaging.SYSTEM_METRICS_INDEX nIndex)
-#cfunc GetSystemMetrics "GetSystemMetrics" int
+#cfunc global GetSystemMetrics "GetSystemMetrics" int
 
 ; int GetSystemMetricsForDpi(winmdroot.UI.WindowsAndMessaging.SYSTEM_METRICS_INDEX nIndex, uint dpi)
-#cfunc GetSystemMetricsForDpi "GetSystemMetricsForDpi" int, int
+#cfunc global GetSystemMetricsForDpi "GetSystemMetricsForDpi" int, int
 
 ; uint GetTabbedTextExtentW(winmdroot.Graphics.Gdi.HDC hdc, winmdroot.Foundation.PCWSTR lpString, int chCount, int nTabPositions, [Optional] int* lpnTabStopPositions)
-#cfunc GetTabbedTextExtentW "GetTabbedTextExtentW" intptr, wstr, int, int, var
+#cfunc global GetTabbedTextExtentW "GetTabbedTextExtentW" intptr, wstr, int, int, var
 
 ; winmdroot.System.StationsAndDesktops.HDESK GetThreadDesktop(uint dwThreadId)
-#cfunc GetThreadDesktop "GetThreadDesktop" int
+#cfunc global GetThreadDesktop "GetThreadDesktop" int
 
 ; winmdroot.UI.HiDpi.DPI_AWARENESS_CONTEXT GetThreadDpiAwarenessContext()
-#cfunc GetThreadDpiAwarenessContext "GetThreadDpiAwarenessContext"
+#cfunc global GetThreadDpiAwarenessContext "GetThreadDpiAwarenessContext"
 
 ; winmdroot.UI.HiDpi.DPI_HOSTING_BEHAVIOR GetThreadDpiHostingBehavior()
-#cfunc GetThreadDpiHostingBehavior "GetThreadDpiHostingBehavior"
+#cfunc global GetThreadDpiHostingBehavior "GetThreadDpiHostingBehavior"
 
 ; winmdroot.Foundation.BOOL GetTitleBarInfo(winmdroot.Foundation.HWND hwnd, winmdroot.UI.WindowsAndMessaging.TITLEBARINFO* pti)
-#cfunc GetTitleBarInfo "GetTitleBarInfo" intptr, var
+#cfunc global GetTitleBarInfo "GetTitleBarInfo" intptr, var
 
 ; winmdroot.Foundation.HWND GetTopWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc GetTopWindow "GetTopWindow" intptr
+#cfunc global GetTopWindow "GetTopWindow" intptr
 
 ; winmdroot.Foundation.BOOL GetTouchInputInfo(winmdroot.UI.Input.Touch.HTOUCHINPUT hTouchInput, uint cInputs, winmdroot.UI.Input.Touch.TOUCHINPUT* pInputs, int cbSize)
-#cfunc GetTouchInputInfo "GetTouchInputInfo" intptr, int, var, int
+#cfunc global GetTouchInputInfo "GetTouchInputInfo" intptr, int, var, int
 
 ; uint GetUnpredictedMessagePos()
-#cfunc GetUnpredictedMessagePos "GetUnpredictedMessagePos"
+#cfunc global GetUnpredictedMessagePos "GetUnpredictedMessagePos"
 
 ; winmdroot.Foundation.BOOL GetUpdateRect(winmdroot.Foundation.HWND hWnd, [Optional] winmdroot.Foundation.RECT* lpRect, winmdroot.Foundation.BOOL bErase)
-#cfunc GetUpdateRect "GetUpdateRect" intptr, var, int
+#cfunc global GetUpdateRect "GetUpdateRect" intptr, var, int
 
 ; winmdroot.Graphics.Gdi.GDI_REGION_TYPE GetUpdateRgn(winmdroot.Foundation.HWND hWnd, winmdroot.Graphics.Gdi.HRGN hRgn, winmdroot.Foundation.BOOL bErase)
-#cfunc GetUpdateRgn "GetUpdateRgn" intptr, intptr, int
+#cfunc global GetUpdateRgn "GetUpdateRgn" intptr, intptr, int
 
 ; winmdroot.Foundation.BOOL GetUpdatedClipboardFormats(uint* lpuiFormats, uint cFormats, uint* pcFormatsOut)
-#cfunc GetUpdatedClipboardFormats "GetUpdatedClipboardFormats" var, int, var
+#cfunc global GetUpdatedClipboardFormats "GetUpdatedClipboardFormats" var, int, var
 
 ; winmdroot.Foundation.BOOL GetUserObjectInformation(winmdroot.Foundation.HANDLE hObj, winmdroot.System.StationsAndDesktops.USER_OBJECT_INFORMATION_INDEX nIndex, [Optional] void* pvInfo, uint nLength, [Optional] uint* lpnLengthNeeded)
-#cfunc GetUserObjectInformationW "GetUserObjectInformationW" intptr, int, intptr, int, var
+#cfunc global GetUserObjectInformationW "GetUserObjectInformationW" intptr, int, intptr, int, var
 
 ; winmdroot.Foundation.BOOL GetUserObjectSecurity(winmdroot.Foundation.HANDLE hObj, uint* pSIRequested, winmdroot.Security.PSECURITY_DESCRIPTOR pSID, uint nLength, uint* lpnLengthNeeded)
-#cfunc GetUserObjectSecurity "GetUserObjectSecurity" intptr, var, int, int, var
+#cfunc global GetUserObjectSecurity "GetUserObjectSecurity" intptr, var, int, int, var
 
 ; winmdroot.Foundation.HWND GetWindow(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.GET_WINDOW_CMD uCmd)
-#cfunc GetWindow "GetWindow" intptr, int
+#cfunc global GetWindow "GetWindow" intptr, int
 
 ; uint GetWindowContextHelpId(winmdroot.Foundation.HWND param0)
-#cfunc GetWindowContextHelpId "GetWindowContextHelpId" intptr
+#cfunc global GetWindowContextHelpId "GetWindowContextHelpId" intptr
 
 ; winmdroot.Graphics.Gdi.HDC GetWindowDC(winmdroot.Foundation.HWND hWnd)
-#cfunc GetWindowDC "GetWindowDC" intptr
+#cfunc global GetWindowDC "GetWindowDC" intptr
 
 ; winmdroot.Foundation.BOOL GetWindowDisplayAffinity(winmdroot.Foundation.HWND hWnd, uint* pdwAffinity)
-#cfunc GetWindowDisplayAffinity "GetWindowDisplayAffinity" intptr, var
+#cfunc global GetWindowDisplayAffinity "GetWindowDisplayAffinity" intptr, var
 
 ; winmdroot.UI.HiDpi.DPI_AWARENESS_CONTEXT GetWindowDpiAwarenessContext(winmdroot.Foundation.HWND hwnd)
-#cfunc GetWindowDpiAwarenessContext "GetWindowDpiAwarenessContext" intptr
+#cfunc global GetWindowDpiAwarenessContext "GetWindowDpiAwarenessContext" intptr
 
 ; winmdroot.UI.HiDpi.DPI_HOSTING_BEHAVIOR GetWindowDpiHostingBehavior(winmdroot.Foundation.HWND hwnd)
-#cfunc GetWindowDpiHostingBehavior "GetWindowDpiHostingBehavior" intptr
+#cfunc global GetWindowDpiHostingBehavior "GetWindowDpiHostingBehavior" intptr
 
 ; winmdroot.Foundation.BOOL GetWindowFeedbackSetting(winmdroot.Foundation.HWND hwnd, winmdroot.UI.Controls.FEEDBACK_TYPE feedback, uint dwFlags, uint* pSize, [Optional] void* config)
-#cfunc GetWindowFeedbackSetting "GetWindowFeedbackSetting" intptr, int, int, var, intptr
+#cfunc global GetWindowFeedbackSetting "GetWindowFeedbackSetting" intptr, int, int, var, intptr
 
 ; winmdroot.Foundation.BOOL GetWindowInfo(winmdroot.Foundation.HWND hwnd, winmdroot.UI.WindowsAndMessaging.WINDOWINFO* pwi)
-#cfunc GetWindowInfo "GetWindowInfo" intptr, var
+#cfunc global GetWindowInfo "GetWindowInfo" intptr, var
 
 ; int GetWindowLong(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.WINDOW_LONG_PTR_INDEX nIndex)
-#cfunc GetWindowLongW "GetWindowLongW" intptr, int
+#cfunc global GetWindowLongW "GetWindowLongW" intptr, int
 
 ; uint GetWindowModuleFileNameW(winmdroot.Foundation.HWND hwnd, winmdroot.Foundation.PWSTR pszFileName, uint cchFileNameMax)
-#cfunc GetWindowModuleFileNameW "GetWindowModuleFileNameW" intptr, wstr, int
+#cfunc global GetWindowModuleFileNameW "GetWindowModuleFileNameW" intptr, wstr, int
 
 ; winmdroot.Foundation.BOOL GetWindowPlacement(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.WINDOWPLACEMENT* lpwndpl)
-#cfunc GetWindowPlacement "GetWindowPlacement" intptr, var
+#cfunc global GetWindowPlacement "GetWindowPlacement" intptr, var
 
 ; winmdroot.Foundation.BOOL GetWindowRect(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.RECT* lpRect)
-#cfunc GetWindowRect "GetWindowRect" intptr, var
+#cfunc global GetWindowRect "GetWindowRect" intptr, var
 
 ; winmdroot.Graphics.Gdi.GDI_REGION_TYPE GetWindowRgn(winmdroot.Foundation.HWND hWnd, winmdroot.Graphics.Gdi.HRGN hRgn)
-#cfunc GetWindowRgn "GetWindowRgn" intptr, intptr
+#cfunc global GetWindowRgn "GetWindowRgn" intptr, intptr
 
 ; winmdroot.Graphics.Gdi.GDI_REGION_TYPE GetWindowRgnBox(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.RECT* lprc)
-#cfunc GetWindowRgnBox "GetWindowRgnBox" intptr, var
+#cfunc global GetWindowRgnBox "GetWindowRgnBox" intptr, var
 
 ; int GetWindowText(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.PWSTR lpString, int nMaxCount)
-#cfunc GetWindowTextW "GetWindowTextW" intptr, wstr, int
+#cfunc global GetWindowTextW "GetWindowTextW" intptr, wstr, int
 
 ; int GetWindowTextLength(winmdroot.Foundation.HWND hWnd)
-#cfunc GetWindowTextLengthW "GetWindowTextLengthW" intptr
+#cfunc global GetWindowTextLengthW "GetWindowTextLengthW" intptr
 
 ; uint GetWindowThreadProcessId(winmdroot.Foundation.HWND hWnd, [Optional] uint* lpdwProcessId)
-#cfunc GetWindowThreadProcessId "GetWindowThreadProcessId" intptr, var
+#cfunc global GetWindowThreadProcessId "GetWindowThreadProcessId" intptr, var
 
 ; ushort GetWindowWord(winmdroot.Foundation.HWND hWnd, int nIndex)
-#cfunc GetWindowWord "GetWindowWord" intptr, int
+#cfunc global GetWindowWord "GetWindowWord" intptr, int
 
 ; winmdroot.Foundation.BOOL GrayStringW(winmdroot.Graphics.Gdi.HDC hDC, winmdroot.Graphics.Gdi.HBRUSH hBrush, delegate *unmanaged[Stdcall]<global::Windows.Win32.Graphics.Gdi.HDC,global::Windows.Win32.Foundation.LPARAM,int,global::Windows.Win32.Foundation.BOOL> lpOutputFunc, winmdroot.Foundation.LPARAM lpData, int nCount, int X, int Y, int nWidth, int nHeight)
-#cfunc GrayStringW "GrayStringW" intptr, intptr, int, intptr, int, int, int, int, int
+#cfunc global GrayStringW "GrayStringW" intptr, intptr, int, intptr, int, int, int, int, int
 
 ; winmdroot.Foundation.BOOL HideCaret(winmdroot.Foundation.HWND hWnd)
-#cfunc HideCaret "HideCaret" intptr
+#cfunc global HideCaret "HideCaret" intptr
 
 ; winmdroot.Foundation.BOOL HiliteMenuItem(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.HMENU hMenu, uint uIDHiliteItem, uint uHilite)
-#cfunc HiliteMenuItem "HiliteMenuItem" intptr, intptr, int, int
+#cfunc global HiliteMenuItem "HiliteMenuItem" intptr, intptr, int, int
 
 ; winmdroot.Foundation.BOOL IMPGetIMEA(winmdroot.Foundation.HWND param0, winmdroot.System.WindowsProgramming.IMEPROA* param1)
-#cfunc IMPGetIMEA "IMPGetIMEA" intptr, var
+#cfunc global IMPGetIMEA "IMPGetIMEA" intptr, var
 
 ; winmdroot.Foundation.BOOL IMPGetIMEW(winmdroot.Foundation.HWND param0, winmdroot.System.WindowsProgramming.IMEPROW* param1)
-#cfunc IMPGetIMEW "IMPGetIMEW" intptr, var
+#cfunc global IMPGetIMEW "IMPGetIMEW" intptr, var
 
 ; winmdroot.Foundation.BOOL IMPQueryIMEA(winmdroot.System.WindowsProgramming.IMEPROA* param0)
-#cfunc IMPQueryIMEA "IMPQueryIMEA" var
+#cfunc global IMPQueryIMEA "IMPQueryIMEA" var
 
 ; winmdroot.Foundation.BOOL IMPQueryIMEW(winmdroot.System.WindowsProgramming.IMEPROW* param0)
-#cfunc IMPQueryIMEW "IMPQueryIMEW" var
+#cfunc global IMPQueryIMEW "IMPQueryIMEW" var
 
 ; winmdroot.Foundation.BOOL IMPSetIMEA(winmdroot.Foundation.HWND param0, winmdroot.System.WindowsProgramming.IMEPROA* param1)
-#cfunc IMPSetIMEA "IMPSetIMEA" intptr, var
+#cfunc global IMPSetIMEA "IMPSetIMEA" intptr, var
 
 ; winmdroot.Foundation.BOOL IMPSetIMEW(winmdroot.Foundation.HWND param0, winmdroot.System.WindowsProgramming.IMEPROW* param1)
-#cfunc IMPSetIMEW "IMPSetIMEW" intptr, var
+#cfunc global IMPSetIMEW "IMPSetIMEW" intptr, var
 
 ; winmdroot.Foundation.BOOL ImpersonateDdeClientWindow(winmdroot.Foundation.HWND hWndClient, winmdroot.Foundation.HWND hWndServer)
-#cfunc ImpersonateDdeClientWindow "ImpersonateDdeClientWindow" intptr, intptr
+#cfunc global ImpersonateDdeClientWindow "ImpersonateDdeClientWindow" intptr, intptr
 
 ; winmdroot.Foundation.BOOL InSendMessage()
-#cfunc InSendMessage "InSendMessage"
+#cfunc global InSendMessage "InSendMessage"
 
 ; uint InSendMessageEx([Optional] void* lpReserved)
-#cfunc InSendMessageEx "InSendMessageEx" intptr
+#cfunc global InSendMessageEx "InSendMessageEx" intptr
 
 ; winmdroot.Foundation.BOOL InflateRect(winmdroot.Foundation.RECT* lprc, int dx, int dy)
-#cfunc InflateRect "InflateRect" var, int, int
+#cfunc global InflateRect "InflateRect" var, int, int
 
 ; winmdroot.Foundation.BOOL InheritWindowMonitor(winmdroot.Foundation.HWND hwnd, winmdroot.Foundation.HWND hwndInherit)
-#cfunc InheritWindowMonitor "InheritWindowMonitor" intptr, intptr
+#cfunc global InheritWindowMonitor "InheritWindowMonitor" intptr, intptr
 
 ; winmdroot.Foundation.BOOL InitializeTouchInjection(uint maxCount, winmdroot.UI.Input.Pointer.TOUCH_FEEDBACK_MODE dwMode)
-#cfunc InitializeTouchInjection "InitializeTouchInjection" int, int
+#cfunc global InitializeTouchInjection "InitializeTouchInjection" int, int
 
 ; winmdroot.Foundation.BOOL InjectSyntheticPointerInput(winmdroot.UI.Controls.HSYNTHETICPOINTERDEVICE device, winmdroot.UI.Controls.POINTER_TYPE_INFO* pointerInfo, uint count)
-#cfunc InjectSyntheticPointerInput "InjectSyntheticPointerInput" intptr, var, int
+#cfunc global InjectSyntheticPointerInput "InjectSyntheticPointerInput" intptr, var, int
 
 ; winmdroot.Foundation.BOOL InjectTouchInput(uint count, winmdroot.UI.Input.Pointer.POINTER_TOUCH_INFO* contacts)
-#cfunc InjectTouchInput "InjectTouchInput" int, var
+#cfunc global InjectTouchInput "InjectTouchInput" int, var
 
 ; winmdroot.Foundation.BOOL InsertMenu(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, uint uPosition, winmdroot.UI.WindowsAndMessaging.MENU_ITEM_FLAGS uFlags, nuint uIDNewItem, winmdroot.Foundation.PCWSTR lpNewItem)
-#cfunc InsertMenuW "InsertMenuW" intptr, int, int, int, wstr
+#cfunc global InsertMenuW "InsertMenuW" intptr, int, int, int, wstr
 
 ; winmdroot.Foundation.BOOL InsertMenuItem(winmdroot.UI.WindowsAndMessaging.HMENU hmenu, uint item, winmdroot.Foundation.BOOL fByPosition, winmdroot.UI.WindowsAndMessaging.MENUITEMINFOW* lpmi)
-#cfunc InsertMenuItemW "InsertMenuItemW" intptr, int, int, var
+#cfunc global InsertMenuItemW "InsertMenuItemW" intptr, int, int, var
 
 ; int InternalGetWindowText(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.PWSTR pString, int cchMaxCount)
-#cfunc InternalGetWindowText "InternalGetWindowText" intptr, wstr, int
+#cfunc global InternalGetWindowText "InternalGetWindowText" intptr, wstr, int
 
 ; winmdroot.Foundation.BOOL IntersectRect(winmdroot.Foundation.RECT* lprcDst, winmdroot.Foundation.RECT* lprcSrc1, winmdroot.Foundation.RECT* lprcSrc2)
-#cfunc IntersectRect "IntersectRect" var, var, var
+#cfunc global IntersectRect "IntersectRect" var, var, var
 
 ; winmdroot.Foundation.BOOL InvalidateRect(winmdroot.Foundation.HWND hWnd, [Optional] winmdroot.Foundation.RECT* lpRect, winmdroot.Foundation.BOOL bErase)
-#cfunc InvalidateRect "InvalidateRect" intptr, var, int
+#cfunc global InvalidateRect "InvalidateRect" intptr, var, int
 
 ; winmdroot.Foundation.BOOL InvalidateRgn(winmdroot.Foundation.HWND hWnd, winmdroot.Graphics.Gdi.HRGN hRgn, winmdroot.Foundation.BOOL bErase)
-#cfunc InvalidateRgn "InvalidateRgn" intptr, intptr, int
+#cfunc global InvalidateRgn "InvalidateRgn" intptr, intptr, int
 
 ; winmdroot.Foundation.BOOL InvertRect(winmdroot.Graphics.Gdi.HDC hDC, winmdroot.Foundation.RECT* lprc)
-#cfunc InvertRect "InvertRect" intptr, var
+#cfunc global InvertRect "InvertRect" intptr, var
 
 ; winmdroot.Foundation.BOOL IsCharAlpha(char ch)
-#cfunc IsCharAlphaW "IsCharAlphaW" int
+#cfunc global IsCharAlphaW "IsCharAlphaW" int
 
 ; winmdroot.Foundation.BOOL IsCharAlphaNumeric(char ch)
-#cfunc IsCharAlphaNumericW "IsCharAlphaNumericW" int
+#cfunc global IsCharAlphaNumericW "IsCharAlphaNumericW" int
 
 ; winmdroot.Foundation.BOOL IsCharLower(char ch)
-#cfunc IsCharLowerW "IsCharLowerW" int
+#cfunc global IsCharLowerW "IsCharLowerW" int
 
 ; winmdroot.Foundation.BOOL IsCharUpper(char ch)
-#cfunc IsCharUpperW "IsCharUpperW" int
+#cfunc global IsCharUpperW "IsCharUpperW" int
 
 ; winmdroot.Foundation.BOOL IsChild(winmdroot.Foundation.HWND hWndParent, winmdroot.Foundation.HWND hWnd)
-#cfunc IsChild "IsChild" intptr, intptr
+#cfunc global IsChild "IsChild" intptr, intptr
 
 ; winmdroot.Foundation.BOOL IsClipboardFormatAvailable(uint format)
-#cfunc IsClipboardFormatAvailable "IsClipboardFormatAvailable" int
+#cfunc global IsClipboardFormatAvailable "IsClipboardFormatAvailable" int
 
 ; winmdroot.Foundation.BOOL IsDialogMessageW(winmdroot.Foundation.HWND hDlg, winmdroot.UI.WindowsAndMessaging.MSG* lpMsg)
-#cfunc IsDialogMessageW "IsDialogMessageW" intptr, var
+#cfunc global IsDialogMessageW "IsDialogMessageW" intptr, var
 
 ; uint IsDlgButtonChecked(winmdroot.Foundation.HWND hDlg, int nIDButton)
-#cfunc IsDlgButtonChecked "IsDlgButtonChecked" intptr, int
+#cfunc global IsDlgButtonChecked "IsDlgButtonChecked" intptr, int
 
 ; winmdroot.Foundation.BOOL IsGUIThread(winmdroot.Foundation.BOOL bConvert)
-#cfunc IsGUIThread "IsGUIThread" int
+#cfunc global IsGUIThread "IsGUIThread" int
 
 ; winmdroot.Foundation.BOOL IsHungAppWindow(winmdroot.Foundation.HWND hwnd)
-#cfunc IsHungAppWindow "IsHungAppWindow" intptr
+#cfunc global IsHungAppWindow "IsHungAppWindow" intptr
 
 ; winmdroot.Foundation.BOOL IsIconic(winmdroot.Foundation.HWND hWnd)
-#cfunc IsIconic "IsIconic" intptr
+#cfunc global IsIconic "IsIconic" intptr
 
 ; winmdroot.Foundation.BOOL IsImmersiveProcess(winmdroot.Foundation.HANDLE hProcess)
-#cfunc IsImmersiveProcess "IsImmersiveProcess" intptr
+#cfunc global IsImmersiveProcess "IsImmersiveProcess" intptr
 
 ; winmdroot.Foundation.BOOL IsMenu(winmdroot.UI.WindowsAndMessaging.HMENU hMenu)
-#cfunc IsMenu "IsMenu" intptr
+#cfunc global IsMenu "IsMenu" intptr
 
 ; winmdroot.Foundation.BOOL IsMouseInPointerEnabled()
-#cfunc IsMouseInPointerEnabled "IsMouseInPointerEnabled"
+#cfunc global IsMouseInPointerEnabled "IsMouseInPointerEnabled"
 
 ; winmdroot.Foundation.BOOL IsProcessDPIAware()
-#cfunc IsProcessDPIAware "IsProcessDPIAware"
+#cfunc global IsProcessDPIAware "IsProcessDPIAware"
 
 ; winmdroot.Foundation.BOOL IsRectEmpty(winmdroot.Foundation.RECT* lprc)
-#cfunc IsRectEmpty "IsRectEmpty" var
+#cfunc global IsRectEmpty "IsRectEmpty" var
 
 ; winmdroot.Foundation.BOOL IsTouchWindow(winmdroot.Foundation.HWND hwnd, [Optional] uint* pulFlags)
-#cfunc IsTouchWindow "IsTouchWindow" intptr, var
+#cfunc global IsTouchWindow "IsTouchWindow" intptr, var
 
 ; winmdroot.Foundation.BOOL IsValidDpiAwarenessContext(winmdroot.UI.HiDpi.DPI_AWARENESS_CONTEXT value)
-#cfunc IsValidDpiAwarenessContext "IsValidDpiAwarenessContext" intptr
+#cfunc global IsValidDpiAwarenessContext "IsValidDpiAwarenessContext" intptr
 
 ; winmdroot.Foundation.BOOL IsWinEventHookInstalled(uint @event)
-#cfunc IsWinEventHookInstalled "IsWinEventHookInstalled" int
+#cfunc global IsWinEventHookInstalled "IsWinEventHookInstalled" int
 
 ; winmdroot.Foundation.BOOL IsWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc IsWindow "IsWindow" intptr
+#cfunc global IsWindow "IsWindow" intptr
 
 ; winmdroot.Foundation.BOOL IsWindowArranged(winmdroot.Foundation.HWND hwnd)
-#cfunc IsWindowArranged "IsWindowArranged" intptr
+#cfunc global IsWindowArranged "IsWindowArranged" intptr
 
 ; winmdroot.Foundation.BOOL IsWindowEnabled(winmdroot.Foundation.HWND hWnd)
-#cfunc IsWindowEnabled "IsWindowEnabled" intptr
+#cfunc global IsWindowEnabled "IsWindowEnabled" intptr
 
 ; winmdroot.Foundation.BOOL IsWindowUnicode(winmdroot.Foundation.HWND hWnd)
-#cfunc IsWindowUnicode "IsWindowUnicode" intptr
+#cfunc global IsWindowUnicode "IsWindowUnicode" intptr
 
 ; winmdroot.Foundation.BOOL IsWindowVisible(winmdroot.Foundation.HWND hWnd)
-#cfunc IsWindowVisible "IsWindowVisible" intptr
+#cfunc global IsWindowVisible "IsWindowVisible" intptr
 
 ; winmdroot.Foundation.BOOL IsWow64Message()
-#cfunc IsWow64Message "IsWow64Message"
+#cfunc global IsWow64Message "IsWow64Message"
 
 ; winmdroot.Foundation.BOOL IsZoomed(winmdroot.Foundation.HWND hWnd)
-#cfunc IsZoomed "IsZoomed" intptr
+#cfunc global IsZoomed "IsZoomed" intptr
 
 ; winmdroot.Foundation.BOOL KillTimer(winmdroot.Foundation.HWND hWnd, nuint uIDEvent)
-#cfunc KillTimer "KillTimer" intptr, int
+#cfunc global KillTimer "KillTimer" intptr, int
 
 ; winmdroot.UI.WindowsAndMessaging.HACCEL LoadAccelerators(winmdroot.Foundation.HINSTANCE hInstance, winmdroot.Foundation.PCWSTR lpTableName)
-#cfunc LoadAcceleratorsW "LoadAcceleratorsW" intptr, wstr
+#cfunc global LoadAcceleratorsW "LoadAcceleratorsW" intptr, wstr
 
 ; winmdroot.Graphics.Gdi.HBITMAP LoadBitmapW(winmdroot.Foundation.HINSTANCE hInstance, winmdroot.Foundation.PCWSTR lpBitmapName)
-#cfunc LoadBitmapW "LoadBitmapW" intptr, wstr
+#cfunc global LoadBitmapW "LoadBitmapW" intptr, wstr
 
 ; winmdroot.UI.WindowsAndMessaging.HCURSOR LoadCursor(winmdroot.Foundation.HINSTANCE hInstance, winmdroot.Foundation.PCWSTR lpCursorName)
-#cfunc LoadCursorW "LoadCursorW" intptr, wstr
+#cfunc global LoadCursorW "LoadCursorW" intptr, wstr
 
 ; winmdroot.UI.WindowsAndMessaging.HCURSOR LoadCursorFromFile(winmdroot.Foundation.PCWSTR lpFileName)
-#cfunc LoadCursorFromFileW "LoadCursorFromFileW" wstr
+#cfunc global LoadCursorFromFileW "LoadCursorFromFileW" wstr
 
 ; winmdroot.UI.WindowsAndMessaging.HICON LoadIcon(winmdroot.Foundation.HINSTANCE hInstance, winmdroot.Foundation.PCWSTR lpIconName)
-#cfunc LoadIconW "LoadIconW" intptr, wstr
+#cfunc global LoadIconW "LoadIconW" intptr, wstr
 
 ; winmdroot.Foundation.HANDLE LoadImage(winmdroot.Foundation.HINSTANCE hInst, winmdroot.Foundation.PCWSTR name, winmdroot.UI.WindowsAndMessaging.GDI_IMAGE_TYPE type, int cx, int cy, winmdroot.UI.WindowsAndMessaging.IMAGE_FLAGS fuLoad)
-#cfunc LoadImageW "LoadImageW" intptr, wstr, int, int, int, int
+#cfunc global LoadImageW "LoadImageW" intptr, wstr, int, int, int, int
 
 ; winmdroot.UI.Input.KeyboardAndMouse.HKL LoadKeyboardLayout(winmdroot.Foundation.PCWSTR pwszKLID, winmdroot.UI.Input.KeyboardAndMouse.ACTIVATE_KEYBOARD_LAYOUT_FLAGS Flags)
-#cfunc LoadKeyboardLayoutW "LoadKeyboardLayoutW" wstr, int
+#cfunc global LoadKeyboardLayoutW "LoadKeyboardLayoutW" wstr, int
 
 ; winmdroot.UI.WindowsAndMessaging.HMENU LoadMenu(winmdroot.Foundation.HINSTANCE hInstance, winmdroot.Foundation.PCWSTR lpMenuName)
-#cfunc LoadMenuW "LoadMenuW" intptr, wstr
+#cfunc global LoadMenuW "LoadMenuW" intptr, wstr
 
 ; winmdroot.UI.WindowsAndMessaging.HMENU LoadMenuIndirect(void* lpMenuTemplate)
-#cfunc LoadMenuIndirectW "LoadMenuIndirectW" intptr
+#cfunc global LoadMenuIndirectW "LoadMenuIndirectW" intptr
 
 ; int LoadString(winmdroot.Foundation.HINSTANCE hInstance, uint uID, winmdroot.Foundation.PWSTR lpBuffer, int cchBufferMax)
-#cfunc LoadStringW "LoadStringW" intptr, int, wstr, int
+#cfunc global LoadStringW "LoadStringW" intptr, int, wstr, int
 
 ; winmdroot.Foundation.BOOL LockSetForegroundWindow(winmdroot.UI.WindowsAndMessaging.FOREGROUND_WINDOW_LOCK_CODE uLockCode)
-#cfunc LockSetForegroundWindow "LockSetForegroundWindow" int
+#cfunc global LockSetForegroundWindow "LockSetForegroundWindow" int
 
 ; winmdroot.Foundation.BOOL LockWindowUpdate(winmdroot.Foundation.HWND hWndLock)
-#cfunc LockWindowUpdate "LockWindowUpdate" intptr
+#cfunc global LockWindowUpdate "LockWindowUpdate" intptr
 
 ; winmdroot.Foundation.BOOL LockWorkStation()
-#cfunc LockWorkStation "LockWorkStation"
+#cfunc global LockWorkStation "LockWorkStation"
 
 ; winmdroot.Foundation.BOOL LogicalToPhysicalPoint(winmdroot.Foundation.HWND hWnd, global::System.Drawing.Point* lpPoint)
-#cfunc LogicalToPhysicalPoint "LogicalToPhysicalPoint" intptr, var
+#cfunc global LogicalToPhysicalPoint "LogicalToPhysicalPoint" intptr, var
 
 ; winmdroot.Foundation.BOOL LogicalToPhysicalPointForPerMonitorDPI(winmdroot.Foundation.HWND hWnd, global::System.Drawing.Point* lpPoint)
-#cfunc LogicalToPhysicalPointForPerMonitorDPI "LogicalToPhysicalPointForPerMonitorDPI" intptr, var
+#cfunc global LogicalToPhysicalPointForPerMonitorDPI "LogicalToPhysicalPointForPerMonitorDPI" intptr, var
 
 ; int LookupIconIdFromDirectory(byte* presbits, winmdroot.Foundation.BOOL fIcon)
-#cfunc LookupIconIdFromDirectory "LookupIconIdFromDirectory" var, int
+#cfunc global LookupIconIdFromDirectory "LookupIconIdFromDirectory" var, int
 
 ; int LookupIconIdFromDirectoryEx(byte* presbits, winmdroot.Foundation.BOOL fIcon, int cxDesired, int cyDesired, winmdroot.UI.WindowsAndMessaging.IMAGE_FLAGS Flags)
-#cfunc LookupIconIdFromDirectoryEx "LookupIconIdFromDirectoryEx" var, int, int, int, int
+#cfunc global LookupIconIdFromDirectoryEx "LookupIconIdFromDirectoryEx" var, int, int, int, int
 
 ; winmdroot.Foundation.BOOL MapDialogRect(winmdroot.Foundation.HWND hDlg, winmdroot.Foundation.RECT* lpRect)
-#cfunc MapDialogRect "MapDialogRect" intptr, var
+#cfunc global MapDialogRect "MapDialogRect" intptr, var
 
 ; uint MapVirtualKeyW(uint uCode, winmdroot.UI.Input.KeyboardAndMouse.MAP_VIRTUAL_KEY_TYPE uMapType)
-#cfunc MapVirtualKeyW "MapVirtualKeyW" int, int
+#cfunc global MapVirtualKeyW "MapVirtualKeyW" int, int
 
 ; uint MapVirtualKeyExW(uint uCode, winmdroot.UI.Input.KeyboardAndMouse.MAP_VIRTUAL_KEY_TYPE uMapType, winmdroot.UI.Input.KeyboardAndMouse.HKL dwhkl)
-#cfunc MapVirtualKeyExW "MapVirtualKeyExW" int, int, intptr
+#cfunc global MapVirtualKeyExW "MapVirtualKeyExW" int, int, intptr
 
 ; int MapWindowPoints(winmdroot.Foundation.HWND hWndFrom, winmdroot.Foundation.HWND hWndTo, global::System.Drawing.Point* lpPoints, uint cPoints)
-#cfunc MapWindowPoints "MapWindowPoints" intptr, intptr, var, int
+#cfunc global MapWindowPoints "MapWindowPoints" intptr, intptr, var, int
 
 ; int MenuItemFromPoint(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.HMENU hMenu, global::System.Drawing.Point ptScreen)
-#cfunc MenuItemFromPoint "MenuItemFromPoint" intptr, intptr, int
+#cfunc global MenuItemFromPoint "MenuItemFromPoint" intptr, intptr, int
 
 ; winmdroot.Foundation.BOOL MessageBeep(winmdroot.UI.WindowsAndMessaging.MESSAGEBOX_STYLE uType)
-#cfunc MessageBeep "MessageBeep" int
+#cfunc global MessageBeep "MessageBeep" int
 
 ; winmdroot.UI.WindowsAndMessaging.MESSAGEBOX_RESULT MessageBox(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.PCWSTR lpText, winmdroot.Foundation.PCWSTR lpCaption, winmdroot.UI.WindowsAndMessaging.MESSAGEBOX_STYLE uType)
-#cfunc MessageBoxW "MessageBoxW" intptr, wstr, wstr, int
+#cfunc global MessageBoxW "MessageBoxW" intptr, wstr, wstr, int
 
 ; winmdroot.UI.WindowsAndMessaging.MESSAGEBOX_RESULT MessageBoxEx(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.PCWSTR lpText, winmdroot.Foundation.PCWSTR lpCaption, winmdroot.UI.WindowsAndMessaging.MESSAGEBOX_STYLE uType, ushort wLanguageId)
-#cfunc MessageBoxExW "MessageBoxExW" intptr, wstr, wstr, int, int
+#cfunc global MessageBoxExW "MessageBoxExW" intptr, wstr, wstr, int, int
 
 ; winmdroot.UI.WindowsAndMessaging.MESSAGEBOX_RESULT MessageBoxIndirectW(winmdroot.UI.WindowsAndMessaging.MSGBOXPARAMSW* lpmbp)
-#cfunc MessageBoxIndirectW "MessageBoxIndirectW" var
+#cfunc global MessageBoxIndirectW "MessageBoxIndirectW" var
 
 ; winmdroot.Foundation.BOOL ModifyMenu(winmdroot.UI.WindowsAndMessaging.HMENU hMnu, uint uPosition, winmdroot.UI.WindowsAndMessaging.MENU_ITEM_FLAGS uFlags, nuint uIDNewItem, winmdroot.Foundation.PCWSTR lpNewItem)
-#cfunc ModifyMenuW "ModifyMenuW" intptr, int, int, int, wstr
+#cfunc global ModifyMenuW "ModifyMenuW" intptr, int, int, int, wstr
 
 ; winmdroot.Graphics.Gdi.HMONITOR MonitorFromPoint(global::System.Drawing.Point pt, winmdroot.Graphics.Gdi.MONITOR_FROM_FLAGS dwFlags)
-#cfunc MonitorFromPoint "MonitorFromPoint" int, int
+#cfunc global MonitorFromPoint "MonitorFromPoint" int, int
 
 ; winmdroot.Graphics.Gdi.HMONITOR MonitorFromRect(winmdroot.Foundation.RECT* lprc, winmdroot.Graphics.Gdi.MONITOR_FROM_FLAGS dwFlags)
-#cfunc MonitorFromRect "MonitorFromRect" var, int
+#cfunc global MonitorFromRect "MonitorFromRect" var, int
 
 ; winmdroot.Graphics.Gdi.HMONITOR MonitorFromWindow(winmdroot.Foundation.HWND hwnd, winmdroot.Graphics.Gdi.MONITOR_FROM_FLAGS dwFlags)
-#cfunc MonitorFromWindow "MonitorFromWindow" intptr, int
+#cfunc global MonitorFromWindow "MonitorFromWindow" intptr, int
 
 ; winmdroot.Foundation.BOOL MoveWindow(winmdroot.Foundation.HWND hWnd, int X, int Y, int nWidth, int nHeight, winmdroot.Foundation.BOOL bRepaint)
-#cfunc MoveWindow "MoveWindow" intptr, int, int, int, int, int
+#cfunc global MoveWindow "MoveWindow" intptr, int, int, int, int, int
 
 ; winmdroot.Foundation.WAIT_EVENT MsgWaitForMultipleObjects(uint nCount, [Optional] winmdroot.Foundation.HANDLE* pHandles, winmdroot.Foundation.BOOL fWaitAll, uint dwMilliseconds, winmdroot.UI.WindowsAndMessaging.QUEUE_STATUS_FLAGS dwWakeMask)
-#cfunc MsgWaitForMultipleObjects "MsgWaitForMultipleObjects" int, intptr, int, int, int
+#cfunc global MsgWaitForMultipleObjects "MsgWaitForMultipleObjects" int, intptr, int, int, int
 
 ; winmdroot.Foundation.WAIT_EVENT MsgWaitForMultipleObjectsEx(uint nCount, [Optional] winmdroot.Foundation.HANDLE* pHandles, uint dwMilliseconds, winmdroot.UI.WindowsAndMessaging.QUEUE_STATUS_FLAGS dwWakeMask, winmdroot.UI.WindowsAndMessaging.MSG_WAIT_FOR_MULTIPLE_OBJECTS_EX_FLAGS dwFlags)
-#cfunc MsgWaitForMultipleObjectsEx "MsgWaitForMultipleObjectsEx" int, intptr, int, int, int
+#cfunc global MsgWaitForMultipleObjectsEx "MsgWaitForMultipleObjectsEx" int, intptr, int, int, int
 
 ; void NotifyWinEvent(uint @event, winmdroot.Foundation.HWND hwnd, int idObject, int idChild)
-#func NotifyWinEvent "NotifyWinEvent" int, intptr, int, int
+#func global NotifyWinEvent "NotifyWinEvent" int, intptr, int, int
 
 ; uint OemKeyScan(ushort wOemChar)
-#cfunc OemKeyScan "OemKeyScan" int
+#cfunc global OemKeyScan "OemKeyScan" int
 
 ; winmdroot.Foundation.BOOL OemToChar(winmdroot.Foundation.PCSTR pSrc, winmdroot.Foundation.PWSTR pDst)
-#cfunc OemToCharW "OemToCharW" str, wstr
+#cfunc global OemToCharW "OemToCharW" str, wstr
 
 ; winmdroot.Foundation.BOOL OemToCharBuff(winmdroot.Foundation.PCSTR lpszSrc, winmdroot.Foundation.PWSTR lpszDst, uint cchDstLength)
-#cfunc OemToCharBuffW "OemToCharBuffW" str, wstr, int
+#cfunc global OemToCharBuffW "OemToCharBuffW" str, wstr, int
 
 ; winmdroot.Foundation.BOOL OffsetRect(winmdroot.Foundation.RECT* lprc, int dx, int dy)
-#cfunc OffsetRect "OffsetRect" var, int, int
+#cfunc global OffsetRect "OffsetRect" var, int, int
 
 ; winmdroot.Foundation.BOOL OpenClipboard(winmdroot.Foundation.HWND hWndNewOwner)
-#cfunc OpenClipboard "OpenClipboard" intptr
+#cfunc global OpenClipboard "OpenClipboard" intptr
 
 ; winmdroot.System.StationsAndDesktops.HDESK OpenDesktop(winmdroot.Foundation.PCWSTR lpszDesktop, winmdroot.System.StationsAndDesktops.DESKTOP_CONTROL_FLAGS dwFlags, winmdroot.Foundation.BOOL fInherit, uint dwDesiredAccess)
-#cfunc OpenDesktopW "OpenDesktopW" wstr, int, int, int
+#cfunc global OpenDesktopW "OpenDesktopW" wstr, int, int, int
 
 ; winmdroot.Foundation.BOOL OpenIcon(winmdroot.Foundation.HWND hWnd)
-#cfunc OpenIcon "OpenIcon" intptr
+#cfunc global OpenIcon "OpenIcon" intptr
 
 ; winmdroot.System.StationsAndDesktops.HDESK OpenInputDesktop(winmdroot.System.StationsAndDesktops.DESKTOP_CONTROL_FLAGS dwFlags, winmdroot.Foundation.BOOL fInherit, winmdroot.System.StationsAndDesktops.DESKTOP_ACCESS_FLAGS dwDesiredAccess)
-#cfunc OpenInputDesktop "OpenInputDesktop" int, int, int
+#cfunc global OpenInputDesktop "OpenInputDesktop" int, int, int
 
 ; winmdroot.System.StationsAndDesktops.HWINSTA OpenWindowStation(winmdroot.Foundation.PCWSTR lpszWinSta, winmdroot.Foundation.BOOL fInherit, uint dwDesiredAccess)
-#cfunc OpenWindowStationW "OpenWindowStationW" wstr, int, int
+#cfunc global OpenWindowStationW "OpenWindowStationW" wstr, int, int
 
 ; winmdroot.Foundation.LPARAM PackDDElParam(uint msg, nuint uiLo, nuint uiHi)
-#cfunc PackDDElParam "PackDDElParam" int, int, int
+#cfunc global PackDDElParam "PackDDElParam" int, int, int
 
 ; winmdroot.Foundation.LRESULT PackTouchHitTestingProximityEvaluation(winmdroot.UI.Controls.TOUCH_HIT_TESTING_INPUT* pHitTestingInput, winmdroot.UI.Controls.TOUCH_HIT_TESTING_PROXIMITY_EVALUATION* pProximityEval)
-#cfunc PackTouchHitTestingProximityEvaluation "PackTouchHitTestingProximityEvaluation" var, var
+#cfunc global PackTouchHitTestingProximityEvaluation "PackTouchHitTestingProximityEvaluation" var, var
 
 ; winmdroot.Foundation.BOOL PaintDesktop(winmdroot.Graphics.Gdi.HDC hdc)
-#cfunc PaintDesktop "PaintDesktop" intptr
+#cfunc global PaintDesktop "PaintDesktop" intptr
 
 ; winmdroot.Foundation.BOOL PeekMessageW(winmdroot.UI.WindowsAndMessaging.MSG* lpMsg, winmdroot.Foundation.HWND hWnd, uint wMsgFilterMin, uint wMsgFilterMax, winmdroot.UI.WindowsAndMessaging.PEEK_MESSAGE_REMOVE_TYPE wRemoveMsg)
-#cfunc PeekMessageW "PeekMessageW" var, intptr, int, int, int
+#cfunc global PeekMessageW "PeekMessageW" var, intptr, int, int, int
 
 ; winmdroot.Foundation.BOOL PhysicalToLogicalPoint(winmdroot.Foundation.HWND hWnd, global::System.Drawing.Point* lpPoint)
-#cfunc PhysicalToLogicalPoint "PhysicalToLogicalPoint" intptr, var
+#cfunc global PhysicalToLogicalPoint "PhysicalToLogicalPoint" intptr, var
 
 ; winmdroot.Foundation.BOOL PhysicalToLogicalPointForPerMonitorDPI(winmdroot.Foundation.HWND hWnd, global::System.Drawing.Point* lpPoint)
-#cfunc PhysicalToLogicalPointForPerMonitorDPI "PhysicalToLogicalPointForPerMonitorDPI" intptr, var
+#cfunc global PhysicalToLogicalPointForPerMonitorDPI "PhysicalToLogicalPointForPerMonitorDPI" intptr, var
 
 ; winmdroot.Foundation.BOOL PostMessage(winmdroot.Foundation.HWND hWnd, uint Msg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam)
-#cfunc PostMessageW "PostMessageW" intptr, int, intptr, intptr
+#cfunc global PostMessageW "PostMessageW" intptr, int, intptr, intptr
 
 ; void PostQuitMessage(int nExitCode)
-#func PostQuitMessage "PostQuitMessage" int
+#func global PostQuitMessage "PostQuitMessage" int
 
 ; winmdroot.Foundation.BOOL PostThreadMessage(uint idThread, uint Msg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam)
-#cfunc PostThreadMessageW "PostThreadMessageW" int, int, intptr, intptr
+#cfunc global PostThreadMessageW "PostThreadMessageW" int, int, intptr, intptr
 
 ; winmdroot.Foundation.BOOL PrintWindow(winmdroot.Foundation.HWND hwnd, winmdroot.Graphics.Gdi.HDC hdcBlt, winmdroot.Storage.Xps.PRINT_WINDOW_FLAGS nFlags)
-#cfunc PrintWindow "PrintWindow" intptr, intptr, int
+#cfunc global PrintWindow "PrintWindow" intptr, intptr, int
 
 ; uint PrivateExtractIconsW(winmdroot.Foundation.PCWSTR szFileName, int nIconIndex, int cxIcon, int cyIcon, [Optional] winmdroot.UI.WindowsAndMessaging.HICON* phicon, [Optional] uint* piconid, uint nIcons, uint flags)
-#cfunc PrivateExtractIconsW "PrivateExtractIconsW" wstr, int, int, int, intptr, var, int, int
+#cfunc global PrivateExtractIconsW "PrivateExtractIconsW" wstr, int, int, int, intptr, var, int, int
 
 ; winmdroot.Foundation.BOOL PtInRect(winmdroot.Foundation.RECT* lprc, global::System.Drawing.Point pt)
-#cfunc PtInRect "PtInRect" var, int
+#cfunc global PtInRect "PtInRect" var, int
 
 ; winmdroot.Foundation.WIN32_ERROR QueryDisplayConfig(winmdroot.Devices.Display.QUERY_DISPLAY_CONFIG_FLAGS flags, uint* numPathArrayElements, winmdroot.Devices.Display.DISPLAYCONFIG_PATH_INFO* pathArray, uint* numModeInfoArrayElements, winmdroot.Devices.Display.DISPLAYCONFIG_MODE_INFO* modeInfoArray, [Optional] winmdroot.Devices.Display.DISPLAYCONFIG_TOPOLOGY_ID* currentTopologyId)
-#cfunc QueryDisplayConfig "QueryDisplayConfig" int, var, var, var, var, var
+#cfunc global QueryDisplayConfig "QueryDisplayConfig" int, var, var, var, var, var
 
 ; winmdroot.Foundation.HWND RealChildWindowFromPoint(winmdroot.Foundation.HWND hwndParent, global::System.Drawing.Point ptParentClientCoords)
-#cfunc RealChildWindowFromPoint "RealChildWindowFromPoint" intptr, int
+#cfunc global RealChildWindowFromPoint "RealChildWindowFromPoint" intptr, int
 
 ; uint RealGetWindowClass(winmdroot.Foundation.HWND hwnd, winmdroot.Foundation.PWSTR ptszClassName, uint cchClassNameMax)
-#cfunc RealGetWindowClassW "RealGetWindowClassW" intptr, wstr, int
+#cfunc global RealGetWindowClassW "RealGetWindowClassW" intptr, wstr, int
 
 ; winmdroot.Foundation.BOOL RedrawWindow(winmdroot.Foundation.HWND hWnd, [Optional] winmdroot.Foundation.RECT* lprcUpdate, winmdroot.Graphics.Gdi.HRGN hrgnUpdate, winmdroot.Graphics.Gdi.REDRAW_WINDOW_FLAGS flags)
-#cfunc RedrawWindow "RedrawWindow" intptr, var, intptr, int
+#cfunc global RedrawWindow "RedrawWindow" intptr, var, intptr, int
 
 ; ushort RegisterClass(winmdroot.UI.WindowsAndMessaging.WNDCLASSW* lpWndClass)
-#cfunc RegisterClassW "RegisterClassW" var
+#cfunc global RegisterClassW "RegisterClassW" var
 
 ; ushort RegisterClassEx(winmdroot.UI.WindowsAndMessaging.WNDCLASSEXW* param0)
-#cfunc RegisterClassExW "RegisterClassExW" var
+#cfunc global RegisterClassExW "RegisterClassExW" var
 
 ; uint RegisterClipboardFormat(winmdroot.Foundation.PCWSTR lpszFormat)
-#cfunc RegisterClipboardFormatW "RegisterClipboardFormatW" wstr
+#cfunc global RegisterClipboardFormatW "RegisterClipboardFormatW" wstr
 
 ; winmdroot.Foundation.BOOL UnregisterDeviceNotification(winmdroot.UI.WindowsAndMessaging.HDEVNOTIFY Handle)
-#cfunc UnregisterDeviceNotification "UnregisterDeviceNotification" int
+#cfunc global UnregisterDeviceNotification "UnregisterDeviceNotification" int
 
 ; winmdroot.UI.WindowsAndMessaging.HDEVNOTIFY RegisterDeviceNotification(winmdroot.Foundation.HANDLE hRecipient, void* NotificationFilter, winmdroot.UI.WindowsAndMessaging.REGISTER_NOTIFICATION_FLAGS Flags)
-#cfunc RegisterDeviceNotificationW "RegisterDeviceNotificationW" intptr, intptr, int
+#cfunc global RegisterDeviceNotificationW "RegisterDeviceNotificationW" intptr, intptr, int
 
 ; winmdroot.Foundation.BOOL RegisterHotKey(winmdroot.Foundation.HWND hWnd, int id, winmdroot.UI.Input.KeyboardAndMouse.HOT_KEY_MODIFIERS fsModifiers, uint vk)
-#cfunc RegisterHotKey "RegisterHotKey" intptr, int, int, int
+#cfunc global RegisterHotKey "RegisterHotKey" intptr, int, int, int
 
 ; winmdroot.Foundation.BOOL RegisterPointerDeviceNotifications(winmdroot.Foundation.HWND window, winmdroot.Foundation.BOOL notifyRange)
-#cfunc RegisterPointerDeviceNotifications "RegisterPointerDeviceNotifications" intptr, int
+#cfunc global RegisterPointerDeviceNotifications "RegisterPointerDeviceNotifications" intptr, int
 
 ; winmdroot.Foundation.BOOL RegisterPointerInputTarget(winmdroot.Foundation.HWND hwnd, winmdroot.UI.WindowsAndMessaging.POINTER_INPUT_TYPE pointerType)
-#cfunc RegisterPointerInputTarget "RegisterPointerInputTarget" intptr, int
+#cfunc global RegisterPointerInputTarget "RegisterPointerInputTarget" intptr, int
 
 ; winmdroot.Foundation.BOOL RegisterPointerInputTargetEx(winmdroot.Foundation.HWND hwnd, winmdroot.UI.WindowsAndMessaging.POINTER_INPUT_TYPE pointerType, winmdroot.Foundation.BOOL fObserve)
-#cfunc RegisterPointerInputTargetEx "RegisterPointerInputTargetEx" intptr, int, int
+#cfunc global RegisterPointerInputTargetEx "RegisterPointerInputTargetEx" intptr, int, int
 
 ; winmdroot.Foundation.BOOL UnregisterPowerSettingNotification(winmdroot.System.Power.HPOWERNOTIFY Handle)
-#cfunc UnregisterPowerSettingNotification "UnregisterPowerSettingNotification" intptr
+#cfunc global UnregisterPowerSettingNotification "UnregisterPowerSettingNotification" intptr
 
 ; winmdroot.System.Power.HPOWERNOTIFY RegisterPowerSettingNotification(winmdroot.Foundation.HANDLE hRecipient, global::System.Guid* PowerSettingGuid, winmdroot.UI.WindowsAndMessaging.REGISTER_NOTIFICATION_FLAGS Flags)
-#cfunc RegisterPowerSettingNotification "RegisterPowerSettingNotification" intptr, var, int
+#cfunc global RegisterPowerSettingNotification "RegisterPowerSettingNotification" intptr, var, int
 
 ; winmdroot.Foundation.BOOL RegisterRawInputDevices(winmdroot.UI.Input.RAWINPUTDEVICE* pRawInputDevices, uint uiNumDevices, uint cbSize)
-#cfunc RegisterRawInputDevices "RegisterRawInputDevices" var, int, int
+#cfunc global RegisterRawInputDevices "RegisterRawInputDevices" var, int, int
 
 ; winmdroot.Foundation.BOOL RegisterShellHookWindow(winmdroot.Foundation.HWND hwnd)
-#cfunc RegisterShellHookWindow "RegisterShellHookWindow" intptr
+#cfunc global RegisterShellHookWindow "RegisterShellHookWindow" intptr
 
 ; winmdroot.System.Power.HPOWERNOTIFY RegisterSuspendResumeNotification(winmdroot.Foundation.HANDLE hRecipient, winmdroot.UI.WindowsAndMessaging.REGISTER_NOTIFICATION_FLAGS Flags)
-#cfunc RegisterSuspendResumeNotification "RegisterSuspendResumeNotification" intptr, int
+#cfunc global RegisterSuspendResumeNotification "RegisterSuspendResumeNotification" intptr, int
 
 ; winmdroot.Foundation.BOOL RegisterTouchHitTestingWindow(winmdroot.Foundation.HWND hwnd, uint value)
-#cfunc RegisterTouchHitTestingWindow "RegisterTouchHitTestingWindow" intptr, int
+#cfunc global RegisterTouchHitTestingWindow "RegisterTouchHitTestingWindow" intptr, int
 
 ; winmdroot.Foundation.BOOL RegisterTouchWindow(winmdroot.Foundation.HWND hwnd, winmdroot.UI.Input.Touch.REGISTER_TOUCH_WINDOW_FLAGS ulFlags)
-#cfunc RegisterTouchWindow "RegisterTouchWindow" intptr, int
+#cfunc global RegisterTouchWindow "RegisterTouchWindow" intptr, int
 
 ; uint RegisterWindowMessage(winmdroot.Foundation.PCWSTR lpString)
-#cfunc RegisterWindowMessageW "RegisterWindowMessageW" wstr
+#cfunc global RegisterWindowMessageW "RegisterWindowMessageW" wstr
 
 ; winmdroot.Foundation.BOOL ReleaseCapture()
-#cfunc ReleaseCapture "ReleaseCapture"
+#cfunc global ReleaseCapture "ReleaseCapture"
 
 ; int ReleaseDC(winmdroot.Foundation.HWND hWnd, winmdroot.Graphics.Gdi.HDC hDC)
-#cfunc ReleaseDC "ReleaseDC" intptr, intptr
+#cfunc global ReleaseDC "ReleaseDC" intptr, intptr
 
 ; winmdroot.Foundation.BOOL RemoveClipboardFormatListener(winmdroot.Foundation.HWND hwnd)
-#cfunc RemoveClipboardFormatListener "RemoveClipboardFormatListener" intptr
+#cfunc global RemoveClipboardFormatListener "RemoveClipboardFormatListener" intptr
 
 ; winmdroot.Foundation.BOOL RemoveMenu(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, uint uPosition, winmdroot.UI.WindowsAndMessaging.MENU_ITEM_FLAGS uFlags)
-#cfunc RemoveMenu "RemoveMenu" intptr, int, int
+#cfunc global RemoveMenu "RemoveMenu" intptr, int, int
 
 ; winmdroot.Foundation.HANDLE RemoveProp(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.PCWSTR lpString)
-#cfunc RemovePropW "RemovePropW" intptr, wstr
+#cfunc global RemovePropW "RemovePropW" intptr, wstr
 
 ; winmdroot.Foundation.BOOL ReplyMessage(winmdroot.Foundation.LRESULT lResult)
-#cfunc ReplyMessage "ReplyMessage" intptr
+#cfunc global ReplyMessage "ReplyMessage" intptr
 
 ; winmdroot.Foundation.LPARAM ReuseDDElParam(winmdroot.Foundation.LPARAM lParam, uint msgIn, uint msgOut, nuint uiLo, nuint uiHi)
-#cfunc ReuseDDElParam "ReuseDDElParam" intptr, int, int, int, int
+#cfunc global ReuseDDElParam "ReuseDDElParam" intptr, int, int, int, int
 
 ; winmdroot.Foundation.BOOL ScreenToClient(winmdroot.Foundation.HWND hWnd, global::System.Drawing.Point* lpPoint)
-#cfunc ScreenToClient "ScreenToClient" intptr, var
+#cfunc global ScreenToClient "ScreenToClient" intptr, var
 
 ; winmdroot.Foundation.BOOL ScrollDC(winmdroot.Graphics.Gdi.HDC hDC, int dx, int dy, [Optional] winmdroot.Foundation.RECT* lprcScroll, [Optional] winmdroot.Foundation.RECT* lprcClip, winmdroot.Graphics.Gdi.HRGN hrgnUpdate, [Optional] winmdroot.Foundation.RECT* lprcUpdate)
-#cfunc ScrollDC "ScrollDC" intptr, int, int, var, var, intptr, var
+#cfunc global ScrollDC "ScrollDC" intptr, int, int, var, var, intptr, var
 
 ; winmdroot.Foundation.BOOL ScrollWindow(winmdroot.Foundation.HWND hWnd, int XAmount, int YAmount, [Optional] winmdroot.Foundation.RECT* lpRect, [Optional] winmdroot.Foundation.RECT* lpClipRect)
-#cfunc ScrollWindow "ScrollWindow" intptr, int, int, var, var
+#cfunc global ScrollWindow "ScrollWindow" intptr, int, int, var, var
 
 ; int ScrollWindowEx(winmdroot.Foundation.HWND hWnd, int dx, int dy, [Optional] winmdroot.Foundation.RECT* prcScroll, [Optional] winmdroot.Foundation.RECT* prcClip, winmdroot.Graphics.Gdi.HRGN hrgnUpdate, [Optional] winmdroot.Foundation.RECT* prcUpdate, winmdroot.UI.WindowsAndMessaging.SCROLL_WINDOW_FLAGS flags)
-#cfunc ScrollWindowEx "ScrollWindowEx" intptr, int, int, var, var, intptr, var, int
+#cfunc global ScrollWindowEx "ScrollWindowEx" intptr, int, int, var, var, intptr, var, int
 
 ; winmdroot.Foundation.LRESULT SendDlgItemMessageW(winmdroot.Foundation.HWND hDlg, int nIDDlgItem, uint Msg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam)
-#cfunc SendDlgItemMessageW "SendDlgItemMessageW" intptr, int, int, intptr, intptr
+#cfunc global SendDlgItemMessageW "SendDlgItemMessageW" intptr, int, int, intptr, intptr
 
 ; winmdroot.Foundation.LRESULT SendIMEMessageExW(winmdroot.Foundation.HWND param0, winmdroot.Foundation.LPARAM param1)
-#cfunc SendIMEMessageExW "SendIMEMessageExW" intptr, intptr
+#cfunc global SendIMEMessageExW "SendIMEMessageExW" intptr, intptr
 
 ; uint SendInput(uint cInputs, winmdroot.UI.Input.KeyboardAndMouse.INPUT* pInputs, int cbSize)
-#cfunc SendInput "SendInput" int, var, int
+#cfunc global SendInput "SendInput" int, var, int
 
 ; winmdroot.Foundation.LRESULT SendMessage(winmdroot.Foundation.HWND hWnd, uint Msg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam)
-#cfunc SendMessageW "SendMessageW" intptr, int, intptr, intptr
+#cfunc global SendMessageW "SendMessageW" intptr, int, intptr, intptr
 
 ; winmdroot.Foundation.BOOL SendMessageCallback(winmdroot.Foundation.HWND hWnd, uint Msg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam, delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.HWND,uint,nuint,global::Windows.Win32.Foundation.LRESULT,void> lpResultCallBack, nuint dwData)
-#cfunc SendMessageCallbackW "SendMessageCallbackW" intptr, int, intptr, intptr, int, int
+#cfunc global SendMessageCallbackW "SendMessageCallbackW" intptr, int, intptr, intptr, int, int
 
 ; winmdroot.Foundation.LRESULT SendMessageTimeout(winmdroot.Foundation.HWND hWnd, uint Msg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam, winmdroot.UI.WindowsAndMessaging.SEND_MESSAGE_TIMEOUT_FLAGS fuFlags, uint uTimeout, [Optional] nuint* lpdwResult)
-#cfunc SendMessageTimeoutW "SendMessageTimeoutW" intptr, int, intptr, intptr, int, int, var
+#cfunc global SendMessageTimeoutW "SendMessageTimeoutW" intptr, int, intptr, intptr, int, int, var
 
 ; winmdroot.Foundation.BOOL SendNotifyMessage(winmdroot.Foundation.HWND hWnd, uint Msg, winmdroot.Foundation.WPARAM wParam, winmdroot.Foundation.LPARAM lParam)
-#cfunc SendNotifyMessageW "SendNotifyMessageW" intptr, int, intptr, intptr
+#cfunc global SendNotifyMessageW "SendNotifyMessageW" intptr, int, intptr, intptr
 
 ; winmdroot.Foundation.HWND SetActiveWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc SetActiveWindow "SetActiveWindow" intptr
+#cfunc global SetActiveWindow "SetActiveWindow" intptr
 
 ; winmdroot.Foundation.HWND SetCapture(winmdroot.Foundation.HWND hWnd)
-#cfunc SetCapture "SetCapture" intptr
+#cfunc global SetCapture "SetCapture" intptr
 
 ; winmdroot.Foundation.BOOL SetCaretBlinkTime(uint uMSeconds)
-#cfunc SetCaretBlinkTime "SetCaretBlinkTime" int
+#cfunc global SetCaretBlinkTime "SetCaretBlinkTime" int
 
 ; winmdroot.Foundation.BOOL SetCaretPos(int X, int Y)
-#cfunc SetCaretPos "SetCaretPos" int, int
+#cfunc global SetCaretPos "SetCaretPos" int, int
 
 ; uint SetClassLong(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.GET_CLASS_LONG_INDEX nIndex, int dwNewLong)
-#cfunc SetClassLongW "SetClassLongW" intptr, int, int
+#cfunc global SetClassLongW "SetClassLongW" intptr, int, int
 
 ; ushort SetClassWord(winmdroot.Foundation.HWND hWnd, int nIndex, ushort wNewWord)
-#cfunc SetClassWord "SetClassWord" intptr, int, int
+#cfunc global SetClassWord "SetClassWord" intptr, int, int
 
 ; winmdroot.Foundation.HANDLE SetClipboardData(uint uFormat, winmdroot.Foundation.HANDLE hMem)
-#cfunc SetClipboardData "SetClipboardData" int, intptr
+#cfunc global SetClipboardData "SetClipboardData" int, intptr
 
 ; winmdroot.Foundation.HWND SetClipboardViewer(winmdroot.Foundation.HWND hWndNewViewer)
-#cfunc SetClipboardViewer "SetClipboardViewer" intptr
+#cfunc global SetClipboardViewer "SetClipboardViewer" intptr
 
 ; nuint SetCoalescableTimer(winmdroot.Foundation.HWND hWnd, nuint nIDEvent, uint uElapse, delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.HWND,uint,nuint,uint,void> lpTimerFunc, uint uToleranceDelay)
-#cfunc SetCoalescableTimer "SetCoalescableTimer" intptr, int, int, int, int
+#cfunc global SetCoalescableTimer "SetCoalescableTimer" intptr, int, int, int, int
 
 ; winmdroot.UI.WindowsAndMessaging.HCURSOR SetCursor(winmdroot.UI.WindowsAndMessaging.HCURSOR hCursor)
-#cfunc SetCursor "SetCursor" intptr
+#cfunc global SetCursor "SetCursor" intptr
 
 ; winmdroot.Foundation.BOOL SetCursorPos(int X, int Y)
-#cfunc SetCursorPos "SetCursorPos" int, int
+#cfunc global SetCursorPos "SetCursorPos" int, int
 
 ; void SetDebugErrorLevel(uint dwLevel)
-#func SetDebugErrorLevel "SetDebugErrorLevel" int
+#func global SetDebugErrorLevel "SetDebugErrorLevel" int
 
 ; winmdroot.Foundation.BOOL SetDialogControlDpiChangeBehavior(winmdroot.Foundation.HWND hWnd, winmdroot.UI.HiDpi.DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS mask, winmdroot.UI.HiDpi.DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS values)
-#cfunc SetDialogControlDpiChangeBehavior "SetDialogControlDpiChangeBehavior" intptr, int, int
+#cfunc global SetDialogControlDpiChangeBehavior "SetDialogControlDpiChangeBehavior" intptr, int, int
 
 ; winmdroot.Foundation.BOOL SetDialogDpiChangeBehavior(winmdroot.Foundation.HWND hDlg, winmdroot.UI.HiDpi.DIALOG_DPI_CHANGE_BEHAVIORS mask, winmdroot.UI.HiDpi.DIALOG_DPI_CHANGE_BEHAVIORS values)
-#cfunc SetDialogDpiChangeBehavior "SetDialogDpiChangeBehavior" intptr, int, int
+#cfunc global SetDialogDpiChangeBehavior "SetDialogDpiChangeBehavior" intptr, int, int
 
 ; winmdroot.Foundation.BOOL SetDisplayAutoRotationPreferences(winmdroot.Devices.Display.ORIENTATION_PREFERENCE orientation)
-#cfunc SetDisplayAutoRotationPreferences "SetDisplayAutoRotationPreferences" int
+#cfunc global SetDisplayAutoRotationPreferences "SetDisplayAutoRotationPreferences" int
 
 ; int SetDisplayConfig(uint numPathArrayElements, [Optional] winmdroot.Devices.Display.DISPLAYCONFIG_PATH_INFO* pathArray, uint numModeInfoArrayElements, [Optional] winmdroot.Devices.Display.DISPLAYCONFIG_MODE_INFO* modeInfoArray, winmdroot.Devices.Display.SET_DISPLAY_CONFIG_FLAGS flags)
-#cfunc SetDisplayConfig "SetDisplayConfig" int, var, int, var, int
+#cfunc global SetDisplayConfig "SetDisplayConfig" int, var, int, var, int
 
 ; winmdroot.Foundation.BOOL SetDlgItemInt(winmdroot.Foundation.HWND hDlg, int nIDDlgItem, uint uValue, winmdroot.Foundation.BOOL bSigned)
-#cfunc SetDlgItemInt "SetDlgItemInt" intptr, int, int, int
+#cfunc global SetDlgItemInt "SetDlgItemInt" intptr, int, int, int
 
 ; winmdroot.Foundation.BOOL SetDlgItemText(winmdroot.Foundation.HWND hDlg, int nIDDlgItem, winmdroot.Foundation.PCWSTR lpString)
-#cfunc SetDlgItemTextW "SetDlgItemTextW" intptr, int, wstr
+#cfunc global SetDlgItemTextW "SetDlgItemTextW" intptr, int, wstr
 
 ; winmdroot.Foundation.BOOL SetDoubleClickTime(uint param0)
-#cfunc SetDoubleClickTime "SetDoubleClickTime" int
+#cfunc global SetDoubleClickTime "SetDoubleClickTime" int
 
 ; winmdroot.Foundation.HWND SetFocus(winmdroot.Foundation.HWND hWnd)
-#cfunc SetFocus "SetFocus" intptr
+#cfunc global SetFocus "SetFocus" intptr
 
 ; winmdroot.Foundation.BOOL SetForegroundWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc SetForegroundWindow "SetForegroundWindow" intptr
+#cfunc global SetForegroundWindow "SetForegroundWindow" intptr
 
 ; winmdroot.Foundation.BOOL SetGestureConfig(winmdroot.Foundation.HWND hwnd, uint dwReserved, uint cIDs, winmdroot.UI.Input.Touch.GESTURECONFIG* pGestureConfig, uint cbSize)
-#cfunc SetGestureConfig "SetGestureConfig" intptr, int, int, var, int
+#cfunc global SetGestureConfig "SetGestureConfig" intptr, int, int, var, int
 
 ; winmdroot.Foundation.BOOL SetKeyboardState(byte* lpKeyState)
-#cfunc SetKeyboardState "SetKeyboardState" var
+#cfunc global SetKeyboardState "SetKeyboardState" var
 
 ; void SetLastErrorEx(winmdroot.Foundation.WIN32_ERROR dwErrCode, uint dwType)
-#func SetLastErrorEx "SetLastErrorEx" int, int
+#func global SetLastErrorEx "SetLastErrorEx" int, int
 
 ; winmdroot.Foundation.BOOL SetLayeredWindowAttributes(winmdroot.Foundation.HWND hwnd, winmdroot.Foundation.COLORREF crKey, byte bAlpha, winmdroot.UI.WindowsAndMessaging.LAYERED_WINDOW_ATTRIBUTES_FLAGS dwFlags)
-#cfunc SetLayeredWindowAttributes "SetLayeredWindowAttributes" intptr, int, int, int
+#cfunc global SetLayeredWindowAttributes "SetLayeredWindowAttributes" intptr, int, int, int
 
 ; winmdroot.Foundation.BOOL SetMenu(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.HMENU hMenu)
-#cfunc SetMenu "SetMenu" intptr, intptr
+#cfunc global SetMenu "SetMenu" intptr, intptr
 
 ; winmdroot.Foundation.BOOL SetMenuContextHelpId(winmdroot.UI.WindowsAndMessaging.HMENU param0, uint param1)
-#cfunc SetMenuContextHelpId "SetMenuContextHelpId" intptr, int
+#cfunc global SetMenuContextHelpId "SetMenuContextHelpId" intptr, int
 
 ; winmdroot.Foundation.BOOL SetMenuDefaultItem(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, uint uItem, uint fByPos)
-#cfunc SetMenuDefaultItem "SetMenuDefaultItem" intptr, int, int
+#cfunc global SetMenuDefaultItem "SetMenuDefaultItem" intptr, int, int
 
 ; winmdroot.Foundation.BOOL SetMenuInfo(winmdroot.UI.WindowsAndMessaging.HMENU param0, winmdroot.UI.WindowsAndMessaging.MENUINFO* param1)
-#cfunc SetMenuInfo "SetMenuInfo" intptr, var
+#cfunc global SetMenuInfo "SetMenuInfo" intptr, var
 
 ; winmdroot.Foundation.BOOL SetMenuItemBitmaps(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, uint uPosition, winmdroot.UI.WindowsAndMessaging.MENU_ITEM_FLAGS uFlags, winmdroot.Graphics.Gdi.HBITMAP hBitmapUnchecked, winmdroot.Graphics.Gdi.HBITMAP hBitmapChecked)
-#cfunc SetMenuItemBitmaps "SetMenuItemBitmaps" intptr, int, int, intptr, intptr
+#cfunc global SetMenuItemBitmaps "SetMenuItemBitmaps" intptr, int, int, intptr, intptr
 
 ; winmdroot.Foundation.BOOL SetMenuItemInfo(winmdroot.UI.WindowsAndMessaging.HMENU hmenu, uint item, winmdroot.Foundation.BOOL fByPositon, winmdroot.UI.WindowsAndMessaging.MENUITEMINFOW* lpmii)
-#cfunc SetMenuItemInfoW "SetMenuItemInfoW" intptr, int, int, var
+#cfunc global SetMenuItemInfoW "SetMenuItemInfoW" intptr, int, int, var
 
 ; winmdroot.Foundation.LPARAM SetMessageExtraInfo(winmdroot.Foundation.LPARAM lParam)
-#cfunc SetMessageExtraInfo "SetMessageExtraInfo" intptr
+#cfunc global SetMessageExtraInfo "SetMessageExtraInfo" intptr
 
 ; winmdroot.Foundation.BOOL SetMessageQueue(int cMessagesMax)
-#cfunc SetMessageQueue "SetMessageQueue" int
+#cfunc global SetMessageQueue "SetMessageQueue" int
 
 ; winmdroot.Foundation.HWND SetParent(winmdroot.Foundation.HWND hWndChild, winmdroot.Foundation.HWND hWndNewParent)
-#cfunc SetParent "SetParent" intptr, intptr
+#cfunc global SetParent "SetParent" intptr, intptr
 
 ; winmdroot.Foundation.BOOL SetPhysicalCursorPos(int X, int Y)
-#cfunc SetPhysicalCursorPos "SetPhysicalCursorPos" int, int
+#cfunc global SetPhysicalCursorPos "SetPhysicalCursorPos" int, int
 
 ; winmdroot.Foundation.BOOL SetProcessDPIAware()
-#cfunc SetProcessDPIAware "SetProcessDPIAware"
+#cfunc global SetProcessDPIAware "SetProcessDPIAware"
 
 ; winmdroot.Foundation.BOOL SetProcessDefaultLayout(uint dwDefaultLayout)
-#cfunc SetProcessDefaultLayout "SetProcessDefaultLayout" int
+#cfunc global SetProcessDefaultLayout "SetProcessDefaultLayout" int
 
 ; winmdroot.Foundation.BOOL SetProcessDpiAwarenessContext(winmdroot.UI.HiDpi.DPI_AWARENESS_CONTEXT value)
-#cfunc SetProcessDpiAwarenessContext "SetProcessDpiAwarenessContext" intptr
+#cfunc global SetProcessDpiAwarenessContext "SetProcessDpiAwarenessContext" intptr
 
 ; winmdroot.Foundation.BOOL SetProcessRestrictionExemption(winmdroot.Foundation.BOOL fEnableExemption)
-#cfunc SetProcessRestrictionExemption "SetProcessRestrictionExemption" int
+#cfunc global SetProcessRestrictionExemption "SetProcessRestrictionExemption" int
 
 ; winmdroot.Foundation.BOOL SetProcessWindowStation(winmdroot.System.StationsAndDesktops.HWINSTA hWinSta)
-#cfunc SetProcessWindowStation "SetProcessWindowStation" intptr
+#cfunc global SetProcessWindowStation "SetProcessWindowStation" intptr
 
 ; winmdroot.Foundation.BOOL SetProp(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.PCWSTR lpString, winmdroot.Foundation.HANDLE hData)
-#cfunc SetPropW "SetPropW" intptr, wstr, intptr
+#cfunc global SetPropW "SetPropW" intptr, wstr, intptr
 
 ; winmdroot.Foundation.BOOL SetRect(winmdroot.Foundation.RECT* lprc, int xLeft, int yTop, int xRight, int yBottom)
-#cfunc SetRect "SetRect" var, int, int, int, int
+#cfunc global SetRect "SetRect" var, int, int, int, int
 
 ; winmdroot.Foundation.BOOL SetRectEmpty(winmdroot.Foundation.RECT* lprc)
-#cfunc SetRectEmpty "SetRectEmpty" var
+#cfunc global SetRectEmpty "SetRectEmpty" var
 
 ; int SetScrollInfo(winmdroot.Foundation.HWND hwnd, winmdroot.UI.WindowsAndMessaging.SCROLLBAR_CONSTANTS nBar, winmdroot.UI.WindowsAndMessaging.SCROLLINFO* lpsi, winmdroot.Foundation.BOOL redraw)
-#cfunc SetScrollInfo "SetScrollInfo" intptr, int, var, int
+#cfunc global SetScrollInfo "SetScrollInfo" intptr, int, var, int
 
 ; int SetScrollPos(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.SCROLLBAR_CONSTANTS nBar, int nPos, winmdroot.Foundation.BOOL bRedraw)
-#cfunc SetScrollPos "SetScrollPos" intptr, int, int, int
+#cfunc global SetScrollPos "SetScrollPos" intptr, int, int, int
 
 ; winmdroot.Foundation.BOOL SetScrollRange(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.SCROLLBAR_CONSTANTS nBar, int nMinPos, int nMaxPos, winmdroot.Foundation.BOOL bRedraw)
-#cfunc SetScrollRange "SetScrollRange" intptr, int, int, int, int
+#cfunc global SetScrollRange "SetScrollRange" intptr, int, int, int, int
 
 ; winmdroot.Foundation.BOOL SetSysColors(int cElements, int* lpaElements, winmdroot.Foundation.COLORREF* lpaRgbValues)
-#cfunc SetSysColors "SetSysColors" int, var, var
+#cfunc global SetSysColors "SetSysColors" int, var, var
 
 ; winmdroot.Foundation.BOOL SetSystemCursor(winmdroot.UI.WindowsAndMessaging.HCURSOR hcur, winmdroot.UI.WindowsAndMessaging.SYSTEM_CURSOR_ID id)
-#cfunc SetSystemCursor "SetSystemCursor" intptr, int
+#cfunc global SetSystemCursor "SetSystemCursor" intptr, int
 
 ; winmdroot.Foundation.BOOL SetThreadDesktop(winmdroot.System.StationsAndDesktops.HDESK hDesktop)
-#cfunc SetThreadDesktop "SetThreadDesktop" intptr
+#cfunc global SetThreadDesktop "SetThreadDesktop" intptr
 
 ; winmdroot.UI.HiDpi.DPI_AWARENESS_CONTEXT SetThreadDpiAwarenessContext(winmdroot.UI.HiDpi.DPI_AWARENESS_CONTEXT dpiContext)
-#cfunc SetThreadDpiAwarenessContext "SetThreadDpiAwarenessContext" intptr
+#cfunc global SetThreadDpiAwarenessContext "SetThreadDpiAwarenessContext" intptr
 
 ; winmdroot.UI.HiDpi.DPI_HOSTING_BEHAVIOR SetThreadDpiHostingBehavior(winmdroot.UI.HiDpi.DPI_HOSTING_BEHAVIOR value)
-#cfunc SetThreadDpiHostingBehavior "SetThreadDpiHostingBehavior" int
+#cfunc global SetThreadDpiHostingBehavior "SetThreadDpiHostingBehavior" int
 
 ; nuint SetTimer(winmdroot.Foundation.HWND hWnd, nuint nIDEvent, uint uElapse, delegate *unmanaged[Stdcall]<global::Windows.Win32.Foundation.HWND,uint,nuint,uint,void> lpTimerFunc)
-#cfunc SetTimer "SetTimer" intptr, int, int, int
+#cfunc global SetTimer "SetTimer" intptr, int, int, int
 
 ; winmdroot.Foundation.BOOL SetUserObjectInformation(winmdroot.Foundation.HANDLE hObj, int nIndex, void* pvInfo, uint nLength)
-#cfunc SetUserObjectInformationW "SetUserObjectInformationW" intptr, int, intptr, int
+#cfunc global SetUserObjectInformationW "SetUserObjectInformationW" intptr, int, intptr, int
 
 ; winmdroot.Foundation.BOOL SetUserObjectSecurity(winmdroot.Foundation.HANDLE hObj, winmdroot.Security.OBJECT_SECURITY_INFORMATION* pSIRequested, winmdroot.Security.PSECURITY_DESCRIPTOR pSID)
-#cfunc SetUserObjectSecurity "SetUserObjectSecurity" intptr, var, int
+#cfunc global SetUserObjectSecurity "SetUserObjectSecurity" intptr, var, int
 
 ; winmdroot.Foundation.BOOL UnhookWinEvent(winmdroot.UI.Accessibility.HWINEVENTHOOK hWinEventHook)
-#cfunc UnhookWinEvent "UnhookWinEvent" intptr
+#cfunc global UnhookWinEvent "UnhookWinEvent" intptr
 
 ; winmdroot.UI.Accessibility.HWINEVENTHOOK SetWinEventHook(uint eventMin, uint eventMax, winmdroot.Foundation.HMODULE hmodWinEventProc, delegate *unmanaged[Stdcall]<global::Windows.Win32.UI.Accessibility.HWINEVENTHOOK,uint,global::Windows.Win32.Foundation.HWND,int,int,uint,uint,void> pfnWinEventProc, uint idProcess, uint idThread, uint dwFlags)
-#cfunc SetWinEventHook "SetWinEventHook" int, int, intptr, int, int, int, int
+#cfunc global SetWinEventHook "SetWinEventHook" int, int, intptr, int, int, int, int
 
 ; winmdroot.Foundation.BOOL SetWindowContextHelpId(winmdroot.Foundation.HWND param0, uint param1)
-#cfunc SetWindowContextHelpId "SetWindowContextHelpId" intptr, int
+#cfunc global SetWindowContextHelpId "SetWindowContextHelpId" intptr, int
 
 ; winmdroot.Foundation.BOOL SetWindowDisplayAffinity(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.WINDOW_DISPLAY_AFFINITY dwAffinity)
-#cfunc SetWindowDisplayAffinity "SetWindowDisplayAffinity" intptr, int
+#cfunc global SetWindowDisplayAffinity "SetWindowDisplayAffinity" intptr, int
 
 ; winmdroot.Foundation.BOOL SetWindowFeedbackSetting(winmdroot.Foundation.HWND hwnd, winmdroot.UI.Controls.FEEDBACK_TYPE feedback, uint dwFlags, uint size, [Optional] void* configuration)
-#cfunc SetWindowFeedbackSetting "SetWindowFeedbackSetting" intptr, int, int, int, intptr
+#cfunc global SetWindowFeedbackSetting "SetWindowFeedbackSetting" intptr, int, int, int, intptr
 
 ; int SetWindowLong(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.WINDOW_LONG_PTR_INDEX nIndex, int dwNewLong)
-#cfunc SetWindowLongW "SetWindowLongW" intptr, int, int
+#cfunc global SetWindowLongW "SetWindowLongW" intptr, int, int
 
 ; winmdroot.Foundation.BOOL SetWindowPlacement(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.WINDOWPLACEMENT* lpwndpl)
-#cfunc SetWindowPlacement "SetWindowPlacement" intptr, var
+#cfunc global SetWindowPlacement "SetWindowPlacement" intptr, var
 
 ; winmdroot.Foundation.BOOL SetWindowPos(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.HWND hWndInsertAfter, int X, int Y, int cx, int cy, winmdroot.UI.WindowsAndMessaging.SET_WINDOW_POS_FLAGS uFlags)
-#cfunc SetWindowPos "SetWindowPos" intptr, intptr, int, int, int, int, int
+#cfunc global SetWindowPos "SetWindowPos" intptr, intptr, int, int, int, int, int
 
 ; int SetWindowRgn(winmdroot.Foundation.HWND hWnd, winmdroot.Graphics.Gdi.HRGN hRgn, winmdroot.Foundation.BOOL bRedraw)
-#cfunc SetWindowRgn "SetWindowRgn" intptr, intptr, int
+#cfunc global SetWindowRgn "SetWindowRgn" intptr, intptr, int
 
 ; winmdroot.Foundation.BOOL SetWindowText(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.PCWSTR lpString)
-#cfunc SetWindowTextW "SetWindowTextW" intptr, wstr
+#cfunc global SetWindowTextW "SetWindowTextW" intptr, wstr
 
 ; ushort SetWindowWord(winmdroot.Foundation.HWND hWnd, int nIndex, ushort wNewWord)
-#cfunc SetWindowWord "SetWindowWord" intptr, int, int
+#cfunc global SetWindowWord "SetWindowWord" intptr, int, int
 
 ; winmdroot.UI.WindowsAndMessaging.HHOOK SetWindowsHookW(int nFilterType, delegate *unmanaged[Stdcall]<int,global::Windows.Win32.Foundation.WPARAM,global::Windows.Win32.Foundation.LPARAM,global::Windows.Win32.Foundation.LRESULT> pfnFilterProc)
-#cfunc SetWindowsHookW "SetWindowsHookW" int, int
+#cfunc global SetWindowsHookW "SetWindowsHookW" int, int
 
 ; winmdroot.UI.WindowsAndMessaging.HHOOK SetWindowsHookEx(winmdroot.UI.WindowsAndMessaging.WINDOWS_HOOK_ID idHook, delegate *unmanaged[Stdcall]<int,global::Windows.Win32.Foundation.WPARAM,global::Windows.Win32.Foundation.LPARAM,global::Windows.Win32.Foundation.LRESULT> lpfn, winmdroot.Foundation.HINSTANCE hmod, uint dwThreadId)
-#cfunc SetWindowsHookExW "SetWindowsHookExW" int, int, intptr, int
+#cfunc global SetWindowsHookExW "SetWindowsHookExW" int, int, intptr, int
 
 ; winmdroot.Foundation.BOOL ShowCaret(winmdroot.Foundation.HWND hWnd)
-#cfunc ShowCaret "ShowCaret" intptr
+#cfunc global ShowCaret "ShowCaret" intptr
 
 ; int ShowCursor(winmdroot.Foundation.BOOL bShow)
-#cfunc ShowCursor "ShowCursor" int
+#cfunc global ShowCursor "ShowCursor" int
 
 ; winmdroot.Foundation.BOOL ShowOwnedPopups(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.BOOL fShow)
-#cfunc ShowOwnedPopups "ShowOwnedPopups" intptr, int
+#cfunc global ShowOwnedPopups "ShowOwnedPopups" intptr, int
 
 ; winmdroot.Foundation.BOOL ShowScrollBar(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.SCROLLBAR_CONSTANTS wBar, winmdroot.Foundation.BOOL bShow)
-#cfunc ShowScrollBar "ShowScrollBar" intptr, int, int
+#cfunc global ShowScrollBar "ShowScrollBar" intptr, int, int
 
 ; winmdroot.Foundation.BOOL ShowWindow(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.SHOW_WINDOW_CMD nCmdShow)
-#cfunc ShowWindow "ShowWindow" intptr, int
+#cfunc global ShowWindow "ShowWindow" intptr, int
 
 ; winmdroot.Foundation.BOOL ShowWindowAsync(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.SHOW_WINDOW_CMD nCmdShow)
-#cfunc ShowWindowAsync "ShowWindowAsync" intptr, int
+#cfunc global ShowWindowAsync "ShowWindowAsync" intptr, int
 
 ; winmdroot.Foundation.BOOL ShutdownBlockReasonCreate(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.PCWSTR pwszReason)
-#cfunc ShutdownBlockReasonCreate "ShutdownBlockReasonCreate" intptr, wstr
+#cfunc global ShutdownBlockReasonCreate "ShutdownBlockReasonCreate" intptr, wstr
 
 ; winmdroot.Foundation.BOOL ShutdownBlockReasonDestroy(winmdroot.Foundation.HWND hWnd)
-#cfunc ShutdownBlockReasonDestroy "ShutdownBlockReasonDestroy" intptr
+#cfunc global ShutdownBlockReasonDestroy "ShutdownBlockReasonDestroy" intptr
 
 ; winmdroot.Foundation.BOOL ShutdownBlockReasonQuery(winmdroot.Foundation.HWND hWnd, winmdroot.Foundation.PWSTR pwszBuff, uint* pcchBuff)
-#cfunc ShutdownBlockReasonQuery "ShutdownBlockReasonQuery" intptr, wstr, var
+#cfunc global ShutdownBlockReasonQuery "ShutdownBlockReasonQuery" intptr, wstr, var
 
 ; winmdroot.Foundation.BOOL SkipPointerFrameMessages(uint pointerId)
-#cfunc SkipPointerFrameMessages "SkipPointerFrameMessages" int
+#cfunc global SkipPointerFrameMessages "SkipPointerFrameMessages" int
 
 ; winmdroot.Foundation.BOOL SoundSentry()
-#cfunc SoundSentry "SoundSentry"
+#cfunc global SoundSentry "SoundSentry"
 
 ; winmdroot.Foundation.BOOL SubtractRect(winmdroot.Foundation.RECT* lprcDst, winmdroot.Foundation.RECT* lprcSrc1, winmdroot.Foundation.RECT* lprcSrc2)
-#cfunc SubtractRect "SubtractRect" var, var, var
+#cfunc global SubtractRect "SubtractRect" var, var, var
 
 ; winmdroot.Foundation.BOOL SwapMouseButton(winmdroot.Foundation.BOOL fSwap)
-#cfunc SwapMouseButton "SwapMouseButton" int
+#cfunc global SwapMouseButton "SwapMouseButton" int
 
 ; winmdroot.Foundation.BOOL SwitchDesktop(winmdroot.System.StationsAndDesktops.HDESK hDesktop)
-#cfunc SwitchDesktop "SwitchDesktop" intptr
+#cfunc global SwitchDesktop "SwitchDesktop" intptr
 
 ; void SwitchToThisWindow(winmdroot.Foundation.HWND hwnd, winmdroot.Foundation.BOOL fUnknown)
-#func SwitchToThisWindow "SwitchToThisWindow" intptr, int
+#func global SwitchToThisWindow "SwitchToThisWindow" intptr, int
 
 ; winmdroot.Foundation.BOOL SystemParametersInfo(winmdroot.UI.WindowsAndMessaging.SYSTEM_PARAMETERS_INFO_ACTION uiAction, uint uiParam, [Optional] void* pvParam, winmdroot.UI.WindowsAndMessaging.SYSTEM_PARAMETERS_INFO_UPDATE_FLAGS fWinIni)
-#cfunc SystemParametersInfoW "SystemParametersInfoW" int, int, intptr, int
+#cfunc global SystemParametersInfoW "SystemParametersInfoW" int, int, intptr, int
 
 ; winmdroot.Foundation.BOOL SystemParametersInfoForDpi(uint uiAction, uint uiParam, [Optional] void* pvParam, uint fWinIni, uint dpi)
-#cfunc SystemParametersInfoForDpi "SystemParametersInfoForDpi" int, int, intptr, int, int
+#cfunc global SystemParametersInfoForDpi "SystemParametersInfoForDpi" int, int, intptr, int, int
 
 ; int TabbedTextOutW(winmdroot.Graphics.Gdi.HDC hdc, int x, int y, winmdroot.Foundation.PCWSTR lpString, int chCount, int nTabPositions, [Optional] int* lpnTabStopPositions, int nTabOrigin)
-#cfunc TabbedTextOutW "TabbedTextOutW" intptr, int, int, wstr, int, int, var, int
+#cfunc global TabbedTextOutW "TabbedTextOutW" intptr, int, int, wstr, int, int, var, int
 
 ; ushort TileWindows(winmdroot.Foundation.HWND hwndParent, winmdroot.UI.WindowsAndMessaging.TILE_WINDOWS_HOW wHow, [Optional] winmdroot.Foundation.RECT* lpRect, uint cKids, [Optional] winmdroot.Foundation.HWND* lpKids)
-#cfunc TileWindows "TileWindows" intptr, int, var, int, intptr
+#cfunc global TileWindows "TileWindows" intptr, int, var, int, intptr
 
 ; int ToAscii(uint uVirtKey, uint uScanCode, [Optional] byte* lpKeyState, ushort* lpChar, uint uFlags)
-#cfunc ToAscii "ToAscii" int, int, var, var, int
+#cfunc global ToAscii "ToAscii" int, int, var, var, int
 
 ; int ToAsciiEx(uint uVirtKey, uint uScanCode, [Optional] byte* lpKeyState, ushort* lpChar, uint uFlags, winmdroot.UI.Input.KeyboardAndMouse.HKL dwhkl)
-#cfunc ToAsciiEx "ToAsciiEx" int, int, var, var, int, intptr
+#cfunc global ToAsciiEx "ToAsciiEx" int, int, var, var, int, intptr
 
 ; int ToUnicode(uint wVirtKey, uint wScanCode, [Optional] byte* lpKeyState, winmdroot.Foundation.PWSTR pwszBuff, int cchBuff, uint wFlags)
-#cfunc ToUnicode "ToUnicode" int, int, var, wstr, int, int
+#cfunc global ToUnicode "ToUnicode" int, int, var, wstr, int, int
 
 ; int ToUnicodeEx(uint wVirtKey, uint wScanCode, byte* lpKeyState, winmdroot.Foundation.PWSTR pwszBuff, int cchBuff, uint wFlags, winmdroot.UI.Input.KeyboardAndMouse.HKL dwhkl)
-#cfunc ToUnicodeEx "ToUnicodeEx" int, int, var, wstr, int, int, intptr
+#cfunc global ToUnicodeEx "ToUnicodeEx" int, int, var, wstr, int, int, intptr
 
 ; winmdroot.Foundation.BOOL TrackMouseEvent(winmdroot.UI.Input.KeyboardAndMouse.TRACKMOUSEEVENT* lpEventTrack)
-#cfunc TrackMouseEvent "TrackMouseEvent" var
+#cfunc global TrackMouseEvent "TrackMouseEvent" var
 
 ; winmdroot.Foundation.BOOL TrackPopupMenu(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, winmdroot.UI.WindowsAndMessaging.TRACK_POPUP_MENU_FLAGS uFlags, int x, int y, int nReserved, winmdroot.Foundation.HWND hWnd, [Optional] winmdroot.Foundation.RECT* prcRect)
-#cfunc TrackPopupMenu "TrackPopupMenu" intptr, int, int, int, int, intptr, var
+#cfunc global TrackPopupMenu "TrackPopupMenu" intptr, int, int, int, int, intptr, var
 
 ; winmdroot.Foundation.BOOL TrackPopupMenuEx(winmdroot.UI.WindowsAndMessaging.HMENU hMenu, uint uFlags, int x, int y, winmdroot.Foundation.HWND hwnd, [Optional] winmdroot.UI.WindowsAndMessaging.TPMPARAMS* lptpm)
-#cfunc TrackPopupMenuEx "TrackPopupMenuEx" intptr, int, int, int, intptr, var
+#cfunc global TrackPopupMenuEx "TrackPopupMenuEx" intptr, int, int, int, intptr, var
 
 ; int TranslateAccelerator(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.HACCEL hAccTable, winmdroot.UI.WindowsAndMessaging.MSG* lpMsg)
-#cfunc TranslateAcceleratorW "TranslateAcceleratorW" intptr, intptr, var
+#cfunc global TranslateAcceleratorW "TranslateAcceleratorW" intptr, intptr, var
 
 ; winmdroot.Foundation.BOOL TranslateMDISysAccel(winmdroot.Foundation.HWND hWndClient, winmdroot.UI.WindowsAndMessaging.MSG* lpMsg)
-#cfunc TranslateMDISysAccel "TranslateMDISysAccel" intptr, var
+#cfunc global TranslateMDISysAccel "TranslateMDISysAccel" intptr, var
 
 ; winmdroot.Foundation.BOOL TranslateMessage(winmdroot.UI.WindowsAndMessaging.MSG* lpMsg)
-#cfunc TranslateMessage "TranslateMessage" var
+#cfunc global TranslateMessage "TranslateMessage" var
 
 ; winmdroot.Foundation.BOOL UnhookWindowsHook(int nCode, delegate *unmanaged[Stdcall]<int,global::Windows.Win32.Foundation.WPARAM,global::Windows.Win32.Foundation.LPARAM,global::Windows.Win32.Foundation.LRESULT> pfnFilterProc)
-#cfunc UnhookWindowsHook "UnhookWindowsHook" int, int
+#cfunc global UnhookWindowsHook "UnhookWindowsHook" int, int
 
 ; winmdroot.Foundation.BOOL UnionRect(winmdroot.Foundation.RECT* lprcDst, winmdroot.Foundation.RECT* lprcSrc1, winmdroot.Foundation.RECT* lprcSrc2)
-#cfunc UnionRect "UnionRect" var, var, var
+#cfunc global UnionRect "UnionRect" var, var, var
 
 ; winmdroot.Foundation.BOOL UnpackDDElParam(uint msg, winmdroot.Foundation.LPARAM lParam, nuint* puiLo, nuint* puiHi)
-#cfunc UnpackDDElParam "UnpackDDElParam" int, intptr, var, var
+#cfunc global UnpackDDElParam "UnpackDDElParam" int, intptr, var, var
 
 ; winmdroot.Foundation.BOOL UnregisterClass(winmdroot.Foundation.PCWSTR lpClassName, winmdroot.Foundation.HINSTANCE hInstance)
-#cfunc UnregisterClassW "UnregisterClassW" wstr, intptr
+#cfunc global UnregisterClassW "UnregisterClassW" wstr, intptr
 
 ; winmdroot.Foundation.BOOL UnregisterHotKey(winmdroot.Foundation.HWND hWnd, int id)
-#cfunc UnregisterHotKey "UnregisterHotKey" intptr, int
+#cfunc global UnregisterHotKey "UnregisterHotKey" intptr, int
 
 ; winmdroot.Foundation.BOOL UnregisterPointerInputTarget(winmdroot.Foundation.HWND hwnd, winmdroot.UI.WindowsAndMessaging.POINTER_INPUT_TYPE pointerType)
-#cfunc UnregisterPointerInputTarget "UnregisterPointerInputTarget" intptr, int
+#cfunc global UnregisterPointerInputTarget "UnregisterPointerInputTarget" intptr, int
 
 ; winmdroot.Foundation.BOOL UnregisterPointerInputTargetEx(winmdroot.Foundation.HWND hwnd, winmdroot.UI.WindowsAndMessaging.POINTER_INPUT_TYPE pointerType)
-#cfunc UnregisterPointerInputTargetEx "UnregisterPointerInputTargetEx" intptr, int
+#cfunc global UnregisterPointerInputTargetEx "UnregisterPointerInputTargetEx" intptr, int
 
 ; winmdroot.Foundation.BOOL UnregisterSuspendResumeNotification(winmdroot.System.Power.HPOWERNOTIFY Handle)
-#cfunc UnregisterSuspendResumeNotification "UnregisterSuspendResumeNotification" intptr
+#cfunc global UnregisterSuspendResumeNotification "UnregisterSuspendResumeNotification" intptr
 
 ; winmdroot.Foundation.BOOL UnregisterTouchWindow(winmdroot.Foundation.HWND hwnd)
-#cfunc UnregisterTouchWindow "UnregisterTouchWindow" intptr
+#cfunc global UnregisterTouchWindow "UnregisterTouchWindow" intptr
 
 ; winmdroot.Foundation.BOOL UpdateLayeredWindow(winmdroot.Foundation.HWND hWnd, winmdroot.Graphics.Gdi.HDC hdcDst, [Optional] global::System.Drawing.Point* pptDst, [Optional] winmdroot.Foundation.SIZE* psize, winmdroot.Graphics.Gdi.HDC hdcSrc, [Optional] global::System.Drawing.Point* pptSrc, winmdroot.Foundation.COLORREF crKey, [Optional] winmdroot.Graphics.Gdi.BLENDFUNCTION* pblend, winmdroot.UI.WindowsAndMessaging.UPDATE_LAYERED_WINDOW_FLAGS dwFlags)
-#cfunc UpdateLayeredWindow "UpdateLayeredWindow" intptr, intptr, var, var, intptr, var, int, var, int
+#cfunc global UpdateLayeredWindow "UpdateLayeredWindow" intptr, intptr, var, var, intptr, var, int, var, int
 
 ; winmdroot.Foundation.BOOL UpdateLayeredWindowIndirect(winmdroot.Foundation.HWND hWnd, winmdroot.UI.WindowsAndMessaging.UPDATELAYEREDWINDOWINFO* pULWInfo)
-#cfunc UpdateLayeredWindowIndirect "UpdateLayeredWindowIndirect" intptr, var
+#cfunc global UpdateLayeredWindowIndirect "UpdateLayeredWindowIndirect" intptr, var
 
 ; winmdroot.Foundation.BOOL UpdateWindow(winmdroot.Foundation.HWND hWnd)
-#cfunc UpdateWindow "UpdateWindow" intptr
+#cfunc global UpdateWindow "UpdateWindow" intptr
 
 ; winmdroot.Foundation.BOOL UserHandleGrantAccess(winmdroot.Foundation.HANDLE hUserHandle, winmdroot.Foundation.HANDLE hJob, winmdroot.Foundation.BOOL bGrant)
-#cfunc UserHandleGrantAccess "UserHandleGrantAccess" intptr, intptr, int
+#cfunc global UserHandleGrantAccess "UserHandleGrantAccess" intptr, intptr, int
 
 ; winmdroot.Foundation.BOOL ValidateRect(winmdroot.Foundation.HWND hWnd, [Optional] winmdroot.Foundation.RECT* lpRect)
-#cfunc ValidateRect "ValidateRect" intptr, var
+#cfunc global ValidateRect "ValidateRect" intptr, var
 
 ; winmdroot.Foundation.BOOL ValidateRgn(winmdroot.Foundation.HWND hWnd, winmdroot.Graphics.Gdi.HRGN hRgn)
-#cfunc ValidateRgn "ValidateRgn" intptr, intptr
+#cfunc global ValidateRgn "ValidateRgn" intptr, intptr
 
 ; short VkKeyScanW(char ch)
-#cfunc VkKeyScanW "VkKeyScanW" int
+#cfunc global VkKeyScanW "VkKeyScanW" int
 
 ; short VkKeyScanExW(char ch, winmdroot.UI.Input.KeyboardAndMouse.HKL dwhkl)
-#cfunc VkKeyScanExW "VkKeyScanExW" int, intptr
+#cfunc global VkKeyScanExW "VkKeyScanExW" int, intptr
 
 ; winmdroot.Foundation.BOOL WINNLSEnableIME(winmdroot.Foundation.HWND param0, winmdroot.Foundation.BOOL param1)
-#cfunc WINNLSEnableIME "WINNLSEnableIME" intptr, int
+#cfunc global WINNLSEnableIME "WINNLSEnableIME" intptr, int
 
 ; winmdroot.Foundation.BOOL WINNLSGetEnableStatus(winmdroot.Foundation.HWND param0)
-#cfunc WINNLSGetEnableStatus "WINNLSGetEnableStatus" intptr
+#cfunc global WINNLSGetEnableStatus "WINNLSGetEnableStatus" intptr
 
 ; uint WINNLSGetIMEHotkey(winmdroot.Foundation.HWND param0)
-#cfunc WINNLSGetIMEHotkey "WINNLSGetIMEHotkey" intptr
+#cfunc global WINNLSGetIMEHotkey "WINNLSGetIMEHotkey" intptr
 
 ; uint WaitForInputIdle(winmdroot.Foundation.HANDLE hProcess, uint dwMilliseconds)
-#cfunc WaitForInputIdle "WaitForInputIdle" intptr, int
+#cfunc global WaitForInputIdle "WaitForInputIdle" intptr, int
 
 ; winmdroot.Foundation.BOOL WaitMessage()
-#cfunc WaitMessage "WaitMessage"
+#cfunc global WaitMessage "WaitMessage"
 
 ; winmdroot.Foundation.BOOL WinHelp(winmdroot.Foundation.HWND hWndMain, winmdroot.Foundation.PCWSTR lpszHelp, uint uCommand, nuint dwData)
-#cfunc WinHelpW "WinHelpW" intptr, wstr, int, int
+#cfunc global WinHelpW "WinHelpW" intptr, wstr, int, int
 
 ; winmdroot.Foundation.HWND WindowFromDC(winmdroot.Graphics.Gdi.HDC hDC)
-#cfunc WindowFromDC "WindowFromDC" intptr
+#cfunc global WindowFromDC "WindowFromDC" intptr
 
 ; winmdroot.Foundation.HWND WindowFromPhysicalPoint(global::System.Drawing.Point Point)
-#cfunc WindowFromPhysicalPoint "WindowFromPhysicalPoint" int
+#cfunc global WindowFromPhysicalPoint "WindowFromPhysicalPoint" int
 
 ; winmdroot.Foundation.HWND WindowFromPoint(global::System.Drawing.Point Point)
-#cfunc WindowFromPoint "WindowFromPoint" int
+#cfunc global WindowFromPoint "WindowFromPoint" int
 
 #endif

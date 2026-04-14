@@ -7,7 +7,7 @@
 ; ============================================================
 
 #ifndef __evr_gen2_as__
-#define __evr_gen2_as__
+#define global __evr_gen2_as__
 
 ; Shared NSTRUCT + #define constants for all win32 *_gen2.as
 #include "win32_types_gen2.as"
@@ -15,24 +15,24 @@
 ;--- functions ---
 #uselib "evr.dll"
 ; winmdroot.Foundation.HRESULT MFGetPlaneSize(uint format, uint dwWidth, uint dwHeight, uint* pdwPlaneSize)
-#cfunc MFGetPlaneSize "MFGetPlaneSize" int, int, int, var
+#cfunc global MFGetPlaneSize "MFGetPlaneSize" int, int, int, var
 
 ; winmdroot.Foundation.HRESULT MFCreateVideoMixer([Optional] winmdroot.System.Com.IUnknown* pOwner, global::System.Guid* riidDevice, global::System.Guid* riid, void** ppv)
-#cfunc MFCreateVideoMixer "MFCreateVideoMixer" var, var, var, var
+#cfunc global MFCreateVideoMixer "MFCreateVideoMixer" var, var, var, var
 
 ; winmdroot.Foundation.HRESULT MFCreateVideoMixerAndPresenter([Optional] winmdroot.System.Com.IUnknown* pMixerOwner, [Optional] winmdroot.System.Com.IUnknown* pPresenterOwner, global::System.Guid* riidMixer, void** ppvVideoMixer, global::System.Guid* riidPresenter, void** ppvVideoPresenter)
-#cfunc MFCreateVideoMixerAndPresenter "MFCreateVideoMixerAndPresenter" var, var, var, var, var, var
+#cfunc global MFCreateVideoMixerAndPresenter "MFCreateVideoMixerAndPresenter" var, var, var, var, var, var
 
 ; winmdroot.Foundation.HRESULT MFCreateVideoPresenter([Optional] winmdroot.System.Com.IUnknown* pOwner, global::System.Guid* riidDevice, global::System.Guid* riid, void** ppVideoPresenter)
-#cfunc MFCreateVideoPresenter "MFCreateVideoPresenter" var, var, var, var
+#cfunc global MFCreateVideoPresenter "MFCreateVideoPresenter" var, var, var, var
 
 ; winmdroot.Foundation.HRESULT MFCreateVideoSampleAllocator(global::System.Guid* riid, void** ppSampleAllocator)
-#cfunc MFCreateVideoSampleAllocator "MFCreateVideoSampleAllocator" var, var
+#cfunc global MFCreateVideoSampleAllocator "MFCreateVideoSampleAllocator" var, var
 
 ; winmdroot.Foundation.HRESULT MFCreateVideoSampleFromSurface(winmdroot.System.Com.IUnknown* pUnkSurface, winmdroot.Media.MediaFoundation.IMFSample** ppSample)
-#cfunc MFCreateVideoSampleFromSurface "MFCreateVideoSampleFromSurface" var, var
+#cfunc global MFCreateVideoSampleFromSurface "MFCreateVideoSampleFromSurface" var, var
 
 ; winmdroot.Foundation.BOOL MFIsFormatYUV(uint Format)
-#cfunc MFIsFormatYUV "MFIsFormatYUV" int
+#cfunc global MFIsFormatYUV "MFIsFormatYUV" int
 
 #endif

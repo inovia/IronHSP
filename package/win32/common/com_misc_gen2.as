@@ -6,7 +6,7 @@
 ;============================================================
 
 #ifndef __com_misc_gen2_as__
-#define __com_misc_gen2_as__
+#define global __com_misc_gen2_as__
 
 ;--- IAdviseSink
 #define IID_IAdviseSink "{0000010F-0000-0000-C000-000000000046}"

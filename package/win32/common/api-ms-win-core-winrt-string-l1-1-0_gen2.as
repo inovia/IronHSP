@@ -15,6 +15,6 @@
 ;--- functions ---
 #uselib "api-ms-win-core-winrt-string-l1-1-0.dll"
 ; winmdroot.Foundation.HRESULT WindowsDeleteString(winmdroot.System.WinRT.HSTRING @string)
-#cfunc WindowsDeleteString "WindowsDeleteString" int
+#cfunc global WindowsDeleteString "WindowsDeleteString" int
 
 #endif
