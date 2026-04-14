@@ -1,122 +1,323 @@
 //============================================================
-//   hspwebsrv.dll — Minimal HTTP server for HSP (winsock based)
+//   hspwebsrv.dll — HTTP / HTTPS / WebSocket server via HTTP.sys
 //
-//   winsock ベースの最小 HTTP サーバ。localhost や任意ポートで
-//   HSP スクリプトが HTTP リクエストを受け付けて処理できるように
-//   するヘルパ DLL。httpapi.dll (HTTP.sys) と違って URL reservation
-//   不要 (admin 権限不要) で気軽に使える。
+//   Windows HTTP Server API v2 (httpapi.dll, kernel-mode HTTP.sys
+//   driver) をラップした本格 HTTP サーバ helper。C# HttpListener と
+//   同じ backend。HTTPS / WebSocket も単一 DLL で扱える。
 //
-//   シリアルモデル (1 request at a time, no keep-alive, no threads):
-//     1. websrv_open(port) でソケット作成 + bind + listen
-//     2. websrv_accept で 1 client を accept + リクエスト受信 + パース
-//     3. ハンドラ内で websrv_respond を呼んでレスポンス送信
-//     4. websrv_close でソケット解放
+//   特徴:
+//     - HTTP.sys backend (kernel-mode、高性能、C# HttpListener と同じ)
+//     - HTTPS 対応 (事前に netsh http add sslcert で証明書バインド必要)
+//     - WebSocket 対応 (Sec-WebSocket-Key SHA-1 handshake + 自前フレーム parser)
+//     - http://localhost:port/ は admin 権限不要
+//     - http://+:port/ 等は admin 必要 (netsh http add urlacl)
+//
+//   URL 例:
+//     http://localhost:8080/
+//     http://+:8080/              ← 要 admin + urlacl
+//     https://localhost:8443/     ← 要 netsh http add sslcert で証明書バインド
+//
+//   HTTPS 証明書バインドの例 (一度だけ、admin で実行):
+//     netsh http add sslcert ipport=0.0.0.0:8443 certhash=<thumbprint> \
+//           appid={12345678-1234-1234-1234-123456789ABC}
 //
 //   エクスポート:
-//     int  websrv_open(int port) → handle (>=0) / -1 失敗
-//     int  websrv_accept(int handle, char* method, int mlen, char* path, int plen,
-//                        char* body, int blen, int timeout_ms) → 1 = got req / 0 = timeout / -1 err
-//     int  websrv_respond(int handle, int status, const char* content_type,
+//     int  websrv_open(int port)          → http://localhost:port/
+//     int  websrv_open_url(const char* url)
+//     int  websrv_accept(int handle, char* method, int ml, char* path, int pl,
+//                        char* body, int bl, int* out_is_ws, int timeout_ms) → 1/0/-1
+//     int  websrv_respond(int handle, int status, const char* ctype,
 //                         const char* body, int body_len)
+//     int  websrv_accept_ws(int handle) → ws_handle
+//     int  websrv_ws_send(int ws, const char* data, int len, int is_binary)
+//     int  websrv_ws_recv(int ws, char* buf, int max, int timeout_ms)
+//     void websrv_ws_close(int ws)
 //     void websrv_close(int handle)
-//
-//   例 HSP:
-//     h = websrv_open(8080)
-//     repeat
-//         n = websrv_accept(h, method, 32, path, 1024, body, 4096, 100)
-//         if n = 1 {
-//             websrv_respond h, 200, "text/html", "<h1>Hello " + path + "</h1>", 0
-//         }
-//         if k_esc : break
-//     loop
-//     websrv_close h
 //============================================================
 
 #define WIN32_LEAN_AND_MEAN
-#include <winsock2.h>
-#include <ws2tcpip.h>
+#define _WIN32_WINNT 0x0601   // Windows 7 以降 (HTTP.sys v2)
 #include <windows.h>
+#include <http.h>
+#include <wincrypt.h>
 #include <cstring>
+#include <cstdlib>
 #include <cstdio>
-#include <vector>
 #include <string>
+#include <vector>
 
-#pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "httpapi.lib")
+#pragma comment(lib, "crypt32.lib")
+#pragma comment(lib, "kernel32.lib")
+#pragma comment(lib, "user32.lib")
+#pragma comment(lib, "advapi32.lib")
 
 #define HSPWEBSRV_EXPORT extern "C" __declspec(dllexport)
 
 namespace {
 
-constexpr int MAX_HANDLES = 8;
+constexpr int MAX_SERVERS = 8;
+constexpr int MAX_WS      = 32;
+constexpr size_t REQ_BUF  = 8192;
 
-struct WebSrvState {
+struct ServerState {
     bool active = false;
-    SOCKET listen_sock = INVALID_SOCKET;
-    SOCKET client_sock = INVALID_SOCKET;    // current pending client
-    int port = 0;
+    HANDLE queue = NULL;
+    HTTP_SERVER_SESSION_ID sessionId = 0;
+    HTTP_URL_GROUP_ID urlGroupId = 0;
+    std::wstring url;
+
+    HTTP_REQUEST_ID pending_req_id = HTTP_NULL_ID;
+    std::vector<BYTE> req_buf;
+    bool pending_is_ws = false;
+    std::string last_ws_key;
+
+    OVERLAPPED ovl = {};
+    HANDLE ovl_event = NULL;
 };
 
-static WebSrvState g_states[MAX_HANDLES];
-static bool g_wsa_inited = false;
+struct WsState {
+    bool active = false;
+    int server_handle = -1;
+    HTTP_REQUEST_ID req_id = HTTP_NULL_ID;
+    HANDLE queue = NULL;
+    std::vector<BYTE> recv_accum;
+    bool closed = false;
+};
 
-int FindFreeHandle() {
-    for (int i = 0; i < MAX_HANDLES; i++) {
-        if (!g_states[i].active) return i;
-    }
+static ServerState g_servers[MAX_SERVERS];
+static WsState     g_ws[MAX_WS];
+static bool g_http_initialized = false;
+
+int FindFreeServer() {
+    for (int i = 0; i < MAX_SERVERS; i++) if (!g_servers[i].active) return i;
+    return -1;
+}
+int FindFreeWs() {
+    for (int i = 0; i < MAX_WS; i++) if (!g_ws[i].active) return i;
     return -1;
 }
 
-static void EnsureWsa() {
-    if (g_wsa_inited) return;
-    WSADATA wsa;
-    WSAStartup(MAKEWORD(2, 2), &wsa);
-    g_wsa_inited = true;
+static void EnsureHttpInit() {
+    if (g_http_initialized) return;
+    HTTPAPI_VERSION ver = HTTPAPI_VERSION_2;
+    HttpInitialize(ver, HTTP_INITIALIZE_SERVER, NULL);
+    g_http_initialized = true;
 }
 
-// Receive up to buf_max bytes from sock, timeout in ms. Returns bytes received.
-static int RecvWithTimeout(SOCKET s, char* buf, int buf_max, int timeout_ms) {
-    fd_set rfds;
-    FD_ZERO(&rfds);
-    FD_SET(s, &rfds);
-    timeval tv;
-    tv.tv_sec = timeout_ms / 1000;
-    tv.tv_usec = (timeout_ms % 1000) * 1000;
-    int rc = select(0, &rfds, NULL, NULL, &tv);
-    if (rc <= 0) return 0;
-    return recv(s, buf, buf_max, 0);
+static std::wstring AnsiToWide(const char* s) {
+    if (!s) return L"";
+    int wlen = MultiByteToWideChar(CP_ACP, 0, s, -1, NULL, 0);
+    std::vector<wchar_t> buf(wlen);
+    MultiByteToWideChar(CP_ACP, 0, s, -1, buf.data(), wlen);
+    return std::wstring(buf.data());
 }
 
-// Minimal HTTP request parser. Method URL HTTP/1.x\r\n + headers + \r\n\r\n + body.
-struct HttpRequest {
-    std::string method;
-    std::string url;
-    std::string body;
-    int content_length = 0;
+static int CopyStr(char* dst, int dstlen, const char* src, int srclen) {
+    if (!dst || dstlen <= 0) return 0;
+    if (srclen < 0 && src) srclen = (int)strlen(src);
+    if (srclen < 0) srclen = 0;
+    int n = srclen;
+    if (n >= dstlen) n = dstlen - 1;
+    if (n > 0 && src) memcpy(dst, src, n);
+    dst[n] = 0;
+    return n;
+}
+
+static const char* VerbToString(HTTP_VERB verb) {
+    switch (verb) {
+        case HttpVerbGET:     return "GET";
+        case HttpVerbPOST:    return "POST";
+        case HttpVerbPUT:     return "PUT";
+        case HttpVerbDELETE:  return "DELETE";
+        case HttpVerbHEAD:    return "HEAD";
+        case HttpVerbOPTIONS: return "OPTIONS";
+        case HttpVerbTRACE:   return "TRACE";
+        default: return "";
+    }
+}
+
+static std::string Base64Encode(const BYTE* data, DWORD len) {
+    DWORD outLen = 0;
+    CryptBinaryToStringA(data, len, CRYPT_STRING_BASE64 | CRYPT_STRING_NOCRLF, NULL, &outLen);
+    if (outLen == 0) return "";
+    std::string out(outLen, 0);
+    CryptBinaryToStringA(data, len, CRYPT_STRING_BASE64 | CRYPT_STRING_NOCRLF, &out[0], &outLen);
+    while (!out.empty() && (out.back() == 0 || out.back() == '\r' || out.back() == '\n'))
+        out.pop_back();
+    return out;
+}
+
+static std::string ComputeWsAccept(const std::string& key) {
+    const char* magic = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+    std::string combined = key + magic;
+
+    HCRYPTPROV hProv = 0;
+    HCRYPTHASH hHash = 0;
+    BYTE hash[20] = {};
+    DWORD hashLen = 20;
+
+    if (!CryptAcquireContextA(&hProv, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT)) return "";
+    if (!CryptCreateHash(hProv, CALG_SHA1, 0, 0, &hHash)) {
+        CryptReleaseContext(hProv, 0);
+        return "";
+    }
+    CryptHashData(hHash, (const BYTE*)combined.data(), (DWORD)combined.size(), 0);
+    CryptGetHashParam(hHash, HP_HASHVAL, hash, &hashLen, 0);
+    CryptDestroyHash(hHash);
+    CryptReleaseContext(hProv, 0);
+
+    return Base64Encode(hash, 20);
+}
+
+static std::string GetHeader(const HTTP_REQUEST* req, const char* name) {
+    if (!req || !name) return "";
+    for (USHORT i = 0; i < req->Headers.UnknownHeaderCount; i++) {
+        const HTTP_UNKNOWN_HEADER& h = req->Headers.pUnknownHeaders[i];
+        if (h.NameLength && h.pName) {
+            std::string hn(h.pName, h.NameLength);
+            if (_stricmp(hn.c_str(), name) == 0) {
+                if (h.pRawValue && h.RawValueLength)
+                    return std::string(h.pRawValue, h.RawValueLength);
+                return "";
+            }
+        }
+    }
+    if (_stricmp(name, "Upgrade") == 0) {
+        const HTTP_KNOWN_HEADER& h = req->Headers.KnownHeaders[HttpHeaderUpgrade];
+        if (h.pRawValue && h.RawValueLength)
+            return std::string(h.pRawValue, h.RawValueLength);
+    }
+    if (_stricmp(name, "Connection") == 0) {
+        const HTTP_KNOWN_HEADER& h = req->Headers.KnownHeaders[HttpHeaderConnection];
+        if (h.pRawValue && h.RawValueLength)
+            return std::string(h.pRawValue, h.RawValueLength);
+    }
+    return "";
+}
+
+static bool ContainsCI(const std::string& s, const char* what) {
+    if (s.empty() || !what) return false;
+    size_t wlen = strlen(what);
+    if (wlen == 0) return true;
+    for (size_t i = 0; i + wlen <= s.size(); i++) {
+        if (_strnicmp(s.c_str() + i, what, wlen) == 0) return true;
+    }
+    return false;
+}
+
+static bool SendOpaque(HANDLE queue, HTTP_REQUEST_ID req_id, const void* data, ULONG len, bool more) {
+    HTTP_DATA_CHUNK chunk = {};
+    chunk.DataChunkType = HttpDataChunkFromMemory;
+    chunk.FromMemory.pBuffer = (PVOID)data;
+    chunk.FromMemory.BufferLength = len;
+
+    ULONG sent = 0;
+    ULONG flags = HTTP_SEND_RESPONSE_FLAG_OPAQUE | HTTP_SEND_RESPONSE_FLAG_BUFFER_DATA;
+    if (more) flags |= HTTP_SEND_RESPONSE_FLAG_MORE_DATA;
+
+    ULONG rc = HttpSendResponseEntityBody(
+        queue, req_id, flags, 1, &chunk, &sent, NULL, 0, NULL, NULL);
+    return rc == NO_ERROR;
+}
+
+static int RecvOpaque(HANDLE queue, HTTP_REQUEST_ID req_id, BYTE* buf, ULONG max, ULONG timeout_ms) {
+    OVERLAPPED ovl = {};
+    ovl.hEvent = CreateEventW(NULL, TRUE, FALSE, NULL);
+    ULONG read = 0;
+    ULONG rc = HttpReceiveRequestEntityBody(queue, req_id, 0, buf, max, &read, &ovl);
+
+    if (rc == ERROR_IO_PENDING) {
+        DWORD w = WaitForSingleObject(ovl.hEvent, timeout_ms);
+        if (w != WAIT_OBJECT_0) {
+            CancelIoEx(queue, &ovl);
+            CloseHandle(ovl.hEvent);
+            return 0;
+        }
+        DWORD dwBytes = 0;
+        GetOverlappedResult(queue, &ovl, &dwBytes, FALSE);
+        read = dwBytes;
+        rc = NO_ERROR;
+    }
+    CloseHandle(ovl.hEvent);
+
+    if (rc == ERROR_HANDLE_EOF) return -1;
+    if (rc != NO_ERROR) return -1;
+    return (int)read;
+}
+
+static void EncodeWsFrame(std::vector<BYTE>& out, const BYTE* payload, size_t len, BYTE opcode) {
+    out.clear();
+    out.push_back(0x80 | (opcode & 0x0F));
+    if (len < 126) {
+        out.push_back((BYTE)len);
+    } else if (len < 0x10000) {
+        out.push_back(126);
+        out.push_back((BYTE)(len >> 8));
+        out.push_back((BYTE)(len & 0xFF));
+    } else {
+        out.push_back(127);
+        uint64_t l = len;
+        for (int i = 7; i >= 0; i--) out.push_back((BYTE)(l >> (i * 8)));
+    }
+    out.insert(out.end(), payload, payload + len);
+}
+
+struct WsDecoded {
+    int status;
+    size_t frame_size;
+    std::vector<BYTE> payload;
+    BYTE opcode;
 };
 
-static bool ParseHttpRequest(const std::string& raw, HttpRequest& out) {
-    size_t p = raw.find(' ');
-    if (p == std::string::npos) return false;
-    out.method = raw.substr(0, p);
-    size_t q = raw.find(' ', p + 1);
-    if (q == std::string::npos) return false;
-    out.url = raw.substr(p + 1, q - p - 1);
+static WsDecoded DecodeWsFrame(const BYTE* buf, size_t len) {
+    WsDecoded d = {};
+    if (len < 2) { d.status = 0; return d; }
 
-    size_t header_end = raw.find("\r\n\r\n");
-    if (header_end == std::string::npos) return false;
+    BYTE b0 = buf[0];
+    BYTE b1 = buf[1];
+    BYTE opcode = b0 & 0x0F;
+    BYTE masked = (b1 & 0x80) ? 1 : 0;
+    uint64_t payload_len = b1 & 0x7F;
+    size_t hdr = 2;
 
-    // Parse headers to find Content-Length
-    std::string headers = raw.substr(0, header_end);
-    size_t cl_pos = headers.find("Content-Length:");
-    if (cl_pos == std::string::npos) cl_pos = headers.find("content-length:");
-    if (cl_pos != std::string::npos) {
-        size_t cl_start = headers.find(':', cl_pos) + 1;
-        while (cl_start < headers.size() && (headers[cl_start] == ' ' || headers[cl_start] == '\t')) cl_start++;
-        out.content_length = atoi(headers.c_str() + cl_start);
+    if (payload_len == 126) {
+        if (len < hdr + 2) { d.status = 0; return d; }
+        payload_len = ((uint64_t)buf[hdr] << 8) | buf[hdr + 1];
+        hdr += 2;
+    } else if (payload_len == 127) {
+        if (len < hdr + 8) { d.status = 0; return d; }
+        payload_len = 0;
+        for (int i = 0; i < 8; i++) payload_len = (payload_len << 8) | buf[hdr + i];
+        hdr += 8;
     }
+    BYTE mask_key[4] = {};
+    if (masked) {
+        if (len < hdr + 4) { d.status = 0; return d; }
+        memcpy(mask_key, buf + hdr, 4);
+        hdr += 4;
+    }
+    if (len < hdr + payload_len) { d.status = 0; return d; }
 
-    out.body = raw.substr(header_end + 4);
-    return true;
+    d.frame_size = hdr + (size_t)payload_len;
+    d.opcode = opcode;
+
+    if (opcode == 0x8) { d.status = -1; return d; }
+    if (opcode == 0x9) {
+        d.payload.resize((size_t)payload_len);
+        for (size_t i = 0; i < payload_len; i++)
+            d.payload[i] = buf[hdr + i] ^ (masked ? mask_key[i % 4] : 0);
+        d.status = -2;
+        return d;
+    }
+    if (opcode == 0xA) { d.status = -3; return d; }
+
+    d.payload.resize((size_t)payload_len);
+    for (size_t i = 0; i < payload_len; i++) {
+        d.payload[i] = buf[hdr + i] ^ (masked ? mask_key[i % 4] : 0);
+    }
+    d.status = (int)payload_len;
+    return d;
 }
 
 } // namespace
@@ -125,199 +326,372 @@ static bool ParseHttpRequest(const std::string& raw, HttpRequest& out) {
 // Exports
 //============================================================
 
-HSPWEBSRV_EXPORT int __stdcall websrv_open(int port) {
-    EnsureWsa();
-    int handle = FindFreeHandle();
+HSPWEBSRV_EXPORT int __stdcall websrv_open_url(const char* url) {
+    if (!url) return -1;
+    EnsureHttpInit();
+
+    int handle = FindFreeServer();
     if (handle < 0) return -1;
-    WebSrvState& s = g_states[handle];
+    ServerState& s = g_servers[handle];
 
-    s.listen_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (s.listen_sock == INVALID_SOCKET) return -1;
+    s.url = AnsiToWide(url);
+    s.req_buf.assign(REQ_BUF, 0);
 
-    // SO_REUSEADDR
-    int opt = 1;
-    setsockopt(s.listen_sock, SOL_SOCKET, SO_REUSEADDR, (const char*)&opt, sizeof(opt));
+    HTTPAPI_VERSION ver = HTTPAPI_VERSION_2;
+    ULONG rc = HttpCreateServerSession(ver, &s.sessionId, 0);
+    if (rc != NO_ERROR) return -1;
 
-    // Non-blocking
-    u_long mode = 1;
-    ioctlsocket(s.listen_sock, FIONBIO, &mode);
-
-    sockaddr_in addr = {};
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons((u_short)port);
-    addr.sin_addr.s_addr = INADDR_ANY;
-
-    if (bind(s.listen_sock, (sockaddr*)&addr, sizeof(addr)) == SOCKET_ERROR) {
-        closesocket(s.listen_sock);
-        s.listen_sock = INVALID_SOCKET;
+    rc = HttpCreateUrlGroup(s.sessionId, &s.urlGroupId, 0);
+    if (rc != NO_ERROR) {
+        HttpCloseServerSession(s.sessionId);
         return -1;
     }
 
-    if (listen(s.listen_sock, 5) == SOCKET_ERROR) {
-        closesocket(s.listen_sock);
-        s.listen_sock = INVALID_SOCKET;
+    rc = HttpCreateRequestQueue(ver, NULL, NULL, 0, &s.queue);
+    if (rc != NO_ERROR) {
+        HttpCloseUrlGroup(s.urlGroupId);
+        HttpCloseServerSession(s.sessionId);
         return -1;
     }
 
-    s.port = port;
+    HTTP_BINDING_INFO binding = {};
+    binding.Flags.Present = 1;
+    binding.RequestQueueHandle = s.queue;
+    rc = HttpSetUrlGroupProperty(s.urlGroupId, HttpServerBindingProperty, &binding, sizeof(binding));
+    if (rc != NO_ERROR) {
+        HttpCloseRequestQueue(s.queue);
+        HttpCloseUrlGroup(s.urlGroupId);
+        HttpCloseServerSession(s.sessionId);
+        return -1;
+    }
+
+    rc = HttpAddUrlToUrlGroup(s.urlGroupId, s.url.c_str(), 0, 0);
+    if (rc != NO_ERROR) {
+        HttpCloseRequestQueue(s.queue);
+        HttpCloseUrlGroup(s.urlGroupId);
+        HttpCloseServerSession(s.sessionId);
+        return -1;
+    }
+
+    s.ovl_event = CreateEventW(NULL, TRUE, FALSE, NULL);
     s.active = true;
     return handle;
 }
 
+HSPWEBSRV_EXPORT int __stdcall websrv_open(int port) {
+    char url[64];
+    snprintf(url, sizeof(url), "http://localhost:%d/", port);
+    return websrv_open_url(url);
+}
+
 HSPWEBSRV_EXPORT int __stdcall websrv_accept(int handle,
-                                              char* out_method, int method_len,
-                                              char* out_path, int path_len,
-                                              char* out_body, int body_len,
+                                              char* out_method, int ml,
+                                              char* out_path,   int pl,
+                                              char* out_body,   int bl,
+                                              int* out_is_ws,
                                               int timeout_ms) {
-    if (handle < 0 || handle >= MAX_HANDLES) return -1;
-    WebSrvState& s = g_states[handle];
-    if (!s.active || s.listen_sock == INVALID_SOCKET) return -1;
+    if (handle < 0 || handle >= MAX_SERVERS) return -1;
+    ServerState& s = g_servers[handle];
+    if (!s.active) return -1;
     if (out_method) out_method[0] = 0;
     if (out_path)   out_path[0] = 0;
     if (out_body)   out_body[0] = 0;
+    if (out_is_ws)  *out_is_ws = 0;
 
-    // Non-blocking select → accept
-    fd_set rfds;
-    FD_ZERO(&rfds);
-    FD_SET(s.listen_sock, &rfds);
-    timeval tv;
-    tv.tv_sec = timeout_ms / 1000;
-    tv.tv_usec = (timeout_ms % 1000) * 1000;
-    int rc = select(0, &rfds, NULL, NULL, &tv);
-    if (rc <= 0) return 0;
+    ResetEvent(s.ovl_event);
+    memset(&s.ovl, 0, sizeof(s.ovl));
+    s.ovl.hEvent = s.ovl_event;
 
-    sockaddr_in caddr;
-    int caddr_len = sizeof(caddr);
-    SOCKET cs = accept(s.listen_sock, (sockaddr*)&caddr, &caddr_len);
-    if (cs == INVALID_SOCKET) return 0;
+    ULONG bytesRead = 0;
+    ULONG rc = HttpReceiveHttpRequest(s.queue, HTTP_NULL_ID,
+                                      HTTP_RECEIVE_REQUEST_FLAG_COPY_BODY,
+                                      (PHTTP_REQUEST)s.req_buf.data(),
+                                      (ULONG)s.req_buf.size(),
+                                      &bytesRead, &s.ovl);
 
-    // Block client socket while we read
-    u_long mode = 0;
-    ioctlsocket(cs, FIONBIO, &mode);
-
-    // Read until \r\n\r\n + Content-Length body
-    std::string raw;
-    char buf[4096];
-    while (true) {
-        int n = RecvWithTimeout(cs, buf, sizeof(buf), 2000);
-        if (n <= 0) break;
-        raw.append(buf, n);
-        // Check if we have headers + body complete
-        size_t he = raw.find("\r\n\r\n");
-        if (he != std::string::npos) {
-            // Parse Content-Length
-            std::string hdr = raw.substr(0, he);
-            size_t cl = hdr.find("Content-Length:");
-            if (cl == std::string::npos) cl = hdr.find("content-length:");
-            int expect_body = 0;
-            if (cl != std::string::npos) {
-                size_t st = hdr.find(':', cl) + 1;
-                while (st < hdr.size() && (hdr[st] == ' ' || hdr[st] == '\t')) st++;
-                expect_body = atoi(hdr.c_str() + st);
-            }
-            int have_body = (int)(raw.size() - he - 4);
-            if (have_body >= expect_body) break;
+    if (rc == ERROR_IO_PENDING) {
+        DWORD w = WaitForSingleObject(s.ovl_event, timeout_ms);
+        if (w != WAIT_OBJECT_0) {
+            CancelIoEx(s.queue, &s.ovl);
+            WaitForSingleObject(s.ovl_event, 100);
+            return 0;
         }
+        DWORD dwBytes = 0;
+        GetOverlappedResult(s.queue, &s.ovl, &dwBytes, FALSE);
+        bytesRead = dwBytes;
+        rc = NO_ERROR;
+    }
+    if (rc == ERROR_MORE_DATA) {
+        PHTTP_REQUEST r = (PHTTP_REQUEST)s.req_buf.data();
+        HTTP_REQUEST_ID tempId = r->RequestId;
+        s.req_buf.assign(bytesRead + 8192, 0);
+        rc = HttpReceiveHttpRequest(s.queue, tempId,
+                                    HTTP_RECEIVE_REQUEST_FLAG_COPY_BODY,
+                                    (PHTTP_REQUEST)s.req_buf.data(),
+                                    (ULONG)s.req_buf.size(),
+                                    &bytesRead, NULL);
+    }
+    if (rc != NO_ERROR) return -1;
+
+    PHTTP_REQUEST req = (PHTTP_REQUEST)s.req_buf.data();
+    s.pending_req_id = req->RequestId;
+
+    const char* verb = VerbToString(req->Verb);
+    if (req->Verb == HttpVerbUnknown && req->pUnknownVerb) {
+        CopyStr(out_method, ml, req->pUnknownVerb, req->UnknownVerbLength);
+    } else if (verb && *verb) {
+        CopyStr(out_method, ml, verb, -1);
     }
 
-    // Parse request
-    HttpRequest req;
-    if (!ParseHttpRequest(raw, req)) {
-        closesocket(cs);
-        return 0;
+    if (req->pRawUrl && req->RawUrlLength) {
+        CopyStr(out_path, pl, req->pRawUrl, req->RawUrlLength);
     }
 
-    // Copy fields out
-    if (out_method && method_len > 0) {
-        int n = (int)req.method.size();
-        if (n >= method_len) n = method_len - 1;
-        memcpy(out_method, req.method.data(), n);
-        out_method[n] = 0;
-    }
-    if (out_path && path_len > 0) {
-        int n = (int)req.url.size();
-        if (n >= path_len) n = path_len - 1;
-        memcpy(out_path, req.url.data(), n);
-        out_path[n] = 0;
-    }
-    if (out_body && body_len > 0) {
-        int n = (int)req.body.size();
-        if (n >= body_len) n = body_len - 1;
-        memcpy(out_body, req.body.data(), n);
-        out_body[n] = 0;
+    int body_written = 0;
+    if (req->EntityChunkCount > 0 && req->pEntityChunks && out_body && bl > 1) {
+        for (USHORT c = 0; c < req->EntityChunkCount; c++) {
+            const HTTP_DATA_CHUNK& ch = req->pEntityChunks[c];
+            if (ch.DataChunkType == HttpDataChunkFromMemory) {
+                int avail = bl - 1 - body_written;
+                int copy = (int)ch.FromMemory.BufferLength;
+                if (copy > avail) copy = avail;
+                if (copy > 0) {
+                    memcpy(out_body + body_written, ch.FromMemory.pBuffer, copy);
+                    body_written += copy;
+                }
+            }
+        }
+        if (out_body) out_body[body_written] = 0;
     }
 
-    // Store client socket for respond
-    s.client_sock = cs;
+    std::string hUpgrade = GetHeader(req, "Upgrade");
+    std::string hConn    = GetHeader(req, "Connection");
+    std::string hKey     = GetHeader(req, "Sec-WebSocket-Key");
+    bool is_ws = ContainsCI(hUpgrade, "websocket")
+                 && ContainsCI(hConn, "upgrade")
+                 && !hKey.empty();
+    s.pending_is_ws = is_ws;
+    s.last_ws_key = hKey;
+    if (out_is_ws) *out_is_ws = is_ws ? 1 : 0;
+
     return 1;
 }
 
 HSPWEBSRV_EXPORT int __stdcall websrv_respond(int handle, int status,
                                                const char* content_type,
                                                const char* body, int body_len) {
-    if (handle < 0 || handle >= MAX_HANDLES) return 0;
-    WebSrvState& s = g_states[handle];
-    if (!s.active || s.client_sock == INVALID_SOCKET) return 0;
+    if (handle < 0 || handle >= MAX_SERVERS) return 0;
+    ServerState& s = g_servers[handle];
+    if (!s.active || s.pending_req_id == HTTP_NULL_ID) return 0;
     if (!body) body = "";
     if (body_len <= 0) body_len = (int)strlen(body);
     if (!content_type || !*content_type) content_type = "text/plain; charset=utf-8";
 
-    const char* status_text = "OK";
-    if (status == 200) status_text = "OK";
-    else if (status == 201) status_text = "Created";
-    else if (status == 204) status_text = "No Content";
-    else if (status == 301) status_text = "Moved Permanently";
-    else if (status == 302) status_text = "Found";
-    else if (status == 400) status_text = "Bad Request";
-    else if (status == 401) status_text = "Unauthorized";
-    else if (status == 403) status_text = "Forbidden";
-    else if (status == 404) status_text = "Not Found";
-    else if (status == 500) status_text = "Internal Server Error";
+    const char* reason = "OK";
+    if (status == 200) reason = "OK";
+    else if (status == 201) reason = "Created";
+    else if (status == 204) reason = "No Content";
+    else if (status == 301) reason = "Moved Permanently";
+    else if (status == 302) reason = "Found";
+    else if (status == 400) reason = "Bad Request";
+    else if (status == 401) reason = "Unauthorized";
+    else if (status == 403) reason = "Forbidden";
+    else if (status == 404) reason = "Not Found";
+    else if (status == 500) reason = "Internal Server Error";
 
-    char header[1024];
-    int hn = snprintf(header, sizeof(header),
-        "HTTP/1.1 %d %s\r\n"
-        "Content-Type: %s\r\n"
-        "Content-Length: %d\r\n"
-        "Connection: close\r\n"
-        "\r\n",
-        status, status_text, content_type, body_len);
+    HTTP_RESPONSE resp = {};
+    resp.StatusCode = (USHORT)status;
+    resp.pReason = reason;
+    resp.ReasonLength = (USHORT)strlen(reason);
+    resp.Headers.KnownHeaders[HttpHeaderContentType].pRawValue = content_type;
+    resp.Headers.KnownHeaders[HttpHeaderContentType].RawValueLength = (USHORT)strlen(content_type);
 
-    send(s.client_sock, header, hn, 0);
-    if (body_len > 0) {
-        send(s.client_sock, body, body_len, 0);
+    HTTP_DATA_CHUNK chunk = {};
+    chunk.DataChunkType = HttpDataChunkFromMemory;
+    chunk.FromMemory.pBuffer = (PVOID)body;
+    chunk.FromMemory.BufferLength = (ULONG)body_len;
+    resp.EntityChunkCount = 1;
+    resp.pEntityChunks = &chunk;
+
+    ULONG sent = 0;
+    ULONG rc = HttpSendHttpResponse(s.queue, s.pending_req_id, 0,
+                                    &resp, NULL, &sent, NULL, 0, NULL, NULL);
+    s.pending_req_id = HTTP_NULL_ID;
+    s.pending_is_ws = false;
+    return rc == NO_ERROR ? 1 : 0;
+}
+
+HSPWEBSRV_EXPORT int __stdcall websrv_accept_ws(int handle) {
+    if (handle < 0 || handle >= MAX_SERVERS) return -1;
+    ServerState& s = g_servers[handle];
+    if (!s.active || s.pending_req_id == HTTP_NULL_ID) return -1;
+    if (!s.pending_is_ws) return -1;
+
+    std::string accept_val = ComputeWsAccept(s.last_ws_key);
+    if (accept_val.empty()) return -1;
+
+    HTTP_RESPONSE resp = {};
+    resp.StatusCode = 101;
+    resp.pReason = "Switching Protocols";
+    resp.ReasonLength = (USHORT)strlen(resp.pReason);
+
+    resp.Headers.KnownHeaders[HttpHeaderUpgrade].pRawValue = "websocket";
+    resp.Headers.KnownHeaders[HttpHeaderUpgrade].RawValueLength = 9;
+    resp.Headers.KnownHeaders[HttpHeaderConnection].pRawValue = "Upgrade";
+    resp.Headers.KnownHeaders[HttpHeaderConnection].RawValueLength = 7;
+
+    HTTP_UNKNOWN_HEADER unkHeaders[1] = {};
+    unkHeaders[0].NameLength = (USHORT)strlen("Sec-WebSocket-Accept");
+    unkHeaders[0].pName = "Sec-WebSocket-Accept";
+    unkHeaders[0].RawValueLength = (USHORT)accept_val.size();
+    unkHeaders[0].pRawValue = accept_val.c_str();
+    resp.Headers.UnknownHeaderCount = 1;
+    resp.Headers.pUnknownHeaders = unkHeaders;
+
+    ULONG sent = 0;
+    ULONG rc = HttpSendHttpResponse(s.queue, s.pending_req_id,
+                                    HTTP_SEND_RESPONSE_FLAG_OPAQUE | HTTP_SEND_RESPONSE_FLAG_MORE_DATA,
+                                    &resp, NULL, &sent, NULL, 0, NULL, NULL);
+    if (rc != NO_ERROR) {
+        s.pending_req_id = HTTP_NULL_ID;
+        s.pending_is_ws = false;
+        return -1;
     }
 
-    // Close client
-    shutdown(s.client_sock, SD_SEND);
-    closesocket(s.client_sock);
-    s.client_sock = INVALID_SOCKET;
-    return 1;
+    int ws_h = FindFreeWs();
+    if (ws_h < 0) {
+        s.pending_req_id = HTTP_NULL_ID;
+        return -1;
+    }
+    WsState& w = g_ws[ws_h];
+    w.server_handle = handle;
+    w.req_id = s.pending_req_id;
+    w.queue = s.queue;
+    w.recv_accum.clear();
+    w.closed = false;
+    w.active = true;
+
+    s.pending_req_id = HTTP_NULL_ID;
+    s.pending_is_ws = false;
+    return ws_h;
+}
+
+HSPWEBSRV_EXPORT int __stdcall websrv_ws_send(int ws, const char* data, int len, int is_binary) {
+    if (ws < 0 || ws >= MAX_WS) return 0;
+    WsState& w = g_ws[ws];
+    if (!w.active || w.closed) return 0;
+    if (!data) return 0;
+    if (len < 0) len = (int)strlen(data);
+
+    std::vector<BYTE> frame;
+    BYTE opcode = is_binary ? 0x2 : 0x1;
+    EncodeWsFrame(frame, (const BYTE*)data, (size_t)len, opcode);
+
+    return SendOpaque(w.queue, w.req_id, frame.data(), (ULONG)frame.size(), true) ? len : 0;
+}
+
+HSPWEBSRV_EXPORT int __stdcall websrv_ws_recv(int ws, char* buf, int max_bytes, int timeout_ms) {
+    if (ws < 0 || ws >= MAX_WS) return -1;
+    WsState& w = g_ws[ws];
+    if (!w.active) return -1;
+    if (w.closed) return -1;
+    if (!buf || max_bytes <= 0) return 0;
+
+    DWORD start = GetTickCount();
+    while (true) {
+        WsDecoded d = DecodeWsFrame(w.recv_accum.data(), w.recv_accum.size());
+        if (d.status == 0) {
+            DWORD elapsed = GetTickCount() - start;
+            if ((int)elapsed >= timeout_ms && timeout_ms > 0) return 0;
+            int remaining = timeout_ms - (int)elapsed;
+            if (remaining <= 0) remaining = 100;
+            BYTE chunk[4096];
+            int n = RecvOpaque(w.queue, w.req_id, chunk, sizeof(chunk), remaining);
+            if (n == -1) { w.closed = true; return -1; }
+            if (n == 0) continue;
+            w.recv_accum.insert(w.recv_accum.end(), chunk, chunk + n);
+            continue;
+        }
+        if (d.status == -1) {
+            w.closed = true;
+            return -1;
+        }
+        if (d.status == -2) {
+            // Ping auto-pong
+            std::vector<BYTE> pong;
+            EncodeWsFrame(pong, d.payload.data(), d.payload.size(), 0xA);
+            SendOpaque(w.queue, w.req_id, pong.data(), (ULONG)pong.size(), true);
+            w.recv_accum.erase(w.recv_accum.begin(), w.recv_accum.begin() + d.frame_size);
+            continue;
+        }
+        if (d.status == -3) {
+            w.recv_accum.erase(w.recv_accum.begin(), w.recv_accum.begin() + d.frame_size);
+            continue;
+        }
+
+        int n = (int)d.payload.size();
+        if (n >= max_bytes) n = max_bytes - 1;
+        memcpy(buf, d.payload.data(), n);
+        buf[n] = 0;
+        w.recv_accum.erase(w.recv_accum.begin(), w.recv_accum.begin() + d.frame_size);
+        return n;
+    }
+}
+
+HSPWEBSRV_EXPORT void __stdcall websrv_ws_close(int ws) {
+    if (ws < 0 || ws >= MAX_WS) return;
+    WsState& w = g_ws[ws];
+    if (!w.active) return;
+
+    if (!w.closed) {
+        BYTE close_frame[2] = { 0x88, 0x00 };
+        SendOpaque(w.queue, w.req_id, close_frame, 2, false);
+    }
+    w.closed = true;
+    w.active = false;
+    w.recv_accum.clear();
 }
 
 HSPWEBSRV_EXPORT void __stdcall websrv_close(int handle) {
-    if (handle < 0 || handle >= MAX_HANDLES) return;
-    WebSrvState& s = g_states[handle];
+    if (handle < 0 || handle >= MAX_SERVERS) return;
+    ServerState& s = g_servers[handle];
     if (!s.active) return;
-    if (s.client_sock != INVALID_SOCKET) {
-        closesocket(s.client_sock);
-        s.client_sock = INVALID_SOCKET;
+
+    for (int i = 0; i < MAX_WS; i++) {
+        if (g_ws[i].active && g_ws[i].server_handle == handle) {
+            websrv_ws_close(i);
+        }
     }
-    if (s.listen_sock != INVALID_SOCKET) {
-        closesocket(s.listen_sock);
-        s.listen_sock = INVALID_SOCKET;
+
+    if (s.urlGroupId) {
+        HttpRemoveUrlFromUrlGroup(s.urlGroupId, s.url.c_str(), 0);
+        HttpCloseUrlGroup(s.urlGroupId);
+        s.urlGroupId = 0;
+    }
+    if (s.queue) {
+        HttpCloseRequestQueue(s.queue);
+        s.queue = NULL;
+    }
+    if (s.sessionId) {
+        HttpCloseServerSession(s.sessionId);
+        s.sessionId = 0;
+    }
+    if (s.ovl_event) {
+        CloseHandle(s.ovl_event);
+        s.ovl_event = NULL;
     }
     s.active = false;
+    s.pending_req_id = HTTP_NULL_ID;
+    s.req_buf.clear();
 }
 
 BOOL WINAPI DllMain(HMODULE, DWORD reason, LPVOID) {
     if (reason == DLL_PROCESS_DETACH) {
-        for (int i = 0; i < MAX_HANDLES; i++) {
-            if (g_states[i].active) websrv_close(i);
-        }
-        if (g_wsa_inited) {
-            WSACleanup();
-            g_wsa_inited = false;
+        for (int i = 0; i < MAX_WS; i++) if (g_ws[i].active) websrv_ws_close(i);
+        for (int i = 0; i < MAX_SERVERS; i++) if (g_servers[i].active) websrv_close(i);
+        if (g_http_initialized) {
+            HttpTerminate(HTTP_INITIALIZE_SERVER, NULL);
+            g_http_initialized = false;
         }
     }
     return TRUE;

@@ -1,6 +1,11 @@
 LIBRARY hspwebsrv
 EXPORTS
     websrv_open
+    websrv_open_url
     websrv_accept
     websrv_respond
+    websrv_accept_ws
+    websrv_ws_send
+    websrv_ws_recv
+    websrv_ws_close
     websrv_close

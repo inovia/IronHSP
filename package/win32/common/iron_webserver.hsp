@@ -1,76 +1,124 @@
 ;============================================================
-;   iron_webserver.hsp — Minimal HTTP server for HSP (winsock 経由)
+;   iron_webserver.hsp — HTTP / HTTPS / WebSocket サーバ
 ;
-;   hspwebsrv.dll をラップして HSP スクリプトから任意のポートに
-;   HTTP サーバを立てられるようにする薄いラッパ。
+;   hspwebsrv.dll (Windows HTTP Server API v2 = HTTP.sys 経由) を
+;   ラップした HSP 向け本格 HTTP サーバ。C# HttpListener と同じ
+;   backend なので HTTP/HTTPS/WebSocket が単一 DLL で扱える。
 ;
-;   シンプルな 1 request at a time モデル (keep-alive なし):
-;     web_open port
+;   特徴:
+;     - HTTP.sys (kernel-mode) backend で高性能
+;     - http://localhost:port/ は admin 権限不要
+;     - http://+:port/ 等は admin 必要 (netsh http add urlacl)
+;     - HTTPS は事前に netsh http add sslcert で証明書バインド必要
+;     - WebSocket の handshake + フレーム parser も内包
+;
+;   API (HTTP / HTTPS):
+;     web_open port                ; http://localhost:port/
+;     web_open_url "https://localhost:8443/"
+;     web_accept method, path, body, is_ws [, timeout_ms]
+;       → stat = 1 (req) / 0 (timeout) / -1 (error)
+;       → is_ws = 1 なら WebSocket upgrade request
+;     web_respond status, "ctype", "body"
+;     web_close
+;
+;   API (WebSocket):
+;     ws = web_accept_ws()          upgrade 受諾 → ws ハンドル
+;     web_ws_send ws, "text" [, is_binary]
+;     web_ws_recv ws, buf [, timeout_ms]  stat = bytes / 0 (timeout) / -1 (closed)
+;     web_ws_close ws
+;
+;   例 (HTTP):
+;     web_open 8080
 ;     repeat
-;         web_accept method, path, body, timeout_ms
-;         if stat = 1 {
-;             ; ハンドル処理
-;             web_respond 200, "text/html", "<h1>Hello " + path + "</h1>"
-;         }
+;         web_accept method, path, body, is_ws, 100
+;         if stat = 1 : web_respond 200, "text/html", "<h1>Hello</h1>"
+;         stick k, 128 : if k & 128 : break
 ;     loop
 ;     web_close
 ;
-;   依存: hspwebsrv.dll (winsock 経由、httpapi.dll 不要、admin 権限不要)
+;   例 (WebSocket echo):
+;     web_open 8080
+;     repeat
+;         web_accept method, path, body, is_ws, 100
+;         if stat = 1 {
+;             if is_ws = 1 {
+;                 ws = web_accept_ws()
+;                 repeat
+;                     web_ws_recv ws, msg, 10000
+;                     if stat <= 0 : break
+;                     web_ws_send ws, "echo: " + msg, 0
+;                 loop
+;                 web_ws_close ws
+;             } else {
+;                 web_respond 200, "text/html", "Hello"
+;             }
+;         }
+;     loop
 ;
-;   用途:
-;     - ローカル API (HSP 製アプリが外部ツールからアクセスされる)
-;     - MCP server を HTTP transport で公開
-;     - デバッグ用 UI
-;     - IoT デバイスから HSP 側に POST してもらう
+;   HTTPS を使う場合 (一度きり、admin で実行):
+;     netsh http add sslcert ipport=0.0.0.0:8443 \
+;       certhash=<40桁thumbprint> \
+;       appid={12345678-1234-1234-1234-123456789ABC}
 ;============================================================
 
 #ifndef __iron_webserver_hsp__
 #define __iron_webserver_hsp__
 
 #uselib "hspwebsrv.dll"
-#cfunc _websrv_open    "websrv_open"    int
-#cfunc _websrv_accept  "websrv_accept"  int, var, int, var, int, var, int, int
-#cfunc _websrv_respond "websrv_respond" int, int, str, str, int
-#func  _websrv_close   "websrv_close"   int
+#cfunc _websrv_open       "websrv_open"       int
+#cfunc _websrv_open_url   "websrv_open_url"   str
+#cfunc _websrv_accept     "websrv_accept"     int, var, int, var, int, var, int, var, int
+#cfunc _websrv_respond    "websrv_respond"    int, int, str, str, int
+#cfunc _websrv_accept_ws  "websrv_accept_ws"  int
+#cfunc _websrv_ws_send    "websrv_ws_send"    int, str, int, int
+#cfunc _websrv_ws_recv    "websrv_ws_recv"    int, var, int, int
+#func  _websrv_ws_close   "websrv_ws_close"   int
+#func  _websrv_close      "websrv_close"      int
 
 	_web_handle = -1
 	goto *_web_skip_init
 
-;------------------------------------------------------------
-; web_open port
-;   指定ポートで listen 開始。stat にハンドル (>=0 成功)
-;------------------------------------------------------------
 #deffunc web_open int port
     if _web_handle >= 0 : web_close
     _web_handle = _websrv_open(port)
     return _web_handle
 
-;------------------------------------------------------------
-; web_accept method_var, path_var, body_var [, timeout_ms]
-;   新規 HTTP リクエスト受付 (ノンブロッキング, timeout_ms=100 デフォルト)
-;   stat: 1 = 受信あり / 0 = timeout / -1 = エラー
-;------------------------------------------------------------
-#deffunc web_accept var out_method, var out_path, var out_body, int timeout_ms,  local _to
+#deffunc web_open_url str url
+    if _web_handle >= 0 : web_close
+    _web_handle = _websrv_open_url(url)
+    return _web_handle
+
+#deffunc web_accept var out_method, var out_path, var out_body, var out_is_ws, int timeout_ms,  local _to
     sdim out_method, 32
-    sdim out_path, 1024
+    sdim out_path, 2048
     sdim out_body, 16384
+    out_is_ws = 0
     if _web_handle < 0 : return -1
     _to = timeout_ms
     if _to = 0 : _to = 100
-    return _websrv_accept(_web_handle, out_method, 31, out_path, 1023, out_body, 16383, _to)
+    return _websrv_accept(_web_handle, out_method, 31, out_path, 2047, out_body, 16383, out_is_ws, _to)
 
-;------------------------------------------------------------
-; web_respond status, "content_type", "body"
-;   直前に受信した request に対して HTTP レスポンスを返す
-;------------------------------------------------------------
 #deffunc web_respond int status, str content_type, str body
     if _web_handle < 0 : return -1
     return _websrv_respond(_web_handle, status, content_type, body, 0)
 
-;------------------------------------------------------------
-; web_close
-;   サーバを停止
-;------------------------------------------------------------
+#defcfunc web_accept_ws
+    if _web_handle < 0 : return -1
+    return _websrv_accept_ws(_web_handle)
+
+#deffunc web_ws_send int ws, str text, int is_binary
+    return _websrv_ws_send(ws, text, 0, is_binary)
+
+#deffunc web_ws_recv int ws, var out_buf, int timeout_ms,  local _to
+    sdim out_buf, 16384
+    _to = timeout_ms
+    if _to = 0 : _to = 1000
+    return _websrv_ws_recv(ws, out_buf, 16383, _to)
+
+#deffunc web_ws_close int ws
+    _websrv_ws_close ws
+    return
+
 #deffunc web_close
     if _web_handle < 0 : return
     _websrv_close _web_handle

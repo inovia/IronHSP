@@ -1,0 +1,112 @@
+;============================================================
+;  sample_websocket.hsp — HSP を WebSocket エコーサーバに
+;
+;  hspwebsrv.dll (HTTP.sys backend) で localhost:8080 に HTTP/WS
+;  サーバを立て、ルート "/" に HTML + JS クライアントを返し、
+;  "/ws" に WebSocket エコーエンドポイントを提供する。
+;
+;  使い方:
+;    1. 起動
+;    2. ブラウザで http://localhost:8080/ を開く
+;    3. メッセージを入力して Send → サーバがエコーバック
+;    4. ESC で終了
+;============================================================
+
+#include "iron_webserver.hsp"
+
+	title "iron_webserver WebSocket echo demo"
+	screen 0, 720, 540
+	font "MS Gothic", 14
+
+	mes "==== HSP WebSocket Echo Server ===="
+	mes ""
+	mes "http://localhost:8080/ で HTTP/WebSocket サーバ開始"
+	mes "ブラウザで上記 URL を開いてください"
+	mes "ESC キーで終了"
+	mes ""
+	mes "----- ログ -----"
+
+	web_open 8080
+	if stat < 0 {
+		mes "[error] HTTP.sys の listen 開始失敗"
+		stop
+	}
+
+	; HTML + inline JS (WebSocket クライアント)
+	sdim html, 4096
+	html = "<!DOCTYPE html><html><head><meta charset=\"utf-8\">"
+	html = html + "<title>IronHSP WS Echo</title>"
+	html = html + "<style>body{font-family:sans-serif;max-width:600px;margin:2em auto}"
+	html = html + "#log{height:300px;overflow-y:scroll;border:1px solid #ccc;padding:8px;background:#f5f5f5}</style>"
+	html = html + "</head><body>"
+	html = html + "<h1>IronHSP WebSocket Echo</h1>"
+	html = html + "<div id=\"log\"></div>"
+	html = html + "<input id=\"msg\" style=\"width:70%\" placeholder=\"メッセージを入力\">"
+	html = html + "<button onclick=\"send()\">Send</button>"
+	html = html + "<script>"
+	html = html + "var ws=new WebSocket('ws://'+location.host+'/ws');"
+	html = html + "var log=document.getElementById('log');"
+	html = html + "function add(m){var p=document.createElement('p');p.textContent=m;log.appendChild(p);log.scrollTop=log.scrollHeight}"
+	html = html + "ws.onopen=function(){add('[connected]')};"
+	html = html + "ws.onmessage=function(e){add('[server] '+e.data)};"
+	html = html + "ws.onclose=function(){add('[closed]')};"
+	html = html + "function send(){var m=document.getElementById('msg').value;if(m){ws.send(m);add('[client] '+m);document.getElementById('msg').value=''}}"
+	html = html + "document.getElementById('msg').addEventListener('keydown',function(e){if(e.key=='Enter')send()});"
+	html = html + "</script></body></html>"
+
+	req_count = 0
+	ws_count = 0
+
+*main_loop
+	stick k_esc, 0
+	if k_esc & 128 : goto *do_exit
+
+	web_accept method, path, body, is_ws, 50
+	if stat = 1 {
+		req_count++
+		color 0, 80, 160
+		mes strf("[%d] %s %s (ws=%d)", req_count, method, path, is_ws)
+		color 0, 0, 0
+
+		if is_ws = 1 {
+			; WebSocket upgrade
+			wh = web_accept_ws()
+			if wh >= 0 {
+				ws_count++
+				mes "  → WebSocket open (ws=" + wh + ")"
+
+				; WebSocket echo loop
+				repeat
+					stick k_esc2, 0
+					if k_esc2 & 128 : break
+
+					web_ws_recv wh, msg, 200
+					recv_stat = stat
+					if recv_stat > 0 {
+						mes "  [ws] recv: " + msg
+						web_ws_send wh, "echo: " + msg, 0
+					}
+					if recv_stat = -1 : break
+				loop
+
+				web_ws_close wh
+				mes "  → WebSocket closed"
+			}
+		} else {
+			; 通常の HTTP: "/" に HTML を返す
+			if path = "/" {
+				web_respond 200, "text/html; charset=utf-8", html
+			} else {
+				web_respond 404, "text/plain", "Not Found: " + path
+			}
+		}
+	}
+
+	await 20
+	goto *main_loop
+
+*do_exit
+	web_close
+	mes ""
+	mes "サーバ停止 (HTTP req=" + req_count + " / WS connections=" + ws_count + ")"
+	end
