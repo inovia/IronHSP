@@ -8164,3 +8164,333 @@ WTSVirtualChannelQuery
 WTSVirtualChannelRead
 WTSVirtualChannelWrite
 WTSWaitSystemEvent
+
+// === mf.dll (48 candidates) ===
+// removed: not in win32metadata: DllGetActivationFactory
+MFCreate3GPMediaSink
+MFCreateAC3MediaSink
+MFCreateADTSMediaSink
+// removed: not in win32metadata: MFCreateASFByteStreamPlugin
+MFCreateASFContentInfo
+MFCreateASFIndexer
+MFCreateASFIndexerByteStream
+MFCreateASFMediaSink
+MFCreateASFMediaSinkActivate
+MFCreateASFMultiplexer
+MFCreateASFProfile
+MFCreateASFProfileFromPresentationDescriptor
+MFCreateASFSplitter
+MFCreateASFStreamSelector
+MFCreateASFStreamingMediaSink
+MFCreateASFStreamingMediaSinkActivate
+// removed: not in win32metadata: MFCreateByteCacheFile
+// removed: not in win32metadata: MFCreateCacheManager
+MFCreateCredentialCache
+// removed: not in win32metadata: MFCreateDrmNetNDSchemePlugin
+MFCreateFMPEG4MediaSink
+// removed: not in win32metadata: MFCreateFileBlockMap
+// removed: not in win32metadata: MFCreateHttpSchemePlugin
+// removed: not in win32metadata: MFCreateLPCMByteStreamPlugin
+// removed: not in win32metadata: MFCreateMP3ByteStreamPlugin
+MFCreateMP3MediaSink
+MFCreateMPEG4MediaSink
+MFCreateMuxSink
+// removed: not in win32metadata: MFCreateNSCByteStreamPlugin
+MFCreateNetSchemePlugin
+MFCreatePresentationDescriptorFromASFProfile
+MFCreateProtectedEnvironmentAccess
+MFCreateProxyLocator
+MFCreateRemoteDesktopPlugin
+// removed: not in win32metadata: MFCreateSAMIByteStreamPlugin
+// removed: not in win32metadata: MFCreateSecureHttpSchemePlugin
+MFCreateSourceResolver
+// removed: not in win32metadata: MFCreateUrlmonSchemePlugin
+MFCreateVideoRenderer
+MFCreateVideoRendererActivate
+MFGetLocalId
+MFGetSupportedMimeTypes
+MFGetSupportedSchemes
+MFGetSystemId
+MFLoadSignedLibrary
+// removed: not in win32metadata: MFRR_CreateActivate
+MFShutdownObject
+
+// === mfplat.dll (204 candidates) ===
+// removed: not in win32metadata: CopyPropVariant
+// removed: not in win32metadata: CreatePropVariant
+CreatePropertyStore
+// removed: not in win32metadata: DestroyPropVariant
+// removed: not in win32metadata: FormatTagFromWfx
+// removed: not in win32metadata: GetAMSubtypeFromD3DFormat
+// removed: not in win32metadata: GetD3DFormatFromMFSubtype
+MFAllocateWorkQueue
+// removed: not in win32metadata: MFAppendCollection
+MFAverageTimePerFrameToFrameRate
+MFBeginCreateFile
+// removed: not in win32metadata: MFBeginGetHostByName
+MFBeginRegisterWorkQueueWithMMCSS
+MFCalculateBitmapImageSize
+MFCalculateImageSize
+// removed: not in win32metadata: MFCallStackTracingClearSnapshot
+// removed: not in win32metadata: MFCallStackTracingLogSessionErrors
+// removed: not in win32metadata: MFCallStackTracingRestoreSnapshot
+// removed: not in win32metadata: MFCallStackTracingTakeSnapshot
+MFCancelCreateFile
+// removed: not in win32metadata: MFCheckEnabledViaAppService
+// removed: not in win32metadata: MFClearLocalMFTs
+MFCombineSamples
+MFCompareFullToPartialMediaType
+// removed: not in win32metadata: MFCompareSockaddrAddresses
+MFConvertColorInfoFromDXVA
+MFConvertColorInfoToDXVA
+MFConvertFromFP16Array
+MFConvertToFP16Array
+MFCopyImage
+MFCreate2DMediaBuffer
+// removed: not in win32metadata: MFCreate2DMediaBufferOn1DMediaBuffer
+MFCreateAMMediaTypeFromMFMediaType
+MFCreateAlignedMemoryBuffer
+// removed: not in win32metadata: MFCreateAlignedSharedMemoryBuffer
+MFCreateAttributes
+MFCreateAudioMediaType
+// removed: not in win32metadata: MFCreateByteStreamHandlerAppServiceActivate
+MFCreateCollection
+MFCreateContentDecryptorContext
+MFCreateContentProtectionDevice
+MFCreateD3D12SynchronizationObject
+MFCreateDXGIDeviceManager
+MFCreateDXGISurfaceBuffer
+MFCreateDXSurfaceBuffer
+// removed: not in win32metadata: MFCreateEMEStoreObject
+MFCreateEventQueue
+MFCreateFile
+// removed: not in win32metadata: MFCreateFileFromHandle
+MFCreateLegacyMediaBufferOnMFMediaBuffer
+// removed: not in win32metadata: MFCreateMFByteStreamOnIStreamWithFlags
+MFCreateMFByteStreamOnStream
+MFCreateMFByteStreamOnStreamEx
+MFCreateMFByteStreamWrapper
+MFCreateMFVideoFormatFromMFMediaType
+MFCreateMediaBufferFromMediaType
+MFCreateMediaBufferWrapper
+MFCreateMediaEvent
+// removed: not in win32metadata: MFCreateMediaEventResult
+MFCreateMediaExtensionActivate
+// removed: not in win32metadata: MFCreateMediaExtensionActivateNoInit
+// removed: not in win32metadata: MFCreateMediaExtensionAppServiceActivate
+// removed: not in win32metadata: MFCreateMediaExtensionInprocActivate
+MFCreateMediaType
+MFCreateMediaTypeFromProperties
+MFCreateMediaTypeFromRepresentation
+MFCreateMemoryBuffer
+// removed: not in win32metadata: MFCreateMemoryBufferFromRawBuffer
+// removed: not in win32metadata: MFCreateMemoryStream
+MFCreateMuxStreamAttributes
+MFCreateMuxStreamMediaType
+MFCreateMuxStreamSample
+// removed: not in win32metadata: MFCreateOOPMFTProxy
+// removed: not in win32metadata: MFCreateOOPMFTRemote
+// removed: not in win32metadata: MFCreatePathFromURL
+MFCreatePresentationDescriptor
+MFCreatePropertiesFromMediaType
+// removed: not in win32metadata: MFCreateReusableByteStream
+// removed: not in win32metadata: MFCreateReusableByteStreamWithSharedLock
+MFCreateSample
+// removed: not in win32metadata: MFCreateSecureBufferAllocator
+// removed: not in win32metadata: MFCreateSharedMemoryMediaBufferFromMediaType
+// removed: not in win32metadata: MFCreateSocket
+// removed: not in win32metadata: MFCreateSocketListener
+MFCreateSourceResolver
+// removed: not in win32metadata: MFCreateStagingSurfaceWrapper
+MFCreateStreamDescriptor
+MFCreateStreamOnMFByteStream
+MFCreateStreamOnMFByteStreamEx
+MFCreateSystemTimeSource
+// removed: not in win32metadata: MFCreateTelemetrySession
+MFCreateTempFile
+MFCreateTrackedSample
+MFCreateTransformActivate
+// removed: not in win32metadata: MFCreateURLFromPath
+// removed: not in win32metadata: MFCreateUdpSockets
+// removed: not in win32metadata: MFCreateVideoDecryptorContext
+MFCreateVideoMediaType
+MFCreateVideoMediaTypeFromBitMapInfoHeader
+MFCreateVideoMediaTypeFromBitMapInfoHeaderEx
+MFCreateVideoMediaTypeFromSubtype
+// removed: not in win32metadata: MFCreateVideoMediaTypeFromVideoInfoHeader
+// removed: not in win32metadata: MFCreateVideoMediaTypeFromVideoInfoHeader2
+MFCreateVideoSampleAllocatorEx
+MFCreateWICBitmapBuffer
+// removed: not in win32metadata: MFCreateWICDecoderProxy
+MFCreateWaveFormatExFromMFMediaType
+MFDeserializeAttributesFromStream
+// removed: not in win32metadata: MFDeserializeEvent
+// removed: not in win32metadata: MFDeserializeMediaTypeFromStream
+MFDeserializePresentationDescriptor
+MFEndCreateFile
+// removed: not in win32metadata: MFEndGetHostByName
+// removed: not in win32metadata: MFEnumLocalMFTRegistrations
+MFFrameRateToAverageTimePerFrame
+// removed: not in win32metadata: MFFreeAdaptersAddresses
+// removed: not in win32metadata: MFGetAdaptersAddresses
+MFGetAttributesAsBlob
+MFGetAttributesAsBlobSize
+// removed: not in win32metadata: MFGetCallStackTracingWeakReference
+// removed: not in win32metadata: MFGetConfigurationDWORD
+// removed: not in win32metadata: MFGetConfigurationPolicy
+// removed: not in win32metadata: MFGetConfigurationStore
+// removed: not in win32metadata: MFGetConfigurationString
+MFGetContentProtectionSystemCLSID
+MFGetMFTMerit
+// removed: not in win32metadata: MFGetNumericNameFromSockaddr
+MFGetPlaneSize
+// removed: not in win32metadata: MFGetPlatformFlags
+// removed: not in win32metadata: MFGetPlatformVersion
+MFGetPluginControl
+// removed: not in win32metadata: MFGetRandomNumber
+// removed: not in win32metadata: MFGetSockaddrFromNumericName
+MFGetStrideForBitmapInfoHeader
+MFGetSupportedMimeTypes
+MFGetSupportedSchemes
+MFGetSystemTime
+MFGetTimerPeriodicity
+MFGetUncompressedVideoFormat
+// removed: not in win32metadata: MFHasLocallyRegisteredByteStreamHandlers
+// removed: not in win32metadata: MFHasLocallyRegisteredSchemeHandlers
+MFHeapAlloc
+MFHeapFree
+MFInitAMMediaTypeFromMFMediaType
+MFInitAttributesFromBlob
+MFInitMediaTypeFromAMMediaType
+MFInitMediaTypeFromMFVideoFormat
+MFInitMediaTypeFromMPEG1VideoInfo
+MFInitMediaTypeFromMPEG2VideoInfo
+MFInitMediaTypeFromVideoInfoHeader
+MFInitMediaTypeFromVideoInfoHeader2
+MFInitMediaTypeFromWaveFormatEx
+MFInitVideoFormat
+MFInitVideoFormat_RGB
+// removed: not in win32metadata: MFInvalidateMFTEnumCache
+// removed: not in win32metadata: MFIsBottomUpFormat
+MFIsContentProtectionDeviceSupported
+// removed: not in win32metadata: MFIsFeatureEnabled
+// removed: not in win32metadata: MFIsLocallyRegisteredMimeType
+// removed: not in win32metadata: MFIsLocallyRegisteredSchemeHandler
+MFLockDXGIDeviceManager
+MFMapDX9FormatToDXGIFormat
+MFMapDXGIFormatToDX9Format
+// removed: not in win32metadata: MFPlatformBigEndian
+// removed: not in win32metadata: MFPlatformLittleEndian
+MFPutWorkItem
+MFPutWorkItem2
+MFPutWorkItemEx
+MFPutWorkItemEx2
+MFRegisterLocalByteStreamHandler
+MFRegisterLocalSchemeHandler
+MFScheduleWorkItem
+MFSerializeAttributesToStream
+// removed: not in win32metadata: MFSerializeEvent
+// removed: not in win32metadata: MFSerializeMediaTypeToStream
+MFSerializePresentationDescriptor
+// removed: not in win32metadata: MFSetMinimumMemoryAlignment
+// removed: not in win32metadata: MFSetSockaddrAny
+// removed: not in win32metadata: MFSetWindowForContentProtection
+MFShutdown
+MFSplitSample
+MFStartup
+// removed: not in win32metadata: MFStreamDescriptorProtectMediaType
+MFTEnum
+MFTEnum2
+MFTEnumEx
+MFTGetInfo
+MFTRegister
+MFTRegisterLocal
+MFTRegisterLocalByCLSID
+MFTUnregister
+MFTUnregisterLocal
+MFTUnregisterLocalByCLSID
+// removed: not in win32metadata: MFTraceError
+// removed: not in win32metadata: MFTraceFuncEnter
+MFUnlockDXGIDeviceManager
+MFUnwrapMediaType
+MFValidateMediaTypeSize
+MFWrapMediaType
+// removed: not in win32metadata: MFWrapSocket
+MFllMulDiv
+// removed: not in win32metadata: PropVariantFromStream
+// removed: not in win32metadata: PropVariantToStream
+// removed: not in win32metadata: ValidateWaveFormat
+
+// === mfreadwrite.dll (5 candidates) ===
+MFCreateSinkWriterFromMediaSink
+MFCreateSinkWriterFromURL
+MFCreateSourceReaderFromByteStream
+MFCreateSourceReaderFromMediaSource
+MFCreateSourceReaderFromURL
+
+// === evr.dll (24 candidates) ===
+MFConvertColorInfoFromDXVA
+MFConvertColorInfoToDXVA
+MFConvertFromFP16Array
+MFConvertToFP16Array
+MFCopyImage
+MFCreateDXSurfaceBuffer
+MFCreateVideoMediaType
+MFCreateVideoMediaTypeFromBitMapInfoHeader
+MFCreateVideoMediaTypeFromSubtype
+// removed: not in win32metadata: MFCreateVideoMediaTypeFromVideoInfoHeader
+// removed: not in win32metadata: MFCreateVideoMediaTypeFromVideoInfoHeader2
+MFCreateVideoMixer
+MFCreateVideoMixerAndPresenter
+// removed: not in win32metadata: MFCreateVideoOTA
+MFCreateVideoPresenter
+// removed: not in win32metadata: MFCreateVideoPresenter2
+MFCreateVideoSampleAllocator
+MFCreateVideoSampleFromSurface
+MFGetPlaneSize
+MFGetStrideForBitmapInfoHeader
+MFGetUncompressedVideoFormat
+MFInitVideoFormat
+MFInitVideoFormat_RGB
+MFIsFormatYUV
+
+// === wmvcore.dll (20 candidates) ===
+// removed: not in win32metadata: WMCheckURLExtension
+// removed: not in win32metadata: WMCheckURLScheme
+WMCreateBackupRestorer
+// removed: not in win32metadata: WMCreateBackupRestorerPrivate
+WMCreateEditor
+WMCreateIndexer
+// removed: not in win32metadata: WMCreateLicenseRevocationAgentPrivate
+WMCreateProfileManager
+WMCreateReader
+// removed: not in win32metadata: WMCreateReaderPriv
+WMCreateSyncReader
+// removed: not in win32metadata: WMCreateSyncReaderPriv
+WMCreateWriter
+WMCreateWriterFileSink
+WMCreateWriterNetworkSink
+// removed: not in win32metadata: WMCreateWriterPriv
+WMCreateWriterPushSink
+// removed: not in win32metadata: WMIsAvailableOffline
+WMIsContentProtected
+// removed: not in win32metadata: WMValidateData
+
+// === avrt.dll (17 candidates) ===
+// removed: not in win32metadata: AvCreateTaskIndex
+AvQuerySystemResponsiveness
+// removed: not in win32metadata: AvQueryTaskIndexValue
+AvRevertMmThreadCharacteristics
+AvRtCreateThreadOrderingGroup
+AvRtCreateThreadOrderingGroupEx
+AvRtDeleteThreadOrderingGroup
+AvRtJoinThreadOrderingGroup
+AvRtLeaveThreadOrderingGroup
+AvRtWaitOnThreadOrderingGroup
+AvSetMmMaxThreadCharacteristics
+AvSetMmThreadCharacteristics
+AvSetMmThreadPriority
+// removed: not in win32metadata: AvSetMultimediaMode
+// removed: not in win32metadata: AvTaskIndexYield
+// removed: not in win32metadata: AvTaskIndexYieldCancel
+// removed: not in win32metadata: AvThreadOpenTaskIndex

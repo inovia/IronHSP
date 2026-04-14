@@ -940,6 +940,15 @@
     #field int cyItem
 #endstruct
 
+#defstruct AM_MEDIA_TYPE
+    #field int bFixedSizeSamples
+    #field int bTemporalCompression
+    #field int lSampleSize
+    #field var pUnk
+    #field int cbFormat
+    #field var pbFormat
+#endstruct
+
 #defstruct API_VERSION
     #field int MajorVersion
     #field int MinorVersion
@@ -980,6 +989,15 @@
 #defstruct ARRAYDESC
     #field int tdescElem
     #field int cDims
+#endstruct
+
+#defstruct ASF_INDEX_IDENTIFIER
+    #field int wStreamNumber
+#endstruct
+
+#defstruct ASF_MUX_STATISTICS
+    #field int cFramesWritten
+    #field int cFramesDropped
 #endstruct
 
 #defstruct AUDIT_POLICY_INFORMATION
@@ -3261,6 +3279,564 @@
     #field float Height
     #field float MinDepth
     #field float MaxDepth
+#endstruct
+
+#defstruct D3D12_BLEND_DESC
+    #field int AlphaToCoverageEnable
+    #field int IndependentBlendEnable
+    #field int RenderTarget
+#endstruct
+
+#defstruct D3D12_BOX
+    #field int left
+    #field int top
+    #field int front
+    #field int right
+    #field int bottom
+    #field int back
+#endstruct
+
+#defstruct D3D12_BUFFER_RTV
+    #field int64 FirstElement
+    #field int NumElements
+#endstruct
+
+#defstruct D3D12_BUFFER_SRV
+    #field int64 FirstElement
+    #field int NumElements
+    #field int StructureByteStride
+    #field int Flags
+#endstruct
+
+#defstruct D3D12_BUFFER_UAV
+    #field int64 FirstElement
+    #field int NumElements
+    #field int StructureByteStride
+    #field int64 CounterOffsetInBytes
+    #field int Flags
+#endstruct
+
+#defstruct D3D12_CACHED_PIPELINE_STATE
+    #field var pCachedBlob
+    #field int CachedBlobSizeInBytes
+#endstruct
+
+#defstruct D3D12_CLEAR_VALUE
+    #field int Format
+    #field var Anonymous
+    #field int Color
+    #field int DepthStencil
+#endstruct
+
+#defstruct D3D12_COMMAND_QUEUE_DESC
+    #field int Type
+    #field int Priority
+    #field int Flags
+    #field int NodeMask
+#endstruct
+
+#defstruct D3D12_COMMAND_SIGNATURE_DESC
+    #field int ByteStride
+    #field int NumArgumentDescs
+    #field var pArgumentDescs
+    #field int NodeMask
+#endstruct
+
+#defstruct D3D12_COMPUTE_PIPELINE_STATE_DESC
+    #field var pRootSignature
+    #field int CS
+    #field int NodeMask
+    #field var CachedPSO
+    #field int Flags
+#endstruct
+
+#defstruct D3D12_CONSTANT_BUFFER_VIEW_DESC
+    #field int64 BufferLocation
+    #field int SizeInBytes
+#endstruct
+
+#defstruct D3D12_CPU_DESCRIPTOR_HANDLE
+    #field int ptr
+#endstruct
+
+#defstruct D3D12_DEPTH_STENCIL_DESC
+    #field int DepthEnable
+    #field int DepthWriteMask
+    #field int DepthFunc
+    #field int StencilEnable
+    #field int StencilReadMask
+    #field int StencilWriteMask
+    #field int FrontFace
+    #field int BackFace
+#endstruct
+
+#defstruct D3D12_DEPTH_STENCIL_VALUE
+    #field float Depth
+    #field int Stencil
+#endstruct
+
+#defstruct D3D12_DEPTH_STENCIL_VIEW_DESC
+    #field int Format
+    #field int ViewDimension
+    #field int Flags
+    #field var Anonymous
+    #field int Texture1D
+    #field int Texture1DArray
+    #field int Texture2D
+    #field int Texture2DArray
+    #field int Texture2DMS
+    #field int Texture2DMSArray
+#endstruct
+
+#defstruct D3D12_DEPTH_STENCILOP_DESC
+    #field int StencilFailOp
+    #field int StencilDepthFailOp
+    #field int StencilPassOp
+    #field int StencilFunc
+#endstruct
+
+#defstruct D3D12_DESCRIPTOR_HEAP_DESC
+    #field int Type
+    #field int NumDescriptors
+    #field int Flags
+    #field int NodeMask
+#endstruct
+
+#defstruct D3D12_GRAPHICS_PIPELINE_STATE_DESC
+    #field var pRootSignature
+    #field int VS
+    #field int PS
+    #field int DS
+    #field int HS
+    #field int GS
+    #field int StreamOutput
+    #field var BlendState
+    #field int SampleMask
+    #field int RasterizerState
+    #field var DepthStencilState
+    #field int InputLayout
+    #field int IBStripCutValue
+    #field int PrimitiveTopologyType
+    #field int NumRenderTargets
+    #field int RTVFormats
+    #field int DSVFormat
+    #field int SampleDesc
+    #field int NodeMask
+    #field var CachedPSO
+    #field int Flags
+#endstruct
+
+#defstruct D3D12_HEAP_DESC
+    #field int64 SizeInBytes
+    #field int Properties
+    #field int64 Alignment
+    #field int Flags
+#endstruct
+
+#defstruct D3D12_HEAP_PROPERTIES
+    #field int Type
+    #field int CPUPageProperty
+    #field int MemoryPoolPreference
+    #field int CreationNodeMask
+    #field int VisibleNodeMask
+#endstruct
+
+#defstruct D3D12_INDIRECT_ARGUMENT_DESC
+    #field int Type
+    #field var Anonymous
+    #field int VertexBuffer
+    #field int Constant
+    #field int ConstantBufferView
+    #field int ShaderResourceView
+    #field int UnorderedAccessView
+    #field int IncrementingConstant
+    #field int Slot
+    #field int RootParameterIndex
+    #field int DestOffsetIn32BitValues
+    #field int Num32BitValuesToSet
+    #field int RootParameterIndex
+    #field int RootParameterIndex
+    #field int RootParameterIndex
+    #field int RootParameterIndex
+    #field int DestOffsetIn32BitValues
+#endstruct
+
+#defstruct _VertexBuffer_e__Struct
+    #field int Slot
+#endstruct
+
+#defstruct _Constant_e__Struct
+    #field int RootParameterIndex
+    #field int DestOffsetIn32BitValues
+    #field int Num32BitValuesToSet
+#endstruct
+
+#defstruct _ConstantBufferView_e__Struct
+    #field int RootParameterIndex
+#endstruct
+
+#defstruct _ShaderResourceView_e__Struct
+    #field int RootParameterIndex
+#endstruct
+
+#defstruct _UnorderedAccessView_e__Struct
+    #field int RootParameterIndex
+#endstruct
+
+#defstruct _IncrementingConstant_e__Struct
+    #field int RootParameterIndex
+    #field int DestOffsetIn32BitValues
+#endstruct
+
+#defstruct D3D12_INPUT_ELEMENT_DESC
+    #field str SemanticName
+    #field int SemanticIndex
+    #field int Format
+    #field int InputSlot
+    #field int AlignedByteOffset
+    #field int InputSlotClass
+    #field int InstanceDataStepRate
+#endstruct
+
+#defstruct D3D12_INPUT_LAYOUT_DESC
+    #field var pInputElementDescs
+    #field int NumElements
+#endstruct
+
+#defstruct D3D12_PACKED_MIP_INFO
+    #field int NumStandardMips
+    #field int NumPackedMips
+    #field int NumTilesForPackedMips
+    #field int StartTileIndexInOverallResource
+#endstruct
+
+#defstruct D3D12_PLACED_SUBRESOURCE_FOOTPRINT
+    #field int64 Offset
+    #field int Footprint
+#endstruct
+
+#defstruct D3D12_QUERY_HEAP_DESC
+    #field int Type
+    #field int Count
+    #field int NodeMask
+#endstruct
+
+#defstruct D3D12_RANGE
+    #field int Begin
+    #field int End
+#endstruct
+
+#defstruct D3D12_RASTERIZER_DESC
+    #field int FillMode
+    #field int CullMode
+    #field int FrontCounterClockwise
+    #field int DepthBias
+    #field float DepthBiasClamp
+    #field float SlopeScaledDepthBias
+    #field int DepthClipEnable
+    #field int MultisampleEnable
+    #field int AntialiasedLineEnable
+    #field int ForcedSampleCount
+    #field int ConservativeRaster
+#endstruct
+
+#defstruct D3D12_RAYTRACING_ACCELERATION_STRUCTURE_SRV
+    #field int64 Location
+#endstruct
+
+#defstruct D3D12_RENDER_TARGET_BLEND_DESC
+    #field int BlendEnable
+    #field int LogicOpEnable
+    #field int SrcBlend
+    #field int DestBlend
+    #field int BlendOp
+    #field int SrcBlendAlpha
+    #field int DestBlendAlpha
+    #field int BlendOpAlpha
+    #field int LogicOp
+    #field int RenderTargetWriteMask
+#endstruct
+
+#defstruct D3D12_RENDER_TARGET_VIEW_DESC
+    #field int Format
+    #field int ViewDimension
+    #field var Anonymous
+    #field var Buffer
+    #field int Texture1D
+    #field int Texture1DArray
+    #field int Texture2D
+    #field int Texture2DArray
+    #field int Texture2DMS
+    #field int Texture2DMSArray
+    #field int Texture3D
+#endstruct
+
+#defstruct D3D12_RESOURCE_ALLOCATION_INFO
+    #field int64 SizeInBytes
+    #field int64 Alignment
+#endstruct
+
+#defstruct D3D12_RESOURCE_DESC
+    #field int Dimension
+    #field int64 Alignment
+    #field int64 Width
+    #field int Height
+    #field int DepthOrArraySize
+    #field int MipLevels
+    #field int Format
+    #field int SampleDesc
+    #field int Layout
+    #field int Flags
+#endstruct
+
+#defstruct D3D12_SAMPLER_DESC
+    #field int Filter
+    #field int AddressU
+    #field int AddressV
+    #field int AddressW
+    #field float MipLODBias
+    #field int MaxAnisotropy
+    #field int ComparisonFunc
+    #field int BorderColor
+    #field float MinLOD
+    #field float MaxLOD
+#endstruct
+
+#defstruct D3D12_SHADER_BYTECODE
+    #field var pShaderBytecode
+    #field int BytecodeLength
+#endstruct
+
+#defstruct D3D12_SHADER_RESOURCE_VIEW_DESC
+    #field int Format
+    #field int ViewDimension
+    #field int Shader4ComponentMapping
+    #field var Anonymous
+    #field var Buffer
+    #field int Texture1D
+    #field int Texture1DArray
+    #field int Texture2D
+    #field int Texture2DArray
+    #field int Texture2DMS
+    #field int Texture2DMSArray
+    #field int Texture3D
+    #field int TextureCube
+    #field int TextureCubeArray
+    #field var RaytracingAccelerationStructure
+#endstruct
+
+#defstruct D3D12_SO_DECLARATION_ENTRY
+    #field int Stream
+    #field str SemanticName
+    #field int SemanticIndex
+    #field int StartComponent
+    #field int ComponentCount
+    #field int OutputSlot
+#endstruct
+
+#defstruct D3D12_STREAM_OUTPUT_DESC
+    #field var pSODeclaration
+    #field int NumEntries
+    #field var pBufferStrides
+    #field int NumStrides
+    #field int RasterizedStream
+#endstruct
+
+#defstruct D3D12_SUBRESOURCE_FOOTPRINT
+    #field int Format
+    #field int Width
+    #field int Height
+    #field int Depth
+    #field int RowPitch
+#endstruct
+
+#defstruct D3D12_SUBRESOURCE_TILING
+    #field int WidthInTiles
+    #field int HeightInTiles
+    #field int DepthInTiles
+    #field int StartTileIndexInOverallResource
+#endstruct
+
+#defstruct D3D12_TEX1D_ARRAY_DSV
+    #field int MipSlice
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D12_TEX1D_ARRAY_RTV
+    #field int MipSlice
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D12_TEX1D_ARRAY_SRV
+    #field int MostDetailedMip
+    #field int MipLevels
+    #field int FirstArraySlice
+    #field int ArraySize
+    #field float ResourceMinLODClamp
+#endstruct
+
+#defstruct D3D12_TEX1D_ARRAY_UAV
+    #field int MipSlice
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D12_TEX1D_DSV
+    #field int MipSlice
+#endstruct
+
+#defstruct D3D12_TEX1D_RTV
+    #field int MipSlice
+#endstruct
+
+#defstruct D3D12_TEX1D_SRV
+    #field int MostDetailedMip
+    #field int MipLevels
+    #field float ResourceMinLODClamp
+#endstruct
+
+#defstruct D3D12_TEX1D_UAV
+    #field int MipSlice
+#endstruct
+
+#defstruct D3D12_TEX2D_ARRAY_DSV
+    #field int MipSlice
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D12_TEX2D_ARRAY_RTV
+    #field int MipSlice
+    #field int FirstArraySlice
+    #field int ArraySize
+    #field int PlaneSlice
+#endstruct
+
+#defstruct D3D12_TEX2D_ARRAY_SRV
+    #field int MostDetailedMip
+    #field int MipLevels
+    #field int FirstArraySlice
+    #field int ArraySize
+    #field int PlaneSlice
+    #field float ResourceMinLODClamp
+#endstruct
+
+#defstruct D3D12_TEX2D_ARRAY_UAV
+    #field int MipSlice
+    #field int FirstArraySlice
+    #field int ArraySize
+    #field int PlaneSlice
+#endstruct
+
+#defstruct D3D12_TEX2D_DSV
+    #field int MipSlice
+#endstruct
+
+#defstruct D3D12_TEX2D_RTV
+    #field int MipSlice
+    #field int PlaneSlice
+#endstruct
+
+#defstruct D3D12_TEX2D_SRV
+    #field int MostDetailedMip
+    #field int MipLevels
+    #field int PlaneSlice
+    #field float ResourceMinLODClamp
+#endstruct
+
+#defstruct D3D12_TEX2D_UAV
+    #field int MipSlice
+    #field int PlaneSlice
+#endstruct
+
+#defstruct D3D12_TEX2DMS_ARRAY_DSV
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D12_TEX2DMS_ARRAY_RTV
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D12_TEX2DMS_ARRAY_SRV
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D12_TEX2DMS_ARRAY_UAV
+    #field int FirstArraySlice
+    #field int ArraySize
+#endstruct
+
+#defstruct D3D12_TEX2DMS_DSV
+    #field int UnusedField_NothingToDefine
+#endstruct
+
+#defstruct D3D12_TEX2DMS_RTV
+    #field int UnusedField_NothingToDefine
+#endstruct
+
+#defstruct D3D12_TEX2DMS_SRV
+    #field int UnusedField_NothingToDefine
+#endstruct
+
+#defstruct D3D12_TEX2DMS_UAV
+    #field int UnusedField_NothingToDefine
+#endstruct
+
+#defstruct D3D12_TEX3D_RTV
+    #field int MipSlice
+    #field int FirstWSlice
+    #field int WSize
+#endstruct
+
+#defstruct D3D12_TEX3D_SRV
+    #field int MostDetailedMip
+    #field int MipLevels
+    #field float ResourceMinLODClamp
+#endstruct
+
+#defstruct D3D12_TEX3D_UAV
+    #field int MipSlice
+    #field int FirstWSlice
+    #field int WSize
+#endstruct
+
+#defstruct D3D12_TEXCUBE_ARRAY_SRV
+    #field int MostDetailedMip
+    #field int MipLevels
+    #field int First2DArrayFace
+    #field int NumCubes
+    #field float ResourceMinLODClamp
+#endstruct
+
+#defstruct D3D12_TEXCUBE_SRV
+    #field int MostDetailedMip
+    #field int MipLevels
+    #field float ResourceMinLODClamp
+#endstruct
+
+#defstruct D3D12_TILE_SHAPE
+    #field int WidthInTexels
+    #field int HeightInTexels
+    #field int DepthInTexels
+#endstruct
+
+#defstruct D3D12_UNORDERED_ACCESS_VIEW_DESC
+    #field int Format
+    #field int ViewDimension
+    #field var Anonymous
+    #field var Buffer
+    #field var Texture1D
+    #field var Texture1DArray
+    #field var Texture2D
+    #field var Texture2DArray
+    #field var Texture2DMS
+    #field var Texture2DMSArray
+    #field var Texture3D
 #endstruct
 
 #defstruct DATETIME
@@ -6606,6 +7182,104 @@
     #field int vtReturn
 #endstruct
 
+#defstruct MF_SINK_WRITER_STATISTICS
+    #field int cb
+    #field int64 llLastTimestampReceived
+    #field int64 llLastTimestampEncoded
+    #field int64 llLastTimestampProcessed
+    #field int64 llLastStreamTickReceived
+    #field int64 llLastSinkSampleRequest
+    #field int64 qwNumSamplesReceived
+    #field int64 qwNumSamplesEncoded
+    #field int64 qwNumSamplesProcessed
+    #field int64 qwNumStreamTicksReceived
+    #field int dwByteCountQueued
+    #field int64 qwByteCountProcessed
+    #field int dwNumOutstandingSinkSampleRequests
+    #field int dwAverageSampleRateReceived
+    #field int dwAverageSampleRateEncoded
+    #field int dwAverageSampleRateProcessed
+#endstruct
+
+#defstruct MFARGB
+    #field int rgbBlue
+    #field int rgbGreen
+    #field int rgbRed
+    #field int rgbAlpha
+#endstruct
+
+#defstruct MFAYUVSample
+    #field int bCrValue
+    #field int bCbValue
+    #field int bYValue
+    #field int bSampleAlpha8
+#endstruct
+
+#defstruct MFCLOCK_PROPERTIES
+    #field int64 qwCorrelationRate
+    #field int dwClockFlags
+    #field int64 qwClockFrequency
+    #field int dwClockTolerance
+    #field int dwClockJitter
+#endstruct
+
+#defstruct MFOffset
+    #field int fract
+    #field int value
+#endstruct
+
+#defstruct MFPaletteEntry
+    #field var ARGB
+    #field var AYCbCr
+#endstruct
+
+#defstruct MFRatio
+    #field int Numerator
+    #field int Denominator
+#endstruct
+
+#defstruct MFVideoArea
+    #field var OffsetX
+    #field var OffsetY
+    #field int Area
+#endstruct
+
+#defstruct MFVideoCompressedInfo
+    #field int64 AvgBitrate
+    #field int64 AvgBitErrorRate
+    #field int MaxKeyFrameSpacing
+#endstruct
+
+#defstruct MFVIDEOFORMAT
+    #field int dwSize
+    #field int videoInfo
+    #field var compressedInfo
+    #field int surfaceInfo
+#endstruct
+
+#defstruct MFVideoInfo
+    #field int dwWidth
+    #field int dwHeight
+    #field var PixelAspectRatio
+    #field int SourceChromaSubsampling
+    #field int InterlaceMode
+    #field int TransferFunction
+    #field int ColorPrimaries
+    #field int TransferMatrix
+    #field int SourceLighting
+    #field var FramesPerSecond
+    #field int NominalRange
+    #field var GeometricAperture
+    #field var MinimumDisplayAperture
+    #field var PanScanAperture
+    #field int64 VideoFlags
+#endstruct
+
+#defstruct MFVideoSurfaceInfo
+    #field int Format
+    #field int PaletteEntries
+#endstruct
+
 #defstruct MIB_ANYCASTIPADDRESS_ROW
     #field int Address
     #field int InterfaceLuid
@@ -7411,6 +8085,21 @@
     #field int y
     #field int time
     #field int dwExtraInfo
+#endstruct
+
+#defstruct MPEG1VIDEOINFO
+    #field int hdr
+    #field int dwStartTimeCode
+    #field int cbSequenceHeader
+#endstruct
+
+#defstruct MPEG2VIDEOINFO
+    #field int hdr
+    #field int dwStartTimeCode
+    #field int cbSequenceHeader
+    #field int dwProfile
+    #field int dwLevel
+    #field int dwFlags
 #endstruct
 
 #defstruct MS_ADDINFO_BLOB
@@ -9664,6 +10353,32 @@
     #field var pStream
 #endstruct
 
+#defstruct VIDEOINFOHEADER
+    #field var rcSource
+    #field var rcTarget
+    #field int dwBitRate
+    #field int dwBitErrorRate
+    #field int64 AvgTimePerFrame
+    #field var bmiHeader
+#endstruct
+
+#defstruct VIDEOINFOHEADER2
+    #field var rcSource
+    #field var rcTarget
+    #field int dwBitRate
+    #field int dwBitErrorRate
+    #field int64 AvgTimePerFrame
+    #field int dwInterlaceFlags
+    #field int dwCopyProtectFlags
+    #field int dwPictAspectRatioX
+    #field int dwPictAspectRatioY
+    #field var Anonymous
+    #field int dwReserved2
+    #field var bmiHeader
+    #field int dwControlFlags
+    #field int dwReserved1
+#endstruct
+
 #defstruct WAITCHAIN_NODE_INFO
     #field int ObjectType
     #field int ObjectStatus
@@ -10079,6 +10794,15 @@
     #field int dwNumberOfItems
     #field int dwDataOffset
     #field int dwDataSize
+#endstruct
+
+#defstruct WM_MEDIA_TYPE
+    #field int bFixedSizeSamples
+    #field int bTemporalCompression
+    #field int lSampleSize
+    #field var pUnk
+    #field int cbFormat
+    #field var pbFormat
 #endstruct
 
 #defstruct WmfPlaceableFileHeader
@@ -11037,6 +11761,15 @@
 #define AD_COUNTERCLOCKWISE  0x1
 #define AD_CLOCKWISE  0x2
 
+; ASF_SELECTION_STATUS
+#define ASF_STATUS_NOTSELECTED  0x0
+#define ASF_STATUS_CLEANPOINTSONLY  0x1
+#define ASF_STATUS_ALLDATAUNITS  0x2
+
+; ASF_STATUSFLAGS
+#define ASF_STATUSFLAGS_INCOMPLETE  0x1
+#define ASF_STATUSFLAGS_NONFATAL_ERROR  0x2
+
 ; ASSOC_FILTER
 #define ASSOC_FILTER_NONE  0x0
 #define ASSOC_FILTER_RECOMMENDED  0x1
@@ -11060,6 +11793,13 @@
 ; AUDIT_EVENT_TYPE
 #define AuditEventObjectAccess  0x0
 #define AuditEventDirectoryServiceAccess  0x1
+
+; AVRT_PRIORITY
+#define AVRT_PRIORITY_VERYLOW  -2
+#define AVRT_PRIORITY_LOW  -1
+#define AVRT_PRIORITY_NORMAL  0x0
+#define AVRT_PRIORITY_HIGH  0x1
+#define AVRT_PRIORITY_CRITICAL  0x2
 
 ; BACKGROUND_MODE
 #define OPAQUE  0x2
@@ -12528,6 +13268,415 @@
 #define D3D11_USAGE_DYNAMIC  0x2
 #define D3D11_USAGE_STAGING  0x3
 
+; D3D12_BLEND
+#define D3D12_BLEND_ZERO  0x1
+#define D3D12_BLEND_ONE  0x2
+#define D3D12_BLEND_SRC_COLOR  0x3
+#define D3D12_BLEND_INV_SRC_COLOR  0x4
+#define D3D12_BLEND_SRC_ALPHA  0x5
+#define D3D12_BLEND_INV_SRC_ALPHA  0x6
+#define D3D12_BLEND_DEST_ALPHA  0x7
+#define D3D12_BLEND_INV_DEST_ALPHA  0x8
+#define D3D12_BLEND_DEST_COLOR  0x9
+#define D3D12_BLEND_INV_DEST_COLOR  0xa
+#define D3D12_BLEND_SRC_ALPHA_SAT  0xb
+#define D3D12_BLEND_BLEND_FACTOR  0xe
+#define D3D12_BLEND_INV_BLEND_FACTOR  0xf
+#define D3D12_BLEND_SRC1_COLOR  0x10
+#define D3D12_BLEND_INV_SRC1_COLOR  0x11
+#define D3D12_BLEND_SRC1_ALPHA  0x12
+#define D3D12_BLEND_INV_SRC1_ALPHA  0x13
+#define D3D12_BLEND_ALPHA_FACTOR  0x14
+#define D3D12_BLEND_INV_ALPHA_FACTOR  0x15
+
+; D3D12_BLEND_OP
+#define D3D12_BLEND_OP_ADD  0x1
+#define D3D12_BLEND_OP_SUBTRACT  0x2
+#define D3D12_BLEND_OP_REV_SUBTRACT  0x3
+#define D3D12_BLEND_OP_MIN  0x4
+#define D3D12_BLEND_OP_MAX  0x5
+
+; D3D12_BUFFER_SRV_FLAGS
+#define D3D12_BUFFER_SRV_FLAG_NONE  0x0
+#define D3D12_BUFFER_SRV_FLAG_RAW  0x1
+
+; D3D12_BUFFER_UAV_FLAGS
+#define D3D12_BUFFER_UAV_FLAG_NONE  0x0
+#define D3D12_BUFFER_UAV_FLAG_RAW  0x1
+
+; D3D12_COMMAND_LIST_TYPE
+#define D3D12_COMMAND_LIST_TYPE_DIRECT  0x0
+#define D3D12_COMMAND_LIST_TYPE_BUNDLE  0x1
+#define D3D12_COMMAND_LIST_TYPE_COMPUTE  0x2
+#define D3D12_COMMAND_LIST_TYPE_COPY  0x3
+#define D3D12_COMMAND_LIST_TYPE_VIDEO_DECODE  0x4
+#define D3D12_COMMAND_LIST_TYPE_VIDEO_PROCESS  0x5
+#define D3D12_COMMAND_LIST_TYPE_VIDEO_ENCODE  0x6
+#define D3D12_COMMAND_LIST_TYPE_NONE  -1
+
+; D3D12_COMMAND_QUEUE_FLAGS
+#define D3D12_COMMAND_QUEUE_FLAG_NONE  0x0
+#define D3D12_COMMAND_QUEUE_FLAG_DISABLE_GPU_TIMEOUT  0x1
+
+; D3D12_COMPARISON_FUNC
+#define D3D12_COMPARISON_FUNC_NONE  0x0
+#define D3D12_COMPARISON_FUNC_NEVER  0x1
+#define D3D12_COMPARISON_FUNC_LESS  0x2
+#define D3D12_COMPARISON_FUNC_EQUAL  0x3
+#define D3D12_COMPARISON_FUNC_LESS_EQUAL  0x4
+#define D3D12_COMPARISON_FUNC_GREATER  0x5
+#define D3D12_COMPARISON_FUNC_NOT_EQUAL  0x6
+#define D3D12_COMPARISON_FUNC_GREATER_EQUAL  0x7
+#define D3D12_COMPARISON_FUNC_ALWAYS  0x8
+
+; D3D12_CONSERVATIVE_RASTERIZATION_MODE
+#define D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF  0x0
+#define D3D12_CONSERVATIVE_RASTERIZATION_MODE_ON  0x1
+
+; D3D12_CPU_PAGE_PROPERTY
+#define D3D12_CPU_PAGE_PROPERTY_UNKNOWN  0x0
+#define D3D12_CPU_PAGE_PROPERTY_NOT_AVAILABLE  0x1
+#define D3D12_CPU_PAGE_PROPERTY_WRITE_COMBINE  0x2
+#define D3D12_CPU_PAGE_PROPERTY_WRITE_BACK  0x3
+
+; D3D12_CULL_MODE
+#define D3D12_CULL_MODE_NONE  0x1
+#define D3D12_CULL_MODE_FRONT  0x2
+#define D3D12_CULL_MODE_BACK  0x3
+
+; D3D12_DEPTH_WRITE_MASK
+#define D3D12_DEPTH_WRITE_MASK_ZERO  0x0
+#define D3D12_DEPTH_WRITE_MASK_ALL  0x1
+
+; D3D12_DESCRIPTOR_HEAP_FLAGS
+#define D3D12_DESCRIPTOR_HEAP_FLAG_NONE  0x0
+#define D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE  0x1
+
+; D3D12_DESCRIPTOR_HEAP_TYPE
+#define D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV  0x0
+#define D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER  0x1
+#define D3D12_DESCRIPTOR_HEAP_TYPE_RTV  0x2
+#define D3D12_DESCRIPTOR_HEAP_TYPE_DSV  0x3
+#define D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES  0x4
+
+; D3D12_DSV_DIMENSION
+#define D3D12_DSV_DIMENSION_UNKNOWN  0x0
+#define D3D12_DSV_DIMENSION_TEXTURE1D  0x1
+#define D3D12_DSV_DIMENSION_TEXTURE1DARRAY  0x2
+#define D3D12_DSV_DIMENSION_TEXTURE2D  0x3
+#define D3D12_DSV_DIMENSION_TEXTURE2DARRAY  0x4
+#define D3D12_DSV_DIMENSION_TEXTURE2DMS  0x5
+#define D3D12_DSV_DIMENSION_TEXTURE2DMSARRAY  0x6
+
+; D3D12_DSV_FLAGS
+#define D3D12_DSV_FLAG_NONE  0x0
+#define D3D12_DSV_FLAG_READ_ONLY_DEPTH  0x1
+#define D3D12_DSV_FLAG_READ_ONLY_STENCIL  0x2
+
+; D3D12_FEATURE
+#define D3D12_FEATURE_D3D12_OPTIONS  0x0
+#define D3D12_FEATURE_ARCHITECTURE  0x1
+#define D3D12_FEATURE_FEATURE_LEVELS  0x2
+#define D3D12_FEATURE_FORMAT_SUPPORT  0x3
+#define D3D12_FEATURE_MULTISAMPLE_QUALITY_LEVELS  0x4
+#define D3D12_FEATURE_FORMAT_INFO  0x5
+#define D3D12_FEATURE_GPU_VIRTUAL_ADDRESS_SUPPORT  0x6
+#define D3D12_FEATURE_SHADER_MODEL  0x7
+#define D3D12_FEATURE_D3D12_OPTIONS1  0x8
+#define D3D12_FEATURE_PROTECTED_RESOURCE_SESSION_SUPPORT  0xa
+#define D3D12_FEATURE_ROOT_SIGNATURE  0xc
+#define D3D12_FEATURE_ARCHITECTURE1  0x10
+#define D3D12_FEATURE_D3D12_OPTIONS2  0x12
+#define D3D12_FEATURE_SHADER_CACHE  0x13
+#define D3D12_FEATURE_COMMAND_QUEUE_PRIORITY  0x14
+#define D3D12_FEATURE_D3D12_OPTIONS3  0x15
+#define D3D12_FEATURE_EXISTING_HEAPS  0x16
+#define D3D12_FEATURE_D3D12_OPTIONS4  0x17
+#define D3D12_FEATURE_SERIALIZATION  0x18
+#define D3D12_FEATURE_CROSS_NODE  0x19
+#define D3D12_FEATURE_D3D12_OPTIONS5  0x1b
+#define D3D12_FEATURE_DISPLAYABLE  0x1c
+#define D3D12_FEATURE_D3D12_OPTIONS6  0x1e
+#define D3D12_FEATURE_QUERY_META_COMMAND  0x1f
+#define D3D12_FEATURE_D3D12_OPTIONS7  0x20
+#define D3D12_FEATURE_PROTECTED_RESOURCE_SESSION_TYPE_COUNT  0x21
+#define D3D12_FEATURE_PROTECTED_RESOURCE_SESSION_TYPES  0x22
+#define D3D12_FEATURE_D3D12_OPTIONS8  0x24
+#define D3D12_FEATURE_D3D12_OPTIONS9  0x25
+#define D3D12_FEATURE_D3D12_OPTIONS10  0x27
+#define D3D12_FEATURE_D3D12_OPTIONS11  0x28
+#define D3D12_FEATURE_D3D12_OPTIONS12  0x29
+#define D3D12_FEATURE_D3D12_OPTIONS13  0x2a
+#define D3D12_FEATURE_D3D12_OPTIONS14  0x2b
+#define D3D12_FEATURE_D3D12_OPTIONS15  0x2c
+#define D3D12_FEATURE_D3D12_OPTIONS16  0x2d
+#define D3D12_FEATURE_D3D12_OPTIONS17  0x2e
+#define D3D12_FEATURE_D3D12_OPTIONS18  0x2f
+#define D3D12_FEATURE_D3D12_OPTIONS19  0x30
+#define D3D12_FEATURE_D3D12_OPTIONS20  0x31
+#define D3D12_FEATURE_PREDICATION  0x32
+#define D3D12_FEATURE_PLACED_RESOURCE_SUPPORT_INFO  0x33
+#define D3D12_FEATURE_HARDWARE_COPY  0x34
+#define D3D12_FEATURE_D3D12_OPTIONS21  0x35
+
+; D3D12_FENCE_FLAGS
+#define D3D12_FENCE_FLAG_NONE  0x0
+#define D3D12_FENCE_FLAG_SHARED  0x1
+#define D3D12_FENCE_FLAG_SHARED_CROSS_ADAPTER  0x2
+#define D3D12_FENCE_FLAG_NON_MONITORED  0x4
+
+; D3D12_FILL_MODE
+#define D3D12_FILL_MODE_WIREFRAME  0x2
+#define D3D12_FILL_MODE_SOLID  0x3
+
+; D3D12_FILTER
+#define D3D12_FILTER_MIN_MAG_MIP_POINT  0x0
+#define D3D12_FILTER_MIN_MAG_POINT_MIP_LINEAR  0x1
+#define D3D12_FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT  0x4
+#define D3D12_FILTER_MIN_POINT_MAG_MIP_LINEAR  0x5
+#define D3D12_FILTER_MIN_LINEAR_MAG_MIP_POINT  0x10
+#define D3D12_FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR  0x11
+#define D3D12_FILTER_MIN_MAG_LINEAR_MIP_POINT  0x14
+#define D3D12_FILTER_MIN_MAG_MIP_LINEAR  0x15
+#define D3D12_FILTER_MIN_MAG_ANISOTROPIC_MIP_POINT  0x54
+#define D3D12_FILTER_ANISOTROPIC  0x55
+#define D3D12_FILTER_COMPARISON_MIN_MAG_MIP_POINT  0x80
+#define D3D12_FILTER_COMPARISON_MIN_MAG_POINT_MIP_LINEAR  0x81
+#define D3D12_FILTER_COMPARISON_MIN_POINT_MAG_LINEAR_MIP_POINT  0x84
+#define D3D12_FILTER_COMPARISON_MIN_POINT_MAG_MIP_LINEAR  0x85
+#define D3D12_FILTER_COMPARISON_MIN_LINEAR_MAG_MIP_POINT  0x90
+#define D3D12_FILTER_COMPARISON_MIN_LINEAR_MAG_POINT_MIP_LINEAR  0x91
+#define D3D12_FILTER_COMPARISON_MIN_MAG_LINEAR_MIP_POINT  0x94
+#define D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR  0x95
+#define D3D12_FILTER_COMPARISON_MIN_MAG_ANISOTROPIC_MIP_POINT  0xd4
+#define D3D12_FILTER_COMPARISON_ANISOTROPIC  0xd5
+#define D3D12_FILTER_MINIMUM_MIN_MAG_MIP_POINT  0x100
+#define D3D12_FILTER_MINIMUM_MIN_MAG_POINT_MIP_LINEAR  0x101
+#define D3D12_FILTER_MINIMUM_MIN_POINT_MAG_LINEAR_MIP_POINT  0x104
+#define D3D12_FILTER_MINIMUM_MIN_POINT_MAG_MIP_LINEAR  0x105
+#define D3D12_FILTER_MINIMUM_MIN_LINEAR_MAG_MIP_POINT  0x110
+#define D3D12_FILTER_MINIMUM_MIN_LINEAR_MAG_POINT_MIP_LINEAR  0x111
+#define D3D12_FILTER_MINIMUM_MIN_MAG_LINEAR_MIP_POINT  0x114
+#define D3D12_FILTER_MINIMUM_MIN_MAG_MIP_LINEAR  0x115
+#define D3D12_FILTER_MINIMUM_MIN_MAG_ANISOTROPIC_MIP_POINT  0x154
+#define D3D12_FILTER_MINIMUM_ANISOTROPIC  0x155
+#define D3D12_FILTER_MAXIMUM_MIN_MAG_MIP_POINT  0x180
+#define D3D12_FILTER_MAXIMUM_MIN_MAG_POINT_MIP_LINEAR  0x181
+#define D3D12_FILTER_MAXIMUM_MIN_POINT_MAG_LINEAR_MIP_POINT  0x184
+#define D3D12_FILTER_MAXIMUM_MIN_POINT_MAG_MIP_LINEAR  0x185
+#define D3D12_FILTER_MAXIMUM_MIN_LINEAR_MAG_MIP_POINT  0x190
+#define D3D12_FILTER_MAXIMUM_MIN_LINEAR_MAG_POINT_MIP_LINEAR  0x191
+#define D3D12_FILTER_MAXIMUM_MIN_MAG_LINEAR_MIP_POINT  0x194
+#define D3D12_FILTER_MAXIMUM_MIN_MAG_MIP_LINEAR  0x195
+#define D3D12_FILTER_MAXIMUM_MIN_MAG_ANISOTROPIC_MIP_POINT  0x1d4
+#define D3D12_FILTER_MAXIMUM_ANISOTROPIC  0x1d5
+
+; D3D12_HEAP_FLAGS
+#define D3D12_HEAP_FLAG_NONE  0x0
+#define D3D12_HEAP_FLAG_SHARED  0x1
+#define D3D12_HEAP_FLAG_DENY_BUFFERS  0x4
+#define D3D12_HEAP_FLAG_ALLOW_DISPLAY  0x8
+#define D3D12_HEAP_FLAG_SHARED_CROSS_ADAPTER  0x20
+#define D3D12_HEAP_FLAG_DENY_RT_DS_TEXTURES  0x40
+#define D3D12_HEAP_FLAG_DENY_NON_RT_DS_TEXTURES  0x80
+#define D3D12_HEAP_FLAG_HARDWARE_PROTECTED  0x100
+#define D3D12_HEAP_FLAG_ALLOW_WRITE_WATCH  0x200
+#define D3D12_HEAP_FLAG_ALLOW_SHADER_ATOMICS  0x400
+#define D3D12_HEAP_FLAG_CREATE_NOT_RESIDENT  0x800
+#define D3D12_HEAP_FLAG_CREATE_NOT_ZEROED  0x1000
+#define D3D12_HEAP_FLAG_TOOLS_USE_MANUAL_WRITE_TRACKING  0x2000
+#define D3D12_HEAP_FLAG_ALLOW_ALL_BUFFERS_AND_TEXTURES  0x0
+#define D3D12_HEAP_FLAG_ALLOW_ONLY_BUFFERS  0xc0
+#define D3D12_HEAP_FLAG_ALLOW_ONLY_NON_RT_DS_TEXTURES  0x44
+#define D3D12_HEAP_FLAG_ALLOW_ONLY_RT_DS_TEXTURES  0x84
+
+; D3D12_HEAP_TYPE
+#define D3D12_HEAP_TYPE_DEFAULT  0x1
+#define D3D12_HEAP_TYPE_UPLOAD  0x2
+#define D3D12_HEAP_TYPE_READBACK  0x3
+#define D3D12_HEAP_TYPE_CUSTOM  0x4
+#define D3D12_HEAP_TYPE_GPU_UPLOAD  0x5
+
+; D3D12_INDEX_BUFFER_STRIP_CUT_VALUE
+#define D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_DISABLED  0x0
+#define D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_0xFFFF  0x1
+#define D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_0xFFFFFFFF  0x2
+
+; D3D12_INDIRECT_ARGUMENT_TYPE
+#define D3D12_INDIRECT_ARGUMENT_TYPE_DRAW  0x0
+#define D3D12_INDIRECT_ARGUMENT_TYPE_DRAW_INDEXED  0x1
+#define D3D12_INDIRECT_ARGUMENT_TYPE_DISPATCH  0x2
+#define D3D12_INDIRECT_ARGUMENT_TYPE_VERTEX_BUFFER_VIEW  0x3
+#define D3D12_INDIRECT_ARGUMENT_TYPE_INDEX_BUFFER_VIEW  0x4
+#define D3D12_INDIRECT_ARGUMENT_TYPE_CONSTANT  0x5
+#define D3D12_INDIRECT_ARGUMENT_TYPE_CONSTANT_BUFFER_VIEW  0x6
+#define D3D12_INDIRECT_ARGUMENT_TYPE_SHADER_RESOURCE_VIEW  0x7
+#define D3D12_INDIRECT_ARGUMENT_TYPE_UNORDERED_ACCESS_VIEW  0x8
+#define D3D12_INDIRECT_ARGUMENT_TYPE_DISPATCH_RAYS  0x9
+#define D3D12_INDIRECT_ARGUMENT_TYPE_DISPATCH_MESH  0xa
+#define D3D12_INDIRECT_ARGUMENT_TYPE_INCREMENTING_CONSTANT  0xb
+
+; D3D12_INPUT_CLASSIFICATION
+#define D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA  0x0
+#define D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA  0x1
+
+; D3D12_LOGIC_OP
+#define D3D12_LOGIC_OP_CLEAR  0x0
+#define D3D12_LOGIC_OP_SET  0x1
+#define D3D12_LOGIC_OP_COPY  0x2
+#define D3D12_LOGIC_OP_COPY_INVERTED  0x3
+#define D3D12_LOGIC_OP_NOOP  0x4
+#define D3D12_LOGIC_OP_INVERT  0x5
+#define D3D12_LOGIC_OP_AND  0x6
+#define D3D12_LOGIC_OP_NAND  0x7
+#define D3D12_LOGIC_OP_OR  0x8
+#define D3D12_LOGIC_OP_NOR  0x9
+#define D3D12_LOGIC_OP_XOR  0xa
+#define D3D12_LOGIC_OP_EQUIV  0xb
+#define D3D12_LOGIC_OP_AND_REVERSE  0xc
+#define D3D12_LOGIC_OP_AND_INVERTED  0xd
+#define D3D12_LOGIC_OP_OR_REVERSE  0xe
+#define D3D12_LOGIC_OP_OR_INVERTED  0xf
+
+; D3D12_MEMORY_POOL
+#define D3D12_MEMORY_POOL_UNKNOWN  0x0
+#define D3D12_MEMORY_POOL_L0  0x1
+#define D3D12_MEMORY_POOL_L1  0x2
+
+; D3D12_PIPELINE_STATE_FLAGS
+#define D3D12_PIPELINE_STATE_FLAG_NONE  0x0
+#define D3D12_PIPELINE_STATE_FLAG_TOOL_DEBUG  0x1
+#define D3D12_PIPELINE_STATE_FLAG_DYNAMIC_DEPTH_BIAS  0x4
+#define D3D12_PIPELINE_STATE_FLAG_DYNAMIC_INDEX_BUFFER_STRIP_CUT  0x8
+
+; D3D12_PRIMITIVE_TOPOLOGY_TYPE
+#define D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED  0x0
+#define D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT  0x1
+#define D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE  0x2
+#define D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE  0x3
+#define D3D12_PRIMITIVE_TOPOLOGY_TYPE_PATCH  0x4
+
+; D3D12_QUERY_HEAP_TYPE
+#define D3D12_QUERY_HEAP_TYPE_OCCLUSION  0x0
+#define D3D12_QUERY_HEAP_TYPE_TIMESTAMP  0x1
+#define D3D12_QUERY_HEAP_TYPE_PIPELINE_STATISTICS  0x2
+#define D3D12_QUERY_HEAP_TYPE_SO_STATISTICS  0x3
+#define D3D12_QUERY_HEAP_TYPE_VIDEO_DECODE_STATISTICS  0x4
+#define D3D12_QUERY_HEAP_TYPE_COPY_QUEUE_TIMESTAMP  0x5
+#define D3D12_QUERY_HEAP_TYPE_PIPELINE_STATISTICS1  0x7
+
+; D3D12_RESOURCE_DIMENSION
+#define D3D12_RESOURCE_DIMENSION_UNKNOWN  0x0
+#define D3D12_RESOURCE_DIMENSION_BUFFER  0x1
+#define D3D12_RESOURCE_DIMENSION_TEXTURE1D  0x2
+#define D3D12_RESOURCE_DIMENSION_TEXTURE2D  0x3
+#define D3D12_RESOURCE_DIMENSION_TEXTURE3D  0x4
+
+; D3D12_RESOURCE_FLAGS
+#define D3D12_RESOURCE_FLAG_NONE  0x0
+#define D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET  0x1
+#define D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL  0x2
+#define D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS  0x4
+#define D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE  0x8
+#define D3D12_RESOURCE_FLAG_ALLOW_CROSS_ADAPTER  0x10
+#define D3D12_RESOURCE_FLAG_ALLOW_SIMULTANEOUS_ACCESS  0x20
+#define D3D12_RESOURCE_FLAG_VIDEO_DECODE_REFERENCE_ONLY  0x40
+#define D3D12_RESOURCE_FLAG_VIDEO_ENCODE_REFERENCE_ONLY  0x80
+#define D3D12_RESOURCE_FLAG_RAYTRACING_ACCELERATION_STRUCTURE  0x100
+
+; D3D12_RESOURCE_STATES
+#define D3D12_RESOURCE_STATE_COMMON  0x0
+#define D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER  0x1
+#define D3D12_RESOURCE_STATE_INDEX_BUFFER  0x2
+#define D3D12_RESOURCE_STATE_RENDER_TARGET  0x4
+#define D3D12_RESOURCE_STATE_UNORDERED_ACCESS  0x8
+#define D3D12_RESOURCE_STATE_DEPTH_WRITE  0x10
+#define D3D12_RESOURCE_STATE_DEPTH_READ  0x20
+#define D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE  0x40
+#define D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE  0x80
+#define D3D12_RESOURCE_STATE_STREAM_OUT  0x100
+#define D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT  0x200
+#define D3D12_RESOURCE_STATE_COPY_DEST  0x400
+#define D3D12_RESOURCE_STATE_COPY_SOURCE  0x800
+#define D3D12_RESOURCE_STATE_RESOLVE_DEST  0x1000
+#define D3D12_RESOURCE_STATE_RESOLVE_SOURCE  0x2000
+#define D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE  0x400000
+#define D3D12_RESOURCE_STATE_SHADING_RATE_SOURCE  0x1000000
+#define D3D12_RESOURCE_STATE_RESERVED_INTERNAL_8000  0x8000
+#define D3D12_RESOURCE_STATE_RESERVED_INTERNAL_4000  0x4000
+#define D3D12_RESOURCE_STATE_RESERVED_INTERNAL_100000  0x100000
+#define D3D12_RESOURCE_STATE_RESERVED_INTERNAL_40000000  0x40000000
+#define D3D12_RESOURCE_STATE_RESERVED_INTERNAL_80000000  0x40000001
+#define D3D12_RESOURCE_STATE_GENERIC_READ  0xac3
+#define D3D12_RESOURCE_STATE_ALL_SHADER_RESOURCE  0xc0
+#define D3D12_RESOURCE_STATE_PRESENT  0x0
+#define D3D12_RESOURCE_STATE_PREDICATION  0x200
+#define D3D12_RESOURCE_STATE_VIDEO_DECODE_READ  0x10000
+#define D3D12_RESOURCE_STATE_VIDEO_DECODE_WRITE  0x20000
+#define D3D12_RESOURCE_STATE_VIDEO_PROCESS_READ  0x40000
+#define D3D12_RESOURCE_STATE_VIDEO_PROCESS_WRITE  0x80000
+#define D3D12_RESOURCE_STATE_VIDEO_ENCODE_READ  0x200000
+#define D3D12_RESOURCE_STATE_VIDEO_ENCODE_WRITE  0x800000
+
+; D3D12_RTV_DIMENSION
+#define D3D12_RTV_DIMENSION_UNKNOWN  0x0
+#define D3D12_RTV_DIMENSION_BUFFER  0x1
+#define D3D12_RTV_DIMENSION_TEXTURE1D  0x2
+#define D3D12_RTV_DIMENSION_TEXTURE1DARRAY  0x3
+#define D3D12_RTV_DIMENSION_TEXTURE2D  0x4
+#define D3D12_RTV_DIMENSION_TEXTURE2DARRAY  0x5
+#define D3D12_RTV_DIMENSION_TEXTURE2DMS  0x6
+#define D3D12_RTV_DIMENSION_TEXTURE2DMSARRAY  0x7
+#define D3D12_RTV_DIMENSION_TEXTURE3D  0x8
+
+; D3D12_SRV_DIMENSION
+#define D3D12_SRV_DIMENSION_UNKNOWN  0x0
+#define D3D12_SRV_DIMENSION_BUFFER  0x1
+#define D3D12_SRV_DIMENSION_TEXTURE1D  0x2
+#define D3D12_SRV_DIMENSION_TEXTURE1DARRAY  0x3
+#define D3D12_SRV_DIMENSION_TEXTURE2D  0x4
+#define D3D12_SRV_DIMENSION_TEXTURE2DARRAY  0x5
+#define D3D12_SRV_DIMENSION_TEXTURE2DMS  0x6
+#define D3D12_SRV_DIMENSION_TEXTURE2DMSARRAY  0x7
+#define D3D12_SRV_DIMENSION_TEXTURE3D  0x8
+#define D3D12_SRV_DIMENSION_TEXTURECUBE  0x9
+#define D3D12_SRV_DIMENSION_TEXTURECUBEARRAY  0xa
+#define D3D12_SRV_DIMENSION_RAYTRACING_ACCELERATION_STRUCTURE  0xb
+
+; D3D12_STENCIL_OP
+#define D3D12_STENCIL_OP_KEEP  0x1
+#define D3D12_STENCIL_OP_ZERO  0x2
+#define D3D12_STENCIL_OP_REPLACE  0x3
+#define D3D12_STENCIL_OP_INCR_SAT  0x4
+#define D3D12_STENCIL_OP_DECR_SAT  0x5
+#define D3D12_STENCIL_OP_INVERT  0x6
+#define D3D12_STENCIL_OP_INCR  0x7
+#define D3D12_STENCIL_OP_DECR  0x8
+
+; D3D12_TEXTURE_ADDRESS_MODE
+#define D3D12_TEXTURE_ADDRESS_MODE_WRAP  0x1
+#define D3D12_TEXTURE_ADDRESS_MODE_MIRROR  0x2
+#define D3D12_TEXTURE_ADDRESS_MODE_CLAMP  0x3
+#define D3D12_TEXTURE_ADDRESS_MODE_BORDER  0x4
+#define D3D12_TEXTURE_ADDRESS_MODE_MIRROR_ONCE  0x5
+
+; D3D12_TEXTURE_LAYOUT
+#define D3D12_TEXTURE_LAYOUT_UNKNOWN  0x0
+#define D3D12_TEXTURE_LAYOUT_ROW_MAJOR  0x1
+#define D3D12_TEXTURE_LAYOUT_64KB_UNDEFINED_SWIZZLE  0x2
+#define D3D12_TEXTURE_LAYOUT_64KB_STANDARD_SWIZZLE  0x3
+
+; D3D12_UAV_DIMENSION
+#define D3D12_UAV_DIMENSION_UNKNOWN  0x0
+#define D3D12_UAV_DIMENSION_BUFFER  0x1
+#define D3D12_UAV_DIMENSION_TEXTURE1D  0x2
+#define D3D12_UAV_DIMENSION_TEXTURE1DARRAY  0x3
+#define D3D12_UAV_DIMENSION_TEXTURE2D  0x4
+#define D3D12_UAV_DIMENSION_TEXTURE2DARRAY  0x5
+#define D3D12_UAV_DIMENSION_TEXTURE2DMS  0x6
+#define D3D12_UAV_DIMENSION_TEXTURE2DMSARRAY  0x7
+#define D3D12_UAV_DIMENSION_TEXTURE3D  0x8
+
 ; D3D_DRIVER_TYPE
 #define D3D_DRIVER_TYPE_UNKNOWN  0x0
 #define D3D_DRIVER_TYPE_HARDWARE  0x1
@@ -13795,6 +14944,12 @@
 #define DXGI_USAGE_READ_ONLY  0x100
 #define DXGI_USAGE_DISCARD_ON_PRESENT  0x200
 #define DXGI_USAGE_UNORDERED_ACCESS  0x400
+
+; EAllocationType
+#define eAllocationTypeDynamic  0x0
+#define eAllocationTypeRT  0x1
+#define eAllocationTypePageable  0x2
+#define eAllocationTypeIgnore  0x3
 
 ; EFFECTIVE_POWER_MODE
 #define EffectivePowerModeBatterySaver  0x0
@@ -15996,6 +17151,10 @@
 #define MatrixOrderPrepend  0x0
 #define MatrixOrderAppend  0x1
 
+; MEDIA_EVENT_GENERATOR_GET_EVENT_FLAGS
+#define MF_EVENT_FLAG_NONE  0x0
+#define MF_EVENT_FLAG_NO_WAIT  0x1
+
 ; MEMORY_RESOURCE_NOTIFICATION_TYPE
 #define LowMemoryResourceNotification  0x0
 #define HighMemoryResourceNotification  0x1
@@ -16148,6 +17307,186 @@
 #define MetafileTypeEmfPlusOnly  0x4
 #define MetafileTypeEmfPlusDual  0x5
 
+; MF_ATTRIBUTE_TYPE
+#define MF_ATTRIBUTE_UINT32  0x13
+#define MF_ATTRIBUTE_UINT64  0x15
+#define MF_ATTRIBUTE_DOUBLE  0x5
+#define MF_ATTRIBUTE_GUID  0x48
+#define MF_ATTRIBUTE_STRING  0x1f
+#define MF_ATTRIBUTE_BLOB  0x1011
+#define MF_ATTRIBUTE_IUNKNOWN  0xd
+
+; MF_ATTRIBUTES_MATCH_TYPE
+#define MF_ATTRIBUTES_MATCH_OUR_ITEMS  0x0
+#define MF_ATTRIBUTES_MATCH_THEIR_ITEMS  0x1
+#define MF_ATTRIBUTES_MATCH_ALL_ITEMS  0x2
+#define MF_ATTRIBUTES_MATCH_INTERSECTION  0x3
+#define MF_ATTRIBUTES_MATCH_SMALLER  0x4
+
+; MF_FILE_ACCESSMODE
+#define MF_ACCESSMODE_READ  0x1
+#define MF_ACCESSMODE_WRITE  0x2
+#define MF_ACCESSMODE_READWRITE  0x3
+
+; MF_FILE_FLAGS
+#define MF_FILEFLAGS_NONE  0x0
+#define MF_FILEFLAGS_NOBUFFERING  0x1
+#define MF_FILEFLAGS_ALLOW_WRITE_SHARING  0x2
+
+; MF_FILE_OPENMODE
+#define MF_OPENMODE_FAIL_IF_NOT_EXIST  0x0
+#define MF_OPENMODE_FAIL_IF_EXIST  0x1
+#define MF_OPENMODE_RESET_IF_EXIST  0x2
+#define MF_OPENMODE_APPEND_IF_EXIST  0x3
+#define MF_OPENMODE_DELETE_IF_EXIST  0x4
+
+; MF_OBJECT_TYPE
+#define MF_OBJECT_MEDIASOURCE  0x0
+#define MF_OBJECT_BYTESTREAM  0x1
+#define MF_OBJECT_INVALID  0x2
+
+; MF_TOPOLOGY_TYPE
+#define MF_TOPOLOGY_OUTPUT_NODE  0x0
+#define MF_TOPOLOGY_SOURCESTREAM_NODE  0x1
+#define MF_TOPOLOGY_TRANSFORM_NODE  0x2
+#define MF_TOPOLOGY_TEE_NODE  0x3
+#define MF_TOPOLOGY_MAX  -1
+
+; MFBYTESTREAM_SEEK_ORIGIN
+#define msoBegin  0x0
+#define msoCurrent  0x1
+
+; MFCLOCK_STATE
+#define MFCLOCK_STATE_INVALID  0x0
+#define MFCLOCK_STATE_RUNNING  0x1
+#define MFCLOCK_STATE_STOPPED  0x2
+#define MFCLOCK_STATE_PAUSED  0x3
+
+; MFNominalRange
+#define MFNominalRange_Unknown  0x0
+#define MFNominalRange_Normal  0x1
+#define MFNominalRange_Wide  0x2
+#define MFNominalRange_0_255  0x1
+#define MFNominalRange_16_235  0x2
+#define MFNominalRange_48_208  0x3
+#define MFNominalRange_64_127  0x4
+#define MFNominalRange_Last  0x5
+#define MFNominalRange_ForceDWORD  0x7fffffff
+
+; MFStandardVideoFormat
+#define MFStdVideoFormat_reserved  0x0
+#define MFStdVideoFormat_NTSC  0x1
+#define MFStdVideoFormat_PAL  0x2
+#define MFStdVideoFormat_DVD_NTSC  0x3
+#define MFStdVideoFormat_DVD_PAL  0x4
+#define MFStdVideoFormat_DV_PAL  0x5
+#define MFStdVideoFormat_DV_NTSC  0x6
+#define MFStdVideoFormat_ATSC_SD480i  0x7
+#define MFStdVideoFormat_ATSC_HD1080i  0x8
+#define MFStdVideoFormat_ATSC_HD720p  0x9
+
+; MFSTREAMSINK_MARKER_TYPE
+#define MFSTREAMSINK_MARKER_DEFAULT  0x0
+#define MFSTREAMSINK_MARKER_ENDOFSEGMENT  0x1
+#define MFSTREAMSINK_MARKER_TICK  0x2
+#define MFSTREAMSINK_MARKER_EVENT  0x3
+
+; MFT_ENUM_FLAG
+#define MFT_ENUM_FLAG_SYNCMFT  0x1
+#define MFT_ENUM_FLAG_ASYNCMFT  0x2
+#define MFT_ENUM_FLAG_HARDWARE  0x4
+#define MFT_ENUM_FLAG_FIELDOFUSE  0x8
+#define MFT_ENUM_FLAG_LOCALMFT  0x10
+#define MFT_ENUM_FLAG_TRANSCODE_ONLY  0x20
+#define MFT_ENUM_FLAG_SORTANDFILTER  0x40
+#define MFT_ENUM_FLAG_SORTANDFILTER_APPROVED_ONLY  0xc0
+#define MFT_ENUM_FLAG_SORTANDFILTER_WEB_ONLY  0x140
+#define MFT_ENUM_FLAG_SORTANDFILTER_WEB_ONLY_EDGEMODE  0x240
+#define MFT_ENUM_FLAG_UNTRUSTED_STOREMFT  0x400
+#define MFT_ENUM_FLAG_ALL  0x3f
+
+; MFVideoChromaSubsampling
+#define MFVideoChromaSubsampling_Unknown  0x0
+#define MFVideoChromaSubsampling_ProgressiveChroma  0x8
+#define MFVideoChromaSubsampling_Horizontally_Cosited  0x4
+#define MFVideoChromaSubsampling_Vertically_Cosited  0x2
+#define MFVideoChromaSubsampling_Vertically_AlignedChromaPlanes  0x1
+#define MFVideoChromaSubsampling_MPEG2  0x5
+#define MFVideoChromaSubsampling_MPEG1  0x1
+#define MFVideoChromaSubsampling_DV_PAL  0x6
+#define MFVideoChromaSubsampling_Cosited  0x7
+#define MFVideoChromaSubsampling_Last  0x8
+#define MFVideoChromaSubsampling_ForceDWORD  0x7fffffff
+
+; MFVideoInterlaceMode
+#define MFVideoInterlace_Unknown  0x0
+#define MFVideoInterlace_Progressive  0x2
+#define MFVideoInterlace_FieldInterleavedUpperFirst  0x3
+#define MFVideoInterlace_FieldInterleavedLowerFirst  0x4
+#define MFVideoInterlace_FieldSingleUpper  0x5
+#define MFVideoInterlace_FieldSingleLower  0x6
+#define MFVideoInterlace_MixedInterlaceOrProgressive  0x7
+#define MFVideoInterlace_Last  0x8
+#define MFVideoInterlace_ForceDWORD  0x7fffffff
+
+; MFVideoLighting
+#define MFVideoLighting_Unknown  0x0
+#define MFVideoLighting_bright  0x1
+#define MFVideoLighting_office  0x2
+#define MFVideoLighting_dim  0x3
+#define MFVideoLighting_dark  0x4
+#define MFVideoLighting_Last  0x5
+#define MFVideoLighting_ForceDWORD  0x7fffffff
+
+; MFVideoPrimaries
+#define MFVideoPrimaries_Unknown  0x0
+#define MFVideoPrimaries_reserved  0x1
+#define MFVideoPrimaries_BT709  0x2
+#define MFVideoPrimaries_BT470_2_SysM  0x3
+#define MFVideoPrimaries_BT470_2_SysBG  0x4
+#define MFVideoPrimaries_SMPTE170M  0x5
+#define MFVideoPrimaries_SMPTE240M  0x6
+#define MFVideoPrimaries_EBU3213  0x7
+#define MFVideoPrimaries_SMPTE_C  0x8
+#define MFVideoPrimaries_BT2020  0x9
+#define MFVideoPrimaries_XYZ  0xa
+#define MFVideoPrimaries_DCI_P3  0xb
+#define MFVideoPrimaries_ACES  0xc
+#define MFVideoPrimaries_Last  0xd
+#define MFVideoPrimaries_ForceDWORD  0x7fffffff
+
+; MFVideoTransferFunction
+#define MFVideoTransFunc_Unknown  0x0
+#define MFVideoTransFunc_10  0x1
+#define MFVideoTransFunc_18  0x2
+#define MFVideoTransFunc_20  0x3
+#define MFVideoTransFunc_22  0x4
+#define MFVideoTransFunc_709  0x5
+#define MFVideoTransFunc_240M  0x6
+#define MFVideoTransFunc_sRGB  0x7
+#define MFVideoTransFunc_28  0x8
+#define MFVideoTransFunc_Log_100  0x9
+#define MFVideoTransFunc_Log_316  0xa
+#define MFVideoTransFunc_709_sym  0xb
+#define MFVideoTransFunc_2020_const  0xc
+#define MFVideoTransFunc_2020  0xd
+#define MFVideoTransFunc_26  0xe
+#define MFVideoTransFunc_2084  0xf
+#define MFVideoTransFunc_HLG  0x10
+#define MFVideoTransFunc_10_rel  0x11
+#define MFVideoTransFunc_Last  0x12
+#define MFVideoTransFunc_ForceDWORD  0x7fffffff
+
+; MFVideoTransferMatrix
+#define MFVideoTransferMatrix_Unknown  0x0
+#define MFVideoTransferMatrix_BT709  0x1
+#define MFVideoTransferMatrix_BT601  0x2
+#define MFVideoTransferMatrix_SMPTE240M  0x3
+#define MFVideoTransferMatrix_BT2020_10  0x4
+#define MFVideoTransferMatrix_BT2020_12  0x5
+#define MFVideoTransferMatrix_Last  0x6
+#define MFVideoTransferMatrix_ForceDWORD  0x7fffffff
+
 ; MIB_IF_ENTRY_LEVEL
 #define MibIfEntryNormal  0x0
 #define MibIfEntryNormalWithoutStatistics  0x2
@@ -16296,6 +17635,18 @@
 #define MOVEFILE_REPLACE_EXISTING  0x1
 #define MOVEFILE_WRITE_THROUGH  0x8
 #define MOVEFILE_FAIL_IF_NOT_TRACKABLE  0x20
+
+; MPEG2VIDEOINFO_FLAGS
+#define AMMPEG2_DoPanScan  0x1
+#define AMMPEG2_DVDLine21Field1  0x2
+#define AMMPEG2_DVDLine21Field2  0x4
+#define AMMPEG2_SourceIsLetterboxed  0x8
+#define AMMPEG2_FilmCameraMode  0x10
+#define AMMPEG2_LetterboxAnalogOut  0x20
+#define AMMPEG2_DSS_UserData  0x40
+#define AMMPEG2_DVB_UserData  0x80
+#define AMMPEG2_27MhzTimebase  0x100
+#define AMMPEG2_WidescreenAnalogOut  0x200
 
 ; MSG_WAIT_FOR_MULTIPLE_OBJECTS_EX_FLAGS
 #define MWMO_NONE  0x0
@@ -24607,6 +25958,84 @@
 
 ; WLAN_SET_EAPHOST_FLAGS
 #define WLAN_SET_EAPHOST_DATA_ALL_USERS  0x1
+
+; WMT_ATTR_DATATYPE
+#define WMT_TYPE_DWORD  0x0
+#define WMT_TYPE_STRING  0x1
+#define WMT_TYPE_BINARY  0x2
+#define WMT_TYPE_BOOL  0x3
+#define WMT_TYPE_QWORD  0x4
+#define WMT_TYPE_WORD  0x5
+#define WMT_TYPE_GUID  0x6
+
+; WMT_NET_PROTOCOL
+#define WMT_PROTOCOL_HTTP  0x0
+
+; WMT_STATUS
+#define WMT_ERROR  0x0
+#define WMT_OPENED  0x1
+#define WMT_BUFFERING_START  0x2
+#define WMT_BUFFERING_STOP  0x3
+#define WMT_EOF  0x4
+#define WMT_END_OF_FILE  0x4
+#define WMT_END_OF_SEGMENT  0x5
+#define WMT_END_OF_STREAMING  0x6
+#define WMT_LOCATING  0x7
+#define WMT_CONNECTING  0x8
+#define WMT_NO_RIGHTS  0x9
+#define WMT_MISSING_CODEC  0xa
+#define WMT_STARTED  0xb
+#define WMT_STOPPED  0xc
+#define WMT_CLOSED  0xd
+#define WMT_STRIDING  0xe
+#define WMT_TIMER  0xf
+#define WMT_INDEX_PROGRESS  0x10
+#define WMT_SAVEAS_START  0x11
+#define WMT_SAVEAS_STOP  0x12
+#define WMT_NEW_SOURCEFLAGS  0x13
+#define WMT_NEW_METADATA  0x14
+#define WMT_BACKUPRESTORE_BEGIN  0x15
+#define WMT_SOURCE_SWITCH  0x16
+#define WMT_ACQUIRE_LICENSE  0x17
+#define WMT_INDIVIDUALIZE  0x18
+#define WMT_NEEDS_INDIVIDUALIZATION  0x19
+#define WMT_NO_RIGHTS_EX  0x1a
+#define WMT_BACKUPRESTORE_END  0x1b
+#define WMT_BACKUPRESTORE_CONNECTING  0x1c
+#define WMT_BACKUPRESTORE_DISCONNECTING  0x1d
+#define WMT_ERROR_WITHURL  0x1e
+#define WMT_RESTRICTED_LICENSE  0x1f
+#define WMT_CLIENT_CONNECT  0x20
+#define WMT_CLIENT_DISCONNECT  0x21
+#define WMT_NATIVE_OUTPUT_PROPS_CHANGED  0x22
+#define WMT_RECONNECT_START  0x23
+#define WMT_RECONNECT_END  0x24
+#define WMT_CLIENT_CONNECT_EX  0x25
+#define WMT_CLIENT_DISCONNECT_EX  0x26
+#define WMT_SET_FEC_SPAN  0x27
+#define WMT_PREROLL_READY  0x28
+#define WMT_PREROLL_COMPLETE  0x29
+#define WMT_CLIENT_PROPERTIES  0x2a
+#define WMT_LICENSEURL_SIGNATURE_STATE  0x2b
+#define WMT_INIT_PLAYLIST_BURN  0x2c
+#define WMT_TRANSCRYPTOR_INIT  0x2d
+#define WMT_TRANSCRYPTOR_SEEKED  0x2e
+#define WMT_TRANSCRYPTOR_READ  0x2f
+#define WMT_TRANSCRYPTOR_CLOSED  0x30
+#define WMT_PROXIMITY_RESULT  0x31
+#define WMT_PROXIMITY_COMPLETED  0x32
+#define WMT_CONTENT_ENABLER  0x33
+
+; WMT_STREAM_SELECTION
+#define WMT_OFF  0x0
+#define WMT_CLEANPOINT_ONLY  0x1
+#define WMT_ON  0x2
+
+; WMT_VERSION
+#define WMT_VER_4_0  0x40000
+#define WMT_VER_7_0  0x70000
+#define WMT_VER_8_0  0x80000
+#define WMT_VER_9_0  0x90000
 
 ; WNDCLASS_STYLES
 #define CS_VREDRAW  0x1

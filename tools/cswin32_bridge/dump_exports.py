@@ -66,6 +66,13 @@ TARGET_DLLS = [
     "wer",          # Windows Error Reporting
     "powrprof",     # Power Profile (battery, sleep, hibernate)
     "wtsapi32",     # Terminal Services / session info
+    # Phase G: Media Foundation (動画/音声 capture/encode/decode)
+    "mf",           # Media Foundation core (MFCreateMediaSession etc.)
+    "mfplat",       # MF platform (MFStartup / MFCreateAttributes / MFCreateMemoryBuffer / MFCreateSample)
+    "mfreadwrite",  # MF source reader / sink writer (MFCreateSourceReaderFromURL etc.)
+    "evr",          # Enhanced Video Renderer (MFCreateVideoMixer etc.)
+    "wmvcore",      # Windows Media Format / ASF (WMCreateReader etc.)
+    "avrt",         # Multimedia Class Scheduler (AvSetMmThreadCharacteristics)
 ]
 
 # Names matching these patterns are filtered out: clearly internal helpers,
