@@ -30,6 +30,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/objdetect.hpp>
 #include <opencv2/objdetect/aruco_detector.hpp>
+#include <opencv2/objdetect/barcode.hpp>
 #include <opencv2/videoio.hpp>
 #include <opencv2/ml.hpp>
 #include <opencv2/dnn.hpp>

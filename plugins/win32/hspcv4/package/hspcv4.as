@@ -601,10 +601,24 @@
 #func global cv4_project_points          cv4_project_points          $202
 #func global cv4_find_chessboard_corners cv4_find_chessboard_corners $202
 
-; ---- objdetect extras : HOG + QR code ----
+; ---- objdetect extras : HOG + QR code + Barcode ----
+;
+; QR コード生成 (Phase I):
+;   cv4_qr_encode dst_id, "text" [, ec=1, scale=8, version=0]
+;     ec=0:L(7%) 1:M(15%) 2:Q(25%) 3:H(30%)
+;     scale: 1 module を何 px で描画 (デフォルト 8)
+;     version: 0=自動 / 1〜40
+;
+; 1D バーコード検出 (Code128, EAN-13, EAN-8, UPC-A 等):
+;   cv4_barcode_detect rects, count_var, src_id
+;   cv4_barcode_decode src_id, refstr_var
+;
 #func global cv4_hog_detect_people  cv4_hog_detect_people  $202
 #func global cv4_qr_detect          cv4_qr_detect          $202
 #func global cv4_qr_decode          cv4_qr_decode          $202
+#func global cv4_qr_encode          cv4_qr_encode          $202
+#func global cv4_barcode_detect     cv4_barcode_detect     $202
+#func global cv4_barcode_decode     cv4_barcode_decode     $202
 
 ; ---- aruco markers (basic detection in OpenCV 4.x main module) ----
 ; cv4_aruco_detect rects, ids, count, img_id [, dict=DICT_4X4_50]

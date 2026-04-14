@@ -1843,6 +1843,149 @@ CV4_EXPORT BOOL WINAPI cv4_qr_decode(HSPEXINFO* hei, int p1, int p2, int p3)
       catch (...) { return fail("cv4_qr_decode: unknown"); }
 }
 
+//============================================================================
+//  Phase I : QR encode + Barcode detection
+//============================================================================
+
+//  cv4_qr_encode dst_id, "text" [, ec_level=1, scale=8, version=0]
+//    QR コードを生成して dst_id の画像ハンドルに格納。
+//    ec_level: 0=L(7%) 1=M(15%) 2=Q(25%) 3=H(30%)
+//    scale   : 1 module を何 pixel で描画するか (1=最小)
+//    version : 0=自動  1〜40=固定 (大きいほど多くの文字が入る)
+//    出力: BGR 3ch の白背景に黒モジュール。
+CV4_EXPORT BOOL WINAPI cv4_qr_encode(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int dst_id     = getint();
+        const char* tx = getstr();
+        int ec         = getint_def(1);
+        int scale      = getint_def(8);
+        int version    = getint_def(0);
+
+        if (scale < 1)   scale = 1;
+        if (scale > 64)  scale = 64;
+
+        cv::QRCodeEncoder::Params params;
+        params.version = version;
+        switch (ec) {
+            case 0: params.correction_level = cv::QRCodeEncoder::CORRECT_LEVEL_L; break;
+            case 2: params.correction_level = cv::QRCodeEncoder::CORRECT_LEVEL_Q; break;
+            case 3: params.correction_level = cv::QRCodeEncoder::CORRECT_LEVEL_H; break;
+            default: params.correction_level = cv::QRCodeEncoder::CORRECT_LEVEL_M; break;
+        }
+
+        cv::Ptr<cv::QRCodeEncoder> encoder = cv::QRCodeEncoder::create(params);
+        cv::Mat raw;
+        encoder->encode(std::string(tx ? tx : ""), raw);
+        if (raw.empty()) return fail("cv4_qr_encode: encode failed");
+
+        // raw は CV_8UC1 (0=黒, 255=白)。HSP 表示のため scale 倍して BGR 化。
+        cv::Mat scaled;
+        cv::resize(raw, scaled,
+                   cv::Size(raw.cols * scale, raw.rows * scale),
+                   0, 0, cv::INTER_NEAREST);
+        cv::Mat bgr;
+        cv::cvtColor(scaled, bgr, cv::COLOR_GRAY2BGR);
+
+        hspcv4::handle_set(dst_id, std::move(bgr));
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_qr_encode: unknown"); }
+}
+
+//  cv4_barcode_detect rects_array, count_var, img_id
+//    画像から 1D バーコード (Code128, EAN-13, EAN-8, UPC-A 等) の位置を検出。
+//    rects: cv_rect 配列、count: 検出数
+CV4_EXPORT BOOL WINAPI cv4_barcode_detect(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        PVal* pval_rects;
+        APTR  aptr_rects = hei->HspFunc_prm_getva(&pval_rects);
+        pval_rects->offset = aptr_rects;
+        PVal* pval_count;
+        APTR  aptr_count = hei->HspFunc_prm_getva(&pval_count);
+        if (pval_count->flag != HSPVAR_FLAG_INT)
+            return fail("cv4_barcode_detect: count must be int");
+        pval_count->offset = aptr_count;
+
+        int img_id = getint();
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_barcode_detect: invalid image");
+
+        int max_elems = pval_rects->len[1];
+        if (max_elems <= 0) max_elems = 1;
+        int elem_size = pval_rects->len[0];
+        if (elem_size < (int)sizeof(int) * 4)
+            return fail("cv4_barcode_detect: rects array must be cv_rect");
+
+        cv::barcode::BarcodeDetector det;
+        std::vector<cv::Point2f> corners;
+        bool found = det.detectMulti(*img, corners);
+
+        int n = 0;
+        if (found && !corners.empty()) {
+            // 4 点ずつ 1 バーコード分。boundingRect で外接矩形に変換。
+            int total = (int)(corners.size() / 4);
+            int* base = (int*)pval_rects->pt;
+            for (int i = 0; i < total && n < max_elems; i++) {
+                std::vector<cv::Point2f> quad(corners.begin() + i * 4,
+                                              corners.begin() + i * 4 + 4);
+                cv::Rect br = cv::boundingRect(quad);
+                int* p = base + n * 4;
+                p[0] = br.x;
+                p[1] = br.y;
+                p[2] = br.width;
+                p[3] = br.height;
+                n++;
+            }
+        }
+        HspVarProc* proc = hei->HspFunc_getproc(pval_count->flag);
+        proc->Set(pval_count, proc->GetPtr(pval_count), &n);
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_barcode_detect: unknown"); }
+}
+
+//  cv4_barcode_decode img_id, refstr_var
+//    画像から 1D バーコードを検出してデコード。最初の検出値を refstr に書く。
+//    複数あれば改行で連結。空文字列は検出失敗。
+CV4_EXPORT BOOL WINAPI cv4_barcode_decode(HSPEXINFO* hei, int p1, int p2, int p3)
+{
+    (void)p1; (void)p2; (void)p3;
+    set_hei(hei);
+    try {
+        int img_id = getint();
+        PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+        if (pv->flag != HSPVAR_FLAG_STR) return fail("cv4_barcode_decode: var must be str");
+        pv->offset = a;
+
+        cv::Mat* img = hspcv4::handle_get(img_id);
+        if (!img || img->empty()) return fail("cv4_barcode_decode: invalid image");
+
+        cv::barcode::BarcodeDetector det;
+        std::vector<cv::String> decoded;
+        std::vector<cv::String> types;
+        cv::Mat points;
+        bool ok = det.detectAndDecodeWithType(*img, decoded, types, points);
+
+        std::string result;
+        if (ok && !decoded.empty()) {
+            for (size_t i = 0; i < decoded.size(); i++) {
+                if (i > 0) result += "\n";
+                result += decoded[i];
+            }
+        }
+        HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
+        proc->Set(pv, proc->GetPtr(pv), (void*)result.c_str());
+        return 0;
+    } catch (const cv::Exception& e) { return fail(e.what()); }
+      catch (...) { return fail("cv4_barcode_decode: unknown"); }
+}
+
 
 //============================================================================
 //  Object detection : CascadeClassifier (Haar / LBP)

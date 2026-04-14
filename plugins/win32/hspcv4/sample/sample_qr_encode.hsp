@@ -1,0 +1,57 @@
+;============================================================
+;  hspcv4 Phase I サンプル: QR code 生成 (cv4_qr_encode)
+;
+;  指定文字列から QR コードを生成して画像保存 + 画面表示。
+;  生成 → 自分でデコードしてラウンドトリップ確認も行う。
+;============================================================
+
+#include "hspcv4.as"
+
+	title "hspcv4 - QR encode sample"
+	screen 0, 480, 540
+	font "MS Gothic", 14
+
+	; --- 1) シンプル URL を QR 化 ---
+	text = "https://hsp.tv/"
+	cv4_qr_encode 0, text, 1, 8, 0       ; ec=M, scale=8, version=auto
+	if stat ! 0 {
+		dialog "QR 生成失敗", 1
+		end
+	}
+	cv4save 0, "qr_url.png"
+
+	; --- 2) 長文で version 自動増加 ---
+	long_text = "iron_http + iron_json + iron_toast + iron_video + iron_camera + iron_camera_mf"
+	cv4_qr_encode 1, long_text, 2, 6, 0  ; ec=Q, scale=6
+	cv4save 1, "qr_long.png"
+
+	; --- 3) ラウンドトリップテスト: 生成→デコード ---
+	sdim decoded, 1024
+	cv4_qr_decode 0, decoded
+	mes "[Roundtrip test]"
+	mes "Original: " + text
+	mes "Decoded : " + decoded
+	if decoded = text {
+		color 0, 160, 0
+		mes "OK ✓ 一致"
+	} else {
+		color 200, 0, 0
+		mes "NG  不一致"
+	}
+	color 0, 0, 0
+	mes ""
+
+	; --- 画面に画像表示 ---
+	mes "qr_url.png  (https://hsp.tv/):"
+	pos 10, 130
+	cv4getimg 0
+	mes ""
+	mes ""
+	mes "qr_long.png:"
+	pos 10, 360
+	cv4getimg 1
+
+	; --- 後片付け ---
+	cv4del 0
+	cv4del 1
+	stop

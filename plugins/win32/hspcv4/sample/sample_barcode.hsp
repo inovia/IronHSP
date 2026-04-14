@@ -1,0 +1,75 @@
+;============================================================
+;  hspcv4 Phase I サンプル: 1D バーコード読み取り
+;
+;  画像ファイルから 1D バーコード (Code128, EAN-13, EAN-8, UPC-A 等)
+;  を検出してデコード。検出位置に矩形を描画して画面に表示。
+;
+;  使い方:
+;    sample_barcode.hsp と同じディレクトリに barcode.jpg などの
+;    バーコード画像を置いて起動。引数で別パスも指定可能。
+;============================================================
+
+#include "hspcv4.as"
+
+	title "hspcv4 - 1D barcode detect / decode sample"
+
+	; 入力ファイル
+	if dir_cmdline = "" : path = "barcode.jpg" : else : path = dir_cmdline
+	exist path
+	if strsize < 0 {
+		dialog "画像が見つかりません: " + path + "\n\nbarcode.jpg を同じディレクトリに置くか、引数でパスを指定してください。", 1
+		end
+	}
+
+	; 読み込み
+	cv4load 0, path
+	if stat ! 0 {
+		dialog "画像読み込み失敗: " + path, 1
+		end
+	}
+
+	; --- バーコード検出 ---
+	stdim rects, cv_rect, 16
+	cv4_barcode_detect rects, n_found, 0
+	mes "検出数: " + n_found
+
+	; --- バーコードデコード ---
+	sdim decoded, 4096
+	cv4_barcode_decode 0, decoded
+	mes ""
+	mes "[Decoded values]"
+	if strlen(decoded) = 0 {
+		mes "(なし)"
+	} else {
+		mes decoded
+	}
+	mes ""
+
+	; --- 検出位置に矩形を描画 ---
+	repeat n_found
+		x = rects(cnt)->0
+		y = rects(cnt)->1
+		w = rects(cnt)->2
+		h = rects(cnt)->3
+		cv4rect 0, x, y, w, h, 0, 255, 0, 3
+	loop
+
+	; --- 画面に表示 ---
+	cv4_video_info 0, iw, ih, fps, total
+	; cv4 image の幅/高さは Mat 経由で取得不可なので imgsize を使う
+	; ここでは簡略化: ウィンドウサイズだけ用意
+	screen 1, 800, 700
+	font "MS Gothic", 14
+	gsel 1
+	pos 10, 10
+	mes "input: " + path
+	mes "found: " + n_found
+	mes ""
+	mes "decoded:"
+	mes decoded
+	mes ""
+	pos 10, 200
+	cv4getimg 0
+
+	cv4del 0
+	stop
