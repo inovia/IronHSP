@@ -49,7 +49,17 @@
 ; WIC pixel formats / container formats (16 byte GUID, IIDFromString でパース)
 #define GUID_WICPixelFormat32bppPBGRA  "{6fddc324-4e03-4bfe-b185-3d77768dc910}"
 #define GUID_WICPixelFormat32bppBGRA   "{6fddc324-4e03-4bfe-b185-3d77768dc90f}"
+; Container formats (encoder GUIDs)
+#define GUID_ContainerFormatBmp        "{0af1d87e-fcfe-4188-bdeb-a7906471cbe3}"
 #define GUID_ContainerFormatPng        "{1b7cfaf4-713f-473c-bbcd-6137425faeaf}"
+#define GUID_ContainerFormatJpeg       "{19e4a5aa-5662-4fc5-a0c0-1758028e1057}"
+#define GUID_ContainerFormatTiff       "{163bcc30-e2e9-4f0b-961d-a3e9fdb788a3}"
+#define GUID_ContainerFormatGif        "{1f8a5601-7d4d-4cbd-9c82-1bc8d4eeb9a5}"
+; IWICBitmapDecoder / Frame interfaces (load 用)
+#define IID_IWICBitmapDecoder          "{9edde9e7-8dee-47ea-99df-e6faf2ed44bf}"
+#define IID_IWICBitmapFrameDecode      "{3b16811b-6a43-4ec9-a813-3d930c13b940}"
+#define IID_IWICFormatConverter        "{00000301-a8f2-4877-ba0a-fd2b6645fb94}"
+#define IID_IWICBitmapSource           "{00000120-a8f2-4877-ba0a-fd2b6645fb94}"
 
 ;-----------------------------------------------------------
 ; 基本 Win32 関数 (flat)
@@ -116,10 +126,15 @@
 
 ; --- IWICImagingFactory (CoCreate 可能な唯一のもの) ---
 #usecom IWICImagingFactory IID_IWICImagingFactory CLSID_WICImagingFactory
+; CreateDecoderFromFilename(LPCWSTR file, REFGUID vendor, DWORD access, WICDecodeOptions opt, IWICBitmapDecoder** out)
+#comfunc d2d_WIC_CreateDecoderFromFilename 3 wstr, int, int, int, var
 #comfunc d2d_WIC_CreateEncoder 8 var, int, var
+#comfunc d2d_WIC_CreateFormatConverter 10 var
 #comfunc d2d_WIC_CreateStream 14 var
 ; CreateBitmap(UINT w, UINT h, REFGUID pixelFormat, WICBitmapCreateCacheOption, IWICBitmap** out)
 #comfunc d2d_WIC_CreateBitmap 17 int, int, var, int, var
+; CreateBitmapFromSource(IWICBitmapSource* src, WICBitmapCreateCacheOption opt, IWICBitmap** out)
+#comfunc d2d_WIC_CreateBitmapFromSource 18 comobj, int, var
 #comfunc d2d_WIC_Release 2
 
 ; --- IWICBitmap (extends IWICBitmapSource) ---
@@ -144,6 +159,25 @@
 #comfunc d2d_WICFrm_WriteSource 11 comobj, int
 #comfunc d2d_WICFrm_Commit 12
 #comfunc d2d_WICFrm_Release 2
+
+; --- IWICBitmapDecoder ---
+;   vtable: 3=QueryCapability, 4=Initialize, 5=GetContainerFormat, 6=GetDecoderInfo,
+;           7=CopyPalette, 8=GetMetadataQueryReader, 9=GetPreview, 10=GetColorContexts,
+;           11=GetThumbnail, 12=GetFrameCount, 13=GetFrame
+#usecom IWICBitmapDecoder IID_IWICBitmapDecoder "{}"
+#comfunc d2d_WICDec_GetFrame 13 int, var
+
+; --- IWICBitmapFrameDecode ---
+;   IWICBitmapSource 派生。3=GetSize 4=GetPixelFormat 5=GetResolution 6=CopyPalette 7=CopyPixels
+;   IWICBitmapFrameDecode 自体は 8=GetMetadataQueryReader 9=GetColorContexts 10=GetThumbnail
+#usecom IWICBitmapFrameDecode IID_IWICBitmapFrameDecode "{}"
+#comfunc d2d_WICFrmDec_GetSize 3 var, var
+
+; --- IWICFormatConverter (IWICBitmapSource 派生) ---
+;   3=GetSize, 4=GetPixelFormat, 5=GetResolution, 6=CopyPalette, 7=CopyPixels
+;   8=Initialize(src, dstFormat, dither, palette, alphaThreshold, paletteType)
+#usecom IWICFormatConverter IID_IWICFormatConverter "{}"
+#comfunc d2d_WICCnv_Initialize 8 comobj, var, int, int, double, int
 
 ; --- IWICStream (extends IStream extends ISequentialStream extends IUnknown) ---
 ;   IUnknown 0..2 / ISeq 3..4 / IStream 5..13 / IWICStream 14..17
@@ -214,7 +248,7 @@
     d2d_cur_color(1) = 1.0
     d2d_cur_color(2) = 1.0
     d2d_cur_color(3) = 1.0
-    dim64 d2d_cur_format_ptr, 1             ; IDWriteTextFormat* (or 0)
+    dim   d2d_format_ready, 1               ; d2d_cur_format が valid なら 1
     d2d_state_ready = 1
     return
 
@@ -273,17 +307,16 @@
 ;-----------------------------------------------------------
 ; d2d_shutdown
 ;-----------------------------------------------------------
-#deffunc d2d_shutdown local _fmt_final, local _dwfac_final, local _d2dfac_final
+#deffunc d2d_shutdown local _dwfac_final, local _d2dfac_final
     if d2d_initialized = 0 : return
 
     ; Phase 1 PoC: 画像の自動 sweep はしない。ユーザーが明示的に d2d_image_delete
     ; を呼ぶ想定 (repeat ループから #deffunc 呼び出し + 配列参照の組み合わせで
     ; 原因不明の Error 7 が出るため、ここでは factory のみ release する)
 
-    if d2d_cur_format_ptr(0) ! 0 {
-        newcom _fmt_final, IDWriteTextFormat, -1, d2d_cur_format_ptr(0)
-        delcom _fmt_final
-        d2d_cur_format_ptr(0) = 0
+    if d2d_format_ready {
+        delcom d2d_cur_format
+        d2d_format_ready = 0
     }
     if d2d_dwfac_ptr ! 0 {
         newcom _dwfac_final, IDWriteFactory, -1, d2d_dwfac_ptr
@@ -353,6 +386,122 @@
 
     d2d_img_w(id)       = w
     d2d_img_h(id)       = h
+    d2d_img_drawing(id) = 0
+    d2d_cur_id          = id
+    return
+
+;-----------------------------------------------------------
+; d2d_image_load id, "in.png"
+;   PNG/BMP/JPG/TIFF/GIF を読み込んで指定 ID に展開する。
+;   既存 ID は破棄。読み込み後はカレント描画対象になる。
+;-----------------------------------------------------------
+#deffunc d2d_image_load int id, str path, \
+    local _dec_out, local _dec_ptr, local _dec, \
+    local _frm_out, local _frm_ptr, local _frm, \
+    local _cnv_out, local _cnv_ptr, local _cnv, \
+    local _bmp_out, local _bmp_ptr, \
+    local _pixfmt_buf, local _w_buf, local _h_buf, local _w, local _h, \
+    local _props, local _d2dfac, local _wicbmp, local _rt_out, local _stat, \
+    local _alpha_th
+    if d2d_initialized = 0 : d2d_init
+    if id < 0 : return
+    if id >= D2D_IMGS_MAX : return
+
+    ; 既存 ID は破棄
+    if d2d_rt_ptrs(id) ! 0 : d2d_image_delete id
+
+    ; 1) Decoder 作成 (CreateDecoderFromFilename)
+    sdim _dec_out, 16
+    d2d_WIC_CreateDecoderFromFilename d2d_wicfac, path, 0, 0x80000000, 0, _dec_out
+    if stat ! 0 {
+        mes "d2d_image_load: CreateDecoderFromFilename stat=" + stat
+        return
+    }
+    dim64 _dec_ptr, 1
+    d2d_RtlMoveMemory _dec_ptr, _dec_out, 8
+    newcom _dec, IWICBitmapDecoder, -1, _dec_ptr
+
+    ; 2) フレーム 0 を取得 (IWICBitmapDecoder::GetFrame)
+    sdim _frm_out, 16
+    d2d_WICDec_GetFrame _dec, 0, _frm_out
+    if stat ! 0 {
+        delcom _dec
+        mes "d2d_image_load: GetFrame stat=" + stat
+        return
+    }
+    dim64 _frm_ptr, 1
+    d2d_RtlMoveMemory _frm_ptr, _frm_out, 8
+    newcom _frm, IWICBitmapFrameDecode, -1, _frm_ptr
+
+    ; 3) サイズ取得 (IWICBitmapFrameDecode::GetSize → IWICBitmapSource 経由)
+    sdim _w_buf, 8
+    sdim _h_buf, 8
+    d2d_WICFrmDec_GetSize _frm, _w_buf, _h_buf
+    _w = lpeek(_w_buf, 0)
+    _h = lpeek(_h_buf, 0)
+
+    ; 4) FormatConverter で PBGRA に変換
+    sdim _cnv_out, 16
+    d2d_WIC_CreateFormatConverter d2d_wicfac, _cnv_out
+    if stat ! 0 {
+        delcom _frm : delcom _dec
+        mes "d2d_image_load: CreateFormatConverter stat=" + stat
+        return
+    }
+    dim64 _cnv_ptr, 1
+    d2d_RtlMoveMemory _cnv_ptr, _cnv_out, 8
+    newcom _cnv, IWICFormatConverter, -1, _cnv_ptr
+
+    sdim _pixfmt_buf, 16
+    if d2d_IIDFromString(GUID_WICPixelFormat32bppPBGRA, _pixfmt_buf) ! 0 {
+        delcom _cnv : delcom _frm : delcom _dec
+        return
+    }
+    ; Initialize(srcSource, dstFormat, dither=0, palette=NULL, alphaThreshold=0.0, paletteType=0)
+    _alpha_th = 0.0
+    d2d_WICCnv_Initialize _cnv, _frm, _pixfmt_buf, 0, 0, _alpha_th, 0
+    if stat ! 0 {
+        delcom _cnv : delcom _frm : delcom _dec
+        mes "d2d_image_load: Converter Initialize stat=" + stat
+        return
+    }
+
+    ; 5) CreateBitmapFromSource で WIC bitmap (キャッシュ済み PBGRA) を作る
+    sdim _bmp_out, 16
+    d2d_WIC_CreateBitmapFromSource d2d_wicfac, _cnv, 2, _bmp_out
+    _stat = stat
+    delcom _cnv : delcom _frm : delcom _dec
+    if _stat ! 0 {
+        mes "d2d_image_load: CreateBitmapFromSource stat=" + _stat
+        return
+    }
+    d2d_RtlMoveMemory d2d_wicbmp_ptrs(id), _bmp_out, 8
+
+    ; 6) D2D RenderTarget を WIC bitmap に紐付け (image_create と同じ流れ)
+    stdim _props, D2D_RT_PROPS
+    _props->rtType     = 0
+    _props->dxgiFormat = 87
+    _props->alphaMode  = 1
+    _props->dpiX       = 96.0
+    _props->dpiY       = 96.0
+    _props->usage      = 0
+    _props->minLevel   = 0
+
+    _attach_d2dfac(_d2dfac, d2d_d2dfac_ptr)
+    _attach_wicbmp(_wicbmp, d2d_wicbmp_ptrs(id))
+    sdim _rt_out, 16
+    d2d_D2DFac_CreateWicBitmapRenderTarget _d2dfac, _wicbmp, _props, _rt_out
+    _stat = stat
+    delcom _d2dfac
+    delcom _wicbmp
+    if _stat ! 0 {
+        mes "d2d_image_load: CreateWicBitmapRenderTarget stat=" + _stat
+        return
+    }
+    d2d_RtlMoveMemory d2d_rt_ptrs(id), _rt_out, 8
+
+    d2d_img_w(id)       = _w
+    d2d_img_h(id)       = _h
     d2d_img_drawing(id) = 0
     d2d_cur_id          = id
     return
@@ -456,13 +605,19 @@
 ; d2d_font "family", size, weight, italic
 ;-----------------------------------------------------------
 #deffunc d2d_font str family, double size, int weight, int italic, \
-    local _old, local _w, local _style, local _out, local _dwfac
+    local _w, local _style, local _out, local _dwfac, local _ptr
     if d2d_initialized = 0 : d2d_init
 
-    ; NOTE: 旧 format を Release すると d2d_shutdown 側の同パターン Release で
-    ; HSP 内の ReleaseComPtr が AV する (HSP comobj 側のバグ)。
-    ; 暫定対応: 旧 format を leak する。1 個 ~ 数百 byte なので実害は少ない。
-    ; 詳細は memory/reference_hsp_module_quirks 参照。Phase 3 で対処予定。
+    ; 旧 format がある場合は delcom で release。
+    ; Phase 4: comobj 変数 d2d_cur_format を直接管理することで、
+    ; Phase 3 までの leak workaround を解消した。
+    ; (旧実装は newcom -1 + delcom を 2 つの異なる #deffunc から呼び出す形に
+    ;  なっていて、HSP comobj cleanup table 内で同じ raw ptr アドレスを
+    ;  二重 enqueue する形となり ReleaseComPtr で AV していた)
+    if d2d_format_ready {
+        delcom d2d_cur_format
+        d2d_format_ready = 0
+    }
 
     _w = weight
     if _w <= 0 : _w = 400
@@ -478,7 +633,11 @@
         mes "d2d_font: CreateTextFormat stat=" + stat
         return
     }
-    d2d_RtlMoveMemory d2d_cur_format_ptr, _out, 8
+    ; raw ptr を取り出して comobj 変数 d2d_cur_format に -1 (ownership 取得) で wrap
+    dim64 _ptr, 1
+    d2d_RtlMoveMemory _ptr, _out, 8
+    newcom d2d_cur_format, IDWriteTextFormat, -1, _ptr
+    d2d_format_ready = 1
     return
 
 ;-----------------------------------------------------------
@@ -488,7 +647,7 @@
     local _w2, local _h2, local _col, local _bp, local _brush_out, local _rt, \
     local _brush_ptr, local _rect, local _fmt, local _brush, local _brush_final
     if d2d_cur_id < 0 : return
-    if d2d_cur_format_ptr = 0 {
+    if d2d_format_ready = 0 {
         mes "d2d_drawtext: call d2d_font first"
         return
     }
@@ -531,20 +690,19 @@
     _rect->right  = double(x + _w2)
     _rect->bottom = double(y + _h2)
 
-    _attach_dwfmt(_fmt, d2d_cur_format_ptr)
     _attach_scb(_brush, _brush_ptr)
 
     ; DrawText("text", strlen, fmt, &rect, brush,
     ;          options = D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT (= 4)
     ;            → COLR/CPAL/CBDT/sbix 系の色付き絵文字フォントを有効化
     ;          measuringMode = DWRITE_MEASURING_MODE_NATURAL (= 0))
-    d2d_RT_DrawText _rt, text, strlen(text), _fmt, _rect, _brush, 4, 0
+    ; 第3引数 fmt はモジュール scope の comobj 変数 d2d_cur_format をそのまま渡す
+    d2d_RT_DrawText _rt, text, strlen(text), d2d_cur_format, _rect, _brush, 4, 0
     if stat ! 0 : mes "d2d_drawtext: DrawText stat=" + stat
 
     ; brush は newcom -2 で attach しているので delcom が AddRef を打ち消す。
     ; 元のオーナーシップは _brush_ptr 側で保持しており、ここでは触らない
     delcom _brush
-    delcom _fmt
     delcom _rt
     ; CreateSolidColorBrush で得た参照を 1 回だけ Release (newcom -1 で引き取り)
     newcom _brush_final, ID2D1SolidColorBrush, -1, _brush_ptr
@@ -552,21 +710,51 @@
     return
 
 ;-----------------------------------------------------------
-; d2d_image_save id, "out.png"
+; 拡張子から WIC ContainerFormat GUID 文字列を返す内部ヘルパ
+;   .png .bmp .jpg .jpeg .tif .tiff .gif に対応 (大小不問)
+;-----------------------------------------------------------
+#defcfunc _d2d_guid_for_ext str path, local _p, local _n, local _ext4, local _ext5
+    _p = path                       ; str パラメータをローカルに copy (strmid の var 引数として使うため)
+    _n = strlen(_p)
+    if _n >= 4 {
+        _ext4 = strmid(_p, _n - 4, 4)
+        if _ext4 = ".png" : return GUID_ContainerFormatPng
+        if _ext4 = ".PNG" : return GUID_ContainerFormatPng
+        if _ext4 = ".bmp" : return GUID_ContainerFormatBmp
+        if _ext4 = ".BMP" : return GUID_ContainerFormatBmp
+        if _ext4 = ".jpg" : return GUID_ContainerFormatJpeg
+        if _ext4 = ".JPG" : return GUID_ContainerFormatJpeg
+        if _ext4 = ".tif" : return GUID_ContainerFormatTiff
+        if _ext4 = ".TIF" : return GUID_ContainerFormatTiff
+        if _ext4 = ".gif" : return GUID_ContainerFormatGif
+        if _ext4 = ".GIF" : return GUID_ContainerFormatGif
+    }
+    if _n >= 5 {
+        _ext5 = strmid(_p, _n - 5, 5)
+        if _ext5 = ".jpeg" : return GUID_ContainerFormatJpeg
+        if _ext5 = ".JPEG" : return GUID_ContainerFormatJpeg
+        if _ext5 = ".tiff" : return GUID_ContainerFormatTiff
+        if _ext5 = ".TIFF" : return GUID_ContainerFormatTiff
+    }
+    return GUID_ContainerFormatPng    ; 未対応拡張子は PNG fallback
+
+;-----------------------------------------------------------
+; d2d_image_save id, "out.png" (.png/.bmp/.jpg/.jpeg/.tif/.tiff/.gif 対応)
 ;-----------------------------------------------------------
 #deffunc d2d_image_save int id, str path, \
     local _png_guid_buf, local _fmt_guid_buf, local _out, local _stream_ptr, local _stream, \
     local _out2, local _enc_ptr, local _enc, local _frame_out, local _props_out, \
-    local _frame_ptr, local _frame, local _bmp
+    local _frame_ptr, local _frame, local _bmp, local _guid_str
     if id < 0 : return
     if id >= D2D_IMGS_MAX : return
     if d2d_rt_ptrs(id) = 0 : return
 
     _d2d_flush id   ; EndDraw を確実に
 
-    ; PNG のみ実装 (拡張子は無視)
+    ; 拡張子から container GUID を選択
     sdim _png_guid_buf, 16
-    if d2d_IIDFromString(GUID_ContainerFormatPng, _png_guid_buf) ! 0 : return
+    _guid_str = _d2d_guid_for_ext(path)
+    if d2d_IIDFromString(_guid_str, _png_guid_buf) ! 0 : return
     sdim _fmt_guid_buf, 16
     if d2d_IIDFromString(GUID_WICPixelFormat32bppBGRA, _fmt_guid_buf) ! 0 : return
 
