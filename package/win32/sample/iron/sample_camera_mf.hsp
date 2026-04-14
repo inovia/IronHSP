@@ -1,0 +1,110 @@
+;============================================================
+;  iron_camera_mf サンプル: pure Media Foundation Webcam Preview
+;
+;  hspmfcam.dll (C++) → MF SourceReader → child window thread の
+;  経路で Webcam をリアルタイム表示。OpenCV 不要、依存は hspmfcam.dll のみ。
+;
+;  特徴:
+;    - 内部 worker thread でフレーム取得 → child window に StretchDIBits
+;    - HSP main thread が止まっても (title bar drag 等) 止まらない
+;    - アスペクト比固定 ([A] キーで切り替え)
+;
+;  操作:
+;    [A]   アスペクト比モード切替 (stretch / letterbox)
+;    [S]   スナップショット保存 (snapshot.png)
+;    [J]   JPEG で保存 (snapshot.jpg)
+;    [ESC] 終了
+;============================================================
+
+#include "iron_camera_mf.hsp"
+
+	title "iron_camera_mf — Pure MF Webcam Preview"
+
+	; カメラ列挙
+	n_cams = iron_cam_count()
+	if n_cams = 0 {
+		dialog "Webcam が接続されていません。", 1
+		end
+	}
+
+	; 1 台目のカメラ名
+	iron_cam_name 0, cam_name
+	mes ""
+
+	; カメラ画面領域
+	prev_x = 0
+	prev_y = 0
+	prev_w = 800
+	prev_h = 540
+
+	screen 0, prev_w, prev_h + 100
+	font "MS Gothic", 14
+	title strf("iron_camera_mf — %d cam(s)  / using #0: %s", n_cams, cam_name)
+
+	; カメラ起動
+	hcam = iron_cam_open(0, prev_x, prev_y, prev_w, prev_h)
+	if hcam < 0 {
+		dialog "カメラ 0 を開けませんでした。", 1
+		end
+	}
+	iron_cam_size hcam, cw, ch
+	iron_cam_set_aspect hcam, 1   ; letterbox
+
+	aspect_mode = 1
+	snap_msg_until = 0
+
+*main_loop
+	stick k, $80 | $f
+	if k & $80 : goto *do_exit                ; ESC
+
+	getkey k_a, 'A'
+	if k_a {
+		aspect_mode ^= 1
+		iron_cam_set_aspect hcam, aspect_mode
+		repeat 5 : await 30 : loop
+	}
+	getkey k_s, 'S'
+	if k_s {
+		iron_cam_save hcam, "snapshot.png"
+		snap_msg_until = gettime(7) + gettime(6) * 1000 + 1500
+		repeat 5 : await 30 : loop
+	}
+	getkey k_j, 'J'
+	if k_j {
+		iron_cam_save hcam, "snapshot.jpg"
+		snap_msg_until = gettime(7) + gettime(6) * 1000 + 1500
+		repeat 5 : await 30 : loop
+	}
+
+	; HSP 側 UI 描画 (child window はバックグラウンドで自動更新)
+	redraw 0
+	color 32, 32, 32 : boxf 0, prev_h, prev_w, prev_h + 100 : color 0, 0, 0
+
+	color 255, 255, 255
+	pos 10, prev_h + 8
+	if aspect_mode = 0 {
+		mode_label = "stretch"
+	} else {
+		mode_label = "letterbox"
+	}
+	mes strf("解像度: %d x %d   モード: %s   状態 code: %d", cw, ch, mode_label, iron_cam_state(hcam))
+	pos 10, prev_h + 28
+	mes "[A] アスペクト比切替   [S] PNG保存   [J] JPG保存   [ESC] 終了"
+	pos 10, prev_h + 48
+	mes "(プレビューは独立 worker thread。ウィンドウのタイトルバーを掴んでも映像は止まりません)"
+
+	now_ms = gettime(7) + gettime(6) * 1000
+	if snap_msg_until > now_ms {
+		color 255, 255, 0
+		pos prev_w - 240, prev_h + 8
+		mes "snapshot 保存しました"
+	}
+	color 0, 0, 0
+	redraw 1
+
+	await 30
+	goto *main_loop
+
+*do_exit
+	iron_cam_close hcam
+	end

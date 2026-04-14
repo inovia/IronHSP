@@ -1,0 +1,164 @@
+;============================================================
+;   iron_camera_mf.hsp — Webcam Preview (pure Media Foundation)
+;
+;   hspmfcam.dll を経由して Media Foundation の SourceReader から
+;   Webcam フレームを取得する HSP ラッパ。OpenCV 不要。
+;
+;   特徴:
+;     - 内部で worker thread + child window を作成 (MFPlay と同じ方式)
+;     - HSP main thread が title bar drag 等で止まっても prefetch 継続
+;     - アスペクト比固定モード対応
+;     - リサイズ対応 (set_pos)
+;     - 最大 256 台のカメラを同時に open 可 (ハンドル管理)
+;     - PNG/JPEG/BMP/GIF/TIFF スナップショット保存
+;     - カメラ/オーディオデバイスの列挙 + friendly name 取得
+;
+;   API (列挙系 - インスタンス無しで呼べる):
+;     n = iron_cam_count()
+;     iron_cam_name idx, name_var          ; カメラ friendly name (ANSI)
+;     n = iron_cam_audio_count()
+;     iron_cam_audio_name idx, name_var    ; オーディオ friendly name
+;
+;   API (ハンドル管理):
+;     h = iron_cam_open(dev_idx, x, y, w, h)
+;         dev_idx 番目のカメラを HSP window 内 (x,y,w,h) に
+;         child window として開く。worker thread + プレビュー自動開始。
+;         戻り値 h: ハンドル (>=0 成功) / -1 失敗
+;
+;     iron_cam_size h, var_w, var_h         ; カメラのネイティブ解像度
+;     iron_cam_set_pos h, x, y, w, h        ; child window 位置/サイズ変更
+;     iron_cam_set_aspect h, mode           ; 0=stretch / 1=letterbox
+;     s = iron_cam_state(h)                 ; 0=FREE 1=OPENING 2=READY 3=ERROR
+;     iron_cam_save h, "snap.png"           ; PNG/JPG/BMP/GIF/TIFF
+;     iron_cam_read h, buf                  ; BGRA byte配列にコピー
+;     iron_cam_close h
+;
+;   例 (シンプル):
+;     #include "iron_camera_mf.hsp"
+;         screen 0, 800, 600
+;         h = iron_cam_open(0, 0, 0, 800, 600)
+;         iron_cam_set_aspect h, 1
+;         stop
+;
+;   例 (2 台同時):
+;     #include "iron_camera_mf.hsp"
+;         screen 0, 1300, 500
+;         h1 = iron_cam_open(0,   0, 0, 2560, 480)
+;         h2 = iron_cam_open(1, 660, 0, 2560, 480)
+;         stop
+;
+;   依存:
+;     hspmfcam.dll / hspmfcam_256.dll を実行ファイルと同じディレクトリに配置
+;============================================================
+
+#ifndef __iron_camera_mf_hsp__
+#define __iron_camera_mf_hsp__
+
+#uselib "hspmfcam.dll"
+#cfunc _mfcam_count          "mfcam_count"
+#func  _mfcam_get_name       "mfcam_get_name"        int, var, int
+#cfunc _mfcam_audio_count    "mfcam_audio_count"
+#func  _mfcam_audio_get_name "mfcam_audio_get_name"  int, var, int
+#func  _mfcam_open           "mfcam_open"            int, int, int, int, int, int, var, var
+#func  _mfcam_set_pos        "mfcam_set_pos"         int, int, int, int, int
+#func  _mfcam_set_aspect     "mfcam_set_aspect"      int, int
+#cfunc _mfcam_get_state      "mfcam_get_state"       int
+#func  _mfcam_read           "mfcam_read"            int, var
+#func  _mfcam_save_snapshot  "mfcam_save_snapshot"   int, str
+#func  _mfcam_close          "mfcam_close"           int
+
+;------------------------------------------------------------
+; State 定数
+;------------------------------------------------------------
+#define IRON_CAM_FREE     0
+#define IRON_CAM_OPENING  1
+#define IRON_CAM_READY    2
+#define IRON_CAM_ERROR    3
+
+;------------------------------------------------------------
+; ハンドル別解像度キャッシュ (256 スロット = MAX_CAMS in hspmfcam.dll)
+;------------------------------------------------------------
+	dim _icm_w, 256
+	dim _icm_h, 256
+	goto *_icm_skip_init
+
+;------------------------------------------------------------
+; 列挙系 (インスタンス不要)
+;------------------------------------------------------------
+#defcfunc iron_cam_count
+    return _mfcam_count()
+
+#deffunc iron_cam_name int idx, var out_name
+    sdim out_name, 256
+    _mfcam_get_name idx, out_name, 255
+    return
+
+#defcfunc iron_cam_audio_count
+    return _mfcam_audio_count()
+
+#deffunc iron_cam_audio_name int idx, var out_name
+    sdim out_name, 256
+    _mfcam_audio_get_name idx, out_name, 255
+    return
+
+;------------------------------------------------------------
+; ハンドル管理 API
+;------------------------------------------------------------
+#defcfunc iron_cam_open int dev_idx, int px, int py, int pw, int ph,  local _w, local _h, local _h_id
+    _w = 0
+    _h = 0
+    _mfcam_open dev_idx, hwnd, px, py, pw, ph, _w, _h
+    _h_id = stat
+    if _h_id < 0 : return -1
+    if _h_id < 256 {
+        _icm_w(_h_id) = _w
+        _icm_h(_h_id) = _h
+    }
+    return _h_id
+
+#deffunc iron_cam_size int h, var ow, var oh
+    if (h < 0) | (h >= 256) {
+        ow = 0
+        oh = 0
+        return
+    }
+    ow = _icm_w(h)
+    oh = _icm_h(h)
+    return
+
+#deffunc iron_cam_set_pos int h, int x, int y, int w, int hh
+    if h < 0 : return
+    _mfcam_set_pos h, x, y, w, hh
+    return
+
+#deffunc iron_cam_set_aspect int h, int mode
+    if h < 0 : return
+    _mfcam_set_aspect h, mode
+    return
+
+#defcfunc iron_cam_state int h
+    if h < 0 : return IRON_CAM_FREE
+    return _mfcam_get_state(h)
+
+#deffunc iron_cam_save int h, str path
+    if h < 0 : return
+    _mfcam_save_snapshot h, path
+    return
+
+#deffunc iron_cam_read int h, var buf
+    if h < 0 : return
+    _mfcam_read h, buf
+    return
+
+#deffunc iron_cam_close int h
+    if h < 0 : return
+    _mfcam_close h
+    if h < 256 {
+        _icm_w(h) = 0
+        _icm_h(h) = 0
+    }
+    return
+
+*_icm_skip_init
+
+#endif

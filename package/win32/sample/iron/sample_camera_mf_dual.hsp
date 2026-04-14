@@ -1,0 +1,103 @@
+;============================================================
+;  iron_camera_mf サンプル: 2 台同時プレビュー
+;
+;  hspmfcam.dll は最大 8 台のカメラを並列で扱える設計のため、
+;  単純に iron_cam_open を 2 回呼ぶだけで両方のフィードを同時に
+;  プレビューできる (各カメラに専用 worker thread + child window)。
+;
+;  操作:
+;    [S]   両方スナップショット保存 (snap_left.png / snap_right.png)
+;    [ESC] 終了
+;
+;  注意: 2 台目のカメラがない場合は 1 台のみで起動してエラー表示
+;============================================================
+
+#include "iron_camera_mf.hsp"
+
+	title "iron_camera_mf — 2 cameras simultaneous preview"
+
+	n_cams = iron_cam_count()
+	if n_cams = 0 {
+		dialog "Webcam が接続されていません。", 1
+		end
+	}
+
+	; 配置: 横並びで 2 つ (各 640x480) + UI バー
+	prev_w = 640
+	prev_h = 480
+	gap = 20
+	screen_w = prev_w * 2 + gap * 3
+	screen_h = prev_h + 100
+
+	screen 0, screen_w, screen_h
+	font "MS Gothic", 14
+	title strf("iron_camera_mf — 2 cams (found %d device(s))", n_cams)
+
+	; カメラ名取得
+	iron_cam_name 0, name_l
+	if n_cams >= 2 : iron_cam_name 1, name_r
+
+	; カメラ 1 (左) を起動
+	hcam_l = iron_cam_open(0, gap, 0, prev_w, prev_h)
+	if hcam_l >= 0 {
+		iron_cam_set_aspect hcam_l, 1
+		iron_cam_size hcam_l, cw_l, ch_l
+	}
+
+	; カメラ 2 (右) を起動 — 1 台しか無ければ skip
+	hcam_r = -1
+	if n_cams >= 2 {
+		hcam_r = iron_cam_open(1, gap * 2 + prev_w, 0, prev_w, prev_h)
+		if hcam_r >= 0 {
+			iron_cam_set_aspect hcam_r, 1
+			iron_cam_size hcam_r, cw_r, ch_r
+		}
+	}
+
+	snap_msg_until = 0
+
+*main_loop
+	stick k, $80
+	if k & $80 : goto *do_exit
+
+	getkey k_s, 'S'
+	if k_s {
+		if hcam_l >= 0 : iron_cam_save hcam_l, "snap_left.png"
+		if hcam_r >= 0 : iron_cam_save hcam_r, "snap_right.png"
+		snap_msg_until = gettime(7) + gettime(6) * 1000 + 1500
+		repeat 5 : await 30 : loop
+	}
+
+	redraw 0
+	color 32, 32, 32 : boxf 0, prev_h, screen_w, screen_h : color 0, 0, 0
+
+	color 255, 255, 255
+	pos 10, prev_h + 8
+	mes strf("Camera 0: %s  (%dx%d, state=%d)", name_l, cw_l, ch_l, iron_cam_state(hcam_l))
+	pos 10, prev_h + 28
+	if hcam_r >= 0 {
+		mes strf("Camera 1: %s  (%dx%d, state=%d)", name_r, cw_r, ch_r, iron_cam_state(hcam_r))
+	} else {
+		color 255, 80, 80
+		mes "Camera 1: (not available — only 1 camera connected)"
+		color 255, 255, 255
+	}
+	pos 10, prev_h + 56
+	mes "[S] 両方保存   [ESC] 終了    各カメラは独立 worker thread で動作"
+
+	now_ms = gettime(7) + gettime(6) * 1000
+	if snap_msg_until > now_ms {
+		color 255, 255, 0
+		pos screen_w - 280, prev_h + 8
+		mes "snap_left.png / snap_right.png 保存"
+	}
+	color 0, 0, 0
+	redraw 1
+
+	await 30
+	goto *main_loop
+
+*do_exit
+	if hcam_l >= 0 : iron_cam_close hcam_l
+	if hcam_r >= 0 : iron_cam_close hcam_r
+	end
