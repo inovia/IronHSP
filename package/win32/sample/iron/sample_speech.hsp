@@ -1,0 +1,90 @@
+;============================================================
+;  iron_speech サンプル: クラウド whisper でファイル文字起こし
+;
+;  Groq の Whisper API (爆速、無料枠あり) を使って WAV ファイルを
+;  日本語に文字起こしするデモ。
+;
+;  事前準備:
+;    1. https://console.groq.com/ で API キーを取得 (gsk_...)
+;    2. 環境変数 or 直接コードに埋め込み
+;    3. 音声ファイル voice.wav を用意 (16kHz mono が無難)
+;
+;  OpenAI を使う場合:
+;    iron_speech_set_endpoint "https://api.openai.com/v1"
+;    iron_speech_set_model "whisper-1"
+;    iron_speech_set_key "sk-..."
+;============================================================
+
+#include "iron_speech.hsp"
+
+	title "iron_speech sample"
+	screen 0, 720, 540
+	font "MS Gothic", 14
+
+	mes "==== iron_speech (cloud whisper) sample ===="
+	mes ""
+
+	; ----- バックエンド選択 -----
+	iron_speech_set_backend SPEECH_BACKEND_CLOUD
+	mes "backend: " + iron_speech_backend_name()
+
+	; Groq の例 (爆速 + 無料枠)
+	iron_speech_set_endpoint "https://api.groq.com/openai/v1"
+	iron_speech_set_model    "whisper-large-v3"
+	iron_speech_set_key      "gsk_REPLACE_ME"      ; ← Groq のキーを設定
+
+	iron_speech_open
+	if stat ! SPEECH_OK {
+		mes "iron_speech_open failed: " + stat
+		end
+	}
+
+	; ----- 入力ファイルパス -----
+	pos 10, 60
+	mes "音声ファイル (wav/mp3/m4a/...):"
+	pos 10, 80
+	objsize 600, 24
+	sdim audio_path, 1024
+	audio_path = "voice.wav"
+	input audio_path, 1023, 1, 24
+	pos 620, 80
+	objsize 80, 24
+	button gosub "Transcribe", *do_transcribe
+
+	pos 10, 130
+	mes "----- 認識結果 -----"
+	pos 10, 155
+	sdim result_text, 16384
+	result_text = ""
+	mesbox result_text, 700, 360, 4
+
+	stop
+
+*do_transcribe
+	objprm 0, audio_path
+	if strlen(audio_path) = 0 : return
+
+	exist audio_path
+	if strsize < 0 {
+		result_text = "[error] ファイルが見つかりません: " + audio_path
+		objprm 2, result_text
+		return
+	}
+
+	result_text = "[info] 認識中... (" + strsize + " bytes)\n"
+	objprm 2, result_text
+	await 100
+
+	sdim text, 16384
+	iron_speech_transcribe audio_path, text
+	if stat ! SPEECH_OK {
+		result_text = "[error] transcribe failed: " + stat + "\n"
+		result_text = result_text + "API キーが正しいか / endpoint が正しいか確認してください\n"
+		objprm 2, result_text
+		return
+	}
+
+	result_text = "[OK] " + audio_path + "\n\n"
+	result_text = result_text + text + "\n"
+	objprm 2, result_text
+	return

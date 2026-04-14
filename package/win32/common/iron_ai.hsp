@@ -216,6 +216,69 @@
 
     return 200
 
+;------------------------------------------------------------
+; iron_ai_transcribe "audio.wav", out_text [, "model"]
+;
+;   OpenAI 互換の /audio/transcriptions エンドポイントに音声ファイルを
+;   multipart/form-data で POST → 文字起こし結果を out_text に書き込む。
+;
+;   対応サーバ:
+;     OpenAI (api.openai.com)         → model="whisper-1"
+;     Groq (api.groq.com/openai/v1)   → model="whisper-large-v3" (爆速)
+;     LM Studio / llama.cpp / Ollama → 各サーバ実装に依存
+;
+;   音声ファイル形式: wav / mp3 / m4a / mp4 / mpeg / mpga / ogg / webm / flac
+;
+;   stat: HTTP status (200=成功)
+;------------------------------------------------------------
+#deffunc iron_ai_transcribe str audio_path, var out_text, str model_name,  local _full_url, local _resp, local _hid, local _model, local _kv, local _hdr_buf, local _ext, local _mime
+    sdim out_text, 4096
+    out_text = ""
+
+    _model = model_name
+    if strlen(_model) = 0 : _model = "whisper-1"
+
+    ; 拡張子 → MIME 推定
+    _ext = getpath(audio_path, 18)   ; 拡張子のみ
+    _mime = "audio/wav"
+    if _ext = ".mp3"  : _mime = "audio/mpeg"
+    if _ext = ".m4a"  : _mime = "audio/mp4"
+    if _ext = ".mp4"  : _mime = "audio/mp4"
+    if _ext = ".ogg"  : _mime = "audio/ogg"
+    if _ext = ".webm" : _mime = "audio/webm"
+    if _ext = ".flac" : _mime = "audio/flac"
+
+    ; Authorization ヘッダ
+    sdim _hdr_buf, 2048
+    if strlen(_ai_key) > 0 {
+        _hdr_buf = "Authorization: Bearer " + _ai_key + "\r\n"
+    } else {
+        _hdr_buf = ""
+    }
+    http_set_header _hdr_buf
+
+    ; multipart 用追加 field
+    sdim _kv, 256
+    _kv = "model=" + _model
+
+    ; URL
+    sdim _full_url, 1024
+    _full_url = _ai_endpoint + "/audio/transcriptions"
+
+    ; multipart POST
+    sdim _resp, 65536
+    http_post_file _full_url, audio_path, "file", _mime, _kv, _resp
+    if stat ! 200 {
+        return stat
+    }
+
+    ; レスポンス JSON: {"text":"..."}
+    _hid = json_load(_resp)
+    if _hid < 0 : return -1
+    out_text = json_str(_hid, "text")
+    json_release _hid
+    return 200
+
 *_ai_skip_init
 
 #endif

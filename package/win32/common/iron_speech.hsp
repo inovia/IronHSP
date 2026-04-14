@@ -1,0 +1,169 @@
+;============================================================
+;   iron_speech.hsp — 音声認識統一 API (バックエンド切替対応)
+;
+;   複数の音声認識バックエンドを統一 API で扱えるラッパ。
+;   バックエンド:
+;     SPEECH_BACKEND_CLOUD    → iron_ai 経由でクラウド Whisper API
+;                                (OpenAI / Groq / Cloudflare 等)
+;     SPEECH_BACKEND_WHISPER  → hspwhisper.dll (whisper.cpp, オフライン)  ※未実装
+;     SPEECH_BACKEND_SAPI     → hspsapi.dll (Windows SAPI 5)              ※未実装
+;     SPEECH_BACKEND_WINRT    → hspwinrtspeech.dll (WinRT, Windows.Media) ※未実装
+;     SPEECH_BACKEND_VOSK     → hspvosk.dll (Kaldi/Vosk)                  ※未実装
+;
+;   現状: CLOUD のみ動作。他は ENOTIMPL を返すスタブ。
+;
+;   依存:
+;     - iron_ai.hsp (CLOUD バックエンド用)
+;     - 各 DLL (将来追加)
+;
+;   API:
+;     iron_speech_set_backend backend_id
+;     iron_speech_set_endpoint "url"      ; CLOUD のみ
+;     iron_speech_set_key "..."           ; CLOUD のみ
+;     iron_speech_set_model "..."         ; CLOUD: whisper-1 等 / オフライン: model パス
+;     iron_speech_set_language "ja"       ; 言語ヒント (一部バックエンドで使用)
+;
+;     iron_speech_open                    ; 必要なら初期化 (現状 CLOUD は no-op)
+;     iron_speech_transcribe "audio.wav", text   ; ファイルから文字起こし
+;     iron_speech_close                   ; リソース解放
+;
+;   例 (Groq Whisper, 爆速):
+;     #include "iron_speech.hsp"
+;
+;         iron_speech_set_backend SPEECH_BACKEND_CLOUD
+;         iron_speech_set_endpoint "https://api.groq.com/openai/v1"
+;         iron_speech_set_key "gsk_..."
+;         iron_speech_set_model "whisper-large-v3"
+;         iron_speech_open
+;         iron_speech_transcribe "voice.wav", text
+;         mes "認識結果: " + text
+;         iron_speech_close
+;============================================================
+
+#ifndef __iron_speech_hsp__
+#define __iron_speech_hsp__
+
+#include "iron_ai.hsp"
+
+;------------------------------------------------------------
+; バックエンド ID 定数
+;------------------------------------------------------------
+#define SPEECH_BACKEND_CLOUD    1
+#define SPEECH_BACKEND_WHISPER  2
+#define SPEECH_BACKEND_SAPI     3
+#define SPEECH_BACKEND_WINRT    4
+#define SPEECH_BACKEND_VOSK     5
+
+;------------------------------------------------------------
+; ステータス定数
+;------------------------------------------------------------
+#define SPEECH_OK              0
+#define SPEECH_ERR_BACKEND    -1
+#define SPEECH_ERR_NOT_IMPL   -2
+#define SPEECH_ERR_NOT_OPEN   -3
+#define SPEECH_ERR_HTTP       -4
+
+;------------------------------------------------------------
+; 状態
+;------------------------------------------------------------
+
+	_isp_backend = SPEECH_BACKEND_CLOUD
+	sdim _isp_endpoint, 1024
+	sdim _isp_key, 1024
+	sdim _isp_model, 256
+	sdim _isp_language, 32
+	_isp_endpoint = "https://api.openai.com/v1"
+	_isp_key = ""
+	_isp_model = "whisper-1"
+	_isp_language = ""
+	_isp_opened = 0
+	goto *_isp_skip_init
+
+;------------------------------------------------------------
+; 設定系
+;------------------------------------------------------------
+#deffunc iron_speech_set_backend int backend_id
+    _isp_backend = backend_id
+    return
+
+#deffunc iron_speech_set_endpoint str url
+    _isp_endpoint = url
+    return
+
+#deffunc iron_speech_set_key str key
+    _isp_key = key
+    return
+
+#deffunc iron_speech_set_model str model
+    _isp_model = model
+    return
+
+#deffunc iron_speech_set_language str lang
+    _isp_language = lang
+    return
+
+;------------------------------------------------------------
+; iron_speech_open
+;------------------------------------------------------------
+#deffunc iron_speech_open
+    if _isp_backend = SPEECH_BACKEND_CLOUD {
+        ; iron_ai を設定
+        iron_ai_set_endpoint _isp_endpoint
+        iron_ai_set_key _isp_key
+        iron_ai_set_model _isp_model
+        _isp_opened = 1
+        return SPEECH_OK
+    }
+    if _isp_backend = SPEECH_BACKEND_WHISPER {
+        ; hspwhisper.dll が無いので未実装
+        return SPEECH_ERR_NOT_IMPL
+    }
+    if _isp_backend = SPEECH_BACKEND_SAPI {
+        return SPEECH_ERR_NOT_IMPL
+    }
+    if _isp_backend = SPEECH_BACKEND_WINRT {
+        return SPEECH_ERR_NOT_IMPL
+    }
+    if _isp_backend = SPEECH_BACKEND_VOSK {
+        return SPEECH_ERR_NOT_IMPL
+    }
+    return SPEECH_ERR_BACKEND
+
+;------------------------------------------------------------
+; iron_speech_transcribe "file.wav", text
+;------------------------------------------------------------
+#deffunc iron_speech_transcribe str audio_path, var out_text
+    sdim out_text, 4096
+    out_text = ""
+
+    if _isp_opened = 0 : return SPEECH_ERR_NOT_OPEN
+
+    if _isp_backend = SPEECH_BACKEND_CLOUD {
+        iron_ai_transcribe audio_path, out_text, _isp_model
+        if stat ! 200 : return SPEECH_ERR_HTTP
+        return SPEECH_OK
+    }
+    return SPEECH_ERR_NOT_IMPL
+
+;------------------------------------------------------------
+; iron_speech_close
+;------------------------------------------------------------
+#deffunc iron_speech_close
+    _isp_opened = 0
+    return SPEECH_OK
+
+;------------------------------------------------------------
+; iron_speech_backend_name() — defcfunc
+;   現在のバックエンド名を文字列で返す
+;------------------------------------------------------------
+#defcfunc iron_speech_backend_name
+    if _isp_backend = SPEECH_BACKEND_CLOUD   : return "cloud"
+    if _isp_backend = SPEECH_BACKEND_WHISPER : return "whisper.cpp (not impl)"
+    if _isp_backend = SPEECH_BACKEND_SAPI    : return "Windows SAPI 5 (not impl)"
+    if _isp_backend = SPEECH_BACKEND_WINRT   : return "WinRT Speech (not impl)"
+    if _isp_backend = SPEECH_BACKEND_VOSK    : return "Vosk (not impl)"
+    return "(unknown)"
+
+*_isp_skip_init
+
+#endif

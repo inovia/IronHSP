@@ -292,6 +292,182 @@
     _http_do url, "POST", body, _t, _agent, out_body
     return stat
 
+;------------------------------------------------------------
+; 内部: バイナリ body 対応版 _http_do (multipart upload 用)
+;
+; in:  url, verb, body_buf (var), body_len, ctype, agent, out_body (var)
+; out: out_body に応答 body、return で HTTP status
+;------------------------------------------------------------
+#deffunc _http_do_buf str url, str verb, var body_buf, int body_len, str ctype, str agent, var out_body,  local _host, local _path, local _port, local _https, local _hSession, local _hConnect, local _hRequest, local _flags, local _headers, local _buf, local _avail, local _read, local _result, local _http_status, local _status_buf, local _status_len, local _status_idx, local _result_body, local _result_body2, local _result_total, local _to_r, local _to_c, local _to_s, local _to_v
+    _http_init
+    sdim out_body, 16
+    _http_parse_url url, _host, _path, _port, _https
+
+    _hSession = _http_open(agent, 1, "", "", 0)
+    if _hSession = 0 : return 0
+
+    _to_r = _http_timeout_ms
+    _to_c = _http_timeout_ms
+    _to_s = _http_timeout_ms
+    _to_v = _http_timeout_ms
+    _http_set_to _hSession, _to_r, _to_c, _to_s, _to_v
+
+    _hConnect = _http_connect(_hSession, _host, _port, 0)
+    if _hConnect = 0 {
+        _http_close _hSession
+        return 0
+    }
+
+    _flags = 0
+    if _https ! 0 : _flags = 0x00800000
+    _hRequest = _http_request(_hConnect, verb, _path, "", "", 0, _flags)
+    if _hRequest = 0 {
+        _http_close _hConnect
+        _http_close _hSession
+        return 0
+    }
+
+    _headers = ""
+    if strlen(ctype) > 0 {
+        _headers = "Content-Type: " + ctype + "\r\n"
+    }
+    if strlen(_http_extra_headers) > 0 {
+        _headers = _headers + _http_extra_headers
+    }
+
+    if body_len > 0 {
+        _result = _http_send(_hRequest, _headers, -1, body_buf, body_len, body_len, 0)
+    } else {
+        _result = _http_send_nobody(_hRequest, _headers, -1, 0, 0, 0, 0)
+    }
+    if _result = 0 {
+        _http_close _hRequest
+        _http_close _hConnect
+        _http_close _hSession
+        return 0
+    }
+
+    _result = _http_recv(_hRequest, 0)
+    if _result = 0 {
+        _http_close _hRequest
+        _http_close _hConnect
+        _http_close _hSession
+        return 0
+    }
+
+    sdim _status_buf, 16
+    _status_len = 16
+    _status_idx = 0
+    _result = _http_query_hdr(_hRequest, 19 | 0x20000000, 0, _status_buf, _status_len, _status_idx)
+    if _result ! 0 {
+        _http_status = lpeek(_status_buf, 0)
+    } else {
+        _http_status = 0
+    }
+
+    sdim _result_body, 4096
+    _result_total = 0
+    repeat
+        _result = _http_query_avail(_hRequest, _avail)
+        if _result = 0 : break
+        if _avail = 0 : break
+        sdim _buf, _avail + 16
+        _result = _http_read(_hRequest, _buf, _avail, _read)
+        if _result = 0 : break
+        if _read = 0 : break
+        if _result_total + _read >= varsize(_result_body) {
+            sdim _result_body2, _result_total + _read + 4096
+            memcpy _result_body2, _result_body, _result_total
+            _result_body = _result_body2
+        }
+        memcpy _result_body, _buf, _read, _result_total, 0
+        _result_total += _read
+    loop
+    poke _result_body, _result_total, 0
+
+    _http_close _hRequest
+    _http_close _hConnect
+    _http_close _hSession
+
+    out_body = _result_body
+    return _http_status
+
+;------------------------------------------------------------
+; http_post_file url, "file.wav", "file_field", "audio/wav", "key1=val1\nkey2=val2", body
+;
+; multipart/form-data ファイルアップロード。OpenAI Whisper API 等で使用。
+;
+;   url        : POST 先 URL
+;   file_path  : アップロードするローカルファイルパス
+;   file_field : multipart の name="..." 値 (例 "file")
+;   file_mime  : ファイルの MIME (例 "audio/wav")
+;   extra_kv   : 追加 form field を "key=value" 1 行/行 で指定
+;                例: "model=whisper-1\nlanguage=ja"
+;   out_body   : 応答 body を受け取る var
+;
+; 戻り値: stat = HTTP status
+;------------------------------------------------------------
+#deffunc http_post_file str url, str file_path, str file_field, str file_mime, str extra_kv, var out_body,  local _file_buf, local _file_len, local _boundary, local _body, local _pre, local _post, local _ctype, local _agent, local _total, local _filename, local _line, local _eq, local _kvkey, local _kvval, local _kv_remain, local _nl, local _pre_len, local _post_len
+    ; ファイル読み込み
+    exist file_path
+    if strsize < 0 : return -1
+    _file_len = strsize
+    sdim _file_buf, _file_len + 16
+    bload file_path, _file_buf, _file_len
+
+    _boundary = "----IronHSPBoundary7MA4YWxkTrZu0gW"
+
+    ; ファイル名 (パスを除いた basename)
+    _filename = getpath(file_path, 8)
+
+    ; 前半 (ファイルパート header)
+    sdim _pre, 1024
+    _pre  = "--" + _boundary + "\r\n"
+    _pre += "Content-Disposition: form-data; name=\"" + file_field + "\"; filename=\"" + _filename + "\"\r\n"
+    _pre += "Content-Type: " + file_mime + "\r\n\r\n"
+
+    ; 後半 (\r\n + 追加 form fields + closing boundary)
+    sdim _post, 4096
+    _post = "\r\n"
+    ; extra_kv を行ごとに分解
+    _kv_remain = extra_kv
+    repeat
+        if strlen(_kv_remain) = 0 : break
+        _nl = instr(_kv_remain, 0, "\n")
+        if _nl < 0 {
+            _line = _kv_remain
+            _kv_remain = ""
+        } else {
+            _line = strmid(_kv_remain, 0, _nl)
+            _kv_remain = strmid(_kv_remain, _nl + 1, strlen(_kv_remain) - _nl - 1)
+        }
+        if strlen(_line) = 0 : continue
+        _eq = instr(_line, 0, "=")
+        if _eq < 0 : continue
+        _kvkey = strmid(_line, 0, _eq)
+        _kvval = strmid(_line, _eq + 1, strlen(_line) - _eq - 1)
+        _post += "--" + _boundary + "\r\n"
+        _post += "Content-Disposition: form-data; name=\"" + _kvkey + "\"\r\n\r\n"
+        _post += _kvval + "\r\n"
+    loop
+    _post += "--" + _boundary + "--\r\n"
+
+    _pre_len  = strlen(_pre)
+    _post_len = strlen(_post)
+    _total    = _pre_len + _file_len + _post_len
+
+    ; body buffer 組み立て
+    sdim _body, _total + 16
+    memcpy _body, _pre, _pre_len, 0, 0
+    memcpy _body, _file_buf, _file_len, _pre_len, 0
+    memcpy _body, _post, _post_len, _pre_len + _file_len, 0
+
+    _ctype = "multipart/form-data; boundary=" + _boundary
+    _agent = "IronHSP/1.0"
+
+    _http_do_buf url, "POST", _body, _total, _ctype, _agent, out_body
+    return stat
+
 #global
 
 #endif
