@@ -2,12 +2,22 @@ LIBRARY hspmfcam
 EXPORTS
     mfcam_count
     mfcam_get_name
+    mfcam_get_id
     mfcam_audio_count
     mfcam_audio_get_name
+    mfcam_audio_get_id
+    mfcam_format_count
+    mfcam_format_get
     mfcam_open
+    mfcam_open_ex
     mfcam_set_pos
     mfcam_set_aspect
     mfcam_get_state
     mfcam_read
     mfcam_save_snapshot
+    mfcam_prop_get
+    mfcam_prop_set
+    mfcam_record_start
+    mfcam_record_start_av
+    mfcam_record_stop
     mfcam_close

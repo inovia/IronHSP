@@ -57,15 +57,49 @@
 #uselib "hspmfcam.dll"
 #cfunc _mfcam_count          "mfcam_count"
 #func  _mfcam_get_name       "mfcam_get_name"        int, var, int
+#func  _mfcam_get_id         "mfcam_get_id"          int, var, int
 #cfunc _mfcam_audio_count    "mfcam_audio_count"
 #func  _mfcam_audio_get_name "mfcam_audio_get_name"  int, var, int
+#func  _mfcam_audio_get_id   "mfcam_audio_get_id"    int, var, int
+#cfunc _mfcam_format_count   "mfcam_format_count"    int
+#func  _mfcam_format_get     "mfcam_format_get"      int, int, var, var, var, var, var, int
 #func  _mfcam_open           "mfcam_open"            int, int, int, int, int, int, var, var
+#func  _mfcam_open_ex        "mfcam_open_ex"         int, int, int, int, int, int, int, int, int, int, var, var
 #func  _mfcam_set_pos        "mfcam_set_pos"         int, int, int, int, int
 #func  _mfcam_set_aspect     "mfcam_set_aspect"      int, int
 #cfunc _mfcam_get_state      "mfcam_get_state"       int
 #func  _mfcam_read           "mfcam_read"            int, var
 #func  _mfcam_save_snapshot  "mfcam_save_snapshot"   int, str
+#func  _mfcam_prop_get       "mfcam_prop_get"        int, int, var, var, var, var, var, var
+#func  _mfcam_prop_set       "mfcam_prop_set"        int, int, int, int
+#func  _mfcam_record_start   "mfcam_record_start"    int, str, str, int
+#func  _mfcam_record_start_av "mfcam_record_start_av" int, str, str, int, int, str, int
+#func  _mfcam_record_stop    "mfcam_record_stop"     int
 #func  _mfcam_close          "mfcam_close"           int
+
+;------------------------------------------------------------
+; カメラプロパティ ID 定数
+;------------------------------------------------------------
+#define IRON_CAM_PROP_BRIGHTNESS    0
+#define IRON_CAM_PROP_CONTRAST      1
+#define IRON_CAM_PROP_HUE           2
+#define IRON_CAM_PROP_SATURATION    3
+#define IRON_CAM_PROP_SHARPNESS     4
+#define IRON_CAM_PROP_GAMMA         5
+#define IRON_CAM_PROP_COLOR_ENABLE  6
+#define IRON_CAM_PROP_WHITE_BALANCE 7
+#define IRON_CAM_PROP_BACKLIGHT     8
+#define IRON_CAM_PROP_GAIN          9
+#define IRON_CAM_PROP_PAN          10
+#define IRON_CAM_PROP_TILT         11
+#define IRON_CAM_PROP_ROLL         12
+#define IRON_CAM_PROP_ZOOM         13
+#define IRON_CAM_PROP_EXPOSURE     14
+#define IRON_CAM_PROP_IRIS         15
+#define IRON_CAM_PROP_FOCUS        16
+
+#define IRON_CAM_PROP_AUTO    1
+#define IRON_CAM_PROP_MANUAL  2
 
 ;------------------------------------------------------------
 ; State 定数
@@ -93,12 +127,33 @@
     _mfcam_get_name idx, out_name, 255
     return
 
+#deffunc iron_cam_id int idx, var out_id
+    sdim out_id, 1024
+    _mfcam_get_id idx, out_id, 1023
+    return
+
 #defcfunc iron_cam_audio_count
     return _mfcam_audio_count()
 
 #deffunc iron_cam_audio_name int idx, var out_name
     sdim out_name, 256
     _mfcam_audio_get_name idx, out_name, 255
+    return
+
+#deffunc iron_cam_audio_id int idx, var out_id
+    sdim out_id, 1024
+    _mfcam_audio_get_id idx, out_id, 1023
+    return
+
+;------------------------------------------------------------
+; フォーマット列挙
+;------------------------------------------------------------
+#defcfunc iron_cam_format_count int dev_idx
+    return _mfcam_format_count(dev_idx)
+
+#deffunc iron_cam_format_get int dev_idx, int fmt_idx, var ow, var oh, var ofn, var ofd, var ofcc
+    sdim ofcc, 32
+    _mfcam_format_get dev_idx, fmt_idx, ow, oh, ofn, ofd, ofcc, 31
     return
 
 ;------------------------------------------------------------
@@ -108,6 +163,25 @@
     _w = 0
     _h = 0
     _mfcam_open dev_idx, hwnd, px, py, pw, ph, _w, _h
+    _h_id = stat
+    if _h_id < 0 : return -1
+    if _h_id < 256 {
+        _icm_w(_h_id) = _w
+        _icm_h(_h_id) = _h
+    }
+    return _h_id
+
+;------------------------------------------------------------
+; iron_cam_open_ex — 任意フォーマット指定 open
+;   dev_idx, x, y, w, h           : 表示位置
+;   desired_w, desired_h          : 望む解像度 (0=デフォルト)
+;   desired_fps_num, desired_fps_den : 望む fps (0=デフォルト, 例: 30/1)
+;   戻り値: ハンドル / -1 失敗
+;------------------------------------------------------------
+#defcfunc iron_cam_open_ex int dev_idx, int px, int py, int pw, int ph, int des_w, int des_h, int des_fn, int des_fd,  local _w, local _h, local _h_id
+    _w = 0
+    _h = 0
+    _mfcam_open_ex dev_idx, hwnd, px, py, pw, ph, des_w, des_h, des_fn, des_fd, _w, _h
     _h_id = stat
     if _h_id < 0 : return -1
     if _h_id < 256 {
@@ -158,6 +232,45 @@
         _icm_h(h) = 0
     }
     return
+
+;------------------------------------------------------------
+; カメラプロパティ
+;------------------------------------------------------------
+#deffunc iron_cam_prop_get int h, int prop_id, var val, var minv, var maxv, var step, var defv, var flags
+    val = 0 : minv = 0 : maxv = 0 : step = 0 : defv = 0 : flags = 0
+    if h < 0 : return -1
+    _mfcam_prop_get h, prop_id, val, minv, maxv, step, defv, flags
+    return stat
+
+#deffunc iron_cam_prop_set int h, int prop_id, int val, int flags
+    if h < 0 : return -1
+    _mfcam_prop_set h, prop_id, val, flags
+    return stat
+
+;------------------------------------------------------------
+; 録画
+;   iron_cam_record h, "out.mp4" [, "H264", bitrate]
+;     映像のみ。codec="" でデフォルト H.264。bitrate=0 で 4Mbps。
+;
+;   iron_cam_record_av h, "out.mp4", audio_dev, "H264", vbr, "AAC", abr
+;     音声同時録画。
+;
+;   iron_cam_record_stop h
+;------------------------------------------------------------
+#deffunc iron_cam_record int h, str path, str vcodec, int vbr
+    if h < 0 : return -1
+    _mfcam_record_start h, path, vcodec, vbr
+    return stat
+
+#deffunc iron_cam_record_av int h, str path, int audio_dev, str vcodec, int vbr, str acodec, int abr
+    if h < 0 : return -1
+    _mfcam_record_start_av h, path, vcodec, vbr, audio_dev, acodec, abr
+    return stat
+
+#deffunc iron_cam_record_stop int h
+    if h < 0 : return -1
+    _mfcam_record_stop h
+    return stat
 
 *_icm_skip_init
 
