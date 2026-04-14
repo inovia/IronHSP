@@ -1,0 +1,5 @@
+LIBRARY hspsapi
+EXPORTS
+    sapi_open
+    sapi_transcribe_wav
+    sapi_close

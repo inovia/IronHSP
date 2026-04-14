@@ -63,6 +63,14 @@
 #func  _hvosk_close             "hvosk_close"             int
 
 ;------------------------------------------------------------
+; hspsapi.dll (Windows SAPI 5 バックエンド)
+;------------------------------------------------------------
+#uselib "hspsapi.dll"
+#cfunc _hsapi_open              "sapi_open"               str
+#cfunc _hsapi_transcribe_wav    "sapi_transcribe_wav"     int, str, var, int
+#func  _hsapi_close             "sapi_close"              int
+
+;------------------------------------------------------------
 ; バックエンド ID 定数
 ;------------------------------------------------------------
 #define SPEECH_BACKEND_CLOUD    1
@@ -97,6 +105,7 @@
 	_isp_whisper_handle = -1
 	_isp_vosk_handle = -1
 	_isp_vosk_sr = 16000
+	_isp_sapi_handle = -1
 	goto *_isp_skip_init
 
 ;------------------------------------------------------------
@@ -143,7 +152,11 @@
         return SPEECH_OK
     }
     if _isp_backend = SPEECH_BACKEND_SAPI {
-        return SPEECH_ERR_NOT_IMPL
+        ; _isp_language に "en-US" 等の BCP47 言語コード (空でシステム既定)
+        _isp_sapi_handle = _hsapi_open(_isp_language)
+        if _isp_sapi_handle < 0 : return SPEECH_ERR_BACKEND
+        _isp_opened = 1
+        return SPEECH_OK
     }
     if _isp_backend = SPEECH_BACKEND_WINRT {
         return SPEECH_ERR_NOT_IMPL
@@ -183,6 +196,12 @@
         _hvosk_transcribe_wav _isp_vosk_handle, audio_path, out_text, 65535
         return SPEECH_OK
     }
+    if _isp_backend = SPEECH_BACKEND_SAPI {
+        if _isp_sapi_handle < 0 : return SPEECH_ERR_NOT_OPEN
+        sdim out_text, 65536
+        _hsapi_transcribe_wav _isp_sapi_handle, audio_path, out_text, 65535
+        return SPEECH_OK
+    }
     return SPEECH_ERR_NOT_IMPL
 
 ;------------------------------------------------------------
@@ -197,6 +216,10 @@
         _hvosk_close _isp_vosk_handle
         _isp_vosk_handle = -1
     }
+    if _isp_sapi_handle >= 0 {
+        _hsapi_close _isp_sapi_handle
+        _isp_sapi_handle = -1
+    }
     _isp_opened = 0
     return SPEECH_OK
 
@@ -207,7 +230,7 @@
 #defcfunc iron_speech_backend_name
     if _isp_backend = SPEECH_BACKEND_CLOUD   : return "cloud"
     if _isp_backend = SPEECH_BACKEND_WHISPER : return "whisper.cpp (offline)"
-    if _isp_backend = SPEECH_BACKEND_SAPI    : return "Windows SAPI 5 (not impl)"
+    if _isp_backend = SPEECH_BACKEND_SAPI    : return "Windows SAPI 5"
     if _isp_backend = SPEECH_BACKEND_WINRT   : return "WinRT Speech (not impl)"
     if _isp_backend = SPEECH_BACKEND_VOSK    : return "Vosk (offline)"
     return "(unknown)"
