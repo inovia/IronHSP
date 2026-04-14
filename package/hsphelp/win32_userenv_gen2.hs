@@ -6,95 +6,82 @@
 
 %index
 CreateEnvironmentBlock
-Retrieves the environment variables for the specified user. This block can then be passed to the CreateProcessAsUser function.
+指定ユーザーの環境変数を取得する。このブロックは CreateProcessAsUser に渡せる。
 %group
 Win32 userenv
 %prm
 lpEnvironment, hToken, bInherit
-lpEnvironment : [var] Type: LPVOID* When this function returns, receives a pointer to the new environment block. The environment block is an array of null-terminated Unicode strings. The list ends with two nulls (\0\0).
-hToken : [intptr] Type: HANDLE Token for the user, returned from the LogonUser function. If this is a primary token, the token must have TOKEN_QUERY and TOKEN_DUPLICATE access. If the token is an impersonation token, it must have TOKEN_QUERY access. For more information, see Access Rights for Access-Token Objects.
-bInherit : [int] Type: BOOL Specifies whether to inherit from the current process' environment. If this value is TRUE, the process inherits the current process' environment. If this value is FALSE, the process does not inherit the current process' environment.
+lpEnvironment : [var] 型: LPVOID* 関数復帰時、新しい環境ブロックへのポインタを受け取る。環境ブロックは NULL 終端 Unicode 文字列の配列で、2 つの NULL (\0\0) で終わる。
+hToken : [intptr] 型: HANDLE ユーザーのトークン。LogonUser などで取得する。プライマリトークンの場合は TOKEN_QUERY および TOKEN_DUPLICATE アクセスが必要。インパーソネーショントークンなら TOKEN_QUERY のみでよい。
+bInherit : [int] 型: BOOL 現プロセスの環境を継承するか。TRUE で継承、FALSE で非継承。
 %inst
-Retrieves the environment variables for the specified user. This
-block can then be passed to the CreateProcessAsUser function.
+指定ユーザーの環境変数を取得する。このブロックは CreateProcessAsUser に渡せる。
 
 [戻り値]
-Type: BOOL TRUE if successful; otherwise, FALSE. To get extended
-error information, call GetLastError.
+型: BOOL 成功時は TRUE、失敗時は FALSE。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-To free the buffer when you have finished with the environment block,
-call the DestroyEnvironmentBlock function. If the environment block
-is passed to CreateProcessAsUser, you must also specify the
-CREATE_UNICODE_ENVIRONMENT flag. After CreateProcessAsUser has
-returned, the new process has a copy of the environment block, and
-DestroyEnvironmentBlock can be safely called. User-specific
-environment variables such as %USERPROFILE% are set only when the
-user's profile is loaded. To load a user's profile, call the
-LoadUserProfile function.
+使用後は DestroyEnvironmentBlock でバッファを解放する。CreateProcessAsUser に渡す場合は
+CREATE_UNICODE_ENVIRONMENT フラグを必ず指定する。CreateProcessAsUser
+から復帰後、新プロセスは環境ブロックのコピーを持つため DestroyEnvironmentBlock
+を安全に呼べる。%USERPROFILE% などユーザー固有変数はユーザープロファイルがロードされているときのみ設定されるため、必要なら
+LoadUserProfile を呼ぶ。
 
 
 %index
 DestroyEnvironmentBlock
-Frees environment variables created by the CreateEnvironmentBlock function.
+CreateEnvironmentBlock で作成された環境変数を解放する。
 %group
 Win32 userenv
 %prm
 lpEnvironment
-lpEnvironment : [intptr] Type: LPVOID Pointer to the environment block created by CreateEnvironmentBlock. The environment block is an array of null-terminated Unicode strings. The list ends with two nulls (\0\0).
+lpEnvironment : [intptr] 型: LPVOID CreateEnvironmentBlock で作成された環境ブロックへのポインタ。NULL 終端 Unicode 文字列の配列で、2 つの NULL (\0\0) で終わる。
 %inst
-Frees environment variables created by the CreateEnvironmentBlock
-function.
+CreateEnvironmentBlock で作成された環境変数を解放する。
 
 [戻り値]
-Type: BOOL TRUE if successful; otherwise, FALSE. To get extended
-error information, call GetLastError.
+型: BOOL 成功時は TRUE、失敗時は FALSE。拡張エラー情報は GetLastError で取得する。
 
 
 %index
 ExpandEnvironmentStringsForUserW
-Expands the source string by using the environment block established for the specified user. (Unicode)
+指定ユーザー用に確立された環境ブロックを使用してソース文字列を展開する。(Unicode)
 %group
 Win32 userenv
 %prm
 hToken, lpSrc, lpDest, dwSize
-hToken : [intptr] Type: HANDLE Token for the user, returned from the LogonUser, CreateRestrictedToken, DuplicateToken, OpenProcessToken, or OpenThreadToken function. The token must have TOKEN_IMPERSONATE and TOKEN_QUERY access. In addition, as of Windows?7 the token must also have TOKEN_DUPLICATE access. For more information, see Access Rights for Access-Token Objects.
-lpSrc : [wstr] Type: LPCTSTR Pointer to the null-terminated source string to be expanded.
-lpDest : [wstr] Type: LPTSTR Pointer to a buffer that receives the expanded strings.
-dwSize : [int] Type: DWORD Specifies the size of the lpDest buffer, in TCHARs.
+hToken : [intptr] 型: HANDLE ユーザーのトークン。LogonUser、CreateRestrictedToken、DuplicateToken、OpenProcessToken、OpenThreadToken などで取得する。TOKEN_IMPERSONATE、TOKEN_QUERY、Windows 7 以降は TOKEN_DUPLICATE も必要。NULL の場合、環境ブロックはシステム変数のみを含む。
+lpSrc : [wstr] 型: LPCTSTR 展開対象の NULL 終端ソース文字列へのポインタ。
+lpDest : [wstr] 型: LPTSTR 展開後の文字列を受け取るバッファへのポインタ。
+dwSize : [int] 型: DWORD lpDest バッファのサイズ(TCHAR 単位)。
 %inst
-Expands the source string by using the environment block established
-for the specified user. (Unicode)
+指定ユーザー用に確立された環境ブロックを使用してソース文字列を展開する。(Unicode)
 
 [戻り値]
-Type: BOOL TRUE if successful; otherwise, FALSE. To get extended
-error information, call GetLastError.
+型: BOOL 成功時は TRUE、失敗時は FALSE。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-The following is an example source string:
-This doc was truncated.
+ソース文字列の例は以下の通り。
+（以下省略）
 
 
 %index
 GetUserProfileDirectoryW
-Retrieves the path to the root directory of the specified user's profile. (Unicode)
+指定ユーザーのプロファイルルートディレクトリへのパスを取得する。(Unicode)
 %group
 Win32 userenv
 %prm
 hToken, lpProfileDir, lpcchSize
-hToken : [intptr] Type: HANDLE A token for the user, which is returned by the LogonUser, CreateRestrictedToken, DuplicateToken, OpenProcessToken, or  OpenThreadToken function. The token must have TOKEN_QUERY access. For more information, see Access Rights for Access-Token Objects.
-lpProfileDir : [wstr] Type: LPTSTR A pointer to a buffer that, when this function returns successfully, receives the path to the specified user's profile directory.
-lpcchSize : [var] Type: LPDWORD Specifies the size of the lpProfileDir buffer, in TCHARs.
+hToken : [intptr] 型: HANDLE ユーザーのトークン。LogonUser などで取得。TOKEN_QUERY アクセスが必要。
+lpProfileDir : [wstr] 型: LPTSTR 成功時、ユーザープロファイルディレクトリへのパスを受け取るバッファへのポインタ。
+lpcchSize : [var] 型: LPDWORD lpProfileDir バッファのサイズ(TCHAR 単位)。バッファが小さすぎる場合または lpProfileDir が NULL の場合、失敗し必要サイズ(終端 NULL 含む)を受け取る。
 %inst
-Retrieves the path to the root directory of the specified user's
-profile. (Unicode)
+指定ユーザーのプロファイルルートディレクトリへのパスを取得する。(Unicode)
 
 [戻り値]
-Type: BOOL TRUE if successful; otherwise, FALSE. To get extended
-error information, call GetLastError.
+型: BOOL 成功時は TRUE、失敗時は FALSE。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-The following is an example of the path returned by
-GetUserProfileDirectory in Windows XP:
-This doc was truncated.
+Windows XP では、GetUserProfileDirectory が返すパスの例は以下の通り。
+（以下省略）
 

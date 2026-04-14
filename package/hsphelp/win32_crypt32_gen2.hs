@@ -6,323 +6,231 @@
 
 %index
 CertCloseStore
-Closes a certificate store handle and reduces the reference count on the store.
+証明書ストアのハンドルを閉じ、ストアの参照カウントを減らす。
 %group
 Win32 crypt32
 %prm
 hCertStore, dwFlags
-hCertStore : [int] Handle of the certificate store to be closed.
-dwFlags : [int] Typically, this parameter uses the default value zero. The default is to close the store with memory remaining allocated for contexts that have not been freed. In this case, no check is made to determine whether memory for contexts remains allocated.
+hCertStore : [int] 閉じる証明書ストアのハンドル。
+dwFlags : [int] 通常は既定値の 0 を指定する。既定動作では、未解放コンテキストがあってもメモリを残したままストアを閉じる。この場合、メモリの確認は行わない。
 %inst
-Closes a certificate store handle and reduces the reference count on
-the store.
+証明書ストアのハンドルを閉じ、ストアの参照カウントを減らす。
 
 [戻り値]
-If the function succeeds, the return value is TRUE. If the function
-fails, the return value is FALSE. For extended error information,
-call GetLastError. If CERT_CLOSE_STORE_CHECK_FLAG is not set or if it
-is set and all contexts associated with the store have been freed,
-the return value is TRUE. If CERT_CLOSE_STORE_CHECK_FLAG is set and
-memory for one or more contexts associated with the store remains
-allocated, the return value is FALSE. The store is always closed even
-when the function returns FALSE. For details, see Remarks.
-GetLastError is set to CRYPT_E_PENDING_CLOSE if memory for contexts
-associated with the store remains allocated. Any existing value
-returned by GetLastError is preserved unless
-CERT_CLOSE_STORE_CHECK_FLAG is set.
+成功時は TRUE、失敗時は FALSE を返す。拡張エラー情報は GetLastError
+で取得する。CERT_CLOSE_STORE_CHECK_FLAG
+が未設定、またはそれが設定されていてストアに関連付けられたすべてのコンテキストが解放済みであれば TRUE
+を返す。CERT_CLOSE_STORE_CHECK_FLAG が設定されておりまだメモリが割り当てられたままのコンテキストがある場合は
+FALSE を返す。FALSE を返してもストアは常に閉じられる。
+コンテキストのメモリが残っている場合、GetLastError は CRYPT_E_PENDING_CLOSE
+を返す。CERT_CLOSE_STORE_CHECK_FLAG が未設定なら既存の GetLastError 値は保持される。
 
 [備考]
-While a certificate store is open, contexts from that store can be
-retrieved or duplicated. When a context is retrieved or duplicated,
-its reference count is incremented. When a context is freed by
-passing it to a search or enumeration function as a previous context
-or by using CertFreeCertificateContext, CertFreeCRLContext, or
-CertFreeCTLContext, its reference count is decremented. When a
-context's reference count reaches zero, memory allocated for that
-context is automatically freed. When the memory allocated for a
-context has been freed, any pointers to that context become not
-valid. By default, memory used to store contexts with reference count
-greater than zero is not freed when a certificate store is closed.
-References to those contexts remain valid; however, this can cause
-memory leaks. Also, any changes made to the properties of a context
-after the store has been closed are not persisted. To force the
-freeing of memory for all contexts associated with a store, set
-CERT_CLOSE_STORE_FORCE_FLAG. With this flag set, memory for all
-contexts associated with the store is freed and all pointers to
-certificate, CRL, or CTL contexts associated with the store become
-not valid. This flag should only be set when the store is opened in a
-function and neither the store handle nor any of its contexts were
-ever passed to any called functions. The status of reference counts
-on contexts associated with a store can be checked when the store is
-closed by using CERT_CLOSE_STORE_CHECK_FLAG. When this flag is set,
-and all certificate, CRL, or CTL contexts have not been released, the
-function returns FALSE and GetLastError returns
-CRYPT_E_PENDING_CLOSE. Note that the store is still closed when FALSE
-is returned and the memory for any active contexts is not freed. If
-CERT_STORE_NO_CRYPT_RELEASE_FLAG was not set when the store was
-opened, closing a store releases its CSP handle.
+
+証明書ストアが開かれている間、ストアからコンテキストを取得または複製できる。取得/複製時に参照カウントが加算され、検索列挙関数への前回コンテキストとしての受け渡し、もしくは
+CertFreeCertificateContext/CertFreeCRLContext/CertFreeCTLContext
+で解放すると減算される。参照カウントが 0 になると対応するメモリは自動解放される。既定では、ストアクローズ時に参照カウントが 0
+より大きいコンテキストのメモリは解放されない。このためメモリリークの原因となりうる。また、ストアクローズ後のコンテキストプロパティ変更は保存されない。強制解放するには
+CERT_CLOSE_STORE_FORCE_FLAG
+を設定する。これを設定するとストアに関連付けられたすべてのコンテキストメモリが解放され、それらへのポインタは無効になる。このフラグは、ストアやコンテキストが他の関数に渡されていない場合にのみ使用する。CERT_CLOSE_STORE_CHECK_FLAG
+を使うとストアクローズ時に参照カウントの状態を確認でき、未解放のコンテキストがあれば FALSE を返し GetLastError が
+CRYPT_E_PENDING_CLOSE となる。FALSE でもストアは閉じられるがメモリは解放されない。ストアオープン時に
+CERT_STORE_NO_CRYPT_RELEASE_FLAG を指定していなければ、クローズ時に CSP ハンドルも解放される。
 
 
 %index
 CertEnumCertificatesInStore
-Retrieves the first or next certificate in a certificate store. Used in a loop, this function can retrieve in sequence all certificates in a certificate store.
+証明書ストア内の最初または次の証明書を取得する。ループで呼び出すことで全証明書を順に列挙できる。
 %group
 Win32 crypt32
 %prm
 hCertStore, pPrevCertContext
-hCertStore : [int] A handle of a certificate store.
-pPrevCertContext : [var] A pointer to the CERT_CONTEXT of the previous certificate context found. This parameter must be NULL to begin the enumeration and get the first certificate in the store. Successive certificates are enumerated by setting pPrevCertContext to the pointer returned by a previous call to the function. This function frees the CERT_CONTEXT referenced by non-NULL values of this parameter. For logical stores, including collection stores, a duplicate of the pCertContext returned by this function cannot be used to begin a new subsequence of enumerations because the duplicated certificate loses the initial enumeration state. The enumeration skips any certificate previously deleted by CertDeleteCertificateFromStore.
+hCertStore : [int] 証明書ストアのハンドル。
+pPrevCertContext : [var] 前回見つかった証明書コンテキストの CERT_CONTEXT へのポインタ。列挙開始時は NULL を渡す。後続の呼び出しでは前回の戻り値を渡す。NULL でない値は本関数により解放される。論理ストア(コレクションストア含む)では、返された pCertContext の複製を使って新たな列挙サブシーケンスを開始することはできない。列挙は CertDeleteCertificateFromStore で以前削除された証明書をスキップする。
 %inst
-Retrieves the first or next certificate in a certificate store. Used
-in a loop, this function can retrieve in sequence all certificates in
-a certificate store.
+証明書ストア内の最初または次の証明書を取得する。ループで呼び出すことで全証明書を順に列挙できる。
 
 [戻り値]
-If the function succeeds, the function returns a pointer to the next
-CERT_CONTEXT in the store. If no more certificates exist in the
-store, the function returns NULL. For extended error information,
-call GetLastError. Some possible error codes follow.
-This doc was truncated.
+成功時はストア内の次の CERT_CONTEXT へのポインタを返す。これ以上証明書がない場合は NULL を返す。拡張エラー情報は
+GetLastError で取得する。主なエラーコードは以下の通り。
+（以下省略）
 
 [備考]
-The returned pointer is freed when passed as the pPrevCertContext
-parameter on a subsequent call. Otherwise, the pointer must be freed
-by calling CertFreeCertificateContext. A non-NULL pPrevCertContext
-passed to CertEnumCertificatesInStore is always freed even for an
-error. A duplicate of the currently enumerated certificate can be
-made by calling CertDuplicateCertificateContext.
+返されたポインタは、後続呼び出しで pPrevCertContext として渡されたとき解放される。そうでない場合は
+CertFreeCertificateContext で明示的に解放する必要がある。NULL でない pPrevCertContext
+を渡した場合はエラー時も必ず解放される。現在列挙中の証明書の複製は CertDuplicateCertificateContext
+で作成できる。
 
 
 %index
 CertFindCertificateInStore
-Finds the first or next certificate context in a certificate store that matches a search criteria established by the dwFindType and its associated pvFindPara.
+dwFindType と関連する pvFindPara で指定した検索条件に一致する、ストア内の最初または次の証明書コンテキストを検索する。
 %group
 Win32 crypt32
 %prm
 hCertStore, dwCertEncodingType, dwFindFlags, dwFindType, pvFindPara, pPrevCertContext
-hCertStore : [int] A handle of the certificate store to be searched.
-dwCertEncodingType : [int] Specifies the type of encoding used. Both the certificate and message encoding types must be specified by combining them with a bitwise-OR operation as shown in the following example: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING Currently defined encoding types are:
-dwFindFlags : [int] Used with some dwFindType values to modify the search criteria. For most dwFindType values, dwFindFlags is not used and should be set to zero. For detailed information, see  Remarks.
+hCertStore : [int] 検索対象の証明書ストアのハンドル。
+dwCertEncodingType : [int] 使用するエンコーディングの種類。証明書エンコーディング種別とメッセージエンコーディング種別の両方をビット単位 OR で組み合わせて指定する必要がある。例: X509_ASN_ENCODING | PKCS_7_ASN_ENCODING 現在定義されているエンコーディング種別は以下の通り。
+dwFindFlags : [int] 一部の dwFindType 値と組み合わせて検索条件を変更する。大抵の dwFindType では使用されず 0 を指定する。詳細は Remarks 参照。
 dwFindType : [int] 
-pvFindPara : [intptr] Points to a data item or structure used with dwFindType.
-pPrevCertContext : [var] A pointer to the last CERT_CONTEXT structure returned by this function. This parameter must be NULL on the first call of the function. To find successive certificates meeting the search criteria,  set pPrevCertContext to the pointer returned by the previous call to the function. This function frees the CERT_CONTEXT referenced by non-NULL values of this parameter.
+pvFindPara : [intptr] dwFindType と共に使用するデータ項目または構造体を指すポインタ。
+pPrevCertContext : [var] 前回この関数が返した CERT_CONTEXT 構造体へのポインタ。初回呼び出し時は NULL を指定する。条件に一致する後続証明書を得るには前回の戻り値を渡す。NULL でない値は本関数により解放される。
 %inst
-Finds the first or next certificate context in a certificate store
-that matches a search criteria established by the dwFindType and its
-associated pvFindPara.
+dwFindType と関連する pvFindPara
+で指定した検索条件に一致する、ストア内の最初または次の証明書コンテキストを検索する。
 
 [戻り値]
-If the function succeeds, the function returns a pointer to a
-read-only CERT_CONTEXT structure. If the function fails and a
-certificate that matches the search criteria is not found, the return
-value is NULL. A non-NULL CERT_CONTEXT that
-CertFindCertificateInStore returns must be freed by
-CertFreeCertificateContext or by being passed as the pPrevCertContext
-parameter on a subsequent call to CertFindCertificateInStore. For
-extended error information, call GetLastError. Some possible error
-codes follow.
-This doc was truncated.
+成功時は読み取り専用の CERT_CONTEXT 構造体へのポインタを返す。検索条件に一致する証明書が見つからなかった場合は NULL
+を返す。NULL でない戻り値は CertFreeCertificateContext で解放するか、次回呼び出しの
+pPrevCertContext として渡して解放する必要がある。拡張エラー情報は GetLastError
+で取得する。主なエラーコードは以下の通り。
+（以下省略）
 
 [備考]
-The dwFindFlags parameter is used to modify the criteria of some
-search types. The CERT_UNICODE_IS_RDN_ATTRS_FLAG dwFindFlags value is
-used only with the CERT_FIND_SUBJECT_ATTR and CERT_FIND_ISSUER_ATTR
-values for dwFindType. CERT_UNICODE_IS_RDN_ATTRS_FLAG must be set if
-the CERT_RDN_ATTR structure pointed to by pvFindPara was initialized
-with Unicode strings. Before any comparison is made, the string to be
-matched is converted by using X509_UNICODE_NAME to provide for
-Unicode comparisons. The following dwFindFlags values are used only
-with the CERT_FIND_ENKEY_USAGE value for dwFindType:
-CertDuplicateCertificateContext can be called to make a duplicate of
-the returned context. The returned context can be added to a
-different certificate store by using
-CertAddCertificateContextToStore, or a link to that certificate
-context can be added to a store that is not a collection store by
-using CertAddCertificateLinkToStore. The returned pointer is freed
-when passed as the pPrevCertContext parameter on a subsequent call to
-the function. Otherwise, the pointer must be explicitly freed by
-calling CertFreeCertificateContext. A pPrevCertContext that is not
-NULL is always freed by CertFindCertificateInStore using a call to
-CertFreeCertificateContext, even if there is an error in the
-function.
+dwFindFlags
+パラメータは一部の検索種別の条件を変更するために使用する。CERT_UNICODE_IS_RDN_ATTRS_FLAG は
+dwFindType が CERT_FIND_SUBJECT_ATTR または CERT_FIND_ISSUER_ATTR
+の場合のみ使用され、pvFindPara が指す CERT_RDN_ATTR 構造体が Unicode
+文字列で初期化されている場合に設定する必要がある。比較前に X509_UNICODE_NAME を使って変換される。以下の
+dwFindFlags 値は dwFindType が CERT_FIND_ENKEY_USAGE の場合のみ使用される:
+返されたコンテキストの複製は CertDuplicateCertificateContext で作成できる。返されたコンテキストは
+CertAddCertificateContextToStore で別の証明書ストアに追加できる。返されたポインタは、次回呼び出しの
+pPrevCertContext として渡すと解放される。そうでなければ CertFreeCertificateContext
+で明示的に解放する。NULL でない pPrevCertContext はエラー時も必ず
+CertFreeCertificateContext により解放される。
 
 
 %index
 CertOpenSystemStoreW
-Opens the most common system certificate store. To open certificate stores with more complex requirements, such as file-based or memory-based stores, use CertOpenStore. (Unicode)
+最も一般的なシステム証明書ストアを開く。ファイルベースやメモリベースのストアなどより複雑なストアには CertOpenStore を使用する。(Unicode)
 %group
 Win32 crypt32
 %prm
 hProv, szSubsystemProtocol
-hProv : [int] This parameter is not used and should be set to 0. Windows Server?2003 and Windows?XP:??A handle of a cryptographic service provider (CSP). Set hProv to 0 to use the default CSP. If hProv is not 0, it must be a CSP handle created by using the CryptAcquireContext function.This parameter's data type is HCRYPTPROV.
-szSubsystemProtocol : [wstr] A string that names a system store. If the system store name provided in this parameter is not the name of an existing system store, a new system store will be created and used. CertEnumSystemStore can be used to list the names of existing system stores. Some example system stores are listed in the following table.
+hProv : [int] 使用されない。0 を指定すること。Windows Server 2003 および Windows XP: CSP のハンドル。0 で既定 CSP を使用。0 でない場合は CryptAcquireContext で作成した CSP ハンドルでなければならない。データ型は HCRYPTPROV。
+szSubsystemProtocol : [wstr] システムストア名を表す文字列。既存のシステムストア名でない場合は新規作成される。既存システムストア名の一覧は CertEnumSystemStore で取得できる。代表例は以下の表参照。
 %inst
-Opens the most common system certificate store. To open certificate
-stores with more complex requirements, such as file-based or
-memory-based stores, use CertOpenStore. (Unicode)
+最も一般的なシステム証明書ストアを開く。ファイルベースやメモリベースのストアなどより複雑なストアには CertOpenStore
+を使用する。(Unicode)
 
 [戻り値]
-If the function succeeds, the function returns a handle to the
-certificate store. If the function fails, it returns NULL. For
-extended error information, call GetLastError. Note Errors from the
-called function CertOpenStore are propagated to this function.
+成功時は証明書ストアのハンドルを返す。失敗時は NULL を返す。拡張エラー情報は GetLastError
+で取得する。CertOpenStore のエラーがそのまま伝播される。
 
 [備考]
-Only current user certificates are accessible using this method, not
-the local machine store. After the system store is opened, all the
-standard certificate store functions can be used to manipulate the
-certificates. After use, the store should be closed by using
-CertCloseStore. For more information about the stores that are
-automatically migrated, see Certificate Store Migration.
+
+この方法でアクセスできるのはカレントユーザーの証明書のみで、ローカルマシンストアにはアクセスできない。オープン後は標準の証明書ストア関数で操作できる。使用後は
+CertCloseStore で閉じる。自動移行されるストアについては Certificate Store Migration を参照。
 
 
 %index
 CryptBinaryToStringW
-Converts an array of bytes into a formatted string. (Unicode)
+バイト配列を書式化された文字列に変換する。(Unicode)
 %group
 Win32 crypt32
 %prm
 pbBinary, cbBinary, dwFlags, pszString, pcchString
-pbBinary : [var] A pointer to the array of bytes to be converted into a string.
-cbBinary : [int] The number of elements in the pbBinary array.
+pbBinary : [var] 文字列化するバイト配列へのポインタ。
+cbBinary : [int] pbBinary 配列の要素数。
 dwFlags : [int] 
-pszString : [wstr] A pointer to a buffer that receives the converted string. To calculate the number of characters that must be allocated to hold the returned string, set this parameter to NULL. The function will place the required number of characters, including the terminating NULL character, in the value pointed to by pcchString.
-pcchString : [var] A pointer to a DWORD variable that contains the size, in TCHARs, of the pszString buffer. If pszString is NULL, the function calculates the length of the return string (including the terminating null character) in TCHARs and returns it in this parameter. If pszString is not NULL and big enough, the function converts the binary data into a specified string format including the terminating null character, but pcchString receives the length in TCHARs, not including the terminating null character.
+pszString : [wstr] 変換後の文字列を受け取るバッファへのポインタ。必要文字数を計算するには NULL を指定する。関数は終端 NULL 文字を含む必要文字数を pcchString に格納する。
+pcchString : [var] pszString バッファのサイズ(TCHAR 単位)を格納した DWORD へのポインタ。pszString が NULL の場合、関数は終端 NULL を含む必要文字数を TCHAR 単位で計算して返す。pszString が NULL でなく十分に大きい場合、終端 NULL を含む文字列を格納し、pcchString には終端 NULL を除いた文字数が返される。
 %inst
-Converts an array of bytes into a formatted string. (Unicode)
+バイト配列を書式化された文字列に変換する。(Unicode)
 
 [戻り値]
-If the function succeeds, the function returns nonzero (TRUE). If the
-function fails, it returns zero (FALSE).
+成功時は 0 以外 (TRUE) を返す。失敗時は 0 (FALSE) を返す。
 
 [備考]
-With the exception of when CRYPT_STRING_BINARY encoding is used, all
-strings are appended with a new line sequence. By default, the new
-line sequence is a CR/LF pair (0x0D/0x0A). If the dwFlags parameter
-contains the CRYPT_STRING_NOCR flag, then the new line sequence is a
-LF character (0x0A). If the dwFlags parameter contains the
-CRYPT_STRING_NOCRLF flag, then no new line sequence is appended to
-the string.
-> [!NOTE] > The wincrypt.h header defines CryptBinaryToString as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+CRYPT_STRING_BINARY エンコーディングを除き、すべての文字列には改行シーケンスが付加される。既定では CR/LF
+(0x0D/0x0A) が使用される。dwFlags に CRYPT_STRING_NOCR が指定されている場合は LF (0x0A)
+のみ、CRYPT_STRING_NOCRLF が指定されている場合は改行は付加されない。
+> [!NOTE] > wincrypt.h は UNICODE マクロに応じて CryptBinaryToString を
+ANSI/Unicode
+版へのエイリアスとして定義する。エンコーディング中立なエイリアスと非中立コードを混在させるとコンパイル/ランタイムエラーの原因となる。
 
 
 %index
 CryptProtectData
-Performs encryption on the data in a DATA_BLOB structure.
+DATA_BLOB 構造体中のデータを暗号化する。
 %group
 Win32 crypt32
 %prm
 pDataIn, szDataDescr, pOptionalEntropy, pvReserved, pPromptStruct, dwFlags, pDataOut
-pDataIn : [var] A pointer to a DATA_BLOB structure that contains the plaintext to be encrypted.
-szDataDescr : [wstr] A string with a readable description of the data to be encrypted. This description string is included with the encrypted data. This parameter is optional and can be set to NULL.
-pOptionalEntropy : [var] A pointer to a DATA_BLOB structure that contains a password or other additional entropy used to encrypt the data. The DATA_BLOB structure used in the encryption phase must also be used in the decryption phase. This parameter can be set to NULL for no additional entropy. For information about protecting passwords, see Handling Passwords.
-pvReserved : [intptr] Reserved for future use and must be set to NULL.
-pPromptStruct : [var] A pointer to a CRYPTPROTECT_PROMPTSTRUCT structure that provides information about where and when prompts are to be displayed and what the content of those prompts should be. This parameter can be set to NULL in both the encryption and decryption phases.
-dwFlags : [int] This parameter can be one of the following flags.
-pDataOut : [var] A pointer to a DATA_BLOB structure that receives the encrypted data. When you have finished using the DATA_BLOB structure, free its pbData member by calling the   LocalFree function.
+pDataIn : [var] 暗号化する平文を保持する DATA_BLOB 構造体へのポインタ。
+szDataDescr : [wstr] 暗号化データの可読な説明文字列。暗号化データと共に保存される。省略可能で NULL 可。
+pOptionalEntropy : [var] 暗号化に使用するパスワードなど追加のエントロピーを保持する DATA_BLOB 構造体へのポインタ。暗号化フェーズで使用した構造体と同じものを復号フェーズでも使わなければならない。追加エントロピーが不要なら NULL を指定する。
+pvReserved : [intptr] 予約。NULL を指定する必要がある。
+pPromptStruct : [var] プロンプト表示の場所・タイミング・内容を指定する CRYPTPROTECT_PROMPTSTRUCT 構造体へのポインタ。暗号化と復号の両フェーズで NULL 可。
+dwFlags : [int] 以下のいずれかのフラグを指定できる。
+pDataOut : [var] 暗号化データを受け取る DATA_BLOB 構造体へのポインタ。使用後は LocalFree で pbData メンバを解放すること。
 %inst
-Performs encryption on the data in a DATA_BLOB structure.
+DATA_BLOB 構造体中のデータを暗号化する。
 
 [戻り値]
-If the function succeeds, the function returns TRUE.
-If the function fails, it returns FALSE. For extended error
-information, call GetLastError.
+成功時は TRUE、失敗時は FALSE を返す。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-Typically, only a user with logon credentials that match those of the
-user who encrypted the data can decrypt the data. In addition,
-decryption usually can only be done on the computer where the data
-was encrypted. However, a user with a roaming profile can decrypt the
-data from another computer on the network. If the
-CRYPTPROTECT_LOCAL_MACHINE flag is set when the data is encrypted,
-any user on the computer where the encryption was done can decrypt
-the data. The function creates a session key to perform the
-encryption. The session key is derived again when the data is to be
-decrypted. The function also adds a Message Authentication Code (MAC)
-(keyed integrity check) to the encrypted data to guard against data
-tampering. To encrypt memory for temporary use in the same process or
-across processes, call the CryptProtectMemory function.
+
+通常、データを暗号化したユーザーと同一のログオン資格情報を持つユーザーのみが復号できる。また暗号化を実行したコンピュータ上でのみ復号できる。ただしローミングプロファイルを持つユーザーは別のコンピュータから復号できる。CRYPTPROTECT_LOCAL_MACHINE
+フラグで暗号化すれば、同一コンピュータ上のすべてのユーザーが復号できる。関数は暗号化用のセッション鍵を生成し、復号時にも再導出する。また改ざん検出用
+MAC も付加する。一時的に同一プロセス内または複数プロセス間でメモリを保護するには CryptProtectMemory を使用する。
 
 
 %index
 CryptStringToBinaryW
-Converts a formatted string into an array of bytes. (Unicode)
+書式化された文字列をバイト配列に変換する。(Unicode)
 %group
 Win32 crypt32
 %prm
 pszString, cchString, dwFlags, pbBinary, pcbBinary, pdwSkip, pdwFlags
-pszString : [wstr] A pointer to a string that contains the formatted string to be converted.
-cchString : [int] The number of characters of the formatted string to be converted, not including the terminating NULL character. If this parameter is zero,  pszString is considered to be a null-terminated string.
+pszString : [wstr] 変換対象の書式化文字列を指すポインタ。
+cchString : [int] 変換する文字列長(終端 NULL は含まない)。0 を指定すると pszString は NULL 終端とみなされる。
 dwFlags : [int] 
-pbBinary : [var] A pointer to a buffer that receives the returned sequence of bytes. If this parameter is NULL, the function calculates the length of the buffer needed and returns the size, in bytes, of required memory in the DWORD pointed to by pcbBinary.
-pcbBinary : [var] A pointer to a DWORD variable that, on entry, contains the size, in bytes, of the pbBinary buffer. After the function returns, this variable contains the number of bytes copied to the buffer. If this value is not large enough to contain all of the data, the function fails and GetLastError returns ERROR_MORE_DATA. If pbBinary is NULL, the DWORD pointed to by pcbBinary is ignored.
-pdwSkip : [var] A pointer to a DWORD value that receives the number of characters skipped to reach the beginning of the `-----BEGIN ...-----` header. If no header is present, then the DWORD is set to zero. This parameter is optional and can be NULL if it is not needed.
-pdwFlags : [var] A pointer to a DWORD value that receives the flags actually used in the conversion. These are the same flags used for the dwFlags parameter. In many cases, these will be the same flags that were passed in the dwFlags parameter. If dwFlags contains one of the following flags, this value will receive a flag that indicates the actual format of the string. This parameter is optional and can be NULL if it is not needed.
+pbBinary : [var] バイト列を受け取るバッファへのポインタ。NULL を指定すると必要バッファサイズが pcbBinary に返される。
+pcbBinary : [var] 入力時は pbBinary バッファのサイズ(バイト単位)。関数復帰後はコピーされたバイト数が格納される。値が小さい場合は失敗し GetLastError は ERROR_MORE_DATA を返す。pbBinary が NULL の場合、pcbBinary の値は無視される。
+pdwSkip : [var] `-----BEGIN ...-----` ヘッダ開始までスキップした文字数を受け取る DWORD へのポインタ。ヘッダがなければ 0 が返る。省略可能で NULL 可。
+pdwFlags : [var] 実際に変換で使用されたフラグを受け取る DWORD へのポインタ。多くの場合 dwFlags と同じ値だが、dwFlags に下記フラグが含まれる場合は実際の文字列書式を示すフラグが返る。省略可能で NULL 可。
 %inst
-Converts a formatted string into an array of bytes. (Unicode)
+書式化された文字列をバイト配列に変換する。(Unicode)
 
 [戻り値]
-If the function succeeds, the return value is nonzero (TRUE). If the
-function fails, the return value is zero (FALSE).
+成功時は 0 以外 (TRUE) を返す。失敗時は 0 (FALSE) を返す。
 
 [備考]
-The CRYPT_STRING_BASE64HEADER, CRYPT_STRING_BASE64REQUESTHEADER, and
-CRYPT_STRING_BASE64X509CRLHEADER flags are all treated identically by
-this function: They attempt to parse the first block of
-base64-encoded data between lines of the form `-----BEGIN ...-----`
-and `-----END ...-----`. The `...` portions are ignored, and they
-need not match. If parsing is successful, the value passed in the
-dwFlags parameter is returned in the DWORD pointed to by the pdwFlags
-parameter. Note that a value of CRYPT_STRING_BASE64REQUESTHEADER or
-CRYPT_STRING_BASE64X509CRLHEADER does not mean that a request header
-or X.509 certificate revocation list (CRL) was found. > [!NOTE] > The
-wincrypt.h header defines CryptStringToBinary as an alias which
-automatically selects the ANSI or Unicode version of this function
-based on the definition of the UNICODE preprocessor constant. Mixing
-usage of the encoding-neutral alias with code that not
-encoding-neutral can lead to mismatches that result in compilation or
-runtime errors. For more information, see [Conventions for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+
+CRYPT_STRING_BASE64HEADER、CRYPT_STRING_BASE64REQUESTHEADER、CRYPT_STRING_BASE64X509CRLHEADER
+は本関数では同一扱いされ、`-----BEGIN ...-----` と `-----END ...-----` の間にある最初の
+base64 エンコードデータブロックの解析を試みる。`...` 部分は無視され一致する必要はない。解析成功時、dwFlags
+で渡した値がそのまま pdwFlags の DWORD に返される。CRYPT_STRING_BASE64REQUESTHEADER や
+CRYPT_STRING_BASE64X509CRLHEADER が返ったからといって実際にリクエストヘッダや X.509 CRL
+が見つかったとは限らないことに注意。> [!NOTE] > wincrypt.h は UNICODE マクロに応じて
+CryptStringToBinary を ANSI/Unicode 版のエイリアスとして定義する。
 
 
 %index
 CryptUnprotectData
-Decrypts and does an integrity check of the data in a DATA_BLOB structure.
+DATA_BLOB 構造体中のデータを復号し、整合性チェックを行う。
 %group
 Win32 crypt32
 %prm
 pDataIn, ppszDataDescr, pOptionalEntropy, pvReserved, pPromptStruct, dwFlags, pDataOut
-pDataIn : [var] A pointer to a DATA_BLOB structure that holds the encrypted data. The DATA_BLOB structure's cbData member holds the length of the pbData member's byte string that contains the text to be encrypted.
-ppszDataDescr : [var] A pointer to a string-readable description of the encrypted data included with the encrypted data. This parameter can be set to NULL.  When you have finished using ppszDataDescr, free it by calling the  LocalFree function.
-pOptionalEntropy : [var] A pointer to a DATA_BLOB structure that contains a password or other additional entropy used when the data was encrypted. This parameter can be set to NULL; however, if an optional entropy DATA_BLOB structure was used in the encryption phase, that same DATA_BLOB structure must be used for the decryption phase. For information about protecting passwords, see Handling Passwords.
-pvReserved : [intptr] This parameter is reserved for future use and must be set to NULL.
-pPromptStruct : [var] A pointer to a CRYPTPROTECT_PROMPTSTRUCT structure that provides information about where and when prompts are to be displayed and what the content of those prompts should be. This parameter can be set to NULL.
-dwFlags : [int] A DWORD value that specifies options for this function. This parameter can be zero, in which case no option is set, or the following flag.
-pDataOut : [var] A pointer to a DATA_BLOB structure where the function stores the decrypted data. When you have finished using the DATA_BLOB structure, free its pbData member by calling the  LocalFree function.
+pDataIn : [var] 暗号化データを保持する DATA_BLOB 構造体へのポインタ。cbData メンバには暗号化対象テキストを含む pbData バイト列の長さが入る。
+ppszDataDescr : [var] 暗号化データに含まれていた可読な説明文字列へのポインタ。NULL も可。使用後は LocalFree で解放する。
+pOptionalEntropy : [var] 暗号化時に使用された追加エントロピーを保持する DATA_BLOB 構造体へのポインタ。NULL 可だが、暗号化フェーズで追加エントロピーが使われた場合は同じ構造体を渡す必要がある。
+pvReserved : [intptr] 予約。NULL を指定する必要がある。
+pPromptStruct : [var] プロンプト表示の場所・タイミング・内容を指定する CRYPTPROTECT_PROMPTSTRUCT 構造体へのポインタ。NULL 可。
+dwFlags : [int] 本関数のオプションを指定する DWORD。0 を指定するとオプション無し。または下記のフラグを指定できる。
+pDataOut : [var] 復号データを格納する DATA_BLOB 構造体へのポインタ。使用後は LocalFree で pbData メンバを解放する。
 %inst
-Decrypts and does an integrity check of the data in a DATA_BLOB
-structure.
+DATA_BLOB 構造体中のデータを復号し、整合性チェックを行う。
 
 [戻り値]
-If the function succeeds, the function returns TRUE. If the function
-fails, it returns FALSE.
+成功時は TRUE、失敗時は FALSE を返す。
 
 [備考]
-The CryptProtectData function creates a session key when the data is
-encrypted. That key is derived again and used to decrypt the data
-BLOB. The Message Authentication Code (MAC) hash added to the
-encrypted data can be used to determine whether the encrypted data
-was altered in any way. Any tampering results in the return of the
-ERROR_INVALID_DATA code. When you have finished using the DATA_BLOB
-structure, free its pbData member by calling the LocalFree function.
-Any ppszDataDescr that is not NULL must also be freed by using
-LocalFree. When you have finished using sensitive information, clear
-it from memory by calling the SecureZeroMemory function.
+CryptProtectData が暗号化時に生成したセッション鍵を再導出してデータ BLOB を復号する。暗号化データに付加された
+MAC ハッシュにより改ざん検出を行い、改ざんが検出された場合は ERROR_INVALID_DATA を返す。DATA_BLOB
+構造体使用後は LocalFree で pbData メンバを解放する。NULL でない ppszDataDescr も
+LocalFree で解放する必要がある。機密情報使用後は SecureZeroMemory でメモリをクリアすること。
 

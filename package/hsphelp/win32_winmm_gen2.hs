@@ -49,105 +49,66 @@ cchText : [int]
 
 %index
 timeBeginPeriod
-The timeBeginPeriod function requests a minimum resolution for periodic timers.
+timeBeginPeriod 関数は周期タイマーの最小分解能を要求する。
 %group
 Win32 winmm
 %prm
 uPeriod
-uPeriod : [int] Minimum timer resolution, in milliseconds, for the application or device driver. A lower value specifies a higher (more accurate) resolution.
+uPeriod : [int] アプリケーションまたはデバイスドライバの最小タイマー分解能(ミリ秒単位)。小さい値ほど高い(より正確な)分解能を指定する。
 %inst
-The timeBeginPeriod function requests a minimum resolution for
-periodic timers.
+timeBeginPeriod 関数は周期タイマーの最小分解能を要求する。
 
 [戻り値]
-Returns TIMERR_NOERROR if successful or TIMERR_NOCANDO if the
-resolution specified in uPeriod is out of range.
+成功時は TIMERR_NOERROR、uPeriod が範囲外の場合は TIMERR_NOCANDO を返す。
 
 [備考]
-Call this function immediately before using timer services, and call
-the timeEndPeriod function immediately after you are finished using
-the timer services. You must match each call to timeBeginPeriod with
-a call to timeEndPeriod, specifying the same minimum resolution in
-both calls. An application can make multiple timeBeginPeriod calls as
-long as each call is matched with a call to timeEndPeriod. Prior to
-Windows 10, version 2004, this function affects a global Windows
-setting. For all processes Windows uses the lowest value (that is,
-highest resolution) requested by any process. Starting with Windows
-10, version 2004, this function no longer affects global timer
-resolution. For processes which call this function, Windows uses the
-lowest value (that is, highest resolution) requested by any process.
-For processes which have not called this function, Windows does not
-guarantee a higher resolution than the default system resolution.
-Starting with Windows 11, if a window-owning process becomes fully
-occluded, minimized, or otherwise invisible or inaudible to the end
-user, Windows does not guarantee a higher resolution than the default
-system resolution. See SetProcessInformation for more information on
-this behavior. Setting a higher resolution can improve the accuracy
-of time-out intervals in wait functions. However, it can also reduce
-overall system performance, because the thread scheduler switches
-tasks more often. High resolutions can also prevent the CPU power
-management system from entering power-saving modes. Setting a higher
-resolution does not improve the accuracy of the high-resolution
-performance counter.
+タイマーサービス利用直前に呼び出し、使用終了直後に timeEndPeriod を呼ぶこと。各 timeBeginPeriod
+呼び出しは同じ最小分解能を指定した timeEndPeriod 呼び出しと対にする必要がある。Windows 10 version
+2004 より前ではグローバル設定に影響し、OS は全プロセスの最低値(最高分解能)を使用していた。Windows 10 version
+2004 以降はグローバルタイマー分解能には影響せず、呼び出したプロセスにのみ適用される。Windows 11
+以降、完全に隠れた/最小化された/非可視・非可聴のウィンドウ所有プロセスについては既定のシステム分解能以上を保証しない。高分解能はタイムアウト精度を向上させるが、全体のシステム性能を低下させる可能性がある。また、CPU
+の電源管理が省電力モードに入れなくなる場合もある。高分解能パフォーマンスカウンタの精度は向上しない。
 
 
 %index
 timeEndPeriod
-The timeEndPeriod function clears a previously set minimum timer resolution.
+timeEndPeriod 関数は以前設定した最小タイマー分解能をクリアする。
 %group
 Win32 winmm
 %prm
 uPeriod
-uPeriod : [int] Minimum timer resolution specified in the previous call to the timeBeginPeriod function.
+uPeriod : [int] 以前の timeBeginPeriod 呼び出しで指定した最小タイマー分解能。
 %inst
-The timeEndPeriod function clears a previously set minimum timer
-resolution.
+timeEndPeriod 関数は以前設定した最小タイマー分解能をクリアする。
 
 [戻り値]
-Returns TIMERR_NOERROR if successful or TIMERR_NOCANDO if the
-resolution specified in uPeriod is out of range.
+成功時は TIMERR_NOERROR、uPeriod が範囲外の場合は TIMERR_NOCANDO を返す。
 
 [備考]
-Call this function immediately after you are finished using timer
-services. You must match each call to timeBeginPeriod with a call to
-timeEndPeriod, specifying the same minimum resolution in both calls.
-An application can make multiple timeBeginPeriod calls as long as
-each call is matched with a call to timeEndPeriod.
+タイマーサービス使用終了直後に呼び出す。各 timeBeginPeriod 呼び出しは同じ最小分解能を指定した timeEndPeriod
+と対にする必要がある。
 
 
 %index
 timeGetTime
-The timeGetTime function retrieves the system time, in milliseconds. The system time is the time elapsed since Windows was started.
+timeGetTime 関数はシステム時刻(Windows 起動からの経過時間)をミリ秒単位で取得する。
 %group
 Win32 winmm
 %prm
 
 %inst
-The timeGetTime function retrieves the system time, in milliseconds.
-The system time is the time elapsed since Windows was started.
+timeGetTime 関数はシステム時刻(Windows 起動からの経過時間)をミリ秒単位で取得する。
 
 [戻り値]
-Returns the system time, in milliseconds.
+システム時刻(ミリ秒単位)を返す。
 
 [備考]
-The only difference between this function and the timeGetSystemTime
-function is that timeGetSystemTime uses the MMTIME structure to
-return the system time. The timeGetTime function has less overhead
-than timeGetSystemTime. Note that the value returned by the
-timeGetTime function is a DWORD value. The return value wraps around
-to 0 every 2^32 milliseconds, which is about 49.71 days. This can
-cause problems in code that directly uses the timeGetTime return
-value in computations, particularly where the value is used to
-control code execution. You should always use the difference between
-two timeGetTime return values in computations. The default precision
-of the timeGetTime function can be five milliseconds or more,
-depending on the machine. You can use the timeBeginPeriod and
-timeEndPeriod functions to increase the precision of timeGetTime. If
-you do so, the minimum difference between successive values returned
-by timeGetTime can be as large as the minimum period value set using
-timeBeginPeriod and timeEndPeriod. Use the QueryPerformanceCounter
-and QueryPerformanceFrequency functions to measure short time
-intervals at a high resolution.
+timeGetSystemTime との違いは、timeGetSystemTime が MMTIME
+構造体でシステム時刻を返すのに対し本関数は DWORD で返す点のみ。timeGetTime のほうがオーバーヘッドが少ない。戻り値は
+DWORD であり 2^32 ミリ秒(約 49.71 日)で 0 に折り返すため、時刻計算ではなく 2 つの timeGetTime
+戻り値の差分を使うこと。既定精度はマシンにより 5 ms 以上のこともあるため、必要に応じて
+timeBeginPeriod/timeEndPeriod で精度を上げること。短時間の高精度計測には
+QueryPerformanceCounter/QueryPerformanceFrequency を使う。
 
 
 %index
@@ -180,234 +141,186 @@ fuEvent : [int]
 
 %index
 waveInClose
-The waveInClose function closes the given waveform-audio input device.
+waveInClose 関数は指定の波形オーディオ入力デバイスを閉じる。
 %group
 Win32 winmm
 %prm
 hwi
-hwi : [intptr] Handle to the waveform-audio input device. If the function succeeds, the handle is no longer valid after this call.
+hwi : [intptr] 波形オーディオ入力デバイスのハンドル。成功時は呼び出し後ハンドルは無効になる。
 %inst
-The waveInClose function closes the given waveform-audio input
-device.
+waveInClose 関数は指定の波形オーディオ入力デバイスを閉じる。
 
 [戻り値]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+成功時は MMSYSERR_NOERROR、それ以外はエラー値を返す。主なエラーは以下の通り。
+（以下省略）
 
 [備考]
-If there are input buffers that have been sent with the
-waveInAddBuffer function and that haven't been returned to the
-application, the close operation will fail. Call the waveInReset
-function to mark all pending buffers as done.
+waveInAddBuffer
+で送信され、アプリに返却されていない入力バッファが残っていると閉じる操作は失敗する。すべての保留中バッファを完了済みにするには
+waveInReset を呼ぶこと。
 
 
 %index
 waveInOpen
-The waveInOpen function opens the given waveform-audio input device for recording.
+waveInOpen 関数は指定の波形オーディオ入力デバイスを録音用に開く。
 %group
 Win32 winmm
 %prm
 phwi, uDeviceID, pwfx, dwCallback, dwInstance, fdwOpen
-phwi : [intptr] Pointer to a buffer that receives a handle identifying the open waveform-audio input device. Use this handle to identify the device when calling other waveform-audio input functions. This parameter can be NULL if WAVE_FORMAT_QUERY is specified for fdwOpen.
-uDeviceID : [int] Identifier of the waveform-audio input device to open. It can be either a device identifier or a handle of an open waveform-audio input device. You can use the following flag instead of a device identifier.
-pwfx : [var] Pointer to a WAVEFORMATEX structure that identifies the desired format for recording waveform-audio data. You can free this structure immediately after waveInOpen returns.
-dwCallback : [int] Pointer to a fixed callback function, an event handle, a handle to a window, or the identifier of a thread to be called during waveform-audio recording to process messages related to the progress of recording. If no callback function is required, this value can be zero. For more information on the callback function, see waveInProc.
-dwInstance : [int] User-instance data passed to the callback mechanism. This parameter is not used with the window callback mechanism.
-fdwOpen : [int] Flags for opening the device. The following values are defined.
+phwi : [intptr] 開いた波形オーディオ入力デバイスを識別するハンドルを受け取るバッファへのポインタ。fdwOpen で WAVE_FORMAT_QUERY を指定する場合は NULL 可。
+uDeviceID : [int] 開く波形オーディオ入力デバイスの識別子。デバイス識別子、または開いているデバイスのハンドル。デバイス識別子の代わりに以下のフラグを使用できる。
+pwfx : [var] 録音する波形オーディオデータの希望フォーマットを示す WAVEFORMATEX 構造体へのポインタ。waveInOpen が戻った直後に解放できる。
+dwCallback : [int] 録音進捗に関するメッセージを処理するためのコールバック関数、イベントハンドル、ウィンドウハンドル、またはスレッド識別子。不要なら 0。詳細は waveInProc を参照。
+dwInstance : [int] コールバック機構に渡されるユーザーインスタンスデータ。ウィンドウコールバック機構では使用しない。
+fdwOpen : [int] デバイスを開くときのフラグ。以下の値が定義されている。
 %inst
-The waveInOpen function opens the given waveform-audio input device
-for recording.
+waveInOpen 関数は指定の波形オーディオ入力デバイスを録音用に開く。
 
 [戻り値]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+成功時は MMSYSERR_NOERROR、それ以外はエラー値を返す。主なエラーは以下の通り。
+（以下省略）
 
 [備考]
-Use the waveInGetNumDevs function to determine the number of
-waveform-audio input devices present on the system. The device
-identifier specified by uDeviceID varies from zero to one less than
-the number of devices present. The WAVE_MAPPER constant can also be
-used as a device identifier.
-If you choose to have a window or thread receive callback
-information, the following messages are sent to the window procedure
-or thread to indicate the progress of waveform-audio input:
-MM_WIM_OPEN, MM_WIM_CLOSE, and MM_WIM_DATA.
-If you choose to have a function receive callback information, the
-following messages are sent to the function to indicate the progress
-of waveform-audio input: WIM_OPEN, WIM_CLOSE, and WIM_DATA.
+システムに存在する波形オーディオ入力デバイス数は waveInGetNumDevs で取得できる。uDeviceID は 0 から
+デバイス数-1 までの値、または WAVE_MAPPER 定数を指定できる。
+ウィンドウまたはスレッドにコールバック情報を受け取らせる場合、MM_WIM_OPEN、MM_WIM_CLOSE、MM_WIM_DATA
+メッセージが送られる。
+関数にコールバック情報を受け取らせる場合は WIM_OPEN、WIM_CLOSE、WIM_DATA が送られる。
 
 
 %index
 waveInStart
-The waveInStart function starts input on the given waveform-audio input device.
+waveInStart 関数は指定の波形オーディオ入力デバイスでの入力を開始する。
 %group
 Win32 winmm
 %prm
 hwi
-hwi : [intptr] Handle to the waveform-audio input device.
+hwi : [intptr] 波形オーディオ入力デバイスのハンドル。
 %inst
-The waveInStart function starts input on the given waveform-audio
-input device.
+waveInStart 関数は指定の波形オーディオ入力デバイスでの入力を開始する。
 
 [戻り値]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+成功時は MMSYSERR_NOERROR、それ以外はエラー値を返す。主なエラーは以下の通り。
+（以下省略）
 
 [備考]
-Buffers are returned to the application when full or when the
-waveInReset function is called (the dwBytesRecorded member in the
-header will contain the length of data). If there are no buffers in
-the queue, the data is thrown away without notifying the application,
-and input continues. Calling this function when input is already
-started has no effect, and the function returns zero.
+バッファがいっぱいになったとき、または waveInReset
+が呼ばれたときにアプリへ返される。キューにバッファが無い場合はデータは破棄されアプリに通知されず入力は続行される。入力がすでに開始されている場合、この関数は効果を持たず
+0 を返す。
 
 
 %index
 waveInStop
-The waveInStop function stops waveform-audio input.
+waveInStop 関数は波形オーディオ入力を停止する。
 %group
 Win32 winmm
 %prm
 hwi
-hwi : [intptr] Handle to the waveform-audio input device.
+hwi : [intptr] 波形オーディオ入力デバイスのハンドル。
 %inst
-The waveInStop function stops waveform-audio input.
+waveInStop 関数は波形オーディオ入力を停止する。
 
 [戻り値]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+成功時は MMSYSERR_NOERROR、それ以外はエラー値を返す。主なエラーは以下の通り。
+（以下省略）
 
 [備考]
-If there are any buffers in the queue, the current buffer will be
-marked as done (the dwBytesRecorded member in the header will contain
-the length of data), but any empty buffers in the queue will remain
-there. Calling this function when input is not started has no effect,
-and the function returns zero.
+
+キューにバッファがある場合、現在のバッファは完了済みとしてマークされるが、空のバッファはキューに残る。入力が開始されていない場合、本関数は効果を持たず
+0 を返す。
 
 
 %index
 waveOutClose
-The waveOutClose function closes the given waveform-audio output device.
+waveOutClose 関数は指定の波形オーディオ出力デバイスを閉じる。
 %group
 Win32 winmm
 %prm
 hwo
-hwo : [intptr] Handle to the waveform-audio output device. If the function succeeds, the handle is no longer valid after this call.
+hwo : [intptr] 波形オーディオ出力デバイスのハンドル。成功時は呼び出し後ハンドルは無効になる。
 %inst
-The waveOutClose function closes the given waveform-audio output
-device.
+waveOutClose 関数は指定の波形オーディオ出力デバイスを閉じる。
 
 [戻り値]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+成功時は MMSYSERR_NOERROR、それ以外はエラー値を返す。主なエラーは以下の通り。
+（以下省略）
 
 [備考]
-The close operation fails if the device is still playing a
-waveform-audio buffer that was previously sent by calling
-waveOutWrite. Before calling waveOutClose, the application must wait
-for all buffers to finish playing or call the waveOutReset function
-to terminate playback.
+waveOutWrite で送信した波形バッファを再生中の場合、閉じる操作は失敗する。waveOutClose
+を呼ぶ前にすべてのバッファの再生完了を待つか、waveOutReset を呼んで再生を終了させる必要がある。
 
 
 %index
 waveOutOpen
-The waveOutOpen function opens the given waveform-audio output device for playback.
+waveOutOpen 関数は指定の波形オーディオ出力デバイスを再生用に開く。
 %group
 Win32 winmm
 %prm
 phwo, uDeviceID, pwfx, dwCallback, dwInstance, fdwOpen
-phwo : [intptr] Pointer to a buffer that receives a handle identifying the open waveform-audio output device. Use the handle to identify the device when calling other waveform-audio output functions. This parameter might be NULL if the WAVE_FORMAT_QUERY flag is specified for fdwOpen.
-uDeviceID : [int] Identifier of the waveform-audio output device to open. It can be either a device identifier or a handle of an open waveform-audio input device. You can also use the following flag instead of a device identifier:
-pwfx : [var] Pointer to a WAVEFORMATEX structure that identifies the format of the waveform-audio data to be sent to the device. You can free this structure immediately after passing it to waveOutOpen.
-dwCallback : [int] Specifies the callback mechanism. The value must be one of the following:
-dwInstance : [int] User-instance data passed to the callback mechanism. This parameter is not used with the window callback mechanism.
-fdwOpen : [int] Flags for opening the device. The following values are defined.
+phwo : [intptr] 開いた波形オーディオ出力デバイスを識別するハンドルを受け取るバッファへのポインタ。fdwOpen で WAVE_FORMAT_QUERY を指定する場合は NULL 可。
+uDeviceID : [int] 開く波形オーディオ出力デバイスの識別子。デバイス識別子、または開いているデバイスのハンドル。デバイス識別子の代わりに以下のフラグも使用できる:
+pwfx : [var] デバイスに送る波形オーディオデータの形式を示す WAVEFORMATEX 構造体へのポインタ。waveOutOpen に渡した直後に解放できる。
+dwCallback : [int] コールバック機構を指定する。以下のいずれかである必要がある:
+dwInstance : [int] コールバック機構に渡されるユーザーインスタンスデータ。ウィンドウコールバック機構では使用しない。
+fdwOpen : [int] デバイスを開くときのフラグ。以下の値が定義されている。
 %inst
-The waveOutOpen function opens the given waveform-audio output device
-for playback.
+waveOutOpen 関数は指定の波形オーディオ出力デバイスを再生用に開く。
 
 [戻り値]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+成功時は MMSYSERR_NOERROR、それ以外はエラー値を返す。主なエラーは以下の通り。
+（以下省略）
 
 [備考]
-Use the waveOutGetNumDevs function to determine the number of
-waveform-audio output devices present in the system. If the value
-specified by the uDeviceID parameter is a device identifier, it can
-vary from zero to one less than the number of devices present. The
-WAVE_MAPPER constant can also be used as a device identifier.
-The structure pointed to by pwfx can be extended to include
-type-specific information for certain data formats. For example, for
-PCM data, an extra UINT is added to specify the number of bits per
-sample. Use the PCMWAVEFORMAT structure in this case. For all other
-waveform-audio formats, use the WAVEFORMATEX structure to specify the
-length of the additional data. If you choose to have a window or
-thread receive callback information, the following messages are sent
-to the window procedure function to indicate the progress of
-waveform-audio output: MM_WOM_OPEN, MM_WOM_CLOSE, and MM_WOM_DONE.
-Callback Mechanism The dwCallback and fdwOpen parameters specify how
-the application is notified about the progress of waveform-audio
-output. If fdwOpen contains the CALLBACK_FUNCTION flag, dwCallback is
-a pointer to a callback function. For the function signature, see
-waveOutProc. The uMsg parameter of the callback indicates the
-progress of the audio output:
-This doc was truncated.
+システムに存在する波形オーディオ出力デバイス数は waveOutGetNumDevs で取得できる。uDeviceID は 0
+からデバイス数-1、または WAVE_MAPPER 定数。
+pwfx が指す構造体は特定データ形式のためにタイプ固有情報で拡張できる。PCM データでは追加 UINT
+でサンプルあたりのビット数を指定し、この場合は PCMWAVEFORMAT を使う。他の形式では WAVEFORMATEX
+で追加データ長を指定する。ウィンドウまたはスレッドにコールバック情報を受け取らせる場合、MM_WOM_OPEN、MM_WOM_CLOSE、MM_WOM_DONE
+メッセージが送られる。
+コールバック機構 dwCallback と fdwOpen で通知方法を指定する。fdwOpen に CALLBACK_FUNCTION
+が含まれる場合、dwCallback はコールバック関数ポインタ。関数シグネチャは waveOutProc 参照。
+（以下省略）
 
 
 %index
 waveOutReset
-The waveOutReset function stops playback on the given waveform-audio output device and resets the current position to zero. All pending playback buffers are marked as done (WHDR_DONE) and returned to the application.
+waveOutReset 関数は指定の波形オーディオ出力デバイスでの再生を停止し、現在位置を 0 にリセットする。保留中のすべての再生バッファは WHDR_DONE でマークされアプリに返される。
 %group
 Win32 winmm
 %prm
 hwo
-hwo : [intptr] Handle to the waveform-audio output device.
+hwo : [intptr] 波形オーディオ出力デバイスのハンドル。
 %inst
-The waveOutReset function stops playback on the given waveform-audio
-output device and resets the current position to zero. All pending
-playback buffers are marked as done (WHDR_DONE) and returned to the
-application.
+waveOutReset 関数は指定の波形オーディオ出力デバイスでの再生を停止し、現在位置を 0
+にリセットする。保留中のすべての再生バッファは WHDR_DONE でマークされアプリに返される。
 
 [戻り値]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+成功時は MMSYSERR_NOERROR、それ以外はエラー値を返す。主なエラーは以下の通り。
+（以下省略）
 
 [備考]
-After this function returns, the application can send new playback
-buffers to the device by calling waveOutWrite, or close the device by
-calling waveOutClose.
+本関数が戻った後、waveOutWrite で新しい再生バッファを送るか、waveOutClose でデバイスを閉じることができる。
 
 
 %index
 waveOutWrite
-The waveOutWrite function sends a data block to the given waveform-audio output device.
+waveOutWrite 関数は指定の波形オーディオ出力デバイスにデータブロックを送る。
 %group
 Win32 winmm
 %prm
 hwo, pwh, cbwh
-hwo : [intptr] Handle to the waveform-audio output device.
-pwh : [var] Pointer to a WAVEHDR structure containing information about the data block.
-cbwh : [int] Size, in bytes, of the WAVEHDR structure.
+hwo : [intptr] 波形オーディオ出力デバイスのハンドル。
+pwh : [var] データブロックの情報を含む WAVEHDR 構造体へのポインタ。
+cbwh : [int] WAVEHDR 構造体のサイズ(バイト単位)。
 %inst
-The waveOutWrite function sends a data block to the given
-waveform-audio output device.
+waveOutWrite 関数は指定の波形オーディオ出力デバイスにデータブロックを送る。
 
 [戻り値]
-Returns MMSYSERR_NOERROR if successful or an error otherwise.
-Possible error values include the following.
-This doc was truncated.
+成功時は MMSYSERR_NOERROR、それ以外はエラー値を返す。主なエラーは以下の通り。
+（以下省略）
 
 [備考]
-When the buffer is finished, the WHDR_DONE bit is set in the dwFlags
-member of the WAVEHDR structure. The buffer must be prepared with the
-waveOutPrepareHeader function before it is passed to waveOutWrite.
-Unless the device is paused by calling the waveOutPause function,
-playback begins when the first data block is sent to the device.
+バッファ完了時、WAVEHDR の dwFlags メンバで WHDR_DONE ビットが設定される。waveOutWrite に渡す前に
+waveOutPrepareHeader でバッファを準備する必要がある。waveOutPause
+で一時停止中でない限り、最初のデータブロック送信時に再生が開始される。
 

@@ -6,367 +6,277 @@
 
 %index
 BCryptDestroyHash
-Destroys a hash or Message Authentication Code (MAC) object.
+ハッシュまたはメッセージ認証コード (MAC) オブジェクトを破棄する。
 %group
 Win32 bcrypt
 %prm
 hHash
-hHash : [int] The handle of the hash or MAC object to destroy. This handle is obtained by using the BCryptCreateHash function.
+hHash : [int] 破棄するハッシュまたは MAC オブジェクトのハンドル。BCryptCreateHash 関数で取得したハンドルを指定する。
 %inst
-Destroys a hash or Message Authentication Code (MAC) object.
+ハッシュまたはメッセージ認証コード (MAC) オブジェクトを破棄する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+主な戻り値は以下の通り。
+（以下省略）
 
 [備考]
-Depending on what processor modes a provider supports,
-BCryptDestroyHash can be called either from user mode or kernel mode.
-Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
-DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
-handle provided in the hHash parameter must be derived from an
-algorithm handle returned by a provider that was opened by using the
-BCRYPT_PROV_DISPATCH flag. To call this function in kernel mode, use
-Cng.lib, which is part of the Driver Development Kit (DDK). Windows
-Server 2008 and Windows Vista: To call this function in kernel mode,
-use Ksecdd.lib.
+プロバイダがサポートするプロセッサモードに応じて、BCryptDestroyHash
+はユーザーモードまたはカーネルモードのどちらからでも呼び出せる。カーネルモード呼び出し元は PASSIVE_LEVEL IRQL または
+DISPATCH_LEVEL IRQL のいずれかで実行できる。現在の IRQL が DISPATCH_LEVEL の場合、hHash
+に渡すハンドルは BCRYPT_PROV_DISPATCH
+フラグ付きで開かれたプロバイダから返されたアルゴリズムハンドル由来でなければならない。カーネルモードで呼び出す場合は DDK に含まれる
+Cng.lib を使用する。Windows Server 2008 および Windows Vista: カーネルモードで呼び出す場合は
+Ksecdd.lib を使用する。
 
 
 %index
 BCryptCloseAlgorithmProvider
-Closes an algorithm provider.
+アルゴリズムプロバイダを閉じる。
 %group
 Win32 bcrypt
 %prm
 hAlgorithm, dwFlags
-hAlgorithm : [int] A handle that represents the algorithm provider to close. This handle is obtained by calling the BCryptOpenAlgorithmProvider function.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are defined for this function.
+hAlgorithm : [int] 閉じるアルゴリズムプロバイダを表すハンドル。BCryptOpenAlgorithmProvider で取得する。
+dwFlags : [int] 関数の動作を変更するフラグ群。現在定義されているフラグはない。
 %inst
-Closes an algorithm provider.
+アルゴリズムプロバイダを閉じる。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+主な戻り値は以下の通り。
+（以下省略）
 
 [備考]
-BCryptCloseAlgorithmProvider can be called either from user mode or
-kernel mode. Kernel mode callers must be executing at PASSIVE_LEVEL
-IRQL. To call this function in kernel mode, use Cng.lib, which is
-part of the Driver Development Kit (DDK). For more information, see
-WDK and Developer Tools.Windows Server 2008 and Windows Vista: To
-call this function in kernel mode, use Ksecdd.lib.
+BCryptCloseAlgorithmProvider はユーザーモードまたはカーネルモードから呼び出せる。カーネルモード呼び出し元は
+PASSIVE_LEVEL IRQL で実行する必要がある。カーネルモードで呼び出す場合は DDK の Cng.lib を使用する。詳細は
+WDK および Developer Tools を参照。Windows Server 2008 および Windows Vista:
+カーネルモードで呼び出す場合は Ksecdd.lib を使用する。
 
 
 %index
 BCryptCreateHash
-Called to create a hash or Message Authentication Code (MAC) object.
+ハッシュまたはメッセージ認証コード (MAC) オブジェクトを作成する。
 %group
 Win32 bcrypt
 %prm
 hAlgorithm, phHash, pbHashObject, cbHashObject, pbSecret, cbSecret, dwFlags
-hAlgorithm : [int] The handle of an algorithm provider created by using the BCryptOpenAlgorithmProvider function. The algorithm that was specified when the provider was created must support the hash interface.
-phHash : [var] A pointer to a BCRYPT_HASH_HANDLE value that receives a handle that represents the hash or MAC object. This handle is used in subsequent hashing or MAC functions, such as the BCryptHashData function. When you have finished using this handle, release it by passing it to the BCryptDestroyHash function.
-pbHashObject : [var] A pointer to a buffer that receives the hash or MAC object. The cbHashObject parameter contains the size of this buffer. The required size of this buffer can be obtained by calling the BCryptGetProperty function to get the BCRYPT_OBJECT_LENGTH property. This will provide the size of the hash or MAC object for the specified algorithm. This memory can only be freed after the handle pointed to by the phHash parameter is destroyed. If the value of this parameter is NULL and the value of the cbHashObject parameter is zero, the memory for the hash object is allocated and freed by this function. Windows?7: This memory management functionality is available beginning with Windows?7.
-cbHashObject : [int] The size, in bytes, of the pbHashObject buffer. If the value of this parameter is zero and the value of the pbHashObject parameter is NULL, the memory for the key object is allocated and freed by this function. Windows?7: This memory management functionality is available beginning with Windows?7.
-pbSecret : [var] A pointer to a buffer that contains the key to use for the hash or MAC. The cbSecret parameter contains the size of this buffer. This key only applies to hash algorithms opened by the BCryptOpenAlgorithmProvider function by using the BCRYPT_ALG_HANDLE_HMAC flag.  Otherwise, set this parameter to NULL.
-cbSecret : [int] The size, in bytes, of the pbSecret buffer. If no key is used, set this parameter to zero.
-dwFlags : [int] Flags that modify the behavior of the function. This can be zero or the following value.
+hAlgorithm : [int] BCryptOpenAlgorithmProvider で作成したアルゴリズムプロバイダのハンドル。プロバイダ作成時に指定したアルゴリズムはハッシュインタフェースをサポートする必要がある。
+phHash : [var] ハッシュまたは MAC オブジェクトを表すハンドルを受け取る BCRYPT_HASH_HANDLE 変数へのポインタ。BCryptHashData などの後続のハッシュ/MAC 関数で使用する。使用が終わったら BCryptDestroyHash に渡して解放する。
+pbHashObject : [var] ハッシュまたは MAC オブジェクトを受け取るバッファへのポインタ。サイズは cbHashObject で指定する。必要なサイズは BCryptGetProperty を BCRYPT_OBJECT_LENGTH プロパティで呼び出して取得できる。このメモリは phHash が指すハンドルを破棄した後でのみ解放できる。この値が NULL かつ cbHashObject が 0 の場合、関数内部でメモリが確保・解放される。Windows 7: このメモリ管理機能は Windows 7 以降で利用可能。
+cbHashObject : [int] pbHashObject バッファのサイズ(バイト単位)。0 で pbHashObject が NULL の場合、関数内部でキーオブジェクト用メモリを確保・解放する。Windows 7 以降で利用可能。
+pbSecret : [var] ハッシュまたは MAC に使用する鍵を格納したバッファへのポインタ。サイズは cbSecret で指定する。この鍵は BCRYPT_ALG_HANDLE_HMAC フラグで開かれたハッシュアルゴリズムにのみ適用される。それ以外では NULL を指定する。
+cbSecret : [int] pbSecret バッファのサイズ(バイト単位)。鍵を使用しない場合は 0 を指定する。
+dwFlags : [int] 関数の動作を変更するフラグ。0 または下記の値を指定できる。
 %inst
-Called to create a hash or Message Authentication Code (MAC) object.
+ハッシュまたはメッセージ認証コード (MAC) オブジェクトを作成する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+主な戻り値は以下の通り。
+（以下省略）
 
 [備考]
-Depending on what processor modes a provider supports,
-BCryptCreateHash can be called either from user mode or kernel mode.
-Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
-DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
-handle provided in the hAlgorithm parameter must have been opened by
-using the BCRYPT_PROV_DISPATCH flag, and any pointers passed to the
-BCryptCreateHash function must refer to nonpaged (or locked) memory.
-To call this function in kernel mode, use Cng.lib, which is part of
-the Driver Development Kit (DDK). For more information, see WDK and
-Developer Tools.Windows Server 2008 and Windows Vista: To call this
-function in kernel mode, use Ksecdd.lib.
+プロバイダがサポートするプロセッサモードに応じて、BCryptCreateHash
+はユーザーモードまたはカーネルモードから呼び出せる。現在の IRQL が DISPATCH_LEVEL の場合、hAlgorithm
+に渡すハンドルは BCRYPT_PROV_DISPATCH
+フラグ付きで開かれている必要があり、引数に渡すすべてのポインタはページアウトされない(またはロックされた)メモリを参照する必要がある。カーネルモードでは
+Cng.lib を使用する。Windows Server 2008 および Windows Vista: カーネルモードでは
+Ksecdd.lib を使用する。
 
 
 %index
 BCryptDestroyKey
-Destroys a key.
+鍵を破棄する。
 %group
 Win32 bcrypt
 %prm
 hKey
-hKey : [int] The handle of the key to destroy.
+hKey : [int] 破棄する鍵のハンドル。
 %inst
-Destroys a key.
+鍵を破棄する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+主な戻り値は以下の通り。
+（以下省略）
 
 [備考]
-Depending on what processor modes a provider supports,
-BCryptDestroyKey can be called either from user mode or kernel mode.
-Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
-DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
-handle provided in the hKey parameter must be derived from an
-algorithm handle returned by a provider that was opened with the
-BCRYPT_PROV_DISPATCH flag. To call this function in kernel mode, use
-Cng.lib, which is part of the Driver Development Kit (DDK). Windows
-Server 2008 and Windows Vista: To call this function in kernel mode,
-use Ksecdd.lib.
+プロバイダがサポートするプロセッサモードに応じて、BCryptDestroyKey
+はユーザーモードまたはカーネルモードから呼び出せる。DISPATCH_LEVEL で呼ぶ場合、hKey は
+BCRYPT_PROV_DISPATCH フラグで開かれたプロバイダから得たアルゴリズムハンドル由来である必要がある。カーネルモードでは
+Cng.lib(Windows Server 2008/Vista では Ksecdd.lib)を使用する。
 
 
 %index
 BCryptDecrypt
-Decrypts a block of data.
+データブロックを復号する。
 %group
 Win32 bcrypt
 %prm
 hKey, pbInput, cbInput, pPaddingInfo, pbIV, cbIV, pbOutput, cbOutput, pcbResult, dwFlags
-hKey : [int] The handle of the key to use to decrypt the data. This handle is obtained from one of the key creation functions, such as BCryptGenerateSymmetricKey, BCryptGenerateKeyPair, or BCryptImportKey.
-pbInput : [var] The address of a buffer that contains the ciphertext to be decrypted. The cbInput parameter contains the size of the ciphertext to decrypt. For more information, see Remarks.
-cbInput : [int] The number of bytes in the pbInput buffer to decrypt.
-pPaddingInfo : [intptr] A pointer to a structure that contains padding information. This parameter is only used with asymmetric keys and authenticated encryption modes. If an  authenticated encryption mode is used, this parameter must point to a BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO structure. If asymmetric keys are used, the type of structure this parameter points to is determined by the value of the dwFlags parameter. Otherwise, the parameter  must be set to NULL.
-pbIV : [var] The address of a buffer that contains the initialization vector (IV) to use during decryption. The cbIV parameter contains the size of this buffer. This function will modify the contents of this buffer. If you need to reuse the IV later, make sure you make a copy of this buffer before calling this function. This parameter is optional and can be NULL if no IV is used. The required size of the IV can be obtained by calling the BCryptGetProperty function to get the BCRYPT_BLOCK_LENGTH property. This will provide the size of a block for the algorithm, which is also the size of the IV.
-cbIV : [int] The size, in bytes, of the pbIV buffer.
-pbOutput : [var] The address of a buffer to receive the plaintext produced by this function. The cbOutput parameter contains the size of this buffer. For more information, see Remarks. If this parameter is NULL, the BCryptDecrypt  function calculates the size required for the plaintext of the encrypted data passed in the pbInput parameter. In this case, the location pointed to by the pcbResult parameter contains this size, and the function returns STATUS_SUCCESS. If the values of both the pbOutput and pbInput parameters are NULL, an error is returned unless  an authenticated encryption algorithm is in use. In the latter case, the call is treated as an authenticated encryption call with zero length data, and the authentication tag, passed in the pPaddingInfo parameter, is verified.
-cbOutput : [int] The size, in bytes, of the pbOutput buffer. This parameter is ignored if the pbOutput parameter is NULL.
-pcbResult : [var] A pointer to a ULONG variable to receive the number of bytes copied to the pbOutput buffer. If pbOutput is NULL, this receives the size, in bytes, required for the plaintext.
-dwFlags : [int] A set of flags that modify the behavior of this function. The allowed set of flags depends on the type of key specified by the hKey parameter.
+hKey : [int] データ復号に使用する鍵のハンドル。BCryptGenerateSymmetricKey、BCryptGenerateKeyPair、BCryptImportKey などで取得する。
+pbInput : [var] 復号する暗号文を格納したバッファのアドレス。サイズは cbInput で指定する。詳細は Remarks 参照。
+cbInput : [int] pbInput バッファ中で復号するバイト数。
+pPaddingInfo : [intptr] パディング情報構造体へのポインタ。非対称鍵または認証付き暗号モード使用時のみ指定。認証付き暗号モードでは BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO を指す必要がある。非対称鍵の場合、構造体の種類は dwFlags によって決まる。それ以外では NULL を指定する。
+pbIV : [var] 復号時に使用する初期化ベクタ (IV) を格納したバッファのアドレス。cbIV でサイズを指定。関数はこのバッファの内容を変更するため、後で再利用する場合は事前にコピーしておくこと。省略可能で、IV を使わない場合は NULL 可。必要な IV サイズは BCryptGetProperty を BCRYPT_BLOCK_LENGTH プロパティで呼び出して取得できる。
+cbIV : [int] pbIV バッファのサイズ(バイト単位)。
+pbOutput : [var] 復号後の平文を受け取るバッファのアドレス。サイズは cbOutput で指定する。NULL を渡すと必要サイズを計算し pcbResult に格納して STATUS_SUCCESS を返す。pbOutput と pbInput の両方が NULL の場合、認証付き暗号アルゴリズム使用時を除きエラーとなる。
+cbOutput : [int] pbOutput バッファのサイズ(バイト単位)。pbOutput が NULL の場合は無視される。
+pcbResult : [var] pbOutput バッファにコピーされたバイト数を受け取る ULONG 変数へのポインタ。pbOutput が NULL の場合、必要な平文サイズを受け取る。
+dwFlags : [int] 関数の動作を変更するフラグ群。許容されるフラグは hKey の種類によって異なる。
 %inst
-Decrypts a block of data.
+データブロックを復号する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+主な戻り値は以下の通り。
+（以下省略）
 
 [備考]
-The pbInput and pbOutput parameters can be equal. In this case, this
-function will perform the decryption in place. If pbInput and
-pbOutput are not equal, the two buffers may not overlap. Depending on
-what processor modes a provider supports, BCryptDecrypt can be called
-either from user mode or kernel mode. Kernel mode callers can execute
-either at PASSIVE_LEVEL IRQL or DISPATCH_LEVEL IRQL. If the current
-IRQL level is DISPATCH_LEVEL, the handle provided in the hKey
-parameter must be derived from an algorithm handle returned by a
-provider that was opened with the BCRYPT_PROV_DISPATCH flag, and any
-pointers passed to the BCryptDecrypt function must refer to nonpaged
-(or locked) memory. To call this function in kernel mode, use
-Cng.lib, which is part of the Driver Development Kit (DDK). Windows
-Server 2008 and Windows Vista: To call this function in kernel mode,
-use Ksecdd.lib.
+pbInput と pbOutput
+は同一バッファでもよく、その場合はインプレース復号となる。異なる場合は両バッファが重なってはならない。ユーザー/カーネルモードで呼び出せるが、DISPATCH_LEVEL
+で呼ぶ場合は hKey が BCRYPT_PROV_DISPATCH
+で開かれたプロバイダ由来である必要があり、ポインタはページアウトされないメモリを参照する必要がある。カーネルモードでは
+Cng.lib(Windows Server 2008/Vista では Ksecdd.lib)を使用する。
 
 
 %index
 BCryptEncrypt
-Encrypts a block of data. (BCryptEncrypt)
+データブロックを暗号化する。(BCryptEncrypt)
 %group
 Win32 bcrypt
 %prm
 hKey, pbInput, cbInput, pPaddingInfo, pbIV, cbIV, pbOutput, cbOutput, pcbResult, dwFlags
-hKey : [int] The handle of the key to use to encrypt the data. This handle is obtained from one of the key creation functions, such as BCryptGenerateSymmetricKey, BCryptGenerateKeyPair, or BCryptImportKey.
-pbInput : [var] The address of a buffer that contains the plaintext to be encrypted. The cbInput parameter contains the size of the plaintext to encrypt. For more information, see Remarks.
-cbInput : [int] The number of bytes in the pbInput buffer to encrypt.
-pPaddingInfo : [intptr] A pointer to a structure that contains padding information. This parameter is only used with asymmetric keys and authenticated encryption modes. If an  authenticated encryption mode is used, this parameter must point to a BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO structure. If asymmetric keys are used, the type of structure this parameter points to is determined by the value of the dwFlags parameter. Otherwise, the parameter  must be set to NULL.
-pbIV : [var] The address of a buffer that contains the initialization vector (IV) to use during encryption. The cbIV parameter contains the size of this buffer. This function will modify the contents of this buffer. If you need to reuse the IV later, make sure you make a copy of this buffer before calling this function. This parameter is optional and can be NULL if no IV is used. The required size of the IV can be obtained by calling the BCryptGetProperty function to get the BCRYPT_BLOCK_LENGTH property. This will provide the size of a block for the algorithm, which is also the size of the IV.
-cbIV : [int] The size, in bytes, of the pbIV buffer.
-pbOutput : [var] The address of the buffer that receives the ciphertext produced by this function. The cbOutput parameter contains the size of this buffer. For more information, see Remarks. If this parameter is NULL, the BCryptEncrypt function calculates the size needed for the ciphertext of the data passed in the pbInput parameter. In this case, the location pointed to by the pcbResult parameter contains this size, and the  function returns STATUS_SUCCESS. The pPaddingInfo parameter is not modified. If the values of both the pbOutput and pbInput parameters are NULL, an error is returned unless  an authenticated encryption algorithm is in use. In the latter case, the call is treated as an authenticated encryption call with zero length data, and the authentication tag is returned in the pPaddingInfo parameter.
-cbOutput : [int] The size, in bytes, of the pbOutput buffer. This parameter is ignored if the pbOutput parameter is NULL.
-pcbResult : [var] A pointer to a ULONG variable that receives the number of bytes copied to the pbOutput buffer. If pbOutput is NULL, this receives the size, in bytes, required for the ciphertext.
-dwFlags : [int] A set of flags that modify the behavior of this function. The allowed set of flags depends on the type of key specified by the hKey parameter.
+hKey : [int] データ暗号化に使用する鍵のハンドル。BCryptGenerateSymmetricKey、BCryptGenerateKeyPair、BCryptImportKey などで取得する。
+pbInput : [var] 暗号化する平文を格納したバッファのアドレス。サイズは cbInput で指定する。詳細は Remarks 参照。
+cbInput : [int] pbInput バッファ中で暗号化するバイト数。
+pPaddingInfo : [intptr] パディング情報構造体へのポインタ。非対称鍵または認証付き暗号モード使用時のみ指定。認証付き暗号モードでは BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO を指す必要がある。それ以外では NULL を指定する。
+pbIV : [var] 暗号化時の初期化ベクタ (IV) を格納したバッファのアドレス。関数はこのバッファの内容を変更するため再利用時は事前コピーが必要。IV を使わない場合は NULL 可。必要サイズは BCRYPT_BLOCK_LENGTH プロパティで取得する。
+cbIV : [int] pbIV バッファのサイズ(バイト単位)。
+pbOutput : [var] 暗号文を受け取るバッファのアドレス。NULL を渡すと必要サイズを計算し pcbResult に格納して STATUS_SUCCESS を返す。pPaddingInfo は変更されない。pbOutput と pbInput が両方 NULL の場合は認証付き暗号モード以外ではエラーとなる。
+cbOutput : [int] pbOutput バッファのサイズ(バイト単位)。pbOutput が NULL の場合は無視される。
+pcbResult : [var] pbOutput バッファにコピーされたバイト数を受け取る ULONG 変数へのポインタ。pbOutput が NULL の場合、必要な暗号文サイズを受け取る。
+dwFlags : [int] 関数の動作を変更するフラグ群。許容されるフラグは hKey の種類によって異なる。
 %inst
-Encrypts a block of data. (BCryptEncrypt)
+データブロックを暗号化する。(BCryptEncrypt)
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+主な戻り値は以下の通り。
+（以下省略）
 
 [備考]
-The pbInput and pbOutput parameters can be equal. In this case, this
-function will perform the encryption in place. It is possible that
-the encrypted data size will be larger than the unencrypted data
-size, so the buffer must be large enough to hold the encrypted data.
-If pbInput and pbOutput are not equal then the two buffers may not
-overlap. Depending on what processor modes a provider supports,
-BCryptEncrypt can be called either from user mode or kernel mode.
-Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
-DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
-handle provided in the hKey parameter must be derived from an
-algorithm handle returned by a provider that was opened with the
-BCRYPT_PROV_DISPATCH flag, and any pointers passed to the
-BCryptEncrypt function must refer to nonpaged (or locked) memory. To
-call this function in kernel mode, use Cng.lib, which is part of the
-Driver Development Kit (DDK). Windows Server 2008 and Windows Vista:
-To call this function in kernel mode, use Ksecdd.lib.
+pbInput と pbOutput
+は同一でもよくインプレース暗号化となる。暗号化後データが元より大きくなる場合があるためバッファサイズに注意。別バッファの場合は重なってはならない。DISPATCH_LEVEL
+で呼ぶ場合の制約は他の BCrypt 関数と同様。カーネルモードでは Cng.lib(Windows Server 2008/Vista
+では Ksecdd.lib)を使用する。
 
 
 %index
 BCryptFinishHash
-Retrieves the hash or Message Authentication Code (MAC) value for the data accumulated from prior calls to BCryptHashData.
+BCryptHashData の呼び出しで蓄積されたデータに対するハッシュまたは MAC 値を取得する。
 %group
 Win32 bcrypt
 %prm
 hHash, pbOutput, cbOutput, dwFlags
-hHash : [int] The handle of the hash or MAC object to use to compute the hash or MAC. This handle is obtained by calling the BCryptCreateHash function. After this function has been called, the hash handle passed to this function cannot be used again except in a call to BCryptDestroyHash.
-pbOutput : [var] A pointer to a buffer that receives the hash or MAC value. The cbOutput parameter contains the size of this buffer.
-cbOutput : [int] The size, in bytes, of the pbOutput buffer. This size must exactly match the size of the hash or MAC value. The size can be obtained by calling the BCryptGetProperty function to get the BCRYPT_HASH_LENGTH property. This will provide the size of the hash or MAC value for the specified algorithm.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are currently defined, so this parameter should be zero.
+hHash : [int] ハッシュ/MAC 計算に使用するオブジェクトのハンドル。BCryptCreateHash で取得する。本関数呼び出し後は BCryptDestroyHash 以外では再利用できない。
+pbOutput : [var] ハッシュまたは MAC 値を受け取るバッファへのポインタ。サイズは cbOutput で指定する。
+cbOutput : [int] pbOutput バッファのサイズ(バイト単位)。ハッシュ/MAC 値のサイズと厳密に一致させる必要がある。BCRYPT_HASH_LENGTH プロパティで取得できる。
+dwFlags : [int] 関数の動作を変更するフラグ群。現在定義されていないので 0 を指定する。
 %inst
-Retrieves the hash or Message Authentication Code (MAC) value for the
-data accumulated from prior calls to BCryptHashData.
+BCryptHashData の呼び出しで蓄積されたデータに対するハッシュまたは MAC 値を取得する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+主な戻り値は以下の通り。
+（以下省略）
 
 [備考]
-Depending on what processor modes a provider supports,
-BCryptFinishHash can be called either from user mode or kernel mode.
-Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
-DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
-handle provided in the hHash parameter must be derived from an
-algorithm handle returned by a provider that was opened by using the
-BCRYPT_PROV_DISPATCH flag, and any pointers passed to the
-BCryptFinishHash function must refer to nonpaged (or locked) memory.
-To call this function in kernel mode, use Cng.lib, which is part of
-the Driver Development Kit (DDK). Windows Server 2008 and Windows
-Vista: To call this function in kernel mode, use Ksecdd.lib.
+プロバイダがサポートするプロセッサモードに応じてユーザー/カーネルモードから呼び出せる。DISPATCH_LEVEL
+呼び出し時の条件は他の BCrypt 関数と同様。カーネルモードでは Cng.lib(Windows Server 2008/Vista
+では Ksecdd.lib)を使用する。
 
 
 %index
 BCryptGenRandom
-Generates a random number.
+乱数を生成する。
 %group
 Win32 bcrypt
 %prm
 hAlgorithm, pbBuffer, cbBuffer, dwFlags
-hAlgorithm : [int] The handle of an algorithm provider created by using the BCryptOpenAlgorithmProvider function. The algorithm that was specified when the provider was created must support the random number generator interface.
-pbBuffer : [var] The address of a buffer that receives the random number. The size of this buffer is specified by the cbBuffer parameter.
-cbBuffer : [int] The size, in bytes, of the pbBuffer buffer.
-dwFlags : [int] A set of flags that modify the behavior of this function. This parameter can be zero or the following value.
+hAlgorithm : [int] BCryptOpenAlgorithmProvider で作成したアルゴリズムプロバイダのハンドル。乱数生成インタフェースをサポートするアルゴリズムを指定している必要がある。
+pbBuffer : [var] 乱数を受け取るバッファのアドレス。サイズは cbBuffer で指定する。
+cbBuffer : [int] pbBuffer バッファのサイズ(バイト単位)。
+dwFlags : [int] 関数の動作を変更するフラグ群。0 または下記の値を指定できる。
 %inst
-Generates a random number.
+乱数を生成する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+主な戻り値は以下の通り。
+（以下省略）
 
 [備考]
-The default random number provider implements an algorithm for
-generating random numbers that complies with the NIST SP800-90
-standard, specifically the CTR_DRBG portion of that standard. Windows
-Vista: Prior to Windows Vista with Service Pack 1 (SP1) the default
-random number provider implements an algorithm for generating random
-numbers that complies with the FIPS 186-2 standard. Depending on what
-processor modes a provider supports, BCryptGenRandom can be called
-either from user mode or kernel mode. Kernel mode callers can execute
-either at PASSIVE_LEVEL IRQL or DISPATCH_LEVEL IRQL. If the current
-IRQL level is DISPATCH_LEVEL, the handle provided in the hAlgorithm
-parameter must have been opened by using the BCRYPT_PROV_DISPATCH
-flag, and any pointers passed to the BCryptGenRandom function must
-refer to nonpaged (or locked) memory.Windows Vista: The Microsoft
-provider does not support calling at DISPATCH_LEVEL.
-To call this function in kernel mode, use Cng.lib, which is part of
-the Driver Development Kit (DDK). Windows Server 2008 and Windows
-Vista: To call this function in kernel mode, use Ksecdd.lib.
+既定の乱数プロバイダは NIST SP800-90 準拠(具体的には CTR_DRBG)の乱数生成アルゴリズムを実装する。Windows
+Vista: SP1 より前では FIPS 186-2 準拠。DISPATCH_LEVEL 呼び出し時は hAlgorithm が
+BCRYPT_PROV_DISPATCH
+で開かれている必要があり、ポインタはページアウトされないメモリを参照する必要がある。Windows Vista の Microsoft
+プロバイダは DISPATCH_LEVEL 呼び出しに対応しない。カーネルモードでは Cng.lib(Windows Server
+2008/Vista では Ksecdd.lib)を使用する。
 
 
 %index
 BCryptHashData
-Performs a one way hash or Message Authentication Code (MAC) on a data buffer.
+データバッファに対して一方向ハッシュまたはメッセージ認証コード (MAC) を計算する。
 %group
 Win32 bcrypt
 %prm
 hHash, pbInput, cbInput, dwFlags
-hHash : [int] The handle of the hash or MAC object to use to perform the operation. This handle is obtained by calling the BCryptCreateHash function.
-pbInput : [var] A pointer to a buffer that contains the data to process. The cbInput parameter contains the number of bytes in this buffer. This function does not modify the contents of this buffer.
-cbInput : [int] The number of bytes in the pbInput buffer.
-dwFlags : [int] A set of flags that modify the behavior of this function. No flags are currently defined, so this parameter should be zero.
+hHash : [int] 処理対象のハッシュまたは MAC オブジェクトのハンドル。BCryptCreateHash で取得する。
+pbInput : [var] 処理するデータを格納したバッファへのポインタ。cbInput でサイズを指定する。関数はこのバッファの内容を変更しない。
+cbInput : [int] pbInput バッファのバイト数。
+dwFlags : [int] 関数の動作を変更するフラグ群。現在定義されていないので 0 を指定する。
 %inst
-Performs a one way hash or Message Authentication Code (MAC) on a
-data buffer.
+データバッファに対して一方向ハッシュまたはメッセージ認証コード (MAC) を計算する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+主な戻り値は以下の通り。
+（以下省略）
 
 [備考]
-To combine more than one buffer into the hash or MAC, you can call
-this function multiple times, passing a different buffer each time.
-To obtain the hash or MAC value, call the BCryptFinishHash function.
-After the BCryptFinishHash function has been called for a specified
-handle, that handle cannot be reused. Depending on what processor
-modes a provider supports, BCryptHashData can be called either from
-user mode or kernel mode. Kernel mode callers can execute either at
-PASSIVE_LEVEL IRQL or DISPATCH_LEVEL IRQL. If the current IRQL level
-is DISPATCH_LEVEL, the handle provided in the hHash parameter must be
-derived from an algorithm handle returned by a provider that was
-opened by using the BCRYPT_PROV_DISPATCH flag, and any pointers
-passed to the BCryptHashData function must refer to nonpaged (or
-locked) memory. To call this function in kernel mode, use Cng.lib,
-which is part of the Driver Development Kit (DDK). Windows Server
-2008 and Windows Vista: To call this function in kernel mode, use
-Ksecdd.lib.
+複数のバッファを 1 つのハッシュ/MAC にまとめるには、異なるバッファを渡して本関数を複数回呼び出す。最終的なハッシュ/MAC 値は
+BCryptFinishHash で取得する。BCryptFinishHash
+呼び出し後、該当ハンドルは再利用できない。DISPATCH_LEVEL 呼び出し時の制約は他の BCrypt
+関数と同様。カーネルモードでは Cng.lib(Windows Server 2008/Vista では
+Ksecdd.lib)を使用する。
 
 
 %index
 BCryptOpenAlgorithmProvider
-Loads and initializes a CNG provider.
+CNG プロバイダをロードし初期化する。
 %group
 Win32 bcrypt
 %prm
 phAlgorithm, pszAlgId, pszImplementation, dwFlags
-phAlgorithm : [var] A pointer to a BCRYPT_ALG_HANDLE variable that receives the CNG provider handle. When you have finished using this handle, release it by passing it to the BCryptCloseAlgorithmProvider function.
-pszAlgId : [wstr] A pointer to a null-terminated Unicode string that identifies the requested cryptographic algorithm. This can be one of the standard CNG Algorithm Identifiers or the identifier for another registered algorithm.
-pszImplementation : [wstr] A pointer to a null-terminated Unicode string that identifies the specific provider to load. This is the registered alias of the cryptographic primitive provider. This parameter is optional and can be NULL if it is not needed. If this parameter is NULL, the default provider for the specified algorithm will be loaded.
+phAlgorithm : [var] CNG プロバイダハンドルを受け取る BCRYPT_ALG_HANDLE 変数へのポインタ。使用後は BCryptCloseAlgorithmProvider に渡して解放する。
+pszAlgId : [wstr] 要求する暗号アルゴリズムを表す NULL 終端 Unicode 文字列へのポインタ。標準の CNG アルゴリズム識別子または登録された別のアルゴリズム識別子を指定する。
+pszImplementation : [wstr] ロードする特定プロバイダを表す NULL 終端 Unicode 文字列へのポインタ。登録された暗号プリミティブプロバイダのエイリアス。省略可能で NULL の場合は指定アルゴリズムの既定プロバイダがロードされる。
 dwFlags : [int] 
 %inst
-Loads and initializes a CNG provider.
+CNG プロバイダをロードし初期化する。
 
 [戻り値]
-Returns a status code that indicates the success or failure of the
-function.
-Possible return codes include, but are not limited to, the following.
-This doc was truncated.
+関数の成否を示すステータスコードを返す。
+主な戻り値は以下の通り。
+（以下省略）
 
 [備考]
-Because of the number and type of operations that are required to
-find, load, and initialize an algorithm provider, the
-BCryptOpenAlgorithmProvider function is a relatively time intensive
-function. Because of this, we recommend that you cache any algorithm
-provider handles that you will use more than once, rather than
-opening and closing the algorithm providers over and over.
-BCryptOpenAlgorithmProvider can be called either from user mode or
-kernel mode. Kernel mode callers must be executing at PASSIVE_LEVEL
-IRQL. To call this function in kernel mode, use Cng.lib, which is
-part of the Driver Development Kit (DDK). Windows Server 2008 and
-Windows Vista: To call this function in kernel mode, use Ksecdd.lib.
-Starting in Windows 10, CNG no longer follows every update to the
-cryptography configuration. Certain changes, like adding a new
-default provider or changing the preference order of algorithm
-providers, may require a reboot. Because of this, you should reboot
-before calling BCryptOpenAlgorithmProvider with any newly configured
-provider.
+アルゴリズムプロバイダの検索・ロード・初期化には多くの処理を要するため、BCryptOpenAlgorithmProvider
+は比較的重い関数である。複数回使用するアルゴリズムプロバイダハンドルはキャッシュして再利用することが推奨される。ユーザーモードまたは
+PASSIVE_LEVEL でのカーネルモードから呼び出せる。カーネルモードでは Cng.lib(Windows Server
+2008/Vista では Ksecdd.lib)を使用する。
+Windows 10 以降、CNG
+は暗号設定変更を即時反映しない場合がある。新しい既定プロバイダの追加やアルゴリズムプロバイダの優先順序変更などは再起動が必要になることがあるため、新規設定プロバイダでの呼び出し前には再起動すること。
 

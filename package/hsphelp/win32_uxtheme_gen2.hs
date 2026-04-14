@@ -6,223 +6,196 @@
 
 %index
 CloseThemeData
-Closes the theme data handle.
+テーマデータハンドルを閉じる。
 %group
 Win32 uxtheme
 %prm
 hTheme
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
+hTheme : [intptr] 型: HTHEME ウィンドウのテーマデータへのハンドル。OpenThemeData で HTHEME を作成する。
 %inst
-Closes the theme data handle.
+テーマデータハンドルを閉じる。
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+型: HRESULT 成功時は S_OK、失敗時は HRESULT エラーコードを返す。
 
 [備考]
-The CloseThemeData function should be called when a window that has a
-visual style applied is destroyed. This function should also be
-called whenever a window receives a WM_THEMECHANGED message. This
-call should be followed by an attempt to create a new theme data
-handle if a call to the IsThemeActive function returns TRUE.
+ビジュアルスタイルを適用されたウィンドウが破棄されるときに本関数を呼ぶこと。WM_THEMECHANGED
+を受信した際にも呼ぶこと。呼び出し後、IsThemeActive が TRUE を返す場合は新しいテーマデータハンドルを作成しなおすこと。
 
 
 %index
 DrawThemeBackground
-Draws the border and fill defined by the visual style for the specified control part.
+指定コントロールパートのビジュアルスタイルで定義された枠線と塗りつぶしを描画する。
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pRect, pClipRect
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC used for drawing the theme-defined background image.
-iPartId : [int] Type: int Value of type int that specifies the part to draw. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part to draw. See Parts and States.
-pRect : [var] Type: const RECT* Pointer to a RECT structure that contains the rectangle, in logical coordinates, in which the background image is drawn.
-pClipRect : [var] Type: const RECT* Pointer to a RECT structure that contains a clipping rectangle. This parameter may be set to NULL.
+hTheme : [intptr] 型: HTHEME ウィンドウのテーマデータへのハンドル。OpenThemeData で HTHEME を作成する。
+hdc : [intptr] 型: HDC テーマ背景画像を描画する HDC。
+iPartId : [int] 型: int 描画するパートを指定する int 値。Parts and States を参照。
+iStateId : [int] 型: int 描画するパートの状態を指定する int 値。Parts and States を参照。
+pRect : [var] 型: const RECT* 背景画像を描画する矩形(論理座標)を含む RECT 構造体へのポインタ。
+pClipRect : [var] 型: const RECT* クリッピング矩形を含む RECT へのポインタ。NULL 可。
 %inst
-Draws the border and fill defined by the visual style for the
-specified control part.
+指定コントロールパートのビジュアルスタイルで定義された枠線と塗りつぶしを描画する。
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+型: HRESULT 成功時は S_OK、失敗時は HRESULT エラーコードを返す。
 
 [備考]
-Drawing operations are scaled to fit and not exceed the rectangle
-specified in pRect. Your application should not draw outside the
-rectangle specified by pClipRect.
+描画は pRect で指定された矩形に収まるようスケールされ、それを超えないようにする。アプリケーションは pClipRect
+で指定した矩形の外に描画してはならない。
 
 
 %index
 DrawThemeText
-Draws text using the color and font defined by the visual style.
+ビジュアルスタイルで定義された色とフォントを使ってテキストを描画する。
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, pszText, cchText, dwTextFlags, dwTextFlags2, pRect
-hTheme : [intptr] Type: HTHEME Handle to a window's theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC to use for drawing.
-iPartId : [int] Type: int The control part that has the desired text appearance. See Parts and States. If this value is 0, the text is drawn in the default font, or a font selected into the device context.
-iStateId : [int] Type: int The control state that has the desired text appearance. See Parts and States.
-pszText : [wstr] Type: LPCWSTR Pointer to a string that contains the text to draw.
-cchText : [int] Type: int Value of type int that contains the number of characters to draw. If the parameter is set to -1, all the characters in the string are drawn.
-dwTextFlags : [int] Type: DWORD DWORD that contains one or more values that specify the string's formatting. See Format Values for possible parameter values. Note??DrawThemeText does not support DT_CALCRECT.  However, DrawThemeTextEx does support DT_CALCRECT.
-dwTextFlags2 : [int] Type: DWORD Not used. Set to zero.
-pRect : [var] Type: LPCRECT Pointer to a RECT structure that contains the rectangle, in logical coordinates, in which the text is to be drawn.  It is recommended to use pExtentRect from GetThemeTextExtent to retrieve the correct coordinates.
+hTheme : [intptr] 型: HTHEME ウィンドウのテーマデータへのハンドル。OpenThemeData で HTHEME を作成する。
+hdc : [intptr] 型: HDC 描画に使う HDC。
+iPartId : [int] 型: int 目的のテキスト外観を持つコントロールパート。0 を指定すると既定フォント(または HDC に選択されたフォント)で描画される。
+iStateId : [int] 型: int 目的のテキスト外観を持つコントロール状態。
+pszText : [wstr] 型: LPCWSTR 描画するテキスト文字列へのポインタ。
+cchText : [int] 型: int 描画する文字数。-1 を指定すると文字列の全文字を描画する。
+dwTextFlags : [int] 型: DWORD 文字列書式を指定する値(1 つ以上)。DrawThemeText は DT_CALCRECT をサポートしないが、DrawThemeTextEx はサポートする。
+dwTextFlags2 : [int] 型: DWORD 使用しない。0 を指定する。
+pRect : [var] 型: LPCRECT テキスト描画矩形(論理座標)を含む RECT 構造体へのポインタ。GetThemeTextExtent で得られる pExtentRect の使用が推奨される。
 %inst
-Draws text using the color and font defined by the visual style.
+ビジュアルスタイルで定義された色とフォントを使ってテキストを描画する。
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+型: HRESULT 成功時は S_OK、失敗時は HRESULT エラーコードを返す。
 
 [備考]
-The function always uses the themed font for the specified part and
-state if one is defined. Otherwise it uses the font currently
-selected into the device context. To find out if a themed font is
-defined, you can call GetThemeFont or GetThemePropertyOrigin with
-TMT_FONT as the property identifier.
+指定パート・状態に対してテーマフォントが定義されていれば常にそれを使用する。定義されていない場合は現在 HDC
+に選択されているフォントを使う。テーマフォントの有無は GetThemeFont や GetThemePropertyOrigin を
+TMT_FONT で呼んで確認できる。
 
 
 %index
 GetThemeColor
-Retrieves the value of a color property.
+カラープロパティの値を取得する。
 %group
 Win32 uxtheme
 %prm
 hTheme, iPartId, iStateId, iPropId, pColor
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-iPartId : [int] Type: int Value of type int that specifies the part that contains the color property. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-iPropId : [int] Type: int Value of type int that specifies the property to retrieve. For a list of possible values, see Property Identifiers.
-pColor : [var] Type: COLORREF* Pointer to a COLORREF structure that receives the color value.
+hTheme : [intptr] 型: HTHEME ウィンドウのテーマデータへのハンドル。OpenThemeData で HTHEME を作成する。
+iPartId : [int] 型: int カラープロパティを含むパートを指定する int 値。
+iStateId : [int] 型: int パートの状態を指定する int 値。
+iPropId : [int] 型: int 取得するプロパティを指定する int 値。Property Identifiers 参照。
+pColor : [var] 型: COLORREF* 色値を受け取る COLORREF 構造体へのポインタ。
 %inst
-Retrieves the value of a color property.
+カラープロパティの値を取得する。
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+型: HRESULT 成功時は S_OK、失敗時は HRESULT エラーコードを返す。
 
 
 %index
 GetThemePartSize
-Calculates the original size of the part defined by a visual style.
+ビジュアルスタイルで定義されたパートの元サイズを計算する。
 %group
 Win32 uxtheme
 %prm
 hTheme, hdc, iPartId, iStateId, prc, eSize, psz
-hTheme : [intptr] Type: HTHEME Handle to a window's specified theme data. Use OpenThemeData to create an HTHEME.
-hdc : [intptr] Type: HDC HDC to select fonts into.
-iPartId : [int] Type: int Value of type int that specifies the part to calculate the size of. See Parts and States.
-iStateId : [int] Type: int Value of type int that specifies the state of the part. See Parts and States.
-prc : [var] Type: LPCRECT Pointer to a RECT structure that contains the rectangle used for the part drawing destination. This parameter may be set to NULL.
+hTheme : [intptr] 型: HTHEME ウィンドウのテーマデータへのハンドル。OpenThemeData で HTHEME を作成する。
+hdc : [intptr] 型: HDC フォントを選択する HDC。
+iPartId : [int] 型: int サイズ計算対象のパートを指定する int 値。
+iStateId : [int] 型: int パートの状態を指定する int 値。
+prc : [var] 型: LPCRECT パート描画先矩形を含む RECT 構造体へのポインタ。NULL 可。
 eSize : [int] 
-psz : [var] Type: SIZE* Pointer to a SIZE structure that receives the dimensions of the specified part.
+psz : [var] 型: SIZE* 指定パートの寸法を受け取る SIZE 構造体へのポインタ。
 %inst
-Calculates the original size of the part defined by a visual style.
+ビジュアルスタイルで定義されたパートの元サイズを計算する。
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+型: HRESULT 成功時は S_OK、失敗時は HRESULT エラーコードを返す。
 
 
 %index
 IsAppThemed
-Reports whether the current application's user interface displays using visual styles.
+現在のアプリケーションの UI がビジュアルスタイルで表示されているかを返す。
 %group
 Win32 uxtheme
 %prm
 
 %inst
-Reports whether the current application's user interface displays
-using visual styles.
+現在のアプリケーションの UI がビジュアルスタイルで表示されているかを返す。
 
 [戻り値]
-Type: BOOL Returns one of the following values.
-This doc was truncated.
+型: BOOL 以下のいずれかの値を返す。
+（以下省略）
 
 [備考]
-Prior to Windows 8, a visual style can be turned off in Control
-Panel, so that an application can support visual styles but not have
-a visual style applied at a given time. In Windows 8, it is not
-possible to turn off visual styles.
-Do not call this function during DllMain or global objects
-constructors. This may cause invalid return values.
+Windows 8
+より前ではコントロールパネルからビジュアルスタイルをオフにできたため、アプリがビジュアルスタイル対応でもその時点では適用されていないことがあった。Windows
+8 ではオフにできない。
+DllMain やグローバルオブジェクトのコンストラクタ内で呼んではならない。戻り値が不正になる可能性がある。
 
 
 %index
 IsThemeActive
-Tests if a visual style for the current application is active.
+現在のアプリに対してビジュアルスタイルが有効かを調べる。
 %group
 Win32 uxtheme
 %prm
 
 %inst
-Tests if a visual style for the current application is active.
+現在のアプリに対してビジュアルスタイルが有効かを調べる。
 
 [戻り値]
-Type: BOOL Returns one of the following values.
-This doc was truncated.
+型: BOOL 以下のいずれかの値を返す。
+（以下省略）
 
 [備考]
-Do not call this function during DllMain or global objects
-constructors. This may cause invalid return values.
+DllMain やグローバルオブジェクトのコンストラクタ内で呼んではならない。戻り値が不正になる可能性がある。
 
 
 %index
 OpenThemeData
-Opens the theme data for a window and its associated class.
+ウィンドウと関連クラスに対するテーマデータを開く。
 %group
 Win32 uxtheme
 %prm
 hwnd, pszClassList
-hwnd : [intptr] Type: HWND Handle of the window for which theme data is required.
-pszClassList : [wstr] Type: LPCWSTR Pointer to a string that contains a semicolon-separated list of classes.
+hwnd : [intptr] 型: HWND テーマデータを必要とするウィンドウのハンドル。
+pszClassList : [wstr] 型: LPCWSTR セミコロン区切りのクラスリストを含む文字列へのポインタ。
 %inst
-Opens the theme data for a window and its associated class.
+ウィンドウと関連クラスに対するテーマデータを開く。
 
 [戻り値]
-Type: HTHEME OpenThemeData tries to match each class, one at a time,
-to a class data section in the active theme. If a match is found, an
-associated HTHEME handle is returned. If no match is found NULL is
-returned.
+型: HTHEME OpenThemeData は各クラスを順にアクティブテーマのクラスデータセクションと照合する。一致が見つかれば
+HTHEME を返し、なければ NULL を返す。
 
 [備考]
-The pszClassList parameter contains a list, not just a single name,
-to provide the class an opportunity to get the best match between the
-class and the current visual style. For example, a button might pass
-L"OkButton;Button" if its ID is ID_OK. If the current visual style
-has an entry for OkButton, that is used; otherwise no visual style is
-applied. Class names for the Aero theme are defined in AeroStyle.xml.
+pszClassList は単一名ではなくリストで、クラスと現在のビジュアルスタイルの最適マッチを得る機会を与える。例: ID_OK
+のボタンなら L"OkButton;Button" を渡すと、OkButton エントリがあればそれが使われる。Aero
+テーマのクラス名は AeroStyle.xml で定義されている。
 
 
 %index
 SetWindowTheme
-Causes a window to use a different set of visual style information than its class normally uses.
+ウィンドウがクラスで通常使用されるのとは異なるビジュアルスタイル情報を使うようにする。
 %group
 Win32 uxtheme
 %prm
 hwnd, pszSubAppName, pszSubIdList
-hwnd : [intptr] Type: HWND Handle to the window whose visual style information is to be changed.
-pszSubAppName : [wstr] Type: LPCWSTR Pointer to a string that contains the application name to use in place of the calling application's name. If this parameter is NULL, the calling application's name is used.
-pszSubIdList : [wstr] Type: LPCWSTR Pointer to a string that contains a semicolon-separated list of CLSID names to use in place of the actual list passed by the window's class. If this parameter is NULL, the ID list from the calling class is used.
+hwnd : [intptr] 型: HWND ビジュアルスタイルを変更するウィンドウのハンドル。
+pszSubAppName : [wstr] 型: LPCWSTR 呼び出し元アプリ名の代わりに使うアプリ名文字列へのポインタ。NULL の場合は呼び出し元アプリ名を使う。
+pszSubIdList : [wstr] 型: LPCWSTR ウィンドウクラスが渡す実リストの代わりに使う、セミコロン区切りの CLSID 名リスト。NULL の場合はクラスからの ID リストを使う。
 %inst
-Causes a window to use a different set of visual style information
-than its class normally uses.
+ウィンドウがクラスで通常使用されるのとは異なるビジュアルスタイル情報を使うようにする。
 
 [戻り値]
-Type: HRESULT If this function succeeds, it returns S_OK. Otherwise,
-it returns an HRESULT error code.
+型: HRESULT 成功時は S_OK、失敗時は HRESULT エラーコードを返す。
 
 [備考]
-The theme manager retains the pszSubAppName and the pszSubIdList
-associations through the lifetime of the window, even if visual
-styles subsequently change. The window is sent a WM_THEMECHANGED
-message at the end of a SetWindowTheme call, so that the new visual
-style can be found and applied.
-When pszSubAppName and pszSubIdList are NULL, the theme manager
-removes the previously applied associations. You can prevent visual
-styles from being applied to a specified window by specifying an
-empty string, (L" "), which does not match any section entries.
+テーママネージャはウィンドウの生存期間中、pszSubAppName と pszSubIdList
+の関連付けを保持する(ビジュアルスタイルが変わっても)。SetWindowTheme 呼び出し完了時、ウィンドウに
+WM_THEMECHANGED が送信されて新しいビジュアルスタイルが適用される。
+pszSubAppName と pszSubIdList の両方が NULL の場合、テーママネージャは以前の関連付けを削除する。空文字列
+(L" ") を指定するとどのセクションにも一致しないためビジュアルスタイルの適用を回避できる。
 

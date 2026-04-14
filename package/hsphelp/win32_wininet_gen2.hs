@@ -6,445 +6,248 @@
 
 %index
 HttpOpenRequestW
-Creates an HTTP request handle. (Unicode)
+HTTP リクエストハンドルを作成する。(Unicode)
 %group
 Win32 wininet
 %prm
 hConnect, lpszVerb, lpszObjectName, lpszVersion, lpszReferrer, lplpszAcceptTypes, dwFlags, dwContext
-hConnect : [intptr] A handle to an HTTP session returned by InternetConnect.
-lpszVerb : [wstr] A pointer to a null-terminated string that contains the HTTP verb to use in the request. If this parameter is NULL, the function uses GET as the HTTP verb.
-lpszObjectName : [wstr] A pointer to a null-terminated string that contains the name of the target object of the specified HTTP verb. This is generally a file name, an executable module, or a search specifier.
-lpszVersion : [wstr] A pointer to a null-terminated string that contains the HTTP version to use in the request. Settings in Internet Explorer will override the value specified in this parameter. If this parameter is NULL, the function uses an HTTP version of 1.1 or 1.0, depending on the value of the Internet Explorer settings.
-lpszReferrer : [wstr] A pointer to a null-terminated string that specifies the URL of the document from which the URL in the request (lpszObjectName) was obtained. If this parameter is NULL, no referrer is specified.
-lplpszAcceptTypes : [var] A pointer to a null-terminated array of strings that indicates media types accepted by the client. Here is an example. PCTSTR rgpszAcceptTypes[] = {_T("text/*"), NULL}; Failing to properly terminate the array with a NULL pointer will cause a crash. If this parameter is NULL, no types are accepted by the client. Servers generally interpret a lack of accept types to indicate that the client accepts only documents of type "text/*" (that is, only text documents?no pictures or other binary files).
+hConnect : [intptr] InternetConnect が返した HTTP セッションへのハンドル。
+lpszVerb : [wstr] リクエストで使用する HTTP verb を含む NULL 終端文字列へのポインタ。NULL なら GET を使用。
+lpszObjectName : [wstr] 指定 HTTP verb のターゲットオブジェクト名を含む NULL 終端文字列へのポインタ。通常はファイル名、実行モジュール、検索指定子。
+lpszVersion : [wstr] 使用する HTTP バージョンを含む NULL 終端文字列へのポインタ。IE 設定によって上書きされる。NULL の場合、IE 設定に応じて HTTP/1.1 または 1.0 を使用する。
+lpszReferrer : [wstr] lpszObjectName の URL の元ドキュメント URL を指定する NULL 終端文字列へのポインタ。NULL なら referer は指定されない。
+lplpszAcceptTypes : [var] クライアントが受け入れるメディアタイプを示す NULL 終端文字列配列へのポインタ。例: PCTSTR rgpszAcceptTypes[] = {_T("text/*"), NULL}; 配列を NULL ポインタで正しく終端しないとクラッシュする。NULL なら何も受け入れない。
 dwFlags : [int] 
-dwContext : [int] A pointer to a variable that contains the application-defined value that associates this operation with any application data.
+dwContext : [int] この操作とアプリケーションデータを関連付けるアプリケーション定義値を保持する変数へのポインタ。
 %inst
-Creates an HTTP request handle. (Unicode)
+HTTP リクエストハンドルを作成する。(Unicode)
 
 [戻り値]
-Returns an HTTP request handle if successful, or NULL otherwise. To
-retrieve extended error information, call GetLastError.
+成功時は HTTP リクエストハンドル、失敗時は NULL を返す。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-The HttpOpenRequest function creates a new HTTP request handle and
-stores the specified parameters in that handle. An HTTP request
-handle holds a request to be sent to an HTTP server and contains all
-RFC822/MIME/HTTP headers to be sent as part of the request. If a verb
-other than "GET" or "POST" is specified, HttpOpenRequest
-automatically sets INTERNET_FLAG_NO_CACHE_WRITE and
-INTERNET_FLAG_RELOAD for the request. With Microsoft Internet
-Explorer 5 and later, if lpszVerb is set to "HEAD", the
-Content-Length header is ignored on responses from HTTP/1.1 servers.
-On Windows 7, Windows Server 2008 R2, and later, the lpszVersion
-parameter is overridden by Internet Explorer settings. The
-EnableHttp1_1 is a registry value under
-HKLM\Software\Microsoft\InternetExplorer\AdvacnedOptions\HTTP\GENABLE
-controlled by Internet Options set in Internet Explorer for the
-system. The EnableHttp1_1 value defaults to 1. The HttpOpenRequest
-function upgrades any HTTP version less than 1.1 to HTTP version 1.1
-if EnableHttp1_1 is set to 1.
-After the calling application has finished using the HINTERNET handle
-returned by HttpOpenRequest, it must be closed using the
-InternetCloseHandle function. Note When a request is sent in
-asynchronous mode (the dwFlags parameter of InternetOpen specifies
-INTERNET_FLAG_ASYNC), and the dwContext parameter is zero
-(INTERNET_NO_CALLBACK), the callback function set with
-InternetSetStatusCallback on the request handle will not be invoked,
-however, the call will still be performed in asynchronous mode. Like
-all other aspects of the WinINet API, this function cannot be safely
-called from within DllMain or the constructors and destructors of
-global objects. Note WinINet does not support server implementations.
-In addition, it should not be used from a service. For server
-implementations or services use Microsoft Windows HTTP Services
-(WinHTTP).
-> [!NOTE] > The wininet.h header defines HttpOpenRequest as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+HttpOpenRequest は新しい HTTP リクエストハンドルを作成し指定パラメータを格納する。リクエストハンドルは HTTP
+サーバーに送信するリクエストと関連ヘッダを保持する。"GET" や "POST" 以外の verb を指定した場合は
+INTERNET_FLAG_NO_CACHE_WRITE と INTERNET_FLAG_RELOAD が自動設定される。IE5
+以降、lpszVerb が "HEAD" の場合、HTTP/1.1 サーバーからの応答の Content-Length
+ヘッダは無視される。Windows 7/Windows Server 2008 R2 以降は lpszVersion が Internet
+Explorer 設定で上書きされる。使用後は InternetCloseHandle で閉じること。WinINet
+はサービスやサーバー実装で使用すべきでない。サーバー用途では WinHTTP を使用すること。
+> [!NOTE] > wininet.h は UNICODE マクロに応じて HttpOpenRequest を
+ANSI/Unicode 版のエイリアスとして定義する。
 
 
 %index
 HttpQueryInfoW
-Retrieves header information associated with an HTTP request. (Unicode)
+HTTP リクエストに関連するヘッダ情報を取得する。(Unicode)
 %group
 Win32 wininet
 %prm
 hRequest, dwInfoLevel, lpBuffer, lpdwBufferLength, lpdwIndex
-hRequest : [intptr] A handle returned by a call to the HttpOpenRequest or InternetOpenUrl function.
-dwInfoLevel : [int] A combination of an attribute to be retrieved and flags that modify the request. For a list of possible attribute and modifier values, see Query Info Flags.
-lpBuffer : [intptr] A pointer to a buffer to receive the requested information. This parameter must not be NULL.
-lpdwBufferLength : [var] A pointer to a variable that contains, on entry, the size in bytes of the buffer pointed to by lpvBuffer. When the function returns successfully, this variable contains the number of bytes of information written to the buffer. In the case of a string, the byte count does not include the string's terminating null character. When the function fails with an extended error code of ERROR_INSUFFICIENT_BUFFER, the variable pointed to by lpdwBufferLength contains on exit the size, in bytes, of a buffer large enough to receive the requested information. The calling application can then allocate a buffer of this size or larger, and call the function again.
-lpdwIndex : [var] A pointer to a zero-based header index used to enumerate multiple headers with the same name. When calling the function, this parameter is the index of the specified header to return. When the function returns, this parameter is the index of the next header. If the next index cannot be found, ERROR_HTTP_HEADER_NOT_FOUND is returned.
+hRequest : [intptr] HttpOpenRequest または InternetOpenUrl が返したハンドル。
+dwInfoLevel : [int] 取得する属性とリクエストを変更するフラグの組み合わせ。可能な値は Query Info Flags を参照。
+lpBuffer : [intptr] 要求情報を受け取るバッファへのポインタ。NULL は不可。
+lpdwBufferLength : [var] lpvBuffer のバイト数を保持する変数へのポインタ。成功時は書き込まれた情報のバイト数を受け取る。ERROR_INSUFFICIENT_BUFFER で失敗した場合は必要なバッファサイズを受け取る。
+lpdwIndex : [var] 同名の複数ヘッダを列挙するための 0 始まりのヘッダインデックス。呼び出し時は返したいヘッダのインデックス、復帰時は次のインデックス。見つからない場合は ERROR_HTTP_HEADER_NOT_FOUND を返す。
 %inst
-Retrieves header information associated with an HTTP request.
-(Unicode)
+HTTP リクエストに関連するヘッダ情報を取得する。(Unicode)
 
 [戻り値]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError.
+成功時は TRUE、失敗時は FALSE。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-You can retrieve the following types of data from
-This doc was truncated.
+次の種類のデータを取得できる。
+（以下省略）
 
 
 %index
 HttpSendRequestW
-Sends the specified request to the HTTP server, allowing callers to send extra data beyond what is normally passed to HttpSendRequestEx. (Unicode)
+指定のリクエストを HTTP サーバーに送信する。(Unicode) HttpSendRequestEx より多くのデータを送信できる。
 %group
 Win32 wininet
 %prm
 hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength
-hRequest : [intptr] A handle returned by a call to the HttpOpenRequest function.
-lpszHeaders : [wstr] A pointer to a null-terminated string  that contains the additional headers to be appended to the request. This parameter can be NULL if there are no additional headers to be appended.
-dwHeadersLength : [int] The size of the additional headers, in TCHARs. If this parameter is -1L and lpszHeaders is not NULL, the function assumes that lpszHeaders is zero-terminated (ASCIIZ), and the length is calculated. See Remarks for specifics.
-lpOptional : [intptr] A pointer to a buffer containing any optional data to be sent immediately after the request headers. This parameter is generally used for POST and PUT operations. The optional data can be the resource or information being posted to the server. This parameter can be NULL if there is no optional data to send.
-dwOptionalLength : [int] The size of the optional data, in bytes. This parameter can be zero if there is no optional data to send.
+hRequest : [intptr] HttpOpenRequest が返したハンドル。
+lpszHeaders : [wstr] リクエストに追加するヘッダを含む NULL 終端文字列へのポインタ。追加ヘッダがなければ NULL 可。
+dwHeadersLength : [int] 追加ヘッダのサイズ(TCHAR 単位)。-1L で lpszHeaders が NULL でない場合、NULL 終端とみなして計算する(ANSI 版のみ)。
+lpOptional : [intptr] リクエストヘッダ直後に送信するオプションデータを含むバッファへのポインタ。通常 POST/PUT で使用する。送らない場合は NULL 可。
+dwOptionalLength : [int] オプションデータのサイズ(バイト単位)。送らない場合は 0 可。
 %inst
-Sends the specified request to the HTTP server, allowing callers to
-send extra data beyond what is normally passed to HttpSendRequestEx.
-(Unicode)
+指定のリクエストを HTTP サーバーに送信する。(Unicode) HttpSendRequestEx より多くのデータを送信できる。
 
 [戻り値]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError.
+成功時は TRUE、失敗時は FALSE。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-HttpSendRequest sends the specified request to the HTTP server and
-allows the client to specify additional headers to send along with
-the request. The function also lets the client specify optional data
-to send to the HTTP server immediately following the request headers.
-This feature is generally used for "write" operations such as PUT and
-POST. After the request is sent, the status code and response headers
-from the HTTP server are read. These headers are maintained
-internally and are available to client applications through the
-HttpQueryInfo function. An application can use the same HTTP request
-handle in multiple calls to HttpSendRequest, but the application must
-read all data returned from the previous call before calling the
-function again. In offline mode, HttpSendRequest returns
-ERROR_FILE_NOT_FOUND if the resource is not found in the Internet
-cache. There are two versions of HttpSendRequest?HttpSendRequestA
-(used with ANSI builds) and HttpSendRequestW (used with Unicode
-builds). If dwHeadersLength is -1L and lpszHeaders is not NULL, the
-following will happen: If HttpSendRequestA is called, the function
-assumes that lpszHeaders is zero-terminated (ASCIIZ), and the length
-is calculated. If HttpSendRequestW is called, the function fails with
-ERROR_INVALID_PARAMETER. Note The HttpSendRequestA function
-represents headers as ISO-8859-1 characters not ANSI characters. The
-HttpSendRequestW function represents headers as ISO-8859-1 characters
-converted to UTF-16LE characters. As a result, it is never safe to
-use the HttpSendRequestW function when the headers to be added can
-contain non-ASCII characters. Instead, an application can use the
-MultiByteToWideChar and WideCharToMultiByte functions with a Codepage
-parameter set to 28591 to map between ANSI characters and UTF-16LE
-characters. Like all other aspects of the WinINet API, this function
-cannot be safely called from within DllMain or the constructors and
-destructors of global objects. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines HttpSendRequest as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+リクエスト送信後、HTTP
+サーバーからのステータスコードと応答ヘッダを読み取る。これらのヘッダは内部に保持され、HttpQueryInfo
+でクライアントから取得できる。オフラインモードでは、リソースがキャッシュになければ ERROR_FILE_NOT_FOUND
+を返す。HttpSendRequestA と HttpSendRequestW の 2 種類があり、dwHeadersLength が
+-1L で lpszHeaders が NULL でない場合の動作が異なる(W 版では
+ERROR_INVALID_PARAMETER)。HttpSendRequestW は ISO-8859-1 を UTF-16LE
+に変換したものとしてヘッダを扱うため、非 ASCII 文字を含むヘッダには安全に使えない。WinINet
+はサービスやサーバー実装から使用すべきでない。
 
 
 %index
 InternetCloseHandle
-Closes a single Internet handle.
+単一のインターネットハンドルを閉じる。
 %group
 Win32 wininet
 %prm
 hInternet
-hInternet : [intptr] Handle to be closed.
+hInternet : [intptr] 閉じるハンドル。
 %inst
-Closes a single Internet handle.
+単一のインターネットハンドルを閉じる。
 
 [戻り値]
-Returns TRUE if the handle is successfully closed, or FALSE
-otherwise. To get extended error information, call GetLastError.
+成功時は TRUE、失敗時は FALSE。拡張エラー情報は GetLastError で取得する。
 
 [備考]
-The function terminates any pending operations on the handle and
-discards any outstanding data.
-It is safe to call InternetCloseHandle as long as no API calls are
-being made or will be made using the handle. Once an API has returned
-ERROR_IO_PENDING, it is safe to call InternetCloseHandle to cancel
-that I/O, as long as no subsequent API calls will be issued with the
-handle. It is safe to call InternetCloseHandle in a callback for the
-handle being closed. If there is a status callback registered for the
-handle being closed, and the handle was created with a non-NULL
-context value, an INTERNET_STATUS_HANDLE_CLOSING callback will be
-made. This indication will be the last callback made from a handle
-and indicates that the handle is being destroyed. If asynchronous
-requests are pending for the handle or any of its child handles, the
-handle cannot be closed immediately, but it will be invalidated. Any
-new requests attempted using the handle will return with an
-ERROR_INVALID_HANDLE notification. The asynchronous requests will
-complete with INTERNET_STATUS_REQUEST_COMPLETE. Applications must be
-prepared to receive any INTERNET_STATUS_REQUEST_COMPLETE indications
-on the handle before the final INTERNET_STATUS_HANDLE_CLOSING
-indication is made, which indicates that the handle is completely
-closed. An application can call GetLastError to determine if requests
-are pending. If GetLastError returns ERROR_IO_PENDING, there were
-outstanding requests when the handle was closed. Like all other
-aspects of the WinINet API, this function cannot be safely called
-from within DllMain or the constructors and destructors of global
-objects. Note WinINet does not support server implementations. In
-addition, it should not be used from a service. For server
-implementations or services use Microsoft Windows HTTP Services
-(WinHTTP).
+ハンドルの保留中の操作を終了し未処理データを破棄する。API 呼び出し中でなければ安全に呼べる。API が
+ERROR_IO_PENDING を返した後、それ以降に API 呼び出しを行わない限り安全に I/O
+をキャンセルできる。閉じるハンドルのコールバック内から呼んでも安全。閉じるハンドルに状態コールバックが登録されていて非 NULL
+コンテキストが設定されている場合、INTERNET_STATUS_HANDLE_CLOSING
+コールバックが呼ばれる。非同期リクエストが保留中の場合、ハンドルは即座に閉じられないが無効化される。WinINet
+はサービスやサーバー実装から使用すべきでない。
 
 
 %index
 InternetConnectW
-Opens an File Transfer Protocol (FTP) or HTTP session for a given site. (Unicode)
+指定サイトに対する FTP または HTTP セッションを開く。(Unicode)
 %group
 Win32 wininet
 %prm
 hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext
-hInternet : [intptr] Handle returned by a previous call to InternetOpen.
-lpszServerName : [wstr] Pointer to a null-terminated string that specifies the host name of an Internet server. Alternately, the string can contain the IP number of the site, in ASCII dotted-decimal format (for example, 11.0.1.45).
-nServerPort : [int] Transmission Control Protocol/Internet Protocol (TCP/IP) port on the server. These flags set only the port that is used. The service is set by the value of
-lpszUserName : [wstr] Pointer to a null-terminated string that specifies the name of the user to log on. If this parameter is NULL, the function uses an appropriate default. For the FTP protocol, the default is "anonymous".
-lpszPassword : [wstr] Pointer to a null-terminated string that contains the password to use to log on. If both lpszPassword and lpszUsername are NULL, the function uses the default "anonymous" password. In the case of FTP, the default password is the user's email name. If lpszPassword is NULL, but lpszUsername is not NULL, the function uses a blank password.
+hInternet : [intptr] InternetOpen の呼び出しが返したハンドル。
+lpszServerName : [wstr] インターネットサーバーのホスト名を指定する NULL 終端文字列へのポインタ。ASCII ドット区切り IP アドレスでも可。
+nServerPort : [int] サーバーの TCP/IP ポート。ポートのみ設定し、サービスは dwService で設定する。
+lpszUserName : [wstr] ログインするユーザー名を指定する NULL 終端文字列へのポインタ。NULL の場合、適切な既定値が使用される。FTP では既定は "anonymous"。
+lpszPassword : [wstr] ログインに使うパスワードを含む NULL 終端文字列へのポインタ。lpszPassword と lpszUsername が両方 NULL の場合、既定の "anonymous" パスワードが使われる。FTP では既定パスワードはユーザーのメール名。lpszUsername のみ NULL でない場合は空パスワードが使われる。
 dwService : [int] 
-dwFlags : [int] Options specific to the service used. If dwService is INTERNET_SERVICE_FTP, INTERNET_FLAG_PASSIVE causes the application to use passive FTP semantics.
-dwContext : [int] Pointer to a variable that contains an application-defined value that is used to identify the application context for the returned handle in callbacks.
+dwFlags : [int] サービス固有のオプション。dwService が INTERNET_SERVICE_FTP の場合、INTERNET_FLAG_PASSIVE でパッシブ FTP セマンティクスを使用する。
+dwContext : [int] 返されたハンドルのコールバックで、アプリケーションコンテキストを識別するためのアプリケーション定義値を含む変数へのポインタ。
 %inst
-Opens an File Transfer Protocol (FTP) or HTTP session for a given
-site. (Unicode)
+指定サイトに対する FTP または HTTP セッションを開く。(Unicode)
 
 [戻り値]
-Returns a valid handle to the session if the connection is
-successful, or NULL otherwise. To retrieve extended error
-information, call GetLastError. An application can also use
-InternetGetLastResponseInfo to determine why access to the service
-was denied.
+接続成功時はセッションへの有効なハンドル、それ以外は NULL を返す。拡張エラー情報は GetLastError
+で取得する。InternetGetLastResponseInfo でサービスアクセス拒否の原因も取得できる。
 
 [備考]
-The following table describes the behavior for the four possible
-settings of lpszUsername and lpszPassword.
-This doc was truncated.
+lpszUsername と lpszPassword の 4 つの組み合わせに対する動作は以下の表の通り。
+（以下省略）
 
 
 %index
 InternetOpenW
-Initializes an application's use of the WinINet functions. (Unicode)
+アプリケーションによる WinINet 関数の使用を初期化する。(Unicode)
 %group
 Win32 wininet
 %prm
 lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags
-lpszAgent : [wstr] Pointer to a null-terminated string  that specifies the name of the application or entity calling the WinINet functions. This name is used as the user agent in the HTTP protocol.
+lpszAgent : [wstr] WinINet 関数を呼び出すアプリ名または主体名を指定する NULL 終端文字列へのポインタ。HTTP の user agent として使用される。
 dwAccessType : [int] 
-lpszProxy : [wstr] Pointer to a null-terminated string  that specifies the name of the proxy server(s) to use when proxy access is specified by setting dwAccessType to INTERNET_OPEN_TYPE_PROXY. Do not use an empty string, because InternetOpen will use it as the proxy name. The WinINet functions recognize only CERN type proxies (HTTP only) and the TIS FTP gateway (FTP only). If Microsoft Internet Explorer is installed, these functions also support SOCKS proxies. FTP requests can be made through a CERN type proxy either by changing them to an HTTP request or by using InternetOpenUrl. If dwAccessType is not set to INTERNET_OPEN_TYPE_PROXY, this parameter is ignored and should be NULL. For more information about listing proxy servers, see the Listing Proxy Servers section of Enabling Internet Functionality.
-lpszProxyBypass : [wstr] Pointer to a null-terminated string  that specifies an optional list of host names or IP addresses, or both, that should not be routed through the proxy when dwAccessType is set to INTERNET_OPEN_TYPE_PROXY. The list can contain wildcards. Do not use an empty string, because InternetOpen will use it as the proxy bypass list. If this parameter specifies the "<local>" macro, the function bypasses the proxy for any host name that does not contain a period. By default, WinINet will bypass the proxy for requests that use the host names "localhost", "loopback", "127.0.0.1", or "[::1]". This behavior exists because a remote proxy server typically will not resolve these addresses properly.Internet Explorer?9:??You can remove the local computer from the proxy bypass list using the "<-loopback>" macro.
+lpszProxy : [wstr] dwAccessType が INTERNET_OPEN_TYPE_PROXY のときに使用するプロキシサーバー名を指定する NULL 終端文字列へのポインタ。空文字列は使わないこと。WinINet は HTTP の CERN 型プロキシと FTP の TIS FTP ゲートウェイのみ認識する。IE がインストールされていれば SOCKS プロキシも対応。それ以外の dwAccessType では無視され NULL 可。
+lpszProxyBypass : [wstr] INTERNET_OPEN_TYPE_PROXY 時にプロキシ経由しないホスト名/IP アドレスのリスト(セミコロン区切り、ワイルドカード可)を指定する NULL 終端文字列へのポインタ。空文字列は使わないこと。"<local>" マクロを指定するとピリオドを含まないホスト名をバイパスする。既定で WinINet は "localhost"、"loopback"、"127.0.0.1"、"[::1]" のプロキシをバイパスする。"<-loopback>" マクロでローカルコンピュータをバイパスリストから除外できる (IE9)。それ以外の dwAccessType では無視され NULL 可。
 dwFlags : [int] 
 %inst
-Initializes an application's use of the WinINet functions. (Unicode)
+アプリケーションによる WinINet 関数の使用を初期化する。(Unicode)
 
 [戻り値]
-Returns a valid handle that the application passes to subsequent
-WinINet functions. If InternetOpen fails, it returns NULL. To
-retrieve a specific error message, call GetLastError.
+成功時はアプリが後続の WinINet 関数に渡す有効なハンドルを返す。失敗時は NULL。特定のエラーメッセージは
+GetLastError で取得する。
 
 [備考]
-InternetOpen is the first WinINet function called by an application.
-It tells the Internet DLL to initialize internal data structures and
-prepare for future calls from the application. When the application
-finishes using the Internet functions, it should call
-InternetCloseHandle to free the handle and any associated resources.
-The application can make any number of calls to InternetOpen, though
-a single call is normally sufficient. The application might need to
-define separate behaviors for each InternetOpen instance, such as
-different proxy servers configured for each. After the calling
-application has finished using the HINTERNET handle returned by
-InternetOpen, it must be closed using the InternetCloseHandle
-function. Like all other aspects of the WinINet API, this function
-cannot be safely called from within DllMain or the constructors and
-destructors of global objects. Note WinINet does not support server
-implementations. In addition, it should not be used from a service.
-For server implementations or services use Microsoft Windows HTTP
-Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetOpen as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+InternetOpen はアプリケーションが最初に呼ぶ WinINet 関数。インターネット DLL
+に内部データ構造を初期化させ後続呼び出しに備えさせる。使用終了時は InternetCloseHandle
+でハンドルと関連リソースを解放する。複数回呼び出しも可能だが通常 1 回で十分。使用後は InternetCloseHandle
+で閉じる。WinINet はサービスやサーバー実装から使用すべきでない。
+> [!NOTE] > wininet.h は UNICODE マクロに応じて InternetOpen を ANSI/Unicode
+版のエイリアスとして定義する。
 
 
 %index
 InternetOpenUrlW
-Opens a resource specified by a complete FTP or HTTP URL. (Unicode)
+完全な FTP または HTTP URL で指定されたリソースを開く。(Unicode)
 %group
 Win32 wininet
 %prm
 hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext
-hInternet : [intptr] The handle to the current Internet session. The handle must have been returned by a previous call to InternetOpen.
-lpszUrl : [wstr] A pointer to a null-terminated string variable that specifies the URL to begin reading. Only URLs beginning with ftp:, http:, or https: are supported.
-lpszHeaders : [wstr] A pointer to a null-terminated string  that specifies the headers to be sent to the HTTP server. For more information, see the description of the lpszHeaders parameter in the HttpSendRequest function.
-dwHeadersLength : [int] The size of the additional headers, in TCHARs. If this parameter is -1L and lpszHeaders is not NULL, lpszHeaders is assumed to be zero-terminated (ASCIIZ) and the length is calculated.
+hInternet : [intptr] 現在のインターネットセッションへのハンドル。InternetOpen が返したハンドルである必要がある。
+lpszUrl : [wstr] 読み取り開始する URL を指定する NULL 終端文字列変数へのポインタ。ftp:、http:、https: で始まる URL のみサポート。
+lpszHeaders : [wstr] HTTP サーバーに送るヘッダを指定する NULL 終端文字列へのポインタ。詳細は HttpSendRequest の lpszHeaders を参照。
+dwHeadersLength : [int] 追加ヘッダのサイズ(TCHAR 単位)。-1L で lpszHeaders が NULL でない場合、NULL 終端とみなして計算する。
 dwFlags : [int] 
-dwContext : [int] A pointer to a variable that specifies the application-defined value that is passed, along with the returned handle, to any callback functions.
+dwContext : [int] 返されたハンドルと共にコールバックに渡されるアプリケーション定義値を指定する変数へのポインタ。
 %inst
-Opens a resource specified by a complete FTP or HTTP URL. (Unicode)
+完全な FTP または HTTP URL で指定されたリソースを開く。(Unicode)
 
 [戻り値]
-Returns a valid handle to the URL if the connection is successfully
-established, or NULL if the connection fails. To retrieve a specific
-error message, call GetLastError. To determine why access to the
-service was denied, call InternetGetLastResponseInfo.
+接続成功時は URL への有効なハンドル、失敗時は NULL を返す。特定のエラーメッセージは GetLastError
+で取得する。アクセス拒否の原因は InternetGetLastResponseInfo で取得する。
 
 [備考]
-Call InternetCanonicalizeUrl first if the URL being used contains a
-relative URL and a base URL separated by blank spaces. This is a
-general function that an application can use to retrieve data over
-any of the protocols that WinINet supports. This function is
-especially useful when the application does not need to access the
-particulars of a protocol, but only requires the data corresponding
-to a URL. The InternetOpenUrl function parses the URL string,
-establishes a connection to the server, and prepares to download the
-data identified by the URL. The application can then use
-InternetReadFile (for files) or InternetFindNextFile (for
-directories) to retrieve the URL data. It is not necessary to call
-InternetConnect before InternetOpenUrl. Windows XP and Windows Server
-2003 R2 and earlier: InternetOpenUrl disables Gopher on ports less
-than 1024, except for port 70?the standard Gopher port?and port
-105?typically used for Central Services Organization (CSO) name
-searches. After the calling application has finished using the
-HINTERNET handle returned by InternetOpenUrl, it must be closed using
-the InternetCloseHandle function. Note When working in asynchronous
-mode (the dwFlags parameter of InternetOpen specifies
-INTERNET_FLAG_ASYNC), and the dwContext parameter is zero
-(INTERNET_NO_CALLBACK), the callback function set with
-InternetSetStatusCallback on the session handle will not be invoked,
-however, the call will still be performed in asynchronous mode Like
-all other aspects of the WinINet API, this function cannot be safely
-called from within DllMain or the constructors and destructors of
-global objects. Note WinINet does not support server implementations.
-In addition, it should not be used from a service. For server
-implementations or services use Microsoft Windows HTTP Services
-(WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetOpenUrl as an alias
-which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+相対 URL とベース URL が空白で区切られている URL の場合、先に InternetCanonicalizeUrl
+を呼び出すこと。WinINet がサポートするプロトコルのデータを取得するための汎用関数で、プロトコルの詳細にアクセスする必要がなく
+URL 対応データのみ必要な場合に便利。URL 文字列を解析しサーバーに接続し、URL
+で識別されるデータのダウンロード準備をする。InternetReadFile(ファイル)または
+InternetFindNextFile(ディレクトリ)で URL データを取得できる。InternetConnect
+を先に呼ぶ必要はない。使用後は InternetCloseHandle で閉じる。WinINet
+はサービスやサーバー実装から使用すべきでない。
+> [!NOTE] > wininet.h は UNICODE マクロに応じて InternetOpenUrl を
+ANSI/Unicode 版のエイリアスとして定義する。
 
 
 %index
 InternetReadFile
-Reads data from a handle opened by the InternetOpenUrl, FtpOpenFile, or HttpOpenRequest function.
+InternetOpenUrl、FtpOpenFile、HttpOpenRequest が返したハンドルからデータを読み取る。
 %group
 Win32 wininet
 %prm
 hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead
-hFile : [intptr] Handle returned from a previous call to InternetOpenUrl, FtpOpenFile, or HttpOpenRequest.
-lpBuffer : [intptr] Pointer to a buffer that receives the data.
-dwNumberOfBytesToRead : [int] Number of bytes to be read.
-lpdwNumberOfBytesRead : [var] Pointer to a variable that receives the number of bytes read. InternetReadFile sets this value to zero before doing any work or error checking.
+hFile : [intptr] InternetOpenUrl、FtpOpenFile、HttpOpenRequest から返されたハンドル。
+lpBuffer : [intptr] データを受け取るバッファへのポインタ。
+dwNumberOfBytesToRead : [int] 読み取るバイト数。
+lpdwNumberOfBytesRead : [var] 読み取ったバイト数を受け取る変数へのポインタ。作業前に 0 に設定される。
 %inst
-Reads data from a handle opened by the InternetOpenUrl, FtpOpenFile,
-or HttpOpenRequest function.
+InternetOpenUrl、FtpOpenFile、HttpOpenRequest が返したハンドルからデータを読み取る。
 
 [戻り値]
-Returns TRUE if successful, or FALSE otherwise. To get extended error
-information, call GetLastError. An application can also use
-InternetGetLastResponseInfo when necessary.
+成功時は TRUE、失敗時は FALSE。拡張エラー情報は GetLastError で取得する。必要に応じて
+InternetGetLastResponseInfo も使う。
 
 [備考]
-InternetReadFile operates much like the base ReadFile function, with
-a few exceptions. Typically, InternetReadFile retrieves data from an
-HINTERNET handle as a sequential stream of bytes. The amount of data
-to be read for each call to InternetReadFile is specified by the
-dwNumberOfBytesToRead parameter and the data is returned in the
-lpBuffer parameter. A normal read retrieves the specified
-dwNumberOfBytesToRead for each call to InternetReadFile until the end
-of the file is reached. To ensure all data is retrieved, an
-application must continue to call the InternetReadFile function until
-the function returns TRUE and the lpdwNumberOfBytesRead parameter
-equals zero. This is especially important if the requested data is
-written to the cache, because otherwise the cache will not be
-properly updated and the file downloaded will not be committed to the
-cache. Note that caching happens automatically unless the original
-request to open the data stream set the INTERNET_FLAG_NO_CACHE_WRITE
-flag. When an application retrieves a handle using InternetOpenUrl,
-WinINet attempts to make all data look like a file download, in an
-effort to make reading from the Internet easier for the application.
-For some types of information, such as FTP file directory listings,
-it converts the data to be returned by InternetReadFile to an HTML
-stream. It does this on a line-by-line basis. For example, it can
-convert an FTP directory listing to a line of HTML and return this
-HTML to the application. WinINet attempts to write the HTML to the
-lpBuffer buffer a line at a time. If the application's buffer is too
-small to fit at least one line of generated HTML, the error code
-ERROR_INSUFFICIENT_BUFFER is returned as an indication to the
-application that it needs a larger buffer. Also, converted lines
-might not completely fill the buffer, so InternetReadFile can return
-with less data in lpBuffer than requested. Subsequent reads will
-retrieve all the converted HTML. The application must again check
-that all data is retrieved as described previously. Like all other
-aspects of the WinINet API, this function cannot be safely called
-from within DllMain or the constructors and destructors of global
-objects. When running asynchronously, if a call to InternetReadFile
-does not result in a completed transaction, it will return FALSE and
-a subsequent call to GetLastError will return ERROR_IO_PENDING. When
-the transaction is completed the InternetStatusCallback specified in
-a previous call to InternetSetStatusCallback will be called with
-INTERNET_STATUS_REQUEST_COMPLETE. Note WinINet does not support
-server implementations. In addition, it should not be used from a
-service. For server implementations or services use Microsoft Windows
-HTTP Services (WinHTTP).
+基本的な ReadFile とほぼ同じだが、いくつかの違いがある。通常 HINTERNET
+ハンドルから順次バイトストリームとしてデータを取得する。読み取るバイト数を dwNumberOfBytesToRead で指定し、データは
+lpBuffer に返される。全データ取得には TRUE かつ lpdwNumberOfBytesRead が 0
+になるまで繰り返し呼ぶ必要がある。これはキャッシュ更新にも重要。InternetOpenUrl で取得したハンドルの場合、WinINet
+は FTP ディレクトリリストなどを HTML ストリームに変換する。バッファが小さすぎて 1 行の HTML が入らない場合
+ERROR_INSUFFICIENT_BUFFER を返す。非同期実行中に完了しなかった場合は FALSE を返し
+GetLastError が ERROR_IO_PENDING を返す。完了時は InternetStatusCallback が
+INTERNET_STATUS_REQUEST_COMPLETE で呼ばれる。WinINet はサービス実装では使用しないこと。
 
 
 %index
 InternetSetOptionW
-Sets an Internet option. (Unicode)
+インターネットオプションを設定する。(Unicode)
 %group
 Win32 wininet
 %prm
 hInternet, dwOption, lpBuffer, dwBufferLength
-hInternet : [intptr] Handle on which to set information.
-dwOption : [int] Internet option to be set. This can be one of the Option Flags values.
-lpBuffer : [intptr] Pointer to a buffer that contains the option setting.
-dwBufferLength : [int] Size of the lpBuffer buffer.  If lpBuffer contains a string, the size is in TCHARs.  If lpBuffer contains anything other than a string, the size is in bytes.
+hInternet : [intptr] 情報を設定するハンドル。
+dwOption : [int] 設定するインターネットオプション。Option Flags のいずれかの値。
+lpBuffer : [intptr] オプション設定値を含むバッファへのポインタ。
+dwBufferLength : [int] lpBuffer バッファのサイズ。文字列を含む場合は TCHAR 単位、それ以外はバイト単位。
 %inst
-Sets an Internet option. (Unicode)
+インターネットオプションを設定する。(Unicode)
 
 [戻り値]
-Returns TRUE if successful, or FALSE otherwise. To get a specific
-error message, call GetLastError.
+成功時は TRUE、失敗時は FALSE。特定のエラーメッセージは GetLastError で取得する。
 
 [備考]
-GetLastError will return the error ERROR_INVALID_PARAMETER if an
-option flag that cannot be set is specified. For more information,
-see Setting and Retrieving Internet Options. Like all other aspects
-of the WinINet API, this function cannot be safely called from within
-DllMain or the constructors and destructors of global objects. Note
-WinINet does not support server implementations. In addition, it
-should not be used from a service. For server implementations or
-services use Microsoft Windows HTTP Services (WinHTTP).
-> [!NOTE] > The wininet.h header defines InternetSetOption as an
-alias which automatically selects the ANSI or Unicode version of this
-function based on the definition of the UNICODE preprocessor
-constant. Mixing usage of the encoding-neutral alias with code that
-not encoding-neutral can lead to mismatches that result in
-compilation or runtime errors. For more information, see [Conventions
-for Function
-Prototypes](/windows/win32/intl/conventions-for-function-prototypes).
+GetLastError は設定できないオプションに対して ERROR_INVALID_PARAMETER を返す。詳細は Setting
+and Retrieving Internet Options を参照。WinINet はサービスから使用すべきでない。
+> [!NOTE] > wininet.h は UNICODE マクロに応じて InternetSetOption を
+ANSI/Unicode 版のエイリアスとして定義する。
 
