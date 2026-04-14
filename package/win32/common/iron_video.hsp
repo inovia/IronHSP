@@ -1,0 +1,149 @@
+;============================================================
+;   iron_video.hsp — Media Foundation (MFPlay) 動画/音声再生ラッパ
+;
+;   Windows 7 以降の Media Foundation MFPlay (IMFPMediaPlayer) を
+;   HSP の #comfunc で直接叩く動画・音声再生モジュール。
+;
+;   MCI と違って Windows 標準コーデックを Media Foundation 経由で
+;   叩くため、MP4/MKV/H.264/AAC/MP3 等の現代フォーマットが
+;   標準で再生可能。
+;
+;   API:
+;     iron_video_open path, hwnd     ; ファイルを開いて hwnd に貼り付け
+;                                     ; (hwnd=0 で音声のみ)
+;     iron_video_play                ; 再生開始
+;     iron_video_pause               ; 一時停止
+;     iron_video_stop                ; 停止 (頭に巻き戻る)
+;     iron_video_step                ; 1 フレーム進める
+;     iron_video_set_rate rate       ; 再生速度 (1.0=等速 / 2.0=2倍速)
+;     iron_video_set_volume vol      ; 音量 (0.0〜1.0)
+;     iron_video_close               ; 解放
+;
+;   例:
+;     #include "iron_video.hsp"
+;         iron_video_open "movie.mp4", hwnd
+;         iron_video_play
+;         stop                       ; ボタン待ち等
+;
+;   注意:
+;     - MFPlay は Win8 以降 deprecated 扱いだが現役で動作する
+;     - Position / Duration は PROPVARIANT 経由のため本ラッパでは未実装
+;       (将来 iron_video_position / iron_video_length を追加予定)
+;     - hwnd を渡せば自動でアスペクト比保持して描画される
+;============================================================
+
+#ifndef __iron_video_hsp__
+#define __iron_video_hsp__
+
+;------------------------------------------------------------
+; IMFPMediaPlayer インターフェース宣言
+;
+; 空 CLSID "{}" を指定することで newcom が CoCreateInstance を
+; 呼ばずに変数だけ確保 → MFPCreateMediaPlayer の var 引数で
+; 受け取った生ポインタを COM ラップする HSP の慣用テク。
+;------------------------------------------------------------
+#define IID_IMFPMediaPlayer "{A714590A-58AF-430a-85BF-44F5EC838D85}"
+#usecom IMFPMediaPlayer IID_IMFPMediaPlayer "{}"
+
+#comfunc IMFPMediaPlayer_Play          3
+#comfunc IMFPMediaPlayer_Pause         4
+#comfunc IMFPMediaPlayer_Stop          5
+#comfunc IMFPMediaPlayer_FrameStep     6
+#comfunc IMFPMediaPlayer_SetRate      10 float
+#comfunc IMFPMediaPlayer_GetState     13 var
+#comfunc IMFPMediaPlayer_SetVolume    20 float
+#comfunc IMFPMediaPlayer_UpdateVideo  32
+#comfunc IMFPMediaPlayer_Shutdown     38
+
+;------------------------------------------------------------
+; mfplay.dll / mfplat.dll エクスポート
+;------------------------------------------------------------
+#uselib "Mfplay.dll"
+#func MFPCreateMediaPlayer "MFPCreateMediaPlayer" wstr, int, int, int, int, var
+
+#uselib "Mfplat.dll"
+#func MFStartup  "MFStartup"  int, int
+#func MFShutdown "MFShutdown"
+
+#define MFSTARTUP_FULL 0
+
+;------------------------------------------------------------
+; トップレベル状態 + 関数群
+;
+; #usecom / #comfunc は #module 内で名前マングリングされて参照不能に
+; なるため、iron_video の関数は #module を使わずに deffunc を直接定義する。
+; 状態変数も _iv_* prefix で衝突を避ける。
+;------------------------------------------------------------
+
+	; COM 変数として確保 (空 CLSID なので CoCreateInstance は呼ばれない)
+	; 全体で 1 個の player スロットを使い回す
+	newcom _iv_player, IMFPMediaPlayer
+	_iv_loaded = 0
+	goto *_iv_skip_init
+
+#deffunc iron_video_open str path, int hwnd
+    if _iv_loaded {
+        IMFPMediaPlayer_Shutdown _iv_player
+        delcom _iv_player
+        MFShutdown
+        newcom _iv_player, IMFPMediaPlayer
+        _iv_loaded = 0
+    }
+    MFStartup 0x00020070, MFSTARTUP_FULL
+    MFPCreateMediaPlayer path, 1, 0, 0, hwnd, _iv_player
+    _iv_loaded = 1
+    return
+
+#deffunc iron_video_play
+    if _iv_loaded = 0 : return
+    IMFPMediaPlayer_Play _iv_player
+    return
+
+#deffunc iron_video_pause
+    if _iv_loaded = 0 : return
+    IMFPMediaPlayer_Pause _iv_player
+    return
+
+#deffunc iron_video_stop
+    if _iv_loaded = 0 : return
+    IMFPMediaPlayer_Stop _iv_player
+    return
+
+#deffunc iron_video_step
+    if _iv_loaded = 0 : return
+    IMFPMediaPlayer_FrameStep _iv_player
+    return
+
+#deffunc iron_video_set_rate double rate
+    if _iv_loaded = 0 : return
+    IMFPMediaPlayer_SetRate _iv_player, rate
+    return
+
+#deffunc iron_video_set_volume double vol
+    if _iv_loaded = 0 : return
+    IMFPMediaPlayer_SetVolume _iv_player, vol
+    return
+
+#deffunc iron_video_update
+    if _iv_loaded = 0 : return
+    IMFPMediaPlayer_UpdateVideo _iv_player
+    return
+
+#deffunc iron_video_close
+    if _iv_loaded = 0 : return
+    IMFPMediaPlayer_Shutdown _iv_player
+    delcom _iv_player
+    MFShutdown
+    newcom _iv_player, IMFPMediaPlayer
+    _iv_loaded = 0
+    return
+
+#defcfunc iron_video_state local _st
+    if _iv_loaded = 0 : return -1
+    _st = -1
+    IMFPMediaPlayer_GetState _iv_player, _st
+    return _st
+
+*_iv_skip_init
+
+#endif

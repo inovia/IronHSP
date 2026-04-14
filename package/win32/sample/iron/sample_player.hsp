@@ -1,0 +1,200 @@
+;============================================================
+;  簡易メディアプレイヤー (HSP 標準 mci 命令のみ)
+;
+;  音楽 (mp3/wav) 動画 (mp4/avi/wmv) を再生できる GUI プレイヤー。
+;  iron_* モジュール不要、HSP 標準機能だけで構築。
+;
+;  機能:
+;    - ファイルパス入力 → Open
+;    - Play / Pause / Stop
+;    - 10 秒早送り (>>) / 巻き戻し (<<)
+;    - シークバー (クリックで任意位置にジャンプ)
+;    - 現在時刻 / 全長 表示 (mm:ss)
+;    - 音量スライダ (0-1000)
+;
+;  Open Video ボタンで動画を内部ウィンドウに貼り付けて再生可能。
+;============================================================
+
+	title "HSP 簡易メディアプレイヤー"
+	screen 0, 600, 440
+	font "MS Gothic", 14
+
+	sdim filepath, 1024
+	filepath = "C:\\Windows\\Media\\Alarm01.wav"
+	sdim alias_name, 32
+	alias_name = "media"
+	opened = 0
+	is_video = 0
+	vol = 800
+
+	; ------------ UI 配置 ------------
+	pos 10, 10
+	mes "ファイルパス:"
+	pos 10, 30
+	objsize 480, 24
+	input filepath, 1023, 1, 24
+	pos 500, 30
+	objsize 80, 24
+	button gosub "Open", *do_open
+
+	; 動画表示領域 (背景)
+	color 32, 32, 32 : boxf 10, 70, 590, 270 : color 0, 0, 0
+	pos 240, 165
+	color 200, 200, 200
+	mes "(動画はここに表示)"
+	color 0, 0, 0
+
+	; コントロールボタン
+	pos 10, 285
+	objsize 60, 28
+	button gosub "<<", *do_rewind
+	pos 75, 285
+	objsize 60, 28
+	button gosub "Play", *do_play
+	pos 140, 285
+	objsize 60, 28
+	button gosub "Pause", *do_pause
+	pos 205, 285
+	objsize 60, 28
+	button gosub "Stop", *do_stop
+	pos 270, 285
+	objsize 60, 28
+	button gosub ">>", *do_ff
+	pos 340, 285
+	objsize 100, 28
+	button gosub "Open Video", *do_open_video
+
+	pos 450, 287
+	mes "Vol:"
+	pos 480, 285
+	objsize 80, 24
+	input vol, 4, 4, 24
+
+	gosub *redraw_seek
+
+*main_loop
+	; マウス左クリックでシーク
+	getkey k_lb, 1
+	if k_lb {
+		mx = mousex
+		my = mousey
+		if (my >= 325) & (my <= 350) & (mx >= 10) & (mx <= 590) {
+			if opened {
+				mci "status " + alias_name + " length"
+				len_ms = stat
+				if len_ms > 0 {
+					new_pos = (mx - 10) * len_ms / 580
+					mci "seek " + alias_name + " to " + new_pos
+					mci "play " + alias_name
+				}
+			}
+			; クリック連打抑止
+			repeat 5 : await 20 : loop
+		}
+	}
+
+	; 音量を毎フレ反映 (簡易)
+	if opened {
+		mci "setaudio " + alias_name + " volume to " + vol
+	}
+
+	gosub *redraw_seek
+	await 100
+	goto *main_loop
+
+;------------------------------------------------------------
+*redraw_seek
+	; シークバー描画
+	color 200, 200, 200 : boxf 10, 325, 590, 350
+	color 100, 100, 100
+	line 10, 325, 590, 325
+	line 10, 350, 590, 350
+
+	cur_p = 0 : tot_p = 0
+	if opened {
+		mci "status " + alias_name + " position"
+		cur_p = stat
+		mci "status " + alias_name + " length"
+		tot_p = stat
+	}
+	if tot_p > 0 {
+		bar_w = (590 - 10) * cur_p / tot_p
+		color 80, 160, 240 : boxf 10, 327, 10 + bar_w, 348
+	}
+	color 0, 0, 0
+
+	; 時刻 + 状態表示
+	color 255, 255, 255 : boxf 10, 360, 590, 410 : color 0, 0, 0
+	pos 10, 360
+	cur_sec = cur_p / 1000
+	tot_sec = tot_p / 1000
+	mes strf("時刻: %02d:%02d / %02d:%02d", cur_sec / 60, cur_sec \ 60, tot_sec / 60, tot_sec \ 60)
+	pos 10, 380
+	if opened {
+		if is_video {
+			mes "ファイル: " + filepath + "  [動画モード]"
+		} else {
+			mes "ファイル: " + filepath
+		}
+	} else {
+		mes "ファイル未オープン"
+	}
+	return
+
+;------------------------------------------------------------
+*do_open
+	if opened : mci "close " + alias_name
+	mci "open \"" + filepath + "\" alias " + alias_name
+	if stat = 0 {
+		opened = 1
+		is_video = 0
+		mci "set " + alias_name + " time format milliseconds"
+	}
+	return
+
+*do_open_video
+	if opened : mci "close " + alias_name
+	; 動画は親ウィンドウ指定で内部に貼り付け
+	mci "open \"" + filepath + "\" alias " + alias_name + " parent " + hwnd + " style child"
+	if stat = 0 {
+		opened = 1
+		is_video = 1
+		mci "set " + alias_name + " time format milliseconds"
+		; 動画表示位置を指定
+		mci "put " + alias_name + " window at 10 70 580 200"
+	}
+	return
+
+*do_play
+	if opened : mci "play " + alias_name
+	return
+
+*do_pause
+	if opened : mci "pause " + alias_name
+	return
+
+*do_stop
+	if opened : mci "stop " + alias_name
+	return
+
+*do_rewind
+	if opened = 0 : return
+	mci "status " + alias_name + " position"
+	cur_p = stat
+	new_p = cur_p - 10000
+	if new_p < 0 : new_p = 0
+	mci "seek " + alias_name + " to " + new_p
+	mci "play " + alias_name
+	return
+
+*do_ff
+	if opened = 0 : return
+	mci "status " + alias_name + " position"
+	cur_p = stat
+	mci "status " + alias_name + " length"
+	tot_p = stat
+	new_p = cur_p + 10000
+	if new_p > tot_p : new_p = tot_p
+	mci "seek " + alias_name + " to " + new_p
+	mci "play " + alias_name
+	return

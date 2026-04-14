@@ -1,0 +1,135 @@
+;============================================================
+;  iron_video サンプル: Media Foundation 動画/音楽プレイヤー
+;
+;  iron_video.hsp (MFPlay/IMFPMediaPlayer) を使った GUI プレイヤー。
+;
+;  対応フォーマット: MP4/MKV/AVI/WMV/MOV/MP3/WAV/AAC 等
+;  (Windows 標準 Media Foundation コーデックに準拠)
+;
+;  機能:
+;    - ファイル選択ダイアログ
+;    - Play / Pause / Stop / FrameStep
+;    - 再生速度変更 (0.5x / 1.0x / 1.5x / 2.0x)
+;    - 音量スライダ (0-100)
+;============================================================
+
+#include "iron_video.hsp"
+
+	title "iron_video — Media Foundation Player"
+	screen 0, 800, 600
+	font "MS Gothic", 14
+
+	loaded = 0
+	rate_idx = 1     ; 0=0.5x  1=1.0x  2=1.5x  3=2.0x
+	vol_int = 80     ; 0-100
+
+	; ----- UI -----
+	pos 10, 10
+	objsize 80, 28
+	button gosub "Open", *do_open
+	pos 100, 10
+	objsize 60, 28
+	button gosub "Play", *do_play
+	pos 165, 10
+	objsize 70, 28
+	button gosub "Pause", *do_pause
+	pos 240, 10
+	objsize 60, 28
+	button gosub "Stop", *do_stop
+	pos 305, 10
+	objsize 60, 28
+	button gosub "Step", *do_step
+
+	pos 380, 14
+	mes "Speed:"
+	pos 430, 10
+	objsize 60, 28
+	button gosub "0.5x", *do_rate_05
+	pos 495, 10
+	objsize 60, 28
+	button gosub "1.0x", *do_rate_10
+	pos 560, 10
+	objsize 60, 28
+	button gosub "1.5x", *do_rate_15
+	pos 625, 10
+	objsize 60, 28
+	button gosub "2.0x", *do_rate_20
+
+	pos 695, 14
+	mes "Vol:"
+	pos 725, 10
+	objsize 60, 24
+	input vol_int, 4, 4, 24
+
+	; 動画表示領域 (背景塗りつぶし)
+	color 16, 16, 16 : boxf 10, 50, 790, 540 : color 0, 0, 0
+	pos 320, 290
+	color 200, 200, 200
+	mes "(Open で動画を開く)"
+	color 0, 0, 0
+
+	; 状態表示
+	pos 10, 555
+	mes "状態: 未ロード"
+
+*main_loop
+	; 音量を反映
+	if loaded {
+		iron_video_set_volume 0.01 * double(vol_int)
+	}
+	; 状態表示
+	color 255, 255, 255 : boxf 10, 555, 790, 595 : color 0, 0, 0
+	pos 10, 555
+	if loaded {
+		s = iron_video_state()
+		mes "状態 code=" + s + "  (1=Stopped 2=Playing 3=Paused 4=Shutdown)"
+	} else {
+		mes "状態: 未ロード"
+	}
+	await 100
+	goto *main_loop
+
+;------------------------------------------------------------
+*do_open
+	dialog "mp4;*.mkv;*.avi;*.wmv;*.mov;*.mp3;*.wav;*.aac;*.m4a", 16, "メディアファイル"
+	if stat = 0 : return
+	fname = refstr
+	; 古い再生があれば閉じる
+	if loaded : iron_video_close
+	; ウィンドウ全面を再描画 (動画領域の背景)
+	color 16, 16, 16 : boxf 10, 50, 790, 540 : color 0, 0, 0
+	; HWND 渡しで動画を貼り付け
+	iron_video_open fname, hwnd
+	loaded = 1
+	; 初期速度を反映
+	gosub *do_rate_10
+	return
+
+*do_play
+	if loaded : iron_video_play
+	return
+
+*do_pause
+	if loaded : iron_video_pause
+	return
+
+*do_stop
+	if loaded : iron_video_stop
+	return
+
+*do_step
+	if loaded : iron_video_step
+	return
+
+*do_rate_05
+	if loaded : iron_video_set_rate 0.5
+	return
+*do_rate_10
+	if loaded : iron_video_set_rate 1.0
+	return
+*do_rate_15
+	if loaded : iron_video_set_rate 1.5
+	return
+*do_rate_20
+	if loaded : iron_video_set_rate 2.0
+	return
