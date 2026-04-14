@@ -16237,6 +16237,29 @@ NULL である。拡張エラー情報を取得するには GetLastError を呼ぶ。
 
 
 %index
+OpenMutexW
+指定された名前付きミューテックスオブジェクトを開く。(Unicode)
+%group
+Win32 kernel32
+%prm
+dwDesiredAccess, bInheritHandle, lpName
+dwDesiredAccess : [int] ミューテックスオブジェクトへのアクセス権。要求されたアクセスがミューテックスのセキュリティ記述子に対して許可されるかどうかが判定される。
+bInheritHandle : [int] TRUE の場合、CreateProcess 関数で生成されたプロセスはハンドルを継承できる。FALSE の場合、ハンドルは継承されない。
+lpName : [wstr] 開くミューテックスの名前。名前比較は大文字小文字を区別する。
+%inst
+指定された名前付きミューテックスオブジェクトを開く。(Unicode)
+
+[戻り値]
+関数が成功した場合、戻り値はミューテックスオブジェクトへのハンドル。関数が失敗した場合、戻り値は NULL。拡張エラー情報を取得するには
+GetLastError を呼ぶ。
+
+[備考]
+OpenMutex
+関数は、呼び出し側プロセスに既存の名前付きミューテックスオブジェクトへのアクセスを許可する。複数のプロセスが同じミューテックスへのハンドルを開くことができ、プロセス間の同期が可能になる。不要になったハンドルは
+CloseHandle で閉じる。
+
+
+%index
 OpenPrivateNamespaceW
 OpenPrivateNamespaceW (Unicode) 関数 (namespaceapi.h) はプライベート名前空間を開く。
 %group
@@ -16276,6 +16299,28 @@ dwProcessId : [int] 開くローカルプロセスの識別子。System Idle Process(0x00000000
 他のローカルプロセスへのフルアクセスハンドルを開くには SeDebugPrivilege
 特権を有効にする必要がある。OpenProcess が返すハンドルは、適切なアクセス権が要求されていれば wait
 関数などプロセスハンドルを必要とする任意の関数で使用できる。ハンドルの使用が終わったら CloseHandle で閉じること。
+
+
+%index
+OpenSemaphoreW
+指定された名前付きセマフォオブジェクトを開く。(Unicode)
+%group
+Win32 kernel32
+%prm
+dwDesiredAccess, bInheritHandle, lpName
+dwDesiredAccess : [int] セマフォオブジェクトへのアクセス権。要求されたアクセスがセマフォのセキュリティ記述子に対して許可されるかどうかが判定される。
+bInheritHandle : [int] TRUE の場合、CreateProcess 関数で生成されたプロセスはハンドルを継承できる。FALSE の場合、ハンドルは継承されない。
+lpName : [wstr] 開くセマフォの名前。名前比較は大文字小文字を区別する。
+%inst
+指定された名前付きセマフォオブジェクトを開く。(Unicode)
+
+[戻り値]
+関数が成功した場合、戻り値はセマフォオブジェクトへのハンドル。関数が失敗した場合、戻り値は NULL。拡張エラー情報を取得するには
+GetLastError を呼ぶ。
+
+[備考]
+OpenSemaphore 関数は、呼び出し側プロセスに既存の名前付きセマフォオブジェクトへのアクセスを許可する。不要になったハンドルは
+CloseHandle で閉じる。
 
 
 %index
@@ -19028,6 +19073,21 @@ GetLastError を呼び出す。
 SetEndOfFile
 関数はファイルの切り詰めまたは拡張に使用できる。拡張する場合、元のファイル末尾と新しい末尾の間の内容は未定義である。各ファイルストリームには次の項目がある:
 （以下省略）
+
+
+%index
+SetEnvironmentStringsW
+呼び出し側プロセスの環境ブロックを設定する。(Unicode)
+%group
+Win32 kernel32
+%prm
+NewEnvironment
+NewEnvironment : [int] 新しい環境ブロックへのポインタ。環境ブロックは null 終端文字列の連続で、最後に追加の null 文字で終わる。
+%inst
+呼び出し側プロセスの環境ブロックを設定する。(Unicode)
+
+[戻り値]
+関数が成功した場合、戻り値は 0 以外。関数が失敗した場合、戻り値は 0。拡張エラー情報を取得するには GetLastError を呼ぶ。
 
 
 %index

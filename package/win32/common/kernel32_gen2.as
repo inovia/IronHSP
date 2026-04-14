@@ -1832,11 +1832,17 @@
 ; winmdroot.Foundation.HANDLE OpenJobObject(uint dwDesiredAccess, winmdroot.Foundation.BOOL bInheritHandle, winmdroot.Foundation.PCWSTR lpName)
 #cfunc OpenJobObjectW "OpenJobObjectW" int, int, wstr
 
+; winmdroot.Foundation.HANDLE OpenMutex(winmdroot.System.Threading.SYNCHRONIZATION_ACCESS_RIGHTS dwDesiredAccess, winmdroot.Foundation.BOOL bInheritHandle, winmdroot.Foundation.PCWSTR lpName)
+#cfunc OpenMutexW "OpenMutexW" int, int, wstr
+
 ; winmdroot.Foundation.HANDLE OpenPrivateNamespaceW(void* lpBoundaryDescriptor, winmdroot.Foundation.PCWSTR lpAliasPrefix)
 #cfunc OpenPrivateNamespaceW "OpenPrivateNamespaceW" intptr, wstr
 
 ; winmdroot.Foundation.HANDLE OpenProcess(winmdroot.System.Threading.PROCESS_ACCESS_RIGHTS dwDesiredAccess, winmdroot.Foundation.BOOL bInheritHandle, uint dwProcessId)
 #cfunc OpenProcess "OpenProcess" int, int, int
+
+; winmdroot.Foundation.HANDLE OpenSemaphore(winmdroot.System.Threading.SYNCHRONIZATION_ACCESS_RIGHTS dwDesiredAccess, winmdroot.Foundation.BOOL bInheritHandle, winmdroot.Foundation.PCWSTR lpName)
+#cfunc OpenSemaphoreW "OpenSemaphoreW" int, int, wstr
 
 ; winmdroot.Foundation.HANDLE OpenThread(winmdroot.System.Threading.THREAD_ACCESS_RIGHTS dwDesiredAccess, winmdroot.Foundation.BOOL bInheritHandle, uint dwThreadId)
 #cfunc OpenThread "OpenThread" int, int, int
@@ -2158,6 +2164,9 @@
 
 ; winmdroot.Foundation.BOOL SetEndOfFile(winmdroot.Foundation.HANDLE hFile)
 #cfunc SetEndOfFile "SetEndOfFile" intptr
+
+; winmdroot.Foundation.BOOL SetEnvironmentStringsW(winmdroot.Foundation.PZZWSTR NewEnvironment)
+#cfunc SetEnvironmentStringsW "SetEnvironmentStringsW" int
 
 ; winmdroot.Foundation.BOOL SetEnvironmentVariable(winmdroot.Foundation.PCWSTR lpName, winmdroot.Foundation.PCWSTR lpValue)
 #cfunc SetEnvironmentVariableW "SetEnvironmentVariableW" wstr, wstr

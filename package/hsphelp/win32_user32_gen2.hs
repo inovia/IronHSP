@@ -8454,6 +8454,24 @@ GetLastError を呼ぶ。
 
 
 %index
+IsCharLowerW
+(no summary)
+%group
+Win32 user32
+%prm
+ch
+ch : [int] 型: TCHAR 検査する文字。
+%inst
+
+
+[戻り値]
+型: BOOL 文字が小文字の場合、戻り値は 0 以外。それ以外の場合は 0。
+
+[備考]
+IsCharLower の Unicode 版。文字が小文字であるかどうかを判定する。
+
+
+%index
 IsCharUpperW
 文字が大文字かを判定する。セットアップまたはコントロールパネルでユーザが選択した言語のセマンティクスに基づいて判定される。(Unicode)
 %group

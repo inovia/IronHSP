@@ -671,11 +671,11 @@ OpenFile
 OpenFileById
 OpenFileMapping
 OpenJobObject
-// removed: CS8785 ambiguous across namespaces: OpenMutex
+Windows.Win32.System.Threading.OpenMutex
 OpenPrivateNamespace
 OpenProcess
 // removed: not in win32metadata: OpenProfileUserMapping
-// removed: CS8785 ambiguous across namespaces: OpenSemaphore
+Windows.Win32.System.Threading.OpenSemaphore
 OpenThread
 OpenWaitableTimer
 OutputDebugString
@@ -843,7 +843,7 @@ SetDefaultCommConfig
 SetDllDirectory
 SetDynamicTimeZoneInformation
 SetEndOfFile
-// removed: CS8785 ambiguous across namespaces: SetEnvironmentStrings
+Windows.Win32.System.Environment.SetEnvironmentStrings
 SetEnvironmentVariable
 SetErrorMode
 SetEvent
@@ -1518,7 +1518,7 @@ InvalidateRgn
 InvertRect
 IsCharAlpha
 IsCharAlphaNumeric
-// removed: CS8785 ambiguous across namespaces: IsCharLower
+IsCharLowerW
 IsCharUpper
 IsChild
 IsClipboardFormatAvailable

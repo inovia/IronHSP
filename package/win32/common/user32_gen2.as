@@ -1112,6 +1112,9 @@
 ; winmdroot.Foundation.BOOL IsCharAlphaNumeric(char ch)
 #cfunc IsCharAlphaNumericW "IsCharAlphaNumericW" int
 
+; winmdroot.Foundation.BOOL IsCharLower(char ch)
+#cfunc IsCharLowerW "IsCharLowerW" int
+
 ; winmdroot.Foundation.BOOL IsCharUpper(char ch)
 #cfunc IsCharUpperW "IsCharUpperW" int
 
