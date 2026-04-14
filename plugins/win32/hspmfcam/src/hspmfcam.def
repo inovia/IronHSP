@@ -21,3 +21,12 @@ EXPORTS
     mfcam_record_start_av
     mfcam_record_stop
     mfcam_close
+    mfcam_audio_open
+    mfcam_audio_close
+    mfcam_audio_get_format
+    mfcam_audio_pcm_avail
+    mfcam_audio_read_pcm
+    mfcam_audio_save_wav_start
+    mfcam_audio_save_wav_stop
+    mfcam_audio_record_start
+    mfcam_audio_record_stop

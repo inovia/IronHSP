@@ -1,0 +1,161 @@
+;============================================================
+;  sample_mic_record.hsp — マイク録音 → WAV 保存 → クラウド文字起こし
+;
+;  hspmfcam.dll の audio-only API を使ってマイク単独録音を行い、
+;  保存した WAV ファイルを iron_speech (cloud whisper) で文字起こし
+;  するワンセットデモ。
+;
+;  使い方:
+;    1. マイクデバイスインデックスを選ぶ (デフォルト 0)
+;    2. Record ボタン → 5 秒間録音 → mic_record.wav に保存
+;    3. (任意) Transcribe ボタンで文字起こし
+;       → Groq の API キーが必要 (sample_speech.hsp と同じ)
+;============================================================
+
+#include "iron_camera_mf.hsp"
+#include "iron_speech.hsp"
+
+	title "sample_mic_record — マイク録音 + 文字起こし"
+	screen 0, 720, 540
+	font "MS Gothic", 14
+
+	; ----- マイクデバイス列挙 -----
+	mes "==== マイク録音 + 文字起こしデモ ===="
+	mes ""
+	n_mic = iron_cam_audio_count()
+	mes "接続オーディオデバイス: " + n_mic + " 個"
+	repeat n_mic
+		iron_cam_audio_name cnt, mic_name
+		iron_cam_audio_id   cnt, mic_id
+		mes strf("  [%d] %s", cnt, mic_name)
+	loop
+	mes ""
+
+	; ----- iron_speech 設定 (cloud whisper) -----
+	iron_speech_set_backend SPEECH_BACKEND_CLOUD
+	iron_speech_set_endpoint "https://api.groq.com/openai/v1"
+	iron_speech_set_model    "whisper-large-v3"
+	iron_speech_set_key      "gsk_REPLACE_ME"     ; ← Groq の API キー
+	iron_speech_open
+
+	; ----- UI -----
+	pos 10, 130
+	mes "デバイス番号:"
+	pos 100, 128
+	objsize 60, 24
+	dev_idx = 0
+	input dev_idx, 4, 4, 24
+
+	pos 10, 160
+	objsize 100, 28
+	button gosub "Record (5s)", *do_record
+
+	pos 120, 160
+	objsize 100, 28
+	button gosub "Transcribe", *do_transcribe
+
+	pos 230, 160
+	objsize 100, 28
+	button gosub "Read PCM", *do_read_pcm
+
+	pos 10, 200
+	mes "----- 結果 -----"
+	pos 10, 225
+	sdim log_text, 32768
+	log_text = ""
+	mesbox log_text, 700, 290, 4
+
+	stop
+
+;------------------------------------------------------------
+*do_record
+	objprm 0, dev_idx
+	log_text = log_text + "[recording] device=" + dev_idx + ", 48kHz/16bit/mono...\n"
+	objprm 4, log_text
+	await 50
+
+	hmic = iron_mic_open(dev_idx, 16000, 1, 16)   ; whisper 推奨は 16kHz mono
+	if hmic < 0 {
+		log_text = log_text + "[error] iron_mic_open failed\n\n"
+		objprm 4, log_text
+		return
+	}
+
+	; 実際に得られた format を確認
+	iron_mic_get_format hmic, sr, ch, bits
+	log_text = log_text + "  実 format: " + sr + "Hz / " + ch + "ch / " + bits + "bit\n"
+
+	; WAV 録音開始
+	iron_mic_save_wav hmic, "mic_record.wav"
+	log_text = log_text + "  WAV 書き込み開始 → mic_record.wav\n"
+	objprm 4, log_text
+
+	; 5 秒待つ (worker thread が裏でフレーム取得 → リング + WAV 書き込み)
+	wait 500
+
+	iron_mic_save_wav_stop hmic
+	iron_mic_close hmic
+
+	; ファイルサイズ確認
+	exist "mic_record.wav"
+	log_text = log_text + "  完了 → " + strsize + " bytes\n\n"
+	objprm 4, log_text
+	return
+
+*do_transcribe
+	exist "mic_record.wav"
+	if strsize < 0 {
+		log_text = log_text + "[error] mic_record.wav が無い (先に Record してください)\n\n"
+		objprm 4, log_text
+		return
+	}
+
+	log_text = log_text + "[transcribing] mic_record.wav → cloud whisper...\n"
+	objprm 4, log_text
+	await 50
+
+	sdim text, 16384
+	iron_speech_transcribe "mic_record.wav", text
+	if stat ! SPEECH_OK {
+		log_text = log_text + "[error] transcribe failed: " + stat + " (API キーを確認)\n\n"
+		objprm 4, log_text
+		return
+	}
+
+	log_text = log_text + "[結果] " + text + "\n\n"
+	objprm 4, log_text
+	return
+
+*do_read_pcm
+	; リングバッファから 1 秒分の PCM を取り出すデモ
+	objprm 0, dev_idx
+	hmic = iron_mic_open(dev_idx, 16000, 1, 16)
+	if hmic < 0 {
+		log_text = log_text + "[error] iron_mic_open failed\n\n"
+		objprm 4, log_text
+		return
+	}
+	wait 100   ; 1 秒間バッファに溜める
+
+	avail = iron_mic_avail(hmic)
+	log_text = log_text + "[PCM] 1 秒経過、リング = " + avail + " bytes\n"
+
+	; max 32000 byte (16k * 1ch * 2byte) = 1 秒分まで読み出し
+	sdim pcm_buf, 33000
+	iron_mic_read hmic, pcm_buf, 32000
+	read_n = stat
+	log_text = log_text + "  read = " + read_n + " bytes\n"
+
+	; 簡単な振幅統計 (絶対値の最大)
+	max_amp = 0
+	repeat read_n / 2
+		s = wpeek(pcm_buf, cnt * 2)
+		if s > 32767 : s = s - 65536
+		if s < 0 : s = -s
+		if s > max_amp : max_amp = s
+	loop
+	log_text = log_text + "  max amplitude = " + max_amp + " (16bit signed)\n\n"
+	objprm 4, log_text
+
+	iron_mic_close hmic
+	return

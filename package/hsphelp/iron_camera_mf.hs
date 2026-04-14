@@ -292,3 +292,106 @@ h
 
 %inst
 worker thread を停止 → child window を破棄 → 録画中なら自動 finalize。
+
+;============================================================
+; マイク単独 audio-only API (Phase 2-G)
+;============================================================
+
+%index
+iron_mic_open
+マイク (オーディオデバイス) を開く (defcfunc)
+%group
+iron_camera_mf — マイク録音
+%prm
+dev_idx, sample_rate, channels, bits
+
+%inst
+defcfunc。指定オーディオデバイスを開いて worker thread 起動。
+sample_rate=0 で 48000、channels=0 で 2、bits=0 で 16 がデフォルト。
+
+戻り値: ハンドル / -1 失敗 / -2 フォーマット非対応
+
+%href
+iron_mic_close
+iron_mic_save_wav
+iron_mic_record
+
+%index
+iron_mic_close
+マイクを閉じる
+%group
+iron_camera_mf — マイク録音
+%prm
+h
+
+%index
+iron_mic_get_format
+実 sample rate / ch / bits を取得
+%group
+iron_camera_mf — マイク録音
+%prm
+h, var_sr, var_ch, var_bits
+
+%inst
+mfcam_audio_open でネゴ後の実フォーマットを返します。
+
+%index
+iron_mic_avail
+リング内 PCM byte 数 (defcfunc)
+%group
+iron_camera_mf — マイク録音
+%prm
+h
+
+%index
+iron_mic_read
+リングから PCM を読み出す
+%group
+iron_camera_mf — マイク録音
+%prm
+h, var_buf, max_bytes
+
+%inst
+worker が裏で蓄積した PCM を最大 max_bytes byte だけ var_buf にコピー。
+取り出した分はリングから消えます。
+stat に実際に読めた byte 数。
+
+%index
+iron_mic_save_wav
+WAV ファイル直書き開始
+%group
+iron_camera_mf — マイク録音
+%prm
+h, "path"
+
+%inst
+RIFF header + 生 PCM 直接書き込み。エンコード無し、低 CPU。
+文字起こし用途 (whisper 向け 16kHz mono 16bit) に最適。
+
+%index
+iron_mic_save_wav_stop
+WAV ファイル直書き停止
+%group
+iron_camera_mf — マイク録音
+%prm
+h
+
+%index
+iron_mic_record
+エンコード録音開始 (AAC/MP3/WMA/FLAC)
+%group
+iron_camera_mf — マイク録音
+%prm
+h, "path", "codec", bitrate
+
+%inst
+SinkWriter で圧縮録音。codec="" で AAC デフォルト。
+bitrate=0 で 128 kbps 相当。
+
+%index
+iron_mic_record_stop
+エンコード録音停止
+%group
+iron_camera_mf — マイク録音
+%prm
+h

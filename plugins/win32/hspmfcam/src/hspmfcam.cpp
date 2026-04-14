@@ -53,6 +53,8 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cmath>
+#include <vector>
+#include <deque>
 
 #pragma comment(lib, "mfplat.lib")
 #pragma comment(lib, "mf.lib")
@@ -68,6 +70,8 @@
 namespace {
 
 constexpr int MAX_CAMS = 256;
+constexpr int MAX_AUDIO_CAPS = 64;
+constexpr size_t MAX_AUDIO_RING_BYTES = 48000 * 4 * 30;  // 30 秒分 (48k stereo 16bit)
 
 struct CamState {
     bool   slot_used = false;
@@ -123,6 +127,49 @@ struct CamState {
 
 static CamState g_cams[MAX_CAMS];
 static bool g_mf_initialized = false;
+
+//============================================================
+// AudioCapState — マイク / オーディオ専用のキャプチャ状態
+//============================================================
+
+struct AudioCapState {
+    bool   active = false;
+    int    dev_idx = 0;
+    int    sample_rate = 48000;
+    int    channels = 2;
+    int    bits = 16;
+    int    block_align = 4;        // ch * bits/8
+
+    IMFSourceReader* reader = nullptr;
+    HANDLE worker = NULL;
+    HANDLE stop_event = NULL;
+    CRITICAL_SECTION lock;
+    bool   lock_inited = false;
+
+    // 生 PCM リングバッファ (worker が append, mfcam_audio_read_pcm が consume)
+    std::deque<unsigned char> ring;
+
+    // WAV 直書き
+    bool   wav_active = false;
+    HANDLE wav_file = INVALID_HANDLE_VALUE;
+    DWORD  wav_data_size = 0;
+
+    // SinkWriter エンコード録音
+    bool   enc_active = false;
+    IMFSinkWriter* enc_writer = nullptr;
+    DWORD  enc_audio_stream = 0;
+    LONGLONG enc_start_qpc = 0;
+    LONGLONG qpc_freq = 0;
+};
+
+static AudioCapState g_audio_caps[MAX_AUDIO_CAPS];
+
+int FindFreeAudioHandle() {
+    for (int i = 0; i < MAX_AUDIO_CAPS; i++) {
+        if (!g_audio_caps[i].active) return i;
+    }
+    return -1;
+}
 static bool g_class_registered = false;
 static const wchar_t* WND_CLASS_NAME = L"HSPMFCAM_PREVIEW";
 
@@ -565,6 +612,144 @@ HRESULT OpenAudioDeviceSource(int idx, IMFMediaSource** outSource) {
     for (UINT32 i = 0; i < count; i++) SafeRelease(devices[i]);
     CoTaskMemFree(devices);
     return hr;
+}
+
+//============================================================
+// Audio-only capture: WAV header writer
+//============================================================
+
+#pragma pack(push, 1)
+struct WavHeader {
+    char riff[4];
+    uint32_t fileSize;
+    char wave[4];
+    char fmt[4];
+    uint32_t fmtSize;
+    uint16_t format;
+    uint16_t channels;
+    uint32_t sampleRate;
+    uint32_t byteRate;
+    uint16_t blockAlign;
+    uint16_t bitsPerSample;
+    char data[4];
+    uint32_t dataSize;
+};
+#pragma pack(pop)
+
+static void WriteWavHeaderInitial(HANDLE h, int sr, int ch, int bits) {
+    WavHeader hdr = {};
+    memcpy(hdr.riff, "RIFF", 4);
+    memcpy(hdr.wave, "WAVE", 4);
+    memcpy(hdr.fmt, "fmt ", 4);
+    memcpy(hdr.data, "data", 4);
+    hdr.fmtSize = 16;
+    hdr.format = 1;            // PCM
+    hdr.channels = (uint16_t)ch;
+    hdr.sampleRate = (uint32_t)sr;
+    hdr.bitsPerSample = (uint16_t)bits;
+    hdr.blockAlign = (uint16_t)(ch * bits / 8);
+    hdr.byteRate = (uint32_t)sr * hdr.blockAlign;
+    hdr.fileSize = 36;         // placeholder
+    hdr.dataSize = 0;          // placeholder
+    DWORD written;
+    WriteFile(h, &hdr, sizeof(hdr), &written, NULL);
+}
+
+static void FinalizeWavHeader(HANDLE h, DWORD dataSize) {
+    LARGE_INTEGER li;
+    li.QuadPart = 4;
+    SetFilePointerEx(h, li, NULL, FILE_BEGIN);
+    DWORD fileSize = 36 + dataSize;
+    DWORD wn;
+    WriteFile(h, &fileSize, 4, &wn, NULL);
+    li.QuadPart = 40;
+    SetFilePointerEx(h, li, NULL, FILE_BEGIN);
+    WriteFile(h, &dataSize, 4, &wn, NULL);
+}
+
+//============================================================
+// Audio capture worker (audio-only, polling から read)
+//============================================================
+
+DWORD WINAPI AudioCapWorkerProc(LPVOID arg) {
+    AudioCapState* a = (AudioCapState*)arg;
+    HRESULT hrCo = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+
+    while (a->active) {
+        if (a->stop_event && WaitForSingleObject(a->stop_event, 0) == WAIT_OBJECT_0) break;
+        if (!a->reader) { Sleep(5); continue; }
+
+        DWORD streamIdx = 0, flags = 0;
+        LONGLONG ts = 0;
+        IMFSample* sample = nullptr;
+        HRESULT hr = a->reader->ReadSample(
+            (DWORD)MF_SOURCE_READER_FIRST_AUDIO_STREAM,
+            0, &streamIdx, &flags, &ts, &sample);
+        if (FAILED(hr)) { Sleep(5); continue; }
+        if (!sample)   { Sleep(1); continue; }
+
+        IMFMediaBuffer* mb = nullptr;
+        if (FAILED(sample->ConvertToContiguousBuffer(&mb)) || !mb) {
+            SafeRelease(sample);
+            continue;
+        }
+
+        BYTE* data = nullptr;
+        DWORD curlen = 0;
+        if (SUCCEEDED(mb->Lock(&data, NULL, &curlen)) && data && curlen > 0) {
+            EnterCriticalSection(&a->lock);
+
+            // 1. リングバッファに append
+            a->ring.insert(a->ring.end(), data, data + curlen);
+            while (a->ring.size() > MAX_AUDIO_RING_BYTES) {
+                a->ring.pop_front();
+            }
+
+            // 2. WAV 直書きが有効ならファイルへ
+            if (a->wav_active && a->wav_file != INVALID_HANDLE_VALUE) {
+                DWORD written = 0;
+                if (WriteFile(a->wav_file, data, curlen, &written, NULL)) {
+                    a->wav_data_size += written;
+                }
+            }
+
+            // 3. エンコーダ録音が有効なら SinkWriter へ
+            if (a->enc_active && a->enc_writer) {
+                IMFSample* outSample = nullptr;
+                if (SUCCEEDED(MFCreateSample(&outSample))) {
+                    IMFMediaBuffer* outBuf = nullptr;
+                    if (SUCCEEDED(MFCreateMemoryBuffer(curlen, &outBuf))) {
+                        BYTE* dst = nullptr;
+                        if (SUCCEEDED(outBuf->Lock(&dst, NULL, NULL))) {
+                            memcpy(dst, data, curlen);
+                            outBuf->Unlock();
+                        }
+                        outBuf->SetCurrentLength(curlen);
+                        outSample->AddBuffer(outBuf);
+
+                        LARGE_INTEGER nowQpc;
+                        QueryPerformanceCounter(&nowQpc);
+                        LONGLONG diff = nowQpc.QuadPart - a->enc_start_qpc;
+                        LONGLONG t100ns = (a->qpc_freq > 0)
+                            ? (diff * 10000000LL / a->qpc_freq) : 0;
+                        outSample->SetSampleTime(t100ns);
+
+                        a->enc_writer->WriteSample(a->enc_audio_stream, outSample);
+                        SafeRelease(outBuf);
+                    }
+                    SafeRelease(outSample);
+                }
+            }
+
+            LeaveCriticalSection(&a->lock);
+            mb->Unlock();
+        }
+        SafeRelease(mb);
+        SafeRelease(sample);
+    }
+
+    if (SUCCEEDED(hrCo)) CoUninitialize();
+    return 0;
 }
 
 // Phase 2-E: 音声 worker thread。常時 ReadSample → SinkWriter に書く。
@@ -1112,6 +1297,309 @@ HSPMFCAM_EXPORT int __stdcall mfcam_prop_set(int handle, int prop_id, int value,
     return success;
 }
 
+//============================================================
+// Audio-only capture API (マイク単独録音)
+//
+//   mfcam_audio_open        オーディオデバイスを開いて worker thread 起動
+//   mfcam_audio_close       worker 停止 + リソース解放
+//   mfcam_audio_get_format  実際に得られた sample_rate/ch/bits を取得
+//   mfcam_audio_pcm_avail   リングバッファに溜まっている byte 数
+//   mfcam_audio_read_pcm    リングバッファから byte 取り出し
+//   mfcam_audio_save_wav_*  生 PCM を WAV ファイルに直書き
+//   mfcam_audio_record_*    AAC/MP3/WMA/FLAC エンコードしてファイル保存
+//============================================================
+
+HSPMFCAM_EXPORT int __stdcall mfcam_audio_open(int dev_idx, int sample_rate, int channels, int bits) {
+    int handle = FindFreeAudioHandle();
+    if (handle < 0) return -1;
+    if (sample_rate <= 0) sample_rate = 48000;
+    if (channels <= 0) channels = 2;
+    if (bits <= 0) bits = 16;
+
+    AudioCapState& a = g_audio_caps[handle];
+    a.dev_idx = dev_idx;
+    a.sample_rate = sample_rate;
+    a.channels = channels;
+    a.bits = bits;
+    a.block_align = channels * bits / 8;
+
+    if (!a.lock_inited) {
+        InitializeCriticalSection(&a.lock);
+        a.lock_inited = true;
+    }
+    a.ring.clear();
+    a.wav_active = false;
+    a.wav_file = INVALID_HANDLE_VALUE;
+    a.wav_data_size = 0;
+    a.enc_active = false;
+    a.enc_writer = nullptr;
+
+    // オーディオソース open
+    IMFMediaSource* src = nullptr;
+    HRESULT hr = OpenAudioDeviceSource(dev_idx, &src);
+    if (FAILED(hr) || !src) return -1;
+
+    IMFSourceReader* reader = nullptr;
+    hr = MFCreateSourceReaderFromMediaSource(src, NULL, &reader);
+    SafeRelease(src);
+    if (FAILED(hr) || !reader) return -1;
+
+    // 出力 type を要求された PCM フォーマットに設定
+    // (ネイティブと違っても MF の Audio Resampler MFT が自動で挿入される)
+    {
+        IMFMediaType* pcm = nullptr;
+        MFCreateMediaType(&pcm);
+        pcm->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
+        pcm->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
+        pcm->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, (UINT32)bits);
+        pcm->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, (UINT32)sample_rate);
+        pcm->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, (UINT32)channels);
+        pcm->SetUINT32(MF_MT_AUDIO_BLOCK_ALIGNMENT, (UINT32)a.block_align);
+        pcm->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, (UINT32)(sample_rate * a.block_align));
+        pcm->SetUINT32(MF_MT_ALL_SAMPLES_INDEPENDENT, TRUE);
+        hr = reader->SetCurrentMediaType((DWORD)MF_SOURCE_READER_FIRST_AUDIO_STREAM, NULL, pcm);
+        SafeRelease(pcm);
+    }
+    if (FAILED(hr)) {
+        // 要求フォーマットが拒否された場合: ネイティブのまま諦める
+        // (失敗扱いにして user に再考を促す)
+        SafeRelease(reader);
+        return -2;
+    }
+
+    // 実際に得られた format を再取得 (ネゴ後の値)
+    {
+        IMFMediaType* current = nullptr;
+        if (SUCCEEDED(reader->GetCurrentMediaType((DWORD)MF_SOURCE_READER_FIRST_AUDIO_STREAM, &current)) && current) {
+            UINT32 sr = 0, ch = 0, bits2 = 0;
+            current->GetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, &sr);
+            current->GetUINT32(MF_MT_AUDIO_NUM_CHANNELS, &ch);
+            current->GetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, &bits2);
+            if (sr > 0)    a.sample_rate = (int)sr;
+            if (ch > 0)    a.channels = (int)ch;
+            if (bits2 > 0) a.bits = (int)bits2;
+            a.block_align = a.channels * a.bits / 8;
+            SafeRelease(current);
+        }
+    }
+
+    a.reader = reader;
+    a.active = true;
+    a.stop_event = CreateEventA(NULL, TRUE, FALSE, NULL);
+    a.worker = CreateThread(NULL, 0, AudioCapWorkerProc, &a, 0, NULL);
+    if (!a.worker) {
+        a.active = false;
+        SafeRelease(a.reader);
+        return -1;
+    }
+    return handle;
+}
+
+HSPMFCAM_EXPORT int __stdcall mfcam_audio_get_format(int handle, int* out_sr, int* out_ch, int* out_bits) {
+    if (handle < 0 || handle >= MAX_AUDIO_CAPS) return 0;
+    AudioCapState& a = g_audio_caps[handle];
+    if (!a.active) return 0;
+    if (out_sr)   *out_sr   = a.sample_rate;
+    if (out_ch)   *out_ch   = a.channels;
+    if (out_bits) *out_bits = a.bits;
+    return 1;
+}
+
+HSPMFCAM_EXPORT int __stdcall mfcam_audio_pcm_avail(int handle) {
+    if (handle < 0 || handle >= MAX_AUDIO_CAPS) return 0;
+    AudioCapState& a = g_audio_caps[handle];
+    if (!a.active) return 0;
+    EnterCriticalSection(&a.lock);
+    int n = (int)a.ring.size();
+    LeaveCriticalSection(&a.lock);
+    return n;
+}
+
+HSPMFCAM_EXPORT int __stdcall mfcam_audio_read_pcm(int handle, void* buf, int max_bytes) {
+    if (handle < 0 || handle >= MAX_AUDIO_CAPS) return 0;
+    AudioCapState& a = g_audio_caps[handle];
+    if (!a.active || !buf || max_bytes <= 0) return 0;
+
+    EnterCriticalSection(&a.lock);
+    int n = (int)a.ring.size();
+    if (n > max_bytes) n = max_bytes;
+    BYTE* dst = (BYTE*)buf;
+    for (int i = 0; i < n; i++) {
+        dst[i] = a.ring.front();
+        a.ring.pop_front();
+    }
+    LeaveCriticalSection(&a.lock);
+    return n;
+}
+
+HSPMFCAM_EXPORT int __stdcall mfcam_audio_save_wav_start(int handle, const char* path) {
+    if (handle < 0 || handle >= MAX_AUDIO_CAPS) return 0;
+    AudioCapState& a = g_audio_caps[handle];
+    if (!a.active || !path) return 0;
+    if (a.wav_active) return 0;
+
+    HANDLE h = CreateFileA(path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (h == INVALID_HANDLE_VALUE) return 0;
+
+    EnterCriticalSection(&a.lock);
+    WriteWavHeaderInitial(h, a.sample_rate, a.channels, a.bits);
+    a.wav_file = h;
+    a.wav_data_size = 0;
+    a.wav_active = true;
+    LeaveCriticalSection(&a.lock);
+    return 1;
+}
+
+HSPMFCAM_EXPORT int __stdcall mfcam_audio_save_wav_stop(int handle) {
+    if (handle < 0 || handle >= MAX_AUDIO_CAPS) return 0;
+    AudioCapState& a = g_audio_caps[handle];
+    if (!a.active || !a.wav_active) return 0;
+
+    EnterCriticalSection(&a.lock);
+    a.wav_active = false;
+    HANDLE h = a.wav_file;
+    DWORD ds = a.wav_data_size;
+    a.wav_file = INVALID_HANDLE_VALUE;
+    LeaveCriticalSection(&a.lock);
+
+    if (h != INVALID_HANDLE_VALUE) {
+        FinalizeWavHeader(h, ds);
+        CloseHandle(h);
+    }
+    return 1;
+}
+
+HSPMFCAM_EXPORT int __stdcall mfcam_audio_record_start(int handle, const char* path,
+                                                       const char* codec, int bitrate) {
+    if (handle < 0 || handle >= MAX_AUDIO_CAPS) return 0;
+    AudioCapState& a = g_audio_caps[handle];
+    if (!a.active || !path) return 0;
+    if (a.enc_active) return 0;
+
+    // codec 文字列 → MFAudioFormat GUID
+    GUID audGuid = MFAudioFormat_AAC;
+    if (codec && *codec) {
+        if      (_stricmp(codec, "AAC")  == 0) audGuid = MFAudioFormat_AAC;
+        else if (_stricmp(codec, "WMA")  == 0) audGuid = MFAudioFormat_WMAudioV9;
+        else if (_stricmp(codec, "FLAC") == 0) audGuid = MFAudioFormat_FLAC;
+        else if (_stricmp(codec, "MP3")  == 0) audGuid = MFAudioFormat_MP3;
+        else return 0;
+    }
+    if (bitrate <= 0) bitrate = 16000;  // 128 kbps
+
+    int wlen = MultiByteToWideChar(CP_ACP, 0, path, -1, NULL, 0);
+    if (wlen <= 0) return 0;
+    wchar_t* wpath = (wchar_t*)malloc(sizeof(wchar_t) * wlen);
+    if (!wpath) return 0;
+    MultiByteToWideChar(CP_ACP, 0, path, -1, wpath, wlen);
+
+    HRESULT hrCo = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+    bool needUninit = SUCCEEDED(hrCo);
+
+    int success = 0;
+    EnterCriticalSection(&a.lock);
+
+    IMFSinkWriter* writer = nullptr;
+    HRESULT hr = MFCreateSinkWriterFromURL(wpath, NULL, NULL, &writer);
+    if (SUCCEEDED(hr) && writer) {
+        // 出力 type
+        IMFMediaType* outAud = nullptr;
+        MFCreateMediaType(&outAud);
+        outAud->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
+        outAud->SetGUID(MF_MT_SUBTYPE, audGuid);
+        outAud->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, (UINT32)a.bits);
+        outAud->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, (UINT32)a.sample_rate);
+        outAud->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, (UINT32)a.channels);
+        outAud->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, (UINT32)bitrate);
+        if (IsEqualGUID(audGuid, MFAudioFormat_AAC)) {
+            outAud->SetUINT32(MF_MT_AAC_AUDIO_PROFILE_LEVEL_INDICATION, 0x29);
+        }
+
+        DWORD streamIdx = 0;
+        hr = writer->AddStream(outAud, &streamIdx);
+        SafeRelease(outAud);
+
+        if (SUCCEEDED(hr)) {
+            // 入力 PCM type
+            IMFMediaType* inAud = nullptr;
+            MFCreateMediaType(&inAud);
+            inAud->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
+            inAud->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
+            inAud->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, (UINT32)a.bits);
+            inAud->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, (UINT32)a.sample_rate);
+            inAud->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, (UINT32)a.channels);
+            inAud->SetUINT32(MF_MT_AUDIO_BLOCK_ALIGNMENT, (UINT32)a.block_align);
+            inAud->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, (UINT32)(a.sample_rate * a.block_align));
+            inAud->SetUINT32(MF_MT_ALL_SAMPLES_INDEPENDENT, TRUE);
+            hr = writer->SetInputMediaType(streamIdx, inAud, NULL);
+            SafeRelease(inAud);
+        }
+
+        if (SUCCEEDED(hr)) hr = writer->BeginWriting();
+
+        if (SUCCEEDED(hr)) {
+            a.enc_writer = writer;
+            a.enc_audio_stream = streamIdx;
+            LARGE_INTEGER freq, start;
+            QueryPerformanceFrequency(&freq);
+            QueryPerformanceCounter(&start);
+            a.qpc_freq = freq.QuadPart;
+            a.enc_start_qpc = start.QuadPart;
+            a.enc_active = true;
+            success = 1;
+        } else {
+            SafeRelease(writer);
+        }
+    }
+    LeaveCriticalSection(&a.lock);
+
+    if (needUninit) CoUninitialize();
+    free(wpath);
+    return success;
+}
+
+HSPMFCAM_EXPORT int __stdcall mfcam_audio_record_stop(int handle) {
+    if (handle < 0 || handle >= MAX_AUDIO_CAPS) return 0;
+    AudioCapState& a = g_audio_caps[handle];
+    if (!a.active || !a.enc_active) return 0;
+
+    EnterCriticalSection(&a.lock);
+    a.enc_active = false;
+    IMFSinkWriter* w = a.enc_writer;
+    a.enc_writer = nullptr;
+    LeaveCriticalSection(&a.lock);
+
+    if (w) {
+        w->Finalize();
+        w->Release();
+    }
+    return 1;
+}
+
+HSPMFCAM_EXPORT void __stdcall mfcam_audio_close(int handle) {
+    if (handle < 0 || handle >= MAX_AUDIO_CAPS) return;
+    AudioCapState& a = g_audio_caps[handle];
+    if (!a.active) return;
+
+    // 録音/WAV 書き込み中なら停止
+    if (a.enc_active) mfcam_audio_record_stop(handle);
+    if (a.wav_active) mfcam_audio_save_wav_stop(handle);
+
+    a.active = false;
+    if (a.stop_event) SetEvent(a.stop_event);
+    if (a.worker) {
+        WaitForSingleObject(a.worker, 3000);
+        CloseHandle(a.worker);
+        a.worker = NULL;
+    }
+    if (a.stop_event) {
+        CloseHandle(a.stop_event);
+        a.stop_event = NULL;
+    }
+    SafeRelease(a.reader);
+    a.ring.clear();
+}
+
 // Phase 2-D: H.264 (or other codec) MP4 録画開始
 //
 //   handle       : open 済みカメラハンドル
@@ -1422,6 +1910,14 @@ BOOL WINAPI DllMain(HMODULE, DWORD reason, LPVOID) {
             g_mf_initialized = true;
         }
     } else if (reason == DLL_PROCESS_DETACH) {
+        for (int i = 0; i < MAX_AUDIO_CAPS; i++) {
+            if (g_audio_caps[i].active) {
+                mfcam_audio_close(i);
+            }
+            if (g_audio_caps[i].lock_inited) {
+                DeleteCriticalSection(&g_audio_caps[i].lock);
+            }
+        }
         for (int i = 0; i < MAX_CAMS; i++) {
             if (g_cams[i].slot_used) {
                 g_cams[i].active = false;

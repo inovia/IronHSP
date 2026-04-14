@@ -453,3 +453,138 @@ worker thread を停止して child window を破棄、リソースを解放し�
 
 %href
 mfcam_open
+
+;============================================================
+; Audio-only capture API (Phase 2-G)
+; マイク単独録音 + 生 PCM + WAV + エンコーダ録音
+;============================================================
+
+%index
+mfcam_audio_open
+オーディオデバイスを開いて worker thread 起動
+%group
+hspmfcam — audio capture
+%prm
+p1, p2, p3, p4
+p1 : デバイスインデックス (mfcam_audio_count で取得)
+p2 : sample rate (例 16000 / 44100 / 48000、0 で 48000)
+p3 : channels (1=mono / 2=stereo、0 で 2)
+p4 : bits per sample (8/16/24/32、0 で 16)
+
+%inst
+オーディオデバイスを open して MF SourceReader を起動。要求された PCM
+フォーマットがネイティブと違っていても MF の Audio Resampler MFT が
+自動で挿入されて変換されます (得られた format は mfcam_audio_get_format
+で確認可能)。
+
+戻り値: ハンドル (>=0) / -1 失敗 / -2 フォーマット非対応
+
+最大 64 デバイス並列。
+
+%href
+mfcam_audio_close
+mfcam_audio_get_format
+
+%index
+mfcam_audio_get_format
+実際に得られた sample rate / ch / bits を取得
+%group
+hspmfcam — audio capture
+%prm
+p1, p2, p3, p4
+p1 : ハンドル
+p2 : 結果 sample rate (out int)
+p3 : 結果 channels   (out int)
+p4 : 結果 bits       (out int)
+
+%inst
+mfcam_audio_open でネゴ後の実フォーマットを返します。
+要求と違うことがあるので録音前に必ず確認してください。
+
+%index
+mfcam_audio_pcm_avail
+リングバッファに溜まっている PCM byte 数
+%group
+hspmfcam — audio capture
+%prm
+p1
+
+%inst
+worker thread が裏で取得した PCM の現在の蓄積量を返します。
+
+%index
+mfcam_audio_read_pcm
+リングから PCM を取り出す
+%group
+hspmfcam — audio capture
+%prm
+p1, p2, p3
+p1 : ハンドル
+p2 : 結果 byte 配列 (sdim 済の char 変数)
+p3 : 最大読み込み byte 数
+
+%inst
+リングバッファの先頭から指定 byte 数だけコピーして取り出します。
+取り出した分はバッファから消えます。
+
+戻り値: 実際に読めた byte 数
+
+%index
+mfcam_audio_save_wav_start
+WAV ファイル直書き開始
+%group
+hspmfcam — audio capture
+%prm
+p1, p2
+p1 : ハンドル
+p2 : 出力 WAV パス
+
+%inst
+RIFF ヘッダを書いて、以降 worker が ReadSample で取得した PCM を直接
+WriteFile します。エンコード無し、低 CPU、無圧縮。文字起こし用途向き。
+
+%index
+mfcam_audio_save_wav_stop
+WAV ファイル直書き停止
+%group
+hspmfcam — audio capture
+%prm
+p1
+
+%inst
+RIFF/data チャンクサイズを finalize してファイルを閉じます。
+
+%index
+mfcam_audio_record_start
+エンコード録音開始 (AAC/MP3/WMA/FLAC)
+%group
+hspmfcam — audio capture
+%prm
+p1, p2, p3, p4
+p1 : ハンドル
+p2 : 出力ファイルパス
+p3 : codec ("" or "AAC" / "MP3" / "WMA" / "FLAC")
+p4 : ビットレート (0 で 16000 = 128 kbps デフォルト)
+
+%inst
+SinkWriter を構築して圧縮録音を開始します。
+
+%index
+mfcam_audio_record_stop
+エンコード録音停止 + finalize
+%group
+hspmfcam — audio capture
+%prm
+p1
+
+%index
+mfcam_audio_close
+オーディオデバイスを閉じる
+%group
+hspmfcam — audio capture
+%prm
+p1
+
+%inst
+worker thread を停止 → reader release。
+WAV / エンコード録音中の場合は自動で stop してくれます。

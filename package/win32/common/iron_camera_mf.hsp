@@ -77,6 +77,17 @@
 #func  _mfcam_record_stop    "mfcam_record_stop"     int
 #func  _mfcam_close          "mfcam_close"           int
 
+; --- audio-only capture (Phase 2-G) ---
+#cfunc _mfcam_audio_open       "mfcam_audio_open"        int, int, int, int
+#func  _mfcam_audio_close      "mfcam_audio_close"       int
+#func  _mfcam_audio_get_format "mfcam_audio_get_format"  int, var, var, var
+#cfunc _mfcam_audio_pcm_avail  "mfcam_audio_pcm_avail"   int
+#func  _mfcam_audio_read_pcm   "mfcam_audio_read_pcm"    int, var, int
+#func  _mfcam_audio_save_wav_start "mfcam_audio_save_wav_start" int, str
+#func  _mfcam_audio_save_wav_stop  "mfcam_audio_save_wav_stop"  int
+#func  _mfcam_audio_record_start "mfcam_audio_record_start" int, str, str, int
+#func  _mfcam_audio_record_stop  "mfcam_audio_record_stop"  int
+
 ;------------------------------------------------------------
 ; カメラプロパティ ID 定数
 ;------------------------------------------------------------
@@ -270,6 +281,61 @@
 #deffunc iron_cam_record_stop int h
     if h < 0 : return -1
     _mfcam_record_stop h
+    return stat
+
+;------------------------------------------------------------
+; マイク単独 audio-only キャプチャ (Phase 2-G)
+;------------------------------------------------------------
+
+; iron_mic_open(dev_idx, sample_rate, channels, bits) → ハンドル / -1 失敗
+;   sample_rate=0 で 48000、channels=0 で 2、bits=0 で 16 がデフォルト
+#defcfunc iron_mic_open int dev_idx, int sr, int ch, int bits
+    return _mfcam_audio_open(dev_idx, sr, ch, bits)
+
+#deffunc iron_mic_close int h
+    if h < 0 : return
+    _mfcam_audio_close h
+    return
+
+; 実際に取得された format を返す (要求と違うかもしれない)
+#deffunc iron_mic_get_format int h, var ow_sr, var ow_ch, var ow_bits
+    ow_sr = 0 : ow_ch = 0 : ow_bits = 0
+    if h < 0 : return
+    _mfcam_audio_get_format h, ow_sr, ow_ch, ow_bits
+    return
+
+; リングバッファ内の PCM byte 数 (defcfunc)
+#defcfunc iron_mic_avail int h
+    if h < 0 : return 0
+    return _mfcam_audio_pcm_avail(h)
+
+; リングから PCM を読み出す。out_buf には事前に sdim で領域確保しておく
+;   戻り値: 実際に読めた byte 数
+#deffunc iron_mic_read int h, var out_buf, int max_bytes
+    if h < 0 : return -1
+    _mfcam_audio_read_pcm h, out_buf, max_bytes
+    return stat
+
+; WAV ファイル直書き (生 PCM をそのまま書く、軽量)
+#deffunc iron_mic_save_wav int h, str path
+    if h < 0 : return -1
+    _mfcam_audio_save_wav_start h, path
+    return stat
+
+#deffunc iron_mic_save_wav_stop int h
+    if h < 0 : return -1
+    _mfcam_audio_save_wav_stop h
+    return stat
+
+; エンコード録音 (AAC/MP3/WMA/FLAC) — codec="" で AAC デフォルト
+#deffunc iron_mic_record int h, str path, str codec, int bitrate
+    if h < 0 : return -1
+    _mfcam_audio_record_start h, path, codec, bitrate
+    return stat
+
+#deffunc iron_mic_record_stop int h
+    if h < 0 : return -1
+    _mfcam_audio_record_stop h
     return stat
 
 *_icm_skip_init
