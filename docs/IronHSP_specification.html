@@ -39,7 +39,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-14 (Phase G/H/I/J/K 全完了 — Media Foundation / hspjson / hspcv4 QR/Barcode / iron_video/camera/ai/mcp/speech / 4 種音声認識 backend)</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-14 (Phase G/H/I/J/K 全完了 + 拡張ラウンド — Media Foundation / hspjson / hspcv4 QR/Barcode / iron_video/camera/ai/mcp/speech / 5 種音声認識 backend / webserver / zip / db / shell / serial / A1〜A4 補完 + D2〜D4 デモ/ドキュメント)</p>
 <p class="muted">ベース: OpenHSP 3.8beta1 (SVN trunk) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="toc">
@@ -1878,6 +1878,21 @@ package/hsphelp/
 <tr><td><code>iron_toast.hsp</code></td><td>タスクトレイバルーン通知</td>
     <td><code>toast "title", "body"</code><br><code>toast_warning</code> / <code>toast_error</code></td>
     <td>shell32 (Shell_NotifyIconA)</td></tr>
+<tr><td><code>iron_shell.hsp</code></td><td>ShellExecute / ゴミ箱送り / .lnk 作成</td>
+    <td><code>shell_open "path"</code><br><code>shell_execute / shell_runas</code><br><code>shell_recycle "file"</code> (SHFileOperation)<br><code>shell_mklink target, "link.lnk"</code> (IShellLinkA COM)</td>
+    <td>shell32 + ole32 + IShellLinkA COM</td></tr>
+<tr><td><code>iron_zip.hsp</code></td><td>ZIP アーカイブ読み書き (miniz 3.0.2 埋め込み)</td>
+    <td><code>h = zip_open_read("a.zip")</code><br><code>n = zip_count(h)</code><br><code>zip_extract_file h, idx, "out.txt"</code><br><code>h2 = zip_open_write("b.zip")</code><br><code>zip_add_file h2, "entry.txt", "src.txt"</code></td>
+    <td>hspzip.dll (miniz)</td></tr>
+<tr><td><code>iron_db.hsp</code></td><td>SQLite 3.46 組み込みデータベース</td>
+    <td><code>h = db_open("test.db")</code><br><code>db_exec h, "CREATE TABLE ..."</code><br><code>qh = db_query(h, "SELECT ...")</code><br><code>db_step qh</code> / <code>db_col_int / text / dbl</code></td>
+    <td>hspdb.dll (SQLite amalgamation)</td></tr>
+<tr><td><code>iron_webserver.hsp</code></td><td>localhost HTTP サーバ (winsock ベース)<br>※HTTPS / WebSocket 未対応</td>
+    <td><code>web_open 8080</code><br><code>web_accept method, path, body, timeout_ms</code><br><code>web_respond 200, "text/html", html</code><br><code>web_close</code></td>
+    <td>hspwebsrv.dll (winsock)</td></tr>
+<tr><td><code>iron_serial.hsp</code></td><td>シリアルポート RS-232 / USB CDC</td>
+    <td><code>serial_open "COM3", 115200</code><br><code>serial_write "AT\r\n"</code><br><code>serial_avail</code><br><code>serial_read buf, 256</code></td>
+    <td>kernel32 (CreateFile + SetCommState)</td></tr>
 </table>
 
 <h3>16.2 マルチメディア系 iron_* モジュール</h3>
@@ -1960,9 +1975,28 @@ package/hsphelp/
     cppwinrt header-only、SpeechRecognizer + RecognizeAsync。<br>
     マイク入力専用 (ファイル不可)</td>
     <td>3</td><td>x64</td></tr>
+<tr><td><code>hspwebsrv.dll</code></td>
+    <td>winsock ベースの minimal HTTP server。<br>
+    URL reservation / admin 権限不要 (HTTP.sys 非使用)。<br>
+    1 request at a time (no threading, no keep-alive)。<br>
+    Method/URL/Body の簡易パースを C++ 側で実施。<br>
+    <strong>HTTPS / WebSocket 未対応</strong> (将来対応候補)</td>
+    <td>4</td><td>Win32 + x64</td></tr>
+<tr><td><code>hspzip.dll</code></td>
+    <td>miniz 3.0.2 (public domain single-file zlib/zip) 埋め込み。<br>
+    ZIP 読み込み (count / entry_name / entry_size / extract_file / extract_mem) +<br>
+    ZIP 作成 (add_file / add_mem) の両対応。<br>
+    MINIZ_NO_ARCHIVE_WRITING_APIS をアンセットして writer API を有効化</td>
+    <td>10</td><td>x64</td></tr>
+<tr><td><code>hspdb.dll</code></td>
+    <td>SQLite 3.46.1 amalgamation (sqlite3.c 単体) 埋め込み。<br>
+    DB open/exec + prepared query + column getter。<br>
+    複数 DB (max 32) + 複数 query (max 64) 並列。<br>
+    db_last_rowid / db_changes / db_errmsg / SQLITE_OMIT_LOAD_EXTENSION</td>
+    <td>14</td><td>x64</td></tr>
 </table>
 
-<p>合計 <strong>7 個の新規 C++ プラグイン DLL / 99 export 関数</strong>。各 DLL に対応する日本語ヘルプは <code>package/hsphelp/hsp*.hs</code>。</p>
+<p>合計 <strong>11 個の新規 C++ プラグイン DLL / 127 export 関数</strong>。各 DLL に対応する日本語ヘルプは <code>package/hsphelp/hsp*.hs</code>。</p>
 
 <h3>16.5 音声認識バックエンド比較</h3>
 
@@ -2155,6 +2189,10 @@ package/hsphelp/
 <tr><td>4/14 20:32</td><td><code>8a12302b</code></td><td><span class="badge">新機能</span> <strong>K-D-D: hspvosk.dll</strong> オフライン Vosk (Kaldi) 統合。alphacephei prebuilt libvosk.dll を C++ ラップ (4 export)。<code>vosk_recognizer_accept_waveform_s</code> + <code>final_result</code> から JSON の "text" 抽出。<code>iron_speech</code> の SPEECH_BACKEND_VOSK 実装。軽量 (model 47 MB 〜)、24+ 言語。x64 専用</td></tr>
 <tr><td>4/14 20:33</td><td><code>58fc0b05</code></td><td><span class="badge">新機能</span> <strong>K-D-B: hspsapi.dll</strong> Windows SAPI 5 統合。sapi.dll の ISpRecognizer + ISpRecoContext + ISpRecoGrammar (dictation) を COM で構築 (3 export)。SPBindToFile で WAV 入力 → イベントループで全 phrase 取得。<code>iron_speech</code> の SPEECH_BACKEND_SAPI 実装。OS 標準、追加 DL 不要。Win32 + x64</td></tr>
 <tr><td>4/14 20:34</td><td><code>ec3a570f</code></td><td><span class="badge">新機能</span> <strong>K-D-C: hspwinrtspeech.dll</strong> Windows.Media.SpeechRecognition (WinRT) を C++/WinRT (header-only) でラップ (3 export)。SpeechRecognizer + CompileConstraintsAsync + RecognizeAsync でライブマイクから 1 phrase 取得。WinRT は仕様上 microphone-only のため新 API <code>iron_speech_listen_once</code> を追加。これで K-D 全 5 backend (CLOUD/WHISPER/VOSK/SAPI/WINRT) が揃った。x64 専用</td></tr>
+<tr><td>4/14 20:35</td><td><code>131c5902</code></td><td><span class="badge">ドキュメント</span> README.md + docs/IronHSP_specification.html を本セッション全成果に追従更新 (第 1 回)</td></tr>
+<tr><td>4/14 20:36</td><td><code>0fce7424</code></td><td><span class="badge">新機能</span> <strong>A1〜A4 既存機能補完</strong>: (A1) iron_mcp_client に resources/prompts 対応追加 (iron_mcp_resource_list/read + iron_mcp_prompt_list/get)。(A2) iron_http の streaming 低レベル API (http_stream_open/read/close) + iron_ai の SSE streaming (iron_ai_chat_stream_start/poll/end、data:{...}\n\n イベントパーサで delta.content 抽出)。(A3) iron_video に Position/Duration/Seek 追加 (IMFPMediaPlayer SetPosition/GetPosition/GetDuration #comfunc + MFP_POSITIONTYPE_100NS GUID + PROPVARIANT 手組み、ms 単位 API)。(A4) iron_speech に連続認識追加 (hspvosk に accept_pcm_s16/partial_result/final_result/reset を追加、iron_speech_listen_start_mic/poll/stop で mic→vosk pipeline)</td></tr>
+<tr><td>4/14 20:37</td><td><code>32fb2c5b</code></td><td><span class="badge">新機能</span> <strong>B1〜B5 新規 iron_* 5 個</strong>: (B1) hspwebsrv.dll + iron_webserver.hsp — winsock ベース minimal HTTP server (URL reservation/admin 不要、web_open/accept/respond/close API)。(B2) hspzip.dll + iron_zip.hsp — miniz 3.0.2 埋め込み ZIP 読み書き (zip_open_read/write + entry_name/size + extract_file/mem + add_file/mem)。(B3) hspdb.dll + iron_db.hsp — SQLite 3.46.1 amalgamation 組み込み (db_open/exec/query/step + col getter、max 32 DB 並列)。(B4) iron_shell.hsp — Pure HSP で shell32 + IShellLinkA COM (shell_open/execute/runas/recycle/mklink)。(B5) iron_serial.hsp — Pure HSP で kernel32 シリアル (serial_open/write/read/avail、DCB 手組み)</td></tr>
+<tr><td>4/14 20:38</td><td><code>b71ef7b9</code></td><td><span class="badge">新機能 / ドキュメント</span> <strong>D2/D3/D4 + C4</strong>: (D2) sample_video_player2.hsp — iron_video のフル GUI プレイヤー (シークバー + 速度切替 + 音量 + 時刻表示)。(D3) sample_cam_ai.hsp — Webcam スナップショット → Base64 化 → Groq llama-3.2-vision で画像説明、iron_camera_mf + iron_ai + iron_hash の連動デモ。(D4) docs/iron_modules_intro.html — iron_* モジュール入門記事 (17 モジュール一覧 + 10 個コード例 + API キー取得リンク)。(C4) _test_all.bat — iron_*.hsp サンプル一括コンパイルテスト (24/25 pass)</td></tr>
 </table>
 
 <h3>64bit ビルド対応一覧</h3>
