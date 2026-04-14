@@ -216,3 +216,121 @@ DwmEnableBlurBehindWindow
 DwmExtendFrameIntoClientArea
 DwmGetWindowAttribute
 DwmSetWindowAttribute
+
+// === winmm (Multimedia) ===
+PlaySound
+mciSendString
+mciGetErrorString
+timeBeginPeriod
+timeEndPeriod
+timeGetTime
+timeKillEvent
+timeSetEvent
+waveInClose
+waveInOpen
+waveInStart
+waveInStop
+waveOutClose
+waveOutOpen
+waveOutReset
+waveOutWrite
+
+// === psapi (Process Status) ===
+EnumProcesses
+EnumProcessModules
+GetModuleBaseName
+GetModuleFileNameEx
+GetProcessImageFileName
+GetProcessMemoryInfo
+
+// === version (Version Info) ===
+GetFileVersionInfo
+GetFileVersionInfoSize
+VerQueryValue
+
+// === imm32 (IME) ===
+ImmAssociateContext
+ImmGetCompositionString
+ImmGetContext
+ImmGetDefaultIMEWnd
+ImmIsIME
+ImmReleaseContext
+ImmSetCandidateWindow
+ImmSetCompositionWindow
+
+// === uxtheme (Visual Styles) ===
+CloseThemeData
+DrawThemeBackground
+DrawThemeText
+GetThemeColor
+GetThemePartSize
+IsAppThemed
+IsThemeActive
+OpenThemeData
+SetWindowTheme
+
+// === wininet (Legacy HTTP client) ===
+HttpOpenRequest
+HttpQueryInfo
+HttpSendRequest
+InternetCloseHandle
+InternetConnect
+InternetOpen
+InternetOpenUrl
+InternetReadFile
+InternetSetOption
+
+// === winhttp (Modern HTTP client) ===
+WinHttpAddRequestHeaders
+WinHttpCloseHandle
+WinHttpConnect
+WinHttpOpen
+WinHttpOpenRequest
+WinHttpQueryDataAvailable
+WinHttpQueryHeaders
+WinHttpReadData
+WinHttpReceiveResponse
+WinHttpSendRequest
+WinHttpSetOption
+
+// === crypt32 (CryptoAPI) ===
+CertCloseStore
+CertEnumCertificatesInStore
+CertFindCertificateInStore
+CertOpenSystemStore
+CryptBinaryToString
+CryptProtectData
+CryptStringToBinary
+CryptUnprotectData
+
+// === bcrypt (CNG) ===
+BCryptCloseAlgorithmProvider
+BCryptCreateHash
+BCryptDecrypt
+BCryptDestroyHash
+BCryptEncrypt
+BCryptFinishHash
+BCryptGenRandom
+BCryptHashData
+BCryptOpenAlgorithmProvider
+
+// === dbghelp (Debug Help) ===
+// MiniDumpWriteDump: PInvoke005 (AnyCPU-incompatible struct layout)
+StackWalk64
+SymCleanup
+SymFromAddr
+SymGetLineFromAddr64
+SymInitialize
+
+// === userenv (User Environment) ===
+CreateEnvironmentBlock
+DestroyEnvironmentBlock
+ExpandEnvironmentStringsForUser
+GetUserProfileDirectory
+
+// === netapi32 (Network API) ===
+NetApiBufferFree
+NetShareEnum
+NetShareGetInfo
+NetUserGetInfo
+NetWkstaGetInfo

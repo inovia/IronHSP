@@ -866,3 +866,31 @@ lprc : [var] 反転する矩形の論理座標を含む RECT 構造体へのポインタ。
 は白ピクセルを黒に、黒ピクセルを白にする。カラー画面では画面の色生成方式によって反転結果が決まる。同じ矩形に対して InvertRect
 を 2 回呼ぶと、画面は元の色に戻る。
 
+
+%index
+UnloadKeyboardLayout
+Unloads an input locale identifier (formerly called a keyboard layout).
+%group
+Win32 user32
+%prm
+hkl
+hkl : [intptr] Type: HKL The input locale identifier to be unloaded.
+%inst
+Unloads an input locale identifier (formerly called a keyboard
+layout).
+
+[戻り値]
+Type: BOOL If the function succeeds, the return value is nonzero. If
+the function fails, the return value is zero. The function can fail
+for the following reasons:
+This doc was truncated.
+
+[備考]
+The input locale identifier is a broader concept than a keyboard
+layout, since it can also encompass a speech-to-text converter, an
+Input Method Editor (IME), or any other form of input.
+UnloadKeyboardLayout cannot unload the system default input locale
+identifier if it is the only keyboard layout loaded. You must first
+load another input locale identifier before unloading the default
+input locale identifier.
+

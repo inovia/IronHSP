@@ -10,6 +10,12 @@
 #define __user32_gen2_as__
 
 ;--- structs ---
+#defstruct ADDRESS64
+    #field int64 Offset
+    #field int Segment
+    #field int Mode
+#endstruct
+
 #defstruct BITMAPINFO
     #field int bmiHeader
 #endstruct
@@ -45,6 +51,72 @@
     #field int iImage
 #endstruct
 
+#defstruct CANDIDATEFORM
+    #field int dwIndex
+    #field int dwStyle
+    #field int rcArea
+#endstruct
+
+#defstruct CERT_CONTEXT
+    #field int dwCertEncodingType
+    #field var pbCertEncoded
+    #field int cbCertEncoded
+    #field var pCertInfo
+    #field int hCertStore
+#endstruct
+
+#defstruct CERT_EXTENSION
+    #field str pszObjId
+    #field int fCritical
+    #field int Value
+#endstruct
+
+#defstruct CERT_INFO
+    #field int dwVersion
+    #field int SerialNumber
+    #field int SignatureAlgorithm
+    #field int Issuer
+    #field int Subject
+    #field int SubjectPublicKeyInfo
+    #field int IssuerUniqueId
+    #field int SubjectUniqueId
+    #field int cExtension
+    #field var rgExtension
+#endstruct
+
+#defstruct CERT_PUBLIC_KEY_INFO
+    #field int Algorithm
+    #field int PublicKey
+#endstruct
+
+#defstruct COMPOSITIONFORM
+    #field int dwStyle
+    #field int rcArea
+#endstruct
+
+#defstruct CRYPT_ALGORITHM_IDENTIFIER
+    #field str pszObjId
+    #field int Parameters
+#endstruct
+
+#defstruct CRYPT_BIT_BLOB
+    #field int cbData
+    #field var pbData
+    #field int cUnusedBits
+#endstruct
+
+#defstruct CRYPT_INTEGER_BLOB
+    #field int cbData
+    #field var pbData
+#endstruct
+
+#defstruct CRYPTPROTECT_PROMPTSTRUCT
+    #field int cbSize
+    #field int dwPromptFlags
+    #field intptr hwndApp
+    #field wstr szPrompt
+#endstruct
+
 #defstruct DWM_BLURBEHIND
     #field int dwFlags
     #field int fEnable
@@ -56,6 +128,14 @@
     #field int Value
 #endstruct
 
+#defstruct IMAGEHLP_LINE64
+    #field int SizeOfStruct
+    #field var Key
+    #field int LineNumber
+    #field str FileName
+    #field int64 Address
+#endstruct
+
 #defstruct INITCOMMONCONTROLSEX
     #field int dwSize
     #field int dwICC
@@ -63,6 +143,26 @@
 
 #defstruct ITEMIDLIST
     #field int mkid
+#endstruct
+
+#defstruct KDHELP64
+    #field int64 Thread
+    #field int ThCallbackStack
+    #field int ThCallbackBStore
+    #field int NextCallback
+    #field int FramePointer
+    #field int64 KiCallUserMode
+    #field int64 KeUserCallbackDispatcher
+    #field int64 SystemRangeStart
+    #field int64 KiUserExceptionDispatcher
+    #field int64 StackBase
+    #field int64 StackLimit
+    #field int BuildVersion
+    #field int RetpolineStubFunctionTableSize
+    #field int64 RetpolineStubFunctionTable
+    #field int RetpolineStubOffset
+    #field int RetpolineStubSize
+    #field int Reserved0
 #endstruct
 
 #defstruct LOGFONTW
@@ -104,6 +204,19 @@
     #field int dwThreadId
 #endstruct
 
+#defstruct PROCESS_MEMORY_COUNTERS
+    #field int cb
+    #field int PageFaultCount
+    #field int PeakWorkingSetSize
+    #field int WorkingSetSize
+    #field int QuotaPeakPagedPoolUsage
+    #field int QuotaPagedPoolUsage
+    #field int QuotaPeakNonPagedPoolUsage
+    #field int QuotaNonPagedPoolUsage
+    #field int PagefileUsage
+    #field int PeakPagefileUsage
+#endstruct
+
 #defstruct RECT
     #field int left
     #field int top
@@ -133,6 +246,20 @@
     #field int cy
 #endstruct
 
+#defstruct STACKFRAME64
+    #field var AddrPC
+    #field var AddrReturn
+    #field var AddrFrame
+    #field var AddrStack
+    #field var AddrBStore
+    #field var FuncTableEntry
+    #field int Params
+    #field int Far
+    #field int Virtual
+    #field int Reserved
+    #field var KdHelp
+#endstruct
+
 #defstruct STARTUPINFOW
     #field int cb
     #field wstr lpReserved
@@ -152,6 +279,23 @@
     #field intptr hStdInput
     #field intptr hStdOutput
     #field intptr hStdError
+#endstruct
+
+#defstruct SYMBOL_INFO
+    #field int SizeOfStruct
+    #field int TypeIndex
+    #field int Reserved
+    #field int Index
+    #field int Size
+    #field int64 ModBase
+    #field int Flags
+    #field int64 Value
+    #field int64 Address
+    #field int Register
+    #field int Scope
+    #field int Tag
+    #field int NameLen
+    #field int MaxNameLen
 #endstruct
 
 #defstruct SYSTEMTIME
@@ -197,6 +341,27 @@
     #field int Alpha
 #endstruct
 
+#defstruct WAVEFORMATEX
+    #field int wFormatTag
+    #field int nChannels
+    #field int nSamplesPerSec
+    #field int nAvgBytesPerSec
+    #field int nBlockAlign
+    #field int wBitsPerSample
+    #field int cbSize
+#endstruct
+
+#defstruct WAVEHDR
+    #field str lpData
+    #field int dwBufferLength
+    #field int dwBytesRecorded
+    #field int dwUser
+    #field int dwFlags
+    #field int dwLoops
+    #field var lpNext
+    #field int reserved
+#endstruct
+
 #defstruct WIN32_FIND_DATAW
     #field int dwFileAttributes
     #field int nFileSizeHigh
@@ -208,9 +373,79 @@
 #endstruct
 
 ;--- enums / constants ---
+; ADDRESS_MODE
+#define AddrMode1616  0x0
+#define AddrMode1632  0x1
+#define AddrModeReal  0x2
+#define AddrModeFlat  0x3
+
 ; BACKGROUND_MODE
 #define OPAQUE  0x2
 #define TRANSPARENT  0x1
+
+; BCRYPT_FLAGS
+#define BCRYPT_BLOCK_PADDING  0x1
+#define BCRYPT_PAD_NONE  0x1
+#define BCRYPT_PAD_OAEP  0x4
+#define BCRYPT_PAD_PKCS1  0x2
+#define BCRYPT_PAD_PSS  0x8
+
+; BCRYPT_OPEN_ALGORITHM_PROVIDER_FLAGS
+#define BCRYPT_ALG_HANDLE_HMAC_FLAG  0x8
+#define BCRYPT_PROV_DISPATCH  0x1
+#define BCRYPT_HASH_REUSABLE_FLAG  0x20
+
+; BCRYPTGENRANDOM_FLAGS
+#define BCRYPT_RNG_USE_ENTROPY_IN_BUFFER  0x1
+#define BCRYPT_USE_SYSTEM_PREFERRED_RNG  0x2
+
+; CERT_FIND_FLAGS
+#define CERT_FIND_ANY  0x0
+#define CERT_FIND_CERT_ID  0x100000
+#define CERT_FIND_CTL_USAGE  0xa0000
+#define CERT_FIND_ENHKEY_USAGE  0xa0000
+#define CERT_FIND_EXISTING  0xd0000
+#define CERT_FIND_HASH  0x10000
+#define CERT_FIND_HAS_PRIVATE_KEY  0x150000
+#define CERT_FIND_ISSUER_ATTR  0x30004
+#define CERT_FIND_ISSUER_NAME  0x20004
+#define CERT_FIND_ISSUER_OF  0xc0000
+#define CERT_FIND_ISSUER_STR  0x80004
+#define CERT_FIND_KEY_IDENTIFIER  0xf0000
+#define CERT_FIND_KEY_SPEC  0x90000
+#define CERT_FIND_MD5_HASH  0x40000
+#define CERT_FIND_PROPERTY  0x50000
+#define CERT_FIND_PUBLIC_KEY  0x60000
+#define CERT_FIND_SHA1_HASH  0x10000
+#define CERT_FIND_SIGNATURE_HASH  0xe0000
+#define CERT_FIND_SUBJECT_ATTR  0x30007
+#define CERT_FIND_SUBJECT_CERT  0xb0000
+#define CERT_FIND_SUBJECT_NAME  0x20007
+#define CERT_FIND_SUBJECT_STR  0x80007
+#define CERT_FIND_CROSS_CERT_DIST_POINTS  0x110000
+#define CERT_FIND_PUBKEY_MD5_HASH  0x120000
+#define CERT_FIND_SUBJECT_STR_A  0x70007
+#define CERT_FIND_SUBJECT_STR_W  0x80007
+#define CERT_FIND_ISSUER_STR_A  0x70004
+#define CERT_FIND_ISSUER_STR_W  0x80004
+#define CERT_FIND_SUBJECT_INFO_ACCESS  0x130000
+#define CERT_FIND_HASH_STR  0x140000
+#define CERT_FIND_OPTIONAL_ENHKEY_USAGE_FLAG  0x1
+#define CERT_FIND_EXT_ONLY_ENHKEY_USAGE_FLAG  0x2
+#define CERT_FIND_PROP_ONLY_ENHKEY_USAGE_FLAG  0x4
+#define CERT_FIND_NO_ENHKEY_USAGE_FLAG  0x8
+#define CERT_FIND_OR_ENHKEY_USAGE_FLAG  0x10
+#define CERT_FIND_VALID_ENHKEY_USAGE_FLAG  0x20
+#define CERT_FIND_OPTIONAL_CTL_USAGE_FLAG  0x1
+#define CERT_FIND_EXT_ONLY_CTL_USAGE_FLAG  0x2
+#define CERT_FIND_PROP_ONLY_CTL_USAGE_FLAG  0x4
+#define CERT_FIND_NO_CTL_USAGE_FLAG  0x8
+#define CERT_FIND_OR_CTL_USAGE_FLAG  0x10
+#define CERT_FIND_VALID_CTL_USAGE_FLAG  0x20
+
+; CERT_QUERY_ENCODING_TYPE
+#define X509_ASN_ENCODING  0x1
+#define PKCS_7_ASN_ENCODING  0x10000
 
 ; CLSCTX
 #define CLSCTX_INPROC_SERVER  0x1
@@ -250,9 +485,51 @@
 #define COINIT_DISABLE_OLE1DDE  0x4
 #define COINIT_SPEED_OVER_MEMORY  0x8
 
+; CRYPT_STRING
+#define CRYPT_STRING_BASE64HEADER  0x0
+#define CRYPT_STRING_BASE64  0x1
+#define CRYPT_STRING_BINARY  0x2
+#define CRYPT_STRING_BASE64REQUESTHEADER  0x3
+#define CRYPT_STRING_HEX  0x4
+#define CRYPT_STRING_HEXASCII  0x5
+#define CRYPT_STRING_BASE64X509CRLHEADER  0x9
+#define CRYPT_STRING_HEXADDR  0xa
+#define CRYPT_STRING_HEXASCIIADDR  0xb
+#define CRYPT_STRING_HEXRAW  0xc
+#define CRYPT_STRING_STRICT  0x20000000
+#define CRYPT_STRING_BASE64_ANY  0x6
+#define CRYPT_STRING_ANY  0x7
+#define CRYPT_STRING_HEX_ANY  0x8
+
 ; DIB_USAGE
 #define DIB_RGB_COLORS  0x0
 #define DIB_PAL_COLORS  0x1
+
+; DRAW_TEXT_FORMAT
+#define DT_BOTTOM  0x8
+#define DT_CALCRECT  0x400
+#define DT_CENTER  0x1
+#define DT_EDITCONTROL  0x2000
+#define DT_END_ELLIPSIS  0x8000
+#define DT_EXPANDTABS  0x40
+#define DT_EXTERNALLEADING  0x200
+#define DT_HIDEPREFIX  0x100000
+#define DT_INTERNAL  0x1000
+#define DT_LEFT  0x0
+#define DT_MODIFYSTRING  0x10000
+#define DT_NOCLIP  0x100
+#define DT_NOFULLWIDTHCHARBREAK  0x80000
+#define DT_NOPREFIX  0x800
+#define DT_PATH_ELLIPSIS  0x4000
+#define DT_PREFIXONLY  0x200000
+#define DT_RIGHT  0x2
+#define DT_RTLREADING  0x20000
+#define DT_SINGLELINE  0x20
+#define DT_TABSTOP  0x80
+#define DT_TOP  0x0
+#define DT_VCENTER  0x4
+#define DT_WORDBREAK  0x10
+#define DT_WORD_ELLIPSIS  0x40000
 
 ; DWMWINDOWATTRIBUTE
 #define DWMWA_NCRENDERING_ENABLED  0x1
@@ -496,6 +773,20 @@
 #define ILC_ORIGINALSIZE  0x10000
 #define ILC_HIGHQUALITYSCALE  0x20000
 
+; IME_COMPOSITION_STRING
+#define GCS_COMPREADSTR  0x1
+#define GCS_COMPREADATTR  0x2
+#define GCS_COMPREADCLAUSE  0x4
+#define GCS_COMPSTR  0x8
+#define GCS_COMPATTR  0x10
+#define GCS_COMPCLAUSE  0x20
+#define GCS_CURSORPOS  0x80
+#define GCS_DELTASTART  0x100
+#define GCS_RESULTREADSTR  0x200
+#define GCS_RESULTREADCLAUSE  0x400
+#define GCS_RESULTSTR  0x800
+#define GCS_RESULTCLAUSE  0x1000
+
 ; INITCOMMONCONTROLSEX_ICC
 #define ICC_ANIMATE_CLASS  0x80
 #define ICC_BAR_CLASSES  0x4
@@ -603,11 +894,33 @@
 #define MB_MODEMASK  0x3000
 #define MB_MISCMASK  0xc000
 
+; MIDI_WAVE_OPEN_TYPE
+#define CALLBACK_TYPEMASK  0x70000
+#define CALLBACK_NULL  0x0
+#define CALLBACK_WINDOW  0x10000
+#define CALLBACK_TASK  0x20000
+#define CALLBACK_FUNCTION  0x30000
+#define CALLBACK_THREAD  0x20000
+#define CALLBACK_EVENT  0x50000
+#define WAVE_FORMAT_QUERY  0x1
+#define WAVE_ALLOWSYNC  0x2
+#define WAVE_MAPPED  0x4
+#define WAVE_FORMAT_DIRECT  0x8
+#define WAVE_FORMAT_DIRECT_QUERY  0x9
+#define WAVE_MAPPED_DEFAULT_COMMUNICATION_DEVICE  0x10
+#define MIDI_IO_STATUS  0x20
+
 ; MULTI_BYTE_TO_WIDE_CHAR_FLAGS
 #define MB_COMPOSITE  0x2
 #define MB_ERR_INVALID_CHARS  0x8
 #define MB_PRECOMPOSED  0x1
 #define MB_USEGLYPHCHARS  0x4
+
+; Severity
+#define Success  0x0
+#define Informational  0x1
+#define Warning  0x2
+#define Error  0x3
 
 ; PAGE_PROTECTION_FLAGS
 #define PAGE_NOACCESS  0x1
@@ -891,6 +1204,23 @@
 #define SW_FORCEMINIMIZE  0xb
 #define SW_MAX  0xb
 
+; SND_FLAGS
+#define SND_APPLICATION  0x80
+#define SND_ALIAS  0x10000
+#define SND_ALIAS_ID  0x110000
+#define SND_FILENAME  0x20000
+#define SND_RESOURCE  0x40004
+#define SND_ASYNC  0x1
+#define SND_NODEFAULT  0x2
+#define SND_LOOP  0x8
+#define SND_MEMORY  0x4
+#define SND_NOSTOP  0x10
+#define SND_NOWAIT  0x2000
+#define SND_PURGE  0x40
+#define SND_SENTRY  0x80000
+#define SND_SYNC  0x0
+#define SND_SYSTEM  0x200000
+
 ; STARTUPINFOW_FLAGS
 #define STARTF_FORCEONFEEDBACK  0x40
 #define STARTF_FORCEOFFFEEDBACK  0x80
@@ -906,6 +1236,25 @@
 #define STARTF_USESHOWWINDOW  0x1
 #define STARTF_USESIZE  0x2
 #define STARTF_USESTDHANDLES  0x100
+
+; SYMBOL_INFO_FLAGS
+#define SYMFLAG_CLR_TOKEN  0x40000
+#define SYMFLAG_CONSTANT  0x100
+#define SYMFLAG_EXPORT  0x200
+#define SYMFLAG_FORWARDER  0x400
+#define SYMFLAG_FRAMEREL  0x20
+#define SYMFLAG_FUNCTION  0x800
+#define SYMFLAG_ILREL  0x10000
+#define SYMFLAG_LOCAL  0x80
+#define SYMFLAG_METADATA  0x20000
+#define SYMFLAG_PARAMETER  0x40
+#define SYMFLAG_REGISTER  0x8
+#define SYMFLAG_REGREL  0x10
+#define SYMFLAG_SLOT  0x8000
+#define SYMFLAG_THUNK  0x2000
+#define SYMFLAG_TLSREL  0x4000
+#define SYMFLAG_VALUEPRESENT  0x1
+#define SYMFLAG_VIRTUAL  0x1000
 
 ; SYSTEM_METRICS_INDEX
 #define SM_ARRANGE  0x38
@@ -1003,6 +1352,270 @@
 #define SM_TABLETPC  0x56
 #define SM_XVIRTUALSCREEN  0x4c
 #define SM_YVIRTUALSCREEN  0x4d
+
+; THEME_PROPERTY_SYMBOL_ID
+#define TMT_RESERVEDLOW  0x0
+#define TMT_RESERVEDHIGH  0x1f3f
+#define TMT_DIBDATA  0x2
+#define TMT_GLYPHDIBDATA  0x8
+#define TMT_ENUM  0xc8
+#define TMT_STRING  0xc9
+#define TMT_INT  0xca
+#define TMT_BOOL  0xcb
+#define TMT_COLOR  0xcc
+#define TMT_MARGINS  0xcd
+#define TMT_FILENAME  0xce
+#define TMT_SIZE  0xcf
+#define TMT_POSITION  0xd0
+#define TMT_RECT  0xd1
+#define TMT_FONT  0xd2
+#define TMT_INTLIST  0xd3
+#define TMT_HBITMAP  0xd4
+#define TMT_DISKSTREAM  0xd5
+#define TMT_STREAM  0xd6
+#define TMT_BITMAPREF  0xd7
+#define TMT_FLOAT  0xd8
+#define TMT_FLOATLIST  0xd9
+#define TMT_COLORSCHEMES  0x191
+#define TMT_SIZES  0x192
+#define TMT_CHARSET  0x193
+#define TMT_NAME  0x258
+#define TMT_DISPLAYNAME  0x259
+#define TMT_TOOLTIP  0x25a
+#define TMT_COMPANY  0x25b
+#define TMT_AUTHOR  0x25c
+#define TMT_COPYRIGHT  0x25d
+#define TMT_URL  0x25e
+#define TMT_VERSION  0x25f
+#define TMT_DESCRIPTION  0x260
+#define TMT_FIRST_RCSTRING_NAME  0x259
+#define TMT_LAST_RCSTRING_NAME  0x260
+#define TMT_CAPTIONFONT  0x321
+#define TMT_SMALLCAPTIONFONT  0x322
+#define TMT_MENUFONT  0x323
+#define TMT_STATUSFONT  0x324
+#define TMT_MSGBOXFONT  0x325
+#define TMT_ICONTITLEFONT  0x326
+#define TMT_HEADING1FONT  0x327
+#define TMT_HEADING2FONT  0x328
+#define TMT_BODYFONT  0x329
+#define TMT_FIRSTFONT  0x321
+#define TMT_LASTFONT  0x329
+#define TMT_FLATMENUS  0x3e9
+#define TMT_FIRSTBOOL  0x3e9
+#define TMT_LASTBOOL  0x3e9
+#define TMT_SIZINGBORDERWIDTH  0x4b1
+#define TMT_SCROLLBARWIDTH  0x4b2
+#define TMT_SCROLLBARHEIGHT  0x4b3
+#define TMT_CAPTIONBARWIDTH  0x4b4
+#define TMT_CAPTIONBARHEIGHT  0x4b5
+#define TMT_SMCAPTIONBARWIDTH  0x4b6
+#define TMT_SMCAPTIONBARHEIGHT  0x4b7
+#define TMT_MENUBARWIDTH  0x4b8
+#define TMT_MENUBARHEIGHT  0x4b9
+#define TMT_PADDEDBORDERWIDTH  0x4ba
+#define TMT_FIRSTSIZE  0x4b1
+#define TMT_LASTSIZE  0x4ba
+#define TMT_MINCOLORDEPTH  0x515
+#define TMT_FIRSTINT  0x515
+#define TMT_LASTINT  0x515
+#define TMT_CSSNAME  0x579
+#define TMT_XMLNAME  0x57a
+#define TMT_LASTUPDATED  0x57b
+#define TMT_ALIAS  0x57c
+#define TMT_FIRSTSTRING  0x579
+#define TMT_LASTSTRING  0x57c
+#define TMT_SCROLLBAR  0x641
+#define TMT_BACKGROUND  0x642
+#define TMT_ACTIVECAPTION  0x643
+#define TMT_INACTIVECAPTION  0x644
+#define TMT_MENU  0x645
+#define TMT_WINDOW  0x646
+#define TMT_WINDOWFRAME  0x647
+#define TMT_MENUTEXT  0x648
+#define TMT_WINDOWTEXT  0x649
+#define TMT_CAPTIONTEXT  0x64a
+#define TMT_ACTIVEBORDER  0x64b
+#define TMT_INACTIVEBORDER  0x64c
+#define TMT_APPWORKSPACE  0x64d
+#define TMT_HIGHLIGHT  0x64e
+#define TMT_HIGHLIGHTTEXT  0x64f
+#define TMT_BTNFACE  0x650
+#define TMT_BTNSHADOW  0x651
+#define TMT_GRAYTEXT  0x652
+#define TMT_BTNTEXT  0x653
+#define TMT_INACTIVECAPTIONTEXT  0x654
+#define TMT_BTNHIGHLIGHT  0x655
+#define TMT_DKSHADOW3D  0x656
+#define TMT_LIGHT3D  0x657
+#define TMT_INFOTEXT  0x658
+#define TMT_INFOBK  0x659
+#define TMT_BUTTONALTERNATEFACE  0x65a
+#define TMT_HOTTRACKING  0x65b
+#define TMT_GRADIENTACTIVECAPTION  0x65c
+#define TMT_GRADIENTINACTIVECAPTION  0x65d
+#define TMT_MENUHILIGHT  0x65e
+#define TMT_MENUBAR  0x65f
+#define TMT_FIRSTCOLOR  0x641
+#define TMT_LASTCOLOR  0x65f
+#define TMT_FROMHUE1  0x709
+#define TMT_FROMHUE2  0x70a
+#define TMT_FROMHUE3  0x70b
+#define TMT_FROMHUE4  0x70c
+#define TMT_FROMHUE5  0x70d
+#define TMT_TOHUE1  0x70e
+#define TMT_TOHUE2  0x70f
+#define TMT_TOHUE3  0x710
+#define TMT_TOHUE4  0x711
+#define TMT_TOHUE5  0x712
+#define TMT_FROMCOLOR1  0x7d1
+#define TMT_FROMCOLOR2  0x7d2
+#define TMT_FROMCOLOR3  0x7d3
+#define TMT_FROMCOLOR4  0x7d4
+#define TMT_FROMCOLOR5  0x7d5
+#define TMT_TOCOLOR1  0x7d6
+#define TMT_TOCOLOR2  0x7d7
+#define TMT_TOCOLOR3  0x7d8
+#define TMT_TOCOLOR4  0x7d9
+#define TMT_TOCOLOR5  0x7da
+#define TMT_TRANSPARENT  0x899
+#define TMT_AUTOSIZE  0x89a
+#define TMT_BORDERONLY  0x89b
+#define TMT_COMPOSITED  0x89c
+#define TMT_BGFILL  0x89d
+#define TMT_GLYPHTRANSPARENT  0x89e
+#define TMT_GLYPHONLY  0x89f
+#define TMT_ALWAYSSHOWSIZINGBAR  0x8a0
+#define TMT_MIRRORIMAGE  0x8a1
+#define TMT_UNIFORMSIZING  0x8a2
+#define TMT_INTEGRALSIZING  0x8a3
+#define TMT_SOURCEGROW  0x8a4
+#define TMT_SOURCESHRINK  0x8a5
+#define TMT_DRAWBORDERS  0x8a6
+#define TMT_NOETCHEDEFFECT  0x8a7
+#define TMT_TEXTAPPLYOVERLAY  0x8a8
+#define TMT_TEXTGLOW  0x8a9
+#define TMT_TEXTITALIC  0x8aa
+#define TMT_COMPOSITEDOPAQUE  0x8ab
+#define TMT_LOCALIZEDMIRRORIMAGE  0x8ac
+#define TMT_IMAGECOUNT  0x961
+#define TMT_ALPHALEVEL  0x962
+#define TMT_BORDERSIZE  0x963
+#define TMT_ROUNDCORNERWIDTH  0x964
+#define TMT_ROUNDCORNERHEIGHT  0x965
+#define TMT_GRADIENTRATIO1  0x966
+#define TMT_GRADIENTRATIO2  0x967
+#define TMT_GRADIENTRATIO3  0x968
+#define TMT_GRADIENTRATIO4  0x969
+#define TMT_GRADIENTRATIO5  0x96a
+#define TMT_PROGRESSCHUNKSIZE  0x96b
+#define TMT_PROGRESSSPACESIZE  0x96c
+#define TMT_SATURATION  0x96d
+#define TMT_TEXTBORDERSIZE  0x96e
+#define TMT_ALPHATHRESHOLD  0x96f
+#define TMT_WIDTH  0x970
+#define TMT_HEIGHT  0x971
+#define TMT_GLYPHINDEX  0x972
+#define TMT_TRUESIZESTRETCHMARK  0x973
+#define TMT_MINDPI1  0x974
+#define TMT_MINDPI2  0x975
+#define TMT_MINDPI3  0x976
+#define TMT_MINDPI4  0x977
+#define TMT_MINDPI5  0x978
+#define TMT_TEXTGLOWSIZE  0x979
+#define TMT_FRAMESPERSECOND  0x97a
+#define TMT_PIXELSPERFRAME  0x97b
+#define TMT_ANIMATIONDELAY  0x97c
+#define TMT_GLOWINTENSITY  0x97d
+#define TMT_OPACITY  0x97e
+#define TMT_COLORIZATIONCOLOR  0x97f
+#define TMT_COLORIZATIONOPACITY  0x980
+#define TMT_MINDPI6  0x981
+#define TMT_MINDPI7  0x982
+#define TMT_GLYPHFONT  0xa29
+#define TMT_IMAGEFILE  0xbb9
+#define TMT_IMAGEFILE1  0xbba
+#define TMT_IMAGEFILE2  0xbbb
+#define TMT_IMAGEFILE3  0xbbc
+#define TMT_IMAGEFILE4  0xbbd
+#define TMT_IMAGEFILE5  0xbbe
+#define TMT_GLYPHIMAGEFILE  0xbc0
+#define TMT_IMAGEFILE6  0xbc1
+#define TMT_IMAGEFILE7  0xbc2
+#define TMT_TEXT  0xc81
+#define TMT_CLASSICVALUE  0xc82
+#define TMT_OFFSET  0xd49
+#define TMT_TEXTSHADOWOFFSET  0xd4a
+#define TMT_MINSIZE  0xd4b
+#define TMT_MINSIZE1  0xd4c
+#define TMT_MINSIZE2  0xd4d
+#define TMT_MINSIZE3  0xd4e
+#define TMT_MINSIZE4  0xd4f
+#define TMT_MINSIZE5  0xd50
+#define TMT_NORMALSIZE  0xd51
+#define TMT_MINSIZE6  0xd52
+#define TMT_MINSIZE7  0xd53
+#define TMT_SIZINGMARGINS  0xe11
+#define TMT_CONTENTMARGINS  0xe12
+#define TMT_CAPTIONMARGINS  0xe13
+#define TMT_BORDERCOLOR  0xed9
+#define TMT_FILLCOLOR  0xeda
+#define TMT_TEXTCOLOR  0xedb
+#define TMT_EDGELIGHTCOLOR  0xedc
+#define TMT_EDGEHIGHLIGHTCOLOR  0xedd
+#define TMT_EDGESHADOWCOLOR  0xede
+#define TMT_EDGEDKSHADOWCOLOR  0xedf
+#define TMT_EDGEFILLCOLOR  0xee0
+#define TMT_TRANSPARENTCOLOR  0xee1
+#define TMT_GRADIENTCOLOR1  0xee2
+#define TMT_GRADIENTCOLOR2  0xee3
+#define TMT_GRADIENTCOLOR3  0xee4
+#define TMT_GRADIENTCOLOR4  0xee5
+#define TMT_GRADIENTCOLOR5  0xee6
+#define TMT_SHADOWCOLOR  0xee7
+#define TMT_GLOWCOLOR  0xee8
+#define TMT_TEXTBORDERCOLOR  0xee9
+#define TMT_TEXTSHADOWCOLOR  0xeea
+#define TMT_GLYPHTEXTCOLOR  0xeeb
+#define TMT_GLYPHTRANSPARENTCOLOR  0xeec
+#define TMT_FILLCOLORHINT  0xeed
+#define TMT_BORDERCOLORHINT  0xeee
+#define TMT_ACCENTCOLORHINT  0xeef
+#define TMT_TEXTCOLORHINT  0xef0
+#define TMT_HEADING1TEXTCOLOR  0xef1
+#define TMT_HEADING2TEXTCOLOR  0xef2
+#define TMT_BODYTEXTCOLOR  0xef3
+#define TMT_BGTYPE  0xfa1
+#define TMT_BORDERTYPE  0xfa2
+#define TMT_FILLTYPE  0xfa3
+#define TMT_SIZINGTYPE  0xfa4
+#define TMT_HALIGN  0xfa5
+#define TMT_CONTENTALIGNMENT  0xfa6
+#define TMT_VALIGN  0xfa7
+#define TMT_OFFSETTYPE  0xfa8
+#define TMT_ICONEFFECT  0xfa9
+#define TMT_TEXTSHADOWTYPE  0xfaa
+#define TMT_IMAGELAYOUT  0xfab
+#define TMT_GLYPHTYPE  0xfac
+#define TMT_IMAGESELECTTYPE  0xfad
+#define TMT_GLYPHFONTSIZINGTYPE  0xfae
+#define TMT_TRUESIZESCALINGTYPE  0xfaf
+#define TMT_USERPICTURE  0x1389
+#define TMT_DEFAULTPANESIZE  0x138a
+#define TMT_BLENDCOLOR  0x138b
+#define TMT_CUSTOMSPLITRECT  0x138c
+#define TMT_ANIMATIONBUTTONRECT  0x138d
+#define TMT_ANIMATIONDURATION  0x138e
+#define TMT_TRANSITIONDURATIONS  0x1770
+#define TMT_SCALEDBACKGROUND  0x1b59
+#define TMT_ATLASIMAGE  0x1f40
+#define TMT_ATLASINPUTIMAGE  0x1f41
+#define TMT_ATLASRECT  0x1f42
+
+; THEMESIZE
+#define TS_MIN  0x0
+#define TS_TRUE  0x1
+#define TS_DRAW  0x2
 
 ; TMPF_FLAGS
 #define TMPF_FIXED_PITCH  0x1
@@ -4427,6 +5040,21 @@
 #define WS_CHILDWINDOW  0x40000000
 #define WS_ACTIVECAPTION  0x1
 
+; WINHTTP_ACCESS_TYPE
+#define WINHTTP_ACCESS_TYPE_NO_PROXY  0x1
+#define WINHTTP_ACCESS_TYPE_DEFAULT_PROXY  0x0
+#define WINHTTP_ACCESS_TYPE_NAMED_PROXY  0x3
+#define WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY  0x4
+
+; WINHTTP_OPEN_REQUEST_FLAGS
+#define WINHTTP_FLAG_BYPASS_PROXY_CACHE  0x100
+#define WINHTTP_FLAG_ESCAPE_DISABLE  0x40
+#define WINHTTP_FLAG_ESCAPE_DISABLE_QUERY  0x80
+#define WINHTTP_FLAG_ESCAPE_PERCENT  0x4
+#define WINHTTP_FLAG_NULL_CODEPAGE  0x8
+#define WINHTTP_FLAG_REFRESH  0x100
+#define WINHTTP_FLAG_SECURE  0x800000
+
 ;--- functions ---
 #uselib "user32.dll"
 ; winmdroot.Foundation.BOOL DestroyMenu(winmdroot.UI.WindowsAndMessaging.HMENU hMenu)
@@ -4536,5 +5164,8 @@
 
 ; winmdroot.Foundation.BOOL InvertRect(winmdroot.Graphics.Gdi.HDC hDC, winmdroot.Foundation.RECT* lprc)
 #cfunc InvertRect "InvertRect" intptr, var
+
+; winmdroot.Foundation.BOOL UnloadKeyboardLayout(winmdroot.UI.Input.KeyboardAndMouse.HKL hkl)
+#cfunc UnloadKeyboardLayout "UnloadKeyboardLayout" intptr
 
 #endif

@@ -1,13 +1,13 @@
 ; ============================================================
 ;   Auto-generated from CsWin32 / win32metadata
-;   dll:    oleaut32.dll
+;   dll:    netapi32.dll
 ;   tool:   tools/cswin32_bridge/gen_from_cswin32.py
 ;   Do not edit by hand ? regenerate via the python script.
 ;   Needs hsp3net (intptr / NSTRUCT / wstr).
 ; ============================================================
 
-#ifndef __oleaut32_gen2_as__
-#define __oleaut32_gen2_as__
+#ifndef __netapi32_gen2_as__
+#define __netapi32_gen2_as__
 
 ;--- structs ---
 #defstruct ADDRESS64
@@ -5056,14 +5056,20 @@
 #define WINHTTP_FLAG_SECURE  0x800000
 
 ;--- functions ---
-#uselib "oleaut32.dll"
-; void SysFreeString(winmdroot.Foundation.BSTR bstrString)
-#func SysFreeString "SysFreeString" int
+#uselib "netapi32.dll"
+; uint NetApiBufferFree([Optional] void* Buffer)
+#cfunc NetApiBufferFree "NetApiBufferFree" intptr
 
-; winmdroot.Foundation.BSTR SysAllocString(winmdroot.Foundation.PCWSTR psz)
-#cfunc SysAllocString "SysAllocString" wstr
+; uint NetShareEnum(winmdroot.Foundation.PWSTR servername, uint level, byte** bufptr, uint prefmaxlen, uint* entriesread, uint* totalentries, [Optional] uint* resume_handle)
+#cfunc NetShareEnum "NetShareEnum" wstr, int, var, int, var, var, var
 
-; uint SysStringLen(winmdroot.Foundation.BSTR pbstr)
-#cfunc SysStringLen "SysStringLen" int
+; uint NetShareGetInfo(winmdroot.Foundation.PWSTR servername, winmdroot.Foundation.PWSTR netname, uint level, byte** bufptr)
+#cfunc NetShareGetInfo "NetShareGetInfo" wstr, wstr, int, var
+
+; uint NetUserGetInfo(winmdroot.Foundation.PCWSTR servername, winmdroot.Foundation.PCWSTR username, uint level, byte** bufptr)
+#cfunc NetUserGetInfo "NetUserGetInfo" wstr, wstr, int, var
+
+; uint NetWkstaGetInfo(winmdroot.Foundation.PWSTR servername, uint level, [Optional] byte** bufptr)
+#cfunc NetWkstaGetInfo "NetWkstaGetInfo" wstr, int, var
 
 #endif
