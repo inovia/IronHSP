@@ -1,0 +1,29 @@
+// COM interface sandbox — allowMarshaling=true so CsWin32 generates
+// [ComImport] style C# interfaces. We want to inspect the output and
+// build a parser for gen_from_cswin32.py.
+
+// === Shell link (simple starter) ===
+IShellLinkW
+IPersistFile
+
+// === File dialogs (modern replacement for GetOpenFileName) ===
+IFileDialog
+IFileOpenDialog
+IFileSaveDialog
+IShellItem
+
+// === Drag & Drop ===
+IDropTarget
+IDropSource
+
+// === URL download callback ===
+IBindStatusCallback
+
+// === Data transfer ===
+IDataObject
+
+// === Property store ===
+IPropertyStore
+
+// === DWM thumbnail (needs a COM-ish interface check) ===
+// IApplicationViewConsolidatedEventArgs
