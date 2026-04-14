@@ -98,6 +98,19 @@
     if _http_initialized ! 0 : return
     _http_initialized = 1
     _http_timeout_ms = 30000
+    sdim _http_extra_headers, 1024
+    _http_extra_headers = ""
+    return
+
+;------------------------------------------------------------
+; http_set_header "Header: value\r\nHeader2: value2\r\n"
+;   POST/GET の Content-Type 以外に追加するヘッダ。
+;   Authorization, X-API-Key 等を渡すために使用。
+;   空文字でクリア。
+;------------------------------------------------------------
+#deffunc http_set_header str hdr
+    _http_init
+    _http_extra_headers = hdr
     return
 
 ;------------------------------------------------------------
@@ -195,6 +208,9 @@
     _headers = ""
     if strlen(ctype) > 0 {
         _headers = "Content-Type: " + ctype + "\r\n"
+    }
+    if strlen(_http_extra_headers) > 0 {
+        _headers = _headers + _http_extra_headers
     }
 
     if strlen(body) > 0 {

@@ -1,0 +1,80 @@
+;============================================================
+;  iron_ai サンプル: OpenAI / ローカル LLM チャット
+;
+;  このサンプルでは Ollama (http://localhost:11434) を想定。
+;  起動していなければ環境を変えて試してください。
+;
+;  Ollama 以外の例 (key を必要なら設定):
+;    OpenAI:   iron_ai_set_endpoint "https://api.openai.com/v1"
+;              iron_ai_set_key      "sk-..."
+;              iron_ai_set_model    "gpt-4o-mini"
+;    LM Studio: endpoint="http://localhost:1234/v1" model="local-model"
+;    GitHub Models:
+;              endpoint="https://models.inference.ai.azure.com" key=GITHUB_TOKEN
+;============================================================
+
+#include "iron_ai.hsp"
+
+	title "iron_ai サンプル — ローカル LLM チャット"
+	screen 0, 720, 540
+	font "MS Gothic", 14
+
+	; ----- 初期設定 -----
+	; デフォルトは Ollama 想定 (key 不要)
+	iron_ai_set_endpoint "http://localhost:11434/v1"
+	iron_ai_set_model    "llama3.2"
+	iron_ai_set_system   "あなたは親切な日本語アシスタントです。簡潔に答えてください。"
+	iron_ai_set_max_tokens 256
+	iron_ai_set_temperature 70    ; 0.7
+
+	mes "==== iron_ai chat sample ===="
+	mes ""
+	mes "endpoint: http://localhost:11434/v1  (Ollama)"
+	mes "model:    llama3.2"
+	mes ""
+	mes "下のテキストボックスに質問を入力 → Send"
+	mes "(Ollama を起動していない場合はエラーになります)"
+	mes ""
+
+	pos 10, 130
+	objsize 600, 24
+	sdim user_msg, 1024
+	user_msg = "HSP3 とは何ですか? 1行で。"
+	input user_msg, 1023, 1, 24
+	pos 620, 130
+	objsize 80, 24
+	button gosub "Send", *do_send
+
+	pos 10, 170
+	mes "----- 履歴 -----"
+	pos 10, 195
+	sdim log_text, 16384
+	log_text = ""
+	mesbox log_text, 700, 320, 4
+
+	stop
+
+*do_send
+	objprm 0, user_msg
+	if strlen(user_msg) = 0 : return
+
+	; ログに user 行を追記
+	log_text = log_text + "[user] " + user_msg + "\n"
+	objprm 2, log_text
+
+	; AI 呼び出し
+	sdim reply, 4096
+	iron_ai_chat user_msg, reply
+	if stat ! 200 {
+		log_text = log_text + "[error] HTTP " + stat + " — Ollama 起動確認 / endpoint 設定確認\n\n"
+		objprm 2, log_text
+		return
+	}
+
+	log_text = log_text + "[ai] " + reply + "\n\n"
+	objprm 2, log_text
+
+	; 入力をクリア
+	user_msg = ""
+	objprm 0, user_msg
+	return

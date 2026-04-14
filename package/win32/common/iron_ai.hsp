@@ -1,0 +1,221 @@
+;============================================================
+;   iron_ai.hsp — OpenAI 互換 Chat API クライアント
+;
+;   OpenAI / Anthropic / Ollama / LM Studio / llama.cpp server /
+;   GitHub Models / Groq / DeepSeek / xAI など、OpenAI 互換の
+;   /chat/completions エンドポイントを提供する任意のサーバを
+;   1 行で叩ける薄いラッパ。
+;
+;   依存: iron_http.hsp + iron_json.hsp (このファイルで auto include)
+;
+;   API:
+;     iron_ai_set_endpoint "https://api.openai.com/v1"
+;     iron_ai_set_key      "sk-..."
+;     iron_ai_set_model    "gpt-4o-mini"
+;     iron_ai_set_system   "あなたは親切な AI です"     ; 任意
+;     iron_ai_chat         "こんにちは", reply           ; 同期問い合わせ
+;     mes reply
+;
+;   会話履歴 (multi-turn):
+;     iron_ai_history_clear
+;     iron_ai_history_add "user", "1+1は?"
+;     iron_ai_chat        "じゃあ 2+2 は?", reply
+;     ; (chat 後、自動で user/assistant が history に追加される)
+;
+;   対応サーバ例:
+;     OpenAI:    endpoint="https://api.openai.com/v1"  model="gpt-4o-mini"
+;     Anthropic: endpoint="https://api.anthropic.com/v1" model="claude-3-5-sonnet-20241022"
+;                (※ Anthropic は messages API シンプル版で動作)
+;     Ollama:    endpoint="http://localhost:11434/v1"  model="llama3.2"  key=""
+;     LM Studio: endpoint="http://localhost:1234/v1"   model="..."       key=""
+;     llama.cpp: endpoint="http://localhost:8080/v1"   model="..."       key=""
+;     Groq:      endpoint="https://api.groq.com/openai/v1"
+;     xAI:       endpoint="https://api.x.ai/v1"
+;
+;   注意:
+;     - HTTPS 通信は WinHTTP のシステム証明書ストアを使うので OS が新しければ問題なし
+;     - レスポンスの JSON パースは hspjson.dll が必要 (iron_json.hsp 経由)
+;     - ストリーミング (SSE) は将来対応 (Phase 2)
+;============================================================
+
+#ifndef __iron_ai_hsp__
+#define __iron_ai_hsp__
+
+#include "iron_http.hsp"
+#include "iron_json.hsp"
+
+;------------------------------------------------------------
+; 状態 (#module 内だと文字列の sdim が面倒なのでトップレベル管理)
+;------------------------------------------------------------
+	sdim _ai_endpoint, 1024
+	sdim _ai_key, 1024
+	sdim _ai_model, 256
+	sdim _ai_system, 4096
+	sdim _ai_history_json, 65536    ; 会話履歴 JSON array としてシリアライズ
+	_ai_endpoint = "https://api.openai.com/v1"
+	_ai_key = ""
+	_ai_model = "gpt-4o-mini"
+	_ai_system = ""
+	_ai_history_json = ""
+	_ai_max_tokens = 0      ; 0 = サーバデフォルト
+	_ai_temperature_x100 = -1 ; -1 = サーバデフォルト
+	goto *_ai_skip_init
+
+;------------------------------------------------------------
+; 内部: JSON 文字列エスケープ (\, ", 制御文字, 改行)
+;   in  : src
+;   out : dst (sdim 済の十分大きい変数)
+;------------------------------------------------------------
+#deffunc _ai_json_escape str src, var dst,  local _i, local _c, local _len, local _src
+    _src = src
+    _len = strlen(_src)
+    sdim dst, _len * 6 + 16
+    repeat _len
+        _c = peek(_src, cnt)
+        if _c = '\\' {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), '\\'
+        } else : if _c = '"' {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), '"'
+        } else : if _c = 0x0a {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 'n'
+        } else : if _c = 0x0d {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 'r'
+        } else : if _c = 0x09 {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 't'
+        } else : if _c < 0x20 {
+            ; 制御文字はスキップ
+        } else {
+            poke dst, strlen(dst), _c
+        }
+    loop
+    return
+
+;------------------------------------------------------------
+; 設定系
+;------------------------------------------------------------
+#deffunc iron_ai_set_endpoint str url
+    _ai_endpoint = url
+    return
+
+#deffunc iron_ai_set_key str key
+    _ai_key = key
+    return
+
+#deffunc iron_ai_set_model str model
+    _ai_model = model
+    return
+
+#deffunc iron_ai_set_system str sys
+    _ai_system = sys
+    return
+
+#deffunc iron_ai_set_max_tokens int n
+    _ai_max_tokens = n
+    return
+
+;   t_x100: 0 = 0.0, 70 = 0.7, 100 = 1.0  (HSP は double 引数より int の方が安定)
+#deffunc iron_ai_set_temperature int t_x100
+    _ai_temperature_x100 = t_x100
+    return
+
+;------------------------------------------------------------
+; 会話履歴管理
+;------------------------------------------------------------
+#deffunc iron_ai_history_clear
+    _ai_history_json = ""
+    return
+
+;   role: "user" / "assistant" / "system" / "tool"
+#deffunc iron_ai_history_add str role, str content,  local _esc, local _entry
+    _ai_json_escape content, _esc
+    sdim _entry, strlen(_esc) + 256
+    _entry = "{\"role\":\"" + role + "\",\"content\":\"" + _esc + "\"}"
+    if strlen(_ai_history_json) > 0 {
+        _ai_history_json = _ai_history_json + "," + _entry
+    } else {
+        _ai_history_json = _entry
+    }
+    return
+
+;------------------------------------------------------------
+; iron_ai_chat msg, reply
+;   user message を投げて assistant の返答を reply に格納。
+;   完了後、user と assistant の両方を自動で history に追加 (multi-turn 用)。
+;
+;   stat: HTTP status (200=成功)
+;------------------------------------------------------------
+#deffunc iron_ai_chat str msg, var reply,  local _esc_msg, local _sys_esc, local _body, local _full_url, local _resp, local _hid, local _msgs, local _hdr_buf, local _user_entry, local _ass_esc
+    sdim reply, 4096
+    reply = ""
+
+    ; user message を JSON エスケープ
+    _ai_json_escape msg, _esc_msg
+
+    ; messages 配列を構築
+    sdim _msgs, strlen(_ai_history_json) + strlen(_esc_msg) + strlen(_ai_system) * 2 + 1024
+    _msgs = ""
+    if strlen(_ai_system) > 0 {
+        _ai_json_escape _ai_system, _sys_esc
+        _msgs = "{\"role\":\"system\",\"content\":\"" + _sys_esc + "\"}"
+    }
+    if strlen(_ai_history_json) > 0 {
+        if strlen(_msgs) > 0 : _msgs = _msgs + ","
+        _msgs = _msgs + _ai_history_json
+    }
+    if strlen(_msgs) > 0 : _msgs = _msgs + ","
+    _msgs = _msgs + "{\"role\":\"user\",\"content\":\"" + _esc_msg + "\"}"
+
+    ; リクエストボディ全体
+    sdim _body, strlen(_msgs) + 1024
+    _body = "{\"model\":\"" + _ai_model + "\",\"messages\":[" + _msgs + "]"
+    if _ai_max_tokens > 0 {
+        _body = _body + ",\"max_tokens\":" + _ai_max_tokens
+    }
+    if _ai_temperature_x100 >= 0 {
+        _body = _body + ",\"temperature\":0." + _ai_temperature_x100
+        ; ※ 0.07 等の小数表現は後付け、ここでは粗い精度で OK
+    }
+    _body = _body + "}"
+
+    ; Authorization ヘッダ
+    sdim _hdr_buf, 2048
+    if strlen(_ai_key) > 0 {
+        _hdr_buf = "Authorization: Bearer " + _ai_key + "\r\n"
+    } else {
+        _hdr_buf = ""
+    }
+    http_set_header _hdr_buf
+
+    ; URL
+    sdim _full_url, 1024
+    _full_url = _ai_endpoint + "/chat/completions"
+
+    ; POST
+    sdim _resp, 1
+    http_post _full_url, _body, _resp, "application/json"
+    if stat ! 200 {
+        return stat
+    }
+
+    ; レスポンス JSON パース
+    _hid = json_load(_resp)
+    if _hid < 0 : return -1
+
+    ; choices[0].message.content を取り出す
+    reply = json_str(_hid, "choices[0].message.content")
+    json_release _hid
+
+    ; 履歴に user/assistant を追加 (次回呼び出し時のコンテキスト用)
+    iron_ai_history_add "user", msg
+    iron_ai_history_add "assistant", reply
+
+    return 200
+
+*_ai_skip_init
+
+#endif
