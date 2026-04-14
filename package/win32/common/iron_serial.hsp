@@ -36,6 +36,8 @@
 #ifndef __iron_serial_hsp__
 #define __iron_serial_hsp__
 
+#module iron_serial
+
 #uselib "kernel32.dll"
 #cfunc _ser_create "CreateFileA" str, int, int, int, int, int, int
 #func  _ser_close_h "CloseHandle" int
@@ -47,9 +49,6 @@
 #cfunc _ser_clear "PurgeComm" int, int
 #cfunc _ser_setup "SetupComm" int, int, int
 #cfunc _ser_clear_err "ClearCommError" int, var, var
-
-	_serial_handle = -1
-	goto *_serial_skip_init
 
 ;------------------------------------------------------------
 ; serial_open "COM3", baud, bits, parity_char, stop
@@ -173,6 +172,8 @@
     _ser_read _serial_handle, out_buf, max_bytes, _read, 0
     return _read
 
-*_serial_skip_init
+#global
+
+	_serial_handle@iron_serial = -1
 
 #endif

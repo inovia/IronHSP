@@ -39,6 +39,8 @@
 #include "iron_http.hsp"
 #include "iron_json.hsp"
 
+#module iron_mcp_client
+
 #uselib "hspmcp.dll"
 #cfunc _mcp_proc_open      "mcp_proc_open"      str, str
 #cfunc _mcp_proc_send      "mcp_proc_send"      int, str, int
@@ -49,18 +51,6 @@
 ;------------------------------------------------------------
 ; State
 ;------------------------------------------------------------
-
-	_mcp_transport = 0     ; 0=closed, 1=stdio, 2=http
-	_mcp_handle = -1
-	sdim _mcp_http_url, 1024
-	_mcp_next_id = 1
-	sdim _mcp_tools_json, 65536
-	_mcp_tools_count_cached = 0
-	sdim _mcp_resources_json, 65536
-	_mcp_resources_count_cached = 0
-	sdim _mcp_prompts_json, 65536
-	_mcp_prompts_count_cached = 0
-	goto *_mcp_skip_init
 
 ;------------------------------------------------------------
 ; 内部: JSON 文字列エスケープ (iron_ai のものと同じパターン)
@@ -441,6 +431,17 @@
     _mcp_prompts_count_cached = 0
     return
 
-*_mcp_skip_init
+#global
+
+	_mcp_transport@iron_mcp_client = 0     ; 0=closed, 1=stdio, 2=http
+	_mcp_handle@iron_mcp_client = -1
+	sdim _mcp_http_url@iron_mcp_client, 1024
+	_mcp_next_id@iron_mcp_client = 1
+	sdim _mcp_tools_json@iron_mcp_client, 65536
+	_mcp_tools_count_cached@iron_mcp_client = 0
+	sdim _mcp_resources_json@iron_mcp_client, 65536
+	_mcp_resources_count_cached@iron_mcp_client = 0
+	sdim _mcp_prompts_json@iron_mcp_client, 65536
+	_mcp_prompts_count_cached@iron_mcp_client = 0
 
 #endif

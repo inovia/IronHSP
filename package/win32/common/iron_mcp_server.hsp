@@ -36,22 +36,13 @@
 
 #include "iron_json.hsp"
 
+#module iron_mcp_server
+
 #uselib "hspmcp.dll"
 #cfunc _mcp_stdin_read_line "mcp_stdin_read_line" var, int
 #cfunc _mcp_stdout_write    "mcp_stdout_write"    str, int
 
-#define IRON_MCP_MAX_TOOLS 64
-
-	; ----- 状態 -----
-	dim    _mcps_tool_label, IRON_MCP_MAX_TOOLS
-	sdim   _mcps_tool_name, 64, IRON_MCP_MAX_TOOLS
-	sdim   _mcps_tool_desc, 256, IRON_MCP_MAX_TOOLS
-	_mcps_tool_count = 0
-
-	sdim   _mcps_args_json, 16384       ; 現在の tools/call の arguments JSON
-	sdim   _mcps_result_text, 65536     ; handler が書く結果文字列
-	_mcps_args_hid = -1
-	goto *_mcps_skip_init
+#define global IRON_MCP_MAX_TOOLS 64
 
 ;------------------------------------------------------------
 ; 内部: JSON エスケープ
@@ -268,6 +259,15 @@
     loop
     return
 
-*_mcps_skip_init
+#global
+
+	; ----- 状態 -----
+	dim    _mcps_tool_label@iron_mcp_server, IRON_MCP_MAX_TOOLS
+	sdim   _mcps_tool_name@iron_mcp_server,  64,  IRON_MCP_MAX_TOOLS
+	sdim   _mcps_tool_desc@iron_mcp_server,  256, IRON_MCP_MAX_TOOLS
+	_mcps_tool_count@iron_mcp_server = 0
+	sdim   _mcps_args_json@iron_mcp_server, 16384
+	sdim   _mcps_result_text@iron_mcp_server, 65536
+	_mcps_args_hid@iron_mcp_server = -1
 
 #endif

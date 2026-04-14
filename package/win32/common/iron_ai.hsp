@@ -44,22 +44,7 @@
 #include "iron_http.hsp"
 #include "iron_json.hsp"
 
-;------------------------------------------------------------
-; 状態 (#module 内だと文字列の sdim が面倒なのでトップレベル管理)
-;------------------------------------------------------------
-	sdim _ai_endpoint, 1024
-	sdim _ai_key, 1024
-	sdim _ai_model, 256
-	sdim _ai_system, 4096
-	sdim _ai_history_json, 65536    ; 会話履歴 JSON array としてシリアライズ
-	_ai_endpoint = "https://api.openai.com/v1"
-	_ai_key = ""
-	_ai_model = "gpt-4o-mini"
-	_ai_system = ""
-	_ai_history_json = ""
-	_ai_max_tokens = 0      ; 0 = サーバデフォルト
-	_ai_temperature_x100 = -1 ; -1 = サーバデフォルト
-	goto *_ai_skip_init
+#module iron_ai
 
 ;------------------------------------------------------------
 ; 内部: JSON 文字列エスケープ (\, ", 制御文字, 改行)
@@ -309,11 +294,6 @@
 ;   iron_ai_chat_stream_end
 ;------------------------------------------------------------
 
-	sdim _ai_stream_pending, 65536
-	_ai_stream_pending = ""
-	_ai_stream_done = 0
-	goto *_ai_stream_skip_init
-
 #deffunc iron_ai_chat_stream_start str msg,  local _esc_msg, local _sys_esc, local _body, local _msgs, local _full_url, local _hdr_buf
     _ai_json_escape msg, _esc_msg
 
@@ -404,8 +384,22 @@
     _ai_stream_done = 0
     return
 
-*_ai_stream_skip_init
+#global
 
-*_ai_skip_init
+	sdim _ai_endpoint@iron_ai, 1024
+	sdim _ai_key@iron_ai, 1024
+	sdim _ai_model@iron_ai, 256
+	sdim _ai_system@iron_ai, 4096
+	sdim _ai_history_json@iron_ai, 65536
+	_ai_endpoint@iron_ai = "https://api.openai.com/v1"
+	_ai_key@iron_ai = ""
+	_ai_model@iron_ai = "gpt-4o-mini"
+	_ai_system@iron_ai = ""
+	_ai_history_json@iron_ai = ""
+	_ai_max_tokens@iron_ai = 0
+	_ai_temperature_x100@iron_ai = -1
+	sdim _ai_stream_pending@iron_ai, 65536
+	_ai_stream_pending@iron_ai = ""
+	_ai_stream_done@iron_ai = 0
 
 #endif

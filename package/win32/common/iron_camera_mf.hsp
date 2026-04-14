@@ -54,6 +54,8 @@
 #ifndef __iron_camera_mf_hsp__
 #define __iron_camera_mf_hsp__
 
+#module iron_camera_mf
+
 #uselib "hspmfcam.dll"
 #cfunc _mfcam_count          "mfcam_count"
 #func  _mfcam_get_name       "mfcam_get_name"        int, var, int
@@ -91,41 +93,34 @@
 ;------------------------------------------------------------
 ; カメラプロパティ ID 定数
 ;------------------------------------------------------------
-#define IRON_CAM_PROP_BRIGHTNESS    0
-#define IRON_CAM_PROP_CONTRAST      1
-#define IRON_CAM_PROP_HUE           2
-#define IRON_CAM_PROP_SATURATION    3
-#define IRON_CAM_PROP_SHARPNESS     4
-#define IRON_CAM_PROP_GAMMA         5
-#define IRON_CAM_PROP_COLOR_ENABLE  6
-#define IRON_CAM_PROP_WHITE_BALANCE 7
-#define IRON_CAM_PROP_BACKLIGHT     8
-#define IRON_CAM_PROP_GAIN          9
-#define IRON_CAM_PROP_PAN          10
-#define IRON_CAM_PROP_TILT         11
-#define IRON_CAM_PROP_ROLL         12
-#define IRON_CAM_PROP_ZOOM         13
-#define IRON_CAM_PROP_EXPOSURE     14
-#define IRON_CAM_PROP_IRIS         15
-#define IRON_CAM_PROP_FOCUS        16
+#define global IRON_CAM_PROP_BRIGHTNESS    0
+#define global IRON_CAM_PROP_CONTRAST      1
+#define global IRON_CAM_PROP_HUE           2
+#define global IRON_CAM_PROP_SATURATION    3
+#define global IRON_CAM_PROP_SHARPNESS     4
+#define global IRON_CAM_PROP_GAMMA         5
+#define global IRON_CAM_PROP_COLOR_ENABLE  6
+#define global IRON_CAM_PROP_WHITE_BALANCE 7
+#define global IRON_CAM_PROP_BACKLIGHT     8
+#define global IRON_CAM_PROP_GAIN          9
+#define global IRON_CAM_PROP_PAN          10
+#define global IRON_CAM_PROP_TILT         11
+#define global IRON_CAM_PROP_ROLL         12
+#define global IRON_CAM_PROP_ZOOM         13
+#define global IRON_CAM_PROP_EXPOSURE     14
+#define global IRON_CAM_PROP_IRIS         15
+#define global IRON_CAM_PROP_FOCUS        16
 
-#define IRON_CAM_PROP_AUTO    1
-#define IRON_CAM_PROP_MANUAL  2
+#define global IRON_CAM_PROP_AUTO    1
+#define global IRON_CAM_PROP_MANUAL  2
 
 ;------------------------------------------------------------
 ; State 定数
 ;------------------------------------------------------------
-#define IRON_CAM_FREE     0
-#define IRON_CAM_OPENING  1
-#define IRON_CAM_READY    2
-#define IRON_CAM_ERROR    3
-
-;------------------------------------------------------------
-; ハンドル別解像度キャッシュ (256 スロット = MAX_CAMS in hspmfcam.dll)
-;------------------------------------------------------------
-	dim _icm_w, 256
-	dim _icm_h, 256
-	goto *_icm_skip_init
+#define global IRON_CAM_FREE     0
+#define global IRON_CAM_OPENING  1
+#define global IRON_CAM_READY    2
+#define global IRON_CAM_ERROR    3
 
 ;------------------------------------------------------------
 ; 列挙系 (インスタンス不要)
@@ -338,6 +333,12 @@
     _mfcam_audio_record_stop h
     return stat
 
-*_icm_skip_init
+#global
+
+;------------------------------------------------------------
+; ハンドル別解像度キャッシュ (256 スロット = MAX_CAMS in hspmfcam.dll)
+;------------------------------------------------------------
+	dim _icm_w@iron_camera_mf, 256
+	dim _icm_h@iron_camera_mf, 256
 
 #endif

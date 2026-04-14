@@ -40,21 +40,23 @@
 #ifndef __iron_db_hsp__
 #define __iron_db_hsp__
 
+#module iron_db
+
 #uselib "hspdb.dll"
-#cfunc db_open          "db_open"          str
-#cfunc db_exec          "db_exec"          int, str
-#cfunc db_query         "db_query"         int, str
-#func  db_step          "db_step"          int
-#cfunc db_col_count     "db_col_count"     int
-#func  _db_col_name     "db_col_name"      int, int, var, int
-#func  _db_col_text     "db_col_text"      int, int, var, int
-#cfunc db_col_int       "db_col_int"       int, int
-#cfunc db_col_dbl       "db_col_dbl"       int, int
-#func  db_query_close   "db_query_close"   int
-#cfunc db_last_rowid    "db_last_rowid"    int
-#cfunc db_changes       "db_changes"       int
-#func  _db_errmsg       "db_errmsg"        int, var, int
-#func  db_close         "db_close"         int
+#cfunc global db_open          "db_open"          str
+#cfunc global db_exec          "db_exec"          int, str
+#cfunc global db_query         "db_query"         int, str
+#func  global db_step          "db_step"          int
+#cfunc global db_col_count     "db_col_count"     int
+#func  _db_col_name            "db_col_name"      int, int, var, int
+#func  _db_col_text            "db_col_text"      int, int, var, int
+#cfunc global db_col_int       "db_col_int"       int, int
+#cfunc global db_col_dbl       "db_col_dbl"       int, int
+#func  global db_query_close   "db_query_close"   int
+#cfunc global db_last_rowid    "db_last_rowid"    int
+#cfunc global db_changes       "db_changes"       int
+#func  _db_errmsg              "db_errmsg"        int, var, int
+#func  global db_close         "db_close"         int
 
 ;   列名取得 wrapper
 #deffunc db_col_name int qh, int col, var out_name
@@ -73,5 +75,7 @@
     sdim out_msg, 1024
     _db_errmsg h, out_msg, 1023
     return
+
+#global
 
 #endif

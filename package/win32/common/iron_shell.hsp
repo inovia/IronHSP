@@ -17,6 +17,8 @@
 #ifndef __iron_shell_hsp__
 #define __iron_shell_hsp__
 
+#module iron_shell
+
 #uselib "shell32.dll"
 #cfunc _shell_exec "ShellExecuteA" int, str, str, str, str, int
 
@@ -124,5 +126,7 @@
     delcom _pf
     delcom _sl
     return 0
+
+#global
 
 #endif

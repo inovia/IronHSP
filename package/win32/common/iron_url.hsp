@@ -23,8 +23,7 @@
 #ifndef __iron_url_hsp__
 #define __iron_url_hsp__
 
-	; #deffunc の fall-through を防ぐための skip
-	goto *_iron_url_skip_init
+#module
 
 ;------------------------------------------------------------
 ; url_encode "src", dst
@@ -260,6 +259,6 @@
     loop
     return _count
 
-*_iron_url_skip_init
+#global
 
 #endif

@@ -64,6 +64,8 @@
 #ifndef __iron_webserver_hsp__
 #define __iron_webserver_hsp__
 
+#module iron_webserver
+
 #uselib "hspwebsrv.dll"
 #cfunc _websrv_open       "websrv_open"       int
 #cfunc _websrv_open_url   "websrv_open_url"   str
@@ -74,9 +76,6 @@
 #cfunc _websrv_ws_recv    "websrv_ws_recv"    int, var, int, int
 #func  _websrv_ws_close   "websrv_ws_close"   int
 #func  _websrv_close      "websrv_close"      int
-
-	_web_handle = -1
-	goto *_web_skip_init
 
 #deffunc web_open int port
     if _web_handle >= 0 : web_close
@@ -125,6 +124,8 @@
     _web_handle = -1
     return
 
-*_web_skip_init
+#global
+
+	_web_handle@iron_webserver = -1
 
 #endif

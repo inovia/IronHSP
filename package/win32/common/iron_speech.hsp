@@ -45,6 +45,8 @@
 
 #include "iron_ai.hsp"
 
+#module iron_speech
+
 ;------------------------------------------------------------
 ; hspwhisper.dll (オフライン whisper.cpp バックエンド)
 ;   存在しない環境でも include 可 (open 時に -1 が返るだけ)
@@ -85,41 +87,25 @@
 ;------------------------------------------------------------
 ; バックエンド ID 定数
 ;------------------------------------------------------------
-#define SPEECH_BACKEND_CLOUD    1
-#define SPEECH_BACKEND_WHISPER  2
-#define SPEECH_BACKEND_SAPI     3
-#define SPEECH_BACKEND_WINRT    4
-#define SPEECH_BACKEND_VOSK     5
+#define global SPEECH_BACKEND_CLOUD    1
+#define global SPEECH_BACKEND_WHISPER  2
+#define global SPEECH_BACKEND_SAPI     3
+#define global SPEECH_BACKEND_WINRT    4
+#define global SPEECH_BACKEND_VOSK     5
 
 ;------------------------------------------------------------
 ; ステータス定数
 ;------------------------------------------------------------
-#define SPEECH_OK              0
-#define SPEECH_ERR_BACKEND    -1
-#define SPEECH_ERR_NOT_IMPL   -2
-#define SPEECH_ERR_NOT_OPEN   -3
-#define SPEECH_ERR_HTTP       -4
+#define global SPEECH_OK              0
+#define global SPEECH_ERR_BACKEND    -1
+#define global SPEECH_ERR_NOT_IMPL   -2
+#define global SPEECH_ERR_NOT_OPEN   -3
+#define global SPEECH_ERR_HTTP       -4
 
 ;------------------------------------------------------------
 ; 状態
 ;------------------------------------------------------------
 
-	_isp_backend = SPEECH_BACKEND_CLOUD
-	sdim _isp_endpoint, 1024
-	sdim _isp_key, 1024
-	sdim _isp_model, 256
-	sdim _isp_language, 32
-	_isp_endpoint = "https://api.openai.com/v1"
-	_isp_key = ""
-	_isp_model = "whisper-1"
-	_isp_language = ""
-	_isp_opened = 0
-	_isp_whisper_handle = -1
-	_isp_vosk_handle = -1
-	_isp_vosk_sr = 16000
-	_isp_sapi_handle = -1
-	_isp_winrt_handle = -1
-	goto *_isp_skip_init
 
 ;------------------------------------------------------------
 ; 設定系
@@ -312,10 +298,6 @@
 #cfunc _isp_mfcam_audio_avail   "mfcam_audio_pcm_avail" int
 #func  _isp_mfcam_audio_read    "mfcam_audio_read_pcm" int, var, int
 
-	_isp_mic_handle = -1
-	sdim _isp_pcm_buf, 32768
-	goto *_isp_listen_skip
-
 #deffunc iron_speech_listen_start_mic int dev_idx
     if _isp_opened = 0 : return SPEECH_ERR_NOT_OPEN
     if _isp_backend ! SPEECH_BACKEND_VOSK : return SPEECH_ERR_NOT_IMPL
@@ -358,8 +340,24 @@
     if _isp_vosk_handle >= 0 : _hvosk_reset _isp_vosk_handle
     return SPEECH_OK
 
-*_isp_listen_skip
+#global
 
-*_isp_skip_init
+	_isp_backend@iron_speech = 1    ; SPEECH_BACKEND_CLOUD
+	sdim _isp_endpoint@iron_speech, 1024
+	sdim _isp_key@iron_speech, 1024
+	sdim _isp_model@iron_speech, 256
+	sdim _isp_language@iron_speech, 32
+	_isp_endpoint@iron_speech = "https://api.openai.com/v1"
+	_isp_key@iron_speech = ""
+	_isp_model@iron_speech = "whisper-1"
+	_isp_language@iron_speech = ""
+	_isp_opened@iron_speech = 0
+	_isp_whisper_handle@iron_speech = -1
+	_isp_vosk_handle@iron_speech = -1
+	_isp_vosk_sr@iron_speech = 16000
+	_isp_sapi_handle@iron_speech = -1
+	_isp_winrt_handle@iron_speech = -1
+	_isp_mic_handle@iron_speech = -1
+	sdim _isp_pcm_buf@iron_speech, 32768
 
 #endif
