@@ -5,6 +5,29 @@
 ; ============================================================
 
 %index
+BCryptDestroyKey
+åÆÇîjä¸Ç∑ÇÈÅB
+%group
+Win32 bcrypt
+%prm
+hKey
+hKey : [int] îjä¸Ç∑ÇÈåÆÇÃÉnÉìÉhÉãÅB
+%inst
+åÆÇîjä¸Ç∑ÇÈÅB
+
+[ñﬂÇËíl]
+ä÷êîÇÃê¨î€Çé¶Ç∑ÉXÉeÅ[É^ÉXÉRÅ[ÉhÇï‘Ç∑ÅB
+éÂÇ»ñﬂÇËílÇÕà»â∫ÇÃí ÇËÅB
+Åià»â∫è»ó™Åj
+
+[îıçl]
+ÉvÉçÉoÉCÉ_Ç™ÉTÉ|Å[ÉgÇ∑ÇÈÉvÉçÉZÉbÉTÉÇÅ[ÉhÇ…âûÇ∂ÇƒÅABCryptDestroyKey
+ÇÕÉÜÅ[ÉUÅ[ÉÇÅ[ÉhÇ‹ÇΩÇÕÉJÅ[ÉlÉãÉÇÅ[ÉhÇ©ÇÁåƒÇ—èoÇπÇÈÅBDISPATCH_LEVEL Ç≈åƒÇ‘èÍçáÅAhKey ÇÕ
+BCRYPT_PROV_DISPATCH ÉtÉâÉOÇ≈äJÇ©ÇÍÇΩÉvÉçÉoÉCÉ_Ç©ÇÁìæÇΩÉAÉãÉSÉäÉYÉÄÉnÉìÉhÉãóRóàÇ≈Ç†ÇÈïKóvÇ™Ç†ÇÈÅBÉJÅ[ÉlÉãÉÇÅ[ÉhÇ≈ÇÕ
+Cng.lib(Windows Server 2008/Vista Ç≈ÇÕ Ksecdd.lib)ÇégópÇ∑ÇÈÅB
+
+
+%index
 BCryptDestroyHash
 ÉnÉbÉVÉÖÇ‹ÇΩÇÕÉÅÉbÉZÅ[ÉWîFèÿÉRÅ[Éh (MAC) ÉIÉuÉWÉFÉNÉgÇîjä¸Ç∑ÇÈÅB
 %group
@@ -31,6 +54,34 @@ Ksecdd.lib ÇégópÇ∑ÇÈÅB
 
 
 %index
+BCryptAddContextFunction
+Adds a cryptographic function to the list of functions that are supported by an existing CNG context.
+%group
+Win32 bcrypt
+%prm
+dwTable, pszContext, dwInterface, pszFunction, dwPosition
+dwTable : [int] 
+pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to add the function to.
+dwInterface : [int] 
+pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the cryptographic function to add.
+dwPosition : [int] Specifies the position in the list at which to insert this function. The function is inserted at this position ahead of any existing functions. The CRYPT_PRIORITY_TOP value is used to insert the function at the top of the list. The CRYPT_PRIORITY_BOTTOM value is used to insert the function at the end of the list.
+%inst
+Adds a cryptographic function to the list of functions that are
+supported by an existing CNG context.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+If the function added is already in the list, it will be removed and
+inserted at the new position. BCryptAddContextFunction can be called
+only in user mode.
+
+
+%index
 BCryptCloseAlgorithmProvider
 ÉAÉãÉSÉäÉYÉÄÉvÉçÉoÉCÉ_Çï¬Ç∂ÇÈÅB
 %group
@@ -52,6 +103,78 @@ BCryptCloseAlgorithmProvider ÇÕÉÜÅ[ÉUÅ[ÉÇÅ[ÉhÇ‹ÇΩÇÕÉJÅ[ÉlÉãÉÇÅ[ÉhÇ©ÇÁåƒÇ—èoÇπÇÈÅ
 PASSIVE_LEVEL IRQL Ç≈é¿çsÇ∑ÇÈïKóvÇ™Ç†ÇÈÅBÉJÅ[ÉlÉãÉÇÅ[ÉhÇ≈åƒÇ—èoÇ∑èÍçáÇÕ DDK ÇÃ Cng.lib ÇégópÇ∑ÇÈÅBè⁄ç◊ÇÕ
 WDK Ç®ÇÊÇ— Developer Tools ÇéQè∆ÅBWindows Server 2008 Ç®ÇÊÇ— Windows Vista:
 ÉJÅ[ÉlÉãÉÇÅ[ÉhÇ≈åƒÇ—èoÇ∑èÍçáÇÕ Ksecdd.lib ÇégópÇ∑ÇÈÅB
+
+
+%index
+BCryptConfigureContext
+Sets the configuration information for an existing CNG context.
+%group
+Win32 bcrypt
+%prm
+dwTable, pszContext, pConfig
+dwTable : [int] 
+pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to set the configuration information for.
+pConfig : [var] The address of a CRYPT_CONTEXT_CONFIG structure that contains the new context configuration information.
+%inst
+Sets the configuration information for an existing CNG context.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptConfigureContext can be called only in user mode.
+
+
+%index
+BCryptConfigureContextFunction
+Sets the configuration information for the cryptographic function of an existing CNG context.
+%group
+Win32 bcrypt
+%prm
+dwTable, pszContext, dwInterface, pszFunction, pConfig
+dwTable : [int] 
+pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to set the cryptographic function configuration information for.
+dwInterface : [int] 
+pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the cryptographic function to set the configuration information for.
+pConfig : [var] The address of a CRYPT_CONTEXT_FUNCTION_CONFIG structure that contains the new function configuration information.
+%inst
+Sets the configuration information for the cryptographic function of
+an existing CNG context.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptConfigureContextFunction can be called only in user mode.
+
+
+%index
+BCryptCreateContext
+Creates a new CNG configuration context.
+%group
+Win32 bcrypt
+%prm
+dwTable, pszContext, pConfig
+dwTable : [int] 
+pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to create.
+pConfig : [var] A pointer to a CRYPT_CONTEXT_CONFIG structure that contains additional configuration data for the new context. This parameter can be NULL if it is not needed.
+%inst
+Creates a new CNG configuration context.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptCreateContext can be called only in user mode.
 
 
 %index
@@ -86,26 +209,44 @@ Ksecdd.lib ÇégópÇ∑ÇÈÅB
 
 
 %index
-BCryptDestroyKey
-åÆÇîjä¸Ç∑ÇÈÅB
+BCryptCreateMultiHash
+The BCryptCreateMultiHash function creates a multi-hash state that allows for the parallel computation of multiple hash operations.
 %group
 Win32 bcrypt
 %prm
-hKey
-hKey : [int] îjä¸Ç∑ÇÈåÆÇÃÉnÉìÉhÉãÅB
+hAlgorithm, phHash, nHashes, pbHashObject, cbHashObject, pbSecret, cbSecret, dwFlags
+hAlgorithm : [int] *BCRYPT_ALG_HANDLE* `[in, out]` The algorithm handle used for all of the hash states in the multi-hash array. The algorithm handle must have been opened with the **BCYRPT_MULTI_FLAG** passed to the [BCryptOpenAlgorithmProvider](nf-bcrypt-bcryptopenalgorithmprovider.md) function. Alternatively, the caller can use the pseudo-handles.
+phHash : [var] *BCRYPT_HASH_HANDLE** `[out]` A pointer to a **BCRYPT_HASH_HANDLE** value that receives a handle that represents the multi-hash state. This handle is used in subsequent operations such as [BCryptProcessMultiOperations](nf-bcrypt-bcryptprocessmultioperations.md). When you have finished using this handle, release it by passing it to the [BCryptDestroyHash](nf-bcrypt-bcryptdestroyhash.md) function.
+nHashes : [int] *ULONG* `[in]` The number of elements in the array. The multi-hash state that this function creates is able to perform parallel computations on *nHashes* different hash states.
+pbHashObject : [var] *PUCHAR* `[out]` A pointer to a buffer that receives the multi-hash state. The size can be calculated from the **cbPerObject** and **cbPerElement** members of the [BCRYPT_MULTI_OBJECT_LENGTH_STRUCT](ns-bcrypt-bcrypt_multi_object_length_struct.md) structure. The value is the following: `cbPerObject + (number of hash states) * cbPerElement`. If *pbHashObject* is `NULL` and *cbHashObject* has a value of zero (`0`), the object buffer is automatically allocated.
+cbHashObject : [int] *ULONG* `[in]` The size of the *pbHashObject* buffer, or zero (`0`) if *pbHashObject* is `NULL`.
+pbSecret : [var] *PUCHAR* `[in]` A pointer to a buffer that contains the key to use for the hash or MAC. The *cbSecret* parameter contains the size of this buffer. This key only applies to hash algorithms opened by the [BCryptOpenAlgorithmProvider](nf-bcrypt-bcryptopenalgorithmprovider.md) function by using the **BCRYPT_ALG_HANDLE_HMAC** flag. Otherwise, set this parameter to `NULL`. The same key is used for all elements of the array.
+cbSecret : [int] *ULONG* `[in]` The size, in bytes, of the *pbSecret* buffer. If no key is used, set this parameter to zero (`0`).
+dwFlags : [int] *ULONG* `[in]` Flags that modify the behavior of the function. This can be zero or the values below. Multi-hash objects are always reusable and always behave as if the **BCRYPT_HASH_REUSABLE_FLAG** was passed. This flag is supported here for consistency. | Value | Meaning | |--------|--------| | **BCRYPT_HASH_REUSABLE_FLAG** | Creates a reusable hashing object. The object can be used for a new hashing operation immediately after calling [BCryptFinishHash](nf-bcrypt-bcryptfinishhash.md). For more information, see [Creating a Hash with CNG](/windows/win32/SecCNG/creating-a-hash-with-cng). |
 %inst
-åÆÇîjä¸Ç∑ÇÈÅB
+The BCryptCreateMultiHash function creates a multi-hash state that
+allows for the parallel computation of multiple hash operations.
 
 [ñﬂÇËíl]
-ä÷êîÇÃê¨î€Çé¶Ç∑ÉXÉeÅ[É^ÉXÉRÅ[ÉhÇï‘Ç∑ÅB
-éÂÇ»ñﬂÇËílÇÕà»â∫ÇÃí ÇËÅB
-Åià»â∫è»ó™Åj
+Returns a status code that indicates the success or failure of the
+function. If the method succeeds, it will return `STATUS_SUCCESS`.
+For other **NTSTATUS** values, see [NTSTATUS
+Values](/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55).
 
 [îıçl]
-ÉvÉçÉoÉCÉ_Ç™ÉTÉ|Å[ÉgÇ∑ÇÈÉvÉçÉZÉbÉTÉÇÅ[ÉhÇ…âûÇ∂ÇƒÅABCryptDestroyKey
-ÇÕÉÜÅ[ÉUÅ[ÉÇÅ[ÉhÇ‹ÇΩÇÕÉJÅ[ÉlÉãÉÇÅ[ÉhÇ©ÇÁåƒÇ—èoÇπÇÈÅBDISPATCH_LEVEL Ç≈åƒÇ‘èÍçáÅAhKey ÇÕ
-BCRYPT_PROV_DISPATCH ÉtÉâÉOÇ≈äJÇ©ÇÍÇΩÉvÉçÉoÉCÉ_Ç©ÇÁìæÇΩÉAÉãÉSÉäÉYÉÄÉnÉìÉhÉãóRóàÇ≈Ç†ÇÈïKóvÇ™Ç†ÇÈÅBÉJÅ[ÉlÉãÉÇÅ[ÉhÇ≈ÇÕ
-Cng.lib(Windows Server 2008/Vista Ç≈ÇÕ Ksecdd.lib)ÇégópÇ∑ÇÈÅB
+Internally, parallel hash computations are done using
+single-instruction multiple-data (SIMD) instructions with up to 8
+parallel computations at a time, depending on the hash algorithm and
+the CPU features available. To maximize performance, we recommend
+that the caller provide at least eight computations that can be
+processed in parallel. For computations of unequal length, providing
+more computations in parallel allows the implementation to schedule
+the computations better across the CPU registers. This can provide a
+throughput benefit. For optimal throughput, we recommend that the
+caller provide between eight and 100 computations. Select a lower
+value in that range only if all the hash computations are the same
+length. Multi-hashing is not supported for HMAC-MD2, HMAC-MD4, and
+GMAC.
 
 
 %index
@@ -142,6 +283,220 @@ Cng.lib(Windows Server 2008/Vista Ç≈ÇÕ Ksecdd.lib)ÇégópÇ∑ÇÈÅB
 
 
 %index
+BCryptDeleteContext
+Deletes an existing CNG configuration context.
+%group
+Win32 bcrypt
+%prm
+dwTable, pszContext
+dwTable : [int] 
+pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to delete.
+%inst
+Deletes an existing CNG configuration context.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptDeleteContext can be called only in user mode.
+
+
+%index
+BCryptDestroySecret
+Destroys a secret agreement handle that was created by using the BCryptSecretAgreement function.
+%group
+Win32 bcrypt
+%prm
+hSecret
+hSecret : [int] The BCRYPT_SECRET_HANDLE to be destroyed.
+%inst
+Destroys a secret agreement handle that was created by using the
+BCryptSecretAgreement function.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+Depending on what processor modes a provider supports,
+BCryptDestroySecret can be called either from user mode or kernel
+mode. Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
+DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
+handle provided in the hSecret parameter must be derived from an
+algorithm handle returned by a provider that was opened by using the
+BCRYPT_PROV_DISPATCH flag. To call this function in kernel mode, use
+Cng.lib, which is part of the Driver Development Kit (DDK). Windows
+Server 2008 and Windows Vista: To call this function in kernel mode,
+use Ksecdd.lib.
+
+
+%index
+BCryptDeriveKey
+Derives a key from a secret agreement value. (BCryptDeriveKey)
+%group
+Win32 bcrypt
+%prm
+hSharedSecret, pwszKDF, pParameterList, pbDerivedKey, cbDerivedKey, pcbResult, dwFlags
+hSharedSecret : [int] The secret agreement handle to create the key from. This handle is obtained from the BCryptSecretAgreement function.
+pwszKDF : [wstr] A pointer to a null-terminated Unicode string that identifies the key derivation function (KDF) to use to derive the key. This can be one of the following strings.
+pParameterList : [var] The address of a BCryptBufferDesc structure that contains the KDF parameters. This parameter is optional and can be NULL if it is not needed.
+pbDerivedKey : [var] The address of a buffer that receives the key. The cbDerivedKey parameter contains the size of this buffer. If this parameter is NULL, this function will place the required size, in bytes, in the ULONG pointed to by the pcbResult parameter.
+cbDerivedKey : [int] The size, in bytes, of the pbDerivedKey buffer.
+pcbResult : [var] A pointer to a ULONG that receives the number of bytes that were copied to the pbDerivedKey buffer. If the pbDerivedKey parameter is NULL, this function will place the required size, in bytes, in the ULONG pointed to by this parameter.
+dwFlags : [int] A set of flags that modify the behavior of this function. This can be zero or the following value.
+%inst
+Derives a key from a secret agreement value. (BCryptDeriveKey)
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+The BCryptBufferDesc structure in the pParameterList parameter can
+contain more than one of the KDF_SECRET_PREPEND and KDF_SECRET_APPEND
+parameters. If more than one of these parameters is specified, the
+parameter values are concatenated in the order in which they are
+contained in the array before the KDF is called. For example, assume
+the following parameter values are specified.
+This doc was truncated.
+
+
+%index
+BCryptDeriveKeyCapi
+Derives a key from a hash value.
+%group
+Win32 bcrypt
+%prm
+hHash, hTargetAlg, pbDerivedKey, cbDerivedKey, dwFlags
+hHash : [int] The handle of the hash object. The handle is obtained by calling the BCryptCreateHash function. When you have finished using the handle, you must free it by calling the BCryptDestroyHash function.
+hTargetAlg : [int] The handle of the algorithm object.  This can be an ALG_ID value that is compatible with the CryptDeriveKey function. Note??Limitations in CAPI and key expansion prevent the use of any hash algorithm that generates an output that is larger than 512 bits.
+pbDerivedKey : [var] A pointer to the buffer that receives the derived key.
+cbDerivedKey : [int] The size, in characters, of the derived key pointed to by the pbDerivedKey parameter.
+dwFlags : [int] This parameter is reserved and must be set to zero.
+%inst
+Derives a key from a hash value.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+This function does not support the PK salt functionality of the CAPI
+CryptDeriveKey function.
+
+
+%index
+BCryptDeriveKeyPBKDF2
+Derives a key from a hash value by using the PBKDF2 key derivation algorithm as defined by RFC 2898.
+%group
+Win32 bcrypt
+%prm
+hPrf, pbPassword, cbPassword, pbSalt, cbSalt, cIterations, pbDerivedKey, cbDerivedKey, dwFlags
+hPrf : [int] The handle of an algorithm provider that provides the pseudo-random function. This should be an algorithm provider that performs a Message Authentication Code computation. When you use the default Microsoft algorithm provider, any hashing algorithm opened by using the  BCRYPT_ALG_HANDLE_HMAC_FLAG flag can be used. Note??Only algorithms that implement the BCRYPT_IS_KEYED_HASH  property can be used to populate this parameter.
+pbPassword : [var] A pointer to a buffer that contains the password parameter for the PBKDF2 key derivation algorithm. Note??Any secret information used in the key derivation should be passed in this buffer.
+cbPassword : [int] The length, in bytes, of the data in the buffer pointed to by the pbPassword parameter.
+pbSalt : [var] A pointer to a buffer that contains the salt argument  for the PBKDF2 key derivation algorithm. Note??Any information that is not secret and that is used in the key derivation should be passed in this buffer.
+cbSalt : [int] The length, in bytes, of the salt argument pointed to by the pbSalt parameter.
+cIterations : [int64] The iteration count for the PBKDF2 key derivation algorithm.
+pbDerivedKey : [var] A pointer to a buffer that receives the derived key.
+cbDerivedKey : [int] The length, in bytes, of the derived key returned in the buffer pointed to by the pbDerivedKey parameter.
+dwFlags : [int] This parameter is reserved and must be set to zero.
+%inst
+Derives a key from a hash value by using the PBKDF2 key derivation
+algorithm as defined by RFC 2898.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+
+%index
+BCryptDuplicateHash
+Duplicates an existing hash or Message Authentication Code (MAC) object.
+%group
+Win32 bcrypt
+%prm
+hHash, phNewHash, pbHashObject, cbHashObject, dwFlags
+hHash : [int] The handle of the hash or MAC object to duplicate.
+phNewHash : [var] A pointer to a BCRYPT_HASH_HANDLE value that receives the handle that represents the duplicate hash or MAC object.
+pbHashObject : [var] A pointer to a buffer that receives the duplicate hash or MAC object. The cbHashObject parameter contains the size of this buffer. The required size of this buffer can be obtained by calling the BCryptGetProperty function to get the BCRYPT_OBJECT_LENGTH property. This will provide the size of the hash object for the specified algorithm. When the duplicate hash handle is released, free this memory.
+cbHashObject : [int] The size, in bytes, of the pbHashObject buffer.
+dwFlags : [int] A set of flags that modify the behavior of this function. No flags are currently defined, so this parameter should be zero.
+%inst
+Duplicates an existing hash or Message Authentication Code (MAC)
+object.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+This function is useful when computing a hash or MAC over a block of
+common data. After the common data has been processed, the hash or
+MAC object can be duplicated, and then the unique data can be added
+to the individual objects. Depending on what processor modes a
+provider supports, BCryptDuplicateHash can be called either from user
+mode or kernel mode. Kernel mode callers can execute either at
+PASSIVE_LEVEL IRQL or DISPATCH_LEVEL IRQL. If the current IRQL level
+is DISPATCH_LEVEL, the handle provided in the hHash parameter must be
+derived from an algorithm handle returned by a provider that was
+opened by using the BCRYPT_PROV_DISPATCH flag, and any pointers
+passed to the BCryptDestroyKey function must refer to nonpaged (or
+locked) memory. To call this function in kernel mode, use Cng.lib,
+which is part of the Driver Development Kit (DDK). Windows Server
+2008 and Windows Vista: To call this function in kernel mode, use
+Ksecdd.lib.
+
+
+%index
+BCryptDuplicateKey
+Creates a duplicate of a symmetric key.
+%group
+Win32 bcrypt
+%prm
+hKey, phNewKey, pbKeyObject, cbKeyObject, dwFlags
+hKey : [int] The handle of the key to duplicate. This must be a handle to a symmetric key.
+phNewKey : [var] A pointer to a BCRYPT_KEY_HANDLE variable that receives the handle of the duplicate key. This handle is used in subsequent functions that require a key, such as BCryptEncrypt. This handle must be released when it is no longer needed by passing it to the BCryptDestroyKey function.
+pbKeyObject : [var] A pointer to a buffer that receives the duplicate key object. The cbKeyObject parameter contains the size of this buffer. The required size of this buffer can be obtained by calling the BCryptGetProperty function to get the BCRYPT_OBJECT_LENGTH property. This will provide the size of the key object for the specified algorithm. This memory can only be freed after the phNewKey key handle is destroyed.
+cbKeyObject : [int] The size, in bytes, of the pbKeyObject buffer.
+dwFlags : [int] A set of flags that modify the behavior of this function. No flags are currently defined, so this parameter should be zero.
+%inst
+Creates a duplicate of a symmetric key.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+Depending on what processor modes a provider supports,
+BCryptDuplicateKey can be called either from user mode or kernel
+mode. Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
+DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
+handle provided in the hKey parameter must be derived from an
+algorithm handle returned by a provider that was opened with the
+BCRYPT_PROV_DISPATCH flag, and any pointers passed to the
+BCryptDuplicateKey function must refer to nonpaged (or locked)
+memory. To call this function in kernel mode, use Cng.lib, which is
+part of the Driver Development Kit (DDK). Windows Server 2008 and
+Windows Vista: To call this function in kernel mode, use Ksecdd.lib.
+
+
+%index
 BCryptEncrypt
 ÉfÅ[É^ÉuÉçÉbÉNÇà√çÜâªÇ∑ÇÈÅB(BCryptEncrypt)
 %group
@@ -174,6 +529,225 @@ pbInput Ç∆ pbOutput
 
 
 %index
+BCryptEnumAlgorithms
+Gets a list of the registered algorithm identifiers.
+%group
+Win32 bcrypt
+%prm
+dwAlgOperations, pAlgCount, ppAlgList, dwFlags
+dwAlgOperations : [int] 
+pAlgCount : [var] A pointer to a ULONG variable to receive the number of elements in the ppAlgList array.
+ppAlgList : [var] The address of a BCRYPT_ALGORITHM_IDENTIFIER structure pointer to receive the array of registered algorithm identifiers. This pointer must be passed to the BCryptFreeBuffer function when it is no longer needed.
+dwFlags : [int] A set of flags that modify the behavior of this function. No flags are defined for this function.
+%inst
+Gets a list of the registered algorithm identifiers.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptEnumAlgorithms can be called either from user mode or kernel
+mode. Kernel mode callers must be executing at PASSIVE_LEVEL IRQL.
+
+
+%index
+BCryptEnumContextFunctionProviders
+Obtains the providers for the cryptographic functions for a context in the specified configuration table.
+%group
+Win32 bcrypt
+%prm
+dwTable, pszContext, dwInterface, pszFunction, pcbBuffer, ppBuffer
+dwTable : [int] 
+pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to enumerate the function providers for.
+dwInterface : [int] 
+pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the function to enumerate the providers for.
+pcbBuffer : [var] The address of a ULONG variable that, on entry, contains the size, in bytes, of the buffer pointed to by ppBuffer. If this size is not large enough to hold the set of context identifiers, this function will fail with STATUS_BUFFER_TOO_SMALL. After this function returns, this value contains the number of bytes that were copied to the ppBuffer buffer.
+ppBuffer : [var] The address of a pointer to a CRYPT_CONTEXT_FUNCTION_PROVIDERS structure that receives the set of context function providers retrieved by this function. The value pointed to by the pcbBuffer parameter contains the size of this buffer. If the value pointed to by this parameter is NULL, this function will allocate the required memory. This memory must be freed when it is no longer needed by passing this pointer to the BCryptFreeBuffer function. If this parameter is NULL, this function will place the required size, in bytes, in the variable pointed to by the pcbBuffer parameter and return STATUS_BUFFER_TOO_SMALL.
+%inst
+Obtains the providers for the cryptographic functions for a context
+in the specified configuration table.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptEnumContextFunctionProviders can be called only in user mode.
+
+
+%index
+BCryptEnumContextFunctions
+Obtains the cryptographic functions for a context in the specified configuration table.
+%group
+Win32 bcrypt
+%prm
+dwTable, pszContext, dwInterface, pcbBuffer, ppBuffer
+dwTable : [int] 
+pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to enumerate the functions for.
+dwInterface : [int] 
+pcbBuffer : [var] The address of a ULONG variable that, on entry, contains the size, in bytes, of the buffer pointed to by ppBuffer. If this size is not large enough to hold the set of context identifiers, this function will fail with STATUS_BUFFER_TOO_SMALL. After this function returns, this value contains the number of bytes that were copied to the ppBuffer buffer.
+ppBuffer : [var] The address of a pointer to a CRYPT_CONTEXT_FUNCTIONS structure that receives the set of context functions retrieved by this function. The value pointed to by the pcbBuffer parameter contains the size of this buffer. If the value pointed to by this parameter is NULL, this function will allocate the required memory. This memory must be freed when it is no longer needed by passing this pointer to the BCryptFreeBuffer function. If this parameter is NULL, this function will place the required size, in bytes, in the variable pointed to by the pcbBuffer parameter and return STATUS_BUFFER_TOO_SMALL.
+%inst
+Obtains the cryptographic functions for a context in the specified
+configuration table.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptEnumContextFunctions can be called only in user mode.
+
+
+%index
+BCryptEnumContexts
+Obtains the identifiers of the contexts in the specified configuration table.
+%group
+Win32 bcrypt
+%prm
+dwTable, pcbBuffer, ppBuffer
+dwTable : [int] 
+pcbBuffer : [var] The address of a ULONG variable that, on entry, contains the size, in bytes, of the buffer pointed to by ppBuffer. If this size is not large enough to hold the set of context identifiers, this function will fail with STATUS_BUFFER_TOO_SMALL. After this function returns, this value contains the number of bytes that were copied to the ppBuffer buffer.
+ppBuffer : [var] The address of a pointer to a CRYPT_CONTEXTS structure that receives the set of contexts retrieved by this function. The value pointed to by the pcbBuffer parameter contains the size of this buffer. If the value pointed to by this parameter is NULL, this function will allocate the required memory. This memory must be freed when it is no longer needed by passing this pointer to the BCryptFreeBuffer function. If this parameter is NULL, this function will place the required size, in bytes, in the variable pointed to by the pcbBuffer parameter and return STATUS_BUFFER_TOO_SMALL.
+%inst
+Obtains the identifiers of the contexts in the specified
+configuration table.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptEnumContexts can be called only in user mode.
+
+
+%index
+BCryptEnumProviders
+Obtains all of the CNG providers that support a specified algorithm.
+%group
+Win32 bcrypt
+%prm
+pszAlgId, pImplCount, ppImplList, dwFlags
+pszAlgId : [wstr] A pointer to a null-terminated Unicode string that identifies the algorithm to obtain the providers for. This can be one of the predefined CNG Algorithm Identifiers or another algorithm identifier.
+pImplCount : [var] A pointer to a ULONG variable to receive the number of elements in the ppImplList array.
+ppImplList : [var] The address of an array of BCRYPT_PROVIDER_NAME structures to receive the collection of providers that support the specified algorithm. The pImplCount parameter receives the number of elements in this array. This memory must be freed when it is no longer needed by passing this pointer to the BCryptFreeBuffer function.
+dwFlags : [int] A set of flags that modifies the behavior of this function. There are currently no flags defined, so this parameter must be zero.
+%inst
+Obtains all of the CNG providers that support a specified algorithm.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptEnumProviders can be called either from user mode or kernel
+mode. Kernel mode callers must be executing at PASSIVE_LEVEL IRQL.
+
+
+%index
+BCryptEnumRegisteredProviders
+Retrieves information about the registered providers.
+%group
+Win32 bcrypt
+%prm
+pcbBuffer, ppBuffer
+pcbBuffer : [var] A pointer to a ULONG value that, on entry, contains the size, in bytes, of the buffer pointed to by the ppBuffer parameter. On exit, this value receives either the number of bytes copied to the buffer or the required size, in bytes, of the buffer. Note??This is the total size, in bytes, of the entire buffer, not just the size of the CRYPT_PROVIDERS structure. The buffer must be able to hold other data for the providers in addition to the CRYPT_PROVIDERS structure.
+ppBuffer : [var] A pointer to a buffer pointer that receives a CRYPT_PROVIDERS structure and other data that describes the collection of registered providers. If this parameter is NULL, this function will return STATUS_BUFFER_TOO_SMALL and place in the value pointed to by the pcbBuffer parameter, the required size, in bytes, of all the data. If this parameter is the address of a NULL pointer, this function will allocate the required memory, fill the memory with the information about the providers, and place the pointer to this memory in this parameter. When you have finished using this memory,  free it by passing this pointer to the BCryptFreeBuffer function. If this parameter is the address of a non-NULL pointer, this function will copy the provider information into this buffer. The pcbBuffer parameter must contain the size, in bytes, of the entire buffer. If the buffer is not large enough to hold all of the provider information, this function will return STATUS_BUFFER_TOO_SMALL.
+%inst
+Retrieves information about the registered providers.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+The BCryptEnumRegisteredProviders function can be called in one of
+two ways:
+This doc was truncated.
+
+
+%index
+BCryptExportKey
+Exports a key to a memory BLOB that can be persisted for later use.
+%group
+Win32 bcrypt
+%prm
+hKey, hExportKey, pszBlobType, pbOutput, cbOutput, pcbResult, dwFlags
+hKey : [int] The handle of the key to export.
+hExportKey : [int] The handle of the key with which to wrap the exported key. Use this parameter when exporting BLOBs of type BCRYPT_AES_WRAP_KEY_BLOB; otherwise, set it to NULL.Note??The hExportKey handle must be supplied by the same provider that supplied the hKey handle, and hExportKey must be a handle to a symmetric key that can be used in the Advanced Encryption Standard (AES) key wrap algorithm. When the hKey handle is from the Microsoft provider, hExportKey must be an AES key handle.
+pszBlobType : [wstr] 
+pbOutput : [var] The address of a buffer that receives the key BLOB. The cbOutput parameter contains the size of this buffer. If this parameter is NULL, this function will place the required size, in bytes, in the ULONG pointed to by the pcbResult parameter.
+cbOutput : [int] Contains the size, in bytes, of the pbOutput buffer.
+pcbResult : [var] A pointer to a ULONG that receives the number of bytes that were copied to the pbOutput buffer. If the pbOutput parameter is NULL, this function will place the required size, in bytes, in the ULONG pointed to by this parameter.
+dwFlags : [int] A set of flags that modify the behavior of this function. No flags are defined for this function.
+%inst
+Exports a key to a memory BLOB that can be persisted for later use.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+Depending on what processor modes a provider supports,
+BCryptExportKey can be called either from user mode or kernel mode.
+Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
+DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
+handle provided in the hKey parameter must be derived from an
+algorithm handle returned by a provider that was opened with the
+BCRYPT_PROV_DISPATCH flag, and any pointers passed to the
+BCryptExportKey function must refer to nonpaged (or locked) memory.
+To call this function in kernel mode, use Cng.lib, which is part of
+the Driver Development Kit (DDK). Windows Server 2008 and Windows
+Vista: To call this function in kernel mode, use Ksecdd.lib.
+
+
+%index
+BCryptFinalizeKeyPair
+Completes a public/private key pair.
+%group
+Win32 bcrypt
+%prm
+hKey, dwFlags
+hKey : [int] The handle of the key to complete. This handle is obtained by calling the BCryptGenerateKeyPair function.
+dwFlags : [int] A set of flags that modify the behavior of this function. No flags are currently defined, so this parameter should be zero.
+%inst
+Completes a public/private key pair.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+Depending on what processor modes a provider supports,
+BCryptFinalizeKeyPair can be called either from user mode or kernel
+mode. Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
+DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
+handle provided in the hKey parameter must be derived from an
+algorithm handle returned by a provider that was opened with the
+BCRYPT_PROV_DISPATCH flag. To call this function in kernel mode, use
+Cng.lib, which is part of the Driver Development Kit (DDK). Windows
+Server 2008 and Windows Vista: To call this function in kernel mode,
+use Ksecdd.lib.
+
+
+%index
 BCryptFinishHash
 BCryptHashData ÇÃåƒÇ—èoÇµÇ≈í~êœÇ≥ÇÍÇΩÉfÅ[É^Ç…ëŒÇ∑ÇÈÉnÉbÉVÉÖÇ‹ÇΩÇÕ MAC ílÇéÊìæÇ∑ÇÈÅB
 %group
@@ -196,6 +770,28 @@ BCryptHashData ÇÃåƒÇ—èoÇµÇ≈í~êœÇ≥ÇÍÇΩÉfÅ[É^Ç…ëŒÇ∑ÇÈÉnÉbÉVÉÖÇ‹ÇΩÇÕ MAC ílÇéÊìæÇ∑
 ÉvÉçÉoÉCÉ_Ç™ÉTÉ|Å[ÉgÇ∑ÇÈÉvÉçÉZÉbÉTÉÇÅ[ÉhÇ…âûÇ∂ÇƒÉÜÅ[ÉUÅ[/ÉJÅ[ÉlÉãÉÇÅ[ÉhÇ©ÇÁåƒÇ—èoÇπÇÈÅBDISPATCH_LEVEL
 åƒÇ—èoÇµéûÇÃèåèÇÕëºÇÃ BCrypt ä÷êîÇ∆ìØólÅBÉJÅ[ÉlÉãÉÇÅ[ÉhÇ≈ÇÕ Cng.lib(Windows Server 2008/Vista
 Ç≈ÇÕ Ksecdd.lib)ÇégópÇ∑ÇÈÅB
+
+
+%index
+BCryptFreeBuffer
+Used to free memory that was allocated by one of the CNG functions.
+%group
+Win32 bcrypt
+%prm
+pvBuffer
+pvBuffer : [intptr] A pointer to the memory buffer to be freed.
+%inst
+Used to free memory that was allocated by one of the CNG functions.
+
+[îıçl]
+BCryptFreeBuffer must be called in the same processor mode as the
+BCrypt API function that allocated the buffer. In addition, if the
+buffer was allocated at PASSIVE_LEVEL IRQL, it must be freed at that
+IRQL. If the buffer was allocated at DISPATCH_LEVEL IRQL, it can be
+freed at either DISPATCH_LEVEL IRQL or PASSIVE_LEVEL IRQL. To call
+this function in kernel mode, use Cng.lib, which is part of the
+Driver Development Kit (DDK). Windows Server 2008 and Windows Vista:
+To call this function in kernel mode, use Ksecdd.lib.
 
 
 %index
@@ -227,6 +823,162 @@ BCRYPT_PROV_DISPATCH
 
 
 %index
+BCryptGenerateKeyPair
+Creates an empty public/private key pair.
+%group
+Win32 bcrypt
+%prm
+hAlgorithm, phKey, dwLength, dwFlags
+hAlgorithm : [int] Handle of an algorithm provider that supports signing, asymmetric encryption, or key agreement. This handle must have been created by using the BCryptOpenAlgorithmProvider function.
+phKey : [var] A pointer to a BCRYPT_KEY_HANDLE that receives the handle of the key. This handle is used in subsequent functions that require a key, such as BCryptEncrypt. This handle must be released when it is no longer needed by passing it to the BCryptDestroyKey function.
+dwLength : [int] The length, in bits, of the key. Algorithm providers have different key size restrictions for each standard asymmetric algorithm.
+dwFlags : [int] A set of flags that modify the behavior of this function. No flags are currently defined, so this parameter should be zero.
+%inst
+Creates an empty public/private key pair.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+Depending on what processor modes a provider supports,
+BCryptGenerateKeyPair can be called either from user mode or kernel
+mode. Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
+DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
+handle provided in the hAlgorithm parameter must have been opened by
+using the BCRYPT_PROV_DISPATCH flag, and any pointers passed to the
+BCryptGenerateKeyPair function must refer to nonpaged (or locked)
+memory. To call this function in kernel mode, use Cng.lib, which is
+part of the Driver Development Kit (DDK). Windows Server 2008 and
+Windows Vista: To call this function in kernel mode, use Ksecdd.lib.
+
+
+%index
+BCryptGenerateSymmetricKey
+Creates a key object for use with a symmetrical key encryption algorithm from a supplied key.
+%group
+Win32 bcrypt
+%prm
+hAlgorithm, phKey, pbKeyObject, cbKeyObject, pbSecret, cbSecret, dwFlags
+hAlgorithm : [int] The handle of an algorithm provider created with the BCryptOpenAlgorithmProvider function. The algorithm specified when the provider was created must support symmetric key encryption.
+phKey : [var] A pointer to a BCRYPT_KEY_HANDLE that receives the handle of the key. This handle is used in subsequent functions that require a key, such as BCryptEncrypt. This handle must be released when it is no longer needed by passing it to the BCryptDestroyKey function.
+pbKeyObject : [var] A pointer to a buffer that receives the key object. The cbKeyObject parameter contains the size of this buffer. The required size of this buffer can be obtained by calling the BCryptGetProperty function to get the BCRYPT_OBJECT_LENGTH property. This will provide the size of the key object for the specified algorithm. This memory can only be freed after the phKey key handle is destroyed. If the value of this parameter is NULL and the value of the cbKeyObject parameter is zero, the memory for the key object is allocated and freed by this function.Windows?7:??This memory management functionality is available beginning with Windows?7.
+cbKeyObject : [int] The size, in bytes, of the pbKeyObject buffer. If the value of this parameter is zero and the value of the pbKeyObject parameter is NULL, the memory for the key object is allocated and freed by this function.Windows?7:??This memory management functionality is available beginning with Windows?7.
+pbSecret : [var] Pointer to a buffer that contains the key from which to create the key object. The cbSecret parameter contains the size of this buffer. This is normally a hash of a password or some other reproducible data. If the data passed in exceeds the target key size, the data will be truncated and the excess will be ignored. Note??We strongly recommended that applications pass in the exact number of bytes required by the target key.
+cbSecret : [int] The size, in bytes, of the pbSecret buffer.
+dwFlags : [int] A set of flags that modify the behavior of this function. No flags are currently defined, so this parameter should be zero.
+%inst
+Creates a key object for use with a symmetrical key encryption
+algorithm from a supplied key.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+Depending on what processor modes a provider supports,
+BCryptGenerateSymmetricKey can be called either from user mode or
+kernel mode. Kernel mode callers can execute either at PASSIVE_LEVEL
+IRQL or DISPATCH_LEVEL IRQL. If the current IRQL level is
+DISPATCH_LEVEL, the handle provided in the hAlgorithm parameter must
+have been opened by using the BCRYPT_PROV_DISPATCH flag, and any
+pointers passed to the BCryptGenerateSymmetricKey function must refer
+to nonpaged (or locked) memory. To call this function in kernel mode,
+use Cng.lib, which is part of the Driver Development Kit (DDK).
+Windows Server 2008 and Windows Vista: To call this function in
+kernel mode, use Ksecdd.lib.
+
+
+%index
+BCryptGetFipsAlgorithmMode
+Determines whether Federal Information Processing Standard (FIPS) compliance is enabled.
+%group
+Win32 bcrypt
+%prm
+pfEnabled
+pfEnabled : [var] The address of a BOOLEAN variable that receives zero if FIPS compliance is not enabled, or a nonzero value if FIPS compliance is enabled.
+%inst
+Determines whether Federal Information Processing Standard (FIPS)
+compliance is enabled.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptGetFipsAlgorithmMode can be called either from user mode or
+kernel mode. Kernel mode callers must be executing at PASSIVE_LEVEL
+IRQL.
+
+
+%index
+BCryptGetProperty
+Retrieves the value of a named property for a CNG object.
+%group
+Win32 bcrypt
+%prm
+hObject, pszProperty, pbOutput, cbOutput, pcbResult, dwFlags
+hObject : [int] A handle that represents the CNG object to obtain the property value for.
+pszProperty : [wstr] A pointer to a null-terminated Unicode string that contains the name of the property to retrieve. This can be one of the predefined Cryptography Primitive Property Identifiers or a custom property identifier.
+pbOutput : [var] The address of a buffer that receives the property value. The cbOutput parameter contains the size of this buffer.
+cbOutput : [int] The size, in bytes, of the pbOutput buffer.
+pcbResult : [var] A pointer to a ULONG variable that receives the number of bytes that were copied to the pbOutput buffer. If the pbOutput parameter is NULL, this function will place the required size, in bytes, in the location pointed to by this parameter.
+dwFlags : [int] A set of flags that modify the behavior of this function. No flags are defined for this function.
+%inst
+Retrieves the value of a named property for a CNG object.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+To obtain the required size for a property, pass NULL for the
+pbOutput parameter. This function will place the required size, in
+bytes, in the value pointed to by the pcbResult parameter. Depending
+on what processor modes a provider supports, BCryptGetProperty can be
+called either from user mode or kernel mode. Kernel mode callers can
+execute either at PASSIVE_LEVEL IRQL or DISPATCH_LEVEL IRQL. If the
+current IRQL level is DISPATCH_LEVEL, any pointers passed to the
+BCryptGetProperty function must refer to nonpaged (or locked) memory.
+If the object specified in the hObject parameter is a handle, it must
+have been opened by using the BCRYPT_PROV_DISPATCH flag. To call this
+function in kernel mode, use Cng.lib, which is part of the Driver
+Development Kit (DDK). Windows Server 2008 and Windows Vista: To call
+this function in kernel mode, use Ksecdd.lib.
+
+
+%index
+BCryptHash
+Performs a single hash computation. This is a convenience function that wraps calls to BCryptCreateHash, BCryptHashData, BCryptFinishHash, and BCryptDestroyHash.
+%group
+Win32 bcrypt
+%prm
+hAlgorithm, pbSecret, cbSecret, pbInput, cbInput, pbOutput, cbOutput
+hAlgorithm : [int] The handle of an algorithm provider created by using the BCryptOpenAlgorithmProvider function. The algorithm that was specified when the provider was created must support the hash interface.
+pbSecret : [var] A pointer to a buffer that contains the key to use for the hash or MAC. The cbSecret parameter contains the size of this buffer. This key only applies to hash algorithms opened by the BCryptOpenAlgorithmProvider function by using the BCRYPT_ALG_HANDLE_HMAC flag.  Otherwise, set this parameter to NULL
+cbSecret : [int] The size, in bytes, of the pbSecret buffer. If no key is used, set this parameter to zero.
+pbInput : [var] A pointer to a buffer that contains the data to process. The cbInput parameter contains the number of bytes in this buffer. This function does not modify the contents of this buffer.
+cbInput : [int] The number of bytes in the pbInput buffer.
+pbOutput : [var] A pointer to a buffer that receives the hash or MAC value. The cbOutput parameter contains the size of this buffer.
+cbOutput : [int] The size, in bytes, of the pbOutput buffer. This size must exactly match the size of the hash or MAC value. The size can be obtained by calling the BCryptGetProperty function to get the BCRYPT_HASH_LENGTH property. This will provide the size of the hash or MAC value for the specified algorithm.
+%inst
+Performs a single hash computation. This is a convenience function
+that wraps calls to BCryptCreateHash, BCryptHashData,
+BCryptFinishHash, and BCryptDestroyHash.
+
+[ñﬂÇËíl]
+A status code indicating success or failure.
+
+
+%index
 BCryptHashData
 ÉfÅ[É^ÉoÉbÉtÉ@Ç…ëŒÇµÇƒàÍï˚å¸ÉnÉbÉVÉÖÇ‹ÇΩÇÕÉÅÉbÉZÅ[ÉWîFèÿÉRÅ[Éh (MAC) ÇåvéZÇ∑ÇÈÅB
 %group
@@ -251,6 +1003,107 @@ BCryptFinishHash Ç≈éÊìæÇ∑ÇÈÅBBCryptFinishHash
 åƒÇ—èoÇµå„ÅAäYìñÉnÉìÉhÉãÇÕçƒóòópÇ≈Ç´Ç»Ç¢ÅBDISPATCH_LEVEL åƒÇ—èoÇµéûÇÃêßñÒÇÕëºÇÃ BCrypt
 ä÷êîÇ∆ìØólÅBÉJÅ[ÉlÉãÉÇÅ[ÉhÇ≈ÇÕ Cng.lib(Windows Server 2008/Vista Ç≈ÇÕ
 Ksecdd.lib)ÇégópÇ∑ÇÈÅB
+
+
+%index
+BCryptImportKey
+Imports a symmetric key from a key BLOB.
+%group
+Win32 bcrypt
+%prm
+hAlgorithm, hImportKey, pszBlobType, phKey, pbKeyObject, cbKeyObject, pbInput, cbInput, dwFlags
+hAlgorithm : [int] The handle of the algorithm provider to import the key. This handle is obtained by calling the BCryptOpenAlgorithmProvider function.
+hImportKey : [int] The handle of the key encryption key needed to unwrap the key BLOB in the pbInput parameter.Note??The handle must be supplied by the same provider that supplied the key that is being imported.
+pszBlobType : [wstr] 
+phKey : [var] A pointer to a BCRYPT_KEY_HANDLE that receives the handle of the imported key. This handle is used in subsequent functions that require a key, such as BCryptEncrypt. This handle must be released when it is no longer needed by passing it to the BCryptDestroyKey function.
+pbKeyObject : [var] A pointer to a buffer that receives the imported key object. The cbKeyObject parameter contains the size of this buffer. The required size of this buffer can be obtained by calling the BCryptGetProperty function to get the BCRYPT_OBJECT_LENGTH property. This will provide the size of the key object for the specified algorithm. This memory can only be freed after the phKey key handle is destroyed.
+cbKeyObject : [int] The size, in bytes, of the pbKeyObject buffer.
+pbInput : [var] The address of a buffer that contains the key BLOB to import. The cbInput parameter contains the size of this buffer. The pszBlobType parameter specifies the type of key BLOB this buffer contains.
+cbInput : [int] The size, in bytes, of the pbInput buffer.
+dwFlags : [int] A set of flags that modify the behavior of this function. No flags are currently defined, so this parameter should be zero.
+%inst
+Imports a symmetric key from a key BLOB.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+Depending on what processor modes a provider supports,
+BCryptImportKey can be called either from user mode or kernel mode.
+Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
+DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
+handle provided in the hAlgorithm parameter must have been opened by
+using the BCRYPT_PROV_DISPATCH flag, and any pointers passed to the
+BCryptImportKey function must refer to nonpaged (or locked) memory.
+To call this function in kernel mode, use Cng.lib, which is part of
+the Driver Development Kit (DDK). Windows Server 2008 and Windows
+Vista: To call this function in kernel mode, use Ksecdd.lib.
+
+
+%index
+BCryptImportKeyPair
+Imports a public/private key pair from a key BLOB.
+%group
+Win32 bcrypt
+%prm
+hAlgorithm, hImportKey, pszBlobType, phKey, pbInput, cbInput, dwFlags
+hAlgorithm : [int] The handle of the algorithm provider to import the key. This handle is obtained by calling the BCryptOpenAlgorithmProvider function.
+hImportKey : [int] This parameter is not currently used and should be NULL.
+pszBlobType : [wstr] 
+phKey : [var] A pointer to a BCRYPT_KEY_HANDLE that receives the handle of the imported key. This handle is used in subsequent functions that require a key, such as BCryptSignHash. This handle must be released when it is no longer needed by passing it to the BCryptDestroyKey function.
+pbInput : [var] The address of a buffer that contains the key BLOB to import. The cbInput parameter contains the size of this buffer. The pszBlobType parameter specifies the type of key BLOB this buffer contains.
+cbInput : [int] The size, in bytes, of the pbInput buffer.
+dwFlags : [int] A set of flags that modify the behavior of this function. This can be zero or the following value.
+%inst
+Imports a public/private key pair from a key BLOB.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+Depending on what processor modes a provider supports,
+BCryptImportKeyPair can be called either from user mode or kernel
+mode. Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
+DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
+handle provided in the hAlgorithm parameter must have been opened by
+using the BCRYPT_PROV_DISPATCH flag, and any pointers passed to the
+BCryptImportKeyPair function must refer to nonpaged (or locked)
+memory. To call this function in kernel mode, use Cng.lib, which is
+part of the Driver Development Kit (DDK). Windows Server 2008 and
+Windows Vista: To call this function in kernel mode, use Ksecdd.lib.
+
+
+%index
+BCryptKeyDerivation
+Derives a key without requiring a secret agreement.
+%group
+Win32 bcrypt
+%prm
+hKey, pParameterList, pbDerivedKey, cbDerivedKey, pcbResult, dwFlags
+hKey : [int] Handle of the input key.
+pParameterList : [var] Pointer to a  BCryptBufferDesc structure that contains the KDF parameters. This parameter is optional and can be NULL if it is not needed. The parameters can be specific to a key derivation function (KDF) or generic. The following table shows the required and optional parameters for specific KDFs implemented by the Microsoft Primitive provider.
+pbDerivedKey : [var] Address of a buffer that receives the key. The cbDerivedKey parameter contains the size of this buffer.
+cbDerivedKey : [int] Size, in bytes, of the buffer pointed to by the pbDerivedKey parameter.
+pcbResult : [var] Pointer to a variable that receives the number of bytes that were copied to the buffer pointed to by the pbDerivedKey parameter.
+dwFlags : [int] Flags that modify the behavior of this function. The following value can be used with the Microsoft Primitive provider.
+%inst
+Derives a key without requiring a secret agreement.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+
+[îıçl]
+You can use the following algorithm identifiers in the
+BCryptOpenAlgorithmProvider function before calling
+BCryptKeyDerivation:
+This doc was truncated.
 
 
 %index
@@ -279,4 +1132,439 @@ PASSIVE_LEVEL Ç≈ÇÃÉJÅ[ÉlÉãÉÇÅ[ÉhÇ©ÇÁåƒÇ—èoÇπÇÈÅBÉJÅ[ÉlÉãÉÇÅ[ÉhÇ≈ÇÕ Cng.lib(Windo
 2008/Vista Ç≈ÇÕ Ksecdd.lib)ÇégópÇ∑ÇÈÅB
 Windows 10 à»ç~ÅACNG
 ÇÕà√çÜê›íËïœçXÇë¶éûîΩâfÇµÇ»Ç¢èÍçáÇ™Ç†ÇÈÅBêVÇµÇ¢ä˘íËÉvÉçÉoÉCÉ_ÇÃí«â¡Ç‚ÉAÉãÉSÉäÉYÉÄÉvÉçÉoÉCÉ_ÇÃóDêÊèáèòïœçXÇ»Ç«ÇÕçƒãNìÆÇ™ïKóvÇ…Ç»ÇÈÇ±Ç∆Ç™Ç†ÇÈÇΩÇﬂÅAêVãKê›íËÉvÉçÉoÉCÉ_Ç≈ÇÃåƒÇ—èoÇµëOÇ…ÇÕçƒãNìÆÇ∑ÇÈÇ±Ç∆ÅB
+
+
+%index
+BCryptProcessMultiOperations
+The BCryptProcessMultiOperations function processes a sequence of operations on a multi-object state.
+%group
+Win32 bcrypt
+%prm
+hObject, operationType, pOperations, cbOperations, dwFlags
+hObject : [int] *BCRYPT_HANDLE* `[in, out]` A handle to a multi-object state, such as one created by the [BCryptCreateMultiHash](nf-bcrypt-bcryptcreatemultihash.md) function.
+operationType : [int] *BCRYPT_MULTI_OPERATION_TYPE* `[in]` One of the **BCRYPT_OPERATION_TYPE_**\* values. Currently the only defined value is **BCRYPT_OPERATION_TYPE_HASH**. This value identifies the *hObject* parameter as a multi-hash object and the *pOperations* pointer as pointing to an array of [BCRYPT_MULTI_HASH_OPERATION](ns-bcrypt-bcrypt_multi_hash_operation.md) elements.
+pOperations : [intptr] *PVOID* `[in]` A pointer to an array of operation command structures. For hashing, it is a pointer to an array of [BCRYPT_MULTI_HASH_OPERATION](ns-bcrypt-bcrypt_multi_hash_operation.md) structures.
+cbOperations : [int] *ULONG* `[in]` The size, in bytes, of the *pOperations* array.
+dwFlags : [int] *ULONG* `[in]` Specify a value of zero (`0`).
+%inst
+The BCryptProcessMultiOperations function processes a sequence of
+operations on a multi-object state.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function. If the method succeeds, it will return `STATUS_SUCCESS`.
+For other **NTSTATUS** values, see [NTSTATUS
+Values](/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55).
+
+[îıçl]
+Each element of the *pOperations* array contains instructions for a
+particular computation to be performed on a single element of the
+multi-object state. The functional behavior of
+**BCryptProcessMultiOperations** is equivalent to performing, for
+each element in the multi-object state, the computations specified in
+the operations array for that element, one at a time, in order. The
+relative order of two operations that operate on different elements
+of the array is not guaranteed. If an output buffer overlaps an input
+or output buffer the result is not deterministic.
+
+
+%index
+BCryptQueryContextConfiguration
+Retrieves the current configuration for the specified CNG context.
+%group
+Win32 bcrypt
+%prm
+dwTable, pszContext, pcbBuffer, ppBuffer
+dwTable : [int] 
+pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to obtain the configuration information for.
+pcbBuffer : [var] The address of a ULONG variable that, on entry, contains the size, in bytes, of the buffer pointed to by ppBuffer. If this size is not large enough to hold the context information, this function will fail with STATUS_BUFFER_TOO_SMALL. After this function returns, this variable contains the number of bytes that were copied to the ppBuffer buffer.
+ppBuffer : [var] The address of a pointer to a CRYPT_CONTEXT_CONFIG structure that receives the context configuration information retrieved by this function. The value pointed to by the pcbBuffer parameter contains the size of this buffer. If the value pointed to by this parameter is NULL, this function will allocate the required memory. This memory must be freed when it is no longer needed by passing this pointer to the BCryptFreeBuffer function. If this parameter is NULL, this function will place the required size, in bytes, in the variable pointed to by the pcbBuffer parameter and return STATUS_BUFFER_TOO_SMALL. For more information on the usage of this parameter, see Remarks.
+%inst
+Retrieves the current configuration for the specified CNG context.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+Each context has only one set of configuration information, so
+although the ppBuffer parameter appears to be a used as an array,
+this function treats this as an array with only one element. The
+following example helps clarify how this parameter is used.
+This doc was truncated.
+
+
+%index
+BCryptQueryContextFunctionConfiguration
+Obtains the cryptographic function configuration information for an existing CNG context.
+%group
+Win32 bcrypt
+%prm
+dwTable, pszContext, dwInterface, pszFunction, pcbBuffer, ppBuffer
+dwTable : [int] 
+pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to obtain the function configuration information for.
+dwInterface : [int] 
+pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the cryptographic function to obtain the configuration information for.
+pcbBuffer : [var] The address of a ULONG variable that, on entry, contains the size, in bytes, of the buffer pointed to by ppBuffer. If this size is not large enough to hold the context information, this function will fail with STATUS_BUFFER_TOO_SMALL. After this function returns, this variable contains the number of bytes that were copied to the ppBuffer buffer.
+ppBuffer : [var] The address of a pointer to a CRYPT_CONTEXT_FUNCTION_CONFIG structure that receives the function configuration information retrieved by this function. The value pointed to by the pcbBuffer parameter contains the size of this buffer. If the value pointed to by this parameter is NULL, this function will allocate the required memory. This memory must be freed when it is no longer needed by passing this pointer to the BCryptFreeBuffer function. If this parameter is NULL, this function will place the required size, in bytes, in the variable pointed to by the pcbBuffer parameter and return STATUS_BUFFER_TOO_SMALL. For more information about the usage of this parameter, see Remarks.
+%inst
+Obtains the cryptographic function configuration information for an
+existing CNG context.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+Each cryptographic function has only one set of configuration
+information, so although the ppBuffer parameter appears to be a used
+as an array, this function treats this as an array with only one
+element. The following example helps clarify how this parameter is
+used.
+This doc was truncated.
+
+
+%index
+BCryptQueryContextFunctionProperty
+Obtains the value of a named property for a cryptographic function in an existing CNG context.
+%group
+Win32 bcrypt
+%prm
+dwTable, pszContext, dwInterface, pszFunction, pszProperty, pcbValue, ppbValue
+dwTable : [int] 
+pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to obtain the function property from.
+dwInterface : [int] 
+pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the cryptographic function to obtain the property for.
+pszProperty : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the property to obtain.
+pcbValue : [var] The address of a ULONG variable that, on entry, contains the size, in bytes, of the buffer pointed to by ppbValue. If this size is not large enough to hold the property value, this function will fail with STATUS_BUFFER_TOO_SMALL. After this function returns, this variable contains the number of bytes that were copied to the ppbValue buffer.
+ppbValue : [var] The address of a pointer to a buffer that receives the property data. The size and format of this buffer depends on the format of the property being retrieved. The value pointed to by the pcbValue parameter contains the size of this buffer. If the value pointed to by this parameter is NULL, this function will allocate the required memory. This memory must be freed when it is no longer needed by passing this pointer to the BCryptFreeBuffer function. If this parameter is NULL, this function will place the required size, in bytes, in the variable pointed to by the pcbValue parameter and return STATUS_BUFFER_TOO_SMALL.
+%inst
+Obtains the value of a named property for a cryptographic function in
+an existing CNG context.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptQueryContextFunctionProperty can be called only in user mode.
+
+
+%index
+BCryptQueryProviderRegistration
+Retrieves information about a CNG provider.
+%group
+Win32 bcrypt
+%prm
+pszProvider, dwMode, dwInterface, pcbBuffer, ppBuffer
+pszProvider : [wstr] A pointer to a null-terminated Unicode string that contains the name of the provider to obtain information about.
+dwMode : [int] 
+dwInterface : [int] 
+pcbBuffer : [var] A pointer to a ULONG value that, on entry, contains the size, in bytes, of the buffer pointed to by the ppBuffer parameter. On exit, this value receives either the number of bytes copied to the buffer or the required size, in bytes, of the buffer.
+ppBuffer : [var] A pointer to a buffer pointer that receives a CRYPT_PROVIDER_REG structure and other data that describes the provider. If this parameter is NULL, this function will return STATUS_BUFFER_TOO_SMALL and place in the value pointed to by the pcbBuffer parameter, the required size, in bytes, of all data. If this parameter is the address of a NULL pointer, this function will allocate the required memory, fill it in with the provider information, and place a pointer to this memory in this parameter. When you have finished using this memory, free it by passing this pointer to the BCryptFreeBuffer function. If this parameter is the address of a non-NULL pointer, this function will copy the provider information into this buffer. The pcbBuffer parameter must contain the size, in bytes, of the entire buffer. If the buffer is not large enough to hold all of the provider information, this function will return STATUS_BUFFER_TOO_SMALL.
+%inst
+Retrieves information about a CNG provider.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptQueryProviderRegistration can be called only in user mode.
+
+
+%index
+BCryptRegisterConfigChangeNotify
+Creates a user mode CNG configuration change event handler.
+%group
+Win32 bcrypt
+%prm
+phEvent
+phEvent : [intptr] 
+%inst
+Creates a user mode CNG configuration change event handler.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+The handle returned in the variable pointed to by the phEvent
+parameter will be signaled when a change to the CNG configuration
+occurs. BCryptRegisterConfigChangeNotify(HANDLE*) can be called only
+in user mode. Code executing in kernel mode must call
+BCryptRegisterConfigChangeNotify(PRKEVENT).
+
+
+%index
+BCryptRemoveContextFunction
+Removes a cryptographic function from the list of functions that are supported by an existing CNG context.
+%group
+Win32 bcrypt
+%prm
+dwTable, pszContext, dwInterface, pszFunction
+dwTable : [int] 
+pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to remove the function from.
+dwInterface : [int] 
+pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the cryptographic function to remove.
+%inst
+Removes a cryptographic function from the list of functions that are
+supported by an existing CNG context.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptRemoveContextFunction can be called only in user mode.
+
+
+%index
+BCryptResolveProviders
+Obtains a collection of all of the providers that meet the specified criteria.
+%group
+Win32 bcrypt
+%prm
+pszContext, dwInterface, pszFunction, pszProvider, dwMode, dwFlags, pcbBuffer, ppBuffer
+pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context for which to obtain the providers.  If this is set to NULL or to an empty string, the default context is assumed.
+dwInterface : [int] The identifier of an interface that the provider must support. This must be one of the CNG Interface Identifiers. If the pszFunction parameter is not NULL or an empty string, you can set dwInterface to zero to force the function to infer the interface.
+pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the algorithm or function identifier that the provider must support. This can be one of the standard CNG Algorithm Identifiers or the identifier for another registered algorithm.  If dwInterface is set to a nonzero value, then pszFunction can be NULL to include all algorithms and functions.
+pszProvider : [wstr] A pointer to a null-terminated Unicode string that contains the name of the provider to retrieve. If this parameter is NULL, then all providers will be included. This parameter allows you to specify a specific provider to retrieve in the event that more than one provider meets the other criteria.
+dwMode : [int] 
+dwFlags : [int] A set of flags that modify the behavior of this function.
+pcbBuffer : [var] A pointer to a DWORD value that, on entry, contains the size, in bytes, of the buffer pointed to by the ppBuffer parameter. On exit, this value receives either the number of bytes copied to the buffer or the required size, in bytes, of the buffer.
+ppBuffer : [var] The address of a CRYPT_PROVIDER_REFS pointer that receives the collection of providers that meet the specified criteria. If this parameter is NULL, this function will return STATUS_SUCCESS and place in the value pointed to by the pcbBuffer parameter, the required size, in bytes, of all the data. If this parameter is the address of a NULL pointer, this function will allocate the required memory, fill the memory with the information about the providers, and place the pointer to this memory in this parameter. When you have finished using this memory,  free it by passing this pointer to the BCryptFreeBuffer function. If this parameter is the address of a non-NULL pointer, this function will copy the provider information into this buffer. The pcbBuffer parameter must contain the size, in bytes, of the entire buffer. If the buffer is not large enough to hold all of the provider information, this function will return STATUS_BUFFER_TOO_SMALL.
+%inst
+Obtains a collection of all of the providers that meet the specified
+criteria.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptResolveProviders can be called either from user mode or kernel
+mode. Kernel mode callers must be executing at PASSIVE_LEVEL IRQL.
+
+
+%index
+BCryptSecretAgreement
+Creates a secret agreement value from a private and a public key. (BCryptSecretAgreement)
+%group
+Win32 bcrypt
+%prm
+hPrivKey, hPubKey, phAgreedSecret, dwFlags
+hPrivKey : [int] The handle of the private key to use to create the secret agreement value. This key and the hPubKey key must come from the same CNG cryptographic algorithm provider.
+hPubKey : [int] The handle of the public key to use to create the secret agreement value. This key and the hPrivKey key must come from the same CNG cryptographic algorithm provider.
+phAgreedSecret : [var] A pointer to a BCRYPT_SECRET_HANDLE that receives a handle that represents the secret agreement value. This handle must be released by passing it to the BCryptDestroySecret function when it is no longer needed.
+dwFlags : [int] A set of flags that modify the behavior of this function. No flags are defined for this function.
+%inst
+Creates a secret agreement value from a private and a public key.
+(BCryptSecretAgreement)
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+Depending on what processor modes a provider supports,
+BCryptSecretAgreement can be called either from user mode or kernel
+mode. Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
+DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, the
+handles provided in the hPrivKey and hPubKey parameters must be
+derived from an algorithm handle returned by a provider that was
+opened by using the BCRYPT_PROV_DISPATCH flag, and any pointers
+passed to the BCryptSecretAgreement function must refer to nonpaged
+(or locked) memory. To call this function in kernel mode, use
+Cng.lib, which is part of the Driver Development Kit (DDK). Windows
+Server 2008 and Windows Vista: To call this function in kernel mode,
+use Ksecdd.lib.
+
+
+%index
+BCryptSetContextFunctionProperty
+Sets the value of a named property for a cryptographic function in an existing CNG context.
+%group
+Win32 bcrypt
+%prm
+dwTable, pszContext, dwInterface, pszFunction, pszProperty, cbValue, pbValue
+dwTable : [int] 
+pszContext : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the context to set the function property in.
+dwInterface : [int] 
+pszFunction : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the cryptographic function to set the property for.
+pszProperty : [wstr] A pointer to a null-terminated Unicode string that contains the identifier of the property to set.
+cbValue : [int] Contains the size, in bytes, of the pbValue buffer. This is the exact number of bytes that will be stored. If the property value is a string, you should add the size of one character to also store the terminating null character, if needed.
+pbValue : [var] The address of a buffer that contains the new property value.
+%inst
+Sets the value of a named property for a cryptographic function in an
+existing CNG context.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptSetContextFunctionProperty can be called only in user mode.
+
+
+%index
+BCryptSetProperty
+Sets the value of a named property for a CNG object.
+%group
+Win32 bcrypt
+%prm
+hObject, pszProperty, pbInput, cbInput, dwFlags
+hObject : [int] A handle that represents the CNG object to set the property value for.
+pszProperty : [wstr] A pointer to a null-terminated Unicode string that contains the name of the property to set. This can be one of the predefined Cryptography Primitive Property Identifiers or a custom property identifier.
+pbInput : [var] The address of a buffer that contains the new property value. The cbInput parameter contains the size of this buffer.
+cbInput : [int] The size, in bytes, of the pbInput buffer.
+dwFlags : [int] A set of flags that modify the behavior of this function. No flags are defined for this function.
+%inst
+Sets the value of a named property for a CNG object.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+Depending on what processor modes a provider supports,
+BCryptSetProperty can be called either from user mode or kernel mode.
+Kernel mode callers can execute either at PASSIVE_LEVEL IRQL or
+DISPATCH_LEVEL IRQL. If the current IRQL level is DISPATCH_LEVEL, any
+pointers passed to BCryptSetProperty must refer to nonpaged (or
+locked) memory. If the object specified in the hObject parameter is a
+handle, it must have been opened by using the BCRYPT_PROV_DISPATCH
+flag. To call this function in kernel mode, use Cng.lib, which is
+part of the Driver Development Kit (DDK). Windows Server 2008 and
+Windows Vista: To call this function in kernel mode, use Ksecdd.lib.
+
+
+%index
+BCryptSignHash
+Creates a signature of a hash value. (BCryptSignHash)
+%group
+Win32 bcrypt
+%prm
+hKey, pPaddingInfo, pbInput, cbInput, pbOutput, cbOutput, pcbResult, dwFlags
+hKey : [int] The handle of the key to use to sign the hash.
+pPaddingInfo : [intptr] A pointer to a structure that contains padding information. The actual type of structure this parameter points to depends on the value of the dwFlags parameter. This parameter is only used with asymmetric keys and must be NULL otherwise.
+pbInput : [var] A pointer to a buffer that contains the hash value to sign. The cbInput parameter contains the size of this buffer.
+cbInput : [int] The number of bytes in the pbInput buffer to sign.
+pbOutput : [var] The address of a buffer to receive the signature produced by this function. The cbOutput parameter contains the size of this buffer. If this parameter is NULL, this function will calculate the size required for the signature and return the size in the location pointed to by the pcbResult parameter.
+cbOutput : [int] The size, in bytes, of the pbOutput buffer. This parameter is ignored if the pbOutput parameter is NULL.
+pcbResult : [var] A pointer to a ULONG variable that receives the number of bytes copied to the pbOutput buffer. If pbOutput is NULL, this receives the size, in bytes, required for the signature.
+dwFlags : [int] A set of flags that modify the behavior of this function. The allowed set of flags depends on the type of key specified by the hKey parameter.
+%inst
+Creates a signature of a hash value. (BCryptSignHash)
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+This function will encrypt the hash value with the specified key to
+create the signature. To later verify that the signature is valid,
+call the BCryptVerifySignature function with an identical key and an
+identical hash of the original data. Depending on what processor
+modes a provider supports, BCryptSignHash can be called either from
+user mode or kernel mode. Kernel mode callers can execute either at
+PASSIVE_LEVEL IRQL or DISPATCH_LEVEL IRQL. If the current IRQL level
+is DISPATCH_LEVEL, the handle provided in the hKey parameter must be
+derived from an algorithm handle returned by a provider that was
+opened with the BCRYPT_PROV_DISPATCH flag, and any pointers passed to
+the BCryptSignHash function must refer to nonpaged (or locked)
+memory. To call this function in kernel mode, use Cng.lib, which is
+part of the Driver Development Kit (DDK). Windows Server 2008 and
+Windows Vista: To call this function in kernel mode, use Ksecdd.lib.
+
+
+%index
+BCryptUnregisterConfigChangeNotify
+Removes a user mode CNG configuration change event handler that was created by using the BCryptRegisterConfigChangeNotify(HANDLE*) function.
+%group
+Win32 bcrypt
+%prm
+hEvent
+hEvent : [intptr] 
+%inst
+Removes a user mode CNG configuration change event handler that was
+created by using the BCryptRegisterConfigChangeNotify(HANDLE*)
+function.
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+BCryptUnregisterConfigChangeNotify(HANDLE) can be called only in user
+mode. Code executing in kernel mode must call
+BCryptUnregisterConfigChangeNotify(PRKEVENT).
+
+
+%index
+BCryptVerifySignature
+Verifies that the specified signature matches the specified hash. (BCryptVerifySignature)
+%group
+Win32 bcrypt
+%prm
+hKey, pPaddingInfo, pbHash, cbHash, pbSignature, cbSignature, dwFlags
+hKey : [int] The handle of the key to use to decrypt the signature. This must be an identical key or the public key portion of the key pair used to sign the data with the BCryptSignHash function.
+pPaddingInfo : [intptr] A pointer to a structure that contains padding information. The actual type of structure this parameter points to depends on the value of the dwFlags parameter. This parameter is only used with asymmetric keys and must be NULL otherwise.
+pbHash : [var] The address of a buffer that contains the hash of the data. The cbHash parameter contains the size of this buffer.
+cbHash : [int] The size, in bytes, of the pbHash buffer.
+pbSignature : [var] The address of a buffer that contains the signed hash of the data. The BCryptSignHash function is used to create the signature. The cbSignature parameter contains the size of this buffer.
+cbSignature : [int] The size, in bytes, of the pbSignature buffer. The BCryptSignHash function is used to create the signature.
+dwFlags : [int] A set of flags that modify the behavior of this function. The allowed set of flags depends on the type of key specified by the hKey parameter. If the key is a symmetric key, this parameter is not used and should be zero.
+%inst
+Verifies that the specified signature matches the specified hash.
+(BCryptVerifySignature)
+
+[ñﬂÇËíl]
+Returns a status code that indicates the success or failure of the
+function.
+Possible return codes include, but are not limited to, the following.
+This doc was truncated.
+
+[îıçl]
+This function calculates the signature with provided key and then
+compares calculated signature value to the specified signature value.
+To use this function, you must hash the data by using the same
+hashing algorithm that was used to create the hash value that was
+signed. If applicable, you must also specify the same padding scheme
+that was specified when the signature was created. Depending on what
+processor modes a provider supports, BCryptVerifySignature can be
+called either from user mode or kernel mode. Kernel mode callers can
+execute either at PASSIVE_LEVEL IRQL or DISPATCH_LEVEL IRQL. If the
+current IRQL level is DISPATCH_LEVEL, the handle provided in the hKey
+parameter must be derived from an algorithm handle returned by a
+provider that was opened by using the BCRYPT_PROV_DISPATCH flag, and
+any pointers passed to the BCryptVerifySignature function must refer
+to nonpaged (or locked) memory. To call this function in kernel mode,
+use Cng.lib, which is part of the Driver Development Kit (DDK).
+Windows Server 2008 and Windows Vista: To call this function in
+kernel mode, use Ksecdd.lib.
 

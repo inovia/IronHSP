@@ -10,7 +10,7 @@ ActivateActCtx
 AddAtom
 AddConsoleAlias
 AddIntegrityLabelToBoundaryDescriptor
-// removed: not in win32metadata: AddLocalAlternateComputerName
+AddLocalAlternateComputerName
 AddRefActCtx
 AddResourceAttributeAce
 AddSIDToBoundaryDescriptor
@@ -43,11 +43,11 @@ CancelSynchronousIo
 CancelTimerQueueTimer
 CancelWaitableTimer
 ChangeTimerQueueTimer
-// removed: not in win32metadata: CheckAllowDecryptedRemoteDestinationPolicy
-// removed: not in win32metadata: CheckElevation
-// removed: not in win32metadata: CheckElevationEnabled
-// removed: not in win32metadata: CheckForReadOnlyResource
-// removed: not in win32metadata: CheckForReadOnlyResourceFilter
+CheckAllowDecryptedRemoteDestinationPolicy
+CheckElevation
+CheckElevationEnabled
+CheckForReadOnlyResource
+CheckForReadOnlyResourceFilter
 CheckNameLegalDOS8Dot3A
 CheckNameLegalDOS8Dot3W
 CheckRemoteDebuggerPresent
@@ -55,25 +55,25 @@ CheckTokenCapability
 CheckTokenMembershipEx
 ClearCommBreak
 ClearCommError
-// removed: not in win32metadata: CloseConsoleHandle
+CloseConsoleHandle
 CloseHandle
 ClosePrivateNamespace
-// removed: not in win32metadata: CloseProfileUserMapping
+CloseProfileUserMapping
 ClosePseudoConsole
-// removed: not in win32metadata: CmdBatNotification
+CmdBatNotification
 CommConfigDialog
-// removed: not in win32metadata: CompareCalendarDates
+CompareCalendarDates
 CompareFileTime
 CompareString
 CompareStringEx
 CompareStringOrdinal
 ConnectNamedPipe
-// removed: not in win32metadata: ConsoleMenuControl
+ConsoleMenuControl
 ContinueDebugEvent
 ConvertCalDateTimeToSystemTime
 ConvertDefaultLocale
 ConvertFiberToThread
-// removed: not in win32metadata: ConvertNLSDayOfWeekToWin32DayOfWeek
+ConvertNLSDayOfWeekToWin32DayOfWeek
 ConvertSystemTimeToCalDateTime
 ConvertThreadToFiber
 ConvertThreadToFiberEx
@@ -112,7 +112,7 @@ CreatePipe
 CreatePrivateNamespace
 CreateProcess
 CreateProcessAsUser
-// removed: not in win32metadata: CreateProcessInternal
+CreateProcessInternal
 CreatePseudoConsole
 CreateRemoteThread
 CreateSemaphore
@@ -141,7 +141,7 @@ DebugBreak
 DebugBreakProcess
 DebugSetProcessKillOnExit
 DefineDosDevice
-// removed: not in win32metadata: DelayLoadFailureHook
+DelayLoadFailureHook
 DeleteAtom
 DeleteBoundaryDescriptor
 DeleteFiber
@@ -162,9 +162,9 @@ DisconnectNamedPipe
 DnsHostnameToComputerName
 DnsHostnameToComputerNameEx
 DosDateTimeToFileTime
-// removed: not in win32metadata: DosPathToSessionPath
-// removed: not in win32metadata: DuplicateConsoleHandle
-// removed: not in win32metadata: DuplicateEncryptionInfoFileExt
+DosPathToSessionPath
+DuplicateConsoleHandle
+DuplicateEncryptionInfoFileExt
 DuplicateHandle
 EnableThreadProfiling
 EndUpdateResource
@@ -193,12 +193,12 @@ EnumSystemLocalesEx
 EnumTimeFormats
 EnumTimeFormatsEx
 EnumUILanguages
-// removed: not in win32metadata: EnumerateLocalComputerNames
+EnumerateLocalComputerNames
 EraseTape
 EscapeCommFunction
 ExecuteUmsThread
 ExitProcess
-// removed: not in win32metadata: ExitVDM
+ExitVDM
 ExpandEnvironmentStrings
 ExpungeConsoleCommandHistory
 FatalAppExit
@@ -264,16 +264,16 @@ GetBinaryType
 GetCPInfo
 GetCPInfoEx
 GetCachedSigningLevel
-// removed: not in win32metadata: GetCalendarDateFormat
+GetCalendarDateFormat
 GetCalendarDateFormatEx
-// removed: not in win32metadata: GetCalendarDaysInMonth
-// removed: not in win32metadata: GetCalendarDifferenceInDays
+GetCalendarDaysInMonth
+GetCalendarDifferenceInDays
 GetCalendarInfo
 GetCalendarInfoEx
-// removed: not in win32metadata: GetCalendarMonthsInYear
+GetCalendarMonthsInYear
 GetCalendarSupportedDateRange
-// removed: not in win32metadata: GetCalendarWeekNumber
-// removed: not in win32metadata: GetComPlusPackageInstallStatus
+GetCalendarWeekNumber
+GetComPlusPackageInstallStatus
 GetCommConfig
 GetCommMask
 GetCommModemStatus
@@ -291,20 +291,20 @@ GetConsoleAliasExesLength
 GetConsoleAliases
 GetConsoleAliasesLength
 GetConsoleCP
-// removed: not in win32metadata: GetConsoleCharType
+GetConsoleCharType
 GetConsoleCommandHistory
 GetConsoleCommandHistoryLength
 GetConsoleCursorInfo
-// removed: not in win32metadata: GetConsoleCursorMode
+GetConsoleCursorMode
 GetConsoleDisplayMode
-// removed: not in win32metadata: GetConsoleFontInfo
+GetConsoleFontInfo
 GetConsoleFontSize
-// removed: not in win32metadata: GetConsoleHardwareState
+GetConsoleHardwareState
 GetConsoleHistoryInfo
-// removed: not in win32metadata: GetConsoleInputWaitHandle
-// removed: not in win32metadata: GetConsoleKeyboardLayoutName
+GetConsoleInputWaitHandle
+GetConsoleKeyboardLayoutName
 GetConsoleMode
-// removed: not in win32metadata: GetConsoleNlsMode
+GetConsoleNlsMode
 GetConsoleOriginalTitle
 GetConsoleOutputCP
 GetConsoleProcessList
@@ -336,10 +336,10 @@ GetDurationFormat
 GetDurationFormatEx
 GetDynamicTimeZoneInformation
 GetEnabledXStateFeatures
-// removed: not in win32metadata: GetEncryptedFileVersionExt
+GetEncryptedFileVersionExt
 GetEnvironmentStrings
 GetEnvironmentVariable
-// removed: not in win32metadata: GetEraNameCountedString
+GetEraNameCountedString
 GetErrorMode
 GetExitCodeProcess
 GetExitCodeThread
@@ -385,7 +385,7 @@ GetModuleHandle
 GetModuleHandleEx
 GetNLSVersion
 GetNLSVersionEx
-// removed: not in win32metadata: GetNamedPipeAttribute
+GetNamedPipeAttribute
 GetNamedPipeClientComputerName
 GetNamedPipeClientProcessId
 GetNamedPipeClientSessionId
@@ -394,7 +394,7 @@ GetNamedPipeServerProcessId
 GetNamedPipeServerSessionId
 GetNativeSystemInfo
 GetNextUmsListItem
-// removed: not in win32metadata: GetNextVDMCommand
+GetNextVDMCommand
 GetNumaAvailableMemoryNode
 GetNumaAvailableMemoryNodeEx
 GetNumaHighestNodeNumber
@@ -407,7 +407,7 @@ GetNumaProximityNode
 GetNumaProximityNodeEx
 GetNumberFormat
 GetNumberFormatEx
-// removed: not in win32metadata: GetNumberOfConsoleFonts
+GetNumberOfConsoleFonts
 GetNumberOfConsoleInputEvents
 GetNumberOfConsoleMouseButtons
 GetOEMCP
@@ -503,7 +503,7 @@ GetUserDefaultLocaleName
 GetUserDefaultUILanguage
 GetUserGeoID
 GetUserPreferredUILanguages
-// removed: not in win32metadata: GetVDMCurrentDirectories
+GetVDMCurrentDirectories
 GetVersion
 GetVersionEx
 GetVolumeInformation
@@ -558,15 +558,15 @@ InitializeContext2
 InitializeCriticalSectionAndSpinCount
 InitializeCriticalSectionEx
 InitializeSynchronizationBarrier
-// removed: not in win32metadata: InvalidateConsoleDIBits
+InvalidateConsoleDIBits
 IsBadCodePtr
 IsBadHugeReadPtr
 IsBadHugeWritePtr
 IsBadReadPtr
 IsBadStringPtr
 IsBadWritePtr
-// removed: not in win32metadata: IsCalendarLeapDay
-// removed: not in win32metadata: IsCalendarLeapMonth
+IsCalendarLeapDay
+IsCalendarLeapMonth
 IsCalendarLeapYear
 IsDBCSLeadByte
 IsDBCSLeadByteEx
@@ -578,7 +578,7 @@ IsProcessInJob
 IsProcessorFeaturePresent
 IsSystemResumeAutomatic
 IsThreadAFiber
-// removed: not in win32metadata: IsValidCalDateTime
+IsValidCalDateTime
 IsValidCodePage
 IsValidLanguageGroup
 IsValidLocale
@@ -609,23 +609,23 @@ LCIDToLocaleName
 LCMapString
 LCMapStringEx
 LZClose
-// removed: not in win32metadata: LZCloseFile
+LZCloseFile
 LZCopy
-// removed: not in win32metadata: LZCreateFile
+LZCreateFile
 LZDone
 LZInit
 LZOpenFile
 LZRead
 LZSeek
 LZStart
-// removed: not in win32metadata: LoadAppInitDlls
+LoadAppInitDlls
 LoadLibrary
 LoadLibraryEx
 LoadModule
 LoadPackagedLibrary
 LoadResource
-// removed: not in win32metadata: LoadStringBase
-// removed: not in win32metadata: LoadStringBaseEx
+LoadStringBase
+LoadStringBaseEx
 LocalAlloc
 LocalCompact
 LocalFileTimeToFileTime
@@ -656,26 +656,26 @@ MoveFileWithProgress
 MulDiv
 MultiByteToWideChar
 NeedCurrentDirectoryForExePath
-// removed: not in win32metadata: NlsCheckPolicy
-// removed: not in win32metadata: NlsGetCacheUpdateCount
-// removed: not in win32metadata: NlsUpdateLocale
-// removed: not in win32metadata: NlsUpdateSystemLocale
+NlsCheckPolicy
+NlsGetCacheUpdateCount
+NlsUpdateLocale
+NlsUpdateSystemLocale
 NormalizeString
-// removed: not in win32metadata: NotifyMountMgr
+NotifyMountMgr
 NotifyUILanguageChange
-// removed: not in win32metadata: NtVdm64CreateProcessInternal
+NtVdm64CreateProcessInternal
 OOBEComplete
-// removed: not in win32metadata: OpenConsole
+OpenConsole
 OpenEvent
 OpenFile
 OpenFileById
 OpenFileMapping
 OpenJobObject
-// removed: CS8785 ambiguous across namespaces: OpenMutex
+OpenMutex
 OpenPrivateNamespace
 OpenProcess
-// removed: not in win32metadata: OpenProfileUserMapping
-// removed: CS8785 ambiguous across namespaces: OpenSemaphore
+OpenProfileUserMapping
+OpenSemaphore
 OpenThread
 OpenWaitableTimer
 OutputDebugString
@@ -686,8 +686,8 @@ PowerClearRequest
 PowerCreateRequest
 PowerSetRequest
 PrepareTape
-// removed: not in win32metadata: PrivCopyFileEx
-// removed: not in win32metadata: PrivMoveFileIdentity
+PrivCopyFileEx
+PrivMoveFileIdentity
 Process32First
 Process32Next
 ProcessIdToSessionId
@@ -714,7 +714,7 @@ QueryUnbiasedInterruptTime
 QueueUserAPC
 QueueUserWorkItem
 RaiseException
-// removed: not in win32metadata: RaiseInvalid16BitExeError
+RaiseInvalid16BitExeError
 ReOpenFile
 ReadConsole
 ReadConsoleInput
@@ -756,21 +756,21 @@ RegUnLoadKey
 RegisterApplicationRecoveryCallback
 RegisterApplicationRestart
 RegisterBadMemoryNotification
-// removed: not in win32metadata: RegisterConsoleIME
-// removed: not in win32metadata: RegisterConsoleOS2
-// removed: not in win32metadata: RegisterConsoleVDM
-// removed: not in win32metadata: RegisterWaitForInputIdle
+RegisterConsoleIME
+RegisterConsoleOS2
+RegisterConsoleVDM
+RegisterWaitForInputIdle
 RegisterWaitForSingleObject
-// removed: not in win32metadata: RegisterWaitForSingleObjectEx
+RegisterWaitForSingleObjectEx
 RegisterWaitUntilOOBECompleted
-// removed: not in win32metadata: RegisterWowBaseHandlers
-// removed: not in win32metadata: RegisterWowExec
+RegisterWowBaseHandlers
+RegisterWowExec
 ReleaseActCtx
 ReleaseMutex
 ReleaseSemaphore
 RemoveDirectory
 RemoveDirectoryTransacted
-// removed: not in win32metadata: RemoveLocalAlternateComputerName
+RemoveLocalAlternateComputerName
 RemoveSecureMemoryCacheCallback
 ReplaceFile
 ReplacePartitionUnit
@@ -785,12 +785,12 @@ RtlAddFunctionTable
 RtlCaptureContext
 RtlCaptureStackBackTrace
 RtlCompareMemory
-// removed: not in win32metadata: RtlCopyMemory
+RtlCopyMemory
 RtlDeleteFunctionTable
-// removed: not in win32metadata: RtlFillMemory
+RtlFillMemory
 RtlInstallFunctionTableCallback
 RtlLookupFunctionEntry
-// removed: not in win32metadata: RtlMoveMemory
+RtlMoveMemory
 RtlPcToFileHeader
 RtlRaiseException
 RtlRestoreContext
@@ -801,7 +801,7 @@ ScrollConsoleScreenBuffer
 SearchPath
 SetCachedSigningLevel
 SetCalendarInfo
-// removed: not in win32metadata: SetComPlusPackageInstallStatus
+SetComPlusPackageInstallStatus
 SetCommBreak
 SetCommConfig
 SetCommMask
@@ -813,25 +813,25 @@ SetComputerNameEx2W
 SetConsoleActiveScreenBuffer
 SetConsoleCP
 SetConsoleCtrlHandler
-// removed: not in win32metadata: SetConsoleCursor
+SetConsoleCursor
 SetConsoleCursorInfo
-// removed: not in win32metadata: SetConsoleCursorMode
+SetConsoleCursorMode
 SetConsoleCursorPosition
 SetConsoleDisplayMode
-// removed: not in win32metadata: SetConsoleFont
-// removed: not in win32metadata: SetConsoleHardwareState
+SetConsoleFont
+SetConsoleHardwareState
 SetConsoleHistoryInfo
-// removed: not in win32metadata: SetConsoleIcon
-// removed: not in win32metadata: SetConsoleKeyShortcuts
-// removed: not in win32metadata: SetConsoleLocalEUDC
-// removed: not in win32metadata: SetConsoleMaximumWindowSize
-// removed: not in win32metadata: SetConsoleMenuClose
+SetConsoleIcon
+SetConsoleKeyShortcuts
+SetConsoleLocalEUDC
+SetConsoleMaximumWindowSize
+SetConsoleMenuClose
 SetConsoleMode
-// removed: not in win32metadata: SetConsoleNlsMode
+SetConsoleNlsMode
 SetConsoleNumberOfCommands
-// removed: not in win32metadata: SetConsoleOS2OemFormat
+SetConsoleOS2OemFormat
 SetConsoleOutputCP
-// removed: not in win32metadata: SetConsolePalette
+SetConsolePalette
 SetConsoleScreenBufferInfoEx
 SetConsoleScreenBufferSize
 SetConsoleTextAttribute
@@ -843,7 +843,7 @@ SetDefaultCommConfig
 SetDllDirectory
 SetDynamicTimeZoneInformation
 SetEndOfFile
-// removed: CS8785 ambiguous across namespaces: SetEnvironmentStrings
+SetEnvironmentStrings
 SetEnvironmentVariable
 SetErrorMode
 SetEvent
@@ -867,12 +867,12 @@ SetHandleInformation
 SetInformationJobObject
 SetIoRateControlInformationJobObject
 SetLastError
-// removed: not in win32metadata: SetLocalPrimaryComputerName
+SetLocalPrimaryComputerName
 SetLocalTime
 SetLocaleInfo
 SetMailslotInfo
 SetMessageWaitingIndicator
-// removed: not in win32metadata: SetNamedPipeAttribute
+SetNamedPipeAttribute
 SetNamedPipeHandleState
 SetPriorityClass
 SetProcessAffinityMask
@@ -893,7 +893,7 @@ SetSystemTime
 SetSystemTimeAdjustment
 SetTapeParameters
 SetTapePosition
-// removed: not in win32metadata: SetTermsrvAppInstallMode
+SetTermsrvAppInstallMode
 SetThreadAffinityMask
 SetThreadContext
 SetThreadErrorMode
@@ -916,19 +916,19 @@ SetUmsThreadInformation
 SetUnhandledExceptionFilter
 SetUserGeoID
 SetUserGeoName
-// removed: not in win32metadata: SetVDMCurrentDirectories
+SetVDMCurrentDirectories
 SetVolumeLabel
 SetVolumeMountPoint
 SetWaitableTimer
 SetXStateFeaturesMask
 SetupComm
-// removed: not in win32metadata: ShowConsoleCursor
+ShowConsoleCursor
 SignalObjectAndWait
 SizeofResource
 Sleep
 SleepEx
-// removed: not in win32metadata: SortCloseHandle
-// removed: not in win32metadata: SortGetHandle
+SortCloseHandle
+SortGetHandle
 SuspendThread
 SwitchToFiber
 SwitchToThread
@@ -937,19 +937,19 @@ SystemTimeToTzSpecificLocalTime
 TerminateJobObject
 TerminateProcess
 TerminateThread
-// removed: not in win32metadata: TermsrvAppInstallMode
-// removed: not in win32metadata: TermsrvConvertSysRootToUserDir
-// removed: not in win32metadata: TermsrvCreateRegEntry
-// removed: not in win32metadata: TermsrvDeleteKey
-// removed: not in win32metadata: TermsrvDeleteValue
-// removed: not in win32metadata: TermsrvGetPreSetValue
-// removed: not in win32metadata: TermsrvGetWindowsDirectory
-// removed: not in win32metadata: TermsrvOpenRegEntry
-// removed: not in win32metadata: TermsrvOpenUserClasses
-// removed: not in win32metadata: TermsrvRestoreKey
-// removed: not in win32metadata: TermsrvSetKeySecurity
-// removed: not in win32metadata: TermsrvSetValueKey
-// removed: not in win32metadata: TermsrvSyncUserIniFileExt
+TermsrvAppInstallMode
+TermsrvConvertSysRootToUserDir
+TermsrvCreateRegEntry
+TermsrvDeleteKey
+TermsrvDeleteValue
+TermsrvGetPreSetValue
+TermsrvGetWindowsDirectory
+TermsrvOpenRegEntry
+TermsrvOpenUserClasses
+TermsrvRestoreKey
+TermsrvSetKeySecurity
+TermsrvSetValueKey
+TermsrvSyncUserIniFileExt
 Thread32First
 Thread32Next
 TlsAlloc
@@ -961,8 +961,8 @@ TransactNamedPipe
 TransmitCommChar
 TrySubmitThreadpoolCallback
 TzSpecificLocalTimeToSystemTime
-// removed: not in win32metadata: UTRegister
-// removed: not in win32metadata: UTUnRegister
+UTRegister
+UTUnRegister
 UmsThreadYield
 UnhandledExceptionFilter
 UnlockFile
@@ -971,16 +971,16 @@ UnmapViewOfFile
 UnregisterApplicationRecoveryCallback
 UnregisterApplicationRestart
 UnregisterBadMemoryNotification
-// removed: not in win32metadata: UnregisterConsoleIME
+UnregisterConsoleIME
 UnregisterWait
 UnregisterWaitEx
 UnregisterWaitUntilOOBECompleted
 UpdateCalendarDayOfWeek
 UpdateResource
-// removed: not in win32metadata: VDMConsoleOperation
-// removed: not in win32metadata: VDMOperationStarted
+VDMConsoleOperation
+VDMOperationStarted
 VerLanguageName
-// removed: not in win32metadata: VerifyConsoleIoHandle
+VerifyConsoleIoHandle
 VerifyScripts
 VerifyVersionInfo
 VirtualAlloc
@@ -1018,15 +1018,15 @@ WerUnregisterExcludedMemoryBlock
 WerUnregisterFile
 WerUnregisterMemoryBlock
 WerUnregisterRuntimeExceptionModule
-// removed: not in win32metadata: WerpGetDebugger
-// removed: not in win32metadata: WerpInitiateRemoteRecovery
-// removed: not in win32metadata: WerpLaunchAeDebug
+WerpGetDebugger
+WerpInitiateRemoteRecovery
+WerpLaunchAeDebug
 WideCharToMultiByte
 WinExec
 WriteConsole
 WriteConsoleInput
-// removed: not in win32metadata: WriteConsoleInputVDMA
-// removed: not in win32metadata: WriteConsoleInputVDMW
+WriteConsoleInputVDMA
+WriteConsoleInputVDMW
 WriteConsoleOutput
 WriteConsoleOutputAttribute
 WriteConsoleOutputCharacter
@@ -1056,12 +1056,12 @@ timeGetTime
 // === user32.dll (842 candidates) ===
 ActivateKeyboardLayout
 AddClipboardFormatListener
-// removed: not in win32metadata: AddVisualIdentifier
+AddVisualIdentifier
 AdjustWindowRect
 AdjustWindowRectEx
 AdjustWindowRectExForDpi
-// removed: not in win32metadata: AlignRects
-// removed: not in win32metadata: AllowForegroundActivation
+AlignRects
+AllowForegroundActivation
 AllowSetForegroundWindow
 AnimateWindow
 AnyPopup
@@ -1075,14 +1075,14 @@ BlockInput
 BringWindowToTop
 BroadcastSystemMessage
 BroadcastSystemMessageEx
-// removed: not in win32metadata: BuildReasonArray
-// removed: not in win32metadata: CalcMenuBar
+BuildReasonArray
+CalcMenuBar
 CalculatePopupWindowPosition
 CallMsgFilter
 CallNextHookEx
 CallWindowProc
 CancelShutdown
-// removed: not in win32metadata: CascadeChildWindows
+CascadeChildWindows
 CascadeWindows
 ChangeClipboardChain
 ChangeDisplaySettings
@@ -1100,19 +1100,19 @@ CharToOem
 CharToOemBuff
 CharUpper
 CharUpperBuff
-// removed: not in win32metadata: CheckBannedOneCoreTransformApi
-// removed: not in win32metadata: CheckDBCSEnabledExt
+CheckBannedOneCoreTransformApi
+CheckDBCSEnabledExt
 CheckDlgButton
 CheckMenuItem
 CheckMenuRadioItem
-// removed: not in win32metadata: CheckProcessForClipboardAccess
-// removed: not in win32metadata: CheckProcessSession
+CheckProcessForClipboardAccess
+CheckProcessSession
 CheckRadioButton
-// removed: not in win32metadata: CheckWindowThreadDesktop
+CheckWindowThreadDesktop
 ChildWindowFromPoint
 ChildWindowFromPointEx
-// removed: not in win32metadata: CliImmSetHotKey
-// removed: not in win32metadata: ClientThreadSetup
+CliImmSetHotKey
+ClientThreadSetup
 ClientToScreen
 ClipCursor
 CloseClipboard
@@ -1122,7 +1122,7 @@ CloseTouchInputHandle
 CloseWindow
 CloseWindowStation
 ConsoleControl
-// removed: not in win32metadata: ControlMagnification
+ControlMagnification
 CopyAcceleratorTable
 CopyIcon
 CopyImage
@@ -1131,11 +1131,11 @@ CountClipboardFormats
 CreateAcceleratorTable
 CreateCaret
 CreateCursor
-// removed: not in win32metadata: CreateDCompositionHwndTarget
+CreateDCompositionHwndTarget
 CreateDesktop
 CreateDesktopEx
 CreateDialogIndirectParam
-// removed: not in win32metadata: CreateDialogIndirectParamAor
+CreateDialogIndirectParamAor
 CreateDialogParam
 CreateIcon
 CreateIconFromResource
@@ -1145,14 +1145,14 @@ CreateMDIWindow
 CreateMenu
 CreatePopupMenu
 CreateSyntheticPointerDevice
-// removed: not in win32metadata: CreateSystemThreads
+CreateSystemThreads
 CreateWindowEx
-// removed: not in win32metadata: CreateWindowInBand
-// removed: not in win32metadata: CreateWindowInBandEx
-// removed: not in win32metadata: CreateWindowIndirect
+CreateWindowInBand
+CreateWindowInBandEx
+CreateWindowIndirect
 CreateWindowStation
-// removed: not in win32metadata: CsrBroadcastSystemMessageEx
-// removed: not in win32metadata: CtxInitUser32
+CsrBroadcastSystemMessageEx
+CtxInitUser32
 DdeAbandonTransaction
 DdeAccessData
 DdeAddData
@@ -1169,7 +1169,7 @@ DdeFreeDataHandle
 DdeFreeStringHandle
 DdeGetData
 DdeGetLastError
-// removed: not in win32metadata: DdeGetQualityOfService
+DdeGetQualityOfService
 DdeImpersonateClient
 DdeInitialize
 DdeKeepStringHandle
@@ -1187,73 +1187,73 @@ DefFrameProc
 DefMDIChildProc
 DefRawInputProc
 DeferWindowPos
-// removed: not in win32metadata: DeferWindowPosAndBand
-// removed: not in win32metadata: DelegateInput
+DeferWindowPosAndBand
+DelegateInput
 DeleteMenu
 DeregisterShellHookWindow
 DestroyAcceleratorTable
 DestroyCaret
 DestroyCursor
-// removed: not in win32metadata: DestroyDCompositionHwndTarget
+DestroyDCompositionHwndTarget
 DestroyIcon
 DestroyMenu
-// removed: not in win32metadata: DestroyReasons
+DestroyReasons
 DestroySyntheticPointerDevice
 DestroyWindow
 DialogBoxIndirectParam
-// removed: not in win32metadata: DialogBoxIndirectParamAor
+DialogBoxIndirectParamAor
 DialogBoxParam
 DisableProcessWindowsGhosting
 DispatchMessage
 DisplayConfigGetDeviceInfo
 DisplayConfigSetDeviceInfo
-// removed: not in win32metadata: DisplayExitWindowsWarnings
+DisplayExitWindowsWarnings
 DlgDirList
 DlgDirListComboBox
 DlgDirSelectComboBoxEx
 DlgDirSelectEx
-// removed: not in win32metadata: DoSoundConnect
-// removed: not in win32metadata: DoSoundDisconnect
+DoSoundConnect
+DoSoundDisconnect
 DragDetect
 DragObject
 DrawAnimatedRects
 DrawCaption
-// removed: not in win32metadata: DrawCaptionTemp
+DrawCaptionTemp
 DrawEdge
 DrawFocusRect
-// removed: not in win32metadata: DrawFrame
+DrawFrame
 DrawFrameControl
 DrawIcon
 DrawIconEx
 DrawMenuBar
-// removed: not in win32metadata: DrawMenuBarTemp
+DrawMenuBarTemp
 DrawState
 DrawText
 DrawTextEx
-// removed: not in win32metadata: DwmGetDxRgn
-// removed: not in win32metadata: DwmGetDxSharedSurface
-// removed: not in win32metadata: DwmGetRemoteSessionOcclusionEvent
-// removed: not in win32metadata: DwmGetRemoteSessionOcclusionState
-// removed: not in win32metadata: DwmKernelShutdown
-// removed: not in win32metadata: DwmKernelStartup
-// removed: not in win32metadata: DwmLockScreenUpdates
-// removed: not in win32metadata: DwmValidateWindow
-// removed: not in win32metadata: EditWndProc
+DwmGetDxRgn
+DwmGetDxSharedSurface
+DwmGetRemoteSessionOcclusionEvent
+DwmGetRemoteSessionOcclusionState
+DwmKernelShutdown
+DwmKernelStartup
+DwmLockScreenUpdates
+DwmValidateWindow
+EditWndProc
 EmptyClipboard
 EnableMenuItem
 EnableMouseInPointer
 EnableNonClientDpiScaling
-// removed: not in win32metadata: EnableOneCoreTransformMode
+EnableOneCoreTransformMode
 EnableScrollBar
-// removed: not in win32metadata: EnableSessionForMMCSS
+EnableSessionForMMCSS
 EnableWindow
 EndDeferWindowPos
-// removed: not in win32metadata: EndDeferWindowPosEx
+EndDeferWindowPosEx
 EndDialog
 EndMenu
 EndPaint
-// removed: not in win32metadata: EndTask
-// removed: not in win32metadata: EnterReaderModeHelper
+EndTask
+EnterReaderModeHelper
 EnumChildWindows
 EnumClipboardFormats
 EnumDesktopWindows
@@ -1279,12 +1279,12 @@ FlashWindow
 FlashWindowEx
 FrameRect
 FreeDDElParam
-// removed: not in win32metadata: FrostCrashedWindow
+FrostCrashedWindow
 GetActiveWindow
 GetAltTabInfo
 GetAncestor
-// removed: not in win32metadata: GetAppCompatFlags
-// removed: not in win32metadata: GetAppCompatFlags2
+GetAppCompatFlags
+GetAppCompatFlags2
 GetAsyncKeyState
 GetAutoRotationState
 GetAwarenessFromDpiAwarenessContext
@@ -1295,12 +1295,12 @@ GetCaretPos
 GetClassInfo
 GetClassInfoEx
 GetClassLong
-// removed: not in win32metadata: GetClassLongPtr
+GetClassLongPtr
 GetClassName
 GetClassWord
 GetClientRect
 GetClipCursor
-// removed: not in win32metadata: GetClipboardAccessToken
+GetClipboardAccessToken
 GetClipboardData
 GetClipboardFormatName
 GetClipboardOwner
@@ -1309,12 +1309,12 @@ GetClipboardViewer
 GetComboBoxInfo
 GetCurrentInputMessageSource
 GetCursor
-// removed: not in win32metadata: GetCursorFrameInfo
+GetCursorFrameInfo
 GetCursorInfo
 GetCursorPos
 GetDC
 GetDCEx
-// removed: not in win32metadata: GetDesktopID
+GetDesktopID
 GetDesktopWindow
 GetDialogBaseUnits
 GetDialogControlDpiChangeBehavior
@@ -1330,7 +1330,7 @@ GetDpiAwarenessContextForProcess
 GetDpiForSystem
 GetDpiForWindow
 GetDpiFromDpiAwarenessContext
-// removed: not in win32metadata: GetExtendedPointerDeviceProperty
+GetExtendedPointerDeviceProperty
 GetFocus
 GetForegroundWindow
 GetGUIThreadInfo
@@ -1340,10 +1340,10 @@ GetGestureInfo
 GetGuiResources
 GetIconInfo
 GetIconInfoEx
-// removed: not in win32metadata: GetInputDesktop
-// removed: not in win32metadata: GetInputLocaleInfo
+GetInputDesktop
+GetInputLocaleInfo
 GetInputState
-// removed: not in win32metadata: GetInternalWindowPos
+GetInternalWindowPos
 GetKBCodePage
 GetKeyNameText
 GetKeyState
@@ -1356,10 +1356,10 @@ GetLastActivePopup
 GetLastInputInfo
 GetLayeredWindowAttributes
 GetListBoxInfo
-// removed: not in win32metadata: GetMagnificationDesktopColorEffect
-// removed: not in win32metadata: GetMagnificationDesktopMagnification
-// removed: not in win32metadata: GetMagnificationDesktopSamplingMode
-// removed: not in win32metadata: GetMagnificationLensCtxInformation
+GetMagnificationDesktopColorEffect
+GetMagnificationDesktopMagnification
+GetMagnificationDesktopSamplingMode
+GetMagnificationLensCtxInformation
 GetMenu
 GetMenuBarInfo
 GetMenuCheckMarkDimensions
@@ -1386,17 +1386,17 @@ GetPhysicalCursorPos
 GetPointerCursorId
 GetPointerDevice
 GetPointerDeviceCursors
-// removed: not in win32metadata: GetPointerDeviceInputSpace
-// removed: not in win32metadata: GetPointerDeviceOrientation
+GetPointerDeviceInputSpace
+GetPointerDeviceOrientation
 GetPointerDeviceProperties
 GetPointerDeviceRects
 GetPointerDevices
-// removed: not in win32metadata: GetPointerFrameArrivalTimes
+GetPointerFrameArrivalTimes
 GetPointerFrameInfo
 GetPointerFrameInfoHistory
 GetPointerFramePenInfo
 GetPointerFramePenInfoHistory
-// removed: not in win32metadata: GetPointerFrameTimes
+GetPointerFrameTimes
 GetPointerFrameTouchInfo
 GetPointerFrameTouchInfoHistory
 GetPointerInfo
@@ -1409,9 +1409,9 @@ GetPointerTouchInfoHistory
 GetPointerType
 GetPriorityClipboardFormat
 GetProcessDefaultLayout
-// removed: not in win32metadata: GetProcessUIContextInformation
+GetProcessUIContextInformation
 GetProcessWindowStation
-// removed: not in win32metadata: GetProgmanWindow
+GetProgmanWindow
 GetProp
 GetQueueStatus
 GetRawInputBuffer
@@ -1419,14 +1419,14 @@ GetRawInputData
 GetRawInputDeviceInfo
 GetRawInputDeviceList
 GetRawPointerDeviceData
-// removed: not in win32metadata: GetReasonTitleFromReasonCode
+GetReasonTitleFromReasonCode
 GetRegisteredRawInputDevices
 GetScrollBarInfo
 GetScrollInfo
 GetScrollPos
 GetScrollRange
-// removed: not in win32metadata: GetSendMessageReceiver
-// removed: not in win32metadata: GetShellChangeNotifyWindow
+GetSendMessageReceiver
+GetShellChangeNotifyWindow
 GetShellWindow
 GetSubMenu
 GetSysColor
@@ -1436,12 +1436,12 @@ GetSystemMenu
 GetSystemMetrics
 GetSystemMetricsForDpi
 GetTabbedTextExtent
-// removed: not in win32metadata: GetTaskmanWindow
+GetTaskmanWindow
 GetThreadDesktop
 GetThreadDpiAwarenessContext
 GetThreadDpiHostingBehavior
 GetTitleBarInfo
-// removed: not in win32metadata: GetTopLevelWindow
+GetTopLevelWindow
 GetTopWindow
 GetTouchInputInfo
 GetUnpredictedMessagePos
@@ -1450,11 +1450,11 @@ GetUpdateRgn
 GetUpdatedClipboardFormats
 GetUserObjectInformation
 GetUserObjectSecurity
-// removed: not in win32metadata: GetWinStationInfo
+GetWinStationInfo
 GetWindow
-// removed: not in win32metadata: GetWindowBand
-// removed: not in win32metadata: GetWindowCompositionAttribute
-// removed: not in win32metadata: GetWindowCompositionInfo
+GetWindowBand
+GetWindowCompositionAttribute
+GetWindowCompositionInfo
 GetWindowContextHelpId
 GetWindowDC
 GetWindowDisplayAffinity
@@ -1463,25 +1463,25 @@ GetWindowDpiHostingBehavior
 GetWindowFeedbackSetting
 GetWindowInfo
 GetWindowLong
-// removed: not in win32metadata: GetWindowLongPtr
-// removed: not in win32metadata: GetWindowMinimizeRect
+GetWindowLongPtr
+GetWindowMinimizeRect
 GetWindowModuleFileName
 GetWindowPlacement
-// removed: not in win32metadata: GetWindowProcessHandle
+GetWindowProcessHandle
 GetWindowRect
 GetWindowRgn
 GetWindowRgnBox
-// removed: not in win32metadata: GetWindowRgnEx
+GetWindowRgnEx
 GetWindowText
 GetWindowTextLength
 GetWindowThreadProcessId
 GetWindowWord
-// removed: not in win32metadata: GhostWindowFromHungWindow
+GhostWindowFromHungWindow
 GrayString
-// removed: not in win32metadata: HandleDelegatedInput
+HandleDelegatedInput
 HideCaret
 HiliteMenuItem
-// removed: not in win32metadata: HungWindowFromGhostWindow
+HungWindowFromGhostWindow
 IMPGetIMEA
 IMPGetIMEW
 IMPQueryIMEA
@@ -1493,24 +1493,24 @@ InSendMessage
 InSendMessageEx
 InflateRect
 InheritWindowMonitor
-// removed: not in win32metadata: InitDManipHook
-// removed: not in win32metadata: InitializeGenericHidInjection
-// removed: not in win32metadata: InitializeInputDeviceInjection
-// removed: not in win32metadata: InitializeLpkHooks
-// removed: not in win32metadata: InitializePointerDeviceInjection
-// removed: not in win32metadata: InitializePointerDeviceInjectionEx
+InitDManipHook
+InitializeGenericHidInjection
+InitializeInputDeviceInjection
+InitializeLpkHooks
+InitializePointerDeviceInjection
+InitializePointerDeviceInjectionEx
 InitializeTouchInjection
-// removed: not in win32metadata: InjectDeviceInput
-// removed: not in win32metadata: InjectGenericHidInput
-// removed: not in win32metadata: InjectKeyboardInput
-// removed: not in win32metadata: InjectMouseInput
-// removed: not in win32metadata: InjectPointerInput
+InjectDeviceInput
+InjectGenericHidInput
+InjectKeyboardInput
+InjectMouseInput
+InjectPointerInput
 InjectSyntheticPointerInput
 InjectTouchInput
-// removed: not in win32metadata: InputSpaceRegionFromPoint
+InputSpaceRegionFromPoint
 InsertMenu
 InsertMenuItem
-// removed: not in win32metadata: InternalGetWindowIcon
+InternalGetWindowIcon
 InternalGetWindowText
 IntersectRect
 InvalidateRect
@@ -1518,7 +1518,7 @@ InvalidateRgn
 InvertRect
 IsCharAlpha
 IsCharAlphaNumeric
-// removed: CS8785 ambiguous across namespaces: IsCharLower
+IsCharLower
 IsCharUpper
 IsChild
 IsClipboardFormatAvailable
@@ -1528,27 +1528,27 @@ IsGUIThread
 IsHungAppWindow
 IsIconic
 IsImmersiveProcess
-// removed: not in win32metadata: IsInDesktopWindowBand
+IsInDesktopWindowBand
 IsMenu
 IsMouseInPointerEnabled
-// removed: not in win32metadata: IsOneCoreTransformMode
+IsOneCoreTransformMode
 IsProcessDPIAware
-// removed: not in win32metadata: IsQueueAttached
+IsQueueAttached
 IsRectEmpty
-// removed: not in win32metadata: IsSETEnabled
-// removed: not in win32metadata: IsServerSideWindow
-// removed: not in win32metadata: IsThreadDesktopComposited
-// removed: not in win32metadata: IsThreadMessageQueueAttached
-// removed: not in win32metadata: IsThreadTSFEventAware
-// removed: not in win32metadata: IsTopLevelWindow
+IsSETEnabled
+IsServerSideWindow
+IsThreadDesktopComposited
+IsThreadMessageQueueAttached
+IsThreadTSFEventAware
+IsTopLevelWindow
 IsTouchWindow
 IsValidDpiAwarenessContext
 IsWinEventHookInstalled
 IsWindow
 IsWindowArranged
 IsWindowEnabled
-// removed: not in win32metadata: IsWindowInDestroy
-// removed: not in win32metadata: IsWindowRedirectedForPrint
+IsWindowInDestroy
+IsWindowRedirectedForPrint
 IsWindowUnicode
 IsWindowVisible
 IsWow64Message
@@ -1561,42 +1561,42 @@ LoadCursorFromFile
 LoadIcon
 LoadImage
 LoadKeyboardLayout
-// removed: not in win32metadata: LoadKeyboardLayoutEx
-// removed: not in win32metadata: LoadLocalFonts
+LoadKeyboardLayoutEx
+LoadLocalFonts
 LoadMenu
 LoadMenuIndirect
-// removed: not in win32metadata: LoadRemoteFonts
+LoadRemoteFonts
 LoadString
 LockSetForegroundWindow
-// removed: not in win32metadata: LockWindowStation
+LockWindowStation
 LockWindowUpdate
 LockWorkStation
 LogicalToPhysicalPoint
 LogicalToPhysicalPointForPerMonitorDPI
 LookupIconIdFromDirectory
 LookupIconIdFromDirectoryEx
-// removed: not in win32metadata: MBToWCSEx
-// removed: not in win32metadata: MBToWCSExt
-// removed: not in win32metadata: MB_GetString
-// removed: not in win32metadata: MITGetCursorUpdateHandle
-// removed: not in win32metadata: MITSetForegroundRoutingInfo
-// removed: not in win32metadata: MITSetInputDelegationMode
-// removed: not in win32metadata: MITSetLastInputRecipient
-// removed: not in win32metadata: MITSynthesizeTouchInput
-// removed: not in win32metadata: MakeThreadTSFEventAware
+MBToWCSEx
+MBToWCSExt
+MB_GetString
+MITGetCursorUpdateHandle
+MITSetForegroundRoutingInfo
+MITSetInputDelegationMode
+MITSetLastInputRecipient
+MITSynthesizeTouchInput
+MakeThreadTSFEventAware
 MapDialogRect
-// removed: not in win32metadata: MapPointsByVisualIdentifier
+MapPointsByVisualIdentifier
 MapVirtualKey
 MapVirtualKeyEx
-// removed: not in win32metadata: MapVisualRelativePoints
+MapVisualRelativePoints
 MapWindowPoints
 MenuItemFromPoint
-// removed: not in win32metadata: MenuWindowProc
+MenuWindowProc
 MessageBeep
 MessageBox
 MessageBoxEx
 MessageBoxIndirect
-// removed: not in win32metadata: MessageBoxTimeout
+MessageBoxTimeout
 ModifyMenu
 MonitorFromPoint
 MonitorFromRect
@@ -1604,7 +1604,7 @@ MonitorFromWindow
 MoveWindow
 MsgWaitForMultipleObjects
 MsgWaitForMultipleObjectsEx
-// removed: not in win32metadata: NotifyOverlayWindow
+NotifyOverlayWindow
 NotifyWinEvent
 OemKeyScan
 OemToChar
@@ -1614,13 +1614,13 @@ OpenClipboard
 OpenDesktop
 OpenIcon
 OpenInputDesktop
-// removed: not in win32metadata: OpenThreadDesktop
+OpenThreadDesktop
 OpenWindowStation
 PackDDElParam
 PackTouchHitTestingProximityEvaluation
 PaintDesktop
-// removed: not in win32metadata: PaintMenuBar
-// removed: not in win32metadata: PaintMonitor
+PaintMenuBar
+PaintMonitor
 PeekMessage
 PhysicalToLogicalPoint
 PhysicalToLogicalPointForPerMonitorDPI
@@ -1628,83 +1628,83 @@ PostMessage
 PostQuitMessage
 PostThreadMessage
 PrintWindow
-// removed: not in win32metadata: PrivateExtractIconEx
+PrivateExtractIconEx
 PrivateExtractIcons
-// removed: not in win32metadata: PrivateRegisterICSProc
+PrivateRegisterICSProc
 PtInRect
-// removed: not in win32metadata: QueryBSDRWindow
+QueryBSDRWindow
 QueryDisplayConfig
-// removed: not in win32metadata: QuerySendMessage
-// removed: not in win32metadata: RIMAddInputObserver
-// removed: not in win32metadata: RIMAreSiblingDevices
-// removed: not in win32metadata: RIMDeviceIoControl
-// removed: not in win32metadata: RIMEnableMonitorMappingForDevice
-// removed: not in win32metadata: RIMFreeInputBuffer
-// removed: not in win32metadata: RIMGetDevicePreparsedData
-// removed: not in win32metadata: RIMGetDevicePreparsedDataLockfree
-// removed: not in win32metadata: RIMGetDeviceProperties
-// removed: not in win32metadata: RIMGetDevicePropertiesLockfree
-// removed: not in win32metadata: RIMGetPhysicalDeviceRect
-// removed: not in win32metadata: RIMGetSourceProcessId
-// removed: not in win32metadata: RIMObserveNextInput
-// removed: not in win32metadata: RIMOnPnpNotification
-// removed: not in win32metadata: RIMOnTimerNotification
-// removed: not in win32metadata: RIMQueryDevicePath
-// removed: not in win32metadata: RIMReadInput
-// removed: not in win32metadata: RIMRegisterForInput
-// removed: not in win32metadata: RIMRemoveInputObserver
-// removed: not in win32metadata: RIMSetExtendedDeviceProperty
-// removed: not in win32metadata: RIMSetTestModeStatus
-// removed: not in win32metadata: RIMUnregisterForInput
-// removed: not in win32metadata: RIMUpdateInputObserverRegistration
+QuerySendMessage
+RIMAddInputObserver
+RIMAreSiblingDevices
+RIMDeviceIoControl
+RIMEnableMonitorMappingForDevice
+RIMFreeInputBuffer
+RIMGetDevicePreparsedData
+RIMGetDevicePreparsedDataLockfree
+RIMGetDeviceProperties
+RIMGetDevicePropertiesLockfree
+RIMGetPhysicalDeviceRect
+RIMGetSourceProcessId
+RIMObserveNextInput
+RIMOnPnpNotification
+RIMOnTimerNotification
+RIMQueryDevicePath
+RIMReadInput
+RIMRegisterForInput
+RIMRemoveInputObserver
+RIMSetExtendedDeviceProperty
+RIMSetTestModeStatus
+RIMUnregisterForInput
+RIMUpdateInputObserverRegistration
 RealChildWindowFromPoint
 RealGetWindowClass
-// removed: not in win32metadata: ReasonCodeNeedsBugID
-// removed: not in win32metadata: ReasonCodeNeedsComment
-// removed: not in win32metadata: RecordShutdownReason
+ReasonCodeNeedsBugID
+ReasonCodeNeedsComment
+RecordShutdownReason
 RedrawWindow
-// removed: not in win32metadata: RegisterBSDRWindow
+RegisterBSDRWindow
 RegisterClass
 RegisterClassEx
 RegisterClipboardFormat
-// removed: not in win32metadata: RegisterDManipHook
+RegisterDManipHook
 RegisterDeviceNotification
-// removed: not in win32metadata: RegisterErrorReportingDialog
-// removed: not in win32metadata: RegisterFrostWindow
-// removed: not in win32metadata: RegisterGhostWindow
+RegisterErrorReportingDialog
+RegisterFrostWindow
+RegisterGhostWindow
 RegisterHotKey
-// removed: not in win32metadata: RegisterLogonProcess
-// removed: not in win32metadata: RegisterMessagePumpHook
+RegisterLogonProcess
+RegisterMessagePumpHook
 RegisterPointerDeviceNotifications
 RegisterPointerInputTarget
 RegisterPointerInputTargetEx
 RegisterPowerSettingNotification
 RegisterRawInputDevices
-// removed: not in win32metadata: RegisterServicesProcess
-// removed: not in win32metadata: RegisterSessionPort
+RegisterServicesProcess
+RegisterSessionPort
 RegisterShellHookWindow
 RegisterSuspendResumeNotification
-// removed: not in win32metadata: RegisterSystemThread
-// removed: not in win32metadata: RegisterTasklist
+RegisterSystemThread
+RegisterTasklist
 RegisterTouchHitTestingWindow
 RegisterTouchWindow
-// removed: not in win32metadata: RegisterUserApiHook
+RegisterUserApiHook
 RegisterWindowMessage
 ReleaseCapture
 ReleaseDC
-// removed: not in win32metadata: ReleaseDwmHitTestWaiters
+ReleaseDwmHitTestWaiters
 RemoveClipboardFormatListener
-// removed: not in win32metadata: RemoveInjectionDevice
+RemoveInjectionDevice
 RemoveMenu
 RemoveProp
-// removed: not in win32metadata: RemoveThreadTSFEventAwareness
-// removed: not in win32metadata: RemoveVisualIdentifier
+RemoveThreadTSFEventAwareness
+RemoveVisualIdentifier
 ReplyMessage
-// removed: not in win32metadata: ReportInertia
-// removed: not in win32metadata: ResolveDesktopForWOW
+ReportInertia
+ResolveDesktopForWOW
 ReuseDDElParam
 ScreenToClient
-// removed: not in win32metadata: ScrollChildren
+ScrollChildren
 ScrollDC
 ScrollWindow
 ScrollWindowEx
@@ -1720,18 +1720,18 @@ SetCapture
 SetCaretBlinkTime
 SetCaretPos
 SetClassLong
-// removed: not in win32metadata: SetClassLongPtr
+SetClassLongPtr
 SetClassWord
 SetClipboardData
 SetClipboardViewer
 SetCoalescableTimer
-// removed: not in win32metadata: SetCoreWindow
+SetCoreWindow
 SetCursor
-// removed: not in win32metadata: SetCursorContents
+SetCursorContents
 SetCursorPos
 SetDebugErrorLevel
-// removed: not in win32metadata: SetDeskWallpaper
-// removed: not in win32metadata: SetDesktopColorTransform
+SetDeskWallpaper
+SetDesktopColorTransform
 SetDialogControlDpiChangeBehavior
 SetDialogDpiChangeBehavior
 SetDisplayAutoRotationPreferences
@@ -1739,20 +1739,20 @@ SetDisplayConfig
 SetDlgItemInt
 SetDlgItemText
 SetDoubleClickTime
-// removed: not in win32metadata: SetFeatureReportResponse
+SetFeatureReportResponse
 SetFocus
 SetForegroundWindow
-// removed: not in win32metadata: SetFullscreenMagnifierOffsetsDWMUpdated
+SetFullscreenMagnifierOffsetsDWMUpdated
 SetGestureConfig
-// removed: not in win32metadata: SetInternalWindowPos
+SetInternalWindowPos
 SetKeyboardState
 SetLastErrorEx
 SetLayeredWindowAttributes
-// removed: not in win32metadata: SetMagnificationDesktopColorEffect
-// removed: not in win32metadata: SetMagnificationDesktopMagnification
-// removed: not in win32metadata: SetMagnificationDesktopMagnifierOffsetsDWMUpdated
-// removed: not in win32metadata: SetMagnificationDesktopSamplingMode
-// removed: not in win32metadata: SetMagnificationLensCtxInformation
+SetMagnificationDesktopColorEffect
+SetMagnificationDesktopMagnification
+SetMagnificationDesktopMagnifierOffsetsDWMUpdated
+SetMagnificationDesktopSamplingMode
+SetMagnificationLensCtxInformation
 SetMenu
 SetMenuContextHelpId
 SetMenuDefaultItem
@@ -1761,80 +1761,80 @@ SetMenuItemBitmaps
 SetMenuItemInfo
 SetMessageExtraInfo
 SetMessageQueue
-// removed: not in win32metadata: SetMirrorRendering
+SetMirrorRendering
 SetParent
 SetPhysicalCursorPos
-// removed: not in win32metadata: SetPointerDeviceInputSpace
+SetPointerDeviceInputSpace
 SetProcessDPIAware
 SetProcessDefaultLayout
 SetProcessDpiAwarenessContext
 SetProcessRestrictionExemption
 SetProcessWindowStation
-// removed: not in win32metadata: SetProgmanWindow
+SetProgmanWindow
 SetProp
 SetRect
 SetRectEmpty
 SetScrollInfo
 SetScrollPos
 SetScrollRange
-// removed: not in win32metadata: SetShellChangeNotifyWindow
-// removed: not in win32metadata: SetShellWindow
-// removed: not in win32metadata: SetShellWindowEx
+SetShellChangeNotifyWindow
+SetShellWindow
+SetShellWindowEx
 SetSysColors
-// removed: not in win32metadata: SetSysColorsTemp
+SetSysColorsTemp
 SetSystemCursor
-// removed: not in win32metadata: SetSystemMenu
-// removed: not in win32metadata: SetTaskmanWindow
+SetSystemMenu
+SetTaskmanWindow
 SetThreadDesktop
 SetThreadDpiAwarenessContext
 SetThreadDpiHostingBehavior
-// removed: not in win32metadata: SetThreadInputBlocked
+SetThreadInputBlocked
 SetTimer
 SetUserObjectInformation
 SetUserObjectSecurity
 SetWinEventHook
-// removed: not in win32metadata: SetWindowBand
-// removed: not in win32metadata: SetWindowCompositionAttribute
-// removed: not in win32metadata: SetWindowCompositionTransition
+SetWindowBand
+SetWindowCompositionAttribute
+SetWindowCompositionTransition
 SetWindowContextHelpId
 SetWindowDisplayAffinity
 SetWindowFeedbackSetting
 SetWindowLong
-// removed: not in win32metadata: SetWindowLongPtr
+SetWindowLongPtr
 SetWindowPlacement
 SetWindowPos
 SetWindowRgn
-// removed: not in win32metadata: SetWindowRgnEx
-// removed: not in win32metadata: SetWindowStationUser
+SetWindowRgnEx
+SetWindowStationUser
 SetWindowText
 SetWindowWord
 SetWindowsHook
 SetWindowsHookEx
-// removed: not in win32metadata: SetWindowsHookExAW
+SetWindowsHookExAW
 ShowCaret
 ShowCursor
 ShowOwnedPopups
 ShowScrollBar
-// removed: not in win32metadata: ShowStartGlass
-// removed: not in win32metadata: ShowSystemCursor
+ShowStartGlass
+ShowSystemCursor
 ShowWindow
 ShowWindowAsync
 ShutdownBlockReasonCreate
 ShutdownBlockReasonDestroy
 ShutdownBlockReasonQuery
-// removed: not in win32metadata: SignalRedirectionStartComplete
+SignalRedirectionStartComplete
 SkipPointerFrameMessages
-// removed: not in win32metadata: SoftModalMessageBox
+SoftModalMessageBox
 SoundSentry
 SubtractRect
 SwapMouseButton
 SwitchDesktop
-// removed: not in win32metadata: SwitchDesktopWithFade
+SwitchDesktopWithFade
 SwitchToThisWindow
 SystemParametersInfo
 SystemParametersInfoForDpi
 TabbedTextOut
-// removed: not in win32metadata: TileChildWindows
+TileChildWindows
 TileWindows
 ToAscii
 ToAsciiEx
@@ -1846,51 +1846,51 @@ TrackPopupMenuEx
 TranslateAccelerator
 TranslateMDISysAccel
 TranslateMessage
-// removed: not in win32metadata: TranslateMessageEx
-// removed: not in win32metadata: UndelegateInput
+TranslateMessageEx
+UndelegateInput
 UnhookWinEvent
 UnhookWindowsHook
 UnhookWindowsHookEx
 UnionRect
 UnloadKeyboardLayout
-// removed: not in win32metadata: UnlockWindowStation
+UnlockWindowStation
 UnpackDDElParam
 UnregisterClass
 UnregisterDeviceNotification
 UnregisterHotKey
-// removed: not in win32metadata: UnregisterMessagePumpHook
+UnregisterMessagePumpHook
 UnregisterPointerInputTarget
 UnregisterPointerInputTargetEx
 UnregisterPowerSettingNotification
-// removed: not in win32metadata: UnregisterSessionPort
+UnregisterSessionPort
 UnregisterSuspendResumeNotification
 UnregisterTouchWindow
-// removed: not in win32metadata: UnregisterUserApiHook
-// removed: not in win32metadata: UpdateDefaultDesktopThumbnail
+UnregisterUserApiHook
+UpdateDefaultDesktopThumbnail
 UpdateLayeredWindow
 UpdateLayeredWindowIndirect
-// removed: not in win32metadata: UpdatePerUserSystemParameters
+UpdatePerUserSystemParameters
 UpdateWindow
-// removed: not in win32metadata: UpdateWindowInputSinkHints
-// removed: not in win32metadata: User32InitializeImmEntryTable
-// removed: not in win32metadata: UserClientDllInitialize
+UpdateWindowInputSinkHints
+User32InitializeImmEntryTable
+UserClientDllInitialize
 UserHandleGrantAccess
-// removed: not in win32metadata: UserLpkPSMTextOut
-// removed: not in win32metadata: UserLpkTabbedTextOut
-// removed: not in win32metadata: UserRealizePalette
-// removed: not in win32metadata: UserRegisterWowHandlers
-// removed: not in win32metadata: VRipOutput
-// removed: not in win32metadata: VTagOutput
+UserLpkPSMTextOut
+UserLpkTabbedTextOut
+UserRealizePalette
+UserRegisterWowHandlers
+VRipOutput
+VTagOutput
 ValidateRect
 ValidateRgn
 VkKeyScan
 VkKeyScanEx
-// removed: not in win32metadata: WCSToMBEx
+WCSToMBEx
 WINNLSEnableIME
 WINNLSGetEnableStatus
 WINNLSGetIMEHotkey
 WaitForInputIdle
-// removed: not in win32metadata: WaitForRedirectionStartComplete
+WaitForRedirectionStartComplete
 WaitMessage
 WinHelp
 WindowFromDC
@@ -1903,17 +1903,17 @@ AbortPath
 AddFontMemResourceEx
 AddFontResource
 AddFontResourceEx
-// removed: not in win32metadata: AddFontResourceTracking
+AddFontResourceTracking
 AngleArc
 AnimatePalette
-// removed: not in win32metadata: AnyLinkedFonts
+AnyLinkedFonts
 Arc
 ArcTo
 BRUSHOBJ_hGetColorTransform
 BRUSHOBJ_pvAllocRbrush
 BRUSHOBJ_pvGetRbrush
 BRUSHOBJ_ulGetBrushColor
-// removed: not in win32metadata: BeginGdiRendering
+BeginGdiRendering
 BeginPath
 BitBlt
 CLIPOBJ_bEnum
@@ -1923,8 +1923,8 @@ CancelDC
 CheckColorsInGamut
 ChoosePixelFormat
 Chord
-// removed: not in win32metadata: ClearBitmapAttributes
-// removed: not in win32metadata: ClearBrushAttributes
+ClearBitmapAttributes
+ClearBrushAttributes
 CloseEnhMetaFile
 CloseFigure
 CloseMetaFile
@@ -1932,25 +1932,25 @@ ColorCorrectPalette
 ColorMatchToTarget
 CombineRgn
 CombineTransform
-// removed: not in win32metadata: ConfigureOPMProtectedOutput
+ConfigureOPMProtectedOutput
 CopyEnhMetaFile
 CopyMetaFile
 CreateBitmap
-// removed: not in win32metadata: CreateBitmapFromDxSurface
-// removed: not in win32metadata: CreateBitmapFromDxSurface2
+CreateBitmapFromDxSurface
+CreateBitmapFromDxSurface2
 CreateBitmapIndirect
 CreateBrushIndirect
 CreateColorSpace
 CreateCompatibleBitmap
 CreateCompatibleDC
 CreateDCA
-// removed: not in win32metadata: CreateDCEx
+CreateDCEx
 CreateDCW
 CreateDIBPatternBrush
 CreateDIBPatternBrushPt
 CreateDIBSection
 CreateDIBitmap
-// removed: not in win32metadata: CreateDPIScaledDIBSection
+CreateDPIScaledDIBSection
 CreateDiscardableBitmap
 CreateEllipticRgn
 CreateEllipticRgnIndirect
@@ -1963,8 +1963,8 @@ CreateHatchBrush
 CreateICA
 CreateICW
 CreateMetaFile
-// removed: not in win32metadata: CreateOPMProtectedOutput
-// removed: not in win32metadata: CreateOPMProtectedOutputs
+CreateOPMProtectedOutput
+CreateOPMProtectedOutputs
 CreatePalette
 CreatePatternBrush
 CreatePen
@@ -1975,109 +1975,109 @@ CreateRectRgn
 CreateRectRgnIndirect
 CreateRoundRectRgn
 CreateScalableFontResource
-// removed: not in win32metadata: CreateScaledCompatibleBitmap
-// removed: not in win32metadata: CreateSessionMappedDIBSection
+CreateScaledCompatibleBitmap
+CreateSessionMappedDIBSection
 CreateSolidBrush
 D3DKMTCreateAllocation
 D3DKMTCreateSynchronizationObject
-// removed: not in win32metadata: D3DKMTNetDispStartMiracastDisplayDevice
-// removed: not in win32metadata: D3DKMTNetDispStartMiracastDisplayDevice2
+D3DKMTNetDispStartMiracastDisplayDevice
+D3DKMTNetDispStartMiracastDisplayDevice2
 D3DKMTOpenAdapterFromGdiDisplayName
 D3DKMTOpenAdapterFromHdc
 D3DKMTOpenResource
-// removed: not in win32metadata: D3DKMTPinDirectFlipResources
+D3DKMTPinDirectFlipResources
 D3DKMTRegisterTrimNotification
 D3DKMTSetDisplayPrivateDriverFormat
 D3DKMTSetVidPnSourceOwner
 D3DKMTSetVidPnSourceOwner1
 D3DKMTSignalSynchronizationObject
-// removed: not in win32metadata: D3DKMTUnpinDirectFlipResources
+D3DKMTUnpinDirectFlipResources
 D3DKMTUnregisterTrimNotification
 D3DKMTWaitForSynchronizationObject
-// removed: not in win32metadata: DDCCIGetCapabilitiesString
-// removed: not in win32metadata: DDCCIGetCapabilitiesStringLength
-// removed: not in win32metadata: DDCCIGetTimingReport
-// removed: not in win32metadata: DDCCIGetVCPFeature
-// removed: not in win32metadata: DDCCISaveCurrentSettings
-// removed: not in win32metadata: DDCCISetVCPFeature
+DDCCIGetCapabilitiesString
+DDCCIGetCapabilitiesStringLength
+DDCCIGetTimingReport
+DDCCIGetVCPFeature
+DDCCISaveCurrentSettings
+DDCCISetVCPFeature
 DPtoLP
-// removed: not in win32metadata: DdCreateFullscreenSprite
-// removed: not in win32metadata: DdDestroyFullscreenSprite
-// removed: not in win32metadata: DdEntry0
-// removed: not in win32metadata: DdEntry1
-// removed: not in win32metadata: DdEntry10
-// removed: not in win32metadata: DdEntry11
-// removed: not in win32metadata: DdEntry12
-// removed: not in win32metadata: DdEntry13
-// removed: not in win32metadata: DdEntry14
-// removed: not in win32metadata: DdEntry15
-// removed: not in win32metadata: DdEntry16
-// removed: not in win32metadata: DdEntry17
-// removed: not in win32metadata: DdEntry18
-// removed: not in win32metadata: DdEntry19
-// removed: not in win32metadata: DdEntry2
-// removed: not in win32metadata: DdEntry20
-// removed: not in win32metadata: DdEntry21
-// removed: not in win32metadata: DdEntry22
-// removed: not in win32metadata: DdEntry23
-// removed: not in win32metadata: DdEntry24
-// removed: not in win32metadata: DdEntry25
-// removed: not in win32metadata: DdEntry26
-// removed: not in win32metadata: DdEntry27
-// removed: not in win32metadata: DdEntry28
-// removed: not in win32metadata: DdEntry29
-// removed: not in win32metadata: DdEntry3
-// removed: not in win32metadata: DdEntry30
-// removed: not in win32metadata: DdEntry31
-// removed: not in win32metadata: DdEntry32
-// removed: not in win32metadata: DdEntry33
-// removed: not in win32metadata: DdEntry34
-// removed: not in win32metadata: DdEntry35
-// removed: not in win32metadata: DdEntry36
-// removed: not in win32metadata: DdEntry37
-// removed: not in win32metadata: DdEntry38
-// removed: not in win32metadata: DdEntry39
-// removed: not in win32metadata: DdEntry4
-// removed: not in win32metadata: DdEntry40
-// removed: not in win32metadata: DdEntry41
-// removed: not in win32metadata: DdEntry42
-// removed: not in win32metadata: DdEntry43
-// removed: not in win32metadata: DdEntry44
-// removed: not in win32metadata: DdEntry45
-// removed: not in win32metadata: DdEntry46
-// removed: not in win32metadata: DdEntry47
-// removed: not in win32metadata: DdEntry48
-// removed: not in win32metadata: DdEntry49
-// removed: not in win32metadata: DdEntry5
-// removed: not in win32metadata: DdEntry50
-// removed: not in win32metadata: DdEntry51
-// removed: not in win32metadata: DdEntry52
-// removed: not in win32metadata: DdEntry53
-// removed: not in win32metadata: DdEntry54
-// removed: not in win32metadata: DdEntry55
-// removed: not in win32metadata: DdEntry56
-// removed: not in win32metadata: DdEntry6
-// removed: not in win32metadata: DdEntry7
-// removed: not in win32metadata: DdEntry8
-// removed: not in win32metadata: DdEntry9
-// removed: not in win32metadata: DdNotifyFullscreenSpriteUpdate
-// removed: not in win32metadata: DdQueryVisRgnUniqueness
+DdCreateFullscreenSprite
+DdDestroyFullscreenSprite
+DdEntry0
+DdEntry1
+DdEntry10
+DdEntry11
+DdEntry12
+DdEntry13
+DdEntry14
+DdEntry15
+DdEntry16
+DdEntry17
+DdEntry18
+DdEntry19
+DdEntry2
+DdEntry20
+DdEntry21
+DdEntry22
+DdEntry23
+DdEntry24
+DdEntry25
+DdEntry26
+DdEntry27
+DdEntry28
+DdEntry29
+DdEntry3
+DdEntry30
+DdEntry31
+DdEntry32
+DdEntry33
+DdEntry34
+DdEntry35
+DdEntry36
+DdEntry37
+DdEntry38
+DdEntry39
+DdEntry4
+DdEntry40
+DdEntry41
+DdEntry42
+DdEntry43
+DdEntry44
+DdEntry45
+DdEntry46
+DdEntry47
+DdEntry48
+DdEntry49
+DdEntry5
+DdEntry50
+DdEntry51
+DdEntry52
+DdEntry53
+DdEntry54
+DdEntry55
+DdEntry56
+DdEntry6
+DdEntry7
+DdEntry8
+DdEntry9
+DdNotifyFullscreenSpriteUpdate
+DdQueryVisRgnUniqueness
 DeleteColorSpace
 DeleteDC
 DeleteEnhMetaFile
 DeleteMetaFile
 DeleteObject
 DescribePixelFormat
-// removed: not in win32metadata: DestroyOPMProtectedOutput
-// removed: not in win32metadata: DeviceCapabilitiesEx
+DestroyOPMProtectedOutput
+DeviceCapabilitiesEx
 DrawEscape
-// removed: not in win32metadata: DwmCreatedBitmapRemotingOutput
-// removed: not in win32metadata: DxTrimNotificationListHead
+DwmCreatedBitmapRemotingOutput
+DxTrimNotificationListHead
 Ellipse
-// removed: not in win32metadata: EnableEUDC
+EnableEUDC
 EndDoc
-// removed: not in win32metadata: EndFormPage
-// removed: not in win32metadata: EndGdiRendering
+EndFormPage
+EndGdiRendering
 EndPage
 EndPath
 EngAcquireSemaphore
@@ -2135,8 +2135,8 @@ EnumMetaFile
 EnumObjects
 EqualRgn
 Escape
-// removed: not in win32metadata: EudcLoadLink
-// removed: not in win32metadata: EudcUnloadLink
+EudcLoadLink
+EudcUnloadLink
 ExcludeClipRect
 ExtCreatePen
 ExtCreateRegion
@@ -2157,178 +2157,178 @@ FillRgn
 FixBrushOrgEx
 FlattenPath
 FloodFill
-// removed: not in win32metadata: FontIsLinked
+FontIsLinked
 FrameRgn
-// removed: not in win32metadata: Gdi32DllInitialize
-// removed: not in win32metadata: GdiAddFontResource
-// removed: not in win32metadata: GdiAddGlsBounds
-// removed: not in win32metadata: GdiAddGlsRecord
-// removed: not in win32metadata: GdiAddInitialFonts
+Gdi32DllInitialize
+GdiAddFontResource
+GdiAddGlsBounds
+GdiAddGlsRecord
+GdiAddInitialFonts
 GdiAlphaBlend
-// removed: not in win32metadata: GdiArtificialDecrementDriver
-// removed: not in win32metadata: GdiBatchLimit
-// removed: not in win32metadata: GdiCleanCacheDC
+GdiArtificialDecrementDriver
+GdiBatchLimit
+GdiCleanCacheDC
 GdiComment
-// removed: not in win32metadata: GdiConsoleTextOut
-// removed: not in win32metadata: GdiConvertAndCheckDC
-// removed: not in win32metadata: GdiConvertBitmap
-// removed: not in win32metadata: GdiConvertBitmapV5
-// removed: not in win32metadata: GdiConvertBrush
-// removed: not in win32metadata: GdiConvertDC
-// removed: not in win32metadata: GdiConvertEnhMetaFile
-// removed: not in win32metadata: GdiConvertFont
-// removed: not in win32metadata: GdiConvertMetaFilePict
-// removed: not in win32metadata: GdiConvertPalette
-// removed: not in win32metadata: GdiConvertRegion
-// removed: not in win32metadata: GdiConvertToDevmode
-// removed: not in win32metadata: GdiCreateLocalEnhMetaFile
-// removed: not in win32metadata: GdiCreateLocalMetaFilePict
-// removed: not in win32metadata: GdiCurrentProcessSplWow64
-// removed: not in win32metadata: GdiDeleteLocalDC
+GdiConsoleTextOut
+GdiConvertAndCheckDC
+GdiConvertBitmap
+GdiConvertBitmapV5
+GdiConvertBrush
+GdiConvertDC
+GdiConvertEnhMetaFile
+GdiConvertFont
+GdiConvertMetaFilePict
+GdiConvertPalette
+GdiConvertRegion
+GdiConvertToDevmode
+GdiCreateLocalEnhMetaFile
+GdiCreateLocalMetaFilePict
+GdiCurrentProcessSplWow64
+GdiDeleteLocalDC
 GdiDeleteSpoolFileHandle
-// removed: not in win32metadata: GdiDescribePixelFormat
-// removed: not in win32metadata: GdiDllInitialize
-// removed: not in win32metadata: GdiDrawStream
+GdiDescribePixelFormat
+GdiDllInitialize
+GdiDrawStream
 GdiEndDocEMF
 GdiEndPageEMF
-// removed: not in win32metadata: GdiEntry1
-// removed: not in win32metadata: GdiEntry10
-// removed: not in win32metadata: GdiEntry11
-// removed: not in win32metadata: GdiEntry12
+GdiEntry1
+GdiEntry10
+GdiEntry11
+GdiEntry12
 GdiEntry13
-// removed: not in win32metadata: GdiEntry14
-// removed: not in win32metadata: GdiEntry15
-// removed: not in win32metadata: GdiEntry16
-// removed: not in win32metadata: GdiEntry2
-// removed: not in win32metadata: GdiEntry3
-// removed: not in win32metadata: GdiEntry4
-// removed: not in win32metadata: GdiEntry5
-// removed: not in win32metadata: GdiEntry6
-// removed: not in win32metadata: GdiEntry7
-// removed: not in win32metadata: GdiEntry8
-// removed: not in win32metadata: GdiEntry9
-// removed: not in win32metadata: GdiFixUpHandle
+GdiEntry14
+GdiEntry15
+GdiEntry16
+GdiEntry2
+GdiEntry3
+GdiEntry4
+GdiEntry5
+GdiEntry6
+GdiEntry7
+GdiEntry8
+GdiEntry9
+GdiFixUpHandle
 GdiFlush
-// removed: not in win32metadata: GdiFullscreenControl
+GdiFullscreenControl
 GdiGetBatchLimit
-// removed: not in win32metadata: GdiGetBitmapBitsSize
-// removed: not in win32metadata: GdiGetCharDimensions
-// removed: not in win32metadata: GdiGetCodePage
+GdiGetBitmapBitsSize
+GdiGetCharDimensions
+GdiGetCodePage
 GdiGetDC
 GdiGetDevmodeForPage
-// removed: not in win32metadata: GdiGetEntry
-// removed: not in win32metadata: GdiGetLocalBrush
-// removed: not in win32metadata: GdiGetLocalDC
-// removed: not in win32metadata: GdiGetLocalFont
+GdiGetEntry
+GdiGetLocalBrush
+GdiGetLocalDC
+GdiGetLocalFont
 GdiGetPageCount
 GdiGetPageHandle
 GdiGetSpoolFileHandle
-// removed: not in win32metadata: GdiGetSpoolMessage
-// removed: not in win32metadata: GdiGetVariationStoreDelta
+GdiGetSpoolMessage
+GdiGetVariationStoreDelta
 GdiGradientFill
-// removed: not in win32metadata: GdiHandleBeingTracked
-// removed: not in win32metadata: GdiInitSpool
-// removed: not in win32metadata: GdiInitializeLanguagePack
-// removed: not in win32metadata: GdiIsMetaFileDC
-// removed: not in win32metadata: GdiIsMetaPrintDC
-// removed: not in win32metadata: GdiIsPlayMetafileDC
-// removed: not in win32metadata: GdiIsScreenDC
-// removed: not in win32metadata: GdiIsUMPDSandboxingEnabled
-// removed: not in win32metadata: GdiLoadType1Fonts
-// removed: not in win32metadata: GdiPlayDCScript
-// removed: not in win32metadata: GdiPlayEMF
-// removed: not in win32metadata: GdiPlayJournal
+GdiHandleBeingTracked
+GdiInitSpool
+GdiInitializeLanguagePack
+GdiIsMetaFileDC
+GdiIsMetaPrintDC
+GdiIsPlayMetafileDC
+GdiIsScreenDC
+GdiIsUMPDSandboxingEnabled
+GdiLoadType1Fonts
+GdiPlayDCScript
+GdiPlayEMF
+GdiPlayJournal
 GdiPlayPageEMF
-// removed: not in win32metadata: GdiPlayPrivatePageEMF
-// removed: not in win32metadata: GdiPlayScript
-// removed: not in win32metadata: GdiPrinterThunk
-// removed: not in win32metadata: GdiProcessSetup
-// removed: not in win32metadata: GdiQueryFonts
-// removed: not in win32metadata: GdiQueryTable
-// removed: not in win32metadata: GdiRealizationInfo
-// removed: not in win32metadata: GdiReleaseDC
-// removed: not in win32metadata: GdiReleaseLocalDC
+GdiPlayPrivatePageEMF
+GdiPlayScript
+GdiPrinterThunk
+GdiProcessSetup
+GdiQueryFonts
+GdiQueryTable
+GdiRealizationInfo
+GdiReleaseDC
+GdiReleaseLocalDC
 GdiResetDCEMF
-// removed: not in win32metadata: GdiSetAttrs
+GdiSetAttrs
 GdiSetBatchLimit
-// removed: not in win32metadata: GdiSetLastError
-// removed: not in win32metadata: GdiSetPixelFormat
-// removed: not in win32metadata: GdiSetServerAttr
+GdiSetLastError
+GdiSetPixelFormat
+GdiSetServerAttr
 GdiStartDocEMF
 GdiStartPageEMF
-// removed: not in win32metadata: GdiSupportsFontChangeEvent
-// removed: not in win32metadata: GdiSwapBuffers
-// removed: not in win32metadata: GdiTrackHCreate
-// removed: not in win32metadata: GdiTrackHDelete
+GdiSupportsFontChangeEvent
+GdiSwapBuffers
+GdiTrackHCreate
+GdiTrackHDelete
 GdiTransparentBlt
-// removed: not in win32metadata: GdiValidateHandle
-// removed: not in win32metadata: GditGetCallerTLStorage
-// removed: not in win32metadata: GditPopCallerInfo
-// removed: not in win32metadata: GditPushCallerInfo
+GdiValidateHandle
+GditGetCallerTLStorage
+GditPopCallerInfo
+GditPushCallerInfo
 GetArcDirection
 GetAspectRatioFilterEx
-// removed: not in win32metadata: GetBitmapAttributes
+GetBitmapAttributes
 GetBitmapBits
 GetBitmapDimensionEx
-// removed: not in win32metadata: GetBitmapDpiScaleValue
+GetBitmapDpiScaleValue
 GetBkColor
 GetBkMode
 GetBoundsRect
-// removed: not in win32metadata: GetBrushAttributes
+GetBrushAttributes
 GetBrushOrgEx
-// removed: not in win32metadata: GetCOPPCompatibleOPMInformation
-// removed: not in win32metadata: GetCertificate
-// removed: not in win32metadata: GetCertificateByHandle
-// removed: not in win32metadata: GetCertificateSize
-// removed: not in win32metadata: GetCertificateSizeByHandle
+GetCOPPCompatibleOPMInformation
+GetCertificate
+GetCertificateByHandle
+GetCertificateSize
+GetCertificateSizeByHandle
 GetCharABCWidths
 GetCharABCWidthsFloat
-// removed: not in win32metadata: GetCharABCWidthsFloatI
+GetCharABCWidthsFloatI
 GetCharABCWidthsI
 GetCharWidth
 GetCharWidth32A
 GetCharWidth32W
 GetCharWidthFloat
 GetCharWidthI
-// removed: not in win32metadata: GetCharWidthInfo
+GetCharWidthInfo
 GetCharacterPlacement
 GetClipBox
 GetClipRgn
 GetColorAdjustment
 GetColorSpace
-// removed: not in win32metadata: GetCurrentDpiInfo
+GetCurrentDpiInfo
 GetCurrentObject
 GetCurrentPositionEx
 GetDCBrushColor
-// removed: not in win32metadata: GetDCDpiScaleValue
+GetDCDpiScaleValue
 GetDCOrgEx
 GetDCPenColor
 GetDIBColorTable
 GetDIBits
 GetDeviceCaps
 GetDeviceGammaRamp
-// removed: not in win32metadata: GetETM
-// removed: not in win32metadata: GetEUDCTimeStamp
-// removed: not in win32metadata: GetEUDCTimeStampEx
+GetETM
+GetEUDCTimeStamp
+GetEUDCTimeStampEx
 GetEnhMetaFile
 GetEnhMetaFileBits
 GetEnhMetaFileDescription
 GetEnhMetaFileHeader
 GetEnhMetaFilePaletteEntries
 GetEnhMetaFilePixelFormat
-// removed: not in win32metadata: GetFontAssocStatus
+GetFontAssocStatus
 GetFontData
-// removed: not in win32metadata: GetFontFileData
-// removed: not in win32metadata: GetFontFileInfo
+GetFontFileData
+GetFontFileInfo
 GetFontLanguageInfo
-// removed: not in win32metadata: GetFontRealizationInfo
-// removed: not in win32metadata: GetFontResourceInfo
+GetFontRealizationInfo
+GetFontResourceInfo
 GetFontUnicodeRanges
 GetGlyphIndices
 GetGlyphOutline
-// removed: not in win32metadata: GetGlyphOutlineWow
+GetGlyphOutlineWow
 GetGraphicsMode
-// removed: not in win32metadata: GetHFONT
+GetHFONT
 GetICMProfile
 GetKerningPairs
 GetLayout
@@ -2340,30 +2340,30 @@ GetMetaRgn
 GetMiterLimit
 GetNearestColor
 GetNearestPaletteIndex
-// removed: not in win32metadata: GetNumberOfPhysicalMonitors
-// removed: not in win32metadata: GetOPMInformation
-// removed: not in win32metadata: GetOPMRandomNumber
+GetNumberOfPhysicalMonitors
+GetOPMInformation
+GetOPMRandomNumber
 GetObject
 GetObjectType
 GetOutlineTextMetrics
 GetPaletteEntries
 GetPath
-// removed: not in win32metadata: GetPhysicalMonitorDescription
-// removed: not in win32metadata: GetPhysicalMonitors
+GetPhysicalMonitorDescription
+GetPhysicalMonitors
 GetPixel
 GetPixelFormat
 GetPolyFillMode
-// removed: not in win32metadata: GetProcessSessionFonts
+GetProcessSessionFonts
 GetROP2
 GetRandomRgn
 GetRasterizerCaps
 GetRegionData
-// removed: not in win32metadata: GetRelAbs
+GetRelAbs
 GetRgnBox
 GetStockObject
 GetStretchBltMode
-// removed: not in win32metadata: GetStringBitmap
-// removed: not in win32metadata: GetSuggestedOPMProtectedOutputArraySize
+GetStringBitmap
+GetSuggestedOPMProtectedOutputArraySize
 GetSystemPaletteEntries
 GetSystemPaletteUse
 GetTextAlign
@@ -2373,15 +2373,15 @@ GetTextCharsetInfo
 GetTextColor
 GetTextExtentExPoint
 GetTextExtentExPointI
-// removed: not in win32metadata: GetTextExtentExPointWPri
+GetTextExtentExPointWPri
 GetTextExtentPoint
 GetTextExtentPoint32A
 GetTextExtentPoint32W
 GetTextExtentPointI
 GetTextFace
-// removed: not in win32metadata: GetTextFaceAlias
+GetTextFaceAlias
 GetTextMetrics
-// removed: not in win32metadata: GetTransform
+GetTransform
 GetViewportExtEx
 GetViewportOrgEx
 GetWinMetaFileBits
@@ -2390,27 +2390,27 @@ GetWindowOrgEx
 GetWorldTransform
 HT_Get8BPPFormatPalette
 HT_Get8BPPMaskPalette
-// removed: not in win32metadata: InternalDeleteDC
-// removed: not in win32metadata: InternalDeleteObject
+InternalDeleteDC
+InternalDeleteObject
 IntersectClipRect
 InvertRgn
-// removed: not in win32metadata: IsValidEnhMetaRecord
-// removed: not in win32metadata: IsValidEnhMetaRecordOffExt
+IsValidEnhMetaRecord
+IsValidEnhMetaRecordOffExt
 LPtoDP
 LineDDA
 LineTo
-// removed: not in win32metadata: LpkEditControl
-// removed: not in win32metadata: LpkGetEditControl
-// removed: not in win32metadata: LpkpEditControlSize
-// removed: not in win32metadata: LpkpInitializeEditControl
+LpkEditControl
+LpkGetEditControl
+LpkpEditControlSize
+LpkpInitializeEditControl
 MaskBlt
-// removed: not in win32metadata: MirrorRgn
-// removed: not in win32metadata: ModerncoreCreateICW
-// removed: not in win32metadata: ModerncoreDeleteDC
-// removed: not in win32metadata: ModerncoreGdiInit
+MirrorRgn
+ModerncoreCreateICW
+ModerncoreDeleteDC
+ModerncoreGdiInit
 ModifyWorldTransform
 MoveToEx
-// removed: not in win32metadata: NamedEscape
+NamedEscape
 OffsetClipRgn
 OffsetRgn
 OffsetViewportOrgEx
@@ -2432,7 +2432,7 @@ PlgBlt
 PolyBezier
 PolyBezierTo
 PolyDraw
-// removed: not in win32metadata: PolyPatBlt
+PolyPatBlt
 PolyPolygon
 PolyPolyline
 PolyTextOut
@@ -2441,7 +2441,7 @@ Polyline
 PolylineTo
 PtInRegion
 PtVisible
-// removed: not in win32metadata: QueryFontAssocStatus
+QueryFontAssocStatus
 RealizePalette
 RectInRegion
 RectVisible
@@ -2449,7 +2449,7 @@ Rectangle
 RemoveFontMemResourceEx
 RemoveFontResource
 RemoveFontResourceEx
-// removed: not in win32metadata: RemoveFontResourceTracking
+RemoveFontResourceTracking
 ResetDCA
 ResetDCW
 ResizePalette
@@ -2461,25 +2461,25 @@ STROBJ_bGetAdvanceWidths
 STROBJ_dwGetCodePage
 STROBJ_vEnumStart
 SaveDC
-// removed: not in win32metadata: ScaleRgn
-// removed: not in win32metadata: ScaleValues
+ScaleRgn
+ScaleValues
 ScaleViewportExtEx
 ScaleWindowExtEx
-// removed: not in win32metadata: SelectBrushLocal
+SelectBrushLocal
 SelectClipPath
 SelectClipRgn
-// removed: not in win32metadata: SelectFontLocal
+SelectFontLocal
 SelectObject
 SelectPalette
 SetAbortProc
 SetArcDirection
-// removed: not in win32metadata: SetBitmapAttributes
+SetBitmapAttributes
 SetBitmapBits
 SetBitmapDimensionEx
 SetBkColor
 SetBkMode
 SetBoundsRect
-// removed: not in win32metadata: SetBrushAttributes
+SetBrushAttributes
 SetBrushOrgEx
 SetColorAdjustment
 SetColorSpace
@@ -2490,19 +2490,19 @@ SetDIBits
 SetDIBitsToDevice
 SetDeviceGammaRamp
 SetEnhMetaFileBits
-// removed: not in win32metadata: SetFontEnumeration
+SetFontEnumeration
 SetGraphicsMode
 SetICMMode
 SetICMProfile
 SetLayout
-// removed: not in win32metadata: SetLayoutWidth
-// removed: not in win32metadata: SetMagicColors
+SetLayoutWidth
+SetMagicColors
 SetMapMode
 SetMapperFlags
 SetMetaFileBitsEx
 SetMetaRgn
 SetMiterLimit
-// removed: not in win32metadata: SetOPMSigningKeyAndSequenceNumbers
+SetOPMSigningKeyAndSequenceNumbers
 SetPaletteEntries
 SetPixel
 SetPixelFormat
@@ -2510,7 +2510,7 @@ SetPixelV
 SetPolyFillMode
 SetROP2
 SetRectRgn
-// removed: not in win32metadata: SetRelAbs
+SetRelAbs
 SetStretchBltMode
 SetSystemPaletteUse
 SetTextAlign
@@ -2519,13 +2519,13 @@ SetTextColor
 SetTextJustification
 SetViewportExtEx
 SetViewportOrgEx
-// removed: not in win32metadata: SetVirtualResolution
+SetVirtualResolution
 SetWinMetaFileBits
 SetWindowExtEx
 SetWindowOrgEx
 SetWorldTransform
 StartDoc
-// removed: not in win32metadata: StartFormPage
+StartFormPage
 StartPage
 StretchBlt
 StretchDIBits
@@ -2534,7 +2534,7 @@ StrokePath
 SwapBuffers
 TextOut
 TranslateCharsetInfo
-// removed: not in win32metadata: UnloadNetworkFonts
+UnloadNetworkFonts
 UnrealizeObject
 UpdateColors
 UpdateICMRegKey
@@ -2547,27 +2547,27 @@ XLATEOBJ_iXlate
 XLATEOBJ_piVector
 
 // === shell32.dll (415 candidates) ===
-// removed: not in win32metadata: AppCompat_RunDLLW
+AppCompat_RunDLLW
 AssocCreateForClasses
-// removed: not in win32metadata: AssocElemCreateForKey
+AssocElemCreateForKey
 AssocGetDetailsOfPropKey
 CDefFolderMenu_Create2
 CIDLData_CreateFromIDArray
-// removed: not in win32metadata: CStorageItem_GetValidatedStorageItemObject
-// removed: not in win32metadata: CallFileCopyHook
-// removed: not in win32metadata: CheckEscapes
+CStorageItem_GetValidatedStorageItemObject
+CallFileCopyHook
+CheckEscapes
 CommandLineToArgv
-// removed: not in win32metadata: Control_RunDLL
-// removed: not in win32metadata: Control_RunDLLA
-// removed: not in win32metadata: Control_RunDLLAsUser
-// removed: not in win32metadata: Control_RunDLLW
-// removed: not in win32metadata: CreateStorageItemFromPath_FullTrustCaller
-// removed: not in win32metadata: CreateStorageItemFromPath_FullTrustCaller_ForPackage
-// removed: not in win32metadata: CreateStorageItemFromPath_PartialTrustCaller
-// removed: not in win32metadata: CreateStorageItemFromShellItem_FullTrustCaller
-// removed: not in win32metadata: CreateStorageItemFromShellItem_FullTrustCaller_ForPackage
-// removed: not in win32metadata: CreateStorageItemFromShellItem_FullTrustCaller_ForPackage_WithProcessHandle
-// removed: not in win32metadata: CreateStorageItemFromShellItem_FullTrustCaller_UseImplicitFlagsAndPackage
+Control_RunDLL
+Control_RunDLLA
+Control_RunDLLAsUser
+Control_RunDLLW
+CreateStorageItemFromPath_FullTrustCaller
+CreateStorageItemFromPath_FullTrustCaller_ForPackage
+CreateStorageItemFromPath_PartialTrustCaller
+CreateStorageItemFromShellItem_FullTrustCaller
+CreateStorageItemFromShellItem_FullTrustCaller_ForPackage
+CreateStorageItemFromShellItem_FullTrustCaller_ForPackage_WithProcessHandle
+CreateStorageItemFromShellItem_FullTrustCaller_UseImplicitFlagsAndPackage
 DAD_AutoScroll
 DAD_DragEnterEx
 DAD_DragEnterEx2
@@ -2575,13 +2575,13 @@ DAD_DragLeave
 DAD_DragMove
 DAD_SetDragImage
 DAD_ShowDragImage
-// removed: not in win32metadata: DllGetActivationFactory
-// removed: not in win32metadata: DllGetVersion
+DllGetActivationFactory
+DllGetVersion
 DoEnvironmentSubst
 DragAcceptFiles
 DragFinish
 DragQueryFile
-// removed: not in win32metadata: DragQueryFileAor
+DragQueryFileAor
 DragQueryPoint
 DriveType
 DuplicateIcon
@@ -2590,10 +2590,10 @@ ExtractAssociatedIconEx
 ExtractIcon
 ExtractIconEx
 FindExecutable
-// removed: not in win32metadata: FreeIconList
+FreeIconList
 GetCurrentProcessExplicitAppUserModelID
 GetFileNameFromBrowse
-// removed: not in win32metadata: GetSystemPersistedStorageItemList
+GetSystemPersistedStorageItemList
 ILAppendID
 ILClone
 ILCloneFirst
@@ -2610,20 +2610,20 @@ ILLoadFromStreamEx
 ILRemoveLastID
 ILSaveToStream
 InitNetworkAddressControl
-// removed: not in win32metadata: InternalExtractIconList
-// removed: not in win32metadata: IsDesktopExplorerProcess
+InternalExtractIconList
+IsDesktopExplorerProcess
 IsLFNDrive
 IsNetDrive
-// removed: not in win32metadata: IsProcessAnExplorer
+IsProcessAnExplorer
 IsUserAnAdmin
-// removed: not in win32metadata: LaunchMSHelp_RunDLLW
-// removed: not in win32metadata: OpenAs_RunDLL
-// removed: not in win32metadata: OpenAs_RunDLLA
-// removed: not in win32metadata: OpenAs_RunDLLW
+LaunchMSHelp_RunDLLW
+OpenAs_RunDLL
+OpenAs_RunDLLA
+OpenAs_RunDLLW
 OpenRegStream
-// removed: not in win32metadata: Options_RunDLL
-// removed: not in win32metadata: Options_RunDLLA
-// removed: not in win32metadata: Options_RunDLLW
+Options_RunDLL
+Options_RunDLLA
+Options_RunDLLW
 PathCleanupSpec
 PathGetShortPath
 PathIsExe
@@ -2637,18 +2637,18 @@ PifMgr_CloseProperties
 PifMgr_GetProperties
 PifMgr_OpenProperties
 PifMgr_SetProperties
-// removed: not in win32metadata: PrepareDiscForBurnRunDll
-// removed: not in win32metadata: PrintersGetCommand_RunDLL
-// removed: not in win32metadata: PrintersGetCommand_RunDLLA
-// removed: not in win32metadata: PrintersGetCommand_RunDLLW
+PrepareDiscForBurnRunDll
+PrintersGetCommand_RunDLL
+PrintersGetCommand_RunDLLA
+PrintersGetCommand_RunDLLW
 ReadCabinetState
 RealDriveType
-// removed: not in win32metadata: RealShellExecute
-// removed: not in win32metadata: RealShellExecuteEx
-// removed: not in win32metadata: RegenerateUserEnvironment
+RealShellExecute
+RealShellExecuteEx
+RegenerateUserEnvironment
 RestartDialog
 RestartDialogEx
-// removed: not in win32metadata: RunAsNewUser_RunDLLW
+RunAsNewUser_RunDLLW
 SHAddDefaultPropertiesByExt
 SHAddFromPropSheetExtArray
 SHAddToRecentDocs
@@ -2668,25 +2668,25 @@ SHChangeNotify
 SHChangeNotifyDeregister
 SHChangeNotifyRegister
 SHChangeNotifyRegisterThread
-// removed: not in win32metadata: SHChangeNotifySuspendResume
+SHChangeNotifySuspendResume
 SHCloneSpecialIDList
 SHCoCreateInstance
 SHCreateAssociationRegistration
-// removed: not in win32metadata: SHCreateCategoryEnum
+SHCreateCategoryEnum
 SHCreateDataObject
 SHCreateDefaultContextMenu
 SHCreateDefaultExtractIcon
 SHCreateDefaultPropertiesOp
 SHCreateDirectory
 SHCreateDirectoryEx
-// removed: not in win32metadata: SHCreateDrvExtIcon
+SHCreateDrvExtIcon
 SHCreateFileExtractIcon
 SHCreateItemFromIDList
 SHCreateItemFromParsingName
 SHCreateItemFromRelativeName
 SHCreateItemInKnownFolder
 SHCreateItemWithParent
-// removed: not in win32metadata: SHCreateLocalServerRunDll
+SHCreateLocalServerRunDll
 SHCreateProcessAsUser
 SHCreatePropSheetExtArray
 SHCreateQueryCancelAutoPlayMoniker
@@ -2701,135 +2701,135 @@ SHCreateStdEnumFmtEtc
 SHDefExtractIcon
 SHDestroyPropSheetExtArray
 SHDoDragDrop
-// removed: not in win32metadata: SHELL32_AddToBackIconTable
-// removed: not in win32metadata: SHELL32_AddToFrontIconTable
-// removed: not in win32metadata: SHELL32_AreAllItemsAvailable
-// removed: not in win32metadata: SHELL32_CCommonPlacesFolder_CreateInstance
-// removed: not in win32metadata: SHELL32_CDBurn_CloseSession
-// removed: not in win32metadata: SHELL32_CDBurn_DriveSupportedForDataBurn
-// removed: not in win32metadata: SHELL32_CDBurn_Erase
-// removed: not in win32metadata: SHELL32_CDBurn_GetCDInfo
-// removed: not in win32metadata: SHELL32_CDBurn_GetLiveFSDiscInfo
-// removed: not in win32metadata: SHELL32_CDBurn_GetStagingPathOrNormalPath
-// removed: not in win32metadata: SHELL32_CDBurn_GetTaskInfo
-// removed: not in win32metadata: SHELL32_CDBurn_IsBlankDisc
-// removed: not in win32metadata: SHELL32_CDBurn_IsBlankDisc2
-// removed: not in win32metadata: SHELL32_CDBurn_IsLiveFS
-// removed: not in win32metadata: SHELL32_CDBurn_OnDeviceChange
-// removed: not in win32metadata: SHELL32_CDBurn_OnEject
-// removed: not in win32metadata: SHELL32_CDBurn_OnMediaChange
-// removed: not in win32metadata: SHELL32_CDefFolderMenu_Create2
-// removed: not in win32metadata: SHELL32_CDefFolderMenu_Create2Ex
-// removed: not in win32metadata: SHELL32_CDefFolderMenu_MergeMenu
-// removed: not in win32metadata: SHELL32_CDrivesContextMenu_Create
-// removed: not in win32metadata: SHELL32_CDrivesDropTarget_Create
-// removed: not in win32metadata: SHELL32_CDrives_CreateSFVCB
-// removed: not in win32metadata: SHELL32_CFSDropTarget_CreateInstance
-// removed: not in win32metadata: SHELL32_CFSFolderCallback_Create
-// removed: not in win32metadata: SHELL32_CFillPropertiesTask_CreateInstance
-// removed: not in win32metadata: SHELL32_CLibraryDropTarget_CreateInstance
-// removed: not in win32metadata: SHELL32_CLocationContextMenu_Create
-// removed: not in win32metadata: SHELL32_CLocationFolderUI_CreateInstance
-// removed: not in win32metadata: SHELL32_CMountPoint_DoAutorun
-// removed: not in win32metadata: SHELL32_CMountPoint_DoAutorunPrompt
-// removed: not in win32metadata: SHELL32_CMountPoint_IsAutoRunDriveAndEnabledByPolicy
-// removed: not in win32metadata: SHELL32_CMountPoint_ProcessAutoRunFile
-// removed: not in win32metadata: SHELL32_CMountPoint_WantAutorunUI
-// removed: not in win32metadata: SHELL32_CMountPoint_WantAutorunUIGetReady
-// removed: not in win32metadata: SHELL32_CNetFolderUI_CreateInstance
-// removed: not in win32metadata: SHELL32_CPL_CategoryIdArrayFromVariant
-// removed: not in win32metadata: SHELL32_CPL_IsLegacyCanonicalNameListedUnderKey
-// removed: not in win32metadata: SHELL32_CPL_ModifyWowDisplayName
-// removed: not in win32metadata: SHELL32_CRecentDocsContextMenu_CreateInstance
-// removed: not in win32metadata: SHELL32_CTransferConfirmation_CreateInstance
-// removed: not in win32metadata: SHELL32_CallFileCopyHooks
-// removed: not in win32metadata: SHELL32_CanDisplayWin8CopyDialog
-// removed: not in win32metadata: SHELL32_CloseAutoplayPrompt
-// removed: not in win32metadata: SHELL32_CommandLineFromMsiDescriptor
-// removed: not in win32metadata: SHELL32_CopySecondaryTiles
-// removed: not in win32metadata: SHELL32_CreateConfirmationInterrupt
-// removed: not in win32metadata: SHELL32_CreateConflictInterrupt
-// removed: not in win32metadata: SHELL32_CreateDefaultOperationDataProvider
-// removed: not in win32metadata: SHELL32_CreateFileFolderContextMenu
-// removed: not in win32metadata: SHELL32_CreateLinkInfo
-// removed: not in win32metadata: SHELL32_CreateQosRecorder
-// removed: not in win32metadata: SHELL32_CreateSharePointView
-// removed: not in win32metadata: SHELL32_Create_IEnumUICommand
-// removed: not in win32metadata: SHELL32_DestroyLinkInfo
-// removed: not in win32metadata: SHELL32_EncryptDirectory
-// removed: not in win32metadata: SHELL32_EncryptedFileKeyInfo
-// removed: not in win32metadata: SHELL32_EnumCommonTasks
-// removed: not in win32metadata: SHELL32_FreeEncryptedFileKeyInfo
-// removed: not in win32metadata: SHELL32_GenerateAppID
-// removed: not in win32metadata: SHELL32_GetAppIDRoot
-// removed: not in win32metadata: SHELL32_GetCommandProviderForFolderType
-// removed: not in win32metadata: SHELL32_GetDPIAdjustedLogicalSize
-// removed: not in win32metadata: SHELL32_GetDiskCleanupPath
-// removed: not in win32metadata: SHELL32_GetFileNameFromBrowse
-// removed: not in win32metadata: SHELL32_GetIconOverlayManager
-// removed: not in win32metadata: SHELL32_GetLinkInfoData
-// removed: not in win32metadata: SHELL32_GetRatingBucket
-// removed: not in win32metadata: SHELL32_GetSqmableFileName
-// removed: not in win32metadata: SHELL32_GetThumbnailAdornerFromFactory
-// removed: not in win32metadata: SHELL32_GetThumbnailAdornerFromFactory2
-// removed: not in win32metadata: SHELL32_HandleUnrecognizedFileSystem
-// removed: not in win32metadata: SHELL32_IconCacheCreate
-// removed: not in win32metadata: SHELL32_IconCacheDestroy
-// removed: not in win32metadata: SHELL32_IconCacheHandleAssociationChanged
-// removed: not in win32metadata: SHELL32_IconCacheRestore
-// removed: not in win32metadata: SHELL32_IconCache_AboutToExtractIcons
-// removed: not in win32metadata: SHELL32_IconCache_DoneExtractingIcons
-// removed: not in win32metadata: SHELL32_IconCache_ExpandEnvAndSearchPath
-// removed: not in win32metadata: SHELL32_IconCache_RememberRecentlyExtractedIcons
-// removed: not in win32metadata: SHELL32_IconOverlayManagerInit
-// removed: not in win32metadata: SHELL32_IsGetKeyboardLayoutPresent
-// removed: not in win32metadata: SHELL32_IsSystemUpgradeInProgress
-// removed: not in win32metadata: SHELL32_IsValidLinkInfo
-// removed: not in win32metadata: SHELL32_LegacyEnumSpecialTasksByType
-// removed: not in win32metadata: SHELL32_LegacyEnumTasks
-// removed: not in win32metadata: SHELL32_LookupBackIconIndex
-// removed: not in win32metadata: SHELL32_LookupFrontIconIndex
-// removed: not in win32metadata: SHELL32_NormalizeRating
-// removed: not in win32metadata: SHELL32_NotifyLinkTrackingServiceOfMove
-// removed: not in win32metadata: SHELL32_PifMgr_CloseProperties
-// removed: not in win32metadata: SHELL32_PifMgr_GetProperties
-// removed: not in win32metadata: SHELL32_PifMgr_OpenProperties
-// removed: not in win32metadata: SHELL32_PifMgr_SetProperties
-// removed: not in win32metadata: SHELL32_Printers_CreateBindInfo
-// removed: not in win32metadata: SHELL32_Printjob_GetPidl
-// removed: not in win32metadata: SHELL32_PurgeSystemIcon
-// removed: not in win32metadata: SHELL32_RefreshOverlayImages
-// removed: not in win32metadata: SHELL32_ResolveLinkInfo
-// removed: not in win32metadata: SHELL32_SHAddSparseIcon
-// removed: not in win32metadata: SHELL32_SHCreateByValueOperationInterrupt
-// removed: not in win32metadata: SHELL32_SHCreateDefaultContextMenu
-// removed: not in win32metadata: SHELL32_SHCreateLocalServer
-// removed: not in win32metadata: SHELL32_SHCreateShellFolderView
-// removed: not in win32metadata: SHELL32_SHDuplicateEncryptionInfoFile
-// removed: not in win32metadata: SHELL32_SHEncryptFile
-// removed: not in win32metadata: SHELL32_SHFormatDriveAsync
-// removed: not in win32metadata: SHELL32_SHGetThreadUndoManager
-// removed: not in win32metadata: SHELL32_SHGetUserName
-// removed: not in win32metadata: SHELL32_SHIsVirtualDevice
-// removed: not in win32metadata: SHELL32_SHLaunchPropSheet
-// removed: not in win32metadata: SHELL32_SHLogILFromFSIL
-// removed: not in win32metadata: SHELL32_SHOpenWithDialog
-// removed: not in win32metadata: SHELL32_SHStartNetConnectionDialog
-// removed: not in win32metadata: SHELL32_SHUICommandFromGUID
-// removed: not in win32metadata: SHELL32_SendToMenu_InvokeTargetedCommand
-// removed: not in win32metadata: SHELL32_SendToMenu_VerifyTargetedCommand
-// removed: not in win32metadata: SHELL32_ShowHideIconOnlyOnDesktop
-// removed: not in win32metadata: SHELL32_SimpleRatingToFilterCondition
-// removed: not in win32metadata: SHELL32_StampIconForFile
-// removed: not in win32metadata: SHELL32_SuspendUndo
-// removed: not in win32metadata: SHELL32_TryVirtualDiscImageDriveEject
-// removed: not in win32metadata: SHELL32_VerifySaferTrust
+SHELL32_AddToBackIconTable
+SHELL32_AddToFrontIconTable
+SHELL32_AreAllItemsAvailable
+SHELL32_CCommonPlacesFolder_CreateInstance
+SHELL32_CDBurn_CloseSession
+SHELL32_CDBurn_DriveSupportedForDataBurn
+SHELL32_CDBurn_Erase
+SHELL32_CDBurn_GetCDInfo
+SHELL32_CDBurn_GetLiveFSDiscInfo
+SHELL32_CDBurn_GetStagingPathOrNormalPath
+SHELL32_CDBurn_GetTaskInfo
+SHELL32_CDBurn_IsBlankDisc
+SHELL32_CDBurn_IsBlankDisc2
+SHELL32_CDBurn_IsLiveFS
+SHELL32_CDBurn_OnDeviceChange
+SHELL32_CDBurn_OnEject
+SHELL32_CDBurn_OnMediaChange
+SHELL32_CDefFolderMenu_Create2
+SHELL32_CDefFolderMenu_Create2Ex
+SHELL32_CDefFolderMenu_MergeMenu
+SHELL32_CDrivesContextMenu_Create
+SHELL32_CDrivesDropTarget_Create
+SHELL32_CDrives_CreateSFVCB
+SHELL32_CFSDropTarget_CreateInstance
+SHELL32_CFSFolderCallback_Create
+SHELL32_CFillPropertiesTask_CreateInstance
+SHELL32_CLibraryDropTarget_CreateInstance
+SHELL32_CLocationContextMenu_Create
+SHELL32_CLocationFolderUI_CreateInstance
+SHELL32_CMountPoint_DoAutorun
+SHELL32_CMountPoint_DoAutorunPrompt
+SHELL32_CMountPoint_IsAutoRunDriveAndEnabledByPolicy
+SHELL32_CMountPoint_ProcessAutoRunFile
+SHELL32_CMountPoint_WantAutorunUI
+SHELL32_CMountPoint_WantAutorunUIGetReady
+SHELL32_CNetFolderUI_CreateInstance
+SHELL32_CPL_CategoryIdArrayFromVariant
+SHELL32_CPL_IsLegacyCanonicalNameListedUnderKey
+SHELL32_CPL_ModifyWowDisplayName
+SHELL32_CRecentDocsContextMenu_CreateInstance
+SHELL32_CTransferConfirmation_CreateInstance
+SHELL32_CallFileCopyHooks
+SHELL32_CanDisplayWin8CopyDialog
+SHELL32_CloseAutoplayPrompt
+SHELL32_CommandLineFromMsiDescriptor
+SHELL32_CopySecondaryTiles
+SHELL32_CreateConfirmationInterrupt
+SHELL32_CreateConflictInterrupt
+SHELL32_CreateDefaultOperationDataProvider
+SHELL32_CreateFileFolderContextMenu
+SHELL32_CreateLinkInfo
+SHELL32_CreateQosRecorder
+SHELL32_CreateSharePointView
+SHELL32_Create_IEnumUICommand
+SHELL32_DestroyLinkInfo
+SHELL32_EncryptDirectory
+SHELL32_EncryptedFileKeyInfo
+SHELL32_EnumCommonTasks
+SHELL32_FreeEncryptedFileKeyInfo
+SHELL32_GenerateAppID
+SHELL32_GetAppIDRoot
+SHELL32_GetCommandProviderForFolderType
+SHELL32_GetDPIAdjustedLogicalSize
+SHELL32_GetDiskCleanupPath
+SHELL32_GetFileNameFromBrowse
+SHELL32_GetIconOverlayManager
+SHELL32_GetLinkInfoData
+SHELL32_GetRatingBucket
+SHELL32_GetSqmableFileName
+SHELL32_GetThumbnailAdornerFromFactory
+SHELL32_GetThumbnailAdornerFromFactory2
+SHELL32_HandleUnrecognizedFileSystem
+SHELL32_IconCacheCreate
+SHELL32_IconCacheDestroy
+SHELL32_IconCacheHandleAssociationChanged
+SHELL32_IconCacheRestore
+SHELL32_IconCache_AboutToExtractIcons
+SHELL32_IconCache_DoneExtractingIcons
+SHELL32_IconCache_ExpandEnvAndSearchPath
+SHELL32_IconCache_RememberRecentlyExtractedIcons
+SHELL32_IconOverlayManagerInit
+SHELL32_IsGetKeyboardLayoutPresent
+SHELL32_IsSystemUpgradeInProgress
+SHELL32_IsValidLinkInfo
+SHELL32_LegacyEnumSpecialTasksByType
+SHELL32_LegacyEnumTasks
+SHELL32_LookupBackIconIndex
+SHELL32_LookupFrontIconIndex
+SHELL32_NormalizeRating
+SHELL32_NotifyLinkTrackingServiceOfMove
+SHELL32_PifMgr_CloseProperties
+SHELL32_PifMgr_GetProperties
+SHELL32_PifMgr_OpenProperties
+SHELL32_PifMgr_SetProperties
+SHELL32_Printers_CreateBindInfo
+SHELL32_Printjob_GetPidl
+SHELL32_PurgeSystemIcon
+SHELL32_RefreshOverlayImages
+SHELL32_ResolveLinkInfo
+SHELL32_SHAddSparseIcon
+SHELL32_SHCreateByValueOperationInterrupt
+SHELL32_SHCreateDefaultContextMenu
+SHELL32_SHCreateLocalServer
+SHELL32_SHCreateShellFolderView
+SHELL32_SHDuplicateEncryptionInfoFile
+SHELL32_SHEncryptFile
+SHELL32_SHFormatDriveAsync
+SHELL32_SHGetThreadUndoManager
+SHELL32_SHGetUserName
+SHELL32_SHIsVirtualDevice
+SHELL32_SHLaunchPropSheet
+SHELL32_SHLogILFromFSIL
+SHELL32_SHOpenWithDialog
+SHELL32_SHStartNetConnectionDialog
+SHELL32_SHUICommandFromGUID
+SHELL32_SendToMenu_InvokeTargetedCommand
+SHELL32_SendToMenu_VerifyTargetedCommand
+SHELL32_ShowHideIconOnlyOnDesktop
+SHELL32_SimpleRatingToFilterCondition
+SHELL32_StampIconForFile
+SHELL32_SuspendUndo
+SHELL32_TryVirtualDiscImageDriveEject
+SHELL32_VerifySaferTrust
 SHEmptyRecycleBin
-// removed: not in win32metadata: SHEnableServiceObject
+SHEnableServiceObject
 SHEnumerateUnreadMailAccounts
 SHEvaluateSystemCommandTemplate
-// removed: not in win32metadata: SHExecuteErrorMessageBox
-// removed: not in win32metadata: SHExtractIcons
+SHExecuteErrorMessageBox
+SHExtractIcons
 SHFileOperation
 SHFindFiles
 SHFind_InitMenuPopup
@@ -2840,14 +2840,14 @@ SHFreeNameMappings
 SHGetAttributesFromDataObject
 SHGetDataFromIDList
 SHGetDesktopFolder
-// removed: not in win32metadata: SHGetDiskFreeSpace
+SHGetDiskFreeSpace
 SHGetDiskFreeSpaceEx
 SHGetDriveMedia
 SHGetFileInfo
 SHGetFolderLocation
 SHGetFolderPath
 SHGetFolderPathAndSubDir
-// removed: not in win32metadata: SHGetFolderPathEx
+SHGetFolderPathEx
 SHGetIDListFromObject
 SHGetIconOverlayIndex
 SHGetImageList
@@ -2876,9 +2876,9 @@ SHGetStockIconInfo
 SHGetTemporaryPropertyForItem
 SHGetUnreadMailCount
 SHHandleUpdateImage
-// removed: not in win32metadata: SHHelpShortcuts_RunDLL
-// removed: not in win32metadata: SHHelpShortcuts_RunDLLA
-// removed: not in win32metadata: SHHelpShortcuts_RunDLLW
+SHHelpShortcuts_RunDLL
+SHHelpShortcuts_RunDLLA
+SHHelpShortcuts_RunDLLW
 SHILCreateFromPath
 SHInvokePrinterCommand
 SHIsFileAvailableOffline
@@ -2915,28 +2915,28 @@ SHSimpleIDListFromPath
 SHStartNetConnectionDialog
 SHTestTokenMembership
 SHUpdateImage
-// removed: not in win32metadata: SHUpdateRecycleBinIcon
+SHUpdateRecycleBinIcon
 SHValidateUNC
 SetCurrentProcessExplicitAppUserModelID
-// removed: not in win32metadata: SheChangeDir
-// removed: not in win32metadata: SheChangeDirEx
-// removed: not in win32metadata: SheGetDir
-// removed: not in win32metadata: SheSetCurDrive
+SheChangeDir
+SheChangeDirEx
+SheGetDir
+SheSetCurDrive
 ShellAbout
-// removed: not in win32metadata: ShellExec_RunDLL
-// removed: not in win32metadata: ShellExec_RunDLLA
-// removed: not in win32metadata: ShellExec_RunDLLW
+ShellExec_RunDLL
+ShellExec_RunDLLA
+ShellExec_RunDLLW
 ShellExecute
 ShellExecuteEx
-// removed: not in win32metadata: ShellHookProc
+ShellHookProc
 Shell_GetCachedImageIndex
 Shell_GetImageLists
 Shell_MergeMenus
 Shell_NotifyIcon
 Shell_NotifyIconGetRect
 SignalFileOpen
-// removed: not in win32metadata: StateRepoNewMenuCache_EnsureCacheAsync
-// removed: not in win32metadata: StateRepoNewMenuCache_RebuildCacheAsync
+StateRepoNewMenuCache_EnsureCacheAsync
+StateRepoNewMenuCache_RebuildCacheAsync
 StgMakeUniqueName
 StrChr
 StrChrIA
@@ -2945,21 +2945,21 @@ StrCmpNA
 StrCmpNIA
 StrCmpNIW
 StrCmpNW
-// removed: not in win32metadata: StrNCmp
-// removed: not in win32metadata: StrNCmpIA
-// removed: not in win32metadata: StrNCmpIW
+StrNCmp
+StrNCmpIA
+StrNCmpIW
 StrRChr
 StrRChrIA
 StrRChrIW
-// removed: not in win32metadata: StrRStr
+StrRStr
 StrRStrIA
 StrRStrIW
 StrStr
 StrStrIA
 StrStrIW
-// removed: not in win32metadata: UsersLibrariesFolderUI_CreateInstance
-// removed: not in win32metadata: WOWShellExecute
-// removed: not in win32metadata: WaitForExplorerRestart
+UsersLibrariesFolderUI_CreateInstance
+WOWShellExecute
+WaitForExplorerRestart
 Win32DeleteFile
 WriteCabinetState
 
@@ -2984,7 +2984,7 @@ AddAuditAccessAceEx
 AddAuditAccessObjectAce
 AddConditionalAce
 AddUsersToEncryptedFile
-// removed: not in win32metadata: AddUsersToEncryptedFileEx
+AddUsersToEncryptedFileEx
 AdjustTokenGroups
 AdjustTokenPrivileges
 AllocateAndInitializeSid
@@ -3018,38 +3018,38 @@ BuildTrusteeWithName
 BuildTrusteeWithObjectsAndName
 BuildTrusteeWithObjectsAndSid
 BuildTrusteeWithSid
-// removed: not in win32metadata: CancelOverlappedAccess
+CancelOverlappedAccess
 ChangeServiceConfig
 ChangeServiceConfig2A
 ChangeServiceConfig2W
 CheckForHiberboot
 CheckTokenMembership
 ClearEventLog
-// removed: not in win32metadata: CloseCodeAuthzLevel
+CloseCodeAuthzLevel
 CloseEncryptedFileRaw
 CloseEventLog
 CloseServiceHandle
 CloseThreadWaitChainSession
 CloseTrace
 CommandLineFromMsiDescriptor
-// removed: not in win32metadata: ComputeAccessTokenFromCodeAuthzLevel
+ComputeAccessTokenFromCodeAuthzLevel
 ControlService
 ControlServiceEx
 ControlTrace
-// removed: not in win32metadata: ConvertAccessToSecurityDescriptor
-// removed: not in win32metadata: ConvertSDToStringSDDomain
-// removed: not in win32metadata: ConvertSDToStringSDRootDomain
-// removed: not in win32metadata: ConvertSecurityDescriptorToAccess
-// removed: not in win32metadata: ConvertSecurityDescriptorToAccessNamed
+ConvertAccessToSecurityDescriptor
+ConvertSDToStringSDDomain
+ConvertSDToStringSDRootDomain
+ConvertSecurityDescriptorToAccess
+ConvertSecurityDescriptorToAccessNamed
 ConvertSecurityDescriptorToStringSecurityDescriptor
 ConvertSidToStringSid
-// removed: not in win32metadata: ConvertStringSDToSDDomain
-// removed: not in win32metadata: ConvertStringSDToSDRootDomain
+ConvertStringSDToSDDomain
+ConvertStringSDToSDRootDomain
 ConvertStringSecurityDescriptorToSecurityDescriptor
 ConvertStringSidToSid
 ConvertToAutoInheritPrivateObjectSecurity
 CopySid
-// removed: not in win32metadata: CreateCodeAuthzLevel
+CreateCodeAuthzLevel
 CreatePrivateObjectSecurity
 CreatePrivateObjectSecurityEx
 CreatePrivateObjectSecurityWithMultipleInheritance
@@ -3058,11 +3058,11 @@ CreateProcessWithLogon
 CreateProcessWithToken
 CreateRestrictedToken
 CreateService
-// removed: not in win32metadata: CreateServiceEx
+CreateServiceEx
 CreateWellKnownSid
-// removed: not in win32metadata: CredBackupCredentials
+CredBackupCredentials
 CredDelete
-// removed: not in win32metadata: CredEncryptAndMarshalBinaryBlob
+CredEncryptAndMarshalBinaryBlob
 CredEnumerate
 CredFindBestCredential
 CredFree
@@ -3071,25 +3071,25 @@ CredGetTargetInfo
 CredIsMarshaledCredential
 CredIsProtected
 CredMarshalCredential
-// removed: not in win32metadata: CredProfileLoaded
-// removed: not in win32metadata: CredProfileLoadedEx
-// removed: not in win32metadata: CredProfileUnloaded
+CredProfileLoaded
+CredProfileLoadedEx
+CredProfileUnloaded
 CredProtect
 CredRead
-// removed: not in win32metadata: CredReadByTokenHandle
+CredReadByTokenHandle
 CredReadDomainCredentials
 CredRename
-// removed: not in win32metadata: CredRestoreCredentials
+CredRestoreCredentials
 CredUnmarshalCredential
 CredUnprotect
 CredWrite
 CredWriteDomainCredentials
-// removed: not in win32metadata: CredpConvertCredential
-// removed: not in win32metadata: CredpConvertOneCredentialSize
-// removed: not in win32metadata: CredpConvertTargetInfo
-// removed: not in win32metadata: CredpDecodeCredential
-// removed: not in win32metadata: CredpEncodeCredential
-// removed: not in win32metadata: CredpEncodeSecret
+CredpConvertCredential
+CredpConvertOneCredentialSize
+CredpConvertTargetInfo
+CredpDecodeCredential
+CredpEncodeCredential
+CredpEncodeSecret
 CryptAcquireContext
 CryptContextAddRef
 CryptCreateHash
@@ -3129,29 +3129,29 @@ DestroyPrivateObjectSecurity
 DuplicateEncryptionInfoFile
 DuplicateToken
 DuplicateTokenEx
-// removed: not in win32metadata: ElfBackupEventLogFile
-// removed: not in win32metadata: ElfChangeNotify
-// removed: not in win32metadata: ElfClearEventLogFile
-// removed: not in win32metadata: ElfCloseEventLog
-// removed: not in win32metadata: ElfDeregisterEventSource
-// removed: not in win32metadata: ElfFlushEventLog
-// removed: not in win32metadata: ElfNumberOfRecords
-// removed: not in win32metadata: ElfOldestRecord
-// removed: not in win32metadata: ElfOpenBackupEventLog
-// removed: not in win32metadata: ElfOpenEventLog
-// removed: not in win32metadata: ElfReadEventLog
-// removed: not in win32metadata: ElfRegisterEventSource
-// removed: not in win32metadata: ElfReportEvent
-// removed: not in win32metadata: ElfReportEventAndSource
+ElfBackupEventLogFile
+ElfChangeNotify
+ElfClearEventLogFile
+ElfCloseEventLog
+ElfDeregisterEventSource
+ElfFlushEventLog
+ElfNumberOfRecords
+ElfOldestRecord
+ElfOpenBackupEventLog
+ElfOpenEventLog
+ElfReadEventLog
+ElfRegisterEventSource
+ElfReportEvent
+ElfReportEventAndSource
 EnableTrace
 EnableTraceEx
 EnableTraceEx2
 EncryptFile
-// removed: not in win32metadata: EncryptedFileKeyInfo
+EncryptedFileKeyInfo
 EncryptionDisable
 EnumDependentServices
 EnumDynamicTimeZoneInformation
-// removed: not in win32metadata: EnumServiceGroup
+EnumServiceGroup
 EnumServicesStatus
 EnumServicesStatusEx
 EnumerateTraceGuids
@@ -3164,14 +3164,14 @@ EventAccessQuery
 EventAccessRemove
 FileEncryptionStatus
 FindFirstFreeAce
-// removed: not in win32metadata: FlushEfsCache
+FlushEfsCache
 FlushTrace
-// removed: not in win32metadata: FreeEncryptedFileKeyInfo
+FreeEncryptedFileKeyInfo
 FreeEncryptedFileMetadata
 FreeEncryptionCertificateHashList
 FreeInheritedFromArray
 FreeSid
-// removed: not in win32metadata: GetAccessPermissionsForObject
+GetAccessPermissionsForObject
 GetAce
 GetAclInformation
 GetAuditedPermissionsFromAcl
@@ -3182,8 +3182,8 @@ GetEncryptedFileMetadata
 GetEventLogInformation
 GetExplicitEntriesFromAcl
 GetFileSecurity
-// removed: not in win32metadata: GetInformationCodeAuthzLevel
-// removed: not in win32metadata: GetInformationCodeAuthzPolicy
+GetInformationCodeAuthzLevel
+GetInformationCodeAuthzPolicy
 GetInheritanceSource
 GetKernelObjectSecurity
 GetLengthSid
@@ -3194,10 +3194,10 @@ GetManagedApplications
 GetMultipleTrustee
 GetMultipleTrusteeOperation
 GetNamedSecurityInfo
-// removed: not in win32metadata: GetNamedSecurityInfoEx
+GetNamedSecurityInfoEx
 GetNumberOfEventLogRecords
 GetOldestEventLogRecord
-// removed: not in win32metadata: GetOverlappedAccessResults
+GetOverlappedAccessResults
 GetPrivateObjectSecurity
 GetSecurityDescriptorControl
 GetSecurityDescriptorDacl
@@ -3207,14 +3207,14 @@ GetSecurityDescriptorOwner
 GetSecurityDescriptorRMControl
 GetSecurityDescriptorSacl
 GetSecurityInfo
-// removed: not in win32metadata: GetSecurityInfoEx
+GetSecurityInfoEx
 GetServiceDisplayName
 GetServiceKeyName
 GetSidIdentifierAuthority
 GetSidLengthRequired
 GetSidSubAuthority
 GetSidSubAuthorityCount
-// removed: not in win32metadata: GetStringConditionFromBinary
+GetStringConditionFromBinary
 GetThreadWaitChain
 GetTokenInformation
 GetTrusteeForm
@@ -3222,10 +3222,10 @@ GetTrusteeName
 GetTrusteeType
 GetUserName
 GetWindowsAccountDomainSid
-// removed: not in win32metadata: I_ScGetCurrentGroupState
-// removed: not in win32metadata: I_ScReparseServiceDatabase
-// removed: not in win32metadata: I_ScSetServiceBits
-// removed: not in win32metadata: IdentifyCodeAuthzLevel
+I_ScGetCurrentGroupState
+I_ScReparseServiceDatabase
+I_ScSetServiceBits
+IdentifyCodeAuthzLevel
 ImpersonateAnonymousToken
 ImpersonateLoggedOnUser
 ImpersonateNamedPipeClient
@@ -3247,7 +3247,7 @@ IsWellKnownSid
 LockServiceDatabase
 LogonUser
 LogonUserEx
-// removed: not in win32metadata: LogonUserExEx
+LogonUserExEx
 LookupAccountName
 LookupAccountSid
 LookupPrivilegeDisplayName
@@ -3255,89 +3255,89 @@ LookupPrivilegeName
 LookupPrivilegeValue
 LookupSecurityDescriptorParts
 LsaAddAccountRights
-// removed: not in win32metadata: LsaAddPrivilegesToAccount
-// removed: not in win32metadata: LsaClearAuditLog
+LsaAddPrivilegesToAccount
+LsaClearAuditLog
 LsaClose
-// removed: not in win32metadata: LsaCreateAccount
-// removed: not in win32metadata: LsaCreateSecret
-// removed: not in win32metadata: LsaCreateTrustedDomain
+LsaCreateAccount
+LsaCreateSecret
+LsaCreateTrustedDomain
 LsaCreateTrustedDomainEx
-// removed: not in win32metadata: LsaDelete
+LsaDelete
 LsaDeleteTrustedDomain
 LsaEnumerateAccountRights
-// removed: not in win32metadata: LsaEnumerateAccounts
+LsaEnumerateAccounts
 LsaEnumerateAccountsWithUserRight
-// removed: not in win32metadata: LsaEnumeratePrivileges
-// removed: not in win32metadata: LsaEnumeratePrivilegesOfAccount
+LsaEnumeratePrivileges
+LsaEnumeratePrivilegesOfAccount
 LsaEnumerateTrustedDomains
 LsaEnumerateTrustedDomainsEx
 LsaFreeMemory
 LsaGetAppliedCAPIDs
-// removed: not in win32metadata: LsaGetQuotasForAccount
-// removed: not in win32metadata: LsaGetRemoteUserName
-// removed: not in win32metadata: LsaGetSystemAccessAccount
-// removed: not in win32metadata: LsaGetUserName
-// removed: not in win32metadata: LsaICLookupNames
-// removed: not in win32metadata: LsaICLookupNamesWithCreds
-// removed: not in win32metadata: LsaICLookupSids
-// removed: not in win32metadata: LsaICLookupSidsWithCreds
-// removed: not in win32metadata: LsaInvokeTrustScanner
+LsaGetQuotasForAccount
+LsaGetRemoteUserName
+LsaGetSystemAccessAccount
+LsaGetUserName
+LsaICLookupNames
+LsaICLookupNamesWithCreds
+LsaICLookupSids
+LsaICLookupSidsWithCreds
+LsaInvokeTrustScanner
 LsaLookupNames
 LsaLookupNames2
-// removed: not in win32metadata: LsaLookupPrivilegeDisplayName
-// removed: not in win32metadata: LsaLookupPrivilegeName
-// removed: not in win32metadata: LsaLookupPrivilegeValue
+LsaLookupPrivilegeDisplayName
+LsaLookupPrivilegeName
+LsaLookupPrivilegeValue
 LsaLookupSids
 LsaLookupSids2
-// removed: not in win32metadata: LsaManageSidNameMapping
+LsaManageSidNameMapping
 LsaNtStatusToWinError
-// removed: not in win32metadata: LsaOpenAccount
+LsaOpenAccount
 LsaOpenPolicy
-// removed: not in win32metadata: LsaOpenPolicySce
-// removed: not in win32metadata: LsaOpenSecret
-// removed: not in win32metadata: LsaOpenTrustedDomain
+LsaOpenPolicySce
+LsaOpenSecret
+LsaOpenTrustedDomain
 LsaOpenTrustedDomainByName
-// removed: not in win32metadata: LsaPurgeLocalSystemAccessTable
+LsaPurgeLocalSystemAccessTable
 LsaQueryCAPs
 LsaQueryDomainInformationPolicy
 LsaQueryForestTrustInformation
 LsaQueryForestTrustInformation2
-// removed: not in win32metadata: LsaQueryInfoTrustedDomain
+LsaQueryInfoTrustedDomain
 LsaQueryInformationPolicy
-// removed: not in win32metadata: LsaQueryLocalSystemAccess
-// removed: not in win32metadata: LsaQueryLocalSystemAccessAll
-// removed: not in win32metadata: LsaQuerySecret
-// removed: not in win32metadata: LsaQuerySecurityObject
+LsaQueryLocalSystemAccess
+LsaQueryLocalSystemAccessAll
+LsaQuerySecret
+LsaQuerySecurityObject
 LsaQueryTrustedDomainInfo
 LsaQueryTrustedDomainInfoByName
 LsaRemoveAccountRights
-// removed: not in win32metadata: LsaRemovePrivilegesFromAccount
+LsaRemovePrivilegesFromAccount
 LsaRetrievePrivateData
 LsaSetCAPs
 LsaSetDomainInformationPolicy
 LsaSetForestTrustInformation
 LsaSetForestTrustInformation2
 LsaSetInformationPolicy
-// removed: not in win32metadata: LsaSetInformationTrustedDomain
-// removed: not in win32metadata: LsaSetLocalSystemAccess
-// removed: not in win32metadata: LsaSetQuotasForAccount
-// removed: not in win32metadata: LsaSetSecret
-// removed: not in win32metadata: LsaSetSecurityObject
-// removed: not in win32metadata: LsaSetSystemAccessAccount
+LsaSetInformationTrustedDomain
+LsaSetLocalSystemAccess
+LsaSetQuotasForAccount
+LsaSetSecret
+LsaSetSecurityObject
+LsaSetSystemAccessAccount
 LsaSetTrustedDomainInfoByName
 LsaSetTrustedDomainInformation
 LsaStorePrivateData
-// removed: not in win32metadata: MIDL_user_free_Ext
+MIDL_user_free_Ext
 MSChapSrvChangePassword
 MSChapSrvChangePassword2
 MakeAbsoluteSD
-// removed: not in win32metadata: MakeAbsoluteSD2
+MakeAbsoluteSD2
 MakeSelfRelativeSD
 MapGenericMask
 NotifyBootConfigStatus
 NotifyChangeEventLog
 NotifyServiceStatusChange
-// removed: not in win32metadata: NpGetUserName
+NpGetUserName
 ObjectCloseAuditAlarm
 ObjectDeleteAuditAlarm
 ObjectOpenAuditAlarm
@@ -3362,18 +3362,18 @@ PerfOpenQueryHandle
 PerfQueryCounterData
 PerfQueryCounterInfo
 PerfQueryCounterSetRegistrationInfo
-// removed: not in win32metadata: PerfRegCloseKey
-// removed: not in win32metadata: PerfRegEnumKey
-// removed: not in win32metadata: PerfRegEnumValue
-// removed: not in win32metadata: PerfRegQueryInfoKey
-// removed: not in win32metadata: PerfRegQueryValue
-// removed: not in win32metadata: PerfRegSetValue
+PerfRegCloseKey
+PerfRegEnumKey
+PerfRegEnumValue
+PerfRegQueryInfoKey
+PerfRegQueryValue
+PerfRegSetValue
 PrivilegeCheck
 PrivilegedServiceAuditAlarm
-// removed: not in win32metadata: ProcessIdleTasks
+ProcessIdleTasks
 ProcessTrace
 QueryAllTraces
-// removed: not in win32metadata: QueryLocalUserServiceName
+QueryLocalUserServiceName
 QueryRecoveryAgentsOnEncryptedFile
 QuerySecurityAccessMask
 QueryServiceConfig
@@ -3386,8 +3386,8 @@ QueryServiceStatus
 QueryServiceStatusEx
 QueryTrace
 QueryTraceProcessingHandle
-// removed: not in win32metadata: QueryUserServiceName
-// removed: not in win32metadata: QueryUserServiceNameForContext
+QueryUserServiceName
+QueryUserServiceNameForContext
 QueryUsersOnEncryptedFile
 ReadEncryptedFileRaw
 ReadEventLog
@@ -3440,20 +3440,20 @@ RegSetValue
 RegSetValueEx
 RegUnLoadKey
 RegisterEventSource
-// removed: not in win32metadata: RegisterIdleTask
+RegisterIdleTask
 RegisterServiceCtrlHandler
 RegisterServiceCtrlHandlerEx
 RegisterWaitChainCOMCallback
-// removed: not in win32metadata: RemoteRegEnumKeyWrapper
-// removed: not in win32metadata: RemoteRegEnumValueWrapper
-// removed: not in win32metadata: RemoteRegQueryInfoKeyWrapper
-// removed: not in win32metadata: RemoteRegQueryMultipleValues2Wrapper
-// removed: not in win32metadata: RemoteRegQueryMultipleValuesWrapper
-// removed: not in win32metadata: RemoteRegQueryValueWrapper
+RemoteRegEnumKeyWrapper
+RemoteRegEnumValueWrapper
+RemoteRegQueryInfoKeyWrapper
+RemoteRegQueryMultipleValues2Wrapper
+RemoteRegQueryMultipleValuesWrapper
+RemoteRegQueryValueWrapper
 RemoveUsersFromEncryptedFile
 ReportEvent
 RevertToSelf
-// removed: not in win32metadata: SafeBaseRegGetKeySecurity
+SafeBaseRegGetKeySecurity
 SaferCloseLevel
 SaferComputeTokenFromLevel
 SaferCreateLevel
@@ -3463,24 +3463,24 @@ SaferIdentifyLevel
 SaferRecordEventLogEntry
 SaferSetLevelInformation
 SaferSetPolicyInformation
-// removed: not in win32metadata: SaferiChangeRegistryScope
-// removed: not in win32metadata: SaferiCompareTokenLevels
-// removed: not in win32metadata: SaferiIsDllAllowed
+SaferiChangeRegistryScope
+SaferiCompareTokenLevels
+SaferiIsDllAllowed
 SaferiIsExecutableFileType
-// removed: not in win32metadata: SaferiPopulateDefaultsInRegistry
-// removed: not in win32metadata: SaferiRecordEventLogEntry
-// removed: not in win32metadata: SaferiSearchMatchingHashRules
+SaferiPopulateDefaultsInRegistry
+SaferiRecordEventLogEntry
+SaferiSearchMatchingHashRules
 SetAclInformation
 SetEncryptedFileMetadata
-// removed: not in win32metadata: SetEntriesInAccessList
+SetEntriesInAccessList
 SetEntriesInAcl
-// removed: not in win32metadata: SetEntriesInAuditList
+SetEntriesInAuditList
 SetFileSecurity
-// removed: not in win32metadata: SetInformationCodeAuthzLevel
-// removed: not in win32metadata: SetInformationCodeAuthzPolicy
+SetInformationCodeAuthzLevel
+SetInformationCodeAuthzPolicy
 SetKernelObjectSecurity
 SetNamedSecurityInfo
-// removed: not in win32metadata: SetNamedSecurityInfoEx
+SetNamedSecurityInfoEx
 SetPrivateObjectSecurity
 SetPrivateObjectSecurityEx
 SetSecurityAccessMask
@@ -3491,7 +3491,7 @@ SetSecurityDescriptorOwner
 SetSecurityDescriptorRMControl
 SetSecurityDescriptorSacl
 SetSecurityInfo
-// removed: not in win32metadata: SetSecurityInfoEx
+SetSecurityInfoEx
 SetServiceBits
 SetServiceObjectSecurity
 SetServiceStatus
@@ -3503,44 +3503,44 @@ StartService
 StartServiceCtrlDispatcher
 StartTrace
 StopTrace
-// removed: not in win32metadata: SystemFunction017
-// removed: not in win32metadata: SystemFunction019
+SystemFunction017
+SystemFunction019
 TraceSetInformation
 TreeResetNamedSecurityInfo
 TreeSetNamedSecurityInfo
-// removed: not in win32metadata: TrusteeAccessToObject
+TrusteeAccessToObject
 UninstallApplication
 UnlockServiceDatabase
-// removed: not in win32metadata: UnregisterIdleTask
+UnregisterIdleTask
 UpdateTrace
-// removed: not in win32metadata: UsePinForEncryptedFiles
+UsePinForEncryptedFiles
 WaitServiceState
-// removed: not in win32metadata: WmiCloseBlock
-// removed: not in win32metadata: WmiDevInstToInstanceName
-// removed: not in win32metadata: WmiEnumerateGuids
-// removed: not in win32metadata: WmiExecuteMethod
-// removed: not in win32metadata: WmiFileHandleToInstanceName
-// removed: not in win32metadata: WmiFreeBuffer
-// removed: not in win32metadata: WmiMofEnumerateResources
-// removed: not in win32metadata: WmiNotificationRegistration
-// removed: not in win32metadata: WmiOpenBlock
-// removed: not in win32metadata: WmiQueryAllData
-// removed: not in win32metadata: WmiQueryAllDataMultiple
-// removed: not in win32metadata: WmiQueryGuidInformation
-// removed: not in win32metadata: WmiQuerySingleInstance
-// removed: not in win32metadata: WmiQuerySingleInstanceMultiple
-// removed: not in win32metadata: WmiReceiveNotifications
-// removed: not in win32metadata: WmiSetSingleInstance
-// removed: not in win32metadata: WmiSetSingleItem
+WmiCloseBlock
+WmiDevInstToInstanceName
+WmiEnumerateGuids
+WmiExecuteMethod
+WmiFileHandleToInstanceName
+WmiFreeBuffer
+WmiMofEnumerateResources
+WmiNotificationRegistration
+WmiOpenBlock
+WmiQueryAllData
+WmiQueryAllDataMultiple
+WmiQueryGuidInformation
+WmiQuerySingleInstance
+WmiQuerySingleInstanceMultiple
+WmiReceiveNotifications
+WmiSetSingleInstance
+WmiSetSingleItem
 WriteEncryptedFileRaw
 
 // === comctl32.dll (108 candidates) ===
-// removed: not in win32metadata: AddMRUString
-// removed: not in win32metadata: CreateMRUList
+AddMRUString
+CreateMRUList
 CreateMappedBitmap
 CreatePropertySheetPage
 CreateStatusWindow
-// removed: not in win32metadata: CreateToolbar
+CreateToolbar
 CreateToolbarEx
 CreateUpDownControl
 DPA_Clone
@@ -3573,26 +3573,26 @@ DSA_InsertItem
 DSA_SetItem
 DefSubclassProc
 DestroyPropertySheetPage
-// removed: not in win32metadata: DllGetVersion
+DllGetVersion
 DrawInsert
 DrawStatusText
-// removed: not in win32metadata: EnumMRUList
+EnumMRUList
 FlatSB_EnableScrollBar
 FlatSB_GetScrollInfo
 FlatSB_GetScrollPos
 FlatSB_GetScrollProp
-// removed: not in win32metadata: FlatSB_GetScrollPropPtr
+FlatSB_GetScrollPropPtr
 FlatSB_GetScrollRange
 FlatSB_SetScrollInfo
 FlatSB_SetScrollPos
 FlatSB_SetScrollProp
 FlatSB_SetScrollRange
 FlatSB_ShowScrollBar
-// removed: not in win32metadata: FreeMRUList
+FreeMRUList
 GetEffectiveClientRect
 GetMUILanguage
 ImageList_Add
-// removed: not in win32metadata: ImageList_AddIcon
+ImageList_AddIcon
 ImageList_AddMasked
 ImageList_BeginDrag
 ImageList_Copy
@@ -3609,12 +3609,12 @@ ImageList_Duplicate
 ImageList_EndDrag
 ImageList_GetBkColor
 ImageList_GetDragImage
-// removed: not in win32metadata: ImageList_GetFlags
+ImageList_GetFlags
 ImageList_GetIcon
 ImageList_GetIconSize
 ImageList_GetImageCount
 ImageList_GetImageInfo
-// removed: not in win32metadata: ImageList_GetImageRect
+ImageList_GetImageRect
 ImageList_LoadImage
 ImageList_Merge
 ImageList_Read
@@ -3623,8 +3623,8 @@ ImageList_Replace
 ImageList_ReplaceIcon
 ImageList_SetBkColor
 ImageList_SetDragCursorImage
-// removed: not in win32metadata: ImageList_SetFilter
-// removed: not in win32metadata: ImageList_SetFlags
+ImageList_SetFilter
+ImageList_SetFlags
 ImageList_SetIconSize
 ImageList_SetImageCount
 ImageList_SetOverlayImage
@@ -3637,7 +3637,7 @@ LBItemFromPt
 MakeDragList
 MenuHelp
 PropertySheet
-// removed: not in win32metadata: RegisterClassName
+RegisterClassName
 RemoveWindowSubclass
 SetWindowSubclass
 ShowHideMenuCtl
@@ -3652,51 +3652,51 @@ FindText
 GetFileTitle
 GetOpenFileName
 GetSaveFileName
-// removed: not in win32metadata: LoadAlterBitmap
+LoadAlterBitmap
 PageSetupDlg
 PrintDlg
 PrintDlgEx
 ReplaceText
-// removed: not in win32metadata: Ssync_ANSI_UNICODE_Struct_For_WOW
-// removed: not in win32metadata: WantArrows
+Ssync_ANSI_UNICODE_Struct_For_WOW
+WantArrows
 
 // === ole32.dll (254 candidates) ===
 BindMoniker
-// removed: not in win32metadata: CLIPFORMAT_UserFreeExt
-// removed: not in win32metadata: CLIPFORMAT_UserMarshalExt
-// removed: not in win32metadata: CLIPFORMAT_UserSizeExt
-// removed: not in win32metadata: CLIPFORMAT_UserUnmarshalExt
-// removed: not in win32metadata: CheckInitDde
-// removed: not in win32metadata: CleanROTForApartment
-// removed: not in win32metadata: ClipboardProcessUninitialize
-// removed: not in win32metadata: CoAicGetTokenForCOM
+CLIPFORMAT_UserFreeExt
+CLIPFORMAT_UserMarshalExt
+CLIPFORMAT_UserSizeExt
+CLIPFORMAT_UserUnmarshalExt
+CheckInitDde
+CleanROTForApartment
+ClipboardProcessUninitialize
+CoAicGetTokenForCOM
 CoAllowSetForegroundWindow
 CoBuildVersion
-// removed: not in win32metadata: CoCheckElevationEnabled
+CoCheckElevationEnabled
 CoDosDateTimeToFileTime
 CoFileTimeToDosDateTime
 CoFreeAllLibraries
 CoFreeLibrary
 CoGetInterceptor
-// removed: not in win32metadata: CoGetInterceptorForOle32
+CoGetInterceptorForOle32
 CoGetInterceptorFromTypeInfo
 CoGetObject
-// removed: not in win32metadata: CoGetSystemWow64Directory
+CoGetSystemWow64Directory
 CoInitialize
-// removed: not in win32metadata: CoInitializeWOW
+CoInitializeWOW
 CoInstall
 CoIsOle1Class
 CoLoadLibrary
-// removed: not in win32metadata: CoQueryReleaseObject
+CoQueryReleaseObject
 CoRegisterMessageFilter
-// removed: not in win32metadata: CoRegisterSurrogateEx
-// removed: not in win32metadata: CoSetState
+CoRegisterSurrogateEx
+CoSetState
 CoTreatAsClass
-// removed: not in win32metadata: CoUnloadingWOW
-// removed: not in win32metadata: ComPs_NdrDllCanUnloadNow
-// removed: not in win32metadata: ComPs_NdrDllGetClassObject
-// removed: not in win32metadata: ComPs_NdrDllRegisterProxy
-// removed: not in win32metadata: ComPs_NdrDllUnregisterProxy
+CoUnloadingWOW
+ComPs_NdrDllCanUnloadNow
+ComPs_NdrDllGetClassObject
+ComPs_NdrDllRegisterProxy
+ComPs_NdrDllUnregisterProxy
 CreateAntiMoniker
 CreateBindCtx
 CreateClassMoniker
@@ -3710,70 +3710,70 @@ CreateObjrefMoniker
 CreateOleAdviseHolder
 CreatePointerMoniker
 CreateStdProgressIndicator
-// removed: not in win32metadata: DdeBindToObject
-// removed: not in win32metadata: DeletePatternAndExtensionTables
-// removed: not in win32metadata: DestroyRunningObjectTable
-// removed: not in win32metadata: DllGetClassObjectWOW
+DdeBindToObject
+DeletePatternAndExtensionTables
+DestroyRunningObjectTable
+DllGetClassObjectWOW
 DoDragDrop
-// removed: not in win32metadata: DragDropSetFDT
-// removed: not in win32metadata: FindExt
+DragDropSetFDT
+FindExt
 FmtIdToPropStgName
 FreePropVariantArray
-// removed: not in win32metadata: GetActiveObjectExt
+GetActiveObjectExt
 GetClassFile
 GetConvertStg
-// removed: not in win32metadata: GetDocumentBitStg
+GetDocumentBitStg
 GetHGlobalFromILockBytes
-// removed: not in win32metadata: GetObjectFromRotByPath
+GetObjectFromRotByPath
 GetRunningObjectTable
-// removed: not in win32metadata: HENHMETAFILE_UserFree
-// removed: not in win32metadata: HENHMETAFILE_UserFree64
-// removed: not in win32metadata: HENHMETAFILE_UserMarshal
-// removed: not in win32metadata: HENHMETAFILE_UserMarshal64
-// removed: not in win32metadata: HENHMETAFILE_UserSize
-// removed: not in win32metadata: HENHMETAFILE_UserSize64
-// removed: not in win32metadata: HENHMETAFILE_UserUnmarshal
-// removed: not in win32metadata: HENHMETAFILE_UserUnmarshal64
-// removed: not in win32metadata: HMETAFILEPICT_UserFree
-// removed: not in win32metadata: HMETAFILEPICT_UserFree64
-// removed: not in win32metadata: HMETAFILEPICT_UserMarshal
-// removed: not in win32metadata: HMETAFILEPICT_UserMarshal64
-// removed: not in win32metadata: HMETAFILEPICT_UserSize
-// removed: not in win32metadata: HMETAFILEPICT_UserSize64
-// removed: not in win32metadata: HMETAFILEPICT_UserUnmarshal
-// removed: not in win32metadata: HMETAFILEPICT_UserUnmarshal64
-// removed: not in win32metadata: HMETAFILE_UserFree
-// removed: not in win32metadata: HMETAFILE_UserFree64
-// removed: not in win32metadata: HMETAFILE_UserMarshal
-// removed: not in win32metadata: HMETAFILE_UserMarshal64
-// removed: not in win32metadata: HMETAFILE_UserSize
-// removed: not in win32metadata: HMETAFILE_UserSize64
-// removed: not in win32metadata: HMETAFILE_UserUnmarshal
-// removed: not in win32metadata: HMETAFILE_UserUnmarshal64
-// removed: not in win32metadata: HPALETTE_UserFreeExt
-// removed: not in win32metadata: HPALETTE_UserMarshalExt
-// removed: not in win32metadata: HPALETTE_UserSizeExt
-// removed: not in win32metadata: HPALETTE_UserUnmarshalExt
-// removed: not in win32metadata: HWND_UserFree64Ext
-// removed: not in win32metadata: HWND_UserFreeExt
-// removed: not in win32metadata: HWND_UserMarshal64Ext
-// removed: not in win32metadata: HWND_UserMarshalExt
-// removed: not in win32metadata: HWND_UserSize64Ext
-// removed: not in win32metadata: HWND_UserSizeExt
-// removed: not in win32metadata: HWND_UserUnmarshal64Ext
-// removed: not in win32metadata: HWND_UserUnmarshalExt
+HENHMETAFILE_UserFree
+HENHMETAFILE_UserFree64
+HENHMETAFILE_UserMarshal
+HENHMETAFILE_UserMarshal64
+HENHMETAFILE_UserSize
+HENHMETAFILE_UserSize64
+HENHMETAFILE_UserUnmarshal
+HENHMETAFILE_UserUnmarshal64
+HMETAFILEPICT_UserFree
+HMETAFILEPICT_UserFree64
+HMETAFILEPICT_UserMarshal
+HMETAFILEPICT_UserMarshal64
+HMETAFILEPICT_UserSize
+HMETAFILEPICT_UserSize64
+HMETAFILEPICT_UserUnmarshal
+HMETAFILEPICT_UserUnmarshal64
+HMETAFILE_UserFree
+HMETAFILE_UserFree64
+HMETAFILE_UserMarshal
+HMETAFILE_UserMarshal64
+HMETAFILE_UserSize
+HMETAFILE_UserSize64
+HMETAFILE_UserUnmarshal
+HMETAFILE_UserUnmarshal64
+HPALETTE_UserFreeExt
+HPALETTE_UserMarshalExt
+HPALETTE_UserSizeExt
+HPALETTE_UserUnmarshalExt
+HWND_UserFree64Ext
+HWND_UserFreeExt
+HWND_UserMarshal64Ext
+HWND_UserMarshalExt
+HWND_UserSize64Ext
+HWND_UserSizeExt
+HWND_UserUnmarshal64Ext
+HWND_UserUnmarshalExt
 IsAccelerator
-// removed: not in win32metadata: IsEqualGUID
-// removed: not in win32metadata: IsRoInitializeASTAAllowedInDesktop
-// removed: not in win32metadata: IsValidIid
-// removed: not in win32metadata: IsValidInterface
-// removed: not in win32metadata: IsValidPtrIn
-// removed: not in win32metadata: IsValidPtrOut
+IsEqualGUID
+IsRoInitializeASTAAllowedInDesktop
+IsValidIid
+IsValidInterface
+IsValidPtrIn
+IsValidPtrOut
 MkParseDisplayName
 MonikerCommonPrefixWith
-// removed: not in win32metadata: MonikerLoadTypeLib
+MonikerLoadTypeLib
 MonikerRelativePathTo
-// removed: not in win32metadata: Ole32DllGetClassObject
+Ole32DllGetClassObject
 OleBuildVersion
 OleConvertIStorageToOLESTREAM
 OleConvertIStorageToOLESTREAMEx
@@ -3785,7 +3785,7 @@ OleCreate
 OleCreateDefaultHandler
 OleCreateEmbeddingHelper
 OleCreateEx
-// removed: not in win32metadata: OleCreateFontIndirectExt
+OleCreateFontIndirectExt
 OleCreateFromData
 OleCreateFromDataEx
 OleCreateFromFile
@@ -3797,8 +3797,8 @@ OleCreateLinkFromDataEx
 OleCreateLinkToFile
 OleCreateLinkToFileEx
 OleCreateMenuDescriptor
-// removed: not in win32metadata: OleCreatePictureIndirectExt
-// removed: not in win32metadata: OleCreatePropertyFrameIndirectExt
+OleCreatePictureIndirectExt
+OleCreatePropertyFrameIndirectExt
 OleCreateStaticFromData
 OleDestroyMenuDescriptor
 OleDoAutoConvert
@@ -3810,17 +3810,17 @@ OleGetClipboard
 OleGetClipboardWithEnterpriseInfo
 OleGetIconOfClass
 OleGetIconOfFile
-// removed: not in win32metadata: OleGetPackageClipboardOwner
-// removed: not in win32metadata: OleIconToCursorExt
+OleGetPackageClipboardOwner
+OleIconToCursorExt
 OleInitialize
-// removed: not in win32metadata: OleInitializeWOW
+OleInitializeWOW
 OleIsCurrentClipboard
 OleIsRunning
 OleLoad
 OleLoadFromStream
-// removed: not in win32metadata: OleLoadPictureExt
-// removed: not in win32metadata: OleLoadPictureFileExt
-// removed: not in win32metadata: OleLoadPicturePathExt
+OleLoadPictureExt
+OleLoadPictureFileExt
+OleLoadPicturePathExt
 OleLockRunning
 OleMetafilePictFromIconAndLabel
 OleNoteObjectVisible
@@ -3830,35 +3830,35 @@ OleRegEnumFormatEtc
 OleRegEnumVerbs
 OleRegGetMiscStatus
 OleRegGetUserType
-// removed: not in win32metadata: OleReleaseEnumVerbCache
+OleReleaseEnumVerbCache
 OleRun
 OleSave
-// removed: not in win32metadata: OleSavePictureFileExt
+OleSavePictureFileExt
 OleSaveToStream
 OleSetAutoConvert
 OleSetClipboard
 OleSetContainedObject
 OleSetMenuDescriptor
 OleTranslateAccelerator
-// removed: not in win32metadata: OleTranslateColorExt
+OleTranslateColorExt
 OleUninitialize
-// removed: not in win32metadata: OpenOrCreateStream
+OpenOrCreateStream
 PropStgNameToFmtId
-// removed: not in win32metadata: PropSysAllocString
-// removed: not in win32metadata: PropSysFreeString
+PropSysAllocString
+PropSysFreeString
 PropVariantChangeType
 PropVariantClear
 PropVariantCopy
 ReadClassStg
 ReadClassStm
 ReadFmtUserTypeStg
-// removed: not in win32metadata: ReadOleStg
-// removed: not in win32metadata: ReadStorageProperties
-// removed: not in win32metadata: ReadStringStream
-// removed: not in win32metadata: RegisterActiveObjectExt
+ReadOleStg
+ReadStorageProperties
+ReadStringStream
+RegisterActiveObjectExt
 RegisterDragDrop
 ReleaseStgMedium
-// removed: not in win32metadata: RevokeActiveObjectExt
+RevokeActiveObjectExt
 RevokeDragDrop
 SNB_UserFree
 SNB_UserFree64
@@ -3870,22 +3870,22 @@ SNB_UserUnmarshal
 SNB_UserUnmarshal64
 STGMEDIUM_UserFree
 STGMEDIUM_UserFree64
-// removed: not in win32metadata: STGMEDIUM_UserFreeExt
+STGMEDIUM_UserFreeExt
 STGMEDIUM_UserMarshal
 STGMEDIUM_UserMarshal64
-// removed: not in win32metadata: STGMEDIUM_UserMarshalExt
+STGMEDIUM_UserMarshalExt
 STGMEDIUM_UserSize
 STGMEDIUM_UserSize64
-// removed: not in win32metadata: STGMEDIUM_UserSizeExt
+STGMEDIUM_UserSizeExt
 STGMEDIUM_UserUnmarshal
 STGMEDIUM_UserUnmarshal64
-// removed: not in win32metadata: STGMEDIUM_UserUnmarshalExt
+STGMEDIUM_UserUnmarshalExt
 SetConvertStg
-// removed: not in win32metadata: SetDocumentBitStg
-// removed: not in win32metadata: SetOleautModule
-// removed: not in win32metadata: SetWOWThunkGlobalPtr
-// removed: not in win32metadata: StdTypesGetClassObject
-// removed: not in win32metadata: StdTypesRegisterServer
+SetDocumentBitStg
+SetOleautModule
+SetWOWThunkGlobalPtr
+StdTypesGetClassObject
+StdTypesRegisterServer
 StgConvertPropertyToVariant
 StgConvertVariantToProperty
 StgCreateDocfile
@@ -3901,20 +3901,20 @@ StgOpenAsyncDocfileOnIFillLockBytes
 StgOpenPropStg
 StgOpenStorage
 StgOpenStorageEx
-// removed: not in win32metadata: StgOpenStorageOnHandle
+StgOpenStorageOnHandle
 StgOpenStorageOnILockBytes
 StgPropertyLengthAsVariant
 StgSetTimes
-// removed: not in win32metadata: UtConvertDvtd16toDvtd32
-// removed: not in win32metadata: UtConvertDvtd32toDvtd16
-// removed: not in win32metadata: UtGetDvtd16Info
-// removed: not in win32metadata: UtGetDvtd32Info
+UtConvertDvtd16toDvtd32
+UtConvertDvtd32toDvtd16
+UtGetDvtd16Info
+UtGetDvtd32Info
 WriteClassStg
 WriteClassStm
 WriteFmtUserTypeStg
-// removed: not in win32metadata: WriteOleStg
-// removed: not in win32metadata: WriteStorageProperties
-// removed: not in win32metadata: WriteStringStream
+WriteOleStg
+WriteStorageProperties
+WriteStringStream
 
 // === oleaut32.dll (412 candidates) ===
 BSTR_UserFree
@@ -3942,11 +3942,11 @@ GetAltMonthNames
 GetErrorInfo
 GetRecordInfoFromGuids
 GetRecordInfoFromTypeInfo
-// removed: not in win32metadata: GetVarConversionLocaleSetting
+GetVarConversionLocaleSetting
 LHashValOfNameSys
-// removed: not in win32metadata: LPSAFEARRAY_Marshal
-// removed: not in win32metadata: LPSAFEARRAY_Size
-// removed: not in win32metadata: LPSAFEARRAY_Unmarshal
+LPSAFEARRAY_Marshal
+LPSAFEARRAY_Size
+LPSAFEARRAY_Unmarshal
 LPSAFEARRAY_UserFree
 LPSAFEARRAY_UserFree64
 LPSAFEARRAY_UserMarshal
@@ -3958,8 +3958,8 @@ LPSAFEARRAY_UserUnmarshal64
 LoadRegTypeLib
 LoadTypeLib
 LoadTypeLibEx
-// removed: not in win32metadata: OACleanup
-// removed: not in win32metadata: OACreateTypeLib2
+OACleanup
+OACreateTypeLib2
 OaBuildVersion
 OaEnablePerUserTLibRegistration
 OleCreateFontIndirect
@@ -4012,8 +4012,8 @@ SafeArraySetRecordInfo
 SafeArrayUnaccessData
 SafeArrayUnlock
 SetErrorInfo
-// removed: not in win32metadata: SetOaNoCache
-// removed: not in win32metadata: SetVarConversionLocaleSetting
+SetOaNoCache
+SetVarConversionLocaleSetting
 SysAddRefString
 SysAllocString
 SysAllocStringByteLen
@@ -4359,24 +4359,24 @@ DwmSetPresentParameters
 DwmSetWindowAttribute
 DwmShowContact
 DwmTetherContact
-// removed: not in win32metadata: DwmTetherTextContact
+DwmTetherTextContact
 DwmTransitionOwnedWindow
 DwmUnregisterThumbnail
 DwmUpdateThumbnailProperties
-// removed: not in win32metadata: DwmpAllocateSecurityDescriptor
-// removed: not in win32metadata: DwmpDxGetWindowSharedSurface
-// removed: not in win32metadata: DwmpDxUpdateWindowSharedSurface
-// removed: not in win32metadata: DwmpDxgiIsThreadDesktopComposited
-// removed: not in win32metadata: DwmpEnableDDASupport
-// removed: not in win32metadata: DwmpFreeSecurityDescriptor
-// removed: not in win32metadata: DwmpGetColorizationParameters
-// removed: not in win32metadata: DwmpRenderFlick
-// removed: not in win32metadata: DwmpSetColorizationParameters
-// removed: not in win32metadata: DwmpUpdateProxyWindowForCapture
+DwmpAllocateSecurityDescriptor
+DwmpDxGetWindowSharedSurface
+DwmpDxUpdateWindowSharedSurface
+DwmpDxgiIsThreadDesktopComposited
+DwmpEnableDDASupport
+DwmpFreeSecurityDescriptor
+DwmpGetColorizationParameters
+DwmpRenderFlick
+DwmpSetColorizationParameters
+DwmpUpdateProxyWindowForCapture
 
 // === msimg32.dll (4 candidates) ===
 AlphaBlend
-// removed: not in win32metadata: DllInitialize
+DllInitialize
 GradientFill
 TransparentBlt
 
@@ -4389,7 +4389,7 @@ GetDriverModuleHandle
 OpenDriver
 PlaySound
 SendDriverMessage
-// removed: not in win32metadata: WOWAppExit
+WOWAppExit
 auxGetDevCaps
 auxGetNumDevs
 auxGetVolume
@@ -4406,7 +4406,7 @@ joySetCapture
 joySetThreshold
 mciDriverNotify
 mciDriverYield
-// removed: not in win32metadata: mciExecute
+mciExecute
 mciFreeCommandResource
 mciGetCreatorTask
 mciGetDeviceIDA
@@ -4556,7 +4556,7 @@ QueryWorkingSetEx
 
 // === version.dll (8 candidates) ===
 GetFileVersionInfo
-// removed: not in win32metadata: GetFileVersionInfoByHandle
+GetFileVersionInfoByHandle
 GetFileVersionInfoEx
 GetFileVersionInfoSize
 GetFileVersionInfoSizeEx
@@ -4565,35 +4565,35 @@ VerInstallFile
 VerQueryValue
 
 // === imm32.dll (117 candidates) ===
-// removed: not in win32metadata: CtfImmAppCompatEnableIMEonProtectedCode
-// removed: not in win32metadata: CtfImmCoUninitialize
-// removed: not in win32metadata: CtfImmDispatchDefImeMessage
-// removed: not in win32metadata: CtfImmEnterCoInitCountSkipMode
-// removed: not in win32metadata: CtfImmGenerateMessage
-// removed: not in win32metadata: CtfImmGetCompatibleKeyboardLayout
-// removed: not in win32metadata: CtfImmGetGlobalIMEStatus
-// removed: not in win32metadata: CtfImmGetGuidAtom
-// removed: not in win32metadata: CtfImmGetIMEFileName
-// removed: not in win32metadata: CtfImmGetTMAEFlags
-// removed: not in win32metadata: CtfImmHideToolbarWnd
-// removed: not in win32metadata: CtfImmIsCiceroEnabled
-// removed: not in win32metadata: CtfImmIsCiceroStartedInThread
-// removed: not in win32metadata: CtfImmIsComStartedInThread
-// removed: not in win32metadata: CtfImmIsGuidMapEnable
-// removed: not in win32metadata: CtfImmIsTextFrameServiceDisabled
-// removed: not in win32metadata: CtfImmLastEnabledWndDestroy
-// removed: not in win32metadata: CtfImmLeaveCoInitCountSkipMode
-// removed: not in win32metadata: CtfImmNotify
-// removed: not in win32metadata: CtfImmRestoreToolbarWnd
-// removed: not in win32metadata: CtfImmSetAppCompatFlags
-// removed: not in win32metadata: CtfImmSetCiceroStartInThread
-// removed: not in win32metadata: CtfImmSetDefaultRemoteKeyboardLayout
-// removed: not in win32metadata: CtfImmTIMActivate
-// removed: not in win32metadata: GetKeyboardLayoutCP
-// removed: not in win32metadata: ImmActivateLayout
+CtfImmAppCompatEnableIMEonProtectedCode
+CtfImmCoUninitialize
+CtfImmDispatchDefImeMessage
+CtfImmEnterCoInitCountSkipMode
+CtfImmGenerateMessage
+CtfImmGetCompatibleKeyboardLayout
+CtfImmGetGlobalIMEStatus
+CtfImmGetGuidAtom
+CtfImmGetIMEFileName
+CtfImmGetTMAEFlags
+CtfImmHideToolbarWnd
+CtfImmIsCiceroEnabled
+CtfImmIsCiceroStartedInThread
+CtfImmIsComStartedInThread
+CtfImmIsGuidMapEnable
+CtfImmIsTextFrameServiceDisabled
+CtfImmLastEnabledWndDestroy
+CtfImmLeaveCoInitCountSkipMode
+CtfImmNotify
+CtfImmRestoreToolbarWnd
+CtfImmSetAppCompatFlags
+CtfImmSetCiceroStartInThread
+CtfImmSetDefaultRemoteKeyboardLayout
+CtfImmTIMActivate
+GetKeyboardLayoutCP
+ImmActivateLayout
 ImmAssociateContext
 ImmAssociateContextEx
-// removed: not in win32metadata: ImmCallImeConsoleIME
+ImmCallImeConsoleIME
 ImmConfigureIMEA
 ImmConfigureIMEW
 ImmCreateContext
@@ -4603,15 +4603,15 @@ ImmDestroyContext
 ImmDestroyIMCC
 ImmDestroySoftKeyboard
 ImmDisableIME
-// removed: not in win32metadata: ImmDisableIme
+ImmDisableIme
 ImmDisableLegacyIME
 ImmDisableTextFrameService
 ImmEnumInputContext
 ImmEnumRegisterWord
 ImmEscape
-// removed: not in win32metadata: ImmFreeLayout
+ImmFreeLayout
 ImmGenerateMessage
-// removed: not in win32metadata: ImmGetAppCompatFlags
+ImmGetAppCompatFlags
 ImmGetCandidateList
 ImmGetCandidateListCount
 ImmGetCandidateWindow
@@ -4629,40 +4629,40 @@ ImmGetIMCCLockCount
 ImmGetIMCCSize
 ImmGetIMCLockCount
 ImmGetIMEFileName
-// removed: not in win32metadata: ImmGetImeInfoEx
+ImmGetImeInfoEx
 ImmGetImeMenuItems
 ImmGetOpenStatus
 ImmGetProperty
 ImmGetRegisterWordStyle
 ImmGetStatusWindowPos
 ImmGetVirtualKey
-// removed: not in win32metadata: ImmIMPGetIMEA
-// removed: not in win32metadata: ImmIMPGetIMEW
-// removed: not in win32metadata: ImmIMPQueryIMEA
-// removed: not in win32metadata: ImmIMPQueryIMEW
-// removed: not in win32metadata: ImmIMPSetIMEA
-// removed: not in win32metadata: ImmIMPSetIMEW
+ImmIMPGetIMEA
+ImmIMPGetIMEW
+ImmIMPQueryIMEA
+ImmIMPQueryIMEW
+ImmIMPSetIMEA
+ImmIMPSetIMEW
 ImmInstallIMEA
 ImmInstallIMEW
 ImmIsIME
 ImmIsUIMessage
-// removed: not in win32metadata: ImmLoadIME
-// removed: not in win32metadata: ImmLoadLayout
-// removed: not in win32metadata: ImmLockClientImc
+ImmLoadIME
+ImmLoadLayout
+ImmLockClientImc
 ImmLockIMC
 ImmLockIMCC
-// removed: not in win32metadata: ImmLockImeDpi
+ImmLockImeDpi
 ImmNotifyIME
-// removed: not in win32metadata: ImmProcessKey
-// removed: not in win32metadata: ImmPutImeMenuItemsIntoMappedFile
+ImmProcessKey
+ImmPutImeMenuItemsIntoMappedFile
 ImmReSizeIMCC
-// removed: not in win32metadata: ImmRegisterClient
+ImmRegisterClient
 ImmRegisterWord
 ImmReleaseContext
 ImmRequestMessage
-// removed: not in win32metadata: ImmSendIMEMessageEx
-// removed: not in win32metadata: ImmSetActiveContext
-// removed: not in win32metadata: ImmSetActiveContextConsoleIME
+ImmSendIMEMessageEx
+ImmSetActiveContext
+ImmSetActiveContextConsoleIME
 ImmSetCandidateWindow
 ImmSetCompositionFont
 ImmSetCompositionString
@@ -4672,16 +4672,16 @@ ImmSetOpenStatus
 ImmSetStatusWindowPos
 ImmShowSoftKeyboard
 ImmSimulateHotKey
-// removed: not in win32metadata: ImmSystemHandler
-// removed: not in win32metadata: ImmTranslateMessage
-// removed: not in win32metadata: ImmUnlockClientImc
+ImmSystemHandler
+ImmTranslateMessage
+ImmUnlockClientImc
 ImmUnlockIMC
 ImmUnlockIMCC
-// removed: not in win32metadata: ImmUnlockImeDpi
+ImmUnlockImeDpi
 ImmUnregisterWord
-// removed: not in win32metadata: ImmWINNLSEnableIME
-// removed: not in win32metadata: ImmWINNLSGetEnableStatus
-// removed: not in win32metadata: ImmWINNLSGetIMEHotkey
+ImmWINNLSEnableIME
+ImmWINNLSGetEnableStatus
+ImmWINNLSGetIMEHotkey
 
 // === uxtheme.dll (83 candidates) ===
 BeginBufferedAnimation
@@ -4694,7 +4694,7 @@ BufferedPaintSetAlpha
 BufferedPaintStopAllAnimations
 BufferedPaintUnInit
 CloseThemeData
-// removed: not in win32metadata: DllGetActivationFactory
+DllGetActivationFactory
 DrawThemeBackground
 DrawThemeBackgroundEx
 DrawThemeEdge
@@ -4712,10 +4712,10 @@ GetBufferedPaintBits
 GetBufferedPaintDC
 GetBufferedPaintTargetDC
 GetBufferedPaintTargetRect
-// removed: not in win32metadata: GetColorFromPreference
+GetColorFromPreference
 GetCurrentThemeName
-// removed: not in win32metadata: GetImmersiveColorFromColorSetEx
-// removed: not in win32metadata: GetImmersiveUserColorSetPreference
+GetImmersiveColorFromColorSetEx
+GetImmersiveUserColorSetPreference
 GetThemeAnimationProperty
 GetThemeAnimationTransform
 GetThemeAppProperties
@@ -4750,7 +4750,7 @@ GetThemeTextExtent
 GetThemeTextMetrics
 GetThemeTimingFunction
 GetThemeTransitionDuration
-// removed: not in win32metadata: GetUserColorPreference
+GetUserColorPreference
 GetWindowTheme
 HitTestThemeBackground
 IsAppThemed
@@ -4765,7 +4765,7 @@ OpenThemeDataForDpi
 SetThemeAppProperties
 SetWindowTheme
 SetWindowThemeAttribute
-// removed: not in win32metadata: ThemeInitApiHook
+ThemeInitApiHook
 UpdatePanningFeedback
 
 // === wininet.dll (204 candidates) ===
@@ -4800,7 +4800,7 @@ DeleteUrlCacheEntry
 DeleteUrlCacheGroup
 DeleteWpadCacheForNetworks
 DetectAutoProxyUrl
-// removed: not in win32metadata: DispatchAPICall
+DispatchAPICall
 FindCloseUrlCache
 FindFirstUrlCacheContainer
 FindFirstUrlCacheEntry
@@ -4810,8 +4810,8 @@ FindNextUrlCacheContainer
 FindNextUrlCacheEntry
 FindNextUrlCacheEntryEx
 FindNextUrlCacheGroup
-// removed: not in win32metadata: ForceNexusLookup
-// removed: not in win32metadata: ForceNexusLookupEx
+ForceNexusLookup
+ForceNexusLookupEx
 FreeUrlCacheSpace
 FtpCommand
 FtpCreateDirectory
@@ -4827,7 +4827,7 @@ FtpPutFileEx
 FtpRemoveDirectory
 FtpRenameFile
 FtpSetCurrentDirectory
-// removed: not in win32metadata: GetProxyDllInfo
+GetProxyDllInfo
 GetUrlCacheConfigInfo
 GetUrlCacheEntryBinaryBlob
 GetUrlCacheEntryInfo
@@ -4845,7 +4845,7 @@ HttpCloseDependencyHandle
 HttpDuplicateDependencyHandle
 HttpEndRequest
 HttpGetServerCredentials
-// removed: not in win32metadata: HttpGetTunnelSocket
+HttpGetTunnelSocket
 HttpIndicatePageLoadComplete
 HttpIsHostHstsEnabled
 HttpOpenDependencyHandle
@@ -4866,7 +4866,7 @@ IncrementUrlCacheHeaderData
 InternetAlgIdToString
 InternetAttemptConnect
 InternetAutodial
-// removed: not in win32metadata: InternetAutodialCallback
+InternetAutodialCallback
 InternetAutodialHangup
 InternetCanonicalizeUrl
 InternetCheckConnection
@@ -4885,8 +4885,8 @@ InternetFindNextFile
 InternetFortezzaCommand
 InternetFreeCookies
 InternetFreeProxyInfoList
-// removed: not in win32metadata: InternetGetCertByURL
-// removed: not in win32metadata: InternetGetCertByURLA
+InternetGetCertByURL
+InternetGetCertByURLA
 InternetGetConnectedState
 InternetGetConnectedStateEx
 InternetGetCookie
@@ -4918,7 +4918,7 @@ InternetSetFilePointer
 InternetSetOption
 InternetSetOptionEx
 InternetSetPerSiteCookieDecision
-// removed: not in win32metadata: InternetSetSecureLegacyServersAppCompat
+InternetSetSecureLegacyServersAppCompat
 InternetSetStatusCallback
 InternetShowSecurityInfoByURL
 InternetShowSecurityInfoByURLA
@@ -4946,7 +4946,7 @@ SetUrlCacheEntryGroup
 SetUrlCacheEntryInfo
 SetUrlCacheGroupAttribute
 SetUrlCacheHeaderData
-// removed: not in win32metadata: ShowCertificate
+ShowCertificate
 ShowClientAuthCerts
 ShowSecurityInfo
 ShowX509EncodedCertificate
@@ -4972,28 +4972,28 @@ UrlCacheRetrieveEntryStream
 UrlCacheServer
 UrlCacheSetGlobalLimit
 UrlCacheUpdateEntryExtraData
-// removed: not in win32metadata: UrlZonesDetach
+UrlZonesDetach
 
 // === winhttp.dll (68 candidates) ===
-// removed: not in win32metadata: Private1
-// removed: not in win32metadata: SvchostPushServiceGlobals
+Private1
+SvchostPushServiceGlobals
 WinHttpAddRequestHeaders
 WinHttpAddRequestHeadersEx
-// removed: not in win32metadata: WinHttpAutoProxySvcMain
+WinHttpAutoProxySvcMain
 WinHttpCheckPlatform
 WinHttpCloseHandle
 WinHttpConnect
-// removed: not in win32metadata: WinHttpConnectionDeletePolicyEntries
-// removed: not in win32metadata: WinHttpConnectionDeleteProxyInfo
-// removed: not in win32metadata: WinHttpConnectionFreeNameList
-// removed: not in win32metadata: WinHttpConnectionFreeProxyInfo
-// removed: not in win32metadata: WinHttpConnectionFreeProxyList
-// removed: not in win32metadata: WinHttpConnectionGetNameList
-// removed: not in win32metadata: WinHttpConnectionGetProxyInfo
-// removed: not in win32metadata: WinHttpConnectionGetProxyList
-// removed: not in win32metadata: WinHttpConnectionSetPolicyEntries
-// removed: not in win32metadata: WinHttpConnectionSetProxyInfo
-// removed: not in win32metadata: WinHttpConnectionUpdateIfIndexTable
+WinHttpConnectionDeletePolicyEntries
+WinHttpConnectionDeleteProxyInfo
+WinHttpConnectionFreeNameList
+WinHttpConnectionFreeProxyInfo
+WinHttpConnectionFreeProxyList
+WinHttpConnectionGetNameList
+WinHttpConnectionGetProxyInfo
+WinHttpConnectionGetProxyList
+WinHttpConnectionSetPolicyEntries
+WinHttpConnectionSetProxyInfo
+WinHttpConnectionUpdateIfIndexTable
 WinHttpCrackUrl
 WinHttpCreateProxyResolver
 WinHttpCreateUrl
@@ -5006,31 +5006,31 @@ WinHttpGetIEProxyConfigForCurrentUser
 WinHttpGetProxyForUrl
 WinHttpGetProxyForUrlEx
 WinHttpGetProxyForUrlEx2
-// removed: not in win32metadata: WinHttpGetProxyForUrlHvsi
+WinHttpGetProxyForUrlHvsi
 WinHttpGetProxyResult
 WinHttpGetProxyResultEx
 WinHttpGetProxySettingsVersion
-// removed: not in win32metadata: WinHttpGetTunnelSocket
+WinHttpGetTunnelSocket
 WinHttpOpen
 WinHttpOpenRequest
-// removed: not in win32metadata: WinHttpPacJsWorkerMain
-// removed: not in win32metadata: WinHttpProbeConnectivity
+WinHttpPacJsWorkerMain
+WinHttpProbeConnectivity
 WinHttpQueryAuthSchemes
 WinHttpQueryDataAvailable
 WinHttpQueryHeaders
 WinHttpQueryOption
 WinHttpReadData
 WinHttpReadProxySettings
-// removed: not in win32metadata: WinHttpReadProxySettingsHvsi
+WinHttpReadProxySettingsHvsi
 WinHttpReceiveResponse
 WinHttpResetAutoProxy
-// removed: not in win32metadata: WinHttpSaveProxyCredentials
+WinHttpSaveProxyCredentials
 WinHttpSendRequest
 WinHttpSetCredentials
 WinHttpSetDefaultProxyConfiguration
 WinHttpSetOption
 WinHttpSetProxySettingsPerUser
-// removed: not in win32metadata: WinHttpSetSecureLegacyServersAppCompat
+WinHttpSetSecureLegacyServersAppCompat
 WinHttpSetStatusCallback
 WinHttpSetTimeouts
 WinHttpTimeFromSystemTime
@@ -5207,7 +5207,7 @@ CryptImportPublicKeyInfoEx2
 CryptInitOIDFunctionSet
 CryptInstallDefaultContext
 CryptInstallOIDFunctionAddress
-// removed: not in win32metadata: CryptLoadSip
+CryptLoadSip
 CryptMemAlloc
 CryptMemFree
 CryptMemRealloc
@@ -5226,13 +5226,13 @@ CryptMsgSignCTL
 CryptMsgUpdate
 CryptMsgVerifyCountersignatureEncoded
 CryptMsgVerifyCountersignatureEncodedEx
-// removed: not in win32metadata: CryptObjectLocatorFree
-// removed: not in win32metadata: CryptObjectLocatorGet
-// removed: not in win32metadata: CryptObjectLocatorGetContent
-// removed: not in win32metadata: CryptObjectLocatorGetUpdated
-// removed: not in win32metadata: CryptObjectLocatorInitialize
-// removed: not in win32metadata: CryptObjectLocatorIsChanged
-// removed: not in win32metadata: CryptObjectLocatorRelease
+CryptObjectLocatorFree
+CryptObjectLocatorGet
+CryptObjectLocatorGetContent
+CryptObjectLocatorGetUpdated
+CryptObjectLocatorInitialize
+CryptObjectLocatorIsChanged
+CryptObjectLocatorRelease
 CryptProtectData
 CryptQueryObject
 CryptRegisterDefaultOIDFunction
@@ -5273,58 +5273,58 @@ CryptVerifyMessageHash
 CryptVerifyMessageSignature
 CryptVerifyMessageSignatureWithKey
 CryptVerifyTimeStampSignature
-// removed: not in win32metadata: I_CertChainEngineIsDisallowedCertificate
-// removed: not in win32metadata: I_CertDiagControl
-// removed: not in win32metadata: I_CertFinishSslHandshake
-// removed: not in win32metadata: I_CertProcessSslHandshake
-// removed: not in win32metadata: I_CertProtectFunction
-// removed: not in win32metadata: I_CertSrvProtectFunction
-// removed: not in win32metadata: I_CertSyncStore
-// removed: not in win32metadata: I_CertUpdateStore
-// removed: not in win32metadata: I_CertWnfEnableFlushCache
-// removed: not in win32metadata: I_CryptAddRefLruEntry
-// removed: not in win32metadata: I_CryptAddSmartCardCertToStore
-// removed: not in win32metadata: I_CryptAllocTls
-// removed: not in win32metadata: I_CryptAllocTlsEx
-// removed: not in win32metadata: I_CryptCreateLruCache
-// removed: not in win32metadata: I_CryptCreateLruEntry
-// removed: not in win32metadata: I_CryptDetachTls
-// removed: not in win32metadata: I_CryptDisableLruOfEntries
-// removed: not in win32metadata: I_CryptEnableLruOfEntries
-// removed: not in win32metadata: I_CryptEnumMatchingLruEntries
-// removed: not in win32metadata: I_CryptFindLruEntry
-// removed: not in win32metadata: I_CryptFindLruEntryData
-// removed: not in win32metadata: I_CryptFindSmartCardCertInStore
-// removed: not in win32metadata: I_CryptFlushLruCache
-// removed: not in win32metadata: I_CryptFreeLruCache
-// removed: not in win32metadata: I_CryptFreeTls
-// removed: not in win32metadata: I_CryptGetAsn1Decoder
-// removed: not in win32metadata: I_CryptGetAsn1Encoder
-// removed: not in win32metadata: I_CryptGetDefaultCryptProv
-// removed: not in win32metadata: I_CryptGetDefaultCryptProvForEncrypt
-// removed: not in win32metadata: I_CryptGetFileVersion
-// removed: not in win32metadata: I_CryptGetLruEntryData
-// removed: not in win32metadata: I_CryptGetLruEntryIdentifier
-// removed: not in win32metadata: I_CryptGetOssGlobal
-// removed: not in win32metadata: I_CryptGetTls
-// removed: not in win32metadata: I_CryptInsertLruEntry
-// removed: not in win32metadata: I_CryptInstallAsn1Module
-// removed: not in win32metadata: I_CryptInstallOssGlobal
-// removed: not in win32metadata: I_CryptReadTrustedPublisherDWORDValueFromRegistry
-// removed: not in win32metadata: I_CryptRegisterSmartCardStore
-// removed: not in win32metadata: I_CryptReleaseLruEntry
-// removed: not in win32metadata: I_CryptRemoveLruEntry
-// removed: not in win32metadata: I_CryptSetTls
-// removed: not in win32metadata: I_CryptTouchLruEntry
-// removed: not in win32metadata: I_CryptUninstallAsn1Module
-// removed: not in win32metadata: I_CryptUninstallOssGlobal
-// removed: not in win32metadata: I_CryptUnregisterSmartCardStore
-// removed: not in win32metadata: I_CryptWalkAllLruCacheEntries
-// removed: not in win32metadata: I_PFXDecrypt
-// removed: not in win32metadata: I_PFXHMAC
-// removed: not in win32metadata: I_PFXImportCertStoreEx
+I_CertChainEngineIsDisallowedCertificate
+I_CertDiagControl
+I_CertFinishSslHandshake
+I_CertProcessSslHandshake
+I_CertProtectFunction
+I_CertSrvProtectFunction
+I_CertSyncStore
+I_CertUpdateStore
+I_CertWnfEnableFlushCache
+I_CryptAddRefLruEntry
+I_CryptAddSmartCardCertToStore
+I_CryptAllocTls
+I_CryptAllocTlsEx
+I_CryptCreateLruCache
+I_CryptCreateLruEntry
+I_CryptDetachTls
+I_CryptDisableLruOfEntries
+I_CryptEnableLruOfEntries
+I_CryptEnumMatchingLruEntries
+I_CryptFindLruEntry
+I_CryptFindLruEntryData
+I_CryptFindSmartCardCertInStore
+I_CryptFlushLruCache
+I_CryptFreeLruCache
+I_CryptFreeTls
+I_CryptGetAsn1Decoder
+I_CryptGetAsn1Encoder
+I_CryptGetDefaultCryptProv
+I_CryptGetDefaultCryptProvForEncrypt
+I_CryptGetFileVersion
+I_CryptGetLruEntryData
+I_CryptGetLruEntryIdentifier
+I_CryptGetOssGlobal
+I_CryptGetTls
+I_CryptInsertLruEntry
+I_CryptInstallAsn1Module
+I_CryptInstallOssGlobal
+I_CryptReadTrustedPublisherDWORDValueFromRegistry
+I_CryptRegisterSmartCardStore
+I_CryptReleaseLruEntry
+I_CryptRemoveLruEntry
+I_CryptSetTls
+I_CryptTouchLruEntry
+I_CryptUninstallAsn1Module
+I_CryptUninstallOssGlobal
+I_CryptUnregisterSmartCardStore
+I_CryptWalkAllLruCacheEntries
+I_PFXDecrypt
+I_PFXHMAC
+I_PFXImportCertStoreEx
 PFXExportCertStore
-// removed: not in win32metadata: PFXExportCertStore2
+PFXExportCertStore2
 PFXExportCertStoreEx
 PFXImportCertStore
 PFXIsPFXBlob
@@ -5332,7 +5332,7 @@ PFXVerifyPassword
 
 // === bcrypt.dll (58 candidates) ===
 BCryptAddContextFunction
-// removed: not in win32metadata: BCryptAddContextFunctionProvider
+BCryptAddContextFunctionProvider
 BCryptCloseAlgorithmProvider
 BCryptConfigureContext
 BCryptConfigureContextFunction
@@ -5377,17 +5377,17 @@ BCryptQueryContextFunctionConfiguration
 BCryptQueryContextFunctionProperty
 BCryptQueryProviderRegistration
 BCryptRegisterConfigChangeNotify
-// removed: not in win32metadata: BCryptRegisterProvider
+BCryptRegisterProvider
 BCryptRemoveContextFunction
-// removed: not in win32metadata: BCryptRemoveContextFunctionProvider
+BCryptRemoveContextFunctionProvider
 BCryptResolveProviders
 BCryptSecretAgreement
-// removed: not in win32metadata: BCryptSetAuditingInterface
+BCryptSetAuditingInterface
 BCryptSetContextFunctionProperty
 BCryptSetProperty
 BCryptSignHash
 BCryptUnregisterConfigChangeNotify
-// removed: not in win32metadata: BCryptUnregisterProvider
+BCryptUnregisterProvider
 BCryptVerifySignature
 
 // === dbghelp.dll (162 candidates) ===
@@ -5397,7 +5397,7 @@ EnumerateLoadedModules
 EnumerateLoadedModules64
 EnumerateLoadedModulesEx
 EnumerateLoadedModulesW64
-// removed: not in win32metadata: ExtensionApiVersion
+ExtensionApiVersion
 FindDebugInfoFile
 FindDebugInfoFileEx
 FindExecutableImage
@@ -5431,7 +5431,7 @@ StackWalkEx
 SymAddSourceStream
 SymAddSymbol
 SymAddrIncludeInlineTrace
-// removed: not in win32metadata: SymAllocDiaString
+SymAllocDiaString
 SymCleanup
 SymCompareInlineTrace
 SymDeleteSymbol
@@ -5455,7 +5455,7 @@ SymEnumerateSymbolsW64
 SymFindDebugInfoFile
 SymFindExecutableImage
 SymFindFileInPath
-// removed: not in win32metadata: SymFreeDiaString
+SymFreeDiaString
 SymFromAddr
 SymFromIndex
 SymFromInlineContext
@@ -5464,33 +5464,33 @@ SymFromToken
 SymFunctionTableAccess
 SymFunctionTableAccess64
 SymFunctionTableAccess64AccessRoutines
-// removed: not in win32metadata: SymGetDiaSession
+SymGetDiaSession
 SymGetExtendedOption
 SymGetFileLineOffsets64
 SymGetHomeDirectory
 SymGetLineFromAddr
 SymGetLineFromAddr64
-// removed: not in win32metadata: SymGetLineFromAddrEx
+SymGetLineFromAddrEx
 SymGetLineFromAddrW64
 SymGetLineFromInlineContext
 SymGetLineFromName
 SymGetLineFromName64
-// removed: not in win32metadata: SymGetLineFromNameEx
+SymGetLineFromNameEx
 SymGetLineFromNameW64
 SymGetLineNext
 SymGetLineNext64
-// removed: not in win32metadata: SymGetLineNextEx
+SymGetLineNextEx
 SymGetLineNextW64
 SymGetLinePrev
 SymGetLinePrev64
-// removed: not in win32metadata: SymGetLinePrevEx
+SymGetLinePrevEx
 SymGetLinePrevW64
 SymGetModuleBase
 SymGetModuleBase64
 SymGetModuleInfo
 SymGetModuleInfo64
 SymGetModuleInfoW64
-// removed: not in win32metadata: SymGetOmapBlockBase
+SymGetOmapBlockBase
 SymGetOmaps
 SymGetOptions
 SymGetScope
@@ -5530,7 +5530,7 @@ SymRegisterFunctionEntryCallback
 SymRegisterFunctionEntryCallback64
 SymSearch
 SymSetContext
-// removed: not in win32metadata: SymSetDiaSession
+SymSetDiaSession
 SymSetExtendedOption
 SymSetHomeDirectory
 SymSetOptions
@@ -5552,11 +5552,11 @@ SymUnDName64
 SymUnloadModule
 SymUnloadModule64
 UnDecorateSymbolName
-// removed: not in win32metadata: WinDbgExtensionDllInit
+WinDbgExtensionDllInit
 
 // === userenv.dll (45 candidates) ===
-// removed: not in win32metadata: AreThereVisibleLogoffScripts
-// removed: not in win32metadata: AreThereVisibleShutdownScripts
+AreThereVisibleLogoffScripts
+AreThereVisibleShutdownScripts
 CreateAppContainerProfile
 CreateEnvironmentBlock
 CreateProfile
@@ -5567,7 +5567,7 @@ DeriveRestrictedAppContainerSidFromAppContainerSidAndRestrictedName
 DestroyEnvironmentBlock
 EnterCriticalPolicySection
 ExpandEnvironmentStringsForUser
-// removed: not in win32metadata: ForceSyncFgPolicy
+ForceSyncFgPolicy
 FreeGPOList
 GenerateGPNotification
 GetAllUsersProfileDirectory
@@ -5576,14 +5576,14 @@ GetAppContainerRegistryLocation
 GetAppliedGPOList
 GetDefaultUserProfileDirectory
 GetGPOList
-// removed: not in win32metadata: GetNextFgPolicyRefreshInfo
-// removed: not in win32metadata: GetPreviousFgPolicyRefreshInfo
+GetNextFgPolicyRefreshInfo
+GetPreviousFgPolicyRefreshInfo
 GetProfileType
 GetProfilesDirectory
 GetUserProfileDirectory
-// removed: not in win32metadata: HasPolicyForegroundProcessingCompleted
+HasPolicyForegroundProcessingCompleted
 LeaveCriticalPolicySection
-// removed: not in win32metadata: LoadProfileExtender
+LoadProfileExtender
 LoadUserProfile
 ProcessGroupPolicyCompleted
 ProcessGroupPolicyCompletedEx
@@ -5592,17 +5592,17 @@ RefreshPolicyEx
 RegisterGPNotification
 RsopAccessCheckByType
 RsopFileAccessCheck
-// removed: not in win32metadata: RsopLoggingEnabled
+RsopLoggingEnabled
 RsopResetPolicySettingStatus
 RsopSetPolicySettingStatus
-// removed: not in win32metadata: UnloadProfileExtender
+UnloadProfileExtender
 UnloadUserProfile
 UnregisterGPNotification
-// removed: not in win32metadata: WaitForMachinePolicyForegroundProcessing
-// removed: not in win32metadata: WaitForUserPolicyForegroundProcessing
+WaitForMachinePolicyForegroundProcessing
+WaitForUserPolicyForegroundProcessing
 
 // === netapi32.dll (79 candidates) ===
-// removed: not in win32metadata: I_BrowserSetNetlogonState
+I_BrowserSetNetlogonState
 NetAccessAdd
 NetAccessDel
 NetAccessEnum
@@ -5625,7 +5625,7 @@ NetMessageNameAdd
 NetMessageNameDel
 NetMessageNameEnum
 NetMessageNameGetInfo
-// removed: not in win32metadata: NetRegisterDomainNameChangeNotification
+NetRegisterDomainNameChangeNotification
 NetReplExportDirAdd
 NetReplExportDirDel
 NetReplExportDirEnum
@@ -5642,42 +5642,42 @@ NetReplImportDirLock
 NetReplImportDirUnlock
 NetReplSetInfo
 NetServerEnum
-// removed: not in win32metadata: NetServerEnumEx
+NetServerEnumEx
 NetServiceControl
 NetServiceEnum
 NetServiceGetInfo
 NetServiceInstall
 NetStatisticsGet
-// removed: not in win32metadata: NetUnregisterDomainNameChangeNotification
+NetUnregisterDomainNameChangeNotification
 NetWkstaGetInfo
 NetWkstaSetInfo
 Netbios
-// removed: not in win32metadata: NetpAddTlnFtinfoEntry
-// removed: not in win32metadata: NetpAllocFtinfoEntry
-// removed: not in win32metadata: NetpAssertFailed
-// removed: not in win32metadata: NetpCleanFtinfoContext
-// removed: not in win32metadata: NetpCloseConfigData
-// removed: not in win32metadata: NetpCopyFtinfoContext
-// removed: not in win32metadata: NetpDbgPrint
-// removed: not in win32metadata: NetpGetConfigBool
-// removed: not in win32metadata: NetpGetConfigDword
-// removed: not in win32metadata: NetpGetConfigTStrArray
-// removed: not in win32metadata: NetpGetConfigValue
-// removed: not in win32metadata: NetpGetFileSecurity
-// removed: not in win32metadata: NetpHexDump
-// removed: not in win32metadata: NetpInitFtinfoContext
-// removed: not in win32metadata: NetpIsUncComputerNameValid
-// removed: not in win32metadata: NetpMergeFtinfo
-// removed: not in win32metadata: NetpNetBiosReset
-// removed: not in win32metadata: NetpNetBiosStatusToApiStatus
-// removed: not in win32metadata: NetpOpenConfigData
-// removed: not in win32metadata: NetpSetFileSecurity
-// removed: not in win32metadata: RxNetAccessAdd
-// removed: not in win32metadata: RxNetAccessDel
-// removed: not in win32metadata: RxNetAccessEnum
-// removed: not in win32metadata: RxNetAccessGetInfo
-// removed: not in win32metadata: RxNetAccessGetUserPerms
-// removed: not in win32metadata: RxNetAccessSetInfo
-// removed: not in win32metadata: RxNetServerEnum
-// removed: not in win32metadata: RxNetUserPasswordSet
-// removed: not in win32metadata: RxRemoteApi
+NetpAddTlnFtinfoEntry
+NetpAllocFtinfoEntry
+NetpAssertFailed
+NetpCleanFtinfoContext
+NetpCloseConfigData
+NetpCopyFtinfoContext
+NetpDbgPrint
+NetpGetConfigBool
+NetpGetConfigDword
+NetpGetConfigTStrArray
+NetpGetConfigValue
+NetpGetFileSecurity
+NetpHexDump
+NetpInitFtinfoContext
+NetpIsUncComputerNameValid
+NetpMergeFtinfo
+NetpNetBiosReset
+NetpNetBiosStatusToApiStatus
+NetpOpenConfigData
+NetpSetFileSecurity
+RxNetAccessAdd
+RxNetAccessDel
+RxNetAccessEnum
+RxNetAccessGetInfo
+RxNetAccessGetUserPerms
+RxNetAccessSetInfo
+RxNetServerEnum
+RxNetUserPasswordSet
+RxRemoteApi

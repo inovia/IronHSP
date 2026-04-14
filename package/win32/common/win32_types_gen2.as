@@ -11,10 +11,447 @@
 #define __win32_types_gen2_as__
 
 ;--- structs ---
+#defstruct D3DDDI_ALLOCATIONINFO
+    #field int hAllocation
+    #field var pSystemMem
+    #field var pPrivateDriverData
+    #field int PrivateDriverDataSize
+    #field int VidPnSourceId
+    #field int Flags
+    #field int Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
+#defstruct _Flags_e__Union
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
+#defstruct _Anonymous_e__Struct
+    #field int Version
+    #field int Linkage
+#endstruct
+
+#defstruct D3DDDI_ALLOCATIONINFO2
+    #field int hAllocation
+    #field int Anonymous1
+    #field var pPrivateDriverData
+    #field int PrivateDriverDataSize
+    #field int VidPnSourceId
+    #field var Flags
+    #field int64 GpuVirtualAddress
+    #field int Anonymous2
+    #field int Reserved
+    #field var pSystemMem
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+    #field int Priority
+    #field int Unused
+#endstruct
+
+#defstruct _Anonymous1_e__Union
+    #field int64 HistoricalContext
+    #field var Anonymous
+    #field int Version
+    #field int Linkage
+#endstruct
+
+#defstruct _Anonymous2_e__Union
+    #field int CountLost
+    #field intptr KernelHandle
+    #field int64 TimeStamp
+#endstruct
+
+#defstruct D3DDDI_OPENALLOCATIONINFO
+    #field int hAllocation
+    #field var pPrivateDriverData
+    #field int PrivateDriverDataSize
+#endstruct
+
+#defstruct D3DDDI_OPENALLOCATIONINFO2
+    #field int hAllocation
+    #field var pPrivateDriverData
+    #field int PrivateDriverDataSize
+    #field int64 GpuVirtualAddress
+    #field int Reserved
+#endstruct
+
+#defstruct D3DDDI_SYNCHRONIZATIONOBJECTINFO
+    #field int Type
+    #field int Anonymous
+    #field int SynchronizationMutex
+    #field int Semaphore
+    #field int Reserved
+    #field int MaxCount
+    #field int InitialCount
+    #field int Reserved
+#endstruct
+
+#defstruct _Anonymous_e__Union
+    #field int LockObject
+    #field int ThreadObject
+    #field int ObjectName
+    #field int64 Timeout
+    #field int Alertable
+    #field int ProcessId
+    #field int ThreadId
+    #field int WaitTime
+    #field int ContextSwitches
+#endstruct
+
+#defstruct _Semaphore_e__Struct
+    #field int MaxCount
+    #field int InitialCount
+#endstruct
+
+#defstruct _Reserved_e__Struct
+    #field int Reserved
+#endstruct
+
+#defstruct D3DDDI_TRIMRESIDENCYSET_FLAGS
+    #field var Anonymous
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
+#defstruct D3DDDICB_SIGNALFLAGS
+    #field var Anonymous
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
+#defstruct D3DKMT_CREATEALLOCATION
+    #field int hDevice
+    #field int hResource
+    #field int hGlobalShare
+    #field var pPrivateRuntimeData
+    #field int PrivateRuntimeDataSize
+    #field var Anonymous1
+    #field int PrivateDriverDataSize
+    #field int NumAllocations
+    #field var Anonymous2
+    #field int Flags
+    #field var pStandardAllocation
+    #field var pPrivateDriverData
+    #field var pAllocationInfo
+    #field var pAllocationInfo2
+#endstruct
+
+#defstruct D3DKMT_CREATEALLOCATIONFLAGS
+    #field int _bitfield
+#endstruct
+
+#defstruct D3DKMT_CREATESTANDARDALLOCATION
+    #field int Type
+    #field var Anonymous
+    #field int Flags
+    #field int ExistingHeapData
+#endstruct
+
+#defstruct D3DKMT_CREATESTANDARDALLOCATIONFLAGS
+    #field var Anonymous
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
+#defstruct D3DKMT_CREATESYNCHRONIZATIONOBJECT
+    #field int hDevice
+    #field var Info
+    #field int hSyncObject
+#endstruct
+
+#defstruct D3DKMT_OPENADAPTERFROMGDIDISPLAYNAME
+    #field int DeviceName
+    #field int hAdapter
+    #field int VidPnSourceId
+#endstruct
+
+#defstruct D3DKMT_OPENADAPTERFROMHDC
+    #field int hAdapter
+    #field int VidPnSourceId
+#endstruct
+
+#defstruct D3DKMT_OPENRESOURCE
+    #field int hDevice
+    #field int hGlobalShare
+    #field int NumAllocations
+    #field var Anonymous
+    #field var pPrivateRuntimeData
+    #field int PrivateRuntimeDataSize
+    #field var pResourcePrivateDriverData
+    #field int ResourcePrivateDriverDataSize
+    #field var pTotalPrivateDriverDataBuffer
+    #field int TotalPrivateDriverDataBufferSize
+    #field int hResource
+    #field var pOpenAllocationInfo
+    #field var pOpenAllocationInfo2
+#endstruct
+
+#defstruct D3DKMT_REGISTERTRIMNOTIFICATION
+    #field int hDevice
+    #field var Context
+    #field var Handle
+#endstruct
+
+#defstruct D3DKMT_SETDISPLAYPRIVATEDRIVERFORMAT
+    #field int hDevice
+    #field int VidPnSourceId
+    #field int PrivateDriverFormatAttribute
+#endstruct
+
+#defstruct D3DKMT_SETVIDPNSOURCEOWNER
+    #field int hDevice
+    #field var pType
+    #field var pVidPnSourceId
+    #field int VidPnSourceCount
+#endstruct
+
+#defstruct D3DKMT_SETVIDPNSOURCEOWNER1
+    #field var Version0
+    #field int Flags
+#endstruct
+
+#defstruct D3DKMT_SIGNALSYNCHRONIZATIONOBJECT
+    #field int hContext
+    #field int ObjectCount
+    #field int ObjectHandleArray
+    #field var Flags
+#endstruct
+
+#defstruct D3DKMT_STANDARDALLOCATION_EXISTINGHEAP
+    #field int Size
+#endstruct
+
+#defstruct D3DKMT_TRIMNOTIFICATION
+    #field var Context
+    #field var Flags
+    #field int64 NumBytesToTrim
+#endstruct
+
+#defstruct D3DKMT_UNREGISTERTRIMNOTIFICATION
+    #field var Handle
+#endstruct
+
+#defstruct D3DKMT_VIDPNSOURCEOWNER_FLAGS
+    #field var Anonymous
+    #field var Anonymous
+    #field int Value
+    #field int _bitfield
+#endstruct
+
+#defstruct D3DKMT_WAITFORSYNCHRONIZATIONOBJECT
+    #field int hContext
+    #field int ObjectCount
+    #field int ObjectHandleArray
+#endstruct
+
+#defstruct ABC
+    #field int abcA
+    #field int abcB
+    #field int abcC
+#endstruct
+
+#defstruct ABCFLOAT
+    #field float abcfA
+    #field float abcfB
+    #field float abcfC
+#endstruct
+
+#defstruct ACCEL
+    #field int fVirt
+    #field int key
+    #field int cmd
+#endstruct
+
+#defstruct ACL
+    #field int AclRevision
+    #field int Sbz1
+    #field int AclSize
+    #field int AceCount
+    #field int Sbz2
+#endstruct
+
+#defstruct ACTCTX_SECTION_KEYED_DATA
+    #field int cbSize
+    #field int ulDataFormatVersion
+    #field var lpData
+    #field int ulLength
+    #field var lpSectionGlobalData
+    #field int ulSectionGlobalDataLength
+    #field var lpSectionBase
+    #field int ulSectionTotalLength
+    #field intptr hActCtx
+    #field int ulAssemblyRosterIndex
+    #field int ulFlags
+    #field int AssemblyMetadata
+#endstruct
+
+#defstruct ACTCTX_SECTION_KEYED_DATA_ASSEMBLY_METADATA
+    #field var lpInformation
+    #field var lpSectionBase
+    #field int ulSectionLength
+    #field var lpSectionGlobalDataBase
+    #field int ulSectionGlobalDataLength
+#endstruct
+
+#defstruct ACTCTXW
+    #field int cbSize
+    #field int dwFlags
+    #field wstr lpSource
+    #field int wProcessorArchitecture
+    #field int wLangId
+    #field wstr lpAssemblyDirectory
+    #field wstr lpResourceName
+    #field wstr lpApplicationName
+    #field intptr hModule
+#endstruct
+
 #defstruct ADDRESS64
     #field int64 Offset
     #field int Segment
     #field int Mode
+#endstruct
+
+#defstruct ALTTABINFO
+    #field int cbSize
+    #field int cItems
+    #field int cColumns
+    #field int cRows
+    #field int iColFocus
+    #field int iRowFocus
+    #field int cxItem
+    #field int cyItem
+#endstruct
+
+#defstruct API_VERSION
+    #field int MajorVersion
+    #field int MinorVersion
+    #field int Revision
+    #field int Reserved
+#endstruct
+
+#defstruct APP_CACHE_DOWNLOAD_ENTRY
+    #field wstr pwszUrl
+    #field int dwEntryType
+#endstruct
+
+#defstruct APP_CACHE_DOWNLOAD_LIST
+    #field int dwEntryCount
+    #field var pEntries
+#endstruct
+
+#defstruct APP_CACHE_GROUP_INFO
+    #field wstr pwszManifestUrl
+    #field int64 ullSize
+#endstruct
+
+#defstruct APP_CACHE_GROUP_LIST
+    #field int dwAppCacheGroupCount
+    #field var pAppCacheGroups
+#endstruct
+
+#defstruct APPCATEGORYINFO
+    #field int Locale
+    #field wstr pszDescription
+#endstruct
+
+#defstruct APPCATEGORYINFOLIST
+    #field int cCategory
+    #field var pCategoryInfo
+#endstruct
+
+#defstruct ARRAYDESC
+    #field int tdescElem
+    #field int cDims
+#endstruct
+
+#defstruct AUDIT_POLICY_INFORMATION
+    #field int AuditingInformation
+#endstruct
+
+#defstruct AUTO_SCROLL_DATA
+    #field int iNextSample
+    #field int dwLastScroll
+    #field int bFull
+    #field int pts
+    #field int dwTimes
+#endstruct
+
+#defstruct AUXCAPSW
+    #field int wMid
+    #field int wPid
+    #field int vDriverVersion
+    #field int szPname
+    #field int wTechnology
+    #field int wReserved1
+    #field int dwSupport
+#endstruct
+
+#defstruct BCRYPT_ALGORITHM_IDENTIFIER
+    #field wstr pszName
+    #field int dwClass
+    #field int dwFlags
+#endstruct
+
+#defstruct BCRYPT_PROVIDER_NAME
+    #field wstr pszProviderName
+#endstruct
+
+#defstruct BCryptBuffer
+    #field int cbBuffer
+    #field int BufferType
+    #field var pvBuffer
+#endstruct
+
+#defstruct BCryptBufferDesc
+    #field int ulVersion
+    #field int cBuffers
+    #field var pBuffers
+#endstruct
+
+#defstruct BIND_OPTS
+    #field int cbStruct
+    #field int grfFlags
+    #field int grfMode
+    #field int dwTickCountDeadline
+#endstruct
+
+#defstruct BINDINFO
+    #field int cbSize
+    #field wstr szExtraInfo
+    #field int stgmedData
+    #field int grfBindInfoF
+    #field int dwBindVerb
+    #field wstr szCustomVerb
+    #field int cbstgmedData
+    #field int dwOptions
+    #field int dwOptionsFlags
+    #field int dwCodePage
+    #field int securityAttributes
+    #field var pUnk
+    #field int dwReserved
+#endstruct
+
+#defstruct BINDPTR
+    #field var lpfuncdesc
+    #field var lpvardesc
+    #field var lptcomp
+#endstruct
+
+#defstruct BITMAP
+    #field int bmType
+    #field int bmWidth
+    #field int bmHeight
+    #field int bmWidthBytes
+    #field int bmPlanes
+    #field int bmBitsPixel
+    #field var bmBits
 #endstruct
 
 #defstruct BITMAPINFO
@@ -42,6 +479,29 @@
     #field int AlphaFormat
 #endstruct
 
+#defstruct BLENDOBJ
+    #field var BlendFunction
+#endstruct
+
+#defstruct BLOB
+    #field int cbSize
+    #field var pBlobData
+#endstruct
+
+#defstruct BP_ANIMATIONPARAMS
+    #field int cbSize
+    #field int dwFlags
+    #field int style
+    #field int dwDuration
+#endstruct
+
+#defstruct BP_PAINTPARAMS
+    #field int cbSize
+    #field int dwFlags
+    #field var prcExclude
+    #field var pBlendFunction
+#endstruct
+
 #defstruct BROWSEINFOW
     #field intptr hwndOwner
     #field var pidlRoot
@@ -52,10 +512,263 @@
     #field int iImage
 #endstruct
 
+#defstruct BRUSHOBJ
+    #field int iSolidColor
+    #field var pvRbrush
+    #field int flColorType
+#endstruct
+
+#defstruct BSMINFO
+    #field int cbSize
+    #field intptr hdesk
+    #field intptr hwnd
+    #field int luid
+#endstruct
+
+#defstruct BSTRBLOB
+    #field int cbSize
+    #field var pData
+#endstruct
+
+#defstruct BY_HANDLE_FILE_INFORMATION
+    #field int dwFileAttributes
+    #field int dwVolumeSerialNumber
+    #field int nFileSizeHigh
+    #field int nFileSizeLow
+    #field int nNumberOfLinks
+    #field int nFileIndexHigh
+    #field int nFileIndexLow
+#endstruct
+
+#defstruct CABINETSTATE
+    #field int cLength
+    #field int nVersion
+    #field int _bitfield
+    #field int fMenuEnumFilter
+#endstruct
+
+#defstruct CABOOL
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CABSTR
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CABSTRBLOB
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CAC
+    #field int cElems
+    #field str pElems
+#endstruct
+
+#defstruct CACHE_DESCRIPTOR
+    #field int Level
+    #field int Associativity
+    #field int LineSize
+    #field int Size
+    #field int Type
+#endstruct
+
+#defstruct CACLIPDATA
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CACLSID
+    #field int cElems
+#endstruct
+
+#defstruct CACY
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CADATE
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CADBL
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CAFILETIME
+    #field int cElems
+#endstruct
+
+#defstruct CAFLT
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CAH
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CAI
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CAL
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CALDATETIME
+    #field int CalId
+    #field int Era
+    #field int Year
+    #field int Month
+    #field int Day
+    #field int DayOfWeek
+    #field int Hour
+    #field int Minute
+    #field int Second
+    #field int Tick
+#endstruct
+
+#defstruct CALPSTR
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CALPWSTR
+    #field int cElems
+    #field var pElems
+#endstruct
+
 #defstruct CANDIDATEFORM
     #field int dwIndex
     #field int dwStyle
     #field int rcArea
+#endstruct
+
+#defstruct CANDIDATELIST
+    #field int dwSize
+    #field int dwStyle
+    #field int dwCount
+    #field int dwSelection
+    #field int dwPageStart
+    #field int dwPageSize
+#endstruct
+
+#defstruct CAPROPVARIANT
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CASCODE
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CAUB
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CAUH
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CAUI
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CAUL
+    #field int cElems
+    #field var pElems
+#endstruct
+
+#defstruct CENTRAL_ACCESS_POLICY
+    #field int CAPID
+    #field int Name
+    #field int Description
+    #field int ChangeId
+    #field int Flags
+    #field int CAPECount
+    #field var CAPEs
+#endstruct
+
+#defstruct CENTRAL_ACCESS_POLICY_ENTRY
+    #field int Name
+    #field int Description
+    #field int ChangeId
+    #field int LengthAppliesTo
+    #field var AppliesTo
+    #field int LengthSD
+    #field int SD
+    #field int LengthStagedSD
+    #field int StagedSD
+    #field int Flags
+#endstruct
+
+#defstruct CERT_CHAIN_CONTEXT
+    #field int cbSize
+    #field int TrustStatus
+    #field int cChain
+    #field var rgpChain
+    #field int cLowerQualityChainContext
+    #field var rgpLowerQualityChainContext
+    #field int fHasRevocationFreshnessTime
+    #field int dwRevocationFreshnessTime
+    #field int dwCreateFlags
+#endstruct
+
+#defstruct CERT_CHAIN_ELEMENT
+    #field int cbSize
+    #field var pCertContext
+    #field int TrustStatus
+    #field var pRevocationInfo
+    #field var pIssuanceUsage
+    #field var pApplicationUsage
+    #field wstr pwszExtendedErrorInfo
+#endstruct
+
+#defstruct CERT_CHAIN_ENGINE_CONFIG
+    #field int cbSize
+    #field int hRestrictedRoot
+    #field int hRestrictedTrust
+    #field int hRestrictedOther
+    #field int cAdditionalStore
+    #field var rghAdditionalStore
+    #field int dwFlags
+    #field int dwUrlRetrievalTimeout
+    #field int MaximumCachedCertificates
+    #field int CycleDetectionModulus
+    #field int hExclusiveRoot
+    #field int hExclusiveTrustedPeople
+    #field int dwExclusiveFlags
+#endstruct
+
+#defstruct CERT_CHAIN_PARA
+    #field int cbSize
+    #field int RequestedUsage
+#endstruct
+
+#defstruct CERT_CHAIN_POLICY_PARA
+    #field int cbSize
+    #field int dwFlags
+    #field var pvExtraPolicyPara
+#endstruct
+
+#defstruct CERT_CHAIN_POLICY_STATUS
+    #field int cbSize
+    #field int dwError
+    #field int lChainIndex
+    #field int lElementIndex
+    #field var pvExtraPolicyStatus
 #endstruct
 
 #defstruct CERT_CONTEXT
@@ -66,10 +779,21 @@
     #field int hCertStore
 #endstruct
 
+#defstruct CERT_CREATE_CONTEXT_PARA
+    #field int cbSize
+    #field var pvFree
+    #field var pvSort
+#endstruct
+
 #defstruct CERT_EXTENSION
     #field str pszObjId
     #field int fCritical
     #field int Value
+#endstruct
+
+#defstruct CERT_EXTENSIONS
+    #field int cExtension
+    #field var rgExtension
 #endstruct
 
 #defstruct CERT_INFO
@@ -85,9 +809,352 @@
     #field var rgExtension
 #endstruct
 
+#defstruct CERT_NAME_INFO
+    #field int cRDN
+    #field var rgRDN
+#endstruct
+
+#defstruct CERT_PHYSICAL_STORE_INFO
+    #field int cbSize
+    #field str pszOpenStoreProvider
+    #field int dwOpenEncodingType
+    #field int dwOpenFlags
+    #field int OpenParameters
+    #field int dwFlags
+    #field int dwPriority
+#endstruct
+
 #defstruct CERT_PUBLIC_KEY_INFO
     #field int Algorithm
     #field int PublicKey
+#endstruct
+
+#defstruct CERT_RDN
+    #field int cRDNAttr
+    #field var rgRDNAttr
+#endstruct
+
+#defstruct CERT_RDN_ATTR
+    #field str pszObjId
+    #field int Value
+#endstruct
+
+#defstruct CERT_REVOCATION_CRL_INFO
+    #field int cbSize
+    #field var pBaseCrlContext
+    #field var pDeltaCrlContext
+    #field var pCrlEntry
+    #field int fDeltaCrlEntry
+#endstruct
+
+#defstruct CERT_REVOCATION_INFO
+    #field int cbSize
+    #field int dwRevocationResult
+    #field str pszRevocationOid
+    #field var pvOidSpecificInfo
+    #field int fHasFreshnessTime
+    #field int dwFreshnessTime
+    #field var pCrlInfo
+#endstruct
+
+#defstruct CERT_REVOCATION_PARA
+    #field int cbSize
+    #field var pIssuerCert
+    #field int cCertStore
+    #field var rgCertStore
+    #field int hCrlStore
+#endstruct
+
+#defstruct CERT_REVOCATION_STATUS
+    #field int cbSize
+    #field int dwIndex
+    #field int dwError
+    #field int dwReason
+    #field int fHasFreshnessTime
+    #field int dwFreshnessTime
+#endstruct
+
+#defstruct CERT_SELECT_CHAIN_PARA
+    #field intptr hChainEngine
+    #field int hAdditionalStore
+    #field var pChainPara
+    #field int dwFlags
+#endstruct
+
+#defstruct CERT_SELECT_CRITERIA
+    #field int dwType
+    #field int cPara
+    #field var ppPara
+#endstruct
+
+#defstruct CERT_SERVER_OCSP_RESPONSE_CONTEXT
+    #field int cbSize
+    #field var pbEncodedOcspResponse
+    #field int cbEncodedOcspResponse
+#endstruct
+
+#defstruct CERT_SERVER_OCSP_RESPONSE_OPEN_PARA
+    #field int cbSize
+    #field int dwFlags
+    #field var pcbUsedSize
+    #field wstr pwszOcspDirectory
+    #field var pvUpdateCallbackArg
+#endstruct
+
+#defstruct CERT_SIMPLE_CHAIN
+    #field int cbSize
+    #field int TrustStatus
+    #field int cElement
+    #field var rgpElement
+    #field var pTrustListInfo
+    #field int fHasRevocationFreshnessTime
+    #field int dwRevocationFreshnessTime
+#endstruct
+
+#defstruct CERT_STRONG_SIGN_PARA
+    #field int cbSize
+    #field int dwInfoChoice
+    #field var Anonymous
+    #field var pvInfo
+    #field var pSerializedInfo
+    #field str pszOID
+#endstruct
+
+#defstruct CERT_STRONG_SIGN_SERIALIZED_INFO
+    #field int dwFlags
+    #field wstr pwszCNGSignHashAlgids
+    #field wstr pwszCNGPubKeyMinBitLengths
+#endstruct
+
+#defstruct CERT_SYSTEM_STORE_INFO
+    #field int cbSize
+#endstruct
+
+#defstruct CERT_TRUST_LIST_INFO
+    #field int cbSize
+    #field var pCtlEntry
+    #field var pCtlContext
+#endstruct
+
+#defstruct CERT_TRUST_STATUS
+    #field int dwErrorStatus
+    #field int dwInfoStatus
+#endstruct
+
+#defstruct CERT_USAGE_MATCH
+    #field int dwType
+    #field int Usage
+#endstruct
+
+#defstruct CHANGEFILTERSTRUCT
+    #field int cbSize
+    #field int ExtStatus
+#endstruct
+
+#defstruct CHAR_INFO
+    #field int Char
+    #field int Attributes
+    #field int UnicodeChar
+    #field int AsciiChar
+#endstruct
+
+#defstruct _Char_e__Union
+    #field int UnicodeChar
+    #field int AsciiChar
+#endstruct
+
+#defstruct CHARSETINFO
+    #field int ciCharset
+    #field int ciACP
+    #field int fs
+#endstruct
+
+#defstruct CIEXYZ
+    #field int ciexyzX
+    #field int ciexyzY
+    #field int ciexyzZ
+#endstruct
+
+#defstruct CIEXYZTRIPLE
+    #field var ciexyzRed
+    #field var ciexyzGreen
+    #field var ciexyzBlue
+#endstruct
+
+#defstruct CLAIM_SECURITY_ATTRIBUTE_FQBN_VALUE
+    #field int64 Version
+    #field wstr Name
+#endstruct
+
+#defstruct CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_VALUE
+    #field var pValue
+    #field int ValueLength
+#endstruct
+
+#defstruct CLAIM_SECURITY_ATTRIBUTE_V1
+    #field wstr Name
+    #field int ValueType
+    #field int Reserved
+    #field int Flags
+    #field int ValueCount
+    #field int Values
+    #field var pInt64
+    #field var pUint64
+    #field var ppString
+    #field var pFqbn
+    #field var pOctetString
+#endstruct
+
+#defstruct _Values_e__Union
+    #field var pInt64
+    #field var pUint64
+    #field var ppString
+    #field var pFqbn
+    #field var pOctetString
+#endstruct
+
+#defstruct CLAIM_SECURITY_ATTRIBUTES_INFORMATION
+    #field int Version
+    #field int Reserved
+    #field int AttributeCount
+    #field int Attribute
+    #field var pAttributeV1
+#endstruct
+
+#defstruct _Attribute_e__Union
+    #field var pAttributeV1
+#endstruct
+
+#defstruct CLIPDATA
+    #field int cbSize
+    #field int ulClipFmt
+    #field var pClipData
+#endstruct
+
+#defstruct CLIPLINE
+    #field int ptfxA
+    #field int ptfxB
+    #field int lStyleState
+    #field int c
+#endstruct
+
+#defstruct CLIPOBJ
+    #field int iUniq
+    #field int rclBounds
+    #field int iDComplexity
+    #field int iFComplexity
+    #field int iMode
+    #field int fjOptions
+#endstruct
+
+#defstruct CMINVOKECOMMANDINFO
+    #field int cbSize
+    #field int fMask
+    #field intptr hwnd
+    #field str lpVerb
+    #field str lpParameters
+    #field str lpDirectory
+    #field int nShow
+    #field int dwHotKey
+    #field intptr hIcon
+#endstruct
+
+#defstruct CMSG_SIGNED_ENCODE_INFO
+    #field int cbSize
+    #field int cSigners
+    #field var rgSigners
+    #field int cCertEncoded
+    #field var rgCertEncoded
+    #field int cCrlEncoded
+    #field var rgCrlEncoded
+#endstruct
+
+#defstruct CMSG_SIGNER_ENCODE_INFO
+    #field int cbSize
+    #field var pCertInfo
+    #field var Anonymous
+    #field int dwKeySpec
+    #field int HashAlgorithm
+    #field var pvHashAuxInfo
+    #field int cAuthAttr
+    #field var rgAuthAttr
+    #field int cUnauthAttr
+    #field var rgUnauthAttr
+    #field int hCryptProv
+    #field int hNCryptKey
+#endstruct
+
+#defstruct CMSG_STREAM_INFO
+    #field int cbContent
+    #field var pvArg
+#endstruct
+
+#defstruct COLORADJUSTMENT
+    #field int caSize
+    #field int caFlags
+    #field int caIlluminantIndex
+    #field int caRedGamma
+    #field int caGreenGamma
+    #field int caBlueGamma
+    #field int caReferenceBlack
+    #field int caReferenceWhite
+    #field int caContrast
+    #field int caBrightness
+    #field int caColorfulness
+    #field int caRedGreenTint
+#endstruct
+
+#defstruct COLORMAP
+    #field int from
+    #field int to
+#endstruct
+
+#defstruct COMBOBOXINFO
+    #field int cbSize
+    #field int rcItem
+    #field int rcButton
+    #field int stateButton
+    #field intptr hwndCombo
+    #field intptr hwndItem
+    #field intptr hwndList
+#endstruct
+
+#defstruct COMMCONFIG
+    #field int dwSize
+    #field int wVersion
+    #field int wReserved
+    #field int dcb
+    #field int dwProviderSubType
+    #field int dwProviderOffset
+    #field int dwProviderSize
+#endstruct
+
+#defstruct COMMPROP
+    #field int wPacketLength
+    #field int wPacketVersion
+    #field int dwServiceMask
+    #field int dwReserved1
+    #field int dwMaxTxQueue
+    #field int dwMaxRxQueue
+    #field int dwMaxBaud
+    #field int dwProvSubType
+    #field int dwProvCapabilities
+    #field int dwSettableParams
+    #field int dwSettableBaud
+    #field int wSettableData
+    #field int wSettableStopParity
+    #field int dwCurrentTxQueue
+    #field int dwCurrentRxQueue
+    #field int dwProvSpec1
+    #field int dwProvSpec2
+#endstruct
+
+#defstruct COMMTIMEOUTS
+    #field int ReadIntervalTimeout
+    #field int ReadTotalTimeoutMultiplier
+    #field int ReadTotalTimeoutConstant
+    #field int WriteTotalTimeoutMultiplier
+    #field int WriteTotalTimeoutConstant
 #endstruct
 
 #defstruct COMPOSITIONFORM
@@ -95,9 +1162,416 @@
     #field int rcArea
 #endstruct
 
+#defstruct COMSTAT
+    #field int _bitfield
+    #field int cbInQue
+    #field int cbOutQue
+#endstruct
+
+#defstruct CONSOLE_CURSOR_INFO
+    #field int dwSize
+    #field int bVisible
+#endstruct
+
+#defstruct CONSOLE_FONT_INFO
+    #field int nFont
+    #field int dwFontSize
+#endstruct
+
+#defstruct CONSOLE_FONT_INFOEX
+    #field int cbSize
+    #field int nFont
+    #field int dwFontSize
+    #field int FontFamily
+    #field int FontWeight
+    #field int FaceName
+#endstruct
+
+#defstruct CONSOLE_HISTORY_INFO
+    #field int cbSize
+    #field int HistoryBufferSize
+    #field int NumberOfHistoryBuffers
+    #field int dwFlags
+#endstruct
+
+#defstruct CONSOLE_READCONSOLE_CONTROL
+    #field int nLength
+    #field int nInitialChars
+    #field int dwCtrlWakeupMask
+    #field int dwControlKeyState
+#endstruct
+
+#defstruct CONSOLE_SCREEN_BUFFER_INFO
+    #field int dwSize
+    #field int dwCursorPosition
+    #field int wAttributes
+    #field int srWindow
+    #field int dwMaximumWindowSize
+#endstruct
+
+#defstruct CONSOLE_SCREEN_BUFFER_INFOEX
+    #field int cbSize
+    #field int dwSize
+    #field int dwCursorPosition
+    #field int wAttributes
+    #field int srWindow
+    #field int dwMaximumWindowSize
+    #field int wPopupAttributes
+    #field int bFullscreenSupported
+    #field int ColorTable
+#endstruct
+
+#defstruct CONSOLE_SELECTION_INFO
+    #field int dwFlags
+    #field int dwSelectionAnchor
+    #field int srSelection
+#endstruct
+
+#defstruct CONVCONTEXT
+    #field int cb
+    #field int wFlags
+    #field int wCountryID
+    #field int iCodePage
+    #field int dwLangID
+    #field int dwSecurity
+    #field int qos
+#endstruct
+
+#defstruct CONVINFO
+    #field int cb
+    #field int hUser
+    #field intptr hConvPartner
+    #field intptr hszSvcPartner
+    #field intptr hszServiceReq
+    #field intptr hszTopic
+    #field intptr hszItem
+    #field int wFmt
+    #field int wType
+    #field int wStatus
+    #field int wConvst
+    #field int wLastError
+    #field intptr hConvList
+    #field var ConvCtxt
+    #field intptr hwnd
+    #field intptr hwndPartner
+#endstruct
+
+#defstruct COORD
+    #field int X
+    #field int Y
+#endstruct
+
+#defstruct COPYFILE2_EXTENDED_PARAMETERS
+    #field int dwSize
+    #field int dwCopyFlags
+    #field var pfCancel
+    #field var pvCallbackContext
+#endstruct
+
+#defstruct COPYFILE2_MESSAGE
+    #field int Type
+    #field int dwPadding
+    #field int Info
+    #field int ChunkStarted
+    #field int ChunkFinished
+    #field int StreamStarted
+    #field int StreamFinished
+    #field int PollContinue
+    #field int Error
+    #field int dwStreamNumber
+    #field int dwReserved
+    #field intptr hSourceFile
+    #field intptr hDestinationFile
+    #field int64 uliChunkNumber
+    #field int64 uliChunkSize
+    #field int64 uliStreamSize
+    #field int64 uliTotalFileSize
+    #field int dwStreamNumber
+    #field int dwFlags
+    #field intptr hSourceFile
+    #field intptr hDestinationFile
+    #field int64 uliChunkNumber
+    #field int64 uliChunkSize
+    #field int64 uliStreamSize
+    #field int64 uliStreamBytesTransferred
+    #field int64 uliTotalFileSize
+    #field int64 uliTotalBytesTransferred
+    #field int dwStreamNumber
+    #field int dwReserved
+    #field intptr hSourceFile
+    #field intptr hDestinationFile
+    #field int64 uliStreamSize
+    #field int64 uliTotalFileSize
+    #field int dwStreamNumber
+    #field int dwReserved
+    #field intptr hSourceFile
+    #field intptr hDestinationFile
+    #field int64 uliStreamSize
+    #field int64 uliStreamBytesTransferred
+    #field int64 uliTotalFileSize
+    #field int64 uliTotalBytesTransferred
+    #field int dwReserved
+    #field int CopyPhase
+    #field int dwStreamNumber
+    #field intptr hrFailure
+    #field int dwReserved
+    #field int64 uliChunkNumber
+    #field int64 uliStreamSize
+    #field int64 uliStreamBytesTransferred
+    #field int64 uliTotalFileSize
+    #field int64 uliTotalBytesTransferred
+#endstruct
+
+#defstruct _Info_e__Union
+    #field int ChunkStarted
+    #field int ChunkFinished
+    #field int StreamStarted
+    #field int StreamFinished
+    #field int PollContinue
+    #field int Error
+    #field int dwStreamNumber
+    #field int dwReserved
+    #field intptr hSourceFile
+    #field intptr hDestinationFile
+    #field int64 uliChunkNumber
+    #field int64 uliChunkSize
+    #field int64 uliStreamSize
+    #field int64 uliTotalFileSize
+    #field int dwStreamNumber
+    #field int dwFlags
+    #field intptr hSourceFile
+    #field intptr hDestinationFile
+    #field int64 uliChunkNumber
+    #field int64 uliChunkSize
+    #field int64 uliStreamSize
+    #field int64 uliStreamBytesTransferred
+    #field int64 uliTotalFileSize
+    #field int64 uliTotalBytesTransferred
+    #field int dwStreamNumber
+    #field int dwReserved
+    #field intptr hSourceFile
+    #field intptr hDestinationFile
+    #field int64 uliStreamSize
+    #field int64 uliTotalFileSize
+    #field int dwStreamNumber
+    #field int dwReserved
+    #field intptr hSourceFile
+    #field intptr hDestinationFile
+    #field int64 uliStreamSize
+    #field int64 uliStreamBytesTransferred
+    #field int64 uliTotalFileSize
+    #field int64 uliTotalBytesTransferred
+    #field int dwReserved
+    #field int CopyPhase
+    #field int dwStreamNumber
+    #field intptr hrFailure
+    #field int dwReserved
+    #field int64 uliChunkNumber
+    #field int64 uliStreamSize
+    #field int64 uliStreamBytesTransferred
+    #field int64 uliTotalFileSize
+    #field int64 uliTotalBytesTransferred
+#endstruct
+
+#defstruct _ChunkStarted_e__Struct
+    #field int dwStreamNumber
+    #field int dwReserved
+    #field intptr hSourceFile
+    #field intptr hDestinationFile
+    #field int64 uliChunkNumber
+    #field int64 uliChunkSize
+    #field int64 uliStreamSize
+    #field int64 uliTotalFileSize
+#endstruct
+
+#defstruct _ChunkFinished_e__Struct
+    #field int dwStreamNumber
+    #field int dwFlags
+    #field intptr hSourceFile
+    #field intptr hDestinationFile
+    #field int64 uliChunkNumber
+    #field int64 uliChunkSize
+    #field int64 uliStreamSize
+    #field int64 uliStreamBytesTransferred
+    #field int64 uliTotalFileSize
+    #field int64 uliTotalBytesTransferred
+#endstruct
+
+#defstruct _StreamStarted_e__Struct
+    #field int dwStreamNumber
+    #field int dwReserved
+    #field intptr hSourceFile
+    #field intptr hDestinationFile
+    #field int64 uliStreamSize
+    #field int64 uliTotalFileSize
+#endstruct
+
+#defstruct _StreamFinished_e__Struct
+    #field int dwStreamNumber
+    #field int dwReserved
+    #field intptr hSourceFile
+    #field intptr hDestinationFile
+    #field int64 uliStreamSize
+    #field int64 uliStreamBytesTransferred
+    #field int64 uliTotalFileSize
+    #field int64 uliTotalBytesTransferred
+#endstruct
+
+#defstruct _PollContinue_e__Struct
+    #field int dwReserved
+#endstruct
+
+#defstruct _Error_e__Struct
+    #field int CopyPhase
+    #field int dwStreamNumber
+    #field intptr hrFailure
+    #field int dwReserved
+    #field int64 uliChunkNumber
+    #field int64 uliStreamSize
+    #field int64 uliStreamBytesTransferred
+    #field int64 uliTotalFileSize
+    #field int64 uliTotalBytesTransferred
+#endstruct
+
+#defstruct CPINFO
+    #field int MaxCharSize
+    #field int DefaultChar
+    #field int LeadByte
+#endstruct
+
+#defstruct CPINFOEXW
+    #field int MaxCharSize
+    #field int DefaultChar
+    #field int LeadByte
+    #field int UnicodeDefaultChar
+    #field int CodePage
+    #field int CodePageName
+#endstruct
+
+#defstruct CREATE_PROCESS_DEBUG_INFO
+    #field intptr hFile
+    #field intptr hProcess
+    #field intptr hThread
+    #field var lpBaseOfImage
+    #field int dwDebugInfoFileOffset
+    #field int nDebugInfoSize
+    #field var lpThreadLocalBase
+    #field var lpImageName
+    #field int fUnicode
+#endstruct
+
+#defstruct CREATE_THREAD_DEBUG_INFO
+    #field intptr hThread
+    #field var lpThreadLocalBase
+#endstruct
+
+#defstruct CREATEFILE2_EXTENDED_PARAMETERS
+    #field int dwSize
+    #field int dwFileAttributes
+    #field int dwFileFlags
+    #field int dwSecurityQosFlags
+    #field var lpSecurityAttributes
+    #field intptr hTemplateFile
+#endstruct
+
+#defstruct CREDENTIAL_ATTRIBUTEW
+    #field wstr Keyword
+    #field int Flags
+    #field int ValueSize
+    #field var Value
+#endstruct
+
+#defstruct CREDENTIAL_TARGET_INFORMATIONW
+    #field wstr TargetName
+    #field wstr NetbiosServerName
+    #field wstr DnsServerName
+    #field wstr NetbiosDomainName
+    #field wstr DnsDomainName
+    #field wstr DnsTreeName
+    #field wstr PackageName
+    #field int Flags
+    #field int CredTypeCount
+    #field var CredTypes
+#endstruct
+
+#defstruct CREDENTIALW
+    #field int Flags
+    #field int Type
+    #field wstr TargetName
+    #field wstr Comment
+    #field int CredentialBlobSize
+    #field var CredentialBlob
+    #field int Persist
+    #field int AttributeCount
+    #field var Attributes
+    #field wstr TargetAlias
+    #field wstr UserName
+#endstruct
+
+#defstruct CRITICAL_SECTION
+    #field var DebugInfo
+    #field int LockCount
+    #field int RecursionCount
+    #field intptr OwningThread
+    #field intptr LockSemaphore
+    #field int SpinCount
+#endstruct
+
+#defstruct CRITICAL_SECTION_DEBUG
+    #field int Type
+    #field int CreatorBackTraceIndex
+    #field var CriticalSection
+    #field int ProcessLocksList
+    #field int EntryCount
+    #field int ContentionCount
+    #field int Flags
+    #field int CreatorBackTraceIndexHigh
+    #field int Identifier
+#endstruct
+
+#defstruct CRL_CONTEXT
+    #field int dwCertEncodingType
+    #field var pbCrlEncoded
+    #field int cbCrlEncoded
+    #field var pCrlInfo
+    #field int hCertStore
+#endstruct
+
+#defstruct CRL_ENTRY
+    #field int SerialNumber
+    #field int cExtension
+    #field var rgExtension
+#endstruct
+
+#defstruct CRL_INFO
+    #field int dwVersion
+    #field int SignatureAlgorithm
+    #field int Issuer
+    #field int cCRLEntry
+    #field var rgCRLEntry
+    #field int cExtension
+    #field var rgExtension
+#endstruct
+
 #defstruct CRYPT_ALGORITHM_IDENTIFIER
     #field str pszObjId
     #field int Parameters
+#endstruct
+
+#defstruct CRYPT_ATTRIBUTE
+    #field str pszObjId
+    #field int cValue
+    #field var rgValue
+#endstruct
+
+#defstruct CRYPT_ATTRIBUTE_TYPE_VALUE
+    #field str pszObjId
+    #field int Value
+#endstruct
+
+#defstruct CRYPT_ATTRIBUTES
+    #field int cAttr
+    #field var rgAttr
 #endstruct
 
 #defstruct CRYPT_BIT_BLOB
@@ -106,9 +1580,268 @@
     #field int cUnusedBits
 #endstruct
 
+#defstruct CRYPT_CONTEXT_CONFIG
+    #field int dwFlags
+    #field int dwReserved
+#endstruct
+
+#defstruct CRYPT_CONTEXT_FUNCTION_CONFIG
+    #field int dwFlags
+    #field int dwReserved
+#endstruct
+
+#defstruct CRYPT_CONTEXT_FUNCTION_PROVIDERS
+    #field int cProviders
+    #field var rgpszProviders
+#endstruct
+
+#defstruct CRYPT_CONTEXT_FUNCTIONS
+    #field int cFunctions
+    #field var rgpszFunctions
+#endstruct
+
+#defstruct CRYPT_CONTEXTS
+    #field int cContexts
+    #field var rgpszContexts
+#endstruct
+
+#defstruct CRYPT_DECODE_PARA
+    #field int cbSize
+#endstruct
+
+#defstruct CRYPT_DECRYPT_MESSAGE_PARA
+    #field int cbSize
+    #field int dwMsgAndCertEncodingType
+    #field int cCertStore
+    #field var rghCertStore
+#endstruct
+
+#defstruct CRYPT_ENCODE_PARA
+    #field int cbSize
+#endstruct
+
+#defstruct CRYPT_ENCRYPT_MESSAGE_PARA
+    #field int cbSize
+    #field int dwMsgEncodingType
+    #field int hCryptProv
+    #field var ContentEncryptionAlgorithm
+    #field var pvEncryptionAuxInfo
+    #field int dwFlags
+    #field int dwInnerContentType
+#endstruct
+
+#defstruct CRYPT_HASH_MESSAGE_PARA
+    #field int cbSize
+    #field int dwMsgEncodingType
+    #field int hCryptProv
+    #field var HashAlgorithm
+    #field var pvHashAuxInfo
+#endstruct
+
+#defstruct CRYPT_IMAGE_REF
+    #field wstr pszImage
+    #field int dwFlags
+#endstruct
+
+#defstruct CRYPT_IMAGE_REG
+    #field wstr pszImage
+    #field int cInterfaces
+    #field var rgpInterfaces
+#endstruct
+
 #defstruct CRYPT_INTEGER_BLOB
     #field int cbData
     #field var pbData
+#endstruct
+
+#defstruct CRYPT_INTERFACE_REG
+    #field int dwInterface
+    #field int dwFlags
+    #field int cFunctions
+    #field var rgpszFunctions
+#endstruct
+
+#defstruct CRYPT_KEY_PROV_INFO
+    #field wstr pwszContainerName
+    #field wstr pwszProvName
+    #field int dwProvType
+    #field int dwFlags
+    #field int cProvParam
+    #field var rgProvParam
+    #field int dwKeySpec
+#endstruct
+
+#defstruct CRYPT_KEY_PROV_PARAM
+    #field int dwParam
+    #field var pbData
+    #field int cbData
+    #field int dwFlags
+#endstruct
+
+#defstruct CRYPT_KEY_SIGN_MESSAGE_PARA
+    #field int cbSize
+    #field int dwMsgAndCertEncodingType
+    #field var Anonymous
+    #field int dwKeySpec
+    #field var HashAlgorithm
+    #field var pvHashAuxInfo
+    #field var PubKeyAlgorithm
+    #field int hCryptProv
+    #field int hNCryptKey
+#endstruct
+
+#defstruct CRYPT_KEY_VERIFY_MESSAGE_PARA
+    #field int cbSize
+    #field int dwMsgEncodingType
+    #field int hCryptProv
+#endstruct
+
+#defstruct CRYPT_OID_FUNC_ENTRY
+    #field str pszOID
+    #field var pvFuncAddr
+#endstruct
+
+#defstruct CRYPT_OID_INFO
+    #field int cbSize
+    #field str pszOID
+    #field wstr pwszName
+    #field int dwGroupId
+    #field var Anonymous
+    #field var ExtraInfo
+    #field int dwValue
+    #field int Algid
+    #field int dwLength
+#endstruct
+
+#defstruct CRYPT_PKCS8_IMPORT_PARAMS
+    #field var PrivateKey
+    #field var pVoidResolveFunc
+    #field var pVoidDecryptFunc
+#endstruct
+
+#defstruct CRYPT_PRIVATE_KEY_INFO
+    #field int Version
+    #field var Algorithm
+    #field var PrivateKey
+    #field var pAttributes
+#endstruct
+
+#defstruct CRYPT_PROPERTY_REF
+    #field wstr pszProperty
+    #field int cbValue
+    #field var pbValue
+#endstruct
+
+#defstruct CRYPT_PROVIDER_REF
+    #field int dwInterface
+    #field wstr pszFunction
+    #field wstr pszProvider
+    #field int cProperties
+    #field var rgpProperties
+    #field var pUM
+    #field var pKM
+#endstruct
+
+#defstruct CRYPT_PROVIDER_REFS
+    #field int cProviders
+    #field var rgpProviders
+#endstruct
+
+#defstruct CRYPT_PROVIDER_REG
+    #field int cAliases
+    #field var rgpszAliases
+    #field var pUM
+    #field var pKM
+#endstruct
+
+#defstruct CRYPT_PROVIDERS
+    #field int cProviders
+    #field var rgpszProviders
+#endstruct
+
+#defstruct CRYPT_SIGN_MESSAGE_PARA
+    #field int cbSize
+    #field int dwMsgEncodingType
+    #field var pSigningCert
+    #field var HashAlgorithm
+    #field var pvHashAuxInfo
+    #field int cMsgCert
+    #field var rgpMsgCert
+    #field int cMsgCrl
+    #field var rgpMsgCrl
+    #field int cAuthAttr
+    #field var rgAuthAttr
+    #field int cUnauthAttr
+    #field var rgUnauthAttr
+    #field int dwFlags
+    #field int dwInnerContentType
+#endstruct
+
+#defstruct CRYPT_TIMESTAMP_ACCURACY
+    #field int dwSeconds
+    #field int dwMillis
+    #field int dwMicros
+#endstruct
+
+#defstruct CRYPT_TIMESTAMP_CONTEXT
+    #field int cbEncoded
+    #field var pbEncoded
+    #field var pTimeStamp
+#endstruct
+
+#defstruct CRYPT_TIMESTAMP_INFO
+    #field int dwVersion
+    #field str pszTSAPolicyId
+    #field var HashAlgorithm
+    #field var HashedMessage
+    #field var SerialNumber
+    #field var pvAccuracy
+    #field int fOrdering
+    #field var Nonce
+    #field var Tsa
+    #field int cExtension
+    #field var rgExtension
+#endstruct
+
+#defstruct CRYPT_TIMESTAMP_PARA
+    #field str pszTSAPolicyId
+    #field int fRequestCerts
+    #field var Nonce
+    #field int cExtension
+    #field var rgExtension
+#endstruct
+
+#defstruct CRYPT_VERIFY_MESSAGE_PARA
+    #field int cbSize
+    #field int dwMsgAndCertEncodingType
+    #field int hCryptProv
+    #field var pvGetArg
+#endstruct
+
+#defstruct CRYPTCATMEMBER
+    #field int cbStruct
+    #field wstr pwszReferenceTag
+    #field wstr pwszFileName
+    #field int fdwMemberFlags
+    #field var pIndirectData
+    #field int dwCertVersion
+    #field int dwReserved
+    #field intptr hReserved
+    #field var sEncodedIndirectData
+    #field var sEncodedMemberInfo
+#endstruct
+
+#defstruct CRYPTCATSTORE
+    #field int cbStruct
+    #field int dwPublicVersion
+    #field wstr pwszP7File
+    #field int hProv
+    #field int dwEncodingType
+    #field int fdwStoreFlags
+    #field intptr hReserved
+    #field intptr hAttrs
+    #field var hCryptMsg
+    #field intptr hSorted
 #endstruct
 
 #defstruct CRYPTPROTECT_PROMPTSTRUCT
@@ -118,6 +1851,460 @@
     #field wstr szPrompt
 #endstruct
 
+#defstruct CSPLATFORM
+    #field int dwPlatformId
+    #field int dwVersionHi
+    #field int dwVersionLo
+    #field int dwProcessorArch
+#endstruct
+
+#defstruct CTL_CONTEXT
+    #field int dwMsgAndCertEncodingType
+    #field var pbCtlEncoded
+    #field int cbCtlEncoded
+    #field var pCtlInfo
+    #field int hCertStore
+    #field var hCryptMsg
+    #field var pbCtlContent
+    #field int cbCtlContent
+#endstruct
+
+#defstruct CTL_ENTRY
+    #field var SubjectIdentifier
+    #field int cAttribute
+    #field var rgAttribute
+#endstruct
+
+#defstruct CTL_INFO
+    #field int dwVersion
+    #field int SubjectUsage
+    #field var ListIdentifier
+    #field var SequenceNumber
+    #field var SubjectAlgorithm
+    #field int cCTLEntry
+    #field var rgCTLEntry
+    #field int cExtension
+    #field var rgExtension
+#endstruct
+
+#defstruct CTL_USAGE
+    #field int cUsageIdentifier
+    #field var rgpszUsageIdentifier
+#endstruct
+
+#defstruct CTL_VERIFY_USAGE_PARA
+    #field int cbSize
+    #field var ListIdentifier
+    #field int cCtlStore
+    #field var rghCtlStore
+    #field int cSignerStore
+    #field var rghSignerStore
+#endstruct
+
+#defstruct CTL_VERIFY_USAGE_STATUS
+    #field int cbSize
+    #field int dwError
+    #field int dwFlags
+    #field var ppCtl
+    #field int dwCtlEntryIndex
+    #field var ppSigner
+    #field int dwSignerIndex
+#endstruct
+
+#defstruct CURRENCYFMTW
+    #field int NumDigits
+    #field int LeadingZero
+    #field int Grouping
+    #field wstr lpDecimalSep
+    #field wstr lpThousandSep
+    #field int NegativeOrder
+    #field int PositiveOrder
+    #field wstr lpCurrencySymbol
+#endstruct
+
+#defstruct CURSORINFO
+    #field int cbSize
+    #field int flags
+    #field intptr hCursor
+#endstruct
+
+#defstruct CUSTDATA
+    #field int cCustData
+    #field var prgCustData
+#endstruct
+
+#defstruct CUSTDATAITEM
+    #field int varValue
+#endstruct
+
+#defstruct CY
+    #field var Anonymous
+    #field int64 int64
+    #field int Lo
+    #field int Hi
+#endstruct
+
+#defstruct CYPHER_BLOCK
+    #field int data
+#endstruct
+
+#defstruct DATETIME
+    #field int year
+    #field int month
+    #field int day
+    #field int hour
+    #field int min
+    #field int sec
+#endstruct
+
+#defstruct DBGHELP_DATA_REPORT_STRUCT
+    #field wstr pBinPathNonExist
+    #field wstr pSymbolPathNonExist
+#endstruct
+
+#defstruct DCB
+    #field int DCBlength
+    #field int BaudRate
+    #field int _bitfield
+    #field int wReserved
+    #field int XonLim
+    #field int XoffLim
+    #field int ByteSize
+    #field int Parity
+    #field int StopBits
+    #field int XonChar
+    #field int XoffChar
+    #field int ErrorChar
+    #field int EofChar
+    #field int EvtChar
+    #field int wReserved1
+#endstruct
+
+#defstruct DEBUG_EVENT
+    #field int dwDebugEventCode
+    #field int dwProcessId
+    #field int dwThreadId
+    #field int u
+    #field int Exception
+    #field var CreateThread
+    #field var CreateProcessInfo
+    #field int ExitThread
+    #field int ExitProcess
+    #field int LoadDll
+    #field int UnloadDll
+    #field int DebugString
+    #field int RipInfo
+#endstruct
+
+#defstruct _u_e__Union
+    #field int Flags
+    #field int s
+    #field int _bitfield
+#endstruct
+
+#defstruct DECIMAL
+    #field int wReserved
+    #field var Anonymous1
+    #field int Hi32
+    #field var Anonymous2
+    #field var Anonymous
+    #field int signscale
+    #field int scale
+    #field int sign
+    #field var Anonymous
+    #field int64 Lo64
+    #field int Lo32
+    #field int Mid32
+#endstruct
+
+#defstruct DEFCONTEXTMENU
+    #field intptr hwnd
+    #field var pcmcb
+    #field var pidlFolder
+    #field var psf
+    #field int cidl
+    #field var apidl
+    #field var punkAssociationInfo
+    #field int cKeys
+    #field var aKeys
+#endstruct
+
+#defstruct DESIGNVECTOR
+    #field int dvReserved
+    #field int dvNumAxes
+    #field int dvValues
+#endstruct
+
+#defstruct DEVMODEA
+    #field int dmDeviceName
+    #field int dmSpecVersion
+    #field int dmDriverVersion
+    #field int dmSize
+    #field int dmDriverExtra
+    #field int dmFields
+    #field var Anonymous1
+    #field int dmColor
+    #field int dmDuplex
+    #field int dmYResolution
+    #field int dmTTOption
+    #field int dmCollate
+    #field int dmFormName
+    #field int dmLogPixels
+    #field int dmBitsPerPel
+    #field int dmPelsWidth
+    #field int dmPelsHeight
+    #field var Anonymous2
+    #field int dmDisplayFrequency
+    #field int dmICMMethod
+    #field int dmICMIntent
+    #field int dmMediaType
+    #field int dmDitherType
+    #field int dmReserved1
+    #field int dmReserved2
+    #field int dmPanningWidth
+    #field int dmPanningHeight
+    #field int Anonymous1
+    #field int Anonymous2
+    #field int dmOrientation
+    #field int dmPaperSize
+    #field int dmPaperLength
+    #field int dmPaperWidth
+    #field int dmScale
+    #field int dmCopies
+    #field int dmDefaultSource
+    #field int dmPrintQuality
+    #field int dmPosition
+    #field int dmDisplayOrientation
+    #field int dmDisplayFixedOutput
+    #field int dmDisplayFlags
+    #field int dmNup
+#endstruct
+
+#defstruct _Anonymous1_e__Struct
+    #field int lMinimum
+    #field int lMaximum
+#endstruct
+
+#defstruct _Anonymous2_e__Struct
+    #field int dwMinimum
+    #field int dwMaximum
+#endstruct
+
+#defstruct DEVMODEW
+    #field int dmDeviceName
+    #field int dmSpecVersion
+    #field int dmDriverVersion
+    #field int dmSize
+    #field int dmDriverExtra
+    #field int dmFields
+    #field var Anonymous1
+    #field int dmColor
+    #field int dmDuplex
+    #field int dmYResolution
+    #field int dmTTOption
+    #field int dmCollate
+    #field int dmFormName
+    #field int dmLogPixels
+    #field int dmBitsPerPel
+    #field int dmPelsWidth
+    #field int dmPelsHeight
+    #field var Anonymous2
+    #field int dmDisplayFrequency
+    #field int dmICMMethod
+    #field int dmICMIntent
+    #field int dmMediaType
+    #field int dmDitherType
+    #field int dmReserved1
+    #field int dmReserved2
+    #field int dmPanningWidth
+    #field int dmPanningHeight
+    #field var Anonymous1
+    #field var Anonymous2
+    #field int dmOrientation
+    #field int dmPaperSize
+    #field int dmPaperLength
+    #field int dmPaperWidth
+    #field int dmScale
+    #field int dmCopies
+    #field int dmDefaultSource
+    #field int dmPrintQuality
+    #field int dmPosition
+    #field int dmDisplayOrientation
+    #field int dmDisplayFixedOutput
+    #field int dmDisplayFlags
+    #field int dmNup
+#endstruct
+
+#defstruct DISPLAY_DEVICEW
+    #field int cb
+    #field int DeviceName
+    #field int DeviceString
+    #field int StateFlags
+    #field int DeviceID
+    #field int DeviceKey
+#endstruct
+
+#defstruct DISPLAYCONFIG_2DREGION
+    #field int cx
+    #field int cy
+#endstruct
+
+#defstruct DISPLAYCONFIG_DESKTOP_IMAGE_INFO
+    #field int PathSourceSize
+    #field int DesktopImageRegion
+    #field int DesktopImageClip
+#endstruct
+
+#defstruct DISPLAYCONFIG_DEVICE_INFO_HEADER
+    #field int type
+    #field int size
+    #field int adapterId
+    #field int id
+#endstruct
+
+#defstruct DISPLAYCONFIG_MODE_INFO
+    #field int infoType
+    #field int id
+    #field int adapterId
+    #field var Anonymous
+    #field int targetMode
+    #field int sourceMode
+    #field var desktopImageInfo
+#endstruct
+
+#defstruct DISPLAYCONFIG_PATH_INFO
+    #field int sourceInfo
+    #field int targetInfo
+    #field int flags
+#endstruct
+
+#defstruct DISPLAYCONFIG_PATH_SOURCE_INFO
+    #field int adapterId
+    #field int id
+    #field var Anonymous
+    #field int statusFlags
+    #field int modeInfoIdx
+    #field var Anonymous
+    #field int _bitfield
+#endstruct
+
+#defstruct DISPLAYCONFIG_PATH_TARGET_INFO
+    #field int adapterId
+    #field int id
+    #field var Anonymous
+    #field int outputTechnology
+    #field int rotation
+    #field int scaling
+    #field int refreshRate
+    #field int scanLineOrdering
+    #field int targetAvailable
+    #field int statusFlags
+    #field int modeInfoIdx
+    #field var Anonymous
+    #field int _bitfield
+#endstruct
+
+#defstruct DISPLAYCONFIG_RATIONAL
+    #field int Numerator
+    #field int Denominator
+#endstruct
+
+#defstruct DISPLAYCONFIG_SOURCE_MODE
+    #field int width
+    #field int height
+    #field int pixelFormat
+    #field int position
+#endstruct
+
+#defstruct DISPLAYCONFIG_TARGET_MODE
+    #field int targetVideoSignalInfo
+#endstruct
+
+#defstruct DISPLAYCONFIG_VIDEO_SIGNAL_INFO
+    #field int64 pixelRate
+    #field var hSyncFreq
+    #field var vSyncFreq
+    #field var activeSize
+    #field var totalSize
+    #field var Anonymous
+    #field int scanLineOrdering
+    #field int AdditionalSignalInfo
+    #field int videoStandard
+    #field int _bitfield
+#endstruct
+
+#defstruct _AdditionalSignalInfo_e__Struct
+    #field int _bitfield
+#endstruct
+
+#defstruct DISPPARAMS
+    #field var rgvarg
+    #field var rgdispidNamedArgs
+    #field int cArgs
+    #field int cNamedArgs
+#endstruct
+
+#defstruct DLGTEMPLATE
+    #field int style
+    #field int dwExtendedStyle
+    #field int cdit
+    #field int x
+    #field int y
+    #field int cx
+    #field int cy
+#endstruct
+
+#defstruct DOCINFOW
+    #field int cbSize
+    #field wstr lpszDocName
+    #field wstr lpszOutput
+    #field wstr lpszDatatype
+    #field int fwType
+#endstruct
+
+#defstruct DPASTREAMINFO
+    #field int iPos
+    #field var pvItem
+#endstruct
+
+#defstruct DRAWTEXTPARAMS
+    #field int cbSize
+    #field int iTabLength
+    #field int iLeftMargin
+    #field int iRightMargin
+    #field int uiLengthDrawn
+#endstruct
+
+#defstruct DTBGOPTS
+    #field int dwSize
+    #field int dwFlags
+    #field int rcClip
+#endstruct
+
+#defstruct DTTOPTS
+    #field int dwSize
+    #field int dwFlags
+    #field int crText
+    #field int crBorder
+    #field int crShadow
+    #field int iTextShadowType
+    #field int iBorderSize
+    #field int iFontPropId
+    #field int iColorPropId
+    #field int iStateId
+    #field int fApplyOverlay
+    #field int iGlowSize
+    #field intptr lParam
+#endstruct
+
+#defstruct DVTARGETDEVICE
+    #field int tdSize
+    #field int tdDriverNameOffset
+    #field int tdDeviceNameOffset
+    #field int tdPortNameOffset
+    #field int tdExtDevmodeOffset
+#endstruct
+
 #defstruct DWM_BLURBEHIND
     #field int dwFlags
     #field int fEnable
@@ -125,8 +2312,890 @@
     #field int fTransitionOnMaximized
 #endstruct
 
+#defstruct DWM_PRESENT_PARAMETERS
+    #field int cbSize
+    #field int fQueue
+    #field int64 cRefreshStart
+    #field int cBuffer
+    #field int fUseSourceRate
+    #field int rateSource
+    #field int cRefreshesPerFrame
+    #field int eSampling
+#endstruct
+
+#defstruct DWM_THUMBNAIL_PROPERTIES
+    #field int dwFlags
+    #field int rcDestination
+    #field int rcSource
+    #field int opacity
+    #field int fVisible
+    #field int fSourceClientAreaOnly
+#endstruct
+
+#defstruct DWM_TIMING_INFO
+    #field int cbSize
+    #field int rateRefresh
+    #field int64 qpcRefreshPeriod
+    #field int rateCompose
+    #field int64 qpcVBlank
+    #field int64 cRefresh
+    #field int cDXRefresh
+    #field int64 qpcCompose
+    #field int64 cFrame
+    #field int cDXPresent
+    #field int64 cRefreshFrame
+    #field int64 cFrameSubmitted
+    #field int cDXPresentSubmitted
+    #field int64 cFrameConfirmed
+    #field int cDXPresentConfirmed
+    #field int64 cRefreshConfirmed
+    #field int cDXRefreshConfirmed
+    #field int64 cFramesLate
+    #field int cFramesOutstanding
+    #field int64 cFrameDisplayed
+    #field int64 qpcFrameDisplayed
+    #field int64 cRefreshFrameDisplayed
+    #field int64 cFrameComplete
+    #field int64 qpcFrameComplete
+    #field int64 cFramePending
+    #field int64 qpcFramePending
+    #field int64 cFramesDisplayed
+    #field int64 cFramesComplete
+    #field int64 cFramesPending
+    #field int64 cFramesAvailable
+    #field int64 cFramesDropped
+    #field int64 cFramesMissed
+    #field int64 cRefreshNextDisplayed
+    #field int64 cRefreshNextPresented
+    #field int64 cRefreshesDisplayed
+    #field int64 cRefreshesPresented
+    #field int64 cRefreshStarted
+    #field int64 cPixelsReceived
+    #field int64 cPixelsDrawn
+    #field int64 cBuffersEmpty
+#endstruct
+
+#defstruct DYNAMIC_TIME_ZONE_INFORMATION
+    #field int Bias
+    #field int StandardName
+    #field int StandardDate
+    #field int StandardBias
+    #field int DaylightName
+    #field int DaylightDate
+    #field int DaylightBias
+    #field int TimeZoneKeyName
+    #field int DynamicDaylightTimeDisabled
+#endstruct
+
+#defstruct EFS_CERTIFICATE_BLOB
+    #field int dwCertEncodingType
+    #field int cbData
+    #field var pbData
+#endstruct
+
+#defstruct EFS_HASH_BLOB
+    #field int cbData
+    #field var pbData
+#endstruct
+
+#defstruct ELEMDESC
+    #field int tdesc
+    #field var Anonymous
+    #field int idldesc
+    #field int paramdesc
+#endstruct
+
+#defstruct EMFINFO
+    #field int nSize
+    #field intptr hdc
+    #field var pvEMF
+    #field var pvCurrentRecord
+#endstruct
+
+#defstruct ENABLE_TRACE_PARAMETERS
+    #field int Version
+    #field int EnableProperty
+    #field int ControlFlags
+    #field var EnableFilterDesc
+    #field int FilterDescCount
+#endstruct
+
+#defstruct ENCRYPTED_LM_OWF_PASSWORD
+    #field int data
+#endstruct
+
+#defstruct ENCRYPTION_CERTIFICATE
+    #field int cbTotalLength
+    #field var pUserSid
+    #field var pCertBlob
+#endstruct
+
+#defstruct ENCRYPTION_CERTIFICATE_HASH
+    #field int cbTotalLength
+    #field var pUserSid
+    #field var pHash
+    #field wstr lpDisplayInformation
+#endstruct
+
+#defstruct ENCRYPTION_CERTIFICATE_HASH_LIST
+    #field int nCert_Hash
+    #field var pUsers
+#endstruct
+
+#defstruct ENCRYPTION_CERTIFICATE_LIST
+    #field int nUsers
+    #field var pUsers
+#endstruct
+
+#defstruct ENG_TIME_FIELDS
+    #field int usYear
+    #field int usMonth
+    #field int usDay
+    #field int usHour
+    #field int usMinute
+    #field int usSecond
+    #field int usMilliseconds
+    #field int usWeekday
+#endstruct
+
+#defstruct ENHMETAHEADER
+    #field int iType
+    #field int nSize
+    #field int rclBounds
+    #field int rclFrame
+    #field int dSignature
+    #field int nVersion
+    #field int nBytes
+    #field int nRecords
+    #field int nHandles
+    #field int sReserved
+    #field int nDescription
+    #field int offDescription
+    #field int nPalEntries
+    #field int szlDevice
+    #field int szlMillimeters
+    #field int cbPixelFormat
+    #field int offPixelFormat
+    #field int bOpenGL
+    #field int szlMicrometers
+#endstruct
+
+#defstruct ENHMETARECORD
+    #field int iType
+    #field int nSize
+#endstruct
+
+#defstruct ENUM_PAGE_FILE_INFORMATION
+    #field int cb
+    #field int Reserved
+    #field int TotalSize
+    #field int TotalInUse
+    #field int PeakUsage
+#endstruct
+
+#defstruct ENUM_SERVICE_STATUSW
+    #field wstr lpServiceName
+    #field wstr lpDisplayName
+    #field int ServiceStatus
+#endstruct
+
+#defstruct ENUMLOGFONTEXDVW
+    #field int elfEnumLogfontEx
+    #field var elfDesignVector
+#endstruct
+
+#defstruct ENUMLOGFONTEXW
+    #field int elfLogFont
+    #field int elfFullName
+    #field int elfStyle
+    #field int elfScript
+#endstruct
+
+#defstruct ETW_BUFFER_CONTEXT
+    #field var Anonymous
+    #field int LoggerId
+    #field var Anonymous
+    #field int ProcessorIndex
+    #field int ProcessorNumber
+    #field int Alignment
+#endstruct
+
+#defstruct EVENT_DESCRIPTOR
+    #field int Id
+    #field int Version
+    #field int Channel
+    #field int Level
+    #field int Opcode
+    #field int Task
+    #field int64 Keyword
+#endstruct
+
+#defstruct EVENT_FILTER_DESCRIPTOR
+    #field int64 Ptr
+    #field int Size
+    #field int Type
+#endstruct
+
+#defstruct EVENT_HEADER
+    #field int Size
+    #field int HeaderType
+    #field int Flags
+    #field int EventProperty
+    #field int ThreadId
+    #field int ProcessId
+    #field int64 TimeStamp
+    #field var EventDescriptor
+    #field var Anonymous
+    #field var Anonymous
+    #field int64 ProcessorTime
+    #field int KernelTime
+    #field int UserTime
+#endstruct
+
+#defstruct EVENT_HEADER_EXTENDED_DATA_ITEM
+    #field int Reserved1
+    #field int ExtType
+    #field var Anonymous
+    #field int DataSize
+    #field int64 DataPtr
+    #field int _bitfield
+#endstruct
+
+#defstruct EVENT_RECORD
+    #field var EventHeader
+    #field var BufferContext
+    #field int ExtendedDataCount
+    #field int UserDataLength
+    #field var ExtendedData
+    #field var UserData
+    #field var UserContext
+#endstruct
+
+#defstruct EVENT_TRACE
+    #field int Header
+    #field int InstanceId
+    #field int ParentInstanceId
+    #field var MofData
+    #field int MofLength
+    #field var Anonymous
+    #field int ClientContext
+    #field var BufferContext
+#endstruct
+
+#defstruct EVENT_TRACE_HEADER
+    #field int Size
+    #field var Anonymous1
+    #field var Anonymous2
+    #field int ThreadId
+    #field int ProcessId
+    #field int64 TimeStamp
+    #field int Anonymous3
+    #field int Anonymous4
+    #field int FieldTypeFlags
+    #field var Anonymous
+    #field int HeaderType
+    #field int MarkerFlags
+    #field int Version
+    #field int Class
+    #field int Type
+    #field int Level
+    #field int Version
+    #field int64 GuidPtr
+    #field var Anonymous1
+    #field int64 ProcessorTime
+    #field var Anonymous2
+    #field int KernelTime
+    #field int UserTime
+    #field int ClientContext
+    #field int Flags
+#endstruct
+
+#defstruct _Class_e__Struct
+    #field int Type
+    #field int Level
+    #field int Version
+#endstruct
+
+#defstruct _Anonymous3_e__Union
+    #field intptr hbmHeader
+    #field wstr pszbmHeader
+#endstruct
+
+#defstruct _Anonymous4_e__Union
+    #field intptr hbmWatermark
+    #field wstr pszbmWatermark
+#endstruct
+
+#defstruct EVENT_TRACE_LOGFILEW
+    #field wstr LogFileName
+    #field wstr LoggerName
+    #field int64 CurrentTime
+    #field int BuffersRead
+    #field var Anonymous1
+    #field var CurrentEvent
+    #field int LogfileHeader
+    #field int BufferSize
+    #field int Filled
+    #field int EventsLost
+    #field var Anonymous2
+    #field int IsKernelTrace
+    #field var Context
+    #field int LogFileMode
+    #field int ProcessTraceMode
+#endstruct
+
+#defstruct EVENT_TRACE_PROPERTIES
+    #field int Wnode
+    #field int BufferSize
+    #field int MinimumBuffers
+    #field int MaximumBuffers
+    #field int MaximumFileSize
+    #field int LogFileMode
+    #field int FlushTimer
+    #field int EnableFlags
+    #field var Anonymous
+    #field int NumberOfBuffers
+    #field int FreeBuffers
+    #field int EventsLost
+    #field int BuffersWritten
+    #field int LogBuffersLost
+    #field int RealTimeBuffersLost
+    #field intptr LoggerThreadId
+    #field int LogFileNameOffset
+    #field int LoggerNameOffset
+    #field int AgeLimit
+    #field int FlushThreshold
+#endstruct
+
+#defstruct EXCEPINFO
+    #field int wCode
+    #field int wReserved
+    #field int bstrSource
+    #field int bstrDescription
+    #field int bstrHelpFile
+    #field int dwHelpContext
+    #field var pvReserved
+    #field int scode
+#endstruct
+
+#defstruct EXCEPTION_DEBUG_INFO
+    #field int ExceptionRecord
+    #field int dwFirstChance
+#endstruct
+
+#defstruct EXCEPTION_RECORD
+    #field intptr ExceptionCode
+    #field int ExceptionFlags
+    #field var ExceptionRecord
+    #field var ExceptionAddress
+    #field int NumberParameters
+    #field int ExceptionInformation
+#endstruct
+
+#defstruct EXIT_PROCESS_DEBUG_INFO
+    #field int dwExitCode
+#endstruct
+
+#defstruct EXIT_THREAD_DEBUG_INFO
+    #field int dwExitCode
+#endstruct
+
+#defstruct EXPLICIT_ACCESS_W
+    #field int grfAccessPermissions
+    #field int grfAccessMode
+    #field int grfInheritance
+    #field int Trustee
+#endstruct
+
 #defstruct FARPROC
     #field int Value
+#endstruct
+
+#defstruct FD_GLYPHATTR
+    #field int cjThis
+    #field int cGlyphs
+    #field int iMode
+#endstruct
+
+#defstruct FD_GLYPHSET
+    #field int cjThis
+    #field int flAccel
+    #field int cGlyphsSupported
+    #field int cRuns
+#endstruct
+
+#defstruct FILE_ID_128
+    #field int Identifier
+#endstruct
+
+#defstruct FILE_ID_DESCRIPTOR
+    #field int dwSize
+    #field int Type
+    #field var Anonymous
+    #field int64 FileId
+    #field var ExtendedFileId
+#endstruct
+
+#defstruct FILE_SEGMENT_ELEMENT
+    #field var Buffer
+    #field int64 Alignment
+#endstruct
+
+#defstruct FILEMUIINFO
+    #field int dwSize
+    #field int dwVersion
+    #field int dwFileType
+    #field int pChecksum
+    #field int pServiceChecksum
+    #field int dwLanguageNameOffset
+    #field int dwTypeIDMainSize
+    #field int dwTypeIDMainOffset
+    #field int dwTypeNameMainOffset
+    #field int dwTypeIDMUISize
+    #field int dwTypeIDMUIOffset
+    #field int dwTypeNameMUIOffset
+    #field int abBuffer
+#endstruct
+
+#defstruct FIXED
+    #field int fract
+    #field int value
+#endstruct
+
+#defstruct FLASHWINFO
+    #field int cbSize
+    #field intptr hwnd
+    #field int dwFlags
+    #field int uCount
+    #field int dwTimeout
+#endstruct
+
+#defstruct FN_OBJECT_MGR_FUNCTS
+    #field int Placeholder
+#endstruct
+
+#defstruct FOCUS_EVENT_RECORD
+    #field int bSetFocus
+#endstruct
+
+#defstruct FONTDESC
+    #field int cbSizeofstruct
+    #field wstr lpstrName
+    #field var cySize
+    #field int sWeight
+    #field int sCharset
+    #field int fItalic
+    #field int fUnderline
+    #field int fStrikethrough
+#endstruct
+
+#defstruct FONTINFO
+    #field int cjThis
+    #field int flCaps
+    #field int cGlyphsSupported
+    #field int cjMaxGlyph1
+    #field int cjMaxGlyph4
+    #field int cjMaxGlyph8
+    #field int cjMaxGlyph32
+#endstruct
+
+#defstruct FONTOBJ
+    #field int iUniq
+    #field int iFace
+    #field int cxMax
+    #field int flFontType
+    #field int iTTUniq
+    #field int iFile
+    #field int sizLogResPpi
+    #field int ulStyleSize
+    #field var pvConsumer
+    #field var pvProducer
+#endstruct
+
+#defstruct FONTSIGNATURE
+    #field int fsUsb
+    #field int fsCsb
+#endstruct
+
+#defstruct FORMATETC
+    #field int cfFormat
+    #field var ptd
+    #field int dwAspect
+    #field int lindex
+    #field int tymed
+#endstruct
+
+#defstruct FUNCDESC
+    #field int memid
+    #field var lprgscode
+    #field var lprgelemdescParam
+    #field int funckind
+    #field int invkind
+    #field int callconv
+    #field int cParams
+    #field int cParamsOpt
+    #field int oVft
+    #field int cScodes
+    #field var elemdescFunc
+    #field int wFuncFlags
+#endstruct
+
+#defstruct GCP_RESULTSW
+    #field int lStructSize
+    #field wstr lpOutString
+    #field var lpOrder
+    #field var lpDx
+    #field var lpCaretPos
+    #field str lpClass
+    #field wstr lpGlyphs
+    #field int nGlyphs
+    #field int nMaxFit
+#endstruct
+
+#defstruct GENERIC_MAPPING
+    #field int GenericRead
+    #field int GenericWrite
+    #field int GenericExecute
+    #field int GenericAll
+#endstruct
+
+#defstruct GESTURECONFIG
+    #field int dwID
+    #field int dwWant
+    #field int dwBlock
+#endstruct
+
+#defstruct GESTUREINFO
+    #field int cbSize
+    #field int dwFlags
+    #field int dwID
+    #field intptr hwndTarget
+    #field int ptsLocation
+    #field int dwInstanceID
+    #field int dwSequenceID
+    #field int64 ullArguments
+    #field int cbExtraArgs
+#endstruct
+
+#defstruct GLYPHBITS
+    #field int ptlOrigin
+    #field int sizlBitmap
+#endstruct
+
+#defstruct GLYPHDEF
+    #field var pgb
+    #field var ppo
+#endstruct
+
+#defstruct GLYPHMETRICS
+    #field int gmBlackBoxX
+    #field int gmBlackBoxY
+    #field int gmCellIncX
+    #field int gmCellIncY
+#endstruct
+
+#defstruct GLYPHPOS
+    #field int hg
+    #field var pgdf
+    #field int ptl
+#endstruct
+
+#defstruct GLYPHSET
+    #field int cbThis
+    #field int flAccel
+    #field int cGlyphsSupported
+    #field int cRanges
+#endstruct
+
+#defstruct GOPHER_ABSTRACT_ATTRIBUTE_TYPE
+    #field var ShortAbstract
+    #field var AbstractFile
+#endstruct
+
+#defstruct GOPHER_ADMIN_ATTRIBUTE_TYPE
+    #field var Comment
+    #field var EmailAddress
+#endstruct
+
+#defstruct GOPHER_ASK_ATTRIBUTE_TYPE
+    #field var QuestionType
+    #field var QuestionText
+#endstruct
+
+#defstruct GOPHER_ATTRIBUTE_TYPE
+    #field int CategoryId
+    #field int AttributeId
+    #field int AttributeType
+    #field var Admin
+    #field int ModDate
+    #field int Ttl
+    #field int Score
+    #field int ScoreRange
+    #field int Site
+    #field int Organization
+    #field int Location
+    #field int GeographicalLocation
+    #field int TimeZone
+    #field int Provider
+    #field int Version
+    #field var Abstract
+    #field int View
+    #field int Veronica
+    #field var Ask
+    #field int Unknown
+#endstruct
+
+#defstruct _AttributeType_e__Union
+    #field var Admin
+    #field int ModDate
+    #field int Ttl
+    #field int Score
+    #field int ScoreRange
+    #field int Site
+    #field int Organization
+    #field int Location
+    #field int GeographicalLocation
+    #field int TimeZone
+    #field int Provider
+    #field int Version
+    #field var Abstract
+    #field int View
+    #field int Veronica
+    #field var Ask
+    #field int Unknown
+#endstruct
+
+#defstruct GOPHER_FIND_DATAW
+    #field int DisplayString
+    #field int GopherType
+    #field int SizeLow
+    #field int SizeHigh
+    #field int Locator
+#endstruct
+
+#defstruct GOPHER_GEOGRAPHICAL_LOCATION_ATTRIBUTE_TYPE
+    #field int DegreesNorth
+    #field int MinutesNorth
+    #field int SecondsNorth
+    #field int DegreesEast
+    #field int MinutesEast
+    #field int SecondsEast
+#endstruct
+
+#defstruct GOPHER_LOCATION_ATTRIBUTE_TYPE
+    #field var Location
+#endstruct
+
+#defstruct GOPHER_ORGANIZATION_ATTRIBUTE_TYPE
+    #field var Organization
+#endstruct
+
+#defstruct GOPHER_PROVIDER_ATTRIBUTE_TYPE
+    #field var Provider
+#endstruct
+
+#defstruct GOPHER_SCORE_ATTRIBUTE_TYPE
+    #field int Score
+#endstruct
+
+#defstruct GOPHER_SCORE_RANGE_ATTRIBUTE_TYPE
+    #field int LowerBound
+    #field int UpperBound
+#endstruct
+
+#defstruct GOPHER_SITE_ATTRIBUTE_TYPE
+    #field var Site
+#endstruct
+
+#defstruct GOPHER_TIMEZONE_ATTRIBUTE_TYPE
+    #field int Zone
+#endstruct
+
+#defstruct GOPHER_TTL_ATTRIBUTE_TYPE
+    #field int Ttl
+#endstruct
+
+#defstruct GOPHER_UNKNOWN_ATTRIBUTE_TYPE
+    #field var Text
+#endstruct
+
+#defstruct GOPHER_VERONICA_ATTRIBUTE_TYPE
+    #field int TreeWalk
+#endstruct
+
+#defstruct GOPHER_VERSION_ATTRIBUTE_TYPE
+    #field var Version
+#endstruct
+
+#defstruct GOPHER_VIEW_ATTRIBUTE_TYPE
+    #field var ContentType
+    #field var Language
+    #field int Size
+#endstruct
+
+#defstruct GROUP_AFFINITY
+    #field int Mask
+    #field int Group
+    #field int Reserved
+#endstruct
+
+#defstruct GROUP_POLICY_OBJECTW
+    #field int dwOptions
+    #field int dwVersion
+    #field wstr lpDSPath
+    #field wstr lpFileSysPath
+    #field wstr lpDisplayName
+    #field int szGPOName
+    #field int GPOLink
+    #field intptr lParam
+    #field var pNext
+    #field var pPrev
+    #field wstr lpExtensions
+    #field intptr lParam2
+    #field wstr lpLink
+#endstruct
+
+#defstruct GUITHREADINFO
+    #field int cbSize
+    #field int flags
+    #field intptr hwndActive
+    #field intptr hwndFocus
+    #field intptr hwndCapture
+    #field intptr hwndMenuOwner
+    #field intptr hwndMoveSize
+    #field intptr hwndCaret
+    #field int rcCaret
+#endstruct
+
+#defstruct HARDWARE_COUNTER_DATA
+    #field int Type
+    #field int Reserved
+    #field int64 Value
+#endstruct
+
+#defstruct HARDWAREINPUT
+    #field int uMsg
+    #field int wParamL
+    #field int wParamH
+#endstruct
+
+#defstruct HEAP_SUMMARY
+    #field int cb
+    #field int cbAllocated
+    #field int cbCommitted
+    #field int cbReserved
+    #field int cbMaxReserve
+#endstruct
+
+#defstruct HEAPENTRY32
+    #field int dwSize
+    #field intptr hHandle
+    #field int dwAddress
+    #field int dwBlockSize
+    #field int dwFlags
+    #field int dwLockCount
+    #field int dwResvd
+    #field int th32ProcessID
+    #field int th32HeapID
+#endstruct
+
+#defstruct HEAPLIST32
+    #field int dwSize
+    #field int th32ProcessID
+    #field int th32HeapID
+    #field int dwFlags
+#endstruct
+
+#defstruct HELPINFO
+    #field int cbSize
+    #field int iContextType
+    #field int iCtrlId
+    #field intptr hItemHandle
+    #field int dwContextId
+#endstruct
+
+#defstruct HLOG
+    #field int time
+    #field int last_flags
+    #field int offset
+    #field int rec_offset
+#endstruct
+
+#defstruct HTTP_PUSH_NOTIFICATION_STATUS
+    #field int ChannelStatusValid
+    #field int ChannelStatus
+#endstruct
+
+#defstruct HW_PROFILE_INFOW
+    #field int dwDockInfo
+    #field int szHwProfileGuid
+    #field int szHwProfileName
+#endstruct
+
+#defstruct ICONINFO
+    #field int fIcon
+    #field int xHotspot
+    #field int yHotspot
+    #field intptr hbmMask
+    #field intptr hbmColor
+#endstruct
+
+#defstruct ICONINFOEXW
+    #field int cbSize
+    #field int fIcon
+    #field int xHotspot
+    #field int yHotspot
+    #field intptr hbmMask
+    #field intptr hbmColor
+    #field int wResID
+    #field int szModName
+    #field int szResName
+#endstruct
+
+#defstruct IDLDESC
+    #field int dwReserved
+    #field int wIDLFlags
+#endstruct
+
+#defstruct IMAGE_SECTION_HEADER
+    #field int Name
+    #field int Misc
+    #field int VirtualAddress
+    #field int SizeOfRawData
+    #field int PointerToRawData
+    #field int PointerToRelocations
+    #field int PointerToLinenumbers
+    #field int NumberOfRelocations
+    #field int NumberOfLinenumbers
+    #field int Characteristics
+    #field int PhysicalAddress
+    #field int VirtualSize
+#endstruct
+
+#defstruct _Misc_e__Union
+    #field int PhysicalAddress
+    #field int VirtualSize
+#endstruct
+
+#defstruct IMAGEHLP_GET_TYPE_INFO_PARAMS
+    #field int SizeOfStruct
+    #field int Flags
+    #field int NumIds
+    #field var TypeIds
+    #field int64 TagFilter
+    #field int NumReqs
+    #field var ReqKinds
+    #field var ReqOffsets
+    #field var ReqSizes
+    #field int ReqStride
+    #field int BufferSize
+    #field var Buffer
+    #field int EntriesMatched
+    #field int EntriesFilled
+    #field int64 TagsFound
+    #field int64 AllReqsValid
+    #field int NumReqsValid
+    #field var ReqsValid
 #endstruct
 
 #defstruct IMAGEHLP_LINE64
@@ -137,13 +3206,435 @@
     #field int64 Address
 #endstruct
 
+#defstruct IMAGEHLP_LINEW64
+    #field int SizeOfStruct
+    #field var Key
+    #field int LineNumber
+    #field wstr FileName
+    #field int64 Address
+#endstruct
+
+#defstruct IMAGEHLP_MODULE64
+    #field int SizeOfStruct
+    #field int64 BaseOfImage
+    #field int ImageSize
+    #field int TimeDateStamp
+    #field int CheckSum
+    #field int NumSyms
+    #field int SymType
+    #field int ModuleName
+    #field int ImageName
+    #field int LoadedImageName
+    #field int LoadedPdbName
+    #field int CVSig
+    #field int CVData
+    #field int PdbSig
+    #field int PdbAge
+    #field int PdbUnmatched
+    #field int DbgUnmatched
+    #field int LineNumbers
+    #field int GlobalSymbols
+    #field int TypeInfo
+    #field int SourceIndexed
+    #field int Publics
+    #field int MachineType
+    #field int Reserved
+#endstruct
+
+#defstruct IMAGEHLP_MODULEW64
+    #field int SizeOfStruct
+    #field int64 BaseOfImage
+    #field int ImageSize
+    #field int TimeDateStamp
+    #field int CheckSum
+    #field int NumSyms
+    #field int SymType
+    #field int ModuleName
+    #field int ImageName
+    #field int LoadedImageName
+    #field int LoadedPdbName
+    #field int CVSig
+    #field int CVData
+    #field int PdbSig
+    #field int PdbAge
+    #field int PdbUnmatched
+    #field int DbgUnmatched
+    #field int LineNumbers
+    #field int GlobalSymbols
+    #field int TypeInfo
+    #field int SourceIndexed
+    #field int Publics
+    #field int MachineType
+    #field int Reserved
+#endstruct
+
+#defstruct IMAGEHLP_STACK_FRAME
+    #field int64 InstructionOffset
+    #field int64 ReturnOffset
+    #field int64 FrameOffset
+    #field int64 StackOffset
+    #field int64 BackingStoreOffset
+    #field int64 FuncTableEntry
+    #field int Params
+    #field int Reserved
+    #field int Virtual
+    #field int Reserved2
+#endstruct
+
+#defstruct IMAGEHLP_SYMBOL64
+    #field int SizeOfStruct
+    #field int64 Address
+    #field int Size
+    #field int Flags
+    #field int MaxNameLength
+#endstruct
+
+#defstruct IMAGEINFO
+    #field intptr hbmImage
+    #field intptr hbmMask
+    #field int Unused1
+    #field int Unused2
+    #field int rcImage
+#endstruct
+
+#defstruct IMAGELISTDRAWPARAMS
+    #field int cbSize
+    #field intptr himl
+    #field int i
+    #field intptr hdcDst
+    #field int x
+    #field int y
+    #field int cx
+    #field int cy
+    #field int xBitmap
+    #field int yBitmap
+    #field int rgbBk
+    #field int rgbFg
+    #field int fStyle
+    #field int dwRop
+    #field int fState
+    #field int Frame
+    #field int crEffect
+#endstruct
+
+#defstruct IMEMENUITEMINFOW
+    #field int cbSize
+    #field int fType
+    #field int fState
+    #field int wID
+    #field intptr hbmpChecked
+    #field intptr hbmpUnchecked
+    #field int dwItemData
+    #field int szString
+    #field intptr hbmpItem
+#endstruct
+
+#defstruct IMEPROA
+    #field intptr hWnd
+    #field var InstDate
+    #field int wVersion
+    #field int szDescription
+    #field int szName
+    #field int szOptions
+#endstruct
+
+#defstruct IMEPROW
+    #field intptr hWnd
+    #field var InstDate
+    #field int wVersion
+    #field int szDescription
+    #field int szName
+    #field int szOptions
+#endstruct
+
+#defstruct INHERITED_FROMW
+    #field int GenerationGap
+    #field wstr AncestorName
+#endstruct
+
 #defstruct INITCOMMONCONTROLSEX
     #field int dwSize
     #field int dwICC
 #endstruct
 
+#defstruct INPUT
+    #field int type
+    #field var Anonymous
+    #field int mi
+    #field int ki
+    #field var hi
+#endstruct
+
+#defstruct INPUT_MESSAGE_SOURCE
+    #field int deviceType
+    #field int originId
+#endstruct
+
+#defstruct INPUT_RECORD
+    #field int EventType
+    #field int Event
+    #field int KeyEvent
+    #field int MouseEvent
+    #field int WindowBufferSizeEvent
+    #field int MenuEvent
+    #field var FocusEvent
+#endstruct
+
+#defstruct _Event_e__Union
+    #field int KeyEvent
+    #field int MouseEvent
+    #field int WindowBufferSizeEvent
+    #field int MenuEvent
+    #field var FocusEvent
+#endstruct
+
+#defstruct INPUT_TRANSFORM
+    #field var Anonymous
+    #field var Anonymous
+    #field int m
+    #field float _11
+    #field float _12
+    #field float _13
+    #field float _14
+    #field float _21
+    #field float _22
+    #field float _23
+    #field float _24
+    #field float _31
+    #field float _32
+    #field float _33
+    #field float _34
+    #field float _41
+    #field float _42
+    #field float _43
+    #field float _44
+#endstruct
+
+#defstruct INPUTCONTEXT
+    #field intptr hWnd
+    #field int fOpen
+    #field int fdwConversion
+    #field int fdwSentence
+    #field int lfFont
+    #field var cfCompForm
+    #field int cfCandForm
+    #field intptr hCompStr
+    #field intptr hCandInfo
+    #field intptr hGuideLine
+    #field intptr hPrivate
+    #field int dwNumMsgBuf
+    #field intptr hMsgBuf
+    #field int fdwInit
+    #field int dwReserve
+    #field int A
+    #field int W
+#endstruct
+
+#defstruct _lfFont_e__Union
+    #field int A
+    #field int W
+#endstruct
+
+#defstruct INSTALLDATA
+    #field int Type
+    #field int Spec
+#endstruct
+
+#defstruct INSTALLSPEC
+    #field int AppName
+    #field wstr FileExt
+    #field wstr ProgId
+    #field int COMClass
+    #field wstr Name
+    #field int ClsCtx
+#endstruct
+
+#defstruct _AppName_e__Struct
+    #field wstr Name
+#endstruct
+
+#defstruct _COMClass_e__Struct
+    #field int ClsCtx
+#endstruct
+
+#defstruct INTERFACEDATA
+    #field var pmethdata
+    #field int cMembers
+#endstruct
+
+#defstruct INTERFACEINFO
+    #field var pUnk
+    #field int wMethod
+#endstruct
+
+#defstruct INTERNET_BUFFERSW
+    #field int dwStructSize
+    #field var Next
+    #field wstr lpcszHeader
+    #field int dwHeadersLength
+    #field int dwHeadersTotal
+    #field var lpvBuffer
+    #field int dwBufferLength
+    #field int dwBufferTotal
+    #field int dwOffsetLow
+    #field int dwOffsetHigh
+#endstruct
+
+#defstruct INTERNET_CACHE_CONFIG_INFOW
+    #field int dwStructSize
+    #field int dwContainer
+    #field int dwQuota
+    #field int dwReserved4
+    #field int fPerUser
+    #field int dwSyncMode
+    #field int dwNumCachePaths
+    #field var Anonymous
+    #field int dwNormalUsage
+    #field int dwExemptUsage
+    #field var Anonymous
+    #field int CachePath
+    #field int dwCacheSize
+#endstruct
+
+#defstruct INTERNET_CACHE_CONFIG_PATH_ENTRYW
+    #field int CachePath
+    #field int dwCacheSize
+#endstruct
+
+#defstruct INTERNET_CACHE_CONTAINER_INFOW
+    #field int dwCacheVersion
+    #field wstr lpszName
+    #field wstr lpszCachePrefix
+    #field wstr lpszVolumeLabel
+    #field wstr lpszVolumeTitle
+#endstruct
+
+#defstruct INTERNET_CACHE_ENTRY_INFOW
+    #field int dwStructSize
+    #field wstr lpszSourceUrlName
+    #field wstr lpszLocalFileName
+    #field int CacheEntryType
+    #field int dwUseCount
+    #field int dwHitRate
+    #field int dwSizeLow
+    #field int dwSizeHigh
+    #field wstr lpHeaderInfo
+    #field int dwHeaderInfoSize
+    #field wstr lpszFileExtension
+    #field var Anonymous
+    #field int dwReserved
+    #field int dwExemptDelta
+#endstruct
+
+#defstruct INTERNET_CACHE_GROUP_INFOW
+    #field int dwGroupSize
+    #field int dwGroupFlags
+    #field int dwGroupType
+    #field int dwDiskUsage
+    #field int dwDiskQuota
+    #field int dwOwnerStorage
+    #field int szGroupName
+#endstruct
+
+#defstruct INTERNET_COOKIE2
+    #field wstr pwszName
+    #field wstr pwszValue
+    #field wstr pwszDomain
+    #field wstr pwszPath
+    #field int dwFlags
+    #field int fExpiresSet
+#endstruct
+
+#defstruct INTERNET_SECURITY_INFO
+    #field int dwSize
+    #field var pCertificate
+    #field var pcCertChain
+    #field int connectionInfo
+    #field int cipherInfo
+    #field var pcUnverifiedCertChain
+    #field int channelBindingToken
+#endstruct
+
+#defstruct INTLIST
+    #field int iValueCount
+    #field int iValues
+#endstruct
+
+#defstruct IO_COUNTERS
+    #field int64 ReadOperationCount
+    #field int64 WriteOperationCount
+    #field int64 OtherOperationCount
+    #field int64 ReadTransferCount
+    #field int64 WriteTransferCount
+    #field int64 OtherTransferCount
+#endstruct
+
 #defstruct ITEMIDLIST
     #field int mkid
+#endstruct
+
+#defstruct JOB_SET_ARRAY
+    #field intptr JobHandle
+    #field int MemberLevel
+    #field int Flags
+#endstruct
+
+#defstruct JOBOBJECT_IO_RATE_CONTROL_INFORMATION
+    #field int64 MaxIops
+    #field int64 MaxBandwidth
+    #field int64 ReservationIops
+    #field wstr VolumeName
+    #field int BaseIoSize
+#endstruct
+
+#defstruct JOYCAPSW
+    #field int wMid
+    #field int wPid
+    #field int szPname
+    #field int wXmin
+    #field int wXmax
+    #field int wYmin
+    #field int wYmax
+    #field int wZmin
+    #field int wZmax
+    #field int wNumButtons
+    #field int wPeriodMin
+    #field int wPeriodMax
+    #field int wRmin
+    #field int wRmax
+    #field int wUmin
+    #field int wUmax
+    #field int wVmin
+    #field int wVmax
+    #field int wCaps
+    #field int wMaxAxes
+    #field int wNumAxes
+    #field int wMaxButtons
+    #field int szRegKey
+    #field int szOEMVxD
+#endstruct
+
+#defstruct JOYINFO
+    #field int wXpos
+    #field int wYpos
+    #field int wZpos
+    #field int wButtons
+#endstruct
+
+#defstruct JOYINFOEX
+    #field int dwSize
+    #field int dwFlags
+    #field int dwXpos
+    #field int dwYpos
+    #field int dwZpos
+    #field int dwRpos
+    #field int dwUpos
+    #field int dwVpos
+    #field int dwButtons
+    #field int dwButtonNumber
+    #field int dwPOV
+    #field int dwReserved1
+    #field int dwReserved2
 #endstruct
 
 #defstruct KDHELP64
@@ -166,6 +3657,136 @@
     #field int Reserved0
 #endstruct
 
+#defstruct KERNINGPAIR
+    #field int wFirst
+    #field int wSecond
+    #field int iKernAmount
+#endstruct
+
+#defstruct KEY_EVENT_RECORD
+    #field int bKeyDown
+    #field int wRepeatCount
+    #field int wVirtualKeyCode
+    #field int wVirtualScanCode
+    #field int uChar
+    #field int dwControlKeyState
+    #field int UnicodeChar
+    #field int AsciiChar
+#endstruct
+
+#defstruct _uChar_e__Union
+    #field int UnicodeChar
+    #field int AsciiChar
+#endstruct
+
+#defstruct KEYBDINPUT
+    #field int wVk
+    #field int wScan
+    #field int dwFlags
+    #field int time
+    #field int dwExtraInfo
+#endstruct
+
+#defstruct LASTINPUTINFO
+    #field int cbSize
+    #field int dwTime
+#endstruct
+
+#defstruct LDT_ENTRY
+    #field int LimitLow
+    #field int BaseLow
+    #field int HighWord
+    #field int Bytes
+    #field int Bits
+    #field int BaseMid
+    #field int Flags1
+    #field int Flags2
+    #field int BaseHi
+    #field int _bitfield
+#endstruct
+
+#defstruct _HighWord_e__Union
+    #field int Bytes
+    #field int Bits
+    #field int BaseMid
+    #field int Flags1
+    #field int Flags2
+    #field int BaseHi
+    #field int _bitfield
+#endstruct
+
+#defstruct _Bytes_e__Struct
+    #field int BaseMid
+    #field int Flags1
+    #field int Flags2
+    #field int BaseHi
+#endstruct
+
+#defstruct _Bits_e__Struct
+    #field int _bitfield
+#endstruct
+
+#defstruct LIST_ENTRY
+    #field var Flink
+    #field var Blink
+#endstruct
+
+#defstruct LM_OWF_PASSWORD
+    #field int data
+#endstruct
+
+#defstruct LOAD_DLL_DEBUG_INFO
+    #field intptr hFile
+    #field var lpBaseOfDll
+    #field int dwDebugInfoFileOffset
+    #field int nDebugInfoSize
+    #field var lpImageName
+    #field int fUnicode
+#endstruct
+
+#defstruct LOCALMANAGEDAPPLICATION
+    #field wstr pszDeploymentName
+    #field wstr pszPolicyName
+    #field wstr pszProductId
+    #field int dwState
+#endstruct
+
+#defstruct LOGBRUSH
+    #field int lbStyle
+    #field int lbColor
+    #field int lbHatch
+#endstruct
+
+#defstruct LOGCOLORSPACEW
+    #field int lcsSignature
+    #field int lcsVersion
+    #field int lcsSize
+    #field int lcsCSType
+    #field int lcsIntent
+    #field var lcsEndpoints
+    #field int lcsGammaRed
+    #field int lcsGammaGreen
+    #field int lcsGammaBlue
+    #field int lcsFilename
+#endstruct
+
+#defstruct LOGFONTA
+    #field int lfHeight
+    #field int lfWidth
+    #field int lfEscapement
+    #field int lfOrientation
+    #field int lfWeight
+    #field int lfItalic
+    #field int lfUnderline
+    #field int lfStrikeOut
+    #field int lfCharSet
+    #field int lfOutPrecision
+    #field int lfClipPrecision
+    #field int lfQuality
+    #field int lfPitchAndFamily
+    #field int lfFaceName
+#endstruct
+
 #defstruct LOGFONTW
     #field int lfHeight
     #field int lfWidth
@@ -183,11 +3804,531 @@
     #field int lfFaceName
 #endstruct
 
+#defstruct LOGPALETTE
+    #field int palVersion
+    #field int palNumEntries
+#endstruct
+
+#defstruct LOGPEN
+    #field int lopnColor
+#endstruct
+
+#defstruct LSA_AUTH_INFORMATION
+    #field int64 LastUpdateTime
+    #field int AuthType
+    #field int AuthInfoLength
+    #field var AuthInfo
+#endstruct
+
+#defstruct LSA_FOREST_TRUST_BINARY_DATA
+    #field int Length
+    #field var Buffer
+#endstruct
+
+#defstruct LSA_FOREST_TRUST_COLLISION_INFORMATION
+    #field int RecordCount
+    #field var Entries
+#endstruct
+
+#defstruct LSA_FOREST_TRUST_COLLISION_RECORD
+    #field int Index
+    #field int Type
+    #field int Flags
+    #field int Name
+#endstruct
+
+#defstruct LSA_FOREST_TRUST_DOMAIN_INFO
+    #field int Sid
+    #field int DnsName
+    #field int NetbiosName
+#endstruct
+
+#defstruct LSA_FOREST_TRUST_INFORMATION
+    #field int RecordCount
+    #field var Entries
+#endstruct
+
+#defstruct LSA_FOREST_TRUST_INFORMATION2
+    #field int RecordCount
+    #field var Entries
+#endstruct
+
+#defstruct LSA_FOREST_TRUST_RECORD
+    #field int Flags
+    #field int ForestTrustType
+    #field int64 Time
+    #field int ForestTrustData
+    #field int TopLevelName
+    #field var DomainInfo
+    #field var Data
+#endstruct
+
+#defstruct _ForestTrustData_e__Union
+    #field int TopLevelName
+    #field var DomainInfo
+    #field var BinaryData
+    #field int ScannerInfo
+#endstruct
+
+#defstruct LSA_FOREST_TRUST_RECORD2
+    #field int Flags
+    #field int ForestTrustType
+    #field int64 Time
+    #field var ForestTrustData
+    #field int TopLevelName
+    #field var DomainInfo
+    #field var BinaryData
+    #field int ScannerInfo
+#endstruct
+
+#defstruct LSA_FOREST_TRUST_SCANNER_INFO
+    #field int DomainSid
+    #field int DnsName
+    #field int NetbiosName
+#endstruct
+
+#defstruct LSA_OBJECT_ATTRIBUTES
+    #field int Length
+    #field intptr RootDirectory
+    #field var ObjectName
+    #field int Attributes
+    #field var SecurityDescriptor
+    #field var SecurityQualityOfService
+#endstruct
+
+#defstruct LSA_REFERENCED_DOMAIN_LIST
+    #field int Entries
+    #field var Domains
+#endstruct
+
+#defstruct LSA_TRANSLATED_NAME
+    #field int Use
+    #field int Name
+    #field int DomainIndex
+#endstruct
+
+#defstruct LSA_TRANSLATED_SID
+    #field int Use
+    #field int RelativeId
+    #field int DomainIndex
+#endstruct
+
+#defstruct LSA_TRANSLATED_SID2
+    #field int Use
+    #field int Sid
+    #field int DomainIndex
+    #field int Flags
+#endstruct
+
+#defstruct LSA_TRUST_INFORMATION
+    #field int Name
+    #field int Sid
+#endstruct
+
+#defstruct LSA_UNICODE_STRING
+    #field int Length
+    #field int MaximumLength
+    #field wstr Buffer
+#endstruct
+
+#defstruct LUID
+    #field int LowPart
+    #field int HighPart
+#endstruct
+
+#defstruct LUID_AND_ATTRIBUTES
+    #field var Luid
+    #field int Attributes
+#endstruct
+
+#defstruct MANAGEDAPPLICATION
+    #field wstr pszPackageName
+    #field wstr pszPublisher
+    #field int dwVersionHi
+    #field int dwVersionLo
+    #field int dwRevision
+    #field wstr pszPolicyName
+    #field int Language
+    #field wstr pszOwner
+    #field wstr pszCompany
+    #field wstr pszComments
+    #field wstr pszContact
+    #field wstr pszSupportUrl
+    #field int dwPathType
+    #field int bInstalled
+#endstruct
+
 #defstruct MARGINS
     #field int cxLeftWidth
     #field int cxRightWidth
     #field int cyTopHeight
     #field int cyBottomHeight
+#endstruct
+
+#defstruct MAT2
+    #field var eM11
+    #field var eM12
+    #field var eM21
+    #field var eM22
+#endstruct
+
+#defstruct MEMORYSTATUS
+    #field int dwLength
+    #field int dwMemoryLoad
+    #field int dwTotalPhys
+    #field int dwAvailPhys
+    #field int dwTotalPageFile
+    #field int dwAvailPageFile
+    #field int dwTotalVirtual
+    #field int dwAvailVirtual
+#endstruct
+
+#defstruct MEMORYSTATUSEX
+    #field int dwLength
+    #field int dwMemoryLoad
+    #field int64 ullTotalPhys
+    #field int64 ullAvailPhys
+    #field int64 ullTotalPageFile
+    #field int64 ullAvailPageFile
+    #field int64 ullTotalVirtual
+    #field int64 ullAvailVirtual
+    #field int64 ullAvailExtendedVirtual
+#endstruct
+
+#defstruct MENU_EVENT_RECORD
+    #field int dwCommandId
+#endstruct
+
+#defstruct MENUBARINFO
+    #field int cbSize
+    #field int rcBar
+    #field intptr hMenu
+    #field intptr hwndMenu
+    #field int _bitfield
+#endstruct
+
+#defstruct MENUINFO
+    #field int cbSize
+    #field int fMask
+    #field int dwStyle
+    #field int cyMax
+    #field intptr hbrBack
+    #field int dwContextHelpID
+    #field int dwMenuData
+#endstruct
+
+#defstruct MENUITEMINFOW
+    #field int cbSize
+    #field int fMask
+    #field int fType
+    #field int fState
+    #field int wID
+    #field intptr hSubMenu
+    #field intptr hbmpChecked
+    #field intptr hbmpUnchecked
+    #field int dwItemData
+    #field wstr dwTypeData
+    #field int cch
+    #field intptr hbmpItem
+#endstruct
+
+#defstruct METAFILEPICT
+    #field int mm
+    #field int xExt
+    #field int yExt
+    #field intptr hMF
+#endstruct
+
+#defstruct METARECORD
+    #field int rdSize
+    #field int rdFunction
+#endstruct
+
+#defstruct METHODDATA
+    #field wstr szName
+    #field var ppdata
+    #field int dispid
+    #field int iMeth
+    #field int cc
+    #field int cArgs
+    #field int wFlags
+    #field int vtReturn
+#endstruct
+
+#defstruct MIDIHDR
+    #field str lpData
+    #field int dwBufferLength
+    #field int dwBytesRecorded
+    #field int dwUser
+    #field int dwFlags
+    #field var lpNext
+    #field int reserved
+    #field int dwOffset
+    #field int dwReserved
+#endstruct
+
+#defstruct MIDIINCAPSW
+    #field int wMid
+    #field int wPid
+    #field int vDriverVersion
+    #field int szPname
+    #field int dwSupport
+#endstruct
+
+#defstruct MIDIOUTCAPSW
+    #field int wMid
+    #field int wPid
+    #field int vDriverVersion
+    #field int szPname
+    #field int wTechnology
+    #field int wVoices
+    #field int wNotes
+    #field int wChannelMask
+    #field int dwSupport
+#endstruct
+
+#defstruct MilMatrix3x2D
+    #field double S_11
+    #field double S_12
+    #field double S_21
+    #field double S_22
+    #field double DX
+    #field double DY
+#endstruct
+
+#defstruct MIXERCAPSW
+    #field int wMid
+    #field int wPid
+    #field int vDriverVersion
+    #field int szPname
+    #field int fdwSupport
+    #field int cDestinations
+#endstruct
+
+#defstruct MIXERCONTROLDETAILS
+    #field int cbStruct
+    #field int dwControlID
+    #field int cChannels
+    #field var Anonymous
+    #field int cbDetails
+    #field var paDetails
+    #field intptr hwndOwner
+    #field int cMultipleItems
+#endstruct
+
+#defstruct MIXERCONTROLW
+    #field int cbStruct
+    #field int dwControlID
+    #field int dwControlType
+    #field int fdwControl
+    #field int cMultipleItems
+    #field int szShortName
+    #field int szName
+    #field int Bounds
+    #field int Metrics
+    #field var Anonymous1
+    #field var Anonymous2
+    #field int dwReserved
+    #field int lMinimum
+    #field int lMaximum
+    #field int dwMinimum
+    #field int dwMaximum
+    #field int cSteps
+    #field int cbCustomData
+    #field int dwReserved
+#endstruct
+
+#defstruct _Bounds_e__Union
+    #field var Anonymous1
+    #field var Anonymous2
+    #field int dwReserved
+    #field int lMinimum
+    #field int lMaximum
+    #field int dwMinimum
+    #field int dwMaximum
+#endstruct
+
+#defstruct _Metrics_e__Union
+    #field int cSteps
+    #field int cbCustomData
+    #field int dwReserved
+#endstruct
+
+#defstruct MIXERLINECONTROLSW
+    #field int cbStruct
+    #field int dwLineID
+    #field var Anonymous
+    #field int cControls
+    #field int cbmxctrl
+    #field var pamxctrl
+    #field int dwControlID
+    #field int dwControlType
+#endstruct
+
+#defstruct MIXERLINEW
+    #field int cbStruct
+    #field int dwDestination
+    #field int dwSource
+    #field int dwLineID
+    #field int fdwLine
+    #field int dwUser
+    #field int dwComponentType
+    #field int cChannels
+    #field int cConnections
+    #field int cControls
+    #field int szShortName
+    #field int szName
+    #field int Target
+    #field int dwType
+    #field int dwDeviceID
+    #field int wMid
+    #field int wPid
+    #field int vDriverVersion
+    #field int szPname
+#endstruct
+
+#defstruct _Target_e__Struct
+    #field int dwType
+    #field int dwDeviceID
+    #field int wMid
+    #field int wPid
+    #field int vDriverVersion
+    #field int szPname
+#endstruct
+
+#defstruct MMCKINFO
+    #field int ckid
+    #field int cksize
+    #field int fccType
+    #field int dwDataOffset
+    #field int dwFlags
+#endstruct
+
+#defstruct MMIOINFO
+    #field int dwFlags
+    #field int fccIOProc
+    #field int wErrorRet
+    #field intptr htask
+    #field int cchBuffer
+    #field var pchBuffer
+    #field var pchNext
+    #field var pchEndRead
+    #field var pchEndWrite
+    #field int lBufOffset
+    #field int lDiskOffset
+    #field int adwInfo
+    #field int dwReserved1
+    #field int dwReserved2
+    #field intptr hmmio
+#endstruct
+
+#defstruct MMTIME
+    #field int wType
+    #field var u
+    #field int ms
+    #field int sample
+    #field int cb
+    #field int ticks
+    #field int smpte
+    #field int midi
+    #field int hour
+    #field int min
+    #field int sec
+    #field int frame
+    #field int fps
+    #field int dummy
+    #field int pad
+    #field int songptrpos
+#endstruct
+
+#defstruct _smpte_e__Struct
+    #field int hour
+    #field int min
+    #field int sec
+    #field int frame
+    #field int fps
+    #field int dummy
+    #field int pad
+#endstruct
+
+#defstruct _midi_e__Struct
+    #field int songptrpos
+#endstruct
+
+#defstruct MODLOAD_DATA
+    #field int ssize
+    #field int ssig
+    #field var data
+    #field int size
+    #field int flags
+#endstruct
+
+#defstruct MODULEENTRY32
+    #field int dwSize
+    #field int th32ModuleID
+    #field int th32ProcessID
+    #field int GlblcntUsage
+    #field int ProccntUsage
+    #field var modBaseAddr
+    #field int modBaseSize
+    #field intptr hModule
+    #field int szModule
+    #field int szExePath
+#endstruct
+
+#defstruct MODULEINFO
+    #field var lpBaseOfDll
+    #field int SizeOfImage
+    #field var EntryPoint
+#endstruct
+
+#defstruct MONITORINFO
+    #field int cbSize
+    #field int rcMonitor
+    #field int rcWork
+    #field int dwFlags
+#endstruct
+
+#defstruct MOUSE_EVENT_RECORD
+    #field var dwMousePosition
+    #field int dwButtonState
+    #field int dwControlKeyState
+    #field int dwEventFlags
+#endstruct
+
+#defstruct MOUSEINPUT
+    #field int dx
+    #field int dy
+    #field int mouseData
+    #field int dwFlags
+    #field int time
+    #field int dwExtraInfo
+#endstruct
+
+#defstruct MOUSEMOVEPOINT
+    #field int x
+    #field int y
+    #field int time
+    #field int dwExtraInfo
+#endstruct
+
+#defstruct MS_ADDINFO_BLOB
+    #field int cbStruct
+    #field int cbMemObject
+    #field var pbMemObject
+    #field int cbMemSignedMsg
+    #field var pbMemSignedMsg
+#endstruct
+
+#defstruct MS_ADDINFO_CATALOGMEMBER
+    #field int cbStruct
+    #field var pStore
+    #field var pMember
+#endstruct
+
+#defstruct MS_ADDINFO_FLAT
+    #field int cbStruct
+    #field var pIndirectData
 #endstruct
 
 #defstruct MSG
@@ -196,6 +4337,523 @@
     #field intptr wParam
     #field intptr lParam
     #field int time
+#endstruct
+
+#defstruct MSGBOXPARAMSW
+    #field int cbSize
+    #field intptr hwndOwner
+    #field intptr hInstance
+    #field wstr lpszText
+    #field wstr lpszCaption
+    #field int dwStyle
+    #field wstr lpszIcon
+    #field int dwContextHelpId
+    #field int dwLanguageId
+#endstruct
+
+#defstruct NLSVERSIONINFO
+    #field int dwNLSVersionInfoSize
+    #field int dwNLSVersion
+    #field int dwDefinedVersion
+    #field int dwEffectiveId
+#endstruct
+
+#defstruct NLSVERSIONINFOEX
+    #field int dwNLSVersionInfoSize
+    #field int dwNLSVersion
+    #field int dwDefinedVersion
+    #field int dwEffectiveId
+#endstruct
+
+#defstruct NUMBERFMTW
+    #field int NumDigits
+    #field int LeadingZero
+    #field int Grouping
+    #field wstr lpDecimalSep
+    #field wstr lpThousandSep
+    #field int NegativeOrder
+#endstruct
+
+#defstruct NUMPARSE
+    #field int cDig
+    #field int dwInFlags
+    #field int dwOutFlags
+    #field int cchUsed
+    #field int nBaseShift
+    #field int nPwr10
+#endstruct
+
+#defstruct OBJECT_TYPE_LIST
+    #field int Level
+    #field int Sbz
+#endstruct
+
+#defstruct OBJECTS_AND_NAME_W
+    #field int ObjectsPresent
+    #field int ObjectType
+    #field wstr ObjectTypeName
+    #field wstr InheritedObjectTypeName
+    #field wstr ptstrName
+#endstruct
+
+#defstruct OBJECTS_AND_SID
+    #field int ObjectsPresent
+    #field var pSid
+#endstruct
+
+#defstruct OCPFIPARAMS
+    #field int cbStructSize
+    #field intptr hWndOwner
+    #field int x
+    #field int y
+    #field wstr lpszCaption
+    #field int cObjects
+    #field var lplpUnk
+    #field int cPages
+    #field int lcid
+    #field int dispidInitialProperty
+#endstruct
+
+#defstruct OFSTRUCT
+    #field int cBytes
+    #field int fFixedDisk
+    #field int nErrCode
+    #field int Reserved1
+    #field int Reserved2
+    #field int szPathName
+#endstruct
+
+#defstruct OLEINPLACEFRAMEINFO
+    #field int cb
+    #field int fMDIApp
+    #field intptr hwndFrame
+    #field intptr haccel
+    #field int cAccelEntries
+#endstruct
+
+#defstruct OLEMENUGROUPWIDTHS
+    #field int width
+#endstruct
+
+#defstruct OLESTREAM
+    #field var lpstbl
+#endstruct
+
+#defstruct OLESTREAMVTBL
+    #field int Get
+    #field int Put
+#endstruct
+
+#defstruct OLEVERB
+    #field int lVerb
+    #field wstr lpszVerbName
+    #field int fuFlags
+#endstruct
+
+#defstruct OMAP
+    #field int rva
+    #field int rvaTo
+#endstruct
+
+#defstruct OPENASINFO
+    #field wstr pcszFile
+    #field wstr pcszClass
+    #field int oaifInFlags
+#endstruct
+
+#defstruct OPERATION_END_PARAMETERS
+    #field int Version
+    #field int OperationId
+    #field int Flags
+#endstruct
+
+#defstruct OPERATION_START_PARAMETERS
+    #field int Version
+    #field int OperationId
+    #field int Flags
+#endstruct
+
+#defstruct OSVERSIONINFOEXW
+    #field int dwOSVersionInfoSize
+    #field int dwMajorVersion
+    #field int dwMinorVersion
+    #field int dwBuildNumber
+    #field int dwPlatformId
+    #field int szCSDVersion
+    #field int wServicePackMajor
+    #field int wServicePackMinor
+    #field int wSuiteMask
+    #field int wProductType
+    #field int wReserved
+#endstruct
+
+#defstruct OSVERSIONINFOW
+    #field int dwOSVersionInfoSize
+    #field int dwMajorVersion
+    #field int dwMinorVersion
+    #field int dwBuildNumber
+    #field int dwPlatformId
+    #field int szCSDVersion
+#endstruct
+
+#defstruct OUTLINETEXTMETRICW
+    #field int otmSize
+    #field int otmTextMetrics
+    #field int otmFiller
+    #field int otmPanoseNumber
+    #field int otmfsSelection
+    #field int otmfsType
+    #field int otmsCharSlopeRise
+    #field int otmsCharSlopeRun
+    #field int otmItalicAngle
+    #field int otmEMSquare
+    #field int otmAscent
+    #field int otmDescent
+    #field int otmLineGap
+    #field int otmsCapEmHeight
+    #field int otmsXHeight
+    #field int otmrcFontBox
+    #field int otmMacAscent
+    #field int otmMacDescent
+    #field int otmMacLineGap
+    #field int otmusMinimumPPEM
+    #field int otmsStrikeoutSize
+    #field int otmsStrikeoutPosition
+    #field int otmsUnderscoreSize
+    #field int otmsUnderscorePosition
+    #field str otmpFamilyName
+    #field str otmpFaceName
+    #field str otmpStyleName
+    #field str otmpFullName
+#endstruct
+
+#defstruct OUTPUT_DEBUG_STRING_INFO
+    #field str lpDebugStringData
+    #field int fUnicode
+    #field int nDebugStringLength
+#endstruct
+
+#defstruct OVERLAPPED_ENTRY
+    #field int lpCompletionKey
+    #field int Internal
+    #field int dwNumberOfBytesTransferred
+#endstruct
+
+#defstruct PAINTSTRUCT
+    #field intptr hdc
+    #field int fErase
+    #field int rcPaint
+    #field int fRestore
+    #field int fIncUpdate
+    #field int rgbReserved
+#endstruct
+
+#defstruct PALETTEENTRY
+    #field int peRed
+    #field int peGreen
+    #field int peBlue
+    #field int peFlags
+#endstruct
+
+#defstruct PANOSE
+    #field int bFamilyType
+    #field int bSerifStyle
+    #field int bWeight
+    #field int bProportion
+    #field int bContrast
+    #field int bStrokeVariation
+    #field int bArmStyle
+    #field int bLetterform
+    #field int bMidline
+    #field int bXHeight
+#endstruct
+
+#defstruct PARAMDATA
+    #field wstr szName
+    #field int vt
+#endstruct
+
+#defstruct PARAMDESC
+    #field var pparamdescex
+    #field int wParamFlags
+#endstruct
+
+#defstruct PARAMDESCEX
+    #field int cBytes
+    #field int varDefaultValue
+#endstruct
+
+#defstruct PATHDATA
+    #field int flags
+    #field int count
+    #field var pptfx
+#endstruct
+
+#defstruct PATHOBJ
+    #field int fl
+    #field int cCurves
+#endstruct
+
+#defstruct PERF_COUNTER_IDENTIFIER
+    #field int Status
+    #field int Size
+    #field int CounterId
+    #field int InstanceId
+    #field int Index
+    #field int Reserved
+#endstruct
+
+#defstruct PERF_DATA_HEADER
+    #field int dwTotalSize
+    #field int dwNumCounters
+    #field int64 PerfTimeStamp
+    #field int64 PerfTime100NSec
+    #field int64 PerfFreq
+    #field int SystemTime
+#endstruct
+
+#defstruct PERF_INSTANCE_HEADER
+    #field int Size
+    #field int InstanceId
+#endstruct
+
+#defstruct PERFORMANCE_DATA
+    #field int Size
+    #field int Version
+    #field int HwCountersCount
+    #field int ContextSwitchCount
+    #field int64 WaitReasonBitMap
+    #field int64 CycleTime
+    #field int RetryCount
+    #field int Reserved
+    #field int HwCounters
+#endstruct
+
+#defstruct PERFORMANCE_INFORMATION
+    #field int cb
+    #field int CommitTotal
+    #field int CommitLimit
+    #field int CommitPeak
+    #field int PhysicalTotal
+    #field int PhysicalAvailable
+    #field int SystemCache
+    #field int KernelTotal
+    #field int KernelPaged
+    #field int KernelNonpaged
+    #field int PageSize
+    #field int HandleCount
+    #field int ProcessCount
+    #field int ThreadCount
+#endstruct
+
+#defstruct PICTDESC
+    #field int cbSizeofstruct
+    #field var Anonymous
+    #field int bmp
+    #field int wmf
+    #field int icon
+    #field int emf
+    #field intptr hbitmap
+    #field intptr hpal
+    #field intptr hmeta
+    #field int xExt
+    #field int yExt
+    #field intptr hicon
+    #field intptr hemf
+#endstruct
+
+#defstruct _bmp_e__Struct
+    #field intptr hbitmap
+    #field intptr hpal
+#endstruct
+
+#defstruct _wmf_e__Struct
+    #field intptr hmeta
+    #field int xExt
+    #field int yExt
+#endstruct
+
+#defstruct _icon_e__Struct
+    #field intptr hicon
+#endstruct
+
+#defstruct _emf_e__Struct
+    #field intptr hemf
+#endstruct
+
+#defstruct PIXELFORMATDESCRIPTOR
+    #field int nSize
+    #field int nVersion
+    #field int dwFlags
+    #field int iPixelType
+    #field int cColorBits
+    #field int cRedBits
+    #field int cRedShift
+    #field int cGreenBits
+    #field int cGreenShift
+    #field int cBlueBits
+    #field int cBlueShift
+    #field int cAlphaBits
+    #field int cAlphaShift
+    #field int cAccumBits
+    #field int cAccumRedBits
+    #field int cAccumGreenBits
+    #field int cAccumBlueBits
+    #field int cAccumAlphaBits
+    #field int cDepthBits
+    #field int cStencilBits
+    #field int cAuxBuffers
+    #field int bReserved
+    #field int dwLayerMask
+    #field int dwVisibleMask
+    #field int dwDamageMask
+#endstruct
+
+#defstruct POINTER_DEVICE_CURSOR_INFO
+    #field int cursorId
+    #field int cursor
+#endstruct
+
+#defstruct POINTER_DEVICE_INFO
+    #field int displayOrientation
+    #field intptr device
+    #field int pointerDeviceType
+    #field intptr monitor
+    #field int startingCursorId
+    #field int maxActiveContacts
+    #field int productString
+#endstruct
+
+#defstruct POINTER_DEVICE_PROPERTY
+    #field int logicalMin
+    #field int logicalMax
+    #field int physicalMin
+    #field int physicalMax
+    #field int unit
+    #field int unitExponent
+    #field int usagePageId
+    #field int usageId
+#endstruct
+
+#defstruct POINTER_INFO
+    #field int pointerType
+    #field int pointerId
+    #field int frameId
+    #field int pointerFlags
+    #field intptr sourceDevice
+    #field intptr hwndTarget
+    #field int dwTime
+    #field int historyCount
+    #field int InputData
+    #field int dwKeyStates
+    #field int64 PerformanceCount
+    #field int ButtonChangeType
+#endstruct
+
+#defstruct POINTER_PEN_INFO
+    #field var pointerInfo
+    #field int penFlags
+    #field int penMask
+    #field int pressure
+    #field int rotation
+    #field int tiltX
+    #field int tiltY
+#endstruct
+
+#defstruct POINTER_TOUCH_INFO
+    #field var pointerInfo
+    #field int touchFlags
+    #field int touchMask
+    #field int rcContact
+    #field int rcContactRaw
+    #field int orientation
+    #field int pressure
+#endstruct
+
+#defstruct POINTER_TYPE_INFO
+    #field int type
+    #field var Anonymous
+    #field var touchInfo
+    #field var penInfo
+#endstruct
+
+#defstruct POINTFIX
+    #field int x
+    #field int y
+#endstruct
+
+#defstruct POINTL
+    #field int x
+    #field int y
+#endstruct
+
+#defstruct POINTQF
+    #field int64 x
+    #field int64 y
+#endstruct
+
+#defstruct POINTS
+    #field int x
+    #field int y
+#endstruct
+
+#defstruct POLICY_AUDIT_SID_ARRAY
+    #field int UsersCount
+    #field var UserSidArray
+#endstruct
+
+#defstruct POLICYSETTINGSTATUSINFO
+    #field wstr szKey
+    #field wstr szEventSource
+    #field wstr szEventLogName
+    #field int dwEventID
+    #field int dwErrorCode
+    #field int status
+    #field int timeLogged
+#endstruct
+
+#defstruct POLYTEXTW
+    #field int x
+    #field int y
+    #field int n
+    #field wstr lpstr
+    #field int uiFlags
+    #field int rcl
+    #field var pdx
+#endstruct
+
+#defstruct PRIVILEGE_SET
+    #field int PrivilegeCount
+    #field int Control
+#endstruct
+
+#defstruct PROCESS_HEAP_ENTRY
+    #field var lpData
+    #field int cbData
+    #field int cbOverhead
+    #field int iRegionIndex
+    #field int wFlags
+    #field var Anonymous
+    #field int Block
+    #field int Region
+    #field intptr hMem
+    #field int dwReserved
+    #field int dwCommittedSize
+    #field int dwUnCommittedSize
+    #field var lpFirstBlock
+    #field var lpLastBlock
+#endstruct
+
+#defstruct _Block_e__Struct
+    #field intptr hMem
+    #field int dwReserved
+#endstruct
+
+#defstruct _Region_e__Struct
+    #field int dwCommittedSize
+    #field int dwUnCommittedSize
+    #field var lpFirstBlock
+    #field var lpLastBlock
 #endstruct
 
 #defstruct PROCESS_INFORMATION
@@ -218,7 +4876,342 @@
     #field int PeakPagefileUsage
 #endstruct
 
+#defstruct PROCESSENTRY32
+    #field int dwSize
+    #field int cntUsage
+    #field int th32ProcessID
+    #field int th32DefaultHeapID
+    #field int th32ModuleID
+    #field int cntThreads
+    #field int th32ParentProcessID
+    #field int pcPriClassBase
+    #field int dwFlags
+    #field int szExeFile
+#endstruct
+
+#defstruct PROCESSOR_NUMBER
+    #field int Group
+    #field int Number
+    #field int Reserved
+#endstruct
+
+#defstruct PROFILEINFOW
+    #field int dwSize
+    #field int dwFlags
+    #field wstr lpUserName
+    #field wstr lpProfilePath
+    #field wstr lpDefaultPath
+    #field wstr lpServerName
+    #field wstr lpPolicyPath
+    #field intptr hProfile
+#endstruct
+
+#defstruct PROPERTYKEY
+    #field int pid
+#endstruct
+
+#defstruct PROPSHEETHEADERW_V2
+    #field int dwSize
+    #field int dwFlags
+    #field intptr hwndParent
+    #field intptr hInstance
+    #field var Anonymous1
+    #field wstr pszCaption
+    #field int nPages
+    #field var Anonymous2
+    #field var Anonymous3
+    #field var Anonymous4
+    #field intptr hplWatermark
+    #field int Anonymous5
+    #field intptr hIcon
+    #field wstr pszIcon
+    #field int nStartPage
+    #field wstr pStartPage
+    #field var ppsp
+    #field var phpage
+    #field intptr hbmWatermark
+    #field wstr pszbmWatermark
+    #field intptr hbmHeader
+    #field wstr pszbmHeader
+#endstruct
+
+#defstruct _Anonymous5_e__Union
+    #field intptr hbmHeader
+    #field wstr pszbmHeader
+#endstruct
+
+#defstruct PROPSHEETPAGEW
+    #field int dwSize
+    #field int dwFlags
+    #field intptr hInstance
+    #field var Anonymous1
+    #field var Anonymous2
+    #field wstr pszTitle
+    #field intptr lParam
+    #field var pcRefParent
+    #field wstr pszHeaderTitle
+    #field wstr pszHeaderSubTitle
+    #field intptr hActCtx
+    #field var Anonymous3
+    #field wstr pszTemplate
+    #field var pResource
+    #field intptr hIcon
+    #field wstr pszIcon
+    #field intptr hbmHeader
+    #field wstr pszbmHeader
+#endstruct
+
+#defstruct PROPSPEC
+    #field int ulKind
+    #field var Anonymous
+    #field int propid
+    #field wstr lpwstr
+#endstruct
+
+#defstruct PROPVARIANT
+    #field var Anonymous
+    #field var Anonymous
+    #field var decVal
+    #field int vt
+    #field int wReserved1
+    #field int wReserved2
+    #field int wReserved3
+    #field var Anonymous
+    #field int cVal
+    #field int bVal
+    #field int iVal
+    #field int uiVal
+    #field int lVal
+    #field int ulVal
+    #field int intVal
+    #field int uintVal
+    #field int64 hVal
+    #field int64 uhVal
+    #field float fltVal
+    #field double dblVal
+    #field int boolVal
+    #field int __OBSOLETE__VARIANT_BOOL
+    #field int scode
+    #field var cyVal
+    #field double date
+    #field var pclipdata
+    #field int bstrVal
+    #field var bstrblobVal
+    #field var blob
+    #field str pszVal
+    #field wstr pwszVal
+    #field var punkVal
+    #field var pdispVal
+    #field var pStream
+    #field var pStorage
+    #field var pVersionedStream
+    #field var parray
+    #field var cac
+    #field var caub
+    #field var cai
+    #field var caui
+    #field var cal
+    #field var caul
+    #field var cah
+    #field var cauh
+    #field var caflt
+    #field var cadbl
+    #field var cabool
+    #field var cascode
+    #field var cacy
+    #field var cadate
+    #field var cafiletime
+    #field var cauuid
+    #field var caclipdata
+    #field var cabstr
+    #field var cabstrblob
+    #field var calpstr
+    #field var calpwstr
+    #field var capropvar
+    #field str pcVal
+    #field var pbVal
+    #field var piVal
+    #field var puiVal
+    #field var plVal
+    #field var pulVal
+    #field var pintVal
+    #field var puintVal
+    #field var pfltVal
+    #field var pdblVal
+    #field var pboolVal
+    #field var pdecVal
+    #field var pscode
+    #field var pcyVal
+    #field var pdate
+    #field var pbstrVal
+    #field var ppunkVal
+    #field var ppdispVal
+    #field var pparray
+    #field var pvarVal
+#endstruct
+
+#defstruct PSAPI_WS_WATCH_INFORMATION
+    #field var FaultingPc
+    #field var FaultingVa
+#endstruct
+
+#defstruct PSAPI_WS_WATCH_INFORMATION_EX
+    #field var BasicInfo
+    #field int FaultingThreadId
+    #field int Flags
+#endstruct
+
+#defstruct PUBLICKEYSTRUC
+    #field int bType
+    #field int bVersion
+    #field int reserved
+    #field int aiKeyAlg
+#endstruct
+
+#defstruct QUERY_SERVICE_CONFIGW
+    #field int dwServiceType
+    #field int dwStartType
+    #field int dwErrorControl
+    #field wstr lpBinaryPathName
+    #field wstr lpLoadOrderGroup
+    #field int dwTagId
+    #field wstr lpDependencies
+    #field wstr lpServiceStartName
+    #field wstr lpDisplayName
+#endstruct
+
+#defstruct QUERY_SERVICE_LOCK_STATUSW
+    #field int fIsLocked
+    #field wstr lpLockOwner
+    #field int dwLockDuration
+#endstruct
+
+#defstruct QUERYCONTEXT
+    #field int dwContext
+    #field var Platform
+    #field int Locale
+    #field int dwVersionHi
+    #field int dwVersionLo
+#endstruct
+
+#defstruct QUOTA_LIMITS
+    #field int PagedPoolLimit
+    #field int NonPagedPoolLimit
+    #field int MinimumWorkingSetSize
+    #field int MaximumWorkingSetSize
+    #field int PagefileLimit
+    #field int64 TimeLimit
+#endstruct
+
+#defstruct RASTERIZER_STATUS
+    #field int nSize
+    #field int wFlags
+    #field int nLanguageID
+#endstruct
+
+#defstruct RAWHID
+    #field int dwSizeHid
+    #field int dwCount
+#endstruct
+
+#defstruct RAWINPUT
+    #field int header
+    #field int data
+    #field int mouse
+    #field int keyboard
+    #field var hid
+#endstruct
+
+#defstruct _data_e__Union
+    #field int mouse
+    #field int keyboard
+    #field var hid
+#endstruct
+
+#defstruct RAWINPUTDEVICE
+    #field int usUsagePage
+    #field int usUsage
+    #field int dwFlags
+    #field intptr hwndTarget
+#endstruct
+
+#defstruct RAWINPUTDEVICELIST
+    #field intptr hDevice
+    #field int dwType
+#endstruct
+
+#defstruct RAWINPUTHEADER
+    #field int dwType
+    #field int dwSize
+    #field intptr hDevice
+    #field intptr wParam
+#endstruct
+
+#defstruct RAWKEYBOARD
+    #field int MakeCode
+    #field int Flags
+    #field int Reserved
+    #field int VKey
+    #field int Message
+    #field int ExtraInformation
+#endstruct
+
+#defstruct RAWMOUSE
+    #field int usFlags
+    #field var Anonymous
+    #field int ulRawButtons
+    #field int lLastX
+    #field int lLastY
+    #field int ulExtraInformation
+    #field int ulButtons
+    #field var Anonymous
+    #field int usButtonFlags
+    #field int usButtonData
+#endstruct
+
+#defstruct REASON_CONTEXT
+    #field int Version
+    #field int Flags
+    #field int Reason
+    #field int Detailed
+    #field wstr SimpleReasonString
+    #field intptr LocalizedReasonModule
+    #field int LocalizedReasonId
+    #field int ReasonStringCount
+    #field var ReasonStrings
+#endstruct
+
+#defstruct _Reason_e__Union
+    #field int Detailed
+    #field wstr SimpleReasonString
+    #field intptr LocalizedReasonModule
+    #field int LocalizedReasonId
+    #field int ReasonStringCount
+    #field var ReasonStrings
+#endstruct
+
+#defstruct _Detailed_e__Struct
+    #field intptr LocalizedReasonModule
+    #field int LocalizedReasonId
+    #field int ReasonStringCount
+    #field var ReasonStrings
+#endstruct
+
 #defstruct RECT
+    #field int left
+    #field int top
+    #field int right
+    #field int bottom
+#endstruct
+
+#defstruct RECTFX
+    #field int xLeft
+    #field int yTop
+    #field int xRight
+    #field int yBottom
+#endstruct
+
+#defstruct RECTL
     #field int left
     #field int top
     #field int right
@@ -232,19 +5225,324 @@
     #field int rgbReserved
 #endstruct
 
+#defstruct RGBTRIPLE
+    #field int rgbtBlue
+    #field int rgbtGreen
+    #field int rgbtRed
+#endstruct
+
+#defstruct RGNDATA
+    #field int rdh
+#endstruct
+
+#defstruct RGNDATAHEADER
+    #field int dwSize
+    #field int iType
+    #field int nCount
+    #field int nRgnSize
+    #field var rcBound
+#endstruct
+
+#defstruct RIP_INFO
+    #field int dwError
+    #field int dwType
+#endstruct
+
+#defstruct RUN
+    #field int iStart
+    #field int iStop
+#endstruct
+
+#defstruct SAFEARRAY
+    #field int cDims
+    #field int fFeatures
+    #field int cbElements
+    #field int cLocks
+    #field var pvData
+#endstruct
+
+#defstruct SAFEARRAYBOUND
+    #field int cElements
+    #field int lLbound
+#endstruct
+
+#defstruct SAFER_CODE_PROPERTIES_V2
+    #field int cbSize
+    #field int dwCheckFlags
+    #field wstr ImagePath
+    #field intptr hImageFileHandle
+    #field int UrlZoneId
+    #field int ImageHash
+    #field int dwImageHashSize
+    #field int64 ImageSize
+    #field int HashAlgorithm
+    #field var pByteBlock
+    #field intptr hWndParent
+    #field int dwWVTUIChoice
+    #field wstr PackageMoniker
+    #field wstr PackagePublisher
+    #field wstr PackageName
+    #field int64 PackageVersion
+    #field int PackageIsFramework
+#endstruct
+
+#defstruct SAMPR_ENCRYPTED_USER_PASSWORD
+    #field int Buffer
+#endstruct
+
+#defstruct SCROLLBARINFO
+    #field int cbSize
+    #field var rcScrollBar
+    #field int dxyLineButton
+    #field int xyThumbTop
+    #field int xyThumbBottom
+    #field int reserved
+    #field int rgstate
+#endstruct
+
+#defstruct SCROLLINFO
+    #field int cbSize
+    #field int fMask
+    #field int nMin
+    #field int nMax
+    #field int nPage
+    #field int nPos
+    #field int nTrackPos
+#endstruct
+
+#defstruct SEC_CHANNEL_BINDINGS
+    #field int dwInitiatorAddrType
+    #field int cbInitiatorLength
+    #field int dwInitiatorOffset
+    #field int dwAcceptorAddrType
+    #field int cbAcceptorLength
+    #field int dwAcceptorOffset
+    #field int cbApplicationDataLength
+    #field int dwApplicationDataOffset
+#endstruct
+
+#defstruct SecPkgContext_Bindings
+    #field int BindingsLength
+    #field var Bindings
+#endstruct
+
+#defstruct SecPkgContext_CipherInfo
+    #field int dwVersion
+    #field int dwProtocol
+    #field int dwCipherSuite
+    #field int dwBaseCipherSuite
+    #field int szCipherSuite
+    #field int szCipher
+    #field int dwCipherLen
+    #field int dwCipherBlockLen
+    #field int szHash
+    #field int dwHashLen
+    #field int szExchange
+    #field int dwMinExchangeLen
+    #field int dwMaxExchangeLen
+    #field int szCertificate
+    #field int dwKeyType
+#endstruct
+
+#defstruct SecPkgContext_ConnectionInfo
+    #field int dwProtocol
+    #field int aiCipher
+    #field int dwCipherStrength
+    #field int aiHash
+    #field int dwHashStrength
+    #field int aiExch
+    #field int dwExchStrength
+#endstruct
+
 #defstruct SECURITY_ATTRIBUTES
     #field int nLength
     #field var lpSecurityDescriptor
     #field int bInheritHandle
 #endstruct
 
+#defstruct SECURITY_QUALITY_OF_SERVICE
+    #field int Length
+    #field int ImpersonationLevel
+    #field int ContextTrackingMode
+    #field int EffectiveOnly
+#endstruct
+
+#defstruct SERIALIZEDPROPERTYVALUE
+    #field int dwType
+#endstruct
+
+#defstruct SERVICE_NOTIFY_2W
+    #field int dwVersion
+    #field var pContext
+    #field int dwNotificationStatus
+    #field int ServiceStatus
+    #field int dwNotificationTriggered
+    #field wstr pszServiceNames
+#endstruct
+
+#defstruct SERVICE_STATUS
+    #field int dwServiceType
+    #field int dwCurrentState
+    #field int dwControlsAccepted
+    #field int dwWin32ExitCode
+    #field int dwServiceSpecificExitCode
+    #field int dwCheckPoint
+    #field int dwWaitHint
+#endstruct
+
+#defstruct SERVICE_STATUS_PROCESS
+    #field int dwServiceType
+    #field int dwCurrentState
+    #field int dwControlsAccepted
+    #field int dwWin32ExitCode
+    #field int dwServiceSpecificExitCode
+    #field int dwCheckPoint
+    #field int dwWaitHint
+    #field int dwProcessId
+    #field int dwServiceFlags
+#endstruct
+
+#defstruct SERVICE_TABLE_ENTRYW
+    #field wstr lpServiceName
+#endstruct
+
+#defstruct SHChangeNotifyEntry
+    #field var pidl
+    #field int fRecursive
+#endstruct
+
+#defstruct SHELLFLAGSTATE
+    #field int _bitfield
+#endstruct
+
+#defstruct SHELLSTATEA
+    #field int _bitfield1
+    #field int dwWin95Unused
+    #field int uWin95Unused
+    #field int lParamSort
+    #field int iSortDirection
+    #field int version
+    #field int uNotUsed
+    #field int _bitfield2
+#endstruct
+
+#defstruct SHFOLDERCUSTOMSETTINGS
+    #field int dwSize
+    #field int dwMask
+    #field wstr pszWebViewTemplate
+    #field int cchWebViewTemplate
+    #field wstr pszWebViewTemplateVersion
+    #field wstr pszInfoTip
+    #field int cchInfoTip
+    #field int dwFlags
+    #field wstr pszIconFile
+    #field int cchIconFile
+    #field int iIconIndex
+    #field wstr pszLogo
+    #field int cchLogo
+#endstruct
+
 #defstruct SHITEMID
     #field int cb
+#endstruct
+
+#defstruct SID
+    #field int Revision
+    #field int SubAuthorityCount
+    #field int IdentifierAuthority
+#endstruct
+
+#defstruct SID_AND_ATTRIBUTES
+    #field int Sid
+    #field int Attributes
+#endstruct
+
+#defstruct SID_IDENTIFIER_AUTHORITY
+    #field int Value
+#endstruct
+
+#defstruct SIP_ADD_NEWPROVIDER
+    #field int cbStruct
+    #field wstr pwszDLLFileName
+    #field wstr pwszMagicNumber
+    #field wstr pwszIsFunctionName
+    #field wstr pwszGetFuncName
+    #field wstr pwszPutFuncName
+    #field wstr pwszCreateFuncName
+    #field wstr pwszVerifyFuncName
+    #field wstr pwszRemoveFuncName
+    #field wstr pwszIsFunctionNameFmt2
+    #field wstr pwszGetCapFuncName
+#endstruct
+
+#defstruct SIP_CAP_SET_V3
+    #field int cbSize
+    #field int dwVersion
+    #field int isMultiSign
+    #field var Anonymous
+    #field int dwFlags
+    #field int dwReserved
+#endstruct
+
+#defstruct SIP_DISPATCH_INFO
+    #field int cbSize
+    #field intptr hSIP
+#endstruct
+
+#defstruct SIP_INDIRECT_DATA
+    #field var Data
+    #field var DigestAlgorithm
+    #field var Digest
+#endstruct
+
+#defstruct SIP_SUBJECTINFO
+    #field int cbSize
+    #field intptr hFile
+    #field wstr pwsFileName
+    #field wstr pwsDisplayName
+    #field int dwReserved1
+    #field int dwIntVersion
+    #field int hProv
+    #field var DigestAlgorithm
+    #field int dwFlags
+    #field int dwEncodingType
+    #field int dwReserved2
+    #field int fdwCAPISettings
+    #field int fdwSecuritySettings
+    #field int dwIndex
+    #field int dwUnionChoice
+    #field var Anonymous
+    #field var pClientData
+    #field var psFlat
+    #field var psCatMember
+    #field var psBlob
 #endstruct
 
 #defstruct SIZE
     #field int cx
     #field int cy
+#endstruct
+
+#defstruct SMALL_RECT
+    #field int Left
+    #field int Top
+    #field int Right
+    #field int Bottom
+#endstruct
+
+#defstruct SOURCEFILE
+    #field int64 ModBase
+    #field str FileName
+#endstruct
+
+#defstruct SRCCODEINFO
+    #field int SizeOfStruct
+    #field var Key
+    #field int64 ModBase
+    #field int Obj
+    #field int FileName
+    #field int LineNumber
+    #field int64 Address
 #endstruct
 
 #defstruct STACKFRAME64
@@ -259,6 +5557,22 @@
     #field int Virtual
     #field int Reserved
     #field var KdHelp
+#endstruct
+
+#defstruct STACKFRAME_EX
+    #field var AddrPC
+    #field var AddrReturn
+    #field var AddrFrame
+    #field var AddrStack
+    #field var AddrBStore
+    #field var FuncTableEntry
+    #field int Params
+    #field int Far
+    #field int Virtual
+    #field int Reserved
+    #field var KdHelp
+    #field int StackFrameSize
+    #field int InlineFrameContext
 #endstruct
 
 #defstruct STARTUPINFOW
@@ -282,6 +5596,90 @@
     #field intptr hStdError
 #endstruct
 
+#defstruct STATDATA
+    #field var formatetc
+    #field int advf
+    #field var pAdvSink
+    #field int dwConnection
+#endstruct
+
+#defstruct STATPROPSETSTG
+    #field int grfFlags
+    #field int dwOSVersion
+#endstruct
+
+#defstruct STATPROPSTG
+    #field wstr lpwstrName
+    #field int propid
+    #field int vt
+#endstruct
+
+#defstruct STATSTG
+    #field wstr pwcsName
+    #field int type
+    #field int64 cbSize
+    #field int grfMode
+    #field int grfStateBits
+    #field int reserved
+#endstruct
+
+#defstruct STGMEDIUM
+    #field var u
+    #field var pUnkForRelease
+    #field intptr hBitmap
+    #field var hMetaFilePict
+    #field intptr hEnhMetaFile
+    #field int hGlobal
+    #field wstr lpszFileName
+    #field var pstm
+    #field var pstg
+#endstruct
+
+#defstruct STGOPTIONS
+    #field int usVersion
+    #field int reserved
+    #field int ulSectorSize
+    #field wstr pwcsTemplateFile
+#endstruct
+
+#defstruct STROBJ
+    #field int cGlyphs
+    #field int flAccel
+    #field int ulCharInc
+    #field var rclBkGround
+    #field var pgp
+    #field wstr pwszOrg
+#endstruct
+
+#defstruct STRRET
+    #field int uType
+    #field var Anonymous
+    #field wstr pOleStr
+    #field int uOffset
+    #field int cStr
+#endstruct
+
+#defstruct STYLEBUFW
+    #field int dwStyle
+    #field int szDescription
+#endstruct
+
+#defstruct SURFOBJ
+    #field intptr dhsurf
+    #field intptr hsurf
+    #field intptr dhpdev
+    #field intptr hdev
+    #field var sizlBitmap
+    #field int cjBits
+    #field var pvBits
+    #field var pvScan0
+    #field int lDelta
+    #field int iUniq
+    #field int iBitmapFormat
+    #field int iType
+    #field int fjBitmap
+#endstruct
+
 #defstruct SYMBOL_INFO
     #field int SizeOfStruct
     #field int TypeIndex
@@ -299,6 +5697,72 @@
     #field int MaxNameLen
 #endstruct
 
+#defstruct SYMSRV_INDEX_INFO
+    #field int sizeofstruct
+    #field int file
+    #field int stripped
+    #field int timestamp
+    #field int size
+    #field int dbgfile
+    #field int pdbfile
+    #field int sig
+    #field int age
+#endstruct
+
+#defstruct SYNCHRONIZATION_BARRIER
+    #field int Reserved1
+    #field int Reserved2
+    #field int Reserved3
+    #field int Reserved4
+    #field int Reserved5
+#endstruct
+
+#defstruct SYSTEM_INFO
+    #field var Anonymous
+    #field int dwPageSize
+    #field var lpMinimumApplicationAddress
+    #field var lpMaximumApplicationAddress
+    #field int dwActiveProcessorMask
+    #field int dwNumberOfProcessors
+    #field int dwProcessorType
+    #field int dwAllocationGranularity
+    #field int wProcessorLevel
+    #field int wProcessorRevision
+    #field int dwOemId
+    #field var Anonymous
+    #field int wProcessorArchitecture
+    #field int wReserved
+#endstruct
+
+#defstruct SYSTEM_LOGICAL_PROCESSOR_INFORMATION
+    #field int ProcessorMask
+    #field int Relationship
+    #field var Anonymous
+    #field int ProcessorCore
+    #field int NumaNode
+    #field var Cache
+    #field int Reserved
+    #field int Flags
+    #field int NodeNumber
+#endstruct
+
+#defstruct _ProcessorCore_e__Struct
+    #field int Flags
+#endstruct
+
+#defstruct _NumaNode_e__Struct
+    #field int NodeNumber
+#endstruct
+
+#defstruct SYSTEM_POWER_STATUS
+    #field int ACLineStatus
+    #field int BatteryFlag
+    #field int BatteryLifePercent
+    #field int SystemStatusFlag
+    #field int BatteryLifeTime
+    #field int BatteryFullLifeTime
+#endstruct
+
 #defstruct SYSTEMTIME
     #field int wYear
     #field int wMonth
@@ -308,6 +5772,18 @@
     #field int wMinute
     #field int wSecond
     #field int wMilliseconds
+#endstruct
+
+#defstruct TA_TIMINGFUNCTION
+    #field int eTimingFunctionType
+#endstruct
+
+#defstruct TA_TRANSFORM
+    #field int eTransformType
+    #field int dwTimingFunctionId
+    #field int dwStartTime
+    #field int dwDurationTime
+    #field int eFlags
 #endstruct
 
 #defstruct TEXTMETRICW
@@ -333,6 +5809,159 @@
     #field int tmCharSet
 #endstruct
 
+#defstruct THREADENTRY32
+    #field int dwSize
+    #field int cntUsage
+    #field int th32ThreadID
+    #field int th32OwnerProcessID
+    #field int tpBasePri
+    #field int tpDeltaPri
+    #field int dwFlags
+#endstruct
+
+#defstruct TIME_ZONE_INFORMATION
+    #field int Bias
+    #field int StandardName
+    #field var StandardDate
+    #field int StandardBias
+    #field int DaylightName
+    #field var DaylightDate
+    #field int DaylightBias
+#endstruct
+
+#defstruct TIMECAPS
+    #field int wPeriodMin
+    #field int wPeriodMax
+#endstruct
+
+#defstruct TITLEBARINFO
+    #field int cbSize
+    #field var rcTitleBar
+    #field int rgstate
+#endstruct
+
+#defstruct TLIBATTR
+    #field int lcid
+    #field int syskind
+    #field int wMajorVerNum
+    #field int wMinorVerNum
+    #field int wLibFlags
+#endstruct
+
+#defstruct TOKEN_GROUPS
+    #field int GroupCount
+#endstruct
+
+#defstruct TOKEN_PRIVILEGES
+    #field int PrivilegeCount
+#endstruct
+
+#defstruct TOUCH_HIT_TESTING_INPUT
+    #field int pointerId
+    #field var boundingBox
+    #field var nonOccludedBoundingBox
+    #field int orientation
+#endstruct
+
+#defstruct TOUCH_HIT_TESTING_PROXIMITY_EVALUATION
+    #field int score
+#endstruct
+
+#defstruct TOUCHINPUT
+    #field int x
+    #field int y
+    #field intptr hSource
+    #field int dwID
+    #field int dwFlags
+    #field int dwMask
+    #field int dwTime
+    #field int dwExtraInfo
+    #field int cxContact
+    #field int cyContact
+#endstruct
+
+#defstruct TP_CALLBACK_ENVIRON_V3
+    #field int Version
+    #field intptr Pool
+    #field intptr CleanupGroup
+    #field var RaceDll
+    #field int ActivationContext
+    #field var u
+    #field int CallbackPriority
+    #field int Size
+    #field int Flags
+    #field int s
+    #field int _bitfield
+#endstruct
+
+#defstruct _s_e__Struct
+    #field int _bitfield
+#endstruct
+
+#defstruct TP_POOL_STACK_INFORMATION
+    #field int StackReserve
+    #field int StackCommit
+#endstruct
+
+#defstruct TPMPARAMS
+    #field int cbSize
+    #field var rcExclude
+#endstruct
+
+#defstruct TRACE_GUID_PROPERTIES
+    #field int GuidType
+    #field int LoggerId
+    #field int EnableLevel
+    #field int EnableFlags
+    #field int IsEnable
+#endstruct
+
+#defstruct TRACE_LOGFILE_HEADER
+    #field int BufferSize
+    #field var Anonymous1
+    #field int ProviderVersion
+    #field int NumberOfProcessors
+    #field int64 EndTime
+    #field int TimerResolution
+    #field int MaximumFileSize
+    #field int LogFileMode
+    #field int BuffersWritten
+    #field var Anonymous2
+    #field wstr LoggerName
+    #field wstr LogFileName
+    #field var TimeZone
+    #field int64 BootTime
+    #field int64 PerfFreq
+    #field int64 StartTime
+    #field int ReservedFlags
+    #field int BuffersLost
+    #field int Version
+    #field int VersionDetail
+    #field int MajorVersion
+    #field int MinorVersion
+    #field int SubVersion
+    #field int SubMinorVersion
+    #field var Anonymous
+    #field int StartBuffers
+    #field int PointerSize
+    #field int EventsLost
+    #field int CpuSpeedInMHz
+#endstruct
+
+#defstruct _VersionDetail_e__Struct
+    #field int MajorVersion
+    #field int MinorVersion
+    #field int SubVersion
+    #field int SubMinorVersion
+#endstruct
+
+#defstruct TRACKMOUSEEVENT
+    #field int cbSize
+    #field int dwFlags
+    #field intptr hwndTrack
+    #field int dwHoverTime
+#endstruct
+
 #defstruct TRIVERTEX
     #field int x
     #field int y
@@ -340,6 +5969,284 @@
     #field int Green
     #field int Blue
     #field int Alpha
+#endstruct
+
+#defstruct TRUSTED_DOMAIN_AUTH_INFORMATION
+    #field int IncomingAuthInfos
+    #field var IncomingAuthenticationInformation
+    #field var IncomingPreviousAuthenticationInformation
+    #field int OutgoingAuthInfos
+    #field var OutgoingAuthenticationInformation
+    #field var OutgoingPreviousAuthenticationInformation
+#endstruct
+
+#defstruct TRUSTED_DOMAIN_INFORMATION_EX
+    #field var Name
+    #field var FlatName
+    #field int Sid
+    #field int TrustDirection
+    #field int TrustType
+    #field int TrustAttributes
+#endstruct
+
+#defstruct TRUSTEE_W
+    #field var pMultipleTrustee
+    #field int MultipleTrusteeOperation
+    #field int TrusteeForm
+    #field int TrusteeType
+    #field wstr ptstrName
+#endstruct
+
+#defstruct TYPEATTR
+    #field int lcid
+    #field int dwReserved
+    #field int memidConstructor
+    #field int memidDestructor
+    #field wstr lpstrSchema
+    #field int cbSizeInstance
+    #field int typekind
+    #field int cFuncs
+    #field int cVars
+    #field int cImplTypes
+    #field int cbSizeVft
+    #field int cbAlignment
+    #field int wTypeFlags
+    #field int wMajorVerNum
+    #field int wMinorVerNum
+    #field int tdescAlias
+    #field var idldescType
+#endstruct
+
+#defstruct TYPEDESC
+    #field var Anonymous
+    #field int vt
+    #field var lptdesc
+    #field var lpadesc
+    #field int hreftype
+#endstruct
+
+#defstruct uCLSSPEC
+    #field int tyspec
+    #field int tagged_union
+    #field wstr pFileExt
+    #field wstr pMimeType
+    #field wstr pProgId
+    #field wstr pFileName
+    #field int ByName
+    #field int ByObjectId
+    #field wstr pPackageName
+#endstruct
+
+#defstruct _tagged_union_e__Struct
+    #field wstr pFileExt
+    #field wstr pMimeType
+    #field wstr pProgId
+    #field wstr pFileName
+    #field int ByName
+    #field int ByObjectId
+    #field wstr pPackageName
+#endstruct
+
+#defstruct _ByName_e__Struct
+    #field wstr pPackageName
+#endstruct
+
+#defstruct UDATE
+    #field var st
+    #field int wDayOfYear
+#endstruct
+
+#defstruct UMS_SCHEDULER_STARTUP_INFO
+    #field int UmsVersion
+    #field var CompletionList
+    #field var SchedulerParam
+#endstruct
+
+#defstruct UMS_SYSTEM_THREAD_INFORMATION
+    #field int UmsVersion
+    #field var Anonymous
+    #field var Anonymous
+    #field int ThreadUmsFlags
+    #field int _bitfield
+#endstruct
+
+#defstruct UNLOAD_DLL_DEBUG_INFO
+    #field var lpBaseOfDll
+#endstruct
+
+#defstruct UNSIGNED_RATIO
+    #field int uiNumerator
+    #field int uiDenominator
+#endstruct
+
+#defstruct UPDATELAYEREDWINDOWINFO
+    #field int cbSize
+    #field intptr hdcDst
+    #field var psize
+    #field intptr hdcSrc
+    #field int crKey
+    #field var pblend
+    #field int dwFlags
+    #field var prcDirty
+#endstruct
+
+#defstruct URL_COMPONENTS
+    #field int dwStructSize
+    #field wstr lpszScheme
+    #field int dwSchemeLength
+    #field int nScheme
+    #field wstr lpszHostName
+    #field int dwHostNameLength
+    #field int nPort
+    #field wstr lpszUserName
+    #field int dwUserNameLength
+    #field wstr lpszPassword
+    #field int dwPasswordLength
+    #field wstr lpszUrlPath
+    #field int dwUrlPathLength
+    #field wstr lpszExtraInfo
+    #field int dwExtraInfoLength
+#endstruct
+
+#defstruct URL_COMPONENTSW
+    #field int dwStructSize
+    #field wstr lpszScheme
+    #field int dwSchemeLength
+    #field int nScheme
+    #field wstr lpszHostName
+    #field int dwHostNameLength
+    #field int nPort
+    #field wstr lpszUserName
+    #field int dwUserNameLength
+    #field wstr lpszPassword
+    #field int dwPasswordLength
+    #field wstr lpszUrlPath
+    #field int dwUrlPathLength
+    #field wstr lpszExtraInfo
+    #field int dwExtraInfoLength
+#endstruct
+
+#defstruct URLCACHE_ENTRY_INFO
+    #field wstr pwszSourceUrlName
+    #field wstr pwszLocalFileName
+    #field int dwCacheEntryType
+    #field int dwUseCount
+    #field int dwHitRate
+    #field int dwSizeLow
+    #field int dwSizeHigh
+    #field var pbHeaderInfo
+    #field int cbHeaderInfoSize
+    #field var pbExtraData
+    #field int cbExtraDataSize
+#endstruct
+
+#defstruct VALENTW
+    #field wstr ve_valuename
+    #field int ve_valuelen
+    #field int ve_valueptr
+    #field int ve_type
+#endstruct
+
+#defstruct VARDESC
+    #field int memid
+    #field wstr lpstrSchema
+    #field var Anonymous
+    #field var elemdescVar
+    #field int wVarFlags
+    #field int varkind
+    #field int oInst
+    #field var lpvarValue
+#endstruct
+
+#defstruct VARIANT
+    #field var Anonymous
+    #field var Anonymous
+    #field var decVal
+    #field int vt
+    #field int wReserved1
+    #field int wReserved2
+    #field int wReserved3
+    #field var Anonymous
+    #field int64 llVal
+    #field int lVal
+    #field int bVal
+    #field int iVal
+    #field float fltVal
+    #field double dblVal
+    #field int boolVal
+    #field int __OBSOLETE__VARIANT_BOOL
+    #field int scode
+    #field var cyVal
+    #field double date
+    #field int bstrVal
+    #field var punkVal
+    #field var pdispVal
+    #field var parray
+    #field var pbVal
+    #field var piVal
+    #field var plVal
+    #field var pllVal
+    #field var pfltVal
+    #field var pdblVal
+    #field var pboolVal
+    #field var __OBSOLETE__VARIANT_PBOOL
+    #field var pscode
+    #field var pcyVal
+    #field var pdate
+    #field var pbstrVal
+    #field var ppunkVal
+    #field var ppdispVal
+    #field var pparray
+    #field var pvarVal
+    #field var byref
+    #field int cVal
+    #field int uiVal
+    #field int ulVal
+    #field int64 ullVal
+    #field int intVal
+    #field int uintVal
+    #field var pdecVal
+    #field str pcVal
+    #field var puiVal
+    #field var pulVal
+    #field var pullVal
+    #field var pintVal
+    #field var puintVal
+    #field var Anonymous
+    #field var pvRecord
+    #field var pRecInfo
+#endstruct
+
+#defstruct VERSIONEDSTREAM
+    #field var pStream
+#endstruct
+
+#defstruct WAITCHAIN_NODE_INFO
+    #field int ObjectType
+    #field int ObjectStatus
+    #field var Anonymous
+    #field int LockObject
+    #field int ThreadObject
+    #field int ObjectName
+    #field int64 Timeout
+    #field int Alertable
+    #field int ProcessId
+    #field int ThreadId
+    #field int WaitTime
+    #field int ContextSwitches
+#endstruct
+
+#defstruct _LockObject_e__Struct
+    #field int ObjectName
+    #field int64 Timeout
+    #field int Alertable
+#endstruct
+
+#defstruct _ThreadObject_e__Struct
+    #field int ProcessId
+    #field int ThreadId
+    #field int WaitTime
+    #field int ContextSwitches
 #endstruct
 
 #defstruct WAVEFORMATEX
@@ -363,6 +6270,38 @@
     #field int reserved
 #endstruct
 
+#defstruct WAVEINCAPSW
+    #field int wMid
+    #field int wPid
+    #field int vDriverVersion
+    #field int szPname
+    #field int dwFormats
+    #field int wChannels
+    #field int wReserved1
+#endstruct
+
+#defstruct WAVEOUTCAPSW
+    #field int wMid
+    #field int wPid
+    #field int vDriverVersion
+    #field int szPname
+    #field int dwFormats
+    #field int wChannels
+    #field int wReserved1
+    #field int dwSupport
+#endstruct
+
+#defstruct WCRANGE
+    #field int wcLow
+    #field int cGlyphs
+#endstruct
+
+#defstruct WCRUN
+    #field int wcLow
+    #field int cGlyphs
+    #field var phg
+#endstruct
+
 #defstruct WIN32_FIND_DATAW
     #field int dwFileAttributes
     #field int nFileSizeHigh
@@ -373,12 +6312,373 @@
     #field int cAlternateFileName
 #endstruct
 
+#defstruct WINDOW_BUFFER_SIZE_RECORD
+    #field var dwSize
+#endstruct
+
+#defstruct WINDOWINFO
+    #field int cbSize
+    #field var rcWindow
+    #field var rcClient
+    #field int dwStyle
+    #field int dwExStyle
+    #field int dwWindowStatus
+    #field int cxWindowBorders
+    #field int cyWindowBorders
+    #field int atomWindowType
+    #field int wCreatorVersion
+#endstruct
+
+#defstruct WINDOWPLACEMENT
+    #field int length
+    #field int flags
+    #field var rcNormalPosition
+#endstruct
+
+#defstruct WINHTTP_AUTOPROXY_OPTIONS
+    #field int dwFlags
+    #field int dwAutoDetectFlags
+    #field wstr lpszAutoConfigUrl
+    #field var lpvReserved
+    #field int dwReserved
+    #field int fAutoLogonIfChallenged
+#endstruct
+
+#defstruct WINHTTP_CURRENT_USER_IE_PROXY_CONFIG
+    #field int fAutoDetect
+    #field wstr lpszAutoConfigUrl
+    #field wstr lpszProxy
+    #field wstr lpszProxyBypass
+#endstruct
+
+#defstruct WINHTTP_EXTENDED_HEADER
+    #field var Anonymous1
+    #field var Anonymous2
+    #field wstr pwszName
+    #field str pszName
+    #field wstr pwszValue
+    #field str pszValue
+#endstruct
+
+#defstruct WINHTTP_PROXY_INFO
+    #field int dwAccessType
+    #field wstr lpszProxy
+    #field wstr lpszProxyBypass
+#endstruct
+
+#defstruct WINHTTP_PROXY_NETWORKING_KEY
+    #field int pbBuffer
+#endstruct
+
+#defstruct WINHTTP_PROXY_RESULT
+    #field int cEntries
+    #field var pEntries
+#endstruct
+
+#defstruct WINHTTP_PROXY_RESULT_ENTRY
+    #field int fProxy
+    #field int fBypass
+    #field int ProxyScheme
+    #field wstr pwszProxy
+    #field int ProxyPort
+#endstruct
+
+#defstruct WINHTTP_PROXY_RESULT_EX
+    #field int cEntries
+    #field var pEntries
+    #field intptr hProxyDetectionHandle
+    #field int dwProxyInterfaceAffinity
+#endstruct
+
+#defstruct WINHTTP_PROXY_SETTINGS
+    #field int dwStructSize
+    #field int dwFlags
+    #field int dwCurrentSettingsVersion
+    #field wstr pwszConnectionName
+    #field wstr pwszProxy
+    #field wstr pwszProxyBypass
+    #field wstr pwszAutoconfigUrl
+    #field wstr pwszAutoconfigSecondaryUrl
+    #field int dwAutoDiscoveryFlags
+    #field wstr pwszLastKnownGoodAutoConfigUrl
+    #field int dwAutoconfigReloadDelayMins
+    #field int dwDetectedInterfaceIpCount
+    #field var pdwDetectedInterfaceIp
+    #field int cNetworkKeys
+    #field var pNetworkKeys
+#endstruct
+
+#defstruct WININET_PROXY_INFO
+    #field int fProxy
+    #field int fBypass
+    #field int ProxyScheme
+    #field wstr pwszProxy
+    #field int ProxyPort
+#endstruct
+
+#defstruct WININET_PROXY_INFO_LIST
+    #field int dwProxyInfoCount
+    #field var pProxyInfo
+#endstruct
+
+#defstruct WNDCLASSEXW
+    #field int cbSize
+    #field int style
+    #field int cbClsExtra
+    #field int cbWndExtra
+    #field intptr hInstance
+    #field intptr hIcon
+    #field intptr hCursor
+    #field intptr hbrBackground
+    #field wstr lpszMenuName
+    #field wstr lpszClassName
+    #field intptr hIconSm
+#endstruct
+
+#defstruct WNDCLASSW
+    #field int style
+    #field int cbClsExtra
+    #field int cbWndExtra
+    #field intptr hInstance
+    #field intptr hIcon
+    #field intptr hCursor
+    #field intptr hbrBackground
+    #field wstr lpszMenuName
+    #field wstr lpszClassName
+#endstruct
+
+#defstruct WNODE_HEADER
+    #field int BufferSize
+    #field int ProviderId
+    #field var Anonymous1
+    #field var Anonymous2
+    #field int ClientContext
+    #field int Flags
+    #field int64 HistoricalContext
+    #field var Anonymous
+    #field int Version
+    #field int Linkage
+    #field int CountLost
+    #field intptr KernelHandle
+    #field int64 TimeStamp
+#endstruct
+
+#defstruct XFORM
+    #field float eM11
+    #field float eM12
+    #field float eM21
+    #field float eM22
+    #field float eDx
+    #field float eDy
+#endstruct
+
+#defstruct XFORMOBJ
+    #field int ulReserved
+#endstruct
+
+#defstruct XLATEOBJ
+    #field int iUniq
+    #field int flXlate
+    #field int iSrcType
+    #field int iDstType
+    #field int cEntries
+    #field var pulXlate
+#endstruct
+
 ;--- enums / constants ---
+; D3DDDI_SYNCHRONIZATIONOBJECT_TYPE
+#define D3DDDI_SYNCHRONIZATION_MUTEX  0x1
+#define D3DDDI_SEMAPHORE  0x2
+#define D3DDDI_FENCE  0x3
+#define D3DDDI_CPU_NOTIFICATION  0x4
+#define D3DDDI_MONITORED_FENCE  0x5
+#define D3DDDI_PERIODIC_MONITORED_FENCE  0x6
+#define D3DDDI_SYNCHRONIZATION_TYPE_LIMIT  0x7
+
+; D3DKMT_STANDARDALLOCATIONTYPE
+#define D3DKMT_STANDARDALLOCATIONTYPE_EXISTINGHEAP  0x1
+#define D3DKMT_STANDARDALLOCATIONTYPE_INTERNALBACKINGSTORE  0x2
+#define D3DKMT_STANDARDALLOCATIONTYPE_MAX  0x3
+
+; D3DKMT_VIDPNSOURCEOWNER_TYPE
+#define D3DKMT_VIDPNSOURCEOWNER_UNOWNED  0x0
+#define D3DKMT_VIDPNSOURCEOWNER_SHARED  0x1
+#define D3DKMT_VIDPNSOURCEOWNER_EXCLUSIVE  0x2
+#define D3DKMT_VIDPNSOURCEOWNER_EXCLUSIVEGDI  0x3
+#define D3DKMT_VIDPNSOURCEOWNER_EMULATED  0x4
+
+; ACCEL_VIRT_FLAGS
+#define FVIRTKEY  0x1
+#define FNOINVERT  0x2
+#define FSHIFT  0x4
+#define FCONTROL  0x8
+#define FALT  0x10
+
+; ACCESS_MODE
+#define NOT_USED_ACCESS  0x0
+#define GRANT_ACCESS  0x1
+#define SET_ACCESS  0x2
+#define DENY_ACCESS  0x3
+#define REVOKE_ACCESS  0x4
+#define SET_AUDIT_SUCCESS  0x5
+#define SET_AUDIT_FAILURE  0x6
+
+; ACE_FLAGS
+#define CONTAINER_INHERIT_ACE  0x2
+#define FAILED_ACCESS_ACE_FLAG  0x80
+#define INHERIT_ONLY_ACE  0x8
+#define INHERITED_ACE  0x10
+#define NO_PROPAGATE_INHERIT_ACE  0x4
+#define OBJECT_INHERIT_ACE  0x1
+#define SUCCESSFUL_ACCESS_ACE_FLAG  0x40
+#define SUB_CONTAINERS_AND_OBJECTS_INHERIT  0x3
+#define SUB_CONTAINERS_ONLY_INHERIT  0x2
+#define SUB_OBJECTS_ONLY_INHERIT  0x1
+#define INHERIT_NO_PROPAGATE  0x4
+#define INHERIT_ONLY  0x8
+#define NO_INHERITANCE  0x0
+
+; ACE_REVISION
+#define ACL_REVISION  0x2
+#define ACL_REVISION_DS  0x4
+
+; ACL_INFORMATION_CLASS
+#define AclRevisionInformation  0x1
+#define AclSizeInformation  0x2
+
+; ACTIVATE_KEYBOARD_LAYOUT_FLAGS
+#define KLF_REORDER  0x8
+#define KLF_RESET  0x40000000
+#define KLF_SETFORPROCESS  0x100
+#define KLF_SHIFTLOCK  0x10000
+#define KLF_ACTIVATE  0x1
+#define KLF_NOTELLSHELL  0x80
+#define KLF_REPLACELANG  0x10
+#define KLF_SUBSTITUTE_OK  0x2
+
+; ACTIVEOBJECT_FLAGS
+#define ACTIVEOBJECT_STRONG  0x0
+#define ACTIVEOBJECT_WEAK  0x1
+
 ; ADDRESS_MODE
 #define AddrMode1616  0x0
 #define AddrMode1632  0x1
 #define AddrModeReal  0x2
 #define AddrModeFlat  0x3
+
+; ADVANCED_FEATURE_FLAGS
+#define FADF_AUTO  0x1
+#define FADF_STATIC  0x2
+#define FADF_EMBEDDED  0x4
+#define FADF_FIXEDSIZE  0x10
+#define FADF_RECORD  0x20
+#define FADF_HAVEIID  0x40
+#define FADF_HAVEVARTYPE  0x80
+#define FADF_BSTR  0x100
+#define FADF_UNKNOWN  0x200
+#define FADF_DISPATCH  0x400
+#define FADF_VARIANT  0x800
+#define FADF_RESERVED  0xf008
+
+; ALG_ID
+#define CALG_MD2  0x8001
+#define CALG_MD4  0x8002
+#define CALG_MD5  0x8003
+#define CALG_SHA  0x8004
+#define CALG_SHA1  0x8004
+#define CALG_MAC  0x8005
+#define CALG_RSA_SIGN  0x2400
+#define CALG_DSS_SIGN  0x2200
+#define CALG_NO_SIGN  0x2000
+#define CALG_RSA_KEYX  0xa400
+#define CALG_DES  0x6601
+#define CALG_3DES_112  0x6609
+#define CALG_3DES  0x6603
+#define CALG_DESX  0x6604
+#define CALG_RC2  0x6602
+#define CALG_RC4  0x6801
+#define CALG_SEAL  0x6802
+#define CALG_DH_SF  0xaa01
+#define CALG_DH_EPHEM  0xaa02
+#define CALG_AGREEDKEY_ANY  0xaa03
+#define CALG_KEA_KEYX  0xaa04
+#define CALG_HUGHES_MD5  0xa003
+#define CALG_SKIPJACK  0x660a
+#define CALG_TEK  0x660b
+#define CALG_CYLINK_MEK  0x660c
+#define CALG_SSL3_SHAMD5  0x8008
+#define CALG_SSL3_MASTER  0x4c01
+#define CALG_SCHANNEL_MASTER_HASH  0x4c02
+#define CALG_SCHANNEL_MAC_KEY  0x4c03
+#define CALG_SCHANNEL_ENC_KEY  0x4c07
+#define CALG_PCT1_MASTER  0x4c04
+#define CALG_SSL2_MASTER  0x4c05
+#define CALG_TLS1_MASTER  0x4c06
+#define CALG_RC5  0x660d
+#define CALG_HMAC  0x8009
+#define CALG_TLS1PRF  0x800a
+#define CALG_HASH_REPLACE_OWF  0x800b
+#define CALG_AES_128  0x660e
+#define CALG_AES_192  0x660f
+#define CALG_AES_256  0x6610
+#define CALG_AES  0x6611
+#define CALG_SHA_256  0x800c
+#define CALG_SHA_384  0x800d
+#define CALG_SHA_512  0x800e
+#define CALG_ECDH  0xaa05
+#define CALG_ECDH_EPHEM  0xae06
+#define CALG_ECMQV  0xa001
+#define CALG_ECDSA  0x2203
+#define CALG_NULLCIPHER  0x6000
+#define CALG_THIRDPARTY_KEY_EXCHANGE  0xb000
+#define CALG_THIRDPARTY_SIGNATURE  0x3000
+#define CALG_THIRDPARTY_CIPHER  0x7000
+#define CALG_THIRDPARTY_HASH  0x9000
+
+; ANIMATE_WINDOW_FLAGS
+#define AW_ACTIVATE  0x20000
+#define AW_BLEND  0x80000
+#define AW_CENTER  0x10
+#define AW_HIDE  0x10000
+#define AW_HOR_POSITIVE  0x1
+#define AW_HOR_NEGATIVE  0x2
+#define AW_SLIDE  0x40000
+#define AW_VER_POSITIVE  0x4
+#define AW_VER_NEGATIVE  0x8
+
+; APP_CACHE_FINALIZE_STATE
+#define AppCacheFinalizeStateIncomplete  0x0
+#define AppCacheFinalizeStateManifestChange  0x1
+#define AppCacheFinalizeStateComplete  0x2
+
+; APP_CACHE_STATE
+#define AppCacheStateNoUpdateNeeded  0x0
+#define AppCacheStateUpdateNeeded  0x1
+#define AppCacheStateUpdateNeededNew  0x2
+#define AppCacheStateUpdateNeededMasterOnly  0x3
+
+; AR_STATE
+#define AR_ENABLED  0x0
+#define AR_DISABLED  0x1
+#define AR_SUPPRESSED  0x2
+#define AR_REMOTESESSION  0x4
+#define AR_MULTIMON  0x8
+#define AR_NOSENSOR  0x10
+#define AR_NOT_SUPPORTED  0x20
+#define AR_DOCKED  0x40
+#define AR_LAPTOP  0x80
+
+; ARC_DIRECTION
+#define AD_COUNTERCLOCKWISE  0x1
+#define AD_CLOCKWISE  0x2
+
+; ASSOC_FILTER
+#define ASSOC_FILTER_NONE  0x0
+#define ASSOC_FILTER_RECOMMENDED  0x1
+
+; AUDIT_EVENT_TYPE
+#define AuditEventObjectAccess  0x0
+#define AuditEventDirectoryServiceAccess  0x1
 
 ; BACKGROUND_MODE
 #define OPAQUE  0x2
@@ -391,14 +6691,188 @@
 #define BCRYPT_PAD_PKCS1  0x2
 #define BCRYPT_PAD_PSS  0x8
 
+; BCRYPT_INTERFACE
+#define BCRYPT_ASYMMETRIC_ENCRYPTION_INTERFACE  0x3
+#define BCRYPT_CIPHER_INTERFACE  0x1
+#define BCRYPT_HASH_INTERFACE  0x2
+#define BCRYPT_RNG_INTERFACE  0x6
+#define BCRYPT_SECRET_AGREEMENT_INTERFACE  0x4
+#define BCRYPT_SIGNATURE_INTERFACE  0x5
+#define NCRYPT_KEY_STORAGE_INTERFACE  0x10001
+#define NCRYPT_SCHANNEL_INTERFACE  0x10002
+#define NCRYPT_SCHANNEL_SIGNATURE_INTERFACE  0x10003
+
+; BCRYPT_MULTI_OPERATION_TYPE
+#define BCRYPT_OPERATION_TYPE_HASH  0x1
+
 ; BCRYPT_OPEN_ALGORITHM_PROVIDER_FLAGS
 #define BCRYPT_ALG_HANDLE_HMAC_FLAG  0x8
 #define BCRYPT_PROV_DISPATCH  0x1
 #define BCRYPT_HASH_REUSABLE_FLAG  0x20
 
+; BCRYPT_OPERATION
+#define BCRYPT_CIPHER_OPERATION  0x1
+#define BCRYPT_HASH_OPERATION  0x2
+#define BCRYPT_ASYMMETRIC_ENCRYPTION_OPERATION  0x4
+#define BCRYPT_SECRET_AGREEMENT_OPERATION  0x8
+#define BCRYPT_SIGNATURE_OPERATION  0x10
+#define BCRYPT_RNG_OPERATION  0x20
+
+; BCRYPT_QUERY_PROVIDER_MODE
+#define CRYPT_ANY  0x4
+#define CRYPT_UM  0x1
+#define CRYPT_KM  0x2
+#define CRYPT_MM  0x3
+
+; BCRYPT_RESOLVE_PROVIDERS_FLAGS
+#define CRYPT_ALL_FUNCTIONS  0x1
+#define CRYPT_ALL_PROVIDERS  0x2
+
+; BCRYPT_TABLE
+#define CRYPT_LOCAL  0x1
+#define CRYPT_DOMAIN  0x2
+
 ; BCRYPTGENRANDOM_FLAGS
 #define BCRYPT_RNG_USE_ENTROPY_IN_BUFFER  0x1
 #define BCRYPT_USE_SYSTEM_PREFERRED_RNG  0x2
+
+; BP_ANIMATIONSTYLE
+#define BPAS_NONE  0x0
+#define BPAS_LINEAR  0x1
+#define BPAS_CUBIC  0x2
+#define BPAS_SINE  0x3
+
+; BP_BUFFERFORMAT
+#define BPBF_COMPATIBLEBITMAP  0x0
+#define BPBF_DIB  0x1
+#define BPBF_TOPDOWNDIB  0x2
+#define BPBF_TOPDOWNMONODIB  0x3
+
+; BP_PAINTPARAMS_FLAGS
+#define BPPF_ERASE  0x1
+#define BPPF_NOCLIP  0x2
+#define BPPF_NONCLIENT  0x4
+
+; BROADCAST_SYSTEM_MESSAGE_FLAGS
+#define BSF_ALLOWSFW  0x80
+#define BSF_FLUSHDISK  0x4
+#define BSF_FORCEIFHUNG  0x20
+#define BSF_IGNORECURRENTTASK  0x2
+#define BSF_NOHANG  0x8
+#define BSF_NOTIMEOUTIFNOTHUNG  0x40
+#define BSF_POSTMESSAGE  0x10
+#define BSF_QUERY  0x1
+#define BSF_SENDNOTIFYMESSAGE  0x100
+#define BSF_LUID  0x400
+#define BSF_RETURNHDESK  0x200
+
+; BROADCAST_SYSTEM_MESSAGE_INFO
+#define BSM_ALLCOMPONENTS  0x0
+#define BSM_ALLDESKTOPS  0x10
+#define BSM_APPLICATIONS  0x8
+
+; BRUSH_STYLE
+#define BS_SOLID  0x0
+#define BS_NULL  0x1
+#define BS_HOLLOW  0x1
+#define BS_HATCHED  0x2
+#define BS_PATTERN  0x3
+#define BS_INDEXED  0x4
+#define BS_DIBPATTERN  0x5
+#define BS_DIBPATTERNPT  0x6
+#define BS_PATTERN8X8  0x7
+#define BS_DIBPATTERN8X8  0x8
+#define BS_MONOPATTERN  0x9
+
+; CACHE_CONFIG
+#define CACHE_CONFIG_FORCE_CLEANUP_FC  0x20
+#define CACHE_CONFIG_DISK_CACHE_PATHS_FC  0x40
+#define CACHE_CONFIG_SYNC_MODE_FC  0x80
+#define CACHE_CONFIG_CONTENT_PATHS_FC  0x100
+#define CACHE_CONFIG_HISTORY_PATHS_FC  0x400
+#define CACHE_CONFIG_COOKIES_PATHS_FC  0x200
+#define CACHE_CONFIG_QUOTA_FC  0x800
+#define CACHE_CONFIG_USER_MODE_FC  0x1000
+#define CACHE_CONFIG_CONTENT_USAGE_FC  0x2000
+#define CACHE_CONFIG_STICKY_CONTENT_USAGE_FC  0x4000
+
+; CALDATETIME_DATEUNIT
+#define EraUnit  0x0
+#define YearUnit  0x1
+#define MonthUnit  0x2
+#define WeekUnit  0x3
+#define DayUnit  0x4
+#define HourUnit  0x5
+#define MinuteUnit  0x6
+#define SecondUnit  0x7
+#define TickUnit  0x8
+
+; CALLCONV
+#define CC_FASTCALL  0x0
+#define CC_CDECL  0x1
+#define CC_MSCPASCAL  0x2
+#define CC_PASCAL  0x2
+#define CC_MACPASCAL  0x3
+#define CC_STDCALL  0x4
+#define CC_FPFASTCALL  0x5
+#define CC_SYSCALL  0x6
+#define CC_MPWCDECL  0x7
+#define CC_MPWPASCAL  0x8
+#define CC_MAX  0x9
+
+; CASCADE_WINDOWS_HOW
+#define MDITILE_SKIPDISABLED  0x2
+#define MDITILE_ZORDER  0x4
+
+; CDS_TYPE
+#define CDS_FULLSCREEN  0x4
+#define CDS_GLOBAL  0x8
+#define CDS_NORESET  0x10000000
+#define CDS_RESET  0x40000000
+#define CDS_SET_PRIMARY  0x10
+#define CDS_TEST  0x2
+#define CDS_UPDATEREGISTRY  0x1
+#define CDS_VIDEOPARAMETERS  0x20
+#define CDS_ENABLE_UNSAFE_MODES  0x100
+#define CDS_DISABLE_UNSAFE_MODES  0x200
+#define CDS_RESET_EX  0x20000000
+
+; CERT_CHAIN_POLICY_FLAGS
+#define CERT_CHAIN_POLICY_IGNORE_NOT_TIME_VALID_FLAG  0x1
+#define CERT_CHAIN_POLICY_IGNORE_CTL_NOT_TIME_VALID_FLAG  0x2
+#define CERT_CHAIN_POLICY_IGNORE_NOT_TIME_NESTED_FLAG  0x4
+#define CERT_CHAIN_POLICY_IGNORE_ALL_NOT_TIME_VALID_FLAGS  0x7
+#define CERT_CHAIN_POLICY_IGNORE_INVALID_BASIC_CONSTRAINTS_FLAG  0x8
+#define CERT_CHAIN_POLICY_ALLOW_UNKNOWN_CA_FLAG  0x10
+#define CERT_CHAIN_POLICY_IGNORE_WRONG_USAGE_FLAG  0x20
+#define CERT_CHAIN_POLICY_IGNORE_INVALID_NAME_FLAG  0x40
+#define CERT_CHAIN_POLICY_IGNORE_INVALID_POLICY_FLAG  0x80
+#define CERT_CHAIN_POLICY_IGNORE_END_REV_UNKNOWN_FLAG  0x100
+#define CERT_CHAIN_POLICY_IGNORE_CTL_SIGNER_REV_UNKNOWN_FLAG  0x200
+#define CERT_CHAIN_POLICY_IGNORE_CA_REV_UNKNOWN_FLAG  0x400
+#define CERT_CHAIN_POLICY_IGNORE_ROOT_REV_UNKNOWN_FLAG  0x800
+#define CERT_CHAIN_POLICY_IGNORE_ALL_REV_UNKNOWN_FLAGS  0xf00
+#define CERT_CHAIN_POLICY_ALLOW_TESTROOT_FLAG  0x8000
+#define CERT_CHAIN_POLICY_TRUST_TESTROOT_FLAG  0x4000
+#define CERT_CHAIN_POLICY_IGNORE_NOT_SUPPORTED_CRITICAL_EXT_FLAG  0x2000
+#define CERT_CHAIN_POLICY_IGNORE_PEER_TRUST_FLAG  0x1000
+
+; CERT_CONTROL_STORE_FLAGS
+#define CERT_STORE_CTRL_COMMIT_FORCE_FLAG  0x1
+#define CERT_STORE_CTRL_COMMIT_CLEAR_FLAG  0x2
+#define CERT_STORE_CTRL_INHIBIT_DUPLICATE_HANDLE_FLAG  0x1
+
+; CERT_CREATE_SELFSIGN_FLAGS
+#define CERT_CREATE_SELFSIGN_NO_KEY_INFO  0x2
+#define CERT_CREATE_SELFSIGN_NO_SIGN  0x1
+
+; CERT_FIND_CHAIN_IN_STORE_FLAGS
+#define CERT_CHAIN_FIND_BY_ISSUER_COMPARE_KEY_FLAG  0x1
+#define CERT_CHAIN_FIND_BY_ISSUER_COMPLEX_CHAIN_FLAG  0x2
+#define CERT_CHAIN_FIND_BY_ISSUER_CACHE_ONLY_FLAG  0x8000
+#define CERT_CHAIN_FIND_BY_ISSUER_CACHE_ONLY_URL_FLAG  0x4
+#define CERT_CHAIN_FIND_BY_ISSUER_LOCAL_MACHINE_FLAG  0x8
+#define CERT_CHAIN_FIND_BY_ISSUER_NO_KEY_FLAG  0x4000
 
 ; CERT_FIND_FLAGS
 #define CERT_FIND_ANY  0x0
@@ -444,9 +6918,202 @@
 #define CERT_FIND_OR_CTL_USAGE_FLAG  0x10
 #define CERT_FIND_VALID_CTL_USAGE_FLAG  0x20
 
+; CERT_FIND_TYPE
+#define CTL_FIND_ANY  0x0
+#define CTL_FIND_SHA1_HASH  0x1
+#define CTL_FIND_MD5_HASH  0x2
+#define CTL_FIND_USAGE  0x3
+#define CTL_FIND_SAME_USAGE_FLAG  0x1
+#define CTL_FIND_EXISTING  0x5
+#define CTL_FIND_SUBJECT  0x4
+
+; CERT_KEY_SPEC
+#define AT_KEYEXCHANGE  0x1
+#define AT_SIGNATURE  0x2
+#define CERT_NCRYPT_KEY_SPEC  0xffffffff
+
+; CERT_OPEN_STORE_FLAGS
+#define CERT_STORE_BACKUP_RESTORE_FLAG  0x800
+#define CERT_STORE_CREATE_NEW_FLAG  0x2000
+#define CERT_STORE_DEFER_CLOSE_UNTIL_LAST_FREE_FLAG  0x4
+#define CERT_STORE_DELETE_FLAG  0x10
+#define CERT_STORE_ENUM_ARCHIVED_FLAG  0x200
+#define CERT_STORE_MAXIMUM_ALLOWED_FLAG  0x1000
+#define CERT_STORE_NO_CRYPT_RELEASE_FLAG  0x1
+#define CERT_STORE_OPEN_EXISTING_FLAG  0x4000
+#define CERT_STORE_READONLY_FLAG  0x8000
+#define CERT_STORE_SET_LOCALIZED_NAME_FLAG  0x2
+#define CERT_STORE_SHARE_CONTEXT_FLAG  0x80
+#define CERT_STORE_UPDATE_KEYID_FLAG  0x400
+
+; CERT_QUERY_CONTENT_TYPE
+#define CERT_QUERY_CONTENT_CERT  0x1
+#define CERT_QUERY_CONTENT_CTL  0x2
+#define CERT_QUERY_CONTENT_CRL  0x3
+#define CERT_QUERY_CONTENT_SERIALIZED_STORE  0x4
+#define CERT_QUERY_CONTENT_SERIALIZED_CERT  0x5
+#define CERT_QUERY_CONTENT_SERIALIZED_CTL  0x6
+#define CERT_QUERY_CONTENT_SERIALIZED_CRL  0x7
+#define CERT_QUERY_CONTENT_PKCS7_SIGNED  0x8
+#define CERT_QUERY_CONTENT_PKCS7_UNSIGNED  0x9
+#define CERT_QUERY_CONTENT_PKCS7_SIGNED_EMBED  0xa
+#define CERT_QUERY_CONTENT_PKCS10  0xb
+#define CERT_QUERY_CONTENT_PFX  0xc
+#define CERT_QUERY_CONTENT_CERT_PAIR  0xd
+#define CERT_QUERY_CONTENT_PFX_AND_LOAD  0xe
+
+; CERT_QUERY_CONTENT_TYPE_FLAGS
+#define CERT_QUERY_CONTENT_FLAG_CERT  0x2
+#define CERT_QUERY_CONTENT_FLAG_CTL  0x4
+#define CERT_QUERY_CONTENT_FLAG_CRL  0x8
+#define CERT_QUERY_CONTENT_FLAG_SERIALIZED_STORE  0x10
+#define CERT_QUERY_CONTENT_FLAG_SERIALIZED_CERT  0x20
+#define CERT_QUERY_CONTENT_FLAG_SERIALIZED_CTL  0x40
+#define CERT_QUERY_CONTENT_FLAG_SERIALIZED_CRL  0x80
+#define CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED  0x100
+#define CERT_QUERY_CONTENT_FLAG_PKCS7_UNSIGNED  0x200
+#define CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED_EMBED  0x400
+#define CERT_QUERY_CONTENT_FLAG_PKCS10  0x800
+#define CERT_QUERY_CONTENT_FLAG_PFX  0x1000
+#define CERT_QUERY_CONTENT_FLAG_CERT_PAIR  0x2000
+#define CERT_QUERY_CONTENT_FLAG_PFX_AND_LOAD  0x4000
+#define CERT_QUERY_CONTENT_FLAG_ALL  0x3ffe
+#define CERT_QUERY_CONTENT_FLAG_ALL_ISSUER_CERT  0x332
+
 ; CERT_QUERY_ENCODING_TYPE
 #define X509_ASN_ENCODING  0x1
 #define PKCS_7_ASN_ENCODING  0x10000
+
+; CERT_QUERY_FORMAT_TYPE
+#define CERT_QUERY_FORMAT_BINARY  0x1
+#define CERT_QUERY_FORMAT_BASE64_ENCODED  0x2
+#define CERT_QUERY_FORMAT_ASN_ASCII_HEX_ENCODED  0x3
+
+; CERT_QUERY_FORMAT_TYPE_FLAGS
+#define CERT_QUERY_FORMAT_FLAG_BINARY  0x2
+#define CERT_QUERY_FORMAT_FLAG_BASE64_ENCODED  0x4
+#define CERT_QUERY_FORMAT_FLAG_ASN_ASCII_HEX_ENCODED  0x8
+#define CERT_QUERY_FORMAT_FLAG_ALL  0xe
+
+; CERT_QUERY_OBJECT_TYPE
+#define CERT_QUERY_OBJECT_FILE  0x1
+#define CERT_QUERY_OBJECT_BLOB  0x2
+
+; CERT_RDN_ATTR_VALUE_TYPE
+#define CERT_RDN_ANY_TYPE  0x0
+#define CERT_RDN_NUMERIC_STRING  0x3
+#define CERT_RDN_PRINTABLE_STRING  0x4
+#define CERT_RDN_T61_STRING  0x5
+#define CERT_RDN_VIDEOTEX_STRING  0x6
+#define CERT_RDN_IA5_STRING  0x7
+#define CERT_RDN_GRAPHIC_STRING  0x8
+#define CERT_RDN_ISO646_STRING  0x9
+#define CERT_RDN_GENERAL_STRING  0xa
+#define CERT_RDN_INT4_STRING  0xb
+#define CERT_RDN_UNICODE_STRING  0xc
+#define CERT_RDN_BMP_STRING  0xc
+#define CERT_RDN_ENCODED_BLOB  0x1
+#define CERT_RDN_OCTET_STRING  0x2
+#define CERT_RDN_TELETEX_STRING  0x5
+#define CERT_RDN_UNIVERSAL_STRING  0xb
+#define CERT_RDN_UTF8_STRING  0xd
+#define CERT_RDN_VISIBLE_STRING  0x9
+
+; CERT_REVOCATION_STATUS_REASON
+#define CRL_REASON_UNSPECIFIED  0x0
+#define CRL_REASON_KEY_COMPROMISE  0x1
+#define CRL_REASON_CA_COMPROMISE  0x2
+#define CRL_REASON_AFFILIATION_CHANGED  0x3
+#define CRL_REASON_SUPERSEDED  0x4
+#define CRL_REASON_CESSATION_OF_OPERATION  0x5
+#define CRL_REASON_CERTIFICATE_HOLD  0x6
+#define CRL_REASON_REMOVE_FROM_CRL  0x8
+
+; CERT_SELECT_CRITERIA_TYPE
+#define CERT_SELECT_BY_ENHKEY_USAGE  0x1
+#define CERT_SELECT_BY_KEY_USAGE  0x2
+#define CERT_SELECT_BY_POLICY_OID  0x3
+#define CERT_SELECT_BY_PROV_NAME  0x4
+#define CERT_SELECT_BY_EXTENSION  0x5
+#define CERT_SELECT_BY_SUBJECT_HOST_NAME  0x6
+#define CERT_SELECT_BY_ISSUER_ATTR  0x7
+#define CERT_SELECT_BY_SUBJECT_ATTR  0x8
+#define CERT_SELECT_BY_ISSUER_NAME  0x9
+#define CERT_SELECT_BY_PUBLIC_KEY  0xa
+#define CERT_SELECT_BY_TLS_SIGNATURES  0xb
+
+; CERT_STORE_SAVE_AS
+#define CERT_STORE_SAVE_AS_PKCS7  0x2
+#define CERT_STORE_SAVE_AS_STORE  0x1
+
+; CERT_STORE_SAVE_TO
+#define CERT_STORE_SAVE_TO_FILE  0x1
+#define CERT_STORE_SAVE_TO_FILENAME  0x4
+#define CERT_STORE_SAVE_TO_FILENAME_A  0x3
+#define CERT_STORE_SAVE_TO_FILENAME_W  0x4
+#define CERT_STORE_SAVE_TO_MEMORY  0x2
+
+; CERT_STRING_TYPE
+#define CERT_SIMPLE_NAME_STR  0x1
+#define CERT_OID_NAME_STR  0x2
+#define CERT_X500_NAME_STR  0x3
+
+; CERT_STRONG_SIGN_FLAGS
+#define CERT_STRONG_SIGN_ENABLE_CRL_CHECK  0x1
+#define CERT_STRONG_SIGN_ENABLE_OCSP_CHECK  0x2
+
+; CERT_SYSTEM_STORE_FLAGS
+#define CERT_SYSTEM_STORE_LOCATION_MASK  0xff0000
+#define CERT_SYSTEM_STORE_RELOCATE_FLAG  0x80000000
+
+; CHANGE_WINDOW_MESSAGE_FILTER_FLAGS
+#define MSGFLT_ADD  0x1
+#define MSGFLT_REMOVE  0x2
+
+; CLAIM_SECURITY_ATTRIBUTE_VALUE_TYPE
+#define CLAIM_SECURITY_ATTRIBUTE_TYPE_INT64  0x1
+#define CLAIM_SECURITY_ATTRIBUTE_TYPE_UINT64  0x2
+#define CLAIM_SECURITY_ATTRIBUTE_TYPE_STRING  0x3
+#define CLAIM_SECURITY_ATTRIBUTE_TYPE_OCTET_STRING  0x10
+#define CLAIM_SECURITY_ATTRIBUTE_TYPE_FQBN  0x4
+#define CLAIM_SECURITY_ATTRIBUTE_TYPE_SID  0x5
+#define CLAIM_SECURITY_ATTRIBUTE_TYPE_BOOLEAN  0x6
+
+; CLEAR_COMM_ERROR_FLAGS
+#define CE_BREAK  0x10
+#define CE_FRAME  0x8
+#define CE_OVERRUN  0x2
+#define CE_RXOVER  0x1
+#define CE_RXPARITY  0x4
+
+; CLIPBOARD_FORMAT
+#define CF_TEXT  0x1
+#define CF_BITMAP  0x2
+#define CF_METAFILEPICT  0x3
+#define CF_SYLK  0x4
+#define CF_DIF  0x5
+#define CF_TIFF  0x6
+#define CF_OEMTEXT  0x7
+#define CF_DIB  0x8
+#define CF_PALETTE  0x9
+#define CF_PENDATA  0xa
+#define CF_RIFF  0xb
+#define CF_WAVE  0xc
+#define CF_UNICODETEXT  0xd
+#define CF_ENHMETAFILE  0xe
+#define CF_HDROP  0xf
+#define CF_LOCALE  0x10
+#define CF_DIBV5  0x11
+#define CF_MAX  0x12
+#define CF_OWNERDISPLAY  0x80
+#define CF_DSPTEXT  0x81
+#define CF_DSPBITMAP  0x82
+#define CF_DSPMETAFILEPICT  0x83
+#define CF_DSPENHMETAFILE  0x8e
+#define CF_PRIVATEFIRST  0x200
+#define CF_PRIVATELAST  0x2ff
+#define CF_GDIOBJFIRST  0x300
+#define CF_GDIOBJLAST  0x3ff
 
 ; CLSCTX
 #define CLSCTX_INPROC_SERVER  0x1
@@ -486,6 +7153,405 @@
 #define COINIT_DISABLE_OLE1DDE  0x4
 #define COINIT_SPEED_OVER_MEMORY  0x8
 
+; COLOR_MATCH_TO_TARGET_ACTION
+#define CS_ENABLE  0x1
+#define CS_DISABLE  0x2
+#define CS_DELETE_TRANSFORM  0x3
+
+; COMBOBOXINFO_BUTTON_STATE
+#define STATE_SYSTEM_INVISIBLE  0x8000
+#define STATE_SYSTEM_PRESSED  0x8
+#define STATE_SYSTEM_FOCUSABLE  0x100000
+#define STATE_SYSTEM_OFFSCREEN  0x10000
+#define STATE_SYSTEM_UNAVAILABLE  0x1
+
+; COMM_EVENT_MASK
+#define EV_BREAK  0x40
+#define EV_CTS  0x8
+#define EV_DSR  0x10
+#define EV_ERR  0x80
+#define EV_EVENT1  0x800
+#define EV_EVENT2  0x1000
+#define EV_PERR  0x200
+#define EV_RING  0x100
+#define EV_RLSD  0x20
+#define EV_RX80FULL  0x400
+#define EV_RXCHAR  0x1
+#define EV_RXFLAG  0x2
+#define EV_TXEMPTY  0x4
+
+; COMMON_DLG_ERRORS
+#define CDERR_DIALOGFAILURE  0xffff
+#define CDERR_GENERALCODES  0x0
+#define CDERR_STRUCTSIZE  0x1
+#define CDERR_INITIALIZATION  0x2
+#define CDERR_NOTEMPLATE  0x3
+#define CDERR_NOHINSTANCE  0x4
+#define CDERR_LOADSTRFAILURE  0x5
+#define CDERR_FINDRESFAILURE  0x6
+#define CDERR_LOADRESFAILURE  0x7
+#define CDERR_LOCKRESFAILURE  0x8
+#define CDERR_MEMALLOCFAILURE  0x9
+#define CDERR_MEMLOCKFAILURE  0xa
+#define CDERR_NOHOOK  0xb
+#define CDERR_REGISTERMSGFAIL  0xc
+#define PDERR_PRINTERCODES  0x1000
+#define PDERR_SETUPFAILURE  0x1001
+#define PDERR_PARSEFAILURE  0x1002
+#define PDERR_RETDEFFAILURE  0x1003
+#define PDERR_LOADDRVFAILURE  0x1004
+#define PDERR_GETDEVMODEFAIL  0x1005
+#define PDERR_INITFAILURE  0x1006
+#define PDERR_NODEVICES  0x1007
+#define PDERR_NODEFAULTPRN  0x1008
+#define PDERR_DNDMMISMATCH  0x1009
+#define PDERR_CREATEICFAILURE  0x100a
+#define PDERR_PRINTERNOTFOUND  0x100b
+#define PDERR_DEFAULTDIFFERENT  0x100c
+#define CFERR_CHOOSEFONTCODES  0x2000
+#define CFERR_NOFONTS  0x2001
+#define CFERR_MAXLESSTHANMIN  0x2002
+#define FNERR_FILENAMECODES  0x3000
+#define FNERR_SUBCLASSFAILURE  0x3001
+#define FNERR_INVALIDFILENAME  0x3002
+#define FNERR_BUFFERTOOSMALL  0x3003
+#define FRERR_FINDREPLACECODES  0x4000
+#define FRERR_BUFFERLENGTHZERO  0x4001
+#define CCERR_CHOOSECOLORCODES  0x5000
+
+; COMMPROP_STOP_PARITY
+#define STOPBITS_10  0x1
+#define STOPBITS_15  0x2
+#define STOPBITS_20  0x4
+#define PARITY_NONE  0x100
+#define PARITY_ODD  0x200
+#define PARITY_EVEN  0x400
+#define PARITY_MARK  0x800
+#define PARITY_SPACE  0x1000
+
+; COMPARE_STRING_FLAGS
+#define LINGUISTIC_IGNORECASE  0x10
+#define LINGUISTIC_IGNOREDIACRITIC  0x20
+#define NORM_IGNORECASE  0x1
+#define NORM_IGNOREKANATYPE  0x10000
+#define NORM_IGNORENONSPACE  0x2
+#define NORM_IGNORESYMBOLS  0x4
+#define NORM_IGNOREWIDTH  0x20000
+#define NORM_LINGUISTIC_CASING  0x8000000
+#define SORT_DIGITSASNUMBERS  0x8
+#define SORT_STRINGSORT  0x1000
+
+; COMPARESTRING_RESULT
+#define CSTR_LESS_THAN  0x1
+#define CSTR_EQUAL  0x2
+#define CSTR_GREATER_THAN  0x3
+
+; COMPUTER_NAME_FORMAT
+#define ComputerNameNetBIOS  0x0
+#define ComputerNameDnsHostname  0x1
+#define ComputerNameDnsDomain  0x2
+#define ComputerNameDnsFullyQualified  0x3
+#define ComputerNamePhysicalNetBIOS  0x4
+#define ComputerNamePhysicalDnsHostname  0x5
+#define ComputerNamePhysicalDnsDomain  0x6
+#define ComputerNamePhysicalDnsFullyQualified  0x7
+#define ComputerNameMax  0x8
+
+; CONSOLE_CHARACTER_ATTRIBUTES
+#define FOREGROUND_BLUE  0x1
+#define FOREGROUND_GREEN  0x2
+#define FOREGROUND_RED  0x4
+#define FOREGROUND_INTENSITY  0x8
+#define BACKGROUND_BLUE  0x10
+#define BACKGROUND_GREEN  0x20
+#define BACKGROUND_RED  0x40
+#define BACKGROUND_INTENSITY  0x80
+#define COMMON_LVB_LEADING_BYTE  0x100
+#define COMMON_LVB_TRAILING_BYTE  0x200
+#define COMMON_LVB_GRID_HORIZONTAL  0x400
+#define COMMON_LVB_GRID_LVERTICAL  0x800
+#define COMMON_LVB_GRID_RVERTICAL  0x1000
+#define COMMON_LVB_REVERSE_VIDEO  0x4000
+#define COMMON_LVB_UNDERSCORE  0x8000
+#define COMMON_LVB_SBCSDBCS  0x300
+
+; CONSOLE_MODE
+#define ENABLE_PROCESSED_INPUT  0x1
+#define ENABLE_LINE_INPUT  0x2
+#define ENABLE_ECHO_INPUT  0x4
+#define ENABLE_WINDOW_INPUT  0x8
+#define ENABLE_MOUSE_INPUT  0x10
+#define ENABLE_INSERT_MODE  0x20
+#define ENABLE_QUICK_EDIT_MODE  0x40
+#define ENABLE_EXTENDED_FLAGS  0x80
+#define ENABLE_AUTO_POSITION  0x100
+#define ENABLE_VIRTUAL_TERMINAL_INPUT  0x200
+#define ENABLE_PROCESSED_OUTPUT  0x1
+#define ENABLE_WRAP_AT_EOL_OUTPUT  0x2
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING  0x4
+#define DISABLE_NEWLINE_AUTO_RETURN  0x8
+#define ENABLE_LVB_GRID_WORLDWIDE  0x10
+
+; CONSOLECONTROL
+#define Reserved1  0x0
+#define ConsoleNotifyConsoleApplication  0x1
+#define Reserved2  0x2
+#define ConsoleSetCaretInfo  0x3
+#define Reserved3  0x4
+#define ConsoleSetForeground  0x5
+#define ConsoleSetWindowOwner  0x6
+#define ConsoleEndTask  0x7
+
+; CONVINFO_CONVERSATION_STATE
+#define XST_ADVACKRCVD  0xd
+#define XST_ADVDATAACKRCVD  0x10
+#define XST_ADVDATASENT  0xf
+#define XST_ADVSENT  0xb
+#define XST_CONNECTED  0x2
+#define XST_DATARCVD  0x6
+#define XST_EXECACKRCVD  0xa
+#define XST_EXECSENT  0x9
+#define XST_INCOMPLETE  0x1
+#define XST_INIT1  0x3
+#define XST_INIT2  0x4
+#define XST_NULL  0x0
+#define XST_POKEACKRCVD  0x8
+#define XST_POKESENT  0x7
+#define XST_REQSENT  0x5
+#define XST_UNADVACKRCVD  0xe
+#define XST_UNADVSENT  0xc
+
+; CONVINFO_STATUS
+#define ST_ADVISE  0x2
+#define ST_BLOCKED  0x8
+#define ST_BLOCKNEXT  0x80
+#define ST_CLIENT  0x10
+#define ST_CONNECTED  0x1
+#define ST_INLIST  0x40
+#define ST_ISLOCAL  0x4
+#define ST_ISSELF  0x100
+#define ST_TERMINATED  0x20
+
+; COPYFILE2_COPY_PHASE
+#define COPYFILE2_PHASE_NONE  0x0
+#define COPYFILE2_PHASE_PREPARE_SOURCE  0x1
+#define COPYFILE2_PHASE_PREPARE_DEST  0x2
+#define COPYFILE2_PHASE_READ_SOURCE  0x3
+#define COPYFILE2_PHASE_WRITE_DESTINATION  0x4
+#define COPYFILE2_PHASE_SERVER_COPY  0x5
+#define COPYFILE2_PHASE_NAMEGRAFT_COPY  0x6
+#define COPYFILE2_PHASE_MAX  0x7
+
+; COPYFILE2_MESSAGE_ACTION
+#define COPYFILE2_PROGRESS_CONTINUE  0x0
+#define COPYFILE2_PROGRESS_CANCEL  0x1
+#define COPYFILE2_PROGRESS_STOP  0x2
+#define COPYFILE2_PROGRESS_QUIET  0x3
+#define COPYFILE2_PROGRESS_PAUSE  0x4
+
+; COPYFILE2_MESSAGE_TYPE
+#define COPYFILE2_CALLBACK_NONE  0x0
+#define COPYFILE2_CALLBACK_CHUNK_STARTED  0x1
+#define COPYFILE2_CALLBACK_CHUNK_FINISHED  0x2
+#define COPYFILE2_CALLBACK_STREAM_STARTED  0x3
+#define COPYFILE2_CALLBACK_STREAM_FINISHED  0x4
+#define COPYFILE2_CALLBACK_POLL_CONTINUE  0x5
+#define COPYFILE2_CALLBACK_ERROR  0x6
+#define COPYFILE2_CALLBACK_MAX  0x7
+
+; CREATE_EVENT
+#define CREATE_EVENT_INITIAL_SET  0x2
+#define CREATE_EVENT_MANUAL_RESET  0x1
+
+; CREATE_POLYGON_RGN_MODE
+#define ALTERNATE  0x1
+#define WINDING  0x2
+
+; CREATE_PROCESS_LOGON_FLAGS
+#define LOGON_WITH_PROFILE  0x1
+#define LOGON_NETCREDENTIALS_ONLY  0x2
+
+; CREATE_RESTRICTED_TOKEN_FLAGS
+#define DISABLE_MAX_PRIVILEGE  0x1
+#define SANDBOX_INERT  0x2
+#define LUA_TOKEN  0x4
+#define WRITE_RESTRICTED  0x8
+
+; CREATE_TAPE_PARTITION_METHOD
+#define TAPE_FIXED_PARTITIONS  0x0
+#define TAPE_INITIATOR_PARTITIONS  0x2
+#define TAPE_SELECT_PARTITIONS  0x1
+
+; CREATE_TOOLHELP_SNAPSHOT_FLAGS
+#define TH32CS_INHERIT  0x80000000
+#define TH32CS_SNAPALL  0xf
+#define TH32CS_SNAPHEAPLIST  0x1
+#define TH32CS_SNAPMODULE  0x8
+#define TH32CS_SNAPMODULE32  0x10
+#define TH32CS_SNAPPROCESS  0x2
+#define TH32CS_SNAPTHREAD  0x4
+
+; CRED_ENUMERATE_FLAGS
+#define CRED_ENUMERATE_ALL_CREDENTIALS  0x1
+
+; CRED_FLAGS
+#define CRED_FLAGS_PASSWORD_FOR_CERT  0x1
+#define CRED_FLAGS_PROMPT_NOW  0x2
+#define CRED_FLAGS_USERNAME_TARGET  0x4
+#define CRED_FLAGS_OWF_CRED_BLOB  0x8
+#define CRED_FLAGS_REQUIRE_CONFIRMATION  0x10
+#define CRED_FLAGS_WILDCARD_MATCH  0x20
+#define CRED_FLAGS_VSM_PROTECTED  0x40
+#define CRED_FLAGS_NGC_CERT  0x80
+#define CRED_FLAGS_VALID_FLAGS  0xf0ff
+#define CRED_FLAGS_VALID_INPUT_FLAGS  0xf09f
+
+; CRED_MARSHAL_TYPE
+#define CertCredential  0x1
+#define UsernameTargetCredential  0x2
+#define BinaryBlobCredential  0x3
+#define UsernameForPackedCredentials  0x4
+#define BinaryBlobForSystem  0x5
+
+; CRED_PERSIST
+#define CRED_PERSIST_NONE  0x0
+#define CRED_PERSIST_SESSION  0x1
+#define CRED_PERSIST_LOCAL_MACHINE  0x2
+#define CRED_PERSIST_ENTERPRISE  0x3
+
+; CRED_PROTECTION_TYPE
+#define CredUnprotected  0x0
+#define CredUserProtection  0x1
+#define CredTrustedProtection  0x2
+#define CredForSystemProtection  0x3
+
+; CRED_TYPE
+#define CRED_TYPE_GENERIC  0x1
+#define CRED_TYPE_DOMAIN_PASSWORD  0x2
+#define CRED_TYPE_DOMAIN_CERTIFICATE  0x3
+#define CRED_TYPE_DOMAIN_VISIBLE_PASSWORD  0x4
+#define CRED_TYPE_GENERIC_CERTIFICATE  0x5
+#define CRED_TYPE_DOMAIN_EXTENDED  0x6
+#define CRED_TYPE_MAXIMUM  0x7
+#define CRED_TYPE_MAXIMUM_EX  0x3ef
+
+; CRYPT_ACQUIRE_FLAGS
+#define CRYPT_ACQUIRE_CACHE_FLAG  0x1
+#define CRYPT_ACQUIRE_USE_PROV_INFO_FLAG  0x2
+#define CRYPT_ACQUIRE_COMPARE_KEY_FLAG  0x4
+#define CRYPT_ACQUIRE_NO_HEALING  0x8
+#define CRYPT_ACQUIRE_SILENT_FLAG  0x40
+#define CRYPT_ACQUIRE_WINDOW_HANDLE_FLAG  0x80
+#define CRYPT_ACQUIRE_NCRYPT_KEY_FLAGS_MASK  0x70000
+#define CRYPT_ACQUIRE_ALLOW_NCRYPT_KEY_FLAG  0x10000
+#define CRYPT_ACQUIRE_PREFER_NCRYPT_KEY_FLAG  0x20000
+#define CRYPT_ACQUIRE_ONLY_NCRYPT_KEY_FLAG  0x40000
+
+; CRYPT_CONTEXT_CONFIG_FLAGS
+#define CRYPT_EXCLUSIVE  0x1
+#define CRYPT_OVERRIDE  0x10000
+
+; CRYPT_DEFAULT_CONTEXT_FLAGS
+#define CRYPT_DEFAULT_CONTEXT_AUTO_RELEASE_FLAG  0x1
+#define CRYPT_DEFAULT_CONTEXT_PROCESS_FLAG  0x2
+
+; CRYPT_DEFAULT_CONTEXT_TYPE
+#define CRYPT_DEFAULT_CONTEXT_CERT_SIGN_OID  0x1
+#define CRYPT_DEFAULT_CONTEXT_MULTI_CERT_SIGN_OID  0x2
+
+; CRYPT_ENCODE_OBJECT_FLAGS
+#define CRYPT_ENCODE_ALLOC_FLAG  0x8000
+#define CRYPT_ENCODE_ENABLE_PUNYCODE_FLAG  0x20000
+#define CRYPT_UNICODE_NAME_ENCODE_DISABLE_CHECK_TYPE_FLAG  0x40000000
+#define CRYPT_UNICODE_NAME_ENCODE_ENABLE_T61_UNICODE_FLAG  0x80000000
+#define CRYPT_UNICODE_NAME_ENCODE_ENABLE_UTF8_UNICODE_FLAG  0x20000000
+
+; CRYPT_FIND_FLAGS
+#define CRYPT_FIND_USER_KEYSET_FLAG  0x1
+#define CRYPT_FIND_MACHINE_KEYSET_FLAG  0x2
+#define CRYPT_FIND_SILENT_KEYSET_FLAG  0x40
+
+; CRYPT_IMAGE_REF_FLAGS
+#define CRYPT_MIN_DEPENDENCIES  0x1
+#define CRYPT_PROCESS_ISOLATE  0x10000
+
+; CRYPT_IMPORT_PUBLIC_KEY_FLAGS
+#define CRYPT_OID_INFO_PUBKEY_SIGN_KEY_FLAG  0x80000000
+#define CRYPT_OID_INFO_PUBKEY_ENCRYPT_KEY_FLAG  0x40000000
+
+; CRYPT_KEY_FLAGS
+#define CRYPT_EXPORTABLE  0x1
+#define CRYPT_USER_PROTECTED  0x2
+#define CRYPT_ARCHIVABLE  0x4000
+#define CRYPT_CREATE_IV  0x200
+#define CRYPT_CREATE_SALT  0x4
+#define CRYPT_DATA_KEY  0x800
+#define CRYPT_FORCE_KEY_PROTECTION_HIGH  0x8000
+#define CRYPT_KEK  0x400
+#define CRYPT_INITIATOR  0x40
+#define CRYPT_NO_SALT  0x10
+#define CRYPT_ONLINE  0x80
+#define CRYPT_PREGEN  0x40
+#define CRYPT_RECIPIENT  0x10
+#define CRYPT_SF  0x100
+#define CRYPT_SGCKEY  0x2000
+#define CRYPT_VOLATILE  0x1000
+#define CRYPT_MACHINE_KEYSET  0x20
+#define CRYPT_USER_KEYSET  0x1000
+#define PKCS12_PREFER_CNG_KSP  0x100
+#define PKCS12_ALWAYS_CNG_KSP  0x200
+#define PKCS12_ALLOW_OVERWRITE_KEY  0x4000
+#define PKCS12_NO_PERSIST_KEY  0x8000
+#define PKCS12_INCLUDE_EXTENDED_PROPERTIES  0x10
+#define CRYPT_OAEP  0x40
+#define CRYPT_BLOB_VER3  0x80
+#define CRYPT_DESTROYKEY  0x4
+#define CRYPT_SSL2_FALLBACK  0x2
+#define CRYPT_Y_ONLY  0x1
+#define CRYPT_IPSEC_HMAC_KEY  0x100
+#define CERT_SET_KEY_PROV_HANDLE_PROP_ID  0x1
+#define CERT_SET_KEY_CONTEXT_PROP_ID  0x1
+
+; CRYPT_KEY_PARAM_ID
+#define KP_ALGID  0x7
+#define KP_CERTIFICATE  0x1a
+#define KP_PERMISSIONS  0x6
+#define KP_SALT  0x2
+#define KP_SALT_EX  0xa
+#define KP_BLOCKLEN  0x8
+#define KP_GET_USE_COUNT  0x2a
+#define KP_KEYLEN  0x9
+
+; CRYPT_MSG_TYPE
+#define CMSG_DATA  0x1
+#define CMSG_SIGNED  0x2
+#define CMSG_ENVELOPED  0x3
+#define CMSG_SIGNED_AND_ENVELOPED  0x4
+#define CMSG_HASHED  0x5
+
+; CRYPT_SET_HASH_PARAM
+#define HP_HMAC_INFO  0x5
+#define HP_HASHVAL  0x2
+
+; CRYPT_SET_PROV_PARAM_ID
+#define PP_CLIENT_HWND  0x1
+#define PP_DELETEKEY  0x18
+#define PP_KEYEXCHANGE_ALG  0xe
+#define PP_KEYEXCHANGE_PIN  0x20
+#define PP_KEYEXCHANGE_KEYSIZE  0xc
+#define PP_KEYSET_SEC_DESCR  0x8
+#define PP_PIN_PROMPT_STRING  0x2c
+#define PP_ROOT_CERTSTORE  0x2e
+#define PP_SIGNATURE_ALG  0xf
+#define PP_SIGNATURE_PIN  0x21
+#define PP_SIGNATURE_KEYSIZE  0xd
+#define PP_UI_PROMPT  0x15
+#define PP_USE_HARDWARE_RNG  0x26
+#define PP_USER_CERTSTORE  0x2a
+#define PP_SECURE_KEYEXCHANGE_PIN  0x2f
+#define PP_SECURE_SIGNATURE_PIN  0x30
+#define PP_SMARTCARD_READER  0x2b
+
 ; CRYPT_STRING
 #define CRYPT_STRING_BASE64HEADER  0x0
 #define CRYPT_STRING_BASE64  0x1
@@ -502,9 +7568,448 @@
 #define CRYPT_STRING_ANY  0x7
 #define CRYPT_STRING_HEX_ANY  0x8
 
+; CRYPT_VERIFY_CERT_FLAGS
+#define CRYPT_VERIFY_CERT_SIGN_DISABLE_MD2_MD4_FLAG  0x1
+#define CRYPT_VERIFY_CERT_SIGN_SET_STRONG_PROPERTIES_FLAG  0x2
+#define CRYPT_VERIFY_CERT_SIGN_RETURN_STRONG_PROPERTIES_FLAG  0x4
+
+; CRYPTCAT_OPEN_FLAGS
+#define CRYPTCAT_OPEN_ALWAYS  0x2
+#define CRYPTCAT_OPEN_CREATENEW  0x1
+#define CRYPTCAT_OPEN_EXISTING  0x4
+#define CRYPTCAT_OPEN_EXCLUDE_PAGE_HASHES  0x10000
+#define CRYPTCAT_OPEN_INCLUDE_PAGE_HASHES  0x20000
+#define CRYPTCAT_OPEN_VERIFYSIGHASH  0x10000000
+#define CRYPTCAT_OPEN_NO_CONTENT_HCRYPTMSG  0x20000000
+#define CRYPTCAT_OPEN_SORTED  0x40000000
+#define CRYPTCAT_OPEN_FLAGS_MASK  0xffff0000
+
+; CURSORINFO_FLAGS
+#define CURSOR_SHOWING  0x1
+#define CURSOR_SUPPRESSED  0x2
+
+; CWP_FLAGS
+#define CWP_ALL  0x0
+#define CWP_SKIPINVISIBLE  0x1
+#define CWP_SKIPDISABLED  0x2
+#define CWP_SKIPTRANSPARENT  0x4
+
+; DATAOBJ_GET_ITEM_FLAGS
+#define DOGIF_DEFAULT  0x0
+#define DOGIF_TRAVERSE_LINK  0x1
+#define DOGIF_NO_HDROP  0x2
+#define DOGIF_NO_URL  0x4
+#define DOGIF_ONLY_IF_ONE  0x8
+
+; DC_LAYOUT
+#define LAYOUT_BITMAPORIENTATIONPRESERVED  0x8
+#define LAYOUT_RTL  0x1
+
+; DCB_PARITY
+#define EVENPARITY  0x2
+#define MARKPARITY  0x3
+#define NOPARITY  0x0
+#define ODDPARITY  0x1
+#define SPACEPARITY  0x4
+
+; DCB_STOP_BITS
+#define ONESTOPBIT  0x0
+#define ONE5STOPBITS  0x1
+#define TWOSTOPBITS  0x2
+
+; DDE_CLIENT_TRANSACTION_TYPE
+#define XTYP_ADVSTART  0x1030
+#define XTYP_ADVSTOP  0x8040
+#define XTYP_EXECUTE  0x4050
+#define XTYP_POKE  0x4090
+#define XTYP_REQUEST  0x20b0
+#define XTYP_ADVDATA  0x4010
+#define XTYP_ADVREQ  0x2022
+#define XTYP_CONNECT  0x1062
+#define XTYP_CONNECT_CONFIRM  0x8072
+#define XTYP_DISCONNECT  0x80c2
+#define XTYP_MONITOR  0x80f2
+#define XTYP_REGISTER  0x80a2
+#define XTYP_UNREGISTER  0x80d2
+#define XTYP_WILDCONNECT  0x20e2
+#define XTYP_XACT_COMPLETE  0x8080
+
+; DDE_ENABLE_CALLBACK_CMD
+#define EC_ENABLEALL  0x0
+#define EC_ENABLEONE  0x80
+#define EC_DISABLE  0x8
+#define EC_QUERYWAITING  0x2
+
+; DDE_INITIALIZE_COMMAND
+#define APPCLASS_MONITOR  0x1
+#define APPCLASS_STANDARD  0x0
+#define APPCMD_CLIENTONLY  0x10
+#define APPCMD_FILTERINITS  0x20
+#define CBF_FAIL_ALLSVRXACTIONS  0x3f000
+#define CBF_FAIL_ADVISES  0x4000
+#define CBF_FAIL_CONNECTIONS  0x2000
+#define CBF_FAIL_EXECUTES  0x8000
+#define CBF_FAIL_POKES  0x10000
+#define CBF_FAIL_REQUESTS  0x20000
+#define CBF_FAIL_SELFCONNECTIONS  0x1000
+#define CBF_SKIP_ALLNOTIFICATIONS  0x3c0000
+#define CBF_SKIP_CONNECT_CONFIRMS  0x40000
+#define CBF_SKIP_DISCONNECTS  0x200000
+#define CBF_SKIP_REGISTRATIONS  0x80000
+#define CBF_SKIP_UNREGISTRATIONS  0x100000
+#define MF_CALLBACKS  0x8000000
+#define MF_CONV  0x40000000
+#define MF_ERRORS  0x10000000
+#define MF_HSZ_INFO  0x1000000
+#define MF_LINKS  0x20000000
+#define MF_POSTMSGS  0x4000000
+#define MF_SENDMSGS  0x2000000
+
+; DDE_NAME_SERVICE_CMD
+#define DNS_REGISTER  0x1
+#define DNS_UNREGISTER  0x2
+#define DNS_FILTERON  0x4
+#define DNS_FILTEROFF  0x8
+
+; DEBUG_EVENT_CODE
+#define CREATE_PROCESS_DEBUG_EVENT  0x3
+#define CREATE_THREAD_DEBUG_EVENT  0x2
+#define EXCEPTION_DEBUG_EVENT  0x1
+#define EXIT_PROCESS_DEBUG_EVENT  0x5
+#define EXIT_THREAD_DEBUG_EVENT  0x4
+#define LOAD_DLL_DEBUG_EVENT  0x6
+#define OUTPUT_DEBUG_STRING_EVENT  0x8
+#define RIP_EVENT  0x9
+#define UNLOAD_DLL_DEBUG_EVENT  0x7
+
+; DEFINE_DOS_DEVICE_FLAGS
+#define DDD_RAW_TARGET_PATH  0x1
+#define DDD_REMOVE_DEFINITION  0x2
+#define DDD_EXACT_MATCH_ON_REMOVE  0x4
+#define DDD_NO_BROADCAST_SYSTEM  0x8
+#define DDD_LUID_BROADCAST_DRIVE  0x10
+
+; DEP_SYSTEM_POLICY_TYPE
+#define DEPPolicyAlwaysOff  0x0
+#define DEPPolicyAlwaysOn  0x1
+#define DEPPolicyOptIn  0x2
+#define DEPPolicyOptOut  0x3
+#define DEPTotalPolicyCount  0x4
+
+; DESCKIND
+#define DESCKIND_NONE  0x0
+#define DESCKIND_FUNCDESC  0x1
+#define DESCKIND_VARDESC  0x2
+#define DESCKIND_TYPECOMP  0x3
+#define DESCKIND_IMPLICITAPPOBJ  0x4
+#define DESCKIND_MAX  0x5
+
+; DESKTOP_ACCESS_FLAGS
+#define DESKTOP_DELETE  0x10000
+#define DESKTOP_READ_CONTROL  0x20000
+#define DESKTOP_WRITE_DAC  0x40000
+#define DESKTOP_WRITE_OWNER  0x80000
+#define DESKTOP_SYNCHRONIZE  0x100000
+#define DESKTOP_READOBJECTS  0x1
+#define DESKTOP_CREATEWINDOW  0x2
+#define DESKTOP_CREATEMENU  0x4
+#define DESKTOP_HOOKCONTROL  0x8
+#define DESKTOP_JOURNALRECORD  0x10
+#define DESKTOP_JOURNALPLAYBACK  0x20
+#define DESKTOP_ENUMERATE  0x40
+#define DESKTOP_WRITEOBJECTS  0x80
+#define DESKTOP_SWITCHDESKTOP  0x100
+
+; DESKTOP_CONTROL_FLAGS
+#define DF_ALLOWOTHERACCOUNTHOOK  0x1
+
+; DEVMODE_COLLATE
+#define DMCOLLATE_FALSE  0x0
+#define DMCOLLATE_TRUE  0x1
+
+; DEVMODE_COLOR
+#define DMCOLOR_MONOCHROME  0x1
+#define DMCOLOR_COLOR  0x2
+
+; DEVMODE_DISPLAY_FIXED_OUTPUT
+#define DMDFO_DEFAULT  0x0
+#define DMDFO_STRETCH  0x1
+#define DMDFO_CENTER  0x2
+
+; DEVMODE_DISPLAY_ORIENTATION
+#define DMDO_DEFAULT  0x0
+#define DMDO_90  0x1
+#define DMDO_180  0x2
+#define DMDO_270  0x3
+
+; DEVMODE_DUPLEX
+#define DMDUP_SIMPLEX  0x1
+#define DMDUP_VERTICAL  0x2
+#define DMDUP_HORIZONTAL  0x3
+
+; DEVMODE_FIELD_FLAGS
+#define DM_SPECVERSION  0x401
+#define DM_ORIENTATION  0x1
+#define DM_PAPERSIZE  0x2
+#define DM_PAPERLENGTH  0x4
+#define DM_PAPERWIDTH  0x8
+#define DM_SCALE  0x10
+#define DM_POSITION  0x20
+#define DM_NUP  0x40
+#define DM_DISPLAYORIENTATION  0x80
+#define DM_COPIES  0x100
+#define DM_DEFAULTSOURCE  0x200
+#define DM_PRINTQUALITY  0x400
+#define DM_COLOR  0x800
+#define DM_DUPLEX  0x1000
+#define DM_YRESOLUTION  0x2000
+#define DM_TTOPTION  0x4000
+#define DM_COLLATE  0x8000
+#define DM_FORMNAME  0x10000
+#define DM_LOGPIXELS  0x20000
+#define DM_BITSPERPEL  0x40000
+#define DM_PELSWIDTH  0x80000
+#define DM_PELSHEIGHT  0x100000
+#define DM_DISPLAYFLAGS  0x200000
+#define DM_DISPLAYFREQUENCY  0x400000
+#define DM_ICMMETHOD  0x800000
+#define DM_ICMINTENT  0x1000000
+#define DM_MEDIATYPE  0x2000000
+#define DM_DITHERTYPE  0x4000000
+#define DM_PANNINGWIDTH  0x8000000
+#define DM_PANNINGHEIGHT  0x10000000
+#define DM_DISPLAYFIXEDOUTPUT  0x20000000
+#define DM_INTERLACED  0x2
+#define DM_UPDATE  0x1
+#define DM_COPY  0x2
+#define DM_PROMPT  0x4
+#define DM_MODIFY  0x8
+#define DM_IN_BUFFER  0x8
+#define DM_IN_PROMPT  0x4
+#define DM_OUT_BUFFER  0x2
+#define DM_OUT_DEFAULT  0x1
+
+; DEVMODE_TRUETYPE_OPTION
+#define DMTT_BITMAP  0x1
+#define DMTT_DOWNLOAD  0x2
+#define DMTT_SUBDEV  0x3
+#define DMTT_DOWNLOAD_OUTLINE  0x4
+
+; DFC_TYPE
+#define DFC_CAPTION  0x1
+#define DFC_MENU  0x2
+#define DFC_SCROLL  0x3
+#define DFC_BUTTON  0x4
+#define DFC_POPUPMENU  0x5
+
+; DFCS_STATE
+#define DFCS_CAPTIONCLOSE  0x0
+#define DFCS_CAPTIONMIN  0x1
+#define DFCS_CAPTIONMAX  0x2
+#define DFCS_CAPTIONRESTORE  0x3
+#define DFCS_CAPTIONHELP  0x4
+#define DFCS_MENUARROW  0x0
+#define DFCS_MENUCHECK  0x1
+#define DFCS_MENUBULLET  0x2
+#define DFCS_MENUARROWRIGHT  0x4
+#define DFCS_SCROLLUP  0x0
+#define DFCS_SCROLLDOWN  0x1
+#define DFCS_SCROLLLEFT  0x2
+#define DFCS_SCROLLRIGHT  0x3
+#define DFCS_SCROLLCOMBOBOX  0x5
+#define DFCS_SCROLLSIZEGRIP  0x8
+#define DFCS_SCROLLSIZEGRIPRIGHT  0x10
+#define DFCS_BUTTONCHECK  0x0
+#define DFCS_BUTTONRADIOIMAGE  0x1
+#define DFCS_BUTTONRADIOMASK  0x2
+#define DFCS_BUTTONRADIO  0x4
+#define DFCS_BUTTON3STATE  0x8
+#define DFCS_BUTTONPUSH  0x10
+#define DFCS_INACTIVE  0x100
+#define DFCS_PUSHED  0x200
+#define DFCS_CHECKED  0x400
+#define DFCS_TRANSPARENT  0x800
+#define DFCS_HOT  0x1000
+#define DFCS_ADJUSTRECT  0x2000
+#define DFCS_FLAT  0x4000
+#define DFCS_MONO  0x8000
+
+; DI_FLAGS
+#define DI_MASK  0x1
+#define DI_IMAGE  0x2
+#define DI_NORMAL  0x3
+#define DI_COMPAT  0x4
+#define DI_DEFAULTSIZE  0x8
+#define DI_NOMIRROR  0x10
+
+; DIALOG_CONTROL_DPI_CHANGE_BEHAVIORS
+#define DCDC_DEFAULT  0x0
+#define DCDC_DISABLE_FONT_UPDATE  0x1
+#define DCDC_DISABLE_RELAYOUT  0x2
+
+; DIALOG_DPI_CHANGE_BEHAVIORS
+#define DDC_DEFAULT  0x0
+#define DDC_DISABLE_ALL  0x1
+#define DDC_DISABLE_RESIZE  0x2
+#define DDC_DISABLE_CONTROL_RELAYOUT  0x4
+
 ; DIB_USAGE
 #define DIB_RGB_COLORS  0x0
 #define DIB_PAL_COLORS  0x1
+
+; DISP_CHANGE
+#define DISP_CHANGE_SUCCESSFUL  0x0
+#define DISP_CHANGE_RESTART  0x1
+#define DISP_CHANGE_FAILED  -1
+#define DISP_CHANGE_BADMODE  -2
+#define DISP_CHANGE_NOTUPDATED  -3
+#define DISP_CHANGE_BADFLAGS  -4
+#define DISP_CHANGE_BADPARAM  -5
+#define DISP_CHANGE_BADDUALVIEW  -6
+
+; DISPATCH_FLAGS
+#define DISPATCH_METHOD  0x1
+#define DISPATCH_PROPERTYGET  0x2
+#define DISPATCH_PROPERTYPUT  0x4
+#define DISPATCH_PROPERTYPUTREF  0x8
+
+; DISPLAYCONFIG_DEVICE_INFO_TYPE
+#define DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME  0x1
+#define DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_NAME  0x2
+#define DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_PREFERRED_MODE  0x3
+#define DISPLAYCONFIG_DEVICE_INFO_GET_ADAPTER_NAME  0x4
+#define DISPLAYCONFIG_DEVICE_INFO_SET_TARGET_PERSISTENCE  0x5
+#define DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_BASE_TYPE  0x6
+#define DISPLAYCONFIG_DEVICE_INFO_GET_SUPPORT_VIRTUAL_RESOLUTION  0x7
+#define DISPLAYCONFIG_DEVICE_INFO_SET_SUPPORT_VIRTUAL_RESOLUTION  0x8
+#define DISPLAYCONFIG_DEVICE_INFO_GET_ADVANCED_COLOR_INFO  0x9
+#define DISPLAYCONFIG_DEVICE_INFO_SET_ADVANCED_COLOR_STATE  0xa
+#define DISPLAYCONFIG_DEVICE_INFO_GET_SDR_WHITE_LEVEL  0xb
+#define DISPLAYCONFIG_DEVICE_INFO_GET_MONITOR_SPECIALIZATION  0xc
+#define DISPLAYCONFIG_DEVICE_INFO_SET_MONITOR_SPECIALIZATION  0xd
+
+; DISPLAYCONFIG_MODE_INFO_TYPE
+#define DISPLAYCONFIG_MODE_INFO_TYPE_SOURCE  0x1
+#define DISPLAYCONFIG_MODE_INFO_TYPE_TARGET  0x2
+#define DISPLAYCONFIG_MODE_INFO_TYPE_DESKTOP_IMAGE  0x3
+
+; DISPLAYCONFIG_PIXELFORMAT
+#define DISPLAYCONFIG_PIXELFORMAT_8BPP  0x1
+#define DISPLAYCONFIG_PIXELFORMAT_16BPP  0x2
+#define DISPLAYCONFIG_PIXELFORMAT_24BPP  0x3
+#define DISPLAYCONFIG_PIXELFORMAT_32BPP  0x4
+#define DISPLAYCONFIG_PIXELFORMAT_NONGDI  0x5
+
+; DISPLAYCONFIG_ROTATION
+#define DISPLAYCONFIG_ROTATION_IDENTITY  0x1
+#define DISPLAYCONFIG_ROTATION_ROTATE90  0x2
+#define DISPLAYCONFIG_ROTATION_ROTATE180  0x3
+#define DISPLAYCONFIG_ROTATION_ROTATE270  0x4
+
+; DISPLAYCONFIG_SCALING
+#define DISPLAYCONFIG_SCALING_IDENTITY  0x1
+#define DISPLAYCONFIG_SCALING_CENTERED  0x2
+#define DISPLAYCONFIG_SCALING_STRETCHED  0x3
+#define DISPLAYCONFIG_SCALING_ASPECTRATIOCENTEREDMAX  0x4
+#define DISPLAYCONFIG_SCALING_CUSTOM  0x5
+#define DISPLAYCONFIG_SCALING_PREFERRED  0x80
+
+; DISPLAYCONFIG_SCANLINE_ORDERING
+#define DISPLAYCONFIG_SCANLINE_ORDERING_UNSPECIFIED  0x0
+#define DISPLAYCONFIG_SCANLINE_ORDERING_PROGRESSIVE  0x1
+#define DISPLAYCONFIG_SCANLINE_ORDERING_INTERLACED  0x2
+#define DISPLAYCONFIG_SCANLINE_ORDERING_INTERLACED_UPPERFIELDFIRST  0x2
+#define DISPLAYCONFIG_SCANLINE_ORDERING_INTERLACED_LOWERFIELDFIRST  0x3
+
+; DISPLAYCONFIG_TOPOLOGY_ID
+#define DISPLAYCONFIG_TOPOLOGY_INTERNAL  0x1
+#define DISPLAYCONFIG_TOPOLOGY_CLONE  0x2
+#define DISPLAYCONFIG_TOPOLOGY_EXTEND  0x4
+#define DISPLAYCONFIG_TOPOLOGY_EXTERNAL  0x8
+
+; DISPLAYCONFIG_VIDEO_OUTPUT_TECHNOLOGY
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_OTHER  -1
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_HD15  0x0
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_SVIDEO  0x1
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_COMPOSITE_VIDEO  0x2
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_COMPONENT_VIDEO  0x3
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_DVI  0x4
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_HDMI  0x5
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_LVDS  0x6
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_D_JPN  0x8
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_SDI  0x9
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_DISPLAYPORT_EXTERNAL  0xa
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_DISPLAYPORT_EMBEDDED  0xb
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_UDI_EXTERNAL  0xc
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_UDI_EMBEDDED  0xd
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_SDTVDONGLE  0xe
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_MIRACAST  0xf
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_INDIRECT_WIRED  0x10
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_INDIRECT_VIRTUAL  0x11
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_DISPLAYPORT_USB_TUNNEL  0x12
+#define DISPLAYCONFIG_OUTPUT_TECHNOLOGY_INTERNAL  -2147483648
+
+; DLG_BUTTON_CHECK_STATE
+#define BST_CHECKED  0x1
+#define BST_INDETERMINATE  0x2
+#define BST_UNCHECKED  0x0
+
+; DLG_DIR_LIST_FILE_TYPE
+#define DDL_ARCHIVE  0x20
+#define DDL_DIRECTORY  0x10
+#define DDL_DRIVES  0x4000
+#define DDL_EXCLUSIVE  0x8000
+#define DDL_HIDDEN  0x2
+#define DDL_READONLY  0x1
+#define DDL_READWRITE  0x0
+#define DDL_SYSTEM  0x4
+#define DDL_POSTMSGS  0x2000
+
+; DPAMM_MESSAGE
+#define DPAMM_MERGE  0x1
+#define DPAMM_DELETE  0x2
+#define DPAMM_INSERT  0x3
+
+; DPI_AWARENESS
+#define DPI_AWARENESS_INVALID  -1
+#define DPI_AWARENESS_UNAWARE  0x0
+#define DPI_AWARENESS_SYSTEM_AWARE  0x1
+#define DPI_AWARENESS_PER_MONITOR_AWARE  0x2
+
+; DPI_HOSTING_BEHAVIOR
+#define DPI_HOSTING_BEHAVIOR_INVALID  -1
+#define DPI_HOSTING_BEHAVIOR_DEFAULT  0x0
+#define DPI_HOSTING_BEHAVIOR_MIXED  0x1
+
+; DRAW_CAPTION_FLAGS
+#define DC_ACTIVE  0x1
+#define DC_BUTTONS  0x1000
+#define DC_GRADIENT  0x20
+#define DC_ICON  0x4
+#define DC_INBUTTON  0x10
+#define DC_SMALLCAP  0x2
+#define DC_TEXT  0x8
+
+; DRAW_EDGE_FLAGS
+#define BF_ADJUST  0x2000
+#define BF_BOTTOM  0x8
+#define BF_BOTTOMLEFT  0x9
+#define BF_BOTTOMRIGHT  0xc
+#define BF_DIAGONAL  0x10
+#define BF_DIAGONAL_ENDBOTTOMLEFT  0x19
+#define BF_DIAGONAL_ENDBOTTOMRIGHT  0x1c
+#define BF_DIAGONAL_ENDTOPLEFT  0x13
+#define BF_DIAGONAL_ENDTOPRIGHT  0x16
+#define BF_FLAT  0x4000
+#define BF_LEFT  0x1
+#define BF_MIDDLE  0x800
+#define BF_MONO  0x8000
+#define BF_RECT  0xf
+#define BF_RIGHT  0x4
+#define BF_SOFT  0x1000
+#define BF_TOP  0x2
+#define BF_TOPLEFT  0x3
+#define BF_TOPRIGHT  0x6
 
 ; DRAW_TEXT_FORMAT
 #define DT_BOTTOM  0x8
@@ -532,6 +8037,106 @@
 #define DT_WORDBREAK  0x10
 #define DT_WORD_ELLIPSIS  0x40000
 
+; DRAW_THEME_PARENT_BACKGROUND_FLAGS
+#define DTPB_WINDOWDC  0x1
+#define DTPB_USECTLCOLORSTATIC  0x2
+#define DTPB_USEERASEBKGND  0x4
+
+; DRAWEDGE_FLAGS
+#define BDR_RAISEDOUTER  0x1
+#define BDR_SUNKENOUTER  0x2
+#define BDR_RAISEDINNER  0x4
+#define BDR_SUNKENINNER  0x8
+#define BDR_OUTER  0x3
+#define BDR_INNER  0xc
+#define BDR_RAISED  0x5
+#define BDR_SUNKEN  0xa
+#define EDGE_RAISED  0x5
+#define EDGE_SUNKEN  0xa
+#define EDGE_ETCHED  0x6
+#define EDGE_BUMP  0x9
+
+; DRAWSTATE_FLAGS
+#define DST_COMPLEX  0x0
+#define DST_TEXT  0x1
+#define DST_PREFIXTEXT  0x2
+#define DST_ICON  0x3
+#define DST_BITMAP  0x4
+#define DSS_NORMAL  0x0
+#define DSS_UNION  0x10
+#define DSS_DISABLED  0x20
+#define DSS_MONO  0x80
+#define DSS_HIDEPREFIX  0x200
+#define DSS_PREFIXONLY  0x400
+#define DSS_RIGHT  0x8000
+
+; DROPEFFECT
+#define DROPEFFECT_NONE  0x0
+#define DROPEFFECT_COPY  0x1
+#define DROPEFFECT_MOVE  0x2
+#define DROPEFFECT_LINK  0x4
+#define DROPEFFECT_SCROLL  0x80000000
+
+; DTTOPTS_FLAGS
+#define DTT_TEXTCOLOR  0x1
+#define DTT_BORDERCOLOR  0x2
+#define DTT_SHADOWCOLOR  0x4
+#define DTT_SHADOWTYPE  0x8
+#define DTT_SHADOWOFFSET  0x10
+#define DTT_BORDERSIZE  0x20
+#define DTT_FONTPROP  0x40
+#define DTT_COLORPROP  0x80
+#define DTT_STATEID  0x100
+#define DTT_CALCRECT  0x200
+#define DTT_APPLYOVERLAY  0x400
+#define DTT_GLOWSIZE  0x800
+#define DTT_CALLBACK  0x1000
+#define DTT_COMPOSITED  0x2000
+#define DTT_VALIDBITS  0x2fff
+
+; DUPLICATE_HANDLE_OPTIONS
+#define DUPLICATE_CLOSE_SOURCE  0x1
+#define DUPLICATE_SAME_ACCESS  0x2
+
+; DVASPECT
+#define DVASPECT_CONTENT  0x1
+#define DVASPECT_THUMBNAIL  0x2
+#define DVASPECT_ICON  0x4
+#define DVASPECT_DOCPRINT  0x8
+#define DVASPECT_OPAQUE  0x10
+#define DVASPECT_TRANSPARENT  0x20
+
+; DWM_SHOWCONTACT
+#define DWMSC_DOWN  0x1
+#define DWMSC_UP  0x2
+#define DWMSC_DRAG  0x4
+#define DWMSC_HOLD  0x8
+#define DWMSC_PENBARREL  0x10
+#define DWMSC_NONE  0x0
+#define DWMSC_ALL  0xffffffff
+
+; DWM_SOURCE_FRAME_SAMPLING
+#define DWM_SOURCE_FRAME_SAMPLING_POINT  0x0
+#define DWM_SOURCE_FRAME_SAMPLING_COVERAGE  0x1
+#define DWM_SOURCE_FRAME_SAMPLING_LAST  0x2
+
+; DWM_TAB_WINDOW_REQUIREMENTS
+#define DWMTWR_NONE  0x0
+#define DWMTWR_IMPLEMENTED_BY_SYSTEM  0x1
+#define DWMTWR_WINDOW_RELATIONSHIP  0x2
+#define DWMTWR_WINDOW_STYLES  0x4
+#define DWMTWR_WINDOW_REGION  0x8
+#define DWMTWR_WINDOW_DWM_ATTRIBUTES  0x10
+#define DWMTWR_WINDOW_MARGINS  0x20
+#define DWMTWR_TABBING_ENABLED  0x40
+#define DWMTWR_USER_POLICY  0x80
+#define DWMTWR_GROUP_POLICY  0x100
+#define DWMTWR_APP_COMPAT  0x200
+
+; DWMTRANSITION_OWNEDWINDOW_TARGET
+#define DWMTRANSITION_OWNEDWINDOW_NULL  -1
+#define DWMTRANSITION_OWNEDWINDOW_REPOSITION  0x0
+
 ; DWMWINDOWATTRIBUTE
 #define DWMWA_NCRENDERING_ENABLED  0x1
 #define DWMWA_NCRENDERING_POLICY  0x2
@@ -558,6 +8163,304 @@
 #define DWMWA_VISIBLE_FRAME_BORDER_THICKNESS  0x25
 #define DWMWA_SYSTEMBACKDROP_TYPE  0x26
 #define DWMWA_LAST  0x27
+
+; EMBDHLP_FLAGS
+#define EMBDHLP_INPROC_HANDLER  0x0
+#define EMBDHLP_INPROC_SERVER  0x1
+#define EMBDHLP_CREATENOW  0x0
+#define EMBDHLP_DELAYCREATE  0x10000
+
+; ENABLE_SCROLL_BAR_ARROWS
+#define ESB_DISABLE_BOTH  0x3
+#define ESB_DISABLE_DOWN  0x2
+#define ESB_DISABLE_LEFT  0x1
+#define ESB_DISABLE_LTUP  0x1
+#define ESB_DISABLE_RIGHT  0x2
+#define ESB_DISABLE_RTDN  0x2
+#define ESB_DISABLE_UP  0x1
+#define ESB_ENABLE_BOTH  0x0
+
+; ENHANCED_METAFILE_RECORD_TYPE
+#define EMR_HEADER  0x1
+#define EMR_POLYBEZIER  0x2
+#define EMR_POLYGON  0x3
+#define EMR_POLYLINE  0x4
+#define EMR_POLYBEZIERTO  0x5
+#define EMR_POLYLINETO  0x6
+#define EMR_POLYPOLYLINE  0x7
+#define EMR_POLYPOLYGON  0x8
+#define EMR_SETWINDOWEXTEX  0x9
+#define EMR_SETWINDOWORGEX  0xa
+#define EMR_SETVIEWPORTEXTEX  0xb
+#define EMR_SETVIEWPORTORGEX  0xc
+#define EMR_SETBRUSHORGEX  0xd
+#define EMR_EOF  0xe
+#define EMR_SETPIXELV  0xf
+#define EMR_SETMAPPERFLAGS  0x10
+#define EMR_SETMAPMODE  0x11
+#define EMR_SETBKMODE  0x12
+#define EMR_SETPOLYFILLMODE  0x13
+#define EMR_SETROP2  0x14
+#define EMR_SETSTRETCHBLTMODE  0x15
+#define EMR_SETTEXTALIGN  0x16
+#define EMR_SETCOLORADJUSTMENT  0x17
+#define EMR_SETTEXTCOLOR  0x18
+#define EMR_SETBKCOLOR  0x19
+#define EMR_OFFSETCLIPRGN  0x1a
+#define EMR_MOVETOEX  0x1b
+#define EMR_SETMETARGN  0x1c
+#define EMR_EXCLUDECLIPRECT  0x1d
+#define EMR_INTERSECTCLIPRECT  0x1e
+#define EMR_SCALEVIEWPORTEXTEX  0x1f
+#define EMR_SCALEWINDOWEXTEX  0x20
+#define EMR_SAVEDC  0x21
+#define EMR_RESTOREDC  0x22
+#define EMR_SETWORLDTRANSFORM  0x23
+#define EMR_MODIFYWORLDTRANSFORM  0x24
+#define EMR_SELECTOBJECT  0x25
+#define EMR_CREATEPEN  0x26
+#define EMR_CREATEBRUSHINDIRECT  0x27
+#define EMR_DELETEOBJECT  0x28
+#define EMR_ANGLEARC  0x29
+#define EMR_ELLIPSE  0x2a
+#define EMR_RECTANGLE  0x2b
+#define EMR_ROUNDRECT  0x2c
+#define EMR_ARC  0x2d
+#define EMR_CHORD  0x2e
+#define EMR_PIE  0x2f
+#define EMR_SELECTPALETTE  0x30
+#define EMR_CREATEPALETTE  0x31
+#define EMR_SETPALETTEENTRIES  0x32
+#define EMR_RESIZEPALETTE  0x33
+#define EMR_REALIZEPALETTE  0x34
+#define EMR_EXTFLOODFILL  0x35
+#define EMR_LINETO  0x36
+#define EMR_ARCTO  0x37
+#define EMR_POLYDRAW  0x38
+#define EMR_SETARCDIRECTION  0x39
+#define EMR_SETMITERLIMIT  0x3a
+#define EMR_BEGINPATH  0x3b
+#define EMR_ENDPATH  0x3c
+#define EMR_CLOSEFIGURE  0x3d
+#define EMR_FILLPATH  0x3e
+#define EMR_STROKEANDFILLPATH  0x3f
+#define EMR_STROKEPATH  0x40
+#define EMR_FLATTENPATH  0x41
+#define EMR_WIDENPATH  0x42
+#define EMR_SELECTCLIPPATH  0x43
+#define EMR_ABORTPATH  0x44
+#define EMR_GDICOMMENT  0x46
+#define EMR_FILLRGN  0x47
+#define EMR_FRAMERGN  0x48
+#define EMR_INVERTRGN  0x49
+#define EMR_PAINTRGN  0x4a
+#define EMR_EXTSELECTCLIPRGN  0x4b
+#define EMR_BITBLT  0x4c
+#define EMR_STRETCHBLT  0x4d
+#define EMR_MASKBLT  0x4e
+#define EMR_PLGBLT  0x4f
+#define EMR_SETDIBITSTODEVICE  0x50
+#define EMR_STRETCHDIBITS  0x51
+#define EMR_EXTCREATEFONTINDIRECTW  0x52
+#define EMR_EXTTEXTOUTA  0x53
+#define EMR_EXTTEXTOUTW  0x54
+#define EMR_POLYBEZIER16  0x55
+#define EMR_POLYGON16  0x56
+#define EMR_POLYLINE16  0x57
+#define EMR_POLYBEZIERTO16  0x58
+#define EMR_POLYLINETO16  0x59
+#define EMR_POLYPOLYLINE16  0x5a
+#define EMR_POLYPOLYGON16  0x5b
+#define EMR_POLYDRAW16  0x5c
+#define EMR_CREATEMONOBRUSH  0x5d
+#define EMR_CREATEDIBPATTERNBRUSHPT  0x5e
+#define EMR_EXTCREATEPEN  0x5f
+#define EMR_POLYTEXTOUTA  0x60
+#define EMR_POLYTEXTOUTW  0x61
+#define EMR_SETICMMODE  0x62
+#define EMR_CREATECOLORSPACE  0x63
+#define EMR_SETCOLORSPACE  0x64
+#define EMR_DELETECOLORSPACE  0x65
+#define EMR_GLSRECORD  0x66
+#define EMR_GLSBOUNDEDRECORD  0x67
+#define EMR_PIXELFORMAT  0x68
+#define EMR_RESERVED_105  0x69
+#define EMR_RESERVED_106  0x6a
+#define EMR_RESERVED_107  0x6b
+#define EMR_RESERVED_108  0x6c
+#define EMR_RESERVED_109  0x6d
+#define EMR_RESERVED_110  0x6e
+#define EMR_COLORCORRECTPALETTE  0x6f
+#define EMR_SETICMPROFILEA  0x70
+#define EMR_SETICMPROFILEW  0x71
+#define EMR_ALPHABLEND  0x72
+#define EMR_SETLAYOUT  0x73
+#define EMR_TRANSPARENTBLT  0x74
+#define EMR_RESERVED_117  0x75
+#define EMR_GRADIENTFILL  0x76
+#define EMR_RESERVED_119  0x77
+#define EMR_RESERVED_120  0x78
+#define EMR_COLORMATCHTOTARGETW  0x79
+#define EMR_CREATECOLORSPACEW  0x7a
+#define EMR_MIN  0x1
+#define EMR_MAX  0x7a
+
+; ENUM_DATE_FORMATS_FLAGS
+#define DATE_SHORTDATE  0x1
+#define DATE_LONGDATE  0x2
+#define DATE_YEARMONTH  0x8
+#define DATE_MONTHDAY  0x80
+#define DATE_AUTOLAYOUT  0x40
+#define DATE_LTRREADING  0x10
+#define DATE_RTLREADING  0x20
+#define DATE_USE_ALT_CALENDAR  0x4
+
+; ENUM_DISPLAY_SETTINGS_FLAGS
+#define EDS_RAWMODE  0x2
+#define EDS_ROTATEDMODE  0x4
+
+; ENUM_DISPLAY_SETTINGS_MODE
+#define ENUM_CURRENT_SETTINGS  0xffffffff
+#define ENUM_REGISTRY_SETTINGS  0xfffffffe
+
+; ENUM_PROCESS_MODULES_EX_FLAGS
+#define LIST_MODULES_ALL  0x3
+#define LIST_MODULES_DEFAULT  0x0
+#define LIST_MODULES_32BIT  0x1
+#define LIST_MODULES_64BIT  0x2
+
+; ENUM_SERVICE_STATE
+#define SERVICE_ACTIVE  0x1
+#define SERVICE_INACTIVE  0x2
+#define SERVICE_STATE_ALL  0x3
+
+; ENUM_SERVICE_TYPE
+#define SERVICE_DRIVER  0xb
+#define SERVICE_KERNEL_DRIVER  0x1
+#define SERVICE_WIN32  0x30
+#define SERVICE_WIN32_SHARE_PROCESS  0x20
+#define SERVICE_ADAPTER  0x4
+#define SERVICE_FILE_SYSTEM_DRIVER  0x2
+#define SERVICE_RECOGNIZER_DRIVER  0x8
+#define SERVICE_WIN32_OWN_PROCESS  0x10
+#define SERVICE_USER_OWN_PROCESS  0x50
+#define SERVICE_USER_SHARE_PROCESS  0x60
+#define SERVICE_NO_CHANGE  0xffffffff
+
+; ENUM_SYSTEM_CODE_PAGES_FLAGS
+#define CP_INSTALLED  0x1
+#define CP_SUPPORTED  0x2
+
+; ENUM_SYSTEM_LANGUAGE_GROUPS_FLAGS
+#define LGRPID_INSTALLED  0x1
+#define LGRPID_SUPPORTED  0x2
+
+; ERASE_TAPE_TYPE
+#define TAPE_ERASE_LONG  0x1
+#define TAPE_ERASE_SHORT  0x0
+
+; ESCAPE_COMM_FUNCTION
+#define CLRBREAK  0x9
+#define CLRDTR  0x6
+#define CLRRTS  0x4
+#define SETBREAK  0x8
+#define SETDTR  0x5
+#define SETRTS  0x3
+#define SETXOFF  0x1
+#define SETXON  0x2
+
+; ETO_OPTIONS
+#define ETO_OPAQUE  0x2
+#define ETO_CLIPPED  0x4
+#define ETO_GLYPH_INDEX  0x10
+#define ETO_RTLREADING  0x80
+#define ETO_NUMERICSLOCAL  0x400
+#define ETO_NUMERICSLATIN  0x800
+#define ETO_IGNORELANGUAGE  0x1000
+#define ETO_PDY  0x2000
+#define ETO_REVERSE_INDEX_MAP  0x10000
+
+; ETW_PROCESS_HANDLE_INFO_TYPE
+#define EtwQueryPartitionInformation  0x1
+#define EtwQueryPartitionInformationV2  0x2
+#define EtwQueryLastDroppedTimes  0x3
+#define EtwQueryLogFileHeader  0x4
+#define EtwQueryProcessHandleInfoMax  0x5
+
+; EVENT_TRACE_CONTROL
+#define EVENT_TRACE_CONTROL_FLUSH  0x3
+#define EVENT_TRACE_CONTROL_QUERY  0x0
+#define EVENT_TRACE_CONTROL_STOP  0x1
+#define EVENT_TRACE_CONTROL_UPDATE  0x2
+
+; EVENT_TRACE_FLAG
+#define EVENT_TRACE_FLAG_ALPC  0x100000
+#define EVENT_TRACE_FLAG_CSWITCH  0x10
+#define EVENT_TRACE_FLAG_DBGPRINT  0x40000
+#define EVENT_TRACE_FLAG_DISK_FILE_IO  0x200
+#define EVENT_TRACE_FLAG_DISK_IO  0x100
+#define EVENT_TRACE_FLAG_DISK_IO_INIT  0x400
+#define EVENT_TRACE_FLAG_DISPATCHER  0x800
+#define EVENT_TRACE_FLAG_DPC  0x20
+#define EVENT_TRACE_FLAG_DRIVER  0x800000
+#define EVENT_TRACE_FLAG_FILE_IO  0x2000000
+#define EVENT_TRACE_FLAG_FILE_IO_INIT  0x4000000
+#define EVENT_TRACE_FLAG_IMAGE_LOAD  0x4
+#define EVENT_TRACE_FLAG_INTERRUPT  0x40
+#define EVENT_TRACE_FLAG_JOB  0x80000
+#define EVENT_TRACE_FLAG_MEMORY_HARD_FAULTS  0x2000
+#define EVENT_TRACE_FLAG_MEMORY_PAGE_FAULTS  0x1000
+#define EVENT_TRACE_FLAG_NETWORK_TCPIP  0x10000
+#define EVENT_TRACE_FLAG_NO_SYSCONFIG  0x10000000
+#define EVENT_TRACE_FLAG_PROCESS  0x1
+#define EVENT_TRACE_FLAG_PROCESS_COUNTERS  0x8
+#define EVENT_TRACE_FLAG_PROFILE  0x1000000
+#define EVENT_TRACE_FLAG_REGISTRY  0x20000
+#define EVENT_TRACE_FLAG_SPLIT_IO  0x200000
+#define EVENT_TRACE_FLAG_SYSTEMCALL  0x80
+#define EVENT_TRACE_FLAG_THREAD  0x2
+#define EVENT_TRACE_FLAG_VAMAP  0x8000
+#define EVENT_TRACE_FLAG_VIRTUAL_ALLOC  0x4000
+
+; EXECUTION_STATE
+#define ES_AWAYMODE_REQUIRED  0x40
+#define ES_CONTINUOUS  0x80000000
+#define ES_DISPLAY_REQUIRED  0x2
+#define ES_SYSTEM_REQUIRED  0x1
+#define ES_USER_PRESENT  0x4
+
+; EXIT_WINDOWS_FLAGS
+#define EWX_LOGOFF  0x0
+#define EWX_SHUTDOWN  0x1
+#define EWX_REBOOT  0x2
+#define EWX_FORCE  0x4
+#define EWX_POWEROFF  0x8
+#define EWX_FORCEIFHUNG  0x10
+#define EWX_QUICKRESOLVE  0x20
+#define EWX_RESTARTAPPS  0x40
+#define EWX_HYBRID_SHUTDOWN  0x400000
+#define EWX_BOOTOPTIONS  0x1000000
+#define EWX_ARSO  0x4000000
+#define EWX_CHECK_SAFE_FOR_SERVER  0x8000000
+#define EWX_SYSTEM_INITIATED  0x10000000
+
+; EXT_FLOOD_FILL_TYPE
+#define FLOODFILLBORDER  0x0
+#define FLOODFILLSURFACE  0x1
+
+; FEEDBACK_TYPE
+#define FEEDBACK_TOUCH_CONTACTVISUALIZATION  0x1
+#define FEEDBACK_PEN_BARRELVISUALIZATION  0x2
+#define FEEDBACK_PEN_TAP  0x3
+#define FEEDBACK_PEN_DOUBLETAP  0x4
+#define FEEDBACK_PEN_PRESSANDHOLD  0x5
+#define FEEDBACK_PEN_RIGHTTAP  0x6
+#define FEEDBACK_TOUCH_TAP  0x7
+#define FEEDBACK_TOUCH_DOUBLETAP  0x8
+#define FEEDBACK_TOUCH_PRESSANDHOLD  0x9
+#define FEEDBACK_TOUCH_RIGHTTAP  0xa
+#define FEEDBACK_GESTURE_PRESSANDTAP  0xb
+#define FEEDBACK_MAX  -1
 
 ; FILE_CREATION_DISPOSITION
 #define CREATE_NEW  0x1
@@ -613,11 +8516,149 @@
 #define SECURITY_SQOS_PRESENT  0x100000
 #define SECURITY_VALID_SQOS_FLAGS  0x1f0000
 
+; FILE_ID_TYPE
+#define FileIdType  0x0
+#define ObjectIdType  0x1
+#define ExtendedFileIdType  0x2
+#define MaximumFileIdType  0x3
+
+; FILE_INFO_BY_HANDLE_CLASS
+#define FileBasicInfo  0x0
+#define FileStandardInfo  0x1
+#define FileNameInfo  0x2
+#define FileRenameInfo  0x3
+#define FileDispositionInfo  0x4
+#define FileAllocationInfo  0x5
+#define FileEndOfFileInfo  0x6
+#define FileStreamInfo  0x7
+#define FileCompressionInfo  0x8
+#define FileAttributeTagInfo  0x9
+#define FileIdBothDirectoryInfo  0xa
+#define FileIdBothDirectoryRestartInfo  0xb
+#define FileIoPriorityHintInfo  0xc
+#define FileRemoteProtocolInfo  0xd
+#define FileFullDirectoryInfo  0xe
+#define FileFullDirectoryRestartInfo  0xf
+#define FileStorageInfo  0x10
+#define FileAlignmentInfo  0x11
+#define FileIdInfo  0x12
+#define FileIdExtdDirectoryInfo  0x13
+#define FileIdExtdDirectoryRestartInfo  0x14
+#define FileDispositionInfoEx  0x15
+#define FileRenameInfoEx  0x16
+#define FileCaseSensitiveInfo  0x17
+#define FileNormalizedNameInfo  0x18
+#define MaximumFileInfoByHandleClass  0x19
+
+; FILE_MAP
+#define FILE_MAP_WRITE  0x2
+#define FILE_MAP_READ  0x4
+#define FILE_MAP_ALL_ACCESS  0xf001f
+#define FILE_MAP_EXECUTE  0x20
+#define FILE_MAP_COPY  0x1
+#define FILE_MAP_RESERVE  0x80000000
+#define FILE_MAP_TARGETS_INVALID  0x40000000
+#define FILE_MAP_LARGE_PAGES  0x20000000
+
+; FILE_NOTIFY_CHANGE
+#define FILE_NOTIFY_CHANGE_FILE_NAME  0x1
+#define FILE_NOTIFY_CHANGE_DIR_NAME  0x2
+#define FILE_NOTIFY_CHANGE_ATTRIBUTES  0x4
+#define FILE_NOTIFY_CHANGE_SIZE  0x8
+#define FILE_NOTIFY_CHANGE_LAST_WRITE  0x10
+#define FILE_NOTIFY_CHANGE_LAST_ACCESS  0x20
+#define FILE_NOTIFY_CHANGE_CREATION  0x40
+#define FILE_NOTIFY_CHANGE_SECURITY  0x100
+
 ; FILE_SHARE_MODE
 #define FILE_SHARE_NONE  0x0
 #define FILE_SHARE_DELETE  0x4
 #define FILE_SHARE_READ  0x1
 #define FILE_SHARE_WRITE  0x2
+
+; FILE_TYPE
+#define FILE_TYPE_UNKNOWN  0x0
+#define FILE_TYPE_DISK  0x1
+#define FILE_TYPE_CHAR  0x2
+#define FILE_TYPE_PIPE  0x3
+#define FILE_TYPE_REMOTE  0x8000
+
+; FILEOPERATION_FLAGS
+#define FOFX_NOSKIPJUNCTIONS  0x10000
+#define FOFX_PREFERHARDLINK  0x20000
+#define FOFX_SHOWELEVATIONPROMPT  0x40000
+#define FOFX_RECYCLEONDELETE  0x80000
+#define FOFX_EARLYFAILURE  0x100000
+#define FOFX_PRESERVEFILEEXTENSIONS  0x200000
+#define FOFX_KEEPNEWERFILE  0x400000
+#define FOFX_NOCOPYHOOKS  0x800000
+#define FOFX_NOMINIMIZEBOX  0x1000000
+#define FOFX_MOVEACLSACROSSVOLUMES  0x2000000
+#define FOFX_DONTDISPLAYSOURCEPATH  0x4000000
+#define FOFX_DONTDISPLAYDESTPATH  0x8000000
+#define FOFX_REQUIREELEVATION  0x10000000
+#define FOFX_ADDUNDORECORD  0x20000000
+#define FOFX_COPYASDOWNLOAD  0x40000000
+#define FOFX_DONTDISPLAYLOCATIONS  0x80000000
+#define FOF_MULTIDESTFILES  0x1
+#define FOF_CONFIRMMOUSE  0x2
+#define FOF_SILENT  0x4
+#define FOF_RENAMEONCOLLISION  0x8
+#define FOF_NOCONFIRMATION  0x10
+#define FOF_WANTMAPPINGHANDLE  0x20
+#define FOF_ALLOWUNDO  0x40
+#define FOF_FILESONLY  0x80
+#define FOF_SIMPLEPROGRESS  0x100
+#define FOF_NOCONFIRMMKDIR  0x200
+#define FOF_NOERRORUI  0x400
+#define FOF_NOCOPYSECURITYATTRIBS  0x800
+#define FOF_NORECURSION  0x1000
+#define FOF_NO_CONNECTED_ELEMENTS  0x2000
+#define FOF_WANTNUKEWARNING  0x4000
+#define FOF_NORECURSEREPARSE  0x8000
+#define FOF_NO_UI  0x614
+
+; FIND_FIRST_EX_FLAGS
+#define FIND_FIRST_EX_CASE_SENSITIVE  0x1
+#define FIND_FIRST_EX_LARGE_FETCH  0x2
+#define FIND_FIRST_EX_ON_DISK_ENTRIES_ONLY  0x4
+
+; FINDEX_INFO_LEVELS
+#define FindExInfoStandard  0x0
+#define FindExInfoBasic  0x1
+#define FindExInfoMaxInfoLevel  0x2
+
+; FINDEX_SEARCH_OPS
+#define FindExSearchNameMatch  0x0
+#define FindExSearchLimitToDirectories  0x1
+#define FindExSearchLimitToDevices  0x2
+#define FindExSearchMaxSearchOp  0x3
+
+; FIRMWARE_TABLE_PROVIDER
+#define ACPI  0x41435049
+#define FIRM  0x4649524d
+#define RSMB  0x52534d42
+
+; FIRMWARE_TYPE
+#define FirmwareTypeUnknown  0x0
+#define FirmwareTypeBios  0x1
+#define FirmwareTypeUefi  0x2
+#define FirmwareTypeMax  0x3
+
+; FLASHWINFO_FLAGS
+#define FLASHW_ALL  0x3
+#define FLASHW_CAPTION  0x1
+#define FLASHW_STOP  0x0
+#define FLASHW_TIMER  0x4
+#define FLASHW_TIMERNOFG  0xc
+#define FLASHW_TRAY  0x2
+
+; FOLD_STRING_MAP_FLAGS
+#define MAP_COMPOSITE  0x40
+#define MAP_EXPAND_LIGATURES  0x2000
+#define MAP_FOLDCZONE  0x10
+#define MAP_FOLDDIGITS  0x80
+#define MAP_PRECOMPOSED  0x20
 
 ; FONT_CHARSET
 #define ANSI_CHARSET  0x0
@@ -673,6 +8714,14 @@
 #define ANTIALIASED_QUALITY  0x4
 #define CLEARTYPE_QUALITY  0x5
 
+; FONT_RESOURCE_CHARACTERISTICS
+#define FR_PRIVATE  0x10
+#define FR_NOT_ENUM  0x20
+
+; FOREGROUND_WINDOW_LOCK_CODE
+#define LSFW_LOCK  0x1
+#define LSFW_UNLOCK  0x2
+
 ; FORMAT_MESSAGE_OPTIONS
 #define FORMAT_MESSAGE_ALLOCATE_BUFFER  0x100
 #define FORMAT_MESSAGE_ARGUMENT_ARRAY  0x2000
@@ -680,6 +8729,211 @@
 #define FORMAT_MESSAGE_FROM_STRING  0x400
 #define FORMAT_MESSAGE_FROM_SYSTEM  0x1000
 #define FORMAT_MESSAGE_IGNORE_INSERTS  0x200
+
+; FTP_FLAGS
+#define FTP_TRANSFER_TYPE_ASCII  0x1
+#define FTP_TRANSFER_TYPE_BINARY  0x2
+#define FTP_TRANSFER_TYPE_UNKNOWN  0x0
+#define INTERNET_FLAG_TRANSFER_ASCII  0x1
+#define INTERNET_FLAG_TRANSFER_BINARY  0x2
+
+; FUNCFLAGS
+#define FUNCFLAG_FRESTRICTED  0x1
+#define FUNCFLAG_FSOURCE  0x2
+#define FUNCFLAG_FBINDABLE  0x4
+#define FUNCFLAG_FREQUESTEDIT  0x8
+#define FUNCFLAG_FDISPLAYBIND  0x10
+#define FUNCFLAG_FDEFAULTBIND  0x20
+#define FUNCFLAG_FHIDDEN  0x40
+#define FUNCFLAG_FUSESGETLASTERROR  0x80
+#define FUNCFLAG_FDEFAULTCOLLELEM  0x100
+#define FUNCFLAG_FUIDEFAULT  0x200
+#define FUNCFLAG_FNONBROWSABLE  0x400
+#define FUNCFLAG_FREPLACEABLE  0x800
+#define FUNCFLAG_FIMMEDIATEBIND  0x1000
+
+; FUNCKIND
+#define FUNC_VIRTUAL  0x0
+#define FUNC_PUREVIRTUAL  0x1
+#define FUNC_NONVIRTUAL  0x2
+#define FUNC_STATIC  0x3
+#define FUNC_DISPATCH  0x4
+
+; GDI_IMAGE_TYPE
+#define IMAGE_BITMAP  0x0
+#define IMAGE_CURSOR  0x2
+#define IMAGE_ICON  0x1
+
+; GDI_REGION_TYPE
+#define RGN_ERROR  0x0
+#define NULLREGION  0x1
+#define SIMPLEREGION  0x2
+#define COMPLEXREGION  0x3
+
+; GESTURE_TYPE
+#define GT_PEN_TAP  0x0
+#define GT_PEN_DOUBLETAP  0x1
+#define GT_PEN_RIGHTTAP  0x2
+#define GT_PEN_PRESSANDHOLD  0x3
+#define GT_PEN_PRESSANDHOLDABORT  0x4
+#define GT_TOUCH_TAP  0x5
+#define GT_TOUCH_DOUBLETAP  0x6
+#define GT_TOUCH_RIGHTTAP  0x7
+#define GT_TOUCH_PRESSANDHOLD  0x8
+#define GT_TOUCH_PRESSANDHOLDABORT  0x9
+#define GT_TOUCH_PRESSANDTAP  0xa
+
+; GESTURECONFIG_ID
+#define GID_BEGIN  0x1
+#define GID_END  0x2
+#define GID_ZOOM  0x3
+#define GID_PAN  0x4
+#define GID_ROTATE  0x5
+#define GID_TWOFINGERTAP  0x6
+#define GID_PRESSANDTAP  0x7
+#define GID_ROLLOVER  0x7
+
+; GET_ANCESTOR_FLAGS
+#define GA_PARENT  0x1
+#define GA_ROOT  0x2
+#define GA_ROOTOWNER  0x3
+
+; GET_CHARACTER_PLACEMENT_FLAGS
+#define GCP_CLASSIN  0x80000
+#define GCP_DIACRITIC  0x100
+#define GCP_DISPLAYZWG  0x400000
+#define GCP_GLYPHSHAPE  0x10
+#define GCP_JUSTIFY  0x10000
+#define GCP_KASHIDA  0x400
+#define GCP_LIGATE  0x20
+#define GCP_MAXEXTENT  0x100000
+#define GCP_NEUTRALOVERRIDE  0x2000000
+#define GCP_NUMERICOVERRIDE  0x1000000
+#define GCP_NUMERICSLATIN  0x4000000
+#define GCP_NUMERICSLOCAL  0x8000000
+#define GCP_REORDER  0x2
+#define GCP_SYMSWAPOFF  0x800000
+#define GCP_USEKERNING  0x8
+
+; GET_CLASS_LONG_INDEX
+#define GCW_ATOM  -32
+#define GCL_CBCLSEXTRA  -20
+#define GCL_CBWNDEXTRA  -18
+#define GCL_HBRBACKGROUND  -10
+#define GCL_HCURSOR  -12
+#define GCL_HICON  -14
+#define GCL_HICONSM  -34
+#define GCL_HMODULE  -16
+#define GCL_MENUNAME  -8
+#define GCL_STYLE  -26
+#define GCL_WNDPROC  -24
+#define GCLP_HBRBACKGROUND  -10
+#define GCLP_HCURSOR  -12
+#define GCLP_HICON  -14
+#define GCLP_HICONSM  -34
+#define GCLP_HMODULE  -16
+#define GCLP_MENUNAME  -8
+#define GCLP_WNDPROC  -24
+
+; GET_CONVERSION_LIST_FLAG
+#define GCL_CONVERSION  0x1
+#define GCL_REVERSECONVERSION  0x2
+#define GCL_REVERSE_LENGTH  0x3
+
+; GET_DCX_FLAGS
+#define DCX_WINDOW  0x1
+#define DCX_CACHE  0x2
+#define DCX_PARENTCLIP  0x20
+#define DCX_CLIPSIBLINGS  0x10
+#define DCX_CLIPCHILDREN  0x8
+#define DCX_NORESETATTRS  0x4
+#define DCX_LOCKWINDOWUPDATE  0x400
+#define DCX_EXCLUDERGN  0x40
+#define DCX_INTERSECTRGN  0x80
+#define DCX_INTERSECTUPDATE  0x200
+#define DCX_VALIDATE  0x200000
+
+; GET_DEVICE_CAPS_INDEX
+#define DRIVERVERSION  0x0
+#define TECHNOLOGY  0x2
+#define HORZSIZE  0x4
+#define VERTSIZE  0x6
+#define HORZRES  0x8
+#define VERTRES  0xa
+#define BITSPIXEL  0xc
+#define PLANES  0xe
+#define NUMBRUSHES  0x10
+#define NUMPENS  0x12
+#define NUMMARKERS  0x14
+#define NUMFONTS  0x16
+#define NUMCOLORS  0x18
+#define PDEVICESIZE  0x1a
+#define CURVECAPS  0x1c
+#define LINECAPS  0x1e
+#define POLYGONALCAPS  0x20
+#define TEXTCAPS  0x22
+#define CLIPCAPS  0x24
+#define RASTERCAPS  0x26
+#define ASPECTX  0x28
+#define ASPECTY  0x2a
+#define ASPECTXY  0x2c
+#define LOGPIXELSX  0x58
+#define LOGPIXELSY  0x5a
+#define SIZEPALETTE  0x68
+#define NUMRESERVED  0x6a
+#define COLORRES  0x6c
+#define PHYSICALWIDTH  0x6e
+#define PHYSICALHEIGHT  0x6f
+#define PHYSICALOFFSETX  0x70
+#define PHYSICALOFFSETY  0x71
+#define SCALINGFACTORX  0x72
+#define SCALINGFACTORY  0x73
+#define VREFRESH  0x74
+#define DESKTOPVERTRES  0x75
+#define DESKTOPHORZRES  0x76
+#define BLTALIGNMENT  0x77
+#define SHADEBLENDCAPS  0x78
+#define COLORMGMTCAPS  0x79
+
+; GET_FILE_VERSION_INFO_FLAGS
+#define FILE_VER_GET_LOCALISED  0x1
+#define FILE_VER_GET_NEUTRAL  0x2
+#define FILE_VER_GET_PREFETCHED  0x4
+
+; GET_FILEEX_INFO_LEVELS
+#define GetFileExInfoStandard  0x0
+#define GetFileExMaxInfoLevel  0x1
+
+; GET_GLYPH_OUTLINE_FORMAT
+#define GGO_BEZIER  0x3
+#define GGO_BITMAP  0x1
+#define GGO_GLYPH_INDEX  0x80
+#define GGO_GRAY2_BITMAP  0x4
+#define GGO_GRAY4_BITMAP  0x5
+#define GGO_GRAY8_BITMAP  0x6
+#define GGO_METRICS  0x0
+#define GGO_NATIVE  0x2
+#define GGO_UNHINTED  0x100
+
+; GET_GUI_RESOURCES_FLAGS
+#define GR_GDIOBJECTS  0x0
+#define GR_GDIOBJECTS_PEAK  0x2
+#define GR_USEROBJECTS  0x1
+#define GR_USEROBJECTS_PEAK  0x4
+
+; GET_GUIDE_LINE_TYPE
+#define GGL_LEVEL  0x1
+#define GGL_INDEX  0x2
+#define GGL_STRING  0x3
+#define GGL_PRIVATE  0x4
+
+; GET_MENU_DEFAULT_ITEM_FLAGS
+#define GMDI_GOINTOPOPUPS  0x2
+#define GMDI_USEDISABLED  0x1
+
+; GET_MOUSE_MOVE_POINTS_EX_RESOLUTION
+#define GMMP_USE_DISPLAY_POINTS  0x1
+#define GMMP_USE_HIGH_RESOLUTION_POINTS  0x2
 
 ; GET_STOCK_OBJECT_FLAGS
 #define BLACK_BRUSH  0x4
@@ -703,6 +8957,49 @@
 #define SYSTEM_FIXED_FONT  0x10
 #define DEFAULT_PALETTE  0xf
 
+; GET_TAPE_DRIVE_PARAMETERS_OPERATION
+#define GET_TAPE_DRIVE_INFORMATION  0x1
+#define GET_TAPE_MEDIA_INFORMATION  0x0
+
+; GET_THEME_BITMAP_FLAGS
+#define GBF_DIRECT  0x1
+#define GBF_COPY  0x2
+#define GBF_VALIDBITS  0x3
+
+; GET_WINDOW_CMD
+#define GW_CHILD  0x5
+#define GW_ENABLEDPOPUP  0x6
+#define GW_HWNDFIRST  0x0
+#define GW_HWNDLAST  0x1
+#define GW_HWNDNEXT  0x2
+#define GW_HWNDPREV  0x3
+#define GW_OWNER  0x4
+
+; GETFINALPATHNAMEBYHANDLE_FLAGS
+#define VOLUME_NAME_DOS  0x0
+#define VOLUME_NAME_GUID  0x1
+#define VOLUME_NAME_NT  0x2
+#define VOLUME_NAME_NONE  0x4
+#define FILE_NAME_NORMALIZED  0x0
+#define FILE_NAME_OPENED  0x8
+
+; GETPROPERTYSTOREFLAGS
+#define GPS_DEFAULT  0x0
+#define GPS_HANDLERPROPERTIESONLY  0x1
+#define GPS_READWRITE  0x2
+#define GPS_TEMPORARY  0x4
+#define GPS_FASTPROPERTIESONLY  0x8
+#define GPS_OPENSLOWITEM  0x10
+#define GPS_DELAYCREATION  0x20
+#define GPS_BESTEFFORT  0x40
+#define GPS_NO_OPLOCK  0x80
+#define GPS_PREFERQUERYPROPERTIES  0x100
+#define GPS_EXTRINSICPROPERTIES  0x200
+#define GPS_EXTRINSICPROPERTIESONLY  0x400
+#define GPS_VOLATILEPROPERTIES  0x800
+#define GPS_VOLATILEPROPERTIESONLY  0x1000
+#define GPS_MASK_VALID  0x1fff
+
 ; GLOBAL_ALLOC_FLAGS
 #define GHND  0x42
 #define GMEM_FIXED  0x0
@@ -710,10 +9007,67 @@
 #define GMEM_ZEROINIT  0x40
 #define GPTR  0x40
 
+; GOPHER_TYPE
+#define GOPHER_TYPE_ASK  0x40000000
+#define GOPHER_TYPE_BINARY  0x200
+#define GOPHER_TYPE_BITMAP  0x4000
+#define GOPHER_TYPE_CALENDAR  0x80000
+#define GOPHER_TYPE_CSO  0x4
+#define GOPHER_TYPE_DIRECTORY  0x2
+#define GOPHER_TYPE_DOS_ARCHIVE  0x20
+#define GOPHER_TYPE_ERROR  0x8
+#define GOPHER_TYPE_GIF  0x1000
+#define GOPHER_TYPE_GOPHER_PLUS  0x80000000
+#define GOPHER_TYPE_HTML  0x20000
+#define GOPHER_TYPE_IMAGE  0x2000
+#define GOPHER_TYPE_INDEX_SERVER  0x80
+#define GOPHER_TYPE_INLINE  0x100000
+#define GOPHER_TYPE_MAC_BINHEX  0x10
+#define GOPHER_TYPE_MOVIE  0x8000
+#define GOPHER_TYPE_PDF  0x40000
+#define GOPHER_TYPE_REDUNDANT  0x400
+#define GOPHER_TYPE_SOUND  0x10000
+#define GOPHER_TYPE_TELNET  0x100
+#define GOPHER_TYPE_TEXT_FILE  0x1
+#define GOPHER_TYPE_TN3270  0x800
+#define GOPHER_TYPE_UNIX_UUENCODED  0x40
+#define GOPHER_TYPE_UNKNOWN  0x20000000
+
+; GPFIDL_FLAGS
+#define GPFIDL_DEFAULT  0x0
+#define GPFIDL_ALTNAME  0x1
+#define GPFIDL_UNCPRINTER  0x2
+
+; GPO_LINK
+#define GPLinkUnknown  0x0
+#define GPLinkMachine  0x1
+#define GPLinkSite  0x2
+#define GPLinkDomain  0x3
+#define GPLinkOrganizationalUnit  0x4
+
 ; GRADIENT_FILL
 #define GRADIENT_FILL_RECT_H  0x0
 #define GRADIENT_FILL_RECT_V  0x1
 #define GRADIENT_FILL_TRIANGLE  0x2
+
+; GRAPHICS_MODE
+#define GM_COMPATIBLE  0x1
+#define GM_ADVANCED  0x2
+
+; GUITHREADINFO_FLAGS
+#define GUI_CARETBLINKING  0x1
+#define GUI_INMENUMODE  0x4
+#define GUI_INMOVESIZE  0x2
+#define GUI_POPUPMENUMODE  0x10
+#define GUI_SYSTEMMENUMODE  0x8
+
+; HANDLE_FLAGS
+#define HANDLE_FLAG_INHERIT  0x1
+#define HANDLE_FLAG_PROTECT_FROM_CLOSE  0x2
+
+; HARDWARE_COUNTER_TYPE
+#define PMCCounter  0x0
+#define MaxHardwareCounterType  0x1
 
 ; HATCH_BRUSH_STYLE
 #define HS_BDIAGONAL  0x3
@@ -722,6 +9076,16 @@
 #define HS_FDIAGONAL  0x2
 #define HS_HORIZONTAL  0x0
 #define HS_VERTICAL  0x1
+
+; HDC_MAP_MODE
+#define MM_ANISOTROPIC  0x8
+#define MM_HIENGLISH  0x5
+#define MM_HIMETRIC  0x3
+#define MM_ISOTROPIC  0x7
+#define MM_LOENGLISH  0x4
+#define MM_LOMETRIC  0x2
+#define MM_TEXT  0x1
+#define MM_TWIPS  0x6
 
 ; HEAP_FLAGS
 #define HEAP_NONE  0x0
@@ -742,6 +9106,118 @@
 #define HEAP_CREATE_SEGMENT_HEAP  0x100
 #define HEAP_CREATE_HARDENED  0x200
 
+; HEAP_INFORMATION_CLASS
+#define HeapCompatibilityInformation  0x0
+#define HeapEnableTerminationOnCorruption  0x1
+#define HeapOptimizeResources  0x3
+#define HeapTag  0x7
+
+; HEAPENTRY32_FLAGS
+#define LF32_FIXED  0x1
+#define LF32_FREE  0x2
+#define LF32_MOVEABLE  0x4
+
+; HELP_INFO_TYPE
+#define HELPINFO_WINDOW  0x1
+#define HELPINFO_MENUITEM  0x2
+
+; HIT_TEST_BACKGROUND_OPTIONS
+#define HTTB_BACKGROUNDSEG  0x0
+#define HTTB_FIXEDBORDER  0x2
+#define HTTB_CAPTION  0x4
+#define HTTB_RESIZINGBORDER_LEFT  0x10
+#define HTTB_RESIZINGBORDER_TOP  0x20
+#define HTTB_RESIZINGBORDER_RIGHT  0x40
+#define HTTB_RESIZINGBORDER_BOTTOM  0x80
+#define HTTB_RESIZINGBORDER  0xf0
+#define HTTB_SIZINGTEMPLATE  0x100
+#define HTTB_SYSTEMSIZINGMARGINS  0x200
+
+; HOT_KEY_MODIFIERS
+#define MOD_ALT  0x1
+#define MOD_CONTROL  0x2
+#define MOD_NOREPEAT  0x4000
+#define MOD_SHIFT  0x4
+#define MOD_WIN  0x8
+
+; HTTP_ADDREQ_FLAG
+#define HTTP_ADDREQ_FLAG_ADD  0x20000000
+#define HTTP_ADDREQ_FLAG_ADD_IF_NEW  0x10000000
+#define HTTP_ADDREQ_FLAG_COALESCE  0x40000000
+#define HTTP_ADDREQ_FLAG_COALESCE_WITH_COMMA  0x40000000
+#define HTTP_ADDREQ_FLAG_COALESCE_WITH_SEMICOLON  0x1000000
+#define HTTP_ADDREQ_FLAG_REPLACE  0x80000000
+
+; HTTP_PUSH_WAIT_TYPE
+#define HttpPushWaitEnableComplete  0x0
+#define HttpPushWaitReceiveComplete  0x1
+#define HttpPushWaitSendComplete  0x2
+
+; HTTP_WEB_SOCKET_BUFFER_TYPE
+#define HTTP_WEB_SOCKET_BINARY_MESSAGE_TYPE  0x0
+#define HTTP_WEB_SOCKET_BINARY_FRAGMENT_TYPE  0x1
+#define HTTP_WEB_SOCKET_UTF8_MESSAGE_TYPE  0x2
+#define HTTP_WEB_SOCKET_UTF8_FRAGMENT_TYPE  0x3
+#define HTTP_WEB_SOCKET_CLOSE_TYPE  0x4
+#define HTTP_WEB_SOCKET_PING_TYPE  0x5
+
+; ICM_COMMAND
+#define ICM_ADDPROFILE  0x1
+#define ICM_DELETEPROFILE  0x2
+#define ICM_QUERYPROFILE  0x3
+#define ICM_SETDEFAULTPROFILE  0x4
+#define ICM_REGISTERICMATCHER  0x5
+#define ICM_UNREGISTERICMATCHER  0x6
+#define ICM_QUERYMATCH  0x7
+
+; ICM_MODE
+#define ICM_OFF  0x1
+#define ICM_ON  0x2
+#define ICM_QUERY  0x3
+#define ICM_DONE_OUTSIDEDC  0x4
+
+; IDLFLAGS
+#define IDLFLAG_NONE  0x0
+#define IDLFLAG_FIN  0x1
+#define IDLFLAG_FOUT  0x2
+#define IDLFLAG_FLCID  0x4
+#define IDLFLAG_FRETVAL  0x8
+
+; IMAGE_DIRECTORY_ENTRY
+#define IMAGE_DIRECTORY_ENTRY_ARCHITECTURE  0x7
+#define IMAGE_DIRECTORY_ENTRY_BASERELOC  0x5
+#define IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT  0xb
+#define IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR  0xe
+#define IMAGE_DIRECTORY_ENTRY_DEBUG  0x6
+#define IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT  0xd
+#define IMAGE_DIRECTORY_ENTRY_EXCEPTION  0x3
+#define IMAGE_DIRECTORY_ENTRY_EXPORT  0x0
+#define IMAGE_DIRECTORY_ENTRY_GLOBALPTR  0x8
+#define IMAGE_DIRECTORY_ENTRY_IAT  0xc
+#define IMAGE_DIRECTORY_ENTRY_IMPORT  0x1
+#define IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG  0xa
+#define IMAGE_DIRECTORY_ENTRY_RESOURCE  0x2
+#define IMAGE_DIRECTORY_ENTRY_SECURITY  0x4
+#define IMAGE_DIRECTORY_ENTRY_TLS  0x9
+
+; IMAGE_FLAGS
+#define LR_CREATEDIBSECTION  0x2000
+#define LR_DEFAULTCOLOR  0x0
+#define LR_DEFAULTSIZE  0x40
+#define LR_LOADFROMFILE  0x10
+#define LR_LOADMAP3DCOLORS  0x1000
+#define LR_LOADTRANSPARENT  0x20
+#define LR_MONOCHROME  0x1
+#define LR_SHARED  0x8000
+#define LR_VGACOLOR  0x80
+#define LR_COPYDELETEORG  0x8
+#define LR_COPYFROMRESOURCE  0x4000
+#define LR_COPYRETURNORG  0x4
+
+; IMAGE_LIST_COPY_FLAGS
+#define ILCF_MOVE  0x0
+#define ILCF_SWAP  0x1
+
 ; IMAGE_LIST_DRAW_STYLE
 #define ILD_NORMAL  0x0
 #define ILD_TRANSPARENT  0x1
@@ -758,6 +9234,109 @@
 #define ILD_SCALE  0x2000
 #define ILD_DPISCALE  0x4000
 #define ILD_ASYNC  0x8000
+
+; IMAGE_SECTION_CHARACTERISTICS
+#define IMAGE_SCN_TYPE_NO_PAD  0x8
+#define IMAGE_SCN_CNT_CODE  0x20
+#define IMAGE_SCN_CNT_INITIALIZED_DATA  0x40
+#define IMAGE_SCN_CNT_UNINITIALIZED_DATA  0x80
+#define IMAGE_SCN_LNK_OTHER  0x100
+#define IMAGE_SCN_LNK_INFO  0x200
+#define IMAGE_SCN_LNK_REMOVE  0x800
+#define IMAGE_SCN_LNK_COMDAT  0x1000
+#define IMAGE_SCN_NO_DEFER_SPEC_EXC  0x4000
+#define IMAGE_SCN_GPREL  0x8000
+#define IMAGE_SCN_MEM_FARDATA  0x8000
+#define IMAGE_SCN_MEM_PURGEABLE  0x20000
+#define IMAGE_SCN_MEM_16BIT  0x20000
+#define IMAGE_SCN_MEM_LOCKED  0x40000
+#define IMAGE_SCN_MEM_PRELOAD  0x80000
+#define IMAGE_SCN_ALIGN_1BYTES  0x100000
+#define IMAGE_SCN_ALIGN_2BYTES  0x200000
+#define IMAGE_SCN_ALIGN_4BYTES  0x300000
+#define IMAGE_SCN_ALIGN_8BYTES  0x400000
+#define IMAGE_SCN_ALIGN_16BYTES  0x500000
+#define IMAGE_SCN_ALIGN_32BYTES  0x600000
+#define IMAGE_SCN_ALIGN_64BYTES  0x700000
+#define IMAGE_SCN_ALIGN_128BYTES  0x800000
+#define IMAGE_SCN_ALIGN_256BYTES  0x900000
+#define IMAGE_SCN_ALIGN_512BYTES  0xa00000
+#define IMAGE_SCN_ALIGN_1024BYTES  0xb00000
+#define IMAGE_SCN_ALIGN_2048BYTES  0xc00000
+#define IMAGE_SCN_ALIGN_4096BYTES  0xd00000
+#define IMAGE_SCN_ALIGN_8192BYTES  0xe00000
+#define IMAGE_SCN_ALIGN_MASK  0xf00000
+#define IMAGE_SCN_LNK_NRELOC_OVFL  0x1000000
+#define IMAGE_SCN_MEM_DISCARDABLE  0x2000000
+#define IMAGE_SCN_MEM_NOT_CACHED  0x4000000
+#define IMAGE_SCN_MEM_NOT_PAGED  0x8000000
+#define IMAGE_SCN_MEM_SHARED  0x10000000
+#define IMAGE_SCN_MEM_EXECUTE  0x20000000
+#define IMAGE_SCN_MEM_READ  0x40000000
+#define IMAGE_SCN_MEM_WRITE  0x80000000
+#define IMAGE_SCN_SCALE_INDEX  0x1
+
+; IMAGEHLP_EXTENDED_OPTIONS
+#define SYMOPT_EX_DISABLEACCESSTIMEUPDATE  0x0
+#define SYMOPT_EX_LASTVALIDDEBUGDIRECTORY  0x1
+#define SYMOPT_EX_NOIMPLICITPATTERNSEARCH  0x2
+#define SYMOPT_EX_NEVERLOADSYMBOLS  0x3
+#define SYMOPT_EX_MAX  0x4
+
+; IMAGEHLP_GET_TYPE_INFO_FLAGS
+#define IMAGEHLP_GET_TYPE_INFO_CHILDREN  0x2
+#define IMAGEHLP_GET_TYPE_INFO_UNCACHED  0x1
+
+; IMAGEHLP_HD_TYPE
+#define hdBase  0x0
+#define hdSym  0x1
+#define hdSrc  0x2
+#define hdMax  0x3
+
+; IMAGEHLP_SF_TYPE
+#define sfImage  0x0
+#define sfDbg  0x1
+#define sfPdb  0x2
+#define sfMpd  0x3
+#define sfMax  0x4
+
+; IMAGEHLP_SYMBOL_TYPE_INFO
+#define TI_GET_SYMTAG  0x0
+#define TI_GET_SYMNAME  0x1
+#define TI_GET_LENGTH  0x2
+#define TI_GET_TYPE  0x3
+#define TI_GET_TYPEID  0x4
+#define TI_GET_BASETYPE  0x5
+#define TI_GET_ARRAYINDEXTYPEID  0x6
+#define TI_FINDCHILDREN  0x7
+#define TI_GET_DATAKIND  0x8
+#define TI_GET_ADDRESSOFFSET  0x9
+#define TI_GET_OFFSET  0xa
+#define TI_GET_VALUE  0xb
+#define TI_GET_COUNT  0xc
+#define TI_GET_CHILDRENCOUNT  0xd
+#define TI_GET_BITPOSITION  0xe
+#define TI_GET_VIRTUALBASECLASS  0xf
+#define TI_GET_VIRTUALTABLESHAPEID  0x10
+#define TI_GET_VIRTUALBASEPOINTEROFFSET  0x11
+#define TI_GET_CLASSPARENTID  0x12
+#define TI_GET_NESTED  0x13
+#define TI_GET_SYMINDEX  0x14
+#define TI_GET_LEXICALPARENT  0x15
+#define TI_GET_ADDRESS  0x16
+#define TI_GET_THISADJUST  0x17
+#define TI_GET_UDTKIND  0x18
+#define TI_IS_EQUIV_TO  0x19
+#define TI_GET_CALLING_CONVENTION  0x1a
+#define TI_IS_CLOSE_EQUIV_TO  0x1b
+#define TI_GTIEX_REQS_VALID  0x1c
+#define TI_GET_VIRTUALBASEOFFSET  0x1d
+#define TI_GET_VIRTUALBASEDISPINDEX  0x1e
+#define TI_GET_IS_REFERENCE  0x1f
+#define TI_GET_INDIRECTVIRTUALBASECLASS  0x20
+#define TI_GET_VIRTUALBASETABLETYPE  0x21
+#define TI_GET_OBJECTPOINTERTYPE  0x22
+#define IMAGEHLP_SYMBOL_TYPE_INFO_MAX  0x23
 
 ; IMAGELIST_CREATION_FLAGS
 #define ILC_MASK  0x1
@@ -788,6 +9367,75 @@
 #define GCS_RESULTSTR  0x800
 #define GCS_RESULTCLAUSE  0x1000
 
+; IME_CONVERSION_MODE
+#define IME_CMODE_ALPHANUMERIC  0x0
+#define IME_CMODE_NATIVE  0x1
+#define IME_CMODE_CHINESE  0x1
+#define IME_CMODE_HANGUL  0x1
+#define IME_CMODE_JAPANESE  0x1
+#define IME_CMODE_KATAKANA  0x2
+#define IME_CMODE_LANGUAGE  0x3
+#define IME_CMODE_FULLSHAPE  0x8
+#define IME_CMODE_ROMAN  0x10
+#define IME_CMODE_CHARCODE  0x20
+#define IME_CMODE_HANJACONVERT  0x40
+#define IME_CMODE_NATIVESYMBOL  0x80
+#define IME_CMODE_HANGEUL  0x1
+#define IME_CMODE_SOFTKBD  0x80
+#define IME_CMODE_NOCONVERSION  0x100
+#define IME_CMODE_EUDC  0x200
+#define IME_CMODE_SYMBOL  0x400
+#define IME_CMODE_FIXED  0x800
+#define IME_CMODE_RESERVED  0xf0000000
+
+; IME_ESCAPE
+#define IME_ESC_QUERY_SUPPORT  0x3
+#define IME_ESC_RESERVED_FIRST  0x4
+#define IME_ESC_RESERVED_LAST  0x7ff
+#define IME_ESC_PRIVATE_FIRST  0x800
+#define IME_ESC_PRIVATE_LAST  0xfff
+#define IME_ESC_SEQUENCE_TO_INTERNAL  0x1001
+#define IME_ESC_GET_EUDC_DICTIONARY  0x1003
+#define IME_ESC_SET_EUDC_DICTIONARY  0x1004
+#define IME_ESC_MAX_KEY  0x1005
+#define IME_ESC_IME_NAME  0x1006
+#define IME_ESC_SYNC_HOTKEY  0x1007
+#define IME_ESC_HANJA_MODE  0x1008
+#define IME_ESC_AUTOMATA  0x1009
+#define IME_ESC_PRIVATE_HOTKEY  0x100a
+#define IME_ESC_GETHELPFILENAME  0x100b
+
+; IME_HOTKEY_IDENTIFIER
+#define IME_CHOTKEY_IME_NONIME_TOGGLE  0x10
+#define IME_CHOTKEY_SHAPE_TOGGLE  0x11
+#define IME_CHOTKEY_SYMBOL_TOGGLE  0x12
+#define IME_JHOTKEY_CLOSE_OPEN  0x30
+#define IME_KHOTKEY_SHAPE_TOGGLE  0x50
+#define IME_KHOTKEY_HANJACONVERT  0x51
+#define IME_KHOTKEY_ENGLISH  0x52
+#define IME_THOTKEY_IME_NONIME_TOGGLE  0x70
+#define IME_THOTKEY_SHAPE_TOGGLE  0x71
+#define IME_THOTKEY_SYMBOL_TOGGLE  0x72
+#define IME_ITHOTKEY_RESEND_RESULTSTR  0x200
+#define IME_ITHOTKEY_PREVIOUS_COMPOSITION  0x201
+#define IME_ITHOTKEY_UISTYLE_TOGGLE  0x202
+#define IME_ITHOTKEY_RECONVERTSTRING  0x203
+
+; IME_SENTENCE_MODE
+#define IME_SMODE_NONE  0x0
+#define IME_SMODE_PLAURALCLAUSE  0x1
+#define IME_SMODE_SINGLECONVERT  0x2
+#define IME_SMODE_AUTOMATIC  0x4
+#define IME_SMODE_PHRASEPREDICT  0x8
+#define IME_SMODE_CONVERSATION  0x10
+#define IME_SMODE_RESERVED  0xf000
+
+; IMPLTYPEFLAGS
+#define IMPLTYPEFLAG_FDEFAULT  0x1
+#define IMPLTYPEFLAG_FSOURCE  0x2
+#define IMPLTYPEFLAG_FRESTRICTED  0x4
+#define IMPLTYPEFLAG_FDEFAULTVTABLE  0x8
+
 ; INITCOMMONCONTROLSEX_ICC
 #define ICC_ANIMATE_CLASS  0x80
 #define ICC_BAR_CLASSES  0x4
@@ -807,6 +9455,161 @@
 #define ICC_USEREX_CLASSES  0x200
 #define ICC_WIN95_CLASSES  0xff
 
+; INPUT_MESSAGE_DEVICE_TYPE
+#define IMDT_UNAVAILABLE  0x0
+#define IMDT_KEYBOARD  0x1
+#define IMDT_MOUSE  0x2
+#define IMDT_TOUCH  0x4
+#define IMDT_PEN  0x8
+#define IMDT_TOUCHPAD  0x10
+
+; INPUT_MESSAGE_ORIGIN_ID
+#define IMO_UNAVAILABLE  0x0
+#define IMO_HARDWARE  0x1
+#define IMO_INJECTED  0x2
+#define IMO_SYSTEM  0x4
+
+; INPUT_TYPE
+#define INPUT_MOUSE  0x0
+#define INPUT_KEYBOARD  0x1
+#define INPUT_HARDWARE  0x2
+
+; INSTALLSPECTYPE
+#define APPNAME  0x1
+#define FILEEXT  0x2
+#define PROGID  0x3
+#define COMCLASS  0x4
+
+; INTERNET_AUTODIAL
+#define INTERNET_AUTODIAL_FAILIFSECURITYCHECK  0x4
+#define INTERNET_AUTODIAL_FORCE_ONLINE  0x1
+#define INTERNET_AUTODIAL_FORCE_UNATTENDED  0x2
+#define INTERNET_AUTODIAL_OVERRIDE_NET_PRESENT  0x8
+
+; INTERNET_CONNECTION
+#define INTERNET_CONNECTION_CONFIGURED  0x40
+#define INTERNET_CONNECTION_LAN  0x2
+#define INTERNET_CONNECTION_MODEM  0x1
+#define INTERNET_CONNECTION_MODEM_BUSY  0x8
+#define INTERNET_CONNECTION_OFFLINE  0x20
+#define INTERNET_CONNECTION_PROXY  0x4
+#define INTERNET_RAS_INSTALLED  0x10
+
+; INTERNET_COOKIE_FLAGS
+#define INTERNET_COOKIE_HTTPONLY  0x2000
+#define INTERNET_COOKIE_THIRD_PARTY  0x10
+#define INTERNET_FLAG_RESTRICTED_ZONE  0x20000
+
+; INTERNET_SCHEME
+#define INTERNET_SCHEME_PARTIAL  -2
+#define INTERNET_SCHEME_UNKNOWN  -1
+#define INTERNET_SCHEME_DEFAULT  0x0
+#define INTERNET_SCHEME_FTP  0x1
+#define INTERNET_SCHEME_GOPHER  0x2
+#define INTERNET_SCHEME_HTTP  0x3
+#define INTERNET_SCHEME_HTTPS  0x4
+#define INTERNET_SCHEME_FILE  0x5
+#define INTERNET_SCHEME_NEWS  0x6
+#define INTERNET_SCHEME_MAILTO  0x7
+#define INTERNET_SCHEME_SOCKS  0x8
+#define INTERNET_SCHEME_JAVASCRIPT  0x9
+#define INTERNET_SCHEME_VBSCRIPT  0xa
+#define INTERNET_SCHEME_RES  0xb
+#define INTERNET_SCHEME_FIRST  0x1
+#define INTERNET_SCHEME_LAST  0xb
+
+; INVOKEKIND
+#define INVOKE_FUNC  0x1
+#define INVOKE_PROPERTYGET  0x2
+#define INVOKE_PROPERTYPUT  0x4
+#define INVOKE_PROPERTYPUTREF  0x8
+
+; IS_TEXT_UNICODE_RESULT
+#define IS_TEXT_UNICODE_ASCII16  0x1
+#define IS_TEXT_UNICODE_REVERSE_ASCII16  0x10
+#define IS_TEXT_UNICODE_STATISTICS  0x2
+#define IS_TEXT_UNICODE_REVERSE_STATISTICS  0x20
+#define IS_TEXT_UNICODE_CONTROLS  0x4
+#define IS_TEXT_UNICODE_REVERSE_CONTROLS  0x40
+#define IS_TEXT_UNICODE_SIGNATURE  0x8
+#define IS_TEXT_UNICODE_REVERSE_SIGNATURE  0x80
+#define IS_TEXT_UNICODE_ILLEGAL_CHARS  0x100
+#define IS_TEXT_UNICODE_ODD_LENGTH  0x200
+#define IS_TEXT_UNICODE_NULL_BYTES  0x1000
+#define IS_TEXT_UNICODE_UNICODE_MASK  0xf
+#define IS_TEXT_UNICODE_REVERSE_MASK  0xf0
+#define IS_TEXT_UNICODE_NOT_UNICODE_MASK  0xf00
+#define IS_TEXT_UNICODE_NOT_ASCII_MASK  0xf000
+
+; IS_VALID_LOCALE_FLAGS
+#define LCID_INSTALLED  0x1
+#define LCID_SUPPORTED  0x2
+
+; JOB_OBJECT_IO_RATE_CONTROL_FLAGS
+#define JOB_OBJECT_IO_RATE_CONTROL_ENABLE  0x1
+#define JOB_OBJECT_IO_RATE_CONTROL_STANDALONE_VOLUME  0x2
+#define JOB_OBJECT_IO_RATE_CONTROL_FORCE_UNIT_ACCESS_ALL  0x4
+#define JOB_OBJECT_IO_RATE_CONTROL_FORCE_UNIT_ACCESS_ON_SOFT_CAP  0x8
+#define JOB_OBJECT_IO_RATE_CONTROL_VALID_FLAGS  0xf
+
+; JOBOBJECTINFOCLASS
+#define JobObjectBasicAccountingInformation  0x1
+#define JobObjectBasicLimitInformation  0x2
+#define JobObjectBasicProcessIdList  0x3
+#define JobObjectBasicUIRestrictions  0x4
+#define JobObjectSecurityLimitInformation  0x5
+#define JobObjectEndOfJobTimeInformation  0x6
+#define JobObjectAssociateCompletionPortInformation  0x7
+#define JobObjectBasicAndIoAccountingInformation  0x8
+#define JobObjectExtendedLimitInformation  0x9
+#define JobObjectJobSetInformation  0xa
+#define JobObjectGroupInformation  0xb
+#define JobObjectNotificationLimitInformation  0xc
+#define JobObjectLimitViolationInformation  0xd
+#define JobObjectGroupInformationEx  0xe
+#define JobObjectCpuRateControlInformation  0xf
+#define JobObjectCompletionFilter  0x10
+#define JobObjectCompletionCounter  0x11
+#define JobObjectReserved1Information  0x12
+#define JobObjectReserved2Information  0x13
+#define JobObjectReserved3Information  0x14
+#define JobObjectReserved4Information  0x15
+#define JobObjectReserved5Information  0x16
+#define JobObjectReserved6Information  0x17
+#define JobObjectReserved7Information  0x18
+#define JobObjectReserved8Information  0x19
+#define JobObjectReserved9Information  0x1a
+#define JobObjectReserved10Information  0x1b
+#define JobObjectReserved11Information  0x1c
+#define JobObjectReserved12Information  0x1d
+#define JobObjectReserved13Information  0x1e
+#define JobObjectReserved14Information  0x1f
+#define JobObjectNetRateControlInformation  0x20
+#define JobObjectNotificationLimitInformation2  0x21
+#define JobObjectLimitViolationInformation2  0x22
+#define JobObjectCreateSilo  0x23
+#define JobObjectSiloBasicInformation  0x24
+#define JobObjectReserved15Information  0x25
+#define JobObjectReserved16Information  0x26
+#define JobObjectReserved17Information  0x27
+#define JobObjectReserved18Information  0x28
+#define JobObjectReserved19Information  0x29
+#define JobObjectReserved20Information  0x2a
+#define JobObjectReserved21Information  0x2b
+#define JobObjectReserved22Information  0x2c
+#define JobObjectReserved23Information  0x2d
+#define JobObjectReserved24Information  0x2e
+#define JobObjectReserved25Information  0x2f
+#define JobObjectReserved26Information  0x30
+#define JobObjectReserved27Information  0x31
+#define MaxJobObjectInfoClass  0x32
+
+; KEYBD_EVENT_FLAGS
+#define KEYEVENTF_EXTENDEDKEY  0x1
+#define KEYEVENTF_KEYUP  0x2
+#define KEYEVENTF_SCANCODE  0x8
+#define KEYEVENTF_UNICODE  0x4
+
 ; KNOWN_FOLDER_FLAG
 #define KF_FLAG_DEFAULT  0x0
 #define KF_FLAG_FORCE_APP_DATA_REDIRECTION  0x80000
@@ -825,6 +9628,23 @@
 #define KF_FLAG_SIMPLE_IDLIST  0x100
 #define KF_FLAG_ALIAS_ONLY  0x101
 
+; LATENCY_TIME
+#define LT_DONT_CARE  0x0
+#define LT_LOWEST_LATENCY  0x1
+
+; LAYERED_WINDOW_ATTRIBUTES_FLAGS
+#define LWA_ALPHA  0x2
+#define LWA_COLORKEY  0x1
+
+; LCSCSTYPE
+#define LCS_CALIBRATED_RGB  0x0
+#define LCS_sRGB  0x73524742
+#define LCS_WINDOWS_COLOR_SPACE  0x57696e20
+
+; LIBRARYMANAGEDIALOGOPTIONS
+#define LMD_DEFAULT  0x0
+#define LMD_ALLOWUNINDEXABLENETWORKLOCATIONS  0x1
+
 ; LOAD_LIBRARY_FLAGS
 #define DONT_RESOLVE_DLL_REFERENCES  0x1
 #define LOAD_LIBRARY_AS_DATAFILE  0x2
@@ -840,6 +9660,185 @@
 #define LOAD_LIBRARY_SEARCH_DEFAULT_DIRS  0x1000
 #define LOAD_LIBRARY_SAFE_CURRENT_DIRS  0x2000
 #define LOAD_LIBRARY_SEARCH_SYSTEM32_NO_FORWARDER  0x4000
+
+; LOAD_PICTURE_FLAGS
+#define LP_DEFAULT  0x0
+#define LP_MONOCHROME  0x1
+#define LP_VGACOLOR  0x2
+#define LP_COLOR  0x4
+
+; LOCAL_ALLOC_FLAGS
+#define LHND  0x42
+#define LMEM_FIXED  0x0
+#define LMEM_MOVEABLE  0x2
+#define LMEM_ZEROINIT  0x40
+#define LPTR  0x40
+#define NONZEROLHND  0x2
+#define NONZEROLPTR  0x0
+
+; LOCK_FILE_FLAGS
+#define LOCKFILE_EXCLUSIVE_LOCK  0x2
+#define LOCKFILE_FAIL_IMMEDIATELY  0x1
+
+; LOCKTYPE
+#define LOCK_WRITE  0x1
+#define LOCK_EXCLUSIVE  0x2
+#define LOCK_ONLYONCE  0x4
+
+; LOGICAL_PROCESSOR_RELATIONSHIP
+#define RelationProcessorCore  0x0
+#define RelationNumaNode  0x1
+#define RelationCache  0x2
+#define RelationProcessorPackage  0x3
+#define RelationGroup  0x4
+#define RelationProcessorDie  0x5
+#define RelationNumaNodeEx  0x6
+#define RelationProcessorModule  0x7
+#define RelationAll  0xffff
+
+; LOGON32_LOGON
+#define LOGON32_LOGON_BATCH  0x4
+#define LOGON32_LOGON_INTERACTIVE  0x2
+#define LOGON32_LOGON_NETWORK  0x3
+#define LOGON32_LOGON_NETWORK_CLEARTEXT  0x8
+#define LOGON32_LOGON_NEW_CREDENTIALS  0x9
+#define LOGON32_LOGON_SERVICE  0x5
+#define LOGON32_LOGON_UNLOCK  0x7
+
+; LOGON32_PROVIDER
+#define LOGON32_PROVIDER_DEFAULT  0x0
+#define LOGON32_PROVIDER_WINNT50  0x3
+#define LOGON32_PROVIDER_WINNT40  0x2
+
+; LPPROGRESS_ROUTINE_CALLBACK_REASON
+#define CALLBACK_CHUNK_FINISHED  0x0
+#define CALLBACK_STREAM_SWITCH  0x1
+
+; LSA_AUTH_INFORMATION_AUTH_TYPE
+#define TRUST_AUTH_TYPE_NONE  0x0
+#define TRUST_AUTH_TYPE_NT4OWF  0x1
+#define TRUST_AUTH_TYPE_CLEAR  0x2
+#define TRUST_AUTH_TYPE_VERSION  0x3
+
+; LSA_FOREST_TRUST_COLLISION_RECORD_TYPE
+#define CollisionTdo  0x0
+#define CollisionXref  0x1
+#define CollisionOther  0x2
+
+; LSA_FOREST_TRUST_RECORD_TYPE
+#define ForestTrustTopLevelName  0x0
+#define ForestTrustTopLevelNameEx  0x1
+#define ForestTrustDomainInfo  0x2
+#define ForestTrustBinaryInfo  0x3
+#define ForestTrustScannerInfo  0x4
+#define ForestTrustRecordTypeLast  0x4
+
+; LZOPENFILE_STYLE
+#define OF_CANCEL  0x800
+#define OF_CREATE  0x1000
+#define OF_DELETE  0x200
+#define OF_EXIST  0x4000
+#define OF_PARSE  0x100
+#define OF_PROMPT  0x2000
+#define OF_READ  0x0
+#define OF_READWRITE  0x2
+#define OF_REOPEN  0x8000
+#define OF_SHARE_DENY_NONE  0x40
+#define OF_SHARE_DENY_READ  0x30
+#define OF_SHARE_DENY_WRITE  0x20
+#define OF_SHARE_EXCLUSIVE  0x10
+#define OF_WRITE  0x1
+#define OF_SHARE_COMPAT  0x0
+#define OF_VERIFY  0x400
+
+; MAP_VIRTUAL_KEY_TYPE
+#define MAPVK_VK_TO_VSC  0x0
+#define MAPVK_VSC_TO_VK  0x1
+#define MAPVK_VK_TO_CHAR  0x2
+#define MAPVK_VSC_TO_VK_EX  0x3
+#define MAPVK_VK_TO_VSC_EX  0x4
+
+; MEMORY_RESOURCE_NOTIFICATION_TYPE
+#define LowMemoryResourceNotification  0x0
+#define HighMemoryResourceNotification  0x1
+
+; MENU_ITEM_FLAGS
+#define MF_BYCOMMAND  0x0
+#define MF_BYPOSITION  0x400
+#define MF_BITMAP  0x4
+#define MF_CHECKED  0x8
+#define MF_DISABLED  0x2
+#define MF_ENABLED  0x0
+#define MF_GRAYED  0x1
+#define MF_MENUBARBREAK  0x20
+#define MF_MENUBREAK  0x40
+#define MF_OWNERDRAW  0x100
+#define MF_POPUP  0x10
+#define MF_SEPARATOR  0x800
+#define MF_STRING  0x0
+#define MF_UNCHECKED  0x0
+#define MF_INSERT  0x0
+#define MF_CHANGE  0x80
+#define MF_APPEND  0x100
+#define MF_DELETE  0x200
+#define MF_REMOVE  0x1000
+#define MF_USECHECKBITMAPS  0x200
+#define MF_UNHILITE  0x0
+#define MF_HILITE  0x80
+#define MF_DEFAULT  0x1000
+#define MF_SYSMENU  0x2000
+#define MF_HELP  0x4000
+#define MF_RIGHTJUSTIFY  0x4000
+#define MF_MOUSESELECT  0x8000
+#define MF_END  0x80
+
+; MENU_ITEM_MASK
+#define MIIM_BITMAP  0x80
+#define MIIM_CHECKMARKS  0x8
+#define MIIM_DATA  0x20
+#define MIIM_FTYPE  0x100
+#define MIIM_ID  0x2
+#define MIIM_STATE  0x1
+#define MIIM_STRING  0x40
+#define MIIM_SUBMENU  0x4
+#define MIIM_TYPE  0x10
+
+; MENU_ITEM_STATE
+#define MFS_GRAYED  0x3
+#define MFS_DISABLED  0x3
+#define MFS_CHECKED  0x8
+#define MFS_HILITE  0x80
+#define MFS_ENABLED  0x0
+#define MFS_UNCHECKED  0x0
+#define MFS_UNHILITE  0x0
+#define MFS_DEFAULT  0x1000
+
+; MENU_ITEM_TYPE
+#define MFT_BITMAP  0x4
+#define MFT_MENUBARBREAK  0x20
+#define MFT_MENUBREAK  0x40
+#define MFT_OWNERDRAW  0x100
+#define MFT_RADIOCHECK  0x200
+#define MFT_RIGHTJUSTIFY  0x4000
+#define MFT_RIGHTORDER  0x2000
+#define MFT_SEPARATOR  0x800
+#define MFT_STRING  0x0
+
+; MENUINFO_MASK
+#define MIM_APPLYTOSUBMENUS  0x80000000
+#define MIM_BACKGROUND  0x2
+#define MIM_HELPID  0x4
+#define MIM_MAXHEIGHT  0x1
+#define MIM_MENUDATA  0x8
+#define MIM_STYLE  0x10
+
+; MENUINFO_STYLE
+#define MNS_AUTODISMISS  0x10000000
+#define MNS_CHECKORBMP  0x4000000
+#define MNS_DRAGDROP  0x20000000
+#define MNS_MODELESS  0x40000000
+#define MNS_NOCHECK  0x80000000
+#define MNS_NOTIFYBYPOS  0x8000000
 
 ; MESSAGEBOX_RESULT
 #define IDOK  0x1
@@ -911,17 +9910,428 @@
 #define WAVE_MAPPED_DEFAULT_COMMUNICATION_DEVICE  0x10
 #define MIDI_IO_STATUS  0x20
 
+; MIXERLINE_COMPONENTTYPE
+#define MIXERLINE_COMPONENTTYPE_DST_DIGITAL  0x1
+#define MIXERLINE_COMPONENTTYPE_DST_HEADPHONES  0x5
+#define MIXERLINE_COMPONENTTYPE_DST_LINE  0x2
+#define MIXERLINE_COMPONENTTYPE_DST_MONITOR  0x3
+#define MIXERLINE_COMPONENTTYPE_DST_SPEAKERS  0x4
+#define MIXERLINE_COMPONENTTYPE_DST_TELEPHONE  0x6
+#define MIXERLINE_COMPONENTTYPE_DST_UNDEFINED  0x0
+#define MIXERLINE_COMPONENTTYPE_DST_VOICEIN  0x8
+#define MIXERLINE_COMPONENTTYPE_DST_WAVEIN  0x7
+#define MIXERLINE_COMPONENTTYPE_SRC_ANALOG  0x100a
+#define MIXERLINE_COMPONENTTYPE_SRC_AUXILIARY  0x1009
+#define MIXERLINE_COMPONENTTYPE_SRC_COMPACTDISC  0x1005
+#define MIXERLINE_COMPONENTTYPE_SRC_DIGITAL  0x1001
+#define MIXERLINE_COMPONENTTYPE_SRC_LINE  0x1002
+#define MIXERLINE_COMPONENTTYPE_SRC_MICROPHONE  0x1003
+#define MIXERLINE_COMPONENTTYPE_SRC_PCSPEAKER  0x1007
+#define MIXERLINE_COMPONENTTYPE_SRC_SYNTHESIZER  0x1004
+#define MIXERLINE_COMPONENTTYPE_SRC_TELEPHONE  0x1006
+#define MIXERLINE_COMPONENTTYPE_SRC_UNDEFINED  0x1000
+#define MIXERLINE_COMPONENTTYPE_SRC_WAVEOUT  0x1008
+
+; MM_FLAGS
+#define MM_ADDSEPARATOR  0x1
+#define MM_SUBMENUSHAVEIDS  0x2
+#define MM_DONTREMOVESEPS  0x4
+
+; MODEM_STATUS_FLAGS
+#define MS_CTS_ON  0x10
+#define MS_DSR_ON  0x20
+#define MS_RING_ON  0x40
+#define MS_RLSD_ON  0x80
+
+; MODIFIERKEYS_FLAGS
+#define MK_LBUTTON  0x1
+#define MK_RBUTTON  0x2
+#define MK_SHIFT  0x4
+#define MK_CONTROL  0x8
+#define MK_MBUTTON  0x10
+#define MK_XBUTTON1  0x20
+#define MK_XBUTTON2  0x40
+
+; MODIFY_WORLD_TRANSFORM_MODE
+#define MWT_IDENTITY  0x1
+#define MWT_LEFTMULTIPLY  0x2
+#define MWT_RIGHTMULTIPLY  0x3
+
+; MODLOAD_DATA_TYPE
+#define DBHHEADER_DEBUGDIRS  0x1
+#define DBHHEADER_CVMISC  0x2
+
+; MONITOR_FROM_FLAGS
+#define MONITOR_DEFAULTTONEAREST  0x2
+#define MONITOR_DEFAULTTONULL  0x0
+#define MONITOR_DEFAULTTOPRIMARY  0x1
+
+; MOUSE_EVENT_FLAGS
+#define MOUSEEVENTF_ABSOLUTE  0x8000
+#define MOUSEEVENTF_LEFTDOWN  0x2
+#define MOUSEEVENTF_LEFTUP  0x4
+#define MOUSEEVENTF_MIDDLEDOWN  0x20
+#define MOUSEEVENTF_MIDDLEUP  0x40
+#define MOUSEEVENTF_MOVE  0x1
+#define MOUSEEVENTF_RIGHTDOWN  0x8
+#define MOUSEEVENTF_RIGHTUP  0x10
+#define MOUSEEVENTF_WHEEL  0x800
+#define MOUSEEVENTF_XDOWN  0x80
+#define MOUSEEVENTF_XUP  0x100
+#define MOUSEEVENTF_HWHEEL  0x1000
+#define MOUSEEVENTF_MOVE_NOCOALESCE  0x2000
+#define MOUSEEVENTF_VIRTUALDESK  0x4000
+
+; MOUSE_STATE
+#define MOUSE_MOVE_RELATIVE  0x0
+#define MOUSE_MOVE_ABSOLUTE  0x1
+#define MOUSE_VIRTUAL_DESKTOP  0x2
+#define MOUSE_ATTRIBUTES_CHANGED  0x4
+#define MOUSE_MOVE_NOCOALESCE  0x8
+
+; MOVE_FILE_FLAGS
+#define MOVEFILE_COPY_ALLOWED  0x2
+#define MOVEFILE_CREATE_HARDLINK  0x10
+#define MOVEFILE_DELAY_UNTIL_REBOOT  0x4
+#define MOVEFILE_REPLACE_EXISTING  0x1
+#define MOVEFILE_WRITE_THROUGH  0x8
+#define MOVEFILE_FAIL_IF_NOT_TRACKABLE  0x20
+
+; MSG_WAIT_FOR_MULTIPLE_OBJECTS_EX_FLAGS
+#define MWMO_NONE  0x0
+#define MWMO_ALERTABLE  0x2
+#define MWMO_INPUTAVAILABLE  0x4
+#define MWMO_WAITALL  0x1
+
+; MSGFLTINFO_STATUS
+#define MSGFLTINFO_NONE  0x0
+#define MSGFLTINFO_ALLOWED_HIGHER  0x3
+#define MSGFLTINFO_ALREADYALLOWED_FORWND  0x1
+#define MSGFLTINFO_ALREADYDISALLOWED_FORWND  0x2
+
 ; MULTI_BYTE_TO_WIDE_CHAR_FLAGS
 #define MB_COMPOSITE  0x2
 #define MB_ERR_INVALID_CHARS  0x8
 #define MB_PRECOMPOSED  0x1
 #define MB_USEGLYPHCHARS  0x4
 
+; MULTIPLE_TRUSTEE_OPERATION
+#define NO_MULTIPLE_TRUSTEE  0x0
+#define TRUSTEE_IS_IMPERSONATE  0x1
+
+; NAMED_PIPE_MODE
+#define PIPE_WAIT  0x0
+#define PIPE_NOWAIT  0x1
+#define PIPE_READMODE_BYTE  0x0
+#define PIPE_READMODE_MESSAGE  0x2
+#define PIPE_CLIENT_END  0x0
+#define PIPE_SERVER_END  0x1
+#define PIPE_TYPE_BYTE  0x0
+#define PIPE_TYPE_MESSAGE  0x4
+#define PIPE_ACCEPT_REMOTE_CLIENTS  0x0
+#define PIPE_REJECT_REMOTE_CLIENTS  0x8
+
+; NET_SERVER_TYPE
+#define SV_TYPE_WORKSTATION  0x1
+#define SV_TYPE_SERVER  0x2
+#define SV_TYPE_SQLSERVER  0x4
+#define SV_TYPE_DOMAIN_CTRL  0x8
+#define SV_TYPE_DOMAIN_BAKCTRL  0x10
+#define SV_TYPE_TIME_SOURCE  0x20
+#define SV_TYPE_AFP  0x40
+#define SV_TYPE_NOVELL  0x80
+#define SV_TYPE_DOMAIN_MEMBER  0x100
+#define SV_TYPE_PRINTQ_SERVER  0x200
+#define SV_TYPE_DIALIN_SERVER  0x400
+#define SV_TYPE_XENIX_SERVER  0x800
+#define SV_TYPE_SERVER_UNIX  0x800
+#define SV_TYPE_NT  0x1000
+#define SV_TYPE_WFW  0x2000
+#define SV_TYPE_SERVER_MFPN  0x4000
+#define SV_TYPE_SERVER_NT  0x8000
+#define SV_TYPE_POTENTIAL_BROWSER  0x10000
+#define SV_TYPE_BACKUP_BROWSER  0x20000
+#define SV_TYPE_MASTER_BROWSER  0x40000
+#define SV_TYPE_DOMAIN_MASTER  0x80000
+#define SV_TYPE_SERVER_OSF  0x100000
+#define SV_TYPE_SERVER_VMS  0x200000
+#define SV_TYPE_WINDOWS  0x400000
+#define SV_TYPE_DFS  0x800000
+#define SV_TYPE_CLUSTER_NT  0x1000000
+#define SV_TYPE_TERMINALSERVER  0x2000000
+#define SV_TYPE_CLUSTER_VS_NT  0x4000000
+#define SV_TYPE_DCE  0x10000000
+#define SV_TYPE_ALTERNATE_XPORT  0x20000000
+#define SV_TYPE_LOCAL_LIST_ONLY  0x40000000
+#define SV_TYPE_DOMAIN_ENUM  0x80000000
+#define SV_TYPE_ALL  0xffffffff
+
+; NORM_FORM
+#define NormalizationOther  0x0
+#define NormalizationC  0x1
+#define NormalizationD  0x2
+#define NormalizationKC  0x5
+#define NormalizationKD  0x6
+
+; NOTIFY_IME_ACTION
+#define NI_CHANGECANDIDATELIST  0x13
+#define NI_CLOSECANDIDATE  0x11
+#define NI_COMPOSITIONSTR  0x15
+#define NI_IMEMENUSELECTED  0x18
+#define NI_OPENCANDIDATE  0x10
+#define NI_SELECTCANDIDATESTR  0x12
+#define NI_SETCANDIDATE_PAGESIZE  0x17
+#define NI_SETCANDIDATE_PAGESTART  0x16
+
+; NOTIFY_IME_INDEX
+#define CPS_CANCEL  0x4
+#define CPS_COMPLETE  0x1
+#define CPS_CONVERT  0x2
+#define CPS_REVERT  0x3
+
 ; Severity
 #define Success  0x0
 #define Informational  0x1
 #define Warning  0x2
 #define Error  0x3
+
+; NUMPARSE_FLAGS
+#define NUMPRS_LEADING_WHITE  0x1
+#define NUMPRS_TRAILING_WHITE  0x2
+#define NUMPRS_LEADING_PLUS  0x4
+#define NUMPRS_TRAILING_PLUS  0x8
+#define NUMPRS_LEADING_MINUS  0x10
+#define NUMPRS_TRAILING_MINUS  0x20
+#define NUMPRS_HEX_OCT  0x40
+#define NUMPRS_PARENS  0x80
+#define NUMPRS_DECIMAL  0x100
+#define NUMPRS_THOUSANDS  0x200
+#define NUMPRS_CURRENCY  0x400
+#define NUMPRS_EXPONENT  0x800
+#define NUMPRS_USE_ALL  0x1000
+#define NUMPRS_STD  0x1fff
+#define NUMPRS_NEG  0x10000
+#define NUMPRS_INEXACT  0x20000
+
+; OBJ_TYPE
+#define OBJ_PEN  0x1
+#define OBJ_BRUSH  0x2
+#define OBJ_DC  0x3
+#define OBJ_METADC  0x4
+#define OBJ_PAL  0x5
+#define OBJ_FONT  0x6
+#define OBJ_BITMAP  0x7
+#define OBJ_REGION  0x8
+#define OBJ_METAFILE  0x9
+#define OBJ_MEMDC  0xa
+#define OBJ_EXTPEN  0xb
+#define OBJ_ENHMETADC  0xc
+#define OBJ_ENHMETAFILE  0xd
+#define OBJ_COLORSPACE  0xe
+
+; OBJECT_IDENTIFIER
+#define OBJID_WINDOW  0x0
+#define OBJID_SYSMENU  -1
+#define OBJID_TITLEBAR  -2
+#define OBJID_MENU  -3
+#define OBJID_CLIENT  -4
+#define OBJID_VSCROLL  -5
+#define OBJID_HSCROLL  -6
+#define OBJID_SIZEGRIP  -7
+#define OBJID_CARET  -8
+#define OBJID_CURSOR  -9
+#define OBJID_ALERT  -10
+#define OBJID_SOUND  -11
+#define OBJID_QUERYCLASSNAMEIDX  -12
+#define OBJID_NATIVEOM  -16
+
+; OBJECT_SECURITY_INFORMATION
+#define ATTRIBUTE_SECURITY_INFORMATION  0x20
+#define BACKUP_SECURITY_INFORMATION  0x10000
+#define DACL_SECURITY_INFORMATION  0x4
+#define GROUP_SECURITY_INFORMATION  0x2
+#define LABEL_SECURITY_INFORMATION  0x10
+#define OWNER_SECURITY_INFORMATION  0x1
+#define PROTECTED_DACL_SECURITY_INFORMATION  0x80000000
+#define PROTECTED_SACL_SECURITY_INFORMATION  0x40000000
+#define SACL_SECURITY_INFORMATION  0x8
+#define SCOPE_SECURITY_INFORMATION  0x40
+#define UNPROTECTED_DACL_SECURITY_INFORMATION  0x20000000
+#define UNPROTECTED_SACL_SECURITY_INFORMATION  0x10000000
+
+; OLECREATE
+#define OLECREATE_ZERO  0x0
+#define OLECREATE_LEAVERUNNING  0x1
+
+; OLEIVERB
+#define OLEIVERB_PRIMARY  0x0
+#define OLEIVERB_SHOW  -1
+#define OLEIVERB_OPEN  -2
+#define OLEIVERB_HIDE  -3
+#define OLEIVERB_UIACTIVATE  -4
+#define OLEIVERB_INPLACEACTIVATE  -5
+#define OLEIVERB_DISCARDUNDOSTATE  -6
+
+; OLEMISC
+#define OLEMISC_RECOMPOSEONRESIZE  0x1
+#define OLEMISC_ONLYICONIC  0x2
+#define OLEMISC_INSERTNOTREPLACE  0x4
+#define OLEMISC_STATIC  0x8
+#define OLEMISC_CANTLINKINSIDE  0x10
+#define OLEMISC_CANLINKBYOLE1  0x20
+#define OLEMISC_ISLINKOBJECT  0x40
+#define OLEMISC_INSIDEOUT  0x80
+#define OLEMISC_ACTIVATEWHENVISIBLE  0x100
+#define OLEMISC_RENDERINGISDEVICEINDEPENDENT  0x200
+#define OLEMISC_INVISIBLEATRUNTIME  0x400
+#define OLEMISC_ALWAYSRUN  0x800
+#define OLEMISC_ACTSLIKEBUTTON  0x1000
+#define OLEMISC_ACTSLIKELABEL  0x2000
+#define OLEMISC_NOUIACTIVATE  0x4000
+#define OLEMISC_ALIGNABLE  0x8000
+#define OLEMISC_SIMPLEFRAME  0x10000
+#define OLEMISC_SETCLIENTSITEFIRST  0x20000
+#define OLEMISC_IMEMODE  0x40000
+#define OLEMISC_IGNOREACTIVATEWHENVISIBLE  0x80000
+#define OLEMISC_WANTSTOMENUMERGE  0x100000
+#define OLEMISC_SUPPORTSMULTILEVELUNDO  0x200000
+
+; OLERENDER
+#define OLERENDER_NONE  0x0
+#define OLERENDER_DRAW  0x1
+#define OLERENDER_FORMAT  0x2
+#define OLERENDER_ASIS  0x3
+
+; OLEVERBATTRIB
+#define OLEVERBATTRIB_NEVERDIRTIES  0x1
+#define OLEVERBATTRIB_ONCONTAINERMENU  0x2
+
+; OPEN_AS_INFO_FLAGS
+#define OAIF_ALLOW_REGISTRATION  0x1
+#define OAIF_REGISTER_EXT  0x2
+#define OAIF_EXEC  0x4
+#define OAIF_FORCE_REGISTRATION  0x8
+#define OAIF_HIDE_REGISTRATION  0x20
+#define OAIF_URL_PROTOCOL  0x40
+#define OAIF_FILE_IS_URI  0x80
+
+; OPEN_THEME_DATA_FLAGS
+#define OTD_FORCE_RECT_SIZING  0x1
+#define OTD_NONCLIENT  0x2
+
+; OPEN_THREAD_WAIT_CHAIN_SESSION_FLAGS
+#define WCT_ASYNC_OPEN_FLAG  0x1
+
+; OPERATION_END_PARAMETERS_FLAGS
+#define OPERATION_END_DISCARD  0x1
+
+; OPERATION_START_FLAGS
+#define OPERATION_START_TRACE_CURRENT_THREAD  0x1
+
+; ORIENTATION_PREFERENCE
+#define ORIENTATION_PREFERENCE_NONE  0x0
+#define ORIENTATION_PREFERENCE_LANDSCAPE  0x1
+#define ORIENTATION_PREFERENCE_PORTRAIT  0x2
+#define ORIENTATION_PREFERENCE_LANDSCAPE_FLIPPED  0x4
+#define ORIENTATION_PREFERENCE_PORTRAIT_FLIPPED  0x8
+
+; OS_PRODUCT_TYPE
+#define PRODUCT_BUSINESS  0x6
+#define PRODUCT_BUSINESS_N  0x10
+#define PRODUCT_CLUSTER_SERVER  0x12
+#define PRODUCT_CLUSTER_SERVER_V  0x40
+#define PRODUCT_CORE  0x65
+#define PRODUCT_CORE_COUNTRYSPECIFIC  0x63
+#define PRODUCT_CORE_N  0x62
+#define PRODUCT_CORE_SINGLELANGUAGE  0x64
+#define PRODUCT_DATACENTER_EVALUATION_SERVER  0x50
+#define PRODUCT_DATACENTER_A_SERVER_CORE  0x91
+#define PRODUCT_STANDARD_A_SERVER_CORE  0x92
+#define PRODUCT_DATACENTER_SERVER  0x8
+#define PRODUCT_DATACENTER_SERVER_CORE  0xc
+#define PRODUCT_DATACENTER_SERVER_CORE_V  0x27
+#define PRODUCT_DATACENTER_SERVER_V  0x25
+#define PRODUCT_EDUCATION  0x79
+#define PRODUCT_EDUCATION_N  0x7a
+#define PRODUCT_ENTERPRISE  0x4
+#define PRODUCT_ENTERPRISE_E  0x46
+#define PRODUCT_ENTERPRISE_EVALUATION  0x48
+#define PRODUCT_ENTERPRISE_N  0x1b
+#define PRODUCT_ENTERPRISE_N_EVALUATION  0x54
+#define PRODUCT_ENTERPRISE_S  0x7d
+#define PRODUCT_ENTERPRISE_S_EVALUATION  0x81
+#define PRODUCT_ENTERPRISE_S_N  0x7e
+#define PRODUCT_ENTERPRISE_S_N_EVALUATION  0x82
+#define PRODUCT_ENTERPRISE_SERVER  0xa
+#define PRODUCT_ENTERPRISE_SERVER_CORE  0xe
+#define PRODUCT_ENTERPRISE_SERVER_CORE_V  0x29
+#define PRODUCT_ENTERPRISE_SERVER_IA64  0xf
+#define PRODUCT_ENTERPRISE_SERVER_V  0x26
+#define PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL  0x3c
+#define PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC  0x3e
+#define PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT  0x3b
+#define PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC  0x3d
+#define PRODUCT_HOME_BASIC  0x2
+#define PRODUCT_HOME_BASIC_E  0x43
+#define PRODUCT_HOME_BASIC_N  0x5
+#define PRODUCT_HOME_PREMIUM  0x3
+#define PRODUCT_HOME_PREMIUM_E  0x44
+#define PRODUCT_HOME_PREMIUM_N  0x1a
+#define PRODUCT_HOME_PREMIUM_SERVER  0x22
+#define PRODUCT_HOME_SERVER  0x13
+#define PRODUCT_HYPERV  0x2a
+#define PRODUCT_IOTUAP  0x7b
+#define PRODUCT_IOTUAPCOMMERCIAL  0x83
+#define PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT  0x1e
+#define PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING  0x20
+#define PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY  0x1f
+#define PRODUCT_MOBILE_CORE  0x68
+#define PRODUCT_MOBILE_ENTERPRISE  0x85
+#define PRODUCT_MULTIPOINT_PREMIUM_SERVER  0x4d
+#define PRODUCT_MULTIPOINT_STANDARD_SERVER  0x4c
+#define PRODUCT_PRO_WORKSTATION  0xa1
+#define PRODUCT_PRO_WORKSTATION_N  0xa2
+#define PRODUCT_PROFESSIONAL  0x30
+#define PRODUCT_PROFESSIONAL_E  0x45
+#define PRODUCT_PROFESSIONAL_N  0x31
+#define PRODUCT_PROFESSIONAL_WMC  0x67
+#define PRODUCT_SB_SOLUTION_SERVER  0x32
+#define PRODUCT_SB_SOLUTION_SERVER_EM  0x36
+#define PRODUCT_SERVER_FOR_SB_SOLUTIONS  0x33
+#define PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM  0x37
+#define PRODUCT_SERVER_FOR_SMALLBUSINESS  0x18
+#define PRODUCT_SERVER_FOR_SMALLBUSINESS_V  0x23
+#define PRODUCT_SERVER_FOUNDATION  0x21
+#define PRODUCT_SMALLBUSINESS_SERVER  0x9
+#define PRODUCT_SMALLBUSINESS_SERVER_PREMIUM  0x19
+#define PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE  0x3f
+#define PRODUCT_SOLUTION_EMBEDDEDSERVER  0x38
+#define PRODUCT_STANDARD_EVALUATION_SERVER  0x4f
+#define PRODUCT_STANDARD_SERVER  0x7
+#define PRODUCT_STANDARD_SERVER_CORE_  0xd
+#define PRODUCT_STANDARD_SERVER_CORE_V  0x28
+#define PRODUCT_STANDARD_SERVER_V  0x24
+#define PRODUCT_STANDARD_SERVER_SOLUTIONS  0x34
+#define PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE  0x35
+#define PRODUCT_STARTER  0xb
+#define PRODUCT_STARTER_E  0x42
+#define PRODUCT_STARTER_N  0x2f
+#define PRODUCT_STORAGE_ENTERPRISE_SERVER  0x17
+#define PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE  0x2e
+#define PRODUCT_STORAGE_EXPRESS_SERVER  0x14
+#define PRODUCT_STORAGE_EXPRESS_SERVER_CORE  0x2b
+#define PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER  0x60
+#define PRODUCT_STORAGE_STANDARD_SERVER  0x15
+#define PRODUCT_STORAGE_STANDARD_SERVER_CORE  0x2c
+#define PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER  0x5f
+#define PRODUCT_STORAGE_WORKGROUP_SERVER  0x16
+#define PRODUCT_STORAGE_WORKGROUP_SERVER_CORE  0x2d
+#define PRODUCT_ULTIMATE  0x1
+#define PRODUCT_ULTIMATE_E  0x47
+#define PRODUCT_ULTIMATE_N  0x1c
+#define PRODUCT_UNDEFINED  0x0
+#define PRODUCT_WEB_SERVER  0x11
+#define PRODUCT_WEB_SERVER_CORE  0x1d
 
 ; PAGE_PROTECTION_FLAGS
 #define PAGE_NOACCESS  0x1
@@ -964,6 +10374,176 @@
 #define SEC_LARGE_PAGES  0x80000000
 #define SEC_IMAGE_NO_EXECUTE  0x11000000
 
+; PAN_ARM_STYLE
+#define PAN_ARM_ANY  0x0
+#define PAN_ARM_NO_FIT  0x1
+#define PAN_STRAIGHT_ARMS_HORZ  0x2
+#define PAN_STRAIGHT_ARMS_WEDGE  0x3
+#define PAN_STRAIGHT_ARMS_VERT  0x4
+#define PAN_STRAIGHT_ARMS_SINGLE_SERIF  0x5
+#define PAN_STRAIGHT_ARMS_DOUBLE_SERIF  0x6
+#define PAN_BENT_ARMS_HORZ  0x7
+#define PAN_BENT_ARMS_WEDGE  0x8
+#define PAN_BENT_ARMS_VERT  0x9
+#define PAN_BENT_ARMS_SINGLE_SERIF  0xa
+#define PAN_BENT_ARMS_DOUBLE_SERIF  0xb
+
+; PAN_CONTRAST
+#define PAN_CONTRAST_ANY  0x0
+#define PAN_CONTRAST_NO_FIT  0x1
+#define PAN_CONTRAST_INDEX  0x4
+#define PAN_CONTRAST_NONE  0x2
+#define PAN_CONTRAST_VERY_LOW  0x3
+#define PAN_CONTRAST_LOW  0x4
+#define PAN_CONTRAST_MEDIUM_LOW  0x5
+#define PAN_CONTRAST_MEDIUM  0x6
+#define PAN_CONTRAST_MEDIUM_HIGH  0x7
+#define PAN_CONTRAST_HIGH  0x8
+#define PAN_CONTRAST_VERY_HIGH  0x9
+
+; PAN_FAMILY_TYPE
+#define PAN_FAMILY_ANY  0x0
+#define PAN_FAMILY_NO_FIT  0x1
+#define PAN_FAMILY_TEXT_DISPLAY  0x2
+#define PAN_FAMILY_SCRIPT  0x3
+#define PAN_FAMILY_DECORATIVE  0x4
+#define PAN_FAMILY_PICTORIAL  0x5
+
+; PAN_LETT_FORM
+#define PAN_LETT_FORM_ANY  0x0
+#define PAN_LETT_FORM_NO_FIT  0x1
+#define PAN_LETT_NORMAL_CONTACT  0x2
+#define PAN_LETT_NORMAL_WEIGHTED  0x3
+#define PAN_LETT_NORMAL_BOXED  0x4
+#define PAN_LETT_NORMAL_FLATTENED  0x5
+#define PAN_LETT_NORMAL_ROUNDED  0x6
+#define PAN_LETT_NORMAL_OFF_CENTER  0x7
+#define PAN_LETT_NORMAL_SQUARE  0x8
+#define PAN_LETT_OBLIQUE_CONTACT  0x9
+#define PAN_LETT_OBLIQUE_WEIGHTED  0xa
+#define PAN_LETT_OBLIQUE_BOXED  0xb
+#define PAN_LETT_OBLIQUE_FLATTENED  0xc
+#define PAN_LETT_OBLIQUE_ROUNDED  0xd
+#define PAN_LETT_OBLIQUE_OFF_CENTER  0xe
+#define PAN_LETT_OBLIQUE_SQUARE  0xf
+
+; PAN_MIDLINE
+#define PAN_MIDLINE_ANY  0x0
+#define PAN_MIDLINE_NO_FIT  0x1
+#define PAN_MIDLINE_INDEX  0x8
+#define PAN_MIDLINE_STANDARD_TRIMMED  0x2
+#define PAN_MIDLINE_STANDARD_POINTED  0x3
+#define PAN_MIDLINE_STANDARD_SERIFED  0x4
+#define PAN_MIDLINE_HIGH_TRIMMED  0x5
+#define PAN_MIDLINE_HIGH_POINTED  0x6
+#define PAN_MIDLINE_HIGH_SERIFED  0x7
+#define PAN_MIDLINE_CONSTANT_TRIMMED  0x8
+#define PAN_MIDLINE_CONSTANT_POINTED  0x9
+#define PAN_MIDLINE_CONSTANT_SERIFED  0xa
+#define PAN_MIDLINE_LOW_TRIMMED  0xb
+#define PAN_MIDLINE_LOW_POINTED  0xc
+#define PAN_MIDLINE_LOW_SERIFED  0xd
+
+; PAN_PROPORTION
+#define PAN_PROP_ANY  0x0
+#define PAN_PROP_NO_FIT  0x1
+#define PAN_PROP_OLD_STYLE  0x2
+#define PAN_PROP_MODERN  0x3
+#define PAN_PROP_EVEN_WIDTH  0x4
+#define PAN_PROP_EXPANDED  0x5
+#define PAN_PROP_CONDENSED  0x6
+#define PAN_PROP_VERY_EXPANDED  0x7
+#define PAN_PROP_VERY_CONDENSED  0x8
+#define PAN_PROP_MONOSPACED  0x9
+
+; PAN_SERIF_STYLE
+#define PAN_SERIF_ANY  0x0
+#define PAN_SERIF_NO_FIT  0x1
+#define PAN_SERIF_COVE  0x2
+#define PAN_SERIF_OBTUSE_COVE  0x3
+#define PAN_SERIF_SQUARE_COVE  0x4
+#define PAN_SERIF_OBTUSE_SQUARE_COVE  0x5
+#define PAN_SERIF_SQUARE  0x6
+#define PAN_SERIF_THIN  0x7
+#define PAN_SERIF_BONE  0x8
+#define PAN_SERIF_EXAGGERATED  0x9
+#define PAN_SERIF_TRIANGLE  0xa
+#define PAN_SERIF_NORMAL_SANS  0xb
+#define PAN_SERIF_OBTUSE_SANS  0xc
+#define PAN_SERIF_PERP_SANS  0xd
+#define PAN_SERIF_FLARED  0xe
+#define PAN_SERIF_ROUNDED  0xf
+
+; PAN_STROKE_VARIATION
+#define PAN_STROKE_ANY  0x0
+#define PAN_STROKE_NO_FIT  0x1
+#define PAN_STROKE_GRADUAL_DIAG  0x2
+#define PAN_STROKE_GRADUAL_TRAN  0x3
+#define PAN_STROKE_GRADUAL_VERT  0x4
+#define PAN_STROKE_GRADUAL_HORZ  0x5
+#define PAN_STROKE_RAPID_VERT  0x6
+#define PAN_STROKE_RAPID_HORZ  0x7
+#define PAN_STROKE_INSTANT_VERT  0x8
+
+; PAN_WEIGHT
+#define PAN_WEIGHT_ANY  0x0
+#define PAN_WEIGHT_NO_FIT  0x1
+#define PAN_WEIGHT_INDEX  0x2
+#define PAN_WEIGHT_VERY_LIGHT  0x2
+#define PAN_WEIGHT_LIGHT  0x3
+#define PAN_WEIGHT_THIN  0x4
+#define PAN_WEIGHT_BOOK  0x5
+#define PAN_WEIGHT_MEDIUM  0x6
+#define PAN_WEIGHT_DEMI  0x7
+#define PAN_WEIGHT_BOLD  0x8
+#define PAN_WEIGHT_HEAVY  0x9
+#define PAN_WEIGHT_BLACK  0xa
+#define PAN_WEIGHT_NORD  0xb
+
+; PAN_XHEIGHT
+#define PAN_XHEIGHT_ANY  0x0
+#define PAN_XHEIGHT_NO_FIT  0x1
+#define PAN_XHEIGHT_INDEX  0x9
+#define PAN_XHEIGHT_CONSTANT_SMALL  0x2
+#define PAN_XHEIGHT_CONSTANT_STD  0x3
+#define PAN_XHEIGHT_CONSTANT_LARGE  0x4
+#define PAN_XHEIGHT_DUCKING_SMALL  0x5
+#define PAN_XHEIGHT_DUCKING_STD  0x6
+#define PAN_XHEIGHT_DUCKING_LARGE  0x7
+
+; PARAMFLAGS
+#define PARAMFLAG_NONE  0x0
+#define PARAMFLAG_FIN  0x1
+#define PARAMFLAG_FOUT  0x2
+#define PARAMFLAG_FLCID  0x4
+#define PARAMFLAG_FRETVAL  0x8
+#define PARAMFLAG_FOPT  0x10
+#define PARAMFLAG_FHASDEFAULT  0x20
+#define PARAMFLAG_FHASCUSTDATA  0x40
+
+; PCS_RET
+#define PCS_FATAL  0x80000000
+#define PCS_REPLACEDCHAR  0x1
+#define PCS_REMOVEDCHAR  0x2
+#define PCS_TRUNCATED  0x4
+#define PCS_PATHTOOLONG  0x8
+
+; PDOPSTATUS
+#define PDOPS_RUNNING  0x1
+#define PDOPS_PAUSED  0x2
+#define PDOPS_CANCELLED  0x3
+#define PDOPS_STOPPED  0x4
+#define PDOPS_ERRORS  0x5
+
+; PEEK_MESSAGE_REMOVE_TYPE
+#define PM_NOREMOVE  0x0
+#define PM_REMOVE  0x1
+#define PM_NOYIELD  0x2
+#define PM_QS_INPUT  0x4070000
+#define PM_QS_POSTMESSAGE  0x980000
+#define PM_QS_PAINT  0x200000
+#define PM_QS_SENDMESSAGE  0x400000
+
 ; PEN_STYLE
 #define PS_GEOMETRIC  0x10000
 #define PS_COSMETIC  0x0
@@ -987,6 +10567,177 @@
 #define PS_JOIN_MASK  0xf000
 #define PS_TYPE_MASK  0xf0000
 
+; PerfRegInfoType
+#define PERF_REG_COUNTERSET_STRUCT  0x1
+#define PERF_REG_COUNTER_STRUCT  0x2
+#define PERF_REG_COUNTERSET_NAME_STRING  0x3
+#define PERF_REG_COUNTERSET_HELP_STRING  0x4
+#define PERF_REG_COUNTER_NAME_STRINGS  0x5
+#define PERF_REG_COUNTER_HELP_STRINGS  0x6
+#define PERF_REG_PROVIDER_NAME  0x7
+#define PERF_REG_PROVIDER_GUID  0x8
+#define PERF_REG_COUNTERSET_ENGLISH_NAME  0x9
+#define PERF_REG_COUNTER_ENGLISH_NAMES  0xa
+
+; PFD_FLAGS
+#define PFD_DOUBLEBUFFER  0x1
+#define PFD_STEREO  0x2
+#define PFD_DRAW_TO_WINDOW  0x4
+#define PFD_DRAW_TO_BITMAP  0x8
+#define PFD_SUPPORT_GDI  0x10
+#define PFD_SUPPORT_OPENGL  0x20
+#define PFD_GENERIC_FORMAT  0x40
+#define PFD_NEED_PALETTE  0x80
+#define PFD_NEED_SYSTEM_PALETTE  0x100
+#define PFD_SWAP_EXCHANGE  0x200
+#define PFD_SWAP_COPY  0x400
+#define PFD_SWAP_LAYER_BUFFERS  0x800
+#define PFD_GENERIC_ACCELERATED  0x1000
+#define PFD_SUPPORT_DIRECTDRAW  0x2000
+#define PFD_DIRECT3D_ACCELERATED  0x4000
+#define PFD_SUPPORT_COMPOSITION  0x8000
+#define PFD_DEPTH_DONTCARE  0x20000000
+#define PFD_DOUBLEBUFFER_DONTCARE  0x40000000
+#define PFD_STEREO_DONTCARE  0x80000000
+
+; PFD_LAYER_TYPE
+#define PFD_UNDERLAY_PLANE  -1
+#define PFD_MAIN_PLANE  0x0
+#define PFD_OVERLAY_PLANE  0x1
+
+; PFD_PIXEL_TYPE
+#define PFD_TYPE_RGBA  0x0
+#define PFD_TYPE_COLORINDEX  0x1
+
+; PICTYPE
+#define PICTYPE_UNINITIALIZED  -1
+#define PICTYPE_NONE  0x0
+#define PICTYPE_BITMAP  0x1
+#define PICTYPE_METAFILE  0x2
+#define PICTYPE_ICON  0x3
+#define PICTYPE_ENHMETAFILE  0x4
+
+; POINTER_BUTTON_CHANGE_TYPE
+#define POINTER_CHANGE_NONE  0x0
+#define POINTER_CHANGE_FIRSTBUTTON_DOWN  0x1
+#define POINTER_CHANGE_FIRSTBUTTON_UP  0x2
+#define POINTER_CHANGE_SECONDBUTTON_DOWN  0x3
+#define POINTER_CHANGE_SECONDBUTTON_UP  0x4
+#define POINTER_CHANGE_THIRDBUTTON_DOWN  0x5
+#define POINTER_CHANGE_THIRDBUTTON_UP  0x6
+#define POINTER_CHANGE_FOURTHBUTTON_DOWN  0x7
+#define POINTER_CHANGE_FOURTHBUTTON_UP  0x8
+#define POINTER_CHANGE_FIFTHBUTTON_DOWN  0x9
+#define POINTER_CHANGE_FIFTHBUTTON_UP  0xa
+
+; POINTER_DEVICE_CURSOR_TYPE
+#define POINTER_DEVICE_CURSOR_TYPE_UNKNOWN  0x0
+#define POINTER_DEVICE_CURSOR_TYPE_TIP  0x1
+#define POINTER_DEVICE_CURSOR_TYPE_ERASER  0x2
+#define POINTER_DEVICE_CURSOR_TYPE_MAX  -1
+
+; POINTER_DEVICE_TYPE
+#define POINTER_DEVICE_TYPE_INTEGRATED_PEN  0x1
+#define POINTER_DEVICE_TYPE_EXTERNAL_PEN  0x2
+#define POINTER_DEVICE_TYPE_TOUCH  0x3
+#define POINTER_DEVICE_TYPE_TOUCH_PAD  0x4
+#define POINTER_DEVICE_TYPE_MAX  -1
+
+; POINTER_FEEDBACK_MODE
+#define POINTER_FEEDBACK_DEFAULT  0x1
+#define POINTER_FEEDBACK_INDIRECT  0x2
+#define POINTER_FEEDBACK_NONE  0x3
+
+; POINTER_FLAGS
+#define POINTER_FLAG_NONE  0x0
+#define POINTER_FLAG_NEW  0x1
+#define POINTER_FLAG_INRANGE  0x2
+#define POINTER_FLAG_INCONTACT  0x4
+#define POINTER_FLAG_FIRSTBUTTON  0x10
+#define POINTER_FLAG_SECONDBUTTON  0x20
+#define POINTER_FLAG_THIRDBUTTON  0x40
+#define POINTER_FLAG_FOURTHBUTTON  0x80
+#define POINTER_FLAG_FIFTHBUTTON  0x100
+#define POINTER_FLAG_PRIMARY  0x2000
+#define POINTER_FLAG_CONFIDENCE  0x4000
+#define POINTER_FLAG_CANCELED  0x8000
+#define POINTER_FLAG_DOWN  0x10000
+#define POINTER_FLAG_UPDATE  0x20000
+#define POINTER_FLAG_UP  0x40000
+#define POINTER_FLAG_WHEEL  0x80000
+#define POINTER_FLAG_HWHEEL  0x100000
+#define POINTER_FLAG_CAPTURECHANGED  0x200000
+#define POINTER_FLAG_HASTRANSFORM  0x400000
+
+; POINTER_INPUT_TYPE
+#define PT_POINTER  0x1
+#define PT_TOUCH  0x2
+#define PT_PEN  0x3
+#define PT_MOUSE  0x4
+#define PT_TOUCHPAD  0x5
+
+; POLICY_AUDIT_EVENT_TYPE
+#define AuditCategorySystem  0x0
+#define AuditCategoryLogon  0x1
+#define AuditCategoryObjectAccess  0x2
+#define AuditCategoryPrivilegeUse  0x3
+#define AuditCategoryDetailedTracking  0x4
+#define AuditCategoryPolicyChange  0x5
+#define AuditCategoryAccountManagement  0x6
+#define AuditCategoryDirectoryServiceAccess  0x7
+#define AuditCategoryAccountLogon  0x8
+
+; POLICY_DOMAIN_INFORMATION_CLASS
+#define PolicyDomainEfsInformation  0x2
+#define PolicyDomainKerberosTicketInformation  0x3
+
+; POLICY_INFORMATION_CLASS
+#define PolicyAuditLogInformation  0x1
+#define PolicyAuditEventsInformation  0x2
+#define PolicyPrimaryDomainInformation  0x3
+#define PolicyPdAccountInformation  0x4
+#define PolicyAccountDomainInformation  0x5
+#define PolicyLsaServerRoleInformation  0x6
+#define PolicyReplicaSourceInformation  0x7
+#define PolicyDefaultQuotaInformation  0x8
+#define PolicyModificationInformation  0x9
+#define PolicyAuditFullSetInformation  0xa
+#define PolicyAuditFullQueryInformation  0xb
+#define PolicyDnsDomainInformation  0xc
+#define PolicyDnsDomainInformationInt  0xd
+#define PolicyLocalAccountDomainInformation  0xe
+#define PolicyMachineAccountInformation  0xf
+#define PolicyMachineAccountInformation2  0x10
+#define PolicyLastEntry  0x11
+
+; POWER_REQUEST_CONTEXT_FLAGS
+#define POWER_REQUEST_CONTEXT_DETAILED_STRING  0x2
+#define POWER_REQUEST_CONTEXT_SIMPLE_STRING  0x1
+
+; POWER_REQUEST_TYPE
+#define PowerRequestDisplayRequired  0x0
+#define PowerRequestSystemRequired  0x1
+#define PowerRequestAwayModeRequired  0x2
+#define PowerRequestExecutionRequired  0x3
+
+; PREPARE_TAPE_OPERATION
+#define TAPE_FORMAT  0x5
+#define TAPE_LOAD  0x0
+#define TAPE_LOCK  0x3
+#define TAPE_TENSION  0x2
+#define TAPE_UNLOAD  0x1
+#define TAPE_UNLOCK  0x4
+
+; PRF_FLAGS
+#define PRF_VERIFYEXISTS  0x1
+#define PRF_TRYPROGRAMEXTENSIONS  0x3
+#define PRF_FIRSTDIRDEF  0x4
+#define PRF_DONTFINDLNK  0x8
+#define PRF_REQUIREABSOLUTE  0x10
+
+; PRINT_WINDOW_FLAGS
+#define PW_CLIENTONLY  0x1
+
 ; PROCESS_ACCESS_RIGHTS
 #define PROCESS_TERMINATE  0x1
 #define PROCESS_CREATE_THREAD  0x2
@@ -1009,6 +10760,10 @@
 #define PROCESS_WRITE_OWNER  0x80000
 #define PROCESS_SYNCHRONIZE  0x100000
 #define PROCESS_STANDARD_RIGHTS_REQUIRED  0xf0000
+
+; PROCESS_AFFINITY_AUTO_UPDATE_FLAGS
+#define PROCESS_AFFINITY_DISABLE_AUTO_UPDATE  0x0
+#define PROCESS_AFFINITY_ENABLE_AUTO_UPDATE  0x1
 
 ; PROCESS_CREATION_FLAGS
 #define DEBUG_PROCESS  0x1
@@ -1043,6 +10798,178 @@
 #define PROFILE_SERVER  0x40000000
 #define CREATE_IGNORE_SYSTEM_DEFAULT  0x80000000
 
+; PROCESS_DEP_FLAGS
+#define PROCESS_DEP_ENABLE  0x1
+#define PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION  0x2
+#define PROCESS_DEP_NONE  0x0
+
+; PROCESS_INFORMATION_CLASS
+#define ProcessMemoryPriority  0x0
+#define ProcessMemoryExhaustionInfo  0x1
+#define ProcessAppMemoryInfo  0x2
+#define ProcessInPrivateInfo  0x3
+#define ProcessPowerThrottling  0x4
+#define ProcessReservedValue1  0x5
+#define ProcessTelemetryCoverageInfo  0x6
+#define ProcessProtectionLevelInfo  0x7
+#define ProcessLeapSecondInfo  0x8
+#define ProcessMachineTypeInfo  0x9
+#define ProcessOverrideSubsequentPrefetchParameter  0xa
+#define ProcessMaxOverridePrefetchParameter  0xb
+#define ProcessInformationClassMax  0xc
+
+; PROCESS_NAME_FORMAT
+#define PROCESS_NAME_WIN32  0x0
+#define PROCESS_NAME_NATIVE  0x1
+
+; PROCESSOR_ARCHITECTURE
+#define PROCESSOR_ARCHITECTURE_INTEL  0x0
+#define PROCESSOR_ARCHITECTURE_MIPS  0x1
+#define PROCESSOR_ARCHITECTURE_ALPHA  0x2
+#define PROCESSOR_ARCHITECTURE_PPC  0x3
+#define PROCESSOR_ARCHITECTURE_SHX  0x4
+#define PROCESSOR_ARCHITECTURE_ARM  0x5
+#define PROCESSOR_ARCHITECTURE_IA64  0x6
+#define PROCESSOR_ARCHITECTURE_ALPHA64  0x7
+#define PROCESSOR_ARCHITECTURE_MSIL  0x8
+#define PROCESSOR_ARCHITECTURE_AMD64  0x9
+#define PROCESSOR_ARCHITECTURE_IA32_ON_WIN64  0xa
+#define PROCESSOR_ARCHITECTURE_NEUTRAL  0xb
+#define PROCESSOR_ARCHITECTURE_ARM64  0xc
+#define PROCESSOR_ARCHITECTURE_ARM32_ON_WIN64  0xd
+#define PROCESSOR_ARCHITECTURE_IA32_ON_ARM64  0xe
+#define PROCESSOR_ARCHITECTURE_UNKNOWN  0xffff
+
+; PROCESSOR_CACHE_TYPE
+#define CacheUnified  0x0
+#define CacheInstruction  0x1
+#define CacheData  0x2
+#define CacheTrace  0x3
+
+; PROCESSOR_FEATURE_ID
+#define PF_FLOATING_POINT_PRECISION_ERRATA  0x0
+#define PF_FLOATING_POINT_EMULATED  0x1
+#define PF_COMPARE_EXCHANGE_DOUBLE  0x2
+#define PF_MMX_INSTRUCTIONS_AVAILABLE  0x3
+#define PF_PPC_MOVEMEM_64BIT_OK  0x4
+#define PF_ALPHA_BYTE_INSTRUCTIONS  0x5
+#define PF_XMMI_INSTRUCTIONS_AVAILABLE  0x6
+#define PF_3DNOW_INSTRUCTIONS_AVAILABLE  0x7
+#define PF_RDTSC_INSTRUCTION_AVAILABLE  0x8
+#define PF_PAE_ENABLED  0x9
+#define PF_XMMI64_INSTRUCTIONS_AVAILABLE  0xa
+#define PF_SSE_DAZ_MODE_AVAILABLE  0xb
+#define PF_NX_ENABLED  0xc
+#define PF_SSE3_INSTRUCTIONS_AVAILABLE  0xd
+#define PF_COMPARE_EXCHANGE128  0xe
+#define PF_COMPARE64_EXCHANGE128  0xf
+#define PF_CHANNELS_ENABLED  0x10
+#define PF_XSAVE_ENABLED  0x11
+#define PF_ARM_VFP_32_REGISTERS_AVAILABLE  0x12
+#define PF_ARM_NEON_INSTRUCTIONS_AVAILABLE  0x13
+#define PF_SECOND_LEVEL_ADDRESS_TRANSLATION  0x14
+#define PF_VIRT_FIRMWARE_ENABLED  0x15
+#define PF_RDWRFSGSBASE_AVAILABLE  0x16
+#define PF_FASTFAIL_AVAILABLE  0x17
+#define PF_ARM_DIVIDE_INSTRUCTION_AVAILABLE  0x18
+#define PF_ARM_64BIT_LOADSTORE_ATOMIC  0x19
+#define PF_ARM_EXTERNAL_CACHE_AVAILABLE  0x1a
+#define PF_ARM_FMAC_INSTRUCTIONS_AVAILABLE  0x1b
+#define PF_RDRAND_INSTRUCTION_AVAILABLE  0x1c
+#define PF_ARM_V8_INSTRUCTIONS_AVAILABLE  0x1d
+#define PF_ARM_V8_CRYPTO_INSTRUCTIONS_AVAILABLE  0x1e
+#define PF_ARM_V8_CRC32_INSTRUCTIONS_AVAILABLE  0x1f
+#define PF_RDTSCP_INSTRUCTION_AVAILABLE  0x20
+#define PF_RDPID_INSTRUCTION_AVAILABLE  0x21
+#define PF_ARM_V81_ATOMIC_INSTRUCTIONS_AVAILABLE  0x22
+#define PF_MONITORX_INSTRUCTION_AVAILABLE  0x23
+#define PF_SSSE3_INSTRUCTIONS_AVAILABLE  0x24
+#define PF_SSE4_1_INSTRUCTIONS_AVAILABLE  0x25
+#define PF_SSE4_2_INSTRUCTIONS_AVAILABLE  0x26
+#define PF_AVX_INSTRUCTIONS_AVAILABLE  0x27
+#define PF_AVX2_INSTRUCTIONS_AVAILABLE  0x28
+#define PF_AVX512F_INSTRUCTIONS_AVAILABLE  0x29
+#define PF_ERMS_AVAILABLE  0x2a
+#define PF_ARM_V82_DP_INSTRUCTIONS_AVAILABLE  0x2b
+#define PF_ARM_V83_JSCVT_INSTRUCTIONS_AVAILABLE  0x2c
+#define PF_ARM_V83_LRCPC_INSTRUCTIONS_AVAILABLE  0x2d
+
+; PROG_INVOKE_SETTING
+#define ProgressInvokeNever  0x1
+#define ProgressInvokeEveryObject  0x2
+#define ProgressInvokeOnError  0x3
+#define ProgressCancelOperation  0x4
+#define ProgressRetryOperation  0x5
+#define ProgressInvokePrePostError  0x6
+
+; PROPERTYORIGIN
+#define PO_STATE  0x0
+#define PO_PART  0x1
+#define PO_CLASS  0x2
+#define PO_GLOBAL  0x3
+#define PO_NOTFOUND  0x4
+
+; PROPSPEC_KIND
+#define PRSPEC_LPWSTR  0x0
+#define PRSPEC_PROPID  0x1
+
+; PROPVAR_CHANGE_FLAGS
+#define PVCHF_DEFAULT  0x0
+#define PVCHF_NOVALUEPROP  0x1
+#define PVCHF_ALPHABOOL  0x2
+#define PVCHF_NOUSEROVERRIDE  0x4
+#define PVCHF_LOCALBOOL  0x8
+#define PVCHF_NOHEXSTRING  0x10
+
+; PROXY_AUTO_DETECT_TYPE
+#define PROXY_AUTO_DETECT_TYPE_DHCP  0x1
+#define PROXY_AUTO_DETECT_TYPE_DNS_A  0x2
+
+; PSPCB_MESSAGE
+#define PSPCB_ADDREF  0x0
+#define PSPCB_CREATE  0x2
+#define PSPCB_RELEASE  0x1
+#define PSPCB_SI_INITDIALOG  0x401
+
+; PURGE_COMM_FLAGS
+#define PURGE_RXABORT  0x2
+#define PURGE_RXCLEAR  0x8
+#define PURGE_TXABORT  0x1
+#define PURGE_TXCLEAR  0x4
+
+; QUERY_DISPLAY_CONFIG_FLAGS
+#define QDC_ALL_PATHS  0x1
+#define QDC_ONLY_ACTIVE_PATHS  0x2
+#define QDC_DATABASE_CURRENT  0x4
+#define QDC_VIRTUAL_MODE_AWARE  0x10
+#define QDC_INCLUDE_HMD  0x20
+#define QDC_VIRTUAL_REFRESH_RATE_AWARE  0x40
+
+; QUERY_USER_NOTIFICATION_STATE
+#define QUNS_NOT_PRESENT  0x1
+#define QUNS_BUSY  0x2
+#define QUNS_RUNNING_D3D_FULL_SCREEN  0x3
+#define QUNS_PRESENTATION_MODE  0x4
+#define QUNS_ACCEPTS_NOTIFICATIONS  0x5
+#define QUNS_QUIET_TIME  0x6
+#define QUNS_APP  0x7
+
+; QUEUE_STATUS_FLAGS
+#define QS_ALLEVENTS  0x4bf
+#define QS_ALLINPUT  0x4ff
+#define QS_ALLPOSTMESSAGE  0x100
+#define QS_HOTKEY  0x80
+#define QS_INPUT  0x407
+#define QS_KEY  0x1
+#define QS_MOUSE  0x6
+#define QS_MOUSEBUTTON  0x4
+#define QS_MOUSEMOVE  0x2
+#define QS_PAINT  0x20
+#define QS_POSTMESSAGE  0x8
+#define QS_RAWINPUT  0x400
+#define QS_SENDMESSAGE  0x40
+#define QS_TIMER  0x10
+
 ; R2_MODE
 #define R2_BLACK  0x1
 #define R2_NOTMERGEPEN  0x2
@@ -1062,9 +10989,61 @@
 #define R2_WHITE  0x10
 #define R2_LAST  0x10
 
+; RAW_INPUT_DATA_COMMAND_FLAGS
+#define RID_HEADER  0x10000005
+#define RID_INPUT  0x10000003
+
+; RAW_INPUT_DEVICE_INFO_COMMAND
+#define RIDI_PREPARSEDDATA  0x20000005
+#define RIDI_DEVICENAME  0x20000007
+#define RIDI_DEVICEINFO  0x2000000b
+
+; RAWINPUTDEVICE_FLAGS
+#define RIDEV_REMOVE  0x1
+#define RIDEV_EXCLUDE  0x10
+#define RIDEV_PAGEONLY  0x20
+#define RIDEV_NOLEGACY  0x30
+#define RIDEV_INPUTSINK  0x100
+#define RIDEV_CAPTUREMOUSE  0x200
+#define RIDEV_NOHOTKEYS  0x200
+#define RIDEV_APPKEYS  0x400
+#define RIDEV_EXINPUTSINK  0x1000
+#define RIDEV_DEVNOTIFY  0x2000
+
+; READ_DIRECTORY_NOTIFY_INFORMATION_CLASS
+#define ReadDirectoryNotifyInformation  0x1
+#define ReadDirectoryNotifyExtendedInformation  0x2
+#define ReadDirectoryNotifyFullInformation  0x3
+#define ReadDirectoryNotifyMaximumInformation  0x4
+
+; READ_EVENT_LOG_READ_FLAGS
+#define EVENTLOG_SEEK_READ  0x2
+#define EVENTLOG_SEQUENTIAL_READ  0x1
+
+; REDRAW_WINDOW_FLAGS
+#define RDW_INVALIDATE  0x1
+#define RDW_INTERNALPAINT  0x2
+#define RDW_ERASE  0x4
+#define RDW_VALIDATE  0x8
+#define RDW_NOINTERNALPAINT  0x10
+#define RDW_NOERASE  0x20
+#define RDW_NOCHILDREN  0x40
+#define RDW_ALLCHILDREN  0x80
+#define RDW_UPDATENOW  0x100
+#define RDW_ERASENOW  0x200
+#define RDW_FRAME  0x400
+#define RDW_NOFRAME  0x800
+
 ; REG_CREATE_KEY_DISPOSITION
 #define REG_CREATED_NEW_KEY  0x1
 #define REG_OPENED_EXISTING_KEY  0x2
+
+; REG_NOTIFY_FILTER
+#define REG_NOTIFY_CHANGE_NAME  0x1
+#define REG_NOTIFY_CHANGE_ATTRIBUTES  0x2
+#define REG_NOTIFY_CHANGE_LAST_SET  0x4
+#define REG_NOTIFY_CHANGE_SECURITY  0x8
+#define REG_NOTIFY_THREAD_AGNOSTIC  0x10000000
 
 ; REG_OPEN_CREATE_OPTIONS
 #define REG_OPTION_RESERVED  0x0
@@ -1074,6 +11053,27 @@
 #define REG_OPTION_BACKUP_RESTORE  0x4
 #define REG_OPTION_OPEN_LINK  0x8
 #define REG_OPTION_DONT_VIRTUALIZE  0x10
+
+; REG_RESTORE_KEY_FLAGS
+#define REG_FORCE_RESTORE  0x8
+#define REG_WHOLE_HIVE_VOLATILE  0x1
+
+; REG_ROUTINE_FLAGS
+#define RRF_RT_DWORD  0x18
+#define RRF_RT_QWORD  0x48
+#define RRF_RT_REG_NONE  0x1
+#define RRF_RT_REG_SZ  0x2
+#define RRF_RT_REG_EXPAND_SZ  0x4
+#define RRF_RT_REG_BINARY  0x8
+#define RRF_RT_REG_DWORD  0x10
+#define RRF_RT_REG_MULTI_SZ  0x20
+#define RRF_RT_REG_QWORD  0x40
+#define RRF_RT_ANY  0xffff
+#define RRF_SUBKEY_WOW6464KEY  0x10000
+#define RRF_SUBKEY_WOW6432KEY  0x20000
+#define RRF_WOW64_MASK  0x30000
+#define RRF_NOEXPAND  0x10000000
+#define RRF_ZEROONFAILURE  0x20000000
 
 ; REG_SAM_FLAGS
 #define KEY_QUERY_VALUE  0x1
@@ -1090,6 +11090,11 @@
 #define KEY_EXECUTE  0x20019
 #define KEY_ALL_ACCESS  0xf003f
 
+; REG_SAVE_FORMAT
+#define REG_STANDARD_FORMAT  0x1
+#define REG_LATEST_FORMAT  0x2
+#define REG_NO_COMPRESSION  0x4
+
 ; REG_VALUE_TYPE
 #define REG_NONE  0x0
 #define REG_SZ  0x1
@@ -1105,6 +11110,217 @@
 #define REG_RESOURCE_REQUIREMENTS_LIST  0xa
 #define REG_QWORD  0xb
 #define REG_QWORD_LITTLE_ENDIAN  0xb
+
+; REGISTER_APPLICATION_RESTART_FLAGS
+#define RESTART_NO_CRASH  0x1
+#define RESTART_NO_HANG  0x2
+#define RESTART_NO_PATCH  0x4
+#define RESTART_NO_REBOOT  0x8
+
+; REGISTER_NOTIFICATION_FLAGS
+#define DEVICE_NOTIFY_SERVICE_HANDLE  0x1
+#define DEVICE_NOTIFY_CALLBACK  0x2
+#define DEVICE_NOTIFY_WINDOW_HANDLE  0x0
+#define DEVICE_NOTIFY_ALL_INTERFACE_CLASSES  0x4
+
+; REGISTER_TOUCH_WINDOW_FLAGS
+#define TWF_FINETOUCH  0x1
+#define TWF_WANTPALM  0x2
+
+; REGKIND
+#define REGKIND_DEFAULT  0x0
+#define REGKIND_REGISTER  0x1
+#define REGKIND_NONE  0x2
+
+; REPLACE_FILE_FLAGS
+#define REPLACEFILE_WRITE_THROUGH  0x1
+#define REPLACEFILE_IGNORE_MERGE_ERRORS  0x2
+#define REPLACEFILE_IGNORE_ACL_ERRORS  0x4
+
+; REPORT_EVENT_TYPE
+#define EVENTLOG_SUCCESS  0x0
+#define EVENTLOG_AUDIT_FAILURE  0x10
+#define EVENTLOG_AUDIT_SUCCESS  0x8
+#define EVENTLOG_ERROR_TYPE  0x1
+#define EVENTLOG_INFORMATION_TYPE  0x4
+#define EVENTLOG_WARNING_TYPE  0x2
+
+; RESTRICTIONS
+#define REST_NONE  0x0
+#define REST_NORUN  0x1
+#define REST_NOCLOSE  0x2
+#define REST_NOSAVESET  0x4
+#define REST_NOFILEMENU  0x8
+#define REST_NOSETFOLDERS  0x10
+#define REST_NOSETTASKBAR  0x20
+#define REST_NODESKTOP  0x40
+#define REST_NOFIND  0x80
+#define REST_NODRIVES  0x100
+#define REST_NODRIVEAUTORUN  0x200
+#define REST_NODRIVETYPEAUTORUN  0x400
+#define REST_NONETHOOD  0x800
+#define REST_STARTBANNER  0x1000
+#define REST_RESTRICTRUN  0x2000
+#define REST_NOPRINTERTABS  0x4000
+#define REST_NOPRINTERDELETE  0x8000
+#define REST_NOPRINTERADD  0x10000
+#define REST_NOSTARTMENUSUBFOLDERS  0x20000
+#define REST_MYDOCSONNET  0x40000
+#define REST_NOEXITTODOS  0x80000
+#define REST_ENFORCESHELLEXTSECURITY  0x100000
+#define REST_LINKRESOLVEIGNORELINKINFO  0x200000
+#define REST_NOCOMMONGROUPS  0x400000
+#define REST_SEPARATEDESKTOPPROCESS  0x800000
+#define REST_NOWEB  0x1000000
+#define REST_NOTRAYCONTEXTMENU  0x2000000
+#define REST_NOVIEWCONTEXTMENU  0x4000000
+#define REST_NONETCONNECTDISCONNECT  0x8000000
+#define REST_STARTMENULOGOFF  0x10000000
+#define REST_NOSETTINGSASSIST  0x20000000
+#define REST_NOINTERNETICON  0x40000001
+#define REST_NORECENTDOCSHISTORY  0x40000002
+#define REST_NORECENTDOCSMENU  0x40000003
+#define REST_NOACTIVEDESKTOP  0x40000004
+#define REST_NOACTIVEDESKTOPCHANGES  0x40000005
+#define REST_NOFAVORITESMENU  0x40000006
+#define REST_CLEARRECENTDOCSONEXIT  0x40000007
+#define REST_CLASSICSHELL  0x40000008
+#define REST_NOCUSTOMIZEWEBVIEW  0x40000009
+#define REST_NOHTMLWALLPAPER  0x40000010
+#define REST_NOCHANGINGWALLPAPER  0x40000011
+#define REST_NODESKCOMP  0x40000012
+#define REST_NOADDDESKCOMP  0x40000013
+#define REST_NODELDESKCOMP  0x40000014
+#define REST_NOCLOSEDESKCOMP  0x40000015
+#define REST_NOCLOSE_DRAGDROPBAND  0x40000016
+#define REST_NOMOVINGBAND  0x40000017
+#define REST_NOEDITDESKCOMP  0x40000018
+#define REST_NORESOLVESEARCH  0x40000019
+#define REST_NORESOLVETRACK  0x4000001a
+#define REST_FORCECOPYACLWITHFILE  0x4000001b
+#define REST_NOFORGETSOFTWAREUPDATE  0x4000001d
+#define REST_NOSETACTIVEDESKTOP  0x4000001e
+#define REST_NOUPDATEWINDOWS  0x4000001f
+#define REST_NOCHANGESTARMENU  0x40000020
+#define REST_NOFOLDEROPTIONS  0x40000021
+#define REST_HASFINDCOMPUTERS  0x40000022
+#define REST_INTELLIMENUS  0x40000023
+#define REST_RUNDLGMEMCHECKBOX  0x40000024
+#define REST_ARP_ShowPostSetup  0x40000025
+#define REST_NOCSC  0x40000026
+#define REST_NOCONTROLPANEL  0x40000027
+#define REST_ENUMWORKGROUP  0x40000028
+#define REST_ARP_NOARP  0x40000029
+#define REST_ARP_NOREMOVEPAGE  0x4000002a
+#define REST_ARP_NOADDPAGE  0x4000002b
+#define REST_ARP_NOWINSETUPPAGE  0x4000002c
+#define REST_GREYMSIADS  0x4000002d
+#define REST_NOCHANGEMAPPEDDRIVELABEL  0x4000002e
+#define REST_NOCHANGEMAPPEDDRIVECOMMENT  0x4000002f
+#define REST_MaxRecentDocs  0x40000030
+#define REST_NONETWORKCONNECTIONS  0x40000031
+#define REST_FORCESTARTMENULOGOFF  0x40000032
+#define REST_NOWEBVIEW  0x40000033
+#define REST_NOCUSTOMIZETHISFOLDER  0x40000034
+#define REST_NOENCRYPTION  0x40000035
+#define REST_DONTSHOWSUPERHIDDEN  0x40000037
+#define REST_NOSHELLSEARCHBUTTON  0x40000038
+#define REST_NOHARDWARETAB  0x40000039
+#define REST_NORUNASINSTALLPROMPT  0x4000003a
+#define REST_PROMPTRUNASINSTALLNETPATH  0x4000003b
+#define REST_NOMANAGEMYCOMPUTERVERB  0x4000003c
+#define REST_DISALLOWRUN  0x4000003e
+#define REST_NOWELCOMESCREEN  0x4000003f
+#define REST_RESTRICTCPL  0x40000040
+#define REST_DISALLOWCPL  0x40000041
+#define REST_NOSMBALLOONTIP  0x40000042
+#define REST_NOSMHELP  0x40000043
+#define REST_NOWINKEYS  0x40000044
+#define REST_NOENCRYPTONMOVE  0x40000045
+#define REST_NOLOCALMACHINERUN  0x40000046
+#define REST_NOCURRENTUSERRUN  0x40000047
+#define REST_NOLOCALMACHINERUNONCE  0x40000048
+#define REST_NOCURRENTUSERRUNONCE  0x40000049
+#define REST_FORCEACTIVEDESKTOPON  0x4000004a
+#define REST_NOVIEWONDRIVE  0x4000004c
+#define REST_NONETCRAWL  0x4000004d
+#define REST_NOSHAREDDOCUMENTS  0x4000004e
+#define REST_NOSMMYDOCS  0x4000004f
+#define REST_NOSMMYPICS  0x40000050
+#define REST_ALLOWBITBUCKDRIVES  0x40000051
+#define REST_NONLEGACYSHELLMODE  0x40000052
+#define REST_NOCONTROLPANELBARRICADE  0x40000053
+#define REST_NOSTARTPAGE  0x40000054
+#define REST_NOAUTOTRAYNOTIFY  0x40000055
+#define REST_NOTASKGROUPING  0x40000056
+#define REST_NOCDBURNING  0x40000057
+#define REST_MYCOMPNOPROP  0x40000058
+#define REST_MYDOCSNOPROP  0x40000059
+#define REST_NOSTARTPANEL  0x4000005a
+#define REST_NODISPLAYAPPEARANCEPAGE  0x4000005b
+#define REST_NOTHEMESTAB  0x4000005c
+#define REST_NOVISUALSTYLECHOICE  0x4000005d
+#define REST_NOSIZECHOICE  0x4000005e
+#define REST_NOCOLORCHOICE  0x4000005f
+#define REST_SETVISUALSTYLE  0x40000060
+#define REST_STARTRUNNOHOMEPATH  0x40000061
+#define REST_NOUSERNAMEINSTARTPANEL  0x40000062
+#define REST_NOMYCOMPUTERICON  0x40000063
+#define REST_NOSMNETWORKPLACES  0x40000064
+#define REST_NOSMPINNEDLIST  0x40000065
+#define REST_NOSMMYMUSIC  0x40000066
+#define REST_NOSMEJECTPC  0x40000067
+#define REST_NOSMMOREPROGRAMS  0x40000068
+#define REST_NOSMMFUPROGRAMS  0x40000069
+#define REST_NOTRAYITEMSDISPLAY  0x4000006a
+#define REST_NOTOOLBARSONTASKBAR  0x4000006b
+#define REST_NOSMCONFIGUREPROGRAMS  0x4000006f
+#define REST_HIDECLOCK  0x40000070
+#define REST_NOLOWDISKSPACECHECKS  0x40000071
+#define REST_NOENTIRENETWORK  0x40000072
+#define REST_NODESKTOPCLEANUP  0x40000073
+#define REST_BITBUCKNUKEONDELETE  0x40000074
+#define REST_BITBUCKCONFIRMDELETE  0x40000075
+#define REST_BITBUCKNOPROP  0x40000076
+#define REST_NODISPBACKGROUND  0x40000077
+#define REST_NODISPSCREENSAVEPG  0x40000078
+#define REST_NODISPSETTINGSPG  0x40000079
+#define REST_NODISPSCREENSAVEPREVIEW  0x4000007a
+#define REST_NODISPLAYCPL  0x4000007b
+#define REST_HIDERUNASVERB  0x4000007c
+#define REST_NOTHUMBNAILCACHE  0x4000007d
+#define REST_NOSTRCMPLOGICAL  0x4000007e
+#define REST_NOPUBLISHWIZARD  0x4000007f
+#define REST_NOONLINEPRINTSWIZARD  0x40000080
+#define REST_NOWEBSERVICES  0x40000081
+#define REST_ALLOWUNHASHEDWEBVIEW  0x40000082
+#define REST_ALLOWLEGACYWEBVIEW  0x40000083
+#define REST_REVERTWEBVIEWSECURITY  0x40000084
+#define REST_INHERITCONSOLEHANDLES  0x40000086
+#define REST_NOREMOTERECURSIVEEVENTS  0x40000089
+#define REST_NOREMOTECHANGENOTIFY  0x40000091
+#define REST_NOENUMENTIRENETWORK  0x40000093
+#define REST_NOINTERNETOPENWITH  0x40000095
+#define REST_DONTRETRYBADNETNAME  0x4000009b
+
+; RGN_COMBINE_MODE
+#define RGN_AND  0x1
+#define RGN_OR  0x2
+#define RGN_XOR  0x3
+#define RGN_DIFF  0x4
+#define RGN_COPY  0x5
+#define RGN_MIN  0x1
+#define RGN_MAX  0x5
+
+; RID_DEVICE_INFO_TYPE
+#define RIM_TYPEMOUSE  0x0
+#define RIM_TYPEKEYBOARD  0x1
+#define RIM_TYPEHID  0x2
+
+; RIP_INFO_TYPE
+#define SLE_ERROR  0x1
+#define SLE_MINORERROR  0x2
+#define SLE_WARNING  0x3
 
 ; ROP_CODE
 #define BLACKNESS  0x42
@@ -1125,10 +11341,230 @@
 #define CAPTUREBLT  0x40000000
 #define NOMIRRORBITMAP  0x80000000
 
+; ROT_FLAGS
+#define ROTFLAGS_REGISTRATIONKEEPSALIVE  0x1
+#define ROTFLAGS_ALLOWANYCLIENT  0x2
+
+; RTL_UMS_SCHEDULER_REASON
+#define UmsSchedulerStartup  0x0
+#define UmsSchedulerThreadBlocked  0x1
+#define UmsSchedulerThreadYield  0x2
+
+; SAFER_COMPUTE_TOKEN_FROM_LEVEL_FLAGS
+#define SAFER_TOKEN_NULL_IF_EQUAL  0x1
+#define SAFER_TOKEN_COMPARE_ONLY  0x2
+#define SAFER_TOKEN_MAKE_INERT  0x4
+#define SAFER_TOKEN_WANT_FLAGS  0x8
+
+; SAFER_OBJECT_INFO_CLASS
+#define SaferObjectLevelId  0x1
+#define SaferObjectScopeId  0x2
+#define SaferObjectFriendlyName  0x3
+#define SaferObjectDescription  0x4
+#define SaferObjectBuiltin  0x5
+#define SaferObjectDisallowed  0x6
+#define SaferObjectDisableMaxPrivilege  0x7
+#define SaferObjectInvertDeletedPrivileges  0x8
+#define SaferObjectDeletedPrivileges  0x9
+#define SaferObjectDefaultOwner  0xa
+#define SaferObjectSidsToDisable  0xb
+#define SaferObjectRestrictedSidsInverted  0xc
+#define SaferObjectRestrictedSidsAdded  0xd
+#define SaferObjectAllIdentificationGuids  0xe
+#define SaferObjectSingleIdentification  0xf
+#define SaferObjectExtendedError  0x10
+
+; SAFER_POLICY_INFO_CLASS
+#define SaferPolicyLevelList  0x1
+#define SaferPolicyEnableTransparentEnforcement  0x2
+#define SaferPolicyDefaultLevel  0x3
+#define SaferPolicyEvaluateUserScope  0x4
+#define SaferPolicyScopeFlags  0x5
+#define SaferPolicyDefaultLevelFlags  0x6
+#define SaferPolicyAuthenticodeEnabled  0x7
+
+; SC_ENUM_TYPE
+#define SC_ENUM_PROCESS_INFO  0x0
+
+; SC_STATUS_TYPE
+#define SC_STATUS_PROCESS_INFO  0x0
+
+; SCNRT_STATUS
+#define SCNRT_ENABLE  0x0
+#define SCNRT_DISABLE  0x1
+
+; SCROLL_WINDOW_FLAGS
+#define SW_SCROLLCHILDREN  0x1
+#define SW_INVALIDATE  0x2
+#define SW_ERASE  0x4
+#define SW_SMOOTHSCROLL  0x10
+
+; SCROLLBAR_CONSTANTS
+#define SB_CTL  0x2
+#define SB_HORZ  0x0
+#define SB_VERT  0x1
+#define SB_BOTH  0x3
+
+; SCROLLINFO_MASK
+#define SIF_ALL  0x17
+#define SIF_DISABLENOSCROLL  0x8
+#define SIF_PAGE  0x2
+#define SIF_POS  0x4
+#define SIF_RANGE  0x1
+#define SIF_TRACKPOS  0x10
+
+; SE_OBJECT_TYPE
+#define SE_UNKNOWN_OBJECT_TYPE  0x0
+#define SE_FILE_OBJECT  0x1
+#define SE_SERVICE  0x2
+#define SE_PRINTER  0x3
+#define SE_REGISTRY_KEY  0x4
+#define SE_LMSHARE  0x5
+#define SE_KERNEL_OBJECT  0x6
+#define SE_WINDOW_OBJECT  0x7
+#define SE_DS_OBJECT  0x8
+#define SE_DS_OBJECT_ALL  0x9
+#define SE_PROVIDER_DEFINED_OBJECT  0xa
+#define SE_WMIGUID_OBJECT  0xb
+#define SE_REGISTRY_WOW64_32KEY  0xc
+#define SE_REGISTRY_WOW64_64KEY  0xd
+
+; SECURITY_AUTO_INHERIT_FLAGS
+#define SEF_AVOID_OWNER_CHECK  0x10
+#define SEF_AVOID_OWNER_RESTRICTION  0x1000
+#define SEF_AVOID_PRIVILEGE_CHECK  0x8
+#define SEF_DACL_AUTO_INHERIT  0x1
+#define SEF_DEFAULT_DESCRIPTOR_FOR_OBJECT  0x4
+#define SEF_DEFAULT_GROUP_FROM_PARENT  0x40
+#define SEF_DEFAULT_OWNER_FROM_PARENT  0x20
+#define SEF_MACL_NO_EXECUTE_UP  0x400
+#define SEF_MACL_NO_READ_UP  0x200
+#define SEF_MACL_NO_WRITE_UP  0x100
+#define SEF_SACL_AUTO_INHERIT  0x2
+
+; SECURITY_DESCRIPTOR_CONTROL
+#define SE_OWNER_DEFAULTED  0x1
+#define SE_GROUP_DEFAULTED  0x2
+#define SE_DACL_PRESENT  0x4
+#define SE_DACL_DEFAULTED  0x8
+#define SE_SACL_PRESENT  0x10
+#define SE_SACL_DEFAULTED  0x20
+#define SE_DACL_AUTO_INHERIT_REQ  0x100
+#define SE_SACL_AUTO_INHERIT_REQ  0x200
+#define SE_DACL_AUTO_INHERITED  0x400
+#define SE_SACL_AUTO_INHERITED  0x800
+#define SE_DACL_PROTECTED  0x1000
+#define SE_SACL_PROTECTED  0x2000
+#define SE_RM_CONTROL_VALID  0x4000
+#define SE_SELF_RELATIVE  0x8000
+
+; SECURITY_IMPERSONATION_LEVEL
+#define SecurityAnonymous  0x0
+#define SecurityIdentification  0x1
+#define SecurityImpersonation  0x2
+#define SecurityDelegation  0x3
+
+; SEND_MESSAGE_TIMEOUT_FLAGS
+#define SMTO_ABORTIFHUNG  0x2
+#define SMTO_BLOCK  0x1
+#define SMTO_NORMAL  0x0
+#define SMTO_NOTIMEOUTIFNOTHUNG  0x8
+#define SMTO_ERRORONEXIT  0x20
+
+; SERVICE_CONFIG
+#define SERVICE_CONFIG_DELAYED_AUTO_START_INFO  0x3
+#define SERVICE_CONFIG_DESCRIPTION  0x1
+#define SERVICE_CONFIG_FAILURE_ACTIONS  0x2
+#define SERVICE_CONFIG_FAILURE_ACTIONS_FLAG  0x4
+#define SERVICE_CONFIG_PREFERRED_NODE  0x9
+#define SERVICE_CONFIG_PRESHUTDOWN_INFO  0x7
+#define SERVICE_CONFIG_REQUIRED_PRIVILEGES_INFO  0x6
+#define SERVICE_CONFIG_SERVICE_SID_INFO  0x5
+#define SERVICE_CONFIG_TRIGGER_INFO  0x8
+#define SERVICE_CONFIG_LAUNCH_PROTECTED  0xc
+
+; SERVICE_ERROR
+#define SERVICE_ERROR_CRITICAL  0x3
+#define SERVICE_ERROR_IGNORE  0x0
+#define SERVICE_ERROR_NORMAL  0x1
+#define SERVICE_ERROR_SEVERE  0x2
+#define SERVICE_NO_CHANGE  0xffffffff
+
+; SERVICE_NOTIFY
+#define SERVICE_NOTIFY_CREATED  0x80
+#define SERVICE_NOTIFY_CONTINUE_PENDING  0x10
+#define SERVICE_NOTIFY_DELETE_PENDING  0x200
+#define SERVICE_NOTIFY_DELETED  0x100
+#define SERVICE_NOTIFY_PAUSE_PENDING  0x20
+#define SERVICE_NOTIFY_PAUSED  0x40
+#define SERVICE_NOTIFY_RUNNING  0x8
+#define SERVICE_NOTIFY_START_PENDING  0x2
+#define SERVICE_NOTIFY_STOP_PENDING  0x4
+#define SERVICE_NOTIFY_STOPPED  0x1
+
+; SERVICE_RUNS_IN_PROCESS
+#define SERVICE_RUNS_IN_NON_SYSTEM_OR_NOT_RUNNING  0x0
+#define SERVICE_RUNS_IN_SYSTEM_PROCESS  0x1
+
+; SERVICE_START_TYPE
+#define SERVICE_AUTO_START  0x2
+#define SERVICE_BOOT_START  0x0
+#define SERVICE_DEMAND_START  0x3
+#define SERVICE_DISABLED  0x4
+#define SERVICE_SYSTEM_START  0x1
+#define SERVICE_NO_CHANGE  0xffffffff
+
+; SERVICE_STATUS_CURRENT_STATE
+#define SERVICE_CONTINUE_PENDING  0x5
+#define SERVICE_PAUSE_PENDING  0x6
+#define SERVICE_PAUSED  0x7
+#define SERVICE_RUNNING  0x4
+#define SERVICE_START_PENDING  0x2
+#define SERVICE_STOP_PENDING  0x3
+#define SERVICE_STOPPED  0x1
+
+; SET_BOUNDS_RECT_FLAGS
+#define DCB_ACCUMULATE  0x2
+#define DCB_DISABLE  0x8
+#define DCB_ENABLE  0x4
+#define DCB_RESET  0x1
+
+; SET_COMPOSITION_STRING_TYPE
+#define SCS_SETSTR  0x9
+#define SCS_CHANGEATTR  0x12
+#define SCS_CHANGECLAUSE  0x24
+#define SCS_SETRECONVERTSTRING  0x10000
+#define SCS_QUERYRECONVERTSTRING  0x20000
+
+; SET_DISPLAY_CONFIG_FLAGS
+#define SDC_USE_DATABASE_CURRENT  0xf
+#define SDC_TOPOLOGY_INTERNAL  0x1
+#define SDC_TOPOLOGY_CLONE  0x2
+#define SDC_TOPOLOGY_EXTEND  0x4
+#define SDC_TOPOLOGY_EXTERNAL  0x8
+#define SDC_TOPOLOGY_SUPPLIED  0x10
+#define SDC_USE_SUPPLIED_DISPLAY_CONFIG  0x20
+#define SDC_VALIDATE  0x40
+#define SDC_APPLY  0x80
+#define SDC_NO_OPTIMIZATION  0x100
+#define SDC_SAVE_TO_DATABASE  0x200
+#define SDC_ALLOW_CHANGES  0x400
+#define SDC_PATH_PERSIST_IF_REQUIRED  0x800
+#define SDC_FORCE_MODE_ENUMERATION  0x1000
+#define SDC_ALLOW_PATH_ORDER_CHANGES  0x2000
+#define SDC_VIRTUAL_MODE_AWARE  0x8000
+#define SDC_VIRTUAL_REFRESH_RATE_AWARE  0x20000
+
 ; SET_FILE_POINTER_MOVE_METHOD
 #define FILE_BEGIN  0x0
 #define FILE_CURRENT  0x1
 #define FILE_END  0x2
+
+; SET_THEME_APP_PROPERTIES_FLAGS
+#define ALLOW_NONCLIENT  0x1
+#define ALLOW_CONTROLS  0x2
+#define ALLOW_WEBCONTENT  0x4
+#define VALIDBITS  0x7
 
 ; SET_WINDOW_POS_FLAGS
 #define SWP_ASYNCWINDOWPOS  0x4000
@@ -1146,6 +11582,57 @@
 #define SWP_NOSIZE  0x1
 #define SWP_NOZORDER  0x4
 #define SWP_SHOWWINDOW  0x40
+
+; SETPROCESSWORKINGSETSIZEEX_FLAGS
+#define QUOTA_LIMITS_HARDWS_MIN_ENABLE  0x1
+#define QUOTA_LIMITS_HARDWS_MIN_DISABLE  0x2
+#define QUOTA_LIMITS_HARDWS_MAX_ENABLE  0x4
+#define QUOTA_LIMITS_HARDWS_MAX_DISABLE  0x8
+
+; SETTINGSTATUS
+#define RSOPUnspecified  0x0
+#define RSOPApplied  0x1
+#define RSOPIgnored  0x2
+#define RSOPFailed  0x3
+#define RSOPSubsettingFailed  0x4
+
+; SFGAO_FLAGS
+#define SFGAO_CANCOPY  0x1
+#define SFGAO_CANMOVE  0x2
+#define SFGAO_CANLINK  0x4
+#define SFGAO_STORAGE  0x8
+#define SFGAO_CANRENAME  0x10
+#define SFGAO_CANDELETE  0x20
+#define SFGAO_HASPROPSHEET  0x40
+#define SFGAO_DROPTARGET  0x100
+#define SFGAO_CAPABILITYMASK  0x177
+#define SFGAO_PLACEHOLDER  0x800
+#define SFGAO_SYSTEM  0x1000
+#define SFGAO_ENCRYPTED  0x2000
+#define SFGAO_ISSLOW  0x4000
+#define SFGAO_GHOSTED  0x8000
+#define SFGAO_LINK  0x10000
+#define SFGAO_SHARE  0x20000
+#define SFGAO_READONLY  0x40000
+#define SFGAO_HIDDEN  0x80000
+#define SFGAO_DISPLAYATTRMASK  0xfc000
+#define SFGAO_FILESYSANCESTOR  0x10000000
+#define SFGAO_FOLDER  0x20000000
+#define SFGAO_FILESYSTEM  0x40000000
+#define SFGAO_HASSUBFOLDER  0x80000000
+#define SFGAO_CONTENTSMASK  0x80000000
+#define SFGAO_VALIDATE  0x1000000
+#define SFGAO_REMOVABLE  0x2000000
+#define SFGAO_COMPRESSED  0x4000000
+#define SFGAO_BROWSABLE  0x8000000
+#define SFGAO_NONENUMERATED  0x100000
+#define SFGAO_NEWCONTENT  0x200000
+#define SFGAO_CANMONIKER  0x400000
+#define SFGAO_HASSTORAGE  0x400000
+#define SFGAO_STREAM  0x400000
+#define SFGAO_STORAGEANCESTOR  0x800000
+#define SFGAO_STORAGECAPMASK  0x70c50008
+#define SFGAO_PKEYSFGAOMASK  0x81044000
 
 ; SHCNE_ID
 #define SHCNE_RENAMEITEM  0x1
@@ -1188,6 +11675,37 @@
 #define SHCNF_PATH  0x5
 #define SHCNF_PRINTER  0x6
 
+; SHCNRF_SOURCE
+#define SHCNRF_InterruptLevel  0x1
+#define SHCNRF_ShellLevel  0x2
+#define SHCNRF_RecursiveInterrupt  0x1000
+#define SHCNRF_NewDelivery  0x8000
+
+; SHFMT_ID
+#define SHFMT_ID_DEFAULT  0xffff
+
+; SHFMT_OPT
+#define SHFMT_OPT_NONE  0x0
+#define SHFMT_OPT_FULL  0x1
+#define SHFMT_OPT_SYSONLY  0x2
+
+; SHGDFIL_FORMAT
+#define SHGDFIL_FINDDATA  0x1
+#define SHGDFIL_NETRESOURCE  0x2
+#define SHGDFIL_DESCRIPTIONID  0x3
+
+; SHGDNF
+#define SHGDN_NORMAL  0x0
+#define SHGDN_INFOLDER  0x1
+#define SHGDN_FOREDITING  0x1000
+#define SHGDN_FORADDRESSBAR  0x4000
+#define SHGDN_FORPARSING  0x8000
+
+; SHOP_TYPE
+#define SHOP_PRINTERNAME  0x1
+#define SHOP_FILEPATH  0x2
+#define SHOP_VOLUMEGUID  0x4
+
 ; SHOW_WINDOW_CMD
 #define SW_HIDE  0x0
 #define SW_SHOWNORMAL  0x1
@@ -1204,6 +11722,110 @@
 #define SW_SHOWDEFAULT  0xa
 #define SW_FORCEMINIMIZE  0xb
 #define SW_MAX  0xb
+
+; SHUTDOWN_FLAGS
+#define SHUTDOWN_FORCE_OTHERS  0x1
+#define SHUTDOWN_FORCE_SELF  0x2
+#define SHUTDOWN_RESTART  0x4
+#define SHUTDOWN_POWEROFF  0x8
+#define SHUTDOWN_NOREBOOT  0x10
+#define SHUTDOWN_GRACE_OVERRIDE  0x20
+#define SHUTDOWN_INSTALL_UPDATES  0x40
+#define SHUTDOWN_RESTARTAPPS  0x80
+#define SHUTDOWN_SKIP_SVC_PRESHUTDOWN  0x100
+#define SHUTDOWN_HYBRID  0x200
+#define SHUTDOWN_RESTART_BOOTOPTIONS  0x400
+#define SHUTDOWN_SOFT_REBOOT  0x800
+#define SHUTDOWN_MOBILE_UI  0x1000
+#define SHUTDOWN_ARSO  0x2000
+#define SHUTDOWN_CHECK_SAFE_FOR_SERVER  0x4000
+#define SHUTDOWN_VAIL_CONTAINER  0x8000
+#define SHUTDOWN_SYSTEM_INITIATED  0x10000
+
+; SHUTDOWN_REASON
+#define SHTDN_REASON_NONE  0x0
+#define SHTDN_REASON_FLAG_COMMENT_REQUIRED  0x1000000
+#define SHTDN_REASON_FLAG_DIRTY_PROBLEM_ID_REQUIRED  0x2000000
+#define SHTDN_REASON_FLAG_CLEAN_UI  0x4000000
+#define SHTDN_REASON_FLAG_DIRTY_UI  0x8000000
+#define SHTDN_REASON_FLAG_MOBILE_UI_RESERVED  0x10000000
+#define SHTDN_REASON_FLAG_USER_DEFINED  0x40000000
+#define SHTDN_REASON_FLAG_PLANNED  0x80000000
+#define SHTDN_REASON_MAJOR_OTHER  0x0
+#define SHTDN_REASON_MAJOR_NONE  0x0
+#define SHTDN_REASON_MAJOR_HARDWARE  0x10000
+#define SHTDN_REASON_MAJOR_OPERATINGSYSTEM  0x20000
+#define SHTDN_REASON_MAJOR_SOFTWARE  0x30000
+#define SHTDN_REASON_MAJOR_APPLICATION  0x40000
+#define SHTDN_REASON_MAJOR_SYSTEM  0x50000
+#define SHTDN_REASON_MAJOR_POWER  0x60000
+#define SHTDN_REASON_MAJOR_LEGACY_API  0x70000
+#define SHTDN_REASON_MINOR_OTHER  0x0
+#define SHTDN_REASON_MINOR_NONE  0xff
+#define SHTDN_REASON_MINOR_MAINTENANCE  0x1
+#define SHTDN_REASON_MINOR_INSTALLATION  0x2
+#define SHTDN_REASON_MINOR_UPGRADE  0x3
+#define SHTDN_REASON_MINOR_RECONFIG  0x4
+#define SHTDN_REASON_MINOR_HUNG  0x5
+#define SHTDN_REASON_MINOR_UNSTABLE  0x6
+#define SHTDN_REASON_MINOR_DISK  0x7
+#define SHTDN_REASON_MINOR_PROCESSOR  0x8
+#define SHTDN_REASON_MINOR_NETWORKCARD  0x9
+#define SHTDN_REASON_MINOR_POWER_SUPPLY  0xa
+#define SHTDN_REASON_MINOR_CORDUNPLUGGED  0xb
+#define SHTDN_REASON_MINOR_ENVIRONMENT  0xc
+#define SHTDN_REASON_MINOR_HARDWARE_DRIVER  0xd
+#define SHTDN_REASON_MINOR_OTHERDRIVER  0xe
+#define SHTDN_REASON_MINOR_BLUESCREEN  0xf
+#define SHTDN_REASON_MINOR_SERVICEPACK  0x10
+#define SHTDN_REASON_MINOR_HOTFIX  0x11
+#define SHTDN_REASON_MINOR_SECURITYFIX  0x12
+#define SHTDN_REASON_MINOR_SECURITY  0x13
+#define SHTDN_REASON_MINOR_NETWORK_CONNECTIVITY  0x14
+#define SHTDN_REASON_MINOR_WMI  0x15
+#define SHTDN_REASON_MINOR_SERVICEPACK_UNINSTALL  0x16
+#define SHTDN_REASON_MINOR_HOTFIX_UNINSTALL  0x17
+#define SHTDN_REASON_MINOR_SECURITYFIX_UNINSTALL  0x18
+#define SHTDN_REASON_MINOR_MMC  0x19
+#define SHTDN_REASON_MINOR_SYSTEMRESTORE  0x1a
+#define SHTDN_REASON_MINOR_TERMSRV  0x20
+#define SHTDN_REASON_MINOR_DC_PROMOTION  0x21
+#define SHTDN_REASON_MINOR_DC_DEMOTION  0x22
+#define SHTDN_REASON_UNKNOWN  0xff
+#define SHTDN_REASON_LEGACY_API  0x80070000
+#define SHTDN_REASON_VALID_BIT_MASK  0xc0ffffff
+
+; SIATTRIBFLAGS
+#define SIATTRIBFLAGS_AND  0x1
+#define SIATTRIBFLAGS_OR  0x2
+#define SIATTRIBFLAGS_APPCOMPAT  0x3
+#define SIATTRIBFLAGS_MASK  0x3
+#define SIATTRIBFLAGS_ALLITEMS  0x4000
+
+; SID_NAME_USE
+#define SidTypeUser  0x1
+#define SidTypeGroup  0x2
+#define SidTypeDomain  0x3
+#define SidTypeAlias  0x4
+#define SidTypeWellKnownGroup  0x5
+#define SidTypeDeletedAccount  0x6
+#define SidTypeInvalid  0x7
+#define SidTypeUnknown  0x8
+#define SidTypeComputer  0x9
+#define SidTypeLabel  0xa
+#define SidTypeLogonSession  0xb
+
+; SIGDN
+#define SIGDN_NORMALDISPLAY  0x0
+#define SIGDN_PARENTRELATIVEPARSING  -2147385343
+#define SIGDN_DESKTOPABSOLUTEPARSING  -2147319808
+#define SIGDN_PARENTRELATIVEEDITING  -2147282943
+#define SIGDN_DESKTOPABSOLUTEEDITING  -2147172352
+#define SIGDN_FILESYSPATH  -2147123200
+#define SIGDN_URL  -2147057664
+#define SIGDN_PARENTRELATIVEFORADDRESSBAR  -2146975743
+#define SIGDN_PARENTRELATIVE  -2146959359
+#define SIGDN_PARENTRELATIVEFORUI  -2146877439
 
 ; SND_FLAGS
 #define SND_APPLICATION  0x80
@@ -1222,6 +11844,51 @@
 #define SND_SYNC  0x0
 #define SND_SYSTEM  0x200000
 
+; SPACTION
+#define SPACTION_NONE  0x0
+#define SPACTION_MOVING  0x1
+#define SPACTION_COPYING  0x2
+#define SPACTION_RECYCLING  0x3
+#define SPACTION_APPLYINGATTRIBS  0x4
+#define SPACTION_DOWNLOADING  0x5
+#define SPACTION_SEARCHING_INTERNET  0x6
+#define SPACTION_CALCULATING  0x7
+#define SPACTION_UPLOADING  0x8
+#define SPACTION_SEARCHING_FILES  0x9
+#define SPACTION_DELETING  0xa
+#define SPACTION_RENAMING  0xb
+#define SPACTION_FORMATTING  0xc
+#define SPACTION_COPY_MOVING  0xd
+
+; SSF_MASK
+#define SSF_SHOWALLOBJECTS  0x1
+#define SSF_SHOWEXTENSIONS  0x2
+#define SSF_HIDDENFILEEXTS  0x4
+#define SSF_SERVERADMINUI  0x4
+#define SSF_SHOWCOMPCOLOR  0x8
+#define SSF_SORTCOLUMNS  0x10
+#define SSF_SHOWSYSFILES  0x20
+#define SSF_DOUBLECLICKINWEBVIEW  0x80
+#define SSF_SHOWATTRIBCOL  0x100
+#define SSF_DESKTOPHTML  0x200
+#define SSF_WIN95CLASSIC  0x400
+#define SSF_DONTPRETTYPATH  0x800
+#define SSF_SHOWINFOTIP  0x2000
+#define SSF_MAPNETDRVBUTTON  0x1000
+#define SSF_NOCONFIRMRECYCLE  0x8000
+#define SSF_HIDEICONS  0x4000
+#define SSF_FILTER  0x10000
+#define SSF_WEBVIEW  0x20000
+#define SSF_SHOWSUPERHIDDEN  0x40000
+#define SSF_SEPPROCESS  0x80000
+#define SSF_NONETCRAWLING  0x100000
+#define SSF_STARTPANELON  0x200000
+#define SSF_SHOWSTARTPAGE  0x400000
+#define SSF_AUTOCHECKSELECT  0x800000
+#define SSF_ICONSONLY  0x1000000
+#define SSF_SHOWTYPEOVERLAY  0x2000000
+#define SSF_SHOWSTATUSBAR  0x4000000
+
 ; STARTUPINFOW_FLAGS
 #define STARTF_FORCEONFEEDBACK  0x40
 #define STARTF_FORCEOFFFEEDBACK  0x80
@@ -1237,6 +11904,83 @@
 #define STARTF_USESHOWWINDOW  0x1
 #define STARTF_USESIZE  0x2
 #define STARTF_USESTDHANDLES  0x100
+
+; STD_HANDLE
+#define STD_INPUT_HANDLE  0xfffffff6
+#define STD_OUTPUT_HANDLE  0xfffffff5
+#define STD_ERROR_HANDLE  0xfffffff4
+
+; STGFMT
+#define STGFMT_STORAGE  0x0
+#define STGFMT_NATIVE  0x1
+#define STGFMT_FILE  0x3
+#define STGFMT_ANY  0x4
+#define STGFMT_DOCFILE  0x5
+#define STGFMT_DOCUMENT  0x0
+
+; STGM
+#define STGM_DIRECT  0x0
+#define STGM_TRANSACTED  0x10000
+#define STGM_SIMPLE  0x8000000
+#define STGM_READ  0x0
+#define STGM_WRITE  0x1
+#define STGM_READWRITE  0x2
+#define STGM_SHARE_DENY_NONE  0x40
+#define STGM_SHARE_DENY_READ  0x30
+#define STGM_SHARE_DENY_WRITE  0x20
+#define STGM_SHARE_EXCLUSIVE  0x10
+#define STGM_PRIORITY  0x40000
+#define STGM_DELETEONRELEASE  0x4000000
+#define STGM_NOSCRATCH  0x100000
+#define STGM_CREATE  0x1000
+#define STGM_CONVERT  0x20000
+#define STGM_FAILIFTHERE  0x0
+#define STGM_NOSNAPSHOT  0x200000
+#define STGM_DIRECT_SWMR  0x400000
+
+; STREAM_INFO_LEVELS
+#define FindStreamInfoStandard  0x0
+#define FindStreamInfoMaxInfoLevel  0x1
+
+; STRETCH_BLT_MODE
+#define BLACKONWHITE  0x1
+#define COLORONCOLOR  0x3
+#define HALFTONE  0x4
+#define STRETCH_ANDSCANS  0x1
+#define STRETCH_DELETESCANS  0x3
+#define STRETCH_HALFTONE  0x4
+#define STRETCH_ORSCANS  0x2
+#define WHITEONBLACK  0x2
+
+; SYM_FIND_ID_OPTION
+#define SSRVOPT_DWORD  0x2
+#define SSRVOPT_DWORDPTR  0x4
+#define SSRVOPT_GUIDPTR  0x8
+
+; SYM_LOAD_FLAGS
+#define SLMFLAG_NONE  0x0
+#define SLMFLAG_VIRTUAL  0x1
+#define SLMFLAG_ALT_INDEX  0x2
+#define SLMFLAG_NO_SYMBOLS  0x4
+
+; SYM_SRV_STORE_FILE_FLAGS
+#define SYMSTOREOPT_COMPRESS  0x1
+#define SYMSTOREOPT_OVERWRITE  0x2
+#define SYMSTOREOPT_PASS_IF_EXISTS  0x40
+#define SYMSTOREOPT_POINTER  0x8
+#define SYMSTOREOPT_RETURNINDEX  0x4
+
+; SYM_TYPE
+#define SymNone  0x0
+#define SymCoff  0x1
+#define SymCv  0x2
+#define SymPdb  0x3
+#define SymExport  0x4
+#define SymDeferred  0x5
+#define SymSym  0x6
+#define SymDia  0x7
+#define SymVirtual  0x8
+#define NumSymTypes  0x9
 
 ; SYMBOL_INFO_FLAGS
 #define SYMFLAG_CLR_TOKEN  0x40000
@@ -1256,6 +12000,115 @@
 #define SYMFLAG_TLSREL  0x4000
 #define SYMFLAG_VALUEPRESENT  0x1
 #define SYMFLAG_VIRTUAL  0x1000
+
+; SYMBOLIC_LINK_FLAGS
+#define SYMBOLIC_LINK_FLAG_DIRECTORY  0x1
+#define SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE  0x2
+
+; SYNCHRONIZATION_ACCESS_RIGHTS
+#define EVENT_ALL_ACCESS  0x1f0003
+#define EVENT_MODIFY_STATE  0x2
+#define MUTEX_ALL_ACCESS  0x1f0001
+#define MUTEX_MODIFY_STATE  0x1
+#define SEMAPHORE_ALL_ACCESS  0x1f0003
+#define SEMAPHORE_MODIFY_STATE  0x2
+#define TIMER_ALL_ACCESS  0x1f0003
+#define TIMER_MODIFY_STATE  0x2
+#define TIMER_QUERY_STATE  0x1
+#define SYNCHRONIZATION_DELETE  0x10000
+#define SYNCHRONIZATION_READ_CONTROL  0x20000
+#define SYNCHRONIZATION_WRITE_DAC  0x40000
+#define SYNCHRONIZATION_WRITE_OWNER  0x80000
+#define SYNCHRONIZATION_SYNCHRONIZE  0x100000
+
+; SYS_COLOR_INDEX
+#define COLOR_SCROLLBAR  0x0
+#define COLOR_BACKGROUND  0x1
+#define COLOR_ACTIVECAPTION  0x2
+#define COLOR_INACTIVECAPTION  0x3
+#define COLOR_MENU  0x4
+#define COLOR_WINDOW  0x5
+#define COLOR_WINDOWFRAME  0x6
+#define COLOR_MENUTEXT  0x7
+#define COLOR_WINDOWTEXT  0x8
+#define COLOR_CAPTIONTEXT  0x9
+#define COLOR_ACTIVEBORDER  0xa
+#define COLOR_INACTIVEBORDER  0xb
+#define COLOR_APPWORKSPACE  0xc
+#define COLOR_HIGHLIGHT  0xd
+#define COLOR_HIGHLIGHTTEXT  0xe
+#define COLOR_BTNFACE  0xf
+#define COLOR_BTNSHADOW  0x10
+#define COLOR_GRAYTEXT  0x11
+#define COLOR_BTNTEXT  0x12
+#define COLOR_INACTIVECAPTIONTEXT  0x13
+#define COLOR_BTNHIGHLIGHT  0x14
+#define COLOR_3DDKSHADOW  0x15
+#define COLOR_3DLIGHT  0x16
+#define COLOR_INFOTEXT  0x17
+#define COLOR_INFOBK  0x18
+#define COLOR_HOTLIGHT  0x1a
+#define COLOR_GRADIENTACTIVECAPTION  0x1b
+#define COLOR_GRADIENTINACTIVECAPTION  0x1c
+#define COLOR_MENUHILIGHT  0x1d
+#define COLOR_MENUBAR  0x1e
+#define COLOR_DESKTOP  0x1
+#define COLOR_3DFACE  0xf
+#define COLOR_3DSHADOW  0x10
+#define COLOR_3DHIGHLIGHT  0x14
+#define COLOR_3DHILIGHT  0x14
+#define COLOR_BTNHILIGHT  0x14
+
+; SYSGEOCLASS
+#define GEOCLASS_NATION  0x10
+#define GEOCLASS_REGION  0xe
+#define GEOCLASS_ALL  0x0
+
+; SYSGEOTYPE
+#define GEO_NATION  0x1
+#define GEO_LATITUDE  0x2
+#define GEO_LONGITUDE  0x3
+#define GEO_ISO2  0x4
+#define GEO_ISO3  0x5
+#define GEO_RFC1766  0x6
+#define GEO_LCID  0x7
+#define GEO_FRIENDLYNAME  0x8
+#define GEO_OFFICIALNAME  0x9
+#define GEO_TIMEZONES  0xa
+#define GEO_OFFICIALLANGUAGES  0xb
+#define GEO_ISO_UN_NUMBER  0xc
+#define GEO_PARENT  0xd
+#define GEO_DIALINGCODE  0xe
+#define GEO_CURRENCYCODE  0xf
+#define GEO_CURRENCYSYMBOL  0x10
+#define GEO_NAME  0x11
+#define GEO_ID  0x12
+
+; SYSKIND
+#define SYS_WIN16  0x0
+#define SYS_WIN32  0x1
+#define SYS_MAC  0x2
+#define SYS_WIN64  0x3
+
+; SYSTEM_AUDIT_OBJECT_ACE_FLAGS
+#define ACE_OBJECT_TYPE_PRESENT  0x1
+#define ACE_INHERITED_OBJECT_TYPE_PRESENT  0x2
+
+; SYSTEM_CURSOR_ID
+#define OCR_APPSTARTING  0x7f8a
+#define OCR_NORMAL  0x7f00
+#define OCR_CROSS  0x7f03
+#define OCR_HAND  0x7f89
+#define OCR_HELP  0x7f8b
+#define OCR_IBEAM  0x7f01
+#define OCR_NO  0x7f88
+#define OCR_SIZEALL  0x7f86
+#define OCR_SIZENESW  0x7f83
+#define OCR_SIZENS  0x7f85
+#define OCR_SIZENWSE  0x7f82
+#define OCR_SIZEWE  0x7f84
+#define OCR_UP  0x7f04
+#define OCR_WAIT  0x7f02
 
 ; SYSTEM_METRICS_INDEX
 #define SM_ARRANGE  0x38
@@ -1353,6 +12206,326 @@
 #define SM_TABLETPC  0x56
 #define SM_XVIRTUALSCREEN  0x4c
 #define SM_YVIRTUALSCREEN  0x4d
+
+; SYSTEM_PALETTE_USE
+#define SYSPAL_NOSTATIC  0x2
+#define SYSPAL_NOSTATIC256  0x3
+#define SYSPAL_STATIC  0x1
+
+; SYSTEM_PARAMETERS_INFO_ACTION
+#define SPI_GETBEEP  0x1
+#define SPI_SETBEEP  0x2
+#define SPI_GETMOUSE  0x3
+#define SPI_SETMOUSE  0x4
+#define SPI_GETBORDER  0x5
+#define SPI_SETBORDER  0x6
+#define SPI_GETKEYBOARDSPEED  0xa
+#define SPI_SETKEYBOARDSPEED  0xb
+#define SPI_LANGDRIVER  0xc
+#define SPI_ICONHORIZONTALSPACING  0xd
+#define SPI_GETSCREENSAVETIMEOUT  0xe
+#define SPI_SETSCREENSAVETIMEOUT  0xf
+#define SPI_GETSCREENSAVEACTIVE  0x10
+#define SPI_SETSCREENSAVEACTIVE  0x11
+#define SPI_GETGRIDGRANULARITY  0x12
+#define SPI_SETGRIDGRANULARITY  0x13
+#define SPI_SETDESKWALLPAPER  0x14
+#define SPI_SETDESKPATTERN  0x15
+#define SPI_GETKEYBOARDDELAY  0x16
+#define SPI_SETKEYBOARDDELAY  0x17
+#define SPI_ICONVERTICALSPACING  0x18
+#define SPI_GETICONTITLEWRAP  0x19
+#define SPI_SETICONTITLEWRAP  0x1a
+#define SPI_GETMENUDROPALIGNMENT  0x1b
+#define SPI_SETMENUDROPALIGNMENT  0x1c
+#define SPI_SETDOUBLECLKWIDTH  0x1d
+#define SPI_SETDOUBLECLKHEIGHT  0x1e
+#define SPI_GETICONTITLELOGFONT  0x1f
+#define SPI_SETDOUBLECLICKTIME  0x20
+#define SPI_SETMOUSEBUTTONSWAP  0x21
+#define SPI_SETICONTITLELOGFONT  0x22
+#define SPI_GETFASTTASKSWITCH  0x23
+#define SPI_SETFASTTASKSWITCH  0x24
+#define SPI_SETDRAGFULLWINDOWS  0x25
+#define SPI_GETDRAGFULLWINDOWS  0x26
+#define SPI_GETNONCLIENTMETRICS  0x29
+#define SPI_SETNONCLIENTMETRICS  0x2a
+#define SPI_GETMINIMIZEDMETRICS  0x2b
+#define SPI_SETMINIMIZEDMETRICS  0x2c
+#define SPI_GETICONMETRICS  0x2d
+#define SPI_SETICONMETRICS  0x2e
+#define SPI_SETWORKAREA  0x2f
+#define SPI_GETWORKAREA  0x30
+#define SPI_SETPENWINDOWS  0x31
+#define SPI_GETHIGHCONTRAST  0x42
+#define SPI_SETHIGHCONTRAST  0x43
+#define SPI_GETKEYBOARDPREF  0x44
+#define SPI_SETKEYBOARDPREF  0x45
+#define SPI_GETSCREENREADER  0x46
+#define SPI_SETSCREENREADER  0x47
+#define SPI_GETANIMATION  0x48
+#define SPI_SETANIMATION  0x49
+#define SPI_GETFONTSMOOTHING  0x4a
+#define SPI_SETFONTSMOOTHING  0x4b
+#define SPI_SETDRAGWIDTH  0x4c
+#define SPI_SETDRAGHEIGHT  0x4d
+#define SPI_SETHANDHELD  0x4e
+#define SPI_GETLOWPOWERTIMEOUT  0x4f
+#define SPI_GETPOWEROFFTIMEOUT  0x50
+#define SPI_SETLOWPOWERTIMEOUT  0x51
+#define SPI_SETPOWEROFFTIMEOUT  0x52
+#define SPI_GETLOWPOWERACTIVE  0x53
+#define SPI_GETPOWEROFFACTIVE  0x54
+#define SPI_SETLOWPOWERACTIVE  0x55
+#define SPI_SETPOWEROFFACTIVE  0x56
+#define SPI_SETCURSORS  0x57
+#define SPI_SETICONS  0x58
+#define SPI_GETDEFAULTINPUTLANG  0x59
+#define SPI_SETDEFAULTINPUTLANG  0x5a
+#define SPI_SETLANGTOGGLE  0x5b
+#define SPI_GETWINDOWSEXTENSION  0x5c
+#define SPI_SETMOUSETRAILS  0x5d
+#define SPI_GETMOUSETRAILS  0x5e
+#define SPI_SETSCREENSAVERRUNNING  0x61
+#define SPI_SCREENSAVERRUNNING  0x61
+#define SPI_GETFILTERKEYS  0x32
+#define SPI_SETFILTERKEYS  0x33
+#define SPI_GETTOGGLEKEYS  0x34
+#define SPI_SETTOGGLEKEYS  0x35
+#define SPI_GETMOUSEKEYS  0x36
+#define SPI_SETMOUSEKEYS  0x37
+#define SPI_GETSHOWSOUNDS  0x38
+#define SPI_SETSHOWSOUNDS  0x39
+#define SPI_GETSTICKYKEYS  0x3a
+#define SPI_SETSTICKYKEYS  0x3b
+#define SPI_GETACCESSTIMEOUT  0x3c
+#define SPI_SETACCESSTIMEOUT  0x3d
+#define SPI_GETSERIALKEYS  0x3e
+#define SPI_SETSERIALKEYS  0x3f
+#define SPI_GETSOUNDSENTRY  0x40
+#define SPI_SETSOUNDSENTRY  0x41
+#define SPI_GETSNAPTODEFBUTTON  0x5f
+#define SPI_SETSNAPTODEFBUTTON  0x60
+#define SPI_GETMOUSEHOVERWIDTH  0x62
+#define SPI_SETMOUSEHOVERWIDTH  0x63
+#define SPI_GETMOUSEHOVERHEIGHT  0x64
+#define SPI_SETMOUSEHOVERHEIGHT  0x65
+#define SPI_GETMOUSEHOVERTIME  0x66
+#define SPI_SETMOUSEHOVERTIME  0x67
+#define SPI_GETWHEELSCROLLLINES  0x68
+#define SPI_SETWHEELSCROLLLINES  0x69
+#define SPI_GETMENUSHOWDELAY  0x6a
+#define SPI_SETMENUSHOWDELAY  0x6b
+#define SPI_GETWHEELSCROLLCHARS  0x6c
+#define SPI_SETWHEELSCROLLCHARS  0x6d
+#define SPI_GETSHOWIMEUI  0x6e
+#define SPI_SETSHOWIMEUI  0x6f
+#define SPI_GETMOUSESPEED  0x70
+#define SPI_SETMOUSESPEED  0x71
+#define SPI_GETSCREENSAVERRUNNING  0x72
+#define SPI_GETDESKWALLPAPER  0x73
+#define SPI_GETAUDIODESCRIPTION  0x74
+#define SPI_SETAUDIODESCRIPTION  0x75
+#define SPI_GETSCREENSAVESECURE  0x76
+#define SPI_SETSCREENSAVESECURE  0x77
+#define SPI_GETHUNGAPPTIMEOUT  0x78
+#define SPI_SETHUNGAPPTIMEOUT  0x79
+#define SPI_GETWAITTOKILLTIMEOUT  0x7a
+#define SPI_SETWAITTOKILLTIMEOUT  0x7b
+#define SPI_GETWAITTOKILLSERVICETIMEOUT  0x7c
+#define SPI_SETWAITTOKILLSERVICETIMEOUT  0x7d
+#define SPI_GETMOUSEDOCKTHRESHOLD  0x7e
+#define SPI_SETMOUSEDOCKTHRESHOLD  0x7f
+#define SPI_GETPENDOCKTHRESHOLD  0x80
+#define SPI_SETPENDOCKTHRESHOLD  0x81
+#define SPI_GETWINARRANGING  0x82
+#define SPI_SETWINARRANGING  0x83
+#define SPI_GETMOUSEDRAGOUTTHRESHOLD  0x84
+#define SPI_SETMOUSEDRAGOUTTHRESHOLD  0x85
+#define SPI_GETPENDRAGOUTTHRESHOLD  0x86
+#define SPI_SETPENDRAGOUTTHRESHOLD  0x87
+#define SPI_GETMOUSESIDEMOVETHRESHOLD  0x88
+#define SPI_SETMOUSESIDEMOVETHRESHOLD  0x89
+#define SPI_GETPENSIDEMOVETHRESHOLD  0x8a
+#define SPI_SETPENSIDEMOVETHRESHOLD  0x8b
+#define SPI_GETDRAGFROMMAXIMIZE  0x8c
+#define SPI_SETDRAGFROMMAXIMIZE  0x8d
+#define SPI_GETSNAPSIZING  0x8e
+#define SPI_SETSNAPSIZING  0x8f
+#define SPI_GETDOCKMOVING  0x90
+#define SPI_SETDOCKMOVING  0x91
+#define SPI_GETTOUCHPREDICTIONPARAMETERS  0x9c
+#define SPI_SETTOUCHPREDICTIONPARAMETERS  0x9d
+#define SPI_GETLOGICALDPIOVERRIDE  0x9e
+#define SPI_SETLOGICALDPIOVERRIDE  0x9f
+#define SPI_GETMENURECT  0xa2
+#define SPI_SETMENURECT  0xa3
+#define SPI_GETACTIVEWINDOWTRACKING  0x1000
+#define SPI_SETACTIVEWINDOWTRACKING  0x1001
+#define SPI_GETMENUANIMATION  0x1002
+#define SPI_SETMENUANIMATION  0x1003
+#define SPI_GETCOMBOBOXANIMATION  0x1004
+#define SPI_SETCOMBOBOXANIMATION  0x1005
+#define SPI_GETLISTBOXSMOOTHSCROLLING  0x1006
+#define SPI_SETLISTBOXSMOOTHSCROLLING  0x1007
+#define SPI_GETGRADIENTCAPTIONS  0x1008
+#define SPI_SETGRADIENTCAPTIONS  0x1009
+#define SPI_GETKEYBOARDCUES  0x100a
+#define SPI_SETKEYBOARDCUES  0x100b
+#define SPI_GETMENUUNDERLINES  0x100a
+#define SPI_SETMENUUNDERLINES  0x100b
+#define SPI_GETACTIVEWNDTRKZORDER  0x100c
+#define SPI_SETACTIVEWNDTRKZORDER  0x100d
+#define SPI_GETHOTTRACKING  0x100e
+#define SPI_SETHOTTRACKING  0x100f
+#define SPI_GETMENUFADE  0x1012
+#define SPI_SETMENUFADE  0x1013
+#define SPI_GETSELECTIONFADE  0x1014
+#define SPI_SETSELECTIONFADE  0x1015
+#define SPI_GETTOOLTIPANIMATION  0x1016
+#define SPI_SETTOOLTIPANIMATION  0x1017
+#define SPI_GETTOOLTIPFADE  0x1018
+#define SPI_SETTOOLTIPFADE  0x1019
+#define SPI_GETCURSORSHADOW  0x101a
+#define SPI_SETCURSORSHADOW  0x101b
+#define SPI_GETMOUSESONAR  0x101c
+#define SPI_SETMOUSESONAR  0x101d
+#define SPI_GETMOUSECLICKLOCK  0x101e
+#define SPI_SETMOUSECLICKLOCK  0x101f
+#define SPI_GETMOUSEVANISH  0x1020
+#define SPI_SETMOUSEVANISH  0x1021
+#define SPI_GETFLATMENU  0x1022
+#define SPI_SETFLATMENU  0x1023
+#define SPI_GETDROPSHADOW  0x1024
+#define SPI_SETDROPSHADOW  0x1025
+#define SPI_GETBLOCKSENDINPUTRESETS  0x1026
+#define SPI_SETBLOCKSENDINPUTRESETS  0x1027
+#define SPI_GETUIEFFECTS  0x103e
+#define SPI_SETUIEFFECTS  0x103f
+#define SPI_GETDISABLEOVERLAPPEDCONTENT  0x1040
+#define SPI_SETDISABLEOVERLAPPEDCONTENT  0x1041
+#define SPI_GETCLIENTAREAANIMATION  0x1042
+#define SPI_SETCLIENTAREAANIMATION  0x1043
+#define SPI_GETCLEARTYPE  0x1048
+#define SPI_SETCLEARTYPE  0x1049
+#define SPI_GETSPEECHRECOGNITION  0x104a
+#define SPI_SETSPEECHRECOGNITION  0x104b
+#define SPI_GETCARETBROWSING  0x104c
+#define SPI_SETCARETBROWSING  0x104d
+#define SPI_GETTHREADLOCALINPUTSETTINGS  0x104e
+#define SPI_SETTHREADLOCALINPUTSETTINGS  0x104f
+#define SPI_GETSYSTEMLANGUAGEBAR  0x1050
+#define SPI_SETSYSTEMLANGUAGEBAR  0x1051
+#define SPI_GETFOREGROUNDLOCKTIMEOUT  0x2000
+#define SPI_SETFOREGROUNDLOCKTIMEOUT  0x2001
+#define SPI_GETACTIVEWNDTRKTIMEOUT  0x2002
+#define SPI_SETACTIVEWNDTRKTIMEOUT  0x2003
+#define SPI_GETFOREGROUNDFLASHCOUNT  0x2004
+#define SPI_SETFOREGROUNDFLASHCOUNT  0x2005
+#define SPI_GETCARETWIDTH  0x2006
+#define SPI_SETCARETWIDTH  0x2007
+#define SPI_GETMOUSECLICKLOCKTIME  0x2008
+#define SPI_SETMOUSECLICKLOCKTIME  0x2009
+#define SPI_GETFONTSMOOTHINGTYPE  0x200a
+#define SPI_SETFONTSMOOTHINGTYPE  0x200b
+#define SPI_GETFONTSMOOTHINGCONTRAST  0x200c
+#define SPI_SETFONTSMOOTHINGCONTRAST  0x200d
+#define SPI_GETFOCUSBORDERWIDTH  0x200e
+#define SPI_SETFOCUSBORDERWIDTH  0x200f
+#define SPI_GETFOCUSBORDERHEIGHT  0x2010
+#define SPI_SETFOCUSBORDERHEIGHT  0x2011
+#define SPI_GETFONTSMOOTHINGORIENTATION  0x2012
+#define SPI_SETFONTSMOOTHINGORIENTATION  0x2013
+#define SPI_GETMINIMUMHITRADIUS  0x2014
+#define SPI_SETMINIMUMHITRADIUS  0x2015
+#define SPI_GETMESSAGEDURATION  0x2016
+#define SPI_SETMESSAGEDURATION  0x2017
+#define SPI_GETCONTACTVISUALIZATION  0x2018
+#define SPI_SETCONTACTVISUALIZATION  0x2019
+#define SPI_GETGESTUREVISUALIZATION  0x201a
+#define SPI_SETGESTUREVISUALIZATION  0x201b
+#define SPI_GETMOUSEWHEELROUTING  0x201c
+#define SPI_SETMOUSEWHEELROUTING  0x201d
+#define SPI_GETPENVISUALIZATION  0x201e
+#define SPI_SETPENVISUALIZATION  0x201f
+#define SPI_GETPENARBITRATIONTYPE  0x2020
+#define SPI_SETPENARBITRATIONTYPE  0x2021
+#define SPI_GETCARETTIMEOUT  0x2022
+#define SPI_SETCARETTIMEOUT  0x2023
+#define SPI_GETHANDEDNESS  0x2024
+#define SPI_SETHANDEDNESS  0x2025
+
+; SYSTEM_PARAMETERS_INFO_UPDATE_FLAGS
+#define SPIF_UPDATEINIFILE  0x1
+#define SPIF_SENDCHANGE  0x2
+#define SPIF_SENDWININICHANGE  0x2
+
+; TA_PROPERTY
+#define TAP_FLAGS  0x0
+#define TAP_TRANSFORMCOUNT  0x1
+#define TAP_STAGGERDELAY  0x2
+#define TAP_STAGGERDELAYCAP  0x3
+#define TAP_STAGGERDELAYFACTOR  0x4
+#define TAP_ZORDER  0x5
+
+; TA_TIMINGFUNCTION_TYPE
+#define TTFT_UNDEFINED  0x0
+#define TTFT_CUBIC_BEZIER  0x1
+
+; TA_TRANSFORM_FLAG
+#define TATF_NONE  0x0
+#define TATF_TARGETVALUES_USER  0x1
+#define TATF_HASINITIALVALUES  0x2
+#define TATF_HASORIGINVALUES  0x4
+
+; TA_TRANSFORM_TYPE
+#define TATT_TRANSLATE_2D  0x0
+#define TATT_SCALE_2D  0x1
+#define TATT_OPACITY  0x2
+#define TATT_CLIP  0x3
+
+; TAPE_INFORMATION_TYPE
+#define SET_TAPE_DRIVE_INFORMATION  0x1
+#define SET_TAPE_MEDIA_INFORMATION  0x0
+
+; TAPE_POSITION_METHOD
+#define TAPE_ABSOLUTE_BLOCK  0x1
+#define TAPE_LOGICAL_BLOCK  0x2
+#define TAPE_REWIND  0x0
+#define TAPE_SPACE_END_OF_DATA  0x4
+#define TAPE_SPACE_FILEMARKS  0x6
+#define TAPE_SPACE_RELATIVE_BLOCKS  0x5
+#define TAPE_SPACE_SEQUENTIAL_FMKS  0x7
+#define TAPE_SPACE_SEQUENTIAL_SMKS  0x9
+#define TAPE_SPACE_SETMARKS  0x8
+
+; TAPE_POSITION_TYPE
+#define TAPE_ABSOLUTE_POSITION  0x0
+#define TAPE_LOGICAL_POSITION  0x1
+
+; TAPEMARK_TYPE
+#define TAPE_FILEMARKS  0x1
+#define TAPE_LONG_FILEMARKS  0x3
+#define TAPE_SETMARKS  0x0
+#define TAPE_SHORT_FILEMARKS  0x2
+
+; TEXT_ALIGN_OPTIONS
+#define TA_NOUPDATECP  0x0
+#define TA_UPDATECP  0x1
+#define TA_LEFT  0x0
+#define TA_RIGHT  0x2
+#define TA_CENTER  0x6
+#define TA_TOP  0x0
+#define TA_BOTTOM  0x8
+#define TA_BASELINE  0x18
+#define TA_RTLREADING  0x100
+#define TA_MASK  0x11f
+#define VTA_BASELINE  0x18
+#define VTA_LEFT  0x8
+#define VTA_RIGHT  0x0
+#define VTA_CENTER  0x6
+#define VTA_BOTTOM  0x2
+#define VTA_TOP  0x0
 
 ; THEME_PROPERTY_SYMBOL_ID
 #define TMT_RESERVEDLOW  0x0
@@ -1618,11 +12791,554 @@
 #define TS_TRUE  0x1
 #define TS_DRAW  0x2
 
+; THREAD_ACCESS_RIGHTS
+#define THREAD_TERMINATE  0x1
+#define THREAD_SUSPEND_RESUME  0x2
+#define THREAD_GET_CONTEXT  0x8
+#define THREAD_SET_CONTEXT  0x10
+#define THREAD_SET_INFORMATION  0x20
+#define THREAD_QUERY_INFORMATION  0x40
+#define THREAD_SET_THREAD_TOKEN  0x80
+#define THREAD_IMPERSONATE  0x100
+#define THREAD_DIRECT_IMPERSONATION  0x200
+#define THREAD_SET_LIMITED_INFORMATION  0x400
+#define THREAD_QUERY_LIMITED_INFORMATION  0x800
+#define THREAD_RESUME  0x1000
+#define THREAD_ALL_ACCESS  0x1fffff
+#define THREAD_DELETE  0x10000
+#define THREAD_READ_CONTROL  0x20000
+#define THREAD_WRITE_DAC  0x40000
+#define THREAD_WRITE_OWNER  0x80000
+#define THREAD_SYNCHRONIZE  0x100000
+#define THREAD_STANDARD_RIGHTS_REQUIRED  0xf0000
+
+; THREAD_CREATION_FLAGS
+#define THREAD_CREATE_RUN_IMMEDIATELY  0x0
+#define THREAD_CREATE_SUSPENDED  0x4
+#define STACK_SIZE_PARAM_IS_A_RESERVATION  0x10000
+
+; THREAD_ERROR_MODE
+#define SEM_ALL_ERRORS  0x0
+#define SEM_FAILCRITICALERRORS  0x1
+#define SEM_NOGPFAULTERRORBOX  0x2
+#define SEM_NOOPENFILEERRORBOX  0x8000
+#define SEM_NOALIGNMENTFAULTEXCEPT  0x4
+
+; THREAD_INFORMATION_CLASS
+#define ThreadMemoryPriority  0x0
+#define ThreadAbsoluteCpuPriority  0x1
+#define ThreadDynamicCodePolicy  0x2
+#define ThreadPowerThrottling  0x3
+#define ThreadInformationClassMax  0x4
+
+; THREAD_PRIORITY
+#define THREAD_MODE_BACKGROUND_BEGIN  0x10000
+#define THREAD_MODE_BACKGROUND_END  0x20000
+#define THREAD_PRIORITY_ABOVE_NORMAL  0x1
+#define THREAD_PRIORITY_BELOW_NORMAL  -1
+#define THREAD_PRIORITY_HIGHEST  0x2
+#define THREAD_PRIORITY_IDLE  -15
+#define THREAD_PRIORITY_MIN  -2
+#define THREAD_PRIORITY_LOWEST  -2
+#define THREAD_PRIORITY_NORMAL  0x0
+#define THREAD_PRIORITY_TIME_CRITICAL  0xf
+
+; TILE_WINDOWS_HOW
+#define MDITILE_HORIZONTAL  0x1
+#define MDITILE_VERTICAL  0x0
+
+; TIME_FORMAT_FLAGS
+#define TIME_NOMINUTESORSECONDS  0x1
+#define TIME_NOSECONDS  0x2
+#define TIME_NOTIMEMARKER  0x4
+#define TIME_FORCE24HOURFORMAT  0x8
+
 ; TMPF_FLAGS
 #define TMPF_FIXED_PITCH  0x1
 #define TMPF_VECTOR  0x2
 #define TMPF_DEVICE  0x8
 #define TMPF_TRUETYPE  0x4
+
+; TOKEN_ACCESS_MASK
+#define TOKEN_DELETE  0x10000
+#define TOKEN_READ_CONTROL  0x20000
+#define TOKEN_WRITE_DAC  0x40000
+#define TOKEN_WRITE_OWNER  0x80000
+#define TOKEN_ACCESS_SYSTEM_SECURITY  0x1000000
+#define TOKEN_ASSIGN_PRIMARY  0x1
+#define TOKEN_DUPLICATE  0x2
+#define TOKEN_IMPERSONATE  0x4
+#define TOKEN_QUERY  0x8
+#define TOKEN_QUERY_SOURCE  0x10
+#define TOKEN_ADJUST_PRIVILEGES  0x20
+#define TOKEN_ADJUST_GROUPS  0x40
+#define TOKEN_ADJUST_DEFAULT  0x80
+#define TOKEN_ADJUST_SESSIONID  0x100
+#define TOKEN_READ  0x20008
+#define TOKEN_WRITE  0x200e0
+#define TOKEN_EXECUTE  0x20000
+#define TOKEN_TRUST_CONSTRAINT_MASK  0x20018
+#define TOKEN_ACCESS_PSEUDO_HANDLE_WIN8  0x18
+#define TOKEN_ACCESS_PSEUDO_HANDLE  0x18
+#define TOKEN_ALL_ACCESS  0xf01ff
+
+; TOKEN_INFORMATION_CLASS
+#define TokenUser  0x1
+#define TokenGroups  0x2
+#define TokenPrivileges  0x3
+#define TokenOwner  0x4
+#define TokenPrimaryGroup  0x5
+#define TokenDefaultDacl  0x6
+#define TokenSource  0x7
+#define TokenType  0x8
+#define TokenImpersonationLevel  0x9
+#define TokenStatistics  0xa
+#define TokenRestrictedSids  0xb
+#define TokenSessionId  0xc
+#define TokenGroupsAndPrivileges  0xd
+#define TokenSessionReference  0xe
+#define TokenSandBoxInert  0xf
+#define TokenAuditPolicy  0x10
+#define TokenOrigin  0x11
+#define TokenElevationType  0x12
+#define TokenLinkedToken  0x13
+#define TokenElevation  0x14
+#define TokenHasRestrictions  0x15
+#define TokenAccessInformation  0x16
+#define TokenVirtualizationAllowed  0x17
+#define TokenVirtualizationEnabled  0x18
+#define TokenIntegrityLevel  0x19
+#define TokenUIAccess  0x1a
+#define TokenMandatoryPolicy  0x1b
+#define TokenLogonSid  0x1c
+#define TokenIsAppContainer  0x1d
+#define TokenCapabilities  0x1e
+#define TokenAppContainerSid  0x1f
+#define TokenAppContainerNumber  0x20
+#define TokenUserClaimAttributes  0x21
+#define TokenDeviceClaimAttributes  0x22
+#define TokenRestrictedUserClaimAttributes  0x23
+#define TokenRestrictedDeviceClaimAttributes  0x24
+#define TokenDeviceGroups  0x25
+#define TokenRestrictedDeviceGroups  0x26
+#define TokenSecurityAttributes  0x27
+#define TokenIsRestricted  0x28
+#define TokenProcessTrustLevel  0x29
+#define TokenPrivateNameSpace  0x2a
+#define TokenSingletonAttributes  0x2b
+#define TokenBnoIsolation  0x2c
+#define TokenChildProcessFlags  0x2d
+#define TokenIsLessPrivilegedAppContainer  0x2e
+#define TokenIsSandboxed  0x2f
+#define TokenIsAppSilo  0x30
+#define MaxTokenInfoClass  0x31
+
+; TOKEN_PRIVILEGES_ATTRIBUTES
+#define SE_PRIVILEGE_ENABLED  0x2
+#define SE_PRIVILEGE_ENABLED_BY_DEFAULT  0x1
+#define SE_PRIVILEGE_REMOVED  0x4
+#define SE_PRIVILEGE_USED_FOR_ACCESS  0x80000000
+
+; TOKEN_TYPE
+#define TokenPrimary  0x1
+#define TokenImpersonation  0x2
+
+; TOUCH_FEEDBACK_MODE
+#define TOUCH_FEEDBACK_DEFAULT  0x1
+#define TOUCH_FEEDBACK_INDIRECT  0x2
+#define TOUCH_FEEDBACK_NONE  0x3
+
+; TOUCHEVENTF_FLAGS
+#define TOUCHEVENTF_MOVE  0x1
+#define TOUCHEVENTF_DOWN  0x2
+#define TOUCHEVENTF_UP  0x4
+#define TOUCHEVENTF_INRANGE  0x8
+#define TOUCHEVENTF_PRIMARY  0x10
+#define TOUCHEVENTF_NOCOALESCE  0x20
+#define TOUCHEVENTF_PEN  0x40
+#define TOUCHEVENTF_PALM  0x80
+
+; TOUCHINPUTMASKF_MASK
+#define TOUCHINPUTMASKF_TIMEFROMSYSTEM  0x1
+#define TOUCHINPUTMASKF_EXTRAINFO  0x2
+#define TOUCHINPUTMASKF_CONTACTAREA  0x4
+
+; TP_CALLBACK_PRIORITY
+#define TP_CALLBACK_PRIORITY_HIGH  0x0
+#define TP_CALLBACK_PRIORITY_NORMAL  0x1
+#define TP_CALLBACK_PRIORITY_LOW  0x2
+#define TP_CALLBACK_PRIORITY_INVALID  0x3
+#define TP_CALLBACK_PRIORITY_COUNT  0x3
+
+; TRACE_QUERY_INFO_CLASS
+#define TraceGuidQueryList  0x0
+#define TraceGuidQueryInfo  0x1
+#define TraceGuidQueryProcess  0x2
+#define TraceStackTracingInfo  0x3
+#define TraceSystemTraceEnableFlagsInfo  0x4
+#define TraceSampledProfileIntervalInfo  0x5
+#define TraceProfileSourceConfigInfo  0x6
+#define TraceProfileSourceListInfo  0x7
+#define TracePmcEventListInfo  0x8
+#define TracePmcCounterListInfo  0x9
+#define TraceSetDisallowList  0xa
+#define TraceVersionInfo  0xb
+#define TraceGroupQueryList  0xc
+#define TraceGroupQueryInfo  0xd
+#define TraceDisallowListQuery  0xe
+#define TraceInfoReserved15  0xf
+#define TracePeriodicCaptureStateListInfo  0x10
+#define TracePeriodicCaptureStateInfo  0x11
+#define TraceProviderBinaryTracking  0x12
+#define TraceMaxLoggersQuery  0x13
+#define TraceLbrConfigurationInfo  0x14
+#define TraceLbrEventListInfo  0x15
+#define TraceMaxPmcCounterQuery  0x16
+#define TraceStreamCount  0x17
+#define TraceStackCachingInfo  0x18
+#define TracePmcCounterOwners  0x19
+#define TraceUnifiedStackCachingInfo  0x1a
+#define TracePmcSessionInformation  0x1b
+#define MaxTraceSetInfoClass  0x1c
+
+; TRACK_POPUP_MENU_FLAGS
+#define TPM_LEFTBUTTON  0x0
+#define TPM_RIGHTBUTTON  0x2
+#define TPM_LEFTALIGN  0x0
+#define TPM_CENTERALIGN  0x4
+#define TPM_RIGHTALIGN  0x8
+#define TPM_TOPALIGN  0x0
+#define TPM_VCENTERALIGN  0x10
+#define TPM_BOTTOMALIGN  0x20
+#define TPM_HORIZONTAL  0x0
+#define TPM_VERTICAL  0x40
+#define TPM_NONOTIFY  0x80
+#define TPM_RETURNCMD  0x100
+#define TPM_RECURSE  0x1
+#define TPM_HORPOSANIMATION  0x400
+#define TPM_HORNEGANIMATION  0x800
+#define TPM_VERPOSANIMATION  0x1000
+#define TPM_VERNEGANIMATION  0x2000
+#define TPM_NOANIMATION  0x4000
+#define TPM_LAYOUTRTL  0x8000
+#define TPM_WORKAREA  0x10000
+
+; TRACKMOUSEEVENT_FLAGS
+#define TME_CANCEL  0x80000000
+#define TME_HOVER  0x1
+#define TME_LEAVE  0x2
+#define TME_NONCLIENT  0x10
+#define TME_QUERY  0x40000000
+
+; TRANSLATE_CHARSET_INFO_FLAGS
+#define TCI_SRCCHARSET  0x1
+#define TCI_SRCCODEPAGE  0x2
+#define TCI_SRCFONTSIG  0x3
+#define TCI_SRCLOCALE  0x1000
+
+; TREE_SEC_INFO
+#define TREE_SEC_INFO_SET  0x1
+#define TREE_SEC_INFO_RESET  0x2
+#define TREE_SEC_INFO_RESET_KEEP_EXPLICIT  0x3
+
+; TRUSTED_DOMAIN_TRUST_ATTRIBUTES
+#define TRUST_ATTRIBUTE_NON_TRANSITIVE  0x1
+#define TRUST_ATTRIBUTE_UPLEVEL_ONLY  0x2
+#define TRUST_ATTRIBUTE_FILTER_SIDS  0x4
+#define TRUST_ATTRIBUTE_FOREST_TRANSITIVE  0x8
+#define TRUST_ATTRIBUTE_CROSS_ORGANIZATION  0x10
+#define TRUST_ATTRIBUTE_TREAT_AS_EXTERNAL  0x40
+#define TRUST_ATTRIBUTE_WITHIN_FOREST  0x20
+
+; TRUSTED_DOMAIN_TRUST_DIRECTION
+#define TRUST_DIRECTION_DISABLED  0x0
+#define TRUST_DIRECTION_INBOUND  0x1
+#define TRUST_DIRECTION_OUTBOUND  0x2
+#define TRUST_DIRECTION_BIDIRECTIONAL  0x3
+
+; TRUSTED_DOMAIN_TRUST_TYPE
+#define TRUST_TYPE_DOWNLEVEL  0x1
+#define TRUST_TYPE_UPLEVEL  0x2
+#define TRUST_TYPE_MIT  0x3
+#define TRUST_TYPE_DCE  0x4
+
+; TRUSTED_INFORMATION_CLASS
+#define TrustedDomainNameInformation  0x1
+#define TrustedControllersInformation  0x2
+#define TrustedPosixOffsetInformation  0x3
+#define TrustedPasswordInformation  0x4
+#define TrustedDomainInformationBasic  0x5
+#define TrustedDomainInformationEx  0x6
+#define TrustedDomainAuthInformation  0x7
+#define TrustedDomainFullInformation  0x8
+#define TrustedDomainAuthInformationInternal  0x9
+#define TrustedDomainFullInformationInternal  0xa
+#define TrustedDomainInformationEx2Internal  0xb
+#define TrustedDomainFullInformation2Internal  0xc
+#define TrustedDomainSupportedEncryptionTypes  0xd
+#define TrustedDomainAuthInformationInternalAes  0xe
+#define TrustedDomainFullInformationInternalAes  0xf
+
+; TRUSTEE_FORM
+#define TRUSTEE_IS_SID  0x0
+#define TRUSTEE_IS_NAME  0x1
+#define TRUSTEE_BAD_FORM  0x2
+#define TRUSTEE_IS_OBJECTS_AND_SID  0x3
+#define TRUSTEE_IS_OBJECTS_AND_NAME  0x4
+
+; TRUSTEE_TYPE
+#define TRUSTEE_IS_UNKNOWN  0x0
+#define TRUSTEE_IS_USER  0x1
+#define TRUSTEE_IS_GROUP  0x2
+#define TRUSTEE_IS_DOMAIN  0x3
+#define TRUSTEE_IS_ALIAS  0x4
+#define TRUSTEE_IS_WELL_KNOWN_GROUP  0x5
+#define TRUSTEE_IS_DELETED  0x6
+#define TRUSTEE_IS_INVALID  0x7
+#define TRUSTEE_IS_COMPUTER  0x8
+
+; TXFS_MINIVERSION
+#define TXFS_MINIVERSION_COMMITTED_VIEW  0x0
+#define TXFS_MINIVERSION_DIRTY_VIEW  0xffff
+#define TXFS_MINIVERSION_DEFAULT_VIEW  0xfffe
+
+; TYMED
+#define TYMED_HGLOBAL  0x1
+#define TYMED_FILE  0x2
+#define TYMED_ISTREAM  0x4
+#define TYMED_ISTORAGE  0x8
+#define TYMED_GDI  0x10
+#define TYMED_MFPICT  0x20
+#define TYMED_ENHMF  0x40
+#define TYMED_NULL  0x0
+
+; TYPEKIND
+#define TKIND_ENUM  0x0
+#define TKIND_RECORD  0x1
+#define TKIND_MODULE  0x2
+#define TKIND_INTERFACE  0x3
+#define TKIND_DISPATCH  0x4
+#define TKIND_COCLASS  0x5
+#define TKIND_ALIAS  0x6
+#define TKIND_UNION  0x7
+#define TKIND_MAX  0x8
+
+; UMS_THREAD_INFO_CLASS
+#define UmsThreadInvalidInfoClass  0x0
+#define UmsThreadUserContext  0x1
+#define UmsThreadPriority  0x2
+#define UmsThreadAffinity  0x3
+#define UmsThreadTeb  0x4
+#define UmsThreadIsSuspended  0x5
+#define UmsThreadIsTerminated  0x6
+#define UmsThreadMaxInfoClass  0x7
+
+; UPDATE_LAYERED_WINDOW_FLAGS
+#define ULW_ALPHA  0x2
+#define ULW_COLORKEY  0x1
+#define ULW_OPAQUE  0x4
+#define ULW_EX_NORESIZE  0x8
+
+; URL_CACHE_LIMIT_TYPE
+#define UrlCacheLimitTypeIE  0x0
+#define UrlCacheLimitTypeIETotal  0x1
+#define UrlCacheLimitTypeAppContainer  0x2
+#define UrlCacheLimitTypeAppContainerTotal  0x3
+#define UrlCacheLimitTypeNum  0x4
+
+; USER_OBJECT_INFORMATION_INDEX
+#define UOI_FLAGS  0x1
+#define UOI_HEAPSIZE  0x5
+#define UOI_IO  0x6
+#define UOI_NAME  0x2
+#define UOI_TYPE  0x3
+#define UOI_USER_SID  0x4
+
+; USERCLASSTYPE
+#define USERCLASSTYPE_FULL  0x1
+#define USERCLASSTYPE_SHORT  0x2
+#define USERCLASSTYPE_APPNAME  0x3
+
+; VALIDATEUNC_OPTION
+#define VALIDATEUNC_CONNECT  0x1
+#define VALIDATEUNC_NOUI  0x2
+#define VALIDATEUNC_PRINT  0x4
+#define VALIDATEUNC_PERSIST  0x8
+#define VALIDATEUNC_VALID  0xf
+
+; VAR_CHANGE_FLAGS
+#define VARIANT_NOVALUEPROP  0x1
+#define VARIANT_ALPHABOOL  0x2
+#define VARIANT_NOUSEROVERRIDE  0x4
+#define VARIANT_CALENDAR_HIJRI  0x8
+#define VARIANT_LOCALBOOL  0x10
+#define VARIANT_CALENDAR_THAI  0x20
+#define VARIANT_CALENDAR_GREGORIAN  0x40
+#define VARIANT_USE_NLS  0x80
+
+; VARCMP
+#define VARCMP_LT  0x0
+#define VARCMP_EQ  0x1
+#define VARCMP_GT  0x2
+#define VARCMP_NULL  0x3
+
+; VARENUM
+#define VT_EMPTY  0x0
+#define VT_NULL  0x1
+#define VT_I2  0x2
+#define VT_I4  0x3
+#define VT_R4  0x4
+#define VT_R8  0x5
+#define VT_CY  0x6
+#define VT_DATE  0x7
+#define VT_BSTR  0x8
+#define VT_DISPATCH  0x9
+#define VT_ERROR  0xa
+#define VT_BOOL  0xb
+#define VT_VARIANT  0xc
+#define VT_UNKNOWN  0xd
+#define VT_DECIMAL  0xe
+#define VT_I1  0x10
+#define VT_UI1  0x11
+#define VT_UI2  0x12
+#define VT_UI4  0x13
+#define VT_I8  0x14
+#define VT_UI8  0x15
+#define VT_INT  0x16
+#define VT_UINT  0x17
+#define VT_VOID  0x18
+#define VT_HRESULT  0x19
+#define VT_PTR  0x1a
+#define VT_SAFEARRAY  0x1b
+#define VT_CARRAY  0x1c
+#define VT_USERDEFINED  0x1d
+#define VT_LPSTR  0x1e
+#define VT_LPWSTR  0x1f
+#define VT_RECORD  0x24
+#define VT_INT_PTR  0x25
+#define VT_UINT_PTR  0x26
+#define VT_FILETIME  0x40
+#define VT_BLOB  0x41
+#define VT_STREAM  0x42
+#define VT_STORAGE  0x43
+#define VT_STREAMED_OBJECT  0x44
+#define VT_STORED_OBJECT  0x45
+#define VT_BLOB_OBJECT  0x46
+#define VT_CF  0x47
+#define VT_CLSID  0x48
+#define VT_VERSIONED_STREAM  0x49
+#define VT_BSTR_BLOB  0xfff
+#define VT_VECTOR  0x1000
+#define VT_ARRAY  0x2000
+#define VT_BYREF  0x4000
+#define VT_RESERVED  0x8000
+#define VT_ILLEGAL  0xffff
+#define VT_ILLEGALMASKED  0xfff
+#define VT_TYPEMASK  0xfff
+
+; VARFLAGS
+#define VARFLAG_FREADONLY  0x1
+#define VARFLAG_FSOURCE  0x2
+#define VARFLAG_FBINDABLE  0x4
+#define VARFLAG_FREQUESTEDIT  0x8
+#define VARFLAG_FDISPLAYBIND  0x10
+#define VARFLAG_FDEFAULTBIND  0x20
+#define VARFLAG_FHIDDEN  0x40
+#define VARFLAG_FRESTRICTED  0x80
+#define VARFLAG_FDEFAULTCOLLELEM  0x100
+#define VARFLAG_FUIDEFAULT  0x200
+#define VARFLAG_FNONBROWSABLE  0x400
+#define VARFLAG_FREPLACEABLE  0x800
+#define VARFLAG_FIMMEDIATEBIND  0x1000
+
+; VARFORMAT_FIRST_DAY
+#define VARFORMAT_FIRST_DAY_SYSTEMDEFAULT  0x0
+#define VARFORMAT_FIRST_DAY_MONDAY  0x1
+#define VARFORMAT_FIRST_DAY_TUESDAY  0x2
+#define VARFORMAT_FIRST_DAY_WEDNESDAY  0x3
+#define VARFORMAT_FIRST_DAY_THURSDAY  0x4
+#define VARFORMAT_FIRST_DAY_FRIDAY  0x5
+#define VARFORMAT_FIRST_DAY_SATURDAY  0x6
+#define VARFORMAT_FIRST_DAY_SUNDAY  0x7
+
+; VARFORMAT_FIRST_WEEK
+#define VARFORMAT_FIRST_WEEK_SYSTEMDEFAULT  0x0
+#define VARFORMAT_FIRST_WEEK_CONTAINS_JANUARY_FIRST  0x1
+#define VARFORMAT_FIRST_WEEK_LARGER_HALF_IN_CURRENT_YEAR  0x2
+#define VARFORMAT_FIRST_WEEK_HAS_SEVEN_DAYS  0x3
+
+; VARFORMAT_GROUP
+#define VARFORMAT_GROUP_SYSTEMDEFAULT  -2
+#define VARFORMAT_GROUP_THOUSANDS  -1
+#define VARFORMAT_GROUP_NOTTHOUSANDS  0x0
+
+; VARFORMAT_LEADING_DIGIT
+#define VARFORMAT_LEADING_DIGIT_SYSTEMDEFAULT  -2
+#define VARFORMAT_LEADING_DIGIT_INCLUDED  -1
+#define VARFORMAT_LEADING_DIGIT_NOTINCLUDED  0x0
+
+; VARFORMAT_NAMED_FORMAT
+#define VARFORMAT_NAMED_FORMAT_GENERALDATE  0x0
+#define VARFORMAT_NAMED_FORMAT_LONGDATE  0x1
+#define VARFORMAT_NAMED_FORMAT_SHORTDATE  0x2
+#define VARFORMAT_NAMED_FORMAT_LONGTIME  0x3
+#define VARFORMAT_NAMED_FORMAT_SHORTTIME  0x4
+
+; VARFORMAT_PARENTHESES
+#define VARFORMAT_PARENTHESES_SYSTEMDEFAULT  -2
+#define VARFORMAT_PARENTHESES_USED  -1
+#define VARFORMAT_PARENTHESES_NOTUSED  0x0
+
+; VARKIND
+#define VAR_PERINSTANCE  0x0
+#define VAR_STATIC  0x1
+#define VAR_CONST  0x2
+#define VAR_DISPATCH  0x3
+
+; VER_FIND_FILE_FLAGS
+#define VFFF_ISSHAREDFILE  0x1
+
+; VER_FIND_FILE_STATUS
+#define VFF_CURNEDEST  0x1
+#define VFF_FILEINUSE  0x2
+#define VFF_BUFFTOOSMALL  0x4
+
+; VER_FLAGS
+#define VER_MINORVERSION  0x1
+#define VER_MAJORVERSION  0x2
+#define VER_BUILDNUMBER  0x4
+#define VER_PLATFORMID  0x8
+#define VER_SERVICEPACKMINOR  0x10
+#define VER_SERVICEPACKMAJOR  0x20
+#define VER_SUITENAME  0x40
+#define VER_PRODUCT_TYPE  0x80
+
+; VER_INSTALL_FILE_FLAGS
+#define VIFF_FORCEINSTALL  0x1
+#define VIFF_DONTDELETEOLD  0x2
+
+; VER_INSTALL_FILE_STATUS
+#define VIF_TEMPFILE  0x1
+#define VIF_MISMATCH  0x2
+#define VIF_SRCOLD  0x4
+#define VIF_DIFFLANG  0x8
+#define VIF_DIFFCODEPG  0x10
+#define VIF_DIFFTYPE  0x20
+#define VIF_WRITEPROT  0x40
+#define VIF_FILEINUSE  0x80
+#define VIF_OUTOFSPACE  0x100
+#define VIF_ACCESSVIOLATION  0x200
+#define VIF_SHARINGVIOLATION  0x400
+#define VIF_CANNOTCREATE  0x800
+#define VIF_CANNOTDELETE  0x1000
+#define VIF_CANNOTRENAME  0x2000
+#define VIF_CANNOTDELETECUR  0x4000
+#define VIF_OUTOFMEMORY  0x8000
+#define VIF_CANNOTREADSRC  0x10000
+#define VIF_CANNOTREADDST  0x20000
+#define VIF_BUFFTOOSMALL  0x40000
+#define VIF_CANNOTLOADLZ32  0x80000
+#define VIF_CANNOTLOADCABINET  0x100000
 
 ; VIRTUAL_ALLOCATION_TYPE
 #define MEM_COMMIT  0x1000
@@ -1638,6 +13354,260 @@
 #define MEM_DECOMMIT  0x4000
 #define MEM_RELEASE  0x8000
 
+; VIRTUAL_KEY
+#define VK_0  0x30
+#define VK_1  0x31
+#define VK_2  0x32
+#define VK_3  0x33
+#define VK_4  0x34
+#define VK_5  0x35
+#define VK_6  0x36
+#define VK_7  0x37
+#define VK_8  0x38
+#define VK_9  0x39
+#define VK_A  0x41
+#define VK_B  0x42
+#define VK_C  0x43
+#define VK_D  0x44
+#define VK_E  0x45
+#define VK_F  0x46
+#define VK_G  0x47
+#define VK_H  0x48
+#define VK_I  0x49
+#define VK_J  0x4a
+#define VK_K  0x4b
+#define VK_L  0x4c
+#define VK_M  0x4d
+#define VK_N  0x4e
+#define VK_O  0x4f
+#define VK_P  0x50
+#define VK_Q  0x51
+#define VK_R  0x52
+#define VK_S  0x53
+#define VK_T  0x54
+#define VK_U  0x55
+#define VK_V  0x56
+#define VK_W  0x57
+#define VK_X  0x58
+#define VK_Y  0x59
+#define VK_Z  0x5a
+#define VK_ABNT_C1  0xc1
+#define VK_ABNT_C2  0xc2
+#define VK_DBE_ALPHANUMERIC  0xf0
+#define VK_DBE_CODEINPUT  0xfa
+#define VK_DBE_DBCSCHAR  0xf4
+#define VK_DBE_DETERMINESTRING  0xfc
+#define VK_DBE_ENTERDLGCONVERSIONMODE  0xfd
+#define VK_DBE_ENTERIMECONFIGMODE  0xf8
+#define VK_DBE_ENTERWORDREGISTERMODE  0xf7
+#define VK_DBE_FLUSHSTRING  0xf9
+#define VK_DBE_HIRAGANA  0xf2
+#define VK_DBE_KATAKANA  0xf1
+#define VK_DBE_NOCODEINPUT  0xfb
+#define VK_DBE_NOROMAN  0xf6
+#define VK_DBE_ROMAN  0xf5
+#define VK_DBE_SBCSCHAR  0xf3
+#define VK__none_  0xff
+#define VK_LBUTTON  0x1
+#define VK_RBUTTON  0x2
+#define VK_CANCEL  0x3
+#define VK_MBUTTON  0x4
+#define VK_XBUTTON1  0x5
+#define VK_XBUTTON2  0x6
+#define VK_BACK  0x8
+#define VK_TAB  0x9
+#define VK_CLEAR  0xc
+#define VK_RETURN  0xd
+#define VK_SHIFT  0x10
+#define VK_CONTROL  0x11
+#define VK_MENU  0x12
+#define VK_PAUSE  0x13
+#define VK_CAPITAL  0x14
+#define VK_KANA  0x15
+#define VK_HANGEUL  0x15
+#define VK_HANGUL  0x15
+#define VK_IME_ON  0x16
+#define VK_JUNJA  0x17
+#define VK_FINAL  0x18
+#define VK_HANJA  0x19
+#define VK_KANJI  0x19
+#define VK_IME_OFF  0x1a
+#define VK_ESCAPE  0x1b
+#define VK_CONVERT  0x1c
+#define VK_NONCONVERT  0x1d
+#define VK_ACCEPT  0x1e
+#define VK_MODECHANGE  0x1f
+#define VK_SPACE  0x20
+#define VK_PRIOR  0x21
+#define VK_NEXT  0x22
+#define VK_END  0x23
+#define VK_HOME  0x24
+#define VK_LEFT  0x25
+#define VK_UP  0x26
+#define VK_RIGHT  0x27
+#define VK_DOWN  0x28
+#define VK_SELECT  0x29
+#define VK_PRINT  0x2a
+#define VK_EXECUTE  0x2b
+#define VK_SNAPSHOT  0x2c
+#define VK_INSERT  0x2d
+#define VK_DELETE  0x2e
+#define VK_HELP  0x2f
+#define VK_LWIN  0x5b
+#define VK_RWIN  0x5c
+#define VK_APPS  0x5d
+#define VK_SLEEP  0x5f
+#define VK_NUMPAD0  0x60
+#define VK_NUMPAD1  0x61
+#define VK_NUMPAD2  0x62
+#define VK_NUMPAD3  0x63
+#define VK_NUMPAD4  0x64
+#define VK_NUMPAD5  0x65
+#define VK_NUMPAD6  0x66
+#define VK_NUMPAD7  0x67
+#define VK_NUMPAD8  0x68
+#define VK_NUMPAD9  0x69
+#define VK_MULTIPLY  0x6a
+#define VK_ADD  0x6b
+#define VK_SEPARATOR  0x6c
+#define VK_SUBTRACT  0x6d
+#define VK_DECIMAL  0x6e
+#define VK_DIVIDE  0x6f
+#define VK_F1  0x70
+#define VK_F2  0x71
+#define VK_F3  0x72
+#define VK_F4  0x73
+#define VK_F5  0x74
+#define VK_F6  0x75
+#define VK_F7  0x76
+#define VK_F8  0x77
+#define VK_F9  0x78
+#define VK_F10  0x79
+#define VK_F11  0x7a
+#define VK_F12  0x7b
+#define VK_F13  0x7c
+#define VK_F14  0x7d
+#define VK_F15  0x7e
+#define VK_F16  0x7f
+#define VK_F17  0x80
+#define VK_F18  0x81
+#define VK_F19  0x82
+#define VK_F20  0x83
+#define VK_F21  0x84
+#define VK_F22  0x85
+#define VK_F23  0x86
+#define VK_F24  0x87
+#define VK_NAVIGATION_VIEW  0x88
+#define VK_NAVIGATION_MENU  0x89
+#define VK_NAVIGATION_UP  0x8a
+#define VK_NAVIGATION_DOWN  0x8b
+#define VK_NAVIGATION_LEFT  0x8c
+#define VK_NAVIGATION_RIGHT  0x8d
+#define VK_NAVIGATION_ACCEPT  0x8e
+#define VK_NAVIGATION_CANCEL  0x8f
+#define VK_NUMLOCK  0x90
+#define VK_SCROLL  0x91
+#define VK_OEM_NEC_EQUAL  0x92
+#define VK_OEM_FJ_JISHO  0x92
+#define VK_OEM_FJ_MASSHOU  0x93
+#define VK_OEM_FJ_TOUROKU  0x94
+#define VK_OEM_FJ_LOYA  0x95
+#define VK_OEM_FJ_ROYA  0x96
+#define VK_LSHIFT  0xa0
+#define VK_RSHIFT  0xa1
+#define VK_LCONTROL  0xa2
+#define VK_RCONTROL  0xa3
+#define VK_LMENU  0xa4
+#define VK_RMENU  0xa5
+#define VK_BROWSER_BACK  0xa6
+#define VK_BROWSER_FORWARD  0xa7
+#define VK_BROWSER_REFRESH  0xa8
+#define VK_BROWSER_STOP  0xa9
+#define VK_BROWSER_SEARCH  0xaa
+#define VK_BROWSER_FAVORITES  0xab
+#define VK_BROWSER_HOME  0xac
+#define VK_VOLUME_MUTE  0xad
+#define VK_VOLUME_DOWN  0xae
+#define VK_VOLUME_UP  0xaf
+#define VK_MEDIA_NEXT_TRACK  0xb0
+#define VK_MEDIA_PREV_TRACK  0xb1
+#define VK_MEDIA_STOP  0xb2
+#define VK_MEDIA_PLAY_PAUSE  0xb3
+#define VK_LAUNCH_MAIL  0xb4
+#define VK_LAUNCH_MEDIA_SELECT  0xb5
+#define VK_LAUNCH_APP1  0xb6
+#define VK_LAUNCH_APP2  0xb7
+#define VK_OEM_1  0xba
+#define VK_OEM_PLUS  0xbb
+#define VK_OEM_COMMA  0xbc
+#define VK_OEM_MINUS  0xbd
+#define VK_OEM_PERIOD  0xbe
+#define VK_OEM_2  0xbf
+#define VK_OEM_3  0xc0
+#define VK_GAMEPAD_A  0xc3
+#define VK_GAMEPAD_B  0xc4
+#define VK_GAMEPAD_X  0xc5
+#define VK_GAMEPAD_Y  0xc6
+#define VK_GAMEPAD_RIGHT_SHOULDER  0xc7
+#define VK_GAMEPAD_LEFT_SHOULDER  0xc8
+#define VK_GAMEPAD_LEFT_TRIGGER  0xc9
+#define VK_GAMEPAD_RIGHT_TRIGGER  0xca
+#define VK_GAMEPAD_DPAD_UP  0xcb
+#define VK_GAMEPAD_DPAD_DOWN  0xcc
+#define VK_GAMEPAD_DPAD_LEFT  0xcd
+#define VK_GAMEPAD_DPAD_RIGHT  0xce
+#define VK_GAMEPAD_MENU  0xcf
+#define VK_GAMEPAD_VIEW  0xd0
+#define VK_GAMEPAD_LEFT_THUMBSTICK_BUTTON  0xd1
+#define VK_GAMEPAD_RIGHT_THUMBSTICK_BUTTON  0xd2
+#define VK_GAMEPAD_LEFT_THUMBSTICK_UP  0xd3
+#define VK_GAMEPAD_LEFT_THUMBSTICK_DOWN  0xd4
+#define VK_GAMEPAD_LEFT_THUMBSTICK_RIGHT  0xd5
+#define VK_GAMEPAD_LEFT_THUMBSTICK_LEFT  0xd6
+#define VK_GAMEPAD_RIGHT_THUMBSTICK_UP  0xd7
+#define VK_GAMEPAD_RIGHT_THUMBSTICK_DOWN  0xd8
+#define VK_GAMEPAD_RIGHT_THUMBSTICK_RIGHT  0xd9
+#define VK_GAMEPAD_RIGHT_THUMBSTICK_LEFT  0xda
+#define VK_OEM_4  0xdb
+#define VK_OEM_5  0xdc
+#define VK_OEM_6  0xdd
+#define VK_OEM_7  0xde
+#define VK_OEM_8  0xdf
+#define VK_OEM_AX  0xe1
+#define VK_OEM_102  0xe2
+#define VK_ICO_HELP  0xe3
+#define VK_ICO_00  0xe4
+#define VK_PROCESSKEY  0xe5
+#define VK_ICO_CLEAR  0xe6
+#define VK_PACKET  0xe7
+#define VK_OEM_RESET  0xe9
+#define VK_OEM_JUMP  0xea
+#define VK_OEM_PA1  0xeb
+#define VK_OEM_PA2  0xec
+#define VK_OEM_PA3  0xed
+#define VK_OEM_WSCTRL  0xee
+#define VK_OEM_CUSEL  0xef
+#define VK_OEM_ATTN  0xf0
+#define VK_OEM_FINISH  0xf1
+#define VK_OEM_COPY  0xf2
+#define VK_OEM_AUTO  0xf3
+#define VK_OEM_ENLW  0xf4
+#define VK_OEM_BACKTAB  0xf5
+#define VK_ATTN  0xf6
+#define VK_CRSEL  0xf7
+#define VK_EXSEL  0xf8
+#define VK_EREOF  0xf9
+#define VK_PLAY  0xfa
+#define VK_ZOOM  0xfb
+#define VK_NONAME  0xfc
+#define VK_PA1  0xfd
+#define VK_OEM_CLEAR  0xfe
+
+; WAIT_CHAIN_THREAD_OPTIONS
+#define WCT_OUT_OF_PROC_COM_FLAG  0x2
+#define WCT_OUT_OF_PROC_CS_FLAG  0x4
+#define WCT_OUT_OF_PROC_FLAG  0x1
+
 ; WAIT_EVENT
 #define WAIT_OBJECT_0  0x0
 #define WAIT_ABANDONED  0x80
@@ -1645,6 +13615,216 @@
 #define WAIT_IO_COMPLETION  0xc0
 #define WAIT_TIMEOUT  0x102
 #define WAIT_FAILED  0xffffffff
+
+; WBEM_COMPARISON_FLAG
+#define WBEM_COMPARISON_INCLUDE_ALL  0x0
+#define WBEM_FLAG_IGNORE_QUALIFIERS  0x1
+#define WBEM_FLAG_IGNORE_OBJECT_SOURCE  0x2
+#define WBEM_FLAG_IGNORE_DEFAULT_VALUES  0x4
+#define WBEM_FLAG_IGNORE_CLASS  0x8
+#define WBEM_FLAG_IGNORE_CASE  0x10
+#define WBEM_FLAG_IGNORE_FLAVOR  0x20
+
+; WBEM_CONDITION_FLAG_TYPE
+#define WBEM_FLAG_ALWAYS  0x0
+#define WBEM_FLAG_ONLY_IF_TRUE  0x1
+#define WBEM_FLAG_ONLY_IF_FALSE  0x2
+#define WBEM_FLAG_ONLY_IF_IDENTICAL  0x3
+#define WBEM_MASK_PRIMARY_CONDITION  0x3
+#define WBEM_FLAG_KEYS_ONLY  0x4
+#define WBEM_FLAG_REFS_ONLY  0x8
+#define WBEM_FLAG_LOCAL_ONLY  0x10
+#define WBEM_FLAG_PROPAGATED_ONLY  0x20
+#define WBEM_FLAG_SYSTEM_ONLY  0x30
+#define WBEM_FLAG_NONSYSTEM_ONLY  0x40
+#define WBEM_MASK_CONDITION_ORIGIN  0x70
+#define WBEM_FLAG_CLASS_OVERRIDES_ONLY  0x100
+#define WBEM_FLAG_CLASS_LOCAL_AND_OVERRIDES  0x200
+#define WBEM_MASK_CLASS_CONDITION  0x300
+
+; WBEM_GENERIC_FLAG_TYPE
+#define WBEM_FLAG_RETURN_IMMEDIATELY  0x10
+#define WBEM_FLAG_RETURN_WBEM_COMPLETE  0x0
+#define WBEM_FLAG_BIDIRECTIONAL  0x0
+#define WBEM_FLAG_FORWARD_ONLY  0x20
+#define WBEM_FLAG_NO_ERROR_OBJECT  0x40
+#define WBEM_FLAG_RETURN_ERROR_OBJECT  0x0
+#define WBEM_FLAG_SEND_STATUS  0x80
+#define WBEM_FLAG_DONT_SEND_STATUS  0x0
+#define WBEM_FLAG_ENSURE_LOCATABLE  0x100
+#define WBEM_FLAG_DIRECT_READ  0x200
+#define WBEM_FLAG_SEND_ONLY_SELECTED  0x0
+#define WBEM_RETURN_WHEN_COMPLETE  0x0
+#define WBEM_RETURN_IMMEDIATELY  0x10
+#define WBEM_MASK_RESERVED_FLAGS  0x1f000
+#define WBEM_FLAG_USE_AMENDED_QUALIFIERS  0x20000
+#define WBEM_FLAG_STRONG_VALIDATION  0x100000
+
+; WCT_OBJECT_STATUS
+#define WctStatusNoAccess  0x1
+#define WctStatusRunning  0x2
+#define WctStatusBlocked  0x3
+#define WctStatusPidOnly  0x4
+#define WctStatusPidOnlyRpcss  0x5
+#define WctStatusOwned  0x6
+#define WctStatusNotOwned  0x7
+#define WctStatusAbandoned  0x8
+#define WctStatusUnknown  0x9
+#define WctStatusError  0xa
+#define WctStatusMax  0xb
+
+; WCT_OBJECT_TYPE
+#define WctCriticalSectionType  0x1
+#define WctSendMessageType  0x2
+#define WctMutexType  0x3
+#define WctAlpcType  0x4
+#define WctComType  0x5
+#define WctThreadWaitType  0x6
+#define WctProcessWaitType  0x7
+#define WctThreadType  0x8
+#define WctComActivationType  0x9
+#define WctUnknownType  0xa
+#define WctSocketIoType  0xb
+#define WctSmbIoType  0xc
+#define WctMaxType  0xd
+
+; WELL_KNOWN_SID_TYPE
+#define WinNullSid  0x0
+#define WinWorldSid  0x1
+#define WinLocalSid  0x2
+#define WinCreatorOwnerSid  0x3
+#define WinCreatorGroupSid  0x4
+#define WinCreatorOwnerServerSid  0x5
+#define WinCreatorGroupServerSid  0x6
+#define WinNtAuthoritySid  0x7
+#define WinDialupSid  0x8
+#define WinNetworkSid  0x9
+#define WinBatchSid  0xa
+#define WinInteractiveSid  0xb
+#define WinServiceSid  0xc
+#define WinAnonymousSid  0xd
+#define WinProxySid  0xe
+#define WinEnterpriseControllersSid  0xf
+#define WinSelfSid  0x10
+#define WinAuthenticatedUserSid  0x11
+#define WinRestrictedCodeSid  0x12
+#define WinTerminalServerSid  0x13
+#define WinRemoteLogonIdSid  0x14
+#define WinLogonIdsSid  0x15
+#define WinLocalSystemSid  0x16
+#define WinLocalServiceSid  0x17
+#define WinNetworkServiceSid  0x18
+#define WinBuiltinDomainSid  0x19
+#define WinBuiltinAdministratorsSid  0x1a
+#define WinBuiltinUsersSid  0x1b
+#define WinBuiltinGuestsSid  0x1c
+#define WinBuiltinPowerUsersSid  0x1d
+#define WinBuiltinAccountOperatorsSid  0x1e
+#define WinBuiltinSystemOperatorsSid  0x1f
+#define WinBuiltinPrintOperatorsSid  0x20
+#define WinBuiltinBackupOperatorsSid  0x21
+#define WinBuiltinReplicatorSid  0x22
+#define WinBuiltinPreWindows2000CompatibleAccessSid  0x23
+#define WinBuiltinRemoteDesktopUsersSid  0x24
+#define WinBuiltinNetworkConfigurationOperatorsSid  0x25
+#define WinAccountAdministratorSid  0x26
+#define WinAccountGuestSid  0x27
+#define WinAccountKrbtgtSid  0x28
+#define WinAccountDomainAdminsSid  0x29
+#define WinAccountDomainUsersSid  0x2a
+#define WinAccountDomainGuestsSid  0x2b
+#define WinAccountComputersSid  0x2c
+#define WinAccountControllersSid  0x2d
+#define WinAccountCertAdminsSid  0x2e
+#define WinAccountSchemaAdminsSid  0x2f
+#define WinAccountEnterpriseAdminsSid  0x30
+#define WinAccountPolicyAdminsSid  0x31
+#define WinAccountRasAndIasServersSid  0x32
+#define WinNTLMAuthenticationSid  0x33
+#define WinDigestAuthenticationSid  0x34
+#define WinSChannelAuthenticationSid  0x35
+#define WinThisOrganizationSid  0x36
+#define WinOtherOrganizationSid  0x37
+#define WinBuiltinIncomingForestTrustBuildersSid  0x38
+#define WinBuiltinPerfMonitoringUsersSid  0x39
+#define WinBuiltinPerfLoggingUsersSid  0x3a
+#define WinBuiltinAuthorizationAccessSid  0x3b
+#define WinBuiltinTerminalServerLicenseServersSid  0x3c
+#define WinBuiltinDCOMUsersSid  0x3d
+#define WinBuiltinIUsersSid  0x3e
+#define WinIUserSid  0x3f
+#define WinBuiltinCryptoOperatorsSid  0x40
+#define WinUntrustedLabelSid  0x41
+#define WinLowLabelSid  0x42
+#define WinMediumLabelSid  0x43
+#define WinHighLabelSid  0x44
+#define WinSystemLabelSid  0x45
+#define WinWriteRestrictedCodeSid  0x46
+#define WinCreatorOwnerRightsSid  0x47
+#define WinCacheablePrincipalsGroupSid  0x48
+#define WinNonCacheablePrincipalsGroupSid  0x49
+#define WinEnterpriseReadonlyControllersSid  0x4a
+#define WinAccountReadonlyControllersSid  0x4b
+#define WinBuiltinEventLogReadersGroup  0x4c
+#define WinNewEnterpriseReadonlyControllersSid  0x4d
+#define WinBuiltinCertSvcDComAccessGroup  0x4e
+#define WinMediumPlusLabelSid  0x4f
+#define WinLocalLogonSid  0x50
+#define WinConsoleLogonSid  0x51
+#define WinThisOrganizationCertificateSid  0x52
+#define WinApplicationPackageAuthoritySid  0x53
+#define WinBuiltinAnyPackageSid  0x54
+#define WinCapabilityInternetClientSid  0x55
+#define WinCapabilityInternetClientServerSid  0x56
+#define WinCapabilityPrivateNetworkClientServerSid  0x57
+#define WinCapabilityPicturesLibrarySid  0x58
+#define WinCapabilityVideosLibrarySid  0x59
+#define WinCapabilityMusicLibrarySid  0x5a
+#define WinCapabilityDocumentsLibrarySid  0x5b
+#define WinCapabilitySharedUserCertificatesSid  0x5c
+#define WinCapabilityEnterpriseAuthenticationSid  0x5d
+#define WinCapabilityRemovableStorageSid  0x5e
+#define WinBuiltinRDSRemoteAccessServersSid  0x5f
+#define WinBuiltinRDSEndpointServersSid  0x60
+#define WinBuiltinRDSManagementServersSid  0x61
+#define WinUserModeDriversSid  0x62
+#define WinBuiltinHyperVAdminsSid  0x63
+#define WinAccountCloneableControllersSid  0x64
+#define WinBuiltinAccessControlAssistanceOperatorsSid  0x65
+#define WinBuiltinRemoteManagementUsersSid  0x66
+#define WinAuthenticationAuthorityAssertedSid  0x67
+#define WinAuthenticationServiceAssertedSid  0x68
+#define WinLocalAccountSid  0x69
+#define WinLocalAccountAndAdministratorSid  0x6a
+#define WinAccountProtectedUsersSid  0x6b
+#define WinCapabilityAppointmentsSid  0x6c
+#define WinCapabilityContactsSid  0x6d
+#define WinAccountDefaultSystemManagedSid  0x6e
+#define WinBuiltinDefaultSystemManagedGroupSid  0x6f
+#define WinBuiltinStorageReplicaAdminsSid  0x70
+#define WinAccountKeyAdminsSid  0x71
+#define WinAccountEnterpriseKeyAdminsSid  0x72
+#define WinAuthenticationKeyTrustSid  0x73
+#define WinAuthenticationKeyPropertyMFASid  0x74
+#define WinAuthenticationKeyPropertyAttestationSid  0x75
+#define WinAuthenticationFreshKeyAuthSid  0x76
+#define WinBuiltinDeviceOwnersSid  0x77
+
+; WER_FAULT_REPORTING
+#define WER_FAULT_REPORTING_FLAG_DISABLE_THREAD_SUSPENSION  0x4
+#define WER_FAULT_REPORTING_FLAG_NOHEAP  0x1
+#define WER_FAULT_REPORTING_FLAG_QUEUE  0x2
+#define WER_FAULT_REPORTING_FLAG_QUEUE_UPLOAD  0x8
+#define WER_FAULT_REPORTING_ALWAYS_SHOW_UI  0x10
+
+; WER_FILE
+#define WER_FILE_ANONYMOUS_DATA  0x2
+#define WER_FILE_DELETE_WHEN_DONE  0x1
+
+; WER_REGISTER_FILE_TYPE
+#define WerRegFileTypeUserDocument  0x1
+#define WerRegFileTypeOther  0x2
+#define WerRegFileTypeMax  0x3
 
 ; WIN32_ERROR
 #define NO_ERROR  0x0
@@ -4982,6 +17162,16 @@
 #define ERROR_VHD_UNEXPECTED_ID  0xc03a0034
 #define ERROR_QUERY_STORAGE_ERROR  0x803a0001
 
+; WIN_HTTP_CREATE_URL_FLAGS
+#define ICU_ESCAPE  0x80000000
+#define ICU_REJECT_USERPWD  0x4000
+#define ICU_DECODE  0x10000000
+
+; WINDOW_DISPLAY_AFFINITY
+#define WDA_NONE  0x0
+#define WDA_MONITOR  0x1
+#define WDA_EXCLUDEFROMCAPTURE  0x11
+
 ; WINDOW_EX_STYLE
 #define WS_EX_DLGMODALFRAME  0x1
 #define WS_EX_NOPARENTNOTIFY  0x4
@@ -5010,6 +17200,25 @@
 #define WS_EX_LAYOUTRTL  0x400000
 #define WS_EX_COMPOSITED  0x2000000
 #define WS_EX_NOACTIVATE  0x8000000
+
+; WINDOW_LONG_PTR_INDEX
+#define GWL_EXSTYLE  -20
+#define GWLP_HINSTANCE  -6
+#define GWLP_HWNDPARENT  -8
+#define GWLP_ID  -12
+#define GWL_STYLE  -16
+#define GWLP_USERDATA  -21
+#define GWLP_WNDPROC  -4
+#define GWL_HINSTANCE  -6
+#define GWL_ID  -12
+#define GWL_USERDATA  -21
+#define GWL_WNDPROC  -4
+#define GWL_HWNDPARENT  -8
+
+; WINDOW_MESSAGE_FILTER_ACTION
+#define MSGFLT_ALLOW  0x1
+#define MSGFLT_DISALLOW  0x2
+#define MSGFLT_RESET  0x0
 
 ; WINDOW_STYLE
 #define WS_OVERLAPPED  0x0
@@ -5041,11 +17250,42 @@
 #define WS_CHILDWINDOW  0x40000000
 #define WS_ACTIVECAPTION  0x1
 
+; WINDOWPLACEMENT_FLAGS
+#define WPF_ASYNCWINDOWPLACEMENT  0x4
+#define WPF_RESTORETOMAXIMIZED  0x2
+#define WPF_SETMINPOSITION  0x1
+
+; WINDOWS_HOOK_ID
+#define WH_CALLWNDPROC  0x4
+#define WH_CALLWNDPROCRET  0xc
+#define WH_CBT  0x5
+#define WH_DEBUG  0x9
+#define WH_FOREGROUNDIDLE  0xb
+#define WH_GETMESSAGE  0x3
+#define WH_JOURNALPLAYBACK  0x1
+#define WH_JOURNALRECORD  0x0
+#define WH_KEYBOARD  0x2
+#define WH_KEYBOARD_LL  0xd
+#define WH_MOUSE  0x7
+#define WH_MOUSE_LL  0xe
+#define WH_MSGFILTER  -1
+#define WH_SHELL  0xa
+#define WH_SYSMSGFILTER  0x6
+
+; WINDOWTHEMEATTRIBUTETYPE
+#define WTA_NONCLIENT  0x1
+
 ; WINHTTP_ACCESS_TYPE
 #define WINHTTP_ACCESS_TYPE_NO_PROXY  0x1
 #define WINHTTP_ACCESS_TYPE_DEFAULT_PROXY  0x0
 #define WINHTTP_ACCESS_TYPE_NAMED_PROXY  0x3
 #define WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY  0x4
+
+; WINHTTP_INTERNET_SCHEME
+#define WINHTTP_INTERNET_SCHEME_HTTP  0x1
+#define WINHTTP_INTERNET_SCHEME_HTTPS  0x2
+#define WINHTTP_INTERNET_SCHEME_FTP  0x3
+#define WINHTTP_INTERNET_SCHEME_SOCKS  0x4
 
 ; WINHTTP_OPEN_REQUEST_FLAGS
 #define WINHTTP_FLAG_BYPASS_PROXY_CACHE  0x100
@@ -5055,5 +17295,55 @@
 #define WINHTTP_FLAG_NULL_CODEPAGE  0x8
 #define WINHTTP_FLAG_REFRESH  0x100
 #define WINHTTP_FLAG_SECURE  0x800000
+
+; WINHTTP_WEB_SOCKET_BUFFER_TYPE
+#define WINHTTP_WEB_SOCKET_BINARY_MESSAGE_BUFFER_TYPE  0x0
+#define WINHTTP_WEB_SOCKET_BINARY_FRAGMENT_BUFFER_TYPE  0x1
+#define WINHTTP_WEB_SOCKET_UTF8_MESSAGE_BUFFER_TYPE  0x2
+#define WINHTTP_WEB_SOCKET_UTF8_FRAGMENT_BUFFER_TYPE  0x3
+#define WINHTTP_WEB_SOCKET_CLOSE_BUFFER_TYPE  0x4
+
+; WNDCLASS_STYLES
+#define CS_VREDRAW  0x1
+#define CS_HREDRAW  0x2
+#define CS_DBLCLKS  0x8
+#define CS_OWNDC  0x20
+#define CS_CLASSDC  0x40
+#define CS_PARENTDC  0x80
+#define CS_NOCLOSE  0x200
+#define CS_SAVEBITS  0x800
+#define CS_BYTEALIGNCLIENT  0x1000
+#define CS_BYTEALIGNWINDOW  0x2000
+#define CS_GLOBALCLASS  0x4000
+#define CS_IME  0x10000
+#define CS_DROPSHADOW  0x20000
+
+; WORKER_THREAD_FLAGS
+#define WT_EXECUTEDEFAULT  0x0
+#define WT_EXECUTEINIOTHREAD  0x1
+#define WT_EXECUTEINPERSISTENTTHREAD  0x80
+#define WT_EXECUTEINWAITTHREAD  0x4
+#define WT_EXECUTELONGFUNCTION  0x10
+#define WT_EXECUTEONLYONCE  0x8
+#define WT_TRANSFER_IMPERSONATION  0x100
+#define WT_EXECUTEINTIMERTHREAD  0x20
+
+; WPAD_CACHE_DELETE
+#define WPAD_CACHE_DELETE_CURRENT  0x0
+#define WPAD_CACHE_DELETE_ALL  0x1
+
+; WSB_PROP
+#define WSB_PROP_CXHSCROLL  0x2
+#define WSB_PROP_CXHTHUMB  0x10
+#define WSB_PROP_CXVSCROLL  0x8
+#define WSB_PROP_CYHSCROLL  0x4
+#define WSB_PROP_CYVSCROLL  0x1
+#define WSB_PROP_CYVTHUMB  0x20
+#define WSB_PROP_HBKGCOLOR  0x80
+#define WSB_PROP_HSTYLE  0x200
+#define WSB_PROP_PALETTE  0x800
+#define WSB_PROP_VBKGCOLOR  0x40
+#define WSB_PROP_VSTYLE  0x100
+#define WSB_PROP_WINSTYLE  0x400
 
 #endif
