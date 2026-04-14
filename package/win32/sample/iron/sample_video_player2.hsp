@@ -1,0 +1,169 @@
+;============================================================
+;  sample_video_player2.hsp — iron_video フル機能 GUI プレイヤー
+;
+;  シークバー + 現在時刻 / 全長 / 再生速度 / 音量スライダ付き。
+;  iron_video.hsp の Position/Duration API (PROPVARIANT) を活用。
+;============================================================
+
+#include "iron_video.hsp"
+
+	title "iron_video Player — シークバー付き"
+	screen 0, 900, 680
+	font "MS Gothic", 14
+
+	loaded = 0
+	vol_int = 80
+	rate_idx = 2   ; 0:0.5x 1:0.75x 2:1.0x 3:1.25x 4:1.5x 5:2.0x
+
+	; ----- UI -----
+	pos 10, 10
+	objsize 80, 28
+	button gosub "Open", *do_open
+	pos 100, 10
+	objsize 60, 28
+	button gosub "Play", *do_play
+	pos 165, 10
+	objsize 70, 28
+	button gosub "Pause", *do_pause
+	pos 240, 10
+	objsize 60, 28
+	button gosub "Stop", *do_stop
+	pos 305, 10
+	objsize 80, 28
+	button gosub "-10s", *do_back10
+	pos 390, 10
+	objsize 80, 28
+	button gosub "+10s", *do_fwd10
+
+	pos 500, 14
+	mes "速度:"
+	pos 540, 10
+	objsize 50, 28
+	button gosub "0.5x", *do_r05
+	pos 595, 10
+	objsize 50, 28
+	button gosub "1.0x", *do_r10
+	pos 650, 10
+	objsize 50, 28
+	button gosub "1.5x", *do_r15
+	pos 705, 10
+	objsize 50, 28
+	button gosub "2.0x", *do_r20
+
+	pos 770, 14
+	mes "Vol:"
+	pos 800, 10
+	objsize 80, 24
+	input vol_int, 4, 4, 24
+
+	; Video area (10, 50) - (890, 560)
+	color 16, 16, 16 : boxf 10, 50, 890, 560 : color 0, 0, 0
+	pos 380, 300
+	color 200, 200, 200
+	mes "Open で動画選択"
+	color 0, 0, 0
+
+	; Seek bar area: (10, 580) - (890, 610)
+	; Info: (10, 620) - (890, 660)
+
+	gosub *redraw_ui
+
+*main_loop
+	; マウスでシークバークリック
+	getkey k_lb, 1
+	if k_lb {
+		mx = mousex
+		my = mousey
+		if (my >= 580) & (my <= 610) & (mx >= 10) & (mx <= 890) {
+			if loaded {
+				dur = iron_video_duration_ms()
+				if dur > 0 {
+					; click_x → 位置比
+					ratio = (mx - 10) * 1000 / 880
+					new_pos = dur * ratio / 1000
+					iron_video_seek_ms new_pos
+				}
+			}
+			repeat 5 : await 20 : loop
+		}
+	}
+
+	; 音量更新
+	if loaded : iron_video_set_volume 0.01 * double(vol_int)
+
+	gosub *redraw_ui
+	await 100
+	goto *main_loop
+
+*redraw_ui
+	cur = 0 : dur = 0
+	if loaded {
+		cur = iron_video_position_ms()
+		dur = iron_video_duration_ms()
+	}
+
+	; シークバー
+	color 60, 60, 60 : boxf 10, 580, 890, 610
+	color 100, 100, 100
+	line 10, 580, 890, 580
+	line 10, 610, 890, 610
+	if dur > 0 {
+		bar_w = 880 * cur / dur
+		color 80, 160, 240 : boxf 10, 583, 10 + bar_w, 607
+	}
+
+	; 時刻表示
+	color 32, 32, 32 : boxf 10, 620, 890, 660 : color 0, 0, 0
+	color 255, 255, 255
+	pos 10, 625
+	cur_s = cur / 1000
+	dur_s = dur / 1000
+	mes strf("%02d:%02d / %02d:%02d   状態: code=%d", cur_s / 60, cur_s \ 60, dur_s / 60, dur_s \ 60, iron_video_state())
+	color 0, 0, 0
+	return
+
+*do_open
+	dialog "mp4;*.mkv;*.avi;*.wmv;*.mov;*.mp3;*.wav", 16
+	if stat = 0 : return
+	fname = refstr
+	if loaded : iron_video_close
+	color 16, 16, 16 : boxf 10, 50, 890, 560 : color 0, 0, 0
+	iron_video_open fname, hwnd
+	loaded = 1
+	iron_video_set_rate 1.0
+	return
+
+*do_play : if loaded : iron_video_play
+	return
+*do_pause : if loaded : iron_video_pause
+	return
+*do_stop : if loaded : iron_video_stop
+	return
+
+*do_back10
+	if loaded {
+		cur = iron_video_position_ms()
+		new_pos = cur - 10000
+		if new_pos < 0 : new_pos = 0
+		iron_video_seek_ms new_pos
+	}
+	return
+
+*do_fwd10
+	if loaded {
+		cur = iron_video_position_ms()
+		dur = iron_video_duration_ms()
+		new_pos = cur + 10000
+		if new_pos > dur : new_pos = dur
+		iron_video_seek_ms new_pos
+	}
+	return
+
+*do_r05 : if loaded : iron_video_set_rate 0.5
+	return
+*do_r10 : if loaded : iron_video_set_rate 1.0
+	return
+*do_r15 : if loaded : iron_video_set_rate 1.5
+	return
+*do_r20 : if loaded : iron_video_set_rate 2.0
+	return

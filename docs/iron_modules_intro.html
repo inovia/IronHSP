@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>IronHSP Simple モジュール集 入門 — iron_* で HSP3 をモダンに</title>
+<style>
+body{font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;max-width:880px;margin:20px auto;padding:0 20px;line-height:1.7;color:#222}
+h1{border-bottom:3px solid #0066cc;padding-bottom:8px;color:#003366}
+h2{border-left:6px solid #0066cc;padding-left:12px;margin-top:36px;color:#003366}
+h3{color:#005599;margin-top:24px}
+code{background:#f0f0f0;padding:2px 6px;border-radius:3px;font-family:Consolas,monospace;font-size:0.93em}
+pre{background:#1e1e1e;color:#dcdcdc;padding:14px 18px;border-radius:6px;overflow-x:auto;font-family:Consolas,monospace;font-size:0.88em;line-height:1.5}
+pre code{background:none;color:inherit;padding:0}
+table{border-collapse:collapse;width:100%;margin:12px 0}
+th,td{border:1px solid #ccc;padding:8px 10px;vertical-align:top}
+th{background:#e8f0ff;color:#003366}
+.box{background:#fff8dc;border-left:4px solid #ffa500;padding:10px 16px;margin:16px 0;border-radius:3px}
+.muted{color:#888;font-size:0.9em}
+.badge{display:inline-block;background:#0066cc;color:#fff;padding:2px 8px;border-radius:3px;font-size:0.82em;margin:0 4px}
+</style>
+</head>
+<body>
+
+<h1>IronHSP Simple モジュール集 入門</h1>
+<p class="muted">最終更新: 2026-04-14 / 対象: HSP3 (hsp3net) + IronHSP 2026 拡張</p>
+
+<p>
+HSP は手軽にグラフィックスとゲームを作れる言語ですが、「モダンな機能」(HTTP 通信、JSON、AI API、音声認識、DB、ZIP、マイク録音、Webcam、MCP など) を
+やろうとすると Win32 API を直叩きしたり COM を扱ったりで急にハードルが上がります。
+<br><br>
+<strong>IronHSP Simple モジュール集</strong> (<code>iron_*.hsp</code>) はそんなモダン機能を
+<strong>HSP らしい 1〜2 行のシンプルな書き方</strong>で使えるようにまとめたラッパ群です。
+全部 <code>#include</code> するだけで使えます。
+</p>
+
+<h2>モジュール一覧 (17 モジュール)</h2>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>依存 DLL</th></tr>
+<tr><td><code>iron_http</code></td><td>HTTP GET/POST, multipart upload, SSE streaming</td><td>winhttp (OS 標準)</td></tr>
+<tr><td><code>iron_json</code></td><td>JSON parse/build</td><td>hspjson.dll</td></tr>
+<tr><td><code>iron_ai</code></td><td>OpenAI 互換 Chat API (Groq, Anthropic, Ollama 等)</td><td>iron_http + iron_json</td></tr>
+<tr><td><code>iron_speech</code></td><td>音声認識 (5 backend: cloud/whisper/vosk/sapi/winrt)</td><td>hspwhisper/hspvosk/hspsapi/hspwinrtspeech</td></tr>
+<tr><td><code>iron_video</code></td><td>動画/音声再生 (MF MFPlay, シーク対応)</td><td>mfplay.dll (OS 標準)</td></tr>
+<tr><td><code>iron_camera_mf</code></td><td>Webcam プレビュー + 録画 + マイク録音</td><td>hspmfcam.dll</td></tr>
+<tr><td><code>iron_camera</code></td><td>Webcam (OpenCV backend, hspcv4 と併用)</td><td>hspcv4.dll</td></tr>
+<tr><td><code>iron_toast</code></td><td>タスクトレイバルーン通知</td><td>shell32 (OS 標準)</td></tr>
+<tr><td><code>iron_mcp_client</code></td><td>Model Context Protocol クライアント</td><td>hspmcp.dll</td></tr>
+<tr><td><code>iron_mcp_server</code></td><td>HSP3CL を MCP stdio server 化</td><td>hspmcp.dll</td></tr>
+<tr><td><code>iron_webserver</code></td><td>localhost HTTP サーバ</td><td>hspwebsrv.dll</td></tr>
+<tr><td><code>iron_zip</code></td><td>ZIP 読み書き (miniz 埋め込み)</td><td>hspzip.dll</td></tr>
+<tr><td><code>iron_db</code></td><td>SQLite 3.46 データベース</td><td>hspdb.dll</td></tr>
+<tr><td><code>iron_hash</code></td><td>SHA-1/256/512, MD5, Base64</td><td>bcrypt + crypt32 (OS 標準)</td></tr>
+<tr><td><code>iron_shell</code></td><td>ShellExecute, ゴミ箱送り, .lnk 作成</td><td>shell32 + ole32 (OS 標準)</td></tr>
+<tr><td><code>iron_serial</code></td><td>シリアルポート (RS-232 / USB CDC)</td><td>kernel32 (OS 標準)</td></tr>
+<tr><td><code>iron_ini</code></td><td>INI 設定ファイル</td><td>kernel32 (OS 標準)</td></tr>
+</table>
+
+<h2>インストール</h2>
+
+<p>IronHSP 2026 を clone すれば、全部 <code>package/win32/common/iron_*.hsp</code> として配布されています。HSP スクリプト側は:</p>
+
+<pre><code>#include "iron_http.hsp"
+#include "iron_json.hsp"
+#include "iron_ai.hsp"
+; ... 必要なモジュールだけ</code></pre>
+
+<p>依存 DLL (<code>hspjson.dll</code>, <code>hspmfcam.dll</code> 等) は <code>plugins/win32/hsp*/Release/</code> にビルド出力があるので、それらを <strong>HSP 実行ファイルと同じディレクトリにコピー</strong>してください。</p>
+
+<h2>使い方 (5 分で分かる)</h2>
+
+<h3>1. 天気予報を取得して JSON パース</h3>
+
+<pre><code>#include "iron_http.hsp"
+#include "iron_json.hsp"
+
+	url = "https://api.open-meteo.com/v1/forecast?latitude=35.68&longitude=139.69&current=temperature_2m"
+	http_get url, body
+	if stat = 200 {
+		hid = json_load(body)
+		mes "東京の現在気温: " + json_dbl(hid, "current.temperature_2m") + " ℃"
+		json_release hid
+	}
+	stop</code></pre>
+
+<h3>2. タスクトレイ通知</h3>
+
+<pre><code>#include "iron_toast.hsp"
+	toast "IronHSP", "処理が完了しました"
+	toast_warning "注意", "ディスク容量が少なくなっています"
+	toast_error "エラー", "ファイルが見つかりません"</code></pre>
+
+<h3>3. Webcam プレビュー + スナップショット</h3>
+
+<pre><code>#include "iron_camera_mf.hsp"
+	screen 0, 800, 600
+	h = iron_cam_open(0, 0, 0, 800, 600)
+	iron_cam_set_aspect h, 1    ; letterbox
+	; ボタン押下でスナップショット:
+	iron_cam_save h, "shot.png"
+	stop</code></pre>
+
+<h3>4. Webcam 録画 (映像 + 音声 → MP4)</h3>
+
+<pre><code>#include "iron_camera_mf.hsp"
+	h = iron_cam_open(0, 0, 0, 800, 600)
+	; カメラ 0、音声デバイス 0、H.264 4Mbps + AAC 128kbps
+	iron_cam_record_av h, "output.mp4", 0, "H264", 4000000, "AAC", 16000
+	wait 1000    ; 10 秒録画
+	iron_cam_record_stop h
+	iron_cam_close h
+	dialog "output.mp4 を書き出しました"</code></pre>
+
+<h3>5. マイク録音 → Whisper 文字起こし → AI 応答</h3>
+
+<pre><code>#include "iron_camera_mf.hsp"
+#include "iron_speech.hsp"
+#include "iron_ai.hsp"
+
+	; マイクで 5 秒録音
+	hmic = iron_mic_open(0, 16000, 1, 16)
+	iron_mic_save_wav hmic, "voice.wav"
+	wait 500
+	iron_mic_save_wav_stop hmic
+	iron_mic_close hmic
+
+	; whisper.cpp オフライン認識
+	iron_speech_set_backend SPEECH_BACKEND_WHISPER
+	iron_speech_set_model "ggml-base.bin"
+	iron_speech_set_language "ja"
+	iron_speech_open
+	iron_speech_transcribe "voice.wav", user_text
+	iron_speech_close
+	mes "聞こえた: " + user_text
+
+	; Groq で応答
+	iron_ai_set_endpoint "https://api.groq.com/openai/v1"
+	iron_ai_set_key "gsk_..."
+	iron_ai_set_model "llama3.2"
+	iron_ai_chat user_text, reply
+	mes "AI: " + reply</code></pre>
+
+<h3>6. 動画再生 (シーク対応)</h3>
+
+<pre><code>#include "iron_video.hsp"
+	screen 0, 800, 600
+	iron_video_open "movie.mp4", hwnd
+	wait 200         ; 2 秒経過したら
+	pos_ms = iron_video_position_ms()
+	dur_ms = iron_video_duration_ms()
+	mes "位置: " + pos_ms + " / " + dur_ms
+	iron_video_seek_ms (dur_ms / 2)     ; 真ん中にジャンプ
+	stop</code></pre>
+
+<h3>7. SQLite データベース</h3>
+
+<pre><code>#include "iron_db.hsp"
+	h = db_open("test.db")
+	db_exec h, "CREATE TABLE IF NOT EXISTS users (name TEXT, age INTEGER)"
+	db_exec h, "INSERT INTO users VALUES ('Alice', 30)"
+	qh = db_query(h, "SELECT name, age FROM users")
+	repeat
+		db_step qh : if stat = 0 : break
+		db_col_text qh, 0, name
+		age = db_col_int(qh, 1)
+		mes name + ": " + age
+	loop
+	db_query_close qh
+	db_close h</code></pre>
+
+<h3>8. ZIP 作成</h3>
+
+<pre><code>#include "iron_zip.hsp"
+	h = zip_open_write("out.zip")
+	zip_add_file h, "hello.txt", "input.txt"
+	zip_add_file h, "data/info.json", "info.json"
+	zip_close h</code></pre>
+
+<h3>9. ローカル HTTP サーバ</h3>
+
+<pre><code>#include "iron_webserver.hsp"
+	web_open 8080
+	repeat
+		web_accept method, path, body, 100
+		if stat = 1 {
+			web_respond 200, "text/html; charset=utf-8", "&lt;h1&gt;Hello " + path + "&lt;/h1&gt;"
+		}
+		stick k : if k & 128 : break
+	loop
+	web_close</code></pre>
+
+<h3>10. AI にストリーミング問い合わせ</h3>
+
+<pre><code>#include "iron_ai.hsp"
+	iron_ai_set_endpoint "https://api.groq.com/openai/v1"
+	iron_ai_set_key "gsk_..."
+	iron_ai_set_model "llama3.2"
+
+	iron_ai_chat_stream_start "HSP3 について教えて"
+	sdim full, 16384 : full = ""
+	*loop
+		iron_ai_chat_stream_poll delta, done
+		if strlen(delta) > 0 {
+			full = full + delta
+			redraw 0 : color 255,255,255 : boxf 0,0,640,480 : color 0,0,0 : pos 10,10 : mes full : redraw 1
+		}
+		if done : break
+		await 16
+		goto *loop
+	iron_ai_chat_stream_end</code></pre>
+
+<div class="box">
+<strong>💡 Pro Tip:</strong> これらのモジュールは組み合わせて使うとより強力です。例えば「Webcam 画像を撮影 → AI に画像説明させる → 結果を DB に保存」のようなパイプラインが数十行で書けます。
+</div>
+
+<h2>次のステップ</h2>
+
+<ul>
+  <li><strong>ヘルプファイル</strong>: 各モジュールに対応する <code>package/hsphelp/iron_*.hs</code> があり、HSP IDE で命令名にカーソルを合わせて F1 で日本語リファレンスが開きます</li>
+  <li><strong>サンプル</strong>: <code>package/win32/sample/iron/</code> にそれぞれのモジュールの動作サンプルがあります</li>
+  <li><strong>詳細仕様</strong>: <code>docs/IronHSP_specification.html</code> のセクション 16 で全機能を解説</li>
+  <li><strong>API キー取得</strong>:
+    <ul>
+      <li>Groq (無料枠あり): <a href="https://console.groq.com/">console.groq.com</a></li>
+      <li>OpenAI: <a href="https://platform.openai.com/">platform.openai.com</a></li>
+      <li>Anthropic: <a href="https://console.anthropic.com/">console.anthropic.com</a></li>
+      <li>Ollama (ローカル、無料): <a href="https://ollama.com/">ollama.com</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2>ライセンス</h2>
+
+<p>IronHSP 2026 は OpenHSP 3.8beta1 (BSD) をベースとした派生物で、追加分も BSD 扱いです。各 iron_* モジュールも BSD ライセンスで配布されます。サードパーティ DLL (miniz, SQLite, whisper.cpp, Vosk 等) はそれぞれの配布元ライセンスに従います。</p>
+
+<hr>
+<p class="muted">© 2026 IronHSP Team / Based on OpenHSP 3.8beta1</p>
+
+</body>
+</html>

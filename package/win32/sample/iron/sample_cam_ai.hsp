@@ -1,0 +1,134 @@
+;============================================================
+;  sample_cam_ai.hsp — Webcam スナップショット → AI 画像認識 → 説明文
+;
+;  IronHSP 2026 の目玉デモ。本セッションで作ったモジュールを組み合わせる:
+;
+;    1. iron_camera_mf      Webcam でリアルタイムプレビュー (hspmfcam.dll)
+;    2. iron_cam_save       1 ボタンでスナップショット PNG 保存
+;    3. iron_ai             OpenAI 互換 API に画像 + プロンプトで問い合わせ
+;       (画像対応は gpt-4o / claude-3-5-sonnet / llama-3.2-vision 等)
+;
+;  Groq の llava-1.5-7b (or llama-3.2-11b-vision) を想定:
+;    iron_ai_set_endpoint "https://api.groq.com/openai/v1"
+;    iron_ai_set_key "gsk_..."
+;    iron_ai_set_model "llama-3.2-11b-vision-preview"
+;
+;  注意: 画像の multipart upload は今回は base64 data URL 埋め込み方式で
+;  実装 (OpenAI chat vision API の標準)。
+;============================================================
+
+#include "iron_camera_mf.hsp"
+#include "iron_ai.hsp"
+#include "iron_hash.hsp"    ; Base64 encode 用
+
+	title "iron_camera_mf + iron_ai 連動デモ"
+	screen 0, 720, 600
+	font "MS Gothic", 14
+
+	mes "==== Webcam + AI 画像認識 デモ ===="
+	mes ""
+
+	; カメラ open
+	n_cams = iron_cam_count()
+	if n_cams = 0 {
+		dialog "Webcam が接続されていません。", 1
+		end
+	}
+	iron_cam_name 0, cam_name
+	title "Webcam + AI: " + cam_name
+
+	prev_x = 10
+	prev_y = 40
+	prev_w = 480
+	prev_h = 360
+
+	hcam = iron_cam_open(0, prev_x, prev_y, prev_w, prev_h)
+	if hcam < 0 {
+		dialog "カメラ 0 を開けませんでした", 1
+		end
+	}
+	iron_cam_set_aspect hcam, 1
+
+	; UI
+	pos 500, 40
+	objsize 200, 28
+	button gosub "Snapshot + AI", *do_snap_ai
+
+	pos 500, 75
+	mes "プロンプト:"
+	pos 500, 95
+	objsize 200, 24
+	sdim user_prompt, 1024
+	user_prompt = "この画像に何が写っていますか?"
+	input user_prompt, 1023, 1, 24
+
+	; iron_ai 設定 (Groq 推奨)
+	iron_ai_set_endpoint "https://api.groq.com/openai/v1"
+	iron_ai_set_key      "gsk_REPLACE_ME"
+	iron_ai_set_model    "llama-3.2-11b-vision-preview"
+	iron_ai_set_max_tokens 300
+
+	pos 10, 410
+	mes "----- AI 応答 -----"
+	pos 10, 435
+	sdim reply_text, 16384
+	reply_text = "(まだ何もない)"
+	mesbox reply_text, 700, 155, 4
+
+	stop
+
+*do_snap_ai
+	; 1. スナップショット保存
+	iron_cam_save hcam, "cam_snap.jpg"
+	reply_text = "[スナップ保存] cam_snap.jpg\n"
+	reply_text = reply_text + "[AI 問い合わせ中...]\n"
+	objprm 2, reply_text
+	await 50
+
+	; 2. ファイルを bload → Base64 encode
+	exist "cam_snap.jpg"
+	if strsize < 0 {
+		reply_text = reply_text + "[error] snapshot ファイル保存失敗\n"
+		objprm 2, reply_text
+		return
+	}
+	sdim img_buf, strsize + 16
+	bload "cam_snap.jpg", img_buf, strsize
+	base64_encode_buf img_buf, strsize
+	img_b64 = refstr
+
+	; 3. iron_ai に multimodal (image + text) で問い合わせ
+	;    OpenAI Vision 形式の content 配列を messages に埋め込むため
+	;    独自の JSON body を構築 (通常の iron_ai_chat は text only 想定)
+	sdim body, strlen(img_b64) + 4096
+	body = "{\"model\":\"llama-3.2-11b-vision-preview\","
+	body = body + "\"messages\":[{\"role\":\"user\",\"content\":["
+	body = body + "{\"type\":\"text\",\"text\":\"" + user_prompt + "\"},"
+	body = body + "{\"type\":\"image_url\",\"image_url\":{\"url\":\"data:image/jpeg;base64,"
+	body = body + img_b64 + "\"}}"
+	body = body + "]}],\"max_tokens\":300}"
+
+	; Authorization
+	http_set_header "Authorization: Bearer gsk_REPLACE_ME\r\n"
+	sdim resp_body, 65536
+	http_post "https://api.groq.com/openai/v1/chat/completions", body, resp_body, "application/json"
+	if stat ! 200 {
+		reply_text = reply_text + "[HTTP error] " + stat + "\n"
+		objprm 2, reply_text
+		return
+	}
+
+	; JSON response から choices[0].message.content 抽出
+	hid = json_load(resp_body)
+	if hid < 0 {
+		reply_text = reply_text + "[JSON parse error]\n"
+		objprm 2, reply_text
+		return
+	}
+	ai_text = json_str(hid, "choices[0].message.content")
+	json_release hid
+
+	reply_text = "[質問] " + user_prompt + "\n\n"
+	reply_text = reply_text + "[AI 応答]\n" + ai_text + "\n"
+	objprm 2, reply_text
+	return
