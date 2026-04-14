@@ -1,0 +1,81 @@
+;============================================================
+;  iron_json.hsp サンプル: JSON 読み書き
+;
+;  hspjson.dll を使った JSON parse / 値取得 / シリアライズ。
+;
+;  事前準備:
+;    plugins\win32\hspjson\Release\hspjson.dll (32bit)
+;    plugins\win32\hspjson\Release\hspjson_64.dll (64bit)
+;    を hspcl.exe / hsp3_64.exe と同じディレクトリに置く。
+;    hspjson.as は package/win32/common/ にコピー。
+;============================================================
+
+#include "iron_json.hsp"
+
+	; ----- パース対象の JSON -----
+	json = {"
+{
+  "name": "Alice",
+  "age": 30,
+  "active": true,
+  "score": 92.5,
+  "tags": ["admin", "user", "guest"],
+  "address": {
+    "city": "Tokyo",
+    "zip": "100-0001"
+  }
+}
+"}
+
+	mes "==== iron_json サンプル ===="
+	mes ""
+
+	; ----- パース -----
+	hid = json_load(json)
+	if hid < 0 {
+		mes "parse error"
+		end
+	}
+	mes "parse OK, handle=" + hid
+
+	; ----- フィールド読み込み (1 行で値取得) -----
+	mes ""
+	mes "[基本フィールド]"
+	mes "name   = " + json_str(hid, "name")
+	mes "age    = " + json_int(hid, "age")
+	mes "score  = " + json_dbl(hid, "score")
+	mes "active = " + json_int(hid, "active")
+
+	; ----- ネストパス -----
+	mes ""
+	mes "[ネスト]"
+	mes "city   = " + json_str(hid, "address.city")
+	mes "zip    = " + json_str(hid, "address.zip")
+
+	; ----- 配列アクセス -----
+	mes ""
+	n = json_len(hid, "tags")
+	mes "[配列 tags] (count=" + n + ")"
+	repeat n
+		mes "  [" + cnt + "] " + json_str(hid, "tags[" + cnt + "]")
+	loop
+
+	; ----- 型判定 -----
+	mes ""
+	mes "[型判定]"
+	mes "tags の kind   = " + json_kind(hid, "tags")   + " (4=ARR)"
+	mes "active の kind = " + json_kind(hid, "active") + " (1=BOOL)"
+	mes "name の kind   = " + json_kind(hid, "name")   + " (3=STR)"
+	mes "age の kind    = " + json_kind(hid, "age")    + " (2=NUM)"
+
+	; ----- シリアライズ (整形あり) -----
+	mes ""
+	mes "[stringify pretty]"
+	mes json_pretty(hid)
+
+	; ----- 解放 -----
+	json_release hid
+
+	mes ""
+	mes "完了。"
+	end

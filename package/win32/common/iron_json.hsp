@@ -1,0 +1,124 @@
+;============================================================
+;   iron_json.hsp — JSON 簡易ラッパ (hspjson.dll の HSP 側 API)
+;
+;   hspjson.dll は素の API を提供するが、出力 var を str に明示的に
+;   sdim する必要があり手間。このラッパーで自動初期化する。
+;
+;   API:
+;     hid = json_load("{...}")           ; パース → ハンドル (失敗 -1)
+;     json_release hid                    ; 個別開放
+;     json_close                          ; 全ハンドル開放
+;
+;     s = json_str(hid, "path")           ; 文字列値
+;     n = json_int(hid, "path")           ; 整数
+;     d = json_dbl(hid, "path")           ; double
+;     n = json_len(hid, "path")           ; 配列/オブジェクト要素数
+;     k = json_kind(hid, "path")          ; 型 (0=null 1=bool 2=num 3=str 4=arr 5=obj)
+;     s = json_text(hid)                  ; minify JSON
+;     s = json_pretty(hid)                ; 整形 JSON
+;
+;   例:
+;     #include "iron_json.hsp"
+;
+;         body = '{"name":"Alice","age":30,"score":92.5,"tags":["a","b","c"]}'
+;         hid = json_load(body)
+;
+;         mes json_str(hid, "name")        ; "Alice"
+;         mes json_int(hid, "age")         ; 30
+;         mes json_dbl(hid, "score")       ; 92.5
+;         n = json_len(hid, "tags")
+;         repeat n
+;             mes json_str(hid, "tags[" + cnt + "]")
+;         loop
+;
+;         json_release hid
+;============================================================
+
+#ifndef __iron_json_hsp__
+#define __iron_json_hsp__
+
+#include "hspjson.as"
+
+#module iron_json
+
+;------------------------------------------------------------
+; json_load("text") → ハンドル (失敗 -1)
+;------------------------------------------------------------
+#defcfunc json_load str text, local _hid
+    _hid = -1
+    json_parse text, _hid
+    return _hid
+
+;------------------------------------------------------------
+; json_release hid
+;------------------------------------------------------------
+#deffunc json_release int hid
+    json_free hid
+    return
+
+;------------------------------------------------------------
+; json_close — 全ハンドル開放
+;------------------------------------------------------------
+#deffunc json_close
+    json_clear
+    return
+
+;------------------------------------------------------------
+; json_str(hid, "path") → 文字列値
+;------------------------------------------------------------
+#defcfunc json_str int hid, str path, local _out
+    sdim _out, 1024
+    json_get_str hid, path, _out
+    return _out
+
+;------------------------------------------------------------
+; json_int(hid, "path") → 整数
+;------------------------------------------------------------
+#defcfunc json_int int hid, str path, local _v
+    _v = 0
+    json_get_int hid, path, _v
+    return _v
+
+;------------------------------------------------------------
+; json_dbl(hid, "path") → double
+;------------------------------------------------------------
+#defcfunc json_dbl int hid, str path, local _v
+    _v = 0.0
+    json_get_dbl hid, path, _v
+    return _v
+
+;------------------------------------------------------------
+; json_len(hid, "path") → 配列/オブジェクト要素数
+;------------------------------------------------------------
+#defcfunc json_len int hid, str path, local _v
+    _v = 0
+    json_count hid, path, _v
+    return _v
+
+;------------------------------------------------------------
+; json_kind(hid, "path") → 型 ID
+;------------------------------------------------------------
+#defcfunc json_kind int hid, str path, local _v
+    _v = -1
+    json_type hid, path, _v
+    return _v
+
+;------------------------------------------------------------
+; json_text(hid) → minify JSON
+;------------------------------------------------------------
+#defcfunc json_text int hid, local _out
+    sdim _out, 65536
+    json_stringify hid, _out
+    return _out
+
+;------------------------------------------------------------
+; json_pretty(hid) → 整形 JSON
+;------------------------------------------------------------
+#defcfunc json_pretty int hid, local _out
+    sdim _out, 65536
+    json_stringify_pretty hid, _out
+    return _out
+
+#global
+
+#endif
