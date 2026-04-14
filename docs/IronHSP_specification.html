@@ -39,7 +39,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-14 (Phase E/F + iron_* モジュール集追加)</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-14 (Phase G/H/I/J/K 全完了 — Media Foundation / hspjson / hspcv4 QR/Barcode / iron_video/camera/ai/mcp/speech / 4 種音声認識 backend)</p>
 <p class="muted">ベース: OpenHSP 3.8beta1 (SVN trunk) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="toc">
@@ -1843,25 +1843,28 @@ package/hsphelp/
 </ul>
 
 <!-- ======================================== -->
-<h2 id="ironsimple">16. IronHSP Simple モジュール集 (iron_*)</h2>
+<h2 id="ironsimple">16. IronHSP Simple モジュール集 (iron_*) + 新規プラグイン DLL</h2>
 
-<p>Section 15 で整備した <strong>51 DLL / 6020 関数</strong> の Win32 API は強力だが、初心者が直接 <code>NativeMethods.txt</code> 経由 .as を直叩きするのはハードルが高い。よく使うパターンを <strong>1〜2 行で書ける薄い HSP モジュール</strong>として wrap した「IronHSP Simple」シリーズを <code>package/win32/common/iron_*.hsp</code> として提供する。</p>
+<p>Section 15 で整備した <strong>51 DLL / 6020 関数</strong> の Win32 API は強力だが、初心者が直接 <code>NativeMethods.txt</code> 経由 .as を直叩きするのはハードルが高い。よく使うパターンを <strong>1〜2 行で書ける薄い HSP モジュール</strong>として wrap した「IronHSP Simple」シリーズ + 専用 C++ ヘルパー DLL を <code>package/win32/common/iron_*.hsp</code> + <code>plugins/win32/hsp*/</code> として提供する。</p>
 
-<h3>16.1 提供モジュール (Phase J 1-2 弾、2026-04-14)</h3>
+<h3>16.1 システム / ユーティリティ系 iron_* モジュール</h3>
 
 <table>
-<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>DLL</th></tr>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>依存</th></tr>
 <tr><td><code>iron_ini.hsp</code></td><td>INI 設定ファイル</td>
     <td><code>ini_setpath "config.ini"</code><br><code>ini_geti "Window","Width",640</code></td>
     <td>kernel32 (GetPrivateProfile*)</td></tr>
-<tr><td><code>iron_http.hsp</code></td><td>HTTP GET/POST</td>
-    <td><code>http_get "https://api.../"</code><br><code>http_post url, body, ctype</code></td>
+<tr><td><code>iron_http.hsp</code></td><td>HTTP GET/POST + multipart upload</td>
+    <td><code>http_get url, body</code><br><code>http_post url, body, out, ctype</code><br><code>http_post_file url, "audio.wav", "file", "audio/wav", extra_kv, body</code><br><code>http_set_header "Authorization: Bearer ..."</code></td>
     <td>winhttp.dll</td></tr>
+<tr><td><code>iron_json.hsp</code></td><td>JSON parse/build (hspjson.dll wrapper)</td>
+    <td><code>hid = json_load(text)</code><br><code>json_str(hid, "name")</code> / <code>json_int</code> / <code>json_dbl</code><br><code>json_len(hid, "tags")</code><br><code>json_pretty(hid)</code></td>
+    <td>hspjson.dll</td></tr>
 <tr><td><code>iron_hash.hsp</code></td><td>SHA-1/256/384/512 / MD5 / Base64</td>
     <td><code>hash_sha256 "hello"</code><br><code>base64_encode "hi"</code></td>
     <td>bcrypt + crypt32</td></tr>
 <tr><td><code>iron_dialog.hsp</code></td><td>モダンファイルダイアログ</td>
-    <td><code>dialog_open "file"</code><br><code>dialog_save / dialog_pickfolder</code></td>
+    <td><code>dialog_open "file"</code><br><code>dialog_save</code></td>
     <td>ole32 + IFileOpenDialog COM</td></tr>
 <tr><td><code>iron_perf.hsp</code></td><td>μ秒精度タイマー</td>
     <td><code>perf_start</code> ... <code>perf_lap</code></td>
@@ -1872,61 +1875,180 @@ package/hsphelp/
 <tr><td><code>iron_clip.hsp</code></td><td>クリップボード文字列</td>
     <td><code>clip_set_text / clip_get_text</code></td>
     <td>user32 + kernel32 (GlobalAlloc)</td></tr>
+<tr><td><code>iron_toast.hsp</code></td><td>タスクトレイバルーン通知</td>
+    <td><code>toast "title", "body"</code><br><code>toast_warning</code> / <code>toast_error</code></td>
+    <td>shell32 (Shell_NotifyIconA)</td></tr>
 </table>
 
-<p>各モジュールに対応するサンプルが <code>package/win32/sample/iron/sample_*.hsp</code> にあり、すべて hspcmp で <strong>コンパイル成功確認済</strong> (hsp3net 系)。</p>
+<h3>16.2 マルチメディア系 iron_* モジュール</h3>
 
-<h3>16.2 設計方針</h3>
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>依存</th></tr>
+<tr><td><code>iron_video.hsp</code></td><td>動画/音声再生 (Media Foundation MFPlay)</td>
+    <td><code>iron_video_open "movie.mp4", hwnd</code><br><code>iron_video_play / pause / stop</code><br><code>iron_video_set_rate 1.5</code> / <code>set_volume 0.8</code></td>
+    <td>mfplay.dll + mfplat.dll<br>(IMFPMediaPlayer #comfunc 直叩き)</td></tr>
+<tr><td><code>iron_camera.hsp</code></td><td>Webcam 取り込み (hspcv4 backend)</td>
+    <td><code>iron_camera_open 0</code><br><code>iron_camera_read</code> / <code>draw</code> / <code>save</code></td>
+    <td>hspcv4.dll (OpenCV VideoCapture)</td></tr>
+<tr><td><code>iron_camera_mf.hsp</code></td><td>Webcam + 録画 + マイク録音 (Pure MF)</td>
+    <td><code>h = iron_cam_open(0, 0, 0, 800, 600)</code><br><code>iron_cam_record_av h, "out.mp4", 0, "H264", 4000000, "AAC", 16000</code><br><code>hmic = iron_mic_open(0, 16000, 1, 16)</code><br><code>iron_mic_save_wav hmic, "voice.wav"</code></td>
+    <td>hspmfcam.dll<br>(max 256 並列)</td></tr>
+</table>
+
+<h3>16.3 AI / クラウド連携系 iron_* モジュール</h3>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>依存</th></tr>
+<tr><td><code>iron_ai.hsp</code></td><td>OpenAI 互換 Chat API クライアント<br>(OpenAI / Anthropic / Ollama / Groq / GitHub Models / xAI 等)</td>
+    <td><code>iron_ai_set_endpoint "https://api.groq.com/openai/v1"</code><br><code>iron_ai_set_key "gsk_..."</code><br><code>iron_ai_set_model "llama3.2"</code><br><code>iron_ai_chat msg, reply</code><br><code>iron_ai_transcribe "voice.wav", text</code> (multipart upload)</td>
+    <td>iron_http + iron_json</td></tr>
+<tr><td><code>iron_speech.hsp</code></td><td>音声認識統一 API (5 バックエンド切替)</td>
+    <td><code>iron_speech_set_backend SPEECH_BACKEND_WHISPER</code><br><code>iron_speech_set_model "ggml-base.bin"</code><br><code>iron_speech_transcribe "voice.wav", text</code><br><code>iron_speech_listen_once text</code> (WinRT mic)</td>
+    <td>iron_ai (CLOUD) + 4 種 DLL<br>(WHISPER/VOSK/SAPI/WINRT)</td></tr>
+<tr><td><code>iron_mcp_client.hsp</code></td><td>Model Context Protocol クライアント<br>(stdio + HTTP transport)</td>
+    <td><code>iron_mcp_open_stdio "npx -y @modelcontextprotocol/server-filesystem ..."</code><br><code>iron_mcp_initialize</code><br><code>n = iron_mcp_tools_count()</code><br><code>iron_mcp_call "search_files", args, result</code></td>
+    <td>hspmcp.dll + iron_http + iron_json</td></tr>
+<tr><td><code>iron_mcp_server.hsp</code></td><td>HSP3CL を MCP stdio server 化<br>(Claude Desktop 等から HSP 関数を呼ばせる)</td>
+    <td><code>iron_mcp_server_tool "say_hello", "...", *handler</code><br><code>iron_mcp_server_run</code><br>handler 内: <code>iron_mcp_argp_str "name", n</code> / <code>iron_mcp_set_result "..."</code></td>
+    <td>hspmcp.dll + iron_json</td></tr>
+</table>
+
+<p>合計 <strong>16 個の iron_* モジュール / 128 命令</strong>。各モジュールに対応するサンプルが <code>package/win32/sample/iron/sample_*.hsp</code> にあり、すべて hspcmp 通過確認済。日本語ヘルプは <code>package/hsphelp/iron_*.hs</code> で HSP IDE F1 表示可能。</p>
+
+<h3>16.4 新規 C++ プラグイン DLL</h3>
+
+<p>iron_* モジュール群の足回りとして本拡張で新規開発した独立 C++ プラグイン DLL:</p>
+
+<table>
+<tr><th>DLL</th><th>役割</th><th>関数数</th><th>対応</th></tr>
+<tr><td><code>hspjson.dll</code></td>
+    <td>自前 JSON parser/writer (依存ゼロ、~300 KB)<br>JSONPath-like パスで値取得・配列ループ・型判定・整形/minify</td>
+    <td>10</td><td>Win32 + x64</td></tr>
+<tr><td><code>hspmfcam.dll</code></td>
+    <td>Pure Media Foundation Webcam キャプチャ + 録画。<br>
+    内部 worker thread + child window 方式 (HSP main thread が止まっても prefetch 継続)。<br>
+    最大 256 デバイス並列、自動デインターレース、フォーマット列挙、任意フォーマット指定 open、<br>
+    アスペクト比 (stretch/letterbox)、リサイズ、PNG/JPEG/BMP/GIF/TIFF スナップショット、<br>
+    映像 H.264/HEVC/WMV9/VP9/MJPG + 音声 AAC/WMA/FLAC/MP3 録画、<br>
+    カメラプロパティ (IAMVideoProcAmp + IAMCameraControl 17 種)、<br>
+    マイク単独 audio-only キャプチャ (生 PCM / WAV / エンコード録音)</td>
+    <td>68</td><td>Win32 + x64</td></tr>
+<tr><td><code>hspmcp.dll</code></td>
+    <td>Model Context Protocol 用プロセスパイプヘルパ。<br>
+    CreateProcess + 匿名 pipe + reader thread + 行 buffer。<br>
+    自プロセスの stdin/stdout helper (HSP3CL を MCP server として動かす用)。<br>
+    最大 64 プロセス並列</td>
+    <td>7</td><td>Win32 + x64</td></tr>
+<tr><td><code>hspwhisper.dll</code></td>
+    <td>whisper.cpp ベースのオフライン音声認識。<br>
+    ggerganov 製 whisper.cpp を C++ ラップ。CPU 推論、4 thread デフォルト。<br>
+    多言語 (99 言語)、GGML model (tiny 75MB / base 140MB / small 470MB / medium 1.5GB / large 3GB)。<br>
+    git submodule + cmake build</td>
+    <td>4</td><td>x64</td></tr>
+<tr><td><code>hspvosk.dll</code></td>
+    <td>Vosk (Kaldi) ベースのオフライン音声認識。<br>
+    alphacephei 製 prebuilt libvosk.dll をラップ。軽量 (model 47 MB 〜)。<br>
+    多言語 (24+ 言語、日本語含む)</td>
+    <td>4</td><td>x64</td></tr>
+<tr><td><code>hspsapi.dll</code></td>
+    <td>Windows SAPI 5 オフライン音声認識。<br>
+    sapi.dll の ISpRecognizer + ISpRecoContext + ISpRecoGrammar (dictation) を COM で叩く。<br>
+    OS 標準、追加 DL 不要</td>
+    <td>3</td><td>Win32 + x64</td></tr>
+<tr><td><code>hspwinrtspeech.dll</code></td>
+    <td>Windows.Media.SpeechRecognition (WinRT) ライブマイク認識。<br>
+    cppwinrt header-only、SpeechRecognizer + RecognizeAsync。<br>
+    マイク入力専用 (ファイル不可)</td>
+    <td>3</td><td>x64</td></tr>
+</table>
+
+<p>合計 <strong>7 個の新規 C++ プラグイン DLL / 99 export 関数</strong>。各 DLL に対応する日本語ヘルプは <code>package/hsphelp/hsp*.hs</code>。</p>
+
+<h3>16.5 音声認識バックエンド比較</h3>
+
+<p><code>iron_speech.hsp</code> は 5 種類のバックエンドを統一 API で切り替え可能:</p>
+
+<table>
+<tr><th>バックエンド</th><th>定数</th><th>入力</th><th>品質</th><th>言語</th><th>必要なもの</th></tr>
+<tr><td>Cloud Whisper API</td><td><code>SPEECH_BACKEND_CLOUD</code></td><td>ファイル</td><td>★★★★★</td><td>99 言語</td><td>API キー (Groq 無料枠 OK)</td></tr>
+<tr><td>whisper.cpp</td><td><code>SPEECH_BACKEND_WHISPER</code></td><td>ファイル</td><td>★★★★★</td><td>99 言語</td><td>GGML model (75 MB 〜)</td></tr>
+<tr><td>Vosk (Kaldi)</td><td><code>SPEECH_BACKEND_VOSK</code></td><td>ファイル</td><td>★★★</td><td>24+ 言語</td><td>Vosk model (47 MB 〜)</td></tr>
+<tr><td>Windows SAPI 5</td><td><code>SPEECH_BACKEND_SAPI</code></td><td>ファイル</td><td>★★</td><td>OS 依存</td><td>Windows 言語パック</td></tr>
+<tr><td>WinRT Speech</td><td><code>SPEECH_BACKEND_WINRT</code></td><td><strong>マイク</strong></td><td>★★★</td><td>OS 依存</td><td>同上</td></tr>
+</table>
+
+<h3>16.6 設計方針</h3>
 
 <ul>
-  <li><strong>戻り値は HSP 慣習通り</strong>: 文字列は <code>refstr</code>、整数は <code>stat</code>、実数は <code>refdval</code></li>
-  <li><strong>純粋 HSP モジュール</strong>: C++ DLL を介さず、CsWin32 bridge で生成済みの .as / com_misc_gen2.as を <code>#include</code> しなくてもいいように、各モジュール内で必要な Win32 API を <code>#cfunc</code> 直接宣言</li>
-  <li><strong>SJIS ベース</strong>: 日本語の取り扱いに HSP 標準の SJIS を使う (W バリアントが必要な場面のみ <code>WideCharToMultiByte</code> で変換)</li>
+  <li><strong>戻り値は HSP 慣習通り</strong>: 文字列は <code>refstr</code> もしくは出力 var 引数、整数は <code>stat</code>、実数は <code>refdval</code></li>
+  <li><strong>純粋 HSP モジュール (システム系)</strong>: C++ DLL を介さず Win32 API を <code>#cfunc</code> で直接呼ぶ</li>
+  <li><strong>C++ DLL ヘルパ (高機能系)</strong>: 構造体や COM 階層が深いものは <code>hspmfcam.dll</code> / <code>hspjson.dll</code> / <code>hspmcp.dll</code> 等の C++ ラッパで隠蔽</li>
+  <li><strong>SJIS ベース</strong>: 日本語の取り扱いに HSP 標準の SJIS を使う (W バリアントが必要な場面のみ内部で <code>WideCharToMultiByte</code> 変換)</li>
   <li><strong>初期化レス</strong>: 各 API は内部で「初回呼び出し時にのみ初期化」する自動セットアップ</li>
-  <li><strong>1 行で書けることが目玉</strong>: 例えば <code>http_get "https://..."</code> 1 行で HTTP 取得が完結する</li>
+  <li><strong>1 行で書けることが目玉</strong>: 例えば <code>http_get url, body</code> 1 行で HTTP 取得が完結する</li>
 </ul>
 
-<h3>16.3 使用例: HTTP + ハッシュ + 設定ファイルの組み合わせ</h3>
+<h3>16.7 使用例 1: HTTP + JSON + 天気予報 (cloud)</h3>
 
 <pre><code>#include "iron_http.hsp"
-#include "iron_hash.hsp"
-#include "iron_ini.hsp"
+#include "iron_json.hsp"
 
-	; 設定ファイルから API キーを読む
-	ini_setpath "config.ini"
-	ini_get "API", "key", "" : api_key = refstr
-
-	; HTTP GET
-	http_get "https://api.example.com/data"
+	url = "https://api.open-meteo.com/v1/forecast?latitude=35.68&longitude=139.69&current=temperature_2m"
+	http_get url, body
 	if stat = 200 {
-		body = refstr
+		hid = json_load(body)
+		mes "東京の現在気温: " + json_dbl(hid, "current.temperature_2m") + " ℃"
+		json_release hid
+	}</code></pre>
 
-		; 結果を SHA-256 で fingerprint
-		hash_sha256 body
-		fp = refstr
+<h3>16.8 使用例 2: マイク録音 → 音声認識 → AI 応答</h3>
 
-		mes "body size: " + strlen(body)
-		mes "fingerprint: " + fp
+<pre><code>#include "iron_camera_mf.hsp"
+#include "iron_speech.hsp"
+#include "iron_ai.hsp"
 
-		; 設定ファイルに最終取得 fingerprint を記録
-		ini_set "Cache", "last_fp", fp
-	}
-	stop</code></pre>
+	; 1. マイクで 5 秒録音 → WAV 保存
+	hmic = iron_mic_open(0, 16000, 1, 16)        ; 16kHz mono 16bit
+	iron_mic_save_wav hmic, "voice.wav"
+	wait 500
+	iron_mic_save_wav_stop hmic
+	iron_mic_close hmic
 
-<h3>16.4 ロードマップ (今後追加予定)</h3>
+	; 2. オフライン音声認識 (whisper.cpp)
+	iron_speech_set_backend SPEECH_BACKEND_WHISPER
+	iron_speech_set_model "ggml-base.bin"
+	iron_speech_set_language "ja"
+	iron_speech_open
+	iron_speech_transcribe "voice.wav", text
+	iron_speech_close
+	mes "聞こえた: " + text
 
-<ul>
-  <li><strong>iron_toast.hsp</strong> — Windows 10/11 トースト通知 (WinRT ToastNotification)</li>
-  <li><strong>iron_video.hsp</strong> — Media Foundation 動画再生 / Web カメラキャプチャ / エンコード</li>
-  <li><strong>iron_qr.hsp</strong> — hspcv4 と連携した QR / バーコード生成・読み取り</li>
-  <li><strong>iron_webserver.hsp</strong> — httpapi.dll で簡易 HTTP サーバ (HSP 単体で localhost:8080 を立てる)</li>
-  <li><strong>iron_json.hsp</strong> — cJSON プラグイン経由の JSON parse / stringify</li>
-  <li><strong>iron_ai.hsp</strong> — OpenAI 互換 REST クライアント (iron_http + iron_json 上)</li>
-  <li><strong>iron_stt.hsp</strong> — Whisper / Vosk / SAPI 5 統合フロントエンド (音声認識)</li>
-  <li><strong>iron_shell.hsp</strong> — IShellLinkW (.lnk 作成) / SHFileOperation (ゴミ箱送り) / DragAcceptFiles</li>
-</ul>
+	; 3. AI に応答してもらう (Groq, 無料枠)
+	iron_ai_set_endpoint "https://api.groq.com/openai/v1"
+	iron_ai_set_key "gsk_..."
+	iron_ai_set_model "llama3.2"
+	iron_ai_chat text, reply
+	mes "AI: " + reply</code></pre>
 
-<h3>16.5 HSP モジュール作成時に発見した制約 (memo)</h3>
+<h3>16.9 使用例 3: HSP を Claude Desktop の MCP tool として公開</h3>
+
+<pre><code>; sample_mcp_server.hsp (hsp3cl.exe で起動)
+#include "iron_mcp_server.hsp"
+
+	iron_mcp_server_tool "draw_rect", "Draw a rectangle and return PNG path", *handler_draw
+	iron_mcp_server_run
+	end
+
+*handler_draw
+	iron_mcp_argp_int "w", w
+	iron_mcp_argp_int "h", h
+	; HSP で描画 + PNG 保存
+	iron_mcp_set_result "saved to out.png"
+	return</code></pre>
+
+<p>Claude Desktop の <code>claude_desktop_config.json</code> に登録すれば Claude/ChatGPT Desktop から呼ばれる。</p>
+
+<h3>16.10 HSP モジュール作成時に発見した制約 (memo)</h3>
 
 <p><code>iron_*</code> モジュール作成中に判明した HSP3 言語仕様の制約をまとめる。詳細は <code>memory/reference_hsp_module_quirks.md</code> 参照。</p>
 
@@ -2013,6 +2135,26 @@ package/hsphelp/
 <tr><td>4/14</td><td><code>92722d93</code></td><td><span class="badge">新機能</span> <strong>Phase F</strong>: Win32 API 拡張 +9 DLL / +1287 関数。<code>gdiplus</code> (627, GDI+ 高レベル 2D 描画 / 画像コーデック / フォント), <code>opengl32</code> (353, OpenGL 1.1 + wgl*), <code>glu32</code> (52, GLU ユーティリティ), <code>httpapi</code> (42, HTTP Server API), <code>xmllite</code> (6, 高速 XML パーサ), <code>wlanapi</code> (59), <code>wer</code> (20), <code>powrprof</code> (84), <code>wtsapi32</code> (44) を追加。<code>dump_exports.py</code> の <code>LEGACY_LOWER_PREFIXES</code> に <code>gl</code>/<code>wgl</code>/<code>glu</code> を追加 (OpenGL 関数は小文字始まり慣例)。累計 <strong>35 → 51 DLL / 4733 → 6020 関数</strong></td></tr>
 <tr><td>4/14</td><td><code>dc7f9ddc</code></td><td><span class="badge">新機能</span> <strong>IronHSP Simple モジュール集 第 1 弾</strong> (Phase J): 生の Win32 API は初心者にハードル高いので、よく使うパターンを 1〜2 行で書ける薄いラッパとして提供。<code>iron_ini.hsp</code> (INI 設定ファイル), <code>iron_http.hsp</code> (WinHTTP GET/POST 1 行), <code>iron_hash.hsp</code> (BCrypt SHA-256/MD5/Base64) の 3 モジュール + 各サンプル (HTTP は Open-Meteo 天気予報 API 例)。全 hspcmp 通過確認済</td></tr>
 <tr><td>4/14</td><td><code>4a1cd689</code></td><td><span class="badge">新機能</span> <strong>IronHSP Simple モジュール集 第 2 弾</strong>: <code>iron_dialog.hsp</code> (Vista モダン IFileOpenDialog COM ラッパ - dialog_open / dialog_save / dialog_pickfolder), <code>iron_perf.hsp</code> (QueryPerformanceCounter μ秒タイマー - perf_now / perf_start / perf_lap), <code>iron_sysinfo.hsp</code> (sys_username / sys_cpucount / sys_appdata 等 10 個), <code>iron_clip.hsp</code> (クリップボード文字列) の 4 モジュール + 4 サンプル。Phase J 累計 <strong>7 モジュール / 7 サンプル</strong>。memory <code>reference_hsp_module_quirks.md</code> に <code>#defcfunc global</code> サポート外、<code>#comfunc</code> 単独 <code>intptr</code> エラー、<code>ddim</code> モジュール内バグ等の制約 11 個追記</td></tr>
+<tr><td>4/14 20:15</td><td><code>15d9ec86</code></td><td><span class="badge">新機能</span> <strong>Phase H</strong>: 自前 JSON 読み書きプラグイン <code>hspjson.dll</code> + <code>iron_json.hsp</code> モジュール。サードパーティ依存ゼロ (300 KB)、JSONPath-like パスで値取得・配列ループ・型判定・整形/minify。10 命令</td></tr>
+<tr><td>4/14 20:16</td><td><code>9b1569e0</code></td><td><span class="badge">新機能</span> <strong>Phase G 下地</strong>: Media Foundation DLL bindings (<code>mf</code> 34, <code>mfplat</code> 123, <code>mfreadwrite</code> 5, <code>evr</code> 20, <code>wmvcore</code> 11, <code>avrt</code> 11)。<code>dump_exports.py</code> に追加して 318 候補 → 204 サポート関数の <code>.as</code>/<code>.hs</code> 生成</td></tr>
+<tr><td>4/14 20:17</td><td><code>69ca49e8</code></td><td><span class="badge">バグ修正/新機能</span> <code>iron_http</code> 大幅修正: HSP3 の <code>return</code> は refstr+stat を同時に返せないため出力 var 引数式に変更 (<code>http_get url, body</code>)。WinHttpCloseHandle 等の statement 形式呼び出しを <code>#cfunc</code> → <code>#func</code> に修正。サンプル <code>sample_weather.hsp</code> で Open-Meteo API → iron_json パースまで動作確認</td></tr>
+<tr><td>4/14 20:18</td><td><code>6051ac4d</code></td><td><span class="badge">新機能</span> <code>iron_toast.hsp</code>: Shell_NotifyIconA + NOTIFYICONDATAA 構造体手組みでタスクトレイバルーン通知。Win10/11 ではトースト風表示。<code>toast</code> / <code>toast_warning</code> / <code>toast_error</code> / <code>toast_clear</code> の 4 命令</td></tr>
+<tr><td>4/14 20:19</td><td><code>cf13d865</code></td><td><span class="badge">新機能</span> <code>iron_video.hsp</code>: Media Foundation MFPlay (IMFPMediaPlayer) を <code>#usecom</code> 空 CLSID + <code>#comfunc</code> 直叩きで包んだ動画/音声再生ラッパ。MP4/MKV/MOV/MP3/AAC 等。Play/Pause/Stop/Step/SetRate/SetVolume/Shutdown/GetState の 10 命令。GUI プレイヤーサンプル付き</td></tr>
+<tr><td>4/14 20:20</td><td><code>ad8f0332</code></td><td><span class="badge">新機能</span> <code>iron_camera.hsp</code>: hspcv4 の <code>cv4_video_open</code>/<code>cv4_video_read</code> を 1 行 API でラップした Webcam モジュール。OpenCV 内部で MSMF を使うため結果として MF backend。FPS 表示 + S スナップショット保存サンプル付き</td></tr>
+<tr><td>4/14 20:21</td><td><code>9a655566</code></td><td><span class="badge">新機能</span> <strong>Phase G Phase 1</strong>: <code>hspmfcam.dll</code> Pure Media Foundation Webcam キャプチャ C++ ヘルパ (38 関数)。worker thread + child window + MF SourceReader 方式で HSP main thread 停止中もプレビュー継続。最大 256 デバイス並列、自動デインターレース、PNG/JPEG/BMP/GIF/TIFF スナップショット、アスペクト比 (stretch/letterbox)、リサイズ対応、デバイス列挙 (friendly name + SymbolicLink/EndpointID)</td></tr>
+<tr><td>4/14 20:22</td><td><code>195c59da</code></td><td><span class="badge">新機能</span> <code>iron_camera_mf.hsp</code> ハンドルベース API + dual-cam サンプル。<code>iron_cam_open</code> がハンドル返却、最大 256 並列。<code>sample_camera_mf_dual.hsp</code> で 2 カメラ同時プレビュー</td></tr>
+<tr><td>4/14 20:23</td><td><code>174db403</code></td><td><span class="badge">新機能</span> <strong>Phase I (hspcv4)</strong>: QR コード生成 + 1D バーコード検出/読み取り。<code>cv4_qr_encode</code> (cv::QRCodeEncoder, ec/scale/version 指定), <code>cv4_barcode_detect</code> / <code>cv4_barcode_decode</code> (cv::barcode::BarcodeDetector, Code128/EAN-13/EAN-8/UPC-A 対応)。サンプル <code>sample_qr_encode.hsp</code> でラウンドトリップテスト動作確認</td></tr>
+<tr><td>4/14 20:24</td><td><code>d89da696</code></td><td><span class="badge">新機能</span> <strong>Phase G Phase 2</strong>: hspmfcam.dll を 38 → 68 関数に拡張。フォーマット列挙 (<code>mfcam_format_count</code>/<code>get</code>, NV12/YUY2/MJPG 等の FOURCC), 任意フォーマット指定 open (<code>mfcam_open_ex</code>), カメラプロパティ (IAMVideoProcAmp + IAMCameraControl 17 種), 映像 MP4 録画 (<code>mfcam_record_start</code> H264/HEVC/WMV9/VP9/MJPG SinkWriter), 音声+映像同時録画 (<code>mfcam_record_start_av</code> + audio worker thread, AAC/WMA/FLAC/MP3), 自動デインターレース (<code>MF_SOURCE_READER_ENABLE_VIDEO_PROCESSING</code>)。日本語ヘルプ <code>hspmfcam.hs</code> 18 命令</td></tr>
+<tr><td>4/14 20:25</td><td><code>aee3b832</code></td><td><span class="badge">新機能</span> <code>iron_ai.hsp</code>: OpenAI 互換 Chat API クライアント (純 HSP3, iron_http + iron_json のみ)。OpenAI/Anthropic/Ollama/LM Studio/llama.cpp/GitHub Models/Groq/xAI 等の <code>/chat/completions</code> エンドポイントを 1 行で叩ける。multi-turn 履歴自動管理、system prompt、temperature/max_tokens 対応。iron_http に <code>http_set_header</code> 追加</td></tr>
+<tr><td>4/14 20:26</td><td><code>82e8f094</code></td><td><span class="badge">新機能</span> <strong>MCP 双方向</strong>: <code>hspmcp.dll</code> (CreateProcess + 匿名 pipe + reader thread, 7 export) + <code>iron_mcp_client.hsp</code> (stdio + HTTP transport, JSON-RPC 2.0) + <code>iron_mcp_server.hsp</code> (HSP3CL を MCP stdio server 化、Claude Desktop に登録すれば HSP 関数を tools として呼んでもらえる)。サンプルは公式 filesystem MCP server を npx で spawn する例 + say_hello/add/current_time の 3 ツール server 例</td></tr>
+<tr><td>4/14 20:27</td><td><code>84dc6e4d</code></td><td><span class="badge">ドキュメント</span> 新規 DLL の日本語ヘルプ追加: <code>hspjson.hs</code> (10 命令), <code>hspmcp.hs</code> (7 命令), <code>hspmfcam.hs</code> (18 命令、Phase 2 で先行追加済)</td></tr>
+<tr><td>4/14 20:28</td><td><code>c667f77a</code></td><td><span class="badge">ドキュメント</span> <code>package/win32/common/iron_*.hsp</code> 配下の全 15 モジュールに対応する日本語 .hs ヘルプ追加 (合計 128 命令): iron_http/json/toast/video/camera/camera_mf/ai/mcp_client/mcp_server/clip/dialog/hash/ini/perf/sysinfo</td></tr>
+<tr><td>4/14 20:29</td><td><code>a2eac105</code></td><td><span class="badge">新機能</span> <code>iron_speech.hsp</code> 音声認識統一 API + cloud whisper 実装。<code>iron_http</code> に multipart/form-data ファイルアップロード (<code>http_post_file</code>) 追加。<code>iron_ai_transcribe</code> で OpenAI 互換 <code>/audio/transcriptions</code> エンドポイントを叩く。バックエンド切替型設計 (CLOUD/WHISPER/SAPI/WINRT/VOSK)、現状 CLOUD のみ動作の他はスタブ</td></tr>
+<tr><td>4/14 20:30</td><td><code>c9723196</code></td><td><span class="badge">新機能</span> <strong>hspmfcam Phase 2-G</strong>: マイク単独 audio-only キャプチャ追加 (9 関数)。<code>mfcam_audio_open</code> で sr/ch/bits 指定 (MF Audio Resampler 自動挿入), 生 PCM リング buffer (<code>mfcam_audio_pcm_avail</code>/<code>read_pcm</code>), WAV 直書き (<code>mfcam_audio_save_wav_*</code>), AAC/MP3/WMA/FLAC エンコード録音 (<code>mfcam_audio_record_*</code>)。サンプル <code>sample_mic_record.hsp</code> でマイク録音 → cloud whisper 文字起こしまで一気通貫</td></tr>
+<tr><td>4/14 20:31</td><td><code>df1cf228</code></td><td><span class="badge">新機能</span> <strong>K-D-A: hspwhisper.dll</strong> オフライン whisper.cpp 統合。git submodule で whisper.cpp clone → cmake build (whisper.lib + ggml*.lib) → C++ ラッパ (4 export)。簡易 WAV loader (16bit PCM, ダウンミックス + リサンプル) + <code>whisper_full</code> CPU 推論 (4 thread)。<code>iron_speech</code> の SPEECH_BACKEND_WHISPER 実装。x64 専用</td></tr>
+<tr><td>4/14 20:32</td><td><code>8a12302b</code></td><td><span class="badge">新機能</span> <strong>K-D-D: hspvosk.dll</strong> オフライン Vosk (Kaldi) 統合。alphacephei prebuilt libvosk.dll を C++ ラップ (4 export)。<code>vosk_recognizer_accept_waveform_s</code> + <code>final_result</code> から JSON の "text" 抽出。<code>iron_speech</code> の SPEECH_BACKEND_VOSK 実装。軽量 (model 47 MB 〜)、24+ 言語。x64 専用</td></tr>
+<tr><td>4/14 20:33</td><td><code>58fc0b05</code></td><td><span class="badge">新機能</span> <strong>K-D-B: hspsapi.dll</strong> Windows SAPI 5 統合。sapi.dll の ISpRecognizer + ISpRecoContext + ISpRecoGrammar (dictation) を COM で構築 (3 export)。SPBindToFile で WAV 入力 → イベントループで全 phrase 取得。<code>iron_speech</code> の SPEECH_BACKEND_SAPI 実装。OS 標準、追加 DL 不要。Win32 + x64</td></tr>
+<tr><td>4/14 20:34</td><td><code>ec3a570f</code></td><td><span class="badge">新機能</span> <strong>K-D-C: hspwinrtspeech.dll</strong> Windows.Media.SpeechRecognition (WinRT) を C++/WinRT (header-only) でラップ (3 export)。SpeechRecognizer + CompileConstraintsAsync + RecognizeAsync でライブマイクから 1 phrase 取得。WinRT は仕様上 microphone-only のため新 API <code>iron_speech_listen_once</code> を追加。これで K-D 全 5 backend (CLOUD/WHISPER/VOSK/SAPI/WINRT) が揃った。x64 専用</td></tr>
 </table>
 
 <h3>64bit ビルド対応一覧</h3>

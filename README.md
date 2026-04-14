@@ -24,7 +24,7 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 
 ### 新規プラグイン
 
-- **hspcv4** ([`plugins/win32/hspcv4/`](plugins/win32/hspcv4/)) — OpenCV 4.12 + opencv_contrib をベースに新規開発したプラグイン。**全 200 命令以上** (main 12 + contrib 8 = 20 モジュールカバー)。FreeType / HarfBuzz による日本語フォント描画、Tesseract OCR、wechat_qrcode、saliency、SWT text detection、stereo / xfeatures2d / ximgproc / ml / face / dnn 等、フル装備。**アルファチャンネル対応 (Phase 1-3 完了)**: `cv4load` がデフォルトで `IMREAD_UNCHANGED` を使い PNG 等の BGRA を保持、`with_alpha_preserved` ヘルパーで blur/filter2d/canny/sobel/morphology 等の主要フィルタ系がアルファを自動分離・再合成、`cv4_get_pixela` で 4ch ピクセル読み取り対応。
+- **hspcv4** ([`plugins/win32/hspcv4/`](plugins/win32/hspcv4/)) — OpenCV 4.12 + opencv_contrib をベースに新規開発したプラグイン。**全 200 命令以上** (main 12 + contrib 8 = 20 モジュールカバー)。FreeType / HarfBuzz による日本語フォント描画、Tesseract OCR、wechat_qrcode、saliency、SWT text detection、stereo / xfeatures2d / ximgproc / ml / face / dnn 等、フル装備。**Phase I (QR/Barcode)**: `cv4_qr_encode` で QR コード生成、`cv4_barcode_detect`/`cv4_barcode_decode` で 1D バーコード (Code128/EAN-13/EAN-8/UPC-A) 検出 + デコード。**アルファチャンネル対応 (Phase 1-3)**: `cv4load` がデフォルトで `IMREAD_UNCHANGED` を使い PNG 等の BGRA を保持、`with_alpha_preserved` ヘルパーで blur/filter2d/canny/sobel/morphology 等の主要フィルタ系がアルファを自動分離・再合成、`cv4_get_pixela` で 4ch ピクセル読み取り対応。
 
 ### 大幅拡張したプラグイン
 
@@ -83,19 +83,50 @@ dumpbin /exports → tools/cswin32_bridge/dump_exports.py → NativeMethods.txt
 
 生の Win32 API は強力だが、初心者には敷居が高い。よく使うパターンを **1〜2 行で書ける薄い HSP モジュール** として wrap した「IronHSP Simple」シリーズを `iron_*.hsp` として提供:
 
+#### システム / ユーティリティ
+
 | モジュール | 機能 | 例 |
 |---|---|---|
 | **`iron_ini.hsp`** | INI 設定ファイル読み書き (kernel32 GetPrivateProfile*) | `ini_setpath "config.ini"` / `ini_geti "Window","Width",640` |
-| **`iron_http.hsp`** | HTTP GET/POST (winhttp.dll) | `http_get "https://api.example.com/data"` → `refstr` に body / `stat` に HTTP ステータス |
+| **`iron_http.hsp`** | HTTP GET/POST + multipart upload (winhttp.dll) | `http_get url, body` / `http_post url, body, out` / `http_post_file url, "audio.wav", ...` |
+| **`iron_json.hsp`** | JSON parse/build (hspjson.dll wrapper) | `hid = json_load(text)` / `json_str(hid, "name")` / `json_pretty(hid)` |
 | **`iron_hash.hsp`** | SHA-1/256/384/512 / MD5 / Base64 (bcrypt + crypt32) | `hash_sha256 "hello world"` → `refstr` に hex / `base64_encode "Hi"` |
-| **`iron_dialog.hsp`** | モダン (Vista+) ファイルダイアログ (IFileOpenDialog COM) | `dialog_open "ファイル選択"` / `dialog_save` / `dialog_pickfolder` |
+| **`iron_dialog.hsp`** | モダン (Vista+) ファイルダイアログ (IFileOpenDialog COM) | `dialog_open "ファイル選択"` / `dialog_save` |
 | **`iron_perf.hsp`** | μ秒精度タイマー (QueryPerformanceCounter) | `perf_start` ... `perf_lap` → `refdval` に経過秒 |
 | **`iron_sysinfo.hsp`** | OS / CPU / ユーザ情報 (10 個) | `sys_username` / `sys_cpucount` / `sys_temp_path` 等 |
 | **`iron_clip.hsp`** | クリップボード文字列 (HSP 標準より柔軟) | `clip_set_text "..."` / `clip_get_text` / `clip_has_text` |
+| **`iron_toast.hsp`** | タスクトレイバルーン通知 (Shell_NotifyIcon) | `toast "title", "body"` / `toast_warning` / `toast_error` |
 
-各モジュールに対応するサンプルが [`package/win32/sample/iron/`](package/win32/sample/sample_*.hsp) にあり、全てコンパイル確認済 (hsp3net 系)。
+#### マルチメディア (動画 / カメラ / 録音)
 
-将来追加予定: `iron_toast` (Windows 10 通知) / `iron_video` (Media Foundation 動画) / `iron_qr` (QR 生成・読み取り) / `iron_webserver` (HTTP.sys 簡易サーバ) / `iron_json` (cJSON プラグイン経由) / `iron_ai` (OpenAI 互換 API) / `iron_stt` (Whisper 音声認識) など。
+| モジュール | 機能 | 例 |
+|---|---|---|
+| **`iron_video.hsp`** | 動画/音声再生 (Media Foundation MFPlay, IMFPMediaPlayer #comfunc 直叩き) | `iron_video_open "movie.mp4", hwnd` / `iron_video_play` / `iron_video_set_rate 1.5` |
+| **`iron_camera.hsp`** | Webcam 取り込み (hspcv4 OpenCV VideoCapture wrapper) | `iron_camera_open 0` / `iron_camera_read` / `iron_camera_draw` |
+| **`iron_camera_mf.hsp`** | Webcam + 録画 + マイク録音 (hspmfcam.dll) | `h = iron_cam_open(0, 0, 0, 800, 600)` / `iron_cam_record_av h, "out.mp4", 0, "H264", 4000000, "AAC", 16000` / `iron_mic_save_wav h2, "voice.wav"` |
+
+#### AI / クラウド連携
+
+| モジュール | 機能 | 例 |
+|---|---|---|
+| **`iron_ai.hsp`** | OpenAI 互換 Chat API クライアント (Anthropic / Ollama / Groq / GitHub Models / xAI 等) | `iron_ai_set_endpoint "https://api.groq.com/openai/v1"` / `iron_ai_chat msg, reply` / `iron_ai_transcribe "voice.wav", text` |
+| **`iron_speech.hsp`** | 音声認識統一 API (5 バックエンド切替) | `iron_speech_set_backend SPEECH_BACKEND_WHISPER` / `iron_speech_transcribe "voice.wav", text` |
+| **`iron_mcp_client.hsp`** | Model Context Protocol クライアント (stdio + HTTP) | `iron_mcp_open_stdio "npx -y @modelcontextprotocol/server-filesystem ..."` / `iron_mcp_call "search_files", args, result` |
+| **`iron_mcp_server.hsp`** | HSP3CL を MCP stdio server 化 | `iron_mcp_server_tool "say_hello", "...", *handler` / `iron_mcp_server_run` |
+
+各モジュールに対応するサンプルが [`package/win32/sample/iron/`](package/win32/sample/iron/) にあり、ヘルプは [`package/hsphelp/iron_*.hs`](package/hsphelp/) で日本語 IDE F1 表示可能。
+
+### 新規プラグイン DLL (本拡張で追加)
+
+| DLL | 役割 | 対応 |
+|---|---|---|
+| **[`hspjson.dll`](plugins/win32/hspjson/)** | 自前 JSON parser/writer (依存ゼロ、~300 KB) | Win32 + x64 |
+| **[`hspmfcam.dll`](plugins/win32/hspmfcam/)** | Pure Media Foundation Webcam キャプチャ + 録画 (max 256 並列 / 録画 H.264/HEVC/WMV9/VP9/MJPG + AAC/WMA/FLAC/MP3 / マイク単独 PCM/WAV/エンコード録音 / プロパティ /自動デインターレース). 68 関数 export | Win32 + x64 |
+| **[`hspmcp.dll`](plugins/win32/hspmcp/)** | Model Context Protocol stdio transport ヘルパ (CreateProcess + 匿名 pipe + reader thread) | Win32 + x64 |
+| **[`hspwhisper.dll`](plugins/win32/hspwhisper/)** | whisper.cpp ベースのオフライン音声認識。多言語 Whisper モデル対応 (tiny〜large) | x64 |
+| **[`hspvosk.dll`](plugins/win32/hspvosk/)** | Vosk (Kaldi) ベースの軽量オフライン音声認識。24+ 言語 model 50 MB〜 | x64 |
+| **[`hspsapi.dll`](plugins/win32/hspsapi/)** | Windows SAPI 5 (sapi.dll) オフライン音声認識。OS 標準、追加 DL 不要 | Win32 + x64 |
+| **[`hspwinrtspeech.dll`](plugins/win32/hspwinrtspeech/)** | Windows.Media.SpeechRecognition (cppwinrt) ライブマイク認識 | x64 |
 
 ### 標準プラグインの 64bit 対応
 
@@ -158,9 +189,16 @@ IronHSP_2026/
 ├── hsp3cnv/ hsp3dish/ hsp3embed/ hsp3ll/ hsp3rd/ hsp3rtest/
 ├── hspcmp/                     — HSP コンパイラ (#defstruct / NSTRUCT 対応)
 ├── plugins/win32/              — 同梱プラグイン
-│   ├── hspcv4/                 — OpenCV 4.12 (200 命令 / 20 モジュール)
+│   ├── hspcv4/                 — OpenCV 4.12 (200+ 命令 / 20 モジュール / QR encode + Barcode)
 │   ├── hspdxlib/               — DXLib プラグイン化
-│   ├── hspvoicevox/            — VOICEVOX 連携
+│   ├── hspvoicevox/            — VOICEVOX 連携 (TTS)
+│   ├── hspjson/                — 自前 JSON parser/writer
+│   ├── hspmfcam/               — Pure MF Webcam capture + 録画 + マイク (68 関数)
+│   ├── hspmcp/                 — Model Context Protocol stdio helper
+│   ├── hspwhisper/             — whisper.cpp オフライン音声認識
+│   ├── hspvosk/                — Vosk オフライン音声認識
+│   ├── hspsapi/                — Windows SAPI 5 音声認識
+│   ├── hspwinrtspeech/         — WinRT ライブマイク認識
 │   └── ... (hgimg / hspinet / hspsock / hspda / hspdb / 他)
 ├── nhspc/                      — HSP風 .NET アセンブリコンパイラ
 │   ├── NhspCompiler.Core/      — コアライブラリ (.NET 4.8 Class Library)
