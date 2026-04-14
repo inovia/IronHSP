@@ -1,0 +1,273 @@
+;============================================================
+;   iron_mcp_server.hsp — Run HSP3CL as MCP stdio server
+;
+;   HSP の関数を Model Context Protocol の "tool" として公開して、
+;   Claude Desktop や VSCode/Cursor 等の MCP 対応クライアントから
+;   呼び出してもらうための server-side ラッパ。
+;
+;   依存:
+;     - hspmcp.dll (mcp_stdin_read_line / mcp_stdout_write)
+;     - iron_json.hsp (request JSON のパース)
+;
+;   使い方:
+;     hsp3cl.exe sample_mcp_server.ax として起動 (Claude Desktop に登録)
+;     ↓ stdin / stdout は親プロセス (Claude Desktop) と JSON-RPC で通信
+;
+;   API:
+;     iron_mcp_server_tool "tool_name", "Tool description", *handler_label
+;       (任意の数だけ登録できる。最大 64 個)
+;
+;     iron_mcp_server_run     ; メインループ — JSON-RPC を読み続けて
+;                              ; tools/call 時に handler_label に gosub
+;
+;     handler 内:
+;       iron_mcp_arg_str  "key", str_var
+;       iron_mcp_arg_int  "key", int_var
+;       iron_mcp_set_result "any text"
+;
+;   実装メモ:
+;     * stdin/stdout は hsp3cl のプロセスに継承される pipe
+;     * tools/list, tools/call, initialize, notifications/* に対応
+;     * resources/* と prompts/* は今は未実装 (空配列を返す)
+;============================================================
+
+#ifndef __iron_mcp_server_hsp__
+#define __iron_mcp_server_hsp__
+
+#include "iron_json.hsp"
+
+#uselib "hspmcp.dll"
+#cfunc _mcp_stdin_read_line "mcp_stdin_read_line" var, int
+#cfunc _mcp_stdout_write    "mcp_stdout_write"    str, int
+
+#define IRON_MCP_MAX_TOOLS 64
+
+	; ----- 状態 -----
+	dim    _mcps_tool_label, IRON_MCP_MAX_TOOLS
+	sdim   _mcps_tool_name, 64, IRON_MCP_MAX_TOOLS
+	sdim   _mcps_tool_desc, 256, IRON_MCP_MAX_TOOLS
+	_mcps_tool_count = 0
+
+	sdim   _mcps_args_json, 16384       ; 現在の tools/call の arguments JSON
+	sdim   _mcps_result_text, 65536     ; handler が書く結果文字列
+	_mcps_args_hid = -1
+	goto *_mcps_skip_init
+
+;------------------------------------------------------------
+; 内部: JSON エスケープ
+;------------------------------------------------------------
+#deffunc _mcps_json_escape str src, var dst,  local _i, local _c, local _len, local _src
+    _src = src
+    _len = strlen(_src)
+    sdim dst, _len * 6 + 16
+    repeat _len
+        _c = peek(_src, cnt)
+        if _c = '\\' {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), '\\'
+        } else : if _c = '"' {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), '"'
+        } else : if _c = 0x0a {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 'n'
+        } else : if _c = 0x0d {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 'r'
+        } else : if _c = 0x09 {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 't'
+        } else : if _c < 0x20 {
+            ; skip
+        } else {
+            poke dst, strlen(dst), _c
+        }
+    loop
+    return
+
+;------------------------------------------------------------
+; 内部: stdout に JSON-RPC 1 メッセージを書く (改行付き)
+;------------------------------------------------------------
+#deffunc _mcps_send str msg,  local _line
+    sdim _line, strlen(msg) + 4
+    _line = msg + "\n"
+    _mcp_stdout_write _line, strlen(_line)
+    return
+
+;------------------------------------------------------------
+; ツール登録
+;------------------------------------------------------------
+#deffunc iron_mcp_server_tool str name, str desc, label lbl
+    if _mcps_tool_count >= IRON_MCP_MAX_TOOLS : return -1
+    _mcps_tool_name(_mcps_tool_count)  = name
+    _mcps_tool_desc(_mcps_tool_count)  = desc
+    _mcps_tool_label(_mcps_tool_count) = lbl
+    _mcps_tool_count++
+    return 0
+
+;------------------------------------------------------------
+; handler 内で arguments の値を取り出す
+;------------------------------------------------------------
+#deffunc iron_mcp_arg_str str key, var out_val
+    sdim out_val, 4096
+    out_val = ""
+    if _mcps_args_hid < 0 : return
+    out_val = json_str(_mcps_args_hid, key)
+    return
+
+#deffunc iron_mcp_arg_int str key, var out_val
+    out_val = 0
+    if _mcps_args_hid < 0 : return
+    out_val = json_int(_mcps_args_hid, key)
+    return
+
+#deffunc iron_mcp_arg_dbl str key, var out_val
+    out_val = 0.0
+    if _mcps_args_hid < 0 : return
+    out_val = json_dbl(_mcps_args_hid, key)
+    return
+
+#deffunc iron_mcp_set_result str text
+    _mcps_result_text = text
+    return
+
+;------------------------------------------------------------
+; 内部: tools/list 応答 (登録済みツールを JSON 化)
+;------------------------------------------------------------
+#deffunc _mcps_handle_tools_list int reqid,  local _msg, local _name_esc, local _desc_esc
+    sdim _msg, 65536
+    _msg = "{\"jsonrpc\":\"2.0\",\"id\":" + reqid + ",\"result\":{\"tools\":["
+    repeat _mcps_tool_count
+        if cnt > 0 : _msg = _msg + ","
+        _mcps_json_escape _mcps_tool_name(cnt), _name_esc
+        _mcps_json_escape _mcps_tool_desc(cnt), _desc_esc
+        _msg = _msg + "{\"name\":\"" + _name_esc + "\",\"description\":\"" + _desc_esc + "\",\"inputSchema\":{\"type\":\"object\"}}"
+    loop
+    _msg = _msg + "]}}"
+    _mcps_send _msg
+    return
+
+;------------------------------------------------------------
+; 内部: tools/call 応答 — 引数をパース → handler を呼び出し
+;------------------------------------------------------------
+#deffunc _mcps_handle_tools_call int reqid, str req_json,  local _hid, local _name, local _i, local _msg, local _result_esc
+    _hid = json_load(req_json)
+    if _hid < 0 {
+        _mcps_send "{\"jsonrpc\":\"2.0\",\"id\":" + reqid + ",\"error\":{\"code\":-32700,\"message\":\"parse error\"}}"
+        return
+    }
+    _name = json_str(_hid, "params.name")
+    ; arguments を別のハンドルとして抽出 → 直接 handle 上の path で読めるように
+    ; (簡略化: 元の hid を使い、arg getter は params.arguments.<key> の path を内部生成する)
+    json_release _hid
+
+    ; 簡略化: 引数は元の req_json を再パースして "params.arguments" を別 handle にしたいが
+    ; iron_json には sub-tree 切り出しが無いので、_mcps_args_hid に元 hid を再 load し
+    ; arg getter は "params.arguments." + key の path で読む。
+    _mcps_args_hid = json_load(req_json)
+
+    ; ハンドラ検索
+    _i = -1
+    repeat _mcps_tool_count
+        if _mcps_tool_name(cnt) = _name : _i = cnt : break
+    loop
+    if _i < 0 {
+        json_release _mcps_args_hid
+        _mcps_args_hid = -1
+        _mcps_send "{\"jsonrpc\":\"2.0\",\"id\":" + reqid + ",\"error\":{\"code\":-32601,\"message\":\"tool not found: " + _name + "\"}}"
+        return
+    }
+
+    ; handler 呼び出し
+    _mcps_result_text = ""
+    gosub _mcps_tool_label(_i)
+
+    json_release _mcps_args_hid
+    _mcps_args_hid = -1
+
+    ; result を JSON 化
+    _mcps_json_escape _mcps_result_text, _result_esc
+    sdim _msg, strlen(_result_esc) + 256
+    _msg = "{\"jsonrpc\":\"2.0\",\"id\":" + reqid + ",\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"" + _result_esc + "\"}]}}"
+    _mcps_send _msg
+    return
+
+;------------------------------------------------------------
+; 引数取得を arguments. 経由に変換するために、上書き定義
+;------------------------------------------------------------
+;  NOTE: iron_mcp_arg_str/int/dbl の path に "params.arguments." prefix を
+;        足す方式に切り替えたいので、上の定義を呼び出さず別 wrapper を作る
+;        … が、上ですでに定義済みなので簡略化のため key に直接 prefix を
+;        貼って呼んでもらう or path を内部で構築する。
+;  → ここでは「key には "params.arguments.foo" の形で直接 path を渡す」と
+;    server 用ヘルパとして再定義する。
+;
+;  → 上記 iron_mcp_arg_str を上書きすると import 既存定義と衝突するため、
+;    別名 iron_mcp_argp_str を提供する形にする。
+;------------------------------------------------------------
+#deffunc iron_mcp_argp_str str key, var out_val,  local _path
+    sdim out_val, 4096
+    out_val = ""
+    if _mcps_args_hid < 0 : return
+    sdim _path, strlen(key) + 32
+    _path = "params.arguments." + key
+    out_val = json_str(_mcps_args_hid, _path)
+    return
+
+#deffunc iron_mcp_argp_int str key, var out_val,  local _path
+    out_val = 0
+    if _mcps_args_hid < 0 : return
+    sdim _path, strlen(key) + 32
+    _path = "params.arguments." + key
+    out_val = json_int(_mcps_args_hid, _path)
+    return
+
+#deffunc iron_mcp_argp_dbl str key, var out_val,  local _path
+    out_val = 0.0
+    if _mcps_args_hid < 0 : return
+    sdim _path, strlen(key) + 32
+    _path = "params.arguments." + key
+    out_val = json_dbl(_mcps_args_hid, _path)
+    return
+
+;------------------------------------------------------------
+; メインループ — stdin から JSON-RPC を読み続けて dispatch
+;------------------------------------------------------------
+#deffunc iron_mcp_server_run local _line, local _len, local _hid, local _method, local _id, local _msg
+    sdim _line, 65536
+    repeat
+        _len = _mcp_stdin_read_line(_line, 65535)
+        if _len < 0 : break       ; EOF
+        if _len = 0 : continue
+
+        _hid = json_load(_line)
+        if _hid < 0 : continue
+
+        _method = json_str(_hid, "method")
+        _id = json_int(_hid, "id")
+        json_release _hid
+
+        if _method = "initialize" {
+            sdim _msg, 1024
+            _msg = "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"result\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{\"tools\":{}},\"serverInfo\":{\"name\":\"IronHSP MCP server\",\"version\":\"1.0\"}}}"
+            _mcps_send _msg
+        } else : if _method = "notifications/initialized" {
+            ; no response
+        } else : if _method = "tools/list" {
+            _mcps_handle_tools_list _id
+        } else : if _method = "tools/call" {
+            _mcps_handle_tools_call _id, _line
+        } else : if _method = "resources/list" {
+            _mcps_send "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"result\":{\"resources\":[]}}"
+        } else : if _method = "prompts/list" {
+            _mcps_send "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"result\":{\"prompts\":[]}}"
+        } else {
+            ; 未対応 method
+            _mcps_send "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"error\":{\"code\":-32601,\"message\":\"method not found\"}}"
+        }
+    loop
+    return
+
+*_mcps_skip_init
+
+#endif

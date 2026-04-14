@@ -1,0 +1,286 @@
+;============================================================
+;   iron_mcp_client.hsp — Model Context Protocol client (stdio + HTTP)
+;
+;   Anthropic 製の Model Context Protocol サーバを HSP から叩く
+;   ためのクライアントラッパ。stdio (子プロセス pipe) と HTTP の
+;   両方をサポート。
+;
+;   依存:
+;     - hspmcp.dll        (stdio process pipe helper, C++)
+;     - iron_http.hsp     (HTTP transport)
+;     - iron_json.hsp     (JSON-RPC レスポンスパース)
+;
+;   API (transport 共通):
+;     iron_mcp_open_stdio "command_line", "working_dir"
+;       例: iron_mcp_open_stdio "npx -y @modelcontextprotocol/server-filesystem C:\\work", ""
+;
+;     iron_mcp_open_http "https://example.com/mcp"
+;
+;     iron_mcp_initialize           ; MCP handshake (initialize + initialized notification)
+;
+;     n = iron_mcp_tools_count()
+;     iron_mcp_tool_name idx, name_var
+;     iron_mcp_tool_desc idx, desc_var
+;
+;     iron_mcp_call "tool_name", "{\"arg\":\"value\"}", result_var
+;       result_var に JSON-RPC result をそのまま (JSON 文字列で)。
+;
+;     iron_mcp_close
+;
+;   注意:
+;     - stdio 1 個 + http 1 個まで同時 open 可能 (内部状態がグローバル)
+;     - 複数 server を扱いたい場合は手動で hspmcp.dll を直接叩いてください
+;     - tools/list で取得した結果は内部キャッシュ (再列挙したい場合は再 initialize)
+;============================================================
+
+#ifndef __iron_mcp_client_hsp__
+#define __iron_mcp_client_hsp__
+
+#include "iron_http.hsp"
+#include "iron_json.hsp"
+
+#uselib "hspmcp.dll"
+#cfunc _mcp_proc_open      "mcp_proc_open"      str, str
+#cfunc _mcp_proc_send      "mcp_proc_send"      int, str, int
+#cfunc _mcp_proc_recv_line "mcp_proc_recv_line" int, var, int
+#cfunc _mcp_proc_alive     "mcp_proc_alive"     int
+#func  _mcp_proc_close     "mcp_proc_close"     int
+
+;------------------------------------------------------------
+; State
+;------------------------------------------------------------
+
+	_mcp_transport = 0     ; 0=closed, 1=stdio, 2=http
+	_mcp_handle = -1
+	sdim _mcp_http_url, 1024
+	_mcp_next_id = 1
+	sdim _mcp_tools_json, 65536
+	_mcp_tools_count_cached = 0
+	goto *_mcp_skip_init
+
+;------------------------------------------------------------
+; 内部: JSON 文字列エスケープ (iron_ai のものと同じパターン)
+;------------------------------------------------------------
+#deffunc _mcp_json_escape str src, var dst,  local _i, local _c, local _len, local _src
+    _src = src
+    _len = strlen(_src)
+    sdim dst, _len * 6 + 16
+    repeat _len
+        _c = peek(_src, cnt)
+        if _c = '\\' {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), '\\'
+        } else : if _c = '"' {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), '"'
+        } else : if _c = 0x0a {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 'n'
+        } else : if _c = 0x0d {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 'r'
+        } else : if _c = 0x09 {
+            poke dst, strlen(dst), '\\'
+            poke dst, strlen(dst), 't'
+        } else : if _c < 0x20 {
+            ; ctrl skip
+        } else {
+            poke dst, strlen(dst), _c
+        }
+    loop
+    return
+
+;------------------------------------------------------------
+; 内部: stdio で 1 行送信 + 応答 1 行受信 (タイムアウト ~10 秒)
+;------------------------------------------------------------
+#deffunc _mcp_stdio_xchg str req, var resp,  local _line, local _t, local _bufsz, local _written
+    sdim resp, 65536
+    resp = ""
+    if _mcp_handle < 0 : return -1
+    ; 末尾に改行を確実に付加
+    sdim _line, strlen(req) + 4
+    _line = req + "\n"
+    _written = _mcp_proc_send(_mcp_handle, _line, strlen(_line))
+    if _written = 0 : return -2
+
+    ; 最大 10 秒待つ (100ms x 100 回)
+    sdim _bufsz, 65536
+    repeat 100
+        _bufsz = _mcp_proc_recv_line(_mcp_handle, resp, 65535)
+        if _bufsz > 0 : return 0
+        await 100
+    loop
+    return -3
+
+;------------------------------------------------------------
+; 内部: http で POST + JSON 応答受信
+;------------------------------------------------------------
+#deffunc _mcp_http_xchg str req, var resp
+    sdim resp, 65536
+    resp = ""
+    if strlen(_mcp_http_url) = 0 : return -1
+    http_post _mcp_http_url, req, resp, "application/json"
+    if stat = 200 : return 0
+    return -1
+
+;------------------------------------------------------------
+; 内部: 共通の JSON-RPC 送受信 (transport を見て分岐)
+;------------------------------------------------------------
+#deffunc _mcp_xchg str req, var resp
+    if _mcp_transport = 1 {
+        _mcp_stdio_xchg req, resp
+    } else : if _mcp_transport = 2 {
+        _mcp_http_xchg req, resp
+    } else {
+        return -1
+    }
+    return stat
+
+;------------------------------------------------------------
+; iron_mcp_open_stdio "cmd", "cwd"
+;------------------------------------------------------------
+#deffunc iron_mcp_open_stdio str cmd, str cwd
+    if _mcp_transport ! 0 : iron_mcp_close
+    _mcp_handle = _mcp_proc_open(cmd, cwd)
+    if _mcp_handle < 0 : return -1
+    _mcp_transport = 1
+    _mcp_next_id = 1
+    _mcp_tools_count_cached = 0
+    return 0
+
+;------------------------------------------------------------
+; iron_mcp_open_http "url"
+;------------------------------------------------------------
+#deffunc iron_mcp_open_http str url
+    if _mcp_transport ! 0 : iron_mcp_close
+    _mcp_http_url = url
+    _mcp_transport = 2
+    _mcp_next_id = 1
+    _mcp_tools_count_cached = 0
+    return 0
+
+;------------------------------------------------------------
+; iron_mcp_initialize
+;   MCP handshake: initialize → initialized notification を投げる
+;------------------------------------------------------------
+#deffunc iron_mcp_initialize local _req, local _resp, local _id
+    _id = _mcp_next_id : _mcp_next_id++
+    sdim _req, 1024
+    _req = "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{\"roots\":{\"listChanged\":false},\"sampling\":{}},\"clientInfo\":{\"name\":\"IronHSP\",\"version\":\"1.0\"}}}"
+    sdim _resp, 65536
+    _mcp_xchg _req, _resp
+    if stat ! 0 : return stat
+    ; initialized notification (id 無し)
+    _req = "{\"jsonrpc\":\"2.0\",\"method\":\"notifications/initialized\"}"
+    if _mcp_transport = 1 {
+        _mcp_stdio_xchg _req, _resp
+    }
+    return 0
+
+;------------------------------------------------------------
+; iron_mcp_tools_refresh
+;   tools/list を呼んで内部キャッシュに JSON を保存
+;------------------------------------------------------------
+#deffunc iron_mcp_tools_refresh local _req, local _resp, local _id, local _hid
+    _id = _mcp_next_id : _mcp_next_id++
+    sdim _req, 256
+    _req = "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"method\":\"tools/list\"}"
+    sdim _resp, 65536
+    _mcp_xchg _req, _resp
+    if stat ! 0 {
+        _mcp_tools_count_cached = 0
+        return stat
+    }
+    _mcp_tools_json = _resp
+    ; tools 配列の長さを取得
+    _hid = json_load(_resp)
+    if _hid >= 0 {
+        _mcp_tools_count_cached = json_len(_hid, "result.tools")
+        json_release _hid
+    }
+    return 0
+
+;------------------------------------------------------------
+; iron_mcp_tools_count() — refresh 前に呼ぶと自動 refresh
+;------------------------------------------------------------
+#defcfunc iron_mcp_tools_count
+    if _mcp_tools_count_cached <= 0 : iron_mcp_tools_refresh
+    return _mcp_tools_count_cached
+
+;------------------------------------------------------------
+; iron_mcp_tool_name idx, name_var
+;------------------------------------------------------------
+#deffunc iron_mcp_tool_name int idx, var out_name,  local _hid, local _path
+    sdim out_name, 256
+    out_name = ""
+    if strlen(_mcp_tools_json) = 0 : return
+    _hid = json_load(_mcp_tools_json)
+    if _hid < 0 : return
+    sdim _path, 64
+    _path = "result.tools[" + idx + "].name"
+    out_name = json_str(_hid, _path)
+    json_release _hid
+    return
+
+;------------------------------------------------------------
+; iron_mcp_tool_desc idx, desc_var
+;------------------------------------------------------------
+#deffunc iron_mcp_tool_desc int idx, var out_desc,  local _hid, local _path
+    sdim out_desc, 1024
+    out_desc = ""
+    if strlen(_mcp_tools_json) = 0 : return
+    _hid = json_load(_mcp_tools_json)
+    if _hid < 0 : return
+    sdim _path, 64
+    _path = "result.tools[" + idx + "].description"
+    out_desc = json_str(_hid, _path)
+    json_release _hid
+    return
+
+;------------------------------------------------------------
+; iron_mcp_call "tool_name", "{\"arg\":\"val\"}", result
+;   引数: tool 名と arguments JSON 文字列
+;   出力: result_var に JSON-RPC result の content[0].text を書き込む
+;------------------------------------------------------------
+#deffunc iron_mcp_call str tool_name, str args_json, var out_result,  local _req, local _resp, local _id, local _hid, local _name_esc
+    sdim out_result, 65536
+    out_result = ""
+    _id = _mcp_next_id : _mcp_next_id++
+    _mcp_json_escape tool_name, _name_esc
+    sdim _req, strlen(args_json) + 1024
+    _req = "{\"jsonrpc\":\"2.0\",\"id\":" + _id + ",\"method\":\"tools/call\",\"params\":{\"name\":\"" + _name_esc + "\",\"arguments\":" + args_json + "}}"
+    sdim _resp, 65536
+    _mcp_xchg _req, _resp
+    if stat ! 0 : return stat
+
+    ; レスポンスから result.content[0].text を取り出す
+    _hid = json_load(_resp)
+    if _hid < 0 {
+        out_result = _resp
+        return -1
+    }
+    out_result = json_str(_hid, "result.content[0].text")
+    if strlen(out_result) = 0 {
+        ; テキスト無しなら raw JSON を返す
+        out_result = _resp
+    }
+    json_release _hid
+    return 0
+
+;------------------------------------------------------------
+; iron_mcp_close
+;------------------------------------------------------------
+#deffunc iron_mcp_close
+    if _mcp_transport = 1 {
+        if _mcp_handle >= 0 {
+            _mcp_proc_close _mcp_handle
+            _mcp_handle = -1
+        }
+    }
+    _mcp_transport = 0
+    _mcp_tools_count_cached = 0
+    return
+
+*_mcp_skip_init
+
+#endif

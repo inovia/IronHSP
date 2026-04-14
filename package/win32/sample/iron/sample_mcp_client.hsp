@@ -1,0 +1,68 @@
+;============================================================
+;  iron_mcp_client サンプル: MCP server に接続して tools 列挙 + call
+;
+;  例として stdio で公式 filesystem MCP server を起動して
+;  tools/list と tools/call を呼ぶ。
+;
+;  事前準備:
+;    Node.js + npx が PATH に必要。
+;    起動コマンド:
+;      npx -y @modelcontextprotocol/server-filesystem C:\\path\\to\\dir
+;
+;  HTTP の場合:
+;    iron_mcp_open_http "http://localhost:3000/mcp"
+;============================================================
+
+#include "iron_mcp_client.hsp"
+
+	title "iron_mcp_client sample"
+	screen 0, 800, 600
+	font "MS Gothic", 14
+	mes "==== MCP client sample ===="
+	mes ""
+
+	; 公式 filesystem server を ./temp を root にして spawn
+	cmd = "npx -y @modelcontextprotocol/server-filesystem " + dirinfo(0)
+	mes "spawning: " + cmd
+	mes ""
+
+	iron_mcp_open_stdio cmd, ""
+	if stat ! 0 {
+		mes "spawn failed (npx 未インストール / Node.js 未インストール の可能性)"
+		stop
+	}
+
+	; handshake
+	mes "initialize ..."
+	iron_mcp_initialize
+	if stat ! 0 {
+		mes "initialize failed: " + stat
+		iron_mcp_close
+		stop
+	}
+
+	; tools 列挙
+	n = iron_mcp_tools_count()
+	mes ""
+	mes "[tools/list] " + n + " tools:"
+	repeat n
+		iron_mcp_tool_name cnt, tname
+		iron_mcp_tool_desc cnt, tdesc
+		mes "  " + tname + " — " + tdesc
+	loop
+	mes ""
+
+	; カレントディレクトリの一覧を取る (list_directory tool を試す)
+	mes "[tools/call list_directory]"
+	args = "{\"path\":\"" + dirinfo(0) + "\"}"
+	; HSP の \\ を JSON の \\ に変換する必要があるので簡易対応
+	; (簡略化のためここでは絶対パス決め打ち)
+	sdim result, 65536
+	iron_mcp_call "list_directory", args, result
+	mes "result:"
+	mes result
+
+	iron_mcp_close
+	mes ""
+	mes "完了。"
+	stop

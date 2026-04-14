@@ -1,0 +1,9 @@
+LIBRARY hspmcp
+EXPORTS
+    mcp_proc_open
+    mcp_proc_send
+    mcp_proc_recv_line
+    mcp_proc_alive
+    mcp_proc_close
+    mcp_stdin_read_line
+    mcp_stdout_write

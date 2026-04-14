@@ -1,0 +1,45 @@
+;============================================================
+;  iron_mcp_server サンプル: HSP を MCP server として動かす
+;
+;  hsp3cl.exe sample_mcp_server.ax として起動。
+;  Claude Desktop から登録すると "say_hello" / "add" / "current_time"
+;  ツールが使えるようになる。
+;
+;  Claude Desktop での登録例 (claude_desktop_config.json):
+;    {
+;      "mcpServers": {
+;        "ironhsp_demo": {
+;          "command": "C:\\path\\to\\hsp3cl.exe",
+;          "args": ["C:\\path\\to\\sample_mcp_server.ax"]
+;        }
+;      }
+;    }
+;============================================================
+
+#include "iron_mcp_server.hsp"
+
+	; ----- ツール登録 -----
+	iron_mcp_server_tool "say_hello", "Say hello to a name (arg: name=string)", *handler_hello
+	iron_mcp_server_tool "add",       "Add two integers (args: a=int, b=int)", *handler_add
+	iron_mcp_server_tool "current_time", "Return the current time as a string (no args)", *handler_time
+
+	; ----- メインループ (stdin EOF まで戻ってこない) -----
+	iron_mcp_server_run
+	end
+
+;------------------------------------------------------------
+*handler_hello
+	iron_mcp_argp_str "name", name_arg
+	if strlen(name_arg) = 0 : name_arg = "world"
+	iron_mcp_set_result "Hello, " + name_arg + "! (from IronHSP MCP server)"
+	return
+
+*handler_add
+	iron_mcp_argp_int "a", a
+	iron_mcp_argp_int "b", b
+	iron_mcp_set_result "" + (a + b)
+	return
+
+*handler_time
+	iron_mcp_set_result strf("%04d-%02d-%02d %02d:%02d:%02d", gettime(0), gettime(1), gettime(3), gettime(4), gettime(5), gettime(6))
+	return
