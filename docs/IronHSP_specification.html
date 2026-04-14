@@ -39,7 +39,7 @@
 <div class="container">
 
 <h1>IronHSP 仕様書</h1>
-<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-14</p>
+<p class="muted">HSP3 .NET Framework 統合版 &mdash; 最終更新: 2026-04-14 (Phase E/F + iron_* モジュール集追加)</p>
 <p class="muted">ベース: OpenHSP 3.8beta1 (SVN trunk) / ターゲット: .NET Framework 4.8 / ツールセット: v143 (VS2022)</p>
 
 <div class="toc">
@@ -60,7 +60,8 @@
   <li><a href="#hspd2d">13. hspd2d (DirectWrite + Direct2D + WIC モジュール)</a></li>
   <li><a href="#dxlib">14. DxLib 統合 (hspdxlib)</a></li>
   <li><a href="#win32api">15. Win32 API 大幅拡充 (CsWin32 bridge)</a></li>
-  <li><a href="#changelog">16. 変更履歴</a></li>
+  <li><a href="#ironsimple">16. IronHSP Simple モジュール集 (iron_*)</a></li>
+  <li><a href="#changelog">17. 変更履歴</a></li>
 </ul>
 </div>
 
@@ -1707,14 +1708,14 @@ Microsoft の <a href="https://github.com/microsoft/win32metadata">win32metadata
 <h3>15.1 概要</h3>
 <table>
 <tr><th>項目</th><th>旧 (手書き)</th><th>新 (CsWin32 bridge)</th></tr>
-<tr><td>カバー DLL 数</td><td>10〜15 (部分)</td><td><strong>30 DLL</strong></td></tr>
-<tr><td>関数数</td><td>数百</td><td><strong>4338 関数</strong></td></tr>
+<tr><td>カバー DLL 数</td><td>10〜15 (部分)</td><td><strong>51 DLL</strong></td></tr>
+<tr><td>関数数</td><td>数百</td><td><strong>6020 関数</strong></td></tr>
 <tr><td>COM インターフェース</td><td>0</td><td><strong>118 interface / 1238 method</strong></td></tr>
-<tr><td>構造体 (NSTRUCT)</td><td>未対応</td><td><strong>734 構造体</strong>を自動 <code>#defstruct</code></td></tr>
-<tr><td>定数 enum</td><td>手書きで一部</td><td><strong>608 enum 群</strong> (SW_*/SM_*/WS_*/MB_*/...) を自動 <code>#define</code> 完全展開</td></tr>
+<tr><td>構造体 (NSTRUCT)</td><td>未対応</td><td><strong>734+ 構造体</strong>を自動 <code>#defstruct</code></td></tr>
+<tr><td>定数 enum</td><td>手書きで一部</td><td><strong>608+ enum 群</strong> (SW_*/SM_*/WS_*/MB_*/...) を自動 <code>#define</code> 完全展開</td></tr>
 <tr><td>A/W 自動選択</td><td>手書きで明示</td><td>自動 (<code>CreateFileW</code>, <code>MessageBoxW</code>, <code>RegOpenKeyExW</code> 等)</td></tr>
 <tr><td>型マッピング</td><td>すべて <code>sptr</code></td><td><code>HWND</code>→<code>intptr</code> / <code>PCWSTR</code>→<code>wstr</code> / <code>LPRECT</code>→<code>var</code> / enum→<code>int</code></td></tr>
-<tr><td>日本語 MSDN ヘルプ</td><td>なし</td><td><strong>28373 entries</strong> (常体 MSDN-JP 準拠)</td></tr>
+<tr><td>日本語 MSDN ヘルプ</td><td>なし</td><td>約 <strong>28000 entries</strong> 翻訳済 (Phase E/F の +1682 関数分は次回翻訳予定。常体 MSDN-JP 準拠)</td></tr>
 </table>
 </div>
 
@@ -1810,8 +1811,12 @@ package/hsphelp/
 <tr><td>ws2_32</td><td>(未対応)</td></tr>
 <tr><td>システム</td><td>psapi / version / shlwapi / msimg32 / comdlg32 他</td><td>~50</td></tr>
 <tr><td>bonus (依存解決)</td><td>ncrypt / normaliz / propsys</td><td>27</td></tr>
-<tr><td><strong>合計</strong></td><td><strong>30 DLL</strong></td><td><strong>4338 関数</strong></td></tr>
+<tr><td><strong>合計</strong></td><td><strong>51 DLL</strong></td><td><strong>6020 関数</strong></td></tr>
 </table>
+
+<p>Phase E (commit <code>31765549</code>, 2026-04-14) で <strong>+12 DLL / +395 関数</strong> 追加: ws2_32 (90), iphlpapi (194), urlmon (71), d2d1, dwrite, windowscodecs, dxgi, d3d11, xaudio2_8, dinput8, secur32, bonus xaudio2_8。</p>
+
+<p>Phase F (commit <code>92722d93</code>, 2026-04-14) で <strong>+9 DLL / +1287 関数</strong> 追加: gdiplus (627, GDI+ 高レベル 2D), opengl32 (353, OpenGL 1.1 + wgl*), glu32 (52, GLU ユーティリティ), httpapi (42, HTTP Server API), xmllite (6, fast XML), wlanapi (59), wer (20), powrprof (84, Power), wtsapi32 (44, Terminal Services)。</p>
 
 <h3>15.6 COM インターフェース (118 / 1238 method)</h3>
 
@@ -1838,7 +1843,109 @@ package/hsphelp/
 </ul>
 
 <!-- ======================================== -->
-<h2 id="changelog">16. 変更履歴</h2>
+<h2 id="ironsimple">16. IronHSP Simple モジュール集 (iron_*)</h2>
+
+<p>Section 15 で整備した <strong>51 DLL / 6020 関数</strong> の Win32 API は強力だが、初心者が直接 <code>NativeMethods.txt</code> 経由 .as を直叩きするのはハードルが高い。よく使うパターンを <strong>1〜2 行で書ける薄い HSP モジュール</strong>として wrap した「IronHSP Simple」シリーズを <code>package/win32/common/iron_*.hsp</code> として提供する。</p>
+
+<h3>16.1 提供モジュール (Phase J 1-2 弾、2026-04-14)</h3>
+
+<table>
+<tr><th>モジュール</th><th>機能</th><th>API 例</th><th>DLL</th></tr>
+<tr><td><code>iron_ini.hsp</code></td><td>INI 設定ファイル</td>
+    <td><code>ini_setpath "config.ini"</code><br><code>ini_geti "Window","Width",640</code></td>
+    <td>kernel32 (GetPrivateProfile*)</td></tr>
+<tr><td><code>iron_http.hsp</code></td><td>HTTP GET/POST</td>
+    <td><code>http_get "https://api.../"</code><br><code>http_post url, body, ctype</code></td>
+    <td>winhttp.dll</td></tr>
+<tr><td><code>iron_hash.hsp</code></td><td>SHA-1/256/384/512 / MD5 / Base64</td>
+    <td><code>hash_sha256 "hello"</code><br><code>base64_encode "hi"</code></td>
+    <td>bcrypt + crypt32</td></tr>
+<tr><td><code>iron_dialog.hsp</code></td><td>モダンファイルダイアログ</td>
+    <td><code>dialog_open "file"</code><br><code>dialog_save / dialog_pickfolder</code></td>
+    <td>ole32 + IFileOpenDialog COM</td></tr>
+<tr><td><code>iron_perf.hsp</code></td><td>μ秒精度タイマー</td>
+    <td><code>perf_start</code> ... <code>perf_lap</code></td>
+    <td>kernel32 (QueryPerformanceCounter)</td></tr>
+<tr><td><code>iron_sysinfo.hsp</code></td><td>OS / CPU / ユーザ情報</td>
+    <td><code>sys_username / sys_cpucount</code><br><code>sys_appdata / sys_temp_path</code></td>
+    <td>advapi32 + kernel32</td></tr>
+<tr><td><code>iron_clip.hsp</code></td><td>クリップボード文字列</td>
+    <td><code>clip_set_text / clip_get_text</code></td>
+    <td>user32 + kernel32 (GlobalAlloc)</td></tr>
+</table>
+
+<p>各モジュールに対応するサンプルが <code>package/win32/sample/iron/sample_*.hsp</code> にあり、すべて hspcmp で <strong>コンパイル成功確認済</strong> (hsp3net 系)。</p>
+
+<h3>16.2 設計方針</h3>
+
+<ul>
+  <li><strong>戻り値は HSP 慣習通り</strong>: 文字列は <code>refstr</code>、整数は <code>stat</code>、実数は <code>refdval</code></li>
+  <li><strong>純粋 HSP モジュール</strong>: C++ DLL を介さず、CsWin32 bridge で生成済みの .as / com_misc_gen2.as を <code>#include</code> しなくてもいいように、各モジュール内で必要な Win32 API を <code>#cfunc</code> 直接宣言</li>
+  <li><strong>SJIS ベース</strong>: 日本語の取り扱いに HSP 標準の SJIS を使う (W バリアントが必要な場面のみ <code>WideCharToMultiByte</code> で変換)</li>
+  <li><strong>初期化レス</strong>: 各 API は内部で「初回呼び出し時にのみ初期化」する自動セットアップ</li>
+  <li><strong>1 行で書けることが目玉</strong>: 例えば <code>http_get "https://..."</code> 1 行で HTTP 取得が完結する</li>
+</ul>
+
+<h3>16.3 使用例: HTTP + ハッシュ + 設定ファイルの組み合わせ</h3>
+
+<pre><code>#include "iron_http.hsp"
+#include "iron_hash.hsp"
+#include "iron_ini.hsp"
+
+	; 設定ファイルから API キーを読む
+	ini_setpath "config.ini"
+	ini_get "API", "key", "" : api_key = refstr
+
+	; HTTP GET
+	http_get "https://api.example.com/data"
+	if stat = 200 {
+		body = refstr
+
+		; 結果を SHA-256 で fingerprint
+		hash_sha256 body
+		fp = refstr
+
+		mes "body size: " + strlen(body)
+		mes "fingerprint: " + fp
+
+		; 設定ファイルに最終取得 fingerprint を記録
+		ini_set "Cache", "last_fp", fp
+	}
+	stop</code></pre>
+
+<h3>16.4 ロードマップ (今後追加予定)</h3>
+
+<ul>
+  <li><strong>iron_toast.hsp</strong> — Windows 10/11 トースト通知 (WinRT ToastNotification)</li>
+  <li><strong>iron_video.hsp</strong> — Media Foundation 動画再生 / Web カメラキャプチャ / エンコード</li>
+  <li><strong>iron_qr.hsp</strong> — hspcv4 と連携した QR / バーコード生成・読み取り</li>
+  <li><strong>iron_webserver.hsp</strong> — httpapi.dll で簡易 HTTP サーバ (HSP 単体で localhost:8080 を立てる)</li>
+  <li><strong>iron_json.hsp</strong> — cJSON プラグイン経由の JSON parse / stringify</li>
+  <li><strong>iron_ai.hsp</strong> — OpenAI 互換 REST クライアント (iron_http + iron_json 上)</li>
+  <li><strong>iron_stt.hsp</strong> — Whisper / Vosk / SAPI 5 統合フロントエンド (音声認識)</li>
+  <li><strong>iron_shell.hsp</strong> — IShellLinkW (.lnk 作成) / SHFileOperation (ゴミ箱送り) / DragAcceptFiles</li>
+</ul>
+
+<h3>16.5 HSP モジュール作成時に発見した制約 (memo)</h3>
+
+<p><code>iron_*</code> モジュール作成中に判明した HSP3 言語仕様の制約をまとめる。詳細は <code>memory/reference_hsp_module_quirks.md</code> 参照。</p>
+
+<ul>
+  <li><code>#defcfunc global</code> はサポート外 → <code>#deffunc global</code> + refstr/stat/refdval で代用</li>
+  <li><code>#cfunc global</code> も同様 → モジュール内 private <code>_xxx</code> 宣言 + <code>#deffunc</code> ラッパー</li>
+  <li><code>#module</code> 内の <code>#deffunc</code> は <code>global</code> 修飾子なしでも外部から呼べる (HSP3 仕様)</li>
+  <li><code>#comfunc</code> 関数名は leading underscore 不可 (<code>_fod_Show</code> NG / <code>fod_Show</code> OK)</li>
+  <li><code>#comfunc</code> の単独 <code>intptr</code> パラメータが parser エラー (<code>int</code> で代用)</li>
+  <li><code>#deffunc 関数名,</code> の先頭カンマは不可</li>
+  <li><code>\</code> 行継続は <code>#deffunc</code> パラメータ列で動かない (1 行に統合する)</li>
+  <li><code>ddim</code> はマクロでモジュール内エラー (<code>sdim</code> + <code>lpoke</code> で代用、または個別 double 変数)</li>
+  <li><code>dpoke</code> / <code>dpeek</code> は存在しない</li>
+  <li><code>ginfo_hwnd</code> はモジュール内で未解決 (HWND を引数で渡す or 0/NULL を使う)</li>
+  <li>初期化フラグ変数は uninitialized warning が出るが実害なし (HSP は初期値 0 を保証)</li>
+</ul>
+
+<!-- ======================================== -->
+<h2 id="changelog">17. 変更履歴</h2>
 
 <table>
 <tr><th>日時</th><th>コミット</th><th>内容</th></tr>
@@ -1901,6 +2008,11 @@ package/hsphelp/
 <tr><td>4/14</td><td><code>383ab46c</code></td><td><span class="badge">新機能</span> <strong>Phase D — DLL exports 体系的走査</strong>: kernel32.dll の 1449 exports に対して 67 関数 (4%) しかカバーできていなかった旧来の手書き <code>NativeMethods.txt</code> を全廃し、<code>tools/cswin32_bridge/dump_exports.py</code> で 23 system DLL を dumpbin 走査して 5631 候補を抽出 → win32metadata がサポートする 4334 関数 (77%) を全網羅。<strong>278 → 4334 関数 (15.5x)</strong>。kernel32 が 67 → 881 (13.1x)、user32 が 36 → 606 (16.8x)、advapi32 が 10 → 419 (41.9x)。bonus DLL (comdlg32 / ncrypt / normaliz / propsys / shlwapi / wintrust / api-ms-win-dx) も win32metadata の依存解決経由で 7 個追加</td></tr>
 <tr><td>4/14</td><td><code>21b72511 / dedcdb8f</code></td><td><span class="badge">新機能</span> Win32 API + COM の MSDN 説明を全日本語化。<code>tools/cswin32_bridge/docs_ja.json</code> に 25422 entries、<code>tools/cswin32_bridge_com/docs_ja.json</code> に 2951 entries (合計 <strong>28373 entries</strong>)。並列バックグラウンド subagent 60+ で per-DLL チャンク翻訳。生成スクリプトは英語 doc を中間 JSON に dump し翻訳キャッシュを emit 時に上書きする方式なので、新規 API 追加時の翻訳追記もスムーズ</td></tr>
 <tr><td>4/14</td><td><code>e2406644</code></td><td><span class="badge">バグ修正</span> <code>OpenMutex</code> / <code>OpenSemaphore</code> / <code>SetEnvironmentStrings</code> / <code>IsCharLower</code> の 4 API は win32metadata の複数 namespace に同名が存在し CsWin32 が CS8785 で source generator ごと crash する問題を解決。<code>NativeMethods.txt</code> に fully-qualified name (<code>Windows.Win32.System.Threading.OpenMutex</code> 等) を指定して個別に復活</td></tr>
+<tr><td>4/14</td><td><code>ea6ebc39</code></td><td><span class="badge">バグ修正</span> hspdxlib sample 03-10: <code>DrawFormatString</code> (DxLib の可変長引数版) は HSP の <code>#func</code> が variadic 非対応で compile error になっていた。<code>DrawString X, Y, strf("fmt", ...), color</code> 形式に変換 (合計 11 箇所)。<code>plugins/win32/hspdxlib/sample/_convert.py</code> に再現可能な regex 変換スクリプトを残す</td></tr>
+<tr><td>4/14</td><td><code>31765549</code></td><td><span class="badge">新機能</span> <strong>Phase E</strong>: Win32 API 拡張 +12 DLL / +395 関数。<code>ws2_32</code> (90, Winsock 2), <code>iphlpapi</code> (194, IP Helper), <code>urlmon</code> (71, URLDownloadToFile), <code>d2d1</code> (13), <code>dwrite</code> (1), <code>windowscodecs</code> (9), <code>dxgi</code> (5), <code>d3d11</code> (5), <code>xaudio2_8</code> (4), <code>dinput8</code> (1), <code>secur32</code> (8) を <code>dump_exports.py</code> 経由で追加。<code>filter_unsupported.py</code> の <code>PInvoke005</code> 警告処理を line-number lookup ベースに修正 (90 件追加コメントアウト)。累計 <strong>23 → 35 DLL / 4338 → 4733 関数</strong></td></tr>
+<tr><td>4/14</td><td><code>92722d93</code></td><td><span class="badge">新機能</span> <strong>Phase F</strong>: Win32 API 拡張 +9 DLL / +1287 関数。<code>gdiplus</code> (627, GDI+ 高レベル 2D 描画 / 画像コーデック / フォント), <code>opengl32</code> (353, OpenGL 1.1 + wgl*), <code>glu32</code> (52, GLU ユーティリティ), <code>httpapi</code> (42, HTTP Server API), <code>xmllite</code> (6, 高速 XML パーサ), <code>wlanapi</code> (59), <code>wer</code> (20), <code>powrprof</code> (84), <code>wtsapi32</code> (44) を追加。<code>dump_exports.py</code> の <code>LEGACY_LOWER_PREFIXES</code> に <code>gl</code>/<code>wgl</code>/<code>glu</code> を追加 (OpenGL 関数は小文字始まり慣例)。累計 <strong>35 → 51 DLL / 4733 → 6020 関数</strong></td></tr>
+<tr><td>4/14</td><td><code>dc7f9ddc</code></td><td><span class="badge">新機能</span> <strong>IronHSP Simple モジュール集 第 1 弾</strong> (Phase J): 生の Win32 API は初心者にハードル高いので、よく使うパターンを 1〜2 行で書ける薄いラッパとして提供。<code>iron_ini.hsp</code> (INI 設定ファイル), <code>iron_http.hsp</code> (WinHTTP GET/POST 1 行), <code>iron_hash.hsp</code> (BCrypt SHA-256/MD5/Base64) の 3 モジュール + 各サンプル (HTTP は Open-Meteo 天気予報 API 例)。全 hspcmp 通過確認済</td></tr>
+<tr><td>4/14</td><td><code>4a1cd689</code></td><td><span class="badge">新機能</span> <strong>IronHSP Simple モジュール集 第 2 弾</strong>: <code>iron_dialog.hsp</code> (Vista モダン IFileOpenDialog COM ラッパ - dialog_open / dialog_save / dialog_pickfolder), <code>iron_perf.hsp</code> (QueryPerformanceCounter μ秒タイマー - perf_now / perf_start / perf_lap), <code>iron_sysinfo.hsp</code> (sys_username / sys_cpucount / sys_appdata 等 10 個), <code>iron_clip.hsp</code> (クリップボード文字列) の 4 モジュール + 4 サンプル。Phase J 累計 <strong>7 モジュール / 7 サンプル</strong>。memory <code>reference_hsp_module_quirks.md</code> に <code>#defcfunc global</code> サポート外、<code>#comfunc</code> 単独 <code>intptr</code> エラー、<code>ddim</code> モジュール内バグ等の制約 11 個追記</td></tr>
 </table>
 
 <h3>64bit ビルド対応一覧</h3>

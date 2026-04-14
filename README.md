@@ -38,19 +38,29 @@ OpenHSP 3.8beta1 をベースに、.NET Framework 4.8 連携 / 64bit 対応 / ws
 
 OpenHSP 標準の `package/win32/common/user32.as` / `kernel32.as` / `gdi32.as` 等は古く (sptr ベース、構造体未対応、x64 で破綻ぎりぎり)、kernel32.dll の 1449 exports に対して 67 関数 (4%) しかカバーできていなかった。これを **dumpbin による実 DLL exports 走査 + Microsoft の [win32metadata](https://github.com/microsoft/win32metadata) (CsWin32 source generator)** をベースに体系的に再構築:
 
-- **30 DLL / 4338 関数 / 118 COM インターフェース / 1238 COM メソッド / 全 28373 entries 日本語 MSDN ヘルプ付き** ([`package/win32/common/*_gen2.as`](package/win32/common/) + [`package/hsphelp/win32_*_gen2.hs`](package/hsphelp/))
+- **51 DLL / 6020 関数 / 118 COM インターフェース / 1238 COM メソッド** ([`package/win32/common/*_gen2.as`](package/win32/common/) + [`package/hsphelp/win32_*_gen2.hs`](package/hsphelp/))
+- そのうち約 28000 entries に **日本語 MSDN ヘルプ** 付き (Phase E + F の +1682 関数分は次回翻訳予定)
 - 自動 A/W 選択 (`CreateFileW` / `MessageBoxW` / `RegOpenKeyExW` 等が自動でユニコード版を選択)
 - 完全な `intptr` / `wstr` / `var` (NSTRUCT pointer) 型マッピング
 - 全定数 enum を自動 `#define` 展開 (`SW_*` / `SM_*` / `WS_*` / `MB_*` / `WM_*` / `KEY_*` 等)
 - 共有 `win32_types_gen2.as` に 734 構造体 + 608 enum 群を集約 (各 DLL .as は `#include` で参照)
 - `#usecom` / `#comfunc` 形式で COM インターフェース ([IFileDialog](package/win32/common/com_misc_gen2.as) / IDropTarget / IShellLinkW / IDataObject / ID2D1Factory / IDWriteFactory / IWICImagingFactory / IDXGIFactory 等) も自動生成
 
-#### カバー DLL 一覧
+#### カバー DLL 一覧 (51 DLL / 6020 関数)
 
-| カテゴリ | DLL |
+| カテゴリ | DLL (関数数) |
 |---|---|
-| ベース | kernel32 (881), user32 (606), advapi32 (419), oleaut32 (404), gdi32 (384), crypt32 (218), shell32 (195), wininet (192), winmm (146), ole32 (143), dbghelp (128), comctl32 (94) |
-| その他 | uxtheme (77), imm32 (63), bcrypt (53), winhttp (46), netapi32 (45), userenv (34), dwmapi (31), psapi (20), shlwapi (15), version (7), wintrust (7), msimg32 (3), comdlg32 / ncrypt / normaliz / propsys 他 |
+| ベース (大規模) | kernel32 (881), user32 (606), advapi32 (419), oleaut32 (404), gdi32 (384), crypt32 (218), shell32 (195), wininet (192) |
+| マルチメディア / OLE / デバッグ | winmm (146), ole32 (143), dbghelp (128), comctl32 (94) |
+| グラフィック (Phase F) | **gdiplus (627), opengl32 (353), glu32 (52)** |
+| OpenGL / 3D | gdiplus / opengl32 / glu32 / d2d1 (13) / dwrite (1) / windowscodecs (9) |
+| ネットワーク (Phase E/F) | **ws2_32 (90), iphlpapi (194), winhttp (46), urlmon (71), wlanapi (59)** |
+| HTTP / XML | **httpapi (42), xmllite (6)**, wininet, winhttp |
+| DirectX エントリ点 | **dxgi (5), d3d11 (5), dinput8 (1), xaudio2_8 (4)** |
+| UI / IME / DWM / テーマ | uxtheme (77), imm32 (63), dwmapi (31), wtsapi32 (44) |
+| セキュリティ / 暗号 | bcrypt (53), userenv (34), wintrust (7), secur32 (8) |
+| システム | psapi (20), version (7), shlwapi (15), msimg32 (3), powrprof (84), wer (20), netapi32 (45) |
+| bonus | comdlg32, ncrypt, normaliz, propsys |
 
 #### パイプライン
 
@@ -65,9 +75,27 @@ dumpbin /exports → tools/cswin32_bridge/dump_exports.py → NativeMethods.txt
                          package/hsphelp/win32_<dll>_gen2.hs (英語/日本語 fallback)
 ```
 
-`tools/cswin32_bridge/docs_ja.json` (25422 entries) と `tools/cswin32_bridge_com/docs_ja.json` (2951 entries) に MSDN-JP 準拠の常体翻訳をキャッシュ。再生成時に自動的に日本語ヘルプとして埋め込まれる。
+`tools/cswin32_bridge/docs_ja.json` (約 26000 entries) と `tools/cswin32_bridge_com/docs_ja.json` (2951 entries) に MSDN-JP 準拠の常体翻訳をキャッシュ。再生成時に自動的に日本語ヘルプとして埋め込まれる。
 
 新規 API を追加するときは `NativeMethods.txt` に 1 行追加 → `dotnet build` → `python gen_from_cswin32.py` だけで .as / .hs まで完成する。詳細は [`tools/cswin32_bridge/`](tools/cswin32_bridge/) と [`tools/cswin32_bridge_com/`](tools/cswin32_bridge_com/)。
+
+### IronHSP Simple モジュール集 ([`package/win32/common/iron_*.hsp`](package/win32/common/))
+
+生の Win32 API は強力だが、初心者には敷居が高い。よく使うパターンを **1〜2 行で書ける薄い HSP モジュール** として wrap した「IronHSP Simple」シリーズを `iron_*.hsp` として提供:
+
+| モジュール | 機能 | 例 |
+|---|---|---|
+| **`iron_ini.hsp`** | INI 設定ファイル読み書き (kernel32 GetPrivateProfile*) | `ini_setpath "config.ini"` / `ini_geti "Window","Width",640` |
+| **`iron_http.hsp`** | HTTP GET/POST (winhttp.dll) | `http_get "https://api.example.com/data"` → `refstr` に body / `stat` に HTTP ステータス |
+| **`iron_hash.hsp`** | SHA-1/256/384/512 / MD5 / Base64 (bcrypt + crypt32) | `hash_sha256 "hello world"` → `refstr` に hex / `base64_encode "Hi"` |
+| **`iron_dialog.hsp`** | モダン (Vista+) ファイルダイアログ (IFileOpenDialog COM) | `dialog_open "ファイル選択"` / `dialog_save` / `dialog_pickfolder` |
+| **`iron_perf.hsp`** | μ秒精度タイマー (QueryPerformanceCounter) | `perf_start` ... `perf_lap` → `refdval` に経過秒 |
+| **`iron_sysinfo.hsp`** | OS / CPU / ユーザ情報 (10 個) | `sys_username` / `sys_cpucount` / `sys_temp_path` 等 |
+| **`iron_clip.hsp`** | クリップボード文字列 (HSP 標準より柔軟) | `clip_set_text "..."` / `clip_get_text` / `clip_has_text` |
+
+各モジュールに対応するサンプルが [`package/win32/sample/iron/`](package/win32/sample/sample_*.hsp) にあり、全てコンパイル確認済 (hsp3net 系)。
+
+将来追加予定: `iron_toast` (Windows 10 通知) / `iron_video` (Media Foundation 動画) / `iron_qr` (QR 生成・読み取り) / `iron_webserver` (HTTP.sys 簡易サーバ) / `iron_json` (cJSON プラグイン経由) / `iron_ai` (OpenAI 互換 API) / `iron_stt` (Whisper 音声認識) など。
 
 ### 標準プラグインの 64bit 対応
 
