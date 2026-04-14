@@ -1,0 +1,265 @@
+;============================================================
+;   iron_url.hsp — URL / HTML エンコード・デコード (C# WebUtility 相当)
+;
+;   C# の System.Net.WebUtility.UrlEncode/UrlDecode と
+;   System.Web.HttpUtility.HtmlEncode/HtmlDecode に相当する関数群を
+;   Pure HSP で実装。外部 DLL 不要。
+;
+;   特徴:
+;     - URL Percent-Encoding (RFC 3986、"unreserved" 文字は非エスケープ)
+;     - application/x-www-form-urlencoded の "+" = space 変換対応
+;     - HTML エスケープ 5 種 (& < > " ') + 数値文字参照デコード
+;     - クエリ文字列パース (?a=1&b=2 → 配列)
+;
+;   API:
+;     url_encode "src", dst              URL encode (空白は %20)
+;     url_encode_form "src", dst         form-encode (空白は +)
+;     url_decode "src", dst              URL decode (+ と %XX 両対応)
+;     html_encode "src", dst             HTML エスケープ
+;     html_decode "src", dst             HTML アンエスケープ
+;     url_parse_query "a=1&b=2", keys, vals → stat に件数
+;============================================================
+
+#ifndef __iron_url_hsp__
+#define __iron_url_hsp__
+
+	; #deffunc の fall-through を防ぐための skip
+	goto *_iron_url_skip_init
+
+;------------------------------------------------------------
+; url_encode "src", dst
+;   RFC 3986 percent-encoding。空白は %20。
+;------------------------------------------------------------
+#deffunc url_encode str in_txt, var out_txt,  local _s, local _len, local _c, local _hex, local _unres
+    _s = in_txt
+    _len = strlen(_s)
+    sdim out_txt, _len * 3 + 16
+    out_txt = ""
+    _hex = "0123456789ABCDEF"
+    repeat _len
+        _c = peek(_s, cnt)
+        _unres = 0
+        if (_c >= 0x41) & (_c <= 0x5A) : _unres = 1
+        if (_c >= 0x61) & (_c <= 0x7A) : _unres = 1
+        if (_c >= 0x30) & (_c <= 0x39) : _unres = 1
+        if _c = 0x2D : _unres = 1
+        if _c = 0x5F : _unres = 1
+        if _c = 0x2E : _unres = 1
+        if _c = 0x7E : _unres = 1
+        if _unres ! 0 {
+            poke out_txt, strlen(out_txt), _c
+        } else {
+            poke out_txt, strlen(out_txt), 0x25
+            poke out_txt, strlen(out_txt), peek(_hex, (_c >> 4) & 0x0F)
+            poke out_txt, strlen(out_txt), peek(_hex, _c & 0x0F)
+        }
+    loop
+    return
+
+;------------------------------------------------------------
+; url_encode_form "src", dst
+;   application/x-www-form-urlencoded 形式。空白は + に。
+;------------------------------------------------------------
+#deffunc url_encode_form str src, var dst,  local _src, local _len, local _c, local _hex, local _unres
+    _src = src
+    _len = strlen(_src)
+    sdim dst, _len * 3 + 16
+    dst = ""
+    _hex = "0123456789ABCDEF"
+    repeat _len
+        _c = peek(_src, cnt)
+        if _c = 0x20 {
+            poke dst, strlen(dst), 0x2B       ; +
+            continue
+        }
+        _unres = 0
+        if (_c >= 0x41) & (_c <= 0x5A) : _unres = 1
+        if (_c >= 0x61) & (_c <= 0x7A) : _unres = 1
+        if (_c >= 0x30) & (_c <= 0x39) : _unres = 1
+        if _c = 0x2D : _unres = 1
+        if _c = 0x5F : _unres = 1
+        if _c = 0x2E : _unres = 1
+        if _c = 0x7E : _unres = 1
+        if _unres ! 0 {
+            poke dst, strlen(dst), _c
+        } else {
+            poke dst, strlen(dst), 0x25
+            poke dst, strlen(dst), peek(_hex, (_c >> 4) & 0x0F)
+            poke dst, strlen(dst), peek(_hex, _c & 0x0F)
+        }
+    loop
+    return
+
+;------------------------------------------------------------
+; url_decode "src", dst
+;   + を空白に変換、%XX をバイトに復元。
+;------------------------------------------------------------
+#deffunc url_decode str src, var dst,  local _src, local _len, local _i, local _c, local _h1, local _h2
+    _src = src
+    _len = strlen(_src)
+    sdim dst, _len + 16
+    dst = ""
+    _i = 0
+    repeat
+        if _i >= _len : break
+        _c = peek(_src, _i)
+        if _c = 0x2B {       ; +
+            poke dst, strlen(dst), 0x20
+            _i++
+            continue
+        }
+        if _c = 0x25 {       ; %
+            if _i + 2 < _len {
+                _h1 = peek(_src, _i + 1)
+                _h2 = peek(_src, _i + 2)
+                ; ASCII hex → value
+                if (_h1 >= 0x30) & (_h1 <= 0x39) : _h1 = _h1 - 0x30 : else : if (_h1 >= 0x41) & (_h1 <= 0x46) : _h1 = _h1 - 0x41 + 10 : else : if (_h1 >= 0x61) & (_h1 <= 0x66) : _h1 = _h1 - 0x61 + 10 : else : _h1 = -1
+                if (_h2 >= 0x30) & (_h2 <= 0x39) : _h2 = _h2 - 0x30 : else : if (_h2 >= 0x41) & (_h2 <= 0x46) : _h2 = _h2 - 0x41 + 10 : else : if (_h2 >= 0x61) & (_h2 <= 0x66) : _h2 = _h2 - 0x61 + 10 : else : _h2 = -1
+                if (_h1 >= 0) & (_h2 >= 0) {
+                    poke dst, strlen(dst), (_h1 << 4) | _h2
+                    _i += 3
+                    continue
+                }
+            }
+        }
+        poke dst, strlen(dst), _c
+        _i++
+    loop
+    return
+
+;------------------------------------------------------------
+; html_encode "src", dst
+;------------------------------------------------------------
+#deffunc html_encode str src, var dst,  local _src, local _len, local _c
+    _src = src
+    _len = strlen(_src)
+    sdim dst, _len * 6 + 16
+    dst = ""
+    repeat _len
+        _c = peek(_src, cnt)
+        if _c = 0x26 {          ; &
+            dst = dst + "&amp;"
+            continue
+        }
+        if _c = 0x3C {          ; <
+            dst = dst + "&lt;"
+            continue
+        }
+        if _c = 0x3E {          ; >
+            dst = dst + "&gt;"
+            continue
+        }
+        if _c = 0x22 {          ; "
+            dst = dst + "&quot;"
+            continue
+        }
+        if _c = 0x27 {          ; '
+            dst = dst + "&#39;"
+            continue
+        }
+        poke dst, strlen(dst), _c
+    loop
+    return
+
+;------------------------------------------------------------
+; html_decode "src", dst
+;------------------------------------------------------------
+#deffunc html_decode str src, var dst,  local _src, local _len, local _i, local _c, local _semi, local _ent, local _ent_len, local _val, local _j
+    _src = src
+    _len = strlen(_src)
+    sdim dst, _len + 16
+    dst = ""
+    _i = 0
+    repeat
+        if _i >= _len : break
+        _c = peek(_src, _i)
+        if _c ! 0x26 {       ; not &
+            poke dst, strlen(dst), _c
+            _i++
+            continue
+        }
+        ; find ;
+        _semi = -1
+        _j = _i + 1
+        repeat 16
+            if _j >= _len : break
+            if peek(_src, _j) = 0x3B {    ; ;
+                _semi = _j
+                break
+            }
+            _j++
+        loop
+        if _semi < 0 {
+            poke dst, strlen(dst), _c
+            _i++
+            continue
+        }
+        _ent_len = _semi - _i - 1
+        _ent = strmid(_src, _i + 1, _ent_len)
+
+        if _ent = "amp" : poke dst, strlen(dst), 0x26 : _i = _semi + 1 : continue
+        if _ent = "lt"  : poke dst, strlen(dst), 0x3C : _i = _semi + 1 : continue
+        if _ent = "gt"  : poke dst, strlen(dst), 0x3E : _i = _semi + 1 : continue
+        if _ent = "quot": poke dst, strlen(dst), 0x22 : _i = _semi + 1 : continue
+        if _ent = "apos": poke dst, strlen(dst), 0x27 : _i = _semi + 1 : continue
+
+        ; #NNN numeric
+        if strmid(_ent, 0, 1) = "#" {
+            _val = int(strmid(_ent, 1, _ent_len - 1))
+            if (_val >= 0) & (_val < 256) {
+                poke dst, strlen(dst), _val
+                _i = _semi + 1
+                continue
+            }
+        }
+        ; unknown: keep as-is
+        poke dst, strlen(dst), _c
+        _i++
+    loop
+    return
+
+;------------------------------------------------------------
+; url_parse_query "a=1&b=2", keys, vals → stat に件数
+;------------------------------------------------------------
+#deffunc url_parse_query str query, array out_keys, array out_vals,  local _q, local _eq, local _amp, local _pair, local _key_enc, local _val_enc, local _count, local _rest, local _key_dec, local _val_dec
+    _q = query
+    if strmid(_q, 0, 1) = "?" : _q = strmid(_q, 1, strlen(_q) - 1)
+
+    sdim out_keys, 256, 32
+    sdim out_vals, 1024, 32
+    _count = 0
+
+    _rest = _q
+    repeat
+        if strlen(_rest) = 0 : break
+        _amp = instr(_rest, 0, "&")
+        if _amp < 0 {
+            _pair = _rest
+            _rest = ""
+        } else {
+            _pair = strmid(_rest, 0, _amp)
+            _rest = strmid(_rest, _amp + 1, strlen(_rest) - _amp - 1)
+        }
+        if strlen(_pair) = 0 : continue
+
+        _eq = instr(_pair, 0, "=")
+        if _eq < 0 {
+            _key_enc = _pair
+            _val_enc = ""
+        } else {
+            _key_enc = strmid(_pair, 0, _eq)
+            _val_enc = strmid(_pair, _eq + 1, strlen(_pair) - _eq - 1)
+        }
+
+        if _count >= 32 : break
+        url_decode _key_enc, _key_dec
+        url_decode _val_enc, _val_dec
+        out_keys(_count) = _key_dec
+        out_vals(_count) = _val_dec
+        _count++
+    loop
+    return _count
+
+*_iron_url_skip_init
+
+#endif
