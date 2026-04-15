@@ -1,0 +1,72 @@
+;============================================================
+;   sample_wasm_shared.hsp
+;       同じ shared.wasm を HSP とブラウザ両方から呼んで
+;       結果が一致することを確認するデモ。
+;
+;   shared.wasm (131 byte) が export する関数:
+;       add(a, b)   → a + b
+;       mul(a, b)   → a * b
+;       fib(n)      → フィボナッチ (n=10 → 55)
+;       sum_to(n)   → 1+2+...+n    (n=100 → 5050)
+;
+;   ブラウザ側は同じファイルを browser.html (同ディレクトリ) から
+;   fetch + WebAssembly.instantiate で読むだけ。ビルド手順も
+;   ランタイムも違うのに全く同じバイト列が同じ答えを返す。
+;
+;   ※ 実行には hspwasm.dll (または 64bit なら hspwasm_64.dll) が
+;      HSP ランタイムディレクトリに配置されている必要あり。
+;   ※ このサンプルはコンソール (hsp3cl) でも GUI (hsp3) でも動く。
+;      shared.wasm と同じディレクトリから実行すること。
+;============================================================
+
+#include "hspwasm.as"
+
+    mes "=== hspwasm — shared.wasm demo ==="
+    mes ""
+
+    wasm_load "shared.wasm", h
+    if h < 0 {
+        mes "ERROR: shared.wasm のロードに失敗 (stat=" + h + ")"
+        mes "このスクリプトは shared.wasm と同じディレクトリから実行してください。"
+        stop
+    }
+    mes "shared.wasm (131 bytes) を hspwasm でロードしました。"
+
+    wasm_memory_size h, sz
+    mes "linear memory size = " + sz + " bytes"
+    mes ""
+
+    mes "----- HSP から WebAssembly 関数を呼んでみる -----"
+
+    dim args2, 2
+    dim args1, 1
+
+    args2(0) = 12 : args2(1) = 30
+    wasm_call_i h, "add", args2, 2, r
+    mes "add(12, 30)    = " + r        ; → 42
+
+    args2(0) = 7 : args2(1) = 6
+    wasm_call_i h, "mul", args2, 2, r
+    mes "mul(7, 6)      = " + r        ; → 42
+
+    args1(0) = 10
+    wasm_call_i h, "fib", args1, 1, r
+    mes "fib(10)        = " + r        ; → 55
+
+    args1(0) = 20
+    wasm_call_i h, "fib", args1, 1, r
+    mes "fib(20)        = " + r        ; → 6765
+
+    args1(0) = 100
+    wasm_call_i h, "sum_to", args1, 1, r
+    mes "sum_to(100)    = " + r        ; → 5050
+    mes ""
+
+    mes "同じ shared.wasm をブラウザで開いた場合の期待値:"
+    mes "  add(12,30)=42 / mul(7,6)=42 / fib(10)=55 /"
+    mes "  fib(20)=6765  / sum_to(100)=5050"
+    mes ""
+    mes "browser.html をダブルクリックしてブラウザで開いて比較してください。"
+
+    wasm_close h
+    stop

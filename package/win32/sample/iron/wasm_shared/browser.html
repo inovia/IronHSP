@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>shared.wasm — browser demo</title>
+<style>
+  body { font-family: "Segoe UI", "Meiryo", sans-serif; max-width: 720px; margin: 2em auto; padding: 0 1em; background: #fafafa; color: #222; }
+  h1 { border-bottom: 2px solid #0af; padding-bottom: .3em; }
+  .card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 1em 1.5em; margin: 1em 0; box-shadow: 0 2px 4px rgba(0,0,0,.04); }
+  .ok { color: #0a7; font-weight: bold; }
+  .err { color: #c33; font-weight: bold; }
+  code, pre { font-family: "Cascadia Mono", "Consolas", monospace; background: #eef; padding: .1em .4em; border-radius: 3px; }
+  table { border-collapse: collapse; width: 100%; }
+  td { padding: .3em .6em; border-bottom: 1px solid #eee; }
+  td.name { font-family: "Cascadia Mono", monospace; color: #058; }
+  td.val { text-align: right; font-family: "Cascadia Mono", monospace; font-size: 1.1em; }
+  .note { color: #666; font-size: .9em; margin-top: 1em; }
+</style>
+</head>
+<body>
+
+<h1>shared.wasm — ブラウザで直接実行</h1>
+
+<div class="card">
+  <p>このページは <code>shared.wasm</code> を <code>fetch</code> してから
+     <code>WebAssembly.instantiate</code> でロードし、4 つの export 関数を呼んで結果を下の表に出します。</p>
+  <p>同じファイルを HSP から呼んでいるのが
+     <code>sample_wasm_shared.hsp</code> です。</p>
+  <p>バイナリは <strong>131 byte / MIT</strong>。コンパイラは通しておらず、
+     Python で WASM バイナリフォーマットを手書き生成したものです。</p>
+</div>
+
+<div class="card">
+  <h2>実行結果</h2>
+  <div id="status">ロード中...</div>
+  <table id="results"></table>
+</div>
+
+<div class="note">
+  <p>※ ブラウザのセキュリティ制約により <code>file://</code> からは
+     <code>fetch</code> が失敗することがあります。その場合は<br>
+     <code>python -m http.server 8080</code> をこのディレクトリで起動して
+     <code>http://localhost:8080/browser.html</code> を開いてください。</p>
+</div>
+
+<script>
+(async () => {
+  const status = document.getElementById('status');
+  const table = document.getElementById('results');
+
+  try {
+    const resp = await fetch('shared.wasm');
+    if (!resp.ok) throw new Error('fetch failed: ' + resp.status);
+    const bytes = await resp.arrayBuffer();
+    const mod = await WebAssembly.instantiate(bytes);
+    const e = mod.instance.exports;
+
+    const tests = [
+      { name: 'add(12, 30)',  actual: e.add(12, 30),    expect: 42 },
+      { name: 'mul(7, 6)',    actual: e.mul(7, 6),      expect: 42 },
+      { name: 'fib(10)',      actual: e.fib(10),        expect: 55 },
+      { name: 'fib(20)',      actual: e.fib(20),        expect: 6765 },
+      { name: 'sum_to(100)',  actual: e.sum_to(100),    expect: 5050 },
+    ];
+
+    let allOk = true;
+    for (const t of tests) {
+      const ok = t.actual === t.expect;
+      if (!ok) allOk = false;
+      const row = table.insertRow();
+      row.insertCell().outerHTML = '<td class="name">' + t.name + '</td>';
+      row.insertCell().outerHTML = '<td class="val">' + t.actual + '</td>';
+      row.insertCell().outerHTML = '<td class="' + (ok ? 'ok' : 'err') + '">' + (ok ? 'OK' : 'NG (expected ' + t.expect + ')') + '</td>';
+    }
+
+    status.innerHTML = allOk
+      ? '<span class="ok">✓ shared.wasm (' + bytes.byteLength + ' bytes) をブラウザで実行、全 ' + tests.length + ' テスト一致。</span>'
+      : '<span class="err">✗ 一部の結果が期待値と違います。</span>';
+  } catch (err) {
+    status.innerHTML = '<span class="err">ERROR: ' + err.message + '</span>';
+  }
+})();
+</script>
+
+</body>
+</html>

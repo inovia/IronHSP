@@ -62,7 +62,7 @@
 // vcxproj 側で third_party\wasm3\source\*.c を ClCompile に追加し、
 // AdditionalIncludeDirectories に third_party\wasm3\source を加える。
 //
-#if __has_include("m3_api_defs.h")
+#if __has_include("wasm3.h")
   #include "wasm3.h"
   #define HSPWASM_HAVE_WASM3 1
 #else
