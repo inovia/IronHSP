@@ -2007,12 +2007,11 @@ package/hsphelp/
     マイク入力専用 (ファイル不可)</td>
     <td>3</td><td>x64</td></tr>
 <tr><td><code>hspwebsrv.dll</code></td>
-    <td>winsock ベースの minimal HTTP server。<br>
-    URL reservation / admin 権限不要 (HTTP.sys 非使用)。<br>
-    1 request at a time (no threading, no keep-alive)。<br>
-    Method/URL/Body の簡易パースを C++ 側で実施。<br>
-    <strong>HTTPS / WebSocket 未対応</strong> (将来対応候補)</td>
-    <td>4</td><td>Win32 + x64</td></tr>
+    <td>Windows HTTP Server API v2 (<code>httpapi.dll</code> / kernel-mode HTTP.sys) をラップした本格 HTTP/HTTPS/WebSocket サーバ。C# <code>HttpListener</code> と同じ backend。<br>
+    <strong>HTTPS 対応</strong>: 事前に <code>netsh http add sslcert ipport=0.0.0.0:8443 certhash=&lt;thumbprint&gt;</code> で証明書バインドするだけで <code>https://localhost:8443/</code> が listen できる。<br>
+    <strong>WebSocket 対応</strong>: <code>Sec-WebSocket-Key</code> SHA-1 handshake + 自前フレーム parser、最大 32 同時 WS 接続 (<code>websrv_accept_ws</code> / <code>websrv_ws_send</code> / <code>websrv_ws_recv</code> / <code>websrv_ws_close</code>)。<br>
+    <code>http://localhost:port/</code> は admin 不要、<code>http://+:port/</code> は admin + <code>netsh http add urlacl</code> 必要</td>
+    <td>9</td><td>Win32 + x64</td></tr>
 <tr><td><code>hsp7z.dll</code></td>
     <td>7-Zip 公式 CLI (<code>7za.exe</code> / <code>7za_x64.exe</code>) のサブプロセスラッパ。<br>
     CreateProcess + anonymous pipe で stdout を捕まえて HSP に返す薄い実装 (~150 行)。<br>
@@ -2059,9 +2058,12 @@ package/hsphelp/
 <tr><td><code>hspble.dll</code></td>
     <td>Windows.Devices.Bluetooth (cppwinrt) BLE GATT クライアント。scan / connect / services / read / write / notify (CCCD 自動)</td>
     <td>13</td><td>x64</td></tr>
+<tr><td><code>hspcv4.dll</code></td>
+    <td>OpenCV 4.12 統合。画像 I/O / 描画 / フィルタ / モルフォロジ / imgproc 拡張 / core Mat 演算 / DNN / video / contours / features2d / photo / cascade / tracker / ml / face / stereo / xphoto / aruco / calib3d を網羅。2026-04-16 に <strong>Phase F1〜F6</strong> で全 277 関数を typed <code>#func</code> + <code>pval</code>/<code>bmscr</code> 混合戦略で再設計し OLDDLL <code>$202</code> 形式を完全撤廃。contrib DLL (<code>hspcv4_contrib.dll</code>) 経由で xfeatures2d 等の追加モジュールも使用可</td>
+    <td>277</td><td>x64</td></tr>
 </table>
 
-<p>合計 <strong>21 個の新規 C++ プラグイン DLL / 247 export 関数</strong>。各 DLL に対応する日本語ヘルプは <code>package/hsphelp/hsp*.hs</code>。</p>
+<p>合計 <strong>22 個の新規 C++ プラグイン DLL / 529 export 関数</strong>。各 DLL に対応する日本語ヘルプは <code>package/hsphelp/hsp*.hs</code>。</p>
 
 <h3>16.5 プラグイン関数宣言形式について</h3>
 
