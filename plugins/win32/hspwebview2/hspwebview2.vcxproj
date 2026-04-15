@@ -73,7 +73,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <!-- WebView2Loader.lib: Win32 は x86\, x64 は x64\ (NuGet の build/native/x86 等) -->
-      <AdditionalDependencies>kernel32.lib;user32.lib;ole32.lib;oleaut32.lib;advapi32.lib;shell32.lib;WebView2LoaderStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;ole32.lib;oleaut32.lib;advapi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Link Condition="'$(Platform)'=='Win32'">
       <AdditionalLibraryDirectories>$(ProjectDir)third_party\webview2\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

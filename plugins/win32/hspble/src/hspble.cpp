@@ -372,7 +372,7 @@ static GattDeviceService GetService(Device& d, const std::string& svc_l)
     for (auto const& s : svcs) {
         auto uid = GuidToString(s.Uuid());
         if (uid == svc_l) {
-            d.services[uid] = s;
+            d.services.insert_or_assign(uid, s);
             return s;
         }
     }
@@ -396,7 +396,7 @@ static GattCharacteristic GetCharacteristic(
     for (auto const& c : chrs) {
         auto uid = GuidToString(c.Uuid());
         if (uid == chr_l) {
-            d.chrs[uid] = c;
+            d.chrs.insert_or_assign(uid, c);
             return c;
         }
     }
@@ -511,7 +511,7 @@ HSPBLE_EXPORT BOOL WINAPI ble_services(HSPEXINFO* hei, int p1, int p2, int p3)
             if (!out.empty()) out += '\n';
             out += uid;
             // cache
-            d.services[uid] = s;
+            d.services.insert_or_assign(uid, s);
         }
         write_str_to_var(out);
         return 0;
@@ -541,7 +541,7 @@ HSPBLE_EXPORT BOOL WINAPI ble_characteristics(HSPEXINFO* hei, int p1, int p2, in
             auto uid = GuidToString(c.Uuid());
             if (!out.empty()) out += '\n';
             out += uid;
-            d.chrs[uid] = c;
+            d.chrs.insert_or_assign(uid, c);
         }
         write_str_to_var(out);
         return 0;

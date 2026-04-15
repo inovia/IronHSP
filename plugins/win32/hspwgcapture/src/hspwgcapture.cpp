@@ -427,7 +427,7 @@ HSPWGC_EXPORT BOOL WINAPI wgc_init(HSPEXINFO* hei, int p1, int p2, int p3)
     (void)p1;(void)p2;(void)p3;
     set_hei(hei);
     try {
-        if (!GraphicsCaptureSession::IsSupported()) return -2;
+        if (!winrt::Windows::Graphics::Capture::GraphicsCaptureSession::IsSupported()) return -2;
         if (!wgc_impl::EnsureDevice()) return -3;
         wgc_impl::g_ready = true;
         return 0;

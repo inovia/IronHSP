@@ -79,14 +79,14 @@
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
     <Link>
       <AdditionalLibraryDirectories>$(ProjectDir)third_party\pdfium\x86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>pdfium.dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <!-- x64 prebuilt: third_party\pdfium\x64\lib\pdfium.dll.lib -->
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <Link>
       <AdditionalLibraryDirectories>$(ProjectDir)third_party\pdfium\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>pdfium.dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
 

@@ -45,3 +45,7 @@ Release-unicode/
 
 # ユーザー固有の設定
 *.vcxproj.user
+
+# third_party で git clone する外部 SDK / ソース (リポジトリには含めない)
+plugins/win32/hspwasm/third_party/wasm3/*
+!plugins/win32/hspwasm/third_party/wasm3/README.md
