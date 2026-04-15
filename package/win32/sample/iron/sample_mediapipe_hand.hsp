@@ -1,0 +1,64 @@
+;============================================================
+;   sample_mediapipe_hand.hsp — MediaPipe Hand 検出のサンプル
+;
+;   hsptflite.dll + iron_mediapipe.hsp を使って、
+;   画像から手のバウンディングボックスを検出して画面に描画する。
+;
+;   事前準備:
+;     1. hsptflite.dll / tensorflowlite_c.dll (x64 の場合は _64 版)
+;        を runtime ディレクトリにコピー。
+;     2. MediaPipe の palm_detection_full.tflite を
+;        sample/iron/models/ に配置 (README.md 参照)。
+;     3. hand.jpg を sample/iron/ に配置 (任意の手の写った画像)。
+;============================================================
+
+#include "iron_mediapipe.hsp"
+
+    title "MediaPipe Hand Detection (IronHSP)"
+    screen 0, 800, 600
+
+    ; --- 画像読み込み ---
+    picload "hand.jpg"
+    src_w = ginfo_winx
+    src_h = ginfo_winy
+
+    ; --- bmscr 経由で 24bit BGR バッファを取得 ---
+    mref bm, 67
+    sdim bgr, src_w * src_h * 3
+    memcpy bgr, bm, src_w * src_h * 3, 0, 0
+
+    ; --- BGR → RGB に変換 ---
+    mp_bgr_to_rgb bgr, rgb, src_w, src_h
+
+    ; --- MediaPipe Hand 初期化 ---
+    mp_hand_init "models/palm_detection_full.tflite", ""
+    if stat < 0 {
+        color 255, 0, 0
+        pos 10, 10
+        mes "mp_hand_init failed: stat=" + stat
+        mes "(SDK 未配置または tensorflowlite_c.dll が見つかりません)"
+        stop
+    }
+
+    ; --- 検出実行 ---
+    mp_hand_run rgb, src_w, src_h
+    nhand = stat
+
+    ; --- 結果の描画 ---
+    color 0, 255, 0
+    repeat nhand
+        mp_hand_bbox cnt, bx, by, bw, bh
+        mp_hand_score cnt, sc
+        boxf bx, by, bx + bw, by + bh
+        pos bx, by - 16
+        color 255, 255, 0
+        mes strf("hand[%d] score=%d", cnt, int(sc * 100))
+        color 0, 255, 0
+    loop
+
+    color 255, 255, 255
+    pos 10, src_h + 4
+    mes "detected hands: " + nhand
+
+    mp_hand_close
+    stop

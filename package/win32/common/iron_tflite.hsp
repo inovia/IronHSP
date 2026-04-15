@@ -1,0 +1,84 @@
+;============================================================
+;   iron_tflite.hsp — hsptflite.dll 糖衣モジュール
+;
+;   Google Tensorflow Lite C API の薄いラッパ。
+;
+;   使い方:
+;     #include "iron_tflite.hsp"
+;     iron_tflite_open "model.tflite"
+;     h = stat
+;     if h < 0 : mes "load failed" : stop
+;
+;     iron_tflite_input_info  h, 0, in_shape, in_rank, in_type
+;     iron_tflite_output_info h, 0, out_shape, out_rank, out_type
+;
+;     ; 入力バイナリ (例: 192*192*3 float32)
+;     sdim in_buf, 4 * 192 * 192 * 3
+;     ; ... in_buf にデータを詰める ...
+;     tflite_set_input h, 0, in_buf, 4 * 192 * 192 * 3
+;     tflite_invoke    h
+;
+;     sdim out_buf, 4 * 2016 * 18
+;     tflite_get_output h, 0, out_buf, 4 * 2016 * 18
+;
+;     iron_tflite_close h
+;============================================================
+
+#ifndef __iron_tflite_hsp__
+#define __iron_tflite_hsp__
+
+#include "hsptflite.as"
+
+#module iron_tflite
+
+#deffunc iron_tflite_bootstrap
+    if _itf_inited = 0 {
+        tflite_init
+        _itf_inited = 1
+    }
+    return
+
+;   iron_tflite_open "model.tflite"  → stat = handle
+#deffunc iron_tflite_open str path,  local _h
+    iron_tflite_bootstrap
+    tflite_load path, _h
+    return _h
+
+#deffunc iron_tflite_close int h
+    tflite_close h
+    return
+
+;   iron_tflite_input_info h, idx, var_shape, var_rank, var_type
+#deffunc iron_tflite_input_info int h, int idx, var vshape, var vrank, var vtype
+    dim vshape, 8
+    vrank = 0
+    vtype = -1
+    tflite_input_shape h, idx, vshape, vrank
+    tflite_input_type  h, idx, vtype
+    return
+
+#deffunc iron_tflite_output_info int h, int idx, var vshape, var vrank, var vtype
+    dim vshape, 8
+    vrank = 0
+    vtype = -1
+    tflite_output_shape h, idx, vshape, vrank
+    tflite_output_type  h, idx, vtype
+    return
+
+;   iron_tflite_threads h, n    --- 並列度設定
+#deffunc iron_tflite_threads int h, int n
+    tflite_num_threads h, n
+    return
+
+;   iron_tflite_run h, var_in, in_bytes, var_out, out_bytes   --- 単一 I/O 同期実行
+#deffunc iron_tflite_run int h, var vin, int inbytes, var vout, int outbytes
+    tflite_set_input  h, 0, vin, inbytes
+    tflite_invoke     h
+    tflite_get_output h, 0, vout, outbytes
+    return
+
+#global
+
+    _itf_inited@iron_tflite = 0
+
+#endif
