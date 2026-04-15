@@ -135,43 +135,43 @@
 ;     OpenCV highgui のメッセージループが HSP と競合するため、
 ;     Phase 1 beginner API には含まれていません (玄人向けで後日整備予定)。
 ;
-#func global cv4load    cv4load    $202
-#func global cv4save    cv4save    $202
-#func global cv4del     cv4del     $202
-#func global cv4reset   cv4reset   $202
-#func global cv4info    cv4info    $202
-#func global cv4cvt     cv4cvt     $202
-#func global cv4resize  cv4resize  $202
-#func global cv4getimg  cv4getimg  $202
-#func global cv4putimg  cv4putimg  $202
+#func global cv4load    "cv4load"    int, str
+#func global cv4save    "cv4save"    int, str
+#func global cv4del     "cv4del"     int
+#func global cv4reset   "cv4reset"
+#func global cv4info    "cv4info"    int, var, var, var
+#func global cv4cvt     "cv4cvt"     int, int, int
+#func global cv4resize  "cv4resize"  int, int, int, int
+#func global cv4getimg  "cv4getimg"  int, bmscr
+#func global cv4putimg  "cv4putimg"  int, bmscr
 
 ; ---- drawing ----
 ; 色は B, G, R の順で指定します (OpenCV の慣習)。
 ; thickness に -1 を指定すると塗りつぶし (cv4rect / cv4circle のみ有効)。
 ; cv4text のフォントは HERSHEY_SIMPLEX 固定、scale は double (例: 1.0, 1.5)。
-#func global cv4line    cv4line    $202
-#func global cv4rect    cv4rect    $202
-#func global cv4circle  cv4circle  $202
-#func global cv4text    cv4text    $202
+#func global cv4line    "cv4line"    int, int, int, int, int, int, int, int, int
+#func global cv4rect    "cv4rect"    int, int, int, int, int, int, int, int, int
+#func global cv4circle  "cv4circle"  int, int, int, int, int, int, int, int
+#func global cv4text    "cv4text"    int, str, int, int, double, int, int, int, int
 
 ; ---- filters ----
 ; dst と src は同一ハンドルも可。ksize は奇数推奨 (偶数は自動補正)。
 ; cv4canny は src にグレースケール推奨 (事前に cv4cvt で CV4_BGR2GRAY する)。
-#func global cv4blur    cv4blur    $202
-#func global cv4gauss   cv4gauss   $202
-#func global cv4median  cv4median  $202
-#func global cv4canny   cv4canny   $202
-#func global cv4thresh  cv4thresh  $202
+#func global cv4blur    "cv4blur"    int, int, int
+#func global cv4gauss   "cv4gauss"   int, int, int, double
+#func global cv4median  "cv4median"  int, int, int
+#func global cv4canny   "cv4canny"   int, int, int, int, int
+#func global cv4thresh  "cv4thresh"  int, int, int, int, int
 
 ; ---- geometric transform ----
 ; cv4flip   flipcode: 0=上下反転, 1=左右反転, -1=両方
 ; cv4rotate angle は度単位 (反時計回り)、scale は倍率 double
 ; cv4crop   (x,y)-(w,h) の ROI を切り抜く (範囲外はエラー)
 ; cv4warp   2x3 アフィン行列を直接指定。out_w/out_h は出力サイズ
-#func global cv4flip    cv4flip    $202
-#func global cv4rotate  cv4rotate  $202
-#func global cv4crop    cv4crop    $202
-#func global cv4warp    cv4warp    $202
+#func global cv4flip    "cv4flip"    int, int, int
+#func global cv4rotate  "cv4rotate"  int, int, double, double
+#func global cv4crop    "cv4crop"    int, int, int, int, int, int
+#func global cv4warp    "cv4warp"    int, int, double, double, double, double, double, double, int, int
 
 ; ---- advanced: OpenCV native window display (玄人向け) ----
 ;
@@ -265,18 +265,18 @@
 ; ---- morphology ----
 ;   shape : CV4_MORPH_RECT / CROSS / ELLIPSE
 ;   ksize : カーネルサイズ (奇数推奨)
-#func global cv4_erode          cv4_erode          $202
-#func global cv4_dilate         cv4_dilate         $202
-#func global cv4_morph_open     cv4_morph_open     $202
-#func global cv4_morph_close    cv4_morph_close    $202
-#func global cv4_morph_gradient cv4_morph_gradient $202
-#func global cv4_morph_tophat   cv4_morph_tophat   $202
-#func global cv4_morph_blackhat cv4_morph_blackhat $202
+#func global cv4_erode          "cv4_erode"          int, int, int, int, int
+#func global cv4_dilate         "cv4_dilate"         int, int, int, int, int
+#func global cv4_morph_open     "cv4_morph_open"     int, int, int, int
+#func global cv4_morph_close    "cv4_morph_close"    int, int, int, int
+#func global cv4_morph_gradient "cv4_morph_gradient" int, int, int, int
+#func global cv4_morph_tophat   "cv4_morph_tophat"   int, int, int, int
+#func global cv4_morph_blackhat "cv4_morph_blackhat" int, int, int, int
 
 ; ---- gradient / edge operators ----
-#func global cv4_sobel          cv4_sobel          $202
-#func global cv4_scharr         cv4_scharr         $202
-#func global cv4_laplacian      cv4_laplacian      $202
+#func global cv4_sobel          "cv4_sobel"          int, int, int, int, int
+#func global cv4_scharr         "cv4_scharr"         int, int, int, int
+#func global cv4_laplacian      "cv4_laplacian"      int, int, int
 
 ; ---- arbitrary kernel convolution (Phase 15) ----
 ; cv4_filter2d_3x3 dst, src, k00, k01, k02, k10, k11, k12, k20, k21, k22 [, delta]
@@ -289,14 +289,14 @@
 #func global cv4_filter2d_mat   cv4_filter2d_mat   $202
 
 ; ---- histogram / LUT / normalize ----
-#func global cv4_equalize_hist  cv4_equalize_hist  $202
-#func global cv4_clahe          cv4_clahe          $202
-#func global cv4_normalize      cv4_normalize      $202
-#func global cv4_lut            cv4_lut            $202
+#func global cv4_equalize_hist  "cv4_equalize_hist"  int, int
+#func global cv4_clahe          "cv4_clahe"          int, int, double, int
+#func global cv4_normalize      "cv4_normalize"      int, int, double, double, int
+#func global cv4_lut            "cv4_lut"            int, int, var
 
 ; ---- advanced thresholding ----
-#func global cv4_adaptive_thresh   cv4_adaptive_thresh   $202
-#func global cv4_distance_transform cv4_distance_transform $202
+#func global cv4_adaptive_thresh   "cv4_adaptive_thresh"   int, int, double, int, int, int, double
+#func global cv4_distance_transform "cv4_distance_transform" int, int, int, int
 
 ; ---- Hough transforms ----
 ; 出力は Mat ハンドル (Nx2 / Nx4 / Nx3 の行列)。cv4_mat_shape と
@@ -309,8 +309,8 @@
 #func global cv4_match_template cv4_match_template $202
 
 ; ---- image pyramids ----
-#func global cv4_pyr_up         cv4_pyr_up         $202
-#func global cv4_pyr_down       cv4_pyr_down       $202
+#func global cv4_pyr_up         "cv4_pyr_up"         int, int
+#func global cv4_pyr_down       "cv4_pyr_down"       int, int
 
 ; ---- Mat generic accessors (Hough 結果や DNN 出力を HSP から読む) ----
 #func global cv4_mat_shape      cv4_mat_shape      $202
@@ -629,26 +629,26 @@
 #func global cv4_aruco_generate     cv4_aruco_generate     $202
 
 ; ---- imgcodecs extras: flags / memory buffer encode/decode ----
-#func global cv4_imread_flags   cv4_imread_flags   $202
-#func global cv4_imdecode       cv4_imdecode       $202
-#func global cv4_imencode       cv4_imencode       $202
+#func global cv4_imread_flags   "cv4_imread_flags"   int, str, int
+#func global cv4_imdecode       "cv4_imdecode"       pexinfo, int, pval, int
+#func global cv4_imencode       "cv4_imencode"       pexinfo, str, int, pval, pval
 
 ; ---- stitching / panorama ----
 ; img_ids_array: int 配列 (cv4 画像ハンドル ID のリスト)
 #func global cv4_stitch         cv4_stitch         $202
 
 ; ---- drawing extras ----
-#func global cv4_draw_arrow     cv4_draw_arrow     $202
-#func global cv4_draw_marker    cv4_draw_marker    $202
-#func global cv4_draw_ellipse   cv4_draw_ellipse   $202
+#func global cv4_draw_arrow     "cv4_draw_arrow"     int, int, int, int, int, int, int, int, int, int
+#func global cv4_draw_marker    "cv4_draw_marker"    int, int, int, int, int, int, int, int, int
+#func global cv4_draw_ellipse   "cv4_draw_ellipse"   int, int, int, int, int, double, double, double, int, int, int, int
 #func global cv4_fill_poly      cv4_fill_poly      $202
 
 ; ---- misc utilities ----
-#func global cv4_mat_clone      cv4_mat_clone      $202
-#func global cv4_put_pixel      cv4_put_pixel      $202
-#func global cv4_get_pixel      cv4_get_pixel      $202
+#func global cv4_mat_clone      "cv4_mat_clone"      int, int
+#func global cv4_put_pixel      "cv4_put_pixel"      int, int, int, int, int, int, int
+#func global cv4_get_pixel      "cv4_get_pixel"      int, int, int, var, var, var
 #func global cv4_get_pixela     cv4_get_pixela     $202
-#func global cv4_build_version  cv4_build_version  $202
+#func global cv4_build_version  "cv4_build_version"  pexinfo, pval
 
 ; ---- contrib DLL proxy (requires hspcv4_contrib.dll / hspcv4_contrib_64.dll) ----
 ; これらの命令は main DLL が遅延ロードで hspcv4_contrib.dll を呼び出す形で

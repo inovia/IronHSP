@@ -508,14 +508,10 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
 //  (BGRA) として読み込まれる。通常の JPEG は従来通り CV_8UC3 (BGR)。
 //  以前の「常に BGR 3ch」動作が欲しい場合は cv4_imread_flags に 1
 //  (= cv::IMREAD_COLOR) を渡すこと。
-CV4_EXPORT BOOL WINAPI cv4load(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4load(int id, const char* f)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int id        = getint();
-        const char* f = getstr();
-        cv::Mat img = cv::imread(f, cv::IMREAD_UNCHANGED);
+        cv::Mat img = cv::imread(f ? f : "", cv::IMREAD_UNCHANGED);
         if (img.empty()) return fail("cv4load: imread failed");
         hspcv4::handle_set(id, std::move(img));
         return 0;
@@ -528,16 +524,12 @@ CV4_EXPORT BOOL WINAPI cv4load(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4save id, "file.png"
 //  -> id の画像をファイル保存
-CV4_EXPORT BOOL WINAPI cv4save(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4save(int id, const char* f)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int id        = getint();
-        const char* f = getstr();
         cv::Mat* m = hspcv4::handle_get(id);
         if (!m || m->empty()) return fail("cv4save: invalid handle");
-        if (!cv::imwrite(f, *m)) return fail("cv4save: imwrite failed");
+        if (!cv::imwrite(f ? f : "", *m)) return fail("cv4save: imwrite failed");
         return 0;
     } catch (const cv::Exception& e) {
         return fail(e.what());
@@ -548,20 +540,16 @@ CV4_EXPORT BOOL WINAPI cv4save(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4del id
 //  -> ハンドル解放
-CV4_EXPORT BOOL WINAPI cv4del(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4del(int id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
     hspcv4::handle_free(id);
     return 0;
 }
 
 //  cv4reset
 //  -> 全ハンドル解放 + ウィンドウ全閉じ
-CV4_EXPORT BOOL WINAPI cv4reset(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4reset()
 {
-    (void)hei; (void)p1; (void)p2; (void)p3;
     hspcv4::handle_clear_all();
     try { cv::destroyAllWindows(); } catch (...) {}
     return 0;
@@ -569,28 +557,14 @@ CV4_EXPORT BOOL WINAPI cv4reset(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4info id, var_sx, var_sy, var_ch
 //  -> 画像情報を変数に格納 (HSP の参照渡し変数)
-CV4_EXPORT BOOL WINAPI cv4info(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4info(int id, int* out_sx, int* out_sy, int* out_ch)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int id = getint();
         cv::Mat* m = hspcv4::handle_get(id);
         if (!m || m->empty()) return fail("cv4info: invalid handle");
-
-        // 3 個の int 変数を参照で受け取り、それぞれに格納
-        int vals[3] = { m->cols, m->rows, m->channels() };
-        for (int i = 0; i < 3; ++i) {
-            PVal* pval;
-            APTR aptr = hei->HspFunc_prm_getva(&pval);
-            // 型が int である必要がある
-            if (pval->flag != HSPVAR_FLAG_INT) {
-                return fail("cv4info: variable must be int");
-            }
-            pval->offset = aptr;
-            HspVarProc* proc = hei->HspFunc_getproc(pval->flag);
-            proc->Set(pval, proc->GetPtr(pval), &vals[i]);
-        }
+        if (out_sx) *out_sx = m->cols;
+        if (out_sy) *out_sy = m->rows;
+        if (out_ch) *out_ch = m->channels();
         return 0;
     } catch (const cv::Exception& e) {
         return fail(e.what());
@@ -646,14 +620,9 @@ CV4_EXPORT BOOL WINAPI cv4wait(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4cvt dst_id, src_id, code
 //  -> 色空間変換 (dst と src は別ハンドル可、同一でも可)
-CV4_EXPORT BOOL WINAPI cv4cvt(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4cvt(int dst_id, int src_id, int code)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int code   = getint();
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4cvt: invalid source");
         cv::Mat out;
@@ -669,15 +638,9 @@ CV4_EXPORT BOOL WINAPI cv4cvt(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4resize dst_id, src_id, new_w, new_h
 //  -> リサイズ (HSP param が 3 int+... なので最後の引数は getint で読む)
-CV4_EXPORT BOOL WINAPI cv4resize(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4resize(int dst_id, int src_id, int new_w, int new_h)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int new_w  = getint();
-        int new_h  = getint();
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4resize: invalid source");
         cv::Mat out;
@@ -700,16 +663,12 @@ CV4_EXPORT BOOL WINAPI cv4resize(HSPEXINFO* hei, int p1, int p2, int p3)
 //  cv4getimg id
 //  -> id の画像を現在の HSP カレント window にコピー (左上からベタ貼り)
 //     自動で上下反転、GRAY→BGR、BGRA→BGR 変換する
-CV4_EXPORT BOOL WINAPI cv4getimg(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4getimg(int id, BMSCR* bm)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int id = getint();
         cv::Mat* src = hspcv4::handle_get(id);
         if (!src || src->empty()) return fail("cv4getimg: invalid handle");
 
-        BMSCR* bm = (BMSCR*)hei->HspFunc_getbmscr(*(hei->actscr));
         if (!bm || !bm->pBit) return fail("cv4getimg: no active screen");
 
         // src を BGR / CV_8UC3 に揃える
@@ -1267,17 +1226,12 @@ CV4_EXPORT BOOL WINAPI cv4_stitch(HSPEXINFO* hei, int p1, int p2, int p3)
 // --- 描画拡張 ---
 
 //  cv4_draw_arrow id, x1, y1, x2, y2, b, g, r [, thickness=1] [, tip_len_x100=10]
-CV4_EXPORT BOOL WINAPI cv4_draw_arrow(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_draw_arrow(int id, int x1, int y1, int x2, int y2,
+                                        int b, int g, int r, int thick, int tip_x100)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (thick == 0) thick = 1;
+    if (tip_x100 == 0) tip_x100 = 10;
     try {
-        int id = getint();
-        int x1 = getint(); int y1 = getint();
-        int x2 = getint(); int y2 = getint();
-        int b = getint(); int g = getint(); int r = getint();
-        int thick = getint_def(1);
-        int tip_x100 = getint_def(10);
         cv::Mat* m = hspcv4::handle_get(id);
         if (!m || m->empty()) return fail("cv4_draw_arrow: invalid handle");
         cv::arrowedLine(*m, cv::Point(x1, y1), cv::Point(x2, y2),
@@ -1290,17 +1244,12 @@ CV4_EXPORT BOOL WINAPI cv4_draw_arrow(HSPEXINFO* hei, int p1, int p2, int p3)
 //  cv4_draw_marker id, cx, cy, b, g, r [, marker_type=0] [, size=20] [, thickness=1]
 //    marker_type: 0=CROSS, 1=TILTED_CROSS, 2=STAR, 3=DIAMOND, 4=SQUARE,
 //                 5=TRIANGLE_UP, 6=TRIANGLE_DOWN
-CV4_EXPORT BOOL WINAPI cv4_draw_marker(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_draw_marker(int id, int cx, int cy, int b, int g, int r,
+                                         int mtype, int size, int thick)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (size == 0) size = 20;
+    if (thick == 0) thick = 1;
     try {
-        int id = getint();
-        int cx = getint(); int cy = getint();
-        int b = getint(); int g = getint(); int r = getint();
-        int mtype = getint_def(0);
-        int size  = getint_def(20);
-        int thick = getint_def(1);
         cv::Mat* m = hspcv4::handle_get(id);
         if (!m || m->empty()) return fail("cv4_draw_marker: invalid handle");
         cv::drawMarker(*m, cv::Point(cx, cy), cv::Scalar(b, g, r),
@@ -1311,19 +1260,13 @@ CV4_EXPORT BOOL WINAPI cv4_draw_marker(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_draw_ellipse id, cx, cy, rx, ry, angle, start_angle, end_angle, b, g, r [, thickness=1]
-CV4_EXPORT BOOL WINAPI cv4_draw_ellipse(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_draw_ellipse(int id, int cx, int cy, int rx, int ry,
+                                          double ang, double sang, double eang,
+                                          int b, int g, int r, int thick)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (eang == 0.0) eang = 360.0;
+    if (thick == 0) thick = 1;
     try {
-        int id = getint();
-        int cx = getint(); int cy = getint();
-        int rx = getint(); int ry = getint();
-        double ang  = hei->HspFunc_prm_getdd(0.0);
-        double sang = hei->HspFunc_prm_getdd(0.0);
-        double eang = hei->HspFunc_prm_getdd(360.0);
-        int b = getint(); int g = getint(); int r = getint();
-        int thick = getint_def(1);
         cv::Mat* m = hspcv4::handle_get(id);
         if (!m || m->empty()) return fail("cv4_draw_ellipse: invalid handle");
         cv::ellipse(*m, cv::Point(cx, cy), cv::Size(rx, ry), ang, sang, eang,
@@ -1366,13 +1309,9 @@ CV4_EXPORT BOOL WINAPI cv4_fill_poly(HSPEXINFO* hei, int p1, int p2, int p3)
 // --- その他ユーティリティ ---
 
 //  cv4_mat_clone dst, src
-CV4_EXPORT BOOL WINAPI cv4_mat_clone(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_mat_clone(int dst_id, int src_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_mat_clone: invalid source");
         cv::Mat out = src->clone();
@@ -1387,15 +1326,10 @@ CV4_EXPORT BOOL WINAPI cv4_mat_clone(HSPEXINFO* hei, int p1, int p2, int p3)
 //    - 1ch: b をそのまま書き込み (g, r, a は無視)
 //    - 3ch: b, g, r を書き込み (a は無視)
 //    - 4ch: b, g, r, a を書き込み (a 省略時は 255)
-CV4_EXPORT BOOL WINAPI cv4_put_pixel(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_put_pixel(int id, int x, int y, int b, int g, int r, int a)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (a == 0) a = 255;
     try {
-        int id = getint();
-        int x = getint(); int y = getint();
-        int b = getint(); int g = getint(); int r = getint();
-        int a = getint_def(255);
         cv::Mat* m = hspcv4::handle_get(id);
         if (!m || m->empty()) return fail("cv4_put_pixel: invalid handle");
         if (x < 0 || y < 0 || x >= m->cols || y >= m->rows) {
@@ -1421,13 +1355,10 @@ CV4_EXPORT BOOL WINAPI cv4_put_pixel(HSPEXINFO* hei, int p1, int p2, int p3)
 //  cv4_get_pixel id, x, y, var_b, var_g, var_r
 //    CV_8UC1 / CV_8UC3 / CV_8UC4 対応。4ch 画像でもアルファは読み取らない
 //    (アルファを読みたい場合は cv4_get_pixela を使うこと)。
-CV4_EXPORT BOOL WINAPI cv4_get_pixel(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_get_pixel(int id, int x, int y,
+                                       int* out_b, int* out_g, int* out_r)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int id = getint();
-        int x = getint(); int y = getint();
         cv::Mat* m = hspcv4::handle_get(id);
         if (!m || m->empty()) return fail("cv4_get_pixel: invalid handle");
         if (x < 0 || y < 0 || x >= m->cols || y >= m->rows) {
@@ -1447,13 +1378,9 @@ CV4_EXPORT BOOL WINAPI cv4_get_pixel(HSPEXINFO* hei, int p1, int p2, int p3)
         } else {
             return fail("cv4_get_pixel: unsupported Mat type");
         }
-        for (int i = 0; i < 3; ++i) {
-            PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
-            if (pv->flag != HSPVAR_FLAG_INT) return fail("cv4_get_pixel: var must be int");
-            pv->offset = a;
-            HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
-            proc->Set(pv, proc->GetPtr(pv), &vals[i]);
-        }
+        if (out_b) *out_b = vals[0];
+        if (out_g) *out_g = vals[1];
+        if (out_r) *out_r = vals[2];
         return 0;
     } catch (const cv::Exception& e) { return fail(e.what()); }
       catch (...) { return fail("cv4_get_pixel: unknown"); }
@@ -1503,14 +1430,12 @@ CV4_EXPORT BOOL WINAPI cv4_get_pixela(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4_build_version var_str
 //    OpenCV のバージョン情報を str 変数に格納
-CV4_EXPORT BOOL WINAPI cv4_build_version(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_build_version(HSPEXINFO* hei, PVal* pv)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
-        pv->offset = a;
+        if (!pv || !hei) return fail("cv4_build_version: null arg");
         if (pv->flag != HSPVAR_FLAG_STR) return fail("cv4_build_version: var must be str");
+        set_hei(hei);
         std::string ver = cv::getVersionString();
         HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
         proc->Set(pv, proc->GetPtr(pv), (void*)ver.c_str());
@@ -1527,15 +1452,12 @@ CV4_EXPORT BOOL WINAPI cv4_build_version(HSPEXINFO* hei, int p1, int p2, int p3)
 //  cv4_imread_flags id, "file", flags
 //    cv4load の flag 指定版。
 //    flags: CV4_IMREAD_UNCHANGED=-1, GRAYSCALE=0, COLOR=1, ANYDEPTH=2, ANYCOLOR=4
-CV4_EXPORT BOOL WINAPI cv4_imread_flags(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_imread_flags(int id, const char* f, int flags)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int id          = getint();
-        const char* f   = getstr();
-        int flags       = getint_def(cv::IMREAD_COLOR);
         if (!f) return fail("cv4_imread_flags: null path");
+        // flags 0 は GRAYSCALE (仕様通り)。省略時は cv::IMREAD_COLOR (=1) にする。
+        // typed #func では省略も 0 と区別できないので、0 なら GRAYSCALE。
         cv::Mat img = cv::imread(f, flags);
         if (img.empty()) return fail("cv4_imread_flags: imread failed");
         hspcv4::handle_set(id, std::move(img));
@@ -1548,16 +1470,12 @@ CV4_EXPORT BOOL WINAPI cv4_imread_flags(HSPEXINFO* hei, int p1, int p2, int p3)
 //    HSP の変数に入っているバイト列 (netload や cv4_imencode で取得した
 //    PNG/JPEG バイト列) から Mat をデコードする。
 //    size は実際のバイト数。cv4_imencode で取得した var_size をそのまま渡す。
-CV4_EXPORT BOOL WINAPI cv4_imdecode(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_imdecode(HSPEXINFO* hei, int id, PVal* pv, int size)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    (void)hei;
     try {
-        int id = getint();
-        PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
-        pv->offset = a;
+        if (!pv) return fail("cv4_imdecode: null pval");
         if (pv->flag != HSPVAR_FLAG_STR) return fail("cv4_imdecode: buffer must be str");
-        int size = getint();
         if (size <= 0) return fail("cv4_imdecode: size must be > 0");
         std::vector<unsigned char> buf((unsigned char*)pv->pt, (unsigned char*)pv->pt + size);
         cv::Mat img = cv::imdecode(buf, cv::IMREAD_COLOR);
@@ -1573,18 +1491,13 @@ CV4_EXPORT BOOL WINAPI cv4_imdecode(HSPEXINFO* hei, int p1, int p2, int p3)
 //    HSP の str 変数にバイト列として格納し、バイト数を var_size に返す。
 //    PNG 等には NUL バイトが含まれるので strlen では長さを測れない。
 //    必ず var_size を使って後続 cv4_imdecode に渡すこと。
-CV4_EXPORT BOOL WINAPI cv4_imencode(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_imencode(HSPEXINFO* hei, const char* ext, int id,
+                                      PVal* pv_buf, PVal* pv_size)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        const char* ext = getstr();
-        int id          = getint();
-        PVal* pv_buf; APTR a_buf = hei->HspFunc_prm_getva(&pv_buf);
-        pv_buf->offset = a_buf;
+        if (!hei || !pv_buf || !pv_size) return fail("cv4_imencode: null arg");
+        set_hei(hei);
         if (pv_buf->flag != HSPVAR_FLAG_STR) return fail("cv4_imencode: buffer must be str");
-        PVal* pv_size; APTR a_size = hei->HspFunc_prm_getva(&pv_size);
-        pv_size->offset = a_size;
         if (pv_size->flag != HSPVAR_FLAG_INT) return fail("cv4_imencode: var_size must be int");
 
         cv::Mat* m = hspcv4::handle_get(id);
@@ -2224,14 +2137,9 @@ CV4_EXPORT BOOL WINAPI cv4_close_all(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4flip dst_id, src_id, flipcode
 //    flipcode:  0 = 上下反転, 1 = 左右反転, -1 = 両方
-CV4_EXPORT BOOL WINAPI cv4flip(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4flip(int dst_id, int src_id, int code)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int code   = getint();
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4flip: invalid source");
         cv::Mat out;
@@ -2247,15 +2155,10 @@ CV4_EXPORT BOOL WINAPI cv4flip(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4rotate dst_id, src_id, angle [, scale=1.0]
 //    angle は度単位 (反時計回り)、中心は画像中央。出力サイズは入力と同じ。
-CV4_EXPORT BOOL WINAPI cv4rotate(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4rotate(int dst_id, int src_id, double angle, double scale)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (scale == 0.0) scale = 1.0;
     try {
-        int dst_id    = getint();
-        int src_id    = getint();
-        double angle  = hei->HspFunc_prm_getdd(0.0);
-        double scale  = hei->HspFunc_prm_getdd(1.0);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4rotate: invalid source");
         cv::Point2f center((float)(src->cols * 0.5), (float)(src->rows * 0.5));
@@ -2274,17 +2177,9 @@ CV4_EXPORT BOOL WINAPI cv4rotate(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4crop dst_id, src_id, x, y, w, h
 //    ROI クロップ。範囲外だとエラー。
-CV4_EXPORT BOOL WINAPI cv4crop(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4crop(int dst_id, int src_id, int x, int y, int w, int h)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int x      = getint();
-        int y      = getint();
-        int w      = getint();
-        int h      = getint();
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4crop: invalid source");
         if (x < 0 || y < 0 || w <= 0 || h <= 0 ||
@@ -2304,21 +2199,12 @@ CV4_EXPORT BOOL WINAPI cv4crop(HSPEXINFO* hei, int p1, int p2, int p3)
 //  cv4warp dst_id, src_id, m00, m01, m02, m10, m11, m12, out_w, out_h
 //    2x3 アフィン行列を直接指定して warpAffine。
 //    行列の要素は double。HSP 側では int リテラルでも自動で double 解釈される。
-CV4_EXPORT BOOL WINAPI cv4warp(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4warp(int dst_id, int src_id,
+                                 double m00, double m01, double m02,
+                                 double m10, double m11, double m12,
+                                 int ow, int oh)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        double m00 = hei->HspFunc_prm_getdd(1.0);
-        double m01 = hei->HspFunc_prm_getdd(0.0);
-        double m02 = hei->HspFunc_prm_getdd(0.0);
-        double m10 = hei->HspFunc_prm_getdd(0.0);
-        double m11 = hei->HspFunc_prm_getdd(1.0);
-        double m12 = hei->HspFunc_prm_getdd(0.0);
-        int ow     = getint();
-        int oh     = getint();
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4warp: invalid source");
         cv::Mat mat(2, 3, CV_64F);
@@ -5996,16 +5882,10 @@ static cv::Mat make_morph_kernel(int shape, int ksize)
 }
 
 //  cv4_erode dst, src, shape, ksize [, iterations=1]
-CV4_EXPORT BOOL WINAPI cv4_erode(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_erode(int dst_id, int src_id, int shape, int ksize, int iter)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (iter == 0) iter = 1;
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int shape  = getint();
-        int ksize  = getint();
-        int iter   = getint_def(1);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_erode: invalid source");
         cv::Mat k = make_morph_kernel(shape, ksize);
@@ -6020,16 +5900,10 @@ CV4_EXPORT BOOL WINAPI cv4_erode(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_dilate dst, src, shape, ksize [, iterations=1]
-CV4_EXPORT BOOL WINAPI cv4_dilate(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_dilate(int dst_id, int src_id, int shape, int ksize, int iter)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (iter == 0) iter = 1;
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int shape  = getint();
-        int ksize  = getint();
-        int iter   = getint_def(1);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_dilate: invalid source");
         cv::Mat k = make_morph_kernel(shape, ksize);
@@ -6044,13 +5918,9 @@ CV4_EXPORT BOOL WINAPI cv4_dilate(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 // Shared helper for morphologyEx variants
-static int cv4_morph_op(int op, HSPEXINFO* hei)
+static int cv4_morph_op(int op, int dst_id, int src_id, int shape, int ksize)
 {
     try {
-        int dst_id = hei->HspFunc_prm_geti();
-        int src_id = hei->HspFunc_prm_geti();
-        int shape  = hei->HspFunc_prm_geti();
-        int ksize  = hei->HspFunc_prm_geti();
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_morph_*: invalid source");
         cv::Mat k = make_morph_kernel(shape, ksize);
@@ -6065,24 +5935,24 @@ static int cv4_morph_op(int op, HSPEXINFO* hei)
 }
 
 //  cv4_morph_open      dst, src, shape, ksize
-CV4_EXPORT BOOL WINAPI cv4_morph_open(HSPEXINFO* hei, int p1, int p2, int p3)
-{ (void)p1;(void)p2;(void)p3; set_hei(hei); return cv4_morph_op(cv::MORPH_OPEN, hei); }
+CV4_EXPORT int __stdcall cv4_morph_open(int dst_id, int src_id, int shape, int ksize)
+{ return cv4_morph_op(cv::MORPH_OPEN, dst_id, src_id, shape, ksize); }
 
 //  cv4_morph_close     dst, src, shape, ksize
-CV4_EXPORT BOOL WINAPI cv4_morph_close(HSPEXINFO* hei, int p1, int p2, int p3)
-{ (void)p1;(void)p2;(void)p3; set_hei(hei); return cv4_morph_op(cv::MORPH_CLOSE, hei); }
+CV4_EXPORT int __stdcall cv4_morph_close(int dst_id, int src_id, int shape, int ksize)
+{ return cv4_morph_op(cv::MORPH_CLOSE, dst_id, src_id, shape, ksize); }
 
 //  cv4_morph_gradient  dst, src, shape, ksize
-CV4_EXPORT BOOL WINAPI cv4_morph_gradient(HSPEXINFO* hei, int p1, int p2, int p3)
-{ (void)p1;(void)p2;(void)p3; set_hei(hei); return cv4_morph_op(cv::MORPH_GRADIENT, hei); }
+CV4_EXPORT int __stdcall cv4_morph_gradient(int dst_id, int src_id, int shape, int ksize)
+{ return cv4_morph_op(cv::MORPH_GRADIENT, dst_id, src_id, shape, ksize); }
 
 //  cv4_morph_tophat    dst, src, shape, ksize
-CV4_EXPORT BOOL WINAPI cv4_morph_tophat(HSPEXINFO* hei, int p1, int p2, int p3)
-{ (void)p1;(void)p2;(void)p3; set_hei(hei); return cv4_morph_op(cv::MORPH_TOPHAT, hei); }
+CV4_EXPORT int __stdcall cv4_morph_tophat(int dst_id, int src_id, int shape, int ksize)
+{ return cv4_morph_op(cv::MORPH_TOPHAT, dst_id, src_id, shape, ksize); }
 
 //  cv4_morph_blackhat  dst, src, shape, ksize
-CV4_EXPORT BOOL WINAPI cv4_morph_blackhat(HSPEXINFO* hei, int p1, int p2, int p3)
-{ (void)p1;(void)p2;(void)p3; set_hei(hei); return cv4_morph_op(cv::MORPH_BLACKHAT, hei); }
+CV4_EXPORT int __stdcall cv4_morph_blackhat(int dst_id, int src_id, int shape, int ksize)
+{ return cv4_morph_op(cv::MORPH_BLACKHAT, dst_id, src_id, shape, ksize); }
 
 
 //============================================================================
@@ -6090,16 +5960,10 @@ CV4_EXPORT BOOL WINAPI cv4_morph_blackhat(HSPEXINFO* hei, int p1, int p2, int p3
 //============================================================================
 
 //  cv4_sobel dst, src, dx, dy, ksize
-CV4_EXPORT BOOL WINAPI cv4_sobel(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_sobel(int dst_id, int src_id, int dx, int dy, int ksize)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (ksize == 0) ksize = 3;
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int dx     = getint();
-        int dy     = getint();
-        int ksize  = getint_def(3);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_sobel: invalid source");
         cv::Mat abs_out;
@@ -6115,15 +5979,9 @@ CV4_EXPORT BOOL WINAPI cv4_sobel(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_scharr dst, src, dx, dy
-CV4_EXPORT BOOL WINAPI cv4_scharr(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_scharr(int dst_id, int src_id, int dx, int dy)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int dx     = getint();
-        int dy     = getint();
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_scharr: invalid source");
         cv::Mat abs_out;
@@ -6139,14 +5997,10 @@ CV4_EXPORT BOOL WINAPI cv4_scharr(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_laplacian dst, src, ksize
-CV4_EXPORT BOOL WINAPI cv4_laplacian(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_laplacian(int dst_id, int src_id, int ksize)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (ksize == 0) ksize = 3;
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int ksize  = getint_def(3);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_laplacian: invalid source");
         cv::Mat abs_out;
@@ -6229,13 +6083,9 @@ CV4_EXPORT BOOL WINAPI cv4_filter2d_mat(HSPEXINFO* hei, int p1, int p2, int p3)
 //============================================================================
 
 //  cv4_equalize_hist dst, src  (src は 1ch CV_8U)
-CV4_EXPORT BOOL WINAPI cv4_equalize_hist(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_equalize_hist(int dst_id, int src_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_equalize_hist: invalid source");
         cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
@@ -6251,15 +6101,11 @@ CV4_EXPORT BOOL WINAPI cv4_equalize_hist(HSPEXINFO* hei, int p1, int p2, int p3)
 //  cv4_clahe dst, src, clip_limit, grid
 //    clip_limit: double (2.0 が標準)
 //    grid: タイル分割数 (8 で 8x8 など)
-CV4_EXPORT BOOL WINAPI cv4_clahe(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_clahe(int dst_id, int src_id, double clip, int grid)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (clip == 0.0) clip = 2.0;
+    if (grid == 0) grid = 8;
     try {
-        int dst_id     = getint();
-        int src_id     = getint();
-        double clip    = hei->HspFunc_prm_getdd(2.0);
-        int grid       = getint_def(8);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_clahe: invalid source");
         cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
@@ -6274,16 +6120,11 @@ CV4_EXPORT BOOL WINAPI cv4_clahe(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_normalize dst, src, alpha, beta [, norm_type=NORM_MINMAX(32)]
-CV4_EXPORT BOOL WINAPI cv4_normalize(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_normalize(int dst_id, int src_id, double a, double b, int nt)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (b == 0.0) b = 255.0;
+    if (nt == 0) nt = cv::NORM_MINMAX;
     try {
-        int dst_id  = getint();
-        int src_id  = getint();
-        double a    = hei->HspFunc_prm_getdd(0.0);
-        double b    = hei->HspFunc_prm_getdd(255.0);
-        int nt      = getint_def(cv::NORM_MINMAX);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_normalize: invalid source");
         cv::Mat out;
@@ -6296,23 +6137,10 @@ CV4_EXPORT BOOL WINAPI cv4_normalize(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4_lut dst, src, lut_var
 //    lut_var: 256 要素の int 配列 (0-255 の範囲の値)
-CV4_EXPORT BOOL WINAPI cv4_lut(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_lut(int dst_id, int src_id, int* lut_src)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        PVal* pval_lut;
-        APTR  aptr  = hei->HspFunc_prm_getva(&pval_lut);
-        if (pval_lut->flag != HSPVAR_FLAG_INT) {
-            return fail("cv4_lut: lut var must be int array");
-        }
-        pval_lut->offset = aptr;
-        int* lut_src = (int*)pval_lut->pt;
-        int lut_len = pval_lut->len[1];
-        if (lut_len < 256) return fail("cv4_lut: lut must have >= 256 elements");
-
+        if (!lut_src) return fail("cv4_lut: null lut");
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_lut: invalid source");
 
@@ -6339,18 +6167,11 @@ CV4_EXPORT BOOL WINAPI cv4_lut(HSPEXINFO* hei, int p1, int p2, int p3)
 //  cv4_adaptive_thresh dst, src, maxval, adaptive_method, thresh_type, block_size, C
 //    adaptive_method: 0=MEAN_C, 1=GAUSSIAN_C
 //    thresh_type: 0=BINARY, 1=BINARY_INV
-CV4_EXPORT BOOL WINAPI cv4_adaptive_thresh(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_adaptive_thresh(int dst_id, int src_id, double maxv,
+                                             int amethod, int ttype, int bsize, double C)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (maxv == 0.0) maxv = 255.0;
     try {
-        int dst_id   = getint();
-        int src_id   = getint();
-        double maxv  = hei->HspFunc_prm_getdd(255.0);
-        int amethod  = getint();
-        int ttype    = getint();
-        int bsize    = getint();
-        double C     = hei->HspFunc_prm_getdd(0.0);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_adaptive_thresh: invalid source");
         cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
@@ -6365,15 +6186,11 @@ CV4_EXPORT BOOL WINAPI cv4_adaptive_thresh(HSPEXINFO* hei, int p1, int p2, int p
 
 //  cv4_distance_transform dst, src [, distance_type=DIST_L2] [, mask_size=3]
 //    src は 8-bit 1ch binary を想定 (cv4thresh 等で作成)
-CV4_EXPORT BOOL WINAPI cv4_distance_transform(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_distance_transform(int dst_id, int src_id, int dtype, int msize)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (dtype == 0) dtype = cv::DIST_L2;
+    if (msize == 0) msize = 3;
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int dtype  = getint_def(cv::DIST_L2);
-        int msize  = getint_def(3);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_distance_transform: invalid source");
         cv::Mat out;
@@ -6516,13 +6333,9 @@ CV4_EXPORT BOOL WINAPI cv4_match_template(HSPEXINFO* hei, int p1, int p2, int p3
 //============================================================================
 
 //  cv4_pyr_up dst, src
-CV4_EXPORT BOOL WINAPI cv4_pyr_up(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_pyr_up(int dst_id, int src_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_pyr_up: invalid source");
         cv::Mat out;
@@ -6534,13 +6347,9 @@ CV4_EXPORT BOOL WINAPI cv4_pyr_up(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_pyr_down dst, src
-CV4_EXPORT BOOL WINAPI cv4_pyr_down(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_pyr_down(int dst_id, int src_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_pyr_down: invalid source");
         cv::Mat out;
@@ -6682,15 +6491,10 @@ CV4_EXPORT BOOL WINAPI cv4_min_max_loc(HSPEXINFO* hei, int p1, int p2, int p3)
 //============================================================================
 
 //  cv4blur dst_id, src_id, ksize
-CV4_EXPORT BOOL WINAPI cv4blur(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4blur(int dst_id, int src_id, int ksize)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (ksize < 1) ksize = 1;
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int ksize  = getint();
-        if (ksize < 1) ksize = 1;
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4blur: invalid source");
         cv::Mat out;
@@ -6708,15 +6512,9 @@ CV4_EXPORT BOOL WINAPI cv4blur(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4gauss dst_id, src_id, ksize [, sigma=0]
 //  ksize は奇数を推奨。偶数を渡したら +1 する。
-CV4_EXPORT BOOL WINAPI cv4gauss(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4gauss(int dst_id, int src_id, int ksize, double sigma)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id   = getint();
-        int src_id   = getint();
-        int ksize    = getint();
-        double sigma = hei->HspFunc_prm_getdd(0.0);
         if (ksize < 1) ksize = 1;
         if ((ksize & 1) == 0) ksize += 1;   // 偶数なら奇数化
         cv::Mat* src = hspcv4::handle_get(src_id);
@@ -6736,14 +6534,9 @@ CV4_EXPORT BOOL WINAPI cv4gauss(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4median dst_id, src_id, ksize
 //  ksize は 3 以上の奇数を推奨。偶数なら +1、1 以下は 3 に補正。
-CV4_EXPORT BOOL WINAPI cv4median(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4median(int dst_id, int src_id, int ksize)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int ksize  = getint();
         if (ksize < 3) ksize = 3;
         if ((ksize & 1) == 0) ksize += 1;
         cv::Mat* src = hspcv4::handle_get(src_id);
@@ -6763,16 +6556,10 @@ CV4_EXPORT BOOL WINAPI cv4median(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4canny dst_id, src_id, thresh1, thresh2 [, aperture=3]
 //  src はグレースケール推奨 (カラーでも動くが、先に cv4cvt CV4_BGR2GRAY する方が良い)
-CV4_EXPORT BOOL WINAPI cv4canny(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4canny(int dst_id, int src_id, int t1, int t2, int aperture)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (aperture == 0) aperture = 3;
     try {
-        int dst_id  = getint();
-        int src_id  = getint();
-        int t1      = getint();
-        int t2      = getint();
-        int aperture = getint_def(3);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4canny: invalid source");
         cv::Mat out;
@@ -6792,16 +6579,9 @@ CV4_EXPORT BOOL WINAPI cv4canny(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4thresh dst_id, src_id, thresh, maxval, type
 //  type は CV4_THRESH_BINARY 等。OTSU (8) は THRESH_BINARY と ORで指定 (= 8|0).
-CV4_EXPORT BOOL WINAPI cv4thresh(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4thresh(int dst_id, int src_id, int th, int mx, int type)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int th     = getint();
-        int mx     = getint();
-        int type   = getint_def(0);  // 0 = THRESH_BINARY
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4thresh: invalid source");
         cv::Mat out;
@@ -6823,20 +6603,11 @@ CV4_EXPORT BOOL WINAPI cv4thresh(HSPEXINFO* hei, int p1, int p2, int p3)
 //============================================================================
 
 //  cv4line id, x1, y1, x2, y2, b, g, r [, thickness=1]
-CV4_EXPORT BOOL WINAPI cv4line(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4line(int id, int x1, int y1, int x2, int y2,
+                                 int b, int g, int r, int thickness)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (thickness == 0) thickness = 1;
     try {
-        int id = getint();
-        int x1 = getint();
-        int y1 = getint();
-        int x2 = getint();
-        int y2 = getint();
-        int b  = getint();
-        int g  = getint();
-        int r  = getint();
-        int thickness = getint_def(1);
         cv::Mat* m = hspcv4::handle_get(id);
         if (!m || m->empty()) return fail("cv4line: invalid handle");
         cv::line(*m, cv::Point(x1, y1), cv::Point(x2, y2),
@@ -6851,20 +6622,11 @@ CV4_EXPORT BOOL WINAPI cv4line(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4rect id, x, y, w, h, b, g, r [, thickness=1]
 //  thickness=-1 で塗りつぶし
-CV4_EXPORT BOOL WINAPI cv4rect(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4rect(int id, int x, int y, int w, int h,
+                                 int b, int g, int r, int thickness)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (thickness == 0) thickness = 1;
     try {
-        int id = getint();
-        int x  = getint();
-        int y  = getint();
-        int w  = getint();
-        int h  = getint();
-        int b  = getint();
-        int g  = getint();
-        int r  = getint();
-        int thickness = getint_def(1);
         cv::Mat* m = hspcv4::handle_get(id);
         if (!m || m->empty()) return fail("cv4rect: invalid handle");
         cv::rectangle(*m, cv::Rect(x, y, w, h),
@@ -6878,19 +6640,11 @@ CV4_EXPORT BOOL WINAPI cv4rect(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4circle id, cx, cy, radius, b, g, r [, thickness=1]
-CV4_EXPORT BOOL WINAPI cv4circle(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4circle(int id, int cx, int cy, int radius,
+                                   int b, int g, int r, int thickness)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (thickness == 0) thickness = 1;
     try {
-        int id     = getint();
-        int cx     = getint();
-        int cy     = getint();
-        int radius = getint();
-        int b      = getint();
-        int g      = getint();
-        int r      = getint();
-        int thickness = getint_def(1);
         cv::Mat* m = hspcv4::handle_get(id);
         if (!m || m->empty()) return fail("cv4circle: invalid handle");
         cv::circle(*m, cv::Point(cx, cy), radius,
@@ -6906,21 +6660,12 @@ CV4_EXPORT BOOL WINAPI cv4circle(HSPEXINFO* hei, int p1, int p2, int p3)
 //  cv4text id, "text", x, y, scale, b, g, r [, thickness=1]
 //  フォント: HERSHEY_SIMPLEX 固定
 //  scale は double (倍率)。beginner 向けに int を渡せるよう double 解釈する
-CV4_EXPORT BOOL WINAPI cv4text(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4text(int id, const char* t, int x, int y, double scale,
+                                 int b, int g, int r, int thickness)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
+    if (scale == 0.0) scale = 1.0;
+    if (thickness == 0) thickness = 1;
     try {
-        int id        = getint();
-        const char* t = getstr();
-        int x         = getint();
-        int y         = getint();
-        // scale は double で受け取る (HSP 側で 1.0 / 1.5 等)
-        double scale  = hei->HspFunc_prm_getdd(1.0);
-        int b         = getint();
-        int g         = getint();
-        int r         = getint();
-        int thickness = getint_def(1);
         cv::Mat* m = hspcv4::handle_get(id);
         if (!m || m->empty()) return fail("cv4text: invalid handle");
         cv::putText(*m, t ? t : "", cv::Point(x, y),
@@ -6937,13 +6682,9 @@ CV4_EXPORT BOOL WINAPI cv4text(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4putimg id
 //  -> 現在の HSP カレント window を id に取り込み (上下反転して BGR に)
-CV4_EXPORT BOOL WINAPI cv4putimg(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4putimg(int id, BMSCR* bm)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int id = getint();
-        BMSCR* bm = (BMSCR*)hei->HspFunc_getbmscr(*(hei->actscr));
         if (!bm || !bm->pBit) return fail("cv4putimg: no active screen");
 
         cv::Mat dst(bm->sy, bm->sx, CV_8UC3);
