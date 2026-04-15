@@ -218,13 +218,13 @@
 ; cv4_writer_write wid, frame_id
 ; cv4_writer_close wid
 ;
-#func global cv4_video_open    cv4_video_open    $202
-#func global cv4_video_read    cv4_video_read    $202
-#func global cv4_video_info    cv4_video_info    $202
-#func global cv4_video_close   cv4_video_close   $202
-#func global cv4_writer_open   cv4_writer_open   $202
-#func global cv4_writer_write  cv4_writer_write  $202
-#func global cv4_writer_close  cv4_writer_close  $202
+#func global cv4_video_open    "cv4_video_open"    int, str
+#func global cv4_video_read    "cv4_video_read"    int, int
+#func global cv4_video_info    "cv4_video_info"    int, var, var, var, var
+#func global cv4_video_close   "cv4_video_close"   int
+#func global cv4_writer_open   "cv4_writer_open"   int, str, str, double, int, int
+#func global cv4_writer_write  "cv4_writer_write"  int, int
+#func global cv4_writer_close  "cv4_writer_close"  int
 
 ; ---- DNN : ONNX inference ----
 ;
@@ -242,11 +242,11 @@
 ;   cv4_dnn_argmax の var_score は HSP int に収まるよう
 ;   (スコア * 10000) の固定小数点で返される。HSP 側で /10000.0 する。
 ;
-#func global cv4_dnn_load       cv4_dnn_load       $202
-#func global cv4_dnn_free       cv4_dnn_free       $202
-#func global cv4_dnn_set_input  cv4_dnn_set_input  $202
-#func global cv4_dnn_forward    cv4_dnn_forward    $202
-#func global cv4_dnn_argmax     cv4_dnn_argmax     $202
+#func global cv4_dnn_load       "cv4_dnn_load"       int, str
+#func global cv4_dnn_free       "cv4_dnn_free"       int
+#func global cv4_dnn_set_input  "cv4_dnn_set_input"  int, int, double, double, double, double, int, int, int
+#func global cv4_dnn_forward    "cv4_dnn_forward"    int, int
+#func global cv4_dnn_argmax     "cv4_dnn_argmax"     int, var, var
 
 ; --- Phase 16: DNN extras ---
 ; cv4_dnn_load_caffe   nid, "deploy.prototxt", "model.caffemodel"
@@ -256,10 +256,10 @@
 ;   backend: 0=DEFAULT, 3=OPENCV, 5=CUDA  / target: 0=CPU, 1=OPENCL, 6=CUDA
 ; cv4_dnn_nms_boxes    rects, count, scores_x10000, score_thresh_x10000, nms_thresh_x10000
 ;   YOLO 等の検出後に Non-Maximum Suppression をかける
-#func global cv4_dnn_load_caffe   cv4_dnn_load_caffe   $202
-#func global cv4_dnn_load_tf      cv4_dnn_load_tf      $202
-#func global cv4_dnn_load_darknet cv4_dnn_load_darknet $202
-#func global cv4_dnn_set_backend  cv4_dnn_set_backend  $202
+#func global cv4_dnn_load_caffe   "cv4_dnn_load_caffe"   int, str, str
+#func global cv4_dnn_load_tf      "cv4_dnn_load_tf"      int, str, str
+#func global cv4_dnn_load_darknet "cv4_dnn_load_darknet" int, str, str
+#func global cv4_dnn_set_backend  "cv4_dnn_set_backend"  int, int, int
 #func global cv4_dnn_nms_boxes    "cv4_dnn_nms_boxes"  pexinfo, pval, pval, pval, int, int
 
 ; ---- morphology ----
@@ -320,29 +320,29 @@
 
 ; ---- core Mat operations ----
 ; 算術演算 (2 つの Mat 間)
-#func global cv4_add            cv4_add            $202
-#func global cv4_sub            cv4_sub            $202
-#func global cv4_mul            cv4_mul            $202
-#func global cv4_div            cv4_div            $202
-#func global cv4_abs_diff       cv4_abs_diff       $202
-#func global cv4_add_weighted   cv4_add_weighted   $202
+#func global cv4_add            "cv4_add"            int, int, int
+#func global cv4_sub            "cv4_sub"            int, int, int
+#func global cv4_mul            "cv4_mul"            int, int, int, double
+#func global cv4_div            "cv4_div"            int, int, int, double
+#func global cv4_abs_diff       "cv4_abs_diff"       int, int, int
+#func global cv4_add_weighted   "cv4_add_weighted"   int, int, double, int, double, double
 ; スカラー演算
-#func global cv4_add_scalar     cv4_add_scalar     $202
-#func global cv4_mul_scalar     cv4_mul_scalar     $202
+#func global cv4_add_scalar     "cv4_add_scalar"     int, int, double, double, double
+#func global cv4_mul_scalar     "cv4_mul_scalar"     int, int, double
 ; ビット演算
-#func global cv4_bit_and        cv4_bit_and        $202
-#func global cv4_bit_or         cv4_bit_or         $202
-#func global cv4_bit_xor        cv4_bit_xor        $202
-#func global cv4_bit_not        cv4_bit_not        $202
+#func global cv4_bit_and        "cv4_bit_and"        int, int, int
+#func global cv4_bit_or         "cv4_bit_or"         int, int, int
+#func global cv4_bit_xor        "cv4_bit_xor"        int, int, int
+#func global cv4_bit_not        "cv4_bit_not"        int, int
 ; 比較
-#func global cv4_compare        cv4_compare        $202
+#func global cv4_compare        "cv4_compare"        int, int, int, int
 ; 統計
-#func global cv4_mean           cv4_mean           $202
-#func global cv4_sum            cv4_sum            $202
-#func global cv4_count_nonzero  cv4_count_nonzero  $202
+#func global cv4_mean           "cv4_mean"           int, var, var, var
+#func global cv4_sum            "cv4_sum"            int, var, var, var
+#func global cv4_count_nonzero  "cv4_count_nonzero"  int, var
 ; チャンネル操作
-#func global cv4_split          cv4_split          $202
-#func global cv4_merge          cv4_merge          $202
+#func global cv4_split          "cv4_split"          int, int, int, int
+#func global cv4_merge          "cv4_merge"          int, int, int, int
 ; Mat 作成
 #func global cv4_mat_zeros      "cv4_mat_zeros"      int, int, int, int
 #func global cv4_mat_full       "cv4_mat_full"       int, int, int, int, int, int
