@@ -1,0 +1,98 @@
+;============================================================
+;   iron_webpdf.hsp — HTML -> PDF 変換 (msedge --headless 経由)
+;
+;   背景:
+;     WebView2 プラグイン v1 には PrintToPdfAsync が未実装なので、
+;     Microsoft Edge (msedge.exe) の --headless --print-to-pdf を
+;     サブプロセスとして呼び出すバイパス実装。
+;     Windows 10 1803 以降と Windows 11 は基本的に Edge 同梱なので、
+;     追加インストール不要で動くはず。
+;
+;   API:
+;     webpdf_render "in.html", "out.pdf" [, extra_args]
+;         stat = 0 成功, 非ゼロはエラー (ShellExecute の戻り値等)
+;     webpdf_find_edge var_result
+;         msedge.exe のフルパスを検索して返す (見つからなければ "")
+;
+;   メモ:
+;     - input は http(s):// URL でも file:/// URL でもよい
+;     - --print-to-pdf-no-header を付けてヘッダ/フッタを消す
+;     - 同期的に待つため CreateProcess + WaitForSingleObject を使う
+;     - 現状 32bit 版向け (PROCESS_INFORMATION のオフセット 0/4)。
+;       64bit 版で動かすには _pi offset を 0/8 に変える必要あり。
+;============================================================
+
+#ifndef __iron_webpdf_hsp__
+#define __iron_webpdf_hsp__
+
+#uselib "kernel32.dll"
+#func global _webpdf_CreateProcessA "CreateProcessA" sptr, sptr, sptr, sptr, int, int, sptr, sptr, sptr, sptr
+#func global _webpdf_WaitForSingleObject "WaitForSingleObject" int, int
+#func global _webpdf_CloseHandle "CloseHandle" int
+#func global _webpdf_GetExitCodeProcess "GetExitCodeProcess" int, sptr
+
+#module iron_webpdf
+
+;------------------------------------------------------------
+; webpdf_find_edge var_out
+;   よくあるインストールパスから msedge.exe を探す。
+;------------------------------------------------------------
+#deffunc webpdf_find_edge var _out, local _p
+    sdim _out, 1024
+    _out = ""
+    _p = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+    exist _p
+    if strsize >= 0 {
+        _out = _p
+        return
+    }
+    _p = "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"
+    exist _p
+    if strsize >= 0 {
+        _out = _p
+        return
+    }
+    return
+
+;------------------------------------------------------------
+; webpdf_render "in.html", "out.pdf" [, extra_args]
+;   stat = 0 成功 / -1 edge 未検出 / >0 edge プロセス終了コード
+;------------------------------------------------------------
+#deffunc webpdf_render str _input, str _output, str _extra, \
+    local _edge, local _cmd, local _si, local _pi, local _ec, local _ret
+    webpdf_find_edge _edge
+    if _edge = "" {
+        return -1
+    }
+    ; STARTUPINFO (68 bytes on x86, 104 on x64). dim int でゼロ埋め多めに。
+    sdim _si, 128
+    sdim _pi, 32
+    lpoke _si, 0, 68        ; cb (x86 側のサイズでも Edge 側は問題なし)
+    ; コマンドライン組み立て
+    _cmd  = "\"" + _edge + "\""
+    _cmd += " --headless"
+    _cmd += " --disable-gpu"
+    _cmd += " --no-margins"
+    _cmd += " --print-to-pdf-no-header"
+    _cmd += " --print-to-pdf=\"" + _output + "\""
+    if _extra ! "" {
+        _cmd += " " + _extra
+    }
+    _cmd += " \"" + _input + "\""
+    ; CreateProcessA (lpApplicationName=NULL, lpCommandLine=_cmd)
+    _webpdf_CreateProcessA 0, _cmd, 0, 0, 0, 0, 0, 0, varptr(_si), varptr(_pi)
+    _ret = stat
+    if _ret = 0 {
+        return -2
+    }
+    ; pi: hProcess, hThread, dwPid, dwTid
+    _webpdf_WaitForSingleObject lpeek(_pi, 0), -1
+    _ec = 0
+    _webpdf_GetExitCodeProcess lpeek(_pi, 0), varptr(_ec)
+    _webpdf_CloseHandle lpeek(_pi, 0)
+    _webpdf_CloseHandle lpeek(_pi, 4)
+    return _ec
+
+#global
+
+#endif

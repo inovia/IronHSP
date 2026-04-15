@@ -1,0 +1,40 @@
+;============================================================
+;  sample_designer.hsp
+;
+;  iron_designer デモ:
+;    - WebView2 内で GUI デザイナを起動
+;    - ツールバーから部品をドラッグして配置
+;    - 「コード出力」ボタンで HSP コードが下部 mesbox に表示される
+;============================================================
+
+#include "iron_designer.hsp"
+
+    title "iron_designer PoC"
+    screen 0, 1200, 800
+    cls 4
+
+    sdim s_code, 32768
+
+    ; 上段 70% をデザイナ、下段 30% をコード表示
+    designer_init 0, 8, 8, 1184, 520
+    did = stat
+    if did < 0 {
+        mes "designer_init 失敗: " + did
+        stop
+    }
+
+    pos 8, 536
+    mes "↓ 「コード出力」ボタンで生成された HSP コード:"
+    pos 8, 556
+    mesbox s_code, 1184, 208
+
+    goto *main_loop
+
+*main_loop
+    designer_poll did
+    if designer_has_code() {
+        designer_get_code s_code
+        objprm 1, s_code        ; mesbox に反映 (mes が obj 0, mesbox が obj 1)
+    }
+    await 33
+    goto *main_loop

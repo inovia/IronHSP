@@ -1,0 +1,80 @@
+;============================================================
+;  sample_ruffle.hsp
+;
+;  iron_ruffle (WebView2 + Ruffle) で任意の .swf を再生するデモ。
+;
+;  事前準備:
+;    1) hspwebview2.dll を実行時ディレクトリに配置
+;    2) https://github.com/ruffle-rs/ruffle/releases から
+;       "ruffle-nightly-*-web-selfhosted.zip" を取得して展開し、
+;       ruffle.js と *.wasm を "ruffle/" フォルダに配置
+;    3) 再生したい .swf を適当な場所に置く (例: movies/hello.swf)
+;
+;  Ruffle ランタイム未配置の場合は、黒画面 + JS エラーになるだけで
+;  HSP 側は落ちない。
+;============================================================
+
+#include "iron_ruffle.hsp"
+
+    title "iron_ruffle demo"
+    screen 0, 960, 720
+    cls 4
+
+    sdim s_path, 1024
+    sdim s_log,  2048
+    s_path = "movies/hello.swf"
+
+    objsize 120, 28
+    pos 8, 8
+    button gosub "SWF 選択",  *on_pick
+    pos 140, 8
+    button gosub "ロード",    *on_load
+    pos 272, 8
+    button gosub "閉じる",    *on_close
+
+    pos 8, 40
+    mesbox s_path, 944, 24
+
+    pos 8, 648
+    mesbox s_log, 944, 64
+
+    ruffle_init 8, 72, 944, 568
+    wv_id = stat
+    if wv_id < 0 {
+        s_log = "ruffle_init 失敗: " + wv_id
+    } else {
+        s_log = "Ruffle host ready (id=" + wv_id + ")"
+    }
+    goto *loop
+
+*on_pick
+    dialog "swf", 16, "Flash Movie"
+    if stat = 0 : return
+    s_path = refstr
+    objprm 3, s_path
+    return
+
+*on_load
+    if wv_id < 0 : return
+    if s_path = "" : return
+    ruffle_load wv_id, s_path
+    s_log = "load request: " + s_path
+    return
+
+*on_close
+    if wv_id < 0 : return
+    ruffle_close wv_id
+    wv_id = -1
+    s_log = "closed"
+    return
+
+*loop
+    if wv_id >= 0 {
+        msg = wv_recv(wv_id)
+        if msg ! "" {
+            s_log = msg
+            objprm 4, s_log
+        }
+    }
+    await 50
+    goto *loop

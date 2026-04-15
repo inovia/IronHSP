@@ -1,0 +1,95 @@
+;============================================================
+;  sample_webpdf.hsp
+;
+;  iron_webpdf デモ: 動的生成した HTML を Edge headless 経由で
+;  PDF に書き出す。
+;
+;  事前準備:
+;    Windows 10/11 標準の Microsoft Edge が入っていれば OK。
+;============================================================
+
+#include "iron_webpdf.hsp"
+
+    title "iron_webpdf demo"
+    screen 0, 720, 520
+    cls 4
+    font "MS Gothic", 14
+
+    sdim s_html, 8192
+    sdim s_log,  4096
+
+    ;----- サンプル HTML を組み立て -----
+    s_html = {"<!DOCTYPE html>
+<html><head><meta charset='utf-8'><title>Invoice</title>
+<style>
+  body { font-family: 'Yu Gothic', sans-serif; margin: 24pt; color:#222; }
+  h1 { border-bottom: 2px solid #4a90e2; padding-bottom: 6pt; }
+  table { width:100%; border-collapse: collapse; margin-top: 16pt; }
+  th, td { border:1px solid #888; padding:6pt; text-align:left; }
+  th { background:#eef4fb; }
+  .total { text-align:right; font-size:1.2em; margin-top:12pt; }
+</style>
+</head><body>
+<h1>請求書 #2026-0001</h1>
+<p>発行日: 2026-04-15</p>
+<p>お客様: 株式会社サンプル御中</p>
+<table>
+  <tr><th>品目</th><th>数量</th><th>単価</th><th>金額</th></tr>
+  <tr><td>IronHSP ライセンス</td><td>1</td><td>0</td><td>0</td></tr>
+  <tr><td>サポート (年間)</td><td>1</td><td>0</td><td>0</td></tr>
+</table>
+<p class='total'>合計: \u00a50</p>
+</body></html>
+"}
+
+    objsize 180, 32
+    pos 16, 16
+    button gosub "HTML を保存",     *on_save_html
+    pos 204, 16
+    button gosub "PDF 書き出し",    *on_to_pdf
+    pos 392, 16
+    button gosub "Edge パス確認",   *on_find
+
+    pos 16, 64
+    mesbox s_log, 688, 432
+    goto *main_loop
+
+*on_save_html
+    notesel s_html
+    notesave "webpdf_in.html"
+    noteunsel
+    s_log = "入力 HTML を保存: webpdf_in.html\n" + s_log
+    objprm 3, s_log
+    return
+
+*on_find
+    webpdf_find_edge edge_path
+    if edge_path = "" {
+        s_log = "msedge.exe が見つかりません\n" + s_log
+    } else {
+        s_log = "Edge: " + edge_path + "\n" + s_log
+    }
+    objprm 3, s_log
+    return
+
+*on_to_pdf
+    ; 入力が無ければ先に書き出す
+    exist "webpdf_in.html"
+    if strsize < 0 : gosub *on_save_html
+    webpdf_render "webpdf_in.html", "webpdf_out.pdf", ""
+    r = stat
+    if r = 0 {
+        s_log = "PDF 書き出し成功 -> webpdf_out.pdf\n" + s_log
+    } else : if r = -1 {
+        s_log = "Edge 未検出 (webpdf_find_edge 失敗)\n" + s_log
+    } else : if r = -2 {
+        s_log = "CreateProcess 失敗\n" + s_log
+    } else {
+        s_log = "Edge 終了コード: " + r + "\n" + s_log
+    }
+    objprm 3, s_log
+    return
+
+*main_loop
+    wait 10
+    goto *main_loop

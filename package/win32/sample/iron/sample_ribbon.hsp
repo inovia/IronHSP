@@ -1,0 +1,88 @@
+;============================================================
+;  sample_ribbon.hsp
+;
+;  iron_ribbon デモ: ファイル/編集/表示/ヘルプの 4 タブに
+;  各 5 ボタンを配置。クリックでラベル遷移して HSP 側の
+;  mesbox に追記する。
+;
+;  ダーク/ライト切り替えボタン付き。
+;============================================================
+
+#include "iron_ribbon.hsp"
+
+    title "iron_ribbon demo"
+    screen 0, 1000, 600
+    cls 4
+
+    sdim s_log, 8192
+    sdim bid,   128
+    dark = 0
+
+    ; リボンを上端に貼る
+    ribbon_init 0, 0, 0, 1000, 138
+    rid = stat
+    if rid < 0 {
+        mes "ribbon_init 失敗: " + rid
+        stop
+    }
+
+    ; タブ
+    ribbon_add_tab rid, "ファイル", "file"
+    ribbon_add_tab rid, "編集",     "edit"
+    ribbon_add_tab rid, "表示",     "view"
+    ribbon_add_tab rid, "ヘルプ",   "help"
+
+    ; ボタン (各 5)
+    ribbon_add_button rid, "file", "file_new",   "新規",   ""
+    ribbon_add_button rid, "file", "file_open",  "開く",   ""
+    ribbon_add_button rid, "file", "file_save",  "保存",   ""
+    ribbon_add_button rid, "file", "file_saveas","名前を付けて保存", ""
+    ribbon_add_button rid, "file", "file_exit",  "終了",   ""
+
+    ribbon_add_button rid, "edit", "edit_undo",  "元に戻す", ""
+    ribbon_add_button rid, "edit", "edit_redo",  "やり直し", ""
+    ribbon_add_button rid, "edit", "edit_cut",   "切り取り", ""
+    ribbon_add_button rid, "edit", "edit_copy",  "コピー",   ""
+    ribbon_add_button rid, "edit", "edit_paste", "貼り付け", ""
+
+    ribbon_add_button rid, "view", "view_zoom_in",  "拡大",   ""
+    ribbon_add_button rid, "view", "view_zoom_out", "縮小",   ""
+    ribbon_add_button rid, "view", "view_reset",    "等倍",   ""
+    ribbon_add_button rid, "view", "view_fs",       "全画面", ""
+    ribbon_add_button rid, "view", "view_theme",    "配色切替", ""
+
+    ribbon_add_button rid, "help", "help_doc",    "ヘルプ",   ""
+    ribbon_add_button rid, "help", "help_update", "更新確認", ""
+    ribbon_add_button rid, "help", "help_bug",    "不具合報告", ""
+    ribbon_add_button rid, "help", "help_web",    "Web サイト", ""
+    ribbon_add_button rid, "help", "help_about",  "バージョン情報", ""
+
+    ribbon_build rid
+    ribbon_set_callback rid, *on_ribbon_click
+
+    ; ログエリア
+    pos 8, 160
+    mesbox s_log, 984, 430
+
+    s_log = "ribbon ready. クリックするとログが出ます。\n"
+    objprm 0, s_log
+    goto *main_loop
+
+*on_ribbon_click
+    ribbon_get_clicked_id bid
+    s_log += "[" + gettime(7) + "] clicked: " + bid + "\n"
+    objprm 0, s_log
+    ; 特別扱い
+    if bid = "view_theme" {
+        dark = 1 - dark
+        ribbon_set_theme rid, dark
+    }
+    if bid = "file_exit" {
+        end
+    }
+    return
+
+*main_loop
+    ribbon_poll rid
+    await 33
+    goto *main_loop

@@ -1,0 +1,113 @@
+;============================================================
+;   iron_ruffle.hsp — Ruffle (Flash Player 代替) 薄ラッパ
+;
+;   WebView2 上で Ruffle の self-hosted JS (ruffle.js) をロードし、
+;   任意の .swf ファイルを再生する。
+;
+;   依存:
+;     - hspwebview2.dll (iron_webview2.hsp 経由)
+;     - Ruffle self-hosted ビルド:
+;         https://github.com/ruffle-rs/ruffle/releases
+;       "ruffle-nightly-*-web-selfhosted.zip" を取得して
+;       展開し、実行ファイルと同じディレクトリの "ruffle/" 以下に
+;       ruffle.js と *.wasm を配置しておくこと。
+;
+;     例:
+;         mygame.exe
+;         ruffle/ruffle.js
+;         ruffle/core.ruffle.xxxx.wasm
+;         movies/hello.swf
+;
+;   API:
+;     ruffle_init hwnd, x, y, w, h           -> stat = wv_id
+;         (hwnd は未使用。現アクティブウィンドウに貼り付け)
+;     ruffle_load wv_id, "movie.swf"
+;     ruffle_close wv_id
+;
+;   note: Ruffle は AS3 完全サポートではないので古典 SWF 向け。
+;============================================================
+
+#ifndef __iron_ruffle_hsp__
+#define __iron_ruffle_hsp__
+
+#include "iron_webview2.hsp"
+
+#module iron_ruffle
+
+#define RUFFLE_BUF 16384
+
+;------------------------------------------------------------
+; ruffle 用のホスト HTML を組み立てる
+;------------------------------------------------------------
+#deffunc _ruffle_build_html var _out, str _swf_url
+    sdim _out, RUFFLE_BUF
+    _out = {"<!DOCTYPE html>
+<html><head><meta charset='utf-8'><title>Ruffle Host</title>
+<style>
+  html,body { margin:0; padding:0; background:#000; width:100%; height:100%; overflow:hidden; }
+  #player { width:100vw; height:100vh; display:block; }
+</style>
+<script src='ruffle/ruffle.js'></script>
+</head><body>
+<div id='player'></div>
+<script>
+window.addEventListener('load', function(){
+  var ruffle = window.RufflePlayer.newest();
+  var player = ruffle.createPlayer();
+  var c = document.getElementById('player');
+  c.appendChild(player);
+  player.style.width = '100%';
+  player.style.height = '100%';
+  window._ruffleLoad = function(url){
+    try {
+      player.load({ url: url });
+      window.chrome.webview.postMessage('ruffle:loaded:' + url);
+    } catch(ex){
+      window.chrome.webview.postMessage('ruffle:error:' + ex);
+    }
+  };
+  window.chrome.webview.postMessage('ruffle:ready');
+});
+window.chrome.webview.addEventListener('message', function(e){
+  var d = String(e.data);
+  if (d.indexOf('load:') === 0){
+    var url = d.substring(5);
+    if (window._ruffleLoad) window._ruffleLoad(url);
+  }
+});
+</script>
+</body></html>
+"}
+    return
+
+;------------------------------------------------------------
+; ruffle_init x, y, w, h -> stat = wv_id
+;------------------------------------------------------------
+#deffunc ruffle_init int _x, int _y, int _w, int _h, local _id, local _html
+    wv_open _x, _y, _w, _h
+    _id = stat
+    if _id < 0 : return _id
+    _ruffle_build_html _html, ""
+    wv_html _id, _html
+    return _id
+
+;------------------------------------------------------------
+; ruffle_load wv_id, "movie.swf"
+;   実行ファイルからの相対パスまたは http(s):// URL。
+;------------------------------------------------------------
+#deffunc ruffle_load int _id, str _swf
+    if _id < 0 : return
+    wv_send _id, "load:" + _swf
+    return
+
+;------------------------------------------------------------
+; ruffle_close wv_id
+;------------------------------------------------------------
+#deffunc ruffle_close int _id
+    if _id < 0 : return
+    wv_close _id
+    return
+
+#global
+
+#endif

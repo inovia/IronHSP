@@ -1,0 +1,293 @@
+;============================================================
+;   iron_designer.hsp — WebView2 内 GUI デザイナ PoC
+;
+;   HTML/JS キャンバス上に Button / Label / Input / ComboBox を
+;   ドラッグして配置し、位置とサイズをローカルに保持。
+;   「コード出力」ボタンで layout を JSON として HSP 側に送信、
+;   HSP 側で受け取って HSP コード (button/pos/input/mesbox/combox) に
+;   変換する。
+;
+;   API:
+;     designer_init hwnd, x, y, w, h       -> stat = wv_id
+;     designer_poll wv_id                  ; メインループから毎フレーム呼ぶ
+;     designer_get_code var_str            ; 直近で受信した HSP コードを取得
+;     designer_has_code                    ; stat = 1 なら取得待ちあり
+;
+;   依存: iron_webview2.hsp
+;============================================================
+
+#ifndef __iron_designer_hsp__
+#define __iron_designer_hsp__
+
+#include "iron_webview2.hsp"
+
+#module iron_designer
+
+#define DES_BUF 32768
+
+#deffunc _des_reset
+    sdim _dg_raw, DES_BUF
+    sdim _dg_code, DES_BUF
+    _dg_ready = 0
+    return
+
+;------------------------------------------------------------
+; designer_init x, y, w, h -> stat = wv_id
+;------------------------------------------------------------
+#deffunc designer_init int _dummy_hwnd, int _x, int _y, int _w, int _h, \
+    local _id, local _html
+    _des_reset
+    sdim _html, DES_BUF
+    _html = {"<!DOCTYPE html>
+<html><head><meta charset='utf-8'><title>HSP Designer</title>
+<style>
+  html,body { margin:0; padding:0; font-family:'Segoe UI','Yu Gothic',sans-serif; background:#eef2f7; color:#222; user-select:none; }
+  #bar { padding:8px; background:#2b3040; color:#eef; display:flex; gap:8px; align-items:center; }
+  #bar h3 { margin:0 12px 0 0; font-size:13px; }
+  .tool { background:#4a90e2; color:#fff; border:0; border-radius:4px; padding:6px 12px; cursor:grab; font-size:12px; }
+  .tool:active { cursor:grabbing; }
+  #emit { background:#42b883; }
+  #clr { background:#e06c75; }
+  #stage { position:relative; width:100%; height:calc(100vh - 50px); background:
+    repeating-linear-gradient(0deg, transparent, transparent 19px, #d6dde7 19px, #d6dde7 20px),
+    repeating-linear-gradient(90deg, transparent, transparent 19px, #d6dde7 19px, #d6dde7 20px),
+    #fbfcfe; overflow:hidden; }
+  .w { position:absolute; border:1px dashed #4a90e2; background:#fff; padding:4px 8px; box-sizing:border-box; cursor:move; font-size:12px; min-width:60px; min-height:24px; }
+  .w.sel { border:2px solid #e06c75; }
+  .handle { position:absolute; right:-4px; bottom:-4px; width:10px; height:10px; background:#e06c75; cursor:nwse-resize; }
+</style></head><body>
+<div id='bar'>
+  <h3>HSP GUI Designer</h3>
+  <button class='tool' data-kind='button'>Button</button>
+  <button class='tool' data-kind='label'>Label</button>
+  <button class='tool' data-kind='input'>Input</button>
+  <button class='tool' data-kind='combo'>ComboBox</button>
+  <button class='tool' data-kind='mesbox'>MesBox</button>
+  <button class='tool' id='emit'>コード出力</button>
+  <button class='tool' id='clr'>クリア</button>
+</div>
+<div id='stage'></div>
+<script>
+var stage = document.getElementById('stage');
+var widgets = [];
+var wid = 0;
+var sel = null;
+
+function mkw(kind, x, y){
+  var w = {id:++wid, kind:kind, x:x, y:y, w:96, h:28, text:kind};
+  if(kind==='mesbox'){ w.w=160; w.h=80; w.text='text'; }
+  if(kind==='label'){ w.text='label'; }
+  if(kind==='button'){ w.text='button'; }
+  if(kind==='input'){ w.text=''; }
+  if(kind==='combo'){ w.text='a,b,c'; }
+  widgets.push(w); render(); select(w);
+}
+
+function render(){
+  stage.innerHTML = '';
+  widgets.forEach(function(w){
+    var d = document.createElement('div');
+    d.className = 'w' + (sel===w ? ' sel':'');
+    d.style.left = w.x+'px'; d.style.top = w.y+'px';
+    d.style.width = w.w+'px'; d.style.height = w.h+'px';
+    d.textContent = '['+w.kind+'] '+w.text;
+    d.onmousedown = function(e){
+      select(w); dragStart(e, w, false);
+      e.stopPropagation();
+    };
+    var h = document.createElement('div');
+    h.className = 'handle';
+    h.onmousedown = function(e){ dragStart(e, w, true); e.stopPropagation(); };
+    d.appendChild(h);
+    d.ondblclick = function(){
+      var t = prompt('text', w.text);
+      if(t!==null){ w.text = t; render(); }
+    };
+    stage.appendChild(d);
+  });
+}
+
+function select(w){ sel = w; render(); }
+
+var drag = null;
+function dragStart(e, w, resize){
+  drag = {w:w, resize:resize, sx:e.clientX, sy:e.clientY, ox:w.x, oy:w.y, ow:w.w, oh:w.h};
+}
+document.addEventListener('mousemove', function(e){
+  if(!drag) return;
+  var dx = e.clientX - drag.sx, dy = e.clientY - drag.sy;
+  if(drag.resize){
+    drag.w.w = Math.max(20, drag.ow + dx);
+    drag.w.h = Math.max(16, drag.oh + dy);
+  } else {
+    drag.w.x = Math.max(0, drag.ox + dx);
+    drag.w.y = Math.max(0, drag.oy + dy);
+  }
+  render();
+});
+document.addEventListener('mouseup', function(){ drag = null; });
+document.addEventListener('keydown', function(e){
+  if(e.key==='Delete' && sel){
+    widgets = widgets.filter(function(w){return w!==sel;});
+    sel = null; render();
+  }
+});
+
+document.querySelectorAll('.tool[data-kind]').forEach(function(t){
+  t.onclick = function(){ mkw(t.dataset.kind, 20+widgets.length*10, 20+widgets.length*10); };
+});
+
+document.getElementById('emit').onclick = function(){
+  window.chrome.webview.postMessage('layout:' + JSON.stringify(widgets));
+};
+document.getElementById('clr').onclick = function(){
+  widgets = []; sel = null; render();
+};
+</script>
+</body></html>
+"}
+    wv_open _x, _y, _w, _h
+    _id = stat
+    if _id < 0 : return _id
+    wv_html _id, _html
+    return _id
+
+;------------------------------------------------------------
+; JSON 配列 (1 階層) を HSP コードに変換
+;------------------------------------------------------------
+#deffunc _des_json_to_code str _json, var _out, \
+    local _p, local _len, local _ch, local _tok, local _key, local _val, \
+    local _kind, local _x, local _y, local _w, local _h, local _text, \
+    local _state, local _depth, local _inside, local _buf, local _i
+    sdim _out, DES_BUF
+    _out = "; --- generated by iron_designer ---\n"
+    _out += "    screen 0, 960, 600\n"
+    ; 正規のパーサを書く代わりに、"{" ごとに一区切り → key:value を抽出
+    _len = strlen(_json)
+    _depth = 0
+    sdim _buf, DES_BUF
+    _buf = ""
+    _i = 0
+    repeat _len
+        _ch = peek(_json, _i)
+        if _ch = '{' {
+            if _depth = 0 {
+                _buf = ""
+            } else {
+                _buf += strf("%c", _ch)
+            }
+            _depth++
+        } else : if _ch = '}' {
+            _depth--
+            if _depth = 0 {
+                ; _buf 内の key:value を抽出
+                _kind = _des_pick(_buf, "kind")
+                _x    = int(_des_pick(_buf, "x"))
+                _y    = int(_des_pick(_buf, "y"))
+                _w    = int(_des_pick(_buf, "w"))
+                _h    = int(_des_pick(_buf, "h"))
+                _text = _des_pick(_buf, "text")
+                _out += "    pos " + _x + ", " + _y + "\n"
+                _out += "    objsize " + _w + ", " + _h + "\n"
+                if _kind = "button" {
+                    _out += "    button \"" + _text + "\", *lb\n"
+                } else : if _kind = "label" {
+                    _out += "    mes \"" + _text + "\"\n"
+                } else : if _kind = "input" {
+                    _out += "    input s_input, " + _w + ", " + _h + "\n"
+                } else : if _kind = "combo" {
+                    _out += "    combox s_combo, " + _w + ", \"" + _text + "\"\n"
+                } else : if _kind = "mesbox" {
+                    _out += "    mesbox s_mesbox, " + _w + ", " + _h + "\n"
+                }
+            } else {
+                _buf += strf("%c", _ch)
+            }
+        } else {
+            if _depth > 0 : _buf += strf("%c", _ch)
+        }
+        _i++
+    loop
+    _out += "    stop\n"
+    return
+
+;------------------------------------------------------------
+; JSON オブジェクトから "key" の value を抜き出す簡易関数。
+;   数値/文字列どちらでも string として返す。
+;------------------------------------------------------------
+#defcfunc _des_pick str _src, str _key, \
+    local _pat, local _p, local _i, local _ch, local _len, local _out, \
+    local _quoted, local _started, local _buf
+    _pat = "\"" + _key + "\""
+    _p = instr(_src, 0, _pat)
+    if _p < 0 : return ""
+    _i = _p + strlen(_pat)
+    _len = strlen(_src)
+    ; ':' まで進める
+    repeat
+        if _i >= _len : return ""
+        if peek(_src, _i) = ':' : break
+        _i++
+    loop
+    _i++
+    ; 空白を飛ばす
+    repeat
+        if _i >= _len : return ""
+        _ch = peek(_src, _i)
+        if (_ch != ' ') & (_ch != 9) : break
+        _i++
+    loop
+    _buf = ""
+    if peek(_src, _i) = '"' {
+        _i++
+        repeat
+            if _i >= _len : break
+            _ch = peek(_src, _i)
+            if _ch = '"' : break
+            if _ch = '\\' {
+                _i++
+                if _i < _len {
+                    _buf += strf("%c", peek(_src, _i))
+                }
+            } else {
+                _buf += strf("%c", _ch)
+            }
+            _i++
+        loop
+    } else {
+        repeat
+            if _i >= _len : break
+            _ch = peek(_src, _i)
+            if (_ch = ',') | (_ch = '}') : break
+            _buf += strf("%c", _ch)
+            _i++
+        loop
+    }
+    return _buf
+
+;------------------------------------------------------------
+; designer_poll wv_id — JS からのメッセージを処理
+;------------------------------------------------------------
+#deffunc designer_poll int _id, local _msg, local _json
+    if _id < 0 : return
+    _msg = wv_recv(_id)
+    if _msg = "" : return
+    if strmid(_msg, 0, 7) = "layout:" {
+        _json = strmid(_msg, 7, 1048576)
+        _dg_raw = _json
+        _des_json_to_code _json, _dg_code
+        _dg_ready = 1
+    }
+    return
+
+#defcfunc designer_has_code
+    return _dg_ready
+
+#deffunc designer_get_code var _out
+    _out = _dg_code
+    _dg_ready = 0
+    return
+
+#global
+
+#endif

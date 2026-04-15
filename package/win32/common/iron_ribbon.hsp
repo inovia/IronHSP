@@ -1,0 +1,199 @@
+;============================================================
+;   iron_ribbon.hsp — WebView2 ベースのリボン UI フレームワーク
+;
+;   Microsoft Office 風のリボン UI を WebView2 に描画し、
+;   JS 側のボタンクリックを postMessage 経由で HSP に通知する。
+;
+;   API:
+;     ribbon_init hwnd, x, y, w [, height=120]  -> stat = wv_id
+;     ribbon_add_tab    wv_id, "tab_name", "tab_id"
+;     ribbon_add_button wv_id, "tab_id", "button_id", "label", "icon_url"
+;     ribbon_build      wv_id                   ; 追加後に HTML を再生成
+;     ribbon_set_callback  wv_id, *label_on_click
+;     ribbon_get_clicked_id var_str             ; 直近クリックの button_id
+;     ribbon_poll wv_id                         ; gosub ループから毎フレーム呼ぶ
+;     ribbon_set_theme wv_id, 0|1               ; 0=light 1=dark
+;
+;   使い方 (例):
+;     ribbon_init 0, 0, 960, 128
+;     rid = stat
+;     ribbon_add_tab rid, "ファイル", "file"
+;     ribbon_add_button rid, "file", "open",  "開く", ""
+;     ribbon_add_button rid, "file", "save",  "保存", ""
+;     ribbon_build rid
+;     ribbon_set_callback rid, *on_ribbon
+;     *mainloop
+;         ribbon_poll rid
+;         await 33
+;         goto *mainloop
+;     *on_ribbon
+;         ribbon_get_clicked_id bid
+;         mes "clicked: " + bid
+;         return
+;
+;   依存: iron_webview2.hsp
+;============================================================
+
+#ifndef __iron_ribbon_hsp__
+#define __iron_ribbon_hsp__
+
+#include "iron_webview2.hsp"
+
+#module iron_ribbon
+
+#define RIBBON_MAX   8
+#define RIBBON_BUF   32768
+
+; 複数リボン対応は単純化のため省略: 1 つの HSP アプリで 1 リボン前提
+
+#deffunc _ribbon_reset
+    sdim _rb_tabnames,  64, RIBBON_MAX
+    sdim _rb_tabids,    64, RIBBON_MAX
+    _rb_tabcount = 0
+    sdim _rb_btns,      64, 256      ; "tabid|btnid|label|icon"
+    _rb_btncount = 0
+    _rb_wvid     = -1
+    _rb_clicked  = ""
+    _rb_cb_label = 0
+    _rb_theme    = 0
+    return
+
+;------------------------------------------------------------
+; ribbon_init x, y, w [, h=120]
+;------------------------------------------------------------
+#deffunc ribbon_init int _dummy_hwnd, int _x, int _y, int _w, int _h, local _id
+    if _h <= 0 : _h = 128
+    _ribbon_reset
+    wv_open _x, _y, _w, _h
+    _id = stat
+    _rb_wvid = _id
+    return _id
+
+#deffunc ribbon_add_tab int _id, str _name, str _tabid
+    if _rb_tabcount >= RIBBON_MAX : return
+    _rb_tabnames(_rb_tabcount) = _name
+    _rb_tabids(_rb_tabcount)   = _tabid
+    _rb_tabcount++
+    return
+
+#deffunc ribbon_add_button int _id, str _tabid, str _btnid, str _label, str _icon
+    if _rb_btncount >= 256 : return
+    _rb_btns(_rb_btncount) = _tabid + "|" + _btnid + "|" + _label + "|" + _icon
+    _rb_btncount++
+    return
+
+#deffunc ribbon_set_theme int _id, int _dark
+    _rb_theme = _dark
+    ribbon_build _id
+    return
+
+#deffunc ribbon_set_callback int _id, label _lb
+    _rb_cb_label = _lb
+    return
+
+#defcfunc ribbon_clicked_id
+    return _rb_clicked
+
+#deffunc ribbon_get_clicked_id var _out
+    _out = _rb_clicked
+    return
+
+;------------------------------------------------------------
+; ribbon_build — 登録済のタブ/ボタンから HTML を組み立てて流し込む
+;------------------------------------------------------------
+#deffunc ribbon_build int _id, local _html, local _i, local _j, \
+    local _tok, local _t, local _b, local _l, local _ic, local _css_vars, \
+    local _p1, local _p2, local _p3, local _rest, local _rest2
+    if _id < 0 : return
+    sdim _html, RIBBON_BUF
+    if _rb_theme = 0 {
+        _css_vars = "--bg:#f3f6fb;--tabbar:#e1e7ef;--tabact:#fff;--txt:#222;--accent:#4a90e2;--btn:#fff;--btnhov:#dce7f5;--bd:#c8d0dc;"
+    } else {
+        _css_vars = "--bg:#1e2128;--tabbar:#14171d;--tabact:#2b3040;--txt:#eef;--accent:#6ab0ff;--btn:#262b36;--btnhov:#384157;--bd:#3a3f4c;"
+    }
+    _html = "<!DOCTYPE html><html><head><meta charset='utf-8'><style>\n"
+    _html += ":root{" + _css_vars + "}\n"
+    _html += "html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);font-family:'Segoe UI','Yu Gothic',sans-serif;font-size:13px;user-select:none;}\n"
+    _html += ".tabbar{display:flex;background:var(--tabbar);border-bottom:1px solid var(--bd);}\n"
+    _html += ".tab{padding:6px 18px;cursor:pointer;border-right:1px solid var(--bd);}\n"
+    _html += ".tab:hover{background:var(--btnhov);}\n"
+    _html += ".tab.active{background:var(--tabact);border-bottom:2px solid var(--accent);font-weight:600;}\n"
+    _html += ".panel{display:none;padding:8px;flex-wrap:wrap;gap:6px;}\n"
+    _html += ".panel.active{display:flex;}\n"
+    _html += ".rbtn{background:var(--btn);border:1px solid var(--bd);border-radius:4px;padding:8px 14px;cursor:pointer;color:var(--txt);font-size:12px;min-width:56px;transition:all .12s;display:flex;flex-direction:column;align-items:center;gap:4px;}\n"
+    _html += ".rbtn:hover{background:var(--btnhov);border-color:var(--accent);}\n"
+    _html += ".rbtn:active{transform:translateY(1px);}\n"
+    _html += ".rbtn img{width:24px;height:24px;}\n"
+    _html += "</style></head><body>\n"
+    ; タブバー (最初の active クラスは JS 初期化で付ける)
+    _html += "<div class='tabbar'>"
+    _i = 0
+    repeat _rb_tabcount
+        _html += "<div class='tab' data-tab='" + _rb_tabids(_i) + "' onclick='rbTab(\"" + _rb_tabids(_i) + "\")'>" + _rb_tabnames(_i) + "</div>"
+        _i++
+    loop
+    _html += "</div>\n"
+
+    ; パネル
+    _i = 0
+    repeat _rb_tabcount
+        _html += "<div class='panel' data-panel='" + _rb_tabids(_i) + "'>"
+        _j = 0
+        repeat _rb_btncount
+            _tok = _rb_btns(_j)
+            ; split "tab|btn|label|icon"
+            _p1 = instr(_tok, 0, "|")
+            _t = strmid(_tok, 0, _p1)
+            _rest = strmid(_tok, _p1 + 1, 2048)
+            _p2 = instr(_rest, 0, "|")
+            _b = strmid(_rest, 0, _p2)
+            _rest2 = strmid(_rest, _p2 + 1, 2048)
+            _p3 = instr(_rest2, 0, "|")
+            _l = strmid(_rest2, 0, _p3)
+            _ic = strmid(_rest2, _p3 + 1, 2048)
+            if _t = _rb_tabids(_i) {
+                _html += "<div class='rbtn' onclick='rbClick(\"" + _b + "\")'>"
+                if _ic ! "" {
+                    _html += "<img src='" + _ic + "' />"
+                }
+                _html += "<span>" + _l + "</span></div>"
+            }
+            _j++
+        loop
+        _html += "</div>\n"
+        _i++
+    loop
+
+    ; スクリプト
+    _html += "<script>\n"
+    _html += "function rbTab(id){\n"
+    _html += "  document.querySelectorAll('.tab').forEach(function(e){e.classList.toggle('active', e.dataset.tab===id);});\n"
+    _html += "  document.querySelectorAll('.panel').forEach(function(e){e.classList.toggle('active', e.dataset.panel===id);});\n"
+    _html += "}\n"
+    _html += "function rbClick(bid){ window.chrome.webview.postMessage('rb:'+bid); }\n"
+    _html += "(function(){ var t=document.querySelector('.tab'); if(t) rbTab(t.dataset.tab); })();\n"
+    _html += "</script></body></html>"
+
+    wv_html _id, _html
+    return
+
+;------------------------------------------------------------
+; ribbon_poll — メインループから毎フレーム呼ぶ。
+;   JS からメッセージが来ていればコールバックに gosub。
+;------------------------------------------------------------
+#deffunc ribbon_poll int _id, local _msg, local _id2
+    if _id < 0 : return
+    _msg = wv_recv(_id)
+    if _msg = "" : return
+    ; "rb:<btnid>" なら btn id 抽出
+    if strmid(_msg, 0, 3) = "rb:" {
+        _rb_clicked = strmid(_msg, 3, 2048)
+        if _rb_cb_label ! 0 {
+            gosub _rb_cb_label
+        }
+    }
+    return
+
+#global
+
+#endif
