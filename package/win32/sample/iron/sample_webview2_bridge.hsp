@@ -1,0 +1,99 @@
+;============================================================
+;  sample_webview2_bridge.hsp
+;
+;  HSP <-> JS 双方向メッセージングのフルサンプル。
+;    - NavigateToString でローカル HTML を表示
+;    - JS: ボタン押下で window.chrome.webview.postMessage()
+;    - HSP: wv_recv で取り出して mesbox に追記
+;    - HSP 側のテキストボックスに入力 → wv_send で JS に送信、
+;      JS 側で DOM に反映
+;
+;  依存: hspwebview2.dll (plugins/win32/hspwebview2/Release/)
+;============================================================
+
+#include "iron_webview2.hsp"
+
+    title "iron_webview2 bridge demo (HSP <-> JS)"
+    screen 0, 960, 720
+    cls 4
+
+    ;----- UI -----
+    objsize 120, 28
+    pos 8, 8
+    button gosub "送信",      *on_send
+    pos 140, 8
+    input s_in, 500, 24
+    pos 8, 520
+    mesbox s_log, 944, 192
+
+    sdim s_in, 2048
+    sdim s_log, 8192
+
+    ;----- HTML を組み立て (bridge 付き) -----
+    sdim html_src, 8192
+    html_src = {"
+<!DOCTYPE html>
+<html><head><meta charset='utf-8'><title>WV2 Bridge</title>
+<style>
+  body { font-family: sans-serif; background:#f4f6fa; color:#222; }
+  .card { background:#fff; border-radius:8px; padding:16px; margin:16px; box-shadow:0 2px 6px rgba(0,0,0,.08);}
+  .from-hsp { background:#e7f1ff; padding:6px 10px; border-radius:4px; margin:4px 0; }
+  button { padding:8px 16px; border:0; border-radius:4px; background:#4a90e2; color:#fff; cursor:pointer; }
+  button:hover { background:#357ac0; }
+  input { padding:6px 10px; border:1px solid #aaa; border-radius:4px; width:60%; }
+</style>
+</head><body>
+<div class='card'>
+  <h2>HSP <-> JS Bridge Demo</h2>
+  <p>JS からの送信:</p>
+  <button onclick=\"ironPost('Hello from JS #' + (++counter))\">JS -> HSP</button>
+  <input id='txt' placeholder='何か書いて ->' />
+  <button onclick=\"ironPost('input=' + document.getElementById('txt').value)\">入力を送る</button>
+</div>
+<div class='card'>
+  <h3>HSP からの受信ログ</h3>
+  <div id='incoming'></div>
+</div>
+<script>
+  var counter = 0;
+  window.ironPost = function(t){ window.chrome.webview.postMessage(String(t)); };
+  window.chrome.webview.addEventListener('message', function(e){
+    var d = document.createElement('div');
+    d.className = 'from-hsp';
+    d.textContent = e.data;
+    document.getElementById('incoming').appendChild(d);
+  });
+</script>
+</body></html>
+"}
+
+    ;----- WebView2 を開いて HTML をロード -----
+    wv_open 8, 44, 944, 464
+    wv_id = stat
+    if wv_id < 0 {
+        s_log = "wv_open 失敗: " + wv_id
+        goto *loop
+    }
+    wv_html wv_id, html_src
+    s_log = "WebView2 bridge ready (id=" + wv_id + ")"
+    goto *loop
+
+*on_send
+    if wv_id < 0 : return
+    if s_in = "" : return
+    wv_send wv_id, s_in
+    s_log += "\nHSP -> JS: " + s_in
+    s_in = ""
+    objprm 1, ""      ; input をクリア
+    return
+
+*loop
+    if wv_id >= 0 {
+        msg = wv_recv(wv_id)
+        if msg ! "" {
+            s_log += "\nJS -> HSP: " + msg
+            objprm 3, s_log       ; mesbox index (button, input, button, mesbox)
+        }
+    }
+    await 30
+    goto *loop

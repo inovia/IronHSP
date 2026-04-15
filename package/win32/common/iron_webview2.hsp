@@ -1,0 +1,108 @@
+;============================================================
+;   iron_webview2.hsp — Edge WebView2 糖衣 (hspwebview2.dll)
+;
+;   HSP ウィンドウに Microsoft Edge WebView2 を貼り付け、
+;   HTML/JS を表示して HSP <-> JS の双方向メッセージングを行う。
+;
+;   依存: hspwebview2.dll (32bit) / hspwebview2_64.dll (64bit)
+;         + Edge WebView2 Runtime (Win10/11 標準)
+;
+;   API (糖衣):
+;     wv_open x, y, w, h, [user_data_dir]  -> stat=view_id / 負=err
+;         現在のアクティブウィンドウに WebView2 を貼り、初回のみ
+;         wv2_init を自動で呼ぶ。
+;     wv_close id
+;     wv_go    id, "url"
+;     wv_html  id, "<html>..."
+;     wv_move  id, x, y, w, h
+;     wv_show  id, 0/1
+;     s = wv_eval(id, "js_expr")           ; ExecuteScript の JSON 結果
+;     wv_send  id, "text"                  ; HSP -> JS (postMessage)
+;     s = wv_recv(id)                      ; JS -> HSP, 無ければ ""
+;     n = wv_pending(id)                   ; 取り出せるメッセージ数 (0/1)
+;     wv_inject id, "js"                   ; init script 注入
+;
+;   JS 側の受け取り / 送り:
+;     window.chrome.webview.addEventListener('message', e => { ... e.data ... });
+;     window.chrome.webview.postMessage("from js");
+;============================================================
+
+#ifndef __iron_webview2_hsp__
+#define __iron_webview2_hsp__
+
+#include "hspwebview2.as"
+
+#module iron_webview2
+
+#define WV_MAX_POLL 8192
+
+#deffunc _wv_ensure_init, local _st
+    if _g_wv_inited = 0 {
+        wv2_init ""
+        _g_wv_inited = 1
+    }
+    return
+
+;------------------------------------------------------------
+; wv_open x, y, w, h, ["udir"] -> stat=id
+; 現在のアクティブウィンドウ (hwnd) に WebView2 を貼る。
+;------------------------------------------------------------
+#deffunc wv_open int _x, int _y, int _w, int _h, str _udir, local _id
+    if _udir = "" {
+        wv2_init ""
+    } else {
+        wv2_init _udir
+    }
+    _g_wv_inited = 1
+    wv2_attach hwnd, _x, _y, _w, _h
+    _id = stat
+    return _id
+
+#deffunc wv_close int _id
+    wv2_close _id
+    return
+
+#deffunc wv_go int _id, str _url
+    wv2_navigate _id, _url
+    return
+
+#deffunc wv_html int _id, str _html
+    wv2_navigate_to_string _id, _html
+    return
+
+#deffunc wv_move int _id, int _x, int _y, int _w, int _h
+    wv2_resize _id, _x, _y, _w, _h
+    return
+
+#deffunc wv_show int _id, int _v
+    wv2_visible _id, _v
+    return
+
+#defcfunc wv_eval int _id, str _js, local _out
+    sdim _out, WV_MAX_POLL
+    wv2_execute_script _id, _js, _out
+    return _out
+
+#deffunc wv_send int _id, str _text
+    wv2_post_message _id, _text
+    return
+
+#defcfunc wv_recv int _id, local _out
+    sdim _out, WV_MAX_POLL
+    wv2_poll_message _id, _out
+    return _out
+
+#defcfunc wv_pending int _id, local _out
+    sdim _out, 16
+    wv2_poll_message _id, _out
+    ; 取り出してしまうので、いったんキューに戻したい場合は wv_recv を直接使うこと。
+    ; このラッパは「非破壊 peek」ではなく「1 件取り出したら stat を返す」簡易版。
+    return stat
+
+#deffunc wv_inject int _id, str _js
+    wv2_add_script _id, _js
+    return
+
+#global
+
+#endif

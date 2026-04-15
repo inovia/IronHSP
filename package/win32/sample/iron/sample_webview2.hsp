@@ -1,0 +1,103 @@
+;============================================================
+;  sample_webview2.hsp
+;
+;  hspwebview2.dll 基本デモ:
+;    - HSP ウィンドウに WebView2 を貼り付け
+;    - Google を表示
+;    - ボタンで JS を実行 (document.title を取得)
+;    - JS 側から postMessage されたメッセージを受信して画面に表示
+;
+;  事前準備:
+;    plugins\win32\hspwebview2\Release\hspwebview2.dll   (32bit)
+;    plugins\win32\hspwebview2\Release\hspwebview2_64.dll (64bit)
+;    を実行時ディレクトリに配置。
+;    hspwebview2.as は package/win32/common/ に配置 (本リポジトリでは
+;    iron_webview2.hsp 経由で #include "hspwebview2.as" している)。
+;============================================================
+
+#include "iron_webview2.hsp"
+
+    title "iron_webview2 basic demo"
+    screen 0, 1000, 720
+    cls 4
+
+    objsize 120, 28
+    pos 8, 8
+    button gosub "ロード",        *on_load
+    pos 140, 8
+    button gosub "Google",        *on_google
+    pos 272, 8
+    button gosub "JS 実行",       *on_js
+    pos 404, 8
+    button gosub "HSP→JS 送信",   *on_post
+    pos 552, 8
+    button gosub "閉じる",        *on_close
+
+    pos 8, 640
+    mesbox s_log, 984, 72
+
+    wv_id = -1
+
+    gosub *on_load          ; 起動時に自動でロード
+    goto *loop
+
+*on_load
+    if wv_id >= 0 : return
+    wv_open 8, 44, 984, 580
+    wv_id = stat
+    if wv_id < 0 {
+        s_log = "wv_open 失敗: " + wv_id
+        return
+    }
+    ; init script: JS 側 bridge
+    js_init = {"
+window.ironPost = function(t){
+  window.chrome.webview.postMessage(String(t));
+};
+window.chrome.webview.addEventListener('message', function(e){
+  var d = document.createElement('div');
+  d.style='position:fixed;top:0;left:0;background:#fe0;color:#000;padding:4px;z-index:99999';
+  d.textContent = 'HSP -> JS: ' + e.data;
+  document.body.appendChild(d);
+  setTimeout(function(){d.remove();}, 3000);
+});
+"}
+    wv_inject wv_id, js_init
+    s_log = "WebView2 open OK, id=" + wv_id
+    return
+
+*on_google
+    if wv_id < 0 : return
+    wv_go wv_id, "https://www.google.com/"
+    return
+
+*on_js
+    if wv_id < 0 : return
+    js = "document.title"
+    s = wv_eval(wv_id, js)
+    s_log = "document.title = " + s
+    return
+
+*on_post
+    if wv_id < 0 : return
+    wv_send wv_id, "こんにちは from HSP (" + gettime(7) + ")"
+    s_log = "HSP->JS 送信"
+    return
+
+*on_close
+    if wv_id < 0 : return
+    wv_close wv_id
+    wv_id = -1
+    s_log = "closed"
+    return
+
+*loop
+    ; 1 秒に数回 JS からのメッセージをポーリング
+    if wv_id >= 0 {
+        msg = wv_recv(wv_id)
+        if msg ! "" {
+            s_log = "JS -> HSP: " + msg
+        }
+    }
+    await 50
+    goto *loop
