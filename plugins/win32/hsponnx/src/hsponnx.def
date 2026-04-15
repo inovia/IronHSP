@@ -1,0 +1,15 @@
+LIBRARY hsponnx
+EXPORTS
+    onnx_init
+    onnx_shutdown
+    onnx_load_model
+    onnx_close
+    onnx_input_count
+    onnx_input_name
+    onnx_input_shape
+    onnx_output_count
+    onnx_output_name
+    onnx_output_shape
+    onnx_set_backend_dml
+    onnx_set_backend_cpu
+    onnx_run

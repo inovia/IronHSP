@@ -1,0 +1,74 @@
+;============================================================
+;  sample_llama.hsp — hspllama.dll 最小デモ
+;
+;  手順:
+;    1. plugins/win32/hspllama/third_party/llamacpp/README.md の手順で
+;       llama.cpp の static lib をビルドして hspllama.dll を作る
+;       (未ビルドでもスタブ文字列で動作確認可能)
+;    2. .gguf モデルをダウンロードして同ディレクトリに置く
+;       例: Llama-3.2-3B-Instruct-Q4_K_M.gguf
+;    3. hsp3cl sample_llama.hsp で実行
+;============================================================
+
+#include "hspllama.as"
+
+    title "hspllama sample"
+    screen 0, 720, 480
+    font "MS Gothic", 14
+
+    mes "local LLM 推論デモ (llama.cpp)"
+    mes ""
+
+    llama_init
+    mes "backend init OK"
+
+    ; モデルロード (n_ctx=2048, GPU offload=0)
+    llama_load "Llama-3.2-3B-Instruct-Q4_K_M.gguf", 2048, 0, h
+    if h < 0 {
+        mes "llama_load に失敗しました (code=" + h + ")"
+        if h = -100 {
+            mes "これは llama.cpp 未リンクのスタブビルドです。"
+            mes "third_party/llamacpp/README.md を参照してください。"
+        } else {
+            mes "モデルファイルを配置しているか確認してください。"
+        }
+        stop
+    }
+    mes "model loaded (handle=" + h + ")"
+
+    llama_n_ctx   h, nctx
+    llama_n_vocab h, nvoc
+    mes "n_ctx = " + nctx + ", n_vocab = " + nvoc
+    mes ""
+
+    ; 単発補完
+    sdim reply, 65536
+    mes "[llama_complete]"
+    llama_complete h, "Q: 日本の首都はどこですか?\nA: ", 64, reply
+    mes reply
+    mes ""
+
+    ; chat 形式
+    mes "[llama_chat]"
+    llama_chat h, "あなたは親切な日本語アシスタントです。", "1 + 1 は?", 64, reply
+    mes reply
+    mes ""
+
+    ; streaming
+    mes "[llama_stream]"
+    llama_stream_begin h, "昔々あるところに", 32
+    sdim tok, 1024
+    sdim full, 8192
+    repeat 200
+        llama_stream_next tok
+        if strlen(tok) = 0 : break
+        full = full + tok
+    loop
+    llama_stream_end
+    mes full
+    mes ""
+
+    llama_close h
+    llama_shutdown
+    mes "finished."
+    stop

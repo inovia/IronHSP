@@ -1,0 +1,77 @@
+;============================================================
+;   iron_onnx.hsp — hsponnx.dll 糖衣モジュール
+;
+;   使い方:
+;     #include "iron_onnx.hsp"
+;     iron_onnx_open "mymodel.onnx"
+;     h = stat
+;     if h < 0 : mes "load failed" : stop
+;
+;     ; 入出力メタ情報
+;     iron_onnx_input_info  h, 0, in_name, in_shape, in_rank
+;     iron_onnx_output_info h, 0, out_name, out_shape, out_rank
+;
+;     ; float32 buffer に入力を詰めて推論
+;     sdim in_buf, 4 * 224 * 224 * 3        ; HWC float32 ダミー
+;     dim  in_shp, 4 : in_shp.0=1,3,224,224 ; NCHW
+;     sdim out_buf, 4 * 1000
+;     dim  out_shp, 4
+;     onnx_run h, in_buf, in_shp, 4, out_buf, out_shp, out_rank
+;
+;     iron_onnx_close h
+;============================================================
+
+#ifndef __iron_onnx_hsp__
+#define __iron_onnx_hsp__
+
+#include "hsponnx.as"
+
+#module iron_onnx
+
+#deffunc iron_onnx_bootstrap
+    if _ion_inited = 0 {
+        onnx_init
+        _ion_inited = 1
+    }
+    return
+
+;   iron_onnx_open "model.onnx"  → stat = session handle
+#deffunc iron_onnx_open str path,  local _h
+    iron_onnx_bootstrap
+    onnx_load_model path, _h
+    return _h
+
+#deffunc iron_onnx_close int h
+    onnx_close h
+    return
+
+;   iron_onnx_input_info h, idx, var_name, var_shape, var_rank
+#deffunc iron_onnx_input_info int h, int idx, var vname, var vshape, var vrank,  local _r
+    sdim vname, 256
+    dim  vshape, 8
+    vrank = 0
+    onnx_input_name  h, idx, vname
+    onnx_input_shape h, idx, vshape, vrank
+    return
+
+#deffunc iron_onnx_output_info int h, int idx, var vname, var vshape, var vrank
+    sdim vname, 256
+    dim  vshape, 8
+    vrank = 0
+    onnx_output_name  h, idx, vname
+    onnx_output_shape h, idx, vshape, vrank
+    return
+
+#deffunc iron_onnx_use_dml int h
+    onnx_set_backend_dml h
+    return
+
+#deffunc iron_onnx_use_cpu int h
+    onnx_set_backend_cpu h
+    return
+
+#global
+
+    _ion_inited@iron_onnx = 0
+
+#endif

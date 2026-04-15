@@ -1,0 +1,13 @@
+LIBRARY hspllama
+EXPORTS
+    llama_init          = llama_init_ex
+    llama_shutdown      = llama_shutdown_ex
+    llama_load          = llama_load_ex
+    llama_close         = llama_close_ex
+    llama_complete      = llama_complete_ex
+    llama_chat          = llama_chat_ex
+    llama_stream_begin  = llama_stream_begin_ex
+    llama_stream_next   = llama_stream_next_ex
+    llama_stream_end    = llama_stream_end_ex
+    llama_n_ctx         = llama_n_ctx_ex
+    llama_n_vocab       = llama_n_vocab_ex

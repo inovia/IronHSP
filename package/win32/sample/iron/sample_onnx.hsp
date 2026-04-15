@@ -1,0 +1,117 @@
+;============================================================
+;  sample_onnx.hsp — hsponnx.dll 最小デモ
+;
+;  手順:
+;    1. plugins/win32/hsponnx/third_party/onnxruntime/README.md の
+;       手順で onnxruntime.dll / DirectML.dll を配置
+;    2. 適当な .onnx モデル (例: MobileNet / SqueezeNet) を
+;       model.onnx として同ディレクトリに置く
+;    3. hsp3cl sample_onnx.hsp で実行
+;
+;  このサンプルは:
+;    - モデルロード
+;    - 入出力テンソル名と shape の表示
+;    - float32 0 埋めダミー入力による推論実行
+;    - 出力テンソルの先頭 8 要素と shape を表示
+;============================================================
+
+#include "iron_onnx.hsp"
+
+    title "hsponnx sample"
+    screen 0, 720, 480
+    font "MS Gothic", 14
+
+    mes "ONNX Runtime 推論デモ"
+    mes ""
+
+    iron_onnx_open "model.onnx"
+    h = stat
+    if h < 0 {
+        mes "onnx_load_model に失敗しました (code=" + h + ")"
+        mes "model.onnx を配置していますか?"
+        mes "また third_party/onnxruntime/README.md の手順で"
+        mes "onnxruntime.dll を配置していますか?"
+        stop
+    }
+    mes "モデルロード成功 (handle=" + h + ")"
+
+    ; 入出力テンソルの個数
+    onnx_input_count  h, in_cnt
+    onnx_output_count h, out_cnt
+    mes "inputs = " + in_cnt + ", outputs = " + out_cnt
+    mes ""
+
+    ; 最初の入力メタ情報
+    sdim in_name, 256
+    dim  in_shape, 8
+    in_rank = 0
+    onnx_input_name  h, 0, in_name
+    onnx_input_shape h, 0, in_shape, in_rank
+    mes "input[0] = \"" + in_name + "\" rank=" + in_rank
+    s = "  shape = ["
+    repeat in_rank
+        if cnt > 0 : s = s + ", "
+        s = s + in_shape(cnt)
+    loop
+    mes s + "]"
+
+    ; 最初の出力メタ情報
+    sdim out_name, 256
+    dim  out_shape, 8
+    out_rank = 0
+    onnx_output_name  h, 0, out_name
+    onnx_output_shape h, 0, out_shape, out_rank
+    mes "output[0] = \"" + out_name + "\" rank=" + out_rank
+    s = "  shape = ["
+    repeat out_rank
+        if cnt > 0 : s = s + ", "
+        s = s + out_shape(cnt)
+    loop
+    mes s + "]"
+    mes ""
+
+    ; 動的次元 (-1) を 1 で置換
+    repeat in_rank
+        if in_shape(cnt) <= 0 : in_shape(cnt) = 1
+    loop
+
+    ; 総要素数
+    elem = 1
+    repeat in_rank
+        elem = elem * in_shape(cnt)
+    loop
+    mes "input element count = " + elem
+
+    ; float32 * elem バイトのゼロ埋めバッファ
+    sdim in_buf, elem * 4
+    memset in_buf, 0, elem * 4
+
+    ; 出力バッファは余裕を持って 1MB 確保
+    sdim out_buf, 1024 * 1024
+    dim  out_shape2, 8
+    out_rank2 = 0
+
+    mes "running..."
+    onnx_run h, in_buf, in_shape, in_rank, out_buf, out_shape2, out_rank2
+
+    mes "done. output shape rank=" + out_rank2
+    s = "  ["
+    repeat out_rank2
+        if cnt > 0 : s = s + ", "
+        s = s + out_shape2(cnt)
+    loop
+    mes s + "]"
+
+    ; 先頭 8 要素を float として表示
+    ; HSP は float 型を持たないので lpeek で生 32bit を取って
+    ; bit パターンから概算表示する代わりに hex で表示する
+    mes "first 8 raw int32 bits of output:"
+    repeat 8
+        v = lpeek(out_buf, cnt * 4)
+        mes "  [" + cnt + "] 0x" + strf("%08x", v)
+    loop
+
+    iron_onnx_close h
+    mes ""
+    mes "finished."
+    stop

@@ -44,6 +44,22 @@
 #include "iron_http.hsp"
 #include "iron_json.hsp"
 
+; hspllama.as は LOCAL_LLAMA backend 用。hspllama.dll がリンクされて
+; いなくても #uselib は遅延解決なので HTTP backend のみで使う場合は
+; 実体不要 (ただし #func の shim はロードされる)。
+#include "hspllama.as"
+
+;------------------------------------------------------------
+; バックエンド定数
+;   IRON_AI_BACKEND_HTTP       — OpenAI 互換 /chat/completions (既定)
+;   IRON_AI_BACKEND_LOCAL_LLAMA — hspllama.dll 経由で local .gguf モデル推論
+;
+; 将来:
+;   IRON_AI_BACKEND_ONNX_LLM   — hsponnx.dll 経由の LLM (未実装)
+;------------------------------------------------------------
+#define global IRON_AI_BACKEND_HTTP         0
+#define global IRON_AI_BACKEND_LOCAL_LLAMA  1
+
 #module iron_ai
 
 ;------------------------------------------------------------
@@ -109,6 +125,44 @@
     return
 
 ;------------------------------------------------------------
+; backend 切り替え
+;   IRON_AI_BACKEND_HTTP       : HTTP 経由 (既定)
+;   IRON_AI_BACKEND_LOCAL_LLAMA: hspllama.dll 経由
+;
+; LOCAL_LLAMA を選ぶ前に iron_ai_local_llama_load でモデルを
+; ロードしておく必要がある。
+;------------------------------------------------------------
+#deffunc iron_ai_set_backend int b
+    _ai_backend = b
+    return
+
+;   iron_ai_local_llama_load "model.gguf" [, n_ctx] [, n_gpu_layers]
+;   → stat = 0 成功 / 負 = エラー
+#deffunc iron_ai_local_llama_load str path, int n_ctx_, int n_gpu_,  local _h, local _nc, local _ng
+    _nc = n_ctx_
+    if _nc <= 0 : _nc = 2048
+    _ng = n_gpu_
+    if _ai_llama_inited = 0 {
+        llama_init
+        _ai_llama_inited = 1
+    }
+    if _ai_llama_h >= 0 {
+        llama_close _ai_llama_h
+        _ai_llama_h = -1
+    }
+    llama_load path, _nc, _ng, _h
+    if _h < 0 : return _h
+    _ai_llama_h = _h
+    return 0
+
+#deffunc iron_ai_local_llama_close
+    if _ai_llama_h >= 0 {
+        llama_close _ai_llama_h
+        _ai_llama_h = -1
+    }
+    return
+
+;------------------------------------------------------------
 ; 会話履歴管理
 ;------------------------------------------------------------
 #deffunc iron_ai_history_clear
@@ -134,9 +188,24 @@
 ;
 ;   stat: HTTP status (200=成功)
 ;------------------------------------------------------------
-#deffunc iron_ai_chat str msg, var reply,  local _esc_msg, local _sys_esc, local _body, local _full_url, local _resp, local _hid, local _msgs, local _hdr_buf, local _user_entry, local _ass_esc
+#deffunc iron_ai_chat str msg, var reply,  local _esc_msg, local _sys_esc, local _body, local _full_url, local _resp, local _hid, local _msgs, local _hdr_buf, local _user_entry, local _ass_esc, local _mt
     sdim reply, 4096
     reply = ""
+
+    ; ---- LOCAL_LLAMA backend ----
+    if _ai_backend = IRON_AI_BACKEND_LOCAL_LLAMA {
+        if _ai_llama_h < 0 {
+            ; モデル未ロード
+            return -1001
+        }
+        _mt = _ai_max_tokens
+        if _mt <= 0 : _mt = 512
+        llama_chat _ai_llama_h, _ai_system, msg, _mt, reply
+        ; 履歴に追加 (HTTP と同等)
+        iron_ai_history_add "user", msg
+        iron_ai_history_add "assistant", reply
+        return 200
+    }
 
     ; user message を JSON エスケープ
     _ai_json_escape msg, _esc_msg
@@ -401,5 +470,10 @@
 	sdim _ai_stream_pending@iron_ai, 65536
 	_ai_stream_pending@iron_ai = ""
 	_ai_stream_done@iron_ai = 0
+
+	; --- LOCAL_LLAMA backend state ---
+	_ai_backend@iron_ai       = IRON_AI_BACKEND_HTTP
+	_ai_llama_inited@iron_ai  = 0
+	_ai_llama_h@iron_ai       = -1
 
 #endif
