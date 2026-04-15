@@ -1,0 +1,87 @@
+;============================================================
+;   sample_csv.hsp — iron_csv の動作デモ
+;
+;   2 列 x 3 行の CSV を組み立てて → ファイル保存 → 読み込み → パース →
+;   画面に表示する。
+;============================================================
+
+#include "iron_csv.hsp"
+
+    title "iron_csv demo"
+    screen 0, 640, 480
+    font "MS Gothic", 14
+
+    ; ------------------------------------------------------------
+    ; 1. CSV を組み立てる (2 列 x 3 行: ヘッダ込みで 4 行)
+    ; ------------------------------------------------------------
+    sdim buf, 4096
+    buf = ""
+
+    csv_row_begin
+    csv_row_add "name"
+    csv_row_add "memo"
+    csv_row_end buf
+
+    csv_row_begin
+    csv_row_add "Alice"
+    csv_row_add "hello, world"            ; カンマ入り → 自動クォート
+    csv_row_end buf
+
+    csv_row_begin
+    csv_row_add "Bob"
+    csv_row_add "line1\nline2"             ; 改行入り (HSP "\n" は CRLF) → 自動クォート
+    csv_row_end buf
+
+    csv_row_begin
+    csv_row_add "Carol"
+    csv_row_add {"She said "hi" to me."}    ; " 入り → "" にエスケープ
+    csv_row_end buf
+
+    mes "=== 組み立てた CSV (raw) ==="
+    mes buf
+    mes ""
+
+    ; ------------------------------------------------------------
+    ; 2. ファイルに書き出して読み戻す
+    ; ------------------------------------------------------------
+    csv_write "_iron_csv_demo.csv", buf
+    mes "saved: _iron_csv_demo.csv (" + stat + " bytes)"
+
+    sdim data, 256, 32
+    csv_load data, rows, cols, "_iron_csv_demo.csv"
+    mes "loaded: rows=" + rows + " cols=" + cols
+    mes ""
+
+    ; ------------------------------------------------------------
+    ; 3. 表形式で表示
+    ; ------------------------------------------------------------
+    mes "=== パース結果 ==="
+    repeat rows
+        r = cnt
+        row_str = "[" + r + "] "
+        repeat cols
+            row_str += "{" + csv_cell(data, r, cnt, cols) + "}"
+            if cnt < cols - 1 : row_str += " | "
+        loop
+        mes row_str
+    loop
+    mes ""
+
+    ; ------------------------------------------------------------
+    ; 4. TSV (タブ区切り) もデリミタ切り替えでパース可
+    ; ------------------------------------------------------------
+    tsv = "a\tb\tc\n1\t2\t3\n"
+    sdim tdata, 64, 16
+    csv_parse tdata, trows, tcols, tsv, "\t"
+    mes "=== TSV パース (sep=\\t) ==="
+    mes "rows=" + trows + " cols=" + tcols
+    repeat trows
+        r = cnt
+        row_str = ""
+        repeat tcols
+            row_str += csv_cell(tdata, r, cnt, tcols) + " "
+        loop
+        mes row_str
+    loop
+
+    stop

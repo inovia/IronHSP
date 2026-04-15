@@ -1,0 +1,334 @@
+;============================================================
+;   iron_csv.hsp — RFC 4180 準拠 CSV パーサ / ビルダ (Pure HSP)
+;
+;   外部 DLL 不要。純粋 HSP で CSV の読み書きを実装。
+;
+;   RFC 4180:
+;     - フィールドはカンマ区切り (sep 引数でデリミタ変更可 → TSV 対応)
+;     - ダブルクォート "..." で囲まれたフィールドはカンマ・改行・"" を含める
+;     - フィールド内の " は "" でエスケープ
+;     - 行区切りは CRLF / LF / CR のいずれも受理
+;     - 文字コード: cp932 / SJIS (HSP 既定)
+;
+;   API:
+;     csv_parse  var data, var rows, var cols, "csv_text"[, "sep"]
+;         CSV 文字列をパースして data (sdim 2 次元フラット配列) に格納し、
+;         rows / cols に次元を返す。data は内部で
+;           sdim data, cell_max, rows*cols
+;         として再確保される (cell_max は呼び出し側で sdim 済みのサイズを
+;         そのまま引き継ぐ / 省略時 1024)。
+;
+;     csv_load   var data, var rows, var cols, "file.csv"[, "sep"]
+;         bload → csv_parse。ファイル版。
+;
+;     csv_cell(data, row, col, cols)
+;         2 次元セルを取り出すヘルパ。data((row)*cols + col) と等価。
+;
+;     csv_escape "raw", out
+;         1 フィールドをクォート処理。カンマ・改行・" を含む場合のみ "..." で
+;         囲み、内部の " は "" にエスケープ。
+;
+;     csv_row_begin
+;     csv_row_add "value"
+;     csv_row_end out
+;         1 行を組み立てて out に追記 (末尾に CRLF)。csv_row_begin で内部
+;         バッファ初期化、csv_row_add で 1 セル追加 (自動エスケープ)、
+;         csv_row_end で out (refstr ではなく var) に "," で join した行 +
+;         CRLF を追記。out は呼び出し側で sdim 済みのことが前提。
+;
+;     csv_write  "file.csv", var csv_text
+;         CSV 文字列をファイルに書き出す (bsave)。拡張子は任意。
+;
+;   例:
+;     #include "iron_csv.hsp"
+;
+;         csv = {"name,age,memo
+;         Alice,30,"hello, world"
+;         Bob,25,"line1
+;         line2"
+;         }
+;
+;         sdim data, 256, 100
+;         csv_parse data, rows, cols, csv
+;         repeat rows
+;             r = cnt
+;             line = ""
+;             repeat cols
+;                 line += csv_cell(data, r, cnt, cols) + " | "
+;             loop
+;             mes line
+;         loop
+;
+;     書き出し:
+;         sdim buf, 4096 : buf = ""
+;         csv_row_begin
+;         csv_row_add "name" : csv_row_add "age" : csv_row_end buf
+;         csv_row_begin
+;         csv_row_add "Alice" : csv_row_add "30" : csv_row_end buf
+;         csv_write "out.csv", buf
+;============================================================
+
+#ifndef __iron_csv_hsp__
+#define __iron_csv_hsp__
+
+#module iron_csv
+
+;------------------------------------------------------------
+; 内部静的バッファ (csv_row_begin / add / end で使用)
+;   row_buf     : 組み立て中の行 (既にクォート済みセルを , で連結)
+;   row_count   : このビルド行に追加されたセル数
+;------------------------------------------------------------
+#deffunc _csv_init_static
+    sdim __csv_row_buf, 4096
+    __csv_row_buf = ""
+    __csv_row_count = 0
+    return
+
+;------------------------------------------------------------
+; csv_parse var data, var rows, var cols, "csv_text"[, "sep"]
+;
+;   2 パス構成:
+;     1. まず max_cols / 行数をカウント (クォート状態を追跡)
+;     2. data を sdim 再確保してから実際に格納
+;------------------------------------------------------------
+#deffunc csv_parse array data, var rows, var cols, str csv_text, str sep_opt, \
+        local _src, local _len, local _sep, local _i, local _c, \
+        local _in_quote, local _cur_cols, local _max_cols, local _n_rows, \
+        local _cell_max, local _cell, local _r, local _col, local _has_content
+    _src = csv_text
+    _len = strlen(_src)
+    _sep = sep_opt
+    if _sep = "" : _sep = ","
+
+    ; -------- pass 1: 行数 / 最大列数をカウント ---------
+    _in_quote = 0
+    _cur_cols = 1
+    _max_cols = 1
+    _n_rows   = 0
+    _has_content = 0
+    _i = 0
+    if _len = 0 {
+        rows = 0
+        cols = 0
+        sdim data, 16, 1
+        return
+    }
+    repeat
+        if _i >= _len : break
+        _c = peek(_src, _i)
+        if _in_quote {
+            if _c = 0x22 {      ; "
+                if (_i + 1 < _len) & (peek(_src, _i + 1) = 0x22) {
+                    _i += 2
+                    continue
+                }
+                _in_quote = 0
+                _i++
+                continue
+            }
+            _i++
+            continue
+        }
+        if _c = 0x22 {          ; "
+            _in_quote = 1
+            _i++
+            continue
+        }
+        if _c = peek(_sep, 0) {
+            _cur_cols++
+            _has_content = 1
+            _i++
+            continue
+        }
+        if (_c = 0x0D) | (_c = 0x0A) {
+            if _cur_cols > _max_cols : _max_cols = _cur_cols
+            _n_rows++
+            _cur_cols = 1
+            _has_content = 0
+            ; CRLF はまとめて 1 行扱い
+            if (_c = 0x0D) & (_i + 1 < _len) & (peek(_src, _i + 1) = 0x0A) {
+                _i += 2
+            } else {
+                _i++
+            }
+            continue
+        }
+        _has_content = 1
+        _i++
+    loop
+    ; 末尾に改行がない場合の最終行
+    if _has_content {
+        if _cur_cols > _max_cols : _max_cols = _cur_cols
+        _n_rows++
+    }
+
+    if _n_rows = 0 {
+        rows = 0
+        cols = 0
+        sdim data, 16, 1
+        return
+    }
+
+    ; -------- pass 2: data へ格納 ---------
+    ; 呼び出し側で sdim した cell_max を尊重したいが、varuse 等で取れないので
+    ; ここでは固定 1024 バイト / セルで再確保する。
+    _cell_max = 1024
+    sdim data, _cell_max, _n_rows * _max_cols
+
+    _in_quote = 0
+    sdim _cell, _cell_max
+    _cell = ""
+    _r = 0
+    _col = 0
+    _i = 0
+    repeat
+        if _i >= _len : break
+        _c = peek(_src, _i)
+        if _in_quote {
+            if _c = 0x22 {
+                if (_i + 1 < _len) & (peek(_src, _i + 1) = 0x22) {
+                    _cell += strf("%c", 0x22)
+                    _i += 2
+                    continue
+                }
+                _in_quote = 0
+                _i++
+                continue
+            }
+            _cell += strf("%c", _c)
+            _i++
+            continue
+        }
+        if _c = 0x22 {
+            _in_quote = 1
+            _i++
+            continue
+        }
+        if _c = peek(_sep, 0) {
+            data(_r * _max_cols + _col) = _cell
+            sdim _cell, _cell_max
+            _col++
+            _i++
+            continue
+        }
+        if (_c = 0x0D) | (_c = 0x0A) {
+            data(_r * _max_cols + _col) = _cell
+            sdim _cell, _cell_max
+            _col = 0
+            _r++
+            if (_c = 0x0D) & (_i + 1 < _len) & (peek(_src, _i + 1) = 0x0A) {
+                _i += 2
+            } else {
+                _i++
+            }
+            continue
+        }
+        _cell += strf("%c", _c)
+        _i++
+    loop
+    ; 末尾セル
+    if (strlen(_cell) > 0) | (_col > 0) {
+        if _r < _n_rows {
+            data(_r * _max_cols + _col) = _cell
+        }
+    }
+
+    rows = _n_rows
+    cols = _max_cols
+    return
+
+;------------------------------------------------------------
+; csv_load var data, var rows, var cols, "file.csv"[, "sep"]
+;------------------------------------------------------------
+#deffunc csv_load array data, var rows, var cols, str file, str sep_opt, \
+        local _sz, local _buf, local _sep
+    _sep = sep_opt
+    exist file
+    _sz = strsize
+    if _sz < 0 {
+        rows = 0
+        cols = 0
+        sdim data, 16, 1
+        return -1
+    }
+    sdim _buf, _sz + 16
+    if _sz > 0 : bload file, _buf, _sz
+    csv_parse data, rows, cols, _buf, _sep
+    return 0
+
+;------------------------------------------------------------
+; csv_cell(data, row, col, cols) → セル値
+;------------------------------------------------------------
+#defcfunc csv_cell array data, int row, int col, int n_cols
+    return data(row * n_cols + col)
+
+;------------------------------------------------------------
+; csv_escape("raw") → str  (cfunc 版)
+;   カンマ・改行・" を含む場合のみクォート。
+;------------------------------------------------------------
+#defcfunc csv_escape str raw, \
+        local _s, local _len, local _need, local _c, local _out
+    _s = raw
+    _len = strlen(_s)
+    _need = 0
+    repeat _len
+        _c = peek(_s, cnt)
+        if (_c = 0x2C) | (_c = 0x22) | (_c = 0x0A) | (_c = 0x0D) | (_c = 0x09) {
+            _need = 1
+            break
+        }
+    loop
+    sdim _out, _len * 2 + 16
+    _out = ""
+    if _need = 0 {
+        _out = _s
+        return _out
+    }
+    poke _out, strlen(_out), 0x22       ; 先頭 "
+    repeat _len
+        _c = peek(_s, cnt)
+        if _c = 0x22 {
+            poke _out, strlen(_out), 0x22
+            poke _out, strlen(_out), 0x22
+            continue
+        }
+        poke _out, strlen(_out), _c
+    loop
+    poke _out, strlen(_out), 0x22       ; 末尾 "
+    return _out
+
+;------------------------------------------------------------
+; csv_row_begin / csv_row_add / csv_row_end
+;   module static な内部バッファに 1 行を組み立てる。
+;------------------------------------------------------------
+#deffunc csv_row_begin
+    _csv_init_static
+    return
+
+#deffunc csv_row_add str cell
+    if __csv_row_count > 0 {
+        __csv_row_buf += ","
+    }
+    __csv_row_buf += csv_escape(cell)
+    __csv_row_count++
+    return
+
+#deffunc csv_row_end var out
+    ; out に 1 行 + CRLF を追記 (HSP の "\n" は既に CRLF)
+    out += __csv_row_buf + "\n"
+    __csv_row_buf = ""
+    __csv_row_count = 0
+    return
+
+;------------------------------------------------------------
+; csv_write "file.csv", var csv_text
+;   csv_text の内容をファイルに書き出す。
+;------------------------------------------------------------
+#deffunc csv_write str file, var csv_text, local _sz
+    _sz = strlen(csv_text)
+    bsave file, csv_text, _sz
+    return _sz
+
+#global
+
+#endif
