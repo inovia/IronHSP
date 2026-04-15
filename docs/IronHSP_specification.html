@@ -68,17 +68,35 @@
 <!-- ======================================== -->
 <h2 id="overview">1. 概要</h2>
 
-<p>IronHSP は、HSP3 (Hot Soup Processor 3) に .NET Framework 連携機能と 64bit 整数型を追加した拡張版です。</p>
+<p>IronHSP は、HSP3 (Hot Soup Processor 3) をベースに <strong>.NET Framework 連携</strong> + <strong>64bit 整数/ポインタ対応</strong> + <strong>構造体・共用体</strong> + <strong>UTF-16 ワイド文字列</strong> + <strong>COM コールバック</strong> + <strong>Win32/DirectX/.NET 相互運用</strong> を加えた大幅拡張版です。hsp3net ランタイム系 (<code>hsp3_net_64.exe</code> / <code>hsp3cl_net_64.exe</code> / <code>hspcmp_net_64.exe</code>) にすべての新機能が集約され、バニラ HSP とは <code>#include "hsp3_net_64.as"</code> で明示的に切替える構成です (64bit 版が主、32bit 版はサブセット)。</p>
 
 <div class="card">
-<h3>主な特徴</h3>
+<h3>言語・ランタイムの主な拡張</h3>
 <ul>
-  <li><strong>.NET Framework 連携</strong> &mdash; C++/CLI を使い、HSP スクリプトから .NET のクラス・メソッド・プロパティに直接アクセス</li>
-  <li><strong>int64 型</strong> &mdash; 64bit 整数変数型を追加。ポインタやハンドルの保持、大きな整数演算が可能</li>
-  <li><strong>WPF サポート</strong> &mdash; <code>enablewpf</code> 命令で WPF アセンブリを動的ロード</li>
-  <li><strong>動的コンパイル</strong> &mdash; C# / VB.NET のソースコードを実行時にコンパイルして使用可能</li>
-  <li><strong>WinForms 統合</strong> &mdash; HSP の screen/button/input 等が WinForms コントロールとして生成。Form.Controls コレクションに登録される</li>
-  <li><strong>64bit ビルド対応</strong> &mdash; x86 / x64 の両方で動作</li>
+  <li><strong>.NET Framework 連携</strong> &mdash; C++/CLI ベース。HSP から .NET クラス/メソッド/プロパティ/イベント/LINQ/ジェネリクスに直接アクセス (<code>newnet</code> / <code>mcall</code> / <code>netlinq</code> / <code>netdelegate</code>)。<code>enablewpf</code> で WPF アセンブリ動的ロード。C# / VB.NET ソースの動的コンパイルにも対応</li>
+  <li><strong>WinForms 統合</strong> &mdash; HSP の <code>screen</code> / <code>button</code> / <code>input</code> 等が WinForms コントロールとして生成され、<code>Form.Controls</code> に統合される (Phase 9)</li>
+  <li><strong>int64 型</strong> &mdash; 64bit 整数変数型 + <code>dim64</code> / <code>int64()</code> / <code>qpeek</code> / <code>qpoke</code>、L サフィックスリテラル、<code>#deffunc</code>/<code>#func</code>/<code>#defcfunc</code> の引数・戻り値 int64 化、<code>stat</code>/<code>wparam</code>/<code>lparam</code>/<code>iparam</code> の int64 化、<code>varptr</code>/<code>dupptr</code> の 64bit 対応、<code>hwnd</code>/<code>hinstance</code>/<code>hdc</code> の 64bit 化</li>
+  <li><strong>intptr 型</strong> &mdash; プラットフォーム依存サイズ整数 (x86=32bit / x64=64bit)。<code>#func</code> / <code>#cfunc</code> / <code>#cfuncd</code> / <code>#cfuncf</code> / <code>#cfuncst</code> / <code>#comfunc</code> / <code>#cbmethod</code> すべての DLL インターフェースで使用可</li>
+  <li><strong>wstr (UTF-16) 型</strong> &mdash; 変数型 + <code>L"..."</code> リテラル、文字列関数・命令・<code>note*</code> 系すべて wstr 対応</li>
+  <li><strong>構造体・共用体</strong> &mdash; <code>#defstruct</code> / <code>#field</code> / <code>#defunion</code> / <code>#endunion</code>、専用変数型 <code>NSTRUCT</code>、<code>stdim</code> 命令、<code>varsize(S)</code>、C ABI 互換のパディング計算、<code>#cfuncst</code> (値返しDLL関数) + <code>callfuncst</code> で構造体値渡し/値返しをサポート</li>
+  <li><strong>DLL 関数拡張</strong> &mdash; <code>#cfuncd</code> / <code>#cfuncf</code> で double / float 戻り値、<code>#cfuncst</code> で構造体値返し、<code>#comfunc</code> の x64 vtable dispatch 修正、<code>newcom -1</code> の 64bit ポインタ引取り修正</li>
+  <li><strong>COM コールバック (<code>#defcbcom</code>)</strong> &mdash; vtable allocator + IUnknown 自動実装 + 動的 thunk + bridge dispatcher により、HSP 側で実装した COM インターフェースを C++ 側 API (例: <code>IBindStatusCallback</code>) にそのまま渡せる</li>
+  <li><strong>ネイティブコールバック</strong> &mdash; <code>setcallback</code> / <code>callbackarg</code> で x86 stdcall / x64 fastcall thunk を動的生成し、HSP ラベルを C 関数ポインタとして渡せる</li>
+  <li><strong>.NET 例外処理</strong> &mdash; <code>neterror</code> / <code>netexerr</code>、Enum 自動変換、<code>CnvCustom</code>、<code>tonet</code>、<code>objprm</code> .NET 対応</li>
+  <li><strong>64bit ビルド対応</strong> &mdash; x86 / x64 両対応、ただし hsp3net 系は 64bit が主力</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>プラグイン・モジュール面の主な拡張</h3>
+<ul>
+  <li><strong>hspd2d</strong> &mdash; DirectWrite + Direct2D + WIC を pure HSP の COM 機能だけで wrap した 2D 描画モジュール。色付き絵文字 (COLR/CPAL/CBDT/sbix) / SVG ドキュメント / GIF アニメ / PNG 保存対応</li>
+  <li><strong>hspcv4</strong> &mdash; OpenCV 4.12 統合 (277 関数)。画像IO / 描画 / フィルタ / モルフォ / imgproc / core Mat / DNN / video / contours / features2d / photo / cascade / tracker / ml / face / stereo / xphoto / aruco / calib3d を網羅。2026-04-16 に全関数を typed <code>#func</code> 化し OLDDLL <code>$202</code> 形式を完全撤廃</li>
+  <li><strong>hspdxlib</strong> &mdash; DxLibW 自動生成バインディング (2,548 関数 + 901 定数 + 55 構造体)</li>
+  <li><strong>Win32 API 大幅拡充</strong> &mdash; Phase D/E/F で +21 DLL / +2,077 関数を追加 (ws2_32, iphlpapi, urlmon, d2d1, dwrite, windowscodecs, dxgi, d3d11, xaudio2_8, dinput8, secur32, gdiplus, opengl32, glu32, httpapi, xmllite, wlanapi, wer, powrprof, wtsapi32 ほか)。CsWin32 bridge + libclang パースで自動生成</li>
+  <li><strong>新規プラグイン DLL (11 個)</strong> &mdash; <code>hspllama</code> (llama.cpp, SmolLM-135M 動作確認済) / <code>hspjson</code> / <code>hspmidi</code> / <code>hspwasm</code> (Wasm3 embed) / <code>hspduckdb</code> / <code>hspwinrtocr</code> / <code>hspwgcapture</code> (Windows Graphics Capture) / <code>hspble</code> (BLE) / <code>hsppdf</code> (PDFium) / <code>hspwebview2</code> / <code>hsponnx</code> / <code>hsptflite</code> (MediaPipe hand detection)。すべて hsp3net 用に typed <code>#func</code> + <code>pval</code>/<code>bmscr</code>/<code>pexinfo</code> 混合戦略で設計</li>
+  <li><strong>iron_* シンプルモジュール集</strong> &mdash; <code>iron_csv</code> / <code>iron_xlsx</code> / <code>iron_office</code> / <code>iron_duckdb</code> / <code>iron_ai</code> (LOCAL_LLAMA backend 含む) / <code>iron_toast</code> (WinRT) / <code>iron_url</code> ほか、HSP スクリプト層で使いやすい高レベル API</li>
+  <li><strong>hsp3net ランタイム配置</strong> &mdash; <code>package/win32/</code> に <code>hsp3_net(_64).exe</code> / <code>hsp3cl_net(_64).exe</code> / <code>hspcmp_net(_64).exe</code> を配置。バニラと共存</li>
 </ul>
 </div>
 
