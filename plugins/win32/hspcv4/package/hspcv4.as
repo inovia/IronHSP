@@ -188,10 +188,10 @@
 ;   cv4_close_window "window"           — 指定ウィンドウを閉じる
 ;   cv4_close_all                        — 全 OpenCV ウィンドウを閉じる
 ;
-#func global cv4_show          cv4_show          $202
-#func global cv4_wait_key      cv4_wait_key      $202
-#func global cv4_close_window  cv4_close_window  $202
-#func global cv4_close_all     cv4_close_all     $202
+#func global cv4_show          "cv4_show"          int, str
+#func global cv4_wait_key      "cv4_wait_key"      pexinfo, pval, int
+#func global cv4_close_window  "cv4_close_window"  str
+#func global cv4_close_all     "cv4_close_all"
 
 ; ---- object detection (Haar / LBP cascade) ----
 ;
@@ -506,11 +506,11 @@
 #define global CV4_GC_INIT_WITH_MASK  1
 #define global CV4_GC_EVAL            2
 ;
-#func global cv4_apply_color_map      cv4_apply_color_map      $202
-#func global cv4_watershed            cv4_watershed            $202
-#func global cv4_grab_cut             cv4_grab_cut             $202
-#func global cv4_connected_components cv4_connected_components $202
-#func global cv4_moments_centroid     cv4_moments_centroid     $202
+#func global cv4_apply_color_map      "cv4_apply_color_map"      int, int, int
+#func global cv4_watershed            "cv4_watershed"            int, int
+#func global cv4_grab_cut             "cv4_grab_cut"             int, int, int, int, int, int, int, int
+#func global cv4_connected_components "cv4_connected_components" pexinfo, int, int, pval, int
+#func global cv4_moments_centroid     "cv4_moments_centroid"     pexinfo, int, int, pval, pval
 
 ; ---- Stereo (Phase 21) ----
 #func global cv4_stereo_bm_create     "cv4_stereo_bm_create"     int, int, int
@@ -534,56 +534,56 @@
 #func global cv4_kalman_free          "cv4_kalman_free"          int
 
 ; ---- xfeatures2d / ximgproc extras (Phase 24) ----
-#func global cv4_msd_detect           cv4_msd_detect           $202
-#func global cv4_fast_line_detect     cv4_fast_line_detect     $202
-#func global cv4_peilin_normalize     cv4_peilin_normalize     $202
-#func global cv4_am_filter            cv4_am_filter            $202
+#func global cv4_msd_detect           "cv4_msd_detect"           int, int, int, int
+#func global cv4_fast_line_detect     "cv4_fast_line_detect"     int, int, int, int
+#func global cv4_peilin_normalize     "cv4_peilin_normalize"     int, int
+#func global cv4_am_filter            "cv4_am_filter"            int, int, int, int, int
 
 ; ---- Phase 25: wechat_qrcode + quality + plot ----
 ; text/OCR (Tesseract) と saliency は別フェーズへ繰り延べ。
-#func global cv4_wechat_qr_decode     cv4_wechat_qr_decode     $202
-#func global cv4_quality_psnr         cv4_quality_psnr         $202
-#func global cv4_quality_ssim         cv4_quality_ssim         $202
-#func global cv4_plot                 cv4_plot                 $202
+#func global cv4_wechat_qr_decode     "cv4_wechat_qr_decode"     pexinfo, pval, int, str, str, str, str
+#func global cv4_quality_psnr         "cv4_quality_psnr"         pexinfo, pval, int, int
+#func global cv4_quality_ssim         "cv4_quality_ssim"         pexinfo, pval, int, int
+#func global cv4_plot                 "cv4_plot"                 int, int, int, int
 
 ; ---- core 拡充 (Phase 26): PCA / SVD / dft / dct / kmeans ----
-#func global cv4_dft                  cv4_dft                  $202
-#func global cv4_dct                  cv4_dct                  $202
-#func global cv4_kmeans               cv4_kmeans               $202
-#func global cv4_pca_compute          cv4_pca_compute          $202
-#func global cv4_svd_compute          cv4_svd_compute          $202
+#func global cv4_dft                  "cv4_dft"                  int, int, int
+#func global cv4_dct                  "cv4_dct"                  int, int, int
+#func global cv4_kmeans               "cv4_kmeans"               int, int, int, int, int, int
+#func global cv4_pca_compute          "cv4_pca_compute"          int, int, int, int, int
+#func global cv4_svd_compute          "cv4_svd_compute"          int, int, int, int, int
 
 ; ---- main 漏れ回収 (Phase 27) ----
-#func global cv4_flip                 cv4_flip                 $202
-#func global cv4_transpose            cv4_transpose            $202
-#func global cv4_copy_make_border     cv4_copy_make_border     $202
-#func global cv4_in_range             cv4_in_range             $202
-#func global cv4_set_window_title     cv4_set_window_title     $202
-#func global cv4_resize_window        cv4_resize_window        $202
+#func global cv4_flip                 "cv4_flip"                 int, int, int
+#func global cv4_transpose            "cv4_transpose"            int, int
+#func global cv4_copy_make_border     "cv4_copy_make_border"     int, int, int, int, int, int, int, int, int, int
+#func global cv4_in_range             "cv4_in_range"             int, int, int, int, int, int, int, int
+#func global cv4_set_window_title     "cv4_set_window_title"     str, str
+#func global cv4_resize_window        "cv4_resize_window"        str, int, int
 
 ; ---- FreeType (Phase 22 follow): TTF/OTF font rendering ----
-#func global cv4_freetype_create      cv4_freetype_create      $202
-#func global cv4_freetype_put_text    cv4_freetype_put_text    $202
-#func global cv4_freetype_free        cv4_freetype_free        $202
+#func global cv4_freetype_create      "cv4_freetype_create"      int, str
+#func global cv4_freetype_put_text    "cv4_freetype_put_text"    int, int, str, int, int, int, int, int, int, int, int
+#func global cv4_freetype_free        "cv4_freetype_free"        int
 
 ; ---- Saliency / text (Phase 25 follow): no external deps ----
-#func global cv4_saliency_spectral    cv4_saliency_spectral    $202
-#func global cv4_saliency_fine        cv4_saliency_fine        $202
-#func global cv4_text_detect_swt      cv4_text_detect_swt      $202
+#func global cv4_saliency_spectral    "cv4_saliency_spectral"    int, int
+#func global cv4_saliency_fine        "cv4_saliency_fine"        int, int
+#func global cv4_text_detect_swt      "cv4_text_detect_swt"      pexinfo, pval, int, int, int
 
 ; ---- Tesseract OCR (Phase 25 follow-2) ----
 ;   tessdata フォルダ (eng.traineddata 等) が必要。
-#func global cv4_ocr_create           cv4_ocr_create           $202
-#func global cv4_ocr_run              cv4_ocr_run              $202
-#func global cv4_ocr_free             cv4_ocr_free             $202
+#func global cv4_ocr_create           "cv4_ocr_create"           int, str, str, int, int
+#func global cv4_ocr_run              "cv4_ocr_run"              pexinfo, pval, int, int, int
+#func global cv4_ocr_free             "cv4_ocr_free"             int
 
 ; ---- highgui Trackbar / mouse (Phase 27 follow): polling style ----
 ; HSP からはコールバック登録ができないため、内部 callback で状態を蓄え、
 ; HSP 側から get で読み出す方式。Trackbar はコールバック無しで作る。
-#func global cv4_create_trackbar      cv4_create_trackbar      $202
-#func global cv4_get_trackbar_pos     cv4_get_trackbar_pos     $202
-#func global cv4_set_mouse_listener   cv4_set_mouse_listener   $202
-#func global cv4_get_mouse_event      cv4_get_mouse_event      $202
+#func global cv4_create_trackbar      "cv4_create_trackbar"      str, str, int, int
+#func global cv4_get_trackbar_pos     "cv4_get_trackbar_pos"     pexinfo, pval, str, str
+#func global cv4_set_mouse_listener   "cv4_set_mouse_listener"   str
+#func global cv4_get_mouse_event      "cv4_get_mouse_event"      pexinfo, pval, pval, pval, pval, str
 
 ; ---- calib3d full (Phase 14): camera calibration / pose estimation ----
 ; cv4_camera_matrix dst, fx, fy, cx, cy        — 3x3 K 行列を生成
@@ -616,9 +616,9 @@
 #func global cv4_hog_detect_people  "cv4_hog_detect_people"  pexinfo, pval, pval, int, double
 #func global cv4_qr_detect          "cv4_qr_detect"          pexinfo, pval, pval, int
 #func global cv4_qr_decode          "cv4_qr_decode"          pexinfo, int, pval
-#func global cv4_qr_encode          cv4_qr_encode          $202
-#func global cv4_barcode_detect     cv4_barcode_detect     $202
-#func global cv4_barcode_decode     cv4_barcode_decode     $202
+#func global cv4_qr_encode          "cv4_qr_encode"          int, str, int, int, int
+#func global cv4_barcode_detect     "cv4_barcode_detect"     pexinfo, pval, pval, int
+#func global cv4_barcode_decode     "cv4_barcode_decode"     pexinfo, int, pval
 
 ; ---- aruco markers (basic detection in OpenCV 4.x main module) ----
 ; cv4_aruco_detect rects, ids, count, img_id [, dict=DICT_4X4_50]
@@ -635,7 +635,7 @@
 
 ; ---- stitching / panorama ----
 ; img_ids_array: int 配列 (cv4 画像ハンドル ID のリスト)
-#func global cv4_stitch         cv4_stitch         $202
+#func global cv4_stitch         "cv4_stitch"         pexinfo, int, pval, int
 
 ; ---- drawing extras ----
 #func global cv4_draw_arrow     "cv4_draw_arrow"     int, int, int, int, int, int, int, int, int, int
@@ -647,7 +647,7 @@
 #func global cv4_mat_clone      "cv4_mat_clone"      int, int
 #func global cv4_put_pixel      "cv4_put_pixel"      int, int, int, int, int, int, int
 #func global cv4_get_pixel      "cv4_get_pixel"      int, int, int, var, var, var
-#func global cv4_get_pixela     cv4_get_pixela     $202
+#func global cv4_get_pixela     "cv4_get_pixela"     pexinfo, int, int, int, pval, pval, pval, pval
 #func global cv4_build_version  "cv4_build_version"  pexinfo, pval
 
 ; ---- contrib DLL proxy (requires hspcv4_contrib.dll / hspcv4_contrib_64.dll) ----
@@ -659,31 +659,31 @@
 ; Phase 13b 以降で KCF/CSRT トラッカ、Aruco マーカ、xfeatures2d (SURF/BRIEF 等)、
 ; bgsegm の追加背景差分、ximgproc、img_hash、optflow、dnn_superres 等の
 ; ラッパを順次追加予定です。
-#func global cv4_contrib_version  cv4_contrib_version  $202
+#func global cv4_contrib_version  "cv4_contrib_version"  pexinfo, pval
 
 ; ---- contrib: tracking module (KCF / CSRT) ----
 ; cv::Tracker 抽象を継承するため、init/update/free は既存の cv4_tracker_*
 ; をそのまま使えます。create のみ contrib DLL から呼ばれます。
-#func global cv4_tracker_create_csrt  cv4_tracker_create_csrt  $202
-#func global cv4_tracker_create_kcf   cv4_tracker_create_kcf   $202
+#func global cv4_tracker_create_csrt  "cv4_tracker_create_csrt"  int
+#func global cv4_tracker_create_kcf   "cv4_tracker_create_kcf"   int
 
 ; ---- contrib: xfeatures2d (BRIEF/FREAK/DAISY/Star/HarrisLaplace) ----
 ; SURF は nonfree なので含めず。Detector 系は keypoints を生成、
 ; Compute 系は既存 keypoints から記述子を計算 (cv4_orb_detect_compute と
 ; 同じ KeyPointSet ハンドルを使用)。
-#func global cv4_star_detect           cv4_star_detect           $202
-#func global cv4_harris_laplace_detect cv4_harris_laplace_detect $202
-#func global cv4_brief_compute         cv4_brief_compute         $202
-#func global cv4_freak_compute         cv4_freak_compute         $202
-#func global cv4_daisy_compute         cv4_daisy_compute         $202
+#func global cv4_star_detect           "cv4_star_detect"           int, int
+#func global cv4_harris_laplace_detect "cv4_harris_laplace_detect" int, int
+#func global cv4_brief_compute         "cv4_brief_compute"         int, int, int, int
+#func global cv4_freak_compute         "cv4_freak_compute"         int, int, int
+#func global cv4_daisy_compute         "cv4_daisy_compute"         int, int, int
 
 ; ---- contrib: bgsegm (CNT/GMG/LSBP/GSOC/MOG additional bgsubtractors) ----
 ; 既存の cv4_bgsub_apply / cv4_bgsub_free がそのまま使える。
-#func global cv4_bgsub_create_cnt   cv4_bgsub_create_cnt   $202
-#func global cv4_bgsub_create_gmg   cv4_bgsub_create_gmg   $202
-#func global cv4_bgsub_create_lsbp  cv4_bgsub_create_lsbp  $202
-#func global cv4_bgsub_create_gsoc  cv4_bgsub_create_gsoc  $202
-#func global cv4_bgsub_create_mog   cv4_bgsub_create_mog   $202
+#func global cv4_bgsub_create_cnt   "cv4_bgsub_create_cnt"   int, int, int, int, int
+#func global cv4_bgsub_create_gmg   "cv4_bgsub_create_gmg"   int, int, double
+#func global cv4_bgsub_create_lsbp  "cv4_bgsub_create_lsbp"  int
+#func global cv4_bgsub_create_gsoc  "cv4_bgsub_create_gsoc"  int
+#func global cv4_bgsub_create_mog   "cv4_bgsub_create_mog"   int, int, int, double, double
 
 ; ---- contrib: ximgproc (selected) ----
 ; cv4_thinning              dst, src [, type=0(ZHANGSUEN) or 1(GUOHALL)]
@@ -693,37 +693,37 @@
 ; cv4_l0_smooth             dst, src [, lambda=0.02] [, kappa=2.0]
 ; cv4_fast_global_smoother  dst, guide, src, lambda, sigma_color
 ; cv4_weighted_median       dst, joint, src [, radius=7]
-#func global cv4_thinning              cv4_thinning              $202
-#func global cv4_niblack               cv4_niblack               $202
-#func global cv4_anisotropic_diffusion cv4_anisotropic_diffusion $202
-#func global cv4_guided_filter         cv4_guided_filter         $202
-#func global cv4_l0_smooth             cv4_l0_smooth             $202
-#func global cv4_fast_global_smoother  cv4_fast_global_smoother  $202
-#func global cv4_weighted_median       cv4_weighted_median       $202
+#func global cv4_thinning              "cv4_thinning"              int, int, int
+#func global cv4_niblack               "cv4_niblack"               int, int, double, int, int, double
+#func global cv4_anisotropic_diffusion "cv4_anisotropic_diffusion" int, int, double, double, int
+#func global cv4_guided_filter         "cv4_guided_filter"         int, int, int, int, double
+#func global cv4_l0_smooth             "cv4_l0_smooth"             int, int, double, double
+#func global cv4_fast_global_smoother  "cv4_fast_global_smoother"  int, int, int, double, double
+#func global cv4_weighted_median       "cv4_weighted_median"       int, int, int, int
 
 ; ---- contrib: img_hash (perceptual hashes) ----
 ; すべて (dst_id, src_id) の 2 引数。出力 hash は Mat (1xN) 形式。
 ; ハッシュ同士の比較は cv4_abs_diff + cv4_count_nonzero 等で実装可能。
-#func global cv4_phash                cv4_phash                $202
-#func global cv4_average_hash         cv4_average_hash         $202
-#func global cv4_block_mean_hash      cv4_block_mean_hash      $202
-#func global cv4_color_moment_hash    cv4_color_moment_hash    $202
-#func global cv4_marr_hildreth_hash   cv4_marr_hildreth_hash   $202
-#func global cv4_radial_variance_hash cv4_radial_variance_hash $202
+#func global cv4_phash                "cv4_phash"                int, int
+#func global cv4_average_hash         "cv4_average_hash"         int, int
+#func global cv4_block_mean_hash      "cv4_block_mean_hash"      int, int
+#func global cv4_color_moment_hash    "cv4_color_moment_hash"    int, int
+#func global cv4_marr_hildreth_hash   "cv4_marr_hildreth_hash"   int, int
+#func global cv4_radial_variance_hash "cv4_radial_variance_hash" int, int
 
 ; ---- contrib: optflow (advanced dense flows) ----
 ; どれも (flow_mat_id, prev_id, next_id)。出力 flow は HxWx2 CV_32F。
-#func global cv4_optflow_dualtvl1        cv4_optflow_dualtvl1        $202
-#func global cv4_optflow_deepflow        cv4_optflow_deepflow        $202
-#func global cv4_optflow_sparse_to_dense cv4_optflow_sparse_to_dense $202
+#func global cv4_optflow_dualtvl1        "cv4_optflow_dualtvl1"        int, int, int
+#func global cv4_optflow_deepflow        "cv4_optflow_deepflow"        int, int, int
+#func global cv4_optflow_sparse_to_dense "cv4_optflow_sparse_to_dense" int, int, int
 
 ; ---- contrib: dnn_superres (EDSR / ESPCN / FSRCNN / LapSRN) ----
 ; 外部 .pb モデルファイルが必要 (EDSR_x4.pb 等を別途取得)。
 ;   cv4_dnn_sr_create   sr_id, "model.pb", "algo_name", scale
 ;   cv4_dnn_sr_upsample sr_id, dst_img_id, src_img_id
 ;   cv4_dnn_sr_free     sr_id
-#func global cv4_dnn_sr_create   cv4_dnn_sr_create   $202
-#func global cv4_dnn_sr_upsample cv4_dnn_sr_upsample $202
-#func global cv4_dnn_sr_free     cv4_dnn_sr_free     $202
+#func global cv4_dnn_sr_create   "cv4_dnn_sr_create"   int, str, str, int
+#func global cv4_dnn_sr_upsample "cv4_dnn_sr_upsample" int, int, int
+#func global cv4_dnn_sr_free     "cv4_dnn_sr_free"     int
 
 #endif

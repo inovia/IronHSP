@@ -2,12 +2,16 @@
 //  hspcv4_contrib.cpp
 //  hspcv4.dll から遅延ロードされる補助 DLL。opencv_contrib の機能を提供。
 //
-//  公開シンボル名は cv4_xxx_impl (末尾 _impl)。呼出し規約は:
-//      int __stdcall cv4_xxx_impl(HSPEXINFO* hei, int p1, int p2, int p3,
-//                                 const hspcv4_handle_api_t* api)
+//  公開シンボル名は cv4_xxx_impl (末尾 _impl)。Phase F6 以降は呼出し規約が
+//  完全 typed になり、各関数は対応する HSP コマンドの typed #func 引数を
+//  そのまま受け取る。例: cv4_tracker_create_csrt tid は
+//      int __stdcall cv4_tracker_create_csrt_impl(int tid, const hspcv4_handle_api_t* api)
+//  例外: cv4_contrib_version_impl のみ HSP str 書き戻し用に
+//        (HSPEXINFO*, PVal*, const hspcv4_handle_api_t*) を取る。
 //
-//  main DLL 側の proxy stub が HSPEXINFO とハンドル API テーブルを渡してくる。
-//  このファイル内の関数は HSP プラグインとして呼ばれるわけではない。
+//  main DLL 側の proxy stub が値をそのまま転送する (関数ポインタは
+//  call site で個別 typedef する)。このファイル内の関数は HSP プラグインと
+//  して直接呼ばれるわけではない。
 //
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -68,17 +72,18 @@ BOOL WINAPI DllMain(HINSTANCE, DWORD reason, LPVOID)
 //  (str 書き込みはハンドル空間に関係しないので api は不要)
 //============================================================================
 CV4C_EXPORT int __stdcall cv4_contrib_version_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    HSPEXINFO* hei, PVal* pv,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
+        if (!hei || !pv) {
+            if (api) api->set_last_error("cv4_contrib_version: null arg");
+            return -1;
+        }
         if (pv->flag != HSPVAR_FLAG_STR) {
             if (api) api->set_last_error("cv4_contrib_version: var must be str");
             return -1;
         }
-        pv->offset = a;
 
         std::string ver = cv::getVersionString();
         ver += " (hspcv4_contrib loaded)";
@@ -105,12 +110,9 @@ CV4C_EXPORT int __stdcall cv4_contrib_version_impl(
 
 //  cv4_tracker_create_csrt tid
 CV4C_EXPORT int __stdcall cv4_tracker_create_csrt_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
-    const hspcv4_handle_api_t* api)
+    int tid, const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int tid = hei->HspFunc_prm_geti();
         cv::Ptr<cv::Tracker> t = cv::TrackerCSRT::create();
         api->tracker_set_copy(tid, &t);
         return 0;
@@ -125,12 +127,9 @@ CV4C_EXPORT int __stdcall cv4_tracker_create_csrt_impl(
 
 //  cv4_tracker_create_kcf tid
 CV4C_EXPORT int __stdcall cv4_tracker_create_kcf_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
-    const hspcv4_handle_api_t* api)
+    int tid, const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int tid = hei->HspFunc_prm_geti();
         cv::Ptr<cv::Tracker> t = cv::TrackerKCF::create();
         api->tracker_set_copy(tid, &t);
         return 0;
@@ -167,13 +166,9 @@ static cv::Mat get_gray_image(const hspcv4_handle_api_t* api, int img_id, const 
 
 //  cv4_star_detect kp_id, img_id
 CV4C_EXPORT int __stdcall cv4_star_detect_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
-    const hspcv4_handle_api_t* api)
+    int kp_id, int img_id, const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int kp_id  = hei->HspFunc_prm_geti();
-        int img_id = hei->HspFunc_prm_geti();
         cv::Mat gray = get_gray_image(api, img_id, "cv4_star_detect");
         if (gray.empty()) return -1;
         auto star = cv::xfeatures2d::StarDetector::create();
@@ -192,13 +187,9 @@ CV4C_EXPORT int __stdcall cv4_star_detect_impl(
 
 //  cv4_harris_laplace_detect kp_id, img_id
 CV4C_EXPORT int __stdcall cv4_harris_laplace_detect_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
-    const hspcv4_handle_api_t* api)
+    int kp_id, int img_id, const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int kp_id  = hei->HspFunc_prm_geti();
-        int img_id = hei->HspFunc_prm_geti();
         cv::Mat gray = get_gray_image(api, img_id, "cv4_harris_laplace_detect");
         if (gray.empty()) return -1;
         auto hl = cv::xfeatures2d::HarrisLaplaceFeatureDetector::create();
@@ -217,15 +208,10 @@ CV4C_EXPORT int __stdcall cv4_harris_laplace_detect_impl(
 
 //  cv4_brief_compute kp_id, desc_id, img_id [, bytes=32]
 CV4C_EXPORT int __stdcall cv4_brief_compute_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int kp_id, int desc_id, int img_id, int bytes,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int kp_id   = hei->HspFunc_prm_geti();
-        int desc_id = hei->HspFunc_prm_geti();
-        int img_id  = hei->HspFunc_prm_geti();
-        int bytes   = hei->HspFunc_prm_getdi(32);
         cv::Mat gray = get_gray_image(api, img_id, "cv4_brief_compute");
         if (gray.empty()) return -1;
         auto* kps = static_cast<std::vector<cv::KeyPoint>*>(api->kps_get(kp_id));
@@ -246,14 +232,10 @@ CV4C_EXPORT int __stdcall cv4_brief_compute_impl(
 
 //  cv4_freak_compute kp_id, desc_id, img_id
 CV4C_EXPORT int __stdcall cv4_freak_compute_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int kp_id, int desc_id, int img_id,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int kp_id   = hei->HspFunc_prm_geti();
-        int desc_id = hei->HspFunc_prm_geti();
-        int img_id  = hei->HspFunc_prm_geti();
         cv::Mat gray = get_gray_image(api, img_id, "cv4_freak_compute");
         if (gray.empty()) return -1;
         auto* kps = static_cast<std::vector<cv::KeyPoint>*>(api->kps_get(kp_id));
@@ -274,14 +256,10 @@ CV4C_EXPORT int __stdcall cv4_freak_compute_impl(
 
 //  cv4_daisy_compute kp_id, desc_id, img_id
 CV4C_EXPORT int __stdcall cv4_daisy_compute_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int kp_id, int desc_id, int img_id,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int kp_id   = hei->HspFunc_prm_geti();
-        int desc_id = hei->HspFunc_prm_geti();
-        int img_id  = hei->HspFunc_prm_geti();
         cv::Mat gray = get_gray_image(api, img_id, "cv4_daisy_compute");
         if (gray.empty()) return -1;
         auto* kps = static_cast<std::vector<cv::KeyPoint>*>(api->kps_get(kp_id));
@@ -307,16 +285,10 @@ CV4C_EXPORT int __stdcall cv4_daisy_compute_impl(
 
 //  cv4_bgsub_create_cnt bg_id [, min_pixel_stability=15] [, use_hist=1] [, max_pixel_stability=15*60] [, is_parallel=1]
 CV4C_EXPORT int __stdcall cv4_bgsub_create_cnt_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int bg_id, int min_st, int use_h, int max_st, int par,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int bg_id   = hei->HspFunc_prm_geti();
-        int min_st  = hei->HspFunc_prm_getdi(15);
-        int use_h   = hei->HspFunc_prm_getdi(1);
-        int max_st  = hei->HspFunc_prm_getdi(15 * 60);
-        int par     = hei->HspFunc_prm_getdi(1);
         cv::Ptr<cv::BackgroundSubtractor> bg =
             cv::bgsegm::createBackgroundSubtractorCNT(min_st, use_h != 0, max_st, par != 0);
         api->bgsub_set_copy(bg_id, &bg);
@@ -328,14 +300,10 @@ CV4C_EXPORT int __stdcall cv4_bgsub_create_cnt_impl(
 
 //  cv4_bgsub_create_gmg bg_id [, init_frames=120] [, decision_thresh=0.8]
 CV4C_EXPORT int __stdcall cv4_bgsub_create_gmg_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int bg_id, int init, double dth,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int bg_id  = hei->HspFunc_prm_geti();
-        int init   = hei->HspFunc_prm_getdi(120);
-        double dth = hei->HspFunc_prm_getdd(0.8);
         cv::Ptr<cv::BackgroundSubtractor> bg =
             cv::bgsegm::createBackgroundSubtractorGMG(init, dth);
         api->bgsub_set_copy(bg_id, &bg);
@@ -347,12 +315,9 @@ CV4C_EXPORT int __stdcall cv4_bgsub_create_gmg_impl(
 
 //  cv4_bgsub_create_lsbp bg_id
 CV4C_EXPORT int __stdcall cv4_bgsub_create_lsbp_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
-    const hspcv4_handle_api_t* api)
+    int bg_id, const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int bg_id = hei->HspFunc_prm_geti();
         cv::Ptr<cv::BackgroundSubtractor> bg =
             cv::bgsegm::createBackgroundSubtractorLSBP();
         api->bgsub_set_copy(bg_id, &bg);
@@ -364,12 +329,9 @@ CV4C_EXPORT int __stdcall cv4_bgsub_create_lsbp_impl(
 
 //  cv4_bgsub_create_gsoc bg_id
 CV4C_EXPORT int __stdcall cv4_bgsub_create_gsoc_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
-    const hspcv4_handle_api_t* api)
+    int bg_id, const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int bg_id = hei->HspFunc_prm_geti();
         cv::Ptr<cv::BackgroundSubtractor> bg =
             cv::bgsegm::createBackgroundSubtractorGSOC();
         api->bgsub_set_copy(bg_id, &bg);
@@ -381,16 +343,10 @@ CV4C_EXPORT int __stdcall cv4_bgsub_create_gsoc_impl(
 
 //  cv4_bgsub_create_mog bg_id [, history=200] [, n_mixtures=5] [, bg_ratio=0.7] [, noise_sigma=0]
 CV4C_EXPORT int __stdcall cv4_bgsub_create_mog_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int bg_id, int history, int nmix, double br, double ns,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int bg_id    = hei->HspFunc_prm_geti();
-        int history  = hei->HspFunc_prm_getdi(200);
-        int nmix     = hei->HspFunc_prm_getdi(5);
-        double br    = hei->HspFunc_prm_getdd(0.7);
-        double ns    = hei->HspFunc_prm_getdd(0.0);
         cv::Ptr<cv::BackgroundSubtractor> bg =
             cv::bgsegm::createBackgroundSubtractorMOG(history, nmix, br, ns);
         api->bgsub_set_copy(bg_id, &bg);
@@ -418,14 +374,10 @@ static cv::Mat* get_mat(const hspcv4_handle_api_t* api, int id, const char* msg)
 
 //  cv4_thinning dst_id, src_id [, type=0]   (0=ZHANGSUEN, 1=GUOHALL)
 CV4C_EXPORT int __stdcall cv4_thinning_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int dst_id, int src_id, int type,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int dst_id = hei->HspFunc_prm_geti();
-        int src_id = hei->HspFunc_prm_geti();
-        int type   = hei->HspFunc_prm_getdi(0);
         cv::Mat* src = get_mat(api, src_id, "cv4_thinning: invalid source");
         if (!src) return -1;
         cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
@@ -440,17 +392,10 @@ CV4C_EXPORT int __stdcall cv4_thinning_impl(
 
 //  cv4_niblack dst_id, src_id, max_value, type, block_size, k
 CV4C_EXPORT int __stdcall cv4_niblack_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int dst_id, int src_id, double mv, int type, int bsize, double k,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int dst_id  = hei->HspFunc_prm_geti();
-        int src_id  = hei->HspFunc_prm_geti();
-        double mv   = hei->HspFunc_prm_getdd(255.0);
-        int type    = hei->HspFunc_prm_geti();
-        int bsize   = hei->HspFunc_prm_geti();
-        double k    = hei->HspFunc_prm_getdd(0.5);
         cv::Mat* src = get_mat(api, src_id, "cv4_niblack: invalid source");
         if (!src) return -1;
         cv::Mat gray = (src->channels() == 1) ? *src : cv::Mat();
@@ -465,16 +410,10 @@ CV4C_EXPORT int __stdcall cv4_niblack_impl(
 
 //  cv4_anisotropic_diffusion dst_id, src_id, alpha, K, niters
 CV4C_EXPORT int __stdcall cv4_anisotropic_diffusion_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int dst_id, int src_id, double alpha, double K, int niters,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int dst_id = hei->HspFunc_prm_geti();
-        int src_id = hei->HspFunc_prm_geti();
-        double alpha = hei->HspFunc_prm_getdd(1.0);
-        double K     = hei->HspFunc_prm_getdd(0.02);
-        int niters   = hei->HspFunc_prm_getdi(10);
         cv::Mat* src = get_mat(api, src_id, "cv4_anisotropic_diffusion: invalid source");
         if (!src) return -1;
         // anisotropicDiffusion は 3ch CV_8U を要求する
@@ -491,16 +430,10 @@ CV4C_EXPORT int __stdcall cv4_anisotropic_diffusion_impl(
 
 //  cv4_guided_filter dst_id, guide_id, src_id, radius, eps
 CV4C_EXPORT int __stdcall cv4_guided_filter_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int dst_id, int guide_id, int src_id, int radius, double eps,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int dst_id   = hei->HspFunc_prm_geti();
-        int guide_id = hei->HspFunc_prm_geti();
-        int src_id   = hei->HspFunc_prm_geti();
-        int radius   = hei->HspFunc_prm_geti();
-        double eps   = hei->HspFunc_prm_getdd(1e-2);
         cv::Mat* guide = get_mat(api, guide_id, "cv4_guided_filter: invalid guide");
         cv::Mat* src   = get_mat(api, src_id, "cv4_guided_filter: invalid source");
         if (!guide || !src) return -1;
@@ -514,15 +447,10 @@ CV4C_EXPORT int __stdcall cv4_guided_filter_impl(
 
 //  cv4_l0_smooth dst_id, src_id [, lambda=0.02] [, kappa=2.0]
 CV4C_EXPORT int __stdcall cv4_l0_smooth_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int dst_id, int src_id, double lam, double kap,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int dst_id   = hei->HspFunc_prm_geti();
-        int src_id   = hei->HspFunc_prm_geti();
-        double lam   = hei->HspFunc_prm_getdd(0.02);
-        double kap   = hei->HspFunc_prm_getdd(2.0);
         cv::Mat* src = get_mat(api, src_id, "cv4_l0_smooth: invalid source");
         if (!src) return -1;
         cv::Mat out;
@@ -535,16 +463,10 @@ CV4C_EXPORT int __stdcall cv4_l0_smooth_impl(
 
 //  cv4_fast_global_smoother dst_id, guide_id, src_id, lambda, sigma_color
 CV4C_EXPORT int __stdcall cv4_fast_global_smoother_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int dst_id, int guide_id, int src_id, double lam, double sc,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int dst_id   = hei->HspFunc_prm_geti();
-        int guide_id = hei->HspFunc_prm_geti();
-        int src_id   = hei->HspFunc_prm_geti();
-        double lam   = hei->HspFunc_prm_getdd(125.0);
-        double sc    = hei->HspFunc_prm_getdd(8.0);
         cv::Mat* guide = get_mat(api, guide_id, "cv4_fast_global_smoother: invalid guide");
         cv::Mat* src   = get_mat(api, src_id, "cv4_fast_global_smoother: invalid source");
         if (!guide || !src) return -1;
@@ -558,15 +480,10 @@ CV4C_EXPORT int __stdcall cv4_fast_global_smoother_impl(
 
 //  cv4_weighted_median dst_id, joint_id, src_id, radius
 CV4C_EXPORT int __stdcall cv4_weighted_median_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int dst_id, int joint_id, int src_id, int radius,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int dst_id   = hei->HspFunc_prm_geti();
-        int joint_id = hei->HspFunc_prm_geti();
-        int src_id   = hei->HspFunc_prm_geti();
-        int radius   = hei->HspFunc_prm_getdi(7);
         cv::Mat* j = get_mat(api, joint_id, "cv4_weighted_median: invalid joint");
         cv::Mat* s = get_mat(api, src_id, "cv4_weighted_median: invalid source");
         if (!j || !s) return -1;
@@ -589,12 +506,9 @@ CV4C_EXPORT int __stdcall cv4_weighted_median_impl(
 //============================================================================
 
 #define CV4_HASH_IMPL(name, fn) \
-CV4C_EXPORT int __stdcall name(HSPEXINFO* hei, int p1, int p2, int p3, \
+CV4C_EXPORT int __stdcall name(int dst_id, int src_id, \
                                 const hspcv4_handle_api_t* api) { \
-    (void)p1; (void)p2; (void)p3; \
     try { \
-        int dst_id = hei->HspFunc_prm_geti(); \
-        int src_id = hei->HspFunc_prm_geti(); \
         cv::Mat* src = get_mat(api, src_id, #name ": invalid source"); \
         if (!src) return -1; \
         cv::Mat out; \
@@ -643,14 +557,10 @@ static bool prepare_optflow_inputs(
 
 //  cv4_optflow_dualtvl1 flow_id, prev_id, next_id
 CV4C_EXPORT int __stdcall cv4_optflow_dualtvl1_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int flow_id, int prev_id, int next_id,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int flow_id = hei->HspFunc_prm_geti();
-        int prev_id = hei->HspFunc_prm_geti();
-        int next_id = hei->HspFunc_prm_geti();
         cv::Mat pg, ng;
         if (!prepare_optflow_inputs(api, prev_id, next_id, pg, ng, "cv4_optflow_dualtvl1")) return -1;
         auto algo = cv::optflow::createOptFlow_DualTVL1();
@@ -664,14 +574,10 @@ CV4C_EXPORT int __stdcall cv4_optflow_dualtvl1_impl(
 
 //  cv4_optflow_deepflow flow_id, prev_id, next_id
 CV4C_EXPORT int __stdcall cv4_optflow_deepflow_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int flow_id, int prev_id, int next_id,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int flow_id = hei->HspFunc_prm_geti();
-        int prev_id = hei->HspFunc_prm_geti();
-        int next_id = hei->HspFunc_prm_geti();
         cv::Mat pg, ng;
         if (!prepare_optflow_inputs(api, prev_id, next_id, pg, ng, "cv4_optflow_deepflow")) return -1;
         auto algo = cv::optflow::createOptFlow_DeepFlow();
@@ -685,14 +591,10 @@ CV4C_EXPORT int __stdcall cv4_optflow_deepflow_impl(
 
 //  cv4_optflow_sparse_to_dense flow_id, prev_id, next_id
 CV4C_EXPORT int __stdcall cv4_optflow_sparse_to_dense_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int flow_id, int prev_id, int next_id,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int flow_id = hei->HspFunc_prm_geti();
-        int prev_id = hei->HspFunc_prm_geti();
-        int next_id = hei->HspFunc_prm_geti();
         cv::Mat pg, ng;
         if (!prepare_optflow_inputs(api, prev_id, next_id, pg, ng, "cv4_optflow_sparse_to_dense")) return -1;
         auto algo = cv::optflow::createOptFlow_SparseToDense();
@@ -720,15 +622,10 @@ namespace {
 //  cv4_dnn_sr_create sr_id, "model.pb", "algo", scale
 //    algo: "edsr" / "espcn" / "fsrcnn" / "lapsrn"
 CV4C_EXPORT int __stdcall cv4_dnn_sr_create_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int sr_id, const char* path, const char* algo, int scale,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int sr_id        = hei->HspFunc_prm_geti();
-        const char* path = hei->HspFunc_prm_gets();
-        const char* algo = hei->HspFunc_prm_gets();
-        int scale        = hei->HspFunc_prm_geti();
         if (!path || !algo) {
             api->set_last_error("cv4_dnn_sr_create: null path/algo");
             return -1;
@@ -745,14 +642,10 @@ CV4C_EXPORT int __stdcall cv4_dnn_sr_create_impl(
 
 //  cv4_dnn_sr_upsample sr_id, dst_img_id, src_img_id
 CV4C_EXPORT int __stdcall cv4_dnn_sr_upsample_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
+    int sr_id, int dst_img_id, int src_img_id,
     const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3;
     try {
-        int sr_id      = hei->HspFunc_prm_geti();
-        int dst_img_id = hei->HspFunc_prm_geti();
-        int src_img_id = hei->HspFunc_prm_geti();
         cv::Mat* src = static_cast<cv::Mat*>(api->mat_get(src_img_id));
         if (!src || src->empty()) { api->set_last_error("invalid source"); return -1; }
         cv::Ptr<cv::dnn_superres::DnnSuperResImpl> sr;
@@ -772,11 +665,9 @@ CV4C_EXPORT int __stdcall cv4_dnn_sr_upsample_impl(
 
 //  cv4_dnn_sr_free sr_id
 CV4C_EXPORT int __stdcall cv4_dnn_sr_free_impl(
-    HSPEXINFO* hei, int p1, int p2, int p3,
-    const hspcv4_handle_api_t* api)
+    int sr_id, const hspcv4_handle_api_t* api)
 {
-    (void)p1; (void)p2; (void)p3; (void)api;
-    int sr_id = hei->HspFunc_prm_geti();
+    (void)api;
     std::lock_guard<std::mutex> lk(g_sr_mutex);
     g_sr_map.erase(sr_id);
     return 0;

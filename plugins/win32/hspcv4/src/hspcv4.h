@@ -56,9 +56,6 @@
 
 #define CV4_EXPORT extern "C" __declspec(dllexport)
 
-// HSPEXINFO global (set on first call). Used by handle manager error reports.
-extern HSPEXINFO* g_hei;
-
 namespace hspcv4 {
 
 //---------------------------------------------------------------------------
