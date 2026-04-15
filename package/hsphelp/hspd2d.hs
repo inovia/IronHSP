@@ -9,24 +9,24 @@ IronHSP project
 %url
 https://github.com/inovia/IronHSP
 %note
-hspd2d.hsp ‚ðƒCƒ“ƒNƒ‹[ƒh‚·‚é‚±‚ÆBhsp3net ê—p (NSTRUCT / intptr / COM ‹@”\‚ðŽg‚¤‚½‚ß)B
+hspd2d.hsp ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½é‚±ï¿½ÆBhsp3net ï¿½ï¿½p (NSTRUCT / intptr / COM ï¿½@ï¿½\ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½B
 
 %type
-“à‘ –½—ß
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 %group
-hspd2d - DirectWrite + Direct2D + WIC •`‰æƒ‚ƒWƒ…[ƒ‹
+hspd2d - DirectWrite + Direct2D + WIC ï¿½`ï¿½æƒ‚ï¿½Wï¿½ï¿½ï¿½[ï¿½ï¿½
 %port
 Win10 22H2+
 
 %index
 d2d_init
-hspd2d ‚ð‰Šú‰»‚·‚é
+hspd2d ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 %prm
 
 %inst
-COM ‚Ì‰Šú‰»ADirectWrite ƒtƒ@ƒNƒgƒŠADirect2D ƒtƒ@ƒNƒgƒŠAWIC ƒtƒ@ƒNƒgƒŠ‚ð¶¬‚·‚éB
-hspd2d ‚Ì‘¼‚Ì–½—ß‚ðŒÄ‚Ô‘O‚É•K‚¸ˆê“xŒÄ‚ñ‚Å‚¨‚­•K—v‚ª‚ ‚é (d2d_image_create / d2d_image_load
-‚Í“à•”‚ÅŽ©“®“I‚ÉŒÄ‚Ô‚Ì‚ÅA–¾Ž¦“I‚ÉŒÄ‚Î‚È‚­‚Ä‚à‚æ‚¢)B
+COM ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ADirectWrite ï¿½tï¿½@ï¿½Nï¿½gï¿½ï¿½ï¿½ADirect2D ï¿½tï¿½@ï¿½Nï¿½gï¿½ï¿½ï¿½AWIC ï¿½tï¿½@ï¿½Nï¿½gï¿½ï¿½ï¿½ð¶ï¿½ï¿½ï¿½ï¿½ï¿½B
+hspd2d ï¿½Ì‘ï¿½ï¿½Ì–ï¿½ï¿½ß‚ï¿½ï¿½Ä‚Ô‘Oï¿½É•Kï¿½ï¿½ï¿½ï¿½xï¿½Ä‚ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (d2d_image_create / d2d_image_load
+ï¿½Í“ï¿½ï¿½ï¿½ï¿½ÅŽï¿½ï¿½ï¿½ï¿½Iï¿½ÉŒÄ‚Ô‚Ì‚ÅAï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ÉŒÄ‚Î‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½æ‚¢)ï¿½B
 
 %href
 d2d_shutdown
@@ -36,12 +36,12 @@ d2d_image_load
 
 %index
 d2d_shutdown
-hspd2d ‚ð‰ð•ú‚·‚é
+hspd2d ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 %prm
 
 %inst
-DirectWrite / Direct2D / WIC ‚ÌŠeƒtƒ@ƒNƒgƒŠAŒ»Ý‚ÌƒtƒHƒ“ƒgA‚»‚Ì‘¼ƒŠƒ\[ƒX‚ð‰ð•ú‚·‚éB
-ƒvƒƒOƒ‰ƒ€I—¹Žž‚ÉŒÄ‚Ô‚±‚ÆB
+DirectWrite / Direct2D / WIC ï¿½ÌŠeï¿½tï¿½@ï¿½Nï¿½gï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ý‚Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½Aï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½ï¿½\ï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ÉŒÄ‚Ô‚ï¿½ï¿½ÆB
 
 %href
 d2d_init
@@ -49,15 +49,15 @@ d2d_init
 
 %index
 d2d_image_create
-ƒIƒtƒXƒNƒŠ[ƒ“‰æ‘œ (‹ó) ‚ðì¬‚·‚é
+ï¿½Iï¿½tï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½æ‘œ (ï¿½ï¿½) ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
 %prm
 id, w, h
-id    : ‰æ‘œ ID (0 ` 255)
-w     : • (ƒsƒNƒZƒ‹)
-h     : ‚‚³ (ƒsƒNƒZƒ‹)
+id    : ï¿½æ‘œ ID (0 ï¿½` 255)
+w     : ï¿½ï¿½ (ï¿½sï¿½Nï¿½Zï¿½ï¿½)
+h     : ï¿½ï¿½ï¿½ï¿½ (ï¿½sï¿½Nï¿½Zï¿½ï¿½)
 %inst
-Žw’è ID ‚Å 32bpp PBGRA ‚Ì WIC ƒrƒbƒgƒ}ƒbƒv‚Æ Direct2D RenderTarget ‚ð¶¬‚·‚éB
-ì¬Œã‚Í‚±‚Ì ID ‚ªƒJƒŒƒ“ƒg•`‰æ‘ÎÛ‚É‚È‚éBŠù‘¶‚Ì ID ‚ðŽw’è‚·‚é‚ÆŒÃ‚¢‚Ù‚¤‚ÍŽ©“®‚Å”jŠü‚³‚ê‚éB
+ï¿½wï¿½ï¿½ ID ï¿½ï¿½ 32bpp PBGRA ï¿½ï¿½ WIC ï¿½rï¿½bï¿½gï¿½}ï¿½bï¿½vï¿½ï¿½ Direct2D RenderTarget ï¿½ð¶ï¿½ï¿½ï¿½ï¿½ï¿½B
+ï¿½ì¬ï¿½ï¿½Í‚ï¿½ï¿½ï¿½ ID ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½`ï¿½ï¿½ÎÛ‚É‚È‚ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ID ï¿½ï¿½ï¿½wï¿½è‚·ï¿½ï¿½ÆŒÃ‚ï¿½ï¿½Ù‚ï¿½ï¿½ÍŽï¿½ï¿½ï¿½ï¿½Å”jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 
 %href
 d2d_image_load
@@ -67,15 +67,15 @@ d2d_image_delete
 
 %index
 d2d_image_load
-‰æ‘œƒtƒ@ƒCƒ‹‚ð“Ç‚Ýž‚ñ‚ÅŽw’è ID ‚É“WŠJ‚·‚é
+ï¿½æ‘œï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½Ç‚Ýï¿½ï¿½ï¿½ÅŽwï¿½ï¿½ ID ï¿½É“Wï¿½Jï¿½ï¿½ï¿½ï¿½
 %prm
 id, "filename"
-id        : ‰æ‘œ ID
-filename  : ‰æ‘œƒtƒ@ƒCƒ‹ (PNG / BMP / JPEG / TIFF / GIF)
+id        : ï¿½æ‘œ ID
+filename  : ï¿½æ‘œï¿½tï¿½@ï¿½Cï¿½ï¿½ (PNG / BMP / JPEG / TIFF / GIF)
 %inst
-WIC ‚ÌƒfƒR[ƒ_‚ðŽg‚Á‚Ä‰æ‘œ‚ð“Ç‚Ýž‚ÝAPBGRA ‚É•ÏŠ·AŽw’è ID ‚Éƒrƒbƒgƒ}ƒbƒv + RenderTarget
-‚Æ‚µ‚Ä“WŠJ‚·‚éB“Ç‚Ýž‚ÝŒã‚Í‚±‚Ì ID ‚ªƒJƒŒƒ“ƒg•`‰æ‘ÎÛ‚É‚È‚èAd2d_drawimage ‚Ìƒ\[ƒX‚Æ‚µ‚Ä‚à
-Žg‚¦‚éB
+WIC ï¿½Ìƒfï¿½Rï¿½[ï¿½_ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ä‰æ‘œï¿½ï¿½Ç‚Ýï¿½ï¿½ÝAPBGRA ï¿½É•ÏŠï¿½ï¿½Aï¿½wï¿½ï¿½ ID ï¿½Éƒrï¿½bï¿½gï¿½}ï¿½bï¿½v + RenderTarget
+ï¿½Æ‚ï¿½ï¿½Ä“Wï¿½Jï¿½ï¿½ï¿½ï¿½Bï¿½Ç‚Ýï¿½ï¿½ÝŒï¿½Í‚ï¿½ï¿½ï¿½ ID ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½`ï¿½ï¿½ÎÛ‚É‚È‚ï¿½Ad2d_drawimage ï¿½Ìƒ\ï¿½[ï¿½Xï¿½Æ‚ï¿½ï¿½Ä‚ï¿½
+ï¿½gï¿½ï¿½ï¿½ï¿½B
 
 %href
 d2d_image_create
@@ -85,13 +85,13 @@ d2d_drawimage
 
 %index
 d2d_image_select
-ƒJƒŒƒ“ƒg•`‰æ‘ÎÛ‚ðØ‚è‘Ö‚¦‚é
+ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½`ï¿½ï¿½ÎÛ‚ï¿½Ø‚ï¿½Ö‚ï¿½ï¿½ï¿½
 %prm
 id
-id : Ø‚è‘Ö‚¦æ‚Ì‰æ‘œ ID
+id : ï¿½Ø‚ï¿½Ö‚ï¿½ï¿½ï¿½Ì‰æ‘œ ID
 %inst
-ID ‚ÅŽw’è‚µ‚½‰æ‘œ‚ðƒJƒŒƒ“ƒg•`‰æ‘ÎÛ‚É‚·‚éBˆÈ~‚Ì d2d_clear / d2d_drawtext / d2d_drawline /
-d2d_fillrect “™‚Í‚±‚Ì‰æ‘œ‚É‘Î‚µ‚Ä•`‰æ‚³‚ê‚éB
+ID ï¿½ÅŽwï¿½è‚µï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½`ï¿½ï¿½ÎÛ‚É‚ï¿½ï¿½ï¿½Bï¿½È~ï¿½ï¿½ d2d_clear / d2d_drawtext / d2d_drawline /
+d2d_fillrect ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ì‰æ‘œï¿½É‘Î‚ï¿½ï¿½Ä•`ï¿½æ‚³ï¿½ï¿½ï¿½B
 
 %href
 d2d_image_create
@@ -100,13 +100,13 @@ d2d_image_load
 
 %index
 d2d_image_delete
-‰æ‘œ‚ð”jŠü‚·‚é
+ï¿½æ‘œï¿½ï¿½jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 %prm
 id
-id : ”jŠü‚·‚é‰æ‘œ ID
+id : ï¿½jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œ ID
 %inst
-ID ‚ÅŽw’è‚µ‚½‰æ‘œ‚Ì RenderTarget ‚Æ WIC ƒrƒbƒgƒ}ƒbƒv‚ð‰ð•ú‚·‚éB
-ƒJƒŒƒ“ƒg•`‰æ‘ÎÛ‚¾‚Á‚½ê‡‚Í cur_id ‚ª -1 ‚ÉƒŠƒZƒbƒg‚³‚ê‚éB
+ID ï¿½ÅŽwï¿½è‚µï¿½ï¿½ï¿½æ‘œï¿½ï¿½ RenderTarget ï¿½ï¿½ WIC ï¿½rï¿½bï¿½gï¿½}ï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½`ï¿½ï¿½ÎÛ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½ cur_id ï¿½ï¿½ -1 ï¿½Éƒï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½ï¿½B
 
 %href
 d2d_image_create
@@ -114,21 +114,21 @@ d2d_image_create
 
 %index
 d2d_image_save
-ƒJƒŒƒ“ƒg‰æ‘œ‚ðƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚é
+ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½æ‘œï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½
 %prm
 id, "filename"
-id        : •Û‘¶‚·‚é‰æ‘œ ID
-filename  : •Û‘¶ƒtƒ@ƒCƒ‹–¼ (Šg’£Žq‚©‚çŒ`Ž®‚ðŽ©“®”»•Ê)
+id        : ï¿½Û‘ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œ ID
+filename  : ï¿½Û‘ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ (ï¿½gï¿½ï¿½ï¿½qï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 %inst
-Šg’£Žq‚É‰ž‚¶‚ÄˆÈ‰º‚ÌŒ`Ž®‚Å•Û‘¶‚·‚é:
-   .png         ¨ PNG
-   .bmp         ¨ BMP
-   .jpg / .jpeg ¨ JPEG
-   .tif / .tiff ¨ TIFF
-   .gif         ¨ GIF
-–¢‘Î‰žŠg’£Žq‚Í PNG ‚Æ‚µ‚Ä•Û‘¶‚³‚ê‚éB
+ï¿½gï¿½ï¿½ï¿½qï¿½É‰ï¿½ï¿½ï¿½ï¿½ÄˆÈ‰ï¿½ï¿½ÌŒ`ï¿½ï¿½ï¿½Å•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½:
+   .png         ï¿½ï¿½ PNG
+   .bmp         ï¿½ï¿½ BMP
+   .jpg / .jpeg ï¿½ï¿½ JPEG
+   .tif / .tiff ï¿½ï¿½ TIFF
+   .gif         ï¿½ï¿½ GIF
+ï¿½ï¿½ï¿½Î‰ï¿½ï¿½gï¿½ï¿½ï¿½qï¿½ï¿½ PNG ï¿½Æ‚ï¿½ï¿½Ä•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 
-“à•”“I‚É‚Í WIC ƒGƒ“ƒR[ƒ_‚ðŽg‚Á‚Ä 32bpp BGRA ‚Å‘‚«o‚·B
+ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½É‚ï¿½ WIC ï¿½Gï¿½ï¿½ï¿½Rï¿½[ï¿½_ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ 32bpp BGRA ï¿½Åï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½B
 
 %href
 d2d_image_load
@@ -136,13 +136,13 @@ d2d_image_load
 
 %index
 d2d_clear
-ƒJƒŒƒ“ƒg‰æ‘œ‚ð’PF‚Å“h‚è‚Â‚Ô‚·
+ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½æ‘œï¿½ï¿½Pï¿½Fï¿½Å“hï¿½ï¿½Â‚Ô‚ï¿½
 %prm
 r, g, b, a
-r, g, b : 0`255
-a       : alpha 0`255
+r, g, b : 0ï¿½`255
+a       : alpha 0ï¿½`255
 %inst
-ƒJƒŒƒ“ƒg•`‰æ‘ÎÛ‚ðŽw’è‚Ì RGBA F‚Å“h‚è‚Â‚Ô‚·B
+ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½`ï¿½ï¿½ÎÛ‚ï¿½ï¿½wï¿½ï¿½ï¿½ RGBA ï¿½Fï¿½Å“hï¿½ï¿½Â‚Ô‚ï¿½ï¿½B
 
 %href
 d2d_color
@@ -150,14 +150,14 @@ d2d_color
 
 %index
 d2d_color
-ˆÈŒã‚Ì•`‰æF‚ðÝ’è‚·‚é
+ï¿½ÈŒï¿½Ì•`ï¿½ï¿½Fï¿½ï¿½Ý’è‚·ï¿½ï¿½
 %prm
 r, g, b, a
-r, g, b : 0`255
-a       : alpha 0`255
+r, g, b : 0ï¿½`255
+a       : alpha 0ï¿½`255
 %inst
 d2d_drawline / d2d_drawrect / d2d_fillrect / d2d_drawellipse / d2d_fillellipse /
-d2d_drawtext ‚È‚Ç‚ÌƒJƒŒƒ“ƒg•`‰æF‚ðÝ’è‚·‚éB
+d2d_drawtext ï¿½È‚Ç‚ÌƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½`ï¿½ï¿½Fï¿½ï¿½Ý’è‚·ï¿½ï¿½B
 
 %href
 d2d_clear
@@ -165,17 +165,17 @@ d2d_clear
 
 %index
 d2d_font
-ƒeƒLƒXƒg•`‰æ—pƒtƒHƒ“ƒg‚ðÝ’è‚·‚é
+ï¿½eï¿½Lï¿½Xï¿½gï¿½`ï¿½ï¿½pï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½Ý’è‚·ï¿½ï¿½
 %prm
 "family", size, weight, italic
-family : ƒtƒHƒ“ƒgƒtƒ@ƒ~ƒŠ[–¼ (—á "Yu Gothic UI" / "Segoe UI Emoji")
-size   : ƒtƒHƒ“ƒgƒTƒCƒY (DIP)
-weight : ‘¾‚³ (100..900A400=Normal, 700=Bold)
-italic : 0=’Êí / 1=ŽÎ‘Ì
+family : ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½tï¿½@ï¿½~ï¿½ï¿½ï¿½[ï¿½ï¿½ (ï¿½ï¿½ "Yu Gothic UI" / "Segoe UI Emoji")
+size   : ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Tï¿½Cï¿½Y (DIP)
+weight : ï¿½ï¿½ï¿½ï¿½ (100..900ï¿½A400=Normal, 700=Bold)
+italic : 0=ï¿½Êï¿½ / 1=ï¿½Î‘ï¿½
 %inst
-DirectWrite ‚Ì IDWriteTextFormat ‚ðì¬‚µ‚ÄƒJƒŒƒ“ƒgƒtƒHƒ“ƒg‚Æ‚·‚éB
-•¡”‰ñŒÄ‚×‚é (‘O‚ÌƒtƒHƒ“ƒg‚ÍŽ©“®“I‚É release ‚³‚ê‚é)B
-Segoe UI Emoji ‚ðŽw’è‚·‚é‚Æ COLR/CPAL/CBDT/sbix Œn‚ÌƒJƒ‰[ŠG•¶Žš‚àŽ©“®‚Å•`‰æ‚³‚ê‚éB
+DirectWrite ï¿½ï¿½ IDWriteTextFormat ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ÄƒJï¿½ï¿½ï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Æ‚ï¿½ï¿½ï¿½B
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚×‚ï¿½ (ï¿½Oï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ÍŽï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ release ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½B
+Segoe UI Emoji ï¿½ï¿½ï¿½wï¿½è‚·ï¿½ï¿½ï¿½ COLR/CPAL/CBDT/sbix ï¿½nï¿½ÌƒJï¿½ï¿½ï¿½[ï¿½Gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å•`ï¿½æ‚³ï¿½ï¿½ï¿½B
 
 %href
 d2d_drawtext
@@ -183,16 +183,16 @@ d2d_drawtext
 
 %index
 d2d_drawtext
-ƒeƒLƒXƒg‚ð•`‰æ‚·‚é
+ï¿½eï¿½Lï¿½Xï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 %prm
 "text", x, y, w, h
-text  : •`‰æ‚·‚é•¶Žš—ñ (UTF-8/SJISA“à•”‚Å UTF-16 ‚É•ÏŠ·)
-x, y  : •`‰æˆÊ’u (¶ã)
-w, h  : •`‰æ‹éŒ`‚ÌƒTƒCƒY (0 ‚É‚·‚é‚ÆŽc‚è‘S•”)
+text  : ï¿½`ï¿½æ‚·ï¿½é•¶ï¿½ï¿½ï¿½ï¿½ (UTF-8/SJISï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UTF-16 ï¿½É•ÏŠï¿½)
+x, y  : ï¿½`ï¿½ï¿½Ê’u (ï¿½ï¿½ï¿½ï¿½)
+w, h  : ï¿½`ï¿½ï¿½ï¿½`ï¿½ÌƒTï¿½Cï¿½Y (0 ï¿½É‚ï¿½ï¿½ï¿½ÆŽcï¿½ï¿½Sï¿½ï¿½)
 %inst
-ƒJƒŒƒ“ƒgƒtƒHƒ“ƒg / ƒJƒŒƒ“ƒgF‚ÅƒeƒLƒXƒg‚ð•`‰æ‚·‚éB
-D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT ‚ª—LŒø‚È‚Ì‚ÅASegoe UI Emoji “™‚ÌF•t‚«
-ŠG•¶ŽšƒtƒHƒ“ƒg‚ÍŽ©“®‚ÅƒJƒ‰[•`‰æ‚³‚ê‚éB
+ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½tï¿½Hï¿½ï¿½ï¿½g / ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Fï¿½Åƒeï¿½Lï¿½Xï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½B
+D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½È‚Ì‚ÅASegoe UI Emoji ï¿½ï¿½ï¿½ÌFï¿½tï¿½ï¿½
+ï¿½Gï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÍŽï¿½ï¿½ï¿½ï¿½ÅƒJï¿½ï¿½ï¿½[ï¿½`ï¿½æ‚³ï¿½ï¿½ï¿½B
 
 %href
 d2d_font
@@ -201,14 +201,14 @@ d2d_color
 
 %index
 d2d_drawline
-ü‚ð•`‰æ‚·‚é
+ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 %prm
 x0, y0, x1, y1, linew
-x0, y0 : Žn“_
-x1, y1 : I“_
-linew  : ü• (DIP, ’Êí 1.0`)
+x0, y0 : ï¿½nï¿½_
+x1, y1 : ï¿½Iï¿½_
+linew  : ï¿½ï¿½ï¿½ï¿½ (DIP, ï¿½Êï¿½ 1.0ï¿½`)
 %inst
-ƒJƒŒƒ“ƒgF‚Å 2 “_‚ðŒ‹‚Ô’¼ü‚ð•`‰æ‚·‚éB
+ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Fï¿½ï¿½ 2 ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½Ô’ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½B
 
 %href
 d2d_drawrect
@@ -216,14 +216,14 @@ d2d_drawrect
 
 %index
 d2d_drawrect
-‹éŒ` (˜gü) ‚ð•`‰æ‚·‚é
+ï¿½ï¿½` (ï¿½gï¿½ï¿½) ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 %prm
 x, y, w, h, linew
-x, y  : ¶ã
-w, h  : ƒTƒCƒY
-linew : ü•
+x, y  : ï¿½ï¿½ï¿½ï¿½
+w, h  : ï¿½Tï¿½Cï¿½Y
+linew : ï¿½ï¿½ï¿½ï¿½
 %inst
-ƒJƒŒƒ“ƒgF‚Å˜gü‚Ì‚Ý‚Ì‹éŒ`‚ð•`‰æ‚·‚éB
+ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Fï¿½Å˜gï¿½ï¿½ï¿½Ì‚Ý‚Ì‹ï¿½`ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½B
 
 %href
 d2d_fillrect
@@ -231,13 +231,13 @@ d2d_fillrect
 
 %index
 d2d_fillrect
-‹éŒ`‚ð“h‚è‚Â‚Ô‚·
+ï¿½ï¿½`ï¿½ï¿½hï¿½ï¿½Â‚Ô‚ï¿½
 %prm
 x, y, w, h
-x, y : ¶ã
-w, h : ƒTƒCƒY
+x, y : ï¿½ï¿½ï¿½ï¿½
+w, h : ï¿½Tï¿½Cï¿½Y
 %inst
-ƒJƒŒƒ“ƒgF‚Å“h‚è‚Â‚Ô‚µ‚½‹éŒ`‚ð•`‰æ‚·‚éB
+ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Fï¿½Å“hï¿½ï¿½Â‚Ô‚ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½B
 
 %href
 d2d_drawrect
@@ -245,14 +245,14 @@ d2d_drawrect
 
 %index
 d2d_drawellipse
-‘È‰~ (˜gü) ‚ð•`‰æ‚·‚é
+ï¿½È‰~ (ï¿½gï¿½ï¿½) ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
 %prm
 cx, cy, rx, ry, linew
-cx, cy : ’†S
-rx, ry : x/y ”¼Œa
-linew  : ü•
+cx, cy : ï¿½ï¿½ï¿½S
+rx, ry : x/y ï¿½ï¿½ï¿½a
+linew  : ï¿½ï¿½ï¿½ï¿½
 %inst
-ƒJƒŒƒ“ƒgF‚Å˜gü‚Ì‚Ý‚Ì‘È‰~‚ð•`‰æ‚·‚éBrx==ry ‚É‚·‚ê‚Î^‰~B
+ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Fï¿½Å˜gï¿½ï¿½ï¿½Ì‚Ý‚Ì‘È‰~ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½Brx==ry ï¿½É‚ï¿½ï¿½ï¿½Î^ï¿½~ï¿½B
 
 %href
 d2d_fillellipse
@@ -260,13 +260,13 @@ d2d_fillellipse
 
 %index
 d2d_fillellipse
-‘È‰~‚ð“h‚è‚Â‚Ô‚·
+ï¿½È‰~ï¿½ï¿½hï¿½ï¿½Â‚Ô‚ï¿½
 %prm
 cx, cy, rx, ry
-cx, cy : ’†S
-rx, ry : x/y ”¼Œa
+cx, cy : ï¿½ï¿½ï¿½S
+rx, ry : x/y ï¿½ï¿½ï¿½a
 %inst
-ƒJƒŒƒ“ƒgF‚Å“h‚è‚Â‚Ô‚µ‚½‘È‰~‚ð•`‰æ‚·‚éB
+ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Fï¿½Å“hï¿½ï¿½Â‚Ô‚ï¿½ï¿½ï¿½ï¿½È‰~ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½B
 
 %href
 d2d_drawellipse
@@ -274,18 +274,163 @@ d2d_drawellipse
 
 %index
 d2d_drawimage
-•Ê‚Ì‰æ‘œ‚ðƒJƒŒƒ“ƒg‰æ‘œ‚É•`‰æ‚·‚é
+ï¿½Ê‚Ì‰æ‘œï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½æ‘œï¿½É•`ï¿½æ‚·ï¿½ï¿½
 %prm
 src_id, dst_x, dst_y, dst_w, dst_h
-src_id : •`‰æŒ³‚Ì‰æ‘œ ID (d2d_image_load ‚â d2d_image_create ‚Åì‚Á‚Ä‚¨‚­)
-dst_x  : “]ŽÊæ‚Ì¶ã X
-dst_y  : “]ŽÊæ‚Ì¶ã Y
-dst_w  : “]ŽÊæ‚Ì• (0 ‚ÅŒ³ƒTƒCƒY)
-dst_h  : “]ŽÊæ‚Ì‚‚³ (0 ‚ÅŒ³ƒTƒCƒY)
+src_id : ï¿½`ï¿½æŒ³ï¿½Ì‰æ‘œ ID (d2d_image_load ï¿½ï¿½ d2d_image_create ï¿½Åï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½)
+dst_x  : ï¿½]ï¿½Êï¿½Ìï¿½ï¿½ï¿½ X
+dst_y  : ï¿½]ï¿½Êï¿½Ìï¿½ï¿½ï¿½ Y
+dst_w  : ï¿½]ï¿½Êï¿½Ì•ï¿½ (0 ï¿½ÅŒï¿½ï¿½Tï¿½Cï¿½Y)
+dst_h  : ï¿½]ï¿½Êï¿½Ìï¿½ï¿½ï¿½ (0 ï¿½ÅŒï¿½ï¿½Tï¿½Cï¿½Y)
 %inst
-src_id ‚Ì‰æ‘œ‚ðƒJƒŒƒ“ƒg•`‰æ‘ÎÛ‚É“]ŽÊ‚·‚éBdst_w/dst_h ‚ð 0 ‚É‚·‚é‚ÆŒ³ƒTƒCƒY‚Å•`‰æ‚³‚ê‚éB
-Šg‘åk¬‚ÍüŒ`•âŠÔB
+src_id ï¿½Ì‰æ‘œï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½gï¿½`ï¿½ï¿½ÎÛ‚É“]ï¿½Ê‚ï¿½ï¿½ï¿½Bdst_w/dst_h ï¿½ï¿½ 0 ï¿½É‚ï¿½ï¿½ï¿½ÆŒï¿½ï¿½Tï¿½Cï¿½Yï¿½Å•`ï¿½æ‚³ï¿½ï¿½ï¿½B
+ï¿½gï¿½ï¿½kï¿½ï¿½ï¿½Íï¿½ï¿½`ï¿½ï¿½ÔB
 
 %href
 d2d_image_load
 d2d_image_create
+
+
+%index
+d2d_gif_load
+animated GIF file wo load suru (L1-2)
+%prm
+"path"
+path : GIF file path
+%inst
+Animated GIF file wo load shite anim handle wo kaesu.
+stat ni anim handle (>=0) mataha -1 (error) ga hairu.
+Naibu de WIC Decoder wo hoji shi, GIF binary wo parse shite
+ frame count / per-frame delay / loop count wo tyuusyutu suru.
+
+%href
+d2d_gif_free
+d2d_gif_frame_count
+d2d_gif_frame_to_image
+
+
+%index
+d2d_gif_frame_count
+GIF no frame suu wo kaesu
+%prm
+handle
+handle : d2d_gif_load de eta handle
+%inst
+Shitei sareta animated GIF no sou frame suu wo stat ni kaesu.
+
+%href
+d2d_gif_load
+
+
+%index
+d2d_gif_frame_delay
+GIF no frame no delay (10ms tan'i) wo kaesu
+%prm
+handle, frame_idx
+handle    : d2d_gif_load de eta handle
+frame_idx : 0 kara hajimaru frame bangou
+%inst
+Shitei frame no delay wo GIF standard no 10ms tan'i de kaesu.
+(Rei: 10 nara 100ms)
+
+%href
+d2d_gif_load
+
+
+%index
+d2d_gif_loop_count
+GIF no loop count wo kaesu
+%prm
+handle
+handle : d2d_gif_load de eta handle
+%inst
+NETSCAPE2.0 Application Extension ni kakareta loop count wo kaesu.
+0 nara mugen loop.
+
+%href
+d2d_gif_load
+
+
+%index
+d2d_gif_frame_to_image
+GIF no frame wo d2d_image ni tenso suru
+%prm
+handle, frame_idx, dst_image_id
+handle       : d2d_gif_load de eta handle
+frame_idx    : frame bangou (0 kara)
+dst_image_id : d2d image ID (0..255)
+%inst
+Shitei frame wo WIC kara tori, PBGRA ni henkan shite
+ dst_image_id no d2d_image (WIC bitmap + RenderTarget) wo sakusei suru.
+Sude ni dst_image_id ga tsukawareteireba hakai sareru.
+Sakusei go ha dst_image_id ga current draw target ni naru.
+
+%href
+d2d_gif_load
+d2d_image_create
+d2d_drawimage
+
+
+%index
+d2d_gif_free
+GIF handle wo kaihou
+%prm
+handle
+%inst
+d2d_gif_load de eta handle wo kaihou suru.
+d2d_shutdown de mo jidou de kaihou sareru.
+
+%href
+d2d_gif_load
+
+
+%index
+d2d_gif_write_begin
+GIF write wo kaishi (stub, mi jissou)
+%prm
+"path", w, h
+%inst
+Genzai stub. Tsune ni -1 wo kaesu.
+WIC encoder no multi-frame + PROPVARIANT metadata ga hitsuyou na tame
+ shourai no Phase de jissou yotei.
+
+
+%index
+d2d_gif_write_frame
+GIF frame wo kakidasi (stub)
+%prm
+writer_handle, src_image_id, delay_ms
+%inst
+Genzai stub. Tsune ni -1 wo kaesu.
+
+
+%index
+d2d_gif_write_end
+GIF write wo kakutei (stub)
+%prm
+writer_handle
+%inst
+Genzai stub. Tsune ni -1 wo kaesu.
+
+
+%index
+d2d_svg_load
+SVG file wo load shite render suru (stub, mi jissou)
+%prm
+"path", w, h
+%inst
+Genzai stub. Tsune ni -1 wo kaesu.
+ID2D1DeviceContext5::CreateSvgDocument wo tsukau tame ni ha
+ D3D-backed render target ga hitsuyou de, genzai no hspd2d ha
+ ID2D1WicBitmapRenderTarget (software) wo tsukatte iru node,
+ D3D/DXGI/D2D device chain heno init dai kaishuu ga hitsuyou.
+Phase L ikou de taiou yotei.
+
+
+%index
+d2d_svg_load_str
+SVG mojiretsu kara render (stub)
+%prm
+"svg_text", w, h
+%inst
+Genzai stub. Tsune ni -1 wo kaesu. Shousai ha d2d_svg_load sanshou.

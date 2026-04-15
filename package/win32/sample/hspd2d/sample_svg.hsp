@@ -1,0 +1,27 @@
+;============================================================
+;   hspd2d サンプル - SVG レンダリング (L1-3)
+;
+;   注意: 現在 SVG 命令 (d2d_svg_load / d2d_svg_load_str) はスタブ。
+;         Direct2D の ID2D1DeviceContext5::CreateSvgDocument を使うには
+;         D3D-backed render target が必要で、現状の hspd2d は
+;         ID2D1WicBitmapRenderTarget (software) を使っている。
+;         Phase L 以降で D3D/DXGI/D2D1Device チェインへの init 改修
+;         と同時に対応予定。
+;
+;   このサンプルはスタブ API の呼び出し確認のみ行う。
+;============================================================
+
+#include "hspd2d.hsp"
+
+    d2d_init
+
+    d2d_svg_load "test.svg", 256, 256
+    mes "d2d_svg_load stat = " + stat + "  (expect -1 = stub)"
+
+    svg_text = {"<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><circle cx='50' cy='50' r='40' fill='red'/></svg>"}
+    d2d_svg_load_str svg_text, 100, 100
+    mes "d2d_svg_load_str stat = " + stat + "  (expect -1 = stub)"
+
+    d2d_shutdown
+    mes "SVG commands are currently stubs. See sample comments for details."
+    end

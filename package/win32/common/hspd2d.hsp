@@ -30,6 +30,8 @@
 #module hspd2d
 
 #define D2D_IMGS_MAX 256
+#define D2D_GIFS_MAX 16
+#define D2D_GIF_FRAMES_MAX 1024
 
 ;-----------------------------------------------------------
 ; IID / CLSID 文字列定数
@@ -188,7 +190,9 @@
 ;           7=CopyPalette, 8=GetMetadataQueryReader, 9=GetPreview, 10=GetColorContexts,
 ;           11=GetThumbnail, 12=GetFrameCount, 13=GetFrame
 #usecom IWICBitmapDecoder IID_IWICBitmapDecoder "{}"
+#comfunc d2d_WICDec_GetFrameCount 12 var
 #comfunc d2d_WICDec_GetFrame 13 int, var
+#comfunc d2d_WICDec_Release 2
 
 ; --- IWICBitmapFrameDecode ---
 ;   IWICBitmapSource 派生。3=GetSize 4=GetPixelFormat 5=GetResolution 6=CopyPalette 7=CopyPixels
@@ -288,6 +292,12 @@
     d2d_cur_color(2) = 1.0
     d2d_cur_color(3) = 1.0
     dim   d2d_format_ready, 1               ; d2d_cur_format が valid なら 1
+    ; --- GIF アニメーション用 state (L1-2) ---
+    dim64 d2d_gif_dec_ptrs,    D2D_GIFS_MAX   ; IWICBitmapDecoder* per handle
+    dim   d2d_gif_frame_cnt,   D2D_GIFS_MAX   ; フレーム数
+    dim   d2d_gif_loop_cnt,    D2D_GIFS_MAX   ; ループ回数 (0 = infinite)
+    dim   d2d_gif_used,        D2D_GIFS_MAX   ; 使用中フラグ
+    dim   d2d_gif_delays,      D2D_GIF_FRAMES_MAX, D2D_GIFS_MAX  ; 10ms 単位遅延
     d2d_state_ready = 1
     return
 
@@ -308,6 +318,7 @@
 #define ctype _attach_wicfrm(%1, %2) newcom %1, IWICBitmapFrameEncode, -2, %2
 #define ctype _attach_wicstr(%1, %2) newcom %1, IWICStream, -2, %2
 #define ctype _attach_d2dbmp(%1, %2) newcom %1, ID2D1Bitmap, -2, %2
+#define ctype _attach_wicdec(%1, %2) newcom %1, IWICBitmapDecoder, -2, %2
 
 
 ;-----------------------------------------------------------
@@ -347,8 +358,18 @@
 ;-----------------------------------------------------------
 ; d2d_shutdown
 ;-----------------------------------------------------------
-#deffunc d2d_shutdown local _dwfac_final, local _d2dfac_final
+#deffunc d2d_shutdown local _dwfac_final, local _d2dfac_final, local _gi
     if d2d_initialized = 0 : return
+
+    ; GIF ハンドルを sweep (repeat + #deffunc の組合せは Error 7 対策のため
+    ;  while ループでインデックス変数を使う)
+    _gi = 0
+    goto *_d2d_gif_sweep_check
+*_d2d_gif_sweep_loop
+    d2d_gif_free _gi
+    _gi = _gi + 1
+*_d2d_gif_sweep_check
+    if _gi < D2D_GIFS_MAX : goto *_d2d_gif_sweep_loop
 
     ; Phase 1 PoC: 画像の自動 sweep はしない。ユーザーが明示的に d2d_image_delete
     ; を呼ぶ想定 (repeat ループから #deffunc 呼び出し + 配列参照の組み合わせで
@@ -1045,6 +1066,403 @@
     delcom _enc
     delcom _stream
     return
+
+;-----------------------------------------------------------
+; 内部ヘルパ: dst_id の WIC bitmap から RenderTarget を構築
+;   d2d_image_load / d2d_gif_frame_to_image から共通に呼ばれる
+;-----------------------------------------------------------
+#deffunc _d2d_build_rt_for int dst_id, int w, int h, \
+    local _props, local _d2dfac, local _wicbmp, local _rt_out, local _stat
+    stdim _props, D2D_RT_PROPS
+    _props->rtType     = 0
+    _props->dxgiFormat = 87
+    _props->alphaMode  = 1
+    _props->dpiX       = 96.0
+    _props->dpiY       = 96.0
+    _props->usage      = 0
+    _props->minLevel   = 0
+
+    _attach_d2dfac(_d2dfac, d2d_d2dfac_ptr)
+    _attach_wicbmp(_wicbmp, d2d_wicbmp_ptrs(dst_id))
+    sdim _rt_out, 16
+    d2d_D2DFac_CreateWicBitmapRenderTarget _d2dfac, _wicbmp, _props, _rt_out
+    _stat = stat
+    delcom _d2dfac
+    delcom _wicbmp
+    if _stat ! 0 {
+        mes "_d2d_build_rt_for: CreateWicBitmapRenderTarget stat=" + _stat
+        return
+    }
+    d2d_RtlMoveMemory d2d_rt_ptrs(dst_id), _rt_out, 8
+
+    d2d_img_w(dst_id)       = w
+    d2d_img_h(dst_id)       = h
+    d2d_img_drawing(dst_id) = 0
+    d2d_cur_id              = dst_id
+    return
+
+;===========================================================
+; L1-2: GIF アニメーション (WIC + 独自バイナリパーサ)
+;   delay/loop 抽出は WIC Metadata Query Reader の PROPVARIANT
+;   ハンドリングが複雑なので、GIF ファイルを生バイナリで読んで
+;   GCE (Graphic Control Extension) と NETSCAPE2.0 App Ext を
+;   直接パースする。pixel decode は WIC に委譲。
+;===========================================================
+
+;-----------------------------------------------------------
+; 内部: GIF ファイルをバイナリパースして
+;        - frame count
+;        - 各フレームの delay (10ms 単位)
+;        - loop count (NETSCAPE2.0)
+;   を埋める。戻り値 stat = フレーム数 (0=失敗)
+;-----------------------------------------------------------
+#deffunc _d2d_gif_parse int handle, str path, \
+    local _buf, local _sz, local _p, local _n, local _flags, \
+    local _gct, local _label, local _sub, local _delay, local _loop, \
+    local _fcount, local _ext_lbl
+    if handle < 0 : return 0
+    if handle >= D2D_GIFS_MAX : return 0
+
+    ; ファイル全体を bload で読む
+    exist path
+    _sz = strsize
+    if _sz < 13 : return 0
+    sdim _buf, _sz + 16
+    bload path, _buf, _sz
+
+    ; ヘッダ "GIF8" チェック
+    if peek(_buf, 0) ! 'G' : return 0
+    if peek(_buf, 1) ! 'I' : return 0
+    if peek(_buf, 2) ! 'F' : return 0
+
+    _p = 6
+    ; Logical Screen Descriptor: w(2) h(2) packed(1) bg(1) aspect(1) = 7 bytes
+    _flags = peek(_buf, _p + 4)
+    _gct   = (_flags & 0x80) != 0
+    _p = _p + 7
+    if _gct {
+        _n = 3 * (1 << ((_flags & 7) + 1))
+        _p = _p + _n
+    }
+
+    _fcount = 0
+    _loop = 0
+    _delay = 0     ; 直近の GCE の delay
+    d2d_gif_loop_cnt(handle) = 0
+
+    ; ブロック列を走査
+    repeat
+        if _p >= _sz : break
+        _label = peek(_buf, _p)
+        _p = _p + 1
+        if _label = 0x3B : break      ; Trailer
+        if _label = 0x21 {
+            ; Extension
+            if _p >= _sz : break
+            _ext_lbl = peek(_buf, _p)
+            _p = _p + 1
+            if _ext_lbl = 0xF9 {
+                ; Graphics Control Extension: block size (=4), packed, delay lo, delay hi, transIdx, term(0)
+                if _p + 6 > _sz : break
+                _delay = peek(_buf, _p + 2) | (peek(_buf, _p + 3) << 8)
+                _p = _p + 6
+                continue
+            }
+            if _ext_lbl = 0xFF {
+                ; Application Extension: block size (=11), 8 byte id + 3 byte auth
+                if _p + 12 > _sz : break
+                if peek(_buf, _p + 1) = 'N' & peek(_buf, _p + 2) = 'E' & peek(_buf, _p + 3) = 'T' {
+                    ; NETSCAPE2.0: sub-blocks follow. First sub-block is 3 bytes
+                    ;  [size=3][0x01][loop_lo][loop_hi]
+                    _p = _p + 12    ; skip 1 + 11
+                    if _p + 5 <= _sz {
+                        if peek(_buf, _p) = 3 & peek(_buf, _p + 1) = 1 {
+                            _loop = peek(_buf, _p + 2) | (peek(_buf, _p + 3) << 8)
+                        }
+                    }
+                    ; skip remaining sub-blocks until 0
+                    _p = _p + 1     ; move to first subblock size
+                    repeat
+                        if _p >= _sz : break
+                        _sub = peek(_buf, _p)
+                        _p = _p + 1
+                        if _sub = 0 : break
+                        _p = _p + _sub
+                    loop
+                    continue
+                }
+                ; 非 NETSCAPE の App Ext: skip sub-blocks
+                _p = _p + 11
+                repeat
+                    if _p >= _sz : break
+                    _sub = peek(_buf, _p)
+                    _p = _p + 1
+                    if _sub = 0 : break
+                    _p = _p + _sub
+                loop
+                continue
+            }
+            ; その他 Extension (Comment / Plain Text / ...)
+            repeat
+                if _p >= _sz : break
+                _sub = peek(_buf, _p)
+                _p = _p + 1
+                if _sub = 0 : break
+                _p = _p + _sub
+            loop
+            continue
+        }
+        if _label = 0x2C {
+            ; Image Descriptor: 9 bytes (already consumed label)
+            if _p + 9 > _sz : break
+            _flags = peek(_buf, _p + 8)
+            _p = _p + 9
+            if (_flags & 0x80) != 0 {
+                ; Local Color Table
+                _p = _p + 3 * (1 << ((_flags & 7) + 1))
+            }
+            ; LZW min code size
+            _p = _p + 1
+            ; image data sub-blocks
+            repeat
+                if _p >= _sz : break
+                _sub = peek(_buf, _p)
+                _p = _p + 1
+                if _sub = 0 : break
+                _p = _p + _sub
+            loop
+            ; このイメージの delay を記録
+            if _fcount < D2D_GIF_FRAMES_MAX {
+                d2d_gif_delays(_fcount, handle) = _delay
+            }
+            _fcount = _fcount + 1
+            _delay = 0
+            continue
+        }
+        ; unknown block -> abort
+        break
+    loop
+
+    d2d_gif_frame_cnt(handle) = _fcount
+    d2d_gif_loop_cnt(handle)  = _loop
+    return _fcount
+
+;-----------------------------------------------------------
+; d2d_gif_load "file.gif"  → stat = anim_handle (負=エラー)
+;-----------------------------------------------------------
+#deffunc d2d_gif_load str path, \
+    local _dec_out, local _dec_ptr, local _h, local _i, local _fc
+    if d2d_initialized = 0 : d2d_init
+
+    ; 空きハンドル確保
+    _h = -1
+    repeat D2D_GIFS_MAX
+        if d2d_gif_used(cnt) = 0 {
+            _h = cnt
+            break
+        }
+    loop
+    if _h < 0 : return -1
+
+    ; WIC Decoder を作成
+    sdim _dec_out, 16
+    d2d_WIC_CreateDecoderFromFilename d2d_wicfac, path, 0, 0x80000000, 0, _dec_out
+    if stat ! 0 : return -1
+    dim64 _dec_ptr, 1
+    d2d_RtlMoveMemory _dec_ptr, _dec_out, 8
+
+    ; 独自パーサで metadata (delay / loop / frame count) を抽出
+    _d2d_gif_parse _h, path
+    _fc = stat
+    if _fc <= 0 {
+        ; WIC の GetFrameCount を fallback として使う
+        sdim _dec_out, 8
+        _d2d_gif_fallback_count _dec_ptr, _dec_out
+        _fc = lpeek(_dec_out, 0)
+        d2d_gif_frame_cnt(_h) = _fc
+    }
+
+    d2d_gif_dec_ptrs(_h) = _dec_ptr
+    d2d_gif_used(_h) = 1
+    return _h
+
+;-----------------------------------------------------------
+; 内部: WIC GetFrameCount を使った fallback
+;-----------------------------------------------------------
+#deffunc _d2d_gif_fallback_count var dec_ptr, var out_buf, local _dec
+    _attach_wicdec(_dec, dec_ptr)
+    d2d_WICDec_GetFrameCount _dec, out_buf
+    delcom _dec
+    return
+
+;-----------------------------------------------------------
+; d2d_gif_frame_count handle → stat
+;-----------------------------------------------------------
+#deffunc d2d_gif_frame_count int handle
+    if handle < 0 : return 0
+    if handle >= D2D_GIFS_MAX : return 0
+    if d2d_gif_used(handle) = 0 : return 0
+    return d2d_gif_frame_cnt(handle)
+
+;-----------------------------------------------------------
+; d2d_gif_frame_delay handle, frame_idx → stat (10ms 単位)
+;-----------------------------------------------------------
+#deffunc d2d_gif_frame_delay int handle, int idx
+    if handle < 0 : return 0
+    if handle >= D2D_GIFS_MAX : return 0
+    if d2d_gif_used(handle) = 0 : return 0
+    if idx < 0 : return 0
+    if idx >= D2D_GIF_FRAMES_MAX : return 0
+    return d2d_gif_delays(idx, handle)
+
+;-----------------------------------------------------------
+; d2d_gif_loop_count handle → stat (0 = infinite)
+;-----------------------------------------------------------
+#deffunc d2d_gif_loop_count int handle
+    if handle < 0 : return 0
+    if handle >= D2D_GIFS_MAX : return 0
+    if d2d_gif_used(handle) = 0 : return 0
+    return d2d_gif_loop_cnt(handle)
+
+;-----------------------------------------------------------
+; d2d_gif_frame_to_image handle, frame_idx, dst_image_id
+;   指定フレームを WIC Decoder から取り出して dst_id の d2d_image として構築
+;   (既存 d2d_image_load と同じフローで ID2D1RenderTarget まで作る)
+;-----------------------------------------------------------
+#deffunc d2d_gif_frame_to_image int handle, int idx, int dst_id, \
+    local _dec, \
+    local _frm_out, local _frm_ptr, local _frm, \
+    local _cnv_out, local _cnv_ptr, local _cnv, \
+    local _bmp_out, \
+    local _pixfmt_buf, local _w_buf, local _h_buf, local _w, local _h, \
+    local _stat, local _alpha_th
+    if handle < 0 : return
+    if handle >= D2D_GIFS_MAX : return
+    if d2d_gif_used(handle) = 0 : return
+    if idx < 0 : return
+    if dst_id < 0 : return
+    if dst_id >= D2D_IMGS_MAX : return
+    if d2d_gif_frame_cnt(handle) > 0 {
+        if idx >= d2d_gif_frame_cnt(handle) : return
+    }
+
+    ; 既存 ID は破棄
+    if d2d_rt_ptrs(dst_id) ! 0 : d2d_image_delete dst_id
+
+    _attach_wicdec(_dec, d2d_gif_dec_ptrs(handle))
+
+    ; GetFrame(idx)
+    sdim _frm_out, 16
+    d2d_WICDec_GetFrame _dec, idx, _frm_out
+    if stat ! 0 {
+        delcom _dec
+        mes "d2d_gif_frame_to_image: GetFrame stat=" + stat
+        return
+    }
+    dim64 _frm_ptr, 1
+    d2d_RtlMoveMemory _frm_ptr, _frm_out, 8
+    newcom _frm, IWICBitmapFrameDecode, -1, _frm_ptr
+
+    ; サイズ取得
+    sdim _w_buf, 8
+    sdim _h_buf, 8
+    d2d_WICFrmDec_GetSize _frm, _w_buf, _h_buf
+    _w = lpeek(_w_buf, 0)
+    _h = lpeek(_h_buf, 0)
+
+    ; FormatConverter で PBGRA に変換
+    sdim _cnv_out, 16
+    d2d_WIC_CreateFormatConverter d2d_wicfac, _cnv_out
+    if stat ! 0 {
+        delcom _frm : delcom _dec
+        return
+    }
+    dim64 _cnv_ptr, 1
+    d2d_RtlMoveMemory _cnv_ptr, _cnv_out, 8
+    newcom _cnv, IWICFormatConverter, -1, _cnv_ptr
+
+    sdim _pixfmt_buf, 16
+    if d2d_IIDFromString(GUID_WICPixelFormat32bppPBGRA, _pixfmt_buf) ! 0 {
+        delcom _cnv : delcom _frm : delcom _dec
+        return
+    }
+    _alpha_th = 0.0
+    d2d_WICCnv_Initialize _cnv, _frm, _pixfmt_buf, 0, 0, _alpha_th, 0
+    if stat ! 0 {
+        delcom _cnv : delcom _frm : delcom _dec
+        return
+    }
+
+    ; CreateBitmapFromSource
+    sdim _bmp_out, 16
+    d2d_WIC_CreateBitmapFromSource d2d_wicfac, _cnv, 2, _bmp_out
+    _stat = stat
+    delcom _cnv : delcom _frm : delcom _dec
+    if _stat ! 0 : return
+    d2d_RtlMoveMemory d2d_wicbmp_ptrs(dst_id), _bmp_out, 8
+
+    ; Render target を作る (ヘルパに委譲)
+    _d2d_build_rt_for dst_id, _w, _h
+    return
+
+;-----------------------------------------------------------
+; d2d_gif_free handle
+;-----------------------------------------------------------
+#deffunc d2d_gif_free int handle, local _dec_final
+    if handle < 0 : return
+    if handle >= D2D_GIFS_MAX : return
+    if d2d_gif_used(handle) = 0 : return
+    if d2d_gif_dec_ptrs(handle) ! 0 {
+        newcom _dec_final, IWICBitmapDecoder, -1, d2d_gif_dec_ptrs(handle)
+        delcom _dec_final
+        d2d_gif_dec_ptrs(handle) = int64(0)
+    }
+    d2d_gif_frame_cnt(handle) = 0
+    d2d_gif_loop_cnt(handle)  = 0
+    d2d_gif_used(handle)      = 0
+    return
+
+;===========================================================
+; L1-2: GIF 書き出し (スタブ)
+;   WIC エンコーダは multi-frame + per-frame metadata
+;   (IWICMetadataQueryWriter + PROPVARIANT) が必要で、
+;   PROPVARIANT を HSP 側で組み立てるのが非常に煩雑なため
+;   現状はスタブ (常に -1 を返す)。将来対応予定。
+;===========================================================
+
+#deffunc d2d_gif_write_begin str path, int w, int h
+    ; 未実装
+    return -1
+
+#deffunc d2d_gif_write_frame int writer_handle, int src_image_id, int delay_ms
+    ; 未実装
+    return -1
+
+#deffunc d2d_gif_write_end int writer_handle
+    ; 未実装
+    return -1
+
+;===========================================================
+; L1-3: SVG レンダリング (スタブ)
+;   ID2D1DeviceContext5::CreateSvgDocument を使うには
+;   Direct2D device context (D3D-backed) が必要で、
+;   既存の hspd2d は ID2D1WicBitmapRenderTarget を使っている
+;   ので QueryInterface で ID2D1DeviceContext5 を取れない
+;   (WIC bitmap RT は software rasterizer ベース)。
+;
+;   SVG を実装するには init ロジックを
+;   ID3D11Device + IDXGIDevice + ID2D1Device + ID2D1DeviceContext
+;   → ID2D1Bitmap1 (target) の経路に刷新する必要があり、
+;   Phase L 以降の大改修となるため現状スタブ。
+;===========================================================
+
+#deffunc d2d_svg_load str path, int w, int h
+    ; 未実装: -1 を返す
+    return -1
+
+#deffunc d2d_svg_load_str str svg_text, int w, int h
+    ; 未実装: -1 を返す
+    return -1
 
 #global
 

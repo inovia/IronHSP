@@ -1,0 +1,74 @@
+;============================================================
+;   hspd2d サンプル - Animated GIF 読み込み (L1-2)
+;
+;   使い方:
+;     引数 (dir) に animated GIF のパスを指定するか、
+;     カレントディレクトリに "anim.gif" を置いて実行
+;
+;   動作:
+;     - animated GIF を load
+;     - フレーム数 / 各フレームの delay / loop count を mes で表示
+;     - 各フレームを個別の PNG に dump (anim_frame_NN.png)
+;     - 最初のフレームをカレント画像として使い anim_first.png を保存
+;============================================================
+
+#include "hspd2d.hsp"
+
+    path = "anim.gif"
+    exist path
+    if strsize < 0 {
+        mes "sample_gif_anim: not found: " + path
+        mes "Place an animated GIF as 'anim.gif' in the current directory."
+        end 1
+    }
+
+    d2d_init
+    d2d_gif_load path
+    h = stat
+    if h < 0 {
+        mes "d2d_gif_load failed"
+        d2d_shutdown
+        end 1
+    }
+
+    d2d_gif_frame_count h : n = stat
+    d2d_gif_loop_count  h : loops = stat
+    mes "GIF: " + path
+    mes "  frame count = " + n
+    mes "  loop count  = " + loops + "  (0 = infinite)"
+
+    ; 各フレームの delay を表示
+    repeat n
+        d2d_gif_frame_delay h, cnt
+        mes "  frame " + cnt + " delay = " + stat + " x10ms"
+    loop
+
+    ; 各フレームを PNG に dump (最大 8 枚)
+    nmax = n
+    if nmax > 8 : nmax = 8
+    i = 0
+    *dump_loop
+    if i >= nmax : goto *dump_end
+        d2d_gif_frame_to_image h, i, 0
+        fname = "anim_frame_" + strf("%02d", i) + ".png"
+        d2d_image_save 0, fname
+        mes "saved: " + fname
+        d2d_image_delete 0
+        i = i + 1
+        goto *dump_loop
+    *dump_end
+
+    ; 1 枚目をカレント画像として使い少しテキストを乗せて保存
+    d2d_gif_frame_to_image h, 0, 0
+    d2d_font  "Yu Gothic UI", 14.0, 700, 0
+    d2d_color 255, 255, 0, 255
+    d2d_drawtext "frame 0 from hspd2d_gif", 4, 4, 0, 0
+    d2d_image_save 0, "anim_first.png"
+    mes "saved: anim_first.png"
+
+    d2d_image_delete 0
+    d2d_gif_free h
+    d2d_shutdown
+
+    mes "done."
+    end
