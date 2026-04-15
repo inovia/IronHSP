@@ -62,6 +62,7 @@
 // ---------- llama.cpp ----------
 #if __has_include("llama.h")
   #include "llama.h"
+  #include "ggml-backend.h"
   #define HSPLLAMA_HAVE_LLAMA 1
 #else
   #define HSPLLAMA_HAVE_LLAMA 0
@@ -136,7 +137,7 @@ static void free_slot(int h) {
     if (!s.used) return;
 #if HSPLLAMA_HAVE_LLAMA
     if (s.ctx)   llama_free(s.ctx);
-    if (s.model) llama_free_model(s.model);
+    if (s.model) llama_model_free(s.model);
 #endif
     s.ctx = nullptr;
     s.model = nullptr;
@@ -172,23 +173,19 @@ static StreamState g_stream;
 // ============================================================
 
 // llama_init
-HSPLLAMA_EXPORT BOOL WINAPI llama_init_ex(HSPEXINFO* hei, int p1, int p2, int p3) {
+HSPLLAMA_EXPORT BOOL WINAPI hspllama_init(HSPEXINFO* hei, int p1, int p2, int p3) {
     (void)p1; (void)p2; (void)p3;
     set_hei(hei);
 #if HSPLLAMA_HAVE_LLAMA
-    // llama.cpp 0.x: llama_backend_init() / 1.x: llama_backend_init(numa)
-    // API 差を吸収するために __has_include で切り替えるのが安全。
-    #if defined(LLAMA_API_VERSION) && LLAMA_API_VERSION >= 3
-        llama_backend_init();
-    #else
-        llama_backend_init();
-    #endif
+    // ggml backends (CPU, ggml-cpu-*.dll 等) を読み込んでから llama init
+    ggml_backend_load_all();
+    llama_backend_init();
 #endif
     return 0;
 }
 
 // llama_shutdown
-HSPLLAMA_EXPORT BOOL WINAPI llama_shutdown_ex(HSPEXINFO* hei, int p1, int p2, int p3) {
+HSPLLAMA_EXPORT BOOL WINAPI hspllama_shutdown(HSPEXINFO* hei, int p1, int p2, int p3) {
     (void)p1; (void)p2; (void)p3;
     set_hei(hei);
     for (int i = 0; i < (int)g_slots.size(); ++i) free_slot(i);
@@ -199,7 +196,7 @@ HSPLLAMA_EXPORT BOOL WINAPI llama_shutdown_ex(HSPEXINFO* hei, int p1, int p2, in
 }
 
 // llama_load "model.gguf", n_ctx, n_gpu_layers, var_h
-HSPLLAMA_EXPORT BOOL WINAPI llama_load_ex(HSPEXINFO* hei, int p1, int p2, int p3) {
+HSPLLAMA_EXPORT BOOL WINAPI hspllama_load(HSPEXINFO* hei, int p1, int p2, int p3) {
     (void)p1; (void)p2; (void)p3;
     set_hei(hei);
     const char* path = getstr();
@@ -219,20 +216,20 @@ HSPLLAMA_EXPORT BOOL WINAPI llama_load_ex(HSPEXINFO* hei, int p1, int p2, int p3
     llama_model_params mparams = llama_model_default_params();
     mparams.n_gpu_layers = n_gpu_layers;
 
-    s.model = llama_load_model_from_file(path, mparams);
+    s.model = llama_model_load_from_file(path, mparams);
     if (!s.model) { write_int_to_var(-2); return 0; }
 
     llama_context_params cparams = llama_context_default_params();
     cparams.n_ctx = (uint32_t)n_ctx;
-    s.ctx = llama_new_context_with_model(s.model, cparams);
+    s.ctx = llama_init_from_model(s.model, cparams);
     if (!s.ctx) {
-        llama_free_model(s.model);
+        llama_model_free(s.model);
         s.model = nullptr;
         write_int_to_var(-3);
         return 0;
     }
     s.n_ctx   = n_ctx;
-    s.n_vocab = llama_n_vocab(s.model);
+    s.n_vocab = llama_vocab_n_tokens(llama_model_get_vocab(s.model));
     s.used = true;
     write_int_to_var(h);
     return 0;
@@ -240,7 +237,7 @@ HSPLLAMA_EXPORT BOOL WINAPI llama_load_ex(HSPEXINFO* hei, int p1, int p2, int p3
 }
 
 // llama_close h
-HSPLLAMA_EXPORT BOOL WINAPI llama_close_ex(HSPEXINFO* hei, int p1, int p2, int p3) {
+HSPLLAMA_EXPORT BOOL WINAPI hspllama_close(HSPEXINFO* hei, int p1, int p2, int p3) {
     (void)p1; (void)p2; (void)p3;
     set_hei(hei);
     int h = getint();
@@ -252,22 +249,69 @@ HSPLLAMA_EXPORT BOOL WINAPI llama_close_ex(HSPEXINFO* hei, int p1, int p2, int p
 #if HSPLLAMA_HAVE_LLAMA
 static std::string do_complete_impl(LlamaState* s, const char* prompt, int max_tokens)
 {
-    // NOTE: llama.cpp の低レベル API は version によって大きく変わるので
-    // ここでは擬似コードに近い形で書く。実ビルド時は llama.cpp sample の
-    // simple.cpp / main.cpp を参考に埋めること。
-    //
-    // 1) tokenize(prompt)
-    // 2) llama_batch で decode
-    // 3) 反復で llama_sample_token → detokenize
-    //    max_tokens または EOS で break
-    // 4) accumulated string を return
-    (void)s; (void)prompt; (void)max_tokens;
-    return std::string("[llama_complete: impl pending — see hspllama.cpp TODO]");
+    if (!s || !s->ctx || !s->model || !prompt) return std::string();
+    if (max_tokens <= 0) max_tokens = 256;
+
+    const llama_vocab* vocab = llama_model_get_vocab(s->model);
+    if (!vocab) return std::string();
+
+    // tokenize
+    int prompt_len = (int)strlen(prompt);
+    std::vector<llama_token> tokens;
+    tokens.resize((size_t)prompt_len + 16);
+    int n_tokens = llama_tokenize(vocab, prompt, prompt_len,
+                                  tokens.data(), (int)tokens.size(),
+                                  /*add_special*/ true,
+                                  /*parse_special*/ true);
+    if (n_tokens < 0) {
+        tokens.resize((size_t)(-n_tokens));
+        n_tokens = llama_tokenize(vocab, prompt, prompt_len,
+                                  tokens.data(), (int)tokens.size(),
+                                  true, true);
+    }
+    if (n_tokens <= 0) return std::string();
+    tokens.resize((size_t)n_tokens);
+
+    // sampler chain: greedy で安定動作 (temperature/top_p は将来オプション化)
+    llama_sampler_chain_params sp = llama_sampler_chain_default_params();
+    llama_sampler* smpl = llama_sampler_chain_init(sp);
+    llama_sampler_chain_add(smpl, llama_sampler_init_greedy());
+
+    // 初回 decode (prompt まとめて)
+    llama_batch batch = llama_batch_get_one(tokens.data(), (int32_t)tokens.size());
+    if (llama_decode(s->ctx, batch) != 0) {
+        llama_sampler_free(smpl);
+        return std::string();
+    }
+
+    std::string out;
+    out.reserve((size_t)max_tokens * 4);
+    char detok_buf[256];
+
+    for (int i = 0; i < max_tokens; ++i) {
+        llama_token id = llama_sampler_sample(smpl, s->ctx, -1);
+        if (id < 0 || llama_vocab_is_eog(vocab, id)) break;
+
+        int n = llama_detokenize(vocab, &id, 1,
+                                 detok_buf, (int)sizeof(detok_buf),
+                                 /*remove_special*/ false,
+                                 /*unparse_special*/ false);
+        if (n > 0) {
+            out.append(detok_buf, (size_t)n);
+        }
+
+        // 1 トークンを追加 decode
+        llama_batch nb = llama_batch_get_one(&id, 1);
+        if (llama_decode(s->ctx, nb) != 0) break;
+    }
+
+    llama_sampler_free(smpl);
+    return out;
 }
 #endif
 
 // llama_complete h, "prompt", max_tokens, var_result_str
-HSPLLAMA_EXPORT BOOL WINAPI llama_complete_ex(HSPEXINFO* hei, int p1, int p2, int p3) {
+HSPLLAMA_EXPORT BOOL WINAPI hspllama_complete(HSPEXINFO* hei, int p1, int p2, int p3) {
     (void)p1; (void)p2; (void)p3;
     set_hei(hei);
     int h = getint();
@@ -286,7 +330,7 @@ HSPLLAMA_EXPORT BOOL WINAPI llama_complete_ex(HSPEXINFO* hei, int p1, int p2, in
 }
 
 // llama_chat h, "system", "user", max_tokens, var_result_str
-HSPLLAMA_EXPORT BOOL WINAPI llama_chat_ex(HSPEXINFO* hei, int p1, int p2, int p3) {
+HSPLLAMA_EXPORT BOOL WINAPI hspllama_chat(HSPEXINFO* hei, int p1, int p2, int p3) {
     (void)p1; (void)p2; (void)p3;
     set_hei(hei);
     int h = getint();
@@ -322,7 +366,7 @@ HSPLLAMA_EXPORT BOOL WINAPI llama_chat_ex(HSPEXINFO* hei, int p1, int p2, int p3
 }
 
 // llama_stream_begin h, "prompt", max_tokens
-HSPLLAMA_EXPORT BOOL WINAPI llama_stream_begin_ex(HSPEXINFO* hei, int p1, int p2, int p3) {
+HSPLLAMA_EXPORT BOOL WINAPI hspllama_stream_begin(HSPEXINFO* hei, int p1, int p2, int p3) {
     (void)p1; (void)p2; (void)p3;
     set_hei(hei);
     int h = getint();
@@ -352,7 +396,7 @@ HSPLLAMA_EXPORT BOOL WINAPI llama_stream_begin_ex(HSPEXINFO* hei, int p1, int p2
 // なければ単に文字列を返し、コール側で llama_stream_next の stat は使わない
 // (HSP 3 の stat は #func BOOL 戻り値の影響を受けないため、iron_llama.hsp 側で
 // 別途「空文字 = eos」判定する設計にする)。
-HSPLLAMA_EXPORT BOOL WINAPI llama_stream_next_ex(HSPEXINFO* hei, int p1, int p2, int p3) {
+HSPLLAMA_EXPORT BOOL WINAPI hspllama_stream_next(HSPEXINFO* hei, int p1, int p2, int p3) {
     (void)p1; (void)p2; (void)p3;
     set_hei(hei);
     if (!g_stream.active) { write_str_to_var(""); return 0; }
@@ -371,7 +415,7 @@ HSPLLAMA_EXPORT BOOL WINAPI llama_stream_next_ex(HSPEXINFO* hei, int p1, int p2,
     return 0;
 }
 
-HSPLLAMA_EXPORT BOOL WINAPI llama_stream_end_ex(HSPEXINFO* hei, int p1, int p2, int p3) {
+HSPLLAMA_EXPORT BOOL WINAPI hspllama_stream_end(HSPEXINFO* hei, int p1, int p2, int p3) {
     (void)p1; (void)p2; (void)p3;
     set_hei(hei);
     g_stream.active = false;
@@ -381,7 +425,7 @@ HSPLLAMA_EXPORT BOOL WINAPI llama_stream_end_ex(HSPEXINFO* hei, int p1, int p2, 
     return 0;
 }
 
-HSPLLAMA_EXPORT BOOL WINAPI llama_n_ctx_ex(HSPEXINFO* hei, int p1, int p2, int p3) {
+HSPLLAMA_EXPORT BOOL WINAPI hspllama_n_ctx(HSPEXINFO* hei, int p1, int p2, int p3) {
     (void)p1; (void)p2; (void)p3;
     set_hei(hei);
     int h = getint();
@@ -390,7 +434,7 @@ HSPLLAMA_EXPORT BOOL WINAPI llama_n_ctx_ex(HSPEXINFO* hei, int p1, int p2, int p
     return 0;
 }
 
-HSPLLAMA_EXPORT BOOL WINAPI llama_n_vocab_ex(HSPEXINFO* hei, int p1, int p2, int p3) {
+HSPLLAMA_EXPORT BOOL WINAPI hspllama_n_vocab(HSPEXINFO* hei, int p1, int p2, int p3) {
     (void)p1; (void)p2; (void)p3;
     set_hei(hei);
     int h = getint();

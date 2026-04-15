@@ -53,6 +53,12 @@ plugins/win32/hsptflite/third_party/tflite/include/
 plugins/win32/hsptflite/third_party/tflite/lib/
 !plugins/win32/hsptflite/third_party/tflite/README.md
 
+# llama.cpp prebuilt SDK (大きいので README で DL 手順のみ)
+plugins/win32/hspllama/third_party/llamacpp/include/
+plugins/win32/hspllama/third_party/llamacpp/lib/
+plugins/win32/hspllama/third_party/llamacpp/bin/
+!plugins/win32/hspllama/third_party/llamacpp/README.md
+
 # MediaPipe .tflite モデル (大きいので DL 手順のみリポジトリに)
 package/win32/sample/iron/mediapipe_models/*.tflite
 package/win32/sample/iron/mediapipe_models/*.task

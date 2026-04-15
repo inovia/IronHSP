@@ -67,24 +67,19 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <!-- hspwasm の ICF folding バグ再発防止のため false -->
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile>src\hspllama.def</ModuleDefinitionFile>
       <AdditionalLibraryDirectories Condition="'$(Platform)'=='x64'">$(ProjectDir)third_party\llamacpp\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <!--
-        llama.lib / ggml.lib は third_party 配置後に手動追加すること。
-        未配置時はスタブビルド。
-      -->
       <AdditionalDependencies>kernel32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Link Condition="'$(Platform)'=='x64' and Exists('$(ProjectDir)third_party\llamacpp\lib\x64\llama.lib')">
+      <AdditionalDependencies>llama.lib;ggml.lib;ggml-base.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
 
   <ItemGroup>
     <ClCompile Include="src\hspllama.cpp" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="src\hspllama.def" />
   </ItemGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
