@@ -1,0 +1,57 @@
+;============================================================
+;  sample_wasm.hsp — hspwasm.dll 最小デモ
+;
+;  add.wasm (エクスポート関数 add(a: i32, b: i32) -> i32) を
+;  ロードして呼び出すサンプル。
+;
+;  add.wasm のビルド例 (wat2wasm):
+;    ;; add.wat
+;    (module
+;      (func (export "add") (param i32 i32) (result i32)
+;        local.get 0
+;        local.get 1
+;        i32.add)
+;      (memory (export "memory") 1))
+;
+;    wat2wasm add.wat -o add.wasm
+;
+;  または Rust で:
+;    #[no_mangle]
+;    pub extern "C" fn add(a: i32, b: i32) -> i32 { a + b }
+;    cargo build --target wasm32-unknown-unknown --release
+;============================================================
+
+#include "iron_wasm.hsp"
+
+    title "hspwasm sample"
+    screen 0, 640, 400
+    font "MS Gothic", 14
+
+    wasm_open "add.wasm"
+    h = stat
+    if h < 0 {
+        mes "wasm_open に失敗しました (code=" + h + ")"
+        mes "add.wasm が見つからないか、壊れている可能性があります。"
+        stop
+    }
+    mes "add.wasm をハンドル " + h + " でロードしました"
+
+    ; linear memory サイズ
+    wasm_mem_size h
+    mes "linear memory size = " + stat + " bytes"
+
+    ; add(3, 4)
+    r = wasm_call2(h, "add", 3, 4)
+    mes "add(3, 4) = " + r
+
+    ; add(100, 200)
+    r = wasm_call2(h, "add", 100, 200)
+    mes "add(100, 200) = " + r
+
+    ; argc=0 テスト (もし wasm 側に get_zero があれば)
+    ; r = wasm_call0(h, "get_zero")
+    ; mes "get_zero() = " + r
+
+    wasm_close h
+    mes "OK"
+    stop

@@ -1,0 +1,129 @@
+;============================================================
+;   iron_wasm.hsp — WebAssembly (Wasm3) 薄いラッパ
+;
+;   hspwasm.dll の生 API を HSP から使いやすくする糖衣モジュール。
+;   HSP は可変長引数を取れないので、固定アリティ (0..8) の
+;   wasm_call0 ... wasm_call8 を提供する。
+;
+;   API 概要:
+;     wasm_open  "path"            → stat にハンドル (>=0 成功)
+;     wasm_close h                 → ハンドル解放
+;     wasm_clear                   → 全ハンドル解放
+;     wasm_mem_size h              → stat に linear memory サイズ (byte)
+;     wasm_mem_read  h, off, var, len
+;     wasm_mem_write h, off, var, len
+;
+;     wasm_call0 h, "name"                       → stat = i32 戻り
+;     wasm_call1 h, "name", a1
+;     wasm_call2 h, "name", a1, a2
+;     ... call8 まで
+;     wasm_call_raw  h, "name", array args, argc → stat = i32 戻り (汎用)
+;     wasm_call_dbl  h, "name", array args, argc → refdval = f64 戻り
+;
+;   例:
+;     #include "iron_wasm.hsp"
+;     wasm_open "add.wasm"
+;     h = stat
+;     r = wasm_call2(h, "add", 3, 4)   ; → 7
+;     mes "3 + 4 = " + r
+;     wasm_close h
+;============================================================
+
+#ifndef __iron_wasm_hsp__
+#define __iron_wasm_hsp__
+
+#include "hspwasm.as"
+
+#module iron_wasm
+
+; ---- open / close / clear ----
+#deffunc wasm_open str path
+    wasm_load path, _h
+    return _h
+
+#deffunc wasm_open_mem var buf, int len
+    wasm_load_mem buf, len, _h
+    return _h
+
+; (wasm_close / wasm_clear は生 API そのまま使う)
+
+; ---- memory ----
+#deffunc wasm_mem_size int h
+    wasm_memory_size h, _sz
+    return _sz
+
+#deffunc wasm_mem_read int h, int off, var dst, int len
+    wasm_memory_read h, off, dst, len, _r
+    return _r
+
+#deffunc wasm_mem_write int h, int off, var src, int len
+    wasm_memory_write h, off, src, len, _r
+    return _r
+
+; ---- 可変長ラッパ (array 引数) ----
+#deffunc wasm_call_raw int h, str name, array args, int argc
+    wasm_call_i h, name, args, argc, _ret
+    return _ret
+
+#deffunc wasm_call_dbl int h, str name, array args, int argc
+    wasm_call_d h, name, args, argc, _rd
+    return 0, _rd
+
+; ---- 固定アリティ 0..8 ----
+#deffunc wasm_call0 int h, str name
+    dim _a, 1
+    wasm_call_i h, name, _a, 0, _ret
+    return _ret
+
+#deffunc wasm_call1 int h, str name, int a1
+    dim _a, 1
+    _a(0) = a1
+    wasm_call_i h, name, _a, 1, _ret
+    return _ret
+
+#deffunc wasm_call2 int h, str name, int a1, int a2
+    dim _a, 2
+    _a(0) = a1 : _a(1) = a2
+    wasm_call_i h, name, _a, 2, _ret
+    return _ret
+
+#deffunc wasm_call3 int h, str name, int a1, int a2, int a3
+    dim _a, 3
+    _a(0) = a1 : _a(1) = a2 : _a(2) = a3
+    wasm_call_i h, name, _a, 3, _ret
+    return _ret
+
+#deffunc wasm_call4 int h, str name, int a1, int a2, int a3, int a4
+    dim _a, 4
+    _a(0) = a1 : _a(1) = a2 : _a(2) = a3 : _a(3) = a4
+    wasm_call_i h, name, _a, 4, _ret
+    return _ret
+
+#deffunc wasm_call5 int h, str name, int a1, int a2, int a3, int a4, int a5
+    dim _a, 5
+    _a(0) = a1 : _a(1) = a2 : _a(2) = a3 : _a(3) = a4 : _a(4) = a5
+    wasm_call_i h, name, _a, 5, _ret
+    return _ret
+
+#deffunc wasm_call6 int h, str name, int a1, int a2, int a3, int a4, int a5, int a6
+    dim _a, 6
+    _a(0) = a1 : _a(1) = a2 : _a(2) = a3 : _a(3) = a4 : _a(4) = a5 : _a(5) = a6
+    wasm_call_i h, name, _a, 6, _ret
+    return _ret
+
+#deffunc wasm_call7 int h, str name, int a1, int a2, int a3, int a4, int a5, int a6, int a7
+    dim _a, 7
+    _a(0) = a1 : _a(1) = a2 : _a(2) = a3 : _a(3) = a4 : _a(4) = a5 : _a(5) = a6 : _a(6) = a7
+    wasm_call_i h, name, _a, 7, _ret
+    return _ret
+
+#deffunc wasm_call8 int h, str name, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8
+    dim _a, 8
+    _a(0) = a1 : _a(1) = a2 : _a(2) = a3 : _a(3) = a4
+    _a(4) = a5 : _a(5) = a6 : _a(6) = a7 : _a(7) = a8
+    wasm_call_i h, name, _a, 8, _ret
+    return _ret
+
+#global
+
+#endif
