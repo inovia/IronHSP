@@ -46,6 +46,13 @@ Release-unicode/
 # ユーザー固有の設定
 *.vcxproj.user
 
-# third_party で git clone する外部 SDK / ソース (リポジトリには含めない)
+# third_party で git clone / DL する外部 SDK (リポジトリには含めない)
 plugins/win32/hspwasm/third_party/wasm3/*
 !plugins/win32/hspwasm/third_party/wasm3/README.md
+plugins/win32/hsptflite/third_party/tflite/include/
+plugins/win32/hsptflite/third_party/tflite/lib/
+!plugins/win32/hsptflite/third_party/tflite/README.md
+
+# MediaPipe .tflite モデル (大きいので DL 手順のみリポジトリに)
+package/win32/sample/iron/mediapipe_models/*.tflite
+package/win32/sample/iron/mediapipe_models/*.task

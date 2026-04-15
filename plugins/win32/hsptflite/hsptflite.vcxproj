@@ -81,6 +81,12 @@
       -->
       <AdditionalDependencies>kernel32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Link Condition="'$(Platform)'=='x64' and Exists('$(ProjectDir)third_party\tflite\lib\x64\tensorflowlite_c.lib')">
+      <AdditionalDependencies>tensorflowlite_c.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Link Condition="'$(Platform)'=='Win32' and Exists('$(ProjectDir)third_party\tflite\lib\x86\tensorflowlite_c.lib')">
+      <AdditionalDependencies>tensorflowlite_c.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
 
   <ItemGroup>

@@ -22,4 +22,10 @@
 #func global tflite_get_output    tflite_get_output    $202
 #func global tflite_invoke        tflite_invoke        $202
 
+; -- MediaPipe 高レベルヘルパ (C++ 側実装) --
+#func global mp_palm_detect       mp_palm_detect       $202
+#func global mp_hand_landmark     mp_hand_landmark     $202
+#func global mp_bgr_to_rgb        mp_bgr_to_rgb        $202
+#func global mp_letterbox_resize  mp_letterbox_resize  $202
+
 #endif

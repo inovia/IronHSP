@@ -1,15 +1,15 @@
 ;============================================================
-;   sample_mediapipe_hand.hsp — MediaPipe Hand 検出のサンプル
+;   sample_mediapipe_hand.hsp — MediaPipe Hand 検出サンプル
 ;
-;   hsptflite.dll + iron_mediapipe.hsp を使って、
-;   画像から手のバウンディングボックスを検出して画面に描画する。
+;   hsptflite.dll (Tensorflow Lite C API + MediaPipe helpers) と
+;   iron_mediapipe.hsp を使って、画像から手のひらを検出し、
+;   21 点 landmark を重ねて描画するデモです。
 ;
-;   事前準備:
-;     1. hsptflite.dll / tensorflowlite_c.dll (x64 の場合は _64 版)
-;        を runtime ディレクトリにコピー。
-;     2. MediaPipe の palm_detection_full.tflite を
-;        sample/iron/models/ に配置 (README.md 参照)。
-;     3. hand.jpg を sample/iron/ に配置 (任意の手の写った画像)。
+;   配置:
+;     mediapipe_models/hand_detector.tflite
+;     mediapipe_models/hand_landmarks_detector.tflite
+;     mediapipe_models/tensorflowlite_c.dll
+;     mediapipe_models/hand.jpg                (任意の手の写真)
 ;============================================================
 
 #include "iron_mediapipe.hsp"
@@ -18,20 +18,26 @@
     screen 0, 800, 600
 
     ; --- 画像読み込み ---
-    picload "hand.jpg"
+    picload "mediapipe_models/hand.jpg"
     src_w = ginfo_winx
     src_h = ginfo_winy
 
-    ; --- bmscr 経由で 24bit BGR バッファを取得 ---
+    ; --- bmscr から 24bit DIB を取得 ---
     mref bm, 67
     sdim bgr, src_w * src_h * 3
     memcpy bgr, bm, src_w * src_h * 3, 0, 0
 
-    ; --- BGR → RGB に変換 ---
-    mp_bgr_to_rgb bgr, rgb, src_w, src_h
+    ; HSP の DIB は上下反転 & BGR。上下反転 + BGR→RGB を
+    ; 一度に処理するため、まず y 方向に flip してから mp_bgr_to_rgb。
+    sdim bgr_flip, src_w * src_h * 3
+    repeat src_h
+        memcpy bgr_flip, bgr, src_w * 3, cnt * src_w * 3, (src_h - 1 - cnt) * src_w * 3
+    loop
+    sdim rgb, src_w * src_h * 3
+    mp_bgr_to_rgb bgr_flip, src_w, src_h, rgb
 
     ; --- MediaPipe Hand 初期化 ---
-    mp_hand_init "models/palm_detection_full.tflite", ""
+    mp_hand_init "mediapipe_models/hand_detector.tflite", "mediapipe_models/hand_landmarks_detector.tflite"
     if stat < 0 {
         color 255, 0, 0
         pos 10, 10
@@ -45,15 +51,28 @@
     nhand = stat
 
     ; --- 結果の描画 ---
-    color 0, 255, 0
     repeat nhand
-        mp_hand_bbox cnt, bx, by, bw, bh
-        mp_hand_score cnt, sc
-        boxf bx, by, bx + bw, by + bh
-        pos bx, by - 16
-        color 255, 255, 0
-        mes strf("hand[%d] score=%d", cnt, int(sc * 100))
+        i = cnt
+        mp_hand_bbox_xyxy i, bx1, by1, bx2, by2
+        mp_hand_score    i, sc
+        mp_hand_presence i, pc
+
         color 0, 255, 0
+        boxf bx1, by1, bx2, by1 + 2
+        boxf bx1, by1, bx1 + 2, by2
+        boxf bx2 - 2, by1, bx2, by2
+        boxf bx1, by2 - 2, bx2, by2
+
+        pos bx1, by1 - 16
+        color 255, 255, 0
+        mes strf("hand[%d] score=%.2f pres=%.2f", i, sc, pc)
+
+        ; 21 点 landmark
+        color 255, 0, 255
+        repeat 21
+            mp_hand_landmark_pt i, cnt, lx, ly
+            circle lx - 3, ly - 3, lx + 3, ly + 3, 1
+        loop
     loop
 
     color 255, 255, 255

@@ -1,24 +1,27 @@
 ;============================================================
 ;   iron_mediapipe.hsp — MediaPipe パイプライン (hand / pose / face)
 ;
-;   hsptflite.dll (Tensorflow Lite C API) を基盤に、MediaPipe の
-;   .tflite モデルから手/姿勢/顔を検出するためのラッパモジュール。
+;   hsptflite.dll (Tensorflow Lite C API + MediaPipe helpers) を
+;   基盤に、MediaPipe の .tflite モデルから手/姿勢/顔を検出する
+;   ラッパモジュール。
 ;
-;   v1 実装範囲:
-;     - palm_detector (手検出 1 段目) のみ動作
-;     - hand_landmarker (2 段目 21 点) は後回し (スタブ)
-;     - pose / face は API 形だけ定義してスタブ返し
+;   v2 (2026-04-15):
+;     - palm_detector + hand_landmarker の 2 段パイプラインを
+;       C++ 側の mp_palm_detect / mp_hand_landmark に委譲
+;     - HSP 側は単に結果を 16*N 配列に溜めて取り出すだけ
+;     - pose / face は API 形のみ (スタブ)
 ;
-;   使い方 (手検出):
+;   使い方:
 ;     #include "iron_mediapipe.hsp"
-;     mp_hand_init "palm_detection_full.tflite", "hand_landmarker_lite.tflite"
-;
-;     ; RGB 8bit w*h*3 の生バイト列を渡す
+;     mp_hand_init "hand_detector.tflite", "hand_landmarks_detector.tflite"
 ;     mp_hand_run rgb_buf, w, h
 ;     nhand = stat
 ;     repeat nhand
 ;         mp_hand_bbox cnt, bx, by, bw, bh
 ;         mp_hand_score cnt, sc
+;         repeat 21
+;             mp_hand_landmark_pt cnt, cnt, lx, ly
+;         loop
 ;     loop
 ;     mp_hand_close
 ;============================================================
@@ -30,183 +33,26 @@
 
 #module iron_mediapipe
 
-; --------------------------------------------------------
-;   定数
-; --------------------------------------------------------
-#define MP_HAND_INPUT_W    192
-#define MP_HAND_INPUT_H    192
-#define MP_HAND_INPUT_C    3
-#define MP_HAND_ANCHORS    2016
-#define MP_HAND_REG_STRIDE 18        ; 4 (bbox) + 7*2 (keypoints)
-#define MP_HAND_MAX        8
+#define MP_HAND_MAX      16
+#define MP_HAND_NUM_KEY  21
 
 ; --------------------------------------------------------
-;   内部バッファ
+;   mp_hand_init "hand_detector.tflite", "hand_landmarks_detector.tflite"
 ; --------------------------------------------------------
-;   _mp_hand_h1      : palm_detector TFLite ハンドル
-;   _mp_hand_h2      : hand_landmarker TFLite ハンドル (v1 スタブ)
-;   _mp_hand_in      : 192*192*3 float32 入力バッファ
-;   _mp_hand_reg     : 1*2016*18 float32 出力 (bbox regressor)
-;   _mp_hand_sco     : 1*2016*1 float32 出力 (score)
-;   _mp_hand_anchors : 2016*4 float anchor table
-;   _mp_hand_cnt     : 検出数
-;   _mp_hand_x/y/w/h : 結果 bbox (入力画像座標系)
-;   _mp_hand_s       : 結果 score
-
-; --------------------------------------------------------
-;   BGR → RGB 変換 (HSP 側 bmscr 用)
-; --------------------------------------------------------
-#deffunc mp_bgr_to_rgb var vbgr, var vrgb, int w, int h,  local _i, local _n
-    _n = w * h
-    sdim vrgb, _n * 3
-    repeat _n
-        poke vrgb, cnt*3+0, peek(vbgr, cnt*3+2)
-        poke vrgb, cnt*3+1, peek(vbgr, cnt*3+1)
-        poke vrgb, cnt*3+2, peek(vbgr, cnt*3+0)
-    loop
-    return
-
-; --------------------------------------------------------
-;   素朴な bilinear resize (HSP 手書き、性能は二の次)
-;   mp_resize_bilinear src, sw, sh, dst, dw, dh, ch
-; --------------------------------------------------------
-#deffunc mp_resize_bilinear var vsrc, int sw, int sh, var vdst, int dw, int dh, int ch, \
-    local _dx, local _dy, local _sx, local _sy, local _ci, local _v
-    sdim vdst, dw * dh * ch
-    repeat dh
-        _dy = cnt
-        _sy = _dy * sh / dh
-        if _sy < 0    : _sy = 0
-        if _sy >= sh  : _sy = sh - 1
-        repeat dw
-            _dx = cnt
-            _sx = _dx * sw / dw
-            if _sx < 0   : _sx = 0
-            if _sx >= sw : _sx = sw - 1
-            repeat ch
-                _ci = cnt
-                _v  = peek(vsrc, (_sy * sw + _sx) * ch + _ci)
-                poke vdst, (_dy * dw + _dx) * ch + _ci, _v
-            loop
-        loop
-    loop
-    return
-
-; --------------------------------------------------------
-;   anchor テーブル生成 (MediaPipe palm_detector 仕様)
-;     192x192 入力、strides [8,16,16,16]、anchors_per_cell [2,6,6,6]
-;     計 2016 anchors
-; --------------------------------------------------------
-#deffunc _mp_gen_anchors, local _i, local _stride, local _nfm, \
-    local _ax, local _ay, local _n, local _cx, local _cy
-    dim _mp_hand_anchors, MP_HAND_ANCHORS * 4    ; cx, cy, w, h (正規化)
-    _i = 0
-    ; layer 0: stride 8, 24x24 grid, 2 anchors/cell
-    _stride = 8 : _nfm = MP_HAND_INPUT_W / _stride
-    repeat _nfm : _ay = cnt
-        repeat _nfm : _ax = cnt
-            _cx = (_ax + 0.5) / _nfm
-            _cy = (_ay + 0.5) / _nfm
-            repeat 2
-                _mp_hand_anchors(_i*4+0) = int(_cx * 1000)    ; 固定小数 (HSP は float 配列なし)
-                _mp_hand_anchors(_i*4+1) = int(_cy * 1000)
-                _mp_hand_anchors(_i*4+2) = _stride
-                _mp_hand_anchors(_i*4+3) = _stride
-                _i++
-            loop
-        loop
-    loop
-    ; layer 1,2,3: stride 16, 12x12 grid, 各 6 anchors/cell
-    repeat 3
-        _stride = 16 : _nfm = MP_HAND_INPUT_W / _stride
-        repeat _nfm : _ay = cnt
-            repeat _nfm : _ax = cnt
-                _cx = (_ax + 0.5) / _nfm
-                _cy = (_ay + 0.5) / _nfm
-                repeat 6
-                    _mp_hand_anchors(_i*4+0) = int(_cx * 1000)
-                    _mp_hand_anchors(_i*4+1) = int(_cy * 1000)
-                    _mp_hand_anchors(_i*4+2) = _stride
-                    _mp_hand_anchors(_i*4+3) = _stride
-                    _i++
-                loop
-            loop
-        loop
-    loop
-    return
-
-; --------------------------------------------------------
-;   簡易 NMS (IoU > 0.3 で重複除去)
-;     入力: _cand_x(), _cand_y(), _cand_w(), _cand_h(), _cand_s(), _cand_n
-;     出力: _mp_hand_x/y/w/h/s, _mp_hand_cnt
-; --------------------------------------------------------
-#deffunc _mp_nms array ax, array ay, array aw, array ah, array asc, int n, \
-    local _i, local _j, local _keep, local _ix1, local _iy1, local _ix2, local _iy2, \
-    local _jx1, local _jy1, local _jx2, local _jy2, \
-    local _ox1, local _oy1, local _ox2, local _oy2, local _inter, local _a, local _b
-    _mp_hand_cnt = 0
-    dim _keep_arr, n
-    repeat n : _keep_arr(cnt) = 1 : loop
-    ; 降順にしない (n が小さいので愚直に比較)
-    repeat n
-        _i = cnt
-        if _keep_arr(_i) = 0 : continue
-        ; 追加
-        _mp_hand_x(_mp_hand_cnt) = ax(_i)
-        _mp_hand_y(_mp_hand_cnt) = ay(_i)
-        _mp_hand_w(_mp_hand_cnt) = aw(_i)
-        _mp_hand_h(_mp_hand_cnt) = ah(_i)
-        _mp_hand_s(_mp_hand_cnt) = asc(_i)
-        _mp_hand_cnt++
-        if _mp_hand_cnt >= MP_HAND_MAX : break
-        ; 以降の重複を潰す
-        _ix1 = ax(_i) : _iy1 = ay(_i)
-        _ix2 = _ix1 + aw(_i) : _iy2 = _iy1 + ah(_i)
-        _j = _i + 1
-        repeat n - _i - 1
-            if _keep_arr(_j) {
-                _jx1 = ax(_j) : _jy1 = ay(_j)
-                _jx2 = _jx1 + aw(_j) : _jy2 = _jy1 + ah(_j)
-                _ox1 = _ix1 : if _jx1 > _ox1 : _ox1 = _jx1
-                _oy1 = _iy1 : if _jy1 > _oy1 : _oy1 = _jy1
-                _ox2 = _ix2 : if _jx2 < _ox2 : _ox2 = _jx2
-                _oy2 = _iy2 : if _jy2 < _oy2 : _oy2 = _jy2
-                _inter = 0
-                if _ox2 > _ox1 : if _oy2 > _oy1 : _inter = (_ox2 - _ox1) * (_oy2 - _oy1)
-                _a = aw(_i) * ah(_i)
-                _b = aw(_j) * ah(_j)
-                if _inter * 10 > (_a + _b - _inter) * 3 : _keep_arr(_j) = 0    ; IoU > 0.3
-            }
-            _j++
-        loop
-    loop
-    return
-
-; --------------------------------------------------------
-;   mp_hand_init "palm.tflite", "landmark.tflite"
-; --------------------------------------------------------
-#deffunc mp_hand_init str p1, str p2,  local _h
+#deffunc mp_hand_init str p1, str p2
     iron_tflite_open p1
     _mp_hand_h1 = stat
     if _mp_hand_h1 < 0 : return _mp_hand_h1
-    ; landmark model はオプション (v1 では未使用)
     if p2 != "" {
         iron_tflite_open p2
         _mp_hand_h2 = stat
     } else {
         _mp_hand_h2 = -1
     }
-    ; 入力/出力バッファ準備 (float32 = 4 bytes)
-    sdim _mp_hand_in,  4 * MP_HAND_INPUT_W * MP_HAND_INPUT_H * MP_HAND_INPUT_C
-    sdim _mp_hand_reg, 4 * MP_HAND_ANCHORS * MP_HAND_REG_STRIDE
-    sdim _mp_hand_sco, 4 * MP_HAND_ANCHORS
-    dim  _mp_hand_x, MP_HAND_MAX
-    dim  _mp_hand_y, MP_HAND_MAX
-    dim  _mp_hand_w, MP_HAND_MAX
-    dim  _mp_hand_h, MP_HAND_MAX
-    dim  _mp_hand_s, MP_HAND_MAX
+    dim _mp_hand_boxes,  MP_HAND_MAX * 5   ; x1, y1, x2, y2, score*1000
+    dim _mp_hand_lm,     MP_HAND_MAX * MP_HAND_NUM_KEY * 2
+    dim _mp_hand_conf,   MP_HAND_MAX
     _mp_hand_cnt = 0
-    _mp_gen_anchors
     return _mp_hand_h1
 
 #deffunc mp_hand_close
@@ -216,85 +62,100 @@
     return
 
 ; --------------------------------------------------------
-;   mp_hand_run var_rgb_buf, w, h
-;     → stat = 検出数
-;   v1: 実際の前処理 → invoke → decode を実装。
-;   後処理の anchor decode / NMS は簡易。
+;   mp_hand_run rgb_buf, w, h  → stat = 検出数
 ; --------------------------------------------------------
 #deffunc mp_hand_run var vrgb, int iw, int ih, \
-    local _n, local _i
-    if _mp_hand_h1 < 0 {
-        _mp_hand_cnt = 0
-        return 0
-    }
-    ; 1) resize RGB → 192x192
-    mp_resize_bilinear vrgb, iw, ih, _mp_hand_tmp, MP_HAND_INPUT_W, MP_HAND_INPUT_H, MP_HAND_INPUT_C
-    ; 2) uint8 → float32 [-1..1] 正規化
-    _n = MP_HAND_INPUT_W * MP_HAND_INPUT_H * MP_HAND_INPUT_C
-    ; HSP に float 配列は無いので bit 再解釈で書き込む
-    ; (ここでは簡便のため 0..255 を (v-128)/128 近似の整数値に置換し 4byte 詰める:
-    ;  実機検証は SDK 配置後に行う。v1 スタブ段階ではモデル呼び出しが
-    ;  0 件を返すことを主目的とする)
-    repeat _n
-        ; 近似: 0..255 → -1..1 の float を 4 バイトに置くには本来 lpoke(int bit) だが
-        ; HSP 側では float ビット演算がやや面倒なため、ここでは int として
-        ; (v - 128) を書き込み、モデル側の挙動確認に留める。正確な正規化は
-        ; SDK 配置後に C++ 側ヘルパを追加して置き換えること。
-        lpoke _mp_hand_in, cnt*4, peek(_mp_hand_tmp, cnt) - 128
-    loop
-    ; 3) invoke
-    tflite_set_input _mp_hand_h1, 0, _mp_hand_in, 4 * _n
-    tflite_invoke    _mp_hand_h1
-    tflite_get_output _mp_hand_h1, 0, _mp_hand_reg, 4 * MP_HAND_ANCHORS * MP_HAND_REG_STRIDE
-    tflite_get_output _mp_hand_h1, 1, _mp_hand_sco, 4 * MP_HAND_ANCHORS
-    ; 4) decode + NMS — v1 ではスタブ (結果 0 件)
-    ;    実装は SDK 配置後の次フェーズに回す (TODO: MediaPipe の正式な
-    ;    anchor decode + sigmoid + NMS を HSP 側または C++ ヘルパで)
+    local _cnt, local _i, local _pt, local _lm, local _conf, \
+    local _x1, local _y1, local _x2, local _y2
     _mp_hand_cnt = 0
+    if _mp_hand_h1 < 0 : return 0
+    ; 1) palm 検出
+    mp_palm_detect _mp_hand_h1, vrgb, iw, ih, 500, _mp_hand_boxes, _cnt
+    if _cnt <= 0 : return 0
+    if _cnt > MP_HAND_MAX : _cnt = MP_HAND_MAX
+    _mp_hand_cnt = _cnt
+    ; 2) 各 bbox について landmark
+    if _mp_hand_h2 < 0 : return _mp_hand_cnt
+    dim _lm, MP_HAND_NUM_KEY * 2
+    repeat _cnt
+        _i = cnt
+        _x1 = _mp_hand_boxes(_i * 5 + 0)
+        _y1 = _mp_hand_boxes(_i * 5 + 1)
+        _x2 = _mp_hand_boxes(_i * 5 + 2)
+        _y2 = _mp_hand_boxes(_i * 5 + 3)
+        mp_hand_landmark _mp_hand_h2, vrgb, iw, ih, _x1, _y1, _x2, _y2, _lm, _conf
+        _mp_hand_conf(_i) = _conf
+        repeat MP_HAND_NUM_KEY
+            _pt = cnt
+            _mp_hand_lm(_i * MP_HAND_NUM_KEY * 2 + _pt * 2 + 0) = _lm(_pt * 2 + 0)
+            _mp_hand_lm(_i * MP_HAND_NUM_KEY * 2 + _pt * 2 + 1) = _lm(_pt * 2 + 1)
+        loop
+    loop
     return _mp_hand_cnt
 
 #deffunc mp_hand_count var vn
     vn = _mp_hand_cnt
     return
 
-#deffunc mp_hand_score int idx, var vs
-    vs = 0.0
-    if idx >= 0 : if idx < _mp_hand_cnt : vs = _mp_hand_s(idx)
-    return
-
+;   bbox は [x, y, w, h] で返す (既存互換)
 #deffunc mp_hand_bbox int idx, var vx, var vy, var vw, var vh
     vx = 0 : vy = 0 : vw = 0 : vh = 0
     if idx >= 0 : if idx < _mp_hand_cnt {
-        vx = _mp_hand_x(idx)
-        vy = _mp_hand_y(idx)
-        vw = _mp_hand_w(idx)
-        vh = _mp_hand_h(idx)
+        vx = _mp_hand_boxes(idx * 5 + 0)
+        vy = _mp_hand_boxes(idx * 5 + 1)
+        vw = _mp_hand_boxes(idx * 5 + 2) - _mp_hand_boxes(idx * 5 + 0)
+        vh = _mp_hand_boxes(idx * 5 + 3) - _mp_hand_boxes(idx * 5 + 1)
     }
     return
 
-;   mp_hand_landmark idx, pt_idx, var_x, var_y, var_z — v1 スタブ (常に 0)
-#deffunc mp_hand_landmark int idx, int pidx, var vx, var vy, var vz
-    vx = 0 : vy = 0 : vz = 0
+;   bbox を x1,y1,x2,y2 で返す
+#deffunc mp_hand_bbox_xyxy int idx, var vx1, var vy1, var vx2, var vy2
+    vx1 = 0 : vy1 = 0 : vx2 = 0 : vy2 = 0
+    if idx >= 0 : if idx < _mp_hand_cnt {
+        vx1 = _mp_hand_boxes(idx * 5 + 0)
+        vy1 = _mp_hand_boxes(idx * 5 + 1)
+        vx2 = _mp_hand_boxes(idx * 5 + 2)
+        vy2 = _mp_hand_boxes(idx * 5 + 3)
+    }
+    return
+
+#deffunc mp_hand_score int idx, var vs
+    vs = 0.0
+    if idx >= 0 : if idx < _mp_hand_cnt {
+        vs = double(_mp_hand_boxes(idx * 5 + 4)) / 1000.0
+    }
+    return
+
+;   21 点 landmark の取得
+;   mp_hand_landmark_pt hand_idx, pt_idx, var_x, var_y
+#deffunc mp_hand_landmark_pt int hidx, int pidx, var vx, var vy
+    vx = 0 : vy = 0
+    if hidx >= 0 : if hidx < _mp_hand_cnt : if pidx >= 0 : if pidx < MP_HAND_NUM_KEY {
+        vx = _mp_hand_lm(hidx * MP_HAND_NUM_KEY * 2 + pidx * 2 + 0)
+        vy = _mp_hand_lm(hidx * MP_HAND_NUM_KEY * 2 + pidx * 2 + 1)
+    }
+    return
+
+#deffunc mp_hand_presence int hidx, var vc
+    vc = 0.0
+    if hidx >= 0 : if hidx < _mp_hand_cnt {
+        vc = double(_mp_hand_conf(hidx)) / 1000.0
+    }
     return
 
 ; --------------------------------------------------------
-;   pose / face — v1 スタブ (API 形のみ)
+;   pose / face — v1 スタブ
 ; --------------------------------------------------------
 #deffunc mp_pose_init str path
     return -100
-
 #deffunc mp_pose_close
     return
-
 #deffunc mp_pose_run var vrgb, int iw, int ih
     return 0
-
 #deffunc mp_face_init str path
     return -100
-
 #deffunc mp_face_close
     return
-
 #deffunc mp_face_run var vrgb, int iw, int ih
     return 0
 

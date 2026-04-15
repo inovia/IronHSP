@@ -215,3 +215,75 @@ hid
 %inst
 Interpreter を同期実行し、出力テンソルを更新します。
 実行後に tflite_get_output で結果を取得してください。
+
+%index
+mp_palm_detect
+MediaPipe 手のひら検出 (palm detector)
+
+%prm
+hid, var_rgb, w, h, score_thresh_x1000, var_out_boxes, var_out_count
+hid                : hand_detector.tflite をロード済みのハンドル
+var_rgb            : 入力 RGB バッファ (w*h*3 バイト)
+w, h               : 入力画像サイズ
+score_thresh_x1000 : 検出閾値 * 1000 (例 500 なら 0.5)
+var_out_boxes      : int 配列 (16*5 要素以上)
+                     [x1, y1, x2, y2, score*1000] * 検出数
+var_out_count      : 検出数を受け取る int
+
+%inst
+MediaPipe palm_detector を 1 コールで実行します。内部で
+letterbox resize (192x192, [-1..1] 正規化) → Invoke →
+anchor decode (2016 anchors) → sigmoid → NMS (IoU > 0.3) を
+C++ 側で処理し、検出した手のひら bbox を元画像座標で返します。
+bbox は最大 16 個まで、score 降順で格納されます。
+
+%index
+mp_hand_landmark
+MediaPipe 21 点 Hand Landmark 検出
+
+%prm
+hid, var_rgb, w, h, x1, y1, x2, y2, var_out_xy, var_out_conf_x1000
+hid              : hand_landmarks_detector.tflite のハンドル
+var_rgb          : 入力 RGB バッファ (w*h*3)
+w, h             : 入力画像サイズ
+x1,y1,x2,y2      : palm bbox (入力画像座標系)
+var_out_xy       : int 配列 (21*2 = 42 要素)
+var_out_conf_x1000 : presence confidence * 1000
+
+%inst
+palm bbox を 1.5 倍程度に拡張 + 正方形化して切り出し、
+224x224 にリサイズ ([0..1] 正規化) → Invoke → 21 点 landmark を
+元画像座標系に逆変換して返します。
+
+%index
+mp_bgr_to_rgb
+BGR → RGB 変換ヘルパ
+
+%prm
+var_bgr, w, h, var_rgb
+var_bgr : 入力 24bit BGR (w*h*3、例えば bmscr の DIB)
+w, h    : 画像サイズ
+var_rgb : 出力 RGB (事前に w*h*3 バイト確保)
+
+%inst
+24bit BGR を 24bit RGB にチャンネル入れ替えします。
+hsp の bmscr (BGR) を MediaPipe 系 API に渡す前処理で使います。
+
+%index
+mp_letterbox_resize
+letterbox 方式のリサイズヘルパ
+
+%prm
+var_src, sw, sh, src_ch, var_dst, dw, dh, var_params
+var_src    : 入力 8bit (sw*sh*src_ch)
+sw, sh     : 入力サイズ
+src_ch     : 1 or 3
+var_dst    : 出力 8bit RGB (dw*dh*3)
+dw, dh     : 出力サイズ
+var_params : 逆変換用パラメータ int*4
+             [scale*10000, scale*10000, offset_x, offset_y]
+
+%inst
+長辺に合わせて縮小 + 余白を 0 で pad する MediaPipe 標準の
+letterbox リサイズをバイリニア補間で実行します。後段で bbox を
+元画像座標に戻すための変換情報を var_params に書き込みます。
