@@ -292,9 +292,9 @@
 ;     をそのまま流用する (comobj のインターフェース名だけ切り替え)。
 ;
 ;     DeviceContext 自身の拡張メソッドは index 55 以降:
-;       55 CreateBitmap(D2D1_SIZE_U, void* srcData, UINT32 pitch,
+;       57 CreateBitmap(D2D1_SIZE_U, void* srcData, UINT32 pitch,
 ;                       D2D1_BITMAP_PROPERTIES1*, ID2D1Bitmap1** out)
-;       72 SetTarget(ID2D1Image*)
+;       74 SetTarget(ID2D1Image*)
 ;     なお CreateBitmap の第1引数 D2D1_SIZE_U は { UINT32 w, UINT32 h } で
 ;     8 byte、x64 ABI で int64 レジスタ 1 個に lo=w / hi=h として載る。
 #usecom ID2D1DeviceContext IID_ID2D1DeviceContext "{}"
@@ -313,18 +313,18 @@
 #comfunc d2d_DC_BeginDraw 48
 #comfunc d2d_DC_EndDraw 49 var, var
 ; DeviceContext 拡張
-#comfunc d2d_DC_CreateBitmap 55 int64, int, int, var, var
-#comfunc d2d_DC_SetTarget 72 comobj
+#comfunc d2d_DC_CreateBitmap 57 int64, int, int, var, var
+#comfunc d2d_DC_SetTarget 74 comobj
 #comfunc d2d_DC_QueryInterface 0 var, var
 #comfunc d2d_DC_Release 2
 
 ; --- ID2D1DeviceContext5 (DeviceContext4 派生)
-;     112 CreateSvgDocument(IStream*, D2D1_SIZE_F, ID2D1SvgDocument** out)
-;     113 DrawSvgDocument(ID2D1SvgDocument*)
+;     115 CreateSvgDocument(IStream*, D2D1_SIZE_F, ID2D1SvgDocument** out)
+;     116 DrawSvgDocument(ID2D1SvgDocument*)
 ;     D2D1_SIZE_F = { FLOAT w, FLOAT h } = 8 byte → int64 1 個で渡す
 #usecom ID2D1DeviceContext5 IID_ID2D1DeviceContext5 "{}"
-#comfunc d2d_DC5_CreateSvgDocument 112 comobj, int64, var
-#comfunc d2d_DC5_DrawSvgDocument 113 comobj
+#comfunc d2d_DC5_CreateSvgDocument 115 comobj, int64, var
+#comfunc d2d_DC5_DrawSvgDocument 116 comobj
 #comfunc d2d_DC5_Release 2
 
 ; --- ID2D1Bitmap1 (ID2D1Bitmap 派生)
@@ -750,7 +750,7 @@
     _props->dpiY        = 96.0
     _props->options     = 3    ; TARGET | CANNOT_DRAW
     _props->colorContext = 0
-    sdim _out, 16
+    dim64 _out, 1   ; ID2D1Bitmap1* 受け取り用 (8 byte)
     _attach_dc(_dc, d2d_dc_ptr)
     d2d_DC_CreateBitmap _dc, _size, 0, 0, _props, _out
     _stat = stat
@@ -765,11 +765,19 @@
 
 ;-----------------------------------------------------------
 ; d2d_image_create id, width, height
-;   L1-3: software WicBitmap RT → D3D-backed DeviceContext に刷新。
-;   d2d_rt_ptrs(id) に「描画ターゲット ID2D1Bitmap1*」を格納する。
+;   WIC bitmap + ID2D1WicBitmapRenderTarget 経路 (software rasterizer)。
+;   d2d_rt_ptrs(id) に ID2D1RenderTarget* を格納し、各描画系コマンドは
+;   _attach_rt 経由で直接叩く。d2d_image_save は d2d_wicbmp_ptrs(id) の
+;   IWICBitmap を PNG/JPG エンコーダに流し込む。
+;
+;   L1-3 で d2d_svg_load は内部で別経路 (D3D11-backed DC + SetTarget +
+;   CopyFromBitmap でステージング → WIC 書き戻し) を使い、最終的に
+;   同じ d2d_wicbmp_ptrs(id) + d2d_rt_ptrs(id) の組で統合する。
 ;-----------------------------------------------------------
 #deffunc d2d_image_create int id, int w, int h, \
-    local _bmp_ptr, local _stat
+    local _wicbmp_out, local _wicbmp, \
+    local _rt_out, local _d2dfac, \
+    local _guid, local _props
     if d2d_initialized = 0 : d2d_init
     if id < 0 : return
     if id >= D2D_IMGS_MAX : return
@@ -777,10 +785,31 @@
     ; 既存 ID は解放
     if d2d_rt_ptrs(id) ! 0 : d2d_image_delete id
 
-    dim64 _bmp_ptr, 1
-    _d2d_create_target_bitmap w, h, _bmp_ptr
+    ; WIC bitmap 作成 (PBGRA 32bpp、CacheOnLoad)
+    sdim _guid, 16
+    if d2d_IIDFromString(GUID_WICPixelFormat32bppPBGRA, _guid) ! 0 : return
+    dim64 _wicbmp_out, 1
+    d2d_WIC_CreateBitmap d2d_wicfac, w, h, _guid, 2, _wicbmp_out
     if stat ! 0 : return
-    d2d_rt_ptrs(id) = _bmp_ptr
+    d2d_RtlMoveMemory d2d_wicbmp_ptrs(id), _wicbmp_out, 8
+
+    ; ID2D1Factory::CreateWicBitmapRenderTarget
+    newcom _wicbmp, IWICBitmap, -2, d2d_wicbmp_ptrs(id)
+    stdim _props, D2D_RT_PROPS
+    _props->rtType         = 0      ; DEFAULT
+    _props->dxgiFormat     = 87     ; DXGI_FORMAT_B8G8R8A8_UNORM
+    _props->alphaMode      = 1      ; PREMULTIPLIED
+    _props->dpiX           = 96.0
+    _props->dpiY           = 96.0
+    _props->usage          = 0
+    _props->minLevel       = 0
+    dim64 _rt_out, 1
+    _attach_d2dfac(_d2dfac, d2d_d2dfac_ptr)
+    d2d_D2DFac_CreateWicBitmapRenderTarget _d2dfac, _wicbmp, _props, _rt_out
+    delcom _d2dfac
+    delcom _wicbmp
+    if stat ! 0 : return
+    d2d_RtlMoveMemory d2d_rt_ptrs(id), _rt_out, 8
 
     d2d_img_w(id)       = w
     d2d_img_h(id)       = h
