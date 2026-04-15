@@ -1,0 +1,79 @@
+;============================================================
+;   sample_midi.hsp — hspmidi.dll (iron_midi) デモ
+;
+;   既定の MIDI 音源 (通常 "Microsoft GS Wavetable Synth") で
+;   C メジャースケール (C D E F G A B C) を演奏します。
+;
+;   実行前:
+;     package/win32/common/ に iron_midi.hsp があり、
+;     hspmidi.dll がランタイムパスに存在すること。
+;============================================================
+
+#include "iron_midi.hsp"
+
+    title "iron_midi — sample"
+    screen 0, 480, 240
+    font "MS Gothic", 14
+    color 0, 0, 0
+
+    mes "hspmidi.dll — C major scale demo"
+    mes ""
+
+    ; デバイス列挙
+    midi_out_count
+    ndev = stat
+    mes strf("MIDI out devices: %d", ndev)
+    if ndev == 0 {
+        color 180, 0, 0
+        mes "利用可能な MIDI 出力デバイスがありません。"
+        stop
+    }
+
+    repeat ndev
+        midi_out_name nm, cnt
+        mes strf("  %d: %s", cnt, nm)
+    loop
+    mes ""
+
+    ; 既定デバイス (0) で開く
+    midi_out_open 0
+    if stat < 0 {
+        color 180, 0, 0
+        mes strf("midi_out_open failed (stat=%d)", stat)
+        stop
+    }
+
+    ; Piano に音色切替
+    midi_out_program_change 0, GM_ACOUSTIC_GRAND
+
+    mes "Playing C major scale..."
+    redraw 1
+
+    ; C4 → C5 までのスケール (全音/半音ステップ)
+    sdim scale_name, 8, 8
+    scale_name(0) = "C4"
+    scale_name(1) = "D4"
+    scale_name(2) = "E4"
+    scale_name(3) = "F4"
+    scale_name(4) = "G4"
+    scale_name(5) = "A4"
+    scale_name(6) = "B4"
+    scale_name(7) = "C5"
+
+    repeat 8
+        n = note_name(scale_name(cnt))
+        mes strf("  %s (note=%d)", scale_name(cnt), n)
+        redraw 1
+        midi_out_note_on 0, n, 110
+        await 300
+        midi_out_note_off 0, n, 0
+        await 50
+    loop
+
+    ; 全ノートオフ
+    midi_out_reset
+    midi_out_close
+
+    mes ""
+    mes "Done."
+    stop

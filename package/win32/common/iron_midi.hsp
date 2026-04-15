@@ -1,0 +1,82 @@
+;============================================================
+;   iron_midi.hsp — winmm ベース MIDI in/out 簡易ラッパ
+;
+;   hspmidi.dll の薄いラッパです。基本は hspmidi.as を直接 #include
+;   して midi_out_* / midi_in_* 命令を使います。このファイルは追加で
+;   ユーティリティ cfunc (音名 → ノート番号変換) を提供します。
+;
+;   API (hspmidi.as より — 詳細は hspmidi.hs を参照):
+;     midi_out_count                        → stat = MIDI out デバイス数
+;     midi_out_name  var_str, devid         → デバイス名 (cp932)
+;     midi_out_open  devid                  → 0 / 負エラー
+;     midi_out_close                        → 0 / 負エラー
+;     midi_out_note_on    ch, note, vel
+;     midi_out_note_off   ch, note, vel
+;     midi_out_program_change ch, program   → 音色切替
+;     midi_out_short  status, d1, d2        → 任意 short message
+;     midi_out_reset                        → All Sound Off 相当
+;
+;     midi_in_count / midi_in_name / midi_in_open / midi_in_start /
+;     midi_in_stop / midi_in_close / midi_in_poll (ポーリング式)
+;
+;   追加 API (iron_midi):
+;     note_name("C4")   → ノート番号 (60)     ; #/b 対応, オクターブ負数可
+;
+;   例:
+;     #include "iron_midi.hsp"
+;
+;     midi_out_open 0                     ; デフォルトデバイス
+;     midi_out_program_change 0, GM_ACOUSTIC_GRAND
+;     n = note_name("C4")
+;     midi_out_note_on 0, n, 100
+;     await 500
+;     midi_out_note_off 0, n, 0
+;     midi_out_close
+;============================================================
+
+#ifndef __iron_midi_hsp__
+#define __iron_midi_hsp__
+
+#include "hspmidi.as"
+
+#module iron_midi
+
+;------------------------------------------------------------
+; 音名 → ノート番号 変換
+;   "C4"=60 / "C#4"=61 / "Db4"=61 / "C-1"=0 / "G9"=127 等
+;------------------------------------------------------------
+#defcfunc note_name str sname
+    s = sname
+    if strlen(s) < 2 : return -1
+
+    ; 音名
+    c = peek(s, 0)
+    base = -1
+    if (c == 'C') | (c == 'c') : base = 0
+    if (c == 'D') | (c == 'd') : base = 2
+    if (c == 'E') | (c == 'e') : base = 4
+    if (c == 'F') | (c == 'f') : base = 5
+    if (c == 'G') | (c == 'g') : base = 7
+    if (c == 'A') | (c == 'a') : base = 9
+    if (c == 'B') | (c == 'b') : base = 11
+    if base < 0 : return -1
+
+    idx = 1
+    ; 臨時記号
+    c = peek(s, idx)
+    if c == '#' {
+        base++
+        idx++
+    } else : if (c == 'b') | (c == 'B') {
+        base--
+        idx++
+    }
+
+    ; オクターブ (負数対応)
+    rest = strmid(s, idx, 8)
+    oct  = int(rest)
+    return (oct + 1) * 12 + base
+
+#global
+
+#endif
