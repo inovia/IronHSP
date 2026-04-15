@@ -1,0 +1,374 @@
+;============================================================
+;   iron_toast_winrt.hsp — モダン WinRT Toast 通知
+;
+;   Windows.UI.Notifications.ToastNotification (WinRT) を HSP から
+;   使うためのラッパ。既存の iron_toast.hsp (Shell_NotifyIcon) より
+;   モダンで、通知センターに履歴が残り、フォーカスアシストに対応。
+;
+;   単一 #module / 永続 COM オブジェクト / フラットなエラー処理 /
+;   高レベル API で整理。
+;
+;   既存 iron_toast.hsp との違い:
+;     iron_toast.hsp       → トレイアイコンのバルーン (旧式、消えると履歴なし)
+;     iron_toast_winrt.hsp → WinRT モダン通知、通知センターに履歴、Win8+
+;
+;   API (全て #module iron_toast_winrt):
+;     toast_winrt_init "display_name", "app_id"
+;         初回のみ Start Menu ショートカット作成 + AppUserModelID 登録
+;         + WinRT 初期化 + ToastNotifier 生成。stat=0 成功、負は失敗。
+;         app_id は "Company.App.Component" 形式の逆ドメイン風文字列。
+;
+;     toast_winrt1 "message"                   1 行だけ (ToastText01)
+;     toast_winrt2 "title", "body"             タイトル + 1 行本文 (ToastText02)
+;     toast_winrt3 "title", "line1", "line2"   タイトル + 2 行本文 (ToastText04)
+;
+;     toast_winrt_shutdown
+;         COM 解放 + RoUninitialize
+;
+;   依存:
+;     - Combase.dll / Propsys.dll / Ole32.dll / shell32.dll
+;     - api-ms-win-core-winrt-string-l1-1-0.dll
+;     - 全て Windows 8+ 標準。追加 DL 不要。
+;
+;   制約:
+;     - **hsp3net 専用**。raw ポインタを intptr (plat-size int) で扱うため
+;       IronHSP 2026 の hsp3net runtime が必要。Win32/x64 両対応。
+;
+;   例:
+;     #include "iron_toast_winrt.hsp"
+;         toast_winrt_init "My HSP App", "IronHSP.Sample.ToastWinRT"
+;         if stat < 0 : dialog "toast init failed" : end
+;         toast_winrt2 "処理完了", "データ保存に成功しました"
+;         wait 300
+;         toast_winrt3 "ダウンロード", "大容量ファイル.zip", "2.3 GB / 完了"
+;         wait 300
+;         toast_winrt_shutdown
+;         stop
+;============================================================
+
+#ifndef __iron_toast_winrt_hsp__
+#define __iron_toast_winrt_hsp__
+
+;------------------------------------------------------------
+; Toast テンプレート定数 (#module の外側に置く — 内側に置くと同じ
+; module の #deffunc 本体で変数誤解釈される HSP の quirk あり)
+;------------------------------------------------------------
+#define global TOAST_IMAGE_AND_TEXT01  0
+#define global TOAST_IMAGE_AND_TEXT02  1
+#define global TOAST_IMAGE_AND_TEXT03  2
+#define global TOAST_IMAGE_AND_TEXT04  3
+#define global TOAST_TEXT01            4
+#define global TOAST_TEXT02            5
+#define global TOAST_TEXT03            6
+#define global TOAST_TEXT04            7
+
+#module iron_toast_winrt
+
+;------------------------------------------------------------
+; 外部 DLL 宣言 (全て module 内部用、callers には出さない)
+; ポインタ系は intptr を使用 (hsp3net 3.8beta1 以降で platform-size)
+;------------------------------------------------------------
+
+#uselib "kernel32.dll"
+#func _twrt_GetExePath     "GetModuleFileNameA" intptr, var, int
+#func _twrt_M2W            "MultiByteToWideChar" int, int, var, int, var, int
+
+#uselib "Combase.dll"
+#func _twrt_RoInit         "RoInitialize"           int
+#func _twrt_RoUninit       "RoUninitialize"
+#func _twrt_RoGetAF        "RoGetActivationFactory" intptr, var, var
+
+#uselib "api-ms-win-core-winrt-string-l1-1-0.dll"
+#func _twrt_WCreate        "WindowsCreateString" var, int, var
+#func _twrt_WDelete        "WindowsDeleteString" intptr
+
+#uselib "Propsys.dll"
+#func _twrt_InitPVStrVec   "InitPropVariantFromStringVector" var, int, var
+#func _twrt_PVClear        "PropVariantClear" var
+
+#uselib "shell32.dll"
+#func _twrt_SetAppID       "SetCurrentProcessExplicitAppUserModelID" wstr
+
+;------------------------------------------------------------
+; COM インターフェース宣言
+;------------------------------------------------------------
+
+; ----- IShellLinkW (Start Menu ショートカット作成) -----
+#define CLSID_ShellLink  "{00021401-0000-0000-C000-000000000046}"
+#define IID_IShellLinkW  "{000214F9-0000-0000-C000-000000000046}"
+#usecom IShellLinkW IID_IShellLinkW CLSID_ShellLink
+#comfunc IShellLinkW_SetPath         20 wstr
+#comfunc IShellLinkW_SetIconLocation 17 wstr, int
+
+; ----- IPersistFile (ショートカット .lnk 書き出し) -----
+#define IID_IPersistFile "{0000010b-0000-0000-C000-000000000046}"
+#usecom IPersistFile IID_IPersistFile "{}"
+#comfunc IPersistFile_Save 6 wstr, int
+
+; ----- IPropertyStore (ショートカットに AppUserModelID を埋め込む) -----
+#define IID_IPropertyStore "{886d8eeb-8cf2-4446-8d02-cdba1dbdcf99}"
+#usecom IPropertyStore IID_IPropertyStore "{}"
+#comfunc IPropertyStore_SetValue 6 var, var
+#comfunc IPropertyStore_Commit   7
+
+; ----- IToastNotificationManagerStatics (WinRT Activation Factory) -----
+#define IID_ITNMS "{50ac103f-d235-4598-bbef-98fe4d1a3ad4}"
+#usecom IToastNotificationManagerStatics IID_ITNMS "{}"
+#comfunc ITNMS_GetTemplateContent        8 int, var
+#comfunc ITNMS_CreateToastNotifierWithId 7 intptr, var
+
+; ----- IXmlDocument (Windows.Data.Xml.Dom) -----
+#define IID_IXmlDocument "{F7F3A506-1E87-42D6-BCFB-B8C809FA5494}"
+#usecom IXmlDocument IID_IXmlDocument "{}"
+#comfunc IXmlDocument_CreateTextNode       11 intptr, var
+#comfunc IXmlDocument_GetElementsByTagName 16 intptr, var
+
+; ----- IXmlNodeList -----
+#define IID_IXmlNodeList "{8C60AD77-83A4-4EC1-9C54-7BA429E13DA6}"
+#usecom IXmlNodeList IID_IXmlNodeList "{}"
+#comfunc IXmlNodeList_get_Length 6 var
+#comfunc IXmlNodeList_Item       7 int, var
+
+; ----- IXmlNode -----
+#define IID_IXmlNode "{1C741D59-2122-47D5-A856-83F3D4214875}"
+#usecom IXmlNode IID_IXmlNode "{}"
+#comfunc IXmlNode_AppendChild 22 intptr, var
+
+; ----- IToastNotifier -----
+#define IID_IToastNotifier "{75927B93-03F3-41EC-91D3-6E5BAC1B38E7}"
+#usecom IToastNotifier IID_IToastNotifier "{}"
+#comfunc IToastNotifier_Show 6 intptr
+
+; ----- IToastNotificationFactory (IInspectable 継承、CreateToastNotification) -----
+; 第 1 引数 IXmlDocument* は comobj 型で直接 COM 変数を渡す
+; (HSP が内部で IUnknown* を取り出してくれる — 32/64bit 両対応)
+#define IID_ITNF "{04124B20-82C6-4229-B109-FD9ED4662B53}"
+#usecom IToastNotificationFactory IID_ITNF "{}"
+#comfunc ITNF_CreateToastNotification 6 comobj, var
+
+;============================================================
+; 内部ヘルパ
+;============================================================
+
+;------------------------------------------------------------
+; _twrt_str2hstr  sjis 文字列 → HSTRING
+;   HSP の cnvstow は WCHAR 数を正確に把握できないので
+;   MultiByteToWideChar で 2 段階変換 (byte 数取得 → 実変換)。
+;------------------------------------------------------------
+#deffunc _twrt_str2hstr str _src, var _out_h,  local _ws, local _wlen, local _asbuf
+    _asbuf = _src
+    _out_h = 0
+    if strlen(_asbuf) = 0 {
+        _twrt_WCreate _asbuf, 0, _out_h
+        return
+    }
+    ; 必要 WCHAR 数 (null 含む) を取得
+    _twrt_M2W 0, 0, _asbuf, -1, _ws, 0
+    _wlen = stat
+    if _wlen <= 1 : return
+    sdim _ws, _wlen * 2 + 2
+    _twrt_M2W 0, 0, _asbuf, -1, _ws, _wlen
+    ; WindowsCreateString は null を含まない WCHAR 数
+    _twrt_WCreate _ws, _wlen - 1, _out_h
+    return
+
+;------------------------------------------------------------
+; _twrt_create_shortcut
+;   Start Menu\Programs にショートカット (.lnk) を作成し、
+;   AppUserModelID を埋め込む。同名があれば上書き。
+;------------------------------------------------------------
+#deffunc _twrt_create_shortcut str _exe_path, str _lnk_path, str _app_id,  local _link, local _ps, local _wid, local _wids, local _pvar, local _pkey
+    newcom _link, IShellLinkW
+    if varuse(_link) = 0 : return -1
+
+    IShellLinkW_SetPath         _link, _exe_path
+    IShellLinkW_SetIconLocation _link, _exe_path, 0
+
+    querycom _ps, _link, IPropertyStore
+    if varuse(_ps) = 0 : delcom _link : return -2
+
+    ; AppUserModelID を PROPVARIANT (文字列ベクタ、要素 1) として作成
+    sdim _wid, strlen(_app_id) * 2 + 2
+    cnvstow _wid, _app_id
+    _wids = varptr(_wid)
+    dim _pvar, 4                       ; PROPVARIANT ≒ 16 byte
+    _twrt_InitPVStrVec varptr(_wids), 1, varptr(_pvar)
+
+    ; PKEY_AppUserModel_ID = PROPERTYKEY{
+    ;    fmtid = {9F4C2855-9F79-4B39-A8D0-E1D42D E1D5F3},
+    ;    pid = 5
+    ; }
+    _pkey = 0x9F4C2855, 0x4B399F79, 0xD4E1D0A8, 0xF3D5E12D, 5
+    IPropertyStore_SetValue _ps, varptr(_pkey), varptr(_pvar)
+    IPropertyStore_Commit   _ps
+    _twrt_PVClear varptr(_pvar)
+
+    IPersistFile_Save _link, _lnk_path, 1
+
+    delcom _ps
+    delcom _link
+    return 0
+
+;============================================================
+; 公開 API
+;============================================================
+
+;------------------------------------------------------------
+; toast_winrt_init "display_name", "app_id"
+;   module 内の永続 COM オブジェクト (pTnms / pNotifier) を生成。
+;   多重呼び出しは安全 (2 回目以降は何もせず 0 を返す)。
+;------------------------------------------------------------
+#deffunc toast_winrt_init str _disp, str _app_id,  local _exepath, local _lnkpath, local _hstr_mgr, local _guid, local _raw, local _hstr_app
+    if _twrt_inited : return 0
+
+    _twrt_RoInit 1
+
+    ; 1. 自 exe のフルパス (hsp3cl.exe / hsp3.exe / 配布 exe など)
+    sdim _exepath, 1024 + 1
+    _twrt_GetExePath 0, _exepath, 1024
+
+    ; 2. %APPDATA%\Microsoft\Windows\Start Menu\Programs\<disp>.lnk
+    _lnkpath = dirinfo($1001A) + "\\Microsoft\\Windows\\Start Menu\\Programs\\" + _disp + ".lnk"
+
+    ; 3. ショートカット作成 (AppUserModelID 埋め込み)
+    _twrt_create_shortcut _exepath, _lnkpath, _app_id
+
+    ; 4. 現在プロセスに AppUserModelID を設定
+    _twrt_SetAppID _app_id
+
+    ; 5. IToastNotificationManagerStatics を取得
+    _twrt_str2hstr "Windows.UI.Notifications.ToastNotificationManager", _hstr_mgr
+    _guid = 0x50ac103f, 0x4598d235, 0xfe98efbb, 0xd43a1a4d
+    _raw = 0
+    _twrt_RoGetAF _hstr_mgr, _guid, _raw
+    _twrt_WDelete _hstr_mgr
+    if _raw = 0 : return -1
+    newcom _twrt_pTnms, IToastNotificationManagerStatics, -1, _raw
+
+    ; 6. ToastNotifier を作成 (AppUserModelID に紐付け)
+    _twrt_str2hstr _app_id, _hstr_app
+    _raw = 0
+    ITNMS_CreateToastNotifierWithId _twrt_pTnms, _hstr_app, _raw
+    _twrt_WDelete _hstr_app
+    if _raw = 0 : return -2
+    newcom _twrt_pNotifier, IToastNotifier, -1, _raw
+
+    _twrt_inited = 1
+    return 0
+
+;------------------------------------------------------------
+; _twrt_show (内部)
+;   XML テンプレート取得 → <text> ノードに文字を流し込む →
+;   IToastNotification 作成 → Show
+;------------------------------------------------------------
+#deffunc _twrt_show int _tpl, array _texts,  local _raw, local _pXml, local _hstr_tag, local _pNL, local _i, local _nmax, local _node_raw, local _pNode, local _hstr_text, local _text_raw, local _guid, local _factory_raw, local _pFactory, local _toast_raw, local _appended
+    if _twrt_inited = 0 : return -1
+
+    ; 1. テンプレート XML を取得
+    _raw = 0
+    ITNMS_GetTemplateContent _twrt_pTnms, _tpl, _raw
+    if _raw = 0 : return -2
+    newcom _pXml, IXmlDocument, -1, _raw
+
+    ; 2. <text> ノード一覧を取得
+    _twrt_str2hstr "text", _hstr_tag
+    _raw = 0
+    IXmlDocument_GetElementsByTagName _pXml, _hstr_tag, _raw
+    _twrt_WDelete _hstr_tag
+    if _raw = 0 : delcom _pXml : return -3
+    newcom _pNL, IXmlNodeList, -1, _raw
+
+    ; 3. 各 <text> ノードの子として CreateTextNode → AppendChild
+    _nmax = length(_texts)
+    if _nmax > 4 : _nmax = 4     ; テンプレートが持つ text スロットは最大 4
+    repeat _nmax
+        _i = cnt
+        _node_raw = 0
+        IXmlNodeList_Item _pNL, _i, _node_raw
+        if _node_raw = 0 : continue
+        newcom _pNode, IXmlNode, -1, _node_raw
+
+        _twrt_str2hstr _texts(_i), _hstr_text
+        _text_raw = 0
+        IXmlDocument_CreateTextNode _pXml, _hstr_text, _text_raw
+        _twrt_WDelete _hstr_text
+
+        if _text_raw ! 0 {
+            _appended = 0
+            IXmlNode_AppendChild _pNode, _text_raw, _appended
+            ; _appended は戻り値の raw ptr (未使用、明示的には解放しない)
+        }
+        delcom _pNode
+    loop
+    delcom _pNL
+
+    ; 4. IToastNotificationFactory を取得 (毎回 activate するが安価)
+    _twrt_str2hstr "Windows.UI.Notifications.ToastNotification", _hstr_tag
+    _guid = 0x04124B20, 0x422982C6, 0x9EFD09B1, 0x532B66D4
+    _factory_raw = 0
+    _twrt_RoGetAF _hstr_tag, _guid, _factory_raw
+    _twrt_WDelete _hstr_tag
+    if _factory_raw = 0 : delcom _pXml : return -4
+    newcom _pFactory, IToastNotificationFactory, -1, _factory_raw
+
+    ; 5. IToastNotification を作成 (IXmlDocument は comobj として直接渡す)
+    _toast_raw = 0
+    ITNF_CreateToastNotification _pFactory, _pXml, _toast_raw
+    if _toast_raw = 0 {
+        delcom _pFactory
+        delcom _pXml
+        return -5
+    }
+
+    ; 6. 通知を表示
+    IToastNotifier_Show _twrt_pNotifier, _toast_raw
+
+    ; 7. 後始末 (toast 自体の raw ptr は notifier 側に取り込まれる)
+    delcom _pFactory
+    delcom _pXml
+    return 0
+
+;------------------------------------------------------------
+; toast_winrt2 "title", "body"               (ToastText02)
+;------------------------------------------------------------
+#deffunc toast_winrt2 str _title, str _body,  local _texts
+    sdim _texts, 512, 2
+    _texts(0) = _title
+    _texts(1) = _body
+    _twrt_show TOAST_TEXT02, _texts
+    return stat
+
+;------------------------------------------------------------
+; toast_winrt1 "message"                     (ToastText01)
+;------------------------------------------------------------
+#deffunc toast_winrt1 str _msg,  local _texts
+    sdim _texts, 512, 1
+    _texts(0) = _msg
+    _twrt_show TOAST_TEXT01, _texts
+    return stat
+
+;------------------------------------------------------------
+; toast_winrt3 "title", "line1", "line2"     (ToastText04)
+;------------------------------------------------------------
+#deffunc toast_winrt3 str _title, str _line1, str _line2,  local _texts
+    sdim _texts, 512, 3
+    _texts(0) = _title
+    _texts(1) = _line1
+    _texts(2) = _line2
+    _twrt_show TOAST_TEXT04, _texts
+    return stat
+
+;------------------------------------------------------------
+; toast_winrt_shutdown
+;------------------------------------------------------------
+#deffunc toast_winrt_shutdown
+    if _twrt_inited = 0 : return
+    delcom _twrt_pNotifier
+    delcom _twrt_pTnms
+    _twrt_RoUninit
+    _twrt_inited = 0
+    return
+
+#global
+
+#endif
