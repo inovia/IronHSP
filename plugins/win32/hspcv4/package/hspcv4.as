@@ -417,18 +417,18 @@
 
 ; ---- video : optical flow / background subtraction / trackers ----
 ; オプティカルフロー
-#func global cv4_optflow_farneback cv4_optflow_farneback $202
-#func global cv4_optflow_lk        cv4_optflow_lk        $202
+#func global cv4_optflow_farneback "cv4_optflow_farneback" int, int, int
+#func global cv4_optflow_lk        "cv4_optflow_lk"        int, int, int, int, int
 ; 背景差分
-#func global cv4_bgsub_create_mog2 cv4_bgsub_create_mog2 $202
-#func global cv4_bgsub_create_knn  cv4_bgsub_create_knn  $202
-#func global cv4_bgsub_apply       cv4_bgsub_apply       $202
-#func global cv4_bgsub_free        cv4_bgsub_free        $202
+#func global cv4_bgsub_create_mog2 "cv4_bgsub_create_mog2" int, int, double, int
+#func global cv4_bgsub_create_knn  "cv4_bgsub_create_knn"  int, int, double, int
+#func global cv4_bgsub_apply       "cv4_bgsub_apply"       int, int, int, double
+#func global cv4_bgsub_free        "cv4_bgsub_free"        int
 ; トラッカ (OpenCV 4.12 main: MIL のみ。KCF/CSRT は contrib 同梱)
-#func global cv4_tracker_create_mil  cv4_tracker_create_mil  $202
-#func global cv4_tracker_init        cv4_tracker_init        $202
-#func global cv4_tracker_update      cv4_tracker_update      $202
-#func global cv4_tracker_free        cv4_tracker_free        $202
+#func global cv4_tracker_create_mil  "cv4_tracker_create_mil"  int
+#func global cv4_tracker_init        "cv4_tracker_init"        int, int, int, int, int, int
+#func global cv4_tracker_update      "cv4_tracker_update"      int, int, var, var, var, var
+#func global cv4_tracker_free        "cv4_tracker_free"        int
 
 ; ---- calib3d : homography / perspective transforms ----
 #func global cv4_find_homography            "cv4_find_homography"            int, int, int, int, double
@@ -457,15 +457,15 @@
 #define global CV4_ML_ROW_SAMPLE    0
 #define global CV4_ML_COL_SAMPLE    1
 ;
-#func global cv4_ml_svm_create     cv4_ml_svm_create     $202
-#func global cv4_ml_knn_create     cv4_ml_knn_create     $202
-#func global cv4_ml_rtrees_create  cv4_ml_rtrees_create  $202
-#func global cv4_ml_ann_create     cv4_ml_ann_create     $202
-#func global cv4_ml_train          cv4_ml_train          $202
-#func global cv4_ml_predict        cv4_ml_predict        $202
-#func global cv4_ml_save           cv4_ml_save           $202
-#func global cv4_ml_load           cv4_ml_load           $202
-#func global cv4_ml_free           cv4_ml_free           $202
+#func global cv4_ml_svm_create     "cv4_ml_svm_create"     int, int, int, double, double
+#func global cv4_ml_knn_create     "cv4_ml_knn_create"     int, int
+#func global cv4_ml_rtrees_create  "cv4_ml_rtrees_create"  int, int, int
+#func global cv4_ml_ann_create     "cv4_ml_ann_create"     int, int
+#func global cv4_ml_train          "cv4_ml_train"          int, int, int, int
+#func global cv4_ml_predict        "cv4_ml_predict"        int, int, int, int
+#func global cv4_ml_save           "cv4_ml_save"           int, str
+#func global cv4_ml_load           "cv4_ml_load"           int, str, int
+#func global cv4_ml_free           "cv4_ml_free"           int
 
 ; ---- Face module (Phase 19): LBPH/Eigen/Fisher + FacemarkLBF/Kazemi ----
 ; FaceRecognizer 種別 (cv4_face_load 第 3 引数)
@@ -476,16 +476,16 @@
 #define global CV4_FACEMARK_LBF    0
 #define global CV4_FACEMARK_KAZEMI 1
 ;
-#func global cv4_face_lbph_create   cv4_face_lbph_create   $202
-#func global cv4_face_eigen_create  cv4_face_eigen_create  $202
-#func global cv4_face_fisher_create cv4_face_fisher_create $202
-#func global cv4_face_predict       cv4_face_predict       $202
-#func global cv4_face_save          cv4_face_save          $202
-#func global cv4_face_load          cv4_face_load          $202
-#func global cv4_face_free          cv4_face_free          $202
-#func global cv4_facemark_create    cv4_facemark_create    $202
-#func global cv4_facemark_load      cv4_facemark_load      $202
-#func global cv4_facemark_free      cv4_facemark_free      $202
+#func global cv4_face_lbph_create   "cv4_face_lbph_create"   int, int, int, int, int
+#func global cv4_face_eigen_create  "cv4_face_eigen_create"  int, int
+#func global cv4_face_fisher_create "cv4_face_fisher_create" int, int
+#func global cv4_face_predict       "cv4_face_predict"       pexinfo, int, int, var, pval
+#func global cv4_face_save          "cv4_face_save"          int, str
+#func global cv4_face_load          "cv4_face_load"          int, str, int
+#func global cv4_face_free          "cv4_face_free"          int
+#func global cv4_facemark_create    "cv4_facemark_create"    int, int
+#func global cv4_facemark_load      "cv4_facemark_load"      int, str
+#func global cv4_facemark_free      "cv4_facemark_free"      int
 
 ; ---- imgproc extras (Phase 20): watershed / grabCut / colormap / etc ----
 ; ColorMap 種別 (cv4_apply_color_map 第 3 引数; cv::COLORMAP_*)
@@ -513,25 +513,25 @@
 #func global cv4_moments_centroid     cv4_moments_centroid     $202
 
 ; ---- Stereo (Phase 21) ----
-#func global cv4_stereo_bm_create     cv4_stereo_bm_create     $202
-#func global cv4_stereo_sgbm_create   cv4_stereo_sgbm_create   $202
-#func global cv4_stereo_compute       cv4_stereo_compute       $202
-#func global cv4_stereo_free          cv4_stereo_free          $202
+#func global cv4_stereo_bm_create     "cv4_stereo_bm_create"     int, int, int
+#func global cv4_stereo_sgbm_create   "cv4_stereo_sgbm_create"   int, int, int, int, int, int
+#func global cv4_stereo_compute       "cv4_stereo_compute"       int, int, int, int
+#func global cv4_stereo_free          "cv4_stereo_free"          int
 
 ; ---- xphoto (Phase 22): white balance / oil painting / BM3D ----
 ; freetype は WITH_FREETYPE=OFF (FreeType/HarfBuzz 未導入) のため別途
-#func global cv4_xphoto_simple_wb     cv4_xphoto_simple_wb     $202
-#func global cv4_xphoto_grayworld_wb  cv4_xphoto_grayworld_wb  $202
-#func global cv4_xphoto_oil_painting  cv4_xphoto_oil_painting  $202
-#func global cv4_xphoto_bm3d_denoise  cv4_xphoto_bm3d_denoise  $202
+#func global cv4_xphoto_simple_wb     "cv4_xphoto_simple_wb"     int, int
+#func global cv4_xphoto_grayworld_wb  "cv4_xphoto_grayworld_wb"  int, int
+#func global cv4_xphoto_oil_painting  "cv4_xphoto_oil_painting"  int, int, int, int
+#func global cv4_xphoto_bm3d_denoise  "cv4_xphoto_bm3d_denoise"  int, int, int
 
 ; ---- features2d 追加 + KalmanFilter (Phase 23) ----
-#func global cv4_brisk_detect_compute cv4_brisk_detect_compute $202
-#func global cv4_fast_detect          cv4_fast_detect          $202
-#func global cv4_kalman_create        cv4_kalman_create        $202
-#func global cv4_kalman_predict       cv4_kalman_predict       $202
-#func global cv4_kalman_correct       cv4_kalman_correct       $202
-#func global cv4_kalman_free          cv4_kalman_free          $202
+#func global cv4_brisk_detect_compute "cv4_brisk_detect_compute" int, int, int, int, int
+#func global cv4_fast_detect          "cv4_fast_detect"          int, int, int, int
+#func global cv4_kalman_create        "cv4_kalman_create"        int, int, int, int
+#func global cv4_kalman_predict       "cv4_kalman_predict"       int, int
+#func global cv4_kalman_correct       "cv4_kalman_correct"       int, int, int
+#func global cv4_kalman_free          "cv4_kalman_free"          int
 
 ; ---- xfeatures2d / ximgproc extras (Phase 24) ----
 #func global cv4_msd_detect           cv4_msd_detect           $202
@@ -597,9 +597,9 @@
 #func global cv4_dist_coeffs             "cv4_dist_coeffs"           int, double, double, double, double, double
 #func global cv4_undistort               "cv4_undistort"             int, int, int, int
 #func global cv4_rodrigues               "cv4_rodrigues"             int, int
-#func global cv4_solve_pnp               cv4_solve_pnp               $202
-#func global cv4_project_points          cv4_project_points          $202
-#func global cv4_find_chessboard_corners cv4_find_chessboard_corners $202
+#func global cv4_solve_pnp               "cv4_solve_pnp"               int, int, int, int, int, int, int
+#func global cv4_project_points          "cv4_project_points"          int, int, int, int, int, int
+#func global cv4_find_chessboard_corners "cv4_find_chessboard_corners" int, int, int, int
 
 ; ---- objdetect extras : HOG + QR code + Barcode ----
 ;
@@ -625,8 +625,8 @@
 ;   rects: stdim cv_rect array で確保
 ;   ids: int 配列、検出したマーカ ID を格納
 ; cv4_aruco_generate dst_id, dict, marker_id, side_pixels [, border=1]
-#func global cv4_aruco_detect       cv4_aruco_detect       $202
-#func global cv4_aruco_generate     cv4_aruco_generate     $202
+#func global cv4_aruco_detect       "cv4_aruco_detect"       pexinfo, pval, pval, var, int, int
+#func global cv4_aruco_generate     "cv4_aruco_generate"     int, int, int, int, int
 
 ; ---- imgcodecs extras: flags / memory buffer encode/decode ----
 #func global cv4_imread_flags   "cv4_imread_flags"   int, str, int

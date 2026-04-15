@@ -1417,30 +1417,17 @@ CV4_EXPORT int __stdcall cv4_imencode(HSPEXINFO* hei, const char* ext, int id,
 //  検出関数は cv_rect 配列に各マーカの外接矩形を、別 int 配列に ID を返す。
 //============================================================================
 
-//  cv4_aruco_detect rects_array, ids_array, count_var, img_id [, dict=DICT_4X4_50(0)]
-CV4_EXPORT BOOL WINAPI cv4_aruco_detect(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_aruco_detect rects_array, ids_array, count_var, img_id, dict
+CV4_EXPORT int __stdcall cv4_aruco_detect(HSPEXINFO* hei,
+                                          PVal* pv_rects, PVal* pv_ids,
+                                          int* out_count, int img_id, int dict_id)
 {
-    (void)p1; (void)p2; (void)p3;
     set_hei(hei);
     try {
-        PVal* pv_rects;
-        APTR a1 = hei->HspFunc_prm_getva(&pv_rects);
-        pv_rects->offset = a1;
-
-        PVal* pv_ids;
-        APTR a2 = hei->HspFunc_prm_getva(&pv_ids);
+        if (!pv_rects || !pv_ids || !out_count)
+            return fail("cv4_aruco_detect: null arg");
         if (pv_ids->flag != HSPVAR_FLAG_INT)
             return fail("cv4_aruco_detect: ids must be int array");
-        pv_ids->offset = a2;
-
-        PVal* pv_count;
-        APTR a3 = hei->HspFunc_prm_getva(&pv_count);
-        if (pv_count->flag != HSPVAR_FLAG_INT)
-            return fail("cv4_aruco_detect: count must be int");
-        pv_count->offset = a3;
-
-        int img_id = getint();
-        int dict_id = getint_def(0);   // DICT_4X4_50 = 0
 
         cv::Mat* img = hspcv4::handle_get(img_id);
         if (!img || img->empty()) return fail("cv4_aruco_detect: invalid image");
@@ -1474,8 +1461,7 @@ CV4_EXPORT BOOL WINAPI cv4_aruco_detect(HSPEXINFO* hei, int p1, int p2, int p3)
             p[0] = br.x; p[1] = br.y; p[2] = br.width; p[3] = br.height;
             base_i[i] = ids[i];
         }
-        HspVarProc* proc = hei->HspFunc_getproc(pv_count->flag);
-        proc->Set(pv_count, proc->GetPtr(pv_count), &n);
+        *out_count = n;
         return 0;
     } catch (const cv::Exception& e) {
         return fail(e.what());
@@ -1484,18 +1470,12 @@ CV4_EXPORT BOOL WINAPI cv4_aruco_detect(HSPEXINFO* hei, int p1, int p2, int p3)
     }
 }
 
-//  cv4_aruco_generate dst_id, dict, marker_id, side_pixels [, border=1]
+//  cv4_aruco_generate dst_id, dict, marker_id, side_pixels, border
 //    指定 ID のマーカ画像を生成する。
-CV4_EXPORT BOOL WINAPI cv4_aruco_generate(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_aruco_generate(int dst_id, int dict_id, int marker_id,
+                                            int side, int border)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int dict_id = getint();
-        int marker_id = getint();
-        int side = getint();
-        int border = getint_def(1);
         cv::aruco::Dictionary dict =
             cv::aruco::getPredefinedDictionary(dict_id);
         cv::Mat out;
@@ -2205,17 +2185,11 @@ enum {
     CV4_ML_LOGISTIC = 8,
 };
 
-//  cv4_ml_svm_create model_id [, type=C_SVC(100)] [, kernel=RBF(2)] [, c=1.0] [, gamma=1.0]
-CV4_EXPORT BOOL WINAPI cv4_ml_svm_create(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_ml_svm_create model_id, type, kernel, c, gamma
+CV4_EXPORT int __stdcall cv4_ml_svm_create(int model_id, int type, int kernel,
+                                           double c, double gamma)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id = getint();
-        int type     = getint_def(cv::ml::SVM::C_SVC);
-        int kernel   = getint_def(cv::ml::SVM::RBF);
-        double c     = hei->HspFunc_prm_getdd(1.0);
-        double gamma = hei->HspFunc_prm_getdd(1.0);
         cv::Ptr<cv::ml::SVM> svm = cv::ml::SVM::create();
         svm->setType(type);
         svm->setKernel(kernel);
@@ -2228,14 +2202,10 @@ CV4_EXPORT BOOL WINAPI cv4_ml_svm_create(HSPEXINFO* hei, int p1, int p2, int p3)
       catch (...) { return fail("cv4_ml_svm_create: unknown"); }
 }
 
-//  cv4_ml_knn_create model_id [, k=3]
-CV4_EXPORT BOOL WINAPI cv4_ml_knn_create(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_ml_knn_create model_id, k
+CV4_EXPORT int __stdcall cv4_ml_knn_create(int model_id, int k)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id = getint();
-        int k        = getint_def(3);
         cv::Ptr<cv::ml::KNearest> knn = cv::ml::KNearest::create();
         knn->setDefaultK(k);
         cv::Ptr<cv::ml::StatModel> model = knn;
@@ -2245,15 +2215,10 @@ CV4_EXPORT BOOL WINAPI cv4_ml_knn_create(HSPEXINFO* hei, int p1, int p2, int p3)
       catch (...) { return fail("cv4_ml_knn_create: unknown"); }
 }
 
-//  cv4_ml_rtrees_create model_id [, max_depth=10] [, min_sample_count=10]
-CV4_EXPORT BOOL WINAPI cv4_ml_rtrees_create(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_ml_rtrees_create model_id, max_depth, min_sample_count
+CV4_EXPORT int __stdcall cv4_ml_rtrees_create(int model_id, int max_d, int min_s)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id = getint();
-        int max_d    = getint_def(10);
-        int min_s    = getint_def(10);
         cv::Ptr<cv::ml::RTrees> rt = cv::ml::RTrees::create();
         rt->setMaxDepth(max_d);
         rt->setMinSampleCount(min_s);
@@ -2267,13 +2232,9 @@ CV4_EXPORT BOOL WINAPI cv4_ml_rtrees_create(HSPEXINFO* hei, int p1, int p2, int 
 //  cv4_ml_ann_create model_id, layer_sizes_mat_id
 //    layer_sizes_mat: 各レイヤの neuron 数を含む int 配列 (Mat、CV_32S, 1xN)
 //                     例: 3 入力 / 5 中間 / 2 出力 → [3,5,2]
-CV4_EXPORT BOOL WINAPI cv4_ml_ann_create(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_ml_ann_create(int model_id, int layers_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id = getint();
-        int layers_id = getint();
         cv::Mat* layers = hspcv4::handle_get(layers_id);
         if (!layers || layers->empty())
             return fail("cv4_ml_ann_create: invalid layer sizes");
@@ -2295,15 +2256,9 @@ CV4_EXPORT BOOL WINAPI cv4_ml_ann_create(HSPEXINFO* hei, int p1, int p2, int p3)
 //  cv4_ml_train model_id, samples_id, layout, responses_id
 //    layout: 0=ROW_SAMPLE, 1=COL_SAMPLE
 //    samples / responses は CV_32F の Mat
-CV4_EXPORT BOOL WINAPI cv4_ml_train(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_ml_train(int model_id, int samples_id, int layout, int resp_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id = getint();
-        int samples_id = getint();
-        int layout    = getint_def(cv::ml::ROW_SAMPLE);
-        int resp_id   = getint();
         auto* mp = hspcv4::ml_model_get(model_id);
         if (!mp || mp->empty()) return fail("cv4_ml_train: invalid model");
         cv::Mat* samples = hspcv4::handle_get(samples_id);
@@ -2317,16 +2272,10 @@ CV4_EXPORT BOOL WINAPI cv4_ml_train(HSPEXINFO* hei, int p1, int p2, int p3)
       catch (...) { return fail("cv4_ml_train: unknown"); }
 }
 
-//  cv4_ml_predict model_id, samples_id, results_id [, flags=0]
-CV4_EXPORT BOOL WINAPI cv4_ml_predict(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_ml_predict model_id, samples_id, results_id, flags
+CV4_EXPORT int __stdcall cv4_ml_predict(int model_id, int samples_id, int results_id, int flags)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id   = getint();
-        int samples_id = getint();
-        int results_id = getint();
-        int flags      = getint_def(0);
         auto* mp = hspcv4::ml_model_get(model_id);
         if (!mp || mp->empty()) return fail("cv4_ml_predict: invalid model");
         cv::Mat* samples = hspcv4::handle_get(samples_id);
@@ -2340,13 +2289,9 @@ CV4_EXPORT BOOL WINAPI cv4_ml_predict(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_ml_save model_id, "path.xml"
-CV4_EXPORT BOOL WINAPI cv4_ml_save(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_ml_save(int model_id, const char* p)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id   = getint();
-        const char* p  = getstr();
         auto* mp = hspcv4::ml_model_get(model_id);
         if (!mp || mp->empty()) return fail("cv4_ml_save: invalid model");
         if (!p) return fail("cv4_ml_save: null path");
@@ -2358,14 +2303,9 @@ CV4_EXPORT BOOL WINAPI cv4_ml_save(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4_ml_load model_id, "path.xml", algo_type
 //    algo_type: CV4_ML_SVM/KNN/RTREES/ANN_MLP/...
-CV4_EXPORT BOOL WINAPI cv4_ml_load(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_ml_load(int model_id, const char* p, int algo)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id   = getint();
-        const char* p  = getstr();
-        int algo       = getint();
         if (!p) return fail("cv4_ml_load: null path");
         cv::Ptr<cv::ml::StatModel> model;
         switch (algo) {
@@ -2390,11 +2330,8 @@ CV4_EXPORT BOOL WINAPI cv4_ml_load(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_ml_free model_id
-CV4_EXPORT BOOL WINAPI cv4_ml_free(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_ml_free(int model_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int model_id = getint();
     hspcv4::ml_model_free(model_id);
     return 0;
 }
@@ -2421,17 +2358,10 @@ enum {
     CV4_FACEMARK_KAZEMI = 1,
 };
 
-//  cv4_face_lbph_create model_id [, radius=1] [, neighbors=8] [, grid_x=8] [, grid_y=8]
-CV4_EXPORT BOOL WINAPI cv4_face_lbph_create(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_face_lbph_create model_id, radius, neighbors, grid_x, grid_y
+CV4_EXPORT int __stdcall cv4_face_lbph_create(int model_id, int radius, int neigh, int gx, int gy)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id = getint();
-        int radius   = getint_def(1);
-        int neigh    = getint_def(8);
-        int gx       = getint_def(8);
-        int gy       = getint_def(8);
         cv::Ptr<cv::face::FaceRecognizer> r =
             cv::face::LBPHFaceRecognizer::create(radius, neigh, gx, gy);
         hspcv4::face_recognizer_set(model_id, r);
@@ -2440,14 +2370,10 @@ CV4_EXPORT BOOL WINAPI cv4_face_lbph_create(HSPEXINFO* hei, int p1, int p2, int 
       catch (...) { return fail("cv4_face_lbph_create: unknown"); }
 }
 
-//  cv4_face_eigen_create model_id [, num_components=0]
-CV4_EXPORT BOOL WINAPI cv4_face_eigen_create(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_face_eigen_create model_id, num_components
+CV4_EXPORT int __stdcall cv4_face_eigen_create(int model_id, int n)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id = getint();
-        int n        = getint_def(0);
         cv::Ptr<cv::face::FaceRecognizer> r =
             cv::face::EigenFaceRecognizer::create(n);
         hspcv4::face_recognizer_set(model_id, r);
@@ -2456,14 +2382,10 @@ CV4_EXPORT BOOL WINAPI cv4_face_eigen_create(HSPEXINFO* hei, int p1, int p2, int
       catch (...) { return fail("cv4_face_eigen_create: unknown"); }
 }
 
-//  cv4_face_fisher_create model_id [, num_components=0]
-CV4_EXPORT BOOL WINAPI cv4_face_fisher_create(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_face_fisher_create model_id, num_components
+CV4_EXPORT int __stdcall cv4_face_fisher_create(int model_id, int n)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id = getint();
-        int n        = getint_def(0);
         cv::Ptr<cv::face::FaceRecognizer> r =
             cv::face::FisherFaceRecognizer::create(n);
         hspcv4::face_recognizer_set(model_id, r);
@@ -2474,26 +2396,15 @@ CV4_EXPORT BOOL WINAPI cv4_face_fisher_create(HSPEXINFO* hei, int p1, int p2, in
 
 //  cv4_face_predict model_id, src_mat_id, var_label, var_confidence
 //    予測結果のラベル(int)と確信度/距離(double)を出力変数に書き戻す。
-CV4_EXPORT BOOL WINAPI cv4_face_predict(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_face_predict(HSPEXINFO* hei, int model_id, int src_id,
+                                          int* out_label, PVal* pval_conf)
 {
-    (void)p1; (void)p2; (void)p3;
     set_hei(hei);
     try {
-        int model_id = getint();
-        int src_id   = getint();
-        PVal* pval_label;
-        APTR  alabel = hei->HspFunc_prm_getva(&pval_label);
-        if (pval_label->flag != HSPVAR_FLAG_INT) {
-            return fail("cv4_face_predict: var_label must be int");
-        }
-        pval_label->offset = alabel;
-        PVal* pval_conf;
-        APTR  aconf = hei->HspFunc_prm_getva(&pval_conf);
-        if (pval_conf->flag != HSPVAR_FLAG_DOUBLE) {
+        if (!out_label) return fail("cv4_face_predict: null label var");
+        if (!pval_conf) return fail("cv4_face_predict: null conf var");
+        if (pval_conf->flag != HSPVAR_FLAG_DOUBLE)
             return fail("cv4_face_predict: var_confidence must be double");
-        }
-        pval_conf->offset = aconf;
-
         auto* rp = hspcv4::face_recognizer_get(model_id);
         if (!rp || rp->empty()) return fail("cv4_face_predict: invalid model");
         cv::Mat* src = hspcv4::handle_get(src_id);
@@ -2501,24 +2412,18 @@ CV4_EXPORT BOOL WINAPI cv4_face_predict(HSPEXINFO* hei, int p1, int p2, int p3)
         int label = -1;
         double conf = 0.0;
         (*rp)->predict(*src, label, conf);
-
-        HspVarProc* procI = hei->HspFunc_getproc(HSPVAR_FLAG_INT);
-        procI->Set(pval_label, procI->GetPtr(pval_label), &label);
+        *out_label = label;
         HspVarProc* procD = hei->HspFunc_getproc(HSPVAR_FLAG_DOUBLE);
-        procD->Set(pval_conf,  procD->GetPtr(pval_conf),  &conf);
+        procD->Set(pval_conf, procD->GetPtr(pval_conf), &conf);
         return 0;
     } catch (const cv::Exception& e) { return fail(e.what()); }
       catch (...) { return fail("cv4_face_predict: unknown"); }
 }
 
 //  cv4_face_save model_id, "path.xml"
-CV4_EXPORT BOOL WINAPI cv4_face_save(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_face_save(int model_id, const char* p)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id  = getint();
-        const char* p = getstr();
         auto* rp = hspcv4::face_recognizer_get(model_id);
         if (!rp || rp->empty()) return fail("cv4_face_save: invalid model");
         if (!p) return fail("cv4_face_save: null path");
@@ -2530,14 +2435,9 @@ CV4_EXPORT BOOL WINAPI cv4_face_save(HSPEXINFO* hei, int p1, int p2, int p3)
 
 //  cv4_face_load model_id, "path.xml", type
 //    type: CV4_FACE_LBPH/EIGEN/FISHER
-CV4_EXPORT BOOL WINAPI cv4_face_load(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_face_load(int model_id, const char* p, int type)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id  = getint();
-        const char* p = getstr();
-        int type      = getint();
         if (!p) return fail("cv4_face_load: null path");
         cv::Ptr<cv::face::FaceRecognizer> r;
         switch (type) {
@@ -2554,24 +2454,17 @@ CV4_EXPORT BOOL WINAPI cv4_face_load(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_face_free model_id
-CV4_EXPORT BOOL WINAPI cv4_face_free(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_face_free(int model_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int model_id = getint();
     hspcv4::face_recognizer_free(model_id);
     return 0;
 }
 
 //  cv4_facemark_create model_id, type
 //    type: CV4_FACEMARK_LBF / CV4_FACEMARK_KAZEMI
-CV4_EXPORT BOOL WINAPI cv4_facemark_create(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_facemark_create(int model_id, int type)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id = getint();
-        int type     = getint();
         cv::Ptr<cv::face::Facemark> fm;
         switch (type) {
         case CV4_FACEMARK_LBF: {
@@ -2594,13 +2487,9 @@ CV4_EXPORT BOOL WINAPI cv4_facemark_create(HSPEXINFO* hei, int p1, int p2, int p
 }
 
 //  cv4_facemark_load model_id, "model.bin"
-CV4_EXPORT BOOL WINAPI cv4_facemark_load(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_facemark_load(int model_id, const char* p)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int model_id  = getint();
-        const char* p = getstr();
         auto* fp = hspcv4::facemark_get(model_id);
         if (!fp || fp->empty()) return fail("cv4_facemark_load: invalid facemark");
         if (!p) return fail("cv4_facemark_load: null path");
@@ -2611,11 +2500,8 @@ CV4_EXPORT BOOL WINAPI cv4_facemark_load(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_facemark_free model_id
-CV4_EXPORT BOOL WINAPI cv4_facemark_free(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_facemark_free(int model_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int model_id = getint();
     hspcv4::facemark_free(model_id);
     return 0;
 }
@@ -3544,18 +3430,11 @@ CV4_EXPORT BOOL WINAPI cv4_am_filter(HSPEXINFO* hei, int p1, int p2, int p3)
 //  features2d extras (Phase 23): BRISK / FAST + KalmanFilter
 //============================================================================
 
-//  cv4_brisk_detect_compute kp_id, desc_id, src_id [, threshold=30]
-//                                                  [, octaves=3]
-CV4_EXPORT BOOL WINAPI cv4_brisk_detect_compute(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_brisk_detect_compute kp_id, desc_id, src_id, threshold, octaves
+CV4_EXPORT int __stdcall cv4_brisk_detect_compute(int kp_id, int desc_id, int src_id,
+                                                  int thresh, int octaves)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int kp_id   = getint();
-        int desc_id = getint();
-        int src_id  = getint();
-        int thresh  = getint_def(30);
-        int octaves = getint_def(3);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_brisk_detect_compute: invalid src");
         auto detector = cv::BRISK::create(thresh, octaves);
@@ -3569,16 +3448,10 @@ CV4_EXPORT BOOL WINAPI cv4_brisk_detect_compute(HSPEXINFO* hei, int p1, int p2, 
       catch (...) { return fail("cv4_brisk_detect_compute: unknown"); }
 }
 
-//  cv4_fast_detect kp_id, src_id [, threshold=10] [, nonmax=1]
-CV4_EXPORT BOOL WINAPI cv4_fast_detect(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_fast_detect kp_id, src_id, threshold, nonmax
+CV4_EXPORT int __stdcall cv4_fast_detect(int kp_id, int src_id, int thresh, int nmax)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int kp_id  = getint();
-        int src_id = getint();
-        int thresh = getint_def(10);
-        int nmax   = getint_def(1);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_fast_detect: invalid src");
         auto detector = cv::FastFeatureDetector::create(thresh, nmax != 0);
@@ -3590,17 +3463,11 @@ CV4_EXPORT BOOL WINAPI cv4_fast_detect(HSPEXINFO* hei, int p1, int p2, int p3)
       catch (...) { return fail("cv4_fast_detect: unknown"); }
 }
 
-//  cv4_kalman_create kf_id, dynam_params, measure_params [, control_params=0]
+//  cv4_kalman_create kf_id, dynam_params, measure_params, control_params
 //    例: 2D 等速度モデル → dynam=4 (x,y,vx,vy), measure=2 (x,y)
-CV4_EXPORT BOOL WINAPI cv4_kalman_create(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_kalman_create(int kf_id, int dynP, int meaP, int conP)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int kf_id  = getint();
-        int dynP   = getint();
-        int meaP   = getint();
-        int conP   = getint_def(0);
         cv::KalmanFilter kf(dynP, meaP, conP);
         // デフォルトの transitionMatrix は単位行列。最低限 measurementMatrix と
         // 各種ノイズ共分散だけ初期値を入れておく (実用時は HSP 側から個別に
@@ -3616,13 +3483,9 @@ CV4_EXPORT BOOL WINAPI cv4_kalman_create(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_kalman_predict kf_id, dst_state_mat
-CV4_EXPORT BOOL WINAPI cv4_kalman_predict(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_kalman_predict(int kf_id, int dst_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int kf_id  = getint();
-        int dst_id = getint();
         auto* kf = hspcv4::kalman_get(kf_id);
         if (!kf) return fail("cv4_kalman_predict: invalid kalman");
         cv::Mat pred = kf->predict();
@@ -3632,16 +3495,11 @@ CV4_EXPORT BOOL WINAPI cv4_kalman_predict(HSPEXINFO* hei, int p1, int p2, int p3
       catch (...) { return fail("cv4_kalman_predict: unknown"); }
 }
 
-//  cv4_kalman_correct kf_id, measurement_mat_id [, dst_state_mat_id=-1]
+//  cv4_kalman_correct kf_id, measurement_mat_id, dst_state_mat_id
 //    dst_state_mat_id を -1 以外で指定すると更新後 statePost を書き戻す。
-CV4_EXPORT BOOL WINAPI cv4_kalman_correct(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_kalman_correct(int kf_id, int meas_id, int dst_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int kf_id   = getint();
-        int meas_id = getint();
-        int dst_id  = getint_def(-1);
         auto* kf = hspcv4::kalman_get(kf_id);
         if (!kf) return fail("cv4_kalman_correct: invalid kalman");
         cv::Mat* meas = hspcv4::handle_get(meas_id);
@@ -3654,11 +3512,8 @@ CV4_EXPORT BOOL WINAPI cv4_kalman_correct(HSPEXINFO* hei, int p1, int p2, int p3
 }
 
 //  cv4_kalman_free kf_id
-CV4_EXPORT BOOL WINAPI cv4_kalman_free(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_kalman_free(int kf_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int kf_id = getint();
     hspcv4::kalman_free(kf_id);
     return 0;
 }
@@ -3669,13 +3524,9 @@ CV4_EXPORT BOOL WINAPI cv4_kalman_free(HSPEXINFO* hei, int p1, int p2, int p3)
 //============================================================================
 
 //  cv4_xphoto_simple_wb dst, src
-CV4_EXPORT BOOL WINAPI cv4_xphoto_simple_wb(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_xphoto_simple_wb(int dst_id, int src_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_xphoto_simple_wb: invalid src");
         cv::Ptr<cv::xphoto::SimpleWB> wb = cv::xphoto::createSimpleWB();
@@ -3688,13 +3539,9 @@ CV4_EXPORT BOOL WINAPI cv4_xphoto_simple_wb(HSPEXINFO* hei, int p1, int p2, int 
 }
 
 //  cv4_xphoto_grayworld_wb dst, src
-CV4_EXPORT BOOL WINAPI cv4_xphoto_grayworld_wb(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_xphoto_grayworld_wb(int dst_id, int src_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_xphoto_grayworld_wb: invalid src");
         cv::Ptr<cv::xphoto::GrayworldWB> wb = cv::xphoto::createGrayworldWB();
@@ -3706,16 +3553,10 @@ CV4_EXPORT BOOL WINAPI cv4_xphoto_grayworld_wb(HSPEXINFO* hei, int p1, int p2, i
       catch (...) { return fail("cv4_xphoto_grayworld_wb: unknown"); }
 }
 
-//  cv4_xphoto_oil_painting dst, src [, size=10] [, dyn_ratio=1]
-CV4_EXPORT BOOL WINAPI cv4_xphoto_oil_painting(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_xphoto_oil_painting dst, src, size, dyn_ratio
+CV4_EXPORT int __stdcall cv4_xphoto_oil_painting(int dst_id, int src_id, int size, int dynr)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int size   = getint_def(10);
-        int dynr   = getint_def(1);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_xphoto_oil_painting: invalid src");
         cv::Mat dst;
@@ -3726,15 +3567,10 @@ CV4_EXPORT BOOL WINAPI cv4_xphoto_oil_painting(HSPEXINFO* hei, int p1, int p2, i
       catch (...) { return fail("cv4_xphoto_oil_painting: unknown"); }
 }
 
-//  cv4_xphoto_bm3d_denoise dst, src [, h_x100=10] (h は実数; x100 で渡す)
-CV4_EXPORT BOOL WINAPI cv4_xphoto_bm3d_denoise(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_xphoto_bm3d_denoise dst, src, h_x100 (h は実数; x100 で渡す)
+CV4_EXPORT int __stdcall cv4_xphoto_bm3d_denoise(int dst_id, int src_id, int h_x100)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id = getint();
-        int src_id = getint();
-        int h_x100 = getint_def(10);
         cv::Mat* src = hspcv4::handle_get(src_id);
         if (!src || src->empty()) return fail("cv4_xphoto_bm3d_denoise: invalid src");
         cv::Mat dst;
@@ -3750,15 +3586,10 @@ CV4_EXPORT BOOL WINAPI cv4_xphoto_bm3d_denoise(HSPEXINFO* hei, int p1, int p2, i
 //  Stereo / projection (Phase 21): StereoBM / StereoSGBM / projectPoints
 //============================================================================
 
-//  cv4_stereo_bm_create stereo_id [, num_disparities=64] [, block_size=21]
-CV4_EXPORT BOOL WINAPI cv4_stereo_bm_create(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_stereo_bm_create stereo_id, num_disparities, block_size
+CV4_EXPORT int __stdcall cv4_stereo_bm_create(int sid, int numDisp, int blkSize)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int sid     = getint();
-        int numDisp = getint_def(64);
-        int blkSize = getint_def(21);
         cv::Ptr<cv::StereoMatcher> sm = cv::StereoBM::create(numDisp, blkSize);
         hspcv4::stereo_set(sid, sm);
         return 0;
@@ -3766,19 +3597,11 @@ CV4_EXPORT BOOL WINAPI cv4_stereo_bm_create(HSPEXINFO* hei, int p1, int p2, int 
       catch (...) { return fail("cv4_stereo_bm_create: unknown"); }
 }
 
-//  cv4_stereo_sgbm_create stereo_id [, min_disp=0] [, num_disp=64] [, block_size=5]
-//                                    [, P1=0] [, P2=0]
-CV4_EXPORT BOOL WINAPI cv4_stereo_sgbm_create(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_stereo_sgbm_create stereo_id, min_disp, num_disp, block_size, P1, P2
+CV4_EXPORT int __stdcall cv4_stereo_sgbm_create(int sid, int minDisp, int numDisp,
+                                                int blkSize, int P1, int P2)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int sid     = getint();
-        int minDisp = getint_def(0);
-        int numDisp = getint_def(64);
-        int blkSize = getint_def(5);
-        int P1      = getint_def(0);
-        int P2      = getint_def(0);
         cv::Ptr<cv::StereoMatcher> sm =
             cv::StereoSGBM::create(minDisp, numDisp, blkSize, P1, P2);
         hspcv4::stereo_set(sid, sm);
@@ -3788,15 +3611,9 @@ CV4_EXPORT BOOL WINAPI cv4_stereo_sgbm_create(HSPEXINFO* hei, int p1, int p2, in
 }
 
 //  cv4_stereo_compute disparity_dst, stereo_id, left_id, right_id
-CV4_EXPORT BOOL WINAPI cv4_stereo_compute(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_stereo_compute(int dst_id, int sid, int left_id, int right_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int dst_id   = getint();
-        int sid      = getint();
-        int left_id  = getint();
-        int right_id = getint();
         auto* sp = hspcv4::stereo_get(sid);
         if (!sp || sp->empty()) return fail("cv4_stereo_compute: invalid stereo");
         cv::Mat* L = hspcv4::handle_get(left_id);
@@ -3812,11 +3629,8 @@ CV4_EXPORT BOOL WINAPI cv4_stereo_compute(HSPEXINFO* hei, int p1, int p2, int p3
 }
 
 //  cv4_stereo_free stereo_id
-CV4_EXPORT BOOL WINAPI cv4_stereo_free(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_stereo_free(int sid)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int sid = getint();
     hspcv4::stereo_free(sid);
     return 0;
 }
@@ -3929,19 +3743,11 @@ CV4_EXPORT int __stdcall cv4_rodrigues(int dst_id, int src_id)
       catch (...) { return fail("cv4_rodrigues: unknown"); }
 }
 
-//  cv4_solve_pnp rvec_id, tvec_id, obj_pts_id, img_pts_id, K_id, D_id [, flags=ITERATIVE(0)]
-CV4_EXPORT BOOL WINAPI cv4_solve_pnp(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_solve_pnp rvec_id, tvec_id, obj_pts_id, img_pts_id, K_id, D_id, flags
+CV4_EXPORT int __stdcall cv4_solve_pnp(int rvec_id, int tvec_id, int obj_id,
+                                       int img_id, int K_id, int D_id, int flags)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int rvec_id = getint();
-        int tvec_id = getint();
-        int obj_id  = getint();
-        int img_id  = getint();
-        int K_id    = getint();
-        int D_id    = getint();
-        int flags   = getint_def(0);
         cv::Mat* obj = hspcv4::handle_get(obj_id);
         cv::Mat* img = hspcv4::handle_get(img_id);
         cv::Mat* K   = hspcv4::handle_get(K_id);
@@ -3960,17 +3766,10 @@ CV4_EXPORT BOOL WINAPI cv4_solve_pnp(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_project_points img_pts_id, obj_pts_id, rvec_id, tvec_id, K_id, D_id
-CV4_EXPORT BOOL WINAPI cv4_project_points(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_project_points(int img_id, int obj_id, int rvec_id,
+                                            int tvec_id, int K_id, int D_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int img_id  = getint();
-        int obj_id  = getint();
-        int rvec_id = getint();
-        int tvec_id = getint();
-        int K_id    = getint();
-        int D_id    = getint();
         cv::Mat* obj  = hspcv4::handle_get(obj_id);
         cv::Mat* rvec = hspcv4::handle_get(rvec_id);
         cv::Mat* tvec = hspcv4::handle_get(tvec_id);
@@ -3989,15 +3788,9 @@ CV4_EXPORT BOOL WINAPI cv4_project_points(HSPEXINFO* hei, int p1, int p2, int p3
 
 //  cv4_find_chessboard_corners corners_id, img_id, w, h
 //    チェスボード w x h の内側コーナー検出
-CV4_EXPORT BOOL WINAPI cv4_find_chessboard_corners(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_find_chessboard_corners(int corners_id, int img_id, int w, int h)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int corners_id = getint();
-        int img_id     = getint();
-        int w          = getint();
-        int h          = getint();
         cv::Mat* img = hspcv4::handle_get(img_id);
         if (!img || img->empty()) return fail("cv4_find_chessboard_corners: invalid image");
         cv::Mat gray = (img->channels() == 1) ? *img : cv::Mat();
@@ -4025,14 +3818,9 @@ CV4_EXPORT BOOL WINAPI cv4_find_chessboard_corners(HSPEXINFO* hei, int p1, int p
 
 //  cv4_optflow_farneback flow_mat_id, prev_id, next_id
 //    Farneback dense optical flow. 出力は HxWx2 CV_32F (dx, dy)
-CV4_EXPORT BOOL WINAPI cv4_optflow_farneback(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_optflow_farneback(int flow_id, int prev_id, int next_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int flow_id = getint();
-        int prev_id = getint();
-        int next_id = getint();
         cv::Mat* prev = hspcv4::handle_get(prev_id);
         cv::Mat* next = hspcv4::handle_get(next_id);
         if (!prev || !next || prev->empty() || next->empty())
@@ -4053,16 +3841,10 @@ CV4_EXPORT BOOL WINAPI cv4_optflow_farneback(HSPEXINFO* hei, int p1, int p2, int
 //    Lucas-Kanade sparse optical flow. prev_kp_id は次フレームでの対応点に
 //    置換された新しいキーポイントセット out_kp_id として出力する。
 //    status は Nx1 CV_8U (成功=1/失敗=0)。
-CV4_EXPORT BOOL WINAPI cv4_optflow_lk(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_optflow_lk(int out_kp_id, int status_id,
+                                        int prev_id, int next_id, int prev_kp_id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int out_kp_id  = getint();
-        int status_id  = getint();
-        int prev_id    = getint();
-        int next_id    = getint();
-        int prev_kp_id = getint();
         cv::Mat* prev = hspcv4::handle_get(prev_id);
         cv::Mat* next = hspcv4::handle_get(next_id);
         auto* pkps = hspcv4::kps_get(prev_kp_id);
@@ -4095,16 +3877,10 @@ CV4_EXPORT BOOL WINAPI cv4_optflow_lk(HSPEXINFO* hei, int p1, int p2, int p3)
 
 // --- 背景差分 ---
 
-//  cv4_bgsub_create_mog2 bg_id [, history=500] [, var_thresh=16] [, detect_shadows=1]
-CV4_EXPORT BOOL WINAPI cv4_bgsub_create_mog2(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_bgsub_create_mog2 bg_id, history, var_thresh, detect_shadows
+CV4_EXPORT int __stdcall cv4_bgsub_create_mog2(int bg_id, int hist, double vt, int shadow)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int bg_id   = getint();
-        int hist    = getint_def(500);
-        double vt   = hei->HspFunc_prm_getdd(16.0);
-        int shadow  = getint_def(1);
         cv::Ptr<cv::BackgroundSubtractor> bg = cv::createBackgroundSubtractorMOG2(hist, vt, shadow != 0);
         hspcv4::bgsub_set(bg_id, bg);
         return 0;
@@ -4112,16 +3888,10 @@ CV4_EXPORT BOOL WINAPI cv4_bgsub_create_mog2(HSPEXINFO* hei, int p1, int p2, int
       catch (...) { return fail("cv4_bgsub_create_mog2: unknown"); }
 }
 
-//  cv4_bgsub_create_knn bg_id [, history=500] [, dist2_thresh=400] [, detect_shadows=1]
-CV4_EXPORT BOOL WINAPI cv4_bgsub_create_knn(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_bgsub_create_knn bg_id, history, dist2_thresh, detect_shadows
+CV4_EXPORT int __stdcall cv4_bgsub_create_knn(int bg_id, int hist, double dt, int shadow)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int bg_id   = getint();
-        int hist    = getint_def(500);
-        double dt   = hei->HspFunc_prm_getdd(400.0);
-        int shadow  = getint_def(1);
         cv::Ptr<cv::BackgroundSubtractor> bg = cv::createBackgroundSubtractorKNN(hist, dt, shadow != 0);
         hspcv4::bgsub_set(bg_id, bg);
         return 0;
@@ -4129,16 +3899,10 @@ CV4_EXPORT BOOL WINAPI cv4_bgsub_create_knn(HSPEXINFO* hei, int p1, int p2, int 
       catch (...) { return fail("cv4_bgsub_create_knn: unknown"); }
 }
 
-//  cv4_bgsub_apply bg_id, src_id, fg_id [, learning_rate=-1]
-CV4_EXPORT BOOL WINAPI cv4_bgsub_apply(HSPEXINFO* hei, int p1, int p2, int p3)
+//  cv4_bgsub_apply bg_id, src_id, fg_id, learning_rate
+CV4_EXPORT int __stdcall cv4_bgsub_apply(int bg_id, int src_id, int fg_id, double lr)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int bg_id = getint();
-        int src_id = getint();
-        int fg_id = getint();
-        double lr = hei->HspFunc_prm_getdd(-1.0);
         auto* bg = hspcv4::bgsub_get(bg_id);
         if (!bg || bg->empty()) return fail("cv4_bgsub_apply: invalid bg");
         cv::Mat* src = hspcv4::handle_get(src_id);
@@ -4152,11 +3916,8 @@ CV4_EXPORT BOOL WINAPI cv4_bgsub_apply(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_bgsub_free bg_id
-CV4_EXPORT BOOL WINAPI cv4_bgsub_free(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_bgsub_free(int id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
     hspcv4::bgsub_free(id);
     return 0;
 }
@@ -4167,12 +3928,9 @@ CV4_EXPORT BOOL WINAPI cv4_bgsub_free(HSPEXINFO* hei, int p1, int p2, int p3)
 //    KCF / CSRT は opencv_contrib にあり、本ビルドには同梱されていない。
 
 //  cv4_tracker_create_mil tid
-CV4_EXPORT BOOL WINAPI cv4_tracker_create_mil(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_tracker_create_mil(int tid)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int tid = getint();
         cv::Ptr<cv::Tracker> t = cv::TrackerMIL::create();
         hspcv4::tracker_set(tid, t);
         return 0;
@@ -4181,17 +3939,9 @@ CV4_EXPORT BOOL WINAPI cv4_tracker_create_mil(HSPEXINFO* hei, int p1, int p2, in
 }
 
 //  cv4_tracker_init tid, img_id, x, y, w, h
-CV4_EXPORT BOOL WINAPI cv4_tracker_init(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_tracker_init(int tid, int img_id, int x, int y, int w, int h)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int tid    = getint();
-        int img_id = getint();
-        int x      = getint();
-        int y      = getint();
-        int w      = getint();
-        int h      = getint();
         auto* t = hspcv4::tracker_get(tid);
         if (!t || t->empty()) return fail("cv4_tracker_init: invalid tracker");
         cv::Mat* img = hspcv4::handle_get(img_id);
@@ -4203,39 +3953,30 @@ CV4_EXPORT BOOL WINAPI cv4_tracker_init(HSPEXINFO* hei, int p1, int p2, int p3)
 }
 
 //  cv4_tracker_update tid, img_id, var_x, var_y, var_w, var_h
-//    stat: 0=成功, 1=ロスト
-CV4_EXPORT BOOL WINAPI cv4_tracker_update(HSPEXINFO* hei, int p1, int p2, int p3)
+//    stat: 0=成功, -1=ロスト
+CV4_EXPORT int __stdcall cv4_tracker_update(int tid, int img_id,
+                                            int* out_x, int* out_y,
+                                            int* out_w, int* out_h)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
     try {
-        int tid    = getint();
-        int img_id = getint();
+        if (!out_x || !out_y || !out_w || !out_h)
+            return fail("cv4_tracker_update: null var");
         auto* t = hspcv4::tracker_get(tid);
         if (!t || t->empty()) return fail("cv4_tracker_update: invalid tracker");
         cv::Mat* img = hspcv4::handle_get(img_id);
         if (!img || img->empty()) return fail("cv4_tracker_update: invalid image");
         cv::Rect box;
         bool ok = (*t)->update(*img, box);
-        int vals[4] = { box.x, box.y, box.width, box.height };
-        for (int i = 0; i < 4; ++i) {
-            PVal* pv; APTR a = hei->HspFunc_prm_getva(&pv);
-            if (pv->flag != HSPVAR_FLAG_INT) return fail("cv4_tracker_update: var must be int");
-            pv->offset = a;
-            HspVarProc* proc = hei->HspFunc_getproc(pv->flag);
-            proc->Set(pv, proc->GetPtr(pv), &vals[i]);
-        }
+        *out_x = box.x; *out_y = box.y;
+        *out_w = box.width; *out_h = box.height;
         return ok ? 0 : -1;   // -1 で stat=1 (ロスト扱い)
     } catch (const cv::Exception& e) { return fail(e.what()); }
       catch (...) { return fail("cv4_tracker_update: unknown"); }
 }
 
 //  cv4_tracker_free tid
-CV4_EXPORT BOOL WINAPI cv4_tracker_free(HSPEXINFO* hei, int p1, int p2, int p3)
+CV4_EXPORT int __stdcall cv4_tracker_free(int id)
 {
-    (void)p1; (void)p2; (void)p3;
-    set_hei(hei);
-    int id = getint();
     hspcv4::tracker_free(id);
     return 0;
 }
