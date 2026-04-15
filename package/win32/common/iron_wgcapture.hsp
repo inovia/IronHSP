@@ -1,0 +1,62 @@
+;============================================================
+;   iron_wgcapture.hsp — Windows.Graphics.Capture 薄いラッパ
+;
+;   Windows 10 1903+ に標準搭載された Windows.Graphics.Capture
+;   (hspwgcapture.dll) で、デスクトップ全体 / 指定モニタ /
+;   任意ウィンドウを高速キャプチャする。
+;
+;   依存: plugins/win32/hspwgcapture/Release/hspwgcapture.dll
+;
+;   API:
+;     iron_wgc_init                                        ; 初期化 stat=0
+;     iron_wgc_shutdown
+;     iron_wgc_list_windows  list                          ; title<TAB>hwnd 1 行 1 個
+;     iron_wgc_start_window  hwnd            → stat = handle
+;     iron_wgc_start_monitor idx             → stat = handle
+;     iron_wgc_stop          handle
+;     iron_wgc_grab          handle, buf, w, h             ; BGRA バイト列
+;     iron_wgc_save_png      handle, "out.png"             ; 1 ショット保存
+;============================================================
+
+#ifndef __iron_wgcapture_hsp__
+#define __iron_wgcapture_hsp__
+
+#include "hspwgcapture.as"
+
+#module iron_wgcapture
+
+#deffunc global iron_wgc_init
+    wgc_init
+    return stat
+
+#deffunc global iron_wgc_shutdown
+    wgc_shutdown
+    return
+
+#deffunc global iron_wgc_list_windows var _out
+    wgc_list_windows _out
+    return stat
+
+#deffunc global iron_wgc_start_window int _hwnd
+    wgc_start_window _hwnd
+    return stat
+
+#deffunc global iron_wgc_start_monitor int _idx
+    wgc_start_monitor _idx
+    return stat
+
+#deffunc global iron_wgc_stop int _h
+    wgc_stop _h
+    return
+
+#deffunc global iron_wgc_grab int _h, var _buf, var _w, var _hh
+    wgc_grab_frame _h, _buf, _w, _hh
+    return stat
+
+#deffunc global iron_wgc_save_png int _h, str _path
+    wgc_save_png _h, _path
+    return stat
+
+#global
+
+#endif

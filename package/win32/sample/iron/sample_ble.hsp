@@ -1,0 +1,82 @@
+;============================================================
+; sample_ble.hsp
+;   hspble.dll (Bluetooth LE GATT クライアント) デモ。
+;   近くの BLE デバイスをスキャンして、最初に見つかった 1 台に
+;   接続 → サービス一覧を表示する最小例。
+;============================================================
+
+#include "iron_ble.hsp"
+
+    title "BLE sample"
+    screen 0, 900, 600
+    font "MS Gothic", 14
+
+    iron_ble_init
+    mes "ble_init stat=" + stat
+    iron_ble_scan_start
+    mes "scanning... (5 sec)"
+
+    ; 5 秒間スキャン。見つかったデバイスを list に追加していく
+    sdim macs, 64, 32
+    sdim names, 128, 32
+    cnt_found = 0
+    t0 = gettime(7) * 1000 + gettime(6) * 60000
+    repeat 50
+        await 100
+        repeat 16
+            iron_ble_scan_poll a, n, r
+            if stat = 0 : break
+            ; 重複チェック
+            dup = 0
+            repeat cnt_found
+                if macs(cnt) = a : dup = 1 : break
+            loop
+            if dup = 0 {
+                if cnt_found < 32 {
+                    macs(cnt_found) = a
+                    names(cnt_found) = n
+                    mes "found [" + cnt_found + "] " + a + " name=\"" + n + "\" rssi=" + r
+                    cnt_found++
+                }
+            }
+        loop
+    loop
+
+    iron_ble_scan_stop
+    mes ""
+    mes "scan stopped. found=" + cnt_found
+
+    if cnt_found = 0 {
+        mes "no device."
+        iron_ble_shutdown
+        stop
+    }
+
+    ; 最初のデバイスに接続
+    target = macs(0)
+    mes ""
+    mes "connecting to " + target + " ..."
+    iron_ble_connect target
+    devh = stat
+    if devh < 0 {
+        mes "connect failed stat=" + devh
+        iron_ble_shutdown
+        stop
+    }
+    mes "connected dev_h=" + devh
+
+    ; サービス列挙
+    iron_ble_services devh, svc_list
+    if stat = 0 {
+        mes ""
+        mes "[services]"
+        mes svc_list
+    } else {
+        mes "ble_services failed stat=" + stat
+    }
+
+    iron_ble_disconnect devh
+    iron_ble_shutdown
+    mes ""
+    mes "--- done. [ESC] to quit ---"
+    stop

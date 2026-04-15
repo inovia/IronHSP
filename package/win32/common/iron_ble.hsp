@@ -1,0 +1,91 @@
+;============================================================
+;   iron_ble.hsp — Bluetooth LE GATT クライアント薄いラッパ
+;
+;   Windows.Devices.Bluetooth.GenericAttributeProfile (WinRT)
+;   を使った BLE セントラル機能。hspble.dll の命令を module 化。
+;
+;   依存: plugins/win32/hspble/Release/hspble.dll
+;
+;   API:
+;     iron_ble_init                                    ; stat=0
+;     iron_ble_shutdown
+;     iron_ble_scan_start
+;     iron_ble_scan_stop
+;     iron_ble_scan_poll addr, name, rssi  → stat=1(found)/0
+;     iron_ble_connect   "AA:BB:CC:DD:EE:FF"  → stat=dev_h
+;     iron_ble_disconnect dev_h
+;     iron_ble_services       dev_h, list_var      ; "\n" 区切り
+;     iron_ble_characteristics dev_h, "svc_uuid", list_var
+;     iron_ble_read   dev_h, "svc", "chr", buf, len
+;     iron_ble_write  dev_h, "svc", "chr", buf, len
+;     iron_ble_notify_enable dev_h, "svc", "chr"
+;     iron_ble_notify_poll   dev_h, "chr", buf, len → stat=1/0
+;
+;   注意:
+;     - UUID は lowercase 128bit 形式で指定してください。
+;       例: "0000180f-0000-1000-8000-00805f9b34fb"
+;     - MAC address もコロン区切りの lowercase hex で。
+;============================================================
+
+#ifndef __iron_ble_hsp__
+#define __iron_ble_hsp__
+
+#include "hspble.as"
+
+#module iron_ble
+
+#deffunc global iron_ble_init
+    ble_init
+    return stat
+
+#deffunc global iron_ble_shutdown
+    ble_shutdown
+    return
+
+#deffunc global iron_ble_scan_start
+    ble_scan_start
+    return stat
+
+#deffunc global iron_ble_scan_stop
+    ble_scan_stop
+    return
+
+#deffunc global iron_ble_scan_poll var _addr, var _name, var _rssi
+    ble_scan_poll _addr, _name, _rssi
+    return stat
+
+#deffunc global iron_ble_connect str _mac
+    ble_connect _mac
+    return stat
+
+#deffunc global iron_ble_disconnect int _h
+    ble_disconnect _h
+    return
+
+#deffunc global iron_ble_services int _h, var _list
+    ble_services _h, _list
+    return stat
+
+#deffunc global iron_ble_characteristics int _h, str _svc, var _list
+    ble_characteristics _h, _svc, _list
+    return stat
+
+#deffunc global iron_ble_read int _h, str _svc, str _chr, var _buf, var _len
+    ble_read _h, _svc, _chr, _buf, _len
+    return stat
+
+#deffunc global iron_ble_write int _h, str _svc, str _chr, var _buf, int _len
+    ble_write _h, _svc, _chr, _buf, _len
+    return stat
+
+#deffunc global iron_ble_notify_enable int _h, str _svc, str _chr
+    ble_notify_enable _h, _svc, _chr
+    return stat
+
+#deffunc global iron_ble_notify_poll int _h, str _chr, var _buf, var _len
+    ble_notify_poll _h, _chr, _buf, _len
+    return stat
+
+#global
+
+#endif

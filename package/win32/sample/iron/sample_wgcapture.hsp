@@ -1,0 +1,55 @@
+;============================================================
+; sample_wgcapture.hsp
+;   hspwgcapture.dll (Windows.Graphics.Capture) デモ。
+;   プライマリモニタ全体をキャプチャして PNG 保存するだけの最小例。
+;============================================================
+
+#include "iron_wgcapture.hsp"
+
+    title "WGCapture sample"
+    screen 0, 800, 400
+    font "MS Gothic", 14
+
+    iron_wgc_init
+    if stat {
+        mes "wgc_init failed stat=" + stat
+        stop
+    }
+    mes "wgc_init OK"
+
+    ; プライマリモニタ全体 (index 0) をキャプチャ
+    iron_wgc_start_monitor 0
+    handle = stat
+    if handle < 0 {
+        mes "start_monitor failed stat=" + handle
+        iron_wgc_shutdown
+        stop
+    }
+    mes "session handle = " + handle
+
+    ; 最初の数フレームは捨てる (FramePool がまだ埋まっていない場合あり)
+    repeat 10
+        await 50
+        iron_wgc_grab handle, buf, w, h
+        if stat = 0 : break
+    loop
+
+    if stat = 0 {
+        mes "grab ok : " + w + "x" + h + " (" + strlen(buf) + " bytes)"
+        out = dir_cur + "\\wgc_capture.png"
+        iron_wgc_save_png handle, out
+        if stat = 0 {
+            mes "saved : " + out
+        } else {
+            mes "save_png failed stat=" + stat
+        }
+    } else {
+        mes "grab failed stat=" + stat
+    }
+
+    iron_wgc_stop handle
+    iron_wgc_shutdown
+
+    mes ""
+    mes "--- done. [ESC] to quit ---"
+    stop
