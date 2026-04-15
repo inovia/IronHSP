@@ -91,6 +91,9 @@
 #func  d2d_RtlMoveMemory "RtlMoveMemory" var, var, int
 #cfunc d2d_GlobalAlloc   "GlobalAlloc" int, int
 #func  d2d_GlobalFree    "GlobalFree" int
+; UTF-8 バイト列 → 必要な UTF-16 コードユニット数を計算
+; (lpWideCharStr=NULL, cchWideChar=0 で必要サイズを返す仕様)
+#cfunc d2d_MB2WC "MultiByteToWideChar" int, int, str, int, int, int
 
 ; L1-3 SVG 追加: SVG テキスト → HGLOBAL → IStream 経路で必要な関数群と、
 ;   raw ポインタ (D2D Map() が返す 64bit BYTE*) を扱うための memcpy variant。
@@ -1104,7 +1107,8 @@
 ;-----------------------------------------------------------
 #deffunc d2d_drawtext str text, int x, int y, int w, int h, \
     local _w2, local _h2, local _col, local _bp, local _brush_out, local _rt, \
-    local _brush_ptr, local _rect, local _fmt, local _brush, local _brush_final
+    local _brush_ptr, local _rect, local _fmt, local _brush, local _brush_final, \
+    local _cbytes, local _wlen
     if d2d_cur_id < 0 : return
     if d2d_format_ready = 0 {
         mes "d2d_drawtext: call d2d_font first"
@@ -1156,7 +1160,17 @@
     ;            → COLR/CPAL/CBDT/sbix 系の色付き絵文字フォントを有効化
     ;          measuringMode = DWRITE_MEASURING_MODE_NATURAL (= 0))
     ; 第3引数 fmt はモジュール scope の comobj 変数 d2d_cur_format をそのまま渡す
-    d2d_RT_DrawText _rt, text, strlen(text), d2d_cur_format, _rect, _brush, 4, 0
+    ; text は UTF-8 バイト列 (hsp3_net_64 の #cmpopt utf8 1)。DrawText の
+    ; stringLength は UTF-16 コードユニット数なので、MultiByteToWideChar で
+    ; 必要なユニット数を計算してから渡す。strlen(text) だと絵文字 (サロゲート
+    ; ペア) が 4 バイトで 2 ユニットのため値が大きくなり、バッファ外の未初期化
+    ; 領域まで描画してしまう。
+    ; cbMultiByte=-1 を渡すと null 終端まで含めた UTF-16 ユニット数が返るので
+    ; 末尾の null 分だけ引く (explicit cbMultiByte では HSP の str 引数経由だと
+    ; 期待通りの値が返らないケースがあったため -1 経路を採用)
+    _wlen = d2d_MB2WC(65001, 0, text, -1, 0, 0) - 1 ; CP_UTF8 = 65001
+    if _wlen < 0 : _wlen = 0
+    d2d_RT_DrawText _rt, text, _wlen, d2d_cur_format, _rect, _brush, 4, 0
     if stat ! 0 : mes "d2d_drawtext: DrawText stat=" + stat
 
     ; brush は newcom -2 で attach しているので delcom が AddRef を打ち消す。
